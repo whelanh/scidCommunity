@@ -4,6 +4,18 @@
 
 namespace eval ::search::header {}
 
+# Store custom search layouts
+# ::searchHeader_Layouts: A list of layout names
+# ::searchHeader_Data: An array mapping layout names to their serialized data
+if {![info exists ::searchHeader_Layouts]} {
+  set ::searchHeader_Layouts {}
+}
+if {![info exists ::searchHeader_Data]} {
+  array set ::searchHeader_Data {}
+}
+::options.store ::searchHeader_Layouts
+::options.store ::searchHeader_Data
+
 set sTitleList [list gm im fm none wgm wim wfm w]
 foreach i $sTitleList {
   set sTitles(w:$i) 1
@@ -73,6 +85,156 @@ trace variable sEloDiffMax w [list ::utils::validate::Integer "-[sc_info limit e
 
 ::search::header::defaults
 
+# Save the current header search values as a named layout
+proc ::search::header::layout_save {name} {
+  # List of scalar variables to save
+  set scalar_vars {
+    sWhite sBlack sEvent sSite sRound sAnnotated
+    sDateMin sDateMax sEventDateMin sEventDateMax
+    sWhiteEloMin sWhiteEloMax sBlackEloMin sBlackEloMax
+    sEloDiffMin sEloDiffMax sGlMin sGlMax
+    sGnumMin sGnumMax sEcoMin sEcoMax sEco
+    sSideToMoveW sSideToMoveB
+    sResWin sResLoss sResDraw sResOther
+    sTagName sTagValue sVariantStd sVariant960 sIgnoreCol
+  }
+  
+  # List of array variables to save
+  set array_vars {sPgntext sHeaderFlags sTitles}
+
+  set data [list]
+
+  # Save scalars
+  foreach var $scalar_vars {
+    if {[info exists ::$var]} {
+      lappend data $var [set ::$var]
+    }
+  }
+
+  # Save arrays
+  foreach arr $array_vars {
+    if {[array exists ::$arr]} {
+      lappend data $arr [array get ::$arr]
+    }
+  }
+
+  # Store in the global data array
+  set ::searchHeader_Data($name) $data
+
+  # Add to the list of layouts if not already present
+  if {![info exists ::searchHeader_Layouts] || [lsearch -exact $::searchHeader_Layouts $name] == -1} {
+    lappend ::searchHeader_Layouts $name
+  }
+}
+
+# Load a named layout and update the UI
+proc ::search::header::layout_load {name} {
+  if {![info exists ::searchHeader_Data($name)]} { return }
+
+  # Retrieve data
+  array set data $::searchHeader_Data($name)
+
+  # Restore scalars
+  foreach var {
+    sWhite sBlack sEvent sSite sRound sAnnotated
+    sDateMin sDateMax sEventDateMin sEventDateMax
+    sWhiteEloMin sWhiteEloMax sBlackEloMin sBlackEloMax
+    sEloDiffMin sEloDiffMax sGlMin sGlMax
+    sGnumMin sGnumMax sEcoMin sEcoMax sEco
+    sSideToMoveW sSideToMoveB
+    sResWin sResLoss sResDraw sResOther
+    sTagName sTagValue sVariantStd sVariant960 sIgnoreCol
+  } {
+    if {[info exists data($var)]} {
+      set ::$var $data($var)
+    }
+  }
+
+  # Restore arrays
+  foreach arr {sPgntext sHeaderFlags sTitles} {
+    if {[info exists data($arr)]} {
+      array unset ::$arr
+      array set ::$arr $data($arr)
+    }
+  }
+}
+
+# Delete a layout
+proc ::search::header::layout_delete {name} {
+  if {[info exists ::searchHeader_Data($name)]} {
+    unset ::searchHeader_Data($name)
+  }
+  if {[info exists ::searchHeader_Layouts]} {
+    set idx [lsearch -exact $::searchHeader_Layouts $name]
+    if {$idx != -1} {
+      set ::searchHeader_Layouts [lreplace $::searchHeader_Layouts $idx $idx]
+    }
+  }
+}
+
+# Prompt user for layout name and save
+proc ::search::header::promptSaveLayout {} {
+  set name ""
+  set d .searchLayoutDialog
+  if {[winfo exists $d]} { destroy $d }
+  
+  toplevel $d
+  wm title $d "Save Search Layout"
+  wm resizable $d 0 0
+  
+  ttk::frame $d.f
+  pack $d.f -fill both -expand 1 -padx 10 -pady 10
+  
+  ttk::label $d.f.label -text "Layout name:"
+  ttk::entry $d.f.entry -width 30
+  pack $d.f.label -side top -anchor w -pady {0 5}
+  pack $d.f.entry -side top -fill x
+  
+  ttk::frame $d.f.buttons
+  pack $d.f.buttons -side top -pady {10 0}
+  
+  ttk::button $d.f.buttons.ok -text OK -command {
+    set name [.searchLayoutDialog.f.entry get]
+    if {$name ne ""} {
+      ::search::header::layout_save $name
+      # Find the search window and rebuild its menu
+      foreach w [winfo children .] {
+        if {[string match ".searchWin*" $w] && [winfo exists $w.top.layouts]} {
+          ::search::header::rebuildLayoutsMenu $w
+        }
+      }
+    }
+    destroy .searchLayoutDialog
+  }
+  ttk::button $d.f.buttons.cancel -text [::tr Cancel] -command {destroy .searchLayoutDialog}
+  pack $d.f.buttons.ok $d.f.buttons.cancel -side left -padx 5
+  
+  bind $d.f.entry <Return> "$d.f.buttons.ok invoke"
+  bind $d <Escape> "$d.f.buttons.cancel invoke"
+  
+  focus $d.f.entry
+  grab $d
+  ::tk::PlaceWindow $d widget .
+}
+
+# Rebuild the Layouts menu with current saved layouts
+proc ::search::header::rebuildLayoutsMenu {w} {
+  if {![winfo exists $w.top.layouts.m]} { return }
+  
+  set m $w.top.layouts.m
+  $m delete 2 end
+  
+  if {[info exists ::searchHeader_Layouts]} {
+    foreach name $::searchHeader_Layouts {
+      set submenu [menu $m.ly[string map {" " _} $name]]
+      $submenu delete 0 end
+      $submenu add command -label [::tr Load] -command "::search::header::layout_load {$name}"
+      $submenu add command -label [::tr Delete] -command "::search::header::layout_delete {$name}; ::search::header::rebuildLayoutsMenu $w"
+      $m add cascade -label $name -menu $submenu
+    }
+  }
+}
+
 trace variable sDateMin w ::utils::validate::Date
 trace variable sDateMax w ::utils::validate::Date
 trace variable sEventDateMin w ::utils::validate::Date
@@ -106,6 +268,27 @@ proc search::headerCreateFrame { w } {
   global sEloDiffMin sEloDiffMax sSideToMoveW sSideToMoveB
   global sEco sEcoMin sEcoMax sHeaderFlags sGlMin sGlMax sTitleList sTitles
   global sResWin sResLoss sResDraw sResOther sPgntext
+
+  # Create a top frame for Layout controls
+  ttk::frame $w.top
+  pack $w.top -side top -fill x -pady {0 5}
+
+  ttk::menubutton $w.top.layouts -text "Layouts" -menu $w.top.layouts.m
+  pack $w.top.layouts -side right
+
+  menu $w.top.layouts.m
+  $w.top.layouts.m add command -label [::tr Save] -command [list ::search::header::promptSaveLayout]
+  $w.top.layouts.m add separator
+
+  # Populate saved layouts
+  if {[info exists ::searchHeader_Layouts]} {
+    foreach name $::searchHeader_Layouts {
+      set m [menu $w.top.layouts.m.ly[string map {" " _} $name]]
+      $m add command -label [::tr Load] -command "::search::header::layout_load {$name}"
+      $m add command -label [::tr Delete] -command "::search::header::layout_delete {$name}; ::search::header::rebuildLayoutsMenu $w"
+      $w.top.layouts.m add cascade -label $name -menu $m
+    }
+  }
 
   foreach frame {cWhite cBlack ignore tw tb eventsite eventround date res gl ends eco} {
     ttk::frame $w.$frame
