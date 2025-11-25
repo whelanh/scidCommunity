@@ -199,7 +199,7 @@ proc ::search::header::promptSaveLayout {} {
       ::search::header::layout_save $name
       # Find the search window and rebuild its menu
       foreach w [winfo children .] {
-        if {[string match ".searchWin*" $w] && [winfo exists $w.top.layouts]} {
+        if {[string match ".wnd_HeaderSearch*" $w] && [winfo exists $w.buttons.layouts]} {
           ::search::header::rebuildLayoutsMenu $w
         }
       }
@@ -219,9 +219,9 @@ proc ::search::header::promptSaveLayout {} {
 
 # Rebuild the Layouts menu with current saved layouts
 proc ::search::header::rebuildLayoutsMenu {w} {
-  if {![winfo exists $w.top.layouts.m]} { return }
+  if {![winfo exists $w.buttons.layouts.m]} { return }
   
-  set m $w.top.layouts.m
+  set m $w.buttons.layouts.m
   $m delete 2 end
   
   if {[info exists ::searchHeader_Layouts]} {
@@ -268,27 +268,6 @@ proc search::headerCreateFrame { w } {
   global sEloDiffMin sEloDiffMax sSideToMoveW sSideToMoveB
   global sEco sEcoMin sEcoMax sHeaderFlags sGlMin sGlMax sTitleList sTitles
   global sResWin sResLoss sResDraw sResOther sPgntext
-
-  # Create a top frame for Layout controls
-  ttk::frame $w.top
-  pack $w.top -side top -fill x -pady {0 5}
-
-  ttk::menubutton $w.top.layouts -text "Layouts" -menu $w.top.layouts.m
-  pack $w.top.layouts -side right
-
-  menu $w.top.layouts.m
-  $w.top.layouts.m add command -label [::tr Save] -command [list ::search::header::promptSaveLayout]
-  $w.top.layouts.m add separator
-
-  # Populate saved layouts
-  if {[info exists ::searchHeader_Layouts]} {
-    foreach name $::searchHeader_Layouts {
-      set m [menu $w.top.layouts.m.ly[string map {" " _} $name]]
-      $m add command -label [::tr Load] -command "::search::header::layout_load {$name}"
-      $m add command -label [::tr Delete] -command "::search::header::layout_delete {$name}; ::search::header::rebuildLayoutsMenu $w"
-      $w.top.layouts.m add cascade -label $name -menu $m
-    }
-  }
 
   foreach frame {cWhite cBlack ignore tw tb eventsite eventround date res gl ends eco} {
     ttk::frame $w.$frame

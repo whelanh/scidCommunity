@@ -46,15 +46,36 @@ proc ::search::Open {ref_base ref_filter title create_subwnd} {
 	grid $w.filterOp.and $w.filterOp.or $w.filterOp.reset -ipadx 8
 
 	grid [ttk::frame $w.buttons] -sticky news
-	ttk::button $w.buttons.save -text [::tr Save] -state disabled \
-		-command "::search::save_ $options_cmd"
+	
+	# Create Layouts menubutton for Header Search, or disabled Save button for others
+	if {$title eq "HeaderSearch"} {
+		ttk::menubutton $w.buttons.layouts -text "Layouts" -menu $w.buttons.layouts.m
+		menu $w.buttons.layouts.m
+		$w.buttons.layouts.m add command -label [::tr Save] -command [list ::search::header::promptSaveLayout]
+		$w.buttons.layouts.m add separator
+		# Populate saved layouts
+		if {[info exists ::searchHeader_Layouts]} {
+			foreach name $::searchHeader_Layouts {
+				set m [menu $w.buttons.layouts.m.ly[string map {" " _} $name]]
+				$m add command -label [::tr Load] -command "::search::header::layout_load {$name}"
+				$m add command -label [::tr Delete] -command "::search::header::layout_delete {$name}; ::search::header::rebuildLayoutsMenu $w"
+				$w.buttons.layouts.m add cascade -label $name -menu $m
+			}
+		}
+		set save_widget $w.buttons.layouts
+	} else {
+		ttk::button $w.buttons.save -text [::tr Save] -state disabled \
+			-command "::search::save_ $options_cmd"
+		set save_widget $w.buttons.save
+	}
+	
 	ttk::button $w.buttons.reset_values -text [::tr Defaults] \
 		-command "set ::search::filterOp_($w) reset; $options_cmd reset"
 	ttk::button $w.buttons.search_new -text "[tr Search] ([tr GlistNewSort] [tr Filter])" \
 		-command "::search::start_ 1 $w $options_cmd"
 	ttk::button $w.buttons.search -text [::tr Search] \
 		-command "::search::start_ 0 $w $options_cmd"
-	grid $w.buttons.save $w.buttons.reset_values x $w.buttons.search_new $w.buttons.search -sticky w -padx "0 5"
+	grid $save_widget $w.buttons.reset_values x $w.buttons.search_new $w.buttons.search -sticky w -padx "0 5"
 	grid columnconfigure $w.buttons 2 -weight 1
 
 	ttk::button $w.buttons.stop -text [::tr Stop] -command progressBarCancel
@@ -108,7 +129,11 @@ proc ::search::use_dbfilter_ { unused1 w {unused2 ""} } {
 
 proc ::search::progressbar_ {w show_hide} {
 	if {$show_hide eq "show"} {
-		grid remove $w.buttons.save
+		if {[winfo exists $w.buttons.save]} {
+			grid remove $w.buttons.save
+		} elseif {[winfo exists $w.buttons.layouts]} {
+			grid remove $w.buttons.layouts
+		}
 		grid remove $w.buttons.reset_values
 		grid remove $w.buttons.search_new
 		grid remove $w.buttons.search
@@ -120,7 +145,11 @@ proc ::search::progressbar_ {w show_hide} {
 		grab release $w.buttons.stop
 		grid remove $w.buttons.stop
 		grid remove $w.progressbar
-		grid $w.buttons.save
+		if {[winfo exists $w.buttons.save]} {
+			grid $w.buttons.save
+		} elseif {[winfo exists $w.buttons.layouts]} {
+			grid $w.buttons.layouts
+		}
 		grid $w.buttons.reset_values
 		grid $w.buttons.search_new
 		grid $w.buttons.search
