@@ -11,6 +11,19 @@
 namespace eval enginewin {}
 array set ::enginewin::engState {} ; # closed disconnected idle run locked
 
+# Persistent depth and movetime values (shared across all engines)
+if {![info exists ::enginewin::depth_limit]} {
+  set ::enginewin::depth_limit ""
+}
+if {![info exists ::enginewin::movetime_limit]} {
+  set ::enginewin::movetime_limit ""
+}
+::options.store ::enginewin::depth_limit
+::options.store ::enginewin::movetime_limit
+
+# Flag to show save options reminder only once per session
+set ::enginewin::limits_reminder_shown false
+
 # Return a list contatining the engine's ID, engine's name and true if it is running.
 # Return only the engines in idle or run state.
 proc ::enginewin::listEngines {} {
@@ -43,7 +56,15 @@ proc ::enginewin::sendPosition {id position} {
         set ::enginewin::newgame_$id false
         ::engine::send $id NewGame [list analysis post_pv post_wdl [sc_game variant]]
     }
-    ::engine::send $id Go [list $position [set ::enginewin::limits_$id]]
+    # Build limits from persistent depth and movetime values
+    set limits {}
+    if {$::enginewin::depth_limit ne ""} {
+        lappend limits [list depth $::enginewin::depth_limit]
+    }
+    if {$::enginewin::movetime_limit ne ""} {
+        lappend limits [list movetime $::enginewin::movetime_limit]
+    }
+    ::engine::send $id Go [list $position $limits]
 }
 
 # Start an engine (if necessary it will opens a new enginewin window).
@@ -288,44 +309,54 @@ proc ::enginewin::createButtonsBar {id btn display} {
     ttk::menubutton $btn.hash -text "?? MB" -state disabled \
         -style Toolbutton -direction above -menu $btn.hash_menu
 
-    menu $btn.limits_menu
-    foreach {depth_value} {16 20 24 28 32 36 40} {
-        $btn.limits_menu add command -label "[tr Depth]: $depth_value" -command \
-            "::enginewin::changeOption $id _go_limits \[list \[list depth $depth_value \] \]"
-    }
-    $btn.limits_menu add command -label "[tr Depth]: ∞" -command \
-        "::enginewin::changeOption $id _go_limits {}"
-    ttk::menubutton $btn.limits -style Toolbutton -direction above -menu $btn.limits_menu
-    trace add variable ::enginewin::limits_$id write [list apply {{btn varname args} {
-        set value [set $varname]
-        if {$value eq ""} {
-            $btn configure -text "[tr Depth]: ∞"
-        } else {
-            $btn configure -text [string map [list depth "[tr Depth]:"] [join $value]]
-        }
-    }} $btn.limits]
+    ttk::label $btn.depth_label -text "[tr Depth]:" -style Toolbutton
+    ttk::entry $btn.depth -textvariable ::enginewin::depth_limit -width 6 -justify right \
+        -validate key -validatecommand {expr {[string is integer %P] || [string length %P] == 0}}
+    bind $btn.depth <Return> "::enginewin::applyLimits $id"
+    bind $btn.depth <FocusOut> "::enginewin::applyLimits $id"
+    ::utils::tooltip::Set $btn.depth "Search depth limit (leave empty for unlimited)"
+    
+    ttk::label $btn.movetime_label -text "Time(ms):" -style Toolbutton
+    ttk::entry $btn.movetime -textvariable ::enginewin::movetime_limit -width 8 -justify right \
+        -validate key -validatecommand {expr {[string is integer %P] || [string length %P] == 0}}
+    bind $btn.movetime <Return> "::enginewin::applyLimits $id"
+    bind $btn.movetime <FocusOut> "::enginewin::applyLimits $id"
+    ::utils::tooltip::Set $btn.movetime "Move time limit in milliseconds (leave empty for unlimited)"
 
     ttk::button $btn.config -image tb_eng_config -style Toolbutton \
         -command "::enginewin::changeState $id toggleConfig"
     $btn.config state pressed
     grid $btn.startStop $btn.lock $btn.addbestmove \
-         $btn.addlines $btn.multipv $btn.threads $btn.hash $btn.limits x $btn.config -sticky ew
-    grid columnconfigure $btn 8 -weight 1
+         $btn.addlines $btn.multipv $btn.threads $btn.hash \
+         $btn.depth_label $btn.depth $btn.movetime_label $btn.movetime \
+         x $btn.config -sticky ew
+    grid columnconfigure $btn 12 -weight 1
+}
+
+# Apply depth and movetime limits and restart engine if running
+proc ::enginewin::applyLimits {id} {
+    # Show reminder about saving options (only once per session)
+    if {!$::enginewin::limits_reminder_shown && \
+        ($::enginewin::depth_limit ne "" || $::enginewin::movetime_limit ne "")} {
+        set ::enginewin::limits_reminder_shown true
+        tk_messageBox -title "Scid" -type ok -icon info \
+            -message "Engine depth and time limits have been set.\n\nTo have these settings automatically loaded when you start Scid, select \"Save Options\" from the Options menu before exiting."
+    }
+    
+    set prev_state $::enginewin::engState($id)
+    if {$prev_state eq "run"} {
+        ::enginewin::sendPosition $id $::enginewin::m_(position,$id)
+    }
 }
 
 # Sends a SetOptions message to the engine if an option's value is different.
 proc ::enginewin::changeOption {id name widget_or_value} {
     set prev_state $::enginewin::engState($id)
-    if {$name eq "_go_limits"} {
-        set ::enginewin::limits_$id $widget_or_value
-        set changed true
+    set idx [::enginecfg::findOption $id $name]
+    if {[winfo exists $widget_or_value]} {
+        set changed [::enginecfg::setOptionFromWidget $id $idx $widget_or_value]
     } else {
-        set idx [::enginecfg::findOption $id $name]
-        if {[winfo exists $widget_or_value]} {
-            set changed [::enginecfg::setOptionFromWidget $id $idx $widget_or_value]
-        } else {
-            set changed [::enginecfg::setOption $id $idx $widget_or_value]
-        }
+        set changed [::enginecfg::setOption $id $idx $widget_or_value]
     }
     if {$changed && $prev_state in {run}} {
         ::enginewin::sendPosition $id $::enginewin::m_(position,$id)
