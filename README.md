@@ -4,6 +4,8 @@
 [![Documentation](https://img.shields.io/badge/docs-doxygen-blue.svg)](http://scid.sourceforge.net/doxygen/html/files.html)
 [![GitHub license](https://img.shields.io/badge/license-GPL-blue.svg)](https://sourceforge.net/p/scid/code/ci/master/tree/COPYING)
 
+My main "github" fork differs from upstream as it incorporates https://github.com/benini/scid/pull/212 and https://github.com/benini/scid/pull/213. If you like one change and not the other, you can build from their respective branches on this repo.
+
 Scid (Shane's Chess Information Database) is a multi-platform (Linux, Mac OS X, Windows) chess database application.
 
 With Scid you can maintain a database of chess games, search games by many criteria, view graphical trends, and produce printable reports on players and openings. You can also analyze games with the Xboard or UCI compatible chess program, play online on FICS, and even use Scid to study endings with endgame tablebases.
