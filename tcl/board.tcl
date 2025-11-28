@@ -1512,16 +1512,14 @@ proc ::board::bind {w sq event action} {
 # ::board::drawPiece
 #   Draws a piece on a specified square.
 #
-proc ::board::drawPiece {w sq piece} {
-  set psize $::board::_size($w)
-  set flip $::board::_flip($w)
-  # Compute the XY coordinates for the centre of the square:
-  set midpoint [::board::midSquare $w $sq]
-  set xc [lindex $midpoint 0]
-  set yc [lindex $midpoint 1]
-  # Delete any old image for this square, and add the new one:
-  $w.bd delete p$sq
-  $w.bd create image $xc $yc -image $::board::letterToPiece($piece)$psize -tag p$sq
+proc ::board::drawPiece {w sq piece {tag_name ""}} {
+  if {$tag_name eq ""} {
+    set tag_name p$sq
+  }
+  $w.bd delete $tag_name
+  lassign [::board::midSquare $w $sq] xc yc
+  $w.bd create image $xc $yc -tag $tag_name \
+    -image $::board::letterToPiece($piece)$::board::_size($w)
 }
 
 # ::board::clearText
@@ -1588,6 +1586,8 @@ proc ::board::update {w {board ""} {animate 0}} {
 
   # Remove all marks (incl. arrows) from the board:
   $w.bd delete mark
+
+  $w.bd delete tmp_animate
 
   # Draw each square:
   for {set sq 0} { $sq < 64 } { incr sq } {
@@ -2059,8 +2059,7 @@ proc ::board::animate {w oldboard newboard} {
 
   # Redraw the captured piece during the animation if necessary:
   if {$capturedPiece != "."  &&  $captured >= 0} {
-    ::board::drawPiece $w $from $capturedPiece
-    eval $w.bd coords p$from [::board::midSquare $w $captured]
+    ::board::drawPiece $w $captured $capturedPiece tmp_animate
   }
 
   # Move the animated piece back to its starting point:
@@ -2111,6 +2110,8 @@ proc ::board::_animate {w} {
   # Schedule another animation update in a few milliseconds:
   if {$now < $end} {
     after 5 "::board::_animate $w"
+  } else {
+    $w.bd delete tmp_animate
   }
 }
 
