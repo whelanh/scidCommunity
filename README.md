@@ -11,6 +11,13 @@
 
 Users with suggestions for further enhancements are welcome to file an issue or a pull request.  Enjoy!
 
+New "Layouts" button:
+<img width="847" height="900" alt="image" src="https://github.com/user-attachments/assets/20c2ea2d-bc48-48db-95c7-42e91faa62dc" />
+
+New Engine depth and move time input windows:
+<img width="1918" height="911" alt="image" src="https://github.com/user-attachments/assets/0563010d-b20b-4771-8ef4-7470b8ebc9fb" />
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
 Scid (Shane's Chess Information Database) is a multi-platform (Linux, Mac OS X, Windows) chess database application.
 
 With Scid you can maintain a database of chess games, search games by many criteria, view graphical trends, and produce printable reports on players and openings. You can also analyze games with the Xboard or UCI compatible chess program, play online on FICS, and even use Scid to study endings with endgame tablebases.
