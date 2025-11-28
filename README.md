@@ -27,7 +27,4 @@ make install
 
 The `Scid.app` folder contains the app, which can be moved to other directories, such as `/Applications`. It is also possible to create a symbolic link to the executable `Scid.app/Contents/scid/scid`.
 
-Please report issues and bugs here:
-https://sourceforge.net/projects/scid/  
-For other problems or support, try reaching out to the mailing list:
-https://sourceforge.net/p/scid/mailman/
+
