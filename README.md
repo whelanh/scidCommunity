@@ -6,8 +6,9 @@
 
 **scidCommunity** differs from upstream `Scid` by offering enhancements not present in the upstream repo. Enhancements include:
 
-1. A new "Layouts" button at the lower left of the **Header Search** dialogue. This button replaces a "Save" button that has been disabled for years. The new button allows users to name, save and load sets of search parameters they use frequently. 
-2. Two new input windows in the **Engine** windows that allow users to input depth and/or move time limits on an engine's calculation. If users choose to use Scid's **Save Options**, the inputs will be saved as the defaults for future use.
+1. A new "Layouts" button at the lower left of the **Header Search** dialogue. This button replaces a "Save" button that has been disabled for years. The new button allows users to name, save and load sets of search parameters they use frequently.
+  - The hotkey Alt + s has been added to invoke the search key. 
+3. Two new input windows in the **Engine** windows that allow users to input depth and/or move time limits on an engine's calculation. If users choose to use Scid's **Save Options**, the inputs will be saved as the defaults for future use.
 
 Users with suggestions for further enhancements are welcome to file an issue or a pull request.  Enjoy!
 
