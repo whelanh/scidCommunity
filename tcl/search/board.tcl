@@ -73,7 +73,7 @@ proc ::search::Open {ref_base ref_filter title create_subwnd} {
 		-command "set ::search::filterOp_($w) reset; $options_cmd reset"
 	ttk::button $w.buttons.search_new -text "[tr Search] ([tr GlistNewSort] [tr Filter])" \
 		-command "::search::start_ 1 $w $options_cmd"
-	ttk::button $w.buttons.search -text [::tr Search] \
+	ttk::button $w.buttons.search -text [::tr Search] -underline 0 \
 		-command "::search::start_ 0 $w $options_cmd"
 	grid $save_widget $w.buttons.reset_values x $w.buttons.search_new $w.buttons.search -sticky w -padx "0 5"
 	grid columnconfigure $w.buttons 2 -weight 1
@@ -87,6 +87,7 @@ proc ::search::Open {ref_base ref_filter title create_subwnd} {
 	progressbar_ $w hide
 
 	bind $w <Return> "$w.buttons.search invoke"
+	bind $w <Alt-s> "$w.buttons.search invoke"
 	bind $w.buttons.search <Destroy> "unset ::search::dbase_($w)"
 	bind $w <<NotifyFilter>> [list apply {{w} {
 		lassign %d dbase filter
