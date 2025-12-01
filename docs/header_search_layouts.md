@@ -40,8 +40,6 @@ After loading a layout, closing the dialog, and reopening it:
 
 ### Root Causes
 1. Field cleared by `RefillCombobox` during dialog recreation.
-2. Early attempts to restore via `set` were overwritten or happened too soon.
-3. Use of indirect `info exists` checks with dynamic variable names was ineffective.
 
 ### Final Resolution
 Immediately after each `SetCombobox` call:
