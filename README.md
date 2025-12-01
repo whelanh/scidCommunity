@@ -6,14 +6,14 @@
 
 **scidCommunity** differs from upstream `Scid` by offering enhancements not present in the upstream repo. Enhancements include:
 
-1. A new "Layouts" button at the lower left of the **Header Search** dialogue. This button replaces a "Save" button that has been disabled for years. The new button allows users to name, save and load sets of search parameters they use frequently.
-  - The hotkey Alt + s has been added to invoke the search key. 
-3. Two new input windows in the **Engine** windows that allow users to input depth and/or move time limits on an engine's calculation. If users choose to use Scid's **Save Options**, the inputs will be saved as the defaults for future use.
+1. The **Header Search** dialogue has been improved with the addition of a new "Layouts" button at the lower left. This button replaces a "Save" button that has been disabled for years. The new button allows users to name, save and load sets of search parameters they use frequently.
+      - The hotkey Alt + s has been added to invoke the search key. 
+3. The **Engine** windows have been enhanced with new depth and move time input windows for limiting an engine's calculations. If users choose to use Scid's **Save Options**, the inputs will be saved as the defaults for future use.
 
 Users with suggestions for further enhancements are welcome to file an issue or a pull request.  Enjoy!
 
 New "Layouts" button:
-<img width="847" height="900" alt="image" src="https://github.com/user-attachments/assets/20c2ea2d-bc48-48db-95c7-42e91faa62dc" />
+<img width="1308" height="1219" alt="Screenshot_20251201_131517 (Edit)" src="https://github.com/user-attachments/assets/848be802-86f4-4b6f-9938-ef047f2dc6bc" />
 
 New Engine depth and move time input windows:
 <img width="1918" height="911" alt="image" src="https://github.com/user-attachments/assets/0563010d-b20b-4771-8ef4-7470b8ebc9fb" />
