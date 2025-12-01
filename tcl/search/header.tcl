@@ -222,12 +222,20 @@ proc ::search::header::rebuildLayoutsMenu {w} {
   if {![winfo exists $w.buttons.layouts.m]} { return }
   
   set m $w.buttons.layouts.m
+  
+  # First, destroy all existing submenu widgets to avoid "already exists" errors
+  foreach child [winfo children $m] {
+    if {[string match "$m.ly*" $child]} {
+      destroy $child
+    }
+  }
+  
+  # Then delete menu entries and rebuild
   $m delete 2 end
   
   if {[info exists ::searchHeader_Layouts]} {
     foreach name $::searchHeader_Layouts {
       set submenu [menu $m.ly[string map {" " _} $name]]
-      $submenu delete 0 end
       $submenu add command -label [::tr Load] -command "::search::header::layout_load {$name}"
       $submenu add command -label [::tr Delete] -command "::search::header::layout_delete {$name}; ::search::header::rebuildLayoutsMenu $w"
       $m add cascade -label $name -menu $submenu
