@@ -288,7 +288,19 @@ proc search::headerCreateFrame { w } {
     pack $w.c$color -side top -fill x -in $w.player
     ttk::label $w.c$color.lab -textvar ::tr($color:) -width 9 -anchor w
     ttk::combobox $w.c$color.e -textvariable "s$color" -width 40
+    # Store the current value BEFORE SetCombobox
+    set currentVal [set ::s$color]
     ::utils::history::SetCombobox HeaderSearch$color $w.c$color.e
+    # Immediately restore and select the value after SetCombobox
+    if {$currentVal ne ""} {
+      set values [$w.c$color.e cget -values]
+      set idx [lsearch -exact $values $currentVal]
+      if {$idx >= 0} {
+        $w.c$color.e current $idx
+      } else {
+        $w.c$color.e set $currentVal
+      }
+    }
 
     ttk::label $w.c$color.space
     ttk::label $w.c$color.elo1 -textvar ::tr(Rating:)
@@ -332,7 +344,19 @@ proc search::headerCreateFrame { w } {
   foreach i {Event Site} {
     ttk::label $f.l$i -textvar ::tr(${i}:)
     ttk::combobox $f.e$i -textvariable s$i -width 30
+    # Store the current value BEFORE SetCombobox
+    set currentVal [set ::s$i]
     ::utils::history::SetCombobox HeaderSearch$i $f.e$i
+    # Immediately restore and select the value after SetCombobox
+    if {$currentVal ne ""} {
+      set values [$f.e$i cget -values]
+      set idx [lsearch -exact $values $currentVal]
+      if {$idx >= 0} {
+        $f.e$i current $idx
+      } else {
+        $f.e$i set $currentVal
+      }
+    }
   }
   pack $f.lEvent $f.eEvent -side left
   pack $f.eSite -side right
