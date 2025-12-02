@@ -74,6 +74,8 @@ proc setTitle { w title } {
 		# in docked mode trim down title to spare space
 		if {[string equal -length 6 $title "Scid: "]} {
 			set title [string range $title 6 end]
+		} elseif {[string equal -length 16 $title "ScidCommunity - "]} {
+			set title [string range $title 16 end]
 		}
 		$docked_nb tab $w -text $title
 	} else {

@@ -320,7 +320,7 @@ menuText E HelpHints "Hints" 0 {Show the hints help page}
 menuText E HelpContact "Contact Info" 1 {Show the contact information help page}
 menuText E HelpTip "Tip of the Day" 0 {Show a useful Scid tip}
 menuText E HelpStartup "Startup Window" 0 {Show the startup window}
-menuText E HelpAbout "About Scid" 0 {Information about Scid}
+menuText E HelpAbout "About" 0 {Information about ScidCommunity}
 
 # Game info box popup menu:
 menuText E GInfoHideNext "Hide Next Move" 0

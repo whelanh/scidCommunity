@@ -4158,41 +4158,12 @@ set helpText(ECO) {<h1>ECO openings classification</h1>
 set helpTitle(Author) "Contact information"
 set helpText(Author) {<h1>Contact Information</h1>
   <p>
-  The Scid web page is located at: <br>
-  <b><url http://scid.sourceforge.net/>http://scid.sourceforge.net/</url></b>
+  The ScidCommunity github page is located at: <br>
+  <b><url https://github.com/whelanh/scidCommunity>https://github.com/whelanh/scidCommunity</url></b>
   </p>
   <p>
-  It has downloads of the latest version of Scid and any extra
-  files that are available.
+  It has downloads of the latest version of ScidCommunity.
   </p>
-  <p>
-  Please send any comments, questions, suggestions or bug reports to
-  the Scid mailinglist <b>scid-users@lists.sourceforge.net</b>.
-  </p>
-  
-  <h3><name Related>Related Links</name></h3>
-  <p>
-  If you enjoy using Scid, you may find the following websites interesting:
-  </p>
-  <ul>
-  <li><url http://scid.sourceforge.net/>http://scid.sourceforge.net</url>--
-  The program upon which Scid is heavily based. Scid was written by
-  Shane Hudson, with help from others.</li>
-  <li><url http://www.tim-mann.org/chess.html>http://www.tim_mann.org/chess.html</url> --
-  Home page of Tim Mann's <b>xboard & winboard</b> program which is a PGN
-  reader and an interface for Internet chess servers. His site also has
-  good information on Crafty, GNUchess and other free chess programs.</li>
-  
-  <li><url http://theweekinchess.com/twic>http://theweekinchess.com/twic</url> --
-  TWIC (the week in chess), an excellent weekly bulletin of international
-  chess games in available in <a PGN>PGN</a> format.</li>
-  
-  <li><url http://www.saremba.de/chessgml/standards/pgn/pgn-complete.htm>http://www.saremba.de/chessgml/standards/pgn/pgn-complete.htm</url> --
-  the <b>PGN Standard</b>, created by Steven J. Edwards in 1994.
-  This file explains the <a PGN>PGN</a> and EPD formats in detail.</li>
-  </ul>
-  
-  <p><footer>(Updated: Scid 4.7, August 2018)</footer></p>
 }
 
 # Book window help

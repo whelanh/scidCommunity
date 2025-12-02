@@ -1006,13 +1006,18 @@ proc gameReplace {} { gameSave [sc_game number] }
 proc helpAbout {} {
   ::utils::sound::PlaySound sound_move
   set str {}
-  append str "Scid: Shane's chess information database\n\n"
+  append str "Scid Community\n\n"
   append str "Version $::scidVersion, $::scidVersionDate\n"
+  append str "Based on:\n"
+  append str "Shane's Chess Information Database\n"
+  append str "forked from Scid 5.1.0 on 11/28/2025\n\n"
   append str "Copyright (C) 1999-2004 Shane Hudson\n"
   append str "Copyright (C) 2006-2009 Pascal Georges\n"
   append str "Copyright (C) 2008-2011 Alexander Wagner\n"
   append str "Copyright (C) 2011 Gerd Lorscheid\n"
-  append str "Copyright (C) 2009-2023 Fulvio Benini\n"
+  append str "Copyright (C) 2009-2025 Fulvio Benini\n"
+  append str "Copyright (C) 2025 Hugh Whelan\n"
+  append str "\nhttps://github.com/whelanh/scidCommunity\n"
   append str "\nScid is licenced under the\n"
   append str "GNU General Public License.\n"
 
@@ -1024,7 +1029,7 @@ proc helpAbout {} {
   }
   regsub ",  $" $str "." str
 
-  tk_messageBox -title "About Scid" -message $str -type ok
+  tk_messageBox -title "About" -message $str -type ok
 }
 
 

@@ -129,7 +129,7 @@ proc updateMainGame {} {
 #   Updates the main Scid window title.
 #
 proc updateTitle {} {
-    set title "Scid - "
+    set title "ScidCommunity - "
     set fname [sc_base filename $::curr_db]
     set fname [file tail $fname]
     append title "$fname ($::tr(game) "
@@ -142,9 +142,9 @@ proc updateTitle {} {
         if {$fname == {[clipbase]} } { set fname clipbase }
         set altered ""
         if {[sc_game altered]} { set altered "*" }
-        ::setTitle .main "($fname$altered): $white -- $black"
+        ::setTitle .main "ScidCommunity - ($fname$altered): $white -- $black"
     } else {
-        ::setTitle .main $title
+        ::setTitle .main "ScidCommunity - $title"
     }
 }
 
