@@ -204,11 +204,6 @@ jobs:
           EOF
           chmod +x ${{ github.workspace }}/rpm-root/opt/scidcommunity/bin/scidCommunity
 
-      - name: Create symlink for system-wide access
-        run: |
-          mkdir -p ${{ github.workspace }}/rpm-root/usr/local/bin
-          ln -sf /opt/scidcommunity/bin/scidCommunity ${{ github.workspace }}/rpm-root/usr/local/bin/scidcommunity
-
       - name: Build RPM package
         run: |
           cd build
@@ -216,9 +211,8 @@ jobs:
                 -D CPACK_PACKAGE_NAME=scidcommunity \
                 -D CPACK_PACKAGE_VERSION=${{ steps.get_version.outputs.version }} \
                 -D CPACK_RPM_PACKAGE_LICENSE=GPL2 \
-                -D CPACK_PACKAGING_INSTALL_PREFIX=/opt/scidcommunity \
                 -D CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION="/opt;/opt/scidcommunity;/usr;/usr/local;/usr/local/bin" \
-                -D CPACK_INSTALLED_DIRECTORIES="${{ github.workspace }}/rpm-root/opt/scidcommunity;/opt/scidcommunity;${{ github.workspace }}/rpm-root/usr/local/bin;/usr/local/bin"
+                -D CPACK_INSTALLED_DIRECTORIES="${{ github.workspace }}/rpm-root/opt/scidcommunity;/opt/scidcommunity;${{ github.workspace }}/rpm-root/usr;/usr"
 
       - name: Upload RPM artifact
         uses: actions/upload-artifact@v4

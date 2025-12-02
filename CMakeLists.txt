@@ -72,6 +72,17 @@ if(SPELLCHKVALIDATE)
 endif()
 
 install(TARGETS scidCommunity DESTINATION bin)
+
+# Create symlink for system-wide access (for RPM/DEB packages installed in /opt)
+if(CMAKE_INSTALL_PREFIX MATCHES "^/opt/")
+  # Create a symlink from /usr/local/bin to the installed binary
+  install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory \
+    \$ENV{DESTDIR}/usr/local/bin)")
+  install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink \
+    ${CMAKE_INSTALL_PREFIX}/bin/scidCommunity \
+    \$ENV{DESTDIR}/usr/local/bin/scidcommunity)")
+endif()
+
 file(GLOB ECO_FILES *.eco)
 install(FILES ${ECO_FILES} DESTINATION share/scid)
 install(DIRECTORY bitmaps DESTINATION share/scid)
