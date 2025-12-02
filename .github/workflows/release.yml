@@ -187,9 +187,9 @@ jobs:
           # Copy Tcl/Tk 8.6 shared libraries
           cp -a /usr/lib/x86_64-linux-gnu/libtcl8.6.so* ${{ github.workspace }}/rpm-root/opt/scidcommunity/lib/
           cp -a /usr/lib/x86_64-linux-gnu/libtk8.6.so* ${{ github.workspace }}/rpm-root/opt/scidcommunity/lib/
-          # Copy Tcl/Tk script directories
-          cp -a /usr/share/tcltk/tcl8.6 ${{ github.workspace }}/rpm-root/opt/scidcommunity/lib/
-          cp -a /usr/share/tcltk/tk8.6 ${{ github.workspace }}/rpm-root/opt/scidcommunity/lib/
+          # Copy Tcl/Tk script directories (including tcl8 subdirectory with modules)
+          cp -rL /usr/share/tcltk/tcl8.6 ${{ github.workspace }}/rpm-root/opt/scidcommunity/lib/
+          cp -rL /usr/share/tcltk/tk8.6 ${{ github.workspace }}/rpm-root/opt/scidcommunity/lib/
 
       - name: Rename binary and create wrapper script
         run: |
@@ -223,8 +223,110 @@ jobs:
           name: scidCommunity-linux-rpm
           path: build/*.rpm
 
+  build-linux-appimage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Get version from tag
+        id: get_version
+        run: |
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            VERSION=${GITHUB_REF#refs/tags/v}
+          else
+            VERSION="5.1.0"
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install cmake build-essential wget fuse libfuse2 \
+            tcl8.6-dev tk8.6-dev libtcl8.6 libtk8.6
+
+      - name: Download appimagetool
+        run: |
+          wget -O appimagetool https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+          chmod +x appimagetool
+
+      - name: Build ScidCommunity
+        run: |
+          mkdir build && cd build
+          cmake -DCMAKE_BUILD_TYPE=Release \
+                -DCMAKE_CXX_FLAGS="-fno-exceptions -fno-rtti" \
+                -DCMAKE_EXE_LINKER_FLAGS="-static-libstdc++ -static-libgcc" \
+                -DCMAKE_INSTALL_PREFIX=/usr \
+                -DCMAKE_INSTALL_RPATH=\$ORIGIN/../lib \
+                ${{ github.workspace }}
+          make -j$(nproc)
+          make install DESTDIR=${{ github.workspace }}/AppDir
+
+      - name: Bundle Tcl/Tk 8.6 libraries
+        run: |
+          mkdir -p ${{ github.workspace }}/AppDir/usr/lib
+          # Copy Tcl/Tk 8.6 shared libraries
+          cp -a /usr/lib/x86_64-linux-gnu/libtcl8.6.so* ${{ github.workspace }}/AppDir/usr/lib/
+          cp -a /usr/lib/x86_64-linux-gnu/libtk8.6.so* ${{ github.workspace }}/AppDir/usr/lib/
+          # Copy Tcl/Tk script directories (including tcl8 subdirectory with modules)
+          cp -rL /usr/share/tcltk/tcl8.6 ${{ github.workspace }}/AppDir/usr/lib/
+          cp -rL /usr/share/tcltk/tk8.6 ${{ github.workspace }}/AppDir/usr/lib/
+
+      - name: Create AppImage wrapper and metadata
+        run: |
+          # Rename binary
+          mv ${{ github.workspace }}/AppDir/usr/bin/scidCommunity \
+             ${{ github.workspace }}/AppDir/usr/bin/scidCommunity.bin
+          
+          # Create wrapper script
+          cat > ${{ github.workspace }}/AppDir/usr/bin/scidCommunity << 'EOF'
+          #!/bin/bash
+          APPDIR="${APPDIR:-$(dirname $(dirname $(readlink -f "$0")))}"
+          export LD_LIBRARY_PATH="${APPDIR}/usr/lib:${LD_LIBRARY_PATH}"
+          export TCL_LIBRARY="${APPDIR}/usr/lib/tcl8.6"
+          export TK_LIBRARY="${APPDIR}/usr/lib/tk8.6"
+          exec "${APPDIR}/usr/bin/scidCommunity.bin" "$@"
+          EOF
+          chmod +x ${{ github.workspace }}/AppDir/usr/bin/scidCommunity
+          
+          # Create AppRun symlink
+          ln -sf usr/bin/scidCommunity ${{ github.workspace }}/AppDir/AppRun
+          
+          # Create desktop file
+          cat > ${{ github.workspace }}/AppDir/scidcommunity.desktop << 'EOF'
+          [Desktop Entry]
+          Type=Application
+          Name=Scid Community
+          Comment=Chess database application
+          Exec=scidCommunity
+          Icon=scidcommunity
+          Categories=Game;BoardGame;
+          Terminal=false
+          EOF
+          
+          # Copy icon (using scid.gif from img directory)
+          mkdir -p ${{ github.workspace }}/AppDir/usr/share/icons/hicolor/256x256/apps
+          if [ -f ${{ github.workspace }}/img/scid.gif ]; then
+            cp ${{ github.workspace }}/img/scid.gif \
+               ${{ github.workspace }}/AppDir/scidcommunity.png
+          fi
+
+      - name: Build AppImage
+        run: |
+          ARCH=x86_64 ./appimagetool --appimage-extract-and-run \
+            ${{ github.workspace }}/AppDir \
+            ${{ github.workspace }}/scidCommunity-${{ steps.get_version.outputs.version }}-x86_64.AppImage
+
+      - name: Upload AppImage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: scidCommunity-linux-appimage
+          path: scidCommunity-*.AppImage
+
   create-release:
-    needs: [build-windows, build-linux-deb, build-linux-rpm]
+    needs: [build-windows, build-linux-deb, build-linux-rpm, build-linux-appimage]
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/')
     steps:
@@ -240,6 +342,7 @@ jobs:
             artifacts/scidCommunity-windows-x64/*.zip
             artifacts/scidCommunity-ubuntu-deb/*.deb
             artifacts/scidCommunity-linux-rpm/*.rpm
+            artifacts/scidCommunity-linux-appimage/*.AppImage
           draft: false
           prerelease: false
         env:
