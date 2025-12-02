@@ -197,8 +197,8 @@ jobs:
         run: |
           # Tcl library has /usr/share/tcltk hardcoded, create symlink structure
           mkdir -p ${{ github.workspace }}/rpm-root/opt/scidcommunity/usr/share/tcltk
-          ln -s ../../lib/tcl8.6 ${{ github.workspace }}/rpm-root/opt/scidcommunity/usr/share/tcltk/tcl8.6
-          ln -s ../../lib/tk8.6 ${{ github.workspace }}/rpm-root/opt/scidcommunity/usr/share/tcltk/tk8.6
+          ln -s /opt/scidcommunity/lib/tcl8.6 ${{ github.workspace }}/rpm-root/opt/scidcommunity/usr/share/tcltk/tcl8.6
+          ln -s /opt/scidcommunity/lib/tk8.6 ${{ github.workspace }}/rpm-root/opt/scidcommunity/usr/share/tcltk/tk8.6
           
           # Patch init.tcl to add our module path first
           cat >> ${{ github.workspace }}/rpm-root/opt/scidcommunity/lib/tcl8.6/init.tcl << 'EOFTCL'
