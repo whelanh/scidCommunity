@@ -190,18 +190,28 @@ jobs:
           # Copy Tcl/Tk script directories (including tcl8 subdirectory with modules)
           cp -rL /usr/share/tcltk/tcl8.6 ${{ github.workspace }}/rpm-root/opt/scidcommunity/lib/
           cp -rL /usr/share/tcltk/tk8.6 ${{ github.workspace }}/rpm-root/opt/scidcommunity/lib/
+          # Also copy tcl8 modules directly to lib for module path discovery
+          cp -rL /usr/share/tcltk/tcl8.6/tcl8 ${{ github.workspace }}/rpm-root/opt/scidcommunity/lib/
 
+      - name: Create symlink structure for Tcl hardcoded paths
+        run: |
+          # Tcl library has /usr/share/tcltk hardcoded, create symlink structure
+          mkdir -p ${{ github.workspace }}/rpm-root/opt/scidcommunity/usr/share/tcltk
+          ln -s ../../lib/tcl8.6 ${{ github.workspace }}/rpm-root/opt/scidcommunity/usr/share/tcltk/tcl8.6
+          ln -s ../../lib/tk8.6 ${{ github.workspace }}/rpm-root/opt/scidcommunity/usr/share/tcltk/tk8.6
+          
       - name: Rename binary and create wrapper script
         run: |
           mv ${{ github.workspace }}/rpm-root/opt/scidcommunity/bin/scidCommunity \
              ${{ github.workspace }}/rpm-root/opt/scidcommunity/bin/scidCommunity.bin
+          
           cat > ${{ github.workspace }}/rpm-root/opt/scidcommunity/bin/scidCommunity << 'EOF'
           #!/bin/bash
           SCID_DIR="/opt/scidcommunity"
           export LD_LIBRARY_PATH="${SCID_DIR}/lib:${LD_LIBRARY_PATH}"
-          export TCL_LIBRARY="${SCID_DIR}/lib/tcl8.6"
-          export TK_LIBRARY="${SCID_DIR}/lib/tk8.6"
-          export TCLLIBPATH="${SCID_DIR}/lib/tcl8.6 ${SCID_DIR}/lib/tk8.6"
+          # Point Tcl to our bundled location via symlinks
+          export TCL_LIBRARY="${SCID_DIR}/usr/share/tcltk/tcl8.6"
+          export TK_LIBRARY="${SCID_DIR}/usr/share/tcltk/tk8.6"
           exec "${SCID_DIR}/bin/scidCommunity.bin" "$@"
           EOF
           chmod +x ${{ github.workspace }}/rpm-root/opt/scidcommunity/bin/scidCommunity
@@ -275,8 +285,13 @@ jobs:
           cp -rL /usr/share/tcltk/tcl8.6 ${{ github.workspace }}/AppDir/usr/lib/
           cp -rL /usr/share/tcltk/tk8.6 ${{ github.workspace }}/AppDir/usr/lib/
 
-      - name: Create AppImage wrapper and metadata
+      - name: Create AppImage symlink structure and wrapper
         run: |
+          # Create symlink structure for Tcl hardcoded paths
+          mkdir -p ${{ github.workspace }}/AppDir/usr/share/tcltk
+          ln -s ../../lib/tcl8.6 ${{ github.workspace }}/AppDir/usr/share/tcltk/tcl8.6
+          ln -s ../../lib/tk8.6 ${{ github.workspace }}/AppDir/usr/share/tcltk/tk8.6
+          
           # Rename binary
           mv ${{ github.workspace }}/AppDir/usr/bin/scidCommunity \
              ${{ github.workspace }}/AppDir/usr/bin/scidCommunity.bin
@@ -286,14 +301,14 @@ jobs:
           #!/bin/bash
           APPDIR="${APPDIR:-$(dirname $(dirname $(readlink -f "$0")))}"
           export LD_LIBRARY_PATH="${APPDIR}/usr/lib:${LD_LIBRARY_PATH}"
-          export TCL_LIBRARY="${APPDIR}/usr/lib/tcl8.6"
-          export TK_LIBRARY="${APPDIR}/usr/lib/tk8.6"
-          export TCLLIBPATH="${APPDIR}/usr/lib/tcl8.6 ${APPDIR}/usr/lib/tk8.6"
+          # Point Tcl to bundled location via symlinks  
+          export TCL_LIBRARY="${APPDIR}/usr/share/tcltk/tcl8.6"
+          export TK_LIBRARY="${APPDIR}/usr/share/tcltk/tk8.6"
           exec "${APPDIR}/usr/bin/scidCommunity.bin" "$@"
           EOF
           chmod +x ${{ github.workspace }}/AppDir/usr/bin/scidCommunity
           
-          # Create AppRun symlink
+          # Create AppRun symlink  
           ln -sf usr/bin/scidCommunity ${{ github.workspace }}/AppDir/AppRun
           
           # Create desktop file
