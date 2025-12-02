@@ -108,7 +108,7 @@ jobs:
           cmake -DCPACK_GENERATOR=DEB \
                 -DCPACK_PACKAGE_NAME=scidcommunity \
                 -DCPACK_DEBIAN_PACKAGE_MAINTAINER="Hugh Whelan" \
-                -DCPACK_DEBIAN_PACKAGE_DEPENDS=tk \
+                -DCPACK_DEBIAN_PACKAGE_DEPENDS="tk8.6, libtcl8.6, libtk8.6" \
                 -DCPACK_DEBIAN_PACKAGE_LICENSE=GPL2 \
                 -DCMAKE_BUILD_TYPE=Release \
                 -DCMAKE_CXX_FLAGS="-fno-exceptions -fno-rtti" \
@@ -141,7 +141,7 @@ jobs:
           cmake -DCPACK_GENERATOR=RPM \
                 -DCPACK_PACKAGE_NAME=scidcommunity \
                 -DCPACK_RPM_PACKAGE_LICENSE=GPL2 \
-                -DCPACK_RPM_PACKAGE_REQUIRES="tk" \
+                -DCPACK_RPM_PACKAGE_REQUIRES="tk >= 8.6, tcl >= 8.6" \
                 -DCMAKE_BUILD_TYPE=Release \
                 -DCMAKE_CXX_FLAGS="-fno-exceptions -fno-rtti" \
                 -DCMAKE_EXE_LINKER_FLAGS="-static-libstdc++ -static-libgcc" \
