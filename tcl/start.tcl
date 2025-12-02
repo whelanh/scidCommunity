@@ -33,7 +33,7 @@ exec `dirname $0`/tkscid "$0" "$@"
 
 ############################################################
 
-package require Tk  8.6
+package require Tk 8.6
 set useLocalTooltip [catch {package require tooltip 2.0}]
 
 set scidVersion [sc_info version]

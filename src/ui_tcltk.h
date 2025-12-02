@@ -21,6 +21,7 @@
 
 #include <chrono>
 #include <tcl.h>
+#include <tk.h>
 #include <sstream>
 #include <limits>
 
@@ -234,6 +235,7 @@ UI_impl::UI_res_t sc_var         (UI_impl::UI_extra_t, UI_impl::UI_handle_t, int
 inline int UI_impl::initTclTk (UI_handle_t ti)
 {
 	if (Tcl_Init (ti) == TCL_ERROR) { return TCL_ERROR; }
+	if (Tk_Init (ti) == TCL_ERROR) { return TCL_ERROR; }
 
 	Tcl_CreateCommand(ti, "strIsPrefix" , str_is_prefix , 0, NULL);
 	Tcl_CreateCommand(ti, "strPrefixLen", str_prefix_len, 0, NULL);

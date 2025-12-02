@@ -159,24 +159,66 @@ jobs:
         run: |
           echo "SCIDCOMMUNITY_VERSION=${{ steps.get_version.outputs.version }}" >> $GITHUB_ENV
 
-      - name: Install dependencies
+      - name: Install build dependencies
         run: |
           sudo apt-get update
-          sudo apt-get -y install tcl-dev tk-dev cmake build-essential rpm
+          sudo apt-get -y install cmake build-essential rpm \
+            tcl8.6-dev tk8.6-dev libtcl8.6 libtk8.6
 
-      - name: Configure and build
+      - name: Configure and build ScidCommunity
         run: |
           mkdir build && cd build
           cmake -DCPACK_GENERATOR=RPM \
                 -DCPACK_PACKAGE_NAME=scidcommunity \
-            -DCPACK_PACKAGE_VERSION=${{ steps.get_version.outputs.version }} \
+                -DCPACK_PACKAGE_VERSION=${{ steps.get_version.outputs.version }} \
                 -DCPACK_RPM_PACKAGE_LICENSE=GPL2 \
-                -DCPACK_RPM_PACKAGE_REQUIRES="tk >= 8.6, tcl >= 8.6" \
                 -DCMAKE_BUILD_TYPE=Release \
                 -DCMAKE_CXX_FLAGS="-fno-exceptions -fno-rtti" \
                 -DCMAKE_EXE_LINKER_FLAGS="-static-libstdc++ -static-libgcc" \
+                -DCMAKE_INSTALL_PREFIX=/opt/scidcommunity \
+                -DCMAKE_INSTALL_RPATH=\$ORIGIN/../lib \
                 ${{ github.workspace }}
-          make package
+          make -j$(nproc)
+          make install DESTDIR=${{ github.workspace }}/rpm-root
+
+      - name: Bundle Tcl/Tk 8.6 libraries with installation
+        run: |
+          mkdir -p ${{ github.workspace }}/rpm-root/opt/scidcommunity/lib
+          # Copy Tcl/Tk 8.6 shared libraries
+          cp -a /usr/lib/x86_64-linux-gnu/libtcl8.6.so* ${{ github.workspace }}/rpm-root/opt/scidcommunity/lib/
+          cp -a /usr/lib/x86_64-linux-gnu/libtk8.6.so* ${{ github.workspace }}/rpm-root/opt/scidcommunity/lib/
+          # Copy Tcl/Tk script directories
+          cp -a /usr/share/tcltk/tcl8.6 ${{ github.workspace }}/rpm-root/opt/scidcommunity/lib/
+          cp -a /usr/share/tcltk/tk8.6 ${{ github.workspace }}/rpm-root/opt/scidcommunity/lib/
+
+      - name: Rename binary and create wrapper script
+        run: |
+          mv ${{ github.workspace }}/rpm-root/opt/scidcommunity/bin/scidCommunity \
+             ${{ github.workspace }}/rpm-root/opt/scidcommunity/bin/scidCommunity.bin
+          cat > ${{ github.workspace }}/rpm-root/opt/scidcommunity/bin/scidCommunity << 'EOF'
+          #!/bin/bash
+          SCID_DIR="/opt/scidcommunity"
+          export TCL_LIBRARY="${SCID_DIR}/lib/tcl8.6"
+          export TK_LIBRARY="${SCID_DIR}/lib/tk8.6"
+          exec "${SCID_DIR}/bin/scidCommunity.bin" "$@"
+          EOF
+          chmod +x ${{ github.workspace }}/rpm-root/opt/scidcommunity/bin/scidCommunity
+
+      - name: Create symlink for system-wide access
+        run: |
+          mkdir -p ${{ github.workspace }}/rpm-root/usr/local/bin
+          ln -sf /opt/scidcommunity/bin/scidCommunity ${{ github.workspace }}/rpm-root/usr/local/bin/scidcommunity
+
+      - name: Build RPM package
+        run: |
+          cd build
+          cpack -G RPM \
+                -D CPACK_PACKAGE_NAME=scidcommunity \
+                -D CPACK_PACKAGE_VERSION=${{ steps.get_version.outputs.version }} \
+                -D CPACK_RPM_PACKAGE_LICENSE=GPL2 \
+                -D CPACK_PACKAGING_INSTALL_PREFIX=/opt/scidcommunity \
+                -D CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION="/opt;/opt/scidcommunity;/usr;/usr/local;/usr/local/bin" \
+                -D CPACK_INSTALLED_DIRECTORIES="${{ github.workspace }}/rpm-root/opt/scidcommunity;/opt/scidcommunity;${{ github.workspace }}/rpm-root/usr/local/bin;/usr/local/bin"
 
       - name: Upload RPM artifact
         uses: actions/upload-artifact@v4
