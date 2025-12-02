@@ -23,7 +23,7 @@ New Engine depth and move time input windows:
 <img width="1918" height="911" alt="image" src="https://github.com/user-attachments/assets/0563010d-b20b-4771-8ef4-7470b8ebc9fb" />
 
 ## 💽 Releases
-Check latest **Release** for a deb, rpm, exe and AppImage installable package.  I've tested the deb against Ubuntu 24, the rpm against Fedora Rawhide, and the AppImage against Fedora Kinoite (Rawhide). I have not tested the exe file and would appreciate feedback if anyone is interested.
+Check latest **Releases** for a deb, rpm, exe and AppImage installable package.  I've tested the deb against Ubuntu 24, the rpm against Fedora Rawhide, and the AppImage against Fedora Kinoite (Rawhide). I have not tested the exe file and would appreciate feedback if anyone is interested.
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 Scid (Shane's Chess Information Database) is a multi-platform (Linux, Mac OS X, Windows) chess database application.
