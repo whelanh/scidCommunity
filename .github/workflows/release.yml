@@ -201,6 +201,7 @@ jobs:
           export LD_LIBRARY_PATH="${SCID_DIR}/lib:${LD_LIBRARY_PATH}"
           export TCL_LIBRARY="${SCID_DIR}/lib/tcl8.6"
           export TK_LIBRARY="${SCID_DIR}/lib/tk8.6"
+          export TCLLIBPATH="${SCID_DIR}/lib/tcl8.6 ${SCID_DIR}/lib/tk8.6"
           exec "${SCID_DIR}/bin/scidCommunity.bin" "$@"
           EOF
           chmod +x ${{ github.workspace }}/rpm-root/opt/scidcommunity/bin/scidCommunity
@@ -287,6 +288,7 @@ jobs:
           export LD_LIBRARY_PATH="${APPDIR}/usr/lib:${LD_LIBRARY_PATH}"
           export TCL_LIBRARY="${APPDIR}/usr/lib/tcl8.6"
           export TK_LIBRARY="${APPDIR}/usr/lib/tk8.6"
+          export TCLLIBPATH="${APPDIR}/usr/lib/tcl8.6 ${APPDIR}/usr/lib/tk8.6"
           exec "${APPDIR}/usr/bin/scidCommunity.bin" "$@"
           EOF
           chmod +x ${{ github.workspace }}/AppDir/usr/bin/scidCommunity
