@@ -103,7 +103,7 @@ jobs:
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             VERSION=${GITHUB_REF#refs/tags/v}
           else
-            VERSION="5.1.0"
+            VERSION="5.1.1"
           fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
