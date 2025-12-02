@@ -14,7 +14,7 @@
       - The hotkey Alt + s has been added to invoke the Search button. 
 3. The **Engine** windows have been enhanced with new depth and move time input windows for limiting an engine's calculations. If users choose to use Scid's **Save Options**, the inputs will be saved as the defaults for future use.
 
-Users with suggestions for further enhancements are welcome to file an issue or a pull request.  Enjoy!
+*Users with suggestions for further enhancements are welcome to file an issue or a pull request.  Enjoy!*
 
 New "Layouts" button:
 <img width="1308" height="1219" alt="Screenshot_20251201_131517 (Edit)" src="https://github.com/user-attachments/assets/848be802-86f4-4b6f-9938-ef047f2dc6bc" />
