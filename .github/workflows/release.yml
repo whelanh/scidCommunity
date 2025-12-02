@@ -198,6 +198,7 @@ jobs:
           cat > ${{ github.workspace }}/rpm-root/opt/scidcommunity/bin/scidCommunity << 'EOF'
           #!/bin/bash
           SCID_DIR="/opt/scidcommunity"
+          export LD_LIBRARY_PATH="${SCID_DIR}/lib:${LD_LIBRARY_PATH}"
           export TCL_LIBRARY="${SCID_DIR}/lib/tcl8.6"
           export TK_LIBRARY="${SCID_DIR}/lib/tk8.6"
           exec "${SCID_DIR}/bin/scidCommunity.bin" "$@"
