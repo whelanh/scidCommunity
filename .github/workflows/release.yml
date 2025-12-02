@@ -193,12 +193,18 @@ jobs:
           # Also copy tcl8 modules directly to lib for module path discovery
           cp -rL /usr/share/tcltk/tcl8.6/tcl8 ${{ github.workspace }}/rpm-root/opt/scidcommunity/lib/
 
-      - name: Create symlink structure for Tcl hardcoded paths
+      - name: Create symlink structure and patch Tcl init for module path
         run: |
           # Tcl library has /usr/share/tcltk hardcoded, create symlink structure
           mkdir -p ${{ github.workspace }}/rpm-root/opt/scidcommunity/usr/share/tcltk
           ln -s ../../lib/tcl8.6 ${{ github.workspace }}/rpm-root/opt/scidcommunity/usr/share/tcltk/tcl8.6
           ln -s ../../lib/tk8.6 ${{ github.workspace }}/rpm-root/opt/scidcommunity/usr/share/tcltk/tk8.6
+          
+          # Patch init.tcl to add our module path first
+          cat >> ${{ github.workspace }}/rpm-root/opt/scidcommunity/lib/tcl8.6/init.tcl << 'EOFTCL'
+          # Add bundled module path for scidCommunity
+          ::tcl::tm::path add /opt/scidcommunity/usr/share/tcltk/tcl8.6/tcl8
+          EOFTCL
           
       - name: Rename binary and create wrapper script
         run: |
@@ -291,6 +297,14 @@ jobs:
           mkdir -p ${{ github.workspace }}/AppDir/usr/share/tcltk
           ln -s ../../lib/tcl8.6 ${{ github.workspace }}/AppDir/usr/share/tcltk/tcl8.6
           ln -s ../../lib/tk8.6 ${{ github.workspace }}/AppDir/usr/share/tcltk/tk8.6
+          
+          # Patch init.tcl to add AppImage module path
+          cat >> ${{ github.workspace }}/AppDir/usr/lib/tcl8.6/init.tcl << 'EOFTCL'
+          # Add bundled module path for scidCommunity AppImage
+          if {[info exists ::env(APPDIR)]} {
+            ::tcl::tm::path add "$::env(APPDIR)/usr/share/tcltk/tcl8.6/tcl8"
+          }
+          EOFTCL
           
           # Rename binary
           mv ${{ github.workspace }}/AppDir/usr/bin/scidCommunity \
