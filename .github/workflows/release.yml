@@ -97,6 +97,16 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Get version from tag
+        id: get_version
+        run: |
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            VERSION=${GITHUB_REF#refs/tags/v}
+          else
+            VERSION="5.1.0"
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
       - name: Install dependencies
         run: |
           sudo apt-get update
@@ -107,6 +117,7 @@ jobs:
           mkdir build && cd build
           cmake -DCPACK_GENERATOR=DEB \
                 -DCPACK_PACKAGE_NAME=scidcommunity \
+                -DCPACK_PACKAGE_VERSION=${{ steps.get_version.outputs.version }} \
                 -DCPACK_DEBIAN_PACKAGE_MAINTAINER="Hugh Whelan" \
                 -DCPACK_DEBIAN_PACKAGE_DEPENDS="tk8.6, libtcl8.6, libtk8.6" \
                 -DCPACK_DEBIAN_PACKAGE_LICENSE=GPL2 \
@@ -130,6 +141,16 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Get version from tag
+        id: get_version
+        run: |
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            VERSION=${GITHUB_REF#refs/tags/v}
+          else
+            VERSION="5.1.0"
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
       - name: Install dependencies
         run: |
           sudo apt-get update
@@ -140,6 +161,7 @@ jobs:
           mkdir build && cd build
           cmake -DCPACK_GENERATOR=RPM \
                 -DCPACK_PACKAGE_NAME=scidcommunity \
+                -DCPACK_PACKAGE_VERSION=${{ steps.get_version.outputs.version }} \
                 -DCPACK_RPM_PACKAGE_LICENSE=GPL2 \
                 -DCPACK_RPM_PACKAGE_REQUIRES="tk >= 8.6, tcl >= 8.6" \
                 -DCMAKE_BUILD_TYPE=Release \
