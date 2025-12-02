@@ -4,6 +4,10 @@
 [![Documentation](https://img.shields.io/badge/docs-doxygen-blue.svg)](http://scid.sourceforge.net/doxygen/html/files.html)
 [![GitHub license](https://img.shields.io/badge/license-GPL-blue.svg)](https://sourceforge.net/p/scid/code/ci/master/tree/COPYING)
 
+<p align="center">
+<img width="128" height="124" alt="scidCommunity" src="https://github.com/user-attachments/assets/22a930f1-3236-48aa-88a9-a75ef21dc79b" />
+</p>
+
 **scidCommunity** differs from upstream `Scid` by offering enhancements not present in the upstream repo. Enhancements include:
 
 1. The **Header Search** dialogue has been improved with the addition of a new "Layouts" button at the lower left. This button replaces a "Save" button that has been disabled for years. The new button allows users to name, save and load sets of search parameters they use frequently.
