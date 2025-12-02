@@ -107,6 +107,10 @@ jobs:
           fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
+      - name: Export version to env
+        run: |
+          echo "SCIDCOMMUNITY_VERSION=${{ steps.get_version.outputs.version }}" >> $GITHUB_ENV
+
       - name: Install dependencies
         run: |
           sudo apt-get update
@@ -117,7 +121,7 @@ jobs:
           mkdir build && cd build
           cmake -DCPACK_GENERATOR=DEB \
                 -DCPACK_PACKAGE_NAME=scidcommunity \
-                -DCPACK_PACKAGE_VERSION=${{ steps.get_version.outputs.version }} \
+            -DCPACK_PACKAGE_VERSION=${{ steps.get_version.outputs.version }} \
                 -DCPACK_DEBIAN_PACKAGE_MAINTAINER="Hugh Whelan" \
                 -DCPACK_DEBIAN_PACKAGE_DEPENDS="tk8.6, libtcl8.6, libtk8.6" \
                 -DCPACK_DEBIAN_PACKAGE_LICENSE=GPL2 \
@@ -151,6 +155,10 @@ jobs:
           fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
+      - name: Export version to env
+        run: |
+          echo "SCIDCOMMUNITY_VERSION=${{ steps.get_version.outputs.version }}" >> $GITHUB_ENV
+
       - name: Install dependencies
         run: |
           sudo apt-get update
@@ -161,7 +169,7 @@ jobs:
           mkdir build && cd build
           cmake -DCPACK_GENERATOR=RPM \
                 -DCPACK_PACKAGE_NAME=scidcommunity \
-                -DCPACK_PACKAGE_VERSION=${{ steps.get_version.outputs.version }} \
+            -DCPACK_PACKAGE_VERSION=${{ steps.get_version.outputs.version }} \
                 -DCPACK_RPM_PACKAGE_LICENSE=GPL2 \
                 -DCPACK_RPM_PACKAGE_REQUIRES="tk >= 8.6, tcl >= 8.6" \
                 -DCMAKE_BUILD_TYPE=Release \

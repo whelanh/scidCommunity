@@ -15,7 +15,15 @@
 
 cmake_minimum_required(VERSION 3.15)
 project(scid)
-set(CPACK_PACKAGE_VERSION 5.1.0)
+# Allow overriding package version from environment or command line.
+# Fallback to 5.1.0 if not provided.
+if(NOT CPACK_PACKAGE_VERSION)
+  if(DEFINED ENV{SCIDCOMMUNITY_VERSION} AND NOT "$ENV{SCIDCOMMUNITY_VERSION}" STREQUAL "")
+    set(CPACK_PACKAGE_VERSION $ENV{SCIDCOMMUNITY_VERSION})
+  else()
+    set(CPACK_PACKAGE_VERSION 5.1.0)
+  endif()
+endif()
 set(
   CPACK_PACKAGE_DESCRIPTION_SUMMARY
   "chess database application with play and training functionality"
