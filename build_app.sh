@@ -50,6 +50,8 @@ fi
 
 tcltk/bin/tclsh8.6 configure \
   LINK="g++ $STATIC_FLAGS" \
+  TCL_INCLUDE="-I$Build_SourcesDirectory/tcltk/include" \
+  TCL_LIBRARY="-L$Build_SourcesDirectory/tcltk/lib -ltcl8.6 -ltk8.6" \
   SHAREDIR="$Build_SourcesDirectory/ScidCommunity.app/Contents/scid" \
   BINDIR="$Build_SourcesDirectory/ScidCommunity.app/Contents/MacOS"
 
