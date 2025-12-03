@@ -427,6 +427,19 @@ if {[lsearch -exact [ttk::style theme names] sand] == -1} {
     # Inputs: Classic white
     ttk::style configure TEntry -fieldbackground white
     ttk::style configure TCombobox -fieldbackground white
+    # Buttons: content window color (#edddbb) for softer look
+    ttk::style configure TButton -background #edddbb -foreground #1a1a1a -borderwidth 1 -relief raised -padding {6 2}
+    ttk::style map TButton -background [list active #d5c9a0 pressed #c9b27a] -relief [list pressed sunken]
+    # Checkboxes and radiobuttons: explicit indicator colors for visibility
+    ttk::style configure TCheckbutton -background #a3987f -foreground #1a1a1a -indicatorcolor white
+    ttk::style map TCheckbutton \
+      -background [list active #a3987f] \
+      -indicatorcolor [list pressed white selected #4a90d9 alternate #4a90d9]
+    ttk::style configure TRadiobutton -background #a3987f -foreground #1a1a1a -indicatorcolor white
+    ttk::style map TRadiobutton \
+      -background [list active #a3987f] \
+      -indicatorcolor [list pressed white selected #4a90d9 alternate #4a90d9]
+    ttk::style configure TMenubutton -background #edddbb -foreground #1a1a1a -borderwidth 1 -relief raised
   }
 }
 
