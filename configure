@@ -189,11 +189,36 @@ proc findTclTkPaths {} {
         }
     }
 
+    # Search for Tk library in the same location as Tcl
+    set opt(tk_lib) ""
+    set opt(tk_lib_file) ""
+    
+    if {! [info exists var(TCL_LIBRARY)]} {
+        puts -nonewline "    Location of Tk $tclv library: "
+        set opt(tk_lib) [findDir "libtk${tclv}.*" $libraryPath]
+        if {$opt(tk_lib) == ""} {
+            set opt(tk_lib) [findDir "libtk${tclv_nodot}.*" $libraryPath]
+            if {$opt(tk_lib) == ""} {
+                set opt(tk_lib) [findDir "tk${tclv_nodot}.*" $libraryPath]
+            }
+            if {$opt(tk_lib) == ""} {
+                puts "not found (will try -ltk\$(TCL_VERSION))"
+                set opt(tk_lib_file) "tk\$(TCL_VERSION)"
+            } else {
+                set opt(tk_lib_file) "tk${tclv_nodot}"
+                puts $opt(tk_lib)
+            }
+        } else {
+            set opt(tk_lib_file) "tk\$(TCL_VERSION)"
+            puts $opt(tk_lib)
+        }
+    }
+
     if {! [info exists var(TCL_INCLUDE)]} {
         set var(TCL_INCLUDE) "-I$opt(tcl_h)"
     }
     if {! [info exists var(TCL_LIBRARY)]} {
-        set var(TCL_LIBRARY) "-L$opt(tcl_lib) -l$opt(tcl_lib_file)"
+        set var(TCL_LIBRARY) "-L$opt(tcl_lib) -l$opt(tcl_lib_file) -l$opt(tk_lib_file)"
     }
     return $success
 }

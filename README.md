@@ -31,8 +31,10 @@ ScidCommunity is based on Scid (Shane's Chess Information Database), a multi-pla
 With ScidCommunity you can maintain a database of chess games, search games by many criteria, view graphical trends, and produce printable reports on players and openings. You can also analyze games with the Xboard or UCI compatible chess program, play online on FICS, and even use ScidCommunity to study endings with endgame tablebases.
 
 ScidCommunity is free software and is released under the GPL licence.
-In Linux and macOS, the build process is straightforward:
 
+## Building from Source
+
+### macOS
 ```bash
 git clone https://github.com/whelanh/scidCommunity.git
 cd scidCommunity
@@ -40,16 +42,22 @@ cd scidCommunity
 make install
 ```
 
-On macOS, the `ScidCommunity.app` bundle contains the app and can be moved to `/Applications`. You can also create a symbolic link to the executable `ScidCommunity.app/Contents/scid/scid`.
+The `ScidCommunity.app` bundle contains the app and can be moved to `/Applications`. You can also create a symbolic link to the executable `ScidCommunity.app/Contents/scid/scid`.
 
-On Linux, you can build native packages or use the AppImage:
+### Linux
 
-- DEB (Ubuntu/Debian): built via GitHub Actions; declares runtime deps `tk8.6, libtcl8.6, libtk8.6`.
-- RPM (Fedora/openSUSE): built via GitHub Actions; version taken from the tag; bundles Tcl/Tk libraries and a wrapper script.
-- AppImage: self-contained; includes Tcl/Tk 8.6 runtime.
+#### Traditional Unix Build (Makefile)
+Requires: `tcl8.6-dev`, `tk8.6-dev` (or equivalent for your distribution)
 
-To build from source on Linux without packages:
+```sh
+git clone https://github.com/whelanh/scidCommunity.git
+cd scidCommunity
+./configure
+make
+sudo make install
+```
 
+#### CMake Build
 ```sh
 git clone https://github.com/whelanh/scidCommunity.git
 cd scidCommunity
@@ -59,8 +67,17 @@ make -j$(nproc)
 sudo make install
 ```
 
-Notes:
-- The executable built from source is named `scidCommunity`.
+### Pre-built Packages
+
+On Linux, you can use pre-built packages from the Releases page:
+
+- DEB (Ubuntu/Debian): built via GitHub Actions; declares runtime deps `tk8.6, libtcl8.6, libtk8.6`.
+- RPM (Fedora/openSUSE): built via GitHub Actions; version taken from the tag; bundles Tcl/Tk libraries and a wrapper script.
+- AppImage: self-contained; includes Tcl/Tk 8.6 runtime.
+
+**Notes:**
+- The CMake build produces an executable named `scidCommunity`.
+- The traditional Makefile build produces an executable named `scid`.
 - Versioning of release artifacts follows the git tag (e.g., `v5.1.1`).
 - The macOS `Info.plist` version is injected from `SCIDCOMMUNITY_VERSION` when building with `build_app.sh`.
 
