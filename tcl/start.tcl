@@ -410,36 +410,36 @@ source [file nativename [file join $::scidTclDir "options.tcl"]]
 # Create a custom "sand" theme that inherits from classic and adjusts background
 if {[lsearch -exact [ttk::style theme names] sand] == -1} {
   ttk::style theme create sand -parent classic -settings {
-    # Base background: softer, darker sand
+    # Sand theme based on Chess_Manager_Web palette
+    # Base/UI background and text
     ttk::style configure . \
-      -background #a3987f \
-      -fieldbackground white \
-      -foreground #1a1a1a \
-      -selectbackground #c9b27a \
-      -selectforeground #1a1a1a
-    ttk::style configure TFrame -background #a3987f
-    ttk::style configure TLabel -background #a3987f
-    # Tree/List content windows: Classic white/light gray
-      # Content windows (Tree view, Game List, PGN text via applyThemeStyle):
-      # use a tone slightly darker than Classic
-      ttk::style configure Treeview -background #edddbb -fieldbackground #edddbb
-    ttk::style configure TNotebook -background #a3987f
-    # Inputs: Classic white
-    ttk::style configure TEntry -fieldbackground white
-    ttk::style configure TCombobox -fieldbackground white
-    # Buttons: content window color (#edddbb) for softer look
-    ttk::style configure TButton -background #edddbb -foreground #1a1a1a -borderwidth 1 -relief raised -padding {6 2}
-    ttk::style map TButton -background [list active #d5c9a0 pressed #c9b27a] -relief [list pressed sunken]
+      -background #D2B48C \
+      -fieldbackground #F4E1C6 \
+      -foreground #3B2F2F \
+      -selectbackground #B08968 \
+      -selectforeground #1E1A19
+    ttk::style configure TFrame -background #D2B48C
+    ttk::style configure TLabel -background #D2B48C -foreground #3B2F2F
+    ttk::style configure TNotebook -background #D2B48C
+    # Content windows (Tree view, Game List, PGN text via applyThemeStyle)
+    ttk::style configure Treeview -background #F4E1C6 -fieldbackground #F4E1C6 -foreground #3B2F2F
+    # Inputs
+    ttk::style configure TEntry -fieldbackground #F4E1C6 -foreground #3B2F2F
+    ttk::style configure TCombobox -fieldbackground #F4E1C6 -foreground #3B2F2F
+    # Buttons
+    ttk::style configure TButton -background #C19A6B -foreground #1E1A19 -borderwidth 1 -relief raised -padding {6 2}
+    ttk::style map TButton -background [list active #CFB080 pressed #A67C52] -relief [list pressed sunken]
+    # Menubuttons
+    ttk::style configure TMenubutton -background #C19A6B -foreground #1E1A19 -borderwidth 1 -relief raised
     # Checkboxes and radiobuttons: explicit indicator colors for visibility
-    ttk::style configure TCheckbutton -background #a3987f -foreground #1a1a1a -indicatorcolor white
+    ttk::style configure TCheckbutton -background #D2B48C -foreground #3B2F2F -indicatorcolor #F4E1C6
     ttk::style map TCheckbutton \
-      -background [list active #a3987f] \
-      -indicatorcolor [list pressed white selected #4a90d9 alternate #4a90d9]
-    ttk::style configure TRadiobutton -background #a3987f -foreground #1a1a1a -indicatorcolor white
+      -background [list active #D2B48C] \
+      -indicatorcolor [list pressed #F4E1C6 selected #4a90d9 alternate #4a90d9]
+    ttk::style configure TRadiobutton -background #D2B48C -foreground #3B2F2F -indicatorcolor #F4E1C6
     ttk::style map TRadiobutton \
-      -background [list active #a3987f] \
-      -indicatorcolor [list pressed white selected #4a90d9 alternate #4a90d9]
-    ttk::style configure TMenubutton -background #edddbb -foreground #1a1a1a -borderwidth 1 -relief raised
+      -background [list active #D2B48C] \
+      -indicatorcolor [list pressed #F4E1C6 selected #4a90d9 alternate #4a90d9]
   }
 }
 
