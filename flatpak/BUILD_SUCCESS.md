@@ -60,7 +60,7 @@ These warnings appeared during the build but don't affect functionality:
 
 3. **Consider creating a new git tag** with the renamed flatpak files:
    - Currently, the build uses patches to rename files from `io.github.benini.scid.*` to `io.github.whelanh.scidCommunity.*`
-   - For cleaner Flathub submission, you could commit the renamed files to your repo and create a new tag (e.g., v5.1.1.13)
+   - For cleaner Flathub submission, you could commit the renamed files to your repo and create a new tag (e.g., v5.1.1.2)
    - This would eliminate the need for patch files
 
 ### Flathub Submission Process:

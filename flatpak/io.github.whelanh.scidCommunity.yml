@@ -65,5 +65,5 @@ modules:
     sources:
       - type: git
         url: https://github.com/whelanh/scidCommunity.git
-        tag: v5.1.1.13
+        tag: v5.1.1.2
         commit: 49ce0475fb42f8d27e3b2181396bdbcc17ee9aa4

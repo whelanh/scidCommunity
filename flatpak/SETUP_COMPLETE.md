@@ -2,7 +2,7 @@
 
 ## What We Accomplished
 
-Successfully created and configured a flatpak for scidCommunity with proper branding and released as **v5.1.1.13**.
+Successfully created and configured a flatpak for scidCommunity with proper branding and released as **v5.1.1.2**.
 
 ### Changes Made:
 
@@ -16,17 +16,17 @@ Successfully created and configured a flatpak for scidCommunity with proper bran
 5. **Fixed desktop file Exec line** to use `scid %f` (works with symlink to `/app/bin/scidCommunity`)
 6. **Created comprehensive documentation** (BUILD_SUCCESS.md, FLATHUB_SUBMISSION.md)
 7. **Committed changes to git** and pushed to GitHub
-8. **Created and pushed tag v5.1.1.13**
+8. **Created and pushed tag v5.1.1.2**
 
 ### Git Commits:
 
 - **f1ac3281**: Initial flatpak configuration update
-- **49ce0475**: Update flatpak manifest commit hash for v5.1.1.13
-- **306b7b43**: Fix flatpak manifest commit hash for v5.1.1.13 (final)
+- **49ce0475**: Update flatpak manifest commit hash for v5.1.1.2
+- **306b7b43**: Fix flatpak manifest commit hash for v5.1.1.2 (final)
 
 ### Git Tag:
 
-- **v5.1.1.13** (49ce0475fb42f8d27e3b2181396bdbcc17ee9aa4)
+- **v5.1.1.2** (49ce0475fb42f8d27e3b2181396bdbcc17ee9aa4)
 
 ### Build Status:
 
@@ -39,10 +39,10 @@ Successfully created and configured a flatpak for scidCommunity with proper bran
 ## Current Flatpak Configuration
 
 **App ID**: io.github.whelanh.scidCommunity  
-**Version**: v5.1.1.13  
+**Version**: v5.1.1.2  
 **Runtime**: org.freedesktop.Platform 24.08  
 **Bundled Software**:
-- scidCommunity (from tag v5.1.1.13)
+- scidCommunity (from tag v5.1.1.2)
 - Stockfish 16 chess engine
 - Tcl/Tk 8.6.15
 
@@ -59,7 +59,7 @@ The following files in your repository are ready for Flathub submission:
 3. `flatpak/io.github.whelanh.scidCommunity.desktop` - Desktop entry
 4. `flatpak/io.github.whelanh.scidCommunity.svg` - Application icon
 
-**Note**: No patch files are needed! All changes are now in the repository at tag v5.1.1.13.
+**Note**: No patch files are needed! All changes are now in the repository at tag v5.1.1.2.
 
 ## Running Your Flatpak
 
@@ -143,7 +143,7 @@ Your scidCommunity flatpak is:
 - ✅ Properly configured and branded
 - ✅ Built and tested successfully
 - ✅ Committed to your git repository
-- ✅ Tagged as v5.1.1.13
+- ✅ Tagged as v5.1.1.2
 - ✅ Pushed to GitHub
 - ✅ Ready for Flathub submission
 
@@ -152,6 +152,6 @@ The flatpak showcases your enhanced features and makes scidCommunity easily inst
 ## Resources
 
 - Your repo: https://github.com/whelanh/scidCommunity
-- Tag v5.1.1.13: https://github.com/whelanh/scidCommunity/releases/tag/v5.1.1.13
+- Tag v5.1.1.2: https://github.com/whelanh/scidCommunity/releases/tag/v5.1.1.2
 - Flathub: https://github.com/flathub/flathub
 - Flathub docs: https://docs.flathub.org/
