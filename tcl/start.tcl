@@ -407,6 +407,29 @@ proc safeStyle {interp args} {
 # Load default/saved values
 source [file nativename [file join $::scidTclDir "options.tcl"]]
 
+# Create a custom "sand" theme that inherits from classic and adjusts background
+if {[lsearch -exact [ttk::style theme names] sand] == -1} {
+  ttk::style theme create sand -parent classic -settings {
+    # Base background: softer, darker sand
+    ttk::style configure . \
+      -background #a3987f \
+      -fieldbackground white \
+      -foreground #1a1a1a \
+      -selectbackground #c9b27a \
+      -selectforeground #1a1a1a
+    ttk::style configure TFrame -background #a3987f
+    ttk::style configure TLabel -background #a3987f
+    # Tree/List content windows: Classic white/light gray
+      # Content windows (Tree view, Game List, PGN text via applyThemeStyle):
+      # use a tone slightly darker than Classic
+      ttk::style configure Treeview -background #edddbb -fieldbackground #edddbb
+    ttk::style configure TNotebook -background #a3987f
+    # Inputs: Classic white
+    ttk::style configure TEntry -fieldbackground white
+    ttk::style configure TCombobox -fieldbackground white
+  }
+}
+
 proc calculateTreeviewRowHeight { } {
   set row_height [expr { round(1.1 * [font metrics font_Regular -linespace]) }]
   ttk::style configure Treeview -rowheight $row_height

@@ -26,20 +26,42 @@ New Engine depth and move time input windows:
 Check latest **Releases** for a deb, rpm, exe and AppImage installable package.  I've tested the deb against Ubuntu 24, the rpm against Fedora Rawhide, and the AppImage against Fedora Kinoite (Rawhide). I have not tested the exe file and would appreciate feedback if anyone is interested.
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
-Scid (Shane's Chess Information Database) is a multi-platform (Linux, Mac OS X, Windows) chess database application.
+ScidCommunity is based on Scid (Shane's Chess Information Database), a multi-platform (Linux, Mac OS X, Windows) chess database application. It is a fork open to user ideas for further improvements.
 
-With Scid you can maintain a database of chess games, search games by many criteria, view graphical trends, and produce printable reports on players and openings. You can also analyze games with the Xboard or UCI compatible chess program, play online on FICS, and even use Scid to study endings with endgame tablebases.
+With ScidCommunity you can maintain a database of chess games, search games by many criteria, view graphical trends, and produce printable reports on players and openings. You can also analyze games with the Xboard or UCI compatible chess program, play online on FICS, and even use ScidCommunity to study endings with endgame tablebases.
 
-Scid is free software and is released under the GPL licence.
+ScidCommunity is free software and is released under the GPL licence.
 In Linux and macOS, the build process is straightforward:
 
 ```bash
-git clone --depth=1 https://git.code.sf.net/p/scid/code scid-code
-cd scid-code
+git clone https://github.com/whelanh/scidCommunity.git
+cd scidCommunity
 ./build_app.sh
 make install
 ```
 
-The `Scid.app` folder contains the app, which can be moved to other directories, such as `/Applications`. It is also possible to create a symbolic link to the executable `Scid.app/Contents/scid/scid`.
+On macOS, the `ScidCommunity.app` bundle contains the app and can be moved to `/Applications`. You can also create a symbolic link to the executable `ScidCommunity.app/Contents/scid/scid`.
+
+On Linux, you can build native packages or use the AppImage:
+
+- DEB (Ubuntu/Debian): built via GitHub Actions; declares runtime deps `tk8.6, libtcl8.6, libtk8.6`.
+- RPM (Fedora/openSUSE): built via GitHub Actions; version taken from the tag; bundles Tcl/Tk libraries and a wrapper script.
+- AppImage: self-contained; includes Tcl/Tk 8.6 runtime.
+
+To build from source on Linux without packages:
+
+```sh
+git clone https://github.com/whelanh/scidCommunity.git
+cd scidCommunity
+mkdir build && cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make -j$(nproc)
+sudo make install
+```
+
+Notes:
+- The executable built from source is named `scidCommunity`.
+- Versioning of release artifacts follows the git tag (e.g., `v5.1.1`).
+- The macOS `Info.plist` version is injected from `SCIDCOMMUNITY_VERSION` when building with `build_app.sh`.
 
 

@@ -190,7 +190,7 @@ set showGameInfo 0
 set language E
 
 # Default theme
-set ::lookTheme "dark"
+set ::lookTheme "sand"
 set ::ThemePackageFile ""
 
 # Auto-save options when exiting:

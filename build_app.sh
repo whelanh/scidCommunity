@@ -24,13 +24,22 @@ make -j
 make install
 
 cd $Build_SourcesDirectory
-mkdir -p Scid.app/Contents
-cp -R $Build_SourcesDirectory/resources/macos Scid.app/Contents/Resources
-mv Scid.app/Contents/Resources/Info.plist Scid.app/Contents
-cp -R $Build_SourcesDirectory/tcltk/lib Scid.app/Contents
-rm -f Scid.app/Contents/lib/*.a
-rm -f Scid.app/Contents/lib/*.sh
-rm -Rf Scid.app/Contents/lib/pkgconfig
+mkdir -p ScidCommunity.app/Contents
+cp -R $Build_SourcesDirectory/resources/macos ScidCommunity.app/Contents/Resources
+mv ScidCommunity.app/Contents/Resources/Info.plist ScidCommunity.app/Contents
+cp -R $Build_SourcesDirectory/tcltk/lib ScidCommunity.app/Contents
+rm -f ScidCommunity.app/Contents/lib/*.a
+rm -f ScidCommunity.app/Contents/lib/*.sh
+rm -Rf ScidCommunity.app/Contents/lib/pkgconfig
+
+# Inject dynamic version into Info.plist if SCIDCOMMUNITY_VERSION is set
+if [ -n "$SCIDCOMMUNITY_VERSION" ]; then
+  PLIST="ScidCommunity.app/Contents/Info.plist"
+  # Update CFBundleGetInfoString ("ScidCommunity X")
+  sed -i'' -e "s|<key>CFBundleGetInfoString</key>[[:space:]]*<string>[^<]*</string>|<key>CFBundleGetInfoString</key>\n    <string>ScidCommunity $SCIDCOMMUNITY_VERSION</string>|" "$PLIST"
+  # Update CFBundleShortVersionString
+  sed -i'' -e "s|<key>CFBundleShortVersionString</key>[[:space:]]*<string>[^<]*</string>|<key>CFBundleShortVersionString</key>\n    <string>$SCIDCOMMUNITY_VERSION</string>|" "$PLIST"
+fi
 
 cd $Build_SourcesDirectory
 if [[ "$(uname)" == "Darwin" ]]; then
@@ -41,7 +50,7 @@ fi
 
 tcltk/bin/tclsh8.6 configure \
   LINK="g++ $STATIC_FLAGS" \
-  SHAREDIR="$Build_SourcesDirectory/Scid.app/Contents/scid" \
-  BINDIR="$Build_SourcesDirectory/Scid.app/Contents/MacOS"
+  SHAREDIR="$Build_SourcesDirectory/ScidCommunity.app/Contents/scid" \
+  BINDIR="$Build_SourcesDirectory/ScidCommunity.app/Contents/MacOS"
 
-echo "Type \"make install\" to build the Scid.app."
+echo "Type \"make install\" to build the ScidCommunity.app."
