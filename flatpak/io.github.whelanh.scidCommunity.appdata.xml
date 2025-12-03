@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.whelanh.scidCommunity</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0</project_license>
+  <name>scidCommunity</name>
+  <summary>A community-enhanced chess database application</summary>
+  <developer id="io.github.whelanh">
+     <name>scidCommunity</name>
+  </developer>
+
+  <description>
+    <p>
+      scidCommunity is a community-enhanced fork of SCID (Shane's Chess Information Database), a chess database 
+      application that allows users to store, organize, and search through large collections of chess games. 
+      It includes chess engines for playing against the computer and analyzing positions. Any Xboard or UCI 
+      compatible engine is supported.
+    </p>
+    <p>
+      scidCommunity offers enhancements not present in the upstream SCID, including:
+    </p>
+    <ul>
+      <li>Enhanced Header Search dialogue with a "Layouts" button for saving and loading frequently-used search parameters</li>
+      <li>Improved Engine windows with depth and move time input controls for limiting engine calculations</li>
+      <li>Alt+s hotkey for quick access to the Search button</li>
+    </ul>
+    <p>
+      scidCommunity displays graphical trends and produces printable reports on players and openings. You can also
+      play online on FICS, and study endings with endgame tablebases.
+    </p>
+    <p>
+      The Stockfish chess engine is included in the package.
+    </p>
+  </description>
+
+  <launchable type="desktop-id">io.github.whelanh.scidCommunity.desktop</launchable>
+
+  <screenshots>
+    <screenshot type="default">
+      <caption>Main window</caption>
+	    <image>https://scid.sourceforge.net/screenshot1.png</image>
+    </screenshot>
+    <screenshot>
+	    <caption>Chess engine window</caption>
+	    <image>https://scid.sourceforge.net/screenshot2.png</image>
+    </screenshot>
+  </screenshots>
+
+  <url type="homepage">https://github.com/whelanh/scidCommunity</url>
+
+  <provides>
+    <id>scid.desktop</id>
+    <binary>scid</binary>
+  </provides>
+
+  <update_contact>brickhousedevelopers@gmail.com</update_contact>
+  <content_rating type="oars-1.0" />
+
+  <releases>
+    <release version="5.1.1.12" date="2024-12-02" />
+  </releases>
+</component>
