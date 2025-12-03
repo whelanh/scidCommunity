@@ -19,7 +19,7 @@
 
 New "Layouts" button with (optional) Sand theme:
 
-<img width="475" height="475" alt="Screenshot_20251203_085706 (Edit)" src="https://github.com/user-attachments/assets/0a1ae0a4-fc32-4bb5-adcf-e3335fadb4b0" />
+<img width="500" height="450" alt="Screenshot_20251203_143244 (Edit)" src="https://github.com/user-attachments/assets/fdf27a66-5ae4-40de-8a86-28db86b29f22" />
 
 New Engine depth and move time input windows:
 <img width="638" height="303" alt="image" src="https://github.com/user-attachments/assets/0563010d-b20b-4771-8ef4-7470b8ebc9fb" />
