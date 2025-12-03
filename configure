@@ -1,9 +1,9 @@
 #!/bin/sh
 # configure:
-#    Makefile configuration script for Scid.
+#    Makefile configuration script for ScidCommunity.
 #
 # This program tries to determine system-specific details needed
-# for compiling Scid (such as the version of Tcl/Tk you have
+# for compiling ScidCommunity (such as the version of Tcl/Tk you have
 # installed, and where to find the Tcl/Tk header and library 
 # files), and creates the file "Makefile".
 
@@ -269,10 +269,10 @@ proc writeMakefile {{type ""}} {
     # Summary info
     if {$success} {
         puts {The Makefile configured for your system was written.}
-        puts {Now just type "make" to compile Scid.}
+        puts {Now just type "make" to compile ScidCommunity.}
     } else {
         puts {Not all settings could be determined!}
-        puts {You may need to edit it before you can compile Scid.}
+        puts {You may need to edit it before you can compile ScidCommunity.}
     }
 }
 
@@ -282,7 +282,7 @@ proc writeMakefile {{type ""}} {
 #
 proc usage {} {
     puts {Valid options are:}
-    puts {  BINDIR       The location for scid executables for "make install".}
+    puts {  BINDIR       The location for ScidCommunity executables for "make install".}
     puts {  COMPILE      Your C++ compiler. Default: "g++".}
     puts {  DEBUG        Debugging flags. Defaut: "-DNDEBUG"}
     puts {  LANGUAGES    Multi-language support. Use LANGUAGES="" for English only.}
@@ -290,7 +290,7 @@ proc usage {} {
     puts {  OPTIMIZE     C++ optimizations. Default: "-O3 -fno-rtti -fno-exceptions".}
     puts {  PROFILE      Used for profiling the source code. Default: none.}
     puts {  SCIDFLAGS    Scid customization flags. Default: none.}
-    puts {  SHAREDIR     Location of Scid data (ECO, spelling) files for "make install".}
+    puts {  SHAREDIR     Location of ScidCommunity data (ECO, spelling) files for "make install".}
     puts {  TCL_INCLUDE  Compiler directives for including Tcl.}
     puts {  TCL_LIBRARY  Compiler directives for linking Tcl.}
     puts {  TCL_VERSION  Your Tcl/Tk version. Example: TCL_VERSION="8.3".}
@@ -310,7 +310,7 @@ proc usage {} {
 
 ########################################
 
-puts "configure: Makefile configuration program for Scid"
+puts "configure: Makefile configuration program for ScidCommunity"
 
 # Parse command-line arguments:
 set default 0
