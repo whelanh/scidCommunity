@@ -12,15 +12,17 @@
 
 1. The **Header Search** dialogue has been improved with the addition of a new "Layouts" button at the lower left. This button replaces a "Save" button that has been disabled for years. The new button allows users to name, save and load sets of search parameters they use frequently.
       - The hotkey Alt + s has been added to invoke the Search button. 
-3. The **Engine** windows have been enhanced with new depth and move time input windows for limiting an engine's calculations. If users choose to use Scid's **Save Options**, the inputs will be saved as the defaults for future use.
+2. The **Engine** windows have been enhanced with new depth and move time input windows for limiting an engine's calculations. If users choose to use Scid's **Save Options**, the inputs will be saved as the defaults for future use.
+3. A new (optional) "Sand" theme
 
 *Users with suggestions for further enhancements are welcome to write something in the Discussion section or submit a pull request.  Enjoy!*
 
-New "Layouts" button:
-<img width="1308" height="1219" alt="Screenshot_20251201_131517 (Edit)" src="https://github.com/user-attachments/assets/848be802-86f4-4b6f-9938-ef047f2dc6bc" />
+New "Layouts" button with (optional) Sand theme:
+
+<img width="475" height="475" alt="Screenshot_20251203_085706 (Edit)" src="https://github.com/user-attachments/assets/0a1ae0a4-fc32-4bb5-adcf-e3335fadb4b0" />
 
 New Engine depth and move time input windows:
-<img width="1918" height="911" alt="image" src="https://github.com/user-attachments/assets/0563010d-b20b-4771-8ef4-7470b8ebc9fb" />
+<img width="638" height="303" alt="image" src="https://github.com/user-attachments/assets/0563010d-b20b-4771-8ef4-7470b8ebc9fb" />
 
 ## 💽 Releases
 Check latest **Releases** for a deb, rpm, exe, a MacOS and AppImage installable package.  The deb has been tested against Ubuntu 24, the rpm against Fedora Rawhide, and the AppImage against Fedora Kinoite (Rawhide). The exe file and Mac versions have not been tested and feedback would be appreciated.
