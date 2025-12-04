@@ -8,7 +8,7 @@
       - The hotkey Alt + s has been added to invoke the Search button. 
 2. The **Engine** windows have been enhanced with new depth and move time input windows for limiting an engine's calculations. If users choose to use Scid's **Save Options**, the inputs will be saved as the defaults for future use.
 3. A new **`Download TWIC Games`** option under the **`Tools`** menu that downloads' the most recent weekly games from [TWIC](https://theweekinchess.com/twic) and brings into scidCommunity for filtering, merging with your database etc.
-4. A new (optional) "Sand" theme
+4. New (optional) "Sand" and "cobalt2" themes.
 
 *Users with suggestions for further enhancements are welcome to write something in the Discussion section or submit a pull request.  Enjoy!*
 
@@ -19,9 +19,9 @@ New "Layouts" button with (optional) Sand theme:
 New Engine depth and move time input windows:
 <img width="638" height="303" alt="image" src="https://github.com/user-attachments/assets/0563010d-b20b-4771-8ef4-7470b8ebc9fb" />
 
-New TWIC pgn import:
+New TWIC pgn import with (optional) cobalt2 theme:
 
-<img width="287" height="350" alt="Screenshot_20251204_092122" src="https://github.com/user-attachments/assets/682c7433-4d77-47cc-bd0e-da86da3d2c0a" />
+<img width="500" height="304" alt="Screenshot_20251204_112424" src="https://github.com/user-attachments/assets/16b9879a-1a68-4cd8-84a3-ff822310359b" />
 
 ## 💽 Releases
 Check latest **Releases** for a deb, rpm, exe, a MacOS and AppImage installable package.  The deb has been tested against Ubuntu 24, the rpm against Fedora Rawhide, and the AppImage against Fedora Kinoite (Rawhide). The exe file and Mac versions have not been tested and feedback would be appreciated.
