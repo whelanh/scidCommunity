@@ -49,23 +49,30 @@ jobs:
     displayName: Generate SCID
   - script: build\gtest\Debug\scid_tests.exe
     displayName: run scid_tests.exe
-  - script: |
-      echo "=== Current directory contents ==="
-      dir
-      echo "=== Contents of bin ==="
-      dir bin
-      echo "=== Attempting reorganization ==="
-      ren bin engines
-      mkdir bin
-      move engines\scidCommunity.exe bin\
-      copy $(Build.SourcesDirectory)\tcldir\bin\*.dll bin
-      xcopy /e $(Build.SourcesDirectory)\tcldir\lib\tcl8 lib\tcl8\
-      xcopy /e $(Build.SourcesDirectory)\tcldir\lib\tcl8.6 lib\tcl8.6\
-      xcopy /e $(Build.SourcesDirectory)\tcldir\lib\tk8.6 lib\tk8.6\
-      echo "=== Final directory structure ==="
-      dir
-      dir bin
-    workingDirectory: '$(Build.SourcesDirectory)\install'
+  - task: PowerShell@2
+    inputs:
+      targetType: 'inline'
+      script: |
+        cd "$(Build.SourcesDirectory)\install"
+        Write-Host "Current contents:"
+        Get-ChildItem -Name
+        Write-Host "Renaming bin to engines..."
+        Rename-Item -Path bin -NewName engines
+        Write-Host "Creating new bin folder..."
+        New-Item -Type Directory -Name bin -Force | Out-Null
+        Write-Host "Moving exe to bin..."
+        Move-Item -Path engines\scidCommunity.exe -Destination bin\ -Force
+        Write-Host "Copying DLLs..."
+        Copy-Item "$(Build.SourcesDirectory)\tcldir\bin\*.dll" -Destination bin -Force
+        Write-Host "Copying tcl8..."
+        Copy-Item "$(Build.SourcesDirectory)\tcldir\lib\tcl8" -Destination lib\tcl8 -Recurse -Force
+        Write-Host "Copying tcl8.6..."
+        Copy-Item "$(Build.SourcesDirectory)\tcldir\lib\tcl8.6" -Destination lib\tcl8.6 -Recurse -Force
+        Write-Host "Copying tk8.6..."
+        Copy-Item "$(Build.SourcesDirectory)\tcldir\lib\tk8.6" -Destination lib\tk8.6 -Recurse -Force
+        Write-Host "Final structure:"
+        Get-ChildItem -Name
+        Get-ChildItem bin -Name
     displayName: Add the tcl/tk library to the package
   - task: CopyFiles@2
     inputs:
@@ -132,15 +139,31 @@ jobs:
         curl -o install/bin/$nnue https://data.stockfishchess.org/nn/$nnue
       done
     displayName: Download stockfish nnue
-  - script: |
-      move bin engines
-      mkdir bin
-      move engines\scidCommunity.exe bin\
-      copy $(Build.SourcesDirectory)\tcldir\bin\*.dll bin
-      xcopy /e $(Build.SourcesDirectory)\tcldir\lib\tcl8 lib\tcl8\
-      xcopy /e $(Build.SourcesDirectory)\tcldir\lib\tcl8.6 lib\tcl8.6\
-      xcopy /e $(Build.SourcesDirectory)\tcldir\lib\tk8.6 lib\tk8.6\
-    workingDirectory: '$(Build.SourcesDirectory)\install'
+  - task: PowerShell@2
+    inputs:
+      targetType: 'inline'
+      script: |
+        cd "$(Build.SourcesDirectory)\install"
+        Write-Host "Current contents:"
+        Get-ChildItem -Name
+        Write-Host "Renaming bin to engines..."
+        Rename-Item -Path bin -NewName engines
+        Write-Host "Creating new bin folder..."
+        New-Item -Type Directory -Name bin -Force | Out-Null
+        Write-Host "Moving exe to bin..."
+        Move-Item -Path engines\scidCommunity.exe -Destination bin\ -Force
+        Write-Host "Copying DLLs..."
+        Copy-Item "$(Build.SourcesDirectory)\tcldir\bin\*.dll" -Destination bin -Force
+        Write-Host "Copying tcl8..."
+        Copy-Item "$(Build.SourcesDirectory)\tcldir\lib\tcl8" -Destination lib\tcl8 -Recurse -Force
+        Write-Host "Copying tcl8.6..."
+        Copy-Item "$(Build.SourcesDirectory)\tcldir\lib\tcl8.6" -Destination lib\tcl8.6 -Recurse -Force
+        Write-Host "Copying tk8.6..."
+        Copy-Item "$(Build.SourcesDirectory)\tcldir\lib\tk8.6" -Destination lib\tk8.6 -Recurse -Force
+        Write-Host "Final structure:"
+        Get-ChildItem -Name
+        Get-ChildItem bin -Name
+    displayName: Add the tcl/tk library to the package
     displayName: Add the tcl/tk library to the package
   - task: CopyFiles@2
     inputs:
