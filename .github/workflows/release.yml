@@ -108,11 +108,26 @@ jobs:
         shell: cmd
         run: |
           cd install
-          move bin engines
-          copy %GITHUB_WORKSPACE%\tcldir\bin\*.dll bin
-          xcopy /e %GITHUB_WORKSPACE%\tcldir\lib\tcl8 lib\tcl8\
-          xcopy /e %GITHUB_WORKSPACE%\tcldir\lib\tcl8.6 lib\tcl8.6\
-          xcopy /e %GITHUB_WORKSPACE%\tcldir\lib\tk8.6 lib\tk8.6\
+          echo === Initial structure ===
+          dir
+          echo === Deleting useless bin file ===
+          del bin
+          echo === Creating proper bin directory ===
+          mkdir bin
+          echo === Moving exe from engines to bin ===
+          move engines\scidCommunity.exe bin\
+          echo === Copying DLLs to bin ===
+          copy %GITHUB_WORKSPACE%\tcldir\bin\tcl86t.dll bin\
+          copy %GITHUB_WORKSPACE%\tcldir\bin\tk86t.dll bin\
+          copy %GITHUB_WORKSPACE%\tcldir\bin\zlib1.dll bin\
+          echo === Copying Tcl/Tk libraries ===
+          xcopy /E /I /Y %GITHUB_WORKSPACE%\tcldir\lib\tcl8 lib\tcl8
+          xcopy /E /I /Y %GITHUB_WORKSPACE%\tcldir\lib\tcl8.6 lib\tcl8.6
+          xcopy /E /I /Y %GITHUB_WORKSPACE%\tcldir\lib\tk8.6 lib\tk8.6
+          echo === Final structure ===
+          dir
+          dir bin
+          dir engines
 
       - name: Create Windows ZIP
         run: |
