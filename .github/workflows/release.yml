@@ -133,16 +133,11 @@ jobs:
           dir bin
           dir engines
 
-      - name: Create Windows ZIP
-        run: |
-          cd install
-          Compress-Archive -Path * -DestinationPath ${{ github.workspace }}/scidCommunity-windows-x64.zip
-
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v5
         with:
           name: scidCommunity-windows-x64
-          path: scidCommunity-windows-x64.zip
+          path: install/
 
   build-linux-deb:
     runs-on: ubuntu-latest
@@ -421,11 +416,18 @@ jobs:
         with:
           path: artifacts
 
+      - name: Create Windows ZIP for release
+        run: |
+          cd artifacts/scidCommunity-windows-x64
+          zip -r ../../scidCommunity-windows-x64.zip .
+          cd ../..
+          mv scidCommunity-windows-x64.zip artifacts/
+
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            artifacts/scidCommunity-windows-x64/*.zip
+            artifacts/scidCommunity-windows-x64.zip
             artifacts/scidCommunity-ubuntu-deb/*.deb
             artifacts/scidCommunity-linux-rpm/*.rpm
             artifacts/scidCommunity-linux-appimage/*.AppImage
