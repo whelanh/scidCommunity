@@ -39,7 +39,7 @@ jobs:
           ditto -c -k --sequesterRsrc --keepParent ScidCommunity.app scidCommunity-macos.zip
 
       - name: Upload macOS artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: scidCommunity-macos
           path: scidCommunity-macos.zip
@@ -120,7 +120,7 @@ jobs:
           Compress-Archive -Path * -DestinationPath ${{ github.workspace }}/scidCommunity-windows-x64.zip
 
       - name: Upload Windows artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: scidCommunity-windows-x64
           path: scidCommunity-windows-x64.zip
@@ -168,7 +168,7 @@ jobs:
           make package
 
       - name: Upload DEB artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: scidCommunity-ubuntu-deb
           path: build/*.deb
@@ -271,7 +271,7 @@ jobs:
                 -D CPACK_INSTALLED_DIRECTORIES="${{ github.workspace }}/rpm-root/opt/scidcommunity;/opt/scidcommunity;${{ github.workspace }}/rpm-root/usr;/usr"
 
       - name: Upload RPM artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: scidCommunity-linux-rpm
           path: build/*.rpm
@@ -387,7 +387,7 @@ jobs:
             ${{ github.workspace }}/scidCommunity-${{ steps.get_version.outputs.version }}-x86_64.AppImage
 
       - name: Upload AppImage artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: scidCommunity-linux-appimage
           path: scidCommunity-*.AppImage
