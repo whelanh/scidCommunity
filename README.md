@@ -47,8 +47,6 @@ make install
 The `ScidCommunity.app` bundle contains the app and can be moved to `/Applications`. You can also create a symbolic link to the executable `ScidCommunity.app/Contents/scid/scid`.
 
 ### Linux
-
-#### Traditional Unix Build (Makefile)
 Requires: `tcl8.6-dev`, `tk8.6-dev` (or equivalent for your distribution)
 
 ```sh
@@ -78,8 +76,7 @@ On Linux, you can use pre-built packages from the Releases page:
 - AppImage: self-contained; includes Tcl/Tk 8.6 runtime.
 
 **Notes:**
-- The CMake build produces an executable named `scidCommunity`.
-- The traditional Makefile build produces an executable named `scid`.
+- The CMake and traditional Linux build produces an executable named `scidCommunity`.
 - Versioning of release artifacts follows the git tag (e.g., `v5.1.1`).
 - The macOS `Info.plist` version is injected from `SCIDCOMMUNITY_VERSION` when building with `build_app.sh`.
 
