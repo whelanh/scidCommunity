@@ -49,30 +49,26 @@ jobs:
     displayName: Generate SCID
   - script: build\gtest\Debug\scid_tests.exe
     displayName: run scid_tests.exe
-  - task: PowerShell@2
-    inputs:
-      targetType: 'inline'
-      script: |
-        cd "$(Build.SourcesDirectory)\install"
-        Write-Host "Current contents:"
-        Get-ChildItem -Name
-        Write-Host "Renaming bin to engines..."
-        Rename-Item -Path bin -NewName engines
-        Write-Host "Creating new bin folder..."
-        New-Item -Type Directory -Name bin -Force | Out-Null
-        Write-Host "Moving exe to bin..."
-        Move-Item -Path engines\scidCommunity.exe -Destination bin\ -Force
-        Write-Host "Copying DLLs..."
-        Copy-Item "$(Build.SourcesDirectory)\tcldir\bin\*.dll" -Destination bin -Force
-        Write-Host "Copying tcl8..."
-        Copy-Item "$(Build.SourcesDirectory)\tcldir\lib\tcl8" -Destination lib\tcl8 -Recurse -Force
-        Write-Host "Copying tcl8.6..."
-        Copy-Item "$(Build.SourcesDirectory)\tcldir\lib\tcl8.6" -Destination lib\tcl8.6 -Recurse -Force
-        Write-Host "Copying tk8.6..."
-        Copy-Item "$(Build.SourcesDirectory)\tcldir\lib\tk8.6" -Destination lib\tk8.6 -Recurse -Force
-        Write-Host "Final structure:"
-        Get-ChildItem -Name
-        Get-ChildItem bin -Name
+  - script: |
+      cd $(Build.SourcesDirectory)\install
+      dir
+      echo Renaming bin to engines
+      ren bin engines
+      echo Creating new bin folder
+      mkdir bin
+      echo Moving exe from engines to bin
+      move engines\scidCommunity.exe bin\scidCommunity.exe
+      echo Copying DLLs
+      copy $(Build.SourcesDirectory)\tcldir\bin\tcl86t.dll bin\
+      copy $(Build.SourcesDirectory)\tcldir\bin\tk86t.dll bin\
+      copy $(Build.SourcesDirectory)\tcldir\bin\zlib1.dll bin\
+      echo Copying Tcl/Tk libraries
+      xcopy /E /I /Y $(Build.SourcesDirectory)\tcldir\lib\tcl8 lib\tcl8
+      xcopy /E /I /Y $(Build.SourcesDirectory)\tcldir\lib\tcl8.6 lib\tcl8.6
+      xcopy /E /I /Y $(Build.SourcesDirectory)\tcldir\lib\tk8.6 lib\tk8.6
+      echo Final structure:
+      dir
+      dir bin
     displayName: Add the tcl/tk library to the package
   - task: CopyFiles@2
     inputs:
@@ -139,31 +135,26 @@ jobs:
         curl -o install/bin/$nnue https://data.stockfishchess.org/nn/$nnue
       done
     displayName: Download stockfish nnue
-  - task: PowerShell@2
-    inputs:
-      targetType: 'inline'
-      script: |
-        cd "$(Build.SourcesDirectory)\install"
-        Write-Host "Current contents:"
-        Get-ChildItem -Name
-        Write-Host "Renaming bin to engines..."
-        Rename-Item -Path bin -NewName engines
-        Write-Host "Creating new bin folder..."
-        New-Item -Type Directory -Name bin -Force | Out-Null
-        Write-Host "Moving exe to bin..."
-        Move-Item -Path engines\scidCommunity.exe -Destination bin\ -Force
-        Write-Host "Copying DLLs..."
-        Copy-Item "$(Build.SourcesDirectory)\tcldir\bin\*.dll" -Destination bin -Force
-        Write-Host "Copying tcl8..."
-        Copy-Item "$(Build.SourcesDirectory)\tcldir\lib\tcl8" -Destination lib\tcl8 -Recurse -Force
-        Write-Host "Copying tcl8.6..."
-        Copy-Item "$(Build.SourcesDirectory)\tcldir\lib\tcl8.6" -Destination lib\tcl8.6 -Recurse -Force
-        Write-Host "Copying tk8.6..."
-        Copy-Item "$(Build.SourcesDirectory)\tcldir\lib\tk8.6" -Destination lib\tk8.6 -Recurse -Force
-        Write-Host "Final structure:"
-        Get-ChildItem -Name
-        Get-ChildItem bin -Name
-    displayName: Add the tcl/tk library to the package
+  - script: |
+      cd $(Build.SourcesDirectory)\install
+      dir
+      echo Renaming bin to engines
+      ren bin engines
+      echo Creating new bin folder
+      mkdir bin
+      echo Moving exe from engines to bin
+      move engines\scidCommunity.exe bin\scidCommunity.exe
+      echo Copying DLLs
+      copy $(Build.SourcesDirectory)\tcldir\bin\tcl86t.dll bin\
+      copy $(Build.SourcesDirectory)\tcldir\bin\tk86t.dll bin\
+      copy $(Build.SourcesDirectory)\tcldir\bin\zlib1.dll bin\
+      echo Copying Tcl/Tk libraries
+      xcopy /E /I /Y $(Build.SourcesDirectory)\tcldir\lib\tcl8 lib\tcl8
+      xcopy /E /I /Y $(Build.SourcesDirectory)\tcldir\lib\tcl8.6 lib\tcl8.6
+      xcopy /E /I /Y $(Build.SourcesDirectory)\tcldir\lib\tk8.6 lib\tk8.6
+      echo Final structure:
+      dir
+      dir bin
     displayName: Add the tcl/tk library to the package
   - task: CopyFiles@2
     inputs:
