@@ -24,7 +24,7 @@ New TWIC pgn import with (optional) cobalt2 theme:
 <img width="500" height="304" alt="Screenshot_20251204_112424" src="https://github.com/user-attachments/assets/16b9879a-1a68-4cd8-84a3-ff822310359b" />
 
 ## 💽 Releases
-Check latest **Releases** for a deb, rpm, exe, a MacOS and AppImage installable package.  The deb has been tested against Ubuntu 24, the rpm against Fedora Rawhide, and the AppImage against Fedora Kinoite (Rawhide). The exe file and Mac versions have not been tested and feedback would be appreciated.
+Check latest **Releases** for a deb, rpm, exe, a MacOS and AppImage installable package.  The deb has been tested against Ubuntu 24, the rpm against Fedora Rawhide, the AppImage against Fedora Kinoite (Rawhide) and the exe file against a Windows 11 virtual machine. The Mac version has not been tested and feedback would be appreciated.
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 ScidCommunity is based on Scid (Shane's Chess Information Database), a multi-platform (Linux, Mac OS X, Windows) chess database application. It is a fork open to user ideas for further improvements.
