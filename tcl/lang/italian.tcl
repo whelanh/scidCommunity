@@ -170,6 +170,7 @@ menuText I ToolsTrainFindBestMove "Trova la mossa migliore"  2 {Trova la mossa m
 menuText I ToolsTrainFics "Gioca su internet"  0 {Gioca su freechess.org}
 menuText I ToolsEngineTournament "Torneo fra motori"  0 {Inizia un torneo fra motori scacchistici}
 menuText I ToolsBookTuning "Raffina il libro delle aperture" 5 {Raffina il libro delle aperture}
+menuText I ToolsDownloadTWIC "Scarica partite TWIC" 0 {Scarica le ultime partite The Week In Chess (TWIC)}
 menuText I ToolsConnectHardware "Connetti dispositivo" 0 {Connette un dispositivo esterno}
 menuText I ToolsConnectHardwareConfigure "Configurazione" 0 {Configura un dispositivo esterno}
 menuText I ToolsConnectHardwareNovagCitrineConnect "Connetti Novag Citrine" 10 {Connette la periferica Novag Citrine}

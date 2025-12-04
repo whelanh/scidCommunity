@@ -200,6 +200,7 @@ menuText G ToolsTrainFics "Παιχνίδι στον FICS"  0 {Παίξτε στ
 # ====== TODO To be translated ======
 menuText G ToolsEngineTournament "Engine tournament"  0 {Start a tournament between chess engines}
 menuText G ToolsBookTuning "Συντονισμός βιβλίου" 0 {Συντονισμός βιβλίου}
+menuText G ToolsDownloadTWIC "Λήψη παιχνιδιών TWIC" 0 {Λήψη των τελευταίων παιχνιδιών The Week In Chess (TWIC)}
 menuText G ToolsConnectHardware "Σύνδεση περιφερειακού" 8 {Συνδέστε εξωτερικό περιφερειακό}
 menuText G ToolsConnectHardwareConfigure "Ρύθμιση..." 0 {Ρυθμίστε εξωτερικό περιφερειακό και συνδέσεις}
 menuText G ToolsConnectHardwareNovagCitrineConnect "Σύνδεση με Novag Citrine" 8 {Συνδέστε Novag Citrine με το Scid}

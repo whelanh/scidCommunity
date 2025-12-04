@@ -195,6 +195,7 @@ menuText D ToolsTrainFindBestMove "Besten Zug finden"  0 {Find best move}
 menuText D ToolsTrainFics "Internetpartie (FICS)"  0 {Internetpartie auf freechess.org}
 menuText D ToolsEngineTournament "Engine Turnier"  0 {Start a tournament between chess engines}
 menuText D ToolsBookTuning "Buch abstimmen" 0 {Buch abstimmen}
+menuText D ToolsDownloadTWIC "TWIC-Spiele herunterladen" 0 {Die neuesten The Week In Chess (TWIC) Spiele herunterladen}
 menuText D ToolsConnectHardware "Hardware verbinden" 0 {Externe Hardware mit Scid verbinden}
 menuText D ToolsConnectHardwareConfigure "Konfigurieren..." 0 {Hardware und Verbindung konfigurieren}
 menuText D ToolsConnectHardwareNovagCitrineConnect "Novag Citrine verbinden" 0 {Novag Citrine mit Scid verbinden}

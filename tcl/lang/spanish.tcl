@@ -188,6 +188,7 @@ menuText S ToolsTrainFics "Jugar en internet..."  0 {Conecta a freechess.org}
 # ====== TODO To be translated ======
 menuText S ToolsEngineTournament "Engine tournament"  0 {Start a tournament between chess engines}
 menuText S ToolsBookTuning "Sintonizar libro de aperturas" 0 {Sintoniza el libro (Book)}
+menuText S ToolsDownloadTWIC "Descargar juegos TWIC" 0 {Descargar los Ãºltimos juegos The Week In Chess (TWIC)}
 menuText S ToolsConnectHardware "Conectar hardware" 0 {Conecta hardware externo"}
 menuText S ToolsConnectHardwareConfigure "Configuración..." 1 {Configuración}
 menuText S ToolsConnectHardwareNovagCitrineConnect "Conectar Novag" 0 {Conecta Novag}

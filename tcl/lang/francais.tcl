@@ -179,6 +179,7 @@ menuText F ToolsTrainFindBestMove "Trouver le meilleur coup"  0 {Trouver le meil
 menuText F ToolsTrainFics "Jouer sur internet"  10 {Jouer sur freechess.org}
 menuText F ToolsEngineTournament "Tournoi de moteurs"  0 {Démarrer un tournoi entre moteurs d'échecs}
 menuText F ToolsBookTuning "Config. bibliothèque" 0 {Configuration fine d'une bibliothèque}
+menuText F ToolsDownloadTWIC "Télécharger les jeux TWIC" 0 {Télécharger les derniers jeux The Week In Chess (TWIC)}
 menuText F ToolsConnectHardware "Connecter un matériel" 2 {Connecter un échiquier externe}
 menuText F ToolsConnectHardwareConfigure "Configurer..." 0 {Configurer la connexion avec un échiquier externe}
 menuText F ToolsConnectHardwareNovagCitrineConnect "Connecter Novag Citrine" 2 {Connecter Novag Citrine}

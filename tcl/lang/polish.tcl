@@ -196,6 +196,7 @@ menuText P ToolsTrainFics "Play on internet"  0 {Play on freechess.org}
 menuText P ToolsEngineTournament "Engine tournament"  0 {Start a tournament between chess engines}
 # ====== TODO To be translated ======
 menuText P ToolsBookTuning "Book tuning" 0 {Book tuning}
+menuText PL ToolsDownloadTWIC "Pobierz partie TWIC" 0 {Pobierz najnowsze partie The Week In Chess (TWIC)}
 # ====== TODO To be translated ======
 menuText P ToolsConnectHardware "Connect Hardware" 0 {Connect external hardware}
 # ====== TODO To be translated ======

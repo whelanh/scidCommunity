@@ -192,6 +192,7 @@ menuText O ToolsTrainFics "Play on internet"  0 {Play on freechess.org}
 menuText O ToolsEngineTournament "Engine tournament"  0 {Start a tournament between chess engines}
 # ====== TODO To be translated ======
 menuText O ToolsBookTuning "Book tuning" 0 {Book tuning}
+menuText N ToolsDownloadTWIC "Last ned TWIC-partier" 0 {Last ned de siste The Week In Chess (TWIC)-partiene}
 # ====== TODO To be translated ======
 menuText O ToolsConnectHardware "Connect Hardware" 0 {Connect external hardware}
 # ====== TODO To be translated ======

@@ -190,6 +190,7 @@ menuText Y ToolsTrainFics "Play on internet"  0 {Play on freechess.org}
 menuText Y ToolsEngineTournament "Engine tournament"  0 {Start a tournament between chess engines}
 # ====== TODO To be translated ======
 menuText Y ToolsBookTuning "Book tuning" 0 {Book tuning}
+menuText SR ToolsDownloadTWIC "Preuzmi TWIC igre" 0 {Preuzmi najnovije The Week In Chess (TWIC) igre}
 # ====== TODO To be translated ======
 menuText Y ToolsConnectHardware "Connect Hardware" 0 {Connect external hardware}
 # ====== TODO To be translated ======

@@ -172,6 +172,7 @@ menuText R ToolsTrainFindBestMove "Поиск лучшего хода"  0 {Ис�
 menuText R ToolsTrainFics "Играть на FICS"  0 {Игра на сервере freechess.org}
 menuText R ToolsEngineTournament "Турнир движков"  0 {Начать турнир между шахматными движками}
 menuText R ToolsBookTuning "Настройка книги" 0 {Настройка книги}
+menuText R ToolsDownloadTWIC "Загрузить партии TWIC" 0 {Загрузить последние партии The Week In Chess (TWIC)}
 menuText R ToolsConnectHardware "Подключение к оборудованию" 0 {Подключение к внешнему оборудованию}
 menuText R ToolsConnectHardwareConfigure "Настройка..." 0 {Настройка внешнего оборудования и подключения}
 menuText R ToolsConnectHardwareNovagCitrineConnect "Соединение с компьютером Novag Citrine" 0 {Соединение с компьютером Novag Citrine}

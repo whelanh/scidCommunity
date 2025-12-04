@@ -182,6 +182,7 @@ menuText K ToolsTrainFindBestMove "Trobar la millor jugada"  0 {Cerca la millor 
 menuText K ToolsTrainFics "Jugar a Internet"  0 {Jugar a freechess.org}
 menuText K ToolsEngineTournament "Torneig de motors"  0 {Comença un torneig entre motors}
 menuText K ToolsBookTuning "Ajustar Llibre d'obertures" 0 {Ajustar Llibre (Book)}
+menuText CA ToolsDownloadTWIC "Descarrega partides TWIC" 0 {Descarrega les partides mÃ©s recents The Week In Chess (TWIC)}
 menuText K ToolsConnectHardware "Connectar maquinari" 0 {Connectar maquinari extern}
 menuText K ToolsConnectHardwareConfigure "Configuració" 1 {Configuració}
 menuText K ToolsConnectHardwareNovagCitrineConnect "Connectar Novag" 0 {Connectar Novag}

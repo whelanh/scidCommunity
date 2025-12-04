@@ -192,6 +192,7 @@ menuText N ToolsTrainFics "Speel op het internet"  0 {Speel of freechess.org}
 # ====== TODO To be translated ======
 menuText N ToolsEngineTournament "Engine tournament"  0 {Start a tournament between chess engines}
 menuText N ToolsBookTuning "Openingenboek afstemming " 0 {Openingenboek afstemming}
+menuText NL ToolsDownloadTWIC "Download TWIC-spelletjes" 0 {Download de nieuwste The Week In Chess (TWIC)-partijen}
 menuText N ToolsConnectHardware "Verbind Hardware" 0 {Verbind externe hardware}
 menuText N ToolsConnectHardwareConfigure "Configureer..." 0 {Configureer externe hardware en verbinding}
 menuText N ToolsConnectHardwareNovagCitrineConnect "Verbind Novag Citrine" 0 {Verbind Novag Citrine}
