@@ -49,6 +49,13 @@
 #include <set>
 #include <unordered_map>
 
+// Tcl 8.6/9.0 compatibility: Tcl_Size introduced in 9.0
+#ifndef TCL_MAJOR_VERSION
+#error "TCL_MAJOR_VERSION not defined"
+#elif TCL_MAJOR_VERSION < 9
+typedef int Tcl_Size;
+#endif
+
 //TODO: delete
 #include "tkscid.h"
 
@@ -3885,7 +3892,7 @@ sc_game_tags_set (ClientData, Tcl_Interp * ti, int argc, const char ** argv)
                 {
                     // Add all the nonstandard tags:
                     db->game->ClearExtraTags ();
-                    int largc;
+                    Tcl_Size largc;
                     const char ** largv;
                     if (Tcl_SplitList (ti, value, &largc, &largv) != TCL_OK)
                         return errorResult (ti, "Error parsing extra tags.");
@@ -7944,7 +7951,7 @@ sc_search_header (ClientData, Tcl_Interp * ti, scidBaseT* base, HFilter& filter,
     bool wToMove = true;
     bool bToMove = true;
 
-    int pgnTextCount = 0;
+    Tcl_Size pgnTextCount = 0;
     const char ** sPgnText = NULL;
 
     const char * options[] = {

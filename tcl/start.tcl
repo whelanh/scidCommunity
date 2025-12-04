@@ -33,8 +33,49 @@ exec `dirname $0`/tkscid "$0" "$@"
 
 ############################################################
 
-package require Tk 8.6
+# Support both Tcl/Tk 8.6 and 9.0+
+if {[catch {package require Tk 8.6}]} {
+    package require Tk 9.0
+}
 set useLocalTooltip [catch {package require tooltip 2.0}]
+
+# Tcl 8.6/9.0 compatibility: trace variable -> trace add variable
+if {[package vcompare [info patchlevel] 9.0] >= 0} {
+    # Tcl 9.0+: create wrapper for old trace variable syntax
+    rename trace _trace_orig
+    proc trace {op args} {
+        if {$op eq "variable"} {
+            # Map old single-letter ops to new full names: w->write, r->read, u->unset
+            set varName [lindex $args 0]
+            set opsList [lindex $args 1]
+            set command [lindex $args 2]
+            set newOps ""
+            foreach char [split $opsList ""] {
+                switch $char {
+                    w { append newOps "write " }
+                    r { append newOps "read " }
+                    u { append newOps "unset " }
+                }
+            }
+            return [_trace_orig add variable $varName [string trim $newOps] $command]
+        } elseif {$op eq "vdelete"} {
+            set varName [lindex $args 0]
+            set opsList [lindex $args 1]
+            set command [lindex $args 2]
+            set newOps ""
+            foreach char [split $opsList ""] {
+                switch $char {
+                    w { append newOps "write " }
+                    r { append newOps "read " }
+                    u { append newOps "unset " }
+                }
+            }
+            return [_trace_orig remove variable $varName [string trim $newOps] $command]
+        } else {
+            return [_trace_orig $op {*}$args]
+        }
+    }
+}
 
 set scidVersion [sc_info version]
 set scidVersionDate [sc_info version date]

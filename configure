@@ -195,22 +195,36 @@ proc findTclTkPaths {} {
     
     if {! [info exists var(TCL_LIBRARY)]} {
         puts -nonewline "    Location of Tk $tclv library: "
-        set opt(tk_lib) [findDir "libtk${tclv}.*" $libraryPath]
-        if {$opt(tk_lib) == ""} {
-            set opt(tk_lib) [findDir "libtk${tclv_nodot}.*" $libraryPath]
-            if {$opt(tk_lib) == ""} {
-                set opt(tk_lib) [findDir "tk${tclv_nodot}.*" $libraryPath]
+        # Tcl 9.0+ uses combined libtcl9tk9.0.so
+        set tclv_major [lindex [split $tclv .] 0]
+        if {$tclv_major >= 9} {
+            # Only check for combined library in Tcl 9.0+
+            set opt(tk_lib) [findDir "libtcl${tclv_major}tk${tclv}.*" $libraryPath]
+            if {$opt(tk_lib) != ""} {
+                set opt(tk_lib_file) "tcl${tclv_major}tk${tclv}"
+                puts "$opt(tk_lib) (combined Tcl/Tk library)"
             }
+        }
+        
+        if {$opt(tk_lib) == ""} {
+            # Separate Tk library (Tcl 8.6 and older, or fallback)
+            set opt(tk_lib) [findDir "libtk${tclv}.*" $libraryPath]
             if {$opt(tk_lib) == ""} {
-                puts "not found (will try -ltk\$(TCL_VERSION))"
-                set opt(tk_lib_file) "tk\$(TCL_VERSION)"
+                set opt(tk_lib) [findDir "libtk${tclv_nodot}.*" $libraryPath]
+                if {$opt(tk_lib) == ""} {
+                    set opt(tk_lib) [findDir "tk${tclv_nodot}.*" $libraryPath]
+                }
+                if {$opt(tk_lib) == ""} {
+                    puts "not found (will try -ltk\$(TCL_VERSION))"
+                    set opt(tk_lib_file) "tk\$(TCL_VERSION)"
+                } else {
+                    set opt(tk_lib_file) "tk${tclv_nodot}"
+                    puts $opt(tk_lib)
+                }
             } else {
-                set opt(tk_lib_file) "tk${tclv_nodot}"
+                set opt(tk_lib_file) "tk\$(TCL_VERSION)"
                 puts $opt(tk_lib)
             }
-        } else {
-            set opt(tk_lib_file) "tk\$(TCL_VERSION)"
-            puts $opt(tk_lib)
         }
     }
 
