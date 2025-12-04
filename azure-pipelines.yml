@@ -51,24 +51,26 @@ jobs:
     displayName: run scid_tests.exe
   - script: |
       cd $(Build.SourcesDirectory)\install
+      echo === Initial structure ===
       dir
-      echo Renaming bin to engines
-      ren bin engines
-      echo Creating new bin folder
+      echo === Deleting useless bin file ===
+      del bin
+      echo === Creating proper bin directory ===
       mkdir bin
-      echo Moving exe from engines to bin
-      move engines\scidCommunity.exe bin\scidCommunity.exe
-      echo Copying DLLs
+      echo === Moving exe from engines to bin ===
+      move engines\scidCommunity.exe bin\
+      echo === Copying DLLs to bin ===
       copy $(Build.SourcesDirectory)\tcldir\bin\tcl86t.dll bin\
       copy $(Build.SourcesDirectory)\tcldir\bin\tk86t.dll bin\
       copy $(Build.SourcesDirectory)\tcldir\bin\zlib1.dll bin\
-      echo Copying Tcl/Tk libraries
+      echo === Copying Tcl/Tk libraries ===
       xcopy /E /I /Y $(Build.SourcesDirectory)\tcldir\lib\tcl8 lib\tcl8
       xcopy /E /I /Y $(Build.SourcesDirectory)\tcldir\lib\tcl8.6 lib\tcl8.6
       xcopy /E /I /Y $(Build.SourcesDirectory)\tcldir\lib\tk8.6 lib\tk8.6
-      echo Final structure:
+      echo === Final structure ===
       dir
       dir bin
+      dir engines
     displayName: Add the tcl/tk library to the package
   - task: CopyFiles@2
     inputs:
@@ -137,24 +139,26 @@ jobs:
     displayName: Download stockfish nnue
   - script: |
       cd $(Build.SourcesDirectory)\install
+      echo === Initial structure ===
       dir
-      echo Renaming bin to engines
-      ren bin engines
-      echo Creating new bin folder
+      echo === Deleting useless bin file ===
+      del bin
+      echo === Creating proper bin directory ===
       mkdir bin
-      echo Moving exe from engines to bin
-      move engines\scidCommunity.exe bin\scidCommunity.exe
-      echo Copying DLLs
+      echo === Moving exe from engines to bin ===
+      move engines\scidCommunity.exe bin\
+      echo === Copying DLLs to bin ===
       copy $(Build.SourcesDirectory)\tcldir\bin\tcl86t.dll bin\
       copy $(Build.SourcesDirectory)\tcldir\bin\tk86t.dll bin\
       copy $(Build.SourcesDirectory)\tcldir\bin\zlib1.dll bin\
-      echo Copying Tcl/Tk libraries
+      echo === Copying Tcl/Tk libraries ===
       xcopy /E /I /Y $(Build.SourcesDirectory)\tcldir\lib\tcl8 lib\tcl8
       xcopy /E /I /Y $(Build.SourcesDirectory)\tcldir\lib\tcl8.6 lib\tcl8.6
       xcopy /E /I /Y $(Build.SourcesDirectory)\tcldir\lib\tk8.6 lib\tk8.6
-      echo Final structure:
+      echo === Final structure ===
       dir
       dir bin
+      dir engines
     displayName: Add the tcl/tk library to the package
   - task: CopyFiles@2
     inputs:
