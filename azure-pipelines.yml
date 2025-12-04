@@ -50,6 +50,7 @@ jobs:
   - script: build\gtest\Debug\scid_tests.exe
     displayName: run scid_tests.exe
   - script: |
+      move bin\scidCommunity.exe .
       move bin engines
       mkdir bin
       move scidCommunity.exe bin
@@ -125,6 +126,7 @@ jobs:
       done
     displayName: Download stockfish nnue
   - script: |
+      move bin\scidCommunity.exe .
       move bin engines
       mkdir bin
       move scidCommunity.exe bin
