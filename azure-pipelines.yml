@@ -50,10 +50,15 @@ jobs:
   - script: build\gtest\Debug\scid_tests.exe
     displayName: run scid_tests.exe
   - script: |
-      move bin\scidCommunity.exe .
+      dir bin
+      if exist bin\scidCommunity.exe (
+        move bin\scidCommunity.exe .
+      )
       move bin engines
       mkdir bin
-      move scidCommunity.exe bin
+      if exist scidCommunity.exe (
+        move scidCommunity.exe bin
+      )
       copy $(Build.SourcesDirectory)\tcldir\bin\*.dll bin
       xcopy /e $(Build.SourcesDirectory)\tcldir\lib\tcl8 lib\tcl8\
       xcopy /e $(Build.SourcesDirectory)\tcldir\lib\tcl8.6 lib\tcl8.6\
@@ -122,14 +127,19 @@ jobs:
       networks=$(egrep -o "nn-[a-z0-9]+.nnue" stockfish/src/evaluate.h)
       for nnue in $networks; do
         echo "https://data.stockfishchess.org/nn/$nnue ==> install/bin/$nnue"
-        curl -o install/bin/$nnue https://data.stockfishchess.org/nn/$nnue
+        curl -o install/bin/$nnue https://data.stackfishchess.org/nn/$nnue
       done
     displayName: Download stockfish nnue
   - script: |
-      move bin\scidCommunity.exe .
+      dir bin
+      if exist bin\scidCommunity.exe (
+        move bin\scidCommunity.exe .
+      )
       move bin engines
       mkdir bin
-      move scidCommunity.exe bin
+      if exist scidCommunity.exe (
+        move scidCommunity.exe bin
+      )
       copy $(Build.SourcesDirectory)\tcldir\bin\*.dll bin
       xcopy /e $(Build.SourcesDirectory)\tcldir\lib\tcl8 lib\tcl8\
       xcopy /e $(Build.SourcesDirectory)\tcldir\lib\tcl8.6 lib\tcl8.6\
