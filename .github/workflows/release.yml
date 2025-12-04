@@ -112,10 +112,14 @@ jobs:
           dir
           echo === Deleting useless bin file ===
           del bin
-          echo === Creating proper bin directory ===
-          mkdir bin
-          echo === Moving exe from engines to bin ===
-          move engines\scidCommunity.exe bin\
+          echo === After deleting bin file, bin directory should now be visible ===
+          dir bin
+          echo === Creating engines directory ===
+          mkdir engines
+          echo === Moving chess engines from bin to engines ===
+          move bin\phalanx-scid.exe engines\
+          move bin\stockfish.exe engines\
+          move bin\*.nnue engines\
           echo === Copying DLLs to bin ===
           copy %GITHUB_WORKSPACE%\tcldir\bin\tcl86t.dll bin\
           copy %GITHUB_WORKSPACE%\tcldir\bin\tk86t.dll bin\
