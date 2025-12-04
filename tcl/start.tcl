@@ -484,6 +484,43 @@ if {[lsearch -exact [ttk::style theme names] sand] == -1} {
   }
 }
 
+# Create a custom "cobalt2" theme inspired by Wes Bos's popular VSCode theme
+if {[lsearch -exact [ttk::style theme names] cobalt2] == -1} {
+  ttk::style theme create cobalt2 -parent classic -settings {
+    # Cobalt2 theme - dark blue theme inspired by Wes Bos's VSCode theme
+    # Color palette: Blue #193549, Blue Dark #122738, Highlight #1F4662, Yellow #ffc600, Hot Pink #ff0088, Orange #ff9d00
+    # Base/UI background and text
+    ttk::style configure . \
+      -background #193549 \
+      -fieldbackground #122738 \
+      -foreground #ffffff \
+      -selectbackground #1F4662 \
+      -selectforeground #ffc600
+    ttk::style configure TFrame -background #193549
+    ttk::style configure TLabel -background #193549 -foreground #ffffff
+    ttk::style configure TNotebook -background #193549
+    # Content windows (Tree view, Game List, PGN text via applyThemeStyle)
+    ttk::style configure Treeview -background #122738 -fieldbackground #122738 -foreground #ffffff
+    # Inputs
+    ttk::style configure TEntry -fieldbackground #122738 -foreground #ffc600
+    ttk::style configure TCombobox -fieldbackground #122738 -foreground #ffc600
+    # Buttons
+    ttk::style configure TButton -background #1F4662 -foreground #ffc600 -borderwidth 1 -relief raised -padding {6 2}
+    ttk::style map TButton -background [list active #234E6D pressed #122738] -relief [list pressed sunken]
+    # Menubuttons
+    ttk::style configure TMenubutton -background #1F4662 -foreground #ffc600 -borderwidth 1 -relief raised
+    # Checkboxes and radiobuttons: explicit indicator colors for visibility
+    ttk::style configure TCheckbutton -background #193549 -foreground #ffffff -indicatorcolor #122738
+    ttk::style map TCheckbutton \
+      -background [list active #193549] \
+      -indicatorcolor [list pressed #122738 selected #ff9d00 alternate #ff9d00]
+    ttk::style configure TRadiobutton -background #193549 -foreground #ffffff -indicatorcolor #122738
+    ttk::style map TRadiobutton \
+      -background [list active #193549] \
+      -indicatorcolor [list pressed #122738 selected #ff9d00 alternate #ff9d00]
+  }
+}
+
 proc calculateTreeviewRowHeight { } {
   set row_height [expr { round(1.1 * [font metrics font_Regular -linespace]) }]
   ttk::style configure Treeview -rowheight $row_height
@@ -567,20 +604,62 @@ option add *TEntry.font font_Regular
 option add *TSpinbox.font font_Regular
 
 # Set the menu options
-# This options are used only when a menu is created. If the theme is changed,
-# it is necessary to restart the program to show the new colors.
+# This options are used when a menu is created and when the theme is changed.
 proc configure_menus {} {
   option add *Menu*TearOff 0
   if {[llength $::fontOptions(Menu)] == 4} { option add *Menu*Font font_Menu }
 
   if {$::unixOS} {
-    option add *Menu.background [ttk::style lookup . -background] startupFile
-    option add *Menu.activeBackground [ttk::style lookup . -background active] startupFile
-    option add *Menu.disabledBackground [ttk::style lookup . -background disabled] startupFile
-    option add *Menu.foreground [ttk::style lookup . -foreground] startupFile
-    option add *Menu.selectColor [ttk::style lookup . -foreground] startupFile
-    option add *Menu.activeForeground [ttk::style lookup . -foreground active] startupFile
-    option add *Menu.disabledForeground [ttk::style lookup . -foreground disabled] startupFile
+    set bg [ttk::style lookup . -background]
+    set activeBg [ttk::style lookup . -background active]
+    set disabledBg [ttk::style lookup . -background disabled]
+    set fg [ttk::style lookup . -foreground]
+    set activeFg [ttk::style lookup . -foreground active]
+    set disabledFg [ttk::style lookup . -foreground disabled]
+    
+    option add *Menu.background $bg startupFile
+    option add *Menu.activeBackground $activeBg startupFile
+    option add *Menu.disabledBackground $disabledBg startupFile
+    option add *Menu.foreground $fg startupFile
+    option add *Menu.selectColor $fg startupFile
+    option add *Menu.activeForeground $activeFg startupFile
+    option add *Menu.disabledForeground $disabledFg startupFile
+    
+    # Also update existing menus (only if .menu exists)
+    if {[winfo exists .menu]} {
+      # Update the main menubar
+      catch {
+        .menu configure -background $bg -foreground $fg \
+          -activebackground $activeBg -activeforeground $activeFg
+      }
+      
+      # Update all menu widgets (recursively find all menus)
+      proc update_menu_colors {menuPath bg fg activeBg activeFg disabledFg} {
+        if {[winfo exists $menuPath] && [winfo class $menuPath] eq "Menu"} {
+          catch {
+            $menuPath configure -background $bg -foreground $fg \
+              -activebackground $activeBg -activeforeground $activeFg \
+              -disabledforeground $disabledFg
+          }
+          # Check for submenus by iterating through menu entries
+          set lastIndex [$menuPath index end]
+          if {$lastIndex ne "none"} {
+            for {set i 0} {$i <= $lastIndex} {incr i} {
+              set type [$menuPath type $i]
+              if {$type eq "cascade"} {
+                set submenu [$menuPath entrycget $i -menu]
+                if {$submenu ne ""} {
+                  update_menu_colors $submenu $bg $fg $activeBg $activeFg $disabledFg
+                }
+              }
+            }
+          }
+        }
+      }
+      
+      # Start from .menu and recurse through all submenus
+      update_menu_colors .menu $bg $fg $activeBg $activeFg $disabledFg
+    }
   }
 }
 

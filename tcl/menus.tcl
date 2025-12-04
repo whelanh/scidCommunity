@@ -515,7 +515,7 @@ proc menuUpdateThemes {} {
   $m delete $::menuThemeListIdx end
   foreach i [lsort [ttk::style theme names]] {
       $m add radiobutton -label "$i" -value $i -variable ::lookTheme \
-      -command {ttk::style theme use $::lookTheme}
+      -command {ttk::style theme use $::lookTheme; configure_menus}
   }
 }
 
