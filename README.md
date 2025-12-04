@@ -46,7 +46,7 @@ make install
 The `ScidCommunity.app` bundle contains the app and can be moved to `/Applications`. You can also create a symbolic link to the executable `ScidCommunity.app/Contents/scid/scid`.
 
 ### Linux
-Requires: `tcl8.6-dev`, `tk8.6-dev` (or equivalent for your distribution)
+Requires: `tcl8.6-dev`, `tk8.6-dev` (or equivalent for your distribution). It will now compile agains tk and tcl 9.0 libraries (e.g. Fedora Rawhide `tcl-devel` and `tk-devel`), but if both 8.6 and 9.0 are available, it defaults to 8.6. 
 
 ```sh
 git clone https://github.com/whelanh/scidCommunity.git
