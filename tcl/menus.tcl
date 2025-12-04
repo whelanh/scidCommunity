@@ -514,6 +514,8 @@ proc menuUpdateThemes {} {
   set m .menu.options.theme
   $m delete $::menuThemeListIdx end
   foreach i [lsort [ttk::style theme names]] {
+      # Skip alt and clam themes as they are essentially duplicates of classic
+      if {$i eq "alt" || $i eq "clam"} { continue }
       $m add radiobutton -label "$i" -value $i -variable ::lookTheme \
       -command {ttk::style theme use $::lookTheme; configure_menus}
   }
