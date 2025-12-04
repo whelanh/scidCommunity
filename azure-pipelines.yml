@@ -51,7 +51,8 @@ jobs:
     displayName: run scid_tests.exe
   - script: |
       move bin engines
-      move scid bin
+      mkdir bin
+      move scidCommunity.exe bin
       copy $(Build.SourcesDirectory)\tcldir\bin\*.dll bin
       xcopy /e $(Build.SourcesDirectory)\tcldir\lib\tcl8 lib\tcl8\
       xcopy /e $(Build.SourcesDirectory)\tcldir\lib\tcl8.6 lib\tcl8.6\
@@ -125,7 +126,8 @@ jobs:
     displayName: Download stockfish nnue
   - script: |
       move bin engines
-      move scid bin
+      mkdir bin
+      move scidCommunity.exe bin
       copy $(Build.SourcesDirectory)\tcldir\bin\*.dll bin
       xcopy /e $(Build.SourcesDirectory)\tcldir\lib\tcl8 lib\tcl8\
       xcopy /e $(Build.SourcesDirectory)\tcldir\lib\tcl8.6 lib\tcl8.6\
