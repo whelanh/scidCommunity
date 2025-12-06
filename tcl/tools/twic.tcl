@@ -187,6 +187,16 @@ proc ::twic::extractZIP {zipfile} {
     }
   }
   
+  # Method 1b: Windows PowerShell Expand-Archive
+  if {!$extracted && [info exists ::windowsOS] && $::windowsOS && [auto_execok powershell] ne ""} {
+    if {![catch {
+      exec powershell -NoLogo -NoProfile -Command "Expand-Archive -Path '$zipfile' -DestinationPath '$extractdir' -Force" 2>@1
+      set extracted 1
+    }]} {
+      # Success with PowerShell
+    }
+  }
+  
   # Method 2: Try Tcllib vfs::zip if unzip didn't work
   if {!$extracted && ![catch {package require vfs::zip}]} {
     if {![catch {
