@@ -111,13 +111,14 @@ proc ::twic::downloadTWICWeek {weeknum} {
     # Windows fallback: PowerShell Invoke-WebRequest (handles HTTPS without extra DLLs)
     # Convert Tcl paths to Windows format for PowerShell
     set winZipFile [file nativename $zipfile]
+    set result ""
     if {[catch {
-      exec powershell -NoLogo -NoProfile -Command "\[Net.ServicePointManager\]::SecurityProtocol = \[Net.SecurityProtocolType\]::Tls12; Invoke-WebRequest -Uri '$zipurl' -OutFile '$winZipFile' -UseBasicParsing" 2>@1
+      set result [exec powershell -NoLogo -NoProfile -Command "\$ProgressPreference = 'SilentlyContinue'; \[Net.ServicePointManager\]::SecurityProtocol = \[Net.SecurityProtocolType\]::Tls12; Invoke-WebRequest -Uri '$zipurl' -OutFile '$winZipFile' -UseBasicParsing -ErrorAction Stop; if (Test-Path '$winZipFile') { Write-Output 'Downloaded' } else { throw 'File not created' }" 2>@1]
     } err]} {
       error "PowerShell download failed: $err"
     }
     if {![file exists $zipfile] || [file size $zipfile] == 0} {
-      error "PowerShell download did not create '$zipfile' (check network/TLS access)."
+      error "PowerShell download did not create '$zipfile'. PowerShell output: $result"
     }
   } else {
     # No external downloader; try Tcl http (requires TLS support)
