@@ -91,7 +91,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/install -DTCL_INCLUDE_PATH=${{ github.workspace }}\tcldir\include ${{ github.workspace }} -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded -DWITH_MD_LIBRARY=OFF
+          cmake -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/install -DTCL_INCLUDE_PATH=${{ github.workspace }}\tcldir\include -DTK_INCLUDE_PATH=${{ github.workspace }}\tcldir\include -DTCL_LIBRARY=${{ github.workspace }}\tcldir\lib\tcl86t.lib -DTK_LIBRARY=${{ github.workspace }}\tcldir\lib\tk86t.lib ${{ github.workspace }} -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded -DWITH_MD_LIBRARY=OFF
 
       - name: Build ScidCommunity
         run: |
