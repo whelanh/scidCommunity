@@ -116,8 +116,8 @@ proc ::twic::downloadTWICWeek {weeknum} {
     # Create a simple PowerShell script file
     if {[catch {
       set fd [open $psscript w]
-      puts $fd "\$ProgressPreference = 'SilentlyContinue'"
-      puts $fd "\[Net.ServicePointManager\]::SecurityProtocol = \[Net.SecurityProtocolType\]::Tls12"
+      puts $fd {$ProgressPreference = 'SilentlyContinue'}
+      puts $fd {[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12}
       puts $fd "Invoke-WebRequest -Uri '$zipurl' -OutFile '$zipfile' -UseBasicParsing"
       close $fd
     } err]} {
