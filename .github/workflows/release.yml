@@ -84,8 +84,8 @@ jobs:
           move tcltls-1.7.22 tcltk\tcltls
           cd tcltk\tcltls\win
           call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
-          nmake -f makefile.vc release TCLDIR=%GITHUB_WORKSPACE%\tcldir INSTALLDIR=%GITHUB_WORKSPACE%\tcldir
-          nmake -f makefile.vc install TCLDIR=%GITHUB_WORKSPACE%\tcldir INSTALLDIR=%GITHUB_WORKSPACE%\tcldir
+          nmake -f makefile.vc release TCL_DIR=%GITHUB_WORKSPACE%\tcldir INSTALLDIR=%GITHUB_WORKSPACE%\tcldir
+          nmake -f makefile.vc install TCL_DIR=%GITHUB_WORKSPACE%\tcldir INSTALLDIR=%GITHUB_WORKSPACE%\tcldir
 
       - name: Configure CMake
         run: |
