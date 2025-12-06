@@ -181,9 +181,9 @@ proc ::twic::extractZIP {zipfile} {
   if {[auto_execok unzip] ne ""} {
     if {![catch {
       exec unzip -q -o "$zipfile" -d "$extractdir" 2>@1
-      set extracted 1
     }]} {
       # Success with unzip
+      set extracted 1
     }
   }
   
@@ -191,9 +191,9 @@ proc ::twic::extractZIP {zipfile} {
   if {!$extracted && [info exists ::windowsOS] && $::windowsOS && [auto_execok powershell] ne ""} {
     if {![catch {
       exec powershell -NoLogo -NoProfile -Command "Expand-Archive -Path '$zipfile' -DestinationPath '$extractdir' -Force" 2>@1
-      set extracted 1
     }]} {
       # Success with PowerShell
+      set extracted 1
     }
   }
   
@@ -206,9 +206,9 @@ proc ::twic::extractZIP {zipfile} {
         file copy -force $src $dst
       }
       catch {vfs::zip::Unmount mnt}
-      set extracted 1
     }]} {
       # Success with vfs::zip
+      set extracted 1
     }
   }
   
