@@ -80,8 +80,8 @@ jobs:
         run: |
           cd tcltk
           set TLS_ZIP=%GITHUB_WORKSPACE%\tcltk\tcltls.zip
-          curl -L -o %TLS_ZIP% https://github.com/tcltk/tcltls/archive/refs/tags/tls-1-7-22.zip
-          powershell -Command "Expand-Archive -Path '%TLS_ZIP%' -DestinationPath ."
+          powershell -NoLogo -NoProfile -Command "Invoke-WebRequest -Uri 'https://codeload.github.com/tcltk/tcltls/zip/refs/tags/tls-1-7-22' -OutFile '%TLS_ZIP%'"
+          tar -xf %TLS_ZIP%
           ren tcltls-tls-1-7-22 tcltls
           cd tcltls\win
           call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
