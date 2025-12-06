@@ -34,13 +34,33 @@ proc ::tablebase::lookupPosition {} {
     ttk::label $w.content.loading -text "Querying Lichess tablebase..." -font font_Bold
     pack $w.content.loading -pady 10
     
-    # Make the HTTP request using curl
+    # Make the HTTP request (prefer curl, fallback to Tcl http)
+    set result ""
+    set err ""
+    set ok 0
+
+    # Try curl first (fast, keeps existing behavior)
     set cmd [list curl -s --max-time 10 $url]
-    
-    if {[catch {exec {*}$cmd} result]} {
-        # Error occurred
+    if {![catch {exec {*}$cmd} result]} {
+        set ok 1
+    } else {
+        set err $result
+        # Fallback: Tcl's built-in http package (works if curl is missing)
+        if {![catch {package require http}]} {
+            set token ""
+            if {![catch {set token [::http::geturl $url -timeout 10000]} httpErr]} {
+                set result [::http::data $token]
+                ::http::cleanup $token
+                set ok 1
+            } else {
+                set err $httpErr
+            }
+        }
+    }
+
+    if {!$ok} {
         destroy $w.content.loading
-        ::tablebase::showError $w "Failed to query tablebase: $result"
+        ::tablebase::showError $w "Failed to query tablebase: $err"
     } else {
         # Parse and display the JSON result
         destroy $w.content.loading
