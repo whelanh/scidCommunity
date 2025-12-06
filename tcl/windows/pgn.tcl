@@ -143,6 +143,10 @@ namespace eval pgn {
     ::utils::tooltip::Set $w.bottompanel.chesscom "Upload game to Chess.com"
     pack $w.bottompanel.chesscom -side left -padx 2 -pady 2
 
+    ttk::button $w.bottompanel.lichess -text "lichess.org" -command ::pgn::openInLichess
+    ::utils::tooltip::Set $w.bottompanel.lichess "Upload game to Lichess.org"
+    pack $w.bottompanel.lichess -side left -padx 2 -pady 2
+
     grid $w.frame -row 0 -column 0 -sticky news
     grid $w.bottompanel -row 1 -column 0 -sticky we
     grid rowconfigure $w 0 -weight 1
@@ -379,4 +383,64 @@ proc ::pgn::openInChessCom {} {
 
   set url "https://www.chess.com/analysis?tab=analysis&pgn=$encoded"
   openURL $url
+}
+
+# Import current game PGN to Lichess and open the returned game URL.
+proc ::pgn::openInLichess {} {
+  if {[catch {package require http}]} {
+    tk_messageBox -icon warning -type ok -title "scidCommunity" -message "Tcl http package is unavailable; cannot upload PGN to Lichess." -parent .
+    return
+  }
+
+  # Generate PGN text
+  set pgnStr [sc_game pgn -width 75 -indentComments $::pgn::indentComments \
+      -indentVariations $::pgn::indentVars -space $::pgn::moveNumberSpaces]
+
+  # Flatten newlines
+  set pgnStr [string map {"\r" " " "\n" " "} $pgnStr]
+  set pgnStr [string trim $pgnStr]
+
+  # URL-encode form body
+  set query [::http::formatQuery pgn $pgnStr]
+
+  set url "https://lichess.org/api/import"
+  set result ""
+  set err ""
+  set ok 0
+
+  # Try curl first
+  if {![catch {exec curl -s -X POST -H "Content-Type: application/x-www-form-urlencoded" -d $query $url} result]} {
+    set ok 1
+  } else {
+    set err $result
+    # Fallback to Tcl http
+    set token ""
+    if {![catch {set token [::http::geturl $url -method POST -type "application/x-www-form-urlencoded" -query $query -timeout 10000]} httpErr]} {
+        set result [::http::data $token]
+        ::http::cleanup $token
+        set ok 1
+    } else {
+        set err $httpErr
+    }
+  }
+
+  if {!$ok} {
+    tk_messageBox -icon warning -type ok -title "scidCommunity" -message "Failed to upload PGN to Lichess: $err" -parent .
+    return
+  }
+
+  # Extract returned game URL
+  set gameUrl ""
+  if {[regexp {"url":"([^\"]+)"} $result -> gameUrl]} {
+    # ok
+  } elseif {[regexp {"id":"([^\"]+)"} $result -> gameId]} {
+    set gameUrl "https://lichess.org/$gameId"
+  }
+
+  if {$gameUrl eq ""} {
+    tk_messageBox -icon warning -type ok -title "scidCommunity" -message "Upload succeeded but no URL returned by Lichess. Response: $result" -parent .
+    return
+  }
+
+  openURL $gameUrl
 }
