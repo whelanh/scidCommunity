@@ -108,17 +108,35 @@ proc ::twic::downloadTWICWeek {weeknum} {
       error "wget download failed: $err"
     }
   } elseif {[info exists ::windowsOS] && $::windowsOS && [auto_execok powershell] ne ""} {
-    # Windows fallback: PowerShell Invoke-WebRequest (handles HTTPS without extra DLLs)
-    # Convert Tcl paths to Windows format for PowerShell
-    set winZipFile [file nativename $zipfile]
-    set psScript "Add-Type -AssemblyName System.Net.Http; \$client = New-Object System.Net.Http.HttpClient; \$response = \$client.GetAsync('$zipurl').Result; \[System.IO.File\]::WriteAllBytes('$winZipFile', \$response.Content.ReadAsByteArrayAsync().Result)"
+    # Windows fallback: PowerShell Invoke-WebRequest via temp script file
+    # (avoids all the escaping/quoting hell)
+    set tempdir [::twic::getTempDir]
+    set psscript [file join $tempdir "twic_download_[clock milliseconds].ps1"]
+    
+    # Create a simple PowerShell script file
     if {[catch {
-      exec powershell -NoLogo -NoProfile -Command $psScript 2>@1
+      set fd [open $psscript w]
+      puts $fd "\$ProgressPreference = 'SilentlyContinue'"
+      puts $fd "\[Net.ServicePointManager\]::SecurityProtocol = \[Net.SecurityProtocolType\]::Tls12"
+      puts $fd "Invoke-WebRequest -Uri '$zipurl' -OutFile '$zipfile' -UseBasicParsing"
+      close $fd
     } err]} {
-      error "PowerShell download failed: $err"
+      error "Could not create PowerShell script: $err"
     }
+    
+    # Execute the script
+    if {[catch {
+      exec powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File $psscript 2>@1
+    } err]} {
+      catch {file delete $psscript}
+      error "PowerShell script execution failed: $err"
+    }
+    
+    # Clean up the script
+    catch {file delete $psscript}
+    
     if {![file exists $zipfile] || [file size $zipfile] == 0} {
-      error "PowerShell download did not create '$zipfile' or file is empty."
+      error "PowerShell did not create '$zipfile' or file is empty."
     }
   } else {
     # No external downloader; try Tcl http (requires TLS support)
