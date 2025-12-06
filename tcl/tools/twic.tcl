@@ -95,15 +95,16 @@ proc ::twic::downloadTWICWeek {weeknum} {
   set zipurl "https://theweekinchess.com/zips/twic${weeknum}g.zip"
   
   # Use exec curl to download via HTTPS (more reliable than Tcl http)
-  if {![catch {exec which curl}]} {
+  # Use auto_execok which works on all platforms (including Windows)
+  if {[auto_execok curl] ne ""} {
     if {[catch {
-      exec curl -s -o $zipfile "$zipurl"
+      exec curl -L -s -o "$zipfile" "$zipurl"
     } err]} {
       error "curl download failed: $err"
     }
-  } elseif {![catch {exec which wget}]} {
+  } elseif {[auto_execok wget] ne ""} {
     if {[catch {
-      exec wget -q -O $zipfile "$zipurl"
+      exec wget -q -O "$zipfile" "$zipurl"
     } err]} {
       error "wget download failed: $err"
     }
@@ -177,9 +178,9 @@ proc ::twic::extractZIP {zipfile} {
   set extracted 0
   
   # Method 1: Try using unzip command
-  if {![catch {exec which unzip}]} {
+  if {[auto_execok unzip] ne ""} {
     if {![catch {
-      exec unzip -q -o $zipfile -d $extractdir 2>@1
+      exec unzip -q -o "$zipfile" -d "$extractdir" 2>@1
       set extracted 1
     }]} {
       # Success with unzip
