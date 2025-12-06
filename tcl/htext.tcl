@@ -535,9 +535,9 @@ proc openURL {url} {
     # On Windows, use the "start" command:
     regsub -all " " $url "%20" url
     if {[string match $::tcl_platform(os) "Windows NT"]} {
-      catch {exec $::env(COMSPEC) /c start $url &}
+      catch {exec $::env(COMSPEC) /c start "" $url &}
     } else {
-      catch {exec start $url &}
+      catch {exec start "" $url &}
     }
   } elseif {$::macOS} {
     # On Mac OS X use the "open" command:

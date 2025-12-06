@@ -96,24 +96,27 @@ proc ::twic::downloadTWICWeek {weeknum} {
   
   # Use exec curl to download via HTTPS (more reliable than Tcl http)
   if {![catch {exec which curl}]} {
-    # curl is available, use it
     if {[catch {
       exec curl -s -o $zipfile "$zipurl"
     } err]} {
       error "curl download failed: $err"
     }
-  } else {
-    # Try wget as fallback
-    if {![catch {exec which wget}]} {
-      if {[catch {
-        exec wget -q -O $zipfile "$zipurl"
-      } err]} {
-        error "wget download failed: $err"
-      }
-    } else {
-      # No curl or wget available, try Tcl http as last resort
-      ::twic::downloadWithHTTP $zipurl $zipfile
+  } elseif {![catch {exec which wget}]} {
+    if {[catch {
+      exec wget -q -O $zipfile "$zipurl"
+    } err]} {
+      error "wget download failed: $err"
     }
+  } elseif {[info exists ::windowsOS] && $::windowsOS && [auto_execok powershell] ne ""} {
+    # Windows fallback: PowerShell Invoke-WebRequest (handles HTTPS without extra DLLs)
+    if {[catch {
+      exec powershell -NoLogo -NoProfile -Command "Invoke-WebRequest -Uri '$zipurl' -OutFile '$zipfile'" 2>@1
+    } err]} {
+      error "PowerShell download failed: $err"
+    }
+  } else {
+    # No external downloader; try Tcl http (requires TLS support)
+    ::twic::downloadWithHTTP $zipurl $zipfile
   }
   
   # Verify the file was downloaded
@@ -129,6 +132,9 @@ proc ::twic::downloadTWICWeek {weeknum} {
 #
 proc ::twic::downloadWithHTTP {zipurl zipfile} {
   package require http
+  if {[catch {package require tls} tlsErr]} {
+    error "Tcl TLS support is unavailable: $tlsErr. Install the tls package or use curl/wget/PowerShell to download."
+  }
   
   # Note: This will only work if Tcl has HTTPS support via TLS
   if {[catch {
