@@ -8,7 +8,11 @@
       - The hotkey Alt + s has been added to invoke the Search button. 
 2. The **Engine** windows have been enhanced with new depth and move time input windows for limiting an engine's calculations. If users choose to use Scid's **Save Options**, the inputs will be saved as the defaults for future use.
 3. A new **`Download TWIC Games`** option under the **`Tools`** menu that downloads' the most recent weekly games from [TWIC](https://theweekinchess.com/twic) and brings them into scidCommunity for filtering, merging with your database etc.
-4. New (optional) "Sand" and "cobalt2" themes.
+4. New buttons in the **PGN Window**:
+      - *Table Base* looks up current position in the Liches 7-man endgame table base
+      - *chess.com* uploads the current game to Chess.com
+      - *lichess.org* uploads the current game to Lichess.org
+6. New (optional) "Sand" and "cobalt2" themes.
 
 *Users with suggestions for further enhancements are welcome to write something in the Discussion section or submit a pull request.  Enjoy!*
 
@@ -16,12 +20,25 @@ New "Layouts" button with (optional) Sand theme:
 
 <img width="500" height="450" alt="Screenshot_20251203_143244 (Edit)" src="https://github.com/user-attachments/assets/fdf27a66-5ae4-40de-8a86-28db86b29f22" />
 
+
 New Engine depth and move time input windows:
 <img width="638" height="303" alt="image" src="https://github.com/user-attachments/assets/0563010d-b20b-4771-8ef4-7470b8ebc9fb" />
+
 
 New TWIC pgn import with (optional) cobalt2 theme:
 
 <img width="500" height="304" alt="Screenshot_20251204_112424" src="https://github.com/user-attachments/assets/16b9879a-1a68-4cd8-84a3-ff822310359b" />
+
+New *chess.com* and *lichess.org* buttons:
+
+<img width="500" height="216" alt="Screenshot_2025-12-06_07-27-58 (Edit)" src="https://github.com/user-attachments/assets/64a3c452-4ffb-4ff9-a39a-eac82b066118" />
+
+
+New *Table Base* button:
+
+<img width="500" height="580" alt="Screenshot_2025-12-06_07-32-02 (Edit)" src="https://github.com/user-attachments/assets/b8becb46-a146-46cd-a8e5-1be7233151fd" />
+
+
 
 ## 💽 Releases
 Check latest **Releases** for a deb, rpm, exe, a MacOS and AppImage installable package.  The deb has been tested against Ubuntu 24, the rpm against Fedora Rawhide, the AppImage against Fedora Kinoite (Rawhide) and the exe file against a Windows 11 virtual machine. The Mac version has not been tested and feedback would be appreciated.
