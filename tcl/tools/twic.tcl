@@ -109,9 +109,10 @@ proc ::twic::downloadTWICWeek {weeknum} {
     }
   } elseif {[info exists ::windowsOS] && $::windowsOS && [auto_execok powershell] ne ""} {
     # Windows fallback: PowerShell Invoke-WebRequest (handles HTTPS without extra DLLs)
+    # Convert Tcl paths to Windows format for PowerShell
+    set winZipFile [file nativename $zipfile]
     if {[catch {
-      set psCmd "[Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12; try { Invoke-WebRequest -Uri '$zipurl' -OutFile '$zipfile' -UseBasicParsing -ErrorAction Stop } catch { Write-Error $_.Exception.Message; exit 1 }"
-      exec powershell -NoLogo -NoProfile -Command $psCmd 2>@1
+      exec powershell -NoLogo -NoProfile -Command "\[Net.ServicePointManager\]::SecurityProtocol = \[Net.SecurityProtocolType\]::Tls12; Invoke-WebRequest -Uri '$zipurl' -OutFile '$winZipFile' -UseBasicParsing" 2>@1
     } err]} {
       error "PowerShell download failed: $err"
     }
