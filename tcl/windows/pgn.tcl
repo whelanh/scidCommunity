@@ -133,11 +133,15 @@ namespace eval pgn {
         $w.text configure -font font_Bold
     }
 
-    # Create bottom panel with tablebase button
+    # Create bottom panel with tablebase and chess.com buttons
     ttk::frame $w.bottompanel
-    ttk::button $w.bottompanel.tb -text "TB" -command ::tablebase::lookupPosition
+    ttk::button $w.bottompanel.tb -text "Table Base" -command ::tablebase::lookupPosition
     ::utils::tooltip::Set $w.bottompanel.tb "Tablebase Lookup on Lichess"
     pack $w.bottompanel.tb -side left -padx 2 -pady 2
+
+    ttk::button $w.bottompanel.chesscom -text "chess.com" -command ::pgn::openInChessCom
+    ::utils::tooltip::Set $w.bottompanel.chesscom "Upload game to Chess.com"
+    pack $w.bottompanel.chesscom -side left -padx 2 -pady 2
 
     grid $w.frame -row 0 -column 0 -sticky news
     grid $w.bottompanel -row 1 -column 0 -sticky we
@@ -346,4 +350,33 @@ namespace eval pgn {
       }
     }
   }
+}
+
+# Export current game PGN to chess.com analysis in the default browser.
+proc ::pgn::openInChessCom {} {
+  # Build PGN similar to clipboard export, then URL-encode and open.
+  if {[catch {package require http}]} {
+    tk_messageBox -icon warning -type ok -title "Scid" -message "Tcl http package is unavailable; cannot upload PGN." -parent .
+    return
+  }
+
+  # Generate PGN text
+  set pgnStr [sc_game pgn -width 75 -indentComments $::pgn::indentComments \
+      -indentVariations $::pgn::indentVars -space $::pgn::moveNumberSpaces]
+
+  # Flatten newlines for URL use
+  set pgnStr [string map {"\r" " " "\n" " "} $pgnStr]
+  set pgnStr [string trim $pgnStr]
+
+  # URL-encode using http::formatQuery then strip the leading "pgn="
+  set qs [::http::formatQuery pgn $pgnStr]
+  set encoded ""
+  if {[regexp {^pgn=(.*)$} $qs -> encodedVal]} {
+    set encoded $encodedVal
+  } else {
+    set encoded $qs
+  }
+
+  set url "https://www.chess.com/analysis?tab=analysis&pgn=$encoded"
+  openURL $url
 }
