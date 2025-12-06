@@ -187,13 +187,44 @@ proc ::twic::extractZIP {zipfile} {
     }
   }
   
+  # Method 1a: Try tar command (works on Windows 10+ and Unix)
+  if {!$extracted && [auto_execok tar] ne ""} {
+    if {![catch {
+      exec tar -xf "$zipfile" -C "$extractdir" 2>@1
+    }]} {
+      # Success with tar
+      set extracted 1
+    }
+  }
+  
   # Method 1b: Windows PowerShell Expand-Archive
   if {!$extracted && [info exists ::windowsOS] && $::windowsOS && [auto_execok powershell] ne ""} {
+    # Convert paths to native format for PowerShell
+    set nativeZipfile [file nativename $zipfile]
+    set nativeExtractdir [file nativename $extractdir]
     if {![catch {
-      exec powershell -NoLogo -NoProfile -Command "Expand-Archive -Path '$zipfile' -DestinationPath '$extractdir' -Force" 2>@1
-    }]} {
-      # Success with PowerShell
+      exec powershell -NoLogo -NoProfile -Command "Expand-Archive -LiteralPath \"$nativeZipfile\" -DestinationPath \"$nativeExtractdir\" -Force" 2>@1
+    } psErr]} {
+      # Verify files were actually extracted
+      if {[llength [glob -directory $extractdir -nocomplain *.pgn]] > 0} {
+        set extracted 1
+      }
+    }
+  }
+  
+  # Method 1c: Tcl built-in zipfs (Tcl 8.6+)
+  if {!$extracted && [llength [info commands zipfs::mount]] > 0} {
+    if {![catch {
+      set mountpoint "/twic_temp_[clock seconds]"
+      zipfs::mount $mountpoint $zipfile
+      foreach src [glob -directory $mountpoint -nocomplain *.pgn] {
+        set dst [file join $extractdir [file tail $src]]
+        file copy -force $src $dst
+      }
+      catch {zipfs::unmount $mountpoint}
       set extracted 1
+    }]} {
+      # Success with zipfs
     }
   }
   
