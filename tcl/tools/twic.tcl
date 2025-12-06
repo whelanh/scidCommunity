@@ -107,39 +107,8 @@ proc ::twic::downloadTWICWeek {weeknum} {
     } err]} {
       error "wget download failed: $err"
     }
-  } elseif {[info exists ::windowsOS] && $::windowsOS && [auto_execok powershell] ne ""} {
-    # Windows fallback: PowerShell Invoke-WebRequest via temp script file
-    # (avoids all the escaping/quoting hell)
-    set tempdir [::twic::getTempDir]
-    set psscript [file join $tempdir "twic_download_[clock milliseconds].ps1"]
-    
-    # Create a simple PowerShell script file
-    if {[catch {
-      set fd [open $psscript w]
-      puts $fd {$ProgressPreference = 'SilentlyContinue'}
-      puts $fd {[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12}
-      puts $fd "Invoke-WebRequest -Uri '$zipurl' -OutFile '$zipfile' -UseBasicParsing"
-      close $fd
-    } err]} {
-      error "Could not create PowerShell script: $err"
-    }
-    
-    # Execute the script
-    if {[catch {
-      exec powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File $psscript 2>@1
-    } err]} {
-      catch {file delete $psscript}
-      error "PowerShell script execution failed: $err"
-    }
-    
-    # Clean up the script
-    catch {file delete $psscript}
-    
-    if {![file exists $zipfile] || [file size $zipfile] == 0} {
-      error "PowerShell did not create '$zipfile' or file is empty."
-    }
   } else {
-    # No external downloader; try Tcl http (requires TLS support)
+    # No curl or wget; use Tcl http (works on all platforms if TLS is available)
     ::twic::downloadWithHTTP $zipurl $zipfile
   }
   
@@ -152,17 +121,23 @@ proc ::twic::downloadTWICWeek {weeknum} {
 }
 
 # twic::downloadWithHTTP
-#   Download using Tcl http package (fallback method)
+#   Download using Tcl http package (cross-platform fallback)
 #
 proc ::twic::downloadWithHTTP {zipurl zipfile} {
   package require http
-  if {[catch {package require tls} tlsErr]} {
-    error "Tcl TLS support is unavailable: $tlsErr. Install the tls package or use curl/wget/PowerShell to download."
+  
+  # Try to load TLS for HTTPS support
+  if {[catch {package require tls}]} {
+    # TLS not available; try using http with HTTPS anyway (some Tcl builds support it)
+    # If this fails, the error will be clear to the user
+  } else {
+    # TLS loaded successfully; register it with http
+    http::register https 443 [list ::tls::socket]
   }
   
-  # Note: This will only work if Tcl has HTTPS support via TLS
   if {[catch {
     set fd [open $zipfile wb]
+    fconfigure $fd -translation binary
     set token [http::geturl $zipurl \
       -channel $fd \
       -timeout 60000]
@@ -176,6 +151,7 @@ proc ::twic::downloadWithHTTP {zipurl zipfile} {
     }
   } err]} {
     catch {close $fd}
+    file delete -force $zipfile
     error "HTTP download error: $err"
   }
 }

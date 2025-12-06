@@ -75,6 +75,16 @@ jobs:
           nmake -f makefile.vc release OPTS=nomsvcrt INSTALLDIR=%GITHUB_WORKSPACE%\tcldir
           nmake -f makefile.vc install OPTS=nomsvcrt INSTALLDIR=%GITHUB_WORKSPACE%\tcldir
 
+      - name: Build TLS library
+        shell: cmd
+        run: |
+          cd tcltk
+          git clone --depth=1 --branch core-tls-1-7 https://github.com/tcltk/tcltls.git
+          cd tcltls\win
+          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
+          nmake -f makefile.vc release TCLDIR=%GITHUB_WORKSPACE%\tcldir INSTALLDIR=%GITHUB_WORKSPACE%\tcldir
+          nmake -f makefile.vc install TCLDIR=%GITHUB_WORKSPACE%\tcldir INSTALLDIR=%GITHUB_WORKSPACE%\tcldir
+
       - name: Configure CMake
         run: |
           mkdir build
@@ -124,10 +134,14 @@ jobs:
           copy %GITHUB_WORKSPACE%\tcldir\bin\tcl86t.dll bin\
           copy %GITHUB_WORKSPACE%\tcldir\bin\tk86t.dll bin\
           copy %GITHUB_WORKSPACE%\tcldir\bin\zlib1.dll bin\
-          echo === Copying Tcl/Tk libraries ===
+          copy %GITHUB_WORKSPACE%\tcldir\bin\tls*.dll bin\
+          copy %GITHUB_WORKSPACE%\tcldir\bin\libcrypto*.dll bin\
+          copy %GITHUB_WORKSPACE%\tcldir\bin\libssl*.dll bin\
+          echo === Copying Tcl/Tk/TLS libraries ===
           xcopy /E /I /Y %GITHUB_WORKSPACE%\tcldir\lib\tcl8 lib\tcl8
           xcopy /E /I /Y %GITHUB_WORKSPACE%\tcldir\lib\tcl8.6 lib\tcl8.6
           xcopy /E /I /Y %GITHUB_WORKSPACE%\tcldir\lib\tk8.6 lib\tk8.6
+          xcopy /E /I /Y %GITHUB_WORKSPACE%\tcldir\lib\tls lib\tls
           echo === Final structure ===
           dir
           dir bin
