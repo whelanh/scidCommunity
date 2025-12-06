@@ -282,7 +282,7 @@ foreach ns {
   ::tools::analysis
   ::tools::graphs
   ::tools::graphs::filter ::tools::graphs::absfilter ::tools::graphs::rating ::tools::graphs::score
-  ::tb ::optable
+  ::tb ::optable ::tablebase
   ::board ::move
   ::tacgame ::sergame ::opening ::tactics ::calvar ::uci ::fics ::reviewgame ::novag
   ::config ::docking
@@ -922,6 +922,7 @@ tools/tactics.tcl
 tools/reviewgame.tcl
 tools/inputengine.tcl
 tools/novag.tcl
+tools/tablebase.tcl
 }
 
 foreach f $tcl_files {

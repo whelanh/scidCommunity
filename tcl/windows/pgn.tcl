@@ -133,8 +133,16 @@ namespace eval pgn {
         $w.text configure -font font_Bold
     }
 
-    grid $w.frame -sticky news
+    # Create bottom panel with tablebase button
+    ttk::frame $w.bottompanel
+    ttk::button $w.bottompanel.tb -text "TB" -command ::tablebase::lookupPosition
+    ::utils::tooltip::Set $w.bottompanel.tb "Tablebase Lookup on Lichess"
+    pack $w.bottompanel.tb -side left -padx 2 -pady 2
+
+    grid $w.frame -row 0 -column 0 -sticky news
+    grid $w.bottompanel -row 1 -column 0 -sticky we
     grid rowconfigure $w 0 -weight 1
+    grid rowconfigure $w 1 -weight 0
     grid columnconfigure $w 0 -weight 1
 
     set pgnWin 1
