@@ -78,10 +78,10 @@ jobs:
       - name: Build TLS library
         shell: cmd
         run: |
-          cd tcltk
           set TLS_TGZ=%GITHUB_WORKSPACE%\tcltk\tcltls.tar.gz
           curl -L -o %TLS_TGZ% https://core.tcl-lang.org/tcltls/uv/tcltls-1.7.22.tar.gz
-          tar -xzf %TLS_TGZ%
+          cd %GITHUB_WORKSPACE%\tcltk
+          tar -xzf tcltls.tar.gz
           ren tcltls-1.7.22 tcltls
           cd tcltls\win
           call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
