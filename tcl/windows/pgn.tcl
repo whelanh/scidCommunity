@@ -392,16 +392,12 @@ proc ::pgn::openInLichess {} {
     return
   }
 
-  # Generate PGN text
-  set pgnStr [sc_game pgn -width 75 -indentComments $::pgn::indentComments \
+    # Generate PGN text (keep newlines; encoder will percent-encode)
+    set pgnStr [sc_game pgn -width 75 -indentComments $::pgn::indentComments \
       -indentVariations $::pgn::indentVars -space $::pgn::moveNumberSpaces]
 
-  # Flatten newlines
-  set pgnStr [string map {"\r" " " "\n" " "} $pgnStr]
-  set pgnStr [string trim $pgnStr]
-
-  # URL-encode form body
-  set query [::http::formatQuery pgn $pgnStr]
+    # URL-encode form body
+    set query [::http::formatQuery pgn [string trim $pgnStr]]
 
   set url "https://lichess.org/api/import"
   set result ""
@@ -409,7 +405,7 @@ proc ::pgn::openInLichess {} {
   set ok 0
 
   # Try curl first
-  if {![catch {exec curl -s -X POST -H "Content-Type: application/x-www-form-urlencoded" -d $query $url} result]} {
+  if {![catch {exec curl -s -X POST -H "Content-Type: application/x-www-form-urlencoded" --data-binary $query $url} result]} {
     set ok 1
   } else {
     set err $result
@@ -438,6 +434,16 @@ proc ::pgn::openInLichess {} {
   }
 
   if {$gameUrl eq ""} {
+    # Fallback: open analysis board with PGN in path
+    set encoded ""
+    if {[regexp {^pgn=(.*)$} $query -> encodedVal]} {
+      set encoded $encodedVal
+    }
+    if {$encoded ne ""} {
+      set analysisUrl "https://lichess.org/analysis/pgn/$encoded"
+      openURL $analysisUrl
+      return
+    }
     tk_messageBox -icon warning -type ok -title "scidCommunity" -message "Upload succeeded but no URL returned by Lichess. Response: $result" -parent .
     return
   }
