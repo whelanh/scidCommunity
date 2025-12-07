@@ -4,6 +4,7 @@ set -e
 
 REPO_URL="https://github.com/whelanh/scidCommunity.git"
 MANIFEST_FILE="io.github.whelanh.scidCommunity.yml"
+APPDATA_FILE="io.github.whelanh.scidCommunity.appdata.xml"
 
 echo "Fetching latest release tag from $REPO_URL..."
 
@@ -46,11 +47,30 @@ if [ ! -f "$MANIFEST_FILE" ]; then
     exit 1
 fi
 
+# Get the tag date in YYYY-MM-DD format
+TAG_DATE=$(cd "$TMP_DIR" && git log -1 --format="%cs" "$LATEST_TAG")
+
+# Strip 'v' prefix from tag for version number
+VERSION=${LATEST_TAG#v}
+
+echo "Tag date: $TAG_DATE"
+echo "Version: $VERSION"
+
 # Update the manifest file
 echo "Updating $MANIFEST_FILE..."
 sed -i "s/tag: .*/tag: $LATEST_TAG/" "$MANIFEST_FILE"
 sed -i "s/commit: .*/commit: $COMMIT_HASH/" "$MANIFEST_FILE"
 
-echo "Successfully updated manifest:"
+# Update the appdata file
+if [ -f "$APPDATA_FILE" ]; then
+    echo "Updating $APPDATA_FILE..."
+    sed -i "s/<release version=\"[^\"]*\" date=\"[^\"]*\"/<release version=\"$VERSION\" date=\"$TAG_DATE\"/" "$APPDATA_FILE"
+else
+    echo "Warning: AppData file $APPDATA_FILE not found, skipping"
+fi
+
+echo "Successfully updated:"
 echo "  Tag: $LATEST_TAG"
 echo "  Commit: $COMMIT_HASH"
+echo "  Version: $VERSION"
+echo "  Date: $TAG_DATE"
