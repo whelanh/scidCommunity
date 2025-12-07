@@ -6,9 +6,9 @@ Name=scidCommunity
 Comment=Community-enhanced chess database application
 Keywords=Chess;PGN;convert
 
-TryExec=scid
-Exec=scid %f
-StartupWMClass=scid
+TryExec=scidCommunity
+Exec=scidCommunity %f
+StartupWMClass=scidCommunity
 Terminal=false
 Hidden=false
 Icon=io.github.whelanh.scidCommunity

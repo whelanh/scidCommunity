@@ -2,7 +2,7 @@ app-id: io.github.whelanh.scidCommunity
 runtime: org.freedesktop.Platform
 runtime-version: '24.08'
 sdk: org.freedesktop.Sdk
-command: scid
+command: scidCommunity
 
 finish-args:
   - --filesystem=home        # for accessing files in the user's home folder
@@ -41,7 +41,7 @@ modules:
     sources:
       - type: archive
         url: https://prdownloads.sourceforge.net/tcl/tcl-core8.6.15-src.tar.gz
-        sha1: b35c3bf9044841e0bdaa96db0512f1d1ec59495a
+        sha256: 844775491e435e34d83d6ccfbadd1342f1855f1705253233a86152df0765e78d
     subdir: "unix"
     post-install:
       - chmod 755 /app/lib/libtcl*.so
@@ -50,7 +50,7 @@ modules:
     sources:
       - type: archive
         url: https://prdownloads.sourceforge.net/tcl/tk8.6.15-src.tar.gz
-        sha1: ef44f7be00d0249e281ad87785650f5475bbc939
+        sha256: 550969f35379f952b3020f3ab7b9dd5bfd11c1ef7c9b7c6a75f5c49aca793fec
     subdir: "unix"
     post-install:
       - chmod 755 /app/lib/libtk*.so
@@ -58,12 +58,9 @@ modules:
   - name: scid # main app
     buildsystem: cmake-ninja
     post-install:
-      - ln -sf /app/bin/scidCommunity /app/bin/scid
       - install -Dma+r flatpak/io.github.whelanh.scidCommunity.svg /app/share/icons/hicolor/scalable/apps/io.github.whelanh.scidCommunity.svg
       - install -Dma+r flatpak/io.github.whelanh.scidCommunity.desktop /app/share/applications/io.github.whelanh.scidCommunity.desktop
       - install -Dma+r flatpak/io.github.whelanh.scidCommunity.appdata.xml /app/share/appdata/io.github.whelanh.scidCommunity.appdata.xml
     sources:
-      - type: git
-        url: https://github.com/whelanh/scidCommunity.git
-        tag: v5.1.1.2
-        commit: 49ce0475fb42f8d27e3b2181396bdbcc17ee9aa4
+      - type: dir
+        path: ..

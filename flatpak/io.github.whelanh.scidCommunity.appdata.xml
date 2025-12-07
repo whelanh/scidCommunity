@@ -22,6 +22,9 @@
     <ul>
       <li>Enhanced Header Search dialogue with a "Layouts" button for saving and loading frequently-used search parameters</li>
       <li>Improved Engine windows with depth and move time input controls for limiting engine calculations</li>
+      <li>Download TWIC Games feature for importing the latest weekly games from The Week in Chess</li>
+      <li>PGN Window buttons for uploading games to chess.com and lichess.org, and querying the Lichess 7-man tablebase</li>
+      <li>Optional "Sand" and "cobalt2" themes</li>
       <li>Alt+s hotkey for quick access to the Search button</li>
     </ul>
     <p>
