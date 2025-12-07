@@ -7,16 +7,21 @@ MANIFEST_FILE="io.github.whelanh.scidCommunity.yml"
 
 echo "Fetching latest release tag from $REPO_URL..."
 
-# Get the latest tag (sorted by version)
+# Get the latest tag by commit date (most recently created tag)
 # Prefer 4-part versions (v5.1.1.499) over 3-part versions (v5.1.04)
-LATEST_TAG=$(git ls-remote --tags "$REPO_URL" | \
-             grep -v '\^{}' | \
-             awk '{print $2}' | \
-             sed 's|refs/tags/||' | \
-             grep '^v[0-9]' | \
+echo "Cloning repository to determine latest tag by date..."
+TMP_DIR=$(mktemp -d)
+trap "rm -rf $TMP_DIR" EXIT
+
+git clone --bare "$REPO_URL" "$TMP_DIR" >/dev/null 2>&1
+
+LATEST_TAG=$(cd "$TMP_DIR" && \
+             git tag -l 'v*' | \
              grep -E '^v[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$' | \
-             sort -t. -k1,1V -k2,2n -k3,3n -k4,4n | \
-             tail -n1)
+             xargs -I {} git log -1 --format="%at {}" {} 2>/dev/null | \
+             sort -rn | \
+             head -n1 | \
+             awk '{print $2}')
 
 if [ -z "$LATEST_TAG" ]; then
     echo "Error: Could not find any tags in the repository"
