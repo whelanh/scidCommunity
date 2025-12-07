@@ -91,9 +91,6 @@ On Linux, you can use pre-built packages from the Releases page:
 - RPM (Fedora/openSUSE): built via GitHub Actions; version taken from the tag; bundles Tcl/Tk libraries and a wrapper script.
 - AppImage: self-contained; includes Tcl/Tk 8.6 runtime.
 
-**Notes:**
-- The CMake and traditional Linux build produces an executable named `scidCommunity`.
-- Versioning of release artifacts follows the git tag (e.g., `v5.1.1`).
-- The macOS `Info.plist` version is injected from `SCIDCOMMUNITY_VERSION` when building with `build_app.sh`.
+
 
 
