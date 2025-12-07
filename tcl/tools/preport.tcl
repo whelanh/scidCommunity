@@ -17,7 +17,7 @@ set ::preport::_clipbase 0
 #
 proc ::preport::preportDlg {args} {
   if {[sc_base numGames $::curr_db] == 0} {
-    tk_messageBox -title "Scid" -type ok -icon warning -message "No games in current base"
+    tk_messageBox -title "scidCommunity" -type ok -icon warning -message "No games in current base"
     return
   }
   # Set default player and color if parameters are provided
@@ -36,7 +36,7 @@ proc ::preport::preportDlg {args} {
   set w .preportDlg
   if {[winfo exists $w]} { return }
   win::createDialog $w
-  wm title $w "Scid: [tr ToolsPlayerReport]"
+  wm title $w "scidCommunity: [tr ToolsPlayerReport]"
   wm resizable $w 0 0
   pack [ttk::frame $w.g] -side top -fill x -expand yes
   ttk::label $w.g.where -text $::tr(Player)
@@ -136,7 +136,7 @@ proc ::preport::makeReportWin {args} {
     set w .progress
     toplevel $w
     wm withdraw $w
-    wm title $w "Scid: [tr ToolsPlayerReport]"
+    wm title $w "scidCommunity: [tr ToolsPlayerReport]"
     bind $w <Visibility> "raiseWin $w"
 
     pack [ttk::frame $w.b] -side bottom -fill x
@@ -214,7 +214,7 @@ proc ::preport::makeReportWin {args} {
   set w .preportWin
   if {![winfo exists $w]} {
     toplevel $w
-    wm title $w "Scid: $::tr(PReportTitle)"
+    wm title $w "scidCommunity: $::tr(PReportTitle)"
     menu $w.menu
     ::setMenu $w $w.menu
     $w.menu add cascade -label OprepFile -menu $w.menu.file
@@ -338,7 +338,7 @@ proc ::preport::setOptions {} {
   packdlgbuttons $w.b.cancel $w.b.ok
   array set ::preport::backup [array get ::preport]
   wm resizable $w 0 0
-  wm title $w  "Scid: [tr ToolsPlayerReport]: [tr Options]"
+  wm title $w "scidCommunity: [tr ToolsPlayerReport]: [tr Options]"
   bind $w <Escape> "$w.b.cancel invoke"
 }
 

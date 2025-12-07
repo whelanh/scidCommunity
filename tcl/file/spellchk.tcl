@@ -216,7 +216,7 @@ proc openSpellCheckWin {type {parent .}} {
     set spellcheckType $type
 
     win::createDialog $w
-    wm title $w "Scid: $::tr(Spellchecking) $::tr(Result)"
+    wm title $w "scidCommunity: $::tr(Spellchecking) $::tr(Result)"
     wm minsize $w 0 15
 
     bind $w <F1> { helpWindow Maintenance }

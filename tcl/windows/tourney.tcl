@@ -38,7 +38,7 @@ proc ::tourney::Open {} {
 
   ::createToplevel $w
   ::setTitle $w "Scid: [tr WindowsTmt]"
-  wm title $w "Scid: [tr WindowsTmt]"
+  wm title $w "scidCommunity: [tr WindowsTmt]"
 
   bind $w <F1> {helpWindow Tmt}
   bind $w <Return> ::tourney::refresh
@@ -307,7 +307,7 @@ proc ::tourney::check {} {
 
 proc ::tourney::select {gnum} {
   if {[catch {::game::Load $gnum} result]} {
-    tk_messageBox -type ok -icon info -title "Scid" -message $result
+    tk_messageBox -type ok -icon info -title "scidCommunity" -message $result
     return
   }
   updateBoard -pgn

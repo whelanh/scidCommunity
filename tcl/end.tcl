@@ -17,7 +17,7 @@ proc findNovelty {} {
     return
   }
   win::createDialog $w
-  wm title $w "Scid: $::tr(FindNovelty)"
+  wm title $w "scidCommunity: $::tr(FindNovelty)"
 
   pack [ttk::frame $w.help] -side top -fill x
   ttk::label $w.help.text -wraplength 3i -justify left -text $::tr(NoveltyHelp)
@@ -96,7 +96,7 @@ proc mergeGame {base gnum} {
   set err [catch {sc_game merge $base $gnum} result]
   sc_game pop
   if {$err} {
-    tk_messageBox -title "Scid" -type ok -icon info \
+    tk_messageBox -title "scidCommunity" -type ok -icon info \
         -message "Unable to merge the selected game:\n$result"
     return
   }
@@ -104,7 +104,7 @@ proc mergeGame {base gnum} {
   set merge(gnum) $gnum
   set w .mergeDialog
   win::createDialog $w
-  wm title $w "Scid: $::tr(MergeGame)"
+  wm title $w "scidCommunity: $::tr(MergeGame)"
   bind $w <Escape> "$w.b.cancel invoke"
   bind $w <F1> {helpWindow GameList Browsing}
   ttk::label $w.title -text $::tr(Preview:) -font font_Bold -anchor center
@@ -201,7 +201,7 @@ proc setExportText {exportType} {
   set w .setExportText$exportType
   if {[winfo exists $w]} { return }
   win::createDialog $w
-  wm title $w "Scid: $title"
+  wm title $w "scidCommunity: $title"
 
   ttk::frame $w.buttons
   pack $w.buttons -side bottom -fill x -anchor e
@@ -313,7 +313,7 @@ proc exportOptions {exportType} {
   set w .exportFlagsWin
   set exportFlags(ok) -1
   win::createDialog $w
-  wm title $w "Scid: [tr OptionsExport]"
+  wm title $w "scidCommunity: [tr OptionsExport]"
   # wm transient $w .
   wm protocol $w WM_DELETE_WINDOW { }
   bind $w <Escape> "$w.b.cancel invoke"
@@ -562,7 +562,7 @@ proc nameEditor {} {
     return
   }
   win::createDialog $w
-  wm title $w "Scid: [tr FileMaintNameEditor]"
+  wm title $w "scidCommunity: [tr FileMaintNameEditor]"
   set nameEditorWin 1
   setWinLocation $w
   bind $w <Configure> "recordWinSize $w"
@@ -731,11 +731,11 @@ proc gameSave { gnum } {
   if {[winfo exists $w]} { return }
   win::createDialog $w
   if {$gnum == 0} {
-    wm title $w "Scid: [tr GameAdd]"
+    wm title $w "scidCommunity: [tr GameAdd]"
     pack [ttk::frame $w.refdb] -side top -fill x -pady {0 10}
     CreateSelectDBWidget "$w.refdb" "gameSave_toBase" [sc_base current] 0
   } else {
-    wm title $w "Scid: [tr GameReplace]"
+    wm title $w "scidCommunity: [tr GameReplace]"
   }
   set gsaveNum $gnum
   catch {grab $w}

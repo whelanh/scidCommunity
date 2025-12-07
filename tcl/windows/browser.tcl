@@ -15,7 +15,7 @@ proc ::gbrowser::new {base gnum {ply -1}} {
   if {$base < 1} { set base [sc_base current] }
   if {$gnum < 1} { set game [sc_game number] }
   set filename [file tail [sc_base filename $base]]
-  wm title $w "Scid: $::tr(BrowseGame) ($filename: $gnum)"
+  wm title $w "scidCommunity: $::tr(BrowseGame) ($filename: $gnum)"
   lassign [sc_base gamesummary $base $gnum] header ::gbrowser::boards($n) moves
 
   pack [ttk::frame $w.b] -side bottom -fill x

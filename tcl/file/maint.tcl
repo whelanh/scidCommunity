@@ -87,7 +87,7 @@ proc ::maint::OpenClose {} {
   set font font_Small
   set bold font_SmallBold
   win::createDialog $w
-  wm title $w "Scid: [tr FileMaint]"
+  wm title $w "scidCommunity: [tr FileMaint]"
   wm resizable $w 0 0
   bind $w <F1> {helpWindow Maintenance}
   bind $w <Escape> "destroy $w; break"
@@ -341,7 +341,7 @@ proc markTwins {{parent .}} {
   if {! [winfo exists $w]} {
     win::createDialog $w
     wm resizable $w 0 0
-    wm title $w "Scid: $::tr(DeleteTwins)"
+    wm title $w "scidCommunity: $::tr(DeleteTwins)"
     pack [ttk::frame $w.f]
     set small font_Small
     
@@ -543,7 +543,7 @@ proc makeClassifyWin {} {
     return
   }
   win::createDialog $w
-  wm title $w "Scid: [tr FileMaintClass]"
+  wm title $w "scidCommunity: [tr FileMaintClass]"
   
   pack [ttk::frame $w.f] -expand 1
   ttk::labelframe  $w.f.g -text $::tr(ClassifyWhich)
@@ -799,7 +799,7 @@ proc shareTwinTags {g1 g2 {parent .}} {
     append msg [concat $::tr(game) " $gn: $tag: \"$old\" -> \"$new\""]
     append msg "\n"
   }
-  set answer [tk_messageBox -parent $parent -title "Scid" \
+  set answer [tk_messageBox -parent $parent -title "scidCommunity" \
       -type okcancel -default ok -icon question -message $msg]
   if {$answer != "ok"} { return }
   sc_game tags share update $g1 $g2
@@ -884,7 +884,7 @@ set addRatings(filter) 0
 
 proc allocateRatings {} {
   if {[catch {sc_name ratings -test 1} result]} {
-    tk_messageBox -type ok -icon info -parent . -title "Scid" -message $result
+    tk_messageBox -type ok -icon info -parent . -title "scidCommunity" -message $result
     return
   }
   set w .ardialog
@@ -915,7 +915,7 @@ proc allocateRatings {} {
 proc doAllocateRatings {} {
   global addRatings
   if {[catch {sc_name ratings -test 1} result]} {
-    tk_messageBox -type ok -icon info -parent . -title "Scid" -message $result
+    tk_messageBox -type ok -icon info -parent . -title "scidCommunity" -message $result
     return
   }
   progressWindow "Scid" "Adding Elo ratings..." $::tr(Cancel)
@@ -927,7 +927,7 @@ proc doAllocateRatings {} {
     set r [::utils::thousands [lindex $result 0]]
     set g [::utils::thousands [lindex $result 1]]
     tk_messageBox -type ok -icon info -parent . \
-        -title "Scid" -message [subst $::tr(AddedRatings)]
+        -title "scidCommunity" -message [subst $::tr(AddedRatings)]
   }
   ::notify::DatabaseModified $::curr_db
 }
@@ -965,13 +965,13 @@ proc stripTags {} {
   }
   
   if {$nTags == 0} {
-    tk_messageBox -title "Scid" -icon info -type ok \
+    tk_messageBox -title "scidCommunity" -icon info -type ok \
         -message "No extra tags were found."
     return
   }
   
   win::createDialog $w
-  wm title $w "Scid: $::tr(StripTags)"
+  wm title $w "scidCommunity: $::tr(StripTags)"
   ttk::label $w.title -text "Extra PGN tags:" -font font_Bold -anchor w
   pack $w.title -side top -fill x -anchor center
   pack [ttk::frame $w.f] -side top -fill x
@@ -1014,7 +1014,7 @@ proc doStripTags {topwin} {
     }
   }
   append msg "from this database?"
-  set result [tk_messageBox -title "Scid" -parent $topwin \
+  set result [tk_messageBox -title "scidCommunity" -parent $topwin \
       -icon question -type yesno -message $msg]
   if {$result == "no"} {
     return
@@ -1033,7 +1033,7 @@ proc doStripTags {topwin} {
   append result "\n\n"
   append result "To save space and maintain database efficiency, it is a "
   append result "good idea to compact the game file after removing tags."
-  tk_messageBox -title "Scid" -type ok -icon info -message $result
+  tk_messageBox -title "scidCommunity" -type ok -icon info -message $result
   ::notify::GameChanged
   ::notify::DatabaseModified $::curr_db
 }
@@ -1056,7 +1056,7 @@ proc cleanerWin {} {
   if {[winfo exists $w]} { return }
   
   win::createDialog $w
-  wm title $w "Scid: $::tr(Cleaner)"
+  wm title $w "scidCommunity: $::tr(Cleaner)"
   bind $w <F1> {helpWindow Maintenance Cleaner}
   pack [ttk::frame $w.f]
   
@@ -1109,7 +1109,7 @@ proc doCleaner {} {
   set w .mtoolStatus
   if {! [winfo exists $w]} {
     win::createDialog $w
-    wm title $w "Scid: $::tr(Cleaner)"
+    wm title $w "scidCommunity: $::tr(Cleaner)"
     pack [ttk::frame $w.f]
     pack [ttk::frame $w.f.b] -side bottom -fill x -expand yes
     pack [ttk::frame $w.f.t] -side top -fill both -expand yes

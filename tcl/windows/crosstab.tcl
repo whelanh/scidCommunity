@@ -98,7 +98,7 @@ proc ::crosstab::Open {} {
         append fname ".tex"
       }
       if {[catch {set tempfile [open $fname w]}]} {
-        tk_messageBox -title "Scid: Error saving file" \
+        tk_messageBox -title "scidCommunity: Error saving file" \
             -type ok -icon warning \
             -message "Unable to save the file: $fname\n\n"
       } else {

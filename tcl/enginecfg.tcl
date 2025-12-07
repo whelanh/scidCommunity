@@ -74,7 +74,7 @@ proc ::enginecfg::remove {name} {
     set msg "Name: $name\n"
     append msg "Command: $cmd\n\n"
     append msg "Do you really want to remove this engine from the list?"
-    set answer [tk_messageBox -title Scid -icon question -type yesno -message $msg]
+    set answer [tk_messageBox -title scidCommunity -icon question -type yesno -message $msg]
     if {$answer ne "yes"} { return false }
 
     set ::engines(list) [lreplace $::engines(list) $idx $idx]

@@ -127,7 +127,7 @@ namespace eval tacgame {
     
     # could not find engines
     if { $index1 == -1 || $index2 == -1 } {
-      tk_messageBox -title "Scid" -icon warning -type ok -message $::tr(PhalanxOrTogaMissing)
+      tk_messageBox -title "scidCommunity" -icon warning -type ok -message $::tr(PhalanxOrTogaMissing)
       return
     }
     
@@ -560,7 +560,7 @@ namespace eval tacgame {
       fileevent $analysisCoach(pipe1) readable {}
       catch {close $analysisCoach(pipe1)}
       set analysisCoach(pipe1) ""
-      tk_messageBox -type ok -icon info -parent .main -title "Scid" \
+      tk_messageBox -type ok -icon info -parent .main -title "scidCommunity" \
           -message "The analysis engine 1 terminated without warning; it probably crashed or had an internal error."
     }
     

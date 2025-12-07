@@ -393,13 +393,13 @@ proc ::windows::gamelist::CopyGames {{w} {srcBase} {dstBase} {filter "dbfilter"}
 		set err "$::tr(CopyErrTarget) ($targetName) $::tr(CopyErrReadOnly)."
 	}
 	if {$err != ""} {
-		tk_messageBox -type ok -icon info -title "Scid" \
+		tk_messageBox -type ok -icon info -title "scidCommunity" \
 			-message "$::tr(CopyErr) \n\"$fromName\" -> \"$targetName\": \n$err"
 		return
 	}
 	# If copying to the clipbase, do not bother asking for confirmation:
 	if {$ask && $dstBase != $::clipbase_db} {
-		set confirm [tk_messageBox -type "okcancel" -icon question -title "Scid: $::tr(CopyGames)" \
+		set confirm [tk_messageBox -type "okcancel" -icon question -title "scidCommunity: $::tr(CopyGames)" \
 			-message [subst $::tr(CopyConfirm)] ]
 		if {$confirm != "ok"} { return }
 	}

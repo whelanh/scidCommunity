@@ -25,7 +25,7 @@ namespace eval reviewgame {
 ################################################################################
 proc ::reviewgame::start {} {
   if { ! [::reviewgame::launchengine] } {
-    tk_messageBox -type ok -icon warning -title "Scid" -message "This feature require at least one UCI engine"
+    tk_messageBox -type ok -icon warning -title "scidCommunity" -message "This feature require at least one UCI engine"
     return
   }
 
@@ -261,7 +261,7 @@ proc ::reviewgame::checkPlayerMove {} {
   set actFen [sc_pos fen]
   sc_move forward
   if { $actFen != $::reviewgame::prevFen } {
-      tk_messageBox -type ok -icon warning -title "Scid" -message "Position changed. New evaluation required!"
+      tk_messageBox -type ok -icon warning -title "scidCommunity" -message "Position changed. New evaluation required!"
       ::reviewgame::resetValues
       set ::reviewgame::sequence 0
       sc_var exit
@@ -541,7 +541,7 @@ proc ::reviewgame::updateProgressBar {} {
 ################################################################################
 proc ::reviewgame::checkConsistency {} {
   if { $::reviewgame::boardFlipped != [::board::isFlipped .main.board] } {
-    tk_messageBox -type ok -icon warning -title "Scid" -message "Player side is not at bottom. Board is rotated!"
+    tk_messageBox -type ok -icon warning -title "scidCommunity" -message "Player side is not at bottom. Board is rotated!"
     return 0
   }
   return 1

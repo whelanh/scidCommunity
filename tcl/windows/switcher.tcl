@@ -515,7 +515,7 @@ proc changeBaseType {baseNum} {
   if {$temp_dbtype >= $numBaseTypeIcons} { set temp_dbtype 0 }
   set w .btypeWin
   win::createDialog $w
-  wm title $w "Scid: $::tr(ChangeIcon)"
+  wm title $w "scidCommunity: $::tr(ChangeIcon)"
 
   ttk::style configure btypeWin.Treeview -rowheight 36
   ttk::treeview $w.t -columns {} -show tree -selectmode browse \

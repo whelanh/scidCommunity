@@ -86,7 +86,7 @@ set scidVersionExpected "5.1.0"
 if {[string compare $::scidVersion $::scidVersionExpected]} {
   set msg "This is Scid version $::scidVersion, but the scid GUI (tcl/tk code)\n"
   append msg "has the version number $scidVersionExpected.\n"
-  tk_messageBox -type ok -icon error -title "Scid: Version Error" -message $msg
+  tk_messageBox -type ok -icon error -title "scidCommunity: Version Error" -message $msg
   exit 1
 }
 
@@ -237,7 +237,7 @@ proc InitImg {} {
   }
 }
 if {[catch {InitImg}]} {
-  tk_messageBox -type ok -icon error -title "Scid: Error" \
+  tk_messageBox -type ok -icon error -title "scidCommunity: Error" \
     -message "Cannot load images.\n$::errorCode\n\n$::errorInfo"
   exit
 }

@@ -71,7 +71,7 @@ namespace eval pgn {
           append fname ".pgn"
         }
         if {[catch {set tempfile [open $fname w]}]} {
-          tk_messageBox -title "Scid: Error saving file" -type ok -icon warning \
+          tk_messageBox -title "scidCommunity: Error saving file" -type ok -icon warning \
               -message "Unable to save the file: $fname\n\n"
         } else {
           puts $tempfile \
@@ -360,7 +360,7 @@ namespace eval pgn {
 proc ::pgn::openInChessCom {} {
   # Build PGN similar to clipboard export, then URL-encode and open.
   if {[catch {package require http}]} {
-    tk_messageBox -icon warning -type ok -title "Scid" -message "Tcl http package is unavailable; cannot upload PGN." -parent .
+    tk_messageBox -icon warning -type ok -title "scidCommunity" -message "Tcl http package is unavailable; cannot upload PGN." -parent .
     return
   }
 

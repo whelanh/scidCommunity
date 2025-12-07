@@ -203,7 +203,7 @@ proc ::utils::sound::OptionsDialog { w } {
 proc ::utils::sound::GetDialogChooseFolder { widget } {
     set newFolder [tk_chooseDirectory \
                        -initialdir $::utils::sound::soundFolder \
-                       -title "Scid: $::tr(SoundsFolder)" -parent [winfo toplevel $widget] ]
+                       -title "scidCommunity: $::tr(SoundsFolder)" -parent [winfo toplevel $widget] ]
     # If the user selected a different folder to look in, read it
     # and tell the user how many sound files were found there.
     if {$newFolder != "" && $newFolder != $::utils::sound::soundFolder } {
@@ -217,7 +217,7 @@ proc ::utils::sound::GetDialogChooseFolder { widget } {
 proc ::utils::sound::OptionsDialogChooseFolder { newFolder } {
     set ::utils::sound::soundFolder [file nativename $newFolder]
     set numSoundFiles [::utils::sound::ReadFolder]
-    tk_messageBox -title "Scid: Sound Files" -type ok -icon info -parent .resDialog \
+    tk_messageBox -title "scidCommunity: Sound Files" -type ok -icon info -parent .resDialog \
         -message "Found $numSoundFiles of [llength $::utils::sound::soundFiles] sound files in $::utils::sound::soundFolder"
     return $numSoundFiles
 }
@@ -245,7 +245,7 @@ proc ::utils::sound::OptionsDialogOK {} {
   
   if {$isNewSoundFolder  &&  $soundFolder != ""} {
     set numSoundFiles [::utils::sound::ReadFolder]
-    tk_messageBox -title "Scid: Sound Files" -type ok -icon info \
+    tk_messageBox -title "scidCommunity: Sound Files" -type ok -icon info \
         -message "Found $numSoundFiles of [llength $::utils::sound::soundFiles] sound files in $::utils::sound::soundFolder"
   }
 }

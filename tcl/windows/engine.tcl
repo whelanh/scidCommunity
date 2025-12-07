@@ -339,7 +339,7 @@ proc ::enginewin::applyLimits {id} {
     if {!$::enginewin::limits_reminder_shown && \
         ($::enginewin::depth_limit ne "" || $::enginewin::movetime_limit ne "")} {
         set ::enginewin::limits_reminder_shown true
-        tk_messageBox -title "Scid" -type ok -icon info \
+        tk_messageBox -title "scidCommunity" -type ok -icon info \
             -message "Engine depth and time limits have been set.\n\nTo have these settings automatically loaded when you start Scid, select \"Save Options\" from the Options menu before exiting."
     }
     

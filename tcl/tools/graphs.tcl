@@ -77,7 +77,7 @@ proc ::tools::graphs::Save {mode w} {
   }
 
   if {[catch {$w postscript -file $fname -colormode $mode} result]} {
-    tk_messageBox -icon info -parent $w -title "Scid" -message $result
+    tk_messageBox -icon info -parent $w -title "scidCommunity" -message $result
   }
 }
 
@@ -839,7 +839,7 @@ proc ::tools::graphs::rating::Refresh {{type ""} {player ""}} {
     }
     bind $w.c <Button-1> "::tools::graphs::rating::Refresh"
     bind $w.c <Button-$::MB3> "::tools::graphs::rating::Refresh"
-    wm title $w "Scid: [tr ToolsRating]"
+    wm title $w "scidCommunity: [tr ToolsRating]"
     ::tools::graphs::rating::ConfigMenus
   }
 

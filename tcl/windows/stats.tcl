@@ -19,7 +19,7 @@ proc ::windows::stats::Open {} {
     return
   }
   win::createDialog $w
-  wm title $w "Scid: $::tr(FilterStatistic)"
+  wm title $w "scidCommunity: $::tr(FilterStatistic)"
   setWinLocation $w
   bind $w <Configure> "recordWinSize $w"
 
@@ -35,7 +35,7 @@ proc ::windows::stats::Open {} {
     set fname [tk_getSaveFile -initialdir [pwd] -filetypes $ftype -title "Save text file"]
     if {$fname != ""} {
       if {[catch {set tempfile [open $fname w]}]} {
-        tk_messageBox -title "Scid: Error saving file" -type ok -icon warning \
+        tk_messageBox -title "scidCommunity: Error saving file" -type ok -icon warning \
           -message "Unable to save the file: $fname\n\n"
       } else {
         puts $tempfile [.statsWin.stats get 1.0 end-1c]

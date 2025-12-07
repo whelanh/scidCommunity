@@ -204,13 +204,13 @@ proc ::file::Open_ {fName } {
 proc ::file::Upgrade {name} {
   if {[file readable "$name.si4"]} {
     set msg [string trim $::tr(ConfirmOpenNew)]
-    set res [tk_messageBox -title "Scid" -type yesno -icon info -message $msg]
+    set res [tk_messageBox -title "scidCommunity" -type yesno -icon info -message $msg]
     if {$res == "no"} { return }
     return [::file::Open_ "$name.si4"]
   }
 
   set msg [string trim $::tr(ConfirmUpgrade)]
-  set res [tk_messageBox -title "Scid" -type yesno -icon info -message $msg]
+  set res [tk_messageBox -title "scidCommunity" -type yesno -icon info -message $msg]
   if {$res == "no"} { return }
 
   set err [catch {

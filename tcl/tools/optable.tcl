@@ -99,7 +99,7 @@ proc ::optable::makeReportWin {args} {
     set w .progress
     toplevel $w -background [ttk::style lookup . -background]
     wm withdraw $w
-    wm title $w "Scid: Generating Report"
+    wm title $w "scidCommunity: Generating Report"
     bind $w <Visibility> "raiseWin $w"
 
     pack [ttk::frame $w.b] -side bottom -fill x
@@ -283,15 +283,15 @@ proc ::optable::mergeGames { {game_count 50} {ply 999} } {
     set res [scan $g "%d:  <g_%d>" d1 game_number]
     if {$res != 2} {
       if {[info exists game_number]} {
-        tk_messageBox -title "Scid: Error writing report" -type ok -icon warning -message "Error merging game $game_number"
+        tk_messageBox -title "scidCommunity: Error writing report" -type ok -icon warning -message "Error merging game $game_number"
       } else  {
-        tk_messageBox -title "Scid: Error writing report" -type ok -icon warning -message "Error merging game"
+        tk_messageBox -title "scidCommunity: Error writing report" -type ok -icon warning -message "Error merging game"
       }
       break
     }
     set err [ catch { sc_game merge $base $game_number $ply } result ]
     if {$err} {
-      tk_messageBox -title "Scid" -type ok -icon info -message "Unable to merge the selected game:\n$result"
+      tk_messageBox -title "scidCommunity" -type ok -icon info -message "Unable to merge the selected game:\n$result"
       break
     }
   }
@@ -395,7 +395,7 @@ proc ::optable::setOptions {} {
   packdlgbuttons $w.b.cancel $w.b.ok
   array set ::optable::backup [array get ::optable]
   wm resizable $w 0 0
-  wm title $w  "Scid: [tr ToolsOpReport]: [tr OprepFileOptions]"
+  wm title $w  "scidCommunity: [tr ToolsOpReport]: [tr OprepFileOptions]"
   bind $w <Escape> "$w.b.cancel invoke"
 }
 
@@ -420,16 +420,16 @@ proc ::optable::previewLaTeX {} {
   close $tempfile
   if {! [catch {exec /bin/sh -c "cd $tmpdir; latex '$tmpfile.tex'" >& /dev/null}]} {
     if {[catch {exec /bin/sh -c "cd $tmpdir; dvips '$tmpfile.dvi'" >& /dev/null}]} {
-      tk_messageBox -title "Scid" -icon warning -type ok \
+      tk_messageBox -title "scidCommunity" -icon warning -type ok \
           -message "Unable to run \"dvips\" to convert the report to PostScript."
     } else {
       if {[catch {exec /bin/sh -c "ghostview '$fname.ps'" >& /dev/null &}]} {
-        tk_messageBox -title "Scid" -icon warning -type ok \
+        tk_messageBox -title "scidCommunity" -icon warning -type ok \
             -message "Unable to run \"xdvi\" to view the report."
       }
     }
   } else {
-    tk_messageBox -title "Scid: Errors producing report" -type ok \
+    tk_messageBox -title "scidCommunity: Errors producing report" -type ok \
         -icon warning \
         -message "Errors running latex on the file: $fname.tex\n\nSee $fname.log for details."
   }
@@ -1173,7 +1173,7 @@ proc ::optable::favoriteReportNames {} {
 proc ::optable::addFavoriteDlg {} {
   set w .addFavoriteDlg
   win::createDialog $w
-  wm title $w "Scid: Add Opening Report Favorite"
+  wm title $w "scidCommunity: Add Opening Report Favorite"
   ttk::label $w.name -text "Enter a name for the opening report of this position:"
   pack $w.name -side top
   ttk::entry $w.e -width 40
@@ -1215,7 +1215,7 @@ proc ::optable::addFavoriteOK {} {
     destroy $w
     return
   }
-  tk_messageBox -title Scid -icon info -type ok -message $err
+  tk_messageBox -title scidCommunity -icon info -type ok -message $err
 }
 
 set reportFavoritesName ""
@@ -1231,7 +1231,7 @@ proc ::optable::editFavoritesDlg {} {
 
   set ::reportFavoritesTemp $::reportFavorites
   win::createDialog $w
-  wm title $w "Scid: [tr OprepFavoritesEdit]"
+  wm title $w "scidCommunity: [tr OprepFavoritesEdit]"
   # wm transient $w .
   bind $w <F1> {helpWindow Reports Opening}
   ttk::entry $w.e -width 60 \
@@ -1384,7 +1384,7 @@ set reportType full
 proc ::optable::generateFavoriteReports {} {
   global reportFavorites
   if {[llength $reportFavorites] == 0} {
-    tk_messageBox -title "Scid" -type ok -icon info \
+    tk_messageBox -title "scidCommunity" -type ok -icon info \
         -message "You have no favorite report positions."
     return
   }
@@ -1393,7 +1393,7 @@ proc ::optable::generateFavoriteReports {} {
   set w .reportFavoritesDlg
   if {[winfo exists $w]} { return }
   win::createDialog $w
-  wm title $w "Scid: Generate Reports..."
+  wm title $w "scidCommunity: Generate Reports..."
   pack [ttk::label $w.typelabel -text "Select the report type:" -font font_Bold] -side top -anchor w
   pack [ttk::frame $w.type] -side top -anchor w
   ttk::radiobutton $w.type.full -text "Full" -variable reportType -value full
@@ -1443,7 +1443,7 @@ proc ::optable::reportFavoritesOK {} {
   set w .reportsProgress
   toplevel $w
   wm withdraw $w
-  wm title $w "Scid: Generating Reports"
+  wm title $w "scidCommunity: Generating Reports"
   bind $w <Visibility> "raiseWin $w"
   pack [ttk::label $w.t -width 40 -text "Generating reports. Please wait..." -font font_Bold] -side top -pady 5
   pack [ttk::label $w.report] -side top -pady 5
@@ -1458,7 +1458,7 @@ proc ::optable::reportFavoritesOK {} {
     set moves [lindex $entry 1]
     set fname [file join $reportDir "$name$suffix"]
     if {[catch {open $fname w} f]} {
-      tk_messageBox -title "Scid" -icon warning -type ok \
+      tk_messageBox -title "scidCommunity" -icon warning -type ok \
           -message "Unable to write file: $fname\n$f"
       grab release $w
       destroy $w

@@ -157,7 +157,7 @@ proc ::utils::history::Save {{reportError 0}} {
   
   if  {[catch {open $filename w} f]} {
     if {$reportError} {
-      tk_messageBox -title "Scid" -type ok -icon warning \
+      tk_messageBox -title "scidCommunity" -type ok -icon warning \
           -message "Unable to write file: $filename\n$f"
     }
     return

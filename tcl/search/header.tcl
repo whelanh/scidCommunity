@@ -864,7 +864,7 @@ proc chooseEcoRange {} {
   if {[winfo exists .ecoRangeWin]} { return }
   set w .ecoRangeWin
   toplevel $w
-  wm title $w "Scid: Choose ECO Range"
+  wm title $w "scidCommunity: Choose ECO Range"
   wm minsize $w 30 5
 
   ttk::treeview $w.list -yscrollcommand "$w.ybar set" -columns {0} -show {} -selectmode browse

@@ -716,10 +716,10 @@ proc readECOFile { fullname } {
   global ecoFile
   if {[string compare $fullname ""]} {
     if {[catch {sc_eco read $fullname} result]} {
-      tk_messageBox -title "Scid" -type ok -icon warning -message $result -parent .resDialog
+      tk_messageBox -title "scidCommunity" -type ok -icon warning -message $result -parent .resDialog
     } else {
       set ecoFile $fullname
-      tk_messageBox -title "Scid: ECO file loaded." -type ok -icon info -parent .resDialog \
+      tk_messageBox -title "scidCommunity: ECO file loaded." -type ok -icon info -parent .resDialog \
           -message "ECO file $fullname loaded: $result positions.\n\nTo have this file automatically loaded when you start Scid, select \"Save Options\" from the Options menu before exiting."
       return 1
     }
@@ -737,7 +737,7 @@ proc updateLocale {} {
 }
 
 proc chooseHighlightColor {} {
-  set col [ tk_chooseColor -initialcolor $::highlightLastMoveColor -title "Scid"]
+  set col [ tk_chooseColor -initialcolor $::highlightLastMoveColor -title "scidCommunity"]
   if { $col != "" } {
     set ::highlightLastMoveColor $col
     updateBoard

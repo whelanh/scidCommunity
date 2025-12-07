@@ -114,7 +114,7 @@ proc ::ptrack::make {} {
   if {[winfo exists $w]} { return }
 
   toplevel $w -background [ttk::style lookup . -background]
-  wm title $w "Scid: [tr ToolsTracker]"
+  wm title $w "scidCommunity: [tr ToolsTracker]"
   setWinLocation $w
   bind $w <Escape> "destroy $w"
   bind $w <F1> {helpWindow PTracker}

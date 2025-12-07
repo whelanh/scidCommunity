@@ -226,7 +226,7 @@ proc chooseBoardColors { w {choice -1}} {
     LightSquares DarkSquares SelectedSquares SuggestedSquares
   } {
     button $f.b$c -image e20 -background [set $c] -command "
-    set x \[ tk_chooseColor -initialcolor \$newColors($c) -title Scid \]
+    set x \[ tk_chooseColor -initialcolor \$newColors($c) -title scidCommunity \]
     if {\$x != \"\"} { set newColors($c) \$x; updateBoardColors $w}
     "
     ttk::label $f.l$c -text "$::tr($n)  "

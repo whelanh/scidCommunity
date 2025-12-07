@@ -9,7 +9,7 @@ proc importPgnGame {} {
   if {[winfo exists .importWin]} { return }
   set w .importWin
   win::createDialog $w
-  wm title $w "Scid: $::tr(ImportPGN)"
+  wm title $w "scidCommunity: $::tr(ImportPGN)"
   wm minsize $w 50 5
   ttk::frame $w.b
   pack $w.b -side bottom -fill x
@@ -152,7 +152,7 @@ proc importPgnFile {{base} {fnames ""}} {
   set w .ipgnWin
   if {[winfo exists $w]} { destroy $w }
   win::createDialog $w
-  wm title $w "Scid: $::tr(ImportingFiles) [file tail [sc_base filename $base] ]"
+  wm title $w "scidCommunity: $::tr(ImportingFiles) [file tail [sc_base filename $base] ]"
 
   ttk::frame $w.buttons
   canvas $w.progress -width 400 -height 20 -bg white -relief solid -border 1 -highlightthickness 0

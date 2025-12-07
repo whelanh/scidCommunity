@@ -66,7 +66,7 @@ proc ::search::usefile {} {
   if {$::fName == ""} { return }
   
   if {[catch {uplevel "#0" {source $::fName} } ]} {
-    tk_messageBox -title "Scid: Error reading file" -type ok -icon warning \
+    tk_messageBox -title "scidCommunity: Error reading file" -type ok -icon warning \
         -message "Unable to open or read SearchOptions file: $fName"
   } else {
     switch -- $::searchType {

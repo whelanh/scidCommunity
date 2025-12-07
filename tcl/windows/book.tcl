@@ -110,7 +110,7 @@ namespace eval book {
 
     # No book found
     if { [llength $bookList] == 0 } {
-      tk_messageBox -title "Scid" -type ok -icon error -message "No books found. Check books directory"
+      tk_messageBox -title "scidCommunity" -type ok -icon error -message "No books found. Check books directory"
       set ::book::isOpen 0
       set ::book::currentBook ""
       ::win::closeWindow $w
@@ -154,7 +154,7 @@ namespace eval book {
     bind $w <Destroy> "::book::closeMainBook"
     # we make a redundant check here, another one is done a few line above
     if { [catch {bookSelect} ] } {
-      tk_messageBox -title "Scid" -type ok -icon error -message "No books found. Check books directory"
+      tk_messageBox -title "scidCommunity" -type ok -icon error -message "No books found. Check books directory"
       set ::book::isOpen 0
       set ::book::currentBook ""
       ::win::closeWindow .bookWin
@@ -275,7 +275,7 @@ namespace eval book {
 
     # No book found
     if { [llength $bookList] == 0 } {
-      tk_messageBox -title "Scid" -type ok -icon error -message "No books found. Check books directory"
+      tk_messageBox -title "scidCommunity" -type ok -icon error -message "No books found. Check books directory"
       set ::book::isOpen 0
       set ::book::currentBook ""
       ::win::closeWindow $w
@@ -440,10 +440,10 @@ namespace eval book {
     set ::book::hashList ""
     closeProgressWindow
     if { $::book::exportCount >= $::book::exportMax } {
-      tk_messageBox -title "Scid" -type ok -icon info \
+      tk_messageBox -title "scidCommunity" -type ok -icon info \
           -message "$::tr(Movesloaded)  $::book::exportCount\n$::tr(BookPartiallyLoaded)"
     } else  {
-      tk_messageBox -title "Scid" -type ok -icon info -message "$::tr(Movesloaded)  $::book::exportCount"
+      tk_messageBox -title "scidCommunity" -type ok -icon info -message "$::tr(Movesloaded)  $::book::exportCount"
     }
     updateBoard -pgn
   }

@@ -21,7 +21,7 @@ proc ::recentFiles::save {{reportError 0}} {
   set filename [scidConfigFile recentfiles]
   if  {[catch {open $filename w} f]} {
     if {$reportError} {
-      tk_messageBox -title "Scid" -type ok -icon warning \
+      tk_messageBox -title "scidCommunity" -type ok -icon warning \
           -message "Unable to write file: $filename\n$f"
     }
     return

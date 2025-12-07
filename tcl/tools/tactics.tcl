@@ -436,7 +436,7 @@ namespace eval tactics {
         if {$nextTactic == 0} {
             set g [sc_filter next]
             if {$g == 0} {
-                tk_messageBox -title "Scid" -icon info -type ok -message $::tr(AllExercisesDone)
+                tk_messageBox -title "scidCommunity" -icon info -type ok -message $::tr(AllExercisesDone)
                 return
             }
             sc_game load $g
@@ -471,7 +471,7 @@ namespace eval tactics {
     proc exSolved {} {
         ::tactics::stopAnalyze
         ::gameclock::stop 1
-        tk_messageBox -title "Scid" -icon info -type ok -message $::tr(MateFound)
+        tk_messageBox -title "scidCommunity" -icon info -type ok -message $::tr(MateFound)
         sc_game tags set -site $::tactics::solved
         sc_game save [sc_game number]
         ::tactics::loadNextGame
@@ -542,7 +542,7 @@ namespace eval tactics {
         # compare results
         set res [::tactics::foundBestLine]
         if {  $res != ""} {
-            tk_messageBox -title "Scid" -icon info -type ok -message "$::tr(BestSolutionNotFound)\n$res"
+            tk_messageBox -title "scidCommunity" -icon info -type ok -message "$::tr(BestSolutionNotFound)\n$res"
             # take back last move so restore engine status
             set analysisEngine(score) $prevScore
             set analysisEngine(moves) $prevLine

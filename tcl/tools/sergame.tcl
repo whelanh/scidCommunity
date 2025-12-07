@@ -598,7 +598,7 @@ namespace eval sergame {
       
       if {$blunder != 0} {
         clocks stop
-        set answer [tk_messageBox -icon question -parent .main -title "Scid" -type yesno -message $::tr($tBlunder) ]
+        set answer [tk_messageBox -icon question -parent .main -title "scidCommunity" -type yesno -message $::tr($tBlunder) ]
         if {$answer == yes} {
           takeBack $takebackClockW $takebackClockB
           after 1000 ::sergame::engineGo $n

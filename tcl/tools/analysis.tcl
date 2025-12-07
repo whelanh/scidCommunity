@@ -439,7 +439,7 @@ proc ::enginelist::delete {index} {
     set msg "Name: [lindex $e 0]\n"
     append msg "Command: [lindex $e 1]\n\n"
     append msg "Do you really want to remove this engine from the list?"
-    set answer [tk_messageBox -title Scid -icon question -type yesno \
+    set answer [tk_messageBox -title scidCommunity -icon question -type yesno \
             -message $msg]
     if {$answer == "yes"} {
         set engines(list) [lreplace $engines(list) $index $index]
@@ -587,7 +587,7 @@ proc ::enginelist::edit {index} {
         if {[string trim $engines(newName)] == ""  ||
             [string trim $engines(newCmd)] == ""  ||
             [string trim $engines(newDir)] == ""} {
-            tk_messageBox -title Scid -icon info \
+            tk_messageBox -title scidCommunity -icon info \
                     -message "The Name, Command and Directory fields must not be empty."
         } else {
             set newEntry [list $engines(newName) $engines(newCmd) \
@@ -2216,11 +2216,11 @@ proc checkEngineIsAlive { {n 1} } {
         set analysis(pipe$n) ""
         if { $exit_status != 0 } {
             logEngineNote $n {Engine terminated with exit code $exit_status: "\"$standard_error\""}
-            tk_messageBox -type ok -icon info -parent . -title "Scid" \
+            tk_messageBox -type ok -icon info -parent . -title "scidCommunity" \
                           -message "The analysis engine terminated with exit code $exit_status: \"$standard_error\""
         } else {
             logEngineNote $n {Engine terminated without exit code: "\"$standard_error\""}
-            tk_messageBox -type ok -icon info -parent . -title "Scid" \
+            tk_messageBox -type ok -icon info -parent . -title "scidCommunity" \
                           -message "The analysis engine terminated without exit code: \"$standard_error\""
         }
         catch {destroy .analysisWin$n}
