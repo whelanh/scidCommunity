@@ -776,7 +776,7 @@ proc options.write {} {
         }
       }
       foreach var [lsort -unique $vars] {
-        puts $optionF "set $var [list [set $var]]"
+        puts $optionF "set [list $var] [list [set $var]]"
       }
     }
 
