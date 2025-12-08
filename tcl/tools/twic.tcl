@@ -58,6 +58,9 @@ proc ::twic::downloadWeek {week} {
       -message "Error downloading TWIC week $weeknum:\n$err"
     return
   }
+  
+  # Store week number for final message
+  set ::twic::weekNumber $weeknum
 }
 
 # twic::getCurrentWeekNumber
@@ -66,10 +69,10 @@ proc ::twic::downloadWeek {week} {
 #   Each week increments by 1, released on Monday at ~8pm EST
 #
 proc ::twic::getCurrentWeekNumber {} {
-  # Use a known reference: Week 1621 on approximately Dec 4, 2025
-  # Reference epoch: Dec 4, 2025 00:00:00 UTC
+  # Use a known reference: Week 1621 on approximately Dec 2, 2025
+  # Reference epoch: Dec 2, 2025 00:00:00 UTC
   set reference_week 1621
-  set reference_epoch 1764758400  ;# 2025-12-04 00:00:00 UTC
+  set reference_epoch 1764633600  ;# 2025-12-02 00:00:00 UTC
   
   set current_epoch [clock seconds]
   
@@ -125,7 +128,7 @@ proc ::twic::downloadTWICWeek {weeknum} {
     error "Downloaded file is empty or missing"
   }
   
-  ::twic::extractZIP $zipfile
+  ::twic::extractZIP $zipfile $weeknum
 }
 
 # twic::downloadWithHTTP
@@ -171,7 +174,7 @@ proc ::twic::downloadZIP {zipurl} {
 #   Extract PGN files from ZIP archive
 #   Tries multiple methods: unzip command, then Tcllib vfs::zip, then fallback zip handling
 #
-proc ::twic::extractZIP {zipfile} {
+proc ::twic::extractZIP {zipfile weeknum} {
   set extractdir [file join $::twic::tempDir "extracted"]
   file mkdir $extractdir
   
@@ -349,16 +352,16 @@ proc ::twic::extractZIP {zipfile} {
   
   # If multiple PGN files, merge them first
   if {[llength $pgnfiles] > 1} {
-    ::twic::mergePGNFiles $pgnfiles
+    ::twic::mergePGNFiles $pgnfiles $weeknum
   } else {
-    ::twic::openPGNInImport [lindex $pgnfiles 0]
+    ::twic::openPGNInImport [lindex $pgnfiles 0] $weeknum
   }
 }
 
 # twic::mergePGNFiles
 #   Merge multiple PGN files into a single file
 #
-proc ::twic::mergePGNFiles {pgnfiles} {
+proc ::twic::mergePGNFiles {pgnfiles weeknum} {
   set outputfile [file join $::twic::tempDir "twic_merged.pgn"]
   
   if {[catch {
@@ -380,13 +383,13 @@ proc ::twic::mergePGNFiles {pgnfiles} {
     error "Error merging PGN files: $err"
   }
   
-  ::twic::openPGNInImport $outputfile
+  ::twic::openPGNInImport $outputfile $weeknum
 }
 
 # twic::openPGNInImport
 #   Open the PGN file in the import dialog
 #
-proc ::twic::openPGNInImport {pgnfile} {
+proc ::twic::openPGNInImport {pgnfile weeknum} {
   # Re-enable the menu item
   catch {.menu.tools entryconfig "Download TWIC*" -state normal}
   set ::twic::downloading 0
@@ -404,12 +407,12 @@ proc ::twic::openPGNInImport {pgnfile} {
     set destdir [pwd]
   }
   
-  set destfile [file join $destdir "twic_[clock format [clock seconds] -format %Y%m%d].pgn"]
+  set destfile [file join $destdir "twic_${weeknum}.pgn"]
   
   # Make sure destination is writable and unique
   set counter 1
   while {[file exists $destfile]} {
-    set destfile [file join $destdir "twic_[clock format [clock seconds] -format %Y%m%d]_$counter.pgn"]
+    set destfile [file join $destdir "twic_${weeknum}_${counter}.pgn"]
     incr counter
   }
   
@@ -429,7 +432,7 @@ proc ::twic::openPGNInImport {pgnfile} {
   ::file::Open $destfile
   
   tk_messageBox -icon info -type ok -title "TWIC Download Complete" \
-    -message "TWIC games downloaded successfully.\n\nFile: [file tail $destfile]\n\nYou can now filter, merge, or import these games."
+    -message "TWIC games downloaded successfully.\n\nWeek: $weeknum\nFile: [file tail $destfile]\n\nYou can now filter, merge, or import these games."
 }
 
 # twic::getTempDir
