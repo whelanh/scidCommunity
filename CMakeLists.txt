@@ -94,6 +94,10 @@ install(DIRECTORY scripts DESTINATION share/scid)
 install(DIRECTORY sounds DESTINATION share/scid)
 install(DIRECTORY tcl DESTINATION share/scid)
 
+# Install desktop file, appdata, and icon
+install(FILES data/io.github.whelanh.scidCommunity.desktop DESTINATION share/applications)
+install(FILES data/io.github.whelanh.scidCommunity.appdata.xml DESTINATION share/metainfo)
+install(FILES data/io.github.whelanh.scidCommunity.svg DESTINATION share/icons/hicolor/scalable/apps)
 
 # engine phalanx
 file(GLOB PHALANX_SRC engines/phalanx-scid/*.c)
