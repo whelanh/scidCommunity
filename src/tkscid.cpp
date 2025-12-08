@@ -3732,11 +3732,6 @@ sc_game_tags_get (ClientData, Tcl_Interp * ti, int argc, const char ** argv)
         Tcl_AppendResult (ti, s, NULL);
         break;
 
-    case T_Site:
-        s = g->GetSiteStr();  if (!s) { s = "?"; }
-        Tcl_AppendResult (ti, s, NULL);
-        break;
-
     case T_Date:
         {
             char dateStr[20];
@@ -3892,25 +3887,27 @@ sc_game_tags_set (ClientData, Tcl_Interp * ti, int argc, const char ** argv)
                 {
                     // Add all the nonstandard tags:
                     db->game->ClearExtraTags ();
-                    Tcl_Size largc;
-                    const char ** largv;
-                    if (Tcl_SplitList (ti, value, &largc, &largv) != TCL_OK)
-                        return errorResult (ti, "Error parsing extra tags.");
 
+                    Tcl_Obj* list = Tcl_NewStringObj(value, -1);
+                    Tcl_IncrRefCount(list);
+
+                    decltype(Tcl_GetCharLength(nullptr)) objc; // size type changed with Tcl9
+                    Tcl_Obj** objv;
+                    // Usage :: sc_game tags set -extra [ list "Annotator \"boob [sc_pos moveNumber]\"" ]
+                    if (Tcl_ListObjGetElements(ti, list, &objc, &objv) != TCL_OK) {
+                        Tcl_DecrRefCount(list);
+                        return errorResult(ti, "Error parsing extra tags.");
+                    }
                     // Extract each tag-value pair and add it to the game:
-                    for (int i=0; i < largc; i++) {
-                        char tagStr [1024];
-                        char valueStr [1024];
-                        //if ( 	sscanf (largv[i], "%s", tagStr ) == 1 &&
-                        //			sscanf (largv[i+1], "%s", valueStr) == 1) {
-                        // Usage :: sc_game tags set -extra [ list "Annotator \"boob [sc_pos moveNumber]\"\n" ]
-                        if (sscanf (largv[i], "%s \"%[^\"]\"\n", tagStr, valueStr) == 2) {
-                            db->game->addTag(tagStr, valueStr);
-                        } else {
-                            // Invalid line in the list; just ignore it.
+                    for (auto it = objv, end = objv + objc; it != end; ++it) {
+                        decltype(objc) n;
+                        decltype(objv) v;
+                        // We expect a pair. Invalid entries are ignored.
+                        if (Tcl_ListObjGetElements(ti, *it, &n, &v) == TCL_OK && n == 2) {
+                            db->game->addTag(Tcl_GetString(v[0]), Tcl_GetString(v[1]));
                         }
                     }
-                    Tcl_Free ((char *) largv);
+                    Tcl_DecrRefCount(list);
                 }
                 break;
             default:
