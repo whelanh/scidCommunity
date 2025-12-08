@@ -3732,6 +3732,11 @@ sc_game_tags_get (ClientData, Tcl_Interp * ti, int argc, const char ** argv)
         Tcl_AppendResult (ti, s, NULL);
         break;
 
+    case T_Site:
+        s = g->GetSiteStr();  if (!s) { s = "?"; }
+        Tcl_AppendResult (ti, s, NULL);
+        break;
+
     case T_Date:
         {
             char dateStr[20];
