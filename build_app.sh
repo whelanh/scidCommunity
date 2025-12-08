@@ -6,7 +6,7 @@ fi
 
 cd $Build_SourcesDirectory
 mkdir -p tcltk && cd tcltk
-git clone --depth=1 --branch core-8-6-15 https://github.com/tcltk/tcl.git
+git clone --depth=1 --branch core-8-6-branch https://github.com/tcltk/tcl.git
 cd tcl/unix
 ./configure --prefix=$Build_SourcesDirectory/tcltk --enable-64bit --disable-shared
 make -j
@@ -14,7 +14,7 @@ make install
 
 cd $Build_SourcesDirectory
 mkdir -p tcltk && cd tcltk
-git clone --depth=1 --branch core-8-6-15 https://github.com/tcltk/tk.git
+git clone --depth=1 --branch core-8-6-branch https://github.com/tcltk/tk.git
 # LAYOUT_WITH_BASE_CHUNKS is not thread safe
 sed -i'' -e '/define TK_LAYOUT_WITH_BASE_CHUNKS/d' tk/macosx/tkMacOSXInt.h
 sed -i'' -e '/define TK_DRAW_IN_CONTEXT/d' tk/macosx/tkMacOSXInt.h
@@ -43,13 +43,13 @@ fi
 
 cd $Build_SourcesDirectory
 if [[ "$(uname)" == "Darwin" ]]; then
-  STATIC_FLAGS="-lz -framework CoreFoundation"
+  EXTRA_TCL_LIBS="-lz -framework CoreFoundation"
 else
-  STATIC_FLAGS="-lz -ldl"
+  EXTRA_TCL_LIBS="-lz -ldl"
 fi
 
 tcltk/bin/tclsh8.6 configure \
-  LINK="g++ $STATIC_FLAGS" \
+  LIBS="$EXTRA_TCL_LIBS" \
   TCL_INCLUDE="-I$Build_SourcesDirectory/tcltk/include" \
   TCL_LIBRARY="-L$Build_SourcesDirectory/tcltk/lib -ltcl8.6 -ltk8.6" \
   SHAREDIR="$Build_SourcesDirectory/ScidCommunity.app/Contents/scid" \
