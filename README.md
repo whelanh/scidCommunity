@@ -88,7 +88,7 @@ sudo make install
 On Linux, you can use pre-built packages from the Releases page:
 
 - DEB (Ubuntu/Debian): built via GitHub Actions; declares runtime deps `tk8.6, libtcl8.6, libtk8.6`.
-- RPM (Fedora/openSUSE): built via GitHub Actions; version taken from the tag; bundles Tcl/Tk libraries and a wrapper script.
+- RPM (Fedora/openSUSE): Available via the Releases page here and through the [Fedora Copr Repo](https://copr.fedorainfracloud.org/coprs/whelanh/scidcommunity/)
 - AppImage: self-contained; includes Tcl/Tk 8.6 runtime.
 
 
