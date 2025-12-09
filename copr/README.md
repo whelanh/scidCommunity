@@ -106,12 +106,12 @@ sudo dnf remove scidcommunity
 ## Updating the Package
 
 ### For New Releases
-1. Update the `Version` field in `scidcommunity.spec`
-2. Add entry to `%changelog` section
-3. Commit and push changes
-4. Create a git tag: `git tag v5.1.2`
-5. Push the tag: `git push origin v5.1.2`
-6. In COPR, trigger a rebuild or wait for auto-rebuild if enabled
+1. Make your code changes
+2. Commit and push to the github branch
+3. Update line 7 in copr/scidcommunity.spec with the new commit hash
+4. Commit and push the spec file update
+5. Run the build command
+`distrobox enter fedoraRawhide -- copr-cli build-package whelanh/scidcommunity --name scidcommunity`
 
 ### For Development Builds
 - Keep the Committish as `github` (or your development branch)
