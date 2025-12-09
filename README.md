@@ -41,7 +41,7 @@ New *Table Base* button:
 
 
 ## 💽 Releases
-Check latest **Releases** for a deb, rpm, exe, a MacOS and AppImage installable package.  The deb has been tested against Ubuntu 24, the rpm against Fedora Rawhide, the AppImage against Fedora Kinoite (Rawhide) and the exe file against a Windows 11 virtual machine. The Mac version has not been tested and feedback would be appreciated.
+Check latest **Releases** for a deb, rpm, exe, a MacOS and AppImage installable package.  The deb has been tested against Ubuntu 24, the rpm against Fedora Rawhide, the AppImage against Fedora Kinoite (Rawhide) and the exe file against a Windows 11 virtual machine. The Mac version has not been tested and feedback would be appreciated.  For rpm based Linux systems, ScidCommunity is also available through the [Fedora Copr Repo](https://copr.fedorainfracloud.org/coprs/whelanh/scidcommunity/).
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 ScidCommunity is based on Scid (Shane's Chess Information Database), a multi-platform (Linux, Mac OS X, Windows) chess database application. It is a fork open to user ideas for further improvements.
@@ -83,13 +83,8 @@ make -j$(nproc)
 sudo make install
 ```
 
-### Pre-built Packages
 
-On Linux, you can use pre-built packages from the Releases page:
 
-- DEB (Ubuntu/Debian): built via GitHub Actions; declares runtime deps `tk8.6, libtcl8.6, libtk8.6`.
-- RPM (Fedora/openSUSE): Available via the Releases page here and through the [Fedora Copr Repo](https://copr.fedorainfracloud.org/coprs/whelanh/scidcommunity/)
-- AppImage: self-contained; includes Tcl/Tk 8.6 runtime.
 
 
 
