@@ -1,17 +1,15 @@
 Name:           scidcommunity
 Version:        5.1.1
-Release:        3.git%(c=%{commit}; echo ${c:0:7})%{?dist}
+Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit cee3cc8b96b1476e44547c130e9316de47e9810b
+%global commit 03f5fb349a2258bf70d2f4dc915b84014b189df9
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
 URL:            https://github.com/whelanh/scidCommunity
-# For COPR SCM method: point to specific commit instead of tag
-# Source0: https://github.com/whelanh/scidCommunity/archive/%{commit}/scidcommunity-%{shortcommit}.tar.gz
-Source0:        scidcommunity-%{version}.tar.gz
+Source0:        https://github.com/whelanh/scidCommunity/archive/%{commit}/scidCommunity-%{commit}.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
