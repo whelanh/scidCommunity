@@ -715,9 +715,10 @@ proc configure_style {} {
     option add [lindex $elem 1] [lindex $elem 2]
   }
 
-  #Load light or dark icons (if the theme name contains "dark")
+  #Load light or dark icons (if the theme name contains "dark" or is cobalt2)
   set icons_dir "icons_light"
-  if {[string first "dark" [ttk::style theme use]] != -1} {
+  set theme [ttk::style theme use]
+  if {[string first "dark" $theme] != -1 || $theme eq "cobalt2"} {
     set icons_dir "icons_dark"
   }
   set dname [file join $::scidImgDir $icons_dir]
