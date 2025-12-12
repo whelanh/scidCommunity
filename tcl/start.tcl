@@ -252,6 +252,19 @@ proc InitTooltip {} {
 }
 InitTooltip
 
+# Helper function to get the correct button image name for the current theme
+# For dark themes (dark, cobalt2), returns the _white variant if it exists
+proc ::button_image {buttonName} {
+  set theme [ttk::style theme use]
+  if {[string first "dark" $theme] != -1 || $theme eq "cobalt2"} {
+    set whiteName "${buttonName}_white"
+    if {[lsearch [image names] $whiteName] != -1} {
+      return $whiteName
+    }
+  }
+  return $buttonName
+}
+
 #############################################################
 #
 # NAMESPACES

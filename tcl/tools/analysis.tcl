@@ -1807,20 +1807,20 @@ proc makeAnalysisWin { {n 1} {index -1} {autostart 1}} {
     
     ttk::frame $w.b1
     pack $w.b1 -side bottom -fill x
-    ttk::button $w.b1.automove -image tb_training  -command "toggleAutomove $n"
+    ttk::button $w.b1.automove -image [::button_image tb_training]  -command "toggleAutomove $n"
     ::utils::tooltip::Set $w.b1.automove $::tr(Training)
     
-    ttk::button $w.b1.lockengine -image tb_lockengine -command "toggleLockEngine $n"
+    ttk::button $w.b1.lockengine -image [::button_image tb_lockengine] -command "toggleLockEngine $n"
     ::utils::tooltip::Set $w.b1.lockengine $::tr(LockEngine)
     .analysisWin$n.b1.lockengine configure -state disabled
     
-    ttk::button $w.b1.line -image tb_addvar -command "addAnalysisVariation $n"
+    ttk::button $w.b1.line -image [::button_image tb_addvar] -command "addAnalysisVariation $n"
     ::utils::tooltip::Set $w.b1.line $::tr(AddVariation)
     
-    ttk::button $w.b1.alllines -image tb_addallvars -command "addAllVariations $n"
+    ttk::button $w.b1.alllines -image [::button_image tb_addallvars] -command "addAllVariations $n"
     ::utils::tooltip::Set $w.b1.alllines $::tr(AddAllVariations)
     
-    ttk::button $w.b1.move -image tb_addmove -command "makeAnalysisMove $n"
+    ttk::button $w.b1.move -image [::button_image tb_addmove] -command "makeAnalysisMove $n"
     ::utils::tooltip::Set $w.b1.move $::tr(AddMove)
 
     ttk::spinbox $w.b1.multipv -from 1 -to 8 -increment 1 -textvariable analysis(multiPVCount$n) -state disabled -width 2 \
@@ -1828,18 +1828,18 @@ proc makeAnalysisWin { {n 1} {index -1} {autostart 1}} {
     ::utils::tooltip::Set $w.b1.multipv $::tr(Lines)
     
     # add a button to start/stop engine analysis
-    ttk::button $w.b1.bStartStop -image tb_eng_on -command "toggleEngineAnalysis $n"
+    ttk::button $w.b1.bStartStop -image [::button_image tb_eng_on] -command "toggleEngineAnalysis $n"
     ::utils::tooltip::Set $w.b1.bStartStop "$::tr(StartEngine) (F[expr 3 + $n])"
 
     if {$n == 1} {
         set ::finishGameMode 0
-        ttk::button $w.b1.bFinishGame -image tb_finish_off -command "toggleFinishGame $n"
+        ttk::button $w.b1.bFinishGame -image [::button_image tb_finish_off] -command "toggleFinishGame $n"
         ::utils::tooltip::Set $w.b1.bFinishGame $::tr(FinishGame)
     }
-    ttk::button $w.b1.showboard -image tb_coords -command "toggleAnalysisBoard $n"
+    ttk::button $w.b1.showboard -image [::button_image tb_coords] -command "toggleAnalysisBoard $n"
     ::utils::tooltip::Set $w.b1.showboard $::tr(ShowAnalysisBoard)
     
-    ttk::button $w.b1.showinfo -image tb_engineinfo -command "toggleEngineInfo $n"
+    ttk::button $w.b1.showinfo -image [::button_image tb_engineinfo] -command "toggleEngineInfo $n"
     ::utils::tooltip::Set $w.b1.showinfo $::tr(ShowInfo)
     
     if {$n == 1} {
@@ -1847,13 +1847,13 @@ proc makeAnalysisWin { {n 1} {index -1} {autostart 1}} {
             -image [list tb_annotate pressed tb_annotate_on]
         ::utils::tooltip::Set $w.b1.annotate $::tr(Annotate...)
     }
-    ttk::button $w.b1.priority -image tb_cpu_hi -command "setAnalysisPriority $w $n"
+    ttk::button $w.b1.priority -image [::button_image tb_cpu_hi] -command "setAnalysisPriority $w $n"
     ::utils::tooltip::Set $w.b1.priority $::tr(LowPriority)
     
-    ttk::button $w.b1.update -image tb_update -command "if {$analysis(uci$n)} {sendToEngine $n .}" ;# UCI does not support . command
+    ttk::button $w.b1.update -image [::button_image tb_update] -command "if {$analysis(uci$n)} {sendToEngine $n .}" ;# UCI does not support . command
     ::utils::tooltip::Set $w.b1.update $::tr(Update)
     
-    ttk::button $w.b1.help -image tb_help -command { helpWindow Analysis }
+    ttk::button $w.b1.help -image [::button_image tb_help] -command { helpWindow Analysis }
     ::utils::tooltip::Set $w.b1.help $::tr(Help)
     
     pack $w.b1.bStartStop $w.b1.lockengine $w.b1.move $w.b1.line -side left
@@ -2001,10 +2001,10 @@ proc setAnalysisPriority {w n} {
     # Re-read the priority class for confirmation:
     if {[catch {sc_info priority $pid} newpriority]} { return }
     if {$newpriority > 0} {
-        $w.b1.priority configure -image tb_cpu
+        $w.b1.priority configure -image [::button_image tb_cpu]
         $w.b1.priority state pressed
     } else {
-        $w.b1.priority configure -image tb_cpu_hi
+        $w.b1.priority configure -image [::button_image tb_cpu_hi]
         $w.b1.priority state !pressed
     }
  }
@@ -2268,11 +2268,11 @@ proc toggleFinishGame { { n 1 } } {
 
 		if {!$::finishGameMode} {
 			set ::finishGameMode 1
-			$b configure -image tb_finish_on
+			$b configure -image [::button_image tb_finish_on]
 			after $::autoplayDelay autoplayFinishGame
 		} else {
 			set ::finishGameMode 0
-			$b configure -image tb_finish_off
+			$b configure -image [::button_image tb_finish_off]
 			after cancel autoplayFinishGame
 		}
 		return
@@ -2306,7 +2306,7 @@ proc toggleFinishGame { { n 1 } } {
 		sendToEngine 2 "stop"
 		set analysis(waitForReadyOk2) 0
 		set analysis(waitForBestMove2) 0
-		$b configure -image tb_finish_off
+		$b configure -image [::button_image tb_finish_off]
 		grab release .analysisWin$n
 		.analysisWin$n.b1.bStartStop configure -state normal
 		.analysisWin$n.b1.move configure -state normal
@@ -2411,7 +2411,7 @@ proc toggleFinishGame { { n 1 } } {
 
 	stopEngineAnalysis 1
 	stopEngineAnalysis 2
-	$b configure -image tb_finish_on
+	$b configure -image [::button_image tb_finish_on]
 	.analysisWin$n.b1.bStartStop configure -state disabled
 	.analysisWin$n.b1.move configure -state disabled
 	.analysisWin$n.b1.line configure -state disabled
@@ -2489,7 +2489,7 @@ proc startEngineAnalysis { {n 1} {force 0} } {
         set b ".analysisWin$n.b1.bStartStop"
         
         startAnalyzeMode $n $force
-        $b configure -image tb_eng_off
+        $b configure -image [::button_image tb_eng_off]
         ::utils::tooltip::Set $b "$::tr(StopEngine)(a)"
         # enable lock button
         .analysisWin$n.b1.lockengine configure -state normal
@@ -2506,7 +2506,7 @@ proc stopEngineAnalysis { {n 1} } {
         set b ".analysisWin$n.b1.bStartStop"
 
         stopAnalyzeMode $n
-        $b configure -image tb_eng_on
+        $b configure -image [::button_image tb_eng_on]
         ::utils::tooltip::Set $b "$::tr(StartEngine)"
         # reset lock mode and disable lock button
         set analysis(lockEngine$n) 1
