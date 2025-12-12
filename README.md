@@ -13,6 +13,7 @@
       - *chess.com* uploads the current game to Chess.com
       - *lichess.org* uploads the current game to Lichess.org
 6. New (optional) "Sand" and "cobalt2" themes.
+7. New light colored buttons added for use in the Engine and Analysis windows when using "dark" and "cobalt2" themes. 
 
 *Users with suggestions for further enhancements are welcome to write something in the Discussion section or submit a pull request.  Enjoy!*
 
