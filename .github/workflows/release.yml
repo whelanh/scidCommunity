@@ -395,32 +395,35 @@ jobs:
           # Create AppRun symlink  
           ln -sf usr/bin/scidCommunity ${{ github.workspace }}/AppDir/AppRun
           
-           # Create desktop file (install in standard path and copy to root for AppImage)
-           mkdir -p ${{ github.workspace }}/AppDir/usr/share/applications
-           cat > ${{ github.workspace }}/AppDir/usr/share/applications/io.github.whelanh.scidCommunity.desktop << 'EOF'
-           [Desktop Entry]
-           Type=Application
-           Name=Scid Community
-           Comment=Chess database application
-           Exec=scidCommunity
-           Icon=io.github.whelanh.scidCommunity
-           Categories=Game;BoardGame;
-           Terminal=false
-           EOF
-           cp ${{ github.workspace }}/AppDir/usr/share/applications/io.github.whelanh.scidCommunity.desktop \
-             ${{ github.workspace }}/AppDir/
+          # Create desktop file (root + standard path for AppImage discovery)
+          mkdir -p ${{ github.workspace }}/AppDir/usr/share/applications
+          cat > ${{ github.workspace }}/AppDir/io.github.whelanh.scidCommunity.desktop << 'EOF'
+          [Desktop Entry]
+          Type=Application
+          Name=Scid Community
+          Comment=Chess database application
+          Exec=scidCommunity
+          Icon=io.github.whelanh.scidCommunity
+          Categories=Game;BoardGame;
+          Terminal=false
+          EOF
+          cp ${{ github.workspace }}/AppDir/io.github.whelanh.scidCommunity.desktop \
+             ${{ github.workspace }}/AppDir/usr/share/applications/
 
-           # Install icons (SVG primary, PNG fallback)
-           mkdir -p ${{ github.workspace }}/AppDir/usr/share/icons/hicolor/scalable/apps
-           mkdir -p ${{ github.workspace }}/AppDir/usr/share/icons/hicolor/256x256/apps
-           if [ -f ${{ github.workspace }}/data/io.github.whelanh.scidCommunity.svg ]; then
+          # Install icons (SVG primary, PNG fallback)
+          mkdir -p ${{ github.workspace }}/AppDir/usr/share/icons/hicolor/scalable/apps
+          mkdir -p ${{ github.workspace }}/AppDir/usr/share/icons/hicolor/256x256/apps
+          if [ -f ${{ github.workspace }}/data/io.github.whelanh.scidCommunity.svg ]; then
             cp ${{ github.workspace }}/data/io.github.whelanh.scidCommunity.svg \
-              ${{ github.workspace }}/AppDir/usr/share/icons/hicolor/scalable/apps/io.github.whelanh.scidCommunity.svg
-           fi
-           if [ -f ${{ github.workspace }}/img/scid.png ]; then
+               ${{ github.workspace }}/AppDir/usr/share/icons/hicolor/scalable/apps/io.github.whelanh.scidCommunity.svg
+          fi
+          if [ -f ${{ github.workspace }}/img/scid.png ]; then
             cp ${{ github.workspace }}/img/scid.png \
-              ${{ github.workspace }}/AppDir/usr/share/icons/hicolor/256x256/apps/io.github.whelanh.scidCommunity.png
-           fi
+               ${{ github.workspace }}/AppDir/usr/share/icons/hicolor/256x256/apps/io.github.whelanh.scidCommunity.png
+          fi
+
+          # Verify desktop file exists for appimagetool
+          test -f ${{ github.workspace }}/AppDir/io.github.whelanh.scidCommunity.desktop
 
       - name: Build AppImage
         run: |
