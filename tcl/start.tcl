@@ -196,8 +196,11 @@ InitDirs
 proc InitImg {} {
   global scidImgDir boardStyle boardStyles textureSquare
 
-  #Set app icon
-  set scidIconFile [file nativename [file join $scidImgDir "scid.gif"]]
+  #Set app icon (prefer PNG, fallback to GIF)
+  set scidIconFile [file nativename [file join $scidImgDir "scid.png"]]
+  if {![file readable $scidIconFile]} {
+    set scidIconFile [file nativename [file join $scidImgDir "scid.gif"]]
+  }
   if {[file readable $scidIconFile]} {
     wm iconphoto . -default [image create photo -file "$scidIconFile"]
   }
