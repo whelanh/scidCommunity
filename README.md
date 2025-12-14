@@ -1,5 +1,5 @@
 <p align="center">
-<img width="512" height="512" alt="io github whelanh scidCommunity" src="https://github.com/user-attachments/assets/26277294-00cb-4660-964d-f88f4364e9c8" />
+<img width="256" height="256" alt="io github whelanh scidCommunity" src="https://github.com/user-attachments/assets/26277294-00cb-4660-964d-f88f4364e9c8" />
 </p>
 
 **scidCommunity** differs from upstream `Scid` by offering enhancements not present in the upstream repo. Enhancements include:
