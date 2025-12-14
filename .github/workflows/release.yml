@@ -178,6 +178,7 @@ jobs:
                 -DCMAKE_BUILD_TYPE=Release \
                 -DCMAKE_CXX_FLAGS="-fno-exceptions -fno-rtti" \
                 -DCMAKE_EXE_LINKER_FLAGS="-static-libstdc++ -static-libgcc" \
+                -DCMAKE_INSTALL_PREFIX=/usr \
                 ${{ github.workspace }}
           make package
 
@@ -271,6 +272,25 @@ jobs:
           exec "${SCID_DIR}/bin/scidCommunity.bin" "$@"
           EOF
           chmod +x ${{ github.workspace }}/rpm-root/opt/scidcommunity/bin/scidCommunity
+
+      - name: Install desktop file and icons for system menus
+        run: |
+          # Place desktop entry and icons under /usr/share so desktop environments can find them
+          mkdir -p ${{ github.workspace }}/rpm-root/usr/share/applications
+          mkdir -p ${{ github.workspace }}/rpm-root/usr/share/icons/hicolor/scalable/apps
+          mkdir -p ${{ github.workspace }}/rpm-root/usr/share/icons/hicolor/256x256/apps
+          if [ -f ${{ github.workspace }}/data/io.github.whelanh.scidCommunity.desktop ]; then
+            cp ${{ github.workspace }}/data/io.github.whelanh.scidCommunity.desktop \
+               ${{ github.workspace }}/rpm-root/usr/share/applications/
+          fi
+          if [ -f ${{ github.workspace }}/data/io.github.whelanh.scidCommunity.svg ]; then
+            cp ${{ github.workspace }}/data/io.github.whelanh.scidCommunity.svg \
+               ${{ github.workspace }}/rpm-root/usr/share/icons/hicolor/scalable/apps/
+          fi
+          if [ -f ${{ github.workspace }}/img/scid.png ]; then
+            cp ${{ github.workspace }}/img/scid.png \
+               ${{ github.workspace }}/rpm-root/usr/share/icons/hicolor/256x256/apps/io.github.whelanh.scidCommunity.png
+          fi
 
       - name: Build RPM package
         run: |
@@ -375,24 +395,32 @@ jobs:
           # Create AppRun symlink  
           ln -sf usr/bin/scidCommunity ${{ github.workspace }}/AppDir/AppRun
           
-          # Create desktop file
-          cat > ${{ github.workspace }}/AppDir/scidcommunity.desktop << 'EOF'
-          [Desktop Entry]
-          Type=Application
-          Name=Scid Community
-          Comment=Chess database application
-          Exec=scidCommunity
-          Icon=scidcommunity
-          Categories=Game;BoardGame;
-          Terminal=false
-          EOF
-          
-          # Copy icon (using scid.gif from img directory)
-          mkdir -p ${{ github.workspace }}/AppDir/usr/share/icons/hicolor/256x256/apps
-          if [ -f ${{ github.workspace }}/img/scid.gif ]; then
-            cp ${{ github.workspace }}/img/scid.gif \
-               ${{ github.workspace }}/AppDir/scidcommunity.png
-          fi
+           # Create desktop file (install in standard path and copy to root for AppImage)
+           mkdir -p ${{ github.workspace }}/AppDir/usr/share/applications
+           cat > ${{ github.workspace }}/AppDir/usr/share/applications/io.github.whelanh.scidCommunity.desktop << 'EOF'
+           [Desktop Entry]
+           Type=Application
+           Name=Scid Community
+           Comment=Chess database application
+           Exec=scidCommunity
+           Icon=io.github.whelanh.scidCommunity
+           Categories=Game;BoardGame;
+           Terminal=false
+           EOF
+           cp ${{ github.workspace }}/AppDir/usr/share/applications/io.github.whelanh.scidCommunity.desktop \
+             ${{ github.workspace }}/AppDir/
+
+           # Install icons (SVG primary, PNG fallback)
+           mkdir -p ${{ github.workspace }}/AppDir/usr/share/icons/hicolor/scalable/apps
+           mkdir -p ${{ github.workspace }}/AppDir/usr/share/icons/hicolor/256x256/apps
+           if [ -f ${{ github.workspace }}/data/io.github.whelanh.scidCommunity.svg ]; then
+            cp ${{ github.workspace }}/data/io.github.whelanh.scidCommunity.svg \
+              ${{ github.workspace }}/AppDir/usr/share/icons/hicolor/scalable/apps/io.github.whelanh.scidCommunity.svg
+           fi
+           if [ -f ${{ github.workspace }}/img/scid.png ]; then
+            cp ${{ github.workspace }}/img/scid.png \
+              ${{ github.workspace }}/AppDir/usr/share/icons/hicolor/256x256/apps/io.github.whelanh.scidCommunity.png
+           fi
 
       - name: Build AppImage
         run: |

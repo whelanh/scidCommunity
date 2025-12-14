@@ -4,7 +4,7 @@ Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 50006b99d5e79ce8b8450eebf6a206766451bbc8
+%global commit 018f2cbc04ef01e353fd846ddc3fd7459b994015
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -40,7 +40,8 @@ integration with online chess platforms like Chess.com and Lichess.
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_CXX_FLAGS="%{optflags}" \
     -DBUILD_SHARED_LIBS=OFF \
-    -DCPACK_PACKAGE_VERSION=%{version}
+    -DCPACK_PACKAGE_VERSION=%{version} \
+    -DCMAKE_INSTALL_PREFIX=/usr
 %cmake_build
 
 %install
