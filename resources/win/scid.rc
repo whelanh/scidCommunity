@@ -16,20 +16,20 @@ SCID                    ICON                    "scid.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 5,1,0,0
- PRODUCTVERSION 5,1,0,0
+ FILEVERSION 5,1,1,0
+ PRODUCTVERSION 5,1,1,0
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
         BLOCK "04090000"
         BEGIN
-            VALUE "CompanyName", "http://sourceforge.net/projects/scid/"
-            VALUE "FileDescription", "Chess Database"
-            VALUE "FileVersion", "5.1.0.0"
-            VALUE "LegalCopyright", "Copyright (C) 1999-2022"
-            VALUE "OriginalFilename", "scid.exe"
-            VALUE "ProductName", "Scid"
-            VALUE "ProductVersion", "5.1.0.0"
+            VALUE "CompanyName", "https://github.com/whelanh/scidCommunity"
+            VALUE "FileDescription", "ScidCommunity Chess Database"
+            VALUE "FileVersion", "5.1.1.0"
+            VALUE "LegalCopyright", "Copyright (C) 1999-2025"
+            VALUE "OriginalFilename", "scidCommunity.exe"
+            VALUE "ProductName", "ScidCommunity"
+            VALUE "ProductVersion", "5.1.1.0"
         END
     END
     BLOCK "VarFileInfo"
