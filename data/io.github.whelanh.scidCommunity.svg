@@ -11,7 +11,7 @@
    viewBox="0 0 512 512"
    enable-background="new 0 0 512 512"
    xml:space="preserve"
-   sodipodi:docname="io.github.whelanh.scidCommunityNew.svg"
+   sodipodi:docname="io.github.whelanh.scidCommunity.svg"
    inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -27,9 +27,9 @@
    inkscape:pagecheckerboard="0"
    inkscape:deskcolor="#d1d1d1"
    inkscape:zoom="1.4726562"
-   inkscape:cx="255.66048"
-   inkscape:cy="320.50928"
-   inkscape:window-width="1025"
+   inkscape:cx="256.00001"
+   inkscape:cy="230.19629"
+   inkscape:window-width="1904"
    inkscape:window-height="947"
    inkscape:window-x="20"
    inkscape:window-y="20"
@@ -580,7 +580,7 @@
 <g
    style="fill:#000000"
    id="g118"
-   transform="matrix(0.67114286,0,0,0.67114286,-57.930251,10.14323)"><g
+   transform="matrix(0.67114286,0,0,0.67114286,119.30052,40.021215)"><g
      id="g1">
 	<path
    d="m 197.333,256 h -1.641 c 1.878,-3.337 7.061,-14.536 -0.605,-25.6 -7.554,-10.905 -21.491,-39.547 -20.904,-64.401 4.409,-0.01 7.816,-3.587 7.816,-7.999 v -1 c 0,-4.418 -3.582,-8 -8,-8 4.418,0 8,-3.582 8,-8 v -1 c 0,-4.418 -3.249,-8 -7.667,-8 h -3.55 c -1.006,-16.142 1.307,-29.861 4.798,-40.724 1.121,-3.487 2.432,-6.186 3.752,-8.276 h 2 c 4.418,0 7.667,-3.582 7.667,-8 v -1 c 0,-4.343 -3.463,-7.87 -7.777,-7.988 C 179.087,52.771 169,42.203 156,39.363 V 27 h 12 V 12 H 156 V 0 h -15 v 12 h -12 v 15 h 12 V 39.595 C 129,42.745 119.197,53.107 117.112,66 h -0.779 C 111.915,66 108,69.582 108,74 v 1 c 0,4.418 3.915,8 8.333,8 h 3 c 1.32,2.091 2.631,4.789 3.752,8.276 3.491,10.862 5.804,24.582 4.798,40.724 h -4.55 c -4.418,0 -8.333,3.582 -8.333,8 v 1 c 0,4.418 3.582,8 8,8 -4.418,0 -8,3.582 -8,8 v 1 c 0,4.418 3.915,8 8.333,8 h 1.053 c 0.588,24.855 -13.183,53.495 -20.737,64.4 -7.664,11.063 -2.482,22.263 -0.604,25.6 h -1.711 c -4.418,0 -8.333,3.582 -8.333,8 v 9 c 0,3.727 3,6.849 6,7.737 V 298 h 100 v -17.263 c 4,-0.889 6,-4.011 6,-7.737 v -9 c -0.001,-4.418 -3.25,-8 -7.668,-8 z"
@@ -599,4 +599,13 @@
 	<path
    d="m 87.18,399.908 h 280.368 c 8.802,0 15.926,-7.132 15.926,-15.926 0,-8.794 -7.124,-15.926 -15.926,-15.926 H 87.18 c -8.802,0 -15.926,7.132 -15.926,15.926 10e-4,8.795 7.124,15.926 15.926,15.926 z"
    id="path3-7" />
-</g></g></svg>
+</g></g><text
+   xml:space="preserve"
+   style="font-size:85.3333px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#ff0000"
+   x="413.53848"
+   y="83.522545"
+   id="text1"><tspan
+     sodipodi:role="line"
+     id="tspan1"
+     x="413.53848"
+     y="83.522545">C</tspan></text></svg>
