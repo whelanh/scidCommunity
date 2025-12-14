@@ -85,11 +85,15 @@ convert $ICON_PNGS "$WIN_DIR/scid.ico"
 cp -f "$WIN_DIR/scid.ico" "$SVG_DIR/scid.ico" 2>/dev/null || true
 echo "Wrote Windows ICO: $WIN_DIR/scid.ico"
 
-# 3) Generate app GIF for Tcl wm icon (64px)
-convert -background none -alpha on "$TMP_DIR/icon_64.png" "$IMG_DIR/scid.gif"
-# If desired, also generate a PNG alongside
-cp -f "$TMP_DIR/icon_64.png" "$IMG_DIR/scid.png"
-echo "Wrote Tcl icon: $IMG_DIR/scid.gif and $IMG_DIR/scid.png"
+# 3) Generate app GIF and PNG for Tcl wm icon (64px)
+if [ -f "$TMP_DIR/icon_64.png" ]; then
+  cp -f "$TMP_DIR/icon_64.png" "$IMG_DIR/scid.png"
+  convert -background none -alpha on "$IMG_DIR/scid.png" "$IMG_DIR/scid.gif"
+  echo "Wrote Tcl icon: $IMG_DIR/scid.png (preferred) and $IMG_DIR/scid.gif (fallback)"
+else
+  echo "Error: icon_64.png not found in temp directory" >&2
+  exit 1
+fi
 
 cat << 'EOF'
 
