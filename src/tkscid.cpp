@@ -2525,8 +2525,8 @@ sc_game_info (ClientData, Tcl_Interp * ti, int argc, const char ** argv)
     bool hideNextMove = false;
     bool showMaterialValue = false;
     bool showFEN = false;
-    uint commentWidth = 50;
-    uint commentHeight = 1;
+    uint commentWidth = 70;
+    uint commentHeight = 3;
     bool fullComment = false;
     char temp[1024];
 
@@ -2888,38 +2888,73 @@ sc_game_info (ClientData, Tcl_Interp * ti, int argc, const char ** argv)
         char * str = strDuplicate(db->game->GetMoveComment());
         strTrimMarkCodes (str);
         const char * s = str;
-        uint len;
         uint lines = 0;
-        // Add the first commentWidth characters of the comment, up to
-        // the first commentHeight lines:
-        for (len = 0; len < commentWidth; len++, s++) {
-            char ch = *s;
-            if (ch == 0) { break; }
-            if (ch == '\n') {
-                lines++;
-                if (lines >= commentHeight) { break; }
-                Tcl_AppendResult (ti, "<br>", NULL);
-            } else if (ch == '<') {
-                Tcl_AppendResult (ti, "<lt>", NULL);
-            } else if (ch == '>') {
-                Tcl_AppendResult (ti, "<gt>", NULL);
-            } else {
-                appendCharResult (ti, ch);
-            }
-        }
-        // Complete the current comment word and add "..." if necessary:
-        if (len == commentWidth) {
-            char ch = *s;
-            while (ch != ' '  &&  ch != '\n'  &&  ch != 0) {
-                appendCharResult (ti, ch);
+        
+        // Process up to commentHeight lines, truncating each line at commentWidth
+        while (lines < commentHeight && *s != 0) {
+            uint lineLen = 0;
+            // Process one line
+            while (lineLen < commentWidth && *s != 0 && *s != '\n') {
+                char ch = *s;
+                if (ch == '<') {
+                    Tcl_AppendResult (ti, "<lt>", NULL);
+                } else if (ch == '>') {
+                    Tcl_AppendResult (ti, "<gt>", NULL);
+                } else {
+                    appendCharResult (ti, ch);
+                }
                 s++;
-                ch = *s;
+                lineLen++;
             }
-            if (ch != 0) {
+            
+            // Check if we hit the width limit (truncate)
+            if (lineLen == commentWidth && *s != 0 && *s != '\n') {
+                // Complete the current word
+                char ch = *s;
+                while (ch != ' '  &&  ch != '\n'  &&  ch != 0) {
+                    appendCharResult (ti, ch);
+                    s++;
+                    ch = *s;
+                }
                 Tcl_AppendResult (ti, "...", NULL);
+                // Skip to the next line if we're at a newline
+                if (*s == '\n') {
+                    s++;
+                } else if (*s == ' ') {
+                    s++; // Skip the space
+                }
+            } else if (*s == '\n') {
+                s++; // Skip the newline character
+            }
+            
+            lines++;
+            if (*s != 0 && lines < commentHeight) {
+                Tcl_AppendResult (ti, "<br>", NULL);
             }
         }
+        
         Tcl_AppendResult (ti, "</run></green>", NULL);
+        
+        // Add continuation of comment if there is more
+        if (*s != 0) {
+            Tcl_AppendResult (ti, "<br><green><run makeCommentWin>", NULL);
+            // Display the remaining comment
+            while (*s != 0) {
+                char ch = *s;
+                if (ch == '\n') {
+                    Tcl_AppendResult (ti, "<br>", NULL);
+                } else if (ch == '<') {
+                    Tcl_AppendResult (ti, "<lt>", NULL);
+                } else if (ch == '>') {
+                    Tcl_AppendResult (ti, "<gt>", NULL);
+                } else {
+                    appendCharResult (ti, ch);
+                }
+                s++;
+            }
+            Tcl_AppendResult (ti, "</run></green>", NULL);
+        }
+        
         delete[] str;
     }
 

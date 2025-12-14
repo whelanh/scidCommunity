@@ -1346,7 +1346,7 @@ proc CreateGameInfo {} {
   # .gameInfo is the game information widget:
   #
   autoscrollText y .main.gameInfo .main.gameInfo.text Treeview
-  .main.gameInfo.text configure -width 20 -height 6 -wrap none -state disabled -cursor top_left_arrow
+  .main.gameInfo.text configure -width 20 -height 8 -wrap none -state disabled -cursor top_left_arrow
   ::htext::init .main.gameInfo.text
 
   # Set up player photos:
