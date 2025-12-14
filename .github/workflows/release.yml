@@ -420,6 +420,9 @@ jobs:
           if [ -f ${{ github.workspace }}/img/scid.png ]; then
             cp ${{ github.workspace }}/img/scid.png \
                ${{ github.workspace }}/AppDir/usr/share/icons/hicolor/256x256/apps/io.github.whelanh.scidCommunity.png
+            # AppImage requires the icon file at AppDir root named after Icon= entry
+            cp ${{ github.workspace }}/img/scid.png \
+              ${{ github.workspace }}/AppDir/io.github.whelanh.scidCommunity.png
           fi
 
           # Verify desktop file exists for appimagetool
