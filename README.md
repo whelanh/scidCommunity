@@ -14,7 +14,8 @@
       - *lichess.org* uploads the current game to Lichess.org
 6. New (optional) "Sand" and "cobalt2" themes.
 7. New light colored buttons added for use in the Engine and Analysis windows when using "dark" and "cobalt2" themes. 
-8. Implemented [user request](https://github.com/whelanh/scidCommunity/discussions/10) for better handling of long comments in the Game Info window. 
+8. Implemented [user request](https://github.com/whelanh/scidCommunity/discussions/10) for better handling of long comments in the Game Info window.
+9. Implemented [user request](https://github.com/whelanh/scidCommunity/discussions/13) to allow users to easily import their Lichess and chess.com games.
 
 *Users with suggestions for further enhancements are welcome to write something in the Discussion section or submit a pull request.  Enjoy!*
 
@@ -40,7 +41,9 @@ New *Table Base* button:
 
 <img width="500" height="580" alt="Screenshot_2025-12-06_07-32-02 (Edit)" src="https://github.com/user-attachments/assets/b8becb46-a146-46cd-a8e5-1be7233151fd" />
 
+New functions allowing users to directly download and open up their Lichess and chess.com games
 
+<img width="500" height="370" alt="Screenshot_20251215_081733 (Edit)" src="https://github.com/user-attachments/assets/1139c2ff-cfd1-4245-84de-fe0d6a3e30c6" />
 
 ## 💽 Releases
 Check latest **Releases** for a deb, rpm, exe, a MacOS and AppImage installable package.  The deb has been tested against Ubuntu 24, the rpm against Fedora Rawhide, the AppImage against Fedora Kinoite (Rawhide) and the exe file against a Windows 11 virtual machine. The Mac version has not been tested and feedback would be appreciated.  For rpm based Linux systems, ScidCommunity is also available through the [Fedora Copr Repo](https://copr.fedorainfracloud.org/coprs/whelanh/scidcommunity/).  For Arch-based systems, it is available on the [AUR](https://aur.archlinux.org/packages/scidcommunity).
