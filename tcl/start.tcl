@@ -921,6 +921,8 @@ tools/wbdetect.tcl
 tools/graphs.tcl
 tools/ptracker.tcl
 tools/twic.tcl
+tools/lichess.tcl
+tools/chesscom.tcl
 help/help.tcl
 help/tips.tcl
 keyboard.tcl
