@@ -11,6 +11,8 @@ namespace eval ::lichess {
   variable downloading 0
   variable tempDir ""
   variable username ""
+  variable startYear ""
+  variable startMonth ""
 }
 
 # lichess::importGames
@@ -23,7 +25,7 @@ proc ::lichess::importGames {} {
     return
   }
   
-  # Create dialog to get username
+  # Create dialog to get username and start date
   set w .lichessDialog
   if {[winfo exists $w]} {
     destroy $w
@@ -36,21 +38,32 @@ proc ::lichess::importGames {} {
   # Center the dialog
   setWinLocation $w
   
-  ttk::label $w.label -text "Enter your Lichess username:" -padding {10 10}
-  ttk::entry $w.entry -width 30 -textvariable ::lichess::username
-  ttk::frame $w.buttons -padding {10 10}
-  ttk::button $w.buttons.ok -text "Download" -command "::lichess::startDownload"
-  ttk::button $w.buttons.cancel -text "Cancel" -command "destroy $w"
+  ttk::frame $w.content -padding {10 10}
+  ttk::label $w.content.userLbl -text "Username:" -anchor w
+  ttk::entry $w.content.userEntry -width 30 -textvariable ::lichess::username
+  ttk::label $w.content.yearLbl -text "Start year (YYYY):" -anchor w
+  ttk::entry $w.content.yearEntry -width 10 -textvariable ::lichess::startYear
+  ttk::label $w.content.monthLbl -text "Start month (1-12):" -anchor w
+  ttk::entry $w.content.monthEntry -width 5 -textvariable ::lichess::startMonth
   
-  pack $w.label -side top -fill x
-  pack $w.entry -side top -fill x -padx 10
+  grid $w.content.userLbl   -row 0 -column 0 -sticky w -padx {0 8} -pady 4
+  grid $w.content.userEntry -row 0 -column 1 -sticky ew -pady 4
+  grid $w.content.yearLbl   -row 1 -column 0 -sticky w -padx {0 8} -pady 4
+  grid $w.content.yearEntry -row 1 -column 1 -sticky w -pady 4
+  grid $w.content.monthLbl  -row 2 -column 0 -sticky w -padx {0 8} -pady 4
+  grid $w.content.monthEntry -row 2 -column 1 -sticky w -pady 4
+  grid columnconfigure $w.content 1 -weight 1
+  pack $w.content -side top -fill both -expand 1
+  
+  ttk::frame $w.buttons -padding {10 10}
+  ttk::button $w.buttons.ok -text "Download" -command "::lichess::startDownload $w"
+  ttk::button $w.buttons.cancel -text "Cancel" -command "destroy $w"
+  pack $w.buttons.ok $w.buttons.cancel -side left -padx 5
   pack $w.buttons -side top -fill x
-  pack $w.buttons.ok -side left -padx 5
-  pack $w.buttons.cancel -side left -padx 5
   
   # Focus on entry and bind Return key
-  focus $w.entry
-  bind $w.entry <Return> "::lichess::startDownload"
+  focus $w.content.userEntry
+  bind $w <Return> "::lichess::startDownload $w"
   bind $w <Escape> "destroy $w"
   
   # Make dialog modal
@@ -58,22 +71,64 @@ proc ::lichess::importGames {} {
 }
 
 # lichess::startDownload
-#   Validates username and initiates download
-#
-proc ::lichess::startDownload {} {
+#   Validates inputs and initiates download
+
+proc ::lichess::startDownload {w} {
   set username [string trim $::lichess::username]
+  set yearStr [string trim $::lichess::startYear]
+  set monthStr [string trim $::lichess::startMonth]
   
   if {$username eq ""} {
     tk_messageBox -icon warning -type ok -title "Lichess Import" \
       -message "Please enter a username."
     return
   }
+  if {![regexp {^\d{4}$} $yearStr]} {
+    tk_messageBox -icon warning -type ok -title "Lichess Import" \
+      -message "Please enter a 4-digit start year (YYYY)."
+    return
+  }
+  if {![regexp {^\d{1,2}$} $monthStr]} {
+    tk_messageBox -icon warning -type ok -title "Lichess Import" \
+      -message "Please enter a start month from 1 to 12."
+    return
+  }
+  set year [expr {int($yearStr)}]
+  set month [expr {int($monthStr)}]
+  set currentYearInt [expr {int([clock format [clock seconds] -format "%Y"])}]
+  set currentMonthInt [expr {int([clock format [clock seconds] -format "%m"])}]
+  if {$year <= 0 || $year > $currentYearInt} {
+    tk_messageBox -icon warning -type ok -title "Lichess Import" \
+      -message "Start year must be between 0001 and $currentYearInt."
+    return
+  }
+  if {$month < 1 || $month > 12} {
+    tk_messageBox -icon warning -type ok -title "Lichess Import" \
+      -message "Start month must be between 1 and 12."
+    return
+  }
   
-  # Close the dialog
-  destroy .lichessDialog
+  # Compute since/until epochs in milliseconds (UTC, start-of-month to now)
+  set sinceStr [format "%04d-%02d-01 00:00:00 UTC" $year $month]
+  if {[catch {set sinceSec [clock scan $sinceStr -timezone UTC]} scanErr]} {
+    tk_messageBox -icon error -type ok -title "Lichess Import Error" \
+      -message "Could not parse the start date: $scanErr"
+    return
+  }
+  set sinceMs [expr {$sinceSec * 1000}]
+  set untilMs [expr {[clock seconds] * 1000}]
+  if {$sinceMs >= $untilMs} {
+    tk_messageBox -icon warning -type ok -title "Lichess Import" \
+      -message "Start date must be before the current date."
+    return
+  }
+  
+  # Disable Download button during work
+  $w.buttons.ok configure -state disabled
+  $w.buttons.cancel configure -command "destroy $w"
+  catch {grab release $w}
   
   set ::lichess::downloading 1
-  
   # Disable the menu item during download
   catch {.menu.file entryconfig "Import my Lichess*" -state disabled}
   
@@ -87,30 +142,38 @@ proc ::lichess::startDownload {} {
     catch {.menu.file entryconfig "Import my Lichess*" -state normal}
     tk_messageBox -icon error -type ok -title "Lichess Import Error" \
       -message "Could not create temp directory:\n$err"
+    destroy $w
     return
   }
   
   # Download the games
   if {[catch {
-    ::lichess::downloadUserGames $username
+    ::lichess::downloadUserGames $username $sinceMs $untilMs
   } err]} {
     set ::lichess::downloading 0
     catch {.menu.file entryconfig "Import my Lichess*" -state normal}
     file delete -force $::lichess::tempDir
+    if {[winfo exists $w]} {
+      destroy $w
+    }
     tk_messageBox -icon error -type ok -title "Lichess Import Error" \
       -message "Error downloading games for user '$username':\n$err\n\nPlease check that the username is correct."
     return
   }
+  
+  if {[winfo exists $w]} {
+    destroy $w
+  }
 }
 
 # lichess::downloadUserGames
-#   Download all games for a Lichess user
-#
-proc ::lichess::downloadUserGames {username} {
+#   Download games for a Lichess user within a date range
+
+proc ::lichess::downloadUserGames {username sinceMs untilMs} {
   set pgnfile [file join $::lichess::tempDir "lichess_games.pgn"]
   
   # Construct the Lichess API URL
-  set apiurl "https://lichess.org/api/games/user/${username}?tags=true&clocks=false&evals=true&opening=true&literate=true"
+  set apiurl "https://lichess.org/api/games/user/${username}?tags=true&clocks=true&evals=true&opening=true&literate=true&since=${sinceMs}&until=${untilMs}"
   
   # Use exec curl to download via HTTPS (most reliable)
   # Use auto_execok which works on all platforms (including Windows)

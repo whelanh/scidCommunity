@@ -13,7 +13,9 @@ namespace eval ::chesscom {
   variable tempDir ""
   variable username ""
   variable startYear ""
-  variable progressWin ""
+  variable startMonth ""
+  variable dialogWin ""
+  variable progressValue 0
 }
 
 # ::chesscom::importGames
@@ -40,31 +42,43 @@ proc ::chesscom::importGames {} {
   ttk::entry $w.content.userEntry -width 30 -textvariable ::chesscom::username
   ttk::label $w.content.yearLbl -text "Start year (YYYY):" -anchor w
   ttk::entry $w.content.yearEntry -width 10 -textvariable ::chesscom::startYear
+  ttk::label $w.content.monthLbl -text "Start month (1-12):" -anchor w
+  ttk::entry $w.content.monthEntry -width 5 -textvariable ::chesscom::startMonth
 
   grid $w.content.userLbl   -row 0 -column 0 -sticky w -padx {0 8} -pady 4
   grid $w.content.userEntry -row 0 -column 1 -sticky ew -pady 4
   grid $w.content.yearLbl   -row 1 -column 0 -sticky w -padx {0 8} -pady 4
   grid $w.content.yearEntry -row 1 -column 1 -sticky w -pady 4
+  grid $w.content.monthLbl  -row 2 -column 0 -sticky w -padx {0 8} -pady 4
+  grid $w.content.monthEntry -row 2 -column 1 -sticky w -pady 4
+  
+  ttk::label $w.content.progressLbl -text "Progress:" -anchor w
+  ttk::progressbar $w.content.progress -mode determinate -variable ::chesscom::progressValue
+  grid $w.content.progressLbl -row 3 -column 0 -sticky w -padx {0 8} -pady {10 4}
+  grid $w.content.progress -row 3 -column 1 -sticky ew -pady {10 4}
+  
   grid columnconfigure $w.content 1 -weight 1
   pack $w.content -side top -fill both -expand 1
 
   ttk::frame $w.buttons -padding {10 10}
-  ttk::button $w.buttons.ok -text "Download" -command "::chesscom::startDownload"
+  ttk::button $w.buttons.ok -text "Download" -command "::chesscom::startDownload $w"
   ttk::button $w.buttons.cancel -text "Cancel" -command "destroy $w"
   pack $w.buttons.ok $w.buttons.cancel -side left -padx 5
   pack $w.buttons -side top -fill x
 
+  set ::chesscom::dialogWin $w
   focus $w.content.userEntry
-  bind $w <Return> "::chesscom::startDownload"
+  bind $w <Return> "::chesscom::startDownload $w"
   bind $w <Escape> "destroy $w"
   grab $w
 }
 
 # ::chesscom::startDownload
 #   Validate inputs and kick off downloads
-proc ::chesscom::startDownload {} {
+proc ::chesscom::startDownload {w} {
   set username [string trim $::chesscom::username]
   set yearStr [string trim $::chesscom::startYear]
+  set monthStr [string trim $::chesscom::startMonth]
 
   if {$username eq ""} {
     tk_messageBox -icon warning -type ok -title "Chess.com Import" \
@@ -78,7 +92,14 @@ proc ::chesscom::startDownload {} {
     return
   }
 
+  if {![regexp {^\d{1,2}$} $monthStr]} {
+    tk_messageBox -icon warning -type ok -title "Chess.com Import" \
+      -message "Please enter a start month from 1 to 12."
+    return
+  }
+
   set year [expr {int($yearStr)}]
+  set month [expr {int($monthStr)}]
   set currentYear [clock format [clock seconds] -format "%Y"]
   set currentYearInt [expr {int($currentYear)}]
 
@@ -88,11 +109,19 @@ proc ::chesscom::startDownload {} {
     return
   }
 
-  destroy .chesscomDialog
+  if {$month < 1 || $month > 12} {
+    tk_messageBox -icon warning -type ok -title "Chess.com Import" \
+      -message "Start month must be between 1 and 12."
+    return
+  }
+
+  # Disable download button and make cancel just close
+  $w.buttons.ok configure -state disabled
+  $w.buttons.cancel configure -command "destroy $w"
+  catch {grab release $w}
+
   set ::chesscom::downloading 1
   catch {.menu.file entryconfig "Import my chess.com*" -state disabled}
-
-  ::chesscom::showProgress
 
   if {[catch {
     set tempdir [file join [::chesscom::getTempDir] "scid_chesscom_[clock seconds]"]
@@ -103,39 +132,72 @@ proc ::chesscom::startDownload {} {
     catch {.menu.file entryconfig "Import my chess.com*" -state normal}
     tk_messageBox -icon error -type ok -title "Chess.com Import Error" \
       -message "Could not create temp directory:\n$err"
+    destroy $w
     return
   }
 
   if {[catch {
-    ::chesscom::downloadUserGames $username $year
+    ::chesscom::downloadUserGames $username $year $month $w
   } err]} {
     set ::chesscom::downloading 0
     catch {.menu.file entryconfig "Import my chess.com*" -state normal}
     catch {file delete -force $::chesscom::tempDir}
+    if {[winfo exists $w]} {
+      destroy $w
+    }
     tk_messageBox -icon error -type ok -title "Chess.com Import Error" \
       -message "Error downloading games for user '$username':\n$err"
-    ::chesscom::hideProgress
     return
+  }
+
+  if {[winfo exists $w]} {
+    destroy $w
   }
 }
 
 # ::chesscom::downloadUserGames
-#   Download month-by-month from start year to current month
-proc ::chesscom::downloadUserGames {username startYear} {
+#   Download month-by-month from start year/month to current month
+proc ::chesscom::downloadUserGames {username startYear startMonth dialogWin} {
   set pgnfile [file join $::chesscom::tempDir "chesscom_games.pgn"]
   set currentYear [expr {int([clock format [clock seconds] -format "%Y"])}]
   set currentMonth [expr {int([clock format [clock seconds] -format "%m"])}]
   set gamesFound 0
 
+  # Calculate total months for progress bar
+  set totalMonths 0
   for {set y $startYear} {$y <= $currentYear} {incr y} {
     set endMonth 12
     if {$y == $currentYear} {
       set endMonth $currentMonth
     }
-    for {set m 1} {$m <= $endMonth} {incr m} {
+    if {$y == $startYear} {
+      incr totalMonths [expr {$endMonth - $startMonth + 1}]
+    } else {
+      incr totalMonths $endMonth
+    }
+  }
+
+  set monthCount 0
+  for {set y $startYear} {$y <= $currentYear} {incr y} {
+    set endMonth 12
+    if {$y == $currentYear} {
+      set endMonth $currentMonth
+    }
+    set startM $startMonth
+    if {$y > $startYear} {
+      set startM 1
+    }
+    for {set m $startM} {$m <= $endMonth} {incr m} {
+      incr monthCount
       set mm [format "%02d" $m]
       set url [format "https://api.chess.com/pub/player/%s/games/%04d/%s/pgn" $username $y $mm]
       set monthfile [file join $::chesscom::tempDir "${y}_${mm}.pgn"]
+
+      # Update progress bar
+      if {[winfo exists $dialogWin]} {
+        set ::chesscom::progressValue [expr {($monthCount * 100) / $totalMonths}]
+        update idletasks
+      }
 
       if {[catch {::chesscom::downloadMonth $url $monthfile} err]} {
         # If every request fails we'll catch at the end; continue trying
@@ -163,7 +225,7 @@ proc ::chesscom::downloadUserGames {username startYear} {
 
   if {!$gamesFound} {
     catch {file delete -force $::chesscom::tempDir}
-    error "No games were downloaded. Please check the username or adjust the start year."
+    error "No games were downloaded. Please check the username or adjust the start year/month."
   }
 
   ::chesscom::openPGN $pgnfile $username $startYear
@@ -224,11 +286,10 @@ proc ::chesscom::downloadWithHTTP {apiurl outfile} {
 proc ::chesscom::openPGN {pgnfile username startYear} {
   set ::chesscom::downloading 0
   catch {.menu.file entryconfig "Import my chess.com*" -state normal}
-  ::chesscom::hideProgress
 
   if {![file exists $pgnfile] || [file size $pgnfile] == 0} {
     catch {file delete -force $::chesscom::tempDir}
-    error "No games were downloaded. Please check the username or start year."
+    error "No games were downloaded. Please check the username or start year/month."
   }
 
   if {[catch {
@@ -239,30 +300,6 @@ proc ::chesscom::openPGN {pgnfile username startYear} {
   } err]} {
     catch {file delete -force $::chesscom::tempDir}
     error "Error opening PGN file: $err"
-  }
-}
-
-# ::chesscom::showProgress
-#   Display a small non-blocking progress notice
-proc ::chesscom::showProgress {} {
-  if {[winfo exists .chesscomProgress]} {
-    destroy .chesscomProgress
-  }
-  set ::chesscom::progressWin .chesscomProgress
-  toplevel $::chesscom::progressWin
-  wm title $::chesscom::progressWin "Downloading..."
-  wm resizable $::chesscom::progressWin 0 0
-  setWinLocation $::chesscom::progressWin
-  ttk::label $::chesscom::progressWin.msg -text "Downloading Chess.com games...\nThis may take a few moments." -padding {10 10}
-  pack $::chesscom::progressWin.msg -side top -fill both
-  update idletasks
-}
-
-# ::chesscom::hideProgress
-#   Close the progress notice if present
-proc ::chesscom::hideProgress {} {
-  if {[info exists ::chesscom::progressWin] && [winfo exists $::chesscom::progressWin]} {
-    destroy $::chesscom::progressWin
   }
 }
 
