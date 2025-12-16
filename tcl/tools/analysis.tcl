@@ -1110,12 +1110,16 @@ proc addAnnotation { {n 1} } {
     set moves $analysis(moves$n)
     # For non-uci lines, trim space characters in <moveno>.[ *][...]<move> 
     set moves [regsub -all {\. *} $moves {.}]
+    # Limit variations to 16 plies
+    set moves [lrange $moves 0 15]
     
     # The best line we could have followed, and the game move we just played instead, are here:
     #
     set prevmoves $analysis(prevmoves$n)
     # For non-uci lines, trim space characters in <moveno>.[ *][...]<move> 
     set prevmoves [regsub -all {\. *} $prevmoves {.}]
+    # Limit variations to 16 plies
+    set prevmoves [lrange $prevmoves 0 15]
 
     set gamemove  [sc_game info previousMoveNT]
     
