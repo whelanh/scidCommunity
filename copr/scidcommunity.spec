@@ -4,7 +4,7 @@ Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit fd665719b5de90d77fe9f69b4c384256a93553d4
+%global commit e4b019b08964924905fb5b9043d94778e151e7ac
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
