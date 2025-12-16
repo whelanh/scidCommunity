@@ -341,8 +341,9 @@ namespace eval pgn {
     ::pgn::update_current_move
     
     # Hook for Lichess tournament live monitoring
-    if {[catch {::lichess_tournament::onGameOpened}]} {
-      # Tournament monitor not available or error; silently continue
+    if {[catch {::lichess_tournament::onGameOpened} err]} {
+      # Tournament monitor not available or error; log and silently continue
+      puts "DEBUG: Error in Lichess tournament hook: $err"
     }
   }
 
