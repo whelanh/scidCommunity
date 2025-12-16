@@ -85,7 +85,7 @@ namespace eval pgn {
     }
     $w.menu.file add separator
     $w.menu.file add command -label PgnFileClose \
-        -command "::win::closeWindow $w"
+        -command "::lichess_tournament::stopGamePolling; ::win::closeWindow $w"
 
     $w.menu.opt add checkbutton -label PgnOptColor \
         -variable ::pgn::showColor -command {updateBoard -pgn}
@@ -339,6 +339,11 @@ namespace eval pgn {
       unbusyCursor .
     }
     ::pgn::update_current_move
+    
+    # Hook for Lichess tournament live monitoring
+    if {[catch {::lichess_tournament::onGameOpened}]} {
+      # Tournament monitor not available or error; silently continue
+    }
   }
 
   proc update_current_move {} {

@@ -1,0 +1,14 @@
+The purpose of this new function is to allow users to monitor live tournament games broadcast by Lichess within scidCommunity.
+
+Use scenario:
+
+1)They go to scidCommunity and select the "File" menu and then a new option called "Open Lichess Tournament"
+    - This function will open https://lichess.org/broadcast?ref=offerspill.com and offer the user a choice in a popup window of which tournament they want to open (taken from line 10 of the link source...or appropriate http tag).
+    - Tournament entries look like https://lichess.org/broadcast/final-nacional-de-mayores-selectivo-olimpiada-uzbekistan-2026--absoluto/round-2/480hxQRJ
+    - Then take the link that was chosen and add ".pgn" to the end and use that link to download all the games in the tournament and put them in a new games list window (see "Import my Lichess" in the File menu or "Download TWIC games" in the Tools menu - twic.tcl)
+
+2) If a user opens one of the imported games (just from this Game List window --- not other Game List windows that may be open) into the "PGN Window", it should be checked if the game has a pgn header field "[Result ]" with a value of "*" (i.e., this means the game is live/on-going).  If it does, scidCommunity should re-download the game pgn file from the link the user chose originally) every three minute as long as the user has that game open.
+    - The game file for just the game the user has open can be extracted from the "[GameURL] pgn header field (instead of re-downloading the whole tournament pgn).  If the value in the [GameURL] field is "https://lichess.org/broadcast/ii-memorial-antonio-moura/part-1/k8hhD94x/7TIYwcrU", the updated pgn for just that game can be consturcted as follows: "https://lichess.org/study/k8hhD94x/7TIYwcrU.pgn". In other words, just take the last two "/" fields (i.e. "/k8hhD94x/7TIYwcrU") from the [GameURL] value and append it to the base prefix: "https://lichess.org/study" and then add ".pgn" to the end.
+    - If any new moves have been recorded relative to last move in the game the user has open, they should be added to the open game as new moves (not replacing the open game if possible in case the user has added their own comments, variations etc.).  So this probably means using scidCommunity's native "add move" functionality.
+    - If the user opens a new game from the Lichess Tournament Game List window, the most recent game pgn should be downloaded as described above and checking should be immediately be initiated and then monitored every 3 minutes.
+    - This kind of checking should only occur if we are in "Lichess tournament mode", not if a user opens another game from their pre-existing database or some other Game List window.
