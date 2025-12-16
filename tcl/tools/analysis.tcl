@@ -107,6 +107,7 @@ resetEngine 1
 resetEngine 2
 
 set annotateMode 0
+set annotationVariationLength 9
 
 ################################################################################
 # calculateNodes:
@@ -853,7 +854,14 @@ proc configAnnotation {} {
     ttk::radiobutton  $f.av.all     -text $::tr(AnnotateAll)   -variable annotateMoves -value all
     ttk::radiobutton  $f.av.white   -text $::tr(AnnotateWhite) -variable annotateMoves -value white
     ttk::radiobutton  $f.av.black   -text $::tr(AnnotateBlack) -variable annotateMoves -value black
+    ttk::frame $f.av.varlength
+    ttk::label $f.av.varlength.label -text "Variation length (moves):"
+    ttk::spinbox $f.av.varlength.spVarLength -width 4 -textvariable annotationVariationLength \
+            -from 1 -to 50 -increment 1 -validate all -validatecommand { regexp {^[0-9]+$} %P }
+    pack $f.av.varlength.label -side left
+    pack $f.av.varlength.spVarLength -side left -padx { 4 0 }
     pack $f.av.all $f.av.white $f.av.black -side top -fill x -anchor w
+    pack $f.av.varlength -side top -fill x -anchor w -pady { 4 0 }
 
     ttk::labelframe   $f.comment -text $::tr(Comments)
     ttk::checkbutton  $f.comment.cbAnnotateVar      -text $::tr(AnnotateVariations)         -variable ::isAnnotateVar
@@ -1110,16 +1118,17 @@ proc addAnnotation { {n 1} } {
     set moves $analysis(moves$n)
     # For non-uci lines, trim space characters in <moveno>.[ *][...]<move> 
     set moves [regsub -all {\. *} $moves {.}]
-    # Limit variations to 16 plies
-    set moves [lrange $moves 0 15]
+    # Limit variations based on user setting (convert moves to plies)
+    set maxPlies [expr {$::annotationVariationLength * 2 - 1}]
+    set moves [lrange $moves 0 $maxPlies]
     
     # The best line we could have followed, and the game move we just played instead, are here:
     #
     set prevmoves $analysis(prevmoves$n)
     # For non-uci lines, trim space characters in <moveno>.[ *][...]<move> 
     set prevmoves [regsub -all {\. *} $prevmoves {.}]
-    # Limit variations to 16 plies
-    set prevmoves [lrange $prevmoves 0 15]
+    # Limit variations based on user setting (convert moves to plies)
+    set prevmoves [lrange $prevmoves 0 $maxPlies]
 
     set gamemove  [sc_game info previousMoveNT]
     
