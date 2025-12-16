@@ -3,7 +3,7 @@
 # lichess_tournament.tcl: Monitor live Lichess tournament broadcasts
 #
 # Downloads and displays live tournament games from Lichess broadcasts,
-# with automatic polling of ongoing games every 3 minutes.
+# with automatic polling of ongoing games every minute.
 #
 ######################################################################
 
@@ -470,10 +470,10 @@ proc ::lichess_tournament::startGamePolling {gameUrl} {
       dict set ::lichess_tournament::gamePollingData lastMoveCount 0
     }
     
-    # Schedule first poll in 180 seconds (3 minutes)
-    set timerId [after 180000 ::lichess_tournament::pollGameUpdates]
+    # Schedule first poll in 60 seconds (1 minute)
+    set timerId [after 60000 ::lichess_tournament::pollGameUpdates]
     dict set ::lichess_tournament::liveGameTimers mainGame $timerId
-    ::lichess_tournament::vlog "Scheduled first poll in 180s"
+    ::lichess_tournament::vlog "Scheduled first poll in 60s"
   } err]} {
     # Error starting game polling; keep app responsive
   }
@@ -586,7 +586,7 @@ proc ::lichess_tournament::pollGameUpdates {} {
 #   Schedule the next polling cycle (30 seconds for testing)
 #
 proc ::lichess_tournament::scheduleNextPoll {} {
-  set timerId [after 180000 ::lichess_tournament::pollGameUpdates]
+  set timerId [after 60000 ::lichess_tournament::pollGameUpdates]
   dict set ::lichess_tournament::liveGameTimers mainGame $timerId
 }
 
