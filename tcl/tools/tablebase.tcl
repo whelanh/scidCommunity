@@ -3,7 +3,97 @@
 ### Copyright (C) 2025
 
 namespace eval ::tablebase {
-    variable lichessUrl "http://tablebase.lichess.ovh/standard"
+    # Use HTTPS for the Lichess tablebase API
+    variable lichessUrl "https://tablebase.lichess.ovh/standard"
+}
+
+# ::tablebase::countPieces
+#   Counts the total number of pieces on the board from a FEN string
+#
+proc ::tablebase::countPieces {fen} {
+    # FEN format: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+    # First field is the board position
+    set boardPart [lindex [split $fen] 0]
+    
+    # Count all piece characters (uppercase and lowercase letters)
+    set count 0
+    foreach char [split $boardPart ""] {
+        if {[string is alpha $char]} {
+            incr count
+        }
+    }
+    return $count
+}
+
+# ::tablebase::queryTablebaseResult
+#   Queries the tablebase and returns a simplified result string
+#   Returns: "winning", "losing", "draw", or "error: <message>"
+#
+proc ::tablebase::queryTablebaseResult {fen} {
+    # URL-encode spaces in FEN for the query string
+    # (Lichess expects standard URL encoding like %20, not underscores)
+    set urlFen [string map {" " "%20"} $fen]
+    
+    # Construct the API URL
+    set url "$::tablebase::lichessUrl?fen=$urlFen"
+    
+    # Try to query the tablebase
+    set result ""
+    set err ""
+    set ok 0
+
+    # Try curl first (preferred)
+    set cmd [list curl -s --max-time 10 $url]
+    if {![catch {exec {*}$cmd} result]} {
+        set ok 1
+    } else {
+        set err $result
+        # Fallback: Tcl's built-in http package (register TLS for HTTPS)
+        if {![catch {package require http}]} {
+            catch {package require tls}
+            catch {::http::register https 443 ::tls::socket}
+            set token ""
+            if {![catch {set token [::http::geturl $url -timeout 10000]} httpErr]} {
+                set result [::http::data $token]
+                ::http::cleanup $token
+                set ok 1
+            } else {
+                set err $httpErr
+            }
+        }
+    }
+
+    if {!$ok} {
+        return "error: Failed to query tablebase"
+    }
+    
+    if {[string match "*not found*" $result] || [string match "*error*" $result]} {
+        return "error: Position not found in tablebase"
+    }
+    
+    # Extract category from JSON
+    set category ""
+    if {[regexp {"category":"([^"]+)"} $result -> category]} {
+        # Determine side to move for clear messaging
+        set color [lindex [split $fen] 1]
+        set sideToMove [expr {$color eq "w" ? "White" : "Black"}]
+        set opponent [expr {$color eq "w" ? "Black" : "White"}]
+        
+        # Map category to clear result messages
+        switch -glob $category {
+            "win"            { return "winning for $sideToMove" }
+            "loss"           { return "losing for $sideToMove (winning for $opponent)" }
+            "draw"           { return "draw with perfect play" }
+            "cursed-win"     { return "winning for $sideToMove" }
+            "blessed-loss"   { return "draw with perfect play" }
+            "maybe-win"      { return "draw with perfect play" }
+            "maybe-loss"     { return "draw with perfect play" }
+            "unknown"        { return "draw with perfect play" }
+            default           { return "error: Unknown category: $category" }
+        }
+    }
+    
+    return "error: Unable to parse tablebase result"
 }
 
 # ::tablebase::lookupPosition

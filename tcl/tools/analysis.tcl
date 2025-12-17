@@ -2448,6 +2448,20 @@ proc toggleFinishGame { { n 1 } } {
 	grab .analysisWin$n
 
 	while { [string index [sc_game info previousMove] end] != "#"} {
+		# Check for 7-man tablebase position before making the move
+		set fen [sc_pos fen]
+		set pieceCount [::tablebase::countPieces $fen]
+		
+		if {$pieceCount <= 7} {
+			set tbResult [::tablebase::queryTablebaseResult $fen]
+			
+			if {![string match "error:*" $tbResult]} {
+				sc_pos setComment "[sc_pos getComment] Tablebase: $tbResult"
+				updateBoard -pgn
+				break
+			}
+		}
+		
 		set analysis(waitForReadyOk$current_engine) 1
 		sendToEngine $current_engine "isready"
 		vwait analysis(waitForReadyOk$current_engine)
@@ -2498,12 +2512,44 @@ proc toggleFinishGame { { n 1 } } {
 ################################################################################
 proc autoplayFinishGame { {n 1} } {
     if {!$::finishGameMode || ![winfo exists .analysisWin$n]} {return}
-    .analysisWin$n.b1.move invoke
+    
+    # Check if game has already ended in checkmate
     if { [string index [sc_game info previousMove] end] == "#"} {
         toggleFinishGame $n
         return
     }
-    after $::autoplayDelay autoplayFinishGame
+    
+    # Make the engine move
+    .analysisWin$n.b1.move invoke
+    
+    # Schedule a callback to check piece count after the board settles
+    after $::autoplayDelay "::autoplayFinishGameCheck $n"
+}
+
+proc ::autoplayFinishGameCheck { {n 1} } {
+    if {!$::finishGameMode || ![winfo exists .analysisWin$n]} {return}
+    
+    # Check piece count after move has been applied
+    set fen [sc_pos fen]
+    set pieceCount [::tablebase::countPieces $fen]
+    
+    if {$pieceCount <= 7} {
+        # Query tablebase for result
+        set tbResult [::tablebase::queryTablebaseResult $fen]
+        
+        # Add tablebase result as comment and end the game
+        if {![string match "error:*" $tbResult]} {
+            sc_pos setComment "[sc_pos getComment] Tablebase: $tbResult"
+            updateBoard -pgn
+            toggleFinishGame $n
+            return
+        }
+    }
+    
+    # Continue with the next iteration
+    if {$::finishGameMode} {
+        after $::autoplayDelay autoplayFinishGame
+    }
 }
 
 ################################################################################
