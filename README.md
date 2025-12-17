@@ -47,6 +47,10 @@ New functions allowing users to directly download and open up their Lichess and 
 
 <img width="500" height="370" alt="Screenshot_20251215_081733 (Edit)" src="https://github.com/user-attachments/assets/1139c2ff-cfd1-4245-84de-fe0d6a3e30c6" />
 
+New feature under the "File" menu to open Lichess broadcast tournament games. Opening an ongoing game in the PGN Window triggers automatic game updates every minute.
+
+<img width="500" height="296" alt="Screenshot_20251217_073342" src="https://github.com/user-attachments/assets/0d5f816d-e0fb-4beb-96c3-dacadaa3332e" />
+
 ## 💽 Releases
 Check latest **Releases** for a deb, rpm, exe, a MacOS and AppImage installable package.  The deb has been tested against Ubuntu 24, the rpm against Fedora Rawhide, the AppImage against Fedora Kinoite (Rawhide) and the exe file against a Windows 11 virtual machine. The Mac version has not been tested and feedback would be appreciated. Linux users can install scidCommunity from [Flathub](https://flathub.org/en/apps/io.github.whelanh.scidCommunity). For rpm based Linux systems, ScidCommunity is also available through the [Fedora Copr Repo](https://copr.fedorainfracloud.org/coprs/whelanh/scidcommunity/).  For Arch-based systems, it is available on the [AUR](https://aur.archlinux.org/packages/scidcommunity).
 
