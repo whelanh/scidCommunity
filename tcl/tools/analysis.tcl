@@ -108,6 +108,8 @@ resetEngine 2
 
 set annotateMode 0
 set annotationVariationLength 9
+set annotateWhiteMoves 1
+set annotateBlackMoves 1
 
 ################################################################################
 # calculateNodes:
@@ -851,16 +853,15 @@ proc configAnnotation {} {
     bind $w <Return> { .configAnnotation.f.buttons.ok invoke }
 
     ttk::labelframe   $f.av -text $::tr(AnnotateWhich)
-    ttk::radiobutton  $f.av.all     -text $::tr(AnnotateAll)   -variable annotateMoves -value all
-    ttk::radiobutton  $f.av.white   -text $::tr(AnnotateWhite) -variable annotateMoves -value white
-    ttk::radiobutton  $f.av.black   -text $::tr(AnnotateBlack) -variable annotateMoves -value black
+    ttk::checkbutton  $f.av.white   -text "For White moves" -variable ::annotateWhiteMoves
+    ttk::checkbutton  $f.av.black   -text "For Black moves" -variable ::annotateBlackMoves
     ttk::frame $f.av.varlength
     ttk::label $f.av.varlength.label -text "Variation length (moves):"
     ttk::spinbox $f.av.varlength.spVarLength -width 4 -textvariable annotationVariationLength \
             -from 1 -to 50 -increment 1 -validate all -validatecommand { regexp {^[0-9]+$} %P }
     pack $f.av.varlength.label -side left
     pack $f.av.varlength.spVarLength -side left -padx { 4 0 }
-    pack $f.av.all $f.av.white $f.av.black -side top -fill x -anchor w
+    pack $f.av.white $f.av.black -side top -fill x -anchor w
     pack $f.av.varlength -side top -fill x -anchor w -pady { 4 0 }
 
     ttk::labelframe   $f.comment -text $::tr(Comments)
@@ -1065,7 +1066,7 @@ proc markExercise { prevscore score nag} {
 #
 ################################################################################
 proc addAnnotation { {n 1} } {
-    global analysis annotateMoves annotateBlunders annotateMode blunderThreshold scoreAllMoves autoplayDelay
+    global analysis annotateBlunders annotateMode blunderThreshold scoreAllMoves autoplayDelay
     
     # Check if we only need to register an initial
     # assessment of the position
@@ -1258,9 +1259,12 @@ proc addAnnotation { {n 1} } {
     
     # Must we annotate our own moves? If no, we bail out unless
     # - we must add a closing line
-    #
-    if { ( $annotateMoves == "white"  &&  $tomove == "white" ||
-           $annotateMoves == "black"  &&  $tomove == "black"   ) && ! $addClosingLine } {
+    # Build a bitmask: should we annotate white moves (variations after white)? black moves (variations after black)?
+    set shouldAnnotateAfterWhite $::annotateBlackMoves
+    set shouldAnnotateAfterBlack $::annotateWhiteMoves
+    
+    if { ( $shouldAnnotateAfterWhite == 0 && $tomove == "black" ||
+           $shouldAnnotateAfterBlack == 0 && $tomove == "white" ) && ! $addClosingLine } {
         set analysis(prevscore$n)     $analysis(score$n)
         set analysis(prevmoves$n)     $analysis(moves$n)
         set analysis(prevscoremate$n) $analysis(scoremate$n)
@@ -1316,8 +1320,18 @@ proc addAnnotation { {n 1} } {
                     sc_pos addNag "D"
                 }
             }
-            if { $prevmoves != "" && ( $annotateMoves == "all" || $annotateMoves == "white"  &&  $tomove == "black" ||
-                                       $annotateMoves == "black"  &&  $tomove == "white" )} {
+            # Add variation if: both white and black annotations are enabled, OR
+            # white annotations enabled and it's black to move (variation after white move), OR
+            # black annotations enabled and it's white to move (variation after black move)
+            set addVariation 0
+            if { $::annotateWhiteMoves && $::annotateBlackMoves } {
+                set addVariation 1
+            } elseif { $::annotateWhiteMoves && $tomove == "black" } {
+                set addVariation 1
+            } elseif { $::annotateBlackMoves && $tomove == "white" } {
+                set addVariation 1
+            }
+            if { $prevmoves != "" && $addVariation } {
                 sc_var create
                 # Add the starting move
                 sc_move_add [lrange $prevmoves 0 0] $n
