@@ -411,8 +411,106 @@ proc ::lichess_tournament::onGameOpened {} {
   ::lichess_tournament::vlog "startGamePolling returned successfully"
 }
 
+# lichess_tournament::updateGameFromPgn
+#   Download the latest PGN and update the current game with any new moves
+#   Returns the new move count, or -1 on error
+#
+proc ::lichess_tournament::updateGameFromPgn {studyUrl lastMoveCount} {
+  # puts "DEBUG: updateGameFromPgn called with studyUrl=$studyUrl, lastMoveCount=$lastMoveCount"
+  set tempFile [file join $::lichess_tournament::tempDir "update_[clock seconds].pgn"]
+  # puts "DEBUG: Temp file will be: $tempFile"
+  
+  # Download the current game PGN
+  if {[catch {
+    if {[auto_execok curl] ne ""} {
+      # puts "DEBUG: Using curl to download"
+      exec curl -L -s -o "$tempFile" "$studyUrl" 2>@1
+    } elseif {[auto_execok wget] ne ""} {
+      # puts "DEBUG: Using wget to download"
+      exec wget -q -O "$tempFile" "$studyUrl" 2>@1
+    } else {
+      # puts "DEBUG: Using downloadWithHTTP"
+      ::lichess_tournament::downloadWithHTTP $studyUrl $tempFile
+    }
+  } err]} {
+    # puts "DEBUG: Error downloading PGN: $err"
+    return -1
+  }
+  
+  if {![file exists $tempFile]} {
+    # puts "DEBUG: PGN file was not created"
+    return -1
+  }
+  
+  # puts "DEBUG: PGN file downloaded successfully, size: [file size $tempFile]"
+  
+  # Parse the downloaded PGN to get moves
+  if {[catch {
+    set newMoves [::lichess_tournament::extractMovesFromPgn $tempFile]
+  } err]} {
+    # puts "DEBUG: Error parsing PGN: $err"
+    catch {file delete $tempFile}
+    return -1
+  }
+  
+  catch {file delete $tempFile}
+  
+  set totalMoveCount [llength $newMoves]
+  # puts "DEBUG: Parsed $totalMoveCount moves from PGN"
+  
+  # Add any new moves that aren't in the current game
+  if {$totalMoveCount > $lastMoveCount} {
+    set movesToAdd [lrange $newMoves $lastMoveCount end]
+    # puts "DEBUG: Found [llength $movesToAdd] new moves to add: $movesToAdd"
+    
+    # Filter out any result markers
+    set cleanMoves {}
+    foreach move $movesToAdd {
+      if {$move ne "*" && $move ne "1-0" && $move ne "0-1" && $move ne "1/2-1/2"} {
+        lappend cleanMoves $move
+      }
+    }
+    
+    if {[llength $cleanMoves] > 0} {
+      # puts "DEBUG: About to add [llength $cleanMoves] clean moves"
+      # Navigate to the end of the game before adding moves
+      sc_move end
+      # puts "DEBUG: Navigated to end of game"
+      
+      set addedCount 0
+      foreach move $cleanMoves {
+        # puts "DEBUG: Adding move: $move"
+        if {[catch {sc_move addSan $move} result]} {
+          # puts "DEBUG: ERROR adding move $move: $result"
+          # puts "DEBUG: Error info: $::errorInfo"
+          break
+        } else {
+          incr addedCount
+          # puts "DEBUG: Successfully added move $move"
+        }
+      }
+      
+      if {$addedCount == 0} {
+        # puts "DEBUG: Failed to add any moves"
+        return -1
+      }
+      
+      # Update the display
+      ::pgn::Refresh 1
+      # puts "DEBUG: Successfully added $addedCount moves and refreshed display"
+    } else {
+      # puts "DEBUG: No clean moves to add (all were result markers)"
+    }
+  } else {
+    # puts "DEBUG: No new moves (totalMoveCount=$totalMoveCount, lastMoveCount=$lastMoveCount)"
+  }
+  
+  # puts "DEBUG: Returning totalMoveCount=$totalMoveCount"
+  return $totalMoveCount
+}
+
 # lichess_tournament::startGamePolling
-#   Start a 30-second polling timer for a live game (for testing)
+#   Start polling timer for a live game and immediately update it
 #
 proc ::lichess_tournament::startGamePolling {gameUrl} {
   if {[catch {
@@ -437,45 +535,55 @@ proc ::lichess_tournament::startGamePolling {gameUrl} {
     
     # Build the study URL
     set studyUrl "https://lichess.org/study/${studyId}/${chapterId}.pgn"
-    # Start polling for study URL
-    ::lichess_tournament::vlog "Polling study URL: $studyUrl"
+    ::lichess_tournament::vlog "Study URL: $studyUrl"
     
     # Store game data
     dict set ::lichess_tournament::gamePollingData gameUrl $gameUrl
     dict set ::lichess_tournament::gamePollingData studyUrl $studyUrl
-    dict set ::lichess_tournament::gamePollingData lastMoveCount 0
-    # Stored polling data
     
-    # Get current move count by downloading the initial PGN and counting
-    # Get initial move count
+    # Get the current move count in the open game
+    # This is the number of moves already loaded from the tournament PGN
+    set currentMoveCount 0
     if {[catch {
-      set tempInitial [file join $::lichess_tournament::tempDir "initial_[clock seconds].pgn"]
-      if {[auto_execok curl] ne ""} {
-        exec curl -L -s -o "$tempInitial" $studyUrl 2>@1
-      } elseif {[auto_execok wget] ne ""} {
-        exec wget -q -O "$tempInitial" $studyUrl 2>@1
+      # Navigate to end and get ply count
+      sc_move end
+      set moveNum [sc_pos moveNumber]
+      set side [sc_pos side]
+      # Convert to ply: if white to move, ply = (moveNum * 2) - 1, if black, ply = moveNum * 2
+      if {$side eq "white"} {
+        set currentMoveCount [expr {$moveNum * 2 - 2}]
       } else {
-        ::lichess_tournament::downloadWithHTTP $studyUrl $tempInitial
+        set currentMoveCount [expr {$moveNum * 2 - 1}]
       }
-      if {[file exists $tempInitial]} {
-        set initialMoves [::lichess_tournament::extractMovesFromPgn $tempInitial]
-        set moveCount [llength $initialMoves]
-        catch {file delete $tempInitial}
-      } else {
-        set moveCount 0
-      }
-      dict set ::lichess_tournament::gamePollingData lastMoveCount $moveCount
+      # puts "DEBUG: Current game at move $moveNum ($side to move) = $currentMoveCount plies"
     } err]} {
-      # Error getting initial move count; default to 0
-      dict set ::lichess_tournament::gamePollingData lastMoveCount 0
+      # puts "DEBUG: Error getting current move count: $err"
+      set currentMoveCount 0
     }
+    
+    # puts "DEBUG: Will use $currentMoveCount as starting point"
+    
+    # Immediately fetch the latest PGN and update the game
+    # puts "DEBUG: About to call updateGameFromPgn with studyUrl=$studyUrl, currentMoveCount=$currentMoveCount"
+    set newMoveCount [::lichess_tournament::updateGameFromPgn $studyUrl $currentMoveCount]
+    # puts "DEBUG: updateGameFromPgn returned: $newMoveCount"
+    
+    if {$newMoveCount == -1} {
+      # Error updating; use current count
+      # puts "DEBUG: Error from updateGameFromPgn, using current count"
+      set newMoveCount $currentMoveCount
+    }
+    
+    dict set ::lichess_tournament::gamePollingData lastMoveCount $newMoveCount
+    # puts "DEBUG: Stored lastMoveCount=$newMoveCount"
     
     # Schedule first poll in 60 seconds (1 minute)
     set timerId [after 60000 ::lichess_tournament::pollGameUpdates]
     dict set ::lichess_tournament::liveGameTimers mainGame $timerId
-    ::lichess_tournament::vlog "Scheduled first poll in 60s"
+    # puts "DEBUG: Scheduled timer with ID: $timerId"
   } err]} {
-    # Error starting game polling; keep app responsive
+    # puts "DEBUG: ERROR in startGamePolling: $err"
+    # puts "DEBUG: Error info: $::errorInfo"
   }
 }
 
@@ -493,69 +601,18 @@ proc ::lichess_tournament::pollGameUpdates {} {
   set lastMoveCount [dict get $gamePollingData lastMoveCount]
   ::lichess_tournament::vlog "Poll tick. Last count=$lastMoveCount"
   
-  # Download the current game PGN
-  set tempFile [file join $::lichess_tournament::tempDir "polling_[clock seconds].pgn"]
+  # Update the game with any new moves
+  set newMoveCount [::lichess_tournament::updateGameFromPgn $studyUrl $lastMoveCount]
   
-  if {[catch {
-    if {[auto_execok curl] ne ""} {
-      exec curl -L -s -o "$tempFile" "$studyUrl" 2>@1
-    } elseif {[auto_execok wget] ne ""} {
-      exec wget -q -O "$tempFile" "$studyUrl" 2>@1
-    } else {
-      ::lichess_tournament::downloadWithHTTP $studyUrl $tempFile
-    }
-  } err]} {
-    # Error downloading PGN; silently retry next cycle
-    # Silently retry on next cycle
+  if {$newMoveCount == -1} {
+    # Error updating; retry on next cycle
     ::lichess_tournament::scheduleNextPoll
     return
   }
   
-  if {![file exists $tempFile]} {
-    ::lichess_tournament::scheduleNextPoll
-    return
-  }
-  
-  # Parse the downloaded PGN to get moves
-  if {[catch {
-    set newMoves [::lichess_tournament::extractMovesFromPgn $tempFile]
-  } err]} {
-    # Error parsing PGN; retry next cycle
-    catch {file delete $tempFile}
-    ::lichess_tournament::scheduleNextPoll
-    return
-  }
-  
-  # Compare with current game and append new moves
-  if {[llength $newMoves] > $lastMoveCount} {
-    set movesToAdd [lrange $newMoves $lastMoveCount end]
-    ::lichess_tournament::vlog "Found new moves: $movesToAdd"
-    
-    # Double-check: filter out any result markers that might have slipped through
-    set cleanMoves {}
-    foreach move $movesToAdd {
-      if {$move ne "*" && $move ne "1-0" && $move ne "0-1" && $move ne "1/2-1/2"} {
-        lappend cleanMoves $move
-      }
-    }
-    
-    if {[llength $cleanMoves] > 0} {
-      if {[catch {
-        # Navigate to the end of the game before adding moves
-        sc_move end
-        foreach move $cleanMoves {
-          sc_move addSan $move
-        }
-        dict set ::lichess_tournament::gamePollingData lastMoveCount [llength $newMoves]
-        # Update the display
-        ::pgn::Refresh 1
-      } err]} {
-        # Error adding moves; continue polling
-        ::lichess_tournament::vlog "Error adding moves: $err"
-      }
-    }
-  } else {
-    # No new moves
+  # Update the stored move count
+  if {$newMoveCount > $lastMoveCount} {
+    dict set ::lichess_tournament::gamePollingData lastMoveCount $newMoveCount
   }
   
   # Check if game is finished
@@ -570,12 +627,9 @@ proc ::lichess_tournament::pollGameUpdates {} {
   if {$result ne "*"} {
     # Game is finished, stop polling
     ::lichess_tournament::stopGamePolling
-    catch {file delete $tempFile}
     ::lichess_tournament::vlog "Game finished with result: $result"
     return
   }
-  
-  catch {file delete $tempFile}
   
   # Schedule next poll
   ::lichess_tournament::scheduleNextPoll
@@ -583,7 +637,7 @@ proc ::lichess_tournament::pollGameUpdates {} {
 }
 
 # lichess_tournament::scheduleNextPoll
-#   Schedule the next polling cycle (30 seconds for testing)
+#   Schedule the next polling cycle (1 minute)
 #
 proc ::lichess_tournament::scheduleNextPoll {} {
   set timerId [after 60000 ::lichess_tournament::pollGameUpdates]
