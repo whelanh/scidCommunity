@@ -2309,19 +2309,19 @@ proc toggleFinishGame { { n 1 } } {
 	# Default values
 	if {! [info exists ::finishGameEng1] } { set ::finishGameEng1 1 }
 	if {! [info exists ::finishGameEng2] } { set ::finishGameEng2 1 }
-	if {! [info exists ::finishGameCmd1] } { set ::finishGameCmd1 "movetime" }
-	if {! [info exists ::finishGameCmdVal1] } { set ::finishGameCmdVal1 5 }
-	if {! [info exists ::finishGameCmd2] } { set ::finishGameCmd2 "movetime" }
-	if {! [info exists ::finishGameCmdVal2] } { set ::finishGameCmdVal2 5 }
+	if {! [info exists ::finishGameSeconds1] } { set ::finishGameSeconds1 10 }
+	if {! [info exists ::finishGameDepth1] } { set ::finishGameDepth1 30 }
+	if {! [info exists ::finishGameSeconds2] } { set ::finishGameSeconds2 10 }
+	if {! [info exists ::finishGameDepth2] } { set ::finishGameDepth2 30 }
 	if {! [info exists ::finishGameAnnotate] } { set ::finishGameAnnotate 1 }
 	if {! [info exists ::finishGameAnnotateShort] } { set ::finishGameAnnotateShort 1 }
 	# On exit save values in options.dat
 	::options.store ::finishGameEng1
 	::options.store ::finishGameEng2
-	::options.store ::finishGameCmd1
-	::options.store ::finishGameCmdVal1
-	::options.store ::finishGameCmd2
-	::options.store ::finishGameCmdVal2
+	::options.store ::finishGameSeconds1
+	::options.store ::finishGameDepth1
+	::options.store ::finishGameSeconds2
+	::options.store ::finishGameDepth2
 	::options.store ::finishGameAnnotate
 	::options.store ::finishGameAnnotateShort
 
@@ -2363,14 +2363,18 @@ proc toggleFinishGame { { n 1 } } {
 		set ::finishGameEng1 1
 		ttk::radiobutton $w.wh_f.e2 -text $::tr(StartEngine) -variable ::finishGameEng1 -value 2 -state disabled
 	}
-	grid $w.wh_f.e1 -column 1 -row 0 -columnspan 3 -sticky w
-	grid $w.wh_f.e2 -column 1 -row 1 -columnspan 3 -sticky w
-	ttk::spinbox $w.wh_f.cv -width 3 -textvariable ::finishGameCmdVal1 -from 1 -to 999 -justify right
-	ttk::radiobutton $w.wh_f.c1 -text $::tr(seconds) -variable ::finishGameCmd1 -value "movetime"
-	ttk::radiobutton $w.wh_f.c2 -text $::tr(FixedDepth) -variable ::finishGameCmd1 -value "depth"
-	grid $w.wh_f.cv -column 1 -row 2 -sticky w
-	grid $w.wh_f.c1 -column 2 -row 2 -sticky w -padx 6
-	grid $w.wh_f.c2 -column 3 -row 2 -sticky w
+	grid $w.wh_f.e1 -column 1 -row 0 -columnspan 2 -sticky w
+	grid $w.wh_f.e2 -column 1 -row 1 -columnspan 2 -sticky w
+	
+	ttk::label $w.wh_f.l_sec -text "Seconds:"
+	ttk::spinbox $w.wh_f.sec -width 4 -textvariable ::finishGameSeconds1 -from 1 -to 999 -justify right
+	grid $w.wh_f.l_sec -column 1 -row 2 -sticky w
+	grid $w.wh_f.sec -column 2 -row 2 -sticky w -padx 2
+	
+	ttk::label $w.wh_f.l_depth -text "Depth:"
+	ttk::spinbox $w.wh_f.depth -width 4 -textvariable ::finishGameDepth1 -from 1 -to 999 -justify right
+	grid $w.wh_f.l_depth -column 1 -row 3 -sticky w
+	grid $w.wh_f.depth -column 2 -row 3 -sticky w -padx 2
 
 	ttk::labelframe $w.bk_f -text "$::tr(Black)" -padding 5
 	grid $w.bk_f -column 0 -row 1 -columnspan 2 -sticky we -pady 8
@@ -2383,14 +2387,18 @@ proc toggleFinishGame { { n 1 } } {
 		set ::finishGameEng2 1
 		ttk::radiobutton $w.bk_f.e2 -text $::tr(StartEngine) -variable ::finishGameEng2 -value 2 -state disabled
 	}
-	grid $w.bk_f.e1 -column 1 -row 0 -columnspan 3 -sticky w
-	grid $w.bk_f.e2 -column 1 -row 1 -columnspan 3 -sticky w
-	ttk::spinbox $w.bk_f.cv -width 3 -textvariable ::finishGameCmdVal2 -from 1 -to 999 -justify right
-	ttk::radiobutton $w.bk_f.c1 -text $::tr(seconds) -variable ::finishGameCmd2 -value "movetime"
-	ttk::radiobutton $w.bk_f.c2 -text $::tr(FixedDepth) -variable ::finishGameCmd2 -value "depth"
-	grid $w.bk_f.cv -column 1 -row 2 -sticky w
-	grid $w.bk_f.c1 -column 2 -row 2 -sticky w -padx 6
-	grid $w.bk_f.c2 -column 3 -row 2 -sticky w
+	grid $w.bk_f.e1 -column 1 -row 0 -columnspan 2 -sticky w
+	grid $w.bk_f.e2 -column 1 -row 1 -columnspan 2 -sticky w
+	
+	ttk::label $w.bk_f.l_sec -text "Seconds:"
+	ttk::spinbox $w.bk_f.sec -width 4 -textvariable ::finishGameSeconds2 -from 1 -to 999 -justify right
+	grid $w.bk_f.l_sec -column 1 -row 2 -sticky w
+	grid $w.bk_f.sec -column 2 -row 2 -sticky w -padx 2
+	
+	ttk::label $w.bk_f.l_depth -text "Depth:"
+	ttk::spinbox $w.bk_f.depth -width 4 -textvariable ::finishGameDepth2 -from 1 -to 999 -justify right
+	grid $w.bk_f.l_depth -column 1 -row 3 -sticky w
+	grid $w.bk_f.depth -column 2 -row 3 -sticky w -padx 2
 
 	ttk::checkbutton $w.annotate -text $::tr(Annotate) -variable ::finishGameAnnotate
 	grid $w.annotate -column 0 -row 2 -sticky w -padx 5 -pady 8
@@ -2424,10 +2432,8 @@ proc toggleFinishGame { { n 1 } } {
 	tkwait window $w
 	if {!$::finishGameMode} { return }
 
-	set gocmd(1) "go $::finishGameCmd1 $::finishGameCmdVal1"
-	set gocmd(2) "go $::finishGameCmd2 $::finishGameCmdVal2"
-	if {$::finishGameCmd1 == "movetime" } { append gocmd(1) "000" }
-	if {$::finishGameCmd2 == "movetime" } { append gocmd(2) "000" }
+	set gocmd(1) "go movetime [expr {$::finishGameSeconds1 * 1000}] depth $::finishGameDepth1"
+	set gocmd(2) "go movetime [expr {$::finishGameSeconds2 * 1000}] depth $::finishGameDepth2"
 	if {[sc_pos side] == "white"} {
 		set current_cmd 1
 		set current_engine $::finishGameEng1
