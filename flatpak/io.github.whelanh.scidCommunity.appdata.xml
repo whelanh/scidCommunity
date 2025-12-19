@@ -31,7 +31,7 @@
       <li>Direct game uploads to Lichess and Chess.com from the PGN window</li>
       <li>Tablebase integration via Lichess 7-man endgames</li>
       <li>Additional theme options (Sand and cobalt2)</li>
-      <li>Alt+s hotkey for quick access to the Search button</li>
+      <li>New feature to open Lichess broadcast tournament games</li>
     </ul>
     <p>
       This fork welcomes community suggestions and aims to be responsive to user feature requests. 
@@ -48,6 +48,10 @@
 
   <screenshots>
     <screenshot type="default">
+      <caption>New functions allowing users to directly download and open up their Lichess and chess.com games</caption>
+      <image>https://github.com/user-attachments/assets/1139c2ff-cfd1-4245-84de-fe0d6a3e30c6</image>
+    </screenshot>
+    <screenshot>
       <caption>Header Search with Layouts button and Sand theme</caption>
       <image>https://github.com/user-attachments/assets/fdf27a66-5ae4-40de-8a86-28db86b29f22</image>
     </screenshot>
@@ -80,6 +84,6 @@
   <content_rating type="oars-1.0" />
 
   <releases>
-    <release version="5.1.1.5" date="2025-12-14" />
+    <release version="5.1.1.6" date="2025-12-19" />
   </releases>
 </component>
