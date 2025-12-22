@@ -12,6 +12,7 @@
       - *Table Base* looks up current position in the Lichess 7-man endgame table base
       - *chess.com* uploads the current game to Chess.com
       - *lichess.org* uploads the current game to Lichess.org
+      - *chessdb Engine Tree* opens the current position in chessdb.cn's tree of engine evaluaitons
 6. New (optional) "Sand" and "cobalt2" themes.
 7. New light colored buttons added for use in the Engine and Analysis windows when using "dark" and "cobalt2" themes. 
 8. Implemented [user request](https://github.com/whelanh/scidCommunity/discussions/10) for better handling of long comments in the Game Info window.
