@@ -147,6 +147,10 @@ namespace eval pgn {
     ::utils::tooltip::Set $w.bottompanel.lichess "Upload game to Lichess.org"
     pack $w.bottompanel.lichess -side left -padx 2 -pady 2
 
+    ttk::button $w.bottompanel.chessdb -text "chessdb Engine Tree" -command ::pgn::openInChessDB
+    ::utils::tooltip::Set $w.bottompanel.chessdb "Open current position in ChessDB.cn"
+    pack $w.bottompanel.chessdb -side left -padx 2 -pady 2
+
     grid $w.frame -row 0 -column 0 -sticky news
     grid $w.bottompanel -row 1 -column 0 -sticky we
     grid rowconfigure $w 0 -weight 1
@@ -455,4 +459,18 @@ proc ::pgn::openInLichess {} {
   }
 
   openURL $gameUrl
+}
+
+# Open current position in ChessDB.cn in the default browser.
+proc ::pgn::openInChessDB {} {
+  # Get the current FEN position
+  set fen [sc_pos fen]
+  
+  # Replace spaces with underscores for the URL
+  set fenEncoded [string map {" " "_"} $fen]
+  
+  # Build the ChessDB.cn URL
+  set url "https://www.chessdb.cn/queryc_en/?$fenEncoded"
+  
+  openURL $url
 }
