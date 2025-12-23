@@ -1,68 +1,32 @@
-# Flathub Update Process
+Here are the instructions for updating your Flathub application:
 
-This document describes how to update the scidCommunity application on Flathub when a new version is released.
+1. In your Flathub Repository (io.github.whelanh.scidCommunity.yml):
 
-## Prerequisites
+Line 64 (commit: ...): You MUST change this line. Replace the existing hash with the full commit hash of the new version from your development repository (whelanh/scidCommunity).
+Line 3 (runtime-version: '25.08'): You generally do not need to change this unless you specifically want to target a different Freedesktop SDK version. Since 25.08 appears to be the valid current/target version for your app, leaving it as is correct.
+2. In your Development Repository (whelanh/scidCommunity):
 
-- Your flathub fork with the `add-scidcommunity` branch
-- The scidCommunity repository with the `/flatpak` directory
+flatpak/io.github.whelanh.scidCommunity.appdata.xml:
+You MUST add a new <release> entry inside the <releases> tag.
+This entry should include the version attribute (e.g., version="X.Y.Z") and the date attribute (e.g., date="2025-12-23").
+Add a <description> with list items (<li>) describing the changes.
+Why? Flathub uses this file to display "What's New" in software centers.
+flatpak/io.github.whelanh.scidCommunity.yml:
+This file in your dev repo is typically used for local testing or CI. It is good practice to keep it in sync with your Flathub manifest (especially shared modules and build options), but Flathub itself ignores this file during the build process (it uses the one in the Flathub repo).
+Summary of Steps:
 
-## Update Steps
+Make your code changes in your development repo.
+Update the .appdata.xml in your development repo with the new version info.
+Commit and push these changes to GitHub.
+Copy the full commit hash of that new commit.
+Go to your Flathub repo, edit io.github.whelanh.scidCommunity.yml, and paste the new hash on Line 64.
+It is strongly recommended to create a Pull Request (PR).
 
-### 1. Update the Manifest in scidCommunity Repo
+Here is why a PR is better, even if you are the only maintainer:
 
-In the scidCommunity repository's `/flatpak` directory:
-
-```bash
-cd /home/hugh/Downloads/scidCommunity/flatpak
-./update-manifest.sh
-```
-
-This script automatically fetches the latest release tag and updates `io.github.whelanh.scidCommunity.yml`.
-
-### 2. Copy to Flathub Fork
-
-Copy the updated manifest to your flathub fork:
-
-```bash
-cp io.github.whelanh.scidCommunity.yml /path/to/flathub-fork/com.scidvspc.community.yml
-```
-
-**Note**: Verify the exact filename in your flathub fork (it may be `com.scidvspc.community.yml` or similar).
-
-### 3a. If Initial PR Not Yet Merged
-
-If your original PR is still open:
-
-```bash
-cd /path/to/flathub-fork
-git checkout add-scidcommunity
-git add com.scidvspc.community.yml
-git commit -m "Update scidCommunity to version X.Y.Z"
-git push origin add-scidcommunity
-```
-
-The existing PR will automatically update with the new commit.
-
-### 3b. If Initial PR Already Merged
-
-If your application is already published on Flathub:
-
-```bash
-cd /path/to/flathub-fork
-git checkout main
-git pull upstream main  # Sync with flathub main
-git checkout -b update-to-vX.Y.Z  # Create new branch for the update
-git add com.scidvspc.community.yml
-git commit -m "Update scidCommunity to version X.Y.Z"
-git push origin update-to-vX.Y.Z
-```
-
-Then create a new PR on the flathub repository from your new branch.
-
-## Notes
-
-- Each scidCommunity release should have a corresponding update to Flathub
-- The `update-manifest.sh` script handles version detection automatically
-- Always test the updated manifest locally before pushing to flathub if possible
-- The flathub repository only needs the yml manifest file
+The Flathub Build Bot: When you open a PR, Flathub's automated build system will pick it up and try to build your application.
+If you made a typo (e.g., incorrect hash, indentation error), the bot will fail and let you know before you break the main branch.
+If the build succeeds, you get confidence that the update will go smoothly for users.
+Test Builds: The bot will often provide a command to install the test build locally. This allows you to verify that the new version actually runs and behaves correctly before releasing it to the public.
+Safety: Pushing directly to the master (or main) branch bypasses these checks. If you push a broken build, you have to submit another commit to fix it, whereas with a PR, you can just update the branch until it's green.
+Recommendation: Create a new branch for your update (e.g., update-to-1.2), make your changes, and open a PR against the default branch. Wait for the checks to pass, then merge.
