@@ -54,7 +54,11 @@ New feature under the "File" menu to open Lichess broadcast tournament games. Op
 <img width="500" height="296" alt="Screenshot_20251217_073342" src="https://github.com/user-attachments/assets/0d5f816d-e0fb-4beb-96c3-dacadaa3332e" />
 
 ## 💽 Releases
-Check latest **Releases** for a deb, rpm, exe, a MacOS and AppImage installable package.  The deb has been tested against Ubuntu 24, the rpm against Fedora Rawhide, the AppImage against Fedora Kinoite (Rawhide) and the exe file against a Windows 11 virtual machine. The Mac version has not been tested and feedback would be appreciated. Linux users can install scidCommunity from [Flathub](https://flathub.org/en/apps/io.github.whelanh.scidCommunity). For rpm based Linux systems, ScidCommunity is also available through the [Fedora Copr Repo](https://copr.fedorainfracloud.org/coprs/whelanh/scidcommunity/).  For Arch-based systems, it is available on the [AUR](https://aur.archlinux.org/packages/scidcommunity).
+Check latest **[Releases](https://github.com/whelanh/scidCommunity/releases)** for a deb, rpm, exe, a MacOS and AppImage installable package.  The deb has been tested against Ubuntu 24, the rpm against Fedora Rawhide, the AppImage against Fedora Kinoite (Rawhide) and the exe file against a Windows 11 virtual machine. The Mac version has not been tested and feedback would be appreciated. 
+
+Linux users can install scidCommunity from [Flathub](https://flathub.org/en/apps/io.github.whelanh.scidCommunity), however the Flathub update process is slow. For the most recent developments, see the **[Releases](https://github.com/whelanh/scidCommunity/releases)** section or:
+* For rpm based Linux systems, ScidCommunity is also available through the [Fedora Copr Repo](https://copr.fedorainfracloud.org/coprs/whelanh/scidcommunity/)
+* For Arch-based systems, it is available on the [AUR](https://aur.archlinux.org/packages/scidcommunity)
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 ScidCommunity is based on Scid (Shane's Chess Information Database), a multi-platform (Linux, Mac OS X, Windows) chess database application. It is a fork open to user ideas for further improvements.
