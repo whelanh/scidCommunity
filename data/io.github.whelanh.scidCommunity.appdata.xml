@@ -78,13 +78,15 @@
   <content_rating type="oars-1.0" />
 
   <releases>
-    <release version="5.1.1.711" date="2025-12-24" />
+    <release version="5.1.1.711" date="2025-12-24">
       <description>
-    <p>This release introduces several improvements:</p>
-    <ul>
-      <li>Added support for chessdb.cn website with tree based on engine evaluations</li>
-    </ul>
-  </description>
+        <p>This release introduces several improvements:</p>
+        <ul>
+          <li>Added support for chessdb.cn website with tree based on engine evaluations</li>
+        </ul>
+      </description>
+    </release>
+    <release version="5.1.1.5" date="2025-12-14" />
   </releases>
 
 
