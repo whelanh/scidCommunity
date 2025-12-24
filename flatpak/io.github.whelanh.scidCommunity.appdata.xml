@@ -18,29 +18,23 @@
     <p>
       scidCommunity is a community-driven fork of Scid (Shane's Chess Information Database), focused on 
       adding enhancements while maintaining full compatibility with existing Scid databases. It allows you to 
-      store, organize, and search through large collections of chess games, with support for any Xboard or UCI 
-      compatible chess engine.
+      store, organize, and search through large collections of chess games with support for any compatible UCI chess engine.
     </p>
     <p>
       Key enhancements in scidCommunity:
     </p>
     <ul>
-      <li>Improved Header Search with saveable search layouts for frequently-used parameters</li>
       <li>Engine analysis controls with configurable depth and time limits</li>
       <li>Integrated TWIC (The Week in Chess) game downloads</li>
       <li>Direct game uploads to Lichess and Chess.com from the PGN window</li>
       <li>Tablebase integration via Lichess 7-man endgames</li>
       <li>Additional theme options (Sand and cobalt2)</li>
       <li>New feature to open Lichess broadcast tournament games</li>
+      <li>Improved Header Search with saveable search layouts for frequently-used parameters</li>
     </ul>
     <p>
       This fork welcomes community suggestions and aims to be responsive to user feature requests. 
       If you've wished for specific functionality in your chess database workflow, scidCommunity may be for you.
-    </p>
-    <p>
-      You can also display graphical trends, produce printable reports on players and openings, 
-      play online on FICS, and study endings with endgame tablebases. The Stockfish chess engine 
-      is included in the package.
     </p>
   </description>
 

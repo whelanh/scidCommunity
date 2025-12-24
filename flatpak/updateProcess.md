@@ -17,12 +17,20 @@ Summary of Steps:
 
 Make your code changes in your development repo.
 Update the .appdata.xml in your development repo with the new version info.
+    The CMakeLists.txt in your upstream repository installs the appdata file from the data/ directory (data/io.github.whelanh.scidCommunity.appdata.xml), not the one in the flatpak/ directory (flatpak/io.github.whelanh.scidCommunity.appdata.xml).
+
+To fix this:
+
+Apply your image changes to /home/hugh/Downloads/scidCommunity/data/io.github.whelanh.scidCommunity.appdata.xml.
+Commit and push those changes to your upstream repository.
+Update the commit hash in your Flathub manifest (io.github.whelanh.scidCommunity.yml) to match this new commit.
+Submit the PR to Flathub.
 Commit and push these changes to GitHub.
 Copy the full commit hash of that new commit.
 Go to your Flathub repo, edit io.github.whelanh.scidCommunity.yml, and paste the new hash on Line 64.
 It is strongly recommended to create a Pull Request (PR).
 
-Here is why a PR is better, even if you are the only maintainer:
+Here is why a PR is better, even if you are the only maintainer (git checkout -b "xxxxxxx"):
 
 The Flathub Build Bot: When you open a PR, Flathub's automated build system will pick it up and try to build your application.
 If you made a typo (e.g., incorrect hash, indentation error), the bot will fail and let you know before you break the main branch.

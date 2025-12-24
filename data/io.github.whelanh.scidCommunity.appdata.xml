@@ -4,38 +4,37 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0</project_license>
   <name>scidCommunity</name>
-  <summary>A community-enhanced chess database application</summary>
+  <summary>Community-enhanced chess database and analysis application</summary>
   <developer id="io.github.whelanh">
      <name>scidCommunity</name>
   </developer>
+
+  <branding>
+    <color type="primary" scheme_preference="light">#7cb342</color>
+    <color type="primary" scheme_preference="dark">#9ccc65</color>
+  </branding>
 
   <description>
     <p>
       scidCommunity is a community-driven fork of Scid (Shane's Chess Information Database), focused on 
       adding enhancements while maintaining full compatibility with existing Scid databases. It allows you to 
-      store, organize, and search through large collections of chess games, with support for any Xboard or UCI 
-      compatible chess engine.
+      store, organize, and search through large collections of chess games with support for any compatible UCI chess engine.
     </p>
     <p>
       Key enhancements in scidCommunity:
     </p>
     <ul>
-      <li>Improved Header Search with saveable search layouts for frequently-used parameters</li>
       <li>Engine analysis controls with configurable depth and time limits</li>
       <li>Integrated TWIC (The Week in Chess) game downloads</li>
       <li>Direct game uploads to Lichess and Chess.com from the PGN window</li>
       <li>Tablebase integration via Lichess 7-man endgames</li>
       <li>Additional theme options (Sand and cobalt2)</li>
-      <li>Alt+s hotkey for quick access to the Search button</li>
+      <li>New feature to open Lichess broadcast tournament games</li>
+      <li>Improved Header Search with saveable search layouts for frequently-used parameters</li>
     </ul>
     <p>
       This fork welcomes community suggestions and aims to be responsive to user feature requests. 
       If you've wished for specific functionality in your chess database workflow, scidCommunity may be for you.
-    </p>
-    <p>
-      You can also display graphical trends, produce printable reports on players and openings, 
-      play online on FICS, and study endings with endgame tablebases. The Stockfish chess engine 
-      is included in the package.
     </p>
   </description>
 
@@ -43,6 +42,10 @@
 
   <screenshots>
     <screenshot type="default">
+      <caption>New functions allowing users to directly download and open up their Lichess and chess.com games</caption>
+      <image>https://github.com/user-attachments/assets/1139c2ff-cfd1-4245-84de-fe0d6a3e30c6</image>
+    </screenshot>
+    <screenshot>
       <caption>Header Search with Layouts button and Sand theme</caption>
       <image>https://github.com/user-attachments/assets/fdf27a66-5ae4-40de-8a86-28db86b29f22</image>
     </screenshot>
@@ -71,10 +74,18 @@
     <binary>scid</binary>
   </provides>
 
-  <update_contact>brickhousedevelopers@gmail.com</update_contact>
+  <update_contact>brickhousedevevelopers@gmail.com</update_contact>
   <content_rating type="oars-1.0" />
 
   <releases>
-    <release version="5.1.1.5" date="2025-12-07" />
+    <release version="5.1.1.711" date="2025-12-24" />
+      <description>
+    <p>This release introduces several improvements:</p>
+    <ul>
+      <li>Added support for chessdb.cn website with tree based on engine evaluations</li>
+    </ul>
+  </description>
   </releases>
+
+
 </component>
