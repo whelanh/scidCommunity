@@ -18,6 +18,8 @@ namespace eval ::lichess_tournament {
   variable gamePollingData [dict create]
   # Verbose logging toggle (set to 1 to enable)
   variable verbose 0
+  variable refreshInterval 60000
+  variable autoUpdateBoard 1
 }
 
 # Internal helper to log when verbose is enabled
@@ -249,6 +251,18 @@ proc ::lichess_tournament::showTournamentSelector {tournaments} {
   
   # Store the tournament list in the widget
   set ::tournamentList_$w $tournaments
+
+  ttk::frame $w.options -padding {10 10}
+  ttk::label $w.options.lbl -text "Refresh interval (>9 seconds):"
+  ttk::entry $w.options.ent -width 5
+  $w.options.ent insert 0 "60"
+  
+  ttk::checkbutton $w.options.chk -text "Updates refresh board position" \
+    -variable ::lichess_tournament::autoUpdateBoard
+
+  pack $w.options.lbl $w.options.ent -side left -padx 5
+  pack $w.options.chk -side left -padx 15
+  pack $w.options -fill x
   
   # Buttons
   ttk::frame $w.buttons -padding {10 10}
@@ -282,6 +296,14 @@ proc ::lichess_tournament::selectTournament {w} {
   set url [lindex $tournaments [expr {$idx * 2 + 1}]]
   set name [lindex $tournaments [expr {$idx * 2}]]
   
+  set interval [$w.options.ent get]
+  if {![string is integer -strict $interval] || $interval <= 9} {
+    tk_messageBox -icon error -type ok -title "Invalid Interval" \
+      -message "Refresh interval must be an integer greater than 9 seconds."
+    return
+  }
+  set ::lichess_tournament::refreshInterval [expr {$interval * 1000}]
+  
   destroy $w
   
   # Store tournament info and start download
@@ -305,7 +327,15 @@ proc ::lichess_tournament::downloadTournamentGames {name url} {
   catch {.menu.file entryconfig "Open Lichess Tournament*" -state disabled}
   
   set pgnUrl "${url}.pgn"
-  set pgnFile [file join $::lichess_tournament::tempDir "tournament.pgn"]
+  
+  # create a safe filename from the tournament name (first 20 chars)
+  set safeName [string range $name 0 19]
+  # Replace characters invalid in filenames or potentially problematic
+  regsub -all {[^a-zA-Z0-9\-\.\_\ ]} $safeName "_" safeName
+  set safeName [string trim $safeName]
+  if {$safeName eq ""} { set safeName "tournament" }
+  
+  set pgnFile [file join $::lichess_tournament::tempDir "${safeName}.pgn"]
   
   # Download the PGN file
   if {[catch {
@@ -461,24 +491,18 @@ proc ::lichess_tournament::updateGameFromPgn {studyUrl lastMoveCount} {
   # Add any new moves that aren't in the current game
   if {$totalMoveCount > $lastMoveCount} {
     set movesToAdd [lrange $newMoves $lastMoveCount end]
-    # puts "DEBUG: Found [llength $movesToAdd] new moves to add: $movesToAdd"
+    # puts "DEBUG: Found [llength $movesToAdd] new moves to add"
     
-    # Filter out any result markers
-    set cleanMoves {}
-    foreach move $movesToAdd {
-      if {$move ne "*" && $move ne "1-0" && $move ne "0-1" && $move ne "1/2-1/2"} {
-        lappend cleanMoves $move
-      }
-    }
-    
-    if {[llength $cleanMoves] > 0} {
-      # puts "DEBUG: About to add [llength $cleanMoves] clean moves"
+    if {[llength $movesToAdd] > 0} {
+      # puts "DEBUG: About to add [llength $movesToAdd] clean moves"
       # Navigate to the end of the game before adding moves
       sc_move end
       # puts "DEBUG: Navigated to end of game"
       
       set addedCount 0
-      foreach move $cleanMoves {
+      foreach item $movesToAdd {
+        set move [lindex $item 0]
+        set comment [lindex $item 1]
         # puts "DEBUG: Adding move: $move"
         if {[catch {sc_move addSan $move} result]} {
           # puts "DEBUG: ERROR adding move $move: $result"
@@ -487,8 +511,16 @@ proc ::lichess_tournament::updateGameFromPgn {studyUrl lastMoveCount} {
         } else {
           incr addedCount
           # puts "DEBUG: Successfully added move $move"
+          
+          # Add comment if present
+          if {$comment ne ""} {
+            catch {sc_pos setComment $comment}
+          }
         }
       }
+      
+      # Auto-save the game to ensure updates are visible
+      catch {sc_game save [sc_game number] [sc_base current]}
       
       if {$addedCount == 0} {
         # puts "DEBUG: Failed to add any moves"
@@ -496,7 +528,12 @@ proc ::lichess_tournament::updateGameFromPgn {studyUrl lastMoveCount} {
       }
       
       # Update the display
-      ::pgn::Refresh 1
+      if {$::lichess_tournament::autoUpdateBoard} {
+        sc_move end
+        ::notify::PosChanged -pgn
+      } else {
+        ::pgn::Refresh 1
+      }
       # puts "DEBUG: Successfully added $addedCount moves and refreshed display"
     } else {
       # puts "DEBUG: No clean moves to add (all were result markers)"
@@ -577,8 +614,8 @@ proc ::lichess_tournament::startGamePolling {gameUrl} {
     dict set ::lichess_tournament::gamePollingData lastMoveCount $newMoveCount
     # puts "DEBUG: Stored lastMoveCount=$newMoveCount"
     
-    # Schedule first poll in 60 seconds (1 minute)
-    set timerId [after 60000 ::lichess_tournament::pollGameUpdates]
+    # Schedule first poll
+    set timerId [after $::lichess_tournament::refreshInterval ::lichess_tournament::pollGameUpdates]
     dict set ::lichess_tournament::liveGameTimers mainGame $timerId
     # puts "DEBUG: Scheduled timer with ID: $timerId"
   } err]} {
@@ -633,14 +670,14 @@ proc ::lichess_tournament::pollGameUpdates {} {
   
   # Schedule next poll
   ::lichess_tournament::scheduleNextPoll
-  ::lichess_tournament::vlog "Scheduled next poll in 180s"
+  ::lichess_tournament::vlog "Scheduled next poll in [expr {$::lichess_tournament::refreshInterval / 1000}]s"
 }
 
 # lichess_tournament::scheduleNextPoll
 #   Schedule the next polling cycle (1 minute)
 #
 proc ::lichess_tournament::scheduleNextPoll {} {
-  set timerId [after 60000 ::lichess_tournament::pollGameUpdates]
+  set timerId [after $::lichess_tournament::refreshInterval ::lichess_tournament::pollGameUpdates]
   dict set ::lichess_tournament::liveGameTimers mainGame $timerId
 }
 
@@ -672,58 +709,117 @@ proc ::lichess_tournament::extractMovesFromPgn {pgnFile} {
   set fd [open $pgnFile r]
   fconfigure $fd -encoding utf-8
   set content [read $fd]
+  close $fd
   
-  # Build move text by skipping PGN headers
-  set moveText ""
+  # 1. Remove header lines (lines starting with [)
+  set body ""
   foreach line [split $content "\n"] {
     set t [string trim $line]
-    if {$t eq ""} { continue }
-    # Skip header lines (those starting with [)
     if {[string index $t 0] eq "\["} { continue }
-    append moveText " $t"
+    append body "$line\n"
   }
-
-  # Remove clock annotations {...} using string range approach
-  set cleaned ""
-  set len [string length $moveText]
-  set i 0
-  while {$i < $len} {
-    set ch [string index $moveText $i]
-    if {$ch eq "\{"} {
-      # Skip until we find closing brace
-      incr i
-      while {$i < $len && [string index $moveText $i] ne "\}"} {
-        incr i
+  
+  set moves {}
+  set buffer ""
+  set inComment 0
+  set varDepth 0
+  
+  # 2. Parse the body character by character
+  foreach char [split $body ""] {
+    if {$inComment} {
+      if {$char eq "\}"} {
+        set inComment 0
+        # Attach comment to the last move if available
+        if {[llength $moves] > 0} {
+          set lastIdx [expr {[llength $moves]-1}]
+          set lastEntry [lindex $moves $lastIdx]
+          set san [lindex $lastEntry 0]
+          set existingComment [lindex $lastEntry 1]
+          set newComment [string trim $buffer]
+          
+          if {$existingComment ne ""} {
+            set finalComment "$existingComment $newComment"
+          } else {
+            set finalComment $newComment
+          }
+          
+          # Update the entry with the comment
+          lset moves $lastIdx [list $san $finalComment]
+        }
+        set buffer ""
+      } else {
+        append buffer $char
+      }
+    } elseif {$varDepth > 0} {
+      if {$char eq "("} {
+        incr varDepth
+      } elseif {$char eq ")"} {
+        incr varDepth -1
       }
     } else {
-      append cleaned $ch
+      # Normal move parsing
+      if {$char eq "\{"} {
+        # Start of comment - first flush buffer as move
+        set token [string trim $buffer]
+        if {$token ne ""} {
+          lappend moves [list $token ""]
+        }
+        set buffer ""
+        set inComment 1
+      } elseif {$char eq "("} {
+        # Start of variation - flush buffer
+        set token [string trim $buffer]
+        if {$token ne ""} {
+          lappend moves [list $token ""]
+        }
+        set buffer ""
+        incr varDepth
+      } elseif {[string is space $char]} {
+        # Separator - flush buffer
+        set token [string trim $buffer]
+        if {$token ne ""} {
+          lappend moves [list $token ""]
+        }
+        set buffer ""
+      } else {
+        append buffer $char
+      }
     }
-    incr i
   }
   
-  # Remove move numbers (like "1.", "2.", etc.)
-  set out [regsub -all {\d+\.} $cleaned ""]
+  # Flush any remaining buffer
+  set token [string trim $buffer]
+  if {$token ne ""} {
+    lappend moves [list $token ""]
+  }
   
-  # Remove extra spaces and trim
-  set out [string map [list "  " " "] $out]
-  set out [string trim $out]
-
-  # Tokenize and collect SAN moves
-  set moves {}
-  foreach token [split $out] {
-    set tok [string trim $token]
-    if {$tok eq ""} { continue }
-    # Skip result markers - check each explicitly
-    if {$tok eq "*" || $tok eq "1-0" || $tok eq "0-1" || $tok eq "1/2-1/2"} { continue }
-    # Skip pure numbers (move numbers that slipped through)
-    if {[regexp {^[0-9]+$} $tok]} { continue }
-    # Skip tokens that are just dots
-    if {[regexp {^\.+$} $tok]} { continue }
-    lappend moves $tok
+  # 3. Clean up the moves (remove numbers, result markers, etc.)
+  set cleanMoves {}
+  foreach entry $moves {
+    set token [lindex $entry 0]
+    set comment [lindex $entry 1]
+    
+    # Remove period from "1." or "1.e4"
+    # Case 1: "1." -> ignore
+    if {[regexp {^\d+\.$} $token]} { continue }
+    # Case 2: "1..." -> ignore
+    if {[regexp {^\d+\.+$} $token]} { continue }
+    
+    # Case 3: "1.e4" -> keep "e4"
+    if {[regexp {^\d+\.(.+)$} $token -> rest]} {
+      set token $rest
+    }
+    
+    # Skip result markers
+    if {$token eq "*" || $token eq "1-0" || $token eq "0-1" || $token eq "1/2-1/2"} { continue }
+    
+    # Skip junk
+    if {$token eq ""} { continue }
+    
+    lappend cleanMoves [list $token $comment]
   }
 
-  close $fd
-  return $moves
+  return $cleanMoves
 }
 
 # Initialize: Nothing to do at load time
