@@ -257,11 +257,7 @@ proc ::lichess_tournament::showTournamentSelector {tournaments} {
   ttk::entry $w.options.ent -width 5
   $w.options.ent insert 0 "60"
   
-  ttk::checkbutton $w.options.chk -text "Updates refresh board position" \
-    -variable ::lichess_tournament::autoUpdateBoard
-
   pack $w.options.lbl $w.options.ent -side left -padx 5
-  pack $w.options.chk -side left -padx 15
   pack $w.options -fill x
   
   # Buttons
@@ -432,6 +428,14 @@ proc ::lichess_tournament::onGameOpened {} {
   
   ::lichess_tournament::vlog "Starting to monitor live game: $gameUrl"
   
+  # Check if we are already monitoring this game to prevent infinite loops
+  # (sc_move end and sc_game save can trigger updates that call this hook again)
+  if {[dict exists $::lichess_tournament::gamePollingData gameUrl] && \
+      [dict get $::lichess_tournament::gamePollingData gameUrl] eq $gameUrl} {
+    ::lichess_tournament::vlog "Already monitoring this game, skipping initialization"
+    return
+  }
+  
   # Stop any existing timer for this window
   ::lichess_tournament::stopGamePolling
   
@@ -439,6 +443,10 @@ proc ::lichess_tournament::onGameOpened {} {
   # Start monitoring this game
   ::lichess_tournament::startGamePolling $gameUrl
   ::lichess_tournament::vlog "startGamePolling returned successfully"
+  
+  # Auto-jump to the end of the game
+  sc_move end
+  ::notify::PosChanged -pgn
 }
 
 # lichess_tournament::updateGameFromPgn
