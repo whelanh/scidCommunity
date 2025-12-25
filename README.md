@@ -51,7 +51,7 @@ New functions allowing users to directly download and open up their Lichess and 
 
 New feature under the "File" menu to open Lichess broadcast tournament games. Opening an ongoing game in the PGN Window triggers automatic game updates every minute.
 
-<img width="500" height="296" alt="Screenshot_20251217_073342" src="https://github.com/user-attachments/assets/0d5f816d-e0fb-4beb-96c3-dacadaa3332e" />
+<img width="500" height="270" alt="Screenshot_20251225_063003" src="https://github.com/user-attachments/assets/4505355c-6247-45bb-af21-b0f64270fb24" />
 
 ## 💽 Releases
 Check latest **[Releases](https://github.com/whelanh/scidCommunity/releases)** for a deb, rpm, exe, a MacOS and AppImage installable package.  The deb has been tested against Ubuntu 24, the rpm against Fedora Rawhide, the AppImage against Fedora Kinoite (Rawhide) and the exe file against a Windows 11 virtual machine. The Mac version has not been tested and feedback would be appreciated. 
