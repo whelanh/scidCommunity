@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.1
+Version:        5.1.1.72
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit caeb616a0e2ebe6d97abca85ed4a779c34d04761
+%global commit 88b2fc7bff01ea490e3b8b6b33824eb10122bc6a
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -63,7 +63,11 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 
 %changelog
 
-* Mon Dec 09 2025 Hugh Whelan <hugh@example.com> - 5.1.1-1
+* Wed Dec 24 2025 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-1
+- Lichess live tournament monitoring
+- Button in PGN Window for chessdb.cn engine based tree web page
+
+* Mon Dec 09 2025 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-1
 - Initial COPR package
 - Chess database application with enhanced features
 - Includes Header Search layouts, engine controls, TWIC downloads
