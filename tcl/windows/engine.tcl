@@ -233,7 +233,7 @@ proc ::enginewin::createDisplayFrame {id display} {
                 lassign [$w bbox $index] x y width height
                 set x [expr {$x + [winfo rootx $w] + $width}]
                 incr y [winfo rooty $w]
-                ::board::popup .enginewinBoard $pos $x $y $height
+                ::board::popup .enginewinBoard $pos $x $y $height true [::board::isFlipped .main.board]
             }]} {
                 destroy .enginewinBoard
             }
@@ -264,7 +264,7 @@ proc ::enginewin::createButtonsBar {id btn display} {
         if {"pressed" in [%W state]} {
             set y [winfo rooty %W]
             set bh [winfo height %W]
-            ::board::popup .enginewinBoard [sc_pos board $::enginewin::m_(position,$id) ""] %X $y $bh
+            ::board::popup .enginewinBoard [sc_pos board $::enginewin::m_(position,$id) ""] %X $y $bh true [::board::isFlipped .main.board]
         }
     }} $id]
     bind $btn.lock <Any-Leave> {

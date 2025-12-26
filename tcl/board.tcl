@@ -385,7 +385,7 @@ proc ::board::san {sqno} {
 # Show a pop-up board.
 # The board will be shown centered at xc and above yc.
 # If there is not enough space, or above is false, it will be shown below (yc + h_offset)
-proc ::board::popup {w positionLongStr xc yc {h_offset 20} {above true}} {
+proc ::board::popup {w positionLongStr xc yc {h_offset 20} {above true} {flip -1}} {
     set psize 30
     if {$psize > $::boardSize} { set psize $::boardSize }
 
@@ -404,6 +404,10 @@ proc ::board::popup {w positionLongStr xc yc {h_offset 20} {above true}} {
 
     if {$lastmove ne ""} {
       ::board::lastMoveHighlight $w.bd $lastmove
+    }
+    
+    if {$flip != -1} {
+        ::board::flipAuto $w.bd $flip
     }
 
     # Make sure the popup window can fit on the screen:
