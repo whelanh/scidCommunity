@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.1.74
+Version:        5.1.1.75
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit b7b2fa8860efd53c8dd4f86f8d7cdbadd43fa2fe
+%global commit 98dd6d8feb7d256b9f9d88d82efa5203e4a72092
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Fri Dec 30 2025 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-75
+- "Add pause button to PGN Window only for Lichess Tournament games"
 * Fri Dec 26 2025 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-74
 - Align Engine Window variation hover pop up with Board perspective
 * Thu Dec 25 2025 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-73
