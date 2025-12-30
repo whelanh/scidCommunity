@@ -147,6 +147,17 @@ namespace eval pgn {
     ::utils::tooltip::Set $w.bottompanel.lichess "Upload game to Lichess.org"
     pack $w.bottompanel.lichess -side left -padx 2 -pady 2
 
+    # Pause/Run button for Lichess tournament monitoring (initially hidden)
+    # The visibility is managed by ::lichess_tournament::updatePauseButton
+    ttk::button $w.bottompanel.monitor -text "Pause" -command ::lichess_tournament::togglePause
+    ::utils::tooltip::Set $w.bottompanel.monitor "Pause/Resume live updates"
+    # Do not pack it yet; it will be packed if monitoring is active
+    
+    # Check if we should show it
+    if {[info commands ::lichess_tournament::updatePauseButton] ne ""} {
+      ::lichess_tournament::updatePauseButton
+    }
+
     grid $w.frame -row 0 -column 0 -sticky news
     grid $w.bottompanel -row 1 -column 0 -sticky we
     grid rowconfigure $w 0 -weight 1
