@@ -20,6 +20,7 @@ namespace eval ::lichess_tournament {
   variable verbose 0
   variable refreshInterval 60000
   variable autoUpdateBoard 1
+  variable isPaused 0
 }
 
 # Internal helper to log when verbose is enabled
@@ -622,6 +623,10 @@ proc ::lichess_tournament::startGamePolling {gameUrl} {
     dict set ::lichess_tournament::gamePollingData lastMoveCount $newMoveCount
     # puts "DEBUG: Stored lastMoveCount=$newMoveCount"
     
+    # Reset pause state for new game
+    set ::lichess_tournament::isPaused 0
+    ::lichess_tournament::updatePauseButton
+    
     # Schedule first poll
     set timerId [after $::lichess_tournament::refreshInterval ::lichess_tournament::pollGameUpdates]
     dict set ::lichess_tournament::liveGameTimers mainGame $timerId
@@ -639,6 +644,10 @@ proc ::lichess_tournament::pollGameUpdates {} {
   
   set gamePollingData $::lichess_tournament::gamePollingData
   if {[dict size $gamePollingData] == 0} {
+    return
+  }
+  
+  if {$::lichess_tournament::isPaused} {
     return
   }
   
@@ -699,6 +708,88 @@ proc ::lichess_tournament::stopGamePolling {} {
     dict unset ::lichess_tournament::liveGameTimers mainGame
   }
   set ::lichess_tournament::gamePollingData {}
+  
+  # Update UI button visibility
+  ::lichess_tournament::updatePauseButton
+}
+
+# lichess_tournament::isMonitoring
+#   Check if we are currently monitoring a game
+#
+proc ::lichess_tournament::isMonitoring {} {
+  return [expr {[dict size $::lichess_tournament::gamePollingData] > 0}]
+}
+
+# lichess_tournament::togglePause
+#   Toggle the pause state of the live monitoring
+#
+proc ::lichess_tournament::togglePause {} {
+  set ::lichess_tournament::isPaused [expr {!$::lichess_tournament::isPaused}]
+  
+  if {$::lichess_tournament::isPaused} {
+    # PAUSING
+    ::lichess_tournament::vlog "Pausing updates"
+    
+    # Cancel any pending timer
+    if {[dict exists $::lichess_tournament::liveGameTimers mainGame]} {
+      set timerId [dict get $::lichess_tournament::liveGameTimers mainGame]
+      catch {after cancel $timerId}
+      dict unset ::lichess_tournament::liveGameTimers mainGame
+    }
+  } else {
+    # RESUMING
+    ::lichess_tournament::vlog "Resuming updates"
+    
+    # Save the current game state first to ensure we don't lose user data
+    catch {sc_game save [sc_game number] [sc_base current]}
+    
+    # Immediately check for updates
+    set gamePollingData $::lichess_tournament::gamePollingData
+    if {[dict size $gamePollingData] > 0} {
+      set studyUrl [dict get $gamePollingData studyUrl]
+      set lastMoveCount [dict get $gamePollingData lastMoveCount]
+      
+      # Run an immediate update
+      set newMoveCount [::lichess_tournament::updateGameFromPgn $studyUrl $lastMoveCount]
+      
+      if {$newMoveCount != -1 && $newMoveCount > $lastMoveCount} {
+         dict set ::lichess_tournament::gamePollingData lastMoveCount $newMoveCount
+      }
+      
+      # Schedule the next poll to continue regular monitoring
+      ::lichess_tournament::scheduleNextPoll
+    }
+  }
+  
+  # Update button text
+  ::lichess_tournament::updatePauseButton
+}
+
+# lichess_tournament::updatePauseButton
+#   Update or hide/show the pause button in the PGN window
+#
+proc ::lichess_tournament::updatePauseButton {} {
+  set btn .pgnWin.bottompanel.monitor
+  
+  # If PGN window or button doesn't exist, nothing to do
+  if {![winfo exists $btn]} { return }
+  
+  if {[::lichess_tournament::isMonitoring]} {
+    # Ensure it is visible
+    if {![winfo ismapped $btn]} {
+      pack $btn -side left -padx 2 -pady 2
+    }
+    
+    # Update text based on state
+    if {$::lichess_tournament::isPaused} {
+      $btn configure -text "Resume"
+    } else {
+      $btn configure -text "Pause"
+    }
+  } else {
+    # Not monitoring, hide it
+    pack forget $btn
+  }
 }
 
 # lichess_tournament::extractGameId
