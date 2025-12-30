@@ -78,6 +78,14 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+      <release version="5.1.1.75" date="2025-12-29">
+      <description>
+        <p>This release introduces several improvements:</p>
+        <ul>
+          <li>Add a pause/resume button in the PGN Window only visible for live Lichess tournament games</li>
+        </ul>
+      </description>
+    </release>
     <release version="5.1.1.74" date="2025-12-26">
       <description>
         <p>This release introduces several improvements:</p>
