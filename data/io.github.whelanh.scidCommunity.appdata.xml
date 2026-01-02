@@ -6,7 +6,7 @@
   <name>scidCommunity</name>
   <summary>Community-enhanced chess database and analysis application</summary>
   <developer id="io.github.whelanh">
-     <name>scidCommunity</name>
+    <name>scidCommunity</name>
   </developer>
 
   <branding>
@@ -78,11 +78,19 @@
   <content_rating type="oars-1.0" />
 
   <releases>
-      <release version="5.1.1.75" date="2025-12-29">
+    <release version="5.1.1.76" date="2026-01-02">
       <description>
         <p>This release introduces several improvements:</p>
         <ul>
-          <li>Add a pause/resume button in the PGN Window only visible for live Lichess tournament games</li>
+          <li>Incorporate upstream patches and update copyright years</li>
+        </ul>
+      </description>
+    </release>
+    <release version="5.1.1.75" date="2025-12-26">
+      <description>
+        <p>This release introduces several improvements:</p>
+        <ul>
+          <li>Add a pause/resume button in the PGN Window only visible for live Lichess</li>
         </ul>
       </description>
     </release>
