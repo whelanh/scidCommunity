@@ -71,13 +71,13 @@ proc ::windows::gamelist::Open { {base ""} {filter ""} } {
 	::windows::gamelist::createWin_ $w $base $filter
 }
 
-proc ::windows::gamelist::OpenTreeBest { {base} {w} } {
+proc ::windows::gamelist::OpenTreeBest { {base} {w} {filter "tree"} } {
 	if {! [::win::createWindow $w ""]} {
 		::win::closeWindow $w
 		return
 	}
 	set ::gamelistTitle($w) "[tr TreeBestGames]:"
-	::windows::gamelist::createWin_ $w $base "tree"
+	::windows::gamelist::createWin_ $w $base $filter
 
 	grid forget $w.buttons
 	set ::gamelistPosMask($w) 1

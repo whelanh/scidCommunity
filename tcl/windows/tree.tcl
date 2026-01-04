@@ -784,7 +784,11 @@ proc ::tree::best { baseNumber } {
     destroy $w
   } else {
     .treeWin$baseNumber.buttons.best state pressed
-    ::windows::gamelist::OpenTreeBest $::tree(base$baseNumber) $w
+    set filter "tree"
+    if { $::tree(allgames$baseNumber) == 0 } {
+      set filter [sc_filter compose $::tree(base$baseNumber) "dbfilter" "tree"]
+    }
+    ::windows::gamelist::OpenTreeBest $::tree(base$baseNumber) $w $filter
     bind $w <Destroy> "+.treeWin$baseNumber.buttons.best state !pressed"
   }
 }
