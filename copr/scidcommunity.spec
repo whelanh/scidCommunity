@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.1.76
+Version:        5.1.1.77
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit f3cd1a94fb9ec24e964fd0308c48c192a2e8b349
+%global commit e4352276343a4ea8fe9affe599bb9866d36d9d15
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,7 +62,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
-* Fri Feb 2 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-76
+* Sun Jan 4 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-77
+- "Have the Best Games button honor the state of the all_games checkbox"
+* Fri Jan 2 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-76
 - "Incorporate upstream patches and update copyright years"
 * Tue Dec 30 2025 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-75
 - "Add pause button to PGN Window only for Lichess Tournament games"
