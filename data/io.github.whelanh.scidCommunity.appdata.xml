@@ -78,6 +78,14 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.1.77" date="2026-01-04">
+      <description>
+        <p>This release introduces several improvements:</p>
+        <ul>
+          <li>Have the Best Games button in Tree View honor the state of the all_games checkbox</li>
+        </ul>
+      </description>
+    </release>
     <release version="5.1.1.76" date="2026-01-02">
       <description>
         <p>This release introduces several improvements:</p>
