@@ -13,6 +13,8 @@ When you want to incorporate a specific feature or fix from upstream without bri
 First, ensure you have the latest commits from the upstream repository:
 
 ```bash
+git remote -v
+git remote add upstream git@github.com:benini/scid.git
 git fetch upstream
 ```
 

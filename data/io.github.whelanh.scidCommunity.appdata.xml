@@ -68,6 +68,7 @@
   </screenshots>
 
   <url type="homepage">https://github.com/whelanh/scidCommunity</url>
+  <url type="vcs-browser">https://github.com/whelanh/scidCommunity</url>
 
   <provides>
     <id>scid.desktop</id>
