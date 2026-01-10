@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.1.77
+Version:        5.1.1.78
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit e4352276343a4ea8fe9affe599bb9866d36d9d15
+%global commit a1a4352351dc3d10ecf6ac8667960ae3e40886f5
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Sat Jan 10 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-78
+- "Allow the Play/Tactical Game function to use any engine the user has configured, eliminating dependency on Phalanx/Toga"
 * Sun Jan 4 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-77
 - "Have the Best Games button honor the state of the all_games checkbox"
 * Fri Jan 2 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-76

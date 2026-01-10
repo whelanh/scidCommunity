@@ -789,18 +789,6 @@ namespace eval tacgame {
     # Pascal Georges : original Phalanx does not have 'setboard'
     set analysisCoach(automoveThinking1) 1
     if {$analysisCoach(isUCI1)} {
-         # Convert time to move? TACGAME uses gameclock but engine needs instruction.
-         # For simplicity, give it a reasonable fixed time per move or use clock.
-         # Let's use 1000ms (1s) per move to start, or make it configurable. 
-         # Or better, rely on the level. If UCI_Elo is set, it might ignore movetime or use it.
-         # Let's send "go wtime ... btime ..." matching the clocks.
-         # set wtime [expr {[::gameclock::getTime 1] * 10}] 
-         # set btime [expr {[::gameclock::getTime 2] * 10}]
-         # times in Tacgame might be deciseconds? gameclock::getTime returns deciseconds?
-         # gameclock logic: new 1 80 -> 80 minutes?
-         # Let's just use "go movetime 3000" (3 seconds) for a responsive game for now, 
-         # or "go" if we trust the engine to move fast.
-         # If we use UCI_Elo, Stockfish usually moves fast.
          set mtime [expr {int($::tacgame::uciMoveTime * 1000)}]
          sendToEngine 1 "position fen [sc_pos fen]"
          sendToEngine 1 "go movetime $mtime"
