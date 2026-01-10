@@ -79,6 +79,15 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.1.78" date="2026-01-10">
+      <description>
+        <p>This release introduces several improvements:</p>
+        <ul>
+          <li>Allow the Play/Tactical Game function to use any engine the user has configured, eliminating dependency on Phalanx/Toga
+          </li>
+        </ul>
+      </description>
+    </release>
     <release version="5.1.1.77" date="2026-01-04">
       <description>
         <p>This release introduces several improvements:</p>
