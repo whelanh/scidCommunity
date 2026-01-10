@@ -38,6 +38,8 @@ namespace eval tacgame {
   set lscore {}
   
   set analysisCoach(automove1) 0
+  set useUCILimit 0
+  set uciMoveTime 3
   
   # ======================================================================
   # resetValues
@@ -106,26 +108,50 @@ namespace eval tacgame {
       ::tacgame::closeEngine 2
     }
     
-    # find Phalanx and a UCI engine
+    
+    # find all engines
+    set engineNames {}
+    set i 0
+    foreach e $::engines(list) {
+      lappend engineNames [lindex $e 0]
+      incr i
+    }
+    
+    # find Phalanx and a UCI engine (defaults)
     set i 0
     set index1 -1
     set index2 -1
     foreach e $::engines(list) {
-      if { $index1 != -1 && $index2 != -1 } { break }
       set name [lindex $e 0]
-      if { [ string match -nocase "*phalanx*" $name ]  } {
+      if { $index1 == -1 && [ string match -nocase "*phalanx*" $name ]  } {
         set engineCoach1 $name
         set index1 $i
       }
       
-      if {[lindex $e 7] != 0} {
+      if { $index2 == -1 && [lindex $e 7] != 0} {
         set engineCoach2 $name
         set index2 $i
       }
       incr i
     }
+
+    # If defaults not found, pick first available
+    if {$index1 == -1 && [llength $::engines(list)] > 0} {
+        set index1 0
+        set engineCoach1 [lindex [lindex $::engines(list) 0] 0]
+    }
+    if {$index2 == -1 && [llength $::engines(list)] > 0} {
+         # try to find one that isn't the same as index1 if possible
+         if {[llength $::engines(list)] > 1} {
+             set index2 1
+             set engineCoach2 [lindex [lindex $::engines(list) 1] 0]
+         } else {
+             set index2 0
+             set engineCoach2 [lindex [lindex $::engines(list) 0] 0]
+         }
+    }
     
-    # could not find engines
+    # could not find ANY engines
     if { $index1 == -1 || $index2 == -1 } {
       tk_messageBox -title "scidCommunity" -icon warning -type ok -message $::tr(PhalanxOrTogaMissing)
       return
@@ -147,6 +173,7 @@ namespace eval tacgame {
     ttk::labelframe $w.flevel -text [string toupper $::tr(difficulty) 0 0 ]
     ttk::frame $w.flevel.diff_fixed
     ttk::frame $w.flevel.diff_random
+    ttk::labelframe $w.fengines -text "Engines"
     ttk::labelframe $w.fopening -text $::tr(Opening)
     ttk::labelframe $w.flimit -text $::tr(Time)
     ttk::frame $w.fbuttons
@@ -154,6 +181,7 @@ namespace eval tacgame {
     pack $w.flevel -side top -fill x
     pack $w.flevel.diff_fixed -side top -anchor w
     pack $w.flevel.diff_random -side top -anchor w
+    pack $w.fengines -side top -fill x -pady 5
     pack $w.fopening  -side top -fill both -expand 1 -pady 10
     pack $w.flimit $w.fbuttons -side top -fill x
     
@@ -176,7 +204,31 @@ namespace eval tacgame {
     grid $w.flevel.diff_random.labelMin -row 0 -column 1
     grid $w.flevel.diff_random.lMin -row 1 -column 1 -padx "10 0" -sticky e
     grid $w.flevel.diff_random.labelMax -row 0 -column 2
+    grid $w.flevel.diff_fixed.scale -row 1 -column 1 -padx "10 0" -sticky e
+    grid $w.flevel.diff_random.cb -row 0 -column 0 -rowspan 2
+    grid $w.flevel.diff_random.labelMin -row 0 -column 1
+    grid $w.flevel.diff_random.lMin -row 1 -column 1 -padx "10 0" -sticky e
+    grid $w.flevel.diff_random.labelMax -row 0 -column 2
     grid $w.flevel.diff_random.lMax -row 1 -column 2 -sticky e
+    
+    ttk::checkbutton $w.flevel.uci_limit -text "Limit Strength (UCI Engines)" -variable ::tacgame::useUCILimit
+    pack $w.flevel.uci_limit -side top -anchor w -padx 5 -pady 5
+    
+    ttk::frame $w.flevel.ftime
+    ttk::label $w.flevel.ftime.l -text "UCI Move Time (s):"
+    ttk::spinbox $w.flevel.ftime.sb -from 1 -to 60 -increment 1 -textvariable ::tacgame::uciMoveTime -width 3
+    pack $w.flevel.ftime.l $w.flevel.ftime.sb -side left -padx 2
+    pack $w.flevel.ftime -side top -anchor w -padx 5 -pady 5
+
+    # Engine selection
+    ttk::label $w.fengines.l1 -text "Opponent:"
+    ttk::combobox $w.fengines.cb1 -values $engineNames -textvariable engineCoach1 -state readonly
+    ttk::label $w.fengines.l2 -text "Coach:"
+    ttk::combobox $w.fengines.cb2 -values $engineNames -textvariable engineCoach2 -state readonly
+    grid $w.fengines.l1 -row 0 -column 0 -padx 5 -pady 5
+    grid $w.fengines.cb1 -row 0 -column 1 -padx 5 -pady 5 -sticky ew
+    grid $w.fengines.l2 -row 1 -column 0 -padx 5 -pady 5
+    grid $w.fengines.cb2 -row 1 -column 1 -padx 5 -pady 5 -sticky ew
     
     # start new game
     ttk::radiobutton $w.fopening.cbNew -text $::tr(StartNewGame)  -variable ::tacgame::openingType -value new
@@ -224,6 +276,23 @@ namespace eval tacgame {
     ttk::button $w.fbuttons.close -text $::tr(Play) -command {
       focus .
       set ::tacgame::chosenOpening [.configWin.fopening.fOpeningList.lbOpening selection]
+      
+      # Update indices based on selected engine names
+      set i 0
+      set ::tacgame::index1 -1
+      set ::tacgame::index2 -1
+      foreach e $::engines(list) {
+         set name [lindex $e 0]
+         if {$name eq $engineCoach1} { set ::tacgame::index1 $i }
+         if {$name eq $engineCoach2} { set ::tacgame::index2 $i }
+         incr i
+      }
+
+      if {$::tacgame::index1 == -1 || $::tacgame::index2 == -1} {
+          tk_messageBox -title "Error" -message "Selected engine not found!"
+          return
+      }
+
       destroy .configWin
       ::tacgame::play
     }
@@ -305,11 +374,13 @@ namespace eval tacgame {
     
     # create a new game if a DB is opened
     if {$::tacgame::openingType != "current"} {
+      set engineData [lindex $::engines(list) $::tacgame::index1]
+      set engineName [lindex $engineData 0]
       sc_game tags set -event "Tactical game"
       if { [::board::isFlipped .main.board] } {
-        sc_game tags set -white "Phalanx - $level ELO"
+        sc_game tags set -white "$engineName - $level ELO"
       } else  {
-        sc_game tags set -black "Phalanx - $level ELO"
+        sc_game tags set -black "$engineName - $level ELO"
       }
       sc_game tags set -date [::utils::date::today]
     }
@@ -429,9 +500,11 @@ namespace eval tacgame {
     set analysisCommand [ ::toAbsPath [ lindex $engineData 1 ] ]
     set analysisArgs [lindex $engineData 2]
     set analysisDir [ ::toAbsPath [lindex $engineData 3] ]
+    set isUCI [lindex $engineData 7]
+    set analysisCoach(isUCI$n) $isUCI
     
     # turn phalanx book, ponder and learning off, easy on
-    if {$n == 1} {
+    if {$n == 1 && [string match -nocase "*phalanx*" $analysisName]} {
       # convert Elo = 1200 to level 100 up to Elo=2200 to level 0
       set easylevel [expr int(100-(100*($level-1200)/(2200-1200)))]
       append analysisArgs " -b+ -p- -l- -e $easylevel "
@@ -462,7 +535,19 @@ namespace eval tacgame {
     
     if {$n == 1} {
       fileevent $analysisCoach(pipe$n) readable "::tacgame::processInput"
-      after 1000 "::tacgame::checkAnalysisStarted $n"
+      
+      # If UCI, initialize it immediately
+      if {$isUCI} {
+          ::tacgame::sendToEngine $n "uci"
+          if {$::tacgame::useUCILimit} {
+             ::tacgame::sendToEngine $n "setoption name UCI_LimitStrength value true"
+             ::tacgame::sendToEngine $n "setoption name UCI_Elo value $level"
+          }
+          ::tacgame::sendToEngine $n "isready"
+          ::tacgame::sendToEngine $n "ucinewgame"
+      } else {
+          after 1000 "::tacgame::checkAnalysisStarted $n"
+      }
     }
     
   }
@@ -564,7 +649,7 @@ namespace eval tacgame {
           -message "The analysis engine 1 terminated without warning; it probably crashed or had an internal error."
     }
     
-    if {! $analysisCoach(seen1)} {
+    if {!$analysisCoach(isUCI1) && !$analysisCoach(seen1)} {
       # First line of output from the program, so send initial commands:
       set analysisCoach(seen1) 1
       ::tacgame::sendToEngine 1 "xboard"
@@ -703,8 +788,26 @@ namespace eval tacgame {
     
     # Pascal Georges : original Phalanx does not have 'setboard'
     set analysisCoach(automoveThinking1) 1
-    sendToEngine 1 "setboard [sc_pos fen]"
-    sendToEngine 1 "go"
+    if {$analysisCoach(isUCI1)} {
+         # Convert time to move? TACGAME uses gameclock but engine needs instruction.
+         # For simplicity, give it a reasonable fixed time per move or use clock.
+         # Let's use 1000ms (1s) per move to start, or make it configurable. 
+         # Or better, rely on the level. If UCI_Elo is set, it might ignore movetime or use it.
+         # Let's send "go wtime ... btime ..." matching the clocks.
+         # set wtime [expr {[::gameclock::getTime 1] * 10}] 
+         # set btime [expr {[::gameclock::getTime 2] * 10}]
+         # times in Tacgame might be deciseconds? gameclock::getTime returns deciseconds?
+         # gameclock logic: new 1 80 -> 80 minutes?
+         # Let's just use "go movetime 3000" (3 seconds) for a responsive game for now, 
+         # or "go" if we trust the engine to move fast.
+         # If we use UCI_Elo, Stockfish usually moves fast.
+         set mtime [expr {int($::tacgame::uciMoveTime * 1000)}]
+         sendToEngine 1 "position fen [sc_pos fen]"
+         sendToEngine 1 "go movetime $mtime"
+    } else {
+         sendToEngine 1 "setboard [sc_pos fen]"
+         sendToEngine 1 "go"
+    }
     after 1000 ::tacgame::phalanxGo
   }
   ################################################################################
@@ -730,8 +833,21 @@ namespace eval tacgame {
   proc makePhalanxMove { input } {
     global ::tacgame::lscore ::tacgame::analysisCoach ::tacgame::currentPosHash ::tacgame::resignCount
     
-    # The input move is of the form "my move is MOVE"
-    if {[scan $input "my move is %s" move] != 1} { return 0 }
+    set hasMove 0
+    set move ""
+
+    # The input move is of the form "my move is MOVE" (Phalanx)
+    if {[scan $input "my move is %s" move] == 1} { 
+        set hasMove 1 
+    } elseif {[scan $input "bestmove %s" move] == 1 && $move ne "(none)"} {
+        # UCI
+        set hasMove 1
+    } elseif {[scan $input "move %s" move] == 1} {
+        # Standard XBoard
+        set hasMove 1
+    }
+    
+    if {!$hasMove} { return 0 }
     
     ::tacgame::stopAnalyze
     
