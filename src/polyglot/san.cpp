@@ -86,7 +86,7 @@ bool move_to_san(int move, const board_t * board, char string[], int size) {
       // pawn
 
       if (move_is_capture(move,board)) {
-         sprintf(tmp_string,"%c",file_to_char(square_file(from)));
+         std::snprintf(tmp_string, sizeof(tmp_string), "%c", file_to_char(square_file(from)));
          strcat(string,tmp_string);
       }
 
@@ -94,7 +94,7 @@ bool move_to_san(int move, const board_t * board, char string[], int size) {
 
       // piece
 
-      sprintf(tmp_string,"%c",toupper(piece_to_char(piece)));
+      std::snprintf(tmp_string, sizeof(tmp_string), "%c", toupper(piece_to_char(piece)));
       strcat(string,tmp_string);
 
       // ambiguity
@@ -103,11 +103,11 @@ bool move_to_san(int move, const board_t * board, char string[], int size) {
       case AMBIGUITY_NONE:
          break;
       case AMBIGUITY_FILE:
-         sprintf(tmp_string,"%c",file_to_char(square_file(from)));
+         std::snprintf(tmp_string, sizeof(tmp_string), "%c", file_to_char(square_file(from)));
          strcat(string,tmp_string);
          break;
       case AMBIGUITY_RANK:
-         sprintf(tmp_string,"%c",rank_to_char(square_rank(from)));
+         std::snprintf(tmp_string, sizeof(tmp_string), "%c", rank_to_char(square_rank(from)));
          strcat(string,tmp_string);
          break;
       case AMBIGUITY_SQUARE:
@@ -132,7 +132,7 @@ bool move_to_san(int move, const board_t * board, char string[], int size) {
    // promote
 
    if (move_is_promote(move)) {
-      sprintf(tmp_string,"=%c",toupper(piece_to_char(move_promote(move,board))));
+      std::snprintf(tmp_string, sizeof(tmp_string), "=%c", toupper(piece_to_char(move_promote(move,board))));
       strcat(string,tmp_string);
    }
 
@@ -238,7 +238,7 @@ static bool san_to_lan(const char san[], const board_t * board, char string[], i
       square_to_string(king,king_string,3);
       square_to_string(rook,rook_string,3);
 
-      sprintf(string,"K%s?%s?",king_string,rook_string);
+      std::snprintf(string, size, "K%s?%s?", king_string, rook_string);
 
    } else if (right == 5 && strncmp(san,"O-O-O",5) == 0) {
 
@@ -250,7 +250,7 @@ static bool san_to_lan(const char san[], const board_t * board, char string[], i
       square_to_string(king,king_string,3);
       square_to_string(rook,rook_string,3);
 
-      sprintf(string,"K%s?%s?",king_string,rook_string);
+      std::snprintf(string, size, "K%s?%s?", king_string, rook_string);
 
    } else {
 

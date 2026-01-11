@@ -15,7 +15,7 @@
 #ifndef SCID_DSTRING_H
 #define SCID_DSTRING_H
 
-#include <stdio.h>
+#include <cstdio>
 #include <string>
 
 class DString { // DEPRECATED
@@ -32,13 +32,13 @@ public:
 
 	void AppendUint(uint i) {
 		char s[16];
-		sprintf(s, "%u", i);
+		std::snprintf(s, sizeof(s), "%u", i);
 		s_.append(s);
 	}
 
 	void AppendInt(int i) {
 		char s[16];
-		sprintf(s, "%d", i);
+		std::snprintf(s, sizeof(s), "%d", i);
 		s_.append(s);
 	}
 

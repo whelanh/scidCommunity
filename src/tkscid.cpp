@@ -2635,11 +2635,11 @@ sc_game_info (ClientData, Tcl_Interp * ti, int argc, const char ** argv)
     }
 
     const char * gameStr = translate (ti, "game");
-    sprintf (temp, "%c%s %u:  <pi %s>%s</pi>", toupper(gameStr[0]),
+    std::snprintf(temp, sizeof(temp), "%c%s %u:  <pi %s>%s</pi>", toupper(gameStr[0]),
              gameStr + 1, db->gameNumber + 1,
              db->game->GetWhiteStr(), db->game->GetWhiteStr());
     if (auto whCountry = db->game->FindExtraTag("WhiteCountry"))
-        sprintf(temp + std::strlen(temp), " (%s)", whCountry);
+        std::snprintf(temp + std::strlen(temp), sizeof(temp) - std::strlen(temp), " (%s)", whCountry);
 
     Tcl_AppendResult (ti, temp, NULL);
     eloT elo = db->game->GetWhiteElo();
@@ -2647,10 +2647,10 @@ sc_game_info (ClientData, Tcl_Interp * ti, int argc, const char ** argv)
         sprintf (temp, " <red>%u</red>", elo);
         Tcl_AppendResult (ti, temp, NULL);
     }
-    sprintf (temp, "  --  <pi %s>%s</pi>",
+    std::snprintf(temp, sizeof(temp), "  --  <pi %s>%s</pi>",
              db->game->GetBlackStr(), db->game->GetBlackStr());
     if (auto blCountry = db->game->FindExtraTag("BlackCountry"))
-        sprintf(temp + std::strlen(temp), " (%s)", blCountry);
+        std::snprintf(temp + std::strlen(temp), sizeof(temp) - std::strlen(temp), " (%s)", blCountry);
 
     Tcl_AppendResult (ti, temp, NULL);
     elo = db->game->GetBlackElo();
@@ -5466,9 +5466,9 @@ static UI_res_t sc_name_elo(UI_handle_t ti, const SpellChecker& sp, int argc,
 			for (uint month = 1; month < 13; month++) {
 				if (eloT elo = vElo->getElo(DATE_MAKE(year, month, 15))) {
 					char temp[500];
-					sprintf(temp, "%4u.%02u", year, (month - 1) * 100 / 12);
+					std::snprintf(temp, sizeof(temp), "%4u.%02u", year, (month - 1) * 100 / 12);
 					res.push_back(temp);
-					sprintf(temp, "%4u", elo);
+					std::snprintf(temp, sizeof(temp), "%4u", elo);
 					res.push_back(temp);
 				}
 			}
@@ -7151,27 +7151,27 @@ sc_tree_stats (ClientData, Tcl_Interp * ti, int argc, const char ** argv)
                               ? 0
                               : static_cast<int>(node.eloPerformance());
 
-        sprintf(temp, "  %3d%c%1d%%", score / 10, decimalPointChar, score % 10);
+        std::snprintf(temp, sizeof(temp), "  %3d%c%1d%%", score / 10, decimalPointChar, score % 10);
         dest.append(temp);
         if (avgElo == 0) {
             dest.append("      ");
         } else {
-            sprintf(temp, "  %4d", avgElo);
+            std::snprintf(temp, sizeof(temp), "  %4d", avgElo);
             dest.append(temp);
         }
         if (perf == 0) {
             dest.append("      ");
         } else {
-            sprintf(temp, "  %4d", perf);
+            std::snprintf(temp, sizeof(temp), "  %4d", perf);
             dest.append(temp);
         }
         if (avgYear == 0) {
             dest.append("      ");
         } else {
-            sprintf(temp, "  %4d", avgYear);
+            std::snprintf(temp, sizeof(temp), "  %4d", avgYear);
             dest.append(temp);
         }
-        sprintf(temp, "  %3d%%", pctDraws);
+        std::snprintf(temp, sizeof(temp), "  %3d%%", pctDraws);
         dest.append(temp);
     };
 
