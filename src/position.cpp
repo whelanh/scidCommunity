@@ -2574,7 +2574,7 @@ void Position::PrintFEN(char* str) const {
 
     // Also print the Halfmove and ply counters:
     *str++ = ' ';
-    sprintf(str, "%d %d", HalfMoveClock, (PlyCounter / 2) + 1);
+    std::snprintf(str, 20, "%d %d", HalfMoveClock, (PlyCounter / 2) + 1);
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2623,12 +2623,12 @@ Position::DumpHtmlBoard (DString * dstr, uint style, const char * dir, bool flip
             dstr->Append ("  <td><img border=0 ");
             if (width > 0) {
                 char temp[40];
-                sprintf (temp, "width=%u ", width);
+                std::snprintf(temp, sizeof(temp), "width=%u ", width);
                 dstr->Append (temp);
             }
             if (height > 0) {
                 char temp[40];
-                sprintf (temp, "height=%u ", height);
+                std::snprintf(temp, sizeof(temp), "height=%u ", height);
                 dstr->Append (temp);
             }
             dstr->Append ("src=\"");

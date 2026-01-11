@@ -35,11 +35,17 @@ set batchEnd 1
 set stack ""
 
 ################################################################################
-#
+# resetEngine
+# Visibility:
+#   Public.
+# Inputs:
+#   - n (int): Analysis engine slot (typically 1 or 2).
+# Returns:
+#   - None.
+# Side effects:
+#   - Writes global array `analysis(...)` for the given engine slot.
+#   - Unsets `::uciOptions$n` (UCI option capability cache).
 ################################################################################
-# resetEngine:
-#   Resets all engine-specific data.
-#
 proc resetEngine {n} {
     global analysis
     set analysis(pipe$n) ""             ;# Communication pipe file channel
@@ -112,8 +118,16 @@ set annotateWhiteMoves 1
 set annotateBlackMoves 1
 
 ################################################################################
-# calculateNodes:
-#   Divides string-represented node count by 1000
+# calculateNodes
+# Visibility:
+#   Public.
+# Inputs:
+#   - n (string|int, optional): Node count as a decimal string (as produced by
+#     engines). Defaults to empty.
+# Returns:
+#   - int: Truncated kilo-nodes (e.g. "12345" -> 12); returns 0 if < 1000.
+# Side effects:
+#   - None.
 ################################################################################
 proc calculateNodes {{n}} {
     set len [string length $n]
@@ -127,9 +141,17 @@ proc calculateNodes {{n}} {
 }
 
 
-# resetAnalysis:
-#   Resets the analysis statistics: score, depth, etc.
-#
+################################################################################
+# resetAnalysis
+# Visibility:
+#   Public.
+# Inputs:
+#   - n (int, optional): Analysis engine slot (default 1).
+# Returns:
+#   - None.
+# Side effects:
+#   - Resets analysis statistics in the global `analysis(...)` array.
+################################################################################
 proc resetAnalysis {{n 1}} {
     global analysis
     set analysis(score$n) 0
@@ -149,11 +171,18 @@ namespace eval enginelist {}
 
 set engines(list) {}
 
-# engine:
-#   Adds an engine to the engine list.
-#   Calls to this function will be found in the user engines.lis
-#   file, which is sourced below.
-#
+################################################################################
+# engine
+# Visibility:
+#   Public.
+# Inputs:
+#   - arglist (list): Flat list of attribute/value pairs, e.g.
+#       `{Name ... Cmd ... Dir ... Args ... Elo ... Time ... URL ... UCI ...}`.
+# Returns:
+#   - int (0|1): 1 if the engine entry was accepted, 0 otherwise.
+# Side effects:
+#   - Appends to global `engines(list)`.
+################################################################################
 proc engine {arglist} {
     global engines
     array set newEngine {}
@@ -180,16 +209,33 @@ proc engine {arglist} {
     return 1
 }
 
+################################################################################
 # ::enginelist::read
-#   Reads the user Engine list file.
-#
+# Visibility:
+#   Public.
+# Inputs:
+#   - None.
+# Returns:
+#   - None.
+# Side effects:
+#   - Sources the engines configuration file (may call `engine` repeatedly).
+################################################################################
 proc ::enginelist::read {} {
     catch {source [scidConfigFile engines]}
 }
 
-# ::enginelist::write:
-#   Writes the user Engine list file.
-#
+################################################################################
+# ::enginelist::write
+# Visibility:
+#   Public.
+# Inputs:
+#   - None.
+# Returns:
+#   - int (0|1): 1 on success, 0 on failure.
+# Side effects:
+#   - Writes the engines configuration file and rotates a backup (`engines.bak`).
+#   - Reads globals: `::scidVersion`, `engines(list)`.
+################################################################################
 proc ::enginelist::write {} {
     global engines
     

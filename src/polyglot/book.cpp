@@ -337,8 +337,8 @@ scid_book_disp(const board_t* board, char* s, const int BookNumber) {
 		if (score > 0 && move != MoveNone && move_is_legal(move, board)) {
 			char tmp[256] = {' '};
 			move_to_san(move, board, tmp + 1, 255);
-			sprintf(tmp + std::strlen(tmp), " %.0f%%",
-			        (double(score) / double(sum)) * 100.0);
+			std::snprintf(tmp + std::strlen(tmp), sizeof(tmp) - std::strlen(tmp),
+			              " %.0f%%", (double(score) / double(sum)) * 100.0);
 			strcat(s, tmp);
 
 			extra_info.emplace_back(entry->engine_score, entry->engine_depth,
