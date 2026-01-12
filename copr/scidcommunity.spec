@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.1.78
+Version:        5.1.1.79
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit a1a4352351dc3d10ecf6ac8667960ae3e40886f5
+%global commit 4e1eab4803470454ec31f3be70d42f5512963ddc
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Mon Jan 12 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-79
+- "Implement automatic 2-fold and 3-fold repetition detection in PGN Window"
 * Sat Jan 10 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-78
 - "Allow the Play/Tactical Game function to use any engine the user has configured, eliminating dependency on Phalanx/Toga"
 * Sun Jan 4 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-77
