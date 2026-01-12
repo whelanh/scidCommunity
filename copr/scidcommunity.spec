@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.1.79
+Version:        5.1.1.80
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit feed977f3e92d0e3119b2f796947ac772c220b06
+%global commit c275f45459856f2028e5b0eb8f62003b767a7382
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Mon Jan 12 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-80
+- "Update COPYING file"
 * Mon Jan 12 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-79
 - "Implement automatic 2-fold and 3-fold repetition detection in PGN Window"
 * Sat Jan 10 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-78
