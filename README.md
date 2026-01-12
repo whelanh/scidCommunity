@@ -22,6 +22,7 @@
 12. Connected the new Lichess 7-man table base lookup to the **Finish Game** feature in the **Analysis Engine** window so auto-play doesn't go on longer than necessary. Also **Finish Game** now allows simultaneous time and depth limits on the engines used.
 13. Improved "Best Games" button in the Tree View to honor the state of the all_games checkbox
 14. Eliminated the dependence on the old Phalanx/Toga engines formerly needed to use the "Play/Tactical Game" feature.
+15. Add 2 fold and 3 fold repetition detection to the PGN Window (including when new moves are added).
 
 *Users with suggestions for further enhancements are welcome to write something in the Discussion section or submit a pull request.  Enjoy!*
 
