@@ -886,6 +886,7 @@ proc addMoveEx {{move} {action "var"}} {
     }
 
     ::notify::PosChanged -pgn -animate
+    ::pgn::CheckRepetition
     return 1
 }
 
