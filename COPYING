@@ -1,50 +1,47 @@
-Files that are copyrighted by respective authors :
-Book files (performance.bin and varied.bin): Marc Lacrosse
-Book files (Elo2400.bin and gm2600.bin): Pascal Georges
-Database files : Pascal Georges
-Crafty engine : Robert Hyatt (thanks to him for authorizing the bundling of Crafty with Scid)
+scidCommunity
+Copyright (C) 1999-2003 Shane Hudson
+Copyright (C) 2024-2026 Hugh Whelan and contributors
+Website: https://github.com/whelanh/scidCommunity
 
-Before re-using the files above for *any* purpose please contact respective authors first.
+scidCommunity is a fork of Scid (Shane's Chess Information Database).
+Scid was originally written by Shane Hudson and further developed 
+by Pascal Georges and many others.
 
-The base64 encoded data of the piece set "eboard" was generated using files taken from chessx, modified for use in Scid with Gimp, and seems to have its origins in the eboard project(probable authors : Pulga --> Felipe Bergo <bergo@seul.org>,Gorgonian --> Phillip Watts <pwatts14@yahoo.com>). Please refer to this last project for more details (both are GPL projects).
+Files copyrighted by respective authors:
+----------------------------------------
+
+1. Book files (performance.bin and varied.bin): Marc Lacrosse
+2. Book files (Elo2400.bin and gm2600.bin): Pascal Georges
+3. Database files: Pascal Georges
+
+Before re-using the files above for any purpose, please contact the 
+respective authors first.
+
+The base64 encoded data of the piece set "eboard" was generated using 
+files taken from chessx, modified for use in scidCommunity with Gimp, 
+and seems to have its origins in the eboard project (probable authors: 
+Felipe Bergo and Phillip Watts). Both are GPL projects.
+
+Applicability:
+--------------
 
 This copyright notice applies to all the files contained in this
-distribution of Scid except for the files listed above. 
-To contact the author and copyright holder,
-email: sgh@users.sourceforge.net
-email: pascal.georges1@free.fr
+distribution of scidCommunity except for the files listed above and below. 
 
-Scid websites: 
-http://scid.sourceforge.net/
-http://prolinux.free.fr/scid/
+All the files that comprise scidCommunity (except a few contributed 
+files, see below) are distributed under the terms of the GNU General 
+Public License (GPL) version 2 or, at your option, any later version. A copy of version 2 is provided below.
 
-All the files that comprise Scid (except a few contributed files, see
-below) are copyright (C) 1999-2003 Shane Hudson and are distributed under
-the terms of the Gnu General Public License (GPL), a popular license
-used for free software. A copy of the GPL is provided below. As I
-understand the GPL, it basically means you can distribute Scid freely,
-and may modify it, but any modifications you make must also be made
-freely available as source code under the terms of the GPL.
+The only files in scidCommunity NOT distributed under the GPL (since 
+they have a different author and copyright, but they are freely 
+distributable) are a Tcl package for sending email using SMTP 
+(see tcl/contrib/ezsmtp/).
 
-The only files in Scid NOT distributed under the GPL (since they have
-a different author and copyright, but they are freely distributable)
-are a Tcl package for sending email using SMTP (see the tcl/ezsmtp directory),
-and endgame tablebase decoding source code (see the src/egtb directory).
+NO WARRANTY:
+------------
 
-Please note: although there is no explicit copyright notice in the
-tablebase decoding code, all rights are reserved by its author
-Eugene Nalimov and you should ask for permission before using it.
-He has granted permission for its distribution in Scid, and out of
-courtesy I ask that if you make use of the tablebase code outside
-of Scid, please ask Eugene first. His email address is at the end of
-the file src/egtb/probe.txt.
-
-Please note that all the Scid programs and source code are provided
-with absolutely no warranty of any kind.
-
-Shane Hudson
-sgh@users.sourceforge.net
-January 2003
+All scidCommunity programs and source code are provided with 
+absolutely no warranty of any kind.
 
 ---------------------------------------------------------------------------
 
@@ -52,7 +49,7 @@ January 2003
 		       Version 2, June 1991
 
  Copyright (C) 1989, 1991 Free Software Foundation, Inc.
-                          675 Mass Ave, Cambridge, MA 02139, USA
+                          51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
  Everyone is permitted to copy and distribute verbatim copies
  of this license document, but changing it is not allowed.
 
@@ -355,7 +352,7 @@ the "copyright" line and a pointer to where the full notice is found.
 
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
-    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 Also add information on how to contact you by electronic and paper mail.
 
