@@ -91,6 +91,12 @@ cd scidCommunity
 make
 sudo make install
 ```
+If you have both Tcl/Tk 8.6 and 9.0 installed and wish to link against 9.0:
+```sh
+./configure TCL_VERSION="9.0"
+make
+sudo make install
+```
 
 #### CMake Build
 ```sh
