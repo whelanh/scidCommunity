@@ -485,3 +485,34 @@ proc ::pgn::openInChessDB {} {
   
   openURL $url
 }
+
+proc ::pgn::CheckRepetition {} {
+  set currentFen [lrange [split [sc_pos fen]] 0 3]
+  set savedLoc [sc_pos pgnOffset]
+  
+  set count 1
+  # Traverse back to the start of the current line, then back to the absolute start of the game
+  while {1} {
+    if {[sc_pos isAt vstart]} {
+      if {[sc_var level] == 0} { break }
+      sc_var exit
+    } else {
+      if {[sc_pos isAt start]} { break }
+      sc_move back
+    }
+    set fen [lrange [split [sc_pos fen]] 0 3]
+    if {$fen == $currentFen} {
+      incr count
+    }
+  }
+  
+  # Restore position
+  sc_move pgn $savedLoc
+  
+  if {$count == 2} {
+    tk_messageBox -message "2-fold repetition             " -title "Repetition Detection" -icon info -parent .
+  } elseif {$count >= 3} {
+    tk_messageBox -message "Draw - 3 Fold Repetition      " \
+        -title "Repetition Detection" -icon info -parent .
+  }
+}
