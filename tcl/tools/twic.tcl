@@ -22,6 +22,9 @@ proc ::twic::downloadWeek {week} {
     return
   }
   
+  # Open TWIC website in default browser
+  openURL "https://theweekinchess.com/twic"
+
   set ::twic::downloading 1
   
   # Disable the menu item during download
