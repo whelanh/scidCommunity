@@ -53,7 +53,7 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 
 %files
 %license COPYING
-%doc README.md ChangeLog
+%doc README.md
 %{_bindir}/scidCommunity
 %{_bindir}/phalanx-scid
 %{_datadir}/scid/
