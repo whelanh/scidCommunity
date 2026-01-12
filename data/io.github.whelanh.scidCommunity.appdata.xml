@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.1.81" date="2026-01-12">
+      <description>
+        <p>Extend automatic 2-fold and 3-fold repetition detection in PGN Window to new moves</p>
+      </description>
+    </release>
     <release version="5.1.1.79" date="2026-01-12">
       <description>
         <p>Implement automatic 2-fold and 3-fold repetition detection in PGN Window</p>
