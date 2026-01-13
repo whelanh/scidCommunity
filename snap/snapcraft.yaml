@@ -1,7 +1,14 @@
 name: scidcommunity
 base: core22  # TODO: Consider migrating to core24 in the future for latest features
 version: git
+title: scidCommunity
 summary: Community-enhanced chess database and analysis application
+license: GPL-2.0
+website: https://github.com/whelanh/scidCommunity
+source-code: https://github.com/whelanh/scidCommunity
+issues: https://github.com/whelanh/scidCommunity/issues
+contact: brickhousedevevelopers@gmail.com
+icon: data/io.github.whelanh.scidCommunity.svg
 description: |
   scidCommunity is a community-driven fork of Scid (Shane's Chess Information Database),
   focused on adding enhancements while maintaining full compatibility with existing Scid databases.
@@ -29,7 +36,7 @@ confinement: strict
 
 apps:
   scidcommunity:
-    command: bin/scidCommunity
+    command: usr/bin/scidCommunity
     desktop: usr/share/applications/io.github.whelanh.scidCommunity.desktop
     plugs:
       - home
@@ -41,7 +48,7 @@ apps:
       - wayland
       - unity7
     environment:
-      SCID_SHAREDIR: $SNAP/share/scid
+      SCID_SHAREDIR: $SNAP/usr/share/scid
       TCLLIBPATH: $SNAP/usr/share/tcltk/tcl8.6
       TK_LIBRARY: $SNAP/usr/share/tcltk/tk8.6
 
