@@ -48,3 +48,8 @@ Testing
 winpackage
 scidCommunity
 books/komodo.bin
+snapcraft-credentials.txt
+parts/
+stage/
+prime/
+*.snap

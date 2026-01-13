@@ -1,0 +1,69 @@
+name: scidcommunity
+base: core20
+version: git
+summary: Community-enhanced chess database and analysis application
+description: |
+  scidCommunity is a community-driven fork of Scid (Shane's Chess Information Database),
+  focused on adding enhancements while maintaining full compatibility with existing Scid databases.
+  It allows you to store, organize, and search through large collections of chess games with
+  support for any compatible UCI chess engine.
+  
+  Key enhancements in scidCommunity:
+  - Improved Header Search with saveable search layouts for frequently-used parameters
+  - Engine analysis controls with configurable depth and time limits
+  - Integrated TWIC (The Week in Chess) game downloads
+  - Direct game uploads to Lichess and Chess.com from the PGN window
+  - Tablebase integration via Lichess 7-man endgames with auto-play finish game feature
+  - ChessDB.cn engine tree integration for position analysis
+  - Direct import of Lichess and Chess.com games by username
+  - Open and auto-update live Lichess broadcast tournament games
+  - Configurable variation length limits in engine annotation
+  - Additional theme options (Sand and cobalt2)
+  - Automatic 2-fold and 3-fold repetition detection
+  - Play/Tactical Game feature now works with any configured UCI engine
+  
+  This fork welcomes community suggestions and aims to be responsive to user feature requests.
+
+grade: stable
+confinement: strict
+
+apps:
+  scidcommunity:
+    command: bin/scidCommunity
+    desktop: share/applications/io.github.whelanh.scidCommunity.desktop
+    plugs:
+      - home
+      - network
+      - network-bind
+      - desktop
+      - desktop-legacy
+      - x11
+      - wayland
+      - unity7
+    environment:
+      SCID_SHAREDIR: $SNAP/share/scid
+      TCLLIBPATH: $SNAP/usr/share/tcltk/tcl8.6
+      TK_LIBRARY: $SNAP/usr/share/tcltk/tk8.6
+
+parts:
+  scidcommunity:
+    plugin: cmake
+    source: .
+    cmake-parameters:
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
+    build-packages:
+      - g++
+      - make
+      - tcl8.6-dev
+      - tk8.6-dev
+    stage-packages:
+      - tk8.6
+      - tcl8.6
+      - libx11-6
+      - libxft2
+      - libxss1
+      - libfontconfig1
+      - libfreetype6
+      - libpng16-16
+      - zlib1g
