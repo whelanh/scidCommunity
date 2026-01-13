@@ -61,7 +61,7 @@ Check latest **[Releases](https://github.com/whelanh/scidCommunity/releases)** f
 
 Linux users can install scidCommunity from [Flathub](https://flathub.org/en/apps/io.github.whelanh.scidCommunity), however the Flathub update process is slower. For the most recent developments, see the **[Releases](https://github.com/whelanh/scidCommunity/releases)** section or:
 * For rpm based Linux systems, ScidCommunity is also available through the [Fedora Copr Repo](https://copr.fedorainfracloud.org/coprs/whelanh/scidcommunity/)
-* For Arch-based systems, it is available on the [AUR](https://aur.archlinux.org/packages/scidcommunity)
+* For Arch-based systems, it is available on the [AUR](https://aur.archlinux.org/packages/scidcommunity)  **scidCommunity** is also available on the [Snap Store](https://snapcraft.io/scidcommunity).
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 ScidCommunity is based on Scid (Shane's Chess Information Database), a multi-platform (Linux, Mac OS X, Windows) chess database application. It is a fork open to user ideas for further improvements.
