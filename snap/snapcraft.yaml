@@ -1,5 +1,5 @@
 name: scidcommunity
-base: core20
+base: core22
 version: git
 summary: Community-enhanced chess database and analysis application
 description: |
@@ -53,10 +53,14 @@ parts:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
     build-packages:
-      - g++
+      - g++-11
       - make
       - tcl8.6-dev
       - tk8.6-dev
+    override-build: |
+      export CXX=g++-11
+      export CC=gcc-11
+      snapcraftctl build
     stage-packages:
       - tk8.6
       - tcl8.6
