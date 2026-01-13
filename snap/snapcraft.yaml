@@ -1,5 +1,5 @@
 name: scidcommunity
-base: core22
+base: core22  # TODO: Consider migrating to core24 in the future for latest features
 version: git
 summary: Community-enhanced chess database and analysis application
 description: |
@@ -30,7 +30,7 @@ confinement: strict
 apps:
   scidcommunity:
     command: bin/scidCommunity
-    desktop: share/applications/io.github.whelanh.scidCommunity.desktop
+    desktop: usr/share/applications/io.github.whelanh.scidCommunity.desktop
     plugs:
       - home
       - network
