@@ -52,15 +52,14 @@ parts:
     cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_C_COMPILER=gcc-11
+      - -DCMAKE_CXX_COMPILER=g++-11
     build-packages:
       - g++-11
+      - gcc-11
       - make
       - tcl8.6-dev
       - tk8.6-dev
-    override-build: |
-      export CXX=g++-11
-      export CC=gcc-11
-      snapcraftctl build
     stage-packages:
       - tk8.6
       - tcl8.6
