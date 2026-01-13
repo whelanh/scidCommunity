@@ -20,7 +20,7 @@ jobs:
         id: build
 
       - name: Upload snap artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: snap
           path: ${{ steps.build.outputs.snap }}
