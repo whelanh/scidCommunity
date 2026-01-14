@@ -49,9 +49,7 @@ apps:
       - unity7
     environment:
       SCID_SHAREDIR: $SNAP/usr/share/scid
-      TCLLIBPATH: $SNAP/usr/share/tcltk/tcl8.6
-      TK_LIBRARY: $SNAP/usr/share/tcltk/tk8.6
-      LD_LIBRARY_PATH: $SNAP/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+      LD_LIBRARY_PATH: $SNAP/usr/lib/x86_64-linux-gnu:$SNAP/usr/lib:$LD_LIBRARY_PATH
 
 parts:
   scidcommunity:
@@ -78,6 +76,8 @@ parts:
     stage-packages:
       - tk8.6
       - tcl8.6
+      - libtcl8.6
+      - libtk8.6
       - libx11-6
       - libxft2
       - libxss1
@@ -91,3 +91,9 @@ parts:
       mkdir -p $SNAPCRAFT_PART_INSTALL/usr/lib/x86_64-linux-gnu
       cp -P /usr/lib/x86_64-linux-gnu/libstdc++.so.6* $SNAPCRAFT_PART_INSTALL/usr/lib/x86_64-linux-gnu/
       cp -P /usr/lib/x86_64-linux-gnu/libgcc_s.so* $SNAPCRAFT_PART_INSTALL/usr/lib/x86_64-linux-gnu/
+    override-prime: |
+      snapcraftctl prime
+      # Debug: List Tcl/Tk installation to verify paths
+      echo "=== Checking Tcl/Tk files ==="
+      find . -name "init.tcl" -o -name "tk.tcl" | head -20 || true
+      ls -la usr/share/tcltk/ || true
