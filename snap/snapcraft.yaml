@@ -49,6 +49,8 @@ apps:
       - unity7
     environment:
       SCID_SHAREDIR: $SNAP/usr/share/scid
+      TCL_LIBRARY: $SNAP/usr/share/tcltk/tcl8.6
+      TK_LIBRARY: $SNAP/usr/share/tcltk/tk8.6
       LD_LIBRARY_PATH: $SNAP/usr/lib/x86_64-linux-gnu:$SNAP/usr/lib:$LD_LIBRARY_PATH
 
 parts:
@@ -78,6 +80,8 @@ parts:
       - tcl8.6
       - libtcl8.6
       - libtk8.6
+      - tcl8.6-lib
+      - tk8.6-lib
       - libx11-6
       - libxft2
       - libxss1
