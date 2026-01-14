@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.1.81
+Version:        5.1.1.82
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 3b4c287b5b9672b817f36774e8fcc7b9daecb362
+%global commit e11b251063a5bd4d0a621c49703ec6856555f698
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Mon Jan 14 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-82
+- "Add multi-colored arrows for engine analysis: green (Best), yellow (2nd), red (3rd+)"
 * Mon Jan 12 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-81
 - "Extend automatic repetition detection to new moves"
 * Mon Jan 12 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-80
