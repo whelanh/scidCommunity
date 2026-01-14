@@ -64,7 +64,6 @@ parts:
       apt-get install -y software-properties-common
       add-apt-repository -y ppa:ubuntu-toolchain-r/test
       apt-get update
-      apt-get install -y gcc-13 g++-13
     cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
@@ -75,6 +74,8 @@ parts:
       - make
       - tcl8.6-dev
       - tk8.6-dev
+      - gcc-13
+      - g++-13
     stage-packages:
       - tk8.6
       - tcl8.6
@@ -85,8 +86,9 @@ parts:
       - libfreetype6
       - libpng16-16
       - zlib1g
-    override-stage: |
-      snapcraftctl stage
-      # Copy GCC 13 libstdc++ to make it available at runtime
-      mkdir -p $SNAPCRAFT_STAGE/usr/lib/x86_64-linux-gnu
-      cp -P /usr/lib/x86_64-linux-gnu/libstdc++.so.6* $SNAPCRAFT_STAGE/usr/lib/x86_64-linux-gnu/ || true
+    override-build: |
+      snapcraftctl build
+      # Copy GCC 13 libstdc++ to install directory for bundling
+      mkdir -p $SNAPCRAFT_PART_INSTALL/usr/lib/x86_64-linux-gnu
+      cp -P /usr/lib/x86_64-linux-gnu/libstdc++.so.6* $SNAPCRAFT_PART_INSTALL/usr/lib/x86_64-linux-gnu/
+      cp -P /usr/lib/x86_64-linux-gnu/libgcc_s.so* $SNAPCRAFT_PART_INSTALL/usr/lib/x86_64-linux-gnu/
