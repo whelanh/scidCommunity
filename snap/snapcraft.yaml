@@ -51,6 +51,7 @@ apps:
       SCID_SHAREDIR: $SNAP/usr/share/scid
       TCL_LIBRARY: $SNAP/usr/share/tcltk/tcl8.6
       TK_LIBRARY: $SNAP/usr/share/tcltk/tk8.6
+      TCLLIBPATH: $SNAP/usr/share/tcltk
       LD_LIBRARY_PATH: $SNAP/usr/lib/x86_64-linux-gnu:$SNAP/usr/lib:$LD_LIBRARY_PATH
 
 parts:
@@ -97,5 +98,6 @@ parts:
       snapcraftctl prime
       # Debug: List Tcl/Tk installation to verify paths
       echo "=== Checking Tcl/Tk files ==="
-      find . -name "init.tcl" -o -name "tk.tcl" | head -20 || true
+      find . -name "init.tcl" -o -name "tk.tcl" -o -name "msgcat*" | head -30 || true
       ls -la usr/share/tcltk/ || true
+      ls -la usr/share/tcltk/tcl8.6/ || true
