@@ -51,6 +51,7 @@ apps:
       SCID_SHAREDIR: $SNAP/usr/share/scid
       TCLLIBPATH: $SNAP/usr/share/tcltk/tcl8.6
       TK_LIBRARY: $SNAP/usr/share/tcltk/tk8.6
+      LD_LIBRARY_PATH: $SNAP/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
 
 parts:
   scidcommunity:
@@ -84,3 +85,8 @@ parts:
       - libfreetype6
       - libpng16-16
       - zlib1g
+    override-stage: |
+      snapcraftctl stage
+      # Copy GCC 13 libstdc++ to make it available at runtime
+      mkdir -p $SNAPCRAFT_STAGE/usr/lib/x86_64-linux-gnu
+      cp -P /usr/lib/x86_64-linux-gnu/libstdc++.so.6* $SNAPCRAFT_STAGE/usr/lib/x86_64-linux-gnu/ || true
