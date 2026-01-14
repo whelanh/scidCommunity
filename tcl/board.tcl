@@ -1318,14 +1318,47 @@ proc ::board::mark::DrawArrow {pathName from to color} {
   ::board::mark::DrawArrowEx [winfo parent $pathName] $from $to $color 0.1 {3.3 3.3 1.0} "mark${from}:${to}"
 }
 
+# Draw arrows to indicate multiple best moves with different colors.
+# moves_list should be a list of UCI moves (e.g., {{e2e4} {d2d4} {g1f3}})
+# If moves_list is empty, it deletes all existing best move arrows.
+# Colors: green for 1st, yellow for 2nd, red for 3rd and beyond
+proc ::board::mark::DrawMultipleBestMoves {w moves_list} {
+  # Delete all existing best move arrows
+  $w.bd delete bestmove1 bestmove2 bestmove3
+  
+  set colors {"#00C000" "#FFD700" "#FF0000"}
+  set idx 0
+  
+  foreach moveUCI $moves_list {
+    if {$moveUCI eq ""} { continue }
+    
+    set from [ ::board::sq [ string range $moveUCI 0 1 ] ]
+    set to [ ::board::sq [ string range $moveUCI 2 3 ] ]
+    
+    # Determine color: green (1st), yellow (2nd), red (3rd+)
+    if {$idx < 2} {
+      set color [lindex $colors $idx]
+      set tag "bestmove[expr {$idx + 1}]"
+    } else {
+      set color [lindex $colors 2]
+      set tag "bestmove3"
+    }
+    
+    ::board::mark::DrawArrowEx $w $from $to $color 0.066 {3.6 4.8 2.0} $tag
+    incr idx
+  }
+}
+
 # Draw an arrow to indicate the best move.
 # It also eliminate any existing best move arrow.
 # So, if moveUCI == "", it just deletes any existing best move arrow.
 # TODO: draw a better arrow that has the alpha channel.
 proc ::board::mark::DrawBestMove {w moveUCI} {
-  set from [ ::board::sq [ string range $moveUCI 0 1 ] ]
-  set to [ ::board::sq [ string range $moveUCI 2 3 ] ]
-  ::board::mark::DrawArrowEx $w $from $to "#FF5E0E" 0.066 {3.6 4.8 2.0} "bestmove"
+  if {$moveUCI eq ""} {
+    ::board::mark::DrawMultipleBestMoves $w {}
+  } else {
+    ::board::mark::DrawMultipleBestMoves $w [list $moveUCI]
+  }
 }
 
 # ::board::mark::DrawRectangle --

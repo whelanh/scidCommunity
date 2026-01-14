@@ -1705,6 +1705,14 @@ proc destroyAnalysisWin {{n 1}} {
         catch {close $analysis(log$n)}
         set analysis(log$n) ""
     }
+    
+    # Clear arrows on main board if this is engine 1 or if engine 1 is not running
+    if { $n == 1 || (! [winfo exists .analysisWin1] || ! $::analysis(analyzeMode1)) } {
+        if {[winfo exists .main.board]} {
+            ::board::mark::DrawMultipleBestMoves .main.board {}
+        }
+    }
+    
     resetEngine $n
     set ::analysisWin$n 0
 }
@@ -2637,6 +2645,13 @@ proc stopEngineAnalysis { {n 1} } {
         set analysis(lockEngine$n) 1
         toggleLockEngine $n
         .analysisWin$n.b1.lockengine configure -state disabled
+        
+        # Clear arrows on main board if this is engine 1 or if engine 1 is not running
+        if { $n == 1 || (! [winfo exists .analysisWin1] || ! $::analysis(analyzeMode1)) } {
+            if {[winfo exists .main.board]} {
+                ::board::mark::DrawMultipleBestMoves .main.board {}
+            }
+        }
     }
 }
 
@@ -2747,6 +2762,25 @@ proc updateAnalysisText {{n 1}} {
     # Show score only from one engine. Engine1 has priority
     if { $n == 1 || ( $n == 2 && (! [winfo exists .analysisWin1 ] || ! $analysis(analyzeMode1) )) } {
         ::board::updateEvalBar .main.board $::analysis(score$n)
+        
+        # Draw multi-colored arrows for top 3 PV lines (if UCI engine with multiPV)
+        if { $analysis(uci$n) && [winfo exists .main.board] } {
+            set uciMoves {}
+            # Extract first move from each PV line (up to 3 lines)
+            # multiPVraw format: {depth score {pv_moves} scoremate time}
+            set lineCount 0
+            foreach pv $analysis(multiPVraw$n) {
+                if {$lineCount >= 3} { break }
+                # Get the PV moves list (index 2) and extract the first move
+                set pvMoves [lindex $pv 2]
+                set firstMove [lindex $pvMoves 0]
+                if {$firstMove ne ""} {
+                    lappend uciMoves $firstMove
+                }
+                incr lineCount
+            }
+            ::board::mark::DrawMultipleBestMoves .main.board $uciMoves
+        }
     }
     set t .analysisWin$n.text
     set h .analysisWin$n.hist.text

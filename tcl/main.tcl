@@ -365,7 +365,7 @@ proc ::cancelUpdateTreeFilter {progressbar} {
 # If there is only one engine running, il will show that evaluation in the bar.
 # If there are multiple engines running, the eval bar will remain associated
 # with the first engine that send its evaluation until it stops running.
-proc ::updateMainEvalBar {engineID bestmove evaluation} {
+proc ::updateMainEvalBar {engineID bestmove evaluation {pvlines {}}} {
     if {! $::showEvalBar(.main) || ![winfo exists .main.board]} { return }
 
     if {![info exists ::mainEvalBarEngineID_]} {
@@ -374,9 +374,15 @@ proc ::updateMainEvalBar {engineID bestmove evaluation} {
     if {$engineID == $::mainEvalBarEngineID_} {
         ::board::updateEvalBar .main.board $evaluation
         if {$::showMainEvalBarArrow} {
-            set bestmove [string map {"\u2654" K "\u2655" Q "\u2656" R "\u2657" B "\u2658" N} [::untrans $bestmove]]
-            catch { sc_game SANtoUCI $bestmove } moveUCI
-            ::board::mark::DrawBestMove .main.board $moveUCI
+            # Convert all PV moves to UCI format
+            set uciMoves {}
+            foreach move $pvlines {
+                set cleanMove [string map {"\u2654" K "\u2655" Q "\u2656" R "\u2657" B "\u2658" N} [::untrans $move]]
+                if {[catch { sc_game SANtoUCI $cleanMove } moveUCI] == 0 && $moveUCI ne ""} {
+                    lappend uciMoves $moveUCI
+                }
+            }
+            ::board::mark::DrawMultipleBestMoves .main.board $uciMoves
         }
         if {$bestmove eq "" && $evaluation eq ""} {
             unset ::mainEvalBarEngineID_
@@ -441,7 +447,7 @@ proc ::createMainEvalBarMenu {w} {
     }
     $w.evalbar_menu add separator
     $w.evalbar_menu add checkbutton -variable ::showMainEvalBarArrow -label [tr BestMoveArrow] -command {
-        ::board::mark::DrawBestMove ".main.board" ""
+        ::board::mark::DrawMultipleBestMoves ".main.board" {}
     }
     $w.evalbar_menu add separator
     $w.evalbar_menu add command -label [tr Hide] \
@@ -1284,7 +1290,7 @@ proc CreateMainBoard { {w} } {
     set ::showEvalBar($w) [::board::toggleEvalBar $w.board]
     unset -nocomplain ::mainEvalBarEngineID_
     ::board::updateEvalBar .main.board ""
-    ::board::mark::DrawBestMove $w.board ""
+    ::board::mark::DrawMultipleBestMoves $w.board {}
   }} $w]
 
   menu .main.menuaddchoice

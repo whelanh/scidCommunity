@@ -176,7 +176,7 @@ proc ::enginewin::Open { {id ""} {enginename ""} } {
         unset ::enginewin::limits_$id
         unset ::enginewin::newgame_$id
         unset ::enginewin::startTime_$id
-        ::notify::EngineBestMove $id {} {}
+        ::notify::EngineBestMove $id {} {} {}
     "
 
     ::options.store ::enginewin_lastengine($id) ""
@@ -185,6 +185,7 @@ proc ::enginewin::Open { {id ""} {enginename ""} } {
     set ::enginecfg::engConfig_$id {}
     set ::enginewin::limits_$id {}
     set ::enginewin::m_(position,$id) ""
+    set ::enginewin::m_(pvlines,$id) {}
     set ::enginewin::newgame_$id true
     set ::enginewin::startTime_$id [clock milliseconds]
 
@@ -419,7 +420,7 @@ proc ::enginewin::changeState {id newState} {
     set ::enginewin::engState($id) $newState
 
     if {$newState in {closed disconnected idle locked}} {
-        ::notify::EngineBestMove $id "" ""
+        ::notify::EngineBestMove $id "" "" {}
     }
 }
 
@@ -709,6 +710,18 @@ proc ::enginewin::updateDisplay {id msgData} {
     }
 
     $w.pv_lines configure -state disabled
+    
+    # Store this PV line for multi-arrow display
+    if {$line >= 1 && $line <= 3} {
+        # Store the first move from this PV line
+        set first_move [string trimleft $pv ".0123456789"]
+        if {$notation == 2 || $notation == -2} {
+            set first_move [::trans $first_move]
+        }
+        set ::enginewin::m_(pvlines,$id) [lreplace $::enginewin::m_(pvlines,$id) [expr {$line - 1}] [expr {$line - 1}] $first_move]
+    }
+    
+    # When we get line 1, send all stored PV lines to the notification system
     if {$line == 1 && $::enginewin::engState($id) ne "locked"} {
         if {$scoreside eq "engine" && [sc_pos side] eq "black" && $score ne ""} {
             set sign_reversed [expr { [string index $score 0] eq "+" ? "-" : "+" }]
@@ -718,7 +731,8 @@ proc ::enginewin::updateDisplay {id msgData} {
         if {$notation == 2 || $notation == -2} {
             set best_move [::trans $best_move]
         }
-        ::notify::EngineBestMove $id $best_move $score
+        # Send the first move and all stored PV lines
+        ::notify::EngineBestMove $id $best_move $score $::enginewin::m_(pvlines,$id)
     }
 }
 

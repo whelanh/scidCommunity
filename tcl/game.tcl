@@ -423,7 +423,8 @@ namespace eval ::notify {
 
   # To be called when the engine evaluation for the current position changes.
   # If both bestmove and score are eq "" the engine was closed, disconnected or locked.
-  proc EngineBestMove {engineID bestmove evaluation} {
-    ::updateMainEvalBar $engineID $bestmove $evaluation
+  # pvlines is an optional list of all PV moves for multi-arrow display
+  proc EngineBestMove {engineID bestmove evaluation {pvlines {}}} {
+    ::updateMainEvalBar $engineID $bestmove $evaluation $pvlines
   }
 }
