@@ -13,16 +13,17 @@
       - *chess.com* uploads the current game to Chess.com
       - *lichess.org* uploads the current game to Lichess.org
       - *chessdb Engine Tree* opens the current position in chessdb.cn's tree of engine evaluaitons
-6. New (optional) "Sand" and "cobalt2" themes.
-7. New light colored buttons added for use in the Engine and Analysis windows when using "dark" and "cobalt2" themes. 
-8. Implemented [user request](https://github.com/whelanh/scidCommunity/discussions/10) for better handling of long comments in the Game Info window.
-9. Implemented [user request](https://github.com/whelanh/scidCommunity/discussions/13) to allow users to easily import their Lichess and chess.com games.
-10. Based on [user request](https://github.com/whelanh/scidCommunity/discussions/12), user can now limit the length of variations in the Analysis Engine annotation function.
-11. Implemented [user request](https://github.com/whelanh/scidCommunity/discussions/9) to allow opening Lichess broadcast tournament games.  If a game is ongoing, it will be updated every minute.
-12. Connected the new Lichess 7-man table base lookup to the **Finish Game** feature in the **Analysis Engine** window so auto-play doesn't go on longer than necessary. Also **Finish Game** now allows simultaneous time and depth limits on the engines used.
-13. Improved "Best Games" button in the Tree View to honor the state of the all_games checkbox
-14. Eliminated the dependence on the old Phalanx/Toga engines formerly needed to use the "Play/Tactical Game" feature.
-15. Add 2 fold and 3 fold repetition detection to the PGN Window (including when new moves are added).
+5. New (optional) "Sand" and "cobalt2" themes.
+6. New light colored buttons added for use in the Engine and Analysis windows when using "dark" and "cobalt2" themes. 
+7. Implemented [user request](https://github.com/whelanh/scidCommunity/discussions/10) for better handling of long comments in the Game Info window.
+8. Implemented [user request](https://github.com/whelanh/scidCommunity/discussions/13) to allow users to easily import their Lichess and chess.com games.
+9. Based on [user request](https://github.com/whelanh/scidCommunity/discussions/12), user can now limit the length of variations in the Analysis Engine annotation function.
+10. Implemented [user request](https://github.com/whelanh/scidCommunity/discussions/9) to allow opening Lichess broadcast tournament games.  If a game is ongoing, it will be updated every minute.
+11. Connected the new Lichess 7-man table base lookup to the **Finish Game** feature in the **Analysis Engine** window so auto-play doesn't go on longer than necessary. Also **Finish Game** now allows simultaneous time and depth limits on the engines used.
+12. Improved "Best Games" button in the Tree View to honor the state of the all_games checkbox
+13. Eliminated the dependence on the old Phalanx/Toga engines formerly needed to use the "Play/Tactical Game" feature.
+14. Add 2 fold and 3 fold repetition detection to the PGN Window (including when new moves are added).
+15. Add multi-colored arrows for engine analysis in Engine and Analysis windows. Top 3+ engine moves with color-coded arrows: green (Best), yellow (2nd), red (3rd+)
 
 *Users with suggestions for further enhancements are welcome to write something in the Discussion section or submit a pull request.  Enjoy!*
 
