@@ -24,6 +24,7 @@
 13. Eliminated the dependence on the old Phalanx/Toga engines formerly needed to use the "Play/Tactical Game" feature.
 14. Add 2 fold and 3 fold repetition detection to the PGN Window (including when new moves are added).
 15. Add multi-colored arrows for engine analysis in Engine and Analysis windows. Top 3+ engine moves with color-coded arrows: green (Best), yellow (2nd), red (3rd+)
+16. Based on user request, adopted Lichess/ChessBase format for arrows and symbols as the default. User can revert to old Scid format in Options/Preferences/Moves if they want.
 
 *Users with suggestions for further enhancements are welcome to write something in the Discussion section or submit a pull request.  Enjoy!*
 
