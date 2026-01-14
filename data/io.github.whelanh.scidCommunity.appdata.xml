@@ -79,11 +79,17 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.1.83" date="2026-01-14">
+      <description>
+        <p>Add Lichess/ChessBase format as default for arrow and symbol annotations</p>
+      </description>
+    </release> 
     <release version="5.1.1.82" date="2026-01-14">
       <description>
         <p>Add multi-colored arrows for engine analysis-top 3 engine moves: green (Best), yellow (2nd), red (3rd+)</p>
       </description>
-    </release>    <release version="5.1.1.81" date="2026-01-12">
+    </release>   
+    <release version="5.1.1.81" date="2026-01-12">
       <description>
         <p>Extend automatic 2-fold and 3-fold repetition detection in PGN Window to new moves</p>
       </description>

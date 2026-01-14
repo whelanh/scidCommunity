@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.1.82
+Version:        5.1.1.83
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit e11b251063a5bd4d0a621c49703ec6856555f698
+%global commit 3d6ced2d410e23efd40b0fa7eda6b24c8ca1ea69
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,7 +62,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
-* Mon Jan 14 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-82
+* Wed Jan 14 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-83
+- "Add Lichess/ChessBase format for arrows and symbols as default"
+* Wed Jan 14 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-82
 - "Add multi-colored arrows for engine analysis: green (Best), yellow (2nd), red (3rd+)"
 * Mon Jan 12 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-81
 - "Extend automatic repetition detection to new moves"
