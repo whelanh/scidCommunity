@@ -80,8 +80,6 @@ parts:
       - tcl8.6
       - libtcl8.6
       - libtk8.6
-      - tcl8.6-lib
-      - tk8.6-lib
       - libx11-6
       - libxft2
       - libxss1
