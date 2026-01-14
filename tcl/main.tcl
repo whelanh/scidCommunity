@@ -1100,18 +1100,34 @@ proc addMarker {w x y} {
     set to [::board::san $sq]
     if {$from == "" || $to == ""} { return }
 
-    if {$from == $to } {
-        set cmd "$::markType,$to,$::markColor"
-        set cmd_erase "\[a-z\]*,$to,\[a-z\]*"
-    } else {
-        set cmd "arrow,$from,$to,$::markColor"
-        set cmd_erase "arrow,$from,$to,\[a-z\]*"
-    }
     set oldComment [sc_pos getComment]
-    regsub -all " *\\\[%draw $cmd\\\]" $oldComment "" newComment
-    if {$newComment == $oldComment} {
-        regsub -all " *\\\[%draw $cmd_erase\\\]" $oldComment "" newComment
-        append newComment " \[%draw $cmd\]"
+    if { $::lichessFormat } {
+        set col [string toupper [string index $::markColor 0 ]]
+        if {$from == $to } {
+            set cmd "%csl $col$to"
+            set cmd_erase "%csl \[BGRYOC\]$to*"
+        } else {
+            set cmd "%cal $col$from$to"
+            set cmd_erase "%cal \[BGRYOC\]$from$to"
+        }
+        regsub -all " *\\\[$cmd\\\]" $oldComment "" newComment
+        if {$newComment == $oldComment} {
+            regsub -all " *\\\[$cmd_erase\\\]" $oldComment "" newComment
+            append newComment " \[$cmd\]"
+        }
+    } else {
+        if {$from == $to } {
+            set cmd "$::markType,$to,$::markColor"
+            set cmd_erase "\[a-z\]*,$to,\[a-z\]*"
+        } else {
+            set cmd "arrow,$from,$to,$::markColor"
+            set cmd_erase "arrow,$from,$to,\[a-z\]*"
+        }
+        regsub -all " *\\\[%draw $cmd\\\]" $oldComment "" newComment
+        if {$newComment == $oldComment} {
+            regsub -all " *\\\[%draw $cmd_erase\\\]" $oldComment "" newComment
+            append newComment " \[%draw $cmd\]"
+        }
     }
 
     sc_pos setComment $newComment
@@ -1139,9 +1155,10 @@ proc selectMarker {} {
     set y [expr {max(0, $y - 40)}]
     wm geometry $w_ "+$x+$y"
 
+    applyThemeColor_background $w_
     ttk::frame $w_.markers
     set i 0
-    foreach {marker lbl} {
+    set lmark {
         full █
         circle ◯
         disk ⬤
@@ -1167,7 +1184,9 @@ proc selectMarker {} {
         7 7
         8 8
         9 9
-    } {
+    }
+    if { $::lichessFormat } { set lmark { circle ◯ } }
+    foreach {marker lbl} $lmark {
         radiobutton $w_.markers.mark_$marker \
             -indicatoron "false" \
             -foreground "$::markColor" -background "light gray" -selectcolor "dark gray" \
@@ -1178,18 +1197,9 @@ proc selectMarker {} {
     }
     ttk::frame $w_.colors
     set i 0
-    foreach color {
-        green
-        red
-        orange
-        yellow
-        blue
-        darkBlue
-        purple
-        white
-        black
-        gray
-    } {
+    set markColors { green red orange yellow blue cyan }
+    if { ! $::lichessFormat } { append markColors { purple white black gray } }
+    foreach color $markColors {
         radiobutton $w_.colors.col_$color \
             -indicatoron "false" \
             -background "$color" -selectcolor "$color" \

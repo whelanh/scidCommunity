@@ -214,6 +214,9 @@ set highlightLastMovePattern {} ; # this option is not saved
 # Gloss Of Danger
 set glossOfDanger 0
 
+# Lichess/ChessBase format for annotations
+set lichessFormat 1
+
 # Show suggested moves: on by default
 set suggestMoves 1
 
@@ -636,7 +639,7 @@ proc options.write {} {
           ecoFile suggestMoves showVarPopup showVarArrows \
           blunderThreshold autoplayDelay animateDelay boardCoords \
           moveEntry(AutoExpand) moveEntry(Coord) \
-          translatePieces arrowLastMove highlightLastMove highlightLastMoveWidth \
+          translatePieces lichessFormat arrowLastMove highlightLastMove highlightLastMoveWidth \
           highlightLastMoveColor highlightLastMoveNag \
           glossOfDanger locale(numeric) \
           spellCheckFile autoRaise windowsDock showGameInfo \

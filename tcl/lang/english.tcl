@@ -286,6 +286,7 @@ menuText E OptionsMovesSuggest "Show Suggested Moves" 0 \
   {Turn on/off move suggestion}
 menuText E OptionsShowVarPopup "Show variations window" 0 {Turn on/off the display of a variations window}
 menuText E OptionsMovesSpace "Add spaces after move number" 0 {Add spaces after move number}
+menuText E OptionsMovesLichess "Use Lichess/ChessBase Format For Annotations" 0 {Use Lichess/ChessBase format for square markers and arrows}
 menuText E OptionsMovesKey "Keyboard Completion" 0 \
   {Turn on/off keyboard move auto-completion}
 menuText E OptionsMovesShowVarArrows "Show Arrows for Variations" 0 {Turn on/off arrows showing moves in variations}
