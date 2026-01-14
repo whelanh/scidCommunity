@@ -88,6 +88,10 @@ parts:
       - libfreetype6
       - libpng16-16
       - zlib1g
+    stage:
+      - usr/share/tcltk/**
+      - usr/lib/**
+      - usr/bin/**
     override-build: |
       snapcraftctl build
       # Copy GCC 13 libstdc++ to install directory for bundling
