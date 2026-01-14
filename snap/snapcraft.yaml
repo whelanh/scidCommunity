@@ -64,6 +64,7 @@ parts:
       apt-get install -y software-properties-common
       add-apt-repository -y ppa:ubuntu-toolchain-r/test
       apt-get update
+      apt-get install -y gcc-13 g++-13
     cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
@@ -74,8 +75,6 @@ parts:
       - make
       - tcl8.6-dev
       - tk8.6-dev
-      - gcc-13
-      - g++-13
     stage-packages:
       - tk8.6
       - tcl8.6
