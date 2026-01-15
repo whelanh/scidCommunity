@@ -1,4 +1,4 @@
-### deutsch.tcl:
+6### deutsch.tcl:
 #  German language support for Scid.
 #  Contributors: Bernhard Bialas, J�rgen Clos et al.
 #  Untranslated messages are marked with a "***" comment.
@@ -270,7 +270,7 @@ menuText D OptionsMovesCoord "Tastatureingabe" 0 \
 menuText D OptionsMovesSuggest "Zugvorschlag zeigen" 0 \
   {Zugvorschlag ein-/ausschalten}
 menuText D OptionsShowVarPopup "Variantenfenster zeigen" 0 { Anzeige des Variantenauswahlfensters ein/ausschalten}  
-menuText E OptionsMovesLichess "Verwenden Sie das Lichess/Chessbase-Format für Anmerkungen" 0 {Verwenden Sie das Lichess/Chessbase-Format für Anmerkungen}
+menuText D OptionsMovesLichess "Verwenden Sie das Lichess/Chessbase-Format für Anmerkungen" 0 {Verwenden Sie das Lichess/Chessbase-Format für Anmerkungen}
 menuText D OptionsMovesSpace "Leerzeichen nach Zugnummer einf�gen" 0 {Leerzeichen nach Zugnummer einf�gen}  
 menuText D OptionsMovesKey "Autom. Zugerg�nzung" 10 \
   {Automatische Zugerg�nzung ein-/ausschalten}
