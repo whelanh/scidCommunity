@@ -34,6 +34,12 @@ description: |
 grade: stable
 confinement: strict
 
+layout:
+  /usr/share/tcltk:
+    bind: $SNAP/usr/share/tcltk
+  /usr/lib/tcltk:
+    bind: $SNAP/usr/lib/tcltk
+
 apps:
   scidcommunity:
     command: usr/bin/scidCommunity
@@ -51,6 +57,7 @@ apps:
       SCID_SHAREDIR: $SNAP/usr/share/scid
       TCL_LIBRARY: $SNAP/usr/share/tcltk/tcl8.6
       TK_LIBRARY: $SNAP/usr/share/tcltk/tk8.6
+      TCL8_6_TM_PATH: $SNAP/usr/share/tcltk/tcl8/8.6:$SNAP/usr/share/tcltk/tcl8/8.5
       TCLLIBPATH: $SNAP/usr/share/tcltk/tcl8.6/tcl8 $SNAP/usr/share/tcltk $SNAP/usr/share/tcltk/tcl8/8.6 $SNAP/usr/share/tcltk/tcl8/8.5
       LD_LIBRARY_PATH: $SNAP/usr/lib/x86_64-linux-gnu:$SNAP/usr/lib:$LD_LIBRARY_PATH
 
