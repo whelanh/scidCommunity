@@ -290,6 +290,7 @@ menuText E OptionsMovesLichess "Use Lichess/ChessBase Format For Annotations" 0 
 menuText E OptionsMovesKey "Keyboard Completion" 0 \
   {Turn on/off keyboard move auto-completion}
 menuText E OptionsMovesShowVarArrows "Show Arrows for Variations" 0 {Turn on/off arrows showing moves in variations}
+menuText E OptionsMovesShowEngineVariationArrows "Show Arrows for Engine Variations" 0 {Turn on/off arrows showing engine variation lines in multiPV mode}
 menuText E OptionsMovesGlossOfDanger "Color Coded Gloss of Danger" 0 {Turn on/off color coded gloss of danger}
 menuText E OptionsNumbers "Number Format" 0 {Select the number format}
 menuText E OptionsTheme "Theme" 0 {Change look of interface}

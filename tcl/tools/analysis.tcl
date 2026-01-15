@@ -2770,6 +2770,8 @@ proc updateAnalysisText {{n 1}} {
             # multiPVraw format: {depth score {pv_moves} scoremate time}
             set lineCount 0
             foreach pv $analysis(multiPVraw$n) {
+                # If showEngineVariationArrows is disabled, only show the best move (first line)
+                if {!$::showEngineVariationArrows && $lineCount >= 1} { break }
                 if {$lineCount >= 3} { break }
                 # Get the PV moves list (index 2) and extract the first move
                 set pvMoves [lindex $pv 2]
