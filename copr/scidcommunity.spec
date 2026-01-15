@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.1.94
+Version:        5.1.1.95
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit f347f732af0836577d3129ac919fa0c9816a65ba
+%global commit 3f76e958320b78e17b3fa937ac66171301909588
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Wed Jan 14 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-95
+- "Further refinements of down arrow when more than one variation for a move"
 * Wed Jan 14 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-94
 - "Allow down arrow in PGN Window to enter a variation (right arrow continues in variation), up arrow returns to main line"
 * Wed Jan 14 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-83
