@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.1.95
+Version:        5.1.1.96
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 3f76e958320b78e17b3fa937ac66171301909588
+%global commit 8e64df0c12cc3a4411c7956d35f427dd23f10515
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Thu Jan 15 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-96
+- "Correct deutsch.tcl language file"
 * Wed Jan 14 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-95
 - "Further refinements of down arrow when more than one variation for a move"
 * Wed Jan 14 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-94
