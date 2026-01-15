@@ -220,6 +220,7 @@ set suggestMoves 1
 # Show variations popup window
 set showVarPopup 0
 set showVarArrows 1
+set showEngineVariationArrows 1
 
 # Keyboard Move entry options:
 set moveEntry(On) 1
@@ -633,7 +634,7 @@ proc options.write {} {
           ::pgn::shortHeader ::pgn::boldMainLine ::pgn::stripMarks ::pgn::figurine \
           ::pgn::symbolicNags ::pgn::moveNumberSpaces ::pgn::columnFormat \
           tree(order) optionsAutoSave ::tree::mask::recentMask \
-          ecoFile suggestMoves showVarPopup showVarArrows \
+          ecoFile suggestMoves showVarPopup showVarArrows showEngineVariationArrows \
           blunderThreshold autoplayDelay animateDelay boardCoords \
           moveEntry(AutoExpand) moveEntry(Coord) \
           translatePieces arrowLastMove highlightLastMove highlightLastMoveWidth \
