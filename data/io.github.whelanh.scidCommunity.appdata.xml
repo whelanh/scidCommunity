@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.1.97" date="2026-01-15">
+      <description>
+        <p>Add option to toggle engine variation arrows off</p>
+      </description>
+    </release> 
     <release version="5.1.1.96" date="2026-01-15">
       <description>
         <p>Correct deutsch.tcl language file</p>
