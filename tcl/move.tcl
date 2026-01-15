@@ -120,7 +120,24 @@ proc ::move::ExitVarOrStart {} {
 
 proc ::move::EnterFirstVariation {} {
 	# Enter the first variation if available at current position
-	if {[sc_var count] > 0} {
+	# If already in a variation, move to the next sibling variation
+	if {[sc_var level] > 0} {
+		# We're in a variation, try to move to next sibling
+		set currentVarNum [sc_var number]
+		sc_var exit
+		set totalVars [sc_var count]
+		set nextVarNum [expr {$currentVarNum + 1}]
+		if {$nextVarNum < $totalVars} {
+			sc_var moveInto $nextVarNum
+			::notify::PosChanged "" -animate
+			::utils::sound::AnnounceForward [sc_game info previous]
+			if {[::move::drawVarArrows]} { ::move::showVarArrows }
+		} else {
+			# No more variations, re-enter the current one
+			sc_var moveInto $currentVarNum
+		}
+	} elseif {[sc_var count] > 0} {
+		# We're on main line, enter first variation
 		sc_var moveInto 0
 		::notify::PosChanged "" -animate
 		::utils::sound::AnnounceForward [sc_game info previous]
@@ -161,6 +178,29 @@ proc ::move::Back {{count 1}} {
 }
 
 proc ::move::Forward {{count 1}} {
+	# Check if we're at the end of a variation
+	if {[sc_pos isAt vend] && [sc_var level] > 0} {
+		# At end of variation, try to move to next sibling or main line
+		set currentVarNum [sc_var number]
+		sc_var exit
+		set totalVars [sc_var count]
+		set nextVarNum [expr {$currentVarNum + 1}]
+		if {$nextVarNum < $totalVars} {
+			# Move to next sibling variation
+			sc_var moveInto $nextVarNum
+			::notify::PosChanged "" -animate
+			::utils::sound::AnnounceForward [sc_game info previous]
+			if {[::move::drawVarArrows]} { ::move::showVarArrows }
+		} else {
+			# No more variations, move to main line
+			sc_move forward
+			::notify::PosChanged "" -animate
+			::utils::sound::AnnounceForward [sc_game info previous]
+			if {[::move::drawVarArrows]} { ::move::showVarArrows }
+		}
+		return
+	}
+	
 	if {[sc_pos isAt end] || [sc_pos isAt vend]} { return }
 	if {[info exists ::playMode] && [eval "$::playMode moveForward"] == 0} {
 		return
