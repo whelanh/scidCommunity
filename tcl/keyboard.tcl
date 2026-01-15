@@ -16,8 +16,8 @@ proc keyboardShortcuts {w} {
 	# Go back/forward
 	bind $w <Left>  { excludeTextWidget %W; ::move::Back }
 	bind $w <Right> { excludeTextWidget %W; ::move::Forward }
-	bind $w <Up>    { excludeTextWidget %W; ::move::Back 10 }
-	bind $w <Down>  { excludeTextWidget %W; ::move::Forward 10 }
+	bind $w <Up>    { excludeTextWidget %W; ::move::ExitVariationToMainline }
+	bind $w <Down>  { excludeTextWidget %W; ::move::EnterFirstVariation }
 	bind $w <Home>  { excludeTextWidget %W; ::move::ExitVarOrStart }
 	bind $w <End>   { excludeTextWidget %W; ::move::End }
 

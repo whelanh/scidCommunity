@@ -118,6 +118,27 @@ proc ::move::ExitVarOrStart {} {
 	}
 }
 
+proc ::move::EnterFirstVariation {} {
+	# Enter the first variation if available at current position
+	if {[sc_var count] > 0} {
+		sc_var moveInto 0
+		::notify::PosChanged "" -animate
+		::utils::sound::AnnounceForward [sc_game info previous]
+		if {[::move::drawVarArrows]} { ::move::showVarArrows }
+	}
+}
+
+proc ::move::ExitVariationToMainline {} {
+	# Exit current variation and move forward past it in parent line
+	if {[sc_var level] > 0} {
+		sc_var exit
+		sc_move forward
+		::notify::PosChanged "" -animate
+		::utils::sound::AnnounceForward [sc_game info previous]
+		if {[::move::drawVarArrows]} { ::move::showVarArrows }
+	}
+}
+
 proc ::move::Back {{count 1}} {
 	if {[sc_pos isAt start]} { return }
 	if {[sc_pos isAt vstart]} { ::move::ExitVar; return }
