@@ -79,11 +79,14 @@ if {[package vcompare [info patchlevel] 9.0] >= 0} {
 
 set scidVersion [sc_info version]
 set scidVersionDate [sc_info version date]
-set scidVersionExpected "5.1.0"
+set scidVersionExpected "5.1.1"
 
 # Check that the version of c++ code matches the version of tcl code
-#
-if {[string compare $::scidVersion $::scidVersionExpected]} {
+# Only check the major and minor numbers to allow for different patch/git versions
+regexp {^(\d+\.\d+).*} $::scidVersion -> scidVersionShort
+regexp {^(\d+\.\d+).*} $::scidVersionExpected -> scidVersionExpectedShort
+
+if {[string compare $scidVersionShort $scidVersionExpectedShort]} {
   set msg "This is Scid version $::scidVersion, but the scid GUI (tcl/tk code)\n"
   append msg "has the version number $scidVersionExpected.\n"
   tk_messageBox -type ok -icon error -title "scidCommunity: Version Error" -message $msg

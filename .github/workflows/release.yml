@@ -21,7 +21,7 @@ jobs:
           if [[ "$GITHUB_REF" == refs/tags/* ]]; then
             VERSION=${GITHUB_REF#refs/tags/v}
           else
-            VERSION="5.1.0"
+            VERSION="5.1.1"
           fi
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
@@ -50,6 +50,22 @@ jobs:
         uses: actions/checkout@v6
         with:
           fetch-depth: 1
+
+      - name: Get version from tag
+        id: get_version
+        shell: bash
+        run: |
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            VERSION=${GITHUB_REF#refs/tags/v}
+          else
+            VERSION="5.1.1"
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Export version to env
+        shell: bash
+        run: |
+          echo "SCIDCOMMUNITY_VERSION=${{ steps.get_version.outputs.version }}" >> $GITHUB_ENV
 
       - name: Setup MSVC
         uses: microsoft/setup-msbuild@v2
@@ -206,7 +222,7 @@ jobs:
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             VERSION=${GITHUB_REF#refs/tags/v}
           else
-            VERSION="5.1.0"
+            VERSION="5.1.1"
           fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
@@ -328,7 +344,7 @@ jobs:
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             VERSION=${GITHUB_REF#refs/tags/v}
           else
-            VERSION="5.1.0"
+            VERSION="5.1.1"
           fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 

@@ -15,13 +15,32 @@
 
 cmake_minimum_required(VERSION 3.15)
 project(scid)
-# Allow overriding package version from environment or command line.
-# Fallback to 5.1.0 if not provided.
 if(NOT CPACK_PACKAGE_VERSION)
   if(DEFINED ENV{SCIDCOMMUNITY_VERSION} AND NOT "$ENV{SCIDCOMMUNITY_VERSION}" STREQUAL "")
     set(CPACK_PACKAGE_VERSION $ENV{SCIDCOMMUNITY_VERSION})
   else()
-    set(CPACK_PACKAGE_VERSION 5.1.0)
+    # Try to get the version from git
+    find_package(Git QUIET)
+    if(GIT_FOUND)
+      execute_process(
+        COMMAND ${GIT_EXECUTABLE} describe --tags --always --dirty
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        RESULT_VARIABLE GIT_RESULT
+        OUTPUT_VARIABLE GIT_VERSION
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+      )
+      if(GIT_RESULT EQUAL 0)
+        # Remove 'v' prefix if present
+        if(GIT_VERSION MATCHES "^v")
+          string(SUBSTRING ${GIT_VERSION} 1 -1 GIT_VERSION)
+        endif()
+        set(CPACK_PACKAGE_VERSION ${GIT_VERSION})
+      endif()
+    endif()
+
+    if(NOT CPACK_PACKAGE_VERSION)
+      set(CPACK_PACKAGE_VERSION 5.1.0)
+    endif()
   endif()
 endif()
 set(
@@ -31,6 +50,15 @@ set(
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "tk8.6 (>= 8.6.0), libtcl8.6 (>= 8.6.0), libtk8.6 (>= 8.6.0)")
 set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
 include(CPack)
+
+# Pass version and build date to C++ code as compile-time definitions
+# This allows the Help/About dialog to show dynamic version and date information
+string(TIMESTAMP SCID_BUILD_DATE "%b %d %Y")
+add_compile_definitions(
+  SCID_VERSION_STRING="${CPACK_PACKAGE_VERSION}"
+  SCID_BUILD_DATE="${SCID_BUILD_DATE}"
+)
+
 
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD 20 CACHE STRING "")

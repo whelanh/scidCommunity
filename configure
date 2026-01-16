@@ -13,6 +13,21 @@ exec tclsh "$0" ${1+"$@"}
 
 # Default values for Makefile settings:
 #
+
+# Version detection
+set var(SCID_VERSION) "5.1.0"
+if {[info exists ::env(SCIDCOMMUNITY_VERSION)] && $::env(SCIDCOMMUNITY_VERSION) ne ""} {
+    set var(SCID_VERSION) $::env(SCIDCOMMUNITY_VERSION)
+} else {
+    if {[catch {exec git describe --tags --always --dirty} git_ver] == 0} {
+        if {[string index $git_ver 0] eq "v"} {
+            set git_ver [string range $git_ver 1 end]
+        }
+        set var(SCID_VERSION) $git_ver
+    }
+}
+set var(SCID_DATE) [clock format [clock seconds] -format "%b %d %Y"]
+
 set var(BINDIR) /usr/local/bin
 set var(COMPILE) g++
 set var(DEBUG) {-DNDEBUG}

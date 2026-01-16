@@ -29,7 +29,16 @@
 typedef unsigned short versionT;
 const versionT SCID_VERSION = 400;     // Current file format version = 4.0
 
-const char SCID_VERSION_STRING[] = "5.1.0";     // Current Scid version
+// Version string - use build-time definition from CMake if available, otherwise fallback to default
+#ifndef SCID_VERSION_STRING
+#define SCID_VERSION_STRING "5.1.0"
+#endif
+
+// Build date - use build-time definition from CMake if available, otherwise use __DATE__
+#ifndef SCID_BUILD_DATE
+#define SCID_BUILD_DATE __DATE__
+#endif
+
 
 
 

@@ -235,10 +235,14 @@ PROFILE		= -DNDEBUG
 !endif
 PROFILE		= $(PROFILE) -DWIN32 -DWIN32_LEAN_AND_MEAN
 
+!if "$(SCIDCOMMUNITY_VERSION)" != ""
+SCID_VERSION_FLAGS = -DSCID_VERSION_STRING="\"$(SCIDCOMMUNITY_VERSION)\""
+!endif
+
 ##	CFLAGS: C++ compiler flags
 #	-c	:Compile Without linking
 #
-CFLAGS		= $(PROFILE) $(OPTIMIZE) $(WARNINGS) \
+CFLAGS		= $(PROFILE) $(OPTIMIZE) $(WARNINGS) $(SCID_VERSION_FLAGS) \
 			$(SCID_INCLUDES) -c -nologo -std:c++20
 !message *** CFLAGS: $(CFLAGS)
 
