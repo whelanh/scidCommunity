@@ -273,6 +273,7 @@ menuText D OptionsMovesSpace "Leerzeichen nach Zugnummer einfügen" 0 {Leerzeiche
 menuText D OptionsMovesKey "Autom. Zugergänzung" 10 \
   {Automatische Zugergänzung ein-/ausschalten}
 menuText D OptionsMovesShowVarArrows "Pfeile für Varianten anzeigen" 0 {Zeige Pfeile in Varianten an: ja/nein}
+menuText D OptionsMovesShowEngineVariationArrows "Engine-Varianten-Pfeile" 0 {Schaltet die mehrfarbigen drei Variantenpfeile im multiPV Modus aus}
 menuText D OptionsMovesGlossOfDanger "Bedrohte Figuren einfärben" 0 {Markieren von gefärdeten Figuren ein/ausschalten}
 menuText D OptionsNumbers "Zahlenformat" 5 {Zahlenformat wählen}
 menuText D OptionsTheme "Design" 0 {Verändert das Aussehen der Oberfläche}
