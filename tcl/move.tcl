@@ -131,8 +131,11 @@ proc ::move::EnterFirstVariation {} {
 	# 2. If no variations at current position, look for next sibling in parent levels
 	# This implements a depth-first traversal using the Down arrow
 	if {[sc_var level] > 0} {
+		# Save the path to re-enter if we don't find a sibling
+		set varPath {}
 		while {[sc_var level] > 0} {
 			set currentVarNum [sc_var number]
+			lappend varPath $currentVarNum
 			sc_var exit
 			set totalVars [sc_var count]
 			set nextVarNum [expr {$currentVarNum + 1}]
@@ -144,6 +147,12 @@ proc ::move::EnterFirstVariation {} {
 				return
 			}
 		}
+		# No sibling found - re-enter the original variation path
+		foreach varNum [lreverse $varPath] {
+			sc_var moveInto $varNum
+		}
+		updateBoard
+		if {[::move::drawVarArrows]} { ::move::showVarArrows }
 	}
 }
 
