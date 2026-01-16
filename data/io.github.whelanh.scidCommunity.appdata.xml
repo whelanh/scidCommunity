@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.1.99" date="2026-01-16">
+      <description>
+        <p>Various additional fixes to Flatpak About, translation and arrow navigation</p>
+      </description>
+    </release>
     <release version="5.1.1.98" date="2026-01-16">
       <description>
         <p>Various fixes to About, translation and arrow navigation</p>
