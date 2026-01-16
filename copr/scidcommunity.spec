@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.1.97
+Version:        5.1.1.98
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit c96afec8891e59096619009ca69d5df1c622a30a
+%global commit afea0b3cd7ba9f0aadbedb4082adbcd862aa05fa
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Fri Jan 16 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-98
+- "Various fixes to About, translation and arrow navigation"
 * Thu Jan 15 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-97
 - "Add option to toggle engine variation arrows off"
 * Thu Jan 15 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-96
