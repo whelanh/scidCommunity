@@ -268,7 +268,7 @@ menuText D OptionsMovesCoord "Tastatureingabe" 0 \
 menuText D OptionsMovesSuggest "Zugvorschlag zeigen" 0 \
   {Zugvorschlag ein-/ausschalten}
 menuText D OptionsShowVarPopup "Variantenfenster zeigen" 0 { Anzeige des Variantenauswahlfensters ein/ausschalten}  
-menuText D OptionsMovesLichess "Verwenden Sie das Lichess/ChessBase-Format für Anmerkungen" 0 {Verwenden Sie das Lichess/ChessBase-Format für Anmerkungen}
+menuText D OptionsMovesLichess "Lichess/ChessBase-Format für Anmerkungen" 0 {Lichess/ChessBase-Format für Anmerkungen}
 menuText D OptionsMovesSpace "Leerzeichen nach Zugnummer einfügen" 0 {Leerzeichen nach Zugnummer einfügen}  
 menuText D OptionsMovesKey "Autom. Zugergänzung" 10 \
   {Automatische Zugergänzung ein-/ausschalten}
