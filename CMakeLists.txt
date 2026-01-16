@@ -53,7 +53,21 @@ include(CPack)
 
 # Pass version and build date to C++ code as compile-time definitions
 # This allows the Help/About dialog to show dynamic version and date information
-string(TIMESTAMP SCID_BUILD_DATE "%b %d %Y")
+# Get build date from git commit date (works better with reproducible builds like Flatpak)
+if(GIT_FOUND)
+  execute_process(
+    COMMAND ${GIT_EXECUTABLE} log -1 --format=%cd --date=format:%b\ %d\ %Y
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    RESULT_VARIABLE GIT_DATE_RESULT
+    OUTPUT_VARIABLE SCID_BUILD_DATE
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
+  if(NOT GIT_DATE_RESULT EQUAL 0)
+    string(TIMESTAMP SCID_BUILD_DATE "%b %d %Y")
+  endif()
+else()
+  string(TIMESTAMP SCID_BUILD_DATE "%b %d %Y")
+endif()
 add_compile_definitions(
   SCID_VERSION_STRING="${CPACK_PACKAGE_VERSION}"
   SCID_BUILD_DATE="${SCID_BUILD_DATE}"
