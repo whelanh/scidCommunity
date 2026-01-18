@@ -991,13 +991,148 @@ proc ::lichess_tournament::togglePause {} {
     set gamePollingData $::lichess_tournament::gamePollingData
     if {[dict size $gamePollingData] > 0} {
       set studyUrl [dict get $gamePollingData studyUrl]
-      set lastMoveCount [dict get $gamePollingData lastMoveCount]
       
-      # Run an immediate update
-      set newMoveCount [::lichess_tournament::updateGameFromPgn $studyUrl $lastMoveCount]
+      # Recalculate the current real move count from the downloaded PGN
+      # We need to compare against the actual downloaded moves, not our stored count
+      # because the user may have added moves during pause
+      ::lichess_tournament::vlog "Recalculating game state after pause"
       
-      if {$newMoveCount != -1 && $newMoveCount > $lastMoveCount} {
-         dict set ::lichess_tournament::gamePollingData lastMoveCount $newMoveCount
+      # Download fresh PGN to see the current real state
+      set tempFile [file join $::lichess_tournament::tempDir "resume_[clock seconds].pgn"]
+      if {[catch {
+        if {[auto_execok curl] ne ""} {
+          exec curl -L -s -o "$tempFile" "$studyUrl" 2>@1
+        } elseif {[auto_execok wget] ne ""} {
+          exec wget -q -O "$tempFile" "$studyUrl" 2>@1
+        } else {
+          ::lichess_tournament::downloadWithHTTP $studyUrl $tempFile
+        }
+      } err] == 0 && [file exists $tempFile]} {
+        
+        # Parse the real moves from Lichess
+        if {[catch {
+          set realMoves [::lichess_tournament::extractMovesFromPgn $tempFile]
+        } err] == 0} {
+          
+          # Find where the real game and current game diverge
+          set divergencePly [::lichess_tournament::findLastCommonMove $realMoves]
+          set realMoveCount [llength $realMoves]
+          
+          # Get current game move count
+          set currentMoves [::lichess_tournament::getGameMoves]
+          set currentMoveCount [llength $currentMoves]
+          
+          ::lichess_tournament::vlog "Resume: divergencePly=$divergencePly, realMoves=$realMoveCount, currentMoves=$currentMoveCount"
+          
+          # Check if there's a divergence or if user has more moves than real game
+          set needsDemotion 0
+          set demotionPoint $divergencePly
+          
+          if {$divergencePly >= 0 && $divergencePly < $realMoveCount} {
+            # True divergence: moves differ at some point
+            ::lichess_tournament::vlog "True divergence detected at ply $divergencePly"
+            set needsDemotion 1
+            set demotionPoint $divergencePly
+          } elseif {$divergencePly == -1 && $currentMoveCount > $realMoveCount} {
+            # User has extra moves beyond the real game (no divergence in common range)
+            ::lichess_tournament::vlog "User has extra moves: current=$currentMoveCount > real=$realMoveCount"
+            set needsDemotion 1
+            set demotionPoint $realMoveCount
+          } elseif {$divergencePly == -1 && $currentMoveCount < $realMoveCount} {
+            # Real game has progressed beyond current game (need to add moves)
+            ::lichess_tournament::vlog "Real game has progressed: real=$realMoveCount > current=$currentMoveCount"
+            set needsDemotion 0
+          } else {
+            ::lichess_tournament::vlog "Games are in sync"
+            set needsDemotion 0
+          }
+          
+          if {$needsDemotion} {
+            # There's a divergence or extra user moves - demote and add real moves
+            ::lichess_tournament::vlog "Demoting user moves from ply $demotionPoint after resume"
+            
+            if {[::lichess_tournament::demoteUserMovesToVariation $demotionPoint]} {
+              ::lichess_tournament::vlog "Demoted user moves, now adding real moves"
+              
+              # Add the real moves from the server
+              set movesToAdd [lrange $realMoves $demotionPoint end]
+              sc_move ply $demotionPoint
+              
+              set addedCount 0
+              foreach item $movesToAdd {
+                set move [lindex $item 0]
+                set comment [lindex $item 1]
+                
+                if {[catch {sc_move addSan $move} result] == 0} {
+                  incr addedCount
+                  if {$comment ne ""} {
+                    catch {sc_pos setComment $comment}
+                  }
+                } else {
+                  ::lichess_tournament::vlog "ERROR adding move $move after resume: $result"
+                  break
+                }
+              }
+              
+              # Save and refresh
+              catch {sc_game save [sc_game number] [sc_base current]}
+              if {$::lichess_tournament::autoUpdateBoard} {
+                sc_move end
+                ::notify::PosChanged -pgn
+              } else {
+                ::pgn::Refresh 1
+              }
+              
+              ::lichess_tournament::vlog "Added $addedCount real moves after resume"
+            }
+          } elseif {$currentMoveCount < $realMoveCount} {
+            # Just need to add new moves, no demotion needed
+            ::lichess_tournament::vlog "Adding new moves without demotion"
+            
+            set movesToAdd [lrange $realMoves $currentMoveCount end]
+            sc_move end
+            
+            set addedCount 0
+            foreach item $movesToAdd {
+              set move [lindex $item 0]
+              set comment [lindex $item 1]
+              
+              if {[catch {sc_move addSan $move} result] == 0} {
+                incr addedCount
+                if {$comment ne ""} {
+                  catch {sc_pos setComment $comment}
+                }
+              } else {
+                ::lichess_tournament::vlog "ERROR adding move $move after resume: $result"
+                break
+              }
+            }
+            
+            # Save and refresh
+            catch {sc_game save [sc_game number] [sc_base current]}
+            if {$::lichess_tournament::autoUpdateBoard} {
+              sc_move end
+              ::notify::PosChanged -pgn
+            } else {
+              ::pgn::Refresh 1
+            }
+            
+            ::lichess_tournament::vlog "Added $addedCount new moves"
+          } else {
+            ::lichess_tournament::vlog "No changes needed after resume"
+          }
+          
+          # Update lastMoveCount to the real move count from server
+          set realMoveCount [llength $realMoves]
+          dict set ::lichess_tournament::gamePollingData lastMoveCount $realMoveCount
+          ::lichess_tournament::vlog "Set lastMoveCount to $realMoveCount after resume"
+        } else {
+          ::lichess_tournament::vlog "Failed to parse PGN file: $err"
+        }
+        
+        catch {file delete $tempFile}
+      } else {
+        ::lichess_tournament::vlog "Could not download PGN on resume, will retry on next poll"
       }
       
       # Schedule the next poll to continue regular monitoring
