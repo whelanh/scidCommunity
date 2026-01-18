@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.1.99
+Version:        5.1.2.0
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit afd725f99d5a6cb4d9f72398f49569a39d262b5b
+%global commit 4ea6945347d332972e3c9df587c1514da99fc80b
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Sat Jan 17 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-0
+- "User moves in a live Lichess tournament game get moved to a comment when new actually played moves are updated"
 * Fri Jan 16 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-99
 - "Various additional fixes to Flatpak About, translation and arrow navigation"
 * Fri Jan 16 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-98

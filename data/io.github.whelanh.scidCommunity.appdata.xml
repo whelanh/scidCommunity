@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.2.0" date="2026-01-17">
+      <description>
+        <p>User moves in a live Lichess tournament game get moved to a comment when new actually played moves are updated</p>
+      </description>
+    </release>
     <release version="5.1.1.99" date="2026-01-16">
       <description>
         <p>Various additional fixes to Flatpak About, translation and arrow navigation</p>
