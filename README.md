@@ -62,7 +62,9 @@ New feature under the "File" menu to open Lichess broadcast tournament games. Op
 ## 💽 Releases
 Check latest **[Releases](https://github.com/whelanh/scidCommunity/releases)** for a deb, rpm, exe, a MacOS and AppImage installable package.  The deb has been tested against Ubuntu 24, the rpm against Fedora Rawhide, the AppImage against Fedora Kinoite (Rawhide) and the exe file against a Windows 11 virtual machine. The Mac version has not been tested and feedback would be appreciated. 
 
-Linux users can install scidCommunity from [Flathub](https://flathub.org/en/apps/io.github.whelanh.scidCommunity), however the Flathub update process is slower. For the most recent developments, see the **[Releases](https://github.com/whelanh/scidCommunity/releases)** section or:
+Linux users can install scidCommunity from [Flathub](https://flathub.org/en/apps/io.github.whelanh.scidCommunity), however the Flathub update process is slower. The Flatpak is installed with limited access to your file system.  You will probably want to grant it access to your home directories for storing preferences and accessing your stored database.  You can do that with the **Flatseal** flatpak, or with the terminal command `flatpak override --user io.github.whelanh.scidCommunity --filesystem=home` or `flatpak override --user io.github.whelanh.scidcommunity --filesystem=/path/to/directory`
+
+For the most recent developments, see the **[Releases](https://github.com/whelanh/scidCommunity/releases)** section or:
 * For rpm based Linux systems, ScidCommunity is also available through the [Fedora Copr Repo](https://copr.fedorainfracloud.org/coprs/whelanh/scidcommunity/)
 * For Arch-based systems, it is available on the [AUR](https://aur.archlinux.org/packages/scidcommunity) 
 * **scidCommunity** is also available from the [Snap Store](https://snapcraft.io/scidcommunity).
