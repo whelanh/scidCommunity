@@ -450,6 +450,172 @@ proc ::lichess_tournament::onGameOpened {} {
   ::notify::PosChanged -pgn
 }
 
+# lichess_tournament::getGameMoves
+#   Extract all mainline moves from the current game as SAN strings
+#   Returns a list of {move comment} pairs
+#
+proc ::lichess_tournament::getGameMoves {} {
+  set moves {}
+  
+  # Save current position
+  set savedPly [sc_pos location]
+  
+  # Go to start
+  sc_move start
+  
+  # Walk through the mainline collecting moves
+  while {![sc_pos isAt vend]} {
+    sc_move forward
+    set move [sc_game info previous]
+    set comment [sc_pos getComment]
+    lappend moves [list $move $comment]
+  }
+  
+  # Restore position
+  catch {sc_move ply $savedPly}
+  
+  return $moves
+}
+
+# lichess_tournament::findLastCommonMove
+#   Compare current game moves with downloaded PGN moves
+#   Returns the ply number where they last match, or -1 if they never diverge
+#
+proc ::lichess_tournament::findLastCommonMove {downloadedMoves} {
+  # Get current game moves
+  set currentMoves [::lichess_tournament::getGameMoves]
+  
+  set lastCommonPly 0
+  set minLen [expr {min([llength $currentMoves], [llength $downloadedMoves])}]
+  
+  for {set i 0} {$i < $minLen} {incr i} {
+    set currentMove [lindex [lindex $currentMoves $i] 0]
+    set downloadedMove [lindex [lindex $downloadedMoves $i] 0]
+    
+    if {$currentMove eq $downloadedMove} {
+      set lastCommonPly [expr {$i + 1}]
+    } else {
+      # Found divergence point
+      ::lichess_tournament::vlog "Divergence at ply $i: current='$currentMove' vs downloaded='$downloadedMove'"
+      return $lastCommonPly
+    }
+  }
+  
+  # If we got here, all compared moves match
+  # Return -1 to indicate no divergence in the compared range
+  return -1
+}
+
+# lichess_tournament::demoteUserMovesToVariation
+#   Demote user-added moves to a variation and prepare for new mainline
+#   Takes the ply number of the last common move
+#   Returns 1 on success, 0 on failure
+#
+proc ::lichess_tournament::demoteUserMovesToVariation {lastCommonPly} {
+  if {[catch {
+    ::lichess_tournament::vlog "Demoting user moves from ply $lastCommonPly"
+    
+    # Navigate to end to see what we're demoting
+    sc_move end
+    set endPly [sc_pos location]
+    
+    ::lichess_tournament::vlog "Current end is at ply $endPly"
+    
+    # If we're already at the common position, nothing to demote
+    if {$endPly <= $lastCommonPly} {
+      ::lichess_tournament::vlog "Nothing to demote"
+      return 1
+    }
+    
+    # Collect the user moves that need to be preserved
+    set userMoves {}
+    sc_move ply $lastCommonPly
+    
+    while {![sc_pos isAt vend]} {
+      sc_move forward
+      set moveUCI [sc_game info previousMoveUCI]
+      set moveSAN [sc_game info previousMoveNT]
+      set comment [sc_pos getComment]
+      ::lichess_tournament::vlog "Collecting user move: UCI='$moveUCI', SAN='$moveSAN'"
+      
+      # Prefer SAN for adding later
+      set move $moveSAN
+      if {$move eq "" && $moveUCI ne ""} {
+        set move $moveUCI
+      }
+      lappend userMoves [list $move $comment]
+    }
+    
+    ::lichess_tournament::vlog "Collected [llength $userMoves] user moves"
+    
+    # Navigate back to last common position and truncate
+    sc_move ply $lastCommonPly
+    ::lichess_tournament::vlog "Truncating from ply $lastCommonPly"
+    sc_game truncate
+    
+    # Save the game to commit the truncation
+    ::lichess_tournament::vlog "Saving game after truncate"
+    catch {sc_game save [sc_game number] [sc_base current]}
+    
+    # Save user moves as a comment at the divergence point
+    if {[llength $userMoves] > 0} {
+      ::lichess_tournament::vlog "Saving [llength $userMoves] user moves as comment"
+      
+      # Build a comment with the user's moves including move numbers
+      set userMovesComment "Your analysis: "
+      
+      # Calculate the starting move number based on the ply
+      # Move number = (ply + 1) / 2, rounded up
+      set startingMoveNumber [expr {($lastCommonPly + 1 + 1) / 2}]
+      
+      # Determine if first move is White's or Black's
+      # If ply is even, next move is White; if odd, next move is Black
+      set isWhiteMove [expr {($lastCommonPly % 2) == 0}]
+      
+      set moveList {}
+      set moveNumber $startingMoveNumber
+      set whiteMove $isWhiteMove
+      
+      foreach moveEntry $userMoves {
+        set move [lindex $moveEntry 0]
+        
+        if {$whiteMove} {
+          # White's move: show full move number
+          lappend moveList "${moveNumber}.${move}"
+          set whiteMove 0
+        } else {
+          # Black's move: show move number with ...
+          lappend moveList "${moveNumber}...${move}"
+          set whiteMove 1
+          incr moveNumber
+        }
+      }
+      
+      append userMovesComment [join $moveList " "]
+      
+      # Add the comment at the current position (after truncate)
+      set existingComment [sc_pos getComment]
+      if {$existingComment ne ""} {
+        sc_pos setComment "$existingComment\n$userMovesComment"
+      } else {
+        sc_pos setComment $userMovesComment
+      }
+      
+      ::lichess_tournament::vlog "Added user moves as comment: $userMovesComment"
+    }
+    
+    # Save the game to persist the changes
+    catch {sc_game save [sc_game number] [sc_base current]}
+    
+    ::lichess_tournament::vlog "Successfully demoted user moves to variation"
+    return 1
+    
+  } err]} {
+    ::lichess_tournament::vlog "ERROR in demoteUserMovesToVariation: $err"
+    return 0
+  }
+}
+
 # lichess_tournament::updateGameFromPgn
 #   Download the latest PGN and update the current game with any new moves
 #   Returns the new move count, or -1 on error
@@ -495,31 +661,109 @@ proc ::lichess_tournament::updateGameFromPgn {studyUrl lastMoveCount} {
   catch {file delete $tempFile}
   
   set totalMoveCount [llength $newMoves]
-  # puts "DEBUG: Parsed $totalMoveCount moves from PGN"
+  ::lichess_tournament::vlog "Parsed $totalMoveCount moves from downloaded PGN"
   
-  # Add any new moves that aren't in the current game
-  if {$totalMoveCount > $lastMoveCount} {
-    set movesToAdd [lrange $newMoves $lastMoveCount end]
-    # puts "DEBUG: Found [llength $movesToAdd] new moves to add"
+  # Check for divergence between current game and downloaded PGN
+  set divergencePly [::lichess_tournament::findLastCommonMove $newMoves]
+  
+  if {$divergencePly >= 0 && $divergencePly < $totalMoveCount} {
+    # Divergence detected - user has added moves
+    ::lichess_tournament::vlog "Detected divergence at ply $divergencePly"
     
-    if {[llength $movesToAdd] > 0} {
-      # puts "DEBUG: About to add [llength $movesToAdd] clean moves"
-      # Navigate to the end of the game before adding moves
-      sc_move end
-      # puts "DEBUG: Navigated to end of game"
+    # Demote user moves to a variation
+    if {[::lichess_tournament::demoteUserMovesToVariation $divergencePly]} {
+      ::lichess_tournament::vlog "Successfully demoted user moves"
+      
+      # Now add the real moves from the downloaded PGN, starting after the divergence point
+      set movesToAdd [lrange $newMoves $divergencePly end]
+      ::lichess_tournament::vlog "Adding [llength $movesToAdd] real moves from ply $divergencePly"
+      
+      # Navigate to the divergence point (which is now the end after truncation)
+      sc_move ply $divergencePly
       
       set addedCount 0
       foreach item $movesToAdd {
         set move [lindex $item 0]
         set comment [lindex $item 1]
-        # puts "DEBUG: Adding move: $move"
+        
         if {[catch {sc_move addSan $move} result]} {
-          # puts "DEBUG: ERROR adding move $move: $result"
-          # puts "DEBUG: Error info: $::errorInfo"
+          ::lichess_tournament::vlog "ERROR adding real move $move: $result"
           break
         } else {
           incr addedCount
-          # puts "DEBUG: Successfully added move $move"
+          
+          # Add comment if present
+          if {$comment ne ""} {
+            catch {sc_pos setComment $comment}
+          }
+        }
+      }
+      
+      # Auto-save the game
+      catch {sc_game save [sc_game number] [sc_base current]}
+      
+      # Update the display
+      if {$::lichess_tournament::autoUpdateBoard} {
+        sc_move end
+        ::notify::PosChanged -pgn
+      } else {
+        ::pgn::Refresh 1
+      }
+      
+      ::lichess_tournament::vlog "Added $addedCount moves after resolving divergence"
+      return $totalMoveCount
+    } else {
+      ::lichess_tournament::vlog "Failed to demote user moves"
+      return -1
+    }
+  }
+  
+  # No divergence - add any new moves that aren't in the current game
+  if {$totalMoveCount > $lastMoveCount} {
+    set movesToAdd [lrange $newMoves $lastMoveCount end]
+    ::lichess_tournament::vlog "Found [llength $movesToAdd] new moves to add"
+    
+    if {[llength $movesToAdd] > 0} {
+      # Navigate to the end of the game before adding moves
+      sc_move end
+      
+      set addedCount 0
+      foreach item $movesToAdd {
+        set move [lindex $item 0]
+        set comment [lindex $item 1]
+        
+        if {[catch {sc_move addSan $move} result]} {
+          ::lichess_tournament::vlog "ERROR adding move $move: $result"
+          # This shouldn't happen in normal flow, but if it does, it might indicate
+          # a divergence we didn't detect. Try to handle it gracefully.
+          ::lichess_tournament::vlog "Possible undetected divergence - attempting recovery"
+          
+          # Check if there's a divergence we missed
+          set recoveryPly [::lichess_tournament::findLastCommonMove $newMoves]
+          if {$recoveryPly >= 0 && $recoveryPly < $totalMoveCount} {
+            ::lichess_tournament::vlog "Recovery: found divergence at ply $recoveryPly"
+            if {[::lichess_tournament::demoteUserMovesToVariation $recoveryPly]} {
+              # Retry adding from the correct position
+              sc_move ply $recoveryPly
+              set movesToAdd [lrange $newMoves $recoveryPly end]
+              set addedCount 0
+              foreach item $movesToAdd {
+                set move [lindex $item 0]
+                set comment [lindex $item 1]
+                if {[catch {sc_move addSan $move}]} {
+                  break
+                } else {
+                  incr addedCount
+                  if {$comment ne ""} {
+                    catch {sc_pos setComment $comment}
+                  }
+                }
+              }
+            }
+          }
+          break
+        } else {
+          incr addedCount
           
           # Add comment if present
           if {$comment ne ""} {
@@ -532,7 +776,7 @@ proc ::lichess_tournament::updateGameFromPgn {studyUrl lastMoveCount} {
       catch {sc_game save [sc_game number] [sc_base current]}
       
       if {$addedCount == 0} {
-        # puts "DEBUG: Failed to add any moves"
+        ::lichess_tournament::vlog "Failed to add any moves"
         return -1
       }
       
