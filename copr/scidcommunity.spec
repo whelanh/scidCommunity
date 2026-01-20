@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.0
+Version:        5.1.2.01
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 4ea6945347d332972e3c9df587c1514da99fc80b
+%global commit c6cd3ce6d272f87610d2f08878ec89be676bdd1d
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Tue Jan 20 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-01
+- "Better handling of user moves in a live Lichess Tournament game if the Pause button has been pressed"
 * Sat Jan 17 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-0
 - "User moves in a live Lichess tournament game get moved to a comment when new actually played moves are updated"
 * Fri Jan 16 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.1-99
