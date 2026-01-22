@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.2.03" date="2026-01-22">
+      <description>
+        <p>Add missing translations to german, spanish, italian and french language files</p>
+      </description>
+    </release>
     <release version="5.1.2.02" date="2026-01-22">
       <description>
         <p>Fix highlighting for sand and cobalt2 themes</p>
