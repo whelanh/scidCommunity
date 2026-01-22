@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.2.02" date="2026-01-22">
+      <description>
+        <p>Fix highlighting for sand and cobalt2 themes</p>
+      </description>
+    </release>
     <release version="5.1.2.01" date="2026-01-20">
       <description>
         <p>Better handling of user moves in a live Lichess Tournament game if the Pause button has been pressed</p>

@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.01
+Version:        5.1.2.02
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit c6cd3ce6d272f87610d2f08878ec89be676bdd1d
+%global commit a41b670192fd111c74e3fe852851387fef0c8e5e
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Thu Jan 22 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-02
+- "Fix highlighting in sand and cobalt2 themes"
 * Tue Jan 20 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-01
 - "Better handling of user moves in a live Lichess Tournament game if the Pause button has been pressed"
 * Sat Jan 17 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-0
