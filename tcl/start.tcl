@@ -483,6 +483,9 @@ if {[lsearch -exact [ttk::style theme names] sand] == -1} {
     ttk::style configure TNotebook -background #D2B48C
     # Content windows (Tree view, Game List, PGN text via applyThemeStyle)
     ttk::style configure Treeview -background #F4E1C6 -fieldbackground #F4E1C6 -foreground #3B2F2F
+    ttk::style map Treeview \
+      -background [list selected #B08968] \
+      -foreground [list selected #1E1A19]
     # Inputs
     ttk::style configure TEntry -fieldbackground #F4E1C6 -foreground #3B2F2F
     ttk::style configure TCombobox -fieldbackground #F4E1C6 -foreground #3B2F2F
@@ -520,6 +523,9 @@ if {[lsearch -exact [ttk::style theme names] cobalt2] == -1} {
     ttk::style configure TNotebook -background #193549
     # Content windows (Tree view, Game List, PGN text via applyThemeStyle)
     ttk::style configure Treeview -background #122738 -fieldbackground #122738 -foreground #ffffff
+    ttk::style map Treeview \
+      -background [list selected #1F4662] \
+      -foreground [list selected #ffc600]
     # Inputs
     ttk::style configure TEntry -fieldbackground #122738 -foreground #ffc600
     ttk::style configure TCombobox -fieldbackground #122738 -foreground #ffc600
