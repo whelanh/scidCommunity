@@ -1692,6 +1692,11 @@ translate D OptionsTablebaseDir "Bis zu 4 Verzeichnisse der Endspieltabellen aus
 translate D BestMoveArrow "Besten Zug anzeigen"
 translate D NewLocalEngine "+ Neue Engine ..."
 
+# ====== Neue Einträge hinzugefügt ======
+menuText D FileOpenLichessTournament "Lichess-Turnier öffnen" 0 {Live-Partien eines Lichess-Turniers herunterladen und öffnen}
+menuText D FileImportLichess "Meine Lichess-Partien importieren" 0 {Partien aus Ihrem Lichess-Konto importieren}
+menuText D FileImportChessCom "Meine Chess.com-Partien importieren" 0 {Partien aus Ihrem Chess.com-Konto importieren}
+
 ##########
 #
 # ECO Opening name translations:
