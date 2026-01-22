@@ -87,8 +87,9 @@ menuText E FileReadOnly "Read-only..." 0 \
   {Treat the current database as read-only, preventing changes}
 menuText E FileSwitch "Switch to Database" 0 \
   {Switch to a different opened database}
-menuText E FileOpenLichessTournament "Open Lichess Tournament" 0 \
-  {Download and open live Lichess tournament broadcast games}
+menuText E FileOpenLichessTournament "Open Lichess Tournament" 0 {Download and open live Lichess tournament broadcast games}
+menuText E FileImportLichess "Import my Lichess" 0 {Import games from your Lichess account}
+menuText E FileImportChessCom "Import my chess.com" 0 {Import games from your chess.com account}
 menuText E FileExit "Exit" 1 {Exit Scid}
 menuText E FileMaintFixBase "Repair base" 0 {Try to repair a corrupted base}
 

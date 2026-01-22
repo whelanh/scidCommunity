@@ -1698,6 +1698,13 @@ translate F BestMoveArrow "Best move arrow"
 # ====== TODO To be translated ======
 translate F NewLocalEngine "+ New engine ..."
 
+# ====== Nouvelles entrées ajoutées ======
+menuText F FileOpenLichessTournament "Ouvrir un tournoi Lichess" 0 {Télécharger et ouvrir les parties en direct d'un tournoi Lichess}
+menuText F FileImportLichess "Importer mes parties Lichess" 0 {Importer des parties depuis votre compte Lichess}
+menuText F FileImportChessCom "Importer mes parties Chess.com" 0 {Importer des parties depuis votre compte Chess.com}
+menuText F OptionsMovesLichess "Format Lichess/ChessBase pour les annotations" 0 {Utiliser le format Lichess/ChessBase pour les marqueurs et flèches}
+menuText F OptionsMovesShowEngineVariationArrows "Afficher les flèches pour les variantes du moteur" 0 {Activer/désactiver les flèches montrant les lignes de variation du moteur en mode multiPV}
+
 ##########
 #
 # ECO Opening name translations:

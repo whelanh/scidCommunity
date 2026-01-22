@@ -65,8 +65,8 @@ menu $m.recenttrees
 $m add cascade -label ToolsOpenRecentBaseAsTree -menu $m.recenttrees
 $m add separator
 $m add command -label FileOpenLichessTournament -command ::lichess_tournament::openTournament
-$m add command -label "Import my Lichess" -command ::lichess::importGames
-$m add command -label "Import my chess.com" -command ::chesscom::importGames
+$m add command -label FileImportLichess -command ::lichess::importGames
+$m add command -label FileImportChessCom -command ::chesscom::importGames
 $m add separator
 set ::menuFileRecentIdx [expr [$m index end] +1]
 $m add command -label FileExit -accelerator "Ctrl+Q" -command ::file::Exit

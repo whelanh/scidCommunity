@@ -1681,6 +1681,13 @@ translate I OptionsInternationalization "Internationalization"
 translate I OptionsTablebaseDir "Select up to 4 table base folders:"
 translate I BestMoveArrow "Indica mossa migliore"
 translate I NewLocalEngine "+ Nuovo motore ..."
+
+# ====== Nuove voci aggiunte ======
+menuText I FileOpenLichessTournament "Apri Torneo Lichess" 0 {Scarica e apri partite trasmesse dal vivo del torneo Lichess}
+menuText I FileImportLichess "Importa le mie partite da Lichess" 0 {Importa partite dal tuo account Lichess}
+menuText I FileImportChessCom "Importa le mie partite da Chess.com" 0 {Importa partite dal tuo account Chess.com}
+menuText I OptionsMovesLichess "Formato Lichess/ChessBase per Annotazioni" 0 {Usa formato Lichess/ChessBase per marcatori di case e frecce}
+menuText I OptionsMovesShowEngineVariationArrows "Mostra Frecce per Varianti del Motore" 0 {Attiva/disattiva frecce che mostrano linee di variazione del motore in modalità multiPV}
 }
 
 ############################################################
@@ -1913,6 +1920,7 @@ set tips(I) {
     partite trovate premendo <b>Ctrl</b> e con i tasti <b>Su</b> o <b>Giù</b>
     caricare la precedente o successiva partita del <a Searches Filter>filtro</a>.
   }
+
 }
 
 

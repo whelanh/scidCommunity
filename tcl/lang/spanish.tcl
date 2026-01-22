@@ -1780,5 +1780,13 @@ translate S OptionsTablebaseDir "Seleccione hasta 4 carpetas de la tablas de fin
 translate S BestMoveArrow "Best move arrow"
 # ====== TODO To be translated ======
 translate S NewLocalEngine "+ New engine ..."
+
+# ====== New entries added ======
+menuText S FileOpenLichessTournament "Abrir Torneo de Lichess" 0 {Descargar y abrir partidas de transmisión de torneos en vivo de Lichess}
+menuText S FileImportLichess "Importar mis partidas de Lichess" 0 {Importar partidas de tu cuenta de Lichess}
+menuText S FileImportChessCom "Importar mis partidas de Chess.com" 0 {Importar partidas de tu cuenta de Chess.com}
+menuText S OptionsMovesLichess "Formato Lichess/ChessBase para Anotaciones" 0 {Usar formato Lichess/ChessBase para marcadores de casillas y flechas}
+menuText S OptionsMovesShowEngineVariationArrows "Mostrar Flechas para Variantes del Motor" 0 {Activar/desactivar flechas que muestran líneas de variación del motor en modo multiPV}
+
 }
 # end of spanish.tcl
