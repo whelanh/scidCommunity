@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.03
+Version:        5.1.2.04
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 4911c57297bc798e3b9d8a192c9337093f0a2122
+%global commit 6edcf03859e615b090e9aaec4f95ddd9a178c936
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Fri Jan 23 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-04
+- "Add machine-translated chinese.tcl file"
 * Thu Jan 22 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-03
 - "Add missing translations to german, spanish, italian and french language files"
 * Thu Jan 22 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-02
