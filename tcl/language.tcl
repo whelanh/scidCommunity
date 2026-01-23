@@ -41,6 +41,8 @@ set transPieces(K)   { P P K R Q D R T B A N C }
 set untransPieces(K) { P P R K D Q T R A B C N }
 set transPieces(U)   { P S K K Q D R T B L N R }
 set untransPieces(U) { S P K K D Q T R L B R N }
+set transPieces(M)   { P 兵 K 王 Q 后 R 车 B 象 N 馬 }
+set untransPieces(M) { 兵 P 王 K 后 Q 车 R 象 B 馬 N }
 
 ################################################################################
 proc trans { msg } {
@@ -161,6 +163,7 @@ proc setLanguage {} {
       S {sc_info language es}
       U {sc_info language fi}
       W {sc_info language sw}
+      M {sc_info language zh}
       default {sc_info language en}
     }
   } else {
@@ -206,6 +209,7 @@ proc setLanguageTemp { lang } {
     S {sc_info language es}
     U {sc_info language fi}
     W {sc_info language sw}
+    M {sc_info language zh}
     default {sc_info language en}
   }
 }
@@ -227,6 +231,7 @@ addLanguage Y Serbian 2 iso8859-2 serbian.tcl
 addLanguage S Español 1 iso8859-1 spanish.tcl
 addLanguage U Suomi 1 iso8859-1 suomi.tcl
 addLanguage W Swedish 1 iso8859-1 swedish.tcl
+addLanguage M 中文 0 utf-8 chinese.tcl
 
 setLanguage
 
