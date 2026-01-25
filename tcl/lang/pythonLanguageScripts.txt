@@ -1,0 +1,80 @@
+machineTranslate.py Fix Walkthrough
+I have fixed the
+machineTranslate.py
+ script to correctly handle the translation of lines marked with TODO.
+
+Changes Made
+Async/Sync Compatibility: Updated the script to use asyncio to work with modern googletrans libraries, which often return coroutines instead of text.
+Flexible Regex Parsing: The parsed regex now supports multiple formats found in
+tcl
+ files:
+menuText ... "..." ... { ... }
+menuText ... "..." ...
+translate ... { ... }
+translate ... "..."
+Encoding Handling: The script now attempts to detect encoding (defaulting to ISO-8859-1 for Tcl files usually) and handles Unicode characters gracefully.
+How to Run
+You can run the script as before:
+
+python3 tcl/lang/machineTranslate.py tcl/lang/spanish.tcl -l es
+The output will be saved to
+tcl/lang/spanish.tcl.new
+.
+
+Verification Results
+The script no longer crashes with SyntaxError (fixed unicode escape sequences).
+Parsing warnings should be eliminated for standard menuText and
+translate
+ lines.
+Accessing
+spanish.tcl.new
+ should show successfully translated text instead of regex warnings.
+NOTE
+
+Translation might be slow due to rate limiting by Google Translate. The script includes a delay between requests to prevent being blocked.
+
+cleanNewFiles.py Usage
+cleanNewFiles.py
+ is a utility script to reorder and clean translated Tcl files, ensuring they match the structure of the original English file.
+
+Features
+Reordering: Arranges menuText and
+translate
+ commands to match the order in
+english.tcl
+.
+Cleaning: Removes TODO markers.
+Structure: Preserves comments and spacing from the English reference file.
+Missing Item Handling: If a translation is missing, it will (by default logic) include the English line commented out with a # MISSING TRANSLATION marker.
+How to Run
+Generate a translation (using
+machineTranslate.py
+):
+
+python3 tcl/lang/machineTranslate.py tcl/lang/spanish.tcl -l es
+This creates
+tcl/lang/spanish.tcl.new
+.
+
+Clean and Reorder:
+
+python3 tcl/lang/cleanNewFiles.py tcl/lang/spanish.tcl.new -r tcl/lang/english.tcl -c S
+target_file
+: The translated file (e.g.,
+tcl/lang/spanish.tcl.new
+).
+-r / --reference: The reference file (default
+tcl/lang/english.tcl
+).
+-c / --code: The language code for the target file (e.g., S for Spanish).
+Output: The script creates a file with the suffix .clean (e.g.,
+tcl/lang/spanish.tcl.new.clean
+). You can rename this to
+tcl/lang/spanish.tcl
+ to use it in SCID.
+
+Verification
+Check the output file:
+
+grep "MISSING TRANSLATION" tcl/lang/spanish.tcl.new.clean
+(Should return no output or exit code 1 if all items are present)
