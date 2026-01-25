@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.2.05" date="2026-01-24">
+      <description>
+        <p>Additional language translation additions</p>
+      </description>
+    </release>
     <release version="5.1.2.04" date="2026-01-23">
       <description>
         <p>Add machine-translated chinese.tcl language file</p>
