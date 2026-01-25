@@ -2,18 +2,51 @@ import sys
 import argparse
 import re
 
+def get_encoding_for_file(filepath):
+    """Get the encoding for a language file based on hard-coded lookup table.
+    This matches the encoding specified in language.tcl addLanguage commands."""
+    import os
+    
+    # Hard-coded encoding lookup based on language.tcl
+    encoding_map = {
+        'english.tcl': 'utf-8',
+        'catalan.tcl': 'iso8859-1',
+        'czech.tcl': 'iso8859-2',
+        'deutsch.tcl': 'iso8859-1',
+        'francais.tcl': 'utf-8',
+        'greek.tcl': 'utf-8',
+        'hungary.tcl': 'iso8859-2',
+        'italian.tcl': 'utf-8',
+        'nederlan.tcl': 'iso8859-1',
+        'norsk.tcl': 'iso8859-1',
+        'polish.tcl': 'iso8859-2',
+        'portbr.tcl': 'iso8859-1',
+        'russian.tcl': 'utf-8',
+        'serbian.tcl': 'iso8859-2',
+        'spanish.tcl': 'iso8859-1',
+        'suomi.tcl': 'iso8859-1',
+        'swedish.tcl': 'iso8859-1',
+    }
+    
+    # Extract base filename from path (handle .new extensions)
+    filename = os.path.basename(filepath)
+    # Remove .new extension if present
+    if filename.endswith('.new'):
+        filename = filename[:-4]
+    
+    # Return encoding from map, default to utf-8 if not found
+    return encoding_map.get(filename, 'utf-8')
+
 def read_file_robust(filepath):
-    """Reads a file trying utf-8 then iso-8859-1. Returns (content_lines, used_encoding)."""
-    encodings = ['utf-8', 'iso8859-1']
-    for enc in encodings:
-        try:
-            with open(filepath, 'r', encoding=enc) as f:
-                return f.readlines(), enc
-        except UnicodeDecodeError:
-            continue
-    # Fallback
-    with open(filepath, 'r', encoding='iso8859-1', errors='replace') as f:
-        return f.readlines(), 'iso8859-1-replace'
+    """Reads a file using the hard-coded encoding lookup. Returns (content_lines, used_encoding)."""
+    encoding = get_encoding_for_file(filepath)
+    try:
+        with open(filepath, 'r', encoding=encoding) as f:
+            return f.readlines(), encoding
+    except UnicodeDecodeError:
+        # Fallback to reading with error replacement
+        with open(filepath, 'r', encoding=encoding, errors='replace') as f:
+            return f.readlines(), f'{encoding}-replace'
 
 def parse_target_file(filepath):
     """
@@ -95,10 +128,10 @@ def clean_and_reorder(target_file, reference_file, lang_code):
     output_file = target_file + '.clean'
     
     print(f"Reading target file: {target_file}")
-    print(f"Target encoding detected: {target_encoding}")
+    print(f"Target encoding: {target_encoding}")
     print(f"Reading reference file: {reference_file}")
     ref_lines, ref_enc = read_file_robust(reference_file)
-    print(f"Reference encoding used: {ref_enc}")
+    print(f"Reference encoding: {ref_enc}")
     
     try:
         # Write using the same encoding as the input target file

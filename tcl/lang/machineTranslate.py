@@ -59,17 +59,37 @@ import re
 import time
 import asyncio
 
-def detect_encoding(input_file):
-    """Try to detect the file encoding by attempting to read with common encodings."""
-    encodings = ['utf-8', 'iso8859-1', 'iso8859-2', 'cp1252', 'latin-1']
-    for encoding in encodings:
-        try:
-            with open(input_file, 'r', encoding=encoding) as f:
-                f.read()
-            return encoding
-        except (UnicodeDecodeError, LookupError):
-            continue
-    return 'iso8859-1'
+def get_encoding_for_file(input_file):
+    """Get the encoding for a language file based on hard-coded lookup table.
+    This matches the encoding specified in language.tcl addLanguage commands."""
+    
+    # Hard-coded encoding lookup based on language.tcl
+    encoding_map = {
+        'english.tcl': 'utf-8',
+        'catalan.tcl': 'iso8859-1',
+        'czech.tcl': 'iso8859-2',
+        'deutsch.tcl': 'iso8859-1',
+        'francais.tcl': 'utf-8',
+        'greek.tcl': 'utf-8',
+        'hungary.tcl': 'iso8859-2',
+        'italian.tcl': 'utf-8',
+        'nederlan.tcl': 'iso8859-1',
+        'norsk.tcl': 'iso8859-1',
+        'polish.tcl': 'iso8859-2',
+        'portbr.tcl': 'iso8859-1',
+        'russian.tcl': 'utf-8',
+        'serbian.tcl': 'iso8859-2',
+        'spanish.tcl': 'iso8859-1',
+        'suomi.tcl': 'iso8859-1',
+        'swedish.tcl': 'iso8859-1',
+    }
+    
+    # Extract filename from path
+    import os
+    filename = os.path.basename(input_file)
+    
+    # Return encoding from map, default to utf-8 if not found
+    return encoding_map.get(filename, 'utf-8')
 
 def to_tcl_unicode(text):
     return text
@@ -107,8 +127,8 @@ async def process_file(input_file, target_language, encoding):
     output_file = input_file + '.new'
 
     if encoding is None:
-        encoding = detect_encoding(input_file)
-        print(f"Detected encoding: {encoding}")
+        encoding = get_encoding_for_file(input_file)
+        print(f"Using encoding: {encoding}")
 
     try:
         with open(input_file, 'r', encoding=encoding, errors='replace') as infile:

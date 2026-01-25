@@ -228,7 +228,7 @@ addLanguage P Polish 0 iso8859-2 polish.tcl
 addLanguage B {Brazil Portuguese} 0 iso8859-1 portbr.tcl
 addLanguage R Russian 1 utf-8 russian.tcl
 addLanguage Y Serbian 2 iso8859-2 serbian.tcl
-addLanguage S Español 1 iso8859-1 spanish.tcl
+addLanguage S Español 1 utf-8 spanish.tcl
 addLanguage U Suomi 1 iso8859-1 suomi.tcl
 addLanguage W Swedish 1 iso8859-1 swedish.tcl
 addLanguage M 中文 0 utf-8 chinese.tcl
