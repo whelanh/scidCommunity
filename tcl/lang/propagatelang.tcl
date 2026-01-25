@@ -31,6 +31,8 @@ array set encodings {
   catalan iso8859-1
   suomi iso8859-1
   greek utf-8
+  turkish utf-8
+  SerbCyr utf-8
 }
 
 array set codes {
@@ -51,10 +53,12 @@ array set codes {
   catalan K
   suomi U
   greek G
+  turkish T
+  SerbCyr J
 }
 
 set languages {czech deutsch francais hungary italian chinese nederlan norsk polish
-  portbr spanish swedish serbian russian catalan suomi greek
+  portbr spanish swedish serbian russian catalan suomi greek turkish SerbCyr
 }
 
 ################################################################################
@@ -90,7 +94,9 @@ proc checkfile {code langfile enc} {
   fconfigure $fnew -encoding $enc
 
   set lastLine -1
-  foreach line $englishData {
+  set i 0
+  while {$i < [llength $englishData]} {
+    set line [lindex $englishData $i]
     set fields [split $line]
     set command [lindex $fields 0]
     set lang [lindex $fields 1]
@@ -99,8 +105,32 @@ proc checkfile {code langfile enc} {
     if {$lang == "E"  &&  ($command == "menuText" || $command == "translate" || $command == "helpMsg")} {
       set lineCount [lsearch -exact $langNames $command:$name]
       if { $lineCount < 0} {
+        # Missing translation - need to copy all lines of the English entry
         puts $fnew  "# ====== TODO To be translated ======"
         puts $fnew [regsub " E " $line " $code "]
+        
+        # Check if this is a multi-line entry by counting braces
+        set braceCount 0
+        foreach char [split $line ""] {
+          if {$char eq "\{"} { incr braceCount }
+          if {$char eq "\}"} { incr braceCount -1 }
+        }
+        
+        # Also check for continuation with backslash
+        set hasBackslash [string match "*\\\\" [string trimright $line]]
+        
+        # Continue reading lines until braces are balanced and no trailing backslash
+        while {($braceCount > 0 || $hasBackslash) && $i + 1 < [llength $englishData]} {
+          incr i
+          set line [lindex $englishData $i]
+          puts $fnew [regsub " E " $line " $code "]
+          
+          foreach char [split $line ""] {
+            if {$char eq "\{"} { incr braceCount }
+            if {$char eq "\}"} { incr braceCount -1 }
+          }
+          set hasBackslash [string match "*\\\\" [string trimright $line]]
+        }
       } elseif {$lastLine >= $lineCount} {
           puts "WARNING: $name found in a wrong position"
       } else {
@@ -108,7 +138,7 @@ proc checkfile {code langfile enc} {
           puts $fnew $l
         }
 
-        # in case of a \ at the end of the last line
+        # in case of a \\ at the end of the last line
         if {[string index $l end] == "\\"} {
           incr lineCount
           puts $fnew [lindex $langData $lineCount]
@@ -116,6 +146,7 @@ proc checkfile {code langfile enc} {
         set lastLine $lineCount
       }
     }
+    incr i
   }
 
   foreach l [lrange $langData [ expr $lastLine + 1 ] end-1] {

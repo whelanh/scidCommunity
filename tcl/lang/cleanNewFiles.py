@@ -26,6 +26,8 @@ def get_encoding_for_file(filepath):
         'spanish.tcl': 'iso8859-1',
         'suomi.tcl': 'iso8859-1',
         'swedish.tcl': 'iso8859-1',
+        'turkish.tcl': 'utf-8',
+        'SerbCyr.tcl': 'utf-8',
     }
     
     # Extract base filename from path (handle .new extensions)
@@ -74,27 +76,13 @@ def parse_target_file(filepath):
             i += 1
             continue
         
-        # Skip TODO markers and the untranslated English line that follows
+        # Skip TODO markers but process the translation that follows
         if '# ====== TODO To be translated ======' in line:
-            i += 1  # Skip the TODO comment
-            # Skip the next line(s) which contain the English template
+            i += 1  # Move to next line
             if i < len(lines):
-                next_line = lines[i]
-                # Skip this English translation line and any continuation lines
-                if cmd_pattern.match(next_line):
-                    temp_lines = [next_line]
-                    # Handle multi-line entries
-                    while i + 1 < len(lines):
-                        total_open = sum(l.count('{') for l in temp_lines)
-                        total_close = sum(l.count('}') for l in temp_lines)
-                        
-                        if total_open == total_close and not temp_lines[-1].rstrip().endswith('\\'):
-                            break
-                        
-                        i += 1
-                        temp_lines.append(lines[i])
-                    i += 1  # Move past this entire entry
-            continue
+                line = lines[i]  # Get the next line to process
+            else:
+                break  # End of file
             
         match = cmd_pattern.match(line)
         if match:

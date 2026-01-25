@@ -78,15 +78,12 @@ menuText G FileReadOnly "Μόνο για ανάγνωση (Read-only)..." 0 \
   {Επεξεργαστείτε την τρέχουσα βάση δεδομένων ως μόνον για ανάγνωση, εμποδίζοντας τις αλλαγές}
 menuText G FileSwitch "Μετάβαση στην βάση δεδομένων" 0 \
   {Μεταβείτε σε μια διαφορετική ανοιγμένη βάση δεδομένων}
-# ====== TODO To be translated ======
-menuText G FileOpenLichessTournament "Open Lichess Tournament" 0 {Download and open live Lichess tournament broadcast games}
-# ====== TODO To be translated ======
-menuText G FileImportLichess "Import my Lichess" 0 {Import games from your Lichess account}
-# ====== TODO To be translated ======
-menuText G FileImportChessCom "Import my chess.com" 0 {Import games from your chess.com account}
+menuText G FileOpenLichessTournament "Τουρνουά Open Lichess" 0 {Κατεβάστε και ανοίξτε ζωντανά παιχνίδια μετάδοσης τουρνουά Lichess}
+menuText G FileImportLichess "Εισαγωγή Lichess μου" 0 {Εισαγάγετε παιχνίδια από τον λογαριασμό σας Lichess}
+menuText G FileImportChessCom "Εισαγάγετε το my chess.com" 0 {Εισαγάγετε παιχνίδια από τον λογαριασμό σας στο chess.com}
 menuText G FileExit "Έξοδος" 1 {Έξοδος από το Scid}
 menuText G FileMaintFixBase "Διόρθωση βάσης" 0 {Προσπαθείστε να επισκευάσετε μια χαλασμένη βάση}
-  
+
 # Edit menu:
 menuText G Edit "Επεξεργασία" 0
 menuText G EditAdd "Προσθήκη βαριάντας" 0 {Προσθέστε την βαριάντα μιας κίνησης της παρτίδας}
@@ -99,8 +96,7 @@ menuText G EditTrial "Έλεγχος βαριάντας" 0 \
   {Έναρξη/διακοπή της λειτουργίας ελέγχου μιας ιδέας στην σκακιέρα}
 menuText G EditStrip "Απομάκρυνση" 2 {Απομακρύνετε τα σχόλια ή τις βαριάντες από αυτή τη παρτίδα}
 menuText G EditUndo "Επαναφορά" 0 {Επαναφέρετε την τελευταία αλλαγή στην παρτίδα}
-# ====== TODO To be translated ======
-menuText G EditRedo "Redo" 0 {Redo last game change}
+menuText G EditRedo "Ξανακάνω" 0 {Επαναλάβετε την τελευταία αλλαγή παιχνιδιού}
 menuText G EditStripComments "Σχόλια" 0 \
   {Απομακρύνετε όλα τα σχόλια και τον υπομνηματισμό από αυτή τη παρτίδα}
 menuText G EditStripVars "Βαριάντες" 0 {Απομακρύνετε όλες τις βαριάντες από αυτή τη παρτίδα}
@@ -122,8 +118,7 @@ menuText G EditCopyBoard "Αντιγραφή θέσης" 6 \
   {Αντιγράψτε την τρέχουσα σκακιέρα στην προσωρινή μνήμη με σχολιασμό FEN}
 menuText G EditPasteBoard "Επικόλληση σκακιέρας έναρξης" 12 \
   {Καθορίστε την σκακιέρα από την προσωρινή μνήμη}
-# ====== TODO To be translated ======
-menuText G ConfigureScid "Preferences..." 0 {Configure all options for SCID}
+menuText G ConfigureScid "Προτιμήσεις..." 0 {Διαμορφώστε όλες τις επιλογές για SCID}
 
 # Game menu:
 menuText G Game "Παρτίδα" 0
@@ -176,13 +171,11 @@ menuText G WindowsStats "Παράθυρο στατιστικών" 0 \
 menuText G WindowsTree "Παράθυρο δένδρου" 0 {Άνοιγμα/κλείσιμο του παραθύρου δένδρου}
 menuText G WindowsBook "Παράθυρο βιβλίου" 0 {Άνοιγμα/κλείσιμο του παραθύρου του βιβλίου}
 menuText G WindowsCorrChess "Παράθυρο αλληλογραφίας" 0 {Άνοιγμα/κλείσιμο του παραθύρου αλληλογραφίας}
-# ====== TODO To be translated ======
-menuText G WindowsGraph "Analysis Graph" 0 {Open the Graph window with moves' times and evaluations}
+menuText G WindowsGraph "Γράφημα ανάλυσης" 0 {Ανοίξτε το παράθυρο Γράφημα με τους χρόνους και τις αξιολογήσεις των κινήσεων}
 
 # Tools menu:
 menuText G Tools "Εργαλεία" 0
-# ====== TODO To be translated ======
-menuText G ToolsConfigureEngines "Configure Engines" 10 {Manage engines' configuration}
+menuText G ToolsConfigureEngines "Διαμόρφωση μηχανών" 10 {Διαχειριστείτε τη διαμόρφωση των κινητήρων}
 menuText G ToolsAnalysis "Μηχανή ανάλυσης..." 0 \
   {Εκκίνηση/διακοπή της σκακιστικής μηχανής ανάλυσης}
 menuText G ToolsAnalysis2 "Μηχανής ανάλυσης #2..." 17 \
@@ -203,8 +196,7 @@ menuText G ToolsTrainTactics "Τακτικές"  0 {Επιλύστε τακτι�
 menuText G ToolsTrainCalvar "Υπολογισμός βαριαντών"  0 {Προπόνηση στον υπολογισμό βαριαντών}
 menuText G ToolsTrainFindBestMove "Εύρεση καλύτερης κίνησης"  0 {Βρείτε την καλύτερη κίνηση}
 menuText G ToolsTrainFics "Παιχνίδι στον FICS"  0 {Παίξτε στο freechess.org}
-# ====== TODO To be translated ======
-menuText G ToolsEngineTournament "Engine tournament"  0 {Start a tournament between chess engines}
+menuText G ToolsEngineTournament "Τουρνουά μηχανών"  0 {Ξεκινήστε ένα τουρνουά ανάμεσα σε μηχανές σκακιού}
 menuText G ToolsBookTuning "Συντονισμός βιβλίου" 0 {Συντονισμός βιβλίου}
 menuText G ToolsDownloadTWIC "Λήψη παιχνιδιών TWIC" 0 {Λήψη των τελευταίων παιχνιδιών The Week In Chess (TWIC)}
 menuText G ToolsConnectHardware "Σύνδεση περιφερειακού" 8 {Συνδέστε εξωτερικό περιφερειακό}
@@ -243,14 +235,12 @@ menuText G ToolsStartEngine1 "Εκκίνηση μηχανής 1" 13  {Εκκιν
 menuText G ToolsStartEngine2 "Εκκίνηση μηχανής 2" 13  {Εκκινήστε την μηχανή 2}
 menuText G ToolsCaptureBoard "Σύλληψη τρέχουσας σκακιέρας..." 5  {Αποθηκεύστε την τρέχουσα σκακιέρα ως εικόνα.}
 
-# Play menue
+# Play menu
 menuText G Play "Παιχνίδι" 0
 
 # --- Correspondence Chess
-
 menuText G CCResign "Παραίτηση" 1 {Παραιτηθείτε (όχι μέσω eMail)}
 menuText G CCClaimDraw "Αίτηση ισοπαλίας" 6 {Στείλτε την κίνησή σας και ζητήστε ισοπαλία (όχι μέσω eMail)}
-
 
 # menu in cc window:
 
@@ -276,10 +266,8 @@ menuText G OptionsMovesHighlightLastMove "Ανάδειξη τελευταίας 
 menuText G OptionsMovesHighlightLastMoveDisplay "Εμφάνιση" 0 {Προβολή της τελευταίας κίνησης με ανάδειξη}
 menuText G OptionsMovesHighlightLastMoveWidth "Πλάτος" 0 {Το πάχος της γραμμής}
 menuText G OptionsMovesHighlightLastMoveColor "Χρώμα" 0 {Το χρώμα τηςη γραμμής}
-# ====== TODO To be translated ======
-menuText G OptionsMovesHighlightLastMoveArrow "Show Arrow" 0 {Show Arrow with Highlight}
-# ====== TODO To be translated ======
-menuText G OptionsMovesHighlightLastMoveNag "Show evaluation symbols" 0
+menuText G OptionsMovesHighlightLastMoveArrow "Εμφάνιση βέλους" 0 {Εμφάνιση βέλους με επισήμανση}
+menuText G OptionsMovesHighlightLastMoveNag "Εμφάνιση συμβόλων αξιολόγησης" 0
 menuText G OptionsMoves "Κινήσεις" 0 {Επιλογές εισαγωγής κίνησης}
 menuText G OptionsMovesAnimate "Χρόνος απεικόνισης κίνησης" 1 \
   {Καθορίστε την διάρκεια απεικόνισης της κίνησης}
@@ -291,21 +279,17 @@ menuText G OptionsMovesSuggest "Εμφάνιση προτεινόμενων κι
   {Ενεργοποίηση/απενεργοποίηση προτεινόμενης κίνησης}
 menuText G OptionsShowVarPopup "Εμφάνιση παραθύρου βαριαντών" 0 {Ενεργοποίηση/απενεργοποίηση την εμφάνιση του παραθύρου βαριαντών}  
 menuText G OptionsMovesSpace "Προσθήκη διαστημάτων μετά τον αριθμό της κίνησης" 0 {Προσθήκη διαστήματος μετά τον αριθμό της κίνησης}  
-# ====== TODO To be translated ======
-menuText G OptionsMovesLichess "Lichess/ChessBase Format For Annotations" 0 {Use Lichess/ChessBase format for square markers and arrows}
+menuText G OptionsMovesLichess "Μορφή Lichess/ChessBase για σχολιασμούς" 0 {Χρησιμοποιήστε τη μορφή Lichess/ChessBase για τετράγωνους δείκτες και βέλη}
 menuText G OptionsMovesKey "Ολοκλήρωση πληκτρολογίου" 0 \
   {Ενεργοποίηση/απενεργοποίηση της αυτόματης ολοκλήρωσης κινήσεων μέσω πληκτρολογίου}
 menuText G OptionsMovesShowVarArrows "Εμφάνιση βέλους για βαριάντα" 0 {Ενεργοποίηση/απενεργοποίηση του βέλους που δείχνει τις κινήσεις των βαριαντών}
-# ====== TODO To be translated ======
-menuText G OptionsMovesShowEngineVariationArrows "Show Arrows for Engine Variations" 0 {Turn on/off arrows showing engine variation lines in multiPV mode}
-# ====== TODO To be translated ======
-menuText G OptionsMovesGlossOfDanger "Color Coded Gloss of Danger" 0 {Turn on/off color coded gloss of danger}
+menuText G OptionsMovesShowEngineVariationArrows "Εμφάνιση βελών για παραλλαγές κινητήρα" 0 {Ενεργοποιήστε/απενεργοποιήστε τα βέλη που δείχνουν γραμμές μεταβολής κινητήρα σε λειτουργία πολλαπλών φωτοβολταϊκών}
+menuText G OptionsMovesGlossOfDanger "Χρωματική κωδικοποίηση Gloss of Danger" 0 {Ενεργοποιήστε/απενεργοποιήστε τη χρωματική κωδικοποίηση gloss of risk}
 menuText G OptionsNumbers "Μορφή αριθμών" 0 {Επιλέξτε τη μορφή των αριθμών}
 menuText G OptionsTheme "Θέμα" 0 {Αλλάξτε την όψη του προγράμματος}
 menuText G OptionsWindows "Παράθυρα" 0 {Επιλογές παραθύρων}
 menuText G OptionsSounds "Ήχοι" 2 {Ρυθμίστε τους ήχους αναγγελίας κίνησης}
-# ====== TODO To be translated ======
-menuText G OptionsResources "Resources..." 0 {Choose resource files and folders}
+menuText G OptionsResources "Πόροι..." 0 {Επιλέξτε αρχεία πόρων και φακέλους}
 menuText G OptionsWindowsDock "Προσκόληση παραθύρων" 0 {Προσκολήστε τα παράθυρα (χρειάζεται επανεκκίνηση)}
 menuText G OptionsWindowsSaveLayout "Αποθήκευση διάταξης" 0 {Αποθηκεύστε την διάταξη των παραθύρων}
 menuText G OptionsWindowsRestoreLayout "Αποκατάσταση διάταξης" 0 {Αποκαταστήστε προηγούμενη διάταξη παραθύρων}
@@ -319,10 +303,8 @@ menuText G OptionsTable "Κατάλογος βάσης φινάλε" 10 \
 menuText G OptionsRecent "Πρόσφατα αρχεία..." 0 {Αλλάξτε το πλήθος των πρόσφατων αρχείων που εμφανίζονται στο μενού Αρχείο}
 menuText G OptionsBooksDir "Κατάλογος βιβλίων" 0 {Καθορίζει τον κατάλογο των βιβλίων ανοιγμάτων}
 menuText G OptionsTacticsBasesDir "Bases directory" 0 {Sets the tactics (training) bases directory}
-# ====== TODO To be translated ======
-menuText G OptionsPhotosDir "Photos directory" 0 {Sets the photos bases directory}
-# ====== TODO To be translated ======
-menuText G OptionsThemeDir "Theme(s) File:"  0 { Load a GUI theme package file }
+menuText G OptionsPhotosDir "Κατάλογος φωτογραφιών" 0 {Ορίζει τον κατάλογο βάσεων φωτογραφιών}
+menuText G OptionsThemeDir "Αρχείο θεμάτων:"  0 {Φορτώστε ένα αρχείο πακέτου θέματος GUI}
 menuText G OptionsSave "Αποθήκευση επιλογών" 0 "Αποθηκεύστε όλες τις μεταβολές ρυθμίσεων στο αρχείο $::optionsFile"
 menuText G OptionsAutoSave "Αυτόματη αποθήκευση επιλογών κατά την έξοδο" 0 \
   {Να αποθηκεύονται αυτόματα οι επιλογές κατά την έξοδο από το Scid}
@@ -365,8 +347,7 @@ translate G Defaults {Αρχικό}
 translate G Delete {Διαγραφή}
 translate G Graph {Γράφημα}
 translate G Help {Βοήθεια}
-# ====== TODO To be translated ======
-translate G Hide {Hide}
+translate G Hide {Κρύβω}
 translate G Import {Εισαγωγή}
 translate G Index {Κατάλογος}
 translate G LoadGame {Φώρτωση παρτίδας}
@@ -420,8 +401,7 @@ translate G Month {Μήνας}
 translate G Months {Ιανουάριος Φεβρουάριος Μάρτιος Απρίλιος Μάιος Ιούνιος Ιούλιος Αύγουστος Σεπτέμβριος Οκτώβριος Νοέμβριος Δεκέμβριος}
 translate G Days {Κυρ Δευ Τρ Τε Πε Πα Σα}
 translate G YearToToday {Τρέχον έτος}
-# ====== TODO To be translated ======
-translate G YearToTodayTooltip {Set date from 1 year back to today}
+translate G YearToTodayTooltip {Ορισμός ημερομηνίας από 1 έτος πίσω έως σήμερα}
 translate G Result {Αποτέλεσμα}
 translate G Round {Περίοδος}
 translate G Length {Έκταση}
@@ -467,8 +447,7 @@ translate G PInfoMostBlack {Τα κοινότερα ανοίγματα ως Μα
 translate G PInfoRating {Ιστορικό βαθμολόγησης}
 translate G PInfoBio {Βιογραφία}
 translate G PInfoEditRatings {Επεξεργασία βαθμολογήσεων}
-# ====== TODO To be translated ======
-translate G PInfoEloFile {File}
+translate G PInfoEloFile {Αρχείο}
 
 # Tablebase information:
 translate G Draw {Ισοπαλία}
@@ -476,13 +455,11 @@ translate G with {με}
 translate G only {μόνο}
 translate G lose {απώλεια}
 translate G loses {χάνει}
-# ====== TODO To be translated ======
 
 # Tip of the day:
 translate G Tip {Συμβουλή}
 translate G TipAtStartup {Συμβουλές κατά την εκκίνηση}
-# ====== TODO To be translated ======
-translate G TipConvertPGN {You can get better performance by converting PGN files}
+translate G TipConvertPGN {Μπορείτε να έχετε καλύτερη απόδοση μετατρέποντας αρχεία PGN}
 
 # Tree window menus:
 menuText G TreeFile "Αρχείο" 0
@@ -597,7 +574,7 @@ translate G FinderCtxBackup {Αντίγραφο ασφαλείας}
 translate G FinderCtxCopy {Αντιγραφή}
 translate G FinderCtxMove {Μεταφορά}
 translate G FinderCtxDelete {Διαγραφή}
- 
+
 # Player finder:
 menuText G PListFile "Αρχείο" 0
 menuText G PListFileUpdate "Ανανέωση/Ενημέρωση" 0
@@ -635,10 +612,8 @@ menuText G GraphOptionsWhite "Λευκά" 0
 menuText G GraphOptionsBlack "Μαύρα" 0
 menuText G GraphOptionsBoth "Και τα δύο" 1
 menuText G GraphOptionsPInfo "Πληροφορίες παίκτη" 0
-# ====== TODO To be translated ======
-menuText G GraphOptionsEloFile "Elo from rating file" 0
-# ====== TODO To be translated ======
-menuText G GraphOptionsEloDB "Elo from database" 0
+menuText G GraphOptionsEloFile "Elo από το αρχείο αξιολόγησης" 0
+menuText G GraphOptionsEloDB "Elo από τη βάση δεδομένων" 0
 translate G GraphFilterTitle "Φίλτρο γραφήματος: συχνότητα ανά 1000 παρτίδες"
 translate G GraphAbsFilterTitle "Φίλτρο γραφήματος: συχνότητα παρτίδας"
 translate G ConfigureFilter "Προσαρμογή των αξόνων Χ ως προς Έτος, Βαθμολογία και Κινήσεις"
@@ -679,7 +654,7 @@ translate G Informant+= {Τα Λευκά έχουν μικρό πλεονέκτ�
 translate G Informant+/- {Τα Λευκά έχουν μέτριο πλεονέκτημα}
 translate G Informant+- {Τα Λευκά έχουν αποφασιστικό πλεονέκτημα}
 translate G Informant+-- {Η παρτίδα θεωρείται κερδισμένη}
-  
+
 # Book window
 translate G Book {Βιβλίο}
 translate G OtherBookMoves {Βιβλίο αντιπάλου}
@@ -696,28 +671,17 @@ translate G EngineTime {Ημερομηνία}
 translate G EngineNew {Νέα}
 translate G EngineEdit {Επεξεργασία}
 translate G EngineRequired {Τα παιδία με έντονη γραμματοσειρά είναι απαραίτητα, τα άλλα είναι προαιρετικά}
-# ====== TODO To be translated ======
-translate G EngineProtocol {Communication protocol}
-# ====== TODO To be translated ======
-translate G EngineNotation {Notation of the moves}
-# ====== TODO To be translated ======
-translate G EngineFlipEvaluation {Flip evaluation perspective}
-# ====== TODO To be translated ======
-translate G EngineShowLog {Show communication log}
-# ====== TODO To be translated ======
-translate G EngineNetworkd {Accept remote connections}
-# ====== TODO To be translated ======
-translate G EngineSelect {Select the current engine}
-# ====== TODO To be translated ======
-translate G EngineAddLocal {Add a local engine}
-# ====== TODO To be translated ======
-translate G EngineAddRemote {Add a remote engine}
-# ====== TODO To be translated ======
-translate G EngineReload {Reload the current engine}
-# ====== TODO To be translated ======
-translate G EngineClone {Create a copy of the current engine}
-# ====== TODO To be translated ======
-translate G EngineDelete {Delete the current engine}
+translate G EngineProtocol {Πρωτόκολλο επικοινωνίας}
+translate G EngineNotation {Σημείωση των κινήσεων}
+translate G EngineFlipEvaluation {Αναποδογυρίστε την προοπτική αξιολόγησης}
+translate G EngineShowLog {Εμφάνιση αρχείου καταγραφής επικοινωνίας}
+translate G EngineNetworkd {Αποδεχτείτε τις απομακρυσμένες συνδέσεις}
+translate G EngineSelect {Επιλέξτε τον τρέχοντα κινητήρα}
+translate G EngineAddLocal {Προσθέστε έναν τοπικό κινητήρα}
+translate G EngineAddRemote {Προσθέστε έναν απομακρυσμένο κινητήρα}
+translate G EngineReload {Φορτώστε ξανά τον τρέχοντα κινητήρα}
+translate G EngineClone {Δημιουργήστε ένα αντίγραφο του τρέχοντος κινητήρα}
+translate G EngineDelete {Διαγράψτε τον τρέχοντα κινητήρα}
 
 # PGN window menus:
 menuText G PgnFile "Αρχείο" 0
@@ -826,12 +790,9 @@ translate G BrilliancyFlag {Ευφυές}
 translate G BlunderFlag {Σφάλμα}
 translate G UserFlag {Χρήστης}
 translate G PgnContains {Το PGN περιέχει κείμενο}
-# ====== TODO To be translated ======
-translate G PgnTag {Tag}
-# ====== TODO To be translated ======
-translate G TagContains {contains}
-# ====== TODO To be translated ======
-translate G Variant {Variant}
+translate G PgnTag {Ετικέτα}
+translate G TagContains {περιέχει}
+translate G Variant {Παραλαγή}
 translate G Annotator {Υπομνηματιστής}
 translate G Cmnts {Μόνον υπομνηματισμένες παρτίδες}
 
@@ -860,10 +821,8 @@ translate G GlistComments {Σχόλια}
 translate G GlistAnnos {Υπομηματισμοί}
 translate G GlistStart {Έναρξη}
 translate G GlistGameNumber {Αριθμός παρτίδας}
-# ====== TODO To be translated ======
-translate G GlistAverageElo {Average Elo}
-# ====== TODO To be translated ======
-translate G GlistRating {Rating}
+translate G GlistAverageElo {Μέσο Elo}
+translate G GlistRating {Εκτίμηση}
 translate G GlistFindText {Εύρεση κειμένου}
 translate G GlistMoveField {Μετακίνηση}
 translate G GlistEditField {Προσαρμογή}
@@ -871,73 +830,43 @@ translate G GlistAddField {Προσθήκη}
 translate G GlistDeleteField {Απομάκρυνση}
 translate G GlistWidth {Πλάτος}
 translate G GlistAlign {Ευθυγραμμιση}
-# ====== TODO To be translated ======
-translate G GlistAlignL {Align: left}
-# ====== TODO To be translated ======
-translate G GlistAlignR {Align: right}
-# ====== TODO To be translated ======
-translate G GlistAlignC {Align: center}
+translate G GlistAlignL {Στοίχιση: αριστερά}
+translate G GlistAlignR {Στοίχιση: δεξιά}
+translate G GlistAlignC {Στοίχιση: κέντρο}
 translate G GlistColor {Χρώμα}
 translate G GlistSep {Διαχωριστής}
-# ====== TODO To be translated ======
-translate G GlistCurrentSep {-- Current --}
-# ====== TODO To be translated ======
-translate G GlistNewSort {New}
-# ====== TODO To be translated ======
-translate G GlistAddToSort {Add}
+translate G GlistCurrentSep {-- Τρέχον --}
+translate G GlistNewSort {Νέος}
+translate G GlistAddToSort {Προσθέτω}
 
-# ====== TODO To be translated ======
-translate G GsortSort {Sort...}
-# ====== TODO To be translated ======
-translate G GsortDate {Date}
-# ====== TODO To be translated ======
-translate G GsortYear {Year}
-# ====== TODO To be translated ======
-translate G GsortEvent {Event}
-# ====== TODO To be translated ======
-translate G GsortSite {Site}
-# ====== TODO To be translated ======
-translate G GsortRound {Round}
-# ====== TODO To be translated ======
-translate G GsortWhiteName {White Name}
-# ====== TODO To be translated ======
-translate G GsortBlackName {Black Name}
-# ====== TODO To be translated ======
+# base sorting
+translate G GsortSort {Είδος...}
+translate G GsortDate {Ημερομηνία}
+translate G GsortYear {Ετος}
+translate G GsortEvent {Συμβάν}
+translate G GsortSite {Τοποθεσία}
+translate G GsortRound {Γύρω}
+translate G GsortWhiteName {Λευκό Όνομα}
+translate G GsortBlackName {Μαύρο όνομα}
 translate G GsortECO {ECO}
-# ====== TODO To be translated ======
-translate G GsortResult {Result}
-# ====== TODO To be translated ======
-translate G GsortMoveCount {Move Count}
-# ====== TODO To be translated ======
-translate G GsortAverageElo {Average Elo}
-# ====== TODO To be translated ======
-translate G GsortCountry {Country}
-# ====== TODO To be translated ======
-translate G GsortDeleted {Deleted}
-# ====== TODO To be translated ======
-translate G GsortEventDate {Event Date}
-# ====== TODO To be translated ======
-translate G GsortWhiteElo {White Elo}
-# ====== TODO To be translated ======
-translate G GsortBlackElo {Black Elo}
-# ====== TODO To be translated ======
-translate G GsortComments {Comments}
-# ====== TODO To be translated ======
-translate G GsortVariations {Variations}
-# ====== TODO To be translated ======
+translate G GsortResult {Αποτέλεσμα}
+translate G GsortMoveCount {Πλήθος μετακίνησης}
+translate G GsortAverageElo {Μέσο Elo}
+translate G GsortCountry {Χώρα}
+translate G GsortDeleted {Διαγράφηκε}
+translate G GsortEventDate {Ημερομηνία εκδήλωσης}
+translate G GsortWhiteElo {Λευκό Έλο}
+translate G GsortBlackElo {Μαύρο Έλο}
+translate G GsortComments {Σχόλια}
+translate G GsortVariations {Παραλλαγές}
 translate G GsortNAGs {NAGs}
-# ====== TODO To be translated ======
-translate G GsortAscending {Ascending}
-# ====== TODO To be translated ======
-translate G GsortDescending {Descending}
-# ====== TODO To be translated ======
-translate G GsortAdd {Add}
-# ====== TODO To be translated ======
-translate G GsortStore {Store}
-# ====== TODO To be translated ======
-translate G GsortLoad {Load}
+translate G GsortAscending {Αύξουσα}
+translate G GsortDescending {Φθίνων}
+translate G GsortAdd {Προσθέτω}
+translate G GsortStore {Κατάστημα}
+translate G GsortLoad {Φορτίο}
 
-# menu shown with right mouse button down on game list. 
+# menu shown with right mouse button down on game list.
 translate G GlistRemoveThisGameFromFilter  {Απομάκρυνση αυτής της παρτίδας από το φίλτρο}
 translate G GlistRemoveGameAndAboveFromFilter  {Απομάκρυνση παρτίδας (και όλων των από πάνω) από το φίλτρο}
 translate G GlistRemoveGameAndBelowFromFilter  {Απομάκρυνση παρτίδας (και όλων των από κάτω) από το φίλτρο}
@@ -1043,10 +972,8 @@ translate G WhiteClearAdvantage {Τα Λευκά έχουν σαφές προβ�
 translate G BlackClearAdvantage {Τα Μαύρα έχουν σαφές προβάδισμα}
 translate G WhiteSlightAdvantage {Τα Λευκά έχουν μικρό πλεονέκτημα}
 translate G BlackSlightAdvantage {Τα Μαύρα έχουν μικρό πλεονέκτημα}
-# ====== TODO To be translated ======
-translate G WhiteCrushing {White has a crushing advantage}
-# ====== TODO To be translated ======
-translate G BlackCrushing {Black has a crushing advantage}
+translate G WhiteCrushing {Το λευκό έχει ένα πλεονέκτημα σύνθλιψης}
+translate G BlackCrushing {Το μαύρο έχει ένα πλεονέκτημα σύνθλιψης}
 translate G Equality {Ισότητα}
 translate G Unclear {Ασαφής}
 translate G Diagram {Διάγραμμα}
@@ -1356,10 +1283,9 @@ translate G ExportStripMarks {Να απομακρυνθούν τα σημάδι�
 # Goto game/move dialogs:
 translate G LoadGameNumber {Εισάγετε τον αριθμό παρτίδας για φόρτωση:}
 translate G GotoMoveNumber {Μετάβαση στην κίνηση αριθμός:}
-# ====== TODO To be translated ======
-translate G CopyAllGames {Copy all games to}
 
 # Copy games dialog:
+translate G CopyAllGames {Αντιγράψτε όλα τα παιχνίδια σε}
 translate G CopyGames {Αντιγραφή παρτίδων}
 translate G CopyConfirm {
  Θέλετε πράγματι να αντιγράψετε τις
@@ -1400,8 +1326,7 @@ translate G SoundsAnnounceOptions {Επιλογές αναγγελίας κίν�
 translate G SoundsAnnounceNew {Αναγγελία των νέων κινήσεων καθώς εκτελούνται}
 translate G SoundsAnnounceForward {Αναγγελία όταν πρόκειται για μια κίνηση προς τα εμπρός}
 translate G SoundsAnnounceBack {Αναγγελία όταν πρόκειται για αναδρομή ή για κίνηση προς τα πίσω}
-# ====== TODO To be translated ======
-translate G SoundsSoundDisabled {Scid could not find the Snack audio package at startup;\nSound is disabled.}
+translate G SoundsSoundDisabled {Η Scid δεν μπόρεσε να βρει το πακέτο ήχου Snack κατά την εκκίνηση.\nΟ ήχος είναι απενεργοποιημένος.}
 
 # Upgrading databases:
 translate G Upgrading {Ενημέρωση}
@@ -1642,24 +1567,15 @@ translate G FICSSend {αποστολή}
 translate G FICSConnect {Σύνδεση}
 translate G FICSdefaultuservars {Χρήση αρχικών μεταβλητών}
 translate G FICSObserveconfirm {Θέλετε να παρακολουθήσετε την παρτίδα}
-# ====== TODO To be translated ======
-translate G FICSpremove {Enable premove}
-# ====== TODO To be translated ======
-translate G FICSObserve {Observe}
-# ====== TODO To be translated ======
-translate G FICSRatedGames {Rated Games}
-# ====== TODO To be translated ======
-translate G FICSUnratedGames {Unrated Games}
-# ====== TODO To be translated ======
-translate G FICSRated {Rated}
-# ====== TODO To be translated ======
-translate G FICSUnrated {Unrated}
-# ====== TODO To be translated ======
-translate G FICSRegisteredPlayer {Registered player only}
-# ====== TODO To be translated ======
-translate G FICSFreePlayer {Free player only}
-# ====== TODO To be translated ======
-translate G FICSNetError {Network error\nCan't connect to }
+translate G FICSpremove {Ενεργοποίηση προαφαίρεσης}
+translate G FICSObserve {Παρατηρώ}
+translate G FICSRatedGames {Βαθμολογημένα παιχνίδια}
+translate G FICSUnratedGames {Παιχνίδια χωρίς αξιολόγηση}
+translate G FICSRated {Βαθμολογήθηκε}
+translate G FICSUnrated {Χωρίς αξιολόγηση}
+translate G FICSRegisteredPlayer {Μόνο εγγεγραμμένος παίκτης}
+translate G FICSFreePlayer {Δωρεάν παίκτης μόνο}
+translate G FICSNetError {Σφάλμα δικτύου\Δεν είναι δυνατή η σύνδεση}
 
 # Game review
 translate G GameReview {Επισκόπηση παρτίδας}
@@ -1684,19 +1600,9 @@ translate G GameReviewMovesPlayedEngine {Κινήσεις που παίχτηκ�
 
 # Correspondence Chess Dialogs:
 translate G CCDlgCGeneraloptions {Γενκές επιλογές}
-
-
-
-
-
-
 translate G CCDlgLoginName  {Όνομα σύνδεσης:}
 translate G CCDlgPassword   {Κωδικός:}
-# ====== TODO To be translated ======
-translate G CCDlgShowPassword {Show password}
-
-
-
+translate G CCDlgShowPassword {Εμφάνιση κωδικού πρόσβασης}
 
 # Connect Hardware dialogs
 translate G ExtHWConfigConnection {Προσαρμογή εξωτερικών συσκευών}
@@ -1717,7 +1623,6 @@ translate G IESynchronise {Συγχρονισμός}
 translate G IERotate  {Περιστροφή}
 translate G IEUnableToStart {Αδυναμία εκκίνησης της μηχανής εισόδου:}
 
-
 # Calculation of Variations
 translate G DoneWithPosition {Ολοκλήρωση της θέσης}
 
@@ -1729,95 +1634,60 @@ translate G DockBottom {Μετάβαση στο κάτω μέρος}
 translate G DockLeft {Μετάβαση αριστερά}
 translate G DockRight {Μετάβαση δεξιά}
 translate G Undock {Αποκόληση}
-# ====== TODO To be translated ======
-translate G AboutDatabase {About This Database}
 
 # Switcher window
+translate G AboutDatabase {Σχετικά με αυτήν τη βάση δεδομένων}
 translate G ChangeIcon {Αλλαγή εικονιδίου...}
-# ====== TODO To be translated ======
-translate G NewGameListWindow {New Game List Window}
-# ====== TODO To be translated ======
-translate G LoadatStartup {Load at startup}
-# ====== TODO To be translated ======
-translate G ShowHideDB {Show/Hide databases}
-# ====== TODO To be translated ======
-translate G ChangeFilter {Change filter}
-# ====== TODO To be translated ======
-translate G ChangeLayout {Load/Save/Change sorting criteria and column layout}
-# ====== TODO To be translated ======
-translate G ShowHideStatistic {Show/Hide statistics}
-# ====== TODO To be translated ======
-translate G BoardFilter {Show only games that matches the current board position}
-# ====== TODO To be translated ======
-translate G CopyGameTo {Copy Game to}
-# ====== TODO To be translated ======
-translate G FindBar {Find Bar}
-# ====== TODO To be translated ======
-translate G FindCurrentGame {Find current game}
-# ====== TODO To be translated ======
-translate G DeleteGame {Delete game}
-# ====== TODO To be translated ======
-translate G UndeleteGame {Undelete game}
-# ====== TODO To be translated ======
-translate G ResetSort {Reset sort}
-# ====== TODO To be translated ======
-translate G ConvertNullMove {Convert null moves to comments}
-# ====== TODO To be translated ======
-translate G SetupBoard {Setup Board}
-# ====== TODO To be translated ======
-translate G Rotate {Rotate}
-# ====== TODO To be translated ======
-translate G SwitchColors {Switch colors}
-# ====== TODO To be translated ======
+translate G NewGameListWindow {Νέο παράθυρο λίστας παιχνιδιών}
+translate G LoadatStartup {Φόρτωση κατά την εκκίνηση}
+
+# Gamelist window
+translate G ShowHideDB {Εμφάνιση/Απόκρυψη βάσεων δεδομένων}
+translate G ChangeFilter {Αλλαγή φίλτρου}
+translate G ChangeLayout {Φόρτωση/Αποθήκευση/Αλλαγή κριτηρίων ταξινόμησης και διάταξης στηλών}
+translate G ShowHideStatistic {Εμφάνιση/Απόκρυψη στατιστικών στοιχείων}
+translate G BoardFilter {Εμφάνιση μόνο παιχνιδιών που ταιριάζουν με την τρέχουσα θέση του πίνακα}
+translate G CopyGameTo {Αντιγραφή παιχνιδιού σε}
+translate G FindBar {Εύρεση Μπαρ}
+translate G FindCurrentGame {Βρείτε το τρέχον παιχνίδι}
+translate G DeleteGame {Διαγραφή παιχνιδιού}
+translate G UndeleteGame {Αναίρεση διαγραφής παιχνιδιού}
+translate G ResetSort {Επαναφορά ταξινόμησης}
+
+translate G ConvertNullMove {Μετατροπή μηδενικών κινήσεων σε σχόλια}
+translate G SetupBoard {Πίνακας εγκατάστασης}
+translate G Rotate {Γυρίζω}
+translate G SwitchColors {Εναλλαγή χρωμάτων}
 translate G FlipBoard {Flip Board}
-# ====== TODO To be translated ======
-translate G ImportPGN {Import PGN game}
-# ====== TODO To be translated ======
-translate G ImportingFiles {Importing PGN files in}
-# ====== TODO To be translated ======
-translate G ImportingFrom {Importing from}
-# ====== TODO To be translated ======
-translate G ImportingIn {Import games in}
-# ====== TODO To be translated ======
-translate G UseLastTag {Use last\ngame's tags}
-# ====== TODO To be translated ======
-translate G Random {Random}
-# ====== TODO To be translated ======
-translate G BackToMainline {Go back to mainline}
-# ====== TODO To be translated ======
-translate G LeaveVariant {Leave variant}
-# ====== TODO To be translated ======
-translate G Autoplay {Autoplay}
-# ====== TODO To be translated ======
-translate G ShowHideCoords {Show/Hide Coord.}
-# ====== TODO To be translated ======
-translate G ShowHideEvalBar {Show/Hide Evaluation Bar}
-# ====== TODO To be translated ======
-translate G ShowHideMaterial {Show/Hide Material}
-# ====== TODO To be translated ======
-translate G SelectMarker {Select Marker}
-# ====== TODO To be translated ======
-translate G FullScreen {Full Screen}
-# ====== TODO To be translated ======
-translate G FilterStatistic {Filter Statistics}
-# ====== TODO To be translated ======
-translate G MakeCorrections {Make Corrections}
-# ====== TODO To be translated ======
-translate G Surnames {Surnames}
-# ====== TODO To be translated ======
-translate G Ambiguous {Ambiguous}
-# ====== TODO To be translated ======
+translate G ImportPGN {Εισαγωγή παιχνιδιού PGN}
+translate G ImportingFiles {Εισαγωγή αρχείων PGN σε}
+translate G ImportingFrom {Εισαγωγή από}
+translate G ImportingIn {Εισαγωγή παιχνιδιών}
+translate G UseLastTag {Χρησιμοποιήστε τις ετικέτες του τελευταίου παιχνιδιού}
+translate G Random {Τυχαίος}
+translate G BackToMainline {Επιστρέψτε στην κύρια γραμμή}
+translate G LeaveVariant {Αφήστε παραλλαγή}
+translate G Autoplay {Αυτόματη αναπαραγωγή}
+translate G ShowHideCoords {Εμφάνιση/Απόκρυψη Συντονισμού.}
+translate G ShowHideEvalBar {Εμφάνιση/Απόκρυψη γραμμής αξιολόγησης}
+translate G ShowHideMaterial {Εμφάνιση/Απόκρυψη υλικού}
+translate G SelectMarker {Επιλέξτε Marker}
+translate G FullScreen {Πλήρης οθόνη}
+translate G FilterStatistic {Στατιστικά φίλτρων}
+translate G MakeCorrections {Κάντε Διορθώσεις}
+translate G Surnames {Επώνυμα}
+translate G Ambiguous {Ασαφής}
+
+#Preferences Dialog
 translate G OptionsToolbar "Γραμμή εργαλειών"
 translate G OptionsBoard "Σκακιέρα"
 translate G OptionsBoardSize "Μέγεθος"
 translate G OptionsBoardPieces "Είδος κομματιών"
-# ====== TODO To be translated ======
-translate G OptionsInternationalization "Internationalization"
-# ====== TODO To be translated ======
-translate G OptionsTablebaseDir "Select up to 4 table base folders:"
-# ====== TODO To be translated ======
-translate G BestMoveArrow "Best move arrow"
-# ====== TODO To be translated ======
-translate G NewLocalEngine "+ New engine ..."
+translate G OptionsInternationalization "Διεθνοποίηση"
+translate G OptionsTablebaseDir "Επιλέξτε έως και 4 φακέλους βάσης πίνακα:"
+
+# Evaluation bar
+translate G BestMoveArrow "Το καλύτερο βέλος κίνησης"
+translate G NewLocalEngine "+ Νέος κινητήρας..."
 }
-# end of greek.tcl
+# end of english.tcl

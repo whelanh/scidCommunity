@@ -82,6 +82,8 @@ def get_encoding_for_file(input_file):
         'spanish.tcl': 'iso8859-1',
         'suomi.tcl': 'iso8859-1',
         'swedish.tcl': 'iso8859-1',
+        'turkish.tcl': 'utf-8',
+        'SerbCyr.tcl': 'utf-8',
     }
     
     # Extract filename from path
@@ -146,58 +148,66 @@ async def process_file(input_file, target_language, encoding):
                 if '# ====== TODO To be translated ======' in line:
                     if i + 1 < len(lines):
                         next_line = lines[i+1]
-                        # We need to skip writing the *original* next_line in the loop,
-                        # because we will write a translated replacement (or the original if no match).
-                        # But wait, my logic before was: write line (TODO), then inspect next_line.
-                        # If matches, write REPLACEMENT and skip next_line.
-                        # If NO match, write nothing (let next loop iteration handle it).
                         
-                        translated_line = None
+                        # Collect all lines for this entry (handle multi-line)
+                        entry_lines = [next_line]
+                        brace_count = next_line.count('{') - next_line.count('}')
+                        has_backslash = next_line.rstrip().endswith('\\')
+                        
+                        # Continue collecting lines if braces aren't balanced or there's a backslash
+                        j = i + 2
+                        while (brace_count > 0 or has_backslash) and j < len(lines):
+                            entry_lines.append(lines[j])
+                            brace_count += lines[j].count('{') - lines[j].count('}')
+                            has_backslash = lines[j].rstrip().endswith('\\')
+                            j += 1
+                        
+                        # Join all lines for analysis
+                        full_entry = ''.join(entry_lines)
+                        first_line = entry_lines[0]
+                        
+                        translated_lines = None
                         
                         # Regex 1: menuText with text in quotes AND braces (The full format)
-                        # menuText .mbar.tools "Analysis engine..." 0 {Open an analysis window}
-                        match_full = re.search(r'^(menuText\s+.*?)"(.*?)"(.*?)\{(.*)\}(\s*)$', next_line)
+                        match_full = re.search(r'^(menuText\s+.*?)"(.*?)"(.*?)\{(.*)\}(\s*)$', full_entry, re.DOTALL)
                         
                         # Regex 2: menuText with JUST quotes
-                        # menuText S GraphOptionsEloFile "Elo from rating file" 0
-                        match_quotes = re.search(r'^(menuText\s+.*?)"(.*?)"(.*?)$', next_line)
+                        match_quotes = re.search(r'^(menuText\s+.*?)"(.*?)"(.*?)$', first_line)
                         
-                        # Regex 3: translate command with braces
-                        # translate S Hide {Hide}
-                        match_trans_braces = re.search(r'^(translate\s+.*?)\{(.*)\}(\s*)$', next_line)
+                        # Regex 3: translate command with braces (single or multi-line)
+                        match_trans_braces = re.search(r'^(translate\s+.*?)\{(.*)\}(\s*)$', full_entry, re.DOTALL)
                         
                         # Regex 4: translate command with quotes
-                        # translate S OptionsInternationalization "Internationalization"
-                        match_trans_quotes = re.search(r'^(translate\s+.*?)"(.*)"(\s*)$', next_line)
+                        match_trans_quotes = re.search(r'^(translate\s+.*?)"(.*)"(\s*)$', first_line)
 
                         if match_full:
-                            print(f"Translating Line {i+2} (menuText full)...")
+                            print(f"Translating Line {i+2} (menuText full, {len(entry_lines)} lines)...")
                             text1_tr = await safe_translate(translator, match_full.group(2), src='en', dest=target_language)
                             text2_tr = await safe_translate(translator, match_full.group(4), src='en', dest=target_language)
-                            translated_line = f'{match_full.group(1)}"{text1_tr}"{match_full.group(3)}{{{text2_tr}}}{match_full.group(5)}\n'
+                            translated_lines = f'{match_full.group(1)}"{text1_tr}"{match_full.group(3)}{{{text2_tr}}}{match_full.group(5)}'
                             
                         elif match_quotes:
                             print(f"Translating Line {i+2} (menuText quotes)...")
                             text1_tr = await safe_translate(translator, match_quotes.group(2), src='en', dest=target_language)
-                            translated_line = f'{match_quotes.group(1)}"{text1_tr}"{match_quotes.group(3)}\n'
+                            translated_lines = f'{match_quotes.group(1)}"{text1_tr}"{match_quotes.group(3)}\n'
 
                         elif match_trans_braces:
-                            print(f"Translating Line {i+2} (translate braces)...")
+                            print(f"Translating Line {i+2} (translate braces, {len(entry_lines)} lines)...")
                             text_tr = await safe_translate(translator, match_trans_braces.group(2), src='en', dest=target_language)
-                            translated_line = f'{match_trans_braces.group(1)}{{{text_tr}}}{match_trans_braces.group(3)}\n'
+                            translated_lines = f'{match_trans_braces.group(1)}{{{text_tr}}}{match_trans_braces.group(3)}'
 
                         elif match_trans_quotes:
                             print(f"Translating Line {i+2} (translate quotes)...")
                             text_tr = await safe_translate(translator, match_trans_quotes.group(2), src='en', dest=target_language)
-                            translated_line = f'{match_trans_quotes.group(1)}"{text_tr}"{match_trans_quotes.group(3)}\n'
+                            translated_lines = f'{match_trans_quotes.group(1)}"{text_tr}"{match_trans_quotes.group(3)}\n'
 
-                        if translated_line:
-                            outfile.write(translated_line)
+                        if translated_lines:
+                            outfile.write(translated_lines)
                             translation_count += 1
-                            i += 1 # Skip the next line as we've handled it
+                            i += len(entry_lines)  # Skip all the lines we've processed
                         else:
                             print(f"Warning: Line {i+2} follows TODO but doesn't match any expected format.")
-                            print(f"  Content: {next_line.strip()}")
+                            print(f"  Content: {first_line.strip()}")
                 
                 i += 1
 

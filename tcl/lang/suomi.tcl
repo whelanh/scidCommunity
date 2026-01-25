@@ -85,15 +85,12 @@ menuText U FileReadOnly "Vain luku..." 0 \
   {Estä muutokset nykyiseen tietokantaan}
 menuText U FileSwitch "Vaihda tietokanta" 3 \
   {Vaihda toiseen avattuun tietokantaan}
-# ====== TODO To be translated ======
-menuText U FileOpenLichessTournament "Open Lichess Tournament" 0 {Download and open live Lichess tournament broadcast games}
-# ====== TODO To be translated ======
-menuText U FileImportLichess "Import my Lichess" 0 {Import games from your Lichess account}
-# ====== TODO To be translated ======
-menuText U FileImportChessCom "Import my chess.com" 0 {Import games from your chess.com account}
+menuText U FileOpenLichessTournament "Avaa Lichess-turnaus" 0 {Lataa ja avaa live-Lichess-turnauslähetyspelejä}
+menuText U FileImportLichess "Tuo Lichessini" 0 {Tuo pelejä Lichess-tililtäsi}
+menuText U FileImportChessCom "Tuo minun chess.com" 0 {Tuo pelejä chess.com-tililtäsi}
 menuText U FileExit "Lopeta" 0 {Lopeta ja sulje Scid}
 menuText U FileMaintFixBase "Korjaa tietokanta" 0 {Yritä korjata vaurioitunut tietokanta}
-  
+
 # Edit menu:
 menuText U Edit "Muokkaa" 0
 menuText U EditAdd "Lisää muunnelma" 0 {Lisää muunnelma tämän siirron kohdalle}
@@ -128,8 +125,7 @@ menuText U EditCopyBoard "Kopioi asema" 0 \
   {Kopioi nykyinen asema leikepöydälle FEN-muodossa}
 menuText U EditPasteBoard "Liitä asema" 0 \
   {Liitä leikepöydällä oleva FEN-teksti alkuasemaksi}
-# ====== TODO To be translated ======
-menuText U ConfigureScid "Preferences..." 0 {Configure all options for SCID}
+menuText U ConfigureScid "Asetukset..." 0 {Määritä kaikki SCID-asetukset}
 
 # Game menu:
 menuText U Game "Peli" 0
@@ -182,13 +178,11 @@ menuText U WindowsStats "Tilastot" 6 \
 menuText U WindowsTree "Puunäkymä" 3 {Avaa/sulje puunäkymä}
 menuText U WindowsBook "Avauskirja" 8 {Avaa/sulje avauskirja}
 menuText U WindowsCorrChess "Kirjeshakki" 6 {Avaa/sulje kirjeshakki-ikkuna}
-# ====== TODO To be translated ======
-menuText U WindowsGraph "Analysis Graph" 0 {Open the Graph window with moves' times and evaluations}
+menuText U WindowsGraph "Analyysikaavio" 0 {Avaa Graafi-ikkuna, jossa on siirtoajat ja arvioinnit}
 
 # Tools menu:
 menuText U Tools "Työkalut" 1
-# ====== TODO To be translated ======
-menuText U ToolsConfigureEngines "Configure Engines" 10 {Manage engines' configuration}
+menuText U ToolsConfigureEngines "Konfiguroi moottorit" 10 {Hallitse moottoreiden kokoonpanoa}
 menuText U ToolsAnalysis "Analyysimoottori #1..." 18 \
   {Käynnistä/pysäytä analyysimoottori}
 menuText U ToolsAnalysis2 "Analyysimoottori #2..." 18 \
@@ -211,8 +205,7 @@ menuText U ToolsTrainFindBestMove "Etsi paras siirto"  5 {Etsi aseman paras siir
 menuText U ToolsTrainFics "FICS"  0 {Pelaa palvelimella freechess.org}
 menuText U ToolsEngineTournament "Shakkimoottoriturnaus"  0 {Turnaus shakkimoottorien kesken}
 menuText U ToolsBookTuning "Viritä avaukset" 0 {Muokkaa avauskirjastoasi}
-# ====== TODO To be translated ======
-menuText U ToolsDownloadTWIC "Download TWIC Games" 0 {Download the latest The Week In Chess (TWIC) games}
+menuText U ToolsDownloadTWIC "Lataa TWIC-pelejä" 0 {Lataa uusimmat The Week In Chess (TWIC) -pelit}
 menuText U ToolsConnectHardware "Liitä syöttölaite" 8 {Liitä ulkoinen syöttölaite (elektroninen lauta tms.)}
 menuText U ToolsConnectHardwareConfigure "Asetukset..." 0 {Säädä ulkoisen syöttölaitteen asetuksia}
 menuText U ToolsConnectHardwareNovagCitrineConnect "Liitä Novag Citrine" 0 {Liitä Novag Citrine shakkitietokone}
@@ -249,14 +242,12 @@ menuText U ToolsStartEngine1 "Käynnistä moottori 1" 19  {Käynnistä moottori 1}
 menuText U ToolsStartEngine2 "Käynnistä moottori 2" 19  {Käynnistä moottori 2}
 menuText U ToolsCaptureBoard "Kuvakaappaus asemasta..." 1  {Tallenna asema kuvana.}
 
-# Play menue
+# Play menu
 menuText U Play "Pelaa" 0
 
 # --- Correspondence Chess
-
 menuText U CCResign "Luovuta" 0 {Luovuta (ei sähköposti)}
 menuText U CCClaimDraw "Vaadi tasapeliä" 0 {Lähetä siirto ja vaadi tasapeliä (ei sähköposti)}
-
 
 # menu in cc window:
 
@@ -283,8 +274,7 @@ menuText U OptionsMovesHighlightLastMoveDisplay "Näytä" 0 {Näytä viimeisin siirt
 menuText U OptionsMovesHighlightLastMoveWidth "Viiva" 0 {Laudalla näytettävän viivan paksuus}
 menuText U OptionsMovesHighlightLastMoveColor "Väri" 0 {Laudalla näytettävän viivan väri}
 menuText U OptionsMovesHighlightLastMoveArrow "Sis. nuoli" 0 {Korostettuun siirtoon sisällytetään nuoli}
-# ====== TODO To be translated ======
-menuText U OptionsMovesHighlightLastMoveNag "Show evaluation symbols" 0
+menuText U OptionsMovesHighlightLastMoveNag "Näytä arviointisymbolit" 0
 menuText U OptionsMoves "Siirrot" 0 {Siirtojen syöttämiseen liittyvät asetukset}
 menuText U OptionsMovesAnimate "Animaation nopeus" 1 \
   {Siirtojen animoinnin nopeus}
@@ -296,21 +286,17 @@ menuText U OptionsMovesSuggest "Näytä suositetut siirrot" 0 \
   {Siirtosuositukset päälle/päältä}
 menuText U OptionsShowVarPopup "Näytä muunnelmaikkuna" 0 {Näytä/sulje muunnelmaikkuna}  
 menuText U OptionsMovesSpace "Välilyönti siirtoihin" 0 {Lisää välilyönti siirron numeron perään}  
-# ====== TODO To be translated ======
-menuText U OptionsMovesLichess "Lichess/ChessBase Format For Annotations" 0 {Use Lichess/ChessBase format for square markers and arrows}
+menuText U OptionsMovesLichess "Lichess/ChessBase-muoto huomautuksia varten" 0 {Käytä Lichess/ChessBase-muotoa neliömerkit ja nuolet}
 menuText U OptionsMovesKey "Automaattinen täydennys" 0 \
   {Kytek siirtojen automaattinen täydennys päälle/päältä}
 menuText U OptionsMovesShowVarArrows "Muunnelmat nuolin" 0 {Näytä/älä näytä muunnelmia nuolilla laudalla}
-# ====== TODO To be translated ======
-menuText U OptionsMovesShowEngineVariationArrows "Show Arrows for Engine Variations" 0 {Turn on/off arrows showing engine variation lines in multiPV mode}
-# ====== TODO To be translated ======
-menuText U OptionsMovesGlossOfDanger "Color Coded Gloss of Danger" 0 {Turn on/off color coded gloss of danger}
+menuText U OptionsMovesShowEngineVariationArrows "Näytä nuolet moottorin muunnelmia varten" 0 {Kytke päälle/pois nuolet, jotka näyttävät moottorin vaihteluviivoja moniPV-tilassa}
+menuText U OptionsMovesGlossOfDanger "Värikoodattu Gloss of Danger" 0 {Kytke päälle/pois päältä värikoodattu vaaran kiilto}
 menuText U OptionsNumbers "Numerointi" 0 {Numeroformaatit, 1-3 desimaalipisteellä, 4-6 -pilkulla}
 menuText U OptionsTheme "Teema" 0 {Valitse käyttöliittymän teema}
 menuText U OptionsWindows "Ikkunat" 0 {Ikkunoiden asetukset}
 menuText U OptionsSounds "Äänet" 0 {Muokaa siirtoilmoitusääniä}
-# ====== TODO To be translated ======
-menuText U OptionsResources "Resources..." 0 {Choose resource files and folders}
+menuText U OptionsResources "Resurssit..." 0 {Valitse resurssitiedostot ja kansiot}
 menuText U OptionsWindowsDock "Telakoi ikkunat" 0 {Telakoi irti olevat ikkunat (vaatii uudelleenkäynnistyksen)}
 menuText U OptionsWindowsSaveLayout "Tallenna layout" 0 {Tallenna nimelle ikkunoiden ja työkalupalkkien sijainti}
 menuText U OptionsWindowsRestoreLayout "Palauta layout" 0 {Palauta tallennettu layout}
@@ -324,10 +310,8 @@ menuText U OptionsTable "Loppupelitietokannat" 0 \
 menuText U OptionsRecent "Viimeaikaiset tiedostot" 0 {Kuinka monta tiedostoa näytetään Tiedosto-valikon viimeaikaisten listassa}
 menuText U OptionsBooksDir "Avauskirjat" 0 {Hakemisto, jossa avauskirjat sijaitsevat}
 menuText U OptionsTacticsBasesDir "Taktiikkakannat" 0 {Hakemisto, jossa taktiikka (harjoitus) tietokannat sijaitsevat}
-# ====== TODO To be translated ======
-menuText U OptionsPhotosDir "Photos directory" 0 {Sets the photos bases directory}
-# ====== TODO To be translated ======
-menuText U OptionsThemeDir "Theme(s) File:"  0 { Load a GUI theme package file }
+menuText U OptionsPhotosDir "Valokuvahakemisto" 0 {Asettaa valokuvien perushakemiston}
+menuText U OptionsThemeDir "Teema(t) Tiedosto:"  0 {Lataa GUI-teeman pakettitiedosto}
 menuText U OptionsSave "Tallenna asetukset" 0 "Tallenna kaikki asetukset tiedostoon $::optionsFile"
 menuText U OptionsAutoSave "Automaattinen asetusten tallennus" 0 \
   {Tallenna asetukset automaattisesti ohjelmasta poistuttaessa}
@@ -370,8 +354,7 @@ translate U Defaults {Oletukset}
 translate U Delete {Poista}
 translate U Graph {Graafi}
 translate U Help {Ohje}
-# ====== TODO To be translated ======
-translate U Hide {Hide}
+translate U Hide {Piilottaa}
 translate U Import {Tuo}
 translate U Index {Hakemisto}
 translate U LoadGame {Lataa peli}
@@ -425,8 +408,7 @@ translate U Month {Kuukausi}
 translate U Months {Tammikuu Helmikuu Maaliskuu Huhtikuu Toukokuu Kesäkuu Heinäkuu Elokuu Syyskuu Lokakuu Marraskuu Joulukuu}
 translate U Days {Su Ma Ti Ke To Pe La}
 translate U YearToToday {Vuoden alusta}
-# ====== TODO To be translated ======
-translate U YearToTodayTooltip {Set date from 1 year back to today}
+translate U YearToTodayTooltip {Aseta päivämäärä 1 vuoden takaa tähän päivään}
 translate U Result {Tulos}
 translate U Round {Kierros}
 translate U Length {Pituus}
@@ -472,8 +454,7 @@ translate U PInfoMostBlack {Yleisimmät avaukset: Musta}
 translate U PInfoRating {Vahvuuslukuhistoria}
 translate U PInfoBio {Biografia}
 translate U PInfoEditRatings {Muokkaa vahvuuslukuja}
-# ====== TODO To be translated ======
-translate U PInfoEloFile {File}
+translate U PInfoEloFile {Tiedosto}
 
 # Tablebase information:
 translate U Draw {Tasapeli}
@@ -481,13 +462,11 @@ translate U with {kanssa}
 translate U only {vain}
 translate U lose {häviää}
 translate U loses {häviää}
-# ====== TODO To be translated ======
 
 # Tip of the day:
 translate U Tip {Vihje}
 translate U TipAtStartup {Käynnistysvihje}
-# ====== TODO To be translated ======
-translate U TipConvertPGN {You can get better performance by converting PGN files}
+translate U TipConvertPGN {Saat paremman suorituskyvyn muuntamalla PGN-tiedostoja}
 
 # Tree window menus:
 menuText U TreeFile "Tiedosto" 0
@@ -602,7 +581,7 @@ translate U FinderCtxBackup {Varmista}
 translate U FinderCtxCopy {Kopioi}
 translate U FinderCtxMove {Siirrä}
 translate U FinderCtxDelete {Poista}
- 
+
 # Player finder:
 menuText U PListFile "Tiedosto" 0
 menuText U PListFileUpdate "Päivitä" 0
@@ -640,10 +619,8 @@ menuText U GraphOptionsWhite "Valkea" 0
 menuText U GraphOptionsBlack "Musta" 0
 menuText U GraphOptionsBoth "Molemmat" 1
 menuText U GraphOptionsPInfo "Pelaaja Info pelaaja" 0
-# ====== TODO To be translated ======
-menuText U GraphOptionsEloFile "Elo from rating file" 0
-# ====== TODO To be translated ======
-menuText U GraphOptionsEloDB "Elo from database" 0
+menuText U GraphOptionsEloFile "Elo luokitustiedostosta" 0
+menuText U GraphOptionsEloDB "Elo tietokannasta" 0
 translate U GraphFilterTitle "Graafi: yleisyys per 1000 peliä"
 translate U GraphAbsFilterTitle "graafi: pelien yleisyys"
 translate U ConfigureFilter "Muokkaa X-akseli; vuosi, vahvuus, siirrot"
@@ -684,7 +661,7 @@ translate U Informant+= {Valkean pieni etu}
 translate U Informant+/- {Valkean etu}
 translate U Informant+- {Valkean ratkaiseva etu}
 translate U Informant+-- {Voittoasema}
-  
+
 # Book window
 translate U Book {Kirja}
 translate U OtherBookMoves {Vastustajan kirja}
@@ -701,28 +678,17 @@ translate U EngineTime {Pvm}
 translate U EngineNew {Uusi}
 translate U EngineEdit {Muokkaa}
 translate U EngineRequired {Lihavoidut kentät ovat pakollisia}
-# ====== TODO To be translated ======
-translate U EngineProtocol {Communication protocol}
-# ====== TODO To be translated ======
-translate U EngineNotation {Notation of the moves}
-# ====== TODO To be translated ======
-translate U EngineFlipEvaluation {Flip evaluation perspective}
-# ====== TODO To be translated ======
-translate U EngineShowLog {Show communication log}
-# ====== TODO To be translated ======
-translate U EngineNetworkd {Accept remote connections}
-# ====== TODO To be translated ======
-translate U EngineSelect {Select the current engine}
-# ====== TODO To be translated ======
-translate U EngineAddLocal {Add a local engine}
-# ====== TODO To be translated ======
-translate U EngineAddRemote {Add a remote engine}
-# ====== TODO To be translated ======
-translate U EngineReload {Reload the current engine}
-# ====== TODO To be translated ======
-translate U EngineClone {Create a copy of the current engine}
-# ====== TODO To be translated ======
-translate U EngineDelete {Delete the current engine}
+translate U EngineProtocol {Viestintäprotokolla}
+translate U EngineNotation {Merkintä liikkeistä}
+translate U EngineFlipEvaluation {Käännä arvioinnin näkökulma}
+translate U EngineShowLog {Näytä viestintäloki}
+translate U EngineNetworkd {Hyväksy etäyhteydet}
+translate U EngineSelect {Valitse nykyinen moottori}
+translate U EngineAddLocal {Lisää paikallinen moottori}
+translate U EngineAddRemote {Lisää etämoottori}
+translate U EngineReload {Lataa nykyinen moottori uudelleen}
+translate U EngineClone {Luo kopio nykyisestä moottorista}
+translate U EngineDelete {Poista nykyinen moottori}
 
 # PGN window menus:
 menuText U PgnFile "Tiedosto" 0
@@ -831,12 +797,9 @@ translate U BrilliancyFlag {Loistosiirto}
 translate U BlunderFlag {Virhe (Blunder)}
 translate U UserFlag {Käyttäjä}
 translate U PgnContains {PGN sisältää tekstiä}
-# ====== TODO To be translated ======
 translate U PgnTag {Tag}
-# ====== TODO To be translated ======
-translate U TagContains {contains}
-# ====== TODO To be translated ======
-translate U Variant {Variant}
+translate U TagContains {sisältää}
+translate U Variant {Variantti}
 translate U Annotator {Annotoija}
 translate U Cmnts {Vain annotoidut pelit}
 
@@ -882,6 +845,8 @@ translate U GlistSep {Erotin}
 translate U GlistCurrentSep {-- Nykyinen --}
 translate U GlistNewSort {Uusi}
 translate U GlistAddToSort {Lisää}
+
+# base sorting
 translate U GsortSort {Lajittele...}
 translate U GsortDate {Pvm.}
 translate U GsortYear {Vuosi}
@@ -908,7 +873,7 @@ translate U GsortAdd {Lisää}
 translate U GsortStore {Varastoi}
 translate U GsortLoad {Lataa}
 
-# menu shown with right mouse button down on game list. 
+# menu shown with right mouse button down on game list.
 translate U GlistRemoveThisGameFromFilter  {Tämä peli pois suodattimesta}
 translate U GlistRemoveGameAndAboveFromFilter  {Tämä ja kaikki edeltävät pois suodattimesta}
 translate U GlistRemoveGameAndBelowFromFilter  {Tämä ja kaikki seuraavat pois suodattimesta}
@@ -1014,10 +979,8 @@ translate U WhiteClearAdvantage {Valkealla on selvä etu}
 translate U BlackClearAdvantage {Mustalla on selvä etu}
 translate U WhiteSlightAdvantage {Valkealla on hieman etua}
 translate U BlackSlightAdvantage {Mustalla on hieman etua}
-# ====== TODO To be translated ======
-translate U WhiteCrushing {White has a crushing advantage}
-# ====== TODO To be translated ======
-translate U BlackCrushing {Black has a crushing advantage}
+translate U WhiteCrushing {Valkoisella on murskausetu}
+translate U BlackCrushing {Mustalla on murskaava etu}
 translate U Equality {Tasa-asema}
 translate U Unclear {Epäselvä}
 translate U Diagram {Kaavio}
@@ -1276,6 +1239,8 @@ translate U NameEditSelect {Muokattavat pelit}
 translate U NameEditReplace {Korvaa}
 translate U NameEditWith {kanssa}
 translate U NameEditMatches {Osumat: Tee valinta painamalla Ctrl+1 - Ctrl+9}
+
+# Check games window:
 translate U CheckGames {Tarkista pelit}
 translate U CheckGamesWhich {Tarkista pelit}
 translate U CheckAll {Kaikki pelit}
@@ -1325,10 +1290,9 @@ translate U ExportStripMarks {Poista ruutu-/nuolimerkit kommenteista?}
 # Goto game/move dialogs:
 translate U LoadGameNumber {Ladattavan pelin numero:}
 translate U GotoMoveNumber {Siirry siirtoon nro:}
-# ====== TODO To be translated ======
-translate U CopyAllGames {Copy all games to}
 
 # Copy games dialog:
+translate U CopyAllGames {Kopioi kaikki pelit kohteeseen}
 translate U CopyGames {Kopioi pelit}
 translate U CopyConfirm {
  Haluatko varmasti kopioida suodattimen [::utils::thousands $nGamesToCopy] pelit
@@ -1368,8 +1332,7 @@ translate U SoundsAnnounceOptions {Siirtoilmoitusasetukset}
 translate U SoundsAnnounceNew {Ilmoita uudet siirrot}
 translate U SoundsAnnounceForward {Ilmoita, kun siirrytään eteenpäin yksi siirto}
 translate U SoundsAnnounceBack {Ilmoita, kun siirrytään taaksepäin yksi siirto}
-# ====== TODO To be translated ======
-translate U SoundsSoundDisabled {Scid could not find the Snack audio package at startup;\nSound is disabled.}
+translate U SoundsSoundDisabled {Scid ei löytänyt Snack-äänipakettia käynnistyksen yhteydessä;\nÄäni on poistettu käytöstä.}
 
 # Upgrading databases:
 translate U Upgrading {Päivitys}
@@ -1609,22 +1572,14 @@ translate U FICSConnect {yhdistä}
 translate U FICSdefaultuservars {Käytä oletusmuuttujia}
 translate U FICSObserveconfirm {Haluatko seurata peliä}
 translate U FICSpremove {Ennakkosiirto päälle}
-# ====== TODO To be translated ======
-translate U FICSObserve {Observe}
-# ====== TODO To be translated ======
-translate U FICSRatedGames {Rated Games}
-# ====== TODO To be translated ======
-translate U FICSUnratedGames {Unrated Games}
-# ====== TODO To be translated ======
-translate U FICSRated {Rated}
-# ====== TODO To be translated ======
-translate U FICSUnrated {Unrated}
-# ====== TODO To be translated ======
-translate U FICSRegisteredPlayer {Registered player only}
-# ====== TODO To be translated ======
-translate U FICSFreePlayer {Free player only}
-# ====== TODO To be translated ======
-translate U FICSNetError {Network error\nCan't connect to }
+translate U FICSObserve {Tarkkailla}
+translate U FICSRatedGames {Arvioidut pelit}
+translate U FICSUnratedGames {Luokittelemattomat pelit}
+translate U FICSRated {Arvioitu}
+translate U FICSUnrated {Luokittelematon}
+translate U FICSRegisteredPlayer {Vain rekisteröitynyt pelaaja}
+translate U FICSFreePlayer {Vain ilmainen pelaaja}
+translate U FICSNetError {Verkkovirhe\Ei voi muodostaa yhteyttä}
 
 # Game review
 translate U GameReview {Pelin arvioiminen}
@@ -1649,18 +1604,9 @@ translate U GameReviewMovesPlayedEngine {Siirrot kuin moottorilla}
 
 # Correspondence Chess Dialogs:
 translate U CCDlgCGeneraloptions {Yleiset}
-
-
-
-
-
-
 translate U CCDlgLoginName  {Käyttäjätunnus:}
 translate U CCDlgPassword   {Salasana:}
-# ====== TODO To be translated ======
-translate U CCDlgShowPassword {Show password}
-
-
+translate U CCDlgShowPassword {Näytä salasana}
 
 # Connect Hardware dialogs
 translate U ExtHWConfigConnection {Ulkoisten laitteiden asetukset}
@@ -1681,7 +1627,6 @@ translate U IESynchronise {Synkronoi}
 translate U IERotate  {Käännä}
 translate U IEUnableToStart {Input Engine ei voi käynnistyä:}
 
-
 # Calculation of Variations
 translate U DoneWithPosition {Asema valmis}
 
@@ -1693,94 +1638,60 @@ translate U DockBottom {Siirrä alimmaksi}
 translate U DockLeft {Siirrä vasemmalle}
 translate U DockRight {Siirrä oikealle}
 translate U Undock {Vapauta lukitus}
-# ====== TODO To be translated ======
-translate U AboutDatabase {About This Database}
 
 # Switcher window
+translate U AboutDatabase {Tietoja tästä tietokannasta}
 translate U ChangeIcon {Vaihda kuvake...}
-# ====== TODO To be translated ======
-translate U NewGameListWindow {New Game List Window}
-# ====== TODO To be translated ======
-translate U LoadatStartup {Load at startup}
-# ====== TODO To be translated ======
-translate U ShowHideDB {Show/Hide databases}
-# ====== TODO To be translated ======
-translate U ChangeFilter {Change filter}
-# ====== TODO To be translated ======
-translate U ChangeLayout {Load/Save/Change sorting criteria and column layout}
-# ====== TODO To be translated ======
-translate U ShowHideStatistic {Show/Hide statistics}
-# ====== TODO To be translated ======
-translate U BoardFilter {Show only games that matches the current board position}
-# ====== TODO To be translated ======
-translate U CopyGameTo {Copy Game to}
-# ====== TODO To be translated ======
-translate U FindBar {Find Bar}
-# ====== TODO To be translated ======
-translate U FindCurrentGame {Find current game}
-# ====== TODO To be translated ======
-translate U DeleteGame {Delete game}
-# ====== TODO To be translated ======
-translate U UndeleteGame {Undelete game}
-# ====== TODO To be translated ======
-translate U ResetSort {Reset sort}
-# ====== TODO To be translated ======
-translate U ConvertNullMove {Convert null moves to comments}
-# ====== TODO To be translated ======
-translate U SetupBoard {Setup Board}
-# ====== TODO To be translated ======
-translate U Rotate {Rotate}
-# ====== TODO To be translated ======
-translate U SwitchColors {Switch colors}
-# ====== TODO To be translated ======
+translate U NewGameListWindow {Uusi peliluettelo-ikkuna}
+translate U LoadatStartup {Lataa käynnistyksen yhteydessä}
+
+# Gamelist window
+translate U ShowHideDB {Näytä/piilota tietokannat}
+translate U ChangeFilter {Vaihda suodatin}
+translate U ChangeLayout {Lataa/Tallenna/Muuta lajitteluehtoja ja sarakkeiden asettelua}
+translate U ShowHideStatistic {Näytä/piilota tilastot}
+translate U BoardFilter {Näytä vain pelit, jotka vastaavat nykyistä laudan sijaintia}
+translate U CopyGameTo {Kopioi peli kohteeseen}
+translate U FindBar {Etsi Baari}
+translate U FindCurrentGame {Etsi nykyinen peli}
+translate U DeleteGame {Poista peli}
+translate U UndeleteGame {Peru pelin poisto}
+translate U ResetSort {Nollaa lajittelu}
+
+translate U ConvertNullMove {Muunna nollasiirrot kommenteiksi}
+translate U SetupBoard {Asennustaulu}
+translate U Rotate {Kiertää}
+translate U SwitchColors {Vaihda värejä}
 translate U FlipBoard {Flip Board}
-# ====== TODO To be translated ======
-translate U ImportPGN {Import PGN game}
-# ====== TODO To be translated ======
-translate U ImportingFiles {Importing PGN files in}
-# ====== TODO To be translated ======
-translate U ImportingFrom {Importing from}
-# ====== TODO To be translated ======
-translate U ImportingIn {Import games in}
-# ====== TODO To be translated ======
-translate U UseLastTag {Use last\ngame's tags}
-# ====== TODO To be translated ======
-translate U Random {Random}
-# ====== TODO To be translated ======
-translate U BackToMainline {Go back to mainline}
-# ====== TODO To be translated ======
-translate U LeaveVariant {Leave variant}
-# ====== TODO To be translated ======
-translate U Autoplay {Autoplay}
-# ====== TODO To be translated ======
-translate U ShowHideCoords {Show/Hide Coord.}
-# ====== TODO To be translated ======
-translate U ShowHideEvalBar {Show/Hide Evaluation Bar}
-# ====== TODO To be translated ======
-translate U ShowHideMaterial {Show/Hide Material}
-# ====== TODO To be translated ======
-translate U SelectMarker {Select Marker}
-# ====== TODO To be translated ======
-translate U FullScreen {Full Screen}
-# ====== TODO To be translated ======
-translate U FilterStatistic {Filter Statistics}
-# ====== TODO To be translated ======
-translate U MakeCorrections {Make Corrections}
-# ====== TODO To be translated ======
-translate U Surnames {Surnames}
-# ====== TODO To be translated ======
-translate U Ambiguous {Ambiguous}
+translate U ImportPGN {Tuo PGN-peli}
+translate U ImportingFiles {PGN-tiedostojen tuonti sisään}
+translate U ImportingFrom {Tuodaan kohteesta}
+translate U ImportingIn {Tuo pelit sisään}
+translate U UseLastTag {Käytä viimeisen pelin tunnisteita}
+translate U Random {Satunnainen}
+translate U BackToMainline {Palaa päälinjaan}
+translate U LeaveVariant {Jätä variantti}
+translate U Autoplay {Automaattinen toisto}
+translate U ShowHideCoords {Näytä/piilota Coord.}
+translate U ShowHideEvalBar {Näytä/piilota arviointipalkki}
+translate U ShowHideMaterial {Näytä/piilota materiaali}
+translate U SelectMarker {Valitse Merkki}
+translate U FullScreen {Koko näyttö}
+translate U FilterStatistic {Suodata tilastot}
+translate U MakeCorrections {Tee korjauksia}
+translate U Surnames {Sukunimet}
+translate U Ambiguous {Epäselvä}
+
+#Preferences Dialog
 translate U OptionsToolbar "Työkalupalkki"
 translate U OptionsBoard "Shakkilauta"
 translate U OptionsBoardSize "Koko"
 translate U OptionsBoardPieces "Nappulat"
-# ====== TODO To be translated ======
-translate U OptionsInternationalization "Internationalization"
-# ====== TODO To be translated ======
-translate U OptionsTablebaseDir "Select up to 4 table base folders:"
-# ====== TODO To be translated ======
-translate U BestMoveArrow "Best move arrow"
-# ====== TODO To be translated ======
-translate U NewLocalEngine "+ New engine ..."
+translate U OptionsInternationalization "Kansainvälistyminen"
+translate U OptionsTablebaseDir "Valitse enintään 4 taulukkokantakansiota:"
+
+# Evaluation bar
+translate U BestMoveArrow "Paras liikkuva nuoli"
+translate U NewLocalEngine "+ Uusi moottori..."
 }
-# end of suomi.tcl
+# end of english.tcl
