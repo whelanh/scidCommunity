@@ -48,6 +48,9 @@ menuText B FileReadOnly "Apenas Leitura..." 7 \
   {Trata a base de dados corrente como arquivo de leitura, impedindo mudancas}
 menuText B FileSwitch "Mudar a base de dados" 0 \
   {Muda para uma base de dados diferente, já aberta} 
+menuText B FileOpenLichessTournament "Torneio Aberto de Lichess" 0 {Baixe e abra jogos de transmissão do torneio Lichess ao vivo}
+menuText B FileImportLichess "Importe meu Lichess" 0 {Importe jogos da sua conta Lichess}
+menuText B FileImportChessCom "Importe meu xadrez.com" 0 {Importe jogos da sua conta chess.com}
 menuText B FileExit "Sair" 0 {Encerrar o Scid}
 menuText B FileMaintFixBase "Corrigir base corrompida" 0 {Tenta corrigir uma base corrompida}
 
@@ -140,8 +143,7 @@ menuText B WindowsStats "Estatisticas" 0 \
 menuText B WindowsTree "Arvore" 0 {Abre/fecha a janela da Arvore de pesquisa}
 menuText B WindowsBook "Janela do Livro de Aberturas" 0 {Abre/Fecha  a janela do livro de aberturas}
 menuText B WindowsCorrChess "Janela de Correspondencia" 0 {Abre/Fecha a janela de correspondencia}
-# ====== TODO To be translated ======
-menuText B WindowsGraph "Analysis Graph" 0 {Open the Graph window with moves' times and evaluations}
+menuText B WindowsGraph "Gráfico de análise" 0 {Abra a janela Gráfico com tempos e avaliações dos movimentos}
 
 # Tools menu:
 menuText B Tools "Ferramentas" 0
@@ -175,6 +177,7 @@ menuText B ToolsConnectHardware "Conectar Hardware" 0 {Conectar hardware externo
 menuText B ToolsConnectHardwareConfigure "Configurar..." 0 {Configurar hardware e conexão externa}
 menuText B ToolsConnectHardwareNovagCitrineConnect "Conectar Novag Citrine" 0 {Conectar Novag Citrine}
 menuText B ToolsConnectHardwareInputEngineConnect "Conectar Engine de Entrada" 0 {Conectar engine de entrada (ex. DGT)}
+
 menuText B ToolsPInfo "Informacao do Jogador"  0 \
   {Abre/atualiza a janela de informacao do jogador}
 menuText B ToolsPlayerReport "Relatório de jogador..." 3 \
@@ -206,9 +209,17 @@ menuText B ToolsImportFile "Importa arquivo de jogos PGN..." 7 \
 menuText B ToolsStartEngine1 "Iniciar engine 1" 0  {Inicia engine 1}
 menuText B ToolsStartEngine2 "Iniciar engine 2" 0  {Inicia engine 2}
 menuText B ToolsCaptureBoard "Capturar posicao atual..." 5  {Salva uma imagem da posicao atual.}
+
+# Play menu
 menuText B Play "Jogar" 0
+
+# --- Correspondence Chess
 menuText B CCResign "Resignar" 0 {Aceita a derrota (não via eMail)}
 menuText B CCClaimDraw "Declarar empate" 0 {Envia o movimento e declara empate (não via eMail)}
+
+# menu in cc window:
+
+#  B    GHiJKL    Q  TUV XYZ
 
 # Options menu:
 menuText B Options "Opcoes" 0
@@ -231,8 +242,7 @@ menuText B OptionsMovesHighlightLastMoveDisplay "Mostrar Casas" 0 {Mostra o dest
 menuText B OptionsMovesHighlightLastMoveWidth "Espessura" 0 {Espessura da linha}
 menuText B OptionsMovesHighlightLastMoveColor "Cor" 0 {Cor da linha}
 menuText B OptionsMovesHighlightLastMoveArrow "Mostrar Seta" 0 {Seta de Inclusao Destacada}
-# ====== TODO To be translated ======
-menuText B OptionsMovesHighlightLastMoveNag "Show evaluation symbols" 0
+menuText B OptionsMovesHighlightLastMoveNag "Mostrar símbolos de avaliação" 0
 menuText B OptionsMoves "Movimentos" 0 {Opcoes para entrada dos movimentos}
 menuText B OptionsMovesAnimate "Tempo de animação" 1 \
   {Define a quantidade de tempo usada para animar os movimentos} 
@@ -244,9 +254,11 @@ menuText B OptionsMovesSuggest "Mostrar movimentos sugeridos" 0 \
   {Liga/desliga sugestao de movimentos}
 menuText B OptionsShowVarPopup "Mostrar janela de variantes" 0 {Liga/Desliga a janela de variantes}  
 menuText B OptionsMovesSpace "Adicionar espaços após o número do movimento" 0 {Adiciona espaços após o número do movimento}  
+menuText B OptionsMovesLichess "Formato Lichess/ChessBase para anotações" 0 {Use o formato Lichess/ChessBase para marcadores quadrados e setas}
 menuText B OptionsMovesKey "Auto completar" 0 \
   {Liga/desliga auto completar a partir do que for digitado}
 menuText B OptionsMovesShowVarArrows "Mostrar Setas para variantes" 0 {Liga/Desliga as setas que mostram movimentos em variantes}
+menuText B OptionsMovesShowEngineVariationArrows "Mostrar setas para variações do motor" 0 {Setas liga/desliga mostrando linhas de variação do motor no modo multiPV}
 menuText B OptionsMovesGlossOfDanger "Codigos de Cor para Perigo" 0 {Liga/Desliga os codigos de cor para perigo}
 menuText B OptionsNumbers "Formato de Numeros" 0 {Selecione o formato usado para numeros}
 menuText B OptionsTheme "Tema" 0 {Muda a aparência da interface}
@@ -426,7 +438,7 @@ translate B Tip {Dica}
 translate B TipAtStartup {Dica ao iniciar}
 translate B TipConvertPGN {Voce pode obter melhor desempenho convertendo seus arquivos PGN}
 
-# Tree window menus: ***
+# Tree window menus:
 menuText B TreeFile "Arquivo" 0
 menuText B TreeFileFillWithBase "Carregar Cache com base" 0 {Carrega todos os jogos da base corrente no Cache}
 menuText B TreeFileFillWithGame "Carregar Cache com jogo" 0 {Carrega o jogo corrente da base corrente no Cache}
@@ -623,6 +635,8 @@ translate B Informant+= {Branca tem alguma vantagem}
 translate B Informant+/- {Branca tem vantagem moderada}
 translate B Informant+- {Branca tem vantagem decisiva}
 translate B Informant+-- {O jogo á considerado como ganho}
+
+# Book window
 translate B Book {Livro}
 translate B OtherBookMoves {Livro do oponente}
 translate B OtherBookMovesTooltip {Movimentos para os quais o oponente tem resposta}
@@ -638,28 +652,17 @@ translate B EngineTime {Data}
 translate B EngineNew {Novo}
 translate B EngineEdit {Editar}
 translate B EngineRequired {Campos em negrito são obrigatórios; os demais são opcionais}
-# ====== TODO To be translated ======
-translate B EngineProtocol {Communication protocol}
-# ====== TODO To be translated ======
-translate B EngineNotation {Notation of the moves}
-# ====== TODO To be translated ======
-translate B EngineFlipEvaluation {Flip evaluation perspective}
-# ====== TODO To be translated ======
-translate B EngineShowLog {Show communication log}
-# ====== TODO To be translated ======
-translate B EngineNetworkd {Accept remote connections}
-# ====== TODO To be translated ======
-translate B EngineSelect {Select the current engine}
-# ====== TODO To be translated ======
-translate B EngineAddLocal {Add a local engine}
-# ====== TODO To be translated ======
-translate B EngineAddRemote {Add a remote engine}
-# ====== TODO To be translated ======
-translate B EngineReload {Reload the current engine}
-# ====== TODO To be translated ======
-translate B EngineClone {Create a copy of the current engine}
-# ====== TODO To be translated ======
-translate B EngineDelete {Delete the current engine}
+translate B EngineProtocol {Protocolo de comunicação}
+translate B EngineNotation {Notação dos movimentos}
+translate B EngineFlipEvaluation {Perspectiva de avaliação invertida}
+translate B EngineShowLog {Mostrar registro de comunicação}
+translate B EngineNetworkd {Aceitar conexões remotas}
+translate B EngineSelect {Selecione o mecanismo atual}
+translate B EngineAddLocal {Adicione um mecanismo local}
+translate B EngineAddRemote {Adicionar um mecanismo remoto}
+translate B EngineReload {Recarregue o mecanismo atual}
+translate B EngineClone {Crie uma cópia do mecanismo atual}
+translate B EngineDelete {Exclua o mecanismo atual}
 
 # PGN window menus:
 menuText B PgnFile "Arquivo" 0
@@ -768,12 +771,9 @@ translate B BrilliancyFlag {Brilhantismo}
 translate B BlunderFlag {Erro!!!}
 translate B UserFlag {Usuario}
 translate B PgnContains {PGN contem texto}
-# ====== TODO To be translated ======
-translate B PgnTag {Tag}
-# ====== TODO To be translated ======
-translate B TagContains {contains}
-# ====== TODO To be translated ======
-translate B Variant {Variant}
+translate B PgnTag {Marcação}
+translate B TagContains {contém}
+translate B Variant {Variante}
 translate B Annotator {Anotador}
 translate B Cmnts {Apenas jogos anotados}
 
@@ -819,6 +819,8 @@ translate B GlistSep {Separador}
 translate B GlistCurrentSep {--  Atual  --}
 translate B GlistNewSort {Novo}
 translate B GlistAddToSort {Adicionar}
+
+# base sorting
 translate B GsortSort {Classificar...}
 translate B GsortDate {Data}
 translate B GsortYear {Ano}
@@ -844,6 +846,8 @@ translate B GsortDescending {Descendente}
 translate B GsortAdd {Adicionar}
 translate B GsortStore {Salvar}
 translate B GsortLoad {Carregar}
+
+# menu shown with right mouse button down on game list.
 translate B GlistRemoveThisGameFromFilter  {Remover este jogo do filtro}
 translate B GlistRemoveGameAndAboveFromFilter  {Remover jogo (e todos antes dele) do filtro}
 translate B GlistRemoveGameAndBelowFromFilter  {Remover jogo (e todos depois dele) do filtro}
@@ -902,6 +906,7 @@ Esta operacao pode levar muito tempo para ser executada em uma grande base de da
 
 Voce esta certo de que quer iniciar as acoes de manutencao selecionadas?
 }
+# Twinchecker
 translate B TwinCheckUndelete {para virar; "u" recupera ambos)}
 translate B TwinCheckprevPair {Par anterior}
 translate B TwinChecknextPair {Próximo par}
@@ -922,6 +927,8 @@ translate B AllocRatingDescription "Este comando utilizará o arquivo corrente de
 translate B RatingOverride "Sobrescrever ratings existentes diferentes de zero?"
 translate B AddRatings "Adicionar ratings a:"
 translate B AddedRatings {Scid adicionou $r ratings Elo em $g jogos.}
+
+#Bookmark editor
 translate B NewSubmenu "Novo Submenu"
 
 # Comment editor:
@@ -1028,6 +1035,7 @@ translate B Castling {Roque}
 translate B EnPassantFile {coluna En Passant}
 translate B ClearFen {Limpar FEN}
 translate B PasteFen {Colar FEN}
+
 translate B SaveAndContinue {Salvar e continuar}
 translate B DiscardChangesAndContinue {Descartar alterações\ne continuar}
 translate B GoBack {Voltar}
@@ -1205,6 +1213,8 @@ translate B NameEditSelect {Jogos para editar}
 translate B NameEditReplace {Substituir}
 translate B NameEditWith {com}
 translate B NameEditMatches {Confere: Pressione Ctrl+1 a Ctrl+9 para selecionar}
+
+# Check games window:
 translate B CheckGames {Marcar jogos}
 translate B CheckGamesWhich {Marcar jogos}
 translate B CheckAll {Todos os jogos}
@@ -1254,9 +1264,9 @@ translate B ExportStripMarks {Remover códigos de marca de casa/seta dos comentár
 # Goto game/move dialogs:
 translate B LoadGameNumber {Entre o numero do jogo a ser carregado:}
 translate B GotoMoveNumber {Ir p/ o lance no.:}
-translate B CopyAllGames {Copiar todos os jogos}
 
 # Copy games dialog:
+translate B CopyAllGames {Copiar todos os jogos}
 translate B CopyGames {Copiar jogos}
 translate B CopyConfirm {
  Voce realmente quer copiar
@@ -1326,6 +1336,8 @@ Entre com uma lista dos nomes de jogadores preferidos, abaixo, um nome por linha
 
 Cada vez que um jogo com um jogador da lista é carregado, o tabuleiro da janela principal sofrerá rotação, se necessário, para mostrar o jogo da perspectiva desse jogador..
 } 
+
+#Coach
 translate B showblunderexists {mostra que existe um erro crasso}
 translate B showblundervalue {mostra o valor do erro crasso}
 translate B showscore {mostra o score}
@@ -1446,6 +1458,7 @@ translate B Export {Exportar}
 translate B BookPartiallyLoaded {Livro parcialmente carregado}
 translate B Calvar {Calculo de variantes}
 translate B ConfigureCalvar {Configuração}
+# Opening names used in tacgame.tcl
 translate B Reti {Reti}
 translate B English {Inglesa}
 translate B d4Nf6Miscellaneous {1.d4 Nf6 Diversas}
@@ -1502,6 +1515,8 @@ translate B NimzoIndianRubinstein {Nimzo-India Rubinstein}
 translate B KingsIndian {India do Rei}
 translate B KingsIndianSamisch {India do Rei Sämisch}
 translate B KingsIndianMainLine {India do Rei Linha Principal}
+
+# FICS
 translate B ConfigureFics {Configurar FICS}
 translate B FICSGuest {Login como convidado}
 translate B FICSServerPort {Porta do Servidor}
@@ -1542,6 +1557,8 @@ translate B FICSUnrated {Sem rating}
 translate B FICSRegisteredPlayer {Apenas jogador registrado}
 translate B FICSFreePlayer {Apenas jogador gratuito}
 translate B FICSNetError {Erro de rede\nNao pode conectar }
+
+# Game review
 translate B GameReview {Rever jogo}
 translate B GameReviewTimeExtended {Tempo estendido}
 translate B GameReviewMargin {Mergem de erro}
@@ -1561,12 +1578,14 @@ translate B GameReviewNotEngineMoveButGoodMove {Não é o movimento do engine, mas
 translate B GameReviewMoveNotGood {Este movimento não é bom; seu score e}
 translate B GameReviewMovesPlayedLike {Movimentos semelhantes}
 translate B GameReviewMovesPlayedEngine {Movimentos semelhantes aos do engine}
+
+# Correspondence Chess Dialogs:
 translate B CCDlgCGeneraloptions {Opções Gerais}
 translate B CCDlgLoginName  {Login Name:}
 translate B CCDlgPassword   {Senha:}
 translate B CCDlgShowPassword {Mostra a Senha}
 
-
+# Connect Hardware dialogs
 translate B ExtHWConfigConnection {Configurar hardware externo}
 translate B ExtHWPort {Porta}
 translate B ExtHWEngineCmd {Comando do Engine}
@@ -1577,12 +1596,17 @@ translate B ExtHWNovag {Novag Citrine}
 translate B ExtHWInputEngine {Entrar com o Engine}
 translate B ExtHWNoBoard {Nenhum tabuleiro}
 translate B NovagReferee {Arbitro}
+
+# Input Engine dialogs
 translate B IEConsole {Entrar na console do Engine}
 translate B IESending {Movimentos enviados para}
 translate B IESynchronise {Sincronizar}
 translate B IERotate  {Girar}
 translate B IEUnableToStart {Não é possivel iniciar Engine:}
+
+# Calculation of Variations
 translate B DoneWithPosition {Posição definida}
+
 translate B Board {Tabuleiro}
 translate B showGameInfo {Mostrar informações do jogo}
 translate B autoResizeBoard {Tamanho automático do tabuleiro}
@@ -1591,11 +1615,14 @@ translate B DockBottom {Mover para o final}
 translate B DockLeft {Mover para a esquerda}
 translate B DockRight {Mover para a direita}
 translate B Undock {Desacoplar}
-# ====== TODO To be translated ======
-translate B AboutDatabase {About This Database}
+
+# Switcher window
+translate B AboutDatabase {Sobre este banco de dados}
 translate B ChangeIcon {Alterar icone...}
 translate B NewGameListWindow {Lista de Novos Jogos}
 translate B LoadatStartup {Carregar ao inicializar}
+
+# Gamelist window
 translate B ShowHideDB {Exibe/Oculta base de dados}
 translate B ChangeFilter {Altera filtro}
 translate B ChangeLayout {Carrega/Salva/Altera criterio de ordenacao e layout das colunas}
@@ -1607,6 +1634,7 @@ translate B FindCurrentGame {Pesquisar jogo atual}
 translate B DeleteGame {Excluir jogo}
 translate B UndeleteGame {Recuperar jogo deletado}
 translate B ResetSort {Reiniciar ordenacao}
+
 translate B ConvertNullMove {Converter movimentos nullos para comentarios}
 translate B SetupBoard {Definir tabuleiro}
 translate B Rotate {Rotacionar}
@@ -1622,24 +1650,25 @@ translate B BackToMainline {Voltar para linha principal}
 translate B LeaveVariant {Deixar variante}
 translate B Autoplay {Jogo automatico}
 translate B ShowHideCoords {Exibir/Ocultar Coord.}
-# ====== TODO To be translated ======
-translate B ShowHideEvalBar {Show/Hide Evaluation Bar}
+translate B ShowHideEvalBar {Mostrar/ocultar barra de avaliação}
 translate B ShowHideMaterial {Exibir/Ocultar Material}
-# ====== TODO To be translated ======
-translate B SelectMarker {Select Marker}
+translate B SelectMarker {Selecione o marcador}
 translate B FullScreen {Tela Cheia}
 translate B FilterStatistic {Estatisticas de Filtro}
 translate B MakeCorrections {Fazer Correcoes}
 translate B Surnames {Sobrenomes}
 translate B Ambiguous {Ambiguo}
+
+#Preferences Dialog
 translate B OptionsToolbar "Barra de Ferramentas da Janela Principal"
 translate B OptionsBoard "Tabuleiro"
 translate B OptionsBoardSize "Tamanho do Tabuleiro"
 translate B OptionsBoardPieces "Estilo de Pecas no Tabuleiro"
 translate B OptionsInternationalization "Internacionalizacao"
 translate B OptionsTablebaseDir "Selecione até 4 pastas tabela base de finais:"
+
+# Evaluation bar
 translate B BestMoveArrow "Seta de melhor movimento"
 translate B NewLocalEngine "+ Novo engine ..."
 }
-
-# end of portbr.tcl
+# end of english.tcl

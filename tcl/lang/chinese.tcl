@@ -13,21 +13,47 @@ menuText M FileNew "新建..." 0 {创建一个新的Scid数据库}
 menuText M FileOpen "打开..." 0 {打开现有的Scid数据库}
 menuText M FileClose "关闭" 0 {关闭活动的Scid数据库}
 menuText M FileFinder "查找器" 0 {打开文件查找器窗口}
-menuText M FileSaveImage "保存图像..." 0 {将棋盘保存为图像文件}
 menuText M FileBookmarks "书签" 0 {书签菜单（快捷键：Ctrl+B）}
 menuText M FileBookmarksAdd "添加书签" 0 {为当前数据库游戏和位置添加书签}
 menuText M FileBookmarksFile "归档书签" 0 {为当前书签归档}
 menuText M FileBookmarksEdit "编辑书签..." 0 {编辑书签菜单}
 menuText M FileBookmarksList "显示文件夹为单层列表" 0 {显示书签文件夹为单层列表，而不是子菜单}
 menuText M FileBookmarksSub "显示文件夹为子菜单" 0 {显示书签文件夹为子菜单，而不是单层列表}
+menuText M FileMaint "维护" 0 {Scid database maintenance tools}
+menuText M FileMaintWin "维护窗口" 0 \
+  {打开/关闭Scid数据库维护窗口}
+menuText M FileMaintCompact "压缩数据库..." 0 \
+  {Compact database files, removing deleted games and unused names}
+menuText M FileMaintClass "ECO-Classify Games..." 2 \
+  {Recompute the ECO code of all games}
+menuText M FileMaintSort "Sort Database..." 0 \
+  {Sort all games in the database}
+menuText M FileMaintDelete "删除重复对局..." 0 \
+  {Find twin games and set them to be deleted}
+menuText M FileMaintTwin "Twin Checker Window" 0 \
+  {Open/update the Twin checker window}
+menuText M FileMaintName "Name Spelling" 0 {名称编辑和拼写检查工具}
+menuText M FileMaintNameEditor "Name Editor" 0 \
+  {Open/close the name editor window}
+menuText M FileMaintNamePlayer "Spellcheck Player Names..." 11 \
+  {Spellcheck player names using the spellcheck file}
+menuText M FileMaintNameEvent "Spellcheck Event Names..." 11 \
+  {Spellcheck event names using the spellcheck file}
+menuText M FileMaintNameSite "Spellcheck Site Names..." 11 \
+  {Spellcheck site names using the spellcheck file}
+menuText M FileMaintNameRound "Spellcheck Round Names..." 11 \
+  {Spellcheck round names using the spellcheck file}
 menuText M FileReadOnly "只读..." 0 {将当前数据库视为只读，防止更改}
 menuText M FileSwitch "切换数据库" 0 {切换到其他打开的数据库}
+menuText M FileOpenLichessTournament "Open Lichess Tournament" 0 {Download and open live Lichess tournament broadcast games}
+menuText M FileImportLichess "Import my Lichess" 0 {Import games from your Lichess account}
+menuText M FileImportChessCom "Import my chess.com" 0 {Import games from your chess.com account}
 menuText M FileExit "退出" 0 {退出Scid}
+menuText M FileMaintFixBase "Repair base" 0 {Try to repair a corrupted base}
 
 # Edit menu:
 menuText M Edit "编辑" 0
 menuText M EditAdd "添加变化" 0 {为此棋步添加变化}
-menuText M EditPasteVar "粘贴变化" 0
 menuText M EditDelete "删除变化" 0 {删除此着法的变化}
 menuText M EditFirst "提升为第一变化" 0 {将变化提升为列表中的第一个}
 menuText M EditMain "将变化提升为主线" 0 {将变化提升为主线}
@@ -64,144 +90,20 @@ menuText M GameDeepest "识别开局" 0 {转到ECO手册中列出的最深游戏
 menuText M GameGotoMove "转到着法编号..." 0 {转到当前游戏中的指定着法编号}
 menuText M GameNovelty "查找新着..." 0 {查找此游戏中之前未下过的第一步棋}
 
-# Search menu:
+# Search Menu:
 menuText M Search "搜索" 0
 menuText M SearchReset "重置过滤器" 0 {重置过滤器以包含所有游戏}
 menuText M SearchNegate "反转过滤器" 0 {反转过滤器，仅包含被排除的游戏}
-menuText M SearchEnd "移动到过滤器的最后一局" 0
 menuText M SearchCurrent "当前局面..." 0 {搜索当前局面}
 menuText M SearchHeader "标头..." 0 {按标头（棋手、赛事等）搜索}
 menuText M SearchMaterial "子力/局面..." 0 {按子力或局面模式搜索}
-menuText M SearchMoves "着法" 0
 menuText M SearchUsing "使用搜索选项文件..." 0 {使用SearchOptions文件搜索}
 
 # Windows menu:
 menuText M Windows "窗口" 0
-menuText M WindowsGameList "游戏列表" 0 {显示/隐藏游戏列表窗口}
-menuText M WindowsPGN "PGN窗口" 0 {显示/隐藏PGN（游戏记谱）窗口}
-menuText M WindowsTree "棋局树" 0 {显示/隐藏棋局树窗口}
-menuText M WindowsTB "终局库窗口" 0 {显示/隐藏终局库窗口}
 menuText M WindowsComment "注释编辑器" 0 {显示/隐藏注释编辑器窗口}
-
-# Tools menu:
-menuText M Tools "工具" 0
-menuText M ToolsAnalysis "分析引擎..." 0 {启动/停止国际象棋分析引擎}
-menuText M ToolsEmail "电子邮件管理器" 0 {打开/关闭电子邮件管理器窗口}
-menuText M ToolsFilterGraph "过滤器图表" 0 {打开/关闭相对值的过滤器图表窗口}
-menuText M ToolsRating "评级图表" 0 {绘制这些游戏中棋手的评级图表}
-menuText M ToolsScore "分数图表" 0 {显示分数图表窗口}
-menuText M ToolsExpFilter "扩展过滤器" 0 {显示当前过滤器中的所有游戏}
-menuText M ToolsExpCurrent "导出当前游戏" 0 {将当前游戏写入文件}
-menuText M ToolsExpText "导出为文本文件" 0 {将当前数据库导出为文本文件}
-menuText M ToolsExpHtml "导出为HTML" 0 {将当前数据库导出为HTML文件}
-menuText M ToolsExpHtmlImg "导出为HTML（带图片）" 0 {将当前数据库导出为包含棋盘图片的HTML文件}
-menuText M ToolsExpLaTeX "导出为LaTeX" 0 {将当前数据库导出为LaTeX文件}
-menuText M ToolsBookTuning "调整开局库" 0
-menuText M ToolsConnectHardware "连接硬件" 0
-menuText M ToolsConnectHardwareConfigure "配置..." 0
-menuText M ToolsConnectHardwareHelp "帮助..." 0
-menuText M ToolsMaint "维护" 0 {Scid数据库维护工具}
-menuText M ToolsMaintenanceWin "维护窗口" 0 {打开/关闭Scid维护窗口}
-menuText M ToolsECO "ECO浏览器" 0 {打开ECO（开局分类）浏览器窗口}
-menuText M ToolsRepertoire "开局库编辑器" 0 {打开开局库编辑器}
-menuText M ToolsOpReport "开局报告" 0 {为当前局面生成开局报告}
-menuText M ToolsOpenBaseAsTree "打开数据库到树窗口..." 0 {打开数据库并在树窗口中使用}
-menuText M ToolsOpenRecentBaseAsTree "打开最近的数据库到树窗口" 0 {打开最近的数据库并在树窗口中使用}
-
-# Help menu:
-menuText M Help "帮助" 0
-menuText M HelpContents "目录" 0 {显示帮助目录页面}
-menuText M HelpIndex "索引" 0 {显示帮助索引页面}
-menuText M HelpGuide "快速指南" 0 {显示快速指南帮助页面}
-menuText M HelpHints "提示" 0 {显示提示帮助页面}
-menuText M HelpContact "联系信息" 0 {显示联系信息帮助页面}
-menuText M HelpTip "每日提示" 0 {显示有用的Scid提示}
-menuText M HelpStartup "启动窗口" 0 {显示启动窗口}
-menuText M HelpAbout "关于Scid" 0 {关于Scid的信息}
-
-# Common buttons and labels
-translate M Ok {确定}
-translate M Cancel {取消}
-translate M Apply {应用}
-translate M Save {保存}
-translate M Close {关闭}
-translate M Yes {是}
-translate M No {否}
-translate M All {全部}
-translate M None {无}
-translate M White {白方}
-translate M Black {黑方}
-translate M Both {双方}
-translate M King {王}
-translate M Queen {后}
-translate M Rook {车}
-translate M Bishop {象}
-translate M Knight {马}
-translate M Pawn {兵}
-translate M Player {棋手}
-translate M Rating {等级分}
-translate M Score {分数}
-translate M Date {日期}
-translate M Event {赛事}
-translate M Site {地点}
-translate M Round {轮次}
-translate M Result {结果}
-translate M ECO {ECO}
-translate M Depth {深度}
-translate M Databases {数据库}
-translate M Database {数据库}
-translate M Filter {过滤器}
-translate M Search {搜索}
-translate M Position {局面}
-translate M GameNumber {游戏编号}
-translate M Move {着法}
-translate M MoveNumber {着法编号}
-translate M FindBestMove {查找最佳着法}
-translate M Training {训练}
-translate M Analysis {分析}
-translate M Engine {引擎}
-translate M AnnotateGame {注释游戏}
-translate M Email {电子邮件}
-translate M Computer {电脑}
-translate M Comment {注释}
-translate M Comments {注释}
-translate M Variation {变化}
-translate M Variations {变化}
-translate M Error {错误}
-translate M FileName {文件名}
-translate M Updating {更新中}
-translate M Loading {加载中}
-translate M Saving {保存中}
-
-menuText M FileMaint "维护" 0 {Scid database maintenance tools}
-menuText M FileMaintWin "维护窗口" 0 \
-  {打开/关闭Scid数据库维护窗口}
-menuText M FileMaintCompact "压缩数据库..." 0 \
-  {Compact database files, removing deleted games and unused names}
-menuText M FileMaintClass "ECO-Classify Games..." 2 \
-  {Recompute the ECO code of all games}
-menuText M FileMaintSort "Sort Database..." 0 \
-  {Sort all games in the database}
-menuText M FileMaintDelete "删除重复对局..." 0 \
-  {Find twin games and set them to be deleted}
-menuText M FileMaintTwin "Twin Checker Window" 0 \
-  {Open/update the Twin checker window}
-menuText M FileMaintName "Name Spelling" 0 {名称编辑和拼写检查工具}
-menuText M FileMaintNameEditor "Name Editor" 0 \
-  {Open/close the name editor window}
-menuText M FileMaintNamePlayer "Spellcheck Player Names..." 11 \
-  {Spellcheck player names using the spellcheck file}
-menuText M FileMaintNameEvent "Spellcheck Event Names..." 11 \
-  {Spellcheck event names using the spellcheck file}
-menuText M FileMaintNameSite "Spellcheck Site Names..." 11 \
-  {Spellcheck site names using the spellcheck file}
-menuText M FileMaintNameRound "Spellcheck Round Names..." 11 \
-  {Spellcheck round names using the spellcheck file}
-menuText M FileOpenLichessTournament "Open Lichess Tournament" 0 {Download and open live Lichess tournament broadcast games}
-menuText M FileImportLichess "Import my Lichess" 0 {Import games from your Lichess account}
-menuText M FileImportChessCom "Import my chess.com" 0 {Import games from your chess.com account}
-menuText M FileMaintFixBase "Repair base" 0 {Try to repair a corrupted base}
 menuText M WindowsGList "对局列表" 0 {打开/关闭对局列表窗口}
+menuText M WindowsPGN "PGN窗口" 0 {显示/隐藏PGN（游戏记谱）窗口}
 menuText M WindowsPList "棋手查找" 2 {Open/close the player finder}
 menuText M WindowsTmt "锦标赛查找器" 2 {打开/关闭锦标赛查找器}
 menuText M WindowsSwitcher "数据库切换器" 0 \
@@ -211,14 +113,23 @@ menuText M WindowsMaint "维护窗口" 0 \
 menuText M WindowsECO "ECO浏览器" 0 {打开/关闭ECO浏览器窗口}
 menuText M WindowsStats "统计窗口" 0 \
   {打开/关闭筛选统计窗口}
+menuText M WindowsTree "棋局树" 0 {显示/隐藏棋局树窗口}
 menuText M WindowsBook "开局库窗口" 0 {打开/关闭开局库窗口}
 menuText M WindowsCorrChess "通讯窗口" 0 {打开/关闭通讯窗口}
 menuText M WindowsGraph "分析图表" 0 {打开显示着法时间和评估的图表窗口}
+
+# Tools menu:
+menuText M Tools "工具" 0
 menuText M ToolsConfigureEngines "配置引擎" 10 {管理引擎配置}
+menuText M ToolsAnalysis "分析引擎..." 0 {启动/停止国际象棋分析引擎}
 menuText M ToolsAnalysis2 "分析引擎#2..." 17 \
   {启动/停止第二个国际象棋分析引擎}
 menuText M ToolsCross "交叉表" 0 {显示此对局的锦标赛交叉表}
+menuText M ToolsFilterGraph "过滤器图表" 0 {打开/关闭相对值的过滤器图表窗口}
 menuText M ToolsAbsFilterGraph "绝对筛选图" 7 {打开/关闭绝对值筛选图窗口}
+menuText M ToolsOpReport "开局报告" 0 {为当前局面生成开局报告}
+menuText M ToolsOpenBaseAsTree "打开数据库到树窗口..." 0 {打开数据库并在树窗口中使用}
+menuText M ToolsOpenRecentBaseAsTree "打开最近的数据库到树窗口" 0 {打开最近的数据库并在树窗口中使用}
 menuText M ToolsTracker "棋子追踪器"  6 {打开棋子追踪器窗口}
 menuText M ToolsTraining "训练"  0 {训练工具（战术、开局等）}
 menuText M ToolsTacticalGame "战术对局"  0 {进行战术对局}
@@ -230,13 +141,19 @@ menuText M ToolsTrainCalvar "变化计算"  0 {变化计算训练}
 menuText M ToolsTrainFindBestMove "寻找最佳着法"  0 {寻找最佳着法}
 menuText M ToolsTrainFics "在FICS上对弈"  0 {在freechess.org上对弈}
 menuText M ToolsEngineTournament "引擎锦标赛"  0 {在国际象棋引擎之间开始锦标赛}
+menuText M ToolsBookTuning "调整开局库" 0
 menuText M ToolsDownloadTWIC "下载TWIC对局" 0 {下载最新的《本周国际象棋》(TWIC)对局}
+menuText M ToolsConnectHardware "连接硬件" 0
+menuText M ToolsConnectHardwareConfigure "配置..." 0
 menuText M ToolsConnectHardwareNovagCitrineConnect "连接Novag Citrine" 8 {将Novag Citrine与Scid连接}
 menuText M ToolsConnectHardwareInputEngineConnect "连接输入引擎" 8 {将输入引擎（例如DGT棋盘）与Scid连接}
+
 menuText M ToolsPInfo "棋手信息"  0 \
   {打开/更新棋手信息窗口}
 menuText M ToolsPlayerReport "棋手报告..." 3 \
   {生成棋手报告}
+menuText M ToolsRating "评级图表" 0 {绘制这些游戏中棋手的评级图表}
+menuText M ToolsExpCurrent "导出当前游戏" 0 {将当前游戏写入文件}
 menuText M ToolsExpCurrentPGN "导出对局到PGN文件..." 15 \
   {将当前对局写入PGN文件}
 menuText M ToolsExpCurrentHTML "导出对局到HTML文件..." 15 \
@@ -244,6 +161,7 @@ menuText M ToolsExpCurrentHTML "导出对局到HTML文件..." 15 \
 menuText M ToolsExpCurrentHTMLJS "导出对局到HTML和JavaScript文件..." 15 {将当前对局写入HTML和JavaScript文件}
 menuText M ToolsExpCurrentLaTeX "导出对局到LaTeX文件..." 15 \
   {将当前对局写入LaTeX文件}
+menuText M ToolsExpFilter "扩展过滤器" 0 {显示当前过滤器中的所有游戏}
 menuText M ToolsExpFilterPGN "导出筛选到PGN文件..." 17 \
   {将所有筛选的对局写入PGN文件}
 menuText M ToolsExpFilterHTML "导出筛选到HTML文件..." 17 \
@@ -257,9 +175,19 @@ menuText M ToolsImportFile "从PGN文件导入对局..." 7 {从PGN文件导入�
 menuText M ToolsStartEngine1 "启动引擎1" 13  {启动引擎1}
 menuText M ToolsStartEngine2 "启动引擎2" 13  {启动引擎2}
 menuText M ToolsCaptureBoard "捕获当前棋盘..." 5  {将当前棋盘保存为图像。}
+
+# Play menu
 menuText M Play "Play" 0
+
+# --- Correspondence Chess
 menuText M CCResign "Resign" 1 {Resign (not via eMail)}
 menuText M CCClaimDraw "Claim Draw" 6 {Send move and claim a draw (not via eMail)}
+
+# menu in cc window:
+
+#  B    GHiJKL    Q  TUV XYZ
+
+# Options menu:
 menuText M Options "选项" 0
 menuText M OptionsBoardGraphics "格子..." 0 {选择格子纹理}
 translate M OptionsBGW {选择格子纹理}
@@ -321,6 +249,19 @@ menuText M OptionsThemeDir "主题文件"  0 {加载GUI主题包文件}
 menuText M OptionsSave "保存选项" 0 "将所有可设置选项保存到文件$::optionsFile"
 menuText M OptionsAutoSave "退出时自动保存选项" 0 \
   {退出Scid时自动保存所有选项}
+
+# Help menu:
+menuText M Help "帮助" 0
+menuText M HelpContents "目录" 0 {显示帮助目录页面}
+menuText M HelpIndex "索引" 0 {显示帮助索引页面}
+menuText M HelpGuide "快速指南" 0 {显示快速指南帮助页面}
+menuText M HelpHints "提示" 0 {显示提示帮助页面}
+menuText M HelpContact "联系信息" 0 {显示联系信息帮助页面}
+menuText M HelpTip "每日提示" 0 {显示有用的Scid提示}
+menuText M HelpStartup "启动窗口" 0 {显示启动窗口}
+menuText M HelpAbout "关于Scid" 0 {关于Scid的信息}
+
+# Game info box popup menu:
 menuText M GInfoHideNext "Hide Next Move" 0
 menuText M GInfoMaterial "Show Material Values" 0
 menuText M GInfoFEN "Show FEN" 5
@@ -334,14 +275,20 @@ menuText M GInfoTBAll "Tablebases: Result and Best Moves" 19
 menuText M GInfoDelete "(Un)Delete This Game" 4
 menuText M GInfoMark "(Un)Mark This Game" 4
 menuText M GInfoInformant "Configure informant values" 0
+
+# General buttons:
 translate M Back {Back}
 translate M Browse {浏览}
+translate M Cancel {取消}
 translate M Continue {Continue}
 translate M Clear {清除}
+translate M Close {关闭}
 translate M Contents {目录}
 translate M Defaults {Defaults}
 translate M Delete {删除}
 translate M Graph {图表}
+# MISSING TRANSLATION for Help:
+# translate E Help {Help}
 translate M Hide {隐藏}
 translate M Import {导入}
 translate M Index {索引}
@@ -351,23 +298,44 @@ translate M MergeGame {Merge Game}
 translate M MergeGames {Merge Games}
 translate M Preview {Preview}
 translate M Revert {Revert}
+translate M Save {保存}
+translate M Search {搜索}
 translate M Stop {停止}
 translate M Store {Store}
 translate M Update {更新}
 translate M ChangeOrient {Change window orientation}
 translate M ShowIcons {Show Icons}
+translate M None {无}
 translate M First {第一个}
 translate M Current {当前}
 translate M Last {最后一个}
+
+# General messages:
 translate M game {对局}
 translate M games {对局}
 translate M move {着法}
 translate M moves {着法}
 translate M all {全部}
+translate M Yes {是}
+translate M No {否}
+translate M Both {双方}
+translate M King {王}
+translate M Queen {后}
+translate M Rook {车}
+translate M Bishop {象}
+translate M Knight {马}
+translate M Pawn {兵}
+translate M White {白方}
+translate M Black {黑方}
+translate M Player {棋手}
+translate M Rating {等级分}
 translate M RatingDiff {Rating difference (White - Black)}
 translate M AverageRating {Average Rating}
+translate M Event {赛事}
+translate M Site {地点}
 translate M Country {Country}
 translate M IgnoreColors {Ignore colors}
+translate M Date {日期}
 translate M EventDate {Event date}
 translate M Decade {Decade}
 translate M Year {年}
@@ -376,11 +344,16 @@ translate M Months {January February March April May June July August September 
 translate M Days {Sun Mon Tue Wed Thu Fri Sat}
 translate M YearToToday {-1Y}
 translate M YearToTodayTooltip {Set date from 1 year back to today}
+translate M Result {结果}
+translate M Round {轮次}
 translate M Length {Length}
 translate M ECOCode {ECO code}
+translate M ECO {ECO}
 translate M Deleted {Deleted}
 translate M SearchResults {Search Results}
 translate M OpeningTheDatabase {Opening database}
+translate M Database {数据库}
+translate M Filter {过滤器}
 translate M noGames {no games}
 translate M allGames {all games}
 translate M empty {空}
@@ -389,9 +362,13 @@ translate M score {分数}
 translate M StartPos {Start position}
 translate M Total {总计}
 translate M readonly {read-only}
+
+# Standard error messages:
 translate M ErrNotOpen {This is not an open database.}
 translate M ErrReadOnly {This database is read-only; it cannot be altered.}
 translate M ErrSearchInterrupted {Search was interrupted; results are incomplete.}
+
+# Game information:
 translate M twin {重复}
 translate M deleted {deleted}
 translate M comment {注释}
@@ -402,6 +379,8 @@ translate M GameStart {Start of game}
 translate M LineStart {Start of line}
 translate M GameEnd {End of game}
 translate M LineEnd {End of line}
+
+# Player information:
 translate M PInfoAll {Results for <b>all</b> games}
 translate M PInfoFilter {Results for <b>filter</b> games}
 translate M PInfoAgainst {Results against}
@@ -411,14 +390,20 @@ translate M PInfoRating {Rating history}
 translate M PInfoBio {Biography}
 translate M PInfoEditRatings {Edit Ratings}
 translate M PInfoEloFile {直线}
+
+# Tablebase information:
 translate M Draw {和棋}
 translate M with {与}
 translate M only {仅}
 translate M lose {lose}
 translate M loses {loses}
+
+# Tip of the day:
 translate M Tip {提示}
 translate M TipAtStartup {Tip at startup}
 translate M TipConvertPGN {You can get better performance by converting PGN files}
+
+# Tree window menus:
 menuText M TreeFile "直线" 0
 menuText M TreeFileFillWithBase "Fill Cache with base" 0 {Fill the cache file with all games in current base}
 menuText M TreeFileFillWithGame "Fill Cache with game" 0 {Fill the cache file with current game in current base}
@@ -461,10 +446,13 @@ menuText M TreeHelp "帮助" 0
 menuText M TreeHelpTree "Tree Help" 0
 menuText M TreeHelpIndex "Help Index" 0
 translate M SaveCache {Save Cache}
+translate M Training {训练}
 translate M LockTree {锁定}
 translate M TreeLocked {locked}
 translate M TreeBest {最佳}
 translate M TreeBestGames {Best Tree Games}
+# Note: the next message is the tree window title row. After editing it,
+# check the tree window to make sure it lines up with the actual columns.
 translate M TreeTitleRow \
   {    Move   ECO       Frequency    Score  AvElo Perf AvYear %Draws}
 translate M TreeTotal {总计}
@@ -498,6 +486,8 @@ translate M AddMoveToMaskFirst {Add move to mask first}
 translate M OpenAMaskFileFirst {Open a mask file first}
 translate M Positions {Positions}
 translate M Moves {着法}
+
+# Finder window:
 menuText M FinderFile "直线" 0
 menuText M FinderFileSubdirs "Look in Subdirectories" 0
 menuText M FinderFileClose "Close File Finder" 0
@@ -516,6 +506,8 @@ menuText M FinderTypesRep "Repertoire Files" 0
 menuText M FinderHelp "帮助" 0
 menuText M FinderHelpFinder "File Finder Help" 0
 menuText M FinderHelpIndex "Help Index" 0
+# MISSING TRANSLATION for FileFinder:
+# translate E FileFinder {File Finder}
 translate M FinderDir {Directory}
 translate M FinderDirs {Directories}
 translate M FinderFiles {纵线}
@@ -525,6 +517,8 @@ translate M FinderCtxBackup {Backup}
 translate M FinderCtxCopy {复制}
 translate M FinderCtxMove {着法}
 translate M FinderCtxDelete {删除}
+
+# Player finder:
 menuText M PListFile "直线" 0
 menuText M PListFileUpdate "更新" 0
 menuText M PListFileClose "Close Player Finder" 0
@@ -534,6 +528,8 @@ menuText M PListSortElo "Elo" 0
 menuText M PListSortGames "对局" 0
 menuText M PListSortOldest "Oldest" 0
 menuText M PListSortNewest "Newest" 2
+
+# Tournament finder:
 menuText M TmtFile "直线" 0
 menuText M TmtFileUpdate "更新" 0
 menuText M TmtFileClose "Close Tournament Finder" 0
@@ -548,6 +544,8 @@ menuText M TmtSortWinner "Winner" 0
 translate M TmtLimit "List Limit"
 translate M TmtMeanElo "Mean Elo"
 translate M TmtNone "No matching tournaments were found."
+
+# Graph windows:
 menuText M GraphFile "直线" 0
 menuText M GraphFileColor "Save as Color PostScript..." 8
 menuText M GraphFileGrey "Save as Greyscale PostScript..." 8
@@ -564,6 +562,8 @@ translate M GraphAbsFilterTitle "Filter Graph: frequency of the games"
 translate M ConfigureFilter "Configure X-Axes for Year, Rating and Moves"
 translate M FilterEstimate "Estimate"
 translate M TitleFilterGraph "Scid: Filter Graph"
+
+# Analysis window:
 translate M AddVariation {Add Variation}
 translate M AddAllVariations {Add All Variations}
 translate M AddMove {Add Move}
@@ -597,9 +597,13 @@ translate M Informant+= {White has a slight advantage}
 translate M Informant+/- {White has a clear advantage}
 translate M Informant+- {White has a decisive advantage}
 translate M Informant+-- {White has a crushing advantage}
+
+# Book window
 translate M Book {开局库}
 translate M OtherBookMoves {Opponent's book}
 translate M OtherBookMovesTooltip {Moves to which the opponent has a reply}
+
+# Analysis Engine open dialog:
 translate M EngineList {Analysis Engine List}
 translate M EngineName {名称}
 translate M EngineCmd {Command}
@@ -621,6 +625,8 @@ translate M EngineAddRemote {Add a remote engine}
 translate M EngineReload {Reload the current engine}
 translate M EngineClone {Create a copy of the current engine}
 translate M EngineDelete {Delete the current engine}
+
+# PGN window menus:
 menuText M PgnFile "直线" 0
 menuText M PgnFileCopy "Copy Game to Clipboard" 0
 menuText M PgnFilePrint "Print to File..." 0
@@ -647,6 +653,8 @@ menuText M PgnHelp "帮助" 0
 menuText M PgnHelpPgn "PGN Help" 0
 menuText M PgnHelpIndex "索引" 0
 translate M PgnWindowTitle {Notation - game %u}
+
+# Crosstable window menus:
 menuText M CrosstabFile "直线" 0
 menuText M CrosstabFileText "Print to Text File..." 9
 menuText M CrosstabFileHtml "Print to HTML File..." 9
@@ -684,6 +692,8 @@ translate M SetFilter {Set Filter}
 translate M AddToFilter {Add to Filter}
 translate M Swiss {Swiss}
 translate M Category {Category}
+
+# Opening report window menus:
 menuText M OprepFile "直线" 0
 menuText M OprepFileText "Print to Text File..." 9
 menuText M OprepFileHtml "Print to HTML File..." 9
@@ -697,6 +707,8 @@ menuText M OprepFavoritesGenerate "Generate Reports..." 0
 menuText M OprepHelp "帮助" 0
 menuText M OprepHelpReport "Opening Report Help" 0
 menuText M OprepHelpIndex "Help Index" 0
+
+# Header search:
 translate M HeaderSearch {Header Search}
 translate M EndSideToMove {Side to move at end of game}
 translate M GamesWithNoECO {Games with no ECO?}
@@ -704,11 +716,16 @@ translate M GameLength {Game length}
 translate M FindGamesWith {Find games with flags}
 translate M StdStart {Non-standard start}
 translate M Promotions {Promotions}
+translate M Comments {注释}
+translate M Variations {变化}
 translate M Annotations {注释}
 translate M DeleteFlag {Delete flag}
 translate M WhiteOpFlag {White opening}
 translate M BlackOpFlag {Black opening}
 translate M MiddlegameFlag {中局}
-
+translate M Comment {注释}
+translate M MoveNumber {着法编号}
+translate M Depth {深度}
 }
-# end of chinese.tcl
+# end of english.tcl
+translate M Engine {引擎}

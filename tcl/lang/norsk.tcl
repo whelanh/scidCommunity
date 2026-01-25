@@ -51,6 +51,12 @@ menuText O FileReadOnly "Skrivebeskytt..." 6 \
   {Hindrer endringer på databasen}
 menuText O FileSwitch "Switch to database" 0 \
   {Switch to a different opened database} ;# ***
+# ====== TODO To be translated ======
+menuText O FileOpenLichessTournament "Open Lichess Tournament" 0 {Download and open live Lichess tournament broadcast games}
+# ====== TODO To be translated ======
+menuText O FileImportLichess "Import my Lichess" 0 {Import games from your Lichess account}
+# ====== TODO To be translated ======
+menuText O FileImportChessCom "Import my chess.com" 0 {Import games from your chess.com account}
 menuText O FileExit "Avslutt" 0 {Avslutt Scid}
 # ====== TODO To be translated ======
 menuText O FileMaintFixBase "Fix corrupted base" 0 {Try to fix a corrupted base}
@@ -192,6 +198,8 @@ menuText O ToolsTrainFics "Play on internet"  0 {Play on freechess.org}
 menuText O ToolsEngineTournament "Engine tournament"  0 {Start a tournament between chess engines}
 # ====== TODO To be translated ======
 menuText O ToolsBookTuning "Book tuning" 0 {Book tuning}
+# ====== TODO To be translated ======
+menuText O ToolsDownloadTWIC "Download TWIC Games" 0 {Download the latest The Week In Chess (TWIC) games}
 menuText N ToolsDownloadTWIC "Last ned TWIC-partier" 0 {Last ned de siste The Week In Chess (TWIC)-partiene}
 # ====== TODO To be translated ======
 menuText O ToolsConnectHardware "Connect Hardware" 0 {Connect external hardware}
@@ -291,10 +299,14 @@ menuText O OptionsMovesSuggest "Vis foreslåtte trekk" 0 \
 menuText O OptionsShowVarPopup "Show variations window" 0 {Turn on/off the display of a variations window}  
 # ====== TODO To be translated ======
 menuText O OptionsMovesSpace "Add spaces after move number" 0 {Add spaces after move number}  
+# ====== TODO To be translated ======
+menuText O OptionsMovesLichess "Lichess/ChessBase Format For Annotations" 0 {Use Lichess/ChessBase format for square markers and arrows}
 menuText O OptionsMovesKey "Autofullfør" 0 \
   {Slå av/på autofullføriring av tastaturtrekk}
 # ====== TODO To be translated ======
 menuText O OptionsMovesShowVarArrows "Show Arrows for Variations" 0 {Turn on/off arrows showing moves in variations}
+# ====== TODO To be translated ======
+menuText O OptionsMovesShowEngineVariationArrows "Show Arrows for Engine Variations" 0 {Turn on/off arrows showing engine variation lines in multiPV mode}
 # ====== TODO To be translated ======
 menuText O OptionsMovesGlossOfDanger "Color Coded Gloss of Danger" 0 {Turn on/off color coded gloss of danger}
 menuText O OptionsNumbers "Tallformat" 0 {Angi tallformat}

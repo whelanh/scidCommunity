@@ -52,6 +52,12 @@ menuText K FileReadOnly "Només de lectura..." 5 \
   {Tracta la actual base de dades com només de lectura, prevenint canvis}
 menuText K FileSwitch "Canviar de base de dades" 0 \
   {Canvia a una base de dades oberta diferent}
+# ====== TODO To be translated ======
+menuText K FileOpenLichessTournament "Open Lichess Tournament" 0 {Download and open live Lichess tournament broadcast games}
+# ====== TODO To be translated ======
+menuText K FileImportLichess "Import my Lichess" 0 {Import games from your Lichess account}
+# ====== TODO To be translated ======
+menuText K FileImportChessCom "Import my chess.com" 0 {Import games from your chess.com account}
 menuText K FileExit "Sortir" 0 {Sortir de Scid}
 menuText K FileMaintFixBase "Arreglar base corrupta" 0 {Intenta arreglar una base corrupta}
 
@@ -182,6 +188,8 @@ menuText K ToolsTrainFindBestMove "Trobar la millor jugada"  0 {Cerca la millor 
 menuText K ToolsTrainFics "Jugar a Internet"  0 {Jugar a freechess.org}
 menuText K ToolsEngineTournament "Torneig de motors"  0 {Comença un torneig entre motors}
 menuText K ToolsBookTuning "Ajustar Llibre d'obertures" 0 {Ajustar Llibre (Book)}
+# ====== TODO To be translated ======
+menuText K ToolsDownloadTWIC "Download TWIC Games" 0 {Download the latest The Week In Chess (TWIC) games}
 menuText CA ToolsDownloadTWIC "Descarrega partides TWIC" 0 {Descarrega les partides mÃ©s recents The Week In Chess (TWIC)}
 menuText K ToolsConnectHardware "Connectar maquinari" 0 {Connectar maquinari extern}
 menuText K ToolsConnectHardwareConfigure "Configuració" 1 {Configuració}
@@ -255,9 +263,13 @@ menuText K OptionsMovesSuggest "Mostrar suggeriments" 20 \
   {Activa/desactiva el suggeriment de jugades}
 menuText K OptionsShowVarPopup "Mostrar finestra de variants" 0 {Activar/Desactivar la finestra de variants}
 menuText K OptionsMovesSpace "Afegir espai després del número de jugada" 0 {Afegir espai després del número de jugada}  
+# ====== TODO To be translated ======
+menuText K OptionsMovesLichess "Lichess/ChessBase Format For Annotations" 0 {Use Lichess/ChessBase format for square markers and arrows}
 menuText K OptionsMovesKey "Teclat Intel·ligent" 0 \
 {Activa/desactiva la funció d'autocompletat intel·ligent de jugades amb teclat}
 menuText K OptionsMovesShowVarArrows "Mostra fletxes per a les variants" 0 {Activa o desactiva la mostra de fletxes per a les variants sobre el tauler}
+# ====== TODO To be translated ======
+menuText K OptionsMovesShowEngineVariationArrows "Show Arrows for Engine Variations" 0 {Turn on/off arrows showing engine variation lines in multiPV mode}
 menuText K OptionsMovesGlossOfDanger "Marques de perill de colors" 0 {Activa o desactiva les marques de perill de colors}
 menuText K OptionsNumbers "Format de números" 11 {Selecciona el format de números}
 menuText K OptionsTheme "Tema" 0 {Canviar l'aspecte del programari}

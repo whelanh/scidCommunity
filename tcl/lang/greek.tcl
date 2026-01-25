@@ -78,6 +78,12 @@ menuText G FileReadOnly "Μόνο για ανάγνωση (Read-only)..." 0 \
   {Επεξεργαστείτε την τρέχουσα βάση δεδομένων ως μόνον για ανάγνωση, εμποδίζοντας τις αλλαγές}
 menuText G FileSwitch "Μετάβαση στην βάση δεδομένων" 0 \
   {Μεταβείτε σε μια διαφορετική ανοιγμένη βάση δεδομένων}
+# ====== TODO To be translated ======
+menuText G FileOpenLichessTournament "Open Lichess Tournament" 0 {Download and open live Lichess tournament broadcast games}
+# ====== TODO To be translated ======
+menuText G FileImportLichess "Import my Lichess" 0 {Import games from your Lichess account}
+# ====== TODO To be translated ======
+menuText G FileImportChessCom "Import my chess.com" 0 {Import games from your chess.com account}
 menuText G FileExit "Έξοδος" 1 {Έξοδος από το Scid}
 menuText G FileMaintFixBase "Διόρθωση βάσης" 0 {Προσπαθείστε να επισκευάσετε μια χαλασμένη βάση}
   
@@ -285,9 +291,13 @@ menuText G OptionsMovesSuggest "Εμφάνιση προτεινόμενων κι
   {Ενεργοποίηση/απενεργοποίηση προτεινόμενης κίνησης}
 menuText G OptionsShowVarPopup "Εμφάνιση παραθύρου βαριαντών" 0 {Ενεργοποίηση/απενεργοποίηση την εμφάνιση του παραθύρου βαριαντών}  
 menuText G OptionsMovesSpace "Προσθήκη διαστημάτων μετά τον αριθμό της κίνησης" 0 {Προσθήκη διαστήματος μετά τον αριθμό της κίνησης}  
+# ====== TODO To be translated ======
+menuText G OptionsMovesLichess "Lichess/ChessBase Format For Annotations" 0 {Use Lichess/ChessBase format for square markers and arrows}
 menuText G OptionsMovesKey "Ολοκλήρωση πληκτρολογίου" 0 \
   {Ενεργοποίηση/απενεργοποίηση της αυτόματης ολοκλήρωσης κινήσεων μέσω πληκτρολογίου}
 menuText G OptionsMovesShowVarArrows "Εμφάνιση βέλους για βαριάντα" 0 {Ενεργοποίηση/απενεργοποίηση του βέλους που δείχνει τις κινήσεις των βαριαντών}
+# ====== TODO To be translated ======
+menuText G OptionsMovesShowEngineVariationArrows "Show Arrows for Engine Variations" 0 {Turn on/off arrows showing engine variation lines in multiPV mode}
 # ====== TODO To be translated ======
 menuText G OptionsMovesGlossOfDanger "Color Coded Gloss of Danger" 0 {Turn on/off color coded gloss of danger}
 menuText G OptionsNumbers "Μορφή αριθμών" 0 {Επιλέξτε τη μορφή των αριθμών}

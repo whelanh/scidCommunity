@@ -53,6 +53,9 @@ menuText I FileReadOnly "Sola lettura..." 5 \
   {Tratta il database attuale in sola lettura, prevenendo variazioni}
 menuText I FileSwitch "Attiva un database" 3 \
   {Attiva uno fra i database aperti}
+menuText I FileOpenLichessTournament "Apri Torneo Lichess" 0 {Scarica e apri partite trasmesse dal vivo del torneo Lichess}
+menuText I FileImportLichess "Importa le mie partite da Lichess" 0 {Importa partite dal tuo account Lichess}
+menuText I FileImportChessCom "Importa le mie partite da Chess.com" 0 {Importa partite dal tuo account Chess.com}
 menuText I FileExit "Esci" 0 {Esce da Scid}
 menuText I FileMaintFixBase "Ripristina database" 0 {Cerca di ripristinare un database danneggiato}
 
@@ -90,8 +93,7 @@ menuText I EditCopyBoard "Copia posizione" 6 \
   {Copia la posizione della scacchiera corrente in notazione FEN come testo (clipboard)}
 menuText I EditPasteBoard "Incolla come posizione di partenza" 17 \
   {Imposta la posizione di partenza dalla selezione del testo corrente (clipboard)}
-# ====== TODO To be translated ======
-menuText I ConfigureScid "Preferences..." 0 {Configure all options for SCID}
+menuText I ConfigureScid "Preferenze..." 0 {Configura tutte le opzioni per SCID}
 
 # Game menu:
 menuText I Game "Partita" 0
@@ -144,8 +146,7 @@ menuText I WindowsGraph "Analysis Graph" 0 {Apre la finestra Grafico con i tempi
 
 # Tools menu:
 menuText I Tools "Strumenti" 0
-# ====== TODO To be translated ======
-menuText I ToolsConfigureEngines "Configura i motori" 12 {Gestione delle configurazioni dei motori}
+menuText I ToolsConfigureEngines "Configura i motori" 12 {Gestione delle batterie dei motori}
 menuText I ToolsAnalysis "Motore di analisi..." 10 \
   {Avvia/ferma il motore di analisi scacchistica}
 menuText I ToolsAnalysis2 "Motore di analisi 2..." 20 \
@@ -175,6 +176,7 @@ menuText I ToolsConnectHardware "Connetti dispositivo" 0 {Connette un dispositiv
 menuText I ToolsConnectHardwareConfigure "Configurazione" 0 {Configura un dispositivo esterno}
 menuText I ToolsConnectHardwareNovagCitrineConnect "Connetti Novag Citrine" 10 {Connette la periferica Novag Citrine}
 menuText I ToolsConnectHardwareInputEngineConnect "Connetti periferica di input" 10 {Connette periferica di input (p. es. DGT)}
+
 menuText I ToolsPInfo "Informazioni sul giocatore"  17 \
   {Apre/aggiorna la finestra di informazioni del giocatore}
 menuText I ToolsPlayerReport "Report del giocatore ..." 3 \
@@ -207,12 +209,16 @@ menuText I ToolsStartEngine1 "Avvia il motore 1" 16  {Avvia il primo motore per 
 menuText I ToolsStartEngine2 "Avvia il motore 2" 16  {Avvia il secondo motore per l'analisi della posizione}
 menuText I ToolsCaptureBoard "Salva la posizione come immagine..." 13  {Salva la posizione corrente come immagine.}
 
-# Play menue
+# Play menu
 menuText I Play "Gioca" 0
 
 # --- Correspondence Chess
 menuText I CCResign "Abbandona" 1 {Abbandona la partita (non tramite email)}
 menuText I CCClaimDraw "Richiedi patta" 0 {Spedisce la mossa e richiede la patta (non tramite email)}
+
+# menu in cc window:
+
+#  B    GHiJKL    Q  TUV XYZ
 
 # Options menu:
 menuText I Options "Opzioni" 0
@@ -247,16 +253,17 @@ menuText I OptionsMovesSuggest "Mostra le mosse suggerite" 0 \
   {Attiva/disattiva il suggerimento di mosse}
 menuText I OptionsShowVarPopup "Mostra la finestra varianti" 2 {Attiva/disattiva la visualizzazione della finestra delle varianti}
 menuText I OptionsMovesSpace "Aggiungi gli spazi dopo il numero della mossa" 0 {Aggiunge uno spazio dopo il numero della mossa}
+menuText I OptionsMovesLichess "Formato Lichess/ChessBase per Annotazioni" 0 {Usa formato Lichess/ChessBase per marcatori di case e frecce}
 menuText I OptionsMovesKey "Completamento da tastiera" 1 \
   {Attiva/disattiva l'autocompletamento di mosse da tastiera}
 menuText I OptionsMovesShowVarArrows "Mostra frecce per le varianti" 4 {Attiva/disattiva le freccie indicanti le mosse delle varianti}
+menuText I OptionsMovesShowEngineVariationArrows "Mostra Frecce per Varianti del Motore" 0 {Attiva/disattiva frecce che mostrano linee di variazione del motore in modalità multiPV}
 menuText I OptionsMovesGlossOfDanger "Codici di pericolo a colori" 1 {Attiva/disattiva i codici di pericolo a colori}
 menuText I OptionsNumbers "Formato dei numeri" 13 {Seglie il formato dei numeri}
 menuText I OptionsTheme "Tema" 0 {Cambia l'aspetto dell'interfaccia}
 menuText I OptionsWindows "Finestre" 2 {Opzioni di finestra}
 menuText I OptionsSounds "Suoni" 2 {Configura i suoni per l'annuncio delle mosse} ;# ***
-# ====== TODO To be translated ======
-menuText I OptionsResources "Resources..." 0 {Choose resource files and folders}
+menuText I OptionsResources "Risorse..." 0 {Scegli file e cartelle di risorse}
 menuText I OptionsWindowsDock "Aggancia le finestre" 0 {Aggancia le finestre}
 menuText I OptionsWindowsSaveLayout "Salva layout" 0 {Salva il layout}
 menuText I OptionsWindowsRestoreLayout "Ripristina layout" 0 {Ripristina il layout}
@@ -271,10 +278,8 @@ menuText I OptionsRecent "File utilizzati di recente..." 10 \
   {Cambia il numero di file recentemente utilizzati visualizzato nel menu File}
 menuText I OptionsBooksDir "Directory del libro di aperture" 0 {Configura la directory per il libro delle aperture}
 menuText I OptionsTacticsBasesDir "Directory dei database" 15 {Configura la directory per i database di allenamento}
-# ====== TODO To be translated ======
-menuText I OptionsPhotosDir "Photos directory" 0 {Sets the photos bases directory}
-# ====== TODO To be translated ======
-menuText I OptionsThemeDir "Theme(s) File:"  0 { Load a GUI theme package file }
+menuText I OptionsPhotosDir "Directory delle foto" 0 {Imposta la directory delle basi delle foto}
+menuText I OptionsThemeDir "File dei temi:"  0 {Carica un file del pacchetto del tema della GUI}
 menuText I OptionsSave "Salva opzioni" 3 \
   "Salva tutte le opzioni definibili nel file $::optionsFile"
 menuText I OptionsAutoSave "Salva opzioni all'uscita" 17 \
@@ -291,7 +296,7 @@ menuText I HelpTip "Suggerimento del giorno" 1 {Mostra utili suggerimenti riguar
 menuText I HelpStartup "Finestra di avvio" 0 {Mostra la finestra di avvio}
 menuText I HelpAbout "Informazioni su Scid" 1 {Informazioni su Scid}
 
-# partita info box popup menu:
+# Game info box popup menu:
 menuText I GInfoHideNext "Nascondi la mossa successiva" 0
 menuText I GInfoMaterial "Mostra i valori del materiale" 0
 menuText I GInfoFEN "Mostra FEN" 7
@@ -372,8 +377,7 @@ translate I Month {Mese}
 translate I Months {Gennaio Febbraio Marzo Aprile Maggio Giugno Luglio Agosto Settembre Ottobre Novembre Dicembre}
 translate I Days {Dom Lun Mar Mer Gio Ven Sab}
 translate I YearToToday {Anno ad oggi}
-# ====== TODO To be translated ======
-translate I YearToTodayTooltip {Set date from 1 year back to today}
+translate I YearToTodayTooltip {Imposta la data da 1 anno indietro a oggi}
 translate I Result {Risultato}
 translate I Round {Turno}
 translate I Length {Lunghezza}
@@ -419,7 +423,6 @@ translate I PInfoMostBlack {Le più frequenti aperture con il Nero}
 translate I PInfoRating {Variazioni Elo}
 translate I PInfoBio {Biografia}
 translate I PInfoEditRatings {Edita i rating}
-# ====== TODO To be translated ======
 translate I PInfoEloFile {File}
 
 # Tablebase information:
@@ -428,7 +431,6 @@ translate I with {con}
 translate I only {solo}
 translate I lose {persa}
 translate I loses {perde}
-# ====== TODO To be translated ======
 
 # Tip of the day:
 translate I Tip {Suggerimento}
@@ -589,10 +591,8 @@ menuText I GraphOptionsWhite "Bianco" 0
 menuText I GraphOptionsBlack "Nero" 0
 menuText I GraphOptionsBoth "Entrambi" 1
 menuText I GraphOptionsPInfo "Informazioni sul giocatore" 0
-# ====== TODO To be translated ======
-menuText I GraphOptionsEloFile "Elo from rating file" 0
-# ====== TODO To be translated ======
-menuText I GraphOptionsEloDB "Elo from database" 0
+menuText I GraphOptionsEloFile "Elo dal file di valutazione" 0
+menuText I GraphOptionsEloDB "Elo dal database" 0
 translate I GraphFilterTitle "Grafico del filtro: frequenza ogni 1000 partite"
 translate I GraphAbsFilterTitle "Grafico del filtro: frequenza delle partite"
 translate I ConfigureFilter {Configura l'asse delle X per Anno, Rating e Mosse}
@@ -633,6 +633,8 @@ translate I Informant+= {Il bianco ha un leggero vantaggio}
 translate I Informant+/- {Il bianco ha un moderato vantaggio}
 translate I Informant+- {Il bianco ha un vantaggio decisivo}
 translate I Informant+-- {La partita è considerata vinta}
+
+# Book window
 translate I Book {Libro}
 translate I OtherBookMoves {Libro dell'avversario}
 translate I OtherBookMovesTooltip {Mosse alle quali l'avversario ha una risposta}
@@ -738,7 +740,6 @@ menuText I OprepFavorites "Preferiti" 1
 menuText I OprepFavoritesAdd "Aggiungi rapporto..." 0
 menuText I OprepFavoritesEdit "Edita i rapporti preferiti..." 0
 menuText I OprepFavoritesGenerate "Genera rapporto..." 0
-
 menuText I OprepHelp "Aiuto" 0
 menuText I OprepHelpReport "Aiuto sul rapporto di apertura" 0
 menuText I OprepHelpIndex "Indice" 0
@@ -747,8 +748,6 @@ menuText I OprepHelpIndex "Indice" 0
 translate I HeaderSearch {Ricerca per intestazione}
 translate I EndSideToMove {Lato che ha la mossa alla fine della partita}
 translate I GamesWithNoECO {Partite senza ECO?}
-
-
 translate I GameLength {Lunghezza della partita}
 translate I FindGamesWith {Cerca partite con}
 translate I StdStart {Inizio standard}
@@ -770,12 +769,9 @@ translate I BrilliancyFlag {Brillantezza}
 translate I BlunderFlag {Svista}
 translate I UserFlag {Utente}
 translate I PgnContains {Testo nel PGN}
-# ====== TODO To be translated ======
-translate I PgnTag {Tag}
-# ====== TODO To be translated ======
-translate I TagContains {contains}
-# ====== TODO To be translated ======
-translate I Variant {Variant}
+translate I PgnTag {Etichetta}
+translate I TagContains {contiene}
+translate I Variant {Variante}
 translate I Annotator {Commentatore}
 translate I Cmnts {Solo partite annotate}
 
@@ -821,6 +817,8 @@ translate I GlistSep {Separatore}
 translate I GlistCurrentSep {-- Currente --}
 translate I GlistNewSort {Nuovo}
 translate I GlistAddToSort {Aggiungi}
+
+# base sorting
 translate I GsortSort {Ordina...}
 translate I GsortDate {Data}
 translate I GsortYear {Anno}
@@ -846,6 +844,8 @@ translate I GsortDescending {Discendente}
 translate I GsortAdd {Aggiungi}
 translate I GsortStore {Salva}
 translate I GsortLoad {Carica}
+
+# menu shown with right mouse button down on game list.
 translate I GlistRemoveThisGameFromFilter  {Rimuovi questa partita dal filtro}
 translate I GlistRemoveGameAndAboveFromFilter  {Rimuovi la partita (e le precedenti) dal filtro}
 translate I GlistRemoveGameAndBelowFromFilter  {Rimuovi la partita (e le seguenti) dal filtro}
@@ -900,7 +900,7 @@ translate I CleanerConfirm {Una volta attivata l'operazione di pulizia, questa n
 Questo può richiedere molto tempo su un grosso database, a seconda delle funzioni selezionate e delle impostazioni correnti.
 
 Sei sicuro di voler procedere con le funzioni selezionate?}
-
+# Twinchecker
 translate I TwinCheckUndelete {per invertire; "u" recupera entrambe}
 translate I TwinCheckprevPair {Coppia precedente}
 translate I TwinChecknextPair {Coppia seguente}
@@ -919,9 +919,10 @@ translate I TwinCriteriaConfirm {Scid: Conferma le impostazioni per le partite d
 translate I TwinChangeTag "Cambia i seguenti tag della partita:\n\n"
 translate I AllocRatingDescription "Questo comando usa l'attuale controllore ortografico per aggiungere i punteggi Elo alle partite in questo database. Se un giocatore non ha un punteggio ma il suo punteggio al momento della partita è presente nel controllore ortografico, quel punteggio sarà aggiunto."
 translate I RatingOverride "Sovrascrivi i punteggi diversi da zero?"
-
 translate I AddRatings "Aggiungi i punteggi a:"
 translate I AddedRatings {Scid ha aggiunto $r punteggi Elo in $g partite.}
+
+#Bookmark editor
 translate I NewSubmenu "Nuovo sottomenu"
 
 # Comment editor:
@@ -1015,7 +1016,7 @@ translate I PatternLightFian {Fianchetti sulle case chiare (Alfiere g2 contro Al
 translate I PatternDarkFian {Fianchetti sulle case scure (Alfiere b2 contro Alfiere g7)}
 translate I PatternFourFian {Quattro fianchetti (Alfieri in b2,g2,b7,g7)}
 
-# game saving:
+# Game saving:
 translate I Today {Oggi}
 translate I ClassifyGame {Classifica la partita}
 
@@ -1028,6 +1029,7 @@ translate I Castling {Arrocco}
 translate I EnPassantFile {Colonna presa en passant}
 translate I ClearFen {Annulla FEN}
 translate I PasteFen {Incolla FEN}
+
 translate I SaveAndContinue {Salva e continua}
 translate I DiscardChangesAndContinue {Scarta le modifiche\ne continua}
 translate I GoBack {Indietro}
@@ -1094,9 +1096,6 @@ translate I OprepDown {meno %u%s da tutti gli anni}
 translate I OprepSame {nessuna variazione da tutti gli anni}
 translate I OprepMostFrequent {Giocatori più frequenti}
 translate I OprepMostFrequentOpponents {Avversari più frequenti}
-
-
-
 translate I OprepRatingsPerf {Punteggi e performance}
 translate I OprepAvgPerf {Punteggi medi e performance}
 translate I OprepWRating {Punteggio del Bianco}
@@ -1207,6 +1206,8 @@ translate I NameEditSelect {Partite da editare}
 translate I NameEditReplace {Sostituisci}
 translate I NameEditWith {con}
 translate I NameEditMatches {Corrispondenze: digita da Ctrl+1 ad Ctrl+9 per scegliere}
+
+# Check games window:
 translate I CheckGames {Controlla partite}
 translate I CheckGamesWhich {Controlla partite}
 translate I CheckAll {Tutte le partite}
@@ -1328,6 +1329,8 @@ Inserisci sotto una lista di giocatori preferiti, un nome per linea. Caratteri j
 
 Ogni volta che viene caricata una partita con un giocatore nella lista, la finestra principale della scacchiera se necessario ruoterà e vi proporrà la partita dal punto di vista di quel giocatore.
 }
+
+#Coach
 translate I showblunderexists {mostra gli errori}
 translate I showblundervalue {mostra il valore dell'errore}
 translate I showscore {mostra il punteggio}
@@ -1422,7 +1425,6 @@ translate I StartFromCurrentPosition {Parti dalla posizione attuale}
 translate I FixedDepth {Profondità fissa}
 translate I Nodes {Nodi}
 translate I Depth {Profondità}
-
 translate I Time {Tempo}
 translate I SecondsPerMove {Secondi per mossa}
 translate I Engine {Motore}
@@ -1449,6 +1451,7 @@ translate I Export {Esporta}
 translate I BookPartiallyLoaded {Libro caricato parzialmente}
 translate I Calvar {Calcolo delle varianti}
 translate I ConfigureCalvar {Configurazione}
+# Opening names used in tacgame.tcl
 translate I Reti {Reti}
 translate I English {Inglese}
 translate I d4Nf6Miscellaneous {1.d4 Cf6 varie}
@@ -1505,6 +1508,8 @@ translate I NimzoIndianRubinstein {Nimzo-Indiana Rubinstein}
 translate I KingsIndian {Indiana di Re}
 translate I KingsIndianSamisch {Indiana di Re Sämisch}
 translate I KingsIndianMainLine {Indiana di Re linea principale}
+
+# FICS
 translate I ConfigureFics {Configura FICS}
 translate I FICSGuest {Entra come guest}
 translate I FICSServerPort {Porta server}
@@ -1537,22 +1542,16 @@ translate I FICSConnect {Connetti}
 translate I FICSdefaultuservars {Usa le variabili predefinite}
 translate I FICSObserveconfirm {Vuoi osservare la partita}
 translate I FICSpremove {Abilita premove}
-# ====== TODO To be translated ======
-translate I FICSObserve {Observe}
-# ====== TODO To be translated ======
-translate I FICSRatedGames {Rated Games}
-# ====== TODO To be translated ======
-translate I FICSUnratedGames {Unrated Games}
-# ====== TODO To be translated ======
-translate I FICSRated {Rated}
-# ====== TODO To be translated ======
-translate I FICSUnrated {Unrated}
-# ====== TODO To be translated ======
-translate I FICSRegisteredPlayer {Registered player only}
-# ====== TODO To be translated ======
-translate I FICSFreePlayer {Free player only}
-# ====== TODO To be translated ======
-translate I FICSNetError {Network error\nCan't connect to }
+translate I FICSObserve {Osservare}
+translate I FICSRatedGames {Giochi classificati}
+translate I FICSUnratedGames {Giochi senza classificazione}
+translate I FICSRated {Valutato}
+translate I FICSUnrated {Senza classificazione}
+translate I FICSRegisteredPlayer {Solo giocatore registrato}
+translate I FICSFreePlayer {Solo giocatore gratuito}
+translate I FICSNetError {Errore di rete\Impossibile connettersi a}
+
+# Game review
 translate I GameReview {Rivedi partita}
 translate I GameReviewTimeExtended {Tempo esteso}
 translate I GameReviewMargin {Margine di errore}
@@ -1572,10 +1571,14 @@ translate I GameReviewNotEngineMoveButGoodMove {Non è la mossa del motore ma è
 translate I GameReviewMoveNotGood {Questa mossa è debole, il punteggio è}
 translate I GameReviewMovesPlayedLike {Mosse giocate come}
 translate I GameReviewMovesPlayedEngine {Mosse giocate come il motore}
+
+# Correspondence Chess Dialogs:
 translate I CCDlgCGeneraloptions {Opzioni generali}
 translate I CCDlgLoginName  {Login:}
 translate I CCDlgPassword   {Password:}
 translate I CCDlgShowPassword {Mostra password}
+
+# Connect Hardware dialogs
 translate I ExtHWConfigConnection {Configura un dispositivo esterno}
 translate I ExtHWPort {Porta}
 translate I ExtHWEngineCmd {Comando del motore}
@@ -1586,12 +1589,17 @@ translate I ExtHWNovag {Novag Citrine}
 translate I ExtHWInputEngine {Motore di input}
 translate I ExtHWNoBoard {Nessuna scacchiera}
 translate I NovagReferee {Arbitro}
+
+# Input Engine dialogs
 translate I IEConsole {Console del motore di input}
 translate I IESending {Mosse inviate per}
 translate I IESynchronise {Sincronizza}
 translate I IERotate  {Ruota}
 translate I IEUnableToStart {Impossibile avviare il motore di input:}
+
+# Calculation of Variations
 translate I DoneWithPosition {Posizione conclusa}
+
 translate I Board {Scacchiera}
 translate I showGameInfo {Mostra informazioni partita}
 translate I autoResizeBoard {Ridimensionamento automatico della scacchiera}
@@ -1600,328 +1608,60 @@ translate I DockBottom {Sposta in basso}
 translate I DockLeft {Sposta a sinistra}
 translate I DockRight {Sposta a destra}
 translate I Undock {Sgancia}
+
+# Switcher window
 translate I AboutDatabase {Informazioni}
 translate I ChangeIcon {Cambia icona...}
-# ====== TODO To be translated ======
-translate I NewGameListWindow {New Game List Window}
-# ====== TODO To be translated ======
-translate I LoadatStartup {Load at startup}
-# ====== TODO To be translated ======
-translate I ShowHideDB {Show/Hide databases}
-# ====== TODO To be translated ======
-translate I ChangeFilter {Change filter}
-# ====== TODO To be translated ======
-translate I ChangeLayout {Load/Save/Change sorting criteria and column layout}
-# ====== TODO To be translated ======
-translate I ShowHideStatistic {Show/Hide statistics}
-# ====== TODO To be translated ======
-translate I BoardFilter {Show only games that matches the current board position}
-# ====== TODO To be translated ======
-translate I CopyGameTo {Copy Game to}
-# ====== TODO To be translated ======
-translate I FindBar {Find Bar}
-# ====== TODO To be translated ======
-translate I FindCurrentGame {Find current game}
-# ====== TODO To be translated ======
-translate I DeleteGame {Delete game}
-# ====== TODO To be translated ======
-translate I UndeleteGame {Undelete game}
-# ====== TODO To be translated ======
-translate I ResetSort {Reset sort}
-# ====== TODO To be translated ======
-translate I ConvertNullMove {Convert null moves to comments}
-# ====== TODO To be translated ======
-translate I SetupBoard {Setup Board}
-# ====== TODO To be translated ======
-translate I Rotate {Rotate}
-# ====== TODO To be translated ======
-translate I SwitchColors {Switch colors}
-# ====== TODO To be translated ======
-translate I FlipBoard {Flip Board}
-# ====== TODO To be translated ======
-translate I ImportPGN {Import PGN game}
-# ====== TODO To be translated ======
-translate I ImportingFiles {Importing PGN files in}
-# ====== TODO To be translated ======
-translate I ImportingFrom {Importing from}
-# ====== TODO To be translated ======
-translate I ImportingIn {Import games in}
-# ====== TODO To be translated ======
-translate I UseLastTag {Use last\ngame's tags}
-# ====== TODO To be translated ======
-translate I Random {Random}
-# ====== TODO To be translated ======
-translate I BackToMainline {Go back to mainline}
-# ====== TODO To be translated ======
-translate I LeaveVariant {Leave variant}
-# ====== TODO To be translated ======
-translate I Autoplay {Autoplay}
+translate I NewGameListWindow {Nuova finestra dell'elenco dei giochi}
+translate I LoadatStartup {Carica all'avvio}
+
+# Gamelist window
+translate I ShowHideDB {Mostra/Nascondi database}
+translate I ChangeFilter {Cambia filtro}
+translate I ChangeLayout {Carica/Salva/Modifica i criteri di ordinamento e il layout delle colonne}
+translate I ShowHideStatistic {Mostra/Nascondi statistiche}
+translate I BoardFilter {Mostra solo i giochi che corrispondono alla posizione attuale del tabellone}
+translate I CopyGameTo {Copia il gioco in}
+translate I FindBar {Trova Barra}
+translate I FindCurrentGame {Trova il gioco corrente}
+translate I DeleteGame {Elimina gioco}
+translate I UndeleteGame {Annulla l'eliminazione del gioco}
+translate I ResetSort {Reimposta ordinamento}
+
+translate I ConvertNullMove {Converti mosse nulle in commenti}
+translate I SetupBoard {Scheda di installazione}
+translate I Rotate {Ruotare}
+translate I SwitchColors {Cambia i colori}
+translate I FlipBoard {Lavagna ribaltabile}
+translate I ImportPGN {Importa il gioco PGN}
+translate I ImportingFiles {Importazione di file PGN in}
+translate I ImportingFrom {Importazione da}
+translate I ImportingIn {Importa giochi in}
+translate I UseLastTag {Utilizza i tag dell'ultimo\ngioco}
+translate I Random {Casuale}
+translate I BackToMainline {Torna alla linea principale}
+translate I LeaveVariant {Lascia la variante}
+translate I Autoplay {Riproduzione automatica}
 translate I ShowHideCoords {Mostra/Nascondi Coordinate}
 translate I ShowHideEvalBar {Mostra/Nascondi Barra Valutazione}
 translate I ShowHideMaterial {Mostra/Nascondi Differenza Pezzi}
 translate I SelectMarker {Scegli il Marker}
-# ====== TODO To be translated ======
-translate I FullScreen {Full Screen}
-# ====== TODO To be translated ======
-translate I FilterStatistic {Filter Statistics}
-# ====== TODO To be translated ======
-translate I MakeCorrections {Make Corrections}
-# ====== TODO To be translated ======
-translate I Surnames {Surnames}
-# ====== TODO To be translated ======
-translate I Ambiguous {Ambiguous}
+translate I FullScreen {A schermo intero}
+translate I FilterStatistic {Filtra statistiche}
+translate I MakeCorrections {Apporta correzioni}
+translate I Surnames {Cognomi}
+translate I Ambiguous {Ambiguo}
+
+#Preferences Dialog
 translate I OptionsToolbar "Barra degli strumenti"
 translate I OptionsBoard "Scacchiera"
 translate I OptionsBoardSize "Dimensione della scacchiera"
-# ====== TODO To be translated ======
 translate I OptionsBoardPieces "Stile dei pezzi"
-# ====== TODO To be translated ======
-translate I OptionsInternationalization "Internationalization"
-# ====== TODO To be translated ======
-translate I OptionsTablebaseDir "Select up to 4 table base folders:"
+translate I OptionsInternationalization "Internazionalizzazione"
+translate I OptionsTablebaseDir "Seleziona fino a 4 cartelle base tabella:"
+
+# Evaluation bar
 translate I BestMoveArrow "Indica mossa migliore"
 translate I NewLocalEngine "+ Nuovo motore ..."
-
-# ====== Nuove voci aggiunte ======
-menuText I FileOpenLichessTournament "Apri Torneo Lichess" 0 {Scarica e apri partite trasmesse dal vivo del torneo Lichess}
-menuText I FileImportLichess "Importa le mie partite da Lichess" 0 {Importa partite dal tuo account Lichess}
-menuText I FileImportChessCom "Importa le mie partite da Chess.com" 0 {Importa partite dal tuo account Chess.com}
-menuText I OptionsMovesLichess "Formato Lichess/ChessBase per Annotazioni" 0 {Usa formato Lichess/ChessBase per marcatori di case e frecce}
-menuText I OptionsMovesShowEngineVariationArrows "Mostra Frecce per Varianti del Motore" 0 {Attiva/disattiva frecce che mostrano linee di variazione del motore in modalità multiPV}
 }
-
-############################################################
-#
-# Italian tips section:
-
-set tips(I) {
-  {
-    SCID ha oltre 30 <a Index>pagine di aiuto</a> e in molte finestre,
-    premendo il tasto funzione <b>F1</b>, apparirà una pagina di aiuto
-    relativa alla finestra.
-  }
-  {
-    Molte finestre di SCID (p. es. <a Switcher>selezione di database</a>,
-    ecc.) hanno un menu collegato al pulsante destro del mouse. Prova a
-    premerlo in ogni finestra per vedere se c'è e quali funzionalità permette.
-  }
-  {
-    SCID ti consente più di una modalità per inserire le mosse, scegli
-    quale preferisci. Puoi utilizzare il mouse (con o senza il suggerimento
-    della mossa) o la tastiera (con o senza il completamento della mossa).
-    Leggi la pagina di aiuto <a Moves>Inserire le mosse</a> per maggiori dettagli.
-  }
-  {
-    Se utilizzi pochi database che apri spesso, aggiungi un
-    <a Bookmarks>segnalibro</a> a ognuno di essi. Potrai poi aprirlo più
-    velocemente con il menu Segnalibri.
-  }
-  {
-    Puoi visualizzare tutte le mosse della partita caricata (con ogni
-    variante e/o commento) utilizzando la <a PGN>finestra PGN</a>.
-    Nella finestra PGN puoi andare a ogni mossa premendo il tasto sinistro
-    del mouse quando sei sulla mossa oppure visualizzare la posizione
-    premendo il tasto centrale/destro del mouse.
-  }
-  {
-    Puoi copiare partite da un database ad un altro usando la tecnica del
-    drag and drop utilizzando il tasto sinistro del mouse nella finestra
-    <a Switcher>Selezione di database</a>.
-  }
-  {
-    SCID può aprire file PGN, anche se sono compressi con Gzip (con il
-    suffisso .gz). I file PGN aperti sono di sola lettura ma li puoi
-    modificare creando un nuovo database SCID e copiando
-    il file PGN in esso utilizzando la <a Switcher>selezione di database</a>.
-  }
-  {
-    Se hai un grosso database e usi spesso la finestra di <a Tree>albero</a>,
-    è il caso di utilizzare <b>Riempi cache</b> dal menu File della finestra.
-    Ciò memorizza le statistiche dell'albero delle
-    più comuni posizioni di apertura, rendendo più veloci gli accessi
-    all'albero per quel database.
-  }
-  {
-    La finestra <a Tree>albero</a> visualizza tutte le mosse giocate dalla
-    posizione caricata, ma se vuoi vedere tutti gli ordini di mosse che
-    raggiungono la posizione devi generare un <a OpReport>rapporto di apertura</a>.
-  }
-  {
-    Nella finestra <a GameList>lista di partite</a>, premendo il tasto sinistro
-    o desto del mouse sulla testata di ogni colonna, puoi modificarne la
-    larghezza.
-  }
-  {
-    Con la finestra <a PInfo>informazioni sul giocatore</a> (che apri
-    cliccando sui nomi dei giocatori nell'area informazioni sotto
-    la scacchiera) puoi facilmente, utilizzando il
-    <a Searches Filter>filtro</a>, ottenere tutte le partite di un certo
-    giocatore con i suoi risultati cliccando su ogni campo che appare
-    in <red>rosso</red>.
-  }
-  {
-    Quando studi un'apertura può essere utile effettuare una
-    <a Searches Board>ricerca su scacchiera</a> con le opzioni
-    <b>Pedoni</b> oppure <b>Colonne</b> sulla posizione che ti
-    interessa, in maniera da evidenziarti se altre aperture
-    raggiungono la stessa struttura di pedoni.
-  }
-  {
-    Nell'area di informazioni sulla partita (sotto la scacchiera) puoi
-    premere il tasto destro del mouse e visualizzare un menu per
-    personalizzarla. Per esempio, puoi nascondere la prossima mossa e ciò
-    è utile quando visualizzi una partita per allenamento e vuoi trovare
-    da solo le mosse successive.
-  }
-  {
-    Se effettui spesso la <a Maintenance>manutenzione</a> di un database
-    di grosse dimensioni, puoi effettuare tutte le attività in un colpo
-    solo utilizzando il <a Maintenance Cleaner>manutentore globale</a>.
-  }
-  {
-    Se hai un grosso database dove in molte partite è stato utilizzato il campo
-    Data evento e tu vuoi le partite in ordine di data, utilizza
-    l'<a Sorting>ordinamento</a> per Data evento/Evento invece di Data/Evento
-    cosicché otterrai insieme le partite dello stesso torneo anche se hanno
-    date diverse (partendo dal presupposto che abbiano la stessa data evento).
-  }
-  {
-    Prima di <a Maintenance Twins>cancellare le partite doppie</a>, è meglio
-    utilizzare il <a Maintenance Spellcheck>controllo ortografico</a> sul tuo
-    database, permettendo a SCID di identificare un numero maggiore di
-    partite doppie e contrassegnarle per la cancellazione.
-  }
-  {
-    Gli <a Flags>identificatori</a>  sono utili per evidenziare partite con
-    caratteristiche particolari da ricercare successivamente (p. es. struttura
-    di pedoni, tattica, ecc.). Puoi ricercare le partite contrassegnate
-    utilizzando la <a Searches Header>ricerca per intestazione</a>.
-  }
-  {
-    Se stai visualizzando una partita e vuoi provare qualche altra mossa
-    senza modificare la partita, puoi entrare nella modalità Prova (con lo
-    scorciatoia <b>Ctrl+space</b> oppure cliccando l'apposita icona).
-    Quando hai finito, puoi deselezionare la modalità Prova ritornando
-    alla partita originale.
-  }
-  {
-    Per cercare le partite maggiormente rilevanti (quelle con i giocatori
-    con l'Elo più alto) in una posizione, apri la finestra <a Tree>albero</a>
-    e da quella apri la lista delle migliori partite.
-    Puoi personalizzare la lista ottenendo solo le partite con un
-    certo risultato che ti interessa.
-  }
-  {
-    Un buon modo per studiare le aperture utilizzando un grosso database
-    è attivare la modalità esercizio nella finestra <a Tree>albero</a> e
-    giocare contro il database per vedere quali linee appaiono spesso.
-  }
-  {
-    Se hai due database aperti e vuoi visualizzare le statistiche
-    dell'<a Tree>albero</a> del primo database mentre esamini una
-    partita del secondo database premi il pulsante <b>Blocca</b> nella
-    finestra albero per bloccare il primo database ed allora selezionare
-    il secondo database.
-  }
-  {
-    La finestra <a Tmt>Trova torneo</a> non è utile solo per trovare un
-    certo torneo, ma può essere usato anche per vedere quali tornei
-    ha giocato recentemente un certo giocatore oppure vedere i tornei
-    più importanti giocati in una certa nazione.
-  }
-  {
-    La finestra <a Searches Material>Materiale/schema</a> ti propone
-    alcune possibilità, fra le più comuni, facilitandoti ricerche
-    per aperture o tipi di mediogioco a fine di studio.
-  }
-  {
-    Quando effettui una ricerca per una particolare posizione
-    nella finestra <a Searches Material>Materiale/schema</a> è
-    spesso utile restringere la ricerca a partite che permangono
-    nella posizione voluta almeno qualche semi-mossa, eliminando
-    partite che raggiungono la posizione voluta solo una volta.
-  }
-  {
-    Se hai un importante database e non vuoi correre il rischio
-    di effettuare modifiche inopportune, seleziona <b>Sola lettura...</b>
-    dal menu <b>File</b> dopo averlo aperto, oppure cambia gli
-    attributi a sola lettura.
-  }
-  {
-    Se usi XBoard oppure WinBoard (o altri programmi scacchistici
-    che possono copiare sulla clipboard la posizione attuale in notazione
-    standard FEN) e vuoi copiare la tua posizione su SCID, il modo più
-    facile e veloce è selezionare <b>Copia posizione</b> dal menu File
-    in XBoard/WinBoard e poi <b>Incolla come posizione di partenza</b> dal
-    menu Modifica in SCID.
-  }
-  {
-    In una <a Searches Header>ricerca per intestazione</a>,
-    giocatore/evento/luogo/turno non sono sensibili alle maiuscole e
-    vengono cercate anche all'interno dei nomi. Puoi scegliere di
-    fare una ricerca sensibile alle maiuscole (dove "?" = ogni singolo
-    carattere e "*" = zero o più caratteri) digitando la stringa che
-    vuoi trovare fra virgolette. Per esempio, digitando "*BEL" (con
-    le virgolette) nel campo luogo otterrai tutte le partite giocate
-    in Belgio ma non a Belgrado.
-  }
-  {
-    Se vuoi correggere una mossa in una partita senza perdere le mosse
-    giocate successivamente, apri la finestra <a Import>Importa</a>,
-    premi l'icona <b>Incolla la partita attuale</b>, edita la mossa
-    sbagliata e poi premi il pulsante <b>Importa</b>.
-  }
-  {
-    Se hai caricato un file di classificazione ECO, puoi andare alla
-    posizione classificata più profonda della partita correntemente
-    caricata con <b>Identifica apertura</b> nel menu <b>Partita</b>
-    (scorciatoia: Ctrl+Shift+D).
-  }
-  {
-    Se vuoi verificare le dimensioni di un file o la sua data di ultima
-    modifica prima di aprirlo, utilizza <a Finder>Trova file</a> per
-    aprirlo.
-  }
-  {
-    Un file di <a Repertoire>repertorio</a> è un grande strumento per
-    monitorare le tue aperture preferite e per trovare le partite nelle
-    quali queste linee sono state giocate. Dopo aver memorizzato le tue
-    aperture in un file di repertorio puoi effettuare ricerche tutte le
-    volte che acquisisci nuovi file di partite e visualizzare le partite
-    che ti interessano.
-  }
-  {
-    Un <a OpReport>rapporto di apertura</a> è molto utile per apprendere
-    ulteriori informazioni su una particolare posizione. Puoi vedere il
-    punteggio percentuale che raggiunge, se porta a rapide patte, i temi
-    posizionali più comuni e molto altro.
-  }
-  {
-    Puoi aggiungere i più comuni simboli di annotazione (!, !?, +=, ecc)
-    alla posizione attualmente caricata con scorciatoie da tastiera senza
-    necessità di utilizzare l'<a Comment>editor di commenti</a>.
-    Per esempio, digitando "!" seguito dal tasto Invio,
-    aggiungerete il simbolo "!". Guarda la pagina di aiuto
-    <a Moves>Inserire le mosse</a> per maggiori informazioni.
-  }
-  {
-    Se stai visualizzando un'apertura in un database con l'<a Tree>albero</a>
-    puoi facilmente vedere i risultati percentuali dell'apertura che stai
-    guardando (recenti e fra giocatori di Elo alto) aprendo la finestra
-    Statistiche (scorciatoia: Ctrl+I).
-  }
-  {
-    Puoi cambiare le dimensioni della scacchiera premendo i tasti
-    <b>Ctrl</b> e <b>Shift</b>, e regolare le dimensioni premendo i tasti
-    freccia <b>Sinistra</b> o <b>Destra</b> .
-  }
-  {
-    Dopo una <a Searches>ricerca</a>, puoi facilmente visualizzare tutte le
-    partite trovate premendo <b>Ctrl</b> e con i tasti <b>Su</b> o <b>Giù</b>
-    caricare la precedente o successiva partita del <a Searches Filter>filtro</a>.
-  }
-
-}
-
-
-# end of italian.tcl
+# end of english.tcl

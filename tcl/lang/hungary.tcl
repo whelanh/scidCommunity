@@ -49,6 +49,12 @@ menuText H FileReadOnly "Írásvédelem..." 0 \
   {Az aktuális adatbázist csak olvashatóvá teszi, nehogy meg lehessen változtatni.}
 menuText H FileSwitch "Adatbázisváltás" 0 \
   {Átvált egy másik megnyitott adatbázisra.}
+# ====== TODO To be translated ======
+menuText H FileOpenLichessTournament "Open Lichess Tournament" 0 {Download and open live Lichess tournament broadcast games}
+# ====== TODO To be translated ======
+menuText H FileImportLichess "Import my Lichess" 0 {Import games from your Lichess account}
+# ====== TODO To be translated ======
+menuText H FileImportChessCom "Import my chess.com" 0 {Import games from your chess.com account}
 menuText H FileExit "Kilép" 2 {Kilép SCID-bõl.}
 menuText H FileMaintFixBase "Megrongálódott adatbázis javítása" 25 {Megpróbálja megjavítani a megrongálódott adatbázist.}
 
@@ -175,6 +181,8 @@ menuText H ToolsTrainFics "Internetes játszma"  0 {Játék a freechess.org szerver
 # ====== TODO To be translated ======
 menuText H ToolsEngineTournament "Engine tournament"  0 {Start a tournament between chess engines}
 menuText H ToolsBookTuning "Megnyitástár-hangolás" 13 {Megnyitástár-hangolás}
+# ====== TODO To be translated ======
+menuText H ToolsDownloadTWIC "Download TWIC Games" 0 {Download the latest The Week In Chess (TWIC) games}
 menuText H ToolsConnectHardware "Hardver csatlakoztatása" 8 {Külsõ hardver csatlakoztatása}
 menuText H ToolsConnectHardwareConfigure "Beállítás" 0 {Külsõ hardver és kapcsolat beállítása}
 menuText H ToolsConnectHardwareNovagCitrineConnect "Novag Citrine csatlakoztatása" 0 {Novag Citrine csatlakoztatása}
@@ -257,10 +265,14 @@ menuText H OptionsMovesSuggest "Javaslat" 0 \
   {Be/kikapcsolja a lépésjavaslatot.}
 menuText H OptionsShowVarPopup "Változatok ablaka" 0 {Be- vagy kikapcsolja a változatokat megjelenítõ ablakot.}  
 menuText H OptionsMovesSpace "Szóközök a lépés sorszáma után" 0 {Szóközökkel egészíti ki a lépés sorszámát.}  
+# ====== TODO To be translated ======
+menuText H OptionsMovesLichess "Lichess/ChessBase Format For Annotations" 0 {Use Lichess/ChessBase format for square markers and arrows}
 menuText H OptionsMovesKey "Billentyû-kiegészítés" 0 \
   {Be/kikapcsolja a billentyûzettel részlegesen bevitt lépések automatikus kiegészítését.}
 # ====== TODO To be translated ======
 menuText H OptionsMovesShowVarArrows "Show Arrows for Variations" 0 {Turn on/off arrows showing moves in variations}
+# ====== TODO To be translated ======
+menuText H OptionsMovesShowEngineVariationArrows "Show Arrows for Engine Variations" 0 {Turn on/off arrows showing engine variation lines in multiPV mode}
 # ====== TODO To be translated ======
 menuText H OptionsMovesGlossOfDanger "Color Coded Gloss of Danger" 0 {Turn on/off color coded gloss of danger}
 menuText H OptionsNumbers "Számformátum" 1 {Számformátum kiválasztása}

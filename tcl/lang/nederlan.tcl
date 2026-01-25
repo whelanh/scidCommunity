@@ -53,6 +53,12 @@ menuText N FileReadOnly "Alleen lezen..." 7 \
   {Zet huidige database op alleen-lezen en voorkom veranderingen}
 menuText N FileSwitch "Schakel naar andere  database" 0 \
   {Schakel naar een andere geopende database} 
+# ====== TODO To be translated ======
+menuText N FileOpenLichessTournament "Open Lichess Tournament" 0 {Download and open live Lichess tournament broadcast games}
+# ====== TODO To be translated ======
+menuText N FileImportLichess "Import my Lichess" 0 {Import games from your Lichess account}
+# ====== TODO To be translated ======
+menuText N FileImportChessCom "Import my chess.com" 0 {Import games from your chess.com account}
 menuText N FileExit "Einde programma" 0 {Einde Scid}
 menuText N FileMaintFixBase "Repareer databank" 0 \
     {Probeer een corrupte databank te repareren}
@@ -192,6 +198,8 @@ menuText N ToolsTrainFics "Speel op het internet"  0 {Speel of freechess.org}
 # ====== TODO To be translated ======
 menuText N ToolsEngineTournament "Engine tournament"  0 {Start a tournament between chess engines}
 menuText N ToolsBookTuning "Openingenboek afstemming " 0 {Openingenboek afstemming}
+# ====== TODO To be translated ======
+menuText N ToolsDownloadTWIC "Download TWIC Games" 0 {Download the latest The Week In Chess (TWIC) games}
 menuText NL ToolsDownloadTWIC "Download TWIC-spelletjes" 0 {Download de nieuwste The Week In Chess (TWIC)-partijen}
 menuText N ToolsConnectHardware "Verbind Hardware" 0 {Verbind externe hardware}
 menuText N ToolsConnectHardwareConfigure "Configureer..." 0 {Configureer externe hardware en verbinding}
@@ -268,10 +276,14 @@ menuText N OptionsMovesSuggest "Toon hint" 0 \
   {Schakel hints aan of uit}
 menuText N OptionsShowVarPopup "Toon het varianten venster" 0 {Toon al dan niet het varianten venster} 
 menuText N OptionsMovesSpace "Voeg spaties in na het nummer van de zet" 0 {Voeg spaties in na het nummer van de zet}  
+# ====== TODO To be translated ======
+menuText N OptionsMovesLichess "Lichess/ChessBase Format For Annotations" 0 {Use Lichess/ChessBase format for square markers and arrows}
 menuText E OptionsMovesSpace "Add spaces after move number" 0 {Add spaces after move number}   
 menuText N OptionsMovesKey "Auto-aanvullen" 0 \
   {Aan/uitschakelen van toetsenbordzet auto-aanvullen}
 menuText N OptionsMovesShowVarArrows "Toon Pijlen voor Varianten" 0 {Zet aan/af pijlen om variantenzetten te tonen}
+# ====== TODO To be translated ======
+menuText N OptionsMovesShowEngineVariationArrows "Show Arrows for Engine Variations" 0 {Turn on/off arrows showing engine variation lines in multiPV mode}
 # ====== TODO To be translated ======
 menuText N OptionsMovesGlossOfDanger "Color Coded Gloss of Danger" 0 {Turn on/off color coded gloss of danger}
 menuText N OptionsNumbers "Getalformaat" 5 \

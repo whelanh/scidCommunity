@@ -49,6 +49,12 @@ menuText C FileReadOnly "Pouze pro ètení..." 0 \
   {Nastavit aktuální databázi jako jen ke ètení, a zabránit tak zmìnám}
 menuText C FileSwitch "Pøepnout se do databáze" 15 \
   {Pøepnout se do jiné otevøené databáze}
+# ====== TODO To be translated ======
+menuText C FileOpenLichessTournament "Open Lichess Tournament" 0 {Download and open live Lichess tournament broadcast games}
+# ====== TODO To be translated ======
+menuText C FileImportLichess "Import my Lichess" 0 {Import games from your Lichess account}
+# ====== TODO To be translated ======
+menuText C FileImportChessCom "Import my chess.com" 0 {Import games from your chess.com account}
 menuText C FileExit "Ukonèit" 0 {Ukonèit Scid}
 menuText C FileMaintFixBase "Opravit po¹kozenou databázi" 0 {Pokusit se opravit po¹kozenou databázi}
 
@@ -169,6 +175,8 @@ menuText C ToolsTrainFics "Hrát na internetu"  0 {Hrát na freechess.org}
 # ====== TODO To be translated ======
 menuText C ToolsEngineTournament "Engine tournament"  0 {Start a tournament between chess engines}
 menuText C ToolsBookTuning "Ladìní knihovny zahájení" 0 {Ladìní knihovny zahájení}
+# ====== TODO To be translated ======
+menuText C ToolsDownloadTWIC "Download TWIC Games" 0 {Download the latest The Week In Chess (TWIC) games}
 menuText C ToolsConnectHardware "Pøipojit hardware" 0 {Pøipojit externí hardware}
 menuText C ToolsConnectHardwareConfigure "Konfigurovat..." 0 {Konfigurovat externí hardware a pøipojení}
 menuText C ToolsConnectHardwareNovagCitrineConnect "Pøipojit Novag Citrine" 0 {Pøipojit Novag Citrine}
@@ -244,9 +252,13 @@ menuText C OptionsMovesSuggest "Ukázat navrhované tahy" 0 \
   {Zapnout/vypnout zobrazování navrhovaných tahù}
 menuText C OptionsShowVarPopup "Zobrazit okno variant" 0 {Zapnout/vypnout zobrazení okna variant}  
 menuText C OptionsMovesSpace "Pøidat mezeru za èíslo tahu" 0 {Pøidat mezeru za èíslo tahu}  
+# ====== TODO To be translated ======
+menuText C OptionsMovesLichess "Lichess/ChessBase Format For Annotations" 0 {Use Lichess/ChessBase format for square markers and arrows}
 menuText C OptionsMovesKey "Klávesnicové doplòování" 13 \
   {Zapnout/vypnout automatické doplòování tahù zadávaných klávesnicí}
 menuText C OptionsMovesShowVarArrows "Zobrazit ¹ipky pro varianty" 0 {Zapnout/vypnout zobrazování ¹ipek ukazujících tahy variant}
+# ====== TODO To be translated ======
+menuText C OptionsMovesShowEngineVariationArrows "Show Arrows for Engine Variations" 0 {Turn on/off arrows showing engine variation lines in multiPV mode}
 # ====== TODO To be translated ======
 menuText C OptionsMovesGlossOfDanger "Color Coded Gloss of Danger" 0 {Turn on/off color coded gloss of danger}
 menuText C OptionsNumbers "Formát èísel" 0 {Zvolit formát èísel}

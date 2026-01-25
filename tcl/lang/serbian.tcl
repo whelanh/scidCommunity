@@ -49,6 +49,12 @@ menuText Y FileReadOnly "Read-only..." 0 \
   {Spreèi izmene u tekuæoj bazi}
 menuText Y FileSwitch "Switch to database" 0 \
   {Switch to a different opened database} ;# ***
+# ====== TODO To be translated ======
+menuText Y FileOpenLichessTournament "Open Lichess Tournament" 0 {Download and open live Lichess tournament broadcast games}
+# ====== TODO To be translated ======
+menuText Y FileImportLichess "Import my Lichess" 0 {Import games from your Lichess account}
+# ====== TODO To be translated ======
+menuText Y FileImportChessCom "Import my chess.com" 0 {Import games from your chess.com account}
 menuText Y FileExit "Izaði" 1 {Izlazak iz Scid-a}
 # ====== TODO To be translated ======
 menuText Y FileMaintFixBase "Fix corrupted base" 0 {Try to fix a corrupted base}
@@ -190,6 +196,8 @@ menuText Y ToolsTrainFics "Play on internet"  0 {Play on freechess.org}
 menuText Y ToolsEngineTournament "Engine tournament"  0 {Start a tournament between chess engines}
 # ====== TODO To be translated ======
 menuText Y ToolsBookTuning "Book tuning" 0 {Book tuning}
+# ====== TODO To be translated ======
+menuText Y ToolsDownloadTWIC "Download TWIC Games" 0 {Download the latest The Week In Chess (TWIC) games}
 menuText SR ToolsDownloadTWIC "Preuzmi TWIC igre" 0 {Preuzmi najnovije The Week In Chess (TWIC) igre}
 # ====== TODO To be translated ======
 menuText Y ToolsConnectHardware "Connect Hardware" 0 {Connect external hardware}
@@ -289,10 +297,14 @@ menuText Y OptionsMovesSuggest "Poka¾i preporuèene poteze" 0 \
 menuText Y OptionsShowVarPopup "Show variations window" 0 {Turn on/off the display of a variations window}  
 # ====== TODO To be translated ======
 menuText Y OptionsMovesSpace "Add spaces after move number" 0 {Add spaces after move number}  
+# ====== TODO To be translated ======
+menuText Y OptionsMovesLichess "Lichess/ChessBase Format For Annotations" 0 {Use Lichess/ChessBase format for square markers and arrows}
 menuText Y OptionsMovesKey "Dopunjavanje poteza" 0 \
   {Ukljuèi/iskljuèi dopunjavanje poteza zadatih tastaturom}
 # ====== TODO To be translated ======
 menuText Y OptionsMovesShowVarArrows "Show Arrows for Variations" 0 {Turn on/off arrows showing moves in variations}
+# ====== TODO To be translated ======
+menuText Y OptionsMovesShowEngineVariationArrows "Show Arrows for Engine Variations" 0 {Turn on/off arrows showing engine variation lines in multiPV mode}
 # ====== TODO To be translated ======
 menuText Y OptionsMovesGlossOfDanger "Color Coded Gloss of Danger" 0 {Turn on/off color coded gloss of danger}
 menuText Y OptionsNumbers "Format brojeva" 0 {Izaberi format brojeva}

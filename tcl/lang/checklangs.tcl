@@ -14,7 +14,7 @@ array set codes {
   greek G
   hungary H
   italian I
-  mandarin M
+  chinese M
   nederlan N
   norsk O
   polish P
@@ -28,7 +28,7 @@ array set codes {
   greek G
 }
 
-set languages {czech deutsch francais hungary italian mandarin nederlan norsk polish
+set languages {czech deutsch francais hungary italian chinese nederlan norsk polish
   portbr spanish swedish serbian russian catalan suomi greek
 }
 
@@ -68,12 +68,14 @@ proc checkfile {code langfile} {
   # Read this language file and the english file:
   
   set f [open english.tcl r]
+  fconfigure $f -encoding iso8859-1
   set data [read $f]
   close $f
   set tmp [split $data "\n"]
   set englishData [multiLines $tmp]
   
   set f [open $langfile.tcl r]
+  fconfigure $f -encoding iso8859-1
   set data [read $f]
   close $f
   set tmp [split $data "\n"]

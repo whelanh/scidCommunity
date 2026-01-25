@@ -85,6 +85,12 @@ menuText U FileReadOnly "Vain luku..." 0 \
   {Estä muutokset nykyiseen tietokantaan}
 menuText U FileSwitch "Vaihda tietokanta" 3 \
   {Vaihda toiseen avattuun tietokantaan}
+# ====== TODO To be translated ======
+menuText U FileOpenLichessTournament "Open Lichess Tournament" 0 {Download and open live Lichess tournament broadcast games}
+# ====== TODO To be translated ======
+menuText U FileImportLichess "Import my Lichess" 0 {Import games from your Lichess account}
+# ====== TODO To be translated ======
+menuText U FileImportChessCom "Import my chess.com" 0 {Import games from your chess.com account}
 menuText U FileExit "Lopeta" 0 {Lopeta ja sulje Scid}
 menuText U FileMaintFixBase "Korjaa tietokanta" 0 {Yritä korjata vaurioitunut tietokanta}
   
@@ -205,6 +211,8 @@ menuText U ToolsTrainFindBestMove "Etsi paras siirto"  5 {Etsi aseman paras siir
 menuText U ToolsTrainFics "FICS"  0 {Pelaa palvelimella freechess.org}
 menuText U ToolsEngineTournament "Shakkimoottoriturnaus"  0 {Turnaus shakkimoottorien kesken}
 menuText U ToolsBookTuning "Viritä avaukset" 0 {Muokkaa avauskirjastoasi}
+# ====== TODO To be translated ======
+menuText U ToolsDownloadTWIC "Download TWIC Games" 0 {Download the latest The Week In Chess (TWIC) games}
 menuText U ToolsConnectHardware "Liitä syöttölaite" 8 {Liitä ulkoinen syöttölaite (elektroninen lauta tms.)}
 menuText U ToolsConnectHardwareConfigure "Asetukset..." 0 {Säädä ulkoisen syöttölaitteen asetuksia}
 menuText U ToolsConnectHardwareNovagCitrineConnect "Liitä Novag Citrine" 0 {Liitä Novag Citrine shakkitietokone}
@@ -288,9 +296,13 @@ menuText U OptionsMovesSuggest "Näytä suositetut siirrot" 0 \
   {Siirtosuositukset päälle/päältä}
 menuText U OptionsShowVarPopup "Näytä muunnelmaikkuna" 0 {Näytä/sulje muunnelmaikkuna}  
 menuText U OptionsMovesSpace "Välilyönti siirtoihin" 0 {Lisää välilyönti siirron numeron perään}  
+# ====== TODO To be translated ======
+menuText U OptionsMovesLichess "Lichess/ChessBase Format For Annotations" 0 {Use Lichess/ChessBase format for square markers and arrows}
 menuText U OptionsMovesKey "Automaattinen täydennys" 0 \
   {Kytek siirtojen automaattinen täydennys päälle/päältä}
 menuText U OptionsMovesShowVarArrows "Muunnelmat nuolin" 0 {Näytä/älä näytä muunnelmia nuolilla laudalla}
+# ====== TODO To be translated ======
+menuText U OptionsMovesShowEngineVariationArrows "Show Arrows for Engine Variations" 0 {Turn on/off arrows showing engine variation lines in multiPV mode}
 # ====== TODO To be translated ======
 menuText U OptionsMovesGlossOfDanger "Color Coded Gloss of Danger" 0 {Turn on/off color coded gloss of danger}
 menuText U OptionsNumbers "Numerointi" 0 {Numeroformaatit, 1-3 desimaalipisteellä, 4-6 -pilkulla}

@@ -19,6 +19,7 @@ array set encodings {
   francais utf-8
   hungary iso8859-2
   italian utf-8
+  chinese utf-8
   nederlan iso8859-1
   norsk iso8859-1
   polish iso8859-2
@@ -38,6 +39,7 @@ array set codes {
   francais F
   hungary H
   italian I
+  chinese M
   nederlan N
   norsk O
   polish P
@@ -51,7 +53,7 @@ array set codes {
   greek G
 }
 
-set languages {czech deutsch francais hungary italian nederlan norsk polish
+set languages {czech deutsch francais hungary italian chinese nederlan norsk polish
   portbr spanish swedish serbian russian catalan suomi greek
 }
 
