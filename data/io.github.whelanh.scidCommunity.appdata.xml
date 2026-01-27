@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.2.07" date="2026-01-26">
+      <description>
+        <p>Add Japanese and Romanian language .tcl files</p>
+      </description>
+    </release>
     <release version="5.1.2.06" date="2026-01-25">
       <description>
         <p>Add Turkish and Serbian Cyrillic and update other language .tcl files</p>
