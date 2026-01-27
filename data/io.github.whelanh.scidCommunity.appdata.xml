@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.2.08" date="2026-01-27">
+      <description>
+        <p>Change Options/Language list to language names used in those languages</p>
+      </description>
+    </release>
     <release version="5.1.2.07" date="2026-01-26">
       <description>
         <p>Add Japanese and Romanian language .tcl files</p>
