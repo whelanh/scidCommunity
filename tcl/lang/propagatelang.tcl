@@ -33,6 +33,8 @@ array set encodings {
   greek utf-8
   turkish utf-8
   SerbCyr utf-8
+  japanese utf-8
+  romanian utf-8
 }
 
 array set codes {
@@ -55,10 +57,12 @@ array set codes {
   greek G
   turkish T
   SerbCyr J
+  japanese A
+  romanian L
 }
 
 set languages {czech deutsch francais hungary italian chinese nederlan norsk polish
-  portbr spanish swedish serbian russian catalan suomi greek turkish SerbCyr
+  portbr spanish swedish serbian russian catalan suomi greek turkish SerbCyr japanese romanian
 }
 
 ################################################################################

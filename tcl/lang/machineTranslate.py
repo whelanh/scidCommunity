@@ -84,6 +84,8 @@ def get_encoding_for_file(input_file):
         'swedish.tcl': 'iso8859-1',
         'turkish.tcl': 'utf-8',
         'SerbCyr.tcl': 'utf-8',
+        'japanese.tcl': 'utf-8',
+        'romanian.tcl': 'utf-8',
     }
     
     # Extract filename from path
