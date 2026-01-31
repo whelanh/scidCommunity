@@ -1,8 +1,14 @@
+# scidCommunity
+
 <p align="center">
 <img width="256" height="256" alt="io github whelanh scidCommunity" src="https://github.com/user-attachments/assets/26277294-00cb-4660-964d-f88f4364e9c8" />
 </p>
 
-**scidCommunity** differs from upstream `Scid` by offering enhancements not present in the upstream repo. Enhancements include:
+**scidCommunity** is a powerful chess analysis and database program. Originally derived from `Scid` (Shane's Chess Information Database), it has evolved into a distinct tool with numerous enhancements and a growing community of over 600 users.
+
+While it maintains compatibility with the original Scid database formats, **scidCommunity** focuses on modern features like integrations with Lichess and Chess.com, user-requested improvements, and a streamlined experience for analysis and database management.
+
+### Key Enhancements & Features:
 
 1. The **Header Search** dialogue has been improved with the addition of a new "Layouts" button at the lower left. This button replaces a "Save" button that has been disabled for years. The new button allows users to name, save and load sets of search parameters they use frequently.
       - The hotkey Alt + s has been added to invoke the Search button. 
@@ -30,38 +36,22 @@
 
 *Users with suggestions for further enhancements are welcome to write something in the Discussion section or submit a pull request.  Enjoy!*
 
-New "Layouts" button with (optional) Sand theme:
+### 📸 scidCommunity in Action
 
-<img width="500" height="450" alt="Screenshot_20251203_143244 (Edit)" src="https://github.com/user-attachments/assets/fdf27a66-5ae4-40de-8a86-28db86b29f22" />
-
-
-New Engine depth and move time input windows:
-<img width="638" height="303" alt="image" src="https://github.com/user-attachments/assets/0563010d-b20b-4771-8ef4-7470b8ebc9fb" />
-
-
-New TWIC pgn import with (optional) cobalt2 theme:
-
-<img width="500" height="304" alt="Screenshot_20251204_112424" src="https://github.com/user-attachments/assets/16b9879a-1a68-4cd8-84a3-ff822310359b" />
-
-New *chess.com* and *lichess.org* buttons:
-
-<img width="500" height="216" alt="Screenshot_2025-12-06_07-27-58 (Edit)" src="https://github.com/user-attachments/assets/64a3c452-4ffb-4ff9-a39a-eac82b066118" />
+| New "Layouts" Button | Engine Depth/Time Inputs |
+| :---: | :---: |
+| <img width="400" alt="Layouts button" src="https://github.com/user-attachments/assets/fdf27a66-5ae4-40de-8a86-28db86b29f22" /> | <img width="400" alt="Engine inputs" src="https://github.com/user-attachments/assets/0563010d-b20b-4771-8ef4-7470b8ebc9fb" /> |
+| **TWIC PGN Import** | **Lichess & Chess.com Buttons** |
+| <img width="400" alt="TWIC import" src="https://github.com/user-attachments/assets/16b9879a-1a68-4cd8-84a3-ff822310359b" /> | <img width="400" alt="Service buttons" src="https://github.com/user-attachments/assets/64a3c452-4ffb-4ff9-a39a-eac82b066118" /> |
+| **Table Base Lookup** | **Direct Game Download** |
+| <img width="400" alt="Table base" src="https://github.com/user-attachments/assets/b8becb46-a146-46cd-a8e5-1be7233151fd" /> | <img width="400" alt="Direct download" src="https://github.com/user-attachments/assets/1139c2ff-cfd1-4245-84de-fe0d6a3e30c6" /> |
+| **Lichess Broadcasts** | |
+| <img width="400" alt="Broadcasts" src="https://github.com/user-attachments/assets/4505355c-6247-45bb-af21-b0f64270fb24" /> | |
 
 
-New *Table Base* button:
-
-<img width="500" height="580" alt="Screenshot_2025-12-06_07-32-02 (Edit)" src="https://github.com/user-attachments/assets/b8becb46-a146-46cd-a8e5-1be7233151fd" />
-
-New functions allowing users to directly download and open up their Lichess and chess.com games
-
-<img width="500" height="370" alt="Screenshot_20251215_081733 (Edit)" src="https://github.com/user-attachments/assets/1139c2ff-cfd1-4245-84de-fe0d6a3e30c6" />
-
-New feature under the "File" menu to open Lichess broadcast tournament games. Opening an ongoing game in the PGN Window triggers automatic game updates every minute.
-
-<img width="500" height="270" alt="Screenshot_20251225_063003" src="https://github.com/user-attachments/assets/4505355c-6247-45bb-af21-b0f64270fb24" />
 
 ## 💽 Releases
-Check latest **[Releases](https://github.com/whelanh/scidCommunity/releases)** for a deb, rpm, exe, a MacOS and AppImage installable package.  The deb has been tested against Ubuntu 24, the rpm against Fedora Rawhide, the AppImage against Fedora Kinoite (Rawhide) and the exe file against a Windows 11 virtual machine. The Mac version has not been tested and feedback would be appreciated. 
+Check latest **[Releases](https://github.com/whelanh/scidCommunity/releases)** for a deb, rpm, exe, a MacOS and AppImage installable package.  The deb has been tested against Ubuntu 24, the rpm against Fedora Rawhide, the AppImage against Fedora Kinoite (Rawhide) and the exe file against a Windows 11 virtual machine. The Mac version appears to be blocked by Apple's security protocols.  However if you build it yourself on a Mac (see below), you can run it by invoking it from the terminal. 
 
 Linux users can install scidCommunity from [Flathub](https://flathub.org/en/apps/io.github.whelanh.scidCommunity), however the Flathub update process is slower. The Flatpak is installed with limited access to your file system.  You will probably want to grant it access to your home directories for storing preferences and accessing your stored database.  You can do that with the **Flatseal** flatpak, or with the terminal command `flatpak override --user io.github.whelanh.scidCommunity --filesystem=home` or `flatpak override --user io.github.whelanh.scidcommunity --filesystem=/path/to/directory`
 
@@ -70,12 +60,12 @@ For the most recent developments, see the **[Releases](https://github.com/whelan
 * For Arch-based systems, it is available on the [AUR](https://aur.archlinux.org/packages/scidcommunity) 
 * **scidCommunity** is also available from the [Snap Store](https://snapcraft.io/scidcommunity).
 
------------------------------------------------------------------------------------------------------------------------------------------------
-ScidCommunity is based on Scid (Shane's Chess Information Database), a multi-platform (Linux, Mac OS X, Windows) chess database application. It is a fork open to user ideas for further improvements.
+## About scidCommunity
 
-With ScidCommunity you can maintain a database of chess games, search games by many criteria, view graphical trends, and produce printable reports on players and openings. You can also analyze games with the Xboard or UCI compatible chess program, play online on FICS, and even use ScidCommunity to study endings with endgame tablebases.
+With **scidCommunity**, you can maintain a database of chess games, search games by many criteria, view graphical trends, and produce printable reports on players and openings. You can also analyze games with UCI compatible chess programs, including live Lichess tournament games.
 
-ScidCommunity is free software and is released under the GPL licence.
+**scidCommunity** is free software and is released under the GPL licence.
+
 
 ## Building from Source
 
@@ -87,7 +77,7 @@ cd scidCommunity
 make install
 ```
 
-The `ScidCommunity.app` bundle contains the app and can be moved to `/Applications`. You can also create a symbolic link to the executable `ScidCommunity.app/Contents/scid/scid`.
+The `ScidCommunity.app` bundle contains the app and can be moved to `/Applications`. You can also create a symbolic link to the executable `ScidCommunity.app/Contents/scid/scid`.  However Apple security protocols may make this difficult.  You can build it from source using the commands listed above and then invoke it from the scidCommunity folder using the terminal command `./scidCommunity`   You may need to run `./build_app.sh` several times for Apple to download the needed tcl/tk libraries.
 
 ### Linux
 Requires: `tcl8.6-dev`, `tk8.6-dev` (or equivalent for your distribution). It will now compile against tk and tcl 9.0 libraries (e.g. Fedora Rawhide `tcl-devel` and `tk-devel`), but if both 8.6 and 9.0 are available, it defaults to 8.6. 
