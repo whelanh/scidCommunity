@@ -6,7 +6,7 @@
 
 **scidCommunity** is a powerful chess analysis and database program. Originally derived from `Scid` (Shane's Chess Information Database), it has evolved into a distinct tool with numerous enhancements and a growing community of over 600 users.
 
-While it maintains compatibility with the original Scid database formats, **scidCommunity** focuses on modern features like integrations with Lichess and Chess.com, user-requested improvements, and a streamlined experience for analysis and database management.
+While it maintains compatibility with the original Scid database formats, **scidCommunity** focuses on modern features like integrations with Lichess and Chess.com, user-requested improvements, and a streamlined experience for analysis and database management. **scidCommunity** is free software and is released under the GPL licence.
 
 ### Key Enhancements & Features:
 
@@ -59,13 +59,6 @@ For the most recent developments, see the **[Releases](https://github.com/whelan
 * For rpm based Linux systems, ScidCommunity is also available through the [Fedora Copr Repo](https://copr.fedorainfracloud.org/coprs/whelanh/scidcommunity/)
 * For Arch-based systems, it is available on the [AUR](https://aur.archlinux.org/packages/scidcommunity) 
 * **scidCommunity** is also available from the [Snap Store](https://snapcraft.io/scidcommunity).
-
-## About scidCommunity
-
-With **scidCommunity**, you can maintain a database of chess games, search games by many criteria, view graphical trends, and produce printable reports on players and openings. You can also analyze games with UCI compatible chess programs, including live Lichess tournament games.
-
-**scidCommunity** is free software and is released under the GPL licence.
-
 
 ## Building from Source
 
