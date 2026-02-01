@@ -107,8 +107,6 @@ menu $m.exportfilter
       -command {exportGames filter HTML}
   $m.exportfilter add command -label ToolsExpFilterHTMLJS \
       -command {::html::exportCurrentFilter}
-  $m.exportfilter add command -label ToolsExpFilterLaTeX \
-      -command {exportGames filter LaTeX}
 $m add cascade -label ToolsExpFilter -menu $m.exportfilter
 menu $m.importfile
 $m add cascade -label ToolsImportFile -menu $m.importfile
@@ -180,8 +178,6 @@ menu $m.exportcurrent
       -command {exportGames current HTML}
   $m.exportcurrent add command -label ToolsExpCurrentHTMLJS \
       -command {::html::exportCurrentGame}
-  $m.exportcurrent add command -label ToolsExpCurrentLaTeX \
-      -command {exportGames current LaTeX}
 $m add cascade -label ToolsExpCurrent -menu $m.exportcurrent
 $m add separator
 $m add command -label GameFirst -accelerator "Ctrl+Shift+Up" -command {::game::LoadNextPrev first}

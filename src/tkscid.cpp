@@ -373,7 +373,7 @@ int sc_base_export(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     return errorResult(ti, usage);
   }
 
-  if (exportFilter && !db->inUse) {
+  if (!db->inUse) {
     return errorResult(ti, errMsgNotOpen(ti));
   }
 

@@ -50,20 +50,8 @@ proc ::win::closeWindow {w} {
 }
 
 # Returns a list containing the names of the opened windows:
-proc ::win::getWindows {} {
-	set res {}
-	foreach undocked [array names ::docking::notebook_name] {
-		if {[winfo exists $undocked]} {
-			 lappend res $undocked
-		}
-	}
-	foreach noteb [array names ::docking::tbs] {
-		foreach docked [$noteb tabs] {
-			 lappend res $docked
-		}
-	}
-	return $res
-}
+# (function definition moved below)
+
 
 # if undocked window : sets the title of the toplevel window.
 # if docked : sets the name of the tab.
@@ -288,6 +276,23 @@ proc ::win::makeVisible { wnd } {
 #
 ################################################################################
 
+# Returns a list containing the names of the opened windows:
+proc ::win::getWindows {} {
+	set res {}
+	foreach undocked [array names ::docking::notebook_name] {
+		if {[winfo exists $undocked]} {
+			 lappend res $undocked
+		}
+	}
+	foreach noteb [array names ::docking::tbs] {
+        if {![winfo exists $noteb]} { continue }
+		foreach docked [$noteb tabs] {
+			 lappend res $docked
+		}
+	}
+	return $res
+}
+
 namespace eval docking {
   # associates notebook to paned window
   variable tbs
@@ -298,6 +303,7 @@ namespace eval docking {
 # find notebook, corresponding to path
 proc ::docking::find_tbn {path} {
   foreach tb [array names ::docking::tbs] {
+    if {![winfo exists $tb]} { continue }
     if {[lsearch -exact [$tb tabs] $path]>=0} {
       return $tb
     }
@@ -312,9 +318,11 @@ proc ::docking::_cleanup_tabs {srctab} {
 
   # if srctab is empty, then remove it
   if {[llength [$srctab tabs]]==0} {
-    destroy $srctab
     set pw $tbs($srctab)
     unset tbs($srctab)
+    catch {destroy $srctab}
+    #set pw $tbs($srctab)
+    #unset tbs($srctab)
 
     while {[llength [$pw panes]]==0} {
       set parent [winfo parent $pw]
@@ -322,7 +330,7 @@ proc ::docking::_cleanup_tabs {srctab} {
       if {$pw == ".pw"} {
         break
       }
-      destroy $pw
+      catch {destroy $pw}
       set pw $parent
     }
 

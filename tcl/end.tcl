@@ -344,22 +344,6 @@ proc exportOptions {exportType} {
     grid $w.o.nullMoves -row 8 -column 0 -sticky w
   }
 
-  # Extra option for HTML format: diagram image set
-  if {$exportType == "HTML"} {
-    ttk::label $w.o.hdiag -text "Diagram"
-    ttk::radiobutton $w.o.hb0 -text "bitmaps" \
-        -variable exportFlags(htmldiag) -value 0
-    ttk::radiobutton $w.o.hb1 -text "bitmaps2" \
-        -variable exportFlags(htmldiag) -value 1
-    ttk::label $w.o.hl0 -image htmldiag0
-    ttk::label $w.o.hl1 -image htmldiag1
-    grid $w.o.hdiag -row 8 -column 0 -sticky w
-    grid $w.o.hb0 -row 9 -column 0 -sticky w
-    grid $w.o.hb1 -row 9 -column 1 -sticky w
-    grid $w.o.hl0 -row 10 -column 0 -sticky w
-    grid $w.o.hl1 -row 10 -column 1 -sticky w
-  }
-
   pack [ttk::frame $w.b] -side top -fill x
   dialogbutton $w.b.ok -text "OK" -command {
     set exportFlags(ok) 1
@@ -431,8 +415,10 @@ proc exportGames {selection exportType} {
   set fName [$getfile -initialdir $idir -filetypes $ftype -defaultextension $default -title $title]
   if {$fName == ""} { return }
 
+
   progressWindow "Scid" "Exporting games..." $::tr(Cancel)
-  sc_base export $selection $exportType $fName -append $exportFlags(append) \
+  if {[catch {
+      sc_base export $selection $exportType $fName -append $exportFlags(append) \
       -starttext $exportStartFile($exportType) \
       -endtext $exportEndFile($exportType) \
       -comments $exportFlags(comments) -variations $exportFlags(vars) \
@@ -440,6 +426,11 @@ proc exportGames {selection exportType} {
       -indentC $exportFlags(indentc) -indentV $exportFlags(indentv) \
       -column $exportFlags(column) -noMarkCodes $exportFlags(stripMarks) \
       -convertNullMoves $exportFlags(convertNullMoves)
+  } err]} {
+      closeProgressWindow
+      tk_messageBox -title "Export Error" -icon error -message "Error exporting to $exportType: $err"
+      return
+  }
   closeProgressWindow
 }
 
