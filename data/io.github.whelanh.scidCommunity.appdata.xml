@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.2.09" date="2026-02-01">
+      <description>
+        <p>Cleanup Export Game to HTML options and remove Latex option</p>
+      </description>
+    </release>
     <release version="5.1.2.08" date="2026-01-27">
       <description>
         <p>Change Options/Language list to language names used in those languages</p>

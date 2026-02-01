@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.08
+Version:        5.1.2.09
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 631c7edee0a6fd55721bb43e65518d79fe38deb1
+%global commit 75fc835e0bc89ac7cb006b7eda35c2879d32346a
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Sun Feb 1 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-09
+- "Cleanup Export game to HTML options and remove Latex option"
 * Mon Jan 27 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-08
 - "Change Options/Language list to local words for language"
 * Mon Jan 26 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-07
