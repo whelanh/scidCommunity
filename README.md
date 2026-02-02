@@ -51,7 +51,7 @@ While it maintains compatibility with the original Scid database formats, **scid
 
 
 ## 💽 Releases
-Check latest **[Releases](https://github.com/whelanh/scidCommunity/releases)** for a deb, rpm, exe, a MacOS and AppImage installable package.  The deb has been tested against Ubuntu 24, the rpm against Fedora Rawhide, the AppImage against Fedora Kinoite (Rawhide) and the exe file against a Windows 11 virtual machine. The Mac version appears to be blocked by Apple's security protocols.  However if you build it yourself on a Mac (see below), you can run it by invoking it from the terminal. 
+Check latest **[Releases](https://github.com/whelanh/scidCommunity/releases)** for a deb, rpm, a Windows exe, a MacOS and AppImage installable package.  The deb has been tested against Ubuntu 24, the rpm against Fedora Rawhide, the AppImage against Fedora Kinoite (Rawhide) and the exe file against a Windows 11 virtual machine. The Mac version appears to be blocked by Apple's security protocols.  However if you build it yourself on a Mac (see below), you can run it by invoking it from the terminal. 
 
 Linux users can install scidCommunity from [Flathub](https://flathub.org/en/apps/io.github.whelanh.scidCommunity), however the Flathub update process is slower. The Flatpak is installed with limited access to your file system.  You will probably want to grant it access to your home directories for storing preferences and accessing your stored database.  You can do that with the **Flatseal** flatpak, or with the terminal command `flatpak override --user io.github.whelanh.scidCommunity --filesystem=home` or `flatpak override --user io.github.whelanh.scidcommunity --filesystem=/path/to/directory`
 
