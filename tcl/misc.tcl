@@ -722,6 +722,12 @@ namespace eval html {
     closeProgressWindow
     exportPGN "[file join $dirtarget $prefix].pgn" "filter"
     sc_game load $savedGameNum
+    
+    # Open the first game's HTML file in the default browser
+    if {!$::html::cancelHTML && [sc_filter count] > 0} {
+      set firstGameHtml "[file join $dirtarget $prefix]_1.html"
+      openURL "file://$firstGameHtml"
+    }
   }
   ################################################################################
   proc sc_progressBar {} {
