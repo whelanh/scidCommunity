@@ -75,7 +75,7 @@ jobs:
         run: |
           mkdir tcltk
           cd tcltk
-          git clone --depth=1 --branch core-8-6-branch https://github.com/tcltk/tcl.git
+          git clone --depth=1 --branch core-8-6-15 https://github.com/tcltk/tcl.git
           cd tcl\win
           call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
           nmake -f makefile.vc release OPTS=nomsvcrt INSTALLDIR=%GITHUB_WORKSPACE%\tcldir
@@ -85,7 +85,7 @@ jobs:
         shell: cmd
         run: |
           cd tcltk
-          git clone --depth=1 --branch core-8-6-branch https://github.com/tcltk/tk.git
+          git clone --depth=1 --branch core-8-6-15 https://github.com/tcltk/tk.git
           cd tk\win
           call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
           nmake -f makefile.vc release OPTS=nomsvcrt INSTALLDIR=%GITHUB_WORKSPACE%\tcldir
