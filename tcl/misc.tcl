@@ -753,6 +753,9 @@ namespace eval html {
         [sc_game tags get "Event"] [sc_game tags get "ECO"] \
         [sc_game info result] [sc_game tags get "Date"]
     exportPGN "[file join $dirtarget $prefix].pgn" "current"
+    
+    # Open the exported HTML file in the default browser
+    openURL "file://$fName"
   }
   ################################################################################
   # Dictionary mapping from special characters to their entities. (from tcllib)
