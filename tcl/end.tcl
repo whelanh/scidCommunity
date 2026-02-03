@@ -420,6 +420,11 @@ proc exportGames {selection exportType} {
       return
   }
   closeProgressWindow
+  
+  # Open the exported HTML file in the default browser for single game exports
+  if {$exportType == "HTML" && $selection == "current"} {
+    openURL "file://$fName"
+  }
 }
 
 ###########################################################################
