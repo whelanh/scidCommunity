@@ -1817,7 +1817,7 @@ errorT Game::WriteMoveList(TextBuffer *tb, moveT *oldCurrentMove,
     nextColumn = "</b></td>\n  <td width=\"45%\" align=left><b>";
     endColumn = "</b></td>\n</tr>\n";
     endTable = "</table>\n";
-    printDiagrams = false;
+    printDiagrams = true;
   }
   if (IsColorFormat()) {
     startTable = "<br>";

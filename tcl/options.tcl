@@ -482,6 +482,7 @@ set default_exportEndFile(PGN) {}
 set default_exportStartFile(HTML) {<html>
   <head>
     <title>scidCommunity export</title>
+    <link rel="stylesheet" type="text/css" href="scid.css">
     <style>
       @media print {
         table { page-break-inside: avoid; }

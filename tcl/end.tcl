@@ -403,6 +403,13 @@ proc exportGames {selection exportType} {
   set fName [$getfile -initialdir $idir -filetypes $ftype -defaultextension $default -title $title]
   if {$fName == ""} { return }
 
+  # For HTML exports, copy the bitmaps directory and CSS file so chess diagrams render properly
+  if {$exportType == "HTML"} {
+    set dirtarget [file dirname $fName]
+    set sourcedir $::scidShareDir
+    catch {file copy -force [file join $sourcedir bitmaps] $dirtarget}
+    catch {file copy -force [file join $::scidExeDir html scid.css] $dirtarget}
+  }
 
   progressWindow "scidCommunity" "Exporting games..." $::tr(Cancel)
   if {[catch {
