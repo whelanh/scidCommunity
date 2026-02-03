@@ -294,6 +294,17 @@ TEST(Test_PgnParser, date_parsePGNTag) {
   test("1900.02.29", "1900.02.29");
   test("1000.02.29", "1000.02.29");
 
+  // Test dates before year 1000
+  test("0850.01.15", "0850.01.15");
+  test("0001.12.25", "0001.12.25");
+  test("0999.06.30", "0999.06.30");
+  
+  // Test dates with fewer than 4 digit years (non-standard but should be accepted)
+  test("850.01.15", "0850.01.15");
+  test("1.12.25", "0001.12.25");
+  test("99.06.30", "0099.06.30");
+  test("800.1.1", "0800.01.01");
+
   test("????.??.??", "????.??.??");
   test("2023.??.??", "2023.??.??");
   test("2023.01.??", "2023.01.??");

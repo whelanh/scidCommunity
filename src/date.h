@@ -166,7 +166,7 @@ date_EncodeFromString (const char * str)
 inline dateT date_parsePGNTag(const char* str, size_t len) {
 	auto is_digit = [](auto v) { return v >= 0 && v <= 9; };
 
-	if (len < 4 || len > 10)
+	if (len < 1 || len > 10)
 		return {};
 
 	int tmp[10];
@@ -175,29 +175,57 @@ inline dateT date_parsePGNTag(const char* str, size_t len) {
 	});
 	std::fill(tmp + len, tmp + 10, -1);
 
-	uint32_t year = tmp[0] * 1000 + tmp[1] * 100 + tmp[2] * 10 + tmp[3];
-	if (!std::all_of(tmp, tmp + 4, is_digit) || year > YEAR_MAX)
+	// Find the first separator (period) to determine year length
+	size_t year_len = 0;
+	while (year_len < len && is_digit(tmp[year_len]))
+		year_len++;
+	
+	if (year_len == 0 || year_len > 4)
+		return {};
+	
+	// Calculate year from variable number of digits
+	uint32_t year = 0;
+	for (size_t i = 0; i < year_len; i++) {
+		year = year * 10 + tmp[i];
+	}
+	
+	if (year > YEAR_MAX)
 		return {};
 
+	// Month starts after year and separator (e.g., "850." means month starts at index 4)
+	size_t month_start = year_len + 1;
 	uint32_t month = 0;
-	if (!is_digit(tmp[4]) && is_digit(tmp[5])) {
-		if (!is_digit(tmp[6])) {
-			// Accept the format YYYY.M.DD or YYYY.M.D
-			std::rotate(tmp + 5, tmp + 9, tmp + 10);
-			tmp[5] = 0;
+	uint32_t day = 0;
+	
+	if (month_start < len && !is_digit(tmp[month_start - 1]) && is_digit(tmp[month_start])) {
+		size_t month_end = month_start + 1;
+		if (month_end < len && !is_digit(tmp[month_end])) {
+			// Single digit month: Y.M.DD or Y.M.D
+			month = tmp[month_start];
+		} else if (month_end < len && is_digit(tmp[month_end])) {
+			// Two digit month: Y.MM.DD or Y.MM.D
+			month = tmp[month_start] * 10 + tmp[month_end];
+			month_end++;
 		}
-		month = tmp[5] * 10 + tmp[6];
 		if (month > 12)
 			month = 0;
+		
+		// Day starts after month and separator
+		size_t day_start = month_end + 1;
+		if (day_start < len && !is_digit(tmp[month_end]) && is_digit(tmp[day_start])) {
+			size_t day_end = day_start + 1;
+			if (day_end >= len || !is_digit(tmp[day_end])) {
+				// Single digit day
+				day = tmp[day_start];
+			} else {
+				// Two digit day
+				day = tmp[day_start] * 10 + tmp[day_end];
+			}
+			if (day > 31)
+				day = 0;
+		}
 	}
-
-	uint32_t day = 0;
-	if (!is_digit(tmp[7]) && is_digit(tmp[8])) {
-		day = is_digit(tmp[9]) ? tmp[8] * 10 + tmp[9] : tmp[8];
-		if (day > 31)
-			day = 0;
-	}
-
+	
 	return (year << YEAR_SHIFT) | (month << MONTH_SHIFT) | (day << DAY_SHIFT);
 }
 
