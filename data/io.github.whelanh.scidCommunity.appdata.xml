@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.2.13" date="2026-02-03">
+      <description>
+        <p>Improved HTML and HTML+JavaScript Exports</p>
+      </description>
+    </release>
     <release version="5.1.2.10" date="2026-02-02">
       <description>
         <p>Removed out of date LaTex code, modernized cpp code and updated help files</p>
