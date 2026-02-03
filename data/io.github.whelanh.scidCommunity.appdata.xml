@@ -79,7 +79,12 @@
   <content_rating type="oars-1.0" />
 
   <releases>
-    <release version="5.1.2.13" date="2026-02-03">
+    <release version="5.1.2.14" date="2026-02-03">
+      <description>
+        <p>Allow multiple move sequences in the Tree Window</p>
+      </description>
+    </release>
+   <release version="5.1.2.13" date="2026-02-03">
       <description>
         <p>Improved HTML and HTML+JavaScript Exports</p>
       </description>

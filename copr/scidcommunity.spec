@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.13
+Version:        5.1.2.14
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit cb9b45de3b28953c1b3d6476138e8caa8d08d58a
+%global commit 0bab83637760a114f2f570bb09af858c9e296e1a
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Mon Feb 3 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-14
+- "Allow multiple move sequences in the Tree Window"
 * Mon Feb 3 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-13
 - "Improved HTML and HTML+JavaScript Exports"
 * Mon Feb 2 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-10
