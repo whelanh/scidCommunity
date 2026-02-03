@@ -204,3 +204,42 @@ width: 100%;
 	}
 
 img {border: 0}
+
+/* Print styles to ensure board squares are visible when printing */
+@media print {
+	/* Force background colors to print */
+	.bs {
+		background-color: #7389b6 !important;
+		-webkit-print-color-adjust: exact;
+		print-color-adjust: exact;
+		color-adjust: exact;
+	}
+	
+	.ws {
+		background-color: #f3f3f3 !important;
+		-webkit-print-color-adjust: exact;
+		print-color-adjust: exact;
+		color-adjust: exact;
+	}
+	
+	.coordinates {
+		background-color: #cccccc !important;
+		-webkit-print-color-adjust: exact;
+		print-color-adjust: exact;
+		color-adjust: exact;
+	}
+	
+	/* Ensure the layout works for printing */
+	#framecontent {
+		position: relative;
+		width: 100%;
+		height: auto;
+	}
+	
+	#maincontent {
+		position: relative;
+		left: 0;
+		top: 0;
+		width: 100%;
+	}
+}
