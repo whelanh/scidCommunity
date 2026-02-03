@@ -266,6 +266,7 @@ menu $m.hardware
   $m.hardware add command -label ToolsConnectHardwareConfigure -command ::ExtHardware::config
   $m.hardware add command -label ToolsConnectHardwareInputEngineConnect -command ::inputengine::connectdisconnect
   $m.hardware add command -label ToolsConnectHardwareNovagCitrineConnect -command ::novag::connect
+  $m.hardware add command -label ToolsConnectHardwareUCIBoardConnect -command ::uciboard::connectdisconnect
 $m add cascade -label ToolsConnectHardware -menu $m.hardware
 $m add separator
 menu $m.pinfo

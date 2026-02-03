@@ -139,6 +139,11 @@ namespace eval ExtHardware {
        .exthardwareConfig.eengine configure -state normal
        .exthardwareConfig.eparam  configure -state normal
     }
+    ttk::radiobutton $w.uciboard -text [::tr ExtHWUCIBoard]   -variable ::ExtHardware::hardware -value 3 -command { \
+       set ::ExtHardware::bindbutton "::uciboard::connectdisconnect"
+       .exthardwareConfig.eengine configure -state normal
+       .exthardwareConfig.eparam  configure -state normal
+    }
     #--------------
 
     if { $::ExtHardware::hardware == 1 } {
@@ -158,19 +163,20 @@ namespace eval ExtHardware {
     grid $w.options    -stick ew    -row 0 -column 0
     grid $w.novag      -stick w     -row 0 -column 1
     grid $w.inputeng   -stick w     -row 1 -column 1
+    grid $w.uciboard   -stick w     -row 2 -column 1
 
-    grid $w.lport      -stick ew    -row 2 -column 0
-    grid $w.eport                   -row 2 -column 1
+    grid $w.lport      -stick ew    -row 3 -column 0
+    grid $w.eport                   -row 3 -column 1
 
-    grid $w.lengine    -stick ew    -row 3 -column 0
-    grid $w.eengine                 -row 3 -column 1
+    grid $w.lengine    -stick ew    -row 4 -column 0
+    grid $w.eengine                 -row 4 -column 1
 
-    grid $w.lparam     -stick ew    -row 4 -column 0
-    grid $w.eparam                  -row 4 -column 1
+    grid $w.lparam     -stick ew    -row 5 -column 0
+    grid $w.eparam                  -row 5 -column 1
 
-    grid $w.showbutton -stick w     -row 5 -column 1
+    grid $w.showbutton -stick w     -row 6 -column 1
 
-    grid $w.buttons    -sticky news -row 6 -column 0 -columnspan 2
+    grid $w.buttons    -sticky news -row 7 -column 0 -columnspan 2
     bind $w <F1> { helpWindow HardwareConfig}
 
   }
@@ -789,6 +795,390 @@ namespace eval inputengine {
 
 }
 
+
+#======================================================================
+#
+# UCI Board Driver namespace
+#
+# This namespace handles UCI-based board drivers like the Chessnut Pro
+# driver from Graham O'Neill. These drivers communicate using the UCI
+# protocol but send "bestmove" when a physical move is made on the board.
+#
+#======================================================================
+
+namespace eval uciboard {
+  global ::ExtHardware::port ::ExtHardware::engine ::ExtHardware::param ::ExtHardware::hardware
+
+  set engine     $::ExtHardware::engine
+  set port       $::ExtHardware::port
+  set param      $::ExtHardware::param
+
+  set UCIBoard(pipe)     ""
+  set UCIBoard(log)      ""
+  set UCIBoard(logCount) 0
+  set UCIBoard(init)     0
+  set UCIBoard(ready)    0
+  set connectimg         tb_eng_ok
+  set MovingPieceImg     $::board::letterToPiece(.)80
+  set MoveText           "     "
+
+  font create uciBoardMoveFont -family Helvetica -size 56 -weight bold
+
+  #----------------------------------------------------------------------
+  # Generate the console window for UCI board driver
+  #----------------------------------------------------------------------
+  proc consoleWindow {} {
+
+    set w .uciboardconsole
+    if { [winfo exists $w]} {
+       ::uciboard::disconnect
+       return
+    }
+
+    ::createToplevel $w
+    ::setTitle $w [::tr UCIBoardConsole]
+
+    ttk::scrollbar $w.ysc     -command { .uciboardconsole.console yview }
+    text      $w.console -height 5  -width 80 -wrap word -yscrollcommand "$w.ysc set"
+
+    ttk::label     $w.lmode   -text [::tr IESending]
+
+    ::board::new $w.bd 25
+     $w.bd configure -relief solid -borderwidth 1
+
+    ttk::label     $w.engine      -text "$::ExtHardware::engine $::ExtHardware::port $::ExtHardware::param"
+
+    ttk::radiobutton $w.sendboth  -text [::tr Both]  -variable ::uciboard::sendMode -value "both"
+    ttk::radiobutton $w.sendwhite -text [::tr White] -variable ::uciboard::sendMode -value "white"
+    ttk::radiobutton $w.sendblack -text [::tr Black] -variable ::uciboard::sendMode -value "black"
+
+    ttk::button $w.bInfo          -text Info           -command { ::uciboard::requestInfo }
+    ttk::button $w.bSync          -text [::tr IESynchronise] -command { ::uciboard::synchronise }
+    ttk::button $w.bNewGame       -text [::tr GlistNewGame]  -command { ::uciboard::newgame }
+    ttk::button $w.bClose         -text [::tr Close]         -command { ::uciboard::connectdisconnect }
+
+    # Buttons for visual move announcement
+    button $w.bPiece -image $uciboard::MovingPieceImg
+    button $w.bMove  -font uciBoardMoveFont -text  $uciboard::MoveText
+    $w.bPiece configure -relief flat -border 0 -highlightthickness 0 -takefocus 0
+    $w.bMove  configure -relief flat -border 0 -highlightthickness 0 -takefocus 0
+
+    grid $w.console    -stick ns    -column 0  -row 0 -columnspan 12
+    grid $w.ysc        -stick ns    -column 12 -row 0
+
+    grid $w.engine     -stick ewns   -column 0  -row 1 -columnspan 9
+
+    grid $w.lmode      -stick ew    -column 0  -row 2
+    grid $w.sendboth   -stick e     -column 2  -row 2
+    grid $w.sendwhite               -column 4  -row 2
+    grid $w.sendblack  -stick w     -column 6  -row 2
+
+    grid $w.bInfo      -stick ew    -column 0  -row 3
+    grid $w.bSync      -stick ew    -column 0  -row 4
+    grid $w.bNewGame   -stick ew    -column 0  -row 5
+    grid $w.bClose     -stick ew    -column 0  -row 11
+
+    grid $w.bPiece     -stick nwes  -column 2  -row 3 -rowspan 9 -columnspan 3
+    grid $w.bMove      -stick nwes  -column 5  -row 3 -rowspan 9 -columnspan 3
+
+    grid $w.bd         -stick nw    -column 9  -row 2 -rowspan 9 -columnspan 7
+
+    bind $w <Destroy> { catch ::uciboard::connectdisconnect }
+    bind $w <F1> { helpWindow UCIBoardDriver}
+
+    ::createToplevelFinalize $w
+  }
+
+  proc updateConsole {line} {
+    set t .uciboardconsole.console
+    if {[winfo exists $t]} {
+      $t insert end "$line\n"
+      $t yview moveto 1
+    }
+  }
+
+  #----------------------------------------------------------------------
+  # connectdisconnect()
+  #   Connects or disconnects depending on the current status
+  #----------------------------------------------------------------------
+  proc connectdisconnect {} {
+    global  ::uciboard::UCIBoard
+
+    set connection $::uciboard::UCIBoard(pipe)
+
+    if {$connection == ""} {
+      consoleWindow
+      ::uciboard::connect
+    } else {
+      ::uciboard::disconnect
+    }
+  }
+
+  #----------------------------------------------------------------------
+  # connect():
+  #     Fire up the UCI board driver and connect it to a local pipe.
+  #----------------------------------------------------------------------
+  proc connect {} {
+    global ::uciboard::UCIBoard ::uciboard::engine \
+        ::uciboard::port ::uciboard::param
+
+    set ::uciboard::engine     $::ExtHardware::engine
+    set ::uciboard::port       $::ExtHardware::port
+    set ::uciboard::param      $::ExtHardware::param
+    set ::uciboard::sendMode   "both"
+
+    ::ExtHardware::HWbuttonImg tb_eng_connecting
+
+    # Build command line - port may be empty for USB devices that auto-detect
+    set cmdline $engine
+    if {$port != ""} {
+      append cmdline " $port"
+    }
+    if {$param != ""} {
+      append cmdline " $param"
+    }
+
+    if {[catch {set UCIBoard(pipe) [open "| $cmdline" "r+"]} result]} {
+      ::ExtHardware::HWbuttonImg tb_eng_error
+      tk_messageBox -title "Scid: UCI Board Driver" -icon warning -type ok \
+          -message "[::tr UCIBoardUnableToStart]\n$cmdline"
+      ::uciboard::resetEngine
+      return
+    }
+
+    ::uciboard::Init
+  }
+
+  #----------------------------------------------------------------------
+  # disconnect()
+  #    Disconnect and close the UCI board driver
+  #----------------------------------------------------------------------
+  proc disconnect {} {
+    global ::uciboard::UCIBoard
+    set pipe $::uciboard::UCIBoard(pipe)
+
+    set ::uciboard::connectimg tb_eng_connecting
+
+    # Send quit command to UCI engine
+    catch { ::uciboard::sendToEngine "quit" }
+
+    set ::uciboard::connectimg tb_eng_disconnected
+    ::ExtHardware::HWbuttonImg tb_eng_disconnected
+
+    if { [winfo exists .uciboardconsole]} {
+       destroy .uciboardconsole
+    }
+
+    catch {close $pipe}
+    ::uciboard::resetEngine
+  }
+
+  #----------------------------------------------------------------------
+  # logEngine
+  #    Simple log routine
+  #----------------------------------------------------------------------
+  proc logEngine {msg} {
+      updateConsole "$msg"
+  }
+
+  #----------------------------------------------------------------------
+  # sendToEngine()
+  #    Send a string to the engine and log it
+  #----------------------------------------------------------------------
+  proc sendToEngine {msg} {
+    global ::uciboard::UCIBoard
+    set pipe $::uciboard::UCIBoard(pipe)
+
+    ::uciboard::logEngine "> $msg"
+    puts $pipe $msg
+    flush $pipe
+  }
+
+  #----------------------------------------------------------------------
+  # Init()
+  #    Initialises the engine and internal data
+  #----------------------------------------------------------------------
+  proc Init {} {
+    global ::uciboard::UCIBoard
+    set pipe $::uciboard::UCIBoard(pipe)
+
+    # Configure the pipe and initiate the engine
+    fconfigure $pipe -buffering line -blocking 0
+    # register the event handler
+    fileevent  $pipe readable "::uciboard::readFromEngine"
+
+    # Send UCI handshake
+    ::uciboard::sendToEngine "uci"
+  }
+
+  #----------------------------------------------------------------------
+  # resetEngine()
+  #    Resets the engine's global variables
+  #----------------------------------------------------------------------
+  proc resetEngine {} {
+    global ::uciboard::UCIBoard
+
+    ::ExtHardware::HWbuttonImg tb_eng_disconnected
+    set ::uciboard::UCIBoard(pipe)     ""
+    set ::uciboard::UCIBoard(log)      ""
+    set ::uciboard::UCIBoard(logCount) 0
+    set ::uciboard::UCIBoard(init)     0
+    set ::uciboard::UCIBoard(ready)    0
+  }
+
+  #----------------------------------------------------------------------
+  # requestInfo()
+  #    Request info from the engine (send position to trigger response)
+  #----------------------------------------------------------------------
+  proc requestInfo {} {
+    ::uciboard::synchronise
+  }
+
+  #----------------------------------------------------------------------
+  # newgame()
+  #    Handle NewGame event
+  #----------------------------------------------------------------------
+  proc newgame {} {
+    # Ask the user to save the current game
+    ::game::Clear
+    sc_game tags set -event "UCI Board Input"
+    sc_game tags set -date [::utils::date::today]
+
+    # Tell the UCI engine about the new game
+    ::uciboard::sendToEngine "ucinewgame"
+    ::uciboard::sendToEngine "isready"
+
+    .uciboardconsole.bPiece configure -background blue
+    .uciboardconsole.bMove  configure -background blue -text "OK"
+    .uciboardconsole.bPiece configure -image $::board::letterToPiece(K)80
+  }
+
+  #----------------------------------------------------------------------
+  # synchronise()
+  #    Send current position to the board driver
+  #----------------------------------------------------------------------
+  proc synchronise {} {
+    global ::uciboard::UCIBoard
+
+    logEngine "  info Sync: sending current position"
+
+    # Send the current position to the UCI engine
+    set fen [sc_pos fen]
+    ::uciboard::sendToEngine "position fen $fen"
+    # Request a move analysis with very short time to get board state
+    # Some board drivers use "go infinite" to enter "board mode"
+    ::uciboard::sendToEngine "go infinite"
+  }
+
+  #----------------------------------------------------------------------
+  # readFromEngine()
+  #     Event Handler for commands and moves sent from the UCI
+  #     board driver
+  #----------------------------------------------------------------------
+  proc readFromEngine {} {
+    global ::uciboard::UCIBoard ::uciboard::connectimg
+    set pipe $::uciboard::UCIBoard(pipe)
+
+    set line [string trim [gets $pipe]]
+
+    # Close the pipe in case the engine was stopped
+    if {[eof $pipe]} {
+      catch {close $pipe}
+      ::uciboard::resetEngine
+      return
+    }
+
+    if {$line == ""} { return }
+
+    logEngine "< $line"
+
+    # Handle UCI protocol responses
+    switch -glob -- $line {
+      "uciok" {
+        # UCI handshake complete, send isready
+        set UCIBoard(init) 1
+        ::uciboard::sendToEngine "isready"
+      }
+      "readyok" {
+        # Engine is ready
+        set UCIBoard(ready) 1
+        ::ExtHardware::HWbuttonImg $uciboard::connectimg
+        logEngine "  info UCI Board Driver ready"
+        # Start new game and sync position
+        ::uciboard::sendToEngine "ucinewgame"
+        ::uciboard::synchronise
+      }
+      "bestmove *" {
+        # This is a move from the physical board!
+        set data [split $line]
+        set m [lindex $data 1]
+
+        # Check if we should accept this move based on sendMode
+        set dominated_side [sc_pos side]
+        set dominated_side [expr {$dominated_side == "white" ? "white" : "black"}]
+
+        if {$::uciboard::sendMode != "both" && $::uciboard::sendMode != $dominated_side} {
+          logEngine "  info Ignoring move for $dominated_side (mode: $::uciboard::sendMode)"
+          # Re-sync and continue listening
+          ::uciboard::synchronise
+          return
+        }
+
+        logEngine "  info Board move: $m"
+
+        # Try to add the move
+        if {[catch {sc_move addSan $m}]} {
+          ::utils::sound::PlaySound "sound_alert"
+          logEngine "  info Illegal move detected!"
+          logEngine "  info Ignoring: $m"
+          if {[winfo exists .uciboardconsole]} {
+            .uciboardconsole.bPiece configure -background red
+            .uciboardconsole.bMove  configure -background red -text $m
+          }
+        } else {
+          if {[winfo exists .uciboardconsole]} {
+            .uciboardconsole.bPiece configure -background green
+            .uciboardconsole.bMove  configure -background green -text $m
+          }
+
+          updateBoard -pgn -animate
+
+          # Send updated position to the board driver
+          after 100 ::uciboard::synchronise
+        }
+      }
+      "info string *" {
+        # Information from the driver
+        set info [string range $line 12 end]
+        logEngine "  info: $info"
+      }
+      "id name *" {
+        set name [string range $line 8 end]
+        logEngine "  info Driver: $name"
+        if {[string match -nocase "*chessnut*" $name] || [string match -nocase "*DGT*" $name]} {
+          set ::uciboard::connectimg tb_eng_dgt
+        }
+      }
+      "id author *" {
+        set author [string range $line 10 end]
+        logEngine "  info Author: $author"
+      }
+      "option *" {
+        # UCI options - log but don't process for now
+        logEngine "  option: [string range $line 7 end]"
+      }
+      default {
+        # Log any other output
+      }
+    }
+
+    # Update the board display
+    if {[winfo exists .uciboardconsole.bd]} {
+      ::board::update .uciboardconsole.bd [sc_pos board]
+    }
+  }
+
+}
 
 ###
 ### End of file: inputengine.tcl

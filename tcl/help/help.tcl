@@ -4849,7 +4849,7 @@ set helpText(Novag) {<h1>Connecting the Novag Citrine Chess board</h1>
 
 set helpTitle(HardwareConfig) "Connecting External Hardware"
 set helpText(HardwareConfig) {<h1>Connecting External Hardware</h1>
-  There are two types of hardware that can be used with scidCommunity to play
+  There are three types of hardware that can be used with scidCommunity to play
   or input games. Select from the <term>Hardware</term> list the one
   you wish to use:
   <ul>
@@ -4868,6 +4868,14 @@ set helpText(HardwareConfig) {<h1>Connecting External Hardware</h1>
     http://dgtdrv.sourceforge.net>dgtdrv website</url>.  Depending on
     the hardware the board may know the positions set up and the
     pieces by their move. This is e.g. the case for the DGT boards.
+    </li>
+    <li><term>UCI Board Driver</term> is for electronic chess boards
+    that use UCI-protocol based drivers, such as Graham O'Neill's
+    drivers for Chessnut Pro, Chessnut Air, and similar boards. These
+    drivers communicate using the standard UCI chess engine protocol
+    but report physical board moves via the <term>bestmove</term>
+    command. See <a UCIBoardDriver>UCI Board Driver</a> for more
+    details.
     </li>
   </ul>
   <p>
@@ -4951,6 +4959,87 @@ set helpText(HardwareConfig) {<h1>Connecting External Hardware</h1>
   calling the <term>Configuration</term> dialogue.
   </p>
 
+
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+}
+
+set helpTitle(UCIBoardDriver) "UCI Board Driver"
+set helpText(UCIBoardDriver) {<h1>UCI Board Driver</h1>
+   <p>
+   The UCI Board Driver option allows scidCommunity to connect to electronic
+   chess boards that use UCI-protocol based drivers. This includes boards
+   like the Chessnut Pro, Chessnut Air, and similar devices when using
+   Graham O'Neill's drivers or compatible software.
+   </p>
+   <p>
+   These drivers differ from traditional Input Engine drivers in that they
+   communicate using the standard UCI (Universal Chess Interface) protocol.
+   When a move is made on the physical board, the driver sends a
+   <term>bestmove</term> command which scidCommunity interprets as a board move.
+   </p>
+
+   <h2>Configuration</h2>
+   <p>
+   To use a UCI Board Driver:
+   </p>
+   <ul>
+      <li>Select <term>UCI Board Driver</term> in the Hardware configuration
+      dialog (Tools -> Connect Hardware -> Configure).
+      </li>
+      <li>Set the <term>Engine command</term> to the path of the UCI board
+      driver executable (e.g., <term>NUT_eng-1.0</term> for Chessnut boards
+      with Graham O'Neill's driver).
+      </li>
+      <li>The <term>Port</term> field may be left empty for USB devices that
+      auto-detect, or set to the device path if required by the driver.
+      </li>
+      <li>The <term>Engine parameter</term> field can contain any additional
+      parameters required by the driver.
+      </li>
+   </ul>
+
+   <h2>Console Window</h2>
+   <p>
+   When connected, a console window shows the communication between
+   scidCommunity and the driver. Commands sent to the driver are shown with
+   a <term>></term> prefix, and responses from the driver are shown with
+   a <term><</term> prefix.
+   </p>
+   <p>
+   The <term>Moves sent for</term> option allows you to filter which side's
+   moves are accepted from the board:
+   </p>
+   <ul>
+      <li><term>Both</term>: Accept moves for both White and Black (for
+      entering games or analysis).
+      </li>
+      <li><term>White</term>: Only accept moves when it's White's turn
+      (for playing as White against an engine).
+      </li>
+      <li><term>Black</term>: Only accept moves when it's Black's turn
+      (for playing as Black against an engine).
+      </li>
+   </ul>
+
+   <h2>Troubleshooting</h2>
+   <p>
+   If the driver fails to connect:
+   </p>
+   <ul>
+      <li>Ensure the board is powered on and connected via USB.
+      </li>
+      <li>Check that you have the necessary permissions to access the USB
+      device (on Linux, you may need to add udev rules or be a member of
+      the appropriate group such as <term>dialout</term> or <term>plugdev</term>).
+      </li>
+      <li>Verify the driver executable path is correct and the file is
+      executable.
+      </li>
+      <li>Some drivers require the environment variable
+      <term>XDG_RUNTIME_DIR</term> to be set to a directory with 0700
+      permissions owned by your user.
+      </li>
+   </ul>
 
   <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }

@@ -211,6 +211,7 @@ menuText E ToolsConnectHardware "Connect Hardware" 8 {Connect external hardware}
 menuText E ToolsConnectHardwareConfigure "Configure..." 0 {Configure external hardware and connection}
 menuText E ToolsConnectHardwareNovagCitrineConnect "Connect Novag Citrine" 8 {Connect Novag Citrine with Scid}
 menuText E ToolsConnectHardwareInputEngineConnect "Connect Input Engine" 8 {Connect Input Engine (e.g. DGT board) with Scid}
+menuText E ToolsConnectHardwareUCIBoardConnect "Connect UCI Board" 8 {Connect UCI Board Driver (e.g. Chessnut Pro) with Scid}
 
 menuText E ToolsPInfo "Player Information"  0 \
   {Open/update the Player Information window}
@@ -1613,6 +1614,7 @@ translate E ExtHWShowButton {Show button}
 translate E ExtHWHardware {Hardware}
 translate E ExtHWNovag {Novag Citrine}
 translate E ExtHWInputEngine {Input Engine}
+translate E ExtHWUCIBoard {UCI Board Driver}
 translate E ExtHWNoBoard {No board}
 translate E NovagReferee {Referee}
 
@@ -1622,6 +1624,10 @@ translate E IESending {Moves sent for}
 translate E IESynchronise {Synchronise}
 translate E IERotate  {Rotate}
 translate E IEUnableToStart {Unable to start Input Engine:}
+
+# UCI Board Driver dialogs
+translate E UCIBoardConsole {UCI Board Driver Console}
+translate E UCIBoardUnableToStart {Unable to start UCI Board Driver:}
 
 # Calculation of Variations
 translate E DoneWithPosition {Done with position}
