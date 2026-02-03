@@ -215,7 +215,7 @@ struct scidBaseT {
 	getFilterComponents(std::string_view filterId) const;
 
 	const Stats& getStats() const;
-	std::vector<TreeNode> getTreeStat(const HFilter& filter) const;
+	std::vector<TreeNode> getTreeStat(const HFilter& filter, int moveDepth = 1) const;
 	uint getNameFreq(nameT nt, idNumberT id) {
 		if (nameFreq_[nt].size() == 0)
 			nameFreq_ = getNameBase()->calcNameFreq(*idx);

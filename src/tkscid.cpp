@@ -1915,7 +1915,7 @@ int sc_filter_old(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
     UI_List ginfo(9);
     for (auto const &node : stats) {
       ginfo.clear();
-      ginfo.push_back(node.move ? node.move.getSAN() : "[end]");
+      ginfo.push_back(!node.moves.empty() && node.moves[0] ? node.moves[0].getSAN() : "[end]");
       ginfo.push_back(node.freq[0]);
       ginfo.push_back(node.freq[RESULT_White]);
       ginfo.push_back(node.freq[RESULT_Draw]);
@@ -1923,7 +1923,7 @@ int sc_filter_old(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
       ginfo.push_back(node.avgElo());
       ginfo.push_back(node.eloPerformance());
       ginfo.push_back(node.eloCount);
-      ginfo.push_back(node.move.getColor() == WHITE ? "W" : "B");
+      ginfo.push_back(!node.moves.empty() && node.moves[0] ? (node.moves[0].getColor() == WHITE ? "W" : "B") : "?");
       res.push_back(ginfo);
     }
     return UI_Result(ti, OK, res);
@@ -7610,7 +7610,7 @@ int sc_tree(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
 // @returns the tree stats of the specified filter
 int sc_tree_stats(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
   static const char *usage = "Usage: sc_tree stats baseId filterId [<0|1>] "
-                             "[alpha|eco|frequency|score]";
+                             "[alpha|eco|frequency|score] [moveDepth]";
 
   // Sort options: these should match the moveSortE enumerated type.
   static const char *sortOptions[] = {"alpha", "eco", "frequency", "score",
@@ -7634,45 +7634,72 @@ int sc_tree_stats(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
       (argc > 5) ? strUniqueMatch(argv[5], sortOptions) : SORT_FREQUENCY;
   if (sortMethod < 0)
     return UI_Result(ti, ERROR_BadArg, usage);
+  
+  // Parse moveDepth parameter (default to 1 for backward compatibility)
+  int moveDepth = (argc > 6) ? strGetInteger(argv[6]) : 1;
+  if (moveDepth < 1) moveDepth = 1;
+  if (moveDepth > 4) moveDepth = 4;
 
   Position searchPos = *(db->game->GetCurrentPos());
-  auto tree = base->getTreeStat(filter);
+  auto tree = base->getTreeStat(filter, moveDepth);
 
-  auto calc_eco = [&](auto const &move) {
+  // Calculate ECO for a move sequence (use ECO after all moves applied)
+  auto calc_eco = [&](auto const &moves) {
     ecoT eco = ECO_None;
-    if (ecoBook && move) {
-      simpleMoveT sm;
-      if (move.isCastle()) {
-        auto side = move.getTo() > move.getFrom() ? KING : QUEEN;
-        searchPos.makeMove(move.getFrom(), move.getFrom(), side, sm);
-      } else {
-        auto promo = move.isPromo() ? move.getPromo() : INVALID_PIECE;
-        searchPos.makeMove(move.getFrom(), move.getTo(), promo, sm);
+    if (ecoBook && !moves.empty()) {
+      Position tempPos = searchPos;
+      for (auto const &move : moves) {
+        if (!move) break;
+        simpleMoveT sm;
+        if (move.isCastle()) {
+          auto side = move.getTo() > move.getFrom() ? KING : QUEEN;
+          tempPos.makeMove(move.getFrom(), move.getFrom(), side, sm);
+        } else {
+          auto promo = move.isPromo() ? move.getPromo() : INVALID_PIECE;
+          tempPos.makeMove(move.getFrom(), move.getTo(), promo, sm);
+        }
+        tempPos.DoSimpleMove(sm);
       }
-      searchPos.DoSimpleMove(sm);
-      eco = ecoBook->findECO(&searchPos);
-      searchPos.UndoSimpleMove(sm);
+      eco = ecoBook->findECO(&tempPos);
     }
     return eco;
   };
 
-  char tempTrans[10];
-  auto calc_san = [&](auto const &move) {
-    strcpy(tempTrans, move ? move.getSAN().c_str() : "[end]");
-    transPieces(tempTrans);
+  char tempTrans[256];  // Increased size for move sequences
+  // Format move sequence as "move1 move2 move3 ..."
+  auto calc_san = [&](auto const &moves) {
+    tempTrans[0] = '\0';
+    if (moves.empty()) {
+      strcpy(tempTrans, "[end]");
+      return;
+    }
+    std::string result;
+    for (size_t i = 0; i < moves.size(); i++) {
+      if (i > 0) result += " ";
+      if (moves[i]) {
+        char moveStr[10];
+        strcpy(moveStr, moves[i].getSAN().c_str());
+        transPieces(moveStr);
+        result += moveStr;
+      } else {
+        result += "[end]";
+      }
+    }
+    strncpy(tempTrans, result.c_str(), sizeof(tempTrans) - 1);
+    tempTrans[sizeof(tempTrans) - 1] = '\0';
   };
 
   if (sortMethod == SORT_ALPHA) { // icase alphabetical order
     std::sort(tree.begin(), tree.end(), [&](auto const &a, auto const &b) {
-      calc_san(a.move);
+      calc_san(a.moves);
       std::string temp = tempTrans;
-      calc_san(b.move);
+      calc_san(b.moves);
       return temp.compare(tempTrans) < 0;
     });
 
   } else if (sortMethod == SORT_ECO) { // Order by eco code
     std::sort(tree.begin(), tree.end(), [&](auto const &a, auto const &b) {
-      return calc_eco(a.move) < calc_eco(b.move);
+      return calc_eco(a.moves) < calc_eco(b.moves);
     });
 
   } else if (sortMethod == SORT_SCORE) { // Order by success
@@ -7687,10 +7714,10 @@ int sc_tree_stats(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     }
   }
 
-  char temp[256];
+  char temp[512];  // Increased size to accommodate longer move sequences
   std::string output;
   const char *titleRow =
-      "    Move   ECO       Frequency    Score  AvElo Perf AvYear %Draws";
+      "    Move(s)                   ECO       Frequency    Score  AvElo Perf AvYear %Draws";
   titleRow = translate(ti, "TreeTitleRow", titleRow);
   output.append(titleRow);
 
@@ -7744,15 +7771,16 @@ int sc_tree_stats(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     // Now we print the list into the return string:
     unsigned count = 0;
     for (auto const &node : tree) {
-      calc_san(node.move);
-      ecoT eco = calc_eco(node.move);
+      calc_san(node.moves);
+      ecoT eco = calc_eco(node.moves);
       ecoStringT ecoStr;
       eco_ToExtendedString(eco, ecoStr);
       auto freq = long(1000ll * node.freq[0] / totals.freq[0]);
-      sprintf(temp, "\n%2u: %-6s %-5s %7u:%3ld%c%1ld%%", ++count,
-              hideMoves ? "---" : tempTrans, // node->san,
-              hideMoves ? "" : ecoStr, node.freq[0], freq / 10,
-              decimalPointChar, freq % 10);
+      // Adjust column width for move sequences: use %-25s for moves to handle longer sequences
+      std::snprintf(temp, sizeof(temp), "\n%2u: %-25s %-5s %7u:%3ld%c%1ld%%", ++count,
+                    hideMoves ? "---" : tempTrans,
+                    hideMoves ? "" : ecoStr, node.freq[0], freq / 10,
+                    decimalPointChar, freq % 10);
       output.append(temp);
       format_output(node, output);
     }
@@ -7760,9 +7788,9 @@ int sc_tree_stats(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     // Print a totals line as well, if there are any moves in the tree:
     const char *totalString = translate(ti, "TreeTotal:", "TOTAL:");
     output.append(
-        "\n_______________________________________________________________\n");
-    sprintf(temp, "%-12s     %7u:100%c0%%", totalString, totals.freq[0],
-            decimalPointChar);
+        "\n_______________________________________________________________________________________\n");
+    std::snprintf(temp, sizeof(temp), "%-32s    %7u:100%c0%%", totalString, totals.freq[0],
+                  decimalPointChar);
     output.append(temp);
     format_output(totals, output);
     output.append("\n");

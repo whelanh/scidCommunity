@@ -42,6 +42,7 @@ proc ::tree::make { { baseNumber -1 } {locked 0} } {
   set tree(status$baseNumber) ""
   set tree(order$baseNumber) "frequency"
   set tree(allgames$baseNumber) 1
+  set tree(movedepth$baseNumber) $tree(moveDepth)
 
   bind $w <Destroy> "::tree::closeTree $baseNumber"
 
@@ -146,8 +147,14 @@ proc ::tree::make { { baseNumber -1 } {locked 0} } {
 
   ttk::checkbutton $w.buttons.allgames -textvar ::tr(allGames) -variable tree(allgames$baseNumber) -command "::tree::refresh $baseNumber"
   ttk::checkbutton $w.buttons.training -textvar ::tr(Training) -variable tree(training$baseNumber) -command "::tree::toggleTraining $baseNumber"
+  
+  # Add move depth selector
+  ttk::label $w.buttons.depthlabel -text "Tree depth (half moves):"
+  ttk::spinbox $w.buttons.depth -from 1 -to 4 -width 3 \
+      -textvariable tree(movedepth$baseNumber) -command "::tree::refresh $baseNumber"
+  bind $w.buttons.depth <Return> "::tree::refresh $baseNumber"
 
-  foreach {b t} { best TreeFileBest graph TreeFileGraph allgames TreeOptLock  training TreeOptTraining bStartStop TreeOptStartStop } {
+  foreach {b t} { best TreeFileBest graph TreeFileGraph allgames TreeOptLock  training TreeOptTraining bStartStop TreeOptStartStop depth TreeOptDepth depthlabel TreeOptDepth } {
     set helpMessage($w.buttons.$b) $t
   }
 
@@ -155,6 +162,7 @@ proc ::tree::make { { baseNumber -1 } {locked 0} } {
   dialogbutton $w.buttons.close -textvar ::tr(Close) -command "::tree::closeTree $baseNumber"
 
   pack $w.buttons.best $w.buttons.graph $w.buttons.bStartStop $w.buttons.allgames $w.buttons.training \
+      $w.buttons.depthlabel $w.buttons.depth \
       -side left -padx 3 -pady 2
   packbuttons right $w.buttons.close $w.buttons.stop
   $w.buttons.stop configure -state disabled
@@ -305,7 +313,13 @@ proc ::tree::select { move baseNumber } {
 
   if {! [winfo exists .treeWin$baseNumber]} { return }
 
-  addSanMove $move
+  # Handle move sequences: split by spaces and apply each move
+  set moveList [split $move " "]
+  foreach singleMove $moveList {
+    if {$singleMove != ""} {
+      addSanMove $singleMove
+    }
+  }
 }
 
 ################################################################################
@@ -380,7 +394,7 @@ proc ::tree::dorefresh { baseNumber {filter "tree"}} {
     set filter [sc_filter compose $baseNumber "dbfilter" "tree"]
   }
   set err [ catch { sc_tree stats $baseNumber $filter $tree(training$baseNumber) \
-                                  $tree(order$baseNumber) } moves]
+                                  $tree(order$baseNumber) $tree(movedepth$baseNumber) } moves]
   if { $err } {
     set tree(status$baseNumber) ""
     set moves [ERROR::getErrorMsg]

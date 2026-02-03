@@ -179,6 +179,12 @@ proc ::preferences::moves { t } {
     ttk::checkbutton $t.lichess -variable ::lichessFormat -text [tr OptionsMovesLichess]
     ttk::checkbutton $t.god -variable glossOfDanger -text [tr OptionsMovesGlossOfDanger] -command updateBoard
 
+    ttk::frame $t.tree
+    ttk::label $t.tree.label -text "[tr OptionsMovesTreeDepth]:"
+    ttk::spinbox $t.tree.depth -width 4 -textvariable tree(moveDepth) -from 1 -to 4 -increment 1 \
+        -validate key -validatecommand { return [string is digit %S] }
+    pack $t.tree.label $t.tree.depth -side left -padx "0 5" -anchor w
+
     ttk::frame $t.auto
     ttk::label $t.auto.label -text "[tr OptionsMovesDelay]\n$::tr(AnnotateTime:)"
     ttk::spinbox $t.auto.spDelay -width 4 -textvariable tempdelay -from 1 -to 999 -increment 1 \
@@ -198,7 +204,7 @@ proc ::preferences::moves { t } {
     grid $t.high.arrow -row 1 -column 0 -columnspan 2 -sticky w
     grid $t.high.nag -row 2 -column 0 -sticky w
     pack $t.auto.label $t.auto.spDelay -side left -padx "0 10" -anchor w
-    pack $t.ani $t.omc $t.omk $t.oms $t.osv $t.osp $t.auto $t.sva $t.eva $t.lichess $t.god -side top -anchor w
+    pack $t.ani $t.omc $t.omk $t.oms $t.osv $t.osp $t.auto $t.sva $t.eva $t.lichess $t.god $t.tree -side top -anchor w
     pack $t.high -side top -anchor w -pady "5 0"
 }
 

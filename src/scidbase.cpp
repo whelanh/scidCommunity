@@ -547,8 +547,13 @@ scidBaseT::Stats::getEcoStats(const char* ecoStr) const {
 	return 0;
 }
 
-std::vector<TreeNode> scidBaseT::getTreeStat(const HFilter& filter) const {
+std::vector<TreeNode> scidBaseT::getTreeStat(const HFilter& filter, int moveDepth) const {
 	std::vector<TreeNode> res;
+	
+	// Clamp moveDepth to valid range [1, 4]
+	if (moveDepth < 1) moveDepth = 1;
+	if (moveDepth > 4) moveDepth = 4;
+	
 	for (gamenumT gnum = 0, n = numGames(); gnum < n; gnum++) {
 		uint ply = filter.get(gnum);
 		if (ply == 0)
@@ -557,15 +562,40 @@ std::vector<TreeNode> scidBaseT::getTreeStat(const HFilter& filter) const {
 			ply--;
 
 		const IndexEntry* ie = getIndexEntry(gnum);
-		FullMove move = StoredLine::getMove(ie->GetStoredLineCode(), ply);
-		if (!move)
-			move = getGame(ie).getMove(ply);
+		
+		// Extract move sequence of length moveDepth (or shorter if game ends)
+		std::vector<FullMove> moveSequence;
+		moveSequence.reserve(moveDepth);
+		
+		// Try to get moves from StoredLine first (faster), then from full game
+		for (int depth = 0; depth < moveDepth; depth++) {
+			FullMove move = StoredLine::getMove(ie->GetStoredLineCode(), ply + depth);
+			if (!move) {
+				// StoredLine doesn't have this move, get from full game
+				auto gameView = getGame(ie);
+				move = gameView.getMove(ply + depth);
+			}
+			
+			if (!move) {
+				// Game ends before reaching desired depth
+				break;
+			}
+			
+			moveSequence.push_back(move);
+		}
+		
+		// Skip if no moves found (shouldn't happen, but be safe)
+		if (moveSequence.empty())
+			continue;
 
+		// Find or create TreeNode for this move sequence
 		auto it = std::find_if(
 		    res.begin(), res.end(),
-		    [move](auto const& stat) { return stat.move == move; });
+		    [&moveSequence](auto const& stat) { 
+				return stat.moves == moveSequence; 
+		    });
 
-		auto& node = (it != res.end()) ? *it : res.emplace_back(move);
+		auto& node = (it != res.end()) ? *it : res.emplace_back(moveSequence);
 		node.add(ie->GetResult(), ie->GetWhiteElo(), ie->GetBlackElo(),
 		         ie->GetYear());
 	}

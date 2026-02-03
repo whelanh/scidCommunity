@@ -267,6 +267,9 @@ if {$windowsOS} {
 # Default Tree sort method:
 set tree(order) frequency
 
+# Default Tree move depth:
+set tree(moveDepth) 1
+
 ### Tree/mask options:
 set ::tree::mask::recentMask {}
 

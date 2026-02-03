@@ -32,10 +32,10 @@ struct TreeNode {
 	gamenumT freq[NUM_RESULT_TYPES] = {}; // freq[0] is the total count.
 	gamenumT eloCount = 0;                // Count of games with an Elo.
 	gamenumT yearCount = 0;               // Count of games with year != 0.
-	FullMove move;
+	std::vector<FullMove> moves;          // Sequence of moves (1-4 half-moves)
 
 public:
-	explicit TreeNode(FullMove m) : move(m) {}
+	explicit TreeNode(std::vector<FullMove> m) : moves(std::move(m)) {}
 
 	void add(resultT result, int eloW, int eloB, unsigned year) {
 		static_assert(RESULT_None == 0);
@@ -68,7 +68,8 @@ public:
 
 		int score = (this->score() + 5) / 10;
 		auto eloOpp = eloBlackSum;
-		if (move.getColor() != WHITE) {
+		// Use the first move in the sequence to determine color
+		if (!moves.empty() && moves[0].getColor() != WHITE) {
 			score = 100 - score;
 			eloOpp = eloWhiteSum;
 		}
@@ -79,7 +80,8 @@ public:
 		if (eloCount == 0)
 			return 0;
 
-		auto elo = (move.getColor() == WHITE) ? eloWhiteSum : eloBlackSum;
+		// Use the first move in the sequence to determine color
+		auto elo = (!moves.empty() && moves[0].getColor() == WHITE) ? eloWhiteSum : eloBlackSum;
 		return 1.0 * elo / eloCount;
 	}
 
