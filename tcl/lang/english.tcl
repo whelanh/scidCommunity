@@ -225,8 +225,6 @@ menuText E ToolsExpCurrentPGN "Export Game to PGN File..." 15 \
 menuText E ToolsExpCurrentHTML "Export Game to HTML File..." 15 \
   {Write current game to a HTML file}
 menuText E ToolsExpCurrentHTMLJS "Export Game to HTML and JavaScript File..." 15 {Write current game to a HTML and JavaScript file}
-menuText E ToolsExpCurrentLaTeX "Export Game to LaTeX File..." 15 \
-  {Write current game to a LaTeX file}
 menuText E ToolsExpFilter "Export All Filter Games" 1 \
   {Write all filtered games to a text file}
 menuText E ToolsExpFilterPGN "Export Filter to PGN File..." 17 \
@@ -234,8 +232,6 @@ menuText E ToolsExpFilterPGN "Export Filter to PGN File..." 17 \
 menuText E ToolsExpFilterHTML "Export Filter to HTML File..." 17 \
   {Write all filtered games to a HTML file}
 menuText E ToolsExpFilterHTMLJS "Export Filter to HTML and JavaScript File..." 17 {Write all filtered games to a HTML and JavaScript file}
-menuText E ToolsExpFilterLaTeX "Export Filter to LaTeX File..." 17 \
-  {Write all filtered games to a LaTeX file}
 menuText E ToolsImportOne "Import One PGN Game..." 0 \
   {Import a game from PGN text}
 menuText E ToolsImportFile "Import Games from PGN Files..." 7 {Import games from PGN file(s)}
@@ -723,7 +719,6 @@ translate E PgnWindowTitle {Notation - game %u}
 menuText E CrosstabFile "File" 0
 menuText E CrosstabFileText "Print to Text File..." 9
 menuText E CrosstabFileHtml "Print to HTML File..." 9
-menuText E CrosstabFileLaTeX "Print to LaTeX File..." 9
 menuText E CrosstabFileClose "Close Crosstable Window" 0
 menuText E CrosstabEdit "Edit" 0
 menuText E CrosstabEditEvent "Event" 0
@@ -762,7 +757,6 @@ translate E Category {Category}
 menuText E OprepFile "File" 0
 menuText E OprepFileText "Print to Text File..." 9
 menuText E OprepFileHtml "Print to HTML File..." 9
-menuText E OprepFileLaTeX "Print to LaTeX File..." 9
 menuText E OprepFileOptions "Options..." 0
 menuText E OprepFileClose "Close Report Window" 0
 menuText E OprepFavorites "Favorites" 1
@@ -1177,7 +1171,6 @@ translate E OprepTableComment {Generated from the %u highest-rated games.}
 translate E OprepExtraMoves {Extra note moves in theory table}
 translate E OprepMaxGames {Maximum games in theory table}
 translate E OprepViewHTML {View HTML}
-translate E OprepViewLaTeX {View LaTeX}
 
 # Player Report:
 translate E PReportTitle {Player Report}

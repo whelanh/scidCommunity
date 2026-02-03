@@ -301,7 +301,6 @@ $m add command -label OptionsResources -command ::preferences::resources
 menu $m.export
   $m.export add command -label "PGN file text" -underline 0 -command "setExportText PGN"
   $m.export add command -label "HTML file text" -underline 0 -command "setExportText HTML"
-  $m.export add command -label "LaTeX file text" -underline 0 -command "setExportText LaTeX"
 $m add cascade -label OptionsExport -menu $m.export
 $m add separator
 $m add checkbutton -label FullScreen -variable optionFullScreen \

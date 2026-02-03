@@ -202,8 +202,6 @@ menuText R ToolsExpCurrentPGN "Экспорт партии в файл PGN..." 0
 menuText R ToolsExpCurrentHTML "Экспорт партии в файл HTML..." 0 \
   {Записать текущую партию в файл HTML}
 menuText R ToolsExpCurrentHTMLJS "Экспорт партии в HTML и JavaScript файл..." 0 {Записать текущую партию HTML и JavaScript файл}
-menuText R ToolsExpCurrentLaTeX "Экспорт партии в файл LaTeX..." 0 \
-  {Записать текущую партию в файл LaTeX}
 menuText R ToolsExpFilter "Экспорт всех фильтрованных партий" 11 \
   {Записать все фильтрованные партии в текстовый файл}
 menuText R ToolsExpFilterPGN "Экспорт фильтрованных партий в файл PGN..." 0 \
@@ -211,8 +209,6 @@ menuText R ToolsExpFilterPGN "Экспорт фильтрованных парт
 menuText R ToolsExpFilterHTML "Экспорт фильтрованных партий в файл HTML..." 0 \
   {Записать все фильтрованные партии в файл HTML}
 menuText R ToolsExpFilterHTMLJS "Экспорт фильтрованных партий в HTML и JavaScript файл..." 17 {Записывает все фильтрованные партии в HTML и JavaScript файл}
-menuText R ToolsExpFilterLaTeX "Экспорт фильтрованных партий в файл LaTeX..." 3 \
-  {Записать все фильтрованные партии в файл LaTeX}
 menuText R ToolsImportOne "Импорт одной партии PGN..." 0 \
   {Импорт партии из текстового файла PGN}
 menuText R ToolsImportFile "Импорт файла партий PGN..." 9 {Импорт партий из файла PGN}
@@ -733,7 +729,6 @@ translate R PgnWindowTitle {Нотация - партия %u}
 menuText R CrosstabFile "Файл" 0
 menuText R CrosstabFileText "Печатать в текстовый файл..." 11
 menuText R CrosstabFileHtml "Печатать в HTML файл..." 11
-menuText R CrosstabFileLaTeX "Печатать в LaTeX файл..." 11
 menuText R CrosstabFileClose "Закрыть окно турнирной таблицы" 0
 menuText R CrosstabEdit "Редактор" 0
 menuText R CrosstabEditEvent "Турнир" 0
@@ -772,7 +767,6 @@ translate R Category {Категория}
 menuText R OprepFile "Файл" 0
 menuText R OprepFileText "Печатать в текстовый файл..." 11
 menuText R OprepFileHtml "Печатать в HTML файл..." 11
-menuText R OprepFileLaTeX "Печатать в LaTeX файл..." 11
 menuText R OprepFileOptions "Установки..." 0
 menuText R OprepFileClose "Закрыть окно дебютов" 0
 menuText R OprepFavorites "Избранные" 1
@@ -1199,7 +1193,6 @@ translate R OprepTableComment {Генерировано из %u высокоре
 translate R OprepExtraMoves {Внешние заметки к ходам в теоретической таблице}
 translate R OprepMaxGames {Максимум партий в теоретической таблице}
 translate R OprepViewHTML {Просмотр HTML}
-translate R OprepViewLaTeX {Просмотр LaTeX}
 
 # Player Report:
 translate R PReportTitle {Отчёт по игроку}

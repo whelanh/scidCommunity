@@ -186,8 +186,6 @@ menuText C ToolsExpCurrentPGN "Export partie do PGN souboru..." 17 \
 menuText C ToolsExpCurrentHTML "Export partie do HTML souboru..." 17 \
   {Zapsat aktuální partii do HTML souboru}
 menuText C ToolsExpCurrentHTMLJS "Exportovat partii do souboru HTML s JavaScriptem..." 15 {Ulo¾it aktuální partii do souboru s HTML a JavaScriptem}  
-menuText C ToolsExpCurrentLaTeX "Export partie do LaTeX souboru..." 17 \
-  {Zapsat aktuální partii do LaTeX souboru}
 menuText C ToolsExpFilter "Export filtrovaných partií" 7 \
   {Zapsat v¹echny filtrované partie do textového souboru}
 menuText C ToolsExpFilterPGN "Export filtrovaných partií do PGN souboru..." 30 \
@@ -195,8 +193,6 @@ menuText C ToolsExpFilterPGN "Export filtrovaných partií do PGN souboru..." 30 \
 menuText C ToolsExpFilterHTML "Export filtrovaných partií do HTML souboru..." 30 \
   {Zapsat v¹echny filtrované partie do HTML souboru}
 menuText C ToolsExpFilterHTMLJS "Exportovat filtr do souboru HTML s JavaScriptem..." 17 {Ulo¾it v¹echny vyfiltrované partie do souboru HTML s JavaScriptem}  
-menuText C ToolsExpFilterLaTeX "Export filtrovaných partií do LaTeX souboru..." 30 \
-  {Zapsat v¹echny filtrované partie do LaTeX souboru}
 menuText C ToolsImportOne "Import jedné PGN partie..." 7 \
   {Importovat partii z PGN zápisu}
 menuText C ToolsImportFile "Import souboru PGN partií..." 10 \
@@ -688,7 +684,6 @@ translate C PgnWindowTitle {Zápis partie - partie %u}
 menuText C CrosstabFile "Soubor" 0
 menuText C CrosstabFileText "Vytisknout do textového souboru..." 14
 menuText C CrosstabFileHtml "Vytisknout do HTML souboru..." 14
-menuText C CrosstabFileLaTeX "Vytisknout do LaTeX souboru..." 14
 menuText C CrosstabFileClose "Zavøít okno turnajové tabulky" 0
 menuText C CrosstabEdit "Editovat" 0
 menuText C CrosstabEditEvent "Turnaj" 0
@@ -727,7 +722,6 @@ translate C Category {Kategorie}
 menuText C OprepFile "Soubor" 0
 menuText C OprepFileText "Vytisknout do textového souboru..." 14
 menuText C OprepFileHtml "Vytisknout do HTML souboru..." 14
-menuText C OprepFileLaTeX "Vytisknout do LaTeX souboru..." 14
 menuText C OprepFileOptions "Volby" 0
 menuText C OprepFileClose "Zavøít okno s profilem" 0
 menuText C OprepFavorites "Oblíbené" 0
@@ -1143,7 +1137,6 @@ translate C OprepTableComment {Generováno z %u partií s nejvy¹¹ím prùmìrným rati
 translate C OprepExtraMoves {Extra poznámkové tahy v tabulce teorie}
 translate C OprepMaxGames {Maximum tahù v tabulce teorie}
 translate C OprepViewHTML {Zobrazit HTML}
-translate C OprepViewLaTeX {Zobrazit LaTeX}
 
 # Player Report:
 translate C PReportTitle {Profil hráèe}

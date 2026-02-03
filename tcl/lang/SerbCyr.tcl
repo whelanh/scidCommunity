@@ -223,7 +223,6 @@ menuText J ToolsExpCurrentPGN "Извези игру у ПГН датотеку.
 menuText J ToolsExpCurrentHTML "Извези игру у ХТМЛ датотеку..." 15 \
   {Напишите тренутну игру у ХТМЛ датотеку}
 menuText J ToolsExpCurrentHTMLJS "Извезите игру у ХТМЛ и ЈаваСцрипт датотеку..." 15 {Напишите тренутну игру у ХТМЛ и ЈаваСцрипт датотеку}
-menuText J ToolsExpCurrentLaTeX "Извези игру у ЛаТеКс датотеку..." 15 \
   {Напишите тренутну игру у ЛаТеКс датотеку}
 menuText J ToolsExpFilter "Извези све игре филтера" 1 \
   {Запишите све филтриране игре у текстуалну датотеку}
@@ -232,7 +231,6 @@ menuText J ToolsExpFilterPGN "Извези филтер у ПГН датотек
 menuText J ToolsExpFilterHTML "Извези филтер у ХТМЛ датотеку..." 17 \
   {Запишите све филтриране игре у ХТМЛ датотеку}
 menuText J ToolsExpFilterHTMLJS "Извези филтер у ХТМЛ и ЈаваСцрипт датотеку..." 17 {Запишите све филтриране игре у ХТМЛ и ЈаваСцрипт датотеку}
-menuText J ToolsExpFilterLaTeX "Извези филтер у ЛаТеКс датотеку..." 17 \
   {Запишите све филтриране игре у ЛаТеКс датотеку}
 menuText J ToolsImportOne "Увези једну ПГН игру..." 0 \
   {Увезите игру из ПГН текста}
@@ -721,7 +719,6 @@ translate J PgnWindowTitle {Нотација - игра %u}
 menuText J CrosstabFile "Филе" 0
 menuText J CrosstabFileText "Штампај у текстуалну датотеку..." 9
 menuText J CrosstabFileHtml "Штампај у ХТМЛ датотеку..." 9
-menuText J CrosstabFileLaTeX "Штампај у ЛаТеКс датотеку..." 9
 menuText J CrosstabFileClose "Затворите прозор Цросстабле" 0
 menuText J CrosstabEdit "Уреди" 0
 menuText J CrosstabEditEvent "Догађај" 0
@@ -760,7 +757,6 @@ translate J Category {Категорија}
 menuText J OprepFile "Филе" 0
 menuText J OprepFileText "Штампај у текстуалну датотеку..." 9
 menuText J OprepFileHtml "Штампај у ХТМЛ датотеку..." 9
-menuText J OprepFileLaTeX "Штампај у ЛаТеКс датотеку..." 9
 menuText J OprepFileOptions "Опције..." 0
 menuText J OprepFileClose "Затворите прозор извештаја" 0
 menuText J OprepFavorites "Фаворитес" 1
@@ -1168,7 +1164,6 @@ translate J OprepTableComment {Генерисано од %u игара са на
 translate J OprepExtraMoves {Додатни покрети нота у теоријској табели}
 translate J OprepMaxGames {Табела максималног броја игара у теорији}
 translate J OprepViewHTML {Прикажи ХТМЛ}
-translate J OprepViewLaTeX {Погледај ЛаТеКс}
 
 # Player Report:
 translate J PReportTitle {Извештај играча}

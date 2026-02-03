@@ -221,8 +221,6 @@ menuText Y ToolsExpCurrentHTML "Izvezi partiju u HTML fajl..." 17 \
   {Snimi tekuæu partiju u HTML fajl}
 # ====== TODO To be translated ======
 menuText Y ToolsExpCurrentHTMLJS "Export Game to HTML and JavaScript File..." 15 {Write current game to a HTML and JavaScript file}  
-menuText Y ToolsExpCurrentLaTeX "Izvezi partiju u LaTeX fajl..." 17 \
-  {Snimi tekuæu partiju u LaTeX fajl}
 menuText Y ToolsExpFilter "Izvezi sve filtrirane partije" 1 \
   {Snimi sve filtrirane partije u tekstualni fajl}
 menuText Y ToolsExpFilterPGN "Izvezi filtrirane partije u PGN fajl..." 28 \
@@ -231,8 +229,6 @@ menuText Y ToolsExpFilterHTML "Izvezi filtrirane partije u HTML fajl..." 28 \
   {Snimi sve filtrirane partije u HTML fajl}
 # ====== TODO To be translated ======
 menuText Y ToolsExpFilterHTMLJS "Export Filter to HTML and JavaScript File..." 17 {Write all filtered games to a HTML and JavaScript file}  
-menuText Y ToolsExpFilterLaTeX "Izvezi filtrirane partije u LaTeX fajl..." 28 \
-  {Snimi sve filtrirane partije u LaTeX fajl}
 menuText Y ToolsImportOne "Uvezi jednu PGN partiju..." 0 \
   {Uvezi jednu partiju iz PGN fajla}
 menuText Y ToolsImportFile "Uvezi vi¹e PGN partija..." 6 \
@@ -854,7 +850,6 @@ translate Y PgnWindowTitle {Game Notation - game %u} ;# ***
 menuText Y CrosstabFile "Fajl" 0
 menuText Y CrosstabFileText "©tampaj u Tekst fajl..." 10
 menuText Y CrosstabFileHtml "©tampaj u HTML fajl..." 10
-menuText Y CrosstabFileLaTeX "©tampaj u LaTeX fajl..." 10
 menuText Y CrosstabFileClose "Zatvori tabelu turnira" 0
 menuText Y CrosstabEdit "Izmena" 0
 menuText Y CrosstabEditEvent "Turnir" 0
@@ -893,7 +888,6 @@ translate Y Category {Category} ;# ***
 menuText Y OprepFile "Fajl" 0
 menuText Y OprepFileText "©tampaj u Tekst fajl..." 10
 menuText Y OprepFileHtml "©tampaj u HTML fajl..." 10
-menuText Y OprepFileLaTeX "©tampaj u LaTeX fajl..." 10
 menuText Y OprepFileOptions "Opcije..." 0
 menuText Y OprepFileClose "Zatvori izve¹taj o otvaranjima" 0
 menuText Y OprepFavorites "Favorites" 1 ;# ***
@@ -1378,7 +1372,6 @@ translate Y OprepTableComment {Generisano iz %u najbolje rejtiranih partija.}
 translate Y OprepExtraMoves {Posebno notirani potezi u tabeli teorije}
 translate Y OprepMaxGames {Maksimum partija u tabeli teorije}
 translate Y OprepViewHTML {View HTML} ;# ***
-translate Y OprepViewLaTeX {View LaTeX} ;# ***
 
 # Player Report:
 translate Y PReportTitle {Player Report} ;# ***

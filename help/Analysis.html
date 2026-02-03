@@ -1,7 +1,7 @@
 <html>
 <head>
 <title>
-Scid Help: 
+scidCommunity Help: 
 Analysis window
 </title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -16,9 +16,9 @@ Analysis window
 <body bgcolor="#ffffff">
 <h1>The Analysis window</h1>
 <p>
-The Scid analysis window shows the analysis by a chess program (known
+The scidCommunity analysis window shows the analysis by a chess program (known
 as an <b><i><font color="#990000">engine</font></i></b>) of the current board position. Whenever the
-board changes, Scid sends the new position to the engine and it
+board changes, scidCommunity sends the new position to the engine and it
 shows its assessment of that position.
 </p>
 <p>
@@ -35,7 +35,7 @@ game, press the <b>Add move</b> button.
 
 <h3><a name="List">The Analysis Engines List</a></h3>
 <p>
-Scid maintains a list of the engines you have used, along with an
+scidCommunity maintains a list of the engines you have used, along with an
 estimated Elo rating (if you guess one) and the date when each
 engine was last used. You can sort the engine list by name, Elo
 rating, or date.
@@ -45,7 +45,7 @@ the list or edit the details for an existing entry.
 <h3><a name="Start">Engine commands and directories</a></h3>
 <p>
 For each engine, you must specify the executable file to run and
-which directory Scid should run it in.
+which directory scidCommunity should run it in.
 </p>
 <p>
 The most likely cause of engine starting problems is the choice of
@@ -55,14 +55,14 @@ properly.
 Other engines (like Crafty) write log files to the directory they start
 in, so you will need to run them in a directory where you have write
 access.
-If the directory setting for an engine is ".", Scid will just start
+If the directory setting for an engine is ".", scidCommunity will just start
 the engine in the current directory.
 </p>
 <p>
-So if an engine that should work fine in Scid does not start, try
+So if an engine that should work fine in scidCommunity does not start, try
 changing its directory setting. To avoid engines creating log files
 in many different directories, I recommend starting engines in
-the directory of the Scid User files (this is where the <b>scid.exe</b>
+the directory of the scidCommunity User files (this is where the <b>scid.exe</b>
 file is located on Windows, or <b>~/.scid/</b> on Unix); there is a
 button in the dialog box for editing engine details marked
 <b>scid.exe dir</b> on Windows or <b>~/.scid</b> on Unix that lets
@@ -107,13 +107,13 @@ analysis engine 2, you cannot use it to annotate the game.
 Pressing the chessboard-icon button in an analysis window will show
 or hide the analysis board, which shows the position at the end of
 the current best line of play found by the engine. This works for
-most Scid-compatible engines but may not work for all; it depends on
+most scidCommunity-compatible engines but may not work for all; it depends on
 the move notation an engine uses.
 </p>
 
 <h3>Engine priority</h3>
 <p>
-If an engine is using too much CPU time and affecting the use of Scid
+If an engine is using too much CPU time and affecting the use of scidCommunity
 or other applications, turning on the <b>Low CPU priority</b> checkbox
 may help; it gives the engine a low priority for CPU scheduling.
 </p>
@@ -124,7 +124,7 @@ To use the analysis window, you will need a chess program that supports
 the <b><i><font color="#990000">WinBoard/Xboard</font></i></b> protocol.
 </p>
 <p>
-Scid sends he <b>xboard</b>, <b>post</b> and <b>protover 2</b> to an
+scidCommunity sends he <b>xboard</b>, <b>post</b> and <b>protover 2</b> to an
 engine when it starts, and will use the <b>setboard</b> and <b>analyze</b>
 commands for more efficient communication if the engine responds indicating
 that it supports them.
@@ -133,15 +133,15 @@ not be able to provide analysis in any game that begins with a
 non-standard start position.
 </p>
 <p>
-For programs that do not support the <b>analyze</b> command, Scid sends
+For programs that do not support the <b>analyze</b> command, scidCommunity sends
 the following commands every time the position changes: <b>new</b> and
 <b>force</b>, then the moves in the game to the current position, then
 <b>go</b>.
 </p>
 <p>
 Bob Hyatt's excellent free chess program <b><i><font color="#990000">Crafty</font></i></b> is what I
-use and recommend for the Scid analysis window, but many other WinBoard
-or XBoard compatible programs have been successfully used with Scid.
+use and recommend for the scidCommunity analysis window, but many other WinBoard
+or XBoard compatible programs have been successfully used with scidCommunity.
 Some download sites for a few engines are listed below.
 </p>
 <p>
@@ -169,7 +169,7 @@ The Crazy Bishop:
 <a href="http://remi.coulom.free.fr/">http://remi.coulom.free.fr/</a>
 </p>
 
-<p><center><font size=-1>(Updated: Scid 3.4, September 2002)</font></center></p>
+<p><center><font size=-1>(Updated: scidCommunity, February 2026)</font></center></p>
 
 </body>
 </html>

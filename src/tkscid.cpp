@@ -303,19 +303,14 @@ void exportGame(Game *g, FILE *exportFile, gameFormatT format, uint pgnStyle) {
   g->SetPgnFormat(format);
 
   // Format-specific settings:
-  switch (format) {
-  case PGN_FORMAT_HTML:
-  case PGN_FORMAT_LaTeX:
+  if (format == PGN_FORMAT_HTML) {
     g->AddPgnStyle(PGN_STYLE_SHORT_HEADER);
-    break;
-  default:
+  } else {
     language = 0;
-    break;
   }
 
   g->SetHtmlStyle(htmlDiagStyle);
-  std::pair<const char *, unsigned> pgn =
-      g->WriteToPGN(75, true, format != PGN_FORMAT_LaTeX);
+  std::pair<const char *, unsigned> pgn = g->WriteToPGN(75, true, true);
   // size_t nWrited =
   fwrite(pgn.first, 1, pgn.second, exportFile);
   // TODO:
@@ -333,7 +328,7 @@ int sc_base_export(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
   gameFormatT outputFormat = PGN_FORMAT_Plain;
   const char *startText = "";
   const char *endText = "";
-  const char *usage = "Usage: sc_base export current|filter PGN|HTML|LaTeX "
+  const char *usage = "Usage: sc_base export current|filter PGN|HTML "
                       "<pgn_filename> options...";
   uint pgnStyle = PGN_STYLE_TAGS;
 
@@ -460,8 +455,7 @@ int sc_base_export(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     }
   }
 
-  const auto tcl_strings_are_utf8 =
-      std::filesystem::path((const char8_t *)argv[4]).string();
+  const auto tcl_strings_are_utf8 = std::filesystem::path(argv[4]).string();
   const auto exportFileName = tcl_strings_are_utf8.c_str();
   auto exportFile = fopen(exportFileName, (appendToFile ? "r+" : "w"));
   if (exportFile == NULL) {
@@ -476,8 +470,6 @@ int sc_base_export(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
       const char *endMarker = "";
       if (outputFormat == PGN_FORMAT_HTML) {
         endMarker = "</body>";
-      } else if (outputFormat == PGN_FORMAT_LaTeX) {
-        endMarker = "\\end{document}";
       }
       char line[1024];
       uint pos = 0;
@@ -1939,24 +1931,16 @@ int sc_filter_old(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
 
   case FILTER_EXPORT:
     if (argc >= 7 && argc <= 9) {
-      const auto tcl_strings_are_utf8 =
-          std::filesystem::path((const char8_t *)argv[5]).string();
+      const auto tcl_strings_are_utf8 = std::filesystem::path(argv[5]).string();
       const auto exportFileName = tcl_strings_are_utf8.c_str();
       auto exportFile = fopen(exportFileName, "wb");
       if (exportFile == NULL)
         return errorResult(ti, "Error opening file for exporting games.");
       auto old_language = language;
       Game g;
-      if (strCompare("LaTeX", argv[6]) == 0) {
-        g.SetPgnFormat(PGN_FORMAT_LaTeX);
-        g.ResetPgnStyle(PGN_STYLE_TAGS | PGN_STYLE_COMMENTS | PGN_STYLE_VARS |
-                        PGN_STYLE_SHORT_HEADER | PGN_STYLE_SYMBOLS |
-                        PGN_STYLE_INDENT_VARS);
-      } else { // Default to PGN
-        g.SetPgnFormat(PGN_FORMAT_Plain);
-        g.ResetPgnStyle(PGN_STYLE_TAGS | PGN_STYLE_COMMENTS | PGN_STYLE_VARS);
-        language = 0;
-      }
+      g.SetPgnFormat(PGN_FORMAT_Plain);
+      g.ResetPgnStyle(PGN_STYLE_TAGS | PGN_STYLE_COMMENTS | PGN_STYLE_VARS);
+      language = 0;
       if (argc > 7)
         fprintf(exportFile, "%s", argv[7]);
       Progress progress = UI_CreateProgress(ti);
@@ -2203,9 +2187,9 @@ static inline bool isCrosstableGame(const IndexEntry *ie, idNumberT siteID,
 //    Returns the crosstable for the current game.
 int sc_game_crosstable(ClientData, Tcl_Interp *ti, int argc,
                        const char **argv) {
-  static const char *options[] = {"plain",  "html",  "hypertext", "latex",
+  static const char *options[] = {"plain",  "html",  "hypertext",
                                   "filter", "count", NULL};
-  enum { OPT_PLAIN, OPT_HTML, OPT_HYPERTEXT, OPT_LATEX, OPT_FILTER, OPT_COUNT };
+  enum { OPT_PLAIN, OPT_HTML, OPT_HYPERTEXT, OPT_FILTER, OPT_COUNT };
   int option = -1;
 
   const char *usageMsg =
@@ -2215,19 +2199,19 @@ int sc_game_crosstable(ClientData, Tcl_Interp *ti, int argc,
       "]";
 
   static const char *extraOptions[] = {
-      "allplay",     "knockout",    "swiss",     "auto",     "name", "rating",
-      "score",       "country",     "-ages",     "+ages", // Show player ages
-      "-breaks",     "+breaks",    // Show tiebreak scores
-      "-colors",     "+colors",    // Show game colors in Swiss table
-      "-countries",  "+countries", // Show current countries
-      "-flags",      "+flags",     // Show flags
-      "-tallies",    "+tallies",    "-ratings",  "+ratings", // Show Elo ratings
-      "-titles",     "+titles",                              // Show FIDE titles
-      "-groups",     "+groups",     // Separate players into score groups
-      "-deleted",    "+deleted",    // Include deleted games in table
+      "allplay", "knockout", "swiss", "auto", "name", "rating", "score",
+      "country", "-ages", "+ages", // Show player ages
+      "-breaks", "+breaks",        // Show tiebreak scores
+      "-colors", "+colors",        // Show game colors in Swiss table
+      "-countries", "+countries",  // Show current countries
+      "-flags", "+flags",          // Show flags
+      "-tallies", "+tallies", "-ratings", "+ratings", // Show Elo ratings
+      "-titles", "+titles",                           // Show FIDE titles
+      "-groups", "+groups",         // Separate players into score groups
+      "-deleted", "+deleted",       // Include deleted games in table
       "-numcolumns", "+numcolumns", // All-play-all numbered columns
-      "-gameNumber", "-threewin",   "+threewin", // Give 3 points for win, 1 for
-                                                 // draw
+      "-gameNumber", "-threewin", "+threewin", // Give 3 points for win, 1 for
+                                               // draw
       NULL};
   enum {
     EOPT_ALLPLAY,
@@ -2413,9 +2397,6 @@ int sc_game_crosstable(ClientData, Tcl_Interp *ti, int argc,
   case OPT_HYPERTEXT:
     newlineStr = "<br>";
     break;
-  case OPT_LATEX:
-    newlineStr = "\\\\\n";
-    break;
   }
 
   // Load crosstable game if necessary:
@@ -2481,9 +2462,6 @@ int sc_game_crosstable(ClientData, Tcl_Interp *ti, int argc,
     break;
   case OPT_HYPERTEXT:
     ctable->SetHypertextOutput();
-    break;
-  case OPT_LATEX:
-    ctable->SetLaTeXOutput();
     break;
   }
 
@@ -2558,13 +2536,6 @@ int sc_game_crosstable(ClientData, Tcl_Interp *ti, int argc,
     return setResult(ti, "No crosstable for this game.");
   }
 
-  if (option == OPT_LATEX) {
-    Tcl_AppendResult(ti, "\\documentclass[10pt,a4paper]{article}\n\n",
-                     "\\usepackage{a4wide}\n\n", "\\begin{document}\n\n",
-                     "\\setlength{\\parindent}{0cm}\n",
-                     "\\setlength{\\parskip}{0.5ex}\n", "\\small\n", NULL);
-  }
-
   if (mode == CROSSTABLE_Auto) {
     mode = ctable->BestMode();
   }
@@ -2612,9 +2583,6 @@ int sc_game_crosstable(ClientData, Tcl_Interp *ti, int argc,
   const auto dstr = ctable->PrintTable(mode, apaLimit, db->gameNumber + 1);
 
   Tcl_AppendResult(ti, dstr.c_str(), NULL);
-  if (option == OPT_LATEX) {
-    Tcl_AppendResult(ti, "\n\\end{document}\n", NULL);
-  }
   delete ctable;
   return TCL_OK;
 }
@@ -4997,11 +4965,11 @@ int sc_move_pgn(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
 
 int sc_pos(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
   static const char *options[] = {
-      "addNag",    "analyze",    "bestSquare",     "board",       "clearNags",
-      "fen",       "getComment", "getNags",        "hash",        "html",
-      "isAt",      "isCheck",    "isLegal",        "isPromotion", "moveNumber",
-      "pgnOffset", "setComment", "side",           "tex",         "moves",
-      "location",  "attacks",    "getPrevComment", "coordToSAN",  NULL};
+      "addNag",    "analyze",        "bestSquare", "board",       "clearNags",
+      "fen",       "getComment",     "getNags",    "hash",        "html",
+      "isAt",      "isCheck",        "isLegal",    "isPromotion", "moveNumber",
+      "pgnOffset", "setComment",     "side",       "moves",       "location",
+      "attacks",   "getPrevComment", "coordToSAN", NULL};
   enum {
     POS_ADDNAG,
     POS_ANALYZE,
@@ -5021,7 +4989,6 @@ int sc_pos(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
     POS_PGNOFFSET,
     POS_SETCOMMENT,
     POS_SIDE,
-    POS_TEX,
     POS_MOVES,
     LOCATION,
     POS_ATTACKS,
@@ -5142,17 +5109,6 @@ int sc_pos(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
     setResult(ti, (db->game->GetCurrentPos()->GetToMove() == WHITE) ? "white"
                                                                     : "black");
     break;
-
-  case POS_TEX: {
-    bool flip = false;
-    if (argc > 2 && strIsPrefix(argv[2], "flip")) {
-      flip = true;
-    }
-    DString *dstr = new DString;
-    db->game->GetCurrentPos()->DumpLatexBoard(dstr, flip);
-    Tcl_AppendResult(ti, dstr->Data(), NULL);
-    delete dstr;
-  } break;
 
   case LOCATION:
     return UI_Result(ti, OK, db->game->GetCurrentPly());

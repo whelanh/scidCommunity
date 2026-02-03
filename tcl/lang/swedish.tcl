@@ -193,8 +193,6 @@ menuText W ToolsExpCurrentPGN "Exportera till PGN..." 15 \
 menuText W ToolsExpCurrentHTML "Exportera till HTML..." 15 \
   {Spara aktuellt parti till en HTML-fil}
 menuText W ToolsExpCurrentHTMLJS "Exportera till HTML och JavaScript-fil..." 15 {Spara aktuellt parti till en HTML och JavaScript-fil}  
-menuText W ToolsExpCurrentLaTeX "Exportera till LaTeX..." 15 \
-  {Spara aktuellt parti till en LaTeX-fil}
 menuText W ToolsExpFilter "Exportera alla filtrerade partier" 15 \
   {Spara alla filterade partier till en textfil}
 menuText W ToolsExpFilterPGN "Exportera till PGN..." 15 \
@@ -202,8 +200,6 @@ menuText W ToolsExpFilterPGN "Exportera till PGN..." 15 \
 menuText W ToolsExpFilterHTML "Exportera till HTML..." 15 \
   {Spara alla filterade partier till en HTML-fil}
 menuText W ToolsExpFilterHTMLJS "Exportera filtrerade till HTML och JavaScript-fil..." 17 {Spara alla filtrerade partier till en HTML och JavaScript-fil}  
-menuText W ToolsExpFilterLaTeX "Exportera till LaTeX..." 15 \
-  {Spara alla filterade partier till en LaTeX-fil}
 menuText W ToolsImportOne "Importera ett parti i PGN-format..." 0 \
   {Importera ett parti i PGN-format}
 menuText W ToolsImportFile "Importera flera partier i PGN-format..." 16 \
@@ -694,7 +690,6 @@ translate W PgnWindowTitle {PGN-version av partiet %u}
 menuText W CrosstabFile "Fil" 0
 menuText W CrosstabFileText "Skriv ut till textfil..." 9
 menuText W CrosstabFileHtml "Skriv ut till HTML-fil..." 9
-menuText W CrosstabFileLaTeX "Skriv ut till LaTeX-fil..." 9
 menuText W CrosstabFileClose "Stäng resultattabellsfönstret" 0
 menuText W CrosstabEdit "Redigera" 0
 menuText W CrosstabEditEvent "Evenemang" 0
@@ -733,7 +728,6 @@ translate W Category {Kategori}
 menuText W OprepFile "Fil" 0
 menuText W OprepFileText "Skriv ut till textfil..." 9
 menuText W OprepFileHtml "Skriv ut till HTML-fil..." 9
-menuText W OprepFileLaTeX "Skriv ut till LaTeX-fil..." 9
 menuText W OprepFileOptions "Alternativ..." 0
 menuText W OprepFileClose "Stäng rapportfönstret" 0
 menuText W OprepFavorites "Favoriter" 1 
@@ -1149,7 +1143,6 @@ translate W OprepTableComment {Skapad från de %u högst rankade partierna.}
 translate W OprepExtraMoves {Ytterligare antal drag i notförteckningen}
 translate W OprepMaxGames {Maximalt antal partier i sammanställningen}
 translate W OprepViewHTML {Visa HTML}
-translate W OprepViewLaTeX {Visa LaTeX}
 
 # Player Report:
 translate W PReportTitle {Spelarrapport} 

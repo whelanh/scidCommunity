@@ -216,8 +216,6 @@ menuText D ToolsExpCurrentPGN "Partie in PGN-Datei exportieren..." 10 \
 menuText D ToolsExpCurrentHTML "Partie in HTML-Datei exportieren..." 10 \
   {Aktuelle Partie in eine HTML-Datei schreiben}
 menuText D ToolsExpCurrentHTMLJS "Partie in HTML/JavaScript-Datei exportieren..." 15 {Aktuelle Partie wird in eine HTML und JavaScript Datei exportiert.}  
-menuText D ToolsExpCurrentLaTeX "Partie in LaTeX-Datei exportieren..." 10 \
-  {Aktuelle Partie in eine LaTeX-Datei schreiben}
 menuText D ToolsExpFilter "Alles im Filter exportieren" 16 \
   {Alle Partien im Filter in eine Textdatei schreiben}
 menuText D ToolsExpFilterPGN "Filter in PGN-Datei exportieren..." 10 \
@@ -225,8 +223,6 @@ menuText D ToolsExpFilterPGN "Filter in PGN-Datei exportieren..." 10 \
 menuText D ToolsExpFilterHTML "Filter in HTML-Datei exportieren..." 10 \
   {Alle Partien im Filter in eine HTML-Datei schreiben}
 menuText D ToolsExpFilterHTMLJS "Filter in HTML/JavaScript exportieren..." 17 {Alle Partien im Filter werden in eine HTML und JavaScript Datei exportiert.}  
-menuText D ToolsExpFilterLaTeX "Filter in LaTeX-Datei exportieren..." 10 \
-  {Alle Partien im Filter in eine LaTeX-Datei schreiben}
 menuText D ToolsImportOne "Eine PGN-Partie importieren..." 16 \
   {Eine Partie im PGN-Format eingeben oder einfügen}
 menuText D ToolsImportFile "PGN-Partien importieren..." 0 \
@@ -723,7 +719,6 @@ translate D PgnWindowTitle {Partienotation - Partie %u}
 menuText D CrosstabFile "Datei" 0
 menuText D CrosstabFileText "Ausgabe in Textdatei..." 11
 menuText D CrosstabFileHtml "Ausgabe in HTML-Datei..." 11
-menuText D CrosstabFileLaTeX "Ausgabe in LaTeX-Datei..." 11
 menuText D CrosstabFileClose "Turniertabelle schließen" 0
 menuText D CrosstabEdit "Bearbeiten" 0
 menuText D CrosstabEditEvent "Ereignis" 0
@@ -762,7 +757,6 @@ translate D Category {Kategorie}
 menuText D OprepFile "Datei" 0
 menuText D OprepFileText "Ausgabe in Textdatei..." 11
 menuText D OprepFileHtml "Ausgabe in HTML-Datei..." 11
-menuText D OprepFileLaTeX "Ausgabe in LaTeX-Datei..." 11
 menuText D OprepFileOptions "Optionen..." 0
 menuText D OprepFileClose "Berichtsfenster schließen" 0
 menuText D OprepFavorites "Favoriten" 0
@@ -1185,7 +1179,6 @@ translate D OprepTableComment {Erzeugt aus %u Partien mit höchster ELO-Zahl.}
 translate D OprepExtraMoves {Zusätzliche Züge in der Theorietabelle}
 translate D OprepMaxGames {Maximale Partien in der Theorietabelle}
 translate D OprepViewHTML {Zeige HTML}
-translate D OprepViewLaTeX {Zeige LaTeX}
 
 # Player Report:
 translate D PReportTitle {Spielerbericht}

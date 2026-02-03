@@ -190,8 +190,6 @@ menuText I ToolsExpCurrentPGN "Esporta partita in un file PGN..." 0 \
 menuText I ToolsExpCurrentHTML "Esporta partita in un file HTML..." 1 \
   {Scrive la partita attuale in un file HTML}
 menuText I ToolsExpCurrentHTMLJS "Esporta partita in un file HTML con JavaScript..." 2 {Scrive la partita attuale in un file HTML con JavaScript}
-menuText I ToolsExpCurrentLaTeX "Esporta partita in un file LaTeX..." 3 \
-  {Scrive la partita attuale in un file LaTeX}
 menuText I ToolsExpFilter "Esporta tutte le partite del filtro" 1 \
   {Scrive tutte le partite filtrate in un file di testo}
 menuText I ToolsExpFilterPGN "Esporta filtro in file PGN..." 0 \
@@ -199,8 +197,6 @@ menuText I ToolsExpFilterPGN "Esporta filtro in file PGN..." 0 \
 menuText I ToolsExpFilterHTML "Esporta filtro in file HTML..." 1 \
   {Scrive tutte le partite filtrate in un file HTML}
 menuText I ToolsExpFilterHTMLJS "Esporta filtro in file HTML con JavaScript..." 12 {Scrive tutte le partite filtrate in un file HTML con JavaScript}
-menuText I ToolsExpFilterLaTeX "Esporta filtro in un file LaTeX..." 3 \
-  {Scrive tutte le partite filtrate in un file LaTeX}
 menuText I ToolsImportOne "Importa una partita in formato PGN..." 0 \
   {Importa una partita da testo PGN}
 menuText I ToolsImportFile "Importa partite da files PGN..." 27 \
@@ -694,7 +690,6 @@ translate I PgnWindowTitle {Notazione - partita %u}
 menuText I CrosstabFile "File" 0
 menuText I CrosstabFileText "Stampa in un file di testo..." 21
 menuText I CrosstabFileHtml "Stampa in un file HTML..." 18
-menuText I CrosstabFileLaTeX "Stampa in un file LaTeX..." 18
 menuText I CrosstabFileClose "Chiudi il tabellone" 0
 menuText I CrosstabEdit "Edita" 0
 menuText I CrosstabEditEvent "Evento" 0
@@ -733,7 +728,6 @@ translate I Category {Categoria}
 menuText I OprepFile "File" 0
 menuText I OprepFileText "Stampa in un file di testo..." 21
 menuText I OprepFileHtml "Stampa in un file HTML..." 18
-menuText I OprepFileLaTeX "Stampa in un file LaTeX..." 18
 menuText I OprepFileOptions "Opzioni..." 0
 menuText I OprepFileClose "Chiude la finestra del rapporto" 0
 menuText I OprepFavorites "Preferiti" 1
@@ -1144,7 +1138,6 @@ translate I OprepTableComment {Generato da %u partite più quotate.}
 translate I OprepExtraMoves {Mosse extra note nella tabella della teoria}
 translate I OprepMaxGames {Numero massimo di partite nella tabella della teoria}
 translate I OprepViewHTML {Vedi HTML}
-translate I OprepViewLaTeX {Vedi LaTeX}
 
 # Player Report:
 translate I PReportTitle {Report sul giocatore}

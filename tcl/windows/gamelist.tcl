@@ -146,7 +146,6 @@ proc ::windows::gamelist::FilterNegate {{w} {base}} {
 proc ::windows::gamelist::FilterExport {{w}} {
 	set ftype {
 	   { {PGN} {.pgn} }
-	   { {LaTeX} {.tex .ltx} }
 	}
 	set fName [tk_getSaveFile -initialdir $::initialDir(base) \
 	                          -filetypes $ftype \
@@ -154,16 +153,9 @@ proc ::windows::gamelist::FilterExport {{w}} {
 	                          -title [tr ToolsExpFilter] ]
 	if {$fName == ""} { return }
 	progressWindow "Scid" "Exporting games..." $::tr(Cancel)
-	if {$::gamelistExport == "LaTeX"} {
-        if {[file extension $fName] == ""} { append fName ".tex" }
-		set err [catch {sc_filter export $::gamelistBase($w) $::gamelistFilter($w) \
-		                    $::glistSortStr($w.games.glist) $fName $::gamelistExport \
-		                    $::exportStartFile(LaTeX) $::exportEndFile(LaTeX) }]
-	} else {
-        if {[file extension $fName] == ""} { append fName ".pgn" }
-		set err [catch {sc_filter export $::gamelistBase($w) $::gamelistFilter($w) \
-		                    $::glistSortStr($w.games.glist) $fName $::gamelistExport }]
-	}
+	if {[file extension $fName] == ""} { append fName ".pgn" }
+	set err [catch {sc_filter export $::gamelistBase($w) $::gamelistFilter($w) \
+	                    $::glistSortStr($w.games.glist) $fName $::gamelistExport }]
 	closeProgressWindow
 	if {$err && $::errorCode != $::ERROR::UserCancel} { ERROR::MessageBox }
 }

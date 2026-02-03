@@ -218,7 +218,6 @@ menuText N ToolsExpCurrentPGN "Partij in PGN-formaat exporteren..." 11 \
 menuText N ToolsExpCurrentHTML "Partij in HTML-formaat exporteren..." 11 \
   {Schrijf huidige partij naar HTML-bestand}
 menuText N ToolsExpCurrentHTMLJS "Exporteer Partij naar een HTML en JavaScript Bestand..." 15 {Schrijf de huidige partij naar een HTML en JavaScript bestand}  
-menuText N ToolsExpCurrentLaTeX "Partij in LaTeX-formaat exporteren..." 11 \
   {Schrijf huidige partij naar LaTex-bestand}
 menuText N ToolsExpFilter "Alle partijen in filter exporteren" 17 \
   {Exporteer alle geslecteerde partijen naar een bestand}
@@ -227,7 +226,6 @@ menuText N ToolsExpFilterPGN "Filter in PGN-formaat exporteren..." 10 \
 menuText N ToolsExpFilterHTML "Filter in HTML-formaat exporteren..." 10 \
   {Schrijf selectie naar HTML-bestand}
 menuText N ToolsExpFilterHTMLJS "Exporteer Filter naar HTML en JavaScript Bestand..." 17 {Schrijf alle gefilterde partijen naar een HTML en JavaScript bestand}  
-menuText N ToolsExpFilterLaTeX "Filter in LaTeX-formaat exporteren..." 10 \
   {Schrijf selectie naar LaTex-bestand}
 menuText N ToolsImportOne "Een PGN partij importeren..." 4 \
   {Importeer PGN partij}
@@ -744,7 +742,6 @@ translate N PgnWindowTitle {Partij Notatie - partij %u} ;
 menuText N CrosstabFile "Bestand" 0
 menuText N CrosstabFileText "Bewaren in tekstformaat..." 13
 menuText N CrosstabFileHtml " Bewaren in HTML-formaat..." 13
-menuText N CrosstabFileLaTeX " Bewaren in LaTeX-formaat..." 13
 menuText N CrosstabFileClose "Kruistabel sluiten" 0
 menuText N CrosstabEdit "Bewerken" 0
 menuText N CrosstabEditEvent "Evenement" 0
@@ -783,7 +780,6 @@ translate N Category {Categorie} ;
 menuText N OprepFile "Bestand" 0
 menuText N OprepFileText "Bewaren in tekstformaat..." 13
 menuText N OprepFileHtml " Bewaren in HTML-formaat..." 13
-menuText N OprepFileLaTeX " Bewaren in LaTeX-formaat..." 13
 menuText N OprepFileOptions "Opties..." 0
 menuText N OprepFileClose "Sluit rapportvenster" 0
 menuText N OprepFavorites "Favorieten" 1 ;
@@ -1236,7 +1232,6 @@ translate N OprepTableComment {Samengesteld uit de %u partijen met de hoogste El
 translate N OprepExtraMoves {Extra zetten in theorie tabel}
 translate N OprepMaxGames {Maximaal aantal partijen in theorie tabel}
 translate N OprepViewHTML { HTML zicht} ;
-translate N OprepViewLaTeX {LaTeX zicht} ;
 
 # Player Report:
 translate N PReportTitle {Speler Rapport} ;

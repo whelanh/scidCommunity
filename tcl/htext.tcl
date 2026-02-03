@@ -137,8 +137,8 @@ proc updateHelpWindow {name {heading ""}} {
     $w.b.back configure -state normal
   }
   
-  wm title $w "Scid Help: $title"
-  wm iconname $w "Scid help"
+  wm title $w "scidCommunity Help: $title"
+  wm iconname $w "scidCommunity help"
   
   $w.text delete 0.0 end
   bind $w <Up> "$w.text yview scroll -1 units"

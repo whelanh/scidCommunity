@@ -191,7 +191,6 @@ menuText B ToolsExpCurrentPGN "Exporta para PGN..." 15 \
 menuText B ToolsExpCurrentHTML "Exporta para HTML..." 15 \
   {Grava o jogo corrente em um arquivo HTML}
 menuText B ToolsExpCurrentHTMLJS "Exportar jogo para arquivo HTML e JavaScript..." 15 {Escreve o jogo corrente em um arquivo HTML e JavaScript}  
-menuText B ToolsExpCurrentLaTeX "Exporta para LaTex..." 15 \
   {Grava o jogo corrente em um arquivo LaTex}
 menuText B ToolsExpFilter "Exporta jogos filtrados" 1 \
   {Exporta todos os jogos filtrados para um arquivo texto}
@@ -200,7 +199,6 @@ menuText B ToolsExpFilterPGN "Exporta jogos filtrados - PGN..." 17 \
 menuText B ToolsExpFilterHTML "Exporta jogos filtrados - HTML..." 17 \
   {Exporta todos os jogos filtrados para um arquivo HTML}
 menuText B ToolsExpFilterHTMLJS "Exporta filtro para arquivo HTML e JavaScript..." 17 {Escreve todos os jogos filtrados para um arquivo HTML e JavaScript}  
-menuText B ToolsExpFilterLaTeX "Exporta jogos filtrados - LaTex..." 17 \
   {Exporta todos os jogos filtrados para um arquivo LaTex}
 menuText B ToolsImportOne "Importa PGN texto..." 0 \
   {Importa jogo de um texto em PGN}
@@ -696,7 +694,6 @@ translate B PgnWindowTitle {Notação do Jogo - jogo %u}
 menuText B CrosstabFile "Arquivo" 0
 menuText B CrosstabFileText "Imprime para arquivo texto..." 9
 menuText B CrosstabFileHtml "Imprime para arquivo HTML..." 9
-menuText B CrosstabFileLaTeX "Imprime para arquivo LaTex..." 9
 menuText B CrosstabFileClose "Fechar tabela de cruzamentos" 0
 menuText B CrosstabEdit "Editar" 0
 menuText B CrosstabEditEvent "Evento" 0
@@ -735,7 +732,6 @@ translate B Category {Categoria}
 menuText B OprepFile "Arquivo" 0
 menuText B OprepFileText "Imprimir para arquivo texto..." 9
 menuText B OprepFileHtml "Imprimir para arquivo HTML..." 9
-menuText B OprepFileLaTeX "Imprimir para arquivo LaTex..." 9
 menuText B OprepFileOptions "Opcoes..." 0
 menuText B OprepFileClose "Fechar janela de relatorio" 0
 menuText B OprepFavorites "Favoritos" 1 
@@ -1151,7 +1147,6 @@ translate B OprepTableComment {Gerada a partir dos %u jogos com rating mais alto
 translate B OprepExtraMoves {Movimentos com nota extra na Tabela de Teoria}
 translate B OprepMaxGames {Qtde. Maxima de jogos na tabela de teoria}
 translate B OprepViewHTML {Visualizar HTML} 
-translate B OprepViewLaTeX {Visualizar LaTeX} 
 
 # Player Report:
 translate B PReportTitle {Relatorio do Jogador} 

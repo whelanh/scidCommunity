@@ -217,8 +217,6 @@ menuText G ToolsExpCurrentPGN "Εξαγωγή παρτίδας σε ένα αρ�
 menuText G ToolsExpCurrentHTML "Εξαγωγή παρτίδας σε αρχείο HTML..." 15 \
   {Γράψτε την τρέχουσα παρτίδα σε ένα αρχείο HTML}
 menuText G ToolsExpCurrentHTMLJS "Εξαγωγή παρτίδας σε αρχεία HTML και JavaScript..." 15 {Γράψτε την τρέχουσα παρτίδα σε αρχεία HTML και JavaScript}  
-menuText G ToolsExpCurrentLaTeX "Εξαγωγή παρτίδας σε αρχείο LaTeX..." 15 \
-  {Γράψτε την τρέχουσα παρτίδα σε ένα αρχείο LaTeX}
 menuText G ToolsExpFilter "Εξαγωγή όλων των φιλτραρισμένων παρτίδων" 1 \
   {Γράψτε όλες τις φιλτραρισμένες παρτίδες σε ένα αρχείο κειμένου}
 menuText G ToolsExpFilterPGN "Εξαγωγή φίλτρου σε αρχείο PGN..." 17 \
@@ -226,8 +224,6 @@ menuText G ToolsExpFilterPGN "Εξαγωγή φίλτρου σε αρχείο PG
 menuText G ToolsExpFilterHTML "Εξαγωγή φίλτρου σε αρχείο HTML..." 17 \
   {Γράψτε όλες τις φιλτραρισμένες παρτίδες σε ένα αρχείο HTML}
 menuText G ToolsExpFilterHTMLJS "Εξαγωγή φίλτρου σε αρχεία HTML και JavaScript..." 17 {Γράψτε όλες τις φιλτραρισμένες παρτίδες σε αρχεία HTML και JavaScript}  
-menuText G ToolsExpFilterLaTeX "Εξαγωγή φίλτρου σε αρχείο LaTeX..." 17 \
-  {Γράψτε όλες τις φιλτραρισμένες παρτίδες σε ένα αρχείο LaTeX}
 menuText G ToolsImportOne "Εισαγωγή παρτίδας PGN..." 0 \
   {Εισάγετε μια παρτίδα από ένα κείμενο PGN}
 menuText G ToolsImportFile "Εισαγωγή αρχείου παρτίδων PGN..." 7 {Εισάγετε παρτίδες από ένα αρχείο PGN}
@@ -715,7 +711,6 @@ translate G PgnWindowTitle {Σημείωση - παρτίδα %u}
 menuText G CrosstabFile "Αρχείο" 0
 menuText G CrosstabFileText "Εκτύπωση κειμένου σε αρχείο..." 9
 menuText G CrosstabFileHtml "Εκτύπωση σε αρχείο HTML..." 9
-menuText G CrosstabFileLaTeX "Εκτύπωση σε αρχείο LaTeX..." 9
 menuText G CrosstabFileClose "Κλείσιμο του παραθύρου συγκριτικού πίνακα" 0
 menuText G CrosstabEdit "Επεξεργασία" 0
 menuText G CrosstabEditEvent "Διοργάνωση" 0
@@ -754,7 +749,6 @@ translate G Category {Κατηγορία}
 menuText G OprepFile "Αρχείο" 0
 menuText G OprepFileText "Εκτύπωση σε αρχείο κειμένου..." 9
 menuText G OprepFileHtml "Εκτύπωση σε αρχείο HTML..." 9
-menuText G OprepFileLaTeX "Εκτύπωση σε αρχείο LaTeX..." 9
 menuText G OprepFileOptions "Επιλογές..." 0
 menuText G OprepFileClose "Κλείσιμο παραθύρου αναφορών" 0
 menuText G OprepFavorites "Προτιμώμενα" 1
@@ -1170,7 +1164,6 @@ translate G OprepTableComment {Δημιουργήθηκε από τις %u με 
 translate G OprepExtraMoves {Επιπλέον κινήσεις στις σημειώσεις του πίνακα ανοιγμάτων}
 translate G OprepMaxGames {Μέγιστος αριθμός παρτίδων στον πίνακα ανοιγμάτων}
 translate G OprepViewHTML {Εμφάνιση HTML}
-translate G OprepViewLaTeX {Εμφάνιση LaTeX}
 
 # Player Report:
 translate G PReportTitle {Έκθεση παίκτη}

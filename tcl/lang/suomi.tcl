@@ -224,8 +224,6 @@ menuText U ToolsExpCurrentPGN "Vie PGN-tiedostoon" 6 \
 menuText U ToolsExpCurrentHTML "Vie HTML-tiedostoon" 4 \
   {Kirjoita nykyinen peli HTML-tiedostoon}
 menuText U ToolsExpCurrentHTMLJS "Vie HTML- ja JavaScript-tiedostoihin" 6 {Kirjoita nykyinen peli HTML- ja JavaScript-tiedostoihin}  
-menuText U ToolsExpCurrentLaTeX "Vie LaTeX-tiedostoon" 8 \
-  {Kirjoita nykyinen peli LaTeX-tiedostoon}
 menuText U ToolsExpFilter "Vie suodatetut pelit tekstitiedostoon" 0 \
   {Kirjoita kaikki suodatetut pelit tekstitiedostoon}
 menuText U ToolsExpFilterPGN "Vie suodatetut pelit PGN-tiedostoon" 0 \
@@ -233,8 +231,6 @@ menuText U ToolsExpFilterPGN "Vie suodatetut pelit PGN-tiedostoon" 0 \
 menuText U ToolsExpFilterHTML "Vie suodatetut pelit HTML-tiedostoon" 0 \
   {Kirjoita kaikki suodatetut pelit HTML-tiedostoon}
 menuText U ToolsExpFilterHTMLJS "Vie suodatetut pelit HTML- ja JavaScript-tiedostoihin" 0 {Kirjoita kaikki suodatetut pelit HTML- ja JavaScript-tiedostoihin}  
-menuText U ToolsExpFilterLaTeX "Vie suodatetut pelit LaTeX-tiedostoon" 0 \
-  {Kirjoita kaikki suodatetut pelit LaTeX-tiedostoon}
 menuText U ToolsImportOne "Tuo yksi PGN-peli" 0 \
   {Tuo yksitt‰inen peli PGN-tekstist‰}
 menuText U ToolsImportFile "Tuo PGN pelitiedosto" 0 {Tuo yksi tai useampia pelej‰ sis‰lt‰v‰ PGN-tiedosto}
@@ -722,7 +718,6 @@ translate U PgnWindowTitle {Siirrot - peli %u}
 menuText U CrosstabFile "Tiedosto" 0
 menuText U CrosstabFileText "Tulosta tekstitiedostoon..." 9
 menuText U CrosstabFileHtml "Tulosta HTML-tiedostoon..." 8
-menuText U CrosstabFileLaTeX "Tulosta LaTeX-tiedostoon..." 8
 menuText U CrosstabFileClose "Sulje ristitaulukko" 0
 menuText U CrosstabEdit "Muokkaa" 0
 menuText U CrosstabEditEvent "Tapahtuma" 0
@@ -761,7 +756,6 @@ translate U Category {Kategoria}
 menuText U OprepFile "Tiedosto" 0
 menuText U OprepFileText "Tulosta tekstitiedostoon..." 1
 menuText U OprepFileHtml "Tulosta HTML-tiedostoon..." 8
-menuText U OprepFileLaTeX "Tulosta LaTeXtiedostoon..." 8
 menuText U OprepFileOptions "Asetukset..." 0
 menuText U OprepFileClose "Sulje raportti-ikkuna" 0
 menuText U OprepFavorites "Suosikit" 2
@@ -1177,7 +1171,6 @@ translate U OprepTableComment {Luotu %u korkeimmalle rankatusta pelist‰.}
 translate U OprepExtraMoves {Erikoisesti huomioitavat siirrot teoriataulukossa}
 translate U OprepMaxGames {Maksimim‰‰r‰ pelej‰ teoriataulukossa}
 translate U OprepViewHTML {N‰yt‰ HTML}
-translate U OprepViewLaTeX {N‰yt‰ LaTeX}
 
 # Player Report:
 translate U PReportTitle {Pelaajaraportti}

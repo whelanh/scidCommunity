@@ -87,31 +87,6 @@ proc ::crosstab::Open {} {
       }
     }
   }
-  $w.menu.file add command -label CrosstabFileLaTeX -command {
-    set ftype {
-      { "LaTeX files" {".tex" ".ltx"} }
-      { "All files"  {"*"}    }
-    }
-    set fname [tk_getSaveFile -initialdir $::initialDir(tex) -filetypes $ftype  -title "Save Crosstable as LaTeX"]
-    if {$fname != ""} {
-      if {[file extension $fname] != ".tex" && [file extension $fname] != ".ltx" } {
-        append fname ".tex"
-      }
-      if {[catch {set tempfile [open $fname w]}]} {
-        tk_messageBox -title "scidCommunity: Error saving file" \
-            -type ok -icon warning \
-            -message "Unable to save the file: $fname\n\n"
-      } else {
-        catch {sc_game crosstable latex $crosstab(sort) $crosstab(type) \
-              $crosstab(ratings) $crosstab(countries) $crosstab(flags) $crosstab(titles) \
-              $crosstab(colors) $crosstab(groups) $crosstab(ages) \
-              $crosstab(breaks) $crosstab(cnumbers) $crosstab(deleted)} \
-            result
-        puts $tempfile $result
-        close $tempfile
-      }
-    }
-  }
   $w.menu.file add separator
   $w.menu.file add command -label CrosstabFileClose \
       -command "::win::closeWindow $w"

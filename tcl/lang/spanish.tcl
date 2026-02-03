@@ -206,8 +206,6 @@ menuText S ToolsExpCurrentHTML "Exportar la partida a un archivo HTML..." 33 \
   {Escribe la partida actual en un archivo HTML}
 menuText S ToolsExpCurrentHTMLJS "Exportar la partida a un archivo HTML y JavaScript..." 15 \
   {Escribe la partida actual a un fichero HTML y JavaScript} 
-menuText S ToolsExpCurrentLaTeX "Exportar la partida a un archivo LaTeX..." 33 \
-  {Escribe la partida actual en un archivo LaTeX}
 menuText S ToolsExpFilter "Exportar todas las partidas filtradas..." 1 \
   {Escribe todas las partidas filtradas en un archivo de texto}
 menuText S ToolsExpFilterPGN "Exportar filtro a un archivo PGN..." 29 \
@@ -216,8 +214,6 @@ menuText S ToolsExpFilterHTML "Exportar filtro a un archivo HTML..." 29 \
   {Escribe todas las partidas filtradas en un archivo HTML}
 menuText S ToolsExpFilterHTMLJS "Exportar filtro a un archivo HTML y JavaScript..." 17 \
   {Escribe todas las partidas filtradas a ficheros HTML y JavaScript}  
-menuText S ToolsExpFilterLaTeX "Exportar filtro a un archivo LaTeX..." 29 \
-  {Escribe todas las partidas filtradas en un archivo LaTeX}
 menuText S ToolsImportOne "Importar una partida PGN..." 0 \
   {Importa una partida de un texto PGN}
 menuText S ToolsImportFile "Importar un archivo de partidas PGN..." 2 \
@@ -740,7 +736,6 @@ translate S PgnWindowTitle {Planilla - partida %u}
 menuText S CrosstabFile "Archivo" 0
 menuText S CrosstabFileText "Imprimir en archivo texto..." 20
 menuText S CrosstabFileHtml "Imprimir en archivo HTML..." 20
-menuText S CrosstabFileLaTeX "Imprimir en archivo LaTeX..." 20
 menuText S CrosstabFileClose "Cerrar ventana de tabla cruzada" 0
 menuText S CrosstabEdit "Editar" 0
 menuText S CrosstabEditEvent "Evento" 0
@@ -779,7 +774,6 @@ translate S Category {Categoría}
 menuText S OprepFile "Archivo" 0
 menuText S OprepFileText "Imprimir en archivo texto..." 20
 menuText S OprepFileHtml "Imprimir en archivo HTML..." 20
-menuText S OprepFileLaTeX "Imprimir en archivo LaTeX..." 20
 menuText S OprepFileOptions "Opciones..." 0
 menuText S OprepFileClose "Cerrar ventana del informe de la apertura" 0
 menuText S OprepFavorites "Favoritos" 1
@@ -1197,7 +1191,6 @@ translate S OprepTableComment {Generado a partir de las %u partidas con mejor El
 translate S OprepExtraMoves {Anotación extra de movimientos en la tabla teórica}
 translate S OprepMaxGames {Máximas partidas en la tabla teórica}
 translate S OprepViewHTML {Ver HTML}
-translate S OprepViewLaTeX {Ver LaTeX}
 
 # Player Report:
 translate S PReportTitle {Informe del jugador}

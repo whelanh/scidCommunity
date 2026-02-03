@@ -187,8 +187,6 @@ menuText T ToolsExpCurrentPGN "Oyunu PGN Dosyasına Aktar..." 15 \
 menuText T ToolsExpCurrentHTML "Oyunu HTML Dosyasına Aktar..." 15 \
   {Mevcut oyunu bir HTML dosyasına yaz}
 menuText T ToolsExpCurrentHTMLJS "Oyunu HTML ve JavaScript Dosyasına Aktar..." 15 {Mevcut oyunu bir HTML ve JavaScript dosyasına yaz}
-menuText T ToolsExpCurrentLaTeX "Oyunu LaTeX Dosyasına Aktar..." 15 \
-  {Mevcut oyunu bir LaTeX dosyasına yaz}
 menuText T ToolsExpFilter "Tüm Filtre Oyunlarını Dışa Aktar" 1 \
   {Filtrelenen tüm oyunları bir metin dosyasına yaz}
 menuText T ToolsExpFilterPGN "Filtreyi PGN Dosyasına Aktar..." 17 \
@@ -196,8 +194,6 @@ menuText T ToolsExpFilterPGN "Filtreyi PGN Dosyasına Aktar..." 17 \
 menuText T ToolsExpFilterHTML "Filtreyi HTML Dosyasına Aktar..." 17 \
   {Filtrelenen tüm oyunları bir HTML dosyasına yazın}
 menuText T ToolsExpFilterHTMLJS "Filtreyi HTML ve JavaScript Dosyasına Dışa Aktar..." 17 {Filtrelenen tüm oyunları bir HTML ve JavaScript dosyasına yazın}
-menuText T ToolsExpFilterLaTeX "Filtreyi LaTeX Dosyasına Aktar..." 17 \
-  {Filtrelenen tüm oyunları bir LaTeX dosyasına yazın}
 menuText T ToolsImportOne "Bir PGN Oyununu İçe Aktar..." 0 \
   {PGN metninden bir oyunu içe aktarın}
 menuText T ToolsImportFile "Oyunları PGN Dosyalarından İçe Aktar..." 7 {Oyunları PGN dosyalarından içe aktarın}
@@ -685,7 +681,6 @@ translate T PgnWindowTitle {Gösterim - oyun %u}
 menuText T CrosstabFile "Dosya" 0
 menuText T CrosstabFileText "Metin Dosyasına Yazdır..." 9
 menuText T CrosstabFileHtml "HTML Dosyasına Yazdır..." 9
-menuText T CrosstabFileLaTeX "LaTeX Dosyasına Yazdır..." 9
 menuText T CrosstabFileClose "Çapraz Tablo Penceresini Kapat" 0
 menuText T CrosstabEdit "Düzenlemek" 0
 menuText T CrosstabEditEvent "Etkinlik" 0
@@ -724,7 +719,6 @@ translate T Category {Kategori}
 menuText T OprepFile "Dosya" 0
 menuText T OprepFileText "Metin Dosyasına Yazdır..." 9
 menuText T OprepFileHtml "HTML Dosyasına Yazdır..." 9
-menuText T OprepFileLaTeX "LaTeX Dosyasına Yazdır..." 9
 menuText T OprepFileOptions "Seçenekler..." 0
 menuText T OprepFileClose "Rapor Penceresini Kapat" 0
 menuText T OprepFavorites "Favoriler" 1
@@ -1132,7 +1126,6 @@ translate T OprepTableComment {En yüksek puan alan %u oyundan oluşturuldu.}
 translate T OprepExtraMoves {Teori tablosundaki ekstra not hareketleri}
 translate T OprepMaxGames {Teori tablosundaki maksimum oyunlar}
 translate T OprepViewHTML {HTML'yi görüntüle}
-translate T OprepViewLaTeX {LaTeX'i görüntüle}
 
 # Player Report:
 translate T PReportTitle {Oyuncu Raporu}

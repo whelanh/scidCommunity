@@ -159,16 +159,12 @@ menuText M ToolsExpCurrentPGN "导出对局到PGN文件..." 15 \
 menuText M ToolsExpCurrentHTML "导出对局到HTML文件..." 15 \
   {将当前对局写入HTML文件}
 menuText M ToolsExpCurrentHTMLJS "导出对局到HTML和JavaScript文件..." 15 {将当前对局写入HTML和JavaScript文件}
-menuText M ToolsExpCurrentLaTeX "导出对局到LaTeX文件..." 15 \
-  {将当前对局写入LaTeX文件}
 menuText M ToolsExpFilter "扩展过滤器" 0 {显示当前过滤器中的所有游戏}
 menuText M ToolsExpFilterPGN "导出筛选到PGN文件..." 17 \
   {将所有筛选的对局写入PGN文件}
 menuText M ToolsExpFilterHTML "导出筛选到HTML文件..." 17 \
   {将所有筛选的对局写入HTML文件}
 menuText M ToolsExpFilterHTMLJS "导出筛选到HTML和JavaScript文件..." 17 {将所有筛选的对局写入HTML和JavaScript文件}
-menuText M ToolsExpFilterLaTeX "导出筛选到LaTeX文件..." 17 \
-  {将所有筛选的对局写入LaTeX文件}
 menuText M ToolsImportOne "导入一个PGN对局..." 0 \
   {从PGN文本导入对局}
 menuText M ToolsImportFile "从PGN文件导入对局..." 7 {从PGN文件导入对局}
@@ -658,7 +654,6 @@ translate M PgnWindowTitle {Notation - game %u}
 menuText M CrosstabFile "直线" 0
 menuText M CrosstabFileText "Print to Text File..." 9
 menuText M CrosstabFileHtml "Print to HTML File..." 9
-menuText M CrosstabFileLaTeX "Print to LaTeX File..." 9
 menuText M CrosstabFileClose "Close Crosstable Window" 0
 menuText M CrosstabEdit "编辑" 0
 menuText M CrosstabEditEvent "赛事" 0
@@ -697,7 +692,6 @@ translate M Category {Category}
 menuText M OprepFile "直线" 0
 menuText M OprepFileText "Print to Text File..." 9
 menuText M OprepFileHtml "Print to HTML File..." 9
-menuText M OprepFileLaTeX "Print to LaTeX File..." 9
 menuText M OprepFileOptions "选项..." 0
 menuText M OprepFileClose "Close Report Window" 0
 menuText M OprepFavorites "Favorites" 1

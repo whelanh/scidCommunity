@@ -203,8 +203,6 @@ menuText K ToolsExpCurrentPGN "Exportar la partida a un arxiu PGN..." 33 \
 menuText K ToolsExpCurrentHTML "Exportar la partida a un arxiu HTML..." 33 \
   {Escriu la partida actual a un arxiu HTML}
 menuText K ToolsExpCurrentHTMLJS "Exportar la partida a un arxiu HTML i JavaScript..." 15 {Escriu la partida actual a un arxiu HTML i JavaScript} 
-menuText K ToolsExpCurrentLaTeX "Exportar la partida a un arxiu LaTeX..." 33 \
-  {Escriu la partida actual a un arxiu LaTeX}
 menuText K ToolsExpFilter "Exportar totes les partides filtrades" 1 \
   {Escriu totes les partides filtrades a un arxiu de text}
 menuText K ToolsExpFilterPGN "Exportar filtre a un arxiu PGN..." 29 \
@@ -212,8 +210,6 @@ menuText K ToolsExpFilterPGN "Exportar filtre a un arxiu PGN..." 29 \
 menuText K ToolsExpFilterHTML "Exportar filtre a un arxiu HTML..." 29 \
   {Escriu totes les partides filtrades a un arxiu HTML}
 menuText K ToolsExpFilterHTMLJS "Exportar filtre a un arxiu HTML i JavaScript..." 17 {Escriu totes les partides filtrades a un arxiu HTML i JavaScript}  
-menuText K ToolsExpFilterLaTeX "Exportar filtre a un arxiu LaTeX..." 29 \
-  {Escriu totes les partides filtrades a un arxiu LaTeX}
 menuText K ToolsImportOne "Importar una partida PGN..." 0 \
   {Importa una partida de un text PGN}
 menuText K ToolsImportFile "Importar un arxiu de partides PGN..." 2 \
@@ -709,7 +705,6 @@ translate K PgnWindowTitle {Planilla - partida %u}
 menuText K CrosstabFile "Arxiu" 0
 menuText K CrosstabFileText "Imprimir a arxiu text..." 20
 menuText K CrosstabFileHtml "Imprimir a arxiu HTML..." 20
-menuText K CrosstabFileLaTeX "Imprimir a arxiu LaTeX..." 20
 menuText K CrosstabFileClose "Tancar finestra de graella" 0
 menuText K CrosstabEdit "Editar" 0
 menuText K CrosstabEditEvent "Torneig" 0
@@ -748,7 +743,6 @@ translate K Category {Categoría}
 menuText K OprepFile "Arxiu" 0
 menuText K OprepFileText "Imprimir a arxiu text..." 20
 menuText K OprepFileHtml "Imprimir a arxiu HTML..." 20
-menuText K OprepFileLaTeX "Imprimir a arxiu LaTeX..." 20
 menuText K OprepFileOptions "Opcions..." 0
 menuText K OprepFileClose "Tancar finestra de l'informe d'obertura" 0
 menuText K OprepFavorites "Preferits" 1
@@ -1166,7 +1160,6 @@ translate K OprepTableComment {Generada a partir de les %u partides amb millor E
 translate K OprepExtraMoves {Annotació extra de moviments a la taula de teoria}
 translate K OprepMaxGames {Màxim de partides a la taula de teoria}
 translate K OprepViewHTML {Veure HTML}
-translate K OprepViewLaTeX {Veure LaTeX}
 
 # Player Report:
 translate K PReportTitle {Informe del jugador}

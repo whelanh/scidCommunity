@@ -190,8 +190,6 @@ menuText H ToolsExpCurrentPGN "Exportálás PGN-fájlba..." 11 \
 menuText H ToolsExpCurrentHTML "Exportálás HTML-fájlba..." 11 \
   {HTML-fájlba írja az aktuális játszmát.}
 menuText H ToolsExpCurrentHTMLJS "Játszma exportálása HTML és JavaScript fájlba" 28 {Az aktuális játszmát HTML és JavaScript fájlba írja.}  
-menuText H ToolsExpCurrentLaTeX "Exportálás LaTeX-fájlba..." 11 \
-  {LaTeX-fájlba írja az aktuális játszmát.}
 menuText H ToolsExpFilter "Az összes szûrt játszma exportálása" 11 \
   {Szövegfájlba írja az összes szûrt játszmát.}
 menuText H ToolsExpFilterPGN "Szûrõ exportálása PGN-fájlba..." 18 \
@@ -199,8 +197,6 @@ menuText H ToolsExpFilterPGN "Szûrõ exportálása PGN-fájlba..." 18 \
 menuText H ToolsExpFilterHTML "Szûrõ exportálása HTML-fájlba..." 18 \
   {HTML-fájlba írja az összes szûrt játszmát.}
 menuText H ToolsExpFilterHTMLJS "Szûrõ exportálása HTML és JavaScript fájlba" 30 {Az összes kiszûrt játszmát HTML és JavaScript fájlba írja.}  
-menuText H ToolsExpFilterLaTeX "Szûrõ exportálása LaTeX-fájlba..." 18 \
-  {LaTeX-fájlba írja az összes szûrt játszmát.}
 menuText H ToolsImportOne "PGN-játszma importálása..." 0 \
   {PGN-formátumú játszma importálása}
 menuText H ToolsImportFile "PGN-fájl importálása..." 2 \
@@ -691,7 +687,6 @@ translate H PgnWindowTitle {Játszmajegyzés - %u. játszma}
 menuText H CrosstabFile "Fájl" 0
 menuText H CrosstabFileText "Nyomtatás szövegfájlba..." 10
 menuText H CrosstabFileHtml "Nyomtatás HTML-fájlba..." 10
-menuText H CrosstabFileLaTeX "Nyomtatás LaTeX-fájlba..." 10
 menuText H CrosstabFileClose "Ablak bezárása" 8
 menuText H CrosstabEdit "Szerkesztés" 1
 menuText H CrosstabEditEvent "Esemény" 0
@@ -730,7 +725,6 @@ translate H Category {Kategória}
 menuText H OprepFile "Fájl" 0
 menuText H OprepFileText "Nyomtatás szövegfájlba..." 10
 menuText H OprepFileHtml "Nyomtatás HTML-fájlba..." 10
-menuText H OprepFileLaTeX "Nyomtatás LaTeX-fájlba..." 10
 menuText H OprepFileOptions "Beállítások..." 0
 menuText H OprepFileClose "Ablak bezárása" 8
 menuText H OprepFavorites "Kedvencek" 0
@@ -1144,7 +1138,6 @@ translate H OprepTableComment {a legnagyobb értékszámú %u játszma alapján}
 translate H OprepExtraMoves {A külön megjegyzéssel ellátott lépések száma az elmélettáblázatban}
 translate H OprepMaxGames {Az elmélettáblázat létrehozásához felhasználható játszmák maximális száma}
 translate H OprepViewHTML {HTML megtekintése}
-translate H OprepViewLaTeX {LaTeX megtekintése}
 
 # Player Report:
 translate H PReportTitle {Összefoglaló játékosról}

@@ -192,8 +192,6 @@ menuText O ToolsExpCurrentPGN "Eksporter parti til PGN-fil..." 0 \
 menuText O ToolsExpCurrentHTML "Eksporter parti til HTML fil..." 0 \
   {Skriv dette partiet til en HTML-fil}
 menuText O ToolsExpCurrentHTMLJS "Eksporter spillet til HTML- og JavaScript-fil..." 15 {Skriv gjeldende spill til en HTML- og JavaScript-fil}  
-menuText O ToolsExpCurrentLaTeX "Eksporter partil til LaTeX fil..." 0 \
-  {Skriv dette partiet til en LaTeX-fil}
 menuText O ToolsExpFilter "Eksporter alle partier i filteret" 0 \
   {Skriv alle partier i filteret til en tekstfil}
 menuText O ToolsExpFilterPGN "Eksporter filter til PGN-fil..." 0 \
@@ -201,8 +199,6 @@ menuText O ToolsExpFilterPGN "Eksporter filter til PGN-fil..." 0 \
 menuText O ToolsExpFilterHTML "Eksporter filter til HTML-fil..." 0 \
   {Skriv alle partier i filteret til en HTML-fil}
 menuText O ToolsExpFilterHTMLJS "Eksporter filter til HTML- og JavaScript-fil..." 17 {Skriv alle filtrerte spill til en HTML- og JavaScript-fil}  
-menuText O ToolsExpFilterLaTeX "Eksporter filter til LaTeX-fil..." 0 \
-  {Skriv alle partier i filteret til en LaTeX-fil}
 menuText O ToolsImportOne "Importer ett PGN-parti..." 0 \
   {Importer ett parti fra en PGN-fil}
 menuText O ToolsImportFile "Importer fil med PGN-partier..." 0 \
@@ -693,7 +689,6 @@ translate O PgnWindowTitle {Game Notation - game %u} ;# ***
 menuText O CrosstabFile "Fil" 0
 menuText O CrosstabFileText "Skriv til tekstfil..." 0
 menuText O CrosstabFileHtml "Skriv til HTML-fil..." 0
-menuText O CrosstabFileLaTeX "Skriv til LaTeX-fil..." 0
 menuText O CrosstabFileClose "Lukk krysstabellvindu" 0
 menuText O CrosstabEdit "Rediger" 0
 menuText O CrosstabEditEvent "Anledning" 0
@@ -732,7 +727,6 @@ translate O Category {Category} ;# ***
 menuText O OprepFile "Fil" 0
 menuText O OprepFileText "Skriv til tekstfil..." 0
 menuText O OprepFileHtml "Skriv til HTML-fil..." 0
-menuText O OprepFileLaTeX "Skriv til LaTeX-fil..." 0
 menuText O OprepFileOptions "Innstillinger..." 0
 menuText O OprepFileClose "Lukk rapport-vindu" 0
 menuText O OprepFavorites "Favorites" 1 ;# ***
@@ -1146,7 +1140,6 @@ translate O OprepTableComment {Generert fra de %u høyest ratede partiene.}
 translate O OprepExtraMoves {Ytterligere trekk notert i teoritabellen}
 translate O OprepMaxGames {Maksimalt antall partier i teoritabellen}
 translate O OprepViewHTML {View HTML} ;# ***
-translate O OprepViewLaTeX {View LaTeX} ;# ***
 
 # Player Report:
 translate O PReportTitle {Player Report} ;# ***

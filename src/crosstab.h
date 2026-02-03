@@ -50,8 +50,7 @@ enum crosstableSortT {
 enum crosstableOutputT {
 	CROSSTABLE_Plain,
 	CROSSTABLE_Hypertext,
-	CROSSTABLE_Html,
-	CROSSTABLE_LaTeX
+	CROSSTABLE_Html
 };
 
 enum crosstableModeT {
@@ -144,7 +143,6 @@ private:
 	void PrintPerformance(std::string& output, const playerDataT& pdata);
 	void PrintAllPlayAll(std::string& output, uint playerLimit);
 	void PrintKnockout(std::string& output, uint playerLimit);
-	void PrintKnockoutLaTeX(std::string& output, uint playerLimit);
 	void PrintSwiss(std::string& output, uint playerLimit);
 
 	[[nodiscard]] auto findPlayer(idNumberT id) const
@@ -163,7 +161,6 @@ public:
 	void SetPlainOutput() { OutputFormat = CROSSTABLE_Plain; }
 	void SetHtmlOutput() { OutputFormat = CROSSTABLE_Html; }
 	void SetHypertextOutput() { OutputFormat = CROSSTABLE_Hypertext; }
-	void SetLaTeXOutput() { OutputFormat = CROSSTABLE_LaTeX; }
 
 	void SetSortOption(crosstableSortT option) { SortOption = option; }
 	void SetThreeWin(bool threewin) { ThreeWin = threewin; }

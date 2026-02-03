@@ -119,7 +119,7 @@ proc ::preport::ConfigMenus {{lang ""}} {
   foreach idx {0 1} tag {File Help} {
     configMenuText $m $idx Oprep$tag $lang
   }
-  foreach idx {0 1 2 4 6} tag {Text Html LaTeX Options Close} {
+  foreach idx {0 1 3 5} tag {Text Html Options Close} {
     configMenuText $m.file $idx OprepFile$tag $lang
   }
   foreach idx {0 1} tag {Report Index} {
@@ -226,8 +226,6 @@ proc ::preport::makeReportWin {args} {
         -command {::preport::saveReport text}
     $w.menu.file add command -label OprepFileHtml \
         -command {::preport::saveReport html}
-    $w.menu.file add command -label OprepFileLaTeX \
-        -command {::preport::saveReport latex}
     $w.menu.file add separator
     $w.menu.file add command -label OprepFileOptions \
         -command ::preport::setOptions
@@ -372,13 +370,8 @@ proc ::preport::saveReport {fmt} {
     { "Text files" {".txt"} }
     { "All files"  {"*"}    }
   }
-  if {$fmt == "latex"} {
-    set default ".tex"
-    set ftype {
-      { "LaTeX files" {".tex" ".ltx"} }
-      { "All files"  {"*"}    }
-    }
-  } elseif {$fmt == "html"} {
+
+  if {$fmt == "html"} {
     set default ".html"
     set ftype {
       { "HTML files" {".html" ".htm"} }
@@ -413,9 +406,7 @@ proc ::preport::_reset {} {
 proc ::preport::_title {} {
   set fmt $::preport::_data(fmt)
   set title $::tr(PReportTitle)
-  if {$fmt == "latex"} {
-    return "\\begin{center}{\\LARGE \\bf $title}\\end{center}\n\n"
-  } elseif {$fmt == "html"} {
+  if {$fmt == "html"} {
     return "<h1><center>$title</center></h1>\n\n"
   } elseif {$fmt == "ctext"} {
     return "<h1><center>$title</center></h1>\n\n"
@@ -431,9 +422,7 @@ proc ::preport::_sec {text} {
   set fmt $::preport::_data(fmt)
   incr ::preport::_data(sec)
   set ::preport::_data(subsec) 0
-  if {$fmt == "latex"} {
-    return "\n\n\\section{$text}\n"
-  } elseif {$fmt == "html"} {
+  if {$fmt == "html"} {
     return "\n<h2>$::preport::_data(sec). $text</h2>\n"
   } elseif {$fmt == "ctext"} {
     return "<h4>$::preport::_data(sec). $text</h4>"
@@ -446,9 +435,7 @@ proc ::preport::_sec {text} {
 proc ::preport::_subsec {text} {
   set fmt $::preport::_data(fmt)
   incr ::preport::_data(subsec)
-  if {$fmt == "latex"} {
-    return "\n\\subsection{$text}\n\n"
-  } elseif {$fmt == "html"} {
+  if {$fmt == "html"} {
     return "\n<h3>$::preport::_data(sec).$::preport::_data(subsec) $text</h3>\n\n"
   } elseif {$fmt == "ctext"} {
     return "\n<maroon><b>$::preport::_data(sec).$::preport::_data(subsec) $text</b></maroon>\n\n"
@@ -475,12 +462,7 @@ proc ::preport::report {fmt {withTable 1}} {
 
   set n "\n"; set p "\n\n"; set preText ""; set postText ""
   set percent "%"; set bullet "  * "
-  if {$fmt == "latex"} {
-    set n "\\\\\n"; set p "\n\n"
-    #set preText "{\\samepage\\begin{verbatim}\n"
-    #set postText "\\end{verbatim}\n}\n"
-    set percent "\\%"; set bullet "\\hspace{0.5cm}\$\\bullet\$"
-  } elseif {$fmt == "html"} {
+  if {$fmt == "html"} {
     set n "<br>\n"; set p "<p>\n\n"
     set preText "<pre>\n"; set postText "</pre>\n"
   } elseif {$fmt == "ctext"} {
@@ -607,9 +589,6 @@ proc ::preport::report {fmt {withTable 1}} {
   }
   append r $::optable::_docEnd($fmt)
 
-  # Eszet (ss) characters seem to be mishandled by LaTeX, even with
-  # the font encoding package, so convert them explicitly:
-  if {$fmt == "latex"} { regsub -all ß $r {{\\ss}} r }
 
   return $r
 }

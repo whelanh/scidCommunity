@@ -245,8 +245,6 @@ menuText P ToolsExpCurrentHTML "Do pliku HTML..." 9 \
 # ====== TODO To be translated ======
 menuText P ToolsExpCurrentHTMLJS "Eksportuj grê do pliku HTML i JavaScript..." 15 {Zapisz bie¿±c± grê do pliku HTML i JavaScript}  
 
-menuText P ToolsExpCurrentLaTeX "Do pliku LaTeX-a..." 9 \
-  {Zapisz partiê do pliku LaTeX-a}
 menuText P ToolsExpFilter "Eksportuj wyszukane partie" 1 \
   {Zapisz wyszukane partie do pliku tekstowego}
 menuText P ToolsExpFilterPGN "Do pliku PGN..." 9 \
@@ -256,8 +254,6 @@ menuText P ToolsExpFilterHTML "Do pliku HTML..." 9 \
 # ====== TODO To be translated ======
 menuText P ToolsExpFilterHTMLJS "Eksportuj filtr do pliku HTML i JavaScript..." 17 {Zapisz wszystkie przefiltrowane gry w pliku HTML i JavaScript}  
 
-menuText P ToolsExpFilterLaTeX "Do pliku LaTeX..." 9 \
-  {Zapisz wyszukane partie do pliku LaTeX}
 menuText P ToolsImportOne "Wklej partiê w formacie PGN..." 0 \
   {Pobierz partiê z pliku PGN}
 menuText P ToolsImportFile "Importuj plik PGN..." 2 \
@@ -1003,7 +999,6 @@ translate P PgnWindowTitle {Game Notation - game %u} ;# ***
 menuText P CrosstabFile "Plik" 0
 menuText P CrosstabFileText "Zapisz w pliku tekstowym..." 15
 menuText P CrosstabFileHtml "Zapisz w pliku HTML..." 15
-menuText P CrosstabFileLaTeX "Zapisz w pliku LaTeX-a..." 15
 menuText P CrosstabFileClose "Zamknij" 0
 menuText P CrosstabEdit "Edytuj" 0
 menuText P CrosstabEditEvent "Turniej" 0
@@ -1042,7 +1037,6 @@ translate P Category {Kategoria}
 menuText P OprepFile "Plik" 0
 menuText P OprepFileText "Zapisz w pliku tekstowym..." 15
 menuText P OprepFileHtml "Zapisz w pliku HTML..." 15
-menuText P OprepFileLaTeX "Zapisz w pliku LaTeX-a..." 15
 menuText P OprepFileOptions "Opcje" 2
 menuText P OprepFileClose "Zamknij okno raportu" 0
 menuText P OprepFavorites "Ulubione" 1 
@@ -1609,7 +1603,6 @@ translate P OprepTableComment {Utworzono z %u partii o najwy¿szym ¶rednim rankin
 translate P OprepExtraMoves {Dodatkowe posuniêcia w przypisach}
 translate P OprepMaxGames {Maksymalna liczba partii w teorii}
 translate P OprepViewHTML {¬ród³o HTML} 
-translate P OprepViewLaTeX {¬ród³o LaTeX} 
 
 # Player Report:
 translate P PReportTitle {Raport o graczu}

@@ -1,23 +1,23 @@
-### help.tcl: Help pages for Scid.
+### help.tcl: Help pages for scidCommunity.
 ### This file uses UTF-8
 #################################################
 
 set helpTitle(Contents) "Contents"
-set helpText(Contents) {<h1>Scid Help Contents</h1>
+set helpText(Contents) {<h1>scidCommunity Help Contents</h1>
   
   <h4>Starting out and general help</h4>
   <ul>
-  <li><a Guide><b>Quick Guide</b> to using Scid</a> <red>(Read this first)</red></li>
-  <li><a Hints><b>Hints</b> for getting more out of Scid</a></li>
-  <li><a MainWindow>The Scid <b>main window</b></a></li>
-  <li><a Menus>Scid <b>menus</b></a></li>
+  <li><a Guide><b>Quick Guide</b> to using scidCommunity</a> <red>(Read this first)</red></li>
+  <li><a Hints><b>Hints</b> for getting more out of scidCommunity</a></li>
+  <li><a MainWindow>The scidCommunity <b>main window</b></a></li>
+  <li><a Menus>scidCommunity <b>menus</b></a></li>
   <li><a Moves>Entering <b>chess moves</b></a></li>
-  <li><a Searches><b>Searches</b> in Scid</a></li>
+  <li><a Searches><b>Searches</b> in scidCommunity</a></li>
   <li><a Clipbase>Using the <b>Clipbase</b> database</a></li>
   <li><a Annotating><b>Annotating games</b></a></li>
   </ul>
   
-  <h4>Other Scid windows</h4>
+  <h4>Other scidCommunity windows</h4>
   <ul>
   <li><a Analysis><b>Analysis</b> window</a></li>
   <li><a Book><b>Book</b> window</a></li>
@@ -50,23 +50,22 @@ set helpText(Contents) {<h1>Scid Help Contents</h1>
   <li><a EPD><b>EPD</b> files</a></li>
   <li><a Export><b>Exporting</b> games to text files</a></li>
   <li><a Flags>Game <b>Flags</b></a></li>
-  <li><a LaTeX>Using <b>LaTeX</b> with Scid</a></li>
   <li><a Options><b>Options</b> and preferences</a></li>
   <li><a Sorting><b>Sorting</b> a database</a></li>
   <li><a Pgnscid><b>Pgnscid</b>: converting <a PGN>PGN</a> files</a></li>
   <li><a NAGs>Standard <b>NAG</b> annotation values</a></li>
-  <li><a Formats>Scid database <b>file formats</b></a></li>
+  <li><a Formats>scidCommunity database <b>file formats</b></a></li>
   <li><a Author>Contact information</a></li>
   </ul>
   
-  <p><footer>(Updated: Scid 4.3, January 2011)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 ###############
 ### Topic Index
 
-set helpTitle(Index) "Scid Help Topic Index"
-set helpText(Index) {<h1>Scid Help Topic Index</h1>
+set helpTitle(Index) "scidCommunity Help Topic Index"
+set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   
   <h3>A</h3>
   <ul>
@@ -167,10 +166,6 @@ set helpText(Index) {<h1>Scid Help Topic Index</h1>
   <li><a InputEngine>Input Engine drivers</a></li>
   </ul>
   
-  <h3>L</h3>
-  <ul>
-  <li><a LaTeX>LaTeX</a> output format</li>
-  </ul>
   
   <h3>M</h3>
   <ul>
@@ -217,7 +212,7 @@ set helpText(Index) {<h1>Scid Help Topic Index</h1>
   
   <h3>Q</h3>
   <ul>
-  <li><a Guide>Quick guide to using Scid</a></li>
+  <li><a Guide>Quick guide to using scidCommunity</a></li>
   </ul>
   
   <h3>R</h3>
@@ -266,39 +261,39 @@ set helpText(Index) {<h1>Scid Help Topic Index</h1>
   <li><a CCXfcc>Xfcc support</a></li>
   </ul>
 
-  <p><footer>(Updated: Scid 3.6.23, March 2008)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 
 ####################
 ### Quick Guide help:
 
-set helpTitle(Guide) "Quick Guide to using Scid"
-set helpText(Guide) {<h1>Quick Guide to using Scid</h1>
+set helpTitle(Guide) "Quick Guide to using scidCommunity"
+set helpText(Guide) {<h1>Quick Guide to using scidCommunity</h1>
   <p>
-  Scid is a chess database application; with it you can browse
+  scidCommunity is a chess database application; with it you can browse
   databases of chess games, edit games and <a Searches>search</a>
   for games by various criteria.
   </p>
   <p>
-  Scid uses its own special three-file <a Formats>database format</a>
+  scidCommunity uses its own special three-file <a Formats>database format</a>
   which is very compact and fast, but it can convert to and from
   the standard <a PGN>PGN</a> (Portable Game Notation) format.
-  Scid's <a PGN>PGN window</a> displays the text of the current game in
+  scidCommunity's <a PGN>PGN window</a> displays the text of the current game in
   <a PGN>PGN</a> format.
   </p>
   <p>
-  You can use Scid to add chess games to a database, using the keyboard or
+  You can use scidCommunity to add chess games to a database, using the keyboard or
   mouse to enter moves. See the help page on <a Moves>entering chess moves</a>
   for more details.
   </p>
   <p>
-  You can also use Scid as a <a PGN>PGN</a> file browser, by pasting
-  <a PGN>PGN</a> text into Scid's <a Import>Import</a> window or by
-  opening a <a PGN>PGN</a> file in Scid.  However, <a PGN>PGN</a>
-  files cannot be edited by Scid (it opens them read-only) and they
+  You can also use scidCommunity as a <a PGN>PGN</a> file browser, by pasting
+  <a PGN>PGN</a> text into scidCommunity's <a Import>Import</a> window or by
+  opening a <a PGN>PGN</a> file in scidCommunity.  However, <a PGN>PGN</a>
+  files cannot be edited by scidCommunity (it opens them read-only) and they
   use more memory and are slower to load, so for large <a PGN>PGN</a>
-  files it is recommended that you create a Scid database from them
+  files it is recommended that you create a scidCommunity database from them
   first with the <a Pgnscid>pgnscid</a> utility.
   </p>
   <p>
@@ -312,7 +307,7 @@ set helpText(Guide) {<h1>Quick Guide to using Scid</h1>
   </p>
   <p>
   The <a MainWindow>main window</a>
-  of Scid (with the graphical chess board) shows details of
+  of scidCommunity (with the graphical chess board) shows details of
   the active game and database. At any time, you can have up to nine
   databases open (five including the <a Clipbase>clipbase</a>),
   and each will have its own active game.
@@ -327,34 +322,34 @@ set helpText(Guide) {<h1>Quick Guide to using Scid</h1>
   </p>
   <p>
   See the <a Author>contact information</a> page if you need to contact the
-  author of Scid.
+  author of scidCommunity.
   </p>
   
-  <p><footer>(Updated: Scid 3.6.7, December 2008)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 
 ####################
 ### Hints page:
-set helpTitle(Hints) "Scid Hints"
-set helpText(Hints) {<h1>Scid Hints</h1>
+set helpTitle(Hints) "scidCommunity Hints"
+set helpText(Hints) {<h1>scidCommunity Hints</h1>
   <p>
   This page contains useful hints in question and answer format to
-  help you use Scid better. If you are new to Scid, please read the <a
+  help you use scidCommunity better. If you are new to scidCommunity, please read the <a
   Guide>quick guide</a> first.  Most of the information on this page
   is available in more detail on the other help pages listed in the <a
   Index>index</a>.  If you think of a useful hint to add to this page,
-  please send it to the <a Author>author of Scid</a>.
+  please send it to the <a Author>author of scidCommunity</a>.
   </p>
   
-  <h4>Can I get Scid to load a database when it starts?</h4>
+  <h4>Can I get scidCommunity to load a database when it starts?</h4>
   <p>
   Yes, you can add databases, <a PGN>PGN</a> files or <a EPD>EPD files</a>
   to the command line. For example:
   <ul>
   <li> <b>scid  mybase  games.pgn.gz</b> </li>
   </ul>
-  will load the Scid database <b>mybase</b> and also load the
+  will load the scidCommunity database <b>mybase</b> and also load the
   Gzip-compressed <a PGN>PGN</a> file <b>games.pgn.gz</b>.
   </p>
   
@@ -365,7 +360,7 @@ set helpText(Hints) {<h1>Scid Hints</h1>
   <b>Control+Shift+RightArrow</b> to decrease or increase the board size.
   </p>
   
-  <h4>I am training by playing through a game, so I do not want Scid to
+  <h4>I am training by playing through a game, so I do not want scidCommunity to
   print the next move in the game information area below the chessboard.
   Can I hide it?</h4>
   <p>
@@ -380,7 +375,7 @@ set helpText(Hints) {<h1>Scid Hints</h1>
   information box, below the chessboard in the <a MainWindow>main window</a>,
   if you have the ECO classification file (<b>scid.eco</b>) loaded. <br>
   The <a ECO>ECO codes</a> help page explains how to load the ECO classification
-  file and save options so it will be loaded every time you start Scid.
+  file and save options so it will be loaded every time you start scidCommunity.
   </p>
   
   <h4>I am entering a game, and I am up to move 30, but just saw that move
@@ -453,17 +448,17 @@ set helpText(Hints) {<h1>Scid Hints</h1>
   the <term>File</term> menu.
   </p>
   
-  <p><footer>(Updated: Scid 3.6.28, December 2008)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 
 ####################
 ### Main window help:
 
-set helpTitle(MainWindow) "Scid main window"
-set helpText(MainWindow) {<h1>Scid main window</h1>
+set helpTitle(MainWindow) "scidCommunity main window"
+set helpText(MainWindow) {<h1>scidCommunity main window</h1>
   <p>
-  The main window in Scid displays the current board position of the
+  The main window in scidCommunity displays the current board position of the
   active game and information about the current game and database.
   Separate help pages describe the <a Menus>menus</a> and ways to
   <a Moves>enter chess moves</a>.
@@ -496,7 +491,7 @@ set helpText(MainWindow) {<h1>Scid main window</h1>
   game number...) may be added by <b>, addinfo</b>. To give more than
   one bibliographic link several of this entries may be separated by
   <b> ; </b> (ie. space semicolon space). To resolve the bibliographic
-  reference, Scid first searches a .bib-file named like the database
+  reference, scidCommunity first searches a .bib-file named like the database
   in the database directory. If it can not find such a file it resorts
   to <b>~/.scid/data/Bookshelf.bib</b>.
   </p>
@@ -506,11 +501,11 @@ set helpText(MainWindow) {<h1>Scid main window</h1>
   the ECO file being used.
   </p>
   <p>
-  If Scid can find a suitable photo file (either in ~/.scid or Scid's
+  If scidCommunity can find a suitable photo file (either in ~/.scid or scidCommunity's
   share directory within the photos folder) and photos for the players
   exist, also these photos show up in the information area. (Suitable
   photo files can be downloaded from the <url
-  http://scid.sourceforge.net/>Scid website</url>; a documentation of
+  http://scid.sourceforge.net/>scidCommunity website</url>; a documentation of
   their format is contained within these files.) However, the player
   photos tend to hide some text in the information area.  Therefore,
   they can be minimised temporarily by clicking on them.
@@ -537,16 +532,16 @@ set helpText(MainWindow) {<h1>Scid main window</h1>
   </p>
   <p>
   If you want a database to be opened read-only, just set the permissions
-  of its Scid files, or at least its index file, for example:
+  of its scidCommunity files, or at least its index file, for example:
   <b>chmod a-w myfile.si3</b>
-  as a shell command, and it will be opened read-only by Scid.
+  as a shell command, and it will be opened read-only by scidCommunity.
   </p>
   <p>
   The status bar also shows how many games are currently in the
   <a Searches Filter>filter</a>.
   </p>
   
-  <p><footer>(Updated: Scid 4.3, October 2011)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 
@@ -554,13 +549,13 @@ set helpText(MainWindow) {<h1>Scid main window</h1>
 ### Menus help screen:
 
 set helpTitle(Menus) "Menus"
-set helpText(Menus) {<h1>Scid menus</h1>
+set helpText(Menus) {<h1>scidCommunity menus</h1>
   
   <h3><name File>File</name></h3>
   <ul>
-  <li><menu>New</menu>: Creates a new empty Scid database.</li>
-  <li><menu>Open</menu>: Opens an existing Scid database.</li>
-  <li><menu>Close</menu>: Closes the current Scid database.</li>
+  <li><menu>New</menu>: Creates a new empty scidCommunity database.</li>
+  <li><menu>Open</menu>: Opens an existing scidCommunity database.</li>
+  <li><menu>Close</menu>: Closes the current scidCommunity database.</li>
   <li><menu>Finder</menu>: Opens the <a Finder>File Finder</a>.</li>
   <li><menu>Bookmarks</menu>: <a Bookmarks>Bookmarks</a> and bookmark
   functions.</li>
@@ -589,7 +584,7 @@ set helpText(Menus) {<h1>Scid menus</h1>
   database.</li>
   <li>1/2/3/4/5/...</li> Offers a list of recently used databases for
   easy recall.</li>
-  <li><menu>Exit</menu>: Exits Scid. </li>
+  <li><menu>Exit</menu>: Exits scidCommunity. </li>
   </ul>
   
   <h3><name Edit>Edit</name></h3>
@@ -711,7 +706,7 @@ set helpText(Menus) {<h1>Scid menus</h1>
   or chess engines, observe games, or take part in trainings
   sessions.</li>
   <li><menu>Training</menu>: access various trainings modes available
-  in Scid.</li>
+  in scidCommunity.</li>
   </ul>
   
   <h3><name Tools>Tools</name></h3>
@@ -776,12 +771,9 @@ set helpText(Menus) {<h1>Scid menus</h1>
   <li><menu>Score graph</menu>: Displays the
   <a Graphs Score>score graph</a>.</li>
   <br>
-  <li><menu>Export current game</menu>: Saves the current game to a text
-  file in PGN, HTML or LaTeX format. See the <a Export>export</a> help
-  page.</li>
-  <li><menu>Export all filter games</menu>: Saves all games in the
-  search <a Searches Filter>filter</a> to a text file in PGN, HTML or
-  LaTeX format. See the <a Export>export</a> help page.</li>
+  file in PGN or HTML format. See the <a Export>export</a> help
+  search <a Searches Filter>filter</a> to a text file in PGN or
+  HTML format. See the <a Export>export</a> help page.</li>
   <br>
   <li><menu>Import <a PGN>PGN</a> game</menu>: Opens the <a Import>Import window</a>
   for entering a game by typing or pasting its text in
@@ -793,22 +785,22 @@ set helpText(Menus) {<h1>Scid menus</h1>
   
   <h3><name Options>Options</name></h3>
   <p>
-  This menu provides entries for setting most of Scid's configurable
+  This menu provides entries for setting most of scidCommunity's configurable
   options.
   The <menu>Save options</menu> entry saves the current options to the
   file "<b>~/.scid/config/options.dat</b>" (or "<b>options.dat</b>" in the
-  sub directory "<b>config</b>" of the Scid executable programs for Windows
-  users); this file is loaded each time you start up Scid.
+  sub directory "<b>config</b>" of the scidCommunity executable programs for Windows
+  users); this file is loaded each time you start up scidCommunity.
   </p>
   
   <h3><name Help>Help</name></h3>
   <p>
   This menu contains help functions, and access to the tip of the day
   window or the startup window which provides information about the
-  files Scid loaded when it started.
+  files scidCommunity loaded when it started.
   </p>
   
-  <p><footer>(Updated: Scid 4.3, January 2011)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 
@@ -818,7 +810,7 @@ set helpText(Menus) {<h1>Scid menus</h1>
 set helpTitle(Moves) "Entering moves"
 set helpText(Moves) {<h1>Entering chess moves</h1>
   <p>
-  In Scid, you can enter the moves for a game using the
+  In scidCommunity, you can enter the moves for a game using the
   mouse or the keyboard. As you move the mouse over a square,
   it and one other square will change color if there is a legal
   move to or from that square. This is the <term>suggested move</term>.
@@ -837,7 +829,7 @@ set helpText(Moves) {<h1>Entering chess moves</h1>
   </p>
   <p>
   Depending on <menu>Options / Moves / Highlight last moves</menu> and
-  the settings made there, Scid will mark the last move by a coloured
+  the settings made there, scidCommunity will mark the last move by a coloured
   frame around the involved fields.
   </p>
   
@@ -851,7 +843,7 @@ set helpText(Moves) {<h1>Entering chess moves</h1>
   <h4>Replacing old moves</h4>
   <p>
   When you enter a move at a point in the game where a move already exists,
-  Scid will present a dialog box asking if you really want to replace the
+  scidCommunity will present a dialog box asking if you really want to replace the
   old move (the old move and all moves after it will be lost), or want
   to add the new move as a variation instead. Some people may find this
   dialog box annoying and always want to replace old moves, so it can be
@@ -955,17 +947,17 @@ set helpText(Moves) {<h1>Entering chess moves</h1>
   <li> -/+: [-][/] </li>
   <li> =+ : [=][+] </li>
   </ul>
-  <b>Note</b> Scid uses some of these symbols for automatic
+  <b>Note</b> scidCommunity uses some of these symbols for automatic
   annotations, also. To this end, these symbols have to be associated
   with a certain pawn value. These pawn values can be set via Options
   / Game information / Configure Informant values. Note that since
-  Scid 4.0 many NAGs can be displayed symbolically if your system
+  scidCommunity 4.0 many NAGs can be displayed symbolically if your system
   supports UTF-8 properly. The connection between a NAGs numeric value
-  and its symbolic representation within Scid is given on the page <a
+  and its symbolic representation within scidCommunity is given on the page <a
   NAGs>Standard NAG values</a> which can be accessed e.g. by Ctrl-N
   from the <a Comment>Comment editor</a>
   
-  <p><footer>(Updated: Scid 4.3, January 2011)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 
@@ -973,9 +965,9 @@ set helpText(Moves) {<h1>Entering chess moves</h1>
 ### Searches help screen:
 
 set helpTitle(Searches) "Searches"
-set helpText(Searches) {<h1>Searches in Scid</h1>
+set helpText(Searches) {<h1>Searches in scidCommunity</h1>
   <p>
-  Scid can perform many different types of search on a database.
+  scidCommunity can perform many different types of search on a database.
   The three main types of search are:
   <ul>
   <li><b>1)</b> for the current board, </li>
@@ -989,7 +981,7 @@ set helpText(Searches) {<h1>Searches in Scid</h1>
   
   <h3><name Filter>The Search Filter</name></h3>
   <p>
-  Searches in Scid are based on the concept of a <term>filter</term>.
+  Searches in scidCommunity are based on the concept of a <term>filter</term>.
   The filter represents a subset of the current database; at any time,
   each game is either included in or excluded from the filter.
   </p>
@@ -1145,7 +1137,7 @@ set helpText(Searches) {<h1>Searches in Scid</h1>
   <a Formats>file formats</a> for more information.
   </p>
   
-  <p><footer>(Updated: Scid 3.6.2, December 2006)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 
@@ -1155,7 +1147,7 @@ set helpText(Searches) {<h1>Searches in Scid</h1>
 set helpTitle(Clipbase) "The Clipbase"
 set helpText(Clipbase) {<h1>The Clipbase database</h1>
   <p>
-  In addition to the databases you have open, Scid provides
+  In addition to the databases you have open, scidCommunity provides
   a <term>clipbase</term> database, which is just like any other database
   except that it exists in memory only and has no files for permanent storage.
   </p>
@@ -1188,7 +1180,7 @@ set helpText(Clipbase) {<h1>The Clipbase database</h1>
   memory only.
   </p>
   
-  <p><footer>(Updated: Scid 3.6.8,March  2007)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 #################################
@@ -1197,7 +1189,7 @@ set helpText(Clipbase) {<h1>The Clipbase database</h1>
 set helpTitle(Annotating) "Annotating games"
 set helpText(Annotating) {<h1>Annotating games</h1>
   <p>
-  Scid lets you add notes to games. There are three types of
+  scidCommunity lets you add notes to games. There are three types of
   annotation you can add after a move: symbols, a comment, and
   variations. This section describes manual annotations, see the <a
   Analysis Annotating>Analysis</a> for engine supported analysis.
@@ -1272,18 +1264,18 @@ set helpText(Annotating) {<h1>Annotating games</h1>
   </p>
   <p>
   Note that null moves are not a part of the <a PGN>PGN</a> standard, so if you
-  export games with null moves to a <a PGN>PGN</a> file, Scid will provide (among
+  export games with null moves to a <a PGN>PGN</a> file, scidCommunity will provide (among
   other export options) an option to preserve null moves or convert them
   to comments for compatibility with other software.
   See the <a Export>Exporting</a> help page for more details.
   </p>
   <p>
-  Also note, that Scid is capable of handling the move <term>Z0</term>
+  Also note, that scidCommunity is capable of handling the move <term>Z0</term>
   as a null move, a notation that is common in some commercial chess
   applications.
   </p>
   
-  <p><footer>(Updated: Scid 3.6.26, October 2008)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 ###############################
@@ -1298,7 +1290,7 @@ set helpText(Comment) {<h1>The Comment Editor window</h1>
   
   <h3>Annotation symbols</h3>
   <p>
-  Scid uses the <a Author Related>PGN standard</a> for annotation
+  scidCommunity uses the <a Author Related>PGN standard</a> for annotation
   symbols, accepting <a NAGs>NAG (numeric annotation glyph)</a> values
   for annotations.  Some of the most common symbols (such as "!" or
   "+-") are displayed as symbols, and have a button in the comment
@@ -1351,7 +1343,7 @@ set helpText(Comment) {<h1>The Comment Editor window</h1>
   Colored markers may be added to the chess board by drawing them on
   the little helper board that can be expanded left of the comment
   window. The display of this board is toggled by <button tb_coords>.
-  Scid will remember the state of this board if options are saved.
+  scidCommunity will remember the state of this board if options are saved.
   Once the little helper board is expanded, select the marker to use
   from the buttons below the board, and the color from the color
   palette above and just click on the square to mark.
@@ -1422,7 +1414,7 @@ set helpText(Comment) {<h1>The Comment Editor window</h1>
   button in a red arrow.
   </p>
   
-  <p><footer>(Updated: Scid 4.3, January 2011)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 ####################
@@ -1435,7 +1427,7 @@ set helpText(Crosstable) {<h1>The Crosstable window</h1>
   current game. Each time you refresh the crosstable window (by
   pressing its Refresh button, by pressing the <b>Return</b> key in the
   crosstable window, or by typing <b>Control+Shift+X</b> in the
-  <a MainWindow>main</a> or <a GameList>game list</a> windows), Scid
+  <a MainWindow>main</a> or <a GameList>game list</a> windows), scidCommunity
   searches for all games in the same tournament as the current game.
   </p>
   <p>
@@ -1454,7 +1446,7 @@ set helpText(Crosstable) {<h1>The Crosstable window</h1>
   <h4>Crosstable window menus</h4>
   <p>
   The <menu>File</menu> menu lets you print the current table to a file
-  in plain text, LaTeX or HTML table format.
+  in plain text or HTML table format.
   </p>
   <p>
   The <menu>Display</menu> menu allows you to choose the table format:
@@ -1467,7 +1459,7 @@ set helpText(Crosstable) {<h1>The Crosstable window</h1>
   the best format automatically for each tournament, is the default.
   </p>
   <p>
-  Note that Scid uses the <b>Round</b> tag of each game to produce a Swiss
+  Note that scidCommunity uses the <b>Round</b> tag of each game to produce a Swiss
   crosstable, so you will not see any games in the Swiss table for a tournament
   if its games do not have numeric round values: 1, 2, 3, etc.
   </p>
@@ -1503,7 +1495,7 @@ set helpText(Crosstable) {<h1>The Crosstable window</h1>
   player/event/site names.
   </p>
   
-  <p><footer>(Updated: Scid 3.6.15, May 2007)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 
@@ -1539,7 +1531,7 @@ set helpText(Switcher) {<h1>The Database Switcher window</h1>
   vertically or horizontally) which is useful for smaller screens.
   </p>
   
-  <p><footer>(Updated: Scid 3.6.2, December 2006)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 
@@ -1550,7 +1542,7 @@ set helpTitle(Finder) "File Finder window"
 set helpText(Finder) {<h1>The File Finder window</h1>
   <p>
   The <term>File Finder</term> helps you find files of any type you can
-  use in Scid: databases, <a PGN>PGN</a> files, <a EPD>EPD</a> files,
+  use in scidCommunity: databases, <a PGN>PGN</a> files, <a EPD>EPD</a> files,
   and <a Repertoire>repertoire</a> files.
   </p>
   <p>
@@ -1563,8 +1555,8 @@ set helpText(Finder) {<h1>The File Finder window</h1>
   <p>
   When you want to find all files in all subdirectories of the current
   directory, turn on the <b>Look in subdirectories</b> checkbox. This
-  will make Scid recursively examine every subdirectory for files that
-  can be opened in Scid. This can take a long time if there are many
+  will make scidCommunity recursively examine every subdirectory for files that
+  can be opened in scidCommunity. This can take a long time if there are many
   subdirectories, so you may not want to do it for a directory near the
   root of the file system. You can interrupt the file search by pressing
   the <b>Stop</b> button.
@@ -1573,12 +1565,12 @@ set helpText(Finder) {<h1>The File Finder window</h1>
   <h3>File sizes</h3>
   <p>
   The meaning of a file size displayed by the Finder depends on the file
-  type. For Scid databases, it is the number of games. For
+  type. For scidCommunity databases, it is the number of games. For
   all other files, it is the size in kilobyte.
   </p>
 
   <p>
-  For easy manipulation of Scid databases, the Finder offers a context
+  For easy manipulation of scidCommunity databases, the Finder offers a context
   menu. From this menu, accessible by a right mouse click as usual,
   the following functions can be performed
   <ul>
@@ -1593,7 +1585,7 @@ set helpText(Finder) {<h1>The File Finder window</h1>
       location.</li>
       <li><term>Delete</term> deletes the selected database.</li>
    </ul>
-   These functions are especially helpful for Scid databases as these
+   These functions are especially helpful for scidCommunity databases as these
    consist of several files.
   </p>
 }
@@ -1632,11 +1624,11 @@ set helpText(Tmt) {<h1>The Tournament Finder window</h1>
   To speed up the tournament searching process, it is a good idea to
   set a fairly small date range (like a few years at most) or select
   a particular country (by its three-letter standard code). Doing
-  these will greatly reduce the number of games Scid has to consider
+  these will greatly reduce the number of games scidCommunity has to consider
   when trying to form tournaments out of the games in the database.
   </p>
   
-  <p><footer>(Updated: Scid 3.6.2, December 2006)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 ####################
@@ -1715,7 +1707,7 @@ set helpText(GameList) {<h1>The Game List window</h1>
   </p>
   <p>
   The <term>Merge game</term> feature provides a way to include the
-  selected game as a variation of the current game. Scid finds the
+  selected game as a variation of the current game. scidCommunity finds the
   deepest point where the selected game differs from the current
   game (taking transpositions into account) and adds a variation
   for the selected game at that position. The selected game can also be merged
@@ -1725,7 +1717,7 @@ set helpText(GameList) {<h1>The Game List window</h1>
   are interested in adding the whole game or just its opening phase.
   </p>
   
-  <p><footer>(Updated: Scid 3.7.2, april 2009)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 
@@ -1735,8 +1727,8 @@ set helpText(GameList) {<h1>The Game List window</h1>
 set helpTitle(Import) "Import window"
 set helpText(Import) {<h1>The Import window</h1>
   <p>
-  Scid's Import window provides an easy way for you to paste a game
-  in <a PGN>PGN format</a> into Scid from some other application or window.
+  scidCommunity's Import window provides an easy way for you to paste a game
+  in <a PGN>PGN format</a> into scidCommunity from some other application or window.
   </p>
   <p>
   The large white frame in the window is where you type or paste
@@ -1754,7 +1746,7 @@ set helpText(Import) {<h1>The Import window</h1>
   
   <h3>PGN tags in the Import window</h3>
   <p>
-  Scid expects to see <a PGN>PGN</a> header tags such as
+  scidCommunity expects to see <a PGN>PGN</a> header tags such as
   <ul>
   <li> <b>[Result "*"]</b> </li>
   </ul>
@@ -1762,12 +1754,12 @@ set helpText(Import) {<h1>The Import window</h1>
   <ul>
   <li> <b>1.e4 e5 2.Bc4 Bc5 3.Qh5?! Nf6?? 4.Qxf7# 1-0</b> </li>
   </ul>
-  without any header tags and Scid will import it.
+  without any header tags and scidCommunity will import it.
   </p>
   
-  <h3>Using <a PGN>PGN</a> files in Scid</h3>
+  <h3>Using <a PGN>PGN</a> files in scidCommunity</h3>
   <p>
-  If you want to use a <a PGN>PGN</a> format file in Scid but do not
+  If you want to use a <a PGN>PGN</a> format file in scidCommunity but do not
   want to convert it with <a Pgnscid>pgnscid</a> first, there are two
   possible ways.
   </p>
@@ -1776,13 +1768,13 @@ set helpText(Import) {<h1>The Import window</h1>
   with the <menu>Tools: Import file of <a PGN>PGN</a> games...</menu> menu command.
   </p>
   <p>
-  The alternative is to open the <a PGN>PGN</a> file directly in Scid. However, PGN
+  The alternative is to open the <a PGN>PGN</a> file directly in scidCommunity. However, PGN
   format files are opened read-only and consume more memory than a
-  comparable Scid database, so this is only recommended for relatively
+  comparable scidCommunity database, so this is only recommended for relatively
   small <a PGN>PGN</a> files.
   </p>
   
-  <p><footer>(Updated: Scid 3.6.2, December 2006)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 ####################
@@ -1797,16 +1789,16 @@ set helpText(Export) {<h1>Exporting games</h1>
   <p>
   Four text file formats are available: <a PGN>PGN</a> (portable game
   notation), HTML (for web pages), HTML and JavaScript (for
-  interactive web pages) and LaTeX (a popular typesetting system).
+  interactive web pages).
   </p>
   <p>
   When exporting, you can choose to create a new file, or add the
-  games to an existing file of games exported by Scid.
+  games to an existing file of games exported by scidCommunity.
   </p>
   
   <h3>Diagrams</h3>
   <p>
-  When exporting in HTML or LaTeX format, Scid will automatically add
+  When exporting in HTML format, scidCommunity will automatically add
   a diagram wherever a diagram <a NAGs>nag</a> ("D") or a <a
   Comment>comment</a> that starts with the character "#" appears in
   the game.
@@ -1814,25 +1806,25 @@ set helpText(Export) {<h1>Exporting games</h1>
   
   <h3><name Null>Null moves in <a PGN>PGN</a> Export</name></h3>
   <p>
-  Scid allows <a Annotating Null>null (empty) moves</a> to be stored
+  scidCommunity allows <a Annotating Null>null (empty) moves</a> to be stored
   in games, as they can be helpful when annotating games using
   variations.  However, the <a PGN>PGN</a> standard has no null move concept. So
-  if you export Scid games with null moves to a <a PGN>PGN</a> file, other
+  if you export scidCommunity games with null moves to a <a PGN>PGN</a> file, other
   PGN-reading software will not be able to read the null moves.
   </p>
   <p>
-  To solve this problem, Scid provides an extra option,
+  To solve this problem, scidCommunity provides an extra option,
   <b>Convert null moves to comments</b>, when exporting games in <a PGN>PGN</a> format.
   If you want to create a <a PGN>PGN</a> file that other software can use, turn this
   option on and variations containing null moves will be converted to
   comments. However, if you want to create a <a PGN>PGN</a> file that can be imported
-  back into Scid later with null moves preserved, leave the option off.
+  back into scidCommunity later with null moves preserved, leave the option off.
   </p>
   
   <h3>HTML Export</h3>
   <p>
-  Scid can export games to an HTML file. For diagrams to appear, you
-  will need the diagram images (distributed with Scid in the directory
+  scidCommunity can export games to an HTML file. For diagrams to appear, you
+  will need the diagram images (distributed with scidCommunity in the directory
   "<b>bitmaps/</b>") to be in a subdirectory <b>bitmaps/</b> under the
   directory the HTML file is in.
   </p>
@@ -1854,43 +1846,7 @@ set helpText(Export) {<h1>Exporting games</h1>
   to some web server.
   </p>
   
-  <h3>LaTeX Export</h3>
-  <p>
-  Scid can export games to a LaTeX file.  Games be printed two columns
-  to a page and moves are in figurine algebraic notation with proper
-  translation of the NAG symbols. Diagrams are added whenever a
-  <term>D</term> comment is found.
-  </p>
-  <p>
-  See the <a LaTeX>Using LaTeX with Scid</a> help page for more information.
-  </p>
-  
-  <p><footer>(Updated: Scid 3.6.26, October 2008)</footer></p>
-}
-
-####################
-### LaTeX help:
-
-set helpTitle(LaTeX) "Scid and LaTeX"
-set helpText(LaTeX) {<h1>Using LaTeX with Scid</h1>
-  <p>
-  Scid can save games and opening reports to files in LaTeX format.
-  LaTeX is an extension to TeX, a popular typesetting system.
-  </p>
-  <p>
-  To typeset the LaTeX files produced by Scid, you must have
-  LaTeX (of course) and have the "chess12" chess font package installed.
-  This font package is usually not part of standard LaTeX installations,
-  so even if you have LaTeX, you may not have the chess font.
-  </p>
-  <p>
-  For information about downloading and installing the LaTeX chess font,
-  visit the
-  <url http://scid.sourceforge.net/latex.html>Using LaTeX with Scid</url>
-  page at the <url http://scid.sourceforge.net/>Scid website</url>.
-  </p>
-  
-  <p><footer>(Updated: Scid 3.6.2, December 2006)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 ####################
@@ -1899,7 +1855,7 @@ set helpText(LaTeX) {<h1>Using LaTeX with Scid</h1>
 set helpTitle(PGN) "PGN window"
 set helpText(PGN) {<h1>The <a PGN>PGN</a> window</h1>
   <p>
-  Scid's <a PGN>PGN</a> window displays the contents of the current game in
+  scidCommunity's <a PGN>PGN</a> window displays the contents of the current game in
   standard <a PGN>PGN</a> representation. In the move text, comments appear {in
      braces} and variations appear (in parentheses).
   </p>
@@ -1967,7 +1923,7 @@ set helpText(PGN) {<h1>The <a PGN>PGN</a> window</h1>
   <h3>PGN display options</h3>
   <p>
   The <a PGN>PGN</a> window menus contain options that affect the <a PGN>PGN</a> window display.
-  Scid can display the game in color or plain text -- see the
+  scidCommunity can display the game in color or plain text -- see the
   <menu>Display</menu> menu in the <a PGN>PGN</a> window.
   The color display is easier to read, and allows you to select moves and
   comments using the mouse, but it is much slower to update. For very long
@@ -1983,7 +1939,7 @@ set helpText(PGN) {<h1>The <a PGN>PGN</a> window</h1>
   menu of the main window.
   </p>
   
-  <p><footer>(Updated: Scid 3.6.26, October 2008)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 
@@ -2068,7 +2024,7 @@ set helpText(PTracker) {<h1>The Piece Tracker window</h1>
   queenside, or set up a d5 or e5 pawn wedge, for example.
   </p>
   
-  <p><footer>(Updated: Scid 3.6.2, December 2006)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 ####################
@@ -2180,9 +2136,9 @@ set helpText(Tree) {<h1>The Tree window</h1>
   <h3><name Training>Training</name></h3>
   <p>
   When the <term>Training</term> checkbox in the tree window is selected,
-  Scid will randomly make a move every time you add a move to the game.
-  The move Scid chooses depends on database statistics, so a move played
-  in 80% of database games will be chosen by Scid with 80% probability.
+  scidCommunity will randomly make a move every time you add a move to the game.
+  The move scidCommunity chooses depends on database statistics, so a move played
+  in 80% of database games will be chosen by scidCommunity with 80% probability.
   Turning on this feature, then hiding (or iconifying) the Tree window and
   playing openings against a large database, is a great way to test your
   knowledge of your opening repertoire. Another option to train an
@@ -2192,7 +2148,7 @@ set helpText(Tree) {<h1>The Tree window</h1>
   
   <h3>Caching for faster results</h3>
   <p>
-  Scid maintains a cache of tree search results for the positions with the
+  scidCommunity maintains a cache of tree search results for the positions with the
   most matching games. If you move forward and back in a game in tree mode,
   you will see the tree window update almost instantly when the position
   being searched for is in the cache.
@@ -2235,12 +2191,12 @@ set helpText(Tree) {<h1>The Tree window</h1>
   </p>
   <p>
   Note that a tree cache (.stc) file is completely redundant; you can remove
-  it without affecting the database, and in fact it is removed by Scid
+  it without affecting the database, and in fact it is removed by scidCommunity
   whenever an action occurs that could leave it out of date -- for example,
   adding or replacing a game, or sorting the database.
   </p>
   
-  <p><footer>(Updated: Scid 4.3, November 2010)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 set helpTitle(TreeMasks) "Masks for Trees"
@@ -2315,7 +2271,7 @@ set helpText(TreeMasks) {<h1>Masks for Trees</h1>
   </p>
   <p>
   <b>Note</b>: If the move to be added is not displayed in the tree
-  window Scid offers a list of all possible moves by means of the
+  window scidCommunity offers a list of all possible moves by means of the
   context menu. As this might be quite a bunch of moves, they are
   split into several context menu items at the end of the available
   choices. All are labeled by <menu>Add this move to mask</menu> and in
@@ -2362,7 +2318,7 @@ set helpText(TreeMasks) {<h1>Masks for Trees</h1>
   </li>
   <li><term>Comment position</term> can be used to add a comment for the
   current position. This comment is shown on top of <term>Tree</term>
-  window once the commented position is reached. Note that Scid
+  window once the commented position is reached. Note that scidCommunity
   displays only the first line of the comment to save space in the
   <term>Tree</term> window. However, if the mouse is moved over that
   line the whole commentary shows up in a tooltip.
@@ -2396,21 +2352,21 @@ set helpText(TreeMasks) {<h1>Masks for Trees</h1>
   <p>
   Setting up a mask can be a tedious task especially for complex
   opening repertoires. However, if such a repertoire is available as a
-  Scid database or a number of <a PGN>PGN</a> games, or lines stored in usual
-  chess games, Scid can use that information to set up suitable
+  scidCommunity database or a number of <a PGN>PGN</a> games, or lines stored in usual
+  chess games, scidCommunity can use that information to set up suitable
   <term>Masks</term> automatically.
   </p>
   <p>
-  First of all one has to load the information into a Scid database.
-  In case the information is already available as a Scid database this
+  First of all one has to load the information into a scidCommunity database.
+  In case the information is already available as a scidCommunity database this
   is as easy as opening it. In case a <a PGN>PGN</a> file is use it should be
-  either imported into a Scid database or one can use the
+  either imported into a scidCommunity database or one can use the
   <term>Clipbase</term> to import it temporarily. In that case one
   should make sure that the <term>Clipbase</term> is empty before
   importing. (<menu>Edit / Empty Clipbase</menu>).
   </p>
   <p>
-  The next step is to open the tree for the just opened Scid database.
+  The next step is to open the tree for the just opened scidCommunity database.
   Then a new <term>Mask</term> should be created or an existing one
   opened. <b>Note</b> that this function may be used to consolidate
   several bases into a single <term>Mask</term>.
@@ -2436,7 +2392,7 @@ set helpText(TreeMasks) {<h1>Masks for Trees</h1>
   games as soon as the middle game is reached.
   </p>
 
-  <p><footer>(Updated: Scid 4.3, November 2010)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 ####################
@@ -2464,7 +2420,7 @@ set helpText(Compact) {<h1>Database compaction</h1>
   <h3>Game file compaction</h3>
   <p>
   Whenever a game is replaced or deleted, wasted space is left in the game
-  file (the largest of the three files in a Scid database). Game file
+  file (the largest of the three files in a scidCommunity database). Game file
   compaction removes all wasted space, leaving no deleted games in the
   database. Note that this operation is irreversible: after compaction,
   the deleted games are gone forever!
@@ -2475,7 +2431,7 @@ set helpText(Compact) {<h1>Database compaction</h1>
   index file.
   </p>
   
-  <p><footer>(Updated: Scid 3.6.2, December 2006)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 
@@ -2485,15 +2441,15 @@ set helpText(Compact) {<h1>Database compaction</h1>
 set helpTitle(Maintenance) "Database maintenance"
 set helpText(Maintenance) {<h1>Database maintenance</h1>
   <p>
-  Scid provides a number of tools for maintaining databases,
-  available from the Scid <a Menus File>File</a> menu. The
+  scidCommunity provides a number of tools for maintaining databases,
+  available from the scidCommunity <a Menus File>File</a> menu. The
   database <a Compact>compaction</a> and <a Sorting>sorting</a>
   functions are explained in separate help pages.
   </p>
   
   <h3>Maintenance window</h3>
   <p>
-  Most Scid database maintenance can be done from the Maintenance
+  Most scidCommunity database maintenance can be done from the Maintenance
   window, which can be opened from the <menu>File: Maintenance</menu>
   or <menu>Windows</menu> menus or the shortcut key <b>Ctrl+M</b>.
   </p>
@@ -2535,7 +2491,7 @@ set helpText(Maintenance) {<h1>Database maintenance</h1>
   <h3><name Editing>Editing player, event, site and round names</name></h3>
   <p>
   You may find mis-spelt names in your databases and want to correct them.
-  You can do this in Scid with the <term>Name editor</term> window
+  You can do this in scidCommunity with the <term>Name editor</term> window
   (shortcut key: <b>Control+Shift+N</b>),
   available from the <menu>File: Maintenance</menu> submenu.
   </p>
@@ -2546,18 +2502,18 @@ set helpText(Maintenance) {<h1>Database maintenance</h1>
   
   <h3><name Spellcheck>Spellchecking names</name></h3>
   <p>
-  Scid comes with a <term>spellcheck</term> file named <b>spelling.ssp</b>,
+  scidCommunity comes with a <term>spellcheck</term> file named <b>spelling.ssp</b>,
   for correction of player, event, site and round names.
-  Scid will try to load the spellcheck file whenever it starts up; if it
+  scidCommunity will try to load the spellcheck file whenever it starts up; if it
   does not load, you can load it from the <menu>Options</menu> menu.
   </p>
   <p>
   Once the spellcheck file is loaded, you can use it on a
-  a Scid database using the spellcheck commands in the
+  a scidCommunity database using the spellcheck commands in the
   <menu>File: Maintenance</menu> menu, or from the maintenance window.
   </p>
   <p>
-  When you spellcheck a database, Scid produces a list of corrections that you
+  When you spellcheck a database, scidCommunity produces a list of corrections that you
   can edit before actually making any corrections, so you can remove any
   corrections you do not want to make.
   </p>
@@ -2577,30 +2533,30 @@ set helpText(Maintenance) {<h1>Database maintenance</h1>
   (<b>gm</b> = International Grandmaster, <b>im</b> = International Master, etc)
   and country information for any player that is
   listed in the spellcheck file. Over 6500 strong players of the past and
-  present are listed in the <b>spelling.ssp</b> file that comes with Scid.
+  present are listed in the <b>spelling.ssp</b> file that comes with scidCommunity.
   </p>
   
   <h3><name Ratings>Adding Elo ratings to games</name></h3>
   <p>
-  The "Add Elo ratings..." button in the Maintenance window causes Scid
+  The "Add Elo ratings..." button in the Maintenance window causes scidCommunity
   to search the current database for games where a player does not have
   a rating, but the spellcheck file has an Elo rating listed for that
-  player at the date of the game. Scid will add all such ratings
+  player at the date of the game. scidCommunity will add all such ratings
   automatically. This is very useful for a database of master-level games
   which has few ratings.
   </p>
   <p>
-  The spellcheck file "spelling.ssp" that comes with Scid does not contain
+  The spellcheck file "spelling.ssp" that comes with scidCommunity does not contain
   the Elo rating information needed for this function, but a larger version
   of it called "ratings.ssp" is available from the <url
-  http://scid.sourceforge.net/>Scid website</url>.
+  http://scid.sourceforge.net/>scidCommunity website</url>.
   </p>
   
   <h3><name Cleaner>The Cleaner</name></h3>
   <p>
-  The Scid <term>Cleaner</term> (available from the Maintenance window) is
+  The scidCommunity <term>Cleaner</term> (available from the Maintenance window) is
   a tool for doing a number of maintenance tasks on a database in one
-  action. You can choose which tasks you want to do, and Scid will
+  action. You can choose which tasks you want to do, and scidCommunity will
   perform them on the current database without requiring user interaction.
   This is especially useful for maintenance of large databases.
   </p>
@@ -2617,14 +2573,14 @@ set helpText(Maintenance) {<h1>Database maintenance</h1>
   
   <h3>Repair a base</h3>
   <p>
-  In the rare cases that a Scid database is corrupted one might try to
+  In the rare cases that a scidCommunity database is corrupted one might try to
   repair it using File / Maintenance / Repair base. For this to work,
   the base in question must not be opened (which is not possible in
-  most cases anyway). Scid will then try its best to get the database
+  most cases anyway). scidCommunity will then try its best to get the database
   back in a consistent and usable state.
   </p>
 
-  <p><footer>(Updated: Scid 3.6.26, October 2008)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 ####################
@@ -2660,7 +2616,7 @@ set helpText(Sorting) {<h1>Sorting a database</h1>
   
   <h3>Sort results</h3>
   <p>
-  When you sort a Scid database that is not read-only, the sort
+  When you sort a scidCommunity database that is not read-only, the sort
   results are saved so the order of games in the database is
   permanently changed.  If you want to the sort results to be
   temporary, make the database read-only first using the <b>File:
@@ -2692,7 +2648,7 @@ set helpText(Sorting) {<h1>Sorting a database</h1>
   database after the sort procedure!
   </p>
   
-  <p><footer>(Updated: Scid 3.6.26, October 2008)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 ####################
@@ -2730,7 +2686,7 @@ set helpText(Flags) {<h1>Game Flags</h1>
   </ul>
 
   <p>
-  Since Scid 4.0 additional 6 custom flags are available for
+  Since scidCommunity 4.0 additional 6 custom flags are available for
   individual use.  These flags are specific for each base and their
   textual description can be set via the <a Maintenance>maintenance
   window</a>. In the games list, game info area and so on they display
@@ -2749,7 +2705,7 @@ set helpText(Flags) {<h1>Game Flags</h1>
   </p>
   <p>
   Since all the user-settable flags (except the Delete flag) have
-  no significance to Scid, you can use them for any purpose that
+  no significance to scidCommunity, you can use them for any purpose that
   suits your needs. For example, you could use the Kingside (K)
   flag for kingside pawn storms, or kingside heavy piece attacks,
   or even for endgames with all pawns on the kingside. Depending on
@@ -2760,14 +2716,14 @@ set helpText(Flags) {<h1>Game Flags</h1>
   significantly!
   </p>
   <p>
-  The following functions of Scid set or require flags:
+  The following functions of scidCommunity set or require flags:
   <ul>
      <li><a OpeningTrainer>Opening Trainer</a>: can evaluate the (B) and (W) flags
      <li><a Analysis Annotate>Find best move</a>: evaluates the (T) flag
      <li><a Analysis Annotate>Find tactical exercise</a>: sets the (T) flag
   </ul>
   
-  <p><footer>(Updated: Scid 4.3, January 2011)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 ####################
@@ -2776,9 +2732,9 @@ set helpText(Flags) {<h1>Game Flags</h1>
 set helpTitle(Analysis) "Analysis window"
 set helpText(Analysis) {<h1>The Analysis window</h1>
   <p>
-  The Scid analysis window shows the analysis by a chess program
+  The scidCommunity analysis window shows the analysis by a chess program
   (known as an <term>engine</term>) of the current board position.
-  Whenever the board changes, Scid sends the new position to the
+  Whenever the board changes, scidCommunity sends the new position to the
   engine and it shows its assessment of that position.
   Currently, up to two engines can be run simultaneously. To start the
   first analysis engine, the short cut <term>F2</term> can be used,
@@ -2854,8 +2810,8 @@ set helpText(Analysis) {<h1>The Analysis window</h1>
   </p>
   <p>
   To set an engine to analyse a position in the background while
-  other functions of Scid are used one can <term>lock the
-  position</term> using the <button tb_lockengine> button. Scid now
+  other functions of scidCommunity are used one can <term>lock the
+  position</term> using the <button tb_lockengine> button. scidCommunity now
   stops to send any changes of the main board to the engine, and the
   engine stays calculating the position.
   </p>
@@ -2868,7 +2824,7 @@ set helpText(Analysis) {<h1>The Analysis window</h1>
 
   <h3><name List>The Analysis Engines List</name></h3>
   <p>
-  Scid maintains a list of the engines you have used, along with an
+  scidCommunity maintains a list of the engines you have used, along with an
   estimated Elo rating (if you guess one; additionally some pages on
   the Internet offer these values as results from large engine-engine
   tournaments) and the date when each engine was last used. You can
@@ -2879,7 +2835,7 @@ set helpText(Analysis) {<h1>The Analysis window</h1>
   <h3><name Start>Engine commands and directories</name></h3>
   <p>
   For each engine, you must specify the executable file to run and
-  which directory Scid should run it in.
+  which directory scidCommunity should run it in.
   </p>
   <p>
   The most likely cause of engine starting problems is the choice of
@@ -2888,13 +2844,13 @@ set helpText(Analysis) {<h1>The Analysis window</h1>
   properly.  Other engines (like Crafty) write log files to the
   directory they start in, so you will need to run them in a directory
   where you have write access.  If the directory setting for an engine
-  is ".", Scid will just start the engine in the current directory.
+  is ".", scidCommunity will just start the engine in the current directory.
   </p>
   <p>
-  So if an engine that should work fine in Scid does not start, try
+  So if an engine that should work fine in scidCommunity does not start, try
   changing its directory setting. To avoid engines creating log files
   in many different directories, I recommend starting engines in
-  the directory of the Scid User files (this is where the <b>scid.exe</b>
+  the directory of the scidCommunity User files (this is where the <b>scid.exe</b>
   file is located on Windows, or <b>~/.scid/</b> on Unix); there is a
   button in the dialog box for editing engine details marked
   <b>scid.exe dir</b> on Windows or <b>~/.scid</b> on Unix that lets
@@ -2919,7 +2875,7 @@ set helpText(Analysis) {<h1>The Analysis window</h1>
   UCI protocol that can be found in most of the modern chess engines.
   The main advantage of an <term>UCI</term> engine is, that this
   protocol allows the user to configure the engines parameters from
-  within his preferred chess GUI like Scid, while for the other
+  within his preferred chess GUI like scidCommunity, while for the other
   engines usually configuration files are used that have to be edited.
   Therefore, if the engine is an <term>UCI</term> engine, pressing the
   <term>Configure UCI engine</term> button offers a graphical dialogue
@@ -2983,7 +2939,7 @@ set helpText(Analysis) {<h1>The Analysis window</h1>
      book. Moves that are contained in this opening book are skipped
      in the annotation process, that is the annotation starts
      automatically in the middle game.</li>
-     <li><term>Annotate several games</term>  Scid will first annotate
+     <li><term>Annotate several games</term>  scidCommunity will first annotate
      the current game with the settings specified, store the results,
      then automatically load the next game and annotate that as well.
      This is repeated till the game loaded reaches the number given in
@@ -3025,13 +2981,13 @@ set helpText(Analysis) {<h1>The Analysis window</h1>
   Pressing the button <button tb_coords> in an analysis window will
   show or hide the analysis board, which shows the position at the end
   of the current best line of play found by the engine. This works for
-  most Scid-compatible engines but may not work for all; it depends on
+  most scidCommunity-compatible engines but may not work for all; it depends on
   the move notation an engine uses.
   </p>
   
   <h3>Engine priority</h3>
   <p>
-  If an engine is using too much CPU time and affecting the use of Scid
+  If an engine is using too much CPU time and affecting the use of scidCommunity
   or other applications, turning on the <b>Low CPU priority</b> button
   <button tb_cpu> may help; it gives the engine a low priority for CPU
   scheduling. On Windows, engines are run on low priority by default.
@@ -3041,7 +2997,7 @@ set helpText(Analysis) {<h1>The Analysis window</h1>
   back to normal.
   </p>
 
-  <p><footer>(Updated: Scid 3.6.26, October 2008)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 ####################
@@ -3085,7 +3041,7 @@ set helpText(CalVar) {<h1>The calculation of variation window</h1>
    entered by the user.
   </p>
 
-  <p><footer>(Updated: Scid 3.6.21, December 2007)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 
@@ -3102,8 +3058,8 @@ set helpText(EPD) {<h1>EPD files</h1>
   <p>
   An EPD file has a number of defined <term>opcodes</term> (fields)
   which are stored separated by semicolons (<b>;</b>) in the file
-  but are shown on separate lines in a Scid EPD window to make editing easier.
-  A semicolon within an EPD field is stored as "<b>\s</b>" by Scid to
+  but are shown on separate lines in a scidCommunity EPD window to make editing easier.
+  A semicolon within an EPD field is stored as "<b>\s</b>" by scidCommunity to
   distinguish it from an end-of-field marker.
   Each position and its associated opcodes are stored on one single line
   in the EPD file.
@@ -3128,7 +3084,7 @@ set helpText(EPD) {<h1>EPD files</h1>
   </ul>
   
   <p>
-  EPD files have a number of uses: Scid uses an EPD file to classify
+  EPD files have a number of uses: scidCommunity uses an EPD file to classify
   games according to the <a ECO>Encyclopedia of Chess Openings</a> (ECO)
   system, and you can create an EPD file for your opening repertoire,
   adding comments for positions you regularly reach in games.
@@ -3195,7 +3151,7 @@ set helpText(EPD) {<h1>EPD files</h1>
   in this EPD file.</li>
   </ul>
   
-  <p><footer>(Updated: Scid 3.6.26, October 2008)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 
@@ -3205,22 +3161,22 @@ set helpText(EPD) {<h1>EPD files</h1>
 set helpTitle(Reports) "Reports"
 set helpText(Reports) {<h1>Reports</h1>
   <p>
-  A <term>Report</term> in Scid is a document containing information about
-  a particular position and/or player. There are two types of report Scid can
+  A <term>Report</term> in scidCommunity is a document containing information about
+  a particular position and/or player. There are two types of report scidCommunity can
   generate: Opening Reports and Player Reports.
   </p>
   
   <h3><name Opening>Opening Reports</name></h3>
   <p>
-  Scid can produce an <term>opening report</term> that displays interesting
+  scidCommunity can produce an <term>opening report</term> that displays interesting
   facts about an opening position. To generate an opening report, first make
   sure the displayed position is the one you want a report for, then select
   <b>Opening Report</b> from the <b>Tools</b> menu.
   </p>
   <p>
   The <term>Opening Report</term> window displays the results of the report
-  Scid generated. The <b>File</b> menu has commands to save the report
-  to a file in plain text, HTML or <a LaTeX>LaTeX</a> format.
+  scidCommunity generated. The <b>File</b> menu has commands to save the report
+  to a file in plain text or HTML format.
   </p>
   <p>
   The first sections of the report present information on the games that
@@ -3305,7 +3261,7 @@ set helpText(Reports) {<h1>Reports</h1>
   number of games used to generate the theory table in the Report options.
   </p>
   
-  <p><footer>(Updated: Scid 3.6.26, October 2008)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 
@@ -3334,7 +3290,7 @@ set helpText(PList) {<h1>The Player Finder window</h1>
   ranges of Elo rating and number of games played.
   </p>
   
-  <p><footer>(Updated: Scid 3.6.2, December 2006)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 ####################
@@ -3374,7 +3330,7 @@ set helpText(PInfo) {<h1>The Player Info window</h1>
   </p>
   <p>
   If a current version of the ratings file (cf. <url
-  http://scid.sourceforge.net/>Scid website</url>) is online links to
+  http://scid.sourceforge.net/>scidCommunity website</url>) is online links to
   additional resources may be present that will be accessible by the
   users web browser provided Internet access is available. These infos
   can be accessed by the following symbols in the player information
@@ -3385,7 +3341,7 @@ set helpText(PInfo) {<h1>The Player Info window</h1>
   <li><button bcflnk> Go to the players profile at the British Chess
   Federation.</li>
   <li><button wikiplnk> Call up the players Wikipedia profile page.
-  Scid will try to use the language set for Scid itself. If no page is
+  scidCommunity will try to use the language set for scidCommunity itself. If no page is
   available, it will resort to German (for pure technical reasons).</li>
   <li><button dnblnk> Call up the German national library for books by
   or about the player.</li>
@@ -3394,7 +3350,7 @@ set helpText(PInfo) {<h1>The Player Info window</h1>
   player in the contributing national libraries.</li>
   </ul>
   
-  <p><footer>(Updated: Scid 4.7, November 2018)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 ####################
@@ -3403,7 +3359,7 @@ set helpText(PInfo) {<h1>The Player Info window</h1>
 set helpTitle(Graphs) "Graph windows"
 set helpText(Graphs) {<h1>Graph windows</h1>
   <p>
-  Scid has a number of windows which display information graphically.
+  scidCommunity has a number of windows which display information graphically.
   They are explained below.
   </p>
   
@@ -3438,7 +3394,7 @@ set helpText(Graphs) {<h1>Graph windows</h1>
   small intervals, in addition the readability decreases. 
   </p>
   <p>
-  When plotting the Filter graph by rating, Scid uses the average (mean)
+  When plotting the Filter graph by rating, scidCommunity uses the average (mean)
   rating for each game. Estimate ratings (such as those in the spelling file)
   are not used. If one player in a game has a rating but the opponent
   does not, the opponent is presumed to have the same up to a limit of 2200.
@@ -3495,7 +3451,7 @@ set helpText(Graphs) {<h1>Graph windows</h1>
   <a Tree Graph>Tree</a> help page.
   </p>
   
-  <p><footer>(Updated: Scid 4.7, June 2018)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 ####################
@@ -3504,22 +3460,22 @@ set helpText(Graphs) {<h1>Graph windows</h1>
 set helpTitle(Bookmarks) "Bookmarks"
 set helpText(Bookmarks) {<h1>Bookmarks</h1>
   <p>
-  Scid allows you to <term>bookmark</term> important games for easy
+  scidCommunity allows you to <term>bookmark</term> important games for easy
   future reference. The bookmarks menu is available from the
   <menu>File</menu> menu, the toolbar, or the <B>Ctrl+B</b> shortcut key.
   </p>
   <p>
-  When you select a bookmarked game from the Bookmarks menu, Scid will
+  When you select a bookmarked game from the Bookmarks menu, scidCommunity will
   open its database if necessary, find that game, and move to the game
   position at which it was bookmarked.
   </p>
   <p>
-  Only games in a Scid format database (not a <a PGN>PGN</a> file or the clipbase)
+  Only games in a scidCommunity format database (not a <a PGN>PGN</a> file or the clipbase)
   can be bookmarked.
   </p>
   <p>
   If the database of a bookmarked game is sorted or compacted, the bookmark
-  details may become out of date. When that happens, Scid will search the
+  details may become out of date. When that happens, scidCommunity will search the
   database for the best matching game (comparing player names, site, etc)
   when the bookmark is selected, so the bookmarked game should still be
   loaded. However, if details of the bookmarked game change, it is possible
@@ -3547,7 +3503,7 @@ set helpText(Bookmarks) {<h1>Bookmarks</h1>
   many bookmarks), or as a single list.
   </p>
   
-  <p><footer>(Updated: Scid 3.6.2, December 2006)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 ####################
@@ -3556,18 +3512,18 @@ set helpText(Bookmarks) {<h1>Bookmarks</h1>
 set helpTitle(Cmdline) "Command-line options"
 set helpText(Cmdline) {<h1>Command-line options</h1>
   <p>
-  When you start Scid from a shell or console, there are command-line
-  options you can specify. Scid-format databases (with or without a
+  When you start scidCommunity from a shell or console, there are command-line
+  options you can specify. scidCommunity-format databases (with or without a
   file suffix such as ".si3") and <a PGN>PGN</a> files to be opened can be given,
   for example:
   <ul>
   <li>scid mybase newgames.pgn</li>
   </ul>
-  will start Scid and open the Scid database called mybase and the
+  will start scidCommunity and open the scidCommunity database called mybase and the
   <a PGN>PGN</a> file named newgames.pgn.
   </p>
   <p>
-  There are also optional arguments to control which files Scid should
+  There are also optional arguments to control which files scidCommunity should
   search for and use when it starts. You can
   avoid loading the <a ECO>ECO openings classification</a> file with
   <b>-xeco</b> or <b>-xe</b>, and avoid loading the
@@ -3587,7 +3543,7 @@ set helpText(Cmdline) {<h1>Command-line options</h1>
   games in a pgn file.
   </p>
   
-  <p><footer>(Updated: Scid 3.6.26, October 2008)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 ####################
@@ -3597,7 +3553,7 @@ set helpTitle(Pgnscid) "Pgnscid"
 set helpText(Pgnscid) {<h1>Pgnscid</h1>
   <p>
   <term>Pgnscid</term> is the separate program that you need to use to
-  convert <a PGN>PGN</a> (portable game notation) files into Scid databases.
+  convert <a PGN>PGN</a> (portable game notation) files into scidCommunity databases.
   </p>
   <p>
   To convert a file named <i>myfile.pgn</i>, simply type:
@@ -3653,10 +3609,10 @@ set helpText(Pgnscid) {<h1>Pgnscid</h1>
   </p>
   <p>
   You can edit (and even spellcheck) player, event, site and round names in
-  Scid; see the <a Maintenance Editing>Maintenance</a> help page for details.
+  scidCommunity; see the <a Maintenance Editing>Maintenance</a> help page for details.
   </p>
   
-  <p><footer>(Updated: Scid 3.6.2, December 2006)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 
@@ -3664,9 +3620,9 @@ set helpText(Pgnscid) {<h1>Pgnscid</h1>
 ### File formats help:
 
 set helpTitle(Formats) "File Formats"
-set helpText(Formats) {<h1>Scid File Formats</h1>
+set helpText(Formats) {<h1>scidCommunity File Formats</h1>
   <p>
-  Scid databases consist of three essential files: an Index file, a Name
+  scidCommunity databases consist of three essential files: an Index file, a Name
   file and a Game file. All have a three-letter suffix starting with "s":
   ".si3" for index files, ".sn3" for name files, and ".sg3" for game files.
   </p>
@@ -3705,7 +3661,7 @@ set helpText(Formats) {<h1>Scid File Formats</h1>
   a database to its minimal size by <a Compact>compacting</a> it.
   </p>
   
-  <h3>Other Scid files</h3>
+  <h3>Other scidCommunity files</h3>
   <p>
   An <a EPD>EPD</a> file (suffix: ".epd")
   contains a number of chess positions, each with a text comment.
@@ -3716,12 +3672,12 @@ set helpText(Formats) {<h1>Scid File Formats</h1>
   you send email messages to.
   </p>
   <p>
-  A SearchOptions (suffix: ".sso") file contains Scid
+  A SearchOptions (suffix: ".sso") file contains scidCommunity
   <a Searches Header>header</a> or
   <a Searches Material>material/pattern</a> search settings.
   </p>
   
-  <h3><name Fast>Fast searches in Scid</name></h3>
+  <h3><name Fast>Fast searches in scidCommunity</name></h3>
   <p>
   As mentioned above, the index file stores some redundant but useful
   information about each game to speed up position or material searches.
@@ -3741,7 +3697,7 @@ set helpText(Formats) {<h1>Scid File Formats</h1>
   be skipped, but games starting with 1.e4 e5 will still need to be searched.
   </p>
   
-  <p><footer>(Updated: Scid 3.6.2, December 2006)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 ####################
@@ -3750,16 +3706,16 @@ set helpText(Formats) {<h1>Scid File Formats</h1>
 set helpTitle(Options) "Options"
 set helpText(Options) {<h1>Options and preferences</h1>
   <p>
-  Many Scid options and preferences (such as the board size, colors, fonts,
+  Many scidCommunity options and preferences (such as the board size, colors, fonts,
   and default settings) are adjustable from the <menu>Options</menu> menu.
   All these (and more, such as the last directory you loaded a database from
   and the sizes of some windows) are saved to an options file when
   you select <b>Save Options</b> from the Options menu.
-  The options file is loaded whenever you start Scid.
+  The options file is loaded whenever you start scidCommunity.
   </p>
   <p>
   If you use Windows, the options file is <b>scid.opt</b> in the directory
-  where the Scid program file <b>scid.exe</b> is located. For users of Unix
+  where the scidCommunity program file <b>scid.exe</b> is located. For users of Unix
   operating systems (such as Solaris or Linux) the file
   is <b>~/.scid/scidrc</b>.
   </p>
@@ -3777,7 +3733,7 @@ set helpText(Options) {<h1>Options and preferences</h1>
   
   <h3><name Fonts>Setting Fonts</name></h3>
   <p>
-  Scid has three basic fonts it uses in most of its windows, and you can
+  scidCommunity has three basic fonts it uses in most of its windows, and you can
   customize all of them. They are called <b>regular</b>, <b>small</b> and
   <b>fixed</b>.
   </p>
@@ -3786,7 +3742,7 @@ set helpText(Options) {<h1>Options and preferences</h1>
   for the <a Tree>tree</a> and <a Crosstable>crosstable</a> windows.
   </p>
   
-  <p><footer>(Updated: Scid 3.6.2, December 2006)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 ####################
@@ -3980,7 +3936,7 @@ set helpText(NAGs) {<h1>Standard NAG values</h1>
   </cyan>
   
   <p>
-  Symbols defined by Scid for its own use are:
+  Symbols defined by scidCommunity for its own use are:
   </p>
   <cyan>
   <ul>
@@ -3994,30 +3950,30 @@ set helpText(NAGs) {<h1>Standard NAG values</h1>
   </ul>
   </cyan>
   
-  <p><footer>(Updated: Scid 4.2.2, January 2010)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 
 set helpTitle(ECO) "ECO guide"
 set helpText(ECO) {<h1>ECO openings classification</h1>
   <p>
-  Scid can classify chess games according to the <b>ECO</b>
+  scidCommunity can classify chess games according to the <b>ECO</b>
   (Encyclopedia of Chess Openings) chess openings classification.
   An standard ECO code consists of a letter (A..E) followed by two
   digits, so there are 500 distinct standard ECO codes.
   </p>
   
-  <h3>Scid extensions to the ECO system</h3>
+  <h3>scidCommunity extensions to the ECO system</h3>
   <p>
   The ECO system is very limited and not sufficient for modern games:
   some of the 500 codes are almost never seen any more, while some
-  are seen very often. To improve this situation, Scid allows an optional
+  are seen very often. To improve this situation, scidCommunity allows an optional
   extension to the basic ECO codes: each code can be extended with a
   letter (a..z), with a further extension (another digit, 1..4) being
-  possible but not used in the standard Scid ECO file yet.
-  So an extended Scid ECO code looks like "<b>A41e</b>" or "<b>E99b2</b>".
+  possible but not used in the standard scidCommunity ECO file yet.
+  So an extended scidCommunity ECO code looks like "<b>A41e</b>" or "<b>E99b2</b>".
   Many of the most common ECO codes found in modern master-level games have
-  extensions defined in the Scid ECO file.
+  extensions defined in the scidCommunity ECO file.
   </p>
   
   <h3><name Browser>The ECO Browser window</name></h3>
@@ -4046,19 +4002,19 @@ set helpText(ECO) {<h1>ECO openings classification</h1>
   according to the ECO file you have loaded.
   </p>
   
-  <h3>Loading the Scid ECO file</h3>
+  <h3>Loading the scidCommunity ECO file</h3>
   <p>
-  The ECO file that comes with Scid is called <b>scid.eco</b>,
-  and Scid tries to load this when it starts up.
-  If Scid cannot find it, you will need to do the following to enable ECO
+  The ECO file that comes with scidCommunity is called <b>scid.eco</b>,
+  and scidCommunity tries to load this when it starts up.
+  If scidCommunity cannot find it, you will need to do the following to enable ECO
   classification:
   <ul>
-  <li>(a) In Scid, use the menu command
+  <li>(a) In scidCommunity, use the menu command
   <menu>Options: Load ECO file</menu>
   and select the file <b>scid.eco</b>. </li>
   <li>(b) Save options (from the <menu>Options</menu> menu). </li>
   </ul>
-  After you do this, the ECO file will be loaded every time you start Scid.
+  After you do this, the ECO file will be loaded every time you start scidCommunity.
   </p>
   
   <h3><name Codes>ECO code system</name></h3>
@@ -4151,18 +4107,18 @@ set helpText(ECO) {<h1>ECO openings classification</h1>
   <li>  <b>E9</b>  E7 + 4...d6 5.Nf3: <i>King's Indian, main lines</i> </li>
   </ul>
   
-  <p><footer>(Updated: Scid 3.6.2, December 2006)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 
 set helpTitle(Author) "Contact information"
 set helpText(Author) {<h1>Contact Information</h1>
   <p>
-  The ScidCommunity github page is located at: <br>
+  The scidCommunityCommunity github page is located at: <br>
   <b><url https://github.com/whelanh/scidCommunity>https://github.com/whelanh/scidCommunity</url></b>
   </p>
   <p>
-  It has downloads of the latest version of ScidCommunity.
+  It has downloads of the latest version of scidCommunityCommunity.
   </p>
 }
 
@@ -4170,9 +4126,9 @@ set helpText(Author) {<h1>Contact Information</h1>
 set helpTitle(Book) "Book Window"
 set helpText(Book) {<h1>Book window</h1>
   <p>
-  A list of all book files present in Scid's books directory is
+  A list of all book files present in scidCommunity's books directory is
   presented in the drop down list on top of the window. To specify the
-  directory where Scid should search for opening books select Options /
+  directory where scidCommunity should search for opening books select Options /
   Books directory from the menu. The active book can be selected
   easily from that list.
   </p>
@@ -4199,7 +4155,7 @@ set helpText(Book) {<h1>Book window</h1>
   The book in use can be selected from the drop down list in the
   book window.
   </p>
-  <p><footer>(Updated: Scid 3.6.26, October 2008)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 # Tactical game window help
@@ -4210,11 +4166,11 @@ set helpText(TacticalGame) {<h1>Tactical game window</h1>
   given Elo rating.  The opponent is played by Phalanx and the coach
   by Toga or an UCI-Engine. The right engines are automatically selected by their
   names, and should be correctly configured (this is the default when
-  Scid is installed).
+  scidCommunity is installed).
   </p>
   <p>
   <b>Note</b> that a special version of the Phalanx engine is
-  required. This special version comes with the Scid package.
+  required. This special version comes with the scidCommunity package.
   </p>
   <p>
   The following parameters must be configured :
@@ -4245,14 +4201,14 @@ set helpText(TacticalGame) {<h1>Tactical game window</h1>
   <a SeriousGame>serious game</a> against any UCI engine that allows
   for limiting its strength.
   </p>
-  <p><footer>(Updated: Scid 4.7, August 2018)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 # Opening Trainer window help
 set helpTitle(OpeningTrainer) "Opening Trainer"
 set helpText(OpeningTrainer) {<h1>Opening Trainer</h1>
   <p>
-  A Scid database can be used as a repertoire, each game representing
+  A scidCommunity database can be used as a repertoire, each game representing
   an opening line. The games can contain variations and may also
   contain NAG values to specify values for each line, and thus
   allowing to mark preferred or dubious lines. To be a valid database
@@ -4285,7 +4241,7 @@ set helpText(OpeningTrainer) {<h1>Opening Trainer</h1>
   <p>
   Once you have a smaller database aimed at just the opening you
   require, set the type as mentioned using the <a
-  Maintenance>Maintenance window</a>.  You will need to restart Scid
+  Maintenance>Maintenance window</a>.  You will need to restart scidCommunity
   to use the opening trainer with this new repertoire database.
   </p>
   <p>
@@ -4320,12 +4276,12 @@ set helpText(OpeningTrainer) {<h1>Opening Trainer</h1>
       </li>
       <li><term>Allow only best moves</term> will treat lower rated moves
       as error. The rating of a line is given by NAG values.</li>
-      <li><term>Opponent plays best moves</term> Scid will always play
+      <li><term>Opponent plays best moves</term> scidCommunity will always play
       the best continuation according to the repertoire database. If
-      unchecked Scid is allowed to choose also lower rated
+      unchecked scidCommunity is allowed to choose also lower rated
       continuations. This is helpful to learn the refutations as well.
       </li>
-      <li><term>Only flagged lines</term> Scid will only play lines
+      <li><term>Only flagged lines</term> scidCommunity will only play lines
       from games flagged as <term>Opening for White</term> or
       <term>Opening for Black</term>.
       </li>
@@ -4378,7 +4334,7 @@ set helpText(OpeningTrainer) {<h1>Opening Trainer</h1>
   player that were not in repertoire</li>
   </ul>
   </p> 
-  <p><footer>(Updated: Scid 3.6.26, October 2008)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 # Serious game window help
@@ -4386,7 +4342,7 @@ set helpTitle(SeriousGame) "Serious Game Window"
 set helpText(SeriousGame) {<h1>Serious game window</h1>
   <p>
   Serious games can be played against any <term>UCI</term> engine set
-  up for the usage with Scid. A list of all possible opponents is
+  up for the usage with scidCommunity. A list of all possible opponents is
   given on top of the <term>Game configuration</term> window. The
   button <term>Configure UCI engine</term> additionally gives access
   to the engines parameters. By default, they are set such as in the
@@ -4394,7 +4350,7 @@ set helpText(SeriousGame) {<h1>Serious game window</h1>
   </p>
   <p>
   Next, the book that should be used can be chosen from those opening
-  books available to Scid. Unchecking the <term>Use book</term> box
+  books available to scidCommunity. Unchecking the <term>Use book</term> box
   will disable the use of an opening book and the engine will start
   calculating moves right from the beginning.
   </p>
@@ -4423,7 +4379,7 @@ set helpText(SeriousGame) {<h1>Serious game window</h1>
      <p>
      <b>Note</b>: some, especially commercial, engines also offer to
      weaken their strength in Elo units. Most likely this will offer a
-     more suitable algorithm than limiting the search depth. In Scid,
+     more suitable algorithm than limiting the search depth. In scidCommunity,
      such games are also offered as <a TacticalGame>Tactical games</a>
      against the free Phalanx engine.
      </p>
@@ -4465,26 +4421,26 @@ set helpText(SeriousGame) {<h1>Serious game window</h1>
   <p>
   For training of openings <term>Specific opening</term> can be
   checked. In the list below one can choose the opening to play. The
-  player then should follow the line chosen, otherwise Scid will ask
+  player then should follow the line chosen, otherwise scidCommunity will ask
   if the move should be taken back.
   </p>
 
   <p>
   After setting all parameters of the game and hitting the Play
-  button, Scid will set up the opponent engine show the clocks and
+  button, scidCommunity will set up the opponent engine show the clocks and
   start the game. The player must not make a move till the clocks
   appear. Note that it might take some time for the chess engine to
   start up and initialise properly.
   </p>
 
-  <p><footer>(Updated: Scid 3.6.26, October 2008)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 # Tactics Trainer
 set helpTitle(TacticsTrainer) "Training: Tactics"
 set helpText(TacticsTrainer) {<h1>Training: Tactics</h1>
   <p>
-  Scid offers the possibility to solve chess puzzles. For this feature
+  scidCommunity offers the possibility to solve chess puzzles. For this feature
   special databases containing the puzzles are required. These
   databases are searched in the <term>Bases</term> directory, that can
   be specified via the menu Options / Bases directory. Unlike other
@@ -4500,7 +4456,7 @@ set helpText(TacticsTrainer) {<h1>Training: Tactics</h1>
   After choosing Play / Training / Tactics a dialogue pops up that
   allows to choose a training base. There, the name of the base is
   displayed, followed by the number of solved puzzles and the total
-  number of puzzles in the base in brackets. That is, Scid stores the
+  number of puzzles in the base in brackets. That is, scidCommunity stores the
   puzzles the user already solved with the base. Choosing a base an
   clicking the <term>Reset scores</term> button will reset this
   information marking all puzzles as unsolved.
@@ -4508,10 +4464,10 @@ set helpText(TacticsTrainer) {<h1>Training: Tactics</h1>
   <p>
   <b>Note</b> it is advisable to close the <a PGN>PGN</a> window and check
   <term>hide next move</term> in the context menu of the information
-  area of Scid's main window. Otherwise cheating is pretty simple.
+  area of scidCommunity's main window. Otherwise cheating is pretty simple.
   <p>
   To get a solution for the puzzles in a base the positions are
-  analysed by the Toga chess engine (included with Scid). The
+  analysed by the Toga chess engine (included with scidCommunity). The
   <term>Limit engine analysis time</term> slider allows to limit the
   time the engine has to solve the position. Several seconds should be
   enough for most cases as usually tactical puzzles contain a
@@ -4544,11 +4500,11 @@ set helpText(TacticsTrainer) {<h1>Training: Tactics</h1>
   puzzle and move on, the <term>Abort</term> button will end tactical
   training and close the database. Besides the <term>Next</term>
   button, the user can choose an exercise by whatever means one can
-  select a game within a database in Scid, e.g. by choosing a random
+  select a game within a database in scidCommunity, e.g. by choosing a random
   game via Ctrl-? or jumping to some bookmark or simply by the <a
   GameList>game list</a>.
   </p>
-  <p><footer>(Updated: Scid 3.6.26, October 2008)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 # Find best move 
@@ -4559,7 +4515,7 @@ set helpText(FindBestMove) {<h1>Training: Find best move</h1>
   tactical opportunities within a game. This can be achieve by setting
   <term>Mark Tactical Exercise</term> in the <a
   Analysis>Annotation</a> window accessible from analysis. In case a
-  tactical opportunity is found, Scid will then flag the game with the
+  tactical opportunity is found, scidCommunity will then flag the game with the
   <term>T</term> flag (Tactics) and add a special comment that is
   evaluated in this exercise.
   </p>
@@ -4567,11 +4523,11 @@ set helpText(FindBestMove) {<h1>Training: Find best move</h1>
   To use this training method, a properly prepared database is
   required. This can be achieved by batch annotating a set of games or
   one can just download them from the <url
-  http://scid.sourceforge.net/>Scid website</url>.
+  http://scid.sourceforge.net/>scidCommunity website</url>.
   After opening a properly prepared database, just select Play /
-  Training / Find best move. Scid will then jump to the next location
+  Training / Find best move. scidCommunity will then jump to the next location
   of a tactical blow from the current game position. If necessary a
-  suitable new game will be loaded and Scid will display the critical
+  suitable new game will be loaded and scidCommunity will display the critical
   position. The user is now required to find the best continuation.
   To jump to the next tactical position one can just right click on
   the goto end of game button.
@@ -4580,7 +4536,7 @@ set helpText(FindBestMove) {<h1>Training: Find best move</h1>
   For this exercise it is advisable to close the <a PGN>PGN</a> window and set
   <term>Hide next move</term> from the status areas context menu.
   </p>
-  <p><footer>(Updated: Scid 3.6.26, October 2008)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 # FICS Login
@@ -4601,19 +4557,19 @@ set helpText(FICSLogin) {<h1>FICS Login</h1>
   <p>
   Though in principle FICS can be used with a plain telnet program
   playing with a real chess program offers several advantages.
-  Therefore, Scid offers an interface to this server. To establish a
+  Therefore, scidCommunity offers an interface to this server. To establish a
   connection to the server one has to log in first and several
   parameters are required:
   <ul>
       <li><term>Login:</term> This is your login name on the FICS
-      server. Its value is stored in Scid's configuration for later
+      server. Its value is stored in scidCommunity's configuration for later
       reuse.</li>
       <li><term>Password:</term> specifies your password for login.
       <b>Note</b> that this password is displayed when you type,
       allowing everybody to read it. Additionally, this password is
-      stored in plain text within Scid's configuration. If you are
+      stored in plain text within scidCommunity's configuration. If you are
       using a publicly accessible system please make sure to assign
-      proper rights to Scid's config directory.
+      proper rights to scidCommunity's config directory.
       </li>
       <li><term>Time seal</term> if checked, all connections to the
       FICS server are routed through the <term>timeseal</term>
@@ -4632,7 +4588,7 @@ set helpText(FICSLogin) {<h1>FICS Login</h1>
       <term>timeseal</term> program is listening. The default is 5001
       and should be ok for almost all needs.</li>
    </ul>
-   All these settings are stored with Scid's configuration and
+   All these settings are stored with scidCommunity's configuration and
    therefore have to be entered only once.
    </p>
   <p>
@@ -4646,13 +4602,13 @@ set helpText(FICSLogin) {<h1>FICS Login</h1>
   </p>
   <p>
   <b>Note</b> Besides standard chess FICS also offers a bunch of chess
-  variants like bughouse or crazyhouse etc. Scid does not support any
-  of these variations, so you can not play them using Scid. If you
+  variants like bughouse or crazyhouse etc. scidCommunity does not support any
+  of these variations, so you can not play them using scidCommunity. If you
   want to play variations you may wish to check out other interfaces.
   FICS offers a bunch of graphical interfaces for download on its
   homepage.
   </p>
-  <p><footer>(Updated: Scid 3.6.26, October 2008)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 # FICS Find Opponent
@@ -4691,7 +4647,7 @@ set helpText(FICSfindOpp) {<h1>FICS Find Opponent</h1>
    Clicking the <term>Issue seek</term> button will place your
    offer on the server.
   </p>
-  <p><footer>(Updated: Scid 3.6.26, October 2008)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 # FICS
@@ -4787,7 +4743,7 @@ set helpText(FICS) {<h1>FICS: Play on the Internet</h1>
   FICS offers several options for chess training. One of the more
   prominent once are the lecture bots <term>LectureBot</term> and
   <term>WesBot</term>. They run all the time on FICS and offer various
-  training sessions that can be visited using Scid. The start of each
+  training sessions that can be visited using scidCommunity. The start of each
   session is announced on <term>Channel 67</term> of FICS. Therefore,
   to see these announcements one should first add this channel to the
   personal observation list. This can be done by <term>+channel
@@ -4805,25 +4761,25 @@ set helpText(FICS) {<h1>FICS: Play on the Internet</h1>
   on the server and discuss them with other users on FICS. To find out
   what games are currently relayed (if any) one can ask the relay for
   a list by <term>relay listgames</term>. As FICS expects the terminal
-  to have 80 chars width it might be necessary to resize Scid's FICS
+  to have 80 chars width it might be necessary to resize scidCommunity's FICS
   window to get a nice table. The entries in the table are, first the
   game number, colon, than the opponents, the result of the game (*
   signifying an ongoing game as usual) and the <a ECO>ECO code</a> of
   the opening. To observe a specific game one can just <term>observe
-  gamenumber</term>. Scid will then display the current board
+  gamenumber</term>. scidCommunity will then display the current board
   position, the clocks will display the proper values sent by the
   relay and it will fetch all moves of the game so far plus the usual
-  <a PGN>PGN</a> header fields. If a player moves this move is performed in Scid
+  <a PGN>PGN</a> header fields. If a player moves this move is performed in scidCommunity
   as usual. For discussing the game with other observers,
   <term>whisper</term> and <term>kibitz</term> can be used. Please
   refer to the online help of these commands. All these conversations
   can be read in the console.
   </p>
   <p>
-  Note that only one game can be observed within Scid.
+  Note that only one game can be observed within scidCommunity.
   </p>
 
-  <p><footer>(Updated: Scid 3.6.26, October 2008)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 # Book tuning
@@ -4831,7 +4787,7 @@ set helpTitle(BookTuning) "Book tuning"
 set helpText(BookTuning) {<h1>Book tuning</h1>
    <p>
    For each book move a percentage is given stating the probability
-   that Scid will use this move. Using <term>Book tuning</term> one
+   that scidCommunity will use this move. Using <term>Book tuning</term> one
    can adjust these values. First, the position where the lines should
    be adopted has to be set up. After calling Tools / Book tuning one
    gets a small window stating the moves in book and their percentage
@@ -4843,12 +4799,12 @@ set helpText(BookTuning) {<h1>Book tuning</h1>
    <p>
    To navigate through the branches of the book one can just click on
    the line in the book tuning window or move around the game as usual
-   in Scid.
+   in scidCommunity.
    </p>
    <p>
    To adjust the probability, e.g. rise the probability of a certain
    variation, one can just increase its value. Though the other values
-   stay the same, Scid will recalculate once <term>Save</term> is
+   stay the same, scidCommunity will recalculate once <term>Save</term> is
    pressed.
    </p>
    <p>
@@ -4857,13 +4813,13 @@ set helpText(BookTuning) {<h1>Book tuning</h1>
    with the highest probability will make up the main line while all
    others are stored in variations. This allows for semi manually
    selecting lines to be included in a new book to be created. Note,
-   that Scid can handle 3000 moves in a single game, therefore it will
+   that scidCommunity can handle 3000 moves in a single game, therefore it will
    most likely not be possible (nor will it be very sensible) to
    export a whole opening book into one game. Also note that export
    can be done incrementally. That is, new lines are added to already
    existing ones. This also allows to merge several books.
    </p>
-  <p><footer>(Updated: Scid 3.6.26, October 2008)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 # Novag Citrine
@@ -4871,7 +4827,7 @@ set helpTitle(Novag) "Connecting the Novag Citrine Chess board"
 set helpText(Novag) {<h1>Connecting the Novag Citrine Chess board</h1>
    <p>
    The Novag Citrine is a wooden chess board that can be interfaced
-   from a PC by means of a serial connection. It can be used with Scid
+   from a PC by means of a serial connection. It can be used with scidCommunity
    to enter games, play against a computer opponent or on FICS
    offering a "natural" chess interface.
    </p>
@@ -4888,12 +4844,12 @@ set helpText(Novag) {<h1>Connecting the Novag Citrine Chess board</h1>
 
    ###--- Detailed description needed ---###
    </p>
-  <p><footer>(Updated: Scid 3.6.26, October 2008)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 set helpTitle(HardwareConfig) "Connecting External Hardware"
 set helpText(HardwareConfig) {<h1>Connecting External Hardware</h1>
-  There are two types of hardware that can be used with Scid to play
+  There are two types of hardware that can be used with scidCommunity to play
   or input games. Select from the <term>Hardware</term> list the one
   you wish to use:
   <ul>
@@ -4905,7 +4861,7 @@ set helpText(HardwareConfig) {<h1>Connecting External Hardware</h1>
     pieces as such.
     </li>
     <li><term>Input Engine</term> drivers are meant to be a free,
-    open interface to hook up any hardware to some GUI like Scid. It
+    open interface to hook up any hardware to some GUI like scidCommunity. It
     is modeled after the usual style of a chess engine. The
     specifications of the protocol as well as a driver suitable for
     the DGT Electronic Chess boards can be found at the <url
@@ -4915,7 +4871,7 @@ set helpText(HardwareConfig) {<h1>Connecting External Hardware</h1>
     </li>
   </ul>
   <p>
-  <b>Note</b> Scid does not include any input engine by default. Input
+  <b>Note</b> scidCommunity does not include any input engine by default. Input
   engines are meant to be independent programs that can be used with a
   variety of GUIs.
   </p>
@@ -4952,7 +4908,7 @@ set helpText(HardwareConfig) {<h1>Connecting External Hardware</h1>
     <li><term>Show button</term> will enable the <a
     HardwareStatus>hardware connect button</a> in the toolbar if
     checked. If unchecked the button will not show up to save space.
-    Removal of the button needs to restart Scid.
+    Removal of the button needs to restart scidCommunity.
     </li>
   </ul>
   <p>
@@ -4985,7 +4941,7 @@ set helpText(HardwareConfig) {<h1>Connecting External Hardware</h1>
      </li>
   </ul>
   <p>
-  Hitting <term>OK</term> will store the setup in Scid's configuration
+  Hitting <term>OK</term> will store the setup in scidCommunity's configuration
   and immediately start the driver selected.
   </p>
   <p>
@@ -4996,13 +4952,13 @@ set helpText(HardwareConfig) {<h1>Connecting External Hardware</h1>
   </p>
 
 
-  <p><footer>(Updated: Scid 3.6.27, October 2008)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 set helpTitle(HardwareStatus) "Status of External Hardware"
 set helpText(HardwareStatus) {<h1>Status of External Hardware</h1>
    <p>
-   This button is located on the right of Scid's toolbar. Depending on
+   This button is located on the right of scidCommunity's toolbar. Depending on
    the status of the external hardware it shows different icons:
    </p>
    <ul>
@@ -5012,7 +4968,7 @@ set helpText(HardwareStatus) {<h1>Status of External Hardware</h1>
    hook up the configured hardware.
    </li>
    <li><button tb_eng_connecting>
-   Scid started the communication with the external hardware,
+   scidCommunity started the communication with the external hardware,
    initialisation is in progress. Depending on the driver and hardware
    connected, it may take some seconds for things to settle.
    </li>
@@ -5043,25 +4999,25 @@ set helpText(HardwareStatus) {<h1>Status of External Hardware</h1>
    </li>
    </ul>
 
-  <p><footer>(Updated: Scid 3.6.27, October 2008)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 set helpTitle(InputEngine) "Input Engine driver console"
 set helpText(InputEngine) {<h1>Input Engine driver console</h1>
    <p>
    On top of this window, a console shows up that monitors the
-   communication between Scid and the driver engine. Usually, this is
+   communication between scidCommunity and the driver engine. Usually, this is
    of no interest to the user, but it may provide helpful hints in
-   case of malfunction. All commands sent by Scid are prepended by an
+   case of malfunction. All commands sent by scidCommunity are prepended by an
    arrow to the right, all answers retrieved from the driver engine by
    an arrow to the left.  Below the console, the actual invocation of
-   the driver by Scid shows up for information.
+   the driver by scidCommunity shows up for information.
    </p>
    <p>
    <term>Moves sent for</term> allows to limit the moves sent by the
    external hardware. For game input the board should of course send
    the moves for both sides. For actually playing a game however, the
-   moves made by the opponent should be ignored, as Scid would
+   moves made by the opponent should be ignored, as scidCommunity would
    otherwise notify them as "illegal moves".
    </p>
    <p>
@@ -5073,7 +5029,7 @@ set helpText(InputEngine) {<h1>Input Engine driver console</h1>
    board is shown in figurine long algebraic notation. Valid moves
    show up on a <green>green</green> background while illegal moves
    show up on a <red>red</red> background. Additionally, illegal moves
-   are announced by the alert sound, if Scid has sound enabled.
+   are announced by the alert sound, if scidCommunity has sound enabled.
    Depending on the settings, the moves are additionally announced.
    </p>
    <p>
@@ -5082,11 +5038,11 @@ set helpText(InputEngine) {<h1>Input Engine driver console</h1>
    it should usually give as much as is available about the external
    hardware and the driver itself. Additionally, the external driver
    will return the current position on the external board as <term>FEN</term> which
-   is then compared to Scid's internal representation. Discrepancies
+   is then compared to scidCommunity's internal representation. Discrepancies
    show up in the console and issue an alert.
    </p>
    <p>
-   In case Scid and the external board got out of sync, the
+   In case scidCommunity and the external board got out of sync, the
    <term>Synchronise</term> button can be used. A new game is set up
    and the start position is set to the position on the external
    board.  </p>
@@ -5115,7 +5071,7 @@ set helpText(InputEngine) {<h1>Input Engine driver console</h1>
    </p>
    <p>
    In setup mode any valid position can be set up on the external
-   board, however Scid's internal representation is not updated till
+   board, however scidCommunity's internal representation is not updated till
    finished.
    </p>
    <p>
@@ -5157,14 +5113,14 @@ set helpText(InputEngine) {<h1>Input Engine driver console</h1>
    <h3>Start a new game</h3>
    <p>
    A new game can be stared by entering setup mode (ie. removing both
-   kings) and setting up the start position. To notify, that Scid has
+   kings) and setting up the start position. To notify, that scidCommunity has
    recognised the call for a new game the <term>move area</term> is
    colored in blue showing the white king and the string
    <term>OK</term>.
    </p>
 
 
-  <p><footer>(Updated: Scid 3.6.27, October 2008)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 set helpTitle(ReviewGame) "Game Review"
@@ -5172,7 +5128,7 @@ set helpText(ReviewGame) {<h1>Reviewing a game</h1>
    <p>
 	This feature is designed to study a game, which means you should
 	try to guess the moves played during the match. So you first open a
-	game from any Scid's base, and enter this function with the command
+	game from any scidCommunity's base, and enter this function with the command
 	<b>Review game</b> in the <b>Play</b> menu.  As usually, to play
 	with Black, flip board first (you always play from the bottom of
 	the board).
@@ -5205,7 +5161,7 @@ button to get a confirmation of engine's analysis.
 <li>- The user always plays from the bottom of the board</li>
 </ul>
 </p>
-  <p><footer>(Updated: Scid 4.3, January 2011)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
 set helpTitle(Metadata) "Dublin Core Metadata"
@@ -5218,7 +5174,7 @@ set helpText(Metadata) {<h1>Dublin Core Metadata</h1>
    NISO Standard Z39.85-2007.
    </p>
    <p>
-   Some databases that are used with Scid may contain additional
+   Some databases that are used with scidCommunity may contain additional
    metadata information. Such information may refer to the License of
    a database, the source of the database (in case it is published on
    the Web), the date of a database and so on.
@@ -5237,33 +5193,33 @@ set helpText(Metadata) {<h1>Dublin Core Metadata</h1>
    the labels showing up in <blue>blue</blue>.
    </p>
    <p>
-   After choosing <term>OK</term> Scid stores the metadata to the
-   <term>sme</term> file for usage with Scid. Additionally, an
+   After choosing <term>OK</term> scidCommunity stores the metadata to the
+   <term>sme</term> file for usage with scidCommunity. Additionally, an
 
    <term>XML</term> file is generated containing exactly the same
    metadata, but in XML format for easy data exchange.
    </p>
    <p>
-   <b>Note</b>: Scid does not care about the XML file itself. It uses
+   <b>Note</b>: scidCommunity does not care about the XML file itself. It uses
    only the <term>sme</term> file for its internal procedures.
    However, other applications may well prefer the XML structure.
    </p>
 
-  <p><footer>(Updated: Scid 3.6.27, October 2008)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
-set helpTitle(Appearance) "Customize Scid-GUI"
-set helpText(Appearance) {<h1>Customize Scid-GUI</h1>
+set helpTitle(Appearance) "Customize scidCommunity-GUI"
+set helpText(Appearance) {<h1>Customize scidCommunity-GUI</h1>
   <p>
  <p>
-  Scid has some options to customize the GUI.
+  scidCommunity has some options to customize the GUI.
   </p>
   <h3><name Themes>Configure TTK-Themes</name></h3>
   <p>
     Starting with version 4.7, new GUI themes can be installed and selected.
     With the TTK themes, different appearances of the SCID user interface can be realized.<br>
     The scid repository provides a multicolored set of themes for direct use:
-    <li><url https://sourceforge.net/projects/scid/files/Scid/Additional Files/>https://sourceforge.net/projects/scid/files/Scid/Additional Files</url> -- Home / Scid / Additional Files</li><br><br>
+    <li><url https://sourceforge.net/projects/scid/files/scidCommunity/Additional Files/>https://sourceforge.net/projects/scid/files/scidCommunity/Additional Files</url> -- Home / scidCommunity / Additional Files</li><br><br>
     Further themes can also be downloaded from the following addresses:
     <li><url https://wiki.tcl.tk/48689>https://wiki.tcl.tk/48689</url> -- wiki.tcl.tk List of ttk Themes</li>
     <li><url https://github.com/RedFantom/ttkthemes/tree/master/ttkthemes/themes>https://github.com/RedFantom/ttkthemes</url> -- RedFantom Collection of ttk Topics</li><br><br>
@@ -5278,5 +5234,5 @@ set helpText(Appearance) {<h1>Customize Scid-GUI</h1>
   <p>
   After configuring the theme and menu colors, save the settings with <b>Options - Save options</b>.
   </p>
-  <p><footer>(Updated: Scid 4.7, August 2018)</footer></p>
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }

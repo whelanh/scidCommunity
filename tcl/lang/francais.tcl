@@ -199,17 +199,12 @@ menuText F ToolsExpCurrentPGN "Dans un fichier PGN..." 16 \
 menuText F ToolsExpCurrentHTML "Dans un fichier HTML..." 16 \
   {Exporter la partie en cours dans un fichier HTML}
 menuText F ToolsExpCurrentHTMLJS "Dans un fichier HTML et JavaScript..." 24 {Exporter la partie en cours dans un fichier HTML et JavaScript}
-menuText F ToolsExpCurrentLaTeX "Dans un fichier LaTeX..." 16 \
-  {Exporter la partie en cours dans un fichier LaTeX}
 menuText F ToolsExpFilter "Exporter les parties filtrées" 0 \
-  {Exporter les parties sélectionnées par un filtre dans un fichier PGN, HTML, LaTeX, ou dans une autre base}
 menuText F ToolsExpFilterPGN "Dans un fichier PGN..." 16 \
   {Exporter le filtre dans un fichier PGN}
 menuText F ToolsExpFilterHTML "Dans un fichier HTML..." 16 \
   {Exporter le filtre dans un fichier HTML}
 menuText F ToolsExpFilterHTMLJS "Dans un fichier HTML et JavaScript..." 24 {Exporter le filtre dans un fichier HTML et JavaScript}
-menuText F ToolsExpFilterLaTeX "Dans un fichier LaTeX..." 16 \
-  {Exporter le filtre dans un fichier LaTeX}
 menuText F ToolsImportOne "Importer une partie en PGN..." 0 \
   {Importer une partie à partir d'un texte PGN}
 menuText F ToolsImportFile "Importer des fichiers PGN..." 0 \
@@ -697,7 +692,6 @@ translate F PgnWindowTitle {Notation - partie %u}
 menuText F CrosstabFile "Fichier" 0
 menuText F CrosstabFileText "Écrire dans un fichier texte..." 23
 menuText F CrosstabFileHtml "Écrire dans un fichier HTML..." 23
-menuText F CrosstabFileLaTeX "Écrire dans un fichier LaTeX..." 23
 menuText F CrosstabFileClose "Fermer fenêtre tableau" 0
 menuText F CrosstabEdit "Éditer" 0
 menuText F CrosstabEditEvent "Événement" 0
@@ -736,7 +730,6 @@ translate F Category {Catégorie}
 menuText F OprepFile "Fichier" 0
 menuText F OprepFileText "Écrire dans un fichier texte..." 23
 menuText F OprepFileHtml "Écrire dans un fichier HTML..." 23
-menuText F OprepFileLaTeX "Écrire dans un fichier LaTeX..." 23
 menuText F OprepFileOptions "Options..." 0
 menuText F OprepFileClose "Fermer la fenêtre du rapport" 0
 menuText F OprepFavorites "Favoris" 1
@@ -1152,7 +1145,6 @@ translate F OprepTableComment {Généré à partir des %u parties au classement 
 translate F OprepExtraMoves {Nombre de coups additionnels dans la table de théorie}
 translate F OprepMaxGames {Nombre maximum de parties dans la table de théorie}
 translate F OprepViewHTML {Voir en HTML}
-translate F OprepViewLaTeX {Voir en LaTeX}
 
 # Player Report:
 translate F PReportTitle {Rapport sur le joueur}

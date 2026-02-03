@@ -223,8 +223,6 @@ menuText L ToolsExpCurrentPGN "Exportați jocul în fișierul PGN..." 15 \
 menuText L ToolsExpCurrentHTML "Exportați jocul în fișierul HTML..." 15 \
   {Scrieți jocul curent într-un fișier HTML}
 menuText L ToolsExpCurrentHTMLJS "Exportați jocul în fișierul HTML și JavaScript..." 15 {Scrieți jocul curent într-un fișier HTML și JavaScript}
-menuText L ToolsExpCurrentLaTeX "Exportați jocul în fișierul LaTeX..." 15 \
-  {Scrieți jocul curent într-un fișier LaTeX}
 menuText L ToolsExpFilter "Exportați toate jocurile de filtrare" 1 \
   {Scrieți toate jocurile filtrate într-un fișier text}
 menuText L ToolsExpFilterPGN "Exportați filtrul în fișierul PGN..." 17 \
@@ -232,8 +230,6 @@ menuText L ToolsExpFilterPGN "Exportați filtrul în fișierul PGN..." 17 \
 menuText L ToolsExpFilterHTML "Exportați filtrul în fișierul HTML..." 17 \
   {Scrieți toate jocurile filtrate într-un fișier HTML}
 menuText L ToolsExpFilterHTMLJS "Exportați filtrul în fișierul HTML și JavaScript..." 17 {Scrieți toate jocurile filtrate într-un fișier HTML și JavaScript}
-menuText L ToolsExpFilterLaTeX "Exportați filtrul în fișierul LaTeX..." 17 \
-  {Scrieți toate jocurile filtrate într-un fișier LaTeX}
 menuText L ToolsImportOne "Importă un joc PGN..." 0 \
   {Importați un joc din text PGN}
 menuText L ToolsImportFile "Importați jocuri din fișiere PGN..." 7 {Importați jocuri din fișiere PGN}
@@ -721,7 +717,6 @@ translate L PgnWindowTitle {Notație - joc %u}
 menuText L CrosstabFile "Fişier" 0
 menuText L CrosstabFileText "Imprimați în fișier text..." 9
 menuText L CrosstabFileHtml "Imprimați în fișier HTML..." 9
-menuText L CrosstabFileLaTeX "Imprimați în fișierul LaTeX..." 9
 menuText L CrosstabFileClose "Închideți fereastra Crosstable" 0
 menuText L CrosstabEdit "Edita" 0
 menuText L CrosstabEditEvent "Eveniment" 0
@@ -760,7 +755,6 @@ translate L Category {Categorie}
 menuText L OprepFile "Fişier" 0
 menuText L OprepFileText "Imprimați în fișier text..." 9
 menuText L OprepFileHtml "Imprimați în fișier HTML..." 9
-menuText L OprepFileLaTeX "Imprimați în fișierul LaTeX..." 9
 menuText L OprepFileOptions "Opțiuni..." 0
 menuText L OprepFileClose "Închideți fereastra de raportare" 0
 menuText L OprepFavorites "Favorite" 1
@@ -1168,7 +1162,6 @@ translate L OprepTableComment {Generat din %u jocuri cu cele mai bune cote.}
 translate L OprepExtraMoves {Mișcări suplimentare de note în tabelul teoretic}
 translate L OprepMaxGames {Maxim de jocuri la masa teoretică}
 translate L OprepViewHTML {Vizualizați HTML}
-translate L OprepViewLaTeX {Vizualizați LaTeX}
 
 # Player Report:
 translate L PReportTitle {Raportul jucătorului}

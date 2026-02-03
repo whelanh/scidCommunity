@@ -38,7 +38,7 @@ proc findNovelty {} {
   pack [ttk::frame $w.b] -side top -fill x
   dialogbutton $w.b.go -text $::tr(FindNovelty) -command {
     destroy .noveltyWin
-    progressWindow "Scid" "$::tr(FindNovelty)" $::tr(Cancel)
+    progressWindow "scidCommunity" "$::tr(FindNovelty)" $::tr(Cancel)
     if {$noveltyOlder} {
       set err [catch {sc_game novelty -older $noveltyBase} result]
     } else {
@@ -189,9 +189,6 @@ proc setExportText {exportType} {
     }
     "HTML" {
       set title "Set HTML file export text"
-    }
-    "LaTeX" {
-      set title "Set LaTeX file export text"
     }
     default {
       return
@@ -361,12 +358,12 @@ proc exportOptions {exportType} {
 }
 
 # exportGames:
-#   exports current game or all filtered games to a new PGN, LaTeX or Html file.
+#   exports current game or all filtered games to a new PGN or Html file.
 #
 proc exportGames {selection exportType} {
   global ::pgn::moveNumberSpaces exportStartFile exportEndFile exportFlags
   if {$selection == "filter" && [sc_filter count] == 0} {
-      tk_messageBox -title "Scid: Filter empty" -type ok -icon info \
+      tk_messageBox -title "scidCommunity: Filter empty" -type ok -icon info \
           -message "The filter contains no games."
       return
   }
@@ -393,15 +390,6 @@ proc exportGames {selection exportType} {
       set idir $::initialDir(html)
       set default ".html"
     }
-    "LaTeX" {
-      set ftype {
-        { "LaTeX files" {".tex" ".ltx"} }
-        { "All files" {"*"} }
-      }
-      set title "a LaTeX file"
-      set idir $::initialDir(tex)
-      set default ".tex"
-    }
     default { return }
   }
 
@@ -416,7 +404,7 @@ proc exportGames {selection exportType} {
   if {$fName == ""} { return }
 
 
-  progressWindow "Scid" "Exporting games..." $::tr(Cancel)
+  progressWindow "scidCommunity" "Exporting games..." $::tr(Cancel)
   if {[catch {
       sc_base export $selection $exportType $fName -append $exportFlags(append) \
       -starttext $exportStartFile($exportType) \
@@ -1185,7 +1173,7 @@ if {$startup(tip)} { ::tip::show }
 
 # Try to load the spellcheck file:
 if {$loadAtStart(spell)} {
-  progressWindow "Scid - [tr Spellcheking]" "Loading $spellCheckFile ..."
+  progressWindow "scidCommunity - [tr Spellcheking]" "Loading $spellCheckFile ..."
   set err [catch {sc_name read $spellCheckFile} result]
   closeProgressWindow
 }

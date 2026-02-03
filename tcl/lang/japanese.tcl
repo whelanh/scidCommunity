@@ -223,8 +223,6 @@ menuText A ToolsExpCurrentPGN "ゲームを PGN ファイルにエクスポー�
 menuText A ToolsExpCurrentHTML "ゲームを HTML ファイルにエクスポート..." 15 \
   {現在のゲームを HTML ファイルに書き込みます}
 menuText A ToolsExpCurrentHTMLJS "ゲームを HTML および JavaScript ファイルにエクスポート..." 15 {現在のゲームを HTML および JavaScript ファイルに書き込みます}
-menuText A ToolsExpCurrentLaTeX "ゲームを LaTeX ファイルにエクスポート..." 15 \
-  {現在のゲームを LaTeX ファイルに書き込みます}
 menuText A ToolsExpFilter "すべてのフィルター ゲームをエクスポート" 1 \
   {フィルタリングされたすべてのゲームをテキスト ファイルに書き込みます}
 menuText A ToolsExpFilterPGN "フィルターを PGN ファイルにエクスポート..." 17 \
@@ -232,8 +230,6 @@ menuText A ToolsExpFilterPGN "フィルターを PGN ファイルにエクスポ
 menuText A ToolsExpFilterHTML "フィルタを HTML ファイルにエクスポート..." 17 \
   {フィルタリングされたすべてのゲームを HTML ファイルに書き込みます}
 menuText A ToolsExpFilterHTMLJS "フィルターを HTML および JavaScript ファイルにエクスポート..." 17 {フィルタリングされたすべてのゲームを HTML および JavaScript ファイルに書き込みます}
-menuText A ToolsExpFilterLaTeX "フィルタを LaTeX ファイルにエクスポート..." 17 \
-  {フィルタリングされたすべてのゲームを LaTeX ファイルに書き込みます}
 menuText A ToolsImportOne "1 つの PGN ゲームをインポート..." 0 \
   {PGN テキストからゲームをインポートする}
 menuText A ToolsImportFile "PGN ファイルからゲームをインポート..." 7 {PGN ファイルからゲームをインポートする}
@@ -721,7 +717,6 @@ translate A PgnWindowTitle {表記 - ゲーム %u}
 menuText A CrosstabFile "ファイル" 0
 menuText A CrosstabFileText "テキスト ファイルに出力..." 9
 menuText A CrosstabFileHtml "HTML ファイルに出力..." 9
-menuText A CrosstabFileLaTeX "LaTeX ファイルに出力..." 9
 menuText A CrosstabFileClose "クロステーブルウィンドウを閉じる" 0
 menuText A CrosstabEdit "編集" 0
 menuText A CrosstabEditEvent "イベント" 0
@@ -760,7 +755,6 @@ translate A Category {カテゴリ}
 menuText A OprepFile "ファイル" 0
 menuText A OprepFileText "テキスト ファイルに出力..." 9
 menuText A OprepFileHtml "HTML ファイルに出力..." 9
-menuText A OprepFileLaTeX "LaTeX ファイルに出力..." 9
 menuText A OprepFileOptions "オプション..." 0
 menuText A OprepFileClose "レポートウィンドウを閉じる" 0
 menuText A OprepFavorites "お気に入り" 1
@@ -1168,7 +1162,6 @@ translate A OprepTableComment {%u 個の最高評価のゲームから生成さ�
 translate A OprepExtraMoves {追加ノートが理論テーブル内で移動する}
 translate A OprepMaxGames {理論上の最大ゲーム数表}
 translate A OprepViewHTML {HTMLを表示する}
-translate A OprepViewLaTeX {LaTeX を表示する}
 
 # Player Report:
 translate A PReportTitle {プレイヤーレポート}
