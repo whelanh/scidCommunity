@@ -90,6 +90,7 @@ parts:
       - libtk8.6
       - curl
       - ca-certificates
+      - unzip
       - libx11-6
       - libxft2
       - libxss1
