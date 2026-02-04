@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.2.17" date="2026-02-04">
+      <description>
+        <p>Fix language files for new features</p>
+      </description>
+    </release>
     <release version="5.1.2.16" date="2026-02-04">
       <description>
         <p>Update language files for new functions</p>
