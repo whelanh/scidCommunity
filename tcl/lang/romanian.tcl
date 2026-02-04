@@ -510,13 +510,14 @@ menuText L TreeHelpIndex "Index de ajutor" 0
 translate L SaveCache {Salvați cache}
 translate L Training {Antrenamentul}
 translate L LockTree {Blocare}
+translate L TreeDepth {Adâncimea copacului (jumătate de mișcări):}
 translate L TreeLocked {încuiat}
 translate L TreeBest {Cel mai bun}
 translate L TreeBestGames {Cele mai bune jocuri cu copaci}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate L TreeTitleRow \
-  {Mutare Scor de frecvență ECO AvElo Perf AvYear % Draws}
+{Mutare Scor de frecvență      ECO AvElo Perf AvYear % Draws}
 translate L TreeTotal {TOTAL}
 translate L DoYouWantToSaveFirst {Doriți să salvați mai întâi}
 translate L AddToMask {Adaugă la mască}

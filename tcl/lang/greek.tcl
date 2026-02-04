@@ -504,13 +504,14 @@ menuText G TreeHelpIndex "Κατάλογος βοήθειας" 0
 translate G SaveCache {Αποθήκευση προσωρινής μνήμης Cache}
 translate G Training {Προπόνηση}
 translate G LockTree {Κλείδωμα}
+translate G TreeDepth {Βάθος δέντρου (μισές κινήσεις):}
 translate G TreeLocked {κλειδωμένο}
 translate G TreeBest {Καλύτερο}
 translate G TreeBestGames {Οι καλύτερες παρτίδες του δένδρου}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate G TreeTitleRow \
-  {    Move   ECO       Frequency    Score  AvElo Perf AvYear %Draws}
+{Move                          ECO       Frequency    Score  AvElo Perf AvYear %Draws}
 translate G TreeTotal {ΣΥΝΟΛΟ}
 translate G DoYouWantToSaveFirst {Θέλετε να αποθηκεύσετε πρώτα;}
 translate G AddToMask {Προσθήκη στην μάσκα}

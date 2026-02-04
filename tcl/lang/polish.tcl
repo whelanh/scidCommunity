@@ -493,13 +493,14 @@ menuText P TreeHelpIndex "Spis tre¶ci" 0
 translate P SaveCache {Zapisz bufor}
 translate P Training {Trening}
 translate P LockTree {Blokada}
+translate P TreeDepth {G³êboko¶æ drzewa (po³owa ruchów):}
 translate P TreeLocked {zablokowane}
 translate P TreeBest {Najlepsze}
 translate P TreeBestGames {Najlepsze partie}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate P TreeTitleRow \
-  {    Pos.   ECO       Czêsto¶æ     Wynik  Rav   Rperf Rok   %Remis}
+{Pos.                          ECO       Czêsto¶æ     Wynik  Rav   Rperf Rok   %Remis}
 translate P TreeTotal {RAZEM}
 translate P DoYouWantToSaveFirst {Czy najpierw chcesz siê zapisaæ?}
 translate P AddToMask {Dodaj do maski}

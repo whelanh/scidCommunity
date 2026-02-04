@@ -445,13 +445,14 @@ menuText M TreeHelpIndex "Help Index" 0
 translate M SaveCache {Save Cache}
 translate M Training {训练}
 translate M LockTree {锁定}
+translate M TreeDepth {树深度（半步）：}
 translate M TreeLocked {locked}
 translate M TreeBest {最佳}
 translate M TreeBestGames {Best Tree Games}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate M TreeTitleRow \
-  {    Move   ECO       Frequency    Score  AvElo Perf AvYear %Draws}
+{Move                          ECO       Frequency    Score  AvElo Perf AvYear %Draws}
 translate M TreeTotal {总计}
 translate M DoYouWantToSaveFirst {Do you want to save first}
 translate M AddToMask {Add to Mask}

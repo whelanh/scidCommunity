@@ -482,13 +482,14 @@ menuText O TreeHelpIndex "Innholdsfortegnelse" 0
 translate O SaveCache {Lagre hurtigbuffer}
 translate O Training {Trening}
 translate O LockTree {Lås}
+translate O TreeDepth {Tredybde (halve bevegelser):}
 translate O TreeLocked {låst}
 translate O TreeBest {Beste}
 translate O TreeBestGames {Idealtrepartier}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate O TreeTitleRow \
-  {    Move   ECO       Frequency    Score  AvElo Perf AvYear %Draws} ;# ***
+{Move                          ECO       Frequency    Score  AvElo Perf AvYear %Draws} ;# ***
 translate O TreeTotal {SAMMENLAGT}
 translate O DoYouWantToSaveFirst {Vil du spare først}
 translate O AddToMask {Legg til maske}

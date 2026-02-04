@@ -477,13 +477,14 @@ menuText C TreeHelpIndex "Index nápovìdy" 0
 translate C SaveCache {Ulo¾it cache}
 translate C Training {Trénink}
 translate C LockTree {Zamknout}
+translate C TreeDepth {Hloubka stromu (pùl tahu):}
 translate C TreeLocked {Zamknuto}
 translate C TreeBest {Nejlep¹í}
 translate C TreeBestGames {Nejlep¹í partie stromu}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate C TreeTitleRow \
-  {    Tah    ECO       Frekvence    Skóre  PrElo Perf  PrRok %remíz}
+{Tah                           ECO       Frekvence    Skóre  PrElo Perf  PrRok %remíz}
 translate C TreeTotal {CELKEM}
 translate C DoYouWantToSaveFirst {Chcete nejprve ulo¾it}
 translate C AddToMask {Pøidat do masky}

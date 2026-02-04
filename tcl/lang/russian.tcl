@@ -479,13 +479,14 @@ menuText R TreeHelpIndex "Индекс помощи" 0
 translate R SaveCache {Сохранить кеш}
 translate R Training {Тренировка}
 translate R LockTree {Блокировка}
+translate R TreeDepth {Глубина дерева (половина хода):}
 translate R TreeLocked {Заблокировано}
 translate R TreeBest {Лучший}
 translate R TreeBestGames {Дерево лучших партий}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate R TreeTitleRow \
-  {    Ход    ECO       Частота     Счёт   СрЭло Прзв СрГод  %ничьих}
+{Ход                           ECO       Частота     Счёт   СрЭло Прзв СрГод  %ничьих}
 translate R TreeTotal {ИТОГ}
 translate R DoYouWantToSaveFirst {Вы хотите сохранить первым}
 translate R AddToMask {Добавить в маску}

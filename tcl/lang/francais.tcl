@@ -488,13 +488,14 @@ menuText F TreeHelpIndex "Index" 0
 translate F SaveCache {Enregistrer le cache}
 translate F Training {Entraînement}
 translate F LockTree {Verrouiller}
+translate F TreeDepth {Profondeur de l'arbre (demi-mouvements) :}
 translate F TreeLocked {verrouillé}
 translate F TreeBest {Meilleur}
 translate F TreeBestGames {Arbre des meilleures parties}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate F TreeTitleRow \
-  {    Coup   ECO        Fréquence   Score EloMoy Perf AnnéeMoy %Nulle}
+{Coup                          ECO        Fréquence   Score EloMoy Perf AnnéeMoy %Nulle}
 translate F TreeTotal {TOTAL}
 translate F DoYouWantToSaveFirst {voulez-vous d'abord sauvegarder}
 translate F AddToMask {Ajouter au masque}

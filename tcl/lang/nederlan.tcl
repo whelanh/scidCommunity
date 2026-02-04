@@ -502,13 +502,14 @@ menuText N TreeHelpIndex "Index" 0
 translate N SaveCache {Cache Bewaren}
 translate N Training {Training}
 translate N LockTree {Boom Vergrendelen}
+translate N TreeDepth {Boomdiepte (halve zetten):}
 translate N TreeLocked {Vergrendeld}
 translate N TreeBest {Beste}
 translate N TreeBestGames {Boom Beste partijen}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate N TreeTitleRow \
-  {    Zet   ECO       Frekwentie    Score  GemElo Prest GemJaar %Remises} ;
+{Zet                           ECO       Frekwentie    Score  GemElo Prest GemJaar %Remises} ;
 translate N TreeTotal {TOTAAL}
 translate N DoYouWantToSaveFirst {Wil u eerst de verandering bewaren?}
 translate N AddToMask {Toevoegen aan het Masker}

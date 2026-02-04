@@ -498,13 +498,14 @@ menuText K TreeHelpIndex "Índex del fitxer d'ajuda" 0
 translate K SaveCache {Desar memòria cau}
 translate K Training {Entrenament}
 translate K LockTree {Bloquejar}
+translate K TreeDepth {Profunditat de l'arbre (meitat de moviments):}
 translate K TreeLocked {Bloquejat}
 translate K TreeBest {Millor}
 translate K TreeBestGames {Millors partides de l'arbre}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate K TreeTitleRow \
-  {    Movim. ECO       Freqüencia   Puntu. EloPm Perf AnyPm %Taules}
+{Movim.                        ECO       Freqüencia   Puntu. EloPm Perf AnyPm %Taules}
 translate K TreeTotal {TOTAL}
 translate K DoYouWantToSaveFirst {Vols desar-ho abans}
 translate K AddToMask {Afegir a màscara}

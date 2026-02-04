@@ -483,13 +483,14 @@ menuText W TreeHelpIndex "Hjälpindex" 0
 translate W SaveCache {Spara cache}
 translate W Training {Träna}
 translate W LockTree {Lås}
+translate W TreeDepth {Träddjup (halva rörelser):}
 translate W TreeLocked {Låst}
 translate W TreeBest {Bäst}
 translate W TreeBestGames {Bästa partier i trädet}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate W TreeTitleRow \
-  { Drag      ECO     Frekvens      Res.    Elo~  Nivå  År~   %Remi} 
+{Drag                          ECO     Frekvens      Res.    Elo~  Nivå  År~   %Remi} 
 translate W TreeTotal {TOTALT} 
 translate W DoYouWantToSaveFirst {Vill du spara först}
 translate W AddToMask {Lägg till i sökmask}

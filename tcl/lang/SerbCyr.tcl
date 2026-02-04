@@ -510,13 +510,14 @@ menuText J TreeHelpIndex "Индекс помоћи" 0
 translate J SaveCache {Сачувај кеш}
 translate J Training {Обука}
 translate J LockTree {Закључај}
+translate J TreeDepth {Дубина стабла (половине):}
 translate J TreeLocked {закључано}
 translate J TreeBest {Најбољи}
 translate J TreeBestGames {Најбоље игре са дрветом}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate J TreeTitleRow \
-  {Мове ЕЦО Фрекуенци Сцоре АвЕло Перф АвИеар %Draws}
+  {Мове                          ЕЦО Фрекуенци Сцоре АвЕло Перф АвИеар %Draws}
 translate J TreeTotal {ТОТАЛ}
 translate J DoYouWantToSaveFirst {Да ли желите прво да сачувате}
 translate J AddToMask {Додајте у маску}

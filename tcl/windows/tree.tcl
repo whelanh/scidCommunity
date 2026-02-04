@@ -149,7 +149,7 @@ proc ::tree::make { { baseNumber -1 } {locked 0} } {
   ttk::checkbutton $w.buttons.training -textvar ::tr(Training) -variable tree(training$baseNumber) -command "::tree::toggleTraining $baseNumber"
   
   # Add move depth selector
-  ttk::label $w.buttons.depthlabel -text "Tree depth (half moves):"
+  ttk::label $w.buttons.depthlabel -textvar ::tr(TreeDepth)
   ttk::spinbox $w.buttons.depth -from 1 -to 4 -width 3 \
       -textvariable tree(movedepth$baseNumber) -command "::tree::refresh $baseNumber"
   bind $w.buttons.depth <Return> "::tree::refresh $baseNumber"

@@ -510,13 +510,14 @@ menuText A TreeHelpIndex "ヘルプインデックス" 0
 translate A SaveCache {キャッシュの保存}
 translate A Training {トレーニング}
 translate A LockTree {ロック}
+translate A TreeDepth {ツリーの深さ (半分の移動):}
 translate A TreeLocked {ロックされた}
 translate A TreeBest {最高}
 translate A TreeBestGames {ベストツリーゲーム}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate A TreeTitleRow \
-  {移動 ECO 頻度スコア AvElo Perf Av Year %Draws}
+{移動                            ECO 頻度スコア AvElo Perf Av Year %Draws}
 translate A TreeTotal {合計}
 translate A DoYouWantToSaveFirst {最初に保存しますか?}
 translate A AddToMask {マスクに追加}

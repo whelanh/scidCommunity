@@ -476,13 +476,15 @@ menuText T TreeHelpIndex "Yardım Dizini" 0
 translate T SaveCache {Önbelleği Kaydet}
 translate T Training {Eğitim}
 translate T LockTree {Kilit}
+# ====== TODO To be translated ======
+translate T TreeDepth {Tree depth (half moves):}
 translate T TreeLocked {kilitli}
 translate T TreeBest {En iyi}
 translate T TreeBestGames {En İyi Ağaç Oyunları}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate T TreeTitleRow \
-  {ECO Frekans Puanını Taşı AvElo Perf AvYıl %Çekimler}
+{                              ECO Frekans Puanını Taşı AvElo Perf AvYıl %Çekimler}
 translate T TreeTotal {TOPLAM}
 translate T DoYouWantToSaveFirst {Önce kaydetmek ister misiniz?}
 translate T AddToMask {Maskeye Ekle}

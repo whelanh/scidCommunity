@@ -480,13 +480,14 @@ menuText H TreeHelpIndex "Tartalom" 0
 translate H SaveCache {Cache mentése}
 translate H Training {Edzés}
 translate H LockTree {Rögzítés}
+translate H TreeDepth {Fa mélysége (fél mozgás):}
 translate H TreeLocked {rögzítve}
 translate H TreeBest {Legjobb}
 translate H TreeBestGames {A fa legjobb játszmái}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate H TreeTitleRow \
-  {    Lépés  ECO       Gyakoriság  Eredm. ÁtlÉlõ Telj. Átl.év}
+{Lépés                         ECO       Gyakoriság  Eredm. ÁtlÉlõ Telj. Átl.év}
 translate H TreeTotal {ÖSSZESEN}
 translate H DoYouWantToSaveFirst {Akarod elõbb menteni?}
 translate H AddToMask {Add hozzá a maszkhoz}

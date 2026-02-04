@@ -483,13 +483,14 @@ menuText I TreeHelpIndex "Indice" 0
 translate I SaveCache {Salva cache}
 translate I Training {Esercizio}
 translate I LockTree {Blocca}
+translate I TreeDepth {Profondità dell'albero (metà mosse):}
 translate I TreeLocked {Bloccato}
 translate I TreeBest {Migliore}
 translate I TreeBestGames {Migliori partite}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate I TreeTitleRow \
-  {    Mossa  ECO       Frequenza    Punt.  AvElo Perf AvAnno %Patta}
+{Mossa                         ECO       Frequenza    Punt.  AvElo Perf AvAnno %Patta}
 translate I TreeTotal {TOTALE}
 translate I DoYouWantToSaveFirst {Vuoi prima salvare}
 translate I AddToMask {Aggiungi alla maschera}

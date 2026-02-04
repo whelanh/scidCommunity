@@ -1,4 +1,4 @@
-q"""
+"""
 Translation Script for TODO-marked lines
 ...
 Supported Language Encodings:

@@ -485,13 +485,14 @@ menuText B TreeHelpIndex "Indice da Ajuda" 0
 translate B SaveCache {Salvar Cache}
 translate B Training {Treinamento}
 translate B LockTree {Travamento}
+translate B TreeDepth {Profundidade da árvore (meio movimento):}
 translate B TreeLocked {Travada} 
 translate B TreeBest {Melhor}
 translate B TreeBestGames {Melhores jogos da arvore}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate B TreeTitleRow \
-  {    Mov.   ECO       Frequencia   Score  AvElo Perf AvYear %Empat} 
+{Mov.                          ECO       Frequencia   Score  AvElo Perf AvYear %Empat} 
 translate B TreeTotal {TOTAL}
 translate B DoYouWantToSaveFirst {Quer salvar primeiro?}
 translate B AddToMask {Adicionar à máscara}

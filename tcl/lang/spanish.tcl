@@ -529,13 +529,14 @@ menuText S TreeHelpIndex "Índice de la ayuda" 0
 translate S SaveCache {Guardar caché}
 translate S Training {Entrenamiento}
 translate S LockTree {Bloquear}
+translate S TreeDepth {Profundidad del �rbol (medios movimientos):}
 translate S TreeLocked {Bloqueado}
 translate S TreeBest {Mejor}
 translate S TreeBestGames {Mejores partidas del árbol}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate S TreeTitleRow \
-  {    Movim. ECO       Frecuencia   Puntu. AvElo Perf AvAño %Tablas}
+{Movim.                        ECO       Frecuencia   Puntu. AvElo Perf AvAño %Tablas}
 translate S TreeTotal {TOTAL}
 translate S DoYouWantToSaveFirst {¿Quieres salvar primero?}
 translate S AddToMask {Añadir a máscara}

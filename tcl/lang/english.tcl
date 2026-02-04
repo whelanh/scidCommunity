@@ -512,6 +512,7 @@ menuText E TreeHelpIndex "Help Index" 0
 translate E SaveCache {Save Cache}
 translate E Training {Training}
 translate E LockTree {Lock}
+translate E TreeDepth {Tree depth (half moves):}
 translate E TreeLocked {locked}
 translate E TreeBest {Best}
 translate E TreeBestGames {Best Tree Games}
