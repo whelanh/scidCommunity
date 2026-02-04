@@ -1,6 +1,32 @@
 import sys
 import argparse
 import re
+import os
+import glob
+
+# Language file to language code mapping
+LANGUAGE_CODE_MAP = {
+    'czech.tcl': 'C',
+    'deutsch.tcl': 'D',
+    'francais.tcl': 'F',
+    'greek.tcl': 'G',
+    'hungary.tcl': 'H',
+    'italian.tcl': 'I',
+    'chinese.tcl': 'M',
+    'nederlan.tcl': 'N',
+    'norsk.tcl': 'O',
+    'polish.tcl': 'P',
+    'portbr.tcl': 'B',
+    'russian.tcl': 'R',
+    'serbian.tcl': 'Y',
+    'spanish.tcl': 'S',
+    'swedish.tcl': 'W',
+    'catalan.tcl': 'K',
+    'suomi.tcl': 'U',
+    'SerbCyr.tcl': 'J',
+    'romanian.tcl': 'L',
+    'japanese.tcl': 'A',
+}
 
 def get_encoding_for_file(filepath):
     """Get the encoding for a language file based on hard-coded lookup table.
@@ -199,16 +225,102 @@ def clean_and_reorder(target_file, reference_file, lang_code):
         print(f"Error: {e}")
         sys.exit(1)
 
+def process_all_new_files(reference_file):
+    """
+    Process all .tcl.new files in the current directory.
+    Uses LANGUAGE_CODE_MAP to determine the appropriate language code for each file.
+    """
+    print("="*70)
+    print("Processing all .tcl.new files...")
+    print("="*70)
+    
+    # Find all .tcl.new files in the current directory
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    new_files = glob.glob(os.path.join(script_dir, '*.tcl.new'))
+    
+    if not new_files:
+        print("No .tcl.new files found in the directory.")
+        return
+    
+    print(f"\nFound {len(new_files)} .tcl.new file(s)")
+    
+    processed_files = []
+    skipped_files = []
+    
+    for new_file in sorted(new_files):
+        # Extract base filename (remove .new extension)
+        base_filename = os.path.basename(new_file)[:-4]  # Remove '.new'
+        
+        # Look up language code
+        lang_code = LANGUAGE_CODE_MAP.get(base_filename)
+        
+        if not lang_code:
+            print(f"\nSkipping {os.path.basename(new_file)}: Unknown language file")
+            skipped_files.append(os.path.basename(new_file))
+            continue
+        
+        print(f"\n{'='*70}")
+        print(f"Processing: {os.path.basename(new_file)} (Language code: {lang_code})")
+        print(f"{'='*70}")
+        
+        try:
+            clean_and_reorder(new_file, reference_file, lang_code)
+            processed_files.append(os.path.basename(new_file))
+        except Exception as e:
+            print(f"Error processing {os.path.basename(new_file)}: {e}")
+            skipped_files.append(os.path.basename(new_file))
+    
+    # Summary
+    print("\n" + "="*70)
+    print("SUMMARY")
+    print("="*70)
+    print(f"Files processed: {len(processed_files)}")
+    
+    if processed_files:
+        print("\nSuccessfully processed:")
+        for fname in processed_files:
+            print(f"  {fname} -> {fname}.clean")
+    
+    if skipped_files:
+        print(f"\nSkipped files: {', '.join(skipped_files)}")
+    
+    print("\nNote: Check the .new.clean files for cleaned versions.")
+    print("="*70)
+
 def main():
-    parser = argparse.ArgumentParser(description='Clean and reorder translated Tcl files')
-    parser.add_argument('target_file', help='The translated .new file')
-    parser.add_argument('-r', '--reference', default='tcl/lang/english.tcl', 
-                        help='Reference english file for order/structure')
-    parser.add_argument('-c', '--code', required=True, 
+    parser = argparse.ArgumentParser(
+        description='Clean and reorder translated Tcl files',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  Process a single file:
+    python3 cleanNewFiles.py spanish.tcl.new -r english.tcl -c S
+  
+  Process all .tcl.new files:
+    python3 cleanNewFiles.py --all
+        """)
+    
+    parser.add_argument('target_file', nargs='?', help='The translated .new file (not needed with --all)')
+    parser.add_argument('-r', '--reference', default='english.tcl', 
+                        help='Reference english file for order/structure (default: english.tcl)')
+    parser.add_argument('-c', '--code', 
                         help='Language code (e.g. S for Spanish)')
+    parser.add_argument('--all', action='store_true',
+                        help='Process all .tcl.new files in the directory')
     
     args = parser.parse_args()
-    clean_and_reorder(args.target_file, args.reference, args.code)
+    
+    if args.all:
+        # Process all .tcl.new files
+        process_all_new_files(args.reference)
+    else:
+        # Process single file
+        if not args.target_file:
+            parser.error('target_file is required when not using --all')
+        if not args.code:
+            parser.error('-c/--code is required when not using --all')
+        
+        clean_and_reorder(args.target_file, args.reference, args.code)
 
 if __name__ == '__main__':
     main()

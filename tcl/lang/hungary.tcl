@@ -255,6 +255,7 @@ menuText H OptionsMovesKey "Billentyû-kiegészítés" 0 \
 menuText H OptionsMovesShowVarArrows "Nyilak megjelenítése a variációkhoz" 0 {Kapcsolja be/ki a nyilakat, amelyek különbözõ változatokban mutatják a mozgásokat}
 menuText H OptionsMovesShowEngineVariationArrows "Nyilak megjelenítése a motorváltozatokhoz" 0 {Kapcsolja be/ki a nyilakat, amelyek a motor változási vonalait mutatják többPV módban}
 menuText H OptionsMovesGlossOfDanger "Színkódolt Gloss of Danger" 0 {Kapcsolja be/ki a veszély színkódolt fényét}
+translate H OptionsMovesTreeDepth {Alapértelmezett fa ablak mozgási mélység}
 menuText H OptionsNumbers "Számformátum" 1 {Számformátum kiválasztása}
 menuText H OptionsTheme "Téma" 0 {A program megjelenésének megváltoztatása}
 menuText H OptionsWindows "Ablakok" 0 {Ablakbeállítások}
@@ -470,6 +471,7 @@ menuText H TreeOptFastAndSlowmode "Gyors és lassú üzemmód" 1 {Gyors majd lassú f
 menuText H TreeOptStartStop "Automatikus frissítés" 0 {Átváltja a faszerkezet-ablak automatikus frissítését.}
 menuText H TreeOptLock "Rögzítés" 0 {A fát az aktuális adatbázishoz köti ill. a kötést feloldja.}
 menuText H TreeOptTraining "Edzés" 0 {Edzésüzemmód be- vagy kikapcsolása}
+menuText H TreeOptDepth "Mozgassa a mélységet" 0 {A fában megjelenítendõ féllépések száma (1-4)}
 menuText H TreeOptAutosave "Cache-fájl automatikus mentése" 11 \
   {A faablak bezárásakor automatikusan elmenti a cache-fájlt.}
 menuText H TreeHelp "Segítség" 0

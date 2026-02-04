@@ -191,7 +191,6 @@ menuText B ToolsExpCurrentPGN "Exporta para PGN..." 15 \
 menuText B ToolsExpCurrentHTML "Exporta para HTML..." 15 \
   {Grava o jogo corrente em um arquivo HTML}
 menuText B ToolsExpCurrentHTMLJS "Exportar jogo para arquivo HTML e JavaScript..." 15 {Escreve o jogo corrente em um arquivo HTML e JavaScript}  
-  {Grava o jogo corrente em um arquivo LaTex}
 menuText B ToolsExpFilter "Exporta jogos filtrados" 1 \
   {Exporta todos os jogos filtrados para um arquivo texto}
 menuText B ToolsExpFilterPGN "Exporta jogos filtrados - PGN..." 17 \
@@ -199,7 +198,6 @@ menuText B ToolsExpFilterPGN "Exporta jogos filtrados - PGN..." 17 \
 menuText B ToolsExpFilterHTML "Exporta jogos filtrados - HTML..." 17 \
   {Exporta todos os jogos filtrados para um arquivo HTML}
 menuText B ToolsExpFilterHTMLJS "Exporta filtro para arquivo HTML e JavaScript..." 17 {Escreve todos os jogos filtrados para um arquivo HTML e JavaScript}  
-  {Exporta todos os jogos filtrados para um arquivo LaTex}
 menuText B ToolsImportOne "Importa PGN texto..." 0 \
   {Importa jogo de um texto em PGN}
 menuText B ToolsImportFile "Importa arquivo de jogos PGN..." 7 \
@@ -258,6 +256,7 @@ menuText B OptionsMovesKey "Auto completar" 0 \
 menuText B OptionsMovesShowVarArrows "Mostrar Setas para variantes" 0 {Liga/Desliga as setas que mostram movimentos em variantes}
 menuText B OptionsMovesShowEngineVariationArrows "Mostrar setas para variações do motor" 0 {Setas liga/desliga mostrando linhas de variação do motor no modo multiPV}
 menuText B OptionsMovesGlossOfDanger "Codigos de Cor para Perigo" 0 {Liga/Desliga os codigos de cor para perigo}
+translate B OptionsMovesTreeDepth {Profundidade de movimentação da janela de árvore padrão}
 menuText B OptionsNumbers "Formato de Numeros" 0 {Selecione o formato usado para numeros}
 menuText B OptionsTheme "Tema" 0 {Muda a aparência da interface}
 menuText B OptionsWindows "Janelas" 0 {Opcoes para Janelas}
@@ -477,6 +476,7 @@ menuText B TreeOptStartStop "Atualização automática" 0 {Liga/Desliga a atualizaç
 menuText B TreeOptLock "Lock" 0 {Trava/Destrava a arvore para o banco corrente}
 menuText B TreeOptTraining "Treinamento" 0 \
   {Liga/Desliga o modo treinamento na arvore}
+menuText B TreeOptDepth "Mover profundidade" 0 {Número de meias jogadas a serem exibidas na árvore (1-4)}
 menuText B TreeOptAutosave "Salvar automaticamente arquivo de cache" 0 \
   {Salvar automaticamente o arquivo de cache quando fechar a janela de arvore}
 menuText B TreeHelp "Ajuda" 0

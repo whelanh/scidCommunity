@@ -202,6 +202,9 @@ menuText F ToolsExpCurrentHTMLJS "Dans un fichier HTML et JavaScript..." 24 {Exp
 menuText F ToolsExpFilter "Exporter les parties filtrées" 0 \
 menuText F ToolsExpFilterPGN "Dans un fichier PGN..." 16 \
   {Exporter le filtre dans un fichier PGN}
+# MISSING TRANSLATION for ToolsExpFilterPGN:
+# menuText E ToolsExpFilterPGN "Export Filter to PGN File..." 17 \
+#   {Write all filtered games to a PGN file}
 menuText F ToolsExpFilterHTML "Dans un fichier HTML..." 16 \
   {Exporter le filtre dans un fichier HTML}
 menuText F ToolsExpFilterHTMLJS "Dans un fichier HTML et JavaScript..." 24 {Exporter le filtre dans un fichier HTML et JavaScript}
@@ -263,6 +266,7 @@ menuText F OptionsMovesKey "Auto-complétion clavier" 1 \
 menuText F OptionsMovesShowVarArrows "Montrer flèches pour les variantes" 2 {Montrer des flèches pour les prochains coups des variantes existantes}
 menuText F OptionsMovesShowEngineVariationArrows "Afficher les flèches pour les variantes du moteur" 0 {Activer/désactiver les flèches montrant les lignes de variation du moteur en mode multiPV}
 menuText F OptionsMovesGlossOfDanger "Couleur codée Gloss of Danger" 0 {Afficher/Cacher les cases colorées avec le code Gloss of Danger}
+translate F OptionsMovesTreeDepth {Profondeur de déplacement de la fenêtre d'arborescence par défaut}
 menuText F OptionsNumbers "Format numérique" 7 {Sélectionner le format des nombres}
 menuText F OptionsTheme "Apparence" 0 {Change l'apparence de l'interface}
 menuText F OptionsWindows "Fenêtres" 0 {Options des fenêtres}
@@ -476,6 +480,7 @@ menuText F TreeOptFastAndSlowmode "Mode rapide puis lent" 0 {Mode rapide puis le
 menuText F TreeOptStartStop "Rafraîchissement auto" 0 {Rafraîchissement automatique de la fenêtre}
 menuText F TreeOptLock "Verrouille" 0 {Dé/verrouiller l'arbre à la base en cours}
 menuText F TreeOptTraining "Entraînement" 0 {Démarrer/Arrêter l'arbre du mode d'entraînement}
+menuText F TreeOptDepth "Déplacer la profondeur" 0 {Nombre de demi-coups à afficher dans l'arbre (1-4)}
 menuText F TreeOptAutosave "Enregistrer le cache automatiquement" 0
 menuText F TreeHelp "Aide" 0
 menuText F TreeHelpTree "Aide Arbre" 0

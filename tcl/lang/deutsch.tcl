@@ -281,6 +281,7 @@ menuText D OptionsMovesKey "Autom. Zugergänzung" 10 \
 menuText D OptionsMovesShowVarArrows "Pfeile für Varianten anzeigen" 0 {Zeige Pfeile in Varianten an: ja/nein}
 menuText D OptionsMovesShowEngineVariationArrows "Engine-Varianten-Pfeile" 0 {Schaltet die mehrfarbigen drei Variantenpfeile im multiPV Modus aus}
 menuText D OptionsMovesGlossOfDanger "Bedrohte Figuren einfärben" 0 {Markieren von gefärdeten Figuren ein/ausschalten}
+translate D OptionsMovesTreeDepth {Standardmäßige Verschiebetiefe des Baumfensters}
 menuText D OptionsNumbers "Zahlenformat" 5 {Zahlenformat wählen}
 menuText D OptionsTheme "Design" 0 {Verändert das Aussehen der Oberfläche}
 menuText D OptionsWindows "Fenster" 6 {Fenster-Optionen}
@@ -502,6 +503,7 @@ menuText D TreeOptStartStop "Automatisch aktualisieren" 0 {Schaltet das automati
 menuText D TreeOptLock "Anbinden" 0 \
   {Zugbaum an aktive Datenbank anbinden(/lösen)}
 menuText D TreeOptTraining "Training" 0 {Trainingsmodus ein-/ausschalten}
+menuText D TreeOptDepth "Tiefe verschieben" 0 {Anzahl der im Baum anzuzeigenden Halbzüge (1-4)}
 menuText D TreeOptAutosave "Autom. Cache-Datei sichern" 4 \
   {Beim Schließen des Zugbaums automatisch Cache-Datei sichern}
 menuText D TreeHelp "Hilfe" 0

@@ -287,6 +287,7 @@ menuText A OptionsMovesKey "キーボード補完" 0 \
 menuText A OptionsMovesShowVarArrows "バリエーションの矢印を表示" 0 {バリエーションの動きを示す矢印のオン/オフを切り替えます}
 menuText A OptionsMovesShowEngineVariationArrows "エンジンのバリエーションを矢印で表示" 0 {マルチPVモードでエンジン変動ラインを表示する矢印をオン/オフにします}
 menuText A OptionsMovesGlossOfDanger "色分けされた危険の光沢" 0 {色分けされた危険の光沢をオン/オフにする}
+translate A OptionsMovesTreeDepth {デフォルトのツリーウィンドウの移動深さ}
 menuText A OptionsNumbers "数値の形式" 0 {数値形式を選択します}
 menuText A OptionsTheme "テーマ" 0 {インターフェースの外観を変更する}
 menuText A OptionsWindows "窓" 0 {ウィンドウのオプション}
@@ -500,6 +501,7 @@ menuText A TreeOptFastAndSlowmode "高速モードと低速モード" 0 {更新�
 menuText A TreeOptStartStop "自動更新" 0 {ツリーウィンドウの自動更新を切り替えます。}
 menuText A TreeOptLock "ロック" 0 {現在のデータベースに対してツリーをロック/ロック解除します。}
 menuText A TreeOptTraining "トレーニング" 0 {ツリートレーニングモードのオン/オフを切り替える}
+menuText A TreeOptDepth "移動深度" 0 {ツリーに表示するハーフムーブの数 (1 ～ 4)}
 menuText A TreeOptAutosave "キャッシュファイルの自動保存" 0 \
   {ツリーウィンドウを閉じるときにキャッシュファイルを自動保存する}
 menuText A TreeHelp "ヘルプ" 0

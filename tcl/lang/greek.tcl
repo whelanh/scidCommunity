@@ -281,6 +281,7 @@ menuText G OptionsMovesKey "Ολοκλήρωση πληκτρολογίου" 0 \
 menuText G OptionsMovesShowVarArrows "Εμφάνιση βέλους για βαριάντα" 0 {Ενεργοποίηση/απενεργοποίηση του βέλους που δείχνει τις κινήσεις των βαριαντών}
 menuText G OptionsMovesShowEngineVariationArrows "Εμφάνιση βελών για παραλλαγές κινητήρα" 0 {Ενεργοποιήστε/απενεργοποιήστε τα βέλη που δείχνουν γραμμές μεταβολής κινητήρα σε λειτουργία πολλαπλών φωτοβολταϊκών}
 menuText G OptionsMovesGlossOfDanger "Χρωματική κωδικοποίηση Gloss of Danger" 0 {Ενεργοποιήστε/απενεργοποιήστε τη χρωματική κωδικοποίηση gloss of risk}
+translate G OptionsMovesTreeDepth {Προεπιλεγμένο Βάθος μετακίνησης παραθύρου δέντρου}
 menuText G OptionsNumbers "Μορφή αριθμών" 0 {Επιλέξτε τη μορφή των αριθμών}
 menuText G OptionsTheme "Θέμα" 0 {Αλλάξτε την όψη του προγράμματος}
 menuText G OptionsWindows "Παράθυρα" 0 {Επιλογές παραθύρων}
@@ -494,6 +495,7 @@ menuText G TreeOptFastAndSlowmode "Αργή και γρήγορη λειτουρ
 menuText G TreeOptStartStop "Αυτόματη ανανέωση" 0 {Εναλλάσει την αυτόματη ανανέωση του παραθύρου του δένδρου}
 menuText G TreeOptLock "Lock" 0 {Lock/unlock the tree to the current database}
 menuText G TreeOptTraining "Προπόνηση" 0 {Ενεργοποίηση/απενεργοποίηση της λειτουργίας εκπαίδευσης}
+menuText G TreeOptDepth "Βάθος μετακίνησης" 0 {Αριθμός μισών κινήσεων προς εμφάνιση στο δέντρο (1-4)}
 menuText G TreeOptAutosave "Αυτόματη αποθήκευση του αρχείου προσωρινής μνήμης" 0 \
   {Αποθηκεύει αυτόματα το αρχείο προσωρινής μνήμης όταν κλείσετε το παράθυρο δένδρου}
 menuText G TreeHelp "Βοήθεια" 0

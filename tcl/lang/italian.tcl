@@ -255,6 +255,7 @@ menuText I OptionsMovesKey "Completamento da tastiera" 1 \
 menuText I OptionsMovesShowVarArrows "Mostra frecce per le varianti" 4 {Attiva/disattiva le freccie indicanti le mosse delle varianti}
 menuText I OptionsMovesShowEngineVariationArrows "Mostra Frecce per Varianti del Motore" 0 {Attiva/disattiva frecce che mostrano linee di variazione del motore in modalità multiPV}
 menuText I OptionsMovesGlossOfDanger "Codici di pericolo a colori" 1 {Attiva/disattiva i codici di pericolo a colori}
+translate I OptionsMovesTreeDepth {Profondità di spostamento della finestra dell'albero predefinita}
 menuText I OptionsNumbers "Formato dei numeri" 13 {Seglie il formato dei numeri}
 menuText I OptionsTheme "Tema" 0 {Cambia l'aspetto dell'interfaccia}
 menuText I OptionsWindows "Finestre" 2 {Opzioni di finestra}
@@ -473,6 +474,7 @@ menuText I TreeOptFastAndSlowmode "Modalità lenta e veloce" 0 {Modalità lenta 
 menuText I TreeOptStartStop "Aggiornamento automatico" 0 {Attiva/disattiva l'aggiornamento automatico della finestra di albero}
 menuText I TreeOptLock "Blocca" 0 {Blocca/sblocca l'albero al database corrente}
 menuText I TreeOptTraining "Allenamento" 0 {Attiva/disattiva la modalità di esercizio dell'albero}
+menuText I TreeOptDepth "Muovi la profondità" 0 {Numero di mezze mosse da visualizzare nell'albero (1-4)}
 menuText I TreeOptAutosave "File di cache per il salvataggio automatico" 0 \
   {Salva automaticamente il file di cache quando si chiude la finestra dell'albero}
 menuText I TreeHelp "Aiuto" 0

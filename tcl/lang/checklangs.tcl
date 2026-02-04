@@ -26,10 +26,13 @@ array set codes {
   catalan K
   suomi U
   greek G
+  SerbCyr J
+  romanian L
+  japanese A
 }
 
 set languages {czech deutsch francais hungary italian chinese nederlan norsk polish
-  portbr spanish swedish serbian russian catalan suomi greek
+  portbr spanish swedish serbian russian catalan suomi greek SerbCyr romanian japanese
 }
 
 ################################################################################

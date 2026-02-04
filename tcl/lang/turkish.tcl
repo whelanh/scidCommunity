@@ -251,6 +251,8 @@ menuText T OptionsMovesKey "Klavye Tamamlama" 0 \
 menuText T OptionsMovesShowVarArrows "Varyasyonlar için Okları Göster" 0 {Hareketleri varyasyonlarda gösteren okları açma/kapama}
 menuText T OptionsMovesShowEngineVariationArrows "Motor Varyasyonları için Okları Göster" 0 {MultiPV modunda motor değişim çizgilerini gösteren açma/kapama okları}
 menuText T OptionsMovesGlossOfDanger "Renk Kodlu Tehlike Parlatıcısı" 0 {Renk kodlu tehlike parlaklığını açma/kapama}
+# ====== TODO To be translated ======
+translate T OptionsMovesTreeDepth {Default Tree Window Move Depth}
 menuText T OptionsNumbers "Sayı Formatı" 0 {Sayı biçimini seçin}
 menuText T OptionsTheme "Tema" 0 {Arayüzün görünümünü değiştirin}
 menuText T OptionsWindows "Windows" 0 {Pencere seçenekleri}
@@ -464,6 +466,8 @@ menuText T TreeOptFastAndSlowmode "Hızlı ve yavaş mod" 0 {Güncellemeler içi
 menuText T TreeOptStartStop "Otomatik yenileme" 0 {Ağaç penceresinin otomatik olarak yenilenmesini açar/kapatır}
 menuText T TreeOptLock "Kilit" 0 {Ağacı geçerli veritabanına kilitleme/kilidini açma}
 menuText T TreeOptTraining "Eğitim" 0 {Ağaç eğitimi modunu aç/kapat}
+# ====== TODO To be translated ======
+menuText T TreeOptDepth "Move depth" 0 {Number of half moves to display in tree (1-4)}
 menuText T TreeOptAutosave "Önbellek Dosyasını Otomatik Kaydet" 0 \
   {Ağaç penceresini kapatırken önbellek dosyasını otomatik olarak kaydet}
 menuText T TreeHelp "Yardım" 0

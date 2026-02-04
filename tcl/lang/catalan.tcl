@@ -268,6 +268,7 @@ menuText K OptionsMovesKey "Teclat Intel·ligent" 0 \
 menuText K OptionsMovesShowVarArrows "Mostra fletxes per a les variants" 0 {Activa o desactiva la mostra de fletxes per a les variants sobre el tauler}
 menuText K OptionsMovesShowEngineVariationArrows "Mostra les fletxes per a les variacions del motor" 0 {Activar/desactivar les fletxes que mostren les línies de variació del motor en mode multiPV}
 menuText K OptionsMovesGlossOfDanger "Marques de perill de colors" 0 {Activa o desactiva les marques de perill de colors}
+translate K OptionsMovesTreeDepth {Profunditat de moviment de la finestra de l'arbre per defecte}
 menuText K OptionsNumbers "Format de números" 11 {Selecciona el format de números}
 menuText K OptionsTheme "Tema" 0 {Canviar l'aspecte del programari}
 menuText K OptionsWindows "Finestres" 0 {Opcions de finestra}
@@ -488,6 +489,7 @@ menuText K TreeOptFastAndSlowmode "Mode Ràpid i Lent" 0 {Jugada ràpida i mode le
 menuText K TreeOptStartStop "Auto actualitzat" 0 {Actualizat automàtic de la finestra de l'arbre}
 menuText K TreeOptLock "Bloquejar" 1 {Bloqueja/desbloqueja l'arbre de la base de dades actual}
 menuText K TreeOptTraining "Entrenament" 2 {Activa/desactiva el mode d'entrenament de l'arbre}
+menuText K TreeOptDepth "Moure la profunditat" 0 {Nombre de mig moviments per mostrar a l'arbre (1-4)}
 menuText K TreeOptAutosave "Autoguardar arxiu memòria cau" 0 \
   {Desar automàticament l'arxiu memòria cau quan es tanca la finestra de l'arbre}
 menuText K TreeHelp "Ajut" 1

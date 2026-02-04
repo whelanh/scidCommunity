@@ -303,6 +303,8 @@ menuText Y OptionsMovesShowVarArrows "Show Arrows for Variations" 0 {Turn on/off
 menuText Y OptionsMovesShowEngineVariationArrows "Show Arrows for Engine Variations" 0 {Turn on/off arrows showing engine variation lines in multiPV mode}
 # ====== TODO To be translated ======
 menuText Y OptionsMovesGlossOfDanger "Color Coded Gloss of Danger" 0 {Turn on/off color coded gloss of danger}
+# ====== TODO To be translated ======
+translate Y OptionsMovesTreeDepth {Default Tree Window Move Depth}
 menuText Y OptionsNumbers "Format brojeva" 0 {Izaberi format brojeva}
 # ====== TODO To be translated ======
 menuText Y OptionsTheme "Theme" 0 {Change look of interface}
@@ -556,6 +558,8 @@ menuText Y TreeOptFastAndSlowmode "Fast and slow mode" 0 {Fast mode then slow mo
 menuText Y TreeOptStartStop "Auto refreshing" 0 {Toggles automatic refreshing of the tree window}
 menuText Y TreeOptLock "Zakljuèaj" 0 {Zakljuèaj/otkljuèaj stablo za tekuæu bazu}
 menuText Y TreeOptTraining "Trening" 0 {Ukljuèi/iskljuèi trening mod stabla}
+# ====== TODO To be translated ======
+menuText Y TreeOptDepth "Move depth" 0 {Number of half moves to display in tree (1-4)}
 menuText Y TreeOptAutosave "Automatski saèuvaj cache fajl" 0 \
   {Automatski saèuvaj cache fajl pri zatvaranju prozora stabla}
 menuText Y TreeHelp "Pomoæ" 0

@@ -257,6 +257,7 @@ menuText O OptionsMovesKey "Autofullfør" 0 \
 menuText O OptionsMovesShowVarArrows "Vis piler for varianter" 0 {Slå på/av piler som viser bevegelser i varianter}
 menuText O OptionsMovesShowEngineVariationArrows "Vis piler for motorvariasjoner" 0 {Slå på/av-piler som viser motorvariasjonslinjer i multiPV-modus}
 menuText O OptionsMovesGlossOfDanger "Fargekodet Gloss of Danger" 0 {Slå på/av fargekodet gloss of fare}
+translate O OptionsMovesTreeDepth {Standard trevindu flyttedybde}
 menuText O OptionsNumbers "Tallformat" 0 {Angi tallformat}
 menuText O OptionsTheme "Tema" 0 {Endre utseendet på grensesnittet}
 menuText O OptionsWindows "Vinduer" 0 {Vindusinnstillinger}
@@ -472,6 +473,7 @@ menuText O TreeOptFastAndSlowmode "Rask og sakte modus" 0 {Rask modus og derette
 menuText O TreeOptStartStop "Automatisk forfriskende" 0 {Slår på automatisk oppdatering av trevinduet}
 menuText O TreeOptLock "Lås" 0 {Låser treet til nåværende database}
 menuText O TreeOptTraining "Trening" 0 {Slår av/på treningsmodus}
+menuText O TreeOptDepth "Flytte dybde" 0 {Antall halve trekk som skal vises i treet (1-4)}
 menuText O TreeOptAutosave "Autolagre hurtigbuffer" 0 \
   {Autolagrer hurtigbufferet når vinduet lukkes}
 menuText O TreeHelp "Hjelp" 0

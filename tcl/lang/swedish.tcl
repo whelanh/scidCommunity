@@ -258,6 +258,7 @@ menuText W OptionsMovesKey "Tangentkomplettering" 0 \
 menuText W OptionsMovesShowVarArrows "Visa pilar för variationer" 0 {Växlar på/av pilar som visar drag i variationer}
 menuText W OptionsMovesShowEngineVariationArrows "Visa pilar för motorvariationer" 0 {Slå på/av-pilar som visar motorvariationslinjer i multiPV-läge}
 menuText W OptionsMovesGlossOfDanger "Färgkodad Gloss of Danger" 0 {Slå på/av färgkodad glans av fara}
+translate W OptionsMovesTreeDepth {Standard trädfönster Flytta djup}
 menuText W OptionsNumbers "Talformat" 3 {Välj hur tal visas}
 menuText W OptionsTheme "Tema" 0 {Ändra utseende på gränssnitt}
 menuText W OptionsWindows "Fönster" 1 {Fönsteralternativ}
@@ -473,6 +474,7 @@ menuText W TreeOptFastAndSlowmode "Snabb och långsam mod" 0 {Snabb mod sedan lån
 menuText W TreeOptStartStop "Automatisk uppdatering" 0 {Växlar automatisk uppdatering av trädfönstret}
 menuText W TreeOptLock "Lås" 0 {Lås/ lås upp trädet för den aktuella databasen}
 menuText W TreeOptTraining "Träna" 0 {Starta/ stäng av träningsläge}
+menuText W TreeOptDepth "Flytta djup" 0 {Antal halva drag som ska visas i trädet (1-4)}
 menuText W TreeOptAutosave "Spara cache filen automatiskt" 0 \
   {Spara cachefilen automatiskt när trädfönstret stängs}
 menuText W TreeHelp "Hjälp" 0

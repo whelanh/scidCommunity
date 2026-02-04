@@ -251,6 +251,7 @@ menuText C OptionsMovesKey "Klávesnicové doplòování" 13 \
 menuText C OptionsMovesShowVarArrows "Zobrazit ¹ipky pro varianty" 0 {Zapnout/vypnout zobrazování ¹ipek ukazujících tahy variant}
 menuText C OptionsMovesShowEngineVariationArrows "Zobrazit ¹ipky pro varianty motoru" 0 {Zapnìte/vypnìte ¹ipky ukazující èáry variace motoru v re¾imu multiPV}
 menuText C OptionsMovesGlossOfDanger "Barevnì kódovaný lesk nebezpeèí" 0 {Zapnout/vypnout barevnì oznaèený lesk nebezpeèí}
+translate C OptionsMovesTreeDepth {Výchozí Hloubka pohybu okna stromu}
 menuText C OptionsNumbers "Formát èísel" 0 {Zvolit formát èísel}
 menuText C OptionsTheme "Téma" 0 {Zmìnit vzhled u¾ivatelského rozhraní}
 menuText C OptionsWindows "Okna" 0 {Volby oken}
@@ -467,6 +468,7 @@ menuText C TreeOptFastAndSlowmode "Rychlý a pomalý re¾im" 0 {Rychlý re¾im a poto
 menuText C TreeOptStartStop "Automatické aktualizace" 0 {Pøepnout automatické aktualizace stromového okna}
 menuText C TreeOptLock "Zamknout" 0 {Zamknout/Odemknout strom k aktuální databázi}
 menuText C TreeOptTraining "Trénink" 0 {Zapnout/Vypnout stromový tréninkový mód}
+menuText C TreeOptDepth "Hloubka pohybu" 0 {Poèet polovièních tahù k zobrazení ve stromu (1-4)}
 menuText C TreeOptAutosave "Automatické ukládání cache souboru" 0 \
   {Automatické ukládání cache souboru pøi uzavøení stromového okna}
 menuText C TreeHelp "Nápovìda" 0

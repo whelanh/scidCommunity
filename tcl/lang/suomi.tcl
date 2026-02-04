@@ -288,6 +288,7 @@ menuText U OptionsMovesKey "Automaattinen t‰ydennys" 0 \
 menuText U OptionsMovesShowVarArrows "Muunnelmat nuolin" 0 {N‰yt‰/‰l‰ n‰yt‰ muunnelmia nuolilla laudalla}
 menuText U OptionsMovesShowEngineVariationArrows "N‰yt‰ nuolet moottorin muunnelmia varten" 0 {Kytke p‰‰lle/pois nuolet, jotka n‰ytt‰v‰t moottorin vaihteluviivoja moniPV-tilassa}
 menuText U OptionsMovesGlossOfDanger "V‰rikoodattu Gloss of Danger" 0 {Kytke p‰‰lle/pois p‰‰lt‰ v‰rikoodattu vaaran kiilto}
+translate U OptionsMovesTreeDepth {Oletuspuuikkunan siirtosyvyys}
 menuText U OptionsNumbers "Numerointi" 0 {Numeroformaatit, 1-3 desimaalipisteell‰, 4-6 -pilkulla}
 menuText U OptionsTheme "Teema" 0 {Valitse k‰yttˆliittym‰n teema}
 menuText U OptionsWindows "Ikkunat" 0 {Ikkunoiden asetukset}
@@ -501,6 +502,7 @@ menuText U TreeOptFastAndSlowmode "Hidas ja nopea" 0 {P‰ivit‰ ensin nopeasti, si
 menuText U TreeOptStartStop "Automaattinen p‰ivitys" 0 {Ikkunan automaattinen p‰ivitys p‰‰lle/p‰‰lt‰}
 menuText U TreeOptLock "Lukitse" 0 {Lukitse/vapauta puu nykyiseen tietokantaan}
 menuText U TreeOptTraining "Valmennus" 0 {Puun valmennusmoodii p‰‰lle/p‰‰lt‰}
+menuText U TreeOptDepth "Siirr‰ syvyytt‰" 0 {Puolikkaan liikkeiden m‰‰r‰ puussa n‰ytett‰v‰ksi (1-4)}
 menuText U TreeOptAutosave "Tallenna v‰limuisti automaattisesti" 0 \
   {Tallenna v‰limuisti tiedostoon automaattisesti, kun puu-ikkuna suljetaan}
 menuText U TreeHelp "Ohje" 0
