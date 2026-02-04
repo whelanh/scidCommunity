@@ -989,8 +989,21 @@ namespace eval uciboard {
     global ::uciboard::UCIBoard
     set pipe $::uciboard::UCIBoard(pipe)
 
+    # Check if pipe is valid before trying to use it
+    if {$pipe == "" || [catch {eof $pipe} result] || $result} {
+      ::uciboard::logEngine "! Error: Driver disconnected or crashed"
+      ::uciboard::resetEngine
+      ::ExtHardware::HWbuttonImg tb_eng_error
+      return
+    }
+
     ::uciboard::logEngine "> $msg"
-    puts $pipe $msg
+    if {[catch {puts $pipe $msg} err]} {
+      ::uciboard::logEngine "! Error sending to driver: $err"
+      ::uciboard::resetEngine
+      ::ExtHardware::HWbuttonImg tb_eng_error
+      return
+    }
     flush $pipe
   }
 
