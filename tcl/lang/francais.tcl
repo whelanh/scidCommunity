@@ -199,7 +199,7 @@ menuText F ToolsExpCurrentPGN "Dans un fichier PGN..." 16 \
 menuText F ToolsExpCurrentHTML "Dans un fichier HTML..." 16 \
   {Exporter la partie en cours dans un fichier HTML}
 menuText F ToolsExpCurrentHTMLJS "Dans un fichier HTML et JavaScript..." 24 {Exporter la partie en cours dans un fichier HTML et JavaScript}
-menuText F ToolsExpFilter "Exporter les parties filtrées" 0 \
+menuText F ToolsExpFilter "Exporter les parties filtrées" 0
 menuText F ToolsExpFilterPGN "Dans un fichier PGN..." 16 \
   {Exporter le filtre dans un fichier PGN}
 # MISSING TRANSLATION for ToolsExpFilterPGN:
