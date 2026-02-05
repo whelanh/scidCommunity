@@ -486,7 +486,7 @@ translate R TreeBestGames {Дерево лучших партий}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate R TreeTitleRow \
-{Ход                           ECO       Частота     Счёт   СрЭло Прзв СрГод  %ничьих      %Победить}
+{Ход                           ECO       Частота     Счёт   СрЭло Прзв СрГод  %ничьих  %Победить}
 translate R TreeTotal {ИТОГ}
 translate R DoYouWantToSaveFirst {Вы хотите сохранить первым}
 translate R AddToMask {Добавить в маску}

@@ -517,7 +517,7 @@ translate J TreeBestGames {Најбоље игре са дрветом}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate J TreeTitleRow \
-  {Мове                          ЕЦО Фрекуенци Сцоре АвЕло Перф АвИеар %Draws     %Вин}
+  {Мове                          ЕЦО       Фрекуенци     Сцоре АвЕло Перф АвИеар %Draws     %Вин}
 translate J TreeTotal {ТОТАЛ}
 translate J DoYouWantToSaveFirst {Да ли желите прво да сачувате}
 translate J AddToMask {Додајте у маску}
