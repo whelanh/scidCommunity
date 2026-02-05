@@ -519,7 +519,7 @@ translate E TreeBestGames {Best Tree Games}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate E TreeTitleRow \
-  {    Move(s)                   ECO       Frequency    Score  AvElo Perf AvYear %Draws}
+  {    Move(s)                   ECO       Frequency    Score  AvElo Perf AvYear %Draws     %Win}
 translate E TreeTotal {TOTAL}
 translate E DoYouWantToSaveFirst {Do you want to save first}
 translate E AddToMask {Add to Mask}

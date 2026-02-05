@@ -576,7 +576,7 @@ translate Y TreeBestGames {Najbolje partije stabla}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate Y TreeTitleRow \
-{Move                          ECO       Frequency    Score  AvElo Perf AvYear %Draws} ;# ***
+{Move                          ECO       Frequency    Score  AvElo Perf AvYear %Draws     %Win} ;# ***
 translate Y TreeTotal {UKUPNO}
 # ====== TODO To be translated ======
 translate Y DoYouWantToSaveFirst {Do you want to save first}

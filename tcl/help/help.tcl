@@ -2070,8 +2070,12 @@ set helpText(Tree) {<h1>The Tree window</h1>
   player's on move and <term>Perf</term> (performance) represents the
   opponent's strength. Additionally, <term>AvYear</term> shows the
   average year of games played in this move and <term>%Draws</term>
-  gives the percentage of draws for the line displayed. All these
-  values are calculated for the database displayed in the tree, and
+  gives the percentage of draws for the line displayed. Finally, the
+  <term>%Win</term> column shows the winning advantage:
+  (White Wins - Black Wins) / (Total Games). It is displayed as a percentage,
+  where a positive value indicates a White advantage and a negative value
+  indicates a Black advantage.
+  All these values are calculated for the database displayed in the tree, and
   therefore depend of course on the games in this database.
   </p>
   <p>

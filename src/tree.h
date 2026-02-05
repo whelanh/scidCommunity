@@ -62,6 +62,13 @@ public:
 		return n ? static_cast<int>(res / n) : 500;
 	}
 
+	int winAdvantage() const {
+		auto n = freq[RESULT_White] + freq[RESULT_Draw] + freq[RESULT_Black];
+		if (n == 0) return 0;
+		long long diff = (long long)freq[RESULT_White] - (long long)freq[RESULT_Black];
+		return static_cast<int>(10000LL * diff / n);
+	}
+
 	double eloPerformance() const {
 		if (eloCount == 0)
 			return 0;

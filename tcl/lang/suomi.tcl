@@ -518,7 +518,7 @@ translate U TreeBestGames {Parhaat pelit}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate U TreeTitleRow \
-{Siirto                        ECO       Yleisyys     Tulos  AvElo Perf AvYear %Draws}
+{Siirto                        ECO       Yleisyys     Tulos  AvElo Perf AvYear %Draws     %Voittaa}
 translate U TreeTotal {TOTAL}
 translate U DoYouWantToSaveFirst {Haluatko tallentaa ensin}
 translate U AddToMask {Lis‰‰ maskiin}
