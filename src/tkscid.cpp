@@ -7761,10 +7761,9 @@ int sc_tree_stats(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     std::snprintf(temp, sizeof(temp), "  %3d%%", pctDraws);
     dest.append(temp);
 
-    const auto winAdv = node.winAdvantage();
-    std::snprintf(temp, sizeof(temp), "    %s%3d%c%02d%%",
-                  winAdv >= 0 ? " " : "-", abs(winAdv) / 100, decimalPointChar,
-                  abs(winAdv) % 100);
+    const auto winPct = node.winPercentage();
+    std::snprintf(temp, sizeof(temp), "     %3d%c%02d%%",
+                  winPct / 100, decimalPointChar, winPct % 100);
     dest.append(temp);
   };
 

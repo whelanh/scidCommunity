@@ -52,17 +52,18 @@
     The tree window shows the <a href="ECO.html">ECO code</a> (if any), frequency (both as
     number of games, and a percentage), score, and <b><i>
         <font color="#990000">%Win</font>
-      </i></b> (win advantage) of each move.
+      </i></b> (win percentage) of each move.
     The <b><i>
         <font color="#990000">score</font>
       </i></b> is always computed from the <b>White</b>
     perspective, so 100% means all White wins and 0% means all Black wins.
     The <b><i>
         <font color="#990000">%Win</font>
-      </i></b> column shows the winning advantage:
-    (White Wins - Black Wins) / (Total Games). It is displayed as a percentage,
-    where a positive value indicates a White advantage and a negative value
-    indicates a Black advantage.
+      </i></b> column shows the win percentage for the side to move:
+    when White is to move, it shows (White Wins / Total Games) × 100%;
+    when Black is to move, it shows (Black Wins / Total Games) × 100%.
+    This highlights moves with high win rates for the moving side, even when
+    the overall score is close to 50%.
   </p>
   <p>
     The moves in the tree window can be sorted by move (alphabetically),

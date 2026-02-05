@@ -2062,7 +2062,8 @@ set helpText(Tree) {<h1>The Tree window</h1>
   (both as number of games, and a percentage) and score of each move.
   The <term>score</term> is always computed from the <b>White</b>
   perspective, so 100% means all White wins and 0% means all Black
-  wins. Scores are highlighted for moves that have good (green) or bad
+  wins (White Wins * 1 + Draws * 0.5)/Total Games. Scores are 
+  highlighted for moves that have good (green) or bad
   (red) results. On average a move should score 53.8% for white,
   highlighting appears if a move scores more than 3% better or worse
   than this average and if at least 15 games are contained in the
@@ -2071,10 +2072,11 @@ set helpText(Tree) {<h1>The Tree window</h1>
   opponent's strength. Additionally, <term>AvYear</term> shows the
   average year of games played in this move and <term>%Draws</term>
   gives the percentage of draws for the line displayed. Finally, the
-  <term>%Win</term> column shows the winning advantage:
-  (White Wins - Black Wins) / (Total Games). It is displayed as a percentage,
-  where a positive value indicates a White advantage and a negative value
-  indicates a Black advantage.
+  <term>%Win</term> column shows the win percentage for the side to move:
+  when White is to move, it shows (White Wins / Total Games) × 100%;
+  when Black is to move, it shows (Black Wins / Total Games) × 100%.
+  This highlights moves with high win rates for the moving side, even when
+  the overall score is close to 50%.
   All these values are calculated for the database displayed in the tree, and
   therefore depend of course on the games in this database.
   </p>

@@ -500,24 +500,16 @@ proc ::tree::displayLines { baseNumber moves } {
         $w.f.tl image create end -image tb_empty -align center
       }
     }
-    set colorWin   [::tree::getColorWin "$line"]
     # Move and stats
     set lineStart [$w.f.tl index "end - 1 chars"]
     $w.f.tl insert end "$line" [list $tagfg tagtooltip$i]
     set lineEnd [$w.f.tl index "end - 1 chars"]
     # Calculate character positions within the line for coloring
     # Score is at positions 51-58 (7 chars: "  53.6%") in the line string for 94-char lines
-    # Win is the last 9 chars of the line
     if {$colorScore != ""} {
       set scoreStart [$w.f.tl index "$lineStart + 51 chars"]
       set scoreEnd [$w.f.tl index "$lineStart + 58 chars"]
       $w.f.tl tag add $colorScore $scoreStart $scoreEnd
-    }
-    if {$colorWin != ""} {
-      set lineLen [string length $line]
-      set winStart [expr {$lineLen - 9}]
-      set winStartIdx [$w.f.tl index "$lineStart + $winStart chars"]
-      $w.f.tl tag add $colorWin $winStartIdx $lineEnd
     }
     if {$move != "" && $move != "---" && $move != "\[end\]" && $i != [expr $len -2] && $i != 0} {
       $w.f.tl tag bind tagclick$i <Button-1> "[list ::tree::selectCallback $baseNumber $move ] ; break"
