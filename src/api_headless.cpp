@@ -2,6 +2,7 @@
 #include "dbasepool.h"
 #include "json.hpp"
 #include "misc.h"
+#include "pgnparse.h"
 #include "scidbase.h"
 #include <iostream>
 #include <string>
@@ -96,6 +97,31 @@ void HeadlessMainLoop(int argc, char *argv[]) {
       result["num_games"] = dbase->numGames();
       HeadlessAPI::SendResult(id, result);
 
+    } else if (method == "db_create") {
+      std::string path = params["path"];
+      std::string type_str = params.value("type", "SCID5");
+      auto dbase = DBasePool::getFreeSlot();
+      if (!dbase) {
+        HeadlessAPI::SendError(id, -32002, "No free database slots");
+        return;
+      }
+      errorT err = dbase->open(type_str, FMODE_Create, path.c_str());
+      if (err != OK && err != ERROR_NameDataLoss) {
+        HeadlessAPI::SendError(
+            id, -32001, "Failed to create database: " + std::to_string(err));
+      } else {
+        int handle = DBasePool::switchCurrent(dbase);
+        HeadlessAPI::SendResult(id, {{"handle", handle}});
+      }
+    } else if (method == "db_close") {
+      int handle = params["handle"];
+      auto dbase = DBasePool::getBase(handle);
+      if (!dbase) {
+        HeadlessAPI::SendError(id, -32003, "Invalid database handle");
+        return;
+      }
+      dbase->Close();
+      HeadlessAPI::SendResult(id, {{"success", true}});
     } else if (method == "db_search") {
       int handle = params.value("handle", 0);
       scidBaseT *dbase = DBasePool::getBase(handle);
@@ -200,6 +226,72 @@ void HeadlessMainLoop(int argc, char *argv[]) {
       }
 
       HeadlessAPI::SendResult(id, result);
+    } else if (method == "game_delete") {
+      int handle = params.value("handle", 0);
+      scidBaseT *dbase = DBasePool::getBase(handle);
+      if (!dbase) {
+        HeadlessAPI::SendError(id, -32602, "Invalid database handle");
+        continue;
+      }
+      gamenumT gnum = params.value("id", 0);
+      if (gnum < 1 || gnum > dbase->numGames()) {
+        HeadlessAPI::SendError(id, -32602, "Invalid game ID");
+        continue;
+      }
+      errorT err =
+          dbase->setFlag(true, IndexEntry::CharToFlagMask('D'), gnum - 1);
+      if (err != OK) {
+        HeadlessAPI::SendError(id, -32001,
+                               "Failed to delete game: " + std::to_string(err));
+      } else {
+        HeadlessAPI::SendResult(id, {{"success", true}});
+      }
+    } else if (method == "db_compact") {
+      int handle = params.value("handle", 0);
+      scidBaseT *dbase = DBasePool::getBase(handle);
+      if (!dbase) {
+        HeadlessAPI::SendError(id, -32602, "Invalid database handle");
+        continue;
+      }
+      errorT err = dbase->compact(Progress());
+      if (err != OK) {
+        HeadlessAPI::SendError(
+            id, -32001, "Failed to compact database: " + std::to_string(err));
+      } else {
+        HeadlessAPI::SendResult(id, {{"success", true}});
+      }
+    } else if (method == "game_add") {
+      int handle = params.value("handle", 0);
+      scidBaseT *dbase = DBasePool::getBase(handle);
+      if (!dbase) {
+        HeadlessAPI::SendError(id, -32602, "Invalid database handle");
+        continue;
+      }
+      std::string pgn = params.value("pgn", "");
+      Game game;
+      if (!pgn.empty()) {
+        PgnParseLog log;
+        if (!pgnParseGame(pgn.c_str(), pgn.length(), game, log)) {
+          HeadlessAPI::SendError(id, -32005, "PGN parse error: " + log.log);
+          continue;
+        }
+      }
+
+      if (params.contains("tags")) {
+        json tags = params["tags"];
+        for (auto it = tags.begin(); it != tags.end(); ++it) {
+          game.addTag(it.key(), it.value().get<std::string>());
+        }
+      }
+
+      errorT err = dbase->saveGame(&game, INVALID_GAMEID);
+      if (err != OK) {
+        HeadlessAPI::SendError(id, -32001,
+                               "Failed to add game: " + std::to_string(err));
+      } else {
+        HeadlessAPI::SendResult(id,
+                                {{"success", true}, {"id", dbase->numGames()}});
+      }
     } else {
       HeadlessAPI::SendError(id, -32601, "Method not found");
     }
