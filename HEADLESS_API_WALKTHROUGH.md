@@ -14,9 +14,6 @@ The goal of Phase 1 was to establish the basic communication layer and ensure th
 - **JSON Library**: Integrated `nlohmann/json` as the primary serialization format.
 - **Decoupling**: Resolved compilation issues by isolating headless code from Tcl/Tk header pollution.
 
-### Core Endpoints
-- `get_version`: Returns the API version to verify connectivity.
-
 ---
 
 ## Phase 2: Core Read-Only Functionality (Completed)
@@ -34,6 +31,12 @@ Phase 2 extended the API to interact with real chess databases, supporting searc
 - `db_search`: Performs filtered searches across the database index.
 - `game_get`: Retrieves structured metadata and the full PGN move list for a specific game.
 
+### Verification Success
+Verified via `scripts/test_headless_api.py` and `scripts/test_headless_api_si5.py` against both PGN and real `.si5` databases:
+- **Search Logic**: Successfully found **16 games** for "**Nakamura,Hi**" in the `testTWIC` database.
+- **Data Integrity**: Extracted full PGNs including advanced metadata (FIDE IDs, titles, Opening).
+- **Stability**: Validated that database handles remain stable across consecutive requests.
+
 ---
 
 ## Phase 3: Write Operations (Roadmap)
@@ -49,6 +52,6 @@ Phase 3 will focus on allowing the API to modify and create databases, making it
 ---
 
 ## Technical Resources
-- **Test Script**: `scripts/test_headless_api.py`
+- **Test Scripts**: `scripts/test_headless_api.py` | `scripts/test_headless_api_si5.py`
 - **Source Code**: `src/api_headless.cpp` | `src/api_headless.h`
 - **Task List**: `.gemini/antigravity/brain/.../task.md`
