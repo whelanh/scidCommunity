@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.18
+Version:        5.1.2.19
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 2b1558ee839ba33a2b22a3dd4f590e03e3c1a05d
+%global commit f1ed83b3c0d9557e114c6dc697eb354ce8b5b4be
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Sun Feb 8 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-19
+- "Refine Lichess Table Base button reporting of partial 8-man tablebase results"
 * Thu Feb 5 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-18
 - "Add column to Tree View window showing gross percentage of wins for side to move"
 * Wed Feb 4 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-17
