@@ -87,9 +87,25 @@ void scid_Exit(void *) {
  * \section Tests
  * Link to <a href="../gcov/index.html">code coverage</a>
  */
+#include "api_headless.h"
+
 int main(int argc, char *argv[]) {
+  bool headless = false;
+  for (int i = 1; i < argc; ++i) {
+    if (std::string(argv[i]) == "--headless") {
+      headless = true;
+      break;
+    }
+  }
+
   scratchGame = new Game;
   DBasePool::init();
+
+  if (headless) {
+    HeadlessMainLoop(argc, argv);
+    scid_Exit(nullptr);
+    return 0;
+  }
 
   return UI_Main(argc, argv, scid_Exit);
 }
@@ -7762,8 +7778,8 @@ int sc_tree_stats(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     dest.append(temp);
 
     const auto winPct = node.winPercentage();
-    std::snprintf(temp, sizeof(temp), "     %3d%c%02d%%",
-                  winPct / 100, decimalPointChar, winPct % 100);
+    std::snprintf(temp, sizeof(temp), "     %3d%c%02d%%", winPct / 100,
+                  decimalPointChar, winPct % 100);
     dest.append(temp);
   };
 
