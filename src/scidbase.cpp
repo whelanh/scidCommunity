@@ -87,8 +87,9 @@ errorT scidBaseT::openHelper(ICodecDatabase::Codec dbtype, fileModeT fMode,
 	if (inUse)
 		return ERROR_FileInUse;
 
-	// File-based locking for write modes
-	if (fMode == FMODE_WriteOnly || fMode == FMODE_Both || fMode == FMODE_Create) {
+	// File-based locking for write modes (skip for MEMORY databases)
+	if (dbtype != ICodecDatabase::MEMORY &&
+	    (fMode == FMODE_WriteOnly || fMode == FMODE_Both || fMode == FMODE_Create)) {
 		std::string lockPath = std::string(filename) + ".lock";
 		if (std::filesystem::exists(lockPath)) {
 			return ERROR_FileInUse;

@@ -4,6 +4,8 @@
 #include "misc.h"
 #include "pgnparse.h"
 #include "scidbase.h"
+#include <csignal>
+#include <cstdlib>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -34,7 +36,16 @@ inline void SendResult(const json &id, const json &result) {
 }
 } // namespace HeadlessAPI
 
+static void cleanup_handler(int signum) {
+  DBasePool::closeAll();
+  std::exit(signum == SIGINT ? 130 : 143);
+}
+
 void HeadlessMainLoop(int argc, char *argv[]) {
+  // Set up signal handlers for clean shutdown
+  std::signal(SIGTERM, cleanup_handler);
+  std::signal(SIGINT, cleanup_handler);
+
   std::string line;
   while (std::getline(std::cin, line)) {
     if (line.empty())
