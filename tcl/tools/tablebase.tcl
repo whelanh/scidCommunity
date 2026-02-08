@@ -86,9 +86,9 @@ proc ::tablebase::queryTablebaseResult {fen} {
             "draw"           { return "draw with perfect play" }
             "cursed-win"     { return "winning for $sideToMove" }
             "blessed-loss"   { return "draw with perfect play" }
-            "maybe-win"      { return "draw with perfect play" }
-            "maybe-loss"     { return "draw with perfect play" }
-            "unknown"        { return "draw with perfect play" }
+            "maybe-win"      { return "likely winning for $sideToMove (partial analysis)" }
+            "maybe-loss"     { return "likely losing for $sideToMove (partial analysis)" }
+            "unknown"        { return "unknown (outside tablebase coverage)" }
             default           { return "error: Unknown category: $category" }
         }
     }
@@ -172,7 +172,7 @@ proc ::tablebase::displayResult {w jsonData fen} {
     # This handles the typical Lichess tablebase response
     
     if {[string match "*not found*" $jsonData] || [string match "*error*" $jsonData]} {
-        ::tablebase::showError $w "Position not found in tablebase. This feature works for positions with 7 pieces or fewer."
+        ::tablebase::showError $w "Position not found in tablebase."
         return
     }
     
@@ -196,6 +196,12 @@ proc ::tablebase::displayResult {w jsonData fen} {
     # Extract DTM (distance to mate) if available
     if {[regexp {"dtm":(-?\d+)} $jsonData -> dtm]} {
         # DTM found
+    }
+    
+    # Extract DTC (distance to conversion) for 8-man positions
+    set dtc ""
+    if {[regexp {"dtc":(-?\d+)} $jsonData -> dtc]} {
+        # DTC found (used in partial 8-man tablebase results)
     }
     
     # Extract best move
@@ -242,12 +248,24 @@ proc ::tablebase::displayResult {w jsonData fen} {
             set description "This position is a **blessed loss** for $sideToMove."
             append description "\n\nWhile technically losing, $sideToMove can force a draw by the 50-move rule with perfect defense."
         }
-        "maybe-win" -
+        "maybe-win" {
+            set description "This position is a **likely win** for $sideToMove (partial 8-man analysis)."
+            append description "\n\nThe tablebase analysis is incomplete for this 8-man position, but the available data suggests a winning position."
+            if {$dtc ne ""} {
+                set absValue [expr {abs($dtc)}]
+                append description "\n\nDistance to conversion: $absValue halfmoves."
+            }
+        }
         "maybe-loss" {
-            set description "Position evaluation uncertain."
+            set description "This position is a **likely loss** for $sideToMove (partial 8-man analysis)."
+            append description "\n\nThe tablebase analysis is incomplete for this 8-man position, but the available data suggests a losing position."
+            if {$dtc ne ""} {
+                set absValue [expr {abs($dtc)}]
+                append description "\n\nDistance to conversion: $absValue halfmoves."
+            }
         }
         "unknown" {
-            set description "Category: unknown\n\nMust be 7 or fewer pieces for endgame result."
+            set description "Category: unknown\n\nThis position is outside the tablebase coverage."
         }
         default {
             if {$category ne ""} {
@@ -262,7 +280,7 @@ proc ::tablebase::displayResult {w jsonData fen} {
     ttk::frame $w.result
     pack $w.result -fill both -expand 1 -padx 20 -pady 10
     
-    ttk::label $w.result.title -text "Lichess 7-Man Tablebase Result" -font font_Bold
+    ttk::label $w.result.title -text "Lichess Endgame Tablebase Result" -font font_Bold
     pack $w.result.title -pady {0 10}
     
     # FEN display
