@@ -26,7 +26,7 @@ This document defines the JSON-RPC 2.0 interface for the scidCommunity headless 
 - [`game_get`](#game_get): Retrieve full PGN and metadata for a specific game.
 
 ### Write Operations
-- [`game_add`](#game_add): Add a new game to the database (from PGN or tags).
+- [`game_add`](#game_add): Add a new game to the database, or replace an existing one by ID.
 - [`game_delete`](#game_delete): Mark a game for deletion.
 
 ---
@@ -111,13 +111,14 @@ Retrieves full game data.
 
 ---
 
-### `game_add`
-Adds a new game to the database.
+### `game_add` (Create or Replace)
+Adds a new game to the database, or replaces an existing one if an `id` is provided.
 
 **Parameters:**
 - `handle` (int, required): Database handle.
+- `id` (int, optional): 1-based game ID to replace. If provided, existing data is preserved unless overwritten by `tags` or `pgn`.
 - `pgn` (string, optional): PGN move text to parse.
-- `tags` (object, optional): Key-value pairs for PGN tags (e.g., `{"White": "Nakamura", "Black": "Carlsen"}`).
+- `tags` (object, optional): Key-value pairs for PGN tags.
 
 **Response Result:**
 - `success` (bool): `true` on success.

@@ -267,6 +267,9 @@ void HeadlessMainLoop(int argc, char *argv[]) {
         HeadlessAPI::SendError(id, -32602, "Invalid database handle");
         continue;
       }
+      gamenumT target_id = params.value("id", 0);
+      gamenumT replaced_gnum = (target_id > 0) ? target_id - 1 : INVALID_GAMEID;
+
       std::string pgn = params.value("pgn", "");
       Game game;
       if (!pgn.empty()) {
@@ -275,6 +278,13 @@ void HeadlessMainLoop(int argc, char *argv[]) {
           HeadlessAPI::SendError(id, -32005, "PGN parse error: " + log.log);
           continue;
         }
+      } else if (replaced_gnum != INVALID_GAMEID) {
+        if (replaced_gnum >= dbase->numGames()) {
+          HeadlessAPI::SendError(id, -32602, "Invalid game ID");
+          continue;
+        }
+        const IndexEntry *ie = dbase->getIndexEntry(replaced_gnum);
+        dbase->getGame(*ie, game);
       }
 
       if (params.contains("tags")) {
@@ -284,13 +294,14 @@ void HeadlessMainLoop(int argc, char *argv[]) {
         }
       }
 
-      errorT err = dbase->saveGame(&game, INVALID_GAMEID);
+      errorT err = dbase->saveGame(&game, replaced_gnum);
       if (err != OK) {
         HeadlessAPI::SendError(id, -32001,
                                "Failed to add game: " + std::to_string(err));
       } else {
-        HeadlessAPI::SendResult(id,
-                                {{"success", true}, {"id", dbase->numGames()}});
+        HeadlessAPI::SendResult(
+            id, {{"success", true},
+                 {"id", (target_id > 0) ? target_id : dbase->numGames()}});
       }
     } else {
       HeadlessAPI::SendError(id, -32601, "Method not found");
