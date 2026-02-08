@@ -185,11 +185,8 @@ void HeadlessMainLoop(int argc, char *argv[]) {
               allTagsMatch = false;
               break;
             }
-            // Check for substring match or exact match?
-            // User request implied exact: ICCF is 1610898.
-            // But usually searches are robust. Let's do exact match for now as
-            // requested. "ICCF is 1610898". If the user wants partial, they
-            // can't do it with this logic yet. Let's implement simple substring
+
+            // Let's implement simple substring
             // search for flexibility, as is common in Scid.
             if (it->second.find(reqVal) == std::string::npos) {
               allTagsMatch = false;
