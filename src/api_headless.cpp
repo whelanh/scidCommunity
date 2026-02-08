@@ -62,6 +62,7 @@ void HeadlessMainLoop(int argc, char *argv[]) {
     } else if (method == "db_open") {
       std::string path = params.value("path", "");
       std::string type = params.value("type", "SCID5");
+      bool readonly = params.value("readonly", false);
       if (path.empty()) {
         HeadlessAPI::SendError(id, -32602, "Missing 'path' parameter");
         continue;
@@ -73,7 +74,8 @@ void HeadlessMainLoop(int argc, char *argv[]) {
         continue;
       }
 
-      errorT err = dbase->open(type, FMODE_ReadOnly, path.c_str());
+      fileModeT mode = readonly ? FMODE_ReadOnly : FMODE_Both;
+      errorT err = dbase->open(type, mode, path.c_str());
       if (err != OK) {
         HeadlessAPI::SendError(
             id, -32001, "Failed to open database: " + std::to_string(err));
