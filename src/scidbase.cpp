@@ -26,6 +26,7 @@
 #include "stored.h"
 #include <algorithm>
 #include <filesystem>
+#include <fstream>
 
 std::pair<ICodecDatabase*, errorT>
 ICodecDatabase::open(Codec codec, fileModeT fMode, const char* filename,
@@ -86,6 +87,21 @@ errorT scidBaseT::openHelper(ICodecDatabase::Codec dbtype, fileModeT fMode,
 	if (inUse)
 		return ERROR_FileInUse;
 
+	// File-based locking for write modes
+	if (fMode == FMODE_WriteOnly || fMode == FMODE_Both || fMode == FMODE_Create) {
+		std::string lockPath = std::string(filename) + ".lock";
+		if (std::filesystem::exists(lockPath)) {
+			return ERROR_FileInUse;
+		}
+		// Create the lock file
+		std::ofstream lockStream(lockPath);
+		if (!lockStream) {
+			return ERROR_FileWrite;
+		}
+		lockStream.close();
+		lockFile_ = lockPath;
+	}
+
 	auto [db, err] = ICodecDatabase::open(dbtype, fMode, filename, progress,
 	                                      idx, nb_);
 	if (db) {
@@ -106,6 +122,11 @@ errorT scidBaseT::openHelper(ICodecDatabase::Codec dbtype, fileModeT fMode,
 	} else {
 		idx->Close();
 		nb_->Clear();
+		// Clean up lock file on failure
+		if (!lockFile_.empty()) {
+			std::filesystem::remove(lockFile_);
+			lockFile_.clear();
+		}
 	}
 
 	return err;
@@ -113,6 +134,12 @@ errorT scidBaseT::openHelper(ICodecDatabase::Codec dbtype, fileModeT fMode,
 
 void scidBaseT::Close() {
 	ASSERT(inUse);
+
+	// Remove lock file if present
+	if (!lockFile_.empty()) {
+		std::filesystem::remove(lockFile_);
+		lockFile_.clear();
+	}
 
 	for (auto& sortCache : sortCaches_) {
 		delete sortCache.second;
