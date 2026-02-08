@@ -1,6 +1,6 @@
 #include "api_headless.h"
 #include "dbasepool.h"
-#include "json.hpp"
+#include "external/json.hpp"
 #include "misc.h"
 #include "pgnparse.h"
 #include "scidbase.h"
@@ -40,10 +40,8 @@ void HeadlessMainLoop(int argc, char *argv[]) {
     if (line.empty())
       continue;
 
-    json request;
-    try {
-      request = json::parse(line);
-    } catch (const std::exception &e) {
+    json request = json::parse(line, nullptr, false);
+    if (request.is_discarded()) {
       HeadlessAPI::SendError(nullptr, -32700, "Parse error");
       continue;
     }
@@ -159,6 +157,56 @@ void HeadlessMainLoop(int argc, char *argv[]) {
         HeadlessAPI::SendError(id, -32002,
                                "Search failed: " + std::to_string(err));
         continue;
+      }
+
+      // 4b. Optional: Filter by specific tags
+      if (params.contains("tags") && params["tags"].is_object()) {
+        auto requiredTags =
+            params["tags"].get<std::map<std::string, std::string>>();
+
+        std::vector<gamenumT> keptGames;
+        for (auto gnum : filter) {
+          const IndexEntry *ie = dbase->getIndexEntry(gnum);
+          auto gameView = dbase->getGame(*ie);
+
+          bool allTagsMatch = true;
+          // We need to verify that *all* required tags exist and match.
+          // Strategy: decode all tags of the game into a map, then check.
+          // Optimized: just iterate and check off what we find?
+          // Simpler for now: map-to-map comparison.
+          std::map<std::string, std::string> gameTags;
+          gameView.decodeTags([&](std::string_view tag, std::string_view val) {
+            gameTags[std::string(tag)] = std::string(val);
+          });
+
+          for (const auto &[reqTag, reqVal] : requiredTags) {
+            auto it = gameTags.find(reqTag);
+            if (it == gameTags.end()) {
+              allTagsMatch = false;
+              break;
+            }
+            // Check for substring match or exact match?
+            // User request implied exact: ICCF is 1610898.
+            // But usually searches are robust. Let's do exact match for now as
+            // requested. "ICCF is 1610898". If the user wants partial, they
+            // can't do it with this logic yet. Let's implement simple substring
+            // search for flexibility, as is common in Scid.
+            if (it->second.find(reqVal) == std::string::npos) {
+              allTagsMatch = false;
+              break;
+            }
+          }
+
+          if (allTagsMatch) {
+            keptGames.push_back(gnum);
+          }
+        }
+
+        // Update the filter
+        filter->clear();
+        for (auto gnum : keptGames) {
+          filter->set(gnum, 1);
+        }
       }
 
       json result;

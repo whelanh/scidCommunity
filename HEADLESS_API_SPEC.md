@@ -91,6 +91,7 @@ Searches the database index. Up to 100 results are returned per call.
 - `handle` (int, required): Database handle.
 - `white`, `black`, `event`, `site` (string, optional): Filter by substring.
 - `filter` (string, optional): Filter name (e.g., `"all"`).
+- `tags` (object, optional): Key-value pairs of tags to filter by. Evaluated after index search.
 
 **Response Result:**
 - `count` (int): Total matches found.
