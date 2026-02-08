@@ -52,5 +52,5 @@ snapcraft-credentials.txt
 parts/
 stage/
 prime/
-gootletest/
+googletest/
 *.snap
