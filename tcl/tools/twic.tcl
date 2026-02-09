@@ -75,8 +75,9 @@ proc ::twic::getCurrentWeekNumber {} {
   # Use a known reference: Week 1621 on approximately Dec 2, 2025
   # Reference epoch: Dec 2, 2025 00:00:00 UTC
   set reference_week 1621
-  set reference_epoch 1764633600  ;# 2025-12-02 00:00:00 UTC
-  
+  #set reference_epoch 1764633600  ;# 2025-12-02 00:00:00 UTC
+  set reference_epoch 1764630000   ; # One hour earlier
+
   set current_epoch [clock seconds]
   
   # Calculate days since reference date
