@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.19
+Version:        5.1.2.20
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit f1ed83b3c0d9557e114c6dc697eb354ce8b5b4be
+%global commit 45a05e3291dc02aa2b4674d5e861c802236d6b5e
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Mon Feb 9 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-20
+- "Add headless API: no impact to GUI users"
 * Sun Feb 8 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-19
 - "Refine Lichess Table Base button reporting of partial 8-man tablebase results"
 * Thu Feb 5 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-18

@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.2.20" date="2026-02-09">
+      <description>
+        <p>Add headless API: no impact to GUI users</p>
+      </description>
+    </release>
     <release version="5.1.2.19" date="2026-02-08">
       <description>
         <p>Refine Lichess Table Base button reporting of partial 8-man tablebase positions</p>
