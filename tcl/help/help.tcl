@@ -559,6 +559,10 @@ set helpText(Menus) {<h1>scidCommunity menus</h1>
   <li><menu>Bookmarks</menu>: <a Bookmarks>Bookmarks</a> and bookmark
   functions.</li>
   <br>
+  <li><menu>Open Lichess Tournament</menu>: Downloads and opens live Lichess tournament broadcast games.</li>
+  <li><menu>Import my Lichess</menu>: Imports games from your Lichess account.</li>
+  <li><menu>Import my chess.com</menu>: Imports games from your chess.com account.</li>
+  <br>
   <li><menu>Open base as tree</menu>: Opens the tree window for a
   selected database</li>
   <li><menu>Open recent base as tree</menu>: Offers a list of recently
@@ -770,9 +774,7 @@ set helpText(Menus) {<h1>scidCommunity menus</h1>
   <li><menu>Score graph</menu>: Displays the
   <a Graphs Score>score graph</a>.</li>
   <br>
-  file in PGN or HTML format. See the <a Export>export</a> help
-  search <a Searches Filter>filter</a> to a text file in PGN or
-  HTML format. See the <a Export>export</a> help page.</li>
+  <li><menu>Download TWIC Games</menu>: Downloads the latest The Week In Chess (TWIC) games.</li>
   <br>
   <li><menu>Import <a PGN>PGN</a> game</menu>: Opens the <a Import>Import window</a>
   for entering a game by typing or pasting its text in
