@@ -88,7 +88,9 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   
   <h3>C</h3>
   <ul>
+  <li><a PGNChessCom>Chess.com analysis (PGN Window button)</a></li>
   <li><a ImportChessCom>Chess.com, importing games from</a></li>
+  <li><a PGNChessDB>ChessDB Engine Tree (PGN Window button)</a></li>
   <li><a Maintenance Cleaner>Cleaner</a></li>
   <li><a Clipbase>Clipbase</a></li>
   <li><a Cmdline>Command-line options</a></li>
@@ -172,6 +174,7 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   
   <h3>L</h3>
   <ul>
+  <li><a PGNLichess>Lichess analysis (PGN Window button)</a></li>
   <li><a ImportLichess>Lichess, importing games from</a></li>
   <li><a LichessTournament>Lichess tournament broadcasts</a></li>
   </ul>
@@ -209,6 +212,10 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   <h3>P</h3>
   <ul>
   <li><a PGN>PGN</a> window</li>
+  <li><a PGNTablebase>PGN Window: Table Base button</a></li>
+  <li><a PGNChessCom>PGN Window: chess.com button</a></li>
+  <li><a PGNLichess>PGN Window: lichess.org button</a></li>
+  <li><a PGNChessDB>PGN Window: chessdb Engine Tree button</a></li>
   <li><a Pgnscid>Pgnscid</a></li>
   <li><a FICS>Play on the Internet (FICS)</a></li>
   <li><a PTracker>Piece Tracker</a> window</li>
@@ -242,6 +249,7 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   
   <h3>T</h3>
   <ul>
+  <li><a PGNTablebase>Table Base (PGN Window button)</a></li>
   <li><a TacticalGame>Tactical game</a></li>
   <li><a Menus Tools>Tools menu</a></li>
   <li><a Tmt>Tournament finder</a></li>
@@ -2166,6 +2174,285 @@ set helpText(PGN) {<h1>The <a PGN>PGN</a> window</h1>
   The <a PGN>PGN</a> display options, and the size of the <a PGN>PGN</a> window, are saved to the
   options file whenever you <b>Save Options</b> from the <menu>Options</menu>
   menu of the main window.
+  </p>
+  
+  <h3>PGN Window Buttons</h3>
+  <p>
+  The <a PGN>PGN</a> window includes several buttons at the bottom for quick access
+  to online chess resources and analysis tools:
+  <ul>
+  <li><a PGNTablebase>Table Base</a>: Look up the current position in the Lichess endgame tablebase (7-8 man positions)</li>
+  <li><a PGNChessCom>chess.com</a>: Upload the current game to Chess.com for analysis</li>
+  <li><a PGNLichess>lichess.org</a>: Upload the current game to Lichess.org for analysis and sharing</li>
+  <li><a PGNChessDB>chessdb Engine Tree</a>: Open the current position in the ChessDB.cn cloud database</li>
+  </ul>
+  These buttons provide instant access to powerful online tools without leaving scidCommunity.
+  See the individual help topics for each button for more details.
+  </p>
+  
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+}
+
+####################
+### PGN Window Table Base button help:
+
+set helpTitle(PGNTablebase) "Table Base Button"
+set helpText(PGNTablebase) {<h1>PGN Window: Table Base Button</h1>
+  <p>
+  The <b>Table Base</b> button in the <a PGN>PGN</a> window provides instant access
+  to the Lichess endgame tablebase, which contains perfect analysis for all positions
+  with 7 or fewer pieces (and partial coverage for 8-piece positions).
+  </p>
+  
+  <h3>What is a tablebase?</h3>
+  <p>
+  An endgame tablebase is a database that contains the perfect evaluation of every
+  possible position with a limited number of pieces. For each position, the tablebase
+  knows whether it's a win, loss, or draw with perfect play, and can provide the
+  optimal moves to achieve the result.
+  </p>
+  
+  <h3>How to use</h3>
+  <p>
+  Click the <b>Table Base</b> button when viewing any position with 7 or fewer pieces.
+  scidCommunity will:
+  <ul>
+  <li>Query the Lichess tablebase API with the current position</li>
+  <li>Display a popup window showing the evaluation (win/loss/draw)</li>
+  <li>Show the distance to mate or conversion (if applicable)</li>
+  <li>Display the best move for the position</li>
+  </ul>
+  </p>
+  
+  <h3>Understanding the results</h3>
+  <p>
+  The tablebase will report one of several categories:
+  <ul>
+  <li><b>Win</b>: The side to move can force a win with perfect play</li>
+  <li><b>Loss</b>: The side to move will lose with perfect defense from the opponent</li>
+  <li><b>Draw</b>: Perfect play from both sides leads to a draw</li>
+  <li><b>Cursed win</b>: Technically winning, but the 50-move rule will be reached before conversion</li>
+  <li><b>Blessed loss</b>: Technically losing, but can force a draw via the 50-move rule</li>
+  </ul>
+  </p>
+  
+  <h3>Coverage</h3>
+  <p>
+  The Lichess tablebase provides:
+  <ul>
+  <li>Complete coverage for all 7-piece positions</li>
+  <li>Partial coverage for some 8-piece positions</li>
+  <li>DTZ (Distance To Zeroing) values showing halfmoves until the next capture or pawn move</li>
+  <li>Best move recommendations based on perfect play</li>
+  </ul>
+  </p>
+  
+  <h3>Requirements</h3>
+  <p>
+  This feature requires an internet connection and either curl or Tcl http support.
+  </p>
+  
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+}
+
+####################
+### PGN Window chess.com button help:
+
+set helpTitle(PGNChessCom) "chess.com Button"
+set helpText(PGNChessCom) {<h1>PGN Window: chess.com Button</h1>
+  <p>
+  The <b>chess.com</b> button in the <a PGN>PGN</a> window allows you to instantly
+  upload the current game to Chess.com's analysis board for detailed computer analysis
+  and exploration.
+  </p>
+  
+  <h3>How to use</h3>
+  <p>
+  Click the <b>chess.com</b> button while viewing any game. scidCommunity will:
+  <ul>
+  <li>Export the current game in <a PGN>PGN</a> format</li>
+  <li>URL-encode the game data</li>
+  <li>Open Chess.com's analysis board in your default web browser</li>
+  <li>Load the game automatically into the analysis interface</li>
+  </ul>
+  </p>
+  
+  <h3>What you can do on Chess.com</h3>
+  <p>
+  Once the game opens in Chess.com's analysis board, you can:
+  <ul>
+  <li>Run computer analysis with multiple engines</li>
+  <li>Get move-by-move evaluations and best move suggestions</li>
+  <li>Explore alternative lines and variations</li>
+  <li>Share the game with others via a Chess.com link</li>
+  <li>Compare your moves to computer recommendations</li>
+  <li>View opening names and theory</li>
+  </ul>
+  </p>
+  
+  <h3>Game data included</h3>
+  <p>
+  The uploaded game includes:
+  <ul>
+  <li>All moves from the current game</li>
+  <li>Variations and alternative lines</li>
+  <li>Comments and annotations</li>
+  <li>Game header information (players, date, result, etc.)</li>
+  </ul>
+  </p>
+  
+  <h3>Requirements</h3>
+  <p>
+  This feature requires:
+  <ul>
+  <li>An internet connection</li>
+  <li>A web browser</li>
+  <li>Tcl http package (standard with most Tcl installations)</li>
+  </ul>
+  No Chess.com account is required to use the analysis board.
+  </p>
+  
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+}
+
+####################
+### PGN Window lichess.org button help:
+
+set helpTitle(PGNLichess) "lichess.org Button"
+set helpText(PGNLichess) {<h1>PGN Window: lichess.org Button</h1>
+  <p>
+  The <b>lichess.org</b> button in the <a PGN>PGN</a> window uploads the current
+  game to Lichess.org, where you can analyze it with powerful computer engines,
+  share it with others, or import it to your Lichess account.
+  </p>
+  
+  <h3>How to use</h3>
+  <p>
+  Click the <b>lichess.org</b> button while viewing any game. scidCommunity will:
+  <ul>
+  <li>Export the current game in <a PGN>PGN</a> format</li>
+  <li>Upload the game to Lichess via their import API</li>
+  <li>Open the game URL in your default web browser</li>
+  <li>Display the game in Lichess's analysis interface</li>
+  </ul>
+  </p>
+  
+  <h3>Lichess analysis features</h3>
+  <p>
+  Once uploaded to Lichess, you can:
+  <ul>
+  <li>Analyze with Stockfish (one of the world's strongest chess engines)</li>
+  <li>Get instant computer evaluations for every position</li>
+  <li>Request a full game analysis with move-by-move commentary</li>
+  <li>Explore opening theory and databases</li>
+  <li>Practice positions against the computer</li>
+  <li>Share the game with a permanent Lichess URL</li>
+  <li>Import the game to your Lichess account (if logged in)</li>
+  </ul>
+  </p>
+  
+  <h3>Game data included</h3>
+  <p>
+  The uploaded game includes:
+  <ul>
+  <li>All moves and variations</li>
+  <li>Comments and annotations</li>
+  <li>Game metadata (players, ratings, date, event, etc.)</li>
+  <li>Opening information</li>
+  </ul>
+  </p>
+  
+  <h3>Sharing and privacy</h3>
+  <p>
+  Games uploaded to Lichess receive a unique URL that you can share with others.
+  The games are publicly accessible by default. If you want to keep a game private,
+  you can import it to your Lichess account after upload and set it to private in
+  your Lichess settings.
+  </p>
+  
+  <h3>Requirements</h3>
+  <p>
+  This feature requires:
+  <ul>
+  <li>An internet connection</li>
+  <li>curl (preferred) or Tcl http package</li>
+  <li>A web browser</li>
+  </ul>
+  No Lichess account is required to upload and analyze games, though having an
+  account provides additional features.
+  </p>
+  
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+}
+
+####################
+### PGN Window ChessDB button help:
+
+set helpTitle(PGNChessDB) "chessdb Engine Tree Button"
+set helpText(PGNChessDB) {<h1>PGN Window: chessdb Engine Tree Button</h1>
+  <p>
+  The <b>chessdb Engine Tree</b> button in the <a PGN>PGN</a> window opens the
+  current position in ChessDB.cn, a massive cloud-based chess database with
+  billions of analyzed positions and computer evaluations.
+  </p>
+  
+  <h3>What is ChessDB.cn?</h3>
+  <p>
+  ChessDB.cn is a free online chess database that provides:
+  <ul>
+  <li>Cloud-based computer analysis for any position</li>
+  <li>Billions of pre-analyzed positions from games and engine analysis</li>
+  <li>Multiple engine evaluations and best move suggestions</li>
+  <li>Opening statistics and theory</li>
+  <li>Endgame tablebase integration</li>
+  </ul>
+  </p>
+  
+  <h3>How to use</h3>
+  <p>
+  Click the <b>chessdb Engine Tree</b> button while viewing any position.
+  scidCommunity will:
+  <ul>
+  <li>Get the FEN (Forsyth-Edwards Notation) of the current position</li>
+  <li>Open ChessDB.cn in your default web browser</li>
+  <li>Load the position automatically in the ChessDB interface</li>
+  <li>Display available analysis and statistics for that position</li>
+  </ul>
+  </p>
+  
+  <h3>What you can see on ChessDB</h3>
+  <p>
+  For each position, ChessDB.cn shows:
+  <ul>
+  <li><b>Engine evaluations</b>: Computer analysis from multiple engines</li>
+  <li><b>Best moves</b>: Recommended moves with evaluations</li>
+  <li><b>Game statistics</b>: How often each move has been played and the results</li>
+  <li><b>Opening names</b>: If the position is part of known opening theory</li>
+  <li><b>Historical games</b>: Games from the database that reached this position</li>
+  <li><b>Tablebase results</b>: Perfect endgame analysis for positions with few pieces</li>
+  </ul>
+  </p>
+  
+  <h3>Use cases</h3>
+  <p>
+  The ChessDB button is particularly useful for:
+  <ul>
+  <li>Checking if a position has been analyzed before</li>
+  <li>Finding the computer's recommended move</li>
+  <li>Researching opening theory and statistics</li>
+  <li>Verifying endgame positions</li>
+  <li>Exploring alternative moves and their evaluations</li>
+  </ul>
+  </p>
+  
+  <h3>Requirements</h3>
+  <p>
+  This feature requires:
+  <ul>
+  <li>An internet connection</li>
+  <li>A web browser</li>
+  </ul>
+  No account or registration is needed to use ChessDB.cn.
   </p>
   
   <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
