@@ -96,7 +96,6 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   <li><a Author>Contact information</a></li>
   <li><a Contents>Contents</a></li>
   <li><a Crosstable>Crosstable</a> window</li>
-  <li><a Appearance>Customize Appearance</a></li>
   </ul>
   
   <h3>D</h3>
@@ -5214,31 +5213,3 @@ set helpText(Metadata) {<h1>Dublin Core Metadata</h1>
   <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
-set helpTitle(Appearance) "Customize scidCommunity-GUI"
-set helpText(Appearance) {<h1>Customize scidCommunity-GUI</h1>
-  <p>
- <p>
-  scidCommunity has some options to customize the GUI.
-  </p>
-  <h3><name Themes>Configure TTK-Themes</name></h3>
-  <p>
-    Starting with version 4.7, new GUI themes can be installed and selected.
-    With the TTK themes, different appearances of the SCID user interface can be realized.<br>
-    The scid repository provides a multicolored set of themes for direct use:
-    <li><url https://sourceforge.net/projects/scid/files/scidCommunity/Additional Files/>https://sourceforge.net/projects/scid/files/scidCommunity/Additional Files</url> -- Home / scidCommunity / Additional Files</li><br><br>
-    Further themes can also be downloaded from the following addresses:
-    <li><url https://wiki.tcl.tk/48689>https://wiki.tcl.tk/48689</url> -- wiki.tcl.tk List of ttk Themes</li>
-    <li><url https://github.com/RedFantom/ttkthemes/tree/master/ttkthemes/themes>https://github.com/RedFantom/ttkthemes</url> -- RedFantom Collection of ttk Topics</li><br><br>
-    To install the themes, proceed as follows:<br>
-    <li>Extract the scidthemes files to any directory.</li>
-    <li>Load themes: With the menu item <b>Options - Theme - Load Theme(s)</b> select the file pkgIndex.tcl from the directory,
-    in which the themes are stored.</li>
-    <li>Select theme: Using the menu item <b>Options - Theme - "Theme name"</b>, e.g. scidblue scidmint scidpurple scidpurple scidpurple scidsand scidpink,
-    select the theme to use.</li>
-    <li><b>Note:</b> pkgIndex.tcl are files that load additional tcl packages. Use only pkgIndex.tcl files that contain TTK-Themes.</li>
-  </p>
-  <p>
-  After configuring the theme and menu colors, save the settings with <b>Options - Save options</b>.
-  </p>
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
-}
