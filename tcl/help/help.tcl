@@ -88,6 +88,7 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   
   <h3>C</h3>
   <ul>
+  <li><a ImportChessCom>Chess.com, importing games from</a></li>
   <li><a Maintenance Cleaner>Cleaner</a></li>
   <li><a Clipbase>Clipbase</a></li>
   <li><a Cmdline>Command-line options</a></li>
@@ -101,6 +102,7 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   <h3>D</h3>
   <ul>
   <li><a Compact>Database compaction</a></li>
+  <li><a DownloadTWIC>Download TWIC Games</a></li>
   <li><a Formats>Database file formats</a></li>
   <li><a Metadata>Database information (Metadata)</a></li>
   <li><a Maintenance>Database maintenance</a></li>
@@ -161,10 +163,18 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   <h3>I</h3>
   <ul>
   <li><a Import>Import</a> window</li>
+  <li><a ImportChessCom>Import Chess.com games</a></li>
+  <li><a ImportLichess>Import Lichess games</a></li>
   <li><a Moves Informant>Informant Symbols</a></li>
   <li><a InputEngine>Input Engine drivers</a></li>
   </ul>
   
+  
+  <h3>L</h3>
+  <ul>
+  <li><a ImportLichess>Lichess, importing games from</a></li>
+  <li><a LichessTournament>Lichess tournament broadcasts</a></li>
+  </ul>
   
   <h3>M</h3>
   <ul>
@@ -235,6 +245,8 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   <li><a TacticalGame>Tactical game</a></li>
   <li><a Menus Tools>Tools menu</a></li>
   <li><a Tmt>Tournament finder</a></li>
+  <li><a LichessTournament>Tournament broadcasts (Lichess)</a></li>
+  <li><a DownloadTWIC>TWIC (The Week In Chess) downloads</a></li>
   <li><a FindBestMove>Training: Find best move</a></li>
   <li><a OpeningTrainer>Training: Openings</a></li>
   <li><a TacticsTrainer>Training: Tactics</a></li>
@@ -1845,6 +1857,222 @@ set helpText(Export) {<h1>Exporting games</h1>
   other files are required to exist in exactly the position the export
   filter places them. However, the whole folder can easily be uploaded
   to some web server.
+  </p>
+  
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+}
+
+####################
+### Lichess Tournament help:
+
+set helpTitle(LichessTournament) "Open Lichess Tournament"
+set helpText(LichessTournament) {<h1>Open Lichess Tournament</h1>
+  <p>
+  The <b>Open Lichess Tournament</b> feature allows you to download and monitor
+  live games from Lichess tournament broadcasts. This is useful for following
+  major chess tournaments in real-time as they are being played.
+  </p>
+  
+  <h3>How to use</h3>
+  <p>
+  Select <menu>File: Open Lichess Tournament</menu> from the menu. scidCommunity will:
+  <ul>
+  <li>Download the list of currently active tournament broadcasts from Lichess.org</li>
+  <li>Display a selection dialog with available tournaments</li>
+  <li>Allow you to choose a tournament and set the refresh interval (default: 60 seconds)</li>
+  <li>Download the tournament games and open them in the Games List window</li>
+  </ul>
+  </p>
+  
+  <h3>Live monitoring</h3>
+  <p>
+  When you open a game from a Lichess tournament broadcast, scidCommunity will
+  automatically monitor that game for new moves. The game will be updated
+  periodically based on your chosen refresh interval. New moves are added
+  automatically, and the board position advances to show the latest position.
+  </p>
+  
+  <h3>Requirements</h3>
+  <p>
+  This feature requires an internet connection and one of the following:
+  <ul>
+  <li><b>curl</b> (recommended, available on most systems)</li>
+  <li><b>wget</b> (alternative download tool)</li>
+  <li><b>PowerShell</b> (Windows fallback)</li>
+  <li>Tcl TLS package (fallback method)</li>
+  </ul>
+  </p>
+  
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+}
+
+####################
+### Import Lichess help:
+
+set helpTitle(ImportLichess) "Import my Lichess"
+set helpText(ImportLichess) {<h1>Import my Lichess</h1>
+  <p>
+  The <b>Import my Lichess</b> feature downloads all games from your Lichess.org
+  account within a specified date range and opens them for import into scidCommunity.
+  </p>
+  
+  <h3>How to use</h3>
+  <p>
+  Select <menu>File: Import my Lichess</menu> from the menu. You will be prompted to enter:
+  <ul>
+  <li><b>Username</b>: Your Lichess.org username</li>
+  <li><b>Start year</b>: The year to begin downloading games from (YYYY format)</li>
+  <li><b>Start month</b>: The month to begin downloading from (1-12)</li>
+  </ul>
+  </p>
+  
+  <p>
+  scidCommunity will download all your games from the specified start date through
+  the current date using the Lichess API. The games are downloaded in <a PGN>PGN</a> format
+  with full annotations, including:
+  <ul>
+  <li>Opening names and ECO codes</li>
+  <li>Computer evaluations (if available)</li>
+  <li>Clock times for each move</li>
+  <li>All game metadata (ratings, time controls, etc.)</li>
+  </ul>
+  </p>
+  
+  <h3>After download</h3>
+  <p>
+  Once downloaded, the games are automatically opened in the Games List window.
+  You can then:
+  <ul>
+  <li>Browse through your games</li>
+  <li>Filter by various criteria</li>
+  <li>Import selected games into your database</li>
+  <li>Analyze games with chess engines</li>
+  </ul>
+  </p>
+  
+  <h3>Requirements</h3>
+  <p>
+  This feature requires an internet connection and one of the following download tools:
+  curl, wget, PowerShell (Windows), or Tcl TLS support.
+  </p>
+  
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+}
+
+####################
+### Import Chess.com help:
+
+set helpTitle(ImportChessCom) "Import my chess.com"
+set helpText(ImportChessCom) {<h1>Import my chess.com</h1>
+  <p>
+  The <b>Import my chess.com</b> feature downloads all games from your Chess.com
+  account within a specified date range and opens them for import into scidCommunity.
+  </p>
+  
+  <h3>How to use</h3>
+  <p>
+  Select <menu>File: Import my chess.com</menu> from the menu. You will be prompted to enter:
+  <ul>
+  <li><b>Username</b>: Your Chess.com username</li>
+  <li><b>Start year</b>: The year to begin downloading games from (YYYY format)</li>
+  <li><b>Start month</b>: The month to begin downloading from (1-12)</li>
+  </ul>
+  </p>
+  
+  <p>
+  scidCommunity will download all your games month-by-month from the specified
+  start date through the current month using the Chess.com public API. A progress
+  bar shows the download status as each month is processed.
+  </p>
+  
+  <h3>Downloaded game data</h3>
+  <p>
+  The games are downloaded in <a PGN>PGN</a> format and include:
+  <ul>
+  <li>All game moves and results</li>
+  <li>Player ratings and usernames</li>
+  <li>Time controls and game types</li>
+  <li>Opening information</li>
+  <li>Game URLs for reference</li>
+  </ul>
+  </p>
+  
+  <h3>After download</h3>
+  <p>
+  Once the download completes, all games are concatenated into a single <a PGN>PGN</a> file
+  and automatically opened in the Games List window. You can then filter, analyze,
+  or import the games into your scidCommunity database.
+  </p>
+  
+  <h3>Requirements</h3>
+  <p>
+  This feature requires an internet connection and one of the following download tools:
+  curl, wget, PowerShell (Windows), or Tcl TLS support. The Chess.com API is public
+  and does not require authentication.
+  </p>
+  
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+}
+
+####################
+### Download TWIC help:
+
+set helpTitle(DownloadTWIC) "Download TWIC Games"
+set helpText(DownloadTWIC) {<h1>Download TWIC Games</h1>
+  <p>
+  The <b>Download TWIC Games</b> feature downloads the latest games from
+  <b>The Week In Chess</b> (TWIC), a popular weekly chess games database
+  published by Mark Crowther since 1994.
+  </p>
+  
+  <h3>About TWIC</h3>
+  <p>
+  The Week In Chess is one of the longest-running and most comprehensive sources
+  of recent chess games. Each week, TWIC publishes hundreds of games from
+  tournaments around the world, including:
+  <ul>
+  <li>Major international tournaments</li>
+  <li>National championships</li>
+  <li>Online events</li>
+  <li>Correspondence chess</li>
+  </ul>
+  </p>
+  
+  <h3>How to use</h3>
+  <p>
+  Select <menu>Tools: Download TWIC Games</menu> from the menu. scidCommunity will:
+  <ul>
+  <li>Open the TWIC website in your default browser for reference</li>
+  <li>Automatically determine the current TWIC week number</li>
+  <li>Download the latest TWIC games archive (ZIP format)</li>
+  <li>Extract the <a PGN>PGN</a> files from the archive</li>
+  <li>Open the games in the Games List window</li>
+  </ul>
+  </p>
+  
+  <p>
+  The downloaded <a PGN>PGN</a> file is saved to your home directory with a filename
+  like <b>twic_1234.pgn</b> (where 1234 is the week number). You can then
+  import these games into your database, analyze them, or use them as a
+  reference for openings and recent trends.
+  </p>
+  
+  <h3>Requirements</h3>
+  <p>
+  This feature requires:
+  <ul>
+  <li>An internet connection</li>
+  <li>A download tool: curl, wget, or PowerShell (Windows)</li>
+  <li>An extraction tool: unzip, tar, PowerShell Expand-Archive, or Tcl zipfs support</li>
+  </ul>
+  Most modern systems have these tools installed by default.
+  </p>
+  
+  <h3>Keeping up to date</h3>
+  <p>
+  TWIC is published weekly, typically on Monday evenings. You can use this
+  feature regularly to download the latest games and stay current with
+  recent tournament play and opening theory developments.
   </p>
   
   <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
@@ -3975,7 +4203,7 @@ set helpText(ECO) {<h1>ECO openings classification</h1>
   The ECO system is very limited and not sufficient for modern games:
   some of the 500 codes are almost never seen any more, while some
   are seen very often. To improve this situation, scidCommunity allows an optional
-  extension to the basic ECO codes: each code can be extended with a
+  extension to the basic ECO codes using the codes developed by Scid: each code can be extended with a
   letter (a..z), with a further extension (another digit, 1..4) being
   possible but not used in the standard scidCommunity ECO file yet.
   So an extended scidCommunity ECO code looks like "<b>A41e</b>" or "<b>E99b2</b>".
