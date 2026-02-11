@@ -108,6 +108,7 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   <li><a Formats>Database file formats</a></li>
   <li><a Metadata>Database information (Metadata)</a></li>
   <li><a Maintenance>Database maintenance</a></li>
+  <li><a Menus Database>Database menu</a></li>
   <li><a Sorting>Database sorting</a></li>
   <li><a Switcher>Database switcher</a> window</li>
   <li><a Maintenance Twins>Deleting twin games</a></li>
@@ -218,6 +219,7 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   <li><a PGNChessDB>PGN Window: chessdb Engine Tree button</a></li>
   <li><a Pgnscid>Pgnscid</a></li>
   <li><a FICS>Play on the Internet (FICS)</a></li>
+  <li><a Menus Play>Play menu</a></li>
   <li><a PTracker>Piece Tracker</a> window</li>
   <li><a PList>Player Finder</a> window</li>
   <li><a PInfo>Player Info</a> window</li>
@@ -328,12 +330,12 @@ set helpText(Guide) {<h1>Quick Guide to using scidCommunity</h1>
   The <a MainWindow>main window</a>
   of scidCommunity (with the graphical chess board) shows details of
   the active game and database. At any time, you can have up to nine
-  databases open (five including the <a Clipbase>clipbase</a>),
+  databases open (including the <a Clipbase>clipbase</a>),
   and each will have its own active game.
   (A game numbered 0 indicates a scratch game that is not part of the
   actual database).
   You can switch between the open databases with the
-  <a Menus File>File menu</a>.
+  <a Menus Database>Database menu</a>.
   </p>
   <p>
   For more information, please read the other help pages listed in the
@@ -453,7 +455,7 @@ set helpText(Hints) {<h1>scidCommunity Hints</h1>
   correct them all?</h4>
   <p>
   You can edit individual names or spellcheck all the names in a database
-  with the commands in the <menu>File: Maintenance</menu> menu.
+  with the commands in the <menu>Database: Name Maintenance</menu> menu.
   See the <a Maintenance Editing>maintenance</a> page.
   </p>
   
@@ -574,91 +576,119 @@ set helpText(Menus) {<h1>scidCommunity menus</h1>
   <ul>
   <li><menu>New</menu>: Creates a new empty scidCommunity database.</li>
   <li><menu>Open</menu>: Opens an existing scidCommunity database.</li>
-  <li><menu>Close</menu>: Closes the current scidCommunity database.</li>
   <li><menu>Finder</menu>: Opens the <a Finder>File Finder</a>.</li>
   <li><menu>Bookmarks</menu>: <a Bookmarks>Bookmarks</a> and bookmark
   functions.</li>
+  <br>
+  <li><menu>Open base as tree</menu>: Opens the tree window for a
+  selected database.</li>
+  <li><menu>Open recent base as tree</menu>: Offers a list of recently
+  opened bases to get their tree window.</li>
   <br>
   <li><menu>Open Lichess Tournament</menu>: Downloads and opens live Lichess tournament broadcast games.</li>
   <li><menu>Import my Lichess</menu>: Imports games from your Lichess account.</li>
   <li><menu>Import my chess.com</menu>: Imports games from your chess.com account.</li>
   <br>
-  <li><menu>Open base as tree</menu>: Opens the tree window for a
-  selected database</li>
-  <li><menu>Open recent base as tree</menu>: Offers a list of recently
-  opened bases to get their tree window.</li>
-  <br>
-  <li><menu>Maintenance</menu>: Database <a Maintenance>maintenance</a>
-  functions.</li>
-  <ul>
-  <li><menu>Maintenance window</menu>: Opens/closes the database maintenance
-  window.</li>
-  <li><menu>Delete twin games</menu>: Finds <a Maintenance Twins>twin</a>
-  games in the database.</li>
-  <li><menu>ECO-Classify games</menu>: Recomputes the
-  <a ECO>ECO code</a> for all games in the database. </li>
-  <li><menu>Name editor</menu>: Replaces all occurrences of a player,
-  event site or round name.</li>
-  </ul>
-  <li><menu>Read-Only</menu>: Makes the current database read-only.</li>
-  <br>
-  <li><menu>Switch to Database</menu>: These commands let you switch between
-  the 8 available database slots and the <a Clipbase>clipbase</a>
-  database.</li>
   <li>1/2/3/4/5/...</li> Offers a list of recently used databases for
   easy recall.</li>
-  <li><menu>Exit</menu>: Exits scidCommunity. </li>
+  <li><menu>Exit</menu>: Exits scidCommunity.</li>
+  </ul>
+  
+  <h3><name Database>Database</name></h3>
+  <ul>
+  <li><menu>Close</menu>: Closes the current scidCommunity database.</li>
+  <li><menu>Load at Startup</menu>: Toggles whether the current database loads at startup.</li>
+  <br>
+  <li><menu>Copy All Games</menu>: Submenu to copy all games to another database.</li>
+  <ul>
+  <li><menu>New Database</menu>: Creates a new database and copies all games.</li>
+  <li><menu>Other Databases</menu>: Lists available databases to copy to.</li>
+  </ul>
+  <li><menu>Export Filter</menu>: Exports games matching the current filter.</li>
+  <ul>
+  <li><menu>PGN</menu>: Exports to <a PGN>PGN</a> format.</li>
+  <li><menu>HTML</menu>: Exports to HTML format.</li>
+  <li><menu>HTML with JavaScript</menu>: Exports to interactive HTML format.</li>
+  </ul>
+  <li><menu>Import File</menu>: Submenu to import <a PGN>PGN</a> files into databases.</li>
+  <br>
+  <li><menu>Maintenance</menu>: Database <a Maintenance>maintenance</a> utilities.</li>
+  <ul>
+  <li><menu>Maintenance Window</menu>: Opens/closes the maintenance window.</li>
+  <li><menu>Compact Database</menu>: <a Compact>Compacts</a> the current database.</li>
+  <li><menu>Classify Games</menu>: Classifies all games with <a ECO>ECO codes</a>.</li>
+  <li><menu>Name Editor</menu>: Opens/closes the name editor window.</li>
+  <li><menu>Strip Tags</menu>: Strips unwanted tags from games.</li>
+  <li><menu>Delete Twins</menu>: Marks <a Maintenance Twins>twin</a> games for deletion.</li>
+  <li><menu>Update Twin Checker</menu>: Updates the twin checker.</li>
+  <li><menu>Cleaner</menu>: Opens the database <a Maintenance Cleaner>cleaner</a> window.</li>
+  </ul>
+  <li><menu>Name Maintenance</menu>: <a Maintenance Spellcheck>Spell checking</a> and rating allocation for names.</li>
+  <ul>
+  <li><menu>Player Names</menu>: Spell checks player names.</li>
+  <li><menu>Event Names</menu>: Spell checks event names.</li>
+  <li><menu>Site Names</menu>: Spell checks site names.</li>
+  <li><menu>Round Names</menu>: Spell checks round names.</li>
+  <li><menu>Add Elo Ratings</menu>: Allocates Elo ratings to players.</li>
+  </ul>
+  <br>
+  <li><menu>Base 1/2/3/...</menu>: These commands let you switch between
+  available database slots and the <a Clipbase>clipbase</a> database.</li>
   </ul>
   
   <h3><name Edit>Edit</name></h3>
   <ul>
-  <li><menu>Add Variation</menu>: Adds a new empty variation for the
-  next move, or for the previous move if there is no next move yet.</li>
-  <li><menu>Delete Variation</menu>: Provides a submenu of variations for
-  the current move, so one can be deleted.</li>
-  <li><menu>Make First Variation</menu>: Promotes a variation to be the
-  first variation of the current move.</li>
-  <li><menu>Promote Variation to Main line</menu>: Promotes a variation
-  to be the main line, swapping it with its parent.</li>
-  <li><menu>Try Variation</menu>: Enters <a Moves Trial>trial mode</a> for
-  testing a temporary variation without altering the current game.</li>
-  <li><menu>Strip</menu>: Strips all comments or variations from the current
-  game.</li>
-  <li><menu>Undo</menu>: Allows to undo up to 10 recent changes.</li>
+  <li><menu>Undo</menu>: Undoes the last action.</li>
+  <li><menu>Redo</menu>: Redoes the previously undone action.</li>
   <br>
-  <li><menu>Empty Clipbase</menu>: Empties the <a Clipbase>clipbase</a>
+  <li><menu>Setup Board</menu>: Sets the starting position for the current game.</li>
+  <li><menu>Copy Board as FEN</menu>: Copies the current board position as
+  <term>FEN notation</term> to the system clipboard.</li>
+  <li><menu>Paste Board from FEN</menu>: Sets the start board from the current
+  text selection (clipboard). This selection must be a valid <term>FEN</term> notation.</li>
+  <li><menu>Copy Game as PGN</menu>: Copies the current game as <a PGN>PGN</a> to clipboard.</li>
+  <li><menu>Paste Game from Clipboard</menu>: Pastes a game from clipboard in <a PGN>PGN format</a>.</li>
+  <br>
+  <li><menu>Strip</menu>: Strips elements from the current game.</li>
+  <ul>
+  <li><menu>Comments</menu>: Strips all comments from the current game.</li>
+  <li><menu>Variations</menu>: Strips all variations from the current game.</li>
+  <li><menu>Beginning</menu>: Strips moves from the beginning to current position.</li>
+  <li><menu>End</menu>: Strips moves from current position to the end.</li>
+  </ul>
+  <br>
+  <li><menu>Reset Clipbase</menu>: Empties the <a Clipbase>clipbase</a>
   so it contains no games.</li>
-  <li><menu>Copy this game to clipbase</menu>: Copies the current game
-  to the <a Clipbase>clipbase</a> database. Additionally, the games
-  current <term>PGN notation</term> is added to the system clipboard.</li>
-  <li><menu>Paste last clipbase game</menu>: Pastes the active game of
+  <li><menu>Copy to Clipbase</menu>: Copies the current game
+  to the <a Clipbase>clipbase</a> database.</li>
+  <li><menu>Paste from Clipbase</menu>: Pastes the active game of
   the <a Clipbase>clipbase</a> to be the active game of the current
   database.</li>
-  <br>
-  <li><menu>Setup start board</menu>: Sets the starting position for the
-  current game.</li>
-  <li><menu>Copy position</menu>: Copies the current position as
-  <term>FEN notation</term> to the system clipboard.</li>
-  <li><menu>Paste start board</menu>: Sets the start board from the current
-  text selection (clipboard). This selection has to be a valid
-  <term>FEN</term> notation.</li>
   </ul>
   
   <h3><name Game>Game</name></h3>
   <ul>
   <li><menu>New Game</menu>: Resets the active game to an empty state,
   discarding any unsaved changes.</li>
-  <li><menu>Load First/Previous/Next/Last Game</menu>: These load the first,
-  previous, next or last game in the <a Searches Filter>filter</a>.</li>
   <li><menu>Reload this game</menu>: Reloads the current game, discarding
   any changes made.</li>
-  <li><menu>Load Game Number</menu>: Loads the game given its game number
-  in the current database.</li>
   <br>
   <li><menu>Save: Replace game</menu>: Saves the current game, replacing
   its original version in the database.</li>
   <li><menu>Save: Add new game</menu>: Saves the current game as a new
   game, appending to the end of the database.</li>
+  <li><menu>Export Current Game</menu>: Exports the current game to various formats.</li>
+  <ul>
+  <li><menu>PGN</menu>: Exports to <a PGN>PGN</a> format.</li>
+  <li><menu>HTML</menu>: Exports to HTML format.</li>
+  <li><menu>HTML with JavaScript</menu>: Exports to interactive HTML format.</li>
+  </ul>
+  <br>
+  <li><menu>Load First Game</menu>: Loads the first game in the <a Searches Filter>filter</a>.</li>
+  <li><menu>Load Previous Game</menu>: Loads the previous game in the filter.</li>
+  <li><menu>Load Next Game</menu>: Loads the next game in the filter.</li>
+  <li><menu>Load Last Game</menu>: Loads the last game in the filter.</li>
+  <li><menu>Load Random Game</menu>: Loads a random game from the filter.</li>
   <br>
   <li><menu>Identify opening</menu>: Finds the deepest
   position in the current game that is in the ECO file.</li>
@@ -670,21 +700,19 @@ set helpText(Menus) {<h1>scidCommunity menus</h1>
   
   <h3><name Search>Search</name></h3>
   <ul>
-  <li><menu>Reset Filter</menu>: Resets the <a Searches Filter>filter</a>
-  so all games are included. This does not affect a filter created by
-  an eventually opened <a Tree>tree window</a>.</li>
-  <li><menu>Negate filter</menu>: Inverts the filter criteria that are
-  not set by an eventually opened <a Tree>tree window</a>.</li>
-  <br>
   <li><menu>Current board</menu>: Searches for the
   <a Searches Board>current board</a> position.</li>
   <li><menu>Header</menu>: Searches by <a Searches Header>header</a>
   information such as player names. This filter is cumulative to
   a filter eventually set by an open <a Tree>tree window</a>.</li>
   <li><menu>Material/Pattern</menu>: Searches by
-  <a Searches Material>material</a> or chessboard patterns</a>. This
+  <a Searches Material>material</a> or chessboard patterns. This
   filter is cumulative to a filter eventually set by an open <a
   Tree>tree window</a>.</li>
+  <br>
+  <li><menu>Player List</menu>: Opens/closes the <a PList>Player Finder</a> window.</li>
+  <li><menu>Tournament Finder</menu>: Opens/closes the
+  <a Tmt>Tournament Finder</a> window.</li>
   <br>
   <li><menu>Using search file</menu>: Searches using
   <a Searches Settings>settings</a> from a SearchOptions file. This
@@ -696,130 +724,109 @@ set helpText(Menus) {<h1>scidCommunity menus</h1>
   <ul>
   <li><menu>Comment Editor</menu>: Opens/closes the
   <a Comment>Comment Editor</a> window.</li>
-  <li><menu>Game List window</menu>: Opens/closes the
-  <a GameList>Game List window</a>.</li>
   <li><menu>PGN window</menu>: Opens/closes the
   <a PGN>PGN window</a>.</li>
-  <li><menu>Tournament Finder</menu>: Opens/closes the
-  <a Tmt>Tournament Finder</a> window.</li>
+  <li><menu>Show Game Info</menu>: Toggles display of game information panel.</li>
   <br>
-  <li><menu>Database switcher</menu>: Opens/closes the
+  <li><menu>Game List window</menu>: Opens/closes the
+  <a GameList>Game List window</a>.</li>
+  <li><menu>Database Switcher</menu>: Opens/closes the
   <a Switcher>Database Switcher</a> window, which lets you switch to
   another database or copy games between databases easily.</li>
-  <li><menu>Maintenance window</menu>: Opens/closes the database
-  <a Maintenance>maintenance</a> window.</li>
-  <br>
+  <li><menu>Crosstable</menu>: Constructs a tournament
+  <a Crosstable>crosstable</a> for the current game.</li>
   <li><menu>ECO Browser</menu>: Opens/closes the
   <a ECO browser>ECO Browser</a> window.</li>
   <li><menu>Statistics window</menu>: Opens/closes the
   <term>Filter statistics window</term> which gives a win/loss summary
-  of the games in the <a Searches Filter>filter.</a></li>
+  of the games in the <a Searches Filter>filter</a>.</li>
   <li><menu>Tree window</menu>: Opens/closes the <a Tree>tree window</a>.</li>
+  <li><menu>Book window</menu>: Opens/closes the <a Book>opening book</a> window.</li>
+  <li><menu>Score Graph</menu>: Refreshes the <a Graphs Score>score graph</a>.</li>
   </ul>
 
   <h3><name Play>Play</name></h3>
   <ul>
-  <li><menu>Serious game</menu>: Allows to play an installed
-  <term>UCI</term> chess engine in a serious game, ie. in tournament
-  conditions.</li>
-  <li><menu>Tactical game</menu>: Allows to play the Phalanx chess
-  engine at an adjustable level.</li>
-  <li><menu>Play on FICS</menu>: Gives access to the Free Internet
-  Chess Server (FICS) to play games of chess against human opponents
-  or chess engines, observe games, or take part in trainings
-  sessions.</li>
-  <li><menu>Training</menu>: access various trainings modes available
-  in scidCommunity.</li>
+  <li><menu>Serious Game</menu>: Configures and starts a <a SeriousGame>serious game</a>
+  against a <term>UCI</term> chess engine in tournament conditions.</li>
+  <li><menu>Tactical Game</menu>: Configures and starts a <a TacticalGame>tactical game</a>
+  against a chess engine at an adjustable level.</li>
+  <li><menu>FICS Training</menu>: Configures connection to the <a FICS>Free Internet
+  Chess Server</a> (FICS) to play against human opponents or take part in training sessions.</li>
+  <li><menu>Training</menu>: Training submenu.</li>
+  <ul>
+  <li><menu>Openings Training</menu>: Configures <a OpeningTrainer>openings training</a>.</li>
+  <li><menu>Tactics Training</menu>: Configures <a TacticsTrainer>tactics training</a>.</li>
+  <li><menu>Review Game</menu>: Starts game review mode.</li>
+  <li><menu>Calvar Training</menu>: Configures <a CalVar>calculation of variations</a> training.</li>
+  </ul>
   </ul>
   
   <h3><name Tools>Tools</name></h3>
   <ul>
-  <li><menu>Analysis engine</menu>: Displays a list of all installed
-  chess engines available for analysis to select and start one of
-  them as analysis engine 1.</li>
-  <li><menu>Analysis engine #2</menu>: Displays a list of all installed
-  chess engines available for analysis to select and start one of
-  them as analysis engine 2.
-  </li>
-  <li><menu>Start engine 1</menu>: Starts/stops the chess analysis
-  engine, displaying the evaluation of the current position
-  in the <a Analysis>analysis window</a>.</li>
-  <li><menu>Start engine #2</menu>: Starts/stops a second analysis
-  engine.</li>
-  <li><menu>Crosstable</menu>: Constructs a tournament
-  <a Crosstable>crosstable</a> for the current game. </li>
+  <li><menu>Configure Engines</menu>: Opens the <a Analysis List>engine configuration</a> dialog
+  to set up chess engines.</li>
+  <li><menu>Start Engine 1</menu>: Starts the first chess analysis engine.</li>
+  <li><menu>Start Engine 2</menu>: Starts the second chess analysis engine.</li>
+  <li><menu>Analysis Window</menu>: Opens the <a Analysis>analysis window</a>.</li>
   <br>
-  <li><menu>Rel. filter graph</menu>: Generates a <a
-  FilterGraph>relative filter graph</a> e.g. to investigate popularity
-  of the current opening by comparison of the current position against
-  the whole database.
-  </li>
-  <li><menu>Abs. filter graph</menu>:  Generates a <a
-  FilterGraph>absolute filter graph</a>
-  </li>
-  <li><menu>Opening report</menu>: Generates an
+  <li><menu>Filter Graph</menu>: Opens/closes the <a Graphs Filter>filter graph</a> window.</li>
+  <li><menu>Absolute Filter Graph</menu>: Opens/closes the absolute filter graph window.</li>
+  <li><menu>Opening Report</menu>: Generates an
   <a Reports Opening>opening report</a> for the current position.</li>
   <li><menu>Piece Tracker</menu>: Opens the <a PTracker>piece tracker</a>
   window.</li>
-  <li><menu>Book tuning</menu>: allows to adjust the probability
-  values of a moved played in a selectable <a Book>opening book</a>).
-  </li>
-  <li><menu>Connect hardware</menu>: Allows external hardware to be
-  used to enter moves. (E.g.  DGT electronic chessboard, Novag
-  Citrine) 
+  <li><menu>Book Tuning</menu>: Opens the <a BookTuning>book tuning</a> window.</li>
+  <li><menu>Download TWIC</menu>: <a DownloadTWIC>Downloads</a> the latest This Week In Chess games.</li>
+  <li><menu>Connect Hardware</menu>: Allows <a HardwareConfig>external hardware</a> to be
+  used to enter moves (e.g. DGT electronic chessboard, Novag Citrine).</li>
   <ul>
-		<li><menu>Configure</menu>: allows  <a HardwareConfig>basic
-		parameters</a> to be set for usage of external hardware
-		</li>
-		<li><menu>Connect Input Engine</menu>: hooks up with hardware
-		that supplies an Input Engine compatible driver (e.g. <url
-		http://dgtdrv.sourceforge.net>dgtdrv website</url>.)
-		</li>
-		<li><menu>Connect Novag Citrine</menu>: hooks up with a Novag
-		Citrine board.
-		</li>
+  <li><menu>Configure</menu>: Allows <a HardwareConfig>basic parameters</a>
+  to be set for usage of external hardware.</li>
+  <li><menu>Input Engine Connect</menu>: Connects/disconnects <a InputEngine>input engine</a>.</li>
+  <li><menu>Novag Citrine Connect</menu>: Connects/disconnects <a Novag>Novag Citrine</a> board.</li>
   </ul>
-  </li>
   <br>
-  <li><menu>Player information</menu>: Displays <a PInfo>player information</a>
-  for one of the two players of the current game.</li>
-  <ul>
-	<li><menu>White</menu>: use the White player of the current game.</li>
-	<li><menu>Black</menu>: use the Black player of the current game.</li>
-  </ul>
-  <li><menu>Player report</menu>: generates a <a Reports Player>player
-  report</a>
-  <li><menu>Rating graph</menu>: Displays the
-  <a Graphs Rating>rating graph</a>.</li>
-  <li><menu>Score graph</menu>: Displays the
-  <a Graphs Score>score graph</a>.</li>
-  <br>
-  <li><menu>Download TWIC Games</menu>: Downloads the latest The Week In Chess (TWIC) games.</li>
-  <br>
-  <li><menu>Import <a PGN>PGN</a> game</menu>: Opens the <a Import>Import window</a>
-  for entering a game by typing or pasting its text in
-  <a PGN>PGN format</a>.</li>
-  <li><menu>Import file of <a PGN>PGN</a> games</menu>: Imports a whole file containing
-  games in <a PGN>PGN</a> format to the current database. Note, that several PGN
-  files can be selected in this dialogue at once.</li>
+  <li><menu>Player Information</menu>: Displays <a PInfo>player information</a>
+  for the White or Black player of the current game.</li>
+  <li><menu>Player Report</menu>: Generates a <a Reports Player>player report</a>.</li>
+  <li><menu>Rating Graph</menu>: Displays the <a Graphs Rating>rating graph</a>.</li>
   </ul>
   
   <h3><name Options>Options</name></h3>
-  <p>
-  This menu provides entries for setting most of scidCommunity's configurable
-  options.
-  The <menu>Save options</menu> entry saves the current options to the
+  <ul>
+  <li><menu>Language</menu>: Submenu to select the interface language.</li>
+  <li><menu>Theme</menu>: Submenu to select the GUI theme.</li>
+  <li><menu>Configure Scid</menu>: Opens the <a Options>preferences</a> dialog.</li>
+  <li><menu>Resources</menu>: Opens the resources configuration dialog.</li>
+  <li><menu>Export</menu>: <a Export>Export</a> format settings submenu.</li>
+  <ul>
+  <li><menu>PGN file text</menu>: Sets <a PGN>PGN</a> export text options.</li>
+  <li><menu>HTML file text</menu>: Sets HTML export text options.</li>
+  </ul>
+  <br>
+  <li><menu>Full Screen</menu>: Toggles full screen mode.</li>
+  <li><menu>Dock Windows</menu>: Toggles window docking.</li>
+  <li><menu>Save Layout</menu>: Saves the current window layout.</li>
+  <li><menu>Restore Layout</menu>: Restores a saved window layout.</li>
+  <br>
+  <li><menu>Save Options</menu>: Saves the current options to the
   file "<b>~/.scid/config/options.dat</b>" (or "<b>options.dat</b>" in the
   sub directory "<b>config</b>" of the scidCommunity executable programs for Windows
-  users); this file is loaded each time you start up scidCommunity.
-  </p>
+  users); this file is loaded each time you start up scidCommunity.</li>
+  <li><menu>Auto Save</menu>: Toggles automatic saving of options on exit.</li>
+  </ul>
   
   <h3><name Help>Help</name></h3>
-  <p>
-  This menu contains help functions, and access to the tip of the day
-  window or the startup window which provides information about the
-  files scidCommunity loaded when it started.
-  </p>
+  <ul>
+  <li><menu>Contents</menu>: Opens the help contents page.</li>
+  <li><menu>Index</menu>: Opens the help index.</li>
+  <li><menu>Quick Guide</menu>: Opens the quick start guide.</li>
+  <li><menu>Hints</menu>: Opens the hints page.</li>
+  <li><menu>Contact</menu>: Opens the contact information page.</li>
+  <li><menu>Tip of the Day</menu>: Shows the tip of the day window.</li>
+  <li><menu>About</menu>: Shows information about scidCommunity.</li>
+  </ul>
   
   <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
@@ -2972,7 +2979,7 @@ set helpText(Maintenance) {<h1>Database maintenance</h1>
   <h3>Maintenance window</h3>
   <p>
   Most scidCommunity database maintenance can be done from the Maintenance
-  window, which can be opened from the <menu>File: Maintenance</menu>
+  window, which can be opened from the <menu>Database: Maintenance</menu>
   or <menu>Windows</menu> menus or the shortcut key <b>Ctrl+M</b>.
   </p>
   <p>
@@ -2985,7 +2992,7 @@ set helpText(Maintenance) {<h1>Database maintenance</h1>
   
   <h3><name Twins>Deleting twin games</name></h3>
   <p>
-  The <menu>File: Maintenance</menu> menu has a command
+  The <menu>Database: Maintenance</menu> menu has a command
   <menu>Delete twin games...</menu> for detecting extra copies
   (twins) of games in the database.
   This command finds all pairs of games that are twins and, for each pair,
@@ -3015,7 +3022,7 @@ set helpText(Maintenance) {<h1>Database maintenance</h1>
   You may find mis-spelt names in your databases and want to correct them.
   You can do this in scidCommunity with the <term>Name editor</term> window
   (shortcut key: <b>Control+Shift+N</b>),
-  available from the <menu>File: Maintenance</menu> submenu.
+  available from the <menu>Database: Maintenance</menu> submenu.
   </p>
   <p>
   Each unique name is only stored once in the name file, so changing a name
@@ -3032,7 +3039,7 @@ set helpText(Maintenance) {<h1>Database maintenance</h1>
   <p>
   Once the spellcheck file is loaded, you can use it on a
   a scidCommunity database using the spellcheck commands in the
-  <menu>File: Maintenance</menu> menu, or from the maintenance window.
+  <menu>Database: Maintenance</menu> menu, or from the maintenance window.
   </p>
   <p>
   When you spellcheck a database, scidCommunity produces a list of corrections that you
@@ -3096,7 +3103,7 @@ set helpText(Maintenance) {<h1>Database maintenance</h1>
   <h3>Repair a base</h3>
   <p>
   In the rare cases that a scidCommunity database is corrupted one might try to
-  repair it using File / Maintenance / Repair base. For this to work,
+  repair it using Database / Maintenance / Repair base. For this to work,
   the base in question must not be opened (which is not possible in
   most cases anyway). scidCommunity will then try its best to get the database
   back in a consistent and usable state.

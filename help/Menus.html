@@ -20,73 +20,107 @@ Menus
 <ul>
 <li><b><font color="#007000">[New]</font></b>: Creates a new empty scidCommunity database.</li>
 <li><b><font color="#007000">[Open]</font></b>: Opens an existing scidCommunity database.</li>
-<li><b><font color="#007000">[Close]</font></b>: Closes the current scidCommunity database.</li>
 <li><b><font color="#007000">[Finder]</font></b>: Opens the <a href="Finder.html">File Finder</a>.</li>
 <li><b><font color="#007000">[Bookmarks]</font></b>: <a href="Bookmarks.html">Bookmarks</a> and bookmark
     functions.</li>
-<li><b><font color="#007000">[Maintenance]</font></b>: Database <a href="Maintenance.html">maintenance</a>
-functions.</li>
-<ul>
-  <li><b><font color="#007000">[Maintenance window]</font></b>: Opens/closes the database maintenance
-      window.</li>
-  <li><b><font color="#007000">[Delete twin games]</font></b>: Finds <a href="Maintenance.html\#Twins">twin</a>
-      games in the database.</li>
-  <li><b><font color="#007000">[ECO-Classify games]</font></b>: Recomputes the
-      <a href="ECO.html">ECO code</a> for all games in the database. </li>
-  <li><b><font color="#007000">[Name editor]</font></b>: Replaces all occurrences of a player,
-      event site or round name.</li>
+<li><b><font color="#007000">[Open Base as Tree]</font></b>: Opens a database as a tree view.</li>
+<li><b><font color="#007000">[Open Recent Base as Tree]</font></b>: Opens a recent database as a tree view.</li>
+<li><b><font color="#007000">[Open Lichess Tournament]</font></b>: Opens a Lichess tournament for analysis.</li>
+<li><b><font color="#007000">[Import Lichess Games]</font></b>: Imports games from Lichess.</li>
+<li><b><font color="#007000">[Import Chess.com Games]</font></b>: Imports games from Chess.com.</li>
+<li><b><font color="#007000">[Exit]</font></b>: Exits scidCommunity.</li>
 </ul>
-<li><b><font color="#007000">[Read-Only]</font></b>: Makes the current database read-only.</li>
-<li><b><font color="#007000">[Base 1/2/3/4/5]</font></b>: These commands let you switch between
-    the four available database slots and the <a href="Clipbase.html">clipbase</a>
-    database.</li>
-<li><b><font color="#007000">[Exit]</font></b>: Exits scidCommunity. </li>
+
+<h3><a name="Database">Database</a></h3>
+<ul>
+<li><b><font color="#007000">[Close]</font></b>: Closes the current scidCommunity database.</li>
+<li><b><font color="#007000">[Load at Startup]</font></b>: Toggles whether the current database loads at startup.</li>
+<li><b><font color="#007000">[Copy All Games]</font></b>: Submenu to copy all games to another database.</li>
+<ul>
+  <li><b><font color="#007000">[New Database]</font></b>: Creates a new database and copies all games.</li>
+  <li><b><font color="#007000">[Other Databases]</font></b>: Lists available databases to copy to.</li>
+</ul>
+<li><b><font color="#007000">[Export Filter]</font></b>: Exports games matching the current filter.</li>
+<ul>
+  <li><b><font color="#007000">[PGN]</font></b>: Exports to PGN format.</li>
+  <li><b><font color="#007000">[HTML]</font></b>: Exports to HTML format.</li>
+  <li><b><font color="#007000">[HTML with JavaScript]</font></b>: Exports to interactive HTML format.</li>
+</ul>
+<li><b><font color="#007000">[Import File]</font></b>: Submenu to import PGN files into databases.</li>
+<li><b><font color="#007000">[Maintenance]</font></b>: Database <a href="Maintenance.html">maintenance</a> utilities.</li>
+<ul>
+  <li><b><font color="#007000">[Maintenance Window]</font></b>: Opens/closes the maintenance window.</li>
+  <li><b><font color="#007000">[Compact Database]</font></b>: Compacts the current database.</li>
+  <li><b><font color="#007000">[Classify Games]</font></b>: Classifies all games with <a href="ECO.html">ECO codes</a>.</li>
+  <li><b><font color="#007000">[Name Editor]</font></b>: Opens/closes the name editor window.</li>
+  <li><b><font color="#007000">[Strip Tags]</font></b>: Strips unwanted tags from games.</li>
+  <li><b><font color="#007000">[Delete Twins]</font></b>: Marks <a href="Maintenance.html#Twins">twin</a> games for deletion.</li>
+  <li><b><font color="#007000">[Update Twin Checker]</font></b>: Updates the twin checker.</li>
+  <li><b><font color="#007000">[Cleaner]</font></b>: Opens the database cleaner window.</li>
+</ul>
+<li><b><font color="#007000">[Name Maintenance]</font></b>: Spell checking and rating allocation for names.</li>
+<ul>
+  <li><b><font color="#007000">[Player Names]</font></b>: Spell checks player names.</li>
+  <li><b><font color="#007000">[Event Names]</font></b>: Spell checks event names.</li>
+  <li><b><font color="#007000">[Site Names]</font></b>: Spell checks site names.</li>
+  <li><b><font color="#007000">[Round Names]</font></b>: Spell checks round names.</li>
+  <li><b><font color="#007000">[Add Elo Ratings]</font></b>: Allocates Elo ratings to players.</li>
+</ul>
+<li><b><font color="#007000">[Base 1/2/3/...]</font></b>: These commands let you switch between
+    available database slots and the <a href="Clipbase.html">clipbase</a> database.</li>
 </ul>
 
 <h3><a name="Edit">Edit</a></h3>
 <ul>
-<li><b><font color="#007000">[Add Variation]</font></b>: Adds a new empty variation for the
-    next move, or for the previous move if there is no next move yet.</li>
-<li><b><font color="#007000">[Delete Variation]</font></b>: Provides a submenu of variations for
-    the current move, so one can be deleted.</li>
-<li><b><font color="#007000">[Make First Variation]</font></b>: Promotes a variation to be the
-    first variation of the current move.</li>
-<li><b><font color="#007000">[Promote Variation to Main line]</font></b>: Promotes a variation
-    to be the main line, swapping it with its parent.</li>
-<li><b><font color="#007000">[Try Variation]</font></b>: Enters <a href="Moves.html\#Trial">trial mode</a> for
-    testing a temporary variation without altering the current game.</li>
-<li><b><font color="#007000">[Strip]</font></b>: Strips all comments or variations from the current
-    game.</li>
+<li><b><font color="#007000">[Undo]</font></b>: Undoes the last action.</li>
+<li><b><font color="#007000">[Redo]</font></b>: Redoes the previously undone action.</li>
 <br>
-<li><b><font color="#007000">[Empty Clipbase]</font></b>: Empties the <a href="Clipbase.html">clipbase</a>
+<li><b><font color="#007000">[Setup Board]</font></b>: Sets the starting position for the current game.</li>
+<li><b><font color="#007000">[Copy Board as FEN]</font></b>: Copies the current board position as FEN to clipboard.</li>
+<li><b><font color="#007000">[Paste Board from FEN]</font></b>: Pastes a board position from FEN in clipboard.</li>
+<li><b><font color="#007000">[Copy Game as PGN]</font></b>: Copies the current game as PGN to clipboard.</li>
+<li><b><font color="#007000">[Paste Game from Clipboard]</font></b>: Pastes a game from clipboard in <a href="PGN.html">PGN format</a>.</li>
+<br>
+<li><b><font color="#007000">[Strip]</font></b>: Strips elements from the current game.</li>
+<ul>
+  <li><b><font color="#007000">[Comments]</font></b>: Strips all comments from the current game.</li>
+  <li><b><font color="#007000">[Variations]</font></b>: Strips all variations from the current game.</li>
+  <li><b><font color="#007000">[Beginning]</font></b>: Strips moves from the beginning to current position.</li>
+  <li><b><font color="#007000">[End]</font></b>: Strips moves from current position to the end.</li>
+</ul>
+<br>
+<li><b><font color="#007000">[Reset Clipbase]</font></b>: Empties the <a href="Clipbase.html">clipbase</a>
     so it contains no games.</li>
-<li><b><font color="#007000">[Copy this game to clipbase]</font></b>: Copies the current game
+<li><b><font color="#007000">[Copy to Clipbase]</font></b>: Copies the current game
     to the <a href="Clipbase.html">clipbase</a> database.</li>
-<li><b><font color="#007000">[Paste last clipbase game]</font></b>: Pastes the active game of
+<li><b><font color="#007000">[Paste from Clipbase]</font></b>: Pastes the active game of
     the <a href="Clipbase.html">clipbase</a> to be the active game of the current
     database.</li>
-<br>
-<li><b><font color="#007000">[Setup start board]</font></b>: Sets the starting position for the
-    current game.</li>
-<li><b><font color="#007000">[Paste start board]</font></b>: Sets the start board from the current
-    text selection (clipboard).</li>
 </ul>
 
 <h3><a name="Game">Game</a></h3>
 <ul>
 <li><b><font color="#007000">[New Game]</font></b>: Resets the active game to an empty state,
     discarding any unsaved changes.</li>
-<li><b><font color="#007000">[Load First/Previous/Next/Last Game]</font></b>: These load the first,
-    previous, next or last game in the <a href="Searches.html\#Filter">filter</a>.</li>
 <li><b><font color="#007000">[Reload this game]</font></b>: Reloads the current game, discarding
     any changes made.</li>
-<li><b><font color="#007000">[Load Game Number]</font></b>: Loads the game given its game number
-    in the current database.</li>
 <br>
 <li><b><font color="#007000">[Save: Replace game]</font></b>: Saves the current game, replacing
     its original version in the database.</li>
 <li><b><font color="#007000">[Save: Add new game]</font></b>: Saves the current game as a new
     game, appending to the end of the database.</li>
+<li><b><font color="#007000">[Export Current Game]</font></b>: Exports the current game to various formats.</li>
+<ul>
+  <li><b><font color="#007000">[PGN]</font></b>: Exports to PGN format.</li>
+  <li><b><font color="#007000">[HTML]</font></b>: Exports to HTML format.</li>
+  <li><b><font color="#007000">[HTML with JavaScript]</font></b>: Exports to interactive HTML format.</li>
+</ul>
+<br>
+<li><b><font color="#007000">[Load First Game]</font></b>: Loads the first game in the <a href="Searches.html#Filter">filter</a>.</li>
+<li><b><font color="#007000">[Load Previous Game]</font></b>: Loads the previous game in the filter.</li>
+<li><b><font color="#007000">[Load Next Game]</font></b>: Loads the next game in the filter.</li>
+<li><b><font color="#007000">[Load Last Game]</font></b>: Loads the last game in the filter.</li>
+<li><b><font color="#007000">[Load Random Game]</font></b>: Loads a random game from the filter.</li>
 <br>
 <li><b><font color="#007000">[Identify opening]</font></b>: Finds the deepest
     position in the current game that is in the ECO file.</li>
@@ -98,103 +132,126 @@ functions.</li>
 
 <h3><a name="Search">Search</a></h3>
 <ul>
-<li><b><font color="#007000">[Reset Filter]</font></b>: Resets the <a href="Searches.html\#Filter">filter</a>
-so all games are included.</li>
-<li><b><font color="#007000">[Negate filter]</font></b>: Inverts the filter to only include
-games that were excluded.</li>
-<br>
 <li><b><font color="#007000">[Current board]</font></b>: Searches for the
-<a href="Searches.html\#Board">current board</a> position.</li>
-<li><b><font color="#007000">[Header]</font></b>: Searches by <a href="Searches.html\#Header">header</a>
+<a href="Searches.html#Board">current board</a> position.</li>
+<li><b><font color="#007000">[Header]</font></b>: Searches by <a href="Searches.html#Header">header</a>
 information such as player names.</li>
 <li><b><font color="#007000">[Material/Pattern]</font></b>: Searches by
-<a href="Searches.html\#Material">material</a> or chessboard patterns</a>.</li>
+<a href="Searches.html#Material">material</a> or chessboard patterns.</li>
+<br>
+<li><b><font color="#007000">[Player List]</font></b>: Opens/closes the player list window.</li>
+<li><b><font color="#007000">[Tournament Finder]</font></b>: Opens/closes the
+    <a href="Tmt.html">Tournament Finder</a> window.</li>
 <br>
 <li><b><font color="#007000">[Using search file]</font></b>: Searches using
-<a href="Searches.html\#Settings">settings</a> from a SearchOptions file.</li>
+<a href="Searches.html#Settings">settings</a> from a SearchOptions file.</li>
+</ul>
+
+<h3><a name="Play">Play</a></h3>
+<ul>
+<li><b><font color="#007000">[Serious Game]</font></b>: Configures and starts a serious game against an engine.</li>
+<li><b><font color="#007000">[Tactical Game]</font></b>: Configures and starts a tactical game against an engine.</li>
+<li><b><font color="#007000">[FICS Training]</font></b>: Configures connection to the Free Internet Chess Server.</li>
+<li><b><font color="#007000">[Training]</font></b>: Training submenu.</li>
+<ul>
+  <li><b><font color="#007000">[Openings Training]</font></b>: Configures openings training.</li>
+  <li><b><font color="#007000">[Tactics Training]</font></b>: Configures tactics training.</li>
+  <li><b><font color="#007000">[Review Game]</font></b>: Starts game review mode.</li>
+  <li><b><font color="#007000">[Calvar Training]</font></b>: Configures calculation of variations training.</li>
+</ul>
 </ul>
 
 <h3><a name="Windows">Windows</a></h3>
 <ul>
 <li><b><font color="#007000">[Comment Editor]</font></b>: Opens/closes the
     <a href="Comment.html">Comment Editor</a> window.</li>
-<li><b><font color="#007000">[Game List window]</font></b>: Opens/closes the
-    <a href="GameList.html">Game List window</a>.</li>
 <li><b><font color="#007000">[PGN window]</font></b>: Opens/closes the
     <a href="PGN.html">PGN window</a>.</li>
-<li><b><font color="#007000">[Tournament Finder]</font></b>: Opens/closes the
-    <a href="Tmt.html">Tournament Finder</a> window.</li>
+<li><b><font color="#007000">[Show Game Info]</font></b>: Toggles display of game information panel.</li>
 <br>
-<li><b><font color="#007000">[Database switcher]</font></b>: Opens/closes the
+<li><b><font color="#007000">[Game List window]</font></b>: Opens/closes the
+    <a href="GameList.html">Game List window</a>.</li>
+<li><b><font color="#007000">[Database Switcher]</font></b>: Opens/closes the
     <a href="Switcher.html">Database Switcher</a> window, which lets you switch to
     another database or copy games between databases easily.</li>
-<li><b><font color="#007000">[Maintenance window]</font></b>: Opens/closes the database
-    <a href="Maintenance.html">maintenance</a> window.</li>
-<br>
+<li><b><font color="#007000">[Crosstable]</font></b>: Constructs a tournament
+    <a href="Crosstable.html">crosstable</a> for the current game.</li>
 <li><b><font color="#007000">[ECO Browser]</font></b>: Opens/closes the
-    <a href="ECO.html\#browser">ECO Browser</a> window.</li>
+    <a href="ECO.html#browser">ECO Browser</a> window.</li>
 <li><b><font color="#007000">[Statistics window]</font></b>: Opens/closes the
     <b><i><font color="#990000">Filter statistics window</font></i></b> which gives a win/loss summary
-    of the games in the <a href="Searches.html\#Filter">filter.</a></li>
+    of the games in the <a href="Searches.html#Filter">filter</a>.</li>
 <li><b><font color="#007000">[Tree window]</font></b>: Opens/closes the <a href="Tree.html">tree window</a>.</li>
-<li><b><font color="#007000">[Endgame Tablebase window]</font></b>: Opens/closes the window that
-    displays <a href="TB.html">tablebase</a> information.</li>
+<li><b><font color="#007000">[Book window]</font></b>: Opens/closes the opening book window.</li>
+<li><b><font color="#007000">[Score Graph]</font></b>: Refreshes the
+    <a href="Graphs.html#Score">score graph</a>.</li>
 </ul>
 
 <h3><a name="Tools">Tools</a></h3>
 <ul>
-<li><b><font color="#007000">[Analysis engine]</font></b>: Starts/stops the chess analysis
-    engine, displaying the evaluation of the current position
-    in the <a href="Analysis.html">analysis window</a>.</li>
-<li><b><font color="#007000">[Analysis engine #2]</font></b>: Starts/stops a second analysis
-    engine.</li>
-<li><b><font color="#007000">[Crosstable]</font></b>: Constructs a tournament
-    <a href="Crosstable.html">crosstable</a> for the current game. </li>
-<li><b><font color="#007000">[Email manager]</font></b>: Opens/closes the <a href="Email.html">email manager</a>
-    window, for managing email correspondence games.</li>
+<li><b><font color="#007000">[Configure Engines]</font></b>: Opens the engine configuration dialog
+    to set up chess engines.</li>
+<li><b><font color="#007000">[Start Engine 1]</font></b>: Starts the first chess analysis engine.</li>
+<li><b><font color="#007000">[Start Engine 2]</font></b>: Starts the second chess analysis engine.</li>
+<li><b><font color="#007000">[Analysis Window]</font></b>: Opens the
+    <a href="Analysis.html">analysis window</a>.</li>
 <br>
-<li><b><font color="#007000">[Opening report]</font></b>: Generates an
-    <a href="Reports.html\#Opening">opening report</a> for the current position.</li>
+<li><b><font color="#007000">[Filter Graph]</font></b>: Opens/closes the filter graph window.</li>
+<li><b><font color="#007000">[Absolute Filter Graph]</font></b>: Opens/closes the absolute filter graph window.</li>
+<li><b><font color="#007000">[Opening Report]</font></b>: Generates an
+    <a href="Reports.html#Opening">opening report</a> for the current position.</li>
 <li><b><font color="#007000">[Piece Tracker]</font></b>: Opens the <a href="PTracker.html">piece tracker</a>
     window.</li>
+<li><b><font color="#007000">[Book Tuning]</font></b>: Opens the book tuning window.</li>
+<li><b><font color="#007000">[Download TWIC]</font></b>: Downloads the latest This Week In Chess games.</li>
+<li><b><font color="#007000">[Connect Hardware]</font></b>: Hardware connection submenu.</li>
+<ul>
+  <li><b><font color="#007000">[Configure]</font></b>: Configures hardware connections.</li>
+  <li><b><font color="#007000">[Input Engine Connect]</font></b>: Connects/disconnects input engine.</li>
+  <li><b><font color="#007000">[Novag Citrine Connect]</font></b>: Connects/disconnects Novag Citrine board.</li>
+</ul>
 <br>
-<li><b><font color="#007000">[Player information]</font></b>: Displays <a href="PInfo.html">player information</a>
-    for one of the two players of the current game.</li>
-<li><b><font color="#007000">[Rating graph]</font></b>: Displays the
-    <a href="Graphs.html\#Rating">rating graph</a>.</li>
-<li><b><font color="#007000">[Score graph]</font></b>: Displays the
-    <a href="Graphs.html\#Score">score graph</a>.</li>
-<br>
-<li><b><font color="#007000">[Export current game]</font></b>: Saves the current game to a text
-    file in PGN, HTML or LaTeX format. See the <a href="Export.html">export</a> help
-    page.</li>
-<li><b><font color="#007000">[Export all filter games]</font></b>: Saves all games in the
-    search <a href="Searches.html\#Filter">filter</a> to a text file in PGN, HTML or
-    LaTeX format. See the <a href="Export.html">export</a> help page.</li>
-<br>
-<li><b><font color="#007000">[Import PGN game]</font></b>: Opens the <a href="Import.html">Import window</a>
-    for entering a game by typing or pasting its text in
-    <a href="PGN.html">PGN format</a>.</li>
-<li><b><font color="#007000">[Import file of PGN games]</font></b>: Imports a whole file containing
-    games in PGN format to the current database.</li>
+<li><b><font color="#007000">[Player Information]</font></b>: Displays <a href="PInfo.html">player information</a>
+    for the White or Black player of the current game.</li>
+<li><b><font color="#007000">[Player Report]</font></b>: Opens the player report dialog.</li>
+<li><b><font color="#007000">[Rating Graph]</font></b>: Displays the
+    <a href="Graphs.html#Rating">rating graph</a>.</li>
 </ul>
 
 <h3><a name="Options">Options</a></h3>
-<p>
-This menu provides entries for setting most of scidCommunity's configurable
-options.
-The <b><font color="#007000">[Save options]</font></b> entry saves the current options to the
-file "<b>~/.scid/scidrc</b>" (or <b>scid.opt</b> in the
-directory of the scidCommunity executable programs for Windows users);
-this file is loaded each time you start up scidCommunity.
-</p>
+<ul>
+<li><b><font color="#007000">[Language]</font></b>: Submenu to select the interface language.</li>
+<li><b><font color="#007000">[Theme]</font></b>: Submenu to select the GUI theme.</li>
+<li><b><font color="#007000">[Configure Scid]</font></b>: Opens the preferences dialog.</li>
+<li><b><font color="#007000">[Resources]</font></b>: Opens the resources configuration dialog.</li>
+<li><b><font color="#007000">[Export]</font></b>: Export format settings submenu.</li>
+<ul>
+  <li><b><font color="#007000">[PGN file text]</font></b>: Sets PGN export text options.</li>
+  <li><b><font color="#007000">[HTML file text]</font></b>: Sets HTML export text options.</li>
+</ul>
+<br>
+<li><b><font color="#007000">[Full Screen]</font></b>: Toggles full screen mode.</li>
+<li><b><font color="#007000">[Dock Windows]</font></b>: Toggles window docking.</li>
+<li><b><font color="#007000">[Save Layout]</font></b>: Saves the current window layout.</li>
+<li><b><font color="#007000">[Restore Layout]</font></b>: Restores a saved window layout.</li>
+<br>
+<li><b><font color="#007000">[Save Options]</font></b>: Saves the current options to the
+    file "<b>~/.scid/scidrc</b>" (or <b>scid.opt</b> in the
+    directory of the scidCommunity executable programs for Windows users);
+    this file is loaded each time you start up scidCommunity.</li>
+<li><b><font color="#007000">[Auto Save]</font></b>: Toggles automatic saving of options on exit.</li>
+</ul>
 
 <h3><a name="Help">Help</a></h3>
-<p>
-This menu contains help functions, and access to the tip of the day
-window or the startup window which provides information about the
-files scidCommunity loaded when it started.
-</p>
+<ul>
+<li><b><font color="#007000">[Contents]</font></b>: Opens the help contents page.</li>
+<li><b><font color="#007000">[Index]</font></b>: Opens the help index.</li>
+<li><b><font color="#007000">[Quick Guide]</font></b>: Opens the quick start guide.</li>
+<li><b><font color="#007000">[Hints]</font></b>: Opens the hints page.</li>
+<li><b><font color="#007000">[Contact]</font></b>: Opens the contact information page.</li>
+<li><b><font color="#007000">[Tip of the Day]</font></b>: Shows the tip of the day window.</li>
+<li><b><font color="#007000">[About]</font></b>: Shows information about scidCommunity.</li>
+</ul>
 
 <p><center><font size=-1>(Updated: scidCommunity, February 2026)</font></center></p>
 
