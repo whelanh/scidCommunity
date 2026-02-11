@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.2.21" date="2026-02-11">
+      <description>
+        <p>Update help files for new features</p>
+      </description>
+    </release>
     <release version="5.1.2.20" date="2026-02-09">
       <description>
         <p>Add headless API: no impact to GUI users</p>
