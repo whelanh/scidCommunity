@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.2.22" date="2026-02-11">
+      <description>
+        <p>Continue to bring help files up to date</p>
+      </description>
+    </release>
     <release version="5.1.2.21" date="2026-02-11">
       <description>
         <p>Update help files for new features</p>
