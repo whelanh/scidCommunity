@@ -7,6 +7,7 @@
 #include <csignal>
 #include <cstdlib>
 #include <iostream>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -212,7 +213,40 @@ void HeadlessMainLoop(int argc, char *argv[]) {
           }
         }
 
-        // Update the filter
+      // Update the filter
+        filter->clear();
+        for (auto gnum : keptGames) {
+          filter->set(gnum, 1);
+        }
+      }
+
+      // 4c. Optional: Filter by tag existence (has_tags)
+      if (params.contains("has_tags") && params["has_tags"].is_array()) {
+        auto requiredTagNames = params["has_tags"].get<std::vector<std::string>>();
+
+        std::vector<gamenumT> keptGames;
+        for (auto gnum : filter) {
+          const IndexEntry *ie = dbase->getIndexEntry(gnum);
+          auto gameView = dbase->getGame(*ie);
+
+          std::set<std::string> gameTags;
+          gameView.decodeTags([&](std::string_view tag, std::string_view) {
+            gameTags.insert(std::string(tag));
+          });
+
+          bool allTagsExist = true;
+          for (const auto &reqTag : requiredTagNames) {
+            if (gameTags.find(reqTag) == gameTags.end()) {
+              allTagsExist = false;
+              break;
+            }
+          }
+
+          if (allTagsExist) {
+            keptGames.push_back(gnum);
+          }
+        }
+
         filter->clear();
         for (auto gnum : keptGames) {
           filter->set(gnum, 1);
@@ -226,7 +260,7 @@ void HeadlessMainLoop(int argc, char *argv[]) {
       int count = 0;
       for (auto gnum : filter) {
         matches.push_back(gnum + 1); // 1-based index for consistency
-        if (++count >= 100)
+        if (++count >= 10000)
           break;
       }
       result["matches"] = matches;
