@@ -85,7 +85,7 @@ Retrieves statistics about an open database.
 ---
 
 ### `db_search`
-Searches the database index. Up to 100 results are returned per call.
+Searches the database index. Up to 10,000 results are returned per call.
 
 **Parameters:**
 - `handle` (int, required): Database handle.
