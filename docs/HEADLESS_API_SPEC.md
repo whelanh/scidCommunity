@@ -92,6 +92,12 @@ Searches the database index. Up to 100 results are returned per call.
 - `white`, `black`, `event`, `site` (string, optional): Filter by substring.
 - `filter` (string, optional): Filter name (e.g., `"all"`).
 - `tags` (object, optional): Key-value pairs of tags to filter by. Evaluated after index search.
+- `has_tags` (array of string, optional): List of tag names that must exist in the game (regardless of value). Useful for filtering games by the presence of non-standard tags like `"ICCF"` or `"WhiteTeam"`.
+
+**Example with `has_tags`:**
+```json
+{"jsonrpc": "2.0", "method": "db_search", "id": 1, "params": {"handle": 1, "has_tags": ["ICCF"]}}
+```
 
 **Response Result:**
 - `count` (int): Total matches found.
