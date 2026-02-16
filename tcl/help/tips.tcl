@@ -55,18 +55,18 @@ proc ::tip::show {{n -1}} {
 
 set tips(E) {
   {
-    Scid has over 30 <a Index>help pages</a>, and in most Scid windows
+    scidCommunity has over 30 <a Index>help pages</a>, and in most scidCommunity windows
     pressing the <b>F1</b> key will produce the help page about that
     window.
   }
   {
-    Some Scid windows (e.g. the game information area, database
+    Some scidCommunity windows (e.g. the game information area, database
     <a Switcher>switcher</a>) have a right-mouse button menu. Try
     pressing the right mouse button in each window to see if it has
     one and what functions are available.
   }
   {
-    Scid offers you more than one way to enter chess moves, letting
+    scidCommunity offers you more than one way to enter chess moves, letting
     you choose which suits you best. You can use the mouse
     (with or without move suggestion) or the keyboard
     (with or without move completion). Read the
@@ -89,9 +89,9 @@ set tips(E) {
     with the left mouse button in the <a Switcher>database switcher</a> window.
   }
   {
-    Scid can open PGN files, even if they are compressed with Gzip
+    scidCommunity can open PGN files, even if they are compressed with Gzip
     (with a .gz filename suffix). PGN files are opened read-only, so
-    if you want to edit a PGN file in Scid, create a new Scid database
+    if you want to edit a PGN file in scidCommunity, create a new scidCommunity database
     and copy the PGN file games to it using the
     <a Switcher>database switcher</a>.
   }
@@ -127,7 +127,7 @@ set tips(E) {
   {
     In the game information area (below the chessboard), you can press
     the right mouse button to produce a menu for customising it. For
-    example, you can make Scid hide the next move which is useful for
+    example, you can make scidCommunity hide the next move which is useful for
     training by playing though a game guessing the moves.
   }
   {
@@ -145,7 +145,7 @@ set tips(E) {
   {
     Before <a Maintenance Twins>deleting twin games</a>, it is a good idea
     to <a Maintenance Spellcheck>spellcheck</a> your database since this
-    will enable to Scid find more twins and mark them for deletion.
+    will enable to scidCommunity find more twins and mark them for deletion.
   }
   {
     <a Flags>Flags</a> are useful for marking database games with
@@ -203,10 +203,10 @@ set tips(E) {
   {
     If you use XBoard or WinBoard (or some other chess program that
     can copy a chess position in standard FEN notation to the clipboard)
-    and want to copy its current chess position to Scid, the fastest and
+    and want to copy its current chess position to scidCommunity, the fastest and
     easiest way is to select <b>Copy Position</b> from the File menu in
     XBoard/WinBoard, then <b>Paste start board</b> from the Edit menu
-    in Scid.
+    in scidCommunity.
   }
   {
     In a <a Searches Header>header search</a>, player/event/site/round
@@ -266,11 +266,6 @@ set tips(E) {
     Windows can be docked by checking the relevant entry in the option menu.
     Tabs can be dragged and dropped from one notebook to another and layed out
     by right clicking on the tab widget.
-  }
-  {
-    Scid GUI can be customized by TTK-Themes. This allow different look and feels
-    according the favorite preference of the user. Use "Options - Load Theme" and
-    look in the <a Appearance>help section</a>.
   }
 }
 
