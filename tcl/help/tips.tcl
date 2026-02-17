@@ -8,6 +8,7 @@ proc ::tip::show {{n -1}} {
   if {! [winfo exists .tipsWin]} {
     win::createDialog $w
     wm title $w "scidCommunity: [tr HelpTip]"
+    wm attributes $w -topmost 1
     ttk::frame $w.text_frame
     ttk_text $w.text -width 40 -height 8 -wrap word
     autoscrollBars y $w.text_frame $w.text
@@ -55,7 +56,7 @@ proc ::tip::show {{n -1}} {
 
 set tips(E) {
   {
-    scidCommunity has over 30 <a Index>help pages</a>, and in most scidCommunity windows
+    scidCommunity has over 40 <a Index>help pages</a>, and in most scidCommunity windows
     pressing the <b>F1</b> key will produce the help page about that
     window.
   }
@@ -76,6 +77,9 @@ set tips(E) {
     If you have a few databases that you open often, add a
     <a Bookmarks>bookmark</a> for each one, and then you will be able
     to open them faster using the bookmarks menu.
+  }
+  {
+    You can follow major chess tournaments in real-time using the <b>Open Lichess Tournament</b> feature in the <b>File</b> menu. scidCommunity will automatically monitor and update the live games for you.
   }
   {
     You can see all the moves of the current game
@@ -108,6 +112,9 @@ set tips(E) {
     an <a OpReport>opening report</a>.
   }
   {
+    To quickly import your own games from online sites, use <b>Import my Lichess</b> or <b>Import my chess.com</b> from the <b>File</b> menu. Simply enter your username and a start date to download your games with full metadata.
+  }
+  {
     In the <a GameList>game list</a> window, press the left or right mouse
     button on the heading of each column to adjust its width.
   }
@@ -134,6 +141,9 @@ set tips(E) {
     If you often do a lot of database <a Maintenance>maintenance</a> on
     a large database, you can do several maintenance jobs at once using
     the <a Maintenance Cleaner>cleaner</a>.
+  }
+  {
+    The <a PGN>PGN window</a> features quick-access buttons to upload your current game to <b>Lichess.org</b> or <b>Chess.com</b>. This allows you to instantly use their powerful cloud-based engine analysis and sharing features.
   }
   {
     If you have a large database where most games have an EventDate and
@@ -166,6 +176,9 @@ set tips(E) {
     the best games list to show only games with a particular result.
   }
   {
+    Use the <b>chessdb Engine Tree</b> button in the <a PGN>PGN window</a> to consult the <b>ChessDB.cn</b> cloud database. It contains billions of pre-analyzed positions and computer evaluations for almost any opening.
+  }
+  {
     A great way to study an opening using a large database of games is
     to turn on training mode in the <a Tree>tree</a> window, then play
     against the database to see which lines occur often.
@@ -194,6 +207,9 @@ set tips(E) {
     often useful to restrict the search to games that match for at
     least a few half-moves to eliminate games where the searched-for
     situation only occurred briefly.
+  }
+  {
+    If you reach an endgame with 7 or fewer pieces, click the <b>Table Base</b> button in the <a PGN>PGN window</a> to get perfect analysis from the Lichess endgame tablebases.
   }
   {
     If you have an important database you do not want to accidentally
@@ -230,6 +246,9 @@ set tips(E) {
     (shortcut: Ctrl+Shift+D).
   }
   {
+    Stay up to date with the latest games from around the world by using <b>Download TWIC Games</b> in the <b>Tools</b> menu. It automatically downloads and opens the latest weekly PGN from <b>The Week In Chess</b>.
+  }
+  {
     If you want to check the size of a file or its date of last modification
     before opening it, use the <a Finder>file finder</a> to open it.
   }
@@ -252,9 +271,9 @@ set tips(E) {
     Statistics window (shortcut: Ctrl+I).
   }
   {
-    You can change the main window board size by holding down the <b>Ctrl</b>
-    and <b>Shift</b> keys, and pressing the <b>Left</b> or <b>Right</b>
-    arrow key.
+    In the <b>Game Browser</b> window, you can change the board size by
+    holding down the <b>Ctrl</b> and <b>Shift</b> keys, and pressing
+    the <b>Left</b> or <b>Right</b> arrow key.
   }
   {
     After a <a Searches>search</a>, you can easily browse through all
