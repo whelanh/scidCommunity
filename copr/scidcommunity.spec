@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.22
+Version:        5.1.2.23
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 7027002ce543d8cb0f7c376de5be3f2b733daf03
+%global commit 91a95cc011704a93fa6687b8b1c00acc01068cac
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Tue Feb 17 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-23
+- "Update Tip Of The Day"
 * Wed Feb 11 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-22
 - "Continue to correct outdated and inaccurate help files"
 * Wed Feb 11 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-21
