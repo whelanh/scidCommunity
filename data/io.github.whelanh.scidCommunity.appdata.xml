@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.2.24" date="2026-02-21">
+      <description>
+        <p>Fix audio to use modern audio stack for move announcements/sounds</p>
+      </description>
+    </release>
     <release version="5.1.2.23" date="2026-02-17">
       <description>
         <p>Update Tip Of The Day</p>
