@@ -1325,6 +1325,7 @@ translate E SoundsFolder {Sound Files Folder}
 translate E SoundsFolderHelp {The folder should contain the files King.wav, a.wav, 1.wav, etc}
 translate E SoundsAnnounceOptions {Move Announcement Options}
 translate E SoundsAnnounceNew {Announce new moves as they are made}
+translate E SoundsMoveSoundOnly {Move sound only (disable announcements)}
 translate E SoundsAnnounceForward {Announce moves when moving forward one move}
 translate E SoundsAnnounceBack {Announce when retracting or moving back one move}
 translate E SoundsSoundDisabled {Scid could not find the Snack audio package at startup;\nSound is disabled.}

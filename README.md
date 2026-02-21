@@ -76,7 +76,12 @@ make install
 The `ScidCommunity.app` bundle contains the app and can be moved to `/Applications`. You can also create a symbolic link to the executable `ScidCommunity.app/Contents/scid/scid`.  However Apple security protocols may make this difficult.  You can build it from source using the commands listed above and then invoke it from the scidCommunity folder using the terminal command `./scidCommunity`   You may need to run `./build_app.sh` several times for Apple to download the needed tcl/tk libraries.
 
 ### Linux
-Requires: `tcl8.6-dev`, `tk8.6-dev` (or equivalent for your distribution). It will now compile against tk and tcl 9.0 libraries (e.g. Fedora Rawhide `tcl-devel` and `tk-devel`), but if both 8.6 and 9.0 are available, it defaults to 8.6. 
+Requires: `tcl8.6-dev`, `tk8.6-dev` (or equivalent for your distribution). It will now compile against tk and tcl 9.0 libraries (e.g. Fedora Rawhide `tcl-devel` and `tk-devel`), but if both 8.6 and 9.0 are available, it defaults to 8.6.
+
+**Sound Support**: scidCommunity uses a multi-backend audio system that attempts to find the best available player on your system.
+- **Linux**: Works with `pw-play` (PipeWire), `paplay` (PulseAudio), `aplay` (ALSA), or the `tcl-snack` package.
+- **Windows**: Uses `powershell` or the included `scidsnd.exe`.
+- **macOS**: Uses `afplay`.
 
 ```sh
 git clone https://github.com/whelanh/scidCommunity.git

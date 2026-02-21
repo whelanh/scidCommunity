@@ -53,6 +53,7 @@ apps:
       - x11
       - wayland
       - unity7
+      - audio-playback
     environment:
       SCID_SHAREDIR: $SNAP/usr/share/scid
       TCL_LIBRARY: $SNAP/usr/share/tcltk/tcl8.6
@@ -88,6 +89,7 @@ parts:
       - tcl8.6
       - libtcl8.6
       - libtk8.6
+      - alsa-utils
       - curl
       - ca-certificates
       - unzip
