@@ -1314,6 +1314,7 @@ translate J SoundsFolder {Фасцикла са звучним датотека�
 translate J SoundsFolderHelp {Фасцикла треба да садржи датотеке Кинг.вав, а.вав, 1.вав итд}
 translate J SoundsAnnounceOptions {Премести опције најаве}
 translate J SoundsAnnounceNew {Најавите нове потезе како буду направљени}
+translate J SoundsMoveSoundOnly {Премести само звук (онемогући најаве)}
 translate J SoundsAnnounceForward {Најавите потезе када се крећете напред за један потез}
 translate J SoundsAnnounceBack {Најавите када повлачите или померате један потез уназад}
 translate J SoundsSoundDisabled {Сцид није могао да пронађе Снацк аудио пакет при покретању;\нЗвук је онемогућен.}

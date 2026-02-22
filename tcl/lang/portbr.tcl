@@ -1301,6 +1301,7 @@ translate B SoundsFolder {Pasta de arquivos de som}
 translate B SoundsFolderHelp {A pasta deve conter os arquivos King.wav, a.wav, 1.wav, etc} 
 translate B SoundsAnnounceOptions {Opções de anuncio de movimentos} 
 translate B SoundsAnnounceNew {Anuncia novos movimentos quando eles são feitos} 
+translate B SoundsMoveSoundOnly {Mover apenas som (desativar anúncios)}
 translate B SoundsAnnounceForward {Anuncia movimentos quando avançar um movimento} 
 translate B SoundsAnnounceBack {Anuncia movimentos quando retroceder um movimento} 
 translate B SoundsSoundDisabled {O Scid não conseguiu encontrar o pacote de áudio Snack na inicialização;\nSound está desativado.}

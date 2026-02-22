@@ -1314,6 +1314,7 @@ translate A SoundsFolder {サウンドファイルフォルダー}
 translate A SoundsFolderHelp {フォルダーには、King.wav、a.wav、1.wav などのファイルが含まれている必要があります。}
 translate A SoundsAnnounceOptions {移動アナウンスのオプション}
 translate A SoundsAnnounceNew {新しい動きが行われたときに発表する}
+translate A SoundsMoveSoundOnly {音声のみを移動（アナウンスを無効にする）}
 translate A SoundsAnnounceForward {一手進むときに手を宣言}
 translate A SoundsAnnounceBack {撤回または一手戻すときにアナウンス}
 translate A SoundsSoundDisabled {Scid は起動時に Snack オーディオ パッケージを見つけることができませんでした。\nサウンドは無効になっています。}

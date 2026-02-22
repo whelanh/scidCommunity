@@ -1315,6 +1315,7 @@ translate K SoundsFolder {Directori d'arxius de so}
 translate K SoundsFolderHelp {El directori ha de tenir els arxius King.wav, a.wav, 1.wav, etc}
 translate K SoundsAnnounceOptions {Opcions d'anunci de jugades}
 translate K SoundsAnnounceNew {Anunciar noves jugades quan estiguin fetes}
+translate K SoundsMoveSoundOnly {Mou només el so (desactiva els anuncis)}
 translate K SoundsAnnounceForward {Anunciar jugades quan avancem una jugada}
 translate K SoundsAnnounceBack {Anunciar jugada quan rectifiquem o retrocedim una jugada}
 translate K SoundsSoundDisabled {L'Scid no ha pogut trobar el paquet d'àudio Snack al inicialitzar;\nEl so està desactivat.}

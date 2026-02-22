@@ -1294,6 +1294,7 @@ translate H SoundsFolder {Hangfájlok könyvtára}
 translate H SoundsFolderHelp {A könyvtárban a King.wav, a.wav, 1.wav, s.í.t. fájloknak kell szerepelniük.}
 translate H SoundsAnnounceOptions {Lépésbemondások beállításai}
 translate H SoundsAnnounceNew {Új lépés bemondása amint megtesszük}
+translate H SoundsMoveSoundOnly {Csak mozgatási hang (bejelentések letiltása)}
 translate H SoundsAnnounceForward {Lépés bemondása amikor egy lépést elõre lépünk}
 translate H SoundsAnnounceBack {Lépés bemondása amikor visszaveszünk vagy egy lépést hátra lépünk}
 translate H SoundsSoundDisabled {A Scid nem találta a Snack audiocsomagot indításkor;\nA hang le van tiltva.}

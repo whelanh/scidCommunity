@@ -1299,6 +1299,7 @@ translate W SoundsFolder {Ljudfilskatalog}
 translate W SoundsFolderHelp {Katalogen ska ha filerna King.wav, a.wav, 1.wav, etc}
 translate W SoundsAnnounceOptions {Inställningar för Dragannonsering}
 translate W SoundsAnnounceNew {Annonsera nya drag när de görs}
+translate W SoundsMoveSoundOnly {Flytta endast ljud (avaktivera meddelanden)}
 translate W SoundsAnnounceForward {Annonsera drag när du går fram ett drag}
 translate W SoundsAnnounceBack {Annonsera drag när du går fram eller tillbaka ett drag}
 translate W SoundsSoundDisabled {Scid kunde inte hitta Snack-ljudpaketet vid start;\nLjudet är inaktiverat.}

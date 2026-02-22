@@ -1314,6 +1314,7 @@ translate L SoundsFolder {Folder cu fișiere de sunet}
 translate L SoundsFolderHelp {Dosarul ar trebui să conțină fișierele King.wav, a.wav, 1.wav etc}
 translate L SoundsAnnounceOptions {Mutați opțiunile de anunț}
 translate L SoundsAnnounceNew {Anunțați mișcări noi pe măsură ce sunt făcute}
+translate L SoundsMoveSoundOnly {Mutați numai sunetul (dezactivați anunțurile)}
 translate L SoundsAnnounceForward {Anunțați mișcări atunci când avansați cu o mișcare}
 translate L SoundsAnnounceBack {Anunțați când vă retrageți sau vă întoarceți cu o mișcare}
 translate L SoundsSoundDisabled {Scid nu a putut găsi pachetul audio Snack la pornire;\nSunetul este dezactivat.}

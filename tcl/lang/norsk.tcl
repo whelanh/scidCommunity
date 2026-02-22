@@ -1293,6 +1293,7 @@ translate O SoundsFolder {Sound Files Folder} ;# ***
 translate O SoundsFolderHelp {The folder should contain the files King.wav, a.wav, 1.wav, etc} ;# ***
 translate O SoundsAnnounceOptions {Move Announcement Options} ;# ***
 translate O SoundsAnnounceNew {Announce new moves as they are made} ;# ***
+translate O SoundsMoveSoundOnly {Bare flytt lyd (deaktiver kunngjøringer)}
 translate O SoundsAnnounceForward {Announce moves when moving forward one move} ;# ***
 translate O SoundsAnnounceBack {Announce when retracting or moving back one move} ;# ***
 translate O SoundsSoundDisabled {Scid kunne ikke finne Snack-lydpakken ved oppstart;\nLyden er deaktivert.}

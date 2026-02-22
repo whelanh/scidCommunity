@@ -202,9 +202,6 @@ menuText F ToolsExpCurrentHTMLJS "Dans un fichier HTML et JavaScript..." 24 {Exp
 menuText F ToolsExpFilter "Exporter les parties filtrées" 0
 menuText F ToolsExpFilterPGN "Dans un fichier PGN..." 16 \
   {Exporter le filtre dans un fichier PGN}
-# MISSING TRANSLATION for ToolsExpFilterPGN:
-# menuText E ToolsExpFilterPGN "Export Filter to PGN File..." 17 \
-#   {Write all filtered games to a PGN file}
 menuText F ToolsExpFilterHTML "Dans un fichier HTML..." 16 \
   {Exporter le filtre dans un fichier HTML}
 menuText F ToolsExpFilterHTMLJS "Dans un fichier HTML et JavaScript..." 24 {Exporter le filtre dans un fichier HTML et JavaScript}
@@ -1302,6 +1299,7 @@ translate F SoundsFolder {Répertoire des fichiers sonores}
 translate F SoundsFolderHelp {Le répertoire devrait contenir les fichiers King.wav, a.wav, 1.wav, etc}
 translate F SoundsAnnounceOptions {Options d'annonce des coups}
 translate F SoundsAnnounceNew {Annoncer les coups joués}
+translate F SoundsMoveSoundOnly {Déplacer le son uniquement (désactiver les annonces)}
 translate F SoundsAnnounceForward {Annoncer les coups quand avance d'un coup}
 translate F SoundsAnnounceBack {Annoncer quand retour arrière d'un coup}
 translate F SoundsSoundDisabled {Scid n'a pas pu trouver le paquet audio de Snack au démarrage;\nle son est désactivé.}

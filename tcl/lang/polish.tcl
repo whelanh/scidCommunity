@@ -1312,6 +1312,7 @@ translate P SoundsFolder {Sound Files Folder} ;# ***
 translate P SoundsFolderHelp {The folder should contain the files King.wav, a.wav, 1.wav, etc} ;# ***
 translate P SoundsAnnounceOptions {Move Announcement Options} ;# ***
 translate P SoundsAnnounceNew {Announce new moves as they are made} ;# ***
+translate P SoundsMoveSoundOnly {Przenie¶ tylko d¼wiêk (wy³±cz powiadomienia)}
 translate P SoundsAnnounceForward {Announce moves when moving forward one move} ;# ***
 translate P SoundsAnnounceBack {Announce when retracting or moving back one move} ;# ***
 translate P SoundsSoundDisabled {Scid nie mo¿na pobraæ pakietu audio Snack podczas uruchamiania;\nD¼wiêk jest wy³±czony.}

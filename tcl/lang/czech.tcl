@@ -1293,6 +1293,7 @@ translate C SoundsFolder {Adresáø se zvukovými soubory}
 translate C SoundsFolderHelp {Adresáø by mìl obsahovat soubory King.wav, a.wav, 1.wav, atd.}
 translate C SoundsAnnounceOptions {Volby oznamování tahu}
 translate C SoundsAnnounceNew {Oznamovat tahy pøi jejich provedení}
+translate C SoundsMoveSoundOnly {Pouze zvuk pøesunout (vypnout oznámení)}
 translate C SoundsAnnounceForward {Oznamovat tahy pøi posunu o tah vpøed}
 translate C SoundsAnnounceBack {Oznamovat pøi vzetí tahu zpìt nebo posunu o tah zpìt}
 translate C SoundsSoundDisabled {Scid nemohl najít zvukový balíèek Snack pøi spu¹tìní;\nZvuk je vypnutý.}

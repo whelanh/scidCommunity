@@ -1537,6 +1537,8 @@ translate Y SoundsFolder {Sound Files Folder} ;# ***
 translate Y SoundsFolderHelp {The folder should contain the files King.wav, a.wav, 1.wav, etc} ;# ***
 translate Y SoundsAnnounceOptions {Move Announcement Options} ;# ***
 translate Y SoundsAnnounceNew {Announce new moves as they are made} ;# ***
+# ====== TODO To be translated ======
+translate Y SoundsMoveSoundOnly {Move sound only (disable announcements)}
 translate Y SoundsAnnounceForward {Announce moves when moving forward one move} ;# ***
 translate Y SoundsAnnounceBack {Announce when retracting or moving back one move} ;# ***
 # ====== TODO To be translated ======

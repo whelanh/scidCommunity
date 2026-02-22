@@ -267,7 +267,7 @@ menuText N OptionsMovesCoord "Zet-ingave" 0 \
 menuText N OptionsMovesSuggest "Toon hint" 0 \
   {Schakel hints aan of uit}
 menuText N OptionsShowVarPopup "Toon het varianten venster" 0 {Toon al dan niet het varianten venster} 
-menuText E OptionsMovesSpace "Add spaces after move number" 0 {Add spaces after move number}   
+menuText N OptionsMovesSpace "Voeg spaties toe na het zetnummer" 0 {Voeg spaties toe na het zetnummer}
 menuText N OptionsMovesLichess "Lichess/ChessBase-formaat voor annotaties" 0 {Gebruik het Lichess/ChessBase-formaat voor vierkante markeringen en pijlen}
 menuText N OptionsMovesKey "Auto-aanvullen" 0 \
   {Aan/uitschakelen van toetsenbordzet auto-aanvullen}
@@ -1318,6 +1318,7 @@ translate N SoundsFolder {Geluidsbestanden Map} ;
 translate N SoundsFolderHelp {De map moet de bestanden King.wav, a.wav, 1.wav, enz. bevatten} ;
 translate N SoundsAnnounceOptions {Zet Aankondigingen Opties} ;
 translate N SoundsAnnounceNew {Kondig nieuwe zetten aan als ze gedaan worden} ;
+translate N SoundsMoveSoundOnly {Alleen geluid verplaatsen (aankondigingen uitschakelen)}
 translate N SoundsAnnounceForward {Kondig  aan als één zet vooruit gedaan wordt} ;
 translate N SoundsAnnounceBack {Kondig  aan als één zet terug gedaan of genomen wordt} ;
 translate N SoundsSoundDisabled {Scid kon het snack-audiopakket niet vinden bij het opstarten;\nhet geluid is uitgeschakeld.}

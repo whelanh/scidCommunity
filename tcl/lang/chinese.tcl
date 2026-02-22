@@ -1249,6 +1249,7 @@ translate M SoundsFolder {声音文件夹}
 translate M SoundsFolderHelp {该文件夹应包含文件 King.wav、a.wav、1.wav 等}
 translate M SoundsAnnounceOptions {移动公告选项}
 translate M SoundsAnnounceNew {宣布新举措}
+translate M SoundsMoveSoundOnly {仅移动声音（禁用公告）}
 translate M SoundsAnnounceForward {前进一步时宣布动作}
 translate M SoundsAnnounceBack {撤回或后退一步时发出通知}
 translate M SoundsSoundDisabled {Scid 在启动时找不到 Snack 音频包；\n声音被禁用。}

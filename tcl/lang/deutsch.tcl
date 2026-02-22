@@ -281,7 +281,8 @@ menuText D OptionsMovesKey "Autom. Zugergänzung" 10 \
 menuText D OptionsMovesShowVarArrows "Pfeile für Varianten anzeigen" 0 {Zeige Pfeile in Varianten an: ja/nein}
 menuText D OptionsMovesShowEngineVariationArrows "Engine-Varianten-Pfeile" 0 {Schaltet die mehrfarbigen drei Variantenpfeile im multiPV Modus aus}
 menuText D OptionsMovesGlossOfDanger "Bedrohte Figuren einfärben" 0 {Markieren von gefärdeten Figuren ein/ausschalten}
-menuText D OptionsMovesTreeDepth "Standard Zugtiefe im Zugbaum-Fenster" 0 {Standard Zugtiefe im Zugbaum-Fenster}
+# MISSING TRANSLATION for OptionsMovesTreeDepth:
+# translate E OptionsMovesTreeDepth {Default Tree Window Move Depth}
 menuText D OptionsNumbers "Zahlenformat" 5 {Zahlenformat wählen}
 menuText D OptionsTheme "Design" 0 {Verändert das Aussehen der Oberfläche}
 menuText D OptionsWindows "Fenster" 6 {Fenster-Optionen}
@@ -1339,6 +1340,7 @@ translate D SoundsFolder {Verzeichnis für Sprachausgabedateien}
 translate D SoundsFolderHelp {Das Verzeichnis sollte enthalten: King.wav, a.wav, 1.wav etc.}
 translate D SoundsAnnounceOptions {Optionen für Zugankündigung}
 translate D SoundsAnnounceNew {Kündige neue Züge an, wenn sie ausgeführt werden}
+translate D SoundsMoveSoundOnly {Nur Ton bewegen (Ansagen deaktivieren)}
 translate D SoundsAnnounceForward {Künde Zug an beim Vorwärtspielen}
 translate D SoundsAnnounceBack {Kündige Zug an beim Zurückgehen}
 translate D SoundsSoundDisabled {Scid hat das Snack Audio Paket beim Start nicht gefunden.\nTon ist abgeschaltet.}

@@ -1320,6 +1320,7 @@ translate G SoundsFolder {Κατάλογος αρχείων ήχου}
 translate G SoundsFolderHelp {Ο κατάλογος πρέπει να περιέχει τα αρχεία King.wav, a.wav, 1.wav, κλπ.}
 translate G SoundsAnnounceOptions {Επιλογές αναγγελίας κίνησης}
 translate G SoundsAnnounceNew {Αναγγελία των νέων κινήσεων καθώς εκτελούνται}
+translate G SoundsMoveSoundOnly {Μετακίνηση μόνο ήχου (απενεργοποίηση ανακοινώσεων)}
 translate G SoundsAnnounceForward {Αναγγελία όταν πρόκειται για μια κίνηση προς τα εμπρός}
 translate G SoundsAnnounceBack {Αναγγελία όταν πρόκειται για αναδρομή ή για κίνηση προς τα πίσω}
 translate G SoundsSoundDisabled {Η Scid δεν μπόρεσε να βρει το πακέτο ήχου Snack κατά την εκκίνηση.\nΟ ήχος είναι απενεργοποιημένος.}

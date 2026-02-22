@@ -1294,6 +1294,7 @@ translate I SoundsFolder {Cartella dei file audio}
 translate I SoundsFolderHelp {La cartella deve contenere i file King.wav, a.wav, 1.wav, etc}
 translate I SoundsAnnounceOptions {Opzioni per l'annuncio delle mosse}
 translate I SoundsAnnounceNew {Annuncia l'esecuzione di una nuova mossa}
+translate I SoundsMoveSoundOnly {Sposta solo l'audio (disabilita gli annunci)}
 translate I SoundsAnnounceForward {Annuncia quando si va avanti di una mossa}
 translate I SoundsAnnounceBack {Annuncia quando si va indietro di una mossa}
 translate I SoundsSoundDisabled {Scid non è riuscito a trovare il pacchetto audio Snack all'avvio;\nSound è disabilitato.}

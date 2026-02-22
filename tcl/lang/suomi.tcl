@@ -1326,6 +1326,7 @@ translate U SoundsFolder {Äänitiedostojen hakemisto}
 translate U SoundsFolderHelp {Hakemistosta pitää löytyä tiedostot King.wav, a.wav, 1.wav, jne}
 translate U SoundsAnnounceOptions {Siirtoilmoitusasetukset}
 translate U SoundsAnnounceNew {Ilmoita uudet siirrot}
+translate U SoundsMoveSoundOnly {Vain siirtoääni (poista ilmoitukset käytöstä)}
 translate U SoundsAnnounceForward {Ilmoita, kun siirrytään eteenpäin yksi siirto}
 translate U SoundsAnnounceBack {Ilmoita, kun siirrytään taaksepäin yksi siirto}
 translate U SoundsSoundDisabled {Scid ei löytänyt Snack-äänipakettia käynnistyksen yhteydessä;\nÄäni on poistettu käytöstä.}

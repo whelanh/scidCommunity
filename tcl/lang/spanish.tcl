@@ -1346,6 +1346,7 @@ translate S SoundsFolder {Directorio de los archivos de sonido}
 translate S SoundsFolderHelp {El directorio debe contener los archivos King.wav, a.wav, 1.wav, etc.}
 translate S SoundsAnnounceOptions {Opciones de anunciamiento de movimientos}
 translate S SoundsAnnounceNew {Anunciar nuevos movimientos cuando sean hechos}
+translate S SoundsMoveSoundOnly {Mover solo sonido (desactivar anuncios)}
 translate S SoundsAnnounceForward {Anunciar movimientos cuando avancemos un movimiento}
 translate S SoundsAnnounceBack {Anunciar movimiento cuando rectifiquemos o retrocedamos una jugada}
 translate S SoundsSoundDisabled {Scid no pudo encontrar el paquete de audio de Snack al inicio.\nEl sonido está desactivado.}

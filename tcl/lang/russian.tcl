@@ -1295,6 +1295,7 @@ translate R SoundsFolder {Директория звуковых файлов}
 translate R SoundsFolderHelp {Каталог должен содержать файлы King.wav, a.wav, 1.wav и т. п.}
 translate R SoundsAnnounceOptions {Опции уведомления о ходе}
 translate R SoundsAnnounceNew {Уведомлять о новых ходах, когда они сделаны}
+translate R SoundsMoveSoundOnly {Перемещать только звук (отключить объявления)}
 translate R SoundsAnnounceForward {Уведомлять о ходе, когда сделан один ход вперёд}
 translate R SoundsAnnounceBack {Уведомлять о сокращении или отмене одного хода}
 translate R SoundsSoundDisabled {Scid не смог найти аудио пакет Snack при запуске; \nSound отключен.}

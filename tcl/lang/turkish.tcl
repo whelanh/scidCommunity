@@ -1281,6 +1281,8 @@ translate T SoundsFolder {Ses Dosyaları Klasörü}
 translate T SoundsFolderHelp {Klasör King.wav, a.wav, 1.wav, vb. dosyalarını içermelidir.}
 translate T SoundsAnnounceOptions {Duyuru Seçeneklerini Taşı}
 translate T SoundsAnnounceNew {Yeni hamleleri yapıldıkça duyurun}
+# ====== TODO To be translated ======
+translate T SoundsMoveSoundOnly {Move sound only (disable announcements)}
 translate T SoundsAnnounceForward {Bir hamle ileri giderken hamleleri duyurun}
 translate T SoundsAnnounceBack {Geri çekilirken veya bir hamle geri giderken duyurun}
 translate T SoundsSoundDisabled {Scid başlangıçta Snack ses paketini bulamadı;\nSes devre dışı.}
