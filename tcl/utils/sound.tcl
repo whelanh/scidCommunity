@@ -120,12 +120,8 @@ proc ::utils::sound::ReadFolder {{newFolder ""}} {
         sound_$soundFile configure -file $f
       }
       incr count
-    } else {
-      # Log missing/unreadable files if we are troubleshooting
-      # puts stderr "scidCommunity: Sound file not readable: $f"
     }
   }
-  puts stderr "scidCommunity: Found $count sound files in $soundFolder"
   return $count
 }
 
@@ -218,13 +214,10 @@ proc ::utils::sound::CheckSoundQueue {} {
   set name [string range $next 6 end]
   set f [file join $soundFolder $name.wav]
   if {! [file readable $f]} {
-    puts stderr "scidCommunity sound error: file not readable: $f"
     set isPlayingSound 0
     after idle ::utils::sound::CheckSoundQueue
     return
   }
-
-  puts stderr "scidCommunity debug: Playing $f using $backend"
 
   if {$backend == "snack"} {
     catch { $next play -blocking 0 -command ::utils::sound::SoundFinished }
