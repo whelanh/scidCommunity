@@ -281,8 +281,8 @@ menuText D OptionsMovesKey "Autom. Zugergänzung" 10 \
 menuText D OptionsMovesShowVarArrows "Pfeile für Varianten anzeigen" 0 {Zeige Pfeile in Varianten an: ja/nein}
 menuText D OptionsMovesShowEngineVariationArrows "Engine-Varianten-Pfeile" 0 {Schaltet die mehrfarbigen drei Variantenpfeile im multiPV Modus aus}
 menuText D OptionsMovesGlossOfDanger "Bedrohte Figuren einfärben" 0 {Markieren von gefärdeten Figuren ein/ausschalten}
-# MISSING TRANSLATION for OptionsMovesTreeDepth:
-# translate E OptionsMovesTreeDepth {Default Tree Window Move Depth}
+
+menuText D OptionsMovesTreeDepth "Standard Zugtiefe im Zugbaum-Fenster" 0 {Standard Zugtiefe im Zugbaum-Fenster}
 menuText D OptionsNumbers "Zahlenformat" 5 {Zahlenformat wählen}
 menuText D OptionsTheme "Design" 0 {Verändert das Aussehen der Oberfläche}
 menuText D OptionsWindows "Fenster" 6 {Fenster-Optionen}
