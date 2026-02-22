@@ -54,6 +54,7 @@ apps:
       - wayland
       - unity7
       - audio-playback
+      - pulseaudio
     environment:
       SCID_SHAREDIR: $SNAP/usr/share/scid
       TCL_LIBRARY: $SNAP/usr/share/tcltk/tcl8.6
@@ -90,6 +91,8 @@ parts:
       - libtcl8.6
       - libtk8.6
       - alsa-utils
+      - pipewire-bin
+      - pulseaudio-utils
       - curl
       - ca-certificates
       - unzip
