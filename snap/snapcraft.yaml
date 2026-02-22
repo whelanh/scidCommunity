@@ -94,6 +94,7 @@ parts:
       - alsa-utils
       - pipewire-bin
       - pulseaudio-utils
+      - libpulse0
       - libasound2-plugins
       - libcanberra-gtk3-module
       - libcanberra-gtk3-0
