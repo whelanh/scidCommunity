@@ -224,7 +224,10 @@ proc ::utils::sound::CheckSoundQueue {} {
     after 450 ::utils::sound::SoundFinished
   } else {
     # Linux players: aplay, paplay, etc.
-    catch { exec $backend $f & }
+    # Capture errors from background process to help debugging
+    if {[catch { exec $backend $f > /dev/null 2>@1 & } err]} {
+      puts stderr "scidCommunity sound error ($backend): $err"
+    }
     # Increase delay to account for sound length (e.g. 450ms + 150ms gap in SoundFinished)
     after 450 ::utils::sound::SoundFinished
   }

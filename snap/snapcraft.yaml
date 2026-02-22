@@ -55,6 +55,7 @@ apps:
       - unity7
       - audio-playback
       - pulseaudio
+      - pipewire
     environment:
       SCID_SHAREDIR: $SNAP/usr/share/scid
       TCL_LIBRARY: $SNAP/usr/share/tcltk/tcl8.6
@@ -93,6 +94,7 @@ parts:
       - alsa-utils
       - pipewire-bin
       - pulseaudio-utils
+      - libasound2-plugins
       - curl
       - ca-certificates
       - unzip
