@@ -95,6 +95,8 @@ parts:
       - pipewire-bin
       - pulseaudio-utils
       - libasound2-plugins
+      - libcanberra-gtk3-module
+      - libcanberra-gtk3-0
       - curl
       - ca-certificates
       - unzip

@@ -68,8 +68,9 @@ proc ::utils::sound::Setup {} {
         set hasSound 1
       }
     } else {
-      # Linux/Unix
-      foreach p {pw-play paplay aplay canberra-gtk-play} {
+      # Linux/Unix. 
+      # Prefer paplay over pw-play in Snap/Flatpak as PulseAudio protocol is often more stable for sandboxes.
+      foreach p {paplay pw-play aplay canberra-gtk-play} {
         if {[auto_execok $p] != ""} {
           set backend $p
           set hasSound 1
@@ -85,10 +86,20 @@ proc ::utils::sound::Setup {} {
       set defaultFolder [file normalize [file join $::scidShareDir sounds]]
       if {[file isdirectory $defaultFolder]} {
         set ::utils::sound::soundFolder $defaultFolder
-        ::utils::sound::ReadFolder
       }
     }
-    ::utils::sound::ReadFolder
+    set numFiles [::utils::sound::ReadFolder]
+  }
+  # Diagnostic popup to ensure we are running the correct code and see the state
+  if {[info exists ::env(SNAP)] || [info exists ::env(FLATPAK_ID)]} {
+    set debugInfo "Backend: $backend\n"
+    append debugInfo "Folder: $::utils::sound::soundFolder\n"
+    append debugInfo "HasSound: $hasSound\n"
+    if {[info exists numFiles]} { append debugInfo "Files found: $numFiles\n" }
+    append debugInfo "pw-play: [auto_execok pw-play]\n"
+    append debugInfo "paplay: [auto_execok paplay]\n"
+    append debugInfo "aplay: [auto_execok aplay]\n"
+    tk_messageBox -title "Scid Sound Debug" -message $debugInfo
   }
 }
 
@@ -109,8 +120,12 @@ proc ::utils::sound::ReadFolder {{newFolder ""}} {
         sound_$soundFile configure -file $f
       }
       incr count
+    } else {
+      # Log missing/unreadable files if we are troubleshooting
+      # puts stderr "scidCommunity: Sound file not readable: $f"
     }
   }
+  puts stderr "scidCommunity: Found $count sound files in $soundFolder"
   return $count
 }
 
@@ -203,10 +218,13 @@ proc ::utils::sound::CheckSoundQueue {} {
   set name [string range $next 6 end]
   set f [file join $soundFolder $name.wav]
   if {! [file readable $f]} {
+    puts stderr "scidCommunity sound error: file not readable: $f"
     set isPlayingSound 0
     after idle ::utils::sound::CheckSoundQueue
     return
   }
+
+  puts stderr "scidCommunity debug: Playing $f using $backend"
 
   if {$backend == "snack"} {
     catch { $next play -blocking 0 -command ::utils::sound::SoundFinished }
@@ -224,10 +242,14 @@ proc ::utils::sound::CheckSoundQueue {} {
     after 450 ::utils::sound::SoundFinished
   } else {
     # Linux players: aplay, paplay, etc.
-    # Capture errors from background process to help debugging
-    if {[catch { exec $backend $f > /dev/null 2>@1 & } err]} {
+    # We use a trick to capture errors: if it fails to start, catch will get it.
+    # Redirect stderr to stdout and then to /dev/null if it works, 
+    # but that makes debugging hard. Let's just catch and log to stderr for now.
+    if {[catch { exec $backend $f & } err]} {
       puts stderr "scidCommunity sound error ($backend): $err"
     }
+    # Note: If it's silent despite no error, the server connection might be blocked by Snap.
+    
     # Increase delay to account for sound length (e.g. 450ms + 150ms gap in SoundFinished)
     after 450 ::utils::sound::SoundFinished
   }
