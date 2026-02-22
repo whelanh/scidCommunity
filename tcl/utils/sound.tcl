@@ -88,18 +88,14 @@ proc ::utils::sound::Setup {} {
         set ::utils::sound::soundFolder $defaultFolder
       }
     }
-    set numFiles [::utils::sound::ReadFolder]
-  }
-  # Diagnostic popup to ensure we are running the correct code and see the state
-  if {[info exists ::env(SNAP)] || [info exists ::env(FLATPAK_ID)]} {
-    set debugInfo "Backend: $backend\n"
-    append debugInfo "Folder: $::utils::sound::soundFolder\n"
-    append debugInfo "HasSound: $hasSound\n"
-    if {[info exists numFiles]} { append debugInfo "Files found: $numFiles\n" }
-    append debugInfo "pw-play: [auto_execok pw-play]\n"
-    append debugInfo "paplay: [auto_execok paplay]\n"
-    append debugInfo "aplay: [auto_execok aplay]\n"
-    tk_messageBox -title "Scid Sound Debug" -message $debugInfo
+    ::utils::sound::ReadFolder
+
+    # In Snap strict confinement, bundled audio tools (paplay, pw-play) need
+    # to know where the host PulseAudio/PipeWire socket lives.
+    # Set PULSE_SERVER explicitly using XDG_RUNTIME_DIR from the host.
+    if {[info exists ::env(SNAP)] && [info exists ::env(XDG_RUNTIME_DIR)]} {
+      set ::env(PULSE_SERVER) "unix:$::env(XDG_RUNTIME_DIR)/pulse/native"
+    }
   }
 }
 
