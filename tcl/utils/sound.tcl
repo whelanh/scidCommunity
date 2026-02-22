@@ -90,11 +90,15 @@ proc ::utils::sound::Setup {} {
     }
     ::utils::sound::ReadFolder
 
-    # In Snap strict confinement, bundled audio tools (paplay, pw-play) need
-    # to know where the host PulseAudio/PipeWire socket lives.
-    # Set PULSE_SERVER explicitly using XDG_RUNTIME_DIR from the host.
-    if {[info exists ::env(SNAP)] && [info exists ::env(XDG_RUNTIME_DIR)]} {
-      set ::env(PULSE_SERVER) "unix:$::env(XDG_RUNTIME_DIR)/pulse/native"
+    # In Snap strict confinement, XDG_RUNTIME_DIR is overridden to a snap-specific
+    # subdirectory. We must use the REAL user socket path instead.
+    if {[info exists ::env(SNAP)]} {
+      if {![catch {set uid [exec id -u]} err]} {
+        set pulseSocket "/run/user/$uid/pulse/native"
+        if {[file exists $pulseSocket]} {
+          set ::env(PULSE_SERVER) "unix:$pulseSocket"
+        }
+      }
     }
   }
 }
@@ -238,16 +242,21 @@ proc ::utils::sound::CheckSoundQueue {} {
     after 450 ::utils::sound::SoundFinished
   } else {
     # Linux players: aplay, paplay, etc.
-    # We use a trick to capture errors: if it fails to start, catch will get it.
-    # Redirect stderr to stdout and then to /dev/null if it works, 
-    # but that makes debugging hard. Let's just catch and log to stderr for now.
-    if {[catch { exec $backend $f & } err]} {
-      puts stderr "scidCommunity sound error ($backend): $err"
+    # In Snap, run synchronously so we can capture errors from the live app (interfaces active).
+    # For normal native builds, still background it for UI responsiveness.
+    if {[info exists ::env(SNAP)]} {
+      after idle [list apply {{backend f} {
+        if {[catch { exec $backend $f } err]} {
+          puts stderr "scidCommunity sound error ($backend): $err"
+        }
+        ::utils::sound::SoundFinished
+      }} $backend $f]
+    } else {
+      if {[catch { exec $backend $f & } err]} {
+        puts stderr "scidCommunity sound error ($backend): $err"
+      }
+      after 450 ::utils::sound::SoundFinished
     }
-    # Note: If it's silent despite no error, the server connection might be blocked by Snap.
-    
-    # Increase delay to account for sound length (e.g. 450ms + 150ms gap in SoundFinished)
-    after 450 ::utils::sound::SoundFinished
   }
 }
 

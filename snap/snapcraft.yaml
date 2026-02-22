@@ -39,6 +39,8 @@ layout:
     bind: $SNAP/usr/share/tcltk
   /usr/lib/tcltk:
     bind: $SNAP/usr/lib/tcltk
+  /usr/share/alsa:
+    bind: $SNAP/usr/share/alsa
 
 apps:
   scidcommunity:
@@ -62,7 +64,7 @@ apps:
       TK_LIBRARY: $SNAP/usr/share/tcltk/tk8.6
       TCL8_6_TM_PATH: $SNAP/usr/share/tcltk/tcl8/8.6:$SNAP/usr/share/tcltk/tcl8/8.5
       TCLLIBPATH: $SNAP/usr/share/tcltk/tcl8.6/tcl8 $SNAP/usr/share/tcltk $SNAP/usr/share/tcltk/tcl8/8.6 $SNAP/usr/share/tcltk/tcl8/8.5
-      LD_LIBRARY_PATH: $SNAP/usr/lib/x86_64-linux-gnu:$SNAP/usr/lib:$LD_LIBRARY_PATH
+      LD_LIBRARY_PATH: $SNAP/usr/lib/x86_64-linux-gnu/pulseaudio:$SNAP/usr/lib/x86_64-linux-gnu:$SNAP/usr/lib:$LD_LIBRARY_PATH
 
 parts:
   scidcommunity:
@@ -92,12 +94,11 @@ parts:
       - libtcl8.6
       - libtk8.6
       - alsa-utils
+      - alsa-base
       - pipewire-bin
       - pulseaudio-utils
       - libpulse0
       - libasound2-plugins
-      - libcanberra-gtk3-module
-      - libcanberra-gtk3-0
       - curl
       - ca-certificates
       - unzip
