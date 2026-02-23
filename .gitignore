@@ -54,3 +54,4 @@ stage/
 prime/
 googletest/
 *.snap
+tcl/build_flags.tcl

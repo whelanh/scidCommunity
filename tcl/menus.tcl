@@ -262,6 +262,9 @@ $m add command -label ToolsTracker \
     -accelerator "Ctrl+Shift+K" -command ::ptrack::make
 $m add command -label ToolsBookTuning -command ::book::tuning
 $m add command -label ToolsDownloadTWIC -command "::twic::downloadWeek latest"
+if {[info exists ::iccfEnabled] && $::iccfEnabled} {
+  $m add command -label ToolsDownloadICCF -command "::iccf::showDownloadDialog"
+}
 menu $m.hardware
   $m.hardware add command -label ToolsConnectHardwareConfigure -command ::ExtHardware::config
   $m.hardware add command -label ToolsConnectHardwareInputEngineConnect -command ::inputengine::connectdisconnect

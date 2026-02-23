@@ -207,6 +207,8 @@ menuText E ToolsTrainFics "Play on FICS"  0 {Play on freechess.org}
 menuText E ToolsEngineTournament "Engine tournament"  0 {Start a tournament between chess engines}
 menuText E ToolsBookTuning "Book tuning" 0 {Book tuning}
 menuText E ToolsDownloadTWIC "Download TWIC Games" 0 {Download the latest The Week In Chess (TWIC) games}
+menuText E ToolsDownloadICCF "Download ICCF archive (login required)" 9 \
+  {Download and import an ICCF monthly games archive (requires config file)}
 menuText E ToolsConnectHardware "Connect Hardware" 8 {Connect external hardware}
 menuText E ToolsConnectHardwareConfigure "Configure..." 0 {Configure external hardware and connection}
 menuText E ToolsConnectHardwareNovagCitrineConnect "Connect Novag Citrine" 8 {Connect Novag Citrine with Scid}

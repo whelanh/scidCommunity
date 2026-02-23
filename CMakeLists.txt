@@ -113,6 +113,18 @@ if(SPELLCHKVALIDATE)
   target_compile_definitions(scidCommunity PRIVATE -DSPELLCHKVALIDATE)
 endif()
 
+option(INCLUDE_ICCF "Include ICCF archive downloader (login required, not for release builds)" OFF)
+if(INCLUDE_ICCF)
+  set(ICCF_TCL_FLAG "set ::iccfEnabled 1")
+else()
+  set(ICCF_TCL_FLAG "")
+endif()
+configure_file(
+  "${CMAKE_CURRENT_SOURCE_DIR}/tcl/build_flags.tcl.in"
+  "${CMAKE_CURRENT_SOURCE_DIR}/tcl/build_flags.tcl"
+  @ONLY
+)
+
 install(TARGETS scidCommunity DESTINATION bin)
 
 # Create symlink for system-wide access (for RPM/DEB packages installed in /opt)

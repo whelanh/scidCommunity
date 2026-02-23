@@ -876,6 +876,13 @@ sc_base switch $::clipbase_db
 set ::curr_db [sc_base current]
 
 
+# Load compile-time feature flags written by CMake (e.g. iccfEnabled)
+set _bflagsFile [file nativename [file join $::scidTclDir "build_flags.tcl"]]
+if {[file exists $_bflagsFile]} {
+  source -encoding utf-8 $_bflagsFile
+}
+unset _bflagsFile
+
 set tcl_files {
 language.tcl
 errors.tcl
@@ -930,6 +937,7 @@ tools/wbdetect.tcl
 tools/graphs.tcl
 tools/ptracker.tcl
 tools/twic.tcl
+tools/iccf.tcl
 tools/lichess.tcl
 tools/lichess_tournament.tcl
 tools/chesscom.tcl
