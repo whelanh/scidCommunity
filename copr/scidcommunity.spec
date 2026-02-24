@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.25
+Version:        5.1.2.31
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit e14d3024fb098cc08ab31c9dcf7181e78c38fbfe
+%global commit 45f5e7a80b50c24e53e8f61d4ce5d24ec3db0809
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Tue Feb 24 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-31
+- "Changes made for Flatpak version"
 * Sun Feb 22 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-25
 - "Add more audio packages to Snap build, translation additions"
 * Sat Feb 21 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-24
