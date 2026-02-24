@@ -68,9 +68,15 @@ proc ::utils::sound::Setup {} {
         set hasSound 1
       }
     } else {
-      # Linux/Unix. 
-      # Prefer paplay over pw-play in Snap/Flatpak as PulseAudio protocol is often more stable for sandboxes.
-      foreach p {paplay pw-play aplay canberra-gtk-play} {
+      # Linux/Unix.
+      # pw-play uses native PipeWire protocol which doesn't work in Flatpak sandboxes.
+      # paplay uses PulseAudio protocol which works with --socket=pulseaudio.
+      set players {paplay pw-play aplay canberra-gtk-play}
+      if {[info exists ::env(FLATPAK_ID)]} {
+        # Exclude pw-play in Flatpak - it can't connect via native PipeWire protocol
+        set players {paplay aplay canberra-gtk-play}
+      }
+      foreach p $players {
         if {[auto_execok $p] != ""} {
           set backend $p
           set hasSound 1
@@ -96,6 +102,19 @@ proc ::utils::sound::Setup {} {
       if {![catch {set uid [exec id -u]} err]} {
         set pulseSocket "/run/user/$uid/pulse/native"
         if {[file exists $pulseSocket]} {
+          set ::env(PULSE_SERVER) "unix:$pulseSocket"
+        }
+      }
+    }
+
+    # In Flatpak, the PulseAudio socket is provided via --socket=pulseaudio
+    # but we need to ensure PULSE_SERVER points to the correct location.
+    # Flatpak typically sets this automatically, but if not, try the default path.
+    if {[info exists ::env(FLATPAK_ID)]} {
+      if {![catch {set uid [exec id -u]} err]} {
+        # Try the standard PipeWire/PulseAudio socket location
+        set pulseSocket "/run/user/$uid/pulse/native"
+        if {[file exists $pulseSocket] && ![info exists ::env(PULSE_SERVER)]} {
           set ::env(PULSE_SERVER) "unix:$pulseSocket"
         }
       }

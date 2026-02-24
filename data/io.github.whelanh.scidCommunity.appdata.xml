@@ -79,7 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
-    <release version="5.1.2.25" date="2026-02-22">
+    <release version="5.1.2.31" date="2026-02-24">
+      <description>
+        <p>Flatpak changes to allow sound on moves</p>
+      </description>
+    </release>    <release version="5.1.2.25" date="2026-02-22">
       <description>
         <p>Add audio packages to Snap build, translation additions</p>
       </description>
