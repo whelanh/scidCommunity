@@ -100,6 +100,19 @@ proc ::utils::sound::Setup {} {
         }
       }
     }
+
+    # In Flatpak, the PulseAudio socket is provided via --socket=pulseaudio
+    # but we need to ensure PULSE_SERVER points to the correct location.
+    # Flatpak typically sets this automatically, but if not, try the default path.
+    if {[info exists ::env(FLATPAK_ID)]} {
+      if {![catch {set uid [exec id -u]} err]} {
+        # Try the standard PipeWire/PulseAudio socket location
+        set pulseSocket "/run/user/$uid/pulse/native"
+        if {[file exists $pulseSocket] && ![info exists ::env(PULSE_SERVER)]} {
+          set ::env(PULSE_SERVER) "unix:$pulseSocket"
+        }
+      }
+    }
   }
 }
 
