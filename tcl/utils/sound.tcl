@@ -68,9 +68,15 @@ proc ::utils::sound::Setup {} {
         set hasSound 1
       }
     } else {
-      # Linux/Unix. 
-      # Prefer paplay over pw-play in Snap/Flatpak as PulseAudio protocol is often more stable for sandboxes.
-      foreach p {paplay pw-play aplay canberra-gtk-play} {
+      # Linux/Unix.
+      # pw-play uses native PipeWire protocol which doesn't work in Flatpak sandboxes.
+      # paplay uses PulseAudio protocol which works with --socket=pulseaudio.
+      set players {paplay pw-play aplay canberra-gtk-play}
+      if {[info exists ::env(FLATPAK_ID)]} {
+        # Exclude pw-play in Flatpak - it can't connect via native PipeWire protocol
+        set players {paplay aplay canberra-gtk-play}
+      }
+      foreach p $players {
         if {[auto_execok $p] != ""} {
           set backend $p
           set hasSound 1
