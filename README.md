@@ -19,6 +19,7 @@ While it maintains compatibility with the original Scid database formats, **scid
       - *chess.com* uploads the current game to Chess.com
       - *lichess.org* uploads the current game to Lichess.org
       - *chessdb Engine Tree* opens the current position in chessdb.cn's tree of engine evaluaitons
+      - *Lichess Eval* gets any engine evaluations stored on Lichess for the current position (see the Lichess API for more detail)
 5. New (optional) "Sand" and "cobalt2" themes.
 6. New light colored buttons added for use in the Engine and Analysis windows when using "dark" and "cobalt2" themes. 
 7. Implemented [user request](https://github.com/whelanh/scidCommunity/discussions/10) for better handling of long comments in the Game Info window.
