@@ -960,6 +960,7 @@ tools/reviewgame.tcl
 tools/inputengine.tcl
 tools/novag.tcl
 tools/tablebase.tcl
+tools/lichess_eval.tcl
 }
 
 foreach f $tcl_files {

@@ -1,5 +1,5 @@
 name: scidcommunity
-base: core22  # TODO: Consider migrating to core24 in the future for latest features
+base: core22
 version: git
 title: scidCommunity
 summary: Community-enhanced chess database and analysis application
@@ -70,21 +70,10 @@ parts:
   scidcommunity:
     plugin: cmake
     source: .
-    override-pull: |
-      snapcraftctl pull
-      # Add Ubuntu toolchain PPA for GCC 13
-      apt-get update
-      apt-get install -y software-properties-common
-      add-apt-repository -y ppa:ubuntu-toolchain-r/test
-      apt-get update
-      apt-get install -y gcc-13 g++-13
     cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_C_COMPILER=gcc-13
-      - -DCMAKE_CXX_COMPILER=g++-13
     build-packages:
-      - software-properties-common
       - make
       - tcl8.6-dev
       - tk8.6-dev
@@ -111,10 +100,6 @@ parts:
       - zlib1g
     override-build: |
       snapcraftctl build
-      # Copy GCC 13 libstdc++ to install directory for bundling
-      mkdir -p $SNAPCRAFT_PART_INSTALL/usr/lib/x86_64-linux-gnu
-      cp -P /usr/lib/x86_64-linux-gnu/libstdc++.so.6* $SNAPCRAFT_PART_INSTALL/usr/lib/x86_64-linux-gnu/
-      cp -P /usr/lib/x86_64-linux-gnu/libgcc_s.so* $SNAPCRAFT_PART_INSTALL/usr/lib/x86_64-linux-gnu/
     override-prime: |
       snapcraftctl prime
       # Debug: List Tcl/Tk installation to verify paths

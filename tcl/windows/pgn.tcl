@@ -151,6 +151,10 @@ namespace eval pgn {
     ::utils::tooltip::Set $w.bottompanel.chessdb "Open current position in ChessDB.cn"
     pack $w.bottompanel.chessdb -side left -padx 2 -pady 2
 
+    ttk::button $w.bottompanel.lichesseval -text "Lichess Eval" -command ::lichess_eval::lookupPosition
+    ::utils::tooltip::Set $w.bottompanel.lichesseval "Lichess cloud evaluation for current position"
+    pack $w.bottompanel.lichesseval -side left -padx 2 -pady 2
+
     # Pause/Run button for Lichess tournament monitoring (initially hidden)
     # The visibility is managed by ::lichess_tournament::updatePauseButton
     ttk::button $w.bottompanel.monitor -text "Pause" -command ::lichess_tournament::togglePause
