@@ -83,7 +83,8 @@
       <description>
         <p>Added new Lichess Eval button in PGN window for stored Lichess API evaluations</p>
       </description>
-    <release version="5.1.2.31" date="2026-02-24">
+    </release>
+    <release version="5.1.2.31"
       <description>
         <p>Flatpak changes to allow sound on moves</p>
       </description>
