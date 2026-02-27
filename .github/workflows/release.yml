@@ -39,7 +39,7 @@ jobs:
           ditto -c -k --sequesterRsrc --keepParent ScidCommunity.app scidCommunity-macos.zip
 
       - name: Upload macOS artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: scidCommunity-macos
           path: scidCommunity-macos.zip
@@ -150,7 +150,7 @@ jobs:
           dir engines
 
       - name: Upload Windows artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: scidCommunity-windows-x64
           path: install/
@@ -203,7 +203,7 @@ jobs:
           make package
 
       - name: Upload DEB artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: scidCommunity-ubuntu-deb
           path: build/*.deb
@@ -325,7 +325,7 @@ jobs:
                 -D CPACK_INSTALLED_DIRECTORIES="${{ github.workspace }}/rpm-root/opt/scidcommunity;/opt/scidcommunity;${{ github.workspace }}/rpm-root/usr;/usr"
 
       - name: Upload RPM artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: scidCommunity-linux-rpm
           path: build/*.rpm
@@ -455,7 +455,7 @@ jobs:
             ${{ github.workspace }}/scidCommunity-${{ steps.get_version.outputs.version }}-x86_64.AppImage
 
       - name: Upload AppImage artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: scidCommunity-linux-appimage
           path: scidCommunity-*.AppImage
@@ -466,7 +466,7 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Download all artifacts
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           path: artifacts
 
