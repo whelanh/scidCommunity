@@ -4662,8 +4662,7 @@ set helpText(Book) {<h1>Book window</h1>
   easily from that list.
   </p>
   <p>
-  The format of books is the one used by Polyglot and the engines like
-  Fruit and Toga, their usual extension is .bin. Currently, to build
+  The format of books is the one used by Polyglot, their usual extension is .bin.
   new books one has to use <term>polyglot</term> on the command line.
   Please refer to polyglots documentation about how to create a book.
   </p>
@@ -4693,7 +4692,7 @@ set helpText(TacticalGame) {<h1>Tactical game window</h1>
   <p>
   Play a tactical game against an engine simulating an opponent with a
   given Elo rating.  The opponent is played by Phalanx and the coach
-  by Toga or an UCI-Engine. The right engines are automatically selected by their
+  by any UCI engine the user has configured. The right engines are automatically selected by their
   names, and should be correctly configured (this is the default when
   scidCommunity is installed).
   </p>
@@ -4996,7 +4995,7 @@ set helpText(TacticsTrainer) {<h1>Training: Tactics</h1>
   area of scidCommunity's main window. Otherwise cheating is pretty simple.
   <p>
   To get a solution for the puzzles in a base the positions are
-  analysed by the Toga chess engine (included with scidCommunity). The
+  analysed by whatever chess engine the user has configured. The
   <term>Limit engine analysis time</term> slider allows to limit the
   time the engine has to solve the position. Several seconds should be
   enough for most cases as usually tactical puzzles contain a
