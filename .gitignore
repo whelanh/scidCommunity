@@ -21,8 +21,6 @@ Makefile.bak
 .flatpak-builder
 
 engines/phalanx-scid/phalanx-scid
-engines/togaII1.2.1a/src/.depend
-engines/togaII1.2.1a/src/togaII
 pgnfix
 pgnscid
 sc_addmove
