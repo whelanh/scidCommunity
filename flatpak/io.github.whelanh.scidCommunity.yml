@@ -14,30 +14,6 @@ finish-args:
   - --socket=pulseaudio      # play sound with PulseAudio
 
 modules:
-  - name: stockfish # Stockfish engine, put into /app/engines/stockfish/
-    buildsystem: simple
-    build-options:
-      arch:
-        x86_64:
-          env:
-            ARCH: x86-64
-        aarch64:
-          env:
-            ARCH: armv8
-    build-commands:
-      - cp nn-5af11540bbfe.nnue ./src
-      - cd src; make -j build
-      - mkdir -p /app/engines/stockfish
-      - cp ./src/stockfish /app/engines/stockfish/
-      - cp ./nn-5af11540bbfe.nnue /app/engines/stockfish/
-    sources:
-      - type: archive
-        url: https://github.com/official-stockfish/Stockfish/releases/download/sf_16/stockfish-ubuntu-x86-64-modern.tar
-        sha256: dc94bdfbc0097a7606d3ed13b855cb03ee99184301b6fc8f8d85c68c4726bf8a
-      - type: file
-        url: https://tests.stockfishchess.org/api/nn/nn-5af11540bbfe.nnue
-        sha256: 5af11540bbfefcb54e38c5dd000cab4b469dfa7599a1d55be5d2722c20a8929b
-
   - name: tcl # latest stable tcl, required for scid
     sources:
       - type: archive
@@ -58,10 +34,11 @@ modules:
 
   - name: scid # main app
     buildsystem: cmake-ninja
-    post-install:
-      - install -Dma+r flatpak/io.github.whelanh.scidCommunity.svg /app/share/icons/hicolor/scalable/apps/io.github.whelanh.scidCommunity.svg
-      - install -Dma+r flatpak/io.github.whelanh.scidCommunity.desktop /app/share/applications/io.github.whelanh.scidCommunity.desktop
-      - install -Dma+r flatpak/io.github.whelanh.scidCommunity.appdata.xml /app/share/appdata/io.github.whelanh.scidCommunity.appdata.xml
+    build-options:
+      env:
+        CFLAGS: -ffile-prefix-map=../=.
+        CXXFLAGS: -ffile-prefix-map=../=.
     sources:
-      - type: dir
-        path: ..
+      - type: git
+        url: https://github.com/whelanh/scidCommunity.git
+        commit: d17b11e9b0f76890900b54ffea7a48879880626f

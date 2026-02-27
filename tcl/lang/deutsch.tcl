@@ -281,6 +281,8 @@ menuText D OptionsMovesKey "Autom. Zugergänzung" 10 \
 menuText D OptionsMovesShowVarArrows "Pfeile für Varianten anzeigen" 0 {Zeige Pfeile in Varianten an: ja/nein}
 menuText D OptionsMovesShowEngineVariationArrows "Engine-Varianten-Pfeile" 0 {Schaltet die mehrfarbigen drei Variantenpfeile im multiPV Modus aus}
 menuText D OptionsMovesGlossOfDanger "Bedrohte Figuren einfärben" 0 {Markieren von gefärdeten Figuren ein/ausschalten}
+
+menuText D OptionsMovesTreeDepth "Standard Zugtiefe im Zugbaum-Fenster" 0 {Standard Zugtiefe im Zugbaum-Fenster}
 menuText D OptionsNumbers "Zahlenformat" 5 {Zahlenformat wählen}
 menuText D OptionsTheme "Design" 0 {Verändert das Aussehen der Oberfläche}
 menuText D OptionsWindows "Fenster" 6 {Fenster-Optionen}
@@ -502,6 +504,7 @@ menuText D TreeOptStartStop "Automatisch aktualisieren" 0 {Schaltet das automati
 menuText D TreeOptLock "Anbinden" 0 \
   {Zugbaum an aktive Datenbank anbinden(/lösen)}
 menuText D TreeOptTraining "Training" 0 {Trainingsmodus ein-/ausschalten}
+menuText D TreeOptDepth "Baumtiefe (Halbzüge)" 0 {Anzahl der im Baum anzuzeigenden Halbzüge (1-4)}
 menuText D TreeOptAutosave "Autom. Cache-Datei sichern" 4 \
   {Beim Schließen des Zugbaums automatisch Cache-Datei sichern}
 menuText D TreeHelp "Hilfe" 0
@@ -510,13 +513,14 @@ menuText D TreeHelpIndex "Index" 0
 translate D SaveCache {Cache sichern}
 translate D Training {Training}
 translate D LockTree {Anbinden}
+translate D TreeDepth {Baumtiefe (halbe Züge):}
 translate D TreeLocked {angebunden}
 translate D TreeBest {Beste}
 translate D TreeBestGames {Beste Zugbaumpartien}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate D TreeTitleRow \
-  {    Zug    ECO       Häufigkeit    Pkte   Elo  Erflg Jahr %Remis}
+{Zug                           ECO       Häufigkeit    Pkte   Elo  Erflg Jahr %Remis  %Gewinnen}
 translate D TreeTotal {SUMME}
 translate D DoYouWantToSaveFirst {Soll zuerst gespeichert werden}
 translate D AddToMask {Zur Maske hinzufügen}
@@ -1336,6 +1340,7 @@ translate D SoundsFolder {Verzeichnis für Sprachausgabedateien}
 translate D SoundsFolderHelp {Das Verzeichnis sollte enthalten: King.wav, a.wav, 1.wav etc.}
 translate D SoundsAnnounceOptions {Optionen für Zugankündigung}
 translate D SoundsAnnounceNew {Kündige neue Züge an, wenn sie ausgeführt werden}
+translate D SoundsMoveSoundOnly {Nur Ton bewegen (Ansagen deaktivieren)}
 translate D SoundsAnnounceForward {Künde Zug an beim Vorwärtspielen}
 translate D SoundsAnnounceBack {Kündige Zug an beim Zurückgehen}
 translate D SoundsSoundDisabled {Scid hat das Snack Audio Paket beim Start nicht gefunden.\nTon ist abgeschaltet.}

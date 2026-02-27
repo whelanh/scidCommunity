@@ -288,6 +288,7 @@ menuText U OptionsMovesKey "Automaattinen t‰ydennys" 0 \
 menuText U OptionsMovesShowVarArrows "Muunnelmat nuolin" 0 {N‰yt‰/‰l‰ n‰yt‰ muunnelmia nuolilla laudalla}
 menuText U OptionsMovesShowEngineVariationArrows "N‰yt‰ nuolet moottorin muunnelmia varten" 0 {Kytke p‰‰lle/pois nuolet, jotka n‰ytt‰v‰t moottorin vaihteluviivoja moniPV-tilassa}
 menuText U OptionsMovesGlossOfDanger "V‰rikoodattu Gloss of Danger" 0 {Kytke p‰‰lle/pois p‰‰lt‰ v‰rikoodattu vaaran kiilto}
+translate U OptionsMovesTreeDepth {Oletuspuuikkunan siirtosyvyys}
 menuText U OptionsNumbers "Numerointi" 0 {Numeroformaatit, 1-3 desimaalipisteell‰, 4-6 -pilkulla}
 menuText U OptionsTheme "Teema" 0 {Valitse k‰yttˆliittym‰n teema}
 menuText U OptionsWindows "Ikkunat" 0 {Ikkunoiden asetukset}
@@ -501,6 +502,7 @@ menuText U TreeOptFastAndSlowmode "Hidas ja nopea" 0 {P‰ivit‰ ensin nopeasti, si
 menuText U TreeOptStartStop "Automaattinen p‰ivitys" 0 {Ikkunan automaattinen p‰ivitys p‰‰lle/p‰‰lt‰}
 menuText U TreeOptLock "Lukitse" 0 {Lukitse/vapauta puu nykyiseen tietokantaan}
 menuText U TreeOptTraining "Valmennus" 0 {Puun valmennusmoodii p‰‰lle/p‰‰lt‰}
+menuText U TreeOptDepth "Siirr‰ syvyytt‰" 0 {Puolikkaan liikkeiden m‰‰r‰ puussa n‰ytett‰v‰ksi (1-4)}
 menuText U TreeOptAutosave "Tallenna v‰limuisti automaattisesti" 0 \
   {Tallenna v‰limuisti tiedostoon automaattisesti, kun puu-ikkuna suljetaan}
 menuText U TreeHelp "Ohje" 0
@@ -509,13 +511,14 @@ menuText U TreeHelpIndex "Aakkosellinen ohje" 0
 translate U SaveCache {Tallenna v‰limuisti}
 translate U Training {Valmennus}
 translate U LockTree {Lukitse}
+translate U TreeDepth {Puun syvyys (puolet liikkeet):}
 translate U TreeLocked {lukittu}
 translate U TreeBest {Paras}
 translate U TreeBestGames {Parhaat pelit}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate U TreeTitleRow \
-  {  Siirto   ECO       Yleisyys     Tulos  AvElo Perf AvYear %Draws}
+{Siirto                        ECO       Yleisyys     Tulos  AvElo Perf AvYear %Draws     %Voittaa}
 translate U TreeTotal {TOTAL}
 translate U DoYouWantToSaveFirst {Haluatko tallentaa ensin}
 translate U AddToMask {Lis‰‰ maskiin}
@@ -1323,6 +1326,7 @@ translate U SoundsFolder {ƒ‰nitiedostojen hakemisto}
 translate U SoundsFolderHelp {Hakemistosta pit‰‰ lˆyty‰ tiedostot King.wav, a.wav, 1.wav, jne}
 translate U SoundsAnnounceOptions {Siirtoilmoitusasetukset}
 translate U SoundsAnnounceNew {Ilmoita uudet siirrot}
+translate U SoundsMoveSoundOnly {Vain siirto‰‰ni (poista ilmoitukset k‰ytˆst‰)}
 translate U SoundsAnnounceForward {Ilmoita, kun siirryt‰‰n eteenp‰in yksi siirto}
 translate U SoundsAnnounceBack {Ilmoita, kun siirryt‰‰n taaksep‰in yksi siirto}
 translate U SoundsSoundDisabled {Scid ei lˆyt‰nyt Snack-‰‰nipakettia k‰ynnistyksen yhteydess‰;\nƒ‰ni on poistettu k‰ytˆst‰.}

@@ -251,6 +251,7 @@ menuText C OptionsMovesKey "Klávesnicové doplòování" 13 \
 menuText C OptionsMovesShowVarArrows "Zobrazit ¹ipky pro varianty" 0 {Zapnout/vypnout zobrazování ¹ipek ukazujících tahy variant}
 menuText C OptionsMovesShowEngineVariationArrows "Zobrazit ¹ipky pro varianty motoru" 0 {Zapnìte/vypnìte ¹ipky ukazující èáry variace motoru v re¾imu multiPV}
 menuText C OptionsMovesGlossOfDanger "Barevnì kódovaný lesk nebezpeèí" 0 {Zapnout/vypnout barevnì oznaèený lesk nebezpeèí}
+translate C OptionsMovesTreeDepth {Výchozí Hloubka pohybu okna stromu}
 menuText C OptionsNumbers "Formát èísel" 0 {Zvolit formát èísel}
 menuText C OptionsTheme "Téma" 0 {Zmìnit vzhled u¾ivatelského rozhraní}
 menuText C OptionsWindows "Okna" 0 {Volby oken}
@@ -467,6 +468,7 @@ menuText C TreeOptFastAndSlowmode "Rychlý a pomalý re¾im" 0 {Rychlý re¾im a poto
 menuText C TreeOptStartStop "Automatické aktualizace" 0 {Pøepnout automatické aktualizace stromového okna}
 menuText C TreeOptLock "Zamknout" 0 {Zamknout/Odemknout strom k aktuální databázi}
 menuText C TreeOptTraining "Trénink" 0 {Zapnout/Vypnout stromový tréninkový mód}
+menuText C TreeOptDepth "Hloubka pohybu" 0 {Poèet polovièních tahù k zobrazení ve stromu (1-4)}
 menuText C TreeOptAutosave "Automatické ukládání cache souboru" 0 \
   {Automatické ukládání cache souboru pøi uzavøení stromového okna}
 menuText C TreeHelp "Nápovìda" 0
@@ -475,13 +477,14 @@ menuText C TreeHelpIndex "Index nápovìdy" 0
 translate C SaveCache {Ulo¾it cache}
 translate C Training {Trénink}
 translate C LockTree {Zamknout}
+translate C TreeDepth {Hloubka stromu (pùl tahu):}
 translate C TreeLocked {Zamknuto}
 translate C TreeBest {Nejlep¹í}
 translate C TreeBestGames {Nejlep¹í partie stromu}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate C TreeTitleRow \
-  {    Tah    ECO       Frekvence    Skóre  PrElo Perf  PrRok %remíz}
+{Tah                           ECO       Frekvence    Skóre  PrElo Perf  PrRok %remíz   %Vyhrát}
 translate C TreeTotal {CELKEM}
 translate C DoYouWantToSaveFirst {Chcete nejprve ulo¾it}
 translate C AddToMask {Pøidat do masky}
@@ -1290,6 +1293,7 @@ translate C SoundsFolder {Adresáø se zvukovými soubory}
 translate C SoundsFolderHelp {Adresáø by mìl obsahovat soubory King.wav, a.wav, 1.wav, atd.}
 translate C SoundsAnnounceOptions {Volby oznamování tahu}
 translate C SoundsAnnounceNew {Oznamovat tahy pøi jejich provedení}
+translate C SoundsMoveSoundOnly {Pouze zvuk pøesunout (vypnout oznámení)}
 translate C SoundsAnnounceForward {Oznamovat tahy pøi posunu o tah vpøed}
 translate C SoundsAnnounceBack {Oznamovat pøi vzetí tahu zpìt nebo posunu o tah zpìt}
 translate C SoundsSoundDisabled {Scid nemohl najít zvukový balíèek Snack pøi spu¹tìní;\nZvuk je vypnutý.}

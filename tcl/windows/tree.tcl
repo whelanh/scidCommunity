@@ -125,6 +125,9 @@ proc ::tree::make { { baseNumber -1 } {locked 0} } {
   $w.f.tl tag configure bluefg -foreground DodgerBlue3
   $w.f.tl tag configure greenfg -foreground SeaGreen
   $w.f.tl tag configure redfg -foreground red
+  # Ensure color tags have highest priority
+  $w.f.tl tag raise greenfg
+  $w.f.tl tag raise redfg
 
   selection handle $w.f.tl "::tree::copyToSelection $baseNumber"
 
@@ -149,7 +152,7 @@ proc ::tree::make { { baseNumber -1 } {locked 0} } {
   ttk::checkbutton $w.buttons.training -textvar ::tr(Training) -variable tree(training$baseNumber) -command "::tree::toggleTraining $baseNumber"
   
   # Add move depth selector
-  ttk::label $w.buttons.depthlabel -text "Tree depth (half moves):"
+  ttk::label $w.buttons.depthlabel -textvar ::tr(TreeDepth)
   ttk::spinbox $w.buttons.depth -from 1 -to 4 -width 3 \
       -textvariable tree(movedepth$baseNumber) -command "::tree::refresh $baseNumber"
   bind $w.buttons.depth <Return> "::tree::refresh $baseNumber"
@@ -438,6 +441,9 @@ proc ::tree::displayLines { baseNumber moves } {
       $w.f.tl tag delete $t
     }
   }
+  # Remove all color tag ranges (but keep the tag definitions)
+  $w.f.tl tag remove greenfg 1.0 end
+  $w.f.tl tag remove redfg 1.0 end
 
   # Position comment
   set hasPositionComment 0
@@ -492,14 +498,18 @@ proc ::tree::displayLines { baseNumber moves } {
       } else  {
         $w.f.tl image create end -image tb_empty -align center
         $w.f.tl image create end -image tb_empty -align center
-        $w.f.tl insert end "    "
       }
     }
-
     # Move and stats
+    set lineStart [$w.f.tl index "end - 1 chars"]
     $w.f.tl insert end "$line" [list $tagfg tagtooltip$i]
+    set lineEnd [$w.f.tl index "end - 1 chars"]
+    # Calculate character positions within the line for coloring
+    # Score is at positions 51-58 (7 chars: "  53.6%") in the line string for 94-char lines
     if {$colorScore != ""} {
-      $w.f.tl tag add $colorScore end-31c end-26c
+      set scoreStart [$w.f.tl index "$lineStart + 51 chars"]
+      set scoreEnd [$w.f.tl index "$lineStart + 58 chars"]
+      $w.f.tl tag add $colorScore $scoreStart $scoreEnd
     }
     if {$move != "" && $move != "---" && $move != "\[end\]" && $i != [expr $len -2] && $i != 0} {
       $w.f.tl tag bind tagclick$i <Button-1> "[list ::tree::selectCallback $baseNumber $move ] ; break"
@@ -579,7 +589,12 @@ proc ::tree::displayLines { baseNumber moves } {
     }
   }
 
-  $w.f.tl configure -state disabled
+  # Keep text widget in normal state to allow tag colors to show
+  # But make it read-only by unbinding edit keys
+  foreach key {<Key> <BackSpace> <Delete>} {
+    bind $w.f.tl $key {break}
+  }
+  # $w.f.tl configure -state disabled
 }
 ################################################################################
 # returns a list with (ngames freq success eloavg perf) or
@@ -588,34 +603,45 @@ proc ::tree::displayLines { baseNumber moves } {
 ################################################################################
 proc ::tree::getLineValues { l } {
   set ret {}
-  if {[scan [string range $l 14 24] "%d:" ngames] != 1} {
+  if {[scan [string range $l 36 43] "%d:" ngames] != 1} {
     return {}
   } else  {
     lappend ret $ngames
   }
 
-  if {[scan [string range $l 25 29] "%f%%" freq] != 1} {
+  if {[scan [string range $l 44 49] "%f%%" freq] != 1} {
     return {}
   } else  {
     lappend ret $freq
   }
 
-  if {[scan [string range $l 33 37] "%f%%" success] != 1} {
+  if {[scan [string range $l 51 56] "%f%%" success] != 1} {
     return {}
   } else  {
     lappend ret $success
   }
 
-  if {[scan [string range $l 40 44] "%d" eloavg] != 1} {
+  if {[scan [string range $l 62 66] "%d" eloavg] != 1} {
     return {}
   } else  {
     lappend ret $eloavg
   }
 
-  if {[scan [string range $l 46 50] "%d" perf] != 1} {
+  if {[scan [string range $l 68 72] "%d" perf] != 1} {
     return {}
   } else  {
     lappend ret $perf
+  }
+
+  # Win column is 9 chars at the end
+  set win [string range $l end-8 end]
+  regsub -all {%} $win "" win
+  regsub -all { } $win "" win
+  regsub -all {,} $win . win
+  if {[string is double -strict $win]} {
+      lappend ret $win
+  } else {
+      lappend ret 0.0
   }
 
   return $ret
@@ -643,6 +669,31 @@ proc ::tree::getColorScore { line } {
   if { [sc_pos side] == "white" && $success < [ expr $wavg - $::tree::scoreHighlight_Margin ] || \
         [sc_pos side] == "black" && $success > [ expr $wavg + $::tree::scoreHighlight_Margin ] } {
     return redfg
+  }
+  return ""
+}
+
+################################################################################
+# returns the color to use for Win margin (red, green) or ""
+################################################################################
+proc ::tree::getColorWin { line } {
+  set data [::tree::getLineValues $line]
+  if { $data == {} } { return "" }
+  set ngames [lindex $data 0]
+  if { $ngames < $::tree::scoreHighlight_MinGames } {
+    return ""
+  }
+  set winAdv [lindex $data 5]
+
+  # winAdv is White advantage (positive = good for White, negative = good for Black)
+  # When it's White to move: positive winAdv is good (green), negative is bad (red)
+  # When it's Black to move: positive winAdv is bad (red), negative is good (green)
+  if { [sc_pos side] == "white" } {
+      if { $winAdv > 0 } { return greenfg }
+      if { $winAdv < 0 } { return redfg }
+  } else {
+      if { $winAdv > 0 } { return redfg }
+      if { $winAdv < 0 } { return greenfg }
   }
   return ""
 }
@@ -883,11 +934,13 @@ proc ::tree::graph { baseNumber {bpress 0}} {
     # Note we convert "," decimal char back to "." where necessary.
     set line [lindex $treeData $i]
     set mNum [string trim [string range $line  0  1]]
-    set freq [string trim [string range $line 17 23]]
-    set fpct [string trim [string range $line 25 29]]
+    set freq [string trim [string range $line 36 42]]
+    set fpct [string trim [string range $line 44 49]]
+    regsub -all {%} $fpct "" fpct
     regsub -all {,} $fpct . fpct
-    set move [string trim [string range $line  4 9]]
-    set score [string trim [string range $line 33 37]]
+    set move [string trim [string range $line  4 28]]
+    set score [string trim [string range $line 52 57]]
+    regsub -all {%} $score "" score
     regsub -all {,} $score . score
     if {$score > 99.9} { set score 99.9 }
     # Check if this line is "TOTAL:" line:

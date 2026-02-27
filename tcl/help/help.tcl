@@ -88,6 +88,9 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   
   <h3>C</h3>
   <ul>
+  <li><a PGNChessCom>Chess.com analysis (PGN Window button)</a></li>
+  <li><a ImportChessCom>Chess.com, importing games from</a></li>
+  <li><a PGNChessDB>ChessDB Engine Tree (PGN Window button)</a></li>
   <li><a Maintenance Cleaner>Cleaner</a></li>
   <li><a Clipbase>Clipbase</a></li>
   <li><a Cmdline>Command-line options</a></li>
@@ -96,15 +99,16 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   <li><a Author>Contact information</a></li>
   <li><a Contents>Contents</a></li>
   <li><a Crosstable>Crosstable</a> window</li>
-  <li><a Appearance>Customize Appearance</a></li>
   </ul>
   
   <h3>D</h3>
   <ul>
   <li><a Compact>Database compaction</a></li>
+  <li><a DownloadTWIC>Download TWIC Games</a></li>
   <li><a Formats>Database file formats</a></li>
   <li><a Metadata>Database information (Metadata)</a></li>
   <li><a Maintenance>Database maintenance</a></li>
+  <li><a Menus Database>Database menu</a></li>
   <li><a Sorting>Database sorting</a></li>
   <li><a Switcher>Database switcher</a> window</li>
   <li><a Maintenance Twins>Deleting twin games</a></li>
@@ -162,10 +166,19 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   <h3>I</h3>
   <ul>
   <li><a Import>Import</a> window</li>
+  <li><a ImportChessCom>Import Chess.com games</a></li>
+  <li><a ImportLichess>Import Lichess games</a></li>
   <li><a Moves Informant>Informant Symbols</a></li>
   <li><a InputEngine>Input Engine drivers</a></li>
   </ul>
   
+  
+  <h3>L</h3>
+  <ul>
+  <li><a PGNLichess>Lichess analysis (PGN Window button)</a></li>
+  <li><a ImportLichess>Lichess, importing games from</a></li>
+  <li><a LichessTournament>Lichess tournament broadcasts</a></li>
+  </ul>
   
   <h3>M</h3>
   <ul>
@@ -200,8 +213,13 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   <h3>P</h3>
   <ul>
   <li><a PGN>PGN</a> window</li>
+  <li><a PGNTablebase>PGN Window: Table Base button</a></li>
+  <li><a PGNChessCom>PGN Window: chess.com button</a></li>
+  <li><a PGNLichess>PGN Window: lichess.org button</a></li>
+  <li><a PGNChessDB>PGN Window: chessdb Engine Tree button</a></li>
   <li><a Pgnscid>Pgnscid</a></li>
   <li><a FICS>Play on the Internet (FICS)</a></li>
+  <li><a Menus Play>Play menu</a></li>
   <li><a PTracker>Piece Tracker</a> window</li>
   <li><a PList>Player Finder</a> window</li>
   <li><a PInfo>Player Info</a> window</li>
@@ -233,9 +251,12 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   
   <h3>T</h3>
   <ul>
+  <li><a PGNTablebase>Table Base (PGN Window button)</a></li>
   <li><a TacticalGame>Tactical game</a></li>
   <li><a Menus Tools>Tools menu</a></li>
   <li><a Tmt>Tournament finder</a></li>
+  <li><a LichessTournament>Tournament broadcasts (Lichess)</a></li>
+  <li><a DownloadTWIC>TWIC (The Week In Chess) downloads</a></li>
   <li><a FindBestMove>Training: Find best move</a></li>
   <li><a OpeningTrainer>Training: Openings</a></li>
   <li><a TacticsTrainer>Training: Tactics</a></li>
@@ -309,12 +330,12 @@ set helpText(Guide) {<h1>Quick Guide to using scidCommunity</h1>
   The <a MainWindow>main window</a>
   of scidCommunity (with the graphical chess board) shows details of
   the active game and database. At any time, you can have up to nine
-  databases open (five including the <a Clipbase>clipbase</a>),
+  databases open (including the <a Clipbase>clipbase</a>),
   and each will have its own active game.
   (A game numbered 0 indicates a scratch game that is not part of the
   actual database).
   You can switch between the open databases with the
-  <a Menus File>File menu</a>.
+  <a Menus Database>Database menu</a>.
   </p>
   <p>
   For more information, please read the other help pages listed in the
@@ -434,7 +455,7 @@ set helpText(Hints) {<h1>scidCommunity Hints</h1>
   correct them all?</h4>
   <p>
   You can edit individual names or spellcheck all the names in a database
-  with the commands in the <menu>File: Maintenance</menu> menu.
+  with the commands in the <menu>Database: Name Maintenance</menu> menu.
   See the <a Maintenance Editing>maintenance</a> page.
   </p>
   
@@ -555,87 +576,119 @@ set helpText(Menus) {<h1>scidCommunity menus</h1>
   <ul>
   <li><menu>New</menu>: Creates a new empty scidCommunity database.</li>
   <li><menu>Open</menu>: Opens an existing scidCommunity database.</li>
-  <li><menu>Close</menu>: Closes the current scidCommunity database.</li>
   <li><menu>Finder</menu>: Opens the <a Finder>File Finder</a>.</li>
   <li><menu>Bookmarks</menu>: <a Bookmarks>Bookmarks</a> and bookmark
   functions.</li>
   <br>
   <li><menu>Open base as tree</menu>: Opens the tree window for a
-  selected database</li>
+  selected database.</li>
   <li><menu>Open recent base as tree</menu>: Offers a list of recently
   opened bases to get their tree window.</li>
   <br>
-  <li><menu>Maintenance</menu>: Database <a Maintenance>maintenance</a>
-  functions.</li>
-  <ul>
-  <li><menu>Maintenance window</menu>: Opens/closes the database maintenance
-  window.</li>
-  <li><menu>Delete twin games</menu>: Finds <a Maintenance Twins>twin</a>
-  games in the database.</li>
-  <li><menu>ECO-Classify games</menu>: Recomputes the
-  <a ECO>ECO code</a> for all games in the database. </li>
-  <li><menu>Name editor</menu>: Replaces all occurrences of a player,
-  event site or round name.</li>
-  </ul>
-  <li><menu>Read-Only</menu>: Makes the current database read-only.</li>
+  <li><menu>Open Lichess Tournament</menu>: Downloads and opens live Lichess tournament broadcast games.</li>
+  <li><menu>Import my Lichess</menu>: Imports games from your Lichess account.</li>
+  <li><menu>Import my chess.com</menu>: Imports games from your chess.com account.</li>
   <br>
-  <li><menu>Switch to Database</menu>: These commands let you switch between
-  the 8 available database slots and the <a Clipbase>clipbase</a>
-  database.</li>
   <li>1/2/3/4/5/...</li> Offers a list of recently used databases for
   easy recall.</li>
-  <li><menu>Exit</menu>: Exits scidCommunity. </li>
+  <li><menu>Exit</menu>: Exits scidCommunity.</li>
+  </ul>
+  
+  <h3><name Database>Database</name></h3>
+  <ul>
+  <li><menu>Close</menu>: Closes the current scidCommunity database.</li>
+  <li><menu>Load at Startup</menu>: Toggles whether the current database loads at startup.</li>
+  <br>
+  <li><menu>Copy All Games</menu>: Submenu to copy all games to another database.</li>
+  <ul>
+  <li><menu>New Database</menu>: Creates a new database and copies all games.</li>
+  <li><menu>Other Databases</menu>: Lists available databases to copy to.</li>
+  </ul>
+  <li><menu>Export Filter</menu>: Exports games matching the current filter.</li>
+  <ul>
+  <li><menu>PGN</menu>: Exports to <a PGN>PGN</a> format.</li>
+  <li><menu>HTML</menu>: Exports to HTML format.</li>
+  <li><menu>HTML with JavaScript</menu>: Exports to interactive HTML format.</li>
+  </ul>
+  <li><menu>Import File</menu>: Submenu to import <a PGN>PGN</a> files into databases.</li>
+  <br>
+  <li><menu>Maintenance</menu>: Database <a Maintenance>maintenance</a> utilities.</li>
+  <ul>
+  <li><menu>Maintenance Window</menu>: Opens/closes the maintenance window.</li>
+  <li><menu>Compact Database</menu>: <a Compact>Compacts</a> the current database.</li>
+  <li><menu>Classify Games</menu>: Classifies all games with <a ECO>ECO codes</a>.</li>
+  <li><menu>Name Editor</menu>: Opens/closes the name editor window.</li>
+  <li><menu>Strip Tags</menu>: Strips unwanted tags from games.</li>
+  <li><menu>Delete Twins</menu>: Marks <a Maintenance Twins>twin</a> games for deletion.</li>
+  <li><menu>Update Twin Checker</menu>: Updates the twin checker.</li>
+  <li><menu>Cleaner</menu>: Opens the database <a Maintenance Cleaner>cleaner</a> window.</li>
+  </ul>
+  <li><menu>Name Maintenance</menu>: <a Maintenance Spellcheck>Spell checking</a> and rating allocation for names.</li>
+  <ul>
+  <li><menu>Player Names</menu>: Spell checks player names.</li>
+  <li><menu>Event Names</menu>: Spell checks event names.</li>
+  <li><menu>Site Names</menu>: Spell checks site names.</li>
+  <li><menu>Round Names</menu>: Spell checks round names.</li>
+  <li><menu>Add Elo Ratings</menu>: Allocates Elo ratings to players.</li>
+  </ul>
+  <br>
+  <li><menu>Base 1/2/3/...</menu>: These commands let you switch between
+  available database slots and the <a Clipbase>clipbase</a> database.</li>
   </ul>
   
   <h3><name Edit>Edit</name></h3>
   <ul>
-  <li><menu>Add Variation</menu>: Adds a new empty variation for the
-  next move, or for the previous move if there is no next move yet.</li>
-  <li><menu>Delete Variation</menu>: Provides a submenu of variations for
-  the current move, so one can be deleted.</li>
-  <li><menu>Make First Variation</menu>: Promotes a variation to be the
-  first variation of the current move.</li>
-  <li><menu>Promote Variation to Main line</menu>: Promotes a variation
-  to be the main line, swapping it with its parent.</li>
-  <li><menu>Try Variation</menu>: Enters <a Moves Trial>trial mode</a> for
-  testing a temporary variation without altering the current game.</li>
-  <li><menu>Strip</menu>: Strips all comments or variations from the current
-  game.</li>
-  <li><menu>Undo</menu>: Allows to undo up to 10 recent changes.</li>
+  <li><menu>Undo</menu>: Undoes the last action.</li>
+  <li><menu>Redo</menu>: Redoes the previously undone action.</li>
   <br>
-  <li><menu>Empty Clipbase</menu>: Empties the <a Clipbase>clipbase</a>
+  <li><menu>Setup Board</menu>: Sets the starting position for the current game.</li>
+  <li><menu>Copy Board as FEN</menu>: Copies the current board position as
+  <term>FEN notation</term> to the system clipboard.</li>
+  <li><menu>Paste Board from FEN</menu>: Sets the start board from the current
+  text selection (clipboard). This selection must be a valid <term>FEN</term> notation.</li>
+  <li><menu>Copy Game as PGN</menu>: Copies the current game as <a PGN>PGN</a> to clipboard.</li>
+  <li><menu>Paste Game from Clipboard</menu>: Pastes a game from clipboard in <a PGN>PGN format</a>.</li>
+  <br>
+  <li><menu>Strip</menu>: Strips elements from the current game.</li>
+  <ul>
+  <li><menu>Comments</menu>: Strips all comments from the current game.</li>
+  <li><menu>Variations</menu>: Strips all variations from the current game.</li>
+  <li><menu>Beginning</menu>: Strips moves from the beginning to current position.</li>
+  <li><menu>End</menu>: Strips moves from current position to the end.</li>
+  </ul>
+  <br>
+  <li><menu>Reset Clipbase</menu>: Empties the <a Clipbase>clipbase</a>
   so it contains no games.</li>
-  <li><menu>Copy this game to clipbase</menu>: Copies the current game
-  to the <a Clipbase>clipbase</a> database. Additionally, the games
-  current <term>PGN notation</term> is added to the system clipboard.</li>
-  <li><menu>Paste last clipbase game</menu>: Pastes the active game of
+  <li><menu>Copy to Clipbase</menu>: Copies the current game
+  to the <a Clipbase>clipbase</a> database.</li>
+  <li><menu>Paste from Clipbase</menu>: Pastes the active game of
   the <a Clipbase>clipbase</a> to be the active game of the current
   database.</li>
-  <br>
-  <li><menu>Setup start board</menu>: Sets the starting position for the
-  current game.</li>
-  <li><menu>Copy position</menu>: Copies the current position as
-  <term>FEN notation</term> to the system clipboard.</li>
-  <li><menu>Paste start board</menu>: Sets the start board from the current
-  text selection (clipboard). This selection has to be a valid
-  <term>FEN</term> notation.</li>
   </ul>
   
   <h3><name Game>Game</name></h3>
   <ul>
   <li><menu>New Game</menu>: Resets the active game to an empty state,
   discarding any unsaved changes.</li>
-  <li><menu>Load First/Previous/Next/Last Game</menu>: These load the first,
-  previous, next or last game in the <a Searches Filter>filter</a>.</li>
   <li><menu>Reload this game</menu>: Reloads the current game, discarding
   any changes made.</li>
-  <li><menu>Load Game Number</menu>: Loads the game given its game number
-  in the current database.</li>
   <br>
   <li><menu>Save: Replace game</menu>: Saves the current game, replacing
   its original version in the database.</li>
   <li><menu>Save: Add new game</menu>: Saves the current game as a new
   game, appending to the end of the database.</li>
+  <li><menu>Export Current Game</menu>: Exports the current game to various formats.</li>
+  <ul>
+  <li><menu>PGN</menu>: Exports to <a PGN>PGN</a> format.</li>
+  <li><menu>HTML</menu>: Exports to HTML format.</li>
+  <li><menu>HTML with JavaScript</menu>: Exports to interactive HTML format.</li>
+  </ul>
+  <br>
+  <li><menu>Load First Game</menu>: Loads the first game in the <a Searches Filter>filter</a>.</li>
+  <li><menu>Load Previous Game</menu>: Loads the previous game in the filter.</li>
+  <li><menu>Load Next Game</menu>: Loads the next game in the filter.</li>
+  <li><menu>Load Last Game</menu>: Loads the last game in the filter.</li>
+  <li><menu>Load Random Game</menu>: Loads a random game from the filter.</li>
   <br>
   <li><menu>Identify opening</menu>: Finds the deepest
   position in the current game that is in the ECO file.</li>
@@ -647,21 +700,19 @@ set helpText(Menus) {<h1>scidCommunity menus</h1>
   
   <h3><name Search>Search</name></h3>
   <ul>
-  <li><menu>Reset Filter</menu>: Resets the <a Searches Filter>filter</a>
-  so all games are included. This does not affect a filter created by
-  an eventually opened <a Tree>tree window</a>.</li>
-  <li><menu>Negate filter</menu>: Inverts the filter criteria that are
-  not set by an eventually opened <a Tree>tree window</a>.</li>
-  <br>
   <li><menu>Current board</menu>: Searches for the
   <a Searches Board>current board</a> position.</li>
   <li><menu>Header</menu>: Searches by <a Searches Header>header</a>
   information such as player names. This filter is cumulative to
   a filter eventually set by an open <a Tree>tree window</a>.</li>
   <li><menu>Material/Pattern</menu>: Searches by
-  <a Searches Material>material</a> or chessboard patterns</a>. This
+  <a Searches Material>material</a> or chessboard patterns. This
   filter is cumulative to a filter eventually set by an open <a
   Tree>tree window</a>.</li>
+  <br>
+  <li><menu>Player List</menu>: Opens/closes the <a PList>Player Finder</a> window.</li>
+  <li><menu>Tournament Finder</menu>: Opens/closes the
+  <a Tmt>Tournament Finder</a> window.</li>
   <br>
   <li><menu>Using search file</menu>: Searches using
   <a Searches Settings>settings</a> from a SearchOptions file. This
@@ -673,132 +724,109 @@ set helpText(Menus) {<h1>scidCommunity menus</h1>
   <ul>
   <li><menu>Comment Editor</menu>: Opens/closes the
   <a Comment>Comment Editor</a> window.</li>
-  <li><menu>Game List window</menu>: Opens/closes the
-  <a GameList>Game List window</a>.</li>
   <li><menu>PGN window</menu>: Opens/closes the
   <a PGN>PGN window</a>.</li>
-  <li><menu>Tournament Finder</menu>: Opens/closes the
-  <a Tmt>Tournament Finder</a> window.</li>
+  <li><menu>Show Game Info</menu>: Toggles display of game information panel.</li>
   <br>
-  <li><menu>Database switcher</menu>: Opens/closes the
+  <li><menu>Game List window</menu>: Opens/closes the
+  <a GameList>Game List window</a>.</li>
+  <li><menu>Database Switcher</menu>: Opens/closes the
   <a Switcher>Database Switcher</a> window, which lets you switch to
   another database or copy games between databases easily.</li>
-  <li><menu>Maintenance window</menu>: Opens/closes the database
-  <a Maintenance>maintenance</a> window.</li>
-  <br>
+  <li><menu>Crosstable</menu>: Constructs a tournament
+  <a Crosstable>crosstable</a> for the current game.</li>
   <li><menu>ECO Browser</menu>: Opens/closes the
   <a ECO browser>ECO Browser</a> window.</li>
   <li><menu>Statistics window</menu>: Opens/closes the
   <term>Filter statistics window</term> which gives a win/loss summary
-  of the games in the <a Searches Filter>filter.</a></li>
+  of the games in the <a Searches Filter>filter</a>.</li>
   <li><menu>Tree window</menu>: Opens/closes the <a Tree>tree window</a>.</li>
+  <li><menu>Book window</menu>: Opens/closes the <a Book>opening book</a> window.</li>
+  <li><menu>Score Graph</menu>: Refreshes the <a Graphs Score>score graph</a>.</li>
   </ul>
 
   <h3><name Play>Play</name></h3>
   <ul>
-  <li><menu>Serious game</menu>: Allows to play an installed
-  <term>UCI</term> chess engine in a serious game, ie. in tournament
-  conditions.</li>
-  <li><menu>Tactical game</menu>: Allows to play the Phalanx chess
-  engine at an adjustable level.</li>
-  <li><menu>Play on FICS</menu>: Gives access to the Free Internet
-  Chess Server (FICS) to play games of chess against human opponents
-  or chess engines, observe games, or take part in trainings
-  sessions.</li>
-  <li><menu>Training</menu>: access various trainings modes available
-  in scidCommunity.</li>
+  <li><menu>Serious Game</menu>: Configures and starts a <a SeriousGame>serious game</a>
+  against a <term>UCI</term> chess engine in tournament conditions.</li>
+  <li><menu>Tactical Game</menu>: Configures and starts a <a TacticalGame>tactical game</a>
+  against a chess engine at an adjustable level.</li>
+  <li><menu>FICS Training</menu>: Configures connection to the <a FICS>Free Internet
+  Chess Server</a> (FICS) to play against human opponents or take part in training sessions.</li>
+  <li><menu>Training</menu>: Training submenu.</li>
+  <ul>
+  <li><menu>Openings Training</menu>: Configures <a OpeningTrainer>openings training</a>.</li>
+  <li><menu>Tactics Training</menu>: Configures <a TacticsTrainer>tactics training</a>.</li>
+  <li><menu>Review Game</menu>: Starts game review mode.</li>
+  <li><menu>Calvar Training</menu>: Configures <a CalVar>calculation of variations</a> training.</li>
+  </ul>
   </ul>
   
   <h3><name Tools>Tools</name></h3>
   <ul>
-  <li><menu>Analysis engine</menu>: Displays a list of all installed
-  chess engines available for analysis to select and start one of
-  them as analysis engine 1.</li>
-  <li><menu>Analysis engine #2</menu>: Displays a list of all installed
-  chess engines available for analysis to select and start one of
-  them as analysis engine 2.
-  </li>
-  <li><menu>Start engine 1</menu>: Starts/stops the chess analysis
-  engine, displaying the evaluation of the current position
-  in the <a Analysis>analysis window</a>.</li>
-  <li><menu>Start engine #2</menu>: Starts/stops a second analysis
-  engine.</li>
-  <li><menu>Crosstable</menu>: Constructs a tournament
-  <a Crosstable>crosstable</a> for the current game. </li>
+  <li><menu>Configure Engines</menu>: Opens the <a Analysis List>engine configuration</a> dialog
+  to set up chess engines.</li>
+  <li><menu>Start Engine 1</menu>: Starts the first chess analysis engine.</li>
+  <li><menu>Start Engine 2</menu>: Starts the second chess analysis engine.</li>
+  <li><menu>Analysis Window</menu>: Opens the <a Analysis>analysis window</a>.</li>
   <br>
-  <li><menu>Rel. filter graph</menu>: Generates a <a
-  FilterGraph>relative filter graph</a> e.g. to investigate popularity
-  of the current opening by comparison of the current position against
-  the whole database.
-  </li>
-  <li><menu>Abs. filter graph</menu>:  Generates a <a
-  FilterGraph>absolute filter graph</a>
-  </li>
-  <li><menu>Opening report</menu>: Generates an
+  <li><menu>Filter Graph</menu>: Opens/closes the <a Graphs Filter>filter graph</a> window.</li>
+  <li><menu>Absolute Filter Graph</menu>: Opens/closes the absolute filter graph window.</li>
+  <li><menu>Opening Report</menu>: Generates an
   <a Reports Opening>opening report</a> for the current position.</li>
   <li><menu>Piece Tracker</menu>: Opens the <a PTracker>piece tracker</a>
   window.</li>
-  <li><menu>Book tuning</menu>: allows to adjust the probability
-  values of a moved played in a selectable <a Book>opening book</a>).
-  </li>
-  <li><menu>Connect hardware</menu>: Allows external hardware to be
-  used to enter moves. (E.g.  DGT electronic chessboard, Novag
-  Citrine) 
+  <li><menu>Book Tuning</menu>: Opens the <a BookTuning>book tuning</a> window.</li>
+  <li><menu>Download TWIC</menu>: <a DownloadTWIC>Downloads</a> the latest This Week In Chess games.</li>
+  <li><menu>Connect Hardware</menu>: Allows <a HardwareConfig>external hardware</a> to be
+  used to enter moves (e.g. DGT electronic chessboard, Novag Citrine).</li>
   <ul>
-		<li><menu>Configure</menu>: allows  <a HardwareConfig>basic
-		parameters</a> to be set for usage of external hardware
-		</li>
-		<li><menu>Connect Input Engine</menu>: hooks up with hardware
-		that supplies an Input Engine compatible driver (e.g. <url
-		http://dgtdrv.sourceforge.net>dgtdrv website</url>.)
-		</li>
-		<li><menu>Connect Novag Citrine</menu>: hooks up with a Novag
-		Citrine board.
-		</li>
+  <li><menu>Configure</menu>: Allows <a HardwareConfig>basic parameters</a>
+  to be set for usage of external hardware.</li>
+  <li><menu>Input Engine Connect</menu>: Connects/disconnects <a InputEngine>input engine</a>.</li>
+  <li><menu>Novag Citrine Connect</menu>: Connects/disconnects <a Novag>Novag Citrine</a> board.</li>
   </ul>
-  </li>
   <br>
-  <li><menu>Player information</menu>: Displays <a PInfo>player information</a>
-  for one of the two players of the current game.</li>
-  <ul>
-	<li><menu>White</menu>: use the White player of the current game.</li>
-	<li><menu>Black</menu>: use the Black player of the current game.</li>
-  </ul>
-  <li><menu>Player report</menu>: generates a <a Reports Player>player
-  report</a>
-  <li><menu>Rating graph</menu>: Displays the
-  <a Graphs Rating>rating graph</a>.</li>
-  <li><menu>Score graph</menu>: Displays the
-  <a Graphs Score>score graph</a>.</li>
-  <br>
-  file in PGN or HTML format. See the <a Export>export</a> help
-  search <a Searches Filter>filter</a> to a text file in PGN or
-  HTML format. See the <a Export>export</a> help page.</li>
-  <br>
-  <li><menu>Import <a PGN>PGN</a> game</menu>: Opens the <a Import>Import window</a>
-  for entering a game by typing or pasting its text in
-  <a PGN>PGN format</a>.</li>
-  <li><menu>Import file of <a PGN>PGN</a> games</menu>: Imports a whole file containing
-  games in <a PGN>PGN</a> format to the current database. Note, that several PGN
-  files can be selected in this dialogue at once.</li>
+  <li><menu>Player Information</menu>: Displays <a PInfo>player information</a>
+  for the White or Black player of the current game.</li>
+  <li><menu>Player Report</menu>: Generates a <a Reports Player>player report</a>.</li>
+  <li><menu>Rating Graph</menu>: Displays the <a Graphs Rating>rating graph</a>.</li>
   </ul>
   
   <h3><name Options>Options</name></h3>
-  <p>
-  This menu provides entries for setting most of scidCommunity's configurable
-  options.
-  The <menu>Save options</menu> entry saves the current options to the
+  <ul>
+  <li><menu>Language</menu>: Submenu to select the interface language.</li>
+  <li><menu>Theme</menu>: Submenu to select the GUI theme.</li>
+  <li><menu>Configure Scid</menu>: Opens the <a Options>preferences</a> dialog.</li>
+  <li><menu>Resources</menu>: Opens the resources configuration dialog.</li>
+  <li><menu>Export</menu>: <a Export>Export</a> format settings submenu.</li>
+  <ul>
+  <li><menu>PGN file text</menu>: Sets <a PGN>PGN</a> export text options.</li>
+  <li><menu>HTML file text</menu>: Sets HTML export text options.</li>
+  </ul>
+  <br>
+  <li><menu>Full Screen</menu>: Toggles full screen mode.</li>
+  <li><menu>Dock Windows</menu>: Toggles window docking.</li>
+  <li><menu>Save Layout</menu>: Saves the current window layout.</li>
+  <li><menu>Restore Layout</menu>: Restores a saved window layout.</li>
+  <br>
+  <li><menu>Save Options</menu>: Saves the current options to the
   file "<b>~/.scid/config/options.dat</b>" (or "<b>options.dat</b>" in the
   sub directory "<b>config</b>" of the scidCommunity executable programs for Windows
-  users); this file is loaded each time you start up scidCommunity.
-  </p>
+  users); this file is loaded each time you start up scidCommunity.</li>
+  <li><menu>Auto Save</menu>: Toggles automatic saving of options on exit.</li>
+  </ul>
   
   <h3><name Help>Help</name></h3>
-  <p>
-  This menu contains help functions, and access to the tip of the day
-  window or the startup window which provides information about the
-  files scidCommunity loaded when it started.
-  </p>
+  <ul>
+  <li><menu>Contents</menu>: Opens the help contents page.</li>
+  <li><menu>Index</menu>: Opens the help index.</li>
+  <li><menu>Quick Guide</menu>: Opens the quick start guide.</li>
+  <li><menu>Hints</menu>: Opens the hints page.</li>
+  <li><menu>Contact</menu>: Opens the contact information page.</li>
+  <li><menu>Tip of the Day</menu>: Shows the tip of the day window.</li>
+  <li><menu>About</menu>: Shows information about scidCommunity.</li>
+  </ul>
   
   <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
@@ -1850,6 +1878,222 @@ set helpText(Export) {<h1>Exporting games</h1>
 }
 
 ####################
+### Lichess Tournament help:
+
+set helpTitle(LichessTournament) "Open Lichess Tournament"
+set helpText(LichessTournament) {<h1>Open Lichess Tournament</h1>
+  <p>
+  The <b>Open Lichess Tournament</b> feature allows you to download and monitor
+  live games from Lichess tournament broadcasts. This is useful for following
+  major chess tournaments in real-time as they are being played.
+  </p>
+  
+  <h3>How to use</h3>
+  <p>
+  Select <menu>File: Open Lichess Tournament</menu> from the menu. scidCommunity will:
+  <ul>
+  <li>Download the list of currently active tournament broadcasts from Lichess.org</li>
+  <li>Display a selection dialog with available tournaments</li>
+  <li>Allow you to choose a tournament and set the refresh interval (default: 60 seconds)</li>
+  <li>Download the tournament games and open them in the Games List window</li>
+  </ul>
+  </p>
+  
+  <h3>Live monitoring</h3>
+  <p>
+  When you open a game from a Lichess tournament broadcast, scidCommunity will
+  automatically monitor that game for new moves. The game will be updated
+  periodically based on your chosen refresh interval. New moves are added
+  automatically, and the board position advances to show the latest position.
+  </p>
+  
+  <h3>Requirements</h3>
+  <p>
+  This feature requires an internet connection and one of the following:
+  <ul>
+  <li><b>curl</b> (recommended, available on most systems)</li>
+  <li><b>wget</b> (alternative download tool)</li>
+  <li><b>PowerShell</b> (Windows fallback)</li>
+  <li>Tcl TLS package (fallback method)</li>
+  </ul>
+  </p>
+  
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+}
+
+####################
+### Import Lichess help:
+
+set helpTitle(ImportLichess) "Import my Lichess"
+set helpText(ImportLichess) {<h1>Import my Lichess</h1>
+  <p>
+  The <b>Import my Lichess</b> feature downloads all games from your Lichess.org
+  account within a specified date range and opens them for import into scidCommunity.
+  </p>
+  
+  <h3>How to use</h3>
+  <p>
+  Select <menu>File: Import my Lichess</menu> from the menu. You will be prompted to enter:
+  <ul>
+  <li><b>Username</b>: Your Lichess.org username</li>
+  <li><b>Start year</b>: The year to begin downloading games from (YYYY format)</li>
+  <li><b>Start month</b>: The month to begin downloading from (1-12)</li>
+  </ul>
+  </p>
+  
+  <p>
+  scidCommunity will download all your games from the specified start date through
+  the current date using the Lichess API. The games are downloaded in <a PGN>PGN</a> format
+  with full annotations, including:
+  <ul>
+  <li>Opening names and ECO codes</li>
+  <li>Computer evaluations (if available)</li>
+  <li>Clock times for each move</li>
+  <li>All game metadata (ratings, time controls, etc.)</li>
+  </ul>
+  </p>
+  
+  <h3>After download</h3>
+  <p>
+  Once downloaded, the games are automatically opened in the Games List window.
+  You can then:
+  <ul>
+  <li>Browse through your games</li>
+  <li>Filter by various criteria</li>
+  <li>Import selected games into your database</li>
+  <li>Analyze games with chess engines</li>
+  </ul>
+  </p>
+  
+  <h3>Requirements</h3>
+  <p>
+  This feature requires an internet connection and one of the following download tools:
+  curl, wget, PowerShell (Windows), or Tcl TLS support.
+  </p>
+  
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+}
+
+####################
+### Import Chess.com help:
+
+set helpTitle(ImportChessCom) "Import my chess.com"
+set helpText(ImportChessCom) {<h1>Import my chess.com</h1>
+  <p>
+  The <b>Import my chess.com</b> feature downloads all games from your Chess.com
+  account within a specified date range and opens them for import into scidCommunity.
+  </p>
+  
+  <h3>How to use</h3>
+  <p>
+  Select <menu>File: Import my chess.com</menu> from the menu. You will be prompted to enter:
+  <ul>
+  <li><b>Username</b>: Your Chess.com username</li>
+  <li><b>Start year</b>: The year to begin downloading games from (YYYY format)</li>
+  <li><b>Start month</b>: The month to begin downloading from (1-12)</li>
+  </ul>
+  </p>
+  
+  <p>
+  scidCommunity will download all your games month-by-month from the specified
+  start date through the current month using the Chess.com public API. A progress
+  bar shows the download status as each month is processed.
+  </p>
+  
+  <h3>Downloaded game data</h3>
+  <p>
+  The games are downloaded in <a PGN>PGN</a> format and include:
+  <ul>
+  <li>All game moves and results</li>
+  <li>Player ratings and usernames</li>
+  <li>Time controls and game types</li>
+  <li>Opening information</li>
+  <li>Game URLs for reference</li>
+  </ul>
+  </p>
+  
+  <h3>After download</h3>
+  <p>
+  Once the download completes, all games are concatenated into a single <a PGN>PGN</a> file
+  and automatically opened in the Games List window. You can then filter, analyze,
+  or import the games into your scidCommunity database.
+  </p>
+  
+  <h3>Requirements</h3>
+  <p>
+  This feature requires an internet connection and one of the following download tools:
+  curl, wget, PowerShell (Windows), or Tcl TLS support. The Chess.com API is public
+  and does not require authentication.
+  </p>
+  
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+}
+
+####################
+### Download TWIC help:
+
+set helpTitle(DownloadTWIC) "Download TWIC Games"
+set helpText(DownloadTWIC) {<h1>Download TWIC Games</h1>
+  <p>
+  The <b>Download TWIC Games</b> feature downloads the latest games from
+  <b>The Week In Chess</b> (TWIC), a popular weekly chess games database
+  published by Mark Crowther since 1994.
+  </p>
+  
+  <h3>About TWIC</h3>
+  <p>
+  The Week In Chess is one of the longest-running and most comprehensive sources
+  of recent chess games. Each week, TWIC publishes hundreds of games from
+  tournaments around the world, including:
+  <ul>
+  <li>Major international tournaments</li>
+  <li>National championships</li>
+  <li>Online events</li>
+  <li>Correspondence chess</li>
+  </ul>
+  </p>
+  
+  <h3>How to use</h3>
+  <p>
+  Select <menu>Tools: Download TWIC Games</menu> from the menu. scidCommunity will:
+  <ul>
+  <li>Open the TWIC website in your default browser for reference</li>
+  <li>Automatically determine the current TWIC week number</li>
+  <li>Download the latest TWIC games archive (ZIP format)</li>
+  <li>Extract the <a PGN>PGN</a> files from the archive</li>
+  <li>Open the games in the Games List window</li>
+  </ul>
+  </p>
+  
+  <p>
+  The downloaded <a PGN>PGN</a> file is saved to your home directory with a filename
+  like <b>twic_1234.pgn</b> (where 1234 is the week number). You can then
+  import these games into your database, analyze them, or use them as a
+  reference for openings and recent trends.
+  </p>
+  
+  <h3>Requirements</h3>
+  <p>
+  This feature requires:
+  <ul>
+  <li>An internet connection</li>
+  <li>A download tool: curl, wget, or PowerShell (Windows)</li>
+  <li>An extraction tool: unzip, tar, PowerShell Expand-Archive, or Tcl zipfs support</li>
+  </ul>
+  Most modern systems have these tools installed by default.
+  </p>
+  
+  <h3>Keeping up to date</h3>
+  <p>
+  TWIC is published weekly, typically on Monday evenings. You can use this
+  feature regularly to download the latest games and stay current with
+  recent tournament play and opening theory developments.
+  </p>
+  
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+}
+
+####################
 ### <a PGN>PGN</a> window help:
 
 set helpTitle(PGN) "PGN window"
@@ -1937,6 +2181,285 @@ set helpText(PGN) {<h1>The <a PGN>PGN</a> window</h1>
   The <a PGN>PGN</a> display options, and the size of the <a PGN>PGN</a> window, are saved to the
   options file whenever you <b>Save Options</b> from the <menu>Options</menu>
   menu of the main window.
+  </p>
+  
+  <h3>PGN Window Buttons</h3>
+  <p>
+  The <a PGN>PGN</a> window includes several buttons at the bottom for quick access
+  to online chess resources and analysis tools:
+  <ul>
+  <li><a PGNTablebase>Table Base</a>: Look up the current position in the Lichess endgame tablebase (7-8 man positions)</li>
+  <li><a PGNChessCom>chess.com</a>: Upload the current game to Chess.com for analysis</li>
+  <li><a PGNLichess>lichess.org</a>: Upload the current game to Lichess.org for analysis and sharing</li>
+  <li><a PGNChessDB>chessdb Engine Tree</a>: Open the current position in the ChessDB.cn cloud database</li>
+  </ul>
+  These buttons provide instant access to powerful online tools without leaving scidCommunity.
+  See the individual help topics for each button for more details.
+  </p>
+  
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+}
+
+####################
+### PGN Window Table Base button help:
+
+set helpTitle(PGNTablebase) "Table Base Button"
+set helpText(PGNTablebase) {<h1>PGN Window: Table Base Button</h1>
+  <p>
+  The <b>Table Base</b> button in the <a PGN>PGN</a> window provides instant access
+  to the Lichess endgame tablebase, which contains perfect analysis for all positions
+  with 7 or fewer pieces (and partial coverage for 8-piece positions).
+  </p>
+  
+  <h3>What is a tablebase?</h3>
+  <p>
+  An endgame tablebase is a database that contains the perfect evaluation of every
+  possible position with a limited number of pieces. For each position, the tablebase
+  knows whether it's a win, loss, or draw with perfect play, and can provide the
+  optimal moves to achieve the result.
+  </p>
+  
+  <h3>How to use</h3>
+  <p>
+  Click the <b>Table Base</b> button when viewing any position with 7 or fewer pieces.
+  scidCommunity will:
+  <ul>
+  <li>Query the Lichess tablebase API with the current position</li>
+  <li>Display a popup window showing the evaluation (win/loss/draw)</li>
+  <li>Show the distance to mate or conversion (if applicable)</li>
+  <li>Display the best move for the position</li>
+  </ul>
+  </p>
+  
+  <h3>Understanding the results</h3>
+  <p>
+  The tablebase will report one of several categories:
+  <ul>
+  <li><b>Win</b>: The side to move can force a win with perfect play</li>
+  <li><b>Loss</b>: The side to move will lose with perfect defense from the opponent</li>
+  <li><b>Draw</b>: Perfect play from both sides leads to a draw</li>
+  <li><b>Cursed win</b>: Technically winning, but the 50-move rule will be reached before conversion</li>
+  <li><b>Blessed loss</b>: Technically losing, but can force a draw via the 50-move rule</li>
+  </ul>
+  </p>
+  
+  <h3>Coverage</h3>
+  <p>
+  The Lichess tablebase provides:
+  <ul>
+  <li>Complete coverage for all 7-piece positions</li>
+  <li>Partial coverage for some 8-piece positions</li>
+  <li>DTZ (Distance To Zeroing) values showing halfmoves until the next capture or pawn move</li>
+  <li>Best move recommendations based on perfect play</li>
+  </ul>
+  </p>
+  
+  <h3>Requirements</h3>
+  <p>
+  This feature requires an internet connection and either curl or Tcl http support.
+  </p>
+  
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+}
+
+####################
+### PGN Window chess.com button help:
+
+set helpTitle(PGNChessCom) "chess.com Button"
+set helpText(PGNChessCom) {<h1>PGN Window: chess.com Button</h1>
+  <p>
+  The <b>chess.com</b> button in the <a PGN>PGN</a> window allows you to instantly
+  upload the current game to Chess.com's analysis board for detailed computer analysis
+  and exploration.
+  </p>
+  
+  <h3>How to use</h3>
+  <p>
+  Click the <b>chess.com</b> button while viewing any game. scidCommunity will:
+  <ul>
+  <li>Export the current game in <a PGN>PGN</a> format</li>
+  <li>URL-encode the game data</li>
+  <li>Open Chess.com's analysis board in your default web browser</li>
+  <li>Load the game automatically into the analysis interface</li>
+  </ul>
+  </p>
+  
+  <h3>What you can do on Chess.com</h3>
+  <p>
+  Once the game opens in Chess.com's analysis board, you can:
+  <ul>
+  <li>Run computer analysis with multiple engines</li>
+  <li>Get move-by-move evaluations and best move suggestions</li>
+  <li>Explore alternative lines and variations</li>
+  <li>Share the game with others via a Chess.com link</li>
+  <li>Compare your moves to computer recommendations</li>
+  <li>View opening names and theory</li>
+  </ul>
+  </p>
+  
+  <h3>Game data included</h3>
+  <p>
+  The uploaded game includes:
+  <ul>
+  <li>All moves from the current game</li>
+  <li>Variations and alternative lines</li>
+  <li>Comments and annotations</li>
+  <li>Game header information (players, date, result, etc.)</li>
+  </ul>
+  </p>
+  
+  <h3>Requirements</h3>
+  <p>
+  This feature requires:
+  <ul>
+  <li>An internet connection</li>
+  <li>A web browser</li>
+  <li>Tcl http package (standard with most Tcl installations)</li>
+  </ul>
+  No Chess.com account is required to use the analysis board.
+  </p>
+  
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+}
+
+####################
+### PGN Window lichess.org button help:
+
+set helpTitle(PGNLichess) "lichess.org Button"
+set helpText(PGNLichess) {<h1>PGN Window: lichess.org Button</h1>
+  <p>
+  The <b>lichess.org</b> button in the <a PGN>PGN</a> window uploads the current
+  game to Lichess.org, where you can analyze it with powerful computer engines,
+  share it with others, or import it to your Lichess account.
+  </p>
+  
+  <h3>How to use</h3>
+  <p>
+  Click the <b>lichess.org</b> button while viewing any game. scidCommunity will:
+  <ul>
+  <li>Export the current game in <a PGN>PGN</a> format</li>
+  <li>Upload the game to Lichess via their import API</li>
+  <li>Open the game URL in your default web browser</li>
+  <li>Display the game in Lichess's analysis interface</li>
+  </ul>
+  </p>
+  
+  <h3>Lichess analysis features</h3>
+  <p>
+  Once uploaded to Lichess, you can:
+  <ul>
+  <li>Analyze with Stockfish (one of the world's strongest chess engines)</li>
+  <li>Get instant computer evaluations for every position</li>
+  <li>Request a full game analysis with move-by-move commentary</li>
+  <li>Explore opening theory and databases</li>
+  <li>Practice positions against the computer</li>
+  <li>Share the game with a permanent Lichess URL</li>
+  <li>Import the game to your Lichess account (if logged in)</li>
+  </ul>
+  </p>
+  
+  <h3>Game data included</h3>
+  <p>
+  The uploaded game includes:
+  <ul>
+  <li>All moves and variations</li>
+  <li>Comments and annotations</li>
+  <li>Game metadata (players, ratings, date, event, etc.)</li>
+  <li>Opening information</li>
+  </ul>
+  </p>
+  
+  <h3>Sharing and privacy</h3>
+  <p>
+  Games uploaded to Lichess receive a unique URL that you can share with others.
+  The games are publicly accessible by default. If you want to keep a game private,
+  you can import it to your Lichess account after upload and set it to private in
+  your Lichess settings.
+  </p>
+  
+  <h3>Requirements</h3>
+  <p>
+  This feature requires:
+  <ul>
+  <li>An internet connection</li>
+  <li>curl (preferred) or Tcl http package</li>
+  <li>A web browser</li>
+  </ul>
+  No Lichess account is required to upload and analyze games, though having an
+  account provides additional features.
+  </p>
+  
+  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+}
+
+####################
+### PGN Window ChessDB button help:
+
+set helpTitle(PGNChessDB) "chessdb Engine Tree Button"
+set helpText(PGNChessDB) {<h1>PGN Window: chessdb Engine Tree Button</h1>
+  <p>
+  The <b>chessdb Engine Tree</b> button in the <a PGN>PGN</a> window opens the
+  current position in ChessDB.cn, a massive cloud-based chess database with
+  billions of analyzed positions and computer evaluations.
+  </p>
+  
+  <h3>What is ChessDB.cn?</h3>
+  <p>
+  ChessDB.cn is a free online chess database that provides:
+  <ul>
+  <li>Cloud-based computer analysis for any position</li>
+  <li>Billions of pre-analyzed positions from games and engine analysis</li>
+  <li>Multiple engine evaluations and best move suggestions</li>
+  <li>Opening statistics and theory</li>
+  <li>Endgame tablebase integration</li>
+  </ul>
+  </p>
+  
+  <h3>How to use</h3>
+  <p>
+  Click the <b>chessdb Engine Tree</b> button while viewing any position.
+  scidCommunity will:
+  <ul>
+  <li>Get the FEN (Forsyth-Edwards Notation) of the current position</li>
+  <li>Open ChessDB.cn in your default web browser</li>
+  <li>Load the position automatically in the ChessDB interface</li>
+  <li>Display available analysis and statistics for that position</li>
+  </ul>
+  </p>
+  
+  <h3>What you can see on ChessDB</h3>
+  <p>
+  For each position, ChessDB.cn shows:
+  <ul>
+  <li><b>Engine evaluations</b>: Computer analysis from multiple engines</li>
+  <li><b>Best moves</b>: Recommended moves with evaluations</li>
+  <li><b>Game statistics</b>: How often each move has been played and the results</li>
+  <li><b>Opening names</b>: If the position is part of known opening theory</li>
+  <li><b>Historical games</b>: Games from the database that reached this position</li>
+  <li><b>Tablebase results</b>: Perfect endgame analysis for positions with few pieces</li>
+  </ul>
+  </p>
+  
+  <h3>Use cases</h3>
+  <p>
+  The ChessDB button is particularly useful for:
+  <ul>
+  <li>Checking if a position has been analyzed before</li>
+  <li>Finding the computer's recommended move</li>
+  <li>Researching opening theory and statistics</li>
+  <li>Verifying endgame positions</li>
+  <li>Exploring alternative moves and their evaluations</li>
+  </ul>
+  </p>
+  
+  <h3>Requirements</h3>
+  <p>
+  This feature requires:
+  <ul>
+  <li>An internet connection</li>
+  <li>A web browser</li>
+  </ul>
+  No account or registration is needed to use ChessDB.cn.
   </p>
   
   <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
@@ -2062,7 +2585,8 @@ set helpText(Tree) {<h1>The Tree window</h1>
   (both as number of games, and a percentage) and score of each move.
   The <term>score</term> is always computed from the <b>White</b>
   perspective, so 100% means all White wins and 0% means all Black
-  wins. Scores are highlighted for moves that have good (green) or bad
+  wins (White Wins * 1 + Draws * 0.5)/Total Games. Scores are 
+  highlighted for moves that have good (green) or bad
   (red) results. On average a move should score 53.8% for white,
   highlighting appears if a move scores more than 3% better or worse
   than this average and if at least 15 games are contained in the
@@ -2070,8 +2594,13 @@ set helpText(Tree) {<h1>The Tree window</h1>
   player's on move and <term>Perf</term> (performance) represents the
   opponent's strength. Additionally, <term>AvYear</term> shows the
   average year of games played in this move and <term>%Draws</term>
-  gives the percentage of draws for the line displayed. All these
-  values are calculated for the database displayed in the tree, and
+  gives the percentage of draws for the line displayed. Finally, the
+  <term>%Win</term> column shows the win percentage for the side to move:
+  when White is to move, it shows (White Wins / Total Games) × 100%;
+  when Black is to move, it shows (Black Wins / Total Games) × 100%.
+  This highlights moves with high win rates for the moving side, even when
+  the overall score is close to 50%.
+  All these values are calculated for the database displayed in the tree, and
   therefore depend of course on the games in this database.
   </p>
   <p>
@@ -2450,7 +2979,7 @@ set helpText(Maintenance) {<h1>Database maintenance</h1>
   <h3>Maintenance window</h3>
   <p>
   Most scidCommunity database maintenance can be done from the Maintenance
-  window, which can be opened from the <menu>File: Maintenance</menu>
+  window, which can be opened from the <menu>Database: Maintenance</menu>
   or <menu>Windows</menu> menus or the shortcut key <b>Ctrl+M</b>.
   </p>
   <p>
@@ -2463,7 +2992,7 @@ set helpText(Maintenance) {<h1>Database maintenance</h1>
   
   <h3><name Twins>Deleting twin games</name></h3>
   <p>
-  The <menu>File: Maintenance</menu> menu has a command
+  The <menu>Database: Maintenance</menu> menu has a command
   <menu>Delete twin games...</menu> for detecting extra copies
   (twins) of games in the database.
   This command finds all pairs of games that are twins and, for each pair,
@@ -2493,7 +3022,7 @@ set helpText(Maintenance) {<h1>Database maintenance</h1>
   You may find mis-spelt names in your databases and want to correct them.
   You can do this in scidCommunity with the <term>Name editor</term> window
   (shortcut key: <b>Control+Shift+N</b>),
-  available from the <menu>File: Maintenance</menu> submenu.
+  available from the <menu>Database: Maintenance</menu> submenu.
   </p>
   <p>
   Each unique name is only stored once in the name file, so changing a name
@@ -2510,7 +3039,7 @@ set helpText(Maintenance) {<h1>Database maintenance</h1>
   <p>
   Once the spellcheck file is loaded, you can use it on a
   a scidCommunity database using the spellcheck commands in the
-  <menu>File: Maintenance</menu> menu, or from the maintenance window.
+  <menu>Database: Maintenance</menu> menu, or from the maintenance window.
   </p>
   <p>
   When you spellcheck a database, scidCommunity produces a list of corrections that you
@@ -2574,7 +3103,7 @@ set helpText(Maintenance) {<h1>Database maintenance</h1>
   <h3>Repair a base</h3>
   <p>
   In the rare cases that a scidCommunity database is corrupted one might try to
-  repair it using File / Maintenance / Repair base. For this to work,
+  repair it using Database / Maintenance / Repair base. For this to work,
   the base in question must not be opened (which is not possible in
   most cases anyway). scidCommunity will then try its best to get the database
   back in a consistent and usable state.
@@ -3968,7 +4497,7 @@ set helpText(ECO) {<h1>ECO openings classification</h1>
   The ECO system is very limited and not sufficient for modern games:
   some of the 500 codes are almost never seen any more, while some
   are seen very often. To improve this situation, scidCommunity allows an optional
-  extension to the basic ECO codes: each code can be extended with a
+  extension to the basic ECO codes using the codes developed by Scid: each code can be extended with a
   letter (a..z), with a further extension (another digit, 1..4) being
   possible but not used in the standard scidCommunity ECO file yet.
   So an extended scidCommunity ECO code looks like "<b>A41e</b>" or "<b>E99b2</b>".
@@ -5297,31 +5826,3 @@ set helpText(Metadata) {<h1>Dublin Core Metadata</h1>
   <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
-set helpTitle(Appearance) "Customize scidCommunity-GUI"
-set helpText(Appearance) {<h1>Customize scidCommunity-GUI</h1>
-  <p>
- <p>
-  scidCommunity has some options to customize the GUI.
-  </p>
-  <h3><name Themes>Configure TTK-Themes</name></h3>
-  <p>
-    Starting with version 4.7, new GUI themes can be installed and selected.
-    With the TTK themes, different appearances of the SCID user interface can be realized.<br>
-    The scid repository provides a multicolored set of themes for direct use:
-    <li><url https://sourceforge.net/projects/scid/files/scidCommunity/Additional Files/>https://sourceforge.net/projects/scid/files/scidCommunity/Additional Files</url> -- Home / scidCommunity / Additional Files</li><br><br>
-    Further themes can also be downloaded from the following addresses:
-    <li><url https://wiki.tcl.tk/48689>https://wiki.tcl.tk/48689</url> -- wiki.tcl.tk List of ttk Themes</li>
-    <li><url https://github.com/RedFantom/ttkthemes/tree/master/ttkthemes/themes>https://github.com/RedFantom/ttkthemes</url> -- RedFantom Collection of ttk Topics</li><br><br>
-    To install the themes, proceed as follows:<br>
-    <li>Extract the scidthemes files to any directory.</li>
-    <li>Load themes: With the menu item <b>Options - Theme - Load Theme(s)</b> select the file pkgIndex.tcl from the directory,
-    in which the themes are stored.</li>
-    <li>Select theme: Using the menu item <b>Options - Theme - "Theme name"</b>, e.g. scidblue scidmint scidpurple scidpurple scidpurple scidsand scidpink,
-    select the theme to use.</li>
-    <li><b>Note:</b> pkgIndex.tcl are files that load additional tcl packages. Use only pkgIndex.tcl files that contain TTK-Themes.</li>
-  </p>
-  <p>
-  After configuring the theme and menu colors, save the settings with <b>Options - Save options</b>.
-  </p>
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
-}

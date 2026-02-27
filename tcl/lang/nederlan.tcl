@@ -53,12 +53,9 @@ menuText N FileReadOnly "Alleen lezen..." 7 \
   {Zet huidige database op alleen-lezen en voorkom veranderingen}
 menuText N FileSwitch "Schakel naar andere  database" 0 \
   {Schakel naar een andere geopende database} 
-# ====== TODO To be translated ======
-menuText N FileOpenLichessTournament "Open Lichess Tournament" 0 {Download and open live Lichess tournament broadcast games}
-# ====== TODO To be translated ======
-menuText N FileImportLichess "Import my Lichess" 0 {Import games from your Lichess account}
-# ====== TODO To be translated ======
-menuText N FileImportChessCom "Import my chess.com" 0 {Import games from your chess.com account}
+menuText N FileOpenLichessTournament "Open Lichess-toernooi" 0 {Download en open live Lichess-toernooiuitzendingsspellen}
+menuText N FileImportLichess "Importeer mijn Lichess" 0 {Importeer games vanuit uw Lichess-account}
+menuText N FileImportChessCom "Importeer mijn chess.com" 0 {Importeer partijen vanuit uw chess.com-account}
 menuText N FileExit "Einde programma" 0 {Einde Scid}
 menuText N FileMaintFixBase "Repareer databank" 0 \
     {Probeer een corrupte databank te repareren}
@@ -77,8 +74,7 @@ menuText N EditTrial "Probeer variatie" 0 \
   {Start/stop probeer modus, om een idee op het bord te testen}
 menuText N EditStrip "Verwijder analyse" 2 {Verwijder commentaar of varianten uit deze partij}
 menuText N EditUndo "Ongedaan" 0 {Maak laatset verandering ongedaan}
-# ====== TODO To be translated ======
-menuText N EditRedo "Redo" 0 {Redo last game change}
+menuText N EditRedo "Opnieuw uitvoeren" 0 {Voer de laatste spelwijziging opnieuw uit}
 menuText N EditStripComments "Commentaar" 0 \
   {Verwijder alle commentaar en annotaties uit deze partij}
 menuText N EditStripVars "Varianten" 0 {Verwijder alle varianten uit deze partij}
@@ -100,8 +96,7 @@ menuText N EditCopyBoard "Copieer stelling " 6 \
   {Copieer de huidige stelling in FEN notatie naar de tekst het tekst clibbord } ;
 menuText N EditPasteBoard "Invoegen start stelling" 12 \
   {Maak de start stelling van de huidige tekst selectie (klembord)}
-# ====== TODO To be translated ======
-menuText N ConfigureScid "Preferences..." 0 {Configure all options for SCID}
+menuText N ConfigureScid "Voorkeuren..." 0 {Configureer alle opties voor SCID}
 
 # Game menu:
 menuText N Game "Partij" 0
@@ -129,7 +124,7 @@ menuText N GameGotoMove "Zetnummer..." 0 \
 menuText N GameNovelty "Vind nieuwtje..." 7 \
   {Vind de eerste zet in deze partij die nog niet eerder is gespeeld}
 
-# Search menu:
+# Search Menu:
 menuText N Search "Selecteren" 0
 menuText N SearchReset "Alle partijen" 0 \
   {Reset filter en toon alle partijen}
@@ -165,13 +160,11 @@ menuText N WindowsTree "Openingoverzicht" 0 {Open/sluit het Openingsoverzichtven
 menuText N WindowsBook "Boek Venster" 0 {Open/sluit het Boek venster}
 menuText N WindowsCorrChess "Correspondentieschaak venster" 0 \
     {Open/sluit het correspondentieschaak venster}
-# ====== TODO To be translated ======
-menuText N WindowsGraph "Analysis Graph" 0 {Open the Graph window with moves' times and evaluations}
+menuText N WindowsGraph "Analyse grafiek" 0 {Open het grafiekvenster met de zettijden en evaluaties}
 
 # Tools menu:
 menuText N Tools "Gereedschappen" 0
-# ====== TODO To be translated ======
-menuText N ToolsConfigureEngines "Configure Engines" 10 {Manage engines' configuration}
+menuText N ToolsConfigureEngines "Configureer motoren" 10 {Beheer de configuratie van motoren}
 menuText N ToolsAnalysis "Schaakengine ..." 3 \
   {Start/stop schaak-analyse programma 1}
 menuText N ToolsAnalysis2 "Schaakengine #2..." 17 \
@@ -195,16 +188,14 @@ menuText N ToolsTrainTactics "Tactiek "  0 {Los tactische stellingen op }
 menuText N ToolsTrainCalvar "Berekenen van varianten"  0 {Training in het berekenen van varianten}
 menuText N ToolsTrainFindBestMove "Vind de beste zet"  0 {Vind de beste zet}
 menuText N ToolsTrainFics "Speel op het internet"  0 {Speel of freechess.org}
-# ====== TODO To be translated ======
-menuText N ToolsEngineTournament "Engine tournament"  0 {Start a tournament between chess engines}
+menuText N ToolsEngineTournament "Motor toernooi"  0 {Start een toernooi tussen schaakmotoren}
 menuText N ToolsBookTuning "Openingenboek afstemming " 0 {Openingenboek afstemming}
-# ====== TODO To be translated ======
-menuText N ToolsDownloadTWIC "Download TWIC Games" 0 {Download the latest The Week In Chess (TWIC) games}
 menuText NL ToolsDownloadTWIC "Download TWIC-spelletjes" 0 {Download de nieuwste The Week In Chess (TWIC)-partijen}
 menuText N ToolsConnectHardware "Verbind Hardware" 0 {Verbind externe hardware}
 menuText N ToolsConnectHardwareConfigure "Configureer..." 0 {Configureer externe hardware en verbinding}
 menuText N ToolsConnectHardwareNovagCitrineConnect "Verbind Novag Citrine" 0 {Verbind Novag Citrine}
 menuText N ToolsConnectHardwareInputEngineConnect "Verbind Invoer Engine" 0 {Verbind Invoer Engine (e.g. DGT)}
+
 menuText N ToolsPInfo "Speler Informatie"  7 \
   {Open/wijzig het spelerinformatievenster}
 menuText N ToolsPlayerReport "Speler Rapport ..." 3 \
@@ -218,7 +209,6 @@ menuText N ToolsExpCurrentPGN "Partij in PGN-formaat exporteren..." 11 \
 menuText N ToolsExpCurrentHTML "Partij in HTML-formaat exporteren..." 11 \
   {Schrijf huidige partij naar HTML-bestand}
 menuText N ToolsExpCurrentHTMLJS "Exporteer Partij naar een HTML en JavaScript Bestand..." 15 {Schrijf de huidige partij naar een HTML en JavaScript bestand}  
-  {Schrijf huidige partij naar LaTex-bestand}
 menuText N ToolsExpFilter "Alle partijen in filter exporteren" 17 \
   {Exporteer alle geslecteerde partijen naar een bestand}
 menuText N ToolsExpFilterPGN "Filter in PGN-formaat exporteren..." 10 \
@@ -226,19 +216,24 @@ menuText N ToolsExpFilterPGN "Filter in PGN-formaat exporteren..." 10 \
 menuText N ToolsExpFilterHTML "Filter in HTML-formaat exporteren..." 10 \
   {Schrijf selectie naar HTML-bestand}
 menuText N ToolsExpFilterHTMLJS "Exporteer Filter naar HTML en JavaScript Bestand..." 17 {Schrijf alle gefilterde partijen naar een HTML en JavaScript bestand}  
-  {Schrijf selectie naar LaTex-bestand}
 menuText N ToolsImportOne "Een PGN partij importeren..." 4 \
   {Importeer PGN partij}
 menuText N ToolsImportFile "PGN database importeren..." 4 \
   {Importeer PGN bestand}
 menuText N ToolsStartEngine1 "Start engine 1" 0  {Start engine 1}
 menuText N ToolsStartEngine2 "Start engine 2" 0  {Start engine 2}
-# ====== TODO To be translated ======
-menuText N ToolsCaptureBoard "Capture Current Board..." 5  {Save the current board as an image.}
+menuText N ToolsCaptureBoard "Huidig ??bord vastleggen..." 5  {Sla het huidige bord op als afbeelding.}
+
+# Play menu
 menuText N Play "Speel" 0
-# ====== TODO To be translated ======
-menuText N CCResign "Geef op" 0 {Geef op (niet via eMail)}
+
+# --- Correspondence Chess
+menuText N CCResign "Geef op" 0 {Geef op (niet via e-mail)}
 menuText N CCClaimDraw "Eis Remise" 0 {Stuur de zet op en eis remise (niet via eMail)}
+
+# menu in cc window:
+
+#  B    GHiJKL    Q  TUV XYZ
 
 # Options menu:
 menuText N Options "Opties" 0
@@ -251,8 +246,7 @@ menuText N OptionsFonts "Lettertypes" 0 {Wijzig lettertype}
 menuText N OptionsFontsRegular "Standaard" 0 {Wijzig het standaard lettertype}
 menuText N OptionsFontsMenu "Menu" 0 {Wijzig het menu lettertype}
 menuText N OptionsFontsSmall "Klein" 0 {Wijzig het kleine lettertype}
-# ====== TODO To be translated ======
-menuText N OptionsFontsTiny "Tiny" 0 {Change the tiny font}
+menuText N OptionsFontsTiny "Klein" 0 {Verander het kleine lettertype}
 menuText N OptionsFontsFixed "Vaste grootte" 0 {Wijzig dit lettertype}
 menuText N OptionsGInfo "Partij Informatie" 0 {Parij-informatie opties}
 menuText N OptionsLanguage "Kies taal" 5 {Kies taal}
@@ -273,24 +267,20 @@ menuText N OptionsMovesCoord "Zet-ingave" 0 \
 menuText N OptionsMovesSuggest "Toon hint" 0 \
   {Schakel hints aan of uit}
 menuText N OptionsShowVarPopup "Toon het varianten venster" 0 {Toon al dan niet het varianten venster} 
-menuText N OptionsMovesSpace "Voeg spaties in na het nummer van de zet" 0 {Voeg spaties in na het nummer van de zet}  
-# ====== TODO To be translated ======
-menuText N OptionsMovesLichess "Lichess/ChessBase Format For Annotations" 0 {Use Lichess/ChessBase format for square markers and arrows}
-menuText E OptionsMovesSpace "Add spaces after move number" 0 {Add spaces after move number}   
+menuText N OptionsMovesSpace "Voeg spaties toe na het zetnummer" 0 {Voeg spaties toe na het zetnummer}
+menuText N OptionsMovesLichess "Lichess/ChessBase-formaat voor annotaties" 0 {Gebruik het Lichess/ChessBase-formaat voor vierkante markeringen en pijlen}
 menuText N OptionsMovesKey "Auto-aanvullen" 0 \
   {Aan/uitschakelen van toetsenbordzet auto-aanvullen}
 menuText N OptionsMovesShowVarArrows "Toon Pijlen voor Varianten" 0 {Zet aan/af pijlen om variantenzetten te tonen}
-# ====== TODO To be translated ======
-menuText N OptionsMovesShowEngineVariationArrows "Show Arrows for Engine Variations" 0 {Turn on/off arrows showing engine variation lines in multiPV mode}
-# ====== TODO To be translated ======
-menuText N OptionsMovesGlossOfDanger "Color Coded Gloss of Danger" 0 {Turn on/off color coded gloss of danger}
+menuText N OptionsMovesShowEngineVariationArrows "Toon pijlen voor motorvariaties" 0 {Aan/uit-pijlen die de motorvariatielijnen weergeven in de multiPV-modus}
+menuText N OptionsMovesGlossOfDanger "Kleurgecodeerde glans van gevaar" 0 {Schakel de kleurgecodeerde glans van gevaar in/uit}
+translate N OptionsMovesTreeDepth {Standaard boomvenster Verplaatsingsdiepte}
 menuText N OptionsNumbers "Getalformaat" 5 \
   {Kies de manier waarop getallen te zien zijn}
 menuText N OptionsTheme "Theme" 0 {Verander het uitzicht van de interface}
 menuText N OptionsWindows "Vensters" 0 {Venster opties}
 menuText N OptionsSounds "Geluiden" 2 {Configureer zet aankondigingsgeluiden} ;
-# ====== TODO To be translated ======
-menuText N OptionsResources "Resources..." 0 {Choose resource files and folders}
+menuText N OptionsResources "Bronnen..." 0 {Kies bronbestanden en -mappen}
 menuText N OptionsWindowsDock "Veranker de vensters" 0 {Veranker de vensters}
 menuText N OptionsWindowsSaveLayout "Opmaak opslaan" 0 {Opmaak opslaan}
 menuText N OptionsWindowsRestoreLayout "Opmaak herstellen" 0 {Opmaak herstellen}
@@ -306,10 +296,8 @@ menuText N OptionsRecent "Recente bestanden..." 0 \
   {Wijzig het aantal recent gebruikte bestanden in het Bestand menu}
 menuText N OptionsBooksDir "Boeken map" 0 {Stel de map met openingsboeken in}
 menuText N OptionsTacticsBasesDir "Databases map" 0 {Stel de map met de  taktiek (training) databases in}
-# ====== TODO To be translated ======
-menuText N OptionsPhotosDir "Photos directory" 0 {Sets the photos bases directory}
-# ====== TODO To be translated ======
-menuText N OptionsThemeDir "Theme(s) File:"  0 { Load a GUI theme package file }
+menuText N OptionsPhotosDir "Foto's map" 0 {Stelt de fotobasismap in}
+menuText N OptionsThemeDir "Thema(s) Bestand:"  0 {Laad een GUI-themapakketbestand}
 menuText N OptionsSave "Opties bewaren" 0 \
   "Bewaar alle instellingen in het bestand $::optionsFile"
 menuText N OptionsAutoSave "Automatisch bewaren opties tijdens afsluiten" 0 \
@@ -353,8 +341,7 @@ translate N Defaults {Standaard}
 translate N Delete {Wis}
 translate N Graph {Grafiek}
 translate N Help {Help}
-# ====== TODO To be translated ======
-translate N Hide {Hide}
+translate N Hide {Verbergen}
 translate N Import {Importeren}
 translate N Index {Index}
 translate N LoadGame {Partij laden}
@@ -408,8 +395,7 @@ translate N Month {Maand}
 translate N Months {Januari Februari Maart April Mei Juni Juli Augustus September October November December}
 translate N Days {Zon Maa Din Woe Don Vri Zat}
 translate N YearToToday {Een jaar geleden}
-# ====== TODO To be translated ======
-translate N YearToTodayTooltip {Set date from 1 year back to today}
+translate N YearToTodayTooltip {Stel de datum in van 1 jaar terug naar vandaag}
 translate N Result {Uitslag}
 translate N Round {Ronde}
 translate N Length {Lengte}
@@ -455,8 +441,7 @@ translate N PInfoMostBlack {Meest gespeelde opening als Zwart}
 translate N PInfoRating {Geschiedenis Elo Klassering}
 translate N PInfoBio {Biografie}
 translate N PInfoEditRatings {Bewerk elo rangschikking} ;
-# ====== TODO To be translated ======
-translate N PInfoEloFile {File}
+translate N PInfoEloFile {Bestand}
 
 # Tablebase information:
 translate N Draw {Remise}
@@ -464,13 +449,11 @@ translate N with {met}
 translate N only {alleen}
 translate N lose {verliezen}
 translate N loses {verliest}
-# ====== TODO To be translated ======
 
 # Tip of the day:
 translate N Tip {Tip}
 translate N TipAtStartup {Tip bij opstarten}
-# ====== TODO To be translated ======
-translate N TipConvertPGN {You can get better performance by converting PGN files}
+translate N TipConvertPGN {U kunt betere prestaties verkrijgen door PGN-bestanden te converteren}
 
 # Tree window menus:
 menuText N TreeFile "BoomDataBestand" 0
@@ -510,6 +493,7 @@ menuText N TreeOptFastAndSlowmode "Snelle en trage modus" 0 {Eerst snelle modus 
 menuText N TreeOptStartStop "Auto verversing" 0 {Zet automatische verversing van het boomvenster op/af}
 menuText N TreeOptLock "Vergrendelen" 0 {Vergrendelen/Ontgrendelen van de boom bij de huidige database}
 menuText N TreeOptTraining "Training" 0 {Aan/Uit zetten training modus}
+menuText N TreeOptDepth "Diepte verplaatsen" 0 {Aantal halve zetten dat in de boomstructuur moet worden weergegeven (1-4)}
 menuText N TreeOptAutosave "Autom.cache-data Bewaren" 4 \
   {Automatisch bewaren van het cache bestand bij sluiten boomvenster}
 menuText N TreeHelp "Help" 0
@@ -518,13 +502,14 @@ menuText N TreeHelpIndex "Index" 0
 translate N SaveCache {Cache Bewaren}
 translate N Training {Training}
 translate N LockTree {Boom Vergrendelen}
+translate N TreeDepth {Boomdiepte (halve zetten):}
 translate N TreeLocked {Vergrendeld}
 translate N TreeBest {Beste}
 translate N TreeBestGames {Boom Beste partijen}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate N TreeTitleRow \
-  {    Zet   ECO       Frekwentie    Score  GemElo Prest GemJaar %Remises} ;
+{Zet                           ECO    Frekwentie    Score  GemElo Prest GemJaar %Remises  %Winnennen} ;
 translate N TreeTotal {TOTAAL}
 translate N DoYouWantToSaveFirst {Wil u eerst de verandering bewaren?}
 translate N AddToMask {Toevoegen aan het Masker}
@@ -624,10 +609,8 @@ menuText N GraphOptionsWhite "Wit" 0
 menuText N GraphOptionsBlack "Zwart" 0
 menuText N GraphOptionsBoth "Beide" 1
 menuText N GraphOptionsPInfo "Speler informatie" 0
-# ====== TODO To be translated ======
-menuText N GraphOptionsEloFile "Elo from rating file" 0
-# ====== TODO To be translated ======
-menuText N GraphOptionsEloDB "Elo from database" 0
+menuText N GraphOptionsEloFile "Elo uit beoordelingsbestand" 0
+menuText N GraphOptionsEloDB "Elo uit de database" 0
 translate N GraphFilterTitle "Filtergrafiek: frequentie per 1000 partijen"
 translate N GraphAbsFilterTitle "Filtergrafiek: frequentie van de partijen"
 translate N ConfigureFilter {Configureer de X-as voor Jaar, Elo en Zetten}
@@ -656,7 +639,6 @@ translate N AnnotateBlack { Alleen voor zetten door Zwart}
 translate N AnnotateBlundersOnly {Als de partijzet een klaarblijkelijke blunder is}
 translate N AnnotateBlundersOnlyScoreChange {Blunder Analyse rapport, met scorewijziging van/naar: }
 translate N BlundersThreshold {Ondergrens}
-# TODO: Translate
 translate N ScoreAllMoves {Waardeer alle zetten}
 translate N LowPriority {Lage CPU prioriteit} ;
 translate N ClickHereToSeeMoves {Klik hier om de zetten te zien}
@@ -669,6 +651,8 @@ translate N Informant+= {Wit heeft een klein voordeel}
 translate N Informant+/- {Wit heeft een gematigd voordeel}
 translate N Informant+- {Wit heeft een beslissend voordeel}
 translate N Informant+-- {Deze partij kan als gewonnen beschouwd worden}
+
+# Book window
 translate N Book {Openingenboek}
 translate N OtherBookMoves {Boek van de tegenspeler}
 translate N OtherBookMovesTooltip {Zetten waarvoor de tegenspeler een antwoord heeft}
@@ -684,28 +668,17 @@ translate N EngineTime {Datum}
 translate N EngineNew {Nieuw}
 translate N EngineEdit {Bewerk}
 translate N EngineRequired {Velden in <b>vet</b> zijn vereist; de andere facultatief}
-# ====== TODO To be translated ======
-translate N EngineProtocol {Communication protocol}
-# ====== TODO To be translated ======
-translate N EngineNotation {Notation of the moves}
-# ====== TODO To be translated ======
-translate N EngineFlipEvaluation {Flip evaluation perspective}
-# ====== TODO To be translated ======
-translate N EngineShowLog {Show communication log}
-# ====== TODO To be translated ======
-translate N EngineNetworkd {Accept remote connections}
-# ====== TODO To be translated ======
-translate N EngineSelect {Select the current engine}
-# ====== TODO To be translated ======
-translate N EngineAddLocal {Add a local engine}
-# ====== TODO To be translated ======
-translate N EngineAddRemote {Add a remote engine}
-# ====== TODO To be translated ======
-translate N EngineReload {Reload the current engine}
-# ====== TODO To be translated ======
-translate N EngineClone {Create a copy of the current engine}
-# ====== TODO To be translated ======
-translate N EngineDelete {Delete the current engine}
+translate N EngineProtocol {Communicatieprotocol}
+translate N EngineNotation {Notatie van de zetten}
+translate N EngineFlipEvaluation {Evaluatieperspectief omdraaien}
+translate N EngineShowLog {Toon communicatielogboek}
+translate N EngineNetworkd {Accepteer externe verbindingen}
+translate N EngineSelect {Selecteer de huidige motor}
+translate N EngineAddLocal {Voeg een lokale engine toe}
+translate N EngineAddRemote {Voeg een externe motor toe}
+translate N EngineReload {Herlaad de huidige engine}
+translate N EngineClone {Maak een kopie van de huidige engine}
+translate N EngineDelete {Verwijder de huidige engine}
 
 # PGN window menus:
 menuText N PgnFile "Bestand" 0
@@ -728,11 +701,8 @@ menuText N PgnColorAnno "Annotaties..." 0
 menuText N PgnColorComments "Commentaar..." 0
 menuText N PgnColorVars "Varianten..." 0
 menuText N PgnColorBackground "Achtergrond kleur..." 0
- 
 menuText N PgnColorMain "Main line..." 0
- 
 menuText N PgnColorCurrent "Current move background..." 1
- 
 menuText N PgnHelp "Help" 0
 menuText N PgnHelpPgn "PGN help" 0
 menuText N PgnHelpIndex "Inhoud" 0
@@ -815,16 +785,11 @@ translate N BrilliancyFlag {Briljant}
 translate N BlunderFlag {Blunder}
 translate N UserFlag {Gebruiker}
 translate N PgnContains {PGN bevat tekst}
-# ====== TODO To be translated ======
-translate N PgnTag {Tag}
-# ====== TODO To be translated ======
-translate N TagContains {contains}
-# ====== TODO To be translated ======
+translate N PgnTag {Label}
+translate N TagContains {bevat}
 translate N Variant {Variant}
-# ====== TODO To be translated ======
 translate N Annotator {Annotator}
-# ====== TODO To be translated ======
-translate N Cmnts {Annotated games only}
+translate N Cmnts {Alleen geannoteerde spellen}
 
 # Game list window:
 translate N GlistNumber {Nummer}
@@ -851,10 +816,8 @@ translate N GlistComments {Commentaar}
 translate N GlistAnnos {Annotaties}
 translate N GlistStart {Start}
 translate N GlistGameNumber {Partij nummer}
-# ====== TODO To be translated ======
-translate N GlistAverageElo {Average Elo}
-# ====== TODO To be translated ======
-translate N GlistRating {Rating}
+translate N GlistAverageElo {Gemiddelde Elo}
+translate N GlistRating {Beoordeling}
 translate N GlistFindText {Tekst vinden}
 translate N GlistMoveField {Zet}
 translate N GlistEditField {Configuratie}
@@ -862,82 +825,52 @@ translate N GlistAddField {Voeg toe}
 translate N GlistDeleteField {Verwijder}
 translate N GlistWidth {Breedte}
 translate N GlistAlign {Uitlijnen}
-# ====== TODO To be translated ======
-translate N GlistAlignL {Align: left}
-# ====== TODO To be translated ======
-translate N GlistAlignR {Align: right}
-# ====== TODO To be translated ======
-translate N GlistAlignC {Align: center}
+translate N GlistAlignL {Uitlijnen: links}
+translate N GlistAlignR {Uitlijnen: rechts}
+translate N GlistAlignC {Uitlijnen: centreren}
 translate N GlistColor {Kleuren}
 translate N GlistSep {Separator}
-# ====== TODO To be translated ======
-translate N GlistCurrentSep {-- Current --}
-# ====== TODO To be translated ======
-translate N GlistNewSort {New}
-# ====== TODO To be translated ======
-translate N GlistAddToSort {Add}
-# ====== TODO To be translated ======
-translate N GsortSort {Sort...}
-# ====== TODO To be translated ======
-translate N GsortDate {Date}
-# ====== TODO To be translated ======
-translate N GsortYear {Year}
-# ====== TODO To be translated ======
-translate N GsortEvent {Event}
-# ====== TODO To be translated ======
-translate N GsortSite {Site}
-# ====== TODO To be translated ======
-translate N GsortRound {Round}
-# ====== TODO To be translated ======
-translate N GsortWhiteName {White Name}
-# ====== TODO To be translated ======
-translate N GsortBlackName {Black Name}
-# ====== TODO To be translated ======
+translate N GlistCurrentSep {-- Huidig ??--}
+translate N GlistNewSort {Nieuw}
+translate N GlistAddToSort {Toevoegen}
+
+# base sorting
+translate N GsortSort {Soort...}
+translate N GsortDate {Datum}
+translate N GsortYear {Jaar}
+translate N GsortEvent {Evenement}
+translate N GsortSite {Locatie}
+translate N GsortRound {Ronde}
+translate N GsortWhiteName {Witte naam}
+translate N GsortBlackName {Zwarte naam}
 translate N GsortECO {ECO}
-# ====== TODO To be translated ======
-translate N GsortResult {Result}
-# ====== TODO To be translated ======
-translate N GsortMoveCount {Move Count}
-# ====== TODO To be translated ======
-translate N GsortAverageElo {Average Elo}
-# ====== TODO To be translated ======
-translate N GsortCountry {Country}
-# ====== TODO To be translated ======
-translate N GsortDeleted {Deleted}
-# ====== TODO To be translated ======
-translate N GsortEventDate {Event Date}
-# ====== TODO To be translated ======
-translate N GsortWhiteElo {White Elo}
-# ====== TODO To be translated ======
-translate N GsortBlackElo {Black Elo}
-# ====== TODO To be translated ======
-translate N GsortComments {Comments}
-# ====== TODO To be translated ======
-translate N GsortVariations {Variations}
-# ====== TODO To be translated ======
-translate N GsortNAGs {NAGs}
-# ====== TODO To be translated ======
-translate N GsortAscending {Ascending}
-# ====== TODO To be translated ======
-translate N GsortDescending {Descending}
-# ====== TODO To be translated ======
-translate N GsortAdd {Add}
-# ====== TODO To be translated ======
-translate N GsortStore {Store}
-# ====== TODO To be translated ======
-translate N GsortLoad {Load}
- 
+translate N GsortResult {Resultaat}
+translate N GsortMoveCount {Aantal verplaatsingen}
+translate N GsortAverageElo {Gemiddelde Elo}
+translate N GsortCountry {Land}
+translate N GsortDeleted {Verwijderd}
+translate N GsortEventDate {Datum evenement}
+translate N GsortWhiteElo {Witte Elo}
+translate N GsortBlackElo {Zwarte Elo}
+translate N GsortComments {Opmerkingen}
+translate N GsortVariations {Variaties}
+translate N GsortNAGs {NAG's}
+translate N GsortAscending {Oplopend}
+translate N GsortDescending {Aflopend}
+translate N GsortAdd {Toevoegen}
+translate N GsortStore {Winkel}
+translate N GsortLoad {Laden}
+
+# menu shown with right mouse button down on game list.
 translate N GlistRemoveThisGameFromFilter  {Remove this game from Filter}
- 
 translate N GlistRemoveGameAndAboveFromFilter  {Remove game (and all above it) from Filter}
- 
 translate N GlistRemoveGameAndBelowFromFilter  {Remove game (and all below it) from Filter}
 translate N GlistDeleteGame {Maak de verwijdering van deze partij ongedaan} 
 translate N GlistDeleteAllGames {Verwijder alle partijen in de filter} 
 translate N GlistUndeleteAllGames {Maak de verwijdering van alle partijen in de filter ongedaan} 
 translate N GlistMergeGameInBase {Voeg Partij toe aan een andere database} 
 
-# Maintenance windows
+# Maintenance window:
 translate N DatabaseName {Naam database:}
 translate N TypeIcon {Type icoon:}
 translate N NumOfGames {Partijen:}
@@ -986,6 +919,7 @@ Dit kan lang duren op een grote database, afhankelijk van de geselecteerde funct
 
 Weet u zeker dat u de geselecteerde onderhoudsfuncties wilt uitvoeren?
 }
+# Twinchecker
 translate N TwinCheckUndelete {omwisselen; "u" maakt de verwijdering van beide ongedaan)}
 translate N TwinCheckprevPair {Vorige paar}
 translate N TwinChecknextPair {Volgende paar}
@@ -1007,6 +941,8 @@ translate N AllocRatingDescription "Dit commando zal het huidige spellingscontro
 translate N RatingOverride "Overschrijf bestaande, van nul verschillende, punten?"
 translate N AddRatings "Voeg Elo punten to aan:"
 translate N AddedRatings {Scid voegde $r Elo punten toe aan $g partijen.}
+
+#Bookmark editor
 translate N NewSubmenu "Nieuw submenu"
 
 # Comment editor:
@@ -1031,10 +967,8 @@ translate N WhiteClearAdvantage {Wit heeft duidelijk voordeel} ;
 translate N BlackClearAdvantage {Zwart heeft beslissend voordeel} ;
 translate N WhiteSlightAdvantage {Wit heeft licht voordeel} ;
 translate N BlackSlightAdvantage {Zwart heeft licht voordee} ;
-# ====== TODO To be translated ======
-translate N WhiteCrushing {White has a crushing advantage}
-# ====== TODO To be translated ======
-translate N BlackCrushing {Black has a crushing advantage}
+translate N WhiteCrushing {Wit heeft een verpletterend voordeel}
+translate N BlackCrushing {Zwart heeft een verpletterend voordeel}
 translate N Equality {Gelijk} ;
 translate N Unclear {Onduidelijk} ;
 translate N Diagram {Diagram} ;
@@ -1115,6 +1049,7 @@ translate N Castling {Rokade}
 translate N EnPassantFile {En Passant lijn}
 translate N ClearFen {FEN leegmaken}
 translate N PasteFen {FEN plakken}
+
 translate N SaveAndContinue {Bewaar en ga door}
 translate N DiscardChangesAndContinue {Laat veranderingen vallen\nen ga door}
 translate N GoBack {Ga terug}
@@ -1198,8 +1133,6 @@ translate N OprepBWins {Overwinningen zwart: }
 translate N OprepDraws {Remises: }
 translate N OprepWholeDB {hele database}
 translate N OprepShortest {Kortste winst}
-# translate N OprepShortWhite {Kortste witte overwinningen}
-# translate N OprepShortBlack {Kortste zwarte overwinningen}
 translate N OprepMovesThemes {Zetten en thema's}
 translate N OprepMoveOrders {Zetvolgorde om rapportstelling te bereiken}
 translate N OprepMoveOrdersOne \
@@ -1293,14 +1226,12 @@ translate N NameEditSelect {Partijen om te wijzigen}
 translate N NameEditReplace {Vervangen}
 translate N NameEditWith {met}
 translate N NameEditMatches {Gelijken: Druk Ctrl+1 tot Ctrl+9 om te selecteren}
-# ====== TODO To be translated ======
-translate N CheckGames {Check games}
-# ====== TODO To be translated ======
-translate N CheckGamesWhich {Check games}
-# ====== TODO To be translated ======
-translate N CheckAll {All games}
-# ====== TODO To be translated ======
-translate N CheckSelectFilterGames {Only games in filter}
+
+# Check games window:
+translate N CheckGames {Controleer spellen}
+translate N CheckGamesWhich {Controleer spellen}
+translate N CheckAll {Alle spellen}
+translate N CheckSelectFilterGames {Alleen games in filter}
 
 # Classify window:
 translate N Classify {Classificeren}
@@ -1346,10 +1277,9 @@ translate N ExportStripMarks {Wis vierkante haken/pijlen markeer codes uit de co
 # Goto game/move dialogs:
 translate N LoadGameNumber {Geef het nummer van de te laden partij:}
 translate N GotoMoveNumber {Ga naar zetnummer:}
-# ====== TODO To be translated ======
-translate N CopyAllGames {Copy all games to}
 
 # Copy games dialog:
+translate N CopyAllGames {Kopieer alle spellen naar}
 translate N CopyGames {Kopiëren partijen}
 translate N CopyConfirm {
  Wilt u echt kopieren
@@ -1388,6 +1318,7 @@ translate N SoundsFolder {Geluidsbestanden Map} ;
 translate N SoundsFolderHelp {De map moet de bestanden King.wav, a.wav, 1.wav, enz. bevatten} ;
 translate N SoundsAnnounceOptions {Zet Aankondigingen Opties} ;
 translate N SoundsAnnounceNew {Kondig nieuwe zetten aan als ze gedaan worden} ;
+translate N SoundsMoveSoundOnly {Alleen geluid verplaatsen (aankondigingen uitschakelen)}
 translate N SoundsAnnounceForward {Kondig  aan als één zet vooruit gedaan wordt} ;
 translate N SoundsAnnounceBack {Kondig  aan als één zet terug gedaan of genomen wordt} ;
 translate N SoundsSoundDisabled {Scid kon het snack-audiopakket niet vinden bij het opstarten;\nhet geluid is uitgeschakeld.}
@@ -1418,6 +1349,7 @@ translate N MyPlayerNamesDescription {Voeg hieronder een lijst met voorkeur spel
 Telkens een partij uit de lijst word geladen, zal het schaakbord worden gedraaid indien nodig om de partij vanuit die speler zijn perspektief te tonen.
 } ;
 
+#Coach
 translate N showblunderexists {toon dat er een blunder is}
 translate N showblundervalue {toon blunder waarde}
 translate N showscore {toon score}
@@ -1430,37 +1362,21 @@ translate N difficulty {moeilijkheid}
 translate N hard {erg moeilijk}
 translate N easy {gemakkelijk}
 translate N Playwith {Speel met}
- 
 translate N white {wit}
- 
 translate N black {zwart}
- 
 translate N both {beide}
- 
 translate N Play {Spel}
- 
 translate N Noblunder {Geen blunder}
- 
 translate N blunder {Blunder}
- 
 translate N Noinfo {-- Geen info --}
 translate N PhalanxOrTogaMissing {Phalanx of Toga werden niet gevonden}
- 
- 
- 
 translate N moveblunderthreshold {zet is blunder als het verlies groter is dan}
- 
 translate N limitanalysis {limiet engine analyse tijd}
- 
 translate N seconds {seconden}
- 
 translate N Abort {Breek af}
 translate N Resume {Herneem}
- 
 translate N OutOfOpening {Uit de opening}
- 
 translate N NotFollowedLine {Je volgde de variant niet}
- 
 translate N DoYouWantContinue {Wil je verder gaan?}
 translate N CoachIsWatching {De coach kijkt toe}
 translate N Ponder {Altijd denken}
@@ -1468,17 +1384,11 @@ translate N LimitELO {Beperk ELO sterkte}
 translate N DubiousMovePlayedTakeBack {Twijfelachtige zet gespeeld. Wil je terugnemen ?}
 translate N WeakMovePlayedTakeBack {Zwakke zet gespeeld, wil je terugnemen ?}
 translate N BadMovePlayedTakeBack {Slechte zet gespeeld, wil je terugnemen ?}
- 
 translate N Iresign {Ik geef op}
- 
 translate N yourmoveisnotgood {Je zet is niet goed}
- 
 translate N EndOfVar {Eind van variant}
- 
 translate N Openingtrainer {Opening trainer}
- 
 translate N DisplayCM {Toon kandidaat zetten}
- 
 translate N DisplayCMValue {Toon waarde kandidaat zetten}
 translate N DisplayOpeningStats {Toon statistieken}
 translate N ShowReport {Toon het rapport}
@@ -1486,24 +1396,15 @@ translate N NumberOfGoodMovesPlayed {gespeelde goede zetten}
 translate N NumberOfDubiousMovesPlayed {gespeelde twijfelachtige zetten}
 translate N NumberOfMovesPlayedNotInRepertoire {gespeelde zetten niet in het repertorium}
 translate N NumberOfTimesPositionEncountered {aantal keer dat deze stelling voorkwam}
- 
 translate N PlayerBestMove  {Laat alleen beste zetten toe}
- 
 translate N OpponentBestMove {Tegenstander speelt beste zetten}
- 
 translate N OnlyFlaggedLines {Enkel gemarkeerde varianten}
 translate N resetStats {Herstart de statistieken}
- 
 translate N Repertoiretrainingconfiguration {Repertorium training configuratie}
- 
 translate N Loadingrepertoire {Repertorium Laden}
- 
 translate N Movesloaded {Zetten geladen}
- 
 translate N Repertoirenotfound {Repertorium niet gevonden}
- 
 translate N Openfirstrepertoirewithtype {Open eerste repertorium database met ikoon/type aan rechterzijde gezet}
- 
 translate N Movenotinrepertoire {Zet niet in Repertorium}
 translate N PositionsInRepertoire {Stellingen in het repertorium}
 translate N PositionsNotPlayed {Niet gespeelde stellingen}
@@ -1511,50 +1412,29 @@ translate N PositionsPlayed {Gespeelde stellingen}
 translate N Success {Succes}
 translate N DubiousMoves {Twijfelachtige zetten}
 translate N OutOfRepertoire {Uit het repertorium}
-  
 translate N ConfigureTactics {Configureer takiek}
- 
 translate N ResetScores {Initialiseer scores}
- 
 translate N LoadingBase {Laad database}
- 
 translate N Tactics {Taktiek}
- 
 translate N ShowSolution {Toon oplossing}
 translate N NextExercise {Volgende oefening}
 translate N PrevExercise {Voorgaande oefening}
 translate N StopTraining {Stop training}
- 
 translate N Next {Volgende}
- 
 translate N ResettingScore {Initialiseer score}
- 
 translate N LoadingGame {Laad partij}
- 
 translate N MateFound {Mat gevonden}
- 
 translate N BestSolutionNotFound {Beste oplossing NIET gevonden!}
- 
 translate N MateNotFound {Mat NIET gevonden}
- 
 translate N ShorterMateExists {Korter mat bestaat}
- 
 translate N ScorePlayed {Score gespeeld}
- 
 translate N Expected {verwacht}
- 
 translate N ChooseTrainingBase {Kies training base}
- 
 translate N Thinking {Denkend}
- 
 translate N AnalyzeDone {Analyse gedaan}
- 
 translate N WinWonGame {Win gewonnen partij}
- 
 translate N Lines {Varianten}
- 
 translate N ConfigureUCIengine {Configureer UCI engine}
- 
 translate N SpecificOpening {Specifieke opening}
 translate N StartNewGame {Start nieuwe partij}
 translate N FixedLevel {Vast niveau}
@@ -1571,151 +1451,84 @@ translate N TimeMode {Tijd methode}
 translate N TimeBonus {Tiid + bonus}
 translate N TimeMin {min}
 translate N TimeSec {sec}
- 
 translate N AllExercisesDone {Alle oefeningen gedaan}
- 
 translate N MoveOutOfBook {Zet buiten boek}
- 
 translate N LastBookMove {Laatste zet boek}
- 
 translate N AnnotateSeveralGames {Becommentarieer verschillende partijen \n van huidig tot :}
- 
 translate N FindOpeningErrors {Vind openingsfouten}
 translate N MarkTacticalExercises {Markeer de tactische oefeningen}
- 
 translate N UseBook {Gebruik boek}
- 
 translate N MultiPV {Meerder varianten}
- 
 translate N Hash {Hash Geheugentabel}
- 
 translate N OwnBook {Gebruik engine boek}
- 
 translate N BookFile {Opening boek}
- 
 translate N AnnotateVariations {Becommentarieer varianten}
 translate N ShortAnnotations {Korte commentaren}
 translate N addAnnotatorTag {Voeg een commentaar label toe}
 translate N AddScoreToShortAnnotations {Voeg de score toe aan de korte commentaren}
- 
 translate N Export {Export}
- 
 translate N BookPartiallyLoaded {Boek gedeeltelijk geladen}
 translate N Calvar {Berekening van de varianten}
 translate N ConfigureCalvar {Configuratie}
- 
- 
+# Opening names used in tacgame.tcl
 translate N Reti {Reti}
- 
 translate N English {Engels}
- 
 translate N d4Nf6Miscellaneous {1.d4 Nf6 Verscheidene}
- 
 translate N Trompowsky {Trompowsky}
- 
 translate N Budapest {Boedapest}
- 
 translate N OldIndian {Oud Indisch}
- 
 translate N BenkoGambit {Benko Gambiet}
- 
 translate N ModernBenoni {Moderne Benoni}
- 
 translate N DutchDefence {Dutch Defence}
- 
 translate N Scandinavian {Scandinavian}
- 
 translate N AlekhineDefence {Alechin Verdediging}
- 
 translate N Pirc {Pirc}
- 
 translate N CaroKann {Caro-Kann}
- 
 translate N CaroKannAdvance {Caro-Kann Doorschuif}
- 
 translate N Sicilian {Siciliaans}
- 
 translate N SicilianAlapin {Siciliaans Alapin}
- 
 translate N SicilianClosed {Siciliaans Gesloten}
- 
 translate N SicilianRauzer {Siciliaans Rauzer}
- 
 translate N SicilianDragon {Siciliaans Draak}
- 
 translate N SicilianScheveningen {Siciliaans Scheveningen}
- 
 translate N SicilianNajdorf {Siciliaans Najdorf}
- 
 translate N OpenGame {Open Spel}
- 
 translate N Vienna {Weens}
- 
 translate N KingsGambit {Konings Gambiet}
- 
 translate N RussianGame {Russisch}
- 
 translate N ItalianTwoKnights {Italiaans/Tweepaardenspel}
- 
 translate N Spanish {Spaans}
- 
 translate N SpanishExchange {Spaans Ruil}
- 
 translate N SpanishOpen {Spaans Open}
- 
 translate N SpanishClosed {Spaans Gesloten}
- 
 translate N FrenchDefence {Frans}
- 
 translate N FrenchAdvance {Frans Doorschuif}
- 
 translate N FrenchTarrasch {Frans Tarrasch}
- 
 translate N FrenchWinawer {Frans Winawer}
- 
 translate N FrenchExchange {Frans Ruil}
- 
 translate N QueensPawn {Damepion}
- 
 translate N Slav {Slavisch}
- 
 translate N QGA {Aangenomen Damegambiet}
- 
 translate N QGD {Damegambiet}
- 
 translate N QGDExchange {Damegambiet Ruil}
- 
 translate N SemiSlav {Half-Slavisch}
- 
 translate N QGDwithBg5 {Damegambiet met Lg5}
- 
 translate N QGDOrthodox {Damegambiet Orthodox}
- 
 translate N Grunfeld {Grünfeld}
- 
 translate N GrunfeldExchange {Grünfeld Ruil}
- 
 translate N GrunfeldRussian {Grünfeld Russisch}
- 
 translate N Catalan {Catalaans}
- 
 translate N CatalanOpen {Catalaans Open}
- 
 translate N CatalanClosed {Catalaans Gesloten}
- 
 translate N QueensIndian {Dameindisch}
- 
 translate N NimzoIndian {Nimzo-Indisch}
- 
 translate N NimzoIndianClassical {Nimzo-Indisch Klassiek Dc2}
- 
 translate N NimzoIndianRubinstein {Nimzo-Indisch Rubinstein}
- 
 translate N KingsIndian {Koningsindisch}
- 
 translate N KingsIndianSamisch {Koningsindisch Sämisch}
-
 translate N KingsIndianMainLine {Koningsindisch Hoofdvariant}
+
+# FICS
 translate N ConfigureFics {Configureer FICS}
 translate N FICSGuest {Login als Gast}
 translate N FICSServerPort {Server poort}
@@ -1747,24 +1560,17 @@ translate N FICSSend {Zend}
 translate N FICSConnect {Verbind}
 translate N FICSdefaultuservars {Gebruik standaard waarden}
 translate N FICSObserveconfirm {Wil je de partij gadeslaan}
-# ====== TODO To be translated ======
-translate N FICSpremove {Enable premove}
-# ====== TODO To be translated ======
-translate N FICSObserve {Observe}
-# ====== TODO To be translated ======
-translate N FICSRatedGames {Rated Games}
-# ====== TODO To be translated ======
-translate N FICSUnratedGames {Unrated Games}
-# ====== TODO To be translated ======
-translate N FICSRated {Rated}
-# ====== TODO To be translated ======
-translate N FICSUnrated {Unrated}
-# ====== TODO To be translated ======
-translate N FICSRegisteredPlayer {Registered player only}
-# ====== TODO To be translated ======
-translate N FICSFreePlayer {Free player only}
-# ====== TODO To be translated ======
-translate N FICSNetError {Network error\nCan't connect to }
+translate N FICSpremove {Schakel premove in}
+translate N FICSObserve {Observeer}
+translate N FICSRatedGames {Beoordeelde spellen}
+translate N FICSUnratedGames {Niet-geclassificeerde spellen}
+translate N FICSRated {Beoordeeld}
+translate N FICSUnrated {Niet beoordeeld}
+translate N FICSRegisteredPlayer {Alleen geregistreerde spelers}
+translate N FICSFreePlayer {Alleen gratis speler}
+translate N FICSNetError {Netwerkfout\Kan geen verbinding maken met}
+
+# Game review
 translate N GameReview {Partij herbekijken}
 translate N GameReviewTimeExtended {Tijd overschreden}
 translate N GameReviewMargin {Fout marge}
@@ -1784,12 +1590,14 @@ translate N GameReviewNotEngineMoveButGoodMove {Geen engine zet maar ook goed}
 translate N GameReviewMoveNotGood {Deze zet is niet goed, de score is}
 translate N GameReviewMovesPlayedLike {Zetten gespeeld zoals}
 translate N GameReviewMovesPlayedEngine {Zetten gespeeld zoals de engine}
+
+# Correspondence Chess Dialogs:
 translate N CCDlgCGeneraloptions {Algemene Opties}
 translate N CCDlgLoginName  {Login Naam:}
 translate N CCDlgPassword   {Paswoord:}
-# ====== TODO To be translated ======
-translate N CCDlgShowPassword {Show password}
-# ====== TODO To be translated ======
+translate N CCDlgShowPassword {Wachtwoord tonen}
+
+# Connect Hardware dialogs
 translate N ExtHWConfigConnection {Configureer externe hardware}
 translate N ExtHWPort {Poort}
 translate N ExtHWEngineCmd {Engine commando}
@@ -1800,12 +1608,17 @@ translate N ExtHWNovag {Novag Citrine}
 translate N ExtHWInputEngine {Invoer Engine}
 translate N ExtHWNoBoard {Geen bord}
 translate N NovagReferee {Scheidsrechter}
+
+# Input Engine dialogs
 translate N IEConsole {Invoer Engine Console}
 translate N IESending {Zetten verzonden voor}
 translate N IESynchronise {Synchroniseer}
 translate N IERotate  {Roteer}
 translate N IEUnableToStart {De Input engine start niet:}
+
+# Calculation of Variations
 translate N DoneWithPosition {Klaar met deze stelling}
+
 translate N Board {Bord}
 translate N showGameInfo {Toon de partij informatie}
 translate N autoResizeBoard {Verander bord automatisch van grootte}
@@ -1814,94 +1627,60 @@ translate N DockBottom {Zend naar laatste plaats}
 translate N DockLeft {Zend naar links}
 translate N DockRight {Zend naar rechts}
 translate N Undock {Undock}
-# ====== TODO To be translated ======
-translate N AboutDatabase {About This Database}
+
+# Switcher window
+translate N AboutDatabase {Over deze databank}
 translate N ChangeIcon {Verander ikoon...}
-# ====== TODO To be translated ======
-translate N NewGameListWindow {New Game List Window}
-# ====== TODO To be translated ======
-translate N LoadatStartup {Load at startup}
-# ====== TODO To be translated ======
-translate N ShowHideDB {Show/Hide databases}
-# ====== TODO To be translated ======
-translate N ChangeFilter {Change filter}
-# ====== TODO To be translated ======
-translate N ChangeLayout {Load/Save/Change sorting criteria and column layout}
-# ====== TODO To be translated ======
-translate N ShowHideStatistic {Show/Hide statistics}
-# ====== TODO To be translated ======
-translate N BoardFilter {Show only games that matches the current board position}
-# ====== TODO To be translated ======
-translate N CopyGameTo {Copy Game to}
-# ====== TODO To be translated ======
-translate N FindBar {Find Bar}
-# ====== TODO To be translated ======
-translate N FindCurrentGame {Find current game}
-# ====== TODO To be translated ======
-translate N DeleteGame {Delete game}
-# ====== TODO To be translated ======
-translate N UndeleteGame {Undelete game}
-# ====== TODO To be translated ======
-translate N ResetSort {Reset sort}
-# ====== TODO To be translated ======
-translate N ConvertNullMove {Convert null moves to comments}
-# ====== TODO To be translated ======
-translate N SetupBoard {Setup Board}
-# ====== TODO To be translated ======
-translate N Rotate {Rotate}
-# ====== TODO To be translated ======
-translate N SwitchColors {Switch colors}
-# ====== TODO To be translated ======
-translate N FlipBoard {Flip Board}
-# ====== TODO To be translated ======
-translate N ImportPGN {Import PGN game}
-# ====== TODO To be translated ======
-translate N ImportingFiles {Importing PGN files in}
-# ====== TODO To be translated ======
-translate N ImportingFrom {Importing from}
-# ====== TODO To be translated ======
-translate N ImportingIn {Import games in}
-# ====== TODO To be translated ======
-translate N UseLastTag {Use last\ngame's tags}
-# ====== TODO To be translated ======
-translate N Random {Random}
-# ====== TODO To be translated ======
-translate N BackToMainline {Go back to mainline}
-# ====== TODO To be translated ======
-translate N LeaveVariant {Leave variant}
-# ====== TODO To be translated ======
-translate N Autoplay {Autoplay}
-# ====== TODO To be translated ======
-translate N ShowHideCoords {Show/Hide Coord.}
-# ====== TODO To be translated ======
-translate N ShowHideEvalBar {Show/Hide Evaluation Bar}
-# ====== TODO To be translated ======
-translate N ShowHideMaterial {Show/Hide Material}
-# ====== TODO To be translated ======
-translate N SelectMarker {Select Marker}
-# ====== TODO To be translated ======
-translate N FullScreen {Full Screen}
-# ====== TODO To be translated ======
-translate N FilterStatistic {Filter Statistics}
-# ====== TODO To be translated ======
-translate N MakeCorrections {Make Corrections}
-# ====== TODO To be translated ======
-translate N Surnames {Surnames}
-# ====== TODO To be translated ======
-translate N Ambiguous {Ambiguous}
+translate N NewGameListWindow {Nieuw spellijstvenster}
+translate N LoadatStartup {Laden bij opstarten}
+
+# Gamelist window
+translate N ShowHideDB {Databases tonen/verbergen}
+translate N ChangeFilter {Filter wijzigen}
+translate N ChangeLayout {Sorteercriteria en kolomindeling laden/opslaan/wijzigen}
+translate N ShowHideStatistic {Statistieken tonen/verbergen}
+translate N BoardFilter {Toon alleen partijen die overeenkomen met de huidige bordpositie}
+translate N CopyGameTo {Kopieer het spel naar}
+translate N FindBar {Zoek Bar}
+translate N FindCurrentGame {Zoek het huidige spel}
+translate N DeleteGame {Spel verwijderen}
+translate N UndeleteGame {Spel ongedaan maken}
+translate N ResetSort {Sortering opnieuw instellen}
+
+translate N ConvertNullMove {Converteer nulbewegingen naar opmerkingen}
+translate N SetupBoard {Opstellingsbord}
+translate N Rotate {Draaien}
+translate N SwitchColors {Wissel van kleur}
+translate N FlipBoard {Flipbord}
+translate N ImportPGN {PGN-spel importeren}
+translate N ImportingFiles {PGN-bestanden importeren in}
+translate N ImportingFrom {Importeren van}
+translate N ImportingIn {Games importeren}
+translate N UseLastTag {Gebruik de tags van de laatste\ngame}
+translate N Random {Willekeurig}
+translate N BackToMainline {Ga terug naar de hoofdlijn}
+translate N LeaveVariant {Variant verlaten}
+translate N Autoplay {Automatisch afspelen}
+translate N ShowHideCoords {Coördinatie tonen/verbergen.}
+translate N ShowHideEvalBar {Evaluatiebalk tonen/verbergen}
+translate N ShowHideMaterial {Materiaal tonen/verbergen}
+translate N SelectMarker {Selecteer Markering}
+translate N FullScreen {Volledig scherm}
+translate N FilterStatistic {Statistieken filteren}
+translate N MakeCorrections {Correcties aanbrengen}
+translate N Surnames {Achternamen}
+translate N Ambiguous {Ambigu}
+
+#Preferences Dialog
 translate N OptionsToolbar "Gereedschappenbalk"
-# ====== TODO To be translated ======
 translate N OptionsBoard "Bord"
-# ====== TODO To be translated ======
 translate N OptionsBoardSize "Grootte van bord"
 translate N OptionsBoardPieces "Bord Stukken Stijl"
-# ====== TODO To be translated ======
-translate N OptionsInternationalization "Internationalization"
-# ====== TODO To be translated ======
-translate N OptionsTablebaseDir "Selecteer tot 4 tabelbasismappen:"
-# ====== TODO To be translated ======
-translate N BestMoveArrow "Best move arrow"
-# ====== TODO To be translated ======
-translate N NewLocalEngine "+ New engine ..."
+translate N OptionsInternationalization "Internationalisering"
+translate N OptionsTablebaseDir "Selecteer tot 4 tabelbasiskaarten:"
+
+# Evaluation bar
+translate N BestMoveArrow "Beste zetpijl"
+translate N NewLocalEngine "+ Nieuwe motor ..."
 }
-# End of nederlan.tcl
+# end of english.tcl

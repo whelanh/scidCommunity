@@ -287,6 +287,7 @@ menuText A OptionsMovesKey "キーボード補完" 0 \
 menuText A OptionsMovesShowVarArrows "バリエーションの矢印を表示" 0 {バリエーションの動きを示す矢印のオン/オフを切り替えます}
 menuText A OptionsMovesShowEngineVariationArrows "エンジンのバリエーションを矢印で表示" 0 {マルチPVモードでエンジン変動ラインを表示する矢印をオン/オフにします}
 menuText A OptionsMovesGlossOfDanger "色分けされた危険の光沢" 0 {色分けされた危険の光沢をオン/オフにする}
+translate A OptionsMovesTreeDepth {デフォルトのツリーウィンドウの移動深さ}
 menuText A OptionsNumbers "数値の形式" 0 {数値形式を選択します}
 menuText A OptionsTheme "テーマ" 0 {インターフェースの外観を変更する}
 menuText A OptionsWindows "窓" 0 {ウィンドウのオプション}
@@ -500,6 +501,7 @@ menuText A TreeOptFastAndSlowmode "高速モードと低速モード" 0 {更新�
 menuText A TreeOptStartStop "自動更新" 0 {ツリーウィンドウの自動更新を切り替えます。}
 menuText A TreeOptLock "ロック" 0 {現在のデータベースに対してツリーをロック/ロック解除します。}
 menuText A TreeOptTraining "トレーニング" 0 {ツリートレーニングモードのオン/オフを切り替える}
+menuText A TreeOptDepth "移動深度" 0 {ツリーに表示するハーフムーブの数 (1 ～ 4)}
 menuText A TreeOptAutosave "キャッシュファイルの自動保存" 0 \
   {ツリーウィンドウを閉じるときにキャッシュファイルを自動保存する}
 menuText A TreeHelp "ヘルプ" 0
@@ -508,13 +510,14 @@ menuText A TreeHelpIndex "ヘルプインデックス" 0
 translate A SaveCache {キャッシュの保存}
 translate A Training {トレーニング}
 translate A LockTree {ロック}
+translate A TreeDepth {ツリーの深さ (半分の移動):}
 translate A TreeLocked {ロックされた}
 translate A TreeBest {最高}
 translate A TreeBestGames {ベストツリーゲーム}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate A TreeTitleRow \
-  {移動 ECO 頻度スコア AvElo Perf Av Year %Draws}
+{移動                            ECO 頻度スコア AvElo Perf Av Year %Draws     %勝つ}
 translate A TreeTotal {合計}
 translate A DoYouWantToSaveFirst {最初に保存しますか?}
 translate A AddToMask {マスクに追加}
@@ -1311,6 +1314,7 @@ translate A SoundsFolder {サウンドファイルフォルダー}
 translate A SoundsFolderHelp {フォルダーには、King.wav、a.wav、1.wav などのファイルが含まれている必要があります。}
 translate A SoundsAnnounceOptions {移動アナウンスのオプション}
 translate A SoundsAnnounceNew {新しい動きが行われたときに発表する}
+translate A SoundsMoveSoundOnly {音声のみを移動（アナウンスを無効にする）}
 translate A SoundsAnnounceForward {一手進むときに手を宣言}
 translate A SoundsAnnounceBack {撤回または一手戻すときにアナウンス}
 translate A SoundsSoundDisabled {Scid は起動時に Snack オーディオ パッケージを見つけることができませんでした。\nサウンドは無効になっています。}

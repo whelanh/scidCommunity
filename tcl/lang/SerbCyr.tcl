@@ -223,7 +223,6 @@ menuText J ToolsExpCurrentPGN "Извези игру у ПГН датотеку.
 menuText J ToolsExpCurrentHTML "Извези игру у ХТМЛ датотеку..." 15 \
   {Напишите тренутну игру у ХТМЛ датотеку}
 menuText J ToolsExpCurrentHTMLJS "Извезите игру у ХТМЛ и ЈаваСцрипт датотеку..." 15 {Напишите тренутну игру у ХТМЛ и ЈаваСцрипт датотеку}
-  {Напишите тренутну игру у ЛаТеКс датотеку}
 menuText J ToolsExpFilter "Извези све игре филтера" 1 \
   {Запишите све филтриране игре у текстуалну датотеку}
 menuText J ToolsExpFilterPGN "Извези филтер у ПГН датотеку..." 17 \
@@ -231,7 +230,6 @@ menuText J ToolsExpFilterPGN "Извези филтер у ПГН датотек
 menuText J ToolsExpFilterHTML "Извези филтер у ХТМЛ датотеку..." 17 \
   {Запишите све филтриране игре у ХТМЛ датотеку}
 menuText J ToolsExpFilterHTMLJS "Извези филтер у ХТМЛ и ЈаваСцрипт датотеку..." 17 {Запишите све филтриране игре у ХТМЛ и ЈаваСцрипт датотеку}
-  {Запишите све филтриране игре у ЛаТеКс датотеку}
 menuText J ToolsImportOne "Увези једну ПГН игру..." 0 \
   {Увезите игру из ПГН текста}
 menuText J ToolsImportFile "Увезите игре из ПГН датотека..." 7 {Увезите игре из ПГН датотека}
@@ -289,6 +287,7 @@ menuText J OptionsMovesKey "Завршетак тастатуре" 0 \
 menuText J OptionsMovesShowVarArrows "Прикажи стрелице за варијације" 0 {Укључите/искључите стрелице које показују потезе у варијантама}
 menuText J OptionsMovesShowEngineVariationArrows "Прикажи стрелице за варијације мотора" 0 {Укључите/искључите стрелице које показују линије варијације мотора у мултиПВ режиму}
 menuText J OptionsMovesGlossOfDanger "Сјај опасности у боји" 0 {Укључите/искључите сјај опасности у боји}
+translate J OptionsMovesTreeDepth {Подразумевана дубина померања прозора стабла}
 menuText J OptionsNumbers "Формат броја" 0 {Изаберите формат броја}
 menuText J OptionsTheme "Тема" 0 {Промените изглед интерфејса}
 menuText J OptionsWindows "Виндовс" 0 {Опције прозора}
@@ -502,6 +501,7 @@ menuText J TreeOptFastAndSlowmode "Брзи и спори режими" 0 {Бр�
 menuText J TreeOptStartStop "Аутоматско освежавање" 0 {Укључује аутоматско освежавање прозора стабла}
 menuText J TreeOptLock "Закључај" 0 {Закључајте/откључајте стабло на тренутну базу података}
 menuText J TreeOptTraining "Обука" 0 {Укључите/искључите режим тренинга стабла}
+menuText J TreeOptDepth "Дубина кретања" 0 {Број половичних потеза за приказ у стаблу (1-4)}
 menuText J TreeOptAutosave "Ауто-Саве Цацхе Филе" 0 \
   {Аутоматски сачувајте кеш датотеку када затворите прозор стабла}
 menuText J TreeHelp "Помоћ" 0
@@ -510,13 +510,14 @@ menuText J TreeHelpIndex "Индекс помоћи" 0
 translate J SaveCache {Сачувај кеш}
 translate J Training {Обука}
 translate J LockTree {Закључај}
+translate J TreeDepth {Дубина стабла (половине):}
 translate J TreeLocked {закључано}
 translate J TreeBest {Најбољи}
 translate J TreeBestGames {Најбоље игре са дрветом}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate J TreeTitleRow \
-  {Мове ЕЦО Фрекуенци Сцоре АвЕло Перф АвИеар %Draws}
+  {Мове                          ЕЦО       Фрекуенци     Сцоре АвЕло Перф АвИеар %Draws     %Вин}
 translate J TreeTotal {ТОТАЛ}
 translate J DoYouWantToSaveFirst {Да ли желите прво да сачувате}
 translate J AddToMask {Додајте у маску}
@@ -1313,6 +1314,7 @@ translate J SoundsFolder {Фасцикла са звучним датотека�
 translate J SoundsFolderHelp {Фасцикла треба да садржи датотеке Кинг.вав, а.вав, 1.вав итд}
 translate J SoundsAnnounceOptions {Премести опције најаве}
 translate J SoundsAnnounceNew {Најавите нове потезе како буду направљени}
+translate J SoundsMoveSoundOnly {Премести само звук (онемогући најаве)}
 translate J SoundsAnnounceForward {Најавите потезе када се крећете напред за један потез}
 translate J SoundsAnnounceBack {Најавите када повлачите или померате један потез уназад}
 translate J SoundsSoundDisabled {Сцид није могао да пронађе Снацк аудио пакет при покретању;\нЗвук је онемогућен.}

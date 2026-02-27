@@ -4,7 +4,7 @@
 <img width="256" height="256" alt="io github whelanh scidCommunity" src="https://github.com/user-attachments/assets/26277294-00cb-4660-964d-f88f4364e9c8" />
 </p>
 
-**scidCommunity** is a powerful chess analysis and database program. Originally derived from `Scid` (Shane's Chess Information Database), it has evolved into a distinct tool with numerous enhancements and a growing community of over 600 users.
+**scidCommunity** is a powerful chess analysis and database program. Originally derived from `Scid` (Shane's Chess Information Database), it has evolved into a distinct tool with numerous enhancements and a growing community of over 1,100 users.
 
 While it maintains compatibility with the original Scid database formats, **scidCommunity** focuses on modern features like integrations with Lichess and Chess.com, user-requested improvements, and a streamlined experience for analysis and database management. **scidCommunity** is free software and is released under the GPL licence.
 
@@ -15,10 +15,11 @@ While it maintains compatibility with the original Scid database formats, **scid
 2. The **Engine** windows have been enhanced with new depth and move time input windows for limiting an engine's calculations. If users choose to use Scid's **Save Options**, the inputs will be saved as the defaults for future use.
 3. A new **`Download TWIC Games`** option under the **`Tools`** menu that downloads' the most recent weekly games from [TWIC](https://theweekinchess.com/twic) and brings them into scidCommunity for filtering, merging with your database etc.
 4. New buttons in the **PGN Window**:
-      - *Table Base* looks up current position in the Lichess 7-man endgame table base
+      - *Table Base* looks up current position in the Lichess endgame table base
       - *chess.com* uploads the current game to Chess.com
       - *lichess.org* uploads the current game to Lichess.org
       - *chessdb Engine Tree* opens the current position in chessdb.cn's tree of engine evaluaitons
+      - *Lichess Eval* gets any engine evaluations stored on Lichess for the current position (see the Lichess API for more detail)
 5. New (optional) "Sand" and "cobalt2" themes.
 6. New light colored buttons added for use in the Engine and Analysis windows when using "dark" and "cobalt2" themes. 
 7. Implemented [user request](https://github.com/whelanh/scidCommunity/discussions/10) for better handling of long comments in the Game Info window.
@@ -33,6 +34,8 @@ While it maintains compatibility with the original Scid database formats, **scid
 16. Based on user request, adopted Lichess/ChessBase format for arrows and symbols as the default. User can revert to old Scid format in Options/Preferences/Moves if they want.
 17. Based on [user request](https://github.com/whelanh/scidCommunity/discussions/26), now down-arrow enters a variation in the PGN Window, up-arrow returns to main line.  Right-arrow moves forward in both main line and variation.
 18. Updated language translations in **Options/Language** and added Chinese, Turkish, Serbian Cyrillic, Japanese and Romanian translation files.
+19. Users can now see up to 4 half-move sequences in the **Tree Window**   The user's preferred Tree Window move depth can be saved under **Options/Preferences/Moves**
+20. Thanks to a well thought out and detailed [user proposal](https://github.com/whelanh/scidCommunity/discussions/32), developers can now access Scid databases directly in their code using scidCommunity's new headless API.  More documentation can be found in the /docs folder.
 
 *Users with suggestions for further enhancements are welcome to write something in the Discussion section or submit a pull request.  Enjoy!*
 
@@ -45,8 +48,9 @@ While it maintains compatibility with the original Scid database formats, **scid
 | <img width="400" alt="TWIC import" src="https://github.com/user-attachments/assets/16b9879a-1a68-4cd8-84a3-ff822310359b" /> | <img width="400" alt="Service buttons" src="https://github.com/user-attachments/assets/64a3c452-4ffb-4ff9-a39a-eac82b066118" /> |
 | **Table Base Lookup** | **Direct Game Download** |
 | <img width="400" alt="Table base" src="https://github.com/user-attachments/assets/b8becb46-a146-46cd-a8e5-1be7233151fd" /> | <img width="400" alt="Direct download" src="https://github.com/user-attachments/assets/1139c2ff-cfd1-4245-84de-fe0d6a3e30c6" /> |
-| **Lichess Broadcasts** | |
-| <img width="400" alt="Broadcasts" src="https://github.com/user-attachments/assets/4505355c-6247-45bb-af21-b0f64270fb24" /> | |
+| **Lichess Broadcasts** |  **Move Sequences In Tree Window** |
+| <img width="400" alt="Broadcasts" src="https://github.com/user-attachments/assets/4505355c-6247-45bb-af21-b0f64270fb24" /> | <img width="994" height="451" alt="Screenshot_20260203_170414" src="https://github.com/user-attachments/assets/9e16b955-5660-47dc-8cdd-a4684e1979b6" />
+ |
 
 
 
@@ -73,7 +77,12 @@ make install
 The `ScidCommunity.app` bundle contains the app and can be moved to `/Applications`. You can also create a symbolic link to the executable `ScidCommunity.app/Contents/scid/scid`.  However Apple security protocols may make this difficult.  You can build it from source using the commands listed above and then invoke it from the scidCommunity folder using the terminal command `./scidCommunity`   You may need to run `./build_app.sh` several times for Apple to download the needed tcl/tk libraries.
 
 ### Linux
-Requires: `tcl8.6-dev`, `tk8.6-dev` (or equivalent for your distribution). It will now compile against tk and tcl 9.0 libraries (e.g. Fedora Rawhide `tcl-devel` and `tk-devel`), but if both 8.6 and 9.0 are available, it defaults to 8.6. 
+Requires: `tcl8.6-dev`, `tk8.6-dev` (or equivalent for your distribution). It will now compile against tk and tcl 9.0 libraries (e.g. Fedora Rawhide `tcl-devel` and `tk-devel`), but if both 8.6 and 9.0 are available, it defaults to 8.6.
+
+**Sound Support**: scidCommunity uses a multi-backend audio system that attempts to find the best available player on your system.
+- **Linux**: Works with `pw-play` (PipeWire), `paplay` (PulseAudio), `aplay` (ALSA), or the `tcl-snack` package.
+- **Windows**: Uses `powershell` or the included `scidsnd.exe`.
+- **macOS**: Uses `afplay`.
 
 ```sh
 git clone https://github.com/whelanh/scidCommunity.git

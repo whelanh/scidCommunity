@@ -87,9 +87,25 @@ void scid_Exit(void *) {
  * \section Tests
  * Link to <a href="../gcov/index.html">code coverage</a>
  */
+#include "api_headless.h"
+
 int main(int argc, char *argv[]) {
+  bool headless = false;
+  for (int i = 1; i < argc; ++i) {
+    if (std::string(argv[i]) == "--headless") {
+      headless = true;
+      break;
+    }
+  }
+
   scratchGame = new Game;
   DBasePool::init();
+
+  if (headless) {
+    HeadlessMainLoop(argc, argv);
+    scid_Exit(nullptr);
+    return 0;
+  }
 
   return UI_Main(argc, argv, scid_Exit);
 }
@@ -1915,7 +1931,9 @@ int sc_filter_old(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
     UI_List ginfo(9);
     for (auto const &node : stats) {
       ginfo.clear();
-      ginfo.push_back(!node.moves.empty() && node.moves[0] ? node.moves[0].getSAN() : "[end]");
+      ginfo.push_back(!node.moves.empty() && node.moves[0]
+                          ? node.moves[0].getSAN()
+                          : "[end]");
       ginfo.push_back(node.freq[0]);
       ginfo.push_back(node.freq[RESULT_White]);
       ginfo.push_back(node.freq[RESULT_Draw]);
@@ -1923,7 +1941,9 @@ int sc_filter_old(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
       ginfo.push_back(node.avgElo());
       ginfo.push_back(node.eloPerformance());
       ginfo.push_back(node.eloCount);
-      ginfo.push_back(!node.moves.empty() && node.moves[0] ? (node.moves[0].getColor() == WHITE ? "W" : "B") : "?");
+      ginfo.push_back(!node.moves.empty() && node.moves[0]
+                          ? (node.moves[0].getColor() == WHITE ? "W" : "B")
+                          : "?");
       res.push_back(ginfo);
     }
     return UI_Result(ti, OK, res);
@@ -7634,11 +7654,13 @@ int sc_tree_stats(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
       (argc > 5) ? strUniqueMatch(argv[5], sortOptions) : SORT_FREQUENCY;
   if (sortMethod < 0)
     return UI_Result(ti, ERROR_BadArg, usage);
-  
+
   // Parse moveDepth parameter (default to 1 for backward compatibility)
   int moveDepth = (argc > 6) ? strGetInteger(argv[6]) : 1;
-  if (moveDepth < 1) moveDepth = 1;
-  if (moveDepth > 4) moveDepth = 4;
+  if (moveDepth < 1)
+    moveDepth = 1;
+  if (moveDepth > 4)
+    moveDepth = 4;
 
   Position searchPos = *(db->game->GetCurrentPos());
   auto tree = base->getTreeStat(filter, moveDepth);
@@ -7649,7 +7671,8 @@ int sc_tree_stats(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     if (ecoBook && !moves.empty()) {
       Position tempPos = searchPos;
       for (auto const &move : moves) {
-        if (!move) break;
+        if (!move)
+          break;
         simpleMoveT sm;
         if (move.isCastle()) {
           auto side = move.getTo() > move.getFrom() ? KING : QUEEN;
@@ -7665,7 +7688,7 @@ int sc_tree_stats(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     return eco;
   };
 
-  char tempTrans[256];  // Increased size for move sequences
+  char tempTrans[256]; // Increased size for move sequences
   // Format move sequence as "move1 move2 move3 ..."
   auto calc_san = [&](auto const &moves) {
     tempTrans[0] = '\0';
@@ -7675,7 +7698,8 @@ int sc_tree_stats(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     }
     std::string result;
     for (size_t i = 0; i < moves.size(); i++) {
-      if (i > 0) result += " ";
+      if (i > 0)
+        result += " ";
       if (moves[i]) {
         char moveStr[10];
         strcpy(moveStr, moves[i].getSAN().c_str());
@@ -7714,10 +7738,10 @@ int sc_tree_stats(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     }
   }
 
-  char temp[512];  // Increased size to accommodate longer move sequences
+  char temp[512]; // Increased size to accommodate longer move sequences
   std::string output;
-  const char *titleRow =
-      "    Move(s)                   ECO       Frequency    Score  AvElo Perf AvYear %Draws";
+  const char *titleRow = "    Move(s)                   ECO       Frequency    "
+                         "Score  AvElo Perf AvYear %Draws     %Win";
   titleRow = translate(ti, "TreeTitleRow", titleRow);
   output.append(titleRow);
 
@@ -7752,6 +7776,11 @@ int sc_tree_stats(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     }
     std::snprintf(temp, sizeof(temp), "  %3d%%", pctDraws);
     dest.append(temp);
+
+    const auto winPct = node.winPercentage();
+    std::snprintf(temp, sizeof(temp), "     %3d%c%02d%%", winPct / 100,
+                  decimalPointChar, winPct % 100);
+    dest.append(temp);
   };
 
   if (tree.size() > 0) {
@@ -7776,9 +7805,10 @@ int sc_tree_stats(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
       ecoStringT ecoStr;
       eco_ToExtendedString(eco, ecoStr);
       auto freq = long(1000ll * node.freq[0] / totals.freq[0]);
-      // Adjust column width for move sequences: use %-25s for moves to handle longer sequences
-      std::snprintf(temp, sizeof(temp), "\n%2u: %-25s %-5s %7u:%3ld%c%1ld%%", ++count,
-                    hideMoves ? "---" : tempTrans,
+      // Adjust column width for move sequences: use %-25s for moves to handle
+      // longer sequences
+      std::snprintf(temp, sizeof(temp), "\n%2u: %-25s %-5s %7u:%3ld%c%1ld%%",
+                    ++count, hideMoves ? "---" : tempTrans,
                     hideMoves ? "" : ecoStr, node.freq[0], freq / 10,
                     decimalPointChar, freq % 10);
       output.append(temp);
@@ -7787,10 +7817,10 @@ int sc_tree_stats(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
 
     // Print a totals line as well, if there are any moves in the tree:
     const char *totalString = translate(ti, "TreeTotal:", "TOTAL:");
-    output.append(
-        "\n_______________________________________________________________________________________\n");
-    std::snprintf(temp, sizeof(temp), "%-32s    %7u:100%c0%%", totalString, totals.freq[0],
-                  decimalPointChar);
+    output.append("\n__________________________________________________________"
+                  "________________________________________\n");
+    std::snprintf(temp, sizeof(temp), "%-32s    %7u:100%c0%%", totalString,
+                  totals.freq[0], decimalPointChar);
     output.append(temp);
     format_output(totals, output);
     output.append("\n");

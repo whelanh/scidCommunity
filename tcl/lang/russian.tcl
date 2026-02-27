@@ -53,15 +53,9 @@ menuText R FileReadOnly "Только для чтения..." 0 \
   {Трактовать текущую базу данных как "только для чтения", предотвращая изменения}
 menuText R FileSwitch "Переключить базу данных" 6 \
   {Переключить на другую открытую базу данных}
-# ====== TODO To be translated ======
-menuText R FileOpenLichessTournament "Открытый турнир по шахматам" 0 {Загрузите и откройте прямые трансляции игр турнира Lichess.}
-
-# ====== TODO To be translated ======
+menuText R FileOpenLichessTournament "Открытый турнир по шахматам" 0 {Добавим и проведем прямую трансляцию игры турнира Lichess.}
 menuText R FileImportLichess "Импортировать мой Lichess" 0 {Импортируйте игры из своей учетной записи Lichess.}
-
-# ====== TODO To be translated ======
-menuText R FileImportChessCom "Импортировать мой сайт Chess.com" 0 {Импортируйте партии из своей учетной записи на Chess.com.}
-
+menuText R FileImportChessCom "Импортировать мой сайт Chess.com" 0 {Импортируйте участников из своей учетной записи на Chess.com.}
 menuText R FileExit "Выход" 0 {Выход из Scid}
 menuText R FileMaintFixBase "Исправить повреждённую базу" 0 {Попытаться исправить повреждённую базу}
 
@@ -152,15 +146,11 @@ menuText R WindowsStats "Окно статистики" 2 \
 menuText R WindowsTree "Окно дерева" 10 {Открыть/закрыть окно дерева}
 menuText R WindowsBook "Окно книги" 0 {Открыть/закрыть окно книги}
 menuText R WindowsCorrChess "Окно переписки" 0 {Открыть/закрыть окно переписки}
-# ====== TODO To be translated ======
-menuText R WindowsGraph "График анализа" 0 {Откройте окно графика со временем ходов и оценками.}
-
+menuText R WindowsGraph "График анализа" 0 {Откройте окно графики со временем ходов и дополнительных возможностей.}
 
 # Tools menu:
 menuText R Tools "Инструменты" 2
-# ====== TODO To be translated ======
-menuText R ToolsConfigureEngines "Настройка двигателей" 10 {Управление конфигурацией двигателей}
-
+menuText R ToolsConfigureEngines "Настройка движений" 10 {Управление конфигурацией механизмов}
 menuText R ToolsAnalysis "Аналитический движок №1..." 0 \
   {Запустить/остановить первый аналитический шахматный движок}
 menuText R ToolsAnalysis2 "Аналитический движок №2..." 22 \
@@ -216,14 +206,12 @@ menuText R ToolsStartEngine1 "Запустить движок 1" 0  {Запус�
 menuText R ToolsStartEngine2 "Запустить движок 2" 0  {Запускает движок 2}
 menuText R ToolsCaptureBoard "Фиксировать текущую позицию..." 0  {Сохранить текущую позицию как изображение.}
 
-# Play menue
+# Play menu
 menuText R Play "Играть" 1
 
 # --- Correspondence Chess
-
 menuText R CCResign "Сдаться" 0 {Сдаться (не через электронную почту)}
 menuText R CCClaimDraw "Требовать ничью" 0 {Послать ход и потребовать ничью (не через электронную почту)}
-
 
 # menu in cc window:
 
@@ -250,7 +238,6 @@ menuText R OptionsMovesHighlightLastMoveDisplay "Показать Поле" 0 {�
 menuText R OptionsMovesHighlightLastMoveWidth "Толщина" 0 {Толщина линии}
 menuText R OptionsMovesHighlightLastMoveColor "Цвет" 0 {Цвет линии}
 menuText R OptionsMovesHighlightLastMoveArrow "Показать стрелку" 0 {Включить стрелки с подсветкой}
-# ====== TODO To be translated ======
 menuText R OptionsMovesHighlightLastMoveNag "Показать символы оценки" 0
 menuText R OptionsMoves "Ходы" 0 {Установки для ходов}
 menuText R OptionsMovesAnimate "Время анимации" 1 \
@@ -263,16 +250,13 @@ menuText R OptionsMovesSuggest "Показать рекомендуемые хо
   {Включить/выключить советуемые ходы}
 menuText R OptionsShowVarPopup "Показать окно вариантов" 0 {Включает/выключает отображение окна вариантов}
 menuText R OptionsMovesSpace "Добавлять пробелы после номера хода" 0 {Добавлять пробелы после номера хода}
-# ====== TODO To be translated ======
-menuText R OptionsMovesLichess "Формат Lichess/ChessBase для аннотаций" 0 {Используйте формат Lichess/ChessBase для квадратных маркеров и стрелок.}
-
+menuText R OptionsMovesLichess "Формат Lichess/ChessBase для аннотаций" 0 {Используйте форму Lichess/ChessBase для квадратных маркеров и стрел.}
 menuText R OptionsMovesKey "Клавиатурное завершение" 0 \
   {Включить/выключить автозавершение клавиатурных ходов}
 menuText R OptionsMovesShowVarArrows "Показывать стрелки в вариантах" 0 {Включить/выключить отображение стрелок ходов в вариантах}
-# ====== TODO To be translated ======
-menuText R OptionsMovesShowEngineVariationArrows "Показывать стрелки для вариантов двигателя" 0 {Стрелки включения/выключения, показывающие линии изменения двигателя в режиме multiPV}
-
+menuText R OptionsMovesShowEngineVariationArrows "Показывать направление для вариантов двигателя" 0 {Стрелки включения/выключения, показывающие линии изменения двигателя в режиме multiPV}
 menuText R OptionsMovesGlossOfDanger "Подсветка угроз" 0 {Вкл./выкл. подсветку угроз}
+translate R OptionsMovesTreeDepth {Глубина перемещения окна дерева по умолчанию}
 menuText R OptionsNumbers "Числовой формат" 0 {Выбрать числовой формат}
 menuText R OptionsTheme "Темы" 0 {Смена внешнего вида интерфейса}
 menuText R OptionsWindows "Окна" 0 {Установки окон}
@@ -335,9 +319,7 @@ translate R Defaults {По-умолчанию}
 translate R Delete {Удалить}
 translate R Graph {График}
 translate R Help {Помощь}
-# ====== TODO To be translated ======
-translate R Hide {Скрывать}
-
+translate R Hide {закрытие}
 translate R Import {Импорт}
 translate R Index {Индекс}
 translate R LoadGame {Загрузка партии}
@@ -449,9 +431,7 @@ translate R loses {проиграли}
 # Tip of the day:
 translate R Tip {Совет}
 translate R TipAtStartup {Совет при загрузке}
-# ====== TODO To be translated ======
-translate R TipConvertPGN {Вы можете повысить производительность, конвертировав файлы PGN.}
-
+translate R TipConvertPGN {Вы можете повысить производительность, конвертируя файлы PGN.}
 
 # Tree window menus:
 menuText R TreeFile "Файл" 0
@@ -490,6 +470,7 @@ menuText R TreeOptFastAndSlowmode "Быстрый и медленный режи
 menuText R TreeOptStartStop "Автообновление" 0 {Переключает автообновление в окне дерева}
 menuText R TreeOptLock "Блокировать" 0 {(Раз)блокировать дерево для текущей базы}
 menuText R TreeOptTraining "Тренировка" 0 {Включить/выключить режим тренировки}
+menuText R TreeOptDepth "Глубина перемещения" 0 {Количество полуходов для отображения в дереве (1-4)}
 menuText R TreeOptAutosave "Автосохранение файла кеша" 0 \
   {Автосохранение файла кеша, когда закрывается окно дерева}
 menuText R TreeHelp "Помощь" 0
@@ -498,13 +479,14 @@ menuText R TreeHelpIndex "Индекс помощи" 0
 translate R SaveCache {Сохранить кеш}
 translate R Training {Тренировка}
 translate R LockTree {Блокировка}
+translate R TreeDepth {Глубина дерева (половина хода):}
 translate R TreeLocked {Заблокировано}
 translate R TreeBest {Лучший}
 translate R TreeBestGames {Дерево лучших партий}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate R TreeTitleRow \
-  {    Ход    ECO       Частота     Счёт   СрЭло Прзв СрГод  %ничьих}
+{Ход                           ECO       Частота     Счёт   СрЭло Прзв СрГод  %ничьих  %Победить}
 translate R TreeTotal {ИТОГ}
 translate R DoYouWantToSaveFirst {Вы хотите сохранить первым}
 translate R AddToMask {Добавить в маску}
@@ -663,39 +645,17 @@ translate R EngineTime {Дата}
 translate R EngineNew {Новый}
 translate R EngineEdit {Редактор}
 translate R EngineRequired {Поля, отмеченные жирным шрифтом, заполнять обязательно, остальные - по желанию}
-# ====== TODO To be translated ======
 translate R EngineProtocol {Протокол связи}
-
-# ====== TODO To be translated ======
 translate R EngineNotation {Обозначения ходов}
-
-# ====== TODO To be translated ======
-translate R EngineFlipEvaluation {Перевернуть перспективу оценки}
-
-# ====== TODO To be translated ======
+translate R EngineFlipEvaluation {Перевернуть оценку роста}
 translate R EngineShowLog {Показать журнал связи}
-
-# ====== TODO To be translated ======
 translate R EngineNetworkd {Принимать удаленные подключения}
-
-# ====== TODO To be translated ======
-translate R EngineSelect {Выберите текущий движок}
-
-# ====== TODO To be translated ======
+translate R EngineSelect {Выберите настоящий движок}
 translate R EngineAddLocal {Добавить локальный движок}
-
-# ====== TODO To be translated ======
 translate R EngineAddRemote {Добавить удаленный двигатель}
-
-# ====== TODO To be translated ======
 translate R EngineReload {Перезагрузить текущий движок}
-
-# ====== TODO To be translated ======
-translate R EngineClone {Создать копию текущего движка}
-
-# ====== TODO To be translated ======
+translate R EngineClone {Создать действующую движку}
 translate R EngineDelete {Удалить текущий движок}
-
 
 # PGN window menus:
 menuText R PgnFile "Файл" 0
@@ -802,15 +762,9 @@ translate R BrilliancyFlag {Великолепно}
 translate R BlunderFlag {Ошибка}
 translate R UserFlag {Пользователь}
 translate R PgnContains {Текст PGN}
-# ====== TODO To be translated ======
 translate R PgnTag {Ярлык}
-
-# ====== TODO To be translated ======
 translate R TagContains {содержит}
-
-# ====== TODO To be translated ======
 translate R Variant {Вариант}
-
 translate R Annotator {Комментатор}
 translate R Cmnts {Только комментированные партии}
 
@@ -856,7 +810,6 @@ translate R GlistSep {Разделитель}
 translate R GlistCurrentSep {-- Текущий --}
 translate R GlistNewSort {Новый}
 translate R GlistAddToSort {Добавить}
-
 
 # base sorting
 translate R GsortSort {Сортировка...}
@@ -991,12 +944,8 @@ translate R WhiteClearAdvantage {Белые имеют чистое преиму
 translate R BlackClearAdvantage {Чёрное имеют чистое преимущество}
 translate R WhiteSlightAdvantage {Белые имеют малое преимущество}
 translate R BlackSlightAdvantage {Чёрные имеют малое преимущество}
-# ====== TODO To be translated ======
-translate R WhiteCrushing {У белых сокрушительное преимущество}
-
-# ====== TODO To be translated ======
+translate R WhiteCrushing {У белого сокрушительное преимущество}
 translate R BlackCrushing {У черных сокрушительное преимущество}
-
 translate R Equality {Равенство}
 translate R Unclear {Непонятно}
 translate R Diagram {Диаграмма}
@@ -1305,11 +1254,9 @@ translate R ExportStripMarks {Удалить маркированные коды
 # Goto game/move dialogs:
 translate R LoadGameNumber {Введите номер партии для загрузки:}
 translate R GotoMoveNumber {Перейти к ходу номер:}
-# ====== TODO To be translated ======
-translate R CopyAllGames {Скопируйте все игры в}
-
 
 # Copy games dialog:
+translate R CopyAllGames {Скопируйте все игры в}
 translate R CopyGames {Скопировать партии}
 translate R CopyConfirm {
  Вы действительно желаете скопировать
@@ -1348,6 +1295,7 @@ translate R SoundsFolder {Директория звуковых файлов}
 translate R SoundsFolderHelp {Каталог должен содержать файлы King.wav, a.wav, 1.wav и т. п.}
 translate R SoundsAnnounceOptions {Опции уведомления о ходе}
 translate R SoundsAnnounceNew {Уведомлять о новых ходах, когда они сделаны}
+translate R SoundsMoveSoundOnly {Перемещать только звук (отключить объявления)}
 translate R SoundsAnnounceForward {Уведомлять о ходе, когда сделан один ход вперёд}
 translate R SoundsAnnounceBack {Уведомлять о сокращении или отмене одного хода}
 translate R SoundsSoundDisabled {Scid не смог найти аудио пакет Snack при запуске; \nSound отключен.}
@@ -1592,30 +1540,14 @@ translate R FICSConnect {Соединение}
 translate R FICSdefaultuservars {Использовать переменные по-умолчанию}
 translate R FICSObserveconfirm {Вы хотите наблюдать за партией?}
 translate R FICSpremove {Разрешить предварительный ход}
-# ====== TODO To be translated ======
 translate R FICSObserve {Наблюдать}
-
-# ====== TODO To be translated ======
 translate R FICSRatedGames {Рейтинговые игры}
-
-# ====== TODO To be translated ======
 translate R FICSUnratedGames {Игры без рейтинга}
-
-# ====== TODO To be translated ======
 translate R FICSRated {Рейтинг}
-
-# ====== TODO To be translated ======
 translate R FICSUnrated {Без рейтинга}
-
-# ====== TODO To be translated ======
 translate R FICSRegisteredPlayer {Только зарегистрированный игрок}
-
-# ====== TODO To be translated ======
 translate R FICSFreePlayer {Только бесплатный игрок}
-
-# ====== TODO To be translated ======
 translate R FICSNetError {Ошибка сети\Невозможно подключиться к}
-
 
 # Game review
 translate R GameReview {Обзор партии}
@@ -1640,18 +1572,9 @@ translate R GameReviewMovesPlayedEngine {Ходы сделаны как у дв�
 
 # Correspondence Chess Dialogs:
 translate R CCDlgCGeneraloptions {Основные настройки}
-
-
-
-
-
-
 translate R CCDlgLoginName  {Логин:}
 translate R CCDlgPassword   {Пароль:}
 translate R CCDlgShowPassword {Показать пароль}
-
-
-
 
 # Connect Hardware dialogs
 translate R ExtHWConfigConnection {Настройка внешнего оборудования}
@@ -1672,7 +1595,6 @@ translate R IESynchronise {Синхронизировать}
 translate R IERotate  {Вращать}
 translate R IEUnableToStart {Невозможно запустить входной движок:}
 
-
 # Calculation of Variations
 translate R DoneWithPosition {Закончено с позицией}
 
@@ -1684,14 +1606,14 @@ translate R DockBottom {Двигаться вниз}
 translate R DockLeft {Двигаться влево}
 translate R DockRight {Двигаться вправо}
 translate R Undock {Расстыковать}
-# ====== TODO To be translated ======
-translate R AboutDatabase {Об этой базе данных}
-
 
 # Switcher window
+translate R AboutDatabase {Об этой базе данных}
 translate R ChangeIcon {Сменить иконку...}
 translate R NewGameListWindow {Новое окно списка партий}
 translate R LoadatStartup {Загружать при запуске программы}
+
+# Gamelist window
 translate R ShowHideDB {Показать базы партий}
 translate R ChangeFilter {Изменить фильтр}
 translate R ChangeLayout {Загрузить/Сохранить/Изменить сортировку и расположение столбцов}
@@ -1703,6 +1625,7 @@ translate R FindCurrentGame {Найти текущую игру}
 translate R DeleteGame {Удалить игру}
 translate R UndeleteGame {Отменить удаление игры}
 translate R ResetSort {Сбросить сортировку}
+
 translate R ConvertNullMove {Преобразовать пустые ходы в комментарии}
 translate R SetupBoard {Настроить доску}
 translate R Rotate {Повернуть}
@@ -1718,29 +1641,25 @@ translate R BackToMainline {Вернуться к основной линии}
 translate R LeaveVariant {Покинуть вариант}
 translate R Autoplay {Автоходы}
 translate R ShowHideCoords {Показать координаты}
-# ====== TODO To be translated ======
-translate R ShowHideEvalBar {Показать/скрыть панель оценки}
-
+translate R ShowHideEvalBar {Показать/скрыть панель оценок}
 translate R ShowHideMaterial {Показать материал}
-# ====== TODO To be translated ======
 translate R SelectMarker {Выберите маркер}
-
 translate R FullScreen {На весь экран}
 translate R FilterStatistic {Статистика фильтра}
 translate R MakeCorrections {Внести исправления}
 translate R Surnames {Отчества}
 translate R Ambiguous {Неясный}
+
+#Preferences Dialog
 translate R OptionsToolbar "Инструментальная панель"
 translate R OptionsBoard "Шахматная доска"
 translate R OptionsBoardSize "Размер доски"
 translate R OptionsBoardPieces "Стиль фигур"
 translate R OptionsInternationalization "Локализация"
 translate R OptionsTablebaseDir "Выберите до 4 директорий с базами таблиц:"
-# ====== TODO To be translated ======
+
+# Evaluation bar
 translate R BestMoveArrow "Лучший ход стрелка"
-
-# ====== TODO To be translated ======
 translate R NewLocalEngine "+ Новый двигатель..."
-
 }
-# end of russian.tcl
+# end of english.tcl

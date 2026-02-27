@@ -281,6 +281,7 @@ menuText G OptionsMovesKey "Ολοκλήρωση πληκτρολογίου" 0 \
 menuText G OptionsMovesShowVarArrows "Εμφάνιση βέλους για βαριάντα" 0 {Ενεργοποίηση/απενεργοποίηση του βέλους που δείχνει τις κινήσεις των βαριαντών}
 menuText G OptionsMovesShowEngineVariationArrows "Εμφάνιση βελών για παραλλαγές κινητήρα" 0 {Ενεργοποιήστε/απενεργοποιήστε τα βέλη που δείχνουν γραμμές μεταβολής κινητήρα σε λειτουργία πολλαπλών φωτοβολταϊκών}
 menuText G OptionsMovesGlossOfDanger "Χρωματική κωδικοποίηση Gloss of Danger" 0 {Ενεργοποιήστε/απενεργοποιήστε τη χρωματική κωδικοποίηση gloss of risk}
+translate G OptionsMovesTreeDepth {Προεπιλεγμένο Βάθος μετακίνησης παραθύρου δέντρου}
 menuText G OptionsNumbers "Μορφή αριθμών" 0 {Επιλέξτε τη μορφή των αριθμών}
 menuText G OptionsTheme "Θέμα" 0 {Αλλάξτε την όψη του προγράμματος}
 menuText G OptionsWindows "Παράθυρα" 0 {Επιλογές παραθύρων}
@@ -494,6 +495,7 @@ menuText G TreeOptFastAndSlowmode "Αργή και γρήγορη λειτουρ
 menuText G TreeOptStartStop "Αυτόματη ανανέωση" 0 {Εναλλάσει την αυτόματη ανανέωση του παραθύρου του δένδρου}
 menuText G TreeOptLock "Lock" 0 {Lock/unlock the tree to the current database}
 menuText G TreeOptTraining "Προπόνηση" 0 {Ενεργοποίηση/απενεργοποίηση της λειτουργίας εκπαίδευσης}
+menuText G TreeOptDepth "Βάθος μετακίνησης" 0 {Αριθμός μισών κινήσεων προς εμφάνιση στο δέντρο (1-4)}
 menuText G TreeOptAutosave "Αυτόματη αποθήκευση του αρχείου προσωρινής μνήμης" 0 \
   {Αποθηκεύει αυτόματα το αρχείο προσωρινής μνήμης όταν κλείσετε το παράθυρο δένδρου}
 menuText G TreeHelp "Βοήθεια" 0
@@ -502,13 +504,14 @@ menuText G TreeHelpIndex "Κατάλογος βοήθειας" 0
 translate G SaveCache {Αποθήκευση προσωρινής μνήμης Cache}
 translate G Training {Προπόνηση}
 translate G LockTree {Κλείδωμα}
+translate G TreeDepth {Βάθος δέντρου (μισές κινήσεις):}
 translate G TreeLocked {κλειδωμένο}
 translate G TreeBest {Καλύτερο}
 translate G TreeBestGames {Οι καλύτερες παρτίδες του δένδρου}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate G TreeTitleRow \
-  {    Move   ECO       Frequency    Score  AvElo Perf AvYear %Draws}
+{Move                          ECO       Frequency    Score  AvElo Perf AvYear %Draws     %Νίκη}
 translate G TreeTotal {ΣΥΝΟΛΟ}
 translate G DoYouWantToSaveFirst {Θέλετε να αποθηκεύσετε πρώτα;}
 translate G AddToMask {Προσθήκη στην μάσκα}
@@ -1317,6 +1320,7 @@ translate G SoundsFolder {Κατάλογος αρχείων ήχου}
 translate G SoundsFolderHelp {Ο κατάλογος πρέπει να περιέχει τα αρχεία King.wav, a.wav, 1.wav, κλπ.}
 translate G SoundsAnnounceOptions {Επιλογές αναγγελίας κίνησης}
 translate G SoundsAnnounceNew {Αναγγελία των νέων κινήσεων καθώς εκτελούνται}
+translate G SoundsMoveSoundOnly {Μετακίνηση μόνο ήχου (απενεργοποίηση ανακοινώσεων)}
 translate G SoundsAnnounceForward {Αναγγελία όταν πρόκειται για μια κίνηση προς τα εμπρός}
 translate G SoundsAnnounceBack {Αναγγελία όταν πρόκειται για αναδρομή ή για κίνηση προς τα πίσω}
 translate G SoundsSoundDisabled {Η Scid δεν μπόρεσε να βρει το πακέτο ήχου Snack κατά την εκκίνηση.\nΟ ήχος είναι απενεργοποιημένος.}

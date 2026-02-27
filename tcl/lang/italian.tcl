@@ -255,6 +255,7 @@ menuText I OptionsMovesKey "Completamento da tastiera" 1 \
 menuText I OptionsMovesShowVarArrows "Mostra frecce per le varianti" 4 {Attiva/disattiva le freccie indicanti le mosse delle varianti}
 menuText I OptionsMovesShowEngineVariationArrows "Mostra Frecce per Varianti del Motore" 0 {Attiva/disattiva frecce che mostrano linee di variazione del motore in modalità multiPV}
 menuText I OptionsMovesGlossOfDanger "Codici di pericolo a colori" 1 {Attiva/disattiva i codici di pericolo a colori}
+translate I OptionsMovesTreeDepth {Profondità di spostamento della finestra dell'albero predefinita}
 menuText I OptionsNumbers "Formato dei numeri" 13 {Seglie il formato dei numeri}
 menuText I OptionsTheme "Tema" 0 {Cambia l'aspetto dell'interfaccia}
 menuText I OptionsWindows "Finestre" 2 {Opzioni di finestra}
@@ -473,6 +474,7 @@ menuText I TreeOptFastAndSlowmode "Modalità lenta e veloce" 0 {Modalità lenta 
 menuText I TreeOptStartStop "Aggiornamento automatico" 0 {Attiva/disattiva l'aggiornamento automatico della finestra di albero}
 menuText I TreeOptLock "Blocca" 0 {Blocca/sblocca l'albero al database corrente}
 menuText I TreeOptTraining "Allenamento" 0 {Attiva/disattiva la modalità di esercizio dell'albero}
+menuText I TreeOptDepth "Muovi la profondità" 0 {Numero di mezze mosse da visualizzare nell'albero (1-4)}
 menuText I TreeOptAutosave "File di cache per il salvataggio automatico" 0 \
   {Salva automaticamente il file di cache quando si chiude la finestra dell'albero}
 menuText I TreeHelp "Aiuto" 0
@@ -481,13 +483,14 @@ menuText I TreeHelpIndex "Indice" 0
 translate I SaveCache {Salva cache}
 translate I Training {Esercizio}
 translate I LockTree {Blocca}
+translate I TreeDepth {Profondità dell'albero (metà mosse):}
 translate I TreeLocked {Bloccato}
 translate I TreeBest {Migliore}
 translate I TreeBestGames {Migliori partite}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate I TreeTitleRow \
-  {    Mossa  ECO       Frequenza    Punt.  AvElo Perf AvAnno %Patta}
+{Mossa                         ECO       Frequenza    Punt.  AvElo Perf AvAnno %Patta   %Vincita}
 translate I TreeTotal {TOTALE}
 translate I DoYouWantToSaveFirst {Vuoi prima salvare}
 translate I AddToMask {Aggiungi alla maschera}
@@ -1291,6 +1294,7 @@ translate I SoundsFolder {Cartella dei file audio}
 translate I SoundsFolderHelp {La cartella deve contenere i file King.wav, a.wav, 1.wav, etc}
 translate I SoundsAnnounceOptions {Opzioni per l'annuncio delle mosse}
 translate I SoundsAnnounceNew {Annuncia l'esecuzione di una nuova mossa}
+translate I SoundsMoveSoundOnly {Sposta solo l'audio (disabilita gli annunci)}
 translate I SoundsAnnounceForward {Annuncia quando si va avanti di una mossa}
 translate I SoundsAnnounceBack {Annuncia quando si va indietro di una mossa}
 translate I SoundsSoundDisabled {Scid non è riuscito a trovare il pacchetto audio Snack all'avvio;\nSound è disabilitato.}

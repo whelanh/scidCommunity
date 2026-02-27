@@ -222,6 +222,7 @@ menuText M OptionsMovesKey "键盘自动完成" 0 \
 menuText M OptionsMovesShowVarArrows "显示变化箭头" 0 {开启/关闭显示变化中着法的箭头}
 menuText M OptionsMovesShowEngineVariationArrows "显示引擎变化箭头" 0 {开启/关闭在多PV模式下显示引擎变化线的箭头}
 menuText M OptionsMovesGlossOfDanger "危险等级颜色编码" 0 {开启/关闭危险等级颜色编码}
+translate M OptionsMovesTreeDepth {默认树窗口移动深度}
 menuText M OptionsNumbers "数字格式" 0 {选择数字格式}
 menuText M OptionsTheme "主题" 0 {更改界面外观}
 menuText M OptionsWindows "窗口" 0 {窗口选项}
@@ -283,8 +284,7 @@ translate M Contents {目录}
 translate M Defaults {Defaults}
 translate M Delete {删除}
 translate M Graph {图表}
-# MISSING TRANSLATION for Help:
-# translate E Help {Help}
+translate M Help {帮助}
 translate M Hide {隐藏}
 translate M Import {导入}
 translate M Index {索引}
@@ -436,6 +436,7 @@ menuText M TreeOptFastAndSlowmode "Fast and slow mode" 0 {Fast mode then slow mo
 menuText M TreeOptStartStop "Auto refreshing" 0 {Toggles automatic refreshing of the tree window}
 menuText M TreeOptLock "锁定" 0 {Lock/unlock the tree to the current database}
 menuText M TreeOptTraining "训练" 0 {Turn on/off tree training mode}
+menuText M TreeOptDepth "移动深度" 0 {在树中显示的半步移动数 (1-4)}
 menuText M TreeOptAutosave "Auto-Save Cache File" 0 \
   {Auto-save the cache file when closing the tree window}
 menuText M TreeHelp "帮助" 0
@@ -444,13 +445,14 @@ menuText M TreeHelpIndex "Help Index" 0
 translate M SaveCache {Save Cache}
 translate M Training {训练}
 translate M LockTree {锁定}
+translate M TreeDepth {树深度（半步）：}
 translate M TreeLocked {locked}
 translate M TreeBest {最佳}
 translate M TreeBestGames {Best Tree Games}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate M TreeTitleRow \
-  {    Move   ECO       Frequency    Score  AvElo Perf AvYear %Draws}
+{Move                          ECO       Frequency    Score  AvElo Perf AvYear %Draws     %赢}
 translate M TreeTotal {总计}
 translate M DoYouWantToSaveFirst {Do you want to save first}
 translate M AddToMask {Add to Mask}
@@ -502,8 +504,7 @@ menuText M FinderTypesRep "Repertoire Files" 0
 menuText M FinderHelp "帮助" 0
 menuText M FinderHelpFinder "File Finder Help" 0
 menuText M FinderHelpIndex "Help Index" 0
-# MISSING TRANSLATION for FileFinder:
-# translate E FileFinder {File Finder}
+translate M FileFinder {文件查找器}
 translate M FinderDir {Directory}
 translate M FinderDirs {Directories}
 translate M FinderFiles {纵线}
@@ -717,9 +718,896 @@ translate M DeleteFlag {Delete flag}
 translate M WhiteOpFlag {White opening}
 translate M BlackOpFlag {Black opening}
 translate M MiddlegameFlag {中局}
+translate M EndgameFlag {终局之战}
+translate M NoveltyFlag {新奇}
+translate M PawnFlag {典当结构}
+translate M TacticsFlag {策略}
+translate M QsideFlag {皇后区玩耍}
+translate M KsideFlag {国王边比赛}
+translate M BrilliancyFlag {辉煌}
+translate M BlunderFlag {错误}
+translate M UserFlag {用户}
+translate M PgnContains {PGN 包含文本}
+translate M PgnTag {标签}
+translate M TagContains {包含}
+translate M Variant {变体}
+translate M Annotator {注释器}
+translate M Cmnts {仅带注释的游戏}
+
+# Game list window:
+translate M GlistNumber {数字}
+translate M GlistWhite {白色的}
+translate M GlistBlack {黑色的}
+translate M GlistWElo {W-Elo}
+translate M GlistBElo {B-Elo}
+translate M GlistEvent {事件}
+translate M GlistSite {地点}
+translate M GlistRound {圆形的}
+translate M GlistDate {日期}
+translate M GlistYear {年}
+translate M GlistEDate {事件日期}
+translate M GlistResult {结果}
+translate M GlistLength {长度}
+translate M GlistCountry {国家}
+translate M GlistECO {生态系统}
+translate M GlistOpening {开幕}
+translate M GlistEndMaterial {最终材料}
+translate M GlistDeleted {已删除}
+translate M GlistFlags {旗帜}
+translate M GlistVars {变化}
+translate M GlistComments {评论}
+translate M GlistAnnos {注释}
+translate M GlistStart {开始}
+translate M GlistGameNumber {游戏号码}
+translate M GlistAverageElo {平均 Elo}
+translate M GlistRating {等级}
+translate M GlistFindText {查找文字}
+translate M GlistMoveField {移动}
+translate M GlistEditField {配置}
+translate M GlistAddField {添加}
+translate M GlistDeleteField {消除}
+translate M GlistWidth {宽度}
+translate M GlistAlign {对齐}
+translate M GlistAlignL {对齐：左对齐}
+translate M GlistAlignR {对齐方式：右对齐}
+translate M GlistAlignC {对齐：居中}
+translate M GlistColor {颜色}
+translate M GlistSep {分离器}
+translate M GlistCurrentSep { -  当前的  - }
+translate M GlistNewSort {新的}
+translate M GlistAddToSort {添加}
+
+# base sorting
+translate M GsortSort {种类...}
+translate M GsortDate {日期}
+translate M GsortYear {年}
+translate M GsortEvent {事件}
+translate M GsortSite {地点}
+translate M GsortRound {圆形的}
+translate M GsortWhiteName {白色名字}
+translate M GsortBlackName {黑名}
+translate M GsortECO {生态系统}
+translate M GsortResult {结果}
+translate M GsortMoveCount {移动次数}
+translate M GsortAverageElo {平均 Elo}
+translate M GsortCountry {国家}
+translate M GsortDeleted {已删除}
+translate M GsortEventDate {活动日期}
+translate M GsortWhiteElo {白色 Elo}
+translate M GsortBlackElo {黑色 Elo}
+translate M GsortComments {评论}
+translate M GsortVariations {变化}
+translate M GsortNAGs {NAG}
+translate M GsortAscending {升序}
+translate M GsortDescending {降序}
+translate M GsortAdd {添加}
+translate M GsortStore {店铺}
+translate M GsortLoad {加载}
+
+# menu shown with right mouse button down on game list.
+translate M GlistRemoveThisGameFromFilter  {从过滤器中删除该游戏}
+translate M GlistRemoveGameAndAboveFromFilter  {从过滤器中删除游戏（及其之上的所有游戏）}
+translate M GlistRemoveGameAndBelowFromFilter  {从过滤器中删除游戏（及其下面的所有游戏）}
+translate M GlistDeleteGame {（取消）删除该游戏}
+translate M GlistDeleteAllGames {删除过滤器中的所有游戏}
+translate M GlistUndeleteAllGames {取消删除过滤器中的所有游戏}
+translate M GlistMergeGameInBase {合并游戏}
+
+# Maintenance window:
+translate M DatabaseName {数据库名称：}
+translate M TypeIcon {类型图标：}
+translate M NumOfGames {游戏：}
+translate M NumDeletedGames {已删除的游戏：}
+translate M NumFilterGames {过滤器中的游戏：}
+translate M YearRange {年份范围：}
+translate M RatingRange {评级范围：}
+translate M Description {描述}
+translate M Flag {旗帜}
+translate M CustomFlags {定制旗帜}
+translate M DeleteCurrent {删除当前游戏}
+translate M DeleteFilter {删除过滤游戏}
+translate M DeleteAll {删除所有游戏}
+translate M UndeleteCurrent {取消删除当前游戏}
+translate M UndeleteFilter {取消删除过滤游戏}
+translate M UndeleteAll {取消删除所有游戏}
+translate M DeleteTwins {删除双生游戏}
+translate M MarkCurrent {标记当前游戏}
+translate M MarkFilter {标记过滤游戏}
+translate M MarkAll {标记所有游戏}
+translate M UnmarkCurrent {取消标记当前游戏}
+translate M UnmarkFilter {取消标记过滤游戏}
+translate M UnmarkAll {取消标记所有游戏}
+translate M Spellchecking {拼写检查}
+translate M Players {玩家}
+translate M Events {活动}
+translate M Sites {站点}
+translate M Rounds {回合}
+translate M DatabaseOps {数据库操作}
+translate M ReclassifyGames {ECO 分类游戏}
+translate M CompactDatabase {紧凑的数据库}
+translate M SortDatabase {排序数据库}
+translate M AddEloRatings {添加 Elo 评分}
+translate M AutoloadGame {自动加载游戏号码}
+translate M StripTags {剥离 PGN 标签}
+translate M StripTag {剥离标签}
+translate M Cleaner {清洁工}
+translate M CleanerHelp {Scid Cleaner 将对当前数据库执行您从下面的列表中选择的所有维护操作。
+如果您选择这些功能，则将应用 ECO 分类和孪生删除对话框中的当前设置。}
+translate M CleanerConfirm {Cleaner维护一旦开始，就不能中断！
+
+对于大型数据库，这可能需要很长时间，具体取决于您选择的函数及其当前设置。
+
+您确定要开始您选择的维护功能吗？}
+# Twinchecker
+translate M TwinCheckUndelete {翻转； “u”取消删除两者）}
+translate M TwinCheckprevPair {前一对}
+translate M TwinChecknextPair {下一对}
+translate M TwinChecker {Scid：双胞胎游戏检查器}
+translate M TwinCheckTournament {锦标赛中的比赛：}
+translate M TwinCheckNoTwin {没有双胞胎}
+translate M TwinCheckNoTwinfound {此游戏未检测到孪生。\n若要使用此窗口显示孪生，您必须首先使用“删除孪生游戏...”功能。}
+translate M TwinCheckTag {分享标签...}
+translate M TwinCheckFound1 {Scid 发现 $result 双胞胎游戏}
+translate M TwinCheckFound2 {并设置它们的删除标志}
+translate M TwinCheckNoDelete {此数据库中没有要删除的游戏。}
+translate M TwinCriteria1 {您查找双胞胎游戏的设置可能会\导致具有相似动作的非双胞胎游戏被标记为双胞胎。}
+translate M TwinCriteria2 {建议如果您为“相同动作”选择“否”，则应为颜色、事件、地点、回合、年份和月份设置选择“是”。\n是否仍要继续并删除双胞胎？}
+translate M TwinCriteria3 {建议您对“同一站点”、“同一回合”和“同一年份”设置中的至少两项指定“是”。\n是否仍要继续并删除孪生？}
+translate M TwinCriteriaConfirm {Scid：确认孪生设置}
+translate M TwinChangeTag "更改以下游戏标签:\n\n"
+translate M AllocRatingDescription "此命令将使用当前的拼写检查文件将 Elo 评级添加到此数据库中的游戏。如果玩家没有当前评级，但他/她在游戏时的评级列在拼写检查文件中，则将添加该评级。"
+translate M RatingOverride "覆盖现有的非零评级"
+translate M AddRatings "将评级添加到："
+translate M AddedRatings {Scid 在 $g 游戏中添加了 $r Elo 评级。}
+
+#Bookmark editor
+translate M NewSubmenu "新子菜单"
+
+# Comment editor:
+translate M AnnotationSymbols  {注释符号：}
 translate M Comment {注释}
+translate M InsertMark {插入标记}
+translate M InsertMarkHelp {插入/删除标记：选择颜色、类型、正方形。
+插入/删除箭头：右键单击两个方块。}
+
+# Nag buttons in comment editor:
+translate M GoodMove {好举动}
+translate M PoorMove {糟糕的举动}
+translate M ExcellentMove {出色的举动}
+translate M Blunder {错误}
+translate M InterestingMove {有趣的举动}
+translate M DubiousMove {可疑的举动}
+translate M WhiteDecisiveAdvantage {白方占据决定性优势}
+translate M BlackDecisiveAdvantage {黑方占据决定性优势}
+translate M WhiteClearAdvantage {白方优势明显}
+translate M BlackClearAdvantage {黑方优势明显}
+translate M WhiteSlightAdvantage {白方略占优势}
+translate M BlackSlightAdvantage {黑棋稍占优势}
+translate M WhiteCrushing {白方具有压倒性优势}
+translate M BlackCrushing {黑方具有压倒性优势}
+translate M Equality {平等}
+translate M Unclear {不清楚}
+translate M Diagram {图表}
+
+# Board search:
+translate M BoardSearch {董事会搜索}
+translate M FilterOperation {对当前过滤器的操作：}
+translate M FilterAnd {AND（限制过滤器）}
+translate M FilterOr {或（添加到过滤器）}
+translate M FilterIgnore {忽略（重置过滤器）}
+translate M SearchType {搜索类型：}
+translate M SearchBoardExact {精确位置（所有棋子都在同一个方格上）}
+translate M SearchBoardPawns {棋子（相同材质，所有棋子都在同一方格上）}
+translate M SearchBoardFiles {文件（相同材质，所有 pawn 都在同一文件上）}
+translate M SearchBoardAny {任何（任何地方相同的材料、棋子和棋子）}
+translate M SearchInRefDatabase {在参考数据库中搜索}
+translate M LookInVars {看看变化}
+
+# Material search:
+translate M MaterialSearch {资料检索}
+translate M Material {材料}
+translate M Patterns {图案}
+translate M Zero {零}
+translate M Any {任何}
+translate M CurrentBoard {当前董事会}
+translate M CommonEndings {常见结局}
+translate M CommonPatterns {常见模式}
+translate M MaterialDiff {材质差异}
+translate M squares {正方形}
+translate M SameColor {相同颜色}
+translate M OppColor {相反的颜色}
+translate M Either {任何一个}
+translate M MoveNumberRange {移动号码范围}
+translate M MatchForAtLeast {至少匹配}
+translate M HalfMoves {半步}
+
+# Common endings in material search:
+translate M EndingPawns {典当结局}
+translate M EndingRookVsPawns {车 vs. 兵}
+translate M EndingRookPawnVsRook {Rook 和 1 个 Pawn 与 Rook}
+translate M EndingRookPawnsVsRook {Rook 和 Pawn(s) 与 Rook}
+translate M EndingRooks {车与车结局}
+translate M EndingRooksPassedA {Rook vs. Rook 以传递的 a 兵结束}
+translate M EndingRooksDouble {双车结局}
+translate M EndingBishops {毕肖普 vs 毕肖普结局}
+translate M EndingBishopVsKnight {主教 vs. 骑士结局}
+translate M EndingKnights {骑士与骑士的结局}
+translate M EndingQueens {女王对女王结局}
+translate M EndingQueenPawnVsQueen {皇后和 1 个兵 vs. 皇后}
+translate M BishopPairVsKnightPair {两个主教 vs. 两个骑士中局}
+
+# Common patterns in material search:
+translate M PatternWhiteIQP {白色IQP}
+translate M PatternWhiteIQPBreakE6 {白 IQP：d4-d5 突破 vs. e6}
+translate M PatternWhiteIQPBreakC6 {白 IQP：d4-d5 突破 vs. c6}
+translate M PatternBlackIQP {黑色IQP}
+translate M PatternWhiteBlackIQP {白色 IQP 与黑色 IQP}
+translate M PatternCoupleC3D4 {白色 c3+d4 孤立的棋子夫妇}
+translate M PatternHangingC5D5 {c5 和 d5 上的黑色悬挂棋子}
+translate M PatternMaroczy {Maroczy 中心（c4 和 e4 上有 Pawn）}
+translate M PatternRookSacC3 {c3 上的车牺牲}
+translate M PatternKc1Kg8 {O-O-O 与 O-O（Kc1 与 Kg8）}
+translate M PatternKg1Kc8 {O-O 与 O-O-O（Kg1 与 Kc8）}
+translate M PatternLightFian {Light-Square Fianchettos（Bishop-g2 与 Bishop-b7）}
+translate M PatternDarkFian {暗方 Fianchettos（Bishop-b2 与 Bishop-g7）}
+translate M PatternFourFian {四个 Fianchettos（b2、g2、b7、g7 上的主教）}
+
+# Game saving:
+translate M Today {今天}
+translate M ClassifyGame {分类游戏}
+
+# Setup position:
+translate M EmptyBoard {空板}
+translate M InitialBoard {初始板}
+translate M SideToMove {侧面移动}
 translate M MoveNumber {着法编号}
+translate M Castling {易位}
+translate M EnPassantFile {恩帕桑文件}
+translate M ClearFen {清除芬恩}
+translate M PasteFen {粘贴芬}
+
+translate M SaveAndContinue {保存并继续}
+translate M DiscardChangesAndContinue {放弃更改并继续}
+translate M GoBack {回去}
+
+# Replace move dialog:
+translate M ReplaceMove {替换移动}
+translate M AddNewVar {添加新变体}
+translate M NewMainLine {新主线}
+translate M ReplaceMoveMessage {这里已经存在一个动作。
+
+您可以替换它，放弃其后的所有动作，或者将您的动作添加为新的变体。
+
+（您可以通过关闭选项：移动菜单中的“替换移动前询问”选项来避免将来看到此消息。）}
+
+# Make database read-only dialog:
+translate M ReadOnlyDialog {如果您将此数据库设置为只读，则不允许进行任何更改。
+无法保存或替换任何游戏，也无法更改删除标志。
+任何分类或 ECO 分类结果都将是暂时的。
+
+通过关闭并重新打开数据库，您可以轻松地使数据库再次可写。
+
+您真的想将此数据库设置为只读吗？}
+
+# Clear game dialog:
+translate M ClearGameDialog {这个游戏已经被修改了。
+
+您真的要继续并放弃对其所做的更改吗？}
+
+# Exit dialog:
+translate M ExitDialog {您真的要退出 Scid 吗？}
+translate M ExitUnsaved {以下数据库具有未保存的游戏更改。如果您现在退出，这些更改将会丢失。}
+
+# Import window:
+translate M PasteCurrentGame {粘贴当前游戏}
+translate M ImportHelp1 {在上面的框架中输入或粘贴 PGN 格式的游戏。}
+translate M ImportHelp2 {导入游戏时出现的任何错误都会显示在此处。}
+translate M OverwriteExistingMoves {覆盖现有动作？}
+
+# ECO Browser:
+translate M ECOAllSections {所有 ECO 部分}
+translate M ECOSection {生态部分}
+translate M ECOSummary {总结}
+translate M ECOFrequency {子代码的频率}
+
+# Opening Report:
+translate M OprepTitle {开幕报告}
+translate M OprepReport {报告}
+translate M OprepGenerated {生成者}
+translate M OprepStatsHist {统计和历史}
+translate M OprepStats {统计数据}
+translate M OprepStatAll {所有报告游戏}
+translate M OprepStatBoth {均评价为}
+translate M OprepStatSince {自从}
+translate M OprepOldest {最古老的游戏}
+translate M OprepNewest {最新游戏}
+translate M OprepPopular {目前流行度}
+translate M OprepFreqAll {所有年份的频率：}
+translate M OprepFreq1   {至今 1 年：}
+translate M OprepFreq5   {到今天的 5 年里：}
+translate M OprepFreq10  {到今天的10年里：}
+translate M OprepEvery {每 %u 场比赛一次}
+translate M OprepUp {比历年上涨%u%s}
+translate M OprepDown {比历年下降%u%s}
+translate M OprepSame {多年来没有变化}
+translate M OprepMostFrequent {最常玩的玩家}
+translate M OprepMostFrequentOpponents {最常见的对手}
+translate M OprepRatingsPerf {评级和性能}
+translate M OprepAvgPerf {平均收视率和表现}
+translate M OprepWRating {白色等级}
+translate M OprepBRating {黑色评级}
+translate M OprepWPerf {白色表现}
+translate M OprepBPerf {黑色表现}
+translate M OprepHighRating {平均评分最高的游戏}
+translate M OprepTrends {结果趋势}
+translate M OprepResults {结果长度和频率}
+translate M OprepLength {游戏时长}
+translate M OprepFrequency {频率}
+translate M OprepWWins {白棋获胜：}
+translate M OprepBWins {黑方获胜：}
+translate M OprepDraws {抽奖：}
+translate M OprepWholeDB {整个数据库}
+translate M OprepShortest {最短获胜}
+translate M OprepMovesThemes {动作和主题}
+translate M OprepMoveOrders {移动订单到达报告位置}
+translate M OprepMoveOrdersOne \
+  {只有一个移动指令到达此位置：}
+translate M OprepMoveOrdersAll \
+  {有 %u 个移动指令到达此位置：}
+translate M OprepMoveOrdersMany \
+  {有 %u 个移动指令到达此位置。前%u 是：}
+translate M OprepMovesFrom {从报告位置移动}
+translate M OprepMostFrequentEcoCodes {最常见的 ECO 代码}
+translate M OprepThemes {定位主题}
+translate M OprepThemeDescription {每场比赛前 %u 步的主题出现频率}
+translate M OprepThemeSameCastling {同侧易位}
+translate M OprepThemeOppCastling {对面易位}
+translate M OprepThemeNoCastling {两位国王都没有城堡}
+translate M OprepThemeKPawnStorm {王翼典当风暴}
+translate M OprepThemeQueenswap {皇后交换}
+translate M OprepThemeWIQP {白色孤立女王典当}
+translate M OprepThemeBIQP {黑色孤立女王典当}
+translate M OprepThemeWP567 {白色棋子位于 5/6/7 等级}
+translate M OprepThemeBP234 {黑棋子位于 2/3/4 等级}
+translate M OprepThemeOpenCDE {打开c/d/e文件}
+translate M OprepTheme1BishopPair {只有一侧有主教对}
+translate M OprepEndgames {残局}
+translate M OprepReportGames {举报游戏}
+translate M OprepAllGames    {所有游戏}
+translate M OprepEndClass {每场比赛结束时的材料}
+translate M OprepTheoryTable {理论表}
+translate M OprepTableComment {由 %u 个评分最高的游戏生成。}
+translate M OprepExtraMoves {理论表中的额外注释移动}
+translate M OprepMaxGames {理论表中的最大博弈数}
+translate M OprepViewHTML {查看 HTML}
+
+# Player Report:
+translate M PReportTitle {玩家报告}
+translate M PReportColorWhite {与白色碎片}
+translate M PReportColorBlack {与黑色棋子}
+translate M PReportMoves {%s 之后}
+translate M PReportOpenings {开口}
+translate M PReportClipbase {清空剪辑库并将匹配的游戏复制到其中}
+
+# Piece Tracker window:
+translate M TrackerSelectSingle {鼠标左键选择该片段。}
+translate M TrackerSelectPair {鼠标左键选择该块；右键还选择其同级。}
+translate M TrackerSelectPawn {鼠标左键选择该棋子；右键选择所有 8 个棋子。}
+translate M TrackerStat {统计}
+translate M TrackerGames {移动到方块的游戏百分比}
+translate M TrackerTime {每个方格花费的时间百分比}
+translate M TrackerMoves {动作}
+translate M TrackerMovesStart {输入跟踪应开始的移动编号。}
+translate M TrackerMovesStop {输入跟踪应停止的移动编号。}
+
+# Game selection dialogs:
+translate M SelectAllGames {数据库中的所有游戏}
+translate M SelectFilterGames {仅过滤器中的游戏}
+translate M SelectTournamentGames {仅当前锦标赛中的比赛}
+translate M SelectOlderGames {仅较旧的游戏}
+
+# Delete Twins window:
+translate M TwinsNote {要成为双胞胎，两场比赛必须至少有两名相同的球员，您可以在下面设置标准。当发现一对双胞胎时，较短的游戏将被删除。提示：最好在删除双胞胎之前对数据库进行拼写检查，因为它可以改进双胞胎检测。}
+translate M TwinsCriteria {标准：双胞胎游戏必须.​​..}
+translate M TwinsWhich {检查哪些游戏}
+translate M TwinsColors {相同的球员颜色}
+translate M TwinsEvent {同一事件}
+translate M TwinsSite {同一站点}
+translate M TwinsRound {同一轮}
+translate M TwinsYear {同年}
+translate M TwinsMonth {同月}
+translate M TwinsDay {同一天}
+translate M TwinsResult {结果相同}
+translate M TwinsECO {相同的 ECO 代码}
+translate M TwinsMoves {同样的动作}
+translate M TwinsPlayers {比较玩家姓名}
+translate M TwinsPlayersExact {精确匹配}
+translate M TwinsPlayersPrefix {仅前 4 个字母}
+translate M TwinsWhen {删除双生游戏时}
+translate M TwinsSkipShort {忽略所有 5 步以下的游戏}
+translate M TwinsUndelete {首先取消删除所有游戏}
+translate M TwinsSetFilter {对所有已删除的双生游戏设置过滤器}
+translate M TwinsComments {始终保留带有评论的游戏}
+translate M TwinsVars {始终保持游戏的变化}
+translate M TwinsDeleteWhich {删除游戏}
+translate M TwinsDeleteShorter {游戏时间较短}
+translate M TwinsDeleteOlder {游戏数量较小}
+translate M TwinsDeleteNewer {更大的游戏数量}
+translate M TwinsDelete {删除游戏}
+
+# Name editor window:
+translate M NameEditType {要编辑的名称类型}
+translate M NameEditSelect {要编辑的游戏}
+translate M NameEditReplace {代替}
+translate M NameEditWith {和}
+translate M NameEditMatches {匹配：按 Ctrl+1 至 Ctrl+9 进行选择}
+
+# Check games window:
+translate M CheckGames {检查游戏}
+translate M CheckGamesWhich {检查游戏}
+translate M CheckAll {所有游戏}
+translate M CheckSelectFilterGames {仅过滤器中的游戏}
+
+# Classify window:
+translate M Classify {分类}
+translate M ClassifyWhich {ECO-对哪些游戏进行分类}
+translate M ClassifyAll {所有游戏（覆盖旧的 ECO 代码）}
+translate M ClassifyYear {去年参加的所有比赛}
+translate M ClassifyMonth {上个月进行的所有比赛}
+translate M ClassifyNew {仅限还没有 ECO 代码的游戏}
+translate M ClassifyCodes {使用的 ECO 代码}
+translate M ClassifyBasic {仅基本代码（“B12”，...）}
+translate M ClassifyExtended {Scid 扩展（“B12j”，...）}
+
+# Compaction:
+translate M NameFile {命名文件}
+translate M GameFile {游戏文件}
+translate M Names {名称}
+translate M Unused {未使用}
+translate M SizeKb {大小（KB）}
+translate M CurrentState {当前状态}
+translate M AfterCompaction {压实后}
+translate M CompactNames {紧凑的名称文件}
+translate M CompactGames {紧凑的游戏文件}
+translate M NoUnusedNames "没有未使用的名称，因此名称文件已经完全压缩。"
+translate M NoUnusedGames "游戏文件已经完全压缩。"
+translate M GameFileCompacted {数据库的游戏文件已压缩。}
+
+# Sorting:
+translate M SortCriteria {标准}
+translate M AddCriteria {添加条件}
+translate M CommonSorts {常见种类}
+translate M Sort {种类}
+
+# Exporting:
+translate M AddToExistingFile {将游戏添加到现有文件}
+translate M ExportComments {导出评论}
+translate M ExportVariations {出口变化}
+translate M IndentComments {缩进注释}
+translate M IndentVariations {缩进变化}
+translate M ExportColumnStyle {列样式（每行一次移动）}
+translate M ExportSymbolStyle {Symbolic annotation style:}
+translate M ExportStripMarks {从注释中去除方形/箭头标记\n代码}
+
+# Goto game/move dialogs:
+translate M LoadGameNumber {输入要加载的游戏编号：}
+translate M GotoMoveNumber {转到移动号码：}
+
+# Copy games dialog:
+translate M CopyAllGames {将所有游戏复制到}
+translate M CopyGames {复制游戏}
+translate M CopyConfirm {你真的想复制吗
+ [::utils::thousands $nGamesToCopy] 过滤的游戏
+ 在数据库“$fromName”中
+ 到数据库“$targetName”？}
+translate M CopyErr {无法复制游戏}
+translate M CopyErrSource {the source database}
+translate M CopyErrTarget {目标数据库}
+translate M CopyErrNoGames {过滤器中没有游戏}
+translate M CopyErrReadOnly {是只读的}
+translate M CopyErrNotOpen {未开放}
+
+# Colors:
+translate M LightSquares {浅色方块}
+translate M DarkSquares {深色方块}
+translate M SelectedSquares {选定的方块}
+translate M SuggestedSquares {建议的移动方块}
+translate M WhitePieces {白色碎片}
+translate M BlackPieces {黑色件}
+translate M WhiteBorder {白色边框}
+translate M BlackBorder {黑色边框}
+
+# Novelty window:
+translate M FindNovelty {寻找新奇}
+translate M Novelty {新奇}
+translate M NoveltyInterrupt {新颖性搜索中断}
+translate M NoveltyNone {没有发现这个游戏有什么新意}
+translate M NoveltyHelp {Scid 将找到当前游戏的第一步，该棋步到达所选数据库或 ECO 开局书中未找到的位置。}
+
+# Sounds configuration:
+translate M SoundsFolder {声音文件夹}
+translate M SoundsFolderHelp {该文件夹应包含文件 King.wav、a.wav、1.wav 等}
+translate M SoundsAnnounceOptions {移动公告选项}
+translate M SoundsAnnounceNew {宣布新举措}
+translate M SoundsMoveSoundOnly {仅移动声音（禁用公告）}
+translate M SoundsAnnounceForward {前进一步时宣布动作}
+translate M SoundsAnnounceBack {撤回或后退一步时发出通知}
+translate M SoundsSoundDisabled {Scid 在启动时找不到 Snack 音频包；\n声音被禁用。}
+
+# Upgrading databases:
+translate M Upgrading {升级中}
+translate M ConfirmOpenNew {这是旧格式 (Scid 3) 数据库，无法在 Scid 4 中打开，但已创建新格式 (Scid 4) 版本。
+
+您想打开新格式版本的数据库吗？}
+translate M ConfirmUpgrade {这是旧格式 (Scid 3) 数据库。必须先创建数据库的新格式版本，然后才能在 Scid 4 中使用它。
+
+升级将创建数据库的新版本，然后删除原始文件。
+
+这可能需要一段时间，但只需要完成一次。如果时间太长，您可以取消。
+
+您现在想升级该数据库吗？}
+
+# Recent files options:
+translate M RecentFilesMenu {文件菜单中最近打开的文件数}
+translate M RecentFilesExtra {额外子菜单中最近文件的数量}
+
+# My Player Names options:
+translate M MyPlayerNamesDescription {在下面输入首选玩家姓名列表，每行一个姓名。允许使用通配符（例如“？”表示任何单个字符，“*”表示任何字符序列）。
+
+每次加载列表中包含玩家的游戏时，如有必要，主窗口棋盘都会旋转，以从该玩家的角度显示游戏。}
+
+#Coach
+translate M showblunderexists {显示存在错误}
+translate M showblundervalue {显示错误值}
+translate M showscore {显示分数}
+translate M coachgame {教练比赛}
+translate M configurecoachgame {配置战术游戏}
+translate M configuregame {游戏配置}
+translate M Phalanxengine {方阵发动机}
+translate M Coachengine {客车发动机}
+translate M difficulty {困难}
+translate M hard {难的}
+translate M easy {简单的}
+translate M Playwith {玩}
+translate M white {白色的}
+translate M black {黑色的}
+translate M both {两个都}
+translate M Play {玩}
+translate M Noblunder {没有失误}
+translate M blunder {错误}
+translate M Noinfo {-- 暂无信息 --}
+translate M PhalanxOrTogaMissing {未找到方阵或托加}
+translate M moveblunderthreshold {如果损失大于，则移动是错误的}
+translate M limitanalysis {限制引擎分析时间}
+translate M seconds {秒}
+translate M Abort {中止}
+translate M Resume {恢复}
+translate M OutOfOpening {未开放}
+translate M NotFollowedLine {你没有遵守路线}
+translate M DoYouWantContinue {您想继续吗？}
+translate M CoachIsWatching {教练在看}
+translate M Ponder {恒久的思考}
+translate M LimitELO {限制 ELO 强度}
+translate M DubiousMovePlayedTakeBack {可疑的举动，你想收回吗？}
+translate M WeakMovePlayedTakeBack {下棋较弱，要收回吗？}
+translate M BadMovePlayedTakeBack {下棋不好，要收回吗？}
+translate M Iresign {我辞职}
+translate M yourmoveisnotgood {你的举动不好}
+translate M EndOfVar {变异结束}
+translate M Openingtrainer {开场教练}
+translate M DisplayCM {显示候选动作}
+translate M DisplayCMValue {显示候选移动值}
+translate M DisplayOpeningStats {显示统计数据}
+translate M ShowReport {显示报告}
+translate M NumberOfGoodMovesPlayed {打出好动作}
+translate M NumberOfDubiousMovesPlayed {可疑的举动}
+translate M NumberOfMovesPlayedNotInRepertoire {不在保留曲目中的动作}
+translate M NumberOfTimesPositionEncountered {遇到的次数位置}
+translate M PlayerBestMove  {只允许最好的动作}
+translate M OpponentBestMove {对手采取最好的动作}
+translate M OnlyFlaggedLines {仅标记行}
+translate M resetStats {重置统计数据}
+translate M Repertoiretrainingconfiguration {曲目训练配置}
+translate M Loadingrepertoire {加载曲目}
+translate M Movesloaded {移动已加载}
+translate M Repertoirenotfound {未找到剧目}
+translate M Openfirstrepertoirewithtype {首先打开一个曲目数据库，并将图标/类型设置在右侧}
+translate M Movenotinrepertoire {不在保留曲目中移动}
+translate M PositionsInRepertoire {剧目中的位置}
+translate M PositionsNotPlayed {未踢过的位置}
+translate M PositionsPlayed {出场位置}
+translate M Success {成功}
+translate M DubiousMoves {可疑的举动}
+translate M OutOfRepertoire {曲目外}
+translate M ConfigureTactics {配置策略}
+translate M ResetScores {重置分数}
+translate M LoadingBase {装载底座}
+translate M Tactics {策略}
+translate M ShowSolution {显示解决方案}
+translate M NextExercise {下一个练习}
+translate M PrevExercise {之前的练习}
+translate M StopTraining {停止训练}
+translate M Next {下一个}
+translate M ResettingScore {重置分数}
+translate M LoadingGame {加载游戏}
+translate M MateFound {发现伴侣}
+translate M BestSolutionNotFound {未找到最佳解决方案！}
+translate M MateNotFound {未找到伴侣}
+translate M ShorterMateExists {存在更短的配合}
+translate M ScorePlayed {打出的分数}
+translate M Expected {预期的}
+translate M ChooseTrainingBase {选择培训基地}
+translate M Thinking {思维}
+translate M AnalyzeDone {分析完成}
+translate M WinWonGame {赢得比赛}
+translate M Lines {线路}
+translate M ConfigureUCIengine {配置UCI引擎}
+translate M SpecificOpening {具体开盘}
+translate M StartNewGame {开始新游戏}
+translate M FixedLevel {固定级别}
+translate M Opening {开幕}
+translate M RandomLevel {随机等级}
+translate M StartFromCurrentPosition {从当前位置开始}
+translate M FixedDepth {固定深度}
+translate M Nodes {节点}
 translate M Depth {深度}
+translate M Time {时间}
+translate M SecondsPerMove {每次移动秒数}
+translate M Engine {引擎}
+translate M TimeMode {时间模式}
+translate M TimeBonus {时间+奖金}
+translate M TimeMin {分钟}
+translate M TimeSec {秒}
+translate M AllExercisesDone {所有练习完成}
+translate M MoveOutOfBook {移出书本}
+translate M LastBookMove {最后一本书搬家}
+translate M AnnotateSeveralGames {从实际游戏到游戏：}
+translate M FindOpeningErrors {查找打开错误}
+translate M MarkTacticalExercises {标记战术练习}
+translate M UseBook {使用书本}
+translate M MultiPV {多种变化}
+translate M Hash {哈希内存}
+translate M OwnBook {使用引擎书}
+translate M BookFile {开本}
+translate M AnnotateVariations {注释变化}
+translate M ShortAnnotations {简短的注释}
+translate M addAnnotatorTag {添加注释器标签}
+translate M AddScoreToShortAnnotations {为注释添加分数}
+translate M Export {出口}
+translate M BookPartiallyLoaded {书已部分加载}
+translate M Calvar {变化的计算}
+translate M ConfigureCalvar {配置}
+# Opening names used in tacgame.tcl
+translate M Reti {雷蒂}
+translate M English {英语}
+translate M d4Nf6Miscellaneous {1.d4 Nf6 杂项}
+translate M Trompowsky {特罗姆波斯基}
+translate M Budapest {布达佩斯}
+translate M OldIndian {老印第安人}
+translate M BenkoGambit {本科开局}
+translate M ModernBenoni {现代伯诺尼}
+translate M DutchDefence {荷兰国防}
+translate M Scandinavian {斯堪的纳维亚语}
+translate M AlekhineDefence {阿廖欣防御}
+translate M Pirc {皮尔克}
+translate M CaroKann {卡罗-卡恩}
+translate M CaroKannAdvance {卡罗-卡恩高级}
+translate M Sicilian {西西里岛}
+translate M SicilianAlapin {西西里阿拉宾}
+translate M SicilianClosed {西西里岛关闭}
+translate M SicilianRauzer {西西里劳泽尔}
+translate M SicilianDragon {西西里龙}
+translate M SicilianScheveningen {西西里斯海弗宁根}
+translate M SicilianNajdorf {西西里纳多夫}
+translate M OpenGame {开放游戏}
+translate M Vienna {维也纳}
+translate M KingsGambit {国王的策略}
+translate M RussianGame {俄罗斯游戏}
+translate M ItalianTwoKnights {意大利/二骑士}
+translate M Spanish {西班牙语}
+translate M SpanishExchange {西班牙交易所}
+translate M SpanishOpen {西班牙公开赛}
+translate M SpanishClosed {西班牙语 关闭}
+translate M FrenchDefence {法国国防}
+translate M FrenchAdvance {法国高级}
+translate M FrenchTarrasch {法国塔拉什}
+translate M FrenchWinawer {法国温纳维尔}
+translate M FrenchExchange {法国交流}
+translate M QueensPawn {女王的典当}
+translate M Slav {斯拉夫}
+translate M QGA {量子GA}
+translate M QGD {QGD}
+translate M QGDExchange {QGD交易所}
+translate M SemiSlav {半斯拉夫人}
+translate M QGDwithBg5 {带有 Bg5 的 QGD}
+translate M QGDOrthodox {QGD 正统派}
+translate M Grunfeld {格伦费尔德}
+translate M GrunfeldExchange {格林菲尔德交易所}
+translate M GrunfeldRussian {格林菲尔德俄语}
+translate M Catalan {加泰罗尼亚语}
+translate M CatalanOpen {加泰罗尼亚公开赛}
+translate M CatalanClosed {加泰罗尼亚语 关闭}
+translate M QueensIndian {女王的印度人}
+translate M NimzoIndian {尼姆佐印度语}
+translate M NimzoIndianClassical {尼姆佐-印度古典}
+translate M NimzoIndianRubinstein {尼姆佐-印度鲁宾斯坦}
+translate M KingsIndian {国王的印第安人}
+translate M KingsIndianSamisch {国王的印度萨米施}
+translate M KingsIndianMainLine {国王印度干线}
+
+# FICS
+translate M ConfigureFics {配置FICS}
+translate M FICSGuest {以访客身份登录}
+translate M FICSServerPort {服务器端口}
+translate M FICSServerAddress {IP地址}
+translate M FICSRefresh {刷新}
+translate M FICSTimesealPort {时封端口}
+translate M FICSSilence {控制台过滤器}
+translate M FICSOffers {优惠}
+translate M FICSConsole {安慰}
+translate M FICSGames {游戏}
+translate M FICSUnobserve {停止观察比赛}
+translate M FICSProfile {显示您的历史记录和个人资料}
+translate M FICSRelayedGames {接力赛}
+translate M FICSFindOpponent {寻找对手}
+translate M FICSTakeback {收回}
+translate M FICSTakeback2 {收回2}
+translate M FICSInitTime {初始时间（分钟）}
+translate M FICSIncrement {增量（秒）}
+translate M FICSRatedGame {评级游戏}
+translate M FICSAutoColour {自动的}
+translate M FICSManualConfirm {手动确认}
+translate M FICSFilterFormula {用公式过滤}
+translate M FICSIssueSeek {问题寻求}
+translate M FICSChallenge {挑战}
+translate M FICSAccept {你接受吗？}
+translate M FICSDecline {衰退}
+translate M FICSColour {颜色}
+translate M FICSSend {发送}
+translate M FICSConnect {连接}
+translate M FICSdefaultuservars {使用默认变量}
+translate M FICSObserveconfirm {你想观摩比赛吗}
+translate M FICSpremove {启用预移动}
+translate M FICSObserve {观察}
+translate M FICSRatedGames {评级游戏}
+translate M FICSUnratedGames {未分级游戏}
+translate M FICSRated {额定}
+translate M FICSUnrated {未评级}
+translate M FICSRegisteredPlayer {仅限注册玩家}
+translate M FICSFreePlayer {仅限免费玩家}
+translate M FICSNetError {网络错误\无法连接}
+
+# Game review
+translate M GameReview {游戏回顾}
+translate M GameReviewTimeExtended {时间延长}
+translate M GameReviewMargin {误差范围}
+translate M GameReviewAutoContinue {移动正确时自动继续}
+translate M GameReviewReCalculate {使用延长时间}
+translate M GameReviewAnalyzingMovePlayedDuringTheGame {分析比赛过程中的动作}
+translate M GameReviewAnalyzingThePosition {分析位置}
+translate M GameReviewEnterYourMove {输入你的动作}
+translate M GameReviewCheckingYourMove {检查你的动作}
+translate M GameReviewYourMoveWasAnalyzed {你的举动已被分析}
+translate M GameReviewYouPlayedSameMove {你采取了与比赛中相同的动作}
+translate M GameReviewScoreOfYourMove {你的动作得分}
+translate M GameReviewGameMoveScore {游戏动作得分}
+translate M GameReviewEngineScore {引擎得分}
+translate M GameReviewYouPlayedLikeTheEngine {你的表现和引擎一样好}
+translate M GameReviewNotEngineMoveButGoodMove {不是引擎动，但也是一个好动}
+translate M GameReviewMoveNotGood {这招不好，得分}
+translate M GameReviewMovesPlayedLike {动作就像}
+translate M GameReviewMovesPlayedEngine {动作就像引擎一样}
+
+# Correspondence Chess Dialogs:
+translate M CCDlgCGeneraloptions {一般选项}
+translate M CCDlgLoginName  {登录名：}
+translate M CCDlgPassword   {密码：}
+translate M CCDlgShowPassword {显示密码}
+
+# Connect Hardware dialogs
+translate M ExtHWConfigConnection {配置外部硬件}
+translate M ExtHWPort {港口}
+translate M ExtHWEngineCmd {发动机指令}
+translate M ExtHWEngineParam {发动机参数}
+translate M ExtHWShowButton {显示按钮}
+translate M ExtHWHardware {硬件}
+translate M ExtHWNovag {诺瓦格黄水晶}
+translate M ExtHWInputEngine {输入引擎}
+translate M ExtHWNoBoard {无板}
+translate M NovagReferee {裁判}
+
+# Input Engine dialogs
+translate M IEConsole {输入引擎控制台}
+translate M IESending {发送的动作}
+translate M IESynchronise {同步}
+translate M IERotate  {旋转}
+translate M IEUnableToStart {无法启动输入引擎：}
+
+# Calculation of Variations
+translate M DoneWithPosition {完成位置}
+
+translate M Board {木板}
+translate M showGameInfo {显示游戏信息}
+translate M autoResizeBoard {自动调整板尺寸}
+translate M DockTop {移至顶部}
+translate M DockBottom {移至底部}
+translate M DockLeft {向左移动}
+translate M DockRight {向右移动}
+translate M Undock {取消对接}
+
+# Switcher window
+translate M AboutDatabase {关于此数据库}
+translate M ChangeIcon {选择数据库图标...}
+translate M NewGameListWindow {新游戏列表窗口}
+translate M LoadatStartup {启动时加载}
+
+# Gamelist window
+translate M ShowHideDB {显示/隐藏数据库}
+translate M ChangeFilter {更换过滤器}
+translate M ChangeLayout {加载/保存/更改排序标准和列布局}
+translate M ShowHideStatistic {显示/隐藏统计数据}
+translate M BoardFilter {仅显示与当前棋盘位置匹配的游戏}
+translate M CopyGameTo {将游戏复制到}
+translate M FindBar {寻找酒吧}
+translate M FindCurrentGame {查找当前游戏}
+translate M DeleteGame {删除游戏}
+translate M UndeleteGame {恢复删除游戏}
+translate M ResetSort {重置排序}
+
+translate M ConvertNullMove {将空动作转换为评论}
+translate M SetupBoard {设置板}
+translate M Rotate {旋转}
+translate M SwitchColors {切换颜色}
+translate M FlipBoard {翻板}
+translate M ImportPGN {导入PGN游戏}
+translate M ImportingFiles {将 PGN 文件导入}
+translate M ImportingFrom {导入自}
+translate M ImportingIn {导入游戏}
+translate M UseLastTag {使用上一个\n游戏的标签}
+translate M Random {随机的}
+translate M BackToMainline {回到主线}
+translate M LeaveVariant {留下变体}
+translate M Autoplay {自动播放}
+translate M ShowHideCoords {显示/隐藏坐标。}
+translate M ShowHideEvalBar {显示/隐藏评估栏}
+translate M ShowHideMaterial {显示/隐藏材质}
+translate M SelectMarker {选择标记}
+translate M FullScreen {全屏}
+translate M FilterStatistic {过滤统计}
+translate M MakeCorrections {进行更正}
+translate M Surnames {姓氏}
+translate M Ambiguous {模糊的}
+
+#Preferences Dialog
+translate M OptionsToolbar "工具栏"
+translate M OptionsBoard "棋盘"
+translate M OptionsBoardSize "板尺寸"
+translate M OptionsBoardPieces "作品风格"
+translate M OptionsInternationalization "国际化"
+translate M OptionsTablebaseDir "最多选择 4 个表基础文件夹："
+
+# Evaluation bar
+translate M BestMoveArrow "最佳移动箭头"
+translate M NewLocalEngine "+ 新引擎..."
 }
 # end of english.tcl
-translate M Engine {引擎}

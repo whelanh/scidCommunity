@@ -105,7 +105,7 @@ else()
   add_executable(scidCommunity ${SCID_SRC})
 endif()
 set_property(TARGET scidCommunity PROPERTY INTERPROCEDURAL_OPTIMIZATION_RELEASE True)
-target_include_directories(scidCommunity PRIVATE ${TCL_INCLUDE_PATH} ${TK_INCLUDE_PATH})
+target_include_directories(scidCommunity PRIVATE ${TCL_INCLUDE_PATH} ${TK_INCLUDE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/src/external)
 target_link_libraries(scidCommunity PRIVATE polyglot ${CMAKE_THREAD_LIBS_INIT} ${TCL_LIBRARY} ${TK_LIBRARY})
 
 option(SPELLCHKVALIDATE "Verify the integrity of spelling files" OFF)

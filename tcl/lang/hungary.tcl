@@ -255,6 +255,7 @@ menuText H OptionsMovesKey "Billentyû-kiegészítés" 0 \
 menuText H OptionsMovesShowVarArrows "Nyilak megjelenítése a variációkhoz" 0 {Kapcsolja be/ki a nyilakat, amelyek különbözõ változatokban mutatják a mozgásokat}
 menuText H OptionsMovesShowEngineVariationArrows "Nyilak megjelenítése a motorváltozatokhoz" 0 {Kapcsolja be/ki a nyilakat, amelyek a motor változási vonalait mutatják többPV módban}
 menuText H OptionsMovesGlossOfDanger "Színkódolt Gloss of Danger" 0 {Kapcsolja be/ki a veszély színkódolt fényét}
+translate H OptionsMovesTreeDepth {Alapértelmezett fa ablak mozgási mélység}
 menuText H OptionsNumbers "Számformátum" 1 {Számformátum kiválasztása}
 menuText H OptionsTheme "Téma" 0 {A program megjelenésének megváltoztatása}
 menuText H OptionsWindows "Ablakok" 0 {Ablakbeállítások}
@@ -470,6 +471,7 @@ menuText H TreeOptFastAndSlowmode "Gyors és lassú üzemmód" 1 {Gyors majd lassú f
 menuText H TreeOptStartStop "Automatikus frissítés" 0 {Átváltja a faszerkezet-ablak automatikus frissítését.}
 menuText H TreeOptLock "Rögzítés" 0 {A fát az aktuális adatbázishoz köti ill. a kötést feloldja.}
 menuText H TreeOptTraining "Edzés" 0 {Edzésüzemmód be- vagy kikapcsolása}
+menuText H TreeOptDepth "Mozgassa a mélységet" 0 {A fában megjelenítendõ féllépések száma (1-4)}
 menuText H TreeOptAutosave "Cache-fájl automatikus mentése" 11 \
   {A faablak bezárásakor automatikusan elmenti a cache-fájlt.}
 menuText H TreeHelp "Segítség" 0
@@ -478,13 +480,14 @@ menuText H TreeHelpIndex "Tartalom" 0
 translate H SaveCache {Cache mentése}
 translate H Training {Edzés}
 translate H LockTree {Rögzítés}
+translate H TreeDepth {Fa mélysége (fél mozgás):}
 translate H TreeLocked {rögzítve}
 translate H TreeBest {Legjobb}
 translate H TreeBestGames {A fa legjobb játszmái}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate H TreeTitleRow \
-  {    Lépés  ECO       Gyakoriság  Eredm. ÁtlÉlõ Telj. Átl.év}
+{Lépés                         ECO       Gyakoriság  Eredm. ÁtlÉlõ Telj. Átl.év      %Gyõzelem}
 translate H TreeTotal {ÖSSZESEN}
 translate H DoYouWantToSaveFirst {Akarod elõbb menteni?}
 translate H AddToMask {Add hozzá a maszkhoz}
@@ -1291,6 +1294,7 @@ translate H SoundsFolder {Hangfájlok könyvtára}
 translate H SoundsFolderHelp {A könyvtárban a King.wav, a.wav, 1.wav, s.í.t. fájloknak kell szerepelniük.}
 translate H SoundsAnnounceOptions {Lépésbemondások beállításai}
 translate H SoundsAnnounceNew {Új lépés bemondása amint megtesszük}
+translate H SoundsMoveSoundOnly {Csak mozgatási hang (bejelentések letiltása)}
 translate H SoundsAnnounceForward {Lépés bemondása amikor egy lépést elõre lépünk}
 translate H SoundsAnnounceBack {Lépés bemondása amikor visszaveszünk vagy egy lépést hátra lépünk}
 translate H SoundsSoundDisabled {A Scid nem találta a Snack audiocsomagot indításkor;\nA hang le van tiltva.}

@@ -513,13 +513,14 @@ menuText E TreeHelpIndex "Help Index" 0
 translate E SaveCache {Save Cache}
 translate E Training {Training}
 translate E LockTree {Lock}
+translate E TreeDepth {Tree depth (half moves):}
 translate E TreeLocked {locked}
 translate E TreeBest {Best}
 translate E TreeBestGames {Best Tree Games}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate E TreeTitleRow \
-  {    Move(s)                   ECO       Frequency    Score  AvElo Perf AvYear %Draws}
+  {    Move(s)                   ECO       Frequency    Score  AvElo Perf AvYear %Draws     %Win}
 translate E TreeTotal {TOTAL}
 translate E DoYouWantToSaveFirst {Do you want to save first}
 translate E AddToMask {Add to Mask}
@@ -1325,6 +1326,7 @@ translate E SoundsFolder {Sound Files Folder}
 translate E SoundsFolderHelp {The folder should contain the files King.wav, a.wav, 1.wav, etc}
 translate E SoundsAnnounceOptions {Move Announcement Options}
 translate E SoundsAnnounceNew {Announce new moves as they are made}
+translate E SoundsMoveSoundOnly {Move sound only (disable announcements)}
 translate E SoundsAnnounceForward {Announce moves when moving forward one move}
 translate E SoundsAnnounceBack {Announce when retracting or moving back one move}
 translate E SoundsSoundDisabled {Scid could not find the Snack audio package at startup;\nSound is disabled.}

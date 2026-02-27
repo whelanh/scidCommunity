@@ -287,6 +287,7 @@ menuText L OptionsMovesKey "Finalizarea tastaturii" 0 \
 menuText L OptionsMovesShowVarArrows "Afișați săgețile pentru variații" 0 {Activați/dezactivați săgețile care arată mișcările în variații}
 menuText L OptionsMovesShowEngineVariationArrows "Afișați săgețile pentru variațiile de motor" 0 {Porniți/opriți săgețile care arată liniile de variație ale motorului în modul multiPV}
 menuText L OptionsMovesGlossOfDanger "Luciu de pericol cu ​​coduri de culoare" 0 {Activați/dezactivați luciul de pericol cu ​​coduri de culoare}
+translate L OptionsMovesTreeDepth {Adâncimea de mutare a ferestrei arborelui implicit}
 menuText L OptionsNumbers "Format de număr" 0 {Selectați formatul numărului}
 menuText L OptionsTheme "Temă" 0 {Schimbați aspectul interfeței}
 menuText L OptionsWindows "Windows" 0 {Opțiuni de fereastră}
@@ -500,6 +501,7 @@ menuText L TreeOptFastAndSlowmode "Mod rapid și lent" 0 {Modul rapid apoi modul
 menuText L TreeOptStartStop "Reîmprospătare automată" 0 {Comută reîmprospătarea automată a ferestrei arborelui}
 menuText L TreeOptLock "Blocare" 0 {Blocați/deblocați arborele în baza de date curentă}
 menuText L TreeOptTraining "Antrenamentul" 0 {Activați/dezactivați modul de antrenament arbore}
+menuText L TreeOptDepth "Mutați adâncimea" 0 {Numărul de jumătăți de mișcări de afișat în arbore (1-4)}
 menuText L TreeOptAutosave "Salvare automată a fișierului cache" 0 \
   {Salvați automat fișierul cache când închideți fereastra arborelui}
 menuText L TreeHelp "Ajutor" 0
@@ -508,13 +510,14 @@ menuText L TreeHelpIndex "Index de ajutor" 0
 translate L SaveCache {Salvați cache}
 translate L Training {Antrenamentul}
 translate L LockTree {Blocare}
+translate L TreeDepth {Adâncimea copacului (jumătate de mișcări):}
 translate L TreeLocked {încuiat}
 translate L TreeBest {Cel mai bun}
 translate L TreeBestGames {Cele mai bune jocuri cu copaci}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate L TreeTitleRow \
-  {Mutare Scor de frecvență ECO AvElo Perf AvYear % Draws}
+{Mutare Scor de frecvență      ECO AvElo Perf AvYear % Draws      %Câştiga}
 translate L TreeTotal {TOTAL}
 translate L DoYouWantToSaveFirst {Doriți să salvați mai întâi}
 translate L AddToMask {Adaugă la mască}
@@ -1311,6 +1314,7 @@ translate L SoundsFolder {Folder cu fișiere de sunet}
 translate L SoundsFolderHelp {Dosarul ar trebui să conțină fișierele King.wav, a.wav, 1.wav etc}
 translate L SoundsAnnounceOptions {Mutați opțiunile de anunț}
 translate L SoundsAnnounceNew {Anunțați mișcări noi pe măsură ce sunt făcute}
+translate L SoundsMoveSoundOnly {Mutați numai sunetul (dezactivați anunțurile)}
 translate L SoundsAnnounceForward {Anunțați mișcări atunci când avansați cu o mișcare}
 translate L SoundsAnnounceBack {Anunțați când vă retrageți sau vă întoarceți cu o mișcare}
 translate L SoundsSoundDisabled {Scid nu a putut găsi pachetul audio Snack la pornire;\nSunetul este dezactivat.}

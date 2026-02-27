@@ -523,6 +523,7 @@ set ::utils::sound::soundFolder [file nativename [file join $::scidShareDir soun
 set ::utils::sound::announceNew 0
 set ::utils::sound::announceForward 0
 set ::utils::sound::announceBack 0
+set ::utils::sound::moveSoundOnly 0
 
 # Spell-checking file: default is "spelling.ssp".
 set spellCheckFile [file join $scidShareDir "spelling.ssp"]

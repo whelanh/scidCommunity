@@ -279,6 +279,7 @@ menuText S OptionsMovesShowVarArrows "Mostrar flechas para las variaciones" 0 \
   {Activa/desactiva mostrar flechas para las variaciones}
 menuText S OptionsMovesShowEngineVariationArrows "Mostrar Flechas para Variantes del Motor" 0 {Activar/desactivar flechas que muestran líneas de variación del motor en modo multiPV}
 menuText S OptionsMovesGlossOfDanger "Brillo de peligro codificado por colores" 0 {Activar/desactivar el brillo de peligro codificado por colores}
+translate S OptionsMovesTreeDepth {Profundidad de movimiento de ventana de �rbol predeterminada}
 menuText S OptionsNumbers "Formato de números" 11 \
   {Selecciona el formato de números}
 menuText S OptionsTheme "Tema" 0 {Cambia el aspecto del interfaz}
@@ -519,6 +520,7 @@ menuText S TreeOptLock "Bloquear" 1 \
   {Bloquea/desbloquea el árbol de la base de datos actual}
 menuText S TreeOptTraining "Entrenamiento" 2 \
   {Activa/desactiva el modo de entrenamiento de árbol}
+menuText S TreeOptDepth "Mover profundidad" 0 {N�mero de medios movimientos para mostrar en el �rbol (1-4)}
 menuText S TreeOptAutosave "Autoguardar archivo caché" 0 \
   {Guarda automáticamente el archivo caché cuando se cierra la ventana de árbol}
 menuText S TreeHelp "Ayuda" 1
@@ -527,13 +529,14 @@ menuText S TreeHelpIndex "Índice de la ayuda" 0
 translate S SaveCache {Guardar caché}
 translate S Training {Entrenamiento}
 translate S LockTree {Bloquear}
+translate S TreeDepth {Profundidad del �rbol (medios movimientos):}
 translate S TreeLocked {Bloqueado}
 translate S TreeBest {Mejor}
 translate S TreeBestGames {Mejores partidas del árbol}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate S TreeTitleRow \
-  {    Movim. ECO       Frecuencia   Puntu. AvElo Perf AvAño %Tablas}
+{Movim.                        ECO       Frecuencia   Puntu. AvElo Perf AvAño %Tablas   %Ganar}
 translate S TreeTotal {TOTAL}
 translate S DoYouWantToSaveFirst {¿Quieres salvar primero?}
 translate S AddToMask {Añadir a máscara}
@@ -1343,6 +1346,7 @@ translate S SoundsFolder {Directorio de los archivos de sonido}
 translate S SoundsFolderHelp {El directorio debe contener los archivos King.wav, a.wav, 1.wav, etc.}
 translate S SoundsAnnounceOptions {Opciones de anunciamiento de movimientos}
 translate S SoundsAnnounceNew {Anunciar nuevos movimientos cuando sean hechos}
+translate S SoundsMoveSoundOnly {Mover solo sonido (desactivar anuncios)}
 translate S SoundsAnnounceForward {Anunciar movimientos cuando avancemos un movimiento}
 translate S SoundsAnnounceBack {Anunciar movimiento cuando rectifiquemos o retrocedamos una jugada}
 translate S SoundsSoundDisabled {Scid no pudo encontrar el paquete de audio de Snack al inicio.\nEl sonido está desactivado.}

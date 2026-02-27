@@ -257,6 +257,7 @@ menuText O OptionsMovesKey "Autofullfør" 0 \
 menuText O OptionsMovesShowVarArrows "Vis piler for varianter" 0 {Slå på/av piler som viser bevegelser i varianter}
 menuText O OptionsMovesShowEngineVariationArrows "Vis piler for motorvariasjoner" 0 {Slå på/av-piler som viser motorvariasjonslinjer i multiPV-modus}
 menuText O OptionsMovesGlossOfDanger "Fargekodet Gloss of Danger" 0 {Slå på/av fargekodet gloss of fare}
+translate O OptionsMovesTreeDepth {Standard trevindu flyttedybde}
 menuText O OptionsNumbers "Tallformat" 0 {Angi tallformat}
 menuText O OptionsTheme "Tema" 0 {Endre utseendet på grensesnittet}
 menuText O OptionsWindows "Vinduer" 0 {Vindusinnstillinger}
@@ -472,6 +473,7 @@ menuText O TreeOptFastAndSlowmode "Rask og sakte modus" 0 {Rask modus og derette
 menuText O TreeOptStartStop "Automatisk forfriskende" 0 {Slår på automatisk oppdatering av trevinduet}
 menuText O TreeOptLock "Lås" 0 {Låser treet til nåværende database}
 menuText O TreeOptTraining "Trening" 0 {Slår av/på treningsmodus}
+menuText O TreeOptDepth "Flytte dybde" 0 {Antall halve trekk som skal vises i treet (1-4)}
 menuText O TreeOptAutosave "Autolagre hurtigbuffer" 0 \
   {Autolagrer hurtigbufferet når vinduet lukkes}
 menuText O TreeHelp "Hjelp" 0
@@ -480,13 +482,14 @@ menuText O TreeHelpIndex "Innholdsfortegnelse" 0
 translate O SaveCache {Lagre hurtigbuffer}
 translate O Training {Trening}
 translate O LockTree {Lås}
+translate O TreeDepth {Tredybde (halve bevegelser):}
 translate O TreeLocked {låst}
 translate O TreeBest {Beste}
 translate O TreeBestGames {Idealtrepartier}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate O TreeTitleRow \
-  {    Move   ECO       Frequency    Score  AvElo Perf AvYear %Draws} ;# ***
+{Move                          ECO       Frequency    Score  AvElo Perf AvYear %Draws     %Vinne} ;# ***
 translate O TreeTotal {SAMMENLAGT}
 translate O DoYouWantToSaveFirst {Vil du spare først}
 translate O AddToMask {Legg til maske}
@@ -1290,6 +1293,7 @@ translate O SoundsFolder {Sound Files Folder} ;# ***
 translate O SoundsFolderHelp {The folder should contain the files King.wav, a.wav, 1.wav, etc} ;# ***
 translate O SoundsAnnounceOptions {Move Announcement Options} ;# ***
 translate O SoundsAnnounceNew {Announce new moves as they are made} ;# ***
+translate O SoundsMoveSoundOnly {Bare flytt lyd (deaktiver kunngjøringer)}
 translate O SoundsAnnounceForward {Announce moves when moving forward one move} ;# ***
 translate O SoundsAnnounceBack {Announce when retracting or moving back one move} ;# ***
 translate O SoundsSoundDisabled {Scid kunne ikke finne Snack-lydpakken ved oppstart;\nLyden er deaktivert.}

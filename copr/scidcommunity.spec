@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.14
+Version:        5.1.2.32
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 0bab83637760a114f2f570bb09af858c9e296e1a
+%global commit fa099d624b86177bdf09a17eb220c6f33c7c00ed
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,30 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Thu Feb 26 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-32
+- "Added new Lichess Eval button in PGN window to look up stored evals"
+* Tue Feb 24 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-31
+- "Changes made for Flatpak version"
+* Sun Feb 22 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-25
+- "Add more audio packages to Snap build, translation additions"
+* Sat Feb 21 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-24
+- "Fix audio set up for move announcements/move sounds"
+* Tue Feb 17 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-23
+- "Update Tip Of The Day"
+* Wed Feb 11 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-22
+- "Continue to correct outdated and inaccurate help files"
+* Wed Feb 11 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-21
+- "Update help files for new features"
+* Mon Feb 9 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-20
+- "Add headless API: no impact to GUI users"
+* Sun Feb 8 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-19
+- "Refine Lichess Table Base button reporting of partial 8-man tablebase results"
+* Thu Feb 5 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-18
+- "Add column to Tree View window showing gross percentage of wins for side to move"
+* Wed Feb 4 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-17
+- "fix translations for new features"
+* Wed Feb 4 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-16
+- "Update language files for new functions"
 * Mon Feb 3 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-14
 - "Allow multiple move sequences in the Tree Window"
 * Mon Feb 3 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-13

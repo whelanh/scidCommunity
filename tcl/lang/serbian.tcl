@@ -303,6 +303,8 @@ menuText Y OptionsMovesShowVarArrows "Show Arrows for Variations" 0 {Turn on/off
 menuText Y OptionsMovesShowEngineVariationArrows "Show Arrows for Engine Variations" 0 {Turn on/off arrows showing engine variation lines in multiPV mode}
 # ====== TODO To be translated ======
 menuText Y OptionsMovesGlossOfDanger "Color Coded Gloss of Danger" 0 {Turn on/off color coded gloss of danger}
+# ====== TODO To be translated ======
+translate Y OptionsMovesTreeDepth {Default Tree Window Move Depth}
 menuText Y OptionsNumbers "Format brojeva" 0 {Izaberi format brojeva}
 # ====== TODO To be translated ======
 menuText Y OptionsTheme "Theme" 0 {Change look of interface}
@@ -556,6 +558,8 @@ menuText Y TreeOptFastAndSlowmode "Fast and slow mode" 0 {Fast mode then slow mo
 menuText Y TreeOptStartStop "Auto refreshing" 0 {Toggles automatic refreshing of the tree window}
 menuText Y TreeOptLock "Zakljuèaj" 0 {Zakljuèaj/otkljuèaj stablo za tekuæu bazu}
 menuText Y TreeOptTraining "Trening" 0 {Ukljuèi/iskljuèi trening mod stabla}
+# ====== TODO To be translated ======
+menuText Y TreeOptDepth "Move depth" 0 {Number of half moves to display in tree (1-4)}
 menuText Y TreeOptAutosave "Automatski saèuvaj cache fajl" 0 \
   {Automatski saèuvaj cache fajl pri zatvaranju prozora stabla}
 menuText Y TreeHelp "Pomoæ" 0
@@ -564,13 +568,15 @@ menuText Y TreeHelpIndex "Sadr¾aj pomoæi" 0
 translate Y SaveCache {Saèuvaj cache}
 translate Y Training {Trening}
 translate Y LockTree {Zakljuèaj}
+# ====== TODO To be translated ======
+translate Y TreeDepth {Tree depth (half moves):}
 translate Y TreeLocked {zakljuèano}
 translate Y TreeBest {Najbolje}
 translate Y TreeBestGames {Najbolje partije stabla}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate Y TreeTitleRow \
-  {    Move   ECO       Frequency    Score  AvElo Perf AvYear %Draws} ;# ***
+{Move                          ECO       Frequency    Score  AvElo Perf AvYear %Draws     %Win} ;# ***
 translate Y TreeTotal {UKUPNO}
 # ====== TODO To be translated ======
 translate Y DoYouWantToSaveFirst {Do you want to save first}
@@ -1531,6 +1537,8 @@ translate Y SoundsFolder {Sound Files Folder} ;# ***
 translate Y SoundsFolderHelp {The folder should contain the files King.wav, a.wav, 1.wav, etc} ;# ***
 translate Y SoundsAnnounceOptions {Move Announcement Options} ;# ***
 translate Y SoundsAnnounceNew {Announce new moves as they are made} ;# ***
+# ====== TODO To be translated ======
+translate Y SoundsMoveSoundOnly {Move sound only (disable announcements)}
 translate Y SoundsAnnounceForward {Announce moves when moving forward one move} ;# ***
 translate Y SoundsAnnounceBack {Announce when retracting or moving back one move} ;# ***
 # ====== TODO To be translated ======

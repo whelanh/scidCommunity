@@ -8,6 +8,7 @@ proc ::tip::show {{n -1}} {
   if {! [winfo exists .tipsWin]} {
     win::createDialog $w
     wm title $w "scidCommunity: [tr HelpTip]"
+    wm attributes $w -topmost 1
     ttk::frame $w.text_frame
     ttk_text $w.text -width 40 -height 8 -wrap word
     autoscrollBars y $w.text_frame $w.text
@@ -55,18 +56,18 @@ proc ::tip::show {{n -1}} {
 
 set tips(E) {
   {
-    Scid has over 30 <a Index>help pages</a>, and in most Scid windows
+    scidCommunity has over 40 <a Index>help pages</a>, and in most scidCommunity windows
     pressing the <b>F1</b> key will produce the help page about that
     window.
   }
   {
-    Some Scid windows (e.g. the game information area, database
+    Some scidCommunity windows (e.g. the game information area, database
     <a Switcher>switcher</a>) have a right-mouse button menu. Try
     pressing the right mouse button in each window to see if it has
     one and what functions are available.
   }
   {
-    Scid offers you more than one way to enter chess moves, letting
+    scidCommunity offers you more than one way to enter chess moves, letting
     you choose which suits you best. You can use the mouse
     (with or without move suggestion) or the keyboard
     (with or without move completion). Read the
@@ -76,6 +77,9 @@ set tips(E) {
     If you have a few databases that you open often, add a
     <a Bookmarks>bookmark</a> for each one, and then you will be able
     to open them faster using the bookmarks menu.
+  }
+  {
+    You can follow major chess tournaments in real-time using the <b>Open Lichess Tournament</b> feature in the <b>File</b> menu. scidCommunity will automatically monitor and update the live games for you.
   }
   {
     You can see all the moves of the current game
@@ -89,9 +93,9 @@ set tips(E) {
     with the left mouse button in the <a Switcher>database switcher</a> window.
   }
   {
-    Scid can open PGN files, even if they are compressed with Gzip
+    scidCommunity can open PGN files, even if they are compressed with Gzip
     (with a .gz filename suffix). PGN files are opened read-only, so
-    if you want to edit a PGN file in Scid, create a new Scid database
+    if you want to edit a PGN file in scidCommunity, create a new scidCommunity database
     and copy the PGN file games to it using the
     <a Switcher>database switcher</a>.
   }
@@ -106,6 +110,9 @@ set tips(E) {
     current position, but if you also want to see all the move orders
     that reached this position, you can find them by generating
     an <a OpReport>opening report</a>.
+  }
+  {
+    To quickly import your own games from online sites, use <b>Import my Lichess</b> or <b>Import my chess.com</b> from the <b>File</b> menu. Simply enter your username and a start date to download your games with full metadata.
   }
   {
     In the <a GameList>game list</a> window, press the left or right mouse
@@ -127,13 +134,16 @@ set tips(E) {
   {
     In the game information area (below the chessboard), you can press
     the right mouse button to produce a menu for customising it. For
-    example, you can make Scid hide the next move which is useful for
+    example, you can make scidCommunity hide the next move which is useful for
     training by playing though a game guessing the moves.
   }
   {
     If you often do a lot of database <a Maintenance>maintenance</a> on
     a large database, you can do several maintenance jobs at once using
     the <a Maintenance Cleaner>cleaner</a>.
+  }
+  {
+    The <a PGN>PGN window</a> features quick-access buttons to upload your current game to <b>Lichess.org</b> or <b>Chess.com</b>. This allows you to instantly use their powerful cloud-based engine analysis and sharing features.
   }
   {
     If you have a large database where most games have an EventDate and
@@ -145,7 +155,7 @@ set tips(E) {
   {
     Before <a Maintenance Twins>deleting twin games</a>, it is a good idea
     to <a Maintenance Spellcheck>spellcheck</a> your database since this
-    will enable to Scid find more twins and mark them for deletion.
+    will enable to scidCommunity find more twins and mark them for deletion.
   }
   {
     <a Flags>Flags</a> are useful for marking database games with
@@ -164,6 +174,9 @@ set tips(E) {
     reaching a particular position, open the <a Tree>tree</a> window
     and from there, open the best games list. You can even restrict
     the best games list to show only games with a particular result.
+  }
+  {
+    Use the <b>chessdb Engine Tree</b> button in the <a PGN>PGN window</a> to consult the <b>ChessDB.cn</b> cloud database. It contains billions of pre-analyzed positions and computer evaluations for almost any opening.
   }
   {
     A great way to study an opening using a large database of games is
@@ -196,6 +209,9 @@ set tips(E) {
     situation only occurred briefly.
   }
   {
+    If you reach an endgame with 7 or fewer pieces, click the <b>Table Base</b> button in the <a PGN>PGN window</a> to get perfect analysis from the Lichess endgame tablebases.
+  }
+  {
     If you have an important database you do not want to accidentally
     alter, select <b>Read-only...</b> from the <b>File</b> menu after
     opening it, or change its file permissions to be read-only.
@@ -203,10 +219,10 @@ set tips(E) {
   {
     If you use XBoard or WinBoard (or some other chess program that
     can copy a chess position in standard FEN notation to the clipboard)
-    and want to copy its current chess position to Scid, the fastest and
+    and want to copy its current chess position to scidCommunity, the fastest and
     easiest way is to select <b>Copy Position</b> from the File menu in
     XBoard/WinBoard, then <b>Paste start board</b> from the Edit menu
-    in Scid.
+    in scidCommunity.
   }
   {
     In a <a Searches Header>header search</a>, player/event/site/round
@@ -228,6 +244,9 @@ set tips(E) {
     deepest classified position in the current game with
     <b>Identify opening</b> in the <b>Game</b> menu
     (shortcut: Ctrl+Shift+D).
+  }
+  {
+    Stay up to date with the latest games from around the world by using <b>Download TWIC Games</b> in the <b>Tools</b> menu. It automatically downloads and opens the latest weekly PGN from <b>The Week In Chess</b>.
   }
   {
     If you want to check the size of a file or its date of last modification
@@ -252,9 +271,9 @@ set tips(E) {
     Statistics window (shortcut: Ctrl+I).
   }
   {
-    You can change the main window board size by holding down the <b>Ctrl</b>
-    and <b>Shift</b> keys, and pressing the <b>Left</b> or <b>Right</b>
-    arrow key.
+    In the <b>Game Browser</b> window, you can change the board size by
+    holding down the <b>Ctrl</b> and <b>Shift</b> keys, and pressing
+    the <b>Left</b> or <b>Right</b> arrow key.
   }
   {
     After a <a Searches>search</a>, you can easily browse through all
@@ -266,11 +285,6 @@ set tips(E) {
     Windows can be docked by checking the relevant entry in the option menu.
     Tabs can be dragged and dropped from one notebook to another and layed out
     by right clicking on the tab widget.
-  }
-  {
-    Scid GUI can be customized by TTK-Themes. This allow different look and feels
-    according the favorite preference of the user. Use "Options - Load Theme" and
-    look in the <a Appearance>help section</a>.
   }
 }
 

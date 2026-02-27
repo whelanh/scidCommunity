@@ -251,6 +251,8 @@ menuText T OptionsMovesKey "Klavye Tamamlama" 0 \
 menuText T OptionsMovesShowVarArrows "Varyasyonlar için Okları Göster" 0 {Hareketleri varyasyonlarda gösteren okları açma/kapama}
 menuText T OptionsMovesShowEngineVariationArrows "Motor Varyasyonları için Okları Göster" 0 {MultiPV modunda motor değişim çizgilerini gösteren açma/kapama okları}
 menuText T OptionsMovesGlossOfDanger "Renk Kodlu Tehlike Parlatıcısı" 0 {Renk kodlu tehlike parlaklığını açma/kapama}
+# ====== TODO To be translated ======
+translate T OptionsMovesTreeDepth {Default Tree Window Move Depth}
 menuText T OptionsNumbers "Sayı Formatı" 0 {Sayı biçimini seçin}
 menuText T OptionsTheme "Tema" 0 {Arayüzün görünümünü değiştirin}
 menuText T OptionsWindows "Windows" 0 {Pencere seçenekleri}
@@ -464,6 +466,8 @@ menuText T TreeOptFastAndSlowmode "Hızlı ve yavaş mod" 0 {Güncellemeler içi
 menuText T TreeOptStartStop "Otomatik yenileme" 0 {Ağaç penceresinin otomatik olarak yenilenmesini açar/kapatır}
 menuText T TreeOptLock "Kilit" 0 {Ağacı geçerli veritabanına kilitleme/kilidini açma}
 menuText T TreeOptTraining "Eğitim" 0 {Ağaç eğitimi modunu aç/kapat}
+# ====== TODO To be translated ======
+menuText T TreeOptDepth "Move depth" 0 {Number of half moves to display in tree (1-4)}
 menuText T TreeOptAutosave "Önbellek Dosyasını Otomatik Kaydet" 0 \
   {Ağaç penceresini kapatırken önbellek dosyasını otomatik olarak kaydet}
 menuText T TreeHelp "Yardım" 0
@@ -472,13 +476,15 @@ menuText T TreeHelpIndex "Yardım Dizini" 0
 translate T SaveCache {Önbelleği Kaydet}
 translate T Training {Eğitim}
 translate T LockTree {Kilit}
+# ====== TODO To be translated ======
+translate T TreeDepth {Tree depth (half moves):}
 translate T TreeLocked {kilitli}
 translate T TreeBest {En iyi}
 translate T TreeBestGames {En İyi Ağaç Oyunları}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate T TreeTitleRow \
-  {ECO Frekans Puanını Taşı AvElo Perf AvYıl %Çekimler}
+{                              ECO Frekans Puanını Taşı AvElo Perf AvYıl %Çekimler      %Win}
 translate T TreeTotal {TOPLAM}
 translate T DoYouWantToSaveFirst {Önce kaydetmek ister misiniz?}
 translate T AddToMask {Maskeye Ekle}
@@ -1275,6 +1281,8 @@ translate T SoundsFolder {Ses Dosyaları Klasörü}
 translate T SoundsFolderHelp {Klasör King.wav, a.wav, 1.wav, vb. dosyalarını içermelidir.}
 translate T SoundsAnnounceOptions {Duyuru Seçeneklerini Taşı}
 translate T SoundsAnnounceNew {Yeni hamleleri yapıldıkça duyurun}
+# ====== TODO To be translated ======
+translate T SoundsMoveSoundOnly {Move sound only (disable announcements)}
 translate T SoundsAnnounceForward {Bir hamle ileri giderken hamleleri duyurun}
 translate T SoundsAnnounceBack {Geri çekilirken veya bir hamle geri giderken duyurun}
 translate T SoundsSoundDisabled {Scid başlangıçta Snack ses paketini bulamadı;\nSes devre dışı.}

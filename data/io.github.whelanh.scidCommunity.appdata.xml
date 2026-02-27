@@ -79,6 +79,66 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.2.32" date="2026-02-26">
+      <description>
+        <p>Added new Lichess Eval button in PGN window for stored Lichess API evaluations</p>
+      </description>
+    </release>
+    <release version="5.1.2.31" date="2026-02-24">
+      <description>
+        <p>Flatpak changes to allow sound on moves</p>
+      </description>
+    </release>
+    <release version="5.1.2.25" date="2026-02-22">
+      <description>
+        <p>Add audio packages to Snap build, translation additions</p>
+      </description>
+    </release>
+    <release version="5.1.2.24" date="2026-02-21">
+      <description>
+        <p>Fix audio to use modern audio stack for move announcements/sounds</p>
+      </description>
+    </release>
+    <release version="5.1.2.23" date="2026-02-17">
+      <description>
+        <p>Update Tip Of The Day</p>
+      </description>
+    </release>
+    <release version="5.1.2.22" date="2026-02-11">
+      <description>
+        <p>Continue to bring help files up to date</p>
+      </description>
+    </release>
+    <release version="5.1.2.21" date="2026-02-11">
+      <description>
+        <p>Update help files for new features</p>
+      </description>
+    </release>
+    <release version="5.1.2.20" date="2026-02-09">
+      <description>
+        <p>Add headless API: no impact to GUI users</p>
+      </description>
+    </release>
+    <release version="5.1.2.19" date="2026-02-08">
+      <description>
+        <p>Refine Lichess Table Base button reporting of partial 8-man tablebase positions</p>
+      </description>
+    </release>
+    <release version="5.1.2.18" date="2026-02-05">
+      <description>
+        <p>Add column to Tree View window showing gross percentage of wins for side to move</p>
+      </description>
+    </release>
+    <release version="5.1.2.17" date="2026-02-04">
+      <description>
+        <p>Fix language files for new features</p>
+      </description>
+    </release>
+    <release version="5.1.2.16" date="2026-02-04">
+      <description>
+        <p>Update language files for new functions</p>
+      </description>
+    </release>
     <release version="5.1.2.14" date="2026-02-03">
       <description>
         <p>Allow multiple move sequences in the Tree Window</p>

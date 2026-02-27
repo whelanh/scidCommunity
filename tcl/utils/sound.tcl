@@ -1,30 +1,25 @@
 ### sound.tcl
 ### Functions for playing sound files to announce moves.
 ### Part of Scid. Copyright (C) Shane Hudson 2004.
-### Copyright (C) 2013 Fulvio Benini
+### Copyright (C) 2013-2024 Fulvio Benini, whelanh
 ###
-### Uses the free Tcl/Tk sound package "Snack", which comes with
-### most Tcl distributions. See http://www.speech.kth.se/snack/
-
-### when an other application uses the audio device, no sound can be played. Forces a reset of pending sounds after 5 seconds
-### which limits the maximum length of a playable sound
+### Uses the free Tcl/Tk sound package "Snack" if available.
+### If not, it falls back to system-native audio players (aplay, paplay, afplay, powershell).
 
 namespace eval ::utils::sound {}
 
+set ::utils::sound::backend "none"
 set ::utils::sound::pipe ""
 set ::utils::sound::hasSound 0
 set ::utils::sound::isPlayingSound 0
+set ::utils::sound::moveSoundOnly 0
 set ::utils::sound::soundQueue {}
 set ::utils::sound::soundFiles [list \
     King Queen Rook Bishop Knight CastleQ CastleK Back Mate Promote Check \
     a b c d e f g h x 1 2 3 4 5 6 7 8 move alert]
 
 # soundMap
-#
 #   Maps characters in a move to sounds.
-#   Before this map is used, "O-O-O" is converted to "q" and "O-O" to "k"
-#   Also note that "U" (undo) is used for taking back a move.
-#
 array set ::utils::sound::soundMap {
   K King Q Queen R Rook B Bishop N Knight k CastleK q CastleQ
   x x U Back # Mate = Promote  + Check alert alert
@@ -32,55 +27,115 @@ array set ::utils::sound::soundMap {
   1 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8
 } 
 
-
 # ::utils::sound::Setup
-#
-#   Called once at startup to load the Snack package and set up sounds.
-#
+#   Called once at startup to detect audio capabilities.
 proc ::utils::sound::Setup {} {
   variable hasSound
   variable soundFiles
-  variable soundFolder
+  variable backend
+  variable pipe
 
-  set hasSound 1
-  if {[catch {package require snack 2.0}]} {
-    if {$::windowsOS} {
-      catch {
-        set ::utils::sound::pipe [open "| scidsnd.exe" "r+"]
-        fconfigure $::utils::sound::pipe -blocking 0 -buffering line
-        fileevent $::utils::sound::pipe readable {
-          gets $::utils::sound::pipe
-          ::utils::sound::SoundFinished
-        }
-      }
-    }
-    if { $::utils::sound::pipe == "" } { set hasSound 0 }
-  } else {
-    # Set up sounds. Each sound will be empty until a WAV file for it is found.
+  set hasSound 0
+  set backend "none"
+
+  # 1. Try Snack
+  if {![catch {package require snack 2.0}]} {
+    set backend "snack"
+    set hasSound 1
     foreach soundFile $soundFiles {
       ::snack::sound sound_$soundFile
     }
+  }
+
+  # 2. Try scidsnd.exe on Windows
+  if {! $hasSound && $::windowsOS} {
+    if {![catch {set pipe [open "| scidsnd.exe" "r+"]}]} {
+      set backend "scidsnd"
+      set hasSound 1
+      fconfigure $pipe -blocking 0 -buffering line
+      fileevent $pipe readable { gets $::utils::sound::pipe ; ::utils::sound::SoundFinished }
+    }
+  }
+
+  # 3. Try System Players
+  if {! $hasSound} {
+    if {$::windowsOS} {
+      set backend "powershell"
+      set hasSound 1
+    } elseif {$::macOS} {
+      if {[auto_execok afplay] != ""} {
+        set backend "afplay"
+        set hasSound 1
+      }
+    } else {
+      # Linux/Unix.
+      # pw-play uses native PipeWire protocol which doesn't work in Flatpak sandboxes.
+      # paplay uses PulseAudio protocol which works with --socket=pulseaudio.
+      set players {paplay pw-play aplay canberra-gtk-play}
+      if {[info exists ::env(FLATPAK_ID)]} {
+        # Exclude pw-play in Flatpak - it can't connect via native PipeWire protocol
+        set players {paplay aplay canberra-gtk-play}
+      }
+      foreach p $players {
+        if {[auto_execok $p] != ""} {
+          set backend $p
+          set hasSound 1
+          break
+        }
+      }
+    }
+  }
+
+  if {$hasSound} {
+    # Self-healing: if the saved soundFolder is not readable, try to reset it to the default
+    if {! [file isdirectory $::utils::sound::soundFolder] || [::utils::sound::ReadFolder] == 0} {
+      set defaultFolder [file normalize [file join $::scidShareDir sounds]]
+      if {[file isdirectory $defaultFolder]} {
+        set ::utils::sound::soundFolder $defaultFolder
+      }
+    }
     ::utils::sound::ReadFolder
+
+    # In Snap strict confinement, XDG_RUNTIME_DIR is overridden to a snap-specific
+    # subdirectory. We must use the REAL user socket path instead.
+    if {[info exists ::env(SNAP)]} {
+      if {![catch {set uid [exec id -u]} err]} {
+        set pulseSocket "/run/user/$uid/pulse/native"
+        if {[file exists $pulseSocket]} {
+          set ::env(PULSE_SERVER) "unix:$pulseSocket"
+        }
+      }
+    }
+
+    # In Flatpak, the PulseAudio socket is provided via --socket=pulseaudio
+    # but we need to ensure PULSE_SERVER points to the correct location.
+    # Flatpak typically sets this automatically, but if not, try the default path.
+    if {[info exists ::env(FLATPAK_ID)]} {
+      if {![catch {set uid [exec id -u]} err]} {
+        # Try the standard PipeWire/PulseAudio socket location
+        set pulseSocket "/run/user/$uid/pulse/native"
+        if {[file exists $pulseSocket] && ![info exists ::env(PULSE_SERVER)]} {
+          set ::env(PULSE_SERVER) "unix:$pulseSocket"
+        }
+      }
+    }
   }
 }
 
-
 # ::utils::sound::ReadFolder
-#
 #   Reads sound files from the specified directory.
-#   Returns the number of Scid sound files found in that directory.
-#
 proc ::utils::sound::ReadFolder {{newFolder ""}} {
   variable soundFiles
   variable soundFolder
+  variable backend
   
-  if {$newFolder != ""} { set soundFolder "" }
+  if {$newFolder != ""} { set soundFolder $newFolder }
   
   set count 0
   foreach soundFile $soundFiles {
     set f [file join $soundFolder $soundFile.wav]
     if {[file readable $f]} {
-      if { $::utils::sound::pipe == "" } {
+      if {$backend == "snack"} {
         sound_$soundFile configure -file $f
       }
       incr count
@@ -88,8 +143,6 @@ proc ::utils::sound::ReadFolder {{newFolder ""}} {
   }
   return $count
 }
-
-
 
 proc ::utils::sound::AnnounceMove {move} {
   variable hasSound
@@ -109,103 +162,154 @@ proc ::utils::sound::AnnounceMove {move} {
   }
   if {[llength $soundList] > 0} {
     CancelSounds
-    foreach s $soundList {
-      PlaySound $s
+    if {$::utils::sound::moveSoundOnly} {
+      PlaySound sound_move
+    } else {
+      foreach s $soundList {
+        PlaySound $s
+      }
     }
   }
 }
 
-
 proc ::utils::sound::AnnounceNewMove {move} {
-  if {$::utils::sound::announceNew} { AnnounceMove $move }
+  if {$::utils::sound::announceNew || $::utils::sound::moveSoundOnly} { AnnounceMove $move }
 }
-
 
 proc ::utils::sound::AnnounceForward {move} {
-  if {$::utils::sound::announceForward} { AnnounceMove $move }
+  if {$::utils::sound::announceForward || $::utils::sound::moveSoundOnly} { AnnounceMove $move }
 }
-
 
 proc ::utils::sound::AnnounceBack {} {
-  if {$::utils::sound::announceBack} { AnnounceMove U }
+  if {$::utils::sound::announceBack || $::utils::sound::moveSoundOnly} { AnnounceMove U }
 }
-
 
 proc ::utils::sound::SoundFinished {} {
   after cancel ::utils::sound::CancelSounds
   set ::utils::sound::isPlayingSound 0
-  CheckSoundQueue
+  # Add a small delay (150ms) between concatenated sounds
+  after 150 ::utils::sound::CheckSoundQueue
 }
 
-
 proc ::utils::sound::CancelSounds {} {
-  if {! $::utils::sound::hasSound} { return }
+  variable backend
+  variable pipe
+  variable hasSound
+  
+  if {! $hasSound} { return }
 
-  if { $::utils::sound::pipe != "" } {
-    puts $::utils::sound::pipe "stop"
-  } else {
+  if {$backend == "snack"} {
     snack::audio stop
+  } elseif {$backend == "scidsnd"} {
+    puts $pipe "stop"
   }
+  # Note: External system players usually play short files rapidly; 
+  # killing them might be more complex than worth for move sounds.
+  
   set ::utils::sound::soundQueue {}
   set ::utils::sound::isPlayingSound 0
 }
 
-################################################################################
-#
-################################################################################
 proc ::utils::sound::PlaySound {sound} {
   if {! $::utils::sound::hasSound} { return }
   lappend ::utils::sound::soundQueue $sound
   after idle ::utils::sound::CheckSoundQueue
 }
 
-# ::utils::sound::CheckSoundQueue
-#
-#   Starts playing the next available sound, if there is one waiting
-#   and no sound is currently playing. Called whenever a sound is
-#   added to the queue or a sound has finished playing.
-#
 proc ::utils::sound::CheckSoundQueue {} {
   variable soundQueue
   variable isPlayingSound
+  variable backend
+  variable pipe
+  variable soundFolder
+
   if {$isPlayingSound} { return }
   if {[llength $soundQueue] == 0} { return }
   
   set next [lindex $soundQueue 0]
   set soundQueue [lrange $soundQueue 1 end]
   set isPlayingSound 1
-  if { $::utils::sound::pipe != "" } {
-    set next [string range $next 6 end]
-    set f [file join $::utils::sound::soundFolder $next.wav]
-    puts $::utils::sound::pipe "[file nativename $f]"
-  } else {
+  
+  set name [string range $next 6 end]
+  set f [file join $soundFolder $name.wav]
+  if {! [file readable $f]} {
+    set isPlayingSound 0
+    after idle ::utils::sound::CheckSoundQueue
+    return
+  }
+
+  if {$backend == "snack"} {
     catch { $next play -blocking 0 -command ::utils::sound::SoundFinished }
     after 5000 ::utils::sound::CancelSounds
+  } elseif {$backend == "scidsnd"} {
+    puts $pipe "[file nativename $f]"
+  } elseif {$backend == "powershell"} {
+    set cmd "powershell -ExecutionPolicy Bypass -Command \"(New-Object Media.SoundPlayer '[file nativename $f]').PlaySync()\""
+    catch { exec {*}$cmd & }
+    # Increase delay to account for sound length
+    after 450 ::utils::sound::SoundFinished
+  } elseif {$backend == "afplay"} {
+    catch { exec afplay $f & }
+    # Increase delay to account for sound length
+    after 450 ::utils::sound::SoundFinished
+  } else {
+    # Linux players: aplay, paplay, etc.
+    # In Snap, run synchronously so we can capture errors from the live app (interfaces active).
+    # For normal native builds, still background it for UI responsiveness.
+    if {[info exists ::env(SNAP)]} {
+      after idle [list apply {{backend f} {
+        if {[catch { exec $backend $f } err]} {
+          puts stderr "scidCommunity sound error ($backend): $err"
+        }
+        ::utils::sound::SoundFinished
+      }} $backend $f]
+    } else {
+      if {[catch { exec $backend $f & } err]} {
+        puts stderr "scidCommunity sound error ($backend): $err"
+      }
+      after 450 ::utils::sound::SoundFinished
+    }
   }
 }
 
+proc ::utils::sound::UpdateOptions {mode} {
+  if {$mode == "mso"} {
+    if {$::utils::sound::moveSoundOnly} {
+      set ::utils::sound::announceNew 0
+      set ::utils::sound::announceForward 0
+      set ::utils::sound::announceBack 0
+    }
+  } else {
+    if {$::utils::sound::announceNew || $::utils::sound::announceForward || $::utils::sound::announceBack} {
+      set ::utils::sound::moveSoundOnly 0
+    }
+  }
+}
 
-# ::utils::sound::OptionsDialog
-#
-#   Dialog window for configuring move sounds.
-#
 proc ::utils::sound::OptionsDialog { w } {
      if { ! $::utils::sound::hasSound} {
         ttk::label $w.status -text [tr SoundsSoundDisabled]
         pack $w.status -side bottom
+    } else {
+        variable backend
+        ttk::label $w.backend -text "Audio Backend: $backend" -foreground gray
+        pack $w.backend -side bottom -pady 5
     }
-    ttk::checkbutton $w.n -variable ::utils::sound::announceNew -text [tr SoundsAnnounceNew]
-    ttk::checkbutton $w.f -variable ::utils::sound::announceForward -text [tr SoundsAnnounceForward]
-    ttk::checkbutton $w.b -variable ::utils::sound::announceBack -text [tr SoundsAnnounceBack]
-    pack $w.n $w.f $w.b -side top -anchor w -padx "0 5"
+    ttk::checkbutton $w.mso -variable ::utils::sound::moveSoundOnly -text [tr SoundsMoveSoundOnly] \
+        -command { ::utils::sound::UpdateOptions mso }
+    ttk::checkbutton $w.n -variable ::utils::sound::announceNew -text [tr SoundsAnnounceNew] \
+        -command { ::utils::sound::UpdateOptions ann }
+    ttk::checkbutton $w.f -variable ::utils::sound::announceForward -text [tr SoundsAnnounceForward] \
+        -command { ::utils::sound::UpdateOptions ann }
+    ttk::checkbutton $w.b -variable ::utils::sound::announceBack -text [tr SoundsAnnounceBack] \
+        -command { ::utils::sound::UpdateOptions ann }
+    pack $w.mso $w.n $w.f $w.b -side top -anchor w -padx "0 5"
 }
 
 proc ::utils::sound::GetDialogChooseFolder { widget } {
     set newFolder [tk_chooseDirectory \
                        -initialdir $::utils::sound::soundFolder \
                        -title "scidCommunity: $::tr(SoundsFolder)" -parent [winfo toplevel $widget] ]
-    # If the user selected a different folder to look in, read it
-    # and tell the user how many sound files were found there.
     if {$newFolder != "" && $newFolder != $::utils::sound::soundFolder } {
         if { [::utils::sound::OptionsDialogChooseFolder $newFolder] } {
             $widget delete 0 end
@@ -224,25 +328,16 @@ proc ::utils::sound::OptionsDialogChooseFolder { newFolder } {
 
 proc ::utils::sound::OptionsDialogOK {} {
   variable soundFolder
-  
-  # Destroy the Sounds options dialog
   set w .soundOptions
   catch {grab release $w}
   destroy $w
-  
   set isNewSoundFolder 0
   if {$soundFolder != $::utils::sound::soundFolder_temp} {
     set isNewSoundFolder 1
   }
-  
-  # Update the user-settable sound variables:
   foreach v {soundFolder announceNew announceForward announceBack} {
     set ::utils::sound::$v [set ::utils::sound::${v}_temp]
   }
-  
-  # If the user selected a different folder to look in, read it
-  # and tell the user how many sound files were found there.
-  
   if {$isNewSoundFolder  &&  $soundFolder != ""} {
     set numSoundFiles [::utils::sound::ReadFolder]
     tk_messageBox -title "scidCommunity: Sound Files" -type ok -icon info \
@@ -250,5 +345,4 @@ proc ::utils::sound::OptionsDialogOK {} {
   }
 }
 
-# Read the sound files at startup:
 ::utils::sound::Setup
