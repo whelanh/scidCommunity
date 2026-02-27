@@ -277,39 +277,39 @@ int bcreate( int argc, char ** argv )
   switch(c)
   {
 	case 'b':
-		if( sscanf( optarg, "%i", &Asize ) == 0 ) wusage();
+		if( sscanf( optarg, "%i", &Asize ) != 1 ) wusage();
 		if( Asize < 1000 ) wusage();
 	break;
 	case 'p':
-		if( sscanf( optarg, "%i", &MaxBookPly ) == 0 ) wusage();
+		if( sscanf( optarg, "%i", &MaxBookPly ) != 1 ) wusage();
 		if( MaxBookPly < 2 ) wusage();
 	break;
 	case 'c':
-		if( sscanf( optarg, "%i", &MaxComment ) == 0 ) wusage();
+		if( sscanf( optarg, "%i", &MaxComment ) != 1 ) wusage();
 		if( MaxComment < 2 ) wusage();
 	break;
 	case 'v':
-		if( sscanf( optarg, "%i", &MinValue ) == 0 ) wusage();
+		if( sscanf( optarg, "%i", &MinValue ) != 1 ) wusage();
 		if( MinValue < 0 ) wusage();
 	break;
 	case 'g':
-		if( sscanf( optarg, "%i", &MinPercentage ) == 0 ) wusage();
+		if( sscanf( optarg, "%i", &MinPercentage ) != 1 ) wusage();
 		if( MinPercentage < 50 || MinPercentage > 100 ) wusage();
 	break;
 	case 'w':
-		if( sscanf( optarg, "%i", &WIN ) == 0 ) wusage();
+		if( sscanf( optarg, "%i", &WIN ) != 1 ) wusage();
 		if( WIN < 1 || WIN > 10 ) wusage();
 	break;
 	case 'd':
-		if( sscanf( optarg, "%i", &DRA ) == 0 ) wusage();
+		if( sscanf( optarg, "%i", &DRA ) != 1 ) wusage();
 		if( DRA < 0 || DRA > 10 ) wusage();
 	break;
 	case 'l':
-		if( sscanf( optarg, "%i", &LOO ) == 0 ) wusage();
+		if( sscanf( optarg, "%i", &LOO ) != 1 ) wusage();
 		if( LOO < 0 || LOO > 10 ) wusage();
 	break;
 	case 'u':
-		if( sscanf( optarg, "%i", &UNK ) == 0 ) wusage();
+		if( sscanf( optarg, "%i", &UNK ) != 1 ) wusage();
 		if( UNK < 0 || UNK > 10 ) wusage();
 	break;
 	default: wusage();
