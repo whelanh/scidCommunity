@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.32
+Version:        5.1.2.33
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit fa099d624b86177bdf09a17eb220c6f33c7c00ed
+%global commit 85bf3a5d70e93cffa916f026ae419263e2442e99
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Fri Feb 27 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-33
+- "Added stored evaluations panel to top of the Engine Window"
 * Thu Feb 26 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-32
 - "Added new Lichess Eval button in PGN window to look up stored evals"
 * Tue Feb 24 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-31
