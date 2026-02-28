@@ -36,6 +36,7 @@ proc ::enginewin::listEngines {} {
 }
 
 # Sends the updated position to the active engines
+# Also updates the stored eval display for all open engine windows.
 proc ::enginewin::onPosChanged { {ids ""}} {
     set position ""
     foreach {id state} [array get ::enginewin::engState] {
@@ -45,12 +46,22 @@ proc ::enginewin::onPosChanged { {ids ""}} {
             set position [sc_game UCI_currentPos]
         }
         ::enginewin::sendPosition $id $position
+        set ::enginewin::m_(currentFen,$id) [sc_pos fen]
+    }
+    # Update stored eval display for ALL open engine windows
+    foreach {id state} [array get ::enginewin::engState] {
+        if {$state eq ""} { continue }
+        if {[winfo exists .engineWin$id.stored_eval]} {
+            ::enginewin::updateStoredEvalDisplay $id
+        }
     }
 }
 
 # Sends a position to an engine.
 # When the engine replies with an InfoGo message the state will change to "run".
 proc ::enginewin::sendPosition {id position} {
+    # Save accumulated PVs for the previous position before clearing
+    ::enginewin::saveAccumulatedPVs $id
     ::enginewin::updateDisplay $id ""
     if {[set ::enginewin::newgame_$id]} {
         set ::enginewin::newgame_$id false
@@ -74,9 +85,11 @@ proc ::enginewin::start { {id ""} {enginename ""} } {
         set id [::enginewin::Open $id $enginename]
         catch {
            ::enginewin::sendPosition $id [sc_game UCI_currentPos]
+           set ::enginewin::m_(currentFen,$id) [sc_pos fen]
         }
     } elseif {$::enginewin::engState($id) eq "idle"} {
         ::enginewin::sendPosition $id [sc_game UCI_currentPos]
+        set ::enginewin::m_(currentFen,$id) [sc_pos fen]
     }
     return $id
 }
@@ -130,9 +143,12 @@ proc ::enginewin::Open { {id ""} {enginename ""} } {
     ttk::frame $w.main
     ttk::panedwindow $w.pane
     ttk::frame $w.config
+    ttk::frame $w.stored_eval
+    ::enginewin::createStoredEvalFrame $id $w.stored_eval
+    $w.pane add $w.stored_eval -weight 1
     ttk::frame $w.display
     ::enginewin::createDisplayFrame $id $w.display
-    $w.pane add $w.display -weight 1
+    $w.pane add $w.display -weight 2
     ttk::frame $w.debug
     ttk_text $w.debug.lines -state disabled
     autoscrollBars y $w.debug $w.debug.lines
@@ -165,10 +181,17 @@ proc ::enginewin::Open { {id ""} {enginename ""} } {
     grid rowconfigure $w 2 -weight 0
     grid columnconfigure $w 0 -weight 1
 
-    bind $w <<NotifyNewGame>> "set ::enginewin::newgame_$id true"
+    bind $w <<NotifyNewGame>> "
+        set ::enginewin::newgame_$id true
+        ::stored_eval::clear $id
+        set ::enginewin::m_(currentPVs,$id) {}
+        set ::enginewin::m_(currentDepth,$id) 0
+    "
 
     # The engine should be closed before the debug .text is destroyed
     bind $w.config <Destroy> "
+        ::stored_eval::cancelQuery $id
+        ::stored_eval::clear $id
         unset ::enginewin::engState($id)
         ::engine::close $id
         array unset ::enginewin::m_ *,$id
@@ -186,6 +209,9 @@ proc ::enginewin::Open { {id ""} {enginename ""} } {
     set ::enginewin::limits_$id {}
     set ::enginewin::m_(position,$id) ""
     set ::enginewin::m_(pvlines,$id) {}
+    set ::enginewin::m_(currentPVs,$id) {}
+    set ::enginewin::m_(currentDepth,$id) 0
+    set ::enginewin::m_(currentFen,$id) ""
     set ::enginewin::newgame_$id true
     set ::enginewin::startTime_$id [clock milliseconds]
 
@@ -193,7 +219,107 @@ proc ::enginewin::Open { {id ""} {enginename ""} } {
         set enginename $::enginewin_lastengine($id)
     }
     catch { ::enginewin::connectEngine $id $enginename }
+    # Trigger initial stored eval lookup for current position
+    after idle [list ::enginewin::updateStoredEvalDisplay $id]
     return $id
+}
+
+# Creates $w.stored_eval, where stored evaluation results are shown.
+proc ::enginewin::createStoredEvalFrame {id frame} {
+    ttk_text $frame.text -exportselection true -padx 4 -state disabled -height 14 -wrap word
+    $frame.text tag configure header -font font_Bold
+    $frame.text tag configure pvnum -font font_Bold
+    $frame.text tag configure score -font font_Bold -foreground "blue"
+    $frame.text tag configure moves -font font_Regular
+    autoscrollBars y $frame $frame.text
+}
+
+# Update the stored eval display for the current board position.
+proc ::enginewin::updateStoredEvalDisplay {id} {
+    set w .engineWin$id
+    if {![winfo exists $w.stored_eval]} { return }
+
+    set fen [sc_pos fen]
+    set fenKey [::stored_eval::fenKey $fen]
+    set storedData [::stored_eval::get $id $fenKey]
+
+    $w.stored_eval.text configure -state normal
+    $w.stored_eval.text delete 1.0 end
+
+    if {$storedData ne ""} {
+        set formatted [::stored_eval::formatForDisplay $storedData $fen]
+        foreach item $formatted {
+            lassign $item tag text
+            $w.stored_eval.text insert end $text $tag
+        }
+    } else {
+        # No stored data - query Lichess
+        $w.stored_eval.text insert end "Querying Lichess..." header
+        ::stored_eval::queryLichessAsync $id $fen ::enginewin::onLichessResult
+    }
+
+    $w.stored_eval.text configure -state disabled
+}
+
+# Callback when a Lichess cloud eval query completes.
+proc ::enginewin::onLichessResult {id fen result} {
+    lassign $result depth pvlines
+    set fenKey [::stored_eval::fenKey $fen]
+    ::stored_eval::store $id $fenKey $depth "Lichess" $pvlines
+    # Refresh display (will show stored data if still on same position)
+    ::enginewin::updateStoredEvalDisplay $id
+}
+
+# Save the accumulated engine PV data to the stored eval DB.
+# Called before sending a new position or when the engine stops.
+proc ::enginewin::saveAccumulatedPVs {id} {
+    set fen $::enginewin::m_(currentFen,$id)
+    if {$fen eq ""} { return }
+
+    set pvs $::enginewin::m_(currentPVs,$id)
+    if {[llength $pvs] == 0} { return }
+
+    set line1Depth $::enginewin::m_(currentDepth,$id)
+    if {$line1Depth == 0} { return }
+
+    # UCI engines report scores from side-to-move's perspective.
+    # Normalize to White's perspective (matching Lichess convention).
+    set sideToMove [lindex [split $fen] 1]
+    if {$sideToMove eq "b"} {
+        set normalizedPVs {}
+        foreach pv $pvs {
+            lassign $pv multipv score score_type pv_uci
+            set score [expr {-$score}]
+            lappend normalizedPVs [list $multipv $score $score_type $pv_uci]
+        }
+        set pvs $normalizedPVs
+    }
+
+    set fenKey [::stored_eval::fenKey $fen]
+
+    # Merge with existing stored data: keep PV lines the engine didn't cover
+    set existing [::stored_eval::get $id $fenKey]
+    if {$existing ne ""} {
+        lassign $existing existingDepth existingSource existingPVs
+        # Collect multipv numbers the engine produced
+        set engineLines {}
+        foreach pv $pvs {
+            lappend engineLines [lindex $pv 0]
+        }
+        # Preserve existing lines not covered by engine analysis
+        foreach existingPV $existingPVs {
+            if {[lindex $existingPV 0] ni $engineLines} {
+                lappend pvs $existingPV
+            }
+        }
+        # Sort by multipv number for consistent display order
+        set pvs [lsort -integer -index 0 $pvs]
+    }
+
+    ::stored_eval::store $id $fenKey $line1Depth "engine" $pvs
+
+    # Clear accumulated PVs after saving
+    set ::enginewin::m_(currentPVs,$id) {}
 }
 
 # Creates $w.display, where the pv lines sent by the engine will be shown.
@@ -460,6 +586,8 @@ proc ::enginewin::logHandler {id widget tag prefix msg} {
 # If any, closes the connection with the current engine.
 # If "config" is not "" opens a connection with a new engine.
 proc ::enginewin::connectEngine {id enginename} {
+    # Save any accumulated PVs before closing the old engine
+    ::enginewin::saveAccumulatedPVs $id
     ::engine::close $id
     ::enginewin::changeDisplayLayout $id debug false
 
@@ -543,6 +671,8 @@ proc ::enginewin::callback {id msg} {
             ::enginewin::updateDisplay $id $msgData
         }
         "InfoReady" {
+            ::enginewin::saveAccumulatedPVs $id
+            ::enginewin::updateStoredEvalDisplay $id
             ::enginecfg::autoSaveConfig $id $configFrame true
             ::enginewin::changeState $id idle
         }
@@ -603,6 +733,22 @@ proc ::enginewin::updateOptions {id msgData} {
 
 proc ::enginewin::updateDisplay {id msgData} {
     lassign $msgData multipv depth seldepth nodes nps hashfull tbhits time score score_type score_wdl pv
+
+    # Accumulate raw PV data for stored eval DB (before any SAN conversion)
+    if {$msgData ne "" && $pv ne ""} {
+        set depthNum $depth
+        if {![string is integer -strict $depthNum]} { set depthNum 0 }
+        # Store as 4-field tuple matching Lichess format: {multipv score score_type pv}
+        set pvEntry [list $multipv $score $score_type $pv]
+        if {$multipv == 1} {
+            # New iteration at a new depth - start fresh
+            set ::enginewin::m_(currentPVs,$id) [list $pvEntry]
+            set ::enginewin::m_(currentDepth,$id) $depthNum
+        } else {
+            lappend ::enginewin::m_(currentPVs,$id) $pvEntry
+        }
+    }
+
     if {$time eq ""} { set time 0 }
     if {$nps eq ""} { set nps 0 }
     if {$hashfull eq ""} { set hashfull 0 }

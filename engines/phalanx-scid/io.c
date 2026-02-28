@@ -734,7 +734,7 @@ int setfen(char *f) {
 
   if (Flag.log != NULL) {
     fprintf(Flag.log, "\n\nsetting position\n");
-    fprintf(Flag.log, f);
+    fprintf(Flag.log, "%s", f);
     fprintf(Flag.log, "\n\n");
   }
 

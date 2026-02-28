@@ -6,6 +6,9 @@ on:
       - 'v*'
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   build-macos-app:
     runs-on: macos-latest
@@ -464,6 +467,8 @@ jobs:
     needs: [build-windows, build-linux-deb, build-linux-rpm, build-linux-appimage, build-macos-app]
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/')
+    permissions:
+      contents: write
     steps:
       - name: Download all artifacts
         uses: actions/download-artifact@v8
