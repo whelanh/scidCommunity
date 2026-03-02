@@ -156,6 +156,11 @@ proc ::auto_comment::formatLichessEval {jsonData fen} {
         }
     }
 
+    # No PVs found — return empty
+    if {[llength $pvList] == 0} {
+        return [list "" [dict create]]
+    }
+
     # Second pass: format with quality labels
     set lineNum 1
     foreach pv $pvList {
@@ -229,11 +234,13 @@ proc ::auto_comment::formatChessDBEval {jsonData fen} {
         set searchStart [expr {[lindex $match 1] + 1}]
     }
 
-    # Get best score for comparison (chessdb scores are from side-to-move perspective)
-    set bestScore 0
-    if {[llength $moveList] > 0} {
-        set bestScore [lindex [lindex $moveList 0] 1]
+    # No moves found — return empty
+    if {[llength $moveList] == 0} {
+        return [list "" [dict create]]
     }
+
+    # Get best score for comparison (chessdb scores are from side-to-move perspective)
+    set bestScore [lindex [lindex $moveList 0] 1]
 
     set count 0
     foreach mv $moveList {
@@ -350,6 +357,15 @@ proc ::auto_comment::queryGemini {fen evalText {movePlayed ""}} {
         # Only matches a capital A-H followed by 1-8 that is NOT followed
         # by a lowercase letter (which would be a piece move like Bb4).
         set text [regsub -all {([^a-zA-Z])([A-H])([1-8])([^a-z])} $text {\1[string tolower "\2"]\3\4}]
+        set text [subst -nobackslashes -novar $text]
+        # Fix lowercase piece moves: nf3->Nf3, bg5->Bg5, etc.
+        # Matches lowercase letter followed by a lowercase letter and digit
+        # where the first letter is a piece (b,k,n,q,r) and it looks like
+        # a chess move (piece + file + rank).
+        set text [regsub -all {(^|[^a-zA-Z])([bknqr])([a-h][1-8])} $text {\1[string toupper "\2"]\3}]
+        set text [subst -nobackslashes -novar $text]
+        # Also fix piece captures: nxf3->Nxf3, bxe5->Bxe5, etc.
+        set text [regsub -all {(^|[^a-zA-Z])([bknqr])(x[a-h][1-8])} $text {\1[string toupper "\2"]\3}]
         set text [subst -nobackslashes -novar $text]
         set text [string trim $text]
     } else {
