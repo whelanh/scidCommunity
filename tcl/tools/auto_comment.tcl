@@ -67,9 +67,9 @@ proc ::auto_comment::configureApiKey {} {
 #   Fetches cloud evaluation from the Lichess API.
 #   Returns the raw JSON string, or "" on failure.
 #
-proc ::auto_comment::fetchLichessEval {fen} {
+proc ::auto_comment::fetchLichessEval {fen {variant "standard"}} {
     set urlFen [string map {" " "%20"} $fen]
-    set url "$::auto_comment::lichessApiUrl?fen=$urlFen&multiPv=3"
+    set url "$::auto_comment::lichessApiUrl?fen=$urlFen&multiPv=3&variant=$variant"
 
     set result ""
     if {![catch {exec curl -s --max-time 10 -H "Accept: */*" $url} result]} {
@@ -219,19 +219,33 @@ proc ::auto_comment::formatChessDBEval {jsonData fen} {
     # Move-label mapping: SAN move -> quality label
     set moveLabels [dict create]
 
-    # First pass: collect moves with scores
+    # Parse individual move objects from the JSON "moves" array
+    # to avoid cross-object mismatches when some scores are "??"
     set moveList {}
-    set searchStart 0
-    while {[llength $moveList] < 5 && [regexp -start $searchStart -indices \
-            {"san"\s*:\s*"([^"]*)".*?"score"\s*:\s*(-?\d+).*?"winrate"\s*:\s*"([^"]*)"} \
-            $jsonData match sanMatch scoreMatch wrMatch]} {
+    if {[regexp -indices {"moves"\s*:\s*\[} $jsonData arrayMatch]} {
+        set arrayStart [lindex $arrayMatch 1]
+        set remaining [string range $jsonData $arrayStart end]
 
-        set san [string range $jsonData [lindex $sanMatch 0] [lindex $sanMatch 1]]
-        set score [string range $jsonData [lindex $scoreMatch 0] [lindex $scoreMatch 1]]
-        set winrate [string range $jsonData [lindex $wrMatch 0] [lindex $wrMatch 1]]
+        while {[llength $moveList] < 5 && \
+               [regexp -indices {\{[^\}]+\}} $remaining objMatch]} {
+            set objStart [lindex $objMatch 0]
+            set objEnd [lindex $objMatch 1]
+            set obj [string range $remaining $objStart $objEnd]
 
-        lappend moveList [list $san $score $winrate]
-        set searchStart [expr {[lindex $match 1] + 1}]
+            set san ""
+            set score ""
+            set winrate ""
+            regexp {"san"\s*:\s*"([^"]*)"} $obj -> san
+            regexp {"score"\s*:\s*(-?\d+)} $obj -> score
+            regexp {"winrate"\s*:\s*"([^"]*)"} $obj -> winrate
+
+            # Only include moves with a known numeric score
+            if {$san ne "" && $score ne ""} {
+                lappend moveList [list $san $score $winrate]
+            }
+
+            set remaining [string range $remaining [expr {$objEnd + 1}] end]
+        }
     }
 
     # No moves found — return empty
@@ -274,7 +288,7 @@ proc ::auto_comment::formatChessDBEval {jsonData fen} {
 #   Sends the FEN and engine analysis to the Gemini API.
 #   Returns the generated commentary text, or "" on failure.
 #
-proc ::auto_comment::queryGemini {fen evalText {movePlayed ""}} {
+proc ::auto_comment::queryGemini {fen evalText {movePlayed ""} {variant "standard"}} {
     if {$::auto_comment::apiKey eq ""} {
         return ""
     }
@@ -283,7 +297,10 @@ proc ::auto_comment::queryGemini {fen evalText {movePlayed ""}} {
     set url "$::auto_comment::geminiApiBase/$model:generateContent"
 
     # Build the prompt with actual newlines (will be JSON-escaped below)
-    set prompt "You are a chess commentator writing annotations for a chess game. You are given engine analysis and a VERDICT line that tells you exactly how the played move compares to the engine's best. TRUST the VERDICT completely — it is computed from engine scores and is always correct. Write commentary in 80 words or less based on the VERDICT. If the verdict says the move is \"best\" or \"equal\", praise it briefly and mention the key idea. If \"blunder\" or \"mistake\", clearly state it is an error and name the best alternative from Line 1 with a brief reason. Be specific and concrete. Do not use markdown formatting such as bold (**) or italics (*). Never capitalize chess move notation at the start of a sentence; pawn moves like a6, c5, e4 must stay lowercase."
+    set prompt "You are a chess commentator writing annotations for a chess game. You are given engine analysis and a VERDICT line that tells you exactly how the played move compares to the engine's best. TRUST the VERDICT completely — it is computed from engine scores and is always correct. Write commentary in 80 words or less based on the VERDICT. If the verdict says the move is \"best\" or \"equal\", praise it briefly and mention the key idea. If \"blunder\" or \"mistake\", clearly state it is an error and name the best alternative from Line 1 with a brief reason. Be specific and concrete. Do not use markdown formatting such as bold (**) or italics (*). Never capitalize chess move notation at the start of a sentence; pawn moves like a6, c5, e4 must stay lowercase. ONLY refer to moves that appear in the engine analysis — do NOT invent or guess moves."
+    if {$variant eq "chess960"} {
+        append prompt "\n\nThis is a Chess960 (Fischer Random) game. Pieces start on non-standard squares. Do NOT assume standard piece placement."
+    }
     append prompt "\n\nFEN (position before the move): $fen"
     append prompt "\n\nMove played: $movePlayed"
     append prompt "\n\nEngine analysis for the position before the move:\n$evalText"
@@ -425,9 +442,17 @@ proc ::auto_comment::generateComment {} {
     wm geometry $w "+$x+$y"
     update idletasks
 
+    # Detect game variant (standard or chess960)
+    set gameVariant [sc_game variant]
+    if {$gameVariant eq "chess960"} {
+        set variant "chess960"
+    } else {
+        set variant "standard"
+    }
+
     # Step 1: Fetch engine evaluation for the PREVIOUS position
     # (before the move was played)
-    set evalJson [::auto_comment::fetchLichessEval $prevFen]
+    set evalJson [::auto_comment::fetchLichessEval $prevFen $variant]
     set evalSource "lichess"
     set evalText ""
 
@@ -469,7 +494,7 @@ proc ::auto_comment::generateComment {} {
     $w.lbl configure -text "Generating AI commentary..."
     update idletasks
 
-    set commentary [::auto_comment::queryGemini $prevFen $evalText $movePlayed]
+    set commentary [::auto_comment::queryGemini $prevFen $evalText $movePlayed $variant]
 
     destroy $w
 
