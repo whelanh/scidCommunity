@@ -943,6 +943,7 @@ main.tcl
 tools/uci.tcl
 tools/stored_eval.tcl
 tools/lichess_eval.tcl
+tools/auto_comment.tcl
 end.tcl
 tools/tacgame.tcl
 tools/sergame.tcl
