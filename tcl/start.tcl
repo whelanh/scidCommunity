@@ -949,6 +949,8 @@ board.tcl
 move.tcl
 main.tcl
 tools/uci.tcl
+tools/stored_eval.tcl
+tools/lichess_eval.tcl
 end.tcl
 tools/tacgame.tcl
 tools/sergame.tcl
@@ -960,8 +962,6 @@ tools/reviewgame.tcl
 tools/inputengine.tcl
 tools/novag.tcl
 tools/tablebase.tcl
-tools/stored_eval.tcl
-tools/lichess_eval.tcl
 }
 
 foreach f $tcl_files {

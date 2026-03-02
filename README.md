@@ -4,7 +4,7 @@
 <img width="256" height="256" alt="io github whelanh scidCommunity" src="https://github.com/user-attachments/assets/26277294-00cb-4660-964d-f88f4364e9c8" />
 </p>
 
-**scidCommunity** is a powerful chess analysis and database program. Originally derived from `Scid` (Shane's Chess Information Database), it has evolved into a distinct tool with numerous enhancements and a growing community of over 1,100 users.
+**scidCommunity** is a powerful chess analysis and database program. Originally derived from `Scid` (Shane's Chess Information Database), it has evolved into a distinct tool with numerous enhancements and a growing community of over 1,200 users.
 
 While it maintains compatibility with the original Scid database formats, **scidCommunity** focuses on modern features like integrations with Lichess and Chess.com, user-requested improvements, and a streamlined experience for analysis and database management. **scidCommunity** is free software and is released under the GPL licence.
 
@@ -13,6 +13,7 @@ While it maintains compatibility with the original Scid database formats, **scid
 1. The **Header Search** dialogue has been improved with the addition of a new "Layouts" button at the lower left. This button replaces a "Save" button that has been disabled for years. The new button allows users to name, save and load sets of search parameters they use frequently.
       - The hotkey Alt + s has been added to invoke the Search button. 
 2. The **Engine** windows have been enhanced with new depth and move time input windows for limiting an engine's calculations. If users choose to use Scid's **Save Options**, the inputs will be saved as the defaults for future use.
+      - Thanks to a [user suggestion](https://github.com/whelanh/scidCommunity/discussions/38), the Engine Window upper panel now pre-populates with stored evaluations from Lichess if they are available and it caches local engine results if they get to a deeper level than the pre-populated PVs.
 3. A new **`Download TWIC Games`** option under the **`Tools`** menu that downloads' the most recent weekly games from [TWIC](https://theweekinchess.com/twic) and brings them into scidCommunity for filtering, merging with your database etc.
 4. New buttons in the **PGN Window**:
       - *Table Base* looks up current position in the Lichess endgame table base
