@@ -302,6 +302,20 @@ proc ::auto_comment::queryGemini {fen evalText {movePlayed ""} {variant "standar
         append prompt "\n\nThis is a Chess960 (Fischer Random) game. Pieces start on non-standard squares. Do NOT assume standard piece placement."
     }
     append prompt "\n\nFEN (position before the move): $fen"
+
+    # Parse castling rights from FEN to prevent hallucinated castling plans
+    set castling [lindex [split $fen] 2]
+    set castleNotes {}
+    if {[string first "K" $castling] == -1 && [string first "Q" $castling] == -1} {
+        lappend castleNotes "White has already castled (or lost castling rights)."
+    }
+    if {[string first "k" $castling] == -1 && [string first "q" $castling] == -1} {
+        lappend castleNotes "Black has already castled (or lost castling rights)."
+    }
+    if {[llength $castleNotes] > 0} {
+        append prompt "\nCastling status: [join $castleNotes " "]"
+    }
+
     append prompt "\n\nMove played: $movePlayed"
     append prompt "\n\nEngine analysis for the position before the move:\n$evalText"
 
