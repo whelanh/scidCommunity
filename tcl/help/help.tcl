@@ -2192,6 +2192,7 @@ set helpText(PGN) {<h1>The <a PGN>PGN</a> window</h1>
   <li><a PGNChessCom>chess.com</a>: Upload the current game to Chess.com for analysis</li>
   <li><a PGNLichess>lichess.org</a>: Upload the current game to Lichess.org for analysis and sharing</li>
   <li><a PGNChessDB>chessdb Engine Tree</a>: Open the current position in the ChessDB.cn cloud database</li>
+  <li><a PGNAutoComment>Auto Comment</a>: Generate AI commentary for the current position</li>
   </ul>
   These buttons provide instant access to powerful online tools without leaving scidCommunity.
   See the individual help topics for each button for more details.
@@ -2465,6 +2466,69 @@ set helpText(PGNChessDB) {<h1>PGN Window: chessdb Engine Tree Button</h1>
   <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }
 
+####################
+### PGN Window Auto Comment button help:
+
+set helpTitle(PGNAutoComment) "Auto Comment Button"
+set helpText(PGNAutoComment) {<h1>PGN Window: Auto Comment Button</h1>
+  <p>
+  The <b>Auto Comment</b> button in the <a PGN>PGN</a> window uses Artificial Intelligence
+  (Gemini or DeepSeek) to generate human-like commentary for the current position.
+  </p>
+  
+  <h3>How to use</h3>
+  <p>
+  Click the <b>Auto Comment</b> button to generate a comment for the current move.
+  scidCommunity will:
+  <ul>
+  <li>Fetch the current position's evaluation from Lichess or ChessDB</li>
+  <li>Send the position data and engine analysis to the chosen AI model</li>
+  <li>Display a preview of the generated commentary</li>
+  <li>Allow you to edit or refine the comment before adding it to the game</li>
+  </ul>
+  </p>
+  
+  <h3>Configuration</h3>
+  <p>
+  Right-click the <b>Auto Comment</b> button to configure your API keys and select
+  your preferred LLM provider (Gemini or DeepSeek).
+  </p>
+  
+  <p><footer>(Updated: scidCommunity, August 2024)</footer></p>
+}
+
+####################
+### Analysis Window Auto Comment button help:
+
+set helpTitle(AnalysisAutoComment) "Auto Comment Button"
+set helpText(AnalysisAutoComment) {<h1>Analysis Window: Auto Comment Button</h1>
+  <p>
+  The <b>Auto Comment</b> button in the <a Analysis>Analysis Engine</a> window allows you to
+  automatically generate AI commentary for an entire game in batch mode.
+  </p>
+  
+  <h3>How it works</h3>
+  <p>
+  When you click the button, scidCommunity scans the entire game for annotated moves
+  (moves with NAGs or existing comments). For each such move, it:
+  <ul>
+  <li>Retrieves cloud evaluations for context</li>
+  <li>Uses any existing PGN variations as "Ground Truth" engine lines</li>
+  <li>Queries the AI to explain why the recommended line is best or why the played move was an error</li>
+  <li>Appends the generated commentary to the move's existing comments</li>
+  </ul>
+  </p>
+  
+  <h3>Usage</h3>
+  <p>
+  This feature is ideal for quickly adding educational notes to a game you've already
+  analyzed with an engine. It respects your local variations, ensuring the AI's
+  explanations align with your specific engine analysis.
+  </p>
+  
+  <p><footer>(Updated: scidCommunity, March 2026)</footer></p>
+}
+
 
 ####################
 ### Piece Tracker help:
@@ -2597,7 +2661,7 @@ set helpText(Tree) {<h1>The Tree window</h1>
   gives the percentage of draws for the line displayed. Finally, the
   <term>%Win</term> column shows the win percentage for the side to move:
   when White is to move, it shows (White Wins / Total Games) × 100%;
-  when Black is to move, it shows (Black Wins / Total Games) × 100%.
+  when Black is to move, it shows (Black Wins / Total Games) × 100%;
   This highlights moves with high win rates for the moving side, even when
   the overall score is close to 50%.
   All these values are calculated for the database displayed in the tree, and
@@ -3315,8 +3379,8 @@ set helpText(Analysis) {<h1>The Analysis window</h1>
   by clicking with the right mouse button into the analysis window. In
   this mode only the current evaluation is shown in the status line.
   <p>
-  To add the best move chosen by the engine as a new move in the current
-  game, press the <b>Add move</b> button <button tb_addmove>. If the
+  The <term>Add move</term> button adds the current best move of the
+  engine to the game notation. If the
   whole main line of the engine should be added just use the <b>Add
   Variation</b> button <button tb_addvar>. In case an engine offers
   the <term>Multi-PV</term> mode, using the <b>Add all Variations</b>
@@ -3423,12 +3487,13 @@ set helpText(Analysis) {<h1>The Analysis window</h1>
   not shown when training mode is on.
   </p>
   
-  <h3><a Annotate>Annotating a game</h3>
+  <h3>Auto Comment</h3>
   <p>
-  The <b>Add variation</b> button (<button tb_addvar> or <button
-  tb_addallvars>)in the analysis window adds the current score and
-  best line of play as a new variation in the game.
+  The <a AnalysisAutoComment>Auto Comment</a> button allows you to generate
+  AI-powered commentary for all annotated moves in the current game.
   </p>
+  
+  <h3><a Annotate>Annotating a game</h3>
   <p>
   You can do this automatically for a number of moves (annotating the
   game) by pressing the <b>Annotate</b> button, <button tb_annotate>.
