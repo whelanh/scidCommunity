@@ -324,8 +324,18 @@ proc ::auto_comment::formatChessDBEval {jsonData fen} {
 #   Builds the LLM prompt from the position data.
 #   Returns the prompt string.
 #
-proc ::auto_comment::buildPrompt {fen evalText movePlayed variant {opening ""}} {
+proc ::auto_comment::buildPrompt {fen evalText movePlayed variant {opening ""} {nagSymbol ""}} {
     set prompt "You are a chess commentator writing annotations for an intermediate club-level player who understands tactics but not deep strategy. You are given engine analysis and a VERDICT line. TRUST the VERDICT completely — it is computed from engine scores and is always correct."
+    append prompt "\n\nPGN Annotation Symbols Reference:"
+    append prompt "\nThe following annotation symbols may appear in the PGN (added by human annotators or local engine analysis). Use them to enrich your commentary when appropriate:"
+    append prompt "\n  !?  (Interesting move) – worth considering, has merit"
+    append prompt "\n  ?   (Poor move) – suboptimal, better alternatives exist"
+    append prompt "\n  ??  (Blunder) – a serious mistake that loses significant material or advantage"
+    append prompt "\n  ?!  (Dubious move) – questionable, risky, or hard to justify"
+    append prompt "\n  +=  (Slight advantage) – small edge for White"
+    append prompt "\n  +/- (Clear advantage) – White has a noticeable edge"
+    append prompt "\n  +-  (Winning advantage) – White should win with correct play"
+    append prompt "\n  +-- (Decisive/crushing advantage) – White has a completely winning position"
     append prompt "\n\nInstructions:"
     append prompt "\n- For moves labeled \"best\": explain the concrete idea — what does the move threaten, gain, or prevent? Reference the follow-up from the engine line if instructive. Keep it under 60 words."
     append prompt "\n- For \"equal\" moves: note it is a valid alternative and briefly contrast it with the engine's top choice from Line 1. Keep it under 60 words."
@@ -357,6 +367,9 @@ proc ::auto_comment::buildPrompt {fen evalText movePlayed variant {opening ""}} 
     }
 
     append prompt "\n\nMove played: $movePlayed"
+    if {$nagSymbol ne ""} {
+        append prompt "\nAnnotation for this move: $nagSymbol"
+    }
     append prompt "\n\nEngine analysis for the position before the move:\n$evalText"
     return $prompt
 }

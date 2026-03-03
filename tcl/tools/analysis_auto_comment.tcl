@@ -149,7 +149,7 @@ proc ::analysis_auto_comment::run_batch {} {
     foreach item $annotatedPositions {
         incr count
         lassign $item offset movePlayed
-        
+
         $pw.content.lbl configure -text "Processing move $count of $total: $movePlayed"
         $pw.content.pb configure -value $count
         update idletasks
@@ -163,6 +163,10 @@ proc ::analysis_auto_comment::run_batch {} {
         } elseif {[regexp {(-?\d+\.?\d*|Mate in -?\d+)} $playedMoveComment score]} {
             set playedMoveScore $score
         }
+
+        # Read the NAG annotation symbol (e.g., "!?", "??", "+-", or multiple like "?? +/-")
+        set nagSymbol [string trim [sc_pos getNags]]
+        if {$nagSymbol eq "0"} { set nagSymbol "" }
 
         # Move to the position BEFORE the move being commented on
         sc_move back
@@ -243,9 +247,9 @@ proc ::analysis_auto_comment::run_batch {} {
             if {$playedMoveScore ne ""} {
                 append evalText " The engine evaluation for the played move $movePlayed is $playedMoveScore."
             }
-            
+
             # Build prompt
-            set prompt [::auto_comment::buildPrompt $prevFen $evalText $movePlayed $variant $opening]
+            set prompt [::auto_comment::buildPrompt $prevFen $evalText $movePlayed $variant $opening $nagSymbol]
             
             # Query LLM
             set commentary ""
