@@ -626,6 +626,12 @@ translate T Informant+= {Beyazın hafif bir avantajı var}
 translate T Informant+/- {Beyazın bariz bir avantajı var}
 translate T Informant+- {Beyaz'ın belirleyici bir avantajı var}
 translate T Informant+-- {Beyazın ezici bir avantajı var}
+# ====== TODO To be translated ======
+translate T AutoComment {Auto Comment}
+# ====== TODO To be translated ======
+translate T AutoCommentTooltip {Generate AI commentary for the current position}
+# ====== TODO To be translated ======
+translate T AnalysisAutoCommentTooltip {Generate AI commentary for the entire game}
 
 # Book window
 translate T Book {Kitap}

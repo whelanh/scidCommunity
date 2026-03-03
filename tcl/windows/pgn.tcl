@@ -155,8 +155,8 @@ namespace eval pgn {
     ::utils::tooltip::Set $w.bottompanel.lichesseval "Lichess cloud evaluation for current position"
     pack $w.bottompanel.lichesseval -side left -padx 2 -pady 2
 
-    ttk::button $w.bottompanel.autocomment -text "Auto Comment" -command ::auto_comment::generateComment
-    ::utils::tooltip::Set $w.bottompanel.autocomment "Generate AI commentary for current position (Gemini)"
+    ttk::button $w.bottompanel.autocomment -text [tr AutoComment] -command ::auto_comment::generateComment
+    ::utils::tooltip::Set $w.bottompanel.autocomment [tr AutoCommentTooltip]
     pack $w.bottompanel.autocomment -side left -padx 2 -pady 2
     bind $w.bottompanel.autocomment <ButtonPress-3> {::auto_comment::configureApiKey}
 

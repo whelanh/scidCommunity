@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.33
+Version:        5.1.2.35
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 85bf3a5d70e93cffa916f026ae419263e2442e99
+%global commit 6537a27ac3492576f2321ef6a8c4e80b69b91e22
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Tue Mar 03 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-35
+- "Add Auto Comment buttons to the PGN and Analysis Engine windows"
 * Fri Feb 27 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-33
 - "Added stored evaluations panel to top of the Engine Window"
 * Thu Feb 26 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-32

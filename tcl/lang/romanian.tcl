@@ -659,6 +659,9 @@ translate L Informant+= {Albul are un mic avantaj}
 translate L Informant+/- {Albul are un avantaj clar}
 translate L Informant+- {Albul are un avantaj decisiv}
 translate L Informant+-- {Albul are un avantaj zdrobitor}
+translate L AutoComment {Comentariu automat}
+translate L AutoCommentTooltip {Generați comentarii AI pentru poziția curentă}
+translate L AnalysisAutoCommentTooltip {Generați comentarii AI pentru întregul joc}
 
 # Book window
 translate L Book {Carte}

@@ -660,6 +660,9 @@ translate U Informant+= {Valkean pieni etu}
 translate U Informant+/- {Valkean etu}
 translate U Informant+- {Valkean ratkaiseva etu}
 translate U Informant+-- {Voittoasema}
+translate U AutoComment {Automaattinen kommentti}
+translate U AutoCommentTooltip {Luo tekoälykommentti nykyiselle sijainnille}
+translate U AnalysisAutoCommentTooltip {Luo tekoälykommentteja koko pelille}
 
 # Book window
 translate U Book {Kirja}

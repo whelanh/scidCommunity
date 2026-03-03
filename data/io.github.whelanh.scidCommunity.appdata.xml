@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.2.35" date="2026-03-03">
+      <description>
+        <p>Added Auto Comment buttons to the PGN and Analysis Engine windows</p>
+      </description>
+    </release>
     <release version="5.1.2.33" date="2026-02-27">
       <description>
         <p>Added stored evaluations panel to the top of the Engine Window</p>

@@ -663,6 +663,9 @@ translate E Informant+= {White has a slight advantage}
 translate E Informant+/- {White has a clear advantage}
 translate E Informant+- {White has a decisive advantage}
 translate E Informant+-- {White has a crushing advantage}
+translate E AutoComment {Auto Comment}
+translate E AutoCommentTooltip {Generate AI commentary for the current position}
+translate E AnalysisAutoCommentTooltip {Generate AI commentary for the entire game}
 
 # Book window
 translate E Book {Book}
