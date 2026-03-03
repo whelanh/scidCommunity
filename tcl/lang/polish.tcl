@@ -642,6 +642,9 @@ translate P Informant+= {Bia³e wyposa¿enie dodatkowe}
 translate P Informant+/- {Bia³e umiarkowanie stosowane}
 translate P Informant+- {Bia³e maj± zdecydowan± wersjê}
 translate P Informant+-- {Bia³e maj± mia¿d¿±ce zastosowanie}
+translate P AutoComment {Automatyczny komentarz}
+translate P AutoCommentTooltip {Wygeneruj komentarz AI dla aktualnej pozycji}
+translate P AnalysisAutoCommentTooltip {Generuj komentarz AI dla ca³ej gry}
 
 # Book window
 translate P Book {Ksi±¿ka}

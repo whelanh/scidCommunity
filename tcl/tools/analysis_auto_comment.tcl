@@ -130,7 +130,7 @@ proc ::analysis_auto_comment::run_batch {} {
         
         # We check movePlayed to skip the very start of game (ply 0)
         # but also check if the current move (M) has annotations.
-        if {$movePlayed ne "" && ($nags != 0 || $comment ne "")} {
+        if {$movePlayed ne "" && ($nags ne "0" || $comment ne "")} {
             lappend annotatedPositions [list [sc_pos pgnOffset] $movePlayed]
         }
         

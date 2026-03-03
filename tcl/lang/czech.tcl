@@ -626,6 +626,9 @@ translate C Informant+= {Bílý má malou výhodu}
 translate C Informant+/- {Bílý má støední výhodu}
 translate C Informant+- {Bílý má rozhodující výhodu}
 translate C Informant+-- {Partie je pova¾ována za vyhranou}
+translate C AutoComment {Automatický komentáø}
+translate C AutoCommentTooltip {Generujte AI komentáø pro aktuální pozici}
+translate C AnalysisAutoCommentTooltip {Generujte AI komentáø pro celou hru}
 
 # Book window
 translate C Book {Knihovna zahájení}

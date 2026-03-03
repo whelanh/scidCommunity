@@ -659,6 +659,9 @@ translate J Informant+= {Бела има малу предност}
 translate J Informant+/- {Бели имају јасну предност}
 translate J Informant+- {Бели имају одлучујућу предност}
 translate J Informant+-- {Бели имају поразну предност}
+translate J AutoComment {Ауто Цоммент}
+translate J AutoCommentTooltip {Генеришите АИ коментар за тренутну позицију}
+translate J AnalysisAutoCommentTooltip {Генеришите АИ коментар за целу игру}
 
 # Book window
 translate J Book {Боок}

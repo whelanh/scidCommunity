@@ -281,8 +281,7 @@ menuText D OptionsMovesKey "Autom. Zugergänzung" 10 \
 menuText D OptionsMovesShowVarArrows "Pfeile für Varianten anzeigen" 0 {Zeige Pfeile in Varianten an: ja/nein}
 menuText D OptionsMovesShowEngineVariationArrows "Engine-Varianten-Pfeile" 0 {Schaltet die mehrfarbigen drei Variantenpfeile im multiPV Modus aus}
 menuText D OptionsMovesGlossOfDanger "Bedrohte Figuren einfärben" 0 {Markieren von gefärdeten Figuren ein/ausschalten}
-
-menuText D OptionsMovesTreeDepth "Standard Zugtiefe im Zugbaum-Fenster" 0 {Standard Zugtiefe im Zugbaum-Fenster}
+translate D OptionsMovesTreeDepth {Standardmäßige Verschiebetiefe des Baumfensters}
 menuText D OptionsNumbers "Zahlenformat" 5 {Zahlenformat wählen}
 menuText D OptionsTheme "Design" 0 {Verändert das Aussehen der Oberfläche}
 menuText D OptionsWindows "Fenster" 6 {Fenster-Optionen}
@@ -662,6 +661,9 @@ translate D Informant+= {Weiß hat leichten Vorteil}
 translate D Informant+/- {Weiß hat klaren Vorteil}
 translate D Informant+- {Weiß hat großen Vorteil}
 translate D Informant+-- {Weiß hat erdrückenden Vorteil}
+translate D AutoComment {Automatischer Kommentar}
+translate D AutoCommentTooltip {Generieren Sie einen KI-Kommentar für die aktuelle Position}
+translate D AnalysisAutoCommentTooltip {Generieren Sie KI-Kommentare für das gesamte Spiel}
 
 # Book window
 translate D Book {Buch}

@@ -634,6 +634,9 @@ translate F Informant+= {Les blancs ont un léger avantage}
 translate F Informant+/- {Les blancs ont l'avantage}
 translate F Informant+- {Les blancs ont un avantage décisif}
 translate F Informant+-- {La partie est gagnée}
+translate F AutoComment {Commentaire automatique}
+translate F AutoCommentTooltip {Générer des commentaires IA pour la position actuelle}
+translate F AnalysisAutoCommentTooltip {Générez des commentaires IA pour l'ensemble du jeu}
 
 # Book window
 translate F Book {Bibliothèque}
