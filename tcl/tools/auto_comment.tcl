@@ -349,7 +349,7 @@ proc ::auto_comment::buildPrompt {fen evalText movePlayed variant {opening ""} {
 
     # Game context
     if {$opening ne ""} {
-        append prompt "\n\nOpening: $opening"
+        append prompt "\n\nECO Code For Opening: $opening"
     }
     append prompt "\n\nFEN (position before the move): $fen"
 
