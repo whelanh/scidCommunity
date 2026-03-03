@@ -31,9 +31,14 @@ proc ::analysis_auto_comment::batch_generate {} {
     pack $w.content -fill both -expand 1
 
     ttk::label $w.content.info -text \
-        "This will scan the entire game and generate AI commentary for every move that has a NAG or an existing comment.\n\nPlease select the model to use:" \
+        "This will scan the entire game and generate AI commentary for every move that has a NAG or an existing comment.\n\n" \
         -wraplength 400 -justify left
     pack $w.content.info -pady {0 10}
+
+    ttk::label $w.content.note -text \
+        "Note: This feature works best on games that have already been annotated (preferably with engine-generated variations). For best results, run the Annotate button first." \
+        -wraplength 400 -justify left -foreground #666666
+    pack $w.content.note -pady {0 10}
 
     ttk::label $w.content.modellbl -text "LLM Provider:"
     pack $w.content.modellbl -anchor w
