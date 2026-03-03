@@ -1,66 +1,102 @@
 ############################################################
 ### Auto Comment - AI-generated chess commentary
-### Queries engine evaluation APIs and uses Google Gemini
-### to generate natural language commentary for positions.
+### Queries engine evaluation APIs and uses an LLM (Gemini
+### or DeepSeek) to generate natural language commentary.
 
 namespace eval ::auto_comment {
-    # Gemini API key - free from https://aistudio.google.com/apikey
+    # LLM provider: "gemini" or "deepseek"
+    options.store ::auto_comment::provider "gemini"
+
+    # Gemini settings
     options.store ::auto_comment::apiKey ""
     options.store ::auto_comment::model "gemini-2.5-flash-lite"
 
+    # DeepSeek settings
+    options.store ::auto_comment::deepseekApiKey ""
+    options.store ::auto_comment::deepseekModel "deepseek-reasoner"
+
     variable geminiApiBase "https://generativelanguage.googleapis.com/v1beta/models"
+    variable deepseekApiBase "https://api.deepseek.com"
     variable lichessApiUrl "https://lichess.org/api/cloud-eval"
     variable chessdbApiUrl "http://www.chessdb.cn/cdb.php"
 }
 
 # ::auto_comment::configureApiKey
-#   Dialog to set or change the Gemini API key.
+#   Dialog to configure LLM provider and API keys.
 #
 proc ::auto_comment::configureApiKey {} {
     set w .autoCommentConfig
     if {[winfo exists $w]} {
         raise $w
-        focus $w.entry
         return
     }
 
     toplevel $w
-    wm title $w "Auto Comment - API Key"
+    wm title $w "Auto Comment - Settings"
     wm resizable $w 1 0
 
     ttk::frame $w.content -padding 15
     pack $w.content -fill both -expand 1
 
     ttk::label $w.content.info -text \
-        "Enter your Google Gemini API key.\nGet a free key at: https://aistudio.google.com/apikey\n\nYour key is stored locally on your machine only.\nUse Options > Save Options to keep it between sessions." \
-        -wraplength 400 -justify left
+        "Configure your LLM provider and API key(s).\nKeys are stored locally on your machine only.\nUse Options > Save Options to keep settings between sessions." \
+        -wraplength 420 -justify left
     pack $w.content.info -anchor w -pady {0 10}
 
-    ttk::label $w.content.lbl -text "API Key:"
-    pack $w.content.lbl -anchor w
+    # Provider selector
+    ttk::label $w.content.provlbl -text "LLM Provider:"
+    pack $w.content.provlbl -anchor w
+    ttk::combobox $w.content.provider -textvariable ::auto_comment::provider \
+        -values {gemini deepseek} -state readonly -width 15
+    pack $w.content.provider -anchor w -pady {0 10}
 
-    ttk::entry $w.entry -width 50 -textvariable ::auto_comment::apiKey
-    pack $w.entry -in $w.content -fill x -pady {0 10}
+    # --- Gemini section ---
+    ttk::labelframe $w.content.gemini -text "Google Gemini" -padding 10
+    pack $w.content.gemini -fill x -pady {0 10}
 
-    ttk::label $w.content.modellbl -text "Model:"
-    pack $w.content.modellbl -anchor w
+    ttk::label $w.content.gemini.keylbl -text "API Key:"
+    pack $w.content.gemini.keylbl -anchor w
+    ttk::entry $w.content.gemini.key -width 50 -textvariable ::auto_comment::apiKey
+    pack $w.content.gemini.key -fill x -pady {0 5}
 
-    ttk::entry $w.content.modelentry -width 30 -textvariable ::auto_comment::model
-    pack $w.content.modelentry -anchor w -pady {0 10}
+    ttk::label $w.content.gemini.modellbl -text "Model:"
+    pack $w.content.gemini.modellbl -anchor w
+    ttk::entry $w.content.gemini.model -width 30 -textvariable ::auto_comment::model
+    pack $w.content.gemini.model -anchor w -pady {0 5}
 
+    ttk::button $w.content.gemini.open -text "Get Gemini Key" -command {
+        openURL "https://aistudio.google.com/apikey"
+    }
+    pack $w.content.gemini.open -anchor w
+
+    # --- DeepSeek section ---
+    ttk::labelframe $w.content.deepseek -text "DeepSeek" -padding 10
+    pack $w.content.deepseek -fill x -pady {0 10}
+
+    ttk::label $w.content.deepseek.keylbl -text "API Key:"
+    pack $w.content.deepseek.keylbl -anchor w
+    ttk::entry $w.content.deepseek.key -width 50 -textvariable ::auto_comment::deepseekApiKey
+    pack $w.content.deepseek.key -fill x -pady {0 5}
+
+    ttk::label $w.content.deepseek.modellbl -text "Model:"
+    pack $w.content.deepseek.modellbl -anchor w
+    ttk::entry $w.content.deepseek.model -width 30 -textvariable ::auto_comment::deepseekModel
+    pack $w.content.deepseek.model -anchor w -pady {0 5}
+
+    ttk::button $w.content.deepseek.open -text "Get DeepSeek Key" -command {
+        openURL "https://platform.deepseek.com/api_keys"
+    }
+    pack $w.content.deepseek.open -anchor w
+
+    # --- Buttons ---
     ttk::frame $w.buttons -padding {15 5}
     pack $w.buttons -fill x
 
     ttk::button $w.buttons.ok -text "OK" -command "destroy $w"
-    ttk::button $w.buttons.open -text "Open AI Studio" -command {
-        openURL "https://aistudio.google.com/apikey"
-    }
     pack $w.buttons.ok -side right -padx 5
-    pack $w.buttons.open -side right -padx 5
 
     bind $w <Return> "destroy $w"
     bind $w <Escape> "destroy $w"
-    focus $w.entry
 }
 
 # ::auto_comment::fetchLichessEval
@@ -69,7 +105,7 @@ proc ::auto_comment::configureApiKey {} {
 #
 proc ::auto_comment::fetchLichessEval {fen {variant "standard"}} {
     set urlFen [string map {" " "%20"} $fen]
-    set url "$::auto_comment::lichessApiUrl?fen=$urlFen&multiPv=3&variant=$variant"
+    set url "$::auto_comment::lichessApiUrl?fen=$urlFen&multiPv=5&variant=$variant"
 
     set result ""
     if {![catch {exec curl -s --max-time 10 -H "Accept: */*" $url} result]} {
@@ -284,22 +320,26 @@ proc ::auto_comment::formatChessDBEval {jsonData fen} {
     return [list $result $moveLabels]
 }
 
-# ::auto_comment::queryGemini
-#   Sends the FEN and engine analysis to the Gemini API.
-#   Returns the generated commentary text, or "" on failure.
+# ::auto_comment::buildPrompt
+#   Builds the LLM prompt from the position data.
+#   Returns the prompt string.
 #
-proc ::auto_comment::queryGemini {fen evalText {movePlayed ""} {variant "standard"}} {
-    if {$::auto_comment::apiKey eq ""} {
-        return ""
+proc ::auto_comment::buildPrompt {fen evalText movePlayed variant {opening ""}} {
+    set prompt "You are a chess commentator writing annotations for an intermediate club-level player who understands tactics but not deep strategy. You are given engine analysis and a VERDICT line. TRUST the VERDICT completely — it is computed from engine scores and is always correct."
+    append prompt "\n\nInstructions:"
+    append prompt "\n- For moves labeled \"best\": explain the concrete idea — what does the move threaten, gain, or prevent? Reference the follow-up from the engine line if instructive. Keep it under 60 words."
+    append prompt "\n- For \"equal\" moves: note it is a valid alternative and briefly contrast it with the engine's top choice from Line 1. Keep it under 60 words."
+    append prompt "\n- For \"inaccuracy\", \"mistake\", or \"blunder\": clearly state the severity, name the best alternative from Line 1 with a concrete reason, and explain what the played move misses. Use up to 100 words for these."
+    append prompt "\n- Do not use markdown formatting such as bold (**) or italics (*)."
+    append prompt "\n- Never capitalize chess move notation at the start of a sentence; pawn moves like a6, c5, e4 must stay lowercase."
+    append prompt "\n- ONLY refer to moves that appear in the engine analysis — do NOT invent or guess moves."
+    if {$variant eq "chess960"} {
+        append prompt "\n- This is a Chess960 (Fischer Random) game. Pieces start on non-standard squares. Do NOT assume standard piece placement."
     }
 
-    set model $::auto_comment::model
-    set url "$::auto_comment::geminiApiBase/$model:generateContent"
-
-    # Build the prompt with actual newlines (will be JSON-escaped below)
-    set prompt "You are a chess commentator writing annotations for a chess game. You are given engine analysis and a VERDICT line that tells you exactly how the played move compares to the engine's best. TRUST the VERDICT completely — it is computed from engine scores and is always correct. Write commentary in 80 words or less based on the VERDICT. If the verdict says the move is \"best\" or \"equal\", praise it briefly and mention the key idea. If \"blunder\" or \"mistake\", clearly state it is an error and name the best alternative from Line 1 with a brief reason. Be specific and concrete. Do not use markdown formatting such as bold (**) or italics (*). Never capitalize chess move notation at the start of a sentence; pawn moves like a6, c5, e4 must stay lowercase. ONLY refer to moves that appear in the engine analysis — do NOT invent or guess moves."
-    if {$variant eq "chess960"} {
-        append prompt "\n\nThis is a Chess960 (Fischer Random) game. Pieces start on non-standard squares. Do NOT assume standard piece placement."
+    # Game context
+    if {$opening ne ""} {
+        append prompt "\n\nOpening: $opening"
     }
     append prompt "\n\nFEN (position before the move): $fen"
 
@@ -318,20 +358,52 @@ proc ::auto_comment::queryGemini {fen evalText {movePlayed ""} {variant "standar
 
     append prompt "\n\nMove played: $movePlayed"
     append prompt "\n\nEngine analysis for the position before the move:\n$evalText"
+    return $prompt
+}
 
-    # Escape the prompt for JSON string embedding.
-    # Order matters: backslash first, then other special chars.
-    set escaped [string map {
+# ::auto_comment::cleanupText
+#   Post-processes LLM output: strips markdown, fixes move notation.
+#
+proc ::auto_comment::cleanupText {text} {
+    # Strip any markdown bold/italic markers the LLM might include
+    set text [regsub -all {\*\*([^*]+)\*\*} $text {\1}]
+    set text [regsub -all {\*([^*]+)\*} $text {\1}]
+    # Fix capitalized pawn moves: A6->a6, C5->c5, etc.
+    set text [regsub -all {([^a-zA-Z])([A-H])([1-8])([^a-z])} $text {\1[string tolower "\2"]\3\4}]
+    set text [subst -nobackslashes -novar $text]
+    # Fix lowercase piece moves: nf3->Nf3, bg5->Bg5, etc.
+    set text [regsub -all {(^|[^a-zA-Z])([bknqr])([a-h][1-8])} $text {\1[string toupper "\2"]\3}]
+    set text [subst -nobackslashes -novar $text]
+    # Also fix piece captures: nxf3->Nxf3, bxe5->Bxe5, etc.
+    set text [regsub -all {(^|[^a-zA-Z])([bknqr])(x[a-h][1-8])} $text {\1[string toupper "\2"]\3}]
+    set text [subst -nobackslashes -novar $text]
+    return [string trim $text]
+}
+
+# ::auto_comment::escapeJson
+#   Escapes a string for embedding inside a JSON string value.
+#
+proc ::auto_comment::escapeJson {str} {
+    return [string map {
         "\\" "\\\\"
         "\"" "\\\""
         "\n" "\\n"
         "\r" "\\r"
         "\t" "\\t"
-    } $prompt]
+    } $str]
+}
 
+# ::auto_comment::queryGemini
+#   Sends the prompt to the Gemini API.
+#   Returns the generated commentary text, or "" on failure.
+#
+proc ::auto_comment::queryGemini {prompt} {
+    set model $::auto_comment::model
+    set url "$::auto_comment::geminiApiBase/$model:generateContent"
+
+    set escaped [::auto_comment::escapeJson $prompt]
     set jsonBody "{\"contents\":\[{\"parts\":\[{\"text\":\"$escaped\"}\]}\]}"
 
-    # Write JSON body to a temp file to avoid shell quoting issues
     set tmpfile [file join [::auto_comment::getTempDir] "auto_comment_req.json"]
     set fd [open $tmpfile w]
     puts -nonewline $fd $jsonBody
@@ -340,8 +412,6 @@ proc ::auto_comment::queryGemini {fen evalText {movePlayed ""} {variant "standar
     set result ""
     set ok 0
 
-    # Use 2>@1 to merge stderr into stdout so Tcl exec does not
-    # treat curl diagnostic/warning output as an error.
     if {![catch {exec curl -s --max-time 30 \
             -H "Content-Type: application/json" \
             -H "x-goog-api-key: $::auto_comment::apiKey" \
@@ -365,15 +435,12 @@ proc ::auto_comment::queryGemini {fen evalText {movePlayed ""} {variant "standar
         regexp {"message"\s*:\s*"([^"]*)"} $result -> errMsg
         puts stderr "Auto Comment: Gemini API error: $errMsg"
         puts stderr "Auto Comment: Full response: $result"
-        # Return a marker so generateComment can show the real error
         return "ERROR: $errMsg"
     }
 
-    # Extract the text from the Gemini response
-    # Response format: {"candidates":[{"content":{"parts":[{"text":"..."}],...},...}],...}
+    # Extract text from Gemini response
     set text ""
     if {[regexp {"text"\s*:\s*"((?:[^"\\]|\\.)*)"} $result -> rawText]} {
-        # Unescape JSON string
         set text [string map {
             "\\n" "\n"
             "\\r" ""
@@ -381,40 +448,163 @@ proc ::auto_comment::queryGemini {fen evalText {movePlayed ""} {variant "standar
             "\\\"" "\""
             "\\\\" "\\"
         } $rawText]
-        # Strip any markdown bold/italic markers the LLM might include
-        set text [regsub -all {\*\*([^*]+)\*\*} $text {\1}]
-        set text [regsub -all {\*([^*]+)\*} $text {\1}]
-        # Fix capitalized pawn moves: A6->a6, C5->c5, etc.
-        # Only matches a capital A-H followed by 1-8 that is NOT followed
-        # by a lowercase letter (which would be a piece move like Bb4).
-        set text [regsub -all {([^a-zA-Z])([A-H])([1-8])([^a-z])} $text {\1[string tolower "\2"]\3\4}]
-        set text [subst -nobackslashes -novar $text]
-        # Fix lowercase piece moves: nf3->Nf3, bg5->Bg5, etc.
-        # Matches lowercase letter followed by a lowercase letter and digit
-        # where the first letter is a piece (b,k,n,q,r) and it looks like
-        # a chess move (piece + file + rank).
-        set text [regsub -all {(^|[^a-zA-Z])([bknqr])([a-h][1-8])} $text {\1[string toupper "\2"]\3}]
-        set text [subst -nobackslashes -novar $text]
-        # Also fix piece captures: nxf3->Nxf3, bxe5->Bxe5, etc.
-        set text [regsub -all {(^|[^a-zA-Z])([bknqr])(x[a-h][1-8])} $text {\1[string toupper "\2"]\3}]
-        set text [subst -nobackslashes -novar $text]
-        set text [string trim $text]
     } else {
         puts stderr "Auto Comment: Could not parse Gemini response: $result"
     }
 
-    return $text
+    return [::auto_comment::cleanupText $text]
 }
 
-# ::auto_comment::generateComment
-#   Main entry point. Fetches eval, queries LLM, inserts comment.
+# ::auto_comment::queryDeepSeek
+#   Sends the prompt to the DeepSeek API (OpenAI-compatible).
+#   Returns the generated commentary text, or "" on failure.
 #
-proc ::auto_comment::generateComment {} {
-    # Check API key
-    if {$::auto_comment::apiKey eq ""} {
+proc ::auto_comment::queryDeepSeek {prompt} {
+    set model $::auto_comment::deepseekModel
+    set url "$::auto_comment::deepseekApiBase/chat/completions"
+
+    set escapedPrompt [::auto_comment::escapeJson $prompt]
+    set jsonBody "{\"model\":\"$model\",\"messages\":\[{\"role\":\"user\",\"content\":\"$escapedPrompt\"}\],\"stream\":false,\"temperature\":1.0}"
+
+    set tmpfile [file join [::auto_comment::getTempDir] "auto_comment_req.json"]
+    set fd [open $tmpfile w]
+    puts -nonewline $fd $jsonBody
+    close $fd
+
+    set result ""
+    set ok 0
+
+    if {![catch {exec curl -s --max-time 60 \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer $::auto_comment::deepseekApiKey" \
+            -X POST \
+            -d @$tmpfile \
+            $url 2>@1} result]} {
+        set ok 1
+    } else {
+        puts stderr "Auto Comment: curl error: $result"
+    }
+
+    catch {file delete -force $tmpfile}
+
+    if {!$ok} {
+        return ""
+    }
+
+    # Check for API error responses
+    if {[regexp {"error"\s*:\s*\{} $result]} {
+        set errMsg ""
+        regexp {"message"\s*:\s*"([^"]*)"} $result -> errMsg
+        puts stderr "Auto Comment: DeepSeek API error: $errMsg"
+        puts stderr "Auto Comment: Full response: $result"
+        return "ERROR: $errMsg"
+    }
+
+    # Extract text from DeepSeek response (OpenAI format)
+    # {"choices":[{"message":{"content":"..."},...}],...}
+    set text ""
+    if {[regexp {"content"\s*:\s*"((?:[^"\\]|\\.)*)"} $result -> rawText]} {
+        set text [string map {
+            "\\n" "\n"
+            "\\r" ""
+            "\\t" " "
+            "\\\"" "\""
+            "\\\\" "\\"
+        } $rawText]
+    } else {
+        puts stderr "Auto Comment: Could not parse DeepSeek response: $result"
+    }
+
+    return [::auto_comment::cleanupText $text]
+}
+
+# ::auto_comment::displayPrompt
+#   Replaces the content of an existing window with the prompt display.
+#   The window must already exist and be mapped (same pattern as Lichess Eval:
+#   destroy loading label, add result frame as sibling, update idletasks, center).
+#
+proc ::auto_comment::displayPrompt {w prompt} {
+    variable _pendingPrompt $prompt
+
+    wm title $w "Auto Comment - LLM Prompt"
+
+    # Remove the loading label (child of $w.content, matching Lichess eval pattern)
+    destroy $w.content.loading
+
+    # Build the prompt display as $w.result (new sibling of $w.content,
+    # same structure as Lichess eval's displayResult)
+    ttk::frame $w.result
+    pack $w.result -fill both -expand 1 -padx 20 -pady 10
+
+    # Toolbar: buttons and provider selector at the top
+    ttk::frame $w.result.toolbar
+    pack $w.result.toolbar -fill x -pady {0 5}
+
+    ttk::label $w.result.toolbar.provlbl -text "Send via:"
+    ttk::combobox $w.result.toolbar.provider -textvariable ::auto_comment::provider \
+        -values {gemini deepseek} -state readonly -width 10
+    pack $w.result.toolbar.provlbl -side left -padx {0 2}
+    pack $w.result.toolbar.provider -side left -padx {0 10}
+
+    ttk::button $w.result.toolbar.send -text "Send" -command [list apply {{w} {
+        destroy $w
+        ::auto_comment::sendPrompt
+    }} $w]
+    ttk::button $w.result.toolbar.copy -text "Copy" -command [list apply {{w} {
+        $w.result.text configure -state normal
+        $w.result.text tag add sel 1.0 end
+        event generate $w.result.text <<Copy>>
+        $w.result.text configure -state disabled
+        $w.result.toolbar.copy configure -text "Copied!"
+        after 1500 [list catch [list $w.result.toolbar.copy configure -text "Copy"]]
+    }} $w]
+    ttk::button $w.result.toolbar.cancel -text "Cancel" -command "destroy $w"
+
+    pack $w.result.toolbar.send -side left -padx 5
+    pack $w.result.toolbar.copy -side left -padx 5
+    pack $w.result.toolbar.cancel -side left -padx 5
+
+    ttk::label $w.result.info -text \
+        "Review the prompt below. Send to an LLM, or Copy to paste into a web AI." \
+        -wraplength 650 -justify left
+    pack $w.result.info -anchor w -pady {0 5}
+
+    # Text widget (same pattern as Lichess Eval: direct pack, no frame)
+    text $w.result.text -height 35 -width 100 -wrap word -relief solid \
+        -borderwidth 1 -font font_Regular -spacing1 4 -spacing3 4
+    pack $w.result.text -fill both -expand 1 -pady {0 10}
+
+    $w.result.text insert end $prompt
+    $w.result.text configure -state disabled
+
+    bind $w <Escape> "destroy $w"
+    focus $w.result.toolbar.send
+
+    # Center the window
+    update idletasks
+    set x [expr {[winfo screenwidth $w]/2 - [winfo width $w]/2}]
+    set y [expr {[winfo screenheight $w]/2 - [winfo height $w]/2}]
+    wm geometry $w "+$x+$y"
+}
+
+# ::auto_comment::sendPrompt
+#   Called when the user clicks Send in the prompt preview window.
+#   Handles API key check, LLM query, and comment insertion.
+#
+proc ::auto_comment::sendPrompt {} {
+    set prompt $::auto_comment::_pendingPrompt
+
+    # Check API key before sending
+    set needKey 0
+    if {$::auto_comment::provider eq "deepseek"} {
+        if {$::auto_comment::deepseekApiKey eq ""} { set needKey 1 }
+    } else {
+        if {$::auto_comment::apiKey eq ""} { set needKey 1 }
+    }
+    if {$needKey} {
         set answer [tk_messageBox -icon question -type yesno \
             -title "Auto Comment" \
-            -message "No Gemini API key configured.\n\nWould you like to set one now?\n(Get a free key at aistudio.google.com/apikey)" \
+            -message "No API key configured for [string totitle $::auto_comment::provider].\n\nWould you like to configure it now?" \
             -parent .]
         if {$answer eq "yes"} {
             ::auto_comment::configureApiKey
@@ -422,6 +612,65 @@ proc ::auto_comment::generateComment {} {
         return
     }
 
+    # Show progress while querying LLM
+    set w .autoCommentProgress
+    if {[winfo exists $w]} { destroy $w }
+    toplevel $w
+    wm title $w "Auto Comment"
+    wm resizable $w 0 0
+    ttk::label $w.lbl -text "Generating AI commentary ([string totitle $::auto_comment::provider])..." \
+        -padding 20
+    pack $w.lbl
+    update idletasks
+    set x [expr {[winfo screenwidth $w]/2 - 150}]
+    set y [expr {[winfo screenheight $w]/2 - 30}]
+    wm geometry $w "+$x+$y"
+    update idletasks
+
+    # Query the LLM
+    if {$::auto_comment::provider eq "deepseek"} {
+        set commentary [::auto_comment::queryDeepSeek $prompt]
+    } else {
+        set commentary [::auto_comment::queryGemini $prompt]
+    }
+
+    destroy $w
+
+    if {$commentary eq ""} {
+        tk_messageBox -icon warning -type ok -title "Auto Comment" \
+            -message "Failed to generate commentary.\n\nPlease check your API key and internet connection." \
+            -parent .
+        return
+    }
+
+    if {[string match "ERROR:*" $commentary]} {
+        set errDetail [string range $commentary 7 end]
+        tk_messageBox -icon warning -type ok -title "Auto Comment" \
+            -message "[string totitle $::auto_comment::provider] API error:\n\n$errDetail" \
+            -parent .
+        return
+    }
+
+    # Insert as comment
+    undoFeature save
+    set existing [sc_pos getComment]
+    if {$existing ne ""} {
+        sc_pos setComment "$existing $commentary"
+    } else {
+        sc_pos setComment $commentary
+    }
+
+    # Refresh the PGN window and comment editor
+    updateBoard -pgn
+    if {[winfo exists .commentWin]} {
+        ::windows::commenteditor::Refresh
+    }
+}
+
+# ::auto_comment::generateComment
+#   Main entry point. Fetches eval, queries LLM, inserts comment.
+#
+proc ::auto_comment::generateComment {} {
     # Get the move that was just played
     set movePlayed [sc_game info previousMove]
 
@@ -440,20 +689,20 @@ proc ::auto_comment::generateComment {} {
     # Restore position
     sc_move pgn $savedOffset
 
-    # Show a progress indicator
-    set w .autoCommentProgress
+    # Create popup window (same pattern as Lichess Eval: always resizable,
+    # loading label inside a content frame, no early wm geometry)
+    set w .autoCommentPrompt
     if {[winfo exists $w]} { destroy $w }
     toplevel $w
     wm title $w "Auto Comment"
-    wm resizable $w 0 0
-    ttk::label $w.lbl -text "Fetching engine analysis..." -padding 20
-    pack $w.lbl
-    update idletasks
+    wm resizable $w 1 1
 
-    # Center the window
-    set x [expr {[winfo screenwidth $w]/2 - 150}]
-    set y [expr {[winfo screenheight $w]/2 - 30}]
-    wm geometry $w "+$x+$y"
+    ttk::frame $w.content -padding 20
+    pack $w.content -fill both -expand 1
+
+    ttk::label $w.content.loading -text "Fetching engine analysis..." -font font_Bold
+    pack $w.content.loading -pady 10
+
     update idletasks
 
     # Detect game variant (standard or chess960)
@@ -476,7 +725,7 @@ proc ::auto_comment::generateComment {} {
         # Convert Lichess UCI moves to human-readable SAN notation
         lassign [::auto_comment::formatLichessEval $evalJson $prevFen] evalText moveLabels
     } else {
-        $w.lbl configure -text "Lichess eval not available, trying chessdb.cn..."
+        $w.content.loading configure -text "Lichess eval not available, trying chessdb.cn..."
         update idletasks
         set evalJson [::auto_comment::fetchChessDBEval $prevFen]
         set evalSource "chessdb"
@@ -504,43 +753,21 @@ proc ::auto_comment::generateComment {} {
     puts stderr "Auto Comment: Move played: $movePlayed"
     puts stderr "Auto Comment: Eval text sent to LLM:\n$evalText"
 
-    # Step 2: Query Gemini with the previous position's eval and the move played
-    $w.lbl configure -text "Generating AI commentary..."
-    update idletasks
-
-    set commentary [::auto_comment::queryGemini $prevFen $evalText $movePlayed $variant]
-
-    destroy $w
-
-    if {$commentary eq ""} {
-        tk_messageBox -icon warning -type ok -title "Auto Comment" \
-            -message "Failed to generate commentary.\n\nPlease check your API key and internet connection." \
-            -parent .
-        return
+    # Get opening info from ECO code
+    set opening ""
+    set eco [sc_game tag get ECO]
+    if {$eco eq ""} {
+        # Try auto-classifying if no ECO header
+        catch {set eco [sc_eco game]}
+    }
+    if {$eco ne ""} {
+        set opening $eco
     }
 
-    if {[string match "ERROR:*" $commentary]} {
-        set errDetail [string range $commentary 7 end]
-        tk_messageBox -icon warning -type ok -title "Auto Comment" \
-            -message "Gemini API error:\n\n$errDetail" \
-            -parent .
-        return
-    }
+    # Build the prompt and display it in the SAME window (no destroy/recreate)
+    set prompt [::auto_comment::buildPrompt $prevFen $evalText $movePlayed $variant $opening]
 
-    # Step 3: Insert as comment
-    undoFeature save
-    set existing [sc_pos getComment]
-    if {$existing ne ""} {
-        sc_pos setComment "$existing $commentary"
-    } else {
-        sc_pos setComment $commentary
-    }
-
-    # Refresh the PGN window and comment editor
-    updateBoard -pgn
-    if {[winfo exists .commentWin]} {
-        ::windows::commenteditor::Refresh
-    }
+    ::auto_comment::displayPrompt $w $prompt
 }
 
 # ::auto_comment::getTempDir
