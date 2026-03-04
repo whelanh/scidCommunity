@@ -36,7 +36,7 @@ proc ::analysis_auto_comment::batch_generate {} {
     pack $w.content.info -pady {0 10}
 
     ttk::label $w.content.note -text \
-        "Note: This feature works best on games that have already been annotated (preferably with engine-generated variations). For best results, run the Annotate button first." \
+        "Note: This feature works best on games that have already been annotated (preferably with engine-generated variations and scores). For best results, run the Annotate button first." \
         -wraplength 400 -justify left -foreground #666666
     pack $w.content.note -pady {0 10}
 
@@ -260,8 +260,7 @@ proc ::analysis_auto_comment::run_batch {} {
 
             # Build prompt
             set prompt [::auto_comment::buildPrompt $prevFen $evalText $movePlayed $variant $opening $nagSymbol 1 1 $whoMoved]
-            puts stderr "Analysis Auto Comment: Prompt sent to LLM:\n$prompt"
-            
+
             # Query LLM
             set commentary ""
             if {$provider eq "deepseek"} {

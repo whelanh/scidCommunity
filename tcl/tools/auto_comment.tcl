@@ -320,8 +320,12 @@ proc ::auto_comment::formatChessDBEval {jsonData fen} {
     return [list $result $moveLabels]
 }
 
-proc ::auto_comment::buildPrompt {fen evalText movePlayed variant {opening ""} {nagSymbol ""} {includeSymbols 1} {whitePerspective 0} {whoMoved ""}} {
+proc ::auto_comment::buildPrompt {fen evalText movePlayed variant {opening ""} {nagSymbol ""} {includeSymbols 1} {whitePerspective 0} {whoMoved ""} {isSingleMove 0}} {
     set prompt "You are a chess commentator writing annotations for an intermediate club-level player who understands tactics but not deep strategy. You are given engine analysis and a VERDICT line. TRUST the VERDICT completely — it is computed from engine scores and is always correct."
+    
+    if {$isSingleMove} {
+        append prompt "\n\nNOTE: The player reading your commentary may not see the engine evaluation or the recommended lines. Feel free to explicitly describe the next few moves of the engine's best line and explain the score in human-friendly terms (e.g., 'crushing advantage', 'slight edge') to help them understand why the recommended line is superior."
+    }
     
     if {$whoMoved ne ""} {
         append prompt "\n\nCRITICAL PERSPECTIVE: Center your commentary on the player who just moved ($whoMoved). Explain what they missed or why the resulting position is difficult or advantageous for THEM. Use objective analysis but avoid sounding like you are praising the opponent for the player's errors."
@@ -824,7 +828,7 @@ proc ::auto_comment::generateComment {} {
     if {$nagSymbol eq "0"} { set nagSymbol "" }
 
     # Build the prompt and display it in the SAME window (no destroy/recreate)
-    set prompt [::auto_comment::buildPrompt $prevFen $evalText $movePlayed $variant $opening $nagSymbol 0 0 $whoMoved]
+    set prompt [::auto_comment::buildPrompt $prevFen $evalText $movePlayed $variant $opening $nagSymbol 0 0 $whoMoved 1]
 
     ::auto_comment::displayPrompt $w $prompt
 }
