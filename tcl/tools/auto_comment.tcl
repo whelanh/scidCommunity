@@ -320,22 +320,30 @@ proc ::auto_comment::formatChessDBEval {jsonData fen} {
     return [list $result $moveLabels]
 }
 
-# ::auto_comment::buildPrompt
-#   Builds the LLM prompt from the position data.
-#   Returns the prompt string.
-#
-proc ::auto_comment::buildPrompt {fen evalText movePlayed variant {opening ""} {nagSymbol ""}} {
+proc ::auto_comment::buildPrompt {fen evalText movePlayed variant {opening ""} {nagSymbol ""} {includeSymbols 1} {whitePerspective 0} {whoMoved ""}} {
     set prompt "You are a chess commentator writing annotations for an intermediate club-level player who understands tactics but not deep strategy. You are given engine analysis and a VERDICT line. TRUST the VERDICT completely — it is computed from engine scores and is always correct."
-    append prompt "\n\nPGN Annotation Symbols Reference:"
-    append prompt "\nThe following annotation symbols may appear in the PGN (added by human annotators or local engine analysis). Use them to enrich your commentary when appropriate:"
-    append prompt "\n  !?  (Interesting move) – worth considering, has merit"
-    append prompt "\n  ?   (Poor move) – suboptimal, better alternatives exist"
-    append prompt "\n  ??  (Blunder) – a serious mistake that loses significant material or advantage"
-    append prompt "\n  ?!  (Dubious move) – questionable, risky, or hard to justify"
-    append prompt "\n  +=  (Slight advantage) – small edge for White"
-    append prompt "\n  +/- (Clear advantage) – White has a noticeable edge"
-    append prompt "\n  +-  (Winning advantage) – White should win with correct play"
-    append prompt "\n  +-- (Decisive/crushing advantage) – White has a completely winning position"
+    
+    if {$whoMoved ne ""} {
+        append prompt "\n\nCRITICAL PERSPECTIVE: Center your commentary on the player who just moved ($whoMoved). Explain what they missed or why the resulting position is difficult or advantageous for THEM. Use objective analysis but avoid sounding like you are praising the opponent for the player's errors."
+    }
+    
+    if {$whitePerspective} {
+        append prompt "\n\nCRITICAL: All engine evaluation scores (e.g., +1.5, -0.8) are from White's perspective. A positive number (+) means White has the advantage; a negative number (-) means Black has the advantage. Do NOT flip these based on who is moving."
+    }
+
+    if {$includeSymbols} {
+        append prompt "\n\nPGN Annotation Symbols Reference:"
+        append prompt "\nThe following annotation symbols may appear in the PGN (added by human annotators or local engine analysis). Use them to enrich your commentary when appropriate:"
+        append prompt "\n  !?  (Interesting move) – worth considering, has merit"
+        append prompt "\n  ?   (Poor move) – suboptimal, better alternatives exist"
+        append prompt "\n  ??  (Blunder) – a serious mistake that loses significant material or advantage"
+        append prompt "\n  ?!  (Dubious move) – questionable, risky, or hard to justify"
+        append prompt "\n  +=  (Slight advantage) – small edge for White"
+        append prompt "\n  +/- (Clear advantage) – White has a noticeable edge"
+        append prompt "\n  +-  (Winning advantage) – White should win with correct play"
+        append prompt "\n  +-- (Decisive/crushing advantage) – White has a completely winning position"
+    }
+
     append prompt "\n\nInstructions:"
     append prompt "\n- For moves labeled \"best\": explain the concrete idea — what does the move threaten, gain, or prevent? Reference the follow-up from the engine line if instructive. Keep it under 60 words."
     append prompt "\n- For \"equal\" moves: note it is a valid alternative and briefly contrast it with the engine's top choice from Line 1. Keep it under 60 words."
@@ -349,9 +357,14 @@ proc ::auto_comment::buildPrompt {fen evalText movePlayed variant {opening ""} {
 
     # Game context
     if {$opening ne ""} {
-        append prompt "\n\nECO Code For Opening: $opening"
+        append prompt "\n\Opening: $opening"
     }
     append prompt "\n\nFEN (position before the move): $fen"
+    if {$whoMoved ne ""} {
+        append prompt "\nMove: $movePlayed (played by $whoMoved)"
+    } else {
+        append prompt "\nMove: $movePlayed"
+    }
 
     # Parse castling rights from FEN to prevent hallucinated castling plans
     set castling [lindex [split $fen] 2]
@@ -366,7 +379,6 @@ proc ::auto_comment::buildPrompt {fen evalText movePlayed variant {opening ""} {
         append prompt "\nCastling status: [join $castleNotes " "]"
     }
 
-    append prompt "\n\nMove played: $movePlayed"
     if {$nagSymbol ne ""} {
         append prompt "\nAnnotation for this move: $nagSymbol"
     }
@@ -680,6 +692,29 @@ proc ::auto_comment::sendPrompt {} {
     }
 }
 
+# ::auto_comment::getOpeningName
+#   Retrieves the full opening name for a given ECO code.
+#
+proc ::auto_comment::getOpeningName {eco} {
+    if {$eco eq ""} { return "" }
+    
+    # sc_eco summary $eco 0 returns lines from scid.eco:
+    # "A00 [Barnes Opening]  1. f3"
+    # Note: the second argument 0 disables translation for consistent parsing.
+    set summary [sc_eco summary $eco 0]
+    if {$summary ne ""} {
+        set lines [split $summary "\n"]
+        foreach line $lines {
+            if {[regexp {^([A-E]\d\d[a-z]?\d?)\s+\[([^\]]+)\]} $line -> code description]} {
+                # Return the matched code and description
+                # return "$code $description"
+                return "$description"
+            }
+        }
+    }
+    return $eco
+}
+
 # ::auto_comment::generateComment
 #   Main entry point. Fetches eval, queries LLM, inserts comment.
 #
@@ -774,11 +809,22 @@ proc ::auto_comment::generateComment {} {
         catch {set eco [sc_eco game]}
     }
     if {$eco ne ""} {
-        set opening $eco
+        # eco can be just a code (e.g. "C60") or a full string (e.g. "C60 [Ruy Lopez]")
+        # if it's already a full string (from sc_eco game), we might want to trim the brackets
+        # but calling getOpeningName will handle both cases or ensure we have the name.
+        set opening [::auto_comment::getOpeningName $eco]
     }
 
+    # Identify who just moved (opposite of current side to move)
+    set side [sc_pos side]
+    set whoMoved [expr {$side eq "white" ? "Black" : "White"}]
+
+    # Fetch the NAG symbol (annotation) for the move
+    set nagSymbol [string trim [sc_pos getNags]]
+    if {$nagSymbol eq "0"} { set nagSymbol "" }
+
     # Build the prompt and display it in the SAME window (no destroy/recreate)
-    set prompt [::auto_comment::buildPrompt $prevFen $evalText $movePlayed $variant $opening]
+    set prompt [::auto_comment::buildPrompt $prevFen $evalText $movePlayed $variant $opening $nagSymbol 0 0 $whoMoved]
 
     ::auto_comment::displayPrompt $w $prompt
 }

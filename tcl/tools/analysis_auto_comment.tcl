@@ -118,19 +118,20 @@ proc ::analysis_auto_comment::run_batch {} {
     set opening ""
     set eco [sc_game tag get ECO]
     if {$eco eq ""} { catch {set eco [sc_eco game]} }
-    if {$eco ne ""} { set opening $eco }
+    if {$eco ne ""} { set opening [::auto_comment::getOpeningName $eco] }
 
     set annotatedPositions {}
 
     # Initial scan to find moves to process
     while {1} {
-        set nags [sc_pos getNags]
+        set nags [string trim [sc_pos getNags]]
         set comment [sc_pos getComment]
         set movePlayed [sc_game info previousMove]
         
-        # We check movePlayed to skip the very start of game (ply 0)
-        # but also check if the current move (M) has annotations.
-        if {$movePlayed ne "" && ($nags ne "0" || $comment ne "")} {
+        # We check movePlayed to skip the very start of game (ply 0).
+        # User only wants comments for moves that have a NAG (Annotation Symbol).
+        # We skip if the only annotation is "D" (Diagram).
+        if {$movePlayed ne "" && $nags ne "0" && $nags ne "D" && $nags ne ""} {
             lappend annotatedPositions [list [sc_pos pgnOffset] $movePlayed]
         }
         
@@ -253,8 +254,13 @@ proc ::analysis_auto_comment::run_batch {} {
                 append evalText " The engine evaluation for the played move $movePlayed is $playedMoveScore."
             }
 
+            # Identify who just moved (we are at the position BEFORE the move)
+            set side [sc_pos side]
+            set whoMoved [expr {$side eq "white" ? "White" : "Black"}]
+
             # Build prompt
-            set prompt [::auto_comment::buildPrompt $prevFen $evalText $movePlayed $variant $opening $nagSymbol]
+            set prompt [::auto_comment::buildPrompt $prevFen $evalText $movePlayed $variant $opening $nagSymbol 1 1 $whoMoved]
+            puts stderr "Analysis Auto Comment: Prompt sent to LLM:\n$prompt"
             
             # Query LLM
             set commentary ""
