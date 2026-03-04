@@ -320,7 +320,7 @@ proc ::auto_comment::formatChessDBEval {jsonData fen} {
     return [list $result $moveLabels]
 }
 
-proc ::auto_comment::buildPrompt {fen evalText movePlayed variant {opening ""} {nagSymbol ""} {includeSymbols 1} {whitePerspective 0} {whoMoved ""} {isSingleMove 0}} {
+proc ::auto_comment::buildPrompt {fen evalText movePlayed variant {opening ""} {nagSymbol ""} {includeSymbols 1} {whitePerspective 0} {whoMoved ""} {isSingleMove 0} {pgn ""}} {
     set prompt "You are a chess commentator writing annotations for an intermediate club-level player who understands tactics but not deep strategy. You are given engine analysis and a VERDICT line. TRUST the VERDICT completely — it is computed from engine scores and is always correct."
     
     if {$isSingleMove} {
@@ -333,6 +333,10 @@ proc ::auto_comment::buildPrompt {fen evalText movePlayed variant {opening ""} {
     
     if {$whitePerspective} {
         append prompt "\n\nCRITICAL: All engine evaluation scores (e.g., +1.5, -0.8) are from White's perspective. A positive number (+) means White has the advantage; a negative number (-) means Black has the advantage. Do NOT flip these based on who is moving."
+    }
+
+    if {$pgn ne ""} {
+        append prompt "\n\nGAME CONTEXT: You are provided with the full PGN of the game up to the current move. Use this to understand:\n- What phase of the game you're in (opening, middlegame, endgame)\n- The pawn structure and how it developed\n- Strategic plans or themes that span multiple moves\n- Key decisions or transitions that led to the current position\nFocus your commentary on the current position, but reference earlier moves only when they provide essential context for understanding why the current move succeeds or fails."
     }
 
     if {$includeSymbols} {
@@ -354,21 +358,27 @@ proc ::auto_comment::buildPrompt {fen evalText movePlayed variant {opening ""} {
     append prompt "\n- For \"inaccuracy\", \"mistake\", or \"blunder\": clearly state the severity, name the best alternative from Line 1 with a concrete reason, and explain what the played move misses. Use up to 100 words for these."
     append prompt "\n- Do not use markdown formatting such as bold (**) or italics (*)."
     append prompt "\n- Never capitalize chess move notation at the start of a sentence; pawn moves like a6, c5, e4 must stay lowercase."
-    append prompt "\n- ONLY refer to moves that appear in the engine analysis — do NOT invent or guess moves."
+    append prompt "\n- ONLY refer to moves that appear in the engine analysis or the game PGN — do NOT invent or guess moves."
     if {$variant eq "chess960"} {
         append prompt "\n- This is a Chess960 (Fischer Random) game. Pieces start on non-standard squares. Do NOT assume standard piece placement."
     }
 
-    # Game context
+    append prompt "\n\n===== GAME INFORMATION =====\n"
+    if {$pgn ne ""} {
+        append prompt "\nFull PGN:\n$pgn\n"
+    }
+
     if {$opening ne ""} {
-        append prompt "\n\Opening: $opening"
+        append prompt "\nOpening: $opening"
     }
-    append prompt "\n\nFEN (position before the move): $fen"
+
     if {$whoMoved ne ""} {
-        append prompt "\nMove: $movePlayed (played by $whoMoved)"
+        append prompt "\n\nCurrent move being analyzed: $movePlayed (played by $whoMoved)"
     } else {
-        append prompt "\nMove: $movePlayed"
+        append prompt "\n\nCurrent move being analyzed: $movePlayed"
     }
+
+    append prompt "\n\nFEN (position before the move): $fen"
 
     # Parse castling rights from FEN to prevent hallucinated castling plans
     set castling [lindex [split $fen] 2]
@@ -386,7 +396,9 @@ proc ::auto_comment::buildPrompt {fen evalText movePlayed variant {opening ""} {
     if {$nagSymbol ne ""} {
         append prompt "\nAnnotation for this move: $nagSymbol"
     }
-    append prompt "\n\nEngine analysis for the position before the move:\n$evalText"
+
+    append prompt "\n\n===== ENGINE ANALYSIS =====\n"
+    append prompt "\nEngine analysis for the position before the move:\n$evalText"
     return $prompt
 }
 
@@ -449,7 +461,7 @@ proc ::auto_comment::queryGemini {prompt} {
             $url 2>@1} result]} {
         set ok 1
     } else {
-        puts stderr "Auto Comment: curl error: $result"
+        #puts stderr "Auto Comment: curl error: $result"
     }
 
     catch {file delete -force $tmpfile}
@@ -462,8 +474,8 @@ proc ::auto_comment::queryGemini {prompt} {
     if {[regexp {"error"\s*:\s*\{} $result]} {
         set errMsg ""
         regexp {"message"\s*:\s*"([^"]*)"} $result -> errMsg
-        puts stderr "Auto Comment: Gemini API error: $errMsg"
-        puts stderr "Auto Comment: Full response: $result"
+        #puts stderr "Auto Comment: Gemini API error: $errMsg"
+        #puts stderr "Auto Comment: Full response: $result"
         return "ERROR: $errMsg"
     }
 
@@ -478,7 +490,7 @@ proc ::auto_comment::queryGemini {prompt} {
             "\\\\" "\\"
         } $rawText]
     } else {
-        puts stderr "Auto Comment: Could not parse Gemini response: $result"
+        #puts stderr "Auto Comment: Could not parse Gemini response: $result"
     }
 
     return [::auto_comment::cleanupText $text]
@@ -511,7 +523,7 @@ proc ::auto_comment::queryDeepSeek {prompt} {
             $url 2>@1} result]} {
         set ok 1
     } else {
-        puts stderr "Auto Comment: curl error: $result"
+        #puts stderr "Auto Comment: curl error: $result"
     }
 
     catch {file delete -force $tmpfile}
@@ -524,8 +536,8 @@ proc ::auto_comment::queryDeepSeek {prompt} {
     if {[regexp {"error"\s*:\s*\{} $result]} {
         set errMsg ""
         regexp {"message"\s*:\s*"([^"]*)"} $result -> errMsg
-        puts stderr "Auto Comment: DeepSeek API error: $errMsg"
-        puts stderr "Auto Comment: Full response: $result"
+        #puts stderr "Auto Comment: DeepSeek API error: $errMsg"
+        #puts stderr "Auto Comment: Full response: $result"
         return "ERROR: $errMsg"
     }
 
@@ -541,7 +553,7 @@ proc ::auto_comment::queryDeepSeek {prompt} {
             "\\\\" "\\"
         } $rawText]
     } else {
-        puts stderr "Auto Comment: Could not parse DeepSeek response: $result"
+        #puts stderr "Auto Comment: Could not parse DeepSeek response: $result"
     }
 
     return [::auto_comment::cleanupText $text]
@@ -802,8 +814,8 @@ proc ::auto_comment::generateComment {} {
         append evalText "\nVERDICT: The played move $movePlayed does NOT appear in any of the engine's top lines, suggesting it may be a poor choice."
     }
 
-    puts stderr "Auto Comment: Move played: $movePlayed"
-    puts stderr "Auto Comment: Eval text sent to LLM:\n$evalText"
+    #puts stderr "Auto Comment: Move played: $movePlayed"
+    #puts stderr "Auto Comment: Eval text sent to LLM:\n$evalText"
 
     # Get opening info from ECO code
     set opening ""
@@ -827,8 +839,11 @@ proc ::auto_comment::generateComment {} {
     set nagSymbol [string trim [sc_pos getNags]]
     if {$nagSymbol eq "0"} { set nagSymbol "" }
 
+    # Fetch the PGN up to the current move
+    set pgn [sc_game firstMoves -1]
+
     # Build the prompt and display it in the SAME window (no destroy/recreate)
-    set prompt [::auto_comment::buildPrompt $prevFen $evalText $movePlayed $variant $opening $nagSymbol 0 0 $whoMoved 1]
+    set prompt [::auto_comment::buildPrompt $prevFen $evalText $movePlayed $variant $opening $nagSymbol 0 0 $whoMoved 1 $pgn]
 
     ::auto_comment::displayPrompt $w $prompt
 }

@@ -162,6 +162,7 @@ proc ::analysis_auto_comment::run_batch {} {
 
         # Move to the position AFTER the played move to read its comment/score
         sc_move pgn $offset
+        set currentPgn [sc_game firstMoves -1]
         set playedMoveComment [sc_pos getComment]
         set playedMoveScore ""
         if {[regexp {(\d+):([+-]?\d+\.?\d*|Mate in -?\d+)} $playedMoveComment -> depth score]} {
@@ -259,7 +260,7 @@ proc ::analysis_auto_comment::run_batch {} {
             set whoMoved [expr {$side eq "white" ? "White" : "Black"}]
 
             # Build prompt
-            set prompt [::auto_comment::buildPrompt $prevFen $evalText $movePlayed $variant $opening $nagSymbol 1 1 $whoMoved]
+            set prompt [::auto_comment::buildPrompt $prevFen $evalText $movePlayed $variant $opening $nagSymbol 1 1 $whoMoved 0 $currentPgn]
 
             # Query LLM
             set commentary ""
