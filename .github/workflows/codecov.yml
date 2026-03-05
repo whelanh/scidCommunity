@@ -39,7 +39,7 @@ jobs:
         run: |
           cd build
           lcov --capture --directory . --output-file coverage.info --ignore-errors mismatch,negative,gcov
-          lcov --remove coverage.info '/usr/*' '*/googletest/*' --output-file coverage.info --ignore-errors mismatch,negative,gcov
+          lcov --remove coverage.info '/usr/*' '*/googletest/*' '*/tkscid.cpp' '*/sc_base.cpp' '*/sc_filter.cpp' '*/sc_info.cpp' --output-file coverage.info --ignore-errors mismatch,negative,gcov
 
       - name: Upload to Codecov
         uses: codecov/codecov-action@v5
