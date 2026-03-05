@@ -1,4 +1,4 @@
-# scidCommunity [![GitHub license](https://img.shields.io/badge/license-GPL-blue.svg)](https://github.com/whelanh/scidCommunity/blob/github/COPYING)
+# scidCommunity [![GitHub license](https://img.shields.io/badge/license-GPL-blue.svg)](https://github.com/whelanh/scidCommunity/blob/github/COPYING) [![codecov](https://codecov.io/gh/whelanh/scidCommunity/branch/github/graph/badge.svg)](https://codecov.io/gh/whelanh/scidCommunity)
 
 <p align="center">
 <img width="256" height="256" alt="io github whelanh scidCommunity" src="https://github.com/user-attachments/assets/26277294-00cb-4660-964d-f88f4364e9c8" />
