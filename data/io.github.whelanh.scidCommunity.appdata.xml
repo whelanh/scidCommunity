@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.2.37" date="2026-03-05">
+      <description>
+        <p>Final improvements to the prompt used in Auto Comment buttons</p>
+      </description>
+    </release>
     <release version="5.1.2.36" date="2026-03-04">
       <description>
         <p>Refinements to prompts used in Auto Comment buttons</p>

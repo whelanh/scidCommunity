@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.36
+Version:        5.1.2.37
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 29b36e89e56e51a51f84a16331ebd154b53a0871
+%global commit 47a5a8e01dbe92cb93cc7b17ce1de4c0a3569447
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Thu Mar 05 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-37
+- "Final improvements for prompts used for the Auto Comment buttons"
 * Wed Mar 04 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-36
 - "Refinements to prompts used in Auto Comment buttons"
 * Tue Mar 03 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-35
