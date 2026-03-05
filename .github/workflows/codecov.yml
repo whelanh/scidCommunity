@@ -31,7 +31,6 @@ jobs:
           make -j$(nproc)
 
       - name: Run tests
-        continue-on-error: true
         run: |
           cd build
           ./scid_tests
@@ -39,13 +38,12 @@ jobs:
       - name: Generate coverage report
         run: |
           cd build
-          lcov --capture --directory . --output-file coverage.info
-          lcov --remove coverage.info '/usr/*' '*/googletest/*' --output-file coverage.info
+          lcov --capture --directory . --output-file coverage.info --ignore-errors mismatch
+          lcov --remove coverage.info '/usr/*' '*/googletest/*' --output-file coverage.info --ignore-errors mismatch
 
       - name: Upload to Codecov
         uses: codecov/codecov-action@v5
         with:
           files: build/coverage.info
           fail_ci_if_error: true
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          token: ${{ secrets.CODECOV_TOKEN }}
