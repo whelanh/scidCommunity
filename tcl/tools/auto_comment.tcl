@@ -399,6 +399,43 @@ proc ::auto_comment::buildPrompt {fen evalText movePlayed variant {opening ""} {
 
     append prompt "\n\n===== ENGINE ANALYSIS =====\n"
     append prompt "\nEngine analysis for the position before the move:\n$evalText"
+
+    # For non-English UI languages, ask the LLM to answer in the user's language.
+    # Keep engine analysis in standard SAN so move identities remain exact.
+    if {$::language ne "E"} {
+        if {[info exists ::langName($::language)]} {
+            set langFullName $::langName($::language)
+        } else {
+            set langFullName $::language
+        }
+
+        append prompt "\n\n===== LANGUAGE =====\n"
+        append prompt "\nCRITICAL: Write your ENTIRE response in $langFullName."
+
+        if {$::translatePieces && [info exists ::transPieces($::language)]} {
+            set pieceGuide {}
+            set examplesFrom {}
+            set examplesTo {}
+            foreach {eng loc} $::transPieces($::language) {
+                switch -- $eng {
+                    K { lappend pieceGuide "King: $loc"; lappend examplesFrom "Ke2"; lappend examplesTo "${loc}e2" }
+                    Q { lappend pieceGuide "Queen: $loc"; lappend examplesFrom "Qd1"; lappend examplesTo "${loc}d1" }
+                    R { lappend pieceGuide "Rook: $loc"; lappend examplesFrom "Re1"; lappend examplesTo "${loc}e1" }
+                    B { lappend pieceGuide "Bishop: $loc"; lappend examplesFrom "Bf4"; lappend examplesTo "${loc}f4" }
+                    N { lappend pieceGuide "Knight: $loc"; lappend examplesFrom "Nc3"; lappend examplesTo "${loc}c3" }
+                }
+            }
+            if {[llength $pieceGuide] > 0} {
+                append prompt "\nYou MUST convert all chess piece letters to $langFullName notation in your response:"
+                append prompt "\n  [join $pieceGuide {, }]"
+                append prompt "\nExamples: [lindex $examplesFrom 0] becomes [lindex $examplesTo 0], [lindex $examplesFrom 4] becomes [lindex $examplesTo 4], [lindex $examplesFrom 3] becomes [lindex $examplesTo 3]."
+                append prompt "\nPawn moves (e.g. e4, d5, c5) do NOT get a piece letter — leave them unchanged."
+                append prompt "\nThe engine analysis above uses English letters (K, Q, R, B, N) — you MUST translate every piece letter when you mention a move in your commentary."
+            }
+        } else {
+            append prompt "\nKeep standard English SAN piece letters (K, Q, R, B, N)."
+        }
+    }
     return $prompt
 }
 
@@ -412,12 +449,48 @@ proc ::auto_comment::cleanupText {text} {
     # Fix capitalized pawn moves: A6->a6, C5->c5, etc.
     set text [regsub -all {([^a-zA-Z])([A-H])([1-8])([^a-z])} $text {\1[string tolower "\2"]\3\4}]
     set text [subst -nobackslashes -novar $text]
+    # Determine piece-letter set for case normalization.
+    # English defaults to bknqr. For translated-piece languages, derive from transPieces.
+    set pieceLetters "bknqr"
+    if {$::language ne "E" && $::translatePieces && [info exists ::transPieces($::language)]} {
+        set pieceLetters ""
+        foreach {eng loc} $::transPieces($::language) {
+            if {$eng in {K Q R B N}} {
+                set lower [string tolower $loc]
+                if {[string length $lower] == 1 && [string is ascii -strict $lower] && [string is alpha -strict $lower]} {
+                    append pieceLetters $lower
+                }
+            }
+        }
+        if {$pieceLetters eq ""} {
+            set pieceLetters "bknqr"
+        }
+    }
+
     # Fix lowercase piece moves: nf3->Nf3, bg5->Bg5, etc.
-    set text [regsub -all {(^|[^a-zA-Z])([bknqr])([a-h][1-8])} $text {\1[string toupper "\2"]\3}]
+    set pieceMovePattern [format {(^|[^a-zA-Z])([%s])([a-h][1-8])} $pieceLetters]
+    set text [regsub -all $pieceMovePattern $text {\1[string toupper "\2"]\3}]
     set text [subst -nobackslashes -novar $text]
     # Also fix piece captures: nxf3->Nxf3, bxe5->Bxe5, etc.
-    set text [regsub -all {(^|[^a-zA-Z])([bknqr])(x[a-h][1-8])} $text {\1[string toupper "\2"]\3}]
+    set pieceCapturePattern [format {(^|[^a-zA-Z])([%s])(x[a-h][1-8])} $pieceLetters]
+    set text [regsub -all $pieceCapturePattern $text {\1[string toupper "\2"]\3}]
     set text [subst -nobackslashes -novar $text]
+
+    # Safety net: convert any remaining English piece letters in move patterns
+    # to local notation. This catches cases where the LLM echoes English SAN
+    # despite being told to use local notation.
+    if {$::language ne "E" && $::translatePieces && [info exists ::transPieces($::language)]} {
+        foreach {eng loc} $::transPieces($::language) {
+            if {$eng in {K Q R B N} && $eng ne $loc} {
+                # Match: PieceLetter + optional disambiguation (file or rank)
+                #        + optional 'x' + file + rank
+                # E.g.: Nc3, Nxc3, Nbc3, N1c3, Nbxc3
+                set pat "(^|\[^a-zA-Z\])${eng}(\[a-h1-8\]?x?\[a-h\]\[1-8\])"
+                set text [regsub -all $pat $text "\\1${loc}\\2"]
+            }
+        }
+    }
+
     return [string trim $text]
 }
 
@@ -736,7 +809,8 @@ proc ::auto_comment::getOpeningName {eco} {
 #
 proc ::auto_comment::generateComment {} {
     # Get the move that was just played
-    set movePlayed [sc_game info previousMove]
+    # Use untranslated SAN so matching against engine lines is language-independent.
+    set movePlayed [sc_game info previousMoveNT]
 
     if {$movePlayed eq ""} {
         tk_messageBox -icon info -type ok -title "Auto Comment" \
