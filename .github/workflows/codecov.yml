@@ -1,0 +1,49 @@
+name: Code Coverage
+
+on:
+  push:
+    branches: [github]
+  pull_request:
+    branches: [github]
+
+permissions:
+  contents: read
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install cmake build-essential lcov
+
+      - name: Build tests with coverage
+        run: |
+          mkdir build && cd build
+          cmake -DCMAKE_BUILD_TYPE=Debug \
+                -DCMAKE_CXX_FLAGS="--coverage -fprofile-arcs -ftest-coverage" \
+                -DCMAKE_EXE_LINKER_FLAGS="--coverage" \
+                ${{ github.workspace }}/gtest
+          make -j$(nproc)
+
+      - name: Run tests
+        run: |
+          cd build
+          ./scid_tests
+
+      - name: Generate coverage report
+        run: |
+          cd build
+          lcov --capture --directory . --output-file coverage.info --ignore-errors mismatch,negative,gcov
+          lcov --remove coverage.info '/usr/*' '*/googletest/*' --output-file coverage.info --ignore-errors mismatch,negative,gcov
+
+      - name: Upload to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          files: build/coverage.info
+          fail_ci_if_error: true
+          token: ${{ secrets.CODECOV_TOKEN }}

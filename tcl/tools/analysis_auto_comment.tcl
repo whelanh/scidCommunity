@@ -126,7 +126,7 @@ proc ::analysis_auto_comment::run_batch {} {
     while {1} {
         set nags [string trim [sc_pos getNags]]
         set comment [sc_pos getComment]
-        set movePlayed [sc_game info previousMove]
+        set movePlayed [sc_game info previousMoveNT]
         
         # We check movePlayed to skip the very start of game (ply 0).
         # User only wants comments for moves that have a NAG (Annotation Symbol).
@@ -202,7 +202,7 @@ proc ::analysis_auto_comment::run_batch {} {
             set variationMoves {}
             set varScores {}
             sc_var enter 0
-            set firstVarMove [sc_game info previousMove]
+            set firstVarMove [sc_game info previousMoveNT]
             lappend variationMoves $firstVarMove
             
             set firstComm [sc_pos getComment]
@@ -215,7 +215,7 @@ proc ::analysis_auto_comment::run_batch {} {
             set vCount 1
             while {$vCount < 10 && ![sc_pos isAt vend]} {
                 sc_move forward
-                set mv [sc_game info previousMove]
+                set mv [sc_game info previousMoveNT]
                 lappend variationMoves $mv
                 set comm [sc_pos getComment]
                 if {[regexp {(\d+):([+-]?\d+\.?\d*|Mate in -?\d+)} $comm -> depth score]} {

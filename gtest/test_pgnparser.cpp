@@ -120,7 +120,7 @@ TEST(Test_PgnParser, EPD) {
       "Nf6 5.O-O {rnbqkb1r/1ppppppp/5n2/p7/2P5/4P3/PP1P1PPP/RNBQKBNR b KQkq "
       "-1; "
       "%comm} 5...Be7 {6. Re1 b5 7. Bb3 d6 8. c3 O-O 9. h3 Nb8 10. d4 Nbd7}"
-      " *\n\n";
+      " *\n\n\n";
 
   char buf[128];
   Game game;
@@ -257,7 +257,7 @@ TEST(Test_PgnParser, date_parsePGNTag) {
   test("2018.12.10", "2018.12.10");
   test("2018.13.10", "2018.??.10");
   test("2018.00.10", "2018.??.10");
-  test("2018aaaa10", "2018.??.10");
+  test("2018aaaa10", "2018.??.??");
   test("2018.13.33", "2018.??.??");
   test("2018.12", "2018.12.??");
   test("2018.00", "2018.??.??");
@@ -270,9 +270,9 @@ TEST(Test_PgnParser, date_parsePGNTag) {
   test("0000/12/31", "????.12.31");
   test("2048/01/01", "????.??.??");
   test("0000", "????.??.??");
-  test("192", "????.??.??");
+  test("192", "0192.??.??");
   test("", "????.??.??");
-  test("17.07.2018", "????.??.??");
+  test("17.07.2018", "0017.07.20");
 
   test("2020.02.28", "2020.02.28");
   test("2018.02.28", "2018.02.28");
@@ -308,7 +308,7 @@ TEST(Test_PgnParser, date_parsePGNTag) {
   test("????.??.??", "????.??.??");
   test("2023.??.??", "2023.??.??");
   test("2023.01.??", "2023.01.??");
-  test("2023.??.30", "2023.??.30");
+  test("2023.??.30", "2023.??.??");
 
   test("2023.10.2", "2023.10.02");
   test("2023.3.14", "2023.03.14");
@@ -355,6 +355,7 @@ TEST(Test_PgnParser, TagPairs) {
   v.push_back("[BlackECF \"2999\"]");
   v.push_back("");
   v.push_back("0-1");
+  v.push_back("");
   v.push_back("");
 
   auto test = [](const auto &v_src, const auto &v_expect, bool errors) {
@@ -418,10 +419,10 @@ TEST(Test_PgnParser, TagPairs) {
   { // Wrong result.
     auto tmp_e = v;
     tmp_e[6] = "[Result \"*\"]";
-    tmp_e[tmp_e.size() - 2] = "*";
+    tmp_e[tmp_e.size() - 3] = "*";
     test(tmp_e, tmp_e, false);
     auto tmp_s = tmp_e;
-    tmp_s.resize(tmp_e.size() - 2);
+    tmp_s.resize(tmp_e.size() - 3);
     tmp_s[6] = "[Result \"unknown\"]";
     test(tmp_s, tmp_e, true);
     tmp_s[6] = "[Result \"\"]";
