@@ -463,6 +463,9 @@ proc ::createMainEvalBarMenu {w} {
 proc toggleRotateBoard {} {
     ::board::flip .main.board
 }
+proc main_isFlipped {} {
+    tailcall ::board::isFlipped .main.board
+}
 
 
 
