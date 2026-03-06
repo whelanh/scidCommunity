@@ -589,32 +589,19 @@ proc ::enginewin::connectEngine {id enginename} {
     # Save any accumulated PVs before closing the old engine
     ::enginewin::saveAccumulatedPVs $id
     ::engine::close $id
-    ::enginewin::changeDisplayLayout $id debug false
 
     set config [::enginecfg::get $enginename]
     lassign $config name cmd args wdir elo time url uci options
-    # Update engine's last used time.
-    set time [clock seconds]
-    set ::enginecfg::engConfig_$id [list $name $cmd $args $wdir $elo $time $url $uci {}]
 
     ::enginewin::updateDisplay $id ""
+    ::enginewin::updateOptions $id ""
     ::enginewin::changeState $id closed
     ::enginewin::updateEngineName $id $name
 
     set configFrame .engineWin$id.config.options
-    if {$config eq ""} {
-        ::enginecfg::resetConfigOptions $id $configFrame \
-            "No engine open: select or add one."
-        return
-    }
+    set netport [::enginecfg::resetConfigOptions $id $configFrame $config]
 
-    ::enginecfg::resetConfigOptions $id $configFrame "$cmd $args\nConnecting..."
-
-    lassign $url ::enginewin::m_(scoreside,$id) notation pvwrap debugframe priority netport
-    ::enginewin::changeDisplayLayout $id notation $notation
-    ::enginewin::changeDisplayLayout $id wrap $pvwrap
-    ::enginewin::updateOptions $id ""
-    ::enginewin::changeDisplayLayout $id debug $debugframe
+    if {$config eq ""} { return }
 
     update idletasks
 
