@@ -2002,16 +2002,18 @@ int sc_filter_old(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
 
 int sc_game(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
   static const char *options[] = {
-      "altered",    "crosstable", "eco",        "find",
-      "firstMoves", "import",     "info",       "load",
-      "merge",      "moves",      "new",        "novelty",
-      "number",     "pgn",        "pop",        "push",
-      "SANtoUCI",   "save",       "startBoard", "strip",
-      "tags",       "truncate",   "variant",    "UCI_currentPos",
+      "altered",    "clear",      "crosstable", "eco",
+      "find",       "firstMoves", "import",     "info",
+      "load",       "merge",      "moves",      "new",
+      "novelty",    "number",     "pgn",        "pop",
+      "push",       "SANtoUCI",   "save",       "startBoard",
+      "strip",      "tags",       "truncate",   "variant",
+      "UCI_currentPos", "UCI_mainLine",
       "undo",       "undoAll",    "undoPoint",  "redo",
       NULL};
   enum {
     GAME_ALTERED,
+    GAME_CLEAR,
     GAME_CROSSTABLE,
     GAME_ECO,
     GAME_FIND,
@@ -2035,6 +2037,7 @@ int sc_game(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
     GAME_TRUNCATE,
     GAME_VARIANT,
     GAME_UCI_CURRENTPOS,
+    GAME_UCI_MAINLINE,
     GAME_UNDO,
     GAME_UNDO_ALL,
     GAME_UNDO_POINT,
@@ -2050,6 +2053,10 @@ int sc_game(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
   switch (index) {
   case GAME_ALTERED:
     return UI_Result(ti, OK, db->gameAltered);
+
+  case GAME_CLEAR:
+    db->game->Clear();
+    return UI_Result(ti, OK);
 
   case GAME_CROSSTABLE:
     return sc_game_crosstable(cd, ti, argc, argv);
@@ -2144,6 +2151,15 @@ int sc_game(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
 
   case GAME_UCI_CURRENTPOS:
     return UI_Result(ti, OK, db->game->currentPosUCI());
+
+  case GAME_UCI_MAINLINE: {
+    auto vec = db->game->mainLineUCI();
+    UI_List res(vec.size());
+    for (auto const &e : vec) {
+      res.push_back(e);
+    }
+    return UI_Result(ti, OK, res);
+  }
 
   case GAME_UNDO:
     if (argc > 2 && strCompare("size", argv[2]) == 0) {

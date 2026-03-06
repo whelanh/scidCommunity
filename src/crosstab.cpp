@@ -865,6 +865,7 @@ void Crosstable::PrintAllPlayAll(std::string &output, uint playerLimit) {
       std::snprintf(b, sizeof(b), "  (+%u -%u =%u)", pdata.n_won, pdata.n_loss,
                     pdata.n_draw);
       output += b;
+      output += EndCol;
     }
 
     output += EndRow;
