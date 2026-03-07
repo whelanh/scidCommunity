@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.2.39" date="2026-03-07">
+      <description>
+        <p>Add tree information in Auto Comment prompts and incorporate upstream changes</p>
+      </description>
+    </release>
     <release version="5.1.2.38" date="2026-03-05">
       <description>
         <p>Improvements to the prompt used in Auto Comment buttons and local language support</p>
