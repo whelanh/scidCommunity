@@ -175,9 +175,11 @@ proc ::analysis_auto_comment::run_batch {} {
         set nagSymbol [string trim [sc_pos getNags]]
         if {$nagSymbol eq "0"} { set nagSymbol "" }
 
-        # Move to the position BEFORE the move being commented on
         sc_move back
         set prevFen [sc_pos fen]
+        
+        # 1. Fetch Tree Statistics WHILE AT THE PRIOR POSITION
+        set treeInfo [::auto_comment::getTreeInfo [sc_base current]]
         
         # Determine source of evaluation
         set evalText ""
@@ -258,9 +260,9 @@ proc ::analysis_auto_comment::run_batch {} {
             # Identify who just moved (we are at the position BEFORE the move)
             set side [sc_pos side]
             set whoMoved [expr {$side eq "white" ? "White" : "Black"}]
-
+            
             # Build prompt
-            set prompt [::auto_comment::buildPrompt $prevFen $evalText $movePlayed $variant $opening $nagSymbol 1 1 $whoMoved 0 $currentPgn]
+            set prompt [::auto_comment::buildPrompt $prevFen $evalText $movePlayed $variant $opening $nagSymbol 1 1 $whoMoved 0 $currentPgn $treeInfo]
 
             # Query LLM
             set commentary ""
