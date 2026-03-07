@@ -339,9 +339,6 @@ proc ::auto_comment::buildPrompt {fen evalText movePlayed variant {opening ""} {
         append prompt "\n\nGAME CONTEXT: You are provided with the full PGN of the game up to the current move. Use this to understand:\n- What phase of the game you're in (opening, middlegame, endgame)\n- The pawn structure and how it developed\n- Strategic plans or themes that span multiple moves\n- Key decisions or transitions that led to the current position\nFocus your commentary on the current position, but reference earlier moves only when they provide essential context for understanding why the current move succeeds or fails."
     }
 
-    if {$treeInfo ne ""} {
-        append prompt "\n\nTREE STATISTICS: $treeInfo"
-    }
 
     if {$includeSymbols} {
         append prompt "\n\nPGN Annotation Symbols Reference:"
@@ -362,6 +359,7 @@ proc ::auto_comment::buildPrompt {fen evalText movePlayed variant {opening ""} {
     append prompt "\n- For \"inaccuracy\", \"mistake\", or \"blunder\": clearly state the severity, name the best alternative from Line 1 with a concrete reason, and explain what the played move misses. Use up to 100 words for these."
     append prompt "\n- Do not use markdown formatting such as bold (**) or italics (*)."
     append prompt "\n- Never capitalize chess move notation at the start of a sentence; pawn moves like a6, c5, e4 must stay lowercase."
+    append prompt "\n- Use the TREE STATISTICS to identify if the played move is a common theoretical choice or a rare sideline. If highly frequent alternatives exist with better success rates, mention them to provide database-backed context."
     append prompt "\n- ONLY refer to moves that appear in the engine analysis, the game PGN, or the database tree — do NOT invent or guess moves."
     if {$variant eq "chess960"} {
         append prompt "\n- This is a Chess960 (Fischer Random) game. Pieces start on non-standard squares. Do NOT assume standard piece placement."
@@ -399,6 +397,11 @@ proc ::auto_comment::buildPrompt {fen evalText movePlayed variant {opening ""} {
 
     if {$nagSymbol ne ""} {
         append prompt "\nAnnotation for this move: $nagSymbol"
+    }
+
+    if {$treeInfo ne ""} {
+        append prompt "\n\n===== TREE STATISTICS =====\n"
+        append prompt $treeInfo
     }
 
     append prompt "\n\n===== ENGINE ANALYSIS =====\n"
