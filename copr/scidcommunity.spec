@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.38
+Version:        5.1.2.40
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit a0f93f7e6dc9bab278b7255915817bee6b6e4ad0
+%global commit 76f8616fa1814b8bdd4f49c299ecc8d3eda5e664
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,10 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Sun Mar 08 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-40
+- "Honor user preference for no arrows in analysis/engine windows; add move sounds"
+* Sat Mar 07 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-39
+- "Added tree information to Auto Comment prompts and incorporated upstream changes"
 * Thu Mar 05 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-38
 - "Added local language support for Auto Comment buttons"
 * Thu Mar 05 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-37

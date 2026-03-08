@@ -20,6 +20,37 @@ namespace eval ::validate {
         if {$max ne "" && $P > $max} { return 0 }
         return 1
     }
+
+    # -------------------------------------------------------------------------
+    # ::validate::date --
+    #   Validates date input keystroke-by-keystroke.
+    #   Accepts format: YYYY.MM.DD (with "?" as placeholder).
+    #   Each segment can contain only digits or only "?" marks, not both.
+    #   Digit segments are checked against their maximum value.
+    #   Arguments:
+    #     P   : The proposed text content.
+    #     sep : (Optional) Separator character. Default ".".
+    # -------------------------------------------------------------------------
+    proc date {P {sep "."}} {
+        set max_values [list 2047 12 31]
+        set i 0
+        foreach seg [split $P $sep] {
+            # Max 3 segments (year, month, day).
+            if {$i >= 3} { return 0 }
+
+            set max_v [lindex $max_values $i]
+            if {[string length $seg] > [string length $max_v]} { return 0 }
+
+            # Must be only digits or only "?", not both, not other chars.
+            if {[regexp {^\d+$} $seg]} {
+                if {[scan $seg %d] > $max_v} { return 0 }
+            } else {
+                if {[string trim $seg "?"] ne ""} { return 0 }
+            }
+            incr i
+        }
+        return 1
+    }
 }
 
 # ::utils::validate::Integer
@@ -69,15 +100,8 @@ proc ::utils::validate::Integer {maxValue allowQuestionMarks name el op} {
     bell
     return
   }
-  #if {[expr {0 - [set $name]}] < [expr {0 - $maxValue}]} {
-  #  set $name [set $old]
-  #  bell
-  #  return
-  #}
   set $old [set $name]
 }
-
-
 
 # ::utils::validate::Date
 #

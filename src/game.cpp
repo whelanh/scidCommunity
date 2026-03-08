@@ -912,8 +912,37 @@ std::string Game::currentPosUCI() const {
   return res;
 }
 
+std::vector<std::string> Game::mainLineUCI() const {
+  std::vector<std::string> res;
+  char buf[256] = {};
+  if (HasNonStandardStart(buf)) {
+    res.push_back(std::string("position fen ") + buf + " moves");
+  } else {
+    res.push_back("position startpos moves");
+  }
+  auto it_pos = std::unique_ptr<Position>{};
+  auto it = FirstMove->Next();
+  for (auto m = it; !m->endMarker(); m = m->Next()) {
+    if (m->isNull()) {
+      if (!it_pos) {
+        it_pos = std::make_unique<Position>(
+            StartPos ? *StartPos : Position::getStdStart());
+      }
+      for (auto end = m->Next(); it != end; it = it->Next()) {
+        it_pos->DoSimpleMove(it->moveData);
+      }
+      it_pos->PrintFEN(buf);
+      res.push_back(std::string("position fen ") + buf + " moves");
+    } else {
+      auto end = m->moveData.toLongNotation(buf);
+      res.emplace_back(buf, end);
+    }
+  }
+  return res;
+}
+
 ///////////////////////////////////////////////////////////////////////////
-// The following functions modify the moves graph in order to add or delete
+// The following functions modify the moves graph
 // moves. Promoting variations also modifies the moves graph.
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

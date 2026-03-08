@@ -320,7 +320,7 @@ proc ::auto_comment::formatChessDBEval {jsonData fen} {
     return [list $result $moveLabels]
 }
 
-proc ::auto_comment::buildPrompt {fen evalText movePlayed variant {opening ""} {nagSymbol ""} {includeSymbols 1} {whitePerspective 0} {whoMoved ""} {isSingleMove 0} {pgn ""}} {
+proc ::auto_comment::buildPrompt {fen evalText movePlayed variant {opening ""} {nagSymbol ""} {includeSymbols 1} {whitePerspective 0} {whoMoved ""} {isSingleMove 0} {pgn ""} {treeInfo ""}} {
     set prompt "You are a chess commentator writing annotations for an intermediate club-level player who understands tactics but not deep strategy. You are given engine analysis and a VERDICT line. TRUST the VERDICT completely — it is computed from engine scores and is always correct."
     
     if {$isSingleMove} {
@@ -338,6 +338,7 @@ proc ::auto_comment::buildPrompt {fen evalText movePlayed variant {opening ""} {
     if {$pgn ne ""} {
         append prompt "\n\nGAME CONTEXT: You are provided with the full PGN of the game up to the current move. Use this to understand:\n- What phase of the game you're in (opening, middlegame, endgame)\n- The pawn structure and how it developed\n- Strategic plans or themes that span multiple moves\n- Key decisions or transitions that led to the current position\nFocus your commentary on the current position, but reference earlier moves only when they provide essential context for understanding why the current move succeeds or fails."
     }
+
 
     if {$includeSymbols} {
         append prompt "\n\nPGN Annotation Symbols Reference:"
@@ -358,7 +359,8 @@ proc ::auto_comment::buildPrompt {fen evalText movePlayed variant {opening ""} {
     append prompt "\n- For \"inaccuracy\", \"mistake\", or \"blunder\": clearly state the severity, name the best alternative from Line 1 with a concrete reason, and explain what the played move misses. Use up to 100 words for these."
     append prompt "\n- Do not use markdown formatting such as bold (**) or italics (*)."
     append prompt "\n- Never capitalize chess move notation at the start of a sentence; pawn moves like a6, c5, e4 must stay lowercase."
-    append prompt "\n- ONLY refer to moves that appear in the engine analysis or the game PGN — do NOT invent or guess moves."
+    append prompt "\n- Use the TREE STATISTICS to identify if the played move is a common theoretical choice or a rare sideline. If highly frequent alternatives exist with better success rates, mention them to provide database-backed context."
+    append prompt "\n- ONLY refer to moves that appear in the engine analysis, the game PGN, or the database tree — do NOT invent or guess moves."
     if {$variant eq "chess960"} {
         append prompt "\n- This is a Chess960 (Fischer Random) game. Pieces start on non-standard squares. Do NOT assume standard piece placement."
     }
@@ -395,6 +397,11 @@ proc ::auto_comment::buildPrompt {fen evalText movePlayed variant {opening ""} {
 
     if {$nagSymbol ne ""} {
         append prompt "\nAnnotation for this move: $nagSymbol"
+    }
+
+    if {$treeInfo ne ""} {
+        append prompt "\n\n===== TREE STATISTICS =====\n"
+        append prompt $treeInfo
     }
 
     append prompt "\n\n===== ENGINE ANALYSIS =====\n"
@@ -696,8 +703,12 @@ proc ::auto_comment::displayPrompt {w prompt} {
 
     # Center the window
     update idletasks
-    set x [expr {[winfo screenwidth $w]/2 - [winfo width $w]/2}]
-    set y [expr {[winfo screenheight $w]/2 - [winfo height $w]/2}]
+    set winWidth [winfo width $w]
+    set winHeight [winfo height $w]
+    if {$winWidth < 100} { set winWidth 600 }
+    if {$winHeight < 100} { set winHeight 400 }
+    set x [expr {([winfo screenwidth $w] - $winWidth) / 2}]
+    set y [expr {([winfo screenheight $w] - $winHeight) / 2}]
     wm geometry $w "+$x+$y"
 }
 
@@ -804,6 +815,60 @@ proc ::auto_comment::getOpeningName {eco} {
     return $eco
 }
 
+# ::auto_comment::getTreeInfo
+#   Fetches tree statistics for the current position and returns a formatted block.
+proc ::auto_comment::getTreeInfo {baseId} {
+    set treeBlock ""
+    set currBase [sc_base current]
+    set targetFen [sc_pos fen]
+
+    # 1. Synchronize the target position with the search database.
+    # We use sc_game fen to set the position in the search base, then sc_filter search board.
+    if {$baseId != $currBase} {
+        sc_base switch $baseId
+    }
+    
+    catch {sc_game fen $targetFen}
+    catch {sc_filter search $baseId "tree" board}
+
+    # 2. Fetch tree statistics using the combined filter '+dbfilter+tree'.
+    set err [catch {sc_tree stats $baseId "+dbfilter+tree" 0 frequency 4} stats]
+    
+    # Restore original base if we switched
+    if {$baseId != $currBase} {
+        sc_base switch $currBase
+    }
+    
+    if {$err} { return "" }
+    
+    set lines [split $stats "\n"]
+    set count 0
+    foreach line $lines {
+        if {$count >= 3} break
+        # Skip header, total lines and empty lines
+        if {[string match "*Move(s)*" $line] || [string match "*TOTAL:*" $line] || [string trim $line] eq ""} continue
+        
+        # Parse the fixed-width output of sc_tree stats (tkscid.cpp)
+        # MoveSeq: 4-28, Games: 36-42, Success%: 51-57, %Draws: 76-81, %Win: 82-93
+        catch {
+            set moveSeq [string trim [string range $line 4 28]]
+            if {$moveSeq eq "" || $moveSeq eq "---"} continue
+            
+            set games   [string trim [string range $line 36 42]]
+            set success [string trim [string range $line 51 57]]
+            set draws   [string trim [string range $line 76 81]]
+            set win     [string trim [string range $line 82 93]]
+            
+            if {$treeBlock eq ""} {
+                append treeBlock "Top 3 most frequent database lines for the current position (depth 4 plies):"
+            }
+            append treeBlock "\n- $moveSeq ($games games): Score $success, Draws $draws, Win $win"
+            incr count
+        }
+    }
+    return $treeBlock
+}
+
 # ::auto_comment::generateComment
 #   Main entry point. Fetches eval, queries LLM, inserts comment.
 #
@@ -824,6 +889,8 @@ proc ::auto_comment::generateComment {} {
     set savedOffset [sc_pos pgnOffset]
     sc_move back
     set prevFen [sc_pos fen]
+    # Fetch Tree Statistics WHILE AT THE PRIOR POSITION
+    set treeInfo [::auto_comment::getTreeInfo [sc_base current]]
     # Restore position
     sc_move pgn $savedOffset
 
@@ -834,6 +901,8 @@ proc ::auto_comment::generateComment {} {
     toplevel $w
     wm title $w "Auto Comment"
     wm resizable $w 1 1
+    wm minsize $w 600 400
+    if {[winfo exists .]} { wm transient $w . }
 
     ttk::frame $w.content -padding 20
     pack $w.content -fill both -expand 1
@@ -917,7 +986,7 @@ proc ::auto_comment::generateComment {} {
     set pgn [sc_game firstMoves -1]
 
     # Build the prompt and display it in the SAME window (no destroy/recreate)
-    set prompt [::auto_comment::buildPrompt $prevFen $evalText $movePlayed $variant $opening $nagSymbol 0 0 $whoMoved 1 $pgn]
+    set prompt [::auto_comment::buildPrompt $prevFen $evalText $movePlayed $variant $opening $nagSymbol 0 0 $whoMoved 1 $pgn $treeInfo]
 
     ::auto_comment::displayPrompt $w $prompt
 }
