@@ -12,7 +12,7 @@ set ::utils::sound::backend "none"
 set ::utils::sound::pipe ""
 set ::utils::sound::hasSound 0
 set ::utils::sound::isPlayingSound 0
-set ::utils::sound::moveSoundOnly 0
+if {![info exists ::utils::sound::moveSoundOnly]} { set ::utils::sound::moveSoundOnly 0 }
 set ::utils::sound::soundQueue {}
 set ::utils::sound::soundFiles [list \
     King Queen Rook Bishop Knight CastleQ CastleK Back Mate Promote Check \
