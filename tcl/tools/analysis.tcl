@@ -2776,7 +2776,7 @@ proc updateAnalysisText {{n 1}} {
         ::board::updateEvalBar .main.board $::analysis(score$n)
         
         # Draw multi-colored arrows for top 3 PV lines (if UCI engine with multiPV)
-        if { $analysis(uci$n) && [winfo exists .main.board] } {
+        if { $analysis(uci$n) && [winfo exists .main.board] && $::arrowLastMove } {
             set uciMoves {}
             # Extract first move from each PV line (up to 3 lines)
             # multiPVraw format: {depth score {pv_moves} scoremate time}

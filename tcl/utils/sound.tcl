@@ -16,7 +16,8 @@ set ::utils::sound::moveSoundOnly 0
 set ::utils::sound::soundQueue {}
 set ::utils::sound::soundFiles [list \
     King Queen Rook Bishop Knight CastleQ CastleK Back Mate Promote Check \
-    a b c d e f g h x 1 2 3 4 5 6 7 8 move alert]
+    a b c d e f g h x 1 2 3 4 5 6 7 8 move alert \
+    move_check move_castling move_capture move_promotion move_normal]
 
 # soundMap
 #   Maps characters in a move to sounds.
@@ -144,11 +145,43 @@ proc ::utils::sound::ReadFolder {{newFolder ""}} {
   return $count
 }
 
+# ::utils::sound::GetMoveSoundFile
+#   Given an untranslated SAN move string, returns the appropriate
+#   sound_move_* name for moveSoundOnly mode. Priority:
+#   castling > promotion > check/mate > capture > normal
+proc ::utils::sound::GetMoveSoundFile {move} {
+  variable soundFolder
+  # Castling
+  if {[string range $move 0 4] == "O-O-O" || [string range $move 0 2] == "O-O"} {
+    set candidate "sound_move_castling"
+  } elseif {[string first "=" $move] >= 0} {
+    # Promotion (e.g. e8=Q or e8=Q+)
+    set candidate "sound_move_promotion"
+  } elseif {[string last "+" $move] >= 0 || [string last "#" $move] >= 0} {
+    # Check or checkmate
+    set candidate "sound_move_check"
+  } elseif {[string first "x" $move] >= 0} {
+    # Capture
+    set candidate "sound_move_capture"
+  } else {
+    set candidate "sound_move_normal"
+  }
+  # Fall back to generic move sound if specific file is missing
+  set name [string range $candidate 6 end]
+  if {![file readable [file join $soundFolder $name.wav]]} {
+    return "sound_move"
+  }
+  return $candidate
+}
+
 proc ::utils::sound::AnnounceMove {move} {
   variable hasSound
   variable soundMap
   
   if {! $hasSound} { return }
+
+  # Save original move for move-type sound detection before any rewriting
+  set originalMove $move
   
   if {[string range $move 0 4] == "O-O-O"} { set move q }
   if {[string range $move 0 2] == "O-O"} { set move k }
@@ -163,7 +196,7 @@ proc ::utils::sound::AnnounceMove {move} {
   if {[llength $soundList] > 0} {
     CancelSounds
     if {$::utils::sound::moveSoundOnly} {
-      PlaySound sound_move
+      PlaySound [GetMoveSoundFile $originalMove]
     } else {
       foreach s $soundList {
         PlaySound $s

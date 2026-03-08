@@ -373,7 +373,7 @@ proc ::updateMainEvalBar {engineID bestmove evaluation {pvlines {}}} {
     }
     if {$engineID == $::mainEvalBarEngineID_} {
         ::board::updateEvalBar .main.board $evaluation
-        if {$::showMainEvalBarArrow} {
+        if {$::showMainEvalBarArrow && $::arrowLastMove} {
             # Convert all PV moves to UCI format
             set uciMoves {}
             set lineCount 0
