@@ -192,8 +192,6 @@ proc ::preferences::moves { t } {
     ttk::checkbutton $t.oms -variable  suggestMoves -text [tr OptionsMovesSuggest]
     ttk::checkbutton $t.osv -variable  showVarPopup -text [tr OptionsShowVarPopup]
     ttk::checkbutton $t.osp -variable ::pgn::moveNumberSpaces -text [tr OptionsMovesSpace]
-    ttk::checkbutton $t.sva -variable showVarArrows -text [tr OptionsMovesShowVarArrows]
-    ttk::checkbutton $t.eva -variable showEngineVariationArrows -text [tr OptionsMovesShowEngineVariationArrows]
     ttk::checkbutton $t.lichess -variable ::lichessFormat -text [tr OptionsMovesLichess]
     ttk::checkbutton $t.god -variable glossOfDanger -text [tr OptionsMovesGlossOfDanger] -command updateBoard
 
@@ -210,6 +208,8 @@ proc ::preferences::moves { t } {
     ttk::labelframe $t.high -text [tr OptionsMovesHighlightLastMove]
     ttk::checkbutton $t.high.hlm -variable ::highlightLastMove -text [tr OptionsMovesHighlightLastMoveDisplay] -command "updateBoard"
     ttk::checkbutton $t.high.arrow -variable ::arrowLastMove -text [tr OptionsMovesHighlightLastMoveArrow] -command "updateBoard"
+    ttk::checkbutton $t.high.sva -variable showVarArrows -text [tr OptionsMovesShowVarArrows]
+    ttk::checkbutton $t.high.eva -variable showEngineVariationArrows -text [tr OptionsMovesShowEngineVariationArrows]
     ttk::label $t.high.tl -text [tr OptionsMovesHighlightLastMoveWidth]
     ttk::spinbox $t.high.thick -width 2 -textvariable ::highlightLastMoveWidth -from 1 -to 5 -increment 1 \
         -validate key -validatecommand { return [string is digit %S] } -command "updateBoard"
@@ -220,9 +220,11 @@ proc ::preferences::moves { t } {
     grid $t.high.thick -row 0 -column 2
     grid $t.high.color -row 1 -column 2 -pady "2 0"
     grid $t.high.arrow -row 1 -column 0 -columnspan 2 -sticky w
-    grid $t.high.nag -row 2 -column 0 -sticky w
+    grid $t.high.sva -row 2 -column 0 -columnspan 3 -sticky w -padx "20 0"
+    grid $t.high.eva -row 3 -column 0 -columnspan 3 -sticky w -padx "20 0"
+    grid $t.high.nag -row 4 -column 0 -sticky w
     pack $t.auto.label $t.auto.spDelay -side left -padx "0 10" -anchor w
-    pack $t.ani $t.omc $t.omk $t.oms $t.osv $t.osp $t.auto $t.sva $t.eva $t.lichess $t.god $t.tree -side top -anchor w
+    pack $t.ani $t.omc $t.omk $t.oms $t.osv $t.osp $t.auto $t.lichess $t.god $t.tree -side top -anchor w
     pack $t.high -side top -anchor w -pady "5 0"
 }
 

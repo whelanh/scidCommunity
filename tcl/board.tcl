@@ -1326,6 +1326,8 @@ proc ::board::mark::DrawMultipleBestMoves {w moves_list} {
   # Delete all existing best move arrows
   $w.bd delete bestmove1 bestmove2 bestmove3
   
+  if {! $::arrowLastMove} { return }
+  
   set colors {"#00C000" "#FFD700" "#FF0000"}
   set idx 0
   
