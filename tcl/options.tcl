@@ -641,6 +641,7 @@ proc options.write {} {
           engineCoach1 engineCoach2 scidBooksDir scidBasesDir ::book::lastBook \
           ::utils::sound::soundFolder ::utils::sound::announceNew \
           ::utils::sound::announceForward ::utils::sound::announceBack \
+          ::utils::sound::moveSoundOnly \
           ::tacgame::threshold ::tacgame::blunderwarning ::tacgame::blunderwarningvalue \
           ::tacgame::levelMin  ::tacgame::levelMax  ::tacgame::levelFixed ::tacgame::randomLevel \
           ::tacgame::isLimitedAnalysisTime ::tacgame::showblunder ::tacgame::showblundervalue \
