@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.2.40" date="2026-03-08">
+      <description>
+        <p>Honor user preference for no arrows in analysis/engine windows; add move sounds</p>
+      </description>
+    </release>
     <release version="5.1.2.39" date="2026-03-07">
       <description>
         <p>Add tree information in Auto Comment prompts and incorporate upstream changes</p>
