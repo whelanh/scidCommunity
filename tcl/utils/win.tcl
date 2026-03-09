@@ -160,7 +160,7 @@ proc ::win::undockWindow { wnd srctab {title ""} } {
 
 	if {$srctab ne "" } {
 		set old_options [::docking::remove_tab $wnd $srctab]
-		set title "Scid: [dict get $old_options -text]"
+		set title "scidCommunity: [dict get $old_options -text]"
 	}
 
 	wm manage $wnd

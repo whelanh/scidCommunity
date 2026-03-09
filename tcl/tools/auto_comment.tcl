@@ -522,6 +522,14 @@ proc ::auto_comment::queryGemini {prompt} {
     set model $::auto_comment::model
     set url "$::auto_comment::geminiApiBase/$model:generateContent"
 
+    # DEBUG: Log the prompt being sent
+    puts stderr "\n===== GEMINI API REQUEST ====="
+    puts stderr "Model: $model"
+    puts stderr "Prompt:"
+    puts stderr $prompt
+    puts stderr "===============================\n"
+    flush stderr
+
     set escaped [::auto_comment::escapeJson $prompt]
     set jsonBody "{\"contents\":\[{\"parts\":\[{\"text\":\"$escaped\"}\]}\]}"
 
@@ -541,7 +549,7 @@ proc ::auto_comment::queryGemini {prompt} {
             $url 2>@1} result]} {
         set ok 1
     } else {
-        #puts stderr "Auto Comment: curl error: $result"
+        puts stderr "Auto Comment: curl error: $result"
     }
 
     catch {file delete -force $tmpfile}
@@ -550,12 +558,18 @@ proc ::auto_comment::queryGemini {prompt} {
         return ""
     }
 
+    # DEBUG: Log the raw response
+    puts stderr "\n===== GEMINI API RESPONSE ====="
+    puts stderr $result
+    puts stderr "===============================\n"
+    flush stderr
+
     # Check for API error responses
     if {[regexp {"error"\s*:\s*\{} $result]} {
         set errMsg ""
         regexp {"message"\s*:\s*"([^"]*)"} $result -> errMsg
-        #puts stderr "Auto Comment: Gemini API error: $errMsg"
-        #puts stderr "Auto Comment: Full response: $result"
+        puts stderr "Auto Comment: Gemini API error: $errMsg"
+        puts stderr "Auto Comment: Full response: $result"
         return "ERROR: $errMsg"
     }
 
@@ -570,8 +584,14 @@ proc ::auto_comment::queryGemini {prompt} {
             "\\\\" "\\"
         } $rawText]
     } else {
-        #puts stderr "Auto Comment: Could not parse Gemini response: $result"
+        puts stderr "Auto Comment: Could not parse Gemini response: $result"
     }
+
+    # DEBUG: Log the extracted commentary before cleanup
+    puts stderr "\n===== GEMINI EXTRACTED COMMENTARY (before cleanup) ====="
+    puts stderr $text
+    puts stderr "========================================================\n"
+    flush stderr
 
     return [::auto_comment::cleanupText $text]
 }
@@ -583,6 +603,14 @@ proc ::auto_comment::queryGemini {prompt} {
 proc ::auto_comment::queryDeepSeek {prompt} {
     set model $::auto_comment::deepseekModel
     set url "$::auto_comment::deepseekApiBase/chat/completions"
+
+    # DEBUG: Log the prompt being sent
+    puts stderr "\n===== DEEPSEEK API REQUEST ====="
+    puts stderr "Model: $model"
+    puts stderr "Prompt:"
+    puts stderr $prompt
+    puts stderr "================================\n"
+    flush stderr
 
     set escapedPrompt [::auto_comment::escapeJson $prompt]
     set jsonBody "{\"model\":\"$model\",\"messages\":\[{\"role\":\"user\",\"content\":\"$escapedPrompt\"}\],\"stream\":false,\"temperature\":1.0}"
@@ -603,7 +631,7 @@ proc ::auto_comment::queryDeepSeek {prompt} {
             $url 2>@1} result]} {
         set ok 1
     } else {
-        #puts stderr "Auto Comment: curl error: $result"
+        puts stderr "Auto Comment: curl error: $result"
     }
 
     catch {file delete -force $tmpfile}
@@ -612,12 +640,18 @@ proc ::auto_comment::queryDeepSeek {prompt} {
         return ""
     }
 
+    # DEBUG: Log the raw response
+    puts stderr "\n===== DEEPSEEK API RESPONSE ====="
+    puts stderr $result
+    puts stderr "=================================\n"
+    flush stderr
+
     # Check for API error responses
     if {[regexp {"error"\s*:\s*\{} $result]} {
         set errMsg ""
         regexp {"message"\s*:\s*"([^"]*)"} $result -> errMsg
-        #puts stderr "Auto Comment: DeepSeek API error: $errMsg"
-        #puts stderr "Auto Comment: Full response: $result"
+        puts stderr "Auto Comment: DeepSeek API error: $errMsg"
+        puts stderr "Auto Comment: Full response: $result"
         return "ERROR: $errMsg"
     }
 
@@ -633,8 +667,14 @@ proc ::auto_comment::queryDeepSeek {prompt} {
             "\\\\" "\\"
         } $rawText]
     } else {
-        #puts stderr "Auto Comment: Could not parse DeepSeek response: $result"
+        puts stderr "Auto Comment: Could not parse DeepSeek response: $result"
     }
+
+    # DEBUG: Log the extracted commentary before cleanup
+    puts stderr "\n===== DEEPSEEK EXTRACTED COMMENTARY (before cleanup) ====="
+    puts stderr $text
+    puts stderr "==========================================================\n"
+    flush stderr
 
     return [::auto_comment::cleanupText $text]
 }

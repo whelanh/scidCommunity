@@ -891,6 +891,7 @@ utils/validate.tcl
 utils/win.tcl
 enginecfg.tcl
 enginecomm.tcl
+chart.tcl
 misc.tcl
 htext.tcl
 file.tcl

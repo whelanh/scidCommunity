@@ -50,6 +50,62 @@ proc bindMouseWheel {bindtag callback} {
     }
 }
 
+# collapseMenubuttons:
+#   Dynamically hides menubuttons that don't fit in the available width
+#   and moves them into an overflow menu.
+#   container: the frame containing the menubuttons
+#   overflowName: the name of the overflow menubutton widget
+#   collapsible: dict mapping widget names to display labels
+#
+proc collapseMenubuttons {container overflowName collapsible} {
+    set avail [winfo width $container]
+    if {$avail <= 1} { return }
+
+    set slaves [grid slaves $container]
+    set req [::tcl::mathop::+ {*}[lmap e $slaves {winfo reqwidth $e}]]
+
+    set currentHidden {}
+    set collapsed $container.$overflowName
+    if {$collapsed in $slaves} {
+        incr req -[winfo reqwidth $collapsed]
+        foreach name [lreverse [dict keys $collapsible]] {
+            set widget $container.$name
+            if {$widget ni $slaves} {
+                lappend currentHidden $name
+                incr req [winfo reqwidth $widget]
+            }
+        }
+    }
+    set willHide {}
+    if {$req > $avail} {
+        incr req [winfo reqwidth $collapsed]
+        foreach name [lreverse [dict keys $collapsible]] {
+            if {$req <= $avail} { break }
+            lappend willHide $name
+            incr req -[winfo reqwidth $container.$name]
+        }
+    }
+    if {$willHide eq $currentHidden} { return }
+
+    foreach name [dict keys $collapsible] {
+        grid $container.$name
+    }
+    if {[llength $willHide] == 0} {
+        grid remove $collapsed
+    } else {
+        foreach name $willHide {
+            grid remove $container.$name
+        }
+        set m [$collapsed cget -menu]
+        $m delete 0 end
+        foreach name [lreverse $willHide] {
+            set submenu [$container.$name cget -menu]
+            $m add cascade -label [dict get $collapsible $name] -menu $submenu
+        }
+        grid $collapsed
+    }
+}
+
 # dialogbuttonframe:
 #   Creates a frame that will be shown at the bottom of a
 #   dialog window. It takes two parameters: the frame widget

@@ -156,6 +156,10 @@ proc ::analysis_auto_comment::run_batch {} {
         incr count
         lassign $item offset movePlayed
 
+        puts stderr "\n===== BATCH PROCESS: Move $count of $total ====="
+        puts stderr "Move: $movePlayed at offset: $offset"
+        flush stderr
+
         $pw.content.lbl configure -text "Processing move $count of $total: $movePlayed"
         $pw.content.pb configure -value $count
         update idletasks
@@ -171,31 +175,43 @@ proc ::analysis_auto_comment::run_batch {} {
             set playedMoveScore $score
         }
 
+        puts stderr "Played move comment: $playedMoveComment"
+        puts stderr "Played move score: $playedMoveScore"
+        flush stderr
+
         # Read the NAG annotation symbol (e.g., "!?", "??", "+-", or multiple like "?? +/-")
         set nagSymbol [string trim [sc_pos getNags]]
         if {$nagSymbol eq "0"} { set nagSymbol "" }
 
+        puts stderr "NAG symbol: $nagSymbol"
+        flush stderr
+
         sc_move back
         set prevFen [sc_pos fen]
-        
+
         # 1. Fetch Tree Statistics WHILE AT THE PRIOR POSITION
         set treeInfo [::auto_comment::getTreeInfo [sc_base current]]
-        
+
         # Determine source of evaluation
         set evalText ""
         set moveLabels [dict create]
-        
+
         # 1. ALWAYS try to fetch Cloud Evaluations FIRST (Lichess, then ChessDB)
         # This provides the AI with multi-line context and inaccuracy/mistake labels.
         set evalJson [::auto_comment::fetchLichessEval $prevFen $variant]
         if {$evalJson ne ""} {
             lassign [::auto_comment::formatLichessEval $evalJson $prevFen] evalText moveLabels
+            puts stderr "Lichess eval found"
         } else {
             set evalJson [::auto_comment::fetchChessDBEval $prevFen]
             if {$evalJson ne ""} {
                 lassign [::auto_comment::formatChessDBEval $evalJson $prevFen] evalText moveLabels
+                puts stderr "ChessDB eval found"
+            } else {
+                puts stderr "No cloud eval found for position: $prevFen"
             }
         }
+        flush stderr
 
         # 2. Extract PGN Variations as "Ground Truth"
         # If a variation exists, we treat it as the absolute best line, overriding cloud best moves if they differ.
@@ -260,9 +276,12 @@ proc ::analysis_auto_comment::run_batch {} {
             # Identify who just moved (we are at the position BEFORE the move)
             set side [sc_pos side]
             set whoMoved [expr {$side eq "white" ? "White" : "Black"}]
-            
+
             # Build prompt
             set prompt [::auto_comment::buildPrompt $prevFen $evalText $movePlayed $variant $opening $nagSymbol 1 1 $whoMoved 0 $currentPgn $treeInfo]
+
+            puts stderr "\n--- Sending to LLM ($provider) ---"
+            flush stderr
 
             # Query LLM
             set commentary ""
@@ -271,20 +290,39 @@ proc ::analysis_auto_comment::run_batch {} {
             } else {
                 set commentary [::auto_comment::queryGemini $prompt]
             }
-            
+
+            puts stderr "\n--- LLM Response Received ---"
+            puts stderr "Commentary length: [string length $commentary] characters"
+            puts stderr "Commentary content:"
+            puts stderr $commentary
+            flush stderr
+
             if {$commentary ne "" && ![string match "ERROR:*" $commentary]} {
                 # Go back to annotated position to append comment
                 sc_move pgn $offset
                 undoFeature save
                 set existing [sc_pos getComment]
+                puts stderr "Existing comment before adding: $existing"
+                
                 if {[string first $commentary $existing] == -1} {
                     if {$existing ne ""} {
                         sc_pos setComment "$existing $commentary"
+                        puts stderr "Comment appended to existing comment"
                     } else {
                         sc_pos setComment $commentary
+                        puts stderr "Comment set as new comment"
                     }
+                } else {
+                    puts stderr "Comment already exists in position - skipped"
                 }
+                flush stderr
+            } else {
+                puts stderr "No valid commentary received (empty or error)"
+                flush stderr
             }
+        } else {
+            puts stderr "Skipping move: no evalText available"
+            flush stderr
         }
     }
 
