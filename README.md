@@ -66,7 +66,7 @@ For the most recent developments, see the **[Releases](https://github.com/whelan
 * For Arch-based systems, it is available on the [AUR](https://aur.archlinux.org/packages/scidcommunity) 
 * **scidCommunity** is also available from the [Snap Store](https://snapcraft.io/scidcommunity).
 
-**Windows Users** are advised to put their installation of scidCommunity in the `C:\Users\{your username}\AppData\Local\Programs` directory. Doing so will allow you to add the scidCommunity icon to the start menu using *righ click -> add to start menu*.  This folder does not require administrator rights to edit files.  This directory may be hidden in File Explorer unless you select the option to see hidden folders.
+**Windows Users** are advised to put their installation of scidCommunity in the `C:\Users\{your username}\AppData\Local\Programs` directory. Doing so will allow you to add the scidCommunity icon to the start menu using *right click -> add to start menu*.  This folder does not require administrator rights to edit files.  This directory may be hidden in File Explorer unless you select the option to see hidden folders.
 
 ## Building from Source
 
