@@ -6,6 +6,27 @@
 
 namespace eval ::analysis_auto_comment {
     variable selectedModel ""
+    variable logFile ""
+}
+
+# Helper proc to write debug logs (works on both Linux and Windows)
+proc ::analysis_auto_comment::logDebug {message} {
+    variable logFile
+    
+    # Try stderr first (works on Linux/macOS terminal)
+    if {[catch {puts stderr $message}]} {
+        # Fallback: write to a log file (for Windows GUI)
+        if {$logFile eq ""} {
+            set logDir [file join [pwd] "logs"]
+            catch {file mkdir $logDir}
+            set logFile [file join $logDir "auto_comment_debug.log"]
+        }
+        set fd [open $logFile "a"]
+        puts $fd $message
+        close $fd
+    } else {
+        flush stderr
+    }
 }
 
 proc ::analysis_auto_comment::batch_generate {} {
@@ -156,9 +177,8 @@ proc ::analysis_auto_comment::run_batch {} {
         incr count
         lassign $item offset movePlayed
 
-        puts stderr "\n===== BATCH PROCESS: Move $count of $total ====="
-        puts stderr "Move: $movePlayed at offset: $offset"
-        flush stderr
+        ::analysis_auto_comment::logDebug "\n===== BATCH PROCESS: Move $count of $total ====="
+        ::analysis_auto_comment::logDebug "Move: $movePlayed at offset: $offset"
 
         $pw.content.lbl configure -text "Processing move $count of $total: $movePlayed"
         $pw.content.pb configure -value $count
@@ -175,16 +195,14 @@ proc ::analysis_auto_comment::run_batch {} {
             set playedMoveScore $score
         }
 
-        puts stderr "Played move comment: $playedMoveComment"
-        puts stderr "Played move score: $playedMoveScore"
-        flush stderr
+        ::analysis_auto_comment::logDebug "Played move comment: $playedMoveComment"
+        ::analysis_auto_comment::logDebug "Played move score: $playedMoveScore"
 
         # Read the NAG annotation symbol (e.g., "!?", "??", "+-", or multiple like "?? +/-")
         set nagSymbol [string trim [sc_pos getNags]]
         if {$nagSymbol eq "0"} { set nagSymbol "" }
 
-        puts stderr "NAG symbol: $nagSymbol"
-        flush stderr
+        ::analysis_auto_comment::logDebug "NAG symbol: $nagSymbol"
 
         sc_move back
         set prevFen [sc_pos fen]
@@ -201,17 +219,16 @@ proc ::analysis_auto_comment::run_batch {} {
         set evalJson [::auto_comment::fetchLichessEval $prevFen $variant]
         if {$evalJson ne ""} {
             lassign [::auto_comment::formatLichessEval $evalJson $prevFen] evalText moveLabels
-            puts stderr "Lichess eval found"
+            ::analysis_auto_comment::logDebug "Lichess eval found"
         } else {
             set evalJson [::auto_comment::fetchChessDBEval $prevFen]
             if {$evalJson ne ""} {
                 lassign [::auto_comment::formatChessDBEval $evalJson $prevFen] evalText moveLabels
-                puts stderr "ChessDB eval found"
+                ::analysis_auto_comment::logDebug "ChessDB eval found"
             } else {
-                puts stderr "No cloud eval found for position: $prevFen"
+                ::analysis_auto_comment::logDebug "No cloud eval found for position: $prevFen"
             }
         }
-        flush stderr
 
         # 2. Extract PGN Variations as "Ground Truth"
         # If a variation exists, we treat it as the absolute best line, overriding cloud best moves if they differ.
@@ -280,8 +297,7 @@ proc ::analysis_auto_comment::run_batch {} {
             # Build prompt
             set prompt [::auto_comment::buildPrompt $prevFen $evalText $movePlayed $variant $opening $nagSymbol 1 1 $whoMoved 0 $currentPgn $treeInfo]
 
-            puts stderr "\n--- Sending to LLM ($provider) ---"
-            flush stderr
+            ::analysis_auto_comment::logDebug "\n--- Sending to LLM ($provider) ---"
 
             # Query LLM
             set commentary ""
@@ -291,38 +307,34 @@ proc ::analysis_auto_comment::run_batch {} {
                 set commentary [::auto_comment::queryGemini $prompt]
             }
 
-            puts stderr "\n--- LLM Response Received ---"
-            puts stderr "Commentary length: [string length $commentary] characters"
-            puts stderr "Commentary content:"
-            puts stderr $commentary
-            flush stderr
+            ::analysis_auto_comment::logDebug "\n--- LLM Response Received ---"
+            ::analysis_auto_comment::logDebug "Commentary length: [string length $commentary] characters"
+            ::analysis_auto_comment::logDebug "Commentary content:"
+            ::analysis_auto_comment::logDebug $commentary
 
             if {$commentary ne "" && ![string match "ERROR:*" $commentary]} {
                 # Go back to annotated position to append comment
                 sc_move pgn $offset
                 undoFeature save
                 set existing [sc_pos getComment]
-                puts stderr "Existing comment before adding: $existing"
+                ::analysis_auto_comment::logDebug "Existing comment before adding: $existing"
                 
                 if {[string first $commentary $existing] == -1} {
                     if {$existing ne ""} {
                         sc_pos setComment "$existing $commentary"
-                        puts stderr "Comment appended to existing comment"
+                        ::analysis_auto_comment::logDebug "Comment appended to existing comment"
                     } else {
                         sc_pos setComment $commentary
-                        puts stderr "Comment set as new comment"
+                        ::analysis_auto_comment::logDebug "Comment set as new comment"
                     }
                 } else {
-                    puts stderr "Comment already exists in position - skipped"
+                    ::analysis_auto_comment::logDebug "Comment already exists in position - skipped"
                 }
-                flush stderr
             } else {
-                puts stderr "No valid commentary received (empty or error)"
-                flush stderr
+                ::analysis_auto_comment::logDebug "No valid commentary received (empty or error)"
             }
         } else {
-            puts stderr "Skipping move: no evalText available"
-            flush stderr
+            ::analysis_auto_comment::logDebug "Skipping move: no evalText available"
         }
     }
 
