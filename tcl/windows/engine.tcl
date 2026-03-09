@@ -626,6 +626,8 @@ proc ::enginewin::chartCallback {id uci_pos depth seldepth ply value} {
         # Navigate to the clicked ply in the main line
         sc_move start
         sc_move forward $ply
+        # Trigger position change notifications for engine and stored eval
+        ::notify::PosChanged -pgn
         return ""
     }
     if {$ply == 0} {
