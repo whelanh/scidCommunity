@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.41
+Version:        5.1.2.44
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 1f9e5dc6c16069e084793e65f2d53e768c542c43
+%global commit a05338b393e2dcda370617be36c89e521e93675c
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Mon Mar 09 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-44
+- "Add move navigation from the score graph in the Engine Window"
 * Mon Mar 09 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-41
 - "Add Scid score graph to the Engine Window"
 * Sun Mar 08 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-40
