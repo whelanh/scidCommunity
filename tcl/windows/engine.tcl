@@ -456,7 +456,7 @@ proc ::enginewin::createButtonsBar {id btn display} {
     grid columnconfigure $btn 12 -weight 1
     grid remove $btn.overflow
 
-    set collapsible [dict create limits "Limits" autorun "Autoscan" threads "CPUs" hash "Hash"]
+    set collapsible [dict create autorun "Autoscan" threads "CPUs" hash "Hash"]
     bind $btn <Configure> [list ::collapseMenubuttons %W overflow $collapsible]
 }
 
