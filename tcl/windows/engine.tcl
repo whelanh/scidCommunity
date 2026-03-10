@@ -142,6 +142,7 @@ proc ::enginewin::Open { {id ""} {enginename ""} } {
     ::options.store ::enginewin_lastengine($id) ""
     ::options.store ::enginewin_autorun($id) {{movetime 50}}
     ::options.store ::enginewin_chartH($id) 160
+    ::options.store ::enginewin_calcAccuracy($id) 0
 
     # The main windows is divided in three parts:
     # - at the top $w.header_info which shows time, nps, etc...
@@ -240,6 +241,8 @@ proc ::enginewin::Open { {id ""} {enginename ""} } {
     set ::enginewin::m_(currentFen,$id) ""
     set ::enginewin::m_(currentPVs,$id) {}
     set ::enginewin::m_(currentDepth,$id) 0
+    set ::enginewin::m_(evals,$id) {}
+    set ::enginewin::m_(accuracyCalculated,$id) 0
 
     if {$enginename eq ""} {
         set enginename $::enginewin_lastengine($id)
@@ -440,10 +443,14 @@ proc ::enginewin::createButtonsBar {id btn display} {
         $btn.menus.autorun add radiobutton -variable ::enginewin_autorun($id) \
             -label "$ms ms" -value [list [list movetime $ms]]
     }
+    $btn.menus.autorun add separator
+    $btn.menus.autorun add checkbutton -label "Calculate accuracy" -variable ::enginewin_calcAccuracy($id) \
+        -command "after idle ::enginewin::toggleAccuracyCalc $id"
     ttk::style configure AutorunButton.Toolbutton
     ttk::style map EnginewinAuto.Toolbutton -foreground {user1 #FF5E0E}
     ttk::menubutton $btn.autorun -text "\u601D" \
         -style EnginewinAuto.Toolbutton -direction above -menu $btn.menus.autorun
+    ::utils::tooltip::Set $btn.autorun "Autoscan settings"
 
     ttk::button $btn.config -image tb_eng_config -style Toolbutton \
         -command "::enginewin::toggleConfigPane $id"
@@ -469,7 +476,7 @@ proc ::enginewin::applyLimits {id} {
         tk_messageBox -title "scidCommunity" -type ok -icon info \
             -message "Engine depth and time limits have been set.\n\nTo have these settings automatically loaded when you start Scid, select \"Save Options\" from the Options menu before exiting."
     }
-    
+
     # If engine is running, restart it with new limits
     set state $::enginewin::engState($id)
     if {[string match *.run $state] || [string match *.autorun $state]} {
@@ -478,6 +485,14 @@ proc ::enginewin::applyLimits {id} {
         set position [sc_game UCI_currentPos]
         set ply [expr {[sc_var level] ? -1 : [sc_pos location]}]
         ::enginewin::sendPosition $id $position $ply
+    }
+}
+
+# Toggle accuracy calculation mode
+proc ::enginewin::toggleAccuracyCalc {id} {
+    if {$::enginewin_calcAccuracy($id)} {
+        tk_messageBox -title "scidCommunity" -type ok -icon info \
+            -message "Accuracy calculation enabled.\n\nNote: For accurate move analysis, use longer analysis time (250ms+) and enable MultiPV (3+ lines) in the engine configuration."
     }
 }
 
@@ -601,6 +616,29 @@ proc ::enginewin::updateChart {id {msgData ""}} {
     lassign $msgData multipv depth seldepth nodes nps hashfull tbhits time score score_type score_wdl pv
     if {$multipv != 1 || $score eq ""} { return }
 
+    # Track evaluations for accuracy (only multipv 1, non-mate scores)
+    if {$score_type ne "mate" && [info exists ::enginewin::pv_(ply,$id)]} {
+        set plies $::enginewin::pv_(ply,$id)
+        if {[llength $plies] == 1} {
+            set ply [lindex $plies 0]
+            set sideToMove $::enginewin::pv_(btm,$id)
+            # Engine reports from side-to-move perspective, convert to White's perspective
+            # sideToMove: 0 = White to move, 1 = Black to move
+            if {$sideToMove} {
+                # Black to move: engine score is from Black's perspective, negate for White's
+                set rawScore [expr { -$score }]
+            } else {
+                # White to move: engine score is already from White's perspective
+                set rawScore $score
+            }
+            # Avoid duplicate entries for same ply
+            if {![info exists ::enginewin::m_(evals,$id)] || \
+                [lindex [lindex $::enginewin::m_(evals,$id) end] 0] != $ply} {
+                lappend ::enginewin::m_(evals,$id) [list $ply $rawScore $sideToMove]
+            }
+        }
+    }
+
     upvar ::enginewin::pv_(depths,$id) depths
     set plies [lmap elem $::enginewin::pv_(ply,$id) {
         if {[dict exists $depths $elem] && $depth < [dict get $depths $elem]} { continue }
@@ -651,12 +689,202 @@ proc ::enginewin::chartCallback {id uci_pos depth seldepth ply value} {
     return "$txt\n$value\n$depth"
 }
 
+# Convert centipawn score to win probability (0-100%)
+# score: centipawns from White's perspective (e.g., 150 = +1.50 for White)
+proc ::enginewin::cpToWinProb {score} {
+    # Handle mate scores
+    if {$score >= 100000} {
+        return 100.0
+    }
+    if {$score <= -100000} {
+        return 0.0
+    }
+
+    # Standard logistic function: 50 + 50 * (2 / (1 + e^(-0.00368208 * cp)) - 1)
+    # This gives: 0cp=50%, +100cp=59%, +200cp=68%, +500cp=88%, +1000cp=98%
+    set exponent [expr {-0.00368208 * $score}]
+    set winProb [expr {50.0 + 50.0 * (2.0 / (1.0 + exp($exponent)) - 1.0)}]
+    return $winProb
+}
+
+# Calculate accuracy for White and Black from tracked evaluations
+# Returns list: {whiteAccuracy blackAccuracy}
+# Evaluations are stored from White's perspective (positive = White advantage)
+# Compares what player SHOULD achieve (after opponent's move) vs what they ACTUALLY achieved
+proc ::enginewin::calcAccuracy {id} {
+    upvar ::enginewin::m_(evals,$id) evals
+
+    if {![info exists evals] || [llength $evals] < 2} {
+        return [list "" ""]
+    }
+
+    set whiteWPLoss 0.0
+    set whiteMoves 0
+    set blackWPLoss 0.0
+    set blackMoves 0
+    set prevEval ""
+    set prevSide ""
+    
+    # Reverse the evals array since they're tracked in reverse order (high ply to low ply)
+    set evals [lreverse $evals]
+    
+    foreach evalData $evals {
+        lassign $evalData ply score side
+        # side = who is TO MOVE in this position (0=White, 1=Black)
+        
+        if {$prevEval ne "" && $prevSide ne ""} {
+            # Compare evaluation change from perspective of player who just moved
+            if {$side == 0 && $prevSide == 1} {
+                # White just moved (prev: Black to move, now: White to move)
+                # Evaluate White's move: did White improve from prevEval to score?
+                set evalChange [expr {$score - $prevEval}]
+                if {$evalChange < 0} {
+                    # White worsened position
+                    set wpLoss [::enginewin::cpToWinProb $prevEval]
+                    set wpAfter [::enginewin::cpToWinProb $score]
+                    set whiteWPLoss [expr {$whiteWPLoss + ($wpLoss - $wpAfter)}]
+                }
+                incr whiteMoves
+            } elseif {$side == 1 && $prevSide == 0} {
+                # Black just moved (prev: White to move, now: Black to move)
+                # Evaluate Black's move: from Black's perspective, did position improve?
+                set evalChange [expr {$prevEval - $score}]
+                if {$evalChange < 0} {
+                    # Black worsened position (White's advantage increased)
+                    set wpLoss [::enginewin::cpToWinProb [expr {-$prevEval}]]
+                    set wpAfter [::enginewin::cpToWinProb [expr {-$score}]]
+                    set blackWPLoss [expr {$blackWPLoss + ($wpLoss - $wpAfter)}]
+                }
+                incr blackMoves
+            }
+        }
+        set prevEval $score
+        set prevSide $side
+    }
+    
+    # Calculate accuracy percentages
+    set whiteAcc ""
+    set blackAcc ""
+    
+    if {$whiteMoves > 0} {
+        set avgWPLoss [expr {$whiteWPLoss / double($whiteMoves)}]
+        set whiteAcc [expr {max(0.0, min(100.0, 100.0 - ($avgWPLoss * 2.0)))}]
+        set whiteAcc [format "%.1f" $whiteAcc]
+    }
+    
+    if {$blackMoves > 0} {
+        set avgWPLoss [expr {$blackWPLoss / double($blackMoves)}]
+        set blackAcc [expr {max(0.0, min(100.0, 100.0 - ($avgWPLoss * 2.0)))}]
+        set blackAcc [format "%.1f" $blackAcc]
+    }
+    
+    return [list $whiteAcc $blackAcc]
+}
+
+# Draw accuracy text on the chart canvas
+proc ::enginewin::drawAccuracy {id whiteAcc blackAcc} {
+    set w .engineWin$id.chart.canvas
+    
+    # Delete any existing accuracy text
+    $w delete accuracy_white accuracy_black
+    
+    if {$whiteAcc eq "" && $blackAcc eq ""} {
+        return
+    }
+    
+    # Get canvas coordinates - use fixed position in top-left
+    set x 10
+    set y_text 20
+    
+    # Use green font for visibility on any background
+    set fontColor "#00AA00"
+    
+    # Format accuracy strings
+    if {$whiteAcc ne ""} {
+        set whiteStr [format "White: %.1f%%" $whiteAcc]
+        $w create text $x $y_text -text $whiteStr -anchor nw -font font_Regular -fill $fontColor -tags accuracy_white
+    }
+    
+    if {$blackAcc ne ""} {
+        set blackStr [format "Black: %.1f%%" $blackAcc]
+        set y_black [expr {$y_text + 14}]
+        $w create text $x $y_black -text $blackStr -anchor nw -font font_Regular -fill $fontColor -tags accuracy_black
+    }
+}
+
+# Calculate accuracy and draw it on the chart
+proc ::enginewin::calculateAndDrawAccuracy {id} {
+    # Only calculate if we have evaluation data
+    if {![info exists ::enginewin::m_(evals,$id)]} {
+        # puts "No evals array exists"
+        return
+    }
+    
+    set evalCount [llength $::enginewin::m_(evals,$id)]
+    if {$evalCount < 2} {
+        # puts "Not enough evals: $evalCount"
+        return
+    }
+    
+    # puts "Calculating accuracy with $evalCount evaluations..."
+    lassign [::enginewin::calcAccuracy $id] whiteAcc blackAcc
+
+    # Debug: print what we got
+    # puts "Accuracy calculated: White=$whiteAcc Black=$blackAcc"
+
+    ::enginewin::drawAccuracy $id $whiteAcc $blackAcc
+}
+
+# Manual command to test accuracy calculation
+# Call from console: ::enginewin::testAccuracy 1
+proc ::enginewin::testAccuracy {id} {
+    set w .engineWin$id
+    if {![winfo exists $w]} {
+        puts "Engine window $id does not exist"
+        return
+    }
+    
+    if {![info exists ::enginewin::m_(evals,$id)]} {
+        puts "No evaluations tracked for engine $id"
+        return
+    }
+    
+    set evalCount [llength $::enginewin::m_(evals,$id)]
+    puts "Engine $id has $evalCount tracked evaluations"
+    
+    if {$evalCount > 0} {
+        puts "First eval: [lindex $::enginewin::m_(evals,$id) 0]"
+        puts "Last eval: [lindex $::enginewin::m_(evals,$id) end]"
+    }
+    
+    lassign [::enginewin::calcAccuracy $id] whiteAcc blackAcc
+    puts "Accuracy - White: $whiteAcc, Black: $blackAcc"
+    
+    ::enginewin::drawAccuracy $id $whiteAcc $blackAcc
+    puts "Accuracy labels should now be displayed on chart"
+}
+
 proc ::enginewin::updateDisplay {id msgData} {
     lassign $msgData multipv depth seldepth nodes nps hashfull tbhits time score score_type score_wdl pv
     if {$time eq ""} { set time 0 }
     if {$nps eq ""} { set nps 0 }
     if {$hashfull eq ""} { set hashfull 0 }
     if {$tbhits eq ""} { set tbhits 0 }
+
+    # Track evaluations for accuracy calculation (only multipv 1, raw score from White's perspective)
+    if {$multipv == 1 && $score ne "" && $score_type ne "mate" && \
+        [info exists ::enginewin::pv_(ply,$id)] && [info exists ::enginewin::pv_(btm,$id)]} {
+        # Store raw centipawn score with ply and side to move
+        set sideToMove $::enginewin::pv_(btm,$id)
+        set ply $::enginewin::pv_(ply,$id)
+        # Avoid duplicate entries for same ply
+        if {![info exists ::enginewin::m_(evals,$id)] || \
+            [lindex [lindex $::enginewin::m_(evals,$id) end] 0] != $ply} {
+            lappend ::enginewin::m_(evals,$id) [list $ply $score $sideToMove]
+            # Debug output
+            # puts "Tracked eval: ply=$ply score=$score side=$sideToMove total=[llength $::enginewin::m_(evals,$id)]"
+        }
+    }
 
     set w .engineWin$id
     $w.header_info.text configure -state normal
@@ -960,6 +1188,22 @@ proc ::enginewin::changeState {id newState} {
     } elseif {$::enginewin::engState($id) in {paused.idle paused.closed}} {
         ::enginewin::toggleConfigPane $id hide
     }
+
+    # Calculate accuracy when engine stops after analyzing (and hasn't been calculated yet)
+    # Trigger on transition from running (run or autorun) to stopped (paused.* or idle)
+    set wasRunning [expr {[string match *.run $::enginewin::engState($id)] || \
+                          [string match *.autorun $::enginewin::engState($id)]}]
+    set nowStopped [expr {[string match {paused.*} $newState] || \
+                          ([string match *.idle $newState] && [string match *.run $::enginewin::engState($id)])}]
+    
+    if {$wasRunning && $nowStopped && \
+        !$::enginewin::m_(accuracyCalculated,$id) && \
+        [info exists ::enginewin::m_(evals,$id)] && \
+        [llength $::enginewin::m_(evals,$id)] > 1} {
+        set ::enginewin::m_(accuracyCalculated,$id) 1
+        after idle [list ::enginewin::calculateAndDrawAccuracy $id]
+    }
+
     set ::enginewin::engState($id) $newState
 }
 
@@ -1074,6 +1318,13 @@ proc ::enginewin::callback {id msg} {
                 ::enginewin::changeState $id *.done
             }
             if {![::enginewin::analyzeMainLine $id]} {
+                # Autorun completed - calculate accuracy before switching to current position
+                if {$::enginewin::m_(accuracyCalculated,$id) == 0 && \
+                    [info exists ::enginewin::m_(evals,$id)] && \
+                    [llength $::enginewin::m_(evals,$id)] > 1} {
+                    set ::enginewin::m_(accuracyCalculated,$id) 1
+                    after idle [list ::enginewin::calculateAndDrawAccuracy $id]
+                }
                 ::enginewin::changeState $id *.*
                 if {$pv_(postponed,$id) ne ""} {
                     ::enginewin::sendPosition $id $::enginewin::m_(position,$id) $pv_(postponed,$id)
@@ -1147,11 +1398,18 @@ proc ::enginewin::sendPosition {id position plyInMainLine} {
     set ::enginewin::m_(pvlines,$id) {}
     set ::enginewin::m_(currentPVs,$id) {}
     set ::enginewin::m_(currentDepth,$id) 0
+    # Only clear accuracy tracking for new game (not new position)
+    if {$m_(newgame,$id)} {
+        set ::enginewin::m_(evals,$id) {}
+        set ::enginewin::m_(accuracyCalculated,$id) 0
+    }
     if {$m_(newgame,$id)} {
         set m_(newgame,$id) false
         ::engine::send $id NewGame [list analysis post_pv post_wdl [sc_game variant]]
         set m_(mainLine,$id) [sc_game UCI_mainLine]
         ::chart::clear .engineWin$id.chart.canvas [expr {[llength $m_(mainLine,$id)] - 1}]
+        # Clear accuracy text from chart
+        .engineWin$id.chart.canvas delete accuracy_white accuracy_black
         set ::enginewin::pv_(depths,$id) [dict create]
         set ::enginewin::pv_(postponed,$id) $plyInMainLine
     }
@@ -1171,6 +1429,14 @@ proc ::enginewin::sendPosition {id position plyInMainLine} {
             lappend limits [list movetime $::enginewin::movetime_limit]
         }
         ::engine::send $id Go [list $position $limits]
+        
+        # If autorun just completed (no more positions to analyze), calculate accuracy
+        if {[lindex $::enginewin_autorun($id) 0] ne "" && \
+            ![::enginewin::stateLocked $id] && \
+            !$::enginewin::m_(accuracyCalculated,$id)} {
+            set ::enginewin::m_(accuracyCalculated,$id) 1
+            after idle [list ::enginewin::calculateAndDrawAccuracy $id]
+        }
     }
 }
 
