@@ -236,8 +236,9 @@ proc ::utils::sound::CancelSounds {} {
   } elseif {$backend == "scidsnd"} {
     puts $pipe "stop"
   }
-  # Note: External system players usually play short files rapidly; 
+  # Note: External system players usually play short files rapidly;
   # killing them might be more complex than worth for move sounds.
+  # PowerShell plays asynchronously; stopping mid-playback is not practical.
   
   set ::utils::sound::soundQueue {}
   set ::utils::sound::isPlayingSound 0
@@ -277,10 +278,19 @@ proc ::utils::sound::CheckSoundQueue {} {
   } elseif {$backend == "scidsnd"} {
     puts $pipe "[file nativename $f]"
   } elseif {$backend == "powershell"} {
-    set cmd "powershell -ExecutionPolicy Bypass -Command \"(New-Object Media.SoundPlayer '[file nativename $f]').PlaySync()\""
-    catch { exec {*}$cmd & }
-    # Increase delay to account for sound length
-    after 450 ::utils::sound::SoundFinished
+    # Windows PowerShell backend - uses .NET SoundPlayer for async playback
+    set nativePath [file nativename $f]
+    # Escape single quotes for PowerShell string literal (double them)
+    set escapedPath [string map {' ''} $nativePath]
+    set cmd "powershell -Command \"(New-Object Media.SoundPlayer '$escapedPath').PlayAsync()\""
+    if {[catch { exec {*}$cmd & } err]} {
+      puts stderr "scidCommunity sound error (powershell): $err"
+      set isPlayingSound 0
+      after idle ::utils::sound::CheckSoundQueue
+      return
+    }
+    # PowerShell cold-start is slow (~400-600ms); delay accounts for startup + short sound
+    after 600 ::utils::sound::SoundFinished
   } elseif {$backend == "afplay"} {
     catch { exec afplay $f & }
     # Increase delay to account for sound length
