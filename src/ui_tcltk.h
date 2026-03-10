@@ -63,29 +63,6 @@ inline int Main (int argc, char* argv[], void (*exit) (void*)) {
 			strcpy (dirname, "../tcl/start.tcl");
 			if (0 != Tcl_Access(sourceFileName, 4)) {
 				strcpy (dirname, "../share/scid/tcl/start.tcl");
-				if (0 != Tcl_Access(sourceFileName, 4)) {
-					// Final fallback: check standard system paths
-					const char* systemPaths[] = {
-						"/usr/share/scid/tcl/start.tcl",
-						"/usr/local/share/scid/tcl/start.tcl",
-						"/opt/scid/share/scid/tcl/start.tcl",
-						NULL
-					};
-					bool found = false;
-					for (int i = 0; systemPaths[i] != NULL; i++) {
-						strncpy(sourceFileName, systemPaths[i], sizeof(sourceFileName) - 1);
-						sourceFileName[sizeof(sourceFileName) - 1] = '\0';
-						if (Tcl_Access(sourceFileName, 4) == 0) {
-							found = true;
-							break;
-						}
-					}
-					if (!found) {
-						fprintf(stderr, "Error: Cannot find tcl/start.tcl script.\n");
-						fprintf(stderr, "Please ensure scidCommunity is properly installed.\n");
-						return 1;
-					}
-				}
 			}
 		}
 		char* newArgv[10] = { argv[0], sourceFileName };
