@@ -8,6 +8,8 @@
 
 ### Window for chess engine configuration and position analysis
 
+source [file join $::scidTclDir tools accuracy.tcl]
+
 # Functions callable from outside:
 # ::enginewin::listEngines
 #   Return a list containing the engine's ID, name and running state.
@@ -619,6 +621,13 @@ proc ::enginewin::updateChart {id {msgData ""}} {
         dict set depths $ply $depth
         ::chart::setDataPoint .engineWin$id.chart.canvas $ply $score \
             [list ::enginewin::chartCallback $id $::enginewin::pv_(pos,$id) $depth $seldepth]
+    }
+
+    set canvas .engineWin$id.chart.canvas
+    set currentScores [::chart::getScores $canvas]
+    if {[llength $currentScores] > 1} {
+        lassign [::accuracy::calculate $currentScores] wAcc bAcc
+        ::chart::setAccuracy $canvas $wAcc $bAcc
     }
 }
 proc ::enginewin::chartCallback {id uci_pos depth seldepth ply value} {

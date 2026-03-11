@@ -121,7 +121,35 @@ proc ::chart::clear {w {xMax 1}} {
     set m_($w,segments)     {}
     set m_($w,currentX)     -1
     set m_($w,cursorLineX)  ""
+    unset -nocomplain m_($w,accuracy)
     _render $w
+}
+
+# Set the accuracy values to be displayed in the upper-left corner.
+proc ::chart::setAccuracy {w white black} {
+    variable m_
+    set m_($w,accuracy) [list $white $black]
+    _render $w
+}
+
+# Return a list of scores from ply 0 to max evaluated ply.
+proc ::chart::getScores {w} {
+    variable m_
+    if {![info exists m_($w,data)]} { return {} }
+    set data $m_($w,data)
+    set points [lsort -integer [dict keys $data]]
+    if {[llength $points] == 0} { return {} }
+    
+    set scores {}
+    set maxPly [lindex $points end]
+    set lastScore 0
+    for {set i 0} {$i <= $maxPly} {incr i} {
+        if {[dict exists $data $i]} {
+            set lastScore [lindex [dict get $data $i] 0]
+        }
+        lappend scores $lastScore
+    }
+    return $scores
 }
 
 # Show or hide the vertical cursor line at a specific x position.
@@ -239,6 +267,7 @@ proc ::chart::_render {w {dataPoint ""}} {
 
     if {$dataPoint eq ""} {
         $w delete "segment"
+        $w delete "accuracy"
         moveCursorLine $w $m_($w,cursorLineX)
     }
 
@@ -326,6 +355,13 @@ proc ::chart::_render {w {dataPoint ""}} {
     $w raise "eval_line"
     $w raise "cursor_line"
     $w raise "cursor_dot"
+
+    if {[info exists m_($w,accuracy)]} {
+        lassign $m_($w,accuracy) white black
+        set txt "Game Accuracy: White: [format %.1f $white]%  Black: [format %.1f $black]%"
+        $w create text [expr {$padX + 5}] [expr {$padY + 5}] -text $txt \
+            -anchor nw -fill "#009900" -font [dict get $config FONT] -tags "accuracy"
+    }
 }
 
 # HELPER: Map mouse X coordinate to data index.
