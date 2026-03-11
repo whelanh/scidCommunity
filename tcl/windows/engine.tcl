@@ -70,6 +70,11 @@ proc ::enginewin::listEngines {} {
 proc ::enginewin::onNewGame {id} {
     set ::enginewin::m_(newgame,$id) true
     ::stored_eval::clear $id
+    # Clear the engine score chart so it will be regenerated for the new game
+    # This is done for all engine windows (not just follow state) similar to stored eval
+    if {[winfo exists .engineWin$id.chart.canvas]} {
+        ::chart::clear .engineWin$id.chart.canvas 1
+    }
 }
 
 # Sends the updated position to the active engines
