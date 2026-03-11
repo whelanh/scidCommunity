@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.48
+Version:        5.1.2.49
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 09d614bb3d584e77bf3adce46d74d44cbef4a678
+%global commit 318e5dc1b04318acccfd31251069fc7fb22ad0d7
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,7 +62,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
-* Mon Mar 09 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-48
+* Wed Mar 11 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-49
+- "Engine score regraph redrawn when user selects a new game"
+* Wed Mar 11 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-48
 - "Added Game Accuracy labels in the Engine Score chart in the Engine Window"
 * Mon Mar 09 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-44
 - "Add move navigation from the score graph in the Engine Window"
