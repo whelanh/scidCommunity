@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.2.49" date="2026-03-11">
+      <description>
+        <p>Engine score chart redrawn when user picks a new game</p>
+      </description>
+    </release>
     <release version="5.1.2.48" date="2026-03-11">
       <description>
         <p>Added Game Accuracy labels to the Engine Score chart in the Engine Window</p>
