@@ -79,6 +79,21 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.2.48" date="2026-03-11">
+      <description>
+        <p>Added Game Accuracy labels to the Engine Score chart in the Engine Window</p>
+      </description>
+    </release>
+    <release version="5.1.2.44" date="2026-03-09">
+      <description>
+        <p>Add navigation to the score graph in the Engine Window</p>
+      </description>
+    </release>
+    <release version="5.1.2.41" date="2026-03-09">
+      <description>
+        <p>Add new Scid score graph to the Engine Window</p>
+      </description>
+    </release>
     <release version="5.1.2.40" date="2026-03-08">
       <description>
         <p>Honor user preference for no arrows in analysis/engine windows; add move sounds</p>

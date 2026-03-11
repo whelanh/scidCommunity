@@ -6,6 +6,27 @@
 
 namespace eval ::analysis_auto_comment {
     variable selectedModel ""
+    variable logFile ""
+}
+
+# Helper proc to write debug logs (works on both Linux and Windows)
+proc ::analysis_auto_comment::logDebug {message} {
+    variable logFile
+    
+    # Try stderr first (works on Linux/macOS terminal)
+    if {[catch {puts stderr $message}]} {
+        # Fallback: write to a log file (for Windows GUI)
+        if {$logFile eq ""} {
+            set logDir [file join [pwd] "logs"]
+            catch {file mkdir $logDir}
+            set logFile [file join $logDir "auto_comment_debug.log"]
+        }
+        set fd [open $logFile "a"]
+        puts $fd $message
+        close $fd
+    } else {
+        flush stderr
+    }
 }
 
 proc ::analysis_auto_comment::batch_generate {} {
@@ -156,6 +177,9 @@ proc ::analysis_auto_comment::run_batch {} {
         incr count
         lassign $item offset movePlayed
 
+        ::analysis_auto_comment::logDebug "\n===== BATCH PROCESS: Move $count of $total ====="
+        ::analysis_auto_comment::logDebug "Move: $movePlayed at offset: $offset"
+
         $pw.content.lbl configure -text "Processing move $count of $total: $movePlayed"
         $pw.content.pb configure -value $count
         update idletasks
@@ -171,29 +195,38 @@ proc ::analysis_auto_comment::run_batch {} {
             set playedMoveScore $score
         }
 
+        ::analysis_auto_comment::logDebug "Played move comment: $playedMoveComment"
+        ::analysis_auto_comment::logDebug "Played move score: $playedMoveScore"
+
         # Read the NAG annotation symbol (e.g., "!?", "??", "+-", or multiple like "?? +/-")
         set nagSymbol [string trim [sc_pos getNags]]
         if {$nagSymbol eq "0"} { set nagSymbol "" }
 
+        ::analysis_auto_comment::logDebug "NAG symbol: $nagSymbol"
+
         sc_move back
         set prevFen [sc_pos fen]
-        
+
         # 1. Fetch Tree Statistics WHILE AT THE PRIOR POSITION
         set treeInfo [::auto_comment::getTreeInfo [sc_base current]]
-        
+
         # Determine source of evaluation
         set evalText ""
         set moveLabels [dict create]
-        
+
         # 1. ALWAYS try to fetch Cloud Evaluations FIRST (Lichess, then ChessDB)
         # This provides the AI with multi-line context and inaccuracy/mistake labels.
         set evalJson [::auto_comment::fetchLichessEval $prevFen $variant]
         if {$evalJson ne ""} {
             lassign [::auto_comment::formatLichessEval $evalJson $prevFen] evalText moveLabels
+            ::analysis_auto_comment::logDebug "Lichess eval found"
         } else {
             set evalJson [::auto_comment::fetchChessDBEval $prevFen]
             if {$evalJson ne ""} {
                 lassign [::auto_comment::formatChessDBEval $evalJson $prevFen] evalText moveLabels
+                ::analysis_auto_comment::logDebug "ChessDB eval found"
+            } else {
+                ::analysis_auto_comment::logDebug "No cloud eval found for position: $prevFen"
             }
         }
 
@@ -260,9 +293,11 @@ proc ::analysis_auto_comment::run_batch {} {
             # Identify who just moved (we are at the position BEFORE the move)
             set side [sc_pos side]
             set whoMoved [expr {$side eq "white" ? "White" : "Black"}]
-            
+
             # Build prompt
             set prompt [::auto_comment::buildPrompt $prevFen $evalText $movePlayed $variant $opening $nagSymbol 1 1 $whoMoved 0 $currentPgn $treeInfo]
+
+            ::analysis_auto_comment::logDebug "\n--- Sending to LLM ($provider) ---"
 
             # Query LLM
             set commentary ""
@@ -271,20 +306,35 @@ proc ::analysis_auto_comment::run_batch {} {
             } else {
                 set commentary [::auto_comment::queryGemini $prompt]
             }
-            
+
+            ::analysis_auto_comment::logDebug "\n--- LLM Response Received ---"
+            ::analysis_auto_comment::logDebug "Commentary length: [string length $commentary] characters"
+            ::analysis_auto_comment::logDebug "Commentary content:"
+            ::analysis_auto_comment::logDebug $commentary
+
             if {$commentary ne "" && ![string match "ERROR:*" $commentary]} {
                 # Go back to annotated position to append comment
                 sc_move pgn $offset
                 undoFeature save
                 set existing [sc_pos getComment]
+                ::analysis_auto_comment::logDebug "Existing comment before adding: $existing"
+                
                 if {[string first $commentary $existing] == -1} {
                     if {$existing ne ""} {
                         sc_pos setComment "$existing $commentary"
+                        ::analysis_auto_comment::logDebug "Comment appended to existing comment"
                     } else {
                         sc_pos setComment $commentary
+                        ::analysis_auto_comment::logDebug "Comment set as new comment"
                     }
+                } else {
+                    ::analysis_auto_comment::logDebug "Comment already exists in position - skipped"
                 }
+            } else {
+                ::analysis_auto_comment::logDebug "No valid commentary received (empty or error)"
             }
+        } else {
+            ::analysis_auto_comment::logDebug "Skipping move: no evalText available"
         }
     }
 

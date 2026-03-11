@@ -15,7 +15,7 @@ exec tclsh "$0" ${1+"$@"}
 #
 
 # Version detection
-set var(SCID_VERSION) "5.1.0"
+set var(SCID_VERSION) "5.1.1"
 if {[info exists ::env(SCIDCOMMUNITY_VERSION)] && $::env(SCIDCOMMUNITY_VERSION) ne ""} {
     set var(SCID_VERSION) $::env(SCIDCOMMUNITY_VERSION)
 } else {

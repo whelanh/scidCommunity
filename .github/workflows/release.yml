@@ -147,10 +147,17 @@ jobs:
           xcopy /E /I /Y %GITHUB_WORKSPACE%\tcldir\lib\tcl8 lib\tcl8
           xcopy /E /I /Y %GITHUB_WORKSPACE%\tcldir\lib\tcl8.6 lib\tcl8.6
           xcopy /E /I /Y %GITHUB_WORKSPACE%\tcldir\lib\tk8.6 lib\tk8.6
+          echo === Copying Snack sound package (64-bit) ===
+          mkdir lib\snack
+          xcopy /E /I /Y %GITHUB_WORKSPACE%\snack2.2.11\* lib\snack\
+          echo === Copying sounds directory ===
+          xcopy /E /I /Y %GITHUB_WORKSPACE%\sounds sounds\
           echo === Final structure ===
           dir
           dir bin
           dir engines
+          dir lib\snack
+          dir sounds
 
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v7
