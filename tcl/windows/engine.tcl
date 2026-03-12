@@ -456,10 +456,14 @@ proc ::enginewin::createButtonsBar {id btn display} {
         -command "::enginewin::toggleConfigPane $id"
     $btn.config state pressed
 
+    ttk::button $btn.autocomment -text [tr AutoComment] \
+        -command "::auto_comment::generateComment $id"
+    ::utils::tooltip::Set $btn.autocomment [tr AutoCommentTooltip]
+
     grid $btn.startStop $btn.lock $btn.addbestmove $btn.addlines \
          $btn.multipv $btn.depth_label $btn.depth $btn.movetime_label $btn.movetime \
          $btn.autorun $btn.threads $btn.hash \
-         $btn.overflow x $btn.config -sticky ew
+         $btn.overflow x $btn.autocomment $btn.config -sticky ew
     grid columnconfigure $btn 12 -weight 1
     grid remove $btn.overflow
 

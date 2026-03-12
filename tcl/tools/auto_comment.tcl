@@ -158,6 +158,72 @@ proc ::auto_comment::fetchChessDBEval {fen} {
     }
     return ""
 }
+# ::auto_comment::formatStoredEval
+#   Converts local stored evaluation data (from stored_eval.tcl)
+#   into the prompt-friendly format with SAN and quality labels.
+#   Returns [list evalText moveLabels]
+proc ::auto_comment::formatStoredEval {storedData fen} {
+    lassign $storedData depth source pvlines
+    set color [lindex [split $fen] 1]
+    set isBlack [expr {$color eq "b"}]
+    set sideToMove [expr {$isBlack ? "Black" : "White"}]
+
+    set result "Position evaluation (depth $depth, source: $source). $sideToMove to move.\n"
+    append result "Lines are ranked from best to worst for $sideToMove. Line 1 is the engine's top recommendation.\n"
+
+    set moveLabels [dict create]
+    
+    # Get best score for comparisons
+    set bestCp 0
+    if {[llength $pvlines] > 0} {
+        lassign [lindex $pvlines 0] multipv score score_type pv_uci
+        if {$score_type eq "cp"} {
+            set bestCp [expr {$isBlack ? -1 * $score : $score}]
+        }
+    }
+
+    set lineNum 1
+    foreach pvline $pvlines {
+        lassign $pvline multipv score score_type pv_uci
+        
+        # Determine label
+        set label "best"
+        if {$lineNum > 1 && $score_type eq "cp"} {
+            set thisCp [expr {$isBlack ? -1 * $score : $score}]
+            set cpLoss [expr {$bestCp - $thisCp}]
+            if {$cpLoss < 10} { set label "equal"
+            } elseif {$cpLoss < 50} { set label "slightly worse"
+            } elseif {$cpLoss < 100} { set label "inaccuracy"
+            } elseif {$cpLoss < 200} { set label "mistake"
+            } else { set label "blunder" }
+        } elseif {$score_type eq "mate"} {
+            set label "best (mate)"
+        }
+
+        # SAN conversion
+        set moveList [split $pv_uci " "]
+        set firstMoveUci [lindex $moveList 0]
+        set sanMoves ""
+        catch { set sanMoves [::uci::formatPv $moveList $fen] }
+        set firstMoveSan [lindex [split $sanMoves " "] 0]
+        
+        if {$firstMoveSan ne ""} {
+            dict set moveLabels $firstMoveSan $label
+        }
+
+        # Format score string
+        if {$score_type eq "mate"} {
+            set scoreStr [expr {$score >= 0 ? "+M$score" : "-M[expr {abs($score)}]"}]
+        } else {
+            set scoreStr [format "%+.2f" [expr {$score / 100.0}]]
+        }
+
+        append result "Line $lineNum ($label): $scoreStr. PV: $sanMoves\n"
+        incr lineNum
+    }
+    return [list $result $moveLabels]
+}
+
 
 # ::auto_comment::formatLichessEval
 #   Converts raw Lichess cloud eval JSON into human-readable text
@@ -346,83 +412,27 @@ proc ::auto_comment::formatChessDBEval {jsonData fen} {
 }
 
 proc ::auto_comment::buildPrompt {fen evalText movePlayed variant {opening ""} {nagSymbol ""} {includeSymbols 1} {whitePerspective 0} {whoMoved ""} {isSingleMove 0} {pgn ""} {treeInfo ""}} {
-    set prompt "You are a chess commentator writing annotations for an intermediate club-level player who understands tactics but not deep strategy. You are given engine analysis and a VERDICT line. TRUST the VERDICT completely — it is computed from engine scores and is always correct."
-    
-    if {$isSingleMove} {
-        append prompt "\n\nNOTE: The player reading your commentary may not see the engine evaluation or the recommended lines. Feel free to explicitly describe the next few moves of the engine's best line and explain the score in human-friendly terms (e.g., 'crushing advantage', 'slight edge') to help them understand why the recommended line is superior."
-    }
+    set prompt "You are a chess commentator writing brief annotations for club-level players. You are given objective engine analysis. TRUST the analysis completely."
     
     if {$whoMoved ne ""} {
-        append prompt "\n\nCRITICAL PERSPECTIVE: Center your commentary on the player who just moved ($whoMoved). Explain what they missed or why the resulting position is difficult or advantageous for THEM. Use objective analysis but avoid sounding like you are praising the opponent for the player's errors."
+        append prompt "\n\nCenter your concise commentary on the player who just moved ($whoMoved). Explain why their move was good or bad based on the engine scores and PV lines provided."
     }
     
-    if {$whitePerspective} {
-        append prompt "\n\nCRITICAL: All engine evaluation scores (e.g., +1.5, -0.8) are from White's perspective. A positive number (+) means White has the advantage; a negative number (-) means Black has the advantage. Do NOT flip these based on who is moving."
-    }
-
-    if {$pgn ne ""} {
-        append prompt "\n\nGAME CONTEXT: You are provided with the full PGN of the game up to the current move. Use this to understand:\n- What phase of the game you're in (opening, middlegame, endgame)\n- The pawn structure and how it developed\n- Strategic plans or themes that span multiple moves\n- Key decisions or transitions that led to the current position\nFocus your commentary on the current position, but reference earlier moves only when they provide essential context for understanding why the current move succeeds or fails."
-    }
-
-
-    if {$includeSymbols} {
-        append prompt "\n\nPGN Annotation Symbols Reference:"
-        append prompt "\nThe following annotation symbols may appear in the PGN (added by human annotators or local engine analysis). Use them to enrich your commentary when appropriate:"
-        append prompt "\n  !?  (Interesting move) – worth considering, has merit"
-        append prompt "\n  ?   (Poor move) – suboptimal, better alternatives exist"
-        append prompt "\n  ??  (Blunder) – a serious mistake that loses significant material or advantage"
-        append prompt "\n  ?!  (Dubious move) – questionable, risky, or hard to justify"
-        append prompt "\n  +=  (Slight advantage) – small edge for White"
-        append prompt "\n  +/- (Clear advantage) – White has a noticeable edge"
-        append prompt "\n  +-  (Winning advantage) – White should win with correct play"
-        append prompt "\n  +-- (Decisive/crushing advantage) – White has a completely winning position"
-    }
-
     append prompt "\n\nInstructions:"
-    append prompt "\n- For moves labeled \"best\": explain the concrete idea — what does the move threaten, gain, or prevent? Reference the follow-up from the engine line if instructive. Keep it under 60 words."
-    append prompt "\n- For \"equal\" moves: note it is a valid alternative and briefly contrast it with the engine's top choice from Line 1. Keep it under 60 words."
-    append prompt "\n- For \"inaccuracy\", \"mistake\", or \"blunder\": clearly state the severity, name the best alternative from Line 1 with a concrete reason, and explain what the played move misses. Use up to 100 words for these."
-    append prompt "\n- Do not use markdown formatting such as bold (**) or italics (*)."
-    append prompt "\n- Never capitalize chess move notation at the start of a sentence; pawn moves like a6, c5, e4 must stay lowercase."
-    append prompt "\n- Use the TREE STATISTICS to identify if the played move is a common theoretical choice or a rare sideline. If highly frequent alternatives exist with better success rates, mention them to provide database-backed context."
-    append prompt "\n- ONLY refer to moves that appear in the engine analysis, the game PGN, or the database tree — do NOT invent or guess moves."
-    if {$variant eq "chess960"} {
-        append prompt "\n- This is a Chess960 (Fischer Random) game. Pieces start on non-standard squares. Do NOT assume standard piece placement."
-    }
+    append prompt "\n- Be extremely concise. Avoid filler phrases like 'the engine suggests', 'it seems that', or 'the best move is'. Just state the ideas."
+    append prompt "\n- Focus ONLY on moves in the PV lines and the objective changes in the engine evaluation."
+    append prompt "\n- Do NOT invent plans, motifs, or ideas that are not directly supported by the provided move sequences."
+    append prompt "\n- Explaining 'blunders', 'mistakes' or 'inaccuracies': explicitly name the best alternative move and the concrete tactical or structural reason why it is better. Keep these under 70 words."
+    append prompt "\n- For 'best' or 'equal' moves: briefly explain the point of the move (threat, prevention, stabilization). Keep these under 40 words."
+    append prompt "\n- Use the TREE STATISTICS to identify if the played move is a common theoretical choice vs a sideline."
+    append prompt "\n- Do NOT use markdown formatting (**bold** or *italics*)."
 
     append prompt "\n\n===== GAME INFORMATION =====\n"
-    if {$pgn ne ""} {
-        append prompt "\nFull PGN:\n$pgn\n"
-    }
-
-    if {$opening ne ""} {
-        append prompt "\nOpening: $opening"
-    }
-
-    if {$whoMoved ne ""} {
-        append prompt "\n\nCurrent move being analyzed: $movePlayed (played by $whoMoved)"
-    } else {
-        append prompt "\n\nCurrent move being analyzed: $movePlayed"
-    }
-
-    append prompt "\n\nFEN (position before the move): $fen"
-
-    # Parse castling rights from FEN to prevent hallucinated castling plans
-    set castling [lindex [split $fen] 2]
-    set castleNotes {}
-    if {[string first "K" $castling] == -1 && [string first "Q" $castling] == -1} {
-        lappend castleNotes "White has already castled (or lost castling rights)."
-    }
-    if {[string first "k" $castling] == -1 && [string first "q" $castling] == -1} {
-        lappend castleNotes "Black has already castled (or lost castling rights)."
-    }
-    if {[llength $castleNotes] > 0} {
-        append prompt "\nCastling status: [join $castleNotes " "]"
-    }
-
-    if {$nagSymbol ne ""} {
-        append prompt "\nAnnotation for this move: $nagSymbol"
-    }
+    if {$pgn ne ""} { append prompt "\nFull PGN:\n$pgn\n" }
+    if {$opening ne ""} { append prompt "\nOpening: $opening" }
+    append prompt "\n\nCurrent move: $movePlayed (by $whoMoved)"
+    append prompt "\nFEN: $fen"
+    if {$nagSymbol ne ""} { append prompt "\nAnnotation: $nagSymbol" }
 
     if {$treeInfo ne ""} {
         append prompt "\n\n===== TREE STATISTICS =====\n"
@@ -430,7 +440,7 @@ proc ::auto_comment::buildPrompt {fen evalText movePlayed variant {opening ""} {
     }
 
     append prompt "\n\n===== ENGINE ANALYSIS =====\n"
-    append prompt "\nEngine analysis for the position before the move:\n$evalText"
+    append prompt $evalText
 
     # For non-English UI languages, ask the LLM to answer in the user's language.
     # Keep engine analysis in standard SAN so move identities remain exact.
@@ -931,7 +941,7 @@ proc ::auto_comment::getTreeInfo {baseId} {
 # ::auto_comment::generateComment
 #   Main entry point. Fetches eval, queries LLM, inserts comment.
 #
-proc ::auto_comment::generateComment {} {
+proc ::auto_comment::generateComment {{engineId ""}} {
     # Get the move that was just played
     # Use untranslated SAN so matching against engine lines is language-independent.
     set movePlayed [sc_game info previousMoveNT]
@@ -950,6 +960,57 @@ proc ::auto_comment::generateComment {} {
     set prevFen [sc_pos fen]
     # Fetch Tree Statistics WHILE AT THE PRIOR POSITION
     set treeInfo [::auto_comment::getTreeInfo [sc_base current]]
+    
+    # --- New Engine Data Gathering ---
+    set engineScores ""
+    set engineVerdict ""
+    set winPercChange ""
+    set storedEvalText ""
+
+    if {$engineId ne ""} {
+        set canvas .engineWin$engineId.chart.canvas
+        if {[winfo exists $canvas]} {
+            set scores [::chart::getScores $canvas]
+            set ply [sc_pos location]
+            if {[llength $scores] > $ply && $ply >= 0} {
+                set scoreBefore [lindex $scores $ply]
+                set scoreAfter [lindex $scores [expr {$ply + 1}]]
+                
+                set wpBefore [::accuracy::winPercent $scoreBefore]
+                set wpAfter [::accuracy::winPercent $scoreAfter]
+                set wpDiff [expr {$wpAfter - $wpBefore}]
+                
+                # Format scores and win percentage
+                set sBefore [format "%+0.2f" [expr {$scoreBefore / 100.0}]]
+                set sAfter [format "%+0.2f" [expr {$scoreAfter / 100.0}]]
+                set cpLoss [expr {$scoreBefore - $scoreAfter}]
+                
+                # side == "white" means it's Black's move. We want perspectives for who just moved.
+                set color [sc_pos side]
+                if {$color eq "white"} {
+                    # It was White's move just played.
+                    set winPercChange [format "%+.1f%%" $wpDiff]
+                } else {
+                    # It was Black's move just played.
+                    set winPercChange [format "%+.1f%%" [expr {-$wpDiff}]]
+                }
+                
+                set engineScores "Engine score before: $sBefore, after $movePlayed: $sAfter (Win% change: $winPercChange)."
+            }
+        }
+        
+        # Stored Eval data
+        set fenKey [::stored_eval::fenKey $prevFen]
+        set storedData [::stored_eval::get $engineId $fenKey]
+        if {$storedData ne ""} {
+            set formatted [::stored_eval::formatForDisplay $storedData $prevFen]
+            foreach item $formatted {
+                lassign $item tag text
+                append storedEvalText $text
+            }
+        }
+    }
+
     # Restore position
     sc_move pgn $savedOffset
 
@@ -973,30 +1034,28 @@ proc ::auto_comment::generateComment {} {
 
     # Detect game variant (standard or chess960)
     set gameVariant [sc_game variant]
-    if {$gameVariant eq "chess960"} {
-        set variant "chess960"
-    } else {
-        set variant "standard"
+    set variant [expr {$gameVariant eq "chess960" ? "chess960" : "standard"}]
+
+    # Step 1: Check for STORED evaluation (local engine or recent cloud)
+    # This ensures we use the most updated result available in memory.
+    if {$storedEvalText ne ""} {
+        set evalText $storedEvalText
+        # Re-format with labels for the prompt
+        lassign [::auto_comment::formatStoredEval $storedData $prevFen] evalText moveLabels
     }
 
-    # Step 1: Fetch engine evaluation for the PREVIOUS position
-    # (before the move was played)
-    set evalJson [::auto_comment::fetchLichessEval $prevFen $variant]
-    set evalSource "lichess"
-    set evalText ""
-
-    set moveLabels [dict create]
-
-    if {$evalJson ne ""} {
-        # Convert Lichess UCI moves to human-readable SAN notation
-        lassign [::auto_comment::formatLichessEval $evalJson $prevFen] evalText moveLabels
-    } else {
-        $w.content.loading configure -text "Lichess eval not available, trying chessdb.cn..."
-        update idletasks
-        set evalJson [::auto_comment::fetchChessDBEval $prevFen]
-        set evalSource "chessdb"
+    # Step 2: Fallback to FETCHING cloud evaluation if no stored data
+    if {$evalText eq ""} {
+        set evalJson [::auto_comment::fetchLichessEval $prevFen $variant]
         if {$evalJson ne ""} {
-            lassign [::auto_comment::formatChessDBEval $evalJson $prevFen] evalText moveLabels
+            lassign [::auto_comment::formatLichessEval $evalJson $prevFen] evalText moveLabels
+        } else {
+            $w.content.loading configure -text "Lichess eval not available, trying chessdb.cn..."
+            update idletasks
+            set evalJson [::auto_comment::fetchChessDBEval $prevFen]
+            if {$evalJson ne ""} {
+                lassign [::auto_comment::formatChessDBEval $evalJson $prevFen] evalText moveLabels
+            }
         }
     }
 
@@ -1011,31 +1070,26 @@ proc ::auto_comment::generateComment {} {
     # Match the played move against engine lines and append a verdict
     if {[dict exists $moveLabels $movePlayed]} {
         set playedLabel [dict get $moveLabels $movePlayed]
-        append evalText "\nVERDICT: The played move $movePlayed is the engine's $playedLabel move."
+        set engineVerdict "VERDICT: The played move $movePlayed is the engine's $playedLabel move."
     } else {
-        append evalText "\nVERDICT: The played move $movePlayed does NOT appear in any of the engine's top lines, suggesting it may be a poor choice."
+        set engineVerdict "VERDICT: The played move $movePlayed does NOT appear in any of the engine's top lines, suggesting it may be a poor choice."
     }
 
-    #puts stderr "Auto Comment: Move played: $movePlayed"
-    #puts stderr "Auto Comment: Eval text sent to LLM:\n$evalText"
-
-    # Get opening info from ECO code
-    set opening ""
-    set eco [sc_game tag get ECO]
-    if {$eco eq ""} {
-        # Try auto-classifying if no ECO header
-        catch {set eco [sc_eco game]}
+    # Add accuracy and specific score data to evalText
+    if {$engineScores ne ""} {
+        append evalText "\n$engineScores"
     }
-    if {$eco ne ""} {
-        # eco can be just a code (e.g. "C60") or a full string (e.g. "C60 [Ruy Lopez]")
-        # if it's already a full string (from sc_eco game), we might want to trim the brackets
-        # but calling getOpeningName will handle both cases or ensure we have the name.
-        set opening [::auto_comment::getOpeningName $eco]
-    }
+    append evalText "\n$engineVerdict"
 
     # Identify who just moved (opposite of current side to move)
     set side [sc_pos side]
     set whoMoved [expr {$side eq "white" ? "Black" : "White"}]
+
+    # Fetch opening info from ECO code
+    set opening ""
+    set eco [sc_game tag get ECO]
+    if {$eco eq ""} { catch {set eco [sc_eco game]} }
+    if {$eco ne ""} { set opening [::auto_comment::getOpeningName $eco] }
 
     # Fetch the NAG symbol (annotation) for the move
     set nagSymbol [string trim [sc_pos getNags]]
