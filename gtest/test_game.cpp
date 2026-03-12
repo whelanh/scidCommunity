@@ -776,6 +776,22 @@ TEST(Test_Game, transPieces_french) {
   language = saved;
 }
 
+TEST(Test_Game, transPieces_portuguese) {
+  int saved = language;
+  language = 13; // Portuguese: PPKRQDRTBBNC
+  char c = transPiecesChar('K');
+  EXPECT_EQ('R', c); // King -> Rei
+  c = transPiecesChar('Q');
+  EXPECT_EQ('D', c); // Queen -> Dama
+  c = transPiecesChar('R');
+  EXPECT_EQ('T', c); // Rook -> Torre
+  c = transPiecesChar('B');
+  EXPECT_EQ('B', c); // Bishop -> Bispo
+  c = transPiecesChar('N');
+  EXPECT_EQ('C', c); // Knight -> Cavalo
+  language = saved;
+}
+
 TEST(Test_Game, transPiecesChar_noMatch) {
   int saved = language;
   language = 1;
