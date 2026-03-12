@@ -431,7 +431,7 @@ Before writing any commentary, verify:
    - It does not appear in any of the provided PV lines
 
 ===== INSTRUCTIONS =====
-- Start your response with a line: \"VERDICT: The move played by $whoMoved of $movePlayed is the engine's {adjective} move\" where {adjective} is one of: best, equal, slightly worse, inaccuracy, mistake, or blunder.
+- Start your response with a line: \"VERDICT: $movePlayed is a {adjective} move according to the engine analysis\" where {adjective} is one of: best, equal, slightly worse, an inaccuracy, a mistake, or a blunder.
 - If the player did not select the move in Line 1, YOU MUST cite what the Line 1 moves were that the engine preferred (just the first few).
 - Focus ONLY on moves in the PV lines and the objective changes in the engine evaluation.
 - Do NOT invent plans, motifs, or ideas that are not directly supported by the provided move sequences.

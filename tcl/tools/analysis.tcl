@@ -1936,9 +1936,6 @@ proc makeAnalysisWin { {n 1} {index -1} {autostart 1}} {
         ttk::button $w.b1.annotate -command "configAnnotation" \
             -image [list tb_annotate pressed tb_annotate_on]
         ::utils::tooltip::Set $w.b1.annotate $::tr(Annotate...)
-        ttk::button $w.b1.autocomment -command "::analysis_auto_comment::batch_generate" \
-            -text [tr AutoComment]
-        ::utils::tooltip::Set $w.b1.autocomment [tr AnalysisAutoCommentTooltip]
     }
     ttk::button $w.b1.priority -image [::button_image tb_cpu_hi] -command "setAnalysisPriority $w $n"
     ::utils::tooltip::Set $w.b1.priority $::tr(LowPriority)
@@ -1954,7 +1951,7 @@ proc makeAnalysisWin { {n 1} {index -1} {autostart 1}} {
 	pack $w.b1.alllines -side left
     }
     if {$n == 1} {
-        pack $w.b1.multipv $w.b1.annotate $w.b1.autocomment $w.b1.automove $w.b1.bFinishGame -side left
+        pack $w.b1.multipv $w.b1.annotate $w.b1.automove $w.b1.bFinishGame -side left
     } else  {
         pack $w.b1.multipv $w.b1.automove -side left
     }

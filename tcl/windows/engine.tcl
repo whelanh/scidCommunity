@@ -460,10 +460,14 @@ proc ::enginewin::createButtonsBar {id btn display} {
         -command "::auto_comment::generateComment $id"
     ::utils::tooltip::Set $btn.autocomment [tr AutoCommentTooltip]
 
+    ttk::button $btn.gamecomment -text "Game Comment" \
+        -command "::analysis_auto_comment::batch_generate $id"
+    ::utils::tooltip::Set $btn.gamecomment "Scan game for annotated moves and generate AI summary"
+
     grid $btn.startStop $btn.lock $btn.addbestmove $btn.addlines \
          $btn.multipv $btn.depth_label $btn.depth $btn.movetime_label $btn.movetime \
          $btn.autorun $btn.threads $btn.hash \
-         $btn.overflow x $btn.autocomment $btn.config -sticky ew
+         $btn.overflow x $btn.autocomment $btn.gamecomment $btn.config -sticky ew
     grid columnconfigure $btn 12 -weight 1
     grid remove $btn.overflow
 
