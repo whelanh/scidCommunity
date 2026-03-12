@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.2.50" date="2026-03-12">
+      <description>
+        <p>Restore in-memory caching of engine results in the Engine Window</p>
+      </description>
+    </release>
     <release version="5.1.2.49" date="2026-03-11">
       <description>
         <p>Engine score chart redrawn when user picks a new game</p>

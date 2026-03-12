@@ -456,10 +456,18 @@ proc ::enginewin::createButtonsBar {id btn display} {
         -command "::enginewin::toggleConfigPane $id"
     $btn.config state pressed
 
+    ttk::button $btn.autocomment -text [tr AutoComment] \
+        -command "::auto_comment::generateComment $id"
+    ::utils::tooltip::Set $btn.autocomment [tr AutoCommentTooltip]
+
+    ttk::button $btn.gamecomment -text "Game Comment" \
+        -command "::analysis_auto_comment::batch_generate $id"
+    ::utils::tooltip::Set $btn.gamecomment "Scan game for annotated moves and generate AI summary"
+
     grid $btn.startStop $btn.lock $btn.addbestmove $btn.addlines \
          $btn.multipv $btn.depth_label $btn.depth $btn.movetime_label $btn.movetime \
          $btn.autorun $btn.threads $btn.hash \
-         $btn.overflow x $btn.config -sticky ew
+         $btn.overflow x $btn.autocomment $btn.gamecomment $btn.config -sticky ew
     grid columnconfigure $btn 12 -weight 1
     grid remove $btn.overflow
 
@@ -698,32 +706,35 @@ proc ::enginewin::updateDisplay {id msgData} {
     set notation $::enginewin::m_(notation,$id)
     set scoreside $::enginewin::m_(scoreside,$id)
 
+    set pvDisplay $pv
     if {[catch {
-        lassign [::enginewin::formatPV $notation $::enginewin::pv_(pos,$id) $pv] pv translated
+        lassign [::enginewin::formatPV $notation $::enginewin::pv_(pos,$id) $pvDisplay] pvDisplay translated
     }]} {
-        set pv "illegal_pv! $pv"
+        set pvDisplay "illegal_pv! $pvDisplay"
         set translated untranslated
     }
 
-    if {$score ne ""} {
+    set scoreStr $score
+    if {$scoreStr ne ""} {
         if {$scoreside eq "white" && $::enginewin::pv_(btm,$id)} {
-            set score [expr { - $score }]
+            set scoreStr [expr { - $scoreStr }]
         }
         if {$score_type eq "mate"} {
-            if {$score >= 0} {
-                set score "+M$score"
+            if {$scoreStr >= 0} {
+                set scoreStr "+M$scoreStr"
             } else {
-                set score "-M[string range $score 1 end]"
+                set scoreStr "-M[string range $scoreStr 1 end]"
             }
         } else {
-            set score [format "%+.2f" [expr {$score / 100.0}]]
+            set scoreStr [format "%+.2f" [expr {$scoreStr / 100.0}]]
             if {$score_type eq "lowerbound" || $score_type eq "upperbound"} {
                 lappend extraInfo $score_type
             }
         }
     }
+    set depthStr $depth
     if {$seldepth ne ""} {
-        set depth "$depth/$seldepth"
+        set depthStr "$depthStr/$seldepth"
     }
     if {$score_wdl ne ""} {
         lassign $score_wdl win draw lose
@@ -742,7 +753,7 @@ proc ::enginewin::updateDisplay {id msgData} {
     }
     set pvline ""
     # End of the first move: first space after the first alpha char
-    regexp {^(.*?[A-Za-z].*?)(\s.*)$} $pv -> pv pvline
+    regexp {^(.*?[A-Za-z].*?)(\s.*)$} $pvDisplay -> pvDisplay pvline
 
     set line $multipv
     if {$multipv == 1} {
@@ -756,10 +767,10 @@ proc ::enginewin::updateDisplay {id msgData} {
         $pv_lines delete $line.0 end
     }
     $pv_lines insert $line.0 "\n"
-    $pv_lines insert $line.end "$depth\t"
-    $pv_lines insert $line.end "$score" header
+    $pv_lines insert $line.end "$depthStr\t"
+    $pv_lines insert $line.end "$scoreStr" header
     $pv_lines insert $line.end "\t"
-    $pv_lines insert $line.end "$pv" [list header moves $translated]
+    $pv_lines insert $line.end "$pvDisplay" [list header moves $translated]
     $pv_lines insert $line.end "$pvline" [list lmargin moves]
     if {[info exists extraInfo]} {
         $pv_lines insert $line.end "  ([join $extraInfo {  }])" lmargin
@@ -785,7 +796,7 @@ proc ::enginewin::updateDisplay {id msgData} {
     # Store this PV line for multi-arrow display
     if {$line >= 1 && $line <= 3} {
         # Store the first move from this PV line
-        set first_move [string trimleft $pv ".0123456789"]
+        set first_move [string trimleft $pvDisplay ".0123456789"]
         if {$notation == 2 || $notation == -2} {
             set first_move [::trans $first_move]
         }
@@ -1005,6 +1016,9 @@ proc ::enginewin::connectEngine {id enginename} {
     set netport [::enginecfg::resetConfigOptions $id $configFrame $config]
 
     if {$config eq ""} { return }
+    
+    # Save accumulated PVs from the previous session before clearing
+    ::enginewin::saveAccumulatedPVs $id
 
     update idletasks
 
@@ -1085,6 +1099,7 @@ proc ::enginewin::callback {id msg} {
             }
             if {$pv_(limits,$id) eq $expectedLimits
                 && $pv_(pos,$id) eq $::enginewin::m_(position,$id)} {
+                ::enginewin::saveAccumulatedPVs $id
                 ::enginewin::changeState $id *.done
             }
             if {![::enginewin::analyzeMainLine $id]} {
@@ -1096,6 +1111,7 @@ proc ::enginewin::callback {id msg} {
         }
         "InfoReady" {
             ::enginecfg::autoSaveConfig $id $configFrame true
+            ::enginewin::saveAccumulatedPVs $id
             ::enginewin::changeState $id *.idle
             # Trigger initial stored eval lookup for current position
             after idle [list ::enginewin::updateStoredEvalDisplay $id]

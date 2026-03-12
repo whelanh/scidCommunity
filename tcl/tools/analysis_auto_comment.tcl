@@ -29,7 +29,8 @@ proc ::analysis_auto_comment::logDebug {message} {
     }
 }
 
-proc ::analysis_auto_comment::batch_generate {} {
+proc ::analysis_auto_comment::batch_generate {{engineId ""}} {
+    variable _engineId $engineId
     set w .analysisAutoCommentDlg
     if {[winfo exists $w]} {
         raise $w
@@ -37,7 +38,7 @@ proc ::analysis_auto_comment::batch_generate {} {
     }
 
     toplevel $w
-    wm title $w "Auto Comment - Batch Process"
+    wm title $w "Game Comment - Batch Process"
     wm resizable $w 1 1
     wm minsize $w 450 250
     wm transient $w .
@@ -52,7 +53,7 @@ proc ::analysis_auto_comment::batch_generate {} {
     pack $w.content -fill both -expand 1
 
     ttk::label $w.content.info -text \
-        "This will scan the entire game and generate AI commentary for every move that has a NAG or an existing comment.\n\n" \
+        "This will scan the game and generate AI commentary for every move that has an annotation (NAG).\n\nIt will also generate a Game Summary at the end using engine performance figures." \
         -wraplength 400 -justify left
     pack $w.content.info -pady {0 10}
 
@@ -72,7 +73,7 @@ proc ::analysis_auto_comment::batch_generate {} {
 
     ttk::button $w.buttons.start -text "Start" -command {
         destroy .analysisAutoCommentDlg
-        ::analysis_auto_comment::run_batch
+        ::analysis_auto_comment::run_batch $::analysis_auto_comment::_engineId
     }
     ttk::button $w.buttons.cancel -text "Cancel" -command "destroy $w"
     pack $w.buttons.cancel $w.buttons.start -side right -padx 5
@@ -81,7 +82,7 @@ proc ::analysis_auto_comment::batch_generate {} {
     bind $w <Escape> "destroy $w"
 }
 
-proc ::analysis_auto_comment::run_batch {} {
+proc ::analysis_auto_comment::run_batch {{engineId ""}} {
     # Check API keys first (reuse auto_comment logic)
     set provider $::auto_comment::provider
     set needKey 0
@@ -109,7 +110,7 @@ proc ::analysis_auto_comment::run_batch {} {
     set pw .batchProgress
     if {[winfo exists $pw]} { destroy $pw }
     toplevel $pw
-    wm title $pw "Auto Comment - Processing"
+    wm title $pw "Game Comment - Processing"
     wm resizable $pw 1 1
     wm minsize $pw 350 150
     wm transient $pw .
@@ -152,11 +153,13 @@ proc ::analysis_auto_comment::run_batch {} {
         # We check movePlayed to skip the very start of game (ply 0).
         # User only wants comments for moves that have a NAG (Annotation Symbol).
         # We skip if the only annotation is "D" (Diagram).
-        if {$movePlayed ne "" && $nags ne "0" && $nags ne "D" && $nags ne ""} {
-            lappend annotatedPositions [list [sc_pos pgnOffset] $movePlayed]
+        # NEW: Always include the very last position of the game for a "Game Summary".
+        set isEnd [sc_pos isAt end]
+        if {$movePlayed ne "" && (($nags ne "0" && $nags ne "D" && $nags ne "") || $isEnd)} {
+            lappend annotatedPositions [list [sc_pos pgnOffset] $movePlayed $isEnd]
         }
         
-        if {[sc_pos isAt end]} { break }
+        if {$isEnd} { break }
         sc_move forward
     }
 
@@ -175,9 +178,9 @@ proc ::analysis_auto_comment::run_batch {} {
 
     foreach item $annotatedPositions {
         incr count
-        lassign $item offset movePlayed
+        lassign $item offset movePlayed isEnd
 
-        ::analysis_auto_comment::logDebug "\n===== BATCH PROCESS: Move $count of $total ====="
+        ::analysis_auto_comment::logDebug "\n===== BATCH PROCESS: Move $count of $total (isEnd: $isEnd) ====="
         ::analysis_auto_comment::logDebug "Move: $movePlayed at offset: $offset"
 
         $pw.content.lbl configure -text "Processing move $count of $total: $movePlayed"
@@ -195,43 +198,86 @@ proc ::analysis_auto_comment::run_batch {} {
             set playedMoveScore $score
         }
 
-        ::analysis_auto_comment::logDebug "Played move comment: $playedMoveComment"
-        ::analysis_auto_comment::logDebug "Played move score: $playedMoveScore"
+        # PERFORMANCE DATA from Engine Window
+        set engineStats ""
+        if {$engineId ne ""} {
+            set canvas .engineWin$engineId.chart.canvas
+            if {[winfo exists $canvas]} {
+                set scores [::chart::getScores $canvas]
+                set ply [sc_pos location]
+                if {[llength $scores] > $ply && $ply > 0} {
+                    set scoreBefore [lindex $scores [expr {$ply - 1}]]
+                    set scoreAfter [lindex $scores $ply]
+                    set wpBefore [::accuracy::winPercent $scoreBefore]
+                    set wpAfter [::accuracy::winPercent $scoreAfter]
+                    set wpDiff [expr {$wpAfter - $wpBefore}]
+                    
+                    # Perspective based on who moved
+                    set color [sc_pos side] ;# Side to move NOW (so opposite moved)
+                    if {$color eq "white"} {
+                        # Black just moved
+                        set winPercChange [format "%+.1f%%" [expr {-$wpDiff}]]
+                    } else {
+                        # White just moved
+                        set winPercChange [format "%+.1f%%" $wpDiff]
+                    }
+                    set engineStats "Engine score: $scoreAfter (Side-to-move Win% change: $winPercChange)."
+                }
+                
+                # Special final summary stats: Full performance narrative
+                if {$isEnd && [llength $scores] > 1} {
+                    lassign [::accuracy::calculate $scores] wAcc bAcc
+                    set engineStats "ENGINE SCORE HISTORY (Evaluation from White's perspective):\n"
+                    append engineStats "| Move | Score (Pawns) |\n|---|---|\n"
+                    # Only skip points if the game is exceptionally long
+                    set step [expr {[llength $scores] > 120 ? 2 : 1}]
+                    for {set i 0} { $i < [llength $scores]} {incr i $step} {
+                        if {$i == 0} {
+                            set label "Start"
+                        } else {
+                            set m [expr {($i+1)/2}]
+                            if {$i % 2 == 1} {
+                                set label "$m."
+                            } else {
+                                set label "$m..."
+                            }
+                        }
+                        set s [format "%+.2f" [expr {[lindex $scores $i] / 100.0}]]
+                        append engineStats "| $label | $s |\n"
+                    }
+                    append engineStats "\nOVERALL GAME ACCURACY: White $wAcc%, Black $bAcc%.\n"
+                    append engineStats "(Note: Accuracy % above matches labels on the Engine Score Chart. +1.00 is exactly 1 pawn advantage for White. Notation: '15.' is White's 15th move, '15...' is Black's 15th move answer)."
+                }
+            }
+        }
 
-        # Read the NAG annotation symbol (e.g., "!?", "??", "+-", or multiple like "?? +/-")
+        ::analysis_auto_comment::logDebug "Played move score: $playedMoveScore"
+        ::analysis_auto_comment::logDebug "Engine stats: $engineStats"
+
+        # Read the NAG annotation symbol
         set nagSymbol [string trim [sc_pos getNags]]
         if {$nagSymbol eq "0"} { set nagSymbol "" }
 
-        ::analysis_auto_comment::logDebug "NAG symbol: $nagSymbol"
-
         sc_move back
         set prevFen [sc_pos fen]
-
-        # 1. Fetch Tree Statistics WHILE AT THE PRIOR POSITION
         set treeInfo [::auto_comment::getTreeInfo [sc_base current]]
 
-        # Determine source of evaluation
+        # Determine evaluation
         set evalText ""
         set moveLabels [dict create]
 
-        # 1. ALWAYS try to fetch Cloud Evaluations FIRST (Lichess, then ChessDB)
-        # This provides the AI with multi-line context and inaccuracy/mistake labels.
+        # 1. Cloud Eval
         set evalJson [::auto_comment::fetchLichessEval $prevFen $variant]
         if {$evalJson ne ""} {
             lassign [::auto_comment::formatLichessEval $evalJson $prevFen] evalText moveLabels
-            ::analysis_auto_comment::logDebug "Lichess eval found"
         } else {
             set evalJson [::auto_comment::fetchChessDBEval $prevFen]
             if {$evalJson ne ""} {
                 lassign [::auto_comment::formatChessDBEval $evalJson $prevFen] evalText moveLabels
-                ::analysis_auto_comment::logDebug "ChessDB eval found"
-            } else {
-                ::analysis_auto_comment::logDebug "No cloud eval found for position: $prevFen"
             }
         }
 
-        # 2. Extract PGN Variations as "Ground Truth"
-        # If a variation exists, we treat it as the absolute best line, overriding cloud best moves if they differ.
+        # 2. Ground Truth Variations
         set varCount [sc_var count]
         if {$varCount > 0} {
             set variationMoves {}
@@ -254,9 +300,7 @@ proc ::analysis_auto_comment::run_batch {} {
                 lappend variationMoves $mv
                 set comm [sc_pos getComment]
                 if {[regexp {(\d+):([+-]?\d+\.?\d*|Mate in -?\d+)} $comm -> depth score]} {
-                    if {[llength $varScores] < [llength $variationMoves]} {
-                        lappend varScores "score $score at depth $depth"
-                    }
+                    if {[llength $varScores] < [llength $variationMoves]} { lappend varScores "score $score at depth $depth" }
                 } elseif {[regexp {(-?\d+\.?\d*|Mate in -?\d+)} $comm score]} {
                     if {[llength $varScores] < [llength $variationMoves]} { lappend varScores $score }
                 }
@@ -270,34 +314,49 @@ proc ::analysis_auto_comment::run_batch {} {
                 set varScoreStr [expr {[llength $varScores] > 0 ? [lindex $varScores 0] : "unknown score"}]
                 
                 set groundTruth "\nGROUND TRUTH BEST LINE (from PGN variation, $varScoreStr): $varLine\n"
-                append groundTruth "TRUST this variation as the absolute best recommendation. Use the cloud analysis lines below ONLY for comparing other moves or understanding the general position evaluation. When commenting on the variation, simply refer to it as the best line without over-interpreting the deep follow-up moves to avoid hallucination.\n"
+                append groundTruth "TRUST this variation as the absolute best recommendation. When commenting on the variation, simply refer to it as the best line.\n"
                 
                 set evalText "${evalText}${groundTruth}"
-                # Ensure the variation's first move is labeled as best
                 dict set moveLabels $firstVarMove "best"
             }
         }
 
-        if {$evalText ne ""} {
-            # Append verdict
+        if {$evalText ne "" || $isEnd} {
+            # Verdict
+            # Verdict metadata for the prompt builder
             if {[dict exists $moveLabels $movePlayed]} {
                 set playedLabel [dict get $moveLabels $movePlayed]
-                append evalText "\nVERDICT: The played move $movePlayed is the engine's $playedLabel move."
+                append evalText "\nVERDICT: $movePlayed is a $playedLabel move."
             } else {
-                append evalText "\nVERDICT: The played move $movePlayed does NOT appear in any of the engine's top lines, suggesting it may be a poor choice."
+                append evalText "\nVERDICT: $movePlayed does NOT appear in any of the engine's top lines, suggesting it may be a poor choice."
             }
-            if {$playedMoveScore ne ""} {
-                append evalText " The engine evaluation for the played move $movePlayed is $playedMoveScore."
-            }
+            if {$playedMoveScore ne ""} { append evalText " The engine evaluation for the played move $movePlayed is $playedMoveScore." }
+            if {$engineStats ne ""} { append evalText "\n$engineStats" }
 
-            # Identify who just moved (we are at the position BEFORE the move)
             set side [sc_pos side]
             set whoMoved [expr {$side eq "white" ? "White" : "Black"}]
 
-            # Build prompt
+            # Build Prompt
             set prompt [::auto_comment::buildPrompt $prevFen $evalText $movePlayed $variant $opening $nagSymbol 1 1 $whoMoved 0 $currentPgn $treeInfo]
-
-            ::analysis_auto_comment::logDebug "\n--- Sending to LLM ($provider) ---"
+            
+            # Since buildPrompt is generic, we prepend our 'isEnd' instruction if needed
+            if {$isEnd} {
+                set nagTrim [string trim $nagSymbol]
+                set isNagInvolved [expr {$nagTrim ne "" && $nagTrim ne "0"}]
+                
+                set prefix "===== GAME SUMMARY INSTRUCTIONS =====\n"
+                append prefix "This is the LAST POSITION of the game. You MUST provide a holistic 'GAME SUMMARY' at the end of your response.\n"
+                append prefix "1. NARRATIVE FLOW: Analyze the full ENGINE SCORE HISTORY table provided. Describe the real trend (e.g., 'White built a steady lead' versus 'Black collapsed at move 15...').\n"
+                append prefix "2. THE TURNING POINT: Identify the specific MOVE LABEL (e.g., 15. or 15...) from the table where the evaluation shifted significantly. Explain WHY based on that move.\n"
+                append prefix "3. DO NOT HALLUCINATE: Use the EXACT scores from the table for the labels. Each move has two entries: '15.' for White's turn and '15...' for Black's turn.\n"
+                append prefix "4. CHART ACCURACY: Mention the accuracy percentages, noting they match the labels on the Engine Score Chart.\n"
+                
+                if {!$isNagInvolved} {
+                    append prefix "5. CONCISE START: Since $movePlayed has NO annotation, keep your VERDICT and move commentary to ONE short sentence, then focus 90% on the GAME SUMMARY.\n"
+                }
+                
+                set prompt "${prefix}\n${prompt}"
+            }
 
             # Query LLM
             set commentary ""
