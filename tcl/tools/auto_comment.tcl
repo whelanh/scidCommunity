@@ -412,20 +412,35 @@ proc ::auto_comment::formatChessDBEval {jsonData fen} {
 }
 
 proc ::auto_comment::buildPrompt {fen evalText movePlayed variant {opening ""} {nagSymbol ""} {includeSymbols 1} {whitePerspective 0} {whoMoved ""} {isSingleMove 0} {pgn ""} {treeInfo ""}} {
-    set prompt "You are a chess commentator writing brief annotations for club-level players. You are given objective engine analysis. TRUST the analysis completely."
-    
-    if {$whoMoved ne ""} {
-        append prompt "\n\nCenter your concise commentary on the player who just moved ($whoMoved). Explain why their move was good or bad based on the engine scores and PV lines provided."
-    }
-    
-    append prompt "\n\nInstructions:"
-    append prompt "\n- Be extremely concise. Avoid filler phrases like 'the engine suggests', 'it seems that', or 'the best move is'. Just state the ideas."
-    append prompt "\n- Focus ONLY on moves in the PV lines and the objective changes in the engine evaluation."
-    append prompt "\n- Do NOT invent plans, motifs, or ideas that are not directly supported by the provided move sequences."
-    append prompt "\n- Explaining 'blunders', 'mistakes' or 'inaccuracies': explicitly name the best alternative move and the concrete tactical or structural reason why it is better. Keep these under 70 words."
-    append prompt "\n- For 'best' or 'equal' moves: briefly explain the point of the move (threat, prevention, stabilization). Keep these under 40 words."
-    append prompt "\n- Use the TREE STATISTICS to identify if the played move is a common theoretical choice vs a sideline."
-    append prompt "\n- Do NOT use markdown formatting (**bold** or *italics*)."
+    set prompt "You are a chess commentator writing brief annotations for club-level players. You are given objective engine analysis. TRUST the analysis completely.
+
+Center your concise commentary on the player who just moved ($whoMoved). Explain why their move was good or bad based on the engine scores and PV lines provided.
+
+===== VERIFICATION CHECKLIST =====
+Before writing any commentary, verify:
+1. LINE RANKING: Line 1 is ALWAYS the engine's best move. If the played move appears in Line 2 or later, Line 1 contains the better alternative.
+2. CASTLING RIGHTS: Extract castling rights from the FEN (the field after the position, e.g., \"KQkq\" or \"kq\" or \"-\").
+   - If 'K' is absent: White CANNOT castle kingside
+   - If 'Q' is absent: White CANNOT castle queenside
+   - If 'k' is absent: Black CANNOT castle kingside
+   - If 'q' is absent: Black CANNOT castle queenside
+   - If castling rights are \"-\" or missing the relevant letter: DO NOT mention castling for that player
+3. MOVE LEGALITY: A move cannot be played \"in the future\" if:
+   - It was already played in the game (check the PGN move history)
+   - The piece has already moved from that square
+   - It does not appear in any of the provided PV lines
+
+===== INSTRUCTIONS =====
+- Start your response with a line: \"VERDICT: The move played by $whoMoved of $movePlayed is the engine's {adjective} move\" where {adjective} is one of: best, equal, slightly worse, inaccuracy, mistake, or blunder.
+- If the player did not select the move in Line 1, YOU MUST cite what the Line 1 moves were that the engine preferred (just the first few).
+- Focus ONLY on moves in the PV lines and the objective changes in the engine evaluation.
+- Do NOT invent plans, motifs, or ideas that are not directly supported by the provided move sequences.
+- NEVER suggest a player \"can play\" or \"could play\" a move unless it appears in one of the PV lines.
+- NEVER mention a move as a future option if it has already been played earlier in the game.
+- Explaining 'blunders', 'mistakes' or 'inaccuracies': explicitly name the best alternative move (from Line 1) and the concrete tactical or structural reason why it is better. Keep these under 70 words.
+- For 'best' or 'equal' moves: briefly explain the point of the move (threat, prevention, stabilization) based only on what appears in the PV. Keep these under 40 words.
+- Use the TREE STATISTICS to identify if the played move is a common theoretical choice vs a sideline.
+- Do NOT use markdown formatting (**bold** or *italics*)."
 
     append prompt "\n\n===== GAME INFORMATION =====\n"
     if {$pgn ne ""} { append prompt "\nFull PGN:\n$pgn\n" }
