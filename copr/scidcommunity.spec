@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.50
+Version:        5.1.2.51
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit da87f65a610d54b09473c5c4b36fd757884696eb
+%global commit fe5d9ffe219bfc5b6e7cd905f050bee89a1faa24
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Thu Mar 12 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-51
+- "Move AI comment buttons to Engine Window and add Portuguese piece encoding"
 * Thu Mar 12 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-50
 - "Restore in-memory caching of engine results in the Engine Window"
 * Wed Mar 11 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-49
