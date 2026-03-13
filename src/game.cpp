@@ -27,7 +27,7 @@
 int language = 0; // default to english
 //  0 = en,
 //  1 = fr, 2 = es, 3 = de, 4 = it, 5 = ne, 6 = cz
-//  7 = hu, 8 = no, 9 = sw, 10 = ca, 11 = fi, 12 = gr
+//  7 = hu, 8 = no, 9 = sw, 10 = ca, 11 = fi, 12 = gr, 13 = pt
 //  TODO Piece translations for greek
 const char *langPieces[] = {"",
                             "PPKRQDRTBFNC",
@@ -41,6 +41,8 @@ const char *langPieces[] = {"",
                             "PBKKQDRTBLNS",
                             "PPKRQDRTBANC",
                             "PSKKQDRTBLNR",
+                            "",
+                            "PPKRQDRTBBNC",
                             ""};
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~

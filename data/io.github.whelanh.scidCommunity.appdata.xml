@@ -79,6 +79,16 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.2.52" date="2026-03-13">
+      <description>
+        <p>Fix navigation issue with the board arrow keys at variations</p>
+      </description>
+    </release>
+    <release version="5.1.2.51" date="2026-03-12">
+      <description>
+        <p>Move AI comment buttons to Engine Window + add Portuguese piece encoding</p>
+      </description>
+    </release>
     <release version="5.1.2.50" date="2026-03-12">
       <description>
         <p>Restore in-memory caching of engine results in the Engine Window</p>
