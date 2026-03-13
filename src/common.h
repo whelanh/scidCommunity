@@ -31,7 +31,7 @@ const versionT SCID_VERSION = 400;     // Current file format version = 4.0
 
 // Version string - use build-time definition from CMake if available, otherwise fallback to default
 #ifndef SCID_VERSION_STRING
-#define SCID_VERSION_STRING "5.1.0"
+#define SCID_VERSION_STRING "5.1.1"
 #endif
 
 // Build date - use build-time definition from CMake if available, otherwise use __DATE__
