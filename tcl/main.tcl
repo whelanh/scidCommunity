@@ -511,13 +511,13 @@ proc showVars {} {
     # No need to display an empty menu
     if {$numVars == 0} { return }
 
+    set prev_focus [focus]
     set w .variations
-    if {[winfo exists $w]} { return }
+    destroy $w
 
-    # Present a menu of the possible variations
+    # Present a non-blocking popup of the possible variations
     toplevel $w
-    ::setTitle $w $::tr(Variations)
-    setWinLocation $w
+    wm overrideredirect $w 1
     set h [expr $numVars + 1]
     if { $h> 19} { set h 19 }
     ttk::treeview $w.lbVar -columns {0} -show {} -selectmode browse
@@ -550,20 +550,19 @@ proc showVars {} {
         $w.lbVar insert {} end -id $j -values [list "$str"]
         incr j
     }
+
+    bind $w <FocusOut>        [list destroy $w]
+    bind $w <Escape>          [list focus $prev_focus]
+    bind $w <Left>            [list focus $prev_focus]
+    bind $w <Return>          [list focus $prev_focus]
+    bind $w <Return>          {+::move::EnterVar [%W selection]}
+    bind $w <Right>           {event generate %W <Return> -when tail}
+    bind $w <ButtonRelease-1> {event generate %W <Return> -when tail}
+
+    ::tk::PlaceWindow $w widget .main.board
+    focus $w.lbVar
     $w.lbVar focus 0
     $w.lbVar selection set 0
-
-    bind $w <Configure> "recordWinSize $w"
-    bind $w <Escape> "destroy $w"
-    bind $w <Left> "destroy $w"
-    bind $w <Right> "::move::EnterVar \[$w.lbVar selection\]; destroy $w"
-    bind $w <Return> "event generate $w <Right>"
-    bind $w <ButtonRelease-1> "event generate $w <Right>"
-
-    tkwait visibility $w
-    ::tk::SetFocusGrab $w $w.lbVar
-    tkwait window $w
-    ::tk::RestoreFocusGrab $w $w.lbVar
 }
 ################################################################################
 #
