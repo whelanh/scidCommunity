@@ -6,10 +6,6 @@
  */
 
 #include "phalanx.h"
-#ifdef _WIN32
-#include <fcntl.h>
-#include <io.h>
-#endif
 
 /* 2005-09-14, José de Paula
  * GCC 3.0 deprecated multi-line strings, and, as of GCC 3.4, they are no longer supported.

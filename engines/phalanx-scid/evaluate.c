@@ -303,7 +303,9 @@ if(Flag.polling)
       DWORD read;
       if (PeekNamedPipe(h, buf, 255, &read, &nBytes, NULL)) {
         buf[read] = '\0';
-        if (strchr(buf, '\n') || strchr(buf, '\r')) interrupt(0);
+        if (strchr(buf, '\n') || strchr(buf, '\r')) {
+            interrupt(0);
+        }
       }
     }
   }
@@ -318,7 +320,9 @@ if(Flag.polling)
   tv.tv_usec=0;
   select(16, &readfds, 0, 0, &tv);
   data=FD_ISSET(fileno(stdin), &readfds);
-  if(data) interrupt(0);
+  if(data) {
+    interrupt(0);
+  }
 #endif
 	if( Abort && ! NoAbort ) return 0;
 }
