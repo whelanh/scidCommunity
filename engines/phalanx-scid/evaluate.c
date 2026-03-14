@@ -229,6 +229,7 @@ int material_draw( void )
 
 int evaluate( int Alpha, int Beta )
 {
+	if( Abort && ! NoAbort ) return 0;
 
 static int timeslice = 2000;
 int result;
@@ -313,6 +314,7 @@ if(Flag.polling)
   data=FD_ISSET(fileno(stdin), &readfds);
   if(data) interrupt(0);
 #endif
+	if( Abort && ! NoAbort ) return 0;
 }
 
 /*

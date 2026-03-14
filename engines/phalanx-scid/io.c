@@ -1122,6 +1122,9 @@ void interrupt(int x) {
     }
   }
 
+  if (Flag.polling) {
+    Abort = 1;
+  }
   if (Flag.ponder < 2) {
     puts("interrupted");
     fflush(stdout);
@@ -1725,7 +1728,11 @@ void shell(void) {
         if (Flag.xboard) {
           printf("move ");
           gnuprintm(m);
+#ifdef _WIN32
+          printf("\r\n");
+#else
           printf("\n");
+#endif
         } else {
           printf("my move is ");
           printm(m, NULL);
