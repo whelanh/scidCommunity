@@ -84,6 +84,7 @@ t = clock();
  
 /* Do NOT buffer I/O - needed for communication with xboard */
 setvbuf(stdout, (char*)NULL, _IONBF, 0);
+setvbuf(stdin, (char*)NULL, _IONBF, 0);
 
 printf("Phalanx "); puts(VERSION);
 

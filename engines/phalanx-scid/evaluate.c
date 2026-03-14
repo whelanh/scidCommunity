@@ -291,7 +291,14 @@ if(Flag.polling)
   DWORD nBytes = 0;
   HANDLE h = GetStdHandle(STD_INPUT_HANDLE);
   if (PeekNamedPipe(h, NULL, 0, NULL, &nBytes, NULL)) {
-    if (nBytes != 0) interrupt(0);
+    if (nBytes != 0) {
+      char buf[256];
+      DWORD read;
+      if (PeekNamedPipe(h, buf, 255, &read, &nBytes, NULL)) {
+        buf[read] = '\0';
+        if (strchr(buf, '\n') || strchr(buf, '\r')) interrupt(0);
+      }
+    }
   }
 #else
   static fd_set readfds;

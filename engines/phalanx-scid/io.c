@@ -1722,13 +1722,15 @@ void shell(void) {
           }
         }
 
-        printf("my move is ");
-        printm(m, NULL);
         if (Flag.xboard) {
-          printf("\n%i. ... ", (Counter + 1) / 2);
+          printf("move ");
           gnuprintm(m);
+          printf("\n");
+        } else {
+          printf("my move is ");
+          printm(m, NULL);
+          puts("");
         }
-        puts("");
         fflush(stdout);
 
         switch ((ter = terminal())) {
