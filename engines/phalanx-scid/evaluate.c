@@ -252,7 +252,7 @@ if( ( Nodes % timeslice ) == 0 && !Flag.analyze )
 	long elapsed = ptime() - T1;
 
 	/* Stop if hard limit reached or if soft limit T2 reached and we aren't in first depth */
-	if( t < 0 || (Flag.level != fixeddepth && elapsed > T2 && A_d > 400) ) 
+	if( t < 0 || (Flag.level != fixeddepth && elapsed > T2 && A_d > 1) ) 
 	{ 
 		if( Flag.ponder >= 2 ) Flag.ponder = 3; 
 		else Abort = 2; 
