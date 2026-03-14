@@ -244,7 +244,7 @@ if(Ply%2) lastiter = -LastIter; else lastiter = LastIter;
 
 Nodes++;
 
-if( Flag.level == fixedtime || Flag.level == timecontrol )
+if( Flag.level == fixedtime || Flag.level == timecontrol || Flag.level == averagetime )
 if( ( Nodes % timeslice ) == 0 && !Flag.analyze )
 {
 	extern long T1;

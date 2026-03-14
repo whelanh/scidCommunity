@@ -270,19 +270,30 @@ void pvSAN(tmove *v, char *s) {
 
 /* GNU Chess `X' understands only moves in `g1f3' notation. We have to send
  * this to older versions of xboard when playing phalanx with gnu. */
-void gnuprintm(tmove m) {
-
+void gnuprintm_to_buf(tmove m, char *s) {
   switch (m.special) {
   case LONG_CASTLING:
-    printf("o-o-o");
+    strcpy(s, "o-o-o");
     return;
   case SHORT_CASTLING:
-    printf("o-o");
+    strcpy(s, "o-o");
     return;
   }
 
-  printf("%c%c%c%c%c", file[m.from % 10], row[m.from / 10], file[m.to % 10],
-         row[m.to / 10], m.in2a == m.in1 ? ' ' : tolower(piece[m.in2a >> 4]));
+  sprintf(s, "%c%c%c%c", file[m.from % 10], row[m.from / 10], file[m.to % 10],
+          row[m.to / 10]);
+  if (m.in2a != m.in1) {
+    char p[2];
+    p[0] = tolower(piece[m.in2a >> 4]);
+    p[1] = '\0';
+    strcat(s, p);
+  }
+}
+
+void gnuprintm(tmove m) {
+  char buf[16];
+  gnuprintm_to_buf(m, buf);
+  printf("%s", buf);
 }
 
 /**
@@ -1747,13 +1758,17 @@ void shell(void) {
         }
 
         if (Flag.xboard) {
-          printf("move ");
-          gnuprintm(m);
+          char move_buf[64];
+          char *p;
+          sprintf(move_buf, "move ");
+          p = move_buf + 5;
+          gnuprintm_to_buf(m, p);
 #ifdef _WIN32
-          printf("\r\n");
+          strcat(move_buf, "\r\n");
 #else
-          printf("\n");
+          strcat(move_buf, "\n");
 #endif
+          printf("%s", move_buf);
         } else {
           printf("my move is ");
           printm(m, NULL);
