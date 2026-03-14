@@ -1131,8 +1131,29 @@ void interrupt(int x) {
     Abort = 1;
     goto go_on;
   }
+#ifdef _WIN32
+  while (1) {
+    DWORD nBytes = 0;
+    HANDLE h = GetStdHandle(STD_INPUT_HANDLE);
+    if (!PeekNamedPipe(h, NULL, 0, NULL, &nBytes, NULL) || nBytes == 0) break;
+    
+    char buf[1024];
+    DWORD read;
+    if (PeekNamedPipe(h, buf, 1023, &read, &nBytes, NULL)) {
+        buf[read] = '\0';
+        if (strchr(buf, '\n') || strchr(buf, '\r')) {
+            if (!command()) break;
+        } else {
+            break; // Wait for full line
+        }
+    } else {
+        break;
+    }
+  }
+#else
   while (command()) {
   }
+#endif
 
 go_on:;
   if (!Abort && !Flag.polling)
