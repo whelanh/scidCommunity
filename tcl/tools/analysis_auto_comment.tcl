@@ -246,7 +246,7 @@ proc ::analysis_auto_comment::run_batch {{engineId ""}} {
                         append engineStats "| $label | $s |\n"
                     }
                     append engineStats "\nOVERALL GAME ACCURACY: White $wAcc%, Black $bAcc%.\n"
-                    append engineStats "(Note: Accuracy % above matches labels on the Engine Score Chart. +1.00 is exactly 1 pawn advantage for White. Notation: '15.' is White's 15th move, '15...' is Black's 15th move answer)."
+                    append engineStats "(Note: Accuracy % above matches labels on the Engine Score Chart. Evaluations are from WHITE'S perspective: +1.00 is exactly 1 pawn advantage for White, while -1.00 is a 1 pawn advantage for BLACK. Scores of ±10.00 are winning, and ±50.00+ indicate forced win/mate. Notation: '15.' is White, '15...' is Black)."
                 }
             }
         }
@@ -347,9 +347,10 @@ proc ::analysis_auto_comment::run_batch {{engineId ""}} {
                 set prefix "===== GAME SUMMARY INSTRUCTIONS =====\n"
                 append prefix "This is the LAST POSITION of the game. You MUST provide a holistic 'GAME SUMMARY' at the end of your response.\n"
                 append prefix "1. NARRATIVE FLOW: Analyze the full ENGINE SCORE HISTORY table provided. Describe the real trend (e.g., 'White built a steady lead' versus 'Black collapsed at move 15...').\n"
-                append prefix "2. THE TURNING POINT: Identify the specific MOVE LABEL (e.g., 15. or 15...) from the table where the evaluation shifted significantly. Explain WHY based on that move.\n"
-                append prefix "3. DO NOT HALLUCINATE: Use the EXACT scores from the table for the labels. Each move has two entries: '15.' for White's turn and '15...' for Black's turn.\n"
-                append prefix "4. CHART ACCURACY: Mention the accuracy percentages, noting they match the labels on the Engine Score Chart.\n"
+                append prefix "2. PERSPECTIVE AND SCALE: Scores are from White's perspective. Negative scores mean BLACK is winning. Scores beyond +/- 10.00 are decisive; scores beyond +/- 50.00 are mate. NEVER call a large negative score (like -80.00) equality.\n"
+                append prefix "3. THE TURNING POINT: Identify the specific MOVE LABEL (e.g., 15. or 15...) from the table where the evaluation shifted significantly. Explain WHY based on that move.\n"
+                append prefix "4. DO NOT HALLUCINATE: Use the EXACT scores from the table for the labels. Each move has two entries: '15.' for White's turn and '15...' for Black's turn.\n"
+                append prefix "5. CHART ACCURACY: Mention the accuracy percentages, noting they match the labels on the Engine Score Chart.\n"
                 
                 if {!$isNagInvolved} {
                     append prefix "5. CONCISE START: Since $movePlayed has NO annotation, keep your VERDICT and move commentary to ONE short sentence, then focus 90% on the GAME SUMMARY.\n"
