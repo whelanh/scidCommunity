@@ -177,9 +177,10 @@ void printm(tmove m, char *s) {
 
 endprint:;
 
-  if (s == NULL)
+  if (s == NULL) {
     printf("%s", ss);
-  else
+    fflush(stdout);
+  } else
     strcpy(s, ss);
 }
 
@@ -666,6 +667,7 @@ void infoline(int typ, char *s) {
     strcpy(s, ss);
   else {
     printf("%s", ss);
+    fflush(stdout);
   }
 }
 
@@ -686,6 +688,7 @@ void verboseline(tmove *m, int i, int n) {
     sprintf(s + strlen(s), "");
 
   printf("%s", s);
+  fflush(stdout);
 }
 
 void printboard(char *s) {
@@ -1101,6 +1104,7 @@ void about(void) {
     printf("off\n");
 
   printf("\n");
+  fflush(stdout);
 }
 
 /* SIG_INT handler */
@@ -1120,6 +1124,7 @@ void interrupt(int x) {
 
   if (Flag.ponder < 2) {
     puts("interrupted");
+    fflush(stdout);
     Abort = 1;
     goto go_on;
   }
@@ -1724,6 +1729,7 @@ void shell(void) {
           gnuprintm(m);
         }
         puts("");
+        fflush(stdout);
 
         switch ((ter = terminal())) {
         case 1:
