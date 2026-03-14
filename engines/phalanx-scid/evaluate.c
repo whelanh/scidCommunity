@@ -247,10 +247,16 @@ Nodes++;
 if( Flag.level == fixedtime || Flag.level == timecontrol || Flag.level == averagetime )
 if( ( Nodes % timeslice ) == 0 && !Flag.analyze )
 {
-	extern long T1;
+	extern long T1, T2;
 	int t = Flag.centiseconds - ptime() + T1;
+	long elapsed = ptime() - T1;
 
-	if( t < 0 ) { if( Flag.ponder >= 2 ) Flag.ponder = 3; else Abort = 2; }
+	/* Stop if hard limit reached or if soft limit T2 reached and we aren't in first depth */
+	if( t < 0 || (Flag.level != fixeddepth && elapsed > T2 && A_d > 400) ) 
+	{ 
+		if( Flag.ponder >= 2 ) Flag.ponder = 3; 
+		else Abort = 2; 
+	}
 	else
 	if( t != Flag.centiseconds )
 	timeslice =

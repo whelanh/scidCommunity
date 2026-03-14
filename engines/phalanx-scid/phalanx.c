@@ -6,6 +6,10 @@
  */
 
 #include "phalanx.h"
+#ifdef _WIN32
+#include <fcntl.h>
+#include <io.h>
+#endif
 
 /* 2005-09-14, José de Paula
  * GCC 3.0 deprecated multi-line strings, and, as of GCC 3.4, they are no longer supported.
@@ -85,6 +89,9 @@ t = clock();
 /* Do NOT buffer I/O - needed for communication with xboard */
 setvbuf(stdout, (char*)NULL, _IONBF, 0);
 setvbuf(stdin, (char*)NULL, _IONBF, 0);
+#ifdef _WIN32
+_setmode(_fileno(stdout), _O_BINARY);
+#endif
 
 printf("Phalanx "); puts(VERSION);
 

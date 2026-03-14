@@ -1174,7 +1174,7 @@ go_on:;
 int command(void) {
   static int no_prompt = 0;
 
-  if (Flag.xboard < 2) {
+  if (Flag.xboard == 0) {
     if (no_prompt) {
       no_prompt = 0;
     } else if (Flag.ponder >= 2) {
