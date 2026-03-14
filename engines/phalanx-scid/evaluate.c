@@ -288,10 +288,11 @@ if(Flag.polling)
   //  Locks: the GUI send a move (full line) and by mistake send some other chars,
   //  now the GUI may be stuck waiting for the reply and the engine will not reply
   //  because is waiting for the rest of the input
-  DWORD nBytes;
+  DWORD nBytes = 0;
   HANDLE h = GetStdHandle(STD_INPUT_HANDLE);
-  PeekNamedPipe(h, NULL, 0, NULL, &nBytes, NULL);
-  if (nBytes != 0) interrupt(0);
+  if (PeekNamedPipe(h, NULL, 0, NULL, &nBytes, NULL)) {
+    if (nBytes != 0) interrupt(0);
+  }
 #else
   static fd_set readfds;
   static struct timeval tv;
