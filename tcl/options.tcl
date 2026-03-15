@@ -241,7 +241,7 @@ set ::tactics::analysisTime 3
 set ::tacgame::threshold 0.9
 set ::tacgame::blunderwarning false
 set ::tacgame::blunderwarningvalue 0.0
-set ::tacgame::levelMin 1200
+set ::tacgame::levelMin 700
 set ::tacgame::levelMax 2200
 set ::tacgame::levelFixed 1500
 set ::tacgame::randomLevel 0

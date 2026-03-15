@@ -186,15 +186,15 @@ namespace eval tacgame {
     pack $w.flimit $w.fbuttons -side top -fill x
     
     ttk::radiobutton $w.flevel.diff_random.cb -text $::tr(RandomLevel) -variable ::tacgame::randomLevel -value 1 -width 15
-    ttk::scale $w.flevel.diff_random.lMin -orient horizontal -from 1200 -to 2200 -length 100 -variable ::tacgame::levelMin \
+    ttk::scale $w.flevel.diff_random.lMin -orient horizontal -from 700 -to 2200 -length 100 -variable ::tacgame::levelMin \
         -command { ::utils::validate::roundScale ::tacgame::levelMin 50 }
     ttk::label $w.flevel.diff_random.labelMin -textvariable ::tacgame::levelMin
-    ttk::scale $w.flevel.diff_random.lMax -orient horizontal -from 1200 -to 2200 -length 100 -variable ::tacgame::levelMax \
+    ttk::scale $w.flevel.diff_random.lMax -orient horizontal -from 700 -to 2200 -length 100 -variable ::tacgame::levelMax \
         -command { ::utils::validate::roundScale ::tacgame::levelMax 50 }
     ttk::label $w.flevel.diff_random.labelMax -textvariable ::tacgame::levelMax
     ttk::radiobutton $w.flevel.diff_fixed.cb -text $::tr(FixedLevel) -variable ::tacgame::randomLevel -value 0 -width 15
     ttk::label $w.flevel.diff_fixed.labelFixed -textvariable ::tacgame::levelFixed
-    ttk::scale $w.flevel.diff_fixed.scale -orient horizontal -from 1200 -to 2200 -length 200 \
+    ttk::scale $w.flevel.diff_fixed.scale -orient horizontal -from 700 -to 2200 -length 200 \
         -variable ::tacgame::levelFixed -command { ::utils::validate::roundScale ::tacgame::levelFixed 50 }
     
     grid $w.flevel.diff_fixed.cb -row 0 -column 0 -rowspan 2
@@ -378,9 +378,9 @@ namespace eval tacgame {
       set engineName [lindex $engineData 0]
       sc_game tags set -event "Tactical game"
       if { [::board::isFlipped .main.board] } {
-        sc_game tags set -white "$engineName - $level ELO"
+        sc_game tags set -white "$engineName $level ELO"
       } else  {
-        sc_game tags set -black "$engineName - $level ELO"
+        sc_game tags set -black "$engineName $level ELO"
       }
       sc_game tags set -date [::utils::date::today]
     }
@@ -505,8 +505,10 @@ namespace eval tacgame {
     
     # turn phalanx book, ponder and learning off, easy on
     if {$n == 1 && [string match -nocase "*phalanx*" $analysisName]} {
-      # convert Elo = 1200 to level 100 up to Elo=2200 to level 0
-      set easylevel [expr int(100-(100*($level-1200)/(2200-1200)))]
+      # convert Elo = 700 to level 100 up to Elo=2200 to level 0
+      set easylevel [expr {100 - (100 * ($::tacgame::level - 700) / (2200 - 700))}]
+      if {$easylevel < 0} {set easylevel 0}
+      if {$easylevel > 100} {set easylevel 100}
       append analysisArgs " -b+ -p- -l- -e $easylevel "
     }
     
