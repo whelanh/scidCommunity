@@ -40,6 +40,7 @@ namespace eval tacgame {
   set analysisCoach(automove1) 0
   set useUCILimit 0
   set uciMoveTime 3
+  set playerSide "white"
   
   # ======================================================================
   # resetValues
@@ -185,6 +186,13 @@ namespace eval tacgame {
     pack $w.fopening  -side top -fill both -expand 1 -pady 10
     pack $w.flimit $w.fbuttons -side top -fill x
     
+    ttk::labelframe $w.fside -text "Play as"
+    ttk::radiobutton $w.fside.white -text $::tr(White) -variable ::tacgame::playerSide -value "white"
+    ttk::radiobutton $w.fside.black -text $::tr(Black) -variable ::tacgame::playerSide -value "black"
+    ttk::radiobutton $w.fside.random -text $::tr(Random) -variable ::tacgame::playerSide -value "random"
+    pack $w.fside.white $w.fside.black $w.fside.random -side left -padx 10 -pady 5
+    pack $w.fside -side top -fill x -pady 5
+    
     ttk::radiobutton $w.flevel.diff_random.cb -text $::tr(RandomLevel) -variable ::tacgame::randomLevel -value 1 -width 15
     ttk::scale $w.flevel.diff_random.lMin -orient horizontal -from 700 -to 2200 -length 100 -variable ::tacgame::levelMin \
         -command { ::utils::validate::roundScale ::tacgame::levelMin 50 }
@@ -323,6 +331,19 @@ namespace eval tacgame {
       if {[::game::Clear] eq "cancel"} { return }
     }
 
+    # determine side to play
+    set playerSide $::tacgame::playerSide
+    if {$playerSide eq "random"} {
+        set playerSide [expr {rand() > 0.5 ? "white" : "black"}]
+    }
+    
+    # Flip board if player is Black
+    if {$playerSide eq "black"} {
+        ::board::flip .main.board 1
+    } else {
+        ::board::flip .main.board 0
+    }
+
     resetEngine 1
     resetEngine 2
     catch { unset ::uci::uciInfo(score2) }
@@ -346,6 +367,7 @@ namespace eval tacgame {
     } else {
       set level $::tacgame::levelFixed
     }
+    set ::tacgame::level $level
     
     # if will follow a specific opening line
     if {$openingType == "specific"} {
@@ -379,7 +401,9 @@ namespace eval tacgame {
       sc_game tags set -event "Tactical game"
       if { [::board::isFlipped .main.board] } {
         sc_game tags set -white "$engineName $level ELO"
+        sc_game tags set -black "Player"
       } else  {
+        sc_game tags set -white "Player"
         sc_game tags set -black "$engineName $level ELO"
       }
       sc_game tags set -date [::utils::date::today]
@@ -509,7 +533,12 @@ namespace eval tacgame {
       set easylevel [expr {100 - (100 * ($::tacgame::level - 700) / (2200 - 700))}]
       if {$easylevel < 0} {set easylevel 0}
       if {$easylevel > 100} {set easylevel 100}
-      append analysisArgs " -b+ -p- -l- -e $easylevel "
+      
+      # Limit search time for Phalanx at low Elos to prevent deep-search "recovery"
+      set pflag "-b+"
+      if {$::tacgame::level < 1000} { set pflag "-b-" }
+      
+      append analysisArgs " $pflag -p- -l- -e $easylevel "
     }
     
     # If the analysis directory is not current dir, cd to it:
@@ -651,11 +680,45 @@ namespace eval tacgame {
           -message "The analysis engine 1 terminated without warning; it probably crashed or had an internal error."
     }
     
-    if {!$analysisCoach(isUCI1) && !$analysisCoach(seen1)} {
-      # First line of output from the program, so send initial commands:
-      set analysisCoach(seen1) 1
-      ::tacgame::sendToEngine 1 "xboard"
-      ::tacgame::sendToEngine 1 "post"
+    if {$analysisCoach(isUCI1)} {
+      if {[string match "option name UCI_LimitStrength *" $line]} {
+        set analysisCoach(hasLimitStrength1) 1
+      }
+      if {[string match "option name UCI_Elo *" $line]} {
+        if {[regexp {min (\d+)} $line -> minElo]} {
+          if {$::tacgame::level < $minElo} {
+            set oldElo $::tacgame::level
+            set ::tacgame::level $minElo
+            ::tacgame::sendToEngine 1 "setoption name UCI_Elo value $minElo"
+            tk_messageBox -icon warning -parent .coachWin -title "scidCommunity" \
+                -message "The selected engine supports a minimum Elo of $minElo. Adjusting from $oldElo to $minElo."
+            
+            # Update tags and title
+            set engineData [lindex $::engines(list) $::tacgame::index1]
+            set engineName [lindex $engineData 0]
+            if { [::board::isFlipped .main.board] } {
+              sc_game tags set -white "$engineName $::tacgame::level ELO"
+            } else  {
+              sc_game tags set -black "$engineName $::tacgame::level ELO"
+            }
+            wm title .coachWin "$::tr(coachgame) (Elo $::tacgame::level)"
+            ::notify::GameChanged
+          }
+        }
+      }
+      if {$line == "uciok"} {
+         if {$::tacgame::useUCILimit && ![info exists analysisCoach(hasLimitStrength1)]} {
+            tk_messageBox -icon warning -parent .coachWin -title "scidCommunity" \
+                -message "Warning: The selected engine does NOT appear to support UCI_LimitStrength. It will likely play at full strength."
+         }
+      }
+    } else {
+        if {!$analysisCoach(seen1)} {
+            # First line of output from the program, so send initial commands:
+            set analysisCoach(seen1) 1
+            ::tacgame::sendToEngine 1 "xboard"
+            ::tacgame::sendToEngine 1 "post"
+        }
     }
     
     ::tacgame::makePhalanxMove $line

@@ -250,6 +250,7 @@ set ::tacgame::showblunder 1
 set ::tacgame::showblundervalue 1
 set ::tacgame::showblunderfound 1
 set ::tacgame::showmovevalue 1
+set ::tacgame::playerSide "white"
 set ::tacgame::showevaluation 1
 set ::tacgame::isLimitedAnalysisTime 1
 set ::tacgame::analysisTime 10
