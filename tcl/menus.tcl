@@ -260,6 +260,7 @@ $m add command -label ToolsOpReport \
     -accelerator "Ctrl+Shift+O" -command ::optable::makeReportWin
 $m add command -label ToolsTracker \
     -accelerator "Ctrl+Shift+K" -command ::ptrack::make
+$m add command -label ToolsTimeAnalysis -command ::tools::graphs::time::Open
 $m add command -label ToolsBookTuning -command ::book::tuning
 $m add command -label ToolsDownloadTWIC -command "::twic::downloadWeek latest"
 menu $m.hardware
