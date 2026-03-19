@@ -1,3 +1,5 @@
+registerDarkTheme "dracula"
+
 if {[lsearch -exact [ttk::style theme names] dracula] == -1} {
   ttk::style theme create dracula -parent classic -settings {
     # Base/UI background and text
