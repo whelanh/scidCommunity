@@ -467,6 +467,25 @@ proc safeStyle {interp args} {
 # Load default/saved values
 source [file nativename [file join $::scidTclDir "options.tcl"]]
 
+# ----------------------------------------------------------------------
+# Dynamic Theme Auto-Loader
+# Loads custom .tcl themes from the local "themes" subdirectory.
+# DEV NOTE: Consider expanding this to scan a user config folder 
+# (e.g., ~/.scid5.1/themes) in the future for better user customization.
+# ----------------------------------------------------------------------
+set themeDir [file join [file dirname [info script]] "themes"]
+
+if {[file isdirectory $themeDir]} {
+    set themeFiles [glob -nocomplain -directory $themeDir *.tcl]
+
+    foreach themeFile $themeFiles {
+        # Load themes safely; catch errors to prevent startup crashes
+        if {[catch {source $themeFile} err]} {
+            puts stderr "Warning: Failed to load theme file $themeFile - $err"
+        }
+    }
+}
+
 # Create a custom "sand" theme that inherits from classic and adjusts background
 if {[lsearch -exact [ttk::style theme names] sand] == -1} {
   ttk::style theme create sand -parent classic -settings {
