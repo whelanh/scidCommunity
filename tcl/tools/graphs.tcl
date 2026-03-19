@@ -1294,13 +1294,13 @@ proc ::tools::graphs::time::Refresh {} {
     ::utils::graph::data tgraph white \
         -color darkgreen -outline darkgreen \
         -points 1 -lines 1 -linewidth 2 -radius 3 \
-        -key $white -coords $coordsW
+        -key {} -coords $coordsW
   }
   if {[llength $coordsB] > 0} {
     ::utils::graph::data tgraph black \
         -color steelBlue -outline steelBlue \
         -points 1 -lines 1 -linewidth 2 -radius 3 \
-        -key $black -coords $coordsB
+        -key {} -coords $coordsB
   }
 
   ::utils::graph::redraw tgraph

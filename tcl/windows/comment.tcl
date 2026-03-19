@@ -118,7 +118,6 @@ namespace eval ::windows::commenteditor {
 		variable timeH
 		variable timeM
 		variable timeS
-		variable prevSecs
 		variable lastTime
 		
 		# Determine which player just moved
@@ -130,13 +129,6 @@ namespace eval ::windows::commenteditor {
 		if {![string is integer -strict $timeM]} { set timeM 0 }
 		if {![string is integer -strict $timeS]} { set timeS 0 }
 
-		set totalSecs [expr {$timeH * 3600 + $timeM * 60 + $timeS}]
-		if {$totalSecs >= $prevSecs($p)} {
-			tk_messageBox -icon warning -title "Time Entry Error ($p)" \
-				-message "New $p time ($timeH:$timeM:$timeS) must be less than previous time!"
-			return
-		}
-		set prevSecs($p) $totalSecs
 		set lastTime($p) [list $timeH $timeM $timeS [expr {($timeH * 3600 + $timeM * 60 + $timeS) / 60.0}]]
 		
 		set clk [format "\[%%clk %02d:%02d:%02d\]" $timeH $timeM $timeS]
