@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.63
+Version:        5.1.2.65
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 321c934f816424a2a92930f117a2487645831539
+%global commit 2ed9d6fa200756b42cb83a52cdae89b50d1d5742
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Thu Mar 19 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-65
+- "Add new themes and modularize theme handling"
 * Wed Mar 18 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-63
 - "Add time analysis graphs and time input; add base corruption safeguard"
 * Tue Mar 17 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-62
