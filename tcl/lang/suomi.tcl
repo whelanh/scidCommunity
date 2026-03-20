@@ -432,6 +432,8 @@ translate U ErrReadOnly {Tämä tietokanta on vain luku -moodissa; sitä ei voi muo
 translate U ErrSearchInterrupted {Haku keskeytyi; tulokset ovat vaillinaiset.}
 translate U ErrEnginesOpen {Ei voi jatkaa, kun shakkimoottorit ovat auki.\nSulje kaikki moottorin ikkunat ja yritä uudelleen.}
 translate U ErrNoClockComments {Tästä pelistä ei löytynyt [%clk] kellon kommentteja.    Lisää kelloajat kommenttiikkunan kautta (Ctrl+E) käyttääksesi tätä ominaisuutta.}
+translate U ErrFileInUse {Virhe: tiedosto on jo käytössä. Sulje kaikki muut tätä tietokantaa käyttävät sovellukset. Jos ohjelma suljettiin odottamatta, saatat joutua poistamaan tietokantaan liittyvän .lock-tiedoston.}
+
 
 
 

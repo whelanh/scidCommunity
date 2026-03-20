@@ -399,6 +399,8 @@ translate T ErrSearchInterrupted {Arama kesintiye uğradı; sonuçlar eksik.}
 translate T ErrEnginesOpen {Cannot proceed while chess engines are open.\nPlease close all engine windows and try again.}
 # ====== TODO To be translated ======
 translate T ErrNoClockComments {No [%clk] clock comments were found in this game.    Add clock times via the Comments Window (Ctrl+E) to use this feature.}
+# ====== TODO To be translated ======
+translate T ErrFileInUse {Error: the file is already in use. Please close any other application using this database. If the program was closed unexpectedly, you may need to delete the .lock file associated with the database.}
 
 # Game information:
 translate T twin {ikiz}

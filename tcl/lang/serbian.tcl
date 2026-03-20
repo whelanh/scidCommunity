@@ -469,6 +469,8 @@ translate Y ErrSearchInterrupted {Search was interrupted; results are incomplete
 translate Y ErrEnginesOpen {Cannot proceed while chess engines are open.\nPlease close all engine windows and try again.}
 # ====== TODO To be translated ======
 translate Y ErrNoClockComments {No [%clk] clock comments were found in this game.    Add clock times via the Comments Window (Ctrl+E) to use this feature.}
+# ====== TODO To be translated ======
+translate Y ErrFileInUse {Error: the file is already in use. Please close any other application using this database. If the program was closed unexpectedly, you may need to delete the .lock file associated with the database.}
 
 # Game information:
 translate Y twin {udvojena}

@@ -397,6 +397,8 @@ translate C ErrReadOnly {Tato databáze je jen ke ètení; nemù¾e být zmìnìna.}
 translate C ErrSearchInterrupted {Hledání bylo pøeru¹eno; výsledky nejsou kompletní.}
 translate C ErrEnginesOpen {Nelze pokraèovat, kdy¾ jsou ¹achové motory otevøené.\nZavøete prosím v¹echna okna a zkuste to znovu.}
 translate C ErrNoClockComments {V této høe nebyly nalezeny ¾ádné komentáøe hodin [%clk].    Chcete-li pou¾ít tuto funkci, pøidejte hodiny prostøednictvím okna Komentáøe (Ctrl+E).}
+translate C ErrFileInUse {Chyba: soubor se ji¾ pou¾ívá. Zavøete v¹echny ostatní aplikace pou¾ívající tuto databázi. Pokud byl program neoèekávanì ukonèen, mù¾e být nutné odstranit soubor .lock spojený s databází.}
+
 
 
 

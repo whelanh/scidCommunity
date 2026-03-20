@@ -434,6 +434,8 @@ translate S ErrReadOnly {Esta base de datos es de sÃ³lo lectura; no puede ser ca
 translate S ErrSearchInterrupted {La busqueda se interrumpiÃ³; los resultados son incompletos.}
 translate S ErrEnginesOpen {No se puede continuar mientras los motores de ajedrez están abiertos.\nCierre todas las ventanas del motor e inténtelo de nuevo.}
 translate S ErrNoClockComments {No se encontraron comentarios de reloj [%clk] en este juego.    Agregue tiempos de reloj a través de la ventana de comentarios (Ctrl+E) para usar esta función.}
+translate S ErrFileInUse {Error: el archivo ya está en uso. Cierre cualquier otra aplicación que utilice esta base de datos. Si el programa se cerró inesperadamente, es posible que deba eliminar el archivo .lock asociado con la base de datos.}
+
 
 
 

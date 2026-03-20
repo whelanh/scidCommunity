@@ -416,6 +416,8 @@ translate K ErrReadOnly {Aquesta base de dades es només de lectura; no pot ser m
 translate K ErrSearchInterrupted {Recerca aturada; els resultats den ser incomplets.}
 translate K ErrEnginesOpen {No es pot continuar mentre els motors d'escacs estan oberts.\nSi us plau, tanqueu totes les finestres del motor i torneu-ho a provar.}
 translate K ErrNoClockComments {No s'han trobat comentaris de rellotge [%clk] en aquest joc.    Afegiu hores de rellotge mitjançant la finestra de comentaris (Ctrl+E) per utilitzar aquesta funció.}
+translate K ErrFileInUse {Error: el fitxer ja està en ús. Tanqueu qualsevol altra aplicació que utilitzi aquesta base de dades. Si el programa es va tancar de manera inesperada, és possible que hàgiu d'eliminar el fitxer .lock associat a la base de dades.}
+
 
 
 
