@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.2.67" date="2026-03-20">
+      <description>
+        <p>Various fixes and local language translations</p>
+      </description>
+    </release>
     <release version="5.1.2.65" date="2026-03-19">
       <description>
         <p>Add two themes and modularize theme handling</p>
