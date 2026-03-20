@@ -141,6 +141,7 @@ menuText M ToolsTrainCalvar "变化计算"  0 {变化计算训练}
 menuText M ToolsTrainFindBestMove "寻找最佳着法"  0 {寻找最佳着法}
 menuText M ToolsTrainFics "在FICS上对弈"  0 {在freechess.org上对弈}
 menuText M ToolsEngineTournament "引擎锦标赛"  0 {在国际象棋引擎之间开始锦标赛}
+menuText M ToolsTimeAnalysis "时间分析" 0 {显示当前游戏的时钟时间图}
 menuText M ToolsBookTuning "调整开局库" 0
 menuText M ToolsDownloadTWIC "下载TWIC对局" 0 {下载最新的《本周国际象棋》(TWIC)对局}
 menuText M ToolsConnectHardware "连接硬件" 0
@@ -363,6 +364,10 @@ translate M readonly {read-only}
 translate M ErrNotOpen {This is not an open database.}
 translate M ErrReadOnly {This database is read-only; it cannot be altered.}
 translate M ErrSearchInterrupted {Search was interrupted; results are incomplete.}
+translate M ErrEnginesOpen {国际象棋引擎打开时无法继续。\n请关闭所有引擎窗口，然后重试。}
+translate M ErrNoClockComments {在此游戏中未找到 [%clk] 时钟注释。    通过注释窗口 (Ctrl+E) 添加时钟时间以使用此功能。}
+
+
 
 # Game information:
 translate M twin {重复}

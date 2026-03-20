@@ -170,6 +170,7 @@ menuText H ToolsTrainCalvar "Változatszámítás"  0 {Változatszámítás gyakorlása}
 menuText H ToolsTrainFindBestMove "Legjobb lépés"  0 {A legjobb lépés megkeresése}
 menuText H ToolsTrainFics "Internetes játszma"  0 {Játék a freechess.org szerveren}
 menuText H ToolsEngineTournament "Motorverseny"  0 {Indítson versenyt a sakkmotorok között}
+menuText H ToolsTimeAnalysis "Idõelemzés" 0 {Az aktuális játék óra-ideje grafikonjának megjelenítése}
 menuText H ToolsBookTuning "Megnyitástár-hangolás" 13 {Megnyitástár-hangolás}
 menuText H ToolsDownloadTWIC "TWIC játékok letöltése" 0 {Töltse le a legújabb The Week In Chess (TWIC) játékokat}
 menuText H ToolsConnectHardware "Hardver csatlakoztatása" 8 {Külsõ hardver csatlakoztatása}
@@ -398,6 +399,10 @@ translate H readonly {read-only} ;# ***
 translate H ErrNotOpen {Ez az adatbázis nincs megnyitva.}
 translate H ErrReadOnly {Ez az adatbázis csak olvasható; nem lehet megváltoztatni.}
 translate H ErrSearchInterrupted {Keresés megszakítva; az eredmények hiányosak.}
+translate H ErrEnginesOpen {Nem lehet folytatni, amíg a sakkmotorok nyitva vannak.\nKérjük, zárja be az összes motorablakot, és próbálja újra.}
+translate H ErrNoClockComments {Ebben a játékban nem találhatók [%clk] órára vonatkozó megjegyzések.    A funkció használatához adja hozzá az óraidõt a Megjegyzés ablakon keresztül (Ctrl+E).}
+
+
 
 # Game information:
 translate H twin {iker}

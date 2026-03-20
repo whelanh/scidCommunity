@@ -204,6 +204,7 @@ menuText U ToolsTrainCalvar "Muunnelmien laskeminen"  0 {Harjoittele muunnelmien
 menuText U ToolsTrainFindBestMove "Etsi paras siirto"  5 {Etsi aseman paras siirto}
 menuText U ToolsTrainFics "FICS"  0 {Pelaa palvelimella freechess.org}
 menuText U ToolsEngineTournament "Shakkimoottoriturnaus"  0 {Turnaus shakkimoottorien kesken}
+menuText U ToolsTimeAnalysis "Aika-analyysi" 0 {Näytä nykyisen pelin kelloaikakaavio}
 menuText U ToolsBookTuning "Viritä avaukset" 0 {Muokkaa avauskirjastoasi}
 menuText U ToolsDownloadTWIC "Lataa TWIC-pelejä" 0 {Lataa uusimmat The Week In Chess (TWIC) -pelit}
 menuText U ToolsConnectHardware "Liitä syöttölaite" 8 {Liitä ulkoinen syöttölaite (elektroninen lauta tms.)}
@@ -429,6 +430,10 @@ translate U readonly {vain luku}
 translate U ErrNotOpen {Tämä ei ole avoin tietokanta.}
 translate U ErrReadOnly {Tämä tietokanta on vain luku -moodissa; sitä ei voi muokata.}
 translate U ErrSearchInterrupted {Haku keskeytyi; tulokset ovat vaillinaiset.}
+translate U ErrEnginesOpen {Ei voi jatkaa, kun shakkimoottorit ovat auki.\nSulje kaikki moottorin ikkunat ja yritä uudelleen.}
+translate U ErrNoClockComments {Tästä pelistä ei löytynyt [%clk] kellon kommentteja.    Lisää kelloajat kommenttiikkunan kautta (Ctrl+E) käyttääksesi tätä ominaisuutta.}
+
+
 
 # Game information:
 translate U twin {tupla}

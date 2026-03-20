@@ -173,6 +173,7 @@ menuText W ToolsTrainCalvar "Variantberäkning"  0 {Variantberäkningsträning}
 menuText W ToolsTrainFindBestMove "Hitta bäst drag"  0 {Hitta bästa draget}
 menuText W ToolsTrainFics "Spela på Internet"  0 {Spela på freechess.org}
 menuText W ToolsEngineTournament "Motorturnering"  0 {Starta en turnering mellan schackmotorer}
+menuText W ToolsTimeAnalysis "Tidsanalys" 0 {Visa klocktidsdiagram för det aktuella spelet}
 menuText W ToolsBookTuning "Bokfininställning" 0 {Bokfininställning}
 menuText W ToolsDownloadTWIC "Ladda ner TWIC-spel" 0 {Ladda ner de senaste spelen The Week In Chess (TWIC).}
 menuText W ToolsConnectHardware "Anslut Hårdvara" 0 {Anslut extern hårdvara}
@@ -401,6 +402,10 @@ translate W readonly {bara läsbar} ;# ***
 translate W ErrNotOpen {Databasen är inte öppen.}
 translate W ErrReadOnly {Databasen är skrivskyddad. Du kan inte ändra i den.}
 translate W ErrSearchInterrupted {Sökningen avbröts; resultatet är inte fullständigt.}
+translate W ErrEnginesOpen {Kan inte fortsätta medan schackmotorerna är öppna.\nStäng alla motorfönster och försök igen.}
+translate W ErrNoClockComments {Inga [%clk] klockkommentarer hittades i det här spelet.    Lägg till klocktider via kommentarsfönstret (Ctrl+E) för att använda den här funktionen.}
+
+
 
 # Game information:
 translate W twin {dubblett}

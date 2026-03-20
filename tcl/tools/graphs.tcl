@@ -1249,7 +1249,8 @@ proc ::tools::graphs::time::Refresh {} {
     $w.c  delete -withtag gtgraph
     $w.c2 delete -withtag gtgraph2
     tk_messageBox -parent $w -icon info -title "Time Analysis" \
-        -message "No \[%clk\] clock comments were found in this game.\n\nAdd clock times via the Comments Window (Ctrl+E) to use this feature."
+        -message [tr ErrNoClockComments]
+
     return
   }
 

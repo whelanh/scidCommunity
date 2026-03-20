@@ -183,6 +183,7 @@ menuText K ToolsTrainCalvar "Càlcul de variants"  0 {Càlcul de variants}
 menuText K ToolsTrainFindBestMove "Trobar la millor jugada"  0 {Cerca la millor jugada}
 menuText K ToolsTrainFics "Jugar a Internet"  0 {Jugar a freechess.org}
 menuText K ToolsEngineTournament "Torneig de motors"  0 {Comença un torneig entre motors}
+menuText K ToolsTimeAnalysis "Anàlisi del temps" 0 {Mostra el gràfic del temps del rellotge per al joc actual}
 menuText K ToolsBookTuning "Ajustar Llibre d'obertures" 0 {Ajustar Llibre (Book)}
 menuText CA ToolsDownloadTWIC "Descarrega partides TWIC" 0 {Descarrega les partides mÃ©s recents The Week In Chess (TWIC)}
 menuText K ToolsConnectHardware "Connectar maquinari" 0 {Connectar maquinari extern}
@@ -413,6 +414,10 @@ translate K readonly {només de lectura}
 translate K ErrNotOpen {La base de dades no está oberta.}
 translate K ErrReadOnly {Aquesta base de dades es només de lectura; no pot ser modificada.}
 translate K ErrSearchInterrupted {Recerca aturada; els resultats den ser incomplets.}
+translate K ErrEnginesOpen {No es pot continuar mentre els motors d'escacs estan oberts.\nSi us plau, tanqueu totes les finestres del motor i torneu-ho a provar.}
+translate K ErrNoClockComments {No s'han trobat comentaris de rellotge [%clk] en aquest joc.    Afegiu hores de rellotge mitjançant la finestra de comentaris (Ctrl+E) per utilitzar aquesta funció.}
+
+
 
 # Game information:
 translate K twin {doble}

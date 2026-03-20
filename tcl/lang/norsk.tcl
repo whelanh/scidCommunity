@@ -172,6 +172,7 @@ menuText O ToolsTrainCalvar "Beregning av variasjoner"  0 {Beregning av variasjo
 menuText O ToolsTrainFindBestMove "Finn det beste trekket"  0 {Finn det beste trekket}
 menuText O ToolsTrainFics "Spill på internett"  0 {Spill på freechess.org}
 menuText O ToolsEngineTournament "Motorturnering"  0 {Start en turnering mellom sjakkmotorer}
+menuText O ToolsTimeAnalysis "Tidsanalyse" 0 {Vis klokketidsgraf for gjeldende spill}
 menuText O ToolsBookTuning "Boktuning" 0 {Boktuning}
 menuText N ToolsDownloadTWIC "Last ned TWIC-partier" 0 {Last ned de siste The Week In Chess (TWIC)-partiene}
 menuText O ToolsConnectHardware "Koble til maskinvare" 0 {Koble til ekstern maskinvare}
@@ -400,6 +401,10 @@ translate O readonly {skrivebeskyttet}
 translate O ErrNotOpen {This is not an open database.} ;# ***
 translate O ErrReadOnly {This database is read-only; it cannot be altered.} ;# ***
 translate O ErrSearchInterrupted {Search was interrupted; results are incomplete.} ;# ***
+translate O ErrEnginesOpen {Kan ikke fortsette mens sjakkmotorene er åpne.\nVennligst lukk alle motorvinduer og prøv igjen.}
+translate O ErrNoClockComments {Ingen [%clk] klokkekommentarer ble funnet i dette spillet.    Legg til klokketider via kommentarvinduet (Ctrl+E) for å bruke denne funksjonen.}
+
+
 
 # Game information:
 translate O twin {duplikat}

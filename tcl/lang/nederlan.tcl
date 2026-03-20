@@ -189,6 +189,7 @@ menuText N ToolsTrainCalvar "Berekenen van varianten"  0 {Training in het bereke
 menuText N ToolsTrainFindBestMove "Vind de beste zet"  0 {Vind de beste zet}
 menuText N ToolsTrainFics "Speel op het internet"  0 {Speel of freechess.org}
 menuText N ToolsEngineTournament "Motor toernooi"  0 {Start een toernooi tussen schaakmotoren}
+menuText N ToolsTimeAnalysis "Tijdanalyse" 0 {Toon de kloktijdgrafiek voor het huidige spel}
 menuText N ToolsBookTuning "Openingenboek afstemming " 0 {Openingenboek afstemming}
 menuText NL ToolsDownloadTWIC "Download TWIC-spelletjes" 0 {Download de nieuwste The Week In Chess (TWIC)-partijen}
 menuText N ToolsConnectHardware "Verbind Hardware" 0 {Verbind externe hardware}
@@ -419,6 +420,10 @@ translate N readonly {alleen-lezen}
 translate N ErrNotOpen {Deze database is niet geopend.} ;
 translate N ErrReadOnly {Deze database is alleen lezen; kan niet veranderd worded.} ;
 translate N ErrSearchInterrupted {Zoeken werd onderbroken; de resultaten zijn onvolledig.} ;
+translate N ErrEnginesOpen {Kan niet doorgaan terwijl de schaakengines open zijn.\nSluit alle enginevensters en probeer het opnieuw.}
+translate N ErrNoClockComments {Er zijn geen [%clk] klokcommentaren gevonden in dit spel.    Voeg kloktijden toe via het opmerkingenvenster (Ctrl+E) om deze functie te gebruiken.}
+
+
 
 # Game information:
 translate N twin {Dubbele partijen}

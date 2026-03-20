@@ -846,7 +846,7 @@ proc compactDB {{base -1}} {
 
   if {$enginesOpen} {
     tk_messageBox -type ok -icon warning -title "Scid: $::tr(CompactDatabase)" \
-      -message "Cannot proceed while chess engines are open.\nPlease close all engine windows and try again."
+      -message [tr ErrEnginesOpen]
     return
   }
 

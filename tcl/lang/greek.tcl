@@ -197,6 +197,7 @@ menuText G ToolsTrainCalvar "Υπολογισμός βαριαντών"  0 {Πρ
 menuText G ToolsTrainFindBestMove "Εύρεση καλύτερης κίνησης"  0 {Βρείτε την καλύτερη κίνηση}
 menuText G ToolsTrainFics "Παιχνίδι στον FICS"  0 {Παίξτε στο freechess.org}
 menuText G ToolsEngineTournament "Τουρνουά μηχανών"  0 {Ξεκινήστε ένα τουρνουά ανάμεσα σε μηχανές σκακιού}
+menuText G ToolsTimeAnalysis "Ανάλυση χρόνου" 0 {Εμφάνιση γραφήματος ώρας ρολογιού για το τρέχον παιχνίδι}
 menuText G ToolsBookTuning "Συντονισμός βιβλίου" 0 {Συντονισμός βιβλίου}
 menuText G ToolsDownloadTWIC "Λήψη παιχνιδιών TWIC" 0 {Λήψη των τελευταίων παιχνιδιών The Week In Chess (TWIC)}
 menuText G ToolsConnectHardware "Σύνδεση περιφερειακού" 8 {Συνδέστε εξωτερικό περιφερειακό}
@@ -422,6 +423,10 @@ translate G readonly {μόνο για ανάγνωση}
 translate G ErrNotOpen {Αυτή η βάση δεδομένων δεν είναι ανοικτή.}
 translate G ErrReadOnly {Αυτή η βάση δεδομένων είναι μόνον για ανάγνωση. Δεν μπορεί να αντικατασταθεί.}
 translate G ErrSearchInterrupted {Η αναζήτηση διακόπηκε. Τα αποτελέσματα δεν είναι πλήρη.}
+translate G ErrEnginesOpen {Δεν είναι δυνατή η συνέχεια ενώ οι μηχανές σκακιού είναι ανοιχτές.\nΚλείστε όλα τα παράθυρα του κινητήρα και δοκιμάστε ξανά.}
+translate G ErrNoClockComments {Δεν βρέθηκαν [%clk] σχόλια ρολογιού σε αυτό το παιχνίδι.    Προσθέστε ώρες ρολογιού μέσω του παραθύρου σχολίων (Ctrl+E) για να χρησιμοποιήσετε αυτήν τη δυνατότητα.}
+
+
 
 # Game information:
 translate G twin {δίδυμες}

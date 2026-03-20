@@ -203,6 +203,7 @@ menuText L ToolsTrainCalvar "Calculul variațiilor"  0 {Calculul variațiilor an
 menuText L ToolsTrainFindBestMove "Găsiți cea mai bună mișcare"  0 {Găsiți cea mai bună mișcare}
 menuText L ToolsTrainFics "Joacă pe FICS"  0 {Joacă pe freechess.org}
 menuText L ToolsEngineTournament "Turneu de motoare"  0 {Începeți un turneu între motoarele de șah}
+menuText L ToolsTimeAnalysis "Analiza timpului" 0 {Afișează graficul timpului ceasului pentru jocul curent}
 menuText L ToolsBookTuning "Tuning de carte" 0 {Tuning de carte}
 menuText L ToolsDownloadTWIC "Descărcați jocurile TWIC" 0 {Descărcați cele mai recente jocuri The Week In Chess (TWIC).}
 menuText L ToolsConnectHardware "Conectați Hardware" 8 {Conectați hardware extern}
@@ -428,6 +429,10 @@ translate L readonly {numai pentru citire}
 translate L ErrNotOpen {Aceasta nu este o bază de date deschisă.}
 translate L ErrReadOnly {Această bază de date este doar pentru citire; nu poate fi alterat.}
 translate L ErrSearchInterrupted {Căutarea a fost întreruptă; rezultatele sunt incomplete.}
+translate L ErrEnginesOpen {Nu se poate continua când motoarele de șah sunt deschise.\nVă rugăm să închideți toate ferestrele motorului și să încercați din nou.}
+translate L ErrNoClockComments {Nu au fost găsite comentarii la ceas [%clk] în acest joc.    Adăugați orele de ceas prin fereastra de comentarii (Ctrl+E) pentru a utiliza această funcție.}
+
+
 
 # Game information:
 translate L twin {geamăn}

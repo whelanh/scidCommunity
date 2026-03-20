@@ -172,6 +172,7 @@ menuText R ToolsTrainCalvar "Расчёт вариантов"  0 {Трениро
 menuText R ToolsTrainFindBestMove "Поиск лучшего хода"  0 {Искать лучший ход}
 menuText R ToolsTrainFics "Играть на FICS"  0 {Игра на сервере freechess.org}
 menuText R ToolsEngineTournament "Турнир движков"  0 {Начать турнир между шахматными движками}
+menuText R ToolsTimeAnalysis "Временной анализ" 0 {Показать график времени для текущей игры}
 menuText R ToolsBookTuning "Настройка книги" 0 {Настройка книги}
 menuText R ToolsDownloadTWIC "Загрузить партии TWIC" 0 {Загрузить последние партии The Week In Chess (TWIC)}
 menuText R ToolsConnectHardware "Подключение к оборудованию" 0 {Подключение к внешнему оборудованию}
@@ -397,6 +398,10 @@ translate R readonly {Только для чтения}
 translate R ErrNotOpen {Эта база данных не открыта.}
 translate R ErrReadOnly {Эта база данных только для чтения; она не может быть изменена.}
 translate R ErrSearchInterrupted {Поиск был прерван; результаты неполные.}
+translate R ErrEnginesOpen {Невозможно продолжить, пока шахматные движки открыты.\nЗакройте все окна движка и повторите попытку.}
+translate R ErrNoClockComments {В этой игре не обнаружено комментариев к часам [%clk].    Чтобы использовать эту функцию, добавьте время на часах через окно комментариев (Ctrl+E).}
+
+
 
 # Game information:
 translate R twin {двойник}

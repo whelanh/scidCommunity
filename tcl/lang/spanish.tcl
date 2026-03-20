@@ -185,6 +185,7 @@ menuText S ToolsTrainCalvar "Cálculo de variaciones"  0 {Cálculo de variacione
 menuText S ToolsTrainFindBestMove "Encontrar la mejor jugada"  0 {Busca el movimiento mejor}
 menuText S ToolsTrainFics "Jugar en internet..."  0 {Conecta a freechess.org}
 menuText S ToolsEngineTournament "Torneo de motores"  0 {Iniciar un torneo entre motores de ajedrez}
+menuText S ToolsTimeAnalysis "An�lisis de tiempo" 0 {Mostrar gr�fico de tiempo del reloj del juego actual}
 menuText S ToolsBookTuning "Sintonizar libro de aperturas" 0 {Sintoniza el libro (Book)}
 menuText S ToolsDownloadTWIC "Descargar juegos TWIC" 0 {Descargar los Ãºltimos juegos The Week In Chess (TWIC)}
 menuText S ToolsConnectHardware "Conectar hardware" 0 {Conecta hardware externo"}
@@ -431,6 +432,10 @@ translate S readonly {sólo lectura}
 translate S ErrNotOpen {Esta base de datos no está abierta.}
 translate S ErrReadOnly {Esta base de datos es de sólo lectura; no puede ser cambiada.}
 translate S ErrSearchInterrupted {La busqueda se interrumpió; los resultados son incompletos.}
+translate S ErrEnginesOpen {No se puede continuar mientras los motores de ajedrez est�n abiertos.\nCierre todas las ventanas del motor e int�ntelo de nuevo.}
+translate S ErrNoClockComments {No se encontraron comentarios de reloj [%clk] en este juego.    Agregue tiempos de reloj a trav�s de la ventana de comentarios (Ctrl+E) para usar esta funci�n.}
+
+
 
 # Game information:
 translate S twin {doble}

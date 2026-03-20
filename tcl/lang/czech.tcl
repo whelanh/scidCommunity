@@ -166,6 +166,7 @@ menuText C ToolsTrainCalvar "Propoèet variant"  0 {Trénink propoètu variant}
 menuText C ToolsTrainFindBestMove "Nalézt nejlep¹í tah"  0 {Nalézt nejlep¹í tah}
 menuText C ToolsTrainFics "Hrát na internetu"  0 {Hrát na freechess.org}
 menuText C ToolsEngineTournament "Motorový turnaj"  0 {Zaènìte turnaj mezi ¹achovými motory}
+menuText C ToolsTimeAnalysis "Èasová analýza" 0 {Zobrazit graf hodin pro aktuální hru}
 menuText C ToolsBookTuning "Ladìní knihovny zahájení" 0 {Ladìní knihovny zahájení}
 menuText C ToolsDownloadTWIC "Stáhnìte si hry TWIC" 0 {Stáhnìte si nejnovìj¹í hry The Week In Chess (TWIC).}
 menuText C ToolsConnectHardware "Pøipojit hardware" 0 {Pøipojit externí hardware}
@@ -394,6 +395,10 @@ translate C readonly {jen ke ètení}
 translate C ErrNotOpen {To není otevøená databáze.}
 translate C ErrReadOnly {Tato databáze je jen ke ètení; nemù¾e být zmìnìna.}
 translate C ErrSearchInterrupted {Hledání bylo pøeru¹eno; výsledky nejsou kompletní.}
+translate C ErrEnginesOpen {Nelze pokraèovat, kdy¾ jsou ¹achové motory otevøené.\nZavøete prosím v¹echna okna a zkuste to znovu.}
+translate C ErrNoClockComments {V této høe nebyly nalezeny ¾ádné komentáøe hodin [%clk].    Chcete-li pou¾ít tuto funkci, pøidejte hodiny prostøednictvím okna Komentáøe (Ctrl+E).}
+
+
 
 # Game information:
 translate C twin {zdvojená}

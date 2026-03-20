@@ -182,6 +182,7 @@ menuText P ToolsTrainCalvar "Obliczanie zmiany"  0 {Obliczanie zmian w treningu}
 menuText P ToolsTrainFindBestMove "znajd¼ najlepszy ruch"  0 {znajd¼ najlepszy ruch}
 menuText P ToolsTrainFics "Graj w internecie"  0 {Graj na freechess.org}
 menuText P ToolsEngineTournament "Turniej silnikowy"  0 {Rozpocznij zawody pomiêdzy silnikami szachowymi}
+menuText P ToolsTimeAnalysis "Analiza czasu" 0 {Poka¿ wykres czasu zegarowego dla bie¿±cej gry}
 menuText P ToolsBookTuning "Strojenie ksi±¿ki" 0 {Strojenie ksi±¿ki}
 menuText P ToolsDownloadTWIC "Pobierz gry TWIC" 0 {Pobierz najnowsze partie The Week In Chess (TWIC).}
 menuText P ToolsConnectHardware "Pod³±cz sprzêt" 0 {Pod³±cz sprzêt zewnêtrzny}
@@ -412,6 +413,10 @@ translate P readonly {tylko do odczytu}
 translate P ErrNotOpen {To nie jest otwarta baza.} 
 translate P ErrReadOnly {Ta baza jest tylko do odczytu; nie mo¿na jej zmieniæ.}
 translate P ErrSearchInterrupted {Wyszukiwanie zosta³o przerwane. Wyniki bêd± niepe³ne.}
+translate P ErrEnginesOpen {Nie mo¿na kontynuowaæ, gdy silniki szachowe s± otwarte.\nZamknij wszystkie okna silnika i spróbuj ponownie.}
+translate P ErrNoClockComments {W tej grze nie znaleziono komentarzy do zegara [%clk].    Dodaj czasy zegara za pomoc± okna komentarzy (Ctrl+E), aby skorzystaæ z tej funkcji.}
+
+
 
 # Game information:
 translate P twin {powtórzona}
