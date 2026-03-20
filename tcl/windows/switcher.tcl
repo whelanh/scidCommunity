@@ -581,10 +581,9 @@ proc ::windows::switcher::releaseMouseEvent {fromBase x y {w .baseWin}} {
   if {! [string match "$w.c.f*" $dropPoint]} {return}
   regexp -all {[0-9]} $dropPoint toBase
   if {$toBase == $fromBase} {
-    if {$::curr_db != $toBase} {
-      ::file::SwitchToBase $toBase
-    } else {
-      ::windows::gamelist::makeVisible $toBase
+    ::file::SwitchToBase $toBase
+    if {[sc_base numGames $toBase] > 0} {
+      ::game::Load 1
     }
   } else {
     ::windows::gamelist::CopyGames "" $fromBase $toBase
