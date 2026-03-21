@@ -40,6 +40,7 @@ While it maintains compatibility with the original Scid database formats, **scid
 20. Thanks to a well thought out and detailed [user proposal](https://github.com/whelanh/scidCommunity/discussions/32), developers can now access Scid databases directly in their code using scidCommunity's new headless API.  More documentation can be found in the /docs folder.
 21. Another [user idea](https://github.com/whelanh/scidCommunity/discussions/44) lead to the development of an "Auto Comment" and a "Game Comment" button in the Engine windows. The "Auto Comment" button generates AI chess commentary for a move. The "Game Comment " button will provide comments for moves that have annotations and a game summary.  More [here](https://github.com/whelanh/scidCommunity/discussions/50). 
 22. Lichess-based calculation of White and Black's "Game Accuracy" [included](https://github.com/whelanh/scidCommunity/discussions/49) in the upper left of the engine score graph in the **Engine Window**.
+23. For games with `[%clk ]` time comments, a new **Tools/Time Analysis** [feature](https://github.com/whelanh/scidCommunity/discussions/59) charts clock time remaining and time used per move.
 
 *Users with suggestions for further enhancements are welcome to write something in the Discussion section or submit a pull request.  Enjoy!*
 
