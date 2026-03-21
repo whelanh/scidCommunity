@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.2.68" date="2026-03-21">
+      <description>
+        <p>Expand .lock message + translate</p>
+      </description>
+    </release>
     <release version="5.1.2.67" date="2026-03-20">
       <description>
         <p>Various fixes and local language translations</p>
