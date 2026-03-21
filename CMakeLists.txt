@@ -154,10 +154,12 @@ install(FILES data/io.github.whelanh.scidCommunity.appdata.xml DESTINATION share
 install(FILES data/io.github.whelanh.scidCommunity.svg DESTINATION share/icons/hicolor/scalable/apps)
 
 # engine phalanx
-file(GLOB PHALANX_SRC engines/phalanx-scid/*.c)
-add_executable(phalanx-scid ${PHALANX_SRC})
-set_target_properties(phalanx-scid PROPERTIES COMPILE_FLAGS "-w")
-install(TARGETS phalanx-scid DESTINATION bin)
+if(NOT WIN32)
+  file(GLOB PHALANX_SRC engines/phalanx-scid/*.c)
+  add_executable(phalanx-scid ${PHALANX_SRC})
+  set_target_properties(phalanx-scid PROPERTIES COMPILE_FLAGS "-w")
+  install(TARGETS phalanx-scid DESTINATION bin)
+endif()
 
 
 option(GTEST "Build unit tests" OFF)

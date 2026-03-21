@@ -203,6 +203,7 @@ menuText J ToolsTrainCalvar "Прорачун варијација"  0 {Прор
 menuText J ToolsTrainFindBestMove "Пронађите најбољи потез"  0 {Пронађите најбољи потез}
 menuText J ToolsTrainFics "Играјте на ФИЦС-у"  0 {Играјте на фреецхесс.орг}
 menuText J ToolsEngineTournament "Турнир мотора"  0 {Започните турнир између шаховских машина}
+menuText J ToolsTimeAnalysis "Анализа времена" 0 {Прикажи временски графикон за тренутну игру}
 menuText J ToolsBookTuning "Боок тунинг" 0 {Боок тунинг}
 menuText J ToolsDownloadTWIC "Преузмите ТВИЦ игре" 0 {Преузмите најновије игре Тхе Веек Ин Цхесс (ТВИЦ).}
 menuText J ToolsConnectHardware "Повежите хардвер" 8 {Повежите спољни хардвер}
@@ -428,6 +429,12 @@ translate J readonly {само за читање}
 translate J ErrNotOpen {Ово није отворена база података.}
 translate J ErrReadOnly {Ова база података је само за читање; не може се мењати.}
 translate J ErrSearchInterrupted {Претрага је прекинута; резултати су непотпуни.}
+translate J ErrEnginesOpen {Није могуће наставити док су шаховске машине отворене.\нЗатворите све прозоре машине и покушајте поново.}
+translate J ErrNoClockComments {У овој игри нису пронађени [%цлк] коментари на сат.\н\нДодајте време сата преко прозора за коментаре (Цтрл+Е) да бисте користили ову функцију.}
+translate J ErrFileInUse {Грешка: датотека је већ у употреби. Затворите било коју другу апликацију која користи ову базу података. Ако је програм неочекивано затворен, можда ћете морати да избришете .лоцк датотеку повезану са базом података.}
+
+
+
 
 # Game information:
 translate J twin {близанац}

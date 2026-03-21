@@ -822,6 +822,34 @@ proc baseIsCompactable {} {
 
 proc compactDB {{base -1}} {
   if {$base < 0} { set base [sc_base current] }
+
+  # Safeguard: check for open engine windows or active engine pipes
+  set enginesOpen 0
+  foreach w [winfo children .] {
+    if {[string match ".analysisWin*" $w] || [string match ".engineWin*" $w] || \
+        [string match ".coachWin" $w] || [string match ".tacticsWin" $w] || \
+        [string match ".reviewgame" $w] || [string match ".calvarWin" $w] || \
+        [string match ".inputengineconsole" $w]} {
+      set enginesOpen 1 ; break
+    }
+  }
+  if {!$enginesOpen} {
+    foreach n {1 2 3 4} {
+      if {[info exists ::analysis(pipe$n)] && $::analysis(pipe$n) != ""} {
+        set enginesOpen 1 ; break
+      }
+    }
+  }
+  if {!$enginesOpen && [info exists ::enginewin::engState]} {
+    if {[array size ::enginewin::engState] > 0} { set enginesOpen 1 }
+  }
+
+  if {$enginesOpen} {
+    tk_messageBox -type ok -icon warning -title "Scid: $::tr(CompactDatabase)" \
+      -message [tr ErrEnginesOpen]
+    return
+  }
+
   if {[::game::Clear] == "cancel"} { return }
   if {[catch {sc_base compact $base stats} stats]} {
     return [ERROR::MessageBox "$::tr(CompactDatabase)\n"]

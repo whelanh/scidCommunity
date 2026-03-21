@@ -13,6 +13,12 @@ namespace eval ::windows::commenteditor {
 	variable needNotify_ 0
 	variable undoComment_ 1
 	variable undoNAGs_ 1
+	variable timeH 0
+	variable timeM 10
+	variable timeS 0
+	variable timeTotal 10
+	array set prevSecs {white 360001 black 360001}
+	array set lastTime {white {0 10 0 10} black {0 10 0 10}}
 
 	proc clearComment_ {} {
 		if {[sc_pos getComment] != ""} {
@@ -83,6 +89,59 @@ namespace eval ::windows::commenteditor {
 		}
 		notify_ 1500
 	}
+
+	proc updateFromTotal_ {} {
+		variable timeTotal
+		variable timeH
+		variable timeM
+		variable timeS
+		if {![string is double -strict $timeTotal]} { return }
+		set totalSeconds [expr {int($timeTotal * 60)}]
+		set timeH [expr {$totalSeconds / 3600}]
+		set timeM [expr {($totalSeconds % 3600) / 60}]
+		set timeS [expr {$totalSeconds % 60}]
+	}
+
+	proc updateFromHHMMSS_ {} {
+		variable timeTotal
+		variable timeH
+		variable timeM
+		variable timeS
+		if {![string is integer -strict $timeH]} { set timeH 0 }
+		if {![string is integer -strict $timeM]} { set timeM 0 }
+		if {![string is integer -strict $timeS]} { set timeS 0 }
+		set timeTotal [expr {($timeH * 3600 + $timeM * 60 + $timeS) / 60.0}]
+	}
+
+	proc submitTime_ {} {
+		variable w_
+		variable timeH
+		variable timeM
+		variable timeS
+		variable lastTime
+		
+		# Determine which player just moved
+		set side [sc_pos side]
+		if {$side eq "black"} { set p "white" } else { set p "black" }
+
+		# Ensure integer values
+		if {![string is integer -strict $timeH]} { set timeH 0 }
+		if {![string is integer -strict $timeM]} { set timeM 0 }
+		if {![string is integer -strict $timeS]} { set timeS 0 }
+
+		set lastTime($p) [list $timeH $timeM $timeS [expr {($timeH * 3600 + $timeM * 60 + $timeS) / 60.0}]]
+		
+		set clk [format "\[%%clk %02d:%02d:%02d\]" $timeH $timeM $timeS]
+		set txt $w_.cf.txtframe.text
+		set current [$txt get 1.0 end-1c]
+		if {[string length $current] > 0} {
+			$txt insert 1.0 "$clk "
+		} else {
+			$txt insert 1.0 "$clk"
+		}
+		$txt edit modified true
+		focus $txt
+	}
 }
 
 proc ::windows::commenteditor::createWin { {focus_if_exists 1} } {
@@ -131,9 +190,36 @@ proc ::windows::commenteditor::createWin { {focus_if_exists 1} } {
 		incr i
 	}
 	grid columnconfig $w_.nf 0 -weight 1
-	grid $w_.nf.label $w_.nf.clear -sticky nsew
-	grid $w_.nf.text -sticky nsew -columnspan 2
-	grid $w_.nf.b -sticky nsew -columnspan 2
+	grid columnconfig $w_.nf 2 -weight 1
+	grid $w_.nf.label $w_.nf.clear x -sticky nsew
+	grid $w_.nf.text -sticky nsew -columnspan 3
+	grid $w_.nf.b -sticky nsew -columnspan 2 -row 2 -column 0
+
+	# Time Entry frame:
+	ttk::labelframe $w_.nf.time -text "Time Entry" -padding 5
+	ttk::label $w_.nf.time.lh -text "H"
+	ttk::entry $w_.nf.time.eh -width 3 -textvariable ::windows::commenteditor::timeH
+	ttk::label $w_.nf.time.lm -text "M"
+	ttk::entry $w_.nf.time.em -width 3 -textvariable ::windows::commenteditor::timeM
+	ttk::label $w_.nf.time.ls -text "S"
+	ttk::entry $w_.nf.time.es -width 3 -textvariable ::windows::commenteditor::timeS
+	
+	ttk::label $w_.nf.time.lt -text "Total minutes"
+	ttk::entry $w_.nf.time.et -width 6 -textvariable ::windows::commenteditor::timeTotal
+
+	ttk::button $w_.nf.time.sub -text "Submit" -command "::windows::commenteditor::submitTime_"
+
+	grid $w_.nf.time.lh $w_.nf.time.eh $w_.nf.time.lm $w_.nf.time.em $w_.nf.time.ls $w_.nf.time.es -padx 1 -sticky w
+	grid $w_.nf.time.lt -column 0 -row 1 -columnspan 3 -sticky w -pady {5 0}
+	grid $w_.nf.time.et -column 3 -row 1 -columnspan 3 -sticky w -pady {5 0}
+	grid $w_.nf.time.sub -column 0 -row 2 -columnspan 6 -sticky ew -pady {5 0}
+
+	grid $w_.nf.time -row 2 -column 2 -sticky nsew -padx {5 0}
+
+	bind $w_.nf.time.eh <KeyRelease> "::windows::commenteditor::updateFromHHMMSS_"
+	bind $w_.nf.time.em <KeyRelease> "::windows::commenteditor::updateFromHHMMSS_"
+	bind $w_.nf.time.es <KeyRelease> "::windows::commenteditor::updateFromHHMMSS_"
+	bind $w_.nf.time.et <KeyRelease> "::windows::commenteditor::updateFromTotal_"
 
 	# Comment frame:
 	ttk::frame $w_.cf
@@ -194,11 +280,23 @@ proc ::windows::commenteditor::Refresh {} {
 	if {$nag != "0"} {
 		$w_.nf.text insert end $nag
 	}
-	# if at vstart, disable NAG codes
+	# if at vstart, disable NAG codes and reset clock
 	if {[sc_pos isAt vstart]} {
 		set state "disabled"
+		set ::windows::commenteditor::prevSecs(white) 360001
+		set ::windows::commenteditor::prevSecs(black) 360001
+		set ::windows::commenteditor::lastTime(white) {0 10 0 10}
+		set ::windows::commenteditor::lastTime(black) {0 10 0 10}
+		set ::windows::commenteditor::timeH 0
+		set ::windows::commenteditor::timeM 10
+		set ::windows::commenteditor::timeS 0
+		set ::windows::commenteditor::timeTotal 10
 	} else	{
 		set state "normal"
+		# Determine which player just moved
+		set side [sc_pos side]
+		if {$side eq "black"} { set p "white" } else { set p "black" }
+		lassign $::windows::commenteditor::lastTime($p) ::windows::commenteditor::timeH ::windows::commenteditor::timeM ::windows::commenteditor::timeS ::windows::commenteditor::timeTotal
 	}
 	$w_.nf.clear configure -state $state
 	$w_.nf.text configure -state $state

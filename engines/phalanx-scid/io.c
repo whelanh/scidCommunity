@@ -177,9 +177,10 @@ void printm(tmove m, char *s) {
 
 endprint:;
 
-  if (s == NULL)
+  if (s == NULL) {
     printf("%s", ss);
-  else
+    fflush(stdout);
+  } else
     strcpy(s, ss);
 }
 
@@ -269,19 +270,30 @@ void pvSAN(tmove *v, char *s) {
 
 /* GNU Chess `X' understands only moves in `g1f3' notation. We have to send
  * this to older versions of xboard when playing phalanx with gnu. */
-void gnuprintm(tmove m) {
-
+void gnuprintm_to_buf(tmove m, char *s) {
   switch (m.special) {
   case LONG_CASTLING:
-    printf("o-o-o");
+    strcpy(s, "o-o-o");
     return;
   case SHORT_CASTLING:
-    printf("o-o");
+    strcpy(s, "o-o");
     return;
   }
 
-  printf("%c%c%c%c%c", file[m.from % 10], row[m.from / 10], file[m.to % 10],
-         row[m.to / 10], m.in2a == m.in1 ? ' ' : tolower(piece[m.in2a >> 4]));
+  sprintf(s, "%c%c%c%c", file[m.from % 10], row[m.from / 10], file[m.to % 10],
+          row[m.to / 10]);
+  if (m.in2a != m.in1) {
+    char p[2];
+    p[0] = tolower(piece[m.in2a >> 4]);
+    p[1] = '\0';
+    strcat(s, p);
+  }
+}
+
+void gnuprintm(tmove m) {
+  char buf[16];
+  gnuprintm_to_buf(m, buf);
+  printf("%s", buf);
 }
 
 /**
@@ -666,6 +678,7 @@ void infoline(int typ, char *s) {
     strcpy(s, ss);
   else {
     printf("%s", ss);
+    fflush(stdout);
   }
 }
 
@@ -686,6 +699,7 @@ void verboseline(tmove *m, int i, int n) {
     sprintf(s + strlen(s), "");
 
   printf("%s", s);
+  fflush(stdout);
 }
 
 void printboard(char *s) {
@@ -1101,6 +1115,7 @@ void about(void) {
     printf("off\n");
 
   printf("\n");
+  fflush(stdout);
 }
 
 /* SIG_INT handler */
@@ -1118,13 +1133,38 @@ void interrupt(int x) {
     }
   }
 
+  if (Flag.polling) {
+    Abort = 1;
+  }
   if (Flag.ponder < 2) {
     puts("interrupted");
+    fflush(stdout);
     Abort = 1;
     goto go_on;
   }
+#ifdef _WIN32
+  while (1) {
+    DWORD nBytes = 0;
+    HANDLE h = GetStdHandle(STD_INPUT_HANDLE);
+    if (!PeekNamedPipe(h, NULL, 0, NULL, &nBytes, NULL) || nBytes == 0) break;
+    
+    char buf[1024];
+    DWORD read;
+    if (PeekNamedPipe(h, buf, 1023, &read, &nBytes, NULL)) {
+        buf[read] = '\0';
+        if (strchr(buf, '\n') || strchr(buf, '\r')) {
+            if (!command()) break;
+        } else {
+            break; // Wait for full line
+        }
+    } else {
+        break;
+    }
+  }
+#else
   while (command()) {
   }
+#endif
 
 go_on:;
   if (!Abort && !Flag.polling)
@@ -1134,7 +1174,7 @@ go_on:;
 int command(void) {
   static int no_prompt = 0;
 
-  if (Flag.xboard < 2) {
+  if (Flag.xboard == 0) {
     if (no_prompt) {
       no_prompt = 0;
     } else if (Flag.ponder >= 2) {
@@ -1717,13 +1757,24 @@ void shell(void) {
           }
         }
 
-        printf("my move is ");
-        printm(m, NULL);
         if (Flag.xboard) {
-          printf("\n%i. ... ", (Counter + 1) / 2);
-          gnuprintm(m);
+          char move_buf[64];
+          char *p;
+          sprintf(move_buf, "move ");
+          p = move_buf + 5;
+          gnuprintm_to_buf(m, p);
+#ifdef _WIN32
+          strcat(move_buf, "\r\n");
+#else
+          strcat(move_buf, "\n");
+#endif
+          printf("%s", move_buf);
+        } else {
+          printf("my move is ");
+          printm(m, NULL);
+          puts("");
         }
-        puts("");
+        fflush(stdout);
 
         switch ((ter = terminal())) {
         case 1:

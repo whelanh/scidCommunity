@@ -167,6 +167,8 @@ menuText T ToolsTrainCalvar "Varyasyonların hesaplanması"  0 {Varyasyonların 
 menuText T ToolsTrainFindBestMove "En iyi hamleyi bul"  0 {En iyi hamleyi bul}
 menuText T ToolsTrainFics "FICS'te oyna"  0 {freechess.org'da oynayın}
 menuText T ToolsEngineTournament "Motor turnuvası"  0 {Satranç motorları arasında bir turnuva başlatın}
+# ====== TODO To be translated ======
+menuText T ToolsTimeAnalysis "Time Analysis" 0 {Show clock time graph for the current game}
 menuText T ToolsBookTuning "Kitap ayarlama" 0 {Kitap ayarlama}
 menuText T ToolsDownloadTWIC "TWIC Oyunlarını İndirin" 0 {En yeni The Week In Chess (TWIC) oyunlarını indirin}
 menuText T ToolsConnectHardware "Donanımı Bağlayın" 8 {Harici donanımı bağlayın}
@@ -393,6 +395,12 @@ translate T readonly {salt okunur}
 translate T ErrNotOpen {Bu açık bir veritabanı değil.}
 translate T ErrReadOnly {Bu veritabanı salt okunurdur; değiştirilemez.}
 translate T ErrSearchInterrupted {Arama kesintiye uğradı; sonuçlar eksik.}
+# ====== TODO To be translated ======
+translate T ErrEnginesOpen {Cannot proceed while chess engines are open.\nPlease close all engine windows and try again.}
+# ====== TODO To be translated ======
+translate T ErrNoClockComments {No [%clk] clock comments were found in this game.    Add clock times via the Comments Window (Ctrl+E) to use this feature.}
+# ====== TODO To be translated ======
+translate T ErrFileInUse {Error: the file is already in use. Please close any other application using this database. If the program was closed unexpectedly, you may need to delete the .lock file associated with the database.}
 
 # Game information:
 translate T twin {ikiz}

@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.52
+Version:        5.1.2.67
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 6aaaada873104cb3bdeb20789725afb7dfe38593
+%global commit e619546123bdb0943ad692a7dd5b42809ce3b3c1
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,16 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Fri Mar 20 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-67
+- "Various fixes, local language translations"
+* Thu Mar 19 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-65
+- "Add new themes and modularize theme handling"
+* Wed Mar 18 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-63
+- "Add time analysis graphs and time input; add base corruption safeguard"
+* Tue Mar 17 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-62
+- "Added options for Tactical Game play"
+* Sat Mar 14 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-61
+- "Improved Portuguese translation and improved AI comment prompts"
 * Fri Mar 13 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-52
 - "Fix navigation issue with the board arrow keys at variations"
 * Thu Mar 12 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-51

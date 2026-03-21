@@ -205,6 +205,7 @@ menuText E ToolsTrainCalvar "Calculation of variations"  0 {Calculation of varia
 menuText E ToolsTrainFindBestMove "Find best move"  0 {Find best move}
 menuText E ToolsTrainFics "Play on FICS"  0 {Play on freechess.org}
 menuText E ToolsEngineTournament "Engine tournament"  0 {Start a tournament between chess engines}
+menuText E ToolsTimeAnalysis "Time Analysis" 0 {Show clock time graph for the current game}
 menuText E ToolsBookTuning "Book tuning" 0 {Book tuning}
 menuText E ToolsDownloadTWIC "Download TWIC Games" 0 {Download the latest The Week In Chess (TWIC) games}
 menuText E ToolsDownloadICCF "Download ICCF archive (login required)" 9 \
@@ -432,6 +433,12 @@ translate E readonly {read-only}
 translate E ErrNotOpen {This is not an open database.}
 translate E ErrReadOnly {This database is read-only; it cannot be altered.}
 translate E ErrSearchInterrupted {Search was interrupted; results are incomplete.}
+translate E ErrEnginesOpen {Cannot proceed while chess engines are open.\nPlease close all engine windows and try again.}
+translate E ErrNoClockComments {No [%clk] clock comments were found in this game.  Add clock times via the Comments Window (Ctrl+E) to use this feature.}
+translate E ErrFileInUse {Error: the file is already in use. Please close any other application using this database. If the program was closed unexpectedly, you may need to delete the .lock file associated with the database.}
+
+
+
 
 # Game information:
 translate E twin {twin}

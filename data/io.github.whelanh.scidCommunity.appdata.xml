@@ -79,6 +79,31 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.2.67" date="2026-03-20">
+      <description>
+        <p>Various fixes and local language translations</p>
+      </description>
+    </release>
+    <release version="5.1.2.65" date="2026-03-19">
+      <description>
+        <p>Add two themes and modularize theme handling</p>
+      </description>
+    </release>
+    <release version="5.1.2.63" date="2026-03-18">
+      <description>
+        <p>Add time analysis graphs and time input; add base corruption safeguard</p>
+      </description>
+    </release>
+    <release version="5.1.2.62" date="2026-03-17">
+      <description>
+        <p>Added options to Tactical Game play</p>
+      </description>
+    </release>
+    <release version="5.1.2.61" date="2026-03-14">
+      <description>
+        <p>Improved Portuguese translation; improved AI comment prompts</p>
+      </description>
+    </release>
     <release version="5.1.2.52" date="2026-03-13">
       <description>
         <p>Fix navigation issue with the board arrow keys at variations</p>

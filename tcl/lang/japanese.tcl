@@ -203,6 +203,7 @@ menuText A ToolsTrainCalvar "変動の計算"  0 {バリエーション計算ト
 menuText A ToolsTrainFindBestMove "最善の手を見つける"  0 {最善の手を見つける}
 menuText A ToolsTrainFics "FICS でプレイする"  0 {freechess.org でプレイする}
 menuText A ToolsEngineTournament "エンジントーナメント"  0 {チェス エンジン間でトーナメントを開始する}
+menuText A ToolsTimeAnalysis "時間分析" 0 {現在のゲームの時間グラフを表示します}
 menuText A ToolsBookTuning "ブックチューニング" 0 {ブックチューニング}
 menuText A ToolsDownloadTWIC "TWIC ゲームをダウンロード" 0 {最新の The Week In Chess (TWIC) ゲームをダウンロード}
 menuText A ToolsConnectHardware "ハードウェアを接続する" 8 {外部ハードウェアを接続する}
@@ -428,6 +429,12 @@ translate A readonly {読み取り専用}
 translate A ErrNotOpen {これはオープンなデータベースではありません。}
 translate A ErrReadOnly {このデータベースは読み取り専用です。変更することはできません。}
 translate A ErrSearchInterrupted {検索は中断されました。結果は不完全です。}
+translate A ErrEnginesOpen {チェス エンジンが開いている間は続行できません。\nすべてのエンジン ウィンドウを閉じて、再試行してください。}
+translate A ErrNoClockComments {このゲームには [%clk] クロック コメントが見つかりませんでした。    この機能を使用するには、コメント ウィンドウ (Ctrl+E) を使用してクロック時間を追加します。}
+translate A ErrFileInUse {エラー: ファイルはすでに使用されています。このデータベースを使用している他のアプリケーションを閉じてください。プログラムが予期せず終了した場合は、データベースに関連付けられた .lock ファイルの削除が必要になる場合があります。}
+
+
+
 
 # Game information:
 translate A twin {ツイン}

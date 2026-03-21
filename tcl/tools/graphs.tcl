@@ -1144,4 +1144,229 @@ proc ::tools::graphs::absfilter::Refresh {} {
   unbusyCursor .
   update
 }
+
+########################################
+# Time Analysis graph window
+
+namespace eval ::tools::graphs::time {}
+
+# ElapsedList:
+#   From a MoveTimeList result {x0 t0 x1 t1 ...} (remaining clock times),
+#   compute elapsed time per move as the delta between consecutive entries.
+#   Returns {moveNum elapsedMins ...} starting from the 2nd clock entry.
+#   The first entry is skipped because the starting time is unknown.
+#   For bar-chart side-by-side layout, White bars are offset -0.2 and
+#   Black bars are offset +0.2 from integer move numbers.
+proc ::tools::graphs::time::ElapsedList {coordsList offset} {
+  set result {}
+  set n [llength $coordsList]
+  # Need at least two entries to compute a delta
+  if {$n < 4} { return $result }
+  set moveNum 1
+  for {set i 2} {$i < $n} {incr i 2} {
+    set prevTime [lindex $coordsList [expr {$i - 1}]]
+    set currTime [lindex $coordsList [expr {$i + 1}]]
+    set elapsed  [expr {$prevTime - $currTime}]
+    if {$elapsed < 0} { set elapsed 0 }
+    lappend result [expr {$moveNum + $offset}] $elapsed
+    incr moveNum
+  }
+  return $result
+}
+
+proc ::tools::graphs::time::Open {} {
+  set w .tgraph
+  if {[winfo exists $w]} {
+    focus $w
+    ::tools::graphs::time::Refresh
+    return
+  }
+
+  toplevel $w
+  wm title $w "scidCommunity: Time Analysis"
+
+  # ---- Line graph canvas (top) ----
+  canvas $w.c -width 600 -height 280 \
+    -selectforeground [ttk::style lookup . -foreground] \
+    -background [ttk::style lookup . -background]
+  $w.c create text 25 5 -tag title -justify center -width 1 \
+      -font font_Regular -anchor n
+
+  # ---- Bar chart canvas (bottom) ----
+  canvas $w.c2 -width 600 -height 200 \
+    -selectforeground [ttk::style lookup . -foreground] \
+    -background [ttk::style lookup . -background]
+  $w.c2 create text 25 5 -tag bartitle -justify center -width 1 \
+      -font font_Regular -anchor n
+
+  # ---- Button bar ----
+  ttk::frame $w.btns
+  ttk::button $w.btns.refresh -text "Refresh" \
+      -command ::tools::graphs::time::Refresh
+  ttk::button $w.btns.close -text "Close" -command "destroy $w"
+  pack $w.btns.refresh -side left -padx 4 -pady 2
+  pack $w.btns.close   -side right -padx 4 -pady 2
+
+  pack $w.btns -side bottom -fill x
+  pack $w.c    -side top    -expand yes -fill both
+  pack $w.c2   -side top    -fill both
+
+  bind $w <Configure> {
+    # Resize line graph (top canvas)
+    .tgraph.c itemconfigure title -width [expr {[winfo width .tgraph.c] - 20}]
+    .tgraph.c coords title [expr {[winfo width .tgraph.c] / 2}] 8
+    if {[::utils::graph::isgraph tgraph]} {
+      ::utils::graph::configure tgraph \
+          -height [expr {[winfo height .tgraph.c] - 50}] \
+          -width  [expr {[winfo width  .tgraph.c] - 60}]
+      ::utils::graph::redraw tgraph
+    }
+    # Resize bar chart (bottom canvas)
+    .tgraph.c2 itemconfigure bartitle -width [expr {[winfo width .tgraph.c2] - 20}]
+    .tgraph.c2 coords bartitle [expr {[winfo width .tgraph.c2] / 2}] 8
+    if {[::utils::graph::isgraph tgraph2]} {
+      ::utils::graph::configure tgraph2 \
+          -height [expr {[winfo height .tgraph.c2] - 50}] \
+          -width  [expr {[winfo width  .tgraph.c2] - 60}]
+      ::utils::graph::redraw tgraph2
+    }
+  }
+  bind $w <F1> {helpWindow Index}
+
+  ::tools::graphs::time::Refresh
+}
+
+proc ::tools::graphs::time::Refresh {} {
+  set w .tgraph
+  if {![winfo exists $w]} { return }
+
+  # Fetch remaining clock data for both colours (add=0 => remaining time)
+  set coordsW [MoveTimeList "w" 0]
+  set coordsB [MoveTimeList "b" 0]
+
+  if {[llength $coordsW] == 0 && [llength $coordsB] == 0} {
+    # Clear any previous graph drawings from both canvases
+    $w.c  delete -withtag gtgraph
+    $w.c2 delete -withtag gtgraph2
+    tk_messageBox -parent $w -icon info -title "Time Analysis" \
+        -message [tr ErrNoClockComments]
+
+    return
+  }
+
+  set white [sc_game info white]
+  set black [sc_game info black]
+  set date  [sc_game info date]
+
+  # ---- Line graph (remaining clock time) ----
+
+  set maxMins 0
+  foreach lst [list $coordsW $coordsB] {
+    foreach {xv yv} $lst {
+      if {$yv > $maxMins} { set maxMins $yv }
+    }
+  }
+  set ytick 1
+  if {$maxMins > 10}  { set ytick  2 }
+  if {$maxMins > 30}  { set ytick  5 }
+  if {$maxMins > 60}  { set ytick 10 }
+  if {$maxMins > 120} { set ytick 20 }
+
+  set height [expr {[winfo height $w.c] - 50}]
+  set width  [expr {[winfo width  $w.c] - 60}]
+  if {$height < 50} { set height 230 }
+  if {$width  < 50} { set width  540 }
+
+  ::utils::graph::create tgraph \
+      -width $width -height $height \
+      -xtop 40 -ytop 30 \
+      -font font_Small -canvas $w.c \
+      -textcolor black -tickcolor black \
+      -background white \
+      -xtick 1 -ytick $ytick \
+      -ymin 0 \
+      -hline [list [list gray80 1 each $ytick]] \
+      -vline {{gray80 1 each 1} {steelBlue 1 each 5}}
+
+  ::utils::graph::data tgraph bounds -points 0 -lines 0 -bars 0 \
+      -coords {0 0 1 0}
+
+  if {[llength $coordsW] > 0} {
+    ::utils::graph::data tgraph white \
+        -color darkgreen -outline darkgreen \
+        -points 1 -lines 1 -linewidth 2 -radius 3 \
+        -key {} -coords $coordsW
+  }
+  if {[llength $coordsB] > 0} {
+    ::utils::graph::data tgraph black \
+        -color steelBlue -outline steelBlue \
+        -points 1 -lines 1 -linewidth 2 -radius 3 \
+        -key {} -coords $coordsB
+  }
+
+  ::utils::graph::redraw tgraph
+  $w.c itemconfigure title -text "Remaining Clock Time: $white vs $black  ($date)"
+  $w.c itemconfigure title -width [expr {[winfo width $w.c] - 20}]
+  $w.c coords title [expr {[winfo width $w.c] / 2}] 8
+
+  # ---- Bar chart (time spent per move) ----
+
+  # Compute elapsed (time spent) per move for each player:
+  # White bars offset -0.2, Black bars offset +0.2 for side-by-side display
+  set elapsedW [::tools::graphs::time::ElapsedList $coordsW -0.2]
+  set elapsedB [::tools::graphs::time::ElapsedList $coordsB  0.2]
+
+  set maxElapsed 0
+  foreach lst [list $elapsedW $elapsedB] {
+    foreach {xv yv} $lst {
+      if {$yv > $maxElapsed} { set maxElapsed $yv }
+    }
+  }
+  set ytick2 0.5
+  if {$maxElapsed > 2}  { set ytick2 1 }
+  if {$maxElapsed > 5}  { set ytick2 2 }
+  if {$maxElapsed > 10} { set ytick2 5 }
+  if {$maxElapsed > 30} { set ytick2 10}
+
+  set height2 [expr {[winfo height $w.c2] - 50}]
+  set width2  [expr {[winfo width  $w.c2] - 60}]
+  if {$height2 < 50} { set height2 150 }
+  if {$width2  < 50} { set width2  540 }
+
+  ::utils::graph::create tgraph2 \
+      -width $width2 -height $height2 \
+      -xtop 40 -ytop 30 \
+      -font font_Small -canvas $w.c2 \
+      -textcolor black -tickcolor black \
+      -background white \
+      -xtick 1 -ytick $ytick2 \
+      -ymin 0 \
+      -hline [list [list gray80 1 each $ytick2]] \
+      -vline {{gray80 1 each 1} {steelBlue 1 each 5}}
+
+  ::utils::graph::data tgraph2 bounds -points 0 -lines 0 -bars 0 \
+      -coords {0 0 1 0}
+
+  if {[llength $elapsedW] > 0} {
+    ::utils::graph::data tgraph2 wbars \
+        -color darkgreen -outline black \
+        -points 0 -lines 0 -bars 1 \
+        -barwidth 0.35 \
+        -coords $elapsedW
+  }
+  if {[llength $elapsedB] > 0} {
+    ::utils::graph::data tgraph2 bbars \
+        -color steelBlue -outline black \
+        -points 0 -lines 0 -bars 1 \
+        -barwidth 0.35 \
+        -coords $elapsedB
+  }
+
+  ::utils::graph::redraw tgraph2
+  $w.c2 itemconfigure bartitle \
+      -text "Time Spent Per Move (minutes) — White (green)  Black (blue)"
+  $w.c2 itemconfigure bartitle -width [expr {[winfo width $w.c2] - 20}]
+  $w.c2 coords bartitle [expr {[winfo width $w.c2] / 2}] 8
+}
+
 ### End of file: graphs.tcl

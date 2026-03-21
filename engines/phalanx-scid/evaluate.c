@@ -229,6 +229,7 @@ int material_draw( void )
 
 int evaluate( int Alpha, int Beta )
 {
+	if( Abort && ! NoAbort ) return 0;
 
 static int timeslice = 2000;
 int result;
@@ -243,13 +244,19 @@ if(Ply%2) lastiter = -LastIter; else lastiter = LastIter;
 
 Nodes++;
 
-if( Flag.level == fixedtime || Flag.level == timecontrol )
+if( Flag.level == fixedtime || Flag.level == timecontrol || Flag.level == averagetime )
 if( ( Nodes % timeslice ) == 0 && !Flag.analyze )
 {
-	extern long T1;
+	extern long T1, T2;
 	int t = Flag.centiseconds - ptime() + T1;
+	long elapsed = ptime() - T1;
 
-	if( t < 0 ) { if( Flag.ponder >= 2 ) Flag.ponder = 3; else Abort = 2; }
+	/* Stop if hard limit reached or if soft limit T2 reached and we aren't in first depth */
+	if( t < 0 || (Flag.level != fixeddepth && elapsed > T2 && A_d > 1) ) 
+	{ 
+		if( Flag.ponder >= 2 ) Flag.ponder = 3; 
+		else Abort = 2; 
+	}
 	else
 	if( t != Flag.centiseconds )
 	timeslice =
@@ -288,10 +295,20 @@ if(Flag.polling)
   //  Locks: the GUI send a move (full line) and by mistake send some other chars,
   //  now the GUI may be stuck waiting for the reply and the engine will not reply
   //  because is waiting for the rest of the input
-  DWORD nBytes;
+  DWORD nBytes = 0;
   HANDLE h = GetStdHandle(STD_INPUT_HANDLE);
-  PeekNamedPipe(h, NULL, 0, NULL, &nBytes, NULL);
-  if (nBytes != 0) interrupt(0);
+  if (PeekNamedPipe(h, NULL, 0, NULL, &nBytes, NULL)) {
+    if (nBytes != 0) {
+      char buf[256];
+      DWORD read;
+      if (PeekNamedPipe(h, buf, 255, &read, &nBytes, NULL)) {
+        buf[read] = '\0';
+        if (strchr(buf, '\n') || strchr(buf, '\r')) {
+            interrupt(0);
+        }
+      }
+    }
+  }
 #else
   static fd_set readfds;
   static struct timeval tv;
@@ -303,8 +320,11 @@ if(Flag.polling)
   tv.tv_usec=0;
   select(16, &readfds, 0, 0, &tv);
   data=FD_ISSET(fileno(stdin), &readfds);
-  if(data) interrupt(0);
+  if(data) {
+    interrupt(0);
+  }
 #endif
+	if( Abort && ! NoAbort ) return 0;
 }
 
 /*

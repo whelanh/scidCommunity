@@ -3164,14 +3164,7 @@ set helpText(Maintenance) {<h1>Database maintenance</h1>
   9999999.
   </p>
   
-  <h3>Repair a base</h3>
-  <p>
-  In the rare cases that a scidCommunity database is corrupted one might try to
-  repair it using Database / Maintenance / Repair base. For this to work,
-  the base in question must not be opened (which is not possible in
-  most cases anyway). scidCommunity will then try its best to get the database
-  back in a consistent and usable state.
-  </p>
+
 
   <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
 }

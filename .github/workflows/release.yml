@@ -136,7 +136,6 @@ jobs:
           echo === Creating engines directory ===
           mkdir engines
           echo === Moving chess engines from bin to engines ===
-          move bin\phalanx-scid.exe engines\
           move bin\stockfish.exe engines\
           move bin\*.nnue engines\
           echo === Copying DLLs to bin ===

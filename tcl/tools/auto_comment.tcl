@@ -416,6 +416,16 @@ proc ::auto_comment::buildPrompt {fen evalText movePlayed variant {opening ""} {
 
 Center your concise commentary on the player who just moved ($whoMoved). Explain why their move was good or bad based on the engine scores and PV lines provided.
 
+===== SCORING PERSPECTIVE AND SCALE =====
+The engine evaluations provided below are from WHITE'S perspective:
+- POSITIVE (+X.XX): White has the advantage.
+- NEGATIVE (-X.XX): BLACK has the advantage.
+- SCALE:
+    * +/- 1.00 = 1 pawn advantage.
+    * +/- 10.00 = Winning advantage.
+    * +/- 50.00 or higher = Forced win or mate.
+- CRITICAL: A large negative score (e.g., -81.15) is NOT equality. It means Black has a crushing win or forced mate. Do NOT describe large negative values as equal or balanced.
+
 ===== VERIFICATION CHECKLIST =====
 Before writing any commentary, verify:
 1. LINE RANKING: Line 1 is ALWAYS the engine's best move. If the played move appears in Line 2 or later, Line 1 contains the better alternative.

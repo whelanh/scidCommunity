@@ -259,10 +259,10 @@ proc InitTooltip {} {
 InitTooltip
 
 # Helper function to get the correct button image name for the current theme
-# For dark themes (dark, cobalt2), returns the _white variant if it exists
+# For dark themes, returns the _white variant if it exists
 proc ::button_image {buttonName} {
   set theme [ttk::style theme use]
-  if {[string first "dark" $theme] != -1 || $theme eq "cobalt2"} {
+  if {$theme in $::darkThemes} {
     set whiteName "${buttonName}_white"
     if {[lsearch [image names] $whiteName] != -1} {
       return $whiteName
@@ -404,6 +404,7 @@ proc safeSourceStyle {filename} {
   interp alias $safeInterp image {} ::safeImage $safeInterp [list $vdir $dir]
   interp alias $safeInterp ttk::style {} ::safeStyle $safeInterp
   interp alias $safeInterp ::styleOption {} ::safeStyleOption $safeInterp
+  interp alias $safeInterp registerDarkTheme {} ::registerDarkTheme
 
   $safeInterp eval [list set vdir $vdir]
   $safeInterp eval "source \$vdir/[file tail $filename]"
@@ -467,84 +468,6 @@ proc safeStyle {interp args} {
 # Load default/saved values
 source [file nativename [file join $::scidTclDir "options.tcl"]]
 
-# Create a custom "sand" theme that inherits from classic and adjusts background
-if {[lsearch -exact [ttk::style theme names] sand] == -1} {
-  ttk::style theme create sand -parent classic -settings {
-    # Sand theme based on Chess_Manager_Web palette
-    # Base/UI background and text
-    ttk::style configure . \
-      -background #D2B48C \
-      -fieldbackground #F4E1C6 \
-      -foreground #3B2F2F \
-      -selectbackground #B08968 \
-      -selectforeground #1E1A19
-    ttk::style configure TFrame -background #D2B48C
-    ttk::style configure TLabel -background #D2B48C -foreground #3B2F2F
-    ttk::style configure TNotebook -background #D2B48C
-    # Content windows (Tree view, Game List, PGN text via applyThemeStyle)
-    ttk::style configure Treeview -background #F4E1C6 -fieldbackground #F4E1C6 -foreground #3B2F2F
-    ttk::style map Treeview \
-      -background [list selected #B08968] \
-      -foreground [list selected #1E1A19]
-    # Inputs
-    ttk::style configure TEntry -fieldbackground #F4E1C6 -foreground #3B2F2F
-    ttk::style configure TCombobox -fieldbackground #F4E1C6 -foreground #3B2F2F
-    # Buttons
-    ttk::style configure TButton -background #C19A6B -foreground #1E1A19 -borderwidth 1 -relief raised -padding {6 2}
-    ttk::style map TButton -background [list active #CFB080 pressed #A67C52] -relief [list pressed sunken]
-    # Menubuttons
-    ttk::style configure TMenubutton -background #C19A6B -foreground #1E1A19 -borderwidth 1 -relief raised
-    # Checkboxes and radiobuttons: explicit indicator colors for visibility
-    ttk::style configure TCheckbutton -background #D2B48C -foreground #3B2F2F -indicatorcolor #F4E1C6
-    ttk::style map TCheckbutton \
-      -background [list active #D2B48C] \
-      -indicatorcolor [list pressed #F4E1C6 selected #4a90d9 alternate #4a90d9]
-    ttk::style configure TRadiobutton -background #D2B48C -foreground #3B2F2F -indicatorcolor #F4E1C6
-    ttk::style map TRadiobutton \
-      -background [list active #D2B48C] \
-      -indicatorcolor [list pressed #F4E1C6 selected #4a90d9 alternate #4a90d9]
-  }
-}
-
-# Create a custom "cobalt2" theme inspired by Wes Bos's popular VSCode theme
-if {[lsearch -exact [ttk::style theme names] cobalt2] == -1} {
-  ttk::style theme create cobalt2 -parent classic -settings {
-    # Cobalt2 theme - dark blue theme inspired by Wes Bos's VSCode theme
-    # Color palette: Blue #193549, Blue Dark #122738, Highlight #1F4662, Yellow #ffc600, Hot Pink #ff0088, Orange #ff9d00
-    # Base/UI background and text
-    ttk::style configure . \
-      -background #193549 \
-      -fieldbackground #122738 \
-      -foreground #ffffff \
-      -selectbackground #1F4662 \
-      -selectforeground #ffc600
-    ttk::style configure TFrame -background #193549
-    ttk::style configure TLabel -background #193549 -foreground #ffffff
-    ttk::style configure TNotebook -background #193549
-    # Content windows (Tree view, Game List, PGN text via applyThemeStyle)
-    ttk::style configure Treeview -background #122738 -fieldbackground #122738 -foreground #ffffff
-    ttk::style map Treeview \
-      -background [list selected #1F4662] \
-      -foreground [list selected #ffc600]
-    # Inputs
-    ttk::style configure TEntry -fieldbackground #122738 -foreground #ffc600
-    ttk::style configure TCombobox -fieldbackground #122738 -foreground #ffc600
-    # Buttons
-    ttk::style configure TButton -background #1F4662 -foreground #ffc600 -borderwidth 1 -relief raised -padding {6 2}
-    ttk::style map TButton -background [list active #234E6D pressed #122738] -relief [list pressed sunken]
-    # Menubuttons
-    ttk::style configure TMenubutton -background #1F4662 -foreground #ffc600 -borderwidth 1 -relief raised
-    # Checkboxes and radiobuttons: explicit indicator colors for visibility
-    ttk::style configure TCheckbutton -background #193549 -foreground #ffffff -indicatorcolor #122738
-    ttk::style map TCheckbutton \
-      -background [list active #193549] \
-      -indicatorcolor [list pressed #122738 selected #ff9d00 alternate #ff9d00]
-    ttk::style configure TRadiobutton -background #193549 -foreground #ffffff -indicatorcolor #122738
-    ttk::style map TRadiobutton \
-      -background [list active #193549] \
-      -indicatorcolor [list pressed #122738 selected #ff9d00 alternate #ff9d00]
-  }
-}
 
 proc calculateTreeviewRowHeight { } {
   set row_height [expr { round(1.1 * [font metrics font_Regular -linespace]) }]
@@ -616,8 +539,28 @@ proc styleOption {themeName pattern value} {
   lappend ::themeOptions [list $themeName $pattern $value]
 }
 
-# Load darktheme, must load here to have it in place if used
-source -encoding utf-8 [file nativename [file join $::scidTclDir "darktheme.tcl"]]
+set ::darkThemes {}
+
+proc ::registerDarkTheme {themeName} {
+  if {$themeName ni $::darkThemes} {
+    lappend ::darkThemes $themeName
+  }
+}
+
+# ----------------------------------------------------------------------
+# Dynamic Theme Auto-Loader
+# Loads custom .tcl themes from the local "themes" subdirectory.
+# ----------------------------------------------------------------------
+set themeDir [file join [file dirname [info script]] "themes"]
+if {[file isdirectory $themeDir]} {
+    set themeFiles [glob -nocomplain -directory $themeDir *.tcl]
+    foreach themeFile $themeFiles {
+        if {[catch {safeSourceStyle $themeFile} err]} {
+            puts stderr "Warning: Failed to load theme file $themeFile - $err"
+        }
+    }
+}
+
 # Load more theme
 if { [file exists $::ThemePackageFile] } {
   catch { ::safeSourceStyle $::ThemePackageFile }
@@ -740,10 +683,10 @@ proc configure_style {} {
     option add [lindex $elem 1] [lindex $elem 2]
   }
 
-  #Load light or dark icons (if the theme name contains "dark" or is cobalt2)
+  #Load light or dark icons based on the dynamic dark theme registry
   set icons_dir "icons_light"
   set theme [ttk::style theme use]
-  if {[string first "dark" $theme] != -1 || $theme eq "cobalt2"} {
+  if {$theme in $::darkThemes} {
     set icons_dir "icons_dark"
   }
   set dname [file join $::scidImgDir $icons_dir]

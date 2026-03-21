@@ -196,6 +196,7 @@ menuText D ToolsTrainCalvar "Varianten berechnen"  0 {Training zum Berechnen von
 menuText D ToolsTrainFindBestMove "Besten Zug finden"  0 {Find best move}
 menuText D ToolsTrainFics "Internetpartie (FICS)"  0 {Internetpartie auf freechess.org}
 menuText D ToolsEngineTournament "Engine Turnier"  0 {Start a tournament between chess engines}
+menuText D ToolsTimeAnalysis "Zeitanalyse" 0 {Uhrzeitdiagramm für das aktuelle Spiel anzeigen}
 menuText D ToolsBookTuning "Buch abstimmen" 0 {Buch abstimmen}
 menuText D ToolsDownloadTWIC "Laden Sie TWIC-Spiele herunter" 0 {Laden Sie die neuesten The Week In Chess (TWIC)-Spiele herunter}
 menuText D ToolsConnectHardware "Hardware verbinden" 0 {Externe Hardware mit Scid verbinden}
@@ -426,6 +427,12 @@ translate D ErrReadOnly \
   {Diese Datenbank ist schreibgeschützt; sie kann nicht geändert werden.}
 translate D ErrSearchInterrupted \
   {Suche wurde unterbrochen; Ergebnisse sind unvollständig.}
+translate D ErrEnginesOpen {Bei geöffneten Schach-Engines kann nicht fortgefahren werden.\nBitte schließen Sie alle Engine-Fenster und versuchen Sie es erneut.}
+translate D ErrNoClockComments {In diesem Spiel wurden keine [%clk] Uhrkommentare gefunden.    Fügen Sie Uhrzeiten über das Kommentarfenster (Strg+E) hinzu, um diese Funktion zu nutzen.}
+translate D ErrFileInUse {Fehler: Die Datei wird bereits verwendet. Bitte schließen Sie alle anderen Anwendungen, die diese Datenbank verwenden. Wenn das Programm unerwartet geschlossen wurde, müssen Sie möglicherweise die mit der Datenbank verknüpfte .lock-Datei löschen.}
+
+
+
 
 # Game information:
 translate D twin {Dublette}

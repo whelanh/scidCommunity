@@ -84,6 +84,11 @@ t = clock();
  
 /* Do NOT buffer I/O - needed for communication with xboard */
 setvbuf(stdout, (char*)NULL, _IONBF, 0);
+setvbuf(stdin, (char*)NULL, _IONBF, 0);
+#ifdef _WIN32
+_setmode(_fileno(stdout), _O_BINARY);
+_setmode(_fileno(stdin), _O_BINARY);
+#endif
 
 printf("Phalanx "); puts(VERSION);
 

@@ -217,7 +217,8 @@ private:
 		for (size_t i = 0; i < n_parts; i++) {
 			auto begin = i * n_games / n_parts;
 			auto end = (1 + i) * n_games / n_parts;
-			jobs.emplace_back(worker, begin, end);
+			jobs.emplace_back(worker, static_cast<gamenumT>(begin),
+			                  static_cast<gamenumT>(end));
 		}
 		gamenumT n_reported = 0;
 		while (n_reported != n_games) {

@@ -195,6 +195,8 @@ menuText Y ToolsTrainFics "Play on internet"  0 {Play on freechess.org}
 # ====== TODO To be translated ======
 menuText Y ToolsEngineTournament "Engine tournament"  0 {Start a tournament between chess engines}
 # ====== TODO To be translated ======
+menuText Y ToolsTimeAnalysis "Time Analysis" 0 {Show clock time graph for the current game}
+# ====== TODO To be translated ======
 menuText Y ToolsBookTuning "Book tuning" 0 {Book tuning}
 # ====== TODO To be translated ======
 menuText Y ToolsDownloadTWIC "Download TWIC Games" 0 {Download the latest The Week In Chess (TWIC) games}
@@ -463,6 +465,12 @@ translate Y readonly {read-only} ;# ***
 translate Y ErrNotOpen {This is not an open database.} ;# ***
 translate Y ErrReadOnly {This database is read-only; it cannot be altered.} ;# ***
 translate Y ErrSearchInterrupted {Search was interrupted; results are incomplete.} ;# ***
+# ====== TODO To be translated ======
+translate Y ErrEnginesOpen {Cannot proceed while chess engines are open.\nPlease close all engine windows and try again.}
+# ====== TODO To be translated ======
+translate Y ErrNoClockComments {No [%clk] clock comments were found in this game.    Add clock times via the Comments Window (Ctrl+E) to use this feature.}
+# ====== TODO To be translated ======
+translate Y ErrFileInUse {Error: the file is already in use. Please close any other application using this database. If the program was closed unexpectedly, you may need to delete the .lock file associated with the database.}
 
 # Game information:
 translate Y twin {udvojena}

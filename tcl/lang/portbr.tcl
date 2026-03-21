@@ -171,6 +171,7 @@ menuText B ToolsTrainCalvar "Cálculo de Variantes"  0 {Treinamento de cálculo de
 menuText B ToolsTrainFindBestMove "Procurar melhor movimento"  0 {Procura o melhor movimento}
 menuText B ToolsTrainFics "Jogar na internet"  0 {Jogar em  freechess.org}
 menuText B ToolsEngineTournament "Torneio de Engines de Xadrez"  0 {Inicia um torneio entre engines de Xadrez}
+menuText B ToolsTimeAnalysis "Análise de Tempo" 0 {Mostrar gráfico de tempo do relógio para o jogo atual}
 menuText B ToolsBookTuning "Sintonizar Livro" 0 {Sintonizar livro de aberturas}
 menuText B ToolsDownloadTWIC "Baixar Partidas TWIC" 0 {Baixar as partidas mais recentes The Week In Chess (TWIC)}
 menuText B ToolsConnectHardware "Conectar Hardware" 0 {Conectar hardware externo}
@@ -399,6 +400,12 @@ translate B readonly {apenas leitura}
 translate B ErrNotOpen {Esta base não está aberta.} 
 translate B ErrReadOnly {Esta base é apenas para leitura; não pode ser alterada.} 
 translate B ErrSearchInterrupted {Pesquisa interrompida; os resultados estão incompletos.} 
+translate B ErrEnginesOpen {Não é possível continuar enquanto os motores de xadrez estão abertos.\nFeche todas as janelas do motor e tente novamente.}
+translate B ErrNoClockComments {Nenhum comentário de relógio [%clk] foi encontrado neste jogo.    Adicione horários de relógio através da janela de comentários (Ctrl+E) para usar este recurso.}
+translate B ErrFileInUse {Erro: o arquivo já está em uso. Feche qualquer outro aplicativo que use este banco de dados. Se o programa foi fechado inesperadamente, pode ser necessário excluir o arquivo .lock associado ao banco de dados.}
+
+
+
 
 # Game information:
 translate B twin {duplicado}

@@ -179,6 +179,7 @@ menuText F ToolsTrainCalvar "Calcul de variantes"  0 {Entraînement au calcul de
 menuText F ToolsTrainFindBestMove "Trouver le meilleur coup"  0 {Trouver le meilleur coup}
 menuText F ToolsTrainFics "Jouer sur internet"  10 {Jouer sur freechess.org}
 menuText F ToolsEngineTournament "Tournoi de moteurs"  0 {Démarrer un tournoi entre moteurs d'échecs}
+menuText F ToolsTimeAnalysis "Analyse du temps" 0 {Afficher le graphique de l'heure du jeu en cours}
 menuText F ToolsBookTuning "Config. bibliothèque" 0 {Configuration fine d'une bibliothèque}
 menuText F ToolsDownloadTWIC "Télécharger les jeux TWIC" 0 {Télécharger les derniers jeux The Week In Chess (TWIC)}
 menuText F ToolsConnectHardware "Connecter un matériel" 2 {Connecter un échiquier externe}
@@ -406,6 +407,12 @@ translate F readonly {lecture seule}
 translate F ErrNotOpen {Ceci n'est pas une base ouverte.}
 translate F ErrReadOnly {Cette base est en lecture seule; elle ne peut être modifiée.}
 translate F ErrSearchInterrupted {La recherche a été interrompue; les résultats sont incomplets.}
+translate F ErrEnginesOpen {Impossible de continuer lorsque les moteurs d'échecs sont ouverts.\nVeuillez fermer toutes les fenêtres du moteur et réessayer.}
+translate F ErrNoClockComments {Aucun commentaire d'horloge [%clk] n'a été trouvé dans ce jeu.    Ajoutez des heures d'horloge via la fenêtre de commentaires (Ctrl+E) pour utiliser cette fonctionnalité.}
+translate F ErrFileInUse {Erreur : le fichier est déjà utilisé. Veuillez fermer toute autre application utilisant cette base de données. Si le programme a été fermé de manière inattendue, vous devrez peut-être supprimer le fichier .lock associé à la base de données.}
+
+
+
 
 # Game information:
 translate F twin {doublon}
