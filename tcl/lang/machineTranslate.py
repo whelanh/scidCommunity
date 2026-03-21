@@ -82,6 +82,7 @@ LANGUAGE_FILE_MAP = {
     'SerbCyr.tcl': 'sr',      # Serbian Cyrillic
     'romanian.tcl': 'ro',     # Romanian
     'japanese.tcl': 'ja',     # Japanese
+    'turkish.tcl': 'tr',      # Turkish
 }
 
 def get_encoding_for_file(input_file):
