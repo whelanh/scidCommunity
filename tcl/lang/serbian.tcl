@@ -7,57 +7,62 @@ proc setLanguage_Y {} {
 # File menu:
 menuText Y File "Fajl" 0
 menuText Y FileNew "Novi..." 0 {Kreiraj novu Scid bazu podataka}
-menuText Y FileOpen "Otvori..." 0 {Otvori postoje√¶u Scid bazu podataka}
+menuText Y FileOpen "Otvori..." 0 {Otvori postojeÊu Scid bazu podataka}
 menuText Y FileClose "Zatvori" 0 {Zatvori aktivnu Scid bazu podataka}
-menuText Y FileFinder "Traga√®" 0 {Pokreni Fajl Traga√®}
-menuText Y FileBookmarks "Markeri" 0 {Meni sa markerima (pre√®ica: Ctrl+B)}
+menuText Y FileFinder "TragaË" 0 {Pokreni Fajl TragaË}
+menuText Y FileBookmarks "Markeri" 0 {Meni sa markerima (preËica: Ctrl+B)}
 menuText Y FileBookmarksAdd "Dodaj u markere" 0 \
-  {Dodaj u markere teku√¶u partiju iz baze i poziciju}
+  {Dodaj u markere tekuÊu partiju iz baze i poziciju}
 menuText Y FileBookmarksFile "Arhiviraj marker" 0 \
-  {Arhiviraj marker za teku√¶u partiju i poziciju}
+  {Arhiviraj marker za tekuÊu partiju i poziciju}
 menuText Y FileBookmarksEdit "Izmeni markere..." 0 \
   {Izmeni menije markera}
-menuText Y FileBookmarksList "Prika¬æi foldere kao jedinstvenu listu" 0 \
-  {Prika¬æi foldere markera kao jedinstvenu listu, bez podmenija}
-menuText Y FileBookmarksSub "Prika¬æi foldere kao podmenije" 0 \
-  {Prika¬æi foldere markera kao podmenije, ne jedinstvenu listu}
-menuText Y FileMaint "Odr¬æavanje" 0 {Alati za odr¬æavanje Scid baze podataka}
-menuText Y FileMaintWin "Prozor odr¬æavanja" 0 \
-  {Otvori/zatvori prozor odr¬æavanja Scid baze podataka}
+menuText Y FileBookmarksList "Prikaæi foldere kao jedinstvenu listu" 0 \
+  {Prikaæi foldere markera kao jedinstvenu listu, bez podmenija}
+menuText Y FileBookmarksSub "Prikaæi foldere kao podmenije" 0 \
+  {Prikaæi foldere markera kao podmenije, ne jedinstvenu listu}
+menuText Y FileMaint "Odræavanje" 0 {Alati za odræavanje Scid baze podataka}
+menuText Y FileMaintWin "Prozor odræavanja" 0 \
+  {Otvori/zatvori prozor odræavanja Scid baze podataka}
 menuText Y FileMaintCompact "Komprimuj bazu..." 0 \
-  {U√®ini fajlove baze kompaktnijim, uklanjaju√¶i obrisane partije i nekori¬π√¶ena imena}
-menuText Y FileMaintClass "E¬©O-Klasifikacija partija..." 2 \
+  {UËini fajlove baze kompaktnijim, uklanjajuÊi obrisane partije i nekoriπÊena imena}
+menuText Y FileMaintClass "E©O-Klasifikacija partija..." 2 \
   {Klasifikacija svih partija po otvaranju}
 menuText Y FileMaintSort "Sortiraj bazu..." 0 \
   {Sortiraj sve partije u bazi podataka}
-menuText Y FileMaintDelete "Izbri¬πi udvojene partije..." 0 \
-  {Na√∞i udvojene partije i ozna√®i ih za brisanje}
+menuText Y FileMaintDelete "Izbriπi udvojene partije..." 0 \
+  {Nai udvojene partije i oznaËi ih za brisanje}
 menuText Y FileMaintTwin "Provera udvojenih partija" 0 \
-  {Otvori/osve¬æi prozor za proveru udvojenih partija}
+  {Otvori/osveæi prozor za proveru udvojenih partija}
 menuText Y FileMaintName "Imena" 0 {Promena imena i kontrola pravopisa}
 menuText Y FileMaintNameEditor "Editor imena" 0 \
   {Otvori/zatvori editor imena}
-menuText Y FileMaintNamePlayer "Provera pravopisa imena igra√®a..." 11 \
-  {Provera pravopisa imena igra√®a pomo√¶u spellcheck fajla}
+menuText Y FileMaintNamePlayer "Provera pravopisa imena igraËa..." 11 \
+  {Provera pravopisa imena igraËa pomoÊu spellcheck fajla}
 menuText Y FileMaintNameEvent "Provera pravopisa imena turnira..." 11 \
-  {Provera pravopisa imena turnira pomo√¶u spellcheck fajla}
+  {Provera pravopisa imena turnira pomoÊu spellcheck fajla}
 menuText Y FileMaintNameSite "Provera pravopisa imena mesta..." 11 \
-  {Provera pravopisa imena mesta pomo√¶u spellcheck fajla}
+  {Provera pravopisa imena mesta pomoÊu spellcheck fajla}
 menuText Y FileMaintNameRound "Provera pravopisa kola..." 11 \
-  {Provera pravopisa kola pomo√¶u spellcheck fajla}
-menuText Y FileReadOnly "Samo za ƒçitanje..." 0 \
-  {Spre√®i izmene u teku√¶oj bazi}
-menuText Y FileSwitch "Prebacite se na bazu podataka" 0 \
+  {Provera pravopisa kola pomoÊu spellcheck fajla}
+menuText Y FileReadOnly "Read-only..." 0 \
+  {SpreËi izmene u tekuÊoj bazi}
+menuText Y FileSwitch "Switch to database" 0 \
   {Switch to a different opened database} ;# ***
-menuText Y FileOpenLichessTournament "Otvoreni turnir Lichess" 0 {Preuzmite i otvorite u≈æivo Lichess turnir emitovanje igara}
-menuText Y FileImportLichess "Uvezi moj Lichess" 0 {Uvezite igre sa svog Lichess naloga}
-menuText Y FileImportChessCom "Uvezi moj chess.com" 0 {Uvezite igre sa svog chess.com naloga}
-menuText Y FileExit "Iza√∞i" 1 {Izlazak iz Scid-a}
+# ====== TODO To be translated ======
+menuText Y FileOpenLichessTournament "Open Lichess Tournament" 0 {Download and open live Lichess tournament broadcast games}
+# ====== TODO To be translated ======
+menuText Y FileImportLichess "Import my Lichess" 0 {Import games from your Lichess account}
+# ====== TODO To be translated ======
+menuText Y FileImportChessCom "Import my chess.com" 0 {Import games from your chess.com account}
+menuText Y FileExit "Izai" 1 {Izlazak iz Scid-a}
+# ====== TODO To be translated ======
+menuText Y FileMaintFixBase "Fix corrupted base" 0 {Try to fix a corrupted base}
 
 # Edit menu:
 menuText Y Edit "Izmene" 0
 menuText Y EditAdd "Dodaj varijantu" 0 {Dodaj varijantu potezu u partiji}
-menuText Y EditDelete "Obri¬πi varijantu" 0 {Obri¬πi varijantu za ovaj potez}
+menuText Y EditDelete "Obriπi varijantu" 0 {Obriπi varijantu za ovaj potez}
 menuText Y EditFirst "Postavi prvu varijantu" 5 \
   {Postavi varijantu kao prvu u listi}
 menuText Y EditMain "Postavi varijantu na glavnu liniju" 21 \
@@ -65,14 +70,16 @@ menuText Y EditMain "Postavi varijantu na glavnu liniju" 21 \
 menuText Y EditTrial "Probaj varijantu" 0 \
   {Pokreni/zaustavi mod za testiranje ideje na tabli}
 menuText Y EditStrip "Ukloni" 2 {Ukloni komentare ili varijante iz ove partije}
-menuText Y EditUndo "Poni≈°ti" 0 {Poni≈°ti poslednju promenu igre}
-menuText Y EditRedo "Ponovi" 0 {Ponovite poslednju promenu igre}
+# ====== TODO To be translated ======
+menuText Y EditUndo "Undo" 0 {Undo last game change}
+# ====== TODO To be translated ======
+menuText Y EditRedo "Redo" 0 {Redo last game change}
 menuText Y EditStripComments "Komentare" 0 \
   {Ukloni sve komentare i napomene iz ove partije}
 menuText Y EditStripVars "Varijante" 0 {Ukloni sve varijante iz ove partije}
-menuText Y EditStripBegin "Kreƒáe se od poƒçetka" 1 \
+menuText Y EditStripBegin "Moves from the beginning" 1 \
   {Strip moves from the beginning of the game} ;# ***
-menuText Y EditStripEnd "Pomera se do kraja" 0 \
+menuText Y EditStripEnd "Moves to the end" 0 \
   {Strip moves to the end of the game} ;# ***
 menuText Y EditReset "Isprazni Clipbase" 0 \
   {Resetuje clipbase da bude potpuno prazan}
@@ -80,14 +87,14 @@ menuText Y EditCopy "Kopiraj ovu partiju na Clipbase" 0 \
   {Kopiraj ovu partiju na clipbase partija}
 menuText Y EditPaste "Prenesi poslednju clipbase partiju" 0 \
   {Prenesi aktivnu clipbase partiju ovde}
-menuText Y EditPastePGN "Nalepite tekst klipborda kao PGN igru..." 10 \
+menuText Y EditPastePGN "Paste Clipboard text as PGN game..." 10 \
   {Interpret the clipboard text as a game in PGN notation and paste it here} ;# ***
-menuText Y EditSetup "Namesti po√®etnu poziciju..." 0 \
-  {Namesti po√®etnu poziciju za ovu partiju}
-menuText Y EditCopyBoard "Pozicija kopiranja" 6 \
+menuText Y EditSetup "Namesti poËetnu poziciju..." 0 \
+  {Namesti poËetnu poziciju za ovu partiju}
+menuText Y EditCopyBoard "Copy position" 6 \
   {Copy the current board in FEN notation to the text selection (klipbord)} ;# ***
-menuText Y EditPasteBoard "Prenesi po√®etnu poziciju" 9 \
-  {Postavi po√®etnu poziciju na osnovu trenutno izabranog teksta (klipbord)}
+menuText Y EditPasteBoard "Prenesi poËetnu poziciju" 9 \
+  {Postavi poËetnu poziciju na osnovu trenutno izabranog teksta (klipbord)}
 # ====== TODO To be translated ======
 menuText Y ConfigureScid "Preferences..." 0 {Configure all options for SCID}
 
@@ -95,34 +102,34 @@ menuText Y ConfigureScid "Preferences..." 0 {Configure all options for SCID}
 menuText Y Game "Partija" 0
 menuText Y GameNew "Nova partija" 0 \
   {Pokreni novu partiju, sa gubljenjem svih izmena}
-menuText Y GameFirst "U√®itaj prvu partiju" 5 {U√®itaj prvu filtriranu partiju}
-menuText Y GamePrev "U√®itaj prethodnu partiju" 5 {U√®itaj prethodnu filtriranu partiju}
-menuText Y GameReload "Osve¬æi trenutnu partiju" 3 \
-  {Osve¬æi ovu partiju, sa gubljenjem svih izmena}
-menuText Y GameNext "U√®itaj slede√¶u partiju" 5 {U√®itaj slede√¶u filtriranu partiju}
-menuText Y GameLast "U√®itaj poslednju partiju" 8 {U√®itaj poslednju filtriranu partiju}
+menuText Y GameFirst "UËitaj prvu partiju" 5 {UËitaj prvu filtriranu partiju}
+menuText Y GamePrev "UËitaj prethodnu partiju" 5 {UËitaj prethodnu filtriranu partiju}
+menuText Y GameReload "Osveæi trenutnu partiju" 3 \
+  {Osveæi ovu partiju, sa gubljenjem svih izmena}
+menuText Y GameNext "UËitaj sledeÊu partiju" 5 {UËitaj sledeÊu filtriranu partiju}
+menuText Y GameLast "UËitaj poslednju partiju" 8 {UËitaj poslednju filtriranu partiju}
 menuText Y GameRandom "Load Random Game" 8 {Load a random filtered game} ;# ***
-menuText Y GameNumber "U√®itaj partiju broj..." 5 \
-  {U√®itaj partiju, unose√¶i njen broj}
-menuText Y GameReplace "Sa√®uvaj: Zameni partiju..." 6 \
-  {Sa√®uvaj ovu partiju preko stare partiju u bazi}
-menuText Y GameAdd "Sa√®uvaj: Dodaj novu partiju..." 6 \
-  {Sa√®uvaj ovu partiju kao novu u bazi}
+menuText Y GameNumber "UËitaj partiju broj..." 5 \
+  {UËitaj partiju, unoseÊi njen broj}
+menuText Y GameReplace "SaËuvaj: Zameni partiju..." 6 \
+  {SaËuvaj ovu partiju preko stare partiju u bazi}
+menuText Y GameAdd "SaËuvaj: Dodaj novu partiju..." 6 \
+  {SaËuvaj ovu partiju kao novu u bazi}
 menuText Y GameDeepest "Identifikuj otvaranje" 0 \
   {Idi na poslednju poziciju partije koja odgovara knjizi otvaranja}
 menuText Y GameGotoMove "Idi na potez broj..." 5 \
-  {Idi na odre√∞eni broj potez u teku√¶oj partiji}
-menuText Y GameNovelty "Prona√∞i novost..." 8 \
-  {Prona√∞i prvi potez ove partije koji nije igran ranije}
+  {Idi na odreeni broj potez u tekuÊoj partiji}
+menuText Y GameNovelty "Pronai novost..." 8 \
+  {Pronai prvi potez ove partije koji nije igran ranije}
 
 # Search Menu:
-menuText Y Search "Pretra¬æi" 3
-menuText Y SearchReset "Resetuj filter" 0 {Resetuj filter da bi sve partije bile uklju√®ene}
-menuText Y SearchNegate "Invertuj filter" 0 {Invertuj filter da uklju√®i samo isklju√®ene partije}
-menuText Y SearchCurrent "Teku√¶a pozicija..." 0 {Pretra¬æuj prema teku√¶oj poziciji na tabli}
-menuText Y SearchHeader "Zaglavlje..." 0 {Pretra¬æuj prema informacijama iz zaglavlja (igra√®, turnir, itd)}
-menuText Y SearchMaterial "Materijal/Pozicije..." 0 {Pretra¬æuj prema materijalu i poziciji}
-menuText Y SearchUsing "Pomo√¶u Search fajla..." 0 {Pretra¬æuj pomo√¶u Search fajla}
+menuText Y Search "Pretraæi" 3
+menuText Y SearchReset "Resetuj filter" 0 {Resetuj filter da bi sve partije bile ukljuËene}
+menuText Y SearchNegate "Invertuj filter" 0 {Invertuj filter da ukljuËi samo iskljuËene partije}
+menuText Y SearchCurrent "TekuÊa pozicija..." 0 {Pretraæuj prema tekuÊoj poziciji na tabli}
+menuText Y SearchHeader "Zaglavlje..." 0 {Pretraæuj prema informacijama iz zaglavlja (igraË, turnir, itd)}
+menuText Y SearchMaterial "Materijal/Pozicije..." 0 {Pretraæuj prema materijalu i poziciji}
+menuText Y SearchUsing "PomoÊu Search fajla..." 0 {Pretraæuj pomoÊu Search fajla}
 
 # Windows menu:
 menuText Y Windows "Prozori" 1
@@ -131,39 +138,39 @@ menuText Y WindowsGList "Lista partija" 0 {Otvori/zatvori listu partija}
 menuText Y WindowsPGN "PGN prozor" 0 \
   {Otvori/zatvori PGN prozor (sa podacima o partiji)}
 menuText Y WindowsPList "Player Finder" 2 {Open/close the player finder} ;# ***
-menuText Y WindowsTmt "Turnir traga√®" 2 {Otvori/zatvori turnir traga√®}
-menuText Y WindowsSwitcher "Bira√® baza" 0 \
-  {Otvori/zatvori bira√® baza}
-menuText Y WindowsMaint "Prozor odr¬æavanja" 0 \
-  {Otvori/zatvori prozor odr¬æavanja}
-menuText Y WindowsECO "E¬©O prikaziva√®" 0 {Otvori/zatvori E¬©O prikaziva√®}
-menuText Y WindowsStats "Statisti√®ki prozor" 0 \
+menuText Y WindowsTmt "Turnir tragaË" 2 {Otvori/zatvori turnir tragaË}
+menuText Y WindowsSwitcher "BiraË baza" 0 \
+  {Otvori/zatvori biraË baza}
+menuText Y WindowsMaint "Prozor odræavanja" 0 \
+  {Otvori/zatvori prozor odræavanja}
+menuText Y WindowsECO "E©O prikazivaË" 0 {Otvori/zatvori E©O prikazivaË}
+menuText Y WindowsStats "StatistiËki prozor" 0 \
   {Otvori/zatvori prozor statistika filtera}
 menuText Y WindowsTree "Stablo varijanata" 0 {Otvori/zatvori stablo varijanata}
 # ====== TODO To be translated ======
-menuText Y WindowsBook "Prozor za knjige" 0 {Open/close the Book window}
+menuText Y WindowsBook "Book Window" 0 {Open/close the Book window}
 # ====== TODO To be translated ======
-menuText Y WindowsCorrChess "Prozor za knjige" 0 {Open/close the Correspondence window}
+menuText Y WindowsCorrChess "Correspondence Window" 0 {Open/close the Correspondence window}
 # ====== TODO To be translated ======
-menuText Y WindowsGraph "Grafikon analize" 0 {Open the Graph window with moves' times and evaluations}
+menuText Y WindowsGraph "Analysis Graph" 0 {Open the Graph window with moves' times and evaluations}
 
 # Tools menu:
 menuText Y Tools "Alati" 0
 # ====== TODO To be translated ======
-menuText Y ToolsConfigureEngines "Konfiguri≈°ite ≈°ahovske motore" 10 {Manage engines' configuration}
+menuText Y ToolsConfigureEngines "Configure Engines" 10 {Manage engines' configuration}
 menuText Y ToolsAnalysis "Program za analizu..." 0 \
-  {Pokreni/zaustavi ¬πahovski program za analizu}
+  {Pokreni/zaustavi πahovski program za analizu}
 menuText Y ToolsAnalysis2 "Program za analizu #2..." 17 \
-  {Pokreni/zaustavi drugi ¬πahovski program za analizu}
-menuText Y ToolsCross "Tabela turnira" 0 {Poka¬æi tabelu turnira za ovu partiju}
+  {Pokreni/zaustavi drugi πahovski program za analizu}
+menuText Y ToolsCross "Tabela turnira" 0 {Pokaæi tabelu turnira za ovu partiju}
 menuText Y ToolsFilterGraph "Filter graph" 7 \
   {Open/close the filter graph window} ;# ***
 # ====== TODO To be translated ======
 menuText Y ToolsAbsFilterGraph "Abs. Filter Graph" 7 {Open/close the filter graph window for absolute values}
-menuText Y ToolsOpReport "Izve¬πtaj o otvaranjima" 0 \
-  {Napravi izve¬πtaj o otvaranjima za trenutnu poziciju}
+menuText Y ToolsOpReport "Izveπtaj o otvaranjima" 0 \
+  {Napravi izveπtaj o otvaranjima za trenutnu poziciju}
 # ====== TODO To be translated ======
-menuText Y ToolsOpenBaseAsTree "Otvori bazu podataka kao stablo" 0   {Open a base and use it in Tree window}
+menuText Y ToolsOpenBaseAsTree "Open base as tree" 0   {Open a base and use it in Tree window}
 # ====== TODO To be translated ======
 menuText Y ToolsOpenRecentBaseAsTree "Open recent base as tree" 0   {Open a recent base and use it in Tree window}
 menuText Y ToolsTracker "Piece Tracker"  0 {Open the Piece Tracker window} ;# ***
@@ -202,36 +209,42 @@ menuText Y ToolsConnectHardwareConfigure "Configure..." 0 {Configure external ha
 menuText Y ToolsConnectHardwareNovagCitrineConnect "Connect Novag Citrine" 0 {Connect Novag Citrine}
 # ====== TODO To be translated ======
 menuText Y ToolsConnectHardwareInputEngineConnect "Connect Input Engine" 0 {Connect Input Engine (e.g. DGT)}
-menuText Y ToolsPInfo "Informacije o igra√®u"  0 \
-  {Otvori/osve¬æi informacije o igra√®u}
+menuText Y ToolsPInfo "Informacije o igraËu"  0 \
+  {Otvori/osveæi informacije o igraËu}
 menuText Y ToolsPlayerReport "Player Report..." 3 \
   {Generate a player report} ;# ***
 menuText Y ToolsRating "Grafikon rejtinga" 0 \
-  {Iscrtava grafik istorije rejtinga igra√®a u teku√¶oj partiji}
-menuText Y ToolsExpCurrent "Izvezi teku√¶u partiju" 8 \
-  {Snimi teku√¶u partiju u tekstualni fajl}
+  {Iscrtava grafik istorije rejtinga igraËa u tekuÊoj partiji}
+menuText Y ToolsExpCurrent "Izvezi tekuÊu partiju" 8 \
+  {Snimi tekuÊu partiju u tekstualni fajl}
 menuText Y ToolsExpCurrentPGN "Izvezi partiju u PGN fajl..." 17 \
-  {Snimi teku√¶u partiju u PGN fajl}
+  {Snimi tekuÊu partiju u PGN fajl}
 menuText Y ToolsExpCurrentHTML "Izvezi partiju u HTML fajl..." 17 \
-  {Snimi teku√¶u partiju u HTML fajl}
-menuText Y ToolsExpCurrentHTMLJS "Izvezi igru u HTML i JavaScript fajl......" 15 {Upi≈°i trenutnu igru u HTML i JavaScript fajl}
+  {Snimi tekuÊu partiju u HTML fajl}
+# ====== TODO To be translated ======
+menuText Y ToolsExpCurrentHTMLJS "Export Game to HTML and JavaScript File..." 15 {Write current game to a HTML and JavaScript file}  
 menuText Y ToolsExpFilter "Izvezi sve filtrirane partije" 1 \
   {Snimi sve filtrirane partije u tekstualni fajl}
 menuText Y ToolsExpFilterPGN "Izvezi filtrirane partije u PGN fajl..." 28 \
   {Snimi sve filtrirane partije u PGN fajl}
 menuText Y ToolsExpFilterHTML "Izvezi filtrirane partije u HTML fajl..." 28 \
   {Snimi sve filtrirane partije u HTML fajl}
-menuText Y ToolsExpFilterHTMLJS "Izvezi filter u HTML i JavaScript fajl..." 17 {Zapi≈°i sve filtrirane igre u HTML i JavaScript fajl}
+# ====== TODO To be translated ======
+menuText Y ToolsExpFilterHTMLJS "Export Filter to HTML and JavaScript File..." 17 {Write all filtered games to a HTML and JavaScript file}  
 menuText Y ToolsImportOne "Uvezi jednu PGN partiju..." 0 \
   {Uvezi jednu partiju iz PGN fajla}
-menuText Y ToolsImportFile "Uvezi vi¬πe PGN partija..." 6 \
-  {Uvezi vi¬πe partija iz PGN fajla}
-menuText Y ToolsStartEngine1 "Pokreni motor 1" 0
-menuText Y ToolsStartEngine2 "Pokreni motor 2" 0
+menuText Y ToolsImportFile "Uvezi viπe PGN partija..." 6 \
+  {Uvezi viπe partija iz PGN fajla}
+# ====== TODO To be translated ======
+menuText Y ToolsStartEngine1 "Start engine 1" 0  {Start engine 1}
+# ====== TODO To be translated ======
+menuText Y ToolsStartEngine2 "Start engine 2" 0  {Start engine 2}
 # ====== TODO To be translated ======
 menuText Y ToolsCaptureBoard "Capture Current Board..." 0  {Save the current board as an image.}
-menuText Y Play "Odigraj potez" 0
-menuText Y CCResign "Dati ostavku" 0
+# ====== TODO To be translated ======
+menuText Y Play "Play" 0
+# ====== TODO To be translated ======
+menuText Y CCResign "Resign" 0 {Resign (not via eMail)}
 # ====== TODO To be translated ======
 menuText Y CCClaimDraw "Claim Draw" 0 {Send move and claim a draw (not via eMail)}
 # ====== TODO To be translated ======
@@ -247,7 +260,7 @@ translate Y OptionsBoardGraphicsText {Select graphic files for white and black s
 menuText Y OptionsBoardNames "My Player Names..." 0 {Edit my player names} ;# ***
 menuText Y OptionsExport "Izvoz" 0 {Promeni opcije tekstualnog izvoza}
 menuText Y OptionsFonts "Fontovi" 0 {Promeni fontove}
-menuText Y OptionsFontsRegular "Obi√®an" 0 {Promeni obi√®an font}
+menuText Y OptionsFontsRegular "ObiËan" 0 {Promeni obiËan font}
 menuText Y OptionsFontsMenu "Menu" 0 {Change the menu font} ;# ***
 menuText Y OptionsFontsSmall "Mali" 0 {Promeni mali font}
 # ====== TODO To be translated ======
@@ -269,15 +282,15 @@ menuText Y OptionsMovesHighlightLastMoveColor "Color" 0 {Color of line}
 menuText Y OptionsMovesHighlightLastMoveArrow "Show Arrow" 0 {Show Arrow with Highlight}
 # ====== TODO To be translated ======
 menuText Y OptionsMovesHighlightLastMoveNag "Show evaluation symbols" 0
-menuText Y OptionsMoves "Potezi" 0 {Opcije uno¬πenja poteza}
+menuText Y OptionsMoves "Potezi" 0 {Opcije unoπenja poteza}
 menuText Y OptionsMovesAnimate "Animation time" 1 \
   {Set the amount of time used to animate moves} ;# ***
-menuText Y OptionsMovesDelay "Odlaganje izme√∞u poteza..." 1 \
+menuText Y OptionsMovesDelay "Odlaganje izmeu poteza..." 1 \
   {Podesi vreme odlaganja pri automatskom pregledanju poteza}
-menuText Y OptionsMovesCoord "Uno¬πenje koordinata poteza" 0 \
-  {Prihvati uno¬πenje poteza pomo√¶u koordinata ("g1f3")}
-menuText Y OptionsMovesSuggest "Poka¬æi preporu√®ene poteze" 0 \
-  {Uklju√®i/isklju√®i preporu√®ene poteze}
+menuText Y OptionsMovesCoord "Unoπenje koordinata poteza" 0 \
+  {Prihvati unoπenje poteza pomoÊu koordinata ("g1f3")}
+menuText Y OptionsMovesSuggest "Pokaæi preporuËene poteze" 0 \
+  {UkljuËi/iskljuËi preporuËene poteze}
 # ====== TODO To be translated ======
 menuText Y OptionsShowVarPopup "Show variations window" 0 {Turn on/off the display of a variations window}  
 # ====== TODO To be translated ======
@@ -285,7 +298,7 @@ menuText Y OptionsMovesSpace "Add spaces after move number" 0 {Add spaces after 
 # ====== TODO To be translated ======
 menuText Y OptionsMovesLichess "Lichess/ChessBase Format For Annotations" 0 {Use Lichess/ChessBase format for square markers and arrows}
 menuText Y OptionsMovesKey "Dopunjavanje poteza" 0 \
-  {Uklju√®i/isklju√®i dopunjavanje poteza zadatih tastaturom}
+  {UkljuËi/iskljuËi dopunjavanje poteza zadatih tastaturom}
 # ====== TODO To be translated ======
 menuText Y OptionsMovesShowVarArrows "Show Arrows for Variations" 0 {Turn on/off arrows showing moves in variations}
 # ====== TODO To be translated ======
@@ -311,11 +324,11 @@ menuText Y OptionsWindowsRestoreLayout "Restore layout" 0 {Restore layout}
 menuText Y OptionsWindowsShowGameInfo "Show game info" 0 {Show game info}
 # ====== TODO To be translated ======
 menuText Y OptionsWindowsAutoLoadLayout "Auto load first layout" 0 {Auto load first layout at startup}
-menuText Y OptionsECO "U√®itaj E¬©O fajl" 7 {U√®itaj E¬©O klasifikacioni fajl}
-menuText Y OptionsSpell "U√®itaj fajl za kontrolu pravopisa" 13 \
-  {U√®itaj fajl za kontrolu pravopisa}
-menuText Y OptionsTable "Direktorijum baza zavr¬πnica" 0 \
-  {Izaberi fajl baze zavr¬πnica; sve baze u direktorijumu √¶e biti kori¬π√¶ene}
+menuText Y OptionsECO "UËitaj E©O fajl" 7 {UËitaj E©O klasifikacioni fajl}
+menuText Y OptionsSpell "UËitaj fajl za kontrolu pravopisa" 13 \
+  {UËitaj fajl za kontrolu pravopisa}
+menuText Y OptionsTable "Direktorijum baza zavrπnica" 0 \
+  {Izaberi fajl baze zavrπnica; sve baze u direktorijumu Êe biti koriπÊene}
 menuText Y OptionsRecent "Recent files..." 0 \
   {Change the number of recent files displayed in the File menu} ;# ***
 # ====== TODO To be translated ======
@@ -326,34 +339,34 @@ menuText Y OptionsTacticsBasesDir "Bases directory" 0 {Sets the tactics (trainin
 menuText Y OptionsPhotosDir "Photos directory" 0 {Sets the photos bases directory}
 # ====== TODO To be translated ======
 menuText Y OptionsThemeDir "Theme(s) File:"  0 { Load a GUI theme package file }
-menuText Y OptionsSave "Sa√®uvaj opcije" 0 \
-  "Sa√®uvaj sve opcije u fajl $::optionsFile"
-menuText Y OptionsAutoSave "Auto-sa√®uvaj opcije na izlasku" 0 \
-  {Auto-sa√®uvaj sve opcije pri izlasku iz Scid-a}
+menuText Y OptionsSave "SaËuvaj opcije" 0 \
+  "SaËuvaj sve opcije u fajl $::optionsFile"
+menuText Y OptionsAutoSave "Auto-saËuvaj opcije na izlasku" 0 \
+  {Auto-saËuvaj sve opcije pri izlasku iz Scid-a}
 
 # Help menu:
-menuText Y Help "Pomo√¶" 2
+menuText Y Help "PomoÊ" 2
 menuText Y HelpContents "Contents" 0 {Show the help contents page} ;# ***
-menuText Y HelpIndex "Sadr¬æaj" 0 {Prika¬æi glavnu stranu pomo√¶i}
-menuText Y HelpGuide "Brzi vodi√®" 0 {Prika¬æi brzi vodi√®}
-menuText Y HelpHints "Saveti" 0 {Prika¬æi savete}
-menuText Y HelpContact "Kontakt" 0 {Prika¬æi informacije o kontaktu}
+menuText Y HelpIndex "Sadræaj" 0 {Prikaæi glavnu stranu pomoÊi}
+menuText Y HelpGuide "Brzi vodiË" 0 {Prikaæi brzi vodiË}
+menuText Y HelpHints "Saveti" 0 {Prikaæi savete}
+menuText Y HelpContact "Kontakt" 0 {Prikaæi informacije o kontaktu}
 menuText Y HelpTip "Tip of the day" 0 {Show a useful Scid tip} ;# ***
-menuText Y HelpStartup "Startup prozor" 0 {Prika¬æi startup prozor}
+menuText Y HelpStartup "Startup prozor" 0 {Prikaæi startup prozor}
 menuText Y HelpAbout "O programu Scid" 0 {Informacije o programu Scid}
 
 # Game info box popup menu:
-menuText Y GInfoHideNext "Sakrij slede√¶i potez" 0
-menuText Y GInfoMaterial "Prika¬æi vrednosti materijala" 0
-menuText Y GInfoFEN "Prika¬æi FEN" 8
+menuText Y GInfoHideNext "Sakrij sledeÊi potez" 0
+menuText Y GInfoMaterial "Prikaæi vrednosti materijala" 0
+menuText Y GInfoFEN "Prikaæi FEN" 8
 menuText Y GInfoMarks "Show colored squares and arrows" 5 ;# ***
-menuText Y GInfoWrap "Prelomi duga√®ke linije" 0
+menuText Y GInfoWrap "Prelomi dugaËke linije" 0
 menuText Y GInfoFullComment "Show Full Comment" 10 ;# ***
 menuText Y GInfoPhotos "Show Photos" 5 ;# ***
-menuText Y GInfoTBNothing "Baza zavr¬πnica: ni¬πta" 16
-menuText Y GInfoTBResult "Baza zavr¬πnica: samo rezultati" 16
-menuText Y GInfoTBAll "Baza zavr¬πnica: rezultat i najbolji potezi" 16
-menuText Y GInfoDelete "Obri¬πi/vrati ovu partiju" 0
+menuText Y GInfoTBNothing "Baza zavrπnica: niπta" 16
+menuText Y GInfoTBResult "Baza zavrπnica: samo rezultati" 16
+menuText Y GInfoTBAll "Baza zavrπnica: rezultat i najbolji potezi" 16
+menuText Y GInfoDelete "Obriπi/vrati ovu partiju" 0
 menuText Y GInfoMark "Mark/Unmark this game" 0 ;# ***
 # ====== TODO To be translated ======
 menuText Y GInfoInformant "Configure informant values" 0
@@ -361,32 +374,32 @@ menuText Y GInfoInformant "Configure informant values" 0
 # General buttons:
 translate Y Back {Nazad}
 translate Y Browse {Browse} ;# ***
-translate Y Cancel {Poni¬πti}
+translate Y Cancel {Poniπti}
 # ====== TODO To be translated ======
 translate Y Continue {Continue}
-translate Y Clear {O√®isti}
+translate Y Clear {OËisti}
 translate Y Close {Zatvori}
 translate Y Contents {Contents} ;# ***
 translate Y Defaults {Podrazumevano}
-translate Y Delete {Obri¬πi}
+translate Y Delete {Obriπi}
 translate Y Graph {Grafikon}
-translate Y Help {Pomo√¶}
+translate Y Help {PomoÊ}
 # ====== TODO To be translated ======
 translate Y Hide {Hide}
 translate Y Import {Uvoz}
 translate Y Index {Indeks}
-translate Y LoadGame {U√®itaj partiju}
+translate Y LoadGame {UËitaj partiju}
 translate Y BrowseGame {Browse game} ;# ***
 translate Y MergeGame {Merge game} ;# ***
 # ====== TODO To be translated ======
 translate Y MergeGames {Merge Games}
 translate Y Preview {Preview} ;# ***
 translate Y Revert {Vrati se}
-translate Y Save {Sa√®uvaj}
-translate Y Search {Tra¬æi}
+translate Y Save {SaËuvaj}
+translate Y Search {Traæi}
 translate Y Stop {Stop}
-translate Y Store {Sa√®uvaj}
-translate Y Update {Osve¬æi}
+translate Y Store {SaËuvaj}
+translate Y Update {Osveæi}
 translate Y ChangeOrient {Promeni orijentaciju prozora}
 translate Y ShowIcons {Show Icons} ;# ***
 translate Y None {None} ;# ***
@@ -407,35 +420,35 @@ translate Y King {Kralj}
 translate Y Queen {Dama}
 translate Y Rook {Top}
 translate Y Bishop {Lovac}
-translate Y Knight {Skaka√®}
-translate Y Pawn {Pe¬πak}
+translate Y Knight {SkakaË}
+translate Y Pawn {Peπak}
 translate Y White {Beli}
 translate Y Black {Crni}
-translate Y Player {Igra√®}
+translate Y Player {IgraË}
 translate Y Rating {Rejting}
 translate Y RatingDiff {Razlika u rejtingu (Beli - Crni)}
 translate Y AverageRating {Average Rating} ;# ***
 translate Y Event {Turnir}
 translate Y Site {Mesto}
 translate Y Country {Zemlja}
-translate Y IgnoreColors {Ignori¬πi boje}
+translate Y IgnoreColors {Ignoriπi boje}
 translate Y Date {Datum}
 translate Y EventDate {Datum turnira}
 translate Y Decade {Decade} ;# ***
 translate Y Year {Godina}
 translate Y Month {Mesec}
 translate Y Months {Januar Februar Mart April Maj Jun Jul Avgust Septembar Oktobar Novembar Decembar}
-translate Y Days {Ned Pon Uto Sre √àet Pet Sub}
+translate Y Days {Ned Pon Uto Sre »et Pet Sub}
 translate Y YearToToday {Godina do danas}
 # ====== TODO To be translated ======
 translate Y YearToTodayTooltip {Set date from 1 year back to today}
 translate Y Result {Rezultat}
 translate Y Round {Kolo}
-translate Y Length {Du¬æina}
-translate Y ECOCode {E¬©O k√¥d}
-translate Y ECO {E¬©O}
+translate Y Length {Duæina}
+translate Y ECOCode {E©O kÙd}
+translate Y ECO {E©O}
 translate Y Deleted {Izbrisano}
-translate Y SearchResults {Tra¬æi rezultate}
+translate Y SearchResults {Traæi rezultate}
 translate Y OpeningTheDatabase {Otvaranje baze}
 translate Y Database {Baza}
 translate Y Filter {Filter}
@@ -444,7 +457,7 @@ translate Y allGames {sve partije}
 translate Y empty {prazno}
 translate Y clipbase {clipbase}
 translate Y score {skor}
-translate Y StartPos {Po√®etna pozicija}
+translate Y StartPos {PoËetna pozicija}
 translate Y Total {Ukupno}
 translate Y readonly {read-only} ;# ***
 
@@ -465,9 +478,9 @@ translate Y deleted {izbrisana}
 translate Y comment {komentar}
 translate Y hidden {sakrivena}
 translate Y LastMove {Poslednji potez}
-translate Y NextMove {Slede√¶i}
-translate Y GameStart {Po√®etak partije}
-translate Y LineStart {Po√®etak serije poteza}
+translate Y NextMove {SledeÊi}
+translate Y GameStart {PoËetak partije}
+translate Y LineStart {PoËetak serije poteza}
 translate Y GameEnd {Kraj partije}
 translate Y LineEnd {Kraj serije poteza}
 
@@ -475,8 +488,8 @@ translate Y LineEnd {Kraj serije poteza}
 translate Y PInfoAll {Rezultati <b>svih</b> partija}
 translate Y PInfoFilter {Rezultati <b>filtriranih</b> partija}
 translate Y PInfoAgainst {Rezultati protiv}
-translate Y PInfoMostWhite {Naj√®e¬π√¶e igrana otvaranja sa belim figurama}
-translate Y PInfoMostBlack {Naj√®e¬π√¶e igrana otvaranja sa crnim figurama}
+translate Y PInfoMostWhite {NajËeπÊe igrana otvaranja sa belim figurama}
+translate Y PInfoMostBlack {NajËeπÊe igrana otvaranja sa crnim figurama}
 translate Y PInfoRating {Istorija rejtinga}
 translate Y PInfoBio {Biography} ;# ***
 translate Y PInfoEditRatings {Edit Ratings} ;# ***
@@ -507,11 +520,11 @@ menuText Y TreeFileFillWithGame "Fill Cache with game" 0 {Fill the cache file wi
 menuText Y TreeFileSetCacheSize "Cache size" 0 {Set the cache size}
 # ====== TODO To be translated ======
 menuText Y TreeFileCacheInfo "Cache info" 0 {Get info on cache usage}
-menuText Y TreeFileSave "Sa√®uvaj cache fajl" 0 {Sa√®uvaj cache (.stc) fajl stabla}
+menuText Y TreeFileSave "SaËuvaj cache fajl" 0 {SaËuvaj cache (.stc) fajl stabla}
 menuText Y TreeFileFill "Ispuni cache fajl" 0 \
-  {Ispuni cache fajl √®estim pozicijama otvaranja}
-menuText Y TreeFileBest "Lista najboljih partija" 0 {Prika¬æi listu najboljih partija stabla}
-menuText Y TreeFileGraph "Prozor grafika" 0 {Prika¬æi grafik za ovu granu stabla}
+  {Ispuni cache fajl Ëestim pozicijama otvaranja}
+menuText Y TreeFileBest "Lista najboljih partija" 0 {Prikaæi listu najboljih partija stabla}
+menuText Y TreeFileGraph "Prozor grafika" 0 {Prikaæi grafik za ovu granu stabla}
 menuText Y TreeFileCopy "Kopiraj tekst stabla u clipboard" 0 \
   {Kopiraj statistike stabla u clipboard}
 menuText Y TreeFileClose "Zatvori stablo varijanata" 0 {Zatvori prozor stabla}
@@ -539,8 +552,8 @@ menuText Y TreeMaskDisplay "Display mask map" 0 {Show mask data in a tree form}
 menuText Y TreeMaskSearch "Search" 0 {Search in current mask}
 menuText Y TreeSort "Sortiraj" 0
 menuText Y TreeSortAlpha "Abecedno" 0
-menuText Y TreeSortECO "E¬©O k√¥d" 0
-menuText Y TreeSortFreq "U√®estalost" 0
+menuText Y TreeSortECO "E©O kÙd" 0
+menuText Y TreeSortFreq "UËestalost" 0
 menuText Y TreeSortScore "Skor" 0
 menuText Y TreeOpt "Opcije" 0
 # ====== TODO To be translated ======
@@ -551,21 +564,21 @@ menuText Y TreeOptFastmode "Fast mode" 0 {Fast mode for updates (no move transpo
 menuText Y TreeOptFastAndSlowmode "Fast and slow mode" 0 {Fast mode then slow mode for updates}
 # ====== TODO To be translated ======
 menuText Y TreeOptStartStop "Auto refreshing" 0 {Toggles automatic refreshing of the tree window}
-menuText Y TreeOptLock "Zaklju√®aj" 0 {Zaklju√®aj/otklju√®aj stablo za teku√¶u bazu}
-menuText Y TreeOptTraining "Trening" 0 {Uklju√®i/isklju√®i trening mod stabla}
+menuText Y TreeOptLock "ZakljuËaj" 0 {ZakljuËaj/otkljuËaj stablo za tekuÊu bazu}
+menuText Y TreeOptTraining "Trening" 0 {UkljuËi/iskljuËi trening mod stabla}
 # ====== TODO To be translated ======
 menuText Y TreeOptDepth "Move depth" 0 {Number of half moves to display in tree (1-4)}
-menuText Y TreeOptAutosave "Automatski sa√®uvaj cache fajl" 0 \
-  {Automatski sa√®uvaj cache fajl pri zatvaranju prozora stabla}
-menuText Y TreeHelp "Pomo√¶" 0
-menuText Y TreeHelpTree "Pomo√¶ za stablo" 0
-menuText Y TreeHelpIndex "Sadr¬æaj pomo√¶i" 0
-translate Y SaveCache {Sa√®uvaj cache}
+menuText Y TreeOptAutosave "Automatski saËuvaj cache fajl" 0 \
+  {Automatski saËuvaj cache fajl pri zatvaranju prozora stabla}
+menuText Y TreeHelp "PomoÊ" 0
+menuText Y TreeHelpTree "PomoÊ za stablo" 0
+menuText Y TreeHelpIndex "Sadræaj pomoÊi" 0
+translate Y SaveCache {SaËuvaj cache}
 translate Y Training {Trening}
-translate Y LockTree {Zaklju√®aj}
+translate Y LockTree {ZakljuËaj}
 # ====== TODO To be translated ======
 translate Y TreeDepth {Tree depth (half moves):}
-translate Y TreeLocked {zaklju√®ano}
+translate Y TreeLocked {zakljuËano}
 translate Y TreeBest {Najbolje}
 translate Y TreeBestGames {Najbolje partije stabla}
 # Note: the next message is the tree window title row. After editing it,
@@ -637,10 +650,10 @@ translate Y Moves {Moves}
 # Finder window:
 menuText Y FinderFile "Fajl" 0
 menuText Y FinderFileSubdirs "Pogledaj u poddirektorijumima" 0
-menuText Y FinderFileClose "Zatvori Fajl traga√®" 0
+menuText Y FinderFileClose "Zatvori Fajl tragaË" 0
 menuText Y FinderSort "Sortiraj" 0
 menuText Y FinderSortType "Tip" 0
-menuText Y FinderSortSize "Veli√®ina" 0
+menuText Y FinderSortSize "VeliËina" 0
 menuText Y FinderSortMod "Modifikovano" 0
 menuText Y FinderSortName "Ime" 0
 menuText Y FinderSortPath "Staza" 0
@@ -650,10 +663,10 @@ menuText Y FinderTypesOld "Scid baze u starom formatu" 0
 menuText Y FinderTypesPGN "PGN fajlovi" 0
 menuText Y FinderTypesEPD "EPD (book) fajlovi" 0
 menuText Y FinderTypesRep "Repertoar fajlovi" 0
-menuText Y FinderHelp "Pomo√¶" 0
-menuText Y FinderHelpFinder "Pomo√¶ - Fajl traga√®" 0
-menuText Y FinderHelpIndex "Sadr¬æaj pomo√¶i" 0
-translate Y FileFinder {Fajl traga√®}
+menuText Y FinderHelp "PomoÊ" 0
+menuText Y FinderHelpFinder "PomoÊ - Fajl tragaË" 0
+menuText Y FinderHelpIndex "Sadræaj pomoÊi" 0
+translate Y FileFinder {Fajl tragaË}
 translate Y FinderDir {Direktorijum}
 translate Y FinderDirs {Direktorijumi}
 translate Y FinderFiles {Fajlovi}
@@ -671,7 +684,7 @@ translate Y FinderCtxDelete {Delete}
 
 # Player finder:
 menuText Y PListFile "Fajl" 0
-menuText Y PListFileUpdate "Osve¬æi" 0
+menuText Y PListFileUpdate "Osveæi" 0
 menuText Y PListFileClose "Close Player Finder" 0 ;# ***
 menuText Y PListSort "Sortiraj" 0
 menuText Y PListSortName "Name" 0 ;# ***
@@ -682,30 +695,30 @@ menuText Y PListSortNewest "Newest" 0 ;# ***
 
 # Tournament finder:
 menuText Y TmtFile "Fajl" 0
-menuText Y TmtFileUpdate "Osve¬æi" 0
-menuText Y TmtFileClose "Zatvori Turnir traga√®" 0
+menuText Y TmtFileUpdate "Osveæi" 0
+menuText Y TmtFileClose "Zatvori Turnir tragaË" 0
 menuText Y TmtSort "Sortiraj" 0
 menuText Y TmtSortDate "Datum" 0
-menuText Y TmtSortPlayers "Igra√®i" 0
+menuText Y TmtSortPlayers "IgraËi" 0
 menuText Y TmtSortGames "Partije" 0
 menuText Y TmtSortElo "Elo" 0
 menuText Y TmtSortSite "Mesto" 0
 menuText Y TmtSortEvent "Turnir" 1
 menuText Y TmtSortWinner "Pobednik" 0
-translate Y TmtLimit "Ograni√®enje liste"
-translate Y TmtMeanElo "Najni¬æi Elo"
-translate Y TmtNone "Nije prona√∞en odgovaraju√¶i turnir."
+translate Y TmtLimit "OgraniËenje liste"
+translate Y TmtMeanElo "Najniæi Elo"
+translate Y TmtNone "Nije pronaen odgovarajuÊi turnir."
 
 # Graph windows:
 menuText Y GraphFile "Fajl" 0
-menuText Y GraphFileColor "Sa√®uvaj kao Postscript u boji..." 25
-menuText Y GraphFileGrey "Sa√®uvaj kao Postscript u sivim nivoima..." 25
+menuText Y GraphFileColor "SaËuvaj kao Postscript u boji..." 25
+menuText Y GraphFileGrey "SaËuvaj kao Postscript u sivim nivoima..." 25
 menuText Y GraphFileClose "Zatvori prozor" 6
 menuText Y GraphOptions "Opcije" 0
 menuText Y GraphOptionsWhite "Beli" 0
 menuText Y GraphOptionsBlack "Crni" 0
 menuText Y GraphOptionsBoth "Oba" 1
-menuText Y GraphOptionsPInfo "Informacije o igra√®u" 0
+menuText Y GraphOptionsPInfo "Informacije o igraËu" 0
 # ====== TODO To be translated ======
 menuText Y GraphOptionsEloFile "Elo from rating file" 0
 # ====== TODO To be translated ======
@@ -826,12 +839,12 @@ translate Y EngineDelete {Delete the current engine}
 # PGN window menus:
 menuText Y PgnFile "Fajl" 0
 menuText Y PgnFileCopy "Copy Game to Clipboard" 0 ;# ***
-menuText Y PgnFilePrint "¬©tampaj u fajl..." 1
+menuText Y PgnFilePrint "©tampaj u fajl..." 1
 menuText Y PgnFileClose "Zatvori PGN prozor" 0
 menuText Y PgnOpt "Prikaz" 0
 menuText Y PgnOptColor "Prikaz u boji" 0
 menuText Y PgnOptShort "Kratko (3-linije) zaglavlje" 0
-menuText Y PgnOptSymbols "Simboli√®ki komentari" 0
+menuText Y PgnOptSymbols "SimboliËki komentari" 0
 menuText Y PgnOptIndentC "Uvuci pasus kod komentara" 0
 menuText Y PgnOptIndentV "Uvuci pasus kod varijanata" 16
 menuText Y PgnOptColumn "Pasus stil (jedan potez po liniji)" 1
@@ -848,15 +861,15 @@ menuText Y PgnColorBackground "Pozadina..." 0
 menuText Y PgnColorMain "Main line..." 0
 # ====== TODO To be translated ======
 menuText Y PgnColorCurrent "Current move background..." 1
-menuText Y PgnHelp "Pomo√¶" 1
-menuText Y PgnHelpPgn "PGN pomo√¶" 0
-menuText Y PgnHelpIndex "Sadr¬æaj" 0
+menuText Y PgnHelp "PomoÊ" 1
+menuText Y PgnHelpPgn "PGN pomoÊ" 0
+menuText Y PgnHelpIndex "Sadræaj" 0
 translate Y PgnWindowTitle {Game Notation - game %u} ;# ***
 
 # Crosstable window menus:
 menuText Y CrosstabFile "Fajl" 0
-menuText Y CrosstabFileText "¬©tampaj u Tekst fajl..." 10
-menuText Y CrosstabFileHtml "¬©tampaj u HTML fajl..." 10
+menuText Y CrosstabFileText "©tampaj u Tekst fajl..." 10
+menuText Y CrosstabFileHtml "©tampaj u HTML fajl..." 10
 menuText Y CrosstabFileClose "Zatvori tabelu turnira" 0
 menuText Y CrosstabEdit "Izmena" 0
 menuText Y CrosstabEditEvent "Turnir" 0
@@ -864,7 +877,7 @@ menuText Y CrosstabEditSite "Mesto" 0
 menuText Y CrosstabEditDate "Datum" 0
 menuText Y CrosstabOpt "Prikaz" 0
 menuText Y CrosstabOptAll "Svako sa svakim" 0
-menuText Y CrosstabOptSwiss "¬©vajcarski sistem" 0
+menuText Y CrosstabOptSwiss "©vajcarski sistem" 0
 menuText Y CrosstabOptKnockout "Nokaut" 0
 menuText Y CrosstabOptAuto "Auto" 0 ;# ***
 menuText Y CrosstabOptAges "Starost u godinama" 10
@@ -873,45 +886,45 @@ menuText Y CrosstabOptRatings "Rejtinzi" 0
 menuText Y CrosstabOptTitles "Titule" 0
 menuText Y CrosstabOptBreaks "Tie-break rezultati" 4
 menuText Y CrosstabOptDeleted "Include deleted games" 8 ;# ***
-menuText Y CrosstabOptColors "Boje (samo za ¬πvajcarski sistem)" 0
+menuText Y CrosstabOptColors "Boje (samo za πvajcarski sistem)" 0
 menuText Y CrosstabOptColumnNumbers "Numbered columns (All-play-all table only)" 2 ;# ***
-menuText Y CrosstabOptGroup "Grupi¬πi rezultate" 0
+menuText Y CrosstabOptGroup "Grupiπi rezultate" 0
 menuText Y CrosstabSort "Sortiraj" 0
 menuText Y CrosstabSortName "Ime" 0
 menuText Y CrosstabSortRating "Rejting" 0
 menuText Y CrosstabSortScore "Rezultat" 0
 menuText Y CrosstabColor "Boja" 0
-menuText Y CrosstabColorPlain "Obi√®an tekst" 0
+menuText Y CrosstabColorPlain "ObiËan tekst" 0
 menuText Y CrosstabColorHyper "Hipertekst" 0
-menuText Y CrosstabHelp "Pomo√¶" 0
-menuText Y CrosstabHelpCross "Pomo√¶ - Tabela turnira" 0
-menuText Y CrosstabHelpIndex "Sadr¬æaj pomo√¶i" 0
+menuText Y CrosstabHelp "PomoÊ" 0
+menuText Y CrosstabHelpCross "PomoÊ - Tabela turnira" 0
+menuText Y CrosstabHelpIndex "Sadræaj pomoÊi" 0
 translate Y SetFilter {Postavi filter}
 translate Y AddToFilter {Dodaj u filter}
-translate Y Swiss {¬©vajcarski sistem}
+translate Y Swiss {©vajcarski sistem}
 translate Y Category {Category} ;# ***
 
 # Opening report window menus:
 menuText Y OprepFile "Fajl" 0
-menuText Y OprepFileText "¬©tampaj u Tekst fajl..." 10
-menuText Y OprepFileHtml "¬©tampaj u HTML fajl..." 10
+menuText Y OprepFileText "©tampaj u Tekst fajl..." 10
+menuText Y OprepFileHtml "©tampaj u HTML fajl..." 10
 menuText Y OprepFileOptions "Opcije..." 0
-menuText Y OprepFileClose "Zatvori izve¬πtaj o otvaranjima" 0
+menuText Y OprepFileClose "Zatvori izveπtaj o otvaranjima" 0
 menuText Y OprepFavorites "Favorites" 1 ;# ***
 menuText Y OprepFavoritesAdd "Add Report..." 0 ;# ***
 menuText Y OprepFavoritesEdit "Edit Report Favorites..." 0 ;# ***
 menuText Y OprepFavoritesGenerate "Generate Reports..." 0 ;# ***
-menuText Y OprepHelp "Pomo√¶" 0
-menuText Y OprepHelpReport "Pomo√¶ - Izve¬πtaj o otvaranjima" 0
-menuText Y OprepHelpIndex "Sadr¬æaj pomo√¶i" 0
+menuText Y OprepHelp "PomoÊ" 0
+menuText Y OprepHelpReport "PomoÊ - Izveπtaj o otvaranjima" 0
+menuText Y OprepHelpIndex "Sadræaj pomoÊi" 0
 
 # Header search:
 translate Y HeaderSearch {Pretraga zaglavlja}
 translate Y EndSideToMove {Side to move at end of game} ;# ***
-translate Y GamesWithNoECO {Partije bez E¬©O-a?}
-translate Y GameLength {Du¬æina partije}
-translate Y FindGamesWith {Prona√∞i partije sa}
-translate Y StdStart {standardnim po√®etkom}
+translate Y GamesWithNoECO {Partije bez E©O-a?}
+translate Y GameLength {Duæina partije}
+translate Y FindGamesWith {Pronai partije sa}
+translate Y StdStart {standardnim poËetkom}
 translate Y Promotions {sa promocijama}
 translate Y Comments {Komentari}
 translate Y Variations {Varijante}
@@ -919,15 +932,15 @@ translate Y Annotations {Napomene}
 translate Y DeleteFlag {Znak za brisanje}
 translate Y WhiteOpFlag {Otvaranje belog}
 translate Y BlackOpFlag {Otvaranje crnog}
-translate Y MiddlegameFlag {Sredi¬πnjica}
-translate Y EndgameFlag {Zavr¬πnica}
+translate Y MiddlegameFlag {Srediπnjica}
+translate Y EndgameFlag {Zavrπnica}
 translate Y NoveltyFlag {Novost}
-translate Y PawnFlag {Pe¬πa√®ka struktura}
+translate Y PawnFlag {PeπaËka struktura}
 translate Y TacticsFlag {Taktika}
 translate Y QsideFlag {Igra na daminom krilu}
 translate Y KsideFlag {Igra na kraljevom krilu}
 translate Y BrilliancyFlag {Brilijantnost}
-translate Y BlunderFlag {Gre¬πka}
+translate Y BlunderFlag {Greπka}
 translate Y UserFlag {Korisnik}
 translate Y PgnContains {PGN contains text} ;# ***
 # ====== TODO To be translated ======
@@ -954,9 +967,9 @@ translate Y GlistDate {Datum}
 translate Y GlistYear {Year}
 translate Y GlistEDate {Datum turnira}
 translate Y GlistResult {Rezultat}
-translate Y GlistLength {Du¬æina}
+translate Y GlistLength {Duæina}
 translate Y GlistCountry {Zemlja}
-translate Y GlistECO {E¬©O}
+translate Y GlistECO {E©O}
 translate Y GlistOpening {Otvaranje}
 translate Y GlistEndMaterial {End-Material} ;# ***
 translate Y GlistDeleted {Izbrisano}
@@ -970,7 +983,7 @@ translate Y GlistGameNumber {Broj partije}
 translate Y GlistAverageElo {Average Elo}
 # ====== TODO To be translated ======
 translate Y GlistRating {Rating}
-translate Y GlistFindText {Na√∞i tekst}
+translate Y GlistFindText {Nai tekst}
 translate Y GlistMoveField {Move} ;# ***
 translate Y GlistEditField {Configure} ;# ***
 translate Y GlistAddField {Add} ;# ***
@@ -1068,44 +1081,44 @@ translate Y Description {Description} ;# ***
 translate Y Flag {Oznaka}
 # ====== TODO To be translated ======
 translate Y CustomFlags {Custom flags}
-translate Y DeleteCurrent {Obri¬πi teku√¶u partiju}
-translate Y DeleteFilter {Obri¬πi filtrirane partije}
-translate Y DeleteAll {Obri¬πi sve partije}
-translate Y UndeleteCurrent {Obnovi teku√¶u partiju}
+translate Y DeleteCurrent {Obriπi tekuÊu partiju}
+translate Y DeleteFilter {Obriπi filtrirane partije}
+translate Y DeleteAll {Obriπi sve partije}
+translate Y UndeleteCurrent {Obnovi tekuÊu partiju}
 translate Y UndeleteFilter {Obnovi filtrirane partije}
 translate Y UndeleteAll {Obnovi sve partije}
-translate Y DeleteTwins {Obri¬πi udvojene partije}
-translate Y MarkCurrent {Markiraj teku√¶u partiju}
+translate Y DeleteTwins {Obriπi udvojene partije}
+translate Y MarkCurrent {Markiraj tekuÊu partiju}
 translate Y MarkFilter {Markiraj filtrirane partije}
 translate Y MarkAll {Markiraj sve partije}
-translate Y UnmarkCurrent {Demarkiraj teku√¶u partiju}
+translate Y UnmarkCurrent {Demarkiraj tekuÊu partiju}
 translate Y UnmarkFilter {Demarkiraj filtrirane partije}
 translate Y UnmarkAll {Demarkiraj sve partije}
 translate Y Spellchecking {Provera pravopisa}
-translate Y Players {Igra√®i}
+translate Y Players {IgraËi}
 translate Y Events {Turniri}
 translate Y Sites {Mesta}
 translate Y Rounds {Kola}
 translate Y DatabaseOps {Operacije sa bazom}
-translate Y ReclassifyGames {Klasifikuj partije po E¬©O}
+translate Y ReclassifyGames {Klasifikuj partije po E©O}
 translate Y CompactDatabase {Komprimuj bazu}
 translate Y SortDatabase {Sortiraj bazu}
 translate Y AddEloRatings {Dodaj Elo rejtinge}
 translate Y AutoloadGame {Autoload game number} ;# ***
 translate Y StripTags {Strip PGN tags} ;# ***
 translate Y StripTag {Strip tag} ;# ***
-translate Y Cleaner {√àista√®}
+translate Y Cleaner {»istaË}
 translate Y CleanerHelp {
-Scid √àista√® √¶e da primeni sve akcije odr¬æavanja koje izaberete iz donje liste, na teku√¶u bazu.
+Scid »istaË Êe da primeni sve akcije odræavanja koje izaberete iz donje liste, na tekuÊu bazu.
 
-Trenutna pode¬πavanja u dijalozima E¬©O klasifikacija i brisanje udvojenih partija √¶e se primeniti ako ste izabrali te funkcije.
+Trenutna podeπavanja u dijalozima E©O klasifikacija i brisanje udvojenih partija Êe se primeniti ako ste izabrali te funkcije.
 }
 translate Y CleanerConfirm {
-Kada je √àista√® jednom pokrenut, ne mo¬æe se prekinuti!
+Kada je »istaË jednom pokrenut, ne moæe se prekinuti!
 
-Ovo mo¬æe potrajati na velikoj bazi, zavisno od funkcija koje ste izabrali i njihovih trenutnih pode¬πavanja.
+Ovo moæe potrajati na velikoj bazi, zavisno od funkcija koje ste izabrali i njihovih trenutnih podeπavanja.
 
-Da li ste sigurni da ¬æelite da po√®nete funkcije odr¬æavanja koje ste izabrali?
+Da li ste sigurni da æelite da poËnete funkcije odræavanja koje ste izabrali?
 }
 # ====== TODO To be translated ======
 translate Y TwinCheckUndelete {to flip; "u" undeletes both)}
@@ -1182,15 +1195,15 @@ translate Y Diagram {Diagram} ;# ***
 
 # Board search:
 translate Y BoardSearch {Pretraga po poziciji}
-translate Y FilterOperation {Operacije na teku√¶em filteru:}
-translate Y FilterAnd {I (Ograni√®i filter)}
+translate Y FilterOperation {Operacije na tekuÊem filteru:}
+translate Y FilterAnd {I (OgraniËi filter)}
 translate Y FilterOr {ILI (Dodaj u filter)}
-translate Y FilterIgnore {IGNORI¬©I (Resetuj filter)}
+translate Y FilterIgnore {IGNORI©I (Resetuj filter)}
 translate Y SearchType {Tip pretrage:}
 translate Y SearchBoardExact {Ista pozicija (sve figure na istim poljima)}
-translate Y SearchBoardPawns {Pe¬πaci (isti materijal, svi pe¬πaci na istim poljima)}
-translate Y SearchBoardFiles {Linije (isti materijal, svi pe¬πaci na istim linijama)}
-translate Y SearchBoardAny {Materijal (isti materijal, pe¬πaci i figure bilo gde)}
+translate Y SearchBoardPawns {Peπaci (isti materijal, svi peπaci na istim poljima)}
+translate Y SearchBoardFiles {Linije (isti materijal, svi peπaci na istim linijama)}
+translate Y SearchBoardAny {Materijal (isti materijal, peπaci i figure bilo gde)}
 # ====== TODO To be translated ======
 translate Y SearchInRefDatabase { Search in base }
 translate Y LookInVars {Pogledaj u varijantama}
@@ -1199,18 +1212,18 @@ translate Y LookInVars {Pogledaj u varijantama}
 translate Y MaterialSearch {Pretraga po materijalu}
 translate Y Material {Materijal}
 translate Y Patterns {Pozicije}
-translate Y Zero {Ni¬πta}
+translate Y Zero {Niπta}
 translate Y Any {Bilo koje}
 translate Y CurrentBoard {Trenutna pozicija}
-translate Y CommonEndings {Tipi√®ne zavr¬πnice}
-translate Y CommonPatterns {Tipi√®ne pozicije}
+translate Y CommonEndings {TipiËne zavrπnice}
+translate Y CommonPatterns {TipiËne pozicije}
 translate Y MaterialDiff {Material difference} ;# ***
 translate Y squares {polja}
 translate Y SameColor {Ista boja}
 translate Y OppColor {Suprotna boja}
 translate Y Either {Oba}
 translate Y MoveNumberRange {Raspon broja poteza}
-translate Y MatchForAtLeast {Na√∞i za najmanje}
+translate Y MatchForAtLeast {Nai za najmanje}
 translate Y HalfMoves {polupoteza}
 
 # Common endings in material search:
@@ -1250,12 +1263,12 @@ translate Y ClassifyGame {Klasifikuj partiju}
 
 # Setup position:
 translate Y EmptyBoard {Isprazni tablu}
-translate Y InitialBoard {Po√®etna pozicija}
+translate Y InitialBoard {PoËetna pozicija}
 translate Y SideToMove {Na potezu je}
 translate Y MoveNumber {Broj poteza}
 translate Y Castling {Rokada}
 translate Y EnPassantFile {En Passant linija}
-translate Y ClearFen {O√®isti FEN}
+translate Y ClearFen {OËisti FEN}
 translate Y PasteFen {Prenesi FEN}
 # ====== TODO To be translated ======
 translate Y SaveAndContinue {Save and continue}
@@ -1269,109 +1282,109 @@ translate Y ReplaceMove {Zameni potez}
 translate Y AddNewVar {Dodaj novu varijantu}
 # ====== TODO To be translated ======
 translate Y NewMainLine {New Main Line}
-translate Y ReplaceMoveMessage {Ovde ve√¶ postoji potez.
+translate Y ReplaceMoveMessage {Ovde veÊ postoji potez.
 
-Mo¬æete ga zameniti, odbacuju√¶i sve poteze posle njega, ili dodajte svoj potez kao novu varijantu.
+Moæete ga zameniti, odbacujuÊi sve poteze posle njega, ili dodajte svoj potez kao novu varijantu.
 
-(Mo¬æete izbe√¶i pojavljivanje ove poruke ubudu√¶e ako isklju√®ite "Pitaj pre zamene poteza" opciju u meniju Opcije:Potezi.)}
+(Moæete izbeÊi pojavljivanje ove poruke ubuduÊe ako iskljuËite "Pitaj pre zamene poteza" opciju u meniju Opcije:Potezi.)}
 
 # Make database read-only dialog:
-translate Y ReadOnlyDialog {Ako omogu√¶ite samo √®itanje iz ove baze, ne√¶e biti dozvoljene izmene.
-Nijedna partije ne√¶e biti sa√®uvana ili zamenjena, i nijedan znak za brisanje ne mo¬æe biti izmenjen.
-Bilo kakvo sortiranje ili rezultati E¬©O klasifikacije √¶e biti privremeni.
+translate Y ReadOnlyDialog {Ako omoguÊite samo Ëitanje iz ove baze, neÊe biti dozvoljene izmene.
+Nijedna partije neÊe biti saËuvana ili zamenjena, i nijedan znak za brisanje ne moæe biti izmenjen.
+Bilo kakvo sortiranje ili rezultati E©O klasifikacije Êe biti privremeni.
 
-Mo¬æete lako ponovo omogu√¶iti pisanje po bazi, ako je zatvorite i ponovo otvorite.
+Moæete lako ponovo omoguÊiti pisanje po bazi, ako je zatvorite i ponovo otvorite.
 
-Da li zaista ¬æelite da ova baza bude samo za √®itanje?}
+Da li zaista æelite da ova baza bude samo za Ëitanje?}
 
 # Clear game dialog:
 translate Y ClearGameDialog {Ova partija je izmenjena.
 
-Da li zaista ¬æelite da nastavite i odbacite sve u√®injene promene?
+Da li zaista æelite da nastavite i odbacite sve uËinjene promene?
 }
 
 # Exit dialog:
-translate Y ExitDialog {Da li zaista ¬æelite da napustite Scid?}
+translate Y ExitDialog {Da li zaista æelite da napustite Scid?}
 translate Y ExitUnsaved {The following databases have unsaved game changes. If you exit now, these changes will be lost.} ;# ***
 
 # Import window:
-translate Y PasteCurrentGame {Prenesi teku√¶u partiju}
+translate Y PasteCurrentGame {Prenesi tekuÊu partiju}
 translate Y ImportHelp1 {Unesi ili prenesi partiju u PGN formatu u gornji okvir.}
-translate Y ImportHelp2 {Bilo koja gre¬πka u uvozu partije √¶e biti prikazana ovde.}
+translate Y ImportHelp2 {Bilo koja greπka u uvozu partije Êe biti prikazana ovde.}
 # ====== TODO To be translated ======
 translate Y OverwriteExistingMoves {Overwrite existing moves ?}
 
 # ECO Browser:
-translate Y ECOAllSections {sve E¬©O sekcije}
-translate Y ECOSection {E¬©O sekcija}
+translate Y ECOAllSections {sve E©O sekcije}
+translate Y ECOSection {E©O sekcija}
 translate Y ECOSummary {Pregled za}
-translate Y ECOFrequency {U√®estanost subkodova za}
+translate Y ECOFrequency {UËestanost subkodova za}
 
 # Opening Report:
-translate Y OprepTitle {Izve¬πtaj o otvaranjima}
-translate Y OprepReport {Izve¬πtaj}
+translate Y OprepTitle {Izveπtaj o otvaranjima}
+translate Y OprepReport {Izveπtaj}
 translate Y OprepGenerated {Generisao}
 translate Y OprepStatsHist {Statistika i Istorija}
 translate Y OprepStats {Statistika}
-translate Y OprepStatAll {Sve partije iz iz izve¬πtaja}
+translate Y OprepStatAll {Sve partije iz iz izveπtaja}
 translate Y OprepStatBoth {Oba sa rejtingom}
 translate Y OprepStatSince {Od}
 translate Y OprepOldest {Najstarije partije}
 translate Y OprepNewest {Najnovije partije}
 translate Y OprepPopular {Trenutna popularnost}
-translate Y OprepFreqAll {U√®etanost za sve godine:    }
+translate Y OprepFreqAll {UËetanost za sve godine:    }
 translate Y OprepFreq1   {Tokom  1 poslednje godine:  }
 translate Y OprepFreq5   {Tokom  5 poslednjih godina: }
 translate Y OprepFreq10  {Tokom 10 poslednjih godina: }
 translate Y OprepEvery {jednom svakih %u partija}
-translate Y OprepUp {vi¬πe za %u%s tokom svih godina}
+translate Y OprepUp {viπe za %u%s tokom svih godina}
 translate Y OprepDown {manje za %u%s tokom svih godina}
 translate Y OprepSame {bez promena tokom svih godina}
-translate Y OprepMostFrequent {Naj√®e¬π√¶i igra√®i}
+translate Y OprepMostFrequent {NajËeπÊi igraËi}
 translate Y OprepMostFrequentOpponents {Most frequent opponents} ;# ***
-translate Y OprepRatingsPerf {Rejtinzi i ume¬πnost}
-translate Y OprepAvgPerf {Prose√®ni rejtinzi i ume¬πnost}
+translate Y OprepRatingsPerf {Rejtinzi i umeπnost}
+translate Y OprepAvgPerf {ProseËni rejtinzi i umeπnost}
 translate Y OprepWRating {Rejting belog}
 translate Y OprepBRating {Rejting crnog}
-translate Y OprepWPerf {Ume¬πnost belog}
-translate Y OprepBPerf {Ume¬πnost crnog}
-translate Y OprepHighRating {Partije sa najve√¶im prose√®nim rejtingom}
+translate Y OprepWPerf {Umeπnost belog}
+translate Y OprepBPerf {Umeπnost crnog}
+translate Y OprepHighRating {Partije sa najveÊim proseËnim rejtingom}
 translate Y OprepTrends {Rezultatski trendovi}
-translate Y OprepResults {Du¬æine rezultata i u√®estanosti}
-translate Y OprepLength {Du¬æina partije}
-translate Y OprepFrequency {U√®estanost}
+translate Y OprepResults {Duæine rezultata i uËestanosti}
+translate Y OprepLength {Duæina partije}
+translate Y OprepFrequency {UËestanost}
 translate Y OprepWWins {Pobede belog: }
 translate Y OprepBWins {Pobede crnog: }
 translate Y OprepDraws {Remiji:       }
 translate Y OprepWholeDB {cela baza}
-translate Y OprepShortest {Najkra√¶a pobeda} ;# ***
-# translate Y OprepShortWhite {Najkra√¶a pobeda belog}
-# translate Y OprepShortBlack {Najkra√¶a pobeda crnog}
+translate Y OprepShortest {NajkraÊa pobeda} ;# ***
+# translate Y OprepShortWhite {NajkraÊa pobeda belog}
+# translate Y OprepShortBlack {NajkraÊa pobeda crnog}
 translate Y OprepMovesThemes {Potezi i teme}
-translate Y OprepMoveOrders {Redosledi poteza koji su dosegli poziciju iz izve¬πtaja}
+translate Y OprepMoveOrders {Redosledi poteza koji su dosegli poziciju iz izveπtaja}
 translate Y OprepMoveOrdersOne \
   {Samo je jedan redosled poteza koji je dostigao ovu poziciju:}
 translate Y OprepMoveOrdersAll \
   {Bilo je %u redosleda poteza koji su dostigli ovu poziciju:}
 translate Y OprepMoveOrdersMany \
   {Bilo je %u redosleda poteza koji su dostigli ovu poziciju. Prvih %u su:}
-translate Y OprepMovesFrom {Potezi iz pozicije iz izve¬πtaja}
+translate Y OprepMovesFrom {Potezi iz pozicije iz izveπtaja}
 translate Y OprepMostFrequentEcoCodes {Most frequent ECO codes} ;# ***
 translate Y OprepThemes {Pozicione teme}
 translate Y OprepThemeDescription {Frequency of themes in the first %u moves of each game} ;# ***
 translate Y OprepThemeSameCastling {Rokade sa iste strane}
 translate Y OprepThemeOppCastling {Rokade sa suprotne strane}
 translate Y OprepThemeNoCastling {Obe strane bez rokada}
-translate Y OprepThemeKPawnStorm {Prodor pe¬πaka na kraljevom krilu}
+translate Y OprepThemeKPawnStorm {Prodor peπaka na kraljevom krilu}
 translate Y OprepThemeQueenswap {Zamena dama}
 translate Y OprepThemeWIQP {White Isolated Queen Pawn} ;# ***
 translate Y OprepThemeBIQP {Black Isolated Queen Pawn} ;# ***
-translate Y OprepThemeWP567 {Beli pe¬πak na 5., 6. ili 7. redu}
-translate Y OprepThemeBP234 {Crni pe¬πak na 2., 3. ili 4. redu}
+translate Y OprepThemeWP567 {Beli peπak na 5., 6. ili 7. redu}
+translate Y OprepThemeBP234 {Crni peπak na 2., 3. ili 4. redu}
 translate Y OprepThemeOpenCDE {Otvorena c, d ili e linija}
 translate Y OprepTheme1BishopPair {Jedna strana ima par lovaca}
-translate Y OprepEndgames {Zavr¬πnice}
-translate Y OprepReportGames {Partije iz izve¬πtaja}
+translate Y OprepEndgames {Zavrπnice}
+translate Y OprepReportGames {Partije iz izveπtaja}
 translate Y OprepAllGames {Sve partije}
 translate Y OprepEndClass {Materijal na kraju svake partije}
 translate Y OprepTheoryTable {Tabela teorije}
@@ -1402,14 +1415,14 @@ translate Y TrackerMovesStop {Enter the move number where tracking should stop.}
 # Game selection dialogs:
 translate Y SelectAllGames {Sve partije u bazi}
 translate Y SelectFilterGames {Samo partije u filteru}
-translate Y SelectTournamentGames {Samo partije u teku√¶em turniru}
+translate Y SelectTournamentGames {Samo partije u tekuÊem turniru}
 translate Y SelectOlderGames {Samo starije partije}
 
 # Delete Twins window:
-translate Y TwinsNote {Da bi bile udvojene, dve partije moraju da najmanje imaju istu dvojicu igra√®a, i kriterijume koje ni¬æe mo¬æete podesiti. Kada se par udvojenih partija otkrije, kra√¶a partija se bri¬πe. Savet: Najbolje je proveriti pravopis u bazi pre brisanja udvojenih partija, jer to unapre√∞uje detekciju. }
+translate Y TwinsNote {Da bi bile udvojene, dve partije moraju da najmanje imaju istu dvojicu igraËa, i kriterijume koje niæe moæete podesiti. Kada se par udvojenih partija otkrije, kraÊa partija se briπe. Savet: Najbolje je proveriti pravopis u bazi pre brisanja udvojenih partija, jer to unapreuje detekciju. }
 translate Y TwinsCriteria {Kriterijumi: Udvojene partije moraju imati...}
 translate Y TwinsWhich {Koje partije da proverim?}
-translate Y TwinsColors {Iste boje igra√®a?}
+translate Y TwinsColors {Iste boje igraËa?}
 translate Y TwinsEvent {Isti turnir?}
 translate Y TwinsSite {Isto mesto?}
 translate Y TwinsRound {Isto kolo?}
@@ -1417,22 +1430,22 @@ translate Y TwinsYear {Ista godina?}
 translate Y TwinsMonth {Isti mesec?}
 translate Y TwinsDay {Isti dan?}
 translate Y TwinsResult {Isti rezultat?}
-translate Y TwinsECO {Isti E¬©O k√¥d?}
+translate Y TwinsECO {Isti E©O kÙd?}
 translate Y TwinsMoves {Isti potezi?}
-translate Y TwinsPlayers {Upore√∞ivanje imena igra√®a:}
+translate Y TwinsPlayers {Uporeivanje imena igraËa:}
 translate Y TwinsPlayersExact {Potpuna podudarnost}
 translate Y TwinsPlayersPrefix {Samo prva 4 slova}
 translate Y TwinsWhen {Kod brisanja udvojenih partija}
 translate Y TwinsSkipShort {Ignore all games under 5 moves long?} ;# ***
 translate Y TwinsUndelete {Obnovi prvo sve partije?}
 translate Y TwinsSetFilter {Postavi filter na sve obrisane udvojene partije?}
-translate Y TwinsComments {Uvek sa√®uvaj partije sa komentarima?}
-translate Y TwinsVars {Uvek sa√®uvaj partije sa varijantama?}
+translate Y TwinsComments {Uvek saËuvaj partije sa komentarima?}
+translate Y TwinsVars {Uvek saËuvaj partije sa varijantama?}
 translate Y TwinsDeleteWhich {Delete which game:} ;# ***
 translate Y TwinsDeleteShorter {Shorter game} ;# ***
 translate Y TwinsDeleteOlder {Smaller game number} ;# ***
 translate Y TwinsDeleteNewer {Larger game number} ;# ***
-translate Y TwinsDelete {Obri¬πi partije}
+translate Y TwinsDelete {Obriπi partije}
 
 # Name editor window:
 translate Y NameEditType {Tip imena za izmenu}
@@ -1451,21 +1464,21 @@ translate Y CheckSelectFilterGames {Only games in filter}
 
 # Classify window:
 translate Y Classify {Klasifikuj}
-translate Y ClassifyWhich {Klasifikuj partije po E¬©O}
-translate Y ClassifyAll {Sve partije (prebri¬πi stare E¬©O k√¥dove)}
+translate Y ClassifyWhich {Klasifikuj partije po E©O}
+translate Y ClassifyAll {Sve partije (prebriπi stare E©O kÙdove)}
 translate Y ClassifyYear {Sve partije igrane poslednje godine}
 translate Y ClassifyMonth {Sve partije igrane poslednjeg meseca}
-translate Y ClassifyNew {Samo partije koje su jo¬π bez E¬©O k√¥da}
-translate Y ClassifyCodes {Koristi E¬©O k√¥dove}
-translate Y ClassifyBasic {Samo osnovne k√¥dove ("B12", ...)}
-translate Y ClassifyExtended {Pro¬πireni Scid ("B12j", ...)}
+translate Y ClassifyNew {Samo partije koje su joπ bez E©O kÙda}
+translate Y ClassifyCodes {Koristi E©O kÙdove}
+translate Y ClassifyBasic {Samo osnovne kÙdove ("B12", ...)}
+translate Y ClassifyExtended {Proπireni Scid ("B12j", ...)}
 
 # Compaction:
 translate Y NameFile {Fajl imena}
 translate Y GameFile {Fajl partija}
 translate Y Names {Imena}
-translate Y Unused {Nekori¬π√¶ena}
-translate Y SizeKb {Veli√®ina (kb)}
+translate Y Unused {NekoriπÊena}
+translate Y SizeKb {VeliËina (kb)}
 translate Y CurrentState {Trenutno stanje}
 translate Y AfterCompaction {Posle komprimacije}
 translate Y CompactNames {Komprimuj fajl imena}
@@ -1480,21 +1493,21 @@ translate Y GameFileCompacted {The game file for the database was compacted.}
 # Sorting:
 translate Y SortCriteria {Kriterijumi}
 translate Y AddCriteria {Dodaj kriterijum}
-translate Y CommonSorts {Uobi√®ajena sortiranja}
+translate Y CommonSorts {UobiËajena sortiranja}
 translate Y Sort {Sortiraj}
 
 # Exporting:
-translate Y AddToExistingFile {Dodaj partije u postoje√¶i fajl?}
+translate Y AddToExistingFile {Dodaj partije u postojeÊi fajl?}
 translate Y ExportComments {Izvezi komentare?}
 translate Y ExportVariations {Izvezi varijante?}
 translate Y IndentComments {Uvuci pasus kod komentara?}
 translate Y IndentVariations {Uvuci pasus kod varijanata?}
 translate Y ExportColumnStyle {Pasus stil (jedan potez po liniji)?}
-translate Y ExportSymbolStyle {Stil simboli√®kih napomena:}
+translate Y ExportSymbolStyle {Stil simboliËkih napomena:}
 translate Y ExportStripMarks {Strip square/arrow mark codes from comments?} ;# ***
 
 # Goto game/move dialogs:
-translate Y LoadGameNumber {Unesi broj partije za u√®itavanje:}
+translate Y LoadGameNumber {Unesi broj partije za uËitavanje:}
 translate Y GotoMoveNumber {Idi na potez broj:}
 # ====== TODO To be translated ======
 translate Y CopyAllGames {Copy all games to}
@@ -1502,35 +1515,35 @@ translate Y CopyAllGames {Copy all games to}
 # Copy games dialog:
 translate Y CopyGames {Kopiraj partije}
 translate Y CopyConfirm {
- Da li zaista ¬æelite da kopirate
+ Da li zaista æelite da kopirate
  [::utils::thousands $nGamesToCopy] filtriranih partija
  iz baze "$fromName"
  u bazu "$targetName"?
 }
 translate Y CopyErr {Ne mogu da kopiram partije}
-translate Y CopyErrSource {izvori¬πna baza}
-translate Y CopyErrTarget {odredi¬πna baza}
+translate Y CopyErrSource {izvoriπna baza}
+translate Y CopyErrTarget {odrediπna baza}
 translate Y CopyErrNoGames {nema partija u svom filteru}
-translate Y CopyErrReadOnly {je samo za √®itanje}
+translate Y CopyErrReadOnly {je samo za Ëitanje}
 translate Y CopyErrNotOpen {nije otvorena}
 
 # Colors:
 translate Y LightSquares {Svetla polja}
 translate Y DarkSquares {Tamna polja}
 translate Y SelectedSquares {Izabrana polja}
-translate Y SuggestedSquares {Polja preporu√®enog poteza}
+translate Y SuggestedSquares {Polja preporuËenog poteza}
 translate Y WhitePieces {Bele figure}
 translate Y BlackPieces {Crne figure}
 translate Y WhiteBorder {Ivica belih figura}
 translate Y BlackBorder {Ivica crnih figura}
 
 # Novelty window:
-translate Y FindNovelty {Prona√∞i novost}
+translate Y FindNovelty {Pronai novost}
 translate Y Novelty {Novost}
-translate Y NoveltyInterrupt {Tra¬æenje novosti prekinuto}
-translate Y NoveltyNone {Nijedna novost nije prona√∞ena u ovoj partiji}
+translate Y NoveltyInterrupt {Traæenje novosti prekinuto}
+translate Y NoveltyNone {Nijedna novost nije pronaena u ovoj partiji}
 translate Y NoveltyHelp {
-Scid √¶e na√¶i prvi potez teku√¶e partije, koji dosti¬æe poziciju koja nije na√∞ena u izabranoj bazi ili u E¬©O knjizi otvaranja.
+Scid Êe naÊi prvi potez tekuÊe partije, koji dostiæe poziciju koja nije naena u izabranoj bazi ili u E©O knjizi otvaranja.
 }
 
 # Sounds configuration:
@@ -1546,20 +1559,20 @@ translate Y SoundsAnnounceBack {Announce when retracting or moving back one move
 translate Y SoundsSoundDisabled {Scid could not find the Snack audio package at startup;\nSound is disabled.}
 
 # Upgrading databases:
-translate Y Upgrading {Unapre√∞ivanje}
+translate Y Upgrading {Unapreivanje}
 translate Y ConfirmOpenNew {
-Ovo je baza u starom formatu (Scid 3), koju ne mo¬æe da otvori Scid 4, ve√¶ je kreirana verzija u novom formatu (Scid 4).
+Ovo je baza u starom formatu (Scid 3), koju ne moæe da otvori Scid 4, veÊ je kreirana verzija u novom formatu (Scid 4).
 
-Da li ¬æelite da otvorite verziju baze u novom formatu?
+Da li æelite da otvorite verziju baze u novom formatu?
 }
 translate Y ConfirmUpgrade {
-Ovo je baza u starom formatu (Scid 3). Verzija baze u novom formatu mora biti kreirana pre kori¬π√¶enja u Scid-u 4.
+Ovo je baza u starom formatu (Scid 3). Verzija baze u novom formatu mora biti kreirana pre koriπÊenja u Scid-u 4.
 
-Unapre√∞ivanjem √¶e se kreirati nova verzija baze.
+Unapreivanjem Êe se kreirati nova verzija baze.
 
-Ovo mo¬æe potrajati, ali treba da se uradi samo jednom. Mo¬æete prekinuti ukoliko bude predugo trajalo.
+Ovo moæe potrajati, ali treba da se uradi samo jednom. Moæete prekinuti ukoliko bude predugo trajalo.
 
-Da li ¬æelite da sada unapredite ovu bazu?
+Da li æelite da sada unapredite ovu bazu?
 }
 
 # Recent files options:
@@ -1899,11 +1912,11 @@ translate Y QGDwithBg5 {QGD with Bg5}
 # ====== TODO To be translated ======
 translate Y QGDOrthodox {QGD Orthodox}
 # ====== TODO To be translated ======
-translate Y Grunfeld {Gr√ºnfeld}
+translate Y Grunfeld {Gr¸nfeld}
 # ====== TODO To be translated ======
-translate Y GrunfeldExchange {Gr√ºnfeld Exchange}
+translate Y GrunfeldExchange {Gr¸nfeld Exchange}
 # ====== TODO To be translated ======
-translate Y GrunfeldRussian {Gr√ºnfeld Russian}
+translate Y GrunfeldRussian {Gr¸nfeld Russian}
 # ====== TODO To be translated ======
 translate Y Catalan {Catalan}
 # ====== TODO To be translated ======
@@ -1921,7 +1934,7 @@ translate Y NimzoIndianRubinstein {Nimzo-Indian Rubinstein}
 # ====== TODO To be translated ======
 translate Y KingsIndian {King's Indian}
 # ====== TODO To be translated ======
-translate Y KingsIndianSamisch {King's Indian S√§misch}
+translate Y KingsIndianSamisch {King's Indian S‰misch}
 # ====== TODO To be translated ======
 translate Y KingsIndianMainLine {King's Indian Main Line}
 # ====== TODO To be translated ======
@@ -2178,7 +2191,7 @@ translate Y Ambiguous {Ambiguous}
 translate Y OptionsToolbar "Toolbar glavnog prozora"
 # ====== TODO To be translated ======
 translate Y OptionsBoard "Chessboard"
-translate Y OptionsBoardSize "Veli√®ina table"
+translate Y OptionsBoardSize "VeliËina table"
 # ====== TODO To be translated ======
 translate Y OptionsBoardPieces "Piece Style"
 # ====== TODO To be translated ======
