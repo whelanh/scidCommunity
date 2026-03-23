@@ -1,0 +1,171 @@
+[Theme]
+name = dark
+parent = clam
+is_dark = 1
+
+[Vars]
+bg = #323232
+fg = #e0e0e0
+basecol = DodgerBlue3
+selectfg = #ffffff
+disabledfg = #a0a0a0
+fieldbg = #1e1e1e
+fieldborder = #292929
+buttonbg = #3b3b3e
+through = #353639
+darkcolor = #222222
+lightcolor = #656669
+
+borders = disabled @fieldborder {active pressed} @basecol {disabled selected} @fieldborder {pressed selected} @basecol pressed @basecol {active selected} @basecol active @basecol selected @basecol focus @basecol
+buttonsbg = disabled @through pressed #2b2b2e active #4b4b4e
+
+[Configure .]
+background = @bg
+foreground = @fg
+fieldbackground = @fieldbg
+bordercolor = @fieldborder
+selectbackground = @basecol
+selectforeground = @selectfg
+insertcolor = @fg
+insertbackground = @fg
+arrowcolor = @fg
+troughcolor = @through
+darkcolor = @darkcolor
+lightcolor = @lightcolor
+
+[Map .]
+foreground = disabled @disabledfg
+background = active @basecol
+fieldbackground = disabled @bg
+indicatorbackground = pressed @bg alternate @disabledfg disabled @bg
+indicatorforeground = disabled @disabledfg
+arrowcolor = disabled @disabledfg
+
+[Configure TButton]
+anchor = center
+relief = raised
+padding = 4
+background = @buttonbg
+
+[Map TButton]
+bordercolor = @borders
+background = @buttonsbg
+
+[Configure TMenubutton]
+anchor = center
+padding = 4
+relief = raised
+background = @buttonbg
+
+[Map TMenubutton]
+bordercolor = @borders
+background = @buttonsbg
+
+[Configure Toolbutton]
+anchor = center
+padding = 2
+relief = flat
+
+[Map Toolbutton]
+relief = {active !selected} raised
+bordercolor = @borders
+foreground = disabled @disabledfg
+background = pressed @basecol selected @basecol active @darkcolor
+lightcolor = pressed @basecol
+darkcolor = pressed @basecol
+
+[Configure TCheckbutton]
+padding = 2
+
+[Configure TRadiobutton]
+padding = 2
+
+[Configure TCombobox]
+anchor = center
+padding = 1
+insertwidth = 1
+relief = raised
+borderwidth = 1
+
+[Map TCombobox]
+bordercolor = @borders
+background = @buttonsbg
+lightcolor = @borders
+
+[Configure TEntry]
+foreground = @selectfg
+padding = 1
+insertwidth = 1
+
+[Map TEntry]
+bordercolor = @borders
+lightcolor = @borders
+
+[Configure TSpinbox]
+arrowsize = 12
+padding = 2 0 10 0
+
+[Map TSpinbox]
+bordercolor = @borders
+background = @buttonsbg
+arrowcolor = disabled @disabledfg
+
+[Configure TScale]
+troughcolor = @through
+
+[Map TScale]
+bordercolor = active @basecol
+
+[Configure TNotebook.Tab]
+padding = 6 2 6 2
+
+[Map TNotebook.Tab]
+padding = selected {6 4 6 2}
+background = selected @bg {} @fieldbg
+lightcolor = selected @lightcolor {} #555659
+
+[Configure TPanedwindow]
+sashrelief = raised
+
+[Configure TLabelframe]
+bordercolor = #a5a6a9
+relief = raised
+padding = 4
+
+[Configure TProgressbar]
+background = @basecol
+
+[Configure TScrollbar]
+arrowsize = 10
+width = 10
+troughcolor = @fieldbg
+bordercolor = @fieldbg
+background = @through
+
+[Map TScrollbar]
+background = pressed @lightcolor active @lightcolor disabled @through !pressed #4b4b4e
+lightcolor = pressed @darkcolor active @lightcolor disabled @through !pressed #4b4b4e
+darkcolor = pressed @lightcolor active @darkcolor disabled @through !pressed #4b4b4e
+
+[Layout Vertical.TScrollbar]
+definition = Vertical.Scrollbar.trough -sticky news -children { Vertical.Scrollbar.thumb -expand true }
+
+[Layout Horizontal.TScrollbar]
+definition = Horizontal.Scrollbar.trough -sticky news -children { Horizontal.Scrollbar.thumb -expand true }
+
+[Configure Heading]
+relief = raised
+
+[Map Heading]
+bordercolor = @borders
+background = @buttonsbg
+
+[Configure Treeview]
+relief = flat
+bordercolor = @fieldbg
+lightcolor = @fieldbg
+background = @fieldbg
+
+[Map Treeview]
+background = selected @basecol disabled @darkcolor
+foreground = selected @selectfg

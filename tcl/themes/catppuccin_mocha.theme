@@ -1,0 +1,73 @@
+[Theme]
+name = catppuccin_mocha
+parent = classic
+is_dark = 1
+
+[Configure .]
+background = #1e1e2e
+fieldbackground = #313244
+foreground = #cdd6f4
+selectbackground = #cba6f7
+selectforeground = #1e1e2e
+
+[Configure TFrame]
+background = #1e1e2e
+
+[Configure TLabel]
+background = #1e1e2e
+foreground = #cdd6f4
+
+[Configure TNotebook]
+background = #1e1e2e
+
+[Configure Treeview]
+background = #181825
+fieldbackground = #181825
+foreground = #cdd6f4
+
+[Map Treeview]
+background = selected #cba6f7
+foreground = selected #1e1e2e
+
+[Configure TEntry]
+fieldbackground = #313244
+foreground = #cdd6f4
+
+[Configure TCombobox]
+fieldbackground = #313244
+foreground = #cdd6f4
+
+[Configure TButton]
+background = #313244
+foreground = #cdd6f4
+borderwidth = 1
+relief = raised
+padding = 6 2
+
+[Map TButton]
+background = active #45475a pressed #585b70
+relief = pressed sunken
+
+[Configure TMenubutton]
+background = #313244
+foreground = #cdd6f4
+borderwidth = 1
+relief = raised
+
+[Configure TCheckbutton]
+background = #1e1e2e
+foreground = #cdd6f4
+indicatorcolor = #313244
+
+[Map TCheckbutton]
+background = active #1e1e2e
+indicatorcolor = pressed #45475a selected #cba6f7 alternate #cba6f7
+
+[Configure TRadiobutton]
+background = #1e1e2e
+foreground = #cdd6f4
+indicatorcolor = #313244
+
+[Map TRadiobutton]
+background = active #1e1e2e
+indicatorcolor = pressed #45475a selected #cba6f7 alternate #cba6f7

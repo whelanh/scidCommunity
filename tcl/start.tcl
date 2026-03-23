@@ -549,20 +549,113 @@ proc ::registerDarkTheme {themeName} {
 
 # ----------------------------------------------------------------------
 # Dynamic Theme Auto-Loader
-# Loads custom .tcl themes from the local "themes" subdirectory.
 # ----------------------------------------------------------------------
-set themeDir [file join [file dirname [info script]] "themes"]
-if {[file isdirectory $themeDir]} {
-    set themeFiles [glob -nocomplain -directory $themeDir *.tcl]
-    foreach themeFile $themeFiles {
-        if {[catch {safeSourceStyle $themeFile} err]} {
-            puts stderr "Warning: Failed to load theme file $themeFile - $err"
-        }
+
+proc loadThemeFile {filename} {
+  set fd [open $filename r]
+  set lines [split [read $fd] \n]
+  close $fd
+
+  set themeName ""
+  set parentTheme "classic"
+  set isDark 0
+  set varMap [list]
+  set settingsDict [dict create configure {} map {} layout {}]
+  
+  set currentSection ""
+  set currentStyle ""
+
+  foreach line $lines {
+    # Ignore lines that start with # or ; (allowing leading whitespace)
+    if {[regexp {^[ \t]*[;#]} $line]} { continue }
+    
+    # Only use ';' for inline comments to protect Hex Color codes (#RRGGBB)
+    set line [regsub {\s*;.*$} $line ""]
+    
+    set line [string trim $line]
+    if {$line eq ""} continue
+
+    # Detect Section Headers: e.g., [Configure TButton]
+    if {[regexp {^\[(.*)\]$} $line -> sec]} {
+      set secParts [split $sec " "]
+      set currentSection [lindex $secParts 0]
+      set currentStyle [join [lrange $secParts 1 end] " "]
+    } elseif {[regexp {^([^=]+)=(.*)$} $line -> key val]} {
+      set key [string trim $key]
+      set val [string trim $val]
+      
+      # Apply variable substitutions
+      if {[llength $varMap] > 0} {
+        set val [string map $varMap $val]
+      }
+
+      if {$currentSection eq "Theme"} {
+        if {$key eq "name"} { set themeName $val }
+        if {$key eq "parent"} { set parentTheme $val }
+        if {$key eq "is_dark"} { set isDark $val }
+      } elseif {$currentSection eq "Vars"} {
+        lappend varMap "@$key" $val
+      } elseif {$currentSection eq "Configure"} {
+        dict set settingsDict configure $currentStyle $key $val
+      } elseif {$currentSection eq "Map"} {
+        dict set settingsDict map $currentStyle $key $val
+      } elseif {$currentSection eq "Layout"} {
+        dict set settingsDict layout $currentStyle $val
+      }
     }
+  }
+
+  if {$themeName eq ""} {
+    error "No theme 'name' defined in [Theme] section."
+  }
+
+  # Register Dark Theme if flagged
+  if {$isDark && [info commands registerDarkTheme] ne ""} {
+    registerDarkTheme $themeName
+  }
+
+  # Build an isolated script string safely using [list] to prevent command injection
+  if {[lsearch -exact [ttk::style theme names] $themeName] == -1} {
+    set themeScript ""
+    
+    dict for {style opts} [dict get $settingsDict configure] {
+      foreach {opt val} $opts {
+        # SAFE: [list] automatically escapes braces, brackets, and quotes
+        append themeScript [list ttk::style configure $style -$opt $val] "\n"
+      }
+    }
+    dict for {style opts} [dict get $settingsDict map] {
+      foreach {opt val} $opts {
+        append themeScript [list ttk::style map $style -$opt $val] "\n"
+      }
+    }
+    dict for {style layoutDef} [dict get $settingsDict layout] {
+      append themeScript [list ttk::style layout $style $layoutDef] "\n"
+    }
+
+    # Create the theme safely
+    ttk::style theme create $themeName -parent $parentTheme -settings $themeScript
+  }
 }
 
-# Load more theme
-if { [file exists $::ThemePackageFile] } {
+# Execute the loader
+set themeDir [file join [file dirname [info script]] "themes"]
+if {[file isdirectory $themeDir]} {
+  set themeFiles [glob -nocomplain -directory $themeDir *.theme]
+  foreach themeFile $themeFiles {
+    if {[catch {loadThemeFile $themeFile} err]} {
+      puts stderr "Warning: Failed to load .theme file $themeFile - $err"
+    }
+  }
+  set legacyFiles [glob -nocomplain -directory $themeDir *.tcl]
+  foreach legacyFile $legacyFiles {
+    if {[catch {safeSourceStyle $legacyFile} err]} {
+      puts stderr "Warning: Failed to load legacy theme file $legacyFile - $err"
+    }
+  }
+}
+
+if { [info exists ::ThemePackageFile] && [file exists $::ThemePackageFile] } {
   catch { ::safeSourceStyle $::ThemePackageFile }
 }
 
