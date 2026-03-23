@@ -1,0 +1,76 @@
+# Cobalt2 theme - dark blue theme inspired by Wes Bos's VSCode theme
+# Color palette: Blue #193549, Blue Dark #122738, Highlight #1F4662, Yellow #ffc600, Hot Pink #ff0088, Orange #ff9d00
+
+[Theme]
+name = cobalt2
+parent = classic
+is_dark = 1
+
+[Configure .]
+background = #193549
+fieldbackground = #122738
+foreground = #ffffff
+selectbackground = #1F4662
+selectforeground = #ffc600
+
+[Configure TFrame]
+background = #193549
+
+[Configure TLabel]
+background = #193549
+foreground = #ffffff
+
+[Configure TNotebook]
+background = #193549
+
+[Configure Treeview]
+background = #122738
+fieldbackground = #122738
+foreground = #ffffff
+
+[Map Treeview]
+background = selected #1F4662
+foreground = selected #ffc600
+
+[Configure TEntry]
+fieldbackground = #122738
+foreground = #ffc600
+
+[Configure TCombobox]
+fieldbackground = #122738
+foreground = #ffc600
+
+[Configure TButton]
+background = #1F4662
+foreground = #ffc600
+borderwidth = 1
+relief = raised
+padding = 6 2
+
+[Map TButton]
+background = active #234E6D pressed #122738
+relief = pressed sunken
+
+[Configure TMenubutton]
+background = #1F4662
+foreground = #ffc600
+borderwidth = 1
+relief = raised
+
+[Configure TCheckbutton]
+background = #193549
+foreground = #ffffff
+indicatorcolor = #122738
+
+[Map TCheckbutton]
+background = active #193549
+indicatorcolor = pressed #122738 selected #ff9d00 alternate #ff9d00
+
+[Configure TRadiobutton]
+background = #193549
+foreground = #ffffff
+indicatorcolor = #122738
+
+[Map TRadiobutton]
+background = active #193549
+indicatorcolor = pressed #122738 selected #ff9d00 alternate #ff9d00

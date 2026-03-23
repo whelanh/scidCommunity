@@ -1,0 +1,75 @@
+# Sand theme based on Chess_Manager_Web palette
+
+[Theme]
+name = sand
+parent = classic
+is_dark = 0
+
+[Configure .]
+background = #D2B48C
+fieldbackground = #F4E1C6
+foreground = #3B2F2F
+selectbackground = #B08968
+selectforeground = #1E1A19
+
+[Configure TFrame]
+background = #D2B48C
+
+[Configure TLabel]
+background = #D2B48C
+foreground = #3B2F2F
+
+[Configure TNotebook]
+background = #D2B48C
+
+[Configure Treeview]
+background = #F4E1C6
+fieldbackground = #F4E1C6
+foreground = #3B2F2F
+
+[Map Treeview]
+background = selected #B08968
+foreground = selected #1E1A19
+
+[Configure TEntry]
+fieldbackground = #F4E1C6
+foreground = #3B2F2F
+
+[Configure TCombobox]
+fieldbackground = #F4E1C6
+foreground = #3B2F2F
+
+[Configure TButton]
+background = #C19A6B
+foreground = #1E1A19
+borderwidth = 1
+relief = raised
+padding = 6 2
+
+[Map TButton]
+background = active #CFB080 pressed #A67C52
+relief = pressed sunken
+
+[Configure TMenubutton]
+background = #C19A6B
+foreground = #1E1A19
+borderwidth = 1
+relief = raised
+
+[Configure TCheckbutton]
+background = #D2B48C
+foreground = #3B2F2F
+indicatorcolor = #F4E1C6
+
+[Map TCheckbutton]
+background = active #D2B48C
+indicatorcolor = pressed #F4E1C6 selected #4a90d9 alternate #4a90d9
+
+[Configure TRadiobutton]
+background = #D2B48C
+foreground = #3B2F2F
+indicatorcolor = #F4E1C6
+
+[Map TRadiobutton]
+background = active #D2B48C
+indicatorcolor = pressed #F4E1C6 selected #4a90d9 alternate #4a90d9

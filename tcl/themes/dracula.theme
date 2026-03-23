@@ -1,0 +1,73 @@
+[Theme]
+name = dracula
+parent = classic
+is_dark = 1
+
+[Configure .]
+background = #282a36
+fieldbackground = #44475a
+foreground = #f8f8f2
+selectbackground = #bd93f9
+selectforeground = #282a36
+
+[Configure TFrame]
+background = #282a36
+
+[Configure TLabel]
+background = #282a36
+foreground = #f8f8f2
+
+[Configure TNotebook]
+background = #282a36
+
+[Configure Treeview]
+background = #21222c
+fieldbackground = #21222c
+foreground = #f8f8f2
+
+[Map Treeview]
+background = selected #bd93f9
+foreground = selected #282a36
+
+[Configure TEntry]
+fieldbackground = #44475a
+foreground = #f8f8f2
+
+[Configure TCombobox]
+fieldbackground = #44475a
+foreground = #f8f8f2
+
+[Configure TButton]
+background = #44475a
+foreground = #f8f8f2
+borderwidth = 1
+relief = raised
+padding = 6 2
+
+[Map TButton]
+background = active #6272a4 pressed #ff79c6
+relief = pressed sunken
+
+[Configure TMenubutton]
+background = #44475a
+foreground = #f8f8f2
+borderwidth = 1
+relief = raised
+
+[Configure TCheckbutton]
+background = #282a36
+foreground = #f8f8f2
+indicatorcolor = #44475a
+
+[Map TCheckbutton]
+background = active #282a36
+indicatorcolor = pressed #6272a4 selected #bd93f9 alternate #bd93f9
+
+[Configure TRadiobutton]
+background = #282a36
+foreground = #f8f8f2
+indicatorcolor = #44475a
+
+[Map TRadiobutton]
+background = active #282a36
+indicatorcolor = pressed #6272a4 selected #bd93f9 alternate #bd93f9
