@@ -91,7 +91,10 @@ proc ::windows::gamelist::Refresh {{moveup 1} {wlist ""}} {
 			::windows::gamelist::SetBase $w [sc_base current]
 			continue
 		}
-		::windows::gamelist::update_ $w $moveup
+		::windows::gamelist::update_ $w [expr {$moveup == 1}]
+		if {$moveup == 2 && $::gamelistBase($w) == [sc_base current]} {
+			glist.findcurrentgame_ $w.games.glist [sc_game number]
+		}
 	}
 }
 
@@ -1001,18 +1004,26 @@ proc glist.loadvalues_ {{w}} {
   set i 0
   set n $::glistVisibleLn($w)
   if {$n} { incr n } { set n 20 }
+  set current_item ""
   foreach {idx line deleted} [sc_base gameslist $base $::glistFirst($w) $n \
                                         $::glistFilter($w) $::glistSortStr($w)] {
     if {[lindex $line 1] == "=-="} { set line [lreplace $line 1 1 "\u00BD-\u00BD"] }
     $w insert {} end -id $idx -values $line -tag fsmall
     if {$deleted == "D"} { $w item $idx -tag {fsmall deleted} }
     foreach {n ply} [split $idx "_"] {
-      if {$n == $current_game} { $w item $idx -tag "[$w item $idx -tag] current" }
+      if {$n == $current_game} {
+        $w item $idx -tag "[$w item $idx -tag] current"
+        set current_item $idx
+      }
     }
     incr i
   }
   set ::glistLoaded($w) $i
-  catch {$w selection set $sel}
+  if {$current_item != ""} {
+    $w selection set $current_item
+  } else {
+    catch {$w selection set $sel}
+  }
   glist.yscroll_ $w {*}[$w yview]
 }
 
