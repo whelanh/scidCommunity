@@ -103,7 +103,7 @@ proc ::stored_eval::queryLichessAsync {id fen callback} {
     set url "$apiUrl?fen=$urlFen&multiPv=$multiPv&variant=$variant"
 
     if {[catch {
-        set fd [open "|curl -s --max-time 10 -H {Accept: */*} [list $url]" r]
+        set fd [open [list | curl -s --max-time 10 -H {Accept: */*} $url] r]
         fconfigure $fd -blocking 0 -buffering full
         set pendingFd($id) $fd
         set queryBuf($id) ""

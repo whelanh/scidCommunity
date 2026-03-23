@@ -171,7 +171,7 @@ proc ::engine::connect {id callback exe_or_host args {protocols {uci xboard}}} {
     if {$protocols eq "network"} {
         set channel [socket {*}[split $exe_or_host :]]
     } else {
-        set channel [open "| [list $exe_or_host] $args" "r+"]
+        set channel [open [list | $exe_or_host {*}$args] "r+"]
     }
     ::engine::init_ $id $channel $callback
     chan configure $channel -buffering line -blocking 0

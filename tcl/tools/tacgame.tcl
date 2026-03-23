@@ -549,7 +549,7 @@ namespace eval tacgame {
     }
     
     # Try to execute the analysis program:
-    if {[catch {set analysisCoach(pipe$n) [open "| [list $analysisCommand] $analysisArgs" "r+"]} result]} {
+    if {[catch {set analysisCoach(pipe$n) [open [list | $analysisCommand {*}$analysisArgs] "r+"]} result]} {
       if {$oldpwd != ""} { catch {cd $oldpwd} }
       tk_messageBox -title "Scid: error starting analysis" \
           -icon warning -type ok \

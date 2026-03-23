@@ -118,7 +118,9 @@ proc ::twic::downloadTWICWeek {weeknum} {
   } elseif {[info exists ::windowsOS] && $::windowsOS && [auto_execok powershell] ne ""} {
     # Windows fallback: PowerShell Invoke-WebRequest (handles HTTPS without extra DLLs)
     if {[catch {
-      exec powershell -NoLogo -NoProfile -Command "Invoke-WebRequest -Uri '$zipurl' -OutFile '$zipfile'" 2>@1
+      set ::env(SAFE_DL_URL) $zipurl
+      set ::env(SAFE_DL_FILE) $zipfile
+      exec powershell -NoLogo -NoProfile -Command {Invoke-WebRequest -Uri $env:SAFE_DL_URL -OutFile $env:SAFE_DL_FILE} 2>@1
     } err]} {
       error "PowerShell download failed: $err"
     }

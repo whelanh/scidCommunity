@@ -1843,7 +1843,7 @@ proc makeAnalysisWin { {n 1} {index -1} {autostart 1}} {
     }
 
     # Try to execute the analysis program:
-    set open_err [catch {set analysis(pipe$n) [open "| [list $analysisCommand] $analysisArgs" "r+"]}]
+    set open_err [catch {set analysis(pipe$n) [open [list | $analysisCommand {*}$analysisArgs] "r+"]}]
 
     # Return to original dir if necessary:
     if {$oldpwd != ""} { catch {cd $oldpwd} }

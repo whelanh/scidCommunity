@@ -236,9 +236,9 @@ proc ::windows::gamelist::Awesome {{w} {txt}} {
 		sc_filter reset "$::gamelistBase($w)" $filter empty
 		#Split the string using " + "
 		foreach {dummy sub} [regexp -all -inline {(.+?)(?:\s\+\s|$)} $txt] {
-			set cmd "sc_filter search $::gamelistBase($w) $filter header -filter OR"
+			set cmd [list sc_filter search $::gamelistBase($w) $filter header -filter OR]
 			progressWindow "Scid" "$::tr(HeaderSearch)..." $::tr(Cancel)
-			set res [eval "$cmd [AweParse $sub]"]
+			set res [{*}$cmd {*}[AweParse $sub]]
 			closeProgressWindow
 		}
 	}
@@ -368,10 +368,10 @@ proc ::windows::gamelist::AweParse {{txt}} {
 		if {[regsub {^!} $value {} value]} {
 			append param "!"
 		}
-		lappend res [list $param $value]
+		lappend res $param $value
 	}
 
-	return [join $res]
+	return $res
 }
 
 proc ::windows::gamelist::CopyGames {{w} {srcBase} {dstBase} {filter "dbfilter"} {ask true}} {
