@@ -71,7 +71,7 @@ jobs:
           echo "SCIDCOMMUNITY_VERSION=${{ steps.get_version.outputs.version }}" >> $GITHUB_ENV
 
       - name: Setup MSVC
-        uses: microsoft/setup-msbuild@v2
+        uses: microsoft/setup-msbuild@v3
 
       - name: Build Tcl library
         shell: cmd
