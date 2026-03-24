@@ -1078,10 +1078,10 @@ proc ::tree::mask::safeReadMaskFile {filename} {
 
   # Read file contents
   if {[catch {
-    set fd [open $filename r]
+    set fd [::open $filename r]
     fconfigure $fd -encoding utf-8
     set content [read $fd]
-    close $fd
+    ::close $fd
   } err]} {
     return 0
   }
@@ -1089,31 +1089,42 @@ proc ::tree::mask::safeReadMaskFile {filename} {
   # Trim whitespace
   set content [string trim $content]
 
-  # Validate file format: must be exactly "set ::tree::mask::maskSerialized {...}"
-  # The content inside braces must be a valid Tcl list (key-value pairs)
-  if {![regexp {^set\s+::tree::mask::maskSerialized\s+(\{.*\})\s*$} $content -> listData]} {
+  # Validate file format: must start with "set ::tree::mask::maskSerialized"
+  set prefix "set ::tree::mask::maskSerialized "
+  if {![string equal -length [string length $prefix] $content $prefix]} {
     return 0
   }
 
+  # Extract everything after the prefix - this handles multi-line content
+  set listData [string range $content [string length $prefix] end]
+  set listData [string trim $listData]
+
   # Validate that the list data is well-formed by attempting to parse it
   # as a Tcl list. This ensures balanced braces and valid list structure.
+  # Tcl's llength handles multi-line brace-delimited content correctly.
   if {[catch {llength $listData}]} {
     return 0
   }
 
-  # Additional validation: check that all keys look like valid FEN strings
-  # and all values are proper lists. We parse the data safely.
+  # The save function uses [list [array get ...]] which wraps data in braces,
+  # so llength returns 1. We need to extract the inner data for validation.
+  if {[catch {set innerData [lindex $listData 0]}]} {
+    return 0
+  }
+
+  # Validate the inner data structure
+  # Check a sample of entries for performance (first 100 pairs)
   if {[catch {
-    set parsedList $listData
-    set len [llength $parsedList]
+    set len [llength $innerData]
     # Must have even number of elements (key-value pairs)
     if {$len % 2 != 0} {
       error "Invalid mask data structure"
     }
-    # Validate each key-value pair
-    for {set i 0} {$i < $len} {incr i 2} {
-      set key [lindex $parsedList $i]
-      set value [lindex $parsedList [expr {$i + 1}]]
+    # Validate a sample of key-value pairs (up to 100)
+    set maxCheck [expr {min($len, 200)}]
+    for {set i 0} {$i < $maxCheck} {incr i 2} {
+      set key [lindex $innerData $i]
+      set value [lindex $innerData [expr {$i + 1}]]
       # Key should be a non-empty string (FEN position identifier)
       if {$key eq ""} {
         error "Empty key in mask data"
@@ -1128,6 +1139,7 @@ proc ::tree::mask::safeReadMaskFile {filename} {
   }
 
   # All validations passed, set the data
+  # Keep the original listData format (with outer braces) for compatibility
   set ::tree::mask::maskSerialized $listData
   return 1
 }
