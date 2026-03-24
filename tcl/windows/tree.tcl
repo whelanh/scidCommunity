@@ -1139,8 +1139,9 @@ proc ::tree::mask::safeReadMaskFile {filename} {
   }
 
   # All validations passed, set the data
-  # Keep the original listData format (with outer braces) for compatibility
-  set ::tree::mask::maskSerialized $listData
+  # Use innerData (without the extra outer braces from [list ...]) for compatibility
+  # with the existing code that does: array set mask $maskSerialized
+  set ::tree::mask::maskSerialized $innerData
   return 1
 }
 
