@@ -21,7 +21,61 @@
 #include <assert.h>
 #include <cstddef>
 #include <stdint.h>
+
+#ifdef __linux__
+#include <sys/mman.h>
+#include <stdlib.h>
+#include <memory>
+#include <type_traits>
+#include <new>
+#endif
+
 #define ASSERT(f) assert(f)
+
+/**
+ * new_huge - Allocate and construct N objects of type T on 2MB aligned memory.
+ * Falls back to standard new[] if alignment fails or on other platforms.
+ */
+template <typename T> inline T* new_huge(size_t n) {
+	if (n == 0)
+		return nullptr;
+	size_t size = n * sizeof(T);
+#ifdef __linux__
+	void* ptr = nullptr;
+	// Align to 2MB for Huge Pages
+	if (posix_memalign(&ptr, 2 * 1024 * 1024, size) != 0) {
+		return new T[n];
+	}
+	madvise(ptr, size, MADV_HUGEPAGE);
+	T* tptr = static_cast<T*>(ptr);
+	if constexpr (!std::is_trivially_default_constructible_v<T>) {
+		for (size_t i = 0; i < n; ++i) {
+			new (&tptr[i]) T();
+		}
+	}
+	return tptr;
+#else
+	return new T[n];
+#endif
+}
+
+/**
+ * delete_huge - Destroy and free memory allocated by new_huge.
+ */
+template <typename T> inline void delete_huge(T* ptr, size_t n) {
+	if (!ptr)
+		return;
+#ifdef __linux__
+	if constexpr (!std::is_trivially_destructible_v<T>) {
+		for (size_t i = 0; i < n; ++i) {
+			ptr[i].~T();
+		}
+	}
+	free(ptr);
+#else
+	delete[] ptr;
+#endif
+}
 
 
 // Version: div by 100 for major number, modulo 100 for minor number

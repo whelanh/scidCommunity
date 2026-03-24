@@ -118,7 +118,7 @@ public:
 	VectorChunked& operator=(const VectorChunked&) = delete;
 	~VectorChunked() {
 		for (auto& chunk : chunks_)
-			delete[] chunk;
+			delete_huge(chunk, 1ULL << CHUNKSHIFT);
 	}
 
 	const T& operator[](size_t idx) const {
@@ -189,11 +189,11 @@ public:
 		if (newSize > chunksSz) {
 			chunks_.resize(newSize);
 			for (auto i = chunksSz; i < newSize; ++i) {
-				chunks_[i] = new T[1ULL << CHUNKSHIFT];
+				chunks_[i] = new_huge<T>(1ULL << CHUNKSHIFT);
 			}
 		} else {
 			for (auto i = newSize; i < chunksSz; ++i) {
-				delete[] chunks_[i];
+				delete_huge(chunks_[i], 1ULL << CHUNKSHIFT);
 			}
 			chunks_.resize(newSize);
 		}
