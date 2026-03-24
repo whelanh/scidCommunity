@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.69
+Version:        5.1.2.72
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 30f21bab955309827c650673a61c6f83daabef37
+%global commit a3ca69914f94c8dbec0f072900eeb9882fc8a132
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Mon Mar 23 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-72
+- "Security hardening"
 * Mon Mar 23 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-69
 - "Link Load Game features to the Game List Window"
 * Sat Mar 21 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-68

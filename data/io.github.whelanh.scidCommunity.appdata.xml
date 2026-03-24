@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.2.72" date="2026-03-23">
+      <description>
+        <p>Security hardening</p>
+      </description>
+    </release>
     <release version="5.1.2.69" date="2026-03-23">
       <description>
         <p>Link Load Game features to the Game List Window</p>
