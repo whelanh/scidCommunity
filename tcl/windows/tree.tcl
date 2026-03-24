@@ -1068,6 +1068,71 @@ namespace eval ::tree::mask {
   set maxRecent 10
 }
 ################################################################################
+# safeReadMaskFile - safely read and validate a mask file
+# Returns 1 on success, 0 on failure
+# This proc validates the file format without using "source" to prevent
+# arbitrary code execution from malicious .stm files
+################################################################################
+proc ::tree::mask::safeReadMaskFile {filename} {
+  global ::tree::mask::maskSerialized
+
+  # Read file contents
+  if {[catch {
+    set fd [open $filename r]
+    fconfigure $fd -encoding utf-8
+    set content [read $fd]
+    close $fd
+  } err]} {
+    return 0
+  }
+
+  # Trim whitespace
+  set content [string trim $content]
+
+  # Validate file format: must be exactly "set ::tree::mask::maskSerialized {...}"
+  # The content inside braces must be a valid Tcl list (key-value pairs)
+  if {![regexp {^set\s+::tree::mask::maskSerialized\s+(\{.*\})\s*$} $content -> listData]} {
+    return 0
+  }
+
+  # Validate that the list data is well-formed by attempting to parse it
+  # as a Tcl list. This ensures balanced braces and valid list structure.
+  if {[catch {llength $listData}]} {
+    return 0
+  }
+
+  # Additional validation: check that all keys look like valid FEN strings
+  # and all values are proper lists. We parse the data safely.
+  if {[catch {
+    set parsedList $listData
+    set len [llength $parsedList]
+    # Must have even number of elements (key-value pairs)
+    if {$len % 2 != 0} {
+      error "Invalid mask data structure"
+    }
+    # Validate each key-value pair
+    for {set i 0} {$i < $len} {incr i 2} {
+      set key [lindex $parsedList $i]
+      set value [lindex $parsedList [expr {$i + 1}]]
+      # Key should be a non-empty string (FEN position identifier)
+      if {$key eq ""} {
+        error "Empty key in mask data"
+      }
+      # Value should be a list with 2 elements (moves list, comment)
+      if {[catch {llength $value} valLen] || $valLen != 2} {
+        error "Invalid mask value structure for key: $key"
+      }
+    }
+  } err]} {
+    return 0
+  }
+
+  # All validations passed, set the data
+  set ::tree::mask::maskSerialized $listData
+  return 1
+}
+
+################################################################################
 #
 ################################################################################
 proc ::tree::mask::open { {filename ""} } {
@@ -1085,7 +1150,11 @@ proc ::tree::mask::open { {filename ""} } {
     ::tree::mask::askForSave
     array unset ::tree::mask::mask
     array set ::tree::mask::mask {}
-    source $filename
+    if {![::tree::mask::safeReadMaskFile $filename]} {
+      tk_messageBox -title "scidCommunity" -icon error -type ok \
+          -message "Invalid or corrupted mask file: [file tail $filename]"
+      return
+    }
     array set mask $maskSerialized
     set maskSerialized {}
     set ::tree::mask::maskFile $filename
