@@ -34,17 +34,26 @@
 
 /**
  * new_huge - Allocate and construct N objects of type T on 2MB aligned memory.
- * Falls back to standard new[] if alignment fails or on other platforms.
+ * Falls back to standard allocation if alignment fails or on other platforms.
  */
 template <typename T> inline T* new_huge(size_t n) {
 	if (n == 0)
 		return nullptr;
 	size_t size = n * sizeof(T);
 #ifdef __linux__
+	// Use nullptr sentinel: posix_memalign leaves ptr unchanged on failure,
+	// so we can detect fallback to new[] in delete_huge.
 	void* ptr = nullptr;
-	// Align to 2MB for Huge Pages
 	if (posix_memalign(&ptr, 2 * 1024 * 1024, size) != 0) {
-		return new T[n];
+		ptr = malloc(size);
+		if (!ptr) return nullptr;
+		T* tptr = static_cast<T*>(ptr);
+		if constexpr (!std::is_trivially_default_constructible_v<T>) {
+			for (size_t i = 0; i < n; ++i) {
+				new (&tptr[i]) T();
+			}
+		}
+		return tptr;
 	}
 	madvise(ptr, size, MADV_HUGEPAGE);
 	T* tptr = static_cast<T*>(ptr);
