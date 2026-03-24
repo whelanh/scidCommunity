@@ -23,6 +23,8 @@
 #include <cassert>
 #include <vector>
 
+#include "common.h"
+
 /**
  * A container useful for implementing a undo-redo behavior.
  * @e UNDOMAX: max number of copies to store.
