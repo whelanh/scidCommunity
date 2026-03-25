@@ -549,31 +549,31 @@ proc openURL {url} {
     } elseif {[file executable [auto_execok firefox]]} {
       # Mozilla seems to be available:
       # First, try -remote mode:
-      if {[catch {exec /bin/sh -c "$::auto_execs(firefox) -remote 'openURL($url)'"}]} {
+      if {[catch {exec $::auto_execs(firefox) -remote "openURL($url)"}]} {
         # Now try a new Mozilla process:
-        catch {exec /bin/sh -c "$::auto_execs(firefox) '$url'" &}
+        catch {exec $::auto_execs(firefox) $url &}
       }
     } elseif {[file executable [auto_execok iceweasel]]} {
       # First, try -remote mode:
-      if {[catch {exec /bin/sh -c "$::auto_execs(iceweasel) -remote 'openURL($url)'"}]} {
+      if {[catch {exec $::auto_execs(iceweasel) -remote "openURL($url)"}]} {
         # Now try a new Mozilla process:
-        catch {exec /bin/sh -c "$::auto_execs(iceweasel) '$url'" &}
+        catch {exec $::auto_execs(iceweasel) $url &}
       }
     } elseif {[file executable [auto_execok mozilla]]} {
       # First, try -remote mode:
-      if {[catch {exec /bin/sh -c "$::auto_execs(mozilla) -remote 'openURL($url)'"}]} {
+      if {[catch {exec $::auto_execs(mozilla) -remote "openURL($url)"}]} {
         # Now try a new Mozilla process:
-        catch {exec /bin/sh -c "$::auto_execs(mozilla) '$url'" &}
+        catch {exec $::auto_execs(mozilla) $url &}
       }
     } elseif {[file executable [auto_execok www-browser]]} {
       # Now try a new Mozilla process:
-      catch {exec /bin/sh -c "$::auto_execs(www-browser) '$url'" &}
+      catch {exec $::auto_execs(www-browser) $url &}
     } elseif {[file executable [auto_execok netscape]]} {
       # OK, no Mozilla (poor user) so try Netscape (yuck):
       # First, try -remote mode to avoid starting a new netscape process:
-      if {[catch {exec /bin/sh -c "$::auto_execs(netscape) -raise -remote 'openURL($url)'"}]} {
+      if {[catch {exec $::auto_execs(netscape) -raise -remote "openURL($url)"}]} {
         # Now just try starting a new netscape process:
-        catch {exec /bin/sh -c "$::auto_execs(netscape) '$url'" &}
+        catch {exec $::auto_execs(netscape) $url &}
       }
     } else {
       foreach executable {iexplorer opera lynx w3m links epiphan galeon
@@ -581,8 +581,7 @@ proc openURL {url} {
         set executable [auto_execok $executable]
         if [string length $executable] {
           # Is there any need to give options to these browsers? how?
-          set command [list $executable $url &]
-          catch {exec /bin/sh -c "$executable '$url'" &}
+          catch {exec $executable $url &}
           break
         }
       }

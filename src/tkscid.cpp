@@ -2586,9 +2586,8 @@ int sc_game_crosstable(ClientData, Tcl_Interp *ti, int argc,
                      NULL);
   }
 
-  char stemp[1000];
-  sprintf(stemp, "%s%s%s, ", g->GetEventStr(), newlineStr, g->GetSiteStr());
-  Tcl_AppendResult(ti, stemp, NULL);
+  char stemp[256];
+  Tcl_AppendResult(ti, g->GetEventStr(), newlineStr, g->GetSiteStr(), ", ", NULL);
   date_DecodeToString(firstSeenDate, stemp);
   strTrimDate(stemp);
   Tcl_AppendResult(ti, stemp, NULL);
@@ -2606,7 +2605,7 @@ int sc_game_crosstable(ClientData, Tcl_Interp *ti, int argc,
     appendUintResult(ti, avgElo);
     uint category = ctable->FideCategory(avgElo);
     if (category > 0 && mode == CROSSTABLE_AllPlayAll) {
-      sprintf(stemp, "  (%s %u)", translate(ti, "Category", "Category"),
+      std::snprintf(stemp, sizeof(stemp), "  (%s %u)", translate(ti, "Category", "Category"),
               category);
       Tcl_AppendResult(ti, stemp, NULL);
     }
@@ -2911,7 +2910,7 @@ int sc_game_info(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
   Tcl_AppendResult(ti, temp, NULL);
   eloT elo = db->game->GetWhiteElo();
   if (elo != 0) {
-    sprintf(temp, " <red>%u</red>", elo);
+    std::snprintf(temp, sizeof(temp), " <red>%u</red>", elo);
     Tcl_AppendResult(ti, temp, NULL);
   }
   std::snprintf(temp, sizeof(temp), "  --  <pi %s>%s</pi>",
@@ -2923,15 +2922,15 @@ int sc_game_info(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
   Tcl_AppendResult(ti, temp, NULL);
   elo = db->game->GetBlackElo();
   if (elo != 0) {
-    sprintf(temp, " <red>%u</red>", elo);
+    std::snprintf(temp, sizeof(temp), " <red>%u</red>", elo);
     Tcl_AppendResult(ti, temp, NULL);
   }
 
   if (hideNextMove) {
-    sprintf(temp, "<br>(%s: %s)", translate(ti, "Result"),
+    std::snprintf(temp, sizeof(temp), "<br>(%s: %s)", translate(ti, "Result"),
             translate(ti, "hidden"));
   } else {
-    sprintf(temp, "<br>%s <red>(%u)</red>",
+    std::snprintf(temp, sizeof(temp), "<br>%s <red>(%u)</red>",
             RESULT_LONGSTR[db->game->GetResult()],
             (db->game->GetNumHalfMoves() + 1) / 2);
   }
@@ -3062,7 +3061,7 @@ int sc_game_info(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     strAppend(temp, ")");
     printNags = false;
   } else {
-    sprintf(temp, "<run ::move::Back>%u.%s%s</run>", prevMoveCount,
+    std::snprintf(temp, sizeof(temp), "<run ::move::Back>%u.%s%s</run>", prevMoveCount,
             toMove == WHITE ? ".." : "", tempTrans); // san);
     printNags = true;
   }
@@ -3095,12 +3094,12 @@ int sc_game_info(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     strAppend(temp, ")");
     printNags = false;
   } else if (hideNextMove) {
-    sprintf(temp, "%u.%s(", moveCount, toMove == WHITE ? "" : "..");
+    std::snprintf(temp, sizeof(temp), "%u.%s(", moveCount, toMove == WHITE ? "" : "..");
     strAppend(temp, translate(ti, "hidden"));
     strAppend(temp, ")");
     printNags = false;
   } else {
-    sprintf(temp, "<run ::move::Forward>%u.%s%s</run>", moveCount,
+    std::snprintf(temp, sizeof(temp), "<run ::move::Forward>%u.%s%s</run>", moveCount,
             toMove == WHITE ? "" : "..", tempTrans); // san);
     printNags = true;
   }
@@ -3128,13 +3127,13 @@ int sc_game_info(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
   if (showMaterialValue) {
     uint mWhite = db->game->GetCurrentPos()->MaterialValue(WHITE);
     uint mBlack = db->game->GetCurrentPos()->MaterialValue(BLACK);
-    sprintf(temp, "    <gray>(%u-%u", mWhite, mBlack);
+    std::snprintf(temp, sizeof(temp), "    <gray>(%u-%u", mWhite, mBlack);
     Tcl_AppendResult(ti, temp, NULL);
     if (mWhite > mBlack) {
-      sprintf(temp, ":+%u", mWhite - mBlack);
+      std::snprintf(temp, sizeof(temp), ":+%u", mWhite - mBlack);
       Tcl_AppendResult(ti, temp, NULL);
     } else if (mBlack > mWhite) {
-      sprintf(temp, ":-%u", mBlack - mWhite);
+      std::snprintf(temp, sizeof(temp), ":-%u", mBlack - mWhite);
       Tcl_AppendResult(ti, temp, NULL);
     }
     Tcl_AppendResult(ti, ")</gray>", NULL);
@@ -3151,13 +3150,13 @@ int sc_game_info(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
       db->game->GetSAN(s);
       strcpy(tempTrans, s);
       transPieces(tempTrans);
-      sprintf(temp, "   <run sc_var enter %u; updateBoard -animate>v%u", vnum,
+      std::snprintf(temp, sizeof(temp), "   <run sc_var enter %u; updateBoard -animate>v%u", vnum,
               vnum + 1);
       Tcl_AppendResult(ti, "<green>", temp, "</green>: ", NULL);
       if (s[0] == 0) {
-        sprintf(temp, "<darkblue>(empty)</darkblue>");
+        std::snprintf(temp, sizeof(temp), "<darkblue>(empty)</darkblue>");
       } else {
-        sprintf(temp, "<darkblue>%u.%s%s</darkblue>", moveCount,
+        std::snprintf(temp, sizeof(temp), "<darkblue>%u.%s%s</darkblue>", moveCount,
                 toMove == WHITE ? "" : "..", tempTrans); // s);
       }
       Tcl_AppendResult(ti, temp, NULL);
@@ -7057,7 +7056,7 @@ UI_res_t sc_name_spellcheck(UI_handle_t ti, scidBaseT &dbase,
       if (i == 0)
         correctionCount++;
 
-      sprintf(tempStr, "%s\"%s\"\t>> \"%s\" (%u)", strAmbiguous, origName,
+      std::snprintf(tempStr, sizeof(tempStr), "%s\"%s\"\t>> \"%s\" (%u)", strAmbiguous, origName,
               corrections[i], frequency);
       correctCmd += tempStr;
 

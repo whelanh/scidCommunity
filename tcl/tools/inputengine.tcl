@@ -351,7 +351,7 @@ namespace eval inputengine {
 
     ::ExtHardware::HWbuttonImg tb_eng_connecting
 
-    if {[catch {set InputEngine(pipe) [open "| $engine $port $param" "r+"]} result]} {
+    if {[catch {set InputEngine(pipe) [open [list | $engine $port $param] "r+"]} result]} {
       ::ExtHardware::HWbuttonImg tb_eng_error
       tk_messageBox -title "Scid: Input Engine" -icon warning -type ok \
           -message "[::tr IEUnableToStart]\n$engine $port $param"

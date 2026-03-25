@@ -167,8 +167,7 @@ menuText T ToolsTrainCalvar "Varyasyonların hesaplanması"  0 {Varyasyonların 
 menuText T ToolsTrainFindBestMove "En iyi hamleyi bul"  0 {En iyi hamleyi bul}
 menuText T ToolsTrainFics "FICS'te oyna"  0 {freechess.org'da oynayın}
 menuText T ToolsEngineTournament "Motor turnuvası"  0 {Satranç motorları arasında bir turnuva başlatın}
-# ====== TODO To be translated ======
-menuText T ToolsTimeAnalysis "Time Analysis" 0 {Show clock time graph for the current game}
+menuText T ToolsTimeAnalysis "Zaman Analizi" 0 {Mevcut oyunun saat zaman grafiğini göster}
 menuText T ToolsBookTuning "Kitap ayarlama" 0 {Kitap ayarlama}
 menuText T ToolsDownloadTWIC "TWIC Oyunlarını İndirin" 0 {En yeni The Week In Chess (TWIC) oyunlarını indirin}
 menuText T ToolsConnectHardware "Donanımı Bağlayın" 8 {Harici donanımı bağlayın}
@@ -253,8 +252,7 @@ menuText T OptionsMovesKey "Klavye Tamamlama" 0 \
 menuText T OptionsMovesShowVarArrows "Varyasyonlar için Okları Göster" 0 {Hareketleri varyasyonlarda gösteren okları açma/kapama}
 menuText T OptionsMovesShowEngineVariationArrows "Motor Varyasyonları için Okları Göster" 0 {MultiPV modunda motor değişim çizgilerini gösteren açma/kapama okları}
 menuText T OptionsMovesGlossOfDanger "Renk Kodlu Tehlike Parlatıcısı" 0 {Renk kodlu tehlike parlaklığını açma/kapama}
-# ====== TODO To be translated ======
-translate T OptionsMovesTreeDepth {Default Tree Window Move Depth}
+translate T OptionsMovesTreeDepth {Varsayılan Ağaç Penceresi Taşıma Derinliği}
 menuText T OptionsNumbers "Sayı Formatı" 0 {Sayı biçimini seçin}
 menuText T OptionsTheme "Tema" 0 {Arayüzün görünümünü değiştirin}
 menuText T OptionsWindows "Windows" 0 {Pencere seçenekleri}
@@ -395,12 +393,12 @@ translate T readonly {salt okunur}
 translate T ErrNotOpen {Bu açık bir veritabanı değil.}
 translate T ErrReadOnly {Bu veritabanı salt okunurdur; değiştirilemez.}
 translate T ErrSearchInterrupted {Arama kesintiye uğradı; sonuçlar eksik.}
-# ====== TODO To be translated ======
-translate T ErrEnginesOpen {Cannot proceed while chess engines are open.\nPlease close all engine windows and try again.}
-# ====== TODO To be translated ======
-translate T ErrNoClockComments {No [%clk] clock comments were found in this game.    Add clock times via the Comments Window (Ctrl+E) to use this feature.}
-# ====== TODO To be translated ======
-translate T ErrFileInUse {Error: the file is already in use. Please close any other application using this database. If the program was closed unexpectedly, you may need to delete the .lock file associated with the database.}
+translate T ErrEnginesOpen {Satranç motorları açıkken devam edilemiyor.  Lütfen tüm motor pencerelerini kapatın ve tekrar deneyin.}
+translate T ErrNoClockComments {Bu oyunda [%clk] saat yorumu bulunamadı.    Bu özelliği kullanmak için Yorumlar Penceresini (Ctrl+E) kullanarak saat sürelerini ekleyin.}
+translate T ErrFileInUse {Hata: Dosya zaten kullanımda. Lütfen bu veritabanını kullanan diğer uygulamaları kapatın. Program beklenmedik bir şekilde kapatıldıysa veritabanıyla ilişkili .lock dosyasını silmeniz gerekebilir.}
+
+
+
 
 # Game information:
 translate T twin {ikiz}
@@ -474,8 +472,7 @@ menuText T TreeOptFastAndSlowmode "Hızlı ve yavaş mod" 0 {Güncellemeler içi
 menuText T TreeOptStartStop "Otomatik yenileme" 0 {Ağaç penceresinin otomatik olarak yenilenmesini açar/kapatır}
 menuText T TreeOptLock "Kilit" 0 {Ağacı geçerli veritabanına kilitleme/kilidini açma}
 menuText T TreeOptTraining "Eğitim" 0 {Ağaç eğitimi modunu aç/kapat}
-# ====== TODO To be translated ======
-menuText T TreeOptDepth "Move depth" 0 {Number of half moves to display in tree (1-4)}
+menuText T TreeOptDepth "Derinliği taşı" 0 {Ağaçta görüntülenecek yarım hamle sayısı (1-4)}
 menuText T TreeOptAutosave "Önbellek Dosyasını Otomatik Kaydet" 0 \
   {Ağaç penceresini kapatırken önbellek dosyasını otomatik olarak kaydet}
 menuText T TreeHelp "Yardım" 0
@@ -484,8 +481,7 @@ menuText T TreeHelpIndex "Yardım Dizini" 0
 translate T SaveCache {Önbelleği Kaydet}
 translate T Training {Eğitim}
 translate T LockTree {Kilit}
-# ====== TODO To be translated ======
-translate T TreeDepth {Tree depth (half moves):}
+translate T TreeDepth {Ağaç derinliği (yarım hamle):}
 translate T TreeLocked {kilitli}
 translate T TreeBest {En iyi}
 translate T TreeBestGames {En İyi Ağaç Oyunları}
@@ -634,12 +630,9 @@ translate T Informant+= {Beyazın hafif bir avantajı var}
 translate T Informant+/- {Beyazın bariz bir avantajı var}
 translate T Informant+- {Beyaz'ın belirleyici bir avantajı var}
 translate T Informant+-- {Beyazın ezici bir avantajı var}
-# ====== TODO To be translated ======
-translate T AutoComment {Auto Comment}
-# ====== TODO To be translated ======
-translate T AutoCommentTooltip {Generate AI commentary for the current position}
-# ====== TODO To be translated ======
-translate T AnalysisAutoCommentTooltip {Generate AI commentary for the entire game}
+translate T AutoComment {Otomatik Yorum}
+translate T AutoCommentTooltip {Mevcut konum için yapay zeka yorumu oluşturun}
+translate T AnalysisAutoCommentTooltip {Oyunun tamamı için yapay zeka yorumları oluşturun}
 
 # Book window
 translate T Book {Kitap}
@@ -1295,8 +1288,7 @@ translate T SoundsFolder {Ses Dosyaları Klasörü}
 translate T SoundsFolderHelp {Klasör King.wav, a.wav, 1.wav, vb. dosyalarını içermelidir.}
 translate T SoundsAnnounceOptions {Duyuru Seçeneklerini Taşı}
 translate T SoundsAnnounceNew {Yeni hamleleri yapıldıkça duyurun}
-# ====== TODO To be translated ======
-translate T SoundsMoveSoundOnly {Move sound only (disable announcements)}
+translate T SoundsMoveSoundOnly {Yalnızca sesi taşı (duyuruları devre dışı bırak)}
 translate T SoundsAnnounceForward {Bir hamle ileri giderken hamleleri duyurun}
 translate T SoundsAnnounceBack {Geri çekilirken veya bir hamle geri giderken duyurun}
 translate T SoundsSoundDisabled {Scid başlangıçta Snack ses paketini bulamadı;\nSes devre dışı.}

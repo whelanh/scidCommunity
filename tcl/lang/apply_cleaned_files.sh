@@ -24,6 +24,7 @@ LANGUAGE_FILES=(
     "SerbCyr"
     "romanian"
     "japanese"
+    "turkish"
 )
 
 # Color codes for output

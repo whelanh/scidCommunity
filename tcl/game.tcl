@@ -207,7 +207,7 @@ proc ::game::Load { selection {ply ""} } {
   if {![info exists flipB]} { set flipB -1 }
   ::board::flipAuto .main.board $flipB
 
-  ::notify::GameChanged
+  ::notify::GameChanged 2
 }
 
 
@@ -298,10 +298,10 @@ proc ::game::ConfirmDiscard {} {
 # When complete this should be moved to a new notify.tcl file
 namespace eval ::notify {
   # To be called when the current game change or the Header infos (player names, site, result, etc) are modified
-  proc GameChanged {} {
+  proc GameChanged {{follow 0}} {
     updateMainGame
     ::notify::PosChanged newgame
-    ::windows::gamelist::Refresh 0
+    ::windows::gamelist::Refresh $follow
     ::maint::Refresh
   }
 

@@ -87,7 +87,9 @@ proc ::lichess_tournament::fetchBroadcastsList {} {
     }
   } elseif {[info exists ::windowsOS] && $::windowsOS && [auto_execok powershell] ne ""} {
     if {[catch {
-      exec powershell -NoLogo -NoProfile -Command "Invoke-WebRequest -Uri '$broadcastsUrl' -OutFile '$broadcastsFile'" 2>@1
+      set ::env(SAFE_DL_URL) $broadcastsUrl
+      set ::env(SAFE_DL_FILE) $broadcastsFile
+      exec powershell -NoLogo -NoProfile -Command {Invoke-WebRequest -Uri $env:SAFE_DL_URL -OutFile $env:SAFE_DL_FILE} 2>@1
     } err]} {
       error "PowerShell download failed: $err"
     }
@@ -341,7 +343,9 @@ proc ::lichess_tournament::downloadTournamentGames {name url} {
     } elseif {[auto_execok wget] ne ""} {
       exec wget -q -O "$pgnFile" "$pgnUrl" 2>@1
     } elseif {[info exists ::windowsOS] && $::windowsOS && [auto_execok powershell] ne ""} {
-      exec powershell -NoLogo -NoProfile -Command "Invoke-WebRequest -Uri '$pgnUrl' -OutFile '$pgnFile'" 2>@1
+      set ::env(SAFE_DL_URL) $pgnUrl
+      set ::env(SAFE_DL_FILE) $pgnFile
+      exec powershell -NoLogo -NoProfile -Command {Invoke-WebRequest -Uri $env:SAFE_DL_URL -OutFile $env:SAFE_DL_FILE} 2>@1
     } else {
       ::lichess_tournament::downloadWithHTTP $pgnUrl $pgnFile
     }

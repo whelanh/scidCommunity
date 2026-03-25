@@ -394,6 +394,9 @@ private:
 
 		mappedData_ = static_cast<char*>(addr);
 		madvise(mappedData_, fileSize_, MADV_RANDOM);
+#ifdef __linux__
+		madvise(mappedData_, fileSize_, MADV_HUGEPAGE);
+#endif
 
 		mappedSize_ = fileSize_;
 		return true;
