@@ -12,16 +12,17 @@ While it maintains compatibility with the original Scid database formats, **scid
 
 1. The **Header Search** dialogue has been improved with the addition of a new "Layouts" button at the lower left. This button replaces a "Save" button that has been disabled for years. The new button allows users to name, save and load sets of search parameters they use frequently.
       - The hotkey Alt + s has been added to invoke the Search button. 
-2. The **Engine** windows have been enhanced with new depth and move time input windows for limiting an engine's calculations. If users choose to use Scid's **Save Options**, the inputs will be saved as the defaults for future use.
+2. The **Engine** windows have been enhanced:
+      - New depth and move time input windows for limiting an engine's calculations. If users choose to use Scid's **Save Options**, the inputs will be saved as the defaults for future use.
       - Thanks to a [user suggestion](https://github.com/whelanh/scidCommunity/discussions/38), the Engine Window upper panel now pre-populates with stored evaluations from Lichess if they are available and it caches local engine results if they get to a deeper level than the pre-populated PVs.
+      - New *Auto Comment* button attempts to inject a meaningful comment for the current move from AI, while *Game Comment* button will provide comments for moves that have annotations and a game summary.
 3. A new **`Download TWIC Games`** option under the **`Tools`** menu that downloads' the most recent weekly games from [TWIC](https://theweekinchess.com/twic) and brings them into scidCommunity for filtering, merging with your database etc.
 4. New buttons in the **PGN Window**:
       - *Table Base* looks up current position in the Lichess endgame table base
       - *chess.com* uploads the current game to Chess.com
       - *lichess.org* uploads the current game to Lichess.org
       - *chessdb Engine Tree* opens the current position in chessdb.cn's tree of engine evaluaitons
-      - *Lichess Eval* gets any engine evaluations stored on Lichess for the current position (see the Lichess API for more detail)
-      - *Auto Comment* attempts to inject a meaningful comment for the current move from AI
+      - *Lichess Eval* gets any engine evaluations stored on Lichess for the current position (see the Lichess API for more detail)     
 5. New (optional) "Sand" and "cobalt2" themes.
 6. New light colored buttons added for use in the Engine and Analysis windows when using "dark" and "cobalt2" themes. 
 7. Implemented [user request](https://github.com/whelanh/scidCommunity/discussions/10) for better handling of long comments in the Game Info window.
