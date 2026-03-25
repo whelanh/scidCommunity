@@ -253,7 +253,13 @@ proc InitTooltip {} {
     source [file nativename [file join $::scidTclDir "utils/tklib_tooltip.tcl"]]
   }
   namespace eval ::utils::tooltip {
-    proc Set {args} { tooltip::tooltip {*}$args }
+    proc Set {args} {
+      set msg [lindex $args end]
+      if {[string match "-*" $msg]} {
+        set args [lreplace $args end end " $msg"]
+      }
+      tooltip::tooltip {*}$args
+    }
   }
 }
 InitTooltip
