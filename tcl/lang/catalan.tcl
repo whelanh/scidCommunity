@@ -252,6 +252,7 @@ menuText K OptionsMovesHighlightLastMoveWidth "Gruix" 0 {Gruix de línia}
 menuText K OptionsMovesHighlightLastMoveColor "Color" 0 {Color de línia}
 menuText K OptionsMovesHighlightLastMoveArrow "Mostra fletxa" 0 {Inclou fletxa amb ressaltat}
 menuText K OptionsMovesHighlightLastMoveNag "Mostra símbols d'avaluació" 0
+menuText K OptionsMovesHighlightLastMoveEval "Mostra símbols d'avaluació" 0
 menuText K OptionsMoves "Jugades" 0 {Opcions d'entrada de jugades}
 menuText K OptionsMovesAnimate "Velocitat d'animació" 1 \
   {Posa el temps d'animació entre jugades}

@@ -247,6 +247,7 @@ menuText F OptionsMovesHighlightLastMoveWidth "Epaisseur" 0 {Epaisseur de la lig
 menuText F OptionsMovesHighlightLastMoveColor "Couleur" 0 {Couleur de la ligne}
 menuText F OptionsMovesHighlightLastMoveArrow "Afficher Flèche" 0 {Afficher la flèche de déplacement du dernier coup}
 menuText F OptionsMovesHighlightLastMoveNag "Afficher les symboles d'évaluation" 0
+menuText F OptionsMovesHighlightLastMoveEval "Afficher les symboles d'évaluation" 0
 menuText F OptionsMoves "Coups" 2 {Gestion des coups}
 menuText F OptionsMovesAnimate "Temps d'animation" 1 \
   {Régler le temps utilisé pour l'animation des coups}

@@ -271,6 +271,7 @@ menuText J OptionsMovesHighlightLastMoveWidth "Ширина" 0 {Дебљина �
 menuText J OptionsMovesHighlightLastMoveColor "Боја" 0 {Боја линије}
 menuText J OptionsMovesHighlightLastMoveArrow "Прикажи стрелицу" 0 {Прикажи стрелицу са истицањем}
 menuText J OptionsMovesHighlightLastMoveNag "Прикажи симболе за евалуацију" 0
+menuText J OptionsMovesHighlightLastMoveEval "Прикажи симболе за евалуацију" 0
 menuText J OptionsMoves "Покрети" 0 {Померите опције уноса}
 menuText J OptionsMovesAnimate "Аниматион Тиме" 1 \
   {Подесите количину времена која се користи за анимирање покрета}

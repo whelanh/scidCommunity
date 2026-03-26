@@ -271,6 +271,7 @@ menuText A OptionsMovesHighlightLastMoveWidth "幅" 0 {線の太さ}
 menuText A OptionsMovesHighlightLastMoveColor "色" 0 {線の色}
 menuText A OptionsMovesHighlightLastMoveArrow "矢印を表示" 0 {ハイライト付きの矢印を表示する}
 menuText A OptionsMovesHighlightLastMoveNag "評価記号を表示" 0
+menuText A OptionsMovesHighlightLastMoveEval "評価記号を表示" 0
 menuText A OptionsMoves "移動" 0 {移動エントリオプション}
 menuText A OptionsMovesAnimate "アニメーション時間" 1 \
   {動きのアニメーション化に使用する時間を設定します}

@@ -260,6 +260,7 @@ menuText S OptionsMovesHighlightLastMoveWidth "Ancho" 0 {Espesor de la línea}
 menuText S OptionsMovesHighlightLastMoveColor "Color" 0 {Color de línea}
 menuText S OptionsMovesHighlightLastMoveArrow "Mostrar Flechas" 0 {Show Arrow with Highlight}
 menuText S OptionsMovesHighlightLastMoveNag "Mostrar símbolos de evaluación" 0
+menuText S OptionsMovesHighlightLastMoveEval "Mostrar s�mbolos de evaluaci�n" 0
 menuText S OptionsMoves "Movimientos" 0 {Opciones de la entrada de movimientos}
 menuText S OptionsMovesAnimate "Velocidad de la animación" 1 \
   {Pone el tiempo usado para animar las jugadas}

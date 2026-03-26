@@ -271,6 +271,7 @@ menuText L OptionsMovesHighlightLastMoveWidth "Lăţime" 0 {Grosimea liniei}
 menuText L OptionsMovesHighlightLastMoveColor "Culoare" 0 {Culoarea liniei}
 menuText L OptionsMovesHighlightLastMoveArrow "Arată săgeata" 0 {Afișați o săgeată cu Evidențiere}
 menuText L OptionsMovesHighlightLastMoveNag "Afișați simbolurile de evaluare" 0
+menuText L OptionsMovesHighlightLastMoveEval "Afișați simbolurile de evaluare" 0
 menuText L OptionsMoves "Mișcări" 0 {Mutați opțiunile de intrare}
 menuText L OptionsMovesAnimate "Timp de animație" 1 \
   {Setați durata de timp folosită pentru a anima mișcările}

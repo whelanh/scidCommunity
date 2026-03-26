@@ -235,6 +235,7 @@ menuText C OptionsMovesHighlightLastMoveWidth "©íøka" 0 {Tlou¹»ka èáry}
 menuText C OptionsMovesHighlightLastMoveColor "Barva" 0 {Barva èáry}
 menuText C OptionsMovesHighlightLastMoveArrow "vèetnì Arrow" 0 {Zahrnout ¹ipku se zvýraznìním}
 menuText C OptionsMovesHighlightLastMoveNag "Zobrazit symboly hodnocení" 0
+menuText C OptionsMovesHighlightLastMoveEval "Zobrazit symboly hodnocení" 0
 menuText C OptionsMoves "Tahy" 0 {Volby pro zadávání tahù}
 menuText C OptionsMovesAnimate "Èas animace" 4 \
   {Nastavit èas pou¾itý na animaci tahù}

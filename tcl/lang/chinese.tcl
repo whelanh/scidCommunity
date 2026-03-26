@@ -206,6 +206,7 @@ menuText M OptionsMovesHighlightLastMoveWidth "宽度" 0 {线条粗细}
 menuText M OptionsMovesHighlightLastMoveColor "Color" 0 {线条颜色}
 menuText M OptionsMovesHighlightLastMoveArrow "显示箭头" 0 {显示带高亮的箭头}
 menuText M OptionsMovesHighlightLastMoveNag "显示评估符号" 0
+menuText M OptionsMovesHighlightLastMoveEval "显示评估符号" 0
 menuText M OptionsMoves "着法" 0 {着法输入选项}
 menuText M OptionsMovesAnimate "动画时间" 1 \
   {设置用于动画着法的时间}

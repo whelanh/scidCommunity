@@ -282,6 +282,8 @@ menuText Y OptionsMovesHighlightLastMoveColor "Color" 0 {Color of line}
 menuText Y OptionsMovesHighlightLastMoveArrow "Show Arrow" 0 {Show Arrow with Highlight}
 # ====== TODO To be translated ======
 menuText Y OptionsMovesHighlightLastMoveNag "Show evaluation symbols" 0
+# ====== TODO To be translated ======
+menuText Y OptionsMovesHighlightLastMoveEval "Show evaluation symbols" 0
 menuText Y OptionsMoves "Potezi" 0 {Opcije uno¹enja poteza}
 menuText Y OptionsMovesAnimate "Animation time" 1 \
   {Set the amount of time used to animate moves} ;# ***
