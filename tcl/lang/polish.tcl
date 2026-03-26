@@ -251,6 +251,7 @@ menuText P OptionsMovesHighlightLastMoveWidth "Szeroko¶æ" 0 {Grubo¶æ linii}
 menuText P OptionsMovesHighlightLastMoveColor "Kolor" 0 {Kolor linii}
 menuText P OptionsMovesHighlightLastMoveArrow "Poka¿ strza³kê" 0 {Poka¿ strza³kê z pod¶wietleniem}
 menuText P OptionsMovesHighlightLastMoveNag "Poka¿ symbol oceny" 0
+menuText P OptionsMovesHighlightLastMoveEval "Poka¿ symbole oceny" 0
 menuText P OptionsMoves "Posuniêcia" 0 {Wprowadzanie posuniêæ}
 menuText P OptionsMovesAnimate "Szybko¶æ animacji" 1 \
   {Ustaw czas przeznaczony na animacjê jednego posuniêcia} 

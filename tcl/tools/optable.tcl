@@ -47,7 +47,7 @@ proc ::optable::ConfigMenus {{lang ""}} {
   foreach idx {0 1 2} tag {File Favorites Help} {
     configMenuText $m $idx Oprep$tag $lang
   }
-  foreach idx {0 1 2 4 6} tag {Text Html Options Close} {
+  foreach idx {0 1 3 5} tag {Text Html Options Close} {
     configMenuText $m.file $idx OprepFile$tag $lang
   }
   foreach idx {0 1 2} tag {Add Edit Generate} {
@@ -116,6 +116,18 @@ proc ::optable::makeReportWin {args} {
 
   set ::optable::_data(tree) $newTreeData
   set ::optable::_data(bdHTML_flip) [sc_pos html -flip 1]
+
+  # Populate moves list for the "Exclude" dropdown from the tree stats output.
+  # Each data line looks like: " N: <move(25 chars)>  <eco>  <freq>: ..."
+  # The first SAN move occupies columns 4..28; we only want the first token.
+  set ::optable::_data(moves) {}
+  foreach line [split $newTreeData "\n"] {
+    if {[regexp {^\s*\d+:\s+(\S+)} $line -> move]} {
+      if {$move ne "---" && $move ne "TOTAL:"} {
+        lappend ::optable::_data(moves) $move
+      }
+    }
+  }
 
   ::optable::setupRatios
 
