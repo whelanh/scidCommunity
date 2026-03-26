@@ -283,6 +283,7 @@ translate M Clear {清除}
 translate M Close {关闭}
 translate M Contents {目录}
 translate M Defaults {Defaults}
+translate M InvertSearch {反向搜索}
 translate M Delete {删除}
 translate M Graph {图表}
 translate M Help {帮助}

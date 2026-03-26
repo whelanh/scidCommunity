@@ -11,7 +11,8 @@ While it maintains compatibility with the original Scid database formats, **scid
 ### Key Enhancements & Features:
 
 1. The **Header Search** dialogue has been improved with the addition of a new "Layouts" button at the lower left. This button replaces a "Save" button that has been disabled for years. The new button allows users to name, save and load sets of search parameters they use frequently.
-      - The hotkey Alt + s has been added to invoke the Search button. 
+      - The hotkey Alt + s has been added to invoke the Search button.
+      - An "Invert Search" button has been added that allows you to filter OUT all games that DO meet the criteria entered (see more [here](https://github.com/whelanh/scidCommunity/discussions/67)).
 2. The **Engine** windows have been enhanced:
       - New depth and move time input windows for limiting an engine's calculations. If users choose to use Scid's **Save Options**, the inputs will be saved as the defaults for future use.
       - Thanks to a [user suggestion](https://github.com/whelanh/scidCommunity/discussions/38), the Engine Window upper panel now pre-populates with stored evaluations from Lichess if they are available and it caches local engine results if they get to a deeper level than the pre-populated PVs.

@@ -348,6 +348,7 @@ translate J Clear {Јасно}
 translate J Close {Затвори}
 translate J Contents {Садржај}
 translate J Defaults {Дефаултс}
+translate J InvertSearch {Инверт Сеарцх}
 translate J Delete {Избриши}
 translate J Graph {Граф}
 translate J Help {Помоћ}

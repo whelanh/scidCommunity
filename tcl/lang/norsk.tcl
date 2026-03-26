@@ -320,6 +320,7 @@ translate O Clear {Slett}
 translate O Close {Lukk}
 translate O Contents {Contents} ;# ***
 translate O Defaults {Standard}
+translate O InvertSearch {Inverter søk}
 translate O Delete {Slett}
 translate O Graph {Graf}
 translate O Help {Hjelp}

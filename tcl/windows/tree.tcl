@@ -578,9 +578,13 @@ proc ::tree::displayLines { baseNumber moves } {
       $w.f.tl insert end "[::trans [lindex $m 0] ]" bluefg
       # comment
       set comment [lindex $m 3]
-      set firstLine [ lindex [split $comment "\n"] 0 ]
-      $w.f.tl insert end " $firstLine\n" tagtooltip$idx
-      ::utils::tooltip::Set $w.f.tl -tag tagtooltip$idx $comment
+      if {$comment != ""} {
+        set firstLine [ lindex [split $comment "\n"] 0 ]
+        $w.f.tl insert end " $firstLine" tagtooltip$idx
+        ::utils::tooltip::Set $w.f.tl -tag tagtooltip$idx $comment
+        $w.f.tl tag bind tagtooltip$idx <Double-Button-1> "::tree::mask::addComment [lindex $m 0]"
+      }
+      $w.f.tl insert end "\n"
 
       # Bind right button to popup a contextual menu:
       $w.f.tl tag bind tagclick$idx <ButtonPress-$::MB3> "::tree::mask::contextMenu $w.f.tl  [lindex $m 0] %x %y %X %Y ; break"
@@ -1620,6 +1624,14 @@ proc ::tree::mask::getImage { move nmr } {
   set loc [expr 4 + $nmr]
   set img [lindex $moves $idxm $loc]
   if {$img == ""} { set img tb_empty }
+  if {[string match "::tree::mask::image*" $img]} {
+    set type [string range $img 19 end]
+    if {[info exists ::tree::mask::marker2image($type)]} {
+        set img $::tree::mask::marker2image($type)
+    } else {
+        set img tb_empty
+    }
+  }
   return $img
 }
 

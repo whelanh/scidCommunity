@@ -204,8 +204,7 @@ $m add command -label SearchMaterial -command ::search::material -accelerator "C
 $m add separator
 $m add checkbutton -label WindowsPList -variable plistWin -command ::plist::toggle -accelerator "Ctrl+Shift+P"
 $m add checkbutton -label WindowsTmt -variable tourneyWin -command ::tourney::toggle -accelerator "Ctrl+Shift+T"
-$m add separator
-$m add command -label SearchUsing -accel "Ctrl+Shift+U" -command ::search::usefile
+
 
 
 ### Play menu:

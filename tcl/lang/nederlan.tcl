@@ -339,6 +339,7 @@ translate N Clear {Leegmaken}
 translate N Close {Sluiten}
 translate N Contents {Inhoud} ;
 translate N Defaults {Standaard}
+translate N InvertSearch {Zoekopdracht omkeren}
 translate N Delete {Wis}
 translate N Graph {Grafiek}
 translate N Help {Help}

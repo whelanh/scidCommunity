@@ -190,7 +190,7 @@ proc ::tooltip::register {w args} {
     while {[string match -* $key]} {
 	switch -- $key {
 	    -- {
-		set args [lassign $args _ key]
+		set args [lassign $args _]
 		break
 	    }
 	    -heading {

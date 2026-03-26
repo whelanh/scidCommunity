@@ -79,6 +79,16 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.2.78" date="2026-03-26">
+      <description>
+        <p>Add Invert Search button to the Header Search window</p>
+      </description>
+    </release>
+    <release version="5.1.2.77" date="2026-03-25">
+      <description>
+        <p>Restore mask feature in the Tree Window</p>
+      </description>
+    </release>
     <release version="5.1.2.73" date="2026-03-24">
       <description>
         <p>Enable THP support for Linux users</p>

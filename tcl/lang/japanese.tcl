@@ -348,6 +348,7 @@ translate A Clear {クリア}
 translate A Close {近い}
 translate A Contents {コンテンツ}
 translate A Defaults {デフォルト}
+translate A InvertSearch {逆検索}
 translate A Delete {消去}
 translate A Graph {グラフ}
 translate A Help {ヘルプ}

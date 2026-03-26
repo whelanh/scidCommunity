@@ -319,6 +319,7 @@ translate B Clear {Limpar}
 translate B Close {Fechar}
 translate B Contents {Conteúdo} 
 translate B Defaults {Defaults}
+translate B InvertSearch {Inverter pesquisa}
 translate B Delete {Apagar}
 translate B Graph {Gráfico}
 translate B Help {Ajuda}

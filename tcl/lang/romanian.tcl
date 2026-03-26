@@ -348,6 +348,7 @@ translate L Clear {Clar}
 translate L Close {Aproape}
 translate L Contents {Cuprins}
 translate L Defaults {Valori implicite}
+translate L InvertSearch {Căutare inversă}
 translate L Delete {Şterge}
 translate L Graph {Grafic}
 translate L Help {Ajutor}

@@ -71,11 +71,13 @@ proc ::search::Open {ref_base ref_filter title create_subwnd} {
 	
 	ttk::button $w.buttons.reset_values -text [::tr Defaults] \
 		-command "set ::search::filterOp_($w) reset; $options_cmd reset"
+	ttk::button $w.buttons.invert -text [::tr InvertSearch] \
+		-command "::search::start_ 0 $w $options_cmd 1"
 	ttk::button $w.buttons.search_new -text "[tr Search] ([tr GlistNewSort] [tr Filter])" \
 		-command "::search::start_ 1 $w $options_cmd"
 	ttk::button $w.buttons.search -text [::tr Search] -underline 0 \
 		-command "::search::start_ 0 $w $options_cmd"
-	grid $save_widget $w.buttons.reset_values x $w.buttons.search_new $w.buttons.search -sticky w -padx "0 5"
+	grid $save_widget $w.buttons.reset_values $w.buttons.invert $w.buttons.search_new $w.buttons.search -sticky w -padx "0 5"
 	grid columnconfigure $w.buttons 2 -weight 1
 
 	ttk::button $w.buttons.stop -text [::tr Stop] -command progressBarCancel
@@ -161,44 +163,102 @@ proc ::search::save_ {options_cmd} {
 	# TODO:
 }
 
-proc ::search::start_ {new_filter w options_cmd} {
+proc ::search::start_ {new_filter w options_cmd {invert_search 0}} {
 	set dbase $::search::dbase_($w)
 	set src_filter $::search::filter_($w)
 	set src_op $::search::filterOp_($w)
 
-	if {$new_filter} {
-		set dest_filter [sc_filter new $dbase]
-	} else {
-		set dest_filter [sc_filter compose $dbase $src_filter ""]
-	}
-	if {$dest_filter ne $src_filter && $src_op ne "reset"} {
-		sc_filter copy $dbase $dest_filter $src_filter
-	}
-
 	lassign [$options_cmd] options ignore_color_hack
-	if {$ignore_color_hack ne ""} {
-		set filter_hack [sc_filter new $dbase]
-		sc_filter copy $dbase $filter_hack $dest_filter
-	}
 
-	set err [catch {::search::do_search_ $dbase $dest_filter $src_op $options "::search::progressbar_ $w show"}]
-	::search::progressbar_ $w hide
-	if {$err} {
-		if {$::errorCode != $::ERROR::UserCancel} { ERROR::MessageBox }
-	}
+	if {$invert_search} {
+		set temp_filter [sc_filter new $dbase]
+		
+		# do_search_ with 'reset' computes the exact pure match into temp_filter
+		set err [catch {::search::do_search_ $dbase $temp_filter "reset" $options "::search::progressbar_ $w show"}]
+		if {$err} {
+			sc_filter release $dbase $temp_filter
+			::search::progressbar_ $w hide
+			if {$::errorCode != $::ERROR::UserCancel} { ERROR::MessageBox }
+			return
+		}
 
-	if {!$err && $ignore_color_hack ne ""} {
-		set err [catch {::search::do_search_ $dbase $filter_hack $src_op $ignore_color_hack "::search::progressbar_ $w show"}]
+		if {$ignore_color_hack ne ""} {
+			set filter_hack [sc_filter new $dbase]
+			set err [catch {::search::do_search_ $dbase $filter_hack "reset" $ignore_color_hack "::search::progressbar_ $w show"}]
+			if {$err} {
+				sc_filter release $dbase $filter_hack
+				sc_filter release $dbase $temp_filter
+				::search::progressbar_ $w hide
+				if {$::errorCode != $::ERROR::UserCancel} { ERROR::MessageBox }
+				return
+			}
+			sc_filter or $dbase $temp_filter $filter_hack
+			sc_filter release $dbase $filter_hack
+		}
+		
+		::search::progressbar_ $w hide
+
+		# Invert the pure match
+		sc_filter negate $dbase $temp_filter
+
+		# Now combine temp_filter with src_filter into dest_filter
+		if {$new_filter} {
+			set dest_filter [sc_filter new $dbase]
+		} else {
+			set dest_filter [sc_filter compose $dbase $src_filter ""]
+		}
+
+		switch $src_op {
+			reset {
+				sc_filter copy $dbase $dest_filter $temp_filter
+			}
+			and {
+				sc_filter copy $dbase $dest_filter $src_filter
+				sc_filter and $dbase $dest_filter $temp_filter
+			}
+			or {
+				sc_filter copy $dbase $dest_filter $src_filter
+				sc_filter or $dbase $dest_filter $temp_filter
+			}
+		}
+
+		sc_filter release $dbase $temp_filter
+
+	} else {
+		if {$new_filter} {
+			set dest_filter [sc_filter new $dbase]
+		} else {
+			set dest_filter [sc_filter compose $dbase $src_filter ""]
+		}
+		if {$dest_filter ne $src_filter && $src_op ne "reset"} {
+			sc_filter copy $dbase $dest_filter $src_filter
+		}
+
+		if {$ignore_color_hack ne ""} {
+			set filter_hack [sc_filter new $dbase]
+			sc_filter copy $dbase $filter_hack $dest_filter
+		}
+
+		set err [catch {::search::do_search_ $dbase $dest_filter $src_op $options "::search::progressbar_ $w show"}]
 		::search::progressbar_ $w hide
 		if {$err} {
 			if {$::errorCode != $::ERROR::UserCancel} { ERROR::MessageBox }
-		} else {
-			sc_filter or $dbase $dest_filter $filter_hack
+		}
+
+		if {!$err && $ignore_color_hack ne ""} {
+			set err [catch {::search::do_search_ $dbase $filter_hack $src_op $ignore_color_hack "::search::progressbar_ $w show"}]
+			::search::progressbar_ $w hide
+			if {$err} {
+				if {$::errorCode != $::ERROR::UserCancel} { ERROR::MessageBox }
+			} else {
+				sc_filter or $dbase $dest_filter $filter_hack
+			}
+		}
+		if {$ignore_color_hack ne ""} {
+			sc_filter release $dbase $filter_hack
 		}
 	}
-	if {$ignore_color_hack ne ""} {
-		sc_filter release $dbase $filter_hack
-	}
+
 
 	set ::search::filter_($w) $dest_filter
 	::notify::filter $dbase $dest_filter

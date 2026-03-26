@@ -381,6 +381,8 @@ translate Y Clear {Oèisti}
 translate Y Close {Zatvori}
 translate Y Contents {Contents} ;# ***
 translate Y Defaults {Podrazumevano}
+# ====== TODO To be translated ======
+translate Y InvertSearch {Invert Search}
 translate Y Delete {Obri¹i}
 translate Y Graph {Grafikon}
 translate Y Help {Pomoæ}

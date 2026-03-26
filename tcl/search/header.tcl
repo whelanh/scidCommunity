@@ -744,50 +744,6 @@ proc ::search::getSearchOptions {dest_list} {
     }
 }
 
-proc ::search::header::save {} {
-  global sWhite sBlack sEvent sSite sRound sAnnotated sDateMin sDateMax sIgnoreCol
-  global sWhiteEloMin sWhiteEloMax sBlackEloMin sBlackEloMax
-  global sEloDiffMin sEloDiffMax sGlMin sGlMax
-  global sEco sEcoMin sEcoMax sHeaderFlags sSideToMoveW sSideToMoveB
-  global sResWin sResLoss sResDraw sResOther sPgntext
-
-  set ftype { { "Scid SearchOptions files" {".sso"} } }
-  set fName [tk_getSaveFile -initialdir [pwd] -filetypes $ftype -title "Create a SearchOptions file"]
-  if {$fName == ""} { return }
-
-  if {[string compare [file extension $fName] ".sso"] != 0} {
-    append fName ".sso"
-  }
-
-  if {[catch {set searchF [open [file nativename $fName] w]} ]} {
-    tk_messageBox -title "Error: Unable to open file" -type ok -icon error \
-        -message "Unable to create SearchOptions file: $fName"
-    return
-  }
-  puts $searchF "\# SearchOptions File created by Scid $::scidVersion"
-  puts $searchF "set searchType Header"
-  getSearchEntries
-
-  # First write the regular variables:
-  foreach i {sWhite sBlack sEvent sSite sRound sAnnotated sDateMin sDateMax sResWin
-    sResLoss sResDraw sResOther sWhiteEloMin sWhiteEloMax sBlackEloMin
-    sBlackEloMax sEcoMin sEcoMax sEloDiffMin sEloDiffMax
-    sIgnoreCol sSideToMoveW sSideToMoveB sGlMin sGlMax ::search::filter::operation} {
-    puts $searchF "set $i [list [set $i]]"
-  }
-  # Now write the array values:
-  foreach i [array names sHeaderFlags] {
-    puts $searchF "set sHeaderFlags($i) [list $sHeaderFlags($i)]"
-  }
-  foreach i [array names sPgntext] {
-    puts $searchF "set sPgntext($i) [list $sPgntext($i)]"
-  }
-
-  tk_messageBox -type ok -icon info -title "Search Options saved" \
-      -message "Header search options saved to: $fName"
-  close $searchF
-}
-
 ##############################
 ### Selecting common ECO ranges
 

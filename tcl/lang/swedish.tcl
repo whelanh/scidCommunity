@@ -321,6 +321,7 @@ translate W Clear {Rensa}
 translate W Close {Stäng}
 translate W Contents {Innehåll}
 translate W Defaults {Standard}
+translate W InvertSearch {Invertera sökning}
 translate W Delete {Radera}
 translate W Graph {Diagram}
 translate W Help {Hjälp}

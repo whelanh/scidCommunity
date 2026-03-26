@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.73
+Version:        5.1.2.78
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 78058deb946bbcecee8825654920c87c868c40a0
+%global commit 6416f17be86cb4f2a5673ba9d806dfc7b2e4741f
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,10 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Thu Mar 26 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-78
+- "Add Invert Search button to the Header Search window"
+* Wed Mar 25 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-77
+- "Fix mask feature in the Tree Window"
 * Tue Mar 24 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-73
 - "Enable THP support for Linux users"
 * Mon Mar 23 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-72

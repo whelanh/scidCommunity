@@ -352,6 +352,7 @@ translate E Clear {Clear}
 translate E Close {Close}
 translate E Contents {Contents}
 translate E Defaults {Defaults}
+translate E InvertSearch {Invert Search}
 translate E Delete {Delete}
 translate E Graph {Graph}
 translate E Help {Help}
