@@ -1148,12 +1148,12 @@ set helpText(Searches) {<h1>Searches in scidCommunity</h1>
   
   <h3><name Settings>Saving search settings</name></h3>
   <p>
-  The Material/Pattern and Header search windows provide a
-  <term>Save settings</term> button. This lets you save the current
-  search settings for later use, to a <term>SearchOptions</term> file
-  (suffix .sso).
-  To search using a previously saved SearchOptions (.sso) file, select
-  <menu>Open</menu> from the <menu>Search</menu> menu.
+  The Header search window provides a <term>Layout</term> button that
+  lets you save and recall named search configurations. Click
+  <b>Layout</b> and choose <b>Save Layout</b> to store the current
+  search settings under a name of your choice. Previously saved layouts
+  can be loaded or deleted from the same <b>Layout</b> menu. Layouts
+  are stored in scidCommunity's preferences and persist between sessions.
   </p>
   
   <h3>Search times and skipped games</h3>
@@ -4121,13 +4121,9 @@ set helpText(Cmdline) {<h1>Command-line options</h1>
   </p>
 
   <p>
-  Additionally, a filter file (.sso) can be used on the command line.
-  <ul>
-  <li>scid mybase myfilter</li>
-  </ul>
-  will open mybase and run myfilter immediately against it to select a
-  set of games. This can e.g. be used to select a list of unfinished
-  games in a pgn file.
+  To reuse a header search configuration, open the Header Search
+  window and use the <b>Layout</b> button to load a previously saved
+  layout before running the search.
   </p>
   
   <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
@@ -4259,9 +4255,10 @@ set helpText(Formats) {<h1>scidCommunity File Formats</h1>
   you send email messages to.
   </p>
   <p>
-  A SearchOptions (suffix: ".sso") file contains scidCommunity
-  <a Searches Header>header</a> or
-  <a Searches Material>material/pattern</a> search settings.
+  Header search settings can be saved and recalled using the
+  <b>Layout</b> button in the <a Searches Header>Header Search</a>
+  window. Named layouts are stored in scidCommunity's preferences file
+  rather than as separate files.
   </p>
   
   <h3><name Fast>Fast searches in scidCommunity</name></h3>

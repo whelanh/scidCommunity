@@ -215,6 +215,7 @@ proc ::preferences::moves { t } {
         -validate key -validatecommand { return [string is digit %S] } -command "updateBoard"
     ttk::button $t.high.color -text $::tr(ColorMarker) -command chooseHighlightColor
     ttk::checkbutton $t.high.nag -variable ::highlightLastMoveNag -text [tr OptionsMovesHighlightLastMoveNag] -command "updateBoard"
+    ttk::checkbutton $t.high.eval -variable ::highlightLastMoveEval -text [tr OptionsMovesHighlightLastMoveEval] -command "updateBoard"
     grid $t.high.hlm -row 0 -column 0 -sticky w
     grid $t.high.tl -row 0 -column 1 -padx "10 5"
     grid $t.high.thick -row 0 -column 2
@@ -223,6 +224,7 @@ proc ::preferences::moves { t } {
     grid $t.high.sva -row 2 -column 0 -columnspan 3 -sticky w -padx "20 0"
     grid $t.high.eva -row 3 -column 0 -columnspan 3 -sticky w -padx "20 0"
     grid $t.high.nag -row 4 -column 0 -sticky w
+    grid $t.high.eval -row 5 -column 0 -sticky w
     pack $t.auto.label $t.auto.spDelay -side left -padx "0 10" -anchor w
     pack $t.ani $t.omc $t.omk $t.oms $t.osv $t.osp $t.auto $t.lichess $t.god $t.tree -side top -anchor w
     pack $t.high -side top -anchor w -pady "5 0"

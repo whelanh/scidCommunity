@@ -235,6 +235,8 @@ menuText T OptionsMovesHighlightLastMoveWidth "Genişlik" 0 {Çizgi kalınlığ�
 menuText T OptionsMovesHighlightLastMoveColor "Renk" 0 {Çizgi rengi}
 menuText T OptionsMovesHighlightLastMoveArrow "Ok Göster" 0 {Vurgulu Bir Ok Göster}
 menuText T OptionsMovesHighlightLastMoveNag "Değerlendirme sembollerini göster" 0
+# ====== TODO To be translated ======
+menuText T OptionsMovesHighlightLastMoveEval "Show evaluation symbols" 0
 menuText T OptionsMoves "Hareketler" 0 {Giriş seçeneklerini taşı}
 menuText T OptionsMovesAnimate "Animasyon Süresi" 1 \
   {Hareketleri canlandırmak için kullanılan süreyi ayarlayın}

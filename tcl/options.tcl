@@ -207,6 +207,7 @@ set translatePieces 1
 set arrowLastMove 0
 set highlightLastMove 1
 set highlightLastMoveNag 1
+set highlightLastMoveEval 0
 set highlightLastMoveWidth 2
 set highlightLastMoveColor "grey"
 set highlightLastMovePattern {} ; # this option is not saved
@@ -629,7 +630,7 @@ proc options.write {} {
           blunderThreshold autoplayDelay animateDelay boardCoords \
           moveEntry(AutoExpand) moveEntry(Coord) \
           translatePieces lichessFormat arrowLastMove highlightLastMove highlightLastMoveWidth \
-          highlightLastMoveColor highlightLastMoveNag \
+          highlightLastMoveColor highlightLastMoveNag highlightLastMoveEval \
           glossOfDanger locale(numeric) \
           spellCheckFile autoRaise windowsDock showGameInfo \
           exportFlags(comments) exportFlags(vars) \

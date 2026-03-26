@@ -240,6 +240,7 @@ menuText R OptionsMovesHighlightLastMoveWidth "Толщина" 0 {Толщина
 menuText R OptionsMovesHighlightLastMoveColor "Цвет" 0 {Цвет линии}
 menuText R OptionsMovesHighlightLastMoveArrow "Показать стрелку" 0 {Включить стрелки с подсветкой}
 menuText R OptionsMovesHighlightLastMoveNag "Показать символы оценки" 0
+menuText R OptionsMovesHighlightLastMoveEval "Показать символы оценки" 0
 menuText R OptionsMoves "Ходы" 0 {Установки для ходов}
 menuText R OptionsMovesAnimate "Время анимации" 1 \
   {Установить количество времени, используемое для анимации ходов}

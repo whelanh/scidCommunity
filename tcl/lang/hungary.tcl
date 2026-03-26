@@ -239,6 +239,7 @@ menuText H OptionsMovesHighlightLastMoveWidth "Szélesség" 0 {A vonal vastagsága}
 menuText H OptionsMovesHighlightLastMoveColor "Szín" 0 {A vonal színe}
 menuText H OptionsMovesHighlightLastMoveArrow "Nyíl megjelenítése" 0 {Tartalmazza a nyilat a kiemeléssel}
 menuText H OptionsMovesHighlightLastMoveNag "Értékelési szimbólumok megjelenítése" 0
+menuText H OptionsMovesHighlightLastMoveEval "Az értékelési szimbólumok megjelenítése" 0
 menuText H OptionsMoves "Lépések" 0 {Lépések bevitelének beállításai}
 menuText H OptionsMovesAnimate "Megelevenítés ideje" 0 \
   {Beállítja az idõt lépések megelevenítéséhez.}

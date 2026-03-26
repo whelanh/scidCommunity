@@ -241,6 +241,7 @@ menuText O OptionsMovesHighlightLastMoveWidth "Bredde" 0 {Tykkelse på linjen}
 menuText O OptionsMovesHighlightLastMoveColor "Farge" 0 {Farge på linjen}
 menuText O OptionsMovesHighlightLastMoveArrow "Vis pil" 0 {Vis pil med utheving}
 menuText O OptionsMovesHighlightLastMoveNag "Vis evalueringssymboler" 0
+menuText O OptionsMovesHighlightLastMoveEval "Vis evalueringssymboler" 0
 menuText O OptionsMoves "Trekk" 0 {Innstillinger for hvordan trekk angis}
 menuText O OptionsMovesAnimate "Animation time" 1 \
   {Set the amount of time used to animate moves} ;# ***
