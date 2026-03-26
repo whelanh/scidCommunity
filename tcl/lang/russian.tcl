@@ -317,6 +317,7 @@ translate R Clear {Очистить}
 translate R Close {Закрыть}
 translate R Contents {Содержание}
 translate R Defaults {По-умолчанию}
+translate R InvertSearch {Инвертировать поиск}
 translate R Delete {Удалить}
 translate R Graph {График}
 translate R Help {Помощь}

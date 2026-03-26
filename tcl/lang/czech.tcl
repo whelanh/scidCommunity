@@ -314,6 +314,7 @@ translate C Clear {Vyèistit}
 translate C Close {Zavøít}
 translate C Contents {Obsah}
 translate C Defaults {Pøedvolené}
+translate C InvertSearch {Invertovat vyhledávání}
 translate C Delete {Vymazat}
 translate C Graph {Graf}
 translate C Help {Nápovìda}

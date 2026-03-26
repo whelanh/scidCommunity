@@ -318,6 +318,7 @@ translate H Clear {Töröl}
 translate H Close {Bezár}
 translate H Contents {Tartalom}
 translate H Defaults {Alapértékek}
+translate H InvertSearch {Invert Search}
 translate H Delete {Töröl}
 translate H Graph {Grafikon}
 translate H Help {Segítség}

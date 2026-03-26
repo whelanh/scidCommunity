@@ -349,6 +349,7 @@ translate U Clear {Tyhjennä}
 translate U Close {Sulje}
 translate U Contents {Sisällys}
 translate U Defaults {Oletukset}
+translate U InvertSearch {Käänteinen haku}
 translate U Delete {Poista}
 translate U Graph {Graafi}
 translate U Help {Ohje}

@@ -351,6 +351,7 @@ translate S Clear {Limpiar}
 translate S Close {Cerrar}
 translate S Contents {Contenidos}
 translate S Defaults {Por defecto}
+translate S InvertSearch {Invertir búsqueda}
 translate S Delete {Borrar}
 translate S Graph {GrÃ¡fico}
 translate S Help {Ayuda}

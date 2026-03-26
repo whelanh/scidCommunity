@@ -59,20 +59,4 @@ proc ::search::Config {{state ""}} {
 }
 
 
-proc ::search::usefile {} {
-  set ftype { { "Scid SearchOption files" {".sso"} } }
-  set ::fName [tk_getOpenFile -initialdir $::initialDir(base) \
-      -filetypes $ftype -title "Select a SearchOptions file"]
-  if {$::fName == ""} { return }
-  
-  if {[catch {uplevel "#0" {source $::fName} } ]} {
-    tk_messageBox -title "scidCommunity: Error reading file" -type ok -icon warning \
-        -message "Unable to open or read SearchOptions file: $fName"
-  } else {
-    switch -- $::searchType {
-      "Material" { ::search::material }
-      "Header"   { ::search::header }
-      default    { return }
-    }
-  }
-}
+

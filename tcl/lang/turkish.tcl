@@ -312,6 +312,8 @@ translate T Clear {Temizlemek}
 translate T Close {Kapalı}
 translate T Contents {İçindekiler}
 translate T Defaults {Varsayılanlar}
+# ====== TODO To be translated ======
+translate T InvertSearch {Invert Search}
 translate T Delete {Silmek}
 translate T Graph {Grafik}
 translate T Help {Yardım}

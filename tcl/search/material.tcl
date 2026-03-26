@@ -572,8 +572,6 @@ proc ::search::material {{ref_base ""}} {
   pack [ttk::frame $f] -side top -ipady 5 -fill x
   ttk::checkbutton $f.ignorecol -textvar ::tr(IgnoreColors) -variable ignoreColors ;# -padx 4
 
-  dialogbutton $f.save -textvar ::tr(Save...) -command ::search::material::save
-
   dialogbutton $f.stop -textvar ::tr(Stop) -command progressBarCancel
   $f.stop configure -state disabled
 
@@ -633,48 +631,5 @@ proc ::search::material {{ref_base ""}} {
   wm resizable $w 0 0
   ::search::Config
   focus $f.search
-}
-
-proc ::search::material::save {} {
-  global pMin pMax ignoreColors minMoveNum maxMoveNum minHalfMoves
-  global pattPiece pattFyle pattRank pattBool sameBishops oppBishops nPatterns
-
-  set ftype { { "Scid SearchOptions files" {".sso"} } }
-  set fName [tk_getSaveFile -initialdir [pwd] -filetypes $ftype -title "Create a SearchOptions file"]
-  if {$fName == ""} { return }
-
-  if {[string compare [file extension $fName] ".sso"] != 0} {
-    append fName ".sso"
-  }
-
-  if {[catch {set searchF [open $fName w]}]} {
-    tk_messageBox -title "Error: Unable to open file" -type ok -icon error \
-        -message "Unable to create SearchOptions file: $fName"
-    return
-  }
-  puts $searchF "\# SearchOptions File created by Scid $::scidVersion"
-  puts $searchF "set searchType Material"
-  # First write the material counts:
-  foreach i {wq bq wr br wb bb wn bn wp bp} {
-    puts $searchF "set pMin($i) $pMin($i)"
-    puts $searchF "set pMax($i) $pMax($i)"
-  }
-  # Now write other numeric values:
-  foreach i {
-    ignoreColors minMoveNum maxMoveNum minHalfMoves sameBishops oppBishops nPatterns
-    ::search::filter::operation
-  } {
-    puts $searchF "set $i [set $i]"
-  }
-  # Last, write the patterns:
-  for {set i 1} {$i <= $nPatterns} {incr i} {
-    puts $searchF "set pattPiece($i) $pattPiece($i)"
-    puts $searchF "set pattFyle($i) $pattFyle($i)"
-    puts $searchF "set pattRank($i) $pattRank($i)"
-    puts $searchF "set pattBool($i) $pattBool($i)"
-  }
-  tk_messageBox -type ok -icon info -title "Search Options saved" \
-      -message "Material/pattern search options saved to: $fName"
-  close $searchF
 }
 

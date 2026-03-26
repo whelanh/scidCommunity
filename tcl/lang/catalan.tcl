@@ -333,6 +333,7 @@ translate K Clear {Netejar}
 translate K Close {Tancar}
 translate K Contents {Continguts}
 translate K Defaults {Per defecte}
+translate K InvertSearch {Inverteix la cerca}
 translate K Delete {Esborrar}
 translate K Graph {Gràfic}
 translate K Help {Ajut}

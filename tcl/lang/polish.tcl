@@ -332,6 +332,7 @@ translate P Clear {Wyczy¶æ}
 translate P Close {Zamknij}
 translate P Contents {Spis tre¶ci}
 translate P Defaults {Domy¶lne}
+translate P InvertSearch {Odwróæ wyszukiwanie}
 translate P Delete {Usuñ}
 translate P Graph {Wykres}
 translate P Help {Pomoc}

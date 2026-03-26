@@ -344,6 +344,7 @@ translate D Clear {Leeren}
 translate D Close {Schließen}
 translate D Contents {Inhalt}
 translate D Defaults {Standard}
+translate D InvertSearch {Suche umkehren}
 translate D Delete {Lösche}
 translate D Graph {Grafik}
 translate D Help {Hilfe}

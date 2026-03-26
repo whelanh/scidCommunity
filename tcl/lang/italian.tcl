@@ -318,6 +318,7 @@ translate I Clear {Cancella}
 translate I Close {Chiudi}
 translate I Contents {Contenuto}
 translate I Defaults {Default}
+translate I InvertSearch {Inverti ricerca}
 translate I Delete {Cancella}
 translate I Graph {Grafico}
 translate I Help {Aiuto}

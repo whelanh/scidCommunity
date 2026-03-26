@@ -342,6 +342,7 @@ translate G Clear {Καθαρισμός}
 translate G Close {Κλείσιμο}
 translate G Contents {Περιεχόμενα}
 translate G Defaults {Αρχικό}
+translate G InvertSearch {Αντιστροφή αναζήτησης}
 translate G Delete {Διαγραφή}
 translate G Graph {Γράφημα}
 translate G Help {Βοήθεια}
