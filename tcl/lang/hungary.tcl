@@ -1152,6 +1152,8 @@ translate H OprepTheoryTable {Elmélettáblázat}
 translate H OprepTableComment {a legnagyobb értékszámú %u játszma alapján}
 translate H OprepExtraMoves {A külön megjegyzéssel ellátott lépések száma az elmélettáblázatban}
 translate H OprepMaxGames {Az elmélettáblázat létrehozásához felhasználható játszmák maximális száma}
+translate H OprepMergeMoves {Az egyesített játékok áthelyezési korlátja}
+translate H OprepMergeUnique {Csak egyedi játékokat egyesítsen}
 translate H OprepViewHTML {HTML megtekintése}
 
 # Player Report:

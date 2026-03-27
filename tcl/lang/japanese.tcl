@@ -1176,6 +1176,8 @@ translate A OprepTheoryTable {理論表}
 translate A OprepTableComment {%u 個の最高評価のゲームから生成されました。}
 translate A OprepExtraMoves {追加ノートが理論テーブル内で移動する}
 translate A OprepMaxGames {理論上の最大ゲーム数表}
+translate A OprepMergeMoves {統合されたゲームの移動制限}
+translate A OprepMergeUnique {ユニークなゲームのみをマージする}
 translate A OprepViewHTML {HTMLを表示する}
 
 # Player Report:

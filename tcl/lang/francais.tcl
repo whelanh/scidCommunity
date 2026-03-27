@@ -1159,6 +1159,8 @@ translate F OprepTheoryTable {Table de Théorie}
 translate F OprepTableComment {Généré à partir des %u parties au classement le plus élevé.}
 translate F OprepExtraMoves {Nombre de coups additionnels dans la table de théorie}
 translate F OprepMaxGames {Nombre maximum de parties dans la table de théorie}
+translate F OprepMergeMoves {Limite de déplacement pour les jeux fusionnés}
+translate F OprepMergeUnique {Fusionner uniquement les jeux uniques}
 translate F OprepViewHTML {Voir en HTML}
 
 # Player Report:

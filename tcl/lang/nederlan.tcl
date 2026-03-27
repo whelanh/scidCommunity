@@ -1176,6 +1176,8 @@ translate N OprepTheoryTable {Theorie tabel}
 translate N OprepTableComment {Samengesteld uit de %u partijen met de hoogste Elo classificatie.}
 translate N OprepExtraMoves {Extra zetten in theorie tabel}
 translate N OprepMaxGames {Maximaal aantal partijen in theorie tabel}
+translate N OprepMergeMoves {Verplaatsingslimiet voor samengevoegde spellen}
+translate N OprepMergeUnique {Voeg alleen unieke spellen samen}
 translate N OprepViewHTML { HTML zicht} ;
 
 # Player Report:

@@ -1157,6 +1157,8 @@ translate W OprepTheoryTable {Teorisammanställning}
 translate W OprepTableComment {Skapad från de %u högst rankade partierna.}
 translate W OprepExtraMoves {Ytterligare antal drag i notförteckningen}
 translate W OprepMaxGames {Maximalt antal partier i sammanställningen}
+translate W OprepMergeMoves {Flyttgräns för sammanslagna spel}
+translate W OprepMergeUnique {Slå endast samman unika spel}
 translate W OprepViewHTML {Visa HTML}
 
 # Player Report:

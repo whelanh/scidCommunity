@@ -1151,6 +1151,8 @@ translate C OprepTheoryTable {Tabulka teorie}
 translate C OprepTableComment {Generováno z %u partií s nejvy¹¹ím prùmìrným ratingem.}
 translate C OprepExtraMoves {Extra poznámkové tahy v tabulce teorie}
 translate C OprepMaxGames {Maximum tahù v tabulce teorie}
+translate C OprepMergeMoves {Pøesunout limit pro slouèené hry}
+translate C OprepMergeUnique {Sluèujte pouze jedineèné hry}
 translate C OprepViewHTML {Zobrazit HTML}
 
 # Player Report:

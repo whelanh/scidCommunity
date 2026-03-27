@@ -1170,6 +1170,8 @@ translate P OprepTheoryTable {Teoria}
 translate P OprepTableComment {Utworzono z %u partii o najwy¿szym ¶rednim rankingu.}
 translate P OprepExtraMoves {Dodatkowe posuniêcia w przypisach}
 translate P OprepMaxGames {Maksymalna liczba partii w teorii}
+translate P OprepMergeMoves {Przesuñ limit dla po³±czonych gier}
+translate P OprepMergeUnique {£±cz tylko unikalne gry}
 translate P OprepViewHTML {¬ród³o HTML} 
 
 # Player Report:

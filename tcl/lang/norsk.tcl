@@ -1154,6 +1154,8 @@ translate O OprepTheoryTable {Teoritabell}
 translate O OprepTableComment {Generert fra de %u høyest ratede partiene.}
 translate O OprepExtraMoves {Ytterligere trekk notert i teoritabellen}
 translate O OprepMaxGames {Maksimalt antall partier i teoritabellen}
+translate O OprepMergeMoves {Flyttegrense for sammenslåtte spill}
+translate O OprepMergeUnique {Slå bare sammen unike spill}
 translate O OprepViewHTML {View HTML} ;# ***
 
 # Player Report:

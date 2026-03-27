@@ -1159,6 +1159,8 @@ translate B OprepTheoryTable {Tabela de Teoria}
 translate B OprepTableComment {Gerada a partir dos %u jogos com rating mais alto.}
 translate B OprepExtraMoves {Movimentos com nota extra na Tabela de Teoria}
 translate B OprepMaxGames {Qtde. Máxima de jogos na tabela de teoria}
+translate B OprepMergeMoves {Limite de movimentação para jogos mesclados}
+translate B OprepMergeUnique {Mesclar apenas jogos únicos}
 translate B OprepViewHTML {Visualizar HTML} 
 
 # Player Report:

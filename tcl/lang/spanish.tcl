@@ -1205,6 +1205,8 @@ translate S OprepTheoryTable {Tabla te贸rica}
 translate S OprepTableComment {Generado a partir de las %u partidas con mejor Elo.}
 translate S OprepExtraMoves {Anotaci贸n extra de movimientos en la tabla te贸rica}
 translate S OprepMaxGames {M谩ximas partidas en la tabla te贸rica}
+translate S OprepMergeMoves {L韒ite de movimiento para juegos fusionados}
+translate S OprepMergeUnique {Fusionar solo juegos 鷑icos}
 translate S OprepViewHTML {Ver HTML}
 
 # Player Report:

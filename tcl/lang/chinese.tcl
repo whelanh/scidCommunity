@@ -1111,6 +1111,8 @@ translate M OprepTheoryTable {理论表}
 translate M OprepTableComment {由 %u 个评分最高的游戏生成。}
 translate M OprepExtraMoves {理论表中的额外注释移动}
 translate M OprepMaxGames {理论表中的最大博弈数}
+translate M OprepMergeMoves {合并游戏的移动限制}
+translate M OprepMergeUnique {仅合并独特的游戏}
 translate M OprepViewHTML {查看 HTML}
 
 # Player Report:

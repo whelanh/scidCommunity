@@ -1178,6 +1178,8 @@ translate G OprepTheoryTable {Πίνακας ανοιγμάτων}
 translate G OprepTableComment {Δημιουργήθηκε από τις %u με την υψηλότερη βαθμολογία.}
 translate G OprepExtraMoves {Επιπλέον κινήσεις στις σημειώσεις του πίνακα ανοιγμάτων}
 translate G OprepMaxGames {Μέγιστος αριθμός παρτίδων στον πίνακα ανοιγμάτων}
+translate G OprepMergeMoves {Μετακίνηση ορίου για συγχωνευμένα παιχνίδια}
+translate G OprepMergeUnique {Συγχωνεύστε μόνο μοναδικά παιχνίδια}
 translate G OprepViewHTML {Εμφάνιση HTML}
 
 # Player Report:

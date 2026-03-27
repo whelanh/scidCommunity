@@ -1395,6 +1395,10 @@ translate Y OprepTheoryTable {Tabela teorije}
 translate Y OprepTableComment {Generisano iz %u najbolje rejtiranih partija.}
 translate Y OprepExtraMoves {Posebno notirani potezi u tabeli teorije}
 translate Y OprepMaxGames {Maksimum partija u tabeli teorije}
+# ====== TODO To be translated ======
+translate Y OprepMergeMoves {Move limit for merged games}
+# ====== TODO To be translated ======
+translate Y OprepMergeUnique {Merge only unique games}
 translate Y OprepViewHTML {View HTML} ;# ***
 
 # Player Report:
