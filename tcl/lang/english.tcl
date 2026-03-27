@@ -1185,6 +1185,8 @@ translate E OprepTheoryTable {Theory Table}
 translate E OprepTableComment {Generated from the %u highest-rated games.}
 translate E OprepExtraMoves {Extra note moves in theory table}
 translate E OprepMaxGames {Maximum games in theory table}
+translate E OprepMergeMoves {Move limit for merged games}
+translate E OprepMergeUnique {Merge only unique games}
 translate E OprepViewHTML {View HTML}
 
 # Player Report:

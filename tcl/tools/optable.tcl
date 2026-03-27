@@ -14,6 +14,7 @@ set ::optable::_flip 0
 set ::optable::_docStart(html) {<html>
   <head>
   <title>[OprepTitle]</title>
+  <link rel="stylesheet" type="text/css" href="scid.css">
   <style type="text/css">
   <!--
   h1 { color:#990000 }
@@ -97,8 +98,20 @@ proc ::optable::makeReportWin {args} {
     progressBarSet $w.c1 401 21
   }
 
-  sc_search board RESET Exact false 0
-  set newTreeData [sc_tree stats $::curr_db "dbfilter"]
+  # The Opening Report should always honor the dbfilter (header search filter)
+  # We compose dbfilter with tree to get games that match both the position AND the filter
+  set baseNumber $::curr_db
+
+  # Save original dbfilter by creating a temporary copy
+  set tempFilter [sc_filter new $::curr_db]
+  sc_filter copy $::curr_db $tempFilter dbfilter
+
+  # Compose dbfilter with tree filter to get games that match both
+  set ::optable::_data(composedFilter) [sc_filter compose $::curr_db "dbfilter" "tree"]
+  set newTreeData [sc_tree stats $::curr_db $::optable::_data(composedFilter)]
+  # Copy the composed filter to dbfilter so the report uses it
+  sc_filter copy $::curr_db dbfilter $::optable::_data(composedFilter)
+  
   if {$showProgress} {
     if {$::optable::_interrupt} {
       grab release $w.b.cancel
@@ -108,6 +121,7 @@ proc ::optable::makeReportWin {args} {
     progressBarSet $w.c2 401 21
   }
   sc_report opening create $::optable(ExtraMoves) $::optable(MaxGames) $::optable::_data(exclude)
+
   if {$showProgress} {
     grab release $w.b.cancel
     destroy $w
@@ -115,7 +129,12 @@ proc ::optable::makeReportWin {args} {
   }
 
   set ::optable::_data(tree) $newTreeData
-  set ::optable::_data(bdHTML_flip) [sc_pos html -flip 1]
+
+  # Enable HTML diagram generation (like the Export HTML feature does)
+  sc_info html 0
+  # Generate board HTML with explicit path to bitmaps directory
+  set ::optable::_data(bdHTML) [sc_pos html -path "bitmaps"]
+  set ::optable::_data(bdHTML_flip) [sc_pos html -flip 1 -path "bitmaps"]
 
   # Populate moves list for the "Exclude" dropdown from the tree stats output.
   # Each data line looks like: " N: <move(25 chars)>  <eco>  <freq>: ..."
@@ -132,6 +151,10 @@ proc ::optable::makeReportWin {args} {
   ::optable::setupRatios
 
   set report [::optable::report ctext 1]
+
+  # Now restore original dbfilter after report is fully generated
+  sc_filter copy $::curr_db dbfilter $tempFilter
+  sc_filter release $::curr_db $tempFilter
 
   if {[lsearch -exact $args "-nodisplay"] >= 0} { return }
 
@@ -242,10 +265,31 @@ proc ::optable::makeReportWin {args} {
 }
 ################################################################################
 # merges the N best games up to P plies to current game
+# P (ply limit) is taken from the MergeMoves option
+# Note: MergeMoves is stored as full moves, but sc_game merge expects plies
+# The ply limit is from the START of the game, so we need to add current ply
+# If MergeUnique is enabled, only games with unique move sequences are merged
 ################################################################################
-proc ::optable::mergeGames { {game_count 50} {ply 999} } {
+proc ::optable::mergeGames { {game_count 50} } {
   set base  $::optable::opReportBase
+  # Get current move number and convert to ply (1 move = 2 plies)
+  set currentMove [sc_pos moveNumber]
+  set currentPly [expr {$currentMove * 2}]
+  # Convert MergeMoves (full moves) to plies and add to current position
+  set mergePlies [expr {$::optable(MergeMoves) * 2}]
+  set totalPly [expr {$currentPly + $mergePlies}]
+  
+  # Save current game number and database
+  set currentGameNum [sc_game number]
+  set currentBase [sc_base current]
+  
   set games [split [sc_report opening best a $game_count] "\n"]
+  
+  # Track unique move sequences if option is enabled
+  set mergeUnique $::optable(MergeUnique)
+  array set seenMoves {}
+  set mergedCount 0
+  
   foreach g $games {
     if {$g == "" } { continue }
     set res [scan $g "%d:  <g_%d>" d1 game_number]
@@ -257,11 +301,51 @@ proc ::optable::mergeGames { {game_count 50} {ply 999} } {
       }
       break
     }
-    set err [ catch { sc_game merge $base $game_number $ply } result ]
+    
+    # Skip if this is the current game (can't merge a game into itself)
+    if {$base == $currentBase && $game_number == $currentGameNum} {
+      continue
+    }
+    
+    # Check for unique moves if option is enabled
+    if {$mergeUnique} {
+      # Save current state
+      sc_game push copyfast
+      
+      # Load the candidate game to get its moves (from the report base)
+      sc_base switch $base
+      sc_game load $game_number
+      
+      # Navigate to the merge limit ply
+      sc_move ply $totalPly
+      
+      # Get the move list
+      set moveList [sc_game moves]
+      
+      # Restore original game and database
+      sc_base switch $currentBase
+      sc_game load $currentGameNum
+      sc_game pop
+      
+      # Skip if we've already seen this move sequence
+      if {[info exists seenMoves($moveList)]} {
+        continue
+      }
+      set seenMoves($moveList) 1
+    }
+    
+    # Merge the game - need to be on the target game in the current database
+    # sc_game merge merges the specified game into the current game
+    set err [ catch { sc_game merge $base $game_number $totalPly } result ]
     if {$err} {
       tk_messageBox -title "scidCommunity" -type ok -icon info -message "Unable to merge the selected game:\n$result"
       break
     }
+    incr mergedCount
+  }
+  
+  if {$mergeUnique} {
+    puts "Merged $mergedCount unique games (out of $game_count requested)"
   }
   updateBoard -pgn
 }
@@ -296,7 +380,7 @@ proc ::optable::setOptions {} {
         AvgPerf HighRating sep \
         Results Shortest sep col \
         MoveOrders MovesFrom Themes Endgames gap sep \
-        MaxGames ExtraMoves sep} {
+        MaxGames ExtraMoves MergeMoves MergeUnique sep} {
     set from 0; set to 10; set tick 1; set res 1
 
     if {$i == "col"} {
@@ -321,6 +405,16 @@ proc ::optable::setOptions {} {
       if {$i == "MaxGames"} {
         ttk::spinbox $w.f.s$i -textvariable ::optable($i) -from 0 -to 5000 -increment 50 \
             -state readonly -width 5 -justify right -font font_Small
+      } elseif {$i == "MergeMoves"} {
+        # Use a simple entry widget for direct number input (easier than clicking down from 999)
+        ttk::entry $w.f.s$i -textvariable ::optable($i) -width 5 -justify right -font font_Small
+      } elseif {$i == "MergeUnique"} {
+        # Checkbox for merging only unique games - displayed on same row as MergeMoves
+        ttk::checkbutton $w.f.s$i -variable ::optable($i) -onvalue 1 -offvalue 0 \
+            -text $::tr(OprepMergeUnique)
+        grid $w.f.s$i -row $row -column $left -sticky w -columnspan 3
+        incr row
+        continue
       } else  {
         set tmpcombo {}
         for {set x $from} {$x <= $to} {incr x $res} {
@@ -378,17 +472,21 @@ proc ::optable::previewHTML {} {
   set tmpdir $::scidLogDir
   set tmpfile "TempOpeningReport"
   set fname [file join $tmpdir $tmpfile]
+  
+  # Copy CSS and bitmaps for proper diagram display (like Export HTML does)
+  # The HTML uses relative paths like "bitmaps/wr.gif" so we need bitmaps in the same dir
+  # Use scidExeDir as the base directory where bitmaps folder is located
+  catch {file copy -force [file join $::scidExeDir bitmaps] $tmpdir}
+  catch {file copy -force [file join $::scidExeDir html scid.css] $tmpdir}
+  
   if {[catch {set tempfile [open $fname.html w]}]} {
-    tk_messageBox -title "Scid: Error writing report" -type ok -icon warning \
+    tk_messageBox -title "scidCommunity: Error writing report" -type ok -icon warning \
         -message "Unable to write the file: $fname.html"
   }
   puts $tempfile [::optable::report html 1 $::optable::_flip]
   close $tempfile
-  if {[string match $::tcl_platform(os) "Windows NT"]} {
-    catch {exec $::env(COMSPEC) /c start $fname.html &}
-  } else {
-    catch {exec start $fname.html &}
-  }
+  # Use openURL to open the HTML file in the user's default browser
+  openURL "file://$fname.html"
   unbusyCursor .
 }
 
@@ -398,7 +496,7 @@ proc ::optable::previewHTML {} {
 #   "type" is the report type: report, table, or both.
 #
 proc ::optable::saveReport {fmt} {
-  set t [tk_dialog .dialog "Scid: Select report type" \
+  set t [tk_dialog .dialog "scidCommunity: Select report type" \
       "Select the report type. You may save a full report (which includes the theory table), a compact report (with no theory table), or just the theory table by itself." \
       "" 0 "Full report" "Compact report" \
       "Theory table" "Cancel"]
@@ -417,14 +515,20 @@ proc ::optable::saveReport {fmt} {
   }
 
   set fname [tk_getSaveFile -initialdir [pwd] -filetypes $ftype \
-      -defaultextension $default -title "Scid: Save opening report"]
+      -defaultextension $default -title "scidCommunity: Save opening report"]
   if {$fname == ""} { return }
 
   busyCursor .
   if {[catch {set tempfile [open $fname w]}]} {
-    tk_messageBox -title "Scid: Error writing report" -type ok -icon warning \
+    tk_messageBox -title "scidCommunity: Error writing report" -type ok -icon warning \
         -message "Unable to write the file: $fname\n\n"
   } else {
+    # For HTML saves, copy bitmaps and CSS to the same directory
+    if {$fmt == "html"} {
+      set dstdir [file dirname $fname]
+      catch {file copy -force [file join $::scidExeDir bitmaps] $dstdir}
+      catch {file copy -force [file join $::scidExeDir html scid.css] $dstdir}
+    }
     if {$t == 2} {
       set report [::optable::table $fmt]
     } elseif {$t == 1} {
@@ -444,16 +548,32 @@ proc ::optable::saveReport {fmt} {
 
 
 proc ::optable::setupRatios {} {
-  set r [sc_filter freq [sc_base current] tree date 0000.00.00]
+  # Use the composed filter that was set in makeReportWin
+  set filterSpec $::optable::_data(composedFilter)
+  
+  set r [sc_filter freq [sc_base current] $filterSpec date 0000.00.00]
   if {[lindex $r 0] == 0} {
     set ::optable::_data(ratioAll) 0
   } else {
     set ::optable::_data(ratioAll) \
         [expr {int(double([lindex $r 1]) / double([lindex $r 0]))} ]
   }
-  foreach {start end} {1800 1899  1900 1949  1950 1969  1970 1979
-    1980 1989 1990 1999 2000 2009} {
-    set r [sc_filter freq [sc_base current] tree date $start.00.00 $end.12.31]
+  # Calculate decade ranges dynamically up to the current decade
+  # Early periods use larger bins due to fewer games; decades start from 1950
+  set currentYear [::utils::date::today year]
+  set currentDecadeStart [expr {($currentYear / 10) * 10}]
+
+  # Define the fixed early period bins, then decades from 1950 to current
+  set decadeRanges {1800 1899  1900 1949}
+
+  # Add decades from 1950 up to current decade
+  for {set start 1950} {$start <= $currentDecadeStart} {incr start 10} {
+    set end [expr {$start + 9}]
+    lappend decadeRanges $start $end
+  }
+
+  foreach {start end} $decadeRanges {
+    set r [sc_filter freq [sc_base current] $filterSpec date $start.00.00 $end.12.31]
     set filter [lindex $r 0]
     set all [lindex $r 1]
     if {$filter == 0} {
@@ -463,10 +583,15 @@ proc ::optable::setupRatios {} {
           [expr {int(double($all) / double($filter))} ]
     }
   }
+  # Store the decade start years for later use in the report
+  set ::optable::_data(decadeStarts) {}
+  foreach {start end} $decadeRanges {
+    lappend ::optable::_data(decadeStarts) $start
+  }
   foreach y {1 5 10} {
     set year "[expr [::utils::date::today year]-$y]"
     append year ".[::utils::date::today month].[::utils::date::today day]"
-    set r [sc_filter freq [sc_base current] tree date $year]
+    set r [sc_filter freq [sc_base current] $filterSpec date $year]
     set filter [lindex $r 0]
     set all [lindex $r 1]
     if {$filter == 0} {
@@ -766,7 +891,7 @@ proc ::optable::report {fmt withTable {flipPos 0}} {
     append r "$tr(ECO): $eco$n"
   }
 
-  append r "$::tr(OprepGenerated) Scid $::scidVersion, [::utils::date::today]\n"
+  append r "$::tr(OprepGenerated) scidCommunity $::scidVersion, [::utils::date::today]\n"
   if {$fmt == "html"} {
     if {$flipPos} {
       append r $::optable::_data(bdHTML_flip)
@@ -820,16 +945,28 @@ proc ::optable::report {fmt withTable {flipPos 0}} {
     set len [string length $sYear]
     if {[string length $sEvery] > $len} { set len [string length $sEvery] }
     append r [::utils::string::Pad $tr(Year) $len]
-    foreach range {1800-99 1900-49 1950-69 1970-79 1980-89 1990-99 2000-09} {
+    
+    # Display decade ranges dynamically based on stored decade starts
+    foreach start $::optable::_data(decadeStarts) {
+      # Calculate end year based on start year (early bins have different sizes)
+      if {$start == 1800} {
+        set end 1899
+      } elseif {$start == 1900} {
+        set end 1949
+      } else {
+        set end [expr {$start + 9}]
+      }
+      # Format the range label (e.g., "1800-99", "1950-59", "2020-29")
+      set endShort [string range $end 2 3]
       append r $next
-      append r [::utils::string::PadCenter $range 8]
+      append r [::utils::string::PadCenter "${start}-${endShort}" 8]
     }
 
     append r $n
     append r [::utils::string::Pad $sEvery $len]
-    foreach y {1800 1900 1950 1970 1980 1990 2000} {
+    foreach start $::optable::_data(decadeStarts) {
       append r $next
-      append r [::utils::string::PadCenter $::optable::_data(range$y) 8]
+      append r [::utils::string::PadCenter $::optable::_data(range$start) 8]
     }
     append r $n
     if {$fmt == "latex"} {
