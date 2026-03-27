@@ -14,7 +14,7 @@ Create custom player photo files (.spf and .spi) for the scidCommunity chess dat
 ## Requirements
 
 - **Python 3.6+** (available from [python.org](https://www.python.org/downloads/))
-- **Pillow** (image processing library) - auto-installed if missing
+- **Pillow** (image processing library) 
 
 ## Installation
 
