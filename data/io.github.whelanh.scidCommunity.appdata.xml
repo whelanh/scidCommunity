@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.2.80" date="2026-03-26">
+      <description>
+        <p>Complete overhaul and upate of the Opening Report</p>
+      </description>
+    </release>
     <release version="5.1.2.79" date="2026-03-26">
       <description>
         <p>Add ability to show evaluation symbols; update help files</p>
