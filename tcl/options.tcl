@@ -435,6 +435,8 @@ array set optable {
   Endgames 1
   MaxGames 500
   ExtraMoves 1
+  MergeMoves 8
+  MergeUnique 1
 }
 array set optableDefaults [array get optable]
 

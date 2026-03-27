@@ -1142,6 +1142,10 @@ translate T OprepTheoryTable {Teori Tablosu}
 translate T OprepTableComment {En yüksek puan alan %u oyundan oluşturuldu.}
 translate T OprepExtraMoves {Teori tablosundaki ekstra not hareketleri}
 translate T OprepMaxGames {Teori tablosundaki maksimum oyunlar}
+# ====== TODO To be translated ======
+translate T OprepMergeMoves {Move limit for merged games}
+# ====== TODO To be translated ======
+translate T OprepMergeUnique {Merge only unique games}
 translate T OprepViewHTML {HTML'yi görüntüle}
 
 # Player Report:

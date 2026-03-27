@@ -1174,6 +1174,8 @@ translate K OprepTheoryTable {Taula de Teoria}
 translate K OprepTableComment {Generada a partir de les %u partides amb millor Elo.}
 translate K OprepExtraMoves {Annotació extra de moviments a la taula de teoria}
 translate K OprepMaxGames {Màxim de partides a la taula de teoria}
+translate K OprepMergeMoves {Límit de moviment per a jocs combinats}
+translate K OprepMergeUnique {Combina només jocs únics}
 translate K OprepViewHTML {Veure HTML}
 
 # Player Report:

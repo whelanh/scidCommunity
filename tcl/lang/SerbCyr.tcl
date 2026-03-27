@@ -1176,6 +1176,8 @@ translate J OprepTheoryTable {Тхеори Табле}
 translate J OprepTableComment {Генерисано од %u игара са највећом оценом.}
 translate J OprepExtraMoves {Додатни покрети нота у теоријској табели}
 translate J OprepMaxGames {Табела максималног броја игара у теорији}
+translate J OprepMergeMoves {Ограничење померања за обједињене игре}
+translate J OprepMergeUnique {Спојите само јединствене игре}
 translate J OprepViewHTML {Прикажи ХТМЛ}
 
 # Player Report:

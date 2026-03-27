@@ -1193,6 +1193,8 @@ translate D OprepTheoryTable {Theorietabelle}
 translate D OprepTableComment {Erzeugt aus %u Partien mit höchster ELO-Zahl.}
 translate D OprepExtraMoves {Zusätzliche Züge in der Theorietabelle}
 translate D OprepMaxGames {Maximale Partien in der Theorietabelle}
+translate D OprepMergeMoves {Bewegungslimit für zusammengeführte Spiele}
+translate D OprepMergeUnique {Führen Sie nur einzigartige Spiele zusammen}
 translate D OprepViewHTML {Zeige HTML}
 
 # Player Report:

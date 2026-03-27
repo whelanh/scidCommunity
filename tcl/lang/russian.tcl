@@ -1153,6 +1153,8 @@ translate R OprepTheoryTable {Теоретическая таблица}
 translate R OprepTableComment {Генерировано из %u высокорейтинговых партий.}
 translate R OprepExtraMoves {Внешние заметки к ходам в теоретической таблице}
 translate R OprepMaxGames {Максимум партий в теоретической таблице}
+translate R OprepMergeMoves {Ограничение перемещения для объединенных игр}
+translate R OprepMergeUnique {Объединяйте только уникальные игры}
 translate R OprepViewHTML {Просмотр HTML}
 
 # Player Report:

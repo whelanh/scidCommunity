@@ -1152,6 +1152,8 @@ translate I OprepTheoryTable {Tabella della teoria}
 translate I OprepTableComment {Generato da %u partite più quotate.}
 translate I OprepExtraMoves {Mosse extra note nella tabella della teoria}
 translate I OprepMaxGames {Numero massimo di partite nella tabella della teoria}
+translate I OprepMergeMoves {Limite di spostamento per i giochi uniti}
+translate I OprepMergeUnique {Unisci solo giochi unici}
 translate I OprepViewHTML {Vedi HTML}
 
 # Player Report:

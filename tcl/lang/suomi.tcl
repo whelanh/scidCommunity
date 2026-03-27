@@ -1185,6 +1185,8 @@ translate U OprepTheoryTable {Teoriataulukko}
 translate U OprepTableComment {Luotu %u korkeimmalle rankatusta pelist‰.}
 translate U OprepExtraMoves {Erikoisesti huomioitavat siirrot teoriataulukossa}
 translate U OprepMaxGames {Maksimim‰‰r‰ pelej‰ teoriataulukossa}
+translate U OprepMergeMoves {Yhdistettyjen pelien siirtoraja}
+translate U OprepMergeUnique {Yhdist‰ vain ainutlaatuisia pelej‰}
 translate U OprepViewHTML {N‰yt‰ HTML}
 
 # Player Report:

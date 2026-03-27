@@ -1176,6 +1176,8 @@ translate L OprepTheoryTable {Tabel Teoretic}
 translate L OprepTableComment {Generat din %u jocuri cu cele mai bune cote.}
 translate L OprepExtraMoves {Mișcări suplimentare de note în tabelul teoretic}
 translate L OprepMaxGames {Maxim de jocuri la masa teoretică}
+translate L OprepMergeMoves {Limita de mutare pentru jocurile îmbinate}
+translate L OprepMergeUnique {Îmbină doar jocuri unice}
 translate L OprepViewHTML {Vizualizați HTML}
 
 # Player Report:
