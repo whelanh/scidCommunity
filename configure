@@ -38,7 +38,7 @@ set var(PROFILE) {}
 set var(LIBS) {}
 set var(SCIDFLAGS) {}
 set var(SHAREDIR) /usr/local/share/scidCommunity
-set var(TCL_VERSION) 8.6
+set var(TCL_VERSION) 8.6 ;# fallback if auto-detection finds nothing
 set var(WARNINGS) "-Wall -Wno-deprecated-declarations"
 set var(MAKEFILE) Makefile.conf
 set var(INSTALL) {install_scid install_engines}
@@ -253,6 +253,84 @@ proc findTclTkPaths {} {
     return $success
 }
 
+# detectTclHeaderVersions:
+#    Scan header directories for tcl.h and extract version numbers.
+#
+proc detectTclHeaderVersions {} {
+    set headerPath {
+        /usr/local/include
+        /usr/include
+        /usr/local/tcl/include
+        /usr/X11/include
+        /usr/X11R6/include
+        /usr/local/X11/include
+        /opt/tcltk/include
+        /usr/X11R/include
+    }
+    set versions {}
+    foreach dir $headerPath {
+        foreach f [glob -nocomplain [file join $dir tcl.h]] {
+            if {[catch {set fh [open $f r]}]} continue
+            while {[gets $fh line] >= 0} {
+                if {[regexp {TCL_VERSION\s+("?)(\d+\.\d+)\1} $line -> _ ver]} {
+                    lappend versions $ver
+                }
+            }
+            close $fh
+        }
+    }
+    return $versions
+}
+
+# detectTclLibVersions:
+#    Scan library directories for Tcl shared libraries and extract version numbers.
+#
+proc detectTclLibVersions {} {
+    set searchPath {
+        /usr/local/include
+        /usr/include
+        /usr/local/tcl/include
+        /usr/X11/include
+        /usr/X11R6/include
+        /usr/local/X11/include
+        /opt/tcltk/include
+        /usr/X11R/include
+        /usr/lib
+        /usr/lib64
+        /usr/local/tcl/lib
+        /usr/local/lib
+        /usr/X11R6/lib
+        /opt/tcltk/lib
+    }
+    if {[info exists ::tcl_library]} {
+        lappend searchPath [file dirname $::tcl_library]
+    }
+    set versions {}
+    foreach dir $searchPath {
+        foreach f [glob -nocomplain [file join $dir libtcl*]] {
+            if {[regexp {libtcl(\d+\.\d+)} [file tail $f] -> ver]} {
+                lappend versions $ver
+            } elseif {[regexp {libtcl(\d+)} [file tail $f] -> ver]} {
+                lappend versions $ver
+            }
+        }
+    }
+    return $versions
+}
+
+# detectLatestTclVersion:
+#    Find the highest Tcl/Tk version available on the system.
+#
+proc detectLatestTclVersion {} {
+    set versions {}
+    foreach v [detectTclHeaderVersions] { dict set versions $v 1 }
+    foreach v [detectTclLibVersions]    { dict set versions $v 1 }
+    set vlist [dict keys $versions]
+    if {[llength $vlist] == 0} { return "" }
+    set vlist [lsort -decreasing $vlist]
+    return [lindex $vlist 0]
+}
+
 # writeMakefile:
 #    Creates the Makefile using Makefile.conf and the configured
 #    settings.
@@ -344,6 +422,7 @@ puts "configure: Makefile configuration program for ScidCommunity"
 
 # Parse command-line arguments:
 set default 0
+set user_set_tcl_version 0
 
 foreach arg $argv {
     if {![string compare "default" $arg]} {
@@ -354,6 +433,7 @@ foreach arg $argv {
             set temp_var [string range $arg 0 [expr $temp_idx - 1]]
             set temp_value [string range $arg [expr $temp_idx + 1] end]
             set var($temp_var) $temp_value
+            if {$temp_var eq "TCL_VERSION"} { set user_set_tcl_version 1 }
         } else {
             puts "Invalid argument: $arg"
             usage
@@ -362,6 +442,17 @@ foreach arg $argv {
 }
 
 if {![info exists var(LINK)]} { set var(LINK) "$var(COMPILE)" }
+
+# Auto-detect Tcl/Tk version unless user explicitly set TCL_VERSION:
+if {!$user_set_tcl_version} {
+    set detected [detectLatestTclVersion]
+    if {$detected ne ""} {
+        set var(TCL_VERSION) $detected
+        puts "    Auto-detected Tcl/Tk version: $detected"
+    } else {
+        puts "    No Tcl/Tk installation found, using default: $var(TCL_VERSION)"
+    }
+}
 
 if {$default} {
     writeMakefile default
