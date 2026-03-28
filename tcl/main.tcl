@@ -698,13 +698,68 @@ proc readPhotoFile {fname} {
 
 
 #convert $data string tolower case and strip the first two blanks.
+# Normalize a player name for photo lookup
+# Converts to lowercase, removes spaces, and strips diacritical marks
+# Examples:
+#   "Carlsen, Magnus" -> "carlsen,magnus"
+#   "carlsen, magnus" -> "carlsen,magnus"
+#   "Kasparov, Garry" -> "kasparov,garry"
+#   "Lékó, Peter" -> "leko,peter"
+#   "Grischuk, Alexander" -> "grischuk,alexander"
+proc normalizePhotoName {name} {
+    # Convert to lowercase
+    set name [string tolower $name]
+    
+    # Remove ALL spaces (not just first two)
+    regsub -all { } $name {} name
+    
+    # Convert common accented/diacritical characters to ASCII equivalents
+    # This handles most European chess player names
+    array set charmap {
+        à a á a â a ã a ä a å a ā a
+        è e é e ê e ë e ē e
+        ì i í i î i ï i ī i
+        ò o ó o ô o õ o ö o ø o ō o
+        ù u ú u û u ü u ū u
+        ý y ÿ y
+        ç c ć c ĉ c č c
+        ð d đ d
+        ĝ g ğ g
+        ĥ h
+        ĵ j
+        ķ k
+        ł l
+        ñ n ń n ň n
+        ř r
+        ś s ŝ s š s
+        ţ t ț t ť t
+        ź z ż z
+        ß ss
+        æ ae
+        œ ae
+        а a б b в v г g д d е e ё yo
+        ж zh з z и i й y к k л l м m н n о o п p р r
+        с s т t у u ф f х kh ц ts ч ch ш sh щ shch
+        ъ y ы y ь y э e ю yu я ya
+    }
+    
+    set result {}
+    for {set i 0} {$i < [string length $name]} {incr i} {
+        set c [string index $name $i]
+        if {[info exists charmap($c)]} {
+            append result $charmap($c)
+        } else {
+            append result $c
+        }
+    }
+    set name $result
+    
+    return $name
+}
+
+# Old function kept for backwards compatibility
 proc trimString {data} {
-    set data [string tolower $data]
-    set strindex [string first "\ " $data]
-    set data [string replace $data $strindex $strindex]
-    set strindex [string first "\ " $data]
-    set data [string replace $data $strindex $strindex]
-    return $data
+    return [normalizePhotoName $data]
 }
 
 
@@ -720,6 +775,52 @@ proc getphoto {name} {
     return $data
 }
 
+
+# Array to store custom photo filenames (indexed by normalized player name)
+array set customPhoto {}
+
+proc loadCustomPhotos {} {
+    # Load custom photos from the user-configured photo directory
+    # Supports: .gif and .png files (JPEG often not supported by Tcl/Tk)
+    # Filename format: "Player Name.png" (e.g., "Carlsen, Magnus.png")
+    # Recommended size: 80x80 to 200x200 pixels (larger images may display too big)
+    
+    if {![info exists ::scidPhotoDir] || ![file isdirectory $::scidPhotoDir]} {
+        return 0
+    }
+    
+    set count 0
+    set pwd [pwd]
+    
+    if {[catch {cd $::scidPhotoDir}]} {
+        return 0
+    }
+    
+    # Search for image files with supported extensions (GIF and PNG only)
+    foreach pattern {*.gif *.png} {
+        foreach imgfile [glob -nocomplain $pattern] {
+            set playername [file rootname $imgfile]
+            # Normalize the player name (handles spaces, accents, case)
+            set playername [normalizePhotoName $playername]
+            
+            # Test that the image file is valid by trying to create a temp photo
+            if {[catch {image create photo _tmpPhoto -file $imgfile} result]} {
+                continue
+            }
+            
+            # Store the image data (not filename) for later use
+            set ::customPhoto($playername) [_tmpPhoto data]
+            incr count
+            
+            # Clean up the temp image
+            image delete _tmpPhoto
+        }
+    }
+    
+    cd $pwd
+    
+    return $count
+}
 
 proc loadPlayersPhoto {} {
   set ::gamePlayers(photoW) {}
@@ -743,6 +844,9 @@ proc loadPlayersPhoto {} {
           }
       }
   }
+  
+  # Load custom photos (gif, jpg, jpeg, png) from the user-configured directory
+  loadCustomPhotos
 
   return [list $nImg $nFiles]
 }
@@ -761,8 +865,7 @@ proc normalizePlayerName { engine } {
             set spelled $spell_name
         }
     }
-    set engine [string tolower $engine]
-
+    
     if { [string first "deep " $engine] == 0 } {
         # strip "deep "
         set engine [string range $engine 5 end]
@@ -783,20 +886,33 @@ proc normalizePlayerName { engine } {
                     && $strindex > 2 } {set strindex [expr {$strindex - 1}] } { }
         set engine [string range $engine 0 $strindex]
     }
+    
+    # Apply final normalization (lowercase, remove spaces, handle accents)
+    set engine [normalizePhotoName $engine]
+    
     return [list $engine $spelled]
 }
 
 
 # updatePlayerPhotos
 #   Updates the images photoW and photoB for the two players of the current game.
+#   Checks for custom photos first (gif, png), then falls back to SPF files.
 #
 proc updatePlayerPhotos {{force ""}} {
     foreach {name img} {nameW photoW nameB photoB} {
         set spellname $::gamePlayers($name)
-        if {$::gamePlayers($img) != $spellname} {
+        if {$::gamePlayers($img) != $spellname || $force == "-force"} {
             set ::gamePlayers($img) $spellname
             lassign [normalizePlayerName $spellname] spellname
-            image create photo $img -data [getphoto $spellname]
+            
+            # Check if we have a custom photo file for this player
+            if {[info exists ::customPhoto($spellname)]} {
+                # Load from custom photo data (already resized if needed)
+                image create photo $img -data $::customPhoto($spellname)
+            } else {
+                # No custom photo, load from SPF file
+                image create photo $img -data [getphoto $spellname]
+            }
         }
     }
 }
