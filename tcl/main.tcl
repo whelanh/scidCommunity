@@ -780,7 +780,7 @@ proc getphoto {name} {
 array set customPhoto {}
 
 # List of {globpattern filepath} pairs for wildcard custom photo matching.
-# Populated by loadCustomPhotos for any image filename containing "*".
+# Populated by loadCustomPhotos for any image filename containing parentheses.
 set customPhotoWild {}
 
 proc loadCustomPhotos {} {
@@ -790,19 +790,26 @@ proc loadCustomPhotos {} {
     #
     # Two filename conventions are supported:
     #
-    # 1. Exact match (no "*" in filename):
+    # 1. Exact match (no parentheses in filename):
     #       "Carlsen, Magnus.png"  ->  normalized and stored in ::customPhoto array
-    #       "Martinus.png"         ->  normalized and stored in ::customPhoto array
+    #       "Smith.png"         ->  normalized and stored in ::customPhoto array
     #    The name is normalized (lowercase, accents stripped, spaces removed) before
     #    lookup, so "Carlsen, Magnus.png" matches a player named "Carlsen, Magnus".
     #
-    # 2. Wildcard match ("*" present in filename):
-    #       "*stockfish*.png"      ->  matches any player name containing "stockfish"
-    #       "Martinus*.png"        ->  matches any player name starting with "martinus"
-    #    Patterns are stored in ::customPhotoWild and matched (case-insensitively)
-    #    against the raw player name as it appears in the game header.
-    #    Wildcards use Tcl's [string match] glob syntax (* matches any sequence of
-    #    characters, ? matches any single character).
+    # 2. Wildcard match (parentheses present in filename):
+    #    Parentheses act as wildcards (each () pair becomes * in the match pattern),
+    #    allowing flexible matching against the raw player name. This syntax is used
+    #    because "*" is illegal in filenames on Windows.
+    #
+    #       "(stockfish).png"      ->  matches any player name containing "stockfish"
+    #                                  (pattern: *stockfish*)
+    #       "Smith().png"       ->  matches any player name starting with "Smith"
+    #                                  (pattern: smith*)
+    #       "()Stockfish().png"    ->  same as (stockfish).png, more explicit
+    #                                  (pattern: *stockfish*)
+    #
+    #    Patterns are matched case-insensitively against the raw player name as it
+    #    appears in the game header (e.g., "Stockfish 17", "stockfish_elo3500").
     #
     # Priority: exact match wins over wildcard. Among wildcards, first file found wins.
 
@@ -833,10 +840,15 @@ proc loadCustomPhotos {} {
 
             set abspath [file normalize $imgfile]
 
-            if {[string first "*" $playername] != -1} {
-                # Wildcard filename: store as a glob pattern matched against the
-                # lowercased raw player name (not comma-normalized).
-                lappend ::customPhotoWild [list [string tolower $playername] $abspath]
+            if {[string first "(" $playername] != -1} {
+                # Wildcard filename: translate parentheses into * wildcards.
+                # "(" and ")" each become "*", then collapse any "**" runs.
+                set globpat [string tolower $playername]
+                set globpat [string map {"(" "*" ")" "*"} $globpat]
+                while {[string first "**" $globpat] != -1} {
+                    set globpat [string map {"**" "*"} $globpat]
+                }
+                lappend ::customPhotoWild [list $globpat $abspath]
             } else {
                 # Exact match: normalize as usual (handles accents, case, spaces)
                 set key [normalizePhotoName $playername]
@@ -928,8 +940,8 @@ proc normalizePlayerName { engine } {
 # updatePlayerPhotos
 #   Updates the images photoW and photoB for the two players of the current game.
 #   Photo lookup proceeds in priority order:
-#     1. Exact custom photo match  (::customPhoto array, normalized name key)
-#     2. Wildcard custom photo match (::customPhotoWild list, glob vs raw name)
+#     1. Exact custom photo match   (::customPhoto array, normalized name key)
+#     2. Wildcard custom photo match (::customPhotoWild list, parentheses-derived glob)
 #     3. SPF photo file fallback
 #
 proc updatePlayerPhotos {{force ""}} {
