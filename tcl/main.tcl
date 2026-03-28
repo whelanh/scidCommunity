@@ -779,46 +779,75 @@ proc getphoto {name} {
 # Array to store custom photo filenames (indexed by normalized player name)
 array set customPhoto {}
 
+# List of {globpattern filepath} pairs for wildcard custom photo matching.
+# Populated by loadCustomPhotos for any image filename containing "*".
+set customPhotoWild {}
+
 proc loadCustomPhotos {} {
-    # Load custom photos from the user-configured photo directory
+    # Load custom photos from the user-configured photo directory.
     # Supports: .gif and .png files (JPEG often not supported by Tcl/Tk)
-    # Filename format: "Player Name.png" (e.g., "Carlsen, Magnus.png")
     # Recommended size: 80x80 to 200x200 pixels (larger images may display too big)
-    
+    #
+    # Two filename conventions are supported:
+    #
+    # 1. Exact match (no "*" in filename):
+    #       "Carlsen, Magnus.png"  ->  normalized and stored in ::customPhoto array
+    #       "Martinus.png"         ->  normalized and stored in ::customPhoto array
+    #    The name is normalized (lowercase, accents stripped, spaces removed) before
+    #    lookup, so "Carlsen, Magnus.png" matches a player named "Carlsen, Magnus".
+    #
+    # 2. Wildcard match ("*" present in filename):
+    #       "*stockfish*.png"      ->  matches any player name containing "stockfish"
+    #       "Martinus*.png"        ->  matches any player name starting with "martinus"
+    #    Patterns are stored in ::customPhotoWild and matched (case-insensitively)
+    #    against the raw player name as it appears in the game header.
+    #    Wildcards use Tcl's [string match] glob syntax (* matches any sequence of
+    #    characters, ? matches any single character).
+    #
+    # Priority: exact match wins over wildcard. Among wildcards, first file found wins.
+
     if {![info exists ::scidPhotoDir] || ![file isdirectory $::scidPhotoDir]} {
         return 0
     }
-    
+
     set count 0
     set pwd [pwd]
-    
+
     if {[catch {cd $::scidPhotoDir}]} {
         return 0
     }
-    
+
+    # Reset wildcard list on each load so stale entries don't accumulate
+    set ::customPhotoWild {}
+
     # Search for image files with supported extensions (GIF and PNG only)
     foreach pattern {*.gif *.png} {
         foreach imgfile [glob -nocomplain $pattern] {
             set playername [file rootname $imgfile]
-            # Normalize the player name (handles spaces, accents, case)
-            set playername [normalizePhotoName $playername]
-            
+
             # Test that the image file is valid by trying to create a temp photo
             if {[catch {image create photo _tmpPhoto -file $imgfile} result]} {
                 continue
             }
-            
-            # Store the absolute path to the image file for later use
-            set ::customPhoto($playername) [file normalize $imgfile]
-            incr count
-            
-            # Clean up the temp image
             image delete _tmpPhoto
+
+            set abspath [file normalize $imgfile]
+
+            if {[string first "*" $playername] != -1} {
+                # Wildcard filename: store as a glob pattern matched against the
+                # lowercased raw player name (not comma-normalized).
+                lappend ::customPhotoWild [list [string tolower $playername] $abspath]
+            } else {
+                # Exact match: normalize as usual (handles accents, case, spaces)
+                set key [normalizePhotoName $playername]
+                set ::customPhoto($key) $abspath
+            }
+            incr count
         }
     }
-    
+
     cd $pwd
-    
+
     return $count
 }
 
@@ -898,26 +927,50 @@ proc normalizePlayerName { engine } {
 
 # updatePlayerPhotos
 #   Updates the images photoW and photoB for the two players of the current game.
-#   Checks for custom photos first (gif, png), then falls back to SPF files.
+#   Photo lookup proceeds in priority order:
+#     1. Exact custom photo match  (::customPhoto array, normalized name key)
+#     2. Wildcard custom photo match (::customPhotoWild list, glob vs raw name)
+#     3. SPF photo file fallback
 #
 proc updatePlayerPhotos {{force ""}} {
     foreach {name img} {nameW photoW nameB photoB} {
         set spellname $::gamePlayers($name)
         if {$::gamePlayers($img) != $spellname || $force == "-force"} {
             set ::gamePlayers($img) $spellname
-            lassign [normalizePlayerName $spellname] spellname
-            
-            # Check if we have a custom photo file for this player
-            if {[info exists ::customPhoto($spellname)]} {
-                # Load from custom photo file
-                image create photo $img -file $::customPhoto($spellname)
+            lassign [normalizePlayerName $spellname] normalized
+
+            # 1. Exact custom photo match (existing behavior, unchanged)
+            if {[info exists ::customPhoto($normalized)]} {
+                image create photo $img -file $::customPhoto($normalized)
+
+            # 2. Wildcard custom photo match (new)
+            } elseif {[llength $::customPhotoWild] > 0} {
+                set rawlower [string tolower $spellname]
+                set matched ""
+                foreach entry $::customPhotoWild {
+                    lassign $entry globpat filepath
+                    if {[string match $globpat $rawlower]} {
+                        set matched $filepath
+                        break
+                    }
+                }
+                if {$matched ne ""} {
+                    image create photo $img -file $matched
+                } else {
+                    set data [getphoto $normalized]
+                    if {$data ne ""} {
+                        image create photo $img -data $data
+                    } else {
+                        $img blank
+                    }
+                }
+
+            # 3. SPF file fallback (existing behavior, unchanged)
             } else {
-                # No custom photo, load from SPF file
-                set data [getphoto $spellname]
+                set data [getphoto $normalized]
                 if {$data ne ""} {
                     image create photo $img -data $data
                 } else {
-                    # No photo found, clear the image instead of destroying it
                     $img blank
                 }
             }
