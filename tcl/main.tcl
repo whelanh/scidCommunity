@@ -808,8 +808,8 @@ proc loadCustomPhotos {} {
                 continue
             }
             
-            # Store the image data (not filename) for later use
-            set ::customPhoto($playername) [_tmpPhoto data]
+            # Store the absolute path to the image file for later use
+            set ::customPhoto($playername) [file normalize $imgfile]
             incr count
             
             # Clean up the temp image
@@ -846,7 +846,9 @@ proc loadPlayersPhoto {} {
   }
   
   # Load custom photos (gif, jpg, jpeg, png) from the user-configured directory
-  loadCustomPhotos
+  set nCustom [loadCustomPhotos]
+  incr nImg $nCustom
+  incr nFiles $nCustom
 
   return [list $nImg $nFiles]
 }
@@ -877,11 +879,11 @@ proc normalizePlayerName { engine } {
     set strindex [string first "\ " $engine]
     set engine [string replace $engine $strindex $strindex]
     set strindex [string first "," $engine]
-    set slen [string len $engine]
+    set slen [string length $engine]
     if { $strindex == -1 && $slen > 2 } {
         #seems to be a engine name:
         # search until longest name matches an engine name
-        set slen [string len $engine]
+        set slen [string length $engine]
         for { set strindex $slen} {![info exists ::unsafe::spffile([string range $engine 0 $strindex])]\
                     && $strindex > 2 } {set strindex [expr {$strindex - 1}] } { }
         set engine [string range $engine 0 $strindex]
@@ -907,11 +909,17 @@ proc updatePlayerPhotos {{force ""}} {
             
             # Check if we have a custom photo file for this player
             if {[info exists ::customPhoto($spellname)]} {
-                # Load from custom photo data (already resized if needed)
-                image create photo $img -data $::customPhoto($spellname)
+                # Load from custom photo file
+                image create photo $img -file $::customPhoto($spellname)
             } else {
                 # No custom photo, load from SPF file
-                image create photo $img -data [getphoto $spellname]
+                set data [getphoto $spellname]
+                if {$data ne ""} {
+                    image create photo $img -data $data
+                } else {
+                    # No photo found, clear the image instead of destroying it
+                    $img blank
+                }
             }
         }
     }
