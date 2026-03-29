@@ -105,7 +105,7 @@ def get_encoding_for_file(input_file):
         'portbr.tcl': 'iso8859-1',
         'russian.tcl': 'utf-8',
         'serbian.tcl': 'iso8859-2',
-        'spanish.tcl': 'iso8859-1',
+        'spanish.tcl': 'utf-8',
         'suomi.tcl': 'iso8859-1',
         'swedish.tcl': 'iso8859-1',
         'turkish.tcl': 'utf-8',

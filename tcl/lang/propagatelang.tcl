@@ -26,7 +26,7 @@ array set encodings {
   portbr iso8859-1
   russian utf-8
   serbian iso8859-2
-  spanish iso8859-1
+  spanish utf-8
   swedish iso8859-1
   catalan iso8859-1
   suomi iso8859-1

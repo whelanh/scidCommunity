@@ -1614,7 +1614,7 @@ proc setToolbarTooltips { tb } {
 	newdb FileNew open FileOpen finder FileFinder
 	save GameReplace closedb FileClose bkm FileBookmarks
 	gprev GamePrev gnext GameNext
-	newgame GameNew copy EditCopy paste EditPaste
+	newgame GameNew copy EditCopy paste EditPaste rotate RotateBoard
 	boardsearch SearchCurrent
 	headersearch SearchHeader materialsearch SearchMaterial
 	switcher WindowsSwitcher glist WindowsGList pgn WindowsPGN tmt WindowsTmt
@@ -1649,6 +1649,8 @@ proc InitToolbar {{tb}} {
 	ttk::button .main.tb.copy -image tb_copy -command ::gameAddToClipbase -padding {2 0}
 	ttk::button .main.tb.paste -image tb_paste \
 		-command {catch {sc_clipbase paste}; updateBoard -pgn} -padding {2 0}
+	ttk::button .main.tb.rotate -image tb_BD_Flip \
+		-command toggleRotateBoard -padding {2 0}
 	ttk::frame .main.tb.space2 -width 4
 	ttk::button .main.tb.gprev -image tb_gprev -command {::game::LoadNextPrev previous} -padding {2 0}
 	ttk::button .main.tb.gnext -image tb_gnext -command {::game::LoadNextPrev next} -padding {2 0}
@@ -1670,7 +1672,7 @@ proc InitToolbar {{tb}} {
 
 	foreach i {newdb open save closedb finder bkm newgame copy paste gprev gnext \
 		  boardsearch headersearch materialsearch \
-		  switcher glist pgn tmt maint eco tree crosstab engine help} {
+		  switcher glist pgn tmt maint eco tree crosstab engine help rotate} {
 	  .main.tb.$i configure -takefocus 0
 	}
 
@@ -1704,10 +1706,12 @@ proc ConfigToolbar { w } {
   pack [ttk::frame $w.f] -side top -fill x
   set col 0
   set row 0
-  foreach i {newdb open closedb finder save bkm row gprev gnext row newgame copy paste row boardsearch headersearch \
+  foreach i {newdb open closedb finder save bkm row gprev gnext row newgame copy paste rotate row boardsearch headersearch \
 		 materialsearch row switcher glist pgn tmt maint eco tree crosstab engine } {
       if { $i eq "row" } { incr row; set col 0 } else {
-	  ttk::button $w.f.$i -image tb_$i -command "toggleToolbarButton $w.f $i"
+	  set img tb_$i
+	  if {$i eq "rotate"} { set img tb_BD_Flip }
+	  ttk::button $w.f.$i -image $img -command "toggleToolbarButton $w.f $i"
 	  if { $::toolbar_temp($i) } { $w.f.$i state pressed }
 	  grid $w.f.$i -row $row -column $col -sticky news -padx 4 -pady "0 8"
 	  incr col
@@ -1742,7 +1746,7 @@ proc redrawToolbar {} {
   }
   if {$seen} { pack .main.tb.space2 -side left }
   set seen 0
-  foreach i {newgame copy paste} {
+  foreach i {newgame copy paste rotate} {
     if {$::toolbar_state($i)} {
       set seen 1; set seenAny 1
       pack .main.tb.$i -side left -pady 1 -padx 0 -ipadx 0 -pady 0 -ipady 0
