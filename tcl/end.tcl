@@ -1007,7 +1007,7 @@ proc helpAbout {} {
   append str "Copyright (C) 2009-2026 Fulvio Benini\n"
   append str "Copyright (C) 2025-2026 Hugh Whelan\n"
   append str "\nhttps://github.com/whelanh/scidCommunity\n"
-  append str "\nScid is licenced under the\n"
+  append str "\nscidCommunity is licenced under the\n"
   append str "GNU General Public License.\n"
 
   append str "\n\nUsing Tcl/Tk version: [info patchlevel]\n"
