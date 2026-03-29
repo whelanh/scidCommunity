@@ -583,10 +583,8 @@ namespace eval fics {
 
     updateConsole "Channel configuration"
 
-    # FIX for Tcl 9.0: -encoding binary is no longer supported
-    # Use -translation binary with -encoding iso8859-1 instead
-    # FICS uses ISO-8859-1 (Latin-1) encoding; we convert to/from UTF-8 for proper character display
-    fconfigure $sockchan -blocking 0 -buffering line -encoding iso8859-1 -translation binary
+    #fconfigure $sockchan -blocking 0 -buffering line -translation auto ;#-encoding iso8859-1 -translation crlf
+    fconfigure $sockchan -blocking 0 -buffering line -encoding iso8859-1 ;#-translation crlf; #binary
     fileevent $sockchan readable ::fics::readchan
     setState disabled
   }
@@ -1655,7 +1653,6 @@ namespace eval fics {
       ::fics::close "error"
       return
     }
-    # Channel is configured with -encoding iso8859-1, so Tcl handles conversion automatically
     puts $::fics::sockchan $line
     if {$echo != "noecho"} {
       updateConsole "->>$line"
