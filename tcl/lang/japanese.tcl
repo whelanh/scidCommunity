@@ -328,6 +328,9 @@ menuText A HelpTip "今日のヒント" 0 {役立つ Scid ヒントを表示す�
 menuText A HelpStartup "起動ウィンドウ" 0 {起動ウィンドウを表示する}
 menuText A HelpAbout "について" 0 {ScidCommunityに関する情報}
 
+# Toolbar tooltips:
+menuText A RotateBoard "ボードを回転する" 0 {ボードを回転する}
+
 # Game info box popup menu:
 menuText A GInfoHideNext "次の動きを隠す" 0
 menuText A GInfoMaterial "マテリアル値を表示" 0

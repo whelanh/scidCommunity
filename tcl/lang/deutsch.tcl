@@ -321,6 +321,9 @@ menuText D HelpTip "Tagestip" 0 {Zeigt einen nützlichen Tip an}
 menuText D HelpStartup "Startfenster" 0 {Startfenster zeigen}
 menuText D HelpAbout "Über Scid" 0 {Informationen zu Scid}
 
+# Toolbar tooltips:
+menuText D RotateBoard "Brett drehen" 0 {Brett drehen}
+
 # Game info box popup menu:
 menuText D GInfoHideNext "Nächsten Zug verbegen" 13
 menuText D GInfoMaterial "Materialwerte zeigen" 0

@@ -310,6 +310,9 @@ menuText K HelpTip "Suggeriment del dia" 0 {Mostra un pràctic suggerimentent de 
 menuText K HelpStartup "Finestra d'inici" 0 {Mostra la finestra d'inici}
 menuText K HelpAbout "Sobre l'Scid" 10 {Informació al voltant de Scid}
 
+# Toolbar tooltips:
+menuText K RotateBoard "Gira el tauler" 0 {Gira el tauler}
+
 # Game info box popup menu:
 menuText K GInfoHideNext "Ocultar següent jugada" 0
 menuText K GInfoMaterial "Mostrar valor del material" 0

@@ -328,6 +328,9 @@ menuText J HelpTip "Савет дана" 0 {Покажите користан С
 menuText J HelpStartup "Прозор за покретање" 0 {Прикажи прозор за покретање}
 menuText J HelpAbout "Абоут" 0 {Информације о СцидЦоммунити}
 
+# Toolbar tooltips:
+menuText J RotateBoard "Ротирајте плочу" 0 {Ротирајте плочу}
+
 # Game info box popup menu:
 menuText J GInfoHideNext "Сакриј следећи потез" 0
 menuText J GInfoMaterial "Прикажи материјалне вредности" 0

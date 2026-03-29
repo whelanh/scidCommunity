@@ -328,6 +328,9 @@ menuText L HelpTip "Sfatul zilei" 0 {Afișați un sfat util Scid}
 menuText L HelpStartup "Fereastra de pornire" 0 {Afișați fereastra de pornire}
 menuText L HelpAbout "Despre" 0 {Informații despre ScidCommunity}
 
+# Toolbar tooltips:
+menuText L RotateBoard "Rotiți placa" 0 {Rotiți placa}
+
 # Game info box popup menu:
 menuText L GInfoHideNext "Ascunde următoarea mișcare" 0
 menuText L GInfoMaterial "Afișați valorile materiale" 0

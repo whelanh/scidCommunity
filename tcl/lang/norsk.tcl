@@ -297,6 +297,9 @@ menuText O HelpTip "Dagens tips" 0 {Vis et nyttig Scid-tips}
 menuText O HelpStartup "Oppstartsvindu" 0 {Vis oppstartsvindu}
 menuText O HelpAbout "Om Scid" 0 {Informasjon om Scid}
 
+# Toolbar tooltips:
+menuText O RotateBoard "Roter brettet" 0 {Roter brettet}
+
 # Game info box popup menu:
 menuText O GInfoHideNext "Skjul neste trekk" 0
 menuText O GInfoMaterial "Vis kvalitet" 0

@@ -294,6 +294,9 @@ menuText R HelpTip "Подсказка дня" 0 {Показать полезн�
 menuText R HelpStartup "Окно запуска" 2 {Показать окно запуска}
 menuText R HelpAbout "О Scid" 2 {Информация о Scid}
 
+# Toolbar tooltips:
+menuText R RotateBoard "Поворот доски" 0 {Поворот доски}
+
 # Game info box popup menu:
 menuText R GInfoHideNext "Спрятать следующий ход" 0
 menuText R GInfoMaterial "Показать оценку материала" 0

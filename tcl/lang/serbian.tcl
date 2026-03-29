@@ -356,6 +356,8 @@ menuText Y HelpContact "Kontakt" 0 {Prika¾i informacije o kontaktu}
 menuText Y HelpTip "Tip of the day" 0 {Show a useful Scid tip} ;# ***
 menuText Y HelpStartup "Startup prozor" 0 {Prika¾i startup prozor}
 menuText Y HelpAbout "O programu Scid" 0 {Informacije o programu Scid}
+# ====== TODO To be translated ======
+menuText Y RotateBoard "Rotate board" 0 {Rotate board}
 
 # Game info box popup menu:
 menuText Y GInfoHideNext "Sakrij sledeæi potez" 0

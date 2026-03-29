@@ -309,6 +309,9 @@ menuText P HelpTip "Porada dnia" 0 {Poka¿ poradê Scida}
 menuText P HelpStartup "Okno powitalne" 2 {Pokazuj okno startowe}
 menuText P HelpAbout "O programie" 0 {Informacje o programie Scid}
 
+# Toolbar tooltips:
+menuText P RotateBoard "Obróæ planszê" 0 {Obróæ planszê}
+
 # Game info box popup menu:
 menuText P GInfoHideNext "Ukryj nastêpne posuniêcie" 0
 menuText P GInfoMaterial "Poka¿ materia³" 0

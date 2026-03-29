@@ -328,6 +328,9 @@ menuText S HelpTip "Sugerencia del dÃ­a" 0 {Muestra una Ãºtil sugerencia par
 menuText S HelpStartup "Ventana de inicio" 0 {Muestra la ventana de inicio}
 menuText S HelpAbout "Acerca de Scid" 10 {InformaciÃ³n acerca de Scid}
 
+# Toolbar tooltips:
+menuText S RotateBoard "rotar tablero" 0 {rotar tablero}
+
 # Game info box popup menu:
 menuText S GInfoHideNext "Ocultar siguiente movimiento" 0
 menuText S GInfoMaterial "Mostrar valor del material" 0

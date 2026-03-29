@@ -326,6 +326,9 @@ menuText U HelpTip "Päivän vinkki" 1 {Näytä vihje}
 menuText U HelpStartup "Käynnistys-popup" 2 {Näytä ohjelman käynnistys-popup}
 menuText U HelpAbout "Tietoja Scidistä" 9 {Tietoja ohjelmasta}
 
+# Toolbar tooltips:
+menuText U RotateBoard "Pyöritä lautaa" 0 {Pyöritä lautaa}
+
 # Game info box popup menu:
 menuText U GInfoHideNext "Piilota seuraava siirto" 0
 menuText U GInfoMaterial "Näytä materiaaliarvot" 0

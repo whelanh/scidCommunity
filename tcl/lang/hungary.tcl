@@ -295,6 +295,9 @@ menuText H HelpTip "A nap tippje" 2 {Hasznos tipp SCID használatához}
 menuText H HelpStartup "Induló ablak" 0 {A program indításakor megjelenõ ablak}
 menuText H HelpAbout "SCID-rõl" 0 {Tájékoztatás SCID-rõl}
 
+# Toolbar tooltips:
+menuText H RotateBoard "Forgassa a táblát" 0 {Forgassa a táblát}
+
 # Game info box popup menu:
 menuText H GInfoHideNext "Elrejti a következõ lépést." 0
 menuText H GInfoMaterial "Anyagi helyzetet." 0

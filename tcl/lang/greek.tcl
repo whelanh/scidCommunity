@@ -319,6 +319,9 @@ menuText G HelpTip "Συμβουλή της ημέρας" 0 {Εμφάνιση χ
 menuText G HelpStartup "Παράθυρο έναρξης" 0 {Εμφανίζει το παράθυρο έναρξης}
 menuText G HelpAbout "Για το Scid" 0 {Πληροφορίες για το Scid}
 
+# Toolbar tooltips:
+menuText G RotateBoard "Περιστρέψτε τον πίνακα" 0 {Περιστρέψτε τον πίνακα}
+
 # Game info box popup menu:
 menuText G GInfoHideNext "Απόκρυψη επόμενης κίνησης" 0
 menuText G GInfoMaterial "Εμφάνισης της αξίας των κομματιών" 0

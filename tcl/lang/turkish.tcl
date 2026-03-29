@@ -291,6 +291,8 @@ menuText T HelpContact "İletişim Bilgileri" 1 {İletişim bilgileri yardım sa
 menuText T HelpTip "Günün İpucu" 0 {Yararlı bir Scid ipucu göster}
 menuText T HelpStartup "Başlangıç ​​Penceresi" 0 {Başlangıç ​​penceresini göster}
 menuText T HelpAbout "Hakkında" 0 {ScidCommunity hakkında bilgiler}
+# ====== TODO To be translated ======
+menuText T RotateBoard "Rotate board" 0 {Rotate board}
 
 # Game info box popup menu:
 menuText T GInfoHideNext "Sonraki Hamleyi Gizle" 0

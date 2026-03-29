@@ -298,6 +298,9 @@ menuText W HelpTip "Dagens tips" 0 {Användbara Scid tips}
 menuText W HelpStartup "Startfönster" 5 {Visa startfönstret}
 menuText W HelpAbout "Om Scid" 0 {Information om Scid}
 
+# Toolbar tooltips:
+menuText W RotateBoard "Vrid brädet" 0 {Vrid brädet}
+
 # Game info box popup menu:
 menuText W GInfoHideNext "Dölj nästa drag" 0
 menuText W GInfoMaterial "Visa materialvärden" 0

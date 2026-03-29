@@ -291,6 +291,9 @@ menuText C HelpTip "Tip dne" 4 {Zobrazit u¾iteèný tip Scidu}
 menuText C HelpStartup "Startovací okno" 0 {Zobrazit startovací okno}
 menuText C HelpAbout "O aplikaci Scid" 2 {Informace o aplikaci Scid}
 
+# Toolbar tooltips:
+menuText C RotateBoard "Otoète desku" 0 {Otoète desku}
+
 # Game info box popup menu:
 menuText C GInfoHideNext "Skrýt následující tah" 0
 menuText C GInfoMaterial "Ukázat hodnoty materiálu" 15

@@ -263,6 +263,9 @@ menuText M HelpTip "每日提示" 0 {显示有用的Scid提示}
 menuText M HelpStartup "启动窗口" 0 {显示启动窗口}
 menuText M HelpAbout "关于Scid" 0 {关于Scid的信息}
 
+# Toolbar tooltips:
+menuText M RotateBoard "旋转板" 0 {旋转板}
+
 # Game info box popup menu:
 menuText M GInfoHideNext "Hide Next Move" 0
 menuText M GInfoMaterial "Show Material Values" 0

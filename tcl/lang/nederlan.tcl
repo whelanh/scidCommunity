@@ -316,6 +316,9 @@ menuText N HelpTip "Tip van de dag" 0 {Laat een handige Scid tip zien}
 menuText N HelpStartup "Startvenster" 5 {Laat het startvenster zien}
 menuText N HelpAbout "Over Scid" 0 {Informatie over Scid}
 
+# Toolbar tooltips:
+menuText N RotateBoard "Draai het bord" 0 {Draai het bord}
+
 # Game info box popup menu:
 menuText N GInfoHideNext "Verberg volgende zet" 0
 menuText N GInfoMaterial "Materiaalverhouding" 0

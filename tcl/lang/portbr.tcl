@@ -296,6 +296,9 @@ menuText B HelpTip "Dica do dia" 0 {Mostra uma dica útil do Scid}
 menuText B HelpStartup "Janela de Inicialização" 0 {Mostra a janela de inicialização}
 menuText B HelpAbout "Sobre Scid" 0 {Informações sobre o Scid}
 
+# Toolbar tooltips:
+menuText B RotateBoard "Girar tabuleiro" 0 {Girar tabuleiro}
+
 # Game info box popup menu:
 menuText B GInfoHideNext "Ocultar próximo movimento" 0
 menuText B GInfoMaterial "Mostra valor de material" 0

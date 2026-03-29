@@ -157,7 +157,6 @@ menuText E Search "Search" 0
 menuText E SearchReset "Reset Filter" 0 {Reset the filter so all games are included}
 menuText E SearchNegate "Negate Filter" 0 {Negate the filter to only include excluded games}
 menuText E SearchCurrent "Current Board..." 0 {Search for the current board position}
-menuText E RotateBoard "Rotate board" 0 {Rotate board}
 menuText E SearchHeader "Header..." 0 {Search by Header (player, event, etc) information}
 menuText E SearchMaterial "Material/Pattern..." 0 {Search for material or board patterns}
 menuText E SearchUsing "Using Search File..." 0 {Search using a SearchOptions file}
@@ -327,6 +326,9 @@ menuText E HelpContact "Contact Info" 1 {Show the contact information help page}
 menuText E HelpTip "Tip of the Day" 0 {Show a useful Scid tip}
 menuText E HelpStartup "Startup Window" 0 {Show the startup window}
 menuText E HelpAbout "About" 0 {Information about ScidCommunity}
+
+# Toolbar tooltips:
+menuText E RotateBoard "Rotate board" 0 {Rotate board}
 
 # Game info box popup menu:
 menuText E GInfoHideNext "Hide Next Move" 0

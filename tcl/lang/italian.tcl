@@ -295,6 +295,9 @@ menuText I HelpTip "Suggerimento del giorno" 1 {Mostra utili suggerimenti riguar
 menuText I HelpStartup "Finestra di avvio" 0 {Mostra la finestra di avvio}
 menuText I HelpAbout "Informazioni su Scid" 1 {Informazioni su Scid}
 
+# Toolbar tooltips:
+menuText I RotateBoard "Ruota la scheda" 0 {Ruota la scheda}
+
 # Game info box popup menu:
 menuText I GInfoHideNext "Nascondi la mossa successiva" 0
 menuText I GInfoMaterial "Mostra i valori del materiale" 0
