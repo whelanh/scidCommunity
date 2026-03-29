@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.81
+Version:        5.1.2.83
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 67b3441973c86a15a1e785d3d9a53a0b55744f74
+%global commit 02768b03f083c672d88e36cbd50963857e51ba7a
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,7 +62,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
-* Thu Mar 28 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-81
+* Sat Mar 28 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-83
+- "Add ability to use wildcards in custom photo names"
+* Sat Mar 28 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-81
 - "Simplify custom photo usage (png and gif)"
 * Thu Mar 26 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-80
 - "Complete overhaul and update of Opening Report"

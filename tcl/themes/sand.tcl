@@ -1,3 +1,6 @@
+# Copyright (C) 2025-2026 Hugh Whelan
+# SPDX-License-Identifier: GPL-2.0-or-later
+
 # Create a custom "sand" theme that inherits from classic and adjusts background
 if {[lsearch -exact [ttk::style theme names] sand] == -1} {
   ttk::style theme create sand -parent classic -settings {

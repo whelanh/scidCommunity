@@ -1,3 +1,6 @@
+# Copyright (C) 2025-2026 Hugh Whelan
+# SPDX-License-Identifier: GPL-2.0-or-later
+
 ######################################################################
 #
 # lichess_tournament.tcl: Monitor live Lichess tournament broadcasts

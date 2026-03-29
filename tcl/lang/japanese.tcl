@@ -1,4 +1,7 @@
-# Text for menu names and status bar help messages in Serbian Cyrillic.
+# Copyright (C) 2025-2026 Hugh Whelan
+# SPDX-License-Identifier: GPL-2.0-or-later
+
+# Text for menu names and status bar help messages in Japanese.
 # Part of Scid (Shane's Chess Information Database).
 #
 # Instructions for adding a new language:

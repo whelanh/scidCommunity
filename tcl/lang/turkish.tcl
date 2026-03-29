@@ -1,3 +1,5 @@
+# Copyright (C) 2025-2026 Hugh Whelan
+# SPDX-License-Identifier: GPL-2.0-or-later
 
 # turkish.tcl
 # Turkish translations for Scid.

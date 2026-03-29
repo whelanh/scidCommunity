@@ -1,3 +1,6 @@
+# Copyright (C) 2025-2026 Hugh Whelan
+# SPDX-License-Identifier: GPL-2.0-or-later
+
 ############################################################
 ### Lichess Cloud Eval lookup
 ### Queries the Lichess cloud evaluation API and displays results

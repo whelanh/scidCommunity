@@ -1,3 +1,6 @@
+# Copyright (C) 2025-2026 Hugh Whelan
+# SPDX-License-Identifier: GPL-2.0-or-later
+
 ############################################################
 ### Auto Comment - AI-generated chess commentary
 ### Queries engine evaluation APIs and uses an LLM (Gemini
