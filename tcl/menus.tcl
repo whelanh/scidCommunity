@@ -593,16 +593,25 @@ proc checkMenuUnderline {menu} {
 #
 ################################################################################
 proc configInformant { w } {
-  global informant
+  global informant informantDefaults
 
   ttk::frame $w.spinF
   set idx 0
   set row 0
 
+  array set seen {}
   foreach i [lsort [array names informant]] {
     if {$i == "\"++-\""} { continue } ; # ignore old version: ++- from options.dat
-    ttk::label $w.spinF.labelExpl$idx -text [ ::tr "Informant[ string trim $i "\""]" ]
-    ttk::label $w.spinF.label$idx -text $i
+    set i_clean [string trim $i "\""]
+    if {[info exists seen($i_clean)]} { continue }
+    set seen($i_clean) 1
+
+    ttk::label $w.spinF.labelExpl$idx -text [ ::tr "Informant$i_clean" ]
+    set lbl "\"$i_clean\""
+    if {[info exists informantDefaults($i_clean)]} {
+      append lbl " ($informantDefaults($i_clean))"
+    }
+    ttk::label $w.spinF.label$idx -text $lbl
      # Allow the configuration of "won game" up to "Mate found"
      if {$i == "\"+--\""} {
          ttk::spinbox $w.spinF.sp$idx -textvariable informant($i) -width 5 -from 0.0 -to 328.0 -increment 1.0 -validate all -validatecommand { regexp {^[0-9]\.[0-9]$} %P }

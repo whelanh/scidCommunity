@@ -460,15 +460,17 @@ array set preportDefaults [array get preport]
 # Analysis options (Informant values)
 # The different threshold values for !? ?? += etc
 # Thresholds based on typical values used by Lichess/Chess.com for club players (~1500 rating)
-array set informant {}
-set informant("!?") 0.3
-set informant("?")  0.8
-set informant("??") 1.5
-set informant("?!") 0.3
-set informant("+=")  0.5
-set informant("+/-") 1.5
-set informant("+-")  2.5
-set informant("+--") 4.0
+array set informantDefaults {
+  "!?" 0.3
+  "?"  0.8
+  "??" 1.5
+  "?!" 0.3
+  "+=" 0.5
+  "+/-" 1.5
+  "+-" 2.5
+  "+--" 4.0
+}
+array set informant [array get informantDefaults]
 
 # Export file options:
 set exportFlags(comments) 1
