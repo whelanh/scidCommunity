@@ -461,16 +461,24 @@ array set preportDefaults [array get preport]
 # The different threshold values for !? ?? += etc
 # Thresholds based on typical values used by Lichess/Chess.com for club players (~1500 rating)
 array set informantDefaults {
-  "!?" 0.3
-  "?"  0.8
-  "??" 1.5
-  "?!" 0.3
-  "+=" 0.5
-  "+/-" 1.5
-  "+-" 2.5
-  "+--" 4.0
+  !? 0.3
+  ?! 0.3
+  ?  0.8
+  ?? 1.5
+  += 0.5
+  +/- 1.5
+  +- 2.5
+  +-- 4.0
+}
+# Ensure the arrays are clean of any quoted keys that might have persisted.
+foreach arr {informant informantDefaults} {
+    foreach name [array names $arr *\"*] {
+        unset ${arr}($name)
+    }
 }
 array set informant [array get informantDefaults]
+
+# [/] Modify `tcl/options.tcl` to use unquoted keys in `informantDefaults`
 
 # Export file options:
 set exportFlags(comments) 1

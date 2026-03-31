@@ -1056,11 +1056,11 @@ proc markExercise { prevscore score nag} {
     
     set deltamove [expr {$score - $prevscore}]
     # filter tactics so only those with high gains are kept
-    if { [expr abs($deltamove)] < $::informant("+/-") } { return 0 }
+    if { [expr abs($deltamove)] < $::informant(+/-) } { return 0 }
     # dismiss games where the result is already clear (high score,and we continue in the same way)
     if { [expr $prevscore * $score] >= 0} {
-        if { [expr abs($prevscore) ] > $::informant("+--") } { return 0 }
-        if { [expr abs($prevscore)] > $::informant("+-") && [expr abs($score) ] < [expr 2 * abs($prevscore)]} { return 0 }
+        if { [expr abs($prevscore) ] > $::informant(+--) } { return 0 }
+        if { [expr abs($prevscore)] > $::informant(+-) && [expr abs($score) ] < [expr 2 * abs($prevscore)]} { return 0 }
     }
     
     # The best move is much better than others.
@@ -1072,13 +1072,13 @@ proc markExercise { prevscore score nag} {
     
     # There is no other winning moves (the best move may not win, of course, but
     # I reject exercises when there are e.g. moves leading to +9, +7 and +5 scores)
-    if { [expr $score * $sc2] > 0.0 && [expr abs($score)] > $::informant("+-") && [expr abs($sc2)] > $::informant("+-") } {
+    if { [expr $score * $sc2] > 0.0 && [expr abs($score)] > $::informant(+-) && [expr abs($sc2)] > $::informant(+-) } {
         return 0
     }
     
     # The best move does not lose position.
-    if {[sc_pos side] == "white" && $score < [expr 0.0 - $::informant("+/-")] } { return 0 }
-    if {[sc_pos side] == "black" && $score > $::informant("+/-") } { return 0}
+    if {[sc_pos side] == "white" && $score < [expr 0.0 - $::informant(+/-)] } { return 0 }
+    if {[sc_pos side] == "black" && $score > $::informant(+/-) } { return 0}
     
     # Move is not obvious: check that it is not the first move guessed at low depths
     set pv [ lindex [ lindex $::analysis(multiPV1) 0 ] 2 ]
@@ -1267,13 +1267,13 @@ proc addAnnotation { {n 1} } {
     set deltamove [expr {$prevscore - $score}]
     # and whether the game was already lost for us
     #
-    set gameIsLost [expr {$prevscore < (0.0 - $::informant("+--"))}]
+    set gameIsLost [expr {$prevscore < (0.0 - $::informant(+--))}]
     
     # Invert this logic for black
     #
     if { $tomove == "white" } {
         set deltamove [expr {0.0 - $deltamove}]
-        set gameIsLost [expr {$prevscore > $::informant("+--")}] 
+        set gameIsLost [expr {$prevscore > $::informant(+--)}] 
     }
     
     # Note btw that if the score decay is - unexpectedly - negative, we played
@@ -1341,14 +1341,14 @@ proc addAnnotation { {n 1} } {
         if { $isBlunder > 0 } {
             # Add move score nag, and possibly an exercise
             #
-            if {       $absdeltamove > $::informant("??") } {
+            if {       $absdeltamove > $::informant(??) } {
                 set exerciseMarked [ markExercise $prevscore $score "??" ]
-            } elseif { $absdeltamove > $::informant("?")  } {
+            } elseif { $absdeltamove > $::informant(?)  } {
                 set exerciseMarked [ markExercise $prevscore $score "?" ]
-            } elseif { $absdeltamove > $::informant("?!") } {
+            } elseif { $absdeltamove > $::informant(?!) } {
                 sc_pos addNag "?!"
             }
-        } elseif { $absdeltamove > $::informant("!?") } {
+        } elseif { $absdeltamove > $::informant(!?) } {
             sc_pos addNag "!?"
         }
             
@@ -1407,7 +1407,7 @@ proc addAnnotation { {n 1} } {
             sc_move forward
         }
     } else {
-        if { $isBlunder == 0 && $absdeltamove > $::informant("!?") } {
+        if { $isBlunder == 0 && $absdeltamove > $::informant(!?) } {
             sc_pos addNag "!?"
         }
         if { $scoreAllMoves } { 
@@ -1455,7 +1455,7 @@ proc scoreToNag {score} {
     # Find the score in the informant map
     set tmp [expr { abs( $score ) }]
     for { set i 0 } { $i < 4 } { incr i } {
-        if { $tmp < $::informant("$ana_informantList($i)") } {
+        if { $tmp < $::informant($ana_informantList($i)) } {
             break
         }
     }
