@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.2.84" date="2026-03-30">
+      <description>
+        <p>Add rotate board button; add default informant value labels in Preferences menu</p>
+      </description>
+    </release>
     <release version="5.1.2.83" date="2026-03-28">
       <description>
         <p>Add ability to use wildcards in custom photo names</p>
