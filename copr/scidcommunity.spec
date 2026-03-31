@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.84
+Version:        5.1.2.85
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit b29dec13ebab44601cf847bdad2dd258ab8c614a
+%global commit 81b436b38d4fa4bf074c4188ccae3065567cf533
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Tue Mar 31 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-85
+- "Fix loading of informant values"
 * Mon Mar 30 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-84
 - "Add rotate board button; add default informant labels to Preferences menu"
 * Sat Mar 28 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-83
