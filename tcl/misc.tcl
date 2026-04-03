@@ -658,6 +658,8 @@ namespace eval gameclock {
   proc start { n } {
     if {$::gameclock::data(running$n)} { return }
     set ::gameclock::data(running$n) 1
+    # Capture the clock value at the start of the turn
+    set ::gameclock::data(startSec$n) $::gameclock::data(counter$n)
     ::gameclock::every 1000 "draw $n" $n
   }
   ################################################################################
@@ -669,7 +671,13 @@ namespace eval gameclock {
   }
   ################################################################################
   proc storeTimeComment { color } {
-    set sec [::gameclock::getSec $color]
+    # Provide the time captured at the BEGINNING of the move for counting-down clocks (Serious Game)
+    if {[info exists ::gameclock::data(startSec$color)] && $::gameclock::data(startSec$color) < 0} {
+        set sec [expr {0 - $::gameclock::data(startSec$color)}]
+    } else {
+        # For counting-up clocks (Tactical Game), fallback to the original behavior (End of Move)
+        set sec [::gameclock::getSec $color]
+    }
     set h [format "%d" [expr abs($sec) / 60 / 60] ]
     set m [format "%02d" [expr (abs($sec) / 60) % 60] ]
     set s [format "%02d" [expr abs($sec) % 60] ]
