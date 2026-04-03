@@ -513,8 +513,8 @@ proc MoveTimeList {color add} {
         }
     }
     set movenr 0
-    set offset 0.0
-    if {  $color == "w" } { set offset 0.5 }
+    set offset 0.5
+    if {  $color == "w" } { set offset 1.0 }
     set sum 0.0
     for {set i 0} { $i < $n} { incr i } {
         # only look for the first match, because normaly only one of these types should used in game
@@ -1162,14 +1162,14 @@ proc ::tools::graphs::time::ElapsedList {coordsList offset} {
   set n [llength $coordsList]
   # Need at least two entries to compute a delta
   if {$n < 4} { return $result }
-  set moveNum 1
   for {set i 2} {$i < $n} {incr i 2} {
     set prevTime [lindex $coordsList [expr {$i - 1}]]
+    set currX    [lindex $coordsList $i]
     set currTime [lindex $coordsList [expr {$i + 1}]]
     set elapsed  [expr {$prevTime - $currTime}]
     if {$elapsed < 0} { set elapsed 0 }
+    set moveNum  [expr {int($currX)}]
     lappend result [expr {$moveNum + $offset}] $elapsed
-    incr moveNum
   }
   return $result
 }
