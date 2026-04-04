@@ -372,12 +372,12 @@ proc ::enginewin::onLichessResult {id fen result} {
 
 # Creates the buttons bar
 proc ::enginewin::createButtonsBar {id btn display} {
-    ttk::button $btn.startStop -image [list tb_eng_on pressed tb_eng_off user1 tb_eng_off] \
+    ttk::button $btn.startStop -image [list [::button_image tb_eng_on] pressed [::button_image tb_eng_off] user1 [::button_image tb_eng_off]] \
         -style Toolbutton -command "::enginewin::toggleStartStop $id"
     #TODO: change the tooltip to "Start/stop engine"
     ::utils::tooltip::Set $btn.startStop [tr StartEngine]
 
-    ttk::button $btn.lock -image tb_eng_lock -style Toolbutton -command [list apply {{id} {
+    ttk::button $btn.lock -image [::button_image tb_eng_lock] -style Toolbutton -command [list apply {{id} {
         if {[::enginewin::stateLocked $id]} {
             ::enginewin::changeState $id follow.*
             ::enginewin::onPosChanged $id
@@ -388,10 +388,10 @@ proc ::enginewin::createButtonsBar {id btn display} {
     ::utils::tooltip::Set $btn.lock [tr LockEngine]
 
     set pv_lines $display.pv_lines
-    ttk::button $btn.addbestmove -image tb_eng_addbestmove -style Toolbutton \
+    ttk::button $btn.addbestmove -image [::button_image tb_eng_addbestmove] -style Toolbutton \
         -command "::enginewin::exportMoves $pv_lines 1.0"
     ::utils::tooltip::Set $btn.addbestmove [tr AddMove]
-    ttk::button $btn.addlines -image tb_eng_addlines -style Toolbutton \
+    ttk::button $btn.addlines -image [::button_image tb_eng_addlines] -style Toolbutton \
         -command "::enginewin::exportLines $pv_lines"
     ::utils::tooltip::Set $btn.addlines [tr AddAllVariations]
 
@@ -452,7 +452,7 @@ proc ::enginewin::createButtonsBar {id btn display} {
     ttk::menubutton $btn.autorun -text "\u601D" \
         -style EnginewinAuto.Toolbutton -direction above -menu $btn.menus.autorun
 
-    ttk::button $btn.config -image tb_eng_config -style Toolbutton \
+    ttk::button $btn.config -image [::button_image tb_eng_config] -style Toolbutton \
         -command "::enginewin::toggleConfigPane $id"
     $btn.config state pressed
 
