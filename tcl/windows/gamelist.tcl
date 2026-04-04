@@ -163,6 +163,39 @@ proc ::windows::gamelist::FilterExport {{w}} {
 	if {$err && $::errorCode != $::ERROR::UserCancel} { ERROR::MessageBox }
 }
 
+proc ::windows::gamelist::ExportSelected {{w} {glist_w}} {
+	set ftype {
+	   { {PGN} {.pgn} }
+	}
+	set fName [tk_getSaveFile -initialdir $::initialDir(base) \
+	                          -filetypes $ftype \
+	                          -typevariable ::gamelistExport \
+	                          -title "Export Selected Games" ]
+	if {$fName == ""} { return }
+	progressWindow "Scid" "Exporting selected games..." $::tr(Cancel)
+	if {[file extension $fName] == ""} { append fName ".pgn" }
+	set err [catch {
+		set fp [open $fName w]
+		set savedGameNum [sc_game number]
+		foreach s [$glist_w selection] {
+			lassign [split $s "_"] idx ply
+			if {$idx ne ""} {
+				sc_game load $idx
+				set pgnStr [sc_game pgn -width 75 -symbols $::pgn::symbolicNags \
+							-indentVar $::pgn::indentVars -indentCom $::pgn::indentComments \
+							-space $::pgn::moveNumberSpaces -format plain -column $::pgn::columnFormat \
+							-markCodes $::pgn::stripMarks]
+				puts $fp $pgnStr
+				puts $fp ""
+			}
+		}
+		close $fp
+		if {$savedGameNum > 0} { sc_game load $savedGameNum }
+	}]
+	closeProgressWindow
+	if {$err && $::errorCode != $::ERROR::UserCancel} { ERROR::MessageBox }
+}
+
 # Returns text describing state of filter for specified
 # database, e.g. "no games" or "all / 400" or "1,043 / 2,057"
 proc ::windows::gamelist::filterText {{w ""} {base -1}} {
@@ -768,7 +801,7 @@ proc glist.create {{w} {layout} {reset_layout false}} {
     set ::glist_FindBar($layout) 0
   }
 
-  ttk::treeview $w.glist -style Gamelist.Treeview -columns $::glist_Headers -show headings -selectmode browse
+  ttk::treeview $w.glist -style Gamelist.Treeview -columns $::glist_Headers -show headings -selectmode extended
   $w.glist tag configure current -background steelBlue
   $w.glist tag configure fsmall -font font_Small
   $w.glist tag configure deleted -foreground #a5a2ac
@@ -793,7 +826,7 @@ proc glist.create {{w} {layout} {reset_layout false}} {
   bind $w.glist <Control-Home> {glist.ybar_ %W moveto 0; break}
   bind $w.glist <Control-End> {glist.ybar_ %W moveto 1; break}
   bind $w.glist <KeyPress-Return> {
-    lassign [split [%W selection] "_"] idx ply
+    lassign [split [lindex [%W selection] 0] "_"] idx ply
     if {$idx ne ""} {
       ::file::SwitchToBase $::glistBase(%W) 0
       ::game::Load $idx $ply
@@ -801,18 +834,30 @@ proc glist.create {{w} {layout} {reset_layout false}} {
     break
   }
   bind $w.glist <Delete> {
-    lassign [split [%W selection] "_"] idx ply
-    if {$idx ne ""} {
-      glist.delflag_ %W $idx
+    set updated 0
+    foreach sel [%W selection] {
+      lassign [split $sel "_"] idx ply
+      if {$idx ne ""} {
+        glist.delflag_ %W $idx
+        set updated 1
+      }
+    }
+    if {$updated} {
       glist.movesel_ %W next +1 end
     }
     break
   }
   bind $w.glist <Control-Delete> {
-    lassign [split [%W selection] "_"] idx ply
-    if {$idx ne ""} {
-      glist.movesel_ %W next +1 end;
-      sc_filter remove $::glistBase(%W) $::glistFilter(%W) $idx
+    set updated 0
+    foreach sel [%W selection] {
+      lassign [split $sel "_"] idx ply
+      if {$idx ne ""} {
+        sc_filter remove $::glistBase(%W) $::glistFilter(%W) $idx
+        set updated 1
+      }
+    }
+    if {$updated} {
+      glist.movesel_ %W next +1 end
       ::notify::DatabaseModified $::glistBase(%W)
     }
     break
@@ -1067,7 +1112,7 @@ proc glist.findgame_ {{w_parent} {dir}} {
     set r [sc_base gamelocation $::glistBase($w) $::glistFilter($w) $::glistSortStr($w) $txt]
   } else {
     set gstart [expr int($::glistFirst($w))]
-    foreach {n ply} [split [$w selection] "_"] {
+    foreach {n ply} [split [lindex [$w selection] 0] "_"] {
       if {$n != ""} {
         set gstart [sc_base gamelocation $::glistBase($w) $::glistFilter($w) $::glistSortStr($w) $n]
       }
@@ -1098,7 +1143,7 @@ proc glist.select_ {w {idx 0}} {
 proc glist.movesel_ {{w} {cmd} {scroll} {select}} {
   set sel [$w selection]
   if {$sel == ""} { glist.select_ $w; return }
-  set newsel [$w $cmd $sel]
+  set newsel [$w $cmd [lindex $sel end]]
   if {$newsel == "" || [$w bbox $newsel] == ""} {
     glist.ybar_ $w scroll $scroll
   }
@@ -1148,8 +1193,18 @@ proc glist.removeFromFilter_ {{w} {idx} {dir ""}} {
 
 proc glist.popupmenu_ {{w} {x} {y} {abs_x} {abs_y} {layout}} {
   if {[$w identify region $x $y] != "heading" } {
-    event generate $w <ButtonPress-1> -x $x -y $y
-    lassign [split [$w selection] "_"] idx ply
+    set item [$w identify item $x $y]
+    if {$item ne "" && [lsearch -exact [$w selection] $item] == -1} {
+      $w selection set [list $item]
+      $w focus $item
+    }
+    set sel [$w selection]
+    if {[llength $sel] == 0} {
+      event generate $w <ButtonPress-1> -x $x -y $y
+      set sel [$w selection]
+    }
+    set first_sel [lindex $sel 0]
+    lassign [split $first_sel "_"] idx ply
     if {$idx ne ""} {
       if { [winfo exists $w.game_menu.merge] } { destroy $w.game_menu.merge }
       if { [winfo exists $w.game_menu.copy] } { destroy $w.game_menu.copy }
@@ -1157,18 +1212,30 @@ proc glist.popupmenu_ {{w} {x} {y} {abs_x} {abs_y} {layout}} {
       if { [winfo exists $w.game_menu.export] } { destroy $w.game_menu.export }
       $w.game_menu delete 0 end
       #LOAD/BROWSE/MERGE GAME
-      $w.game_menu add command -label $::tr(LoadGame) \
-         -command "::file::SwitchToBase $::glistBase($w) 0; ::game::Load $idx $ply"
-      $w.game_menu add command -label $::tr(BrowseGame) \
-         -command "::gbrowser::new $::glistBase($w) $idx $ply"
-      $w.game_menu add command -label $::tr(MergeGame) \
-         -command "mergeGame $::glistBase($w) $idx"
+      if {[llength $sel] == 1} {
+        $w.game_menu add command -label $::tr(LoadGame) \
+           -command "::file::SwitchToBase $::glistBase($w) 0; ::game::Load $idx $ply"
+        $w.game_menu add command -label $::tr(BrowseGame) \
+           -command "::gbrowser::new $::glistBase($w) $idx $ply"
+        $w.game_menu add command -label $::tr(MergeGame) \
+           -command "mergeGame $::glistBase($w) $idx"
+      }
       menu $w.game_menu.merge
       menu $w.game_menu.copy
-      $w.game_menu add cascade -label $::tr(GlistMergeGameInBase) -menu $w.game_menu.merge
+      if {[llength $sel] == 1} {
+        $w.game_menu add cascade -label $::tr(GlistMergeGameInBase) -menu $w.game_menu.merge
+      }
       $w.game_menu add cascade -label $::tr(CopyGameTo) -menu $w.game_menu.copy
-      $w.game_menu add command -label [expr {[sc_base gameflag $::glistBase($w) $idx get del] ? $::tr(UndeleteGame) : $::tr(DeleteGame) }] \
-        -command "glist.delflag_ $w $idx; $w selection set {};"
+
+      set is_del 1
+      foreach s $sel {
+        lassign [split $s "_"] i p
+        if {$i ne "" && ![sc_base gameflag $::glistBase($w) $i get del]} { set is_del 0; break }
+      }
+      set label_base [expr {$is_del ? $::tr(UndeleteGame) : $::tr(DeleteGame) }]
+      if {[llength $sel] > 1} { set label_base "$label_base ([llength $sel])" }
+      $w.game_menu add command -label $label_base \
+        -command "foreach s \[$w selection\] { lassign \[split \$s \"_\"\] i p; if {\$i ne \"\"} { glist.delflag_ $w \$i } }; $w selection set {};"
 
       $w.game_menu add separator
       set w_top [regexp -inline {^\.[^.]+} $w]
@@ -1179,12 +1246,17 @@ proc glist.popupmenu_ {{w} {x} {y} {abs_x} {abs_y} {layout}} {
       $w.game_menu.filter add command -label [tr SearchNegate] \
         -command "::windows::gamelist::FilterNegate $w_top $::glistBase($w)"
       $w.game_menu.filter add separator
-      $w.game_menu.filter add command -label $::tr(GlistRemoveGameAndAboveFromFilter) \
-        -command "glist.removeFromFilter_ $w $idx -"
-      $w.game_menu.filter add command -label $::tr(GlistRemoveThisGameFromFilter) \
-        -command "glist.removeFromFilter_ $w $idx"
-      $w.game_menu.filter add command -label $::tr(GlistRemoveGameAndBelowFromFilter) \
-        -command "glist.removeFromFilter_ $w $idx +"
+      if {[llength $sel] == 1} {
+        $w.game_menu.filter add command -label $::tr(GlistRemoveGameAndAboveFromFilter) \
+          -command "glist.removeFromFilter_ $w $idx -"
+        $w.game_menu.filter add command -label $::tr(GlistRemoveThisGameFromFilter) \
+          -command "glist.removeFromFilter_ $w $idx"
+        $w.game_menu.filter add command -label $::tr(GlistRemoveGameAndBelowFromFilter) \
+          -command "glist.removeFromFilter_ $w $idx +"
+      } else {
+        $w.game_menu.filter add command -label "Remove Selected Games From Filter" \
+          -command "foreach s \[$w selection\] { lassign \[split \$s \"_\"\] i p; if {\$i ne \"\"} { sc_filter remove $::glistBase($w) $::glistFilter($w) \$i } }; lassign \[sc_filter components $::glistBase($w) $::glistFilter($w)\] f; ::notify::filter $::glistBase($w) \$f"
+      }
       $w.game_menu.filter add separator
       $w.game_menu.filter add command -label $::tr(GlistDeleteAllGames) \
         -command "sc_base gameflag $::glistBase($w) $::glistFilter($w) set del; ::notify::DatabaseModified $::glistBase($w)"
@@ -1194,16 +1266,20 @@ proc glist.popupmenu_ {{w} {x} {y} {abs_x} {abs_y} {layout}} {
       menu $w.game_menu.export
       $w.game_menu.export add command -label [tr ToolsExpFilter] \
         -command "::windows::gamelist::FilterExport $w_top"
+      $w.game_menu.export add command -label "Export Selected Games..." \
+        -command "::windows::gamelist::ExportSelected $w_top $w"
       $w.game_menu.export add separator
       $w.game_menu add cascade -label [tr CopyGames] -menu $w.game_menu.export
 
       foreach i [sc_base list] {
         if { $i == $::glistBase($w) || [sc_base isReadOnly $i] } { continue }
         set fname [::file::BaseName $i]
-        $w.game_menu.merge add command -label "$i $fname" \
-          -command "::game::mergeInBase $::glistBase($w) $i $idx"
+        if {[llength $sel] == 1} {
+          $w.game_menu.merge add command -label "$i $fname" \
+            -command "::game::mergeInBase $::glistBase($w) $i $idx"
+        }
         $w.game_menu.copy add command -label "$i $fname" \
-          -command "sc_base copygames $::glistBase($w) $idx $i; ::notify::DatabaseModified $i"
+          -command "foreach s \[$w selection\] { lassign \[split \$s \"_\"\] g_i p; if {\$g_i ne \"\"} { sc_base copygames $::glistBase($w) \$g_i $i } }; ::notify::DatabaseModified $i"
         $w.game_menu.export add command -label "$i $fname" \
           -command "::windows::gamelist::CopyGames $w_top $::glistBase($w) $i"
       }
