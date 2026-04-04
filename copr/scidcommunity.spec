@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.86
+Version:        5.1.2.87
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit ed504db740f8a5cc301fa490f026f0b38251813e
+%global commit 4a8b4a00898e84fb60511e26929edb3ec2e5c159
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Sat Apr 4, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-87
+- "Allow Ctrl + mouse click and Shift + mouse click to select multiple games in Gamelist Window"
 * Fri Apr 3, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-86
 - "Minor fixes to time recording in Serious games and Time Analysis graph labels"
 * Tue Mar 31 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-85

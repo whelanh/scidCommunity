@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.2.87" date="2026-04-04">
+      <description>
+        <p>Allow Ctrl+click and Shift+click to select multiple games in Gamelist Window</p>
+      </description>
+    </release>
     <release version="5.1.2.86" date="2026-04-03">
       <description>
         <p>Minor fixes to time recording in Serious games and labels in Time Analysis graphs</p>
