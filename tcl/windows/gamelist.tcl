@@ -174,10 +174,12 @@ proc ::windows::gamelist::ExportSelected {{w} {glist_w}} {
 	if {$fName == ""} { return }
 	progressWindow "Scid" "Exporting selected games..." $::tr(Cancel)
 	if {[file extension $fName] == ""} { append fName ".pgn" }
+	# Use the cross-page persistent store, not just the visible treeview selection
+	set all_sel [expr {[info exists ::glistMultiSel($glist_w)] ? $::glistMultiSel($glist_w) : [$glist_w selection]}]
 	set err [catch {
 		set fp [open $fName w]
 		set savedGameNum [sc_game number]
-		foreach s [$glist_w selection] {
+		foreach s $all_sel {
 			lassign [split $s "_"] idx ply
 			if {$idx ne ""} {
 				sc_game load $idx
@@ -834,8 +836,9 @@ proc glist.create {{w} {layout} {reset_layout false}} {
     break
   }
   bind $w.glist <Delete> {
+    set _all_sel [expr {[info exists ::glistMultiSel(%W)] ? $::glistMultiSel(%W) : [%W selection]}]
     set updated 0
-    foreach sel [%W selection] {
+    foreach sel $_all_sel {
       lassign [split $sel "_"] idx ply
       if {$idx ne ""} {
         glist.delflag_ %W $idx
@@ -843,13 +846,15 @@ proc glist.create {{w} {layout} {reset_layout false}} {
       }
     }
     if {$updated} {
+      set ::glistMultiSel(%W) {}
       glist.movesel_ %W next +1 end
     }
     break
   }
   bind $w.glist <Control-Delete> {
+    set _all_sel [expr {[info exists ::glistMultiSel(%W)] ? $::glistMultiSel(%W) : [%W selection]}]
     set updated 0
-    foreach sel [%W selection] {
+    foreach sel $_all_sel {
       lassign [split $sel "_"] idx ply
       if {$idx ne ""} {
         sc_filter remove $::glistBase(%W) $::glistFilter(%W) $idx
@@ -857,12 +862,17 @@ proc glist.create {{w} {layout} {reset_layout false}} {
       }
     }
     if {$updated} {
+      set ::glistMultiSel(%W) {}
       glist.movesel_ %W next +1 end
       ::notify::DatabaseModified $::glistBase(%W)
     }
     break
   }
   bind $w.glist <Destroy> "glist.destroy_ $w.glist"
+
+  # Persistent multi-selection store: game item IDs survive virtual scroll reloads.
+  # Updated explicitly in glist.release_ and glist.movesel_ after user interactions.
+  set ::glistMultiSel($w.glist) {}
 
   set i 0
   foreach col $::glist_Headers {
@@ -937,7 +947,11 @@ proc glist.update {{w} {base} {filter} {moveUp 1}} {
 
   set ::glistFilter($w.glist) $filter
   lassign [sc_filter sizes $base $filter] ::glistTotal($w.glist) n_games n_main_filter
-  if {$moveUp == 1} { set ::glistFirst($w.glist) 0 }
+  if {$moveUp == 1} {
+    set ::glistFirst($w.glist) 0
+    # Filter/search changed: clear stale persistent selection
+    set ::glistMultiSel($w.glist) {}
+  }
 
   if {$n_main_filter != $n_games && $n_main_filter != $::glistTotal($w.glist)} {
     set flt_text "([::utils::thousands $n_main_filter 100000]) -> "
@@ -1018,6 +1032,7 @@ proc glist.destroy_ {{w}} {
   unset ::glistTotal($w)
   unset ::glistYScroll($w)
   unset ::glistFindBar($w)
+  unset -nocomplain ::glistMultiSel($w)
 }
 
 proc glist.update_ {{w} {base}} {
@@ -1025,11 +1040,15 @@ proc glist.update_ {{w} {base}} {
     #Create a sortcache to speed up sorting
     sc_base sortcache $base create $::glistSortStr($w)
     set ::glistFirst($w) 0
+    # New list: clear any stale persistent selection
+    set ::glistMultiSel($w) {}
   } elseif {$::glistBase($w) != $base || $::glistSortCache($w) != $::glistSortStr($w)} {
     #Create a new sortcache
     catch { sc_base sortcache $::glistBase($w) release $::glistSortCache($w) }
     sc_base sortcache $base create $::glistSortStr($w)
     set ::glistFirst($w) 0
+    # Base or sort changed: clear stale persistent selection
+    set ::glistMultiSel($w) {}
   }
   set ::glistSortCache($w) $::glistSortStr($w)
   set ::glistBase($w) $base
@@ -1038,7 +1057,10 @@ proc glist.update_ {{w} {base}} {
 }
 
 proc glist.loadvalues_ {{w}} {
-  set sel [$w selection]
+  # Snapshot persistent selection BEFORE deleting items.
+  # Item deletion clears the treeview selection synchronously; we must save first.
+  set saved_multi [expr {[info exists ::glistMultiSel($w)] ? $::glistMultiSel($w) : {}}]
+
   $w delete [$w children {}]
   set base $::glistBase($w)
   if {$base == [sc_base current]} {
@@ -1064,11 +1086,35 @@ proc glist.loadvalues_ {{w}} {
     incr i
   }
   set ::glistLoaded($w) $i
+
+  # Restore whichever saved selections are visible on this page.
   if {$current_item != ""} {
-    $w selection set $current_item
+    # Current game is on this page — keep it selected plus any saved items also visible.
+    set to_select [list $current_item]
+    foreach item $saved_multi {
+      if {$item ne $current_item && [$w exists $item]} {
+        lappend to_select $item
+      }
+    }
+    $w selection set $to_select
+  } elseif {[llength $saved_multi] > 0} {
+    # No current game on this page — restore whichever saved items are visible.
+    set visible {}
+    foreach item $saved_multi {
+      if {[$w exists $item]} { lappend visible $item }
+    }
+    if {[llength $visible] > 0} {
+      $w selection set $visible
+    } else {
+      $w selection set {}
+    }
   } else {
-    catch {$w selection set $sel}
+    $w selection set {}
   }
+
+  # Restore the persistent store unchanged — scrolling must never alter it.
+  set ::glistMultiSel($w) $saved_multi
+
   glist.yscroll_ $w {*}[$w yview]
 }
 
@@ -1149,8 +1195,11 @@ proc glist.movesel_ {{w} {cmd} {scroll} {select}} {
   }
   if {$newsel == ""} {
     after idle glist.select_ $w $select
+    # clear persistent store when moving past the end
+    set ::glistMultiSel($w) {}
   } else {
     $w selection set $newsel
+    set ::glistMultiSel($w) [$w selection]
   }
 }
 
@@ -1197,12 +1246,25 @@ proc glist.popupmenu_ {{w} {x} {y} {abs_x} {abs_y} {layout}} {
     if {$item ne "" && [lsearch -exact [$w selection] $item] == -1} {
       $w selection set [list $item]
       $w focus $item
+      # Right-click on an unselected row is an intentional full reset to one item.
+      # Clear both on-screen and off-screen stored selections.
+      if {[info exists ::glistMultiSel($w)]} {
+        set ::glistMultiSel($w) [list $item]
+      }
     }
-    set sel [$w selection]
-    if {[llength $sel] == 0} {
-      event generate $w <ButtonPress-1> -x $x -y $y
+    # Use the full cross-page persistent selection for all menu actions.
+    # Fall back to visible treeview selection if the store isn't initialized.
+    if {[info exists ::glistMultiSel($w)] && [llength $::glistMultiSel($w)] > 0} {
+      set sel $::glistMultiSel($w)
+    } else {
       set sel [$w selection]
+      if {[llength $sel] == 0} {
+        event generate $w <ButtonPress-1> -x $x -y $y
+        set sel [$w selection]
+      }
     }
+    # Capture the full selection list now as a Tcl literal for use in command strings.
+    set sel_literal $sel
     set first_sel [lindex $sel 0]
     lassign [split $first_sel "_"] idx ply
     if {$idx ne ""} {
@@ -1234,8 +1296,16 @@ proc glist.popupmenu_ {{w} {x} {y} {abs_x} {abs_y} {layout}} {
       }
       set label_base [expr {$is_del ? $::tr(UndeleteGame) : $::tr(DeleteGame) }]
       if {[llength $sel] > 1} { set label_base "$label_base ([llength $sel])" }
+      # Embed the literal selection list into the command so it operates on ALL pages
       $w.game_menu add command -label $label_base \
-        -command "foreach s \[$w selection\] { lassign \[split \$s \"_\"\] i p; if {\$i ne \"\"} { glist.delflag_ $w \$i } }; $w selection set {};"
+        -command [list apply {{w sel_list} {
+            foreach s $sel_list {
+              lassign [split $s "_"] i p
+              if {$i ne ""} { glist.delflag_ $w $i }
+            }
+            $w selection set {}
+            set ::glistMultiSel($w) {}
+          }} $w $sel_literal]
 
       $w.game_menu add separator
       set w_top [regexp -inline {^\.[^.]+} $w]
@@ -1255,7 +1325,14 @@ proc glist.popupmenu_ {{w} {x} {y} {abs_x} {abs_y} {layout}} {
           -command "glist.removeFromFilter_ $w $idx +"
       } else {
         $w.game_menu.filter add command -label "Remove Selected Games From Filter" \
-          -command "foreach s \[$w selection\] { lassign \[split \$s \"_\"\] i p; if {\$i ne \"\"} { sc_filter remove $::glistBase($w) $::glistFilter($w) \$i } }; lassign \[sc_filter components $::glistBase($w) $::glistFilter($w)\] f; ::notify::filter $::glistBase($w) \$f"
+          -command [list apply {{w sel_list} {
+              foreach s $sel_list {
+                lassign [split $s "_"] i p
+                if {$i ne ""} { sc_filter remove $::glistBase($w) $::glistFilter($w) $i }
+              }
+              lassign [sc_filter components $::glistBase($w) $::glistFilter($w)] f
+              ::notify::filter $::glistBase($w) $f
+            }} $w $sel_literal]
       }
       $w.game_menu.filter add separator
       $w.game_menu.filter add command -label $::tr(GlistDeleteAllGames) \
@@ -1279,7 +1356,13 @@ proc glist.popupmenu_ {{w} {x} {y} {abs_x} {abs_y} {layout}} {
             -command "::game::mergeInBase $::glistBase($w) $i $idx"
         }
         $w.game_menu.copy add command -label "$i $fname" \
-          -command "foreach s \[$w selection\] { lassign \[split \$s \"_\"\] g_i p; if {\$g_i ne \"\"} { sc_base copygames $::glistBase($w) \$g_i $i } }; ::notify::DatabaseModified $i"
+          -command [list apply {{w sel_list base_i} {
+              foreach s $sel_list {
+                lassign [split $s "_"] g_i p
+                if {$g_i ne ""} { sc_base copygames $::glistBase($w) $g_i $base_i }
+              }
+              ::notify::DatabaseModified $base_i
+            }} $w $sel_literal $i]
         $w.game_menu.export add command -label "$i $fname" \
           -command "::windows::gamelist::CopyGames $w_top $::glistBase($w) $i"
       }
@@ -1522,6 +1605,18 @@ proc glist.release_ {{w} {x} {y} {event_state} {layout}} {
     }
   }
   ttk::treeview::Release $w $x $y
+  # Merge the current-page selection into the cross-page persistent store.
+  # Strategy: keep every stored item that is NOT visible on this page (off-screen),
+  # then append whatever is currently selected on this page.
+  if {[info exists ::glistMultiSel($w)]} {
+    set off_screen {}
+    foreach item $::glistMultiSel($w) {
+      if {![$w exists $item]} {
+        lappend off_screen $item
+      }
+    }
+    set ::glistMultiSel($w) [concat $off_screen [$w selection]]
+  }
 }
 
 image create bitmap ::glist_Arrows(0) -foreground DodgerBlue3 -data {
