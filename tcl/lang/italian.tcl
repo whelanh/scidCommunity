@@ -404,7 +404,6 @@ translate I readonly {sola lettura}
 translate I ErrNotOpen {Questo database non è aperto.}
 translate I ErrReadOnly {Questo database è di sola lettura; non può essere modificato.}
 translate I ErrSearchInterrupted {Ricerca interrotta; il risultato è incompleto.}
-translate I ErrEnginesOpen {Impossibile procedere mentre i motori scacchistici sono aperti.\nChiudi tutte le finestre del motore e riprova.}
 translate I ErrNoClockComments {Nessun commento sull'orologio [%clk] trovato in questo gioco.    Aggiungi gli orari dell'orologio tramite la finestra Commenti (Ctrl+E) per utilizzare questa funzione.}
 translate I ErrFileInUse {Errore: il file è già in uso. Chiudi qualsiasi altra applicazione che utilizza questo database. Se il programma è stato chiuso inaspettatamente, potrebbe essere necessario eliminare il file .lock associato al database.}
 

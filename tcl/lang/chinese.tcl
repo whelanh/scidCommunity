@@ -372,7 +372,6 @@ translate M readonly {read-only}
 translate M ErrNotOpen {This is not an open database.}
 translate M ErrReadOnly {This database is read-only; it cannot be altered.}
 translate M ErrSearchInterrupted {Search was interrupted; results are incomplete.}
-translate M ErrEnginesOpen {国际象棋引擎打开时无法继续。\n请关闭所有引擎窗口，然后重试。}
 translate M ErrNoClockComments {在此游戏中未找到 [%clk] 时钟注释。    通过注释窗口 (Ctrl+E) 添加时钟时间以使用此功能。}
 translate M ErrFileInUse {错误：该文件已被使用。请关闭使用此数据库的任何其他应用程序。如果程序意外关闭，您可能需要删除与数据库关联的 .lock 文件。}
 

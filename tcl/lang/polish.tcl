@@ -418,7 +418,6 @@ translate P readonly {tylko do odczytu}
 translate P ErrNotOpen {To nie jest otwarta baza.} 
 translate P ErrReadOnly {Ta baza jest tylko do odczytu; nie mo¿na jej zmieniæ.}
 translate P ErrSearchInterrupted {Wyszukiwanie zosta³o przerwane. Wyniki bêd± niepe³ne.}
-translate P ErrEnginesOpen {Nie mo¿na kontynuowaæ, gdy silniki szachowe s± otwarte.\nZamknij wszystkie okna silnika i spróbuj ponownie.}
 translate P ErrNoClockComments {W tej grze nie znaleziono komentarzy do zegara [%clk].    Dodaj czasy zegara za pomoc± okna komentarzy (Ctrl+E), aby skorzystaæ z tej funkcji.}
 translate P ErrFileInUse {B³±d: plik jest ju¿ u¿ywany. Zamknij ka¿d± inn± aplikacjê korzystaj±c± z tej bazy danych. Je¶li program zosta³ nieoczekiwanie zamkniêty, mo¿e byæ konieczne usuniêcie pliku .lock powi±zanego z baz± danych.}
 

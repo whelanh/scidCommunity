@@ -405,7 +405,6 @@ translate B readonly {apenas leitura}
 translate B ErrNotOpen {Esta base não está aberta.} 
 translate B ErrReadOnly {Esta base é apenas para leitura; não pode ser alterada.} 
 translate B ErrSearchInterrupted {Pesquisa interrompida; os resultados estão incompletos.} 
-translate B ErrEnginesOpen {Não é possível continuar enquanto os motores de xadrez estão abertos.\nFeche todas as janelas do motor e tente novamente.}
 translate B ErrNoClockComments {Nenhum comentário de relógio [%clk] foi encontrado neste jogo.    Adicione horários de relógio através da janela de comentários (Ctrl+E) para usar este recurso.}
 translate B ErrFileInUse {Erro: o arquivo já está em uso. Feche qualquer outro aplicativo que use este banco de dados. Se o programa foi fechado inesperadamente, pode ser necessário excluir o arquivo .lock associado ao banco de dados.}
 

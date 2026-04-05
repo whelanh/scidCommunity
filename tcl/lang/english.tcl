@@ -436,7 +436,6 @@ translate E readonly {read-only}
 translate E ErrNotOpen {This is not an open database.}
 translate E ErrReadOnly {This database is read-only; it cannot be altered.}
 translate E ErrSearchInterrupted {Search was interrupted; results are incomplete.}
-translate E ErrEnginesOpen {Cannot proceed while chess engines are open.\nPlease close all engine windows and try again.}
 translate E ErrNoClockComments {No [%clk] clock comments were found in this game.  Add clock times via the Comments Window (Ctrl+E) to use this feature.}
 translate E ErrFileInUse {Error: the file is already in use. Please close any other application using this database. If the program was closed unexpectedly, you may need to delete the .lock file associated with the database.}
 

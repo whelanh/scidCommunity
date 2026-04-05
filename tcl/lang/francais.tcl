@@ -412,7 +412,6 @@ translate F readonly {lecture seule}
 translate F ErrNotOpen {Ceci n'est pas une base ouverte.}
 translate F ErrReadOnly {Cette base est en lecture seule; elle ne peut être modifiée.}
 translate F ErrSearchInterrupted {La recherche a été interrompue; les résultats sont incomplets.}
-translate F ErrEnginesOpen {Impossible de continuer lorsque les moteurs d'échecs sont ouverts.\nVeuillez fermer toutes les fenêtres du moteur et réessayer.}
 translate F ErrNoClockComments {Aucun commentaire d'horloge [%clk] n'a été trouvé dans ce jeu.    Ajoutez des heures d'horloge via la fenêtre de commentaires (Ctrl+E) pour utiliser cette fonctionnalité.}
 translate F ErrFileInUse {Erreur : le fichier est déjà utilisé. Veuillez fermer toute autre application utilisant cette base de données. Si le programme a été fermé de manière inattendue, vous devrez peut-être supprimer le fichier .lock associé à la base de données.}
 

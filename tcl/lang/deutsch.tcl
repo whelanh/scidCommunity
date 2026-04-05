@@ -432,7 +432,6 @@ translate D ErrReadOnly \
   {Diese Datenbank ist schreibgeschützt; sie kann nicht geändert werden.}
 translate D ErrSearchInterrupted \
   {Suche wurde unterbrochen; Ergebnisse sind unvollständig.}
-translate D ErrEnginesOpen {Bei geöffneten Schach-Engines kann nicht fortgefahren werden.\nBitte schließen Sie alle Engine-Fenster und versuchen Sie es erneut.}
 translate D ErrNoClockComments {In diesem Spiel wurden keine [%clk] Uhrkommentare gefunden.    Fügen Sie Uhrzeiten über das Kommentarfenster (Strg+E) hinzu, um diese Funktion zu nutzen.}
 translate D ErrFileInUse {Fehler: Die Datei wird bereits verwendet. Bitte schließen Sie alle anderen Anwendungen, die diese Datenbank verwenden. Wenn das Programm unerwartet geschlossen wurde, müssen Sie möglicherweise die mit der Datenbank verknüpfte .lock-Datei löschen.}
 

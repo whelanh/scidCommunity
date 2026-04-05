@@ -406,7 +406,6 @@ translate O readonly {skrivebeskyttet}
 translate O ErrNotOpen {This is not an open database.} ;# ***
 translate O ErrReadOnly {This database is read-only; it cannot be altered.} ;# ***
 translate O ErrSearchInterrupted {Search was interrupted; results are incomplete.} ;# ***
-translate O ErrEnginesOpen {Kan ikke fortsette mens sjakkmotorene er åpne.\nVennligst lukk alle motorvinduer og prøv igjen.}
 translate O ErrNoClockComments {Ingen [%clk] klokkekommentarer ble funnet i dette spillet.    Legg til klokketider via kommentarvinduet (Ctrl+E) for å bruke denne funksjonen.}
 translate O ErrFileInUse {Feil: filen er allerede i bruk. Lukk alle andre programmer som bruker denne databasen. Hvis programmet ble avsluttet uventet, må du kanskje slette .lock-filen knyttet til databasen.}
 
