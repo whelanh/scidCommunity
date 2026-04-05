@@ -855,7 +855,7 @@ proc compactDB {{base -1}} {
   if {[winfo exists .calvarWin]} { ::calvar::stop }
   destroy .inputengineconsole
 
-  progressWindow "Scid" [concat $::tr(CompactDatabase) "..."] $::tr(Cancel)
+  progressWindow "scidCommunity" [concat $::tr(CompactDatabase) "..."] $::tr(Cancel)
   set err [catch {sc_base compact $base} result]
   closeProgressWindow
   if {$err} {
@@ -890,7 +890,7 @@ proc allocateRatings {} {
   }
   set w .ardialog
   win::createDialog $w
-  wm title $w "Scid"
+  wm title $w "scidCommunity"
   ttk::label $w.lab -wraplength 3i -justify left -text $::tr(AllocRatingDescription)
   pack $w.lab -side top -expand 1 -fill x -anchor w
   ttk::labelframe $w.g -text $::tr(AddRatings)
@@ -919,7 +919,7 @@ proc doAllocateRatings {} {
     tk_messageBox -type ok -icon info -parent . -title "scidCommunity" -message $result
     return
   }
-  progressWindow "Scid" "Adding Elo ratings..." $::tr(Cancel)
+  progressWindow "scidCommunity" "Adding Elo ratings..." $::tr(Cancel)
   set err [catch {sc_name ratings -change $addRatings(overwrite) -filter $addRatings(filter)} result]
   closeProgressWindow
   if {$err} {
@@ -949,7 +949,7 @@ proc stripTags {} {
   set stripTagList {}
   
   # Find extra PGN tags:
-  progressWindow "Scid" "Searching for extra PGN tags..." $::tr(Cancel)
+  progressWindow "scidCommunity" "Searching for extra PGN tags..." $::tr(Cancel)
   set err [catch {sc_base taglist $::curr_db} result]
   closeProgressWindow
   if {$err} {
@@ -1021,7 +1021,7 @@ proc doStripTags {topwin} {
     return
   }
   destroy $topwin
-  progressWindow "Scid" "Removing PGN tags..." $::tr(Stop)
+  progressWindow "scidCommunity" "Removing PGN tags..." $::tr(Stop)
   set err [catch {sc_base strip $::curr_db {*}$tags} result]
   closeProgressWindow
   if {$err && $::errorCode != $::ERROR::UserCancel} {
