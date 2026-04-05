@@ -1606,16 +1606,25 @@ proc glist.release_ {{w} {x} {y} {event_state} {layout}} {
   }
   ttk::treeview::Release $w $x $y
   # Merge the current-page selection into the cross-page persistent store.
-  # Strategy: keep every stored item that is NOT visible on this page (off-screen),
-  # then append whatever is currently selected on this page.
+  # Strategy: only keep off-screen items if Ctrl or Shift is being held.
+  # A plain click should reset the entire selection, including off-screen items.
   if {[info exists ::glistMultiSel($w)]} {
-    set off_screen {}
-    foreach item $::glistMultiSel($w) {
-      if {![$w exists $item]} {
-        lappend off_screen $item
+    set isShift [expr {$event_state & 1}]
+    set isCtrl [expr {$event_state & 4}]
+
+    if {!$isShift && !$isCtrl} {
+      # Plain click: reset the store to only the current selection.
+      set ::glistMultiSel($w) [$w selection]
+    } else {
+      # Ctrl or Shift click: maintain off-screen selections.
+      set off_screen {}
+      foreach item $::glistMultiSel($w) {
+        if {![$w exists $item]} {
+          lappend off_screen $item
+        }
       }
+      set ::glistMultiSel($w) [concat $off_screen [$w selection]]
     }
-    set ::glistMultiSel($w) [concat $off_screen [$w selection]]
   }
 }
 
