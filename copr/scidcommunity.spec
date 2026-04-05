@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.87
+Version:        5.1.2.88
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 4a8b4a00898e84fb60511e26929edb3ec2e5c159
+%global commit b2b6d0c1814febcc7842a0a1c476da715388628b
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Sat Apr 4, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-88
+- "Persist multiple game choices in Gamelist Window; revert no compaction while Engine Window open"
 * Sat Apr 4, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-87
 - "Allow Ctrl + mouse click and Shift + mouse click to select multiple games in Gamelist Window"
 * Fri Apr 3, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-86
