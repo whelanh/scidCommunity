@@ -1253,6 +1253,7 @@ translate P ClassifyNew {Tylko partie bez kodu ECO}
 translate P ClassifyCodes {Kody ECO}
 translate P ClassifyBasic {Tylko podstawowe ("B12", ...)}
 translate P ClassifyExtended {Rozszerzone kody Scida ("B12j", ...)}
+translate P ClassifyResult {Klasyfikacja ECO ukoñczona: $result gry(y) zaktualizowane.}
 
 # Compaction:
 translate P NameFile {Plik nazw}

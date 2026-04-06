@@ -576,25 +576,17 @@ proc makeClassifyWin {} {
   
   ttk::frame $w.f.b
   ttk::button $w.f.b.go -textvar ::tr(Classify) -command {
-    .classify.f.b.cancel configure -command "progressBarCancel"
-    .classify.f.b.cancel configure -textvar ::tr(Stop)
-    progressBarSet .classify.f.progress 301 21
-    grab .classify.f.b.cancel
     if {[catch  {sc_eco base $classifyOption(AllGames) $classifyOption(ExtendedCodes)} result]} {
-      grab release .classify.f.b.cancel
       ERROR::MessageBox
     } else {
-      grab release .classify.f.b.cancel
+      set message [subst $::tr(ClassifyResult)]
+      tk_messageBox -type ok -parent .classify -icon info \
+          -title "scidCommunity: [tr FileMaintClass]" \
+          -message $message
     }
-    .classify.f.b.cancel configure -command {focus .; destroy .classify}
-    .classify.f.b.cancel configure -textvar ::tr(Close)
     ::windows::gamelist::Refresh
   }
   ttk::button $w.f.b.cancel -textvar ::tr(Close) -command "focus .; destroy $w"
-  canvas $w.f.progress -width 300 -height 20 -bg white -relief solid -border 1
-  $w.f.progress create rectangle 0 0 0 0 -fill blue -outline blue -tags bar
-  $w.f.progress create text 295 10 -anchor e -font font_Regular -tags time \
-      -fill black -text "0:00 / 0:00"
   
   pack $w.f.g -anchor w -fill x -side top -pady "0 10"
 
@@ -602,7 +594,6 @@ proc makeClassifyWin {} {
   pack $w.f.codes.extended $w.f.codes.basic -side top -anchor w -fill x
   pack $w.f.b -side top -fill x
   packdlgbuttons $w.f.b.cancel $w.f.b.go
-  pack $w.f.progress -side bottom -padx 2 -pady 2
   wm resizable $w 0 0
   bind $w <F1> {helpWindow ECO}
   bind $w <Escape> "$w.b.cancel invoke"

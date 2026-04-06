@@ -1262,6 +1262,7 @@ translate A ClassifyNew {ECO コードがまだないゲームのみ}
 translate A ClassifyCodes {使用するECOコード}
 translate A ClassifyBasic {基本コードのみ（「B12」など）}
 translate A ClassifyExtended {Scid 拡張子 (「B12j」など)}
+translate A ClassifyResult {ECO 分類が完了しました: $result ゲームが更新されました。}
 
 # Compaction:
 translate A NameFile {ファイルに名前を付ける}

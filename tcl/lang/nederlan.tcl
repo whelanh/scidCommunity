@@ -1259,6 +1259,7 @@ translate N ClassifyNew {Alleen partijen zonder ECO code}
 translate N ClassifyCodes {ECO Codes om te gebruiken}
 translate N ClassifyBasic {Alleen basis codes ("B12", ...)}
 translate N ClassifyExtended {Scid extenties ("B12j", ...)}
+translate N ClassifyResult {ECO-classificatie voltooid: $result game(s) bijgewerkt.}
 
 # Compaction:
 translate N NameFile {Namen Bestand}

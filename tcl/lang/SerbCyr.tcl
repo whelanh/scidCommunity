@@ -1262,6 +1262,7 @@ translate J ClassifyNew {Само игре које још немају ЕКО �
 translate J ClassifyCodes {ЕКО кодови за употребу}
 translate J ClassifyBasic {Само основни кодови ("Б12", ...)}
 translate J ClassifyExtended {Сцид екстензије ("Б12ј", ...)}
+translate J ClassifyResult {ЕКО класификација је завршена: $ресулт игре су ажуриране.}
 
 # Compaction:
 translate J NameFile {Име датотеке}

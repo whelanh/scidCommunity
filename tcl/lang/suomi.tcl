@@ -1268,6 +1268,7 @@ translate U ClassifyNew {Vain pelit, joilla ei ole ECO-koodia entuudestaan}
 translate U ClassifyCodes {Käytettävät ECO-koodit}
 translate U ClassifyBasic {Vain standardit ECO-koodit ("B12", ...)}
 translate U ClassifyExtended {Scid-laajennukset ("B12j", ...)}
+translate U ClassifyResult {ECO-luokitus valmis: $result game(s) päivitetty.}
 
 # Compaction:
 translate U NameFile {Nimitiedosto}

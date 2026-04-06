@@ -1262,6 +1262,7 @@ translate L ClassifyNew {Doar jocuri fără cod ECO încă}
 translate L ClassifyCodes {Coduri ECO de utilizat}
 translate L ClassifyBasic {Numai coduri de bază ("B12", ...)}
 translate L ClassifyExtended {Extensii Scid ("B12j", ...)}
+translate L ClassifyResult {Clasificare ECO finalizată: joc(uri) $result actualizat.}
 
 # Compaction:
 translate L NameFile {Fișier cu nume}

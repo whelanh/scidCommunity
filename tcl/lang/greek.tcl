@@ -1261,6 +1261,7 @@ translate G ClassifyNew {Μόνον παρτίδες χωρίς ακόμη κώ�
 translate G ClassifyCodes {Κωδικοί ECO προς χρήση}
 translate G ClassifyBasic {Μόνον βασικοί κωδικοί ("B12", ...)}
 translate G ClassifyExtended {Επεκτάσεις Scid ("B12j", ...)}
+translate G ClassifyResult {Ολοκληρώθηκε η ταξινόμηση ECO: Ενημερώθηκε το παιχνίδι(α) $result.}
 
 # Compaction:
 translate G NameFile {Αρχείο ονομάτων}

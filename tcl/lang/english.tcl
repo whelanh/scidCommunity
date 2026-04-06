@@ -1268,6 +1268,7 @@ translate E ClassifyNew {Only games with no ECO code yet}
 translate E ClassifyCodes {ECO Codes to use}
 translate E ClassifyBasic {Basic codes only ("B12", ...)}
 translate E ClassifyExtended {Scid extensions ("B12j", ...)}
+translate E ClassifyResult {ECO classification complete: $result game(s) updated.}
 
 # Compaction:
 translate E NameFile {Name file}

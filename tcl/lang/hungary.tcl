@@ -1235,6 +1235,7 @@ translate H ClassifyNew {Csak az eddig még nem osztályozott játszmák}
 translate H ClassifyCodes {Használandó ECO-kódok}
 translate H ClassifyBasic {Csak az alapkódok ("B12", ...)}
 translate H ClassifyExtended {Kiterjesztett SCID-kódok ("B12j", ...)}
+translate H ClassifyResult {ECO besorolás kész: $eredmény játék(ok) frissítve.}
 
 # Compaction:
 translate H NameFile {Névfájl}

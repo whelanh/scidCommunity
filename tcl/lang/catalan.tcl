@@ -1257,6 +1257,7 @@ translate K ClassifyNew {Només les partides sense codi ECO}
 translate K ClassifyCodes {Codi ECO a utilitzar}
 translate K ClassifyBasic {Només codi bàsic ("B12", ...)}
 translate K ClassifyExtended {Extensions Scid ("B12j", ...)}
+translate K ClassifyResult {Classificació ECO completa: joc(s) de $resultat actualitzat.}
 
 # Compaction:
 translate K NameFile {Arxiu de noms}

@@ -1280,6 +1280,7 @@ translate D ClassifyNew {Nur Spiele ohne ECO-Code}
 translate D ClassifyCodes {ECO-Codes verwenden}
 translate D ClassifyBasic {Standard Codes ("B12", ...)}
 translate D ClassifyExtended {mit Scid-Erweiterung ("B12j", ...)}
+translate D ClassifyResult {ECO-Klassifizierung abgeschlossen: $result-Spiel(e) aktualisiert.}
 
 # Compaction:
 translate D NameFile {Namendatenbank}

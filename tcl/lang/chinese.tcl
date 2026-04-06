@@ -1197,6 +1197,7 @@ translate M ClassifyNew {仅限还没有 ECO 代码的游戏}
 translate M ClassifyCodes {使用的 ECO 代码}
 translate M ClassifyBasic {仅基本代码（“B12”，...）}
 translate M ClassifyExtended {Scid 扩展（“B12j”，...）}
+translate M ClassifyResult {ECO 分类完成：$结果游戏已更新。}
 
 # Compaction:
 translate M NameFile {命名文件}

@@ -1234,6 +1234,7 @@ translate C ClassifyNew {Jen partie, které jsou zatím bez ECO kódu}
 translate C ClassifyCodes {Pou¾ít tyto ECO kódy}
 translate C ClassifyBasic {Jen základní kódy ("B12", ...)}
 translate C ClassifyExtended {Roz¹íøení Scidu  ("B12j", ...)}
+translate C ClassifyResult {ECO klasifikace dokonèena: $result game(y) aktualizovány.}
 
 # Compaction:
 translate C NameFile {Jmenný soubor}

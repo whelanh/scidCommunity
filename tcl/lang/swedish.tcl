@@ -1240,6 +1240,7 @@ translate W ClassifyNew {Endast partier som ännu ej klassificerats}
 translate W ClassifyCodes {ECO-koder som ska användas}
 translate W ClassifyBasic {Enbart standardkoder ("B12", ...)}
 translate W ClassifyExtended {Scidextensioner ("B12j", ...)}
+translate W ClassifyResult {ECO-klassificering klar: $resultatspel uppdaterade.}
 
 # Compaction:
 translate W NameFile {Namnfil}

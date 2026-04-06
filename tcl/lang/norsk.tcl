@@ -1237,6 +1237,7 @@ translate O ClassifyNew {Kun partier uten ECO-kode}
 translate O ClassifyCodes {ECO-koder som skal brukes}
 translate O ClassifyBasic {Kun standardkoder ("B12", ...)}
 translate O ClassifyExtended {Scid-utvidet ("B12j", ...)}
+translate O ClassifyResult {ECO-klassifisering fullført: $resultatspill(er) oppdatert.}
 
 # Compaction:
 translate O NameFile {Navnefil}

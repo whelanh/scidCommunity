@@ -1242,6 +1242,7 @@ translate F ClassifyNew {Seulement les parties qui ne possèdent pas encore de c
 translate F ClassifyCodes {Codes ECO à utiliser}
 translate F ClassifyBasic {Codes de base seulement ("B12", ...)}
 translate F ClassifyExtended {Extensions de Scid ("B12j", ...)}
+translate F ClassifyResult {Classement ECO terminé : $jeu(s) résultat(s) mis à jour.}
 
 # Compaction:
 translate F NameFile {Fichier de noms}

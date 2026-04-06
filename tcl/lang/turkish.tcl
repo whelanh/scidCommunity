@@ -1228,6 +1228,8 @@ translate T ClassifyNew {Yalnızca henüz ECO kodu olmayan oyunlar}
 translate T ClassifyCodes {Kullanılacak ECO Kodları}
 translate T ClassifyBasic {Yalnızca temel kodlar ("B12", ...)}
 translate T ClassifyExtended {Scid uzantıları ("B12j", ...)}
+# ====== TODO To be translated ======
+translate T ClassifyResult {ECO classification complete: $result game(s) updated.}
 
 # Compaction:
 translate T NameFile {Ad dosyası}

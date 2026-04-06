@@ -1288,6 +1288,7 @@ translate S ClassifyNew {Sólo las partidas todavía sin código ECO}
 translate S ClassifyCodes {Código ECO a usar}
 translate S ClassifyBasic {Sólo código básico ("B12", ...)}
 translate S ClassifyExtended {Extensiones Scid ("B12j", ...)}
+translate S ClassifyResult {Clasificación ECO completa: $resultado(s) del(los) juego(s) actualizado(s).}
 
 # Compaction:
 translate S NameFile {Archivo de nombres}

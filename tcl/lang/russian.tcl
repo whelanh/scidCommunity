@@ -1236,6 +1236,7 @@ translate R ClassifyNew {Только партии без кода ECO}
 translate R ClassifyCodes {Коды ECO для использования}
 translate R ClassifyBasic {Только основные коды ("B12", ...)}
 translate R ClassifyExtended {Расширения Scid ("B12j", ...)}
+translate R ClassifyResult {Классификация ECO завершена: $result игр обновлено.}
 
 # Compaction:
 translate R NameFile {Файл имён}

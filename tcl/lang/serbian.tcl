@@ -1481,6 +1481,8 @@ translate Y ClassifyNew {Samo partije koje su jo¹ bez E©O kôda}
 translate Y ClassifyCodes {Koristi E©O kôdove}
 translate Y ClassifyBasic {Samo osnovne kôdove ("B12", ...)}
 translate Y ClassifyExtended {Pro¹ireni Scid ("B12j", ...)}
+# ====== TODO To be translated ======
+translate Y ClassifyResult {ECO classification complete: $result game(s) updated.}
 
 # Compaction:
 translate Y NameFile {Fajl imena}
