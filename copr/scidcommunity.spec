@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.89
+Version:        5.1.2.90
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit bea6739153c09285d70e3c2c5a6def9d6bd11b9ab
+%global commit a3a308c38685c6f5c585491f0c0459ed95dc24f3
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Mon Apr 6, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-90
+- "Speed enhancements + game selection fix"
 * Sun Apr 5, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-89
 - "Fix issue with multi-game select in Gamelist Window"
 * Sat Apr 4, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-88
