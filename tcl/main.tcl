@@ -1274,7 +1274,17 @@ proc releaseSquare { w x y } {
         # User has dragged to another square, so try to add this as a move:
         set tmp $selectedSq
         set selectedSq -1
+
+        # --- FIX: Temporarily disable animation for mouse drops ---
+        global animateDelay
+        set tempDelay $animateDelay
+        set animateDelay 0
+
         addMove $square $tmp ""
+
+        set animateDelay $tempDelay
+        # ----------------------------------------------------------
+
         ::board::colorSquare $w $square
         ::board::colorSquare $w $tmp
     }
