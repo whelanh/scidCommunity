@@ -23,6 +23,8 @@
 #include "hfilter.h"
 #include "position.h"
 #include <algorithm>
+#include <list>
+#include <unordered_map>
 #include <vector>
 
 struct TreeNode {
@@ -158,57 +160,92 @@ struct CachedFilter {
 };
 
 class TreeCache {
-	std::vector<CachedFilter> cache_;
-	std::vector<uint32_t> cacheTime_;
-	uint32_t cacheTimeCounter_ = 0;
+	// Each entry stores a board position key and the corresponding filter.
+	// The LRU order is maintained in lruList_: front = most recently used.
+	// lruMap_ maps key → iterator into lruList_ for O(1) lookup + eviction.
+
+	struct Entry {
+		CompressedFilter cfilter_;
+		pieceT board_[64];
+		colorT toMove_;
+	};
+
+	// LRU list: each node holds the cache key (board hash).
+	using Key = std::string; // 65-byte key: 64 board bytes + 1 toMove byte
+	std::list<Key> lruList_;
+	std::unordered_map<Key, std::pair<Entry, std::list<Key>::iterator>> lruMap_;
+	size_t maxSize_ = 0;
+
+	static Key makeKey(const pieceT *board, colorT toMove) {
+		Key k(65, '\0');
+		for (int i = 0; i < 64; ++i)
+			k[i] = static_cast<char>(board[i]);
+		k[64] = static_cast<char>(toMove);
+		return k;
+	}
 
 public:
 	void Clear() {
-		cache_.clear();
-		cacheTime_.clear();
+		lruList_.clear();
+		lruMap_.clear();
 	}
 
-	size_t Size() const { return cache_.capacity(); }
+	size_t Size() const { return maxSize_; }
 
 	void CacheResize(size_t max_size) {
 		Clear();
-		cache_.reserve(max_size);
-		cacheTime_.reserve(max_size);
+		maxSize_ = max_size;
 	}
 
 	template <typename PosT> void cacheAdd(PosT const& pos, Filter& filter) {
-		size_t idx;
-		if (cache_.size() < Size() || cache_.empty()) {
-			idx = cache_.size();
-			cache_.emplace_back();
-			cacheTime_.emplace_back();
-		} else {
-			auto it = std::min_element(cacheTime_.begin(), cacheTime_.end());
-			idx = std::distance(cacheTime_.begin(), it);
+		if (maxSize_ == 0)
+			return;
+
+		const Key key = makeKey(pos.GetBoard(), pos.GetToMove());
+
+		auto it = lruMap_.find(key);
+		if (it != lruMap_.end()) {
+			// Update existing entry (move to front of LRU list).
+			lruList_.erase(it->second.second);
+			lruList_.push_front(key);
+			it->second.second = lruList_.begin();
+			it->second.first.cfilter_.CompressFrom(&filter);
+			return;
 		}
-		auto board = pos.GetBoard();
-		std::copy(board, board + 64, cache_[idx].board_);
-		cache_[idx].toMove_ = pos.GetToMove();
-		cache_[idx].cfilter_.CompressFrom(&filter);
-		cacheTime_[idx] = cacheTimeCounter_++;
+
+		// Evict LRU entry if at capacity.
+		if (lruMap_.size() >= maxSize_) {
+			const Key &lruKey = lruList_.back();
+			lruMap_.erase(lruKey);
+			lruList_.pop_back();
+		}
+
+		// Insert new entry at front.
+		lruList_.push_front(key);
+		auto &slot = lruMap_[key];
+		slot.second = lruList_.begin();
+		std::copy(pos.GetBoard(), pos.GetBoard() + 64, slot.first.board_);
+		slot.first.toMove_ = pos.GetToMove();
+		slot.first.cfilter_.CompressFrom(&filter);
 	}
 
 	template <typename PosT>
 	bool cacheRestore(PosT const& pos, Filter& filter) {
-		auto it = std::find_if(
-		    cache_.begin(), cache_.end(), [&pos](auto const& e) {
-			    return e.toMove_ == pos.GetToMove() &&
-			           std::equal(e.board_, e.board_ + 64, pos.GetBoard());
-		    });
-		if (it == cache_.end())
+		const Key key = makeKey(pos.GetBoard(), pos.GetToMove());
+
+		auto it = lruMap_.find(key);
+		if (it == lruMap_.end())
 			return false;
 
-		auto idx = std::distance(cache_.begin(), it);
-		if (it->cfilter_.UncompressTo(&filter) != OK) {
+		if (it->second.first.cfilter_.UncompressTo(&filter) != OK) {
 			ASSERT(false); // corrupted data: should not happen
 			return false;
 		}
-		cacheTime_[idx] = cacheTimeCounter_++;
+
+		// Move to front of LRU list.
+		lruList_.erase(it->second.second);
+		lruList_.push_front(key);
+		it->second.second = lruList_.begin();
 		return true;
 	}
 };
