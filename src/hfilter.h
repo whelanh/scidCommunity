@@ -26,6 +26,12 @@
 #include <iterator>
 #include <memory>
 
+#ifdef _MSC_VER
+#define SCID_RESTRICT __restrict
+#else
+#define SCID_RESTRICT __restrict__
+#endif
+
 /*
  * A database can be searched according to different criteria and the list of
  * matching games is stored into a Filter object.
@@ -140,8 +146,8 @@ public:
 			return;
 		}
 		// Both have data: zero out any position where other is zero.
-		byte* __restrict__ dst = data_.get();
-		const byte* __restrict__ src = other.data_.get();
+		byte* SCID_RESTRICT dst = data_.get();
+		const byte* SCID_RESTRICT src = other.data_.get();
 		gamenumT cnt = 0;
 		for (gamenumT i = 0; i < size_; ++i) {
 			if (src[i] == 0)
@@ -170,8 +176,8 @@ public:
 			return;
 		}
 		// Both have data: for each position where this==0, copy other.
-		byte* __restrict__ dst = data_.get();
-		const byte* __restrict__ src = other.data_.get();
+		byte* SCID_RESTRICT dst = data_.get();
+		const byte* SCID_RESTRICT src = other.data_.get();
 		gamenumT cnt = 0;
 		for (gamenumT i = 0; i < size_; ++i) {
 			if (dst[i] == 0 && src[i] != 0)
