@@ -1062,7 +1062,7 @@ proc confirmReplaceMove {} {
 # If the current position is not the end of the game, the default action is to add the move as a new variant.
 # The move notation can be SAN or UCI.
 # Return true if the move is both legal and has been successfully added.
-proc addMoveEx {{move} {action "var"}} {
+proc addMoveEx {{move} {action "var"} {notify "-pgn -animate"}} {
     undoFeature save
     if {[catch {
         if {![sc_pos isAt vend]} {
@@ -1086,7 +1086,7 @@ proc addMoveEx {{move} {action "var"}} {
         return 0
     }
 
-    ::notify::PosChanged -pgn -animate
+    ::notify::PosChanged {*}$notify
     ::pgn::CheckRepetition
     return 1
 }
@@ -1135,7 +1135,7 @@ proc addMoveUCI {{moveUCI} {animate "-animate"}} {
 
     if { [::fics::setPremove $sq1 $sq2] || ! [::fics::playerCanMove]} { return 0 } ;# not player's turn
 
-    if {! [::move::Follow $moveUCI] && ! [addMoveEx $moveUCI]} {
+    if {! [::move::Follow $moveUCI] && ! [addMoveEx $moveUCI var "-pgn $animate"]} {
         return 0
     }
 
