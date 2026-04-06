@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.90
+Version:        5.1.2.91
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit a3a308c38685c6f5c585491f0c0459ed95dc24f3
+%global commit aa527777e7393b3fc6a8c18d5e01ee09cde03758
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later

@@ -1135,8 +1135,11 @@ proc glist.showfindbar_ {{w} {layout} {show ""}} {
 proc glist.findcurrentgame_ {{w} {gnum}} {
   set r [sc_base gamelocation $::glistBase($w) $::glistFilter($w) $::glistSortStr($w) $gnum]
   if {$r != "none"} {
-    set ::glistFirst($w) $r
-    glist.ybar_ $w scroll
+    # Only scroll if the game is not already visible on the current page
+    if {$r < $::glistFirst($w) || $r >= $::glistFirst($w) + $::glistVisibleLn($w)} {
+      set ::glistFirst($w) $r
+      glist.ybar_ $w scroll
+    }
   }
 }
 
