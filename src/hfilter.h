@@ -161,7 +161,7 @@ public:
 		ASSERT(size_ == other.size_);
 		if (!other.data_) {
 			// other is all-ones: result is all-ones
-			data_ = nullptr;
+			data_.reset();
 			nonzero_ = size_;
 			return;
 		}
@@ -188,7 +188,7 @@ public:
 	void copyFrom(const Filter& other) {
 		ASSERT(size_ == other.size_);
 		if (!other.data_) {
-			data_ = nullptr;
+			data_.reset();
 			nonzero_ = size_;
 		} else {
 			if (!data_)

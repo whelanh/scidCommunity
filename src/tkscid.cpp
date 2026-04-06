@@ -1363,9 +1363,9 @@ int sc_eco_base(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
   // ascending gnum order over the filter, which matches the order of changes.
   std::string applyFilterName = dbase.newFilter();
   auto applyHf = dbase.getFilter(applyFilterName);
-  applyHf.clear();
+  applyHf->clear();
   for (const auto &[gnum, eco] : changes)
-    applyHf.set(gnum, 1);
+    applyHf->set(gnum, 1);
 
   size_t changeIdx = 0;
   auto entry_op = [&](IndexEntry &ie) -> bool {
