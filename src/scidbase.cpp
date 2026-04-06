@@ -27,6 +27,7 @@
 #include <algorithm>
 #include <filesystem>
 #include <fstream>
+#include <unordered_map>
 
 std::pair<ICodecDatabase*, errorT>
 ICodecDatabase::open(Codec codec, fileModeT fMode, const char* filename,
@@ -118,8 +119,8 @@ errorT scidBaseT::openHelper(ICodecDatabase::Codec dbtype, fileModeT fMode,
 		treeFilter->Init(numGames());
 		ASSERT(filters_.empty());
 
-		// Default treeCache size: 250
-		treeCache.CacheResize(250);
+		// Default treeCache size: 1000 (O(1) LRU makes larger caches cheap)
+		treeCache.CacheResize(1000);
 	} else {
 		idx->Close();
 		nb_->Clear();
@@ -577,11 +578,46 @@ scidBaseT::Stats::getEcoStats(const char* ecoStr) const {
 
 std::vector<TreeNode> scidBaseT::getTreeStat(const HFilter& filter, int moveDepth) const {
 	std::vector<TreeNode> res;
-	
+
 	// Clamp moveDepth to valid range [1, 4]
 	if (moveDepth < 1) moveDepth = 1;
 	if (moveDepth > 4) moveDepth = 4;
-	
+
+	// Each FullMove is a uint32_t; pack up to 4 of them into a uint64_t pair
+	// used as a hash-map key so lookup is O(1) instead of O(number of nodes).
+	// We use two uint64_t words to cover all 4 moves (128 bits total).
+	struct MoveSeqKey {
+		uint64_t lo = 0; // moves 0-1
+		uint64_t hi = 0; // moves 2-3
+		bool operator==(const MoveSeqKey& o) const noexcept {
+			return lo == o.lo && hi == o.hi;
+		}
+	};
+	struct MoveSeqKeyHash {
+		size_t operator()(const MoveSeqKey& k) const noexcept {
+			// FNV-1a-inspired combine
+			size_t h = k.lo ^ (k.lo >> 33);
+			h ^= (k.hi * 0xff51afd7ed558ccdULL);
+			return h;
+		}
+	};
+	auto makeKey = [](const std::vector<FullMove>& seq) -> MoveSeqKey {
+		MoveSeqKey k;
+		// Each FullMove is 32 bits; pack two per 64-bit word.
+		// FullMove stores m_ as uint32_t; we reach it via memcpy-safe cast.
+		uint32_t words[4] = {0, 0, 0, 0};
+		for (size_t i = 0; i < seq.size() && i < 4; ++i) {
+			static_assert(sizeof(FullMove) == sizeof(uint32_t));
+			std::memcpy(&words[i], &seq[i], sizeof(uint32_t));
+		}
+		k.lo = (static_cast<uint64_t>(words[0]) << 32) | words[1];
+		k.hi = (static_cast<uint64_t>(words[2]) << 32) | words[3];
+		return k;
+	};
+
+	// Map from packed move-sequence key -> index into res
+	std::unordered_map<MoveSeqKey, size_t, MoveSeqKeyHash> nodeIndex;
+
 	for (gamenumT gnum = 0, n = numGames(); gnum < n; gnum++) {
 		uint ply = filter.get(gnum);
 		if (ply == 0)
@@ -590,11 +626,11 @@ std::vector<TreeNode> scidBaseT::getTreeStat(const HFilter& filter, int moveDept
 			ply--;
 
 		const IndexEntry* ie = getIndexEntry(gnum);
-		
+
 		// Extract move sequence of length moveDepth (or shorter if game ends)
 		std::vector<FullMove> moveSequence;
 		moveSequence.reserve(moveDepth);
-		
+
 		// Try to get moves from StoredLine first (faster), then from full game
 		for (int depth = 0; depth < moveDepth; depth++) {
 			FullMove move = StoredLine::getMove(ie->GetStoredLineCode(), ply + depth);
@@ -603,29 +639,27 @@ std::vector<TreeNode> scidBaseT::getTreeStat(const HFilter& filter, int moveDept
 				auto gameView = getGame(ie);
 				move = gameView.getMove(ply + depth);
 			}
-			
+
 			if (!move) {
 				// Game ends before reaching desired depth
 				break;
 			}
-			
+
 			moveSequence.push_back(move);
 		}
-		
+
 		// Skip if no moves found (shouldn't happen, but be safe)
 		if (moveSequence.empty())
 			continue;
 
-		// Find or create TreeNode for this move sequence
-		auto it = std::find_if(
-		    res.begin(), res.end(),
-		    [&moveSequence](auto const& stat) { 
-				return stat.moves == moveSequence; 
-		    });
-
-		auto& node = (it != res.end()) ? *it : res.emplace_back(moveSequence);
-		node.add(ie->GetResult(), ie->GetWhiteElo(), ie->GetBlackElo(),
-		         ie->GetYear());
+		// O(1) lookup / insert via hash map
+		MoveSeqKey key = makeKey(moveSequence);
+		auto [mapIt, inserted] = nodeIndex.emplace(key, res.size());
+		if (inserted) {
+			res.emplace_back(moveSequence);
+		}
+		res[mapIt->second].add(ie->GetResult(), ie->GetWhiteElo(),
+		                       ie->GetBlackElo(), ie->GetYear());
 	}
 
 	std::sort(res.begin(), res.end(), TreeNode::cmp_ngames_desc());

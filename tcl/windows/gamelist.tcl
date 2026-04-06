@@ -1244,13 +1244,12 @@ proc glist.popupmenu_ {{w} {x} {y} {abs_x} {abs_y} {layout}} {
   if {[$w identify region $x $y] != "heading" } {
     set item [$w identify item $x $y]
     if {$item ne "" && [lsearch -exact [$w selection] $item] == -1} {
-      $w selection set [list $item]
-      $w focus $item
-      # Right-click on an unselected row is an intentional full reset to one item.
-      # Clear both on-screen and off-screen stored selections.
-      if {[info exists ::glistMultiSel($w)]} {
-        set ::glistMultiSel($w) [list $item]
-      }
+      # Right-click on an unselected row: simulate a full left-click
+      # (press + release) so the treeview's internal state machine is
+      # left clean.  The release also fires glist.release_ which
+      # updates glistMultiSel for us.
+      event generate $w <ButtonPress-1> -x $x -y $y
+      event generate $w <ButtonRelease-1> -x $x -y $y
     }
     # Use the full cross-page persistent selection for all menu actions.
     # Fall back to visible treeview selection if the store isn't initialized.
@@ -1292,7 +1291,11 @@ proc glist.popupmenu_ {{w} {x} {y} {abs_x} {abs_y} {layout}} {
       set is_del 1
       foreach s $sel {
         lassign [split $s "_"] i p
-        if {$i ne "" && ![sc_base gameflag $::glistBase($w) $i get del]} { set is_del 0; break }
+        if {$i ne ""} {
+          if {[catch {sc_base gameflag $::glistBase($w) $i get del} flag] || !$flag} {
+            set is_del 0; break
+          }
+        }
       }
       set label_base [expr {$is_del ? $::tr(UndeleteGame) : $::tr(DeleteGame) }]
       if {[llength $sel] > 1} { set label_base "$label_base ([llength $sel])" }
