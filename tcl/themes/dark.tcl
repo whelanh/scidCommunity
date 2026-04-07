@@ -11,25 +11,46 @@ registerDarkTheme "dark"
 ### Implements a "dark" theme.
 
 namespace eval ttk::theme::dark {
-    array set colors {
-        background     "#323232"
-        foreground     "#e0e0e0"
-        disabledfg     "#a0a0a0"
-        buttonbg       "#3b3b3e"
-        buttonbgdark   "#2b2b2e"
-        buttonbglight  "#4b4b4e"
-        labelframe     "#a5a6a9"
-        fieldbg        "#1e1e1e"
-        fieldborder    "#292929"
-        darkcolor      "#222222"
-        lightcolor     "#656669"
-        notebookborder "#555659"
-        selectbg       "#555659"
-        selectfg       "#ffffff"
-        through        "#353639"
-    }
+
+    # Export standard Tk options using hardcoded hex values to avoid Tcl scope issues
+    ::styleOption dark *background "#323232"
+    ::styleOption dark *foreground "#e0e0e0"
+    ::styleOption dark *Text.background "#1e1e1e"
+    ::styleOption dark *Text.foreground "#e0e0e0"
+    ::styleOption dark *Text.selectBackground DodgerBlue3
+    ::styleOption dark *Text.selectForeground "#ffffff"
+    ::styleOption dark *Canvas.background "#1e1e1e"
+    ::styleOption dark *Canvas.foreground "#e0e0e0"
+    ::styleOption dark *Listbox.background "#1e1e1e"
+    ::styleOption dark *Listbox.foreground "#e0e0e0"
+    ::styleOption dark *Listbox.selectBackground DodgerBlue3
+    ::styleOption dark *Listbox.selectForeground "#ffffff"
+    ::styleOption dark *Menu.background "#323232"
+    ::styleOption dark *Menu.foreground "#e0e0e0"
+    ::styleOption dark *Menu.activeBackground DodgerBlue3
+    ::styleOption dark *Menu.activeForeground "#ffffff"
 
     ttk::style theme create dark -parent clam -settings {
+        
+        # Define the colors ARRAY INSIDE the settings block so the safe interpreter can read it!
+        array set colors {
+            background     "#323232"
+            foreground     "#e0e0e0"
+            disabledfg     "#a0a0a0"
+            buttonbg       "#3b3b3e"
+            buttonbgdark   "#2b2b2e"
+            buttonbglight  "#4b4b4e"
+            labelframe     "#a5a6a9"
+            fieldbg        "#1e1e1e"
+            fieldborder    "#292929"
+            darkcolor      "#222222"
+            lightcolor     "#656669"
+            notebookborder "#555659"
+            selectbg       "#555659"
+            selectfg       "#ffffff"
+            through        "#353639"
+        }
+
         set basecol DodgerBlue3 ;# Alternative: #3b6dce Basecolor, change here to have new topic for the theme
         # -----------------------------------------------------------------------------
         # Theme defaults
