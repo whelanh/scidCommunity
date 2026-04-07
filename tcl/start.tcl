@@ -519,16 +519,33 @@ proc safeStyleOption {interp args} {
     styleOption {*}$args
 }
 
+# Evaluate a ttk::style theme settings body in a fresh minimal safe interpreter.
+# Only ttk::style commands are available; image/package/registerDarkTheme aliases
+# from the parent theme interpreter are not inherited.
+# A depth counter prevents unbounded recursion if a malicious body calls
+# ttk::style theme settings again.
+set ::safeStyleBodyDepth 0
+proc safeStyleEvalBody {script} {
+  if {$::safeStyleBodyDepth >= 3} { return }
+  incr ::safeStyleBodyDepth
+  set bodyInterp [interp create -safe]
+  interp alias $bodyInterp ttk::style {} ::safeStyle $bodyInterp
+  catch { $bodyInterp eval $script }
+  interp delete $bodyInterp
+  incr ::safeStyleBodyDepth -1
+}
+
 # Evaluate ttk::style commands invoked inside the restricted script.
-# If the command includes a script (ttk::style theme settings or ttk::style theme create)
-# it is evaluated using the safe interpreter.
+# If the command includes a body script (ttk::style theme settings or
+# ttk::style theme create ... -settings) it is evaluated in a fresh minimal
+# safe interpreter via safeStyleEvalBody, avoiding re-entrant use of $interp.
 proc safeStyle {interp args} {
   lassign $args theme settings themeName script
   if {$theme eq "theme"} {
     if { $settings eq "settings"} {
       set curr_theme [ttk::style theme use]
       ttk::style theme use $themeName
-      $interp eval $script
+      safeStyleEvalBody $script
       ttk::style theme use $curr_theme
       return
     }
@@ -537,7 +554,10 @@ proc safeStyle {interp args} {
     if {$script_i != -1} {
       set script_j [expr $script_i + 1]
       ttk::style {*}[lreplace $args $script_i $script_j]
-      $interp eval [list ttk::style theme settings $themeName [lindex $args $script_j]]
+      set curr_theme [ttk::style theme use]
+      ttk::style theme use $themeName
+      safeStyleEvalBody [lindex $args $script_j]
+      ttk::style theme use $curr_theme
       return
     }
   }
