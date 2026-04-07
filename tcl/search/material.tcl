@@ -622,7 +622,7 @@ proc ::search::material {{ref_base ""}} {
   dialogbutton $f.cancel -textvar ::tr(Close) \
       -command { focus .; destroy .sm }
 
-  pack $f.ignorecol $w.b3.save -side left -pady 5 -padx 5
+  pack $f.ignorecol -side left -pady 5 -padx 5
   pack $w.b3.cancel $w.b3.search $w.b3.stop -side right -pady 5 -padx 5
   pack $w.fprogress.progress -side top -pady 2
   pack $w.fprogress -expand 1 -fill both
