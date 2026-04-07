@@ -517,8 +517,11 @@ proc ::auto_comment::cleanupText {text} {
     set text [regsub -all {\*\*([^*]+)\*\*} $text {\1}]
     set text [regsub -all {\*([^*]+)\*} $text {\1}]
     # Fix capitalized pawn moves: A6->a6, C5->c5, etc.
-    set text [regsub -all {([^a-zA-Z])([A-H])([1-8])([^a-z])} $text {\1[string tolower "\2"]\3\4}]
-    set text [subst -nobackslashes -novar $text]
+    # One pass per file letter avoids unsafe subst with command substitution.
+    foreach cap {A B C D E F G H} {
+        set low [string tolower $cap]
+        set text [regsub -all "(\[^a-zA-Z\])${cap}(\[1-8\])" $text "\\1${low}\\2"]
+    }
     # Determine piece-letter set for case normalization.
     # English defaults to bknqr. For translated-piece languages, derive from transPieces.
     set pieceLetters "bknqr"
@@ -537,14 +540,17 @@ proc ::auto_comment::cleanupText {text} {
         }
     }
 
-    # Fix lowercase piece moves: nf3->Nf3, bg5->Bg5, etc.
-    set pieceMovePattern [format {(^|[^a-zA-Z])([%s])([a-h][1-8])} $pieceLetters]
-    set text [regsub -all $pieceMovePattern $text {\1[string toupper "\2"]\3}]
-    set text [subst -nobackslashes -novar $text]
-    # Also fix piece captures: nxf3->Nxf3, bxe5->Bxe5, etc.
-    set pieceCapturePattern [format {(^|[^a-zA-Z])([%s])(x[a-h][1-8])} $pieceLetters]
-    set text [regsub -all $pieceCapturePattern $text {\1[string toupper "\2"]\3}]
-    set text [subst -nobackslashes -novar $text]
+    # Fix lowercase piece moves (nf3->Nf3) and captures (nxf3->Nxf3).
+    # One pass per piece letter avoids unsafe subst with command substitution.
+    foreach letter [split $pieceLetters ""] {
+        set upper [string toupper $letter]
+        # Non-letter context before the piece letter
+        set text [regsub -all "(\[^a-zA-Z\])${letter}(\[a-h\]\[1-8\])" $text "\\1${upper}\\2"]
+        set text [regsub -all "(\[^a-zA-Z\])${letter}(x\[a-h\]\[1-8\])" $text "\\1${upper}\\2"]
+        # Start-of-string context
+        set text [regsub "^${letter}(\[a-h\]\[1-8\])" $text "${upper}\\1"]
+        set text [regsub "^${letter}(x\[a-h\]\[1-8\])" $text "${upper}\\1"]
+    }
 
     # Safety net: convert any remaining English piece letters in move patterns
     # to local notation. This catches cases where the LLM echoes English SAN

@@ -15,7 +15,7 @@ if {! [info exists ::utils::history::listData]} {
 }
 
 # Load any history lists that were saved in the last session:
-catch {source [scidConfigFile history]}
+catch {safeLoadConfig [scidConfigFile history]}
 
 
 proc ::utils::history::SetList {key list} {

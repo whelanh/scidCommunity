@@ -591,7 +591,7 @@ set optionsFile [scidConfigFile options]
 ################################################################################
 #  Load options file. All default values should be set before this point or new saved values will be overwritten by default ones
 ################################################################################
-if {[file exists $optionsFile] && [catch {source $optionsFile}]} {
+if {[file exists $optionsFile] && [catch {safeLoadConfig $optionsFile}]} {
   tk_messageBox -message $::errorInfo
 }
 
@@ -760,7 +760,7 @@ proc options.write {} {
         ::win::saveWinGeometry $wnd
       }
       if {$::winGeometry($wnd) ne ""} {
-        puts $optionF "set ::winGeometry($wnd) $::winGeometry($wnd)"
+        puts $optionF "set ::winGeometry([list $wnd]) [list $::winGeometry($wnd)]"
       }
     }
 

@@ -840,7 +840,7 @@ set tree(standardLines) {
 }
 # if there is a treecache file source it, otherwise use hard coded
 # values above
-catch {source [scidConfigFile treecache]}
+catch {safeLoadConfig [scidConfigFile treecache]}
 
 
 ################################################################################

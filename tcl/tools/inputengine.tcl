@@ -178,7 +178,7 @@ namespace eval ExtHardware {
 }
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # source the options file to overwrite the above setup
-  if {[catch {source [scidConfigFile ExtHardware]} ]} {
+  if {[catch {safeLoadConfig [scidConfigFile ExtHardware]} ]} {
     #::splash::add "Unable to find the options file: [file tail $optionsFile]"
   } else {
 
