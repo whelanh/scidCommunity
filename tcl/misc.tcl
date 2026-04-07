@@ -38,8 +38,14 @@ proc vwaitTimed { var {delay 0} {warn "warnuser"} } {
 proc bindMouseWheel {bindtag callback} {
     switch -- [tk windowingsystem] {
 	x11 {
+	    bind $bindtag <Button-4> "$callback -1; break"
+	    bind $bindtag <Button-5> "$callback +1; break"
 	    bind $bindtag <ButtonPress-4> "$callback -1; break"
 	    bind $bindtag <ButtonPress-5> "$callback +1; break"
+	    bind $bindtag <MouseWheel> {
+		if {%D < 0} { event generate %W <Button-5> } else { event generate %W <Button-4> }
+		break
+	    }
 	}
 	win32 {
 	    bind $bindtag <<MWheel>> "[append callback { [expr {-(%d/120)}]}]; break"
