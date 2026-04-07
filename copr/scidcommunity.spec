@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.93
+Version:        5.1.2.95
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 40e2e6b804d3b892d7705d81c8838407d68d25f3
+%global commit a479f5161754134f0dbe851430016271b1cf5c1e
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Tue Apr 7, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-95
+- "Fix mouse wheel bindings in Board display"
 * Tue Apr 7, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-93
 - "Security enhancements (no functional change)"
 * Mon Apr 6, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-92
