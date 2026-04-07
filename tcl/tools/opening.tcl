@@ -566,7 +566,7 @@ namespace eval opening {
   ################################################################################
   proc loadStats {} {
     set optionsFile [scidConfigFile optrainer]
-    if {[catch {source $optionsFile} ]} {
+    if {[catch {safeLoadConfig $optionsFile} ]} {
       ::splash::add "Unable to find the options file: [file tail $optionsFile]"
     } else {
       ::splash::add "Your options file \"[file tail $optionsFile]\" was found and loaded."

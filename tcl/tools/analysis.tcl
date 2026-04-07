@@ -221,7 +221,7 @@ proc engine {arglist} {
 #   - Sources the engines configuration file (may call `engine` repeatedly).
 ################################################################################
 proc ::enginelist::read {} {
-    catch {source [scidConfigFile engines]}
+    catch {safeLoadConfig [scidConfigFile engines] "" {engine engine}}
 }
 
 ################################################################################

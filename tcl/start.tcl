@@ -344,42 +344,109 @@ if { $macOS } {
 
 
 ####################################################
+# safeLoadConfig - Load a Scid configuration file in a restricted interpreter.
+# Only "set" commands are forwarded to the main interpreter's global scope.
+# This prevents execution of arbitrary code when loading user-editable config files.
+# @param filename:     the absolute path to the config file
+# @param encoding:     file encoding (empty string = system default)
+# @param extraAliases: flat list of {alias-name target-command} pairs to expose
+#
+proc safeLoadConfig {filename {encoding ""} {extraAliases {}}} {
+  if {![file exists $filename]} { return }
+  if {[catch {
+    set _fd [open $filename r]
+    if {$encoding ne ""} { fconfigure $_fd -encoding $encoding }
+    set _content [read $_fd]
+    close $_fd
+  }]} { return }
+
+  set _interp [interp create -safe]
+
+  # Block commands that could be used to redefine aliases or create new procs.
+  foreach _cmd {interp proc rename trace} {
+    catch { interp hide $_interp $_cmd }
+  }
+
+  # Redirect "set" so that assignments reach the main interpreter's global scope.
+  interp alias $_interp set {} ::safeConfigSet
+
+  # Expose any caller-requested additional commands (e.g. "engine" for engines.dat).
+  foreach {_alias _target} $extraAliases {
+    interp alias $_interp $_alias {} {*}$_target
+  }
+
+  # Evaluate each syntactically-complete command separately so that one
+  # failed or malicious command does not block the remaining assignments.
+  set _buf ""
+  foreach _line [split $_content "\n"] {
+    append _buf $_line "\n"
+    if {[info complete $_buf] && [string trim $_buf] ne ""} {
+      catch { $_interp eval $_buf }
+      set _buf ""
+    }
+  }
+  if {[string trim $_buf] ne ""} {
+    catch { $_interp eval $_buf }
+  }
+
+  interp delete $_interp
+}
+
+# ::safeConfigSet - forwards "set" calls from safeLoadConfig to the main interp.
+proc ::safeConfigSet {varname args} {
+  if {[llength $args] == 0} {
+    # Read mode: return the variable's current value from the main interpreter.
+    catch { return [uplevel #0 [list set $varname]] }
+    return ""
+  }
+  # Write mode: ensure the parent namespace exists, then set in the main interp.
+  set _ns [uplevel #0 [list namespace qualifiers $varname]]
+  if {$_ns ne "" && ![uplevel #0 [list namespace exists $_ns]]} {
+    uplevel #0 [list namespace eval $_ns {}]
+  }
+  uplevel #0 [list set $varname [lindex $args 0]]
+}
+
+####################################################
 # safeSource() - source a file using a safe interpreter
 # @filename:  the absolute path to the file to source (load and execute)
 # @args:      pairs of varname value that are visible to the sourced code
 #
-# This function execute the code inside a safe tcl interpreter and override
-# "set" to import the variables of the executed code in the ::unsafe namespace.
+# This function executes the code inside a fresh safe Tcl interpreter and
+# overrides "set" to import the variables of the executed code into the
+# ::unsafe namespace.  A new interpreter is created for each call so that
+# state from one sourced file cannot leak into the next.
+#
 # Attention must be paid to not evaluate ::unsafe vars, for example:
 # set ::unsafe::badcode {tk_messageBox -message executeme}
 # eval $::unsafe::badcode
 # after idle $::unsafe::badcode
 
 proc safeSource {filename args} {
-  if {![info exists ::safeInterp]} {
-    set ::safeInterp [::safe::interpCreate]
-    interp hide $::safeInterp set
-    interp alias $::safeInterp set {} ::safeSet $::safeInterp
-  }
   set f [file nativename "$filename"]
   set d [file dirname $f]
   set n [file tail $f]
-  set vdir [::safe::interpAddToAccessPath $::safeInterp $d]
-  interp alias $::safeInterp image {} ::safeImage $::safeInterp [list $vdir $d]
+
+  set _interp [::safe::interpCreate]
+  interp hide $_interp set
+  interp alias $_interp set {} ::safeSet $_interp
+
+  set vdir [::safe::interpAddToAccessPath $_interp $d]
+  interp alias $_interp image {} ::safeImage $_interp [list $vdir $d]
   foreach {varname value} $args {
-    $::safeInterp eval [list set $varname $value]
+    $_interp eval [list set $varname $value]
   }
-  $::safeInterp eval [list set vdir $vdir]
-  $::safeInterp eval "source \$vdir/$n"
+  $_interp eval [list set vdir $vdir]
+  $_interp eval "source \$vdir/$n"
   foreach {varname value} $args {
-    $::safeInterp eval [list unset $varname]
+    $_interp eval [list unset $varname]
   }
+  ::safe::interpDelete $_interp
 }
+
 proc safeSet {i args} {
-  #TODO: do not import local variables
-  #if {[$::safeInterp eval info level] == 0}
-  foreach {varname value} $args {
-    set ::unsafe::$varname $value
+  if {[llength $args] == 2} {
+    set ::unsafe::[lindex $args 0] [lindex $args 1]
   }
   interp invokehidden $i set {*}$args
 }

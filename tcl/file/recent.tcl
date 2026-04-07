@@ -7,8 +7,7 @@ set recentFiles(menu)   9   ;# Maximum number of files to show in File menu.
 set recentFiles(extra)  9   ;# Maximum number of files to show in extra menu.
 set recentFiles(data)  {}   ;# List of recently used files.
 
-#TODO: safeSource
-catch {source -encoding utf-8 [scidConfigFile recentfiles]}
+catch {safeLoadConfig [scidConfigFile recentfiles] utf-8}
 
 namespace eval ::recentFiles {}
 

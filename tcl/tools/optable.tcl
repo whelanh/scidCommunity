@@ -1378,7 +1378,7 @@ proc ::optable::saveFavorites {} {
 proc ::optable::loadFavorites {} {
   global reportFavorites
   set fname [::optable::favoritesFilename]
-  catch {source $fname}
+  catch {safeLoadConfig $fname}
 }
 
 ::optable::loadFavorites

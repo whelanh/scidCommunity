@@ -530,6 +530,13 @@ proc ::htext::display {w helptext {section ""} {fixed 1}} {
 #
 proc openURL {url} {
   global windowsOS
+  # Validate the URL scheme to prevent launching executables or opening
+  # unexpected local resources on behalf of game/player data.
+  if {![regexp -nocase {^(https?|ftps?|file)://} $url]} {
+    tk_messageBox -title "scidCommunity" -icon warning -type ok \
+        -message "URL blocked: only http://, https://, ftp://, and file:// addresses are permitted."
+    return
+  }
   busyCursor .
   if {$windowsOS} {
     # On Windows, use the "start" command:
