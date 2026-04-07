@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.92
+Version:        5.1.2.93
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 2a33fff069f4e5e3654dab0b4e92ec337bb09d54
+%global commit 5c5eb865fddb5341dc375dbc083a44ea0ea63d57
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Tue Apr 7, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-93
+- "Security enhancements (no functional change)"
 * Mon Apr 6, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-92
 - "Remove auto-scroll on double-click in the Gamelist window"
 * Mon Apr 6, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-90
