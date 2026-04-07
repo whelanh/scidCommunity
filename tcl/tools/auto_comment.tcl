@@ -518,7 +518,8 @@ proc ::auto_comment::cleanupText {text} {
     set text [regsub -all {\*([^*]+)\*} $text {\1}]
     # Fix capitalized pawn moves: A6->a6, C5->c5, etc.
     # One pass per file letter avoids unsafe subst with command substitution.
-    foreach {cap low} {A a B b C c D d E e F f G g H h} {
+    foreach cap {A B C D E F G H} {
+        set low [string tolower $cap]
         set text [regsub -all "(\[^a-zA-Z\])${cap}(\[1-8\])" $text "\\1${low}\\2"]
     }
     # Determine piece-letter set for case normalization.

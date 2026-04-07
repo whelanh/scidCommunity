@@ -353,12 +353,17 @@ if { $macOS } {
 #
 proc safeLoadConfig {filename {encoding ""} {extraAliases {}}} {
   if {![file exists $filename]} { return }
+  set _fd ""
   if {[catch {
     set _fd [open $filename r]
     if {$encoding ne ""} { fconfigure $_fd -encoding $encoding }
     set _content [read $_fd]
     close $_fd
-  }]} { return }
+    set _fd ""
+  }]} {
+    catch { close $_fd }
+    return
+  }
 
   set _interp [interp create -safe]
 
@@ -445,6 +450,9 @@ proc safeSource {filename args} {
 }
 
 proc safeSet {i args} {
+  # In write mode (2 args), store the value in the ::unsafe namespace so that
+  # callers can read it back. In read mode (1 arg) nothing is stored because
+  # there is no new value to import.
   if {[llength $args] == 2} {
     set ::unsafe::[lindex $args 0] [lindex $args 1]
   }
