@@ -2108,8 +2108,8 @@ void OpTable::EndMaterialReport(DString *dstr, const char *repGames,
   for (uint space = 0; space < len; space++) {
     dstr->AddChar(' ');
   }
-  char t1[10];
-  char t2[10];
+  char t1[32];
+  char t2[32];
   strcpy(t1, "     P");
   strcpy(t2, "    BN");
   transPieces(t1);

@@ -83,6 +83,7 @@ LANGUAGE_FILE_MAP = {
     'romanian.tcl': 'ro',     # Romanian
     'japanese.tcl': 'ja',     # Japanese
     'turkish.tcl': 'tr',      # Turkish
+    'arabic.tcl': 'ar',       # Arabic
 }
 
 def get_encoding_for_file(input_file):
@@ -113,6 +114,7 @@ def get_encoding_for_file(input_file):
         'japanese.tcl': 'utf-8',
         'romanian.tcl': 'utf-8',
         'chinese.tcl': 'utf-8',
+        'arabic.tcl': 'utf-8',
     }
     
     # Extract filename from path

@@ -1485,8 +1485,12 @@ int sc_eco_summary(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
       default:
         dstr->AddChar(ch);
         if (inMoveList) {
-          temp->AddChar(transPiecesChar(ch));
-        } //{ temp->AddChar (ch); }
+          if (const char *tpc = transPiecesChar(ch)) {
+            temp->Append(tpc);
+          } else {
+            temp->AddChar(ch);
+          }
+        }
       }
       s++;
     }
@@ -2084,15 +2088,14 @@ int sc_filter_old(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
 
 int sc_game(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
   static const char *options[] = {
-      "altered",    "clear",      "crosstable", "eco",
-      "find",       "firstMoves", "import",     "info",
-      "load",       "merge",      "moves",      "new",
-      "novelty",    "number",     "pgn",        "pop",
-      "push",       "SANtoUCI",   "save",       "startBoard",
-      "strip",      "tags",       "truncate",   "variant",
-      "UCI_currentPos", "UCI_mainLine",
-      "undo",       "undoAll",    "undoPoint",  "redo",
-      NULL};
+      "altered",        "clear",        "crosstable", "eco",
+      "find",           "firstMoves",   "import",     "info",
+      "load",           "merge",        "moves",      "new",
+      "novelty",        "number",       "pgn",        "pop",
+      "push",           "SANtoUCI",     "save",       "startBoard",
+      "strip",          "tags",         "truncate",   "variant",
+      "UCI_currentPos", "UCI_mainLine", "undo",       "undoAll",
+      "undoPoint",      "redo",         NULL};
   enum {
     GAME_ALTERED,
     GAME_CLEAR,
@@ -2669,7 +2672,8 @@ int sc_game_crosstable(ClientData, Tcl_Interp *ti, int argc,
   }
 
   char stemp[256];
-  Tcl_AppendResult(ti, g->GetEventStr(), newlineStr, g->GetSiteStr(), ", ", NULL);
+  Tcl_AppendResult(ti, g->GetEventStr(), newlineStr, g->GetSiteStr(), ", ",
+                   NULL);
   date_DecodeToString(firstSeenDate, stemp);
   strTrimDate(stemp);
   Tcl_AppendResult(ti, stemp, NULL);
@@ -2687,8 +2691,8 @@ int sc_game_crosstable(ClientData, Tcl_Interp *ti, int argc,
     appendUintResult(ti, avgElo);
     uint category = ctable->FideCategory(avgElo);
     if (category > 0 && mode == CROSSTABLE_AllPlayAll) {
-      std::snprintf(stemp, sizeof(stemp), "  (%s %u)", translate(ti, "Category", "Category"),
-              category);
+      std::snprintf(stemp, sizeof(stemp), "  (%s %u)",
+                    translate(ti, "Category", "Category"), category);
       Tcl_AppendResult(ti, stemp, NULL);
     }
     Tcl_AppendResult(ti, newlineStr, NULL);
@@ -3010,11 +3014,11 @@ int sc_game_info(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
 
   if (hideNextMove) {
     std::snprintf(temp, sizeof(temp), "<br>(%s: %s)", translate(ti, "Result"),
-            translate(ti, "hidden"));
+                  translate(ti, "hidden"));
   } else {
     std::snprintf(temp, sizeof(temp), "<br>%s <red>(%u)</red>",
-            RESULT_LONGSTR[db->game->GetResult()],
-            (db->game->GetNumHalfMoves() + 1) / 2);
+                  RESULT_LONGSTR[db->game->GetResult()],
+                  (db->game->GetNumHalfMoves() + 1) / 2);
   }
   Tcl_AppendResult(ti, temp, NULL);
 
@@ -3121,8 +3125,8 @@ int sc_game_info(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
       db->game->GetSiteStr(), db->game->GetEventStr(), db->game->GetRoundStr());
   Tcl_AppendResult(ti, temp, NULL);
 
-  char san[20];
-  char tempTrans[20];
+  char san[64];
+  char tempTrans[64];
   byte *nags;
   colorT toMove = db->game->GetCurrentPos()->GetToMove();
   uint moveCount = db->game->GetCurrentPos()->GetFullMoveCount();
@@ -3143,8 +3147,9 @@ int sc_game_info(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     strAppend(temp, ")");
     printNags = false;
   } else {
-    std::snprintf(temp, sizeof(temp), "<run ::move::Back>%u.%s%s</run>", prevMoveCount,
-            toMove == WHITE ? ".." : "", tempTrans); // san);
+    std::snprintf(temp, sizeof(temp), "<run ::move::Back>%u.%s%s</run>",
+                  prevMoveCount, toMove == WHITE ? ".." : "",
+                  tempTrans); // san);
     printNags = true;
   }
   Tcl_AppendResult(ti, translate(ti, "LastMove", "Last move"), NULL);
@@ -3176,13 +3181,14 @@ int sc_game_info(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     strAppend(temp, ")");
     printNags = false;
   } else if (hideNextMove) {
-    std::snprintf(temp, sizeof(temp), "%u.%s(", moveCount, toMove == WHITE ? "" : "..");
+    std::snprintf(temp, sizeof(temp), "%u.%s(", moveCount,
+                  toMove == WHITE ? "" : "..");
     strAppend(temp, translate(ti, "hidden"));
     strAppend(temp, ")");
     printNags = false;
   } else {
-    std::snprintf(temp, sizeof(temp), "<run ::move::Forward>%u.%s%s</run>", moveCount,
-            toMove == WHITE ? "" : "..", tempTrans); // san);
+    std::snprintf(temp, sizeof(temp), "<run ::move::Forward>%u.%s%s</run>",
+                  moveCount, toMove == WHITE ? "" : "..", tempTrans); // san);
     printNags = true;
   }
   Tcl_AppendResult(ti, "   ", translate(ti, "NextMove", "Next"), NULL);
@@ -3227,19 +3233,20 @@ int sc_game_info(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
   if (!hideNextMove && varCount > 0) {
     Tcl_AppendResult(ti, "<br>", translate(ti, "Variations"), ":", NULL);
     for (uint vnum = 0; vnum < varCount && vnum < 5; vnum++) {
-      char s[20];
+      char s[64];
       db->game->MoveIntoVariation(vnum);
       db->game->GetSAN(s);
       strcpy(tempTrans, s);
       transPieces(tempTrans);
-      std::snprintf(temp, sizeof(temp), "   <run sc_var enter %u; updateBoard -animate>v%u", vnum,
-              vnum + 1);
+      std::snprintf(temp, sizeof(temp),
+                    "   <run sc_var enter %u; updateBoard -animate>v%u", vnum,
+                    vnum + 1);
       Tcl_AppendResult(ti, "<green>", temp, "</green>: ", NULL);
       if (s[0] == 0) {
         std::snprintf(temp, sizeof(temp), "<darkblue>(empty)</darkblue>");
       } else {
-        std::snprintf(temp, sizeof(temp), "<darkblue>%u.%s%s</darkblue>", moveCount,
-                toMove == WHITE ? "" : "..", tempTrans); // s);
+        std::snprintf(temp, sizeof(temp), "<darkblue>%u.%s%s</darkblue>",
+                      moveCount, toMove == WHITE ? "" : "..", tempTrans); // s);
       }
       Tcl_AppendResult(ti, temp, NULL);
       byte *firstNag = db->game->GetNextNags();
@@ -4851,6 +4858,9 @@ int sc_info(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
     }
     if (strcmp(argv[2], "pt") == 0) {
       language = 13;
+    }
+    if (strcmp(argv[2], "ar") == 0) {
+      language = 14;
     }
 
     break;
@@ -7138,8 +7148,8 @@ UI_res_t sc_name_spellcheck(UI_handle_t ti, scidBaseT &dbase,
       if (i == 0)
         correctionCount++;
 
-      std::snprintf(tempStr, sizeof(tempStr), "%s\"%s\"\t>> \"%s\" (%u)", strAmbiguous, origName,
-              corrections[i], frequency);
+      std::snprintf(tempStr, sizeof(tempStr), "%s\"%s\"\t>> \"%s\" (%u)",
+                    strAmbiguous, origName, corrections[i], frequency);
       correctCmd += tempStr;
 
       if (nt == NAME_PLAYER) { // Look for a player birthdate:
@@ -7801,7 +7811,7 @@ int sc_tree_stats(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
       if (i > 0)
         result += " ";
       if (moves[i]) {
-        char moveStr[10];
+        char moveStr[64];
         strcpy(moveStr, moves[i].getSAN().c_str());
         transPieces(moveStr);
         result += moveStr;
@@ -8127,15 +8137,13 @@ int sc_search_board(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
             const byte *hpData = ie->GetHomePawnData();
             if (!hpSig_PossibleMatch(hpSig, hpData))
               possibleMatch = false;
-            if (possibleFlippedMatch &&
-                !hpSig_PossibleMatch(hpSigFlip, hpData))
+            if (possibleFlippedMatch && !hpSig_PossibleMatch(hpSigFlip, hpData))
               possibleFlippedMatch = false;
           }
         }
-        if (possibleMatch &&
-            !matsig_isReachable(msig, ie->GetFinalMatSig(),
-                                ie->GetPromotionsFlag(),
-                                ie->GetUnderPromoFlag()))
+        if (possibleMatch && !matsig_isReachable(msig, ie->GetFinalMatSig(),
+                                                 ie->GetPromotionsFlag(),
+                                                 ie->GetUnderPromoFlag()))
           possibleMatch = false;
         if (possibleFlippedMatch &&
             !matsig_isReachable(msigFlip, ie->GetFinalMatSig(),

@@ -24,10 +24,13 @@ array set encodings {
   catalan iso8859-1
   suomi iso8859-1
   greek utf-8
+  japanese utf-8
+  romanian utf-8
+  arabic utf-8
 }
 
 set languages {czech deutsch francais hungary italian nederlan norsk polish
-  portbr spanish swedish serbian russian catalan suomi greek
+  portbr spanish swedish serbian russian catalan suomi greek chinese japanese romanian arabic
 }
 
 ################################################################################
