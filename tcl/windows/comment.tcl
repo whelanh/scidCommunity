@@ -113,6 +113,14 @@ namespace eval ::windows::commenteditor {
 		set timeTotal [expr {($timeH * 3600 + $timeM * 60 + $timeS) / 60.0}]
 	}
 
+	proc focusTimeEntry_ {} {
+		variable w_
+		if {![winfo exists $w_.nf.time.em]} { return }
+		focus $w_.nf.time.em
+		$w_.nf.time.em selection range 0 end
+		$w_.nf.time.em icursor end
+	}
+
 	proc submitTime_ {} {
 		variable w_
 		variable timeH
@@ -140,7 +148,22 @@ namespace eval ::windows::commenteditor {
 			$txt insert 1.0 "$clk"
 		}
 		$txt edit modified true
-		focus $txt
+		storeComment_
+
+		# Cancel pending delayed notifications; we'll trigger a full update
+		notifyCancel_
+
+		# Advance to the next ply and refresh everything
+		if {![sc_pos isAt end] && ![sc_pos isAt vend]} {
+			sc_move forward
+			::notify::PosChanged -pgn -animate
+		} else {
+			# At end of game/variation: still refresh PGN to show the new comment
+			::notify::PosChanged pgnonly
+		}
+
+		# Focus the minutes entry for rapid keyboard-driven time entry
+		after idle [list ::windows::commenteditor::focusTimeEntry_]
 	}
 }
 
@@ -220,6 +243,10 @@ proc ::windows::commenteditor::createWin { {focus_if_exists 1} } {
 	bind $w_.nf.time.em <KeyRelease> "::windows::commenteditor::updateFromHHMMSS_"
 	bind $w_.nf.time.es <KeyRelease> "::windows::commenteditor::updateFromHHMMSS_"
 	bind $w_.nf.time.et <KeyRelease> "::windows::commenteditor::updateFromTotal_"
+	bind $w_.nf.time.eh <Return> "::windows::commenteditor::submitTime_"
+	bind $w_.nf.time.em <Return> "::windows::commenteditor::submitTime_"
+	bind $w_.nf.time.es <Return> "::windows::commenteditor::submitTime_"
+	bind $w_.nf.time.et <Return> "::windows::commenteditor::submitTime_"
 
 	# Comment frame:
 	ttk::frame $w_.cf
