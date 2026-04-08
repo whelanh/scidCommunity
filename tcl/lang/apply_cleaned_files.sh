@@ -26,6 +26,7 @@ LANGUAGE_FILES=(
     "japanese"
     "turkish"
     "arabic"
+    "hebrew"
 )
 
 # Color codes for output

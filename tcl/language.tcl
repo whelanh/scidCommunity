@@ -46,7 +46,8 @@ set untransPieces(M) { 兵 P 王 K 后 Q 车 R 象 B 馬 N }
 set transPieces(B)   { P P K R Q D R T B B N C }
 set untransPieces(B) { P P R K D Q T R B B C N }
 set transPieces(Q)   { P ب K م Q و R ر B ف N ح }
-set untransPieces(Q) { ب P م K و Q ر R ف B ح N }
+set transPieces(V)   { P פ K מ Q מ R צ B ר N ס }
+set untransPieces(V) { פ P מ K מ Q צ R ר B ס N }
 
 ################################################################################
 proc trans { msg } {
@@ -174,6 +175,7 @@ proc setLanguage {} {
       L {sc_info language ro}
       B {sc_info language pt}
       Q {sc_info language ar}
+      V {sc_info language he}
       default {sc_info language en}
     }
   } else {
@@ -191,7 +193,7 @@ proc setLanguage {} {
   }
 
   # Apply RTL configuration for Arabic
-  if {$lang == "Q"} {
+  if {$lang == "Q" || $lang == "V"} {
     applyRTLConfiguration
   } else {
     applyLTRConfiguration
@@ -252,6 +254,7 @@ proc setLanguageTemp { lang } {
     L {sc_info language ro}
     B {sc_info language pt}
     Q {sc_info language ar}
+    V {sc_info language he}
     default {sc_info language en}
   }
 }
@@ -279,6 +282,7 @@ addLanguage J Српски 0 utf-8 SerbCyr.tcl
 addLanguage A 日本語 0 utf-8 japanese.tcl
 addLanguage L Română 0 utf-8 romanian.tcl
 addLanguage Q العربية 0 utf-8 arabic.tcl
+addLanguage V עברית 0 utf-8 hebrew.tcl
 
 setLanguage
 

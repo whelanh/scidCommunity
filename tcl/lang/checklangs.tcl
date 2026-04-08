@@ -30,10 +30,12 @@ array set codes {
   romanian L
   japanese A
   arabic Q
+  hebrew V
 }
 
 set languages {czech deutsch francais hungary italian chinese nederlan norsk polish
-  portbr spanish swedish serbian russian catalan suomi greek SerbCyr romanian japanese arabic
+  portbr spanish swedish serbian russian catalan suomi greek SerbCyr romanian japanese 
+  arabic hebrew
 }
 
 ################################################################################

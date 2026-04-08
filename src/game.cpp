@@ -27,7 +27,7 @@
 int language = 0; // default to english
 //  0 = en,
 //  1 = fr, 2 = es, 3 = de, 4 = it, 5 = ne, 6 = cz
-//  7 = hu, 8 = no, 9 = sw, 10 = ca, 11 = fi, 12 = gr, 13 = pt, 14 = ar
+//  7 = hu, 8 = no, 9 = sw, 10 = ca, 11 = fi, 12 = gr, 13 = pt, 14 = ar, 15 = he
 //  TODO Piece translations for greek
 const char *langPieces[] = {
     "",
@@ -45,6 +45,7 @@ const char *langPieces[] = {
     "",
     "PPKRQDRTBBNC",
     "PبKمQوRرBفNح", // Arabic piece pairs (English, Arabic)
+    "PפKמQהRצBרNס", // Hebrew piece pairs (English, Hebrew)
     ""};
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -66,12 +67,12 @@ void transPieces(char *s) {
     bool translated = false;
     if (*ptr >= 'A' && *ptr <= 'Z') {
       // Search for the piece in the mapping string
-      for (const char *m = mapping; *m; ) {
+      for (const char *m = mapping; *m;) {
         if (*m == *ptr) {
           // Found English piece. The translation follows.
           const char *transStart = ++m;
           while (*m && !(*m == 'P' || *m == 'K' || *m == 'Q' || *m == 'R' ||
-                        *m == 'B' || *m == 'N')) {
+                         *m == 'B' || *m == 'N')) {
             m++;
           }
           result.append(transStart, m - transStart);
@@ -81,7 +82,7 @@ void transPieces(char *s) {
           // Skip this English piece and its translation
           m++;
           while (*m && !(*m == 'P' || *m == 'K' || *m == 'Q' || *m == 'R' ||
-                        *m == 'B' || *m == 'N')) {
+                         *m == 'B' || *m == 'N')) {
             m++;
           }
         }
@@ -107,11 +108,11 @@ const char *transPiecesChar(char c) {
     return nullptr;
 
   static char buf[16];
-  for (const char *m = mapping; *m; ) {
+  for (const char *m = mapping; *m;) {
     if (*m == c) {
       const char *transStart = ++m;
       while (*m && !(*m == 'P' || *m == 'K' || *m == 'Q' || *m == 'R' ||
-                    *m == 'B' || *m == 'N')) {
+                     *m == 'B' || *m == 'N')) {
         m++;
       }
       size_t len = m - transStart;
@@ -123,7 +124,7 @@ const char *transPiecesChar(char c) {
     } else {
       m++;
       while (*m && !(*m == 'P' || *m == 'K' || *m == 'Q' || *m == 'R' ||
-                    *m == 'B' || *m == 'N')) {
+                     *m == 'B' || *m == 'N')) {
         m++;
       }
     }
