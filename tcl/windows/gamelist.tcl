@@ -1562,6 +1562,7 @@ proc glist.yscroll_ {w first last} {
       return
     }
     if {$::glistFirst($w) == 0} {
+      set ::glistVisibleLn($w) $::glistLoaded($w)
       return [{*}$::glistYScroll($w) $first $last]
     }
   }
