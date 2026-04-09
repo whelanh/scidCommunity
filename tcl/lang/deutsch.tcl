@@ -1,6 +1,6 @@
 ### deutsch.tcl:
 #  German language support for Scid.
-#  Contributors: Bernhard Bialas, Jürgen Clos et al.
+#  Contributors: Bernhard Bialas, Jürgen Clos, Frank Eschenauer  et al.
 #  Untranslated messages are marked with a "***" comment.
 #
 #  Hinweis (aus tcl/lang/english.tcl):
