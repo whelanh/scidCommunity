@@ -434,7 +434,7 @@ proc ::enginewin::createButtonsBar {id btn display} {
     bind $btn.depth <FocusOut> "::enginewin::applyLimits $id"
     ::utils::tooltip::Set $btn.depth "Search depth limit (leave empty for unlimited)"
 
-    ttk::label $btn.movetime_label -text "Time(ms):" -style Toolbutton
+    ttk::label $btn.movetime_label -text "[tr TimeMs]:" -style Toolbutton
     ttk::entry $btn.movetime -textvariable ::enginewin::movetime_limit -width 8 -justify right \
         -validate key -validatecommand {expr {[string is integer %P] || [string length %P] == 0}}
     bind $btn.movetime <Return> "::enginewin::applyLimits $id"
@@ -460,7 +460,7 @@ proc ::enginewin::createButtonsBar {id btn display} {
         -command "::auto_comment::generateComment $id"
     ::utils::tooltip::Set $btn.autocomment [tr AutoCommentTooltip]
 
-    ttk::button $btn.gamecomment -text "Game Comment" \
+    ttk::button $btn.gamecomment -text [tr GameComment] \
         -command "::analysis_auto_comment::batch_generate $id"
     ::utils::tooltip::Set $btn.gamecomment "Scan game for annotated moves and generate AI summary"
 
