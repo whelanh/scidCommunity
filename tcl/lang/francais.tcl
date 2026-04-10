@@ -648,6 +648,8 @@ translate F Informant+-- {La partie est gagnée}
 translate F AutoComment {Commentaire automatique}
 translate F AutoCommentTooltip {Générer des commentaires IA pour la position actuelle}
 translate F AnalysisAutoCommentTooltip {Générez des commentaires IA pour l'ensemble du jeu}
+translate F GameComment {Commentaire du jeu}
+translate F TimeMs {Temps (ms)}
 
 # Book window
 translate F Book {Bibliothèque}

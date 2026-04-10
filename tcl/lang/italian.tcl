@@ -646,6 +646,8 @@ translate I Informant+-- {La partita è considerata vinta}
 translate I AutoComment {Commento automatico}
 translate I AutoCommentTooltip {Genera commenti AI per la posizione attuale}
 translate I AnalysisAutoCommentTooltip {Genera commenti AI per l'intero gioco}
+translate I GameComment {Commento del gioco}
+translate I TimeMs {Tempo (ms)}
 
 # Book window
 translate I Book {Libro}

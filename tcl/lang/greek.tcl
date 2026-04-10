@@ -667,6 +667,8 @@ translate G Informant+-- {Η παρτίδα θεωρείται κερδισμέ�
 translate G AutoComment {Αυτόματο σχόλιο}
 translate G AutoCommentTooltip {Δημιουργήστε σχόλια τεχνητής νοημοσύνης για την τρέχουσα θέση}
 translate G AnalysisAutoCommentTooltip {Δημιουργήστε σχόλια AI για ολόκληρο το παιχνίδι}
+translate G GameComment {Σχόλιο παιχνιδιού}
+translate G TimeMs {Χρόνος(ms)}
 
 # Book window
 translate G Book {Βιβλίο}

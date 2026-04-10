@@ -672,9 +672,11 @@ translate D Informant+= {Weiß hat leichten Vorteil}
 translate D Informant+/- {Weiß hat klaren Vorteil}
 translate D Informant+- {Weiß hat großen Vorteil}
 translate D Informant+-- {Weiß hat erdrückenden Vorteil}
-translate D AutoComment {Automatischer Kommentar}
+translate D AutoComment {Zug Kritik}
 translate D AutoCommentTooltip {Generieren Sie einen KI-Kommentar für die aktuelle Position}
 translate D AnalysisAutoCommentTooltip {Generieren Sie KI-Kommentare für das gesamte Spiel}
+translate D GameComment {Partie Kritik}
+translate D TimeMs {Zeit (ms)}
 
 # Book window
 translate D Book {Buch}

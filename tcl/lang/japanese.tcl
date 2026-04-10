@@ -676,6 +676,8 @@ translate A Informant+-- {白には圧倒的な優位性がある}
 translate A AutoComment {自動コメント}
 translate A AutoCommentTooltip {現在のポジションのAIコメントを生成}
 translate A AnalysisAutoCommentTooltip {ゲーム全体の AI コメントを生成}
+translate A GameComment {ゲームコメント}
+translate A TimeMs {時間(ミリ秒)}
 
 # Book window
 translate A Book {本}

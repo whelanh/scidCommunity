@@ -643,6 +643,8 @@ translate H Informant+-- {A játszma eldölt}
 translate H AutoComment {Automatikus megjegyzés}
 translate H AutoCommentTooltip {AI kommentár létrehozása az aktuális pozícióhoz}
 translate H AnalysisAutoCommentTooltip {Generálj mesterséges intelligencia kommentárt az egész játékhoz}
+translate H GameComment {Játék megjegyzés}
+translate H TimeMs {Idõ (ms)}
 
 # Book window
 translate H Book {Megnyitástár}

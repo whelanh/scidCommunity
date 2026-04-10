@@ -642,6 +642,8 @@ translate R Informant+-- {Партия считается выигранной}
 translate R AutoComment {Автоматический комментарий}
 translate R AutoCommentTooltip {Создать комментарий AI для текущей позиции}
 translate R AnalysisAutoCommentTooltip {Создавайте комментарии ИИ для всей игры.}
+translate R GameComment {Комментарий к игре}
+translate R TimeMs {Время (мс)}
 
 # Book window
 translate R Book {Книга}

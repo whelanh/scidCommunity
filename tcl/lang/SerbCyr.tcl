@@ -676,6 +676,8 @@ translate J Informant+-- {Бели имају поразну предност}
 translate J AutoComment {Ауто Цоммент}
 translate J AutoCommentTooltip {Генеришите АИ коментар за тренутну позицију}
 translate J AnalysisAutoCommentTooltip {Генеришите АИ коментар за целу игру}
+translate J GameComment {Гаме Цоммент}
+translate J TimeMs {време(мс)}
 
 # Book window
 translate J Book {Боок}

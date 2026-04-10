@@ -665,6 +665,8 @@ translate N Informant+-- {Deze partij kan als gewonnen beschouwd worden}
 translate N AutoComment {Automatische commentaar}
 translate N AutoCommentTooltip {Genereer AI-commentaar voor de huidige positie}
 translate N AnalysisAutoCommentTooltip {Genereer AI-commentaar voor het hele spel}
+translate N GameComment {Spelcommentaar}
+translate N TimeMs {Tijd (ms)}
 
 # Book window
 translate N Book {Openingenboek}

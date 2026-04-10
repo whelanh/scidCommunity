@@ -656,6 +656,8 @@ translate P Informant+-- {Bia³e maj± mia¿d¿±ce zastosowanie}
 translate P AutoComment {Automatyczny komentarz}
 translate P AutoCommentTooltip {Wygeneruj komentarz AI dla aktualnej pozycji}
 translate P AnalysisAutoCommentTooltip {Generuj komentarz AI dla ca³ej gry}
+translate P GameComment {Komentarz do gry}
+translate P TimeMs {Czas (ms)}
 
 # Book window
 translate P Book {Ksi±¿ka}

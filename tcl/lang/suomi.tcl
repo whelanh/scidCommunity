@@ -674,6 +674,8 @@ translate U Informant+-- {Voittoasema}
 translate U AutoComment {Automaattinen kommentti}
 translate U AutoCommentTooltip {Luo tekoälykommentti nykyiselle sijainnille}
 translate U AnalysisAutoCommentTooltip {Luo tekoälykommentteja koko pelille}
+translate U GameComment {Pelin kommentti}
+translate U TimeMs {Aika (ms)}
 
 # Book window
 translate U Book {Kirja}

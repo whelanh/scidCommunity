@@ -661,6 +661,8 @@ translate K Informant+-- {La partida es considerada com guanyada}
 translate K AutoComment {Comentari automàtic}
 translate K AutoCommentTooltip {Genereu comentaris d'IA per a la posició actual}
 translate K AnalysisAutoCommentTooltip {Genera comentaris d'IA per a tot el joc}
+translate K GameComment {Comentari del joc}
+translate K TimeMs {Temps (ms)}
 
 # Book window
 translate K Book {Llibre}

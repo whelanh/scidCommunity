@@ -646,6 +646,8 @@ translate W Informant+-- {Partiet anses vara vunnet}
 translate W AutoComment {Autokommentar}
 translate W AutoCommentTooltip {Generera AI-kommentarer för den aktuella positionen}
 translate W AnalysisAutoCommentTooltip {Generera AI-kommentarer för hela spelet}
+translate W GameComment {Spelkommentar}
+translate W TimeMs {Tid(ms)}
 
 # Book window
 translate W Book {Bok}

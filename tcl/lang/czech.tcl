@@ -640,6 +640,8 @@ translate C Informant+-- {Partie je pova¾ována za vyhranou}
 translate C AutoComment {Automatickı komentáø}
 translate C AutoCommentTooltip {Generujte AI komentáø pro aktuální pozici}
 translate C AnalysisAutoCommentTooltip {Generujte AI komentáø pro celou hru}
+translate C GameComment {Komentáø ke høe}
+translate C TimeMs {èas (ms)}
 
 # Book window
 translate C Book {Knihovna zahájení}

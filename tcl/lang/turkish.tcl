@@ -640,6 +640,10 @@ translate T Informant+-- {Beyazın ezici bir avantajı var}
 translate T AutoComment {Otomatik Yorum}
 translate T AutoCommentTooltip {Mevcut konum için yapay zeka yorumu oluşturun}
 translate T AnalysisAutoCommentTooltip {Oyunun tamamı için yapay zeka yorumları oluşturun}
+# ====== TODO To be translated ======
+translate T GameComment {Game Comment}
+# ====== TODO To be translated ======
+translate T TimeMs {Time(ms)}
 
 # Book window
 translate T Book {Kitap}

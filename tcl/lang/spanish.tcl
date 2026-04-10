@@ -692,6 +692,8 @@ translate S Informant+-- {La partida es considerada ganada}
 translate S AutoComment {Comentario automático}
 translate S AutoCommentTooltip {Genere comentarios de IA para la posición actual}
 translate S AnalysisAutoCommentTooltip {Genera comentarios de IA para todo el juego.}
+translate S GameComment {Comentario del juego}
+translate S TimeMs {Tiempo (ms)}
 
 # Book window
 translate S Book {Libro}

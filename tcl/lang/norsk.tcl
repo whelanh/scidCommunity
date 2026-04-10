@@ -645,6 +645,8 @@ translate O Informant+-- {Hvit har en knusende fordel}
 translate O AutoComment {Automatisk kommentar}
 translate O AutoCommentTooltip {Generer AI-kommentarer for gjeldende stilling}
 translate O AnalysisAutoCommentTooltip {Generer AI-kommentarer for hele spillet}
+translate O GameComment {Spillkommentar}
+translate O TimeMs {Tid (ms)}
 
 # Book window
 translate O Book {Bok}

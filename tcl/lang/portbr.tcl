@@ -648,6 +648,8 @@ translate B Informant+-- {O jogo é considerado como ganho}
 translate B AutoComment {Comentário automático}
 translate B AutoCommentTooltip {Gere comentários de IA para a posição atual}
 translate B AnalysisAutoCommentTooltip {Gere comentários de IA para todo o jogo}
+translate B GameComment {Comentário do jogo}
+translate B TimeMs {Tempo (ms)}
 
 # Book window
 translate B Book {Livro}
