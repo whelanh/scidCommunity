@@ -37,7 +37,7 @@ While it maintains compatibility with the original Scid database formats, **scid
 15. Add multi-colored arrows for engine analysis in Engine and Analysis windows. Top 3+ engine moves with color-coded arrows: green (Best), yellow (2nd), red (3rd+)
 16. Based on user request, adopted Lichess/ChessBase format for arrows and symbols as the default. User can revert to old Scid format in Options/Preferences/Moves if they want.
 17. Based on [user request](https://github.com/whelanh/scidCommunity/discussions/26), now down-arrow enters a variation in the PGN Window, up-arrow returns to main line.  Right-arrow moves forward in both main line and variation.
-18. Updated language translations in **Options/Language** and added Chinese, Turkish, Serbian Cyrillic, Japanese, Romanian, Arabic and Hebrew translation files.
+18. Updated language translations in **Options/Language** and added Chinese, Turkish, Serbian Cyrillic, Japanese and Romanian translation files.
 19. Users can now see up to 4 half-move sequences in the **Tree Window**   The user's preferred Tree Window move depth can be saved under **Options/Preferences/Moves**
 20. Thanks to a well thought out and detailed [user proposal](https://github.com/whelanh/scidCommunity/discussions/32), developers can now access Scid databases directly in their code using scidCommunity's new headless API.  More documentation can be found in the /docs folder.
 21. Lichess-based calculation of White and Black's "Game Accuracy" [included](https://github.com/whelanh/scidCommunity/discussions/49) in the upper left of the engine score graph in the **Engine Window**.
