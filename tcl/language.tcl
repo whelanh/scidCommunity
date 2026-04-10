@@ -3,6 +3,8 @@
 
 array set langEncoding {}
 set languages {}
+set ::isRTL 0
+set ::rtlLanguages {Q V}
 
 if {[catch {encoding names}]} {
   set hasEncoding 0
@@ -80,12 +82,69 @@ proc addLanguage {letter name underline encodingSystem filename} {
   set ::langSourceFile($letter) $filename
 }
 ################################################################################
+# isLTRChar:
+#    Returns 1 if the given Unicode code point is a Latin letter, digit, or
+#    period (common in embedded LTR tokens like "Rel.", "HTML", "chess.com").
+################################################################################
+proc isLTRChar {code} {
+  if {($code >= 0x41 && $code <= 0x5A) || ($code >= 0x61 && $code <= 0x7A)} { return 1 }
+  if {$code >= 0x30 && $code <= 0x39} { return 1 }
+  if {$code == 0x2E} { return 1 }
+  return 0
+}
+################################################################################
+# reverseForRTL:
+#    Converts logical-order RTL text to visual order for display in Tk menu
+#    widgets that do not implement the Unicode BiDi algorithm.
+#    Reverses the entire string, then reverses embedded LTR runs (Latin text,
+#    digits, abbreviations) back to their correct left-to-right order.
+################################################################################
+proc reverseForRTL {text} {
+  set reversed [string reverse $text]
+  set result ""
+  set i 0
+  set len [string length $reversed]
+  while {$i < $len} {
+    set code [scan [string index $reversed $i] %c]
+    if {[isLTRChar $code]} {
+      # Collect the LTR run, including spaces between LTR characters
+      set ltr_run [string index $reversed $i]
+      incr i
+      while {$i < $len} {
+        set code [scan [string index $reversed $i] %c]
+        if {[isLTRChar $code]} {
+          append ltr_run [string index $reversed $i]
+          incr i
+        } elseif {[string index $reversed $i] eq " " && ($i + 1) < $len
+                  && [isLTRChar [scan [string index $reversed [expr {$i + 1}]] %c]]} {
+          # Space between two LTR chars belongs to the LTR run
+          append ltr_run " "
+          incr i
+        } else {
+          break
+        }
+      }
+      append result [string reverse $ltr_run]
+    } else {
+      append result [string index $reversed $i]
+      incr i
+    }
+  }
+  return $result
+}
+################################################################################
 # menuText:
 #    Assigns the menu name and help message for a menu entry and language.
 ################################################################################
 proc menuText {lang tag label underline {helpMsg ""}} {
-  set ::menuLabel($lang,$tag) $label
-  set ::menuUnder($lang,$tag) $underline
+  if {$lang in $::rtlLanguages} {
+    # Convert to visual order for Tk menus that lack BiDi support
+    set ::menuLabel($lang,$tag) [reverseForRTL $label]
+    set ::menuUnder($lang,$tag) -1
+  } else {
+    set ::menuLabel($lang,$tag) $label
+    set ::menuUnder($lang,$tag) $underline
+  }
   if {$helpMsg != ""} {
     set ::helpMessage($lang,$tag) $helpMsg
   }
@@ -135,17 +194,17 @@ proc tr {tag {lang ""}} {
   if {$lang == "X"} {return $tag}
   # First, look for a menu label
   if {[info exists menuLabel($lang,$tag)]} {
-    return $menuLabel($lang,$tag)
-  }
-  if {[info exists menuLabel(E,$tag)]} {
-    return $menuLabel(E,$tag)
-  }
+    set result $menuLabel($lang,$tag)
+  } elseif {[info exists menuLabel(E,$tag)]} {
+    set result $menuLabel(E,$tag)
   # Now look for a regular button/message translation
-  if {[info exists tr($tag)]} {
-    return $tr($tag)
+  } elseif {[info exists tr($tag)]} {
+    set result $tr($tag)
+  } else {
+    # Finally, just give up and return the original tag
+    return $tag
   }
-  # Finally, just give up and return the original tag
-  return $tag
+  return $result
 }
 ################################################################################
 #
@@ -212,16 +271,15 @@ proc setLanguage {} {
 }
 
 proc applyRTLConfiguration {} {
+  set ::isRTL 1
   option add *Text.direction rtl
   option add *Entry.justify right
   option add *Label.justify right
   option add *Button.justify right
-  
-  # Note: Existing widgets won't update automatically
-  # You may need to restart or recreate dialogs
 }
 
 proc applyLTRConfiguration {} {
+  set ::isRTL 0
   option add *Text.direction ltr
   option add *Entry.justify left
   option add *Label.justify left
