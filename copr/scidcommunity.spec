@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.98
+Version:        5.1.2.99
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 4b170c3843e1b20166e301284d9b2350385efebe
+%global commit 9243dfed7f7048cd863d69453398c34c01852576
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Fri Apr 10 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-99
+- "Fix Arabic and Hebrew menus"
 * Fri Apr 10 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-98
 - "Add Arabic and Hebrew language options"
 * Thu Apr 9, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-97

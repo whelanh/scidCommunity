@@ -79,7 +79,7 @@
   <content_rating type="oars-1.0" />
 
   <releases>
-    <release version="5.1.2.98" date="2026-04-10">
+    <release version="5.1.2.99" date="2026-04-10">
       <description>
         <p>Added Arabic and Hebrew language options</p>
       </description>
