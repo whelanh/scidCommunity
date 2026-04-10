@@ -35,8 +35,6 @@ array set encodings {
   SerbCyr utf-8
   japanese utf-8
   romanian utf-8
-  arabic utf-8
-  hebrew utf-8
 }
 
 array set codes {
@@ -61,13 +59,10 @@ array set codes {
   SerbCyr J
   japanese A
   romanian L
-  arabic Q
-  hebrew V
 }
 
 set languages {czech deutsch francais hungary italian chinese nederlan norsk polish
-  portbr spanish swedish serbian russian catalan suomi greek turkish SerbCyr japanese romanian 
-  arabic hebrew
+  portbr spanish swedish serbian russian catalan suomi greek turkish SerbCyr japanese romanian
 }
 
 ################################################################################

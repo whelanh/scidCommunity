@@ -27,109 +27,57 @@
 int language = 0; // default to english
 //  0 = en,
 //  1 = fr, 2 = es, 3 = de, 4 = it, 5 = ne, 6 = cz
-//  7 = hu, 8 = no, 9 = sw, 10 = ca, 11 = fi, 12 = gr, 13 = pt, 14 = ar, 15 = he
+//  7 = hu, 8 = no, 9 = sw, 10 = ca, 11 = fi, 12 = gr, 13 = pt
 //  TODO Piece translations for greek
-const char *langPieces[] = {
-    "",
-    "PPKRQDRTBFNC",
-    "PPKRQDRTBANC",
-    "PBKKQDRTBLNS",
-    "PPKRQDRTBANC",
-    "PpKKQDRTBLNP",
-    "PPKKQDRVBSNJ",
-    "PGKKQVRBBFNH",
-    "PBKKQDRTBLNS",
-    "PBKKQDRTBLNS",
-    "PPKRQDRTBANC",
-    "PSKKQDRTBLNR",
-    "",
-    "PPKRQDRTBBNC",
-    "PبKمQوRرBفNح", // Arabic piece pairs (English, Arabic)
-    "PפKמQהRצBרNס", // Hebrew piece pairs (English, Hebrew)
-    ""};
+const char *langPieces[] = {"",
+                            "PPKRQDRTBFNC",
+                            "PPKRQDRTBANC",
+                            "PBKKQDRTBLNS",
+                            "PPKRQDRTBANC",
+                            "PpKKQDRTBLNP",
+                            "PPKKQDRVBSNJ",
+                            "PGKKQVRBBFNH",
+                            "PBKKQDRTBLNS",
+                            "PBKKQDRTBLNS",
+                            "PPKRQDRTBANC",
+                            "PSKKQDRTBLNR",
+                            "",
+                            "PPKRQDRTBBNC",
+                            ""};
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // transPieces():
-// Given a string, will translate pieces from english to another language.
-// Handles multi-byte UTF-8 characters (e.g. Arabic).
+// Given a string, will translate pieces from english to another language
 void transPieces(char *s) {
-  if (language == 0 || !s || !*s)
+  if (language == 0)
     return;
+  char *ptr = s;
+  int i;
 
-  const char *mapping = langPieces[language];
-  if (!mapping || !*mapping)
-    return;
-
-  std::string result;
-  result.reserve(std::strlen(s) * 2);
-
-  for (const char *ptr = s; *ptr; ++ptr) {
-    bool translated = false;
+  while (*ptr) {
     if (*ptr >= 'A' && *ptr <= 'Z') {
-      // Search for the piece in the mapping string
-      for (const char *m = mapping; *m;) {
-        if (*m == *ptr) {
-          // Found English piece. The translation follows.
-          const char *transStart = ++m;
-          while (*m && !(*m == 'P' || *m == 'K' || *m == 'Q' || *m == 'R' ||
-                         *m == 'B' || *m == 'N')) {
-            m++;
-          }
-          result.append(transStart, m - transStart);
-          translated = true;
+      for (i = 0; i < 12; i += 2) {
+        if (*ptr == langPieces[language][i]) {
+          *ptr = langPieces[language][i + 1];
           break;
-        } else {
-          // Skip this English piece and its translation
-          m++;
-          while (*m && !(*m == 'P' || *m == 'K' || *m == 'Q' || *m == 'R' ||
-                         *m == 'B' || *m == 'N')) {
-            m++;
-          }
         }
       }
     }
-    if (!translated) {
-      result.push_back(*ptr);
-    }
+    ptr++;
   }
-
-  // Copy back to s.
-  // Note: Caller must ensure s is large enough.
-  // Move strings (SAN) are typically very short, usually < 20 bytes.
-  std::strcpy(s, result.c_str());
 }
 
-const char *transPiecesChar(char c) {
+char transPiecesChar(char c) {
+  char ret = c;
   if (language == 0)
-    return nullptr;
-
-  const char *mapping = langPieces[language];
-  if (!mapping || !*mapping)
-    return nullptr;
-
-  static char buf[16];
-  for (const char *m = mapping; *m;) {
-    if (*m == c) {
-      const char *transStart = ++m;
-      while (*m && !(*m == 'P' || *m == 'K' || *m == 'Q' || *m == 'R' ||
-                     *m == 'B' || *m == 'N')) {
-        m++;
-      }
-      size_t len = m - transStart;
-      if (len >= sizeof(buf))
-        len = sizeof(buf) - 1;
-      std::memcpy(buf, transStart, len);
-      buf[len] = '\0';
-      return buf;
-    } else {
-      m++;
-      while (*m && !(*m == 'P' || *m == 'K' || *m == 'Q' || *m == 'R' ||
-                     *m == 'B' || *m == 'N')) {
-        m++;
-      }
+    return c;
+  for (int i = 0; i < 12; i += 2) {
+    if (c == langPieces[language][i]) {
+      ret = langPieces[language][i + 1];
+      break;
     }
   }
-  return nullptr;
+  return ret;
 }
 
 const char *ratingTypeNames[8] = {"Elo", "Rating", "Rapid", "ICCF", "USCF",
@@ -979,8 +927,8 @@ std::vector<std::string> Game::mainLineUCI() const {
   for (auto m = it; !m->endMarker(); m = m->Next()) {
     if (m->isNull()) {
       if (!it_pos) {
-        it_pos = std::make_unique<Position>(StartPos ? *StartPos
-                                                     : Position::getStdStart());
+        it_pos = std::make_unique<Position>(
+            StartPos ? *StartPos : Position::getStdStart());
       }
       for (auto end = m->Next(); it != end; it = it->Next()) {
         it_pos->DoSimpleMove(it->moveData);
@@ -1882,7 +1830,7 @@ void Game::WriteComment(TextBuffer *tb, const char *preStr, const char *comment,
 //
 errorT Game::WriteMoveList(TextBuffer *tb, moveT *oldCurrentMove,
                            bool printMoveNum, bool inComment) {
-  char tempTrans[64];
+  char tempTrans[10];
   const char *preCommentStr = "{";
   const char *postCommentStr = "}";
   const char *startTable = "\n";

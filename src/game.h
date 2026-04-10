@@ -31,7 +31,7 @@ class ByteBuffer;
 class TextBuffer;
 
 void transPieces(char *s);
-const char * transPiecesChar(char c);
+char transPiecesChar(char c);
 
 // Piece letters translation
 extern int language; // default to english
