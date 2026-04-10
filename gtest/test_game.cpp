@@ -765,30 +765,30 @@ TEST(Test_Game, transPieces_english) {
 TEST(Test_Game, transPieces_french) {
   int saved = language;
   language = 1; // French: PPKRQDRTBFNC
-  char c = transPiecesChar('K');
-  EXPECT_EQ('R', c); // King -> Roi
+  const char *c = transPiecesChar('K');
+  EXPECT_STREQ("R", c); // King -> Roi
   c = transPiecesChar('Q');
-  EXPECT_EQ('D', c); // Queen -> Dame
+  EXPECT_STREQ("D", c); // Queen -> Dame
   c = transPiecesChar('B');
-  EXPECT_EQ('F', c); // Bishop -> Fou
+  EXPECT_STREQ("F", c); // Bishop -> Fou
   c = transPiecesChar('N');
-  EXPECT_EQ('C', c); // Knight -> Cavalier
+  EXPECT_STREQ("C", c); // Knight -> Cavalier
   language = saved;
 }
 
 TEST(Test_Game, transPieces_portuguese) {
   int saved = language;
   language = 13; // Portuguese: PPKRQDRTBBNC
-  char c = transPiecesChar('K');
-  EXPECT_EQ('R', c); // King -> Rei
+  const char *c = transPiecesChar('K');
+  EXPECT_STREQ("R", c); // King -> Rei
   c = transPiecesChar('Q');
-  EXPECT_EQ('D', c); // Queen -> Dama
+  EXPECT_STREQ("D", c); // Queen -> Dama
   c = transPiecesChar('R');
-  EXPECT_EQ('T', c); // Rook -> Torre
+  EXPECT_STREQ("T", c); // Rook -> Torre
   c = transPiecesChar('B');
-  EXPECT_EQ('B', c); // Bishop -> Bispo
+  EXPECT_STREQ("B", c); // Bishop -> Bispo
   c = transPiecesChar('N');
-  EXPECT_EQ('C', c); // Knight -> Cavalo
+  EXPECT_STREQ("C", c); // Knight -> Cavalo
   language = saved;
 }
 
@@ -796,8 +796,8 @@ TEST(Test_Game, transPiecesChar_noMatch) {
   int saved = language;
   language = 1;
   // Lowercase letters should not be translated
-  EXPECT_EQ('a', transPiecesChar('a'));
-  EXPECT_EQ('z', transPiecesChar('z'));
+  EXPECT_EQ(nullptr, transPiecesChar('a'));
+  EXPECT_EQ(nullptr, transPiecesChar('z'));
   language = saved;
 }
 

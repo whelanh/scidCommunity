@@ -48,10 +48,25 @@ const char *langPieces[] = {
     "PפKמQהRצBרNס", // Hebrew piece pairs (English, Hebrew)
     ""};
 
+// Advance a pointer past one UTF-8 character.
+// Returns pointer to the start of the next character.
+static const char *skipOneUtf8Char(const char *p) {
+  if (!*p)
+    return p;
+  if ((*p & 0x80) == 0)
+    return p + 1; // ASCII single byte
+  // Multi-byte UTF-8: skip leading byte and all continuation bytes (10xxxxxx)
+  p++;
+  while (*p && (*p & 0xC0) == 0x80)
+    p++;
+  return p;
+}
+
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // transPieces():
 // Given a string, will translate pieces from english to another language.
-// Handles multi-byte UTF-8 characters (e.g. Arabic).
+// The mapping format is pairs: EnglishChar followed by one UTF-8 character
+// for the translation (e.g. "PPKRQDRTBFNC" or "PبKمQوRرBفNح").
 void transPieces(char *s) {
   if (language == 0 || !s || !*s)
     return;
@@ -68,23 +83,13 @@ void transPieces(char *s) {
     if (*ptr >= 'A' && *ptr <= 'Z') {
       // Search for the piece in the mapping string
       for (const char *m = mapping; *m;) {
-        if (*m == *ptr) {
-          // Found English piece. The translation follows.
-          const char *transStart = ++m;
-          while (*m && !(*m == 'P' || *m == 'K' || *m == 'Q' || *m == 'R' ||
-                         *m == 'B' || *m == 'N')) {
-            m++;
-          }
+        char englishPiece = *m++;
+        const char *transStart = m;
+        m = skipOneUtf8Char(m);
+        if (englishPiece == *ptr) {
           result.append(transStart, m - transStart);
           translated = true;
           break;
-        } else {
-          // Skip this English piece and its translation
-          m++;
-          while (*m && !(*m == 'P' || *m == 'K' || *m == 'Q' || *m == 'R' ||
-                         *m == 'B' || *m == 'N')) {
-            m++;
-          }
         }
       }
     }
@@ -109,24 +114,16 @@ const char *transPiecesChar(char c) {
 
   static char buf[16];
   for (const char *m = mapping; *m;) {
-    if (*m == c) {
-      const char *transStart = ++m;
-      while (*m && !(*m == 'P' || *m == 'K' || *m == 'Q' || *m == 'R' ||
-                     *m == 'B' || *m == 'N')) {
-        m++;
-      }
+    char englishPiece = *m++;
+    const char *transStart = m;
+    m = skipOneUtf8Char(m);
+    if (englishPiece == c) {
       size_t len = m - transStart;
       if (len >= sizeof(buf))
         len = sizeof(buf) - 1;
       std::memcpy(buf, transStart, len);
       buf[len] = '\0';
       return buf;
-    } else {
-      m++;
-      while (*m && !(*m == 'P' || *m == 'K' || *m == 'Q' || *m == 'R' ||
-                     *m == 'B' || *m == 'N')) {
-        m++;
-      }
     }
   }
   return nullptr;
