@@ -647,6 +647,7 @@ translate W AutoComment {Autokommentar}
 translate W AutoCommentTooltip {Generera AI-kommentarer för den aktuella positionen}
 translate W AnalysisAutoCommentTooltip {Generera AI-kommentarer för hela spelet}
 translate W GameComment {Spelkommentar}
+translate W GameCommentTooltip {Skanna spelet efter kommenterade drag och generera AI-sammanfattningar}
 translate W TimeMs {Tid(ms)}
 
 # Book window

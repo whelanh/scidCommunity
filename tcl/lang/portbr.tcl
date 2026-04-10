@@ -649,6 +649,7 @@ translate B AutoComment {Comentário automático}
 translate B AutoCommentTooltip {Gere comentários de IA para a posição atual}
 translate B AnalysisAutoCommentTooltip {Gere comentários de IA para todo o jogo}
 translate B GameComment {Comentário do jogo}
+translate B GameCommentTooltip {Analise o jogo em busca de movimentos anotados e gere um resumo de IA}
 translate B TimeMs {Tempo (ms)}
 
 # Book window

@@ -644,6 +644,7 @@ translate H AutoComment {Automatikus megjegyzés}
 translate H AutoCommentTooltip {AI kommentár létrehozása az aktuális pozícióhoz}
 translate H AnalysisAutoCommentTooltip {Generálj mesterséges intelligencia kommentárt az egész játékhoz}
 translate H GameComment {Játék megjegyzés}
+translate H GameCommentTooltip {Keresse meg a játékot megjegyzésekkel ellátott mozdulatok után, és készítsen AI-összefoglalót}
 translate H TimeMs {Idõ (ms)}
 
 # Book window

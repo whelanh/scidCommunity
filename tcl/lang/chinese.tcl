@@ -612,6 +612,7 @@ translate M AutoComment {自动评论}
 translate M AutoCommentTooltip {为当前位置生成AI解说}
 translate M AnalysisAutoCommentTooltip {为整个游戏生成 AI 解说}
 translate M GameComment {游戏评论}
+translate M GameCommentTooltip {扫描游戏中带注释的动作并生成 AI 摘要}
 translate M TimeMs {时间（毫秒）}
 
 # Book window

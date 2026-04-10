@@ -675,6 +675,7 @@ translate U AutoComment {Automaattinen kommentti}
 translate U AutoCommentTooltip {Luo tekoälykommentti nykyiselle sijainnille}
 translate U AnalysisAutoCommentTooltip {Luo tekoälykommentteja koko pelille}
 translate U GameComment {Pelin kommentti}
+translate U GameCommentTooltip {Etsi pelistä selostettuja liikkeitä ja luo tekoälyyhteenveto}
 translate U TimeMs {Aika (ms)}
 
 # Book window

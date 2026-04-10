@@ -462,7 +462,7 @@ proc ::enginewin::createButtonsBar {id btn display} {
 
     ttk::button $btn.gamecomment -text [tr GameComment] \
         -command "::analysis_auto_comment::batch_generate $id"
-    ::utils::tooltip::Set $btn.gamecomment "Scan game for annotated moves and generate AI summary"
+    ::utils::tooltip::Set $btn.gamecomment [tr GameCommentTooltip]
 
     grid $btn.startStop $btn.lock $btn.addbestmove $btn.addlines \
          $btn.multipv $btn.depth_label $btn.depth $btn.movetime_label $btn.movetime \

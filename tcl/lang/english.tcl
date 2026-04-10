@@ -676,6 +676,7 @@ translate E AutoComment {Auto Comment}
 translate E AutoCommentTooltip {Generate AI commentary for the current position}
 translate E AnalysisAutoCommentTooltip {Generate AI commentary for the entire game}
 translate E GameComment {Game Comment}
+translate E GameCommentTooltip {Scan game for annotated moves and generate AI summary}
 translate E TimeMs {Time(ms)}
 
 # Book window

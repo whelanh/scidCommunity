@@ -649,6 +649,7 @@ translate F AutoComment {Commentaire automatique}
 translate F AutoCommentTooltip {Générer des commentaires IA pour la position actuelle}
 translate F AnalysisAutoCommentTooltip {Générez des commentaires IA pour l'ensemble du jeu}
 translate F GameComment {Commentaire du jeu}
+translate F GameCommentTooltip {Analysez le jeu pour rechercher des mouvements annotés et générez un résumé de l'IA}
 translate F TimeMs {Temps (ms)}
 
 # Book window

@@ -646,6 +646,7 @@ translate O AutoComment {Automatisk kommentar}
 translate O AutoCommentTooltip {Generer AI-kommentarer for gjeldende stilling}
 translate O AnalysisAutoCommentTooltip {Generer AI-kommentarer for hele spillet}
 translate O GameComment {Spillkommentar}
+translate O GameCommentTooltip {Skann spillet for kommenterte trekk og generer AI-sammendrag}
 translate O TimeMs {Tid (ms)}
 
 # Book window

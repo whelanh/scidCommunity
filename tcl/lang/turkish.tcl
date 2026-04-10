@@ -643,6 +643,8 @@ translate T AnalysisAutoCommentTooltip {Oyunun tamamı için yapay zeka yorumlar
 # ====== TODO To be translated ======
 translate T GameComment {Game Comment}
 # ====== TODO To be translated ======
+translate T GameCommentTooltip {Scan game for annotated moves and generate AI summary}
+# ====== TODO To be translated ======
 translate T TimeMs {Time(ms)}
 
 # Book window

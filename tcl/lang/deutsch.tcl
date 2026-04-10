@@ -676,6 +676,7 @@ translate D AutoComment {Zug Kritik}
 translate D AutoCommentTooltip {Generieren Sie einen KI-Kommentar für die aktuelle Position}
 translate D AnalysisAutoCommentTooltip {Generieren Sie KI-Kommentare für das gesamte Spiel}
 translate D GameComment {Partie Kritik}
+translate D GameCommentTooltip {Partie nach kommentierten Zügen durchsuchen und KI-Zusammenfassung erstellen}
 translate D TimeMs {Zeit (ms)}
 
 # Book window

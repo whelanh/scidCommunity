@@ -643,6 +643,7 @@ translate R AutoComment {Автоматический комментарий}
 translate R AutoCommentTooltip {Создать комментарий AI для текущей позиции}
 translate R AnalysisAutoCommentTooltip {Создавайте комментарии ИИ для всей игры.}
 translate R GameComment {Комментарий к игре}
+translate R GameCommentTooltip {Сканируйте игру на предмет аннотированных ходов и сгенерируйте сводку AI.}
 translate R TimeMs {Время (мс)}
 
 # Book window

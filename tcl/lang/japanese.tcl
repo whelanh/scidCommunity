@@ -677,6 +677,7 @@ translate A AutoComment {自動コメント}
 translate A AutoCommentTooltip {現在のポジションのAIコメントを生成}
 translate A AnalysisAutoCommentTooltip {ゲーム全体の AI コメントを生成}
 translate A GameComment {ゲームコメント}
+translate A GameCommentTooltip {注釈付きの動きのゲームをスキャンし、AI サマリーを生成します}
 translate A TimeMs {時間(ミリ秒)}
 
 # Book window

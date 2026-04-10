@@ -666,6 +666,7 @@ translate N AutoComment {Automatische commentaar}
 translate N AutoCommentTooltip {Genereer AI-commentaar voor de huidige positie}
 translate N AnalysisAutoCommentTooltip {Genereer AI-commentaar voor het hele spel}
 translate N GameComment {Spelcommentaar}
+translate N GameCommentTooltip {Scan het spel op geannoteerde zetten en genereer een AI-samenvatting}
 translate N TimeMs {Tijd (ms)}
 
 # Book window

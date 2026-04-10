@@ -657,6 +657,7 @@ translate P AutoComment {Automatyczny komentarz}
 translate P AutoCommentTooltip {Wygeneruj komentarz AI dla aktualnej pozycji}
 translate P AnalysisAutoCommentTooltip {Generuj komentarz AI dla ca³ej gry}
 translate P GameComment {Komentarz do gry}
+translate P GameCommentTooltip {Przeskanuj grê pod k±tem ruchów z adnotacjami i wygeneruj podsumowanie AI}
 translate P TimeMs {Czas (ms)}
 
 # Book window

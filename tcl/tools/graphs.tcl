@@ -416,15 +416,58 @@ proc ::tools::graphs::filter::Refresh {} {
     }
   }
 
+  # Determine which filter to use and the appropriate denominator:
+  # If a tree window is open, we want to show stats for the current position
+  # by using the tree filter (composed with dbfilter).
+  # Otherwise, just use dbfilter.
+  set currentBase [sc_base current]
+  set filterToUse "dbfilter"
+  
+  # Determine the denominator based on tree window state:
+  # - When "All Games" is checked in tree: denominator = total DB games
+  # - When "All Games" is unchecked: denominator = dbfilter count (e.g., only ICCF games)
+  # - When no tree window: denominator = total DB games
+  if {[winfo exists .treeWin$currentBase]} {
+    # Check if "All Games" is unchecked in the tree window
+    # When unchecked, the tree is showing a filtered subset (e.g., only ICCF games)
+    if {[info exists ::tree(allgames$currentBase)] && $::tree(allgames$currentBase) == 0} {
+      # Tree is showing dbfilter subset, so use dbfilter count as denominator
+      set denominatorFilter "dbfilter"
+    } else {
+      # Tree is showing all games, so use total database as denominator
+      set denominatorFilter ""
+    }
+    # Compose dbfilter with tree filter to get games at this position AND matching dbfilter
+    set treeFilter [sc_filter compose $currentBase "dbfilter" "tree"]
+    if {$treeFilter != ""} {
+      set filterToUse $treeFilter
+    }
+  } else {
+    # No tree window, use total database as denominator
+    set denominatorFilter ""
+  }
+  
+  # Calculate the denominator value (total games to normalize against)
+  if {$denominatorFilter != ""} {
+    # Use the count of games in the specified filter
+    # e.g., if tree is showing only ICCF games, count ICCF games
+    set totalDBGames [sc_filter count $currentBase $denominatorFilter]
+  } else {
+    # Use total database size
+    set totalDBGames [sc_base numGames $currentBase]
+  }
+  set totalFilterGames 0
+
   foreach {start end label} $rlist {
     if {$ftype == "date"} { append end ".12.31" }
-    set r [sc_filter freq [sc_base current] dbfilter $ftype $start $end $FilterGuessELO]
+    set r [sc_filter freq $currentBase $filterToUse $ftype $start $end $FilterGuessELO]
     set filter [lindex $r 0]
-    set all [lindex $r 1]
-    if {$all == 0} {
+    set totalFilterGames [expr {$totalFilterGames + $filter}]
+    # Use total database size as denominator, not range-specific count
+    if {$totalDBGames == 0} {
       set freq 0.0
     } else {
-      set freq [expr {double($filter) * 1000.0 / double($all)}]
+      set freq [expr {double($filter) * 1000.0 / double($totalDBGames)}]
     }
     if {$freq >= 1000.0} { set freq 999.9 }
     incr count
@@ -447,10 +490,9 @@ proc ::tools::graphs::filter::Refresh {} {
   if {$max > 500} { set ytick 100 }
   set hlines [list [list gray80 1 each $ytick]]
   # Add mean horizontal line:
-  set filter [sc_filter count]
-  set all [sc_base numGames $::curr_db]
-  if {$all > 0} {
-    set mean [expr {double($filter) * 1000.0 / double($all)}]
+  # The mean represents the overall frequency: total filter games * 1000 / total db games
+  if {$totalDBGames > 0 && $totalFilterGames > 0} {
+    set mean [expr {double($totalFilterGames) * 1000.0 / double($totalDBGames)}]
     if {$mean >= 1000.0} { set mean 999.9 }
     lappend hlines [list red 1 at $mean]
   }

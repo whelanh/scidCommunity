@@ -803,6 +803,8 @@ translate Y AnalysisAutoCommentTooltip {Generate AI commentary for the entire ga
 # ====== TODO To be translated ======
 translate Y GameComment {Game Comment}
 # ====== TODO To be translated ======
+translate Y GameCommentTooltip {Scan game for annotated moves and generate AI summary}
+# ====== TODO To be translated ======
 translate Y TimeMs {Time(ms)}
 # ====== TODO To be translated ======
 translate Y Book {Book}

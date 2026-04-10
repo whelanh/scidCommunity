@@ -677,6 +677,7 @@ translate L AutoComment {Comentariu automat}
 translate L AutoCommentTooltip {Generați comentarii AI pentru poziția curentă}
 translate L AnalysisAutoCommentTooltip {Generați comentarii AI pentru întregul joc}
 translate L GameComment {Comentariu joc}
+translate L GameCommentTooltip {Scanează jocul pentru mișcări adnotate și generează un rezumat AI}
 translate L TimeMs {Timp (ms)}
 
 # Book window
