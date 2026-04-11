@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.3.03
+Version:        5.1.3.04
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit b1225647aa27a89bd35c9c00563041b83fe93d2a
+%global commit 5660f589148801a94112b13ace45f19246717b4f
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Sat Apr 11, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-04
+- "Revise Relative Filter Graph"
 * Fri Apr 10, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-03
 - "Rel. Filter graph fix + improved translations"
 * Fri Apr 10, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-02
