@@ -3952,15 +3952,18 @@ set helpText(Graphs) {<h1>Graph windows</h1>
   
   <h3><name FilterGraph>Relative and absolute Filter Graph windows</name></h3>
   <p>
-  The <term>relative Filter Graph</term> window shows trends by date or by
-  Elo rating for the games in the current filter, compared to the
-  entire database. For example, it is useful when the <a Tree>tree</a>
-  is open as a tool showing how the current opening position has changed
-  in popularity in recent years or decades, or whether it is especially
-  popular among higher-rated players such as grandmasters.
-  Each point on the graph represents the number of games in the filter
-  per 1000 games in the entire database, for a particular date or Elo
-  rating range.
+  The <term>relative Filter Graph</term> window shows the popularity of the current position
+  by date, Elo rating, or number of moves. It is particularly useful when the <a Tree>tree</a>
+  is open, as it shows how popular an opening position has been in different years or decades,
+  or whether it is especially popular among higher-rated players such as grandmasters.
+  Each point on the graph shows the percentage of games in that year (or rating range, or
+  move count range) that reached the current position.
+  </p>
+  <p>
+  When a tree window is open and "All Games" is unchecked (showing a filtered subset such as
+  ICCF games only), the graph calculates percentages relative to that subset. For example,
+  if you filter to ICCF games only, the graph shows what percentage of ICCF games in each year
+  reached the position.
   </p>
   <p>
   The second Filter graph window is the <term>absolute Filter
@@ -3978,7 +3981,7 @@ set helpText(Graphs) {<h1>Graph windows</h1>
   </p>
   <p>
   Please note: The calculation can be need some time on large ranges and
-  small intervals, in addition the readability decreases. 
+  small intervals, in addition the readability decreases.
   </p>
   <p>
   When plotting the Filter graph by rating, scidCommunity uses the average (mean)

@@ -632,7 +632,7 @@ menuText E GraphOptionsBoth "Both" 1
 menuText E GraphOptionsPInfo "Player Info player" 0
 menuText E GraphOptionsEloFile "Elo from rating file" 0
 menuText E GraphOptionsEloDB "Elo from database" 0
-translate E GraphFilterTitle "Filter Graph: frequency per 1000 games"
+translate E GraphFilterTitle "Filter Graph: percentage of games reaching position"
 translate E GraphAbsFilterTitle "Filter Graph: frequency of the games"
 translate E ConfigureFilter "Configure X-Axes for Year, Rating and Moves"
 translate E FilterEstimate "Estimate"

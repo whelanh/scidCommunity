@@ -447,29 +447,29 @@ proc ::tools::graphs::filter::Refresh {} {
     set denominatorFilter ""
   }
   
-  # Calculate the denominator value (total games to normalize against)
-  if {$denominatorFilter != ""} {
-    # Use the count of games in the specified filter
-    # e.g., if tree is showing only ICCF games, count ICCF games
-    set totalDBGames [sc_filter count $currentBase $denominatorFilter]
-  } else {
-    # Use total database size
-    set totalDBGames [sc_base numGames $currentBase]
-  }
   set totalFilterGames 0
+  set totalGamesInRanges 0
+  set min 100.0
 
   foreach {start end label} $rlist {
     if {$ftype == "date"} { append end ".12.31" }
     set r [sc_filter freq $currentBase $filterToUse $ftype $start $end $FilterGuessELO]
     set filter [lindex $r 0]
-    set totalFilterGames [expr {$totalFilterGames + $filter}]
-    # Use total database size as denominator, not range-specific count
-    if {$totalDBGames == 0} {
+    if {$denominatorFilter != ""} {
+      set rSubset [sc_filter freq $currentBase $denominatorFilter $ftype $start $end $FilterGuessELO]
+      set all [lindex $rSubset 0]
+    } else {
+      set all [lindex $r 1]
+    }
+    set totalGamesInRanges [expr {$totalGamesInRanges + $all}]
+    if {$all == 0} {
       set freq 0.0
     } else {
-      set freq [expr {double($filter) * 1000.0 / double($totalDBGames)}]
+      set freq [expr {double($filter) * 100.0 / double($all)}]
     }
-    if {$freq >= 1000.0} { set freq 999.9 }
+    set totalFilterGames [expr {$totalFilterGames + $filter}]
+    if {$freq >= 100.0} { set freq 99.9 }
+    if {$freq < $min} { set min $freq }
     incr count
     lappend dlist $count
     lappend dlist $freq
@@ -477,23 +477,47 @@ proc ::tools::graphs::filter::Refresh {} {
     lappend xlabels [list $count $label]
   }
 
-  # Find a suitable spacing of y-axis labels:
-  set ytick 0.1
-  if {$max > 1.0} { set ytick 0.2 }
-  if {$max > 2.5} { set ytick 0.5 }
-  if {$max >   5} { set ytick   1 }
-  if {$max >  10} { set ytick   2 }
-  if {$max >  25} { set ytick   5 }
-  if {$max >  50} { set ytick  10 }
-  if {$max > 100} { set ytick  20 }
-  if {$max > 250} { set ytick  50 }
-  if {$max > 500} { set ytick 100 }
+  # Set dynamic y-axis range to show more variation
+  # Set ymin to 10% below minimum value, but never negative
+  if {$count > 0} {
+    set range [expr {$max - $min}]
+    set ymin [expr {$min - $range * 0.1}]
+    if {$ymin < 0} { set ymin 0 }
+    set ymax $max
+  } else {
+    set ymin 0
+    set ymax 10
+  }
+
+  # Calculate ytick to show approximately 10 intervals across the visible range
+  set displayRange [expr {$ymax - $ymin}]
+  if {$displayRange > 0} {
+    set rawTick [expr {$displayRange / 10.0}]
+    # Round to a nice number (1, 2, 5 times power of 10)
+    set logVal [expr {floor(log10($rawTick))}]
+    set magnitude [expr {pow(10, $logVal)}]
+    set normalized [expr {$rawTick / $magnitude}]
+    if {$normalized < 1.5} {
+      set ytick [expr {1.0 * $magnitude}]
+    } elseif {$normalized < 3.5} {
+      set ytick [expr {2.0 * $magnitude}]
+    } elseif {$normalized < 7.5} {
+      set ytick [expr {5.0 * $magnitude}]
+    } else {
+      set ytick [expr {10.0 * $magnitude}]
+    }
+  } else {
+    set ytick 1
+  }
   set hlines [list [list gray80 1 each $ytick]]
-  # Add mean horizontal line:
-  # The mean represents the overall frequency: total filter games * 1000 / total db games
-  if {$totalDBGames > 0 && $totalFilterGames > 0} {
-    set mean [expr {double($totalFilterGames) * 1000.0 / double($totalDBGames)}]
-    if {$mean >= 1000.0} { set mean 999.9 }
+
+  # Add mean horizontal line in red:
+  # The mean represents overall popularity: total games at position as percentage of games across all ranges
+  # This accounts for games with invalid dates/ratings that are excluded from the graph
+  if {$totalGamesInRanges > 0 && $totalFilterGames > 0} {
+    set mean [expr {double($totalFilterGames) * 100.0 / double($totalGamesInRanges)}]
+    if {$mean >= 100.0} { set mean 99.9 }
+    # Add red horizontal line at mean value
     lappend hlines [list red 1 at $mean]
   }
 
@@ -503,7 +527,7 @@ proc ::tools::graphs::filter::Refresh {} {
   ::utils::graph::data filter data -color darkBlue -points 1 -lines 1 -bars 0 \
       -linewidth 2 -radius 4 -outline darkBlue -coords $dlist
   ::utils::graph::configure filter -xlabels $xlabels -ytick $ytick \
-      -hline $hlines -ymin 0 -xmin 0.5 -xmax [expr {$count + 0.5}]
+      -hline $hlines -ymin $ymin -ymax $max -xmin 0.5 -xmax [expr {$count + 0.5}]
   ::utils::graph::redraw filter
   $w.c itemconfigure title -text $::tr(GraphFilterTitle)
   $w.c itemconfigure type -text $typeName
