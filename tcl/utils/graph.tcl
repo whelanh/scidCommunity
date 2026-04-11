@@ -472,10 +472,10 @@ proc ::utils::graph::plot_data {graph} {
 #
 proc ::utils::graph::round {n} {
   set intn [expr {int($n)}]
-  if {[expr {$n - $intn}] < 0.1  &&  [expr {$intn - $n}] < 0.1} {
+  if {[expr {$n - $intn}] < 0.01  &&  [expr {$intn - $n}] < 0.01} {
     return [expr {round($n)}]
   }
-  return [expr {double(round($n * 10.0)) / 10.0}]
+  return [format "%.2f" $n]
 }
 
 
