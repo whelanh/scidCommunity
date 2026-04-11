@@ -631,7 +631,7 @@ menuText U GraphOptionsBoth "Molemmat" 1
 menuText U GraphOptionsPInfo "Pelaaja Info pelaaja" 0
 menuText U GraphOptionsEloFile "Elo luokitustiedostosta" 0
 menuText U GraphOptionsEloDB "Elo tietokannasta" 0
-translate U GraphFilterTitle "Graafi: yleisyys per 1000 peliä"
+translate U GraphFilterTitle "Suodatuskaavio: prosenttiosuus peleistä, jotka saavuttavat sijoituksen"
 translate U GraphAbsFilterTitle "graafi: pelien yleisyys"
 translate U ConfigureFilter "Muokkaa X-akseli; vuosi, vahvuus, siirrot"
 translate U FilterEstimate "Arvioi"

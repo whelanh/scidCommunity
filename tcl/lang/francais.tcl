@@ -605,7 +605,7 @@ menuText F GraphOptionsBoth "Les deux" 4
 menuText F GraphOptionsPInfo "Informations joueurs" 0
 menuText F GraphOptionsEloFile "Classement Elo du fichier" 0
 menuText F GraphOptionsEloDB "Classement Elo dans la base" 0
-translate F GraphFilterTitle "Graphique de filtre: fréquence pour 1000 parties"
+translate F GraphFilterTitle "Graphique de filtre : pourcentage de jeux atteignant la position"
 translate F GraphAbsFilterTitle "Graphique de filtre: fréquence des parties"
 translate F ConfigureFilter {Configurer l'axe des X par année, classement et coups}
 translate F FilterEstimate "Estimer"

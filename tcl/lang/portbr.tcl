@@ -605,7 +605,7 @@ menuText B GraphOptionsBoth "Ambos" 0
 menuText B GraphOptionsPInfo "Informação do Jogador" 0
 menuText B GraphOptionsEloFile "Elo do arquivo de rating" 0
 menuText B GraphOptionsEloDB "Elo da base de dados" 0
-translate B GraphFilterTitle "Gráfico de filtro: frequência por 1000 jogos" 
+translate B GraphFilterTitle "Gráfico de filtro: porcentagem de jogos alcançando posição"
 translate B GraphAbsFilterTitle "Gráfico de filtro: frequência dos jogos"
 translate B ConfigureFilter {Configurar Eixos X para Ano, Rating e Movimentos}
 translate B FilterEstimate "Estimar"

@@ -600,7 +600,7 @@ menuText H GraphOptionsBoth "Mindkettõ" 1
 menuText H GraphOptionsPInfo "A játékosinformáció játékosa" 0
 menuText H GraphOptionsEloFile "Elo az értékelési fájlból" 0
 menuText H GraphOptionsEloDB "Elo adatbázisból" 0
-translate H GraphFilterTitle "Szûrõgrafikon: gyakoriság 1000 játszmánként"
+translate H GraphFilterTitle "Szûrési grafikon: a pozíciót elérõ játékok százalékos aránya"
 translate H GraphAbsFilterTitle "Szûrõgrafikon: játszmák gyakorisága"
 translate H ConfigureFilter {Állítsd be az X tengelyt évre, értékszámra vagy lépésre}
 translate H FilterEstimate "Becslés"

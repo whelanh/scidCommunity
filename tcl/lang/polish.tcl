@@ -613,7 +613,7 @@ menuText P GraphOptionsBoth "Oba kolory" 1
 menuText P GraphOptionsPInfo "Gracz z Informacji o graczu" 0
 menuText P GraphOptionsEloFile "Elo z pliku oceny" 0
 menuText P GraphOptionsEloDB "Elo z bazy danych" 0
-translate P GraphFilterTitle "Filtr: czêsto¶æ na 1000 partii" 
+translate P GraphFilterTitle "Wykres filtra: procent gier, które osi±gnê³y pozycjê"
 translate P GraphAbsFilterTitle "Wykres filtr: szkoda gier"
 translate P ConfigureFilter {Skonfiguruj osie X dla roku, ocena i decyzja}
 translate P FilterEstimate "Oszacowaæ"

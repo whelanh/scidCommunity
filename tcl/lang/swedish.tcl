@@ -603,7 +603,7 @@ menuText W GraphOptionsBoth "Båda" 1
 menuText W GraphOptionsPInfo "Spelarinformation" 0
 menuText W GraphOptionsEloFile "Elo från betygsfil" 0
 menuText W GraphOptionsEloDB "Elo från databasen" 0
-translate W GraphFilterTitle "Filterdiagram: antal per 1000 partier"
+translate W GraphFilterTitle "Filterdiagram: procentandel av spel som når position"
 translate W GraphAbsFilterTitle "Filtergraf: frekvens för partierna"
 translate W ConfigureFilter {Konfigurera X-axlar för År, Rating och Drag}
 translate W FilterEstimate "Uppskatta"

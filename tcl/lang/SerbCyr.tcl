@@ -633,7 +633,7 @@ menuText J GraphOptionsBoth "И једно и друго" 1
 menuText J GraphOptionsPInfo "Плаиер Инфо плаиер" 0
 menuText J GraphOptionsEloFile "Ело из фајла за оцењивање" 0
 menuText J GraphOptionsEloDB "Ело из базе података" 0
-translate J GraphFilterTitle "Графикон филтера: учесталост на 1000 игара"
+translate J GraphFilterTitle "Графикон филтера: проценат игара које су достигле позицију"
 translate J GraphAbsFilterTitle "Графикон филтера: учесталост игара"
 translate J ConfigureFilter "Конфигуришите Кс-осе за годину, оцену и покрете"
 translate J FilterEstimate "Процена"

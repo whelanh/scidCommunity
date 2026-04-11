@@ -191,7 +191,7 @@ menuText N ToolsTrainFics "Speel op het internet"  0 {Speel of freechess.org}
 menuText N ToolsEngineTournament "Motor toernooi"  0 {Start een toernooi tussen schaakmotoren}
 menuText N ToolsTimeAnalysis "Tijdanalyse" 0 {Toon de kloktijdgrafiek voor het huidige spel}
 menuText N ToolsBookTuning "Openingenboek afstemming " 0 {Openingenboek afstemming}
-menuText NL ToolsDownloadTWIC "Download TWIC-spelletjes" 0 {Download de nieuwste The Week In Chess (TWIC)-partijen}
+menuText N ToolsDownloadTWIC "Download TWIC-spelletjes" 0 {Download de nieuwste The Week In Chess (TWIC)-partijen}
 menuText N ToolsConnectHardware "Verbind Hardware" 0 {Verbind externe hardware}
 menuText N ToolsConnectHardwareConfigure "Configureer..." 0 {Configureer externe hardware en verbinding}
 menuText N ToolsConnectHardwareNovagCitrineConnect "Verbind Novag Citrine" 0 {Verbind Novag Citrine}
@@ -622,7 +622,7 @@ menuText N GraphOptionsBoth "Beide" 1
 menuText N GraphOptionsPInfo "Speler informatie" 0
 menuText N GraphOptionsEloFile "Elo uit beoordelingsbestand" 0
 menuText N GraphOptionsEloDB "Elo uit de database" 0
-translate N GraphFilterTitle "Filtergrafiek: frequentie per 1000 partijen"
+translate N GraphFilterTitle "Filtergrafiek: percentage games dat positie bereikt"
 translate N GraphAbsFilterTitle "Filtergrafiek: frequentie van de partijen"
 translate N ConfigureFilter {Configureer de X-as voor Jaar, Elo en Zetten}
 translate N FilterEstimate "Schat"

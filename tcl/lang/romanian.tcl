@@ -633,7 +633,7 @@ menuText L GraphOptionsBoth "ambele" 1
 menuText L GraphOptionsPInfo "Player Info player" 0
 menuText L GraphOptionsEloFile "Elo din fișierul de evaluare" 0
 menuText L GraphOptionsEloDB "Elo din baza de date" 0
-translate L GraphFilterTitle "Filter Graph: frecvență la 1000 de jocuri"
+translate L GraphFilterTitle "Graficul filtrului: procentul de jocuri care ating poziția"
 translate L GraphAbsFilterTitle "Filter Graph: frecvența jocurilor"
 translate L ConfigureFilter "Configurați axele X pentru an, evaluare și mișcări"
 translate L FilterEstimate "Estima"

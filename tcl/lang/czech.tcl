@@ -597,7 +597,7 @@ menuText C GraphOptionsBoth "Oba" 0
 menuText C GraphOptionsPInfo "Informace o hráèi" 0
 menuText C GraphOptionsEloFile "Elo ze souboru hodnocení" 0
 menuText C GraphOptionsEloDB "Elo z databáze" 0
-translate C GraphFilterTitle "Graf filtru: èetnost na 1000 partií"
+translate C GraphFilterTitle "Graf filtru: procento her, které dosáhly pozice"
 translate C GraphAbsFilterTitle "Graf filtru: èetnost partií"
 translate C ConfigureFilter {Konfigurovat x-souøadnici pro rok, rating a tahy}
 translate C FilterEstimate "Odhadnout"

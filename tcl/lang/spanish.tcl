@@ -649,7 +649,7 @@ menuText S GraphOptionsBoth "Ambos" 0
 menuText S GraphOptionsPInfo "Jugador Información jugador" 0
 menuText S GraphOptionsEloFile "Elo del archivo de calificación" 0
 menuText S GraphOptionsEloDB "Elo de la base de datos" 0
-translate S GraphFilterTitle "Filtro gráfico: frecuencia por 1000 partidas"
+translate S GraphFilterTitle "Gráfico de filtro: porcentaje de juegos que alcanzan la posición"
 translate S GraphAbsFilterTitle "Filtro gráfico: frecuencia de las partidas"
 translate S ConfigureFilter {Configurar Eje-X para Año, Rating y Movimientos}
 translate S FilterEstimate "Estimar"

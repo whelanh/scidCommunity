@@ -185,7 +185,7 @@ menuText K ToolsTrainFics "Jugar a Internet"  0 {Jugar a freechess.org}
 menuText K ToolsEngineTournament "Torneig de motors"  0 {Comença un torneig entre motors}
 menuText K ToolsTimeAnalysis "Anàlisi del temps" 0 {Mostra el gràfic del temps del rellotge per al joc actual}
 menuText K ToolsBookTuning "Ajustar Llibre d'obertures" 0 {Ajustar Llibre (Book)}
-menuText CA ToolsDownloadTWIC "Descarrega partides TWIC" 0 {Descarrega les partides mÃ©s recents The Week In Chess (TWIC)}
+menuText K ToolsDownloadTWIC "Descarrega partides TWIC" 0 {Descarrega les partides mÃ©s recents The Week In Chess (TWIC)}
 menuText K ToolsConnectHardware "Connectar maquinari" 0 {Connectar maquinari extern}
 menuText K ToolsConnectHardwareConfigure "Configuració" 1 {Configuració}
 menuText K ToolsConnectHardwareNovagCitrineConnect "Connectar Novag" 0 {Connectar Novag}
@@ -618,7 +618,7 @@ menuText K GraphOptionsBoth "Ambdos" 0
 menuText K GraphOptionsPInfo "Opcions informació jugador" 0
 menuText K GraphOptionsEloFile "Elo des de fitxer de qualificació" 0
 menuText K GraphOptionsEloDB "Elo des de la base de dades" 0
-translate K GraphFilterTitle "Filtre gràfic: freqüencia per 1000 partides"
+translate K GraphFilterTitle "Filtre Gràfic: percentatge de jocs que arriben a la posició"
 translate K GraphAbsFilterTitle "Filtre gràfic: freqüencia de les partides"
 translate K ConfigureFilter {Configurar Eix-X per Any, Rating i Jugades}
 translate K FilterEstimate "Estimar"

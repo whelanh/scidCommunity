@@ -568,7 +568,7 @@ menuText M GraphOptionsBoth "Both" 1
 menuText M GraphOptionsPInfo "Player Info player" 0
 menuText M GraphOptionsEloFile "Elo from rating file" 0
 menuText M GraphOptionsEloDB "Elo from database" 0
-translate M GraphFilterTitle "Filter Graph: frequency per 1000 games"
+translate M GraphFilterTitle "过滤图：达到排名的游戏百分比"
 translate M GraphAbsFilterTitle "Filter Graph: frequency of the games"
 translate M ConfigureFilter "Configure X-Axes for Year, Rating and Moves"
 translate M FilterEstimate "Estimate"

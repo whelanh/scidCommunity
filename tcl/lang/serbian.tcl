@@ -728,7 +728,8 @@ menuText Y GraphOptionsPInfo "Informacije o igraèu" 0
 menuText Y GraphOptionsEloFile "Elo from rating file" 0
 # ====== TODO To be translated ======
 menuText Y GraphOptionsEloDB "Elo from database" 0
-translate Y GraphFilterTitle "Filter graph: frequency per 1000 games" ;# ***
+# ====== TODO To be translated ======
+translate Y GraphFilterTitle "Filter Graph: percentage of games reaching position"
 # ====== TODO To be translated ======
 translate Y GraphAbsFilterTitle "Filter Graph: frequency of the games"
 # ====== TODO To be translated ======

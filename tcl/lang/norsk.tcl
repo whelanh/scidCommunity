@@ -174,7 +174,7 @@ menuText O ToolsTrainFics "Spill på internett"  0 {Spill på freechess.org}
 menuText O ToolsEngineTournament "Motorturnering"  0 {Start en turnering mellom sjakkmotorer}
 menuText O ToolsTimeAnalysis "Tidsanalyse" 0 {Vis klokketidsgraf for gjeldende spill}
 menuText O ToolsBookTuning "Boktuning" 0 {Boktuning}
-menuText N ToolsDownloadTWIC "Last ned TWIC-partier" 0 {Last ned de siste The Week In Chess (TWIC)-partiene}
+menuText O ToolsDownloadTWIC "Last ned TWIC-partier" 0 {Last ned de siste The Week In Chess (TWIC)-partiene}
 menuText O ToolsConnectHardware "Koble til maskinvare" 0 {Koble til ekstern maskinvare}
 menuText O ToolsConnectHardwareConfigure "Konfigurer..." 0 {Konfigurer ekstern maskinvare og tilkobling}
 menuText O ToolsConnectHardwareNovagCitrineConnect "Koble til Novag Citrine" 0 {Koble til Novag Citrine}
@@ -602,7 +602,7 @@ menuText O GraphOptionsBoth "Begge" 0
 menuText O GraphOptionsPInfo "Spiller Info spiller" 0
 menuText O GraphOptionsEloFile "Elo fra vurderingsfil" 0
 menuText O GraphOptionsEloDB "Elo fra databasen" 0
-translate O GraphFilterTitle "Filtergraf: hyppighet per 1000 partier"
+translate O GraphFilterTitle "Filtergraf: prosentandel av spill som når posisjon"
 translate O GraphAbsFilterTitle "Filter Graph: frekvens av spillene"
 translate O ConfigureFilter {Konfigurer X-akser for år, vurdering og trekk}
 translate O FilterEstimate "Beregne"

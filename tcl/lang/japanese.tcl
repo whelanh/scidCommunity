@@ -633,7 +633,7 @@ menuText A GraphOptionsBoth "両方" 1
 menuText A GraphOptionsPInfo "プレイヤー情報 プレイヤー" 0
 menuText A GraphOptionsEloFile "評価ファイルからの Elo" 0
 menuText A GraphOptionsEloDB "データベースからのエロ" 0
-translate A GraphFilterTitle "フィルターグラフ: 1000 ゲームあたりの頻度"
+translate A GraphFilterTitle "フィルター グラフ: 順位に到達したゲームの割合"
 translate A GraphAbsFilterTitle "フィルターグラフ: ゲームの頻度"
 translate A ConfigureFilter "年、評価、移動の X 軸を構成する"
 translate A FilterEstimate "見積もり"

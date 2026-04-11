@@ -597,7 +597,8 @@ menuText T GraphOptionsBoth "İkisi birden" 1
 menuText T GraphOptionsPInfo "Oyuncu Bilgisi oynatıcısı" 0
 menuText T GraphOptionsEloFile "Derecelendirme dosyasından Elo" 0
 menuText T GraphOptionsEloDB "Veritabanından Elo" 0
-translate T GraphFilterTitle "Filtre Grafiği: 1000 oyun başına frekans"
+# ====== TODO To be translated ======
+translate T GraphFilterTitle "Filter Graph: percentage of games reaching position"
 translate T GraphAbsFilterTitle "Filtre Grafiği: oyunların sıklığı"
 translate T ConfigureFilter "Yıl, Derecelendirme ve Hareketler için X Eksenlerini Yapılandırma"
 translate T FilterEstimate "Tahmin etmek"

@@ -599,7 +599,7 @@ menuText R GraphOptionsBoth "Оба" 0
 menuText R GraphOptionsPInfo "Игрок - информация об игроке" 0
 menuText R GraphOptionsEloFile "ЭЛО из файла рейтинга" 0
 menuText R GraphOptionsEloDB "ЭЛО из базы партий" 0
-translate R GraphFilterTitle "Диаграмма фильтра: частота на 1000 партий"
+translate R GraphFilterTitle "График фильтров: процент игр, достигших позиции"
 translate R GraphAbsFilterTitle "Диаграмма фильтра: частота на все партии"
 translate R ConfigureFilter {Настройка оси Х по годам, рейтингу и ходам}
 translate R FilterEstimate "Оценка"

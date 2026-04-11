@@ -624,7 +624,7 @@ menuText G GraphOptionsBoth "Και τα δύο" 1
 menuText G GraphOptionsPInfo "Πληροφορίες παίκτη" 0
 menuText G GraphOptionsEloFile "Elo από το αρχείο αξιολόγησης" 0
 menuText G GraphOptionsEloDB "Elo από τη βάση δεδομένων" 0
-translate G GraphFilterTitle "Φίλτρο γραφήματος: συχνότητα ανά 1000 παρτίδες"
+translate G GraphFilterTitle "Γράφημα φίλτρου: ποσοστό των παιχνιδιών που έφτασαν σε θέση"
 translate G GraphAbsFilterTitle "Φίλτρο γραφήματος: συχνότητα παρτίδας"
 translate G ConfigureFilter "Προσαρμογή των αξόνων Χ ως προς Έτος, Βαθμολογία και Κινήσεις"
 translate G FilterEstimate "Εκτίμηση"

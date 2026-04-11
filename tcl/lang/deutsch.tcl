@@ -632,7 +632,7 @@ menuText D GraphOptionsBoth "Beide" 0
 menuText D GraphOptionsPInfo "Spielerinfo Spieler" 1
 menuText D GraphOptionsEloFile "Elo von Rating-Datei" 0
 menuText D GraphOptionsEloDB "Elo von Datenbank" 0
-translate D GraphFilterTitle "Filtergrafik: Häufigkeit pro 1000 Partien"
+translate D GraphFilterTitle "Filterdiagramm: Prozentsatz der Spiele, die die Position erreichen"
 translate D GraphAbsFilterTitle "Filtergrafik: Häufigkeit der Partien"
 translate D ConfigureFilter "X-Achse für Jahr, Elo und Züge konfigurieren"
 translate D FilterEstimate "Schätzen"

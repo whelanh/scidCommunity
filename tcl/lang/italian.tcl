@@ -603,7 +603,7 @@ menuText I GraphOptionsBoth "Entrambi" 1
 menuText I GraphOptionsPInfo "Informazioni sul giocatore" 0
 menuText I GraphOptionsEloFile "Elo dal file di valutazione" 0
 menuText I GraphOptionsEloDB "Elo dal database" 0
-translate I GraphFilterTitle "Grafico del filtro: frequenza ogni 1000 partite"
+translate I GraphFilterTitle "Grafico filtro: percentuale di giochi che raggiungono la posizione"
 translate I GraphAbsFilterTitle "Grafico del filtro: frequenza delle partite"
 translate I ConfigureFilter {Configura l'asse delle X per Anno, Rating e Mosse}
 translate I FilterEstimate "Stima"
