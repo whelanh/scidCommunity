@@ -153,10 +153,10 @@ menuText B ToolsAnalysis "Analisador #1..." 0 \
 menuText B ToolsAnalysis2 "Analisador #2..." 17 \
   {Inicia ou para o 2o. Analisador}
 menuText B ToolsCross "Tabela de Cruzamento" 0 {Mostra a tabela de cruzamentos do torneio para o jogo corrente}
-menuText B ToolsFilterGraph "Gréfico de filtro" 7 \
+menuText B ToolsFilterGraph "Gráfico de Filtro Relativo" 7 \
   {Abre/Fecha a janela do gráfico de filtro} 
 menuText B ToolsAbsFilterGraph "Gráfico de Filtro Absoluto" 7 {Abre/Fecha a janela do gráfico de filtro por valor absoluto}
-menuText B ToolsOpReport "Relatório de abertura" 0 \
+menuText B ToolsOpReport "Relatório de Abertura" 0 \
   {Gera um relatório de abertura para a posição corrente}
 menuText B ToolsOpenBaseAsTree "Abre base como árvore" 0   {Abre uma base e a utiliza numa janela de Árvore}
 menuText B ToolsOpenRecentBaseAsTree "Abre base recente como árvore" 0   {Abre uma base recente e a utiliza numa janela de Árvore}
@@ -1650,7 +1650,7 @@ translate B FindBar {Barra de Pesquisa}
 translate B FindCurrentGame {Pesquisar jogo atual}
 translate B DeleteGame {Excluir jogo}
 translate B UndeleteGame {Recuperar jogo deletado}
-translate B ResetSort {Reiniciar ordenacao}
+translate B ResetSort {Reiniciar ordenação}
 
 translate B ConvertNullMove {Converter movimentos nulos para comentários}
 translate B SetupBoard {Definir tabuleiro}
