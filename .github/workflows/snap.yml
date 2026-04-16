@@ -28,6 +28,7 @@ jobs:
           SNAPCRAFT_BUILD_INFO: 1
         with:
           build-info: false
+          snapcraft-args: '--destructive-mode'
 
       - name: Upload snap artifact
         uses: actions/upload-artifact@v7
