@@ -4,7 +4,7 @@ Translation Script for TODO-marked lines
 Supported Language Encodings:
 ==================================================
 The script will automatically detect encoding or you can specify it with -e flag:
-  utf-8         - English, French, Greek, Italian, Russian, Chinese
+  utf-8         - English, French, Greek, Italian, Russian, Chinese, Hebrew
   iso8859-1     - Catalan, German, Dutch, Norwegian, Portuguese, Spanish, Finnish, Swedish
   iso8859-2     - Czech, Hungarian, Polish, Serbian
 
@@ -83,6 +83,7 @@ LANGUAGE_FILE_MAP = {
     'romanian.tcl': 'ro',     # Romanian
     'japanese.tcl': 'ja',     # Japanese
     'turkish.tcl': 'tr',      # Turkish
+    'hebrew.tcl': 'he',       # Hebrew
 }
 
 def get_encoding_for_file(input_file):
@@ -112,7 +113,8 @@ def get_encoding_for_file(input_file):
         'SerbCyr.tcl': 'utf-8',
         'japanese.tcl': 'utf-8',
         'romanian.tcl': 'utf-8',
-        'chinese.tcl': 'utf-8',
+        'chinese.tcl': 'utf-8', 
+        'hebrew.tcl': 'utf-8',
     }
     
     # Extract filename from path

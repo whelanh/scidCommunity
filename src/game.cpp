@@ -27,8 +27,10 @@
 int language = 0; // default to english
 //  0 = en,
 //  1 = fr, 2 = es, 3 = de, 4 = it, 5 = ne, 6 = cz
-//  7 = hu, 8 = no, 9 = sw, 10 = ca, 11 = fi, 12 = gr, 13 = pt
+//  7 = hu, 8 = no, 9 = sw, 10 = ca, 11 = fi, 12 = gr, 13 = pt, 14 = he
 //  TODO Piece translations for greek
+//  Note: Languages using multi-byte UTF-8 piece chars (gr, he) use empty
+//  strings here; translation is handled by Tcl-side string map instead.
 const char *langPieces[] = {"",
                             "PPKRQDRTBFNC",
                             "PPKRQDRTBANC",
@@ -43,7 +45,7 @@ const char *langPieces[] = {"",
                             "PSKKQDRTBLNR",
                             "",
                             "PPKRQDRTBBNC",
-                            ""};
+                            ""}; // 14 = he (multi-byte UTF-8)
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // transPieces():
@@ -927,8 +929,8 @@ std::vector<std::string> Game::mainLineUCI() const {
   for (auto m = it; !m->endMarker(); m = m->Next()) {
     if (m->isNull()) {
       if (!it_pos) {
-        it_pos = std::make_unique<Position>(
-            StartPos ? *StartPos : Position::getStdStart());
+        it_pos = std::make_unique<Position>(StartPos ? *StartPos
+                                                     : Position::getStdStart());
       }
       for (auto end = m->Next(); it != end; it = it->Next()) {
         it_pos->DoSimpleMove(it->moveData);

@@ -28,9 +28,8 @@ set transPieces(N)   { P p K K Q D R T B L N P }
 set untransPieces(N) { p P K K D Q T R L B P N }
 set transPieces(C)   { P P K K Q D R V B S N J }
 set untransPieces(C) { P P K K D Q V R S B J N }
-## TODO Put in the right letters for greek
-set transPieces(G)   { P B K K Q D R T B L N S }
-set untransPieces(G) { B P K K D Q T R L B S N }
+set transPieces(G)   { P P K Ρ Q Β R Π B Α N Ι }
+set untransPieces(G) { P P Ρ K Β Q Π R Α B Ι N }
 set transPieces(H)   { P G K K Q V R B B F N H }
 set untransPieces(H) { G P K K V Q B R F B H N }
 set transPieces(O)   { P B K K Q D R T B L N S }
@@ -45,6 +44,8 @@ set transPieces(M)   { P 兵 K 王 Q 后 R 车 B 象 N 馬 }
 set untransPieces(M) { 兵 P 王 K 后 Q 车 R 象 B 馬 N }
 set transPieces(B)   { P P K R Q D R T B B N C }
 set untransPieces(B) { P P R K D Q T R B B C N }
+set transPieces(V)   { P ח K מ Q ם R צ B ר N פ }
+set untransPieces(V) { ח P מ K ם Q צ R ר B פ N }
 
 ################################################################################
 proc trans { msg } {
@@ -76,11 +77,130 @@ proc addLanguage {letter name underline encodingSystem filename} {
   set ::langEncoding($letter) $encodingSystem
   set ::langSourceFile($letter) $filename
 }
+# Languages that use right-to-left (RTL) scripts.
+# Tk 9 on Linux does not apply the Unicode BiDi algorithm to menu/label
+# widgets, so Hebrew text must be converted to visual order at runtime.
+set ::rtlLanguages {V}
+
+################################################################################
+# graphemeClusters:
+#    Splits a string into grapheme clusters. Each cluster is a base character
+#    followed by any combining marks (Hebrew niqqud/cantillation). This ensures
+#    vowel marks stay attached to their correct base letter during reversal.
+################################################################################
+proc graphemeClusters {text} {
+  set clusters {}
+  set current ""
+  foreach ch [split $text {}] {
+    set cp [scan $ch %c]
+    # Hebrew combining marks:
+    #   Cantillation: U+0591-U+05AF, Niqqud: U+05B0-U+05BD,
+    #   Rafe: U+05BF, Shin/Sin dots: U+05C1-U+05C2,
+    #   Upper/Lower marks: U+05C4-U+05C5, Qamats Qatan: U+05C7
+    set isCombining [expr {
+      ($cp >= 0x0591 && $cp <= 0x05BD) ||
+      $cp == 0x05BF ||
+      ($cp >= 0x05C1 && $cp <= 0x05C2) ||
+      ($cp >= 0x05C4 && $cp <= 0x05C5) ||
+      $cp == 0x05C7
+    }]
+    if {$isCombining && $current ne ""} {
+      append current $ch
+    } else {
+      if {$current ne ""} {
+        lappend clusters $current
+      }
+      set current $ch
+    }
+  }
+  if {$current ne ""} {
+    lappend clusters $current
+  }
+  return $clusters
+}
+
+################################################################################
+# bidiVisualLine:
+#    Converts a single line of logical-order Hebrew text to visual order.
+#    1. Reverse all grapheme clusters in the string.
+#    2. Find any Latin/digit sequences that were reversed and un-reverse them.
+################################################################################
+proc bidiVisualLine {text} {
+  # Step 1: Reverse grapheme clusters
+  set clusters [graphemeClusters $text]
+  set reversed {}
+  for {set i [expr {[llength $clusters] - 1}]} {$i >= 0} {incr i -1} {
+    lappend reversed [lindex $clusters $i]
+  }
+  set reversedText [join $reversed ""]
+
+  # Step 2: Find Latin/digit-containing runs and un-reverse them.
+  # Pattern matches non-space non-Hebrew sequences containing at least one
+  # Latin letter or digit (e.g. reversed "chess.com" → "moc.ssehc").
+  set result ""
+  set pos 0
+  set len [string length $reversedText]
+  while {$pos < $len} {
+    if {[regexp -start $pos -indices \
+         {[^\s\u0590-\u05FF]*[A-Za-z0-9][^\s\u0590-\u05FF]*} \
+         $reversedText match]} {
+      set matchStart [lindex $match 0]
+      set matchEnd [lindex $match 1]
+      # Append any text before the match unchanged
+      if {$matchStart > $pos} {
+        append result [string range $reversedText $pos [expr {$matchStart - 1}]]
+      }
+      # Un-reverse this LTR segment
+      set ltrRun [string range $reversedText $matchStart $matchEnd]
+      set ltrClusters [graphemeClusters $ltrRun]
+      set unreversed {}
+      for {set i [expr {[llength $ltrClusters] - 1}]} {$i >= 0} {incr i -1} {
+        lappend unreversed [lindex $ltrClusters $i]
+      }
+      append result [join $unreversed ""]
+      set pos [expr {$matchEnd + 1}]
+    } else {
+      append result [string range $reversedText $pos end]
+      break
+    }
+  }
+  return $result
+}
+
+################################################################################
+# bidiVisual:
+#    Converts logical-order text containing Hebrew to visual order for display
+#    in Tk widgets that don't support BiDi. Handles multiline strings by
+#    processing each line independently. Skips strings with HTML tags.
+################################################################################
+proc bidiVisual {text} {
+  # Skip strings containing HTML tags (used by text widgets that may
+  # handle their own rendering)
+  if {[string match "*<*>*" $text]} {
+    return $text
+  }
+  # Process each line independently
+  set lines [split $text \n]
+  set result {}
+  foreach line $lines {
+    lappend result [bidiVisualLine $line]
+  }
+  return [join $result \n]
+}
+
 ################################################################################
 # menuText:
 #    Assigns the menu name and help message for a menu entry and language.
 ################################################################################
 proc menuText {lang tag label underline {helpMsg ""}} {
+  # For RTL languages, convert Hebrew text to visual order
+  if {$lang in $::rtlLanguages && [regexp {[\u0590-\u05FF]} $label]} {
+    set label [bidiVisual $label]
+    set underline -1  ;# underline meaningless after visual reordering
+    if {$helpMsg ne "" && [regexp {[\u0590-\u05FF]} $helpMsg]} {
+      set helpMsg [bidiVisual $helpMsg]
+    }
+  }
   set ::menuLabel($lang,$tag) $label
   set ::menuUnder($lang,$tag) $underline
   if {$helpMsg != ""} {
@@ -103,6 +223,10 @@ array set translations {}
 ################################################################################
 proc translate {lang tag label} {
   regsub {\\n} $label "\n" label
+  # For RTL languages, convert Hebrew text to visual order
+  if {$lang in $::rtlLanguages && [regexp {[\u0590-\u05FF]} $label]} {
+    set label [bidiVisual $label]
+  }
   set ::translations($lang,$tag) $label
   set ::tr($tag) $label
   foreach extra {":" "..."} {
@@ -171,6 +295,7 @@ proc setLanguage {} {
       A {sc_info language ja}
       L {sc_info language ro}
       B {sc_info language pt}
+      V {sc_info language he}
       default {sc_info language en}
     }
   } else {
@@ -222,6 +347,7 @@ proc setLanguageTemp { lang } {
     A {sc_info language ja}
     L {sc_info language ro}
     B {sc_info language pt}
+    V {sc_info language he}
     default {sc_info language en}
   }
 }
@@ -248,6 +374,7 @@ addLanguage T Türkçe 1 utf-8 turkish.tcl
 addLanguage J Српски 0 utf-8 SerbCyr.tcl
 addLanguage A 日本語 0 utf-8 japanese.tcl
 addLanguage L Română 0 utf-8 romanian.tcl
+addLanguage V עברית 0 utf-8 hebrew.tcl
 
 setLanguage
 
