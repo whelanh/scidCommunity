@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -24,6 +24,10 @@ jobs:
       - name: Build snap
         uses: snapcore/action-build@v1
         id: build
+        env:
+          SNAPCRAFT_BUILD_INFO: 1
+        with:
+          build-info: false
 
       - name: Upload snap artifact
         uses: actions/upload-artifact@v7
