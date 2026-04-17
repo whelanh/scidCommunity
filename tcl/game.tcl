@@ -74,7 +74,10 @@ proc ::game::LoadNextPrev {action} {
   }
 
   if {$sortStr != "" && $sortStr != "0 +"} {
-    set r [sc_base gamelocation $db $filter $sortStr $gnum]
+    set r "none"
+    if {$gnum > 0} {
+      set r [sc_base gamelocation $db $filter $sortStr $gnum]
+    }
     if {$r != "none" || $action == "first" || $action == "last"} {
       if {$action == "first"} {
         set r 0

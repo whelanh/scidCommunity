@@ -444,7 +444,7 @@ proc updateMenuStates {{menuname}} {
 
     # Load previous button:
     set state disabled
-    if {$sortStr != "" && $sortStr != "0 +"} {
+    if {$sortStr != "" && $sortStr != "0 +" && [sc_game number] > 0} {
       set r [sc_base gamelocation $::curr_db $filter $sortStr [sc_game number]]
       if {$r != "none" && $r > 0} { set state normal }
     } else {
@@ -459,7 +459,7 @@ proc updateMenuStates {{menuname}} {
 
     # Load next button:
     set state disabled
-    if {$sortStr != "" && $sortStr != "0 +"} {
+    if {$sortStr != "" && $sortStr != "0 +" && [sc_game number] > 0} {
       set r [sc_base gamelocation $::curr_db $filter $sortStr [sc_game number]]
       if {$r != "none" && $r < [expr {[sc_filter count $::curr_db $filter] - 1}]} { set state normal }
     } else {
