@@ -4,7 +4,7 @@ Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 8f3ecdf70bcb7218299c9775f381dbf436dc7a3c
+%global commit 0791735cc15d27060349f0963ffec7e2ce3049db
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Fri Apr 17, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-06
+- "Fix Load Next and Previous Game in Game List window"
 * Thu Apr 16, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-05
 - "Improved translations; Rel. Graph axis formatting"
 * Sat Apr 11, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-04
