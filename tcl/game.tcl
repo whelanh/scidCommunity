@@ -59,12 +59,49 @@ proc ::game::Truncate {} {
 #   The parameter <action> should be "previous" or "next".
 #
 proc ::game::LoadNextPrev {action} {
-  set number [sc_filter $action]
-  if {$number == 0} {
-    return
+  set db [sc_base current]
+  set gnum [sc_game number]
+
+  # Try to find a Game List window for this database to get the sort order
+  set sortStr ""
+  set filter "dbfilter"
+  foreach w $::windows::gamelist::wins {
+    if {$::gamelistBase($w) == $db && [info exists ::glistSortStr($w.games.glist)]} {
+      set sortStr [string trim $::glistSortStr($w.games.glist)]
+      set filter $::gamelistFilter($w)
+      break
+    }
   }
+
+  if {$sortStr != "" && $sortStr != "0 +"} {
+    set r [sc_base gamelocation $db $filter $sortStr $gnum]
+    if {$r != "none" || $action == "first" || $action == "last"} {
+      if {$action == "first"} {
+        set r 0
+      } elseif {$action == "last"} {
+        set r [expr {[sc_filter count $db $filter] - 1}]
+      } elseif {$action == "next"} {
+        if {$r == "none"} { set r 0 } else { incr r }
+      } else {
+        if {$r == "none"} { set r 0 } else { incr r -1 }
+      }
+
+      if {$r >= 0 && $r < [sc_filter count $db $filter]} {
+        set nextGame [sc_base gameslist $db $r 1 $filter $sortStr]
+        if {[llength $nextGame] >= 3} {
+          set nextGnum [lindex [split [lindex $nextGame 0] "_"] 0]
+          ::game::Load $nextGnum
+          return
+        }
+      }
+    }
+  }
+
+  set number [sc_filter $action]
+  if {$number == 0} { return }
   ::game::Load $number
 }
+
 
 # ::game::Reload
 #

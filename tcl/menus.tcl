@@ -431,8 +431,25 @@ proc updateMenuStates {{menuname}} {
     $m.game entryconfig [tr GameLast] -state $state
     $m.game entryconfig [tr GameRandom] -state $state
 
+    # Find if there is an active Game List window for sort order
+    set sortStr ""
+    set filter "dbfilter"
+    foreach w $::windows::gamelist::wins {
+      if {$::gamelistBase($w) == $::curr_db && [info exists ::glistSortStr($w.games.glist)]} {
+        set sortStr [string trim $::glistSortStr($w.games.glist)]
+        set filter $::gamelistFilter($w)
+        break
+      }
+    }
+
     # Load previous button:
-    if {[sc_filter previous]} {set state normal} else {set state disabled}
+    set state disabled
+    if {$sortStr != "" && $sortStr != "0 +"} {
+      set r [sc_base gamelocation $::curr_db $filter $sortStr [sc_game number]]
+      if {$r != "none" && $r > 0} { set state normal }
+    } else {
+      if {[sc_filter previous]} {set state normal}
+    }
     $m.game entryconfig [tr GamePrev] -state $state
     .main.tb.gprev configure -state $state
 
@@ -441,7 +458,13 @@ proc updateMenuStates {{menuname}} {
     $m.game entryconfig [tr GameReload] -state $state
 
     # Load next button:
-    if {[sc_filter next]} {set state normal} else {set state disabled}
+    set state disabled
+    if {$sortStr != "" && $sortStr != "0 +"} {
+      set r [sc_base gamelocation $::curr_db $filter $sortStr [sc_game number]]
+      if {$r != "none" && $r < [expr {[sc_filter count $::curr_db $filter] - 1}]} { set state normal }
+    } else {
+      if {[sc_filter next]} {set state normal}
+    }
     $m.game entryconfig [tr GameNext] -state $state
     .main.tb.gnext configure -state $state
 
