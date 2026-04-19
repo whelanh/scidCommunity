@@ -16,6 +16,7 @@
 #include "crosstab.h"
 
 #include <algorithm>
+#include <cctype>
 #include <cstdio>
 #include <string>
 #include <vector>
@@ -409,6 +410,7 @@ std::string Crosstable::PrintTable(crosstableModeT mode, uint playerLimit,
   PrintRatings = false;
   PrintTitles = false;
   PrintCountries = false;
+  PrintFlags = false;
   PrintAges = false;
   PrintTiebreaks = true;
   PrintTallies = true;
@@ -418,8 +420,12 @@ std::string Crosstable::PrintTable(crosstableModeT mode, uint playerLimit,
       PrintRatings = true;
     if (!pdata->title.empty())
       PrintTitles = true;
-    if (!pdata->country.empty())
+    if (!pdata->country.empty()) {
       PrintCountries = true;
+      if (OutputFormat == CROSSTABLE_Hypertext ||
+          OutputFormat == CROSSTABLE_Html)
+        PrintFlags = true;
+    }
     if (pdata->birthdate != ZERO_DATE) {
       PrintAges = true;
       int age = static_cast<int>(date_GetYear(FirstDate)) -
@@ -437,6 +443,8 @@ std::string Crosstable::PrintTable(crosstableModeT mode, uint playerLimit,
     PrintTitles = false;
   if (!ShowCountries)
     PrintCountries = false;
+  if (!ShowFlags)
+    PrintFlags = false;
   if (!ShowTallies)
     PrintTallies = false;
   if (!ShowAges)
@@ -477,12 +485,14 @@ std::string Crosstable::PrintTable(crosstableModeT mode, uint playerLimit,
     EndBoldCol = "</th>";
   }
 
-  LineWidth = LongestNameLen;
+  LineWidth = LongestNameLen + 10;
   if (PrintRatings)
     LineWidth += 16;
   if (PrintTitles)
     LineWidth += 4;
   if (PrintCountries)
+    LineWidth += 4;
+  if (PrintFlags)
     LineWidth += 4;
   if (PrintAges)
     LineWidth += 4;
@@ -506,6 +516,8 @@ std::string Crosstable::PrintTable(crosstableModeT mode, uint playerLimit,
       LineWidth += 8;
     if (PrintCountries)
       LineWidth += 8;
+    if (PrintFlags)
+      LineWidth += 6;
     if (PrintAges)
       LineWidth += 8;
   }
@@ -621,6 +633,27 @@ void Crosstable::PrintPlayer(std::string &output, const playerDataT &pdata) {
     output += EndCol;
   }
 
+  if (PrintFlags) {
+    output += StartCol;
+    if (pdata.country.empty()) {
+      if (OutputFormat == CROSSTABLE_Hypertext) {
+        output += "<img flag_unknown>";
+      }
+      // HTML: leave the cell empty when country is unknown.
+    } else {
+      std::string code = pdata.country;
+      std::transform(code.begin(), code.end(), code.begin(),
+                     [](unsigned char c) { return std::tolower(c); });
+      if (OutputFormat == CROSSTABLE_Html) {
+        output += "<img src=\"flags/flag_" + code + ".gif\" alt=\"" +
+                  pdata.country + "\">";
+      } else {
+        output += "<img flag_" + code + ">";
+      }
+    }
+    output += EndCol;
+  }
+
   if (OutputFormat == CROSSTABLE_Hypertext) {
     output += "</pi>";
   }
@@ -719,6 +752,18 @@ void Crosstable::PrintAllPlayAll(std::string &output, uint playerLimit) {
       output += EndBoldCol;
     }
   }
+
+  if (PrintFlags) {
+    if (OutputFormat == CROSSTABLE_Hypertext) {
+      output += " <blue><run set ::crosstab(sort) country ; "
+                "::crosstab::Refresh>Nat</run></blue>";
+    } else if (OutputFormat == CROSSTABLE_Html) {
+      output += StartBoldCol;
+      output += " Nat";
+      output += EndBoldCol;
+    }
+  }
+
   if (PrintTiebreaks) {
     output += StartBoldCol;
     output += " (Tie) ";
@@ -930,6 +975,17 @@ void Crosstable::PrintSwiss(std::string &output, uint playerLimit) {
     }
   }
 
+  if (PrintFlags) {
+    if (OutputFormat == CROSSTABLE_Hypertext) {
+      output += " <blue><run set ::crosstab(sort) country ; "
+                "::crosstab::Refresh>Nat</run></blue>";
+    } else if (OutputFormat == CROSSTABLE_Html) {
+      output += StartBoldCol;
+      output += " Nat";
+      output += EndBoldCol;
+    }
+  }
+
   std::string_view scoreHeader =
       (OutputFormat == CROSSTABLE_Hypertext)
           ? "<blue><run set ::crosstab(sort) score ; "
@@ -943,7 +999,7 @@ void Crosstable::PrintSwiss(std::string &output, uint playerLimit) {
     output += EndBoldCol;
     output += ' ';
   } else {
-    output += "   ";
+    output += PrintFlags ? "  " : "   ";
     output += StartBoldCol;
     output += ' ';
     output += scoreHeader;
