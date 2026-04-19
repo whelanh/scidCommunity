@@ -296,6 +296,7 @@ proc setLanguage {} {
       L {sc_info language ro}
       B {sc_info language pt}
       V {sc_info language he}
+      Z {sc_info language swa}
       default {sc_info language en}
     }
   } else {
@@ -348,6 +349,7 @@ proc setLanguageTemp { lang } {
     L {sc_info language ro}
     B {sc_info language pt}
     V {sc_info language he}
+    Z {sc_info language swa}
     default {sc_info language en}
   }
 }
@@ -375,6 +377,7 @@ addLanguage J Српски 0 utf-8 SerbCyr.tcl
 addLanguage A 日本語 0 utf-8 japanese.tcl
 addLanguage L Română 0 utf-8 romanian.tcl
 addLanguage V עברית 0 utf-8 hebrew.tcl
+addLanguage Z Kiswahili 0 utf-8 swahili.tcl
 
 setLanguage
 
