@@ -370,7 +370,7 @@ translate Z Decade {Muongo}
 translate Z Year {Mwaka}
 translate Z Month {Mwezi}
 translate Z Months {Januari Februari Machi Aprili Mei Juni Julai Agosti Septemba Oktoba Novemba Desemba}
-translate Z Days {Jua Jumatatu Jumanne Alhamisi Ijumaa Sat}
+translate Z Days {Jumapili Jumatatu Jumanne Jumatano Alhamisi Ijumaa Jumamosi}
 translate Z YearToToday {-1Y}
 translate Z YearToTodayTooltip {Weka tarehe ya kuanzia mwaka 1 hadi leo}
 translate Z Result {Matokeo}
