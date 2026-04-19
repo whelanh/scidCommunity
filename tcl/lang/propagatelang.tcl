@@ -36,6 +36,7 @@ array set encodings {
   japanese utf-8
   romanian utf-8
   hebrew utf-8
+  swahili utf-8
 }
 
 array set codes {
@@ -61,11 +62,12 @@ array set codes {
   japanese A
   romanian L
   hebrew V
+  swahili Z
 }
 
 set languages {czech deutsch francais hungary italian chinese nederlan norsk polish
   portbr spanish swedish serbian russian catalan suomi greek turkish SerbCyr 
-  japanese romanian hebrew
+  japanese romanian hebrew swahili
 }
 
 ################################################################################
