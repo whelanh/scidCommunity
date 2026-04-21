@@ -78,10 +78,10 @@ proc ::search::header::defaults {} {
 }
 
 foreach i {sWhiteEloMin sWhiteEloMax sBlackEloMin sBlackEloMax} {
-  trace variable $i w [list ::utils::validate::Integer [sc_info limit elo] 0]
+  trace add variable $i write [list ::utils::validate::Integer [sc_info limit elo] 0]
 }
-trace variable sEloDiffMin w [list ::utils::validate::Integer "-[sc_info limit elo]" 0]
-trace variable sEloDiffMax w [list ::utils::validate::Integer "-[sc_info limit elo]" 0]
+trace add variable sEloDiffMin write [list ::utils::validate::Integer "-[sc_info limit elo]" 0]
+trace add variable sEloDiffMax write [list ::utils::validate::Integer "-[sc_info limit elo]" 0]
 
 ::search::header::defaults
 
@@ -243,21 +243,21 @@ proc ::search::header::rebuildLayoutsMenu {w} {
   }
 }
 
-trace variable sDateMin w ::utils::validate::Date
-trace variable sDateMax w ::utils::validate::Date
-trace variable sEventDateMin w ::utils::validate::Date
-trace variable sEventDateMax w ::utils::validate::Date
+trace add variable sDateMin write ::utils::validate::Date
+trace add variable sDateMax write ::utils::validate::Date
+trace add variable sEventDateMin write ::utils::validate::Date
+trace add variable sEventDateMax write ::utils::validate::Date
 
 
-trace variable sGlMin w {::utils::validate::Integer 9999 0}
-trace variable sGlMax w {::utils::validate::Integer 9999 0}
+trace add variable sGlMin write {::utils::validate::Integer 9999 0}
+trace add variable sGlMax write {::utils::validate::Integer 9999 0}
 
-trace variable sGnumMin w {::utils::validate::Integer -9999999 0}
-trace variable sGnumMax w {::utils::validate::Integer -9999999 0}
+trace add variable sGnumMin write {::utils::validate::Integer -9999999 0}
+trace add variable sGnumMax write {::utils::validate::Integer -9999999 0}
 
 # Forcing ECO entry to be valid ECO codes:
 foreach i {sEcoMin sEcoMax} {
-  trace variable $i w {::utils::validate::Regexp {^$|^[A-Ea-e]$|^[A-Ea-e][0-9]$|^[A-Ea-e][0-9][0-9]$|^[A-Ea-e][0-9][0-9][a-z]$|^[A-Ea-e][0-9][0-9][a-z][1-4]$}}
+  trace add variable $i write {::utils::validate::Regexp {^$|^[A-Ea-e]$|^[A-Ea-e][0-9]$|^[A-Ea-e][0-9][0-9]$|^[A-Ea-e][0-9][0-9][a-z]$|^[A-Ea-e][0-9][0-9][a-z][1-4]$}}
 }
 
 set sHeaderFlagFrame 0

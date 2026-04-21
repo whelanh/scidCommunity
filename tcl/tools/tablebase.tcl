@@ -96,6 +96,15 @@ proc ::tablebase::queryTablebaseResult {fen} {
     return "error: Unable to parse tablebase result"
 }
 
+# ::tablebase::uciToSan
+#   Converts a UCI move (e.g., "e2e4") to SAN (e.g., "e4" or "Nge7")
+#   Requires the FEN to determine piece types and disambiguation
+#
+proc ::tablebase::uciToSan {uciMove fen} {
+    # Delegate to the existing, robust UCI->SAN conversion utility
+    return [::uci::formatPv $uciMove $fen]
+}
+
 # ::tablebase::lookupPosition
 #   Queries the Lichess 7-man tablebase API for the current position
 #   and displays the results in a user-friendly popup window.
@@ -204,9 +213,12 @@ proc ::tablebase::displayResult {w jsonData fen} {
         # DTC found (used in partial 8-man tablebase results)
     }
     
-    # Extract best move
-    if {[regexp {"uci":"([^"]+)"} $jsonData -> bestmove]} {
-        # Best move found
+    # Extract best move from moves array (use SAN if available)
+    set uciMove ""
+    set bestmove ""
+    if {[regexp {\{"uci":"([^"]+)","san":"([^"]+)"} $jsonData -> uciMove bestmove]} {
+    } elseif {[regexp {"uci":"([^"]+)"} $jsonData -> uciMove]} {
+        set bestmove [::tablebase::uciToSan $uciMove $fen]
     }
     
     # Determine the outcome description

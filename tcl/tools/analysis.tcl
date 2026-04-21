@@ -485,7 +485,7 @@ proc ::enginelist::setTime {index {time -1}} {
     set engines(list) [lreplace $engines(list) $index $index $e]
 }
 
-trace variable engines(newElo) w [list ::utils::validate::Integer [sc_info limit elo] 0]
+trace add variable engines(newElo) write [list ::utils::validate::Integer [sc_info limit elo] 0]
 
 # ::enginelist::delete
 #   Removes an engine from the list.
@@ -851,8 +851,8 @@ proc configAnnotation {} {
         return
     }
 
-    trace variable blunderThreshold w {::utils::validate::Regexp {^[0-9]*\.?[0-9]*$}}
-    trace variable tempdelay w {::utils::validate::Regexp {^[0-9]*\.?[0-9]*$}}
+    trace add variable blunderThreshold write {::utils::validate::Regexp {^[0-9]*\.?[0-9]*$}}
+    trace add variable tempdelay write {::utils::validate::Regexp {^[0-9]*\.?[0-9]*$}}
     
     set tempdelay [expr {$autoplayDelay / 1000.0}]
     win::createDialog $w
@@ -3245,7 +3245,7 @@ proc updateAnalysis {{n 1}} {
 ################################################################################
 
 set temptime 0
-trace variable temptime w {::utils::validate::Regexp {^[0-9]*\.?[0-9]*$}}
+trace add variable temptime write {::utils::validate::Regexp {^[0-9]*\.?[0-9]*$}}
 
 proc setAutomoveTime {{n 1}} {
     global analysis temptime dialogResult
