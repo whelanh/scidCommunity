@@ -157,7 +157,7 @@ proc ::game::LoadMenu {w base gnum x y} {
 #   Entry variable for GotoMoveNumber dialog.
 #
 set ::game::moveEntryNumber ""
-trace variable ::game::moveEntryNumber w {::utils::validate::Regexp {^[0-9]*$}}
+trace add variable ::game::moveEntryNumber write {::utils::validate::Regexp {^[0-9]*$}}
 
 # ::game::GotoMoveNumber
 #

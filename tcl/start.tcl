@@ -39,43 +39,11 @@ if {[catch {package require Tk 8.6}]} {
 }
 set useLocalTooltip [catch {package require tooltip 2.0}]
 
-# Tcl 8.6/9.0 compatibility: trace variable -> trace add variable
-if {[package vcompare [info patchlevel] 9.0] >= 0} {
-    # Tcl 9.0+: create wrapper for old trace variable syntax
-    rename trace _trace_orig
-    proc trace {op args} {
-        if {$op eq "variable"} {
-            # Map old single-letter ops to new full names: w->write, r->read, u->unset
-            set varName [lindex $args 0]
-            set opsList [lindex $args 1]
-            set command [lindex $args 2]
-            set newOps ""
-            foreach char [split $opsList ""] {
-                switch $char {
-                    w { append newOps "write " }
-                    r { append newOps "read " }
-                    u { append newOps "unset " }
-                }
-            }
-            return [_trace_orig add variable $varName [string trim $newOps] $command]
-        } elseif {$op eq "vdelete"} {
-            set varName [lindex $args 0]
-            set opsList [lindex $args 1]
-            set command [lindex $args 2]
-            set newOps ""
-            foreach char [split $opsList ""] {
-                switch $char {
-                    w { append newOps "write " }
-                    r { append newOps "read " }
-                    u { append newOps "unset " }
-                }
-            }
-            return [_trace_orig remove variable $varName [string trim $newOps] $command]
-        } else {
-            return [_trace_orig $op {*}$args]
-        }
-    }
-}
+# Note: all scidCommunity Tcl code uses the modern "trace add variable" syntax
+# (compatible with both Tcl 8.6 and 9.0). A previous "rename trace" wrapper
+# has been removed because it broke the file dialog's selectPath write-trace,
+# preventing directory navigation (double-click / up-arrow) from updating the
+# file list.
 
 set scidVersion [sc_info version]
 set scidVersionDate [sc_info version date]
@@ -321,11 +289,15 @@ proc ::splash::add {text} {
 #TODO: decide what to do with all the splash messages (delete?)
 }
 
-# Platform specific operations: use standard Tk file dialog behavior.
-# The previous Tk 8.x workaround (showHiddenBtn/showHiddenVar overrides) has
-# been removed because it breaks directory navigation in Tk 9.0 (double-clicking
-# a directory and the up-arrow button stop working). Tk 9.0's standard dialog
-# works correctly without any customization.
+# Platform specific operations
+if { $unixOS } {
+  # adds a checkbox to show hidden files (works correctly without the trace wrapper)
+  catch {tk_getOpenFile -with-invalid-argument}
+  namespace eval ::tk::dialog::file {
+    variable showHiddenBtn 1
+    variable showHiddenVar 0
+  }
+}
 
 # Reversed mouse buttons in mac (::MB2 and ::MB3 are middle and right mouse buttons respectively.):
 if { $macOS } {
