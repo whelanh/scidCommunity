@@ -321,15 +321,11 @@ proc ::splash::add {text} {
 #TODO: decide what to do with all the splash messages (delete?)
 }
 
-# Platform specific operations
-if { $unixOS } {
-  # adds a checkbox to show hidden files
-  catch {tk_getOpenFile -with-invalid-argument}
-  namespace eval ::tk::dialog::file {
-    variable showHiddenBtn 1
-    variable showHiddenVar 0
-  }
-}
+# Platform specific operations: use standard Tk file dialog behavior.
+# The previous Tk 8.x workaround (showHiddenBtn/showHiddenVar overrides) has
+# been removed because it breaks directory navigation in Tk 9.0 (double-clicking
+# a directory and the up-arrow button stop working). Tk 9.0's standard dialog
+# works correctly without any customization.
 
 # Reversed mouse buttons in mac (::MB2 and ::MB3 are middle and right mouse buttons respectively.):
 if { $macOS } {
