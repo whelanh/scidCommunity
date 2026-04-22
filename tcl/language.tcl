@@ -46,6 +46,12 @@ set transPieces(B)   { P P K R Q D R T B B N C }
 set untransPieces(B) { P P R K D Q T R B B C N }
 set transPieces(V)   { P ח K מ Q ם R צ B ר N פ }
 set untransPieces(V) { ח P מ K ם Q צ R ר B פ N }
+set transPieces(h)   { P प K र Q व R ह B ऊ N घ }
+set untransPieces(h) { प P र K व Q ह R ऊ B घ N }
+set transPieces(Q)   { P п K Кр Q Ф R Т B С N К }
+set untransPieces(Q) { п P Кр K Ф Q Т R С B К N }
+set transPieces(b)   { P প K র Q ম R ন B হ N ঘ }
+set untransPieces(b) { প P র K ম Q ন R হ B ঘ N }
 
 ################################################################################
 proc trans { msg } {
@@ -253,7 +259,6 @@ proc translateECO {lang pairList} {
 proc tr {tag {lang ""}} {
   global menuLabel tr
   if {$lang == ""} {set lang $::language}
-  if {$lang == "X"} {return $tag}
   # First, look for a menu label
   if {[info exists menuLabel($lang,$tag)]} {
     return $menuLabel($lang,$tag)
@@ -297,6 +302,9 @@ proc setLanguage {} {
       B {sc_info language pt}
       V {sc_info language he}
       Z {sc_info language swa}
+      h {sc_info language hi}
+      Q {sc_info language uk}
+      b {sc_info language bn}
       default {sc_info language en}
     }
   } else {
@@ -350,6 +358,9 @@ proc setLanguageTemp { lang } {
     B {sc_info language pt}
     V {sc_info language he}
     Z {sc_info language swa}
+    h {sc_info language hi}
+    Q {sc_info language uk}
+    b {sc_info language bn}
     default {sc_info language en}
   }
 }
@@ -378,6 +389,9 @@ addLanguage A 日本語 0 utf-8 japanese.tcl
 addLanguage L Română 0 utf-8 romanian.tcl
 addLanguage V עברית 0 utf-8 hebrew.tcl
 addLanguage Z Kiswahili 0 utf-8 swahili.tcl
+addLanguage h हिन्दी 0 utf-8 hindi.tcl
+addLanguage Q Українська 0 utf-8 ukrainian.tcl
+addLanguage b বাংলা 0 utf-8 bengali.tcl
 
 setLanguage
 

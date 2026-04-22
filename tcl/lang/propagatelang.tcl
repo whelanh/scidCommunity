@@ -37,6 +37,9 @@ array set encodings {
   romanian utf-8
   hebrew utf-8
   swahili utf-8
+  hindi utf-8
+  ukrainian utf-8
+  bengali utf-8
 }
 
 array set codes {
@@ -63,11 +66,14 @@ array set codes {
   romanian L
   hebrew V
   swahili Z
+  hindi h
+  ukrainian Q
+  bengali b
 }
 
 set languages {czech deutsch francais hungary italian chinese nederlan norsk polish
   portbr spanish swedish serbian russian catalan suomi greek turkish SerbCyr 
-  japanese romanian hebrew swahili
+  japanese romanian hebrew swahili hindi ukrainian bengali
 }
 
 ################################################################################

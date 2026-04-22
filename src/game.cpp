@@ -46,7 +46,11 @@ const char *langPieces[] = {"",
                             "",
                             "PPKRQDRTBBNC", // 13 pt
                             "", // 14 = he (multi-byte UTF-8)
-                            ""}; // 15 = swa
+                            "", // 15 = swa
+                            "", // 16 = hi
+                            "", // 17 = uk
+                            ""  // 18 = bn
+};
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // transPieces():
