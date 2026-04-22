@@ -28,6 +28,9 @@ LANGUAGE_CODE_MAP = {
     'japanese.tcl': 'A',
     'hebrew.tcl': 'V',
     'swahili.tcl': 'Z',
+    'hindi.tcl': 'X',
+    'ukrainian.tcl': 'Q',
+    'bengali.tcl': 'b',
 }
 
 def get_encoding_for_file(filepath):
@@ -61,6 +64,9 @@ def get_encoding_for_file(filepath):
         'romanian.tcl': 'utf-8', 
         'hebrew.tcl': 'utf-8',   
         'swahili.tcl': 'utf-8',   
+        'hindi.tcl': 'utf-8',   
+        'ukrainian.tcl': 'utf-8',   
+        'bengali.tcl': 'utf-8',   
     }
     
     # Extract base filename from path (handle .new extensions)

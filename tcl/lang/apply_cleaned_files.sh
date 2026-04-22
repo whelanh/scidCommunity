@@ -27,6 +27,9 @@ LANGUAGE_FILES=(
     "turkish"
     "hebrew"
     "swahili"
+    "hindi"
+    "ukrainian"
+    "bengali"
 )
 
 # Color codes for output
