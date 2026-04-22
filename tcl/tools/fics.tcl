@@ -55,7 +55,7 @@ namespace eval fics {
   set showOnlyFreePlayer 0
   set sortGamesColumn 0 ;# sort game number
   set sortGamesOrder "-increasing" ;# sort order
-  set sortPlayersColumn 4 ;# sort blitz rating
+  set sortPlayersColumn 3 ;# sort blitz rating
   set sortPlayersOrder "-decreasing" ;# sort blitz rating
   ################################################################################
   #
@@ -817,7 +817,7 @@ namespace eval fics {
     if { [string index $idle 0] == "|" } {
         set idle ""
     }
-    lappend ::fics::playerList [list $typ $name $state $standard $blitz $lightning $onfor $idle]
+    lappend ::fics::playerList [list $typ $name $state $blitz $lightning $standard $onfor $idle]
     return 1
   }
   ################################################################################
