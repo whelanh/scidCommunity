@@ -58,6 +58,10 @@ const char *langPieces[] = {"",
 void transPieces(char *s) {
   if (language == 0)
     return;
+  // Bounds check: verify langPieces[language] has at least 12 characters
+  // to avoid OOB reads for languages with empty mappings (he, swa, hi, uk, bn)
+  if (strlen(langPieces[language]) < 12)
+    return;
   char *ptr = s;
   int i;
 
@@ -77,6 +81,10 @@ void transPieces(char *s) {
 char transPiecesChar(char c) {
   char ret = c;
   if (language == 0)
+    return c;
+  // Bounds check: verify langPieces[language] has at least 12 characters
+  // to avoid OOB reads for languages with empty mappings (he, swa, hi, uk, bn)
+  if (strlen(langPieces[language]) < 12)
     return c;
   for (int i = 0; i < 12; i += 2) {
     if (c == langPieces[language][i]) {

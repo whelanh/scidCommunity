@@ -5,7 +5,7 @@ Supported Language Encodings:
 ==================================================
 The script will automatically detect encoding or you can specify it with -e flag:
   utf-8         - English, French, Greek, Italian, Russian, Chinese, Hebrew, Swahili,
-                  Japanese, Romanian, Turkish, Hindi, Ukranian, Bengali
+                  Japanese, Romanian, Turkish, Hindi, Ukrainian, Bengali
   iso8859-1     - Catalan, German, Dutch, Norwegian, Portuguese, Spanish, Finnish, Swedish
   iso8859-2     - Czech, Hungarian, Polish, Serbian
 
