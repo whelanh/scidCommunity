@@ -60,8 +60,10 @@ proc ::optable::selectRefBase {} {
   }
   pack $w.ok $w.cancel -side left -padx 5
   bind $w <Escape> "$w.cancel invoke"
+  wm protocol $w WM_DELETE_WINDOW "$w.cancel invoke"
   set ::optable::_refBaseOptions $options
   set ::optable::_refBasePick "curr"
+  set ::optable::_refBase -1
   tkwait window $w
 }
 
@@ -115,7 +117,18 @@ proc ::optable::ConfigMenus {{lang ""}} {
 
 proc ::optable::makeReportWin {args} {
   set ::optable::opReportBase [sc_base current]
-  ::optable::selectRefBase
+
+  # Check for noninteractive flags
+  set isInteractive 1
+  if {[lsearch -exact $args "-nodisplay"] >= 0 || [lsearch -exact $args "-noprogress"] >= 0} {
+    set isInteractive 0
+  }
+
+  # Only prompt for reference base in interactive mode
+  if {$isInteractive} {
+    ::optable::selectRefBase
+  }
+
   set refBase $::optable::_refBase
   if {$refBase > 0} {
     set reportBase $refBase
@@ -163,6 +176,7 @@ proc ::optable::makeReportWin {args} {
   # We compose dbfilter with tree to get games that match both the position AND the filter
   set baseNumber $reportBase
   set ::optable::_baseNumber $reportBase
+  set ::optable::reportSourceBase $reportBase
 
   # Save current base and switch to report base for generating statistics
   set prevBase [sc_base current]
@@ -171,6 +185,11 @@ proc ::optable::makeReportWin {args} {
   # Save original dbfilter by creating a temporary copy
   set tempFilter [sc_filter new $reportBase]
   sc_filter copy $reportBase $tempFilter dbfilter
+
+  # Copy the current board position (FEN) and rebuild the tree filter in the target base
+  # This ensures the tree filter reflects the current position in $reportBase
+  set currentFEN [sc_pos fen]
+  sc_search board $currentFEN
 
   # Compose dbfilter with tree filter to get games that match both
   set ::optable::_data(composedFilter) [sc_filter compose $reportBase "dbfilter" "tree"]
@@ -340,7 +359,12 @@ proc ::optable::makeReportWin {args} {
 # If MergeUnique is enabled, only games with unique move sequences are merged
 ################################################################################
 proc ::optable::mergeGames { {game_count 50} } {
-  set base  $::optable::opReportBase
+  # Use the actual report source base that was used to generate the report
+  if {[info exists ::optable::reportSourceBase]} {
+    set base $::optable::reportSourceBase
+  } else {
+    set base $::optable::opReportBase
+  }
   # Get current move number and convert to ply (1 move = 2 plies)
   set currentMove [sc_pos moveNumber]
   set currentPly [expr {$currentMove * 2}]
@@ -950,8 +974,8 @@ proc ::optable::report {fmt withTable {flipPos 0}} {
   set dbGames [::utils::thousands [sc_base numGames $::optable::_baseNumber]]
   if {$::optable::_baseNumber != $::optable::opReportBase} {
     set origName [file tail [sc_base filename $::optable::opReportBase]]
-    append r "$tr(Database): $dbName ($dbGames games)\n"
-    append r "Report for: $origName\n"
+    append r "$tr(Database): $dbName ($dbGames $games)$n"
+    append r "$tr(Report for): $origName$n"
   } else {
     append r "$tr(Database): $dbName "
     append r "($dbGames $games)$n"
