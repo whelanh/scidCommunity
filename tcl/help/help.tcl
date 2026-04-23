@@ -20,6 +20,7 @@ set helpText(Contents) {<h1>scidCommunity Help Contents</h1>
   <h4>Other scidCommunity windows</h4>
   <ul>
   <li><a Analysis><b>Analysis</b> window</a></li>
+  <li><a Engine><b>Engine</b> windows</a></li>
   <li><a Book><b>Book</b> window</a></li>
   <li><a CalVar><b>Calculation of variations</b> window</a></li>
   <li><a Comment><b>Comment editor</b> window</a></li>
@@ -58,7 +59,7 @@ set helpText(Contents) {<h1>scidCommunity Help Contents</h1>
   <li><a Author>Contact information</a></li>
   </ul>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ###############
@@ -124,6 +125,7 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   <li><a ECO>ECO openings classification</a></li>
   <li><a Menus Edit>Edit menu</a></li>
   <li><a Analysis List>Engines list</a></li>
+  <li><a Engine>Engine windows</a></li>
   <li><a Moves>Entering chess moves</a></li>
   <li><a EPD>EPD files</a></li>
   <li><a Export>Exporting games to text files</a></li>
@@ -282,7 +284,7 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   <li><a CCXfcc>Xfcc support</a></li>
   </ul>
 
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -346,7 +348,7 @@ set helpText(Guide) {<h1>Quick Guide to using scidCommunity</h1>
   author of scidCommunity.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -469,7 +471,7 @@ set helpText(Hints) {<h1>scidCommunity Hints</h1>
   the <term>File</term> menu.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -562,7 +564,7 @@ set helpText(MainWindow) {<h1>scidCommunity main window</h1>
   <a Searches Filter>filter</a>.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -828,7 +830,7 @@ set helpText(Menus) {<h1>scidCommunity menus</h1>
   <li><menu>About</menu>: Shows information about scidCommunity.</li>
   </ul>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -985,7 +987,7 @@ set helpText(Moves) {<h1>Entering chess moves</h1>
   NAGs>Standard NAG values</a> which can be accessed e.g. by Ctrl-N
   from the <a Comment>Comment editor</a>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -1165,7 +1167,7 @@ set helpText(Searches) {<h1>Searches in scidCommunity</h1>
   <a Formats>file formats</a> for more information.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -1208,7 +1210,7 @@ set helpText(Clipbase) {<h1>The Clipbase database</h1>
   memory only.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 #################################
@@ -1303,7 +1305,7 @@ set helpText(Annotating) {<h1>Annotating games</h1>
   applications.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ###############################
@@ -1442,7 +1444,7 @@ set helpText(Comment) {<h1>The Comment Editor window</h1>
   button in a red arrow.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -1523,7 +1525,7 @@ set helpText(Crosstable) {<h1>The Crosstable window</h1>
   player/event/site names.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -1559,7 +1561,7 @@ set helpText(Switcher) {<h1>The Database Switcher window</h1>
   vertically or horizontally) which is useful for smaller screens.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -1656,7 +1658,7 @@ set helpText(Tmt) {<h1>The Tournament Finder window</h1>
   when trying to form tournaments out of the games in the database.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -1745,7 +1747,7 @@ set helpText(GameList) {<h1>The Game List window</h1>
   are interested in adding the whole game or just its opening phase.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -1802,7 +1804,7 @@ set helpText(Import) {<h1>The Import window</h1>
   small <a PGN>PGN</a> files.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -1874,7 +1876,7 @@ set helpText(Export) {<h1>Exporting games</h1>
   to some web server.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -1918,7 +1920,7 @@ set helpText(LichessTournament) {<h1>Open Lichess Tournament</h1>
   </ul>
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -1971,7 +1973,7 @@ set helpText(ImportLichess) {<h1>Import my Lichess</h1>
   curl, wget, PowerShell (Windows), or Tcl TLS support.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -2026,7 +2028,7 @@ set helpText(ImportChessCom) {<h1>Import my chess.com</h1>
   and does not require authentication.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -2090,7 +2092,7 @@ set helpText(DownloadTWIC) {<h1>Download TWIC Games</h1>
   recent tournament play and opening theory developments.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -2198,7 +2200,7 @@ set helpText(PGN) {<h1>The <a PGN>PGN</a> window</h1>
   See the individual help topics for each button for more details.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -2260,7 +2262,7 @@ set helpText(PGNTablebase) {<h1>PGN Window: Table Base Button</h1>
   This feature requires an internet connection and either curl or Tcl http support.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -2320,7 +2322,7 @@ set helpText(PGNChessCom) {<h1>PGN Window: chess.com Button</h1>
   No Chess.com account is required to use the analysis board.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -2390,7 +2392,7 @@ set helpText(PGNLichess) {<h1>PGN Window: lichess.org Button</h1>
   account provides additional features.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -2463,7 +2465,7 @@ set helpText(PGNChessDB) {<h1>PGN Window: chessdb Engine Tree Button</h1>
   No account or registration is needed to use ChessDB.cn.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -2611,7 +2613,7 @@ set helpText(PTracker) {<h1>The Piece Tracker window</h1>
   queenside, or set up a d5 or e5 pawn wedge, for example.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -2789,7 +2791,7 @@ set helpText(Tree) {<h1>The Tree window</h1>
   adding or replacing a game, or sorting the database.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 set helpTitle(TreeMasks) "Masks for Trees"
@@ -2985,7 +2987,7 @@ set helpText(TreeMasks) {<h1>Masks for Trees</h1>
   games as soon as the middle game is reached.
   </p>
 
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -3024,7 +3026,7 @@ set helpText(Compact) {<h1>Database compaction</h1>
   index file.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -3166,7 +3168,7 @@ set helpText(Maintenance) {<h1>Database maintenance</h1>
   
 
 
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -3234,7 +3236,7 @@ set helpText(Sorting) {<h1>Sorting a database</h1>
   database after the sort procedure!
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -3309,7 +3311,7 @@ set helpText(Flags) {<h1>Game Flags</h1>
      <li><a Analysis Annotate>Find tactical exercise</a>: sets the (T) flag
   </ul>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -3318,273 +3320,152 @@ set helpText(Flags) {<h1>Game Flags</h1>
 set helpTitle(Analysis) "Analysis window"
 set helpText(Analysis) {<h1>The Analysis window</h1>
   <p>
-  The scidCommunity analysis window shows the analysis by a chess program
-  (known as an <term>engine</term>) of the current board position.
-  Whenever the board changes, scidCommunity sends the new position to the
-  engine and it shows its assessment of that position.
-  Currently, up to two engines can be run simultaneously. To start the
-  first analysis engine, the short cut <term>F2</term> can be used,
-  for the second engine <term>F3</term>. To quickly close the engine
-  window just hit <term>ESC</term>.
-  </p>
-  <p>
-  The principal information of the current analysis is shown on
-  top of the window. The first number signifies the evaluation value
-  in pawn units.  The score shown in the analysis window is always
-  from the perspective of White, so a negative score indicates Black
-  is better. <b>Depth:</b> shows the search depth already reached by
-  the engines calculations in half moves. The number after
-  <b>Nodes:</b> gives the number of positions analysed for the current
-  result while the number of positions per second (kn/s) is shown in
-  brackets.  <b>Time:</b> finally shows the amount of time spent for
-  the current analysis.
-  </p>
-  <p>
-  Additional information can be accessed using the <button
-  tb_engineinfo> button. A new line will be added to the status area
-  showing the current move analysed, the number of tablebase hits, a
-  more exact number of nodes analysed per second, the watermark of the
-  engines hash and the current cpu load. Usually, this information is
-  hidden to save space for the analysis.
-  </p>
-  <p>
-  If the engine only analyses the line it considers the main
-  continuation, the lower frame in the window (with the scrollbar)
-  shows the history of evaluations produced by the engine for the
-  current position, so you can see how the assessment has changed.
-  </p>
-  <p>
-  Many recent <term>UCI</term> engines however allow to analyse
-  several lines at once. Using this <term>Multi-PV</term> feature, the
-  user can also see what the engine thinks is the second or third best
-  continuation.  The best line is always on top and highlighted to
-  ease reading.  If an engine allows for <term>Multi-PV
-  analysis</term>, the spin box below the analysis lines can be used
-  to set the number of principal variations that should be calculated
-  and shown. In this case, instead of the calculation history, only
-  the resulting principal lines are shown. However, if the number of
-  principal lines is set to 1, one can again observe the evaluation
-  history. The spin box is disabled, if an engine does offer this
-  feature.
-  </p>
-  <p>
-  <b>Note</b> the output of the current analysis can be hidden/shown
-  by clicking with the right mouse button into the analysis window. In
-  this mode only the current evaluation is shown in the status line.
-  <p>
-  The <term>Add move</term> button adds the current best move of the
-  engine to the game notation. If the
-  whole main line of the engine should be added just use the <b>Add
-  Variation</b> button <button tb_addvar>. In case an engine offers
-  the <term>Multi-PV</term> mode, using the <b>Add all Variations</b>
-  button (<button tb_addallvars>) can be used to add all principal
-  variations to the game. The insertion of variations from the
-  analysis window will also add the name of the engine as a comment to
-  the game.
-  </p>
-  <p>
-  To temporarily interrupt the calculation process one can use the
-  stop engine button (<button tb_eng_off>). Once pressed, this button
-  changes to the start engine button (<button tb_eng_on>) which will
-  restart the engines analysis. Note, however, that most engines will
-  restart the whole analysis again, forgetting all results that where
-  achieved in an earlier run. Only few engines are able to reuse the
-  results they have calculated till the analysis was stopped. For the
-  first analysis engine toggling start/stop engine is mapped to the
-  hotkey <term>F4</term> while for the second engine <term>F5</term>
-  can be used.
-  </p>
-  <p>
-  To set an engine to analyse a position in the background while
-  other functions of scidCommunity are used one can <term>lock the
-  position</term> using the <button tb_lockengine> button. scidCommunity now
-  stops to send any changes of the main board to the engine, and the
-  engine stays calculating the position.
-  </p>
-  <p>
-  To finish the current game by the engine ("shoot out" or "demo" mode)
-  one can use the finish game button <button tb_finish_off>. To indicate
-  the shootout mode this button turns to <button tb_finish_on>. This
-  function is only available for the first analysis engine.
+  The scidCommunity Analysis window shows analysis by a chess engine of the
+  current board position. When the position changes, scidCommunity sends the new
+  position to the engine and displays its assessment. Up to two Analysis windows
+  can be open simultaneously.
   </p>
 
-  <h3><name List>The Analysis Engines List</name></h3>
+  <h3>Buttons</h3>
+  <ul>
+  <li><b>Start/Stop</b> <button tb_eng_on>: Starts or stops the engine analysis.
+    Keyboard shortcut: F4 for window 1, F5 for window 2.</li>
+  <li><b>Lock</b> <button tb_lockengine>: Locks the engine to a fixed position.
+    When locked, the engine continues analyzing that position even when you navigate
+    to different moves in the game. Click again to unlock.</li>
+  <li><b>Add move</b> <button tb_addmove>: Adds the engine's best move to the game.</li>
+  <li><b>Add variation</b> <button tb_addvar>: Adds the engine's best line as
+    a variation to the current game.</li>
+  <li><b>Add all variations</b> <button tb_addallvars>: Adds all MultiPV lines as
+    variations (for engines that support MultiPV).</li>
+  </ul>
+
+  <h3>Controls</h3>
+  <ul>
+  <li><b>Lines (MultiPV)</b>: Spinbox to set the number of principal variations
+    to display. Higher values show more candidate moves. Available options vary
+    by engine.</li>
+  <li><b>Annotate</b> <button tb_annotate>: Opens the annotation configuration
+    dialog to automatically annotate games.</li>
+  <li><b>Training/Autoplay</b> <button tb_training>: Enters training mode where you
+    play against the engine, or autoplay mode to automatically advance through
+    the game with analysis visible.</li>
+  <li><b>Finish Game</b> <button tb_finish_off>: Plays through the entire game
+    using the engine, making moves for both sides. Opens a configuration dialog
+    to set time/depth per move and optionally adds annotations.</li>
+  <li><b>Show board</b> <button tb_coords>: Shows or hides the analysis board
+    displaying the position at the end of the engine's best line.</li>
+  <li><b>Show info</b> <button tb_engineinfo>: Shows or hides additional engine
+    information (tablebase hits, nodes/sec, hash usage, CPU load).</li>
+  <li><b>Priority</b>: Sets the engine process priority to low or high.</li>
+  <li><b>Update</b> <button tb_update>: Forces the engine to update its analysis.</li>
+  </ul>
+
+  <h3>Display Area</h3>
   <p>
-  scidCommunity maintains a list of the engines you have used, along with an
-  estimated Elo rating (if you guess one; additionally some pages on
-  the Internet offer these values as results from large engine-engine
-  tournaments) and the date when each engine was last used. You can
-  sort the engine list by name, Elo rating, or date.
-  Select the <b>New</b> or <b>Edit</b> buttons to add a new engine to
-  the list or edit the details for an existing entry.
+  The main text area shows the engine's current evaluation, including:
   </p>
-  <h3><name Start>Engine commands and directories</name></h3>
+  <ul>
+  <li>Score in pawn units (negative = Black better)</li>
+  <li>Search depth reached</li>
+  <li>Principal variation (PV) - the best line of moves</li>
+  </ul>
   <p>
-  For each engine, you must specify the executable file to run and
-  which directory scidCommunity should run it in.
-  </p>
-  <p>
-  The most likely cause of engine starting problems is the choice of
-  which directory the engine should run in. Some engines require an
-  initialization or opening book file in their start directory to run
-  properly.  Other engines (like Crafty) write log files to the
-  directory they start in, so you will need to run them in a directory
-  where you have write access.  If the directory setting for an engine
-  is ".", scidCommunity will just start the engine in the current directory.
-  </p>
-  <p>
-  So if an engine that should work fine in scidCommunity does not start, try
-  changing its directory setting. To avoid engines creating log files
-  in many different directories, I recommend starting engines in
-  the directory of the scidCommunity User files (this is where the <b>scid.exe</b>
-  file is located on Windows, or <b>~/.scid/</b> on Unix); there is a
-  button in the dialog box for editing engine details marked
-  <b>scid.exe dir</b> on Windows or <b>~/.scid</b> on Unix that lets
-  you set the engine to start in this directory.
-  </p>
-  <p>
-  If an engine needs additional parameters for startup (e.g. a
-  specific opening book) they can be specified in the
-  <term>Parameters</term> field. Please refer to the engines
-  documentation about the parameters required, if any.
-  </p>
-  <p><term>URL</term> allows you to set the engines homepage. This
-  comes in handy to check for updates e.g. or to have a look at recent
-  developments. Pressing the <term>Open...</term> button will open
-  this page in the web browser.
-  </p>
-  <p>
-  If the engine uses the <term>UCI</term> protocol please mark the
-  associated checkbox. Generally, there are two major engine protocols
-  available today: xboard sometimes referred to as winboard (UCI must
-  not be checked) which many, especially older engines use, and the
-  UCI protocol that can be found in most of the modern chess engines.
-  The main advantage of an <term>UCI</term> engine is, that this
-  protocol allows the user to configure the engines parameters from
-  within his preferred chess GUI like scidCommunity, while for the other
-  engines usually configuration files are used that have to be edited.
-  Therefore, if the engine is an <term>UCI</term> engine, pressing the
-  <term>Configure UCI engine</term> button offers a graphical dialogue
-  where all engine parameters can be tuned to the users liking. This
-  dialogue will look different for each engine as each engine has
-  other parameters that can be set. Most of them will influence the
-  playing style of the engine. Please refer to the engines
-  documentation.
+  For UCI engines with MultiPV &gt; 1, multiple candidate lines are shown.
   </p>
 
-  
-  <h3>Training</h3>
-  <p>
-  With the <b>Training</b> button, you can play moves against the analysis
-  engine. The time for each move is fixed, and the analysis results are
-  not shown when training mode is on.
-  </p>
-  
-  <h3>Auto Comment</h3>
-  <p>
-  The <a AnalysisAutoComment>Auto Comment</a> button allows you to generate
-  AI-powered commentary for all annotated moves in the current game.
-  </p>
-  
   <h3><a Annotate>Annotating a game</h3>
   <p>
-  You can do this automatically for a number of moves (annotating the
-  game) by pressing the <b>Annotate</b> button, <button tb_annotate>.
-  Besides, the engines best lines also <a Moves Informant>Informant</a>
-  style evaluation symbols are added in this process.  First, the
-  parameters for automatic annotations have to be set:
+  Press the <b>Annotate</b> button to open the annotation configuration dialog:
+  </p>
   <ul>
-     <li><term>Set the time between moves in seconds:</term> this
-     gives the time, the engine can spend on analysis before moving on
-     to the next move.</li>
-     <li><term>Add variations</term>: here, one has the choice if
-     moves for both sides or only one color should be added, if all
-     moves should get an annotation or only if the game move is not
-     the best move according to the engines evaluation. Additionally,
-     one can add an annotation only if the game move is a blunder. The
-     threshold defines the drop of the evaluation necessary to signify
-     a blunder, the number is given in units of pawns (i.e. 0.2 means
-     that if the evaluation drops by more than 2 centi pawns, the game
-     move is a blunder).
-     </li>
-     <li><term>Annotate variations</term> will include variations
-     within the game in the analysis by the engine.</li>
-     <li><term>Short annotations<term> will only add minimal
-     annotations, that is the pure lines and NAG codes without the
-     engines names and usually without the current scores.</li>
-     <li><term>Add score to annotations</term> will add the engines
-     evaluation in pawn units to the annotations. This information can
-     be used later on to draw a <a Score>Score Graph</a> of the game
-     as a visualisation of the positions reached.
-     </li>
-     <li><term>Add annotator tag</term> will add an "Annotator" tag to
-     the game header. This is meant for the <term>Short
-     annotations</term> mode which does not signify which engine was
-     used to gain the current evaluations and lines.
-     </li>
-     <li><term>Use book</term> allows the specification of an opening
-     book. Moves that are contained in this opening book are skipped
-     in the annotation process, that is the annotation starts
-     automatically in the middle game.</li>
-     <li><term>Annotate several games</term>  scidCommunity will first annotate
-     the current game with the settings specified, store the results,
-     then automatically load the next game and annotate that as well.
-     This is repeated till the game loaded reaches the number given in
-     the spin box. By this procedure, many games can be annotated
-     automatically without any user intervention.
-     </li>
-     <li><term>Find opening errors</term> will check the opening phase
-     up to the move specified for blunders. Additionally, the
-     Annotator-tag gets an entry "opBlunder X" where X is the move the
-     blunder occurred.
-     </li>
-     <li><term>Mark tactical exercises</term> This can be used to
-     generate exercises for the training function <a FindBestMove>Find
-     best move</a>. This option is only available for <term>UCI</term>
-     engines.
-     </li>
+  <li><b>Time between moves</b>: Seconds the engine spends on each position.</li>
+  <li><b>Annotate all moves</b> or <b>Blunders only</b>: Choose whether every move
+    gets annotated or only bad moves. Set a blunder threshold in pawn units.</li>
+  <li><b>Variations</b>: Include variations from the engine's analysis.</li>
+  <li><b>Short annotations</b>: Minimal format without engine names.</li>
+  <li><b>Add score</b>: Include evaluation scores in pawn units.</li>
+  <li><b>Add annotator tag</b>: Records which engine was used.</li>
+  <li><b>Use book</b>: Skips positions that are in the opening book.</li>
+  <li><b>Annotate several games</b>: Batch annotate multiple games in sequence.</li>
+  <li><b>Find opening errors</b>: Marks blunders in the opening phase.</li>
+  <li><b>Mark tactical exercises</b>: Creates training positions (UCI engines only).</li>
   </ul>
-  After pressing the Ok button,  autoplay mode is enabled and the
-  engine starts to analyse the game.  When autoplay mode is used and
-  the analysis window is open, a variation containing the score and
-  best line of play is automatically added for each position as
-  autoplay mode moves through the game.  Only positions from the
-  current position until the end of the game (or until you exit
-  autoplay mode) are annotated, so you can skip annotation of opening
-  moves by moving to a middlegame position before starting autoplay.
-  </p>
   <p>
-  To cancel annotation at any time, just turn off autoplay mode, for example by
-  pressing the <b>Escape</b> key in the main window.
-  </p>
-  <p>
-  Note that for simplicity, the <b>Annotate</b> button is only available
-  in the window opened as analysis engine 1. If you open an engine as
-  analysis engine 2, you cannot use it to annotate the game.
-  </p>
-  
-  <h3>Analysis board</h3>
-  <p>
-  Pressing the button <button tb_coords> in an analysis window will
-  show or hide the analysis board, which shows the position at the end
-  of the current best line of play found by the engine. This works for
-  most scidCommunity-compatible engines but may not work for all; it depends on
-  the move notation an engine uses.
-  </p>
-  
-  <h3>Engine priority</h3>
-  <p>
-  If an engine is using too much CPU time and affecting the use of scidCommunity
-  or other applications, turning on the <b>Low CPU priority</b> button
-  <button tb_cpu> may help; it gives the engine a low priority for CPU
-  scheduling. On Windows, engines are run on low priority by default.
-  </p>
-  <p>
-  <b>Note</b> that on Unix systems the engines priority can not be set
-  back to normal.
+  Press Escape in the main window to cancel annotation at any time.
   </p>
 
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
+}
+
+####################
+### Engine windows help:
+
+set helpTitle(Engine) "Engine windows"
+set helpText(Engine) {<h1>The Engine windows</h1>
+  <p>
+  The Engine windows provide real-time analysis from chess engines. They 
+  differ from the Analysis window by including evaluation charts, stored 
+  cloud evaluations, and engine configuration panels. Up to two engine 
+  windows can run simultaneously.
+  </p>
+  <p>
+  Open with <b>F2</b> (first window) or <b>F3</b> (second window).
+  Close with <b>Escape</b>.
+  </p>
+
+  <h3>Buttons</h3>
+  <ul>
+  <li><b>Start/Stop</b> <button tb_eng_on>: Starts or stops analysis.
+    Button shows running state with green indicator.</li>
+  <li><b>Lock</b> <button tb_eng_lock>: Locks the engine to the current position.
+    When locked, the engine analyzes only that position, even when you navigate
+    to different moves. Click again to unlock and follow the current position.</li>
+  <li><b>Add best move</b> <button tb_eng_addbestmove>: Adds the engine's best move to the game.</li>
+  <li><b>Add all lines</b> <button tb_eng_addlines>: Adds all MultiPV lines as
+    variations.</li>
+  <li><b>Config</b> <button tb_eng_config>: Shows or hides the engine configuration
+    panel.</li>
+  <li><b>Auto Comment</b>: Generates a comment for the current position based on
+    the engine analysis.</li>
+  <li><b>Game Comment</b>: Generates comments for all positions in the game.</li>
+  </ul>
+
+  <h3>Controls</h3>
+  <ul>
+  <li><b>Lines (MultiPV)</b>: Number of variations to display. Higher values
+    show more candidate moves. Available range varies by engine.</li>
+  <li><b>Depth</b>: Maximum search depth. Leave empty for unlimited.</li>
+  <li><b>Time (ms)</b>: Analysis time per position in milliseconds.
+    Leave empty for unlimited.</li>
+  <li><b>Autorun</b>: After reaching limits, automatically begins analyzing
+    positions in the main line to build a full game evaluation.</li>
+  <li><b>CPUs</b>: Number of CPU threads for the engine.</li>
+  <li><b>Hash</b>: Memory size for the engine's hash table in MB.</li>
+  </ul>
+
+  <h3>Display Panels</h3>
+  <ul>
+  <li><b>Stored Evaluations</b>: Shows cached evaluations from Lichess
+    cloud eval or previous local analysis. Automatically queries Lichess
+    when no local evaluation exists.</li>
+  <li><b>Header info</b>: Shows Time, Nodes (kN/s), Hash %, Tablebase hits.</li>
+  <li><b>PV Lines</b>: Principal variations with scores and depth.
+    Click on any move to see a popup board with that position.</li>
+  <li><b>Chart</b>: Evaluation graph across the game. Shows player
+    accuracy based on centipawn losses from optimal moves.</li>
+  <li><b>Debug</b>: Raw engine communication log (toggleable).</li>
+  </ul>
+
+  <h3>Score Graph and Player Accuracy</h3>
+  <p>
+  The chart displays evaluation scores throughout the game. Click anywhere
+  on the graph to navigate to that position. The accuracy percentage shows
+  how well the player followed the engine's recommendations, computed
+  from centipawn deviations on each move.
+  </p>
+
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -3628,7 +3509,7 @@ set helpText(CalVar) {<h1>The calculation of variation window</h1>
    entered by the user.
   </p>
 
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -3738,7 +3619,7 @@ set helpText(EPD) {<h1>EPD files</h1>
   in this EPD file.</li>
   </ul>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -3848,7 +3729,7 @@ set helpText(Reports) {<h1>Reports</h1>
   number of games used to generate the theory table in the Report options.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -3877,7 +3758,7 @@ set helpText(PList) {<h1>The Player Finder window</h1>
   ranges of Elo rating and number of games played.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -3937,7 +3818,7 @@ set helpText(PInfo) {<h1>The Player Info window</h1>
   player in the contributing national libraries.</li>
   </ul>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -4041,7 +3922,7 @@ set helpText(Graphs) {<h1>Graph windows</h1>
   <a Tree Graph>Tree</a> help page.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -4093,7 +3974,7 @@ set helpText(Bookmarks) {<h1>Bookmarks</h1>
   many bookmarks), or as a single list.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -4129,7 +4010,7 @@ set helpText(Cmdline) {<h1>Command-line options</h1>
   layout before running the search.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -4198,7 +4079,7 @@ set helpText(Pgnscid) {<h1>Pgnscid</h1>
   scidCommunity; see the <a Maintenance Editing>Maintenance</a> help page for details.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -4284,7 +4165,7 @@ set helpText(Formats) {<h1>scidCommunity File Formats</h1>
   be skipped, but games starting with 1.e4 e5 will still need to be searched.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -4329,7 +4210,7 @@ set helpText(Options) {<h1>Options and preferences</h1>
   for the <a Tree>tree</a> and <a Crosstable>crosstable</a> windows.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -4537,7 +4418,7 @@ set helpText(NAGs) {<h1>Standard NAG values</h1>
   </ul>
   </cyan>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -4694,7 +4575,7 @@ set helpText(ECO) {<h1>ECO openings classification</h1>
   <li>  <b>E9</b>  E7 + 4...d6 5.Nf3: <i>King's Indian, main lines</i> </li>
   </ul>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -4741,7 +4622,7 @@ set helpText(Book) {<h1>Book window</h1>
   The book in use can be selected from the drop down list in the
   book window.
   </p>
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 # Tactical game window help
@@ -4787,7 +4668,7 @@ set helpText(TacticalGame) {<h1>Tactical game window</h1>
   <a SeriousGame>serious game</a> against any UCI engine that allows
   for limiting its strength.
   </p>
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 # Opening Trainer window help
@@ -4920,7 +4801,7 @@ set helpText(OpeningTrainer) {<h1>Opening Trainer</h1>
   player that were not in repertoire</li>
   </ul>
   </p> 
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 # Serious game window help
@@ -5019,7 +4900,7 @@ set helpText(SeriousGame) {<h1>Serious game window</h1>
   start up and initialise properly.
   </p>
 
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 # Tactics Trainer
@@ -5090,7 +4971,7 @@ set helpText(TacticsTrainer) {<h1>Training: Tactics</h1>
   game via Ctrl-? or jumping to some bookmark or simply by the <a
   GameList>game list</a>.
   </p>
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 # Find best move 
@@ -5122,7 +5003,7 @@ set helpText(FindBestMove) {<h1>Training: Find best move</h1>
   For this exercise it is advisable to close the <a PGN>PGN</a> window and set
   <term>Hide next move</term> from the status areas context menu.
   </p>
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 # FICS Login
@@ -5194,7 +5075,7 @@ set helpText(FICSLogin) {<h1>FICS Login</h1>
   FICS offers a bunch of graphical interfaces for download on its
   homepage.
   </p>
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 # FICS Find Opponent
@@ -5233,7 +5114,7 @@ set helpText(FICSfindOpp) {<h1>FICS Find Opponent</h1>
    Clicking the <term>Issue seek</term> button will place your
    offer on the server.
   </p>
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 # FICS
@@ -5365,7 +5246,7 @@ set helpText(FICS) {<h1>FICS: Play on the Internet</h1>
   Note that only one game can be observed within scidCommunity.
   </p>
 
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 # Book tuning
@@ -5405,7 +5286,7 @@ set helpText(BookTuning) {<h1>Book tuning</h1>
    can be done incrementally. That is, new lines are added to already
    existing ones. This also allows to merge several books.
    </p>
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 # Novag Citrine
@@ -5430,7 +5311,7 @@ set helpText(Novag) {<h1>Connecting the Novag Citrine Chess board</h1>
 
    ###--- Detailed description needed ---###
    </p>
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 set helpTitle(HardwareConfig) "Connecting External Hardware"
@@ -5538,7 +5419,7 @@ set helpText(HardwareConfig) {<h1>Connecting External Hardware</h1>
   </p>
 
 
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 set helpTitle(HardwareStatus) "Status of External Hardware"
@@ -5585,7 +5466,7 @@ set helpText(HardwareStatus) {<h1>Status of External Hardware</h1>
    </li>
    </ul>
 
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 set helpTitle(InputEngine) "Input Engine driver console"
@@ -5706,7 +5587,7 @@ set helpText(InputEngine) {<h1>Input Engine driver console</h1>
    </p>
 
 
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 set helpTitle(ReviewGame) "Game Review"
@@ -5747,7 +5628,7 @@ button to get a confirmation of engine's analysis.
 <li>- The user always plays from the bottom of the board</li>
 </ul>
 </p>
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 set helpTitle(Metadata) "Dublin Core Metadata"
@@ -5791,6 +5672,5 @@ set helpText(Metadata) {<h1>Dublin Core Metadata</h1>
    However, other applications may well prefer the XML structure.
    </p>
 
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
-
