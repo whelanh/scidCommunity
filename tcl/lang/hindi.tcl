@@ -1,6 +1,6 @@
 ### hindi.tcl:
 #  
-proc setLanguage_X {} {
+proc setLanguage_h {} {
 
 # File menu:
 menuText h File "फ़ाइल" 0
