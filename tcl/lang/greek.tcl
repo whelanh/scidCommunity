@@ -1115,8 +1115,7 @@ translate G ECOSummary {Περίληψη της}
 translate G ECOFrequency {Συχνότητα υποκωδίκων για}
 
 # Opening Report:
-# MISSING TRANSLATION for {Report:
-# translate E {Report for} {Report for}
+translate G OprepReportFor {Αναφορά για}
 translate G OprepTitle {Έκθεση ανοίγματος}
 translate G OprepReport {Έκθεση/αναφορά}
 translate G OprepGenerated {Δημιουργήθηκε από τον/την}

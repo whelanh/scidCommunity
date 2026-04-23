@@ -1091,8 +1091,7 @@ translate O ECOSummary {Sammendrag for}
 translate O ECOFrequency {Hyppighet eller underkoder for}
 
 # Opening Report:
-# MISSING TRANSLATION for {Report:
-# translate E {Report for} {Report for}
+translate O OprepReportFor {Rapporter for}
 translate O OprepTitle {Åpningsrapport}
 translate O OprepReport {Rapport}
 translate O OprepGenerated {Generert av}

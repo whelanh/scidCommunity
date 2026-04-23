@@ -1116,8 +1116,7 @@ translate A ECOSummary {の概要}
 translate A ECOFrequency {サブコードの頻度}
 
 # Opening Report:
-# MISSING TRANSLATION for {Report:
-# translate E {Report for} {Report for}
+translate A OprepReportFor {のレポート}
 translate A OprepTitle {オープニングレポート}
 translate A OprepReport {報告}
 translate A OprepGenerated {生成者}

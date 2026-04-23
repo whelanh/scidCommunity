@@ -1000,7 +1000,7 @@ proc ::optable::report {fmt withTable {flipPos 0}} {
   if {$::optable::_baseNumber != $::optable::opReportBase} {
     set origName [file tail [sc_base filename $::optable::opReportBase]]
     append r "[tr Database]: $dbName ($dbGames $games)$n"
-    append r "[tr {Report for}]: $origName$n"
+    append r "[tr OprepReportFor]: $origName$n"
   } else {
     append r "[tr Database]: $dbName "
     append r "($dbGames $games)$n"

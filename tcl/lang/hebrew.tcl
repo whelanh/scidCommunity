@@ -1076,8 +1076,7 @@ translate V ECOSummary {סיכום עבור}
 translate V ECOFrequency {תדירות של תת-קודים עבור}
 
 # Opening Report:
-# MISSING TRANSLATION for {Report:
-# translate E {Report for} {Report for}
+translate V OprepReportFor {דווח עבור}
 translate V OprepTitle {דוח פתיחה}
 translate V OprepReport {דִוּוּחַ}
 translate V OprepGenerated {נוצר על ידי}

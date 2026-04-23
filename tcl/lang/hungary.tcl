@@ -1089,8 +1089,7 @@ translate H ECOSummary {Összefoglalás:}
 translate H ECOFrequency {Alkódok gyakorisága:}
 
 # Opening Report:
-# MISSING TRANSLATION for {Report:
-# translate E {Report for} {Report for}
+translate H OprepReportFor {Jelentés a számára}
 translate H OprepTitle {Megnyitási összefoglaló}
 translate H OprepReport {Összefoglaló}
 translate H OprepGenerated {Készítette:}

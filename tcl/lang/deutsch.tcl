@@ -1130,8 +1130,7 @@ translate D ECOSummary {Zusammenfassung für}
 translate D ECOFrequency {Häufigkeit der Untercodes für}
 
 # Opening Report:
-# MISSING TRANSLATION for {Report:
-# translate E {Report for} {Report for}
+translate D OprepReportFor {Bericht für}
 translate D OprepTitle {Eröffnungsbericht}
 translate D OprepReport {Bericht}
 translate D OprepGenerated {Erzeugt durch}

@@ -1107,8 +1107,7 @@ translate P ECOSummary {Podsumowanie dla}
 translate P ECOFrequency {Czêsto¶ci kodów dla}
 
 # Opening Report:
-# MISSING TRANSLATION for {Report:
-# translate E {Report for} {Report for}
+translate P OprepReportFor {Zg³o¶ dla}
 translate P OprepTitle {Raport debiutowy}
 translate P OprepReport {Raport}
 translate P OprepGenerated {Utworzony przez}

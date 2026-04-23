@@ -1122,8 +1122,7 @@ translate U ECOSummary {Yhteenveto:}
 translate U ECOFrequency {Alikoodien yleisyys:}
 
 # Opening Report:
-# MISSING TRANSLATION for {Report:
-# translate E {Report for} {Report for}
+translate U OprepReportFor {Raportti for}
 translate U OprepTitle {Avausraportti}
 translate U OprepReport {Raportti}
 translate U OprepGenerated {Luonut:}

@@ -1075,8 +1075,7 @@ translate b ECOSummary {জন্য সারাংশ}
 translate b ECOFrequency {এর জন্য সাবকোডের ফ্রিকোয়েন্সি}
 
 # Opening Report:
-# MISSING TRANSLATION for {Report:
-# translate E {Report for} {Report for}
+translate b OprepReportFor {জন্য রিপোর্ট}
 translate b OprepTitle {উদ্বোধনী প্রতিবেদন}
 translate b OprepReport {রিপোর্ট}
 translate b OprepGenerated {দ্বারা উত্পন্ন}

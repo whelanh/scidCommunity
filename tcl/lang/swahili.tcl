@@ -1075,8 +1075,7 @@ translate Z ECOSummary {Muhtasari wa}
 translate Z ECOFrequency {Mzunguko wa misimbo ndogo ya}
 
 # Opening Report:
-# MISSING TRANSLATION for {Report:
-# translate E {Report for} {Report for}
+translate Z OprepReportFor {Ripoti kwa}
 translate Z OprepTitle {Ripoti ya Ufunguzi}
 translate Z OprepReport {Ripoti}
 translate Z OprepGenerated {Imetolewa na}

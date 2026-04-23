@@ -1111,8 +1111,7 @@ translate K ECOSummary {Resum de}
 translate K ECOFrequency {Freqüencia dels subcodis per}
 
 # Opening Report:
-# MISSING TRANSLATION for {Report:
-# translate E {Report for} {Report for}
+translate K OprepReportFor {Informe per}
 translate K OprepTitle {Informe de l'obertura}
 translate K OprepReport {Informe}
 translate K OprepGenerated {Generat per}

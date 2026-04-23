@@ -1332,7 +1332,7 @@ translate Y ECOSection {E©O sekcija}
 translate Y ECOSummary {Pregled za}
 translate Y ECOFrequency {Uèestanost subkodova za}
 # ====== TODO To be translated ======
-translate Y {Report for} {Report for}
+translate Y OprepReportFor {Report for}
 
 # Opening Report:
 translate Y OprepTitle {Izve¹taj o otvaranjima}

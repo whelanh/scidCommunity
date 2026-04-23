@@ -1094,8 +1094,7 @@ translate W ECOSummary {Sammanfattning för}
 translate W ECOFrequency {Underkodsfrekvens för}
 
 # Opening Report:
-# MISSING TRANSLATION for {Report:
-# translate E {Report for} {Report for}
+translate W OprepReportFor {Anmäl för}
 translate W OprepTitle {Öppningsrapport}
 translate W OprepReport {Rapport}
 translate W OprepGenerated {Skapad av}
