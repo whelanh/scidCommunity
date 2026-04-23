@@ -253,6 +253,8 @@ proc ::win::manageWindow {wnd title} {
 proc ::win::createDialog {w {y 10}} {
 	toplevel $w -padx 10 -pady $y
 	::applyThemeColor_background $w
+	wm transient $w .
+	catch {wm attributes $w -type dialog}
 }
 
 # Make sure that a window is visible
