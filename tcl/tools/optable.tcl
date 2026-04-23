@@ -130,7 +130,7 @@ proc ::optable::makeReportWin {args} {
   }
 
   set refBase $::optable::_refBase
-  if {$refBase > 0} {
+  if {$refBase != -1} {
     set reportBase $refBase
   } else {
     set reportBase [sc_base current]
@@ -370,7 +370,7 @@ proc ::optable::makeReportWin {args} {
   $w.text configure -state normal
   $w.text delete 1.0 end
   regsub -all "\n" $report "<br>" report
-  ::htext::display $w.text $report
+  ::htext::display $w.text $report "" 1 $::optable::_baseNumber
   $w.text configure -state disabled
   unbusyCursor .
 
