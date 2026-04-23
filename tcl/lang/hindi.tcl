@@ -1,6 +1,6 @@
 ### hindi.tcl:
 #  
-proc setLanguage_h {} {
+proc setLanguage_X {} {
 
 # File menu:
 menuText h File "फ़ाइल" 0
@@ -1075,6 +1075,8 @@ translate h ECOSummary {के लिए सारांश}
 translate h ECOFrequency {के लिए उपकोड की आवृत्ति}
 
 # Opening Report:
+# MISSING TRANSLATION for {Report:
+# translate E {Report for} {Report for}
 translate h OprepTitle {प्रारंभिक रिपोर्ट}
 translate h OprepReport {प्रतिवेदन}
 translate h OprepGenerated {द्वारा उत्पन्न}

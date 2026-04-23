@@ -1116,6 +1116,8 @@ translate J ECOSummary {Резиме за}
 translate J ECOFrequency {Учесталост подкодова за}
 
 # Opening Report:
+# MISSING TRANSLATION for {Report:
+# translate E {Report for} {Report for}
 translate J OprepTitle {Извештај о отварању}
 translate J OprepReport {Извештај}
 translate J OprepGenerated {Генерисано од}

@@ -1113,6 +1113,8 @@ translate N ECOSummary {Samenvatting voor}
 translate N ECOFrequency {Frequentie van subcodes voor}
 
 # Opening Report:
+# MISSING TRANSLATION for {Report:
+# translate E {Report for} {Report for}
 translate N OprepTitle {Openings Rapportage}
 translate N OprepReport {Rapportage}
 translate N OprepGenerated {Samengesteld door }

@@ -1116,6 +1116,8 @@ translate L ECOSummary {Rezumat pentru}
 translate L ECOFrequency {Frecvența subcodurilor pentru}
 
 # Opening Report:
+# MISSING TRANSLATION for {Report:
+# translate E {Report for} {Report for}
 translate L OprepTitle {Raport de deschidere}
 translate L OprepReport {Raport}
 translate L OprepGenerated {Generat de}
