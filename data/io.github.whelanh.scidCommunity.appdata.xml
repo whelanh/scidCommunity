@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.3.12" date="2026-04-23">
+      <description>
+        <p>Improve help; add reference database choice for Opening Report; bug fixes</p>
+      </description>
+    </release>
     <release version="5.1.3.11" date="2026-04-22">
       <description>
         <p>Add Hindi, Bengali and Ukranian language options</p>
