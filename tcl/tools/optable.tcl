@@ -178,6 +178,9 @@ proc ::optable::makeReportWin {args} {
   set ::optable::_baseNumber $reportBase
   set ::optable::reportSourceBase $reportBase
 
+  # Capture the current board position BEFORE switching bases
+  set currentFEN [sc_pos fen]
+
   # Save current base and switch to report base for generating statistics
   set prevBase [sc_base current]
   if {$reportBase != $prevBase} { sc_base switch $reportBase }
@@ -186,12 +189,21 @@ proc ::optable::makeReportWin {args} {
   set tempFilter [sc_filter new $reportBase]
   sc_filter copy $reportBase $tempFilter dbfilter
 
-  # Copy the current board position (FEN) and rebuild the tree filter in the target base
-  # This ensures the tree filter reflects the current position in $reportBase
-  set currentFEN [sc_pos fen]
-  sc_search board $currentFEN
+  # Synchronize the reference base's position with the main board.
+  # sc_search board uses the current game position, so we set it using startBoard.
+  set oldGameNum [sc_game number]
+  sc_game startBoard $currentFEN
 
-  # Compose dbfilter with tree filter to get games that match both
+  # Perform the board search in reportBase (updates dbfilter)
+  sc_search board RESET Exact false 0
+
+  # Rebuild the tree filter from the search results
+  sc_filter copy $reportBase tree dbfilter
+
+  # Restore the original header search filter to dbfilter
+  sc_filter copy $reportBase dbfilter $tempFilter
+
+  # Compose dbfilter (header search) with tree filter (position search)
   set ::optable::_data(composedFilter) [sc_filter compose $reportBase "dbfilter" "tree"]
   set newTreeData [sc_tree stats $reportBase $::optable::_data(composedFilter)]
   # Copy the composed filter to dbfilter so the report uses it
@@ -210,10 +222,23 @@ proc ::optable::makeReportWin {args} {
   if {$showProgress} {
     grab release $w.b.cancel
     destroy $w
-    if {$::optable::_interrupt} { return }
+    if {$::optable::_interrupt} {
+      # Restore original game before returning
+      if {[sc_base numGames $reportBase] > 0} {
+        catch { sc_game load $oldGameNum }
+      }
+      return
+    }
   }
 
   set ::optable::_data(tree) $newTreeData
+
+  # Restore the original game and reset the "altered" flag
+  if {[sc_base numGames $reportBase] > 0} {
+    catch { sc_game load $oldGameNum }
+  } else {
+    catch { sc_game clear }
+  }
 
   # Enable HTML diagram generation (like the Export HTML feature does)
   sc_info html 0
@@ -974,10 +999,10 @@ proc ::optable::report {fmt withTable {flipPos 0}} {
   set dbGames [::utils::thousands [sc_base numGames $::optable::_baseNumber]]
   if {$::optable::_baseNumber != $::optable::opReportBase} {
     set origName [file tail [sc_base filename $::optable::opReportBase]]
-    append r "$tr(Database): $dbName ($dbGames $games)$n"
-    append r "$tr(Report for): $origName$n"
+    append r "[tr Database]: $dbName ($dbGames $games)$n"
+    append r "[tr {Report for}]: $origName$n"
   } else {
-    append r "$tr(Database): $dbName "
+    append r "[tr Database]: $dbName "
     append r "($dbGames $games)$n"
   }
   append r "$tr(OprepReport): [::trans [sc_report opening line]] ("
