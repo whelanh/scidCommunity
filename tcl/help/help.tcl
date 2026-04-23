@@ -59,7 +59,7 @@ set helpText(Contents) {<h1>scidCommunity Help Contents</h1>
   <li><a Author>Contact information</a></li>
   </ul>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ###############
@@ -284,7 +284,7 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   <li><a CCXfcc>Xfcc support</a></li>
   </ul>
 
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -348,7 +348,7 @@ set helpText(Guide) {<h1>Quick Guide to using scidCommunity</h1>
   author of scidCommunity.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -471,7 +471,7 @@ set helpText(Hints) {<h1>scidCommunity Hints</h1>
   the <term>File</term> menu.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -564,7 +564,7 @@ set helpText(MainWindow) {<h1>scidCommunity main window</h1>
   <a Searches Filter>filter</a>.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -830,7 +830,7 @@ set helpText(Menus) {<h1>scidCommunity menus</h1>
   <li><menu>About</menu>: Shows information about scidCommunity.</li>
   </ul>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -987,7 +987,7 @@ set helpText(Moves) {<h1>Entering chess moves</h1>
   NAGs>Standard NAG values</a> which can be accessed e.g. by Ctrl-N
   from the <a Comment>Comment editor</a>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -1167,7 +1167,7 @@ set helpText(Searches) {<h1>Searches in scidCommunity</h1>
   <a Formats>file formats</a> for more information.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -1210,7 +1210,7 @@ set helpText(Clipbase) {<h1>The Clipbase database</h1>
   memory only.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 #################################
@@ -1305,7 +1305,7 @@ set helpText(Annotating) {<h1>Annotating games</h1>
   applications.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ###############################
@@ -1444,7 +1444,7 @@ set helpText(Comment) {<h1>The Comment Editor window</h1>
   button in a red arrow.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -1525,7 +1525,7 @@ set helpText(Crosstable) {<h1>The Crosstable window</h1>
   player/event/site names.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -1561,7 +1561,7 @@ set helpText(Switcher) {<h1>The Database Switcher window</h1>
   vertically or horizontally) which is useful for smaller screens.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -1658,7 +1658,7 @@ set helpText(Tmt) {<h1>The Tournament Finder window</h1>
   when trying to form tournaments out of the games in the database.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -1747,7 +1747,7 @@ set helpText(GameList) {<h1>The Game List window</h1>
   are interested in adding the whole game or just its opening phase.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -1804,7 +1804,7 @@ set helpText(Import) {<h1>The Import window</h1>
   small <a PGN>PGN</a> files.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -1876,7 +1876,7 @@ set helpText(Export) {<h1>Exporting games</h1>
   to some web server.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -1920,7 +1920,7 @@ set helpText(LichessTournament) {<h1>Open Lichess Tournament</h1>
   </ul>
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -1973,7 +1973,7 @@ set helpText(ImportLichess) {<h1>Import my Lichess</h1>
   curl, wget, PowerShell (Windows), or Tcl TLS support.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -2028,7 +2028,7 @@ set helpText(ImportChessCom) {<h1>Import my chess.com</h1>
   and does not require authentication.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -2092,7 +2092,7 @@ set helpText(DownloadTWIC) {<h1>Download TWIC Games</h1>
   recent tournament play and opening theory developments.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -2200,7 +2200,7 @@ set helpText(PGN) {<h1>The <a PGN>PGN</a> window</h1>
   See the individual help topics for each button for more details.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -2262,7 +2262,7 @@ set helpText(PGNTablebase) {<h1>PGN Window: Table Base Button</h1>
   This feature requires an internet connection and either curl or Tcl http support.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -2322,7 +2322,7 @@ set helpText(PGNChessCom) {<h1>PGN Window: chess.com Button</h1>
   No Chess.com account is required to use the analysis board.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -2392,7 +2392,7 @@ set helpText(PGNLichess) {<h1>PGN Window: lichess.org Button</h1>
   account provides additional features.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -2465,7 +2465,7 @@ set helpText(PGNChessDB) {<h1>PGN Window: chessdb Engine Tree Button</h1>
   No account or registration is needed to use ChessDB.cn.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -2613,7 +2613,7 @@ set helpText(PTracker) {<h1>The Piece Tracker window</h1>
   queenside, or set up a d5 or e5 pawn wedge, for example.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -2791,7 +2791,7 @@ set helpText(Tree) {<h1>The Tree window</h1>
   adding or replacing a game, or sorting the database.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 set helpTitle(TreeMasks) "Masks for Trees"
@@ -2987,7 +2987,7 @@ set helpText(TreeMasks) {<h1>Masks for Trees</h1>
   games as soon as the middle game is reached.
   </p>
 
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -3026,7 +3026,7 @@ set helpText(Compact) {<h1>Database compaction</h1>
   index file.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -3168,7 +3168,7 @@ set helpText(Maintenance) {<h1>Database maintenance</h1>
   
 
 
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -3236,7 +3236,7 @@ set helpText(Sorting) {<h1>Sorting a database</h1>
   database after the sort procedure!
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -3311,7 +3311,7 @@ set helpText(Flags) {<h1>Game Flags</h1>
      <li><a Analysis Annotate>Find tactical exercise</a>: sets the (T) flag
   </ul>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -3421,8 +3421,7 @@ set helpText(Engine) {<h1>The Engine windows</h1>
   <li><b>Lock</b> <button tb_eng_lock>: Locks the engine to the current position.
     When locked, the engine analyzes only that position, even when you navigate
     to different moves. Click again to unlock and follow the current position.</li>
-  <li><b>Add best move</b> <button tb_eng_addbestmove>: Adds the engine's principal
-    variation as a variation to the current game.</li>
+  <li><b>Add best move</b> <button tb_eng_addbestmove>: Adds the engine's best move to the game.</li>
   <li><b>Add all lines</b> <button tb_eng_addlines>: Adds all MultiPV lines as
     variations.</li>
   <li><b>Config</b> <button tb_eng_config>: Shows or hides the engine configuration
@@ -3510,7 +3509,7 @@ set helpText(CalVar) {<h1>The calculation of variation window</h1>
    entered by the user.
   </p>
 
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -3620,7 +3619,7 @@ set helpText(EPD) {<h1>EPD files</h1>
   in this EPD file.</li>
   </ul>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -3730,7 +3729,7 @@ set helpText(Reports) {<h1>Reports</h1>
   number of games used to generate the theory table in the Report options.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -3759,7 +3758,7 @@ set helpText(PList) {<h1>The Player Finder window</h1>
   ranges of Elo rating and number of games played.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -3819,7 +3818,7 @@ set helpText(PInfo) {<h1>The Player Info window</h1>
   player in the contributing national libraries.</li>
   </ul>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -3923,7 +3922,7 @@ set helpText(Graphs) {<h1>Graph windows</h1>
   <a Tree Graph>Tree</a> help page.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -3975,7 +3974,7 @@ set helpText(Bookmarks) {<h1>Bookmarks</h1>
   many bookmarks), or as a single list.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -4011,7 +4010,7 @@ set helpText(Cmdline) {<h1>Command-line options</h1>
   layout before running the search.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -4080,7 +4079,7 @@ set helpText(Pgnscid) {<h1>Pgnscid</h1>
   scidCommunity; see the <a Maintenance Editing>Maintenance</a> help page for details.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -4166,7 +4165,7 @@ set helpText(Formats) {<h1>scidCommunity File Formats</h1>
   be skipped, but games starting with 1.e4 e5 will still need to be searched.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -4211,7 +4210,7 @@ set helpText(Options) {<h1>Options and preferences</h1>
   for the <a Tree>tree</a> and <a Crosstable>crosstable</a> windows.
   </p>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 ####################
@@ -4419,7 +4418,7 @@ set helpText(NAGs) {<h1>Standard NAG values</h1>
   </ul>
   </cyan>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -4576,7 +4575,7 @@ set helpText(ECO) {<h1>ECO openings classification</h1>
   <li>  <b>E9</b>  E7 + 4...d6 5.Nf3: <i>King's Indian, main lines</i> </li>
   </ul>
   
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
@@ -4623,7 +4622,7 @@ set helpText(Book) {<h1>Book window</h1>
   The book in use can be selected from the drop down list in the
   book window.
   </p>
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 # Tactical game window help
@@ -4669,7 +4668,7 @@ set helpText(TacticalGame) {<h1>Tactical game window</h1>
   <a SeriousGame>serious game</a> against any UCI engine that allows
   for limiting its strength.
   </p>
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 # Opening Trainer window help
@@ -4802,7 +4801,7 @@ set helpText(OpeningTrainer) {<h1>Opening Trainer</h1>
   player that were not in repertoire</li>
   </ul>
   </p> 
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 # Serious game window help
@@ -4901,7 +4900,7 @@ set helpText(SeriousGame) {<h1>Serious game window</h1>
   start up and initialise properly.
   </p>
 
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 # Tactics Trainer
@@ -4972,7 +4971,7 @@ set helpText(TacticsTrainer) {<h1>Training: Tactics</h1>
   game via Ctrl-? or jumping to some bookmark or simply by the <a
   GameList>game list</a>.
   </p>
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 # Find best move 
@@ -5004,7 +5003,7 @@ set helpText(FindBestMove) {<h1>Training: Find best move</h1>
   For this exercise it is advisable to close the <a PGN>PGN</a> window and set
   <term>Hide next move</term> from the status areas context menu.
   </p>
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 # FICS Login
@@ -5076,7 +5075,7 @@ set helpText(FICSLogin) {<h1>FICS Login</h1>
   FICS offers a bunch of graphical interfaces for download on its
   homepage.
   </p>
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 # FICS Find Opponent
@@ -5115,7 +5114,7 @@ set helpText(FICSfindOpp) {<h1>FICS Find Opponent</h1>
    Clicking the <term>Issue seek</term> button will place your
    offer on the server.
   </p>
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 # FICS
@@ -5247,7 +5246,7 @@ set helpText(FICS) {<h1>FICS: Play on the Internet</h1>
   Note that only one game can be observed within scidCommunity.
   </p>
 
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 # Book tuning
@@ -5287,7 +5286,7 @@ set helpText(BookTuning) {<h1>Book tuning</h1>
    can be done incrementally. That is, new lines are added to already
    existing ones. This also allows to merge several books.
    </p>
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 # Novag Citrine
@@ -5312,7 +5311,7 @@ set helpText(Novag) {<h1>Connecting the Novag Citrine Chess board</h1>
 
    ###--- Detailed description needed ---###
    </p>
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 set helpTitle(HardwareConfig) "Connecting External Hardware"
@@ -5420,7 +5419,7 @@ set helpText(HardwareConfig) {<h1>Connecting External Hardware</h1>
   </p>
 
 
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 set helpTitle(HardwareStatus) "Status of External Hardware"
@@ -5467,7 +5466,7 @@ set helpText(HardwareStatus) {<h1>Status of External Hardware</h1>
    </li>
    </ul>
 
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 set helpTitle(InputEngine) "Input Engine driver console"
@@ -5588,7 +5587,7 @@ set helpText(InputEngine) {<h1>Input Engine driver console</h1>
    </p>
 
 
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 set helpTitle(ReviewGame) "Game Review"
@@ -5629,7 +5628,7 @@ button to get a confirmation of engine's analysis.
 <li>- The user always plays from the bottom of the board</li>
 </ul>
 </p>
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 set helpTitle(Metadata) "Dublin Core Metadata"
@@ -5673,6 +5672,5 @@ set helpText(Metadata) {<h1>Dublin Core Metadata</h1>
    However, other applications may well prefer the XML structure.
    </p>
 
-  <p><footer>(Updated: scidCommunity, February 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
-
