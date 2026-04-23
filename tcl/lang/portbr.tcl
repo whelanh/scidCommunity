@@ -1096,6 +1096,7 @@ translate B ECOSummary {Resumo para}
 translate B ECOFrequency {Frequência de subcodigos para}
 
 # Opening Report:
+translate B OprepReportFor {Relatório para}
 translate B OprepTitle {Relatório de Abertura}
 translate B OprepReport {Relatório}
 translate B OprepGenerated {Gerado por}

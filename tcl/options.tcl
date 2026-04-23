@@ -136,6 +136,10 @@ proc InitDefaultAnnotate {} {
   set ::annotateMoves all
   set ::annotateBlunders blundersonly
   set ::scoreAllMoves 0
+  set ::useAnalysisBook 1
+  set ::annotateWhiteMoves 1
+  set ::annotateBlackMoves 1
+  set ::annotationVariationLength 9
   # Blunder Threshold
   set ::blunderThreshold 1.0
 }
@@ -670,6 +674,7 @@ proc options.write {} {
           FilterMaxYear FilterMinYear FilterStepYear FilterGuessELO lookTheme ThemePackageFile autoResizeBoard \
           isBatchOpening isBatchOpeningMoves isBatch \
           markTacticalExercises scoreAllMoves \
+          useAnalysisBook annotateWhiteMoves annotateBlackMoves annotationVariationLength \
           isAnnotateVar isShortAnnotation addScoreToShortAnnotations annotateBlunders\
           addAnnotatorTag annotateMoves } {
       puts $optionF "set $i [list [set $i]]"

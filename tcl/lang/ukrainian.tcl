@@ -1076,6 +1076,7 @@ translate Q ECOSummary {Резюме для}
 translate Q ECOFrequency {Частота субкодів для}
 
 # Opening Report:
+translate Q OprepReportFor {Звіт за}
 translate Q OprepTitle {Звіт про відкриття}
 translate Q OprepReport {звіт}
 translate Q OprepGenerated {Створено}

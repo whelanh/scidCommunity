@@ -1075,6 +1075,7 @@ translate h ECOSummary {के लिए सारांश}
 translate h ECOFrequency {के लिए उपकोड की आवृत्ति}
 
 # Opening Report:
+translate h OprepReportFor {के लिए विवरण}
 translate h OprepTitle {प्रारंभिक रिपोर्ट}
 translate h OprepReport {प्रतिवेदन}
 translate h OprepGenerated {द्वारा उत्पन्न}

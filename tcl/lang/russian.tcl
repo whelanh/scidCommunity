@@ -1090,6 +1090,7 @@ translate R ECOSummary {Суммарно для}
 translate R ECOFrequency {Частота суб-кодов для}
 
 # Opening Report:
+translate R OprepReportFor {Отчет за}
 translate R OprepTitle {Открыть отчёт}
 translate R OprepReport {Отчёт}
 translate R OprepGenerated {Генерированный}

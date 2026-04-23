@@ -1076,6 +1076,7 @@ translate V ECOSummary {סיכום עבור}
 translate V ECOFrequency {תדירות של תת-קודים עבור}
 
 # Opening Report:
+translate V OprepReportFor {דווח עבור}
 translate V OprepTitle {דוח פתיחה}
 translate V OprepReport {דִוּוּחַ}
 translate V OprepGenerated {נוצר על ידי}
@@ -1658,4 +1659,4 @@ translate V OptionsTablebaseDir "בחר עד 4 תיקיות בסיס שולחן:
 translate V BestMoveArrow "חץ התנועה הטוב ביותר"
 translate V NewLocalEngine "+ מנוע חדש..."
 }
-
+# end of english.tcl

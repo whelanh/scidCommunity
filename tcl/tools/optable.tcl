@@ -10,6 +10,62 @@ set ::optable::_docEnd(text) {}
 set ::optable::_docStart(ctext) {}
 set ::optable::_docEnd(ctext) {}
 set ::optable::_flip 0
+set ::optable::_refBase -1
+set ::optable::_baseNumber -1
+
+proc ::optable::selectRefBase {} {
+  set bases [sc_base list]
+  if {[llength $bases] <= 1} {
+    set ::optable::_refBase -1
+    return
+  }
+  set current [sc_base current]
+  set options {}
+  set labels {}
+  foreach b $bases {
+    if {$b != $current} {
+      lappend options $b
+      lappend labels "[file tail [sc_base filename $b]]"
+    }
+  }
+  if {[llength $options] == 0} {
+    set ::optable::_refBase -1
+    return
+  }
+  set w .oprepRefBase
+  win::createDialog $w
+  wm title $w "scidCommunity: Select reference database"
+  ttk::label $w.lmsg -text "Choose the database to use for the Opening Report statistics.\nThe current game will still be analyzed from the current position."
+  pack $w.lmsg -padx 10 -pady 10
+  ttk::frame $w.buttons
+  pack $w.buttons -padx 5 -pady 5
+  for {set i 0} {$i < [llength $options]} {incr i} {
+    set label [lindex $labels $i]
+    ttk::radiobutton $w.buttons.b$i -text $label -value $i -variable ::optable::_refBasePick
+    pack $w.buttons.b$i -anchor w
+  }
+  ttk::radiobutton $w.buttons.bcurr -text "Current database" -value "curr" -variable ::optable::_refBasePick
+  pack $w.buttons.bcurr -anchor w
+  ttk::button $w.ok -text OK -command {
+    if {$::optable::_refBasePick eq "curr"} {
+      set ::optable::_refBase -1
+    } else {
+      set ::optable::_refBase [lindex $::optable::_refBaseOptions $::optable::_refBasePick]
+    }
+    destroy .oprepRefBase
+  }
+  ttk::button $w.cancel -text Cancel -command {
+    set ::optable::_refBase -1
+    destroy .oprepRefBase
+  }
+  pack $w.ok $w.cancel -side left -padx 5
+  bind $w <Escape> "$w.cancel invoke"
+  wm protocol $w WM_DELETE_WINDOW "$w.cancel invoke"
+  set ::optable::_refBaseOptions $options
+  set ::optable::_refBasePick "curr"
+  set ::optable::_refBase -1
+  tkwait window $w
+}
 
 set ::optable::_docStart(html) {<html>
   <head>
@@ -61,6 +117,24 @@ proc ::optable::ConfigMenus {{lang ""}} {
 
 proc ::optable::makeReportWin {args} {
   set ::optable::opReportBase [sc_base current]
+
+  # Check for noninteractive flags
+  set isInteractive 1
+  if {[lsearch -exact $args "-nodisplay"] >= 0 || [lsearch -exact $args "-noprogress"] >= 0} {
+    set isInteractive 0
+  }
+
+  # Only prompt for reference base in interactive mode
+  if {$isInteractive} {
+    ::optable::selectRefBase
+  }
+
+  set refBase $::optable::_refBase
+  if {$refBase > 0} {
+    set reportBase $refBase
+  } else {
+    set reportBase [sc_base current]
+  }
   set showProgress 1
   set args [linsert $args 0 "args"]
   if {[lsearch -exact $args "-noprogress"] >= 0} { set showProgress 0 }
@@ -100,17 +174,40 @@ proc ::optable::makeReportWin {args} {
 
   # The Opening Report should always honor the dbfilter (header search filter)
   # We compose dbfilter with tree to get games that match both the position AND the filter
-  set baseNumber $::curr_db
+  set baseNumber $reportBase
+  set ::optable::_baseNumber $reportBase
+  set ::optable::reportSourceBase $reportBase
+
+  # Capture the current board position BEFORE switching bases
+  set currentFEN [sc_pos fen]
+
+  # Save current base and switch to report base for generating statistics
+  set prevBase [sc_base current]
+  if {$reportBase != $prevBase} { sc_base switch $reportBase }
 
   # Save original dbfilter by creating a temporary copy
-  set tempFilter [sc_filter new $::curr_db]
-  sc_filter copy $::curr_db $tempFilter dbfilter
+  set tempFilter [sc_filter new $reportBase]
+  sc_filter copy $reportBase $tempFilter dbfilter
 
-  # Compose dbfilter with tree filter to get games that match both
-  set ::optable::_data(composedFilter) [sc_filter compose $::curr_db "dbfilter" "tree"]
-  set newTreeData [sc_tree stats $::curr_db $::optable::_data(composedFilter)]
+  # Synchronize the reference base's position with the main board.
+  # sc_search board uses the current game position, so we set it using startBoard.
+  set oldGameNum [sc_game number]
+  sc_game startBoard $currentFEN
+
+  # Perform the board search in reportBase (updates dbfilter)
+  sc_search board RESET Exact false 0
+
+  # Rebuild the tree filter from the search results
+  sc_filter copy $reportBase tree dbfilter
+
+  # Restore the original header search filter to dbfilter
+  sc_filter copy $reportBase dbfilter $tempFilter
+
+  # Compose dbfilter (header search) with tree filter (position search)
+  set ::optable::_data(composedFilter) [sc_filter compose $reportBase "dbfilter" "tree"]
+  set newTreeData [sc_tree stats $reportBase $::optable::_data(composedFilter)]
   # Copy the composed filter to dbfilter so the report uses it
-  sc_filter copy $::curr_db dbfilter $::optable::_data(composedFilter)
+  sc_filter copy $reportBase dbfilter $::optable::_data(composedFilter)
   
   if {$showProgress} {
     if {$::optable::_interrupt} {
@@ -125,10 +222,23 @@ proc ::optable::makeReportWin {args} {
   if {$showProgress} {
     grab release $w.b.cancel
     destroy $w
-    if {$::optable::_interrupt} { return }
+    if {$::optable::_interrupt} {
+      # Restore original game before returning
+      if {[sc_base numGames $reportBase] > 0} {
+        catch { sc_game load $oldGameNum }
+      }
+      return
+    }
   }
 
   set ::optable::_data(tree) $newTreeData
+
+  # Restore the original game and reset the "altered" flag
+  if {[sc_base numGames $reportBase] > 0} {
+    catch { sc_game load $oldGameNum }
+  } else {
+    catch { sc_game clear }
+  }
 
   # Enable HTML diagram generation (like the Export HTML feature does)
   sc_info html 0
@@ -153,8 +263,11 @@ proc ::optable::makeReportWin {args} {
   set report [::optable::report ctext 1]
 
   # Now restore original dbfilter after report is fully generated
-  sc_filter copy $::curr_db dbfilter $tempFilter
-  sc_filter release $::curr_db $tempFilter
+  sc_filter copy $reportBase dbfilter $tempFilter
+  sc_filter release $reportBase $tempFilter
+
+  # Switch back to original base so user stays where they were
+  if {$reportBase != $prevBase} { sc_base switch $prevBase }
 
   if {[lsearch -exact $args "-nodisplay"] >= 0} { return }
 
@@ -271,7 +384,12 @@ proc ::optable::makeReportWin {args} {
 # If MergeUnique is enabled, only games with unique move sequences are merged
 ################################################################################
 proc ::optable::mergeGames { {game_count 50} } {
-  set base  $::optable::opReportBase
+  # Use the actual report source base that was used to generate the report
+  if {[info exists ::optable::reportSourceBase]} {
+    set base $::optable::reportSourceBase
+  } else {
+    set base $::optable::opReportBase
+  }
   # Get current move number and convert to ply (1 move = 2 plies)
   set currentMove [sc_pos moveNumber]
   set currentPly [expr {$currentMove * 2}]
@@ -877,8 +995,16 @@ proc ::optable::report {fmt withTable {flipPos 0}} {
   set title $::tr(OprepTitle)
   set r [string map [list "\[OprepTitle\]" $title] $r]
   append r [::optable::_title]
-  append r "$tr(Database): [file tail [sc_base filename $::curr_db]] "
-  append r "([::utils::thousands [sc_base numGames $::curr_db]] $games)$n"
+  set dbName [file tail [sc_base filename $::optable::_baseNumber]]
+  set dbGames [::utils::thousands [sc_base numGames $::optable::_baseNumber]]
+  if {$::optable::_baseNumber != $::optable::opReportBase} {
+    set origName [file tail [sc_base filename $::optable::opReportBase]]
+    append r "[tr Database]: $dbName ($dbGames $games)$n"
+    append r "[tr OprepReportFor]: $origName$n"
+  } else {
+    append r "[tr Database]: $dbName "
+    append r "($dbGames $games)$n"
+  }
   append r "$tr(OprepReport): [::trans [sc_report opening line]] ("
   if {$fmt == "ctext"} {
     append r "<darkblue><run sc_report opening select all 0; ::windows::stats::Refresh>"

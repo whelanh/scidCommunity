@@ -1089,6 +1089,7 @@ translate I ECOSummary {Sommario per}
 translate I ECOFrequency {Frequenze nell'ambito di}
 
 # Opening Report:
+translate I OprepReportFor {Segnala per}
 translate I OprepTitle {Rapporto di apertura}
 translate I OprepReport {Rapporto}
 translate I OprepGenerated {Generato da}

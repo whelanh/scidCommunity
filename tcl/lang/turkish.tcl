@@ -1082,6 +1082,8 @@ translate T ECOAllSections {tüm ECO bölümleri}
 translate T ECOSection {EKO bölümü}
 translate T ECOSummary {Özet}
 translate T ECOFrequency {Alt kodların sıklığı}
+# ====== TODO To be translated ======
+translate T OprepReportFor {Report for}
 
 # Opening Report:
 translate T OprepTitle {Açılış Raporu}

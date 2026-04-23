@@ -1088,6 +1088,7 @@ translate C ECOSummary {Souhrn pro}
 translate C ECOFrequency {Frekvence subkódù pro}
 
 # Opening Report:
+translate C OprepReportFor {Zpráva pro}
 translate C OprepTitle {Profil zahájení}
 translate C OprepReport {Profil}
 translate C OprepGenerated {Generován}

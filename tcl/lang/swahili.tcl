@@ -1075,6 +1075,7 @@ translate Z ECOSummary {Muhtasari wa}
 translate Z ECOFrequency {Mzunguko wa misimbo ndogo ya}
 
 # Opening Report:
+translate Z OprepReportFor {Ripoti kwa}
 translate Z OprepTitle {Ripoti ya Ufunguzi}
 translate Z OprepReport {Ripoti}
 translate Z OprepGenerated {Imetolewa na}
@@ -1657,4 +1658,4 @@ translate Z OptionsTablebaseDir "Chagua hadi folda 4 za msingi za jedwali:"
 translate Z BestMoveArrow "Mshale bora wa kusonga"
 translate Z NewLocalEngine "+ Injini mpya ..."
 }
-# end of swahili.tcl
+# end of english.tcl

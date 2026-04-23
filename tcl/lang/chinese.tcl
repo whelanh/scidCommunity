@@ -1051,6 +1051,7 @@ translate M ECOSummary {总结}
 translate M ECOFrequency {子代码的频率}
 
 # Opening Report:
+translate M OprepReportFor {报告对象}
 translate M OprepTitle {开幕报告}
 translate M OprepReport {报告}
 translate M OprepGenerated {生成者}
