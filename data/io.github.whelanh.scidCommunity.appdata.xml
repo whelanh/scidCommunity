@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.3.14" date="2026-04-25">
+      <description>
+        <p>Fix evaluation bar when the Engine Window is open</p>
+      </description>
+    </release>
     <release version="5.1.3.12" date="2026-04-23">
       <description>
         <p>Improve help; add reference database choice for Opening Report; bug fixes</p>
