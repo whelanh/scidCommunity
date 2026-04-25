@@ -345,6 +345,19 @@ proc ::enginewin::updateStoredEvalDisplay {id} {
     $w.stored_eval.text delete 1.0 end
     
     if {$storedData ne ""} {
+        lassign $storedData depth source pvlines
+        if {[llength $pvlines] > 0} {
+            lassign [lindex $pvlines 0] multipv score score_type pv_uci
+            set scoreStr $score
+            if {$score_type eq "mate"} {
+                set scoreStr [expr {$score >= 0 ? "+M$score" : "-M[expr {abs($score)}]"}]
+            } else {
+                set scoreStr [format "%+.2f" [expr {$score / 100.0}]]
+            }
+            # Update the evaluation bar with the best stored line
+            ::notify::EngineBestMove $id "" $scoreStr {}
+        }
+
         set formatted [::stored_eval::formatForDisplay $storedData $fen]
         foreach item $formatted {
             lassign $item tag text
@@ -353,6 +366,8 @@ proc ::enginewin::updateStoredEvalDisplay {id} {
     } else {
         # No stored data - query Lichess
         $w.stored_eval.text insert end "Querying Lichess..." header
+        # Clear the evaluation bar while waiting for Lichess/Engine
+        ::notify::EngineBestMove $id "" "" {}
         ::stored_eval::queryLichessAsync $id $fen ::enginewin::onLichessResult
     }
     
@@ -813,7 +828,7 @@ proc ::enginewin::updateDisplay {id msgData} {
             set best_move [::trans $best_move]
         }
         # Send the first move and all stored PV lines
-        ::notify::EngineBestMove $id $best_move $score $::enginewin::m_(pvlines,$id)
+        ::notify::EngineBestMove $id $best_move $scoreStr $::enginewin::m_(pvlines,$id)
     }
 }
 
