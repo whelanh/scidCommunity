@@ -969,6 +969,7 @@ tools/reviewgame.tcl
 tools/inputengine.tcl
 tools/novag.tcl
 tools/tablebase.tcl
+tools/batch_annotate.tcl
 }
 
 foreach f $tcl_files {
