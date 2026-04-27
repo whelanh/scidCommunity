@@ -14,20 +14,16 @@ namespace eval ::batch_annotate {
     variable short_annotation 0
     variable add_score_to_short 1
     variable score_all 0
+    variable clear_old 0
     variable use_book 0
     variable book_name ""
     
-    variable pipes {}
-    variable game_queue {}
-    variable current_game ""
-    variable current_game_fens {}
-    variable current_game_evals ;# array mapping move_index -> eval_dict
-    variable fen_queue {} ;# list of {move_index fen}
     variable active_engines 0
-    variable num_moves 0
-    variable moves_processed 0
-    variable engine_state
-    variable engine_eval
+    variable pipe_game ;# pipe -> game_id
+    variable pipe_moves ;# pipe -> list of {idx uci_pos}
+    variable pipe_evals ;# pipe -> array/dict of idx -> eval
+    variable games_completed 0
+    variable total_games 0
 }
 
 proc ::batch_annotate::config {db games_list} {
@@ -127,7 +123,8 @@ proc ::batch_annotate::config {db games_list} {
     ttk::checkbutton $w.f.comment.cbShortAnnotation -text "Short annotations" -variable ::batch_annotate::short_annotation
     ttk::checkbutton $w.f.comment.cbAddScore -text "Add score to short annotations" -variable ::batch_annotate::add_score_to_short
     ttk::checkbutton $w.f.comment.scoreAll -text "Score all moves" -variable ::batch_annotate::score_all
-    pack $w.f.comment.scoreAll $w.f.comment.cbAnnotateVar $w.f.comment.cbShortAnnotation $w.f.comment.cbAddScore -fill x -anchor w -padx 5
+    ttk::checkbutton $w.f.comment.cbClearOld -text "Clear old comments and variations" -variable ::batch_annotate::clear_old
+    pack $w.f.comment.cbClearOld $w.f.comment.scoreAll $w.f.comment.cbAnnotateVar $w.f.comment.cbShortAnnotation $w.f.comment.cbAddScore -fill x -anchor w -padx 5
     
     grid $w.f.engine -row 0 -column 0 -pady 5 -padx 5 -sticky nswe
     grid $w.f.analyse -row 0 -column 1 -pady 5 -padx 5 -sticky nswe
@@ -160,6 +157,8 @@ proc ::batch_annotate::start {w} {
             lappend game_queue $idx
         }
     }
+    set ::batch_annotate::total_games [llength $game_queue]
+    set ::batch_annotate::games_completed 0
     
     # Open UI Progress Window
     set pw .batchAnnotateProgress
@@ -179,7 +178,10 @@ proc ::batch_annotate::start {w} {
         return
     }
     
-    ::batch_annotate::process_next_game
+    # Start analysis on all pipes
+    foreach pipe $::batch_annotate::pipes {
+        ::batch_annotate::assign_game $pipe
+    }
 }
 
 proc ::batch_annotate::start_engines {} {
@@ -251,181 +253,185 @@ proc ::batch_annotate::cancel {} {
     tk_messageBox -message "Batch Annotation Cancelled"
 }
 
-proc ::batch_annotate::process_next_game {} {
+proc ::batch_annotate::assign_game {pipe} {
     variable game_queue
     variable base
-    variable current_game
-    variable current_game_fens
-    variable fen_queue
-    variable current_game_evals
-    variable active_engines
-    variable num_moves
-    variable moves_processed
+    variable pipe_game
+    variable pipe_moves
+    variable pipe_evals
     variable pipes
+    variable total_games
+    variable games_completed
     
     if {[llength $game_queue] == 0} {
-        # All done!
-        foreach pipe $pipes {
-            catch { puts $pipe "quit" }
-            catch { close $pipe }
+        # This engine is done. Check if all engines are done.
+        set ::batch_annotate::engine_state($pipe) "done"
+        set all_done 1
+        foreach p $pipes {
+            if {$::batch_annotate::engine_state($p) ne "done"} { set all_done 0; break }
         }
-        set pipes {}
-        if {[winfo exists .batchAnnotateProgress]} {
-            destroy .batchAnnotateProgress
+        if {$all_done} {
+            foreach p $pipes { catch { puts $p "quit"; close $p } }
+            set pipes {}
+            if {[winfo exists .batchAnnotateProgress]} { destroy .batchAnnotateProgress }
+            tk_messageBox -message "Batch Annotation Complete! $total_games games processed."
         }
-        tk_messageBox -message "Batch Annotation Complete!"
         return
     }
     
-    set current_game [lindex $game_queue 0]
+    set game_id [lindex $game_queue 0]
     set game_queue [lreplace $game_queue 0 0]
     
+    set pipe_game($pipe) $game_id
+    set pipe_evals($pipe) {}
+    
     if {[winfo exists .batchAnnotateProgress]} {
-        .batchAnnotateProgress.l configure -text "Analyzing Game $current_game... ([llength $game_queue] remaining)"
-        .batchAnnotateProgress.pb configure -value 0 -maximum 100
+        .batchAnnotateProgress.l configure -text "Analyzing Games... ($games_completed / $total_games completed)"
+        .batchAnnotateProgress.pb configure -value [expr {($games_completed * 100) / $total_games}]
     }
     
-    # Save current game and load the one we want to annotate
+    # Generate FENs for this game
     set prev_base [sc_base current]
     if {$prev_base != $base} { sc_base switch $base }
-    
-    # Push the current GUI game to stack so we don't destroy user state
     sc_game push copy
+    sc_game load $game_id
     
-    sc_game load $current_game
-    
-    # Generate FENs for every move
-    set current_game_fens {}
+    set moves {}
     sc_move start
     
+    # Handle Opening Book
     variable use_book
     variable book_name
-    set book_moves_skipped 0
     if {$use_book && $book_name ne ""} {
         set bn [file join $::scidBooksDir $book_name]
         sc_book load $bn 2
         lassign [sc_book moves 2] bookmoves
         while {[string length $bookmoves] != 0 && ![sc_pos isAt end]} {
             sc_move forward
-            incr book_moves_skipped
             lassign [sc_book moves 2] bookmoves
         }
         sc_book close 2
     }
     
-    set idx $book_moves_skipped
+    set idx [sc_pos moveNumber]
     while {1} {
-        lappend current_game_fens $idx [sc_pos fen]
+        lappend moves [list $idx [sc_pos fen] [sc_game UCI_currentPos]]
         if {[sc_pos isAt end]} { break }
         sc_move forward
         incr idx
     }
+    sc_game pop
     
-    array unset current_game_evals
-    set fen_queue $current_game_fens
-    set num_moves [expr {[llength $current_game_fens] / 2}]
-    set moves_processed 0
-    set active_engines 0
-    
-    # Feed the engines
-    foreach pipe $pipes {
-        ::batch_annotate::feed_engine $pipe
-    }
-}
-
-proc ::batch_annotate::feed_engine {pipe} {
-    variable fen_queue
-    variable movetime
-    variable active_engines
-    
-    if {[llength $fen_queue] == 0} { return }
-    
-    set idx [lindex $fen_queue 0]
-    set fen [lindex $fen_queue 1]
-    set fen_queue [lreplace $fen_queue 0 1]
-    
-    set ::batch_annotate::engine_state($pipe) $idx
-    set ::batch_annotate::engine_eval($pipe) {}
-    
+    set pipe_moves($pipe) $moves
     puts $pipe "ucinewgame"
-    puts $pipe "position fen $fen"
-    puts $pipe "go movetime [expr {int($movetime * 1000)}]"
-    
-    incr active_engines
+    ::batch_annotate::feed_move $pipe
 }
 
-proc ::batch_annotate::read_engine {pipe} {
-    variable num_moves
-    variable moves_processed
-    variable active_engines
-    variable current_game_evals
+proc ::batch_annotate::feed_move {pipe} {
+    variable pipe_moves
+    variable movetime
     
-    if {[gets $pipe line] < 0} {
-        if {[eof $pipe]} {
-            catch {close $pipe}
-        }
+    if {[llength $pipe_moves($pipe)] == 0} {
+        ::batch_annotate::finalize_game $pipe
         return
     }
     
+    set move_data [lindex $pipe_moves($pipe) 0]
+    set pipe_moves($pipe) [lrange $pipe_moves($pipe) 1 end]
+    
+    lassign $move_data idx fen uci_pos
+    set ::batch_annotate::engine_state($pipe) [list $idx $fen]
+    
+    dict set ::batch_annotate::engine_eval($pipe) "score" ""
+    dict set ::batch_annotate::engine_eval($pipe) "score_fmt" ""
+    dict set ::batch_annotate::engine_eval($pipe) "pv" ""
+    dict set ::batch_annotate::engine_eval($pipe) "score_fmt_depth" ""
+    
+    puts $pipe $uci_pos
+    puts $pipe "go movetime [expr {int($movetime * 1000)}]"
+}
+
+proc ::batch_annotate::read_engine {pipe} {
+    if {[gets $pipe line] < 0} {
+        if {[eof $pipe]} { catch {close $pipe} }
+        return
+    }
     if {$line eq ""} { return }
     
-    set idx $::batch_annotate::engine_state($pipe)
-    if {$idx eq "idle"} { return }
+    set state $::batch_annotate::engine_state($pipe)
+    if {$state eq "idle" || $state eq "done"} { return }
+    
+    lassign $state idx fen
     
     if {[string match "info *" $line]} {
-        # Parse info
-        if {[regexp {score (cp|mate) ([\-\d]+)} $line -> type val]} {
-            set fen [lindex $::batch_annotate::current_game_fens [expr {$idx * 2 + 1}]]
-            set side [lindex [split $fen " "] 1]
-            
-            if {$side eq "b"} { set val [expr {-$val}] }
-            
-            if {$type eq "mate"} {
-                set score_fmt [expr {$val > 0 ? "M$val" : "M$val"}]
-                set score_val [expr {$val > 0 ? 300.0 : -300.0}]
-            } else {
-                set score_val [expr {$val / 100.0}]
-                if {$val > 0} {
-                    set score_fmt [format "+%.2f" $score_val]
+        if {![string match "*lowerbound*" $line] && ![string match "*upperbound*" $line]} {
+            if {[regexp {score (cp|mate) ([\-\d]+)} $line -> type val]} {
+                set side [lindex [split $fen " "] 1]
+                if {$side eq "b"} { set val [expr {-$val}] }
+                
+                if {$type eq "mate"} {
+                    set score_fmt [expr {$val > 0 ? "M$val" : "M$val"}]
+                    set score_val [expr {$val > 0 ? 300.0 : -300.0}]
                 } else {
-                    set score_fmt [format "%.2f" $score_val]
+                    set score_val [expr {$val / 100.0}]
+                    set score_fmt [format "%+.2f" $score_val]
+                }
+                dict set ::batch_annotate::engine_eval($pipe) "score" $score_val
+                dict set ::batch_annotate::engine_eval($pipe) "score_fmt" $score_fmt
+            }
+            if {[regexp {depth (\d+)} $line -> depth]} {
+                dict set ::batch_annotate::engine_eval($pipe) "depth" $depth
+                set s_fmt ""
+                catch { set s_fmt [dict get [set ::batch_annotate::engine_eval($pipe)] "score_fmt"] }
+                if {$s_fmt ne ""} {
+                    dict set ::batch_annotate::engine_eval($pipe) "score_fmt_depth" "$depth:$s_fmt"
                 }
             }
-            dict set ::batch_annotate::engine_eval($pipe) "score" $score_val
-            dict set ::batch_annotate::engine_eval($pipe) "score_fmt" $score_fmt
-        }
-        if {[regexp {depth (\d+)} $line -> depth]} {
-            dict set ::batch_annotate::engine_eval($pipe) "depth" $depth
-        }
-        if {[regexp { pv (.+)$} $line -> pv]} {
-            dict set ::batch_annotate::engine_eval($pipe) "pv" $pv
-        }
-    } elseif {[string match "bestmove *" $line]} {
-        # Engine finished this FEN
-        set current_game_evals($idx) $::batch_annotate::engine_eval($pipe)
-        set ::batch_annotate::engine_state($pipe) "idle"
-        incr active_engines -1
-        incr moves_processed
-        
-        if {[winfo exists .batchAnnotateProgress]} {
-            if {$num_moves > 0} {
-                .batchAnnotateProgress.pb configure -value [expr {($moves_processed * 100) / $num_moves}]
-            } else {
-                .batchAnnotateProgress.pb configure -value 100
+            if {[regexp { pv (.+)$} $line -> pv]} {
+                dict set ::batch_annotate::engine_eval($pipe) "pv" $pv
             }
         }
-        
-        ::batch_annotate::feed_engine $pipe
-        
-        if {$active_engines == 0 && [llength $::batch_annotate::fen_queue] == 0} {
-            # Game is completely analyzed
-            after 10 ::batch_annotate::finish_game
-        }
+    } elseif {[string match "bestmove *" $line]} {
+        # Store eval for this move
+        dict set ::batch_annotate::pipe_evals($pipe) $idx $::batch_annotate::engine_eval($pipe)
+        ::batch_annotate::feed_move $pipe
     }
 }
 
-proc ::batch_annotate::finish_game {} {
-    variable current_game_evals
+proc ::batch_annotate::finalize_game {pipe} {
+    variable pipe_game
+    variable pipe_evals
+    variable base
+    variable games_completed
+    
+    set game_id $pipe_game($pipe)
+    set evals $pipe_evals($pipe)
+    
+    # Switch to DB and load game
+    set prev_base [sc_base current]
+    if {$prev_base != $base} { sc_base switch $base }
+    
+    sc_game push copy
+    sc_game load $game_id
+    
+    # Clear old if requested
+    variable clear_old
+    if {$clear_old} {
+        catch { sc_game strip comments }
+        catch { sc_game strip variations }
+    }
+    
+    ::batch_annotate::annotate_logic $evals
+    
+    sc_game save $game_id
+    sc_game pop
+    ::notify::DatabaseModified [sc_base current]
+    
+    incr games_completed
+    ::batch_annotate::assign_game $pipe
+}
+
+proc ::batch_annotate::annotate_logic {evals} {
     variable annotate_mode
     variable blunder_threshold
     variable annotate_white
@@ -435,117 +441,83 @@ proc ::batch_annotate::finish_game {} {
     variable short_annotation
     variable add_score_to_short
     variable score_all
-    variable current_game
-    variable num_moves
     
-    # sc_game is still loaded from process_next_game
     sc_move start
-    
     set prev_score ""
     set prev_score_fmt ""
     set prev_pv ""
     
-    set idx 0
+    set idx [sc_pos moveNumber]
     while {1} {
-        if {![info exists current_game_evals($idx)]} {
+        if {![dict exists $evals $idx]} {
             if {[sc_pos isAt end]} { break }
             sc_move forward
             incr idx
             continue
         }
         
-        set eval $current_game_evals($idx)
+        set eval [dict get $evals $idx]
         set score ""
         set score_fmt ""
         set pv ""
         catch { set score [dict get $eval score] }
-        catch { set score_fmt [dict get $eval score_fmt] }
+        catch { 
+            set score_fmt [dict get $eval score_fmt_depth] 
+            if {$score_fmt eq ""} { set score_fmt [dict get $eval score_fmt] }
+        }
         catch { set pv [dict get $eval pv] }
         
         set is_blunder 0
         set should_annotate 0
-        
         set tomove [sc_pos side]
         
-        # Check if we should annotate this side's move.
         if {$idx > 0} {
-            if {$tomove eq "white"} {
-                if {$annotate_black} { set should_annotate 1 }
-            } else {
-                if {$annotate_white} { set should_annotate 1 }
+            if {($tomove eq "white" && $annotate_black) || ($tomove eq "black" && $annotate_white)} {
+                set should_annotate 1
             }
         }
         
         if {$should_annotate && $score ne "" && $prev_score ne ""} {
             set delta [expr {$score - $prev_score}]
-            if {$tomove eq "white"} {
-                # Black just moved. If White's score increases, Black blundered.
-                if {$delta >= $blunder_threshold} { set is_blunder 1 }
-            } else {
-                # White just moved. If White's score decreases, White blundered.
-                if {$delta <= -$blunder_threshold} { set is_blunder 1 }
+            if {($tomove eq "white" && $delta >= $blunder_threshold) || ($tomove eq "black" && $delta <= -$blunder_threshold)} {
+                set is_blunder 1
             }
         }
         
         if {$should_annotate && $score_fmt ne ""} {
-            # Variation logic
             if {$is_blunder && $add_variation && $prev_pv ne ""} {
                 sc_move back
                 sc_var create
-                
-                # Extract PV
-                set pv_moves [split [string trim $prev_pv] " "]
-                set pv_moves [lrange $pv_moves 0 [expr {$var_length - 1}]]
-                
-                # Add first move and score
+                set pv_moves [lrange [split [string trim $prev_pv] " "] 0 [expr {$var_length - 1}]]
                 ::uci::sc_move_add [lrange $pv_moves 0 0]
                 if {!$short_annotation || $add_score_to_short} {
                     sc_pos setComment "\[$prev_score_fmt\]"
                 }
-                
-                # Add remaining moves
                 if {[llength $pv_moves] > 1} {
                     ::uci::sc_move_add [lrange $pv_moves 1 end]
                 }
-                
                 sc_var exit
                 sc_move forward
             }
             
-            # Comment logic
             set do_comment 0
-            if {$annotate_mode eq "allmoves"} { set do_comment 1 }
-            if {$annotate_mode eq "blundersonly" && $is_blunder} { set do_comment 1 }
+            if {$annotate_mode eq "allmoves" || ($annotate_mode eq "blundersonly" && $is_blunder)} { set do_comment 1 }
             
             if {$do_comment} {
                 if {$is_blunder} { sc_pos addNag 4 }
-                
-                if {!$short_annotation} {
-                    set text "\[$score_fmt\]"
-                    sc_pos setComment "[sc_pos getComment] $text"
-                } elseif {$add_score_to_short || $score_all} {
-                    set text "\[$score_fmt\]"
-                    sc_pos setComment "[sc_pos getComment] $text"
+                if {!$short_annotation || $add_score_to_short || $score_all} {
+                    sc_pos setComment "[sc_pos getComment] \[$score_fmt\]"
                 }
             } elseif {$score_all} {
-                set text "\[$score_fmt\]"
-                sc_pos setComment "[sc_pos getComment] $text"
+                sc_pos setComment "[sc_pos getComment] \[$score_fmt\]"
             }
         }
         
         set prev_score $score
         set prev_score_fmt $score_fmt
         set prev_pv $pv
-        
         if {[sc_pos isAt end]} { break }
         sc_move forward
         incr idx
     }
-    
-    sc_game save $current_game
-    sc_game pop
-    
-    ::notify::DatabaseModified [sc_base current]
-    
-    after 10 ::batch_annotate::process_next_game
 }
