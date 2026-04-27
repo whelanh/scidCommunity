@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.3.14
+Version:        5.1.3.16
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit c16ad59002245627c5805bbb7e2248df375d7a15
+%global commit 53863864307fe26067cdf75f5e1d6a26592d2efa
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Mon Apr 27, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-16
+- "Add batch annotation feature; update dark theme cursor"
 * Thu Apr 25, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-14
 - "Fix evaluation bar when Engine Window open"
 * Thu Apr 23, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-12

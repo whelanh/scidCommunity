@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.3.16" date="2026-04-27">
+      <description>
+        <p>add batch annotation feature; fix dark theme cursor</p>
+      </description>
+    </release>
     <release version="5.1.3.14" date="2026-04-25">
       <description>
         <p>Fix evaluation bar when the Engine Window is open</p>
