@@ -1710,5 +1710,15 @@ translate T BatchProgress {Batch Annotate Progress}
 translate T BatchComplete {Batch Annotation Complete!}
 # ====== TODO To be translated ======
 translate T BatchCancelled {Batch Annotation Cancelled}
+# ====== TODO To be translated ======
+translate T BatchStart {Start}
+# ====== TODO To be translated ======
+translate T BatchCancel {Cancel}
+# ====== TODO To be translated ======
+translate T BatchCompleted {completed}
+# ====== TODO To be translated ======
+translate T BatchGames {games}
+# ====== TODO To be translated ======
+translate T BatchProcessed {processed}
 }
 # end of english.tcl

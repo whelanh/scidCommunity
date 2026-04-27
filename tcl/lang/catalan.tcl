@@ -1725,5 +1725,10 @@ translate K BatchAnalyzingGames {S'estan analitzant els jocs...}
 translate K BatchProgress {Progrés de l'anotació per lots}
 translate K BatchComplete {Anotació per lots completada!}
 translate K BatchCancelled {S'ha cancel·lat l'anotació del lot}
+translate K BatchStart {Comença}
+translate K BatchCancel {Cancel·la}
+translate K BatchCompleted {completat}
+translate K BatchGames {jocs}
+translate K BatchProcessed {processats}
 }
 # end of english.tcl

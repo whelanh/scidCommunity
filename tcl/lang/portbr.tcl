@@ -1711,5 +1711,10 @@ translate B BatchAnalyzingGames {Analisando Jogos...}
 translate B BatchProgress {Progresso da anotação em lote}
 translate B BatchComplete {Anotação de lote concluída!}
 translate B BatchCancelled {Anotação de lote cancelada}
+translate B BatchStart {Começar}
+translate B BatchCancel {Cancelar}
+translate B BatchCompleted {concluído}
+translate B BatchGames {jogos}
+translate B BatchProcessed {processado}
 }
 # end of english.tcl

@@ -1726,5 +1726,10 @@ translate N BatchAnalyzingGames {Spelletjes analyseren...}
 translate N BatchProgress {Batch annoteer de voortgang}
 translate N BatchComplete {Batchannotatie voltooid!}
 translate N BatchCancelled {Batchannotatie geannuleerd}
+translate N BatchStart {Begin}
+translate N BatchCancel {Annuleren}
+translate N BatchCompleted {voltooid}
+translate N BatchGames {spellen}
+translate N BatchProcessed {verwerkt}
 }
 # end of english.tcl

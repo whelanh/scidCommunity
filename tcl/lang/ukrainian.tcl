@@ -1681,5 +1681,10 @@ translate Q BatchAnalyzingGames {Аналіз ігор...}
 translate Q BatchProgress {Хід пакетного анотування}
 translate Q BatchComplete {Пакетну анотацію завершено!}
 translate Q BatchCancelled {Пакетну анотацію скасовано}
+translate Q BatchStart {старт}
+translate Q BatchCancel {Скасувати}
+translate Q BatchCompleted {завершено}
+translate Q BatchGames {ігри}
+translate Q BatchProcessed {оброблені}
 }
 # end of english.tcl

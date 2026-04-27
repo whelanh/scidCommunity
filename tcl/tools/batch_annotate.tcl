@@ -135,8 +135,8 @@ proc ::batch_annotate::config {db games_list} {
     ttk::frame $w.buttons
     pack $w.buttons -fill x -padx 10 -pady 10
     
-    ttk::button $w.buttons.ok -text $::tr(Start) -command [list ::batch_annotate::start $w]
-    ttk::button $w.buttons.cancel -text $::tr(Cancel) -command [list destroy $w]
+    ttk::button $w.buttons.ok -text $::tr(BatchStart) -command [list ::batch_annotate::start $w]
+    ttk::button $w.buttons.cancel -text $::tr(BatchCancel) -command [list destroy $w]
     
     pack $w.buttons.cancel $w.buttons.ok -side right -padx 5
 }
@@ -167,7 +167,7 @@ proc ::batch_annotate::start {w} {
     ::setTitle $pw $::tr(BatchProgress)
     ttk::label $pw.l -text $::tr(BatchInitializingEngines)
     ttk::progressbar $pw.pb -mode determinate -length 300
-    ttk::button $pw.b -text $::tr(Cancel) -command ::batch_annotate::cancel
+    ttk::button $pw.b -text $::tr(BatchCancel) -command ::batch_annotate::cancel
     pack $pw.l -padx 10 -pady 5
     pack $pw.pb -padx 10 -pady 5
     pack $pw.b -pady 10
@@ -287,7 +287,7 @@ proc ::batch_annotate::assign_game {pipe} {
     set pipe_evals($pipe) {}
     
     if {[winfo exists .batchAnnotateProgress]} {
-        .batchAnnotateProgress.l configure -text "$::tr(BatchAnalyzingGames) ($games_completed / $total_games $::tr(completed))"
+        .batchAnnotateProgress.l configure -text "$::tr(BatchAnalyzingGames) ($games_completed / $total_games $::tr(BatchCompleted))"
         .batchAnnotateProgress.pb configure -value [expr {($games_completed * 100) / $total_games}]
     }
     
@@ -341,7 +341,7 @@ proc ::batch_annotate::check_completion {} {
         foreach p $pipes { catch { puts $p "quit"; close $p } }
         set pipes {}
         if {[winfo exists .batchAnnotateProgress]} { destroy .batchAnnotateProgress }
-        tk_messageBox -message "$::tr(BatchComplete) $games_completed / $total_games $::tr(games) $::tr(processed)."
+        tk_messageBox -message "$::tr(BatchComplete) $games_completed / $total_games $::tr(BatchGames) $::tr(BatchProcessed)."
     }
 }
 

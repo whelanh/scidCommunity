@@ -1709,5 +1709,10 @@ translate W BatchAnalyzingGames {Analyserar spel...}
 translate W BatchProgress {Batch Annotera Framsteg}
 translate W BatchComplete {Batch-anteckning klar!}
 translate W BatchCancelled {Batch-anteckning avbröts}
+translate W BatchStart {Start}
+translate W BatchCancel {Avboka}
+translate W BatchCompleted {avslutad}
+translate W BatchGames {spel}
+translate W BatchProcessed {bearbetas}
 }
 # end of english.tcl

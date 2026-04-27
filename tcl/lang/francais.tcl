@@ -1709,5 +1709,10 @@ translate F BatchAnalyzingGames {Analyse des jeux...}
 translate F BatchProgress {Progression d'annotation par lots}
 translate F BatchComplete {Annotation par lots terminée !}
 translate F BatchCancelled {Annotation par lots annulée}
+translate F BatchStart {Commencer}
+translate F BatchCancel {Annuler}
+translate F BatchCompleted {complété}
+translate F BatchGames {jeux}
+translate F BatchProcessed {traité}
 }
 # end of english.tcl

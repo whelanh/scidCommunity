@@ -1721,5 +1721,10 @@ translate L BatchAnalyzingGames {Se analizează jocurile...}
 translate L BatchProgress {Adnotarea lotului de progres}
 translate L BatchComplete {Adnotarea lotului finalizată!}
 translate L BatchCancelled {Adnotarea lotului a fost anulată}
+translate L BatchStart {Început}
+translate L BatchCancel {Anula}
+translate L BatchCompleted {completat}
+translate L BatchGames {jocuri}
+translate L BatchProcessed {prelucrate}
 }
 # end of english.tcl

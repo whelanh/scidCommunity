@@ -1704,5 +1704,10 @@ translate H BatchAnalyzingGames {Játékok elemzése...}
 translate H BatchProgress {Batch Annotate Progress}
 translate H BatchComplete {A kötegelt megjegyzés kész!}
 translate H BatchCancelled {Kötegelt megjegyzés megszakítva}
+translate H BatchStart {Indul}
+translate H BatchCancel {Mégse}
+translate H BatchCompleted {elkészült}
+translate H BatchGames {játékok}
+translate H BatchProcessed {feldolgozott}
 }
 # end of english.tcl

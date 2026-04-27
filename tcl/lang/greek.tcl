@@ -1730,5 +1730,10 @@ translate G BatchAnalyzingGames {Ανάλυση παιχνιδιών...}
 translate G BatchProgress {Batch Annotate Progress}
 translate G BatchComplete {Ολοκληρώθηκε ο σχολιασμός παρτίδας!}
 translate G BatchCancelled {Ο σχολιασμός παρτίδας ακυρώθηκε}
+translate G BatchStart {Αρχή}
+translate G BatchCancel {Ματαίωση}
+translate G BatchCompleted {ολοκληρώθηκε το}
+translate G BatchGames {παιχνίδια}
+translate G BatchProcessed {επεξεργασμένα}
 }
 # end of english.tcl

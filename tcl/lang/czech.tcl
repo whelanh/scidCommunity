@@ -1703,5 +1703,10 @@ translate C BatchAnalyzingGames {Analýza her...}
 translate C BatchProgress {Dávkové anotování prùbìhu}
 translate C BatchComplete {Dávková anotace dokonèena!}
 translate C BatchCancelled {Dávková anotace zru¹ena}
+translate C BatchStart {Start}
+translate C BatchCancel {Zru¹it}
+translate C BatchCompleted {dokonèeno}
+translate C BatchGames {hry}
+translate C BatchProcessed {zpracováno}
 }
 # end of english.tcl

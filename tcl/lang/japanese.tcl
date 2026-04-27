@@ -1721,5 +1721,10 @@ translate A BatchAnalyzingGames {ゲームを分析中...}
 translate A BatchProgress {バッチ注釈の進行状況}
 translate A BatchComplete {バッチアノテーションが完了しました!}
 translate A BatchCancelled {バッチ注釈がキャンセルされました}
+translate A BatchStart {始める}
+translate A BatchCancel {キャンセル}
+translate A BatchCompleted {完了しました}
+translate A BatchGames {ゲーム}
+translate A BatchProcessed {処理された}
 }
 # end of english.tcl

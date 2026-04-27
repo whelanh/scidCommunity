@@ -1721,5 +1721,10 @@ translate J BatchAnalyzingGames {Анализирање игара...}
 translate J BatchProgress {Напредак скупне белешке}
 translate J BatchComplete {Групна анотација је завршена!}
 translate J BatchCancelled {Групна напомена је отказана}
+translate J BatchStart {Почни}
+translate J BatchCancel {Откажи}
+translate J BatchCompleted {завршено}
+translate J BatchGames {игрице}
+translate J BatchProcessed {обрађене}
 }
 # end of english.tcl

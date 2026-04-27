@@ -2262,5 +2262,15 @@ translate Y BatchProgress {Batch Annotate Progress}
 translate Y BatchComplete {Batch Annotation Complete!}
 # ====== TODO To be translated ======
 translate Y BatchCancelled {Batch Annotation Cancelled}
+# ====== TODO To be translated ======
+translate Y BatchStart {Start}
+# ====== TODO To be translated ======
+translate Y BatchCancel {Cancel}
+# ====== TODO To be translated ======
+translate Y BatchCompleted {completed}
+# ====== TODO To be translated ======
+translate Y BatchGames {games}
+# ====== TODO To be translated ======
+translate Y BatchProcessed {processed}
 }
 # end of serbian.tcl

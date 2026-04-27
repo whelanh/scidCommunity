@@ -1703,5 +1703,10 @@ translate O BatchAnalyzingGames {Analyserer spill...}
 translate O BatchProgress {Batchkommentarfremgang}
 translate O BatchComplete {Batch-annotering fullført!}
 translate O BatchCancelled {Batch-anmerkning kansellert}
+translate O BatchStart {Start}
+translate O BatchCancel {Kansellere}
+translate O BatchCompleted {fullført}
+translate O BatchGames {spill}
+translate O BatchProcessed {behandlet}
 }
 # end of english.tcl

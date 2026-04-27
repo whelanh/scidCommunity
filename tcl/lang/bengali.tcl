@@ -1680,5 +1680,10 @@ translate b BatchAnalyzingGames {গেম বিশ্লেষণ করা �
 translate b BatchProgress {ব্যাচ টীকা অগ্রগতি}
 translate b BatchComplete {ব্যাচ টীকা সম্পূর্ণ!}
 translate b BatchCancelled {ব্যাচ টীকা বাতিল করা হয়েছে}
+translate b BatchStart {শুরু করুন}
+translate b BatchCancel {বাতিল করুন}
+translate b BatchCompleted {সম্পন্ন}
+translate b BatchGames {গেম}
+translate b BatchProcessed {প্রক্রিয়া করা}
 }
 # end of english.tcl

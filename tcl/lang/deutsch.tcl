@@ -1752,5 +1752,10 @@ translate D BatchAnalyzingGames {Spiele analysieren...}
 translate D BatchProgress {Batch-Kommentarfortschritt}
 translate D BatchComplete {Stapelanmerkung abgeschlossen!}
 translate D BatchCancelled {Stapelanmerkung abgebrochen}
+translate D BatchStart {Start}
+translate D BatchCancel {Stornieren}
+translate D BatchCompleted {vollendet}
+translate D BatchGames {Spiele}
+translate D BatchProcessed {verarbeitet}
 }
 # end of english.tcl

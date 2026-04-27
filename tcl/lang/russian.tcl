@@ -1705,5 +1705,10 @@ translate R BatchAnalyzingGames {Анализ игр...}
 translate R BatchProgress {Прогресс пакетного аннотирования}
 translate R BatchComplete {Пакетная аннотация завершена!}
 translate R BatchCancelled {Пакетная аннотация отменена}
+translate R BatchStart {Начинать}
+translate R BatchCancel {Отмена}
+translate R BatchCompleted {завершенный}
+translate R BatchGames {игры}
+translate R BatchProcessed {обработано}
 }
 # end of english.tcl

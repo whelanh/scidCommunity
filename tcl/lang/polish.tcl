@@ -1723,5 +1723,10 @@ translate P BatchAnalyzingGames {Analizowanie gier...}
 translate P BatchProgress {Wsadowe adnotowanie postêpu}
 translate P BatchComplete {Adnotacja zbiorcza ukoñczona!}
 translate P BatchCancelled {Anulowano adnotacjê zbiorcz±}
+translate P BatchStart {Start}
+translate P BatchCancel {Anulowaæ}
+translate P BatchCompleted {zakoñczony}
+translate P BatchGames {zawody sportowe}
+translate P BatchProcessed {obrobiony}
 }
 # end of english.tcl

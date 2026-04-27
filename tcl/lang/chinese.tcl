@@ -1656,5 +1656,10 @@ translate M BatchAnalyzingGames {分析游戏...}
 translate M BatchProgress {批量标注进度}
 translate M BatchComplete {批量标注完成！}
 translate M BatchCancelled {批量注释取消}
+translate M BatchStart {开始}
+translate M BatchCancel {取消}
+translate M BatchCompleted {完全的}
+translate M BatchGames {游戏}
+translate M BatchProcessed {加工过的}
 }
 # end of english.tcl

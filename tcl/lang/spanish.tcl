@@ -1756,5 +1756,10 @@ translate S BatchAnalyzingGames {Analizando juegos...}
 translate S BatchProgress {Progreso de anotación por lotes}
 translate S BatchComplete {¡Anotación por lotes completada!}
 translate S BatchCancelled {Anotación de lote cancelada}
+translate S BatchStart {Comenzar}
+translate S BatchCancel {Cancelar}
+translate S BatchCompleted {terminado}
+translate S BatchGames {juegos}
+translate S BatchProcessed {procesado}
 }
 # end of english.tcl

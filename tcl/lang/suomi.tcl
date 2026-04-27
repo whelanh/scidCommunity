@@ -1734,5 +1734,10 @@ translate U BatchAnalyzingGames {Analysoidaan pelejä...}
 translate U BatchProgress {Erämerkinnän edistyminen}
 translate U BatchComplete {Erämerkintä valmis!}
 translate U BatchCancelled {Erän huomautus peruutettu}
+translate U BatchStart {Aloita}
+translate U BatchCancel {Peruuttaa}
+translate U BatchCompleted {valmiiksi}
+translate U BatchGames {pelejä}
+translate U BatchProcessed {käsitelty}
 }
 # end of english.tcl

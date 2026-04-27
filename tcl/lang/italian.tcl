@@ -1704,5 +1704,10 @@ translate I BatchAnalyzingGames {Analisi dei giochi...}
 translate I BatchProgress {Annota avanzamento in batch}
 translate I BatchComplete {Annotazione batch completata!}
 translate I BatchCancelled {Annotazione batch annullata}
+translate I BatchStart {Inizio}
+translate I BatchCancel {Cancellare}
+translate I BatchCompleted {completato}
+translate I BatchGames {giochi}
+translate I BatchProcessed {elaborato}
 }
 # end of english.tcl

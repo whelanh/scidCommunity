@@ -1681,5 +1681,10 @@ translate V BatchAnalyzingGames {מנתח משחקים...}
 translate V BatchProgress {התקדמות הערות אצווה}
 translate V BatchComplete {הערת אצווה הושלמה!}
 translate V BatchCancelled {הערת אצווה בוטלה}
+translate V BatchStart {הַתחָלָה}
+translate V BatchCancel {לְבַטֵל}
+translate V BatchCompleted {הושלם}
+translate V BatchGames {משחקים}
+translate V BatchProcessed {מְעוּבָּד}
 }
 # end of english.tcl

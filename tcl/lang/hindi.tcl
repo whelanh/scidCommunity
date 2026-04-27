@@ -1680,5 +1680,10 @@ translate h BatchAnalyzingGames {खेलों का विश्लेषण
 translate h BatchProgress {बैच एनोटेट प्रगति}
 translate h BatchComplete {बैच एनोटेशन पूर्ण!}
 translate h BatchCancelled {बैच एनोटेशन रद्द कर दिया गया}
+translate h BatchStart {शुरू}
+translate h BatchCancel {रद्द करना}
+translate h BatchCompleted {पुरा होना}
+translate h BatchGames {खेल}
+translate h BatchProcessed {प्रसंस्कृत}
 }
 # end of english.tcl

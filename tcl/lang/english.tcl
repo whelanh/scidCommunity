@@ -1735,5 +1735,10 @@ translate E BatchAnalyzingGames {Analyzing Games...}
 translate E BatchProgress {Batch Annotate Progress}
 translate E BatchComplete {Batch Annotation Complete!}
 translate E BatchCancelled {Batch Annotation Cancelled}
+translate E BatchStart {Start}
+translate E BatchCancel {Cancel}
+translate E BatchCompleted {completed}
+translate E BatchGames {games}
+translate E BatchProcessed {processed}
 }
 # end of english.tcl

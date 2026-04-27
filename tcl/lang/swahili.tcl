@@ -1680,5 +1680,10 @@ translate Z BatchAnalyzingGames {Inachanganua Michezo...}
 translate Z BatchProgress {Kundi Dokeza Maendeleo}
 translate Z BatchComplete {Ufafanuzi wa Kundi Umekamilika!}
 translate Z BatchCancelled {Ufafanuzi wa Kundi Umeghairiwa}
+translate Z BatchStart {Anza}
+translate Z BatchCancel {Ghairi}
+translate Z BatchCompleted {imekamilika}
+translate Z BatchGames {michezo}
+translate Z BatchProcessed {imechakatwa}
 }
 # end of english.tcl
