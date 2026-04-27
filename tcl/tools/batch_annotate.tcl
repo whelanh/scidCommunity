@@ -553,4 +553,3 @@ proc ::batch_annotate::annotate_logic {evals} {
         incr idx
     }
 }
-}

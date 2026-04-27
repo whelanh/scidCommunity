@@ -14,7 +14,9 @@ if {[lsearch -exact [ttk::style theme names] cobalt2] == -1} {
       -fieldbackground #122738 \
       -foreground #ffffff \
       -selectbackground #1F4662 \
-      -selectforeground #ffc600
+      -selectforeground #ffc600 \
+      -insertcolor #ffffff \
+      -insertbackground #ffffff
     ttk::style configure TFrame -background #193549
     ttk::style configure TLabel -background #193549 -foreground #ffffff
     ttk::style configure TNotebook -background #193549

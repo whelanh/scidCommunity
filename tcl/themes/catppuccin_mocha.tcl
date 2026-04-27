@@ -3,7 +3,8 @@ registerDarkTheme "catppuccin_mocha"
 if {[lsearch -exact [ttk::style theme names] catppuccin_mocha] == -1} {
   ttk::style theme create catppuccin_mocha -parent classic -settings {
     # Base/UI background and text
-    ttk::style configure . -background #1e1e2e -fieldbackground #313244 -foreground #cdd6f4 -selectbackground #cba6f7 -selectforeground #1e1e2e
+    ttk::style configure . -background #1e1e2e -fieldbackground #313244 -foreground #cdd6f4 -selectbackground #cba6f7 -selectforeground #1e1e2e \
+      -insertcolor #cdd6f4 -insertbackground #cdd6f4
     ttk::style configure TFrame -background #1e1e2e
     ttk::style configure TLabel -background #1e1e2e -foreground #cdd6f4
     ttk::style configure TNotebook -background #1e1e2e
