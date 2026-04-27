@@ -679,6 +679,7 @@ translate E GameComment {Game Comment}
 translate E GameCommentTooltip {Scan game for annotated moves and generate AI summary}
 translate E TimeMs {Time(ms)}
 
+
 # Book window
 translate E Book {Book}
 translate E OtherBookMoves {Opponent's book}
@@ -1712,5 +1713,27 @@ translate E OptionsTablebaseDir "Select up to 4 table base folders:"
 # Evaluation bar
 translate E BestMoveArrow "Best move arrow"
 translate E NewLocalEngine "+ New engine ..."
+
+# Batch Annotate
+translate E BatchAnnotate {Batch Annotate}
+translate E BatchEngineSelection {Engine Selection}
+translate E BatchChessEngine {Chess Engine:}
+translate E BatchNumberOfInstances {Number of Instances:}
+translate E BatchGameReview {Game Review}
+translate E BatchTimePerMove {Time per move (sec):}
+translate E BatchAnnotateBlunders {Annotate blunders only}
+translate E BatchBlunderThreshold {Blunder threshold:}
+translate E BatchVariationLength {Variation length (moves):}
+translate E BatchOpeningBook {Opening Book}
+translate E BatchUseBook {Use Book}
+translate E BatchAnnotateVariations {Annotate variations}
+translate E BatchShortAnnotations {Short annotations}
+translate E BatchAddScoreToShort {Add score to short annotations}
+translate E BatchClearOld {Clear old comments and variations}
+translate E BatchInitializingEngines {Initializing engines...}
+translate E BatchAnalyzingGames {Analyzing Games...}
+translate E BatchProgress {Batch Annotate Progress}
+translate E BatchComplete {Batch Annotation Complete!}
+translate E BatchCancelled {Batch Annotation Cancelled}
 }
 # end of english.tcl

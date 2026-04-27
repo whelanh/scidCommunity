@@ -46,14 +46,14 @@ proc ::batch_annotate::config {db games_list} {
     }
     
     win::createDialog $w
-    ::setTitle $w "Batch Annotate"
+    ::setTitle $w $::tr(BatchAnnotate)
     
     ttk::frame $w.f
     pack $w.f -padx 10 -pady 10 -fill both -expand 1
     
     # Engine Selection
-    ttk::labelframe $w.f.engine -text "Engine Selection"
-    ttk::label $w.f.engine.lEngine -text "Chess Engine:"
+    ttk::labelframe $w.f.engine -text $::tr(BatchEngineSelection)
+    ttk::label $w.f.engine.lEngine -text $::tr(BatchChessEngine)
     set engine_names {}
     if {[info exists ::engines(list)]} {
         foreach e $::engines(list) { lappend engine_names [lindex $e 0] }
@@ -65,20 +65,20 @@ proc ::batch_annotate::config {db games_list} {
     }
     ttk::combobox $w.f.engine.cbEngine -values $engine_names -state readonly
     $w.f.engine.cbEngine current 0
-    ttk::label $w.f.engine.lInstances -text "Number of Instances:"
+    ttk::label $w.f.engine.lInstances -text $::tr(BatchNumberOfInstances)
     ttk::spinbox $w.f.engine.sbInstances -textvariable ::batch_annotate::instances -from 1 -to 16 -width 5
     
     grid $w.f.engine.lEngine $w.f.engine.cbEngine -sticky w -pady 2 -padx 5
     grid $w.f.engine.lInstances $w.f.engine.sbInstances -sticky w -pady 2 -padx 5
     
     # Analysis Options
-    ttk::labelframe $w.f.analyse -text "Game Review"
-    ttk::label $w.f.analyse.lTime -text "Time per move (sec):"
+    ttk::labelframe $w.f.analyse -text $::tr(BatchGameReview)
+    ttk::label $w.f.analyse.lTime -text $::tr(BatchTimePerMove)
     ttk::spinbox $w.f.analyse.sbTime -textvariable ::batch_annotate::movetime -from 0.1 -to 60.0 -increment 0.1 -width 5
-    ttk::radiobutton $w.f.analyse.allmoves -text "Annotate all moves" -variable ::batch_annotate::annotate_mode -value "allmoves"
-    ttk::radiobutton $w.f.analyse.blundersonly -text "Annotate blunders only" -variable ::batch_annotate::annotate_mode -value "blundersonly"
+    ttk::radiobutton $w.f.analyse.allmoves -text $::tr(AnnotateAllMoves) -variable ::batch_annotate::annotate_mode -value "allmoves"
+    ttk::radiobutton $w.f.analyse.blundersonly -text $::tr(BatchAnnotateBlunders) -variable ::batch_annotate::annotate_mode -value "blundersonly"
     ttk::frame $w.f.analyse.blunderbox
-    ttk::label $w.f.analyse.blunderbox.label -text "Blunder threshold:"
+    ttk::label $w.f.analyse.blunderbox.label -text $::tr(BatchBlunderThreshold)
     ttk::spinbox $w.f.analyse.blunderbox.spBlunder -width 5 -textvariable ::batch_annotate::blunder_threshold -from 0.1 -to 5.0 -increment 0.1 -justify right
     pack $w.f.analyse.blunderbox.label $w.f.analyse.blunderbox.spBlunder -side left
     
@@ -88,19 +88,19 @@ proc ::batch_annotate::config {db games_list} {
     grid $w.f.analyse.allmoves -columnspan 2 -sticky w -pady 2 -padx 5
     
     # Annotate Which
-    ttk::labelframe $w.f.av -text "Annotate Which"
-    ttk::checkbutton $w.f.av.white -text "For White moves" -variable ::batch_annotate::annotate_white
-    ttk::checkbutton $w.f.av.black -text "For Black moves" -variable ::batch_annotate::annotate_black
+    ttk::labelframe $w.f.av -text $::tr(AnnotateWhich)
+    ttk::checkbutton $w.f.av.white -text $::tr(AnnotateWhite) -variable ::batch_annotate::annotate_white
+    ttk::checkbutton $w.f.av.black -text $::tr(AnnotateBlack) -variable ::batch_annotate::annotate_black
     ttk::frame $w.f.av.varlength
-    ttk::label $w.f.av.varlength.label -text "Variation length (moves):"
+    ttk::label $w.f.av.varlength.label -text $::tr(BatchVariationLength)
     ttk::spinbox $w.f.av.varlength.spVar -width 5 -textvariable ::batch_annotate::var_length -from 1 -to 50 -increment 1
     pack $w.f.av.varlength.label $w.f.av.varlength.spVar -side left
     pack $w.f.av.white $w.f.av.black -side top -fill x -anchor w -padx 5
     pack $w.f.av.varlength -side top -fill x -anchor w -pady 4 -padx 5
     
     # Opening Book
-    ttk::labelframe $w.f.book -text "Opening Book"
-    ttk::checkbutton $w.f.book.cbBook -text "Use Book" -variable ::batch_annotate::use_book
+    ttk::labelframe $w.f.book -text $::tr(BatchOpeningBook)
+    ttk::checkbutton $w.f.book.cbBook -text $::tr(BatchUseBook) -variable ::batch_annotate::use_book
     set bookPath $::scidBooksDir
     set bookList [lsort -dictionary [glob -nocomplain -directory $bookPath *.bin]]
     set tmp {}
@@ -118,12 +118,12 @@ proc ::batch_annotate::config {db games_list} {
     pack $w.f.book.cbBook -side bottom -anchor w -padx 5 -pady 2
     
     # Comments
-    ttk::labelframe $w.f.comment -text "Comments"
-    ttk::checkbutton $w.f.comment.cbAnnotateVar -text "Annotate variations" -variable ::batch_annotate::add_variation
-    ttk::checkbutton $w.f.comment.cbShortAnnotation -text "Short annotations" -variable ::batch_annotate::short_annotation
-    ttk::checkbutton $w.f.comment.cbAddScore -text "Add score to short annotations" -variable ::batch_annotate::add_score_to_short
-    ttk::checkbutton $w.f.comment.scoreAll -text "Score all moves" -variable ::batch_annotate::score_all
-    ttk::checkbutton $w.f.comment.cbClearOld -text "Clear old comments and variations" -variable ::batch_annotate::clear_old
+    ttk::labelframe $w.f.comment -text $::tr(Comments)
+    ttk::checkbutton $w.f.comment.cbAnnotateVar -text $::tr(BatchAnnotateVariations) -variable ::batch_annotate::add_variation
+    ttk::checkbutton $w.f.comment.cbShortAnnotation -text $::tr(BatchShortAnnotations) -variable ::batch_annotate::short_annotation
+    ttk::checkbutton $w.f.comment.cbAddScore -text $::tr(BatchAddScoreToShort) -variable ::batch_annotate::add_score_to_short
+    ttk::checkbutton $w.f.comment.scoreAll -text $::tr(ScoreAllMoves) -variable ::batch_annotate::score_all
+    ttk::checkbutton $w.f.comment.cbClearOld -text $::tr(BatchClearOld) -variable ::batch_annotate::clear_old
     pack $w.f.comment.cbClearOld $w.f.comment.scoreAll $w.f.comment.cbAnnotateVar $w.f.comment.cbShortAnnotation $w.f.comment.cbAddScore -fill x -anchor w -padx 5
     
     grid $w.f.engine -row 0 -column 0 -pady 5 -padx 5 -sticky nswe
@@ -135,8 +135,8 @@ proc ::batch_annotate::config {db games_list} {
     ttk::frame $w.buttons
     pack $w.buttons -fill x -padx 10 -pady 10
     
-    ttk::button $w.buttons.ok -text "Start" -command [list ::batch_annotate::start $w]
-    ttk::button $w.buttons.cancel -text "Cancel" -command [list destroy $w]
+    ttk::button $w.buttons.ok -text $::tr(Start) -command [list ::batch_annotate::start $w]
+    ttk::button $w.buttons.cancel -text $::tr(Cancel) -command [list destroy $w]
     
     pack $w.buttons.cancel $w.buttons.ok -side right -padx 5
 }
@@ -164,10 +164,10 @@ proc ::batch_annotate::start {w} {
     set pw .batchAnnotateProgress
     if {[winfo exists $pw]} { destroy $pw }
     win::createDialog $pw
-    ::setTitle $pw "Batch Annotate Progress"
-    ttk::label $pw.l -text "Initializing engines..."
+    ::setTitle $pw $::tr(BatchProgress)
+    ttk::label $pw.l -text $::tr(BatchInitializingEngines)
     ttk::progressbar $pw.pb -mode determinate -length 300
-    ttk::button $pw.b -text "Cancel" -command ::batch_annotate::cancel
+    ttk::button $pw.b -text $::tr(Cancel) -command ::batch_annotate::cancel
     pack $pw.l -padx 10 -pady 5
     pack $pw.pb -padx 10 -pady 5
     pack $pw.b -pady 10
@@ -261,7 +261,7 @@ proc ::batch_annotate::cancel {} {
     if {[winfo exists .batchAnnotateProgress]} {
         destroy .batchAnnotateProgress
     }
-    tk_messageBox -message "Batch Annotation Cancelled"
+    tk_messageBox -message $::tr(BatchCancelled)
 }
 
 proc ::batch_annotate::assign_game {pipe} {
@@ -287,7 +287,7 @@ proc ::batch_annotate::assign_game {pipe} {
     set pipe_evals($pipe) {}
     
     if {[winfo exists .batchAnnotateProgress]} {
-        .batchAnnotateProgress.l configure -text "Analyzing Games... ($games_completed / $total_games completed)"
+        .batchAnnotateProgress.l configure -text "$::tr(BatchAnalyzingGames) ($games_completed / $total_games $::tr(completed))"
         .batchAnnotateProgress.pb configure -value [expr {($games_completed * 100) / $total_games}]
     }
     
@@ -341,7 +341,7 @@ proc ::batch_annotate::check_completion {} {
         foreach p $pipes { catch { puts $p "quit"; close $p } }
         set pipes {}
         if {[winfo exists .batchAnnotateProgress]} { destroy .batchAnnotateProgress }
-        tk_messageBox -message "Batch Annotation Complete! $games_completed / $total_games games processed."
+        tk_messageBox -message "$::tr(BatchComplete) $games_completed / $total_games $::tr(games) $::tr(processed)."
     }
 }
 

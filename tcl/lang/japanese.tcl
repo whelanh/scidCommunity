@@ -680,6 +680,7 @@ translate A GameComment {ゲームコメント}
 translate A GameCommentTooltip {注釈付きの動きのゲームをスキャンし、AI サマリーを生成します}
 translate A TimeMs {時間(ミリ秒)}
 
+
 # Book window
 translate A Book {本}
 translate A OtherBookMoves {相手の本}
@@ -1698,5 +1699,27 @@ translate A OptionsTablebaseDir "最大 4 つのテーブル ベース フォル
 # Evaluation bar
 translate A BestMoveArrow "最善手矢印"
 translate A NewLocalEngine "+ 新しいエンジン ..."
+
+# Batch Annotate
+translate A BatchAnnotate {バッチ注釈付け}
+translate A BatchEngineSelection {エンジンの選択}
+translate A BatchChessEngine {チェスエンジン:}
+translate A BatchNumberOfInstances {インスタンスの数:}
+translate A BatchGameReview {ゲームレビュー}
+translate A BatchTimePerMove {移動あたりの時間 (秒):}
+translate A BatchAnnotateBlunders {間違いのみに注釈を付ける}
+translate A BatchBlunderThreshold {失策の閾値:}
+translate A BatchVariationLength {変化の長さ (動き):}
+translate A BatchOpeningBook {オープニングブック}
+translate A BatchUseBook {ブックを使用する}
+translate A BatchAnnotateVariations {バリエーションに注釈を付ける}
+translate A BatchShortAnnotations {短い注釈}
+translate A BatchAddScoreToShort {短い注釈にスコアを追加する}
+translate A BatchClearOld {古いコメントとバリエーションを削除する}
+translate A BatchInitializingEngines {エンジンを初期化しています...}
+translate A BatchAnalyzingGames {ゲームを分析中...}
+translate A BatchProgress {バッチ注釈の進行状況}
+translate A BatchComplete {バッチアノテーションが完了しました!}
+translate A BatchCancelled {バッチ注釈がキャンセルされました}
 }
 # end of english.tcl

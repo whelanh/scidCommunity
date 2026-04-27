@@ -671,6 +671,7 @@ translate G GameComment {Σχόλιο παιχνιδιού}
 translate G GameCommentTooltip {Σαρώστε το παιχνίδι για σχολιασμένες κινήσεις και δημιουργήστε περίληψη AI}
 translate G TimeMs {Χρόνος(ms)}
 
+
 # Book window
 translate G Book {Βιβλίο}
 translate G OtherBookMoves {Βιβλίο αντιπάλου}
@@ -1707,5 +1708,27 @@ translate G OptionsTablebaseDir "Επιλέξτε έως και 4 φακέλου
 # Evaluation bar
 translate G BestMoveArrow "Το καλύτερο βέλος κίνησης"
 translate G NewLocalEngine "+ Νέος κινητήρας..."
+
+# Batch Annotate
+translate G BatchAnnotate {Σχόλιο παρτίδας}
+translate G BatchEngineSelection {Επιλογή κινητήρα}
+translate G BatchChessEngine {Μηχανή σκακιού:}
+translate G BatchNumberOfInstances {Αριθμός περιπτώσεων:}
+translate G BatchGameReview {Κριτική παιχνιδιού}
+translate G BatchTimePerMove {Χρόνος ανά κίνηση (δευτ.):}
+translate G BatchAnnotateBlunders {Σημειώστε μόνο γκάφες}
+translate G BatchBlunderThreshold {Όριο σφαλμάτων:}
+translate G BatchVariationLength {Μήκος παραλλαγής (κινήσεις):}
+translate G BatchOpeningBook {Βιβλίο ανοίγματος}
+translate G BatchUseBook {Χρησιμοποιήστε το βιβλίο}
+translate G BatchAnnotateVariations {Σημειώστε παραλλαγές}
+translate G BatchShortAnnotations {Σύντομοι σχολιασμοί}
+translate G BatchAddScoreToShort {Προσθήκη βαθμολογίας σε σύντομους σχολιασμούς}
+translate G BatchClearOld {Διαγράψτε παλιά σχόλια και παραλλαγές}
+translate G BatchInitializingEngines {Αρχικοποίηση κινητήρων...}
+translate G BatchAnalyzingGames {Ανάλυση παιχνιδιών...}
+translate G BatchProgress {Batch Annotate Progress}
+translate G BatchComplete {Ολοκληρώθηκε ο σχολιασμός παρτίδας!}
+translate G BatchCancelled {Ο σχολιασμός παρτίδας ακυρώθηκε}
 }
 # end of english.tcl

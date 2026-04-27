@@ -696,6 +696,7 @@ translate S GameComment {Comentario del juego}
 translate S GameCommentTooltip {Escanee el juego en busca de movimientos anotados y genere un resumen de IA}
 translate S TimeMs {Tiempo (ms)}
 
+
 # Book window
 translate S Book {Libro}
 translate S OtherBookMoves {Otros movimientos del libro}
@@ -1733,5 +1734,27 @@ translate S OptionsTablebaseDir "Seleccione hasta 4 carpetas de la tablas de fin
 # Evaluation bar
 translate S BestMoveArrow "Mejor flecha de movimiento"
 translate S NewLocalEngine "+ Motor nuevo..."
+
+# Batch Annotate
+translate S BatchAnnotate {Anotar por lotes}
+translate S BatchEngineSelection {Selección de motor}
+translate S BatchChessEngine {Motor de ajedrez:}
+translate S BatchNumberOfInstances {Número de instancias:}
+translate S BatchGameReview {Revisión del juego}
+translate S BatchTimePerMove {Tiempo por movimiento (seg):}
+translate S BatchAnnotateBlunders {Anotar sólo errores}
+translate S BatchBlunderThreshold {Umbral de error:}
+translate S BatchVariationLength {Longitud de variación (movimientos):}
+translate S BatchOpeningBook {Libro de apertura}
+translate S BatchUseBook {Usar libro}
+translate S BatchAnnotateVariations {Anotar variaciones}
+translate S BatchShortAnnotations {Anotaciones cortas}
+translate S BatchAddScoreToShort {Agregar puntuación a anotaciones breves}
+translate S BatchClearOld {Borrar comentarios y variaciones antiguos.}
+translate S BatchInitializingEngines {Inicializando motores...}
+translate S BatchAnalyzingGames {Analizando juegos...}
+translate S BatchProgress {Progreso de anotación por lotes}
+translate S BatchComplete {¡Anotación por lotes completada!}
+translate S BatchCancelled {Anotación de lote cancelada}
 }
 # end of english.tcl

@@ -639,6 +639,7 @@ translate Z GameComment {Maoni ya Mchezo}
 translate Z GameCommentTooltip {Changanua mchezo kwa hatua zilizofafanuliwa na utoe muhtasari wa AI}
 translate Z TimeMs {Saa(ms)}
 
+
 # Book window
 translate Z Book {Kitabu}
 translate Z OtherBookMoves {Kitabu cha mpinzani}
@@ -1657,5 +1658,27 @@ translate Z OptionsTablebaseDir "Chagua hadi folda 4 za msingi za jedwali:"
 # Evaluation bar
 translate Z BestMoveArrow "Mshale bora wa kusonga"
 translate Z NewLocalEngine "+ Injini mpya ..."
+
+# Batch Annotate
+translate Z BatchAnnotate {Dokezo la Kundi}
+translate Z BatchEngineSelection {Uchaguzi wa injini}
+translate Z BatchChessEngine {Injini ya Chess:}
+translate Z BatchNumberOfInstances {Idadi ya Matukio:}
+translate Z BatchGameReview {Tathmini ya Mchezo}
+translate Z BatchTimePerMove {Muda kwa kila hoja (sekunde):}
+translate Z BatchAnnotateBlunders {Dondosha makosa pekee}
+translate Z BatchBlunderThreshold {Kizingiti cha Blunder:}
+translate Z BatchVariationLength {Urefu wa mabadiliko (hamisha):}
+translate Z BatchOpeningBook {Kitabu cha Ufunguzi}
+translate Z BatchUseBook {Tumia Kitabu}
+translate Z BatchAnnotateVariations {Fafanua tofauti}
+translate Z BatchShortAnnotations {Maelezo mafupi}
+translate Z BatchAddScoreToShort {Ongeza alama kwa ufafanuzi mfupi}
+translate Z BatchClearOld {Futa maoni na tofauti za zamani}
+translate Z BatchInitializingEngines {Inaanzisha injini...}
+translate Z BatchAnalyzingGames {Inachanganua Michezo...}
+translate Z BatchProgress {Kundi Dokeza Maendeleo}
+translate Z BatchComplete {Ufafanuzi wa Kundi Umekamilika!}
+translate Z BatchCancelled {Ufafanuzi wa Kundi Umeghairiwa}
 }
 # end of english.tcl

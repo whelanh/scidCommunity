@@ -646,6 +646,7 @@ translate R GameComment {Комментарий к игре}
 translate R GameCommentTooltip {Сканируйте игру на предмет аннотированных ходов и сгенерируйте сводку AI.}
 translate R TimeMs {Время (мс)}
 
+
 # Book window
 translate R Book {Книга}
 translate R OtherBookMoves {Книга соперника}
@@ -1682,5 +1683,27 @@ translate R OptionsTablebaseDir "Выберите до 4 директорий с
 # Evaluation bar
 translate R BestMoveArrow "Лучший ход стрелка"
 translate R NewLocalEngine "+ Новый двигатель..."
+
+# Batch Annotate
+translate R BatchAnnotate {Пакетное аннотирование}
+translate R BatchEngineSelection {Выбор двигателя}
+translate R BatchChessEngine {Шахматный движок:}
+translate R BatchNumberOfInstances {Количество экземпляров:}
+translate R BatchGameReview {Обзор игры}
+translate R BatchTimePerMove {Время на ход (сек):}
+translate R BatchAnnotateBlunders {Комментируйте только ошибки}
+translate R BatchBlunderThreshold {Порог ошибки:}
+translate R BatchVariationLength {Длина вариации (ходы):}
+translate R BatchOpeningBook {Открытие книги}
+translate R BatchUseBook {Используйте книгу}
+translate R BatchAnnotateVariations {Аннотировать варианты}
+translate R BatchShortAnnotations {Краткие аннотации}
+translate R BatchAddScoreToShort {Добавляйте баллы к коротким аннотациям}
+translate R BatchClearOld {Удалить старые комментарии и варианты}
+translate R BatchInitializingEngines {Инициализация двигателей...}
+translate R BatchAnalyzingGames {Анализ игр...}
+translate R BatchProgress {Прогресс пакетного аннотирования}
+translate R BatchComplete {Пакетная аннотация завершена!}
+translate R BatchCancelled {Пакетная аннотация отменена}
 }
 # end of english.tcl
