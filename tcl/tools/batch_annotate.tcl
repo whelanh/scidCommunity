@@ -436,6 +436,7 @@ proc ::batch_annotate::finalize_game {pipe} {
     variable base
     variable games_completed
     
+    incr games_completed
     set game_id $pipe_game($pipe)
     set evals $pipe_evals($pipe)
     
@@ -461,8 +462,6 @@ proc ::batch_annotate::finalize_game {pipe} {
     sc_game save $game_id
     sc_game pop
     ::notify::DatabaseModified [sc_base current]
-    
-    incr games_completed
 }
 
 proc ::batch_annotate::annotate_logic {evals} {
