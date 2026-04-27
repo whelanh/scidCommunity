@@ -28,7 +28,7 @@ LANGUAGE_CODE_MAP = {
     'japanese.tcl': 'A',
     'hebrew.tcl': 'V',
     'swahili.tcl': 'Z',
-    'hindi.tcl': 'X',
+    'hindi.tcl': 'h',
     'ukrainian.tcl': 'Q',
     'bengali.tcl': 'b',
 }
