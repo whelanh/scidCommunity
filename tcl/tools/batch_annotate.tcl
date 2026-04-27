@@ -200,41 +200,52 @@ proc ::batch_annotate::start_engines {} {
         catch {cd $dir}
     }
     
-    for {set i 0} {$i < $instances} {incr i} {
-        set pipe [open "| \"[file nativename $cmd]\" $args" r+]
-        fconfigure $pipe -buffering line -blocking 0
-        
-        # Initialize custom engine state
-        set ::batch_annotate::engine_state($pipe) "idle"
-        set ::batch_annotate::engine_eval($pipe) {}
-        
-        # Init UCI
-        puts $pipe "uci"
-        # Wait for uciok synchronously to avoid complex state machine
-        set uciok 0
-        while {1} {
-            update
-            if {[eof $pipe]} { break }
-            if {[gets $pipe line] >= 0} {
-                if {$line eq "uciok"} { set uciok 1; break }
+    if {[catch {
+        for {set i 0} {$i < $instances} {incr i} {
+            set pipe [open "| \"[file nativename $cmd]\" $args" r+]
+            lappend pipes $pipe
+            fconfigure $pipe -buffering line -blocking 0
+            
+            # Initialize custom engine state
+            set ::batch_annotate::engine_state($pipe) "idle"
+            set ::batch_annotate::engine_eval($pipe) {}
+            
+            # Init UCI
+            puts $pipe "uci"
+            set uciok 0
+            set timeout 50 ;# 50 * 100ms = 5 seconds
+            while {$timeout > 0} {
+                update
+                if {[eof $pipe]} { break }
+                if {[gets $pipe line] >= 0} {
+                    if {$line eq "uciok"} { set uciok 1; break }
+                }
+                after 100
+                incr timeout -1
             }
-        }
-        if {!$uciok} {
-            puts $pipe "quit"
-            catch {close $pipe}
-            error "Engine did not respond with uciok"
-        }
-        puts $pipe "isready"
-        while {1} {
-            update
-            if {[eof $pipe]} { break }
-            if {[gets $pipe line] >= 0} {
-                if {$line eq "readyok"} { break }
+            if {!$uciok} { error "Engine handshake timeout: uciok not received" }
+            
+            puts $pipe "isready"
+            set readyok 0
+            set timeout 50
+            while {$timeout > 0} {
+                update
+                if {[eof $pipe]} { break }
+                if {[gets $pipe line] >= 0} {
+                    if {$line eq "readyok"} { set readyok 1; break }
+                }
+                after 100
+                incr timeout -1
             }
+            if {!$readyok} { error "Engine handshake timeout: readyok not received" }
+            
+            fileevent $pipe readable [list ::batch_annotate::read_engine $pipe]
         }
-        
-        fileevent $pipe readable [list ::batch_annotate::read_engine $pipe]
-        lappend pipes $pipe
+    } err]} {
+        foreach p $pipes { catch { puts $p "quit"; close $p } }
+        set pipes {}
+        catch {cd $pwd}
+        error $err
     }
     
     catch {cd $pwd}
@@ -264,18 +275,8 @@ proc ::batch_annotate::assign_game {pipe} {
     variable games_completed
     
     if {[llength $game_queue] == 0} {
-        # This engine is done. Check if all engines are done.
         set ::batch_annotate::engine_state($pipe) "done"
-        set all_done 1
-        foreach p $pipes {
-            if {$::batch_annotate::engine_state($p) ne "done"} { set all_done 0; break }
-        }
-        if {$all_done} {
-            foreach p $pipes { catch { puts $p "quit"; close $p } }
-            set pipes {}
-            if {[winfo exists .batchAnnotateProgress]} { destroy .batchAnnotateProgress }
-            tk_messageBox -message "Batch Annotation Complete! $total_games games processed."
-        }
+        ::batch_annotate::check_completion
         return
     }
     
@@ -290,7 +291,6 @@ proc ::batch_annotate::assign_game {pipe} {
         .batchAnnotateProgress.pb configure -value [expr {($games_completed * 100) / $total_games}]
     }
     
-    # Generate FENs for this game
     set prev_base [sc_base current]
     if {$prev_base != $base} { sc_base switch $base }
     sc_game push copy
@@ -298,8 +298,8 @@ proc ::batch_annotate::assign_game {pipe} {
     
     set moves {}
     sc_move start
+    set ply_count 0
     
-    # Handle Opening Book
     variable use_book
     variable book_name
     if {$use_book && $book_name ne ""} {
@@ -308,12 +308,13 @@ proc ::batch_annotate::assign_game {pipe} {
         lassign [sc_book moves 2] bookmoves
         while {[string length $bookmoves] != 0 && ![sc_pos isAt end]} {
             sc_move forward
+            incr ply_count
             lassign [sc_book moves 2] bookmoves
         }
         sc_book close 2
     }
     
-    set idx [sc_pos moveNumber]
+    set idx $ply_count
     while {1} {
         lappend moves [list $idx [sc_pos fen] [sc_game UCI_currentPos]]
         if {[sc_pos isAt end]} { break }
@@ -325,6 +326,23 @@ proc ::batch_annotate::assign_game {pipe} {
     set pipe_moves($pipe) $moves
     puts $pipe "ucinewgame"
     ::batch_annotate::feed_move $pipe
+}
+
+proc ::batch_annotate::check_completion {} {
+    variable pipes
+    variable total_games
+    variable games_completed
+    
+    set all_done 1
+    foreach p $pipes {
+        if {$::batch_annotate::engine_state($p) ne "done"} { set all_done 0; break }
+    }
+    if {$all_done} {
+        foreach p $pipes { catch { puts $p "quit"; close $p } }
+        set pipes {}
+        if {[winfo exists .batchAnnotateProgress]} { destroy .batchAnnotateProgress }
+        tk_messageBox -message "Batch Annotation Complete! $games_completed / $total_games games processed."
+    }
 }
 
 proc ::batch_annotate::feed_move {pipe} {
@@ -352,8 +370,22 @@ proc ::batch_annotate::feed_move {pipe} {
 }
 
 proc ::batch_annotate::read_engine {pipe} {
+    variable game_queue
+    variable pipe_game
+    
     if {[gets $pipe line] < 0} {
-        if {[eof $pipe]} { catch {close $pipe} }
+        if {[eof $pipe]} {
+            set state $::batch_annotate::engine_state($pipe)
+            if {$state ne "idle" && $state ne "done"} {
+                # Engine crashed! Re-queue the current game.
+                if {[info exists pipe_game($pipe)]} {
+                    lappend game_queue $pipe_game($pipe)
+                }
+            }
+            set ::batch_annotate::engine_state($pipe) "done"
+            catch {close $pipe}
+            ::batch_annotate::check_completion
+        }
         return
     }
     if {$line eq ""} { return }
@@ -370,7 +402,7 @@ proc ::batch_annotate::read_engine {pipe} {
                 if {$side eq "b"} { set val [expr {-$val}] }
                 
                 if {$type eq "mate"} {
-                    set score_fmt [expr {$val > 0 ? "M$val" : "M$val"}]
+                    set score_fmt [expr {$val > 0 ? "M$val" : "-M[expr {-$val}]"}]
                     set score_val [expr {$val > 0 ? 300.0 : -300.0}]
                 } else {
                     set score_val [expr {$val / 100.0}]
@@ -447,7 +479,7 @@ proc ::batch_annotate::annotate_logic {evals} {
     set prev_score_fmt ""
     set prev_pv ""
     
-    set idx [sc_pos moveNumber]
+    set idx 0
     while {1} {
         if {![dict exists $evals $idx]} {
             if {[sc_pos isAt end]} { break }
@@ -520,4 +552,5 @@ proc ::batch_annotate::annotate_logic {evals} {
         sc_move forward
         incr idx
     }
+}
 }
