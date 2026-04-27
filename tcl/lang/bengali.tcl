@@ -639,6 +639,7 @@ translate b GameComment {খেলা মন্তব্য}
 translate b GameCommentTooltip {টীকাযুক্ত পদক্ষেপের জন্য গেম স্ক্যান করুন এবং এআই সারাংশ তৈরি করুন}
 translate b TimeMs {সময়(ms)}
 
+
 # Book window
 translate b Book {বই}
 translate b OtherBookMoves {প্রতিপক্ষের বই}
@@ -1657,5 +1658,27 @@ translate b OptionsTablebaseDir "4টি টেবিল বেস ফোল্�
 # Evaluation bar
 translate b BestMoveArrow "সেরা সরানো তীর"
 translate b NewLocalEngine "+ নতুন ইঞ্জিন..."
+
+# Batch Annotate
+translate b BatchAnnotate {ব্যাচ টীকা}
+translate b BatchEngineSelection {ইঞ্জিন নির্বাচন}
+translate b BatchChessEngine {দাবা ইঞ্জিন:}
+translate b BatchNumberOfInstances {দৃষ্টান্তের সংখ্যা:}
+translate b BatchGameReview {গেম রিভিউ}
+translate b BatchTimePerMove {প্রতি মুভ করার সময় (সেকেন্ড):}
+translate b BatchAnnotateBlunders {শুধুমাত্র ভুলগুলো টীকা করুন}
+translate b BatchBlunderThreshold {ভুল থ্রেশহোল্ড:}
+translate b BatchVariationLength {পরিবর্তনের দৈর্ঘ্য (চালনা):}
+translate b BatchOpeningBook {খোলা বই}
+translate b BatchUseBook {বই ব্যবহার করুন}
+translate b BatchAnnotateVariations {বৈচিত্র টীকা}
+translate b BatchShortAnnotations {সংক্ষিপ্ত টীকা}
+translate b BatchAddScoreToShort {সংক্ষিপ্ত টীকাগুলিতে স্কোর যোগ করুন}
+translate b BatchClearOld {পুরানো মন্তব্য এবং বৈচিত্র পরিষ্কার করুন}
+translate b BatchInitializingEngines {ইঞ্জিন শুরু করা হচ্ছে...}
+translate b BatchAnalyzingGames {গেম বিশ্লেষণ করা হচ্ছে...}
+translate b BatchProgress {ব্যাচ টীকা অগ্রগতি}
+translate b BatchComplete {ব্যাচ টীকা সম্পূর্ণ!}
+translate b BatchCancelled {ব্যাচ টীকা বাতিল করা হয়েছে}
 }
 # end of english.tcl

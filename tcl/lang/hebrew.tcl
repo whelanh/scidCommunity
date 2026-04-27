@@ -640,6 +640,7 @@ translate V GameComment {הערת משחק}
 translate V GameCommentTooltip {סרוק משחק לאיתור מהלכים מוערים והפק סיכום בינה מלאכותית}
 translate V TimeMs {זמן (ms)}
 
+
 # Book window
 translate V Book {סֵפֶר}
 translate V OtherBookMoves {ספר היריב}
@@ -1658,5 +1659,27 @@ translate V OptionsTablebaseDir "בחר עד 4 תיקיות בסיס שולחן:
 # Evaluation bar
 translate V BestMoveArrow "חץ התנועה הטוב ביותר"
 translate V NewLocalEngine "+ מנוע חדש..."
+
+# Batch Annotate
+translate V BatchAnnotate {הערת אצווה}
+translate V BatchEngineSelection {בחירת מנוע}
+translate V BatchChessEngine {מנוע שחמט:}
+translate V BatchNumberOfInstances {מספר מופעים:}
+translate V BatchGameReview {סקירת משחק}
+translate V BatchTimePerMove {זמן לכל מהלך (שנייה):}
+translate V BatchAnnotateBlunders {הערות על טעויות בלבד}
+translate V BatchBlunderThreshold {סף טעות:}
+translate V BatchVariationLength {אורך וריאציה (מהלכים):}
+translate V BatchOpeningBook {ספר פתיחה}
+translate V BatchUseBook {השתמש בספר}
+translate V BatchAnnotateVariations {הערה וריאציות}
+translate V BatchShortAnnotations {הערות קצרות}
+translate V BatchAddScoreToShort {הוסף ניקוד להערות קצרות}
+translate V BatchClearOld {נקה הערות וגרסאות ישנות}
+translate V BatchInitializingEngines {אתחול מנועים...}
+translate V BatchAnalyzingGames {מנתח משחקים...}
+translate V BatchProgress {התקדמות הערות אצווה}
+translate V BatchComplete {הערת אצווה הושלמה!}
+translate V BatchCancelled {הערת אצווה בוטלה}
 }
 # end of english.tcl

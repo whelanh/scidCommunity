@@ -1,6 +1,6 @@
 ### hindi.tcl:
 #  
-proc setLanguage_h {} {
+proc setLanguage_X {} {
 
 # File menu:
 menuText h File "फ़ाइल" 0
@@ -638,6 +638,7 @@ translate h AnalysisAutoCommentTooltip {पूरे गेम के लिए 
 translate h GameComment {खेल टिप्पणी}
 translate h GameCommentTooltip {एनोटेटेड चालों के लिए गेम को स्कैन करें और एआई सारांश तैयार करें}
 translate h TimeMs {समय(एमएस)}
+
 
 # Book window
 translate h Book {किताब}
@@ -1657,5 +1658,27 @@ translate h OptionsTablebaseDir "अधिकतम 4 टेबल बेस फ
 # Evaluation bar
 translate h BestMoveArrow "सबसे अच्छा चाल तीर"
 translate h NewLocalEngine "+ नया इंजन..."
+
+# Batch Annotate
+translate h BatchAnnotate {बैच एनोटेट}
+translate h BatchEngineSelection {इंजन चयन}
+translate h BatchChessEngine {शतरंज इंजन:}
+translate h BatchNumberOfInstances {उदाहरणों की संख्या:}
+translate h BatchGameReview {खेल समीक्षा}
+translate h BatchTimePerMove {प्रति चाल समय (सेकंड):}
+translate h BatchAnnotateBlunders {केवल भूलों पर टिप्पणी करें}
+translate h BatchBlunderThreshold {भूल सीमा:}
+translate h BatchVariationLength {भिन्नता लंबाई (चाल):}
+translate h BatchOpeningBook {आरंभिक पुस्तक}
+translate h BatchUseBook {पुस्तक का प्रयोग करें}
+translate h BatchAnnotateVariations {विविधताओं पर टिप्पणी करें}
+translate h BatchShortAnnotations {लघु टिप्पणियाँ}
+translate h BatchAddScoreToShort {संक्षिप्त एनोटेशन में स्कोर जोड़ें}
+translate h BatchClearOld {पुरानी टिप्पणियाँ और विविधताएँ साफ़ करें}
+translate h BatchInitializingEngines {इंजन प्रारंभ किया जा रहा है...}
+translate h BatchAnalyzingGames {खेलों का विश्लेषण किया जा रहा है...}
+translate h BatchProgress {बैच एनोटेट प्रगति}
+translate h BatchComplete {बैच एनोटेशन पूर्ण!}
+translate h BatchCancelled {बैच एनोटेशन रद्द कर दिया गया}
 }
 # end of english.tcl

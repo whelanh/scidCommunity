@@ -652,6 +652,7 @@ translate F GameComment {Commentaire du jeu}
 translate F GameCommentTooltip {Analysez le jeu pour rechercher des mouvements annotés et générez un résumé de l'IA}
 translate F TimeMs {Temps (ms)}
 
+
 # Book window
 translate F Book {Bibliothèque}
 translate F OtherBookMoves {Bibliothèque de l'adversaire}
@@ -1686,5 +1687,27 @@ translate F OptionsTablebaseDir "Sélectionnez jusqu'à 4 dossiers de tables de 
 # Evaluation bar
 translate F BestMoveArrow "Flèche du meilleur coup"
 translate F NewLocalEngine "+ Nouveau moteur..."
+
+# Batch Annotate
+translate F BatchAnnotate {Annoter par lots}
+translate F BatchEngineSelection {Sélection du moteur}
+translate F BatchChessEngine {Moteur d'échecs :}
+translate F BatchNumberOfInstances {Nombre d'instances :}
+translate F BatchGameReview {Revue du jeu}
+translate F BatchTimePerMove {Temps par mouvement (sec) :}
+translate F BatchAnnotateBlunders {Annoter uniquement les erreurs}
+translate F BatchBlunderThreshold {Seuil d'erreur :}
+translate F BatchVariationLength {Longueur de variation (coups) :}
+translate F BatchOpeningBook {Livre d'ouverture}
+translate F BatchUseBook {Utiliser le livre}
+translate F BatchAnnotateVariations {Annoter les variantes}
+translate F BatchShortAnnotations {Annotations courtes}
+translate F BatchAddScoreToShort {Ajouter une partition aux annotations courtes}
+translate F BatchClearOld {Effacer les anciens commentaires et variantes}
+translate F BatchInitializingEngines {Initialisation des moteurs...}
+translate F BatchAnalyzingGames {Analyse des jeux...}
+translate F BatchProgress {Progression d'annotation par lots}
+translate F BatchComplete {Annotation par lots terminée !}
+translate F BatchCancelled {Annotation par lots annulée}
 }
 # end of english.tcl

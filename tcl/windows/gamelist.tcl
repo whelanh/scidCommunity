@@ -1291,7 +1291,7 @@ proc glist.popupmenu_ {{w} {x} {y} {abs_x} {abs_y} {layout}} {
       }
       $w.game_menu add cascade -label $::tr(CopyGameTo) -menu $w.game_menu.copy
       if {[llength $sel] >= 1} {
-        $w.game_menu add command -label "Batch Annotate" \
+        $w.game_menu add command -label $::tr(BatchAnnotate) \
            -command [list ::batch_annotate::config $::glistBase($w) $sel_literal]
       }
 

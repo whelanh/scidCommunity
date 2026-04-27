@@ -1670,5 +1670,45 @@ translate T OptionsTablebaseDir "En fazla 4 tablo tabanı klasörü seçin:"
 # Evaluation bar
 translate T BestMoveArrow "En iyi hamle oku"
 translate T NewLocalEngine "+ Yeni motor ..."
+# ====== TODO To be translated ======
+translate T BatchAnnotate {Batch Annotate}
+# ====== TODO To be translated ======
+translate T BatchEngineSelection {Engine Selection}
+# ====== TODO To be translated ======
+translate T BatchChessEngine {Chess Engine:}
+# ====== TODO To be translated ======
+translate T BatchNumberOfInstances {Number of Instances:}
+# ====== TODO To be translated ======
+translate T BatchGameReview {Game Review}
+# ====== TODO To be translated ======
+translate T BatchTimePerMove {Time per move (sec):}
+# ====== TODO To be translated ======
+translate T BatchAnnotateBlunders {Annotate blunders only}
+# ====== TODO To be translated ======
+translate T BatchBlunderThreshold {Blunder threshold:}
+# ====== TODO To be translated ======
+translate T BatchVariationLength {Variation length (moves):}
+# ====== TODO To be translated ======
+translate T BatchOpeningBook {Opening Book}
+# ====== TODO To be translated ======
+translate T BatchUseBook {Use Book}
+# ====== TODO To be translated ======
+translate T BatchAnnotateVariations {Annotate variations}
+# ====== TODO To be translated ======
+translate T BatchShortAnnotations {Short annotations}
+# ====== TODO To be translated ======
+translate T BatchAddScoreToShort {Add score to short annotations}
+# ====== TODO To be translated ======
+translate T BatchClearOld {Clear old comments and variations}
+# ====== TODO To be translated ======
+translate T BatchInitializingEngines {Initializing engines...}
+# ====== TODO To be translated ======
+translate T BatchAnalyzingGames {Analyzing Games...}
+# ====== TODO To be translated ======
+translate T BatchProgress {Batch Annotate Progress}
+# ====== TODO To be translated ======
+translate T BatchComplete {Batch Annotation Complete!}
+# ====== TODO To be translated ======
+translate T BatchCancelled {Batch Annotation Cancelled}
 }
 # end of english.tcl

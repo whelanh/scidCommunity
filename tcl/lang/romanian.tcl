@@ -680,6 +680,7 @@ translate L GameComment {Comentariu joc}
 translate L GameCommentTooltip {Scanează jocul pentru mișcări adnotate și generează un rezumat AI}
 translate L TimeMs {Timp (ms)}
 
+
 # Book window
 translate L Book {Carte}
 translate L OtherBookMoves {Cartea adversarului}
@@ -1698,5 +1699,27 @@ translate L OptionsTablebaseDir "Selectați până la 4 dosare de bază de tabel
 # Evaluation bar
 translate L BestMoveArrow "Cea mai bună săgeată de mișcare"
 translate L NewLocalEngine "+ Motor nou..."
+
+# Batch Annotate
+translate L BatchAnnotate {Adnotare lot}
+translate L BatchEngineSelection {Selectarea motorului}
+translate L BatchChessEngine {Motor de șah:}
+translate L BatchNumberOfInstances {Număr de instanțe:}
+translate L BatchGameReview {Recenzia jocului}
+translate L BatchTimePerMove {Timp pe mișcare (sec):}
+translate L BatchAnnotateBlunders {Adnotați numai gafele}
+translate L BatchBlunderThreshold {Pragul de gafă:}
+translate L BatchVariationLength {Lungimea variației (mușcări):}
+translate L BatchOpeningBook {Cartea de deschidere}
+translate L BatchUseBook {Folosește Cartea}
+translate L BatchAnnotateVariations {Adnotați variațiile}
+translate L BatchShortAnnotations {Adnotări scurte}
+translate L BatchAddScoreToShort {Adăugați scor la adnotările scurte}
+translate L BatchClearOld {Ștergeți comentariile și variantele vechi}
+translate L BatchInitializingEngines {Se inițializează motoarele...}
+translate L BatchAnalyzingGames {Se analizează jocurile...}
+translate L BatchProgress {Adnotarea lotului de progres}
+translate L BatchComplete {Adnotarea lotului finalizată!}
+translate L BatchCancelled {Adnotarea lotului a fost anulată}
 }
 # end of english.tcl

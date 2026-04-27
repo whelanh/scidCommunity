@@ -640,6 +640,7 @@ translate Q GameComment {Коментар гри}
 translate Q GameCommentTooltip {Скануйте гру на наявність анотованих ходів і створюйте зведення ШІ}
 translate Q TimeMs {Час (мс)}
 
+
 # Book window
 translate Q Book {книга}
 translate Q OtherBookMoves {Книга суперника}
@@ -1658,5 +1659,27 @@ translate Q OptionsTablebaseDir "Виберіть до 4 базових папо
 # Evaluation bar
 translate Q BestMoveArrow "Стрілка найкращого ходу"
 translate Q NewLocalEngine "+ новий двигун..."
+
+# Batch Annotate
+translate Q BatchAnnotate {Пакетна анотація}
+translate Q BatchEngineSelection {Вибір двигуна}
+translate Q BatchChessEngine {Шаховий двигун:}
+translate Q BatchNumberOfInstances {Кількість екземплярів:}
+translate Q BatchGameReview {Огляд гри}
+translate Q BatchTimePerMove {Час на хід (сек):}
+translate Q BatchAnnotateBlunders {Коментуйте лише грубі помилки}
+translate Q BatchBlunderThreshold {Поріг помилки:}
+translate Q BatchVariationLength {Довжина варіації (ходи):}
+translate Q BatchOpeningBook {Відкриття книги}
+translate Q BatchUseBook {Використовуйте книгу}
+translate Q BatchAnnotateVariations {Примітки до варіацій}
+translate Q BatchShortAnnotations {Короткі анотації}
+translate Q BatchAddScoreToShort {Додайте оцінку до коротких анотацій}
+translate Q BatchClearOld {Очистіть старі коментарі та варіації}
+translate Q BatchInitializingEngines {Ініціалізація двигунів...}
+translate Q BatchAnalyzingGames {Аналіз ігор...}
+translate Q BatchProgress {Хід пакетного анотування}
+translate Q BatchComplete {Пакетну анотацію завершено!}
+translate Q BatchCancelled {Пакетну анотацію скасовано}
 }
 # end of english.tcl

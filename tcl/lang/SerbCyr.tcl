@@ -680,6 +680,7 @@ translate J GameComment {Гаме Цоммент}
 translate J GameCommentTooltip {Скенирајте игру за обележеним потезима и генеришете АИ резиме}
 translate J TimeMs {време(мс)}
 
+
 # Book window
 translate J Book {Боок}
 translate J OtherBookMoves {Књига противника}
@@ -1698,5 +1699,27 @@ translate J OptionsTablebaseDir "Изаберите до 4 основне фас
 # Evaluation bar
 translate J BestMoveArrow "Стрелица за најбољи покрет"
 translate J NewLocalEngine "+ Нови мотор..."
+
+# Batch Annotate
+translate J BatchAnnotate {Батцх Аннотате}
+translate J BatchEngineSelection {Избор мотора}
+translate J BatchChessEngine {Шаховска машина:}
+translate J BatchNumberOfInstances {Број инстанци:}
+translate J BatchGameReview {Преглед игре}
+translate J BatchTimePerMove {Време по потезу (сек):}
+translate J BatchAnnotateBlunders {Бележите само грешке}
+translate J BatchBlunderThreshold {Праг грешке:}
+translate J BatchVariationLength {Дужина варијације (покрети):}
+translate J BatchOpeningBook {Отварање књиге}
+translate J BatchUseBook {Користи књигу}
+translate J BatchAnnotateVariations {Означите варијације}
+translate J BatchShortAnnotations {Кратке напомене}
+translate J BatchAddScoreToShort {Додајте резултат кратким напоменама}
+translate J BatchClearOld {Обришите старе коментаре и варијације}
+translate J BatchInitializingEngines {Покретање мотора...}
+translate J BatchAnalyzingGames {Анализирање игара...}
+translate J BatchProgress {Напредак скупне белешке}
+translate J BatchComplete {Групна анотација је завршена!}
+translate J BatchCancelled {Групна напомена је отказана}
 }
 # end of english.tcl

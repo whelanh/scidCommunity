@@ -615,6 +615,7 @@ translate M GameComment {游戏评论}
 translate M GameCommentTooltip {扫描游戏中带注释的动作并生成 AI 摘要}
 translate M TimeMs {时间（毫秒）}
 
+
 # Book window
 translate M Book {开局库}
 translate M OtherBookMoves {Opponent's book}
@@ -1633,5 +1634,27 @@ translate M OptionsTablebaseDir "最多选择 4 个表基础文件夹："
 # Evaluation bar
 translate M BestMoveArrow "最佳移动箭头"
 translate M NewLocalEngine "+ 新引擎..."
+
+# Batch Annotate
+translate M BatchAnnotate {批量注释}
+translate M BatchEngineSelection {发动机选型}
+translate M BatchChessEngine {国际象棋引擎：}
+translate M BatchNumberOfInstances {实例数量：}
+translate M BatchGameReview {游戏评论}
+translate M BatchTimePerMove {每次移动时间（秒）：}
+translate M BatchAnnotateBlunders {仅注释错误}
+translate M BatchBlunderThreshold {错误阈值：}
+translate M BatchVariationLength {变化长度（移动）：}
+translate M BatchOpeningBook {开本}
+translate M BatchUseBook {使用书}
+translate M BatchAnnotateVariations {注释变化}
+translate M BatchShortAnnotations {简短的注释}
+translate M BatchAddScoreToShort {为简短注释添加分数}
+translate M BatchClearOld {清除旧的注释和变化}
+translate M BatchInitializingEngines {正在初始化引擎...}
+translate M BatchAnalyzingGames {分析游戏...}
+translate M BatchProgress {批量标注进度}
+translate M BatchComplete {批量标注完成！}
+translate M BatchCancelled {批量注释取消}
 }
 # end of english.tcl
