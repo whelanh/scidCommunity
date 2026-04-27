@@ -1290,6 +1290,10 @@ proc glist.popupmenu_ {{w} {x} {y} {abs_x} {abs_y} {layout}} {
         $w.game_menu add cascade -label $::tr(GlistMergeGameInBase) -menu $w.game_menu.merge
       }
       $w.game_menu add cascade -label $::tr(CopyGameTo) -menu $w.game_menu.copy
+      if {[llength $sel] >= 1} {
+        $w.game_menu add command -label "Batch Annotate" \
+           -command [list ::batch_annotate::config $::glistBase($w) $sel_literal]
+      }
 
       set is_del 1
       foreach s $sel {
