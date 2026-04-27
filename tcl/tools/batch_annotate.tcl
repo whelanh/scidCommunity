@@ -439,7 +439,10 @@ proc ::batch_annotate::finalize_game {pipe} {
     set game_id $pipe_game($pipe)
     set evals $pipe_evals($pipe)
     
-    # Switch to DB and load game
+    # Start the engine on the next game immediately to maximize parallelism
+    ::batch_annotate::assign_game $pipe
+    
+    # Now perform the (slower) database writing for the finished game
     set prev_base [sc_base current]
     if {$prev_base != $base} { sc_base switch $base }
     
@@ -460,7 +463,6 @@ proc ::batch_annotate::finalize_game {pipe} {
     ::notify::DatabaseModified [sc_base current]
     
     incr games_completed
-    ::batch_annotate::assign_game $pipe
 }
 
 proc ::batch_annotate::annotate_logic {evals} {
