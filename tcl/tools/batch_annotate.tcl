@@ -23,6 +23,7 @@ namespace eval ::batch_annotate {
     variable pipe_game ;# pipe -> game_id
     variable pipe_moves ;# pipe -> list of {idx uci_pos}
     variable pipe_evals ;# pipe -> array/dict of idx -> eval
+    variable pipe_book_data ;# pipe -> {ply prevbookmoves played_move} or {}
     variable games_completed 0
     variable total_games 0
 }
@@ -168,6 +169,7 @@ proc ::batch_annotate::config {db games_list} {
 
 proc ::batch_annotate::start {w} {
     variable engine_index
+    variable instances
     variable games
     variable game_queue
     
@@ -175,15 +177,22 @@ proc ::batch_annotate::start {w} {
     destroy $w
     
     # Build queue of game indices
-    set game_queue {}
+    set ::batch_annotate::game_queue {}
     foreach s $games {
-        lassign [split $s "_"] idx ply
-        if {$idx ne ""} {
-            lappend game_queue $idx
+        lassign [split [string trim $s] "_"] idx ply
+        if {$idx ne "" && [string is integer -strict $idx] && $idx > 0} {
+            lappend ::batch_annotate::game_queue $idx
         }
     }
-    set ::batch_annotate::total_games [llength $game_queue]
+    set num_games [llength $::batch_annotate::game_queue]
+    set ::batch_annotate::total_games $num_games
     set ::batch_annotate::games_completed 0
+    
+    # Don't start more engines than we have games
+    set num_engines $instances
+    if {$num_engines > $num_games} {
+        set num_engines $num_games
+    }
     
     # Open UI Progress Window
     set pw .batchAnnotateProgress
@@ -191,13 +200,11 @@ proc ::batch_annotate::start {w} {
     win::createDialog $pw
     ::setTitle $pw $::tr(BatchProgress)
     ttk::label $pw.l -text $::tr(BatchInitializingEngines)
-    ttk::progressbar $pw.pb -mode determinate -length 300
     ttk::button $pw.b -text $::tr(BatchCancel) -command ::batch_annotate::cancel
-    pack $pw.l -padx 10 -pady 5
-    pack $pw.pb -padx 10 -pady 5
+    pack $pw.l -padx 10 -pady 10
     pack $pw.b -pady 10
     
-    if {[catch {::batch_annotate::start_engines} err]} {
+    if {[catch {::batch_annotate::start_engines $num_engines} err]} {
         tk_messageBox -message "Error starting engines: $err"
         destroy $pw
         return
@@ -209,10 +216,12 @@ proc ::batch_annotate::start {w} {
     }
 }
 
-proc ::batch_annotate::start_engines {} {
+proc ::batch_annotate::start_engines {{num_instances ""}} {
     variable instances
     variable engine_index
     variable pipes
+    
+    if {$num_instances eq ""} { set num_instances $instances }
     
     set pipes {}
     set e [lindex $::engines(list) $engine_index]
@@ -226,7 +235,7 @@ proc ::batch_annotate::start_engines {} {
     }
     
     if {[catch {
-        for {set i 0} {$i < $instances} {incr i} {
+        for {set i 0} {$i < $num_instances} {incr i} {
             set pipe [open "| \"[file nativename $cmd]\" $args" r+]
             lappend pipes $pipe
             fconfigure $pipe -buffering line -blocking 0
@@ -299,25 +308,48 @@ proc ::batch_annotate::assign_game {pipe} {
     variable total_games
     variable games_completed
     
-    if {[llength $game_queue] == 0} {
+    if {[llength $::batch_annotate::game_queue] == 0} {
         set ::batch_annotate::engine_state($pipe) "done"
         ::batch_annotate::check_completion
         return
     }
     
-    set game_id [lindex $game_queue 0]
-    set game_queue [lreplace $game_queue 0 0]
+    set game_id [lindex $::batch_annotate::game_queue 0]
+    set ::batch_annotate::game_queue [lrange $::batch_annotate::game_queue 1 end]
+    
+    if {$game_id eq "" || ![string is integer -strict $game_id] || $game_id <= 0} {
+        set ::batch_annotate::engine_state($pipe) "done"
+        ::batch_annotate::check_completion
+        return
+    }
+    
+    # Final safety check: is the game number valid for the current base?
+    if {[catch {sc_base numGames $::batch_annotate::base} max_games]} {
+        set ::batch_annotate::engine_state($pipe) "done"
+        ::batch_annotate::check_completion
+        return
+    }
+    if {$game_id > $max_games} {
+        set ::batch_annotate::engine_state($pipe) "done"
+        ::batch_annotate::check_completion
+        return
+    }
     
     set pipe_game($pipe) $game_id
     set pipe_evals($pipe) {}
     
     if {[winfo exists .batchAnnotateProgress]} {
-        .batchAnnotateProgress.l configure -text "$::tr(BatchAnalyzingGames) ($games_completed / $total_games $::tr(BatchCompleted))"
-        .batchAnnotateProgress.pb configure -value [expr {($games_completed * 100) / $total_games}]
+        .batchAnnotateProgress.l configure -text "$::tr(BatchAnalyzingGames)"
     }
     
     set prev_base [sc_base current]
-    if {$prev_base != $base} { sc_base switch $base }
+    if {$prev_base != $::batch_annotate::base} { 
+        if {[catch {sc_base switch $::batch_annotate::base}]} {
+            set ::batch_annotate::engine_state($pipe) "done"
+            ::batch_annotate::check_completion
+            return
+        }
+    }
     sc_game push copy
     sc_game load $game_id
     
@@ -327,16 +359,26 @@ proc ::batch_annotate::assign_game {pipe} {
     
     variable use_book
     variable book_name
+    set prevbookmoves ""
     if {$use_book && $book_name ne ""} {
         set bn [file join $::scidBooksDir $book_name]
         sc_book load $bn 2
         lassign [sc_book moves 2] bookmoves
         while {[string length $bookmoves] != 0 && ![sc_pos isAt end]} {
+            set prevbookmoves $bookmoves
             sc_move forward
             incr ply_count
             lassign [sc_book moves 2] bookmoves
         }
         sc_book close 2
+    }
+    
+    # Capture book data for out-of-book comment
+    if {$use_book && $book_name ne "" && $ply_count > 0} {
+        set played_move [sc_game info previousMoveNT]
+        set ::batch_annotate::pipe_book_data($pipe) [list $ply_count $prevbookmoves $played_move]
+    } else {
+        set ::batch_annotate::pipe_book_data($pipe) {}
     }
     
     set idx $ply_count
@@ -366,7 +408,7 @@ proc ::batch_annotate::check_completion {} {
         foreach p $pipes { catch { puts $p "quit"; close $p } }
         set pipes {}
         if {[winfo exists .batchAnnotateProgress]} { destroy .batchAnnotateProgress }
-        tk_messageBox -message "$::tr(BatchComplete) $games_completed / $total_games $::tr(BatchGames) $::tr(BatchProcessed)."
+        tk_messageBox -message "$::tr(BatchComplete) $games_completed $::tr(BatchGames) $::tr(BatchProcessed)."
     }
 }
 
@@ -458,12 +500,17 @@ proc ::batch_annotate::read_engine {pipe} {
 proc ::batch_annotate::finalize_game {pipe} {
     variable pipe_game
     variable pipe_evals
+    variable pipe_book_data
     variable base
     variable games_completed
     
     incr games_completed
     set game_id $pipe_game($pipe)
     set evals $pipe_evals($pipe)
+    set book_data {}
+    if {[info exists pipe_book_data($pipe)]} {
+        set book_data $pipe_book_data($pipe)
+    }
     
     # Start the engine on the next game immediately to maximize parallelism
     ::batch_annotate::assign_game $pipe
@@ -480,6 +527,24 @@ proc ::batch_annotate::finalize_game {pipe} {
     if {$clear_old} {
         catch { sc_game strip comments }
         catch { sc_game strip variations }
+    }
+    
+    # Add out-of-book comment if book was used
+    if {[llength $book_data] == 3} {
+        lassign $book_data book_ply prevbookmoves played_move
+        sc_move start
+        sc_move forward $book_ply
+        if {[string match -nocase "*$played_move*" $prevbookmoves] != 1} {
+            # The played move was not in the book
+            if {$prevbookmoves ne ""} {
+                sc_pos setComment "[sc_pos getComment] $::tr(MoveOutOfBook) [::trans $prevbookmoves]"
+            } else {
+                sc_pos setComment "[sc_pos getComment] $::tr(MoveOutOfBook)"
+            }
+        } else {
+            # The played move was the last book move
+            sc_pos setComment "[sc_pos getComment] $::tr(LastBookMove)"
+        }
     }
     
     ::batch_annotate::annotate_logic $evals
