@@ -3,21 +3,21 @@ namespace eval ::batch_annotate {
     variable games {}
     
     variable engine_index 0
-    variable engine_name ""
-    variable instances 2
-    variable movetime 1.0
-    variable annotate_mode "blundersonly"
-    variable blunder_threshold 1.0
-    variable annotate_white 1
-    variable annotate_black 1
-    variable add_variation 1
-    variable var_length 5
-    variable short_annotation 0
-    variable add_score_to_short 1
-    variable score_all 0
-    variable clear_old 0
-    variable use_book 0
-    variable book_name ""
+    variable engine_name
+    variable instances
+    variable movetime
+    variable annotate_mode
+    variable blunder_threshold
+    variable annotate_white
+    variable annotate_black
+    variable add_variation
+    variable var_length
+    variable short_annotation
+    variable add_score_to_short
+    variable score_all
+    variable clear_old
+    variable use_book
+    variable book_name
     
     variable active_engines 0
     variable pipe_game ;# pipe -> game_id
@@ -81,7 +81,8 @@ proc ::batch_annotate::config {db games_list} {
         destroy $w
         return
     }
-    ttk::combobox $w.f.engine.cbEngine -values $engine_names -state readonly
+    ttk::combobox $w.f.engine.cbEngine -values $engine_names -state readonly \
+        -textvariable ::batch_annotate::engine_name
     # Restore the previously saved engine selection by name
     set saved_idx [lsearch -exact $engine_names $::batch_annotate::engine_name]
     if {$saved_idx >= 0} {
@@ -171,7 +172,6 @@ proc ::batch_annotate::start {w} {
     variable game_queue
     
     set engine_index [$w.f.engine.cbEngine current]
-    set ::batch_annotate::engine_name [$w.f.engine.cbEngine get]
     destroy $w
     
     # Build queue of game indices
