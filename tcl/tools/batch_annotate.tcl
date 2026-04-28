@@ -308,31 +308,31 @@ proc ::batch_annotate::assign_game {pipe} {
     variable total_games
     variable games_completed
     
-    if {[llength $::batch_annotate::game_queue] == 0} {
-        set ::batch_annotate::engine_state($pipe) "done"
-        ::batch_annotate::check_completion
-        return
-    }
-    
-    set game_id [lindex $::batch_annotate::game_queue 0]
-    set ::batch_annotate::game_queue [lrange $::batch_annotate::game_queue 1 end]
-    
-    if {$game_id eq "" || ![string is integer -strict $game_id] || $game_id <= 0} {
-        set ::batch_annotate::engine_state($pipe) "done"
-        ::batch_annotate::check_completion
-        return
-    }
-    
-    # Final safety check: is the game number valid for the current base?
-    if {[catch {sc_base numGames $::batch_annotate::base} max_games]} {
-        set ::batch_annotate::engine_state($pipe) "done"
-        ::batch_annotate::check_completion
-        return
-    }
-    if {$game_id > $max_games} {
-        set ::batch_annotate::engine_state($pipe) "done"
-        ::batch_annotate::check_completion
-        return
+    set game_id ""
+    while {1} {
+        if {[llength $::batch_annotate::game_queue] == 0} {
+            set ::batch_annotate::engine_state($pipe) "done"
+            ::batch_annotate::check_completion
+            return
+        }
+        
+        set game_id [lindex $::batch_annotate::game_queue 0]
+        set ::batch_annotate::game_queue [lrange $::batch_annotate::game_queue 1 end]
+        
+        if {$game_id eq "" || ![string is integer -strict $game_id] || $game_id <= 0} {
+            continue
+        }
+        
+        # Final safety check: is the game number valid for the current base?
+        if {[catch {sc_base numGames $::batch_annotate::base} max_games]} {
+            continue
+        }
+        if {$game_id > $max_games} {
+            continue
+        }
+        
+        # Found a valid game
+        break
     }
     
     set pipe_game($pipe) $game_id
