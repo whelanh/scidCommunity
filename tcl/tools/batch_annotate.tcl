@@ -3,6 +3,7 @@ namespace eval ::batch_annotate {
     variable games {}
     
     variable engine_index 0
+    variable engine_name ""
     variable instances 2
     variable movetime 1.0
     variable annotate_mode "blundersonly"
@@ -25,6 +26,23 @@ namespace eval ::batch_annotate {
     variable games_completed 0
     variable total_games 0
 }
+
+# Register user-configurable preferences for saving via Options > Save Options
+::options.store ::batch_annotate::instances 2
+::options.store ::batch_annotate::movetime 1.0
+::options.store ::batch_annotate::annotate_mode "blundersonly"
+::options.store ::batch_annotate::blunder_threshold 1.0
+::options.store ::batch_annotate::annotate_white 1
+::options.store ::batch_annotate::annotate_black 1
+::options.store ::batch_annotate::add_variation 1
+::options.store ::batch_annotate::var_length 5
+::options.store ::batch_annotate::short_annotation 0
+::options.store ::batch_annotate::add_score_to_short 1
+::options.store ::batch_annotate::score_all 0
+::options.store ::batch_annotate::clear_old 0
+::options.store ::batch_annotate::use_book 0
+::options.store ::batch_annotate::book_name ""
+::options.store ::batch_annotate::engine_name ""
 
 proc ::batch_annotate::config {db games_list} {
     variable base
@@ -64,7 +82,13 @@ proc ::batch_annotate::config {db games_list} {
         return
     }
     ttk::combobox $w.f.engine.cbEngine -values $engine_names -state readonly
-    $w.f.engine.cbEngine current 0
+    # Restore the previously saved engine selection by name
+    set saved_idx [lsearch -exact $engine_names $::batch_annotate::engine_name]
+    if {$saved_idx >= 0} {
+        $w.f.engine.cbEngine current $saved_idx
+    } else {
+        $w.f.engine.cbEngine current 0
+    }
     ttk::label $w.f.engine.lInstances -text $::tr(BatchNumberOfInstances)
     ttk::spinbox $w.f.engine.sbInstances -textvariable ::batch_annotate::instances -from 1 -to 16 -width 5
     
@@ -147,6 +171,7 @@ proc ::batch_annotate::start {w} {
     variable game_queue
     
     set engine_index [$w.f.engine.cbEngine current]
+    set ::batch_annotate::engine_name [$w.f.engine.cbEngine get]
     destroy $w
     
     # Build queue of game indices
