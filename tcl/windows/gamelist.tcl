@@ -1634,6 +1634,29 @@ proc glist.release_ {{w} {x} {y} {event_state} {layout}} {
           lappend off_screen $item
         }
       }
+      # glist.loadvalues_ implicitly adds the currently loaded game to the
+      # tree selection (e.g. after pressing Return).  Without filtering,
+      # a subsequent Ctrl/Shift click would silently include that loaded
+      # game in the persistent multi-selection, so the context menu would
+      # operate on one more game than the user actually clicked.  Drop the
+      # loaded game from both the tree selection and the persistent store
+      # unless the user explicitly clicked on it now or had it selected
+      # before this click.
+      if {$::glistBase($w) == [sc_base current]} {
+        set current_game [sc_game number]
+        set clicked_item [$w identify item $x $y]
+        set to_drop {}
+        foreach item [$w selection] {
+          lassign [split $item "_"] n ply
+          if {$n == $current_game && $item ne $clicked_item && \
+              [lsearch -exact $::glistMultiSel($w) $item] == -1} {
+            lappend to_drop $item
+          }
+        }
+        if {[llength $to_drop] > 0} {
+          $w selection remove $to_drop
+        }
+      }
       set ::glistMultiSel($w) [concat $off_screen [$w selection]]
     }
   }
