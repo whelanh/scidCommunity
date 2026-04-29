@@ -590,50 +590,221 @@ proc ::batch_annotate::annotate_logic {evals} {
         }
         catch { set pv [dict get $eval pv] }
         
-        set is_blunder 0
-        set should_annotate 0
         set tomove [sc_pos side]
+        set at_end [sc_pos isAt end]
         
+        # Mate scores are stored as +/-300.0; flag them so we skip
+        # numeric-evaluation NAGs that would be meaningless.
+        set is_mate [expr {$score ne "" && [string is double -strict $score] && abs($score) >= 100.0}]
+        set prev_is_mate [expr {$prev_score ne "" && [string is double -strict $prev_score] && abs($prev_score) >= 100.0}]
+        
+        # Capture the SAN of the move that was just played (for the closing
+        # line at the end of the game). Bail-out style mirrors analysis.tcl,
+        # which never adds a closing line on a checkmating move.
+        set gamemove ""
+        catch { set gamemove [sc_game info previousMoveNT] }
+        set gamemove_is_mate [expr {[string length $gamemove] > 0 && [string index $gamemove end] eq "#"}]
+        
+        # Should this side's move be annotated? `tomove` is the side now
+        # to move (i.e., the OPPONENT of the side that just moved).
+        set should_annotate 0
         if {$idx > 0} {
             if {($tomove eq "white" && $annotate_black) || ($tomove eq "black" && $annotate_white)} {
                 set should_annotate 1
             }
         }
         
-        if {$should_annotate && $score ne "" && $prev_score ne ""} {
-            set delta [expr {$score - $prev_score}]
-            if {($tomove eq "white" && $delta >= $blunder_threshold) || ($tomove eq "black" && $delta <= -$blunder_threshold)} {
-                set is_blunder 1
+        # Did the played move match the engine's preferred move from the
+        # previous position? This mirrors analysis.tcl's bestMovePlayed /
+        # bestMoveIsMate logic: we render the engine's first PV move into
+        # SAN (via a scratch copy of the game) and compare to the move
+        # actually played. If they match we suppress the redundant
+        # variation and smooth out small score drift.
+        set bestMovePlayed 0
+        set bestMoveIsMate 0
+        if {$prev_pv ne "" && $gamemove ne ""} {
+            set pv_first [lindex [split [string trim $prev_pv] " "] 0]
+            if {$pv_first ne ""} {
+                set best_san ""
+                if {![catch {
+                    sc_game push copyfast
+                    sc_move back 1
+                    if {[::uci::sc_move_add [list $pv_first]] == 0} {
+                        set best_san [sc_game info previousMoveNT]
+                    }
+                    sc_game pop
+                }]} {
+                    if {$best_san ne "" && $best_san eq $gamemove} {
+                        set bestMovePlayed 1
+                    }
+                    if {$best_san ne "" && [string index $best_san end] eq "#"} {
+                        set bestMoveIsMate 1
+                    }
+                }
             }
         }
         
+        # Compute deltamove the same way analysis.tcl does:
+        #   deltamove = prevscore - score, then negated when white just moved
+        # so that a positive value always means "the player who just moved
+        # made a worse move".  When the engine's preferred move WAS played
+        # we use score in place of prevscore to absorb tiny eval drift.
+        set effective_prev_score $prev_score
+        if {$bestMovePlayed && $score ne ""} {
+            set effective_prev_score $score
+        }
+        set delta_move 0
+        set absdeltamove 0
+        if {$effective_prev_score ne "" && $score ne ""} {
+            set delta_move [expr {$effective_prev_score - $score}]
+            if {$tomove eq "white"} {
+                set delta_move [expr {0.0 - $delta_move}]
+            }
+            set absdeltamove [expr {abs($delta_move)}]
+        }
+        
+        # gameIsLost: was the player who just moved already in a losing
+        # position before they moved? (Don't pile on annotations if so.)
+        set gameIsLost 0
+        if {$prev_score ne ""} {
+            if {$tomove eq "white"} {
+                set gameIsLost [expr {$prev_score > $::informant(+--)}]
+            } else {
+                set gameIsLost [expr {$prev_score < (0.0 - $::informant(+--))}]
+            }
+        }
+        
+        # isBlunder levels (mirror analysis.tcl):
+        #   2 = full blunder (deltamove > blunder_threshold)
+        #   1 = mild slip    (0 < deltamove <= blunder_threshold)
+        #   0 = no slip      (deltamove <= 0)
+        set isBlunder 0
+        if {$delta_move > $blunder_threshold} {
+            set isBlunder 2
+        } elseif {$delta_move > 0} {
+            set isBlunder 1
+        }
+        
+        # Decide whether this move enters the full annotation path.
+        set do_annotate 0
         if {$should_annotate && $score_fmt ne ""} {
-            if {$is_blunder && $add_variation && $prev_pv ne ""} {
+            if {$annotate_mode eq "allmoves"} {
+                set do_annotate 1
+            } elseif {$annotate_mode eq "blundersonly" && !$gameIsLost} {
+                if {$isBlunder > 1} {
+                    set do_annotate 1
+                } elseif {$isBlunder > 0 && $is_mate} {
+                    # Match analysis.tcl's `abs(score) >= 327.0` mate guard
+                    set do_annotate 1
+                }
+            }
+        }
+        
+        if {$do_annotate} {
+            # Move-quality NAG, picked by |delta| against the user's
+            # configurable ::informant thresholds (the same table the
+            # Analysis window uses).
+            if {$isBlunder > 0} {
+                if {$absdeltamove > $::informant(??)} {
+                    catch { sc_pos addNag "??" }
+                } elseif {$absdeltamove > $::informant(?)} {
+                    catch { sc_pos addNag "?" }
+                } elseif {$absdeltamove > $::informant(?!)} {
+                    catch { sc_pos addNag "?!" }
+                }
+            } elseif {$absdeltamove > $::informant(!?)} {
+                catch { sc_pos addNag "!?" }
+            }
+            
+            # Score comment for the played move (plain depth:+score, to
+            # match analysis.tcl's PGN format).
+            if {!$short_annotation || $add_score_to_short || $score_all} {
+                sc_pos setComment "[sc_pos getComment] $score_fmt"
+            }
+            
+            # Position-evaluation NAG (=, +=, +/-, +-, +--, ...).
+            if {!$is_mate} {
+                catch { sc_pos addNag [scoreToNag $score] }
+            }
+            
+            # Alternative variation showing what should have been played.
+            if {$isBlunder > 0 && $add_variation && $prev_pv ne ""} {
                 sc_move back
-                sc_var create
-                set pv_moves [lrange [split [string trim $prev_pv] " "] 0 [expr {$var_length - 1}]]
-                ::uci::sc_move_add [lrange $pv_moves 0 0]
-                if {!$short_annotation || $add_score_to_short} {
-                    sc_pos setComment "\[$prev_score_fmt\]"
+                # Diagram NAG in blundersonly mode (avoid duplicates).
+                if {$annotate_mode eq "blundersonly"} {
+                    if {[string first "D" "[sc_pos getNags]"] == -1} {
+                        catch { sc_pos addNag "D" }
+                    }
                 }
-                if {[llength $pv_moves] > 1} {
-                    ::uci::sc_move_add [lrange $pv_moves 1 end]
+                # Mirror analysis.tcl's per-side variation gate.
+                set addThisVariation 0
+                if {$annotate_white && $annotate_black} {
+                    set addThisVariation 1
+                } elseif {$annotate_white && $tomove eq "black"} {
+                    set addThisVariation 1
+                } elseif {$annotate_black && $tomove eq "white"} {
+                    set addThisVariation 1
                 }
-                sc_var exit
+                if {$addThisVariation} {
+                    sc_var create
+                    set pv_moves [lrange [split [string trim $prev_pv] " "] 0 [expr {$var_length - 1}]]
+                    if {[llength $pv_moves] > 0} {
+                        ::uci::sc_move_add [lrange $pv_moves 0 0]
+                        # Skip the score comment when the engine's first
+                        # move is itself a mating move (matches
+                        # analysis.tcl's bestMoveIsMate behavior).
+                        if {!$bestMoveIsMate && !$prev_is_mate} {
+                            if {!$short_annotation || $add_score_to_short} {
+                                sc_pos setComment "$prev_score_fmt"
+                            }
+                        }
+                        if {[llength $pv_moves] > 1} {
+                            ::uci::sc_move_add [lrange $pv_moves 1 end]
+                        }
+                        if {!$prev_is_mate} {
+                            catch { sc_pos addNag [scoreToNag $prev_score] }
+                        }
+                    }
+                    sc_var exit
+                }
                 sc_move forward
             }
-            
-            set do_comment 0
-            if {$annotate_mode eq "allmoves" || ($annotate_mode eq "blundersonly" && $is_blunder)} { set do_comment 1 }
-            
-            if {$do_comment} {
-                if {$is_blunder} { sc_pos addNag 4 }
-                if {!$short_annotation || $add_score_to_short || $score_all} {
-                    sc_pos setComment "[sc_pos getComment] \[$score_fmt\]"
+        } else {
+            # Not in the full annotation path. Mirror the small
+            # "interesting move" / score-everything fallbacks from
+            # analysis.tcl's else branch.
+            if {$should_annotate && $score_fmt ne ""} {
+                if {$isBlunder == 0 && $absdeltamove > $::informant(!?)} {
+                    catch { sc_pos addNag "!?" }
                 }
-            } elseif {$score_all} {
-                sc_pos setComment "[sc_pos getComment] \[$score_fmt\]"
+                if {$score_all} {
+                    sc_pos setComment "[sc_pos getComment] $score_fmt"
+                }
             }
+        }
+        
+        # Closing PV variation on the final move of the game.
+        # (analysis.tcl's $addClosingLine block.)
+        if {$at_end && $score_fmt ne "" && $pv ne "" && \
+            $gamemove ne "" && !$gamemove_is_mate} {
+            sc_move back
+            sc_var create
+            if {![catch {sc_move addSan $gamemove}]} {
+                if {!$is_mate} {
+                    if {!$short_annotation || $add_score_to_short} {
+                        sc_pos setComment "$score_fmt"
+                    }
+                }
+                set pv_moves [lrange [split [string trim $pv] " "] 0 [expr {$var_length - 1}]]
+                if {[llength $pv_moves] > 0} {
+                    ::uci::sc_move_add $pv_moves
+                }
+                if {!$is_mate} {
+                    catch { sc_pos addNag [scoreToNag $score] }
+                }
+            }
+            sc_var exit
+            sc_move forward
         }
         
         set prev_score $score
