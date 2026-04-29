@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.3.17
+Version:        5.1.3.18
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 9121cbd717d133a3f44cb9430109e97abe48df17
+%global commit df6137571b9e2382e464ab5c261d10cb75d58f88
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Wed Apr 29, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-18
+- "Bring Batch Annotation output inline with Analysis window output"
 * Tue Apr 28, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-17
 - "Refine batch annotation feature"
 * Mon Apr 27, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-16
