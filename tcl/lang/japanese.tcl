@@ -635,9 +635,11 @@ menuText A GraphOptionsEloFile "評価ファイルからの Elo" 0
 menuText A GraphOptionsEloDB "データベースからのエロ" 0
 translate A GraphFilterTitle "フィルター グラフ: 順位に到達したゲームの割合"
 translate A GraphAbsFilterTitle "フィルターグラフ: ゲームの頻度"
+translate A GraphWinPctTitle "フィルター グラフ: 現在の順位での年別の勝利率 (1-0 および 0-1)"
 translate A ConfigureFilter "年、評価、移動の X 軸を構成する"
 translate A FilterEstimate "見積もり"
 translate A TitleFilterGraph "Scid: フィルター グラフ"
+translate A WinPct "勝つ ％"
 
 # Analysis window:
 translate A AddVariation {バリエーションを追加する}

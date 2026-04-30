@@ -605,9 +605,11 @@ menuText I GraphOptionsEloFile "Elo dal file di valutazione" 0
 menuText I GraphOptionsEloDB "Elo dal database" 0
 translate I GraphFilterTitle "Grafico filtro: percentuale di giochi che raggiungono la posizione"
 translate I GraphAbsFilterTitle "Grafico del filtro: frequenza delle partite"
+translate I GraphWinPctTitle "Filtra grafico: percentuale di vittorie (1-0 e 0-1) nella posizione attuale per anno"
 translate I ConfigureFilter {Configura l'asse delle X per Anno, Rating e Mosse}
 translate I FilterEstimate "Stima"
 translate I TitleFilterGraph "Scid: Grafico del filtro"
+translate I WinPct "Vincita %"
 
 # Analysis window:
 translate I AddVariation {Aggiungi variante}

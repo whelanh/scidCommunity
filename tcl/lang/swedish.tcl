@@ -605,9 +605,11 @@ menuText W GraphOptionsEloFile "Elo frn betygsfil" 0
 menuText W GraphOptionsEloDB "Elo frn databasen" 0
 translate W GraphFilterTitle "Filterdiagram: procentandel av spel som nr position"
 translate W GraphAbsFilterTitle "Filtergraf: frekvens fr partierna"
+translate W GraphWinPctTitle "Filterdiagram: vinst % (1-0 och 0-1) vid aktuell position per år"
 translate W ConfigureFilter {Konfigurera X-axlar fr r, Rating och Drag}
 translate W FilterEstimate "Uppskatta"
 translate W TitleFilterGraph "Scid: Filtergraf"
+translate W WinPct "Vinst %"
 
 # Analysis window:
 translate W AddVariation {Lgg till variation}

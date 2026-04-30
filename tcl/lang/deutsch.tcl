@@ -634,9 +634,11 @@ menuText D GraphOptionsEloFile "Elo von Rating-Datei" 0
 menuText D GraphOptionsEloDB "Elo von Datenbank" 0
 translate D GraphFilterTitle "Filterdiagramm: Prozentsatz der Spiele, die die Position erreichen"
 translate D GraphAbsFilterTitle "Filtergrafik: Hufigkeit der Partien"
+translate D GraphWinPctTitle "Filterdiagramm: Gewinn % (1-0 und 0-1) an der aktuellen Position pro Jahr"
 translate D ConfigureFilter "X-Achse fr Jahr, Elo und Zge konfigurieren"
 translate D FilterEstimate "Schtzen"
 translate D TitleFilterGraph "Scid: Filtergrafik"
+translate D WinPct "Gewinnen %"
 
 # Analysis window:
 translate D AddVariation {Variante hinzufgen}

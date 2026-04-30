@@ -594,9 +594,11 @@ menuText h GraphOptionsEloFile "रेटिंग फ़ाइल से एल
 menuText h GraphOptionsEloDB "डेटाबेस से एलो" 0
 translate h GraphFilterTitle "फ़िल्टर ग्राफ़: स्थिति तक पहुँचने वाले खेलों का प्रतिशत"
 translate h GraphAbsFilterTitle "फ़िल्टर ग्राफ़: खेलों की आवृत्ति"
+translate h GraphWinPctTitle "फ़िल्टर ग्राफ़: वर्ष के अनुसार वर्तमान स्थिति पर जीत% (1-0 और 0-1)।"
 translate h ConfigureFilter "वर्ष, रेटिंग और चाल के लिए एक्स-एक्सिस कॉन्फ़िगर करें"
 translate h FilterEstimate "अनुमान लगाना"
 translate h TitleFilterGraph "स्किड: फ़िल्टर ग्राफ़"
+translate h WinPct "जीतना %"
 
 # Analysis window:
 translate h AddVariation {विविधता जोड़ें}

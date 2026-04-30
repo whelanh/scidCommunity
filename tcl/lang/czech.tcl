@@ -599,9 +599,11 @@ menuText C GraphOptionsEloFile "Elo ze souboru hodnocen" 0
 menuText C GraphOptionsEloDB "Elo z databze" 0
 translate C GraphFilterTitle "Graf filtru: procento her, kter doshly pozice"
 translate C GraphAbsFilterTitle "Graf filtru: etnost parti"
+translate C GraphWinPctTitle "Graf filtru: % výhry (1-0 a 0-1) na aktuální pozici podle roku"
 translate C ConfigureFilter {Konfigurovat x-souadnici pro rok, rating a tahy}
 translate C FilterEstimate "Odhadnout"
 translate C TitleFilterGraph "Scid: Graf filtru"
+translate C WinPct "% výhry"
 
 # Analysis window:
 translate C AddVariation {Pidat variantu}

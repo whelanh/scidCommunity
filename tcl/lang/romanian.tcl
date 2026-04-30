@@ -635,9 +635,11 @@ menuText L GraphOptionsEloFile "Elo din fișierul de evaluare" 0
 menuText L GraphOptionsEloDB "Elo din baza de date" 0
 translate L GraphFilterTitle "Graficul filtrului: procentul de jocuri care ating poziția"
 translate L GraphAbsFilterTitle "Filter Graph: frecvența jocurilor"
+translate L GraphWinPctTitle "Grafic de filtru: % de câștig (1-0 și 0-1) la poziția curentă pe an"
 translate L ConfigureFilter "Configurați axele X pentru an, evaluare și mișcări"
 translate L FilterEstimate "Estima"
 translate L TitleFilterGraph "Scid: Filter Graph"
+translate L WinPct "% de câștig"
 
 # Analysis window:
 translate L AddVariation {Adăugați o variație}

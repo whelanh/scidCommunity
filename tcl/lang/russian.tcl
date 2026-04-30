@@ -601,9 +601,11 @@ menuText R GraphOptionsEloFile "ЭЛО из файла рейтинга" 0
 menuText R GraphOptionsEloDB "ЭЛО из базы партий" 0
 translate R GraphFilterTitle "График фильтров: процент игр, достигших позиции"
 translate R GraphAbsFilterTitle "Диаграмма фильтра: частота на все партии"
+translate R GraphWinPctTitle "График фильтров: процент побед (1-0 и 0-1) в текущей позиции по годам"
 translate R ConfigureFilter {Настройка оси Х по годам, рейтингу и ходам}
 translate R FilterEstimate "Оценка"
 translate R TitleFilterGraph "Scid: Диаграмма фильтра"
+translate R WinPct "Победить %"
 
 # Analysis window:
 translate R AddVariation {Добавить вариант}

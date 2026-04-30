@@ -635,9 +635,11 @@ menuText J GraphOptionsEloFile "Ело из фајла за оцењивање" 
 menuText J GraphOptionsEloDB "Ело из базе података" 0
 translate J GraphFilterTitle "Графикон филтера: проценат игара које су достигле позицију"
 translate J GraphAbsFilterTitle "Графикон филтера: учесталост игара"
+translate J GraphWinPctTitle "Графикон филтера: % победа (1-0 и 0-1) на тренутној позицији по години"
 translate J ConfigureFilter "Конфигуришите Кс-осе за годину, оцену и покрете"
 translate J FilterEstimate "Процена"
 translate J TitleFilterGraph "Сцид: Графикон филтера"
+translate J WinPct "% победа"
 
 # Analysis window:
 translate J AddVariation {Додај варијацију}

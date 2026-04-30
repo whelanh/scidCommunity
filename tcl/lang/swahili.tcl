@@ -594,9 +594,11 @@ menuText Z GraphOptionsEloFile "Elo kutoka kwa faili ya ukadiriaji" 0
 menuText Z GraphOptionsEloDB "Elo kutoka hifadhidata" 0
 translate Z GraphFilterTitle "Kichujio cha Grafu: asilimia ya michezo inayofikia nafasi"
 translate Z GraphAbsFilterTitle "Kichujio cha Grafu: marudio ya michezo"
+translate Z GraphWinPctTitle "Kichujio cha Grafu: shinda % (1-0 na 0-1) katika nafasi ya sasa baada ya mwaka"
 translate Z ConfigureFilter "Sanidi X-Axes kwa Mwaka, Ukadiriaji na Uhamishaji"
 translate Z FilterEstimate "Kadiria"
 translate Z TitleFilterGraph "Scid: Grafu ya Kichujio"
+translate Z WinPct "Shinda %"
 
 # Analysis window:
 translate Z AddVariation {Ongeza Tofauti}

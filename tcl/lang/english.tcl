@@ -634,9 +634,11 @@ menuText E GraphOptionsEloFile "Elo from rating file" 0
 menuText E GraphOptionsEloDB "Elo from database" 0
 translate E GraphFilterTitle "Filter Graph: percentage of games reaching position"
 translate E GraphAbsFilterTitle "Filter Graph: frequency of the games"
+translate E GraphWinPctTitle "Filter Graph: win % (1-0 and 0-1) at current position by year"
 translate E ConfigureFilter "Configure X-Axes for Year, Rating and Moves"
 translate E FilterEstimate "Estimate"
 translate E TitleFilterGraph "Scid: Filter Graph"
+translate E WinPct "Win %"
 
 # Analysis window:
 translate E AddVariation {Add Variation}

@@ -594,9 +594,11 @@ menuText b GraphOptionsEloFile "রেটিং ফাইল থেকে Elo" 0
 menuText b GraphOptionsEloDB "ডাটাবেস থেকে Elo" 0
 translate b GraphFilterTitle "ফিল্টার গ্রাফ: পজিশনে পৌঁছানোর গেমের শতাংশ"
 translate b GraphAbsFilterTitle "ফিল্টার গ্রাফ: গেমের ফ্রিকোয়েন্সি"
+translate b GraphWinPctTitle "ফিল্টার গ্রাফ: বছর অনুসারে বর্তমান অবস্থানে জয় % (1-0 এবং 0-1)"
 translate b ConfigureFilter "বছর, রেটিং এবং মুভের জন্য X-অক্ষ কনফিগার করুন"
 translate b FilterEstimate "অনুমান"
 translate b TitleFilterGraph "Scid: ফিল্টার গ্রাফ"
+translate b WinPct "জয় %"
 
 # Analysis window:
 translate b AddVariation {বৈচিত্র যোগ করুন}
