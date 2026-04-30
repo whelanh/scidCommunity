@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.3.19" date="2026-04-30">
+      <description>
+        <p>Add Win% graph to Rel. Filter Graph suite</p>
+      </description>
+    </release>
     <release version="5.1.3.18" date="2026-04-29">
       <description>
         <p>Bring Batch Annotation output in line with Analysis window output</p>
