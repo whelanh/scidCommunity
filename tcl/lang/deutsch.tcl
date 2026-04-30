@@ -319,7 +319,7 @@ menuText D HelpHints "Hinweise" 0 {Die Scid-Kurztips}
 menuText D HelpContact "Kontaktinformation" 0 {Hilfe zur Kontaktinformation}
 menuText D HelpTip "Tagestip" 0 {Zeigt einen ntzlichen Tip an}
 menuText D HelpStartup "Startfenster" 0 {Startfenster zeigen}
-menuText D HelpAbout "ber Scid" 0 {Informationen zu Scid}
+menuText D HelpAbout "Über scidCommunity" 0 {Informationen zu scidCommunity}
 
 # Toolbar tooltips:
 menuText D RotateBoard "Brett drehen" 0 {Brett drehen}
@@ -638,7 +638,7 @@ translate D GraphWinPctTitle "Filterdiagramm: Gewinn % (1-0 und 0-1) an der aktu
 translate D ConfigureFilter "X-Achse fr Jahr, Elo und Zge konfigurieren"
 translate D FilterEstimate "Schtzen"
 translate D TitleFilterGraph "Scid: Filtergrafik"
-translate D WinPct "Gewinnen %"
+translate D WinPct "Gewinn %"
 
 # Analysis window:
 translate D AddVariation {Variante hinzufgen}
