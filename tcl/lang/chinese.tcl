@@ -570,9 +570,11 @@ menuText M GraphOptionsEloFile "Elo from rating file" 0
 menuText M GraphOptionsEloDB "Elo from database" 0
 translate M GraphFilterTitle "过滤图：达到排名的游戏百分比"
 translate M GraphAbsFilterTitle "Filter Graph: frequency of the games"
+translate M GraphWinPctTitle "过滤图：当前位置每年的获胜百分比（1-0 和 0-1）"
 translate M ConfigureFilter "Configure X-Axes for Year, Rating and Moves"
 translate M FilterEstimate "Estimate"
 translate M TitleFilterGraph "Scid: Filter Graph"
+translate M WinPct "赢 ％"
 
 # Analysis window:
 translate M AddVariation {Add Variation}

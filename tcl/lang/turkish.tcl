@@ -600,9 +600,13 @@ menuText T GraphOptionsEloDB "Veritabanından Elo" 0
 # ====== TODO To be translated ======
 translate T GraphFilterTitle "Filter Graph: percentage of games reaching position"
 translate T GraphAbsFilterTitle "Filtre Grafiği: oyunların sıklığı"
+# ====== TODO To be translated ======
+translate T GraphWinPctTitle "Filter Graph: win % (1-0 and 0-1) at current position by year"
 translate T ConfigureFilter "Yıl, Derecelendirme ve Hareketler için X Eksenlerini Yapılandırma"
 translate T FilterEstimate "Tahmin etmek"
 translate T TitleFilterGraph "Scid: Filtre Grafiği"
+# ====== TODO To be translated ======
+translate T WinPct "Win %"
 
 # Analysis window:
 translate T AddVariation {Varyasyon Ekle}

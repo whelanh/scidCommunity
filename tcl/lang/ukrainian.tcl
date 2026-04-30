@@ -595,9 +595,11 @@ menuText Q GraphOptionsEloFile "Elo з рейтингового файлу" 0
 menuText Q GraphOptionsEloDB "Ело з бази даних" 0
 translate Q GraphFilterTitle "Графік фільтра: відсоток ігор, які досягли позиції"
 translate Q GraphAbsFilterTitle "Графік фільтра: частота ігор"
+translate Q GraphWinPctTitle "Графік фільтрів: % виграшів (1-0 і 0-1) на поточній позиції за роками"
 translate Q ConfigureFilter "Налаштуйте осі X для року, рейтингу та ходів"
 translate Q FilterEstimate "Оцінка"
 translate Q TitleFilterGraph "Scid: Графік фільтра"
+translate Q WinPct "Виграти %"
 
 # Analysis window:
 translate Q AddVariation {Додати варіацію}

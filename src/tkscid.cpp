@@ -1563,9 +1563,10 @@ namespace {
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // sc_filter_freq:
-//    Returns a two-integer list showing how many filter games,
+//    Returns a list showing how many filter games,
 //    and how many total database games, meet the specified
-//    date or mean rating range criteria.
+//    date or mean rating range criteria, plus a breakdown of
+//    the results of the filtered games.
 //    Usage:
 //        sc_filter freq baseId filterName date <startdate> [<endDate>]
 //    or  sc_filter freq baseId filterName elo <lowerMeanElo> [<upperMeanElo>]
@@ -1579,6 +1580,15 @@ namespace {
 //    will be ignored. Also, if one player has an Elo rating but
 //    the other does not, the other rating will be assumed to be
 //    same as the nonzero rating, up to a maximum of 2200.
+//
+//    The returned Tcl list contains:
+//        filteredCount  - games in the filter within the range
+//        allCount       - all DB games within the range
+//        filteredWhite  - filtered games with result 1-0
+//        filteredBlack  - filtered games with result 0-1
+//        filteredDraw   - filtered games with result 1/2-1/2
+//    The trailing result counters are appended unconditionally; existing
+//    callers that use only lindex 0/1 are unaffected.
 int sc_filter_freq(scidBaseT *dbase, const HFilter &filter, Tcl_Interp *ti,
                    int argc, const char **argv) {
   const char *usage = "Usage: sc_filter freq baseId filterName date|elo|move "
@@ -1632,6 +1642,32 @@ int sc_filter_freq(scidBaseT *dbase, const HFilter &filter, Tcl_Interp *ti,
   // Calculate frequencies in the specified date or rating range:
   uint filteredCount = 0;
   uint allCount = 0;
+  uint filteredWhite = 0;
+  uint filteredBlack = 0;
+  uint filteredDraw = 0;
+
+  // Helper lambda to record a game that is inside the requested range.
+  // Tallies the totals and, if the game is in the filter, the per-result
+  // breakdown used by graphs that compare wins vs losses.
+  auto recordGame = [&](const IndexEntry *ie, uint gnum) {
+    allCount++;
+    if (filter.get(gnum) != 0) {
+      filteredCount++;
+      switch (ie->GetResult()) {
+      case RESULT_White:
+        filteredWhite++;
+        break;
+      case RESULT_Black:
+        filteredBlack++;
+        break;
+      case RESULT_Draw:
+        filteredDraw++;
+        break;
+      default:
+        break;
+      }
+    }
+  };
 
   if (eloMode) {
     for (uint gnum = 0, n = dbase->numGames(); gnum < n; gnum++) {
@@ -1646,10 +1682,7 @@ int sc_filter_freq(scidBaseT *dbase, const HFilter &filter, Tcl_Interp *ti,
           bothElo += (wElo > 2200 ? 2200 : wElo);
         }
         if (bothElo >= minElo && bothElo <= maxElo) {
-          allCount++;
-          if (filter.get(gnum) != 0) {
-            filteredCount++;
-          }
+          recordGame(ie, gnum);
         }
       } else {
         // Klimmek: if lowest Elo in the Range: count them
@@ -1658,10 +1691,7 @@ int sc_filter_freq(scidBaseT *dbase, const HFilter &filter, Tcl_Interp *ti,
           mini = ie->GetBlackElo();
         if (mini < minElo || mini >= maxElo)
           continue;
-        allCount++;
-        if (filter.get(gnum) != 0) {
-          filteredCount++;
-        }
+        recordGame(ie, gnum);
       }
     }
   } else if (moveMode) {
@@ -1671,10 +1701,7 @@ int sc_filter_freq(scidBaseT *dbase, const HFilter &filter, Tcl_Interp *ti,
       const IndexEntry *ie = dbase->getIndexEntry(gnum);
       uint move = ie->GetNumHalfMoves();
       if (move >= minMove && move <= maxMove) {
-        allCount++;
-        if (filter.get(gnum) != 0) {
-          filteredCount++;
-        }
+        recordGame(ie, gnum);
       }
     }
   } else { // datemode
@@ -1682,15 +1709,15 @@ int sc_filter_freq(scidBaseT *dbase, const HFilter &filter, Tcl_Interp *ti,
       const IndexEntry *ie = dbase->getIndexEntry(gnum);
       dateT date = ie->GetDate();
       if (date >= startDate && date <= endDate) {
-        allCount++;
-        if (filter.get(gnum) != 0) {
-          filteredCount++;
-        }
+        recordGame(ie, gnum);
       }
     }
   }
   appendUintElement(ti, filteredCount);
   appendUintElement(ti, allCount);
+  appendUintElement(ti, filteredWhite);
+  appendUintElement(ti, filteredBlack);
+  appendUintElement(ti, filteredDraw);
   return TCL_OK;
 }
 

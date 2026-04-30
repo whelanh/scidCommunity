@@ -651,9 +651,11 @@ menuText S GraphOptionsEloFile "Elo del archivo de calificación" 0
 menuText S GraphOptionsEloDB "Elo de la base de datos" 0
 translate S GraphFilterTitle "Gráfico de filtro: porcentaje de juegos que alcanzan la posición"
 translate S GraphAbsFilterTitle "Filtro gráfico: frecuencia de las partidas"
+translate S GraphWinPctTitle "Gráfico de filtro: % de victorias (1-0 y 0-1) en la posición actual por año"
 translate S ConfigureFilter {Configurar Eje-X para Año, Rating y Movimientos}
 translate S FilterEstimate "Estimar"
 translate S TitleFilterGraph "Scid: Filtro Gráfico"
+translate S WinPct "Ganar %"
 
 # Analysis window:
 translate S AddVariation {Añadir variación}

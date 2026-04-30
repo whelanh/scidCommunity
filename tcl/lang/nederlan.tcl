@@ -624,9 +624,11 @@ menuText N GraphOptionsEloFile "Elo uit beoordelingsbestand" 0
 menuText N GraphOptionsEloDB "Elo uit de database" 0
 translate N GraphFilterTitle "Filtergrafiek: percentage games dat positie bereikt"
 translate N GraphAbsFilterTitle "Filtergrafiek: frequentie van de partijen"
+translate N GraphWinPctTitle "Filtergrafiek: winst% (1-0 en 0-1) op huidige positie per jaar"
 translate N ConfigureFilter {Configureer de X-as voor Jaar, Elo en Zetten}
 translate N FilterEstimate "Schat"
 translate N TitleFilterGraph "Scid: Filtergrafiek"
+translate N WinPct "Win%"
 
 # Analysis window:
 translate N AddVariation {Toevoegen variant}

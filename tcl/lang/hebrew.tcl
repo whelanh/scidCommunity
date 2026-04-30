@@ -595,9 +595,11 @@ menuText V GraphOptionsEloFile "אלו מקובץ דירוג" 0
 menuText V GraphOptionsEloDB "אלו ממסד הנתונים" 0
 translate V GraphFilterTitle "גרף סינון: אחוז המשחקים שהגיעו למיקום"
 translate V GraphAbsFilterTitle "גרף סינון: תדירות המשחקים"
+translate V GraphWinPctTitle "גרף סינון: % win (1-0 ו-0-1) במיקום הנוכחי לפי שנה"
 translate V ConfigureFilter "הגדר את צירי X עבור שנה, דירוג ומהלכים"
 translate V FilterEstimate "לְהַעֲרִיך"
 translate V TitleFilterGraph "Scid: גרף מסנן"
+translate V WinPct "ניצחון %"
 
 # Analysis window:
 translate V AddVariation {הוסף וריאציה}

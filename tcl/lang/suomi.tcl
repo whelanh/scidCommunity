@@ -633,9 +633,11 @@ menuText U GraphOptionsEloFile "Elo luokitustiedostosta" 0
 menuText U GraphOptionsEloDB "Elo tietokannasta" 0
 translate U GraphFilterTitle "Suodatuskaavio: prosenttiosuus peleist, jotka saavuttavat sijoituksen"
 translate U GraphAbsFilterTitle "graafi: pelien yleisyys"
+translate U GraphWinPctTitle "Suodatuskaavio: Voittoprosentti (1-0 ja 0-1) nykyisessä sijainnissa vuodessa"
 translate U ConfigureFilter "Muokkaa X-akseli; vuosi, vahvuus, siirrot"
 translate U FilterEstimate "Arvioi"
 translate U TitleFilterGraph "Scid: graafi"
+translate U WinPct "voitto %"
 
 # Analysis window:
 translate U AddVariation {Lis muunnelma}

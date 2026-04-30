@@ -607,9 +607,11 @@ menuText F GraphOptionsEloFile "Classement Elo du fichier" 0
 menuText F GraphOptionsEloDB "Classement Elo dans la base" 0
 translate F GraphFilterTitle "Graphique de filtre : pourcentage de jeux atteignant la position"
 translate F GraphAbsFilterTitle "Graphique de filtre: fréquence des parties"
+translate F GraphWinPctTitle "Graphique de filtre : % de victoire (1-0 et 0-1) à la position actuelle par année"
 translate F ConfigureFilter {Configurer l'axe des X par année, classement et coups}
 translate F FilterEstimate "Estimer"
 translate F TitleFilterGraph "Scid: Graphe de filtre"
+translate F WinPct "Gagner %"
 
 # Analysis window:
 translate F AddVariation {Ajouter une variante}

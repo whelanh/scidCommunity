@@ -602,9 +602,11 @@ menuText H GraphOptionsEloFile "Elo az rtkelsi fjlbl" 0
 menuText H GraphOptionsEloDB "Elo adatbzisbl" 0
 translate H GraphFilterTitle "Szrsi grafikon: a pozcit elr jtkok szzalkos arnya"
 translate H GraphAbsFilterTitle "Szrgrafikon: jtszmk gyakorisga"
+translate H GraphWinPctTitle "Szûrési grafikon: Nyerési % (1-0 és 0-1) az aktuális pozíciónál évenként"
 translate H ConfigureFilter {lltsd be az X tengelyt vre, rtkszmra vagy lpsre}
 translate H FilterEstimate "Becsls"
 translate H TitleFilterGraph "Scid: Szrgrafikon"
+translate H WinPct "Nyerés %"
 
 # Analysis window:
 translate H AddVariation {Vltozat beszrsa}

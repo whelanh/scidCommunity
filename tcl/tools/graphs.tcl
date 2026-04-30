@@ -292,7 +292,7 @@ proc tools::graphs::filter::Open {} {
   bind $w.c <1> tools::graphs::filter::Switch
   bind $w.c <$::MB3> ::tools::graphs::filter::Refresh
 
-  foreach {name text} {decade Decade year Year elo Rating move moves} {
+  foreach {name text} {decade Decade year Year elo Rating move moves winpct WinPct} {
     ttk::radiobutton $w.b.$name -text $::tr($text) \
         -variable ::tools::graphs::filter::type -value $name \
         -command ::tools::graphs::filter::Refresh
@@ -312,7 +312,8 @@ proc tools::graphs::filter::Switch {} {
     "decade" { set type "year" }
     "year" { set type "elo" }
     "elo" { set type "move" }
-    "move" { set type "decade" }
+    "move" { set type "winpct" }
+    "winpct" { set type "decade" }
   }
   ::tools::graphs::filter::Refresh
 }
@@ -336,8 +337,8 @@ proc ::tools::graphs::filter::Refresh {} {
     for {set i 1} {$i <=  $FilterMaxElo- $FilterMinElo} { incr i } {
       lappend vlines [list gray80 1 at $i.5]
     }
-  } elseif {$::tools::graphs::filter::type == "year"} {
-    # Vertical lines for Year-range graph:
+  } elseif {$::tools::graphs::filter::type == "year" || $::tools::graphs::filter::type == "winpct"} {
+    # Vertical lines for Year-range graph (also used by the W/B win-% graph):
     for {set i 1} {$i <= $FilterMaxYear- $FilterMinYear} {incr i } {
       lappend vlines [list gray80 1 at $i.5]
     }
@@ -349,6 +350,13 @@ proc ::tools::graphs::filter::Refresh {} {
       if {$i == 4  ||  $i == 9} { set vlineColor steelBlue }
       lappend vlines [list $vlineColor 1 at $i.5]
     }
+  }
+
+  # The W/B win-% graph illustrates only the games at the current position
+  # and so is handled in its own dedicated branch below.
+  if {$::tools::graphs::filter::type == "winpct"} {
+    ::tools::graphs::filter::RefreshWinPct $w $width $height $vlines
+    return
   }
 
   ::utils::graph::create filter -width $width -height $height -xtop 40 -ytop 35 \
@@ -531,6 +539,84 @@ proc ::tools::graphs::filter::Refresh {} {
   ::utils::graph::redraw filter
   $w.c itemconfigure title -text $::tr(GraphFilterTitle)
   $w.c itemconfigure type -text $typeName
+  $w.b.status configure -text "  $::tr(Filter): [::windows::gamelist::filterText]"
+  unbusyCursor .
+  update
+}
+
+proc ::tools::graphs::filter::RefreshWinPct {w width height vlines} {
+  global FilterMaxYear FilterMinYear FilterStepYear FilterGuessELO
+
+  ::utils::graph::create filter -width $width -height $height -xtop 40 -ytop 35 \
+      -ytick 5 -xtick 1 -font font_Small -canvas $w.c -textcolor black \
+      -vline $vlines -background lightYellow -tickcolor black -xmin 0 -xmax 1
+  ::utils::graph::redraw filter
+  busyCursor .
+  update
+
+  set rlist {}
+  for {set i $FilterMinYear} {$i <= $FilterMaxYear} {set i [expr {$i + $FilterStepYear}]} {
+    lappend rlist $i
+    lappend rlist [expr {$i + $FilterStepYear - 1}]
+    lappend rlist [expr {$i + $FilterStepYear / 2}]
+  }
+
+  set currentBase [sc_base current]
+  set filterToUse "dbfilter"
+  if {[winfo exists .treeWin$currentBase]} {
+    set treeFilter [sc_filter compose $currentBase "dbfilter" "tree"]
+    if {$treeFilter != ""} {
+      set filterToUse $treeFilter
+    }
+  }
+
+  set count 0
+  set dlistWhite {}
+  set dlistBlack {}
+  set xlabels {}
+  set maxPct 0.0
+
+  foreach {start end label} $rlist {
+    set r [sc_filter freq $currentBase $filterToUse date $start $end.12.31 $FilterGuessELO]
+    set total [lindex $r 0]
+    set whiteWins [lindex $r 2]
+    set blackWins [lindex $r 3]
+    if {$total == 0} {
+      set whitePct 0.0
+      set blackPct 0.0
+    } else {
+      set whitePct [expr {double($whiteWins) * 100.0 / double($total)}]
+      set blackPct [expr {double($blackWins) * 100.0 / double($total)}]
+    }
+    incr count
+    lappend dlistWhite $count $whitePct
+    lappend dlistBlack $count $blackPct
+    if {$whitePct > $maxPct} { set maxPct $whitePct }
+    if {$blackPct > $maxPct} { set maxPct $blackPct }
+    lappend xlabels [list $count $label]
+  }
+
+  set ymax [expr {$maxPct + 5.0}]
+  if {$ymax < 10.0} { set ymax 10.0 }
+  if {$ymax > 100.0} { set ymax 100.0 }
+  if {$ymax >= 50.0} {
+    set ytick 10
+  } elseif {$ymax >= 20.0} {
+    set ytick 5
+  } else {
+    set ytick 2
+  }
+  set hlines [list [list gray80 1 each $ytick]]
+
+  ::utils::graph::data filter white -color darkBlue -points 1 -lines 1 -bars 0 \
+      -linewidth 2 -radius 4 -outline darkBlue -key "1-0" -coords $dlistWhite
+  ::utils::graph::data filter black -color red -points 1 -lines 1 -bars 0 \
+      -linewidth 2 -radius 4 -outline red -key "0-1" -coords $dlistBlack
+  ::utils::graph::configure filter -xlabels $xlabels -ytick $ytick \
+      -hline $hlines -ymin 0 -ymax $ymax -xmin 0.5 -xmax [expr {$count + 0.5}]
+  ::utils::graph::redraw filter
+  $w.c itemconfigure title -text $::tr(GraphWinPctTitle)
+  $w.c itemconfigure type -text $::tr(Year)
   $w.b.status configure -text "  $::tr(Filter): [::windows::gamelist::filterText]"
   unbusyCursor .
   update

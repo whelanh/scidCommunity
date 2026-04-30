@@ -733,11 +733,15 @@ translate Y GraphFilterTitle "Filter Graph: percentage of games reaching positio
 # ====== TODO To be translated ======
 translate Y GraphAbsFilterTitle "Filter Graph: frequency of the games"
 # ====== TODO To be translated ======
+translate Y GraphWinPctTitle "Filter Graph: win % (1-0 and 0-1) at current position by year"
+# ====== TODO To be translated ======
 translate Y ConfigureFilter {Configure X-Axes for Year, Rating and Moves}
 # ====== TODO To be translated ======
 translate Y FilterEstimate "Estimate"
 # ====== TODO To be translated ======
 translate Y TitleFilterGraph "Scid: Filter Graph"
+# ====== TODO To be translated ======
+translate Y WinPct "Win %"
 
 # Analysis window:
 translate Y AddVariation {Dodaj varijantu}

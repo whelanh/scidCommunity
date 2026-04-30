@@ -626,9 +626,11 @@ menuText G GraphOptionsEloFile "Elo από το αρχείο αξιολόγησ�
 menuText G GraphOptionsEloDB "Elo από τη βάση δεδομένων" 0
 translate G GraphFilterTitle "Γράφημα φίλτρου: ποσοστό των παιχνιδιών που έφτασαν σε θέση"
 translate G GraphAbsFilterTitle "Φίλτρο γραφήματος: συχνότητα παρτίδας"
+translate G GraphWinPctTitle "Γράφημα φίλτρου: % νίκης (1-0 και 0-1) στην τρέχουσα θέση ανά έτος"
 translate G ConfigureFilter "Προσαρμογή των αξόνων Χ ως προς Έτος, Βαθμολογία και Κινήσεις"
 translate G FilterEstimate "Εκτίμηση"
 translate G TitleFilterGraph "Scid: Φιλτράρισμα γραφήματος"
+translate G WinPct "% νίκης"
 
 # Analysis window:
 translate G AddVariation {Προσθήκη βαριάντας}

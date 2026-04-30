@@ -615,9 +615,11 @@ menuText P GraphOptionsEloFile "Elo z pliku oceny" 0
 menuText P GraphOptionsEloDB "Elo z bazy danych" 0
 translate P GraphFilterTitle "Wykres filtra: procent gier, ktre osigny pozycj"
 translate P GraphAbsFilterTitle "Wykres filtr: szkoda gier"
+translate P GraphWinPctTitle "Wykres filtra: % wygranych (1-0 i 0-1) na bie¿±cej pozycji wed³ug roku"
 translate P ConfigureFilter {Skonfiguruj osie X dla roku, ocena i decyzja}
 translate P FilterEstimate "Oszacowa"
 translate P TitleFilterGraph "Scid: Filtr wykresw"
+translate P WinPct "Wygraæ %"
 
 # Analysis window:
 translate P AddVariation {Dodaj wariant}

@@ -604,9 +604,11 @@ menuText O GraphOptionsEloFile "Elo fra vurderingsfil" 0
 menuText O GraphOptionsEloDB "Elo fra databasen" 0
 translate O GraphFilterTitle "Filtergraf: prosentandel av spill som nr posisjon"
 translate O GraphAbsFilterTitle "Filter Graph: frekvens av spillene"
+translate O GraphWinPctTitle "Filtergraf: vinn % (1-0 og 0-1) ved nåværende posisjon etter år"
 translate O ConfigureFilter {Konfigurer X-akser for r, vurdering og trekk}
 translate O FilterEstimate "Beregne"
 translate O TitleFilterGraph "Scid: Filter Graph"
+translate O WinPct "Vinn %"
 
 # Analysis window:
 translate O AddVariation {Legg til variasjon}

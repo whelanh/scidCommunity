@@ -607,9 +607,11 @@ menuText B GraphOptionsEloFile "Elo do arquivo de rating" 0
 menuText B GraphOptionsEloDB "Elo da base de dados" 0
 translate B GraphFilterTitle "Grfico de filtro: porcentagem de jogos alcanando posio"
 translate B GraphAbsFilterTitle "Grfico de filtro: frequncia dos jogos"
+translate B GraphWinPctTitle "Gráfico de filtro: % de ganhos (1-0 e 0-1) na posição atual por ano"
 translate B ConfigureFilter {Configurar Eixos X para Ano, Rating e Movimentos}
 translate B FilterEstimate "Estimar"
 translate B TitleFilterGraph "Scid: Grfico de Filtro"
+translate B WinPct "Ganhar %"
 
 # Analysis window:
 translate B AddVariation {Adicionar variante}

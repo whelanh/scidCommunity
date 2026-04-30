@@ -620,9 +620,11 @@ menuText K GraphOptionsEloFile "Elo des de fitxer de qualificaci" 0
 menuText K GraphOptionsEloDB "Elo des de la base de dades" 0
 translate K GraphFilterTitle "Filtre Grfic: percentatge de jocs que arriben a la posici"
 translate K GraphAbsFilterTitle "Filtre grfic: freqencia de les partides"
+translate K GraphWinPctTitle "Gràfic de filtre: % de victòria (1-0 i 0-1) a la posició actual per any"
 translate K ConfigureFilter {Configurar Eix-X per Any, Rating i Jugades}
 translate K FilterEstimate "Estimar"
 translate K TitleFilterGraph "Scid: Filtre Grfic"
+translate K WinPct "% de victòria"
 
 # Analysis window:
 translate K AddVariation {Afegir variant}
