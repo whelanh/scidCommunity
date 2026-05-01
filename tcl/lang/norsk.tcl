@@ -2,30 +2,30 @@
 # Text for menu names and status bar help messages in Norwegian.
 # First created for Scid 3.2.beta2 by morten.skarstad@sapphire.no.
 # Edited for Scid 3.2.beta4
-# Thanks to Martin Skjldebrand, swedish.tcl was of great help to me.
+# Thanks to Martin Skjöldebrand, swedish.tcl was of great help to me.
 
 proc setLanguage_O {} {
 
 # File menu:
 menuText O File "Fil" 0
 menuText O FileNew "Ny..." 0 {Lag en ny Scid-database}
-menuText O FileOpen "pne..." 0 {pne en Scid-database}
+menuText O FileOpen "Åpne..." 0 {Åpne en Scid-database}
 menuText O FileClose "Lukk" 0 {Lukk aktiv Scid-database}
-menuText O FileFinder "Sk" 0 {pne skevinduet}
+menuText O FileFinder "Søk" 0 {Åpne søkevinduet}
 menuText O FileBookmarks "Bokmerker" 0 {Bokmerkemeny (snarvei: Ctrl+B)}
 menuText O FileBookmarksAdd "Legg til bokmerke" 0 \
-  {Sett bokmerke til nvrende database, parti og stilling}
+  {Sett bokmerke til nåværende database, parti og stilling}
 menuText O FileBookmarksFile "Lagre bokmerke" 0 \
-  {Lagre et bokmerke for nvrende database, parti og stilling}
+  {Lagre et bokmerke for nåværende database, parti og stilling}
 menuText O FileBookmarksEdit "Ordne bokmerker" 0 \
   {Vedlikehold av bokmerkene}
 menuText O FileBookmarksList "Vis kataloger som enkel liste" 24 \
   {Vis bokmerker som liste, ikke undermenyer}
 menuText O FileBookmarksSub "Vis kataloger som undermenyer" 18 \
   {Vis bokmerke-katalogene som undermenyer, ikke liste}
-menuText O FileMaint "Vedlikehold" 0 {Verkty for  vedlikeholde Scid-databasen}
+menuText O FileMaint "Vedlikehold" 0 {Verktøy for å vedlikeholde Scid-databasen}
 menuText O FileMaintWin "Vedlikeholdsvindu" 0 \
-  {pne/lukk Scids vedlikeholdsvindu}
+  {Åpne/lukk Scids vedlikeholdsvindu}
 menuText O FileMaintCompact "Komprimer database..." 0 \
   {Sletter ubrukte partier og navn}
 menuText O FileMaintClass "ECO-klassifiser partier..." 0 \
@@ -35,10 +35,10 @@ menuText O FileMaintSort "Sorter database..." 0 \
 menuText O FileMaintDelete "Slett duplikater..." 6 \
   {Finner like partier og merker en av dem for sletting}
 menuText O FileMaintTwin "Duplikatsjekkvindu" 1 \
-  {pne/oppdatere duplikatsjekkvinduet}
+  {Åpne/oppdatere duplikatsjekkvinduet}
 menuText O FileMaintName "Navnestaving" 0 {Redigering og stavekontroll av navn}
 menuText O FileMaintNameEditor "Navneredigering" 5 \
-  {pne/lukk vinduet for navneredigering}
+  {Åpne/lukk vinduet for navneredigering}
 menuText O FileMaintNamePlayer "Kontroller navn..." 0 \
   {Sammenlign navn med stavekontroll-filen}
 menuText O FileMaintNameEvent "Kontroller anledninger..." 11 \
@@ -48,25 +48,25 @@ menuText O FileMaintNameSite "Kontroller stedsnavn..." 12 \
 menuText O FileMaintNameRound "Kontroller runde-navn..." 11 \
   {Sammenlign rundenavn med stavekontroll-filen}
 menuText O FileReadOnly "Skrivebeskytt..." 6 \
-  {Hindrer endringer p databasen}
+  {Hindrer endringer på databasen}
 menuText O FileSwitch "Switch to database" 0 \
   {Switch to a different opened database} ;# ***
-menuText O FileOpenLichessTournament "pen Lichess-turnering" 0 {Last ned og pne live kringkastingsspill for Lichess-turneringer}
+menuText O FileOpenLichessTournament "Åpen Lichess-turnering" 0 {Last ned og åpne live kringkastingsspill for Lichess-turneringer}
 menuText O FileImportLichess "Importer min Lichess" 0 {Importer spill fra Lichess-kontoen din}
 menuText O FileImportChessCom "Importer min chess.com" 0 {Importer spill fra chess.com-kontoen din}
 menuText O FileExit "Avslutt" 0 {Avslutt Scid}
-menuText O FileMaintFixBase "Reparer delagt base" 0 {Prv  fikse en delagt base}
+menuText O FileMaintFixBase "Reparer ødelagt base" 0 {Prøv å fikse en ødelagt base}
 
 # Edit menu:
 menuText O Edit "Rediger" 0
 menuText O EditAdd "Legg til variasjon" 0 {Legg til en variasjon av dette trekket i partiet}
 menuText O EditDelete "Slett variasjon" 0 {Slett en variasjon av dette trekket}
-menuText O EditFirst "Flytt variasjon verst" 0 \
-  {Gjr variasjonen til den verste p listen}
-menuText O EditMain "Gjr variasjon til hovedlinje" 0 \
-  {Gjr variasjon til hovedlinje}
-menuText O EditTrial "Prv variasjon" 0 \
-  {Start/avslutt prvemodus, for  teste ut en ide p brettet}
+menuText O EditFirst "Flytt variasjon øverst" 0 \
+  {Gjør variasjonen til den øverste på listen}
+menuText O EditMain "Gjør variasjon til hovedlinje" 0 \
+  {Gjør variasjon til hovedlinje}
+menuText O EditTrial "Prøv variasjon" 0 \
+  {Start/avslutt prøvemodus, for å teste ut en ide på brettet}
 menuText O EditStrip "Fjern" 0 {Fjern kommentarer eller variasjoner fra partiet}
 menuText O EditUndo "Angre" 0 {Angre siste spillendring}
 menuText O EditRedo "Gjenta" 0 {Gjenta siste spillendring}
@@ -78,7 +78,7 @@ menuText O EditStripBegin "Moves from the beginning" 1 \
 menuText O EditStripEnd "Moves to the end" 0 \
   {Strip moves to the end of the game} ;# ***
 menuText O EditReset "Rensk utklippsbase" 0 \
-  {Tmmer utklippsbasen fullstendig}
+  {Tømmer utklippsbasen fullstendig}
 menuText O EditCopy "Kopier partiet til utklippsbasen" 0 \
   {Kopier dette partiet til utklippsbasen}
 menuText O EditPaste "Lim inn siste parti fra utklippsbasen" 0 \
@@ -97,57 +97,57 @@ menuText O ConfigureScid "Innstillinger..." 0 {Konfigurer alle alternativer for 
 menuText O Game "Parti" 0
 menuText O GameNew "Nytt parti" 0 \
   {Sletter alle trekk og starter et nytt parti}
-menuText O GameFirst "Hent frste parti" 0 {Henter frste parti fra filteret}
+menuText O GameFirst "Hent første parti" 0 {Henter første parti fra filteret}
 menuText O GamePrev "Hent forrige parti" 0 {Henter forrige parti fra filteret}
 menuText O GameReload "Hent dette partiet" 0 \
-  {Henter dette partiet p nytt og fjerner alle endringer}
+  {Henter dette partiet på nytt og fjerner alle endringer}
 menuText O GameNext "Hent neste parti" 0 {Henter neste parti fra filteret}
 menuText O GameLast "Hent siste parti" 0 {Henter siste parti fra filteret}
 menuText O GameRandom "Hent tilfeldig parti" 8 {Hent tilfeldig parti fra filteret}
 menuText O GameNumber "Hent parti nummer..." 0 \
-  {Finn et parti ved  angi nummeret}
+  {Finn et parti ved å angi nummeret}
 menuText O GameReplace "Lagre: Erstatt parti..." 0 \
   {Lagre og overskriv dette partiet}
 menuText O GameAdd "Lagre som nytt parti..." 0 \
   {Lagre dette partiet som et nytt parti}
-menuText O GameDeepest "Identifiser pning" 0 \
-  {G til dypeste posisjon i dette partiet listet i ECO-boken}
-menuText O GameGotoMove "G til trekk..." 0 \
-  {G til et angitt trekk i dette partiet}
+menuText O GameDeepest "Identifiser åpning" 0 \
+  {Gå til dypeste posisjon i dette partiet listet i ECO-boken}
+menuText O GameGotoMove "Gå til trekk..." 0 \
+  {Gå til et angitt trekk i dette partiet}
 menuText O GameNovelty "Finn avvik..." 0 \
-  {Finn det frste trekket i dette partiet som ikke har blitt spilt tidligere}
+  {Finn det første trekket i dette partiet som ikke har blitt spilt tidligere}
 
 # Search Menu:
-menuText O Search "Sk" 0
-menuText O SearchReset "Nullstill filter" 0 {Nullstill filteret til  inneholde alle partier}
-menuText O SearchNegate "Snu filter" 0 {Reverserer filteret til  kun inneholde eksluderte partier}
-menuText O SearchCurrent "Stilling..." 0 {Sk etter denne stillingen}
-menuText O SearchHeader "Header..." 0 {Sk etter Header (partier, turnering etc) informasjon}
-menuText O SearchMaterial "Kvalitet/stilling..." 0 {Sk p kvalitet eller stilling}
-menuText O SearchUsing "Bruk skefil..." 0 {Sk vha lagrede skevilkr}
+menuText O Search "Søk" 0
+menuText O SearchReset "Nullstill filter" 0 {Nullstill filteret til å inneholde alle partier}
+menuText O SearchNegate "Snu filter" 0 {Reverserer filteret til å kun inneholde eksluderte partier}
+menuText O SearchCurrent "Stilling..." 0 {Søk etter denne stillingen}
+menuText O SearchHeader "Header..." 0 {Søk etter Header (partier, turnering etc) informasjon}
+menuText O SearchMaterial "Kvalitet/stilling..." 0 {Søk på kvalitet eller stilling}
+menuText O SearchUsing "Bruk søkefil..." 0 {Søk vha lagrede søkevilkår}
 
 # Windows menu:
 menuText O Windows "Vinduer" 0
-menuText O WindowsComment "Kommentarer" 0 {pne/lukk kommentarvinduet}
-menuText O WindowsGList "Partioversikt" 0 {pne/lukk partioversikten}
+menuText O WindowsComment "Kommentarer" 0 {Åpne/lukk kommentarvinduet}
+menuText O WindowsGList "Partioversikt" 0 {Åpne/lukk partioversikten}
 menuText O WindowsPGN "PGN-vindu" 0 \
-  {pne/lukk PGN-vinduet}
+  {Åpne/lukk PGN-vinduet}
 menuText O WindowsPList "Player Finder" 2 {Open/close the player finder} ;# ***
-menuText O WindowsTmt "Turneringsker" 0 {pne/lukk turneringsskeren}
+menuText O WindowsTmt "Turneringsøker" 0 {Åpne/lukk turneringssøkeren}
 menuText O WindowsSwitcher "Databasebytter" 0 \
-  {pne/lukk databasebytteren}
+  {Åpne/lukk databasebytteren}
 menuText O WindowsMaint "Vedlikeholdsvindu" 0 \
-  {pne/lukk vedlikeholdsvinduet}
-menuText O WindowsECO "ECO-oversikt" 0 {pne/lukk ECO-oversikten}
+  {Åpne/lukk vedlikeholdsvinduet}
+menuText O WindowsECO "ECO-oversikt" 0 {Åpne/lukk ECO-oversikten}
 menuText O WindowsStats "Statistikkvindu" 0 \
-  {pne/lukk statistikk for filteret}
-menuText O WindowsTree "Trevindu" 0 {pne/lukk trevinduet}
-menuText O WindowsBook "Bokvindu" 0 {pne/lukk bokvinduet}
-menuText O WindowsCorrChess "Korrespondansevindu" 0 {pne/lukk korrespondansevinduet}
-menuText O WindowsGraph "Analysegraf" 0 {pne grafvinduet med trekktider og evalueringer}
+  {Åpne/lukk statistikk for filteret}
+menuText O WindowsTree "Trevindu" 0 {Åpne/lukk trevinduet}
+menuText O WindowsBook "Bokvindu" 0 {Åpne/lukk bokvinduet}
+menuText O WindowsCorrChess "Korrespondansevindu" 0 {Åpne/lukk korrespondansevinduet}
+menuText O WindowsGraph "Analysegraf" 0 {Åpne grafvinduet med trekktider og evalueringer}
 
 # Tools menu:
-menuText O Tools "Verkty" 0
+menuText O Tools "Verktøy" 0
 menuText O ToolsConfigureEngines "Konfigurer motorer" 10 {Administrer motorens konfigurasjon}
 menuText O ToolsAnalysis "Analysemotor..." 0 \
   {Start/stopp en sjakkanalysemotor}
@@ -155,33 +155,33 @@ menuText O ToolsAnalysis2 "Analysemotor #2..." 0 \
   {Start/stopp enda en sjakkanalysemotor}
 menuText O ToolsCross "Krysstabell" 0 {Vis turnerigskrystabellen for dette partiet}
 menuText O ToolsFilterGraph "Filtergraf" 7 \
-  {pne/lukk filtergrafvinduet}
-menuText O ToolsAbsFilterGraph "Abs. Filtergraf" 7 {pne/lukk filtergrafvinduet for absolutte verdier}
-menuText O ToolsOpReport "pningsrapport" 0 \
-  {Lager en pningsrapport for denne stillingen}
-menuText O ToolsOpenBaseAsTree "pen base som tre" 0   {pne en base og bruk den i trevinduet}
-menuText O ToolsOpenRecentBaseAsTree "pne nylig base som tre" 0   {pne en nylig base og bruk den i trevinduet}
-menuText O ToolsTracker "Brikkesporing"  0 {pne brikkesporingsvinduet}
-menuText O ToolsTraining "Opplring"  0 {Treningsverkty (taktikk, pninger,...)}
+  {Åpne/lukk filtergrafvinduet}
+menuText O ToolsAbsFilterGraph "Abs. Filtergraf" 7 {Åpne/lukk filtergrafvinduet for absolutte verdier}
+menuText O ToolsOpReport "Åpningsrapport" 0 \
+  {Lager en åpningsrapport for denne stillingen}
+menuText O ToolsOpenBaseAsTree "Åpen base som tre" 0   {Åpne en base og bruk den i trevinduet}
+menuText O ToolsOpenRecentBaseAsTree "Åpne nylig base som tre" 0   {Åpne en nylig base og bruk den i trevinduet}
+menuText O ToolsTracker "Brikkesporing"  0 {Åpne brikkesporingsvinduet}
+menuText O ToolsTraining "Opplæring"  0 {Treningsverktøy (taktikk, åpninger,...)}
 menuText O ToolsTacticalGame "Taktisk spill"  0 {Spill et spill med taktikk}
-menuText O ToolsSeriousGame "Serist spill"  0 {Spill et serist spill}
-menuText O ToolsTrainOpenings "pninger"  0 {Tren med repertoar}
-menuText O ToolsTrainReviewGame "Gjennomg spillet"  0 {Gjett trekk som spilles i et spill}
-menuText O ToolsTrainTactics "Taktikk"  0 {Ls taktikk}
+menuText O ToolsSeriousGame "Seriøst spill"  0 {Spill et seriøst spill}
+menuText O ToolsTrainOpenings "Åpninger"  0 {Tren med repertoar}
+menuText O ToolsTrainReviewGame "Gjennomgå spillet"  0 {Gjett trekk som spilles i et spill}
+menuText O ToolsTrainTactics "Taktikk"  0 {Løs taktikk}
 menuText O ToolsTrainCalvar "Beregning av variasjoner"  0 {Beregning av variasjoner trening}
 menuText O ToolsTrainFindBestMove "Finn det beste trekket"  0 {Finn det beste trekket}
-menuText O ToolsTrainFics "Spill p internett"  0 {Spill p freechess.org}
+menuText O ToolsTrainFics "Spill på internett"  0 {Spill på freechess.org}
 menuText O ToolsEngineTournament "Motorturnering"  0 {Start en turnering mellom sjakkmotorer}
 menuText O ToolsTimeAnalysis "Tidsanalyse" 0 {Vis klokketidsgraf for gjeldende spill}
 menuText O ToolsBookTuning "Boktuning" 0 {Boktuning}
-menuText O ToolsDownloadTWIC "Last ned TWIC-partier" 0 {Last ned de siste The Week In Chess (TWIC)-partiene}
+menuText N ToolsDownloadTWIC "Last ned TWIC-partier" 0 {Last ned de siste The Week In Chess (TWIC)-partiene}
 menuText O ToolsConnectHardware "Koble til maskinvare" 0 {Koble til ekstern maskinvare}
 menuText O ToolsConnectHardwareConfigure "Konfigurer..." 0 {Konfigurer ekstern maskinvare og tilkobling}
 menuText O ToolsConnectHardwareNovagCitrineConnect "Koble til Novag Citrine" 0 {Koble til Novag Citrine}
 menuText O ToolsConnectHardwareInputEngineConnect "Koble til inngangsmotor" 0 {Koble til inngangsmotor (f.eks. DGT)}
 
 menuText O ToolsPInfo "Spillerinformasjon"  0 \
-  {pne/oppdater informasjonsvinduet for denne spilleren}
+  {Åpne/oppdater informasjonsvinduet for denne spilleren}
 menuText O ToolsPlayerReport "Player Report..." 3 \
   {Generate a player report} ;# ***
 menuText O ToolsRating "Ratinggraf" 0 \
@@ -233,12 +233,12 @@ menuText O OptionsFontsSmall "Liten" 0 {Endre den lille skrifttypen}
 menuText O OptionsFontsTiny "Tiny" 0 {Endre den lille skriften}
 menuText O OptionsFontsFixed "Fastbredde" 0 {Endre fastbreddeskrifttypen}
 menuText O OptionsGInfo "Partiinformasjon" 0 {Informasjonsinnstillinger}
-menuText O OptionsLanguage "Sprk" 0 {Velg menysprk}
-menuText O OptionsMovesTranslatePieces "Oversett stykker" 0 {Oversett frste bokstav i stykker}
+menuText O OptionsLanguage "Språk" 0 {Velg menyspråk}
+menuText O OptionsMovesTranslatePieces "Oversett stykker" 0 {Oversett første bokstav i stykker}
 menuText O OptionsMovesHighlightLastMove "Marker siste trekk" 0 {Marker siste trekk}
 menuText O OptionsMovesHighlightLastMoveDisplay "Vis Square" 0 {Vis siste trekk Marker}
-menuText O OptionsMovesHighlightLastMoveWidth "Bredde" 0 {Tykkelse p linjen}
-menuText O OptionsMovesHighlightLastMoveColor "Farge" 0 {Farge p linjen}
+menuText O OptionsMovesHighlightLastMoveWidth "Bredde" 0 {Tykkelse på linjen}
+menuText O OptionsMovesHighlightLastMoveColor "Farge" 0 {Farge på linjen}
 menuText O OptionsMovesHighlightLastMoveArrow "Vis pil" 0 {Vis pil med utheving}
 menuText O OptionsMovesHighlightLastMoveNag "Vis evalueringssymboler" 0
 menuText O OptionsMovesHighlightLastMoveEval "Vis evalueringssymboler" 0
@@ -249,19 +249,19 @@ menuText O OptionsMovesDelay "Autospillforsinkelse..." 0 \
   {Sett forsinkelsen ved automatisk gjennomgang av partiet}
 menuText O OptionsMovesCoord "Koordinater" 0 \
   {Tillat angivelse av koordinater ("g1f3")}
-menuText O OptionsMovesSuggest "Vis foresltte trekk" 0 \
-  {Sl av/p forslag til trekk}
-menuText O OptionsShowVarPopup "Vis varianter-vinduet" 0 {Sl p/av visningen av et variasjonsvindu}  
+menuText O OptionsMovesSuggest "Vis foreslåtte trekk" 0 \
+  {Slå av/på forslag til trekk}
+menuText O OptionsShowVarPopup "Vis varianter-vinduet" 0 {Slå på/av visningen av et variasjonsvindu}  
 menuText O OptionsMovesSpace "Legg til mellomrom etter trekknummer" 0 {Legg til mellomrom etter trekknummer}  
-menuText O OptionsMovesLichess "Lichess/ChessBase-format for merknader" 0 {Bruk formatet Lichess/ChessBase for firkantede markrer og piler}
-menuText O OptionsMovesKey "Autofullfr" 0 \
-  {Sl av/p autofullfriring av tastaturtrekk}
-menuText O OptionsMovesShowVarArrows "Vis piler for varianter" 0 {Sl p/av piler som viser bevegelser i varianter}
-menuText O OptionsMovesShowEngineVariationArrows "Vis piler for motorvariasjoner" 0 {Sl p/av-piler som viser motorvariasjonslinjer i multiPV-modus}
-menuText O OptionsMovesGlossOfDanger "Fargekodet Gloss of Danger" 0 {Sl p/av fargekodet gloss of fare}
+menuText O OptionsMovesLichess "Lichess/ChessBase-format for merknader" 0 {Bruk formatet Lichess/ChessBase for firkantede markører og piler}
+menuText O OptionsMovesKey "Autofullfør" 0 \
+  {Slå av/på autofullføriring av tastaturtrekk}
+menuText O OptionsMovesShowVarArrows "Vis piler for varianter" 0 {Slå på/av piler som viser bevegelser i varianter}
+menuText O OptionsMovesShowEngineVariationArrows "Vis piler for motorvariasjoner" 0 {Slå på/av-piler som viser motorvariasjonslinjer i multiPV-modus}
+menuText O OptionsMovesGlossOfDanger "Fargekodet Gloss of Danger" 0 {Slå på/av fargekodet gloss of fare}
 translate O OptionsMovesTreeDepth {Standard trevindu flyttedybde}
 menuText O OptionsNumbers "Tallformat" 0 {Angi tallformat}
-menuText O OptionsTheme "Tema" 0 {Endre utseendet p grensesnittet}
+menuText O OptionsTheme "Tema" 0 {Endre utseendet på grensesnittet}
 menuText O OptionsWindows "Vinduer" 0 {Vindusinnstillinger}
 menuText O OptionsSounds "Sounds" 2 {Configure move announcement sounds} ;# ***
 menuText O OptionsResources "Ressurser..." 0 {Velg ressursfiler og mapper}
@@ -269,7 +269,7 @@ menuText O OptionsWindowsDock "Dock vinduer" 0 {Dock vinduer}
 menuText O OptionsWindowsSaveLayout "Lagre layout" 0 {Lagre layout}
 menuText O OptionsWindowsRestoreLayout "Gjenopprett layout" 0 {Gjenopprett layout}
 menuText O OptionsWindowsShowGameInfo "Vis spillinformasjon" 0 {Vis spillinformasjon}
-menuText O OptionsWindowsAutoLoadLayout "Last inn frste layout automatisk" 0 {Last inn frste layout automatisk ved oppstart}
+menuText O OptionsWindowsAutoLoadLayout "Last inn første layout automatisk" 0 {Last inn første layout automatisk ved oppstart}
 menuText O OptionsECO "Hent ECO-fil" 0 {Henter filen med ECO-klassifiseringer}
 menuText O OptionsSpell "Hent stavekontrollfil" 0 \
   {Henter filen med stavekontrollen til Scid}
@@ -277,14 +277,14 @@ menuText O OptionsTable "Tabellbasekatalog" 0 \
   {Velg en tabellbase; Alle tabellbaser i katalogen vil bli brukt}
 menuText O OptionsRecent "Recent files..." 0 \
   {Change the number of recent files displayed in the File menu} ;# ***
-menuText O OptionsBooksDir "Bker katalog" 0 {Angir pningsbokkatalogen}
+menuText O OptionsBooksDir "Bøker katalog" 0 {Angir åpningsbokkatalogen}
 menuText O OptionsTacticsBasesDir "Baser katalog" 0 {Angir taktikk (trening) basekatalogen}
 menuText O OptionsPhotosDir "Fotokatalog" 0 {Stiller inn fotobasekatalogen}
 menuText O OptionsThemeDir "Temafil:"  0 {Last inn en GUI-temapakkefil}
 menuText O OptionsSave "Lagre innstillinger" 0 \
   "Lagre alle instillinger til $::optionsFile"
 menuText O OptionsAutoSave "Autolagre innstillinger ved avslutning" 0 \
-  {Autolagre alle innstillinger nr Scid avsluttes}
+  {Autolagre alle innstillinger når Scid avsluttes}
 
 # Help menu:
 menuText O Help "Hjelp" 0
@@ -324,7 +324,7 @@ translate O Clear {Slett}
 translate O Close {Lukk}
 translate O Contents {Contents} ;# ***
 translate O Defaults {Standard}
-translate O InvertSearch {Inverter sk}
+translate O InvertSearch {Inverter søk}
 translate O Delete {Slett}
 translate O Graph {Graf}
 translate O Help {Hjelp}
@@ -334,18 +334,18 @@ translate O Index {Innhold}
 translate O LoadGame {Hent parti}
 translate O BrowseGame {Bla gjennom parti}
 translate O MergeGame {Smelt parti}
-translate O MergeGames {Sl sammen spill}
-translate O Preview {Forhndsvis}
-translate O Revert {Gjr om}
+translate O MergeGames {Slå sammen spill}
+translate O Preview {Forhåndsvis}
+translate O Revert {Gjør om}
 translate O Save {Lagre}
-translate O Search {Sk}
+translate O Search {Søk}
 translate O Stop {Stopp}
 translate O Store {Lagre}
 translate O Update {Oppdater}
 translate O ChangeOrient {Vend vindu}
 translate O ShowIcons {Show Icons} ;# ***
 translate O None {Ingen}
-translate O First {Frste}
+translate O First {Første}
 translate O Current {Gjeldende}
 translate O Last {Siste}
 
@@ -360,8 +360,8 @@ translate O No {Nei}
 translate O Both {Begge}
 translate O King {Konge}
 translate O Queen {Dronning}
-translate O Rook {Trn}
-translate O Bishop {Lper}
+translate O Rook {Tårn}
+translate O Bishop {Løper}
 translate O Knight {Springer}
 translate O Pawn {Bonde}
 translate O White {Hvit}
@@ -377,20 +377,20 @@ translate O IgnoreColors {Overse farger}
 translate O Date {Dato}
 translate O EventDate {Anledningsdato}
 translate O Decade {Decade} ;# ***
-translate O Year {r}
-translate O Month {Mned}
+translate O Year {År}
+translate O Month {Måned}
 translate O Months {Januar Februar Mars April Mai Juni Juli August September Oktober November Desember}
-translate O Days {Sn Man Tir Ons Tor Fre Lr}
-translate O YearToToday {r til i dag}
-translate O YearToTodayTooltip {Sett dato fra 1 r tilbake til i dag}
+translate O Days {Søn Man Tir Ons Tor Fre Lør}
+translate O YearToToday {År til i dag}
+translate O YearToTodayTooltip {Sett dato fra 1 år tilbake til i dag}
 translate O Result {Utfall}
 translate O Round {Runde}
 translate O Length {Lengde}
 translate O ECOCode {ECO-kode}
 translate O ECO {ECO}
 translate O Deleted {Slettet}
-translate O SearchResults {Sk i resultater}
-translate O OpeningTheDatabase {pningsdatabase}
+translate O SearchResults {Søk i resultater}
+translate O OpeningTheDatabase {Åpningsdatabase}
 translate O Database {Database}
 translate O Filter {Filter}
 translate O noGames {ingen partier}
@@ -406,8 +406,8 @@ translate O readonly {skrivebeskyttet}
 translate O ErrNotOpen {This is not an open database.} ;# ***
 translate O ErrReadOnly {This database is read-only; it cannot be altered.} ;# ***
 translate O ErrSearchInterrupted {Search was interrupted; results are incomplete.} ;# ***
-translate O ErrNoClockComments {Ingen [%clk] klokkekommentarer ble funnet i dette spillet.    Legg til klokketider via kommentarvinduet (Ctrl+E) for  bruke denne funksjonen.}
-translate O ErrFileInUse {Feil: filen er allerede i bruk. Lukk alle andre programmer som bruker denne databasen. Hvis programmet ble avsluttet uventet, m du kanskje slette .lock-filen knyttet til databasen.}
+translate O ErrNoClockComments {Ingen [%clk] klokkekommentarer ble funnet i dette spillet.    Legg til klokketider via kommentarvinduet (Ctrl+E) for å bruke denne funksjonen.}
+translate O ErrFileInUse {Feil: filen er allerede i bruk. Lukk alle andre programmer som bruker denne databasen. Hvis programmet ble avsluttet uventet, må du kanskje slette .lock-filen knyttet til databasen.}
 
 
 
@@ -419,17 +419,17 @@ translate O comment {kommentar}
 translate O hidden {skjult}
 translate O LastMove {Siste trekk}
 translate O NextMove {Neste}
-translate O GameStart {Begynnelse p parti}
-translate O LineStart {Begynnelse p linje}
-translate O GameEnd {Slutt p parti}
-translate O LineEnd {Slutt p linje}
+translate O GameStart {Begynnelse på parti}
+translate O LineStart {Begynnelse på linje}
+translate O GameEnd {Slutt på parti}
+translate O LineEnd {Slutt på linje}
 
 # Player information:
 translate O PInfoAll {Resultater for <b>alle</b> partier}
 translate O PInfoFilter {Resultater for partier i <b>filteret</b>}
 translate O PInfoAgainst {Resultater mot}
-translate O PInfoMostWhite {Hyppigste pning som hvit}
-translate O PInfoMostBlack {Hyppigste pning som sort}
+translate O PInfoMostWhite {Hyppigste åpning som hvit}
+translate O PInfoMostBlack {Hyppigste åpning som sort}
 translate O PInfoRating {Historisk rating}
 translate O PInfoBio {Biografi}
 translate O PInfoEditRatings {Edit Ratings} ;# ***
@@ -445,17 +445,17 @@ translate O loses {taper}
 # Tip of the day:
 translate O Tip {Tips}
 translate O TipAtStartup {Tips ved oppstart}
-translate O TipConvertPGN {Du kan f bedre ytelse ved  konvertere PGN-filer}
+translate O TipConvertPGN {Du kan få bedre ytelse ved å konvertere PGN-filer}
 
 # Tree window menus:
 menuText O TreeFile "Fil" 0
 menuText O TreeFileFillWithBase "Fyll cachen med base" 0 {Fyll cache-filen med alle spillene i gjeldende base}
 menuText O TreeFileFillWithGame "Fyll cachen med spill" 0 {Fyll cache-filen med gjeldende spill i gjeldende base}
-menuText O TreeFileSetCacheSize "Bufferstrrelse" 0 {Angi cache-strrelsen}
-menuText O TreeFileCacheInfo "Bufferinformasjon" 0 {F informasjon om cachebruk}
+menuText O TreeFileSetCacheSize "Bufferstørrelse" 0 {Angi cache-størrelsen}
+menuText O TreeFileCacheInfo "Bufferinformasjon" 0 {Få informasjon om cachebruk}
 menuText O TreeFileSave "Lagre hurtigbuffer" 0 {Lagrer hurtigbufferfilen (.stc)}
 menuText O TreeFileFill "Fyll hurtigbuffer" 0 \
-  {Fyller hurtigbufferet med de hyppigste pningsstillingene}
+  {Fyller hurtigbufferet med de hyppigste åpningsstillingene}
 menuText O TreeFileBest "Idealparti" 0 {Show the best tree games list}
 menuText O TreeFileGraph "Grafikk" 0 {Vis grafen for denne grenen av treet}
 menuText O TreeFileCopy "Kopier treet til utklippstavlen" 0 \
@@ -463,38 +463,38 @@ menuText O TreeFileCopy "Kopier treet til utklippstavlen" 0 \
 menuText O TreeFileClose "Lukk trevindu" 0 {Lukker trevinduet}
 menuText O TreeMask "Maske" 0
 menuText O TreeMaskNew "Ny" 0 {Ny maske}
-menuText O TreeMaskOpen "pne" 0 {pen maske}
-menuText O TreeMaskOpenRecent "pne nylig" 0 {pne nylig maske}
+menuText O TreeMaskOpen "Åpne" 0 {Åpen maske}
+menuText O TreeMaskOpenRecent "Åpne nylig" 0 {Åpne nylig maske}
 menuText O TreeMaskSave "Spare" 0 {Lagre maske}
 menuText O TreeMaskClose "Lukke" 0 {Lukk maske}
 menuText O TreeMaskFillWithGame "Fyll med spill" 0 {Fyll masken med vilt}
 menuText O TreeMaskFillWithBase "Fyll med base" 0 {Fyll maske med alle spillene i basen}
 menuText O TreeMaskInfo "Info" 0 {Vis statistikk for gjeldende maske}
 menuText O TreeMaskDisplay "Vis maskekart" 0 {Vis maskedata i et treskjema}
-menuText O TreeMaskSearch "Sk" 0 {Sk i gjeldende maske}
+menuText O TreeMaskSearch "Søk" 0 {Søk i gjeldende maske}
 menuText O TreeSort "Sorter" 0
 menuText O TreeSortAlpha "Alfabetisk" 0
 menuText O TreeSortECO "ECO-kode" 0
 menuText O TreeSortFreq "Hyppighet" 0
 menuText O TreeSortScore "Poeng" 0
 menuText O TreeOpt "Innstillinger" 0
-menuText O TreeOptSlowmode "sakte modus" 0 {Sakte modus for oppdateringer (hy nyaktighet)}
+menuText O TreeOptSlowmode "sakte modus" 0 {Sakte modus for oppdateringer (høy nøyaktighet)}
 menuText O TreeOptFastmode "Rask modus" 0 {Rask modus for oppdateringer (ingen flytting-transponering)}
 menuText O TreeOptFastAndSlowmode "Rask og sakte modus" 0 {Rask modus og deretter sakte modus for oppdateringer}
-menuText O TreeOptStartStop "Automatisk forfriskende" 0 {Slr p automatisk oppdatering av trevinduet}
-menuText O TreeOptLock "Ls" 0 {Lser treet til nvrende database}
-menuText O TreeOptTraining "Trening" 0 {Slr av/p treningsmodus}
+menuText O TreeOptStartStop "Automatisk forfriskende" 0 {Slår på automatisk oppdatering av trevinduet}
+menuText O TreeOptLock "Lås" 0 {Låser treet til nåværende database}
+menuText O TreeOptTraining "Trening" 0 {Slår av/på treningsmodus}
 menuText O TreeOptDepth "Flytte dybde" 0 {Antall halve trekk som skal vises i treet (1-4)}
 menuText O TreeOptAutosave "Autolagre hurtigbuffer" 0 \
-  {Autolagrer hurtigbufferet nr vinduet lukkes}
+  {Autolagrer hurtigbufferet når vinduet lukkes}
 menuText O TreeHelp "Hjelp" 0
 menuText O TreeHelpTree "Tre hjelp" 0
 menuText O TreeHelpIndex "Innholdsfortegnelse" 0
 translate O SaveCache {Lagre hurtigbuffer}
 translate O Training {Trening}
-translate O LockTree {Ls}
+translate O LockTree {Lås}
 translate O TreeDepth {Tredybde (halve bevegelser):}
-translate O TreeLocked {lst}
+translate O TreeLocked {låst}
 translate O TreeBest {Beste}
 translate O TreeBestGames {Idealtrepartier}
 # Note: the next message is the tree window title row. After editing it,
@@ -502,44 +502,44 @@ translate O TreeBestGames {Idealtrepartier}
 translate O TreeTitleRow \
 {Move                          ECO       Frequency    Score  AvElo Perf AvYear %Draws     %Vinne} ;# ***
 translate O TreeTotal {SAMMENLAGT}
-translate O DoYouWantToSaveFirst {Vil du spare frst}
+translate O DoYouWantToSaveFirst {Vil du spare først}
 translate O AddToMask {Legg til maske}
 translate O RemoveFromMask {Fjern fra masken}
 translate O AddThisMoveToMask {Legg til dette trekket til Mask}
-translate O SearchMask {Sk i Mask}
+translate O SearchMask {Søk i Mask}
 translate O DisplayMask {Vis maske}
 translate O Nag {Nag kode}
-translate O Marker {Markr}
+translate O Marker {Markør}
 translate O Include {Inkludere}
 translate O Exclude {Utelukke}
 translate O MainLine {Hovedlinje}
 translate O Bookmark {Bokmerke}
 translate O NewLine {Ny linje}
 translate O ToBeVerified {Skal verifiseres}
-translate O ToTrain { trene}
+translate O ToTrain {Å trene}
 translate O Dubious {Tvilsomt}
-translate O ToRemove {For  fjerne}
-translate O NoMarker {Ingen markr}
+translate O ToRemove {For å fjerne}
+translate O NoMarker {Ingen markør}
 translate O ColorMarker {Farge}
 translate O WhiteMark {Hvit}
-translate O GreenMark {Grnn}
+translate O GreenMark {Grønn}
 translate O YellowMark {Gul}
-translate O BlueMark {Bl}
-translate O RedMark {Rd}
+translate O BlueMark {Blå}
+translate O RedMark {Rød}
 translate O CommentMove {Kommentar flytte}
 translate O CommentPosition {Kommentarposisjon}
-translate O AddMoveToMaskFirst {Legg frst trekk til masken}
-translate O OpenAMaskFileFirst {pne en maskefil frst}
+translate O AddMoveToMaskFirst {Legg først trekk til masken}
+translate O OpenAMaskFileFirst {Åpne en maskefil først}
 translate O Positions {Stillinger}
 translate O Moves {Beveger seg}
 
 # Finder window:
 menuText O FinderFile "Fil" 0
 menuText O FinderFileSubdirs "Let i underkataloger" 0
-menuText O FinderFileClose "Lukk skevindu" 0
+menuText O FinderFileClose "Lukk søkevindu" 0
 menuText O FinderSort "Sorter" 0
 menuText O FinderSortType "Type" 0
-menuText O FinderSortSize "Strrelse" 0
+menuText O FinderSortSize "Størrelse" 0
 menuText O FinderSortMod "Endret" 0
 menuText O FinderSortName "Navn" 0
 menuText O FinderSortPath "Sti" 0
@@ -550,14 +550,14 @@ menuText O FinderTypesPGN "PGN-filer" 0
 menuText O FinderTypesEPD "EPD-filer" 0
 menuText O FinderTypesRep "Repertoire-filer" 0
 menuText O FinderHelp "Hjelp" 0
-menuText O FinderHelpFinder "Skehjelp" 0
+menuText O FinderHelpFinder "Søkehjelp" 0
 menuText O FinderHelpIndex "Innholdsfortegnelse" 0
-translate O FileFinder {Skeverkty}
+translate O FileFinder {Søkeverktøy}
 translate O FinderDir {Katalog}
 translate O FinderDirs {Kataloger}
 translate O FinderFiles {Filer}
 translate O FinderUpDir {opp}
-translate O FinderCtxOpen {pne}
+translate O FinderCtxOpen {Åpne}
 translate O FinderCtxBackup {Sikkerhetskopiering}
 translate O FinderCtxCopy {Kopiere}
 translate O FinderCtxMove {Flytte}
@@ -577,7 +577,7 @@ menuText O PListSortNewest "Newest" 0 ;# ***
 # Tournament finder:
 menuText O TmtFile "Fil" 0
 menuText O TmtFileUpdate "Oppdater" 0
-menuText O TmtFileClose "Lukk turneringssker" 0
+menuText O TmtFileClose "Lukk turneringssøker" 0
 menuText O TmtSort "Sorter" 0
 menuText O TmtSortDate "Dato" 0
 menuText O TmtSortPlayers "Players" 0
@@ -593,7 +593,7 @@ translate O TmtNone "Ingen passende turneringer funnet."
 # Graph windows:
 menuText O GraphFile "Fil" 0
 menuText O GraphFileColor "Lagre som farget PostScript..." 0
-menuText O GraphFileGrey "Lagre som grtonet PostScript..." 0
+menuText O GraphFileGrey "Lagre som gråtonet PostScript..." 0
 menuText O GraphFileClose "Lukk vindu" 0
 menuText O GraphOptions "Innstillinger" 0
 menuText O GraphOptionsWhite "Hvit" 0
@@ -602,13 +602,11 @@ menuText O GraphOptionsBoth "Begge" 0
 menuText O GraphOptionsPInfo "Spiller Info spiller" 0
 menuText O GraphOptionsEloFile "Elo fra vurderingsfil" 0
 menuText O GraphOptionsEloDB "Elo fra databasen" 0
-translate O GraphFilterTitle "Filtergraf: prosentandel av spill som nr posisjon"
+translate O GraphFilterTitle "Filtergraf: hyppighet per 1000 partier"
 translate O GraphAbsFilterTitle "Filter Graph: frekvens av spillene"
-translate O GraphWinPctTitle "Filtergraf: vinn % (1-0 og 0-1) ved nåværende posisjon etter år"
-translate O ConfigureFilter {Konfigurer X-akser for r, vurdering og trekk}
+translate O ConfigureFilter {Konfigurer X-akser for år, vurdering og trekk}
 translate O FilterEstimate "Beregne"
 translate O TitleFilterGraph "Scid: Filter Graph"
-translate O WinPct "Vinn %"
 
 # Analysis window:
 translate O AddVariation {Legg til variasjon}
@@ -617,10 +615,10 @@ translate O AddMove {Legg til trekk}
 translate O Annotate {Annoter}
 translate O ShowAnalysisBoard {Vis analysetavle}
 translate O ShowInfo {Vis motorinfo}
-translate O FinishGame {Fullfr spillet}
+translate O FinishGame {Fullfør spillet}
 translate O StopEngine {Stopp motoren}
 translate O StartEngine {Start motoren}
-translate O LockEngine {Ls motoren til gjeldende posisjon}
+translate O LockEngine {Lås motoren til gjeldende posisjon}
 translate O AnalysisCommand {Analysekommando}
 translate O PreviousChoices {Tidligere valg}
 translate O AnnotateTime {Tid mellom trekk i sekunder}
@@ -629,33 +627,31 @@ translate O AnnotateAll {For trekk av begge sider}
 translate O AnnotateAllMoves {Merk alle trekk}
 translate O AnnotateWhite {Kun for hvite trekk}
 translate O AnnotateBlack {Kun for sorte trekk}
-translate O AnnotateBlundersOnly {Nr game move er en penbar tabbe}
+translate O AnnotateBlundersOnly {Når game move er en åpenbar tabbe}
 translate O AnnotateBlundersOnlyScoreChange {Analyse rapporterer feil, med poengsendringer fra/til:}
 translate O BlundersThreshold {Terskel}
 translate O ScoreAllMoves {Score all moves}
 translate O LowPriority {Low CPU priority} ;# ***
-translate O ClickHereToSeeMoves {Klikk her for  se trekk}
+translate O ClickHereToSeeMoves {Klikk her for å se trekk}
 translate O ConfigureInformant {Informant}
 translate O Informant!? {Interessant trekk}
-translate O Informant? {Drlig trekk}
+translate O Informant? {Dårlig trekk}
 translate O Informant?? {Bommert}
 translate O Informant?! {Tvilsomt trekk}
 translate O Informant+= {Hvit har en liten fordel}
 translate O Informant+/- {Hvit har en moderat fordel}
-translate O Informant+- {Hvit har en avgjrende fordel}
+translate O Informant+- {Hvit har en avgjørende fordel}
 translate O Informant+-- {Hvit har en knusende fordel}
 translate O AutoComment {Automatisk kommentar}
 translate O AutoCommentTooltip {Generer AI-kommentarer for gjeldende stilling}
 translate O AnalysisAutoCommentTooltip {Generer AI-kommentarer for hele spillet}
 translate O GameComment {Spillkommentar}
-translate O GameCommentTooltip {Skann spillet for kommenterte trekk og generer AI-sammendrag}
 translate O TimeMs {Tid (ms)}
-
 
 # Book window
 translate O Book {Bok}
 translate O OtherBookMoves {Motstanderens bok}
-translate O OtherBookMovesTooltip {Trekk som motstanderen har et svar p}
+translate O OtherBookMovesTooltip {Trekk som motstanderen har et svar på}
 
 # Analysis Engine open dialog:
 translate O EngineList {Liste over analysemotorer}
@@ -667,7 +663,7 @@ translate O EngineElo {Elo}
 translate O EngineTime {Dato}
 translate O EngineNew {Ny}
 translate O EngineEdit {Rediger}
-translate O EngineRequired {Fete felter er ndvendige, de vrige er valgfrie}
+translate O EngineRequired {Fete felter er nødvendige, de øvrige er valgfrie}
 translate O EngineProtocol {Kommunikasjonsprotokoll}
 translate O EngineNotation {Notasjon av trekkene}
 translate O EngineFlipEvaluation {Flip evalueringsperspektiv}
@@ -676,7 +672,7 @@ translate O EngineNetworkd {Godta eksterne tilkoblinger}
 translate O EngineSelect {Velg gjeldende motor}
 translate O EngineAddLocal {Legg til en lokal motor}
 translate O EngineAddRemote {Legg til en ekstern motor}
-translate O EngineReload {Last inn gjeldende motor p nytt}
+translate O EngineReload {Last inn gjeldende motor på nytt}
 translate O EngineClone {Lag en kopi av gjeldende motor}
 translate O EngineDelete {Slett gjeldende motor}
 
@@ -722,7 +718,7 @@ menuText O CrosstabOptAll "Alle-mot-alle" 0
 menuText O CrosstabOptSwiss "Sveitsisk" 0
 menuText O CrosstabOptKnockout "Kun vinnere" 0
 menuText O CrosstabOptAuto "Auto" 0
-menuText O CrosstabOptAges "Aldre i r" 0
+menuText O CrosstabOptAges "Aldre i år" 0
 menuText O CrosstabOptNats "Nasjonaliteter" 0
 menuText O CrosstabOptRatings "Ratinger" 0
 menuText O CrosstabOptTitles "Titler" 0
@@ -757,11 +753,11 @@ menuText O OprepFavoritesAdd "Add Report..." 0 ;# ***
 menuText O OprepFavoritesEdit "Edit Report Favorites..." 0 ;# ***
 menuText O OprepFavoritesGenerate "Generate Reports..." 0 ;# ***
 menuText O OprepHelp "Hjelp" 0
-menuText O OprepHelpReport "pningsrapport hjelp" 0
+menuText O OprepHelpReport "Åpningsrapport hjelp" 0
 menuText O OprepHelpIndex "Innholdsfortegnelse" 0
 
 # Header search:
-translate O HeaderSearch {Headersk}
+translate O HeaderSearch {Headersøk}
 translate O EndSideToMove {Side to move at end of game} ;# ***
 translate O GamesWithNoECO {Partier uten ECO?}
 translate O GameLength {Partilengde}
@@ -772,15 +768,15 @@ translate O Comments {Kommentarer}
 translate O Variations {Variasjoner}
 translate O Annotations {Annotasjoner}
 translate O DeleteFlag {Slettet}
-translate O WhiteOpFlag {Hvit pning}
-translate O BlackOpFlag {Sort pning}
+translate O WhiteOpFlag {Hvit åpning}
+translate O BlackOpFlag {Sort åpning}
 translate O MiddlegameFlag {Midtspill}
 translate O EndgameFlag {Sluttspill}
 translate O NoveltyFlag {Avvik}
 translate O PawnFlag {Bondestruktur}
 translate O TacticsFlag {Taktikk}
-translate O QsideFlag {Spill p dronningsiden}
-translate O KsideFlag {Spill p kongesiden}
+translate O QsideFlag {Spill på dronningsiden}
+translate O KsideFlag {Spill på kongesiden}
 translate O BrilliancyFlag {Brillians}
 translate O BlunderFlag {Tabbe}
 translate O UserFlag {Bruker}
@@ -801,13 +797,13 @@ translate O GlistEvent {Anledning}
 translate O GlistSite {Sted}
 translate O GlistRound {Runde}
 translate O GlistDate {Dato}
-translate O GlistYear {r}
+translate O GlistYear {År}
 translate O GlistEDate {AnledningDato}
 translate O GlistResult {Resultat}
 translate O GlistLength {Lengde}
 translate O GlistCountry {Land}
 translate O GlistECO {ECO}
-translate O GlistOpening {pning}
+translate O GlistOpening {Åpning}
 translate O GlistEndMaterial {Slutt-kvalitet}
 translate O GlistDeleted {Slettet}
 translate O GlistFlags {Flagg}
@@ -826,24 +822,24 @@ translate O GlistDeleteField {Fjern}
 translate O GlistWidth {Bredde}
 translate O GlistAlign {Justering}
 translate O GlistAlignL {Juster: venstre}
-translate O GlistAlignR {Juster: hyre}
+translate O GlistAlignR {Juster: høyre}
 translate O GlistAlignC {Juster: senter}
 translate O GlistColor {Farge}
 translate O GlistSep {Skilletegn}
-translate O GlistCurrentSep {-- Nvrende --}
+translate O GlistCurrentSep {-- Nåværende --}
 translate O GlistNewSort {Ny}
 translate O GlistAddToSort {Legge til}
 
 # base sorting
 translate O GsortSort {Sortere...}
 translate O GsortDate {Dato}
-translate O GsortYear {r}
+translate O GsortYear {År}
 translate O GsortEvent {Hendelse}
 translate O GsortSite {nettsted}
 translate O GsortRound {Rund}
 translate O GsortWhiteName {Hvitt navn}
 translate O GsortBlackName {Svart navn}
-translate O GsortECO {KO}
+translate O GsortECO {ØKO}
 translate O GsortResult {Resultat}
 translate O GsortMoveCount {Flytt Count}
 translate O GsortAverageElo {Gjennomsnittlig Elo}
@@ -868,7 +864,7 @@ translate O GlistRemoveGameAndBelowFromFilter  {Fjern spillet (og alt under det)
 translate O GlistDeleteGame {(Av) Slett dette spillet} 
 translate O GlistDeleteAllGames {Slett alle spill i filteret} 
 translate O GlistUndeleteAllGames {Angre sletting av alle spill i filteret} 
-translate O GlistMergeGameInBase {Sl sammen spillet i en annen base} 
+translate O GlistMergeGameInBase {Slå sammen spillet i en annen base} 
 
 # Maintenance window:
 translate O DatabaseName {Databasenavn:}
@@ -876,7 +872,7 @@ translate O TypeIcon {Ikon:}
 translate O NumOfGames {Partier:}
 translate O NumDeletedGames {Slettede partier:}
 translate O NumFilterGames {Partier i filter:}
-translate O YearRange {Til/fra r:}
+translate O YearRange {Til/fra år:}
 translate O RatingRange {Til/fra rating:}
 translate O Description {Description} ;# ***
 translate O Flag {Flagg}
@@ -891,9 +887,9 @@ translate O DeleteTwins {Slett duplikatpartier}
 translate O MarkCurrent {Merk gjeldende parti}
 translate O MarkFilter {Merk filtrerte partier}
 translate O MarkAll {Merk alle partier}
-translate O UnmarkCurrent {Fjern merking p gjeldende parti}
-translate O UnmarkFilter {Fjern merking p filtrerte partier}
-translate O UnmarkAll {Fjern merking p alle partier}
+translate O UnmarkCurrent {Fjern merking på gjeldende parti}
+translate O UnmarkFilter {Fjern merking på filtrerte partier}
+translate O UnmarkAll {Fjern merking på alle partier}
 translate O Spellchecking {Stavekontroll}
 translate O Players {Spillere}
 translate O Events {Anledninger}
@@ -909,35 +905,35 @@ translate O StripTags {Fjern PGN-merker}
 translate O StripTag {Fjern merke}
 translate O Cleaner {Opprydding}
 translate O CleanerHelp {
-Scid-opprydding vil utfre alle handlinger du velger fra listen under p gjeldende database.
+Scid-opprydding vil utføre alle handlinger du velger fra listen under på gjeldende database.
 
 Gjeldende innstillinger i ECO-klassifiseringen og duplikatslettingdialogene vil virke inn om du velger disse funksjonene.
 }
 translate O CleanerConfirm {
-Nr oppryddingen er i gang kan den ikke avbrytes!
+Når oppryddingen er i gang kan den ikke avbrytes!
 
-Dette kan ta lang tid p en stor databse, avhengig av funksjonene du har valgt og disses gjeldende innstillinger.
+Dette kan ta lang tid på en stor databse, avhengig av funksjonene du har valgt og disses gjeldende innstillinger.
 
-Er du sikker p at du vil starte vedlikeholdsfunksjonene du har valgt?
+Er du sikker på at du vil starte vedlikeholdsfunksjonene du har valgt?
 }
 # Twinchecker
-translate O TwinCheckUndelete { snu; "u" angre sletting av begge)}
+translate O TwinCheckUndelete {å snu; "u" angre sletting av begge)}
 translate O TwinCheckprevPair {Forrige par}
 translate O TwinChecknextPair {Neste par}
 translate O TwinChecker {Scid: Tvillingspillsjekker}
 translate O TwinCheckTournament {Spill i turneringen:}
 translate O TwinCheckNoTwin {Ingen tvilling}
-translate O TwinCheckNoTwinfound {Ingen tvilling ble oppdaget for dette spillet.\nIkke vis tvillinger med dette vinduet, du m frst bruke funksjonen "Slett tvillingspill...".}
+translate O TwinCheckNoTwinfound {Ingen tvilling ble oppdaget for dette spillet.\nIkke vis tvillinger med dette vinduet, du må først bruke funksjonen "Slett tvillingspill...".}
 translate O TwinCheckTag {Del tagger...}
 translate O TwinCheckFound1 {Scid fant $result tvillingspill}
 translate O TwinCheckFound2 {og sett sletteflaggene deres}
-translate O TwinCheckNoDelete {Det er ingen spill i denne databasen  slette.}
-translate O TwinCriteria1 {Innstillingene dine for  finne tvillingspill vil sannsynligvis fre til at ikke-tvillingspill med lignende trekk blir merket som tvillinger.}
-translate O TwinCriteria2 {Det anbefales at hvis du velger "Nei" for "samme trekk", br du velge "Ja" for innstillingene for farger, hendelse, side, runde, r og mned.\nVil du fortsette og slette tvillinger likevel?}
-translate O TwinCriteria3 {Det anbefales at du spesifiserer "Ja" for minst to av innstillingene "samme side", "samme runde" og "samme r".\nVil du fortsette og slette tvillinger likevel?}
+translate O TwinCheckNoDelete {Det er ingen spill i denne databasen å slette.}
+translate O TwinCriteria1 {Innstillingene dine for å finne tvillingspill vil sannsynligvis føre til at ikke-tvillingspill med lignende trekk blir merket som tvillinger.}
+translate O TwinCriteria2 {Det anbefales at hvis du velger "Nei" for "samme trekk", bør du velge "Ja" for innstillingene for farger, hendelse, side, runde, år og måned.\nVil du fortsette og slette tvillinger likevel?}
+translate O TwinCriteria3 {Det anbefales at du spesifiserer "Ja" for minst to av innstillingene "samme side", "samme runde" og "samme år".\nVil du fortsette og slette tvillinger likevel?}
 translate O TwinCriteriaConfirm {Scid: Bekreft tvillinginnstillinger}
-translate O TwinChangeTag "Endre flgende spillkoder:\n\n"
-translate O AllocRatingDescription "Denne kommandoen vil bruke gjeldende stavekontrollfil for  legge til Elo-vurderinger til spill i denne databasen. Uansett hvor en spiller ikke har noen nvrende vurdering, men hans/hennes vurdering p tidspunktet for spillet er oppfrt i stavekontrollfilen, vil denne vurderingen bli lagt til."
+translate O TwinChangeTag "Endre følgende spillkoder:\n\n"
+translate O AllocRatingDescription "Denne kommandoen vil bruke gjeldende stavekontrollfil for å legge til Elo-vurderinger til spill i denne databasen. Uansett hvor en spiller ikke har noen nåværende vurdering, men hans/hennes vurdering på tidspunktet for spillet er oppført i stavekontrollfilen, vil denne vurderingen bli lagt til."
 translate O RatingOverride "Vil du overskrive eksisterende vurderinger som ikke er null?"
 translate O AddRatings "Legg til vurderinger til:"
 translate O AddedRatings {Scid la til $r Elo-rangeringer i $g-spill.}
@@ -974,28 +970,28 @@ translate O Unclear {Unclear} ;# ***
 translate O Diagram {Diagram} ;# ***
 
 # Board search:
-translate O BoardSearch {Stillingsk}
-translate O FilterOperation {Operasjoner p gjeldende filter:}
-translate O FilterAnd {AND (Kun p filter)}
+translate O BoardSearch {Stillingsøk}
+translate O FilterOperation {Operasjoner på gjeldende filter:}
+translate O FilterAnd {AND (Kun på filter)}
 translate O FilterOr {OR (Legg til filter)}
 translate O FilterIgnore {IGNORE (Nullstill filter)}
-translate O SearchType {Sketype:}
-translate O SearchBoardExact {Nyaktig stilling (alle brikker p samme felt)}
-translate O SearchBoardPawns {Bnder (samme kvalitet, alle bnder p samme felt)}
-translate O SearchBoardFiles {Kolonner (samme kvalitet, alle bnder p samme kolonner)}
-translate O SearchBoardAny {Alle (samme kvalitet, bnder og brikker hvor som helst)}
-translate O SearchInRefDatabase {Sk i basen}
-translate O LookInVars {Sk i variasjoner}
+translate O SearchType {Søketype:}
+translate O SearchBoardExact {Nøyaktig stilling (alle brikker på samme felt)}
+translate O SearchBoardPawns {Bønder (samme kvalitet, alle bønder på samme felt)}
+translate O SearchBoardFiles {Kolonner (samme kvalitet, alle bønder på samme kolonner)}
+translate O SearchBoardAny {Alle (samme kvalitet, bønder og brikker hvor som helst)}
+translate O SearchInRefDatabase {Søk i basen}
+translate O LookInVars {Søk i variasjoner}
 
 # Material search:
-translate O MaterialSearch {Kvalitetssk}
+translate O MaterialSearch {Kvalitetssøk}
 translate O Material {Kvalitet}
-translate O Patterns {Mnstre}
+translate O Patterns {Mønstre}
 translate O Zero {Null}
 translate O Any {Hvilke som helst}
 translate O CurrentBoard {Gjeldende stilling}
 translate O CommonEndings {Vanlige sluttspill}
-translate O CommonPatterns {Vanlige mnstre}
+translate O CommonPatterns {Vanlige mønstre}
 translate O MaterialDiff {Kvalitetsforskjell}
 translate O squares {felt}
 translate O SameColor {Samme farge}
@@ -1041,7 +1037,7 @@ translate O Today {I dag}
 translate O ClassifyGame {Klassifiser parti}
 
 # Setup position:
-translate O EmptyBoard {Tm brett}
+translate O EmptyBoard {Tøm brett}
 translate O InitialBoard {Utgangsstilling}
 translate O SideToMove {Side i trekk}
 translate O MoveNumber {Trekk nummer}
@@ -1052,7 +1048,7 @@ translate O PasteFen {Lim inn FEN}
 
 translate O SaveAndContinue {Lagre og fortsett}
 translate O DiscardChangesAndContinue {Forkast endringer\og fortsett}
-translate O GoBack {G tilbake}
+translate O GoBack {Gå tilbake}
 
 # Replace move dialog:
 translate O ReplaceMove {Erstatt trekk}
@@ -1060,14 +1056,14 @@ translate O AddNewVar {Legg til ny variasjon}
 translate O NewMainLine {Ny hovedlinje}
 translate O ReplaceMoveMessage {Et trekk eksisterer allerede her.
 
-Du kan erstatte det og slette alle flgende trekk, eller du kan legge det til som en variasjon.
+Du kan erstatte det og slette alle følgende trekk, eller du kan legge det til som en variasjon.
 
-(Du kan unng denne meldingen i fremtiden ved  sl av Spr fr trekk erstattes-innstillingen i Innstillinger:Trekk-menyen.)}
+(Du kan unngå denne meldingen i fremtiden ved å slå av Spør før trekk erstattes-innstillingen i Innstillinger:Trekk-menyen.)}
 
 # Make database read-only dialog:
-translate O ReadOnlyDialog {Hvis du skrivebeskytter denne databasen tillates ikke lenger endringer p den. Ingen partier kan lagres eller erstattes, og ingen sletteflagg kan endres. All sortering eller ECO-klassifisering vil vre midlertidig.
+translate O ReadOnlyDialog {Hvis du skrivebeskytter denne databasen tillates ikke lenger endringer på den. Ingen partier kan lagres eller erstattes, og ingen sletteflagg kan endres. All sortering eller ECO-klassifisering vil være midlertidig.
 
-Du kan enkelt sl av skrivebeskyttelsen p databasen ved  lukke og gjenpne den.
+Du kan enkelt slå av skrivebeskyttelsen på databasen ved å lukke og gjenåpne den.
 
 Vil du virkelig skrivebeskytte denne databasen?}
 
@@ -1079,7 +1075,7 @@ Vil du virkelig forkaste endringene som er gjort?
 
 # Exit dialog:
 translate O ExitDialog {Vil du virkelig avslutte Scid?}
-translate O ExitUnsaved {Flgende baser har ulagrede endringer i partier. Hvis du avslutter n vil disse endringene g tapt.}
+translate O ExitUnsaved {Følgende baser har ulagrede endringer i partier. Hvis du avslutter nå vil disse endringene gå tapt.}
 
 # Import window:
 translate O PasteCurrentGame {Lim inn gjeldende parti}
@@ -1094,8 +1090,7 @@ translate O ECOSummary {Sammendrag for}
 translate O ECOFrequency {Hyppighet eller underkoder for}
 
 # Opening Report:
-translate O OprepReportFor {Rapporter for}
-translate O OprepTitle {pningsrapport}
+translate O OprepTitle {Åpningsrapport}
 translate O OprepReport {Rapport}
 translate O OprepGenerated {Generert av}
 translate O OprepStatsHist {Statistikk og historie}
@@ -1106,14 +1101,14 @@ translate O OprepStatSince {Siden}
 translate O OprepOldest {Eldste partier}
 translate O OprepNewest {Nyeste partier}
 translate O OprepPopular {Trend}
-translate O OprepFreqAll {Frekvens i r:   }
-translate O OprepFreq1   {Det siste ret: }
-translate O OprepFreq5   {De siste 5 rene: }
-translate O OprepFreq10  {De siste 10 rene: }
+translate O OprepFreqAll {Frekvens i år:   }
+translate O OprepFreq1   {Det siste året: }
+translate O OprepFreq5   {De siste 5 årene: }
+translate O OprepFreq10  {De siste 10 årene: }
 translate O OprepEvery {hvert %u parti}
-translate O OprepUp {opp %u%s fra alle r}
-translate O OprepDown {ned %u%s fra alle r}
-translate O OprepSame {ingen endring fra alle r}
+translate O OprepUp {opp %u%s fra alle år}
+translate O OprepDown {ned %u%s fra alle år}
+translate O OprepSame {ingen endring fra alle år}
 translate O OprepMostFrequent {Hyppigste spillere}
 translate O OprepMostFrequentOpponents {Most frequent opponents} ;# ***
 translate O OprepRatingsPerf {Ratinger og resultater}
@@ -1122,7 +1117,7 @@ translate O OprepWRating {Hvit rating}
 translate O OprepBRating {Sort rating}
 translate O OprepWPerf {Hvite resultater}
 translate O OprepBPerf {Sorte resultater}
-translate O OprepHighRating {Parti med hyeste gjennomsnittsrating}
+translate O OprepHighRating {Parti med høyeste gjennomsnittsrating}
 translate O OprepTrends {Resultattrend}
 translate O OprepResults {Resultatlengde og -hyppighet}
 translate O OprepLength {Partilengde}
@@ -1133,11 +1128,11 @@ translate O OprepDraws {Uavgjort:      }
 translate O OprepWholeDB {hele databasen}
 translate O OprepShortest {Korteste seire}
 translate O OprepMovesThemes {Trekk og temaer}
-translate O OprepMoveOrders {Trekkrekkeflger til rapportert stilling}
+translate O OprepMoveOrders {Trekkrekkefølger til rapportert stilling}
 translate O OprepMoveOrdersOne \
-  {Det var kun en trekkrekkeflge som frte til denne stillingen:}
+  {Det var kun en trekkrekkefølge som førte til denne stillingen:}
 translate O OprepMoveOrdersAll \
-  {Det var %u trekkrekkeflger som frte til denne stillingen:}
+  {Det var %u trekkrekkefølger som førte til denne stillingen:}
 translate O OprepMoveOrdersMany \
   {There were %u move orders reaching this position. The top %u are:}
 translate O OprepMovesFrom {Trekk fra rapportert stilling}
@@ -1147,24 +1142,24 @@ translate O OprepThemeDescription {Frequency of themes in the first %u moves of 
 translate O OprepThemeSameCastling {Rokkade til samme side}
 translate O OprepThemeOppCastling {Rokkade til motsatt side}
 translate O OprepThemeNoCastling {Ingen konger rokert}
-translate O OprepThemeKPawnStorm {Bondestorm p kongesiden}
+translate O OprepThemeKPawnStorm {Bondestorm på kongesiden}
 translate O OprepThemeQueenswap {Byttede dronninger}
 translate O OprepThemeWIQP {White Isolated Queen Pawn} ;# ***
 translate O OprepThemeBIQP {Black Isolated Queen Pawn} ;# ***
-translate O OprepThemeWP567 {Hvit bonde p rekke 5/6/7}
-translate O OprepThemeBP234 {Sort bonde p rekke 2/3/4}
-translate O OprepThemeOpenCDE {pen c/d/e-kolonne}
-translate O OprepTheme1BishopPair {Kun en side har to lpere}
+translate O OprepThemeWP567 {Hvit bonde på rekke 5/6/7}
+translate O OprepThemeBP234 {Sort bonde på rekke 2/3/4}
+translate O OprepThemeOpenCDE {Åpen c/d/e-kolonne}
+translate O OprepTheme1BishopPair {Kun en side har to løpere}
 translate O OprepEndgames {Sluttspill}
 translate O OprepReportGames {Rapporterte partier}
 translate O OprepAllGames    {Alle partier}
 translate O OprepEndClass {Materiale i sluttspillet}
 translate O OprepTheoryTable {Teoritabell}
-translate O OprepTableComment {Generert fra de %u hyest ratede partiene.}
+translate O OprepTableComment {Generert fra de %u høyest ratede partiene.}
 translate O OprepExtraMoves {Ytterligere trekk notert i teoritabellen}
 translate O OprepMaxGames {Maksimalt antall partier i teoritabellen}
-translate O OprepMergeMoves {Flyttegrense for sammensltte spill}
-translate O OprepMergeUnique {Sl bare sammen unike spill}
+translate O OprepMergeMoves {Flyttegrense for sammenslåtte spill}
+translate O OprepMergeUnique {Slå bare sammen unike spill}
 translate O OprepViewHTML {View HTML} ;# ***
 
 # Player Report:
@@ -1177,11 +1172,11 @@ translate O PReportClipbase {Empty clipbase and copy matching games to it} ;# **
 
 # Piece Tracker window:
 translate O TrackerSelectSingle {Venstre museknapp merker denne brikken}
-translate O TrackerSelectPair {Venstre museknapp merker denne brikken; hyre merker alle brikker av denne typen.}
-translate O TrackerSelectPawn {Venstre museknapp merker denne brikken; hyre merker alle brikker av denne typen.}
+translate O TrackerSelectPair {Venstre museknapp merker denne brikken; høyre merker alle brikker av denne typen.}
+translate O TrackerSelectPawn {Venstre museknapp merker denne brikken; høyre merker alle brikker av denne typen.}
 translate O TrackerStat {Statistikk}
 translate O TrackerGames {% partier med trekk til felt}
-translate O TrackerTime {% tid p hvert felt}
+translate O TrackerTime {% tid på hvert felt}
 translate O TrackerMoves {Trekk}
 translate O TrackerMovesStart {Oppgi trekket hvor sporingen skal begynne.}
 translate O TrackerMovesStop {Oppgi trekket hvor sporingen skal stoppe.}
@@ -1193,32 +1188,32 @@ translate O SelectTournamentGames {Kun partier i gjeldende turnering}
 translate O SelectOlderGames {Kun eldre partier}
 
 # Delete Twins window:
-translate O TwinsNote {For  vre duplikater m to partier minst ha de samme to spillerene, og kriterier du kan angi under. Nr to duplikater finnes blir det korteste partiet slettet. Tips: Det er best  kjre en stavekontroll fr duplikatsjekken, da det forbedrer sket.}
-translate O TwinsCriteria {Kriterier: Duplikater m ha...}
-translate O TwinsWhich {Undersk hvilke partier}
+translate O TwinsNote {For å være duplikater må to partier minst ha de samme to spillerene, og kriterier du kan angi under. Når to duplikater finnes blir det korteste partiet slettet. Tips: Det er best å kjøre en stavekontroll før duplikatsjekken, da det forbedrer søket.}
+translate O TwinsCriteria {Kriterier: Duplikater må ha...}
+translate O TwinsWhich {Undersøk hvilke partier}
 translate O TwinsColors {Spillere samme farge?}
 translate O TwinsEvent {Samme anledning?}
 translate O TwinsSite {Samme sted?}
 translate O TwinsRound {Samme runde?}
-translate O TwinsYear {Samme r?}
-translate O TwinsMonth {Samme mned?}
+translate O TwinsYear {Samme år?}
+translate O TwinsMonth {Samme måned?}
 translate O TwinsDay {Samme dag?}
 translate O TwinsResult {Samme utfall?}
 translate O TwinsECO {Samme ECO-kode?}
 translate O TwinsMoves {Samme trekk?}
 translate O TwinsPlayers {Sammenlign spillernavn:}
-translate O TwinsPlayersExact {Nyaktig like}
-translate O TwinsPlayersPrefix {Kun frste 4 bokstaver}
-translate O TwinsWhen {Nr duplikatpartier slettes}
+translate O TwinsPlayersExact {Nøyaktig like}
+translate O TwinsPlayersPrefix {Kun første 4 bokstaver}
+translate O TwinsWhen {Når duplikatpartier slettes}
 translate O TwinsSkipShort {Overse alle partier kortere enn 5 trekk?}
-translate O TwinsUndelete {Gjenopprett alle partier frst?}
+translate O TwinsUndelete {Gjenopprett alle partier først?}
 translate O TwinsSetFilter {Sett filter til alle slettede duplikatpartier?}
 translate O TwinsComments {Behold alltid partier med kommentarer?}
 translate O TwinsVars {Behold alltid partier med variasjoner?}
 translate O TwinsDeleteWhich {Slett hvilket parti:}
 translate O TwinsDeleteShorter {Korteste parti}
 translate O TwinsDeleteOlder {Laveste partinummer}
-translate O TwinsDeleteNewer {Hyeste partinummer}
+translate O TwinsDeleteNewer {Høyeste partinummer}
 translate O TwinsDelete {Slett partier}
 
 # Name editor window:
@@ -1226,7 +1221,7 @@ translate O NameEditType {Navnetype som skal redigeres}
 translate O NameEditSelect {Partier som skal redigeres}
 translate O NameEditReplace {Erstatt}
 translate O NameEditWith {med}
-translate O NameEditMatches {Treff: Trykk Ctrl+1 til Ctrl+9 for  velge}
+translate O NameEditMatches {Treff: Trykk Ctrl+1 til Ctrl+9 for å velge}
 
 # Check games window:
 translate O CheckGames {Sjekk spill}
@@ -1238,25 +1233,25 @@ translate O CheckSelectFilterGames {Bare spill i filter}
 translate O Classify {Klassifiser}
 translate O ClassifyWhich {ECO-klassifiser hvilke partier}
 translate O ClassifyAll {Alle partier (overskriv gamle ECO-koder)}
-translate O ClassifyYear {Aller partier det siste ret}
-translate O ClassifyMonth {Alle partier den siste mneden}
+translate O ClassifyYear {Aller partier det siste året}
+translate O ClassifyMonth {Alle partier den siste måneden}
 translate O ClassifyNew {Kun partier uten ECO-kode}
 translate O ClassifyCodes {ECO-koder som skal brukes}
 translate O ClassifyBasic {Kun standardkoder ("B12", ...)}
 translate O ClassifyExtended {Scid-utvidet ("B12j", ...)}
-translate O ClassifyResult {ECO-klassifisering fullfrt: $resultatspill(er) oppdatert.}
+translate O ClassifyResult {ECO-klassifisering fullført: $resultatspill(er) oppdatert.}
 
 # Compaction:
 translate O NameFile {Navnefil}
 translate O GameFile {Partifil}
 translate O Names {Navn}
 translate O Unused {Ubrukte}
-translate O SizeKb {Strrelse (kb)}
-translate O CurrentState {Nvrende}
+translate O SizeKb {Størrelse (kb)}
+translate O CurrentState {Nåværende}
 translate O AfterCompaction {Etter komprimering}
 translate O CompactNames {Komrimer navnefil}
 translate O CompactGames {Komprimer partifil}
-translate O NoUnusedNames "Det er ingen ubrukte navn, s navnefilen er allerede fullstendig komprimert."
+translate O NoUnusedNames "Det er ingen ubrukte navn, så navnefilen er allerede fullstendig komprimert."
 translate O NoUnusedGames "Spillfilen er allerede fullstendig komprimert."
 translate O GameFileCompacted {Spillfilen for databasen ble komprimert.}
 
@@ -1278,7 +1273,7 @@ translate O ExportStripMarks {Fjern alle fargekoder og piler fra kommentarer?}
 
 # Goto game/move dialogs:
 translate O LoadGameNumber {Angi partinummer som skal lastes inn:}
-translate O GotoMoveNumber {G til trekk nummer:}
+translate O GotoMoveNumber {Gå til trekk nummer:}
 
 # Copy games dialog:
 translate O CopyAllGames {Kopier alle spill til}
@@ -1289,16 +1284,16 @@ Vil du virkelig kopiere de [::utils::thousands $nGamesToCopy] filtrerte partiene
 }
 translate O CopyErr {Kan ikke kopiere partiene}
 translate O CopyErrSource {kildedatabasen}
-translate O CopyErrTarget {mldatabasen}
+translate O CopyErrTarget {måldatabasen}
 translate O CopyErrNoGames {har ingen partier i sitt filter}
 translate O CopyErrReadOnly {er skrivebeskyttet}
-translate O CopyErrNotOpen {er ikke pnet}
+translate O CopyErrNotOpen {er ikke åpnet}
 
 # Colors:
 translate O LightSquares {Lyse felt}
-translate O DarkSquares {Mrke felt}
+translate O DarkSquares {Mørke felt}
 translate O SelectedSquares {Merkede felt}
-translate O SuggestedSquares {Foresltte trekkfelt}
+translate O SuggestedSquares {Foreslåtte trekkfelt}
 translate O WhitePieces {Hvite brikker}
 translate O BlackPieces {Sorte brikker}
 translate O WhiteBorder {Hvit ramme}
@@ -1307,17 +1302,17 @@ translate O BlackBorder {Sort ramme}
 # Novelty window:
 translate O FindNovelty {Finn avvik}
 translate O Novelty {Avvik}
-translate O NoveltyInterrupt {Avvikssk avbrutt}
+translate O NoveltyInterrupt {Avvikssøk avbrutt}
 translate O NoveltyNone {Ingen avvik ble funnet i dette partiet}
 translate O NoveltyHelp {
-Scid vil finne det frste trekket i det gjeldende partiet som frer til en stilling som ikke finnes i den valgte databasen eller i ECO-pningsboken.}
+Scid vil finne det første trekket i det gjeldende partiet som fører til en stilling som ikke finnes i den valgte databasen eller i ECO-åpningsboken.}
 
 # Sounds configuration:
 translate O SoundsFolder {Sound Files Folder} ;# ***
 translate O SoundsFolderHelp {The folder should contain the files King.wav, a.wav, 1.wav, etc} ;# ***
 translate O SoundsAnnounceOptions {Move Announcement Options} ;# ***
 translate O SoundsAnnounceNew {Announce new moves as they are made} ;# ***
-translate O SoundsMoveSoundOnly {Bare flytt lyd (deaktiver kunngjringer)}
+translate O SoundsMoveSoundOnly {Bare flytt lyd (deaktiver kunngjøringer)}
 translate O SoundsAnnounceForward {Announce moves when moving forward one move} ;# ***
 translate O SoundsAnnounceBack {Announce when retracting or moving back one move} ;# ***
 translate O SoundsSoundDisabled {Scid kunne ikke finne Snack-lydpakken ved oppstart;\nLyden er deaktivert.}
@@ -1325,18 +1320,18 @@ translate O SoundsSoundDisabled {Scid kunne ikke finne Snack-lydpakken ved oppst
 # Upgrading databases:
 translate O Upgrading {Oppgraderer}
 translate O ConfirmOpenNew {
-Dette er en database i gammelt format (Scid 3) som ikke kan pnes i Scid 4, men en ny versjon (Scid 4) har allerede blitt opprettet.
+Dette er en database i gammelt format (Scid 3) som ikke kan åpnes i Scid 4, men en ny versjon (Scid 4) har allerede blitt opprettet.
 
-Vil du pne versjonen som er i det nye formatet?
+Vil du åpne versjonen som er i det nye formatet?
 }
 translate O ConfirmUpgrade {
-Dette er en database i gammelt format (Scid3). En versjon i nytt format m opprettes fr den kan brukes i Scid 4.
+Dette er en database i gammelt format (Scid3). En versjon i nytt format må opprettes før den kan brukes i Scid 4.
 
 Oppgradering vil opprette en ny versjon av databasen.
 
-Dette kan ta en stund, men det trenger kun  gjres en gang. Du kan avbryte om det tar for lang tid.
+Dette kan ta en stund, men det trenger kun å gjøres en gang. Du kan avbryte om det tar for lang tid.
 
-nsker du  oppgradere databasen n?
+Ønsker du å oppgradere databasen nå?
 }
 
 # Recent files options:
@@ -1365,38 +1360,38 @@ translate O easy {lett}
 translate O Playwith {Lek med}
 translate O white {hvit}
 translate O black {svart}
-translate O both {bde}
+translate O both {både}
 translate O Play {Spille}
 translate O Noblunder {Ingen tabbe}
 translate O blunder {tabbe}
 translate O Noinfo {-- Ingen info --}
 translate O PhalanxOrTogaMissing {Phalanx eller Toga ikke funnet}
-translate O moveblunderthreshold {flytting er en tabbe hvis tapet er strre enn}
+translate O moveblunderthreshold {flytting er en tabbe hvis tapet er større enn}
 translate O limitanalysis {begrense motoranalysetiden}
 translate O seconds {sekunder}
 translate O Abort {Avbryt}
 translate O Resume {Gjenoppta}
-translate O OutOfOpening {Ute av pning}
+translate O OutOfOpening {Ute av åpning}
 translate O NotFollowedLine {Du fulgte ikke linjen}
 translate O DoYouWantContinue {Vil du fortsette?}
-translate O CoachIsWatching {Treneren ser p}
+translate O CoachIsWatching {Treneren ser på}
 translate O Ponder {Permanent tenkning}
 translate O LimitELO {Begrens ELO-styrken}
 translate O DubiousMovePlayedTakeBack {Tvilsomt trekk spilt, vil du ta tilbake?}
 translate O WeakMovePlayedTakeBack {Svak trekk spilt, vil du ta tilbake?}
-translate O BadMovePlayedTakeBack {Drlig trekk spilt, vil du ta tilbake?}
+translate O BadMovePlayedTakeBack {Dårlig trekk spilt, vil du ta tilbake?}
 translate O Iresign {Jeg sier opp}
 translate O yourmoveisnotgood {trekket ditt er ikke bra}
-translate O EndOfVar {Slutt p variasjon}
-translate O Openingtrainer {pningstrener}
+translate O EndOfVar {Slutt på variasjon}
+translate O Openingtrainer {Åpningstrener}
 translate O DisplayCM {Vis kandidattrekk}
 translate O DisplayCMValue {Visningskandidat flytter verdi}
 translate O DisplayOpeningStats {Vis statistikk}
 translate O ShowReport {Vis rapport}
 translate O NumberOfGoodMovesPlayed {gode trekk spilt}
 translate O NumberOfDubiousMovesPlayed {tvilsomme trekk spilt}
-translate O NumberOfMovesPlayedNotInRepertoire {trekk spilt ikke p repertoar}
-translate O NumberOfTimesPositionEncountered {ganger posisjon ptruffet}
+translate O NumberOfMovesPlayedNotInRepertoire {trekk spilt ikke på repertoar}
+translate O NumberOfTimesPositionEncountered {ganger posisjon påtruffet}
 translate O PlayerBestMove  {Tillat bare de beste trekk}
 translate O OpponentBestMove {Motstanderen spiller de beste trekkene}
 translate O OnlyFlaggedLines {Kun flaggede linjer}
@@ -1405,9 +1400,9 @@ translate O Repertoiretrainingconfiguration {Repertoartreningskonfigurasjon}
 translate O Loadingrepertoire {Laster repertoar}
 translate O Movesloaded {Trekk lastet}
 translate O Repertoirenotfound {Repertoar ikke funnet}
-translate O Openfirstrepertoirewithtype {pne frst en repertoardatabase med ikon/type satt til hyre side}
+translate O Openfirstrepertoirewithtype {Åpne først en repertoardatabase med ikon/type satt til høyre side}
 translate O Movenotinrepertoire {Beveg deg ikke i repertoaret}
-translate O PositionsInRepertoire {Posisjoner p repertoar}
+translate O PositionsInRepertoire {Posisjoner på repertoar}
 translate O PositionsNotPlayed {Stillinger ikke spilt}
 translate O PositionsPlayed {Stillinger spilt}
 translate O Success {Suksess}
@@ -1417,31 +1412,31 @@ translate O ConfigureTactics {Konfigurer taktikk}
 translate O ResetScores {Tilbakestill score}
 translate O LoadingBase {Lastebase}
 translate O Tactics {Taktikk}
-translate O ShowSolution {Vis lsning}
-translate O NextExercise {Neste velse}
-translate O PrevExercise {forrige velse}
-translate O StopTraining {Slutt  trene}
+translate O ShowSolution {Vis løsning}
+translate O NextExercise {Neste øvelse}
+translate O PrevExercise {forrige øvelse}
+translate O StopTraining {Slutt å trene}
 translate O Next {Neste}
 translate O ResettingScore {Tilbakestiller poengsummen}
 translate O LoadingGame {Laster spillet}
 translate O MateFound {Kompis funnet}
-translate O BestSolutionNotFound {Beste lsningen ble IKKE funnet!}
+translate O BestSolutionNotFound {Beste løsningen ble IKKE funnet!}
 translate O MateNotFound {Kompis ikke funnet}
 translate O ShorterMateExists {Kortere kompis finnes}
 translate O ScorePlayed {Score spilt}
 translate O Expected {forventet}
 translate O ChooseTrainingBase {Velg treningsgrunnlag}
 translate O Thinking {Tenker}
-translate O AnalyzeDone {Analysen er utfrt}
+translate O AnalyzeDone {Analysen er utført}
 translate O WinWonGame {Vinn vunnet spill}
 translate O Lines {Linjer}
 translate O ConfigureUCIengine {Konfigurer UCI-motoren}
-translate O SpecificOpening {Spesifikk pning}
+translate O SpecificOpening {Spesifikk åpning}
 translate O StartNewGame {Start nytt spill}
-translate O FixedLevel {Fast niv}
-translate O Opening {pning}
-translate O RandomLevel {Tilfeldig niv}
-translate O StartFromCurrentPosition {Start fra nvrende posisjon}
+translate O FixedLevel {Fast nivå}
+translate O Opening {Åpning}
+translate O RandomLevel {Tilfeldig nivå}
+translate O StartFromCurrentPosition {Start fra nåværende posisjon}
 translate O FixedDepth {Fast dybde}
 translate O Nodes {Noder} 
 translate O Depth {Dybde}
@@ -1452,17 +1447,17 @@ translate O TimeMode {Tidsmodus}
 translate O TimeBonus {Tid + bonus}
 translate O TimeMin {min}
 translate O TimeSec {sek}
-translate O AllExercisesDone {Alle velser utfrt}
+translate O AllExercisesDone {Alle øvelser utført}
 translate O MoveOutOfBook {Flytt ut av boken}
 translate O LastBookMove {Siste boktrekk}
 translate O AnnotateSeveralGames {Kommenter flere spill\fra gjeldende til:}
-translate O FindOpeningErrors {Finn pningsfeil}
-translate O MarkTacticalExercises {Merk taktiske velser}
+translate O FindOpeningErrors {Finn åpningsfeil}
+translate O MarkTacticalExercises {Merk taktiske øvelser}
 translate O UseBook {Bruk bok}
 translate O MultiPV {Flere varianter}
 translate O Hash {Hash-minne}
 translate O OwnBook {Bruk motorbok}
-translate O BookFile {pningsbok}
+translate O BookFile {Åpningsbok}
 translate O AnnotateVariations {Kommenter varianter}
 translate O ShortAnnotations {Korte merknader}
 translate O addAnnotatorTag {Legg til annotator-tag}
@@ -1493,7 +1488,7 @@ translate O SicilianRauzer {Siciliansk Rauzer}
 translate O SicilianDragon {Siciliansk drage}
 translate O SicilianScheveningen {Sicilianske Scheveningen}
 translate O SicilianNajdorf {sicilianske Najdorf}
-translate O OpenGame {pne spill}
+translate O OpenGame {Åpne spill}
 translate O Vienna {Wien}
 translate O KingsGambit {Kongens Gambit}
 translate O RussianGame {Russisk spill}
@@ -1515,9 +1510,9 @@ translate O QGDExchange {QGD Exchange}
 translate O SemiSlav {Semi-slavisk}
 translate O QGDwithBg5 {QGD med Bg5}
 translate O QGDOrthodox {QGD ortodoks}
-translate O Grunfeld {Grnfeld}
-translate O GrunfeldExchange {Grnfeld Exchange}
-translate O GrunfeldRussian {Grnfeld russisk}
+translate O Grunfeld {Grünfeld}
+translate O GrunfeldExchange {Grünfeld Exchange}
+translate O GrunfeldRussian {Grünfeld russisk}
 translate O Catalan {katalansk}
 translate O CatalanOpen {Catalan Open}
 translate O CatalanClosed {Katalansk stengt}
@@ -1526,7 +1521,7 @@ translate O NimzoIndian {Nimzo-indisk}
 translate O NimzoIndianClassical {Nimzo-indisk klassisk}
 translate O NimzoIndianRubinstein {Nimzo-indiske Rubinstein}
 translate O KingsIndian {King's Indian}
-translate O KingsIndianSamisch {King's Indian Smisch}
+translate O KingsIndianSamisch {King's Indian Sämisch}
 translate O KingsIndianMainLine {King's Indian Main Line}
 
 # FICS
@@ -1540,22 +1535,22 @@ translate O FICSSilence {Stillhet}
 translate O FICSOffers {Tilbud}
 translate O FICSConsole {Konsoll}
 translate O FICSGames {Spill}
-translate O FICSUnobserve {Slutt  observere spillet}
+translate O FICSUnobserve {Slutt å observere spillet}
 translate O FICSProfile {Vis historikken og profilen din}
-translate O FICSRelayedGames {Relspill}
+translate O FICSRelayedGames {Reléspill}
 translate O FICSFindOpponent {Finn motstander}
 translate O FICSTakeback {Tilbaketak}
 translate O FICSTakeback2 {Tilbaketak 2}
 translate O FICSInitTime {Starttid (min)}
-translate O FICSIncrement {k (sek)}
+translate O FICSIncrement {Øk (sek)}
 translate O FICSRatedGame {Vurdert spill}
 translate O FICSAutoColour {automatisk}
 translate O FICSManualConfirm {bekrefte manuelt}
 translate O FICSFilterFormula {Filtrer med formel}
-translate O FICSIssueSeek {Problemsk}
+translate O FICSIssueSeek {Problemsøk}
 translate O FICSChallenge {Utfordring}
 translate O FICSAccept {akseptere}
-translate O FICSDecline {avsl}
+translate O FICSDecline {avslå}
 translate O FICSColour {Farge}
 translate O FICSSend {sende}
 translate O FICSConnect {Koble til}
@@ -1575,9 +1570,9 @@ translate O FICSNetError {Nettverksfeil\Kan ikke koble til}
 translate O GameReview {Spillanmeldelse}
 translate O GameReviewTimeExtended {Tid forlenget}
 translate O GameReviewMargin {Feilmargin}
-translate O GameReviewAutoContinue {Autofortsett nr bevegelsen er riktig}
+translate O GameReviewAutoContinue {Autofortsett når bevegelsen er riktig}
 translate O GameReviewReCalculate {Bruk forlenget tid}
-translate O GameReviewAnalyzingMovePlayedDuringTheGame {Analyserer trekk som er spilt i lpet av spillet}
+translate O GameReviewAnalyzingMovePlayedDuringTheGame {Analyserer trekk som er spilt i løpet av spillet}
 translate O GameReviewAnalyzingThePosition {Analyserer posisjonen}
 translate O GameReviewEnterYourMove {Skriv inn ditt trekk}
 translate O GameReviewCheckingYourMove {Sjekker flyttingen din}
@@ -1587,14 +1582,14 @@ translate O GameReviewScoreOfYourMove {Poengsummen for trekket ditt}
 translate O GameReviewGameMoveScore {Spillbevegelsens poengsum}
 translate O GameReviewEngineScore {Motorens poengsum}
 translate O GameReviewYouPlayedLikeTheEngine {Du spilte som motoren}
-translate O GameReviewNotEngineMoveButGoodMove {Ikke motorbevegelsen, men er ogs et godt trekk}
+translate O GameReviewNotEngineMoveButGoodMove {Ikke motorbevegelsen, men er også et godt trekk}
 translate O GameReviewMoveNotGood {Dette trekket er ikke bra, poengsum er}
 translate O GameReviewMovesPlayedLike {Bevegelser spilt som}
 translate O GameReviewMovesPlayedEngine {Bevegelser spilt som motor}
 
 # Correspondence Chess Dialogs:
 translate O CCDlgCGeneraloptions {Generelle alternativer}
-translate O CCDlgLoginName  {Ploggingsnavn:}
+translate O CCDlgLoginName  {Påloggingsnavn:}
 translate O CCDlgPassword   {Passord:}
 translate O CCDlgShowPassword {Vis passord}
 
@@ -1622,11 +1617,11 @@ translate O DoneWithPosition {Ferdig med posisjon}
 
 translate O Board {Borde}
 translate O showGameInfo {Vis spillinformasjon}
-translate O autoResizeBoard {Automatisk endring av strrelse p brett}
+translate O autoResizeBoard {Automatisk endring av størrelse på brett}
 translate O DockTop {Flytt til toppen}
 translate O DockBottom {Flytt til bunnen}
 translate O DockLeft {Flytt til venstre}
-translate O DockRight {Flytt til hyre}
+translate O DockRight {Flytt til høyre}
 translate O Undock {Koble fra}
 
 # Switcher window
@@ -1659,7 +1654,7 @@ translate O ImportingFrom {Importerer fra}
 translate O ImportingIn {Importer spill inn}
 translate O UseLastTag {Bruk siste\nspillets tagger}
 translate O Random {Tilfeldig}
-translate O BackToMainline {G tilbake til hovedlinjen}
+translate O BackToMainline {Gå tilbake til hovedlinjen}
 translate O LeaveVariant {La variant}
 translate O Autoplay {Automatisk avspilling}
 translate O ShowHideCoords {Vis/skjul koordinering.}
@@ -1673,9 +1668,9 @@ translate O Surnames {Etternavn}
 translate O Ambiguous {Tvetydig}
 
 #Preferences Dialog
-translate O OptionsToolbar "Verktylinje i hovedvindu"
+translate O OptionsToolbar "Verktøylinje i hovedvindu"
 translate O OptionsBoard "Brett"
-translate O OptionsBoardSize "Brettstrrelse"
+translate O OptionsBoardSize "Brettstørrelse"
 translate O OptionsBoardPieces "Brikkeutseende"
 translate O OptionsInternationalization "Internasjonalisering"
 translate O OptionsTablebaseDir "Velg opptil 4 tabellgrunnmapper:"
@@ -1683,32 +1678,5 @@ translate O OptionsTablebaseDir "Velg opptil 4 tabellgrunnmapper:"
 # Evaluation bar
 translate O BestMoveArrow "Beste flyttepil"
 translate O NewLocalEngine "+ Ny motor..."
-
-# Batch Annotate
-translate O BatchAnnotate {Batch-kommentarer}
-translate O BatchEngineSelection {Motorvalg}
-translate O BatchChessEngine {Sjakkmotor:}
-translate O BatchNumberOfInstances {Antall forekomster:}
-translate O BatchGameReview {Spillanmeldelse}
-translate O BatchTimePerMove {Tid per trekk (sek):}
-translate O BatchAnnotateBlunders {Merk kun feil}
-translate O BatchBlunderThreshold {Bommertsgrense:}
-translate O BatchVariationLength {Variasjonslengde (bevegelser):}
-translate O BatchOpeningBook {Åpningsbok}
-translate O BatchUseBook {Bruk bok}
-translate O BatchAnnotateVariations {Kommenter varianter}
-translate O BatchShortAnnotations {Korte merknader}
-translate O BatchAddScoreToShort {Legg poengsum til korte merknader}
-translate O BatchClearOld {Fjern gamle kommentarer og varianter}
-translate O BatchInitializingEngines {Initialiserer motorer...}
-translate O BatchAnalyzingGames {Analyserer spill...}
-translate O BatchProgress {Batchkommentarfremgang}
-translate O BatchComplete {Batch-annotering fullført!}
-translate O BatchCancelled {Batch-anmerkning kansellert}
-translate O BatchStart {Start}
-translate O BatchCancel {Kansellere}
-translate O BatchCompleted {fullført}
-translate O BatchGames {spill}
-translate O BatchProcessed {behandlet}
 }
 # end of english.tcl

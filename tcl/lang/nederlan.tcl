@@ -191,7 +191,7 @@ menuText N ToolsTrainFics "Speel op het internet"  0 {Speel of freechess.org}
 menuText N ToolsEngineTournament "Motor toernooi"  0 {Start een toernooi tussen schaakmotoren}
 menuText N ToolsTimeAnalysis "Tijdanalyse" 0 {Toon de kloktijdgrafiek voor het huidige spel}
 menuText N ToolsBookTuning "Openingenboek afstemming " 0 {Openingenboek afstemming}
-menuText N ToolsDownloadTWIC "Download TWIC-spelletjes" 0 {Download de nieuwste The Week In Chess (TWIC)-partijen}
+menuText NL ToolsDownloadTWIC "Download TWIC-spelletjes" 0 {Download de nieuwste The Week In Chess (TWIC)-partijen}
 menuText N ToolsConnectHardware "Verbind Hardware" 0 {Verbind externe hardware}
 menuText N ToolsConnectHardwareConfigure "Configureer..." 0 {Configureer externe hardware en verbinding}
 menuText N ToolsConnectHardwareNovagCitrineConnect "Verbind Novag Citrine" 0 {Verbind Novag Citrine}
@@ -622,13 +622,11 @@ menuText N GraphOptionsBoth "Beide" 1
 menuText N GraphOptionsPInfo "Speler informatie" 0
 menuText N GraphOptionsEloFile "Elo uit beoordelingsbestand" 0
 menuText N GraphOptionsEloDB "Elo uit de database" 0
-translate N GraphFilterTitle "Filtergrafiek: percentage games dat positie bereikt"
+translate N GraphFilterTitle "Filtergrafiek: frequentie per 1000 partijen"
 translate N GraphAbsFilterTitle "Filtergrafiek: frequentie van de partijen"
-translate N GraphWinPctTitle "Filtergrafiek: winst% (1-0 en 0-1) op huidige positie per jaar"
 translate N ConfigureFilter {Configureer de X-as voor Jaar, Elo en Zetten}
 translate N FilterEstimate "Schat"
 translate N TitleFilterGraph "Scid: Filtergrafiek"
-translate N WinPct "Win%"
 
 # Analysis window:
 translate N AddVariation {Toevoegen variant}
@@ -668,9 +666,7 @@ translate N AutoComment {Automatische commentaar}
 translate N AutoCommentTooltip {Genereer AI-commentaar voor de huidige positie}
 translate N AnalysisAutoCommentTooltip {Genereer AI-commentaar voor het hele spel}
 translate N GameComment {Spelcommentaar}
-translate N GameCommentTooltip {Scan het spel op geannoteerde zetten en genereer een AI-samenvatting}
 translate N TimeMs {Tijd (ms)}
-
 
 # Book window
 translate N Book {Openingenboek}
@@ -1041,11 +1037,11 @@ translate N EndingQueenPawnVsQueen {Dame +1 pion tegen Dame} ;
 translate N BishopPairVsKnightPair {Loperpaar tegen 2 Paarden middenspel} ;
 
 # Common patterns in material search:
-translate N PatternWhiteIQP {Witte Gesoleerde pion} ;
-translate N PatternWhiteIQPBreakE6 {Witte Gesoleerde pion: d4-d5 doorbraak vs. e6} ;
-translate N PatternWhiteIQPBreakC6 {Witte Gesoleerde pion: d4-d5 doorbraak vs. c6} ;
-translate N PatternBlackIQP {Zwarte Gesoleerde pion} ;
-translate N PatternWhiteBlackIQP {Witte Gesoleerde pion  vs. Zwarte Gesoleerde pion} ;
+translate N PatternWhiteIQP {Witte Geïsoleerde pion} ;
+translate N PatternWhiteIQPBreakE6 {Witte Geïsoleerde pion: d4-d5 doorbraak vs. e6} ;
+translate N PatternWhiteIQPBreakC6 {Witte Geïsoleerde pion: d4-d5 doorbraak vs. c6} ;
+translate N PatternBlackIQP {Zwarte Geïsoleerde pion} ;
+translate N PatternWhiteBlackIQP {Witte Geïsoleerde pion  vs. Zwarte Geïsoleerde pion} ;
 translate N PatternCoupleC3D4 {Witte hangende pionnen c3+d4 } ;
 translate N PatternHangingC5D5 {Zwarte hangende pionnen c5+d5} ;
 translate N PatternMaroczy {Maroczy Centrum ( Pionnen op c4 en e4)} ;
@@ -1116,7 +1112,6 @@ translate N ECOSummary {Samenvatting voor}
 translate N ECOFrequency {Frequentie van subcodes voor}
 
 # Opening Report:
-translate N OprepReportFor {Rapporteer voor}
 translate N OprepTitle {Openings Rapportage}
 translate N OprepReport {Rapportage}
 translate N OprepGenerated {Samengesteld door }
@@ -1171,8 +1166,8 @@ translate N OprepThemeOppCastling {Tegengestelde rochades}
 translate N OprepThemeNoCastling {Beide zijden niet gerocheerd}
 translate N OprepThemeKPawnStorm {Pionnenstorm op koningsvleugel}
 translate N OprepThemeQueenswap {Dameruil}
-translate N OprepThemeWIQP {Witte Gesoleerde Damepion} ;
-translate N OprepThemeBIQP {Zwarte Gesoleerde Damepion} ;
+translate N OprepThemeWIQP {Witte Geïsoleerde Damepion} ;
+translate N OprepThemeBIQP {Zwarte Geïsoleerde Damepion} ;
 translate N OprepThemeWP567 {Witte pion op de 5/6/7de rij}
 translate N OprepThemeBP234 {Zwarte pion op de 2/3/4de rij}
 translate N OprepThemeOpenCDE {Open c/d/e lijn}
@@ -1304,7 +1299,7 @@ translate N GotoMoveNumber {Ga naar zetnummer:}
 
 # Copy games dialog:
 translate N CopyAllGames {Kopieer alle spellen naar}
-translate N CopyGames {Kopiren partijen}
+translate N CopyGames {Kopiëren partijen}
 translate N CopyConfirm {
  Wilt u echt kopieren
  de [::utils::thousands $nGamesToCopy] geselecteerde partijen
@@ -1343,8 +1338,8 @@ translate N SoundsFolderHelp {De map moet de bestanden King.wav, a.wav, 1.wav, e
 translate N SoundsAnnounceOptions {Zet Aankondigingen Opties} ;
 translate N SoundsAnnounceNew {Kondig nieuwe zetten aan als ze gedaan worden} ;
 translate N SoundsMoveSoundOnly {Alleen geluid verplaatsen (aankondigingen uitschakelen)}
-translate N SoundsAnnounceForward {Kondig  aan als n zet vooruit gedaan wordt} ;
-translate N SoundsAnnounceBack {Kondig  aan als n zet terug gedaan of genomen wordt} ;
+translate N SoundsAnnounceForward {Kondig  aan als één zet vooruit gedaan wordt} ;
+translate N SoundsAnnounceBack {Kondig  aan als één zet terug gedaan of genomen wordt} ;
 translate N SoundsSoundDisabled {Scid kon het snack-audiopakket niet vinden bij het opstarten;\nhet geluid is uitgeschakeld.}
 
 # Upgrading databases:
@@ -1357,7 +1352,7 @@ Wilt u de database in het nieuwe formaat openen?
 translate N ConfirmUpgrade {
 Dit is een oud formaat (Scid 3) database. Een versie in het nieuwe formaat moet worden gemaakt, voordat het in Scid 4 kan worden gebruikt.
 
-Bijwerken creert een nieuwe versie van de database.
+Bijwerken creëert een nieuwe versie van de database.
 
 Dit kan enige tijd duren, maar het hoeft slechts eenmalig plaats te vinden. U kunt het afbreken indien het te lang duurt.
 
@@ -1538,9 +1533,9 @@ translate N QGDExchange {Damegambiet Ruil}
 translate N SemiSlav {Half-Slavisch}
 translate N QGDwithBg5 {Damegambiet met Lg5}
 translate N QGDOrthodox {Damegambiet Orthodox}
-translate N Grunfeld {Grnfeld}
-translate N GrunfeldExchange {Grnfeld Ruil}
-translate N GrunfeldRussian {Grnfeld Russisch}
+translate N Grunfeld {Grünfeld}
+translate N GrunfeldExchange {Grünfeld Ruil}
+translate N GrunfeldRussian {Grünfeld Russisch}
 translate N Catalan {Catalaans}
 translate N CatalanOpen {Catalaans Open}
 translate N CatalanClosed {Catalaans Gesloten}
@@ -1549,7 +1544,7 @@ translate N NimzoIndian {Nimzo-Indisch}
 translate N NimzoIndianClassical {Nimzo-Indisch Klassiek Dc2}
 translate N NimzoIndianRubinstein {Nimzo-Indisch Rubinstein}
 translate N KingsIndian {Koningsindisch}
-translate N KingsIndianSamisch {Koningsindisch Smisch}
+translate N KingsIndianSamisch {Koningsindisch Sämisch}
 translate N KingsIndianMainLine {Koningsindisch Hoofdvariant}
 
 # FICS
@@ -1569,7 +1564,7 @@ translate N FICSRelayedGames {Doorgezonden partijen}
 translate N FICSFindOpponent {Zoek opponent}
 translate N FICSTakeback {Terugnemen}
 translate N FICSTakeback2 {Terugnemen 2}
-translate N FICSInitTime {Initile tijd (min)}
+translate N FICSInitTime {Initiële tijd (min)}
 translate N FICSIncrement {Toename (sec)}
 translate N FICSRatedGame {De Betreffende Partij}
 translate N FICSAutoColour {Automatisch}
@@ -1685,7 +1680,7 @@ translate N Random {Willekeurig}
 translate N BackToMainline {Ga terug naar de hoofdlijn}
 translate N LeaveVariant {Variant verlaten}
 translate N Autoplay {Automatisch afspelen}
-translate N ShowHideCoords {Cordinatie tonen/verbergen.}
+translate N ShowHideCoords {Coördinatie tonen/verbergen.}
 translate N ShowHideEvalBar {Evaluatiebalk tonen/verbergen}
 translate N ShowHideMaterial {Materiaal tonen/verbergen}
 translate N SelectMarker {Selecteer Markering}
@@ -1706,32 +1701,5 @@ translate N OptionsTablebaseDir "Selecteer tot 4 tabelbasiskaarten:"
 # Evaluation bar
 translate N BestMoveArrow "Beste zetpijl"
 translate N NewLocalEngine "+ Nieuwe motor ..."
-
-# Batch Annotate
-translate N BatchAnnotate {Batch-annotaties}
-translate N BatchEngineSelection {Motorselectie}
-translate N BatchChessEngine {Schaakengine:}
-translate N BatchNumberOfInstances {Aantal exemplaren:}
-translate N BatchGameReview {Spelrecensie}
-translate N BatchTimePerMove {Tijd per zet (sec):}
-translate N BatchAnnotateBlunders {Annoteer alleen blunders}
-translate N BatchBlunderThreshold {Blunderdrempel:}
-translate N BatchVariationLength {Variatielengte (zetten):}
-translate N BatchOpeningBook {Openingsboek}
-translate N BatchUseBook {Gebruik Boek}
-translate N BatchAnnotateVariations {Annoteer variaties}
-translate N BatchShortAnnotations {Korte annotaties}
-translate N BatchAddScoreToShort {Voeg score toe aan korte annotaties}
-translate N BatchClearOld {Wis oude opmerkingen en variaties}
-translate N BatchInitializingEngines {Motoren initialiseren...}
-translate N BatchAnalyzingGames {Spelletjes analyseren...}
-translate N BatchProgress {Batch annoteer de voortgang}
-translate N BatchComplete {Batchannotatie voltooid!}
-translate N BatchCancelled {Batchannotatie geannuleerd}
-translate N BatchStart {Begin}
-translate N BatchCancel {Annuleren}
-translate N BatchCompleted {voltooid}
-translate N BatchGames {spellen}
-translate N BatchProcessed {verwerkt}
 }
 # end of english.tcl
