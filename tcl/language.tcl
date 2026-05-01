@@ -376,7 +376,7 @@ addLanguage I Italiano 0 utf-8 italian.tcl
 addLanguage N Nederlands 0 iso8859-1 nederlan.tcl
 addLanguage O Norsk 1 iso8859-1 norsk.tcl
 addLanguage P Polski 0 iso8859-2 polish.tcl
-addLanguage B Português 0 iso8859-1 portbr.tcl
+addLanguage B Português 0 utf-8 portbr.tcl
 addLanguage R Русский 1 utf-8 russian.tcl
 addLanguage Y Srpski 2 iso8859-2 serbian.tcl
 addLanguage S Español 1 utf-8 spanish.tcl
