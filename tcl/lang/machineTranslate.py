@@ -6,8 +6,9 @@ Supported Language Encodings:
 The script will automatically detect encoding or you can specify it with -e flag:
   utf-8         - English, French, Greek, Italian, Russian, Chinese, Hebrew, Swahili,
                   Japanese, Romanian, Turkish, Hindi, Ukrainian, Bengali
-  iso8859-1     - Catalan, German, Dutch, Norwegian, Portuguese, Spanish, Finnish, Swedish
-  iso8859-2     - Czech, Hungarian, Polish, Serbian
+                  Catalan, German, Dutch, Norwegian, Portuguese, Spanish, Finnish, Swedish,
+                  Czech, Hungarian, Polish, 
+iso8859-2         Serbian
 
 Supported Language Codes (use with -l flag):
 ==================================================
@@ -98,22 +99,22 @@ def get_encoding_for_file(input_file):
     # Hard-coded encoding lookup based on language.tcl
     encoding_map = {
         'english.tcl': 'utf-8',
-        'catalan.tcl': 'iso8859-1',
-        'czech.tcl': 'iso8859-2',
-        'deutsch.tcl': 'iso8859-1',
+        'catalan.tcl': 'utf-8',
+        'czech.tcl': 'utf-8',
+        'deutsch.tcl': 'utf-8',
         'francais.tcl': 'utf-8',
         'greek.tcl': 'utf-8',
-        'hungary.tcl': 'iso8859-2',
+        'hungary.tcl': 'utf-8',
         'italian.tcl': 'utf-8',
-        'nederlan.tcl': 'iso8859-1',
-        'norsk.tcl': 'iso8859-1',
-        'polish.tcl': 'iso8859-2',
-        'portbr.tcl': 'iso8859-1',
+        'nederlan.tcl': 'utf-8',
+        'norsk.tcl': 'utf-8',
+        'polish.tcl': 'utf-8',
+        'portbr.tcl': 'utf-8',
         'russian.tcl': 'utf-8',
         'serbian.tcl': 'iso8859-2',
         'spanish.tcl': 'utf-8',
-        'suomi.tcl': 'iso8859-1',
-        'swedish.tcl': 'iso8859-1',
+        'suomi.tcl': 'utf-8',
+        'swedish.tcl': 'utf-8',
         'turkish.tcl': 'utf-8',
         'SerbCyr.tcl': 'utf-8',
         'japanese.tcl': 'utf-8',
@@ -339,7 +340,7 @@ def main():
     # Translate all TODO comments in spanish.tcl to Spanish
     #     python3 machineTranslate.py spanish.tcl -l es
     # Or explicitly specify encoding (though auto-detection works)
-    #     python3 machineTranslate.py spanish.tcl -l es -e iso8859-1
+    #     python3 machineTranslate.py spanish.tcl -l es -e utf-8
     # Process all language files
     #     python3 machineTranslate.py --all
     parser = argparse.ArgumentParser(

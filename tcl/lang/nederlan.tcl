@@ -1037,11 +1037,11 @@ translate N EndingQueenPawnVsQueen {Dame +1 pion tegen Dame} ;
 translate N BishopPairVsKnightPair {Loperpaar tegen 2 Paarden middenspel} ;
 
 # Common patterns in material search:
-translate N PatternWhiteIQP {Witte Geïsoleerde pion} ;
-translate N PatternWhiteIQPBreakE6 {Witte Geïsoleerde pion: d4-d5 doorbraak vs. e6} ;
-translate N PatternWhiteIQPBreakC6 {Witte Geïsoleerde pion: d4-d5 doorbraak vs. c6} ;
-translate N PatternBlackIQP {Zwarte Geïsoleerde pion} ;
-translate N PatternWhiteBlackIQP {Witte Geïsoleerde pion  vs. Zwarte Geïsoleerde pion} ;
+translate N PatternWhiteIQP {Witte GeÃ¯soleerde pion} ;
+translate N PatternWhiteIQPBreakE6 {Witte GeÃ¯soleerde pion: d4-d5 doorbraak vs. e6} ;
+translate N PatternWhiteIQPBreakC6 {Witte GeÃ¯soleerde pion: d4-d5 doorbraak vs. c6} ;
+translate N PatternBlackIQP {Zwarte GeÃ¯soleerde pion} ;
+translate N PatternWhiteBlackIQP {Witte GeÃ¯soleerde pion  vs. Zwarte GeÃ¯soleerde pion} ;
 translate N PatternCoupleC3D4 {Witte hangende pionnen c3+d4 } ;
 translate N PatternHangingC5D5 {Zwarte hangende pionnen c5+d5} ;
 translate N PatternMaroczy {Maroczy Centrum ( Pionnen op c4 en e4)} ;
@@ -1166,8 +1166,8 @@ translate N OprepThemeOppCastling {Tegengestelde rochades}
 translate N OprepThemeNoCastling {Beide zijden niet gerocheerd}
 translate N OprepThemeKPawnStorm {Pionnenstorm op koningsvleugel}
 translate N OprepThemeQueenswap {Dameruil}
-translate N OprepThemeWIQP {Witte Geïsoleerde Damepion} ;
-translate N OprepThemeBIQP {Zwarte Geïsoleerde Damepion} ;
+translate N OprepThemeWIQP {Witte GeÃ¯soleerde Damepion} ;
+translate N OprepThemeBIQP {Zwarte GeÃ¯soleerde Damepion} ;
 translate N OprepThemeWP567 {Witte pion op de 5/6/7de rij}
 translate N OprepThemeBP234 {Zwarte pion op de 2/3/4de rij}
 translate N OprepThemeOpenCDE {Open c/d/e lijn}
@@ -1299,7 +1299,7 @@ translate N GotoMoveNumber {Ga naar zetnummer:}
 
 # Copy games dialog:
 translate N CopyAllGames {Kopieer alle spellen naar}
-translate N CopyGames {Kopiëren partijen}
+translate N CopyGames {KopiÃ«ren partijen}
 translate N CopyConfirm {
  Wilt u echt kopieren
  de [::utils::thousands $nGamesToCopy] geselecteerde partijen
@@ -1338,8 +1338,8 @@ translate N SoundsFolderHelp {De map moet de bestanden King.wav, a.wav, 1.wav, e
 translate N SoundsAnnounceOptions {Zet Aankondigingen Opties} ;
 translate N SoundsAnnounceNew {Kondig nieuwe zetten aan als ze gedaan worden} ;
 translate N SoundsMoveSoundOnly {Alleen geluid verplaatsen (aankondigingen uitschakelen)}
-translate N SoundsAnnounceForward {Kondig  aan als één zet vooruit gedaan wordt} ;
-translate N SoundsAnnounceBack {Kondig  aan als één zet terug gedaan of genomen wordt} ;
+translate N SoundsAnnounceForward {Kondig  aan als Ã©Ã©n zet vooruit gedaan wordt} ;
+translate N SoundsAnnounceBack {Kondig  aan als Ã©Ã©n zet terug gedaan of genomen wordt} ;
 translate N SoundsSoundDisabled {Scid kon het snack-audiopakket niet vinden bij het opstarten;\nhet geluid is uitgeschakeld.}
 
 # Upgrading databases:
@@ -1352,7 +1352,7 @@ Wilt u de database in het nieuwe formaat openen?
 translate N ConfirmUpgrade {
 Dit is een oud formaat (Scid 3) database. Een versie in het nieuwe formaat moet worden gemaakt, voordat het in Scid 4 kan worden gebruikt.
 
-Bijwerken creëert een nieuwe versie van de database.
+Bijwerken creÃ«ert een nieuwe versie van de database.
 
 Dit kan enige tijd duren, maar het hoeft slechts eenmalig plaats te vinden. U kunt het afbreken indien het te lang duurt.
 
@@ -1533,9 +1533,9 @@ translate N QGDExchange {Damegambiet Ruil}
 translate N SemiSlav {Half-Slavisch}
 translate N QGDwithBg5 {Damegambiet met Lg5}
 translate N QGDOrthodox {Damegambiet Orthodox}
-translate N Grunfeld {Grünfeld}
-translate N GrunfeldExchange {Grünfeld Ruil}
-translate N GrunfeldRussian {Grünfeld Russisch}
+translate N Grunfeld {GrÃ¼nfeld}
+translate N GrunfeldExchange {GrÃ¼nfeld Ruil}
+translate N GrunfeldRussian {GrÃ¼nfeld Russisch}
 translate N Catalan {Catalaans}
 translate N CatalanOpen {Catalaans Open}
 translate N CatalanClosed {Catalaans Gesloten}
@@ -1544,7 +1544,7 @@ translate N NimzoIndian {Nimzo-Indisch}
 translate N NimzoIndianClassical {Nimzo-Indisch Klassiek Dc2}
 translate N NimzoIndianRubinstein {Nimzo-Indisch Rubinstein}
 translate N KingsIndian {Koningsindisch}
-translate N KingsIndianSamisch {Koningsindisch Sämisch}
+translate N KingsIndianSamisch {Koningsindisch SÃ¤misch}
 translate N KingsIndianMainLine {Koningsindisch Hoofdvariant}
 
 # FICS
@@ -1564,7 +1564,7 @@ translate N FICSRelayedGames {Doorgezonden partijen}
 translate N FICSFindOpponent {Zoek opponent}
 translate N FICSTakeback {Terugnemen}
 translate N FICSTakeback2 {Terugnemen 2}
-translate N FICSInitTime {Initiële tijd (min)}
+translate N FICSInitTime {InitiÃ«le tijd (min)}
 translate N FICSIncrement {Toename (sec)}
 translate N FICSRatedGame {De Betreffende Partij}
 translate N FICSAutoColour {Automatisch}
@@ -1680,7 +1680,7 @@ translate N Random {Willekeurig}
 translate N BackToMainline {Ga terug naar de hoofdlijn}
 translate N LeaveVariant {Variant verlaten}
 translate N Autoplay {Automatisch afspelen}
-translate N ShowHideCoords {Coördinatie tonen/verbergen.}
+translate N ShowHideCoords {CoÃ¶rdinatie tonen/verbergen.}
 translate N ShowHideEvalBar {Evaluatiebalk tonen/verbergen}
 translate N ShowHideMaterial {Materiaal tonen/verbergen}
 translate N SelectMarker {Selecteer Markering}
