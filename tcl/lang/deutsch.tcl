@@ -319,7 +319,7 @@ menuText D HelpHints "Hinweise" 0 {Die Scid-Kurztips}
 menuText D HelpContact "Kontaktinformation" 0 {Hilfe zur Kontaktinformation}
 menuText D HelpTip "Tagestip" 0 {Zeigt einen nützlichen Tip an}
 menuText D HelpStartup "Startfenster" 0 {Startfenster zeigen}
-menuText D HelpAbout "Über Scid" 0 {Informationen zu Scid}
+menuText D HelpAbout "Über scidCommunity" 0 {Informationen zu scidCommunity}
 
 # Toolbar tooltips:
 menuText D RotateBoard "Brett drehen" 0 {Brett drehen}
@@ -636,7 +636,7 @@ translate D GraphFilterTitle "Filtergrafik: Häufigkeit pro 1000 Partien"
 translate D GraphAbsFilterTitle "Filtergrafik: Häufigkeit der Partien"
 translate D ConfigureFilter "X-Achse für Jahr, Elo und Züge konfigurieren"
 translate D FilterEstimate "Schätzen"
-translate D TitleFilterGraph "Scid: Filtergrafik"
+translate D TitleFilterGraph "scidCommunity: Filtergrafik"
 
 # Analysis window:
 translate D AddVariation {Variante hinzufügen}
@@ -949,14 +949,14 @@ Sind Sie sicher, dass Sie die ausgewählten Wartungsarbeiten starten möchten?
 translate D TwinCheckUndelete { umdrehen; "u" beide wiederherstellen)}
 translate D TwinCheckprevPair {Vorheriges Paar}
 translate D TwinChecknextPair {Nächstes Paar}
-translate D TwinChecker {Scid: Dublettenprüfer}
+translate D TwinChecker {scidCommunity: Dublettenprüfer}
 translate D TwinCheckTournament {Partien im Turnier:}
 translate D TwinCheckNoTwin {Keine Dublette}
 translate D TwinCheckNoTwinfound {Kein Dublette für diese Partie gefunden.
 
 Um Dubletten anzuzeigen, bitte zuerst die Funktion "Lösche Dubletten" benutzen.}
 translate D TwinCheckTag {Nutze Tag...}
-translate D TwinCheckFound1 {Scid hat $result Dubletten gefunden}
+translate D TwinCheckFound1 {scidCommunity hat $result Dubletten gefunden}
 translate D TwinCheckFound2 { und das Gelöscht-Flag gesetzt}
 translate D TwinCheckNoDelete {In dieser Datenbank sind keine Partien zu löschen.}
 translate D TwinCriteria1 {Ihre Auswahlkriterien der Dublettensuche haben eine hohe Wahrscheinlichkeit auch Partien mit ähnlichen Zügen als Dubletten zu erkennen.
@@ -967,12 +967,12 @@ Wollen Sie fortsetzen und mit dieser Auswahl die Dubletten löschen? }
 translate D TwinCriteria3 {Es wird empfohlen, dass bei der Auswahl "Ja" für mindestens 2 der Parameter "gleicher Ort", "gleiche Runde" und "gleiches Jahr" gesetzt werden.
     
 Wollen Sie fortsetzen und mit dieser Auswahl die Dubletten löschen?}
-translate D TwinCriteriaConfirm {Scid: Bestätigen der Dublettensuchparameter}
+translate D TwinCriteriaConfirm {scidCommunity: Bestätigen der Dublettensuchparameter}
 translate D TwinChangeTag "Ändern der folgenden Partie-Tags:\n\n"
 translate D AllocRatingDescription "Es werden die ELO-Werte aus der Schreibkorrekturdatei den Partien hinzugefügt, wenn der/die Spieler/in keinen aktuellen Wert in der Partie besitzt, aber in der Korrekturdatei ein Wert für den Zeitraum der Partie vorhanden ist."
 translate D RatingOverride "Existierende ELO-Werte überschreiben"
 translate D AddRatings "Elo-Werte hinzufügen"
-translate D AddedRatings {Scid hat $r Elo-Werte in $g Partien hinzugefügt.}
+translate D AddedRatings {scidCommunity hat $r Elo-Werte in $g Partien hinzugefügt.}
 
 #Bookmark editor
 translate D NewSubmenu "Neues Untermenü"
@@ -1113,7 +1113,7 @@ Wollen Sie wirklich fortsetzen und die Änderungen verwerfen?
 }
 
 # Exit dialog:
-translate D ExitDialog {Möchten Sie Scid beenden?}
+translate D ExitDialog {Möchten Sie scidCommunity beenden?}
 translate D ExitUnsaved {Die folgenden Datenbanken haben ungesicherte Partieänderungen. Wenn Sie jetzt beenden, gehen diese Änderungen verloren.}
 
 # Import window:
@@ -1351,7 +1351,7 @@ translate D FindNovelty {Finde Neuerung}
 translate D Novelty {Neuerung}
 translate D NoveltyInterrupt {Neuerungensuche abgebrochen}
 translate D NoveltyNone {In dieser Partie wurde keine Neuerung gefunden}
-translate D NoveltyHelp {Scid wird den ersten Zug aus der aktuellen Partie finden, welcher zu einer Position führt, die nicht in der gewählten Datenbank oder in dem ECO-Eröffnungsbuch enthalten ist.}
+translate D NoveltyHelp {scidCommunity wird den ersten Zug aus der aktuellen Partie finden, welcher zu einer Position führt, die nicht in der gewählten Datenbank oder in dem ECO-Eröffnungsbuch enthalten ist.}
 
 # Sounds configuration:
 translate D SoundsFolder {Verzeichnis für Sprachausgabedateien}
@@ -1361,7 +1361,7 @@ translate D SoundsAnnounceNew {Kündige neue Züge an, wenn sie ausgeführt werd
 translate D SoundsMoveSoundOnly {Nur Ton bewegen (Ansagen deaktivieren)}
 translate D SoundsAnnounceForward {Künde Zug an beim Vorwärtspielen}
 translate D SoundsAnnounceBack {Kündige Zug an beim Zurückgehen}
-translate D SoundsSoundDisabled {Scid hat das Snack Audio Paket beim Start nicht gefunden.\nTon ist abgeschaltet.}
+translate D SoundsSoundDisabled {scidCommunity hat das Snack Audio Paket beim Start nicht gefunden.\nTon ist abgeschaltet.}
 
 # Upgrading databases:
 translate D Upgrading {Upgrading}
