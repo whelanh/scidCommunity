@@ -1,5 +1,6 @@
 name: scidcommunity
 base: core26
+build-base: devel
 version: git
 platforms:
   amd64:
@@ -33,7 +34,7 @@ description: |
   
   This fork welcomes community suggestions and aims to be responsive to user feature requests.
 
-grade: stable
+grade: devel
 confinement: strict
 
 layout:
