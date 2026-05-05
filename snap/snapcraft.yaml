@@ -35,7 +35,7 @@ description: |
   This fork welcomes community suggestions and aims to be responsive to user feature requests.
 
 grade: devel
-confinement: strict
+confinement: devmode
 
 layout:
   /usr/share/tcltk:
