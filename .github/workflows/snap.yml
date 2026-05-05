@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-26.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -26,10 +26,9 @@ jobs:
 
       - name: Build snap
         id: build
-        run: |
-          sudo snapcraft pack --destructive-mode
-          SNAP_FILE=$(ls *.snap)
-          echo "snap=$SNAP_FILE" >> "$GITHUB_OUTPUT"
+        uses: snapcore/action-build@v1
+        with:
+          snapcraft-channel: latest/stable
 
       - name: Upload snap artifact
         uses: actions/upload-artifact@v7
