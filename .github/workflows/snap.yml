@@ -26,9 +26,10 @@ jobs:
 
       - name: Build snap
         id: build
-        uses: snapcore/action-build@v1
-        with:
-          snapcraft-channel: latest/stable
+        run: |
+          sudo snapcraft pack --destructive-mode
+          SNAP_FILE=$(ls *.snap)
+          echo "snap=$SNAP_FILE" >> "$GITHUB_OUTPUT"
 
       - name: Upload snap artifact
         uses: actions/upload-artifact@v7
@@ -43,4 +44,4 @@ jobs:
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
         with:
           snap: ${{ steps.build.outputs.snap }}
-          release: beta
+          release: stable

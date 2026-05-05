@@ -1,6 +1,5 @@
 name: scidcommunity
-base: core26
-build-base: devel
+base: core24
 version: git
 platforms:
   amd64:
@@ -34,14 +33,14 @@ description: |
   
   This fork welcomes community suggestions and aims to be responsive to user feature requests.
 
-grade: devel
+grade: stable
 confinement: strict
 
 layout:
-  /usr/lib/tcl9.0:
-    bind: $SNAP/usr/lib/tcl9.0
-  /usr/lib/tk9.0:
-    bind: $SNAP/usr/lib/tk9.0
+  /usr/share/tcltk:
+    bind: $SNAP/usr/share/tcltk
+  /usr/lib/tcltk:
+    bind: $SNAP/usr/lib/tcltk
   /usr/share/alsa:
     bind: $SNAP/usr/share/alsa
 
@@ -63,9 +62,10 @@ apps:
       - pipewire
     environment:
       SCID_SHAREDIR: $SNAP/usr/share/scid
-      TCL_LIBRARY: $SNAP/usr/lib/tcl9.0
-      TK_LIBRARY: $SNAP/usr/lib/tk9.0
-      TCLLIBPATH: $SNAP/usr/lib/tcl9.0 $SNAP/usr/lib/tk9.0
+      TCL_LIBRARY: $SNAP/usr/share/tcltk/tcl8.6
+      TK_LIBRARY: $SNAP/usr/share/tcltk/tk8.6
+      TCL8_6_TM_PATH: $SNAP/usr/share/tcltk/tcl8/8.6:$SNAP/usr/share/tcltk/tcl8/8.5
+      TCLLIBPATH: $SNAP/usr/share/tcltk/tcl8.6/tcl8 $SNAP/usr/share/tcltk $SNAP/usr/share/tcltk/tcl8/8.6 $SNAP/usr/share/tcltk/tcl8/8.5
       LD_LIBRARY_PATH: $SNAP/usr/lib/x86_64-linux-gnu/pulseaudio:$SNAP/usr/lib/x86_64-linux-gnu:$SNAP/usr/lib:$LD_LIBRARY_PATH
 
 parts:
@@ -75,20 +75,15 @@ parts:
     cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
-      - -DTCL_TCLSH=/usr/bin/tclsh9.0
-      - -DTCL_INCLUDE_PATH=/usr/include/tcl9.0
-      - -DTK_INCLUDE_PATH=/usr/include/tcl9.0
-      - -DTCL_LIBRARY=/usr/lib/x86_64-linux-gnu/libtcl9.0.so
-      - -DTK_LIBRARY=/usr/lib/x86_64-linux-gnu/libtcl9tk9.0.so
     build-packages:
       - make
-      - tcl9.0-dev
-      - tk9.0-dev
+      - tcl8.6-dev
+      - tk8.6-dev
     stage-packages:
-      - tk9.0
-      - tcl9.0
-      - libtcl9.0
-      - libtk9.0
+      - tk8.6
+      - tcl8.6
+      - libtcl8.6
+      - libtk8.6
       - alsa-utils
       - alsa-base
       - pipewire-bin
@@ -109,8 +104,8 @@ parts:
       craftctl default
     override-prime: |
       craftctl default
-      # Debug: List Tcl/Tk 9.0 installation to verify paths
-      echo "=== Checking Tcl/Tk 9.0 files ==="
-      find . -name "init.tcl" -o -name "tk.tcl" | head -30 || true
-      ls -la usr/lib/tcl9.0/ || true
-      ls -la usr/lib/tk9.0/ || true
+      # Debug: List Tcl/Tk installation to verify paths
+      echo "=== Checking Tcl/Tk files ==="
+      find . -name "init.tcl" -o -name "tk.tcl" -o -name "msgcat*" | head -30 || true
+      ls -la usr/share/tcltk/ || true
+      ls -la usr/share/tcltk/tcl8.6/ || true
