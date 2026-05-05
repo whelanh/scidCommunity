@@ -75,6 +75,11 @@ parts:
     cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
+      - -DTCL_TCLSH=/usr/bin/tclsh9.0
+      - -DTCL_INCLUDE_PATH=/usr/include/tcl9.0
+      - -DTK_INCLUDE_PATH=/usr/include/tcl9.0
+      - -DTCL_LIBRARY=/usr/lib/x86_64-linux-gnu/libtcl9.0.so
+      - -DTK_LIBRARY=/usr/lib/x86_64-linux-gnu/libtcl9tk9.0.so
     build-packages:
       - make
       - tcl9.0-dev
