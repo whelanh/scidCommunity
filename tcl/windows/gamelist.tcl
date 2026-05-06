@@ -999,6 +999,71 @@ proc glist.layout_save {layout} {
   lappend ::glist_Layouts "$new_ly"
 }
 
+proc glist.layout_rename {layout} {
+  set w .glist_rename
+  if {[winfo exists $w]} { destroy $w }
+  win::createDialog $w
+  wm title $w "[tr Rename] $layout"
+
+  pack [ttk::label $w.msg -text "[tr Rename] $layout:"] -padx 10 -pady 5
+  pack [ttk::entry $w.name] -padx 10 -pady 5 -fill x
+  $w.name insert 0 $layout
+  $w.name selection range 0 end
+  focus $w.name
+
+  set f [ttk::frame $w.buttons]
+  pack $f -padx 10 -pady 10 -fill x
+
+  ttk::button $f.ok -text [tr Save] -command "
+    set new_ly \[$w.name get\]
+    if {\$new_ly ne {} && \$new_ly ne {$layout}} {
+      glist.layout_rename_do {$layout} \$new_ly
+    }
+    destroy $w
+  "
+  ttk::button $f.cancel -text [tr Cancel] -command "destroy $w"
+  pack $f.cancel $f.ok -side right -padx 5
+
+  bind $w <Return> [list $f.ok invoke]
+  bind $w <Escape> [list destroy $w]
+}
+
+proc glist.layout_rename_do {old new} {
+  set idx [lsearch -exact $::glist_Layouts $old]
+  if {$idx == -1} return
+  if {[lsearch -exact $::glist_Layouts $new] != -1} {
+    tk_messageBox -icon error -title scidCommunity -message "Layout '$new' already exists."
+    return
+  }
+  set ::glist_Layouts [lreplace $::glist_Layouts $idx $idx $new]
+  set ::glist_ColOrder($new) $::glist_ColOrder($old)
+  set ::glist_ColWidth($new) $::glist_ColWidth($old)
+  set ::glist_ColAnchor($new) $::glist_ColAnchor($old)
+  set ::glist_Sort($new) $::glist_Sort($old)
+  set ::glist_FindBar($new) $::glist_FindBar($old)
+  unset ::glist_ColOrder($old)
+  unset ::glist_ColWidth($old)
+  unset ::glist_ColAnchor($old)
+  unset ::glist_Sort($old)
+  unset ::glist_FindBar($old)
+  options.write
+}
+
+proc glist.layout_delete {layout} {
+  set msg "Are you sure you want to delete the layout '$layout'?"
+  set answer [tk_messageBox -title scidCommunity -icon question -type yesno -message $msg]
+  if {$answer ne "yes"} return
+  set idx [lsearch -exact $::glist_Layouts $layout]
+  if {$idx == -1} return
+  set ::glist_Layouts [lreplace $::glist_Layouts $idx $idx]
+  unset ::glist_ColOrder($layout)
+  unset ::glist_ColWidth($layout)
+  unset ::glist_ColAnchor($layout)
+  unset ::glist_Sort($layout)
+  unset ::glist_FindBar($layout)
+  options.write
+}
+
 
 ##########################################################################
 #private:
@@ -1436,8 +1501,18 @@ proc glist.popupmenu_ {{w} {x} {y} {abs_x} {abs_y} {layout}} {
       -command "glist.layout_apply [winfo parent $w] $layout DEFAULT"
     if {[info exists ::glist_Layouts]} {
       foreach elem $::glist_Layouts {
-        $w.header_menu.layouts add command -label $elem \
-          -command "glist.layout_apply [winfo parent $w] $layout $elem"
+        if {$elem in {RatingDate DateEvent Full}} {
+          $w.header_menu.layouts add command -label $elem \
+            -command "glist.layout_apply [winfo parent $w] $layout $elem"
+        } else {
+          set sub [menu $w.header_menu.layouts.m$elem -tearoff 0]
+          $sub add command -label $elem -state disabled -font font_Bold
+          $sub add separator
+          $sub add command -label [tr Apply] -command "glist.layout_apply [winfo parent $w] $layout $elem"
+          $sub add command -label [tr Rename] -command "glist.layout_rename $elem"
+          $sub add command -label [tr Delete] -command "glist.layout_delete $elem"
+          $w.header_menu.layouts add cascade -label $elem -menu $sub
+        }
       }
     }
     $w.header_menu add cascade -label "Layouts" -menu $w.header_menu.layouts
