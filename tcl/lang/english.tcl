@@ -1681,6 +1681,8 @@ translate E FindCurrentGame {Find current game}
 translate E DeleteGame {Delete game}
 translate E UndeleteGame {Undelete game}
 translate E ResetSort {Reset sort}
+translate E LayoutExists {Layout '%s' already exists.}
+translate E ConfirmDeleteLayout {Are you sure you want to delete the layout '%s'?}
 
 translate E ConvertNullMove {Convert null moves to comments}
 translate E SetupBoard {Setup Board}

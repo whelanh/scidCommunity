@@ -1014,25 +1014,34 @@ proc glist.layout_rename {layout} {
   set f [ttk::frame $w.buttons]
   pack $f -padx 10 -pady 10 -fill x
 
-  ttk::button $f.ok -text [tr Save] -command "
-    set new_ly \[$w.name get\]
-    if {\$new_ly ne {} && \$new_ly ne {$layout}} {
-      glist.layout_rename_do {$layout} \$new_ly
-    }
-    destroy $w
-  "
-  ttk::button $f.cancel -text [tr Cancel] -command "destroy $w"
+  ttk::button $f.ok -text [tr Save] -command [list glist.layout_rename_validate $w $layout]
+  ttk::button $f.cancel -text [tr Cancel] -command [list destroy $w]
   pack $f.cancel $f.ok -side right -padx 5
 
   bind $w <Return> [list $f.ok invoke]
   bind $w <Escape> [list destroy $w]
 }
 
+proc glist.layout_rename_validate {w layout} {
+  set new_ly [$w.name get]
+  if {$new_ly eq {} || $new_ly eq $layout} {
+    destroy $w
+    return
+  }
+  # Validate the new name - only allow alphanumeric, underscore, and hyphen
+  if {![regexp {^[A-Za-z0-9_-]+$} $new_ly]} {
+    tk_messageBox -icon error -title scidCommunity -message "Invalid layout name. Only letters, numbers, underscore, and hyphen are allowed."
+    return
+  }
+  glist.layout_rename_do $layout $new_ly
+  destroy $w
+}
+
 proc glist.layout_rename_do {old new} {
   set idx [lsearch -exact $::glist_Layouts $old]
   if {$idx == -1} return
   if {[lsearch -exact $::glist_Layouts $new] != -1} {
-    tk_messageBox -icon error -title scidCommunity -message "Layout '$new' already exists."
+    tk_messageBox -icon error -title scidCommunity -message [format $::tr(LayoutExists) $new]
     return
   }
   set ::glist_Layouts [lreplace $::glist_Layouts $idx $idx $new]
@@ -1050,7 +1059,7 @@ proc glist.layout_rename_do {old new} {
 }
 
 proc glist.layout_delete {layout} {
-  set msg "Are you sure you want to delete the layout '$layout'?"
+  set msg [format $::tr(ConfirmDeleteLayout) $layout]
   set answer [tk_messageBox -title scidCommunity -icon question -type yesno -message $msg]
   if {$answer ne "yes"} return
   set idx [lsearch -exact $::glist_Layouts $layout]
@@ -1495,23 +1504,25 @@ proc glist.popupmenu_ {{w} {x} {y} {abs_x} {abs_y} {layout}} {
     #LAYOUTS
     destroy $w.header_menu.layouts
     menu $w.header_menu.layouts
-    $w.header_menu.layouts add command -label $::tr(Save) -command "glist.layout_save $layout"
+    $w.header_menu.layouts add command -label $::tr(Save) -command [list glist.layout_save $layout]
     $w.header_menu.layouts add separator
     $w.header_menu.layouts add command -label $::tr(Defaults) \
-      -command "glist.layout_apply [winfo parent $w] $layout DEFAULT"
+      -command [list glist.layout_apply [winfo parent $w] $layout DEFAULT]
     if {[info exists ::glist_Layouts]} {
+      set idx 0
       foreach elem $::glist_Layouts {
         if {$elem in {RatingDate DateEvent Full}} {
           $w.header_menu.layouts add command -label $elem \
-            -command "glist.layout_apply [winfo parent $w] $layout $elem"
+            -command [list glist.layout_apply [winfo parent $w] $layout $elem]
         } else {
-          set sub [menu $w.header_menu.layouts.m$elem -tearoff 0]
+          set sub [menu $w.header_menu.layouts.m$idx -tearoff 0]
           $sub add command -label $elem -state disabled -font font_Bold
           $sub add separator
-          $sub add command -label [tr Apply] -command "glist.layout_apply [winfo parent $w] $layout $elem"
-          $sub add command -label [tr Rename] -command "glist.layout_rename $elem"
-          $sub add command -label [tr Delete] -command "glist.layout_delete $elem"
+          $sub add command -label [tr Apply] -command [list glist.layout_apply [winfo parent $w] $layout $elem]
+          $sub add command -label [tr Rename] -command [list glist.layout_rename $elem]
+          $sub add command -label [tr Delete] -command [list glist.layout_delete $elem]
           $w.header_menu.layouts add cascade -label $elem -menu $sub
+          incr idx
         }
       }
     }
