@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.3.22
+Version:        5.1.3.23
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit d6e80fd359c8c2cedab0464d04847808deb15f67
+%global commit af40677c5eca58bf22aebf7bfd8efed9acf56ac7
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Wed May 6, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-23
+- "Allow users to rename and delete custom Game List window layouts"
 * Fri May 1, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-22
 - "Change language encodings"
 * Thu Apr 30, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-20
