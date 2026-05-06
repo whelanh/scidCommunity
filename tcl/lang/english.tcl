@@ -347,6 +347,7 @@ menuText E GInfoInformant "Configure informant values" 0
 
 # General buttons:
 translate E Back {Back}
+translate E Apply {Apply}
 translate E Browse {Browse}
 translate E Cancel {Cancel}
 translate E Continue {Continue}
@@ -367,6 +368,7 @@ translate E MergeGame {Merge Game}
 translate E MergeGames {Merge Games}
 translate E Preview {Preview}
 translate E Revert {Revert}
+translate E Rename {Rename}
 translate E Save {Save}
 translate E Search {Search}
 translate E Stop {Stop}
@@ -1679,6 +1681,8 @@ translate E FindCurrentGame {Find current game}
 translate E DeleteGame {Delete game}
 translate E UndeleteGame {Undelete game}
 translate E ResetSort {Reset sort}
+translate E LayoutExists {Layout '%s' already exists.}
+translate E ConfirmDeleteLayout {Are you sure you want to delete the layout '%s'?}
 
 translate E ConvertNullMove {Convert null moves to comments}
 translate E SetupBoard {Setup Board}
