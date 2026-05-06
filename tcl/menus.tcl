@@ -647,6 +647,23 @@ proc configInformant { w } {
 
 ################################################################################
 
+proc configFICS { w } {
+  ttk::label $w.lterm -text [::tr FICSTerminalColor]
+  canvas $w.termSample -width 30 -height 20 -background $::fics::consolebg -highlightthickness 1
+  ttk::button $w.bterm -text "..." -command [list ::fics::chooseTerminalColor $w.termSample]
+
+  ttk::label $w.ltext -text [::tr FICSTextColor]
+  canvas $w.textSample -width 30 -height 20 -background $::fics::consolefg -highlightthickness 1
+  ttk::button $w.btext -text "..." -command [list ::fics::chooseTextColor $w.textSample]
+
+  grid $w.lterm -row 0 -column 0 -sticky w -padx "0 10"
+  grid $w.termSample -row 0 -column 1 -padx "0 5"
+  grid $w.bterm -row 0 -column 2
+  grid $w.ltext -row 1 -column 0 -sticky w -padx "0 10" -pady "10 0"
+  grid $w.textSample -row 1 -column 1 -padx "0 5" -pady "10 0"
+  grid $w.btext -row 1 -column 2 -pady "10 0"
+}
+
 proc getBooksDir { widget } {
   global scidBooksDir
   set dir [tk_chooseDirectory -initialdir $scidBooksDir -parent [winfo toplevel $widget] -mustexist 1]

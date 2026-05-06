@@ -64,6 +64,7 @@ proc ::preferences::Open { {toggle ""} } {
   lappend configList [tr OptionsSounds] ::utils::sound::OptionsDialog
   lappend configList [tr OptionsMoves] ::preferences::moves
   lappend configList [tr ConfigureInformant] configInformant
+  lappend configList [tr OptionsFICS] configFICS
   set maxlen 0
   ### create the dialogs
   foreach {m init} $configList {
