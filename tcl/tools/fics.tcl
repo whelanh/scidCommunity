@@ -1829,6 +1829,28 @@ namespace eval fics {
     if { ! $::windowsOS } { catch { exec -- kill -s INT [ $::fics::timeseal_pid ] }  }
     ::win::closeWindow .fics
   }
+  ################################################################################
+  # Choose the background color for the FICS console
+  ################################################################################
+  proc chooseTerminalColor { {sample ""} } {
+    set color [tk_chooseColor -initialcolor $::fics::consolebg -title [::tr FICSTerminalColor]]
+    if {$color ne ""} {
+      set ::fics::consolebg $color
+      if {$sample ne ""} { catch {$sample configure -background $color} }
+      catch {.fics.f.top.fconsole.f1.console configure -bg $color}
+    }
+  }
+  ################################################################################
+  # Choose the text (foreground) color for the FICS console
+  ################################################################################
+  proc chooseTextColor { {sample ""} } {
+    set color [tk_chooseColor -initialcolor $::fics::consolefg -title [::tr FICSTextColor]]
+    if {$color ne ""} {
+      set ::fics::consolefg $color
+      if {$sample ne ""} { catch {$sample configure -background $color} }
+      catch {.fics.f.top.fconsole.f1.console configure -fg $color}
+    }
+  }
 }
 ###
 ### End of file: fics.tcl

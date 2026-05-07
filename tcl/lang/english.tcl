@@ -1604,6 +1604,9 @@ translate E FICSUnrated {Unrated}
 translate E FICSRegisteredPlayer {Registered player only}
 translate E FICSFreePlayer {Free player only}
 translate E FICSNetError {Network error\nCan't connect to }
+translate E OptionsFICS {FICS}
+translate E FICSTerminalColor {Terminal color}
+translate E FICSTextColor {Text color}
 
 # Game review
 translate E GameReview {Game review}
