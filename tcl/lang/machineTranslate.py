@@ -7,7 +7,7 @@ The script will automatically detect encoding or you can specify it with -e flag
   utf-8         - English, French, Greek, Italian, Russian, Chinese, Hebrew, Swahili,
                   Japanese, Romanian, Turkish, Hindi, Ukrainian, Bengali
                   Catalan, German, Dutch, Norwegian, Portuguese, Spanish, Finnish, Swedish,
-                  Czech, Hungarian, Polish, 
+                  Czech, Hungarian, Polish, Korean
 iso8859-2         Serbian
 
 Supported Language Codes (use with -l flag):
@@ -90,6 +90,7 @@ LANGUAGE_FILE_MAP = {
     'hindi.tcl': 'hi',        # Hindi
     'ukrainian.tcl': 'uk',    # Ukrainian
     'bengali.tcl': 'bn',      # Bengali
+    'korean.tcl': 'ko',       # Korean
 }
 
 def get_encoding_for_file(input_file):
@@ -125,6 +126,7 @@ def get_encoding_for_file(input_file):
         'hindi.tcl': 'utf-8',
         'ukrainian.tcl': 'utf-8',
         'bengali.tcl': 'utf-8',
+        'korean.tcl': 'utf-8',
     }
     
     # Extract filename from path

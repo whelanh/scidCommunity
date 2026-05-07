@@ -307,11 +307,12 @@ menuText h GInfoInformant "मुखबिर मान कॉन्फ़िग
 
 # General buttons:
 translate h Back {पीछे}
+translate h Apply {लागू करें}
 translate h Browse {ब्राउज़}
-translate h Cancel {रद्द करना}
-translate h Continue {जारी रखना}
-translate h Clear {स्पष्ट}
-translate h Close {बंद करना}
+translate h Cancel {रद्द करें}
+translate h Continue {जारी रखें}
+translate h Clear {साफ करें}
+translate h Close {बंद करें}
 translate h Contents {अंतर्वस्तु}
 translate h Defaults {चूक}
 translate h InvertSearch {उलटा खोजें}
@@ -327,10 +328,11 @@ translate h MergeGame {मर्ज गेम}
 translate h MergeGames {खेलों को मर्ज करें}
 translate h Preview {पूर्व दर्शन}
 translate h Revert {फिर लौट आना}
-translate h Save {बचाना}
-translate h Search {खोज}
-translate h Stop {रुकना}
-translate h Store {इकट्ठा करना}
+translate h Rename {नाम बदलें}
+translate h Save {सहेजें}
+translate h Search {खोजें}
+translate h Stop {रुकें}
+translate h Store {सहेजें}
 translate h Update {अद्यतन}
 translate h ChangeOrient {विंडो ओरिएंटेशन बदलें}
 translate h ShowIcons {प्रतीक दिखाएँ}
@@ -350,10 +352,10 @@ translate h No {नहीं}
 translate h Both {दोनों}
 translate h King {राजा}
 translate h Queen {रानी}
-translate h Rook {कौआ}
-translate h Bishop {बिशप}
-translate h Knight {सामंत}
-translate h Pawn {मोहरा}
+translate h Rook {हाथी}
+translate h Bishop {ऊँट}
+translate h Knight {घोड़ा}
+translate h Pawn {प्यादा}
 translate h White {सफ़ेद}
 translate h Black {काला}
 translate h Player {खिलाड़ी}
@@ -426,11 +428,11 @@ translate h PInfoEditRatings {रेटिंग संपादित करे
 translate h PInfoEloFile {फ़ाइल}
 
 # Tablebase information:
-translate h Draw {खींचना}
+translate h Draw {ड्रा}
 translate h with {साथ}
 translate h only {केवल}
-translate h lose {खोना}
-translate h loses {खो देता है}
+translate h lose {हार}
+translate h loses {हारता है}
 
 # Tip of the day:
 translate h Tip {बख्शीश}
@@ -1547,6 +1549,9 @@ translate h FICSUnrated {अनरेटेड}
 translate h FICSRegisteredPlayer {केवल पंजीकृत खिलाड़ी}
 translate h FICSFreePlayer {केवल निःशुल्क खिलाड़ी}
 translate h FICSNetError {नेटवर्क त्रुटि\कनेक्ट नहीं हो पा रहा है}
+translate h OptionsFICS {एफआईसीएस}
+translate h FICSTerminalColor {टर्मिनल रंग}
+translate h FICSTextColor {पाठ का रंग}
 
 # Game review
 translate h GameReview {खेल समीक्षा}
@@ -1624,6 +1629,8 @@ translate h FindCurrentGame {वर्तमान गेम ढूंढें}
 translate h DeleteGame {गेम हटाएं}
 translate h UndeleteGame {गेम को अनडिलीट करें}
 translate h ResetSort {सॉर्ट रीसेट करें}
+translate h LayoutExists {लेआउट '%s' पहले से मौजूद है.}
+translate h ConfirmDeleteLayout {क्या आप वाकई '%s' लेआउट को हटाना चाहते हैं?}
 
 translate h ConvertNullMove {शून्य चालों को टिप्पणियों में बदलें}
 translate h SetupBoard {सेटअप बोर्ड}

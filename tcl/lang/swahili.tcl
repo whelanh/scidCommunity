@@ -307,10 +307,11 @@ menuText Z GInfoInformant "Sanidi maadili ya mtoa habari" 0
 
 # General buttons:
 translate Z Back {Nyuma}
+translate Z Apply {Tumia}
 translate Z Browse {Vinjari}
 translate Z Cancel {Ghairi}
 translate Z Continue {Endelea}
-translate Z Clear {Wazi}
+translate Z Clear {Safisha}
 translate Z Close {Funga}
 translate Z Contents {Yaliyomo}
 translate Z Defaults {Chaguomsingi}
@@ -327,6 +328,7 @@ translate Z MergeGame {Unganisha Mchezo}
 translate Z MergeGames {Unganisha Michezo}
 translate Z Preview {Hakiki}
 translate Z Revert {Rudisha}
+translate Z Rename {Badilisha jina}
 translate Z Save {Hifadhi}
 translate Z Search {Tafuta}
 translate Z Stop {Acha}
@@ -350,10 +352,10 @@ translate Z No {Hapana}
 translate Z Both {Zote mbili}
 translate Z King {Mfalme}
 translate Z Queen {Malkia}
-translate Z Rook {Rook}
+translate Z Rook {Ngome}
 translate Z Bishop {Askofu}
-translate Z Knight {Knight}
-translate Z Pawn {Pauni}
+translate Z Knight {Farasi}
+translate Z Pawn {Askari}
 translate Z White {Nyeupe}
 translate Z Black {Nyeusi}
 translate Z Player {Mchezaji}
@@ -426,7 +428,7 @@ translate Z PInfoEditRatings {Badilisha Ukadiriaji}
 translate Z PInfoEloFile {Faili}
 
 # Tablebase information:
-translate Z Draw {Chora}
+translate Z Draw {Droo}
 translate Z with {na}
 translate Z only {pekee}
 translate Z lose {kupoteza}
@@ -1547,6 +1549,9 @@ translate Z FICSUnrated {Haijakadiriwa}
 translate Z FICSRegisteredPlayer {Mchezaji aliyesajiliwa pekee}
 translate Z FICSFreePlayer {Mchezaji wa bure pekee}
 translate Z FICSNetError {Hitilafu ya mtandao\Imeshindwa kuunganisha}
+translate Z OptionsFICS {FICS}
+translate Z FICSTerminalColor {Rangi ya terminal}
+translate Z FICSTextColor {Rangi ya maandishi}
 
 # Game review
 translate Z GameReview {Tathmini ya mchezo}
@@ -1624,6 +1629,8 @@ translate Z FindCurrentGame {Tafuta mchezo wa sasa}
 translate Z DeleteGame {Futa mchezo}
 translate Z UndeleteGame {Ondoa mchezo}
 translate Z ResetSort {Weka upya kupanga}
+translate Z LayoutExists {Muundo '%s' tayari upo.}
+translate Z ConfirmDeleteLayout {Je, una uhakika unataka kufuta mpangilio wa '%s'?}
 
 translate Z ConvertNullMove {Badilisha miondoko batili kuwa maoni}
 translate Z SetupBoard {Bodi ya Kuweka}

@@ -315,6 +315,7 @@ menuText I GInfoInformant "Configura i valori dei simboli per i commenti" 0
 
 # General buttons:
 translate I Back {Indietro}
+translate I Apply {Fare domanda a}
 translate I Browse {Browse}
 translate I Cancel {Annulla}
 translate I Continue {Continua}
@@ -335,6 +336,7 @@ translate I MergeGame {Fondi partita}
 translate I MergeGames {Unisci partite}
 translate I Preview {Anteprima}
 translate I Revert {Rovescia}
+translate I Rename {Rinominare}
 translate I Save {Salva}
 translate I Search {Cerca}
 translate I Stop {Ferma}
@@ -1571,6 +1573,9 @@ translate I FICSUnrated {Senza classificazione}
 translate I FICSRegisteredPlayer {Solo giocatore registrato}
 translate I FICSFreePlayer {Solo giocatore gratuito}
 translate I FICSNetError {Errore di rete\Impossibile connettersi a}
+translate I OptionsFICS {FICS}
+translate I FICSTerminalColor {Colore terminale}
+translate I FICSTextColor {Colore del testo}
 
 # Game review
 translate I GameReview {Rivedi partita}
@@ -1648,6 +1653,8 @@ translate I FindCurrentGame {Trova il gioco corrente}
 translate I DeleteGame {Elimina gioco}
 translate I UndeleteGame {Annulla l'eliminazione del gioco}
 translate I ResetSort {Reimposta ordinamento}
+translate I LayoutExists {Il layout '%s' esiste già.}
+translate I ConfirmDeleteLayout {Sei sicuro di voler eliminare il layout '%s'?}
 
 translate I ConvertNullMove {Converti mosse nulle in commenti}
 translate I SetupBoard {Scheda di installazione}

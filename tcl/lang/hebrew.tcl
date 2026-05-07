@@ -308,6 +308,7 @@ menuText V GInfoInformant "הגדר ערכי מודיע" 0
 
 # General buttons:
 translate V Back {בְּחֲזָרָה}
+translate V Apply {לִפְנוֹת}
 translate V Browse {לְדַפדֵף}
 translate V Cancel {לְבַטֵל}
 translate V Continue {לְהַמשִׁיך}
@@ -328,6 +329,7 @@ translate V MergeGame {משחק מיזוג}
 translate V MergeGames {מיזוג משחקים}
 translate V Preview {תצוגה מקדימה}
 translate V Revert {לַחֲזוֹר}
+translate V Rename {שנה שם}
 translate V Save {לְהַצִיל}
 translate V Search {לְחַפֵּשׂ}
 translate V Stop {לְהַפְסִיק}
@@ -1548,6 +1550,9 @@ translate V FICSUnrated {לא מדורג}
 translate V FICSRegisteredPlayer {שחקן רשום בלבד}
 translate V FICSFreePlayer {שחקן חינם בלבד}
 translate V FICSNetError {שגיאת רשת\לא ניתן להתחבר}
+translate V OptionsFICS {FICS}
+translate V FICSTerminalColor {צבע טרמינל}
+translate V FICSTextColor {צבע טקסט}
 
 # Game review
 translate V GameReview {סקירת משחק}
@@ -1625,6 +1630,8 @@ translate V FindCurrentGame {מצא את המשחק הנוכחי}
 translate V DeleteGame {מחק את המשחק}
 translate V UndeleteGame {בטל מחיקת משחק}
 translate V ResetSort {אפס מיון}
+translate V LayoutExists {הפריסה '%s' כבר קיימת.}
+translate V ConfirmDeleteLayout {האם אתה בטוח שברצונך למחוק את הפריסה '%s'?}
 
 translate V ConvertNullMove {המר מהלכים אפסים להערות}
 translate V SetupBoard {לוח התקנה}

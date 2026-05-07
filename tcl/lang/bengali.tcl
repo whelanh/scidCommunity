@@ -307,11 +307,12 @@ menuText b GInfoInformant "তথ্যদাতা মান কনফিগা
 
 # General buttons:
 translate b Back {ফিরে}
+translate b Apply {প্রয়োগ করুন}
 translate b Browse {ব্রাউজ করুন}
 translate b Cancel {বাতিল করুন}
 translate b Continue {চালিয়ে যান}
-translate b Clear {পরিষ্কার}
-translate b Close {বন্ধ}
+translate b Clear {পরিষ্কার করুন}
+translate b Close {বন্ধ করুন}
 translate b Contents {বিষয়বস্তু}
 translate b Defaults {ডিফল্ট}
 translate b InvertSearch {ইনভার্ট সার্চ}
@@ -327,6 +328,7 @@ translate b MergeGame {গেম মার্জ করুন}
 translate b MergeGames {গেম মার্জ করুন}
 translate b Preview {পূর্বরূপ}
 translate b Revert {প্রত্যাবর্তন}
+translate b Rename {নাম পরিবর্তন করুন}
 translate b Save {সংরক্ষণ করুন}
 translate b Search {অনুসন্ধান করুন}
 translate b Stop {থামো}
@@ -350,10 +352,10 @@ translate b No {না}
 translate b Both {উভয়}
 translate b King {রাজা}
 translate b Queen {রানী}
-translate b Rook {রুক}
-translate b Bishop {বিশপ}
-translate b Knight {নাইট}
-translate b Pawn {প্যান}
+translate b Rook {নৌকা}
+translate b Bishop {হাতি}
+translate b Knight {ঘোড়া}
+translate b Pawn {বোড়ে}
 translate b White {সাদা}
 translate b Black {কালো}
 translate b Player {প্লেয়ার}
@@ -426,11 +428,11 @@ translate b PInfoEditRatings {রেটিং সম্পাদনা করু
 translate b PInfoEloFile {ফাইল}
 
 # Tablebase information:
-translate b Draw {আঁকা}
+translate b Draw {ড্র}
 translate b with {সঙ্গে}
 translate b only {শুধুমাত্র}
-translate b lose {হারান}
-translate b loses {হারায়}
+translate b lose {হার}
+translate b loses {হেরে যায়}
 
 # Tip of the day:
 translate b Tip {টিপ}
@@ -1547,6 +1549,9 @@ translate b FICSUnrated {মূল্যহীন}
 translate b FICSRegisteredPlayer {শুধুমাত্র নিবন্ধিত খেলোয়াড়}
 translate b FICSFreePlayer {শুধুমাত্র ফ্রি প্লেয়ার}
 translate b FICSNetError {নেটওয়ার্ক ত্রুটি\কানেক্ট করা যাচ্ছে না}
+translate b OptionsFICS {FICS}
+translate b FICSTerminalColor {টার্মিনাল রঙ}
+translate b FICSTextColor {পাঠ্যের রঙ}
 
 # Game review
 translate b GameReview {খেলা পর্যালোচনা}
@@ -1624,6 +1629,8 @@ translate b FindCurrentGame {বর্তমান খেলা খুঁজু�
 translate b DeleteGame {গেমটি মুছুন}
 translate b UndeleteGame {খেলা অপসারণ}
 translate b ResetSort {সাজানোর রিসেট করুন}
+translate b LayoutExists {লেআউট '%s' ইতিমধ্যেই বিদ্যমান।}
+translate b ConfirmDeleteLayout {আপনি কি '%s' লেআউট মুছে ফেলার বিষয়ে নিশ্চিত?}
 
 translate b ConvertNullMove {নাল চালগুলিকে মন্তব্যে রূপান্তর করুন}
 translate b SetupBoard {সেটআপ বোর্ড}

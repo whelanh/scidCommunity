@@ -348,6 +348,7 @@ menuText J GInfoInformant "Конфигуришите вредности инф�
 
 # General buttons:
 translate J Back {Назад}
+translate J Apply {Примени}
 translate J Browse {Прегледај}
 translate J Cancel {Откажи}
 translate J Continue {Настави}
@@ -368,6 +369,7 @@ translate J MergeGame {Игра спајања}
 translate J MergeGames {Мерге Гамес}
 translate J Preview {Преглед}
 translate J Revert {Врати}
+translate J Rename {Преименуј}
 translate J Save {Сачувај}
 translate J Search {Тражи}
 translate J Stop {Стани}
@@ -389,12 +391,12 @@ translate J all {све}
 translate J Yes {Да}
 translate J No {бр}
 translate J Both {И једно и друго}
-translate J King {Краљу}
+translate J King {Краљ}
 translate J Queen {Краљица}
 translate J Rook {Топ}
-translate J Bishop {бискупе}
-translate J Knight {Книгхт}
-translate J Pawn {Павн}
+translate J Bishop {Ловац}
+translate J Knight {Скакач}
+translate J Pawn {Пешак}
 translate J White {Бела}
 translate J Black {Црно}
 translate J Player {Плаиер}
@@ -467,7 +469,7 @@ translate J PInfoEditRatings {Уреди оцене}
 translate J PInfoEloFile {Филе}
 
 # Tablebase information:
-translate J Draw {Драв}
+translate J Draw {Реми}
 translate J with {са}
 translate J only {само}
 translate J lose {изгубити}
@@ -1588,6 +1590,9 @@ translate J FICSUnrated {Унратед}
 translate J FICSRegisteredPlayer {Само регистровани играч}
 translate J FICSFreePlayer {Само бесплатан играч}
 translate J FICSNetError {Мрежна грешка\Не могу да се повежем}
+translate J OptionsFICS {ФИЦС}
+translate J FICSTerminalColor {Боја терминала}
+translate J FICSTextColor {Боја текста}
 
 # Game review
 translate J GameReview {Преглед игре}
@@ -1665,6 +1670,8 @@ translate J FindCurrentGame {Пронађите тренутну игру}
 translate J DeleteGame {Обриши игру}
 translate J UndeleteGame {Поништи брисање игре}
 translate J ResetSort {Ресетуј сортирање}
+translate J LayoutExists {Распоред '%с' већ постоји.}
+translate J ConfirmDeleteLayout {Да ли сте сигурни да желите да избришете изглед „%с“?}
 
 translate J ConvertNullMove {Претворите нулте потезе у коментаре}
 translate J SetupBoard {Сетуп Боард}

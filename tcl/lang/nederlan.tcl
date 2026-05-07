@@ -336,6 +336,7 @@ menuText N GInfoInformant "Configureer informant waarden" 0
 
 # General buttons:
 translate N Back {Terug}
+translate N Apply {Toepassen}
 translate N Browse {Bladeren} ;
 translate N Cancel {Annuleren}
 translate N Continue {Verder gaane}
@@ -356,6 +357,7 @@ translate N MergeGame {Partij Samenvoegen}
 translate N MergeGames {Voeg Partijen Samen}
 translate N Preview {Proefbeeld}
 translate N Revert {Terugkeren}
+translate N Rename {Hernoemen}
 translate N Save {Bewaren}
 translate N Search {Zoeken}
 translate N Stop {Stop}
@@ -624,9 +626,11 @@ menuText N GraphOptionsEloFile "Elo uit beoordelingsbestand" 0
 menuText N GraphOptionsEloDB "Elo uit de database" 0
 translate N GraphFilterTitle "Filtergrafiek: frequentie per 1000 partijen"
 translate N GraphAbsFilterTitle "Filtergrafiek: frequentie van de partijen"
+translate N GraphWinPctTitle "Filtergrafiek: win% (1-0 en 0-1) op huidige positie per jaar"
 translate N ConfigureFilter {Configureer de X-as voor Jaar, Elo en Zetten}
 translate N FilterEstimate "Schat"
 translate N TitleFilterGraph "Scid: Filtergrafiek"
+translate N WinPct "Win%"
 
 # Analysis window:
 translate N AddVariation {Toevoegen variant}
@@ -666,7 +670,9 @@ translate N AutoComment {Automatische commentaar}
 translate N AutoCommentTooltip {Genereer AI-commentaar voor de huidige positie}
 translate N AnalysisAutoCommentTooltip {Genereer AI-commentaar voor het hele spel}
 translate N GameComment {Spelcommentaar}
+translate N GameCommentTooltip {Scan het spel op geannoteerde zetten en genereer een AI-samenvatting}
 translate N TimeMs {Tijd (ms)}
+
 
 # Book window
 translate N Book {Openingenboek}
@@ -1112,6 +1118,7 @@ translate N ECOSummary {Samenvatting voor}
 translate N ECOFrequency {Frequentie van subcodes voor}
 
 # Opening Report:
+translate N OprepReportFor {Rapporteer voor}
 translate N OprepTitle {Openings Rapportage}
 translate N OprepReport {Rapportage}
 translate N OprepGenerated {Samengesteld door }
@@ -1588,6 +1595,9 @@ translate N FICSUnrated {Niet beoordeeld}
 translate N FICSRegisteredPlayer {Alleen geregistreerde spelers}
 translate N FICSFreePlayer {Alleen gratis speler}
 translate N FICSNetError {Netwerkfout\Kan geen verbinding maken met}
+translate N OptionsFICS {FICS}
+translate N FICSTerminalColor {Eindkleur}
+translate N FICSTextColor {Tekstkleur}
 
 # Game review
 translate N GameReview {Partij herbekijken}
@@ -1665,6 +1675,8 @@ translate N FindCurrentGame {Zoek het huidige spel}
 translate N DeleteGame {Spel verwijderen}
 translate N UndeleteGame {Spel ongedaan maken}
 translate N ResetSort {Sortering opnieuw instellen}
+translate N LayoutExists {Lay-out '%s' bestaat al.}
+translate N ConfirmDeleteLayout {Weet u zeker dat u de lay-out '%s' wilt verwijderen?}
 
 translate N ConvertNullMove {Converteer nulbewegingen naar opmerkingen}
 translate N SetupBoard {Opstellingsbord}
@@ -1701,5 +1713,32 @@ translate N OptionsTablebaseDir "Selecteer tot 4 tabelbasiskaarten:"
 # Evaluation bar
 translate N BestMoveArrow "Beste zetpijl"
 translate N NewLocalEngine "+ Nieuwe motor ..."
+
+# Batch Annotate
+translate N BatchAnnotate {Batch-aantekeningen}
+translate N BatchEngineSelection {Motorselectie}
+translate N BatchChessEngine {Schaakengine:}
+translate N BatchNumberOfInstances {Aantal exemplaren:}
+translate N BatchGameReview {Spelrecensie}
+translate N BatchTimePerMove {Tijd per zet (sec):}
+translate N BatchAnnotateBlunders {Annoteer alleen blunders}
+translate N BatchBlunderThreshold {Blunderdrempel:}
+translate N BatchVariationLength {Variatielengte (zetten):}
+translate N BatchOpeningBook {Openingsboek}
+translate N BatchUseBook {Gebruik Boek}
+translate N BatchAnnotateVariations {Annoteer variaties}
+translate N BatchShortAnnotations {Korte annotaties}
+translate N BatchAddScoreToShort {Voeg score toe aan korte annotaties}
+translate N BatchClearOld {Wis oude opmerkingen en variaties}
+translate N BatchInitializingEngines {Motoren initialiseren...}
+translate N BatchAnalyzingGames {Spelletjes analyseren...}
+translate N BatchProgress {Batch annoteer de voortgang}
+translate N BatchComplete {Batchannotatie voltooid!}
+translate N BatchCancelled {Batchannotatie geannuleerd}
+translate N BatchStart {Begin}
+translate N BatchCancel {Annuleren}
+translate N BatchCompleted {voltooid}
+translate N BatchGames {spellen}
+translate N BatchProcessed {verwerkt}
 }
 # end of english.tcl

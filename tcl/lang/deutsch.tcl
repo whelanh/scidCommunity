@@ -341,6 +341,7 @@ menuText D GInfoInformant "Informatorwerte konfigurieren" 0
 
 # General buttons:
 translate D Back {Zurück}
+translate D Apply {Anwenden}
 translate D Browse {Auswählen}
 translate D Cancel {Abbrechen}
 translate D Continue {Weiter}
@@ -361,6 +362,7 @@ translate D MergeGame {Partie zusammenfügen}
 translate D MergeGames {Partien kombinieren}
 translate D Preview {Vorschau} ;# Voransicht!? (KDE)
 translate D Revert {Umkehren}
+translate D Rename {Umbenennen}
 translate D Save {Speichern}
 translate D Search {Suchen}
 translate D Stop {Halt}
@@ -634,9 +636,11 @@ menuText D GraphOptionsEloFile "Elo von Rating-Datei" 0
 menuText D GraphOptionsEloDB "Elo von Datenbank" 0
 translate D GraphFilterTitle "Filtergrafik: Häufigkeit pro 1000 Partien"
 translate D GraphAbsFilterTitle "Filtergrafik: Häufigkeit der Partien"
+translate D GraphWinPctTitle "Filterdiagramm: Gewinn % (1-0 und 0-1) an der aktuellen Position pro Jahr"
 translate D ConfigureFilter "X-Achse für Jahr, Elo und Züge konfigurieren"
 translate D FilterEstimate "Schätzen"
 translate D TitleFilterGraph "scidCommunity: Filtergrafik"
+translate D WinPct "Gewinnen %"
 
 # Analysis window:
 translate D AddVariation {Variante hinzufügen}
@@ -676,7 +680,9 @@ translate D AutoComment {Zug Kritik}
 translate D AutoCommentTooltip {Generieren Sie einen KI-Kommentar für die aktuelle Position}
 translate D AnalysisAutoCommentTooltip {Generieren Sie KI-Kommentare für das gesamte Spiel}
 translate D GameComment {Partie Kritik}
+translate D GameCommentTooltip {Durchsuchen Sie das Spiel nach kommentierten Zügen und erstellen Sie eine KI-Zusammenfassung}
 translate D TimeMs {Zeit (ms)}
+
 
 # Book window
 translate D Book {Buch}
@@ -1129,6 +1135,7 @@ translate D ECOSummary {Zusammenfassung für}
 translate D ECOFrequency {Häufigkeit der Untercodes für}
 
 # Opening Report:
+translate D OprepReportFor {Bericht für}
 translate D OprepTitle {Eröffnungsbericht}
 translate D OprepReport {Bericht}
 translate D OprepGenerated {Erzeugt durch}
@@ -1614,6 +1621,9 @@ translate D FICSUnrated {Unbewertet}
 translate D FICSRegisteredPlayer {Nur registrierte Spieler}
 translate D FICSFreePlayer {Nur freie Spieler}
 translate D FICSNetError {Netzwerkfehler\nKeine Verbindung zu }
+translate D OptionsFICS {FICS}
+translate D FICSTerminalColor {Terminalfarbe}
+translate D FICSTextColor {Textfarbe}
 
 # Game review
 translate D GameReview {Partieanalyse}
@@ -1691,6 +1701,8 @@ translate D FindCurrentGame {Aktuelle Partie finden}
 translate D DeleteGame {Partie löschen}
 translate D UndeleteGame {Partie wiederherstellen}
 translate D ResetSort {Sortierung zurücksetzten}
+translate D LayoutExists {Layout „%s“ existiert bereits.}
+translate D ConfirmDeleteLayout {Sind Sie sicher, dass Sie das Layout „%s“ löschen möchten?}
 
 translate D ConvertNullMove {Null-Züge in Kommentare umwandeln}
 translate D SetupBoard {Stellung eingeben}
@@ -1727,5 +1739,32 @@ translate D OptionsTablebaseDir "Bis zu 4 Verzeichnisse der Endspieltabellen aus
 # Evaluation bar
 translate D BestMoveArrow "Besten Zug anzeigen"
 translate D NewLocalEngine "+ Neue Engine ..."
+
+# Batch Annotate
+translate D BatchAnnotate {Batch-Anmerkung}
+translate D BatchEngineSelection {Motorauswahl}
+translate D BatchChessEngine {Schach-Engine:}
+translate D BatchNumberOfInstances {Anzahl der Instanzen:}
+translate D BatchGameReview {Spielrezension}
+translate D BatchTimePerMove {Zeit pro Zug (Sek.):}
+translate D BatchAnnotateBlunders {Kommentieren Sie nur Fehler}
+translate D BatchBlunderThreshold {Fehlerschwelle:}
+translate D BatchVariationLength {Variationslänge (Züge):}
+translate D BatchOpeningBook {Eröffnungsbuch}
+translate D BatchUseBook {Verwenden Sie Buch}
+translate D BatchAnnotateVariations {Kommentieren Sie Variationen}
+translate D BatchShortAnnotations {Kurze Anmerkungen}
+translate D BatchAddScoreToShort {Fügen Sie kurzen Anmerkungen eine Partitur hinzu}
+translate D BatchClearOld {Löschen Sie alte Kommentare und Variationen}
+translate D BatchInitializingEngines {Motoren werden initialisiert...}
+translate D BatchAnalyzingGames {Spiele analysieren...}
+translate D BatchProgress {Batch-Kommentarfortschritt}
+translate D BatchComplete {Stapelanmerkung abgeschlossen!}
+translate D BatchCancelled {Stapelanmerkung abgebrochen}
+translate D BatchStart {Start}
+translate D BatchCancel {Stornieren}
+translate D BatchCompleted {vollendet}
+translate D BatchGames {Spiele}
+translate D BatchProcessed {verarbeitet}
 }
 # end of english.tcl

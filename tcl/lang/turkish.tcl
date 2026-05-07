@@ -237,8 +237,7 @@ menuText T OptionsMovesHighlightLastMoveWidth "Genişlik" 0 {Çizgi kalınlığ�
 menuText T OptionsMovesHighlightLastMoveColor "Renk" 0 {Çizgi rengi}
 menuText T OptionsMovesHighlightLastMoveArrow "Ok Göster" 0 {Vurgulu Bir Ok Göster}
 menuText T OptionsMovesHighlightLastMoveNag "Değerlendirme sembollerini göster" 0
-# ====== TODO To be translated ======
-menuText T OptionsMovesHighlightLastMoveEval "Show evaluation symbols" 0
+menuText T OptionsMovesHighlightLastMoveEval "Değerlendirme sembollerini göster" 0
 menuText T OptionsMoves "Hareketler" 0 {Giriş seçeneklerini taşı}
 menuText T OptionsMovesAnimate "Animasyon Süresi" 1 \
   {Hareketleri canlandırmak için kullanılan süreyi ayarlayın}
@@ -291,8 +290,9 @@ menuText T HelpContact "İletişim Bilgileri" 1 {İletişim bilgileri yardım sa
 menuText T HelpTip "Günün İpucu" 0 {Yararlı bir Scid ipucu göster}
 menuText T HelpStartup "Başlangıç ​​Penceresi" 0 {Başlangıç ​​penceresini göster}
 menuText T HelpAbout "Hakkında" 0 {ScidCommunity hakkında bilgiler}
-# ====== TODO To be translated ======
-menuText T RotateBoard "Rotate board" 0 {Rotate board}
+
+# Toolbar tooltips:
+menuText T RotateBoard "Tahtayı döndür" 0 {Tahtayı döndür}
 
 # Game info box popup menu:
 menuText T GInfoHideNext "Sonraki Hamleyi Gizle" 0
@@ -311,6 +311,7 @@ menuText T GInfoInformant "Bilgilendirici değerlerini yapılandırma" 0
 
 # General buttons:
 translate T Back {Geri}
+translate T Apply {Uygula}
 translate T Browse {Göz at}
 translate T Cancel {İptal etmek}
 translate T Continue {Devam etmek}
@@ -318,8 +319,7 @@ translate T Clear {Temizlemek}
 translate T Close {Kapalı}
 translate T Contents {İçindekiler}
 translate T Defaults {Varsayılanlar}
-# ====== TODO To be translated ======
-translate T InvertSearch {Invert Search}
+translate T InvertSearch {Aramayı Ters Çevir}
 translate T Delete {Silmek}
 translate T Graph {Grafik}
 translate T Help {Yardım}
@@ -332,6 +332,7 @@ translate T MergeGame {Oyunu Birleştir}
 translate T MergeGames {Oyunları Birleştir}
 translate T Preview {Önizleme}
 translate T Revert {Geri al}
+translate T Rename {Yeniden isimlendirmek}
 translate T Save {Kaydetmek}
 translate T Search {Aramak}
 translate T Stop {Durmak}
@@ -597,16 +598,13 @@ menuText T GraphOptionsBoth "İkisi birden" 1
 menuText T GraphOptionsPInfo "Oyuncu Bilgisi oynatıcısı" 0
 menuText T GraphOptionsEloFile "Derecelendirme dosyasından Elo" 0
 menuText T GraphOptionsEloDB "Veritabanından Elo" 0
-# ====== TODO To be translated ======
-translate T GraphFilterTitle "Filter Graph: percentage of games reaching position"
+translate T GraphFilterTitle "Filtre Grafiği: konuma ulaşan oyunların yüzdesi"
 translate T GraphAbsFilterTitle "Filtre Grafiği: oyunların sıklığı"
-# ====== TODO To be translated ======
-translate T GraphWinPctTitle "Filter Graph: win % (1-0 and 0-1) at current position by year"
+translate T GraphWinPctTitle "Filtre Grafiği: yıllara göre mevcut konumda kazanma yüzdesi (1-0 ve 0-1)"
 translate T ConfigureFilter "Yıl, Derecelendirme ve Hareketler için X Eksenlerini Yapılandırma"
 translate T FilterEstimate "Tahmin etmek"
 translate T TitleFilterGraph "Scid: Filtre Grafiği"
-# ====== TODO To be translated ======
-translate T WinPct "Win %"
+translate T WinPct "Kazanç %"
 
 # Analysis window:
 translate T AddVariation {Varyasyon Ekle}
@@ -645,12 +643,10 @@ translate T Informant+-- {Beyazın ezici bir avantajı var}
 translate T AutoComment {Otomatik Yorum}
 translate T AutoCommentTooltip {Mevcut konum için yapay zeka yorumu oluşturun}
 translate T AnalysisAutoCommentTooltip {Oyunun tamamı için yapay zeka yorumları oluşturun}
-# ====== TODO To be translated ======
-translate T GameComment {Game Comment}
-# ====== TODO To be translated ======
-translate T GameCommentTooltip {Scan game for annotated moves and generate AI summary}
-# ====== TODO To be translated ======
-translate T TimeMs {Time(ms)}
+translate T GameComment {Oyun Yorumu}
+translate T GameCommentTooltip {Açıklamalı hareketler için oyunu tarayın ve AI özeti oluşturun}
+translate T TimeMs {Zaman(ms)}
+
 
 # Book window
 translate T Book {Kitap}
@@ -1086,10 +1082,9 @@ translate T ECOAllSections {tüm ECO bölümleri}
 translate T ECOSection {EKO bölümü}
 translate T ECOSummary {Özet}
 translate T ECOFrequency {Alt kodların sıklığı}
-# ====== TODO To be translated ======
-translate T OprepReportFor {Report for}
 
 # Opening Report:
+translate T OprepReportFor {Şunun için rapor:}
 translate T OprepTitle {Açılış Raporu}
 translate T OprepReport {Rapor}
 translate T OprepGenerated {Tarafından oluşturuldu}
@@ -1158,10 +1153,8 @@ translate T OprepTheoryTable {Teori Tablosu}
 translate T OprepTableComment {En yüksek puan alan %u oyundan oluşturuldu.}
 translate T OprepExtraMoves {Teori tablosundaki ekstra not hareketleri}
 translate T OprepMaxGames {Teori tablosundaki maksimum oyunlar}
-# ====== TODO To be translated ======
-translate T OprepMergeMoves {Move limit for merged games}
-# ====== TODO To be translated ======
-translate T OprepMergeUnique {Merge only unique games}
+translate T OprepMergeMoves {Birleştirilmiş oyunlar için taşıma sınırı}
+translate T OprepMergeUnique {Yalnızca benzersiz oyunları birleştir}
 translate T OprepViewHTML {HTML'yi görüntüle}
 
 # Player Report:
@@ -1241,8 +1234,7 @@ translate T ClassifyNew {Yalnızca henüz ECO kodu olmayan oyunlar}
 translate T ClassifyCodes {Kullanılacak ECO Kodları}
 translate T ClassifyBasic {Yalnızca temel kodlar ("B12", ...)}
 translate T ClassifyExtended {Scid uzantıları ("B12j", ...)}
-# ====== TODO To be translated ======
-translate T ClassifyResult {ECO classification complete: $result game(s) updated.}
+translate T ClassifyResult {ECO sınıflandırması tamamlandı: $result oyun(lar)ı güncellendi.}
 
 # Compaction:
 translate T NameFile {Ad dosyası}
@@ -1561,6 +1553,9 @@ translate T FICSUnrated {Derecelendirilmemiş}
 translate T FICSRegisteredPlayer {Yalnızca kayıtlı oyuncu}
 translate T FICSFreePlayer {Yalnızca ücretsiz oynatıcı}
 translate T FICSNetError {Ağ hatası\Bağlanılamıyor}
+translate T OptionsFICS {FICS}
+translate T FICSTerminalColor {Terminal rengi}
+translate T FICSTextColor {Metin rengi}
 
 # Game review
 translate T GameReview {Oyun incelemesi}
@@ -1638,6 +1633,8 @@ translate T FindCurrentGame {Mevcut oyunu bul}
 translate T DeleteGame {Oyunu sil}
 translate T UndeleteGame {Oyunun silinmesini geri al}
 translate T ResetSort {Sıralamayı sıfırla}
+translate T LayoutExists {'%s' düzeni zaten mevcut.}
+translate T ConfirmDeleteLayout {'%s' düzenini silmek istediğinizden emin misiniz?}
 
 translate T ConvertNullMove {Boş hareketleri yorumlara dönüştürün}
 translate T SetupBoard {Kurulum Panosu}
@@ -1674,55 +1671,32 @@ translate T OptionsTablebaseDir "En fazla 4 tablo tabanı klasörü seçin:"
 # Evaluation bar
 translate T BestMoveArrow "En iyi hamle oku"
 translate T NewLocalEngine "+ Yeni motor ..."
-# ====== TODO To be translated ======
-translate T BatchAnnotate {Batch Annotate}
-# ====== TODO To be translated ======
-translate T BatchEngineSelection {Engine Selection}
-# ====== TODO To be translated ======
-translate T BatchChessEngine {Chess Engine:}
-# ====== TODO To be translated ======
-translate T BatchNumberOfInstances {Number of Instances:}
-# ====== TODO To be translated ======
-translate T BatchGameReview {Game Review}
-# ====== TODO To be translated ======
-translate T BatchTimePerMove {Time per move (sec):}
-# ====== TODO To be translated ======
-translate T BatchAnnotateBlunders {Annotate blunders only}
-# ====== TODO To be translated ======
-translate T BatchBlunderThreshold {Blunder threshold:}
-# ====== TODO To be translated ======
-translate T BatchVariationLength {Variation length (moves):}
-# ====== TODO To be translated ======
-translate T BatchOpeningBook {Opening Book}
-# ====== TODO To be translated ======
-translate T BatchUseBook {Use Book}
-# ====== TODO To be translated ======
-translate T BatchAnnotateVariations {Annotate variations}
-# ====== TODO To be translated ======
-translate T BatchShortAnnotations {Short annotations}
-# ====== TODO To be translated ======
-translate T BatchAddScoreToShort {Add score to short annotations}
-# ====== TODO To be translated ======
-translate T BatchClearOld {Clear old comments and variations}
-# ====== TODO To be translated ======
-translate T BatchInitializingEngines {Initializing engines...}
-# ====== TODO To be translated ======
-translate T BatchAnalyzingGames {Analyzing Games...}
-# ====== TODO To be translated ======
-translate T BatchProgress {Batch Annotate Progress}
-# ====== TODO To be translated ======
-translate T BatchComplete {Batch Annotation Complete!}
-# ====== TODO To be translated ======
-translate T BatchCancelled {Batch Annotation Cancelled}
-# ====== TODO To be translated ======
-translate T BatchStart {Start}
-# ====== TODO To be translated ======
-translate T BatchCancel {Cancel}
-# ====== TODO To be translated ======
-translate T BatchCompleted {completed}
-# ====== TODO To be translated ======
-translate T BatchGames {games}
-# ====== TODO To be translated ======
-translate T BatchProcessed {processed}
+
+# Batch Annotate
+translate T BatchAnnotate {Toplu Açıklama Ekleme}
+translate T BatchEngineSelection {Motor Seçimi}
+translate T BatchChessEngine {Satranç Motoru:}
+translate T BatchNumberOfInstances {Örnek Sayısı:}
+translate T BatchGameReview {Oyun İncelemesi}
+translate T BatchTimePerMove {Hareket başına süre (sn):}
+translate T BatchAnnotateBlunders {Yalnızca hatalara açıklama ekleyin}
+translate T BatchBlunderThreshold {Hata eşiği:}
+translate T BatchVariationLength {Değişim uzunluğu (hamleler):}
+translate T BatchOpeningBook {Açılış Kitabı}
+translate T BatchUseBook {Kitabı Kullan}
+translate T BatchAnnotateVariations {Varyasyonlara açıklama ekleyin}
+translate T BatchShortAnnotations {Kısa açıklamalar}
+translate T BatchAddScoreToShort {Kısa ek açıklamalara puan ekleyin}
+translate T BatchClearOld {Eski yorumları ve varyasyonları temizle}
+translate T BatchInitializingEngines {Motorlar başlatılıyor...}
+translate T BatchAnalyzingGames {Oyunlar Analiz Ediliyor...}
+translate T BatchProgress {Toplu Açıklama İlerleme Durumu}
+translate T BatchComplete {Toplu Açıklama Tamamlandı!}
+translate T BatchCancelled {Toplu Açıklama İptal Edildi}
+translate T BatchStart {Başlangıç}
+translate T BatchCancel {İptal etmek}
+translate T BatchCompleted {tamamlanmış}
+translate T BatchGames {oyunlar}
+translate T BatchProcessed {işlenmiş}
 }
 # end of english.tcl
