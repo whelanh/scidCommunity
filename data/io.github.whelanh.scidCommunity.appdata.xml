@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.3.24" date="2026-05-07">
+      <description>
+        <p>Allow users to choose FICS background and text color in the Options/Preferences menu</p>
+      </description>
+    </release>
     <release version="5.1.3.23" date="2026-05-06">
       <description>
         <p>Allow users to rename and delete custom Game List window layouts</p>
