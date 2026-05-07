@@ -377,6 +377,8 @@ menuText Y GInfoInformant "Configure informant values" 0
 
 # General buttons:
 translate Y Back {Nazad}
+# ====== TODO To be translated ======
+translate Y Apply {Примени}
 translate Y Browse {Browse} ;# ***
 translate Y Cancel {Poniti}
 # ====== TODO To be translated ======
@@ -401,6 +403,8 @@ translate Y MergeGame {Merge game} ;# ***
 translate Y MergeGames {Merge Games}
 translate Y Preview {Preview} ;# ***
 translate Y Revert {Vrati se}
+# ====== TODO To be translated ======
+translate Y Rename {Преименуј}
 translate Y Save {Sauvaj}
 translate Y Search {Trai}
 translate Y Stop {Stop}
@@ -2042,6 +2046,12 @@ translate Y FICSFreePlayer {Free player only}
 # ====== TODO To be translated ======
 translate Y FICSNetError {Network error\nCan't connect to }
 # ====== TODO To be translated ======
+translate Y OptionsFICS {FICS}
+# ====== TODO To be translated ======
+translate Y FICSTerminalColor {Боја терминала}
+# ====== TODO To be translated ======
+translate Y FICSTextColor {Боја текста}
+# ====== TODO To be translated ======
 translate Y GameReview {Game review}
 # ====== TODO To be translated ======
 translate Y GameReviewTimeExtended {Time extended}
@@ -2165,6 +2175,10 @@ translate Y DeleteGame {Delete game}
 translate Y UndeleteGame {Undelete game}
 # ====== TODO To be translated ======
 translate Y ResetSort {Reset sort}
+# ====== TODO To be translated ======
+translate Y LayoutExists {Layout '%s' already exists.}
+# ====== TODO To be translated ======
+translate Y ConfirmDeleteLayout {Are you sure you want to delete the layout '%s'?}
 # ====== TODO To be translated ======
 translate Y ConvertNullMove {Convert null moves to comments}
 # ====== TODO To be translated ======

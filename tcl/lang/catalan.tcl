@@ -330,6 +330,7 @@ menuText K GInfoInformant "Configurar valors d'informació" 0
 
 # General buttons:
 translate K Back {Enrera}
+translate K Apply {Aplicar}
 translate K Browse {Mirar}
 translate K Cancel {Cancel·lar}
 translate K Continue {Continuar}
@@ -350,6 +351,7 @@ translate K MergeGame {Incorporar partida}
 translate K MergeGames {Barrejar o fusionar partides}
 translate K Preview {Vista prèvia}
 translate K Revert {Retrocedir}
+translate K Rename {Canvia el nom}
 translate K Save {Desar}
 translate K Search {Cercar}
 translate K Stop {Aturar}
@@ -620,9 +622,11 @@ menuText K GraphOptionsEloFile "Elo des de fitxer de qualificació" 0
 menuText K GraphOptionsEloDB "Elo des de la base de dades" 0
 translate K GraphFilterTitle "Filtre gràfic: freqüencia per 1000 partides"
 translate K GraphAbsFilterTitle "Filtre gràfic: freqüencia de les partides"
+translate K GraphWinPctTitle "Gràfic de filtre: % de victòria (1-0 i 0-1) a la posició actual per any"
 translate K ConfigureFilter {Configurar Eix-X per Any, Rating i Jugades}
 translate K FilterEstimate "Estimar"
 translate K TitleFilterGraph "Scid: Filtre Gràfic"
+translate K WinPct "% de victòria"
 
 # Analysis window:
 translate K AddVariation {Afegir variant}
@@ -662,7 +666,9 @@ translate K AutoComment {Comentari automàtic}
 translate K AutoCommentTooltip {Genereu comentaris d'IA per a la posició actual}
 translate K AnalysisAutoCommentTooltip {Genera comentaris d'IA per a tot el joc}
 translate K GameComment {Comentari del joc}
+translate K GameCommentTooltip {Escaneja el joc per trobar moviments anotats i genera un resum de l'IA}
 translate K TimeMs {Temps (ms)}
+
 
 # Book window
 translate K Book {Llibre}
@@ -1110,6 +1116,7 @@ translate K ECOSummary {Resum de}
 translate K ECOFrequency {Freqüencia dels subcodis per}
 
 # Opening Report:
+translate K OprepReportFor {Informe per}
 translate K OprepTitle {Informe de l'obertura}
 translate K OprepReport {Informe}
 translate K OprepGenerated {Generat per}
@@ -1587,6 +1594,9 @@ translate K FICSUnrated {No Avaluada}
 translate K FICSRegisteredPlayer {Només perfils registrats}
 translate K FICSFreePlayer {Només perfils gratuïts}
 translate K FICSNetError {Error de xarxa\nNo es pot connectar amb }
+translate K OptionsFICS {FICS}
+translate K FICSTerminalColor {Color terminal}
+translate K FICSTextColor {Color del text}
 
 # Game review
 translate K GameReview {Revisió de la partida}
@@ -1664,6 +1674,8 @@ translate K FindCurrentGame {Troba partida actual}
 translate K DeleteGame {Esborra partida}
 translate K UndeleteGame {Desfés esborrar partida}
 translate K ResetSort {Neteja criteri d'ordre}
+translate K LayoutExists {El disseny '%s' ja existeix.}
+translate K ConfirmDeleteLayout {Esteu segur que voleu suprimir el disseny '%s'?}
 
 translate K ConvertNullMove {Converteix jugades nul·les en comentaris}
 translate K SetupBoard {Configura posició}
@@ -1700,5 +1712,32 @@ translate K OptionsTablebaseDir "Selecciona fins a 4 fitxers de base de taules:"
 # Evaluation bar
 translate K BestMoveArrow "Fletxa de la millor jugada"
 translate K NewLocalEngine "+ Nou Motor ..."
+
+# Batch Annotate
+translate K BatchAnnotate {Anotació per lots}
+translate K BatchEngineSelection {Selecció del motor}
+translate K BatchChessEngine {Motor d'escacs:}
+translate K BatchNumberOfInstances {Nombre d'instàncies:}
+translate K BatchGameReview {Revisió del joc}
+translate K BatchTimePerMove {Temps per moviment (s):}
+translate K BatchAnnotateBlunders {Anoteu només errors}
+translate K BatchBlunderThreshold {Llindar d'error:}
+translate K BatchVariationLength {Durada de la variació (moviments):}
+translate K BatchOpeningBook {Llibre d'obertura}
+translate K BatchUseBook {Utilitza el llibre}
+translate K BatchAnnotateVariations {Anotar variacions}
+translate K BatchShortAnnotations {Anotacions breus}
+translate K BatchAddScoreToShort {Afegiu puntuació a anotacions curtes}
+translate K BatchClearOld {Esborra els comentaris i les variacions antigues}
+translate K BatchInitializingEngines {Inicialitzant motors...}
+translate K BatchAnalyzingGames {S'estan analitzant els jocs...}
+translate K BatchProgress {Progrés d'anotacions per lots}
+translate K BatchComplete {Anotació per lots completada!}
+translate K BatchCancelled {S'ha cancel·lat l'anotació del lot}
+translate K BatchStart {Comença}
+translate K BatchCancel {Cancel·la}
+translate K BatchCompleted {completat}
+translate K BatchGames {jocs}
+translate K BatchProcessed {processats}
 }
 # end of english.tcl

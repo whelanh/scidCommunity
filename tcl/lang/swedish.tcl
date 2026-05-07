@@ -318,6 +318,7 @@ menuText W GInfoInformant "Konfigurera Informant-parametrar" 0
 
 # General buttons:
 translate W Back {Tillbaka}
+translate W Apply {Tillämpa}
 translate W Browse {Bläddra}
 translate W Cancel {Avbryt}
 translate W Continue {Fortsätt}
@@ -338,6 +339,7 @@ translate W MergeGame {Slå samman parti}
 translate W MergeGames {Slå samman partier}
 translate W Preview {Förhandsgranska}
 translate W Revert {Ångra inmatning}
+translate W Rename {Döpa om}
 translate W Save {Spara}
 translate W Search {Sök}
 translate W Stop {Stoppa}
@@ -605,9 +607,11 @@ menuText W GraphOptionsEloFile "Elo från betygsfil" 0
 menuText W GraphOptionsEloDB "Elo från databasen" 0
 translate W GraphFilterTitle "Filterdiagram: antal per 1000 partier"
 translate W GraphAbsFilterTitle "Filtergraf: frekvens för partierna"
+translate W GraphWinPctTitle "Filterdiagram: vinst % (1-0 och 0-1) vid aktuell position per år"
 translate W ConfigureFilter {Konfigurera X-axlar för År, Rating och Drag}
 translate W FilterEstimate "Uppskatta"
 translate W TitleFilterGraph "Scid: Filtergraf"
+translate W WinPct "Vinst %"
 
 # Analysis window:
 translate W AddVariation {Lägg till variation}
@@ -647,7 +651,9 @@ translate W AutoComment {Autokommentar}
 translate W AutoCommentTooltip {Generera AI-kommentarer för den aktuella positionen}
 translate W AnalysisAutoCommentTooltip {Generera AI-kommentarer för hela spelet}
 translate W GameComment {Spelkommentar}
+translate W GameCommentTooltip {Skanna spelet efter kommenterade drag och generera AI-sammanfattningar}
 translate W TimeMs {Tid(ms)}
+
 
 # Book window
 translate W Book {Bok}
@@ -1093,6 +1099,7 @@ translate W ECOSummary {Sammanfattning för}
 translate W ECOFrequency {Underkodsfrekvens för}
 
 # Opening Report:
+translate W OprepReportFor {Rapport för}
 translate W OprepTitle {Öppningsrapport}
 translate W OprepReport {Rapport}
 translate W OprepGenerated {Skapad av}
@@ -1571,6 +1578,9 @@ translate W FICSUnrated {Ej betygsatt}
 translate W FICSRegisteredPlayer {Endast registrerade spelare}
 translate W FICSFreePlayer {Endast gratis spelare}
 translate W FICSNetError {Nätverksfel\Kan inte ansluta till}
+translate W OptionsFICS {FICS}
+translate W FICSTerminalColor {Terminalfärg}
+translate W FICSTextColor {Textfärg}
 
 # Game review
 translate W GameReview {Partiöversikt}
@@ -1648,6 +1658,8 @@ translate W FindCurrentGame {Hitta aktuellt spel}
 translate W DeleteGame {Ta bort spelet}
 translate W UndeleteGame {Återställ spel}
 translate W ResetSort {Återställ sortering}
+translate W LayoutExists {Layouten '%s' finns redan.}
+translate W ConfirmDeleteLayout {Är du säker på att du vill ta bort layouten '%s'?}
 
 translate W ConvertNullMove {Konvertera null-drag till kommentarer}
 translate W SetupBoard {Installationsbräda}
@@ -1684,5 +1696,32 @@ translate W OptionsTablebaseDir "Välj upp till 4 tabellbasmappar:"
 # Evaluation bar
 translate W BestMoveArrow "Bästa flytta pilen"
 translate W NewLocalEngine "+ Ny motor..."
+
+# Batch Annotate
+translate W BatchAnnotate {Batchkommentar}
+translate W BatchEngineSelection {Motorval}
+translate W BatchChessEngine {Schackmotor:}
+translate W BatchNumberOfInstances {Antal instanser:}
+translate W BatchGameReview {Spelrecension}
+translate W BatchTimePerMove {Tid per drag (sek):}
+translate W BatchAnnotateBlunders {Anteckna bara misstag}
+translate W BatchBlunderThreshold {Blunder tröskel:}
+translate W BatchVariationLength {Variationslängd (rörelser):}
+translate W BatchOpeningBook {Öppningsbok}
+translate W BatchUseBook {Använd bok}
+translate W BatchAnnotateVariations {Anteckna variationer}
+translate W BatchShortAnnotations {Korta anteckningar}
+translate W BatchAddScoreToShort {Lägg till poäng till korta kommentarer}
+translate W BatchClearOld {Rensa gamla kommentarer och varianter}
+translate W BatchInitializingEngines {Initierar motorer...}
+translate W BatchAnalyzingGames {Analyserar spel...}
+translate W BatchProgress {Batch Annotera Framsteg}
+translate W BatchComplete {Batch-anteckning klar!}
+translate W BatchCancelled {Batch-anteckning avbröts}
+translate W BatchStart {Start}
+translate W BatchCancel {Avboka}
+translate W BatchCompleted {avslutad}
+translate W BatchGames {spel}
+translate W BatchProcessed {bearbetas}
 }
 # end of english.tcl

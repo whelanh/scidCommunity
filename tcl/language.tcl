@@ -52,6 +52,20 @@ set transPieces(Q)   { P п K Кр Q Ф R Т B С N К }
 set untransPieces(Q) { п P Кр K Ф Q Т R С B К N }
 set transPieces(b)   { P প K র Q ম R ন B হ N ঘ }
 set untransPieces(b) { প P র K ম Q ন R হ B ঘ N }
+set transPieces(k)   { P 졸 K 왕 Q 후 R 차 B 상 N 마 }
+set untransPieces(k) { 졸 P 왕 K 후 Q 차 R 상 B 마 N }
+set transPieces(M)   { P 兵 K 王 Q 后 R 车 B 象 N 马 }
+set untransPieces(M) { 兵 P 王 K 后 Q 车 R 象 B 马 N }
+set transPieces(A)   { P P K K Q Q R R B B N N }
+set untransPieces(A) { P P K K Q Q R R B B N N }
+set transPieces(L)   { P P K R Q D R T B N N C }
+set untransPieces(L) { P P R K D Q T R N B C N }
+set transPieces(Y)   { P p K K Q D R T B L N S }
+set untransPieces(Y) { p P K K D Q T R L B S N }
+set transPieces(J)   { P п K К Q Д R Т B Л N С }
+set untransPieces(J) { п P К K Д Q Т R Л B С N }
+set transPieces(Z)   { P a K K Q M R N B A N F }
+set untransPieces(Z) { a P K K M Q N R A B F N }
 
 ################################################################################
 proc trans { msg } {
@@ -305,6 +319,7 @@ proc setLanguage {} {
       h {sc_info language hi}
       Q {sc_info language uk}
       b {sc_info language bn}
+      k {sc_info language ko}
       default {sc_info language en}
     }
   } else {
@@ -361,6 +376,7 @@ proc setLanguageTemp { lang } {
     h {sc_info language hi}
     Q {sc_info language uk}
     b {sc_info language bn}
+    k {sc_info language ko}
     default {sc_info language en}
   }
 }
@@ -392,6 +408,7 @@ addLanguage Z Kiswahili 0 utf-8 swahili.tcl
 addLanguage h हिन्दी 0 utf-8 hindi.tcl
 addLanguage Q Українська 0 utf-8 ukrainian.tcl
 addLanguage b বাংলা 0 utf-8 bengali.tcl
+addLanguage k 한국어 0 utf-8 korean.tcl
 
 setLanguage
 

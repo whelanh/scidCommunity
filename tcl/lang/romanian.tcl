@@ -347,12 +347,13 @@ menuText L GInfoMark "(Anulați) marcați acest joc" 4
 menuText L GInfoInformant "Configurați valorile informatorilor" 0
 
 # General buttons:
-translate L Back {Spate}
+translate L Back {Înapoi}
+translate L Apply {Aplicați}
 translate L Browse {Răsfoiește}
 translate L Cancel {Anula}
 translate L Continue {Continua}
-translate L Clear {Clar}
-translate L Close {Aproape}
+translate L Clear {Șterge}
+translate L Close {Închide}
 translate L Contents {Cuprins}
 translate L Defaults {Valori implicite}
 translate L InvertSearch {Căutare inversă}
@@ -368,17 +369,18 @@ translate L MergeGame {Merge Game}
 translate L MergeGames {Jocuri de îmbinare}
 translate L Preview {Previzualizare}
 translate L Revert {Reveni}
+translate L Rename {Redenumiți}
 translate L Save {Salva}
 translate L Search {Căutare}
 translate L Stop {Stop}
-translate L Store {Magazin}
+translate L Store {Salvează}
 translate L Update {Actualizare}
 translate L ChangeOrient {Schimbați orientarea ferestrei}
 translate L ShowIcons {Afișați pictograme}
 translate L None {Nici unul}
 translate L First {Primul}
 translate L Current {Actual}
-translate L Last {Dura}
+translate L Last {Ultimul}
 
 # General messages:
 translate L game {joc}
@@ -391,9 +393,9 @@ translate L No {Nu}
 translate L Both {ambele}
 translate L King {Rege}
 translate L Queen {Regină}
-translate L Rook {Rook}
-translate L Bishop {Episcop}
-translate L Knight {Cavaler}
+translate L Rook {Turn}
+translate L Bishop {Nebun}
+translate L Knight {Cal}
 translate L Pawn {Pion}
 translate L White {Alb}
 translate L Black {Negru}
@@ -402,7 +404,7 @@ translate L Rating {Evaluare}
 translate L RatingDiff {Diferența de evaluare (alb - negru)}
 translate L AverageRating {Evaluare medie}
 translate L Event {Eveniment}
-translate L Site {Site}
+translate L Site {Loc}
 translate L Country {Ţară}
 translate L IgnoreColors {Ignora culorile}
 translate L Date {Data}
@@ -751,7 +753,7 @@ menuText L CrosstabEditDate "Data" 0
 menuText L CrosstabOpt "Afişa" 0
 menuText L CrosstabOptAll "Toate-joaca-toate" 0
 menuText L CrosstabOptSwiss "elvețian" 0
-menuText L CrosstabOptKnockout "Făcut praf" 0
+menuText L CrosstabOptKnockout "Eliminatoriu" 0
 menuText L CrosstabOptAuto "Auto" 1
 menuText L CrosstabOptAges "Vârstele în ani" 8
 menuText L CrosstabOptNats "Naționalități" 0
@@ -1588,6 +1590,9 @@ translate L FICSUnrated {Neevaluat}
 translate L FICSRegisteredPlayer {Doar jucător înregistrat}
 translate L FICSFreePlayer {Doar jucător gratuit}
 translate L FICSNetError {Eroare de rețea\Nu se poate conecta la}
+translate L OptionsFICS {FICS}
+translate L FICSTerminalColor {Culoarea terminalului}
+translate L FICSTextColor {Culoarea textului}
 
 # Game review
 translate L GameReview {Revizuirea jocului}
@@ -1665,6 +1670,8 @@ translate L FindCurrentGame {Găsiți jocul curent}
 translate L DeleteGame {Șterge jocul}
 translate L UndeleteGame {Anulați ștergerea jocului}
 translate L ResetSort {Resetează sortarea}
+translate L LayoutExists {Aspectul „%s” există deja.}
+translate L ConfirmDeleteLayout {Sigur doriți să ștergeți aspectul „%s”?}
 
 translate L ConvertNullMove {Convertiți mișcările nule în comentarii}
 translate L SetupBoard {Placă de configurare}

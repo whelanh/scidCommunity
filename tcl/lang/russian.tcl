@@ -314,6 +314,7 @@ menuText R GInfoInformant "Настройка значений подсказч�
 
 # General buttons:
 translate R Back {Назад}
+translate R Apply {Применять}
 translate R Browse {Просмотр}
 translate R Cancel {Отмена}
 translate R Continue {Продолжить}
@@ -334,6 +335,7 @@ translate R MergeGame {Объединение партий}
 translate R MergeGames {Объединение партий}
 translate R Preview {Предварительный просмотр}
 translate R Revert {Возвратиться}
+translate R Rename {Переименовать}
 translate R Save {Сохранить}
 translate R Search {Поиск}
 translate R Stop {Стоп}
@@ -1572,6 +1574,9 @@ translate R FICSUnrated {Без рейтинга}
 translate R FICSRegisteredPlayer {Только зарегистрированный игрок}
 translate R FICSFreePlayer {Только бесплатный игрок}
 translate R FICSNetError {Ошибка сети\Невозможно подключиться к}
+translate R OptionsFICS {ФИКС}
+translate R FICSTerminalColor {Цвет терминала}
+translate R FICSTextColor {Цвет текста}
 
 # Game review
 translate R GameReview {Обзор партии}
@@ -1649,6 +1654,8 @@ translate R FindCurrentGame {Найти текущую игру}
 translate R DeleteGame {Удалить игру}
 translate R UndeleteGame {Отменить удаление игры}
 translate R ResetSort {Сбросить сортировку}
+translate R LayoutExists {Макет «%s» уже существует.}
+translate R ConfirmDeleteLayout {Вы уверены, что хотите удалить макет «%s»?}
 
 translate R ConvertNullMove {Преобразовать пустые ходы в комментарии}
 translate R SetupBoard {Настроить доску}

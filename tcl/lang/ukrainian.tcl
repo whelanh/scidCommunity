@@ -205,8 +205,8 @@ menuText Q ToolsCaptureBoard "Захопити поточну плату..." 5  
 menuText Q Play "грати" 0
 
 # --- Correspondence Chess
-menuText Q CCResign "Звільнитися" 1 {Звільнитися (не електронною поштою)}
-menuText Q CCClaimDraw "Жеребкування позову" 6 {Надіслати хід і отримати нічию (не електронною поштою)}
+menuText Q CCResign "Здатися" 1 {Здатися (не електронною поштою)}
+menuText Q CCClaimDraw "Вимога нічиєї" 0 {Надіслати хід і заявити про нічию (не електронною поштою)}
 
 # menu in cc window:
 
@@ -308,10 +308,11 @@ menuText Q GInfoInformant "Налаштувати значення інформ�
 
 # General buttons:
 translate Q Back {Назад}
-translate Q Browse {переглядати}
+translate Q Apply {Застосувати}
+translate Q Browse {Огляд}
 translate Q Cancel {Скасувати}
 translate Q Continue {Продовжити}
-translate Q Clear {ясно}
+translate Q Clear {Очистити}
 translate Q Close {Закрити}
 translate Q Contents {Зміст}
 translate Q Defaults {За замовчуванням}
@@ -328,33 +329,34 @@ translate Q MergeGame {Гра «Злиття».}
 translate Q MergeGames {Злиття ігор}
 translate Q Preview {Попередній перегляд}
 translate Q Revert {Повернути}
-translate Q Save {зберегти}
+translate Q Rename {Перейменувати}
+translate Q Save {Зберегти}
 translate Q Search {Пошук}
-translate Q Stop {СТІЙ}
-translate Q Store {Магазин}
-translate Q Update {оновлення}
+translate Q Stop {Зупинити}
+translate Q Store {Зберегти}
+translate Q Update {Оновити}
 translate Q ChangeOrient {Змінити орієнтацію вікна}
 translate Q ShowIcons {Показати значки}
 translate Q None {Жодного}
-translate Q First {перше}
-translate Q Current {поточний}
+translate Q First {Перший}
+translate Q Current {Поточний}
 translate Q Last {Останній}
 
 # General messages:
 translate Q game {гра}
 translate Q games {ігри}
-translate Q move {рухатися}
-translate Q moves {рухається}
+translate Q move {хід}
+translate Q moves {ходи}
 translate Q all {все}
-translate Q Yes {так}
-translate Q No {немає}
+translate Q Yes {Так}
+translate Q No {Ні}
 translate Q Both {Обидва}
 translate Q King {Король}
-translate Q Queen {Королева}
-translate Q Rook {Грак}
-translate Q Bishop {Єпископ}
-translate Q Knight {лицар}
-translate Q Pawn {пішак}
+translate Q Queen {Ферзь}
+translate Q Rook {Тура}
+translate Q Bishop {Слон}
+translate Q Knight {Кінь}
+translate Q Pawn {Пішак}
 translate Q White {Білий}
 translate Q Black {чорний}
 translate Q Player {гравець}
@@ -362,7 +364,7 @@ translate Q Rating {Рейтинг}
 translate Q RatingDiff {Різниця в рейтингу (білий - чорний)}
 translate Q AverageRating {Середній рейтинг}
 translate Q Event {Подія}
-translate Q Site {Сайт}
+translate Q Site {Місце}
 translate Q Country {Країна}
 translate Q IgnoreColors {Ігноруйте кольори}
 translate Q Date {Дата}
@@ -375,7 +377,7 @@ translate Q Days {Нд Пн Вт Ср Чт Пт Сб}
 translate Q YearToToday {-1 рік}
 translate Q YearToTodayTooltip {Установити дату від 1 року назад до сьогодні}
 translate Q Result {Результат}
-translate Q Round {Круглий}
+translate Q Round {Тур}
 translate Q Length {Довжина}
 translate Q ECOCode {ЕКО код}
 translate Q ECO {ЕКО}
@@ -427,11 +429,11 @@ translate Q PInfoEditRatings {Редагувати рейтинги}
 translate Q PInfoEloFile {Файл}
 
 # Tablebase information:
-translate Q Draw {малювати}
+translate Q Draw {Нічия}
 translate Q with {з}
 translate Q only {тільки}
-translate Q lose {втратити}
-translate Q loses {програє}
+translate Q lose {Програш}
+translate Q loses {Програє}
 
 # Tip of the day:
 translate Q Tip {Підказка}
@@ -1548,6 +1550,9 @@ translate Q FICSUnrated {Без рейтингу}
 translate Q FICSRegisteredPlayer {Тільки зареєстрований гравець}
 translate Q FICSFreePlayer {Тільки безкоштовний гравець}
 translate Q FICSNetError {Помилка мережі \ Не вдається підключитися}
+translate Q OptionsFICS {FICS}
+translate Q FICSTerminalColor {Колір терміналу}
+translate Q FICSTextColor {Колір тексту}
 
 # Game review
 translate Q GameReview {Огляд гри}
@@ -1625,6 +1630,8 @@ translate Q FindCurrentGame {Знайти поточну гру}
 translate Q DeleteGame {Видалити гру}
 translate Q UndeleteGame {Відновити гру}
 translate Q ResetSort {Скинути сортування}
+translate Q LayoutExists {Макет "%s" вже існує.}
+translate Q ConfirmDeleteLayout {Ви впевнені, що бажаєте видалити макет «%s»?}
 
 translate Q ConvertNullMove {Перетворення нульових ходів на коментарі}
 translate Q SetupBoard {Налаштування дошки}

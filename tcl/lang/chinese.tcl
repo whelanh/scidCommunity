@@ -78,7 +78,7 @@ menuText M EditPasteBoard "粘贴开始局面" 0 {从剪贴板设置开始局面
 menuText M ConfigureScid "偏好设置..." 0 {配置SCID的所有选项}
 
 # Game menu:
-menuText M Game "游戏" 0
+menuText M Game "对局" 0
 menuText M GameNew "新游戏" 0 {重置为空游戏}
 menuText M GameFirst "加载第一局" 0 {加载第一个过滤的游戏}
 menuText M GamePrev "加载上一局" 0 {加载上一个过滤的游戏}
@@ -264,7 +264,7 @@ menuText M HelpStartup "启动窗口" 0 {显示启动窗口}
 menuText M HelpAbout "关于Scid" 0 {关于Scid的信息}
 
 # Toolbar tooltips:
-menuText M RotateBoard "旋转板" 0 {旋转板}
+menuText M RotateBoard "旋转棋盘" 0 {旋转棋盘}
 
 # Game info box popup menu:
 menuText M GInfoHideNext "Hide Next Move" 0
@@ -283,9 +283,10 @@ menuText M GInfoInformant "Configure informant values" 0
 
 # General buttons:
 translate M Back {Back}
+translate M Apply {应用}
 translate M Browse {浏览}
 translate M Cancel {取消}
-translate M Continue {Continue}
+translate M Continue {继续}
 translate M Clear {清除}
 translate M Close {关闭}
 translate M Contents {目录}
@@ -303,12 +304,13 @@ translate M MergeGame {Merge Game}
 translate M MergeGames {Merge Games}
 translate M Preview {Preview}
 translate M Revert {Revert}
+translate M Rename {重命名}
 translate M Save {保存}
 translate M Search {搜索}
 translate M Stop {停止}
-translate M Store {Store}
+translate M Store {保存}
 translate M Update {更新}
-translate M ChangeOrient {Change window orientation}
+translate M ChangeOrient {更改窗口方向}
 translate M ShowIcons {Show Icons}
 translate M None {无}
 translate M First {第一个}
@@ -405,8 +407,8 @@ translate M PInfoEloFile {直线}
 translate M Draw {和棋}
 translate M with {与}
 translate M only {仅}
-translate M lose {lose}
-translate M loses {loses}
+translate M lose {输}
+translate M loses {输}
 
 # Tip of the day:
 translate M Tip {提示}
@@ -741,14 +743,14 @@ translate M DeleteFlag {Delete flag}
 translate M WhiteOpFlag {White opening}
 translate M BlackOpFlag {Black opening}
 translate M MiddlegameFlag {中局}
-translate M EndgameFlag {终局之战}
-translate M NoveltyFlag {新奇}
-translate M PawnFlag {典当结构}
-translate M TacticsFlag {策略}
-translate M QsideFlag {皇后区玩耍}
-translate M KsideFlag {国王边比赛}
-translate M BrilliancyFlag {辉煌}
-translate M BlunderFlag {错误}
+translate M EndgameFlag {残局}
+translate M NoveltyFlag {新着}
+translate M PawnFlag {兵形}
+translate M TacticsFlag {战术}
+translate M QsideFlag {后翼}
+translate M KsideFlag {王翼}
+translate M BrilliancyFlag {妙手}
+translate M BlunderFlag {失误}
 translate M UserFlag {用户}
 translate M PgnContains {PGN 包含文本}
 translate M PgnTag {标签}
@@ -1523,6 +1525,9 @@ translate M FICSUnrated {未评级}
 translate M FICSRegisteredPlayer {仅限注册玩家}
 translate M FICSFreePlayer {仅限免费玩家}
 translate M FICSNetError {网络错误\无法连接}
+translate M OptionsFICS {菲克斯}
+translate M FICSTerminalColor {端子颜色}
+translate M FICSTextColor {文字颜色}
 
 # Game review
 translate M GameReview {游戏回顾}
@@ -1600,6 +1605,8 @@ translate M FindCurrentGame {查找当前游戏}
 translate M DeleteGame {删除游戏}
 translate M UndeleteGame {恢复删除游戏}
 translate M ResetSort {重置排序}
+translate M LayoutExists {布局“%s”已存在。}
+translate M ConfirmDeleteLayout {您确定要删除布局“%s”吗？}
 
 translate M ConvertNullMove {将空动作转换为评论}
 translate M SetupBoard {设置板}

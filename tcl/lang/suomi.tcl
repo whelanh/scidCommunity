@@ -346,6 +346,7 @@ menuText U GInfoInformant "Informant-asetukset" 5
 
 # General buttons:
 translate U Back {Palaa}
+translate U Apply {Käytä}
 translate U Browse {Selaa}
 translate U Cancel {Peruuta}
 translate U Continue {Jatka}
@@ -357,7 +358,7 @@ translate U InvertSearch {Käänteinen haku}
 translate U Delete {Poista}
 translate U Graph {Graafi}
 translate U Help {Ohje}
-translate U Hide {Piilottaa}
+translate U Hide {Piilota}
 translate U Import {Tuo}
 translate U Index {Hakemisto}
 translate U LoadGame {Lataa peli}
@@ -366,9 +367,10 @@ translate U MergeGame {Yhdistä peli}
 translate U MergeGames {Yhdistä pelit}
 translate U Preview {Esikatselu}
 translate U Revert {Palauta}
+translate U Rename {Nimeä uudelleen}
 translate U Save {Tallenna}
 translate U Search {Etsi}
-translate U Stop {Seis}
+translate U Stop {Pysäytä}
 translate U Store {Talleta}
 translate U Update {Päivitä}
 translate U ChangeOrient {Muuta ikkunan muotoa}
@@ -633,9 +635,11 @@ menuText U GraphOptionsEloFile "Elo luokitustiedostosta" 0
 menuText U GraphOptionsEloDB "Elo tietokannasta" 0
 translate U GraphFilterTitle "Graafi: yleisyys per 1000 peliä"
 translate U GraphAbsFilterTitle "graafi: pelien yleisyys"
+translate U GraphWinPctTitle "Suodatuskaavio: Voittoprosentti (1-0 ja 0-1) nykyisessä sijainnissa vuosittain"
 translate U ConfigureFilter "Muokkaa X-akseli; vuosi, vahvuus, siirrot"
 translate U FilterEstimate "Arvioi"
 translate U TitleFilterGraph "Scid: graafi"
+translate U WinPct "voitto %"
 
 # Analysis window:
 translate U AddVariation {Lisää muunnelma}
@@ -675,7 +679,9 @@ translate U AutoComment {Automaattinen kommentti}
 translate U AutoCommentTooltip {Luo tekoälykommentti nykyiselle sijainnille}
 translate U AnalysisAutoCommentTooltip {Luo tekoälykommentteja koko pelille}
 translate U GameComment {Pelin kommentti}
+translate U GameCommentTooltip {Etsi pelistä selostettuja liikkeitä ja luo tekoälyn yhteenveto}
 translate U TimeMs {Aika (ms)}
+
 
 # Book window
 translate U Book {Kirja}
@@ -1121,6 +1127,7 @@ translate U ECOSummary {Yhteenveto:}
 translate U ECOFrequency {Alikoodien yleisyys:}
 
 # Opening Report:
+translate U OprepReportFor {Raportti kohteelle}
 translate U OprepTitle {Avausraportti}
 translate U OprepReport {Raportti}
 translate U OprepGenerated {Luonut:}
@@ -1596,6 +1603,9 @@ translate U FICSUnrated {Luokittelematon}
 translate U FICSRegisteredPlayer {Vain rekisteröitynyt pelaaja}
 translate U FICSFreePlayer {Vain ilmainen pelaaja}
 translate U FICSNetError {Verkkovirhe\Ei voi muodostaa yhteyttä}
+translate U OptionsFICS {FICS}
+translate U FICSTerminalColor {Päätteen väri}
+translate U FICSTextColor {Tekstin väri}
 
 # Game review
 translate U GameReview {Pelin arvioiminen}
@@ -1673,6 +1683,8 @@ translate U FindCurrentGame {Etsi nykyinen peli}
 translate U DeleteGame {Poista peli}
 translate U UndeleteGame {Peru pelin poisto}
 translate U ResetSort {Nollaa lajittelu}
+translate U LayoutExists {Asettelu '%s' on jo olemassa.}
+translate U ConfirmDeleteLayout {Haluatko varmasti poistaa asettelun '%s'?}
 
 translate U ConvertNullMove {Muunna nollasiirrot kommenteiksi}
 translate U SetupBoard {Asennustaulu}
@@ -1709,5 +1721,32 @@ translate U OptionsTablebaseDir "Valitse enintään 4 taulukkokantakansiota:"
 # Evaluation bar
 translate U BestMoveArrow "Paras liikkuva nuoli"
 translate U NewLocalEngine "+ Uusi moottori..."
+
+# Batch Annotate
+translate U BatchAnnotate {Erämerkintä}
+translate U BatchEngineSelection {Moottorin valinta}
+translate U BatchChessEngine {Shakkimoottori:}
+translate U BatchNumberOfInstances {Tapausten määrä:}
+translate U BatchGameReview {Pelin arvostelu}
+translate U BatchTimePerMove {Aika per liike (s):}
+translate U BatchAnnotateBlunders {Merkitse vain virheitä}
+translate U BatchBlunderThreshold {Virheen kynnys:}
+translate U BatchVariationLength {Vaihtelun pituus (liikkeet):}
+translate U BatchOpeningBook {Avauskirja}
+translate U BatchUseBook {Käytä kirjaa}
+translate U BatchAnnotateVariations {Merkitse muunnelmia}
+translate U BatchShortAnnotations {Lyhyet huomautukset}
+translate U BatchAddScoreToShort {Lisää pisteitä lyhyisiin huomautuksiin}
+translate U BatchClearOld {Poista vanhat kommentit ja muunnelmat}
+translate U BatchInitializingEngines {Moottoreita alustetaan...}
+translate U BatchAnalyzingGames {Analysoidaan pelejä...}
+translate U BatchProgress {Erämerkinnän edistyminen}
+translate U BatchComplete {Erämerkintä valmis!}
+translate U BatchCancelled {Erän huomautus peruutettu}
+translate U BatchStart {Aloita}
+translate U BatchCancel {Peruuta}
+translate U BatchCompleted {valmiiksi}
+translate U BatchGames {pelejä}
+translate U BatchProcessed {käsitelty}
 }
 # end of english.tcl

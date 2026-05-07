@@ -348,6 +348,7 @@ menuText S GInfoInformant "Configurar valores de información" 0
 
 # General buttons:
 translate S Back {Atrás}
+translate S Apply {Aplicar}
 translate S Browse {Hojear}
 translate S Cancel {Cancelar}
 translate S Continue {Continuar}
@@ -368,6 +369,7 @@ translate S MergeGame {Incorporar partida}
 translate S MergeGames {Mezclar o fusionar partidas}
 translate S Preview {Vista previa}
 translate S Revert {Retroceder}
+translate S Rename {Rebautizar}
 translate S Save {Guardar}
 translate S Search {Buscar}
 translate S Stop {Parar}
@@ -1623,6 +1625,9 @@ translate S FICSUnrated {Sin clasificar}
 translate S FICSRegisteredPlayer {Solo jugador registrado}
 translate S FICSFreePlayer {Solo jugador gratuito}
 translate S FICSNetError {Error de red\No se puede conectar}
+translate S OptionsFICS {FICS}
+translate S FICSTerminalColor {Color de terminal}
+translate S FICSTextColor {Color del texto}
 
 # Game review
 translate S GameReview {Revisión de partida}
@@ -1700,6 +1705,8 @@ translate S FindCurrentGame {Encuentra el juego actual}
 translate S DeleteGame {eliminar juego}
 translate S UndeleteGame {Recuperar juego}
 translate S ResetSort {Restablecer clasificación}
+translate S LayoutExists {El diseño '%s' ya existe.}
+translate S ConfirmDeleteLayout {¿Está seguro de que desea eliminar el diseño '%s'?}
 
 translate S ConvertNullMove {Convertir movimientos nulos en comentarios}
 translate S SetupBoard {Tablero de configuración}

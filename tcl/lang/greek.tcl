@@ -339,6 +339,7 @@ menuText G GInfoInformant "Ρύθμιση τιμών πληροφορίας" 0
 
 # General buttons:
 translate G Back {Πίσω}
+translate G Apply {Εφαρμογή}
 translate G Browse {Αναζήτηση}
 translate G Cancel {Άκυρο}
 translate G Continue {Συνέχεια}
@@ -350,7 +351,7 @@ translate G InvertSearch {Αντιστροφή αναζήτησης}
 translate G Delete {Διαγραφή}
 translate G Graph {Γράφημα}
 translate G Help {Βοήθεια}
-translate G Hide {Κρύβω}
+translate G Hide {Απόκρυψη}
 translate G Import {Εισαγωγή}
 translate G Index {Κατάλογος}
 translate G LoadGame {Φώρτωση παρτίδας}
@@ -359,6 +360,7 @@ translate G MergeGame {Συνένωση παρτίδας}
 translate G MergeGames {Συνένωση παρτίδων}
 translate G Preview {Προεπισκόπηση}
 translate G Revert {Επαναφορά}
+translate G Rename {Μετονομασία}
 translate G Save {Αποθήκευση}
 translate G Search {Αναζήτηση}
 translate G Stop {Διακοπή}
@@ -1597,6 +1599,9 @@ translate G FICSUnrated {Χωρίς αξιολόγηση}
 translate G FICSRegisteredPlayer {Μόνο εγγεγραμμένος παίκτης}
 translate G FICSFreePlayer {Δωρεάν παίκτης μόνο}
 translate G FICSNetError {Σφάλμα δικτύου\Δεν είναι δυνατή η σύνδεση}
+translate G OptionsFICS {FICS}
+translate G FICSTerminalColor {Χρώμα τερματικού}
+translate G FICSTextColor {Χρώμα κειμένου}
 
 # Game review
 translate G GameReview {Επισκόπηση παρτίδας}
@@ -1674,6 +1679,8 @@ translate G FindCurrentGame {Βρείτε το τρέχον παιχνίδι}
 translate G DeleteGame {Διαγραφή παιχνιδιού}
 translate G UndeleteGame {Αναίρεση διαγραφής παιχνιδιού}
 translate G ResetSort {Επαναφορά ταξινόμησης}
+translate G LayoutExists {Η διάταξη '%s' υπάρχει ήδη.}
+translate G ConfirmDeleteLayout {Είστε βέβαιοι ότι θέλετε να διαγράψετε τη διάταξη '%s';}
 
 translate G ConvertNullMove {Μετατροπή μηδενικών κινήσεων σε σχόλια}
 translate G SetupBoard {Πίνακας εγκατάστασης}

@@ -315,6 +315,7 @@ menuText H GInfoInformant "Tájékoztató értékek határainak beállítása" 0
 
 # General buttons:
 translate H Back {Vissza}
+translate H Apply {Alkalmazni}
 translate H Browse {Tallóz}
 translate H Cancel {Mégse}
 translate H Continue {Tovább}
@@ -335,6 +336,7 @@ translate H MergeGame {Játszma beolvasztása}
 translate H MergeGames {Játszmák beolvasztása}
 translate H Preview {Elõnézet}
 translate H Revert {Elvet}
+translate H Rename {Átnevezés}
 translate H Save {Ment}
 translate H Search {Keres}
 translate H Stop {Állj}
@@ -602,9 +604,11 @@ menuText H GraphOptionsEloFile "Elo az értékelési fájlból" 0
 menuText H GraphOptionsEloDB "Elo adatbázisból" 0
 translate H GraphFilterTitle "Szûrõgrafikon: gyakoriság 1000 játszmánként"
 translate H GraphAbsFilterTitle "Szûrõgrafikon: játszmák gyakorisága"
+translate H GraphWinPctTitle "Szűrési grafikon: Nyerési % (1-0 és 0-1) az aktuális pozíciónál évenként"
 translate H ConfigureFilter {Állítsd be az X tengelyt évre, értékszámra vagy lépésre}
 translate H FilterEstimate "Becslés"
 translate H TitleFilterGraph "Scid: Szûrõgrafikon"
+translate H WinPct "Nyerés %"
 
 # Analysis window:
 translate H AddVariation {Változat beszúrása}
@@ -644,7 +648,9 @@ translate H AutoComment {Automatikus megjegyzés}
 translate H AutoCommentTooltip {AI kommentár létrehozása az aktuális pozícióhoz}
 translate H AnalysisAutoCommentTooltip {Generálj mesterséges intelligencia kommentárt az egész játékhoz}
 translate H GameComment {Játék megjegyzés}
+translate H GameCommentTooltip {Keresse meg a játékot megjegyzésekkel ellátott mozdulatok után, és készítsen AI-összefoglalót}
 translate H TimeMs {Idõ (ms)}
+
 
 # Book window
 translate H Book {Megnyitástár}
@@ -1088,6 +1094,7 @@ translate H ECOSummary {Összefoglalás:}
 translate H ECOFrequency {Alkódok gyakorisága:}
 
 # Opening Report:
+translate H OprepReportFor {Jelentés a számára}
 translate H OprepTitle {Megnyitási összefoglaló}
 translate H OprepReport {Összefoglaló}
 translate H OprepGenerated {Készítette:}
@@ -1566,6 +1573,9 @@ translate H FICSUnrated {Nem minõsített}
 translate H FICSRegisteredPlayer {Csak regisztrált játékos}
 translate H FICSFreePlayer {Csak ingyenes játékos}
 translate H FICSNetError {Hálózati hiba\Nem lehet csatlakozni}
+translate H OptionsFICS {FICS}
+translate H FICSTerminalColor {A terminál színe}
+translate H FICSTextColor {Szöveg színe}
 
 # Game review
 translate H GameReview {Játék ismertetõ}
@@ -1643,6 +1653,8 @@ translate H FindCurrentGame {Keresse meg az aktuális játékot}
 translate H DeleteGame {Játék törlése}
 translate H UndeleteGame {Játék törlésének visszavonása}
 translate H ResetSort {Rendezés visszaállítása}
+translate H LayoutExists {A „%s” elrendezés már létezik.}
+translate H ConfirmDeleteLayout {Biztos, hogy törölni szeretné a(z) '%s' elrendezést?}
 
 translate H ConvertNullMove {Konvertálja a null mozgásokat megjegyzésekké}
 translate H SetupBoard {Beállítási tábla}
@@ -1679,5 +1691,32 @@ translate H OptionsTablebaseDir "Válasszon ki legfeljebb 4 táblázatbázis map
 # Evaluation bar
 translate H BestMoveArrow "Legjobb mozgás nyíl"
 translate H NewLocalEngine "+ új motor..."
+
+# Batch Annotate
+translate H BatchAnnotate {Kötegelt annotálás}
+translate H BatchEngineSelection {Motor kiválasztása}
+translate H BatchChessEngine {Sakkmotor:}
+translate H BatchNumberOfInstances {Példányok száma:}
+translate H BatchGameReview {Játék áttekintése}
+translate H BatchTimePerMove {Lépésenkénti idő (mp):}
+translate H BatchAnnotateBlunders {Csak a hibákat jegyezze fel}
+translate H BatchBlunderThreshold {Tévedés küszöbe:}
+translate H BatchVariationLength {Változat hossza (mozgások):}
+translate H BatchOpeningBook {Nyitókönyv}
+translate H BatchUseBook {Használja a Könyvet}
+translate H BatchAnnotateVariations {Annotálja a variációkat}
+translate H BatchShortAnnotations {Rövid megjegyzések}
+translate H BatchAddScoreToShort {Pontozás hozzáadása a rövid megjegyzésekhez}
+translate H BatchClearOld {Törölje a régi megjegyzéseket és változatokat}
+translate H BatchInitializingEngines {Motorok inicializálása...}
+translate H BatchAnalyzingGames {Játékok elemzése...}
+translate H BatchProgress {Kötegelt annotálás előrehaladása}
+translate H BatchComplete {A kötegelt megjegyzés kész!}
+translate H BatchCancelled {Kötegelt megjegyzés megszakítva}
+translate H BatchStart {Indul}
+translate H BatchCancel {Mégsem}
+translate H BatchCompleted {elkészült}
+translate H BatchGames {játékok}
+translate H BatchProcessed {feldolgozott}
 }
 # end of english.tcl

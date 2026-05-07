@@ -323,6 +323,7 @@ menuText F GInfoInformant "Configurer les valeurs de notation" 0
 
 # General buttons:
 translate F Back {Retour}
+translate F Apply {Appliquer}
 translate F Browse {Parcourir}
 translate F Cancel {Annuler}
 translate F Continue {Continuer}
@@ -343,6 +344,7 @@ translate F MergeGame {Fusionner la partie comme variante}
 translate F MergeGames {Fusionner les parties}
 translate F Preview {Prévisualiser}
 translate F Revert {Revenir}
+translate F Rename {Rebaptiser}
 translate F Save {Enregistrer}
 translate F Search {Rechercher}
 translate F Stop {Arrêter}
@@ -1576,6 +1578,9 @@ translate F FICSUnrated {non classée}
 translate F FICSRegisteredPlayer {Joueur enregistré seulement}
 translate F FICSFreePlayer {Joueur libre seulement}
 translate F FICSNetError {Erreur de réseau\nPas de connexion à }
+translate F OptionsFICS {FICS}
+translate F FICSTerminalColor {Couleur du terminal}
+translate F FICSTextColor {Couleur du texte}
 
 # Game review
 translate F GameReview {Revue de partie}
@@ -1653,6 +1658,8 @@ translate F FindCurrentGame {Trouver le jeu actuel}
 translate F DeleteGame {Supprimer le jeu}
 translate F UndeleteGame {Restaurer le jeu}
 translate F ResetSort {Réinitialiser le tri}
+translate F LayoutExists {La mise en page '%s' existe déjà.}
+translate F ConfirmDeleteLayout {Êtes-vous sûr de vouloir supprimer la mise en page '%s' ?}
 
 translate F ConvertNullMove {Convertir les mouvements nuls en commentaires}
 translate F SetupBoard {Définir la position de départ}

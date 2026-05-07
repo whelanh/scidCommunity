@@ -146,7 +146,7 @@ menuText A GameReplace "保存: ゲームを置き換えます..." 6 \
   {このゲームを保存して古いバージョンを置き換えます}
 menuText A GameAdd "保存: 新しいゲームを追加..." 6 \
   {このゲームを新しいゲームとしてデータベースに保存します}
-menuText A GameDeepest "開口部の識別" 0 \
+menuText A GameDeepest "定跡の識別" 0 \
   {ECOブックに記載されている最も深いゲームポジションに移動します}
 menuText A GameGotoMove "移動番号に移動..." 5 \
   {現在のゲームの指定された手番号に移動します}
@@ -237,16 +237,16 @@ menuText A ToolsExpFilterHTMLJS "フィルターを HTML および JavaScript �
 menuText A ToolsImportOne "1 つの PGN ゲームをインポート..." 0 \
   {PGN テキストからゲームをインポートする}
 menuText A ToolsImportFile "PGN ファイルからゲームをインポート..." 7 {PGN ファイルからゲームをインポートする}
-menuText A ToolsStartEngine1 "エンジン1を始動します" 13  {エンジン1を始動します}
-menuText A ToolsStartEngine2 "エンジン2を始動します" 13  {エンジン2を始動します}
+menuText A ToolsStartEngine1 "エンジン1を開始" 13  {エンジン1を始動します}
+menuText A ToolsStartEngine2 "エンジン2を開始" 13  {エンジン2を始動します}
 menuText A ToolsCaptureBoard "現在のボードをキャプチャ..." 5  {現在のボードを画像として保存します。}
 
 # Play menu
 menuText A Play "遊ぶ" 0
 
 # --- Correspondence Chess
-menuText A CCResign "辞任する" 1 {辞任（電子メールではない）}
-menuText A CCClaimDraw "抽選を請求する" 6 {移動を送信して引き分けを請求します (電子メール経由ではありません)}
+menuText A CCResign "投了" 1 {辞任（電子メールではない）}
+menuText A CCClaimDraw "引き分けを請求" 6 {移動を送信して引き分けを請求します (電子メール経由ではありません)}
 
 # menu in cc window:
 
@@ -348,19 +348,20 @@ menuText A GInfoInformant "インフォーマントの値を構成する" 0
 
 # General buttons:
 translate A Back {戻る}
-translate A Browse {ブラウズ}
+translate A Apply {適用}
+translate A Browse {参照}
 translate A Cancel {キャンセル}
-translate A Continue {続く}
+translate A Continue {続行}
 translate A Clear {クリア}
-translate A Close {近い}
+translate A Close {閉じる}
 translate A Contents {コンテンツ}
 translate A Defaults {デフォルト}
 translate A InvertSearch {逆検索}
-translate A Delete {消去}
+translate A Delete {削除}
 translate A Graph {グラフ}
 translate A Help {ヘルプ}
 translate A Hide {隠れる}
-translate A Import {輸入}
+translate A Import {インポート}
 translate A Index {索引}
 translate A LoadGame {ゲームをロードする}
 translate A BrowseGame {ブラウズゲーム}
@@ -368,10 +369,11 @@ translate A MergeGame {マージゲーム}
 translate A MergeGames {ゲームをマージする}
 translate A Preview {プレビュー}
 translate A Revert {元に戻す}
+translate A Rename {名前の変更}
 translate A Save {保存}
 translate A Search {検索}
 translate A Stop {停止}
-translate A Store {店}
+translate A Store {保存}
 translate A Update {アップデート}
 translate A ChangeOrient {ウィンドウの向きを変更する}
 translate A ShowIcons {アイコンを表示}
@@ -383,17 +385,17 @@ translate A Last {最後}
 # General messages:
 translate A game {ゲーム}
 translate A games {ゲーム}
-translate A move {動く}
-translate A moves {動く}
+translate A move {手}
+translate A moves {手}
 translate A all {全て}
 translate A Yes {はい}
 translate A No {いいえ}
 translate A Both {両方}
-translate A King {王}
-translate A Queen {女王}
+translate A King {キング}
+translate A Queen {クイーン}
 translate A Rook {ルーク}
-translate A Bishop {司教}
-translate A Knight {騎士}
+translate A Bishop {ビショップ}
+translate A Knight {ナイト}
 translate A Pawn {ポーン}
 translate A White {白}
 translate A Black {黒}
@@ -402,7 +404,7 @@ translate A Rating {評価}
 translate A RatingDiff {評価差（白－黒）}
 translate A AverageRating {平均評価}
 translate A Event {イベント}
-translate A Site {サイト}
+translate A Site {場所}
 translate A Country {国}
 translate A IgnoreColors {色を無視する}
 translate A Date {日付}
@@ -467,11 +469,11 @@ translate A PInfoEditRatings {評価の編集}
 translate A PInfoEloFile {ファイル}
 
 # Tablebase information:
-translate A Draw {描く}
+translate A Draw {引き分け}
 translate A with {と}
 translate A only {のみ}
-translate A lose {失う}
-translate A loses {負ける}
+translate A lose {負け}
+translate A loses {負け}
 
 # Tip of the day:
 translate A Tip {ヒント}
@@ -1588,6 +1590,9 @@ translate A FICSUnrated {未評価}
 translate A FICSRegisteredPlayer {登録プレイヤーのみ}
 translate A FICSFreePlayer {無料プレイヤーのみ}
 translate A FICSNetError {ネットワーク エラー\接続できません}
+translate A OptionsFICS {FICS}
+translate A FICSTerminalColor {端子色}
+translate A FICSTextColor {文字の色}
 
 # Game review
 translate A GameReview {ゲームレビュー}
@@ -1665,6 +1670,8 @@ translate A FindCurrentGame {現在のゲームを探す}
 translate A DeleteGame {ゲームを削除する}
 translate A UndeleteGame {ゲームの削除を取り消す}
 translate A ResetSort {並べ替えをリセット}
+translate A LayoutExists {レイアウト '%s' はすでに存在します。}
+translate A ConfirmDeleteLayout {レイアウト '%s' を削除してもよろしいですか?}
 
 translate A ConvertNullMove {null 移動をコメントに変換する}
 translate A SetupBoard {セットアップボード}

@@ -317,6 +317,7 @@ menuText O GInfoInformant "Konfigurer informantverdier" 0
 
 # General buttons:
 translate O Back {Tilbake}
+translate O Apply {Bruk}
 translate O Browse {Browse} ;# ***
 translate O Cancel {Avbryt}
 translate O Continue {Fortsette}
@@ -337,6 +338,7 @@ translate O MergeGame {Smelt parti}
 translate O MergeGames {Slå sammen spill}
 translate O Preview {Forhåndsvis}
 translate O Revert {Gjør om}
+translate O Rename {Gi nytt navn}
 translate O Save {Lagre}
 translate O Search {Søk}
 translate O Stop {Stopp}
@@ -604,9 +606,11 @@ menuText O GraphOptionsEloFile "Elo fra vurderingsfil" 0
 menuText O GraphOptionsEloDB "Elo fra databasen" 0
 translate O GraphFilterTitle "Filtergraf: hyppighet per 1000 partier"
 translate O GraphAbsFilterTitle "Filter Graph: frekvens av spillene"
+translate O GraphWinPctTitle "Filtergraf: vinn % (1-0 og 0-1) ved nåværende posisjon etter år"
 translate O ConfigureFilter {Konfigurer X-akser for år, vurdering og trekk}
 translate O FilterEstimate "Beregne"
 translate O TitleFilterGraph "Scid: Filter Graph"
+translate O WinPct "Vinn %"
 
 # Analysis window:
 translate O AddVariation {Legg til variasjon}
@@ -646,7 +650,9 @@ translate O AutoComment {Automatisk kommentar}
 translate O AutoCommentTooltip {Generer AI-kommentarer for gjeldende stilling}
 translate O AnalysisAutoCommentTooltip {Generer AI-kommentarer for hele spillet}
 translate O GameComment {Spillkommentar}
+translate O GameCommentTooltip {Skann spillet for kommenterte trekk og generer AI-sammendrag}
 translate O TimeMs {Tid (ms)}
+
 
 # Book window
 translate O Book {Bok}
@@ -1090,6 +1096,7 @@ translate O ECOSummary {Sammendrag for}
 translate O ECOFrequency {Hyppighet eller underkoder for}
 
 # Opening Report:
+translate O OprepReportFor {Rapporter for}
 translate O OprepTitle {Åpningsrapport}
 translate O OprepReport {Rapport}
 translate O OprepGenerated {Generert av}
@@ -1565,6 +1572,9 @@ translate O FICSUnrated {Ikke vurdert}
 translate O FICSRegisteredPlayer {Kun registrerte spillere}
 translate O FICSFreePlayer {Kun gratis spiller}
 translate O FICSNetError {Nettverksfeil\Kan ikke koble til}
+translate O OptionsFICS {FICS}
+translate O FICSTerminalColor {Terminalfarge}
+translate O FICSTextColor {Tekstfarge}
 
 # Game review
 translate O GameReview {Spillanmeldelse}
@@ -1642,6 +1652,8 @@ translate O FindCurrentGame {Finn gjeldende spill}
 translate O DeleteGame {Slett spillet}
 translate O UndeleteGame {Angre sletting av spill}
 translate O ResetSort {Tilbakestill sortering}
+translate O LayoutExists {Layout '%s' eksisterer allerede.}
+translate O ConfirmDeleteLayout {Er du sikker på at du vil slette layouten '%s'?}
 
 translate O ConvertNullMove {Konverter null-trekk til kommentarer}
 translate O SetupBoard {Oppsettbrett}
@@ -1678,5 +1690,32 @@ translate O OptionsTablebaseDir "Velg opptil 4 tabellgrunnmapper:"
 # Evaluation bar
 translate O BestMoveArrow "Beste flyttepil"
 translate O NewLocalEngine "+ Ny motor..."
+
+# Batch Annotate
+translate O BatchAnnotate {Batch Annotate}
+translate O BatchEngineSelection {Motorvalg}
+translate O BatchChessEngine {Sjakkmotor:}
+translate O BatchNumberOfInstances {Antall forekomster:}
+translate O BatchGameReview {Spillanmeldelse}
+translate O BatchTimePerMove {Tid per trekk (sek):}
+translate O BatchAnnotateBlunders {Merk kun feil}
+translate O BatchBlunderThreshold {Bommertsgrense:}
+translate O BatchVariationLength {Variasjonslengde (bevegelser):}
+translate O BatchOpeningBook {Åpningsbok}
+translate O BatchUseBook {Bruk bok}
+translate O BatchAnnotateVariations {Kommenter varianter}
+translate O BatchShortAnnotations {Korte merknader}
+translate O BatchAddScoreToShort {Legg poengsum til korte merknader}
+translate O BatchClearOld {Fjern gamle kommentarer og varianter}
+translate O BatchInitializingEngines {Initialiserer motorer...}
+translate O BatchAnalyzingGames {Analyserer spill...}
+translate O BatchProgress {Batchkommentarfremgang}
+translate O BatchComplete {Batch-annotering fullført!}
+translate O BatchCancelled {Batch-anmerkning kansellert}
+translate O BatchStart {Start}
+translate O BatchCancel {Kansellere}
+translate O BatchCompleted {fullført}
+translate O BatchGames {spill}
+translate O BatchProcessed {behandlet}
 }
 # end of english.tcl

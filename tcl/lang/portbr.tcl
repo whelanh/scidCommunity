@@ -316,6 +316,7 @@ menuText B GInfoInformant "Configurar valores do informante" 0
 
 # General buttons:
 translate B Back {Voltar}
+translate B Apply {Aplicar}
 translate B Browse {Navegar} 
 translate B Cancel {Cancelar}
 translate B Continue {Continuar}
@@ -336,6 +337,7 @@ translate B MergeGame {Fazer fusão do jogo}
 translate B MergeGames {Fusão dos jogos}
 translate B Preview {Visualização}
 translate B Revert {Reverter}
+translate B Rename {Renomear}
 translate B Save {Salvar}
 translate B Search {Pesquisar}
 translate B Stop {Parar}
@@ -407,6 +409,9 @@ translate B ErrReadOnly {Esta base  apenas para leitura; não pode ser alterada.
 translate B ErrSearchInterrupted {Pesquisa interrompida; os resultados estão incompletos.} 
 translate B ErrNoClockComments {Nenhum comentário de relógio [%clk] foi encontrado neste jogo. Adicione horários de relógio através da janela de comentários (Ctrl+E) para usar este recurso.}
 translate B ErrFileInUse {Erro: o arquivo já está em uso. Feche qualquer outro aplicativo que use este banco de dados. Se o programa foi fechado inesperadamente, pode ser necessário excluir o arquivo .lock associado ao banco de dados.}
+
+
+
 
 # Game information:
 translate B twin {duplicado}
@@ -1575,6 +1580,9 @@ translate B FICSUnrated {Sem rating}
 translate B FICSRegisteredPlayer {Apenas jogador registrado}
 translate B FICSFreePlayer {Apenas jogador não registado}
 translate B FICSNetError {Erro de rede\nNao pode conectar }
+translate B OptionsFICS {FICS}
+translate B FICSTerminalColor {Cor dos terminais}
+translate B FICSTextColor {Cor do texto}
 
 # Game review
 translate B GameReview {Rever jogo}
@@ -1652,6 +1660,8 @@ translate B FindCurrentGame {Pesquisar jogo atual}
 translate B DeleteGame {Excluir jogo}
 translate B UndeleteGame {Recuperar jogo deletado}
 translate B ResetSort {Reiniciar ordenação}
+translate B LayoutExists {O layout '%s' já existe.}
+translate B ConfirmDeleteLayout {Tem certeza de que deseja excluir o layout '%s'?}
 
 translate B ConvertNullMove {Converter movimentos nulos para comentários}
 translate B SetupBoard {Definir tabuleiro}
