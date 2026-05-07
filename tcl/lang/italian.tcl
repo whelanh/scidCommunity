@@ -315,7 +315,7 @@ menuText I GInfoInformant "Configura i valori dei simboli per i commenti" 0
 
 # General buttons:
 translate I Back {Indietro}
-translate I Apply {Fare domanda a}
+translate I Apply {Applica}
 translate I Browse {Browse}
 translate I Cancel {Annulla}
 translate I Continue {Continua}

@@ -318,7 +318,7 @@ menuText W GInfoInformant "Konfigurera Informant-parametrar" 0
 
 # General buttons:
 translate W Back {Tillbaka}
-translate W Apply {Tillämpas}
+translate W Apply {Tillämpa}
 translate W Browse {Bläddra}
 translate W Cancel {Avbryt}
 translate W Continue {Fortsätt}
@@ -1099,7 +1099,7 @@ translate W ECOSummary {Sammanfattning för}
 translate W ECOFrequency {Underkodsfrekvens för}
 
 # Opening Report:
-translate W OprepReportFor {Anmäl för}
+translate W OprepReportFor {Rapport för}
 translate W OprepTitle {Öppningsrapport}
 translate W OprepReport {Rapport}
 translate W OprepGenerated {Skapad av}

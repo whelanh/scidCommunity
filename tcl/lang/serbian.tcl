@@ -378,7 +378,7 @@ menuText Y GInfoInformant "Configure informant values" 0
 # General buttons:
 translate Y Back {Nazad}
 # ====== TODO To be translated ======
-translate Y Apply {Apply}
+translate Y Apply {Примени}
 translate Y Browse {Browse} ;# ***
 translate Y Cancel {Poniti}
 # ====== TODO To be translated ======
@@ -404,7 +404,7 @@ translate Y MergeGames {Merge Games}
 translate Y Preview {Preview} ;# ***
 translate Y Revert {Vrati se}
 # ====== TODO To be translated ======
-translate Y Rename {Rename}
+translate Y Rename {Преименуј}
 translate Y Save {Sauvaj}
 translate Y Search {Trai}
 translate Y Stop {Stop}
@@ -2048,9 +2048,9 @@ translate Y FICSNetError {Network error\nCan't connect to }
 # ====== TODO To be translated ======
 translate Y OptionsFICS {FICS}
 # ====== TODO To be translated ======
-translate Y FICSTerminalColor {Terminal color}
+translate Y FICSTerminalColor {Боја терминала}
 # ====== TODO To be translated ======
-translate Y FICSTextColor {Text color}
+translate Y FICSTextColor {Боја текста}
 # ====== TODO To be translated ======
 translate Y GameReview {Game review}
 # ====== TODO To be translated ======

@@ -317,7 +317,7 @@ menuText O GInfoInformant "Konfigurer informantverdier" 0
 
 # General buttons:
 translate O Back {Tilbake}
-translate O Apply {Søke}
+translate O Apply {Bruk}
 translate O Browse {Browse} ;# ***
 translate O Cancel {Avbryt}
 translate O Continue {Fortsette}

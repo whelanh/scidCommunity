@@ -352,7 +352,7 @@ translate Q Yes {Так}
 translate Q No {Ні}
 translate Q Both {Обидва}
 translate Q King {Король}
-translate Q Queen {Фερзь}
+translate Q Queen {Ферзь}
 translate Q Rook {Тура}
 translate Q Bishop {Слон}
 translate Q Knight {Кінь}
@@ -1551,7 +1551,7 @@ translate Q FICSRegisteredPlayer {Тільки зареєстрований гр
 translate Q FICSFreePlayer {Тільки безкоштовний гравець}
 translate Q FICSNetError {Помилка мережі \ Не вдається підключитися}
 translate Q OptionsFICS {FICS}
-translate Q FICSTerminalColor {Колір клеми}
+translate Q FICSTerminalColor {Колір терміналу}
 translate Q FICSTextColor {Колір тексту}
 
 # Game review

@@ -1579,7 +1579,7 @@ translate F FICSRegisteredPlayer {Joueur enregistré seulement}
 translate F FICSFreePlayer {Joueur libre seulement}
 translate F FICSNetError {Erreur de réseau\nPas de connexion à }
 translate F OptionsFICS {FICS}
-translate F FICSTerminalColor {Couleur des bornes}
+translate F FICSTerminalColor {Couleur du terminal}
 translate F FICSTextColor {Couleur du texte}
 
 # Game review

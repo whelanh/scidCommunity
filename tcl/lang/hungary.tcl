@@ -1693,7 +1693,7 @@ translate H BestMoveArrow "Legjobb mozgás nyíl"
 translate H NewLocalEngine "+ új motor..."
 
 # Batch Annotate
-translate H BatchAnnotate {Batch Annotate}
+translate H BatchAnnotate {Kötegelt annotálás}
 translate H BatchEngineSelection {Motor kiválasztása}
 translate H BatchChessEngine {Sakkmotor:}
 translate H BatchNumberOfInstances {Példányok száma:}
@@ -1710,7 +1710,7 @@ translate H BatchAddScoreToShort {Pontozás hozzáadása a rövid megjegyzésekh
 translate H BatchClearOld {Törölje a régi megjegyzéseket és változatokat}
 translate H BatchInitializingEngines {Motorok inicializálása...}
 translate H BatchAnalyzingGames {Játékok elemzése...}
-translate H BatchProgress {Batch Annotate Progress}
+translate H BatchProgress {Kötegelt annotálás előrehaladása}
 translate H BatchComplete {A kötegelt megjegyzés kész!}
 translate H BatchCancelled {Kötegelt megjegyzés megszakítva}
 translate H BatchStart {Indul}

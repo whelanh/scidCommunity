@@ -1127,7 +1127,7 @@ translate U ECOSummary {Yhteenveto:}
 translate U ECOFrequency {Alikoodien yleisyys:}
 
 # Opening Report:
-translate U OprepReportFor {Raportti for}
+translate U OprepReportFor {Raportti kohteelle}
 translate U OprepTitle {Avausraportti}
 translate U OprepReport {Raportti}
 translate U OprepGenerated {Luonut:}
@@ -1723,7 +1723,7 @@ translate U BestMoveArrow "Paras liikkuva nuoli"
 translate U NewLocalEngine "+ Uusi moottori..."
 
 # Batch Annotate
-translate U BatchAnnotate {Erä Annotate}
+translate U BatchAnnotate {Erämerkintä}
 translate U BatchEngineSelection {Moottorin valinta}
 translate U BatchChessEngine {Shakkimoottori:}
 translate U BatchNumberOfInstances {Tapausten määrä:}
@@ -1744,7 +1744,7 @@ translate U BatchProgress {Erämerkinnän edistyminen}
 translate U BatchComplete {Erämerkintä valmis!}
 translate U BatchCancelled {Erän huomautus peruutettu}
 translate U BatchStart {Aloita}
-translate U BatchCancel {Peruuttaa}
+translate U BatchCancel {Peruuta}
 translate U BatchCompleted {valmiiksi}
 translate U BatchGames {pelejä}
 translate U BatchProcessed {käsitelty}
