@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.3.24
+Version:        5.1.3.25
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit efb8fa7fe3cbf7963f2111d8937f961d04aa37ba
+%global commit e6050412a620bf041989026b490b01de5abe9b31
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Thu May 7, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-25
+- "Translation completions"
 * Thu May 7, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-24
 - "Allow users to choose FICS background and text color in the Options/Preferences menu"
 * Wed May 6, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-23
