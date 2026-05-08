@@ -41,6 +41,7 @@ array set encodings {
   ukrainian utf-8
   bengali utf-8
   korean utf-8
+  bulgarian utf-8
 }
 
 array set codes {
@@ -71,11 +72,12 @@ array set codes {
   ukrainian Q
   bengali b
   korean k
+  bulgarian g
 }
 
 set languages {czech deutsch francais hungary italian chinese nederlan norsk polish
   portbr spanish swedish serbian russian catalan suomi greek turkish SerbCyr 
-  japanese romanian hebrew swahili hindi ukrainian bengali korean
+  japanese romanian hebrew swahili hindi ukrainian bengali korean bulgarian
 }
 
 ################################################################################

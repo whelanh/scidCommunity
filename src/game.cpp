@@ -28,9 +28,9 @@ int language = 0; // default to english
 //  0 = en,
 //  1 = fr, 2 = es, 3 = de, 4 = it, 5 = ne, 6 = cz
 //  7 = hu, 8 = no, 9 = sw, 10 = ca, 11 = fi, 12 = gr, 13 = pt, 14 = he, 15 = swa
-//  16 = hi, 17 = uk, 18 = bn, 19 = ko, 20 = ja, 21 = zh, 22 = ro
+//  16 = hi, 17 = uk, 18 = bn, 19 = ko, 20 = ja, 21 = zh, 22 = ro, 23 = bg
 //  TODO Piece translations for greek
-//  Note: Languages using multi-byte UTF-8 piece chars (gr, he, ko, zh) use empty
+//  Note: Languages using multi-byte UTF-8 piece chars (gr, he, ko, zh, bg) use empty
 //  strings here; translation is handled by Tcl-side string map instead.
 const char *langPieces[] = {"",
                             "PPKRQDRTBFNC",
@@ -54,7 +54,8 @@ const char *langPieces[] = {"",
                             "", // 19 = ko
                             "", // 20 = ja
                             "", // 21 = zh
-                            "PPKRQDRTBNNC"  // 22 = ro
+                            "PPKRQDRTBNNC", // 22 = ro
+                            ""  // 23 = bg
 };
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
