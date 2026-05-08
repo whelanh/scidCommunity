@@ -31,6 +31,7 @@ LANGUAGE_FILES=(
     "ukrainian"
     "bengali"
     "korean"
+    "bulgarian"
 )
 
 # Color codes for output
