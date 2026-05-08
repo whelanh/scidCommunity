@@ -4913,6 +4913,9 @@ int sc_info(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
     if (strcmp(argv[2], "ro") == 0) {
       language = 22;
     }
+    if (strcmp(argv[2], "bg") == 0) {
+      language = 23;
+    }
 
     break;
   default:

@@ -348,12 +348,12 @@ menuText g GInfoInformant "Конфигурирайте стойностите �
 
 # General buttons:
 translate g Back {Назад}
-translate g Apply {Кандидатствайте}
+translate g Apply {Приложи}
 translate g Browse {Прегледайте}
 translate g Cancel {Отказ}
 translate g Continue {Продължи}
-translate g Clear {ясно}
-translate g Close {затвори}
+translate g Clear {Изчисти}
+translate g Close {Затвори}
 translate g Contents {Съдържание}
 translate g Defaults {По подразбиране}
 translate g InvertSearch {Инвертиране на търсенето}
@@ -392,10 +392,10 @@ translate g Yes {да}
 translate g No {не}
 translate g Both {И двете}
 translate g King {Крал}
-translate g Queen {кралица}
+translate g Queen {Кралица}
 translate g Rook {Топ}
-translate g Bishop {Епископ}
-translate g Knight {рицар}
+translate g Bishop {Офицер}
+translate g Knight {Кон}
 translate g Pawn {Пешка}
 translate g White {Бяло}
 translate g Black {черен}
@@ -469,10 +469,10 @@ translate g PInfoEditRatings {Редактиране на оценки}
 translate g PInfoEloFile {Файл}
 
 # Tablebase information:
-translate g Draw {Начертайте}
+translate g Draw {Реми}
 translate g with {с}
 translate g only {само}
-translate g lose {губя}
+translate g lose {Загуба}
 translate g loses {губи}
 
 # Tip of the day:
