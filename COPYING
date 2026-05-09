@@ -22,6 +22,11 @@ files taken from chessx, modified for use in scidCommunity with Gimp,
 and seems to have its origins in the eboard project (probable authors: 
 Felipe Bergo and Phillip Watts). Both are GPL projects.
 
+The Berlin piece set images (img/pieces/Berlin/) were sourced from ChessX
+(http://chessx.sourceforge.net), originally derived from chess fonts at
+http://www.enpassant.dk/chess/fonteng.htm, and ported to scid vs. PC by
+stevenaaus. ChessX is a GPL project.
+
 Applicability:
 --------------
 

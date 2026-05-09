@@ -209,6 +209,7 @@ proc InitImg {} {
       lappend boardStyles [file tail $piecetype]
     }
   }
+  set boardStyles [lsort -nocase $boardStyles]
 }
 if {[catch {InitImg}]} {
   tk_messageBox -type ok -icon error -title "scidCommunity: Error" \
