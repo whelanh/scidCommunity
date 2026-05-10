@@ -375,6 +375,10 @@ jobs:
           fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
+      - name: Export version to env
+        run: |
+          echo "SCIDCOMMUNITY_VERSION=${{ steps.get_version.outputs.version }}" >> $GITHUB_ENV
+
       - name: Install build dependencies
         run: |
           sudo apt-get update
