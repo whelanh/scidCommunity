@@ -378,7 +378,7 @@ jobs:
       - name: Install build dependencies
         run: |
           sudo apt-get update
-          sudo apt-get -y install cmake build-essential wget
+          sudo apt-get -y install cmake build-essential wget \
             tcl8.6-dev tk8.6-dev libtcl8.6 libtk8.6
 
       - name: Download appimagetool
