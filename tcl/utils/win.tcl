@@ -253,8 +253,12 @@ proc ::win::manageWindow {wnd title} {
 proc ::win::createDialog {w {y 10}} {
 	toplevel $w -padx 10 -pady $y
 	::applyThemeColor_background $w
-	wm transient $w .
-	catch {wm attributes $w -type dialog}
+
+	# Give window managers enough metadata to handle Scid dialogs as dialogs.
+	# Some tiling WMs use these hints to decide whether a window should float.
+	catch { wm transient $w . }
+	catch { wm group $w . }
+	catch { wm attributes $w -type dialog }
 }
 
 # Make sure that a window is visible
