@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.3.27
+Version:        5.1.3.29
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 69e275e7d085ae7d7e0d44de8fdacf1cd158dde1
+%global commit 57a306b10b377de5de29b133d5a6ccabd3b6906f
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Mon May 11, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-29
+- "Add Lichess OpenExplore button to PGN window to access Lichess Opening Explorer data"
 * Sat May 9, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-27
 - "Add Berlin piece set"
 * Fri May 8, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-26
