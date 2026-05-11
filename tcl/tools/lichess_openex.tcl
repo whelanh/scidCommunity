@@ -89,7 +89,7 @@ proc ::lichess_openex::openDialog {} {
     set row 0
 
     # API Token
-    ttk::label $w.content.tokenlbl -text "Lichess API Token (optional):"
+    ttk::label $w.content.tokenlbl -text "Lichess API Token (required):"
     ttk::entry $w.content.tokenentry -width 45 -textvariable ::lichess_openex::apiToken -show "*"
     grid $w.content.tokenlbl   -row $row -column 0 -sticky w -padx {0 8} -pady 2
     grid $w.content.tokenentry -row $row -column 1 -columnspan 3 -sticky ew -pady 2
@@ -285,6 +285,14 @@ proc ::lichess_openex::updateDialogFields {w} {
 #   Validate dialog, save settings, close dialog, query API.
 #
 proc ::lichess_openex::onGo {w} {
+    # Require an API token (Lichess has required one for Opening Explorer since March 2026)
+    if {[string trim $::lichess_openex::apiToken] eq ""} {
+        tk_messageBox -icon warning -type ok -title "Lichess Opening Explorer" \
+            -message "A Lichess API token is required.\n\nAs of March 2026, Lichess requires an API token to access the Opening Explorer. Please enter your token in the \"Lichess API Token\" field above.\n\nYou can create a token at: https://lichess.org/account/oauth/token" -parent $w
+        focus $w.content.tokenentry
+        return
+    }
+
     # Validate player-specific requirements
     if {$::lichess_openex::database eq "player"} {
         if {[string trim $::lichess_openex::playerName] eq ""} {
