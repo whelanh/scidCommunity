@@ -155,7 +155,7 @@ namespace eval pgn {
     ::utils::tooltip::Set $w.bottompanel.lichesseval "Lichess cloud evaluation for current position"
     pack $w.bottompanel.lichesseval -side left -padx 2 -pady 2
 
-    ttk::button $w.bottompanel.lichessopenex -text "Lichess OpenEx" -command ::lichess_openex::openDialog
+    ttk::button $w.bottompanel.lichessopenex -text "Lichess OpenExplore" -command ::lichess_openex::openDialog
     ::utils::tooltip::Set $w.bottompanel.lichessopenex "Lichess Opening Explorer for current position"
     pack $w.bottompanel.lichessopenex -side left -padx 2 -pady 2
 
