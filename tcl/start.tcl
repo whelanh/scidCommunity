@@ -957,6 +957,7 @@ main.tcl
 tools/uci.tcl
 tools/stored_eval.tcl
 tools/lichess_eval.tcl
+tools/lichess_openex.tcl
 tools/auto_comment.tcl
 tools/analysis_auto_comment.tcl
 end.tcl
