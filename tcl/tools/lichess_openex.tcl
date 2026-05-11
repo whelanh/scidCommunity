@@ -42,6 +42,7 @@ proc ::lichess_openex::openDialog {} {
     wm title $w "Lichess Opening Explorer"
     wm resizable $w 1 0
     if {[winfo exists .]} { wm transient $w . }
+    wm protocol $w WM_DELETE_WINDOW [list ::lichess_openex::onCancel $w]
 
     # --- Save backup of all persisted settings for Cancel ---
     set ::lichess_openex::backup_db $::lichess_openex::database
@@ -485,8 +486,10 @@ proc ::lichess_openex::lastJsonLine {data} {
 #   If token is non-empty, includes Authorization header.
 #   Uses pipe-based curl to handle NDJSON streaming (player endpoint)
 #   where curl may exit non-zero despite returning valid data.
+#   If extractJson is 1 (default), applies NDJSON extraction and requires
+#   a JSON response. Set to 0 for raw responses (e.g. PGN from game export).
 #
-proc ::lichess_openex::httpGet {url {token ""}} {
+proc ::lichess_openex::httpGet {url {token ""} {extractJson 1}} {
     set result ""
 
     # Build curl command as a list
@@ -510,10 +513,18 @@ proc ::lichess_openex::httpGet {url {token ""}} {
         set result ""
     }
 
-    # Extract last JSON line (handles NDJSON from player endpoint)
-    set result [::lichess_openex::lastJsonLine $result]
-    if {$result ne "" && [string index $result 0] eq "\{"} {
-        return $result
+    if {$extractJson} {
+        # Extract last JSON line (handles NDJSON from player endpoint)
+        set result [::lichess_openex::lastJsonLine $result]
+        if {$result ne "" && [string index $result 0] eq "\{"} {
+            return $result
+        }
+    } else {
+        # Return raw response (e.g. PGN from game export)
+        set result [string trim $result]
+        if {$result ne ""} {
+            return $result
+        }
     }
 
     # Fallback: Tcl http + tls
@@ -529,7 +540,9 @@ proc ::lichess_openex::httpGet {url {token ""}} {
         if {![catch {set httpToken [::http::geturl $url -timeout 15000 -headers $headers]} httpErr]} {
             set result [::http::data $httpToken]
             ::http::cleanup $httpToken
-            set result [::lichess_openex::lastJsonLine $result]
+            if {$extractJson} {
+                set result [::lichess_openex::lastJsonLine $result]
+            }
             return $result
         }
         set err1 "$err1; http: $httpErr"
@@ -549,7 +562,9 @@ proc ::lichess_openex::httpGet {url {token ""}} {
             "(Invoke-WebRequest -Uri \$env:LICHESS_OPENEX_URL $psHeaders -TimeoutSec 15).Content"} result]} {
             catch {unset ::env(LICHESS_OPENEX_TOKEN)}
             catch {unset ::env(LICHESS_OPENEX_URL)}
-            set result [::lichess_openex::lastJsonLine $result]
+            if {$extractJson} {
+                set result [::lichess_openex::lastJsonLine $result]
+            }
             return $result
         }
         catch {unset ::env(LICHESS_OPENEX_TOKEN)}
@@ -791,7 +806,7 @@ proc ::lichess_openex::parseMoves {tree jsonData} {
 
     # Find the end of the moves array (balanced brackets)
     set depth 1
-    set pos 0
+    set pos 1
     set len [string length $remaining]
     while {$pos < $len && $depth > 0} {
         set ch [string index $remaining $pos]
@@ -870,7 +885,7 @@ proc ::lichess_openex::parseGames {tree jsonData arrayName {fen ""}} {
 
     # Find the end of the array (balanced brackets)
     set depth 1
-    set pos 0
+    set pos 1
     set len [string length $remaining]
     while {$pos < $len && $depth > 0} {
         set ch [string index $remaining $pos]
@@ -1005,9 +1020,9 @@ proc ::lichess_openex::loadGame {gameId} {
     set url "https://lichess.org/game/export/${gameId}?clocks=true&evals=true&opening=true"
     set token $::lichess_openex::apiToken
 
-    # Fetch the PGN
+    # Fetch the PGN (raw response, not JSON)
     set pgnData ""
-    if {[catch {set pgnData [::lichess_openex::httpGet $url $token]} err]} {
+    if {[catch {set pgnData [::lichess_openex::httpGet $url $token 0]} err]} {
         tk_messageBox -icon error -type ok -title "Lichess Opening Explorer" \
             -message "Failed to fetch game $gameId:\n$err"
         return
@@ -1020,9 +1035,9 @@ proc ::lichess_openex::loadGame {gameId} {
     }
 
     # Switch to clipbase and import
+    ::file::SwitchToBase $::clipbase_db
+    if {[::game::Clear] eq "cancel"} { return }
     if {[catch {
-        ::file::SwitchToBase $::clipbase_db
-        if {[::game::Clear] eq "cancel"} { return }
         set importResult [sc_game import $pgnData]
         ::notify::GameChanged
     } err]} {
