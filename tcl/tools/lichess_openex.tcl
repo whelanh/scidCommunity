@@ -396,6 +396,14 @@ proc ::lichess_openex::buildUrl {fen} {
     set db $::lichess_openex::database
     set urlFen [::lichess_openex::urlEncode $fen]
 
+    # Detect Chess960 variant from the current game
+    set gameVariant [sc_game variant]
+    if {$gameVariant eq "chess960"} {
+        set variant "chess960"
+    } else {
+        set variant "standard"
+    }
+
     set url "$::lichess_openex::baseUrl/$db?fen=$urlFen"
 
     # Common params
@@ -408,6 +416,7 @@ proc ::lichess_openex::buildUrl {fen} {
 
     switch -- $db {
         "masters" {
+            # Masters database is OTB games only; no variant param needed
             if {$::lichess_openex::sinceYear ne ""} {
                 append url "&since=$::lichess_openex::sinceYear"
             }
@@ -416,8 +425,7 @@ proc ::lichess_openex::buildUrl {fen} {
             }
         }
         "lichess" {
-            # Variant (always standard for this feature)
-            append url "&variant=standard"
+            append url "&variant=$variant"
             if {$::lichess_openex::sinceMonth ne ""} {
                 append url "&since=$::lichess_openex::sinceMonth"
             }
@@ -436,6 +444,7 @@ proc ::lichess_openex::buildUrl {fen} {
             }
         }
         "player" {
+            append url "&variant=$variant"
             append url "&player=[::lichess_openex::urlEncode $::lichess_openex::playerName]"
             append url "&color=$::lichess_openex::playerColor"
             if {$::lichess_openex::sinceMonth ne ""} {
