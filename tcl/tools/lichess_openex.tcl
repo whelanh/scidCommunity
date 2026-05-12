@@ -752,7 +752,8 @@ proc ::lichess_openex::displayResults {w jsonData fen} {
         $w.bottom.topgframe.tree configure -yscrollcommand "$w.bottom.topgframe.sb set"
 
         foreach c $gameCols n $gameColNames {
-            $w.bottom.topgframe.tree heading $c -text $n
+            $w.bottom.topgframe.tree heading $c -text $n \
+                -command [list ::lichess_openex::sortByColumn $w.bottom.topgframe.tree $c 1]
         }
         $w.bottom.topgframe.tree column san         -width 55  -anchor center
         $w.bottom.topgframe.tree column winner      -width 55  -anchor center
@@ -785,7 +786,8 @@ proc ::lichess_openex::displayResults {w jsonData fen} {
     $w.bottom.recgframe.tree configure -yscrollcommand "$w.bottom.recgframe.sb set"
 
     foreach c $gameCols n $gameColNames {
-        $w.bottom.recgframe.tree heading $c -text $n
+        $w.bottom.recgframe.tree heading $c -text $n \
+            -command [list ::lichess_openex::sortByColumn $w.bottom.recgframe.tree $c 1]
     }
     $w.bottom.recgframe.tree column san         -width 55  -anchor center
     $w.bottom.recgframe.tree column winner      -width 55  -anchor center
@@ -1135,6 +1137,40 @@ proc ::lichess_openex::uciToSan {uciMove fen} {
         return $uciMove
     }
     return $san
+}
+
+# ::lichess_openex::sortByColumn
+#   Sorts a treeview by the given column. Toggles between ascending
+#   and descending on repeated clicks.
+#
+proc ::lichess_openex::sortByColumn {tree col ascending} {
+    set numericCols {whiteRating blackRating}
+    set isNumeric [expr {$col in $numericCols}]
+
+    set data {}
+    foreach item [$tree children {}] {
+        set val [$tree set $item $col]
+        # Replace empty or non-numeric values with -1 for numeric columns
+        if {$isNumeric && ($val eq "" || ![string is integer -strict $val])} {
+            set val -1
+        }
+        lappend data [list $val $item]
+    }
+
+    if {$isNumeric} {
+        set data [lsort -index 0 -integer [expr {$ascending ? "-increasing" : "-decreasing"}] $data]
+    } else {
+        set data [lsort -index 0 -dictionary [expr {$ascending ? "-increasing" : "-decreasing"}] $data]
+    }
+
+    set idx 0
+    foreach entry $data {
+        $tree move [lindex $entry 1] {} $idx
+        incr idx
+    }
+
+    # Toggle direction for next click
+    $tree heading $col -command [list ::lichess_openex::sortByColumn $tree $col [expr {!$ascending}]]
 }
 
 # ::lichess_openex::showError
