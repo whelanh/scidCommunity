@@ -1093,8 +1093,19 @@ proc ::lichess_openex::loadGame {gameId} {
         return
     }
 
-    # Open the game list window for clipbase
-    catch { ::windows::gamelist::Open $::clipbase_db }
+    # Open the game list window for clipbase, or refresh if already open
+    set found 0
+    foreach glwin $::windows::gamelist::wins {
+        if {[info exists ::gamelistBase($glwin)] && $::gamelistBase($glwin) == $::clipbase_db} {
+            ::windows::gamelist::Refresh 1 [list $glwin]
+            ::win::makeVisible $glwin
+            set found 1
+            break
+        }
+    }
+    if {!$found} {
+        catch { ::windows::gamelist::Open $::clipbase_db }
+    }
 
     tk_messageBox -icon info -type ok -title "Lichess Opening Explorer" \
         -message "Game loaded into clipbase successfully."
