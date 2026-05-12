@@ -728,6 +728,7 @@ proc ::lichess_openex::displayResults {w jsonData fen} {
 
     # Parse moves array and populate
     ::lichess_openex::parseMoves $w.top.movesframe.tree $jsonData
+    bind $w.top.movesframe.tree <Double-1> [list ::lichess_openex::onMoveClick $w.top.movesframe.tree]
 
     # --- Bottom panel: Top Games and Recent Games ---
     ttk::frame $w.bottom
@@ -1000,6 +1001,27 @@ proc ::lichess_openex::parseGames {tree jsonData arrayName {fen ""}} {
     }
 }
 
+# ::lichess_openex::onMoveClick
+#   Handles double-click on a move row in the upper panel.
+#   Makes the move on the current board (as variation if one exists, or appended).
+#   Then refreshes the explorer with the new position.
+#
+proc ::lichess_openex::onMoveClick {tree} {
+    set sel [$tree selection]
+    if {$sel eq ""} return
+
+    set san [lindex [$tree item $sel -values] 0]
+    if {$san eq ""} return
+
+    if {[catch {::addSanMove $san} err]} {
+        tk_messageBox -icon error -type ok -title "Lichess Opening Explorer" \
+            -message "Failed to add move $san:\n$err"
+    } else {
+        # Refresh the explorer for the new position
+        ::lichess_openex::queryExplorer
+    }
+}
+
 # ::lichess_openex::onGameClick
 #   Handles double-click on a game row in top/recent games treeview.
 #   Extracts the game ID from the tag and loads the game.
@@ -1056,12 +1078,21 @@ proc ::lichess_openex::loadGame {gameId} {
     if {[::game::Clear] eq "cancel"} { return }
     if {[catch {
         set importResult [sc_game import $pgnData]
+        
+        # Save imported game to clipbase to allow loading multiple games without discard dialog
+        sc_game save 0 $::clipbase_db
+        set new_game_num [sc_base numGames $::clipbase_db]
+        sc_game load $new_game_num
+        
         ::notify::GameChanged
     } err]} {
         tk_messageBox -icon error -type ok -title "Lichess Opening Explorer" \
             -message "Failed to import game:\n$err"
         return
     }
+
+    # Open the game list window for clipbase
+    catch { ::windows::gamelist::Open $::clipbase_db }
 
     tk_messageBox -icon info -type ok -title "Lichess Opening Explorer" \
         -message "Game loaded into clipbase successfully."
