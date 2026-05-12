@@ -753,7 +753,7 @@ proc ::lichess_openex::displayResults {w jsonData fen} {
 
         foreach c $gameCols n $gameColNames {
             $w.bottom.topgframe.tree heading $c -text $n \
-                -command [list ::lichess_openex::sortByColumn $w.bottom.topgframe.tree $c 0]
+                -command [list ::lichess_openex::sortByColumn $w.bottom.topgframe.tree $c 1]
         }
         $w.bottom.topgframe.tree column san         -width 55  -anchor center
         $w.bottom.topgframe.tree column winner      -width 55  -anchor center
@@ -787,7 +787,7 @@ proc ::lichess_openex::displayResults {w jsonData fen} {
 
     foreach c $gameCols n $gameColNames {
         $w.bottom.recgframe.tree heading $c -text $n \
-            -command [list ::lichess_openex::sortByColumn $w.bottom.recgframe.tree $c 0]
+            -command [list ::lichess_openex::sortByColumn $w.bottom.recgframe.tree $c 1]
     }
     $w.bottom.recgframe.tree column san         -width 55  -anchor center
     $w.bottom.recgframe.tree column winner      -width 55  -anchor center
@@ -1150,6 +1150,10 @@ proc ::lichess_openex::sortByColumn {tree col ascending} {
     set data {}
     foreach item [$tree children {}] {
         set val [$tree set $item $col]
+        # Replace empty or non-numeric values with -1 for numeric columns
+        if {$isNumeric && ($val eq "" || ![string is integer -strict $val])} {
+            set val -1
+        }
         lappend data [list $val $item]
     }
 
