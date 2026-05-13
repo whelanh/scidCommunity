@@ -38,6 +38,19 @@ if(NOT CPACK_PACKAGE_VERSION)
       endif()
     endif()
 
+    # If git didn't work, try to extract version from GIT_ARCHIVE_VERSION
+    # (populated by git's export-subst in GitHub source archives)
+    if(NOT CPACK_PACKAGE_VERSION)
+      if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/GIT_ARCHIVE_VERSION")
+        file(READ "${CMAKE_CURRENT_SOURCE_DIR}/GIT_ARCHIVE_VERSION" _ARCHIVE_REF_NAMES)
+        string(STRIP "${_ARCHIVE_REF_NAMES}" _ARCHIVE_REF_NAMES)
+        # Match "tag: vX.Y.Z" in the ref names
+        if(_ARCHIVE_REF_NAMES MATCHES "tag: v([0-9]+\\.[0-9]+(\\.[0-9]+)?)")
+          set(CPACK_PACKAGE_VERSION "${CMAKE_MATCH_1}")
+        endif()
+      endif()
+    endif()
+
     if(NOT CPACK_PACKAGE_VERSION)
       set(CPACK_PACKAGE_VERSION 5.1.0)
     endif()
