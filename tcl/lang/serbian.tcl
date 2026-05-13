@@ -374,6 +374,112 @@ menuText Y GInfoDelete "Obrii/vrati ovu partiju" 0
 menuText Y GInfoMark "Mark/Unmark this game" 0 ;# ***
 # ====== TODO To be translated ======
 menuText Y GInfoInformant "Configure informant values" 0
+# ====== TODO To be translated ======
+translate Y LichessOpenExplore {Lichess OpenExplore}
+# ====== TODO To be translated ======
+translate Y LichessTitle {Lichess Opening Explorer}
+# ====== TODO To be translated ======
+translate Y LichessApiTokenReq {Lichess API Token (required):}
+# ====== TODO To be translated ======
+translate Y LichessDatabase {Database:}
+# ====== TODO To be translated ======
+translate Y LichessMasters {Masters}
+# ====== TODO To be translated ======
+translate Y LichessGames {Lichess Games}
+# ====== TODO To be translated ======
+translate Y LichessPlayer {Player}
+# ====== TODO To be translated ======
+translate Y LichessNumMoves {Number of moves:}
+# ====== TODO To be translated ======
+translate Y LichessTopGames {Top games:}
+# ====== TODO To be translated ======
+translate Y LichessRecentGames {Recent games:}
+# ====== TODO To be translated ======
+translate Y LichessSinceYear {Since year:}
+# ====== TODO To be translated ======
+translate Y LichessUntilYear {Until year:}
+# ====== TODO To be translated ======
+translate Y LichessSinceMonth {Since (YYYY-MM):}
+# ====== TODO To be translated ======
+translate Y LichessUntilMonth {Until (YYYY-MM):}
+# ====== TODO To be translated ======
+translate Y LichessTimeControls {Time Controls}
+# ====== TODO To be translated ======
+translate Y LichessRatingGroups {Rating Groups}
+# ====== TODO To be translated ======
+translate Y LichessPlayerName {Player username:}
+# ====== TODO To be translated ======
+translate Y LichessPlayerColor {Player color:}
+# ====== TODO To be translated ======
+translate Y LichessWhite {White}
+# ====== TODO To be translated ======
+translate Y LichessBlack {Black}
+# ====== TODO To be translated ======
+translate Y LichessGameModes {Game Modes}
+# ====== TODO To be translated ======
+translate Y LichessRated {Rated}
+# ====== TODO To be translated ======
+translate Y LichessCasual {Casual}
+# ====== TODO To be translated ======
+translate Y LichessTokenRequired {A Lichess API token is required.\n\nAs of March 2026, Lichess requires an API token to access the Opening Explorer. Please enter your token in the "Lichess API Token" field above.\n\nYou can create a token at: https://lichess.org/account/oauth/token}
+# ====== TODO To be translated ======
+translate Y LichessPlayerRequired {Please enter a Lichess username for the Player database.}
+# ====== TODO To be translated ======
+translate Y LichessQuerying {Querying Lichess Opening Explorer...}
+# ====== TODO To be translated ======
+translate Y LichessFailedQuery {Failed to query Lichess Opening Explorer:\n%s}
+# ====== TODO To be translated ======
+translate Y LichessPositionNotFound {Position not found in the %s database.\n\nThe API returned:\n%s}
+# ====== TODO To be translated ======
+translate Y LichessResultsTitle {Lichess Opening Explorer - %s Database}
+# ====== TODO To be translated ======
+translate Y LichessSummaryInfo {Total: %s games  |  White wins: %s (%s%%)  |  Draws: %s (%s%%)  |  Black wins: %s (%s%%)}
+# ====== TODO To be translated ======
+translate Y LichessNoGamesFound {No games found for this position.}
+# ====== TODO To be translated ======
+translate Y LichessMoves {Moves:}
+# ====== TODO To be translated ======
+translate Y LichessColMove {Move}
+# ====== TODO To be translated ======
+translate Y LichessColWhite {White}
+# ====== TODO To be translated ======
+translate Y LichessColDraws {Draws}
+# ====== TODO To be translated ======
+translate Y LichessColBlack {Black}
+# ====== TODO To be translated ======
+translate Y LichessColTotal {Total}
+# ====== TODO To be translated ======
+translate Y LichessColWinPct {Win%}
+# ====== TODO To be translated ======
+translate Y LichessColAvgRating {Avg Rating}
+# ====== TODO To be translated ======
+translate Y LichessColECO {ECO}
+# ====== TODO To be translated ======
+translate Y LichessColOpening {Opening}
+# ====== TODO To be translated ======
+translate Y LichessTopGamesTitle {Top Games:}
+# ====== TODO To be translated ======
+translate Y LichessRecentGamesTitle {Recent Games:}
+# ====== TODO To be translated ======
+translate Y LichessColWinner {Winner}
+# ====== TODO To be translated ======
+translate Y LichessColWhiteRating {W.Rating}
+# ====== TODO To be translated ======
+translate Y LichessColBlackRating {B.Rating}
+# ====== TODO To be translated ======
+translate Y LichessColDate {Date}
+# ====== TODO To be translated ======
+translate Y LichessLoadGameConfirm {Load game %s vs %s (ID: %s) into the clipbase?}
+# ====== TODO To be translated ======
+translate Y LichessLoadGameTitle {Load Game}
+# ====== TODO To be translated ======
+translate Y LichessFetchGameFailed {Failed to fetch game %s:\n%s}
+# ====== TODO To be translated ======
+translate Y LichessGameNotFound {Game %s not found on Lichess.}
+# ====== TODO To be translated ======
+translate Y LichessImportFailed {Failed to import game:\n%s}
+# ====== TODO To be translated ======
+translate Y LichessGameLoaded {Game loaded into clipbase successfully.}
 
 # General buttons:
 translate Y Back {Nazad}

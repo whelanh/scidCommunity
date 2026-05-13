@@ -310,6 +310,59 @@ menuText T GInfoMark "Bu Oyunu İşaretle (Kaldır)" 4
 menuText T GInfoInformant "Bilgilendirici değerlerini yapılandırma" 0
 
 # General buttons:
+translate T LichessOpenExplore {Lichess OpenExplore}
+translate T LichessTitle {Lichess Açılış Gezgini}
+translate T LichessApiTokenReq {Lichess API Jetonu (gerekli):}
+translate T LichessDatabase {Veritabanı:}
+translate T LichessMasters {Ustalar}
+translate T LichessGames {Lichess Oyunları}
+translate T LichessPlayer {Oyuncu}
+translate T LichessNumMoves {Hareket sayısı:}
+translate T LichessTopGames {En iyi oyunlar:}
+translate T LichessRecentGames {Son oyunlar:}
+translate T LichessSinceYear {yıldan beri:}
+translate T LichessUntilYear {yılına kadar:}
+translate T LichessSinceMonth {(YYYY-AA) tarihinden bu yana:}
+translate T LichessUntilMonth {(YYYY-AA) tarihine kadar:}
+translate T LichessTimeControls {Zaman Kontrolleri}
+translate T LichessRatingGroups {Derecelendirme Grupları}
+translate T LichessPlayerName {Oyuncu kullanıcı adı:}
+translate T LichessPlayerColor {Oyuncu rengi:}
+translate T LichessWhite {Beyaz}
+translate T LichessBlack {Siyah}
+translate T LichessGameModes {Oyun Modları}
+translate T LichessRated {derecelendirildi}
+translate T LichessCasual {Gündelik}
+translate T LichessTokenRequired {Bir Lichess API jetonu gereklidir.\n\nMart 2026 itibarıyla Lichess, Açılış Gezgini'ne erişmek için bir API jetonuna ihtiyaç duymaktadır. Lütfen jetonunuzu yukarıdaki "Lichess API Token" alanına girin.\n\nTokenınızı şu adreste oluşturabilirsiniz: https://lichess.org/account/oauth/token}
+translate T LichessPlayerRequired {Lütfen Player veritabanı için bir Lichess kullanıcı adı girin.}
+translate T LichessQuerying {Lichess Sorgulanıyor Explorer Açılıyor...}
+translate T LichessFailedQuery {Lichess Açılış Gezgini sorgulanamadı:\n%s}
+translate T LichessPositionNotFound {%s veritabanında konum bulunamadı.\n\nAPI şunu döndürdü:\n%s}
+translate T LichessResultsTitle {Lichess Açılış Gezgini - %s Veritabanı}
+translate T LichessSummaryInfo {Toplam: %s oyun |  Beyaz kazanır: %s (%s%%) |  Beraberlik: %s (%s%%) |  Siyah galibiyet: %s (%s%%)}
+translate T LichessNoGamesFound {Bu pozisyona uygun oyun bulunamadı.}
+translate T LichessMoves {Hareketler:}
+translate T LichessColMove {Taşınmak}
+translate T LichessColWhite {Beyaz}
+translate T LichessColDraws {Beraberlik}
+translate T LichessColBlack {Siyah}
+translate T LichessColTotal {Toplam}
+translate T LichessColWinPct {Kazanç%}
+translate T LichessColAvgRating {Ort. Derecelendirme}
+translate T LichessColECO {EKO}
+translate T LichessColOpening {Açılış}
+translate T LichessTopGamesTitle {En Popüler Oyunlar:}
+translate T LichessRecentGamesTitle {Son Oyunlar:}
+translate T LichessColWinner {Kazanan}
+translate T LichessColWhiteRating {W.Değerlendirmesi}
+translate T LichessColBlackRating {B.Derecelendirme}
+translate T LichessColDate {Tarih}
+translate T LichessLoadGameConfirm {%s vs %s oyunu (ID: %s) klip tabanına yüklensin mi?}
+translate T LichessLoadGameTitle {Oyunu Yükle}
+translate T LichessFetchGameFailed {%s oyunu getirilemedi:\n%s}
+translate T LichessGameNotFound {%s oyunu Lichess'te bulunamadı.}
+translate T LichessImportFailed {Oyun içe aktarılamadı:\n%s}
+translate T LichessGameLoaded {Oyun, Clipbase'e başarıyla yüklendi.}
 translate T Back {Geri}
 translate T Apply {Uygula}
 translate T Browse {Göz at}

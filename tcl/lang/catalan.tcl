@@ -329,6 +329,59 @@ menuText K GInfoMark "(No)Marcar aquesta partida" 4
 menuText K GInfoInformant "Configurar valors d'informació" 0
 
 # General buttons:
+translate K LichessOpenExplore {Lichess OpenExplore}
+translate K LichessTitle {Lichess Opening Explorer}
+translate K LichessApiTokenReq {Token de l'API Lichess (obligatori):}
+translate K LichessDatabase {Base de dades:}
+translate K LichessMasters {Mestres}
+translate K LichessGames {Jocs de Lichess}
+translate K LichessPlayer {Jugador}
+translate K LichessNumMoves {Nombre de moviments:}
+translate K LichessTopGames {Jocs principals:}
+translate K LichessRecentGames {Partits recents:}
+translate K LichessSinceYear {Des de l'any:}
+translate K LichessUntilYear {Fins a l'any:}
+translate K LichessSinceMonth {Des de (AAAA-MM):}
+translate K LichessUntilMonth {Fins (AAAA-MM):}
+translate K LichessTimeControls {Controls de temps}
+translate K LichessRatingGroups {Grups de valoració}
+translate K LichessPlayerName {Nom d'usuari del jugador:}
+translate K LichessPlayerColor {Color del jugador:}
+translate K LichessWhite {Blanc}
+translate K LichessBlack {Negre}
+translate K LichessGameModes {Modes de joc}
+translate K LichessRated {Valorat}
+translate K LichessCasual {Casual}
+translate K LichessTokenRequired {Cal un testimoni d'API de Lichess.\n\nA partir del març de 2026, Lichess requereix un testimoni d'API per accedir a l'Opening Explorer. Introduïu el vostre testimoni al camp "Lichess API Token" de dalt.\n\nPodeu crear un testimoni a: https://lichess.org/account/oauth/token}
+translate K LichessPlayerRequired {Introduïu un nom d'usuari de Lichess per a la base de dades del jugador.}
+translate K LichessQuerying {Consultant l'explorador d'obertura de Lichess...}
+translate K LichessFailedQuery {No s'ha pogut consultar l'explorador d'obertura de Lichess:\n%s}
+translate K LichessPositionNotFound {No s'ha trobat la posició a la base de dades %s.\n\nL'API ha retornat:\n%s}
+translate K LichessResultsTitle {Explorador d'obertura de Lichess - Base de dades %s}
+translate K LichessSummaryInfo {Total: %s jocs |  Guanyes blanques: %s (%s%%) |  Sorteig: %s (%s%%) |  Guanyes negres: %s (%s%%)}
+translate K LichessNoGamesFound {No s'han trobat jocs per a aquesta posició.}
+translate K LichessMoves {Moviments:}
+translate K LichessColMove {Mou-te}
+translate K LichessColWhite {Blanc}
+translate K LichessColDraws {Empates}
+translate K LichessColBlack {Negre}
+translate K LichessColTotal {Total}
+translate K LichessColWinPct {Guanyador%}
+translate K LichessColAvgRating {Valoració mitjana}
+translate K LichessColECO {ECO}
+translate K LichessColOpening {Obertura}
+translate K LichessTopGamesTitle {Jocs principals:}
+translate K LichessRecentGamesTitle {Jocs recents:}
+translate K LichessColWinner {Guanyador}
+translate K LichessColWhiteRating {Valoració W}
+translate K LichessColBlackRating {B.Valoració}
+translate K LichessColDate {Data}
+translate K LichessLoadGameConfirm {Carregar el joc %s vs %s (ID: %s) al clipbase?}
+translate K LichessLoadGameTitle {Carrega el joc}
+translate K LichessFetchGameFailed {No s'ha pogut recuperar el joc %s:\n%s}
+translate K LichessGameNotFound {El joc %s no s'ha trobat a Lichess.}
+translate K LichessImportFailed {No s'ha pogut importar el joc:\n%s}
+translate K LichessGameLoaded {El joc s'ha carregat correctament al clipbase.}
 translate K Back {Enrera}
 translate K Apply {Aplicar}
 translate K Browse {Mirar}

@@ -346,6 +346,59 @@ menuText E GInfoMark "(Un)Mark This Game" 4
 menuText E GInfoInformant "Configure informant values" 0
 
 # General buttons:
+translate E LichessOpenExplore {Lichess OpenExplore}
+translate E LichessTitle {Lichess Opening Explorer}
+translate E LichessApiTokenReq {Lichess API Token (required):}
+translate E LichessDatabase {Database:}
+translate E LichessMasters {Masters}
+translate E LichessGames {Lichess Games}
+translate E LichessPlayer {Player}
+translate E LichessNumMoves {Number of moves:}
+translate E LichessTopGames {Top games:}
+translate E LichessRecentGames {Recent games:}
+translate E LichessSinceYear {Since year:}
+translate E LichessUntilYear {Until year:}
+translate E LichessSinceMonth {Since (YYYY-MM):}
+translate E LichessUntilMonth {Until (YYYY-MM):}
+translate E LichessTimeControls {Time Controls}
+translate E LichessRatingGroups {Rating Groups}
+translate E LichessPlayerName {Player username:}
+translate E LichessPlayerColor {Player color:}
+translate E LichessWhite {White}
+translate E LichessBlack {Black}
+translate E LichessGameModes {Game Modes}
+translate E LichessRated {Rated}
+translate E LichessCasual {Casual}
+translate E LichessTokenRequired {A Lichess API token is required.\n\nAs of March 2026, Lichess requires an API token to access the Opening Explorer. Please enter your token in the "Lichess API Token" field above.\n\nYou can create a token at: https://lichess.org/account/oauth/token}
+translate E LichessPlayerRequired {Please enter a Lichess username for the Player database.}
+translate E LichessQuerying {Querying Lichess Opening Explorer...}
+translate E LichessFailedQuery {Failed to query Lichess Opening Explorer:\n%s}
+translate E LichessPositionNotFound {Position not found in the %s database.\n\nThe API returned:\n%s}
+translate E LichessResultsTitle {Lichess Opening Explorer - %s Database}
+translate E LichessSummaryInfo {Total: %s games  |  White wins: %s (%s%%)  |  Draws: %s (%s%%)  |  Black wins: %s (%s%%)}
+translate E LichessNoGamesFound {No games found for this position.}
+translate E LichessMoves {Moves:}
+translate E LichessColMove {Move}
+translate E LichessColWhite {White}
+translate E LichessColDraws {Draws}
+translate E LichessColBlack {Black}
+translate E LichessColTotal {Total}
+translate E LichessColWinPct {Win%}
+translate E LichessColAvgRating {Avg Rating}
+translate E LichessColECO {ECO}
+translate E LichessColOpening {Opening}
+translate E LichessTopGamesTitle {Top Games:}
+translate E LichessRecentGamesTitle {Recent Games:}
+translate E LichessColWinner {Winner}
+translate E LichessColWhiteRating {W.Rating}
+translate E LichessColBlackRating {B.Rating}
+translate E LichessColDate {Date}
+translate E LichessLoadGameConfirm {Load game %s vs %s (ID: %s) into the clipbase?}
+translate E LichessLoadGameTitle {Load Game}
+translate E LichessFetchGameFailed {Failed to fetch game %s:\n%s}
+translate E LichessGameNotFound {Game %s not found on Lichess.}
+translate E LichessImportFailed {Failed to import game:\n%s}
+translate E LichessGameLoaded {Game loaded into clipbase successfully.}
 translate E Back {Back}
 translate E Apply {Apply}
 translate E Browse {Browse}

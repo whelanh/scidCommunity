@@ -306,6 +306,59 @@ menuText b GInfoMark "(আন)এই গেমটিকে চিহ্নিত
 menuText b GInfoInformant "তথ্যদাতা মান কনফিগার করুন" 0
 
 # General buttons:
+translate b LichessOpenExplore {Lichess OpenExplore}
+translate b LichessTitle {লিচেস ওপেনিং এক্সপ্লোরার}
+translate b LichessApiTokenReq {Lichess API টোকেন (প্রয়োজনীয়):}
+translate b LichessDatabase {ডাটাবেস:}
+translate b LichessMasters {মাস্টার্স}
+translate b LichessGames {লিচেস গেমস}
+translate b LichessPlayer {প্লেয়ার}
+translate b LichessNumMoves {চালের সংখ্যা:}
+translate b LichessTopGames {সেরা গেম:}
+translate b LichessRecentGames {সাম্প্রতিক গেম:}
+translate b LichessSinceYear {বছর থেকে:}
+translate b LichessUntilYear {বছর পর্যন্ত:}
+translate b LichessSinceMonth {যেহেতু (YYYY-MM):}
+translate b LichessUntilMonth {পর্যন্ত (YYYY-MM):}
+translate b LichessTimeControls {সময় নিয়ন্ত্রণ}
+translate b LichessRatingGroups {রেটিং গ্রুপ}
+translate b LichessPlayerName {প্লেয়ার ব্যবহারকারীর নাম:}
+translate b LichessPlayerColor {প্লেয়ারের রঙ:}
+translate b LichessWhite {সাদা}
+translate b LichessBlack {কালো}
+translate b LichessGameModes {গেম মোড}
+translate b LichessRated {রেট}
+translate b LichessCasual {নৈমিত্তিক}
+translate b LichessTokenRequired {একটি Lichess API টোকেন প্রয়োজন৷\n\nমার্চ 2026 থেকে, Lichess-এর ওপেনিং এক্সপ্লোরার অ্যাক্সেস করার জন্য একটি API টোকেন প্রয়োজন৷ অনুগ্রহ করে উপরের "Lichess API টোকেন" ক্ষেত্রে আপনার টোকেন লিখুন৷\n\nআপনি এখানে একটি টোকেন তৈরি করতে পারেন: https://lichess.org/account/oauth/token}
+translate b LichessPlayerRequired {প্লেয়ার ডাটাবেসের জন্য একটি Lichess ব্যবহারকারীর নাম লিখুন.}
+translate b LichessQuerying {লিচেস ওপেনিং এক্সপ্লোরার অনুসন্ধান করা হচ্ছে...}
+translate b LichessFailedQuery {লিচেস ওপেনিং এক্সপ্লোরারকে জিজ্ঞাসা করতে ব্যর্থ হয়েছে:\n%s}
+translate b LichessPositionNotFound {%s ডাটাবেসে অবস্থান পাওয়া যায়নি।\n\nAPI ফেরত দিয়েছে:\n%s}
+translate b LichessResultsTitle {লিচেস ওপেনিং এক্সপ্লোরার - %s ডেটাবেস}
+translate b LichessSummaryInfo {মোট: %s গেম |  সাদা জিতেছে: %s (%s%%) |  ড্র: %s (%s%%) |  কালো জয়: %s (%s%%)}
+translate b LichessNoGamesFound {এই অবস্থানের জন্য কোন গেম পাওয়া যায়নি.}
+translate b LichessMoves {চালনা:}
+translate b LichessColMove {সরান}
+translate b LichessColWhite {সাদা}
+translate b LichessColDraws {ড্র করে}
+translate b LichessColBlack {কালো}
+translate b LichessColTotal {মোট}
+translate b LichessColWinPct {জয়%}
+translate b LichessColAvgRating {গড় রেটিং}
+translate b LichessColECO {ইসিও}
+translate b LichessColOpening {খোলা হচ্ছে}
+translate b LichessTopGamesTitle {সেরা গেম:}
+translate b LichessRecentGamesTitle {সাম্প্রতিক গেমস:}
+translate b LichessColWinner {বিজয়ী}
+translate b LichessColWhiteRating {W. রেটিং}
+translate b LichessColBlackRating {বি রেটিং}
+translate b LichessColDate {তারিখ}
+translate b LichessLoadGameConfirm {ক্লিপবেসে খেলা %s বনাম %s (আইডি: %s) লোড করবেন?}
+translate b LichessLoadGameTitle {লোড গেম}
+translate b LichessFetchGameFailed {খেলা %s আনতে ব্যর্থ হয়েছে:\n%s}
+translate b LichessGameNotFound {গেম %s লিচেসে পাওয়া যায়নি।}
+translate b LichessImportFailed {খেলা আমদানি করতে ব্যর্থ হয়েছে:\n%s}
+translate b LichessGameLoaded {ক্লিপবেসে খেলা সফলভাবে লোড হয়েছে৷}
 translate b Back {ফিরে}
 translate b Apply {প্রয়োগ করুন}
 translate b Browse {ব্রাউজ করুন}

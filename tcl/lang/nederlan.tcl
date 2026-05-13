@@ -335,6 +335,59 @@ menuText N GInfoMark "Partij markeren/niet markeren" 7
 menuText N GInfoInformant "Configureer informant waarden" 0
 
 # General buttons:
+translate N LichessOpenExplore {Lichess OpenExplore}
+translate N LichessTitle {Lichess Openingsverkenner}
+translate N LichessApiTokenReq {Lichess API-token (vereist):}
+translate N LichessDatabase {Database:}
+translate N LichessMasters {Meesters}
+translate N LichessGames {Lichess-spellen}
+translate N LichessPlayer {Speler}
+translate N LichessNumMoves {Aantal zetten:}
+translate N LichessTopGames {Topspellen:}
+translate N LichessRecentGames {Recente spellen:}
+translate N LichessSinceYear {Sinds jaar:}
+translate N LichessUntilYear {Tot jaar:}
+translate N LichessSinceMonth {Sinds (JJJJ-MM):}
+translate N LichessUntilMonth {Tot (JJJJ-MM):}
+translate N LichessTimeControls {Tijdcontroles}
+translate N LichessRatingGroups {Beoordelingsgroepen}
+translate N LichessPlayerName {Speler gebruikersnaam:}
+translate N LichessPlayerColor {Speler kleur:}
+translate N LichessWhite {Wit}
+translate N LichessBlack {Zwart}
+translate N LichessGameModes {Spelmodi}
+translate N LichessRated {Beoordeeld}
+translate N LichessCasual {Casual}
+translate N LichessTokenRequired {Een Lichess API-token is vereist.\n\nVanaf maart 2026 heeft Lichess een API-token nodig om toegang te krijgen tot de Openingsverkenner. Voer uw token in het veld "Lichess API Token" hierboven in.\n\nU kunt een token maken op: https://lichess.org/account/oauth/token}
+translate N LichessPlayerRequired {Voer een Lichess-gebruikersnaam in voor de spelersdatabase.}
+translate N LichessQuerying {Bevragen bij Lichess Opening Explorer...}
+translate N LichessFailedQuery {Kan Lichess niet openen bij het openen van Explorer:\n%s}
+translate N LichessPositionNotFound {Positie niet gevonden in de %s database.\n\nDe API retourneerde:\n%s}
+translate N LichessResultsTitle {Lichess Opening Explorer - %s Database}
+translate N LichessSummaryInfo {Totaal: %s spellen |  Wit wint: %s (%s%%) |  Trekkingen: %s (%s%%) |  Zwart wint: %s (%s%%)}
+translate N LichessNoGamesFound {Er zijn geen spellen gevonden voor deze positie.}
+translate N LichessMoves {Bewegingen:}
+translate N LichessColMove {Beweging}
+translate N LichessColWhite {Wit}
+translate N LichessColDraws {Trekt}
+translate N LichessColBlack {Zwart}
+translate N LichessColTotal {Totaal}
+translate N LichessColWinPct {Winnen%}
+translate N LichessColAvgRating {Gemiddelde beoordeling}
+translate N LichessColECO {ECO}
+translate N LichessColOpening {Opening}
+translate N LichessTopGamesTitle {Topspellen:}
+translate N LichessRecentGamesTitle {Recente spellen:}
+translate N LichessColWinner {Winnaar}
+translate N LichessColWhiteRating {W. Beoordeling}
+translate N LichessColBlackRating {B. Beoordeling}
+translate N LichessColDate {Datum}
+translate N LichessLoadGameConfirm {Spel %s vs. %s (ID: %s) in de clipbase laden?}
+translate N LichessLoadGameTitle {Spel laden}
+translate N LichessFetchGameFailed {Kan spel %s:\n%s niet ophalen}
+translate N LichessGameNotFound {Spel %s niet gevonden op Lichess.}
+translate N LichessImportFailed {Kan game:\n%s niet importeren}
+translate N LichessGameLoaded {Spel is succesvol in clipbase geladen.}
 translate N Back {Terug}
 translate N Apply {Toepassen}
 translate N Browse {Bladeren} ;

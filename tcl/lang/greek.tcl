@@ -338,6 +338,59 @@ menuText G GInfoMark "(Μη-)Σημείωση αυτής της παρτίδας
 menuText G GInfoInformant "Ρύθμιση τιμών πληροφορίας" 0
 
 # General buttons:
+translate G LichessOpenExplore {Lichess OpenExplore}
+translate G LichessTitle {Lichess Opening Explorer}
+translate G LichessApiTokenReq {Token Lichess API (απαιτείται):}
+translate G LichessDatabase {Βάση δεδομένων:}
+translate G LichessMasters {Masters}
+translate G LichessGames {Παιχνίδια Lichess}
+translate G LichessPlayer {Παίχτης}
+translate G LichessNumMoves {Αριθμός κινήσεων:}
+translate G LichessTopGames {Κορυφαία παιχνίδια:}
+translate G LichessRecentGames {Πρόσφατα παιχνίδια:}
+translate G LichessSinceYear {Από το έτος:}
+translate G LichessUntilYear {Μέχρι το έτος:}
+translate G LichessSinceMonth {Από (ΕΕΕΕ-ΜΜ):}
+translate G LichessUntilMonth {Έως (ΕΕΕΕ-ΜΜ):}
+translate G LichessTimeControls {Έλεγχοι χρόνου}
+translate G LichessRatingGroups {Ομάδες αξιολόγησης}
+translate G LichessPlayerName {Όνομα χρήστη παίκτη:}
+translate G LichessPlayerColor {Χρώμα παίκτη:}
+translate G LichessWhite {Λευκό}
+translate G LichessBlack {Μαύρος}
+translate G LichessGameModes {Λειτουργίες παιχνιδιού}
+translate G LichessRated {Βαθμολογήθηκε}
+translate G LichessCasual {Ανέμελος}
+translate G LichessTokenRequired {Απαιτείται ένα διακριτικό API Lichess.\n\nΑπό τον Μάρτιο του 2026, το Lichess απαιτεί ένα διακριτικό API για πρόσβαση στην Εξερεύνηση ανοίγματος. Εισαγάγετε το διακριτικό σας στο πεδίο "Lichess API Token" παραπάνω.\n\nΜπορείτε να δημιουργήσετε ένα διακριτικό στη διεύθυνση: https://lichess.org/account/oauth/token}
+translate G LichessPlayerRequired {Εισαγάγετε ένα όνομα χρήστη Lichess για τη βάση δεδομένων του Player.}
+translate G LichessQuerying {Querying Lichess Opening Explorer...}
+translate G LichessFailedQuery {Απέτυχε το ερώτημα Lichess Opening Explorer:\n%s}
+translate G LichessPositionNotFound {Η θέση δεν βρέθηκε στη βάση δεδομένων %s.\n\nΤο API επέστρεψε:\n%s}
+translate G LichessResultsTitle {Lichess Opening Explorer - Βάση δεδομένων %s}
+translate G LichessSummaryInfo {Σύνολο: %s παιχνίδια |  Ο λευκός κερδίζει: %s (%s%%) |  Κλήρωση: %s (%s%%) |  Νίκες μαύρου: %s (%s%%)}
+translate G LichessNoGamesFound {Δεν βρέθηκαν παιχνίδια για αυτή τη θέση.}
+translate G LichessMoves {Κινήσεις:}
+translate G LichessColMove {Κίνηση}
+translate G LichessColWhite {Λευκό}
+translate G LichessColDraws {Ισοπαλίες}
+translate G LichessColBlack {Μαύρος}
+translate G LichessColTotal {Σύνολο}
+translate G LichessColWinPct {Νίκη%}
+translate G LichessColAvgRating {Μέση Βαθμολογία}
+translate G LichessColECO {ECO}
+translate G LichessColOpening {Ανοιγμα}
+translate G LichessTopGamesTitle {Κορυφαία παιχνίδια:}
+translate G LichessRecentGamesTitle {Πρόσφατα παιχνίδια:}
+translate G LichessColWinner {Νικητής}
+translate G LichessColWhiteRating {W.Βαθμολογία}
+translate G LichessColBlackRating {Β. Βαθμολογία}
+translate G LichessColDate {Ημερομηνία}
+translate G LichessLoadGameConfirm {Φόρτωση παιχνιδιού %s έναντι %s (ID: %s) στο clipbase;}
+translate G LichessLoadGameTitle {Φόρτωση παιχνιδιού}
+translate G LichessFetchGameFailed {Απέτυχε η ανάκτηση του παιχνιδιού %s:\n%s}
+translate G LichessGameNotFound {Το παιχνίδι %s δεν βρέθηκε στο Lichess.}
+translate G LichessImportFailed {Αποτυχία εισαγωγής παιχνιδιού:\n%s}
+translate G LichessGameLoaded {Το παιχνίδι φορτώθηκε με επιτυχία στο clipbase.}
 translate G Back {Πίσω}
 translate G Apply {Εφαρμογή}
 translate G Browse {Αναζήτηση}

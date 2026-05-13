@@ -307,6 +307,59 @@ menuText V GInfoMark "(בטל) סמן את המשחק הזה" 4
 menuText V GInfoInformant "הגדר ערכי מודיע" 0
 
 # General buttons:
+translate V LichessOpenExplore {ליצ'ס OpenExplore}
+translate V LichessTitle {ליצ'ס פתיחת סייר}
+translate V LichessApiTokenReq {אסימון API של Lichess (נדרש):}
+translate V LichessDatabase {מסד נתונים:}
+translate V LichessMasters {מאסטרים}
+translate V LichessGames {משחקי ליצ'ס}
+translate V LichessPlayer {נַגָן}
+translate V LichessNumMoves {מספר מהלכים:}
+translate V LichessTopGames {משחקים מובילים:}
+translate V LichessRecentGames {משחקים אחרונים:}
+translate V LichessSinceYear {מאז שנה:}
+translate V LichessUntilYear {עד שנה:}
+translate V LichessSinceMonth {מאז (YYYY-MM):}
+translate V LichessUntilMonth {עד (YYYY-MM):}
+translate V LichessTimeControls {בקרות זמן}
+translate V LichessRatingGroups {קבוצות דירוג}
+translate V LichessPlayerName {שם משתמש של שחקן:}
+translate V LichessPlayerColor {צבע שחקן:}
+translate V LichessWhite {לָבָן}
+translate V LichessBlack {שָׁחוֹר}
+translate V LichessGameModes {מצבי משחק}
+translate V LichessRated {מדורג}
+translate V LichessCasual {אַגָבִי}
+translate V LichessTokenRequired {נדרש אסימון API של Lichess.\n\nנכון למרץ 2026, Lichess דורש אסימון API כדי לגשת ל-Oping Explorer. אנא הזן את האסימון שלך בשדה "אסימון API של Lichess" למעלה.\n\nתוכל ליצור אסימון בכתובת: https://lichess.org/account/oauth/token}
+translate V LichessPlayerRequired {אנא הזן שם משתמש של Lichess עבור מסד הנתונים של הנגן.}
+translate V LichessQuerying {שאילתה של Lichess פותח את סייר...}
+translate V LichessFailedQuery {השאילתה של Lichess Opening Explorer נכשלה:\n%s}
+translate V LichessPositionNotFound {המיקום לא נמצא במסד הנתונים של %s.\n\nה-API החזיר:\n%s}
+translate V LichessResultsTitle {Lichess פתיחת סייר - %s מסד נתונים}
+translate V LichessSummaryInfo {סה"כ: %s משחקים |  זכיות לבנים: %s (%s%%) |  הגרלות: %s (%s%%) |  זכיות שחורות: %s (%s%%)}
+translate V LichessNoGamesFound {לא נמצאו משחקים לעמדה זו.}
+translate V LichessMoves {מהלכים:}
+translate V LichessColMove {מַהֲלָך}
+translate V LichessColWhite {לָבָן}
+translate V LichessColDraws {ציור}
+translate V LichessColBlack {שָׁחוֹר}
+translate V LichessColTotal {סַך הַכֹּל}
+translate V LichessColWinPct {לְנַצֵחַ%}
+translate V LichessColAvgRating {דירוג ממוצע}
+translate V LichessColECO {ECO}
+translate V LichessColOpening {פְּתִיחָה}
+translate V LichessTopGamesTitle {משחקים מובילים:}
+translate V LichessRecentGamesTitle {משחקים אחרונים:}
+translate V LichessColWinner {זוֹכֵה}
+translate V LichessColWhiteRating {W.Rating}
+translate V LichessColBlackRating {דירוג B}
+translate V LichessColDate {תַאֲרִיך}
+translate V LichessLoadGameConfirm {לטעון את המשחק %s לעומת %s (מזהה: %s) לבסיס הקליפ?}
+translate V LichessLoadGameTitle {טען משחק}
+translate V LichessFetchGameFailed {אחזור המשחק %s:\n%s נכשל}
+translate V LichessGameNotFound {המשחק %s לא נמצא ב-Lichess.}
+translate V LichessImportFailed {ייבוא ​​המשחק נכשל:\n%s}
+translate V LichessGameLoaded {המשחק נטען ל-clipbase בהצלחה.}
 translate V Back {בְּחֲזָרָה}
 translate V Apply {לִפְנוֹת}
 translate V Browse {לְדַפדֵף}

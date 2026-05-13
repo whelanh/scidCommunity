@@ -317,6 +317,59 @@ menuText W GInfoMark "(Av-)Markera detta parti" 5
 menuText W GInfoInformant "Konfigurera Informant-parametrar" 0
 
 # General buttons:
+translate W LichessOpenExplore {Lichess OpenExplore}
+translate W LichessTitle {Lichess öppnar Explorer}
+translate W LichessApiTokenReq {Lichess API-token (krävs):}
+translate W LichessDatabase {Databas:}
+translate W LichessMasters {Mästare}
+translate W LichessGames {Lichess spel}
+translate W LichessPlayer {Spelare}
+translate W LichessNumMoves {Antal drag:}
+translate W LichessTopGames {Toppspel:}
+translate W LichessRecentGames {Senaste spel:}
+translate W LichessSinceYear {Sedan år:}
+translate W LichessUntilYear {Till år:}
+translate W LichessSinceMonth {Sedan (ÅÅÅÅ-MM):}
+translate W LichessUntilMonth {Till (ÅÅÅÅ-MM):}
+translate W LichessTimeControls {Tidskontroller}
+translate W LichessRatingGroups {Betygsgrupper}
+translate W LichessPlayerName {Spelarens användarnamn:}
+translate W LichessPlayerColor {Spelarfärg:}
+translate W LichessWhite {Vit}
+translate W LichessBlack {Svart}
+translate W LichessGameModes {Spellägen}
+translate W LichessRated {Betygsatt}
+translate W LichessCasual {Tillfällig}
+translate W LichessTokenRequired {En Lichess API-token krävs.\n\nFrån och med mars 2026 kräver Lichess en API-token för att komma åt Opening Explorer. Ange din token i fältet "Lichess API Token" ovan.\n\nDu kan skapa en token på: https://lichess.org/account/oauth/token}
+translate W LichessPlayerRequired {Ange ett Lichess-användarnamn för spelardatabasen.}
+translate W LichessQuerying {Frågar Lichess Öppnar Explorer...}
+translate W LichessFailedQuery {Det gick inte att fråga Lichess Opening Explorer:\n%s}
+translate W LichessPositionNotFound {Position hittades inte i %s databasen.\n\nAPI:et returnerade:\n%s}
+translate W LichessResultsTitle {Lichess öppnar Explorer - %s databas}
+translate W LichessSummaryInfo {Totalt: %s spel |  Vita vinster: %s (%s%%) |  Dragningar: %s (%s%%) |  Svarta vinster: %s (%s%%)}
+translate W LichessNoGamesFound {Inga spel hittades för denna position.}
+translate W LichessMoves {Rörelser:}
+translate W LichessColMove {Flytta}
+translate W LichessColWhite {Vit}
+translate W LichessColDraws {Ritar}
+translate W LichessColBlack {Svart}
+translate W LichessColTotal {Total}
+translate W LichessColWinPct {Vinna%}
+translate W LichessColAvgRating {Genomsnittligt betyg}
+translate W LichessColECO {ECO}
+translate W LichessColOpening {Öppning}
+translate W LichessTopGamesTitle {Toppspel:}
+translate W LichessRecentGamesTitle {Senaste spelen:}
+translate W LichessColWinner {Vinnare}
+translate W LichessColWhiteRating {W.Rating}
+translate W LichessColBlackRating {B. Betyg}
+translate W LichessColDate {Datum}
+translate W LichessLoadGameConfirm {Ladda spelet %s vs %s (ID: %s) i klippbasen?}
+translate W LichessLoadGameTitle {Ladda spel}
+translate W LichessFetchGameFailed {Det gick inte att hämta spelet %s:\n%s}
+translate W LichessGameNotFound {Spelet %s hittades inte på Lichess.}
+translate W LichessImportFailed {Det gick inte att importera spel:\n%s}
+translate W LichessGameLoaded {Spelet laddades in i clipbase.}
 translate W Back {Tillbaka}
 translate W Apply {Tillämpa}
 translate W Browse {Bläddra}

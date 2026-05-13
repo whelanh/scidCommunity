@@ -31,6 +31,7 @@ LANGUAGE_CODE_MAP = {
     'hindi.tcl': 'h',
     'ukrainian.tcl': 'Q',
     'bengali.tcl': 'b',
+    'turkish.tcl': 'T',
     'korean.tcl': 'k',
     'bulgarian.tcl': 'g',
 }

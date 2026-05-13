@@ -345,6 +345,59 @@ menuText U GInfoMark "Merkitse peli (kumoa)" 3
 menuText U GInfoInformant "Informant-asetukset" 5
 
 # General buttons:
+translate U LichessOpenExplore {Lichess OpenExplore}
+translate U LichessTitle {Lichess Opening Explorer}
+translate U LichessApiTokenReq {Lichess API Token (pakollinen):}
+translate U LichessDatabase {Tietokanta:}
+translate U LichessMasters {Mestarit}
+translate U LichessGames {Lichess pelit}
+translate U LichessPlayer {Pelaaja}
+translate U LichessNumMoves {Liikkeiden määrä:}
+translate U LichessTopGames {Parhaat pelit:}
+translate U LichessRecentGames {Viimeaikaiset pelit:}
+translate U LichessSinceYear {Vuodesta lähtien:}
+translate U LichessUntilYear {Vuoteen asti:}
+translate U LichessSinceMonth {Alkaen (VVVV-KK):}
+translate U LichessUntilMonth {asti (VVVV-KK):}
+translate U LichessTimeControls {Aikasäätimet}
+translate U LichessRatingGroups {Luokitusryhmät}
+translate U LichessPlayerName {Pelaajan käyttäjätunnus:}
+translate U LichessPlayerColor {Soittimen väri:}
+translate U LichessWhite {Valkoinen}
+translate U LichessBlack {Musta}
+translate U LichessGameModes {Pelitilat}
+translate U LichessRated {Arvioitu}
+translate U LichessCasual {Rento}
+translate U LichessTokenRequired {Lichess API -tunnus vaaditaan.\n\nMaaliskuusta 2026 alkaen Lichess vaatii API-tunnuksen päästäkseen Opening Exploreriin. Kirjoita tunnuksesi yllä olevaan "Lichess API Token" -kenttään.\n\nVoit luoda tunnuksen osoitteessa: https://lichess.org/account/oauth/token}
+translate U LichessPlayerRequired {Anna Lichess-käyttäjänimi Player-tietokantaan.}
+translate U LichessQuerying {Kysellään Lichess Avaa Explorer...}
+translate U LichessFailedQuery {Lichess Opening Explorerin kysely epäonnistui:\n%s}
+translate U LichessPositionNotFound {Sijaintia ei löydy %s-tietokannasta.\n\nAPI palautti:\n%s}
+translate U LichessResultsTitle {Lichess Opening Explorer - %s-tietokanta}
+translate U LichessSummaryInfo {Yhteensä: %s peliä |  Valkoiset voitot: %s (%s%%) |  Tasot: %s (%s%%) |  Mustat voitot: %s (%s%%)}
+translate U LichessNoGamesFound {Tähän paikkaan ei löytynyt pelejä.}
+translate U LichessMoves {Liikkeitä:}
+translate U LichessColMove {Liikkua}
+translate U LichessColWhite {Valkoinen}
+translate U LichessColDraws {Piirtää}
+translate U LichessColBlack {Musta}
+translate U LichessColTotal {Kokonais}
+translate U LichessColWinPct {Voittaa%}
+translate U LichessColAvgRating {Keskimääräinen luokitus}
+translate U LichessColECO {ECO}
+translate U LichessColOpening {Avaaminen}
+translate U LichessTopGamesTitle {Parhaat pelit:}
+translate U LichessRecentGamesTitle {Viimeaikaiset pelit:}
+translate U LichessColWinner {Voittaja}
+translate U LichessColWhiteRating {W. Rating}
+translate U LichessColBlackRating {B. Luokitus}
+translate U LichessColDate {Päivämäärä}
+translate U LichessLoadGameConfirm {Ladataanko peli %s vs %s (ID: %s) leikepohjaan?}
+translate U LichessLoadGameTitle {Lataa peli}
+translate U LichessFetchGameFailed {Pelin %s nouto epäonnistui:\n%s}
+translate U LichessGameNotFound {Peliä %s ei löydy Lichessistä.}
+translate U LichessImportFailed {Pelin tuonti epäonnistui:\n%s}
+translate U LichessGameLoaded {Peli ladattiin leikekantaan onnistuneesti.}
 translate U Back {Palaa}
 translate U Apply {Käytä}
 translate U Browse {Selaa}

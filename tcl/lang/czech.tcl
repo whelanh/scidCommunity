@@ -310,6 +310,59 @@ menuText C GInfoMark "Oznait/Odznait tuto partii" 0
 menuText C GInfoInformant "Konfigurovat informtorov hodnoty" 0
 
 # General buttons:
+translate C LichessOpenExplore {Lichess OpenExplore}
+translate C LichessTitle {Lichess Otevření Průzkumníka}
+translate C LichessApiTokenReq {Lichess API Token (vyžadováno):}
+translate C LichessDatabase {Databáze:}
+translate C LichessMasters {Mistři}
+translate C LichessGames {Lichess hry}
+translate C LichessPlayer {Hráč}
+translate C LichessNumMoves {Počet tahů:}
+translate C LichessTopGames {Nejlepší hry:}
+translate C LichessRecentGames {Nedávné hry:}
+translate C LichessSinceYear {Od roku:}
+translate C LichessUntilYear {Do roku:}
+translate C LichessSinceMonth {Od (RRRR-MM):}
+translate C LichessUntilMonth {Do (RRRR-MM):}
+translate C LichessTimeControls {Ovládání času}
+translate C LichessRatingGroups {Hodnotící skupiny}
+translate C LichessPlayerName {Uživatelské jméno hráče:}
+translate C LichessPlayerColor {Barva hráče:}
+translate C LichessWhite {Bílý}
+translate C LichessBlack {Černý}
+translate C LichessGameModes {Herní režimy}
+translate C LichessRated {Hodnoceno}
+translate C LichessCasual {Neformální}
+translate C LichessTokenRequired {Je vyžadován token rozhraní Lichess API.\n\nOd března 2026 vyžaduje Lichess token rozhraní API pro přístup k Průzkumníku otevírání. Zadejte svůj token do pole „Lichess API Token“ výše.\n\nToken můžete vytvořit na: https://lichess.org/account/oauth/token}
+translate C LichessPlayerRequired {Zadejte prosím uživatelské jméno Lichess pro databázi Player.}
+translate C LichessQuerying {Dotazování Lichess Otevírání Průzkumníka...}
+translate C LichessFailedQuery {Selhal dotaz na Lichess Opening Explorer:\n%s}
+translate C LichessPositionNotFound {Pozice nebyla nalezena v databázi %s.\n\nRozhraní API vrátilo:\n%s}
+translate C LichessResultsTitle {Průzkumník otevírání Lichess – databáze %s}
+translate C LichessSummaryInfo {Celkem: %s her |  Bílý vyhraje: %s (%s%%) |  Losy: %s (%s%%) |  Černý vyhrává: %s (%s%%)}
+translate C LichessNoGamesFound {Pro tuto pozici nebyly nalezeny žádné hry.}
+translate C LichessMoves {Pohyby:}
+translate C LichessColMove {Pohyb}
+translate C LichessColWhite {Bílý}
+translate C LichessColDraws {Kreslí}
+translate C LichessColBlack {Černý}
+translate C LichessColTotal {Celkový}
+translate C LichessColWinPct {Vyhrát%}
+translate C LichessColAvgRating {Prům. hodnocení}
+translate C LichessColECO {EKO}
+translate C LichessColOpening {Otevírací}
+translate C LichessTopGamesTitle {Nejlepší hry:}
+translate C LichessRecentGamesTitle {Nedávné hry:}
+translate C LichessColWinner {Vítěz}
+translate C LichessColWhiteRating {W.Rating}
+translate C LichessColBlackRating {B.Hodnocení}
+translate C LichessColDate {Datum}
+translate C LichessLoadGameConfirm {Načíst hru %s vs %s (ID: %s) do schránky?}
+translate C LichessLoadGameTitle {Načíst hru}
+translate C LichessFetchGameFailed {Nepodařilo se načíst hru %s:\n%s}
+translate C LichessGameNotFound {Hra %s nebyla na Lichess nalezena.}
+translate C LichessImportFailed {Import hry:\n%s se nezdařil}
+translate C LichessGameLoaded {Hra byla úspěšně načtena do schránky.}
 translate C Back {Zpt}
 translate C Apply {Použít}
 translate C Browse {Prohlet}

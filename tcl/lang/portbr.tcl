@@ -315,6 +315,59 @@ menuText B GInfoMark "Desmarcar este jogo" 0
 menuText B GInfoInformant "Configurar valores do informante" 0
 
 # General buttons:
+translate B LichessOpenExplore {Lichess OpenExplore}
+translate B LichessTitle {Explorador de abertura do Lichess}
+translate B LichessApiTokenReq {Token da API Lichess (obrigatório):}
+translate B LichessDatabase {Banco de dados:}
+translate B LichessMasters {Mestres}
+translate B LichessGames {Jogos de Lichess}
+translate B LichessPlayer {Jogador}
+translate B LichessNumMoves {Número de movimentos:}
+translate B LichessTopGames {Principais jogos:}
+translate B LichessRecentGames {Jogos recentes:}
+translate B LichessSinceYear {Desde o ano:}
+translate B LichessUntilYear {Até ano:}
+translate B LichessSinceMonth {Desde (AAAA-MM):}
+translate B LichessUntilMonth {Até (AAAA-MM):}
+translate B LichessTimeControls {Controles de tempo}
+translate B LichessRatingGroups {Grupos de classificação}
+translate B LichessPlayerName {Nome de usuário do jogador:}
+translate B LichessPlayerColor {Cor do jogador:}
+translate B LichessWhite {Branco}
+translate B LichessBlack {Preto}
+translate B LichessGameModes {Modos de jogo}
+translate B LichessRated {Avaliado}
+translate B LichessCasual {Casual}
+translate B LichessTokenRequired {É necessário um token de API do Lichess.\n\nDesde março de 2026, o Lichess exige um token de API para acessar o Opening Explorer. Insira seu token no campo "Token da API Lichess" acima.\n\nVocê pode criar um token em: https://lichess.org/account/oauth/token}
+translate B LichessPlayerRequired {Por favor, insira um nome de usuário Lichess para o banco de dados do Player.}
+translate B LichessQuerying {Consultando o Lichess abrindo o Explorer...}
+translate B LichessFailedQuery {Falha ao consultar o Explorador de Abertura do Lichess:\n%s}
+translate B LichessPositionNotFound {Posição não encontrada no banco de dados %s.\n\nA API retornou:\n%s}
+translate B LichessResultsTitle {Explorador de Abertura do Lichess - Banco de Dados %s}
+translate B LichessSummaryInfo {Total: %s jogos |  As brancas vencem: %s (%s%%) |  Sorteios: %s (%s%%) |  As pretas vencem: %s (%s%%)}
+translate B LichessNoGamesFound {Nenhum jogo encontrado para esta posição.}
+translate B LichessMoves {Movimentos:}
+translate B LichessColMove {Mover}
+translate B LichessColWhite {Branco}
+translate B LichessColDraws {Empates}
+translate B LichessColBlack {Preto}
+translate B LichessColTotal {Total}
+translate B LichessColWinPct {Ganhar%}
+translate B LichessColAvgRating {Avaliação média}
+translate B LichessColECO {ECO}
+translate B LichessColOpening {Abertura}
+translate B LichessTopGamesTitle {Principais jogos:}
+translate B LichessRecentGamesTitle {Jogos recentes:}
+translate B LichessColWinner {Ganhador}
+translate B LichessColWhiteRating {Classificação W.}
+translate B LichessColBlackRating {B. Classificação}
+translate B LichessColDate {Data}
+translate B LichessLoadGameConfirm {Carregar o jogo %s vs %s (ID: %s) na base de clipe?}
+translate B LichessLoadGameTitle {Carregar jogo}
+translate B LichessFetchGameFailed {Falha ao buscar o jogo %s:\n%s}
+translate B LichessGameNotFound {Jogo %s não encontrado no Lichess.}
+translate B LichessImportFailed {Falha ao importar o jogo:\n%s}
+translate B LichessGameLoaded {Jogo carregado no clipbase com sucesso.}
 translate B Back {Voltar}
 translate B Apply {Aplicar}
 translate B Browse {Navegar} 
