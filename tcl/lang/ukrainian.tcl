@@ -307,6 +307,59 @@ menuText Q GInfoMark "(Зняти) позначку цієї гри" 4
 menuText Q GInfoInformant "Налаштувати значення інформатора" 0
 
 # General buttons:
+translate Q LichessOpenExplore {Lichess OpenExplore}
+translate Q LichessTitle {Lichess Opening Explorer}
+translate Q LichessApiTokenReq {Маркер Lichess API (обов’язково):}
+translate Q LichessDatabase {База даних:}
+translate Q LichessMasters {Майстри}
+translate Q LichessGames {Ігри в шахи}
+translate Q LichessPlayer {гравець}
+translate Q LichessNumMoves {Кількість ходів:}
+translate Q LichessTopGames {Найкращі ігри:}
+translate Q LichessRecentGames {Останні ігри:}
+translate Q LichessSinceYear {З року:}
+translate Q LichessUntilYear {До року:}
+translate Q LichessSinceMonth {З (РРРР-ММ):}
+translate Q LichessUntilMonth {До (РРРР-ММ):}
+translate Q LichessTimeControls {Контроль часу}
+translate Q LichessRatingGroups {Рейтингові групи}
+translate Q LichessPlayerName {Ім'я користувача гравця:}
+translate Q LichessPlayerColor {Колір гравця:}
+translate Q LichessWhite {Білий}
+translate Q LichessBlack {чорний}
+translate Q LichessGameModes {Режими гри}
+translate Q LichessRated {Оцінений}
+translate Q LichessCasual {Повсякденний}
+translate Q LichessTokenRequired {Потрібен маркер API Lichess.\n\nЗ березня 2026 року Lichess потрібен маркер API для доступу до Opening Explorer. Будь ласка, введіть свій маркер у поле «Lichess API Token» вище.\n\nВи можете створити маркер за адресою: https://lichess.org/account/oauth/token}
+translate Q LichessPlayerRequired {Будь ласка, введіть ім’я користувача Lichess для бази даних гравців.}
+translate Q LichessQuerying {Запит Lichess Відкриття Explorer...}
+translate Q LichessFailedQuery {Не вдалося запитати Lichess Opening Explorer:\n%s}
+translate Q LichessPositionNotFound {Позицію не знайдено в базі даних %s.\n\nAPI повернув:\n%s}
+translate Q LichessResultsTitle {Lichess Opening Explorer - база даних %s}
+translate Q LichessSummaryInfo {Усього: %s ігор |  Білі перемагають: %s (%s%%) |  Нічиї: %s (%s%%) |  Чорні перемагають: %s (%s%%)}
+translate Q LichessNoGamesFound {Для цієї позиції не знайдено ігор.}
+translate Q LichessMoves {Рухи:}
+translate Q LichessColMove {рухатися}
+translate Q LichessColWhite {Білий}
+translate Q LichessColDraws {Розігрує}
+translate Q LichessColBlack {чорний}
+translate Q LichessColTotal {Всього}
+translate Q LichessColWinPct {Виграти%}
+translate Q LichessColAvgRating {Середній рейтинг}
+translate Q LichessColECO {ЕКО}
+translate Q LichessColOpening {відкриття}
+translate Q LichessTopGamesTitle {Кращі ігри:}
+translate Q LichessRecentGamesTitle {Останні ігри:}
+translate Q LichessColWinner {Переможець}
+translate Q LichessColWhiteRating {W.Рейтинг}
+translate Q LichessColBlackRating {B. Рейтинг}
+translate Q LichessColDate {Дата}
+translate Q LichessLoadGameConfirm {Завантажити гру %s проти %s (ідентифікатор: %s) у базу кліпів?}
+translate Q LichessLoadGameTitle {Завантажити гру}
+translate Q LichessFetchGameFailed {Не вдалося отримати гру %s:\n%s}
+translate Q LichessGameNotFound {Гра %s не знайдена на Lichess.}
+translate Q LichessImportFailed {Не вдалося імпортувати гру:\n%s}
+translate Q LichessGameLoaded {Гру успішно завантажено в базу кліпів.}
 translate Q Back {Назад}
 translate Q Apply {Застосувати}
 translate Q Browse {Огляд}

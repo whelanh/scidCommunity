@@ -347,6 +347,59 @@ menuText g GInfoMark "(От)маркиране на тази игра" 4
 menuText g GInfoInformant "Конфигурирайте стойностите на информатора" 0
 
 # General buttons:
+translate g LichessOpenExplore {Lichess OpenExplore}
+translate g LichessTitle {Lichess Opening Explorer}
+translate g LichessApiTokenReq {Lichess API Token (задължително):}
+translate g LichessDatabase {База данни:}
+translate g LichessMasters {майстори}
+translate g LichessGames {Игри с шах}
+translate g LichessPlayer {Играч}
+translate g LichessNumMoves {Брой ходове:}
+translate g LichessTopGames {Топ игри:}
+translate g LichessRecentGames {Скорошни игри:}
+translate g LichessSinceYear {От годината:}
+translate g LichessUntilYear {До година:}
+translate g LichessSinceMonth {От (ГГГГ-ММ):}
+translate g LichessUntilMonth {До (ГГГГ-ММ):}
+translate g LichessTimeControls {Контрол на времето}
+translate g LichessRatingGroups {Рейтингови групи}
+translate g LichessPlayerName {Потребителско име на играча:}
+translate g LichessPlayerColor {Цвят на играча:}
+translate g LichessWhite {Бяло}
+translate g LichessBlack {черен}
+translate g LichessGameModes {Режими на игра}
+translate g LichessRated {Оценен}
+translate g LichessCasual {Небрежен}
+translate g LichessTokenRequired {Изисква се API токен на Lichess.\n\nОт март 2026 г. Lichess изисква API токен за достъп до Opening Explorer. Моля, въведете своя токен в полето „Lichess API Token“ по-горе.\n\nМожете да създадете токен на: https://lichess.org/account/oauth/token}
+translate g LichessPlayerRequired {Моля, въведете потребителско име на Lichess за базата данни на играча.}
+translate g LichessQuerying {Запитване за Lichess Отваряне на Explorer...}
+translate g LichessFailedQuery {Неуспешно запитване на Lichess Opening Explorer:\n%s}
+translate g LichessPositionNotFound {Позицията не е намерена в базата данни %s.\n\nAPI върна:\n%s}
+translate g LichessResultsTitle {Lichess Opening Explorer - %s база данни}
+translate g LichessSummaryInfo {Общо: %s игри |  Белите печелят: %s (%s%%) |  Равенства: %s (%s%%) |  Черните печелят: %s (%s%%)}
+translate g LichessNoGamesFound {Няма намерени игри за тази позиция.}
+translate g LichessMoves {Ходове:}
+translate g LichessColMove {Движи се}
+translate g LichessColWhite {Бяло}
+translate g LichessColDraws {равенства}
+translate g LichessColBlack {черен}
+translate g LichessColTotal {Общо}
+translate g LichessColWinPct {печалба%}
+translate g LichessColAvgRating {Средна оценка}
+translate g LichessColECO {ЕКО}
+translate g LichessColOpening {Отваряне}
+translate g LichessTopGamesTitle {Топ игри:}
+translate g LichessRecentGamesTitle {Скорошни игри:}
+translate g LichessColWinner {Победител}
+translate g LichessColWhiteRating {W. Рейтинг}
+translate g LichessColBlackRating {B. Рейтинг}
+translate g LichessColDate {Дата}
+translate g LichessLoadGameConfirm {Да се ​​зареди ли играта %s срещу %s (ID: %s) в базата клипове?}
+translate g LichessLoadGameTitle {Зареждане на играта}
+translate g LichessFetchGameFailed {Неуспешно извличане на играта %s:\n%s}
+translate g LichessGameNotFound {Играта %s не е намерена в Lichess.}
+translate g LichessImportFailed {Неуспешно импортиране на игра:\n%s}
+translate g LichessGameLoaded {Играта се зареди успешно в базата клипове.}
 translate g Back {Назад}
 translate g Apply {Приложи}
 translate g Browse {Прегледайте}

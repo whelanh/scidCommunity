@@ -314,6 +314,59 @@ menuText H GInfoMark "Megjelöli ezt a játszmát/megszünteti a jelölést." 0
 menuText H GInfoInformant "Tájékoztató értékek határainak beállítása" 0
 
 # General buttons:
+translate H LichessOpenExplore {Lichess OpenExplore}
+translate H LichessTitle {Lichess Opening Explorer}
+translate H LichessApiTokenReq {Lichess API token (kötelező):}
+translate H LichessDatabase {Adatbázis:}
+translate H LichessMasters {Mesterek}
+translate H LichessGames {Lichess játékok}
+translate H LichessPlayer {Játékos}
+translate H LichessNumMoves {Lépések száma:}
+translate H LichessTopGames {Legnépszerűbb játékok:}
+translate H LichessRecentGames {Legutóbbi játékok:}
+translate H LichessSinceYear {év óta:}
+translate H LichessUntilYear {Évig:}
+translate H LichessSinceMonth {óta (ÉÉÉÉ-HH):}
+translate H LichessUntilMonth {Eddig (ÉÉÉÉ-HH):}
+translate H LichessTimeControls {Időszabályzók}
+translate H LichessRatingGroups {Értékelési csoportok}
+translate H LichessPlayerName {Játékos felhasználónév:}
+translate H LichessPlayerColor {Játékos színe:}
+translate H LichessWhite {Fehér}
+translate H LichessBlack {Fekete}
+translate H LichessGameModes {Játékmódok}
+translate H LichessRated {Értékelt}
+translate H LichessCasual {Alkalmi}
+translate H LichessTokenRequired {Lichess API token szükséges.\n\n2026 márciusától a Lichessnek API-tokenre van szüksége az Opening Explorer eléréséhez. Kérjük, írja be a tokent a fenti „Lichess API Token” mezőbe.\n\nTokent a következő címen hozhat létre: https://lichess.org/account/oauth/token}
+translate H LichessPlayerRequired {Adjon meg egy Lichess felhasználónevet a Player adatbázishoz.}
+translate H LichessQuerying {Lichess lekérdezése Intéző megnyitása...}
+translate H LichessFailedQuery {Nem sikerült lekérdezni a Lichess Opening Explorert:\n%s}
+translate H LichessPositionNotFound {A pozíció nem található a %s adatbázisban.\n\nAz API a következőt adta vissza:\n%s}
+translate H LichessResultsTitle {Lichess Opening Explorer - %s adatbázis}
+translate H LichessSummaryInfo {Összesen: %s játék |  Fehér nyer: %s (%s%%) |  Sorsolás: %s (%s%%) |  Fekete győzelem: %s (%s%%)}
+translate H LichessNoGamesFound {Nem található játék erre a pozícióra.}
+translate H LichessMoves {Mozgás:}
+translate H LichessColMove {Lépés}
+translate H LichessColWhite {Fehér}
+translate H LichessColDraws {Döntetlen}
+translate H LichessColBlack {Fekete}
+translate H LichessColTotal {Teljes}
+translate H LichessColWinPct {Győzelem%}
+translate H LichessColAvgRating {Átl. értékelés}
+translate H LichessColECO {ECO}
+translate H LichessColOpening {Nyílás}
+translate H LichessTopGamesTitle {Legnépszerűbb játékok:}
+translate H LichessRecentGamesTitle {Legutóbbi játékok:}
+translate H LichessColWinner {Győztes}
+translate H LichessColWhiteRating {W.Rating}
+translate H LichessColBlackRating {B. Értékelés}
+translate H LichessColDate {Dátum}
+translate H LichessLoadGameConfirm {Betölti a %s vs %s játékot (azonosító: %s) a klipbázisba?}
+translate H LichessLoadGameTitle {Játék betöltése}
+translate H LichessFetchGameFailed {Nem sikerült letölteni a következő játékot: %s:\n%s}
+translate H LichessGameNotFound {A(z) %s játék nem található a Lichessen.}
+translate H LichessImportFailed {Nem sikerült importálni a játékot:\n%s}
+translate H LichessGameLoaded {A játék sikeresen betöltődött a klipbázisba.}
 translate H Back {Vissza}
 translate H Apply {Alkalmazni}
 translate H Browse {Tallóz}

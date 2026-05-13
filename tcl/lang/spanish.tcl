@@ -347,6 +347,59 @@ menuText S GInfoMark "(No)Marcar esta partida" 4
 menuText S GInfoInformant "Configurar valores de información" 0
 
 # General buttons:
+translate S LichessOpenExplore {Lichess — Explorar}
+translate S LichessTitle {Explorador de aperturas de Lichess}
+translate S LichessApiTokenReq {Token API de Lichess (obligatorio):}
+translate S LichessDatabase {Base de datos:}
+translate S LichessMasters {Maestros}
+translate S LichessGames {Juegos de Lichess}
+translate S LichessPlayer {Jugador}
+translate S LichessNumMoves {Número de movimientos:}
+translate S LichessTopGames {Juegos destacados:}
+translate S LichessRecentGames {Juegos recientes:}
+translate S LichessSinceYear {Desde el año:}
+translate S LichessUntilYear {Hasta el año:}
+translate S LichessSinceMonth {Desde (AAAA-MM):}
+translate S LichessUntilMonth {Hasta (AAAA-MM):}
+translate S LichessTimeControls {Controles de tiempo}
+translate S LichessRatingGroups {Grupos de calificación}
+translate S LichessPlayerName {Nombre de usuario del jugador:}
+translate S LichessPlayerColor {Color del jugador:}
+translate S LichessWhite {Blanco}
+translate S LichessBlack {Negro}
+translate S LichessGameModes {Modos de juego}
+translate S LichessRated {Clasificado}
+translate S LichessCasual {Casual}
+translate S LichessTokenRequired {Se requiere un token API de Lichess.\n\nA partir de marzo de 2026, Lichess requiere un token API para acceder al Explorador de apertura. Ingrese su token en el campo "Token API de Lichess" arriba.\n\nPuede crear un token en: https://lichess.org/account/oauth/token}
+translate S LichessPlayerRequired {Ingrese un nombre de usuario de Lichess para la base de datos del jugador.}
+translate S LichessQuerying {Consultando el Explorador de aperturas de Lichess...}
+translate S LichessFailedQuery {No se pudo consultar el Explorador de aperturas de Lichess:\n%s}
+translate S LichessPositionNotFound {Posición no encontrada en la base de datos %s.\n\nLa API devolvió:\n%s}
+translate S LichessResultsTitle {Explorador de aperturas de Lichess - Base de datos %s}
+translate S LichessSummaryInfo {Total: %s juegos |  Las blancas ganan: %s (%s%%) |  Sorteos: %s (%s%%) |  Las negras ganan: %s (%s%%)}
+translate S LichessNoGamesFound {No se encontraron juegos para esta posición.}
+translate S LichessMoves {Movimientos:}
+translate S LichessColMove {Movimiento}
+translate S LichessColWhite {Blanco}
+translate S LichessColDraws {Sorteos}
+translate S LichessColBlack {Negro}
+translate S LichessColTotal {Total}
+translate S LichessColWinPct {Porcentaje de victorias (%)}
+translate S LichessColAvgRating {Calificación promedio}
+translate S LichessColECO {ECO}
+translate S LichessColOpening {Apertura}
+translate S LichessTopGamesTitle {Juegos principales:}
+translate S LichessRecentGamesTitle {Juegos recientes:}
+translate S LichessColWinner {Ganador}
+translate S LichessColWhiteRating {Clasificación W.}
+translate S LichessColBlackRating {B. Calificación}
+translate S LichessColDate {Fecha}
+translate S LichessLoadGameConfirm {¿Cargar el juego %s vs %s (ID: %s) en la base de clips?}
+translate S LichessLoadGameTitle {Cargar juego}
+translate S LichessFetchGameFailed {No se pudo recuperar el juego %s:\n%s}
+translate S LichessGameNotFound {Juego %s no encontrado en Lichess.}
+translate S LichessImportFailed {No se pudo importar el juego:\n%s}
+translate S LichessGameLoaded {El juego se cargó correctamente en Clipbase.}
 translate S Back {Atrás}
 translate S Apply {Aplicar}
 translate S Browse {Hojear}

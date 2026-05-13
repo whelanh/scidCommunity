@@ -347,6 +347,59 @@ menuText L GInfoMark "(Anulați) marcați acest joc" 4
 menuText L GInfoInformant "Configurați valorile informatorilor" 0
 
 # General buttons:
+translate L LichessOpenExplore {Lichess OpenExplore}
+translate L LichessTitle {Lichess Opening Explorer}
+translate L LichessApiTokenReq {Token API Lichess (obligatoriu):}
+translate L LichessDatabase {Baza de date:}
+translate L LichessMasters {Maestrii}
+translate L LichessGames {Jocuri cu Lichess}
+translate L LichessPlayer {Player}
+translate L LichessNumMoves {Numar de miscari:}
+translate L LichessTopGames {Top jocuri:}
+translate L LichessRecentGames {Meciuri recente:}
+translate L LichessSinceYear {Din anul:}
+translate L LichessUntilYear {Pana la an:}
+translate L LichessSinceMonth {De la (AAAA-LL):}
+translate L LichessUntilMonth {Până la (AAAA-LL):}
+translate L LichessTimeControls {Controale timpului}
+translate L LichessRatingGroups {Grupuri de evaluare}
+translate L LichessPlayerName {Nume utilizator jucător:}
+translate L LichessPlayerColor {Culoare jucător:}
+translate L LichessWhite {Alb}
+translate L LichessBlack {Negru}
+translate L LichessGameModes {Moduri de joc}
+translate L LichessRated {Evaluat}
+translate L LichessCasual {Casual}
+translate L LichessTokenRequired {Este necesar un simbol API Lichess.\n\nÎncepând cu martie 2026, Lichess necesită un simbol API pentru a accesa Opening Explorer. Vă rugăm să introduceți simbolul în câmpul „Lichess API Token” de mai sus.\n\nPuteți crea un simbol la: https://lichess.org/account/oauth/token}
+translate L LichessPlayerRequired {Vă rugăm să introduceți un nume de utilizator Lichess pentru baza de date Player.}
+translate L LichessQuerying {Se interogă Lichess Opening Explorer...}
+translate L LichessFailedQuery {Nu s-a putut interoga Lichess Opening Explorer:\n%s}
+translate L LichessPositionNotFound {Poziția nu a fost găsită în baza de date %s.\n\nAPI-ul a returnat:\n%s}
+translate L LichessResultsTitle {Lichess Opening Explorer - Baza de date %s}
+translate L LichessSummaryInfo {Total: %s jocuri |  Albul câștigă: %s (%s%%) |  Extrageri: %s (%s%%) |  Câștigări negre: %s (%s%%)}
+translate L LichessNoGamesFound {Nu s-au găsit jocuri pentru această poziție.}
+translate L LichessMoves {Mișcări:}
+translate L LichessColMove {Mişcare}
+translate L LichessColWhite {Alb}
+translate L LichessColDraws {Remiză}
+translate L LichessColBlack {Negru}
+translate L LichessColTotal {Total}
+translate L LichessColWinPct {Câştiga%}
+translate L LichessColAvgRating {Evaluare medie}
+translate L LichessColECO {ECO}
+translate L LichessColOpening {Deschidere}
+translate L LichessTopGamesTitle {Top jocuri:}
+translate L LichessRecentGamesTitle {Jocuri recente:}
+translate L LichessColWinner {Câştigător}
+translate L LichessColWhiteRating {Evaluare W}
+translate L LichessColBlackRating {B.Evaluare}
+translate L LichessColDate {Data}
+translate L LichessLoadGameConfirm {Încărcați jocul %s vs %s (ID: %s) în baza de clipuri?}
+translate L LichessLoadGameTitle {Încărcați jocul}
+translate L LichessFetchGameFailed {Nu s-a putut prelua jocul %s:\n%s}
+translate L LichessGameNotFound {Jocul %s nu a fost găsit pe Lichess.}
+translate L LichessImportFailed {Nu s-a putut importa jocul:\n%s}
+translate L LichessGameLoaded {Jocul a fost încărcat cu succes în clipbase.}
 translate L Back {Înapoi}
 translate L Apply {Aplicați}
 translate L Browse {Răsfoiește}

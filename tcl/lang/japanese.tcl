@@ -347,6 +347,59 @@ menuText A GInfoMark "このゲームにマークを付ける(外す)" 4
 menuText A GInfoInformant "インフォーマントの値を構成する" 0
 
 # General buttons:
+translate A LichessOpenExplore {リチェス OpenExplore}
+translate A LichessTitle {Lichess オープニングエクスプローラー}
+translate A LichessApiTokenReq {Lichess API トークン (必須):}
+translate A LichessDatabase {データベース:}
+translate A LichessMasters {マスターズ}
+translate A LichessGames {リッチゲーム}
+translate A LichessPlayer {プレーヤー}
+translate A LichessNumMoves {移動数:}
+translate A LichessTopGames {人気のゲーム:}
+translate A LichessRecentGames {最近のゲーム:}
+translate A LichessSinceYear {年以降:}
+translate A LichessUntilYear {年まで:}
+translate A LichessSinceMonth {以降 (YYYY-MM):}
+translate A LichessUntilMonth {(YYYY-MM) まで:}
+translate A LichessTimeControls {時間制御}
+translate A LichessRatingGroups {評価グループ}
+translate A LichessPlayerName {プレイヤーのユーザー名:}
+translate A LichessPlayerColor {プレーヤーの色:}
+translate A LichessWhite {白}
+translate A LichessBlack {黒}
+translate A LichessGameModes {ゲームモード}
+translate A LichessRated {評価済み}
+translate A LichessCasual {カジュアル}
+translate A LichessTokenRequired {Lichess API トークンが必要です。\n\n現在、Lichess はオープニング エクスプローラーにアクセスするために API トークンを必要とします。上の「Lichess API トークン」フィールドにトークンを入力してください。\n\nトークンは https://lichess.org/account/oauth/token で作成できます。}
+translate A LichessPlayerRequired {Player データベースの Lichess ユーザー名を入力してください。}
+translate A LichessQuerying {Lichess にクエリを実行しています エクスプローラーを開いています...}
+translate A LichessFailedQuery {エクスプローラーを開く Lichess のクエリに失敗しました:\n%s}
+translate A LichessPositionNotFound {位置が %s データベースに見つかりません。\n\nAPI が返されました:\n%s}
+translate A LichessResultsTitle {Lichess がエクスプローラーを開く - %s データベース}
+translate A LichessSummaryInfo {合計: %s ゲーム |  白の勝ち: %s (%s%%) |  ドロー: %s (%s%%) |  黒の勝ち: %s (%s%%)}
+translate A LichessNoGamesFound {このポジションに該当するゲームは見つかりませんでした。}
+translate A LichessMoves {移動:}
+translate A LichessColMove {動く}
+translate A LichessColWhite {白}
+translate A LichessColDraws {ドロー}
+translate A LichessColBlack {黒}
+translate A LichessColTotal {合計}
+translate A LichessColWinPct {勝つ％}
+translate A LichessColAvgRating {平均評価}
+translate A LichessColECO {エコ}
+translate A LichessColOpening {オープニング}
+translate A LichessTopGamesTitle {人気のゲーム:}
+translate A LichessRecentGamesTitle {最近のゲーム:}
+translate A LichessColWinner {勝者}
+translate A LichessColWhiteRating {W.評価}
+translate A LichessColBlackRating {B.評価}
+translate A LichessColDate {日付}
+translate A LichessLoadGameConfirm {ゲーム %s 対 %s (ID: %s) をクリップベースにロードしますか?}
+translate A LichessLoadGameTitle {ゲームをロードする}
+translate A LichessFetchGameFailed {ゲーム %s の取得に失敗しました:\n%s}
+translate A LichessGameNotFound {ゲーム %s が Lichess に見つかりません。}
+translate A LichessImportFailed {ゲームのインポートに失敗しました:\n%s}
+translate A LichessGameLoaded {ゲームがクリップベースに正常にロードされました。}
 translate A Back {戻る}
 translate A Apply {適用}
 translate A Browse {参照}

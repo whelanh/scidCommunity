@@ -306,6 +306,59 @@ menuText Z GInfoMark "(Un)Weka Mchezo Huu" 4
 menuText Z GInfoInformant "Sanidi maadili ya mtoa habari" 0
 
 # General buttons:
+translate Z LichessOpenExplore {Lichess OpenExplore}
+translate Z LichessTitle {Lichess Ufunguzi Explorer}
+translate Z LichessApiTokenReq {Ishara ya API ya Lichess (inahitajika):}
+translate Z LichessDatabase {Hifadhidata:}
+translate Z LichessMasters {Mabwana}
+translate Z LichessGames {Michezo ya Lichess}
+translate Z LichessPlayer {Mchezaji}
+translate Z LichessNumMoves {Idadi ya hatua:}
+translate Z LichessTopGames {Michezo maarufu:}
+translate Z LichessRecentGames {Michezo ya hivi majuzi:}
+translate Z LichessSinceYear {Tangu mwaka:}
+translate Z LichessUntilYear {Hadi mwaka:}
+translate Z LichessSinceMonth {Tangu (YYYY-MM):}
+translate Z LichessUntilMonth {Hadi (YYYY-MM):}
+translate Z LichessTimeControls {Vidhibiti vya Wakati}
+translate Z LichessRatingGroups {Vikundi vya Ukadiriaji}
+translate Z LichessPlayerName {Jina la mtumiaji la mchezaji:}
+translate Z LichessPlayerColor {Rangi ya mchezaji:}
+translate Z LichessWhite {Nyeupe}
+translate Z LichessBlack {Nyeusi}
+translate Z LichessGameModes {Njia za Mchezo}
+translate Z LichessRated {Imekadiriwa}
+translate Z LichessCasual {Kawaida}
+translate Z LichessTokenRequired {Tokeni ya API ya Lichess inahitajika.\n\nKuanzia Machi 2026, Lichess inahitaji tokeni ya API ili kufikia Kichunguzi Ufunguzi. Tafadhali weka tokeni yako katika sehemu ya "Lichess API Token" hapo juu.\n\nUnaweza kuunda tokeni katika: https://lichess.org/account/oauth/token}
+translate Z LichessPlayerRequired {Tafadhali ingiza jina la mtumiaji la Lichess kwa hifadhidata ya Mchezaji.}
+translate Z LichessQuerying {Inauliza Lichess Inafungua Kivinjari...}
+translate Z LichessFailedQuery {Imeshindwa kuuliza Lichess Opening Explorer:\n%s}
+translate Z LichessPositionNotFound {Nafasi haijapatikana katika hifadhidata ya %s.\n\nAPI imerudi:\n%s}
+translate Z LichessResultsTitle {Lichess Ufunguzi Explorer - %s Hifadhidata}
+translate Z LichessSummaryInfo {Jumla: %s michezo |  Ushindi mweupe: %s (%s%%) |  Michoro: %s (%s%%) |  Washindi weusi: %s (%s%%)}
+translate Z LichessNoGamesFound {Hakuna michezo iliyopatikana kwa nafasi hii.}
+translate Z LichessMoves {Harakati:}
+translate Z LichessColMove {Mwendo}
+translate Z LichessColWhite {Nyeupe}
+translate Z LichessColDraws {Droo}
+translate Z LichessColBlack {Nyeusi}
+translate Z LichessColTotal {Jumla}
+translate Z LichessColWinPct {Shinda%}
+translate Z LichessColAvgRating {Ukadiriaji Wastani}
+translate Z LichessColECO {ECO}
+translate Z LichessColOpening {Ufunguzi}
+translate Z LichessTopGamesTitle {Michezo Maarufu:}
+translate Z LichessRecentGamesTitle {Michezo ya Hivi Punde:}
+translate Z LichessColWinner {Mshindi}
+translate Z LichessColWhiteRating {Ukadiriaji wa W}
+translate Z LichessColBlackRating {B.Ukadiriaji}
+translate Z LichessColDate {Tarehe}
+translate Z LichessLoadGameConfirm {Pakia mchezo %s dhidi ya %s (ID: %s) kwenye msingi wa kunakili?}
+translate Z LichessLoadGameTitle {Mchezo wa Kupakia}
+translate Z LichessFetchGameFailed {Imeshindwa kuleta mchezo %s:\n%s}
+translate Z LichessGameNotFound {Mchezo %s haupatikani kwenye Lichess.}
+translate Z LichessImportFailed {Imeshindwa kuleta mchezo:\n%s}
+translate Z LichessGameLoaded {Mchezo umepakiwa kwenye clipbase.}
 translate Z Back {Nyuma}
 translate Z Apply {Tumia}
 translate Z Browse {Vinjari}

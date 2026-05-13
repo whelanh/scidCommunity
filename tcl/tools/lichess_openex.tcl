@@ -39,7 +39,7 @@ proc ::lichess_openex::openDialog {} {
     }
 
     toplevel $w
-    wm title $w "Lichess Opening Explorer"
+    wm title $w [tr LichessTitle]
     wm resizable $w 1 0
     if {[winfo exists .]} { wm transient $w . }
     wm protocol $w WM_DELETE_WINDOW [list ::lichess_openex::onCancel $w]
@@ -89,19 +89,19 @@ proc ::lichess_openex::openDialog {} {
     set row 0
 
     # API Token
-    ttk::label $w.content.tokenlbl -text "Lichess API Token (required):"
+    ttk::label $w.content.tokenlbl -text [tr LichessApiTokenReq]
     ttk::entry $w.content.tokenentry -width 45 -textvariable ::lichess_openex::apiToken -show "*"
     grid $w.content.tokenlbl   -row $row -column 0 -sticky w -padx {0 8} -pady 2
     grid $w.content.tokenentry -row $row -column 1 -columnspan 3 -sticky ew -pady 2
     incr row
 
     # Database selector
-    ttk::label $w.content.dblbl -text "Database:"
-    ttk::radiobutton $w.content.db_masters -text "Masters" -variable ::lichess_openex::database \
+    ttk::label $w.content.dblbl -text [tr LichessDatabase]
+    ttk::radiobutton $w.content.db_masters -text [tr LichessMasters] -variable ::lichess_openex::database \
         -value "masters" -command [list ::lichess_openex::updateDialogFields $w]
-    ttk::radiobutton $w.content.db_lichess -text "Lichess Games" -variable ::lichess_openex::database \
+    ttk::radiobutton $w.content.db_lichess -text [tr LichessGames] -variable ::lichess_openex::database \
         -value "lichess" -command [list ::lichess_openex::updateDialogFields $w]
-    ttk::radiobutton $w.content.db_player -text "Player" -variable ::lichess_openex::database \
+    ttk::radiobutton $w.content.db_player -text [tr LichessPlayer] -variable ::lichess_openex::database \
         -value "player" -command [list ::lichess_openex::updateDialogFields $w]
     grid $w.content.dblbl       -row $row -column 0 -sticky w -padx {0 8} -pady 4
     grid $w.content.db_masters  -row $row -column 1 -sticky w -pady 4
@@ -114,21 +114,21 @@ proc ::lichess_openex::openDialog {} {
     incr row
 
     # --- Common fields ---
-    ttk::label $w.content.moveslbl -text "Number of moves:"
+    ttk::label $w.content.moveslbl -text [tr LichessNumMoves]
     ttk::spinbox $w.content.movesspin -from 1 -to 50 -width 5 \
         -textvariable ::lichess_openex::numMoves
     grid $w.content.moveslbl  -row $row -column 0 -sticky w -padx {0 8} -pady 2
     grid $w.content.movesspin -row $row -column 1 -sticky w -pady 2
     incr row
 
-    ttk::label $w.content.topglbl -text "Top games:"
+    ttk::label $w.content.topglbl -text [tr LichessTopGames]
     ttk::spinbox $w.content.topgspin -from 0 -to 15 -width 5 \
         -textvariable ::lichess_openex::topGames
     grid $w.content.topglbl  -row $row -column 0 -sticky w -padx {0 8} -pady 2
     grid $w.content.topgspin -row $row -column 1 -sticky w -pady 2
     incr row
 
-    ttk::label $w.content.recglbl -text "Recent games:"
+    ttk::label $w.content.recglbl -text [tr LichessRecentGames]
     ttk::spinbox $w.content.recgspin -from 0 -to 8 -width 5 \
         -textvariable ::lichess_openex::recentGames
     grid $w.content.recglbl  -row $row -column 0 -sticky w -padx {0 8} -pady 2
@@ -136,9 +136,9 @@ proc ::lichess_openex::openDialog {} {
     incr row
 
     # --- Masters date fields (since/until as years) ---
-    ttk::label $w.content.msylbl -text "Since year:"
+    ttk::label $w.content.msylbl -text [tr LichessSinceYear]
     ttk::entry $w.content.msyentry -width 8 -textvariable ::lichess_openex::sinceYear
-    ttk::label $w.content.muylbl -text "Until year:"
+    ttk::label $w.content.muylbl -text [tr LichessUntilYear]
     ttk::entry $w.content.muyentry -width 8 -textvariable ::lichess_openex::untilYear
     set ::lichess_openex::dlg_masters_row $row
     grid $w.content.msylbl   -row $row -column 0 -sticky w -padx {0 8} -pady 2
@@ -148,9 +148,9 @@ proc ::lichess_openex::openDialog {} {
     incr row
 
     # --- Lichess/Player date fields (since/until as YYYY-MM) ---
-    ttk::label $w.content.lsmlbl -text "Since (YYYY-MM):"
+    ttk::label $w.content.lsmlbl -text [tr LichessSinceMonth]
     ttk::entry $w.content.lsmentry -width 10 -textvariable ::lichess_openex::sinceMonth
-    ttk::label $w.content.lumlbl -text "Until (YYYY-MM):"
+    ttk::label $w.content.lumlbl -text [tr LichessUntilMonth]
     ttk::entry $w.content.lumentry -width 10 -textvariable ::lichess_openex::untilMonth
     set ::lichess_openex::dlg_lichdate_row $row
     grid $w.content.lsmlbl   -row $row -column 0 -sticky w -padx {0 8} -pady 2
@@ -160,7 +160,7 @@ proc ::lichess_openex::openDialog {} {
     incr row
 
     # --- Lichess-specific: Speed checkbuttons ---
-    ttk::labelframe $w.content.speedframe -text "Time Controls" -padding 4
+    ttk::labelframe $w.content.speedframe -text [tr LichessTimeControls] -padding 4
     set col 0
     foreach sp {ultraBullet bullet blitz rapid classical correspondence} {
         ttk::checkbutton $w.content.speedframe.sp_$sp -text $sp \
@@ -173,7 +173,7 @@ proc ::lichess_openex::openDialog {} {
     incr row
 
     # --- Lichess-specific: Rating checkbuttons ---
-    ttk::labelframe $w.content.ratingframe -text "Rating Groups" -padding 4
+    ttk::labelframe $w.content.ratingframe -text [tr LichessRatingGroups] -padding 4
     set col 0
     foreach rt {0 1000 1200 1400 1600 1800 2000 2200 2500} {
         set lbl $rt
@@ -188,25 +188,25 @@ proc ::lichess_openex::openDialog {} {
     incr row
 
     # --- Player-specific: Username, Color, Modes ---
-    ttk::label $w.content.playerlbl -text "Player username:"
+    ttk::label $w.content.playerlbl -text [tr LichessPlayerName]
     ttk::entry $w.content.playerentry -width 20 -textvariable ::lichess_openex::playerName
     set ::lichess_openex::dlg_player_row $row
     grid $w.content.playerlbl   -row $row -column 0 -sticky w -padx {0 8} -pady 2
     grid $w.content.playerentry -row $row -column 1 -columnspan 2 -sticky w -pady 2
     incr row
 
-    ttk::label $w.content.colorlbl -text "Player color:"
-    ttk::radiobutton $w.content.color_w -text "White" -variable ::lichess_openex::playerColor -value "white"
-    ttk::radiobutton $w.content.color_b -text "Black" -variable ::lichess_openex::playerColor -value "black"
+    ttk::label $w.content.colorlbl -text [tr LichessPlayerColor]
+    ttk::radiobutton $w.content.color_w -text [tr LichessWhite] -variable ::lichess_openex::playerColor -value "white"
+    ttk::radiobutton $w.content.color_b -text [tr LichessBlack] -variable ::lichess_openex::playerColor -value "black"
     set ::lichess_openex::dlg_color_row $row
     grid $w.content.colorlbl -row $row -column 0 -sticky w -padx {0 8} -pady 2
     grid $w.content.color_w  -row $row -column 1 -sticky w -pady 2
     grid $w.content.color_b  -row $row -column 2 -sticky w -pady 2
     incr row
 
-    ttk::labelframe $w.content.modeframe -text "Game Modes" -padding 4
-    ttk::checkbutton $w.content.modeframe.rated -text "Rated" -variable ::lichess_openex::chk_mode_rated
-    ttk::checkbutton $w.content.modeframe.casual -text "Casual" -variable ::lichess_openex::chk_mode_casual
+    ttk::labelframe $w.content.modeframe -text [tr LichessGameModes] -padding 4
+    ttk::checkbutton $w.content.modeframe.rated -text [tr LichessRated] -variable ::lichess_openex::chk_mode_rated
+    ttk::checkbutton $w.content.modeframe.casual -text [tr LichessCasual] -variable ::lichess_openex::chk_mode_casual
     grid $w.content.modeframe.rated  -row 0 -column 0 -sticky w -padx 4
     grid $w.content.modeframe.casual -row 0 -column 1 -sticky w -padx 4
     set ::lichess_openex::dlg_mode_row $row
@@ -218,8 +218,8 @@ proc ::lichess_openex::openDialog {} {
     # --- Buttons ---
     ttk::frame $w.buttons -padding {12 6}
     pack $w.buttons -fill x
-    ttk::button $w.buttons.go -text "Go" -command [list ::lichess_openex::onGo $w]
-    ttk::button $w.buttons.cancel -text "Cancel" -command [list ::lichess_openex::onCancel $w]
+    ttk::button $w.buttons.go -text [tr Apply] -command [list ::lichess_openex::onGo $w]
+    ttk::button $w.buttons.cancel -text [tr Cancel] -command [list ::lichess_openex::onCancel $w]
     pack $w.buttons.cancel -side right -padx 5
     pack $w.buttons.go -side right -padx 5
 
@@ -287,8 +287,8 @@ proc ::lichess_openex::updateDialogFields {w} {
 proc ::lichess_openex::onGo {w} {
     # Require an API token (Lichess has required one for Opening Explorer since March 2026)
     if {[string trim $::lichess_openex::apiToken] eq ""} {
-        tk_messageBox -icon warning -type ok -title "Lichess Opening Explorer" \
-            -message "A Lichess API token is required.\n\nAs of March 2026, Lichess requires an API token to access the Opening Explorer. Please enter your token in the \"Lichess API Token\" field above.\n\nYou can create a token at: https://lichess.org/account/oauth/token" -parent $w
+        tk_messageBox -icon warning -type ok -title [tr LichessTitle] \
+            -message [tr LichessTokenRequired] -parent $w
         focus $w.content.tokenentry
         return
     }
@@ -296,8 +296,8 @@ proc ::lichess_openex::onGo {w} {
     # Validate player-specific requirements
     if {$::lichess_openex::database eq "player"} {
         if {[string trim $::lichess_openex::playerName] eq ""} {
-            tk_messageBox -icon warning -type ok -title "Lichess Opening Explorer" \
-                -message "Please enter a Lichess username for the Player database." -parent $w
+            tk_messageBox -icon warning -type ok -title [tr LichessTitle] \
+                -message [tr LichessPlayerRequired] -parent $w
             return
         }
     }
@@ -604,7 +604,7 @@ proc ::lichess_openex::queryExplorer {} {
     if {[winfo exists $w]} { destroy $w }
 
     toplevel $w
-    wm title $w "Lichess Opening Explorer"
+    wm title $w [tr LichessTitle]
     wm resizable $w 1 1
     wm minsize $w 850 500
     if {[winfo exists .]} { wm transient $w . }
@@ -612,7 +612,7 @@ proc ::lichess_openex::queryExplorer {} {
     ttk::frame $w.content -padding 10
     pack $w.content -fill both -expand 1
 
-    ttk::label $w.content.loading -text "Querying Lichess Opening Explorer..." -font font_Bold
+    ttk::label $w.content.loading -text [tr LichessQuerying] -font font_Bold
     pack $w.content.loading -pady 10
 
     update idletasks
@@ -629,14 +629,14 @@ proc ::lichess_openex::queryExplorer {} {
     destroy $w.content.loading
 
     if {!$ok} {
-        ::lichess_openex::showError $w "Failed to query Lichess Opening Explorer:\n$result"
+        ::lichess_openex::showError $w [format [tr LichessFailedQuery] $result]
         return
     }
 
     # Check for error responses
     if {[string match "*\"error\"*" $result] || [string match "*Not Found*" $result]} {
         if {![regexp {"moves"} $result]} {
-            ::lichess_openex::showError $w "Position not found in the $::lichess_openex::database database.\n\nThe API returned:\n[string range $result 0 300]"
+            ::lichess_openex::showError $w [format [tr LichessPositionNotFound] $::lichess_openex::database [string range $result 0 300]]
             return
         }
     }
@@ -674,7 +674,7 @@ proc ::lichess_openex::displayResults {w jsonData fen} {
 
     # W/D/L summary
     set dbLabel [string totitle $::lichess_openex::database]
-    ttk::label $w.top.title -text "Lichess Opening Explorer - $dbLabel Database" -font font_Bold
+    ttk::label $w.top.title -text [format [tr LichessResultsTitle] $dbLabel] -font font_Bold
     pack $w.top.title -anchor w -pady {0 4}
 
     ttk::frame $w.top.wdl
@@ -689,18 +689,18 @@ proc ::lichess_openex::displayResults {w jsonData fen} {
         set fmtDraws [::lichess_openex::formatNumber $totalDraws]
         set fmtBlack [::lichess_openex::formatNumber $totalBlack]
         ttk::label $w.top.wdl.info -text \
-            "Total: $fmtTotal games  |  White wins: $fmtWhite ($wPct%)  |  Draws: $fmtDraws ($dPct%)  |  Black wins: $fmtBlack ($bPct%)"
+            [format [tr LichessSummaryInfo] $fmtTotal $fmtWhite $wPct $fmtDraws $dPct $fmtBlack $bPct]
     } else {
-        ttk::label $w.top.wdl.info -text "No games found for this position."
+        ttk::label $w.top.wdl.info -text [tr LichessNoGamesFound]
     }
     pack $w.top.wdl.info -side left
 
     # --- Moves table ---
-    ttk::label $w.top.moveslbl -text "Moves:" -font font_Bold
+    ttk::label $w.top.moveslbl -text [tr LichessMoves] -font font_Bold
     pack $w.top.moveslbl -anchor w -pady {4 2}
 
     set cols {san white draws black total pct avgRating eco opening}
-    set colNames {"Move" "White" "Draws" "Black" "Total" "Win%" "Avg Rating" "ECO" "Opening"}
+    set colNames [list [tr LichessColMove] [tr LichessColWhite] [tr LichessColDraws] [tr LichessColBlack] [tr LichessColTotal] [tr LichessColWinPct] [tr LichessColAvgRating] [tr LichessColECO] [tr LichessColOpening]]
 
     ttk::frame $w.top.movesframe
     pack $w.top.movesframe -fill both -expand 1
@@ -737,11 +737,11 @@ proc ::lichess_openex::displayResults {w jsonData fen} {
     # Top Games
     set hasTopGames [expr {$::lichess_openex::database ne "player"}]
     if {$hasTopGames} {
-        ttk::label $w.bottom.topglbl -text "Top Games:" -font font_Bold
+        ttk::label $w.bottom.topglbl -text [tr LichessTopGamesTitle] -font font_Bold
         pack $w.bottom.topglbl -anchor w -pady {4 2}
 
         set gameCols {san winner whiteName whiteRating blackName blackRating date}
-        set gameColNames {"Move" "Winner" "White" "W.Rating" "Black" "B.Rating" "Date"}
+        set gameColNames [list [tr LichessColMove] [tr LichessColWinner] [tr White] [tr LichessColWhiteRating] [tr Black] [tr LichessColBlackRating] [tr LichessColDate]]
 
         ttk::frame $w.bottom.topgframe
         pack $w.bottom.topgframe -fill both -expand 1
@@ -771,11 +771,11 @@ proc ::lichess_openex::displayResults {w jsonData fen} {
     }
 
     # Recent Games
-    ttk::label $w.bottom.recglbl -text "Recent Games:" -font font_Bold
+    ttk::label $w.bottom.recglbl -text [tr LichessRecentGamesTitle] -font font_Bold
     pack $w.bottom.recglbl -anchor w -pady {8 2}
 
     set gameCols {san winner whiteName whiteRating blackName blackRating date}
-    set gameColNames {"Move" "Winner" "White" "W.Rating" "Black" "B.Rating" "Date"}
+    set gameColNames [list [tr LichessColMove] [tr LichessColWinner] [tr White] [tr LichessColWhiteRating] [tr Black] [tr LichessColBlackRating] [tr LichessColDate]]
 
     ttk::frame $w.bottom.recgframe
     pack $w.bottom.recgframe -fill both -expand 1
@@ -806,7 +806,7 @@ proc ::lichess_openex::displayResults {w jsonData fen} {
     # --- Close button ---
     ttk::frame $w.btnbar
     pack $w.btnbar -fill x -pady {5 0}
-    ttk::button $w.btnbar.close -text "Close" -command "destroy $w"
+    ttk::button $w.btnbar.close -text [tr Close] -command "destroy $w"
     pack $w.btnbar.close -side right -padx 5
 
     bind $w <Escape> "destroy $w"
@@ -1016,8 +1016,8 @@ proc ::lichess_openex::onMoveClick {tree} {
     if {$san eq ""} return
 
     if {[catch {::addSanMove $san} err]} {
-        tk_messageBox -icon error -type ok -title "Lichess Opening Explorer" \
-            -message "Failed to add move $san:\n$err"
+        tk_messageBox -icon error -type ok -title [tr LichessTitle] \
+            -message [format [tr LichessFailedQuery] $err]
     } else {
         # Refresh the explorer for the new position
         ::lichess_openex::queryExplorer
@@ -1047,8 +1047,8 @@ proc ::lichess_openex::onGameClick {tree} {
     set whiteName [lindex [$tree item $sel -values] 2]
     set blackName [lindex [$tree item $sel -values] 4]
     set ans [tk_messageBox -icon question -type yesno \
-        -title "Load Game" \
-        -message "Load game $whiteName vs $blackName (ID: $gameId) into the clipbase?"]
+        -title [tr LichessLoadGameTitle] \
+        -message [format [tr LichessLoadGameConfirm] $whiteName $blackName $gameId]]
     if {$ans ne "yes"} return
 
     ::lichess_openex::loadGame $gameId
@@ -1064,14 +1064,14 @@ proc ::lichess_openex::loadGame {gameId} {
     # Fetch the PGN (raw response, not JSON)
     set pgnData ""
     if {[catch {set pgnData [::lichess_openex::httpGet $url $token 0]} err]} {
-        tk_messageBox -icon error -type ok -title "Lichess Opening Explorer" \
-            -message "Failed to fetch game $gameId:\n$err"
+        tk_messageBox -icon error -type ok -title [tr LichessTitle] \
+            -message [format [tr LichessFetchGameFailed] $gameId $err]
         return
     }
 
     if {$pgnData eq "" || [string match "*Not Found*" $pgnData]} {
-        tk_messageBox -icon error -type ok -title "Lichess Opening Explorer" \
-            -message "Game $gameId not found on Lichess."
+        tk_messageBox -icon error -type ok -title [tr LichessTitle] \
+            -message [format [tr LichessGameNotFound] $gameId]
         return
     }
 
@@ -1088,8 +1088,8 @@ proc ::lichess_openex::loadGame {gameId} {
         
         ::notify::GameChanged
     } err]} {
-        tk_messageBox -icon error -type ok -title "Lichess Opening Explorer" \
-            -message "Failed to import game:\n$err"
+        tk_messageBox -icon error -type ok -title [tr LichessTitle] \
+            -message [format [tr LichessImportFailed] $err]
         return
     }
 
@@ -1107,8 +1107,8 @@ proc ::lichess_openex::loadGame {gameId} {
         catch { ::windows::gamelist::Open $::clipbase_db }
     }
 
-    tk_messageBox -icon info -type ok -title "Lichess Opening Explorer" \
-        -message "Game loaded into clipbase successfully."
+    tk_messageBox -icon info -type ok -title [tr LichessTitle] \
+        -message [tr LichessGameLoaded]
 }
 
 # ::lichess_openex::formatNumber
@@ -1191,13 +1191,13 @@ proc ::lichess_openex::showError {w message} {
     ttk::frame $w.error
     pack $w.error -fill both -expand 1 -padx 20 -pady 10
 
-    ttk::label $w.error.title -text "Lichess Opening Explorer" -font font_Bold
+    ttk::label $w.error.title -text [tr LichessTitle] -font font_Bold
     pack $w.error.title -pady {0 10}
 
     ttk::label $w.error.msg -text $message -wraplength 500
     pack $w.error.msg -pady 10
 
-    ttk::button $w.error.close -text "Close" -command "destroy $w"
+    ttk::button $w.error.close -text [tr Close] -command "destroy $w"
     pack $w.error.close -pady {10 0}
 
     bind $w <Escape> "destroy $w"

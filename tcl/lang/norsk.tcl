@@ -316,6 +316,59 @@ menuText O GInfoMark "(Av)Merk dette partiet" 0
 menuText O GInfoInformant "Konfigurer informantverdier" 0
 
 # General buttons:
+translate O LichessOpenExplore {Lichess OpenExplore}
+translate O LichessTitle {Lichess åpner Explorer}
+translate O LichessApiTokenReq {Lichess API-token (påkrevd):}
+translate O LichessDatabase {Database:}
+translate O LichessMasters {Mestere}
+translate O LichessGames {Lichess spill}
+translate O LichessPlayer {Spiller}
+translate O LichessNumMoves {Antall trekk:}
+translate O LichessTopGames {Toppspill:}
+translate O LichessRecentGames {Siste spill:}
+translate O LichessSinceYear {Siden år:}
+translate O LichessUntilYear {Frem til år:}
+translate O LichessSinceMonth {Siden (ÅÅÅÅ-MM):}
+translate O LichessUntilMonth {Til (ÅÅÅÅ-MM):}
+translate O LichessTimeControls {Tidskontroller}
+translate O LichessRatingGroups {Rangeringsgrupper}
+translate O LichessPlayerName {Spillerens brukernavn:}
+translate O LichessPlayerColor {Spillerfarge:}
+translate O LichessWhite {Hvit}
+translate O LichessBlack {Svart}
+translate O LichessGameModes {Spillmoduser}
+translate O LichessRated {Vurdert}
+translate O LichessCasual {Tilfeldig}
+translate O LichessTokenRequired {Et Lichess API-token kreves.\n\nFra mars 2026 krever Lichess et API-token for å få tilgang til Opening Explorer. Vennligst skriv inn tokenet ditt i "Lichess API Token"-feltet ovenfor.\n\nDu kan opprette et token på: https://lichess.org/account/oauth/token}
+translate O LichessPlayerRequired {Vennligst skriv inn et Lichess-brukernavn for spillerdatabasen.}
+translate O LichessQuerying {Spørrer Lichess Åpner Explorer...}
+translate O LichessFailedQuery {Kunne ikke forespørre Lichess Opening Explorer:\n%s}
+translate O LichessPositionNotFound {Posisjon ikke funnet i %s-databasen.\n\nAPI-en returnerte:\n%s}
+translate O LichessResultsTitle {Lichess Åpner Utforsker - %s-database}
+translate O LichessSummaryInfo {Totalt: %s spill |  Hvite vinner: %s (%s%%) |  Trekninger: %s (%s%%) |  Svarte gevinster: %s (%s%%)}
+translate O LichessNoGamesFound {Ingen spill funnet for denne posisjonen.}
+translate O LichessMoves {Bevegelser:}
+translate O LichessColMove {Flytte}
+translate O LichessColWhite {Hvit}
+translate O LichessColDraws {Tegner}
+translate O LichessColBlack {Svart}
+translate O LichessColTotal {Total}
+translate O LichessColWinPct {Vinne%}
+translate O LichessColAvgRating {Gjennomsnittlig vurdering}
+translate O LichessColECO {ØKO}
+translate O LichessColOpening {Åpning}
+translate O LichessTopGamesTitle {Toppspill:}
+translate O LichessRecentGamesTitle {Nylige spill:}
+translate O LichessColWinner {Vinner}
+translate O LichessColWhiteRating {W.Rating}
+translate O LichessColBlackRating {B.Rating}
+translate O LichessColDate {Dato}
+translate O LichessLoadGameConfirm {Laste spillet %s mot %s (ID: %s) inn i klippbasen?}
+translate O LichessLoadGameTitle {Last inn spillet}
+translate O LichessFetchGameFailed {Kunne ikke hente spillet %s:\n%s}
+translate O LichessGameNotFound {Spillet %s ble ikke funnet på Lichess.}
+translate O LichessImportFailed {Kunne ikke importere spillet:\n%s}
+translate O LichessGameLoaded {Spillet ble lastet inn i clipbase.}
 translate O Back {Tilbake}
 translate O Apply {Bruk}
 translate O Browse {Browse} ;# ***

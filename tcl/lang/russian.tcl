@@ -313,6 +313,59 @@ menuText R GInfoMark "(Снять отметку) отметить эту пар
 menuText R GInfoInformant "Настройка значений подсказчика" 0
 
 # General buttons:
+translate R LichessOpenExplore {Личесс OpenExplore}
+translate R LichessTitle {Обозреватель дебютов Lichess}
+translate R LichessApiTokenReq {Токен Lichess API (обязательно):}
+translate R LichessDatabase {База данных:}
+translate R LichessMasters {Мастера}
+translate R LichessGames {Игры Lichess}
+translate R LichessPlayer {Игрок}
+translate R LichessNumMoves {Количество ходов:}
+translate R LichessTopGames {Лучшие игры:}
+translate R LichessRecentGames {Последние игры:}
+translate R LichessSinceYear {С года:}
+translate R LichessUntilYear {До года:}
+translate R LichessSinceMonth {С (ГГГГ-ММ):}
+translate R LichessUntilMonth {До (ГГГГ-ММ):}
+translate R LichessTimeControls {Контроль времени}
+translate R LichessRatingGroups {Рейтинговые группы}
+translate R LichessPlayerName {Имя пользователя игрока:}
+translate R LichessPlayerColor {Цвет игрока:}
+translate R LichessWhite {Белый}
+translate R LichessBlack {Черный}
+translate R LichessGameModes {Режимы игры}
+translate R LichessRated {Рейтинг}
+translate R LichessCasual {Повседневный}
+translate R LichessTokenRequired {Требуется токен API Lichess.\n\nС марта 2026 года Lichess требуется токен API для доступа к Opening Explorer. Введите свой токен в поле «Токен API Lichess» выше.\n\nВы можете создать токен по адресу: https://lichess.org/account/oauth/token.}
+translate R LichessPlayerRequired {Пожалуйста, введите имя пользователя Lichess для базы данных игроков.}
+translate R LichessQuerying {Запрос к Lichess Opening Explorer...}
+translate R LichessFailedQuery {Не удалось запросить Lichess Opening Explorer:\n%s}
+translate R LichessPositionNotFound {Позиция не найдена в базе данных %s.\n\nAPI вернул:\n%s}
+translate R LichessResultsTitle {Обозреватель дебютов Lichess - База данных %s}
+translate R LichessSummaryInfo {Итого: %s игр |  Белые побеждают: %s (%s%%) |  Ничья: %s (%s%%) |  Победа черных: %s (%s%%)}
+translate R LichessNoGamesFound {Для этой позиции игр не найдено.}
+translate R LichessMoves {Ходы:}
+translate R LichessColMove {Ход}
+translate R LichessColWhite {Белый}
+translate R LichessColDraws {Ничьи}
+translate R LichessColBlack {Черный}
+translate R LichessColTotal {Общий}
+translate R LichessColWinPct {Процент побед}
+translate R LichessColAvgRating {Средний рейтинг}
+translate R LichessColECO {ЭКО}
+translate R LichessColOpening {Открытие}
+translate R LichessTopGamesTitle {Лучшие игры:}
+translate R LichessRecentGamesTitle {Последние игры:}
+translate R LichessColWinner {Победитель}
+translate R LichessColWhiteRating {W.Рейтинг}
+translate R LichessColBlackRating {Б.Рейтинг}
+translate R LichessColDate {Дата}
+translate R LichessLoadGameConfirm {Загрузить игру %s vs %s (ID: %s) в базу клипов?}
+translate R LichessLoadGameTitle {Загрузить игру}
+translate R LichessFetchGameFailed {Не удалось загрузить игру %s:\n%s.}
+translate R LichessGameNotFound {Игра %s не найдена на Lichess.}
+translate R LichessImportFailed {Не удалось импортировать игру:\n%s}
+translate R LichessGameLoaded {Игра успешно загружена в базу клипов.}
 translate R Back {Назад}
 translate R Apply {Применять}
 translate R Browse {Просмотр}

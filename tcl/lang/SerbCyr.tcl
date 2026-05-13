@@ -347,6 +347,59 @@ menuText J GInfoMark "(Уни)маркирај ову игру" 4
 menuText J GInfoInformant "Конфигуришите вредности информатора" 0
 
 # General buttons:
+translate J LichessOpenExplore {Лицхесс ОпенЕкплоре}
+translate J LichessTitle {Лицхесс Опенинг Екплорер}
+translate J LichessApiTokenReq {Лицхесс АПИ токен (обавезно):}
+translate J LichessDatabase {База података:}
+translate J LichessMasters {Мастерс}
+translate J LichessGames {Лицхесс Гамес}
+translate J LichessPlayer {Плаиер}
+translate J LichessNumMoves {Број потеза:}
+translate J LichessTopGames {Најбоље игре:}
+translate J LichessRecentGames {Недавне игре:}
+translate J LichessSinceYear {Од године:}
+translate J LichessUntilYear {До године:}
+translate J LichessSinceMonth {Од (ГГГГ-ММ):}
+translate J LichessUntilMonth {До (ГГГГ-ММ):}
+translate J LichessTimeControls {Контроле времена}
+translate J LichessRatingGroups {Групе за оцењивање}
+translate J LichessPlayerName {Корисничко име играча:}
+translate J LichessPlayerColor {Боја играча:}
+translate J LichessWhite {Бела}
+translate J LichessBlack {Црно}
+translate J LichessGameModes {Режими игре}
+translate J LichessRated {Оцењено}
+translate J LichessCasual {Цасуал}
+translate J LichessTokenRequired {Лицхесс АПИ токен је неопходан.\n\nОд марта 2026. Лицхесс захтева АПИ токен за приступ Опенинг Екплорер-у. Унесите свој токен у поље „Лицхесс АПИ Токен" изнад.\n\nМожете да направите токен на: https://lichess.org/account/oauth/token}
+translate J LichessPlayerRequired {Унесите Лицхесс корисничко име за базу података играча.}
+translate J LichessQuerying {Упит за Лицхесс Отварање Екплорера...}
+translate J LichessFailedQuery {Упит за Лицхесс Опенинг Екплорер није успео:\n%s}
+translate J LichessPositionNotFound {Позиција није пронађена у бази података %s.\n\nАПИ је вратио:\n%s}
+translate J LichessResultsTitle {Лицхесс Опенинг Екплорер - %s база података}
+translate J LichessSummaryInfo {Укупно: %s игара |  Бели победе: %s (%s%%) |  Извлачење: %s (%s%%) |  Победе црних: %s (%s%%)}
+translate J LichessNoGamesFound {Нису пронађене игре за ову позицију.}
+translate J LichessMoves {Покрети:}
+translate J LichessColMove {Помери се}
+translate J LichessColWhite {Бела}
+translate J LichessColDraws {Дравс}
+translate J LichessColBlack {Црно}
+translate J LichessColTotal {Укупно}
+translate J LichessColWinPct {победа%}
+translate J LichessColAvgRating {Просечна оцена}
+translate J LichessColECO {ЕЦО}
+translate J LichessColOpening {Отварање}
+translate J LichessTopGamesTitle {Најбоље игре:}
+translate J LichessRecentGamesTitle {Недавне игре:}
+translate J LichessColWinner {Победник}
+translate J LichessColWhiteRating {В.Ратинг}
+translate J LichessColBlackRating {Б.Ратинг}
+translate J LichessColDate {Датум}
+translate J LichessLoadGameConfirm {Учитати игру %с вс %с (ИД: %с) у базу клипова?}
+translate J LichessLoadGameTitle {Лоад Гаме}
+translate J LichessFetchGameFailed {Преузимање игре %с није успело:\н%с}
+translate J LichessGameNotFound {Игра %с није пронађена на Лицхесс-у.}
+translate J LichessImportFailed {Увоз игре није успео:\н%с}
+translate J LichessGameLoaded {Игра је успешно учитана у базу клипова.}
 translate J Back {Назад}
 translate J Apply {Примени}
 translate J Browse {Прегледај}

@@ -340,6 +340,59 @@ menuText D GInfoMark "(Un)Markiere diese Partie" 4
 menuText D GInfoInformant "Informatorwerte konfigurieren" 0
 
 # General buttons:
+translate D LichessOpenExplore {Lichess OpenExplore}
+translate D LichessTitle {Lichess Opening Explorer}
+translate D LichessApiTokenReq {Lichess API-Token (erforderlich):}
+translate D LichessDatabase {Datenbank:}
+translate D LichessMasters {Meister}
+translate D LichessGames {Lichess-Spiele}
+translate D LichessPlayer {Spieler}
+translate D LichessNumMoves {Anzahl der Züge:}
+translate D LichessTopGames {Top-Spiele:}
+translate D LichessRecentGames {Aktuelle Spiele:}
+translate D LichessSinceYear {Seit Jahr:}
+translate D LichessUntilYear {Bis Jahr:}
+translate D LichessSinceMonth {Seit (JJJJ-MM):}
+translate D LichessUntilMonth {Bis (JJJJ-MM):}
+translate D LichessTimeControls {Zeitkontrollen}
+translate D LichessRatingGroups {Bewertungsgruppen}
+translate D LichessPlayerName {Benutzername des Spielers:}
+translate D LichessPlayerColor {Spielerfarbe:}
+translate D LichessWhite {Weiß}
+translate D LichessBlack {Schwarz}
+translate D LichessGameModes {Spielmodi}
+translate D LichessRated {Bewertet}
+translate D LichessCasual {Lässig}
+translate D LichessTokenRequired {Ein Lichess-API-Token ist erforderlich.\n\nAb März 2026 benötigt Lichess ein API-Token, um auf den Opening Explorer zuzugreifen. Bitte geben Sie Ihren Token oben in das Feld „Lichess API Token“ ein.\n\nSie können einen Token erstellen unter: https://lichess.org/account/oauth/token}
+translate D LichessPlayerRequired {Bitte geben Sie einen Lichess-Benutzernamen für die Spielerdatenbank ein.}
+translate D LichessQuerying {Lichess-Explorer wird abgefragt...}
+translate D LichessFailedQuery {Abfrage des Lichess-Öffnungs-Explorers fehlgeschlagen:\n%s}
+translate D LichessPositionNotFound {Position in der %s-Datenbank nicht gefunden.\n\nDie API hat Folgendes zurückgegeben:\n%s}
+translate D LichessResultsTitle {Lichess-Explorer öffnen – %s-Datenbank}
+translate D LichessSummaryInfo {Gesamt: %s Spiele |  Weiß gewinnt: %s (%s%%) |  Zieht: %s (%s%%) |  Schwarz gewinnt: %s (%s%%)}
+translate D LichessNoGamesFound {Für diese Position wurden keine Spiele gefunden.}
+translate D LichessMoves {Züge:}
+translate D LichessColMove {Zug}
+translate D LichessColWhite {Weiß}
+translate D LichessColDraws {Remis}
+translate D LichessColBlack {Schwarz}
+translate D LichessColTotal {Gesamt}
+translate D LichessColWinPct {Gewinn %}
+translate D LichessColAvgRating {Durchschnittliche Bewertung}
+translate D LichessColECO {ECO}
+translate D LichessColOpening {Öffnung}
+translate D LichessTopGamesTitle {Top-Spiele:}
+translate D LichessRecentGamesTitle {Letzte Spiele:}
+translate D LichessColWinner {Gewinner}
+translate D LichessColWhiteRating {W.Bewertung}
+translate D LichessColBlackRating {B.Bewertung}
+translate D LichessColDate {Datum}
+translate D LichessLoadGameConfirm {Spiel %s gegen %s (ID: %s) in die Clipbase laden?}
+translate D LichessLoadGameTitle {Spiel laden}
+translate D LichessFetchGameFailed {Das Spiel %s:\n%s konnte nicht abgerufen werden}
+translate D LichessGameNotFound {Spiel %s wurde auf Lichess nicht gefunden.}
+translate D LichessImportFailed {Spiel konnte nicht importiert werden:\n%s}
+translate D LichessGameLoaded {Das Spiel wurde erfolgreich in Clipbase geladen.}
 translate D Back {Zurück}
 translate D Apply {Anwenden}
 translate D Browse {Auswählen}

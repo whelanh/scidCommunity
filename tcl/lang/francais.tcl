@@ -322,6 +322,59 @@ menuText F GInfoMark "(Dé)Marquer cette partie" 4
 menuText F GInfoInformant "Configurer les valeurs de notation" 0
 
 # General buttons:
+translate F LichessOpenExplore {Lichess OpenExplore}
+translate F LichessTitle {Explorateur d'ouverture de lichess}
+translate F LichessApiTokenReq {Jeton API Lichess (obligatoire) :}
+translate F LichessDatabase {Base de données :}
+translate F LichessMasters {Maîtres}
+translate F LichessGames {Jeux de lichess}
+translate F LichessPlayer {Joueur}
+translate F LichessNumMoves {Nombre de coups :}
+translate F LichessTopGames {Meilleurs jeux :}
+translate F LichessRecentGames {Jeux récents :}
+translate F LichessSinceYear {Depuis l'année :}
+translate F LichessUntilYear {Jusqu'à l'année :}
+translate F LichessSinceMonth {Depuis (AAAA-MM) :}
+translate F LichessUntilMonth {Jusqu'au (AAAA-MM) :}
+translate F LichessTimeControls {Contrôles de temps}
+translate F LichessRatingGroups {Groupes de notation}
+translate F LichessPlayerName {Nom d'utilisateur du joueur :}
+translate F LichessPlayerColor {Couleur du joueur :}
+translate F LichessWhite {Blanc}
+translate F LichessBlack {Noir}
+translate F LichessGameModes {Modes de jeu}
+translate F LichessRated {Noté}
+translate F LichessCasual {Occasionnel}
+translate F LichessTokenRequired {Un jeton API Lichess est requis.\n\nDepuis mars 2026, Lichess nécessite un jeton API pour accéder à l'explorateur d'ouverture. Veuillez saisir votre jeton dans le champ "Jeton API Lichess" ci-dessus.\n\nVous pouvez créer un jeton sur : https://lichess.org/account/oauth/token}
+translate F LichessPlayerRequired {Veuillez saisir un nom d'utilisateur Lichess pour la base de données Player.}
+translate F LichessQuerying {Interrogation de l'explorateur d'ouverture de Lichess...}
+translate F LichessFailedQuery {Échec de l'interrogation de l'explorateur d'ouverture Lichess :\n%s}
+translate F LichessPositionNotFound {Position introuvable dans la base de données %s.\n\nL'API a renvoyé :\n%s}
+translate F LichessResultsTitle {Explorateur d'ouverture de Lichess - Base de données %s}
+translate F LichessSummaryInfo {Total : %s jeux |  Les blancs gagnent : %s (%s%%) |  Tirages : %s (%s%%) |  Les Noirs gagnent : %s (%s%%)}
+translate F LichessNoGamesFound {Aucun jeu trouvé pour ce poste.}
+translate F LichessMoves {Déplacements :}
+translate F LichessColMove {Se déplacer}
+translate F LichessColWhite {Blanc}
+translate F LichessColDraws {Tirages}
+translate F LichessColBlack {Noir}
+translate F LichessColTotal {Total}
+translate F LichessColWinPct {Gagner%}
+translate F LichessColAvgRating {Note moyenne}
+translate F LichessColECO {ÉCO}
+translate F LichessColOpening {Ouverture}
+translate F LichessTopGamesTitle {Meilleurs jeux :}
+translate F LichessRecentGamesTitle {Jeux récents :}
+translate F LichessColWinner {Gagnant}
+translate F LichessColWhiteRating {Note W.}
+translate F LichessColBlackRating {B. Note}
+translate F LichessColDate {Date}
+translate F LichessLoadGameConfirm {Charger le jeu %s contre %s (ID : %s) dans la base de clips ?}
+translate F LichessLoadGameTitle {Charger le jeu}
+translate F LichessFetchGameFailed {Échec de la récupération du jeu %s :\n%s}
+translate F LichessGameNotFound {Jeu %s introuvable sur Lichess.}
+translate F LichessImportFailed {Échec de l'importation du jeu :\n%s}
+translate F LichessGameLoaded {Jeu chargé avec succès dans clipbase.}
 translate F Back {Retour}
 translate F Apply {Appliquer}
 translate F Browse {Parcourir}
