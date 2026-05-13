@@ -718,8 +718,6 @@ proc gameSave { gnum } {
     wm title $w "scidCommunity: [tr GameReplace]"
   }
   set gsaveNum $gnum
-  tk::PlaceWindow $w pointer
-  grab $w
 
   set f [ttk::frame $w.g]
   ttk_text $f.list -height 9 -width 40 -state disabled \
@@ -932,6 +930,10 @@ proc gameSave { gnum } {
     #pack .save.buttons.prev -side left -padx 10
   }
   packdlgbuttons .save.buttons.cancel .save.buttons.save
+
+  update idletasks
+  tk::PlaceWindow $w widget .
+  grab $w
 
   bind .save <Escape> { focus .; destroy .save; }
   focus .save.g.entryevent
