@@ -362,7 +362,7 @@ translate U LichessUntilMonth {asti (VVVV-KK):}
 translate U LichessTimeControls {Aikasäätimet}
 translate U LichessRatingGroups {Luokitusryhmät}
 translate U LichessPlayerName {Pelaajan käyttäjätunnus:}
-translate U LichessPlayerColor {Soittimen väri:}
+translate U LichessPlayerColor {Pelaajan väri:}
 translate U LichessWhite {Valkoinen}
 translate U LichessBlack {Musta}
 translate U LichessGameModes {Pelitilat}
@@ -374,12 +374,12 @@ translate U LichessQuerying {Kysellään Lichess Avaa Explorer...}
 translate U LichessFailedQuery {Lichess Opening Explorerin kysely epäonnistui:\n%s}
 translate U LichessPositionNotFound {Sijaintia ei löydy %s-tietokannasta.\n\nAPI palautti:\n%s}
 translate U LichessResultsTitle {Lichess Opening Explorer - %s-tietokanta}
-translate U LichessSummaryInfo {Yhteensä: %s peliä |  Valkoiset voitot: %s (%s%%) |  Tasot: %s (%s%%) |  Mustat voitot: %s (%s%%)}
+translate U LichessSummaryInfo {Yhteensä: %s peliä |  Valkoiset voitot: %s (%s%%) |  Tasapelit: %s (%s%%) |  Mustat voitot: %s (%s%%)}
 translate U LichessNoGamesFound {Tähän paikkaan ei löytynyt pelejä.}
-translate U LichessMoves {Liikkeitä:}
-translate U LichessColMove {Liikkua}
+translate U LichessMoves {Siirtoja:}
+translate U LichessColMove {Siirto}
 translate U LichessColWhite {Valkoinen}
-translate U LichessColDraws {Piirtää}
+translate U LichessColDraws {Tasapeli}
 translate U LichessColBlack {Musta}
 translate U LichessColTotal {Kokonais}
 translate U LichessColWinPct {Voittaa%}

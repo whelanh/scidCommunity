@@ -318,7 +318,7 @@ translate R LichessTitle {Обозреватель дебютов Lichess}
 translate R LichessApiTokenReq {Токен Lichess API (обязательно):}
 translate R LichessDatabase {База данных:}
 translate R LichessMasters {Мастера}
-translate R LichessGames {Лишажные игры}
+translate R LichessGames {Игры Lichess}
 translate R LichessPlayer {Игрок}
 translate R LichessNumMoves {Количество ходов:}
 translate R LichessTopGames {Лучшие игры:}
@@ -345,12 +345,12 @@ translate R LichessResultsTitle {Обозреватель дебютов Lichess
 translate R LichessSummaryInfo {Итого: %s игр |  Белые побеждают: %s (%s%%) |  Ничья: %s (%s%%) |  Победа черных: %s (%s%%)}
 translate R LichessNoGamesFound {Для этой позиции игр не найдено.}
 translate R LichessMoves {Ходы:}
-translate R LichessColMove {Двигаться}
+translate R LichessColMove {Ход}
 translate R LichessColWhite {Белый}
 translate R LichessColDraws {Ничьи}
 translate R LichessColBlack {Черный}
 translate R LichessColTotal {Общий}
-translate R LichessColWinPct {Победить%}
+translate R LichessColWinPct {Процент побед}
 translate R LichessColAvgRating {Средний рейтинг}
 translate R LichessColECO {ЭКО}
 translate R LichessColOpening {Открытие}

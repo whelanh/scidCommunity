@@ -287,7 +287,7 @@ translate M LichessTitle {Lichess 开放资源管理器}
 translate M LichessApiTokenReq {Lichess API 令牌（必需）：}
 translate M LichessDatabase {数据库：}
 translate M LichessMasters {大师赛}
-translate M LichessGames {巫妖游戏}
+translate M LichessGames {对局}
 translate M LichessPlayer {玩家}
 translate M LichessNumMoves {动作次数：}
 translate M LichessTopGames {热门游戏：}
@@ -300,11 +300,11 @@ translate M LichessTimeControls {时间控制}
 translate M LichessRatingGroups {评级组}
 translate M LichessPlayerName {玩家用户名：}
 translate M LichessPlayerColor {球员颜色：}
-translate M LichessWhite {白色的}
-translate M LichessBlack {黑色的}
+translate M LichessWhite {白方}
+translate M LichessBlack {黑方}
 translate M LichessGameModes {游戏模式}
-translate M LichessRated {额定}
-translate M LichessCasual {随意的}
+translate M LichessRated {有等级分}
+translate M LichessCasual {休闲}
 translate M LichessTokenRequired {需要 Lichess API 令牌。\n\n自 2026 年 3 月起，Lichess 需要 API 令牌才能访问 Opening Explorer。请在上面的“Lichess API 令牌”字段中输入您的令牌。\n\n您可以在以下位置创建令牌：https://lichess.org/account/oauth/token}
 translate M LichessPlayerRequired {请输入玩家数据库的 Lichess 用户名。}
 translate M LichessQuerying {正在查询 Lichess 打开资源管理器...}
@@ -316,12 +316,12 @@ translate M LichessNoGamesFound {没有找到适合该职位的游戏。}
 translate M LichessMoves {动作：}
 translate M LichessColMove {移动}
 translate M LichessColWhite {白色的}
-translate M LichessColDraws {抽奖}
+translate M LichessColDraws {和局}
 translate M LichessColBlack {黑色的}
 translate M LichessColTotal {全部的}
 translate M LichessColWinPct {赢％}
 translate M LichessColAvgRating {平均评分}
-translate M LichessColECO {生态系统}
+translate M LichessColECO {ECO}
 translate M LichessColOpening {开幕}
 translate M LichessTopGamesTitle {热门游戏：}
 translate M LichessRecentGamesTitle {最近的比赛：}
@@ -329,12 +329,12 @@ translate M LichessColWinner {优胜者}
 translate M LichessColWhiteRating {W.评级}
 translate M LichessColBlackRating {B.评级}
 translate M LichessColDate {日期}
-translate M LichessLoadGameConfirm {将游戏 %s vs %s（ID：%s）加载到剪辑库中吗？}
+translate M LichessLoadGameConfirm {将游戏 %s vs %s（ID：%s）加载到棋谱库中吗？}
 translate M LichessLoadGameTitle {加载游戏}
 translate M LichessFetchGameFailed {无法获取游戏 %s:\n%s}
 translate M LichessGameNotFound {在 Lichess 上找不到游戏 %s。}
 translate M LichessImportFailed {导入游戏失败:\n%s}
-translate M LichessGameLoaded {游戏已成功加载到剪辑库中。}
+translate M LichessGameLoaded {游戏已成功加载到棋谱库中。}
 translate M Back {Back}
 translate M Apply {应用}
 translate M Browse {浏览}

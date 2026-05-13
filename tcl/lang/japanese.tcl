@@ -370,7 +370,7 @@ translate A LichessBlack {黒}
 translate A LichessGameModes {ゲームモード}
 translate A LichessRated {評価済み}
 translate A LichessCasual {カジュアル}
-translate A LichessTokenRequired {Lichess API トークンが必要です。\n\n2026 年 3 月現在、Lichess はオープニング エクスプローラーにアクセスするために API トークンを必要とします。上の「Lichess API トークン」フィールドにトークンを入力してください。\n\nトークンは https://lichess.org/account/oauth/token で作成できます。}
+translate A LichessTokenRequired {Lichess API トークンが必要です。\n\n現在、Lichess はオープニング エクスプローラーにアクセスするために API トークンを必要とします。上の「Lichess API トークン」フィールドにトークンを入力してください。\n\nトークンは https://lichess.org/account/oauth/token で作成できます。}
 translate A LichessPlayerRequired {Player データベースの Lichess ユーザー名を入力してください。}
 translate A LichessQuerying {Lichess にクエリを実行しています エクスプローラーを開いています...}
 translate A LichessFailedQuery {エクスプローラーを開く Lichess のクエリに失敗しました:\n%s}

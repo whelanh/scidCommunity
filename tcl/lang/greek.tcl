@@ -338,8 +338,8 @@ menuText G GInfoMark "(Μη-)Σημείωση αυτής της παρτίδας
 menuText G GInfoInformant "Ρύθμιση τιμών πληροφορίας" 0
 
 # General buttons:
-translate G LichessOpenExplore {Lichess OpenExplore}
-translate G LichessTitle {Lichess Opening Explorer}
+translate G LichessOpenExplore {Lichess Άνοιγμα Εξερευνητή}
+translate G LichessTitle {Εξερευνητής Ανοιγμάτων Lichess}
 translate G LichessApiTokenReq {Token Lichess API (απαιτείται):}
 translate G LichessDatabase {Βάση δεδομένων:}
 translate G LichessMasters {Masters}

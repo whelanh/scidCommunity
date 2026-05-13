@@ -330,7 +330,7 @@ translate V LichessBlack {שָׁחוֹר}
 translate V LichessGameModes {מצבי משחק}
 translate V LichessRated {מדורג}
 translate V LichessCasual {אַגָבִי}
-translate V LichessTokenRequired {נדרש אסימון API של Lichess.\n\nנכון למרץ 2026, Lichess דורש אסימון API כדי לגשת ל-Oping Explorer. אנא הזן את האסימון שלך בשדה "אסימון API של Lichess" למעלה.\n\nתוכל ליצור אסימון בכתובת: https://lichess.org/account/oauth/token}
+translate V LichessTokenRequired {נדרש אסימון API של Lichess.\n\nנכון למרץ 2026, Lichess דורש אסימון API כדי לגשת ל-Opening Explorer. אנא הזן את האסימון שלך בשדה "אסימון API של Lichess" למעלה.\n\nתוכל ליצור אסימון בכתובת: https://lichess.org/account/oauth/token}
 translate V LichessPlayerRequired {אנא הזן שם משתמש של Lichess עבור מסד הנתונים של הנגן.}
 translate V LichessQuerying {שאילתה של Lichess פותח את סייר...}
 translate V LichessFailedQuery {השאילתה של Lichess Opening Explorer נכשלה:\n%s}

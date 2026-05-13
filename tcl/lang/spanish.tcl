@@ -347,12 +347,12 @@ menuText S GInfoMark "(No)Marcar esta partida" 4
 menuText S GInfoInformant "Configurar valores de información" 0
 
 # General buttons:
-translate S LichessOpenExplore {Lichess OpenExplorar}
+translate S LichessOpenExplore {Lichess — Explorar}
 translate S LichessTitle {Explorador de aperturas de Lichess}
 translate S LichessApiTokenReq {Token API de Lichess (obligatorio):}
 translate S LichessDatabase {Base de datos:}
 translate S LichessMasters {Maestros}
-translate S LichessGames {Juegos de Liches}
+translate S LichessGames {Juegos de Lichess}
 translate S LichessPlayer {Jugador}
 translate S LichessNumMoves {Número de movimientos:}
 translate S LichessTopGames {Juegos destacados:}
@@ -379,12 +379,12 @@ translate S LichessResultsTitle {Explorador de aperturas de Lichess - Base de da
 translate S LichessSummaryInfo {Total: %s juegos |  Las blancas ganan: %s (%s%%) |  Sorteos: %s (%s%%) |  Las negras ganan: %s (%s%%)}
 translate S LichessNoGamesFound {No se encontraron juegos para esta posición.}
 translate S LichessMoves {Movimientos:}
-translate S LichessColMove {Mover}
+translate S LichessColMove {Movimiento}
 translate S LichessColWhite {Blanco}
 translate S LichessColDraws {Sorteos}
 translate S LichessColBlack {Negro}
 translate S LichessColTotal {Total}
-translate S LichessColWinPct {Ganar%}
+translate S LichessColWinPct {Porcentaje de victorias (%)}
 translate S LichessColAvgRating {Calificación promedio}
 translate S LichessColECO {ECO}
 translate S LichessColOpening {Apertura}

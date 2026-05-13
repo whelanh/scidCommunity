@@ -335,7 +335,7 @@ translate H LichessPlayerColor {Játékos színe:}
 translate H LichessWhite {Fehér}
 translate H LichessBlack {Fekete}
 translate H LichessGameModes {Játékmódok}
-translate H LichessRated {Névleges}
+translate H LichessRated {Értékelt}
 translate H LichessCasual {Alkalmi}
 translate H LichessTokenRequired {Lichess API token szükséges.\n\n2026 márciusától a Lichessnek API-tokenre van szüksége az Opening Explorer eléréséhez. Kérjük, írja be a tokent a fenti „Lichess API Token” mezőbe.\n\nTokent a következő címen hozhat létre: https://lichess.org/account/oauth/token}
 translate H LichessPlayerRequired {Adjon meg egy Lichess felhasználónevet a Player adatbázishoz.}
@@ -346,7 +346,7 @@ translate H LichessResultsTitle {Lichess Opening Explorer - %s adatbázis}
 translate H LichessSummaryInfo {Összesen: %s játék |  Fehér nyer: %s (%s%%) |  Sorsolás: %s (%s%%) |  Fekete győzelem: %s (%s%%)}
 translate H LichessNoGamesFound {Nem található játék erre a pozícióra.}
 translate H LichessMoves {Mozgás:}
-translate H LichessColMove {Mozog}
+translate H LichessColMove {Lépés}
 translate H LichessColWhite {Fehér}
 translate H LichessColDraws {Döntetlen}
 translate H LichessColBlack {Fekete}

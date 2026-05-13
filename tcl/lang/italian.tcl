@@ -348,12 +348,12 @@ translate I LichessNoGamesFound {Nessun gioco trovato per questa posizione.}
 translate I LichessMoves {Mosse:}
 translate I LichessColMove {Mossa}
 translate I LichessColWhite {Bianco}
-translate I LichessColDraws {Disegna}
+translate I LichessColDraws {Patte}
 translate I LichessColBlack {Nero}
 translate I LichessColTotal {Totale}
 translate I LichessColWinPct {Vincita%}
 translate I LichessColAvgRating {Valutazione media}
-translate I LichessColECO {ECOLOGICO}
+translate I LichessColECO {ECO}
 translate I LichessColOpening {Apertura}
 translate I LichessTopGamesTitle {I migliori giochi:}
 translate I LichessRecentGamesTitle {Giochi recenti:}

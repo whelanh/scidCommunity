@@ -340,12 +340,12 @@ translate h LichessNoGamesFound {इस पद के लिए कोई गे
 translate h LichessMoves {चालें:}
 translate h LichessColMove {कदम}
 translate h LichessColWhite {सफ़ेद}
-translate h LichessColDraws {खींचता}
+translate h LichessColDraws {ड्रॉ}
 translate h LichessColBlack {काला}
 translate h LichessColTotal {कुल}
 translate h LichessColWinPct {जीतना%}
 translate h LichessColAvgRating {औसत रेटिंग}
-translate h LichessColECO {पर्यावरण}
+translate h LichessColECO {ECO}
 translate h LichessColOpening {प्रारंभिक}
 translate h LichessTopGamesTitle {शीर्ष खेल:}
 translate h LichessRecentGamesTitle {हाल के खेल:}

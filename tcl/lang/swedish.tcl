@@ -346,15 +346,15 @@ translate W LichessQuerying {Frågar Lichess Öppnar Explorer...}
 translate W LichessFailedQuery {Det gick inte att fråga Lichess Opening Explorer:\n%s}
 translate W LichessPositionNotFound {Position hittades inte i %s databasen.\n\nAPI:et returnerade:\n%s}
 translate W LichessResultsTitle {Lichess öppnar Explorer - %s databas}
-translate W LichessSummaryInfo {Totalt: %s spel |  Vita vinster: %s (%s%%) |  Dragningar: %s (%s%%) |  Svarta vinster: %s (%s%%)}
+translate W LichessSummaryInfo {Totalt: %s spel |  Vita vinster: %s (%s%%) |  Remi: %s (%s%%) |  Svarta vinster: %s (%s%%)}
 translate W LichessNoGamesFound {Inga spel hittades för denna position.}
-translate W LichessMoves {Rörelser:}
+translate W LichessMoves {Drag:}
 translate W LichessColMove {Flytta}
 translate W LichessColWhite {Vit}
-translate W LichessColDraws {Ritar}
+translate W LichessColDraws {Remi}
 translate W LichessColBlack {Svart}
 translate W LichessColTotal {Total}
-translate W LichessColWinPct {Vinna%}
+translate W LichessColWinPct {Vinster%}
 translate W LichessColAvgRating {Genomsnittligt betyg}
 translate W LichessColECO {ECO}
 translate W LichessColOpening {Öppning}

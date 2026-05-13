@@ -371,15 +371,15 @@ translate D LichessPositionNotFound {Position in der %s-Datenbank nicht gefunden
 translate D LichessResultsTitle {Lichess-Explorer öffnen – %s-Datenbank}
 translate D LichessSummaryInfo {Gesamt: %s Spiele |  Weiß gewinnt: %s (%s%%) |  Zieht: %s (%s%%) |  Schwarz gewinnt: %s (%s%%)}
 translate D LichessNoGamesFound {Für diese Position wurden keine Spiele gefunden.}
-translate D LichessMoves {Bewegungen:}
-translate D LichessColMove {Bewegen}
+translate D LichessMoves {Züge:}
+translate D LichessColMove {Zug}
 translate D LichessColWhite {Weiß}
-translate D LichessColDraws {Zieht}
+translate D LichessColDraws {Remis}
 translate D LichessColBlack {Schwarz}
 translate D LichessColTotal {Gesamt}
-translate D LichessColWinPct {Gewinnen%}
+translate D LichessColWinPct {Gewinn %}
 translate D LichessColAvgRating {Durchschnittliche Bewertung}
-translate D LichessColECO {ÖKO}
+translate D LichessColECO {ECO}
 translate D LichessColOpening {Öffnung}
 translate D LichessTopGamesTitle {Top-Spiele:}
 translate D LichessRecentGamesTitle {Letzte Spiele:}

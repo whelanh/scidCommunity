@@ -337,10 +337,10 @@ translate Z LichessPositionNotFound {Nafasi haijapatikana katika hifadhidata ya 
 translate Z LichessResultsTitle {Lichess Ufunguzi Explorer - %s Hifadhidata}
 translate Z LichessSummaryInfo {Jumla: %s michezo |  Ushindi mweupe: %s (%s%%) |  Michoro: %s (%s%%) |  Washindi weusi: %s (%s%%)}
 translate Z LichessNoGamesFound {Hakuna michezo iliyopatikana kwa nafasi hii.}
-translate Z LichessMoves {Vihamisho:}
-translate Z LichessColMove {Sogeza}
+translate Z LichessMoves {Harakati:}
+translate Z LichessColMove {Mwendo}
 translate Z LichessColWhite {Nyeupe}
-translate Z LichessColDraws {Huchora}
+translate Z LichessColDraws {Droo}
 translate Z LichessColBlack {Nyeusi}
 translate Z LichessColTotal {Jumla}
 translate Z LichessColWinPct {Shinda%}

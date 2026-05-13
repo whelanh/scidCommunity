@@ -370,13 +370,13 @@ translate J LichessBlack {Црно}
 translate J LichessGameModes {Режими игре}
 translate J LichessRated {Оцењено}
 translate J LichessCasual {Цасуал}
-translate J LichessTokenRequired {Лицхесс АПИ токен је неопходан.\н\нОд марта 2026. Лицхесс захтева АПИ токен за приступ Опенинг Екплорер-у. Унесите свој токен у поље „Лицхесс АПИ Токен“ изнад.\н\нМожете да направите токен на: хттпс://лицхесс.орг/аццоунт/оаутх/токен}
+translate J LichessTokenRequired {Лицхесс АПИ токен је неопходан.\n\nОд марта 2026. Лицхесс захтева АПИ токен за приступ Опенинг Екплорер-у. Унесите свој токен у поље „Лицхесс АПИ Токен" изнад.\n\nМожете да направите токен на: https://lichess.org/account/oauth/token}
 translate J LichessPlayerRequired {Унесите Лицхесс корисничко име за базу података играча.}
 translate J LichessQuerying {Упит за Лицхесс Отварање Екплорера...}
-translate J LichessFailedQuery {Упит за Лицхесс Опенинг Екплорер није успео:\н%с}
-translate J LichessPositionNotFound {Позиција није пронађена у бази података %с.\н\нАПИ је вратио:\н%с}
-translate J LichessResultsTitle {Лицхесс Опенинг Екплорер - %с база података}
-translate J LichessSummaryInfo {Укупно: %с игара |  Бели победе: %с (%с%%) |  Извлачење: %с (%с%%) |  Победе црних: %с (%с%%)}
+translate J LichessFailedQuery {Упит за Лицхесс Опенинг Екплорер није успео:\n%s}
+translate J LichessPositionNotFound {Позиција није пронађена у бази података %s.\n\nАПИ је вратио:\n%s}
+translate J LichessResultsTitle {Лицхесс Опенинг Екплорер - %s база података}
+translate J LichessSummaryInfo {Укупно: %s игара |  Бели победе: %s (%s%%) |  Извлачење: %s (%s%%) |  Победе црних: %s (%s%%)}
 translate J LichessNoGamesFound {Нису пронађене игре за ову позицију.}
 translate J LichessMoves {Покрети:}
 translate J LichessColMove {Помери се}
