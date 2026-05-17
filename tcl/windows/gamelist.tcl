@@ -174,8 +174,11 @@ proc ::windows::gamelist::ExportSelected {{w} {glist_w}} {
 	if {$fName == ""} { return }
 	progressWindow "Scid" "Exporting selected games..." $::tr(Cancel)
 	if {[file extension $fName] == ""} { append fName ".pgn" }
-	# Use the cross-page persistent store, not just the visible treeview selection
-	set all_sel [expr {[info exists ::glistMultiSel($glist_w)] ? $::glistMultiSel($glist_w) : [$glist_w selection]}]
+	if {[info exists ::glistMultiSel($glist_w)]} {
+		set all_sel $::glistMultiSel($glist_w)
+	} else {
+		set all_sel [$glist_w selection]
+	}
 	set err [catch {
 		set fp [open $fName w]
 		set savedGameNum [sc_game number]
@@ -836,7 +839,11 @@ proc glist.create {{w} {layout} {reset_layout false}} {
     break
   }
   bind $w.glist <Delete> {
-    set _all_sel [expr {[info exists ::glistMultiSel(%W)] ? $::glistMultiSel(%W) : [%W selection]}]
+    if {[info exists ::glistMultiSel(%W)]} {
+      set _all_sel $::glistMultiSel(%W)
+    } else {
+      set _all_sel [%W selection]
+    }
     set updated 0
     foreach sel $_all_sel {
       lassign [split $sel "_"] idx ply
@@ -852,7 +859,11 @@ proc glist.create {{w} {layout} {reset_layout false}} {
     break
   }
   bind $w.glist <Control-Delete> {
-    set _all_sel [expr {[info exists ::glistMultiSel(%W)] ? $::glistMultiSel(%W) : [%W selection]}]
+    if {[info exists ::glistMultiSel(%W)]} {
+      set _all_sel $::glistMultiSel(%W)
+    } else {
+      set _all_sel [%W selection]
+    }
     set updated 0
     foreach sel $_all_sel {
       lassign [split $sel "_"] idx ply
@@ -865,6 +876,46 @@ proc glist.create {{w} {layout} {reset_layout false}} {
       set ::glistMultiSel(%W) {}
       glist.movesel_ %W next +1 end
       ::notify::DatabaseModified $::glistBase(%W)
+    }
+    break
+  }
+  bind $w.glist <Control-x> {
+    if {[info exists ::glistMultiSel(%W)]} {
+      set _all_sel $::glistMultiSel(%W)
+    } else {
+      set _all_sel [%W selection]
+    }
+    set updated 0
+    foreach sel $_all_sel {
+      lassign [split $sel "_"] idx ply
+      if {$idx ne ""} {
+        glist.delflag_ %W $idx
+        set updated 1
+      }
+    }
+    if {$updated} {
+      set ::glistMultiSel(%W) {}
+      glist.movesel_ %W next +1 end
+    }
+    break
+  }
+  bind $w.glist <Control-X> {
+    if {[info exists ::glistMultiSel(%W)]} {
+      set _all_sel $::glistMultiSel(%W)
+    } else {
+      set _all_sel [%W selection]
+    }
+    set updated 0
+    foreach sel $_all_sel {
+      lassign [split $sel "_"] idx ply
+      if {$idx ne ""} {
+        glist.delflag_ %W $idx
+        set updated 1
+      }
+    }
+    if {$updated} {
+      set ::glistMultiSel(%W) {}
+      glist.movesel_ %W next +1 end
     }
     break
   }
@@ -1131,9 +1182,11 @@ proc glist.update_ {{w} {base}} {
 }
 
 proc glist.loadvalues_ {{w}} {
-  # Snapshot persistent selection BEFORE deleting items.
-  # Item deletion clears the treeview selection synchronously; we must save first.
-  set saved_multi [expr {[info exists ::glistMultiSel($w)] ? $::glistMultiSel($w) : {}}]
+  if {[info exists ::glistMultiSel($w)]} {
+    set saved_multi $::glistMultiSel($w)
+  } else {
+    set saved_multi {}
+  }
 
   $w delete [$w children {}]
   set base $::glistBase($w)
