@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.3.33
+Version:        5.1.3.34
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit e1a1ce26735a73a28a0fb4cb24a42c2bb5fd025d
+%global commit ed26ba3dd90ce4c92bb2e1d7d51ee0a207f0ec00
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,7 +62,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
-* Wed May 17, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-33
+* Mon May 18, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-34
+- "Add Delete/Cntrl + x to Game menu"
+* Sun May 17, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-33
 - "Assign Cntrl + x to delete games in Game List window"
 * Wed May 13, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-32
 - "Add translations for Lichess OpenExplore button"

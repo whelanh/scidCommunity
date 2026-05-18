@@ -79,12 +79,16 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.3.34" date="2026-05-18">
+      <description>
+        <p>Add Delete/Cntrl + x to Game menu</p>
+      </description>
+    </release>
     <release version="5.1.3.33" date="2026-05-17">
       <description>
         <p>Assign Cntrl + x to delete games in Game List window</p>
       </description>
     </release>
-
     <release version="5.1.3.32" date="2026-05-13">
       <description>
         <p>Add translations for Lichess OpenExplore button</p>
