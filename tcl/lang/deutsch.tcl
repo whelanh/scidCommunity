@@ -129,6 +129,7 @@ menuText D GameReplace "Partie ersetzen..." 8 \
   {Diese Partie sichern, dabei alte Version überschreiben}
 menuText D GameAdd "Partie speichern..." 7 \
   {Diese Partie als neue Partie in der Datenbank sichern}
+menuText D GameDelete "Spiel löschen" 0 {Löschmarkierung des aktuellen Spiels umschalten}
 menuText D GameDeepest "Eröffnung identifizieren" 10 \
   {Zur Position der längstmöglichen Zugfolge nach ECO-Klassifikation gehen}
 menuText D GameGotoMove "Zugnummer..." 0 \

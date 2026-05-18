@@ -146,6 +146,7 @@ menuText L GameReplace "Salvare: înlocuiți jocul..." 6 \
   {Salvați acest joc, înlocuind versiunea veche}
 menuText L GameAdd "Salvare: Adăugați un joc nou..." 6 \
   {Salvați acest joc ca joc nou în baza de date}
+menuText L GameDelete "Șterge jocul" 0 {Comută steagul de ștergere pentru jocul curent}
 menuText L GameDeepest "Identificați deschiderea" 0 \
   {Mergeți la cea mai profundă poziție de joc listată în cartea ECO}
 menuText L GameGotoMove "Du-te la Mută ​​numărul..." 5 \

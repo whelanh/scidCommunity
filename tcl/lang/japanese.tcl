@@ -146,6 +146,7 @@ menuText A GameReplace "保存: ゲームを置き換えます..." 6 \
   {このゲームを保存して古いバージョンを置き換えます}
 menuText A GameAdd "保存: 新しいゲームを追加..." 6 \
   {このゲームを新しいゲームとしてデータベースに保存します}
+menuText A GameDelete "ゲームの削除" 0 {現在のゲームの削除フラグを切り替えます}
 menuText A GameDeepest "定跡の識別" 0 \
   {ECOブックに記載されている最も深いゲームポジションに移動します}
 menuText A GameGotoMove "移動番号に移動..." 5 \

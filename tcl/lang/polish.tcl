@@ -112,6 +112,7 @@ menuText P GameReplace "Zapisz: zastp parti..." 3 \
   {Zapisz parti, zastp poprzedni wersj}
 menuText P GameAdd "Zapisz: dodaj now parti..." 8 \
   {Zapisz t parti jako nowa parti w bazie}
+menuText P GameDelete "Usuń grę" 0 {Przełącz opcję usunięcia flagi bieżącej gry}
 menuText P GameDeepest "Rozpoznaj debiut" 0 \
   {Przejd do najduszego wariantu z ksiki debiutowej}
 menuText P GameGotoMove "Przejd do posunicia nr..." 13 \

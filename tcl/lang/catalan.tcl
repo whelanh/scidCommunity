@@ -113,6 +113,7 @@ menuText K GameReplace "Desar: Reemplaça la partida..." 10 \
   {Desa aquesta partida, reemplaçant-ne la versió anterior}
 menuText K GameAdd "Desar: Afegir nova partida..." 9 \
   {Enregistra aquesta partida com una nova entrada a la base de dades}
+menuText K GameDelete "Suprimeix el joc" 0 {Commuta la supressió de la bandera del joc actual}
 menuText K GameDeepest "Identificar obertura" 1 \
   {Ves a la posició més avançada de la partida d'acord amb el llibre ECO}
 menuText K GameGotoMove "Anar a la jugada número..." 6 \

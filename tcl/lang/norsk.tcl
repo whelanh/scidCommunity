@@ -110,6 +110,7 @@ menuText O GameReplace "Lagre: Erstatt parti..." 0 \
   {Lagre og overskriv dette partiet}
 menuText O GameAdd "Lagre som nytt parti..." 0 \
   {Lagre dette partiet som et nytt parti}
+menuText O GameDelete "Slett parti" 0 {Slå av og på slett flagg for gjeldende parti}
 menuText O GameDeepest "Identifiser åpning" 0 \
   {Gå til dypeste posisjon i dette partiet listet i ECO-boken}
 menuText O GameGotoMove "Gå til trekk..." 0 \

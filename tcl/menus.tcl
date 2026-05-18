@@ -179,6 +179,7 @@ menu $m.exportcurrent
   $m.exportcurrent add command -label ToolsExpCurrentHTMLJS \
       -command {::html::exportCurrentGame}
 $m add cascade -label ToolsExpCurrent -menu $m.exportcurrent
+$m add command -label GameDelete -accelerator "Ctrl+X" -command ::game::ToggleDeleteFlag
 $m add separator
 $m add command -label GameFirst -accelerator "Ctrl+Shift+Up" -command {::game::LoadNextPrev first}
 $m add command -label GamePrev -accelerator "Ctrl+Up" -command {::game::LoadNextPrev previous}
@@ -478,6 +479,13 @@ proc updateMenuStates {{menuname}} {
       set state disabled
     }
     $m.game entryconfig [tr GameReplace] -state $state
+
+    # Delete game button:
+    set state normal
+    if {[sc_game number] == 0  ||  $isReadOnly } {
+      set state disabled
+    }
+    $m.game entryconfig [tr GameDelete] -state $state
   }
   {.menu.options} {
     set ::optionsFullScreen [wm attributes . -fullscreen]

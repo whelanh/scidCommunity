@@ -105,6 +105,7 @@ menuText Z GameReplace "Hifadhi: Badilisha mchezo..." 6 \
   {Okoa mchezo huu, ukibadilisha toleo la zamani}
 menuText Z GameAdd "Hifadhi: Ongeza Mchezo Mpya..." 6 \
   {Hifadhi mchezo huu kama mchezo mpya katika hifadhidata}
+menuText Z GameDelete "Futa Mchezo" 0 {Geuza kufuta bendera ya mchezo wa sasa}
 menuText Z GameDeepest "Tambua Ufunguzi" 0 \
   {Nenda kwenye nafasi ya ndani kabisa ya mchezo iliyoorodheshwa kwenye kitabu cha ECO}
 menuText Z GameGotoMove "Nenda kwa Hoja Nambari..." 5 \

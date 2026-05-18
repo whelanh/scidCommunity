@@ -115,6 +115,7 @@ menuText S GameReplace "Guardar: reemplazar partida..." 10 \
   {Guarda esta partida, reemplazando la antigua versión}
 menuText S GameAdd "Guardar: añadir nueva partida..." 9 \
   {Guarda esta partida como una nueva partida en la base de datos}
+menuText S GameDelete "Eliminar partida" 0 {Alternar la bandera de eliminación de la partida actual}
 menuText S GameDeepest "Identificar apertura" 1 \
   {Va a la posición más avanzada de la partida según el libro ECO}
 menuText S GameGotoMove "Ir al movimiento número..." 6 \

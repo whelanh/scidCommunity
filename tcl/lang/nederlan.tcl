@@ -117,6 +117,7 @@ menuText N GameReplace "Partij overschrijven..." 11 \
   {Bewaar partij; overschrijf oude versie}
 menuText N GameAdd "Partij toevoegen..." 7 \
   {Bewaar partij en voeg toe aan de database}
+menuText N GameDelete "Spel verwijderen" 0 {Schakel de verwijdervlag van het huidige spel in of uit}
 menuText N GameDeepest "Opening bepalen" 8 \
   {Ga naar de diepste stelling uit het ECO openingboek}
 menuText N GameGotoMove "Zetnummer..." 0 \

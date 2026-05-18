@@ -145,6 +145,7 @@ menuText E GameReplace "Save: Replace game..." 6 \
   {Save this game, replacing the old version}
 menuText E GameAdd "Save: Add New Game..." 6 \
   {Save this game as a new game in the database}
+menuText E GameDelete "Delete Game" 0 {Toggle delete flag of the current game}
 menuText E GameDeepest "Identify Opening" 0 \
   {Goto the deepest game position listed in the ECO book}
 menuText E GameGotoMove "Goto Move Number..." 5 \
