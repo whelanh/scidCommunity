@@ -112,7 +112,7 @@ menuText I GameReplace "Salva: sostituisce la partita..." 8 \
   {Salva questa partita, sostituendo la vecchia versione}
 menuText I GameAdd "Salva: aggiunge la nuova partita..." 7 \
   {Salva questa partita come nuova partita nel database}
-menuText I GameDelete "Elimina gioco" 0 {Attiva/disattiva il flag di eliminazione del gioco corrente}
+menuText I GameDelete "Elimina partita" 0 {Attiva/disattiva il flag di eliminazione della partita corrente}
 menuText I GameDeepest "Identifica apertura" 0 \
   {Va alla posizione di partita più profonda listata nel libro ECO}
 menuText I GameGotoMove "Vai alla mossa numero..." 0 \

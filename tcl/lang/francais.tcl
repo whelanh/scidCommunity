@@ -110,7 +110,7 @@ menuText F GameReplace "Enregistrer: remplacer la partie..." 13 \
   {Enregistrer cette partie, en écrasant l'ancienne version}
 menuText F GameAdd "Enregistrer: ajouter nouvelle partie..." 13 \
   {Enregistrer cette partie en tant que nouvelle partie dans la base}
-menuText F GameDelete "Supprimer le jeu" 0 {Activer/désactiver le drapeau de suppression du jeu en cours}
+menuText F GameDelete "Supprimer la partie" 0 {Activer/désactiver le drapeau de suppression de la partie en cours}
 menuText F GameDeepest "Identifier l'ouverture" 13 \
   {Trouver la partie la plus proche dans la nomenclature ECO}
 menuText F GameGotoMove "Aller au coup numéro..." 14 \

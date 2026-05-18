@@ -124,8 +124,14 @@ proc ::game::ToggleDeleteFlag {} {
   set db [sc_base current]
   set gnum [sc_game number]
   if {$db ne "" && $gnum > 0} {
-    sc_base gameflag $db $gnum invert del
-    ::notify::GameChanged
+    # Check if the database is writable
+    if {[sc_base isReadOnly $db]} {
+      return
+    }
+    # Wrap the gameflag call in catch to handle errors
+    if {[catch {sc_base gameflag $db $gnum invert del} err] == 0} {
+      ::notify::GameChanged
+    }
   }
 }
 

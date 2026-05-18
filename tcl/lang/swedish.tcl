@@ -111,7 +111,7 @@ menuText W GameReplace "Spara: Ersätt parti..." 7 \
   {Spara partiet och ersätt tidigare version}
 menuText W GameAdd "Spara: Nytt parti..." 1 \
   {Spara ett nytt parti}
-menuText W GameDelete "Ta bort spel" 0 {Växla raderingsflagga för det aktuella spelet}
+menuText W GameDelete "Ta bort parti" 0 {Växla raderingsflagga för det aktuella partiet}
 menuText W GameDeepest "Identifiera öppningen" 0 \
   {Gå till den mest detaljerade ställningen i ECO boken}
 menuText W GameGotoMove "Gå till drag nummer..." 8 \

@@ -1790,4 +1790,4 @@ translate g BatchCompleted {завършен}
 translate g BatchGames {игри}
 translate g BatchProcessed {обработени}
 }
-# end of english.tcl
+# end of bulgarian.tcl

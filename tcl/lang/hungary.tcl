@@ -108,7 +108,7 @@ menuText H GameReplace "Mentés cserével..." 7 \
   {Elmenti ezt a játszmát; felülírja a régi változatot.}
 menuText H GameAdd "Mentés új játszmaként..." 0 \
   {Elmenti ezt a játszmát; új játszmát hoz létre az adatbázisban.}
-menuText H GameDelete "Játék törlése" 0 {Az aktuális játék törlési jelzőjének be- és kikapcsolása}
+menuText H GameDelete "Játszma törlése" 0 {Az aktuális játszma törlési jelzőjének be- és kikapcsolása}
 menuText H GameDeepest "Megnyitás azonosítása" 10 \
   {Az ECO-könyvben szereplõ legnagyobb mélységig megy bele a játszmába.}
 menuText H GameGotoMove "Ugrás megadott sorszámú lépéshez..." 1 \

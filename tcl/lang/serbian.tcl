@@ -115,8 +115,7 @@ menuText Y GameReplace "Sauvaj: Zameni partiju..." 6 \
   {Sauvaj ovu partiju preko stare partiju u bazi}
 menuText Y GameAdd "Sauvaj: Dodaj novu partiju..." 6 \
   {Sauvaj ovu partiju kao novu u bazi}
-# ====== TODO To be translated ======
-menuText Y GameDelete "Delete Game" 0 {Toggle delete flag of the current game}
+menuText Y GameDelete "Obriši partiju" 0 {Uključi/isključi zastavicu za brisanje tekuće partije}
 menuText Y GameDeepest "Identifikuj otvaranje" 0 \
   {Idi na poslednju poziciju partije koja odgovara knjizi otvaranja}
 menuText Y GameGotoMove "Idi na potez broj..." 5 \

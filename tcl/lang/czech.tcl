@@ -108,7 +108,7 @@ menuText C GameReplace "Uloit: pepsn partie..." 0 \
   {Uloit tuto partii - pepe pvodn verzi}
 menuText C GameAdd "Uloit: pidn nov partie..." 1 \
   {Uloit tuto partii jako novou partii v databzi}
-menuText C GameDelete "Smazat hru" 0 {Přepnout smazat příznak aktuální hry}
+menuText C GameDelete "Smazat hru" 0 {Přepnout příznak smazání aktuální hry}
 menuText C GameDeepest "Identifikace zahjen" 0 \
   {Pejt na koncovou pozici z ECO knihovny, kter odpovd zvolenmu zahjen}
 menuText C GameGotoMove "Pejt na tah slo..." 10 \
