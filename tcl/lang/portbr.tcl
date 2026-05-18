@@ -240,7 +240,7 @@ menuText B OptionsMovesHighlightLastMoveDisplay "Mostrar Casas" 0 {Mostra o dest
 menuText B OptionsMovesHighlightLastMoveWidth "Espessura" 0 {Espessura da linha}
 menuText B OptionsMovesHighlightLastMoveColor "Cor" 0 {Cor da linha}
 menuText B OptionsMovesHighlightLastMoveArrow "Mostrar Seta" 0 {Seta de Inclusão Destacada}
-menuText B OptionsMovesHighlightLastMoveNag "Mostrar símbolos de avaliação" 0
+menuText B OptionsMovesHighlightLastMoveNag "Mostrar símbolos de anotação" 0
 menuText B OptionsMovesHighlightLastMoveEval "Mostrar símbolos de avaliação" 0
 menuText B OptionsMoves "Movimentos" 0 {Opções para entrada dos movimentos}
 menuText B OptionsMovesAnimate "Tempo de animação" 1 \

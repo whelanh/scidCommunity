@@ -265,7 +265,7 @@ menuText G OptionsMovesHighlightLastMoveDisplay "Εμφάνιση" 0 {Προβο
 menuText G OptionsMovesHighlightLastMoveWidth "Πλάτος" 0 {Το πάχος της γραμμής}
 menuText G OptionsMovesHighlightLastMoveColor "Χρώμα" 0 {Το χρώμα τηςη γραμμής}
 menuText G OptionsMovesHighlightLastMoveArrow "Εμφάνιση βέλους" 0 {Εμφάνιση βέλους με επισήμανση}
-menuText G OptionsMovesHighlightLastMoveNag "Εμφάνιση συμβόλων αξιολόγησης" 0
+menuText G OptionsMovesHighlightLastMoveNag "Εμφάνιση συμβόλων σχολιασμού" 0
 menuText G OptionsMovesHighlightLastMoveEval "Εμφάνιση συμβόλων αξιολόγησης" 0
 menuText G OptionsMoves "Κινήσεις" 0 {Επιλογές εισαγωγής κίνησης}
 menuText G OptionsMovesAnimate "Χρόνος απεικόνισης κίνησης" 1 \

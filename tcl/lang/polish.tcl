@@ -251,7 +251,7 @@ menuText P OptionsMovesHighlightLastMoveDisplay "Poka kwadrat" 0 {Wywietlanie os
 menuText P OptionsMovesHighlightLastMoveWidth "Szeroko" 0 {Grubo linii}
 menuText P OptionsMovesHighlightLastMoveColor "Kolor" 0 {Kolor linii}
 menuText P OptionsMovesHighlightLastMoveArrow "Poka strzak" 0 {Poka strzak z podwietleniem}
-menuText P OptionsMovesHighlightLastMoveNag "Poka symbol oceny" 0
+menuText P OptionsMovesHighlightLastMoveNag "Poka symbole adnotacji" 0
 menuText P OptionsMovesHighlightLastMoveEval "Poka symbole oceny" 0
 menuText P OptionsMoves "Posunicia" 0 {Wprowadzanie posuni}
 menuText P OptionsMovesAnimate "Szybko animacji" 1 \

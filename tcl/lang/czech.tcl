@@ -235,7 +235,7 @@ menuText C OptionsMovesHighlightLastMoveDisplay "Ukzat" 0 {Zobrazit zvraznn posl
 menuText C OptionsMovesHighlightLastMoveWidth "ka" 0 {Tlouka ry}
 menuText C OptionsMovesHighlightLastMoveColor "Barva" 0 {Barva ry}
 menuText C OptionsMovesHighlightLastMoveArrow "vetn Arrow" 0 {Zahrnout ipku se zvraznnm}
-menuText C OptionsMovesHighlightLastMoveNag "Zobrazit symboly hodnocen" 0
+menuText C OptionsMovesHighlightLastMoveNag "Zobrazit symboly komentářů" 0
 menuText C OptionsMovesHighlightLastMoveEval "Zobrazit symboly hodnocen" 0
 menuText C OptionsMoves "Tahy" 0 {Volby pro zadvn tah}
 menuText C OptionsMovesAnimate "as animace" 4 \

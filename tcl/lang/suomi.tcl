@@ -272,7 +272,7 @@ menuText U OptionsMovesHighlightLastMoveDisplay "Näytä" 0 {Näytä viimeisin s
 menuText U OptionsMovesHighlightLastMoveWidth "Viiva" 0 {Laudalla näytettävän viivan paksuus}
 menuText U OptionsMovesHighlightLastMoveColor "Väri" 0 {Laudalla näytettävän viivan väri}
 menuText U OptionsMovesHighlightLastMoveArrow "Sis. nuoli" 0 {Korostettuun siirtoon sisällytetään nuoli}
-menuText U OptionsMovesHighlightLastMoveNag "Näytä arviointisymbolit" 0
+menuText U OptionsMovesHighlightLastMoveNag "Näytä annotaatiosymbolit" 0
 menuText U OptionsMovesHighlightLastMoveEval "Näytä arviointisymbolit" 0
 menuText U OptionsMoves "Siirrot" 0 {Siirtojen syöttämiseen liittyvät asetukset}
 menuText U OptionsMovesAnimate "Animaation nopeus" 1 \
