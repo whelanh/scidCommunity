@@ -109,6 +109,7 @@ menuText T GameReplace "Kaydet: Oyunu değiştir..." 6 \
   {Eski sürümü değiştirerek bu oyunu kaydedin}
 menuText T GameAdd "Kaydet: Yeni Oyun Ekle..." 6 \
   {Bu oyunu veritabanına yeni bir oyun olarak kaydet}
+menuText T GameDelete "Oyunu Sil" 0 {Mevcut oyunun bayrağını silmeyi aç / kapat}
 menuText T GameDeepest "Açılışı Tanımlayın" 0 \
   {ECO kitabında listelenen en derin oyun pozisyonuna gidin}
 menuText T GameGotoMove "Numarayı Taşı'ya Git..." 5 \

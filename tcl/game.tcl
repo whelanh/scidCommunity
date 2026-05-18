@@ -116,6 +116,19 @@ proc ::game::Reload {} {
   ::game::Load [sc_game number]
 }
 
+# ::game::ToggleDeleteFlag
+#
+#   Toggles the delete/flag state of the current game.
+#
+proc ::game::ToggleDeleteFlag {} {
+  set db [sc_base current]
+  set gnum [sc_game number]
+  if {$db ne "" && $gnum > 0} {
+    sc_base gameflag $db $gnum invert del
+    ::notify::GameChanged
+  }
+}
+
 # ::game::LoadRandom
 #
 #   Loads a random game from the database.

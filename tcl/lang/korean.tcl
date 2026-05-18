@@ -146,6 +146,7 @@ menuText k GameReplace "저장: 게임 교체..." 6 \
   {이 게임을 생성하고 이전 버전을 교체하세요.}
 menuText k GameAdd "저장: 새 게임 추가..." 6 \
   {이 게임을 데이터베이스에 새 게임으로 저장하세요.}
+menuText k GameDelete "게임 삭제" 0 {현재 게임의 삭제 플래그를 전환합니다.}
 menuText k GameDeepest "정의" 0 \
   {ECO Book에 가장 깊은 게임 위치로 이동}
 menuText k GameGotoMove "이동번호로 이동..." 5 \

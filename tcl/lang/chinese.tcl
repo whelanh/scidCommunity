@@ -89,6 +89,7 @@ menuText M GameRandom "加载随机游戏" 0 {随机加载一个过滤的游戏}
 menuText M GameNumber "加载游戏编号..." 0 {通过输入编号加载游戏}
 menuText M GameReplace "保存：替换游戏..." 0 {保存此游戏，替换旧版本}
 menuText M GameAdd "保存：添加新游戏..." 0 {将此游戏保存为数据库中的新游戏}
+menuText M GameDelete "删除游戏" 0 {切换删除当前游戏的标志}
 menuText M GameDeepest "识别开局" 0 {转到ECO手册中列出的最深游戏位置}
 menuText M GameGotoMove "转到着法编号..." 0 {转到当前游戏中的指定着法编号}
 menuText M GameNovelty "查找新着..." 0 {查找此游戏中之前未下过的第一步棋}

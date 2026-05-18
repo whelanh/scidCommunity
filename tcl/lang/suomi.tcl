@@ -144,6 +144,7 @@ menuText U GameReplace "Tallenna: Korvaa..." 8 \
   {Tallenna nykyinen peli korvaten vanha versio uusilla tiedoilla}
 menuText U GameAdd "Tallenna: Lisää uusi..." 13 \
   {Tallenna nykyinen peli tietokantaan uudeksi peliksi}
+menuText U GameDelete "Poista peli" 0 {Poista nykyisen pelin lippu päälle/pois}
 menuText U GameDeepest "Tunnista avaus" 0 \
   {Tunnista avauksen ECO-koodi avauskirjaa käyttäen}
 menuText U GameGotoMove "Siirry siirtoon..." 5 \

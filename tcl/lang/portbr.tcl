@@ -109,6 +109,7 @@ menuText B GameReplace "Salvar: Substituir Jogo..." 8 \
   {Salva o jogo e substitui a versão antiga}
 menuText B GameAdd "Salvar: Adicionar Jogo..." 9 \
   {Salva este jogo como um novo jogo na base de dados}
+menuText B GameDelete "Excluir jogo" 0 {Alternar exclusão do sinalizador do jogo atual}
 menuText B GameDeepest "Identificar Abertura" 0 \
   {Vai para a posição mais avançada da partida, de acordo com o código ECO}
 menuText B GameGotoMove "Ir para o movimento número..." 5 \
