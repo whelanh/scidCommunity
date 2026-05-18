@@ -258,7 +258,7 @@ menuText N OptionsMovesHighlightLastMoveDisplay "Toon Vakken" 0 {Toon de laatste
 menuText N OptionsMovesHighlightLastMoveWidth "Breedte" 0 {Variantdikte}
 menuText N OptionsMovesHighlightLastMoveColor "Kleur" 0 {Varinatkleur}
 menuText N OptionsMovesHighlightLastMoveArrow "Pijl tonen" 0 {Show Arrow with Highlight}
-menuText N OptionsMovesHighlightLastMoveNag "Evaluatie-symbolen tonen" 0
+menuText N OptionsMovesHighlightLastMoveNag "Annotatiesymbolen tonen" 0
 menuText N OptionsMovesHighlightLastMoveEval "Evaluatiesymbolen tonen" 0
 menuText N OptionsMoves "Zetten" 0 {Wijzig optie voor zet-invoer}
 menuText N OptionsMovesAnimate "Stuk Animatietijd " 1 \

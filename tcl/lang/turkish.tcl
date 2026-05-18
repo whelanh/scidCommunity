@@ -237,7 +237,7 @@ menuText T OptionsMovesHighlightLastMoveDisplay "Kareyi Göster" 0 {Son hamleyi 
 menuText T OptionsMovesHighlightLastMoveWidth "Genişlik" 0 {Çizgi kalınlığı}
 menuText T OptionsMovesHighlightLastMoveColor "Renk" 0 {Çizgi rengi}
 menuText T OptionsMovesHighlightLastMoveArrow "Ok Göster" 0 {Vurgulu Bir Ok Göster}
-menuText T OptionsMovesHighlightLastMoveNag "Değerlendirme sembollerini göster" 0
+menuText T OptionsMovesHighlightLastMoveNag "Açıklama sembollerini göster" 0
 menuText T OptionsMovesHighlightLastMoveEval "Değerlendirme sembollerini göster" 0
 menuText T OptionsMoves "Hareketler" 0 {Giriş seçeneklerini taşı}
 menuText T OptionsMovesAnimate "Animasyon Süresi" 1 \

@@ -242,7 +242,7 @@ menuText W OptionsMovesHighlightLastMoveDisplay "Visa" 0 {Visa senaste markerade
 menuText W OptionsMovesHighlightLastMoveWidth "Bredd" 0 {Tjockhet på rad}
 menuText W OptionsMovesHighlightLastMoveColor "Färg" 0 {Färg på rad}
 menuText W OptionsMovesHighlightLastMoveArrow "Visa pil" 0 {Visa pil med markering}
-menuText W OptionsMovesHighlightLastMoveNag "Visa utvärderingssymboler" 0
+menuText W OptionsMovesHighlightLastMoveNag "Visa kommentarsymboler" 0
 menuText W OptionsMovesHighlightLastMoveEval "Visa utvärderingssymboler" 0
 menuText W OptionsMoves "Drag" 0 {Alternativ för dragangivelse}
 menuText W OptionsMovesAnimate "Fördröjning vid manuellt spel" 1 \

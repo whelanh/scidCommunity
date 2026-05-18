@@ -260,7 +260,7 @@ menuText S OptionsMovesHighlightLastMoveDisplay "Mostrar Escaques" 0 \
 menuText S OptionsMovesHighlightLastMoveWidth "Ancho" 0 {Espesor de la línea}
 menuText S OptionsMovesHighlightLastMoveColor "Color" 0 {Color de línea}
 menuText S OptionsMovesHighlightLastMoveArrow "Mostrar Flechas" 0 {Show Arrow with Highlight}
-menuText S OptionsMovesHighlightLastMoveNag "Mostrar símbolos de evaluación" 0
+menuText S OptionsMovesHighlightLastMoveNag "Mostrar símbolos de anotación" 0
 menuText S OptionsMovesHighlightLastMoveEval "Mostrar símbolos de evaluación" 0
 menuText S OptionsMoves "Movimientos" 0 {Opciones de la entrada de movimientos}
 menuText S OptionsMovesAnimate "Velocidad de la animación" 1 \
