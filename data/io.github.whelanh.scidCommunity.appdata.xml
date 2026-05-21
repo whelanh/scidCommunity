@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+    <release version="5.1.3.35" date="2026-05-21">
+      <description>
+        <p>Translation updates</p>
+      </description>
+    </release>
     <release version="5.1.3.34" date="2026-05-18">
       <description>
         <p>Add Delete/Cntrl + x to Game menu</p>
