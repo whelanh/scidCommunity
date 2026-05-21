@@ -165,8 +165,9 @@ proc ::tree::make { { baseNumber -1 } {locked 0} } {
   dialogbutton $w.buttons.close -textvar ::tr(Close) -command "::tree::closeTree $baseNumber"
 
   pack $w.buttons.best $w.buttons.graph $w.buttons.bStartStop $w.buttons.allgames $w.buttons.training \
-      $w.buttons.depthlabel $w.buttons.depth \
       -side left -padx 3 -pady 2
+  pack $w.buttons.depthlabel -side left -padx "15 3" -pady 2
+  pack $w.buttons.depth -side left -padx "0 3" -pady 2
   packbuttons right $w.buttons.close $w.buttons.stop
   $w.buttons.stop configure -state disabled
 

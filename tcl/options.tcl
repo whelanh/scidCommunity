@@ -641,7 +641,7 @@ proc options.write {} {
           ::pgn::indentVars ::pgn::indentComments ::pgn::showPhoto \
           ::pgn::shortHeader ::pgn::boldMainLine ::pgn::stripMarks ::pgn::figurine \
           ::pgn::symbolicNags ::pgn::moveNumberSpaces ::pgn::columnFormat \
-          tree(order) optionsAutoSave ::tree::mask::recentMask \
+          tree(order) tree(moveDepth) optionsAutoSave ::tree::mask::recentMask \
           ecoFile suggestMoves showVarPopup showVarArrows showEngineVariationArrows \
           blunderThreshold autoplayDelay animateDelay boardCoords \
           moveEntry(AutoExpand) moveEntry(Coord) \

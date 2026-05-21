@@ -292,7 +292,7 @@ menuText E OptionsMovesKey "Keyboard Completion" 0 \
 menuText E OptionsMovesShowVarArrows "Show Arrows for Variations" 0 {Turn on/off arrows showing moves in variations}
 menuText E OptionsMovesShowEngineVariationArrows "Show Arrows for Engine Variations" 0 {Turn on/off arrows showing engine variation lines in multiPV mode}
 menuText E OptionsMovesGlossOfDanger "Color Coded Gloss of Danger" 0 {Turn on/off color coded gloss of danger}
-translate E OptionsMovesTreeDepth {Default Tree Window Move Depth}
+translate E OptionsMovesTreeDepth {Default Tree Window Plies}
 menuText E OptionsNumbers "Number Format" 0 {Select the number format}
 menuText E OptionsTheme "Theme" 0 {Change look of interface}
 menuText E OptionsWindows "Windows" 0 {Window options}
@@ -570,7 +570,7 @@ menuText E TreeOptFastAndSlowmode "Fast and slow mode" 0 {Fast mode then slow mo
 menuText E TreeOptStartStop "Auto refreshing" 0 {Toggles automatic refreshing of the tree window}
 menuText E TreeOptLock "Lock" 0 {Lock/unlock the tree to the current database}
 menuText E TreeOptTraining "Training" 0 {Turn on/off tree training mode}
-menuText E TreeOptDepth "Move depth" 0 {Number of half moves to display in tree (1-4)}
+menuText E TreeOptDepth "Plies" 0 {Number of plies (half moves) to display in tree (1-4)}
 menuText E TreeOptAutosave "Auto-Save Cache File" 0 \
   {Auto-save the cache file when closing the tree window}
 menuText E TreeHelp "Help" 0
@@ -579,7 +579,7 @@ menuText E TreeHelpIndex "Help Index" 0
 translate E SaveCache {Save Cache}
 translate E Training {Training}
 translate E LockTree {Lock}
-translate E TreeDepth {Tree depth (half moves):}
+translate E TreeDepth {Plies:}
 translate E TreeLocked {locked}
 translate E TreeBest {Best}
 translate E TreeBestGames {Best Tree Games}
