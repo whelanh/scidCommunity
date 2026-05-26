@@ -98,6 +98,8 @@ proc addLanguage {letter name underline encodingSystem filename} {
   set ::langUnderline($letter) $underline
   set ::langEncoding($letter) $encodingSystem
   set ::langSourceFile($letter) $filename
+  # Store the stem (filename without .tcl) for sound-folder lookup
+  set ::langStem($letter) [file rootname $filename]
 }
 # Languages that use right-to-left (RTL) scripts.
 # Tk 9 on Linux does not apply the Unicode BiDi algorithm to menu/label
@@ -347,6 +349,53 @@ proc setLanguage {} {
       set ::tr($i) $::translations($lang,$i)
     } elseif {[info exists ::translations(E,$i)]} {
       set ::tr($i) $::translations(E,$i)
+    }
+  }
+
+  # Automatically switch sound folder when language changes
+  updateSoundFolderForLanguage $lang
+}
+
+################################################################################
+# updateSoundFolderForLanguage:
+#   If sounds are enabled, check whether a language-specific sounds subdirectory
+#   exists (e.g. deutsch_sounds/ for Deutsch) and switch to it automatically.
+#   For English, always revert to the base sounds directory.
+#   The soundFolder variable is already persisted by options.write.
+################################################################################
+proc updateSoundFolderForLanguage {lang} {
+  # Only act when the sound system is initialised
+  if {![info exists ::utils::sound::soundFolder]} { return }
+
+  set baseDir [file nativename [file join $::scidShareDir sounds]]
+
+  if {$lang eq "E"} {
+    # English: always use the base sounds directory
+    if {$::utils::sound::soundFolder ne $baseDir} {
+      set ::utils::sound::soundFolder $baseDir
+      catch { ::utils::sound::ReadFolder }
+    }
+    return
+  }
+
+  # For other languages, derive the stem (e.g. "deutsch") from langStem
+  if {![info exists ::langStem($lang)]} { return }
+  set stem $::langStem($lang)
+
+  # Look for <stem>_sounds next to the base sounds directory
+  set candidate [file nativename [file join $::scidShareDir sounds "${stem}_sounds"]]
+
+  if {[file isdirectory $candidate]} {
+    # Only switch if this isn't already the active folder
+    if {$::utils::sound::soundFolder ne $candidate} {
+      set ::utils::sound::soundFolder $candidate
+      catch { ::utils::sound::ReadFolder }
+    }
+  } else {
+    # No language-specific folder found; fall back to the base sounds directory
+    if {$::utils::sound::soundFolder ne $baseDir} {
+      set ::utils::sound::soundFolder $baseDir
+      catch { ::utils::sound::ReadFolder }
     }
   }
 }
