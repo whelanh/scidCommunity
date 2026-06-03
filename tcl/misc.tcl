@@ -48,8 +48,8 @@ proc bindMouseWheel {bindtag callback} {
 	    }
 	}
 	win32 {
-	    bind $bindtag <<MWheel>> "[append callback { [expr {-(%d/120)}]}]; break"
-	}
+      bind $bindtag <MouseWheel> "[append callback { [expr {-%D/120}]}]; break"
+  }
 	aqua {
 	    bind $bindtag <MouseWheel> "[append callback { [expr {-(%D)}]} ]; break"
 	}
