@@ -55,7 +55,7 @@ namespace eval fics {
   set showOnlyFreePlayer 0
   set sortGamesColumn 0 ;# sort game number
   set sortGamesOrder "-increasing" ;# sort order
-  set sortPlayersColumn 4 ;# sort blitz rating
+  set sortPlayersColumn 3 ;# sort blitz rating
   set sortPlayersOrder "-decreasing" ;# sort blitz rating
   ################################################################################
   #
@@ -254,7 +254,7 @@ namespace eval fics {
   proc arrangeClocks { } {
       set w .fics.f.bottom.left
       pack forget $w.clock1 $w.clock2
-      if { [::board::isFlipped .main.board] } {
+      if { [main_isFlipped] } {
           pack $w.clock1 $w.clock2
       } else {
           pack $w.clock2 $w.clock1
@@ -583,7 +583,8 @@ namespace eval fics {
 
     updateConsole "Channel configuration"
 
-    fconfigure $sockchan -blocking 0 -buffering line -translation auto ;#-encoding iso8859-1 -translation crlf
+    #fconfigure $sockchan -blocking 0 -buffering line -translation auto ;#-encoding iso8859-1 -translation crlf
+    fconfigure $sockchan -blocking 0 -buffering line -encoding iso8859-1 ;#-translation crlf; #binary
     fileevent $sockchan readable ::fics::readchan
     setState disabled
   }
@@ -816,7 +817,7 @@ namespace eval fics {
     if { [string index $idle 0] == "|" } {
         set idle ""
     }
-    lappend ::fics::playerList [list $typ $name $state $standard $blitz $lightning $onfor $idle]
+    lappend ::fics::playerList [list $typ $name $state $blitz $lightning $standard $onfor $idle]
     return 1
   }
   ################################################################################
@@ -932,7 +933,7 @@ namespace eval fics {
       sc_game tags set -event "FICS played [lrange $line 5 6] game"
       sc_game tags set -extra [list "Timecontrol \"[lindex $line 7]+[lindex $line 8]\""]
 
-      if { [::board::isFlipped .main.board] } {
+      if { [main_isFlipped] } {
         if { [ string match -nocase $white $::fics::reallogin ] } { ::board::flip .main.board }
       } else {
         if { [ string match -nocase $black $::fics::reallogin ] } { ::board::flip .main.board }
@@ -1827,6 +1828,28 @@ namespace eval fics {
     }
     if { ! $::windowsOS } { catch { exec -- kill -s INT [ $::fics::timeseal_pid ] }  }
     ::win::closeWindow .fics
+  }
+  ################################################################################
+  # Choose the background color for the FICS console
+  ################################################################################
+  proc chooseTerminalColor { {sample ""} } {
+    set color [tk_chooseColor -initialcolor $::fics::consolebg -title [::tr FICSTerminalColor]]
+    if {$color ne ""} {
+      set ::fics::consolebg $color
+      if {$sample ne ""} { catch {$sample configure -background $color} }
+      catch {.fics.f.top.fconsole.f1.console configure -bg $color}
+    }
+  }
+  ################################################################################
+  # Choose the text (foreground) color for the FICS console
+  ################################################################################
+  proc chooseTextColor { {sample ""} } {
+    set color [tk_chooseColor -initialcolor $::fics::consolefg -title [::tr FICSTextColor]]
+    if {$color ne ""} {
+      set ::fics::consolefg $color
+      if {$sample ne ""} { catch {$sample configure -background $color} }
+      catch {.fics.f.top.fconsole.f1.console configure -fg $color}
+    }
   }
 }
 ###

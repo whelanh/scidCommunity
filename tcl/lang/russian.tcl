@@ -112,6 +112,7 @@ menuText R GameReplace "Сохранить: заменить партию..." 0 
   {Сохранить эту партию, заменив старую версию}
 menuText R GameAdd "Сохранить: добавить новую партию..." 2 \
   {Сохранить эту партию в базу данных, как новую}
+menuText R GameDelete "Удалить игру" 0 {Переключить флаг удаления текущей игры}
 menuText R GameDeepest "Определить дебют" 0 \
   {Найти самую позднюю позицию партии, имеющуюся в книге ECO}
 menuText R GameGotoMove "Перейти к ходу номер..." 5 \
@@ -172,6 +173,7 @@ menuText R ToolsTrainCalvar "Расчёт вариантов"  0 {Трениро
 menuText R ToolsTrainFindBestMove "Поиск лучшего хода"  0 {Искать лучший ход}
 menuText R ToolsTrainFics "Играть на FICS"  0 {Игра на сервере freechess.org}
 menuText R ToolsEngineTournament "Турнир движков"  0 {Начать турнир между шахматными движками}
+menuText R ToolsTimeAnalysis "Временной анализ" 0 {Показать график времени для текущей игры}
 menuText R ToolsBookTuning "Настройка книги" 0 {Настройка книги}
 menuText R ToolsDownloadTWIC "Загрузить партии TWIC" 0 {Загрузить последние партии The Week In Chess (TWIC)}
 menuText R ToolsConnectHardware "Подключение к оборудованию" 0 {Подключение к внешнему оборудованию}
@@ -238,7 +240,8 @@ menuText R OptionsMovesHighlightLastMoveDisplay "Показать Поле" 0 {�
 menuText R OptionsMovesHighlightLastMoveWidth "Толщина" 0 {Толщина линии}
 menuText R OptionsMovesHighlightLastMoveColor "Цвет" 0 {Цвет линии}
 menuText R OptionsMovesHighlightLastMoveArrow "Показать стрелку" 0 {Включить стрелки с подсветкой}
-menuText R OptionsMovesHighlightLastMoveNag "Показать символы оценки" 0
+menuText R OptionsMovesHighlightLastMoveNag "Показать символы аннотаций" 0
+menuText R OptionsMovesHighlightLastMoveEval "Показать символы оценки" 0
 menuText R OptionsMoves "Ходы" 0 {Установки для ходов}
 menuText R OptionsMovesAnimate "Время анимации" 1 \
   {Установить количество времени, используемое для анимации ходов}
@@ -292,6 +295,9 @@ menuText R HelpTip "Подсказка дня" 0 {Показать полезн�
 menuText R HelpStartup "Окно запуска" 2 {Показать окно запуска}
 menuText R HelpAbout "О Scid" 2 {Информация о Scid}
 
+# Toolbar tooltips:
+menuText R RotateBoard "Поворот доски" 0 {Поворот доски}
+
 # Game info box popup menu:
 menuText R GInfoHideNext "Спрятать следующий ход" 0
 menuText R GInfoMaterial "Показать оценку материала" 0
@@ -308,7 +314,61 @@ menuText R GInfoMark "(Снять отметку) отметить эту пар
 menuText R GInfoInformant "Настройка значений подсказчика" 0
 
 # General buttons:
+translate R LichessOpenExplore {Личесс OpenExplore}
+translate R LichessTitle {Обозреватель дебютов Lichess}
+translate R LichessApiTokenReq {Токен Lichess API (обязательно):}
+translate R LichessDatabase {База данных:}
+translate R LichessMasters {Мастера}
+translate R LichessGames {Игры Lichess}
+translate R LichessPlayer {Игрок}
+translate R LichessNumMoves {Количество ходов:}
+translate R LichessTopGames {Лучшие игры:}
+translate R LichessRecentGames {Последние игры:}
+translate R LichessSinceYear {С года:}
+translate R LichessUntilYear {До года:}
+translate R LichessSinceMonth {С (ГГГГ-ММ):}
+translate R LichessUntilMonth {До (ГГГГ-ММ):}
+translate R LichessTimeControls {Контроль времени}
+translate R LichessRatingGroups {Рейтинговые группы}
+translate R LichessPlayerName {Имя пользователя игрока:}
+translate R LichessPlayerColor {Цвет игрока:}
+translate R LichessWhite {Белый}
+translate R LichessBlack {Черный}
+translate R LichessGameModes {Режимы игры}
+translate R LichessRated {Рейтинг}
+translate R LichessCasual {Повседневный}
+translate R LichessTokenRequired {Требуется токен API Lichess.\n\nС марта 2026 года Lichess требуется токен API для доступа к Opening Explorer. Введите свой токен в поле «Токен API Lichess» выше.\n\nВы можете создать токен по адресу: https://lichess.org/account/oauth/token.}
+translate R LichessPlayerRequired {Пожалуйста, введите имя пользователя Lichess для базы данных игроков.}
+translate R LichessQuerying {Запрос к Lichess Opening Explorer...}
+translate R LichessFailedQuery {Не удалось запросить Lichess Opening Explorer:\n%s}
+translate R LichessPositionNotFound {Позиция не найдена в базе данных %s.\n\nAPI вернул:\n%s}
+translate R LichessResultsTitle {Обозреватель дебютов Lichess - База данных %s}
+translate R LichessSummaryInfo {Итого: %s игр |  Белые побеждают: %s (%s%%) |  Ничья: %s (%s%%) |  Победа черных: %s (%s%%)}
+translate R LichessNoGamesFound {Для этой позиции игр не найдено.}
+translate R LichessMoves {Ходы:}
+translate R LichessColMove {Ход}
+translate R LichessColWhite {Белый}
+translate R LichessColDraws {Ничьи}
+translate R LichessColBlack {Черный}
+translate R LichessColTotal {Общий}
+translate R LichessColWinPct {Процент побед}
+translate R LichessColAvgRating {Средний рейтинг}
+translate R LichessColECO {ЭКО}
+translate R LichessColOpening {Открытие}
+translate R LichessTopGamesTitle {Лучшие игры:}
+translate R LichessRecentGamesTitle {Последние игры:}
+translate R LichessColWinner {Победитель}
+translate R LichessColWhiteRating {W.Рейтинг}
+translate R LichessColBlackRating {Б.Рейтинг}
+translate R LichessColDate {Дата}
+translate R LichessLoadGameConfirm {Загрузить игру %s vs %s (ID: %s) в базу клипов?}
+translate R LichessLoadGameTitle {Загрузить игру}
+translate R LichessFetchGameFailed {Не удалось загрузить игру %s:\n%s.}
+translate R LichessGameNotFound {Игра %s не найдена на Lichess.}
+translate R LichessImportFailed {Не удалось импортировать игру:\n%s}
+translate R LichessGameLoaded {Игра успешно загружена в базу клипов.}
 translate R Back {Назад}
+translate R Apply {Применять}
 translate R Browse {Просмотр}
 translate R Cancel {Отмена}
 translate R Continue {Продолжить}
@@ -316,6 +376,7 @@ translate R Clear {Очистить}
 translate R Close {Закрыть}
 translate R Contents {Содержание}
 translate R Defaults {По-умолчанию}
+translate R InvertSearch {Инвертировать поиск}
 translate R Delete {Удалить}
 translate R Graph {График}
 translate R Help {Помощь}
@@ -328,6 +389,7 @@ translate R MergeGame {Объединение партий}
 translate R MergeGames {Объединение партий}
 translate R Preview {Предварительный просмотр}
 translate R Revert {Возвратиться}
+translate R Rename {Переименовать}
 translate R Save {Сохранить}
 translate R Search {Поиск}
 translate R Stop {Стоп}
@@ -397,6 +459,11 @@ translate R readonly {Только для чтения}
 translate R ErrNotOpen {Эта база данных не открыта.}
 translate R ErrReadOnly {Эта база данных только для чтения; она не может быть изменена.}
 translate R ErrSearchInterrupted {Поиск был прерван; результаты неполные.}
+translate R ErrNoClockComments {В этой игре не обнаружено комментариев к часам [%clk].    Чтобы использовать эту функцию, добавьте время на часах через окно комментариев (Ctrl+E).}
+translate R ErrFileInUse {Ошибка: файл уже используется. Пожалуйста, закройте любое другое приложение, использующее эту базу данных. Если программа была неожиданно закрыта, возможно, вам придется удалить файл .lock, связанный с базой данных.}
+
+
+
 
 # Game information:
 translate R twin {двойник}
@@ -588,11 +655,13 @@ menuText R GraphOptionsBoth "Оба" 0
 menuText R GraphOptionsPInfo "Игрок - информация об игроке" 0
 menuText R GraphOptionsEloFile "ЭЛО из файла рейтинга" 0
 menuText R GraphOptionsEloDB "ЭЛО из базы партий" 0
-translate R GraphFilterTitle "Диаграмма фильтра: частота на 1000 партий"
+translate R GraphFilterTitle "График фильтров: процент игр, достигших позиции"
 translate R GraphAbsFilterTitle "Диаграмма фильтра: частота на все партии"
+translate R GraphWinPctTitle "График фильтров: процент побед (1-0 и 0-1) в текущей позиции по годам"
 translate R ConfigureFilter {Настройка оси Х по годам, рейтингу и ходам}
 translate R FilterEstimate "Оценка"
 translate R TitleFilterGraph "Scid: Диаграмма фильтра"
+translate R WinPct "Победить %"
 
 # Analysis window:
 translate R AddVariation {Добавить вариант}
@@ -628,6 +697,13 @@ translate R Informant+= {У белых небольшое преимуществ
 translate R Informant+/- {У белых умеренное преимущество}
 translate R Informant+- {У белых решающее преимущество}
 translate R Informant+-- {Партия считается выигранной}
+translate R AutoComment {Автоматический комментарий}
+translate R AutoCommentTooltip {Создать комментарий AI для текущей позиции}
+translate R AnalysisAutoCommentTooltip {Создавайте комментарии ИИ для всей игры.}
+translate R GameComment {Комментарий к игре}
+translate R GameCommentTooltip {Сканируйте игру на предмет аннотированных ходов и сгенерируйте сводку AI.}
+translate R TimeMs {Время (мс)}
+
 
 # Book window
 translate R Book {Книга}
@@ -1073,6 +1149,7 @@ translate R ECOSummary {Суммарно для}
 translate R ECOFrequency {Частота суб-кодов для}
 
 # Opening Report:
+translate R OprepReportFor {Отчет за}
 translate R OprepTitle {Открыть отчёт}
 translate R OprepReport {Отчёт}
 translate R OprepGenerated {Генерированный}
@@ -1141,6 +1218,8 @@ translate R OprepTheoryTable {Теоретическая таблица}
 translate R OprepTableComment {Генерировано из %u высокорейтинговых партий.}
 translate R OprepExtraMoves {Внешние заметки к ходам в теоретической таблице}
 translate R OprepMaxGames {Максимум партий в теоретической таблице}
+translate R OprepMergeMoves {Ограничение перемещения для объединенных игр}
+translate R OprepMergeUnique {Объединяйте только уникальные игры}
 translate R OprepViewHTML {Просмотр HTML}
 
 # Player Report:
@@ -1220,6 +1299,7 @@ translate R ClassifyNew {Только партии без кода ECO}
 translate R ClassifyCodes {Коды ECO для использования}
 translate R ClassifyBasic {Только основные коды ("B12", ...)}
 translate R ClassifyExtended {Расширения Scid ("B12j", ...)}
+translate R ClassifyResult {Классификация ECO завершена: $result игр обновлено.}
 
 # Compaction:
 translate R NameFile {Файл имён}
@@ -1548,6 +1628,9 @@ translate R FICSUnrated {Без рейтинга}
 translate R FICSRegisteredPlayer {Только зарегистрированный игрок}
 translate R FICSFreePlayer {Только бесплатный игрок}
 translate R FICSNetError {Ошибка сети\Невозможно подключиться к}
+translate R OptionsFICS {ФИКС}
+translate R FICSTerminalColor {Цвет терминала}
+translate R FICSTextColor {Цвет текста}
 
 # Game review
 translate R GameReview {Обзор партии}
@@ -1625,6 +1708,8 @@ translate R FindCurrentGame {Найти текущую игру}
 translate R DeleteGame {Удалить игру}
 translate R UndeleteGame {Отменить удаление игры}
 translate R ResetSort {Сбросить сортировку}
+translate R LayoutExists {Макет «%s» уже существует.}
+translate R ConfirmDeleteLayout {Вы уверены, что хотите удалить макет «%s»?}
 
 translate R ConvertNullMove {Преобразовать пустые ходы в комментарии}
 translate R SetupBoard {Настроить доску}
@@ -1661,5 +1746,32 @@ translate R OptionsTablebaseDir "Выберите до 4 директорий с
 # Evaluation bar
 translate R BestMoveArrow "Лучший ход стрелка"
 translate R NewLocalEngine "+ Новый двигатель..."
+
+# Batch Annotate
+translate R BatchAnnotate {Пакетное аннотирование}
+translate R BatchEngineSelection {Выбор двигателя}
+translate R BatchChessEngine {Шахматный движок:}
+translate R BatchNumberOfInstances {Количество экземпляров:}
+translate R BatchGameReview {Обзор игры}
+translate R BatchTimePerMove {Время на ход (сек):}
+translate R BatchAnnotateBlunders {Комментируйте только ошибки}
+translate R BatchBlunderThreshold {Порог ошибки:}
+translate R BatchVariationLength {Длина вариации (ходы):}
+translate R BatchOpeningBook {Открытие книги}
+translate R BatchUseBook {Используйте книгу}
+translate R BatchAnnotateVariations {Аннотировать варианты}
+translate R BatchShortAnnotations {Краткие аннотации}
+translate R BatchAddScoreToShort {Добавляйте баллы к коротким аннотациям}
+translate R BatchClearOld {Удалить старые комментарии и варианты}
+translate R BatchInitializingEngines {Инициализация двигателей...}
+translate R BatchAnalyzingGames {Анализ игр...}
+translate R BatchProgress {Прогресс пакетного аннотирования}
+translate R BatchComplete {Пакетная аннотация завершена!}
+translate R BatchCancelled {Пакетная аннотация отменена}
+translate R BatchStart {Начинать}
+translate R BatchCancel {Отмена}
+translate R BatchCompleted {завершенный}
+translate R BatchGames {игры}
+translate R BatchProcessed {обработано}
 }
 # end of english.tcl

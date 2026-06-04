@@ -254,7 +254,7 @@ proc ::htext::extractSectionName {tagName} {
 
 set ::htext::interrupt 0
 
-proc ::htext::display {w helptext {section ""} {fixed 1}} {
+proc ::htext::display {w helptext {section ""} {fixed 1} {baseId ""}} {
   global helpWin
   # set start [clock clicks -milli]
   set helpWin(Indent) 0
@@ -371,10 +371,12 @@ proc ::htext::display {w helptext {section ""} {fixed 1}} {
         set gameTag $tagName
         set tagName "g"
         set gnum [string range $gameTag 2 end]
-        set glCommand "::game::LoadMenu $w [sc_base current] $gnum %X %Y"
+        set useBase $baseId
+        if {$useBase eq ""} { set useBase [sc_base current] }
+        set glCommand "::game::LoadMenu $w $useBase $gnum %X %Y"
         $w tag bind $gameTag <ButtonPress-1> $glCommand
         $w tag bind $gameTag <ButtonPress-$::MB3> \
-            "::gbrowser::new [sc_base current] $gnum"
+            "::gbrowser::new $useBase $gnum"
         $w tag bind $gameTag <Any-Enter> \
             "$w tag configure $gameTag -foreground white
              $w tag configure $gameTag -background DodgerBlue4
@@ -530,6 +532,13 @@ proc ::htext::display {w helptext {section ""} {fixed 1}} {
 #
 proc openURL {url} {
   global windowsOS
+  # Validate the URL scheme to prevent launching executables or opening
+  # unexpected local resources on behalf of game/player data.
+  if {![regexp -nocase {^(https?|ftps?|file)://} $url]} {
+    tk_messageBox -title "scidCommunity" -icon warning -type ok \
+        -message "URL blocked: only http://, https://, ftp://, and file:// addresses are permitted."
+    return
+  }
   busyCursor .
   if {$windowsOS} {
     # On Windows, use the "start" command:
@@ -549,31 +558,31 @@ proc openURL {url} {
     } elseif {[file executable [auto_execok firefox]]} {
       # Mozilla seems to be available:
       # First, try -remote mode:
-      if {[catch {exec /bin/sh -c "$::auto_execs(firefox) -remote 'openURL($url)'"}]} {
+      if {[catch {exec $::auto_execs(firefox) -remote "openURL($url)"}]} {
         # Now try a new Mozilla process:
-        catch {exec /bin/sh -c "$::auto_execs(firefox) '$url'" &}
+        catch {exec $::auto_execs(firefox) $url &}
       }
     } elseif {[file executable [auto_execok iceweasel]]} {
       # First, try -remote mode:
-      if {[catch {exec /bin/sh -c "$::auto_execs(iceweasel) -remote 'openURL($url)'"}]} {
+      if {[catch {exec $::auto_execs(iceweasel) -remote "openURL($url)"}]} {
         # Now try a new Mozilla process:
-        catch {exec /bin/sh -c "$::auto_execs(iceweasel) '$url'" &}
+        catch {exec $::auto_execs(iceweasel) $url &}
       }
     } elseif {[file executable [auto_execok mozilla]]} {
       # First, try -remote mode:
-      if {[catch {exec /bin/sh -c "$::auto_execs(mozilla) -remote 'openURL($url)'"}]} {
+      if {[catch {exec $::auto_execs(mozilla) -remote "openURL($url)"}]} {
         # Now try a new Mozilla process:
-        catch {exec /bin/sh -c "$::auto_execs(mozilla) '$url'" &}
+        catch {exec $::auto_execs(mozilla) $url &}
       }
     } elseif {[file executable [auto_execok www-browser]]} {
       # Now try a new Mozilla process:
-      catch {exec /bin/sh -c "$::auto_execs(www-browser) '$url'" &}
+      catch {exec $::auto_execs(www-browser) $url &}
     } elseif {[file executable [auto_execok netscape]]} {
       # OK, no Mozilla (poor user) so try Netscape (yuck):
       # First, try -remote mode to avoid starting a new netscape process:
-      if {[catch {exec /bin/sh -c "$::auto_execs(netscape) -raise -remote 'openURL($url)'"}]} {
+      if {[catch {exec $::auto_execs(netscape) -raise -remote "openURL($url)"}]} {
         # Now just try starting a new netscape process:
-        catch {exec /bin/sh -c "$::auto_execs(netscape) '$url'" &}
+        catch {exec $::auto_execs(netscape) $url &}
       }
     } else {
       foreach executable {iexplorer opera lynx w3m links epiphan galeon
@@ -581,8 +590,7 @@ proc openURL {url} {
         set executable [auto_execok $executable]
         if [string length $executable] {
           # Is there any need to give options to these browsers? how?
-          set command [list $executable $url &]
-          catch {exec /bin/sh -c "$executable '$url'" &}
+          catch {exec $executable $url &}
           break
         }
       }

@@ -59,12 +59,52 @@ proc ::game::Truncate {} {
 #   The parameter <action> should be "previous" or "next".
 #
 proc ::game::LoadNextPrev {action} {
-  set number [sc_filter $action]
-  if {$number == 0} {
-    return
+  set db [sc_base current]
+  set gnum [sc_game number]
+
+  # Try to find a Game List window for this database to get the sort order
+  set sortStr ""
+  set filter "dbfilter"
+  foreach w $::windows::gamelist::wins {
+    if {$::gamelistBase($w) == $db && [info exists ::glistSortStr($w.games.glist)]} {
+      set sortStr [string trim $::glistSortStr($w.games.glist)]
+      set filter $::gamelistFilter($w)
+      break
+    }
   }
+
+  if {$sortStr != "" && $sortStr != "0 +"} {
+    set r "none"
+    if {$gnum > 0} {
+      set r [sc_base gamelocation $db $filter $sortStr $gnum]
+    }
+    if {$r != "none" || $action == "first" || $action == "last"} {
+      if {$action == "first"} {
+        set r 0
+      } elseif {$action == "last"} {
+        set r [expr {[sc_filter count $db $filter] - 1}]
+      } elseif {$action == "next"} {
+        if {$r == "none"} { set r 0 } else { incr r }
+      } else {
+        if {$r == "none"} { set r 0 } else { incr r -1 }
+      }
+
+      if {$r >= 0 && $r < [sc_filter count $db $filter]} {
+        set nextGame [sc_base gameslist $db $r 1 $filter $sortStr]
+        if {[llength $nextGame] >= 3} {
+          set nextGnum [lindex [split [lindex $nextGame 0] "_"] 0]
+          ::game::Load $nextGnum
+          return
+        }
+      }
+    }
+  }
+
+  set number [sc_filter $action]
+  if {$number == 0} { return }
   ::game::Load $number
 }
+
 
 # ::game::Reload
 #
@@ -74,6 +114,25 @@ proc ::game::Reload {} {
   if {![sc_base inUse]} { return }
   if {[sc_game number] < 1} { return }
   ::game::Load [sc_game number]
+}
+
+# ::game::ToggleDeleteFlag
+#
+#   Toggles the delete/flag state of the current game.
+#
+proc ::game::ToggleDeleteFlag {} {
+  set db [sc_base current]
+  set gnum [sc_game number]
+  if {$db ne "" && $gnum > 0} {
+    # Check if the database is writable
+    if {[sc_base isReadOnly $db]} {
+      return
+    }
+    # Wrap the gameflag call in catch to handle errors
+    if {[catch {sc_base gameflag $db $gnum invert del} err] == 0} {
+      ::notify::GameChanged
+    }
+  }
 }
 
 # ::game::LoadRandom
@@ -117,7 +176,7 @@ proc ::game::LoadMenu {w base gnum x y} {
 #   Entry variable for GotoMoveNumber dialog.
 #
 set ::game::moveEntryNumber ""
-trace variable ::game::moveEntryNumber w {::utils::validate::Regexp {^[0-9]*$}}
+trace add variable ::game::moveEntryNumber write {::utils::validate::Regexp {^[0-9]*$}}
 
 # ::game::GotoMoveNumber
 #
@@ -207,7 +266,7 @@ proc ::game::Load { selection {ply ""} } {
   if {![info exists flipB]} { set flipB -1 }
   ::board::flipAuto .main.board $flipB
 
-  ::notify::GameChanged
+  ::notify::GameChanged 2
 }
 
 
@@ -298,10 +357,10 @@ proc ::game::ConfirmDiscard {} {
 # When complete this should be moved to a new notify.tcl file
 namespace eval ::notify {
   # To be called when the current game change or the Header infos (player names, site, result, etc) are modified
-  proc GameChanged {} {
+  proc GameChanged {{follow 0}} {
     updateMainGame
     ::notify::PosChanged newgame
-    ::windows::gamelist::Refresh 0
+    ::windows::gamelist::Refresh $follow
     ::maint::Refresh
   }
 

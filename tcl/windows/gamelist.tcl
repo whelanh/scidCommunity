@@ -91,7 +91,10 @@ proc ::windows::gamelist::Refresh {{moveup 1} {wlist ""}} {
 			::windows::gamelist::SetBase $w [sc_base current]
 			continue
 		}
-		::windows::gamelist::update_ $w $moveup
+		::windows::gamelist::update_ $w [expr {$moveup == 1}]
+		if {$moveup == 2 && $::gamelistBase($w) == [sc_base current]} {
+			glist.findcurrentgame_ $w.games.glist [sc_game number]
+		}
 	}
 }
 
@@ -156,6 +159,44 @@ proc ::windows::gamelist::FilterExport {{w}} {
 	if {[file extension $fName] == ""} { append fName ".pgn" }
 	set err [catch {sc_filter export $::gamelistBase($w) $::gamelistFilter($w) \
 	                    $::glistSortStr($w.games.glist) $fName $::gamelistExport }]
+	closeProgressWindow
+	if {$err && $::errorCode != $::ERROR::UserCancel} { ERROR::MessageBox }
+}
+
+proc ::windows::gamelist::ExportSelected {{w} {glist_w}} {
+	set ftype {
+	   { {PGN} {.pgn} }
+	}
+	set fName [tk_getSaveFile -initialdir $::initialDir(base) \
+	                          -filetypes $ftype \
+	                          -typevariable ::gamelistExport \
+	                          -title "Export Selected Games" ]
+	if {$fName == ""} { return }
+	progressWindow "Scid" "Exporting selected games..." $::tr(Cancel)
+	if {[file extension $fName] == ""} { append fName ".pgn" }
+	if {[info exists ::glistMultiSel($glist_w)]} {
+		set all_sel $::glistMultiSel($glist_w)
+	} else {
+		set all_sel [$glist_w selection]
+	}
+	set err [catch {
+		set fp [open $fName w]
+		set savedGameNum [sc_game number]
+		foreach s $all_sel {
+			lassign [split $s "_"] idx ply
+			if {$idx ne ""} {
+				sc_game load $idx
+				set pgnStr [sc_game pgn -width 75 -symbols $::pgn::symbolicNags \
+							-indentVar $::pgn::indentVars -indentCom $::pgn::indentComments \
+							-space $::pgn::moveNumberSpaces -format plain -column $::pgn::columnFormat \
+							-markCodes $::pgn::stripMarks]
+				puts $fp $pgnStr
+				puts $fp ""
+			}
+		}
+		close $fp
+		if {$savedGameNum > 0} { sc_game load $savedGameNum }
+	}]
 	closeProgressWindow
 	if {$err && $::errorCode != $::ERROR::UserCancel} { ERROR::MessageBox }
 }
@@ -233,9 +274,9 @@ proc ::windows::gamelist::Awesome {{w} {txt}} {
 		sc_filter reset "$::gamelistBase($w)" $filter empty
 		#Split the string using " + "
 		foreach {dummy sub} [regexp -all -inline {(.+?)(?:\s\+\s|$)} $txt] {
-			set cmd "sc_filter search $::gamelistBase($w) $filter header -filter OR"
+			set cmd [list sc_filter search $::gamelistBase($w) $filter header -filter OR]
 			progressWindow "Scid" "$::tr(HeaderSearch)..." $::tr(Cancel)
-			set res [eval "$cmd [AweParse $sub]"]
+			set res [{*}$cmd {*}[AweParse $sub]]
 			closeProgressWindow
 		}
 	}
@@ -365,10 +406,10 @@ proc ::windows::gamelist::AweParse {{txt}} {
 		if {[regsub {^!} $value {} value]} {
 			append param "!"
 		}
-		lappend res [list $param $value]
+		lappend res $param $value
 	}
 
-	return [join $res]
+	return $res
 }
 
 proc ::windows::gamelist::CopyGames {{w} {srcBase} {dstBase} {filter "dbfilter"} {ask true}} {
@@ -765,7 +806,7 @@ proc glist.create {{w} {layout} {reset_layout false}} {
     set ::glist_FindBar($layout) 0
   }
 
-  ttk::treeview $w.glist -style Gamelist.Treeview -columns $::glist_Headers -show headings -selectmode browse
+  ttk::treeview $w.glist -style Gamelist.Treeview -columns $::glist_Headers -show headings -selectmode extended
   $w.glist tag configure current -background steelBlue
   $w.glist tag configure fsmall -font font_Small
   $w.glist tag configure deleted -foreground #a5a2ac
@@ -790,7 +831,7 @@ proc glist.create {{w} {layout} {reset_layout false}} {
   bind $w.glist <Control-Home> {glist.ybar_ %W moveto 0; break}
   bind $w.glist <Control-End> {glist.ybar_ %W moveto 1; break}
   bind $w.glist <KeyPress-Return> {
-    lassign [split [%W selection] "_"] idx ply
+    lassign [split [lindex [%W selection] 0] "_"] idx ply
     if {$idx ne ""} {
       ::file::SwitchToBase $::glistBase(%W) 0
       ::game::Load $idx $ply
@@ -798,23 +839,91 @@ proc glist.create {{w} {layout} {reset_layout false}} {
     break
   }
   bind $w.glist <Delete> {
-    lassign [split [%W selection] "_"] idx ply
-    if {$idx ne ""} {
-      glist.delflag_ %W $idx
+    if {[info exists ::glistMultiSel(%W)]} {
+      set _all_sel $::glistMultiSel(%W)
+    } else {
+      set _all_sel [%W selection]
+    }
+    set updated 0
+    foreach sel $_all_sel {
+      lassign [split $sel "_"] idx ply
+      if {$idx ne ""} {
+        glist.delflag_ %W $idx
+        set updated 1
+      }
+    }
+    if {$updated} {
+      set ::glistMultiSel(%W) {}
       glist.movesel_ %W next +1 end
     }
     break
   }
   bind $w.glist <Control-Delete> {
-    lassign [split [%W selection] "_"] idx ply
-    if {$idx ne ""} {
-      glist.movesel_ %W next +1 end;
-      sc_filter remove $::glistBase(%W) $::glistFilter(%W) $idx
+    if {[info exists ::glistMultiSel(%W)]} {
+      set _all_sel $::glistMultiSel(%W)
+    } else {
+      set _all_sel [%W selection]
+    }
+    set updated 0
+    foreach sel $_all_sel {
+      lassign [split $sel "_"] idx ply
+      if {$idx ne ""} {
+        sc_filter remove $::glistBase(%W) $::glistFilter(%W) $idx
+        set updated 1
+      }
+    }
+    if {$updated} {
+      set ::glistMultiSel(%W) {}
+      glist.movesel_ %W next +1 end
       ::notify::DatabaseModified $::glistBase(%W)
     }
     break
   }
+  bind $w.glist <Control-x> {
+    if {[info exists ::glistMultiSel(%W)]} {
+      set _all_sel $::glistMultiSel(%W)
+    } else {
+      set _all_sel [%W selection]
+    }
+    set updated 0
+    foreach sel $_all_sel {
+      lassign [split $sel "_"] idx ply
+      if {$idx ne ""} {
+        glist.delflag_ %W $idx
+        set updated 1
+      }
+    }
+    if {$updated} {
+      set ::glistMultiSel(%W) {}
+      glist.movesel_ %W next +1 end
+    }
+    break
+  }
+  bind $w.glist <Control-X> {
+    if {[info exists ::glistMultiSel(%W)]} {
+      set _all_sel $::glistMultiSel(%W)
+    } else {
+      set _all_sel [%W selection]
+    }
+    set updated 0
+    foreach sel $_all_sel {
+      lassign [split $sel "_"] idx ply
+      if {$idx ne ""} {
+        glist.delflag_ %W $idx
+        set updated 1
+      }
+    }
+    if {$updated} {
+      set ::glistMultiSel(%W) {}
+      glist.movesel_ %W next +1 end
+    }
+    break
+  }
   bind $w.glist <Destroy> "glist.destroy_ $w.glist"
+
+  # Persistent multi-selection store: game item IDs survive virtual scroll reloads.
+  # Updated explicitly in glist.release_ and glist.movesel_ after user interactions.
+  set ::glistMultiSel($w.glist) {}
 
   set i 0
   foreach col $::glist_Headers {
@@ -889,7 +998,11 @@ proc glist.update {{w} {base} {filter} {moveUp 1}} {
 
   set ::glistFilter($w.glist) $filter
   lassign [sc_filter sizes $base $filter] ::glistTotal($w.glist) n_games n_main_filter
-  if {$moveUp == 1} { set ::glistFirst($w.glist) 0 }
+  if {$moveUp == 1} {
+    set ::glistFirst($w.glist) 0
+    # Filter/search changed: clear stale persistent selection
+    set ::glistMultiSel($w.glist) {}
+  }
 
   if {$n_main_filter != $n_games && $n_main_filter != $::glistTotal($w.glist)} {
     set flt_text "([::utils::thousands $n_main_filter 100000]) -> "
@@ -937,6 +1050,80 @@ proc glist.layout_save {layout} {
   lappend ::glist_Layouts "$new_ly"
 }
 
+proc glist.layout_rename {layout} {
+  set w .glist_rename
+  if {[winfo exists $w]} { destroy $w }
+  win::createDialog $w
+  wm title $w "[tr Rename] $layout"
+
+  pack [ttk::label $w.msg -text "[tr Rename] $layout:"] -padx 10 -pady 5
+  pack [ttk::entry $w.name] -padx 10 -pady 5 -fill x
+  $w.name insert 0 $layout
+  $w.name selection range 0 end
+  focus $w.name
+
+  set f [ttk::frame $w.buttons]
+  pack $f -padx 10 -pady 10 -fill x
+
+  ttk::button $f.ok -text [tr Save] -command [list glist.layout_rename_validate $w $layout]
+  ttk::button $f.cancel -text [tr Cancel] -command [list destroy $w]
+  pack $f.cancel $f.ok -side right -padx 5
+
+  bind $w <Return> [list $f.ok invoke]
+  bind $w <Escape> [list destroy $w]
+}
+
+proc glist.layout_rename_validate {w layout} {
+  set new_ly [$w.name get]
+  if {$new_ly eq {} || $new_ly eq $layout} {
+    destroy $w
+    return
+  }
+  # Validate the new name - only allow alphanumeric, underscore, and hyphen
+  if {![regexp {^[A-Za-z0-9_-]+$} $new_ly]} {
+    tk_messageBox -icon error -title scidCommunity -message "Invalid layout name. Only letters, numbers, underscore, and hyphen are allowed."
+    return
+  }
+  glist.layout_rename_do $layout $new_ly
+  destroy $w
+}
+
+proc glist.layout_rename_do {old new} {
+  set idx [lsearch -exact $::glist_Layouts $old]
+  if {$idx == -1} return
+  if {[lsearch -exact $::glist_Layouts $new] != -1} {
+    tk_messageBox -icon error -title scidCommunity -message [format $::tr(LayoutExists) $new]
+    return
+  }
+  set ::glist_Layouts [lreplace $::glist_Layouts $idx $idx $new]
+  set ::glist_ColOrder($new) $::glist_ColOrder($old)
+  set ::glist_ColWidth($new) $::glist_ColWidth($old)
+  set ::glist_ColAnchor($new) $::glist_ColAnchor($old)
+  set ::glist_Sort($new) $::glist_Sort($old)
+  set ::glist_FindBar($new) $::glist_FindBar($old)
+  unset ::glist_ColOrder($old)
+  unset ::glist_ColWidth($old)
+  unset ::glist_ColAnchor($old)
+  unset ::glist_Sort($old)
+  unset ::glist_FindBar($old)
+  options.write
+}
+
+proc glist.layout_delete {layout} {
+  set msg [format $::tr(ConfirmDeleteLayout) $layout]
+  set answer [tk_messageBox -title scidCommunity -icon question -type yesno -message $msg]
+  if {$answer ne "yes"} return
+  set idx [lsearch -exact $::glist_Layouts $layout]
+  if {$idx == -1} return
+  set ::glist_Layouts [lreplace $::glist_Layouts $idx $idx]
+  unset ::glist_ColOrder($layout)
+  unset ::glist_ColWidth($layout)
+  unset ::glist_ColAnchor($layout)
+  unset ::glist_Sort($layout)
+  unset ::glist_FindBar($layout)
+  options.write
+}
+
 
 ##########################################################################
 #private:
@@ -970,6 +1157,7 @@ proc glist.destroy_ {{w}} {
   unset ::glistTotal($w)
   unset ::glistYScroll($w)
   unset ::glistFindBar($w)
+  unset -nocomplain ::glistMultiSel($w)
 }
 
 proc glist.update_ {{w} {base}} {
@@ -977,11 +1165,15 @@ proc glist.update_ {{w} {base}} {
     #Create a sortcache to speed up sorting
     sc_base sortcache $base create $::glistSortStr($w)
     set ::glistFirst($w) 0
+    # New list: clear any stale persistent selection
+    set ::glistMultiSel($w) {}
   } elseif {$::glistBase($w) != $base || $::glistSortCache($w) != $::glistSortStr($w)} {
     #Create a new sortcache
     catch { sc_base sortcache $::glistBase($w) release $::glistSortCache($w) }
     sc_base sortcache $base create $::glistSortStr($w)
     set ::glistFirst($w) 0
+    # Base or sort changed: clear stale persistent selection
+    set ::glistMultiSel($w) {}
   }
   set ::glistSortCache($w) $::glistSortStr($w)
   set ::glistBase($w) $base
@@ -990,7 +1182,12 @@ proc glist.update_ {{w} {base}} {
 }
 
 proc glist.loadvalues_ {{w}} {
-  set sel [$w selection]
+  if {[info exists ::glistMultiSel($w)]} {
+    set saved_multi $::glistMultiSel($w)
+  } else {
+    set saved_multi {}
+  }
+
   $w delete [$w children {}]
   set base $::glistBase($w)
   if {$base == [sc_base current]} {
@@ -1001,18 +1198,50 @@ proc glist.loadvalues_ {{w}} {
   set i 0
   set n $::glistVisibleLn($w)
   if {$n} { incr n } { set n 20 }
+  set current_item ""
   foreach {idx line deleted} [sc_base gameslist $base $::glistFirst($w) $n \
                                         $::glistFilter($w) $::glistSortStr($w)] {
     if {[lindex $line 1] == "=-="} { set line [lreplace $line 1 1 "\u00BD-\u00BD"] }
     $w insert {} end -id $idx -values $line -tag fsmall
     if {$deleted == "D"} { $w item $idx -tag {fsmall deleted} }
     foreach {n ply} [split $idx "_"] {
-      if {$n == $current_game} { $w item $idx -tag "[$w item $idx -tag] current" }
+      if {$n == $current_game} {
+        $w item $idx -tag "[$w item $idx -tag] current"
+        set current_item $idx
+      }
     }
     incr i
   }
   set ::glistLoaded($w) $i
-  catch {$w selection set $sel}
+
+  # Restore whichever saved selections are visible on this page.
+  if {$current_item != ""} {
+    # Current game is on this page — keep it selected plus any saved items also visible.
+    set to_select [list $current_item]
+    foreach item $saved_multi {
+      if {$item ne $current_item && [$w exists $item]} {
+        lappend to_select $item
+      }
+    }
+    $w selection set $to_select
+  } elseif {[llength $saved_multi] > 0} {
+    # No current game on this page — restore whichever saved items are visible.
+    set visible {}
+    foreach item $saved_multi {
+      if {[$w exists $item]} { lappend visible $item }
+    }
+    if {[llength $visible] > 0} {
+      $w selection set $visible
+    } else {
+      $w selection set {}
+    }
+  } else {
+    $w selection set {}
+  }
+
+  # Restore the persistent store unchanged — scrolling must never alter it.
+  set ::glistMultiSel($w) $saved_multi
+
   glist.yscroll_ $w {*}[$w yview]
 }
 
@@ -1033,8 +1262,11 @@ proc glist.showfindbar_ {{w} {layout} {show ""}} {
 proc glist.findcurrentgame_ {{w} {gnum}} {
   set r [sc_base gamelocation $::glistBase($w) $::glistFilter($w) $::glistSortStr($w) $gnum]
   if {$r != "none"} {
-    set ::glistFirst($w) $r
-    glist.ybar_ $w scroll
+    # Only scroll if the game is not already visible on the current page
+    if {$r < $::glistFirst($w) || $r >= $::glistFirst($w) + $::glistVisibleLn($w)} {
+      set ::glistFirst($w) $r
+      glist.ybar_ $w scroll
+    }
   }
 }
 
@@ -1056,7 +1288,7 @@ proc glist.findgame_ {{w_parent} {dir}} {
     set r [sc_base gamelocation $::glistBase($w) $::glistFilter($w) $::glistSortStr($w) $txt]
   } else {
     set gstart [expr int($::glistFirst($w))]
-    foreach {n ply} [split [$w selection] "_"] {
+    foreach {n ply} [split [lindex [$w selection] 0] "_"] {
       if {$n != ""} {
         set gstart [sc_base gamelocation $::glistBase($w) $::glistFilter($w) $::glistSortStr($w) $n]
       }
@@ -1087,14 +1319,17 @@ proc glist.select_ {w {idx 0}} {
 proc glist.movesel_ {{w} {cmd} {scroll} {select}} {
   set sel [$w selection]
   if {$sel == ""} { glist.select_ $w; return }
-  set newsel [$w $cmd $sel]
+  set newsel [$w $cmd [lindex $sel end]]
   if {$newsel == "" || [$w bbox $newsel] == ""} {
     glist.ybar_ $w scroll $scroll
   }
   if {$newsel == ""} {
     after idle glist.select_ $w $select
+    # clear persistent store when moving past the end
+    set ::glistMultiSel($w) {}
   } else {
     $w selection set $newsel
+    set ::glistMultiSel($w) [$w selection]
   }
 }
 
@@ -1137,8 +1372,30 @@ proc glist.removeFromFilter_ {{w} {idx} {dir ""}} {
 
 proc glist.popupmenu_ {{w} {x} {y} {abs_x} {abs_y} {layout}} {
   if {[$w identify region $x $y] != "heading" } {
-    event generate $w <ButtonPress-1> -x $x -y $y
-    lassign [split [$w selection] "_"] idx ply
+    set item [$w identify item $x $y]
+    if {$item ne "" && [lsearch -exact [$w selection] $item] == -1} {
+      # Right-click on an unselected row: simulate a full left-click
+      # (press + release) so the treeview's internal state machine is
+      # left clean.  The release also fires glist.release_ which
+      # updates glistMultiSel for us.
+      event generate $w <ButtonPress-1> -x $x -y $y
+      event generate $w <ButtonRelease-1> -x $x -y $y
+    }
+    # Use the full cross-page persistent selection for all menu actions.
+    # Fall back to visible treeview selection if the store isn't initialized.
+    if {[info exists ::glistMultiSel($w)] && [llength $::glistMultiSel($w)] > 0} {
+      set sel $::glistMultiSel($w)
+    } else {
+      set sel [$w selection]
+      if {[llength $sel] == 0} {
+        event generate $w <ButtonPress-1> -x $x -y $y
+        set sel [$w selection]
+      }
+    }
+    # Capture the full selection list now as a Tcl literal for use in command strings.
+    set sel_literal $sel
+    set first_sel [lindex $sel 0]
+    lassign [split $first_sel "_"] idx ply
     if {$idx ne ""} {
       if { [winfo exists $w.game_menu.merge] } { destroy $w.game_menu.merge }
       if { [winfo exists $w.game_menu.copy] } { destroy $w.game_menu.copy }
@@ -1146,18 +1403,46 @@ proc glist.popupmenu_ {{w} {x} {y} {abs_x} {abs_y} {layout}} {
       if { [winfo exists $w.game_menu.export] } { destroy $w.game_menu.export }
       $w.game_menu delete 0 end
       #LOAD/BROWSE/MERGE GAME
-      $w.game_menu add command -label $::tr(LoadGame) \
-         -command "::file::SwitchToBase $::glistBase($w) 0; ::game::Load $idx $ply"
-      $w.game_menu add command -label $::tr(BrowseGame) \
-         -command "::gbrowser::new $::glistBase($w) $idx $ply"
-      $w.game_menu add command -label $::tr(MergeGame) \
-         -command "mergeGame $::glistBase($w) $idx"
+      if {[llength $sel] == 1} {
+        $w.game_menu add command -label $::tr(LoadGame) \
+           -command "::file::SwitchToBase $::glistBase($w) 0; ::game::Load $idx $ply"
+        $w.game_menu add command -label $::tr(BrowseGame) \
+           -command "::gbrowser::new $::glistBase($w) $idx $ply"
+        $w.game_menu add command -label $::tr(MergeGame) \
+           -command "mergeGame $::glistBase($w) $idx"
+      }
       menu $w.game_menu.merge
       menu $w.game_menu.copy
-      $w.game_menu add cascade -label $::tr(GlistMergeGameInBase) -menu $w.game_menu.merge
+      if {[llength $sel] == 1} {
+        $w.game_menu add cascade -label $::tr(GlistMergeGameInBase) -menu $w.game_menu.merge
+      }
       $w.game_menu add cascade -label $::tr(CopyGameTo) -menu $w.game_menu.copy
-      $w.game_menu add command -label [expr {[sc_base gameflag $::glistBase($w) $idx get del] ? $::tr(UndeleteGame) : $::tr(DeleteGame) }] \
-        -command "glist.delflag_ $w $idx; $w selection set {};"
+      if {[llength $sel] >= 1} {
+        $w.game_menu add command -label $::tr(BatchAnnotate) \
+           -command [list ::batch_annotate::config $::glistBase($w) $sel_literal]
+      }
+
+      set is_del 1
+      foreach s $sel {
+        lassign [split $s "_"] i p
+        if {$i ne ""} {
+          if {[catch {sc_base gameflag $::glistBase($w) $i get del} flag] || !$flag} {
+            set is_del 0; break
+          }
+        }
+      }
+      set label_base [expr {$is_del ? $::tr(UndeleteGame) : $::tr(DeleteGame) }]
+      if {[llength $sel] > 1} { set label_base "$label_base ([llength $sel])" }
+      # Embed the literal selection list into the command so it operates on ALL pages
+      $w.game_menu add command -label $label_base \
+        -command [list apply {{w sel_list} {
+            foreach s $sel_list {
+              lassign [split $s "_"] i p
+              if {$i ne ""} { glist.delflag_ $w $i }
+            }
+            $w selection set {}
+            set ::glistMultiSel($w) {}
+          }} $w $sel_literal]
 
       $w.game_menu add separator
       set w_top [regexp -inline {^\.[^.]+} $w]
@@ -1168,12 +1453,24 @@ proc glist.popupmenu_ {{w} {x} {y} {abs_x} {abs_y} {layout}} {
       $w.game_menu.filter add command -label [tr SearchNegate] \
         -command "::windows::gamelist::FilterNegate $w_top $::glistBase($w)"
       $w.game_menu.filter add separator
-      $w.game_menu.filter add command -label $::tr(GlistRemoveGameAndAboveFromFilter) \
-        -command "glist.removeFromFilter_ $w $idx -"
-      $w.game_menu.filter add command -label $::tr(GlistRemoveThisGameFromFilter) \
-        -command "glist.removeFromFilter_ $w $idx"
-      $w.game_menu.filter add command -label $::tr(GlistRemoveGameAndBelowFromFilter) \
-        -command "glist.removeFromFilter_ $w $idx +"
+      if {[llength $sel] == 1} {
+        $w.game_menu.filter add command -label $::tr(GlistRemoveGameAndAboveFromFilter) \
+          -command "glist.removeFromFilter_ $w $idx -"
+        $w.game_menu.filter add command -label $::tr(GlistRemoveThisGameFromFilter) \
+          -command "glist.removeFromFilter_ $w $idx"
+        $w.game_menu.filter add command -label $::tr(GlistRemoveGameAndBelowFromFilter) \
+          -command "glist.removeFromFilter_ $w $idx +"
+      } else {
+        $w.game_menu.filter add command -label "Remove Selected Games From Filter" \
+          -command [list apply {{w sel_list} {
+              foreach s $sel_list {
+                lassign [split $s "_"] i p
+                if {$i ne ""} { sc_filter remove $::glistBase($w) $::glistFilter($w) $i }
+              }
+              lassign [sc_filter components $::glistBase($w) $::glistFilter($w)] f
+              ::notify::filter $::glistBase($w) $f
+            }} $w $sel_literal]
+      }
       $w.game_menu.filter add separator
       $w.game_menu.filter add command -label $::tr(GlistDeleteAllGames) \
         -command "sc_base gameflag $::glistBase($w) $::glistFilter($w) set del; ::notify::DatabaseModified $::glistBase($w)"
@@ -1183,16 +1480,26 @@ proc glist.popupmenu_ {{w} {x} {y} {abs_x} {abs_y} {layout}} {
       menu $w.game_menu.export
       $w.game_menu.export add command -label [tr ToolsExpFilter] \
         -command "::windows::gamelist::FilterExport $w_top"
+      $w.game_menu.export add command -label "Export Selected Games..." \
+        -command "::windows::gamelist::ExportSelected $w_top $w"
       $w.game_menu.export add separator
       $w.game_menu add cascade -label [tr CopyGames] -menu $w.game_menu.export
 
       foreach i [sc_base list] {
         if { $i == $::glistBase($w) || [sc_base isReadOnly $i] } { continue }
         set fname [::file::BaseName $i]
-        $w.game_menu.merge add command -label "$i $fname" \
-          -command "::game::mergeInBase $::glistBase($w) $i $idx"
+        if {[llength $sel] == 1} {
+          $w.game_menu.merge add command -label "$i $fname" \
+            -command "::game::mergeInBase $::glistBase($w) $i $idx"
+        }
         $w.game_menu.copy add command -label "$i $fname" \
-          -command "sc_base copygames $::glistBase($w) $idx $i; ::notify::DatabaseModified $i"
+          -command [list apply {{w sel_list base_i} {
+              foreach s $sel_list {
+                lassign [split $s "_"] g_i p
+                if {$g_i ne ""} { sc_base copygames $::glistBase($w) $g_i $base_i }
+              }
+              ::notify::DatabaseModified $base_i
+            }} $w $sel_literal $i]
         $w.game_menu.export add command -label "$i $fname" \
           -command "::windows::gamelist::CopyGames $w_top $::glistBase($w) $i"
       }
@@ -1250,14 +1557,26 @@ proc glist.popupmenu_ {{w} {x} {y} {abs_x} {abs_y} {layout}} {
     #LAYOUTS
     destroy $w.header_menu.layouts
     menu $w.header_menu.layouts
-    $w.header_menu.layouts add command -label $::tr(Save) -command "glist.layout_save $layout"
+    $w.header_menu.layouts add command -label $::tr(Save) -command [list glist.layout_save $layout]
     $w.header_menu.layouts add separator
     $w.header_menu.layouts add command -label $::tr(Defaults) \
-      -command "glist.layout_apply [winfo parent $w] $layout DEFAULT"
+      -command [list glist.layout_apply [winfo parent $w] $layout DEFAULT]
     if {[info exists ::glist_Layouts]} {
+      set idx 0
       foreach elem $::glist_Layouts {
-        $w.header_menu.layouts add command -label $elem \
-          -command "glist.layout_apply [winfo parent $w] $layout $elem"
+        if {$elem in {RatingDate DateEvent Full}} {
+          $w.header_menu.layouts add command -label $elem \
+            -command [list glist.layout_apply [winfo parent $w] $layout $elem]
+        } else {
+          set sub [menu $w.header_menu.layouts.m$idx -tearoff 0]
+          $sub add command -label $elem -state disabled -font font_Bold
+          $sub add separator
+          $sub add command -label [tr Apply] -command [list glist.layout_apply [winfo parent $w] $layout $elem]
+          $sub add command -label [tr Rename] -command [list glist.layout_rename $elem]
+          $sub add command -label [tr Delete] -command [list glist.layout_delete $elem]
+          $w.header_menu.layouts add cascade -label $elem -menu $sub
+          incr idx
+        }
       }
     }
     $w.header_menu add cascade -label "Layouts" -menu $w.header_menu.layouts
@@ -1386,6 +1705,7 @@ proc glist.yscroll_ {w first last} {
       return
     }
     if {$::glistFirst($w) == 0} {
+      set ::glistVisibleLn($w) $::glistLoaded($w)
       return [{*}$::glistYScroll($w) $first $last]
     }
   }
@@ -1435,6 +1755,50 @@ proc glist.release_ {{w} {x} {y} {event_state} {layout}} {
     }
   }
   ttk::treeview::Release $w $x $y
+  # Merge the current-page selection into the cross-page persistent store.
+  # Strategy: only keep off-screen items if Ctrl or Shift is being held.
+  # A plain click should reset the entire selection, including off-screen items.
+  if {[info exists ::glistMultiSel($w)]} {
+    set isShift [expr {$event_state & 1}]
+    set isCtrl [expr {$event_state & 4}]
+
+    if {!$isShift && !$isCtrl} {
+      # Plain click: reset the store to only the current selection.
+      set ::glistMultiSel($w) [$w selection]
+    } else {
+      # Ctrl or Shift click: maintain off-screen selections.
+      set off_screen {}
+      foreach item $::glistMultiSel($w) {
+        if {![$w exists $item]} {
+          lappend off_screen $item
+        }
+      }
+      # glist.loadvalues_ implicitly adds the currently loaded game to the
+      # tree selection (e.g. after pressing Return).  Without filtering,
+      # a subsequent Ctrl/Shift click would silently include that loaded
+      # game in the persistent multi-selection, so the context menu would
+      # operate on one more game than the user actually clicked.  Drop the
+      # loaded game from both the tree selection and the persistent store
+      # unless the user explicitly clicked on it now or had it selected
+      # before this click.
+      if {$::glistBase($w) == [sc_base current]} {
+        set current_game [sc_game number]
+        set clicked_item [$w identify item $x $y]
+        set to_drop {}
+        foreach item [$w selection] {
+          lassign [split $item "_"] n ply
+          if {$n == $current_game && $item ne $clicked_item && \
+              [lsearch -exact $::glistMultiSel($w) $item] == -1} {
+            lappend to_drop $item
+          }
+        }
+        if {[llength $to_drop] > 0} {
+          $w selection remove $to_drop
+        }
+      }
+      set ::glistMultiSel($w) [concat $off_screen [$w selection]]
+    }
+  }
 }
 
 image create bitmap ::glist_Arrows(0) -foreground DodgerBlue3 -data {

@@ -1,3 +1,6 @@
+# Copyright (C) 2025-2026 Hugh Whelan
+# SPDX-License-Identifier: GPL-2.0-or-later
+
 ######################################################################
 #
 # lichess.tcl: Import games from Lichess.org
@@ -192,7 +195,9 @@ proc ::lichess::downloadUserGames {username sinceMs untilMs} {
   } elseif {[info exists ::windowsOS] && $::windowsOS && [auto_execok powershell] ne ""} {
     # Windows fallback: PowerShell Invoke-WebRequest
     if {[catch {
-      exec powershell -NoLogo -NoProfile -Command "Invoke-WebRequest -Uri '$apiurl' -OutFile '$pgnfile'" 2>@1
+      set ::env(SAFE_DL_URL) $apiurl
+      set ::env(SAFE_DL_FILE) $pgnfile
+      exec powershell -NoLogo -NoProfile -Command {Invoke-WebRequest -Uri $env:SAFE_DL_URL -OutFile $env:SAFE_DL_FILE} 2>@1
     } err]} {
       error "PowerShell download failed: $err"
     }

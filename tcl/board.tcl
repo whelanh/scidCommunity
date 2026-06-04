@@ -535,11 +535,10 @@ proc ::board::addNamesBar {w {varname}} {
 proc ::board::addInfoBar {w varname} {
   ttk::frame $w.bar
   ttk::frame $w.bar.info
-  ttk_text $w.bar.info.t -style Toolbutton
+  ttk_text $w.bar.info.t -style Toolbutton -height 2 -width 1 -wrap word
   autoscrollBars y $w.bar.info $w.bar.info.t
   $w.bar.info.t tag bind click <Any-Enter> "$w.bar.info.t configure -cursor hand2"
   $w.bar.info.t tag bind click <Any-Leave> "$w.bar.info.t configure -cursor {}"
-  grid propagate $w.bar.info 0
   ttk::button $w.bar.leavevar -image tb_BD_BackStart -style Toolbutton
   ttk::button $w.bar.back -image tb_BD_Back -style Toolbutton
   ttk::button $w.bar.forward -image tb_BD_Forward -style Toolbutton
@@ -1326,6 +1325,8 @@ proc ::board::mark::DrawMultipleBestMoves {w moves_list} {
   # Delete all existing best move arrows
   $w.bd delete bestmove1 bestmove2 bestmove3
   
+  if {! $::arrowLastMove} { return }
+  
   set colors {"#00C000" "#FFD700" "#FF0000"}
   set idx 0
   
@@ -1371,7 +1372,7 @@ proc ::board::mark::DrawRectangle { pathName square color pattern } {
 }
 
 # ::board::mark::DrawNag --
-# Display Nag/Text at the upper right corner of a square
+# Display annotation symbol (e.g. !, ?, !?) at the upper RIGHT corner of a square
 proc ::board::mark::DrawNag { pathName square nag color} {
   if {$square < 0  ||  $square > 63} { return }
   set box [::board::mark::GetBox $pathName.bd $square]
@@ -1396,6 +1397,36 @@ proc ::board::mark::DrawNag { pathName square nag color} {
   }
   $pathName.bd create oval $p(0) $p(1) $p(2) $p(3) -outline $color -fill $color -tag highlightLastMove
   $pathName.bd create text [expr [lindex $box 2] - $offsetX] [expr [lindex $box 1] + $offsetY] -text $nag \
+      -tag highlightLastMove -fill white -font [list font_Bold $size bold]
+}
+
+# ::board::mark::DrawEvalNag --
+# Display evaluation symbol (e.g. +-, +=, +--) at the upper LEFT corner of a square
+proc ::board::mark::DrawEvalNag { pathName square evalStr color} {
+  if {$square < 0  ||  $square > 63} { return }
+  set box [::board::mark::GetBox $pathName.bd $square]
+  set bsize $::board::_size($pathName)
+  set size [expr $bsize / 5]
+  # Upper-left anchor: left edge of square
+  set p(0) [expr [lindex $box 0] - $size]
+  set p(1) [expr [lindex $box 1] - $size]
+  set p(2) [expr $p(0) + 2 * $size]
+  set p(3) [expr $p(1) + 2 * $size]
+  set offsetX 0
+  set offsetY 0
+  # Check for outside board (left edge)
+  if { $p(0) < 0 } {
+      set p(0) [expr $p(0) + $size]
+      set p(2) [expr $p(2) + $size]
+      set offsetX $size
+  }
+  if { $p(1) < 0 } {
+      set p(1) [expr $p(1) + $size]
+      set p(3) [expr $p(3) + $size]
+      set offsetY $size
+  }
+  $pathName.bd create oval $p(0) $p(1) $p(2) $p(3) -outline $color -fill $color -tag highlightLastMove
+  $pathName.bd create text [expr [lindex $box 0] + $offsetX] [expr [lindex $box 1] + $offsetY] -text $evalStr \
       -tag highlightLastMove -fill white -font [list font_Bold $size bold]
 }
 
@@ -1593,10 +1624,33 @@ proc  ::board::lastMoveHighlight {w moveuci {nag ""}} {
     if { $::arrowLastMove } {
         ::board::mark::DrawArrow $w.bd $square1 $square2 $::highlightLastMoveColor
     }
-    if { $::highlightLastMoveNag && [regexp {[!?]+} $nag nag] } {
-        # green background for ! !! !?  red background for ? ?? ?!
-        set color [expr {[string index $nag 0] eq "!" ? "#30c030" : "#ff3030"}]
-        ::board::mark::DrawNag $w $square2 $nag $color
+    if { $::highlightLastMoveNag || $::highlightLastMoveEval } {
+        set fullNag $nag
+        # Extract move-quality annotation symbol ([!?]+) for upper-right badge
+        set annotSym ""
+        if { [regexp {[!?]+} $fullNag annotSym] } {
+            # Pick color: green for !, red for ?
+            set annotColor [expr {[string index $annotSym 0] eq "!" ? "#30c030" : "#ff3030"}]
+            if { $::highlightLastMoveNag } {
+                ::board::mark::DrawNag $w $square2 $annotSym $annotColor
+            }
+        }
+        # Extract evaluation symbol (e.g. +=, +/-, +-, +--,  =, -/+, -+, --)  for upper-left badge
+        set evalSym ""
+        if { [regexp {[\+=-][\+\-/=]+} $fullNag evalSym] } {
+            # Color: shades of green for white advantage, blue for equality, red for black advantage
+            set fc [string index $evalSym 0]
+            if { $fc eq "+" } {
+                set evalColor "#207020"
+            } elseif { $fc eq "-" } {
+                set evalColor "#c02020"
+            } else {
+                set evalColor "#206080"
+            }
+            if { $::highlightLastMoveEval } {
+                ::board::mark::DrawEvalNag $w $square2 $evalSym $evalColor
+            }
+        }
     }
   }
 }

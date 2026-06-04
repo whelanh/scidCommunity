@@ -576,25 +576,17 @@ proc makeClassifyWin {} {
   
   ttk::frame $w.f.b
   ttk::button $w.f.b.go -textvar ::tr(Classify) -command {
-    .classify.f.b.cancel configure -command "progressBarCancel"
-    .classify.f.b.cancel configure -textvar ::tr(Stop)
-    progressBarSet .classify.f.progress 301 21
-    grab .classify.f.b.cancel
     if {[catch  {sc_eco base $classifyOption(AllGames) $classifyOption(ExtendedCodes)} result]} {
-      grab release .classify.f.b.cancel
       ERROR::MessageBox
     } else {
-      grab release .classify.f.b.cancel
+      set message [subst $::tr(ClassifyResult)]
+      tk_messageBox -type ok -parent .classify -icon info \
+          -title "scidCommunity: [tr FileMaintClass]" \
+          -message $message
     }
-    .classify.f.b.cancel configure -command {focus .; destroy .classify}
-    .classify.f.b.cancel configure -textvar ::tr(Close)
     ::windows::gamelist::Refresh
   }
   ttk::button $w.f.b.cancel -textvar ::tr(Close) -command "focus .; destroy $w"
-  canvas $w.f.progress -width 300 -height 20 -bg white -relief solid -border 1
-  $w.f.progress create rectangle 0 0 0 0 -fill blue -outline blue -tags bar
-  $w.f.progress create text 295 10 -anchor e -font font_Regular -tags time \
-      -fill black -text "0:00 / 0:00"
   
   pack $w.f.g -anchor w -fill x -side top -pady "0 10"
 
@@ -602,7 +594,6 @@ proc makeClassifyWin {} {
   pack $w.f.codes.extended $w.f.codes.basic -side top -anchor w -fill x
   pack $w.f.b -side top -fill x
   packdlgbuttons $w.f.b.cancel $w.f.b.go
-  pack $w.f.progress -side bottom -padx 2 -pady 2
   wm resizable $w 0 0
   bind $w <F1> {helpWindow ECO}
   bind $w <Escape> "$w.b.cancel invoke"
@@ -822,6 +813,7 @@ proc baseIsCompactable {} {
 
 proc compactDB {{base -1}} {
   if {$base < 0} { set base [sc_base current] }
+
   if {[::game::Clear] == "cancel"} { return }
   if {[catch {sc_base compact $base stats} stats]} {
     return [ERROR::MessageBox "$::tr(CompactDatabase)\n"]
@@ -854,7 +846,7 @@ proc compactDB {{base -1}} {
   if {[winfo exists .calvarWin]} { ::calvar::stop }
   destroy .inputengineconsole
 
-  progressWindow "Scid" [concat $::tr(CompactDatabase) "..."] $::tr(Cancel)
+  progressWindow "scidCommunity" [concat $::tr(CompactDatabase) "..."] $::tr(Cancel)
   set err [catch {sc_base compact $base} result]
   closeProgressWindow
   if {$err} {
@@ -889,7 +881,7 @@ proc allocateRatings {} {
   }
   set w .ardialog
   win::createDialog $w
-  wm title $w "Scid"
+  wm title $w "scidCommunity"
   ttk::label $w.lab -wraplength 3i -justify left -text $::tr(AllocRatingDescription)
   pack $w.lab -side top -expand 1 -fill x -anchor w
   ttk::labelframe $w.g -text $::tr(AddRatings)
@@ -918,7 +910,7 @@ proc doAllocateRatings {} {
     tk_messageBox -type ok -icon info -parent . -title "scidCommunity" -message $result
     return
   }
-  progressWindow "Scid" "Adding Elo ratings..." $::tr(Cancel)
+  progressWindow "scidCommunity" "Adding Elo ratings..." $::tr(Cancel)
   set err [catch {sc_name ratings -change $addRatings(overwrite) -filter $addRatings(filter)} result]
   closeProgressWindow
   if {$err} {
@@ -948,7 +940,7 @@ proc stripTags {} {
   set stripTagList {}
   
   # Find extra PGN tags:
-  progressWindow "Scid" "Searching for extra PGN tags..." $::tr(Cancel)
+  progressWindow "scidCommunity" "Searching for extra PGN tags..." $::tr(Cancel)
   set err [catch {sc_base taglist $::curr_db} result]
   closeProgressWindow
   if {$err} {
@@ -1020,7 +1012,7 @@ proc doStripTags {topwin} {
     return
   }
   destroy $topwin
-  progressWindow "Scid" "Removing PGN tags..." $::tr(Stop)
+  progressWindow "scidCommunity" "Removing PGN tags..." $::tr(Stop)
   set err [catch {sc_base strip $::curr_db {*}$tags} result]
   closeProgressWindow
   if {$err && $::errorCode != $::ERROR::UserCancel} {

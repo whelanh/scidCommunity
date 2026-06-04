@@ -84,6 +84,11 @@ t = clock();
  
 /* Do NOT buffer I/O - needed for communication with xboard */
 setvbuf(stdout, (char*)NULL, _IONBF, 0);
+setvbuf(stdin, (char*)NULL, _IONBF, 0);
+#ifdef _WIN32
+_setmode(_fileno(stdout), _O_BINARY);
+_setmode(_fileno(stdin), _O_BINARY);
+#endif
 
 printf("Phalanx "); puts(VERSION);
 
@@ -145,27 +150,27 @@ while( ( c = getopt(argc,argv,"vf:T:t:p:s:x:c:o:r:b:e:l:S:P:L:g:") ) != -1 )
 switch(c)
 {
 	case 'T':
-		if( sscanf( optarg, "%i", &SizeHT ) == 0 ) badoptions();
+		if( sscanf( optarg, "%i", &SizeHT ) != 1 ) badoptions();
 	break;
 	case 't':
-		if( sscanf( optarg, "%i", &SizeHT ) == 0 ) badoptions();
+		if( sscanf( optarg, "%i", &SizeHT ) != 1 ) badoptions();
 		SizeHT = 1024 * SizeHT / sizeof(thashentry);
 	break;
 	case 'r': { int i;
-		if( sscanf( optarg, "%i", &i ) == 0 ) badoptions();
+		if( sscanf( optarg, "%i", &i ) != 1 ) badoptions();
 		Flag.resign = abs(i); }
 	break;
 	case 'f':
 		{
 		static int t;
-		if( sscanf( optarg, "%i", &t ) == 0 ) badoptions();
+		if( sscanf( optarg, "%i", &t ) != 1 ) badoptions();
 		Flag.centiseconds = t*100;
 		Flag.level = fixedtime;
 		} break;
 	case 'e':
 		{
 		static int e;
-		if( sscanf( optarg, "%i", &e ) == 0 ) badoptions();
+		if( sscanf( optarg, "%i", &e ) != 1 ) badoptions();
 		if( e > 100 ) badoptions();
 		Flag.easy = e;
 		} break;
@@ -232,23 +237,23 @@ case 0: break;
 case 1:
 	if( argc==2 && strncmp("bench\0",argv[1],6)==0 )
 		{ Flag.bench = 1; break; }
-	if( sscanf(argv[optind],"%i",&m) == 0 ) badoptions();
+	if( sscanf(argv[optind],"%i",&m) != 1 ) badoptions();
 	Flag.centiseconds = 100*m;
 	Flag.level = averagetime;
 break;
 case 2:
-	if( sscanf(argv[optind],"%i",&m) == 0 ) badoptions();
+	if( sscanf(argv[optind],"%i",&m) != 1 ) badoptions();
 	Flag.moves = m;
-	if( sscanf(argv[optind+1],"%i",&m) == 0 ) badoptions();
+	if( sscanf(argv[optind+1],"%i",&m) != 1 ) badoptions();
 	Flag.centiseconds = m*6000;
 	Flag.level = timecontrol;
 break;
 case 3:
-	if( sscanf(argv[optind],"%i",&m) == 0 ) badoptions();
+	if( sscanf(argv[optind],"%i",&m) != 1 ) badoptions();
 	Flag.moves = m;
-	if( sscanf(argv[optind+1],"%i",&m) == 0 ) badoptions();
+	if( sscanf(argv[optind+1],"%i",&m) != 1 ) badoptions();
 	Flag.centiseconds = m*6000;
-	if( sscanf(argv[optind+2],"%i",&m) == 0 ) badoptions();
+	if( sscanf(argv[optind+2],"%i",&m) != 1 ) badoptions();
 	Flag.increment = m;
 	Flag.level = timecontrol;
 break;

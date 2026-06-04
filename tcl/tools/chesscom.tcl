@@ -1,3 +1,6 @@
+# Copyright (C) 2025-2026 Hugh Whelan
+# SPDX-License-Identifier: GPL-2.0-or-later
+
 ######################################################################
 #
 # chesscom.tcl: Import games from Chess.com
@@ -243,7 +246,11 @@ proc ::chesscom::downloadMonth {apiurl outfile} {
       error "wget download failed: $err"
     }
   } elseif {[info exists ::windowsOS] && $::windowsOS && [auto_execok powershell] ne ""} {
-    if {[catch {exec powershell -NoLogo -NoProfile -Command "Invoke-WebRequest -Uri '$apiurl' -OutFile '$outfile'" 2>@1} err]} {
+    if {[catch {
+      set ::env(SAFE_DL_URL) $apiurl
+      set ::env(SAFE_DL_FILE) $outfile
+      exec powershell -NoLogo -NoProfile -Command {Invoke-WebRequest -Uri $env:SAFE_DL_URL -OutFile $env:SAFE_DL_FILE} 2>@1
+    } err]} {
       error "PowerShell download failed: $err"
     }
   } else {

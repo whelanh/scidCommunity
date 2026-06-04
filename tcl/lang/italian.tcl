@@ -112,6 +112,7 @@ menuText I GameReplace "Salva: sostituisce la partita..." 8 \
   {Salva questa partita, sostituendo la vecchia versione}
 menuText I GameAdd "Salva: aggiunge la nuova partita..." 7 \
   {Salva questa partita come nuova partita nel database}
+menuText I GameDelete "Elimina partita" 0 {Attiva/disattiva il flag di eliminazione della partita corrente}
 menuText I GameDeepest "Identifica apertura" 0 \
   {Va alla posizione di partita più profonda listata nel libro ECO}
 menuText I GameGotoMove "Vai alla mossa numero..." 0 \
@@ -170,6 +171,7 @@ menuText I ToolsTrainCalvar "Calcolo delle varianti"  0 {Allenati sul calcolo de
 menuText I ToolsTrainFindBestMove "Trova la mossa migliore"  2 {Trova la mossa migliore}
 menuText I ToolsTrainFics "Gioca su internet"  0 {Gioca su freechess.org}
 menuText I ToolsEngineTournament "Torneo fra motori"  0 {Inizia un torneo fra motori scacchistici}
+menuText I ToolsTimeAnalysis "Analisi del tempo" 0 {Mostra il grafico temporale dell'orologio per il gioco corrente}
 menuText I ToolsBookTuning "Raffina il libro delle aperture" 5 {Raffina il libro delle aperture}
 menuText I ToolsDownloadTWIC "Scarica partite TWIC" 0 {Scarica le ultime partite The Week In Chess (TWIC)}
 menuText I ToolsConnectHardware "Connetti dispositivo" 0 {Connette un dispositivo esterno}
@@ -237,7 +239,8 @@ menuText I OptionsMovesHighlightLastMoveDisplay "Mostra Caselle" 0 {Mostra in ev
 menuText I OptionsMovesHighlightLastMoveWidth "Larghezza" 0 {Spessore della linea}
 menuText I OptionsMovesHighlightLastMoveColor "Colore" 0 {Colore della linea}
 menuText I OptionsMovesHighlightLastMoveArrow "Mostra freccia" 0 {Mostra una freccia}
-menuText I OptionsMovesHighlightLastMoveNag "Mostra i simboli di valutazione" 0
+menuText I OptionsMovesHighlightLastMoveNag "Mostra i simboli di annotazione" 0
+menuText I OptionsMovesHighlightLastMoveEval "Mostra i simboli di valutazione" 0
 menuText I OptionsMoves "Mosse" 0 {Opzioni di immissione delle mosse}
 menuText I OptionsMovesAnimate "Intervallo di tempo per l'animazione delle mosse" 4 \
   {Definisce l'intervallo di tempo per l'animazione delle mosse}
@@ -293,6 +296,9 @@ menuText I HelpTip "Suggerimento del giorno" 1 {Mostra utili suggerimenti riguar
 menuText I HelpStartup "Finestra di avvio" 0 {Mostra la finestra di avvio}
 menuText I HelpAbout "Informazioni su Scid" 1 {Informazioni su Scid}
 
+# Toolbar tooltips:
+menuText I RotateBoard "Ruota la scheda" 0 {Ruota la scheda}
+
 # Game info box popup menu:
 menuText I GInfoHideNext "Nascondi la mossa successiva" 0
 menuText I GInfoMaterial "Mostra i valori del materiale" 0
@@ -309,7 +315,61 @@ menuText I GInfoMark "Smarca/marca questa partita" 7
 menuText I GInfoInformant "Configura i valori dei simboli per i commenti" 0
 
 # General buttons:
+translate I LichessOpenExplore {Lichess OpenExplore}
+translate I LichessTitle {Esploratore di apertura di Lichess}
+translate I LichessApiTokenReq {Token API Lichess (richiesto):}
+translate I LichessDatabase {Banca dati:}
+translate I LichessMasters {Maestri}
+translate I LichessGames {Giochi di Lichess}
+translate I LichessPlayer {Giocatore}
+translate I LichessNumMoves {Numero di mosse:}
+translate I LichessTopGames {I migliori giochi:}
+translate I LichessRecentGames {Giochi recenti:}
+translate I LichessSinceYear {Dall'anno:}
+translate I LichessUntilYear {Fino all'anno:}
+translate I LichessSinceMonth {Dal (AAAA-MM):}
+translate I LichessUntilMonth {Fino al (AAAA-MM):}
+translate I LichessTimeControls {Controlli del tempo}
+translate I LichessRatingGroups {Gruppi di valutazione}
+translate I LichessPlayerName {Nome utente del giocatore:}
+translate I LichessPlayerColor {Colore del giocatore:}
+translate I LichessWhite {Bianco}
+translate I LichessBlack {Nero}
+translate I LichessGameModes {Modalità di gioco}
+translate I LichessRated {Valutato}
+translate I LichessCasual {Casuale}
+translate I LichessTokenRequired {È richiesto un token API Lichess.\n\nA partire da marzo 2026, Lichess richiede un token API per accedere a Opening Explorer. Inserisci il tuo token nel campo "Lichess API Token" sopra.\n\nPuoi creare un token su: https://lichess.org/account/oauth/token}
+translate I LichessPlayerRequired {Inserisci un nome utente Lichess per il database dei giocatori.}
+translate I LichessQuerying {Interrogazione di Lichess Opening Explorer...}
+translate I LichessFailedQuery {Impossibile interrogare Lichess Opening Explorer:\n%s}
+translate I LichessPositionNotFound {Posizione non trovata nel database %s.\n\nL'API ha restituito:\n%s}
+translate I LichessResultsTitle {Esplora apertura Lichess - Database %s}
+translate I LichessSummaryInfo {Totale: %s giochi |  Il bianco vince: %s (%s%%) |  Pareggia: %s (%s%%) |  Il nero vince: %s (%s%%)}
+translate I LichessNoGamesFound {Nessun gioco trovato per questa posizione.}
+translate I LichessMoves {Mosse:}
+translate I LichessColMove {Mossa}
+translate I LichessColWhite {Bianco}
+translate I LichessColDraws {Patte}
+translate I LichessColBlack {Nero}
+translate I LichessColTotal {Totale}
+translate I LichessColWinPct {Vincita%}
+translate I LichessColAvgRating {Valutazione media}
+translate I LichessColECO {ECO}
+translate I LichessColOpening {Apertura}
+translate I LichessTopGamesTitle {I migliori giochi:}
+translate I LichessRecentGamesTitle {Giochi recenti:}
+translate I LichessColWinner {Vincitore}
+translate I LichessColWhiteRating {Valutazione W}
+translate I LichessColBlackRating {B. Valutazione}
+translate I LichessColDate {Data}
+translate I LichessLoadGameConfirm {Caricare il gioco %s vs %s (ID: %s) nel clipbase?}
+translate I LichessLoadGameTitle {Carica gioco}
+translate I LichessFetchGameFailed {Impossibile recuperare il gioco %s:\n%s}
+translate I LichessGameNotFound {Gioco %s non trovato su Lichess.}
+translate I LichessImportFailed {Impossibile importare il gioco:\n%s}
+translate I LichessGameLoaded {Gioco caricato correttamente in clipbase.}
 translate I Back {Indietro}
+translate I Apply {Applica}
 translate I Browse {Browse}
 translate I Cancel {Annulla}
 translate I Continue {Continua}
@@ -317,6 +377,7 @@ translate I Clear {Cancella}
 translate I Close {Chiudi}
 translate I Contents {Contenuto}
 translate I Defaults {Default}
+translate I InvertSearch {Inverti ricerca}
 translate I Delete {Cancella}
 translate I Graph {Grafico}
 translate I Help {Aiuto}
@@ -329,6 +390,7 @@ translate I MergeGame {Fondi partita}
 translate I MergeGames {Unisci partite}
 translate I Preview {Anteprima}
 translate I Revert {Rovescia}
+translate I Rename {Rinominare}
 translate I Save {Salva}
 translate I Search {Cerca}
 translate I Stop {Ferma}
@@ -398,6 +460,11 @@ translate I readonly {sola lettura}
 translate I ErrNotOpen {Questo database non è aperto.}
 translate I ErrReadOnly {Questo database è di sola lettura; non può essere modificato.}
 translate I ErrSearchInterrupted {Ricerca interrotta; il risultato è incompleto.}
+translate I ErrNoClockComments {Nessun commento sull'orologio [%clk] trovato in questo gioco.    Aggiungi gli orari dell'orologio tramite la finestra Commenti (Ctrl+E) per utilizzare questa funzione.}
+translate I ErrFileInUse {Errore: il file è già in uso. Chiudi qualsiasi altra applicazione che utilizza questo database. Se il programma è stato chiuso inaspettatamente, potrebbe essere necessario eliminare il file .lock associato al database.}
+
+
+
 
 # Game information:
 translate I twin {doppio}
@@ -592,11 +659,13 @@ menuText I GraphOptionsBoth "Entrambi" 1
 menuText I GraphOptionsPInfo "Informazioni sul giocatore" 0
 menuText I GraphOptionsEloFile "Elo dal file di valutazione" 0
 menuText I GraphOptionsEloDB "Elo dal database" 0
-translate I GraphFilterTitle "Grafico del filtro: frequenza ogni 1000 partite"
+translate I GraphFilterTitle "Grafico filtro: percentuale di giochi che raggiungono la posizione"
 translate I GraphAbsFilterTitle "Grafico del filtro: frequenza delle partite"
+translate I GraphWinPctTitle "Filtra grafico: percentuale di vittorie (1-0 e 0-1) nella posizione attuale per anno"
 translate I ConfigureFilter {Configura l'asse delle X per Anno, Rating e Mosse}
 translate I FilterEstimate "Stima"
 translate I TitleFilterGraph "Scid: Grafico del filtro"
+translate I WinPct "Vincita %"
 
 # Analysis window:
 translate I AddVariation {Aggiungi variante}
@@ -632,6 +701,13 @@ translate I Informant+= {Il bianco ha un leggero vantaggio}
 translate I Informant+/- {Il bianco ha un moderato vantaggio}
 translate I Informant+- {Il bianco ha un vantaggio decisivo}
 translate I Informant+-- {La partita è considerata vinta}
+translate I AutoComment {Commento automatico}
+translate I AutoCommentTooltip {Genera commenti AI per la posizione attuale}
+translate I AnalysisAutoCommentTooltip {Genera commenti AI per l'intero gioco}
+translate I GameComment {Commento del gioco}
+translate I GameCommentTooltip {Scansiona il gioco per individuare le mosse annotate e generare un riepilogo dell'IA}
+translate I TimeMs {Tempo (ms)}
+
 
 # Book window
 translate I Book {Libro}
@@ -1072,6 +1148,7 @@ translate I ECOSummary {Sommario per}
 translate I ECOFrequency {Frequenze nell'ambito di}
 
 # Opening Report:
+translate I OprepReportFor {Segnala per}
 translate I OprepTitle {Rapporto di apertura}
 translate I OprepReport {Rapporto}
 translate I OprepGenerated {Generato da}
@@ -1140,6 +1217,8 @@ translate I OprepTheoryTable {Tabella della teoria}
 translate I OprepTableComment {Generato da %u partite più quotate.}
 translate I OprepExtraMoves {Mosse extra note nella tabella della teoria}
 translate I OprepMaxGames {Numero massimo di partite nella tabella della teoria}
+translate I OprepMergeMoves {Limite di spostamento per i giochi uniti}
+translate I OprepMergeUnique {Unisci solo giochi unici}
 translate I OprepViewHTML {Vedi HTML}
 
 # Player Report:
@@ -1219,6 +1298,7 @@ translate I ClassifyNew {Solo partite ancora senza codice ECO}
 translate I ClassifyCodes {Codici ECO da usare}
 translate I ClassifyBasic {Solo codici di base ("B12", ...)}
 translate I ClassifyExtended {Estensioni Scid ("B12j", ...)}
+translate I ClassifyResult {Classificazione ECO completata: $risultato gioco/i aggiornato/i.}
 
 # Compaction:
 translate I NameFile {File di nomi}
@@ -1547,6 +1627,9 @@ translate I FICSUnrated {Senza classificazione}
 translate I FICSRegisteredPlayer {Solo giocatore registrato}
 translate I FICSFreePlayer {Solo giocatore gratuito}
 translate I FICSNetError {Errore di rete\Impossibile connettersi a}
+translate I OptionsFICS {FICS}
+translate I FICSTerminalColor {Colore terminale}
+translate I FICSTextColor {Colore del testo}
 
 # Game review
 translate I GameReview {Rivedi partita}
@@ -1624,6 +1707,8 @@ translate I FindCurrentGame {Trova il gioco corrente}
 translate I DeleteGame {Elimina gioco}
 translate I UndeleteGame {Annulla l'eliminazione del gioco}
 translate I ResetSort {Reimposta ordinamento}
+translate I LayoutExists {Il layout '%s' esiste già.}
+translate I ConfirmDeleteLayout {Sei sicuro di voler eliminare il layout '%s'?}
 
 translate I ConvertNullMove {Converti mosse nulle in commenti}
 translate I SetupBoard {Scheda di installazione}
@@ -1660,5 +1745,32 @@ translate I OptionsTablebaseDir "Seleziona fino a 4 cartelle base tabella:"
 # Evaluation bar
 translate I BestMoveArrow "Indica mossa migliore"
 translate I NewLocalEngine "+ Nuovo motore ..."
+
+# Batch Annotate
+translate I BatchAnnotate {Annotazione batch}
+translate I BatchEngineSelection {Selezione del motore}
+translate I BatchChessEngine {Motore di scacchi:}
+translate I BatchNumberOfInstances {Numero di istanze:}
+translate I BatchGameReview {Recensione del gioco}
+translate I BatchTimePerMove {Tempo per mossa (sec):}
+translate I BatchAnnotateBlunders {Annotare solo gli errori}
+translate I BatchBlunderThreshold {Soglia di errore:}
+translate I BatchVariationLength {Lunghezza della variazione (mosse):}
+translate I BatchOpeningBook {Libro di apertura}
+translate I BatchUseBook {Usa Libro}
+translate I BatchAnnotateVariations {Annotare le variazioni}
+translate I BatchShortAnnotations {Brevi annotazioni}
+translate I BatchAddScoreToShort {Aggiungi punteggio alle brevi annotazioni}
+translate I BatchClearOld {Cancella vecchi commenti e variazioni}
+translate I BatchInitializingEngines {Inizializzazione motori...}
+translate I BatchAnalyzingGames {Analisi dei giochi...}
+translate I BatchProgress {Annota avanzamento in batch}
+translate I BatchComplete {Annotazione batch completata!}
+translate I BatchCancelled {Annotazione batch annullata}
+translate I BatchStart {Inizio}
+translate I BatchCancel {Cancellare}
+translate I BatchCompleted {completato}
+translate I BatchGames {giochi}
+translate I BatchProcessed {elaborato}
 }
 # end of english.tcl

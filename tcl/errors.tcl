@@ -98,7 +98,8 @@ after idle {
   set ::ERROR::msg($::ERROR::FileNotOpen) \
     "Error: the file is not open."
   set ::ERROR::msg($::ERROR::FileInUse) \
-    "Error: the file is already in use."
+    [tr ErrFileInUse]
+
   set ::ERROR::msg($::ERROR::FileMode) \
     "Error: file mode."
   set ::ERROR::msg($::ERROR::FileVersion) \

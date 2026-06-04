@@ -5,7 +5,7 @@ set bookmarks(data) {}
 set bookmarks(subMenus) 0
 
 # Read the bookmarks file if it exists:
-catch {source [scidConfigFile bookmarks]}
+catch {safeLoadConfig [scidConfigFile bookmarks]}
 
 
 namespace eval ::bookmarks {}

@@ -5,6 +5,17 @@ on:
     tags:
       - 'v*'
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g. 5.1.1). Must match an existing tag vX.Y.Z.'
+        required: true
+      create_release:
+        description: 'Create/update GitHub release with artifacts?'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
 
 jobs:
   build-macos-app:
@@ -18,7 +29,9 @@ jobs:
       - name: Get version from tag
         id: get_version
         run: |
-          if [[ "$GITHUB_REF" == refs/tags/* ]]; then
+          if [[ -n "${{ inputs.version }}" ]]; then
+            VERSION="${{ inputs.version }}"
+          elif [[ "$GITHUB_REF" == refs/tags/* ]]; then
             VERSION=${GITHUB_REF#refs/tags/v}
           else
             VERSION="5.1.1"
@@ -39,7 +52,7 @@ jobs:
           ditto -c -k --sequesterRsrc --keepParent ScidCommunity.app scidCommunity-macos.zip
 
       - name: Upload macOS artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: scidCommunity-macos
           path: scidCommunity-macos.zip
@@ -55,7 +68,9 @@ jobs:
         id: get_version
         shell: bash
         run: |
-          if [[ $GITHUB_REF == refs/tags/* ]]; then
+          if [[ -n "${{ inputs.version }}" ]]; then
+            VERSION="${{ inputs.version }}"
+          elif [[ $GITHUB_REF == refs/tags/* ]]; then
             VERSION=${GITHUB_REF#refs/tags/v}
           else
             VERSION="5.1.1"
@@ -68,7 +83,7 @@ jobs:
           echo "SCIDCOMMUNITY_VERSION=${{ steps.get_version.outputs.version }}" >> $GITHUB_ENV
 
       - name: Setup MSVC
-        uses: microsoft/setup-msbuild@v2
+        uses: microsoft/setup-msbuild@v3
 
       - name: Build Tcl library
         shell: cmd
@@ -133,7 +148,6 @@ jobs:
           echo === Creating engines directory ===
           mkdir engines
           echo === Moving chess engines from bin to engines ===
-          move bin\phalanx-scid.exe engines\
           move bin\stockfish.exe engines\
           move bin\*.nnue engines\
           echo === Copying DLLs to bin ===
@@ -144,13 +158,20 @@ jobs:
           xcopy /E /I /Y %GITHUB_WORKSPACE%\tcldir\lib\tcl8 lib\tcl8
           xcopy /E /I /Y %GITHUB_WORKSPACE%\tcldir\lib\tcl8.6 lib\tcl8.6
           xcopy /E /I /Y %GITHUB_WORKSPACE%\tcldir\lib\tk8.6 lib\tk8.6
+          echo === Copying Snack sound package (64-bit) ===
+          mkdir lib\snack
+          xcopy /E /I /Y %GITHUB_WORKSPACE%\snack2.2.11\* lib\snack\
+          echo === Copying sounds directory ===
+          xcopy /E /I /Y %GITHUB_WORKSPACE%\sounds sounds\
           echo === Final structure ===
           dir
           dir bin
           dir engines
+          dir lib\snack
+          dir sounds
 
       - name: Upload Windows artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: scidCommunity-windows-x64
           path: install/
@@ -166,7 +187,9 @@ jobs:
       - name: Get version from tag
         id: get_version
         run: |
-          if [[ $GITHUB_REF == refs/tags/* ]]; then
+          if [[ -n "${{ inputs.version }}" ]]; then
+            VERSION="${{ inputs.version }}"
+          elif [[ $GITHUB_REF == refs/tags/* ]]; then
             VERSION=${GITHUB_REF#refs/tags/v}
           else
             VERSION="5.1.1"
@@ -203,7 +226,7 @@ jobs:
           make package
 
       - name: Upload DEB artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: scidCommunity-ubuntu-deb
           path: build/*.deb
@@ -219,7 +242,9 @@ jobs:
       - name: Get version from tag
         id: get_version
         run: |
-          if [[ $GITHUB_REF == refs/tags/* ]]; then
+          if [[ -n "${{ inputs.version }}" ]]; then
+            VERSION="${{ inputs.version }}"
+          elif [[ $GITHUB_REF == refs/tags/* ]]; then
             VERSION=${GITHUB_REF#refs/tags/v}
           else
             VERSION="5.1.1"
@@ -325,7 +350,7 @@ jobs:
                 -D CPACK_INSTALLED_DIRECTORIES="${{ github.workspace }}/rpm-root/opt/scidcommunity;/opt/scidcommunity;${{ github.workspace }}/rpm-root/usr;/usr"
 
       - name: Upload RPM artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: scidCommunity-linux-rpm
           path: build/*.rpm
@@ -341,17 +366,23 @@ jobs:
       - name: Get version from tag
         id: get_version
         run: |
-          if [[ $GITHUB_REF == refs/tags/* ]]; then
+          if [[ -n "${{ inputs.version }}" ]]; then
+            VERSION="${{ inputs.version }}"
+          elif [[ $GITHUB_REF == refs/tags/* ]]; then
             VERSION=${GITHUB_REF#refs/tags/v}
           else
             VERSION="5.1.1"
           fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
+      - name: Export version to env
+        run: |
+          echo "SCIDCOMMUNITY_VERSION=${{ steps.get_version.outputs.version }}" >> $GITHUB_ENV
+
       - name: Install build dependencies
         run: |
           sudo apt-get update
-          sudo apt-get -y install cmake build-essential wget fuse libfuse2 \
+          sudo apt-get -y install cmake build-essential wget \
             tcl8.6-dev tk8.6-dev libtcl8.6 libtk8.6
 
       - name: Download appimagetool
@@ -455,7 +486,7 @@ jobs:
             ${{ github.workspace }}/scidCommunity-${{ steps.get_version.outputs.version }}-x86_64.AppImage
 
       - name: Upload AppImage artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: scidCommunity-linux-appimage
           path: scidCommunity-*.AppImage
@@ -463,10 +494,21 @@ jobs:
   create-release:
     needs: [build-windows, build-linux-deb, build-linux-rpm, build-linux-appimage, build-macos-app]
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/')
+    if: startsWith(github.ref, 'refs/tags/') || (github.event_name == 'workflow_dispatch' && inputs.create_release)
+    permissions:
+      contents: write
     steps:
+      - name: Set tag name
+        id: tag
+        run: |
+          if [[ -n "${{ inputs.version }}" ]]; then
+            echo "tag_name=v${{ inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "tag_name=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          fi
+
       - name: Download all artifacts
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           path: artifacts
 
@@ -478,8 +520,9 @@ jobs:
           mv scidCommunity-windows-x64.zip artifacts/
 
       - name: Create Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
+          tag_name: ${{ steps.tag.outputs.tag_name }}
           files: |
             artifacts/scidCommunity-windows-x64.zip
             artifacts/scidCommunity-ubuntu-deb/*.deb

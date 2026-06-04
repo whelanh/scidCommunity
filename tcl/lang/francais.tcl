@@ -110,6 +110,7 @@ menuText F GameReplace "Enregistrer: remplacer la partie..." 13 \
   {Enregistrer cette partie, en écrasant l'ancienne version}
 menuText F GameAdd "Enregistrer: ajouter nouvelle partie..." 13 \
   {Enregistrer cette partie en tant que nouvelle partie dans la base}
+menuText F GameDelete "Supprimer la partie" 0 {Activer/désactiver le drapeau de suppression de la partie en cours}
 menuText F GameDeepest "Identifier l'ouverture" 13 \
   {Trouver la partie la plus proche dans la nomenclature ECO}
 menuText F GameGotoMove "Aller au coup numéro..." 14 \
@@ -179,6 +180,7 @@ menuText F ToolsTrainCalvar "Calcul de variantes"  0 {Entraînement au calcul de
 menuText F ToolsTrainFindBestMove "Trouver le meilleur coup"  0 {Trouver le meilleur coup}
 menuText F ToolsTrainFics "Jouer sur internet"  10 {Jouer sur freechess.org}
 menuText F ToolsEngineTournament "Tournoi de moteurs"  0 {Démarrer un tournoi entre moteurs d'échecs}
+menuText F ToolsTimeAnalysis "Analyse du temps" 0 {Afficher le graphique de l'heure du jeu en cours}
 menuText F ToolsBookTuning "Config. bibliothèque" 0 {Configuration fine d'une bibliothèque}
 menuText F ToolsDownloadTWIC "Télécharger les jeux TWIC" 0 {Télécharger les derniers jeux The Week In Chess (TWIC)}
 menuText F ToolsConnectHardware "Connecter un matériel" 2 {Connecter un échiquier externe}
@@ -245,7 +247,8 @@ menuText F OptionsMovesHighlightLastMoveDisplay "Afficher Cases" 0 {Afficher la 
 menuText F OptionsMovesHighlightLastMoveWidth "Epaisseur" 0 {Epaisseur de la ligne}
 menuText F OptionsMovesHighlightLastMoveColor "Couleur" 0 {Couleur de la ligne}
 menuText F OptionsMovesHighlightLastMoveArrow "Afficher Flèche" 0 {Afficher la flèche de déplacement du dernier coup}
-menuText F OptionsMovesHighlightLastMoveNag "Afficher les symboles d'évaluation" 0
+menuText F OptionsMovesHighlightLastMoveNag "Afficher les symboles d'annotation" 0
+menuText F OptionsMovesHighlightLastMoveEval "Afficher les symboles d'évaluation" 0
 menuText F OptionsMoves "Coups" 2 {Gestion des coups}
 menuText F OptionsMovesAnimate "Temps d'animation" 1 \
   {Régler le temps utilisé pour l'animation des coups}
@@ -301,6 +304,9 @@ menuText F HelpTip "Astuce du jour" 1 {Afficher une astuce Scid}
 menuText F HelpStartup "Fenêtre de démarrage" 0 {Afficher la fenêtre de démarrage}
 menuText F HelpAbout "A propos de Scid" 2 {Information au sujet de Scid}
 
+# Toolbar tooltips:
+menuText F RotateBoard "Faire pivoter le tableau" 0 {Faire pivoter le tableau}
+
 # Game info box popup menu:
 menuText F GInfoHideNext "Cacher le coup suivant" 0
 menuText F GInfoMaterial "Montrer les valeurs de matériel" 0
@@ -317,7 +323,61 @@ menuText F GInfoMark "(Dé)Marquer cette partie" 4
 menuText F GInfoInformant "Configurer les valeurs de notation" 0
 
 # General buttons:
+translate F LichessOpenExplore {Lichess OpenExplore}
+translate F LichessTitle {Explorateur d'ouverture de lichess}
+translate F LichessApiTokenReq {Jeton API Lichess (obligatoire) :}
+translate F LichessDatabase {Base de données :}
+translate F LichessMasters {Maîtres}
+translate F LichessGames {Jeux de lichess}
+translate F LichessPlayer {Joueur}
+translate F LichessNumMoves {Nombre de coups :}
+translate F LichessTopGames {Meilleurs jeux :}
+translate F LichessRecentGames {Jeux récents :}
+translate F LichessSinceYear {Depuis l'année :}
+translate F LichessUntilYear {Jusqu'à l'année :}
+translate F LichessSinceMonth {Depuis (AAAA-MM) :}
+translate F LichessUntilMonth {Jusqu'au (AAAA-MM) :}
+translate F LichessTimeControls {Contrôles de temps}
+translate F LichessRatingGroups {Groupes de notation}
+translate F LichessPlayerName {Nom d'utilisateur du joueur :}
+translate F LichessPlayerColor {Couleur du joueur :}
+translate F LichessWhite {Blanc}
+translate F LichessBlack {Noir}
+translate F LichessGameModes {Modes de jeu}
+translate F LichessRated {Noté}
+translate F LichessCasual {Occasionnel}
+translate F LichessTokenRequired {Un jeton API Lichess est requis.\n\nDepuis mars 2026, Lichess nécessite un jeton API pour accéder à l'explorateur d'ouverture. Veuillez saisir votre jeton dans le champ "Jeton API Lichess" ci-dessus.\n\nVous pouvez créer un jeton sur : https://lichess.org/account/oauth/token}
+translate F LichessPlayerRequired {Veuillez saisir un nom d'utilisateur Lichess pour la base de données Player.}
+translate F LichessQuerying {Interrogation de l'explorateur d'ouverture de Lichess...}
+translate F LichessFailedQuery {Échec de l'interrogation de l'explorateur d'ouverture Lichess :\n%s}
+translate F LichessPositionNotFound {Position introuvable dans la base de données %s.\n\nL'API a renvoyé :\n%s}
+translate F LichessResultsTitle {Explorateur d'ouverture de Lichess - Base de données %s}
+translate F LichessSummaryInfo {Total : %s jeux |  Les blancs gagnent : %s (%s%%) |  Tirages : %s (%s%%) |  Les Noirs gagnent : %s (%s%%)}
+translate F LichessNoGamesFound {Aucun jeu trouvé pour ce poste.}
+translate F LichessMoves {Déplacements :}
+translate F LichessColMove {Se déplacer}
+translate F LichessColWhite {Blanc}
+translate F LichessColDraws {Tirages}
+translate F LichessColBlack {Noir}
+translate F LichessColTotal {Total}
+translate F LichessColWinPct {Gagner%}
+translate F LichessColAvgRating {Note moyenne}
+translate F LichessColECO {ÉCO}
+translate F LichessColOpening {Ouverture}
+translate F LichessTopGamesTitle {Meilleurs jeux :}
+translate F LichessRecentGamesTitle {Jeux récents :}
+translate F LichessColWinner {Gagnant}
+translate F LichessColWhiteRating {Note W.}
+translate F LichessColBlackRating {B. Note}
+translate F LichessColDate {Date}
+translate F LichessLoadGameConfirm {Charger le jeu %s contre %s (ID : %s) dans la base de clips ?}
+translate F LichessLoadGameTitle {Charger le jeu}
+translate F LichessFetchGameFailed {Échec de la récupération du jeu %s :\n%s}
+translate F LichessGameNotFound {Jeu %s introuvable sur Lichess.}
+translate F LichessImportFailed {Échec de l'importation du jeu :\n%s}
+translate F LichessGameLoaded {Jeu chargé avec succès dans clipbase.}
 translate F Back {Retour}
+translate F Apply {Appliquer}
 translate F Browse {Parcourir}
 translate F Cancel {Annuler}
 translate F Continue {Continuer}
@@ -325,6 +385,7 @@ translate F Clear {Effacer}
 translate F Close {Fermer}
 translate F Contents {Contenu}
 translate F Defaults {Par défaut}
+translate F InvertSearch {Inverser la recherche}
 translate F Delete {Éliminer}
 translate F Graph {Graphique}
 translate F Help {Aide}
@@ -337,6 +398,7 @@ translate F MergeGame {Fusionner la partie comme variante}
 translate F MergeGames {Fusionner les parties}
 translate F Preview {Prévisualiser}
 translate F Revert {Revenir}
+translate F Rename {Rebaptiser}
 translate F Save {Enregistrer}
 translate F Search {Rechercher}
 translate F Stop {Arrêter}
@@ -406,6 +468,11 @@ translate F readonly {lecture seule}
 translate F ErrNotOpen {Ceci n'est pas une base ouverte.}
 translate F ErrReadOnly {Cette base est en lecture seule; elle ne peut être modifiée.}
 translate F ErrSearchInterrupted {La recherche a été interrompue; les résultats sont incomplets.}
+translate F ErrNoClockComments {Aucun commentaire d'horloge [%clk] n'a été trouvé dans ce jeu.    Ajoutez des heures d'horloge via la fenêtre de commentaires (Ctrl+E) pour utiliser cette fonctionnalité.}
+translate F ErrFileInUse {Erreur : le fichier est déjà utilisé. Veuillez fermer toute autre application utilisant cette base de données. Si le programme a été fermé de manière inattendue, vous devrez peut-être supprimer le fichier .lock associé à la base de données.}
+
+
+
 
 # Game information:
 translate F twin {doublon}
@@ -594,11 +661,13 @@ menuText F GraphOptionsBoth "Les deux" 4
 menuText F GraphOptionsPInfo "Informations joueurs" 0
 menuText F GraphOptionsEloFile "Classement Elo du fichier" 0
 menuText F GraphOptionsEloDB "Classement Elo dans la base" 0
-translate F GraphFilterTitle "Graphique de filtre: fréquence pour 1000 parties"
+translate F GraphFilterTitle "Graphique de filtre : pourcentage de jeux atteignant la position"
 translate F GraphAbsFilterTitle "Graphique de filtre: fréquence des parties"
+translate F GraphWinPctTitle "Graphique de filtre : % de victoire (1-0 et 0-1) à la position actuelle par année"
 translate F ConfigureFilter {Configurer l'axe des X par année, classement et coups}
 translate F FilterEstimate "Estimer"
 translate F TitleFilterGraph "Scid: Graphe de filtre"
+translate F WinPct "Gagner %"
 
 # Analysis window:
 translate F AddVariation {Ajouter une variante}
@@ -634,6 +703,13 @@ translate F Informant+= {Les blancs ont un léger avantage}
 translate F Informant+/- {Les blancs ont l'avantage}
 translate F Informant+- {Les blancs ont un avantage décisif}
 translate F Informant+-- {La partie est gagnée}
+translate F AutoComment {Commentaire automatique}
+translate F AutoCommentTooltip {Générer des commentaires IA pour la position actuelle}
+translate F AnalysisAutoCommentTooltip {Générez des commentaires IA pour l'ensemble du jeu}
+translate F GameComment {Commentaire du jeu}
+translate F GameCommentTooltip {Analysez le jeu pour rechercher des mouvements annotés et générez un résumé de l'IA}
+translate F TimeMs {Temps (ms)}
+
 
 # Book window
 translate F Book {Bibliothèque}
@@ -1079,6 +1155,7 @@ translate F ECOSummary {Résumé pour}
 translate F ECOFrequency {Fréquence des sous-codes pour}
 
 # Opening Report:
+translate F OprepReportFor {Rapport pour}
 translate F OprepTitle {Rapport sur l'ouverture}
 translate F OprepReport {Rapport}
 translate F OprepGenerated {Généré par}
@@ -1147,6 +1224,8 @@ translate F OprepTheoryTable {Table de Théorie}
 translate F OprepTableComment {Généré à partir des %u parties au classement le plus élevé.}
 translate F OprepExtraMoves {Nombre de coups additionnels dans la table de théorie}
 translate F OprepMaxGames {Nombre maximum de parties dans la table de théorie}
+translate F OprepMergeMoves {Limite de déplacement pour les jeux fusionnés}
+translate F OprepMergeUnique {Fusionner uniquement les jeux uniques}
 translate F OprepViewHTML {Voir en HTML}
 
 # Player Report:
@@ -1226,6 +1305,7 @@ translate F ClassifyNew {Seulement les parties qui ne possèdent pas encore de c
 translate F ClassifyCodes {Codes ECO à utiliser}
 translate F ClassifyBasic {Codes de base seulement ("B12", ...)}
 translate F ClassifyExtended {Extensions de Scid ("B12j", ...)}
+translate F ClassifyResult {Classement ECO terminé : $jeu(s) résultat(s) mis à jour.}
 
 # Compaction:
 translate F NameFile {Fichier de noms}
@@ -1552,6 +1632,9 @@ translate F FICSUnrated {non classée}
 translate F FICSRegisteredPlayer {Joueur enregistré seulement}
 translate F FICSFreePlayer {Joueur libre seulement}
 translate F FICSNetError {Erreur de réseau\nPas de connexion à }
+translate F OptionsFICS {FICS}
+translate F FICSTerminalColor {Couleur du terminal}
+translate F FICSTextColor {Couleur du texte}
 
 # Game review
 translate F GameReview {Revue de partie}
@@ -1629,6 +1712,8 @@ translate F FindCurrentGame {Trouver le jeu actuel}
 translate F DeleteGame {Supprimer le jeu}
 translate F UndeleteGame {Restaurer le jeu}
 translate F ResetSort {Réinitialiser le tri}
+translate F LayoutExists {La mise en page '%s' existe déjà.}
+translate F ConfirmDeleteLayout {Êtes-vous sûr de vouloir supprimer la mise en page '%s' ?}
 
 translate F ConvertNullMove {Convertir les mouvements nuls en commentaires}
 translate F SetupBoard {Définir la position de départ}
@@ -1665,5 +1750,32 @@ translate F OptionsTablebaseDir "Sélectionnez jusqu'à 4 dossiers de tables de 
 # Evaluation bar
 translate F BestMoveArrow "Flèche du meilleur coup"
 translate F NewLocalEngine "+ Nouveau moteur..."
+
+# Batch Annotate
+translate F BatchAnnotate {Annoter par lots}
+translate F BatchEngineSelection {Sélection du moteur}
+translate F BatchChessEngine {Moteur d'échecs :}
+translate F BatchNumberOfInstances {Nombre d'instances :}
+translate F BatchGameReview {Revue du jeu}
+translate F BatchTimePerMove {Temps par mouvement (sec) :}
+translate F BatchAnnotateBlunders {Annoter uniquement les erreurs}
+translate F BatchBlunderThreshold {Seuil d'erreur :}
+translate F BatchVariationLength {Longueur de variation (coups) :}
+translate F BatchOpeningBook {Livre d'ouverture}
+translate F BatchUseBook {Utiliser le livre}
+translate F BatchAnnotateVariations {Annoter les variantes}
+translate F BatchShortAnnotations {Annotations courtes}
+translate F BatchAddScoreToShort {Ajouter une partition aux annotations courtes}
+translate F BatchClearOld {Effacer les anciens commentaires et variantes}
+translate F BatchInitializingEngines {Initialisation des moteurs...}
+translate F BatchAnalyzingGames {Analyse des jeux...}
+translate F BatchProgress {Progression d'annotation par lots}
+translate F BatchComplete {Annotation par lots terminée !}
+translate F BatchCancelled {Annotation par lots annulée}
+translate F BatchStart {Commencer}
+translate F BatchCancel {Annuler}
+translate F BatchCompleted {complété}
+translate F BatchGames {jeux}
+translate F BatchProcessed {traité}
 }
 # end of english.tcl

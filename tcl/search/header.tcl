@@ -78,10 +78,10 @@ proc ::search::header::defaults {} {
 }
 
 foreach i {sWhiteEloMin sWhiteEloMax sBlackEloMin sBlackEloMax} {
-  trace variable $i w [list ::utils::validate::Integer [sc_info limit elo] 0]
+  trace add variable $i write [list ::utils::validate::Integer [sc_info limit elo] 0]
 }
-trace variable sEloDiffMin w [list ::utils::validate::Integer "-[sc_info limit elo]" 0]
-trace variable sEloDiffMax w [list ::utils::validate::Integer "-[sc_info limit elo]" 0]
+trace add variable sEloDiffMin write [list ::utils::validate::Integer "-[sc_info limit elo]" 0]
+trace add variable sEloDiffMax write [list ::utils::validate::Integer "-[sc_info limit elo]" 0]
 
 ::search::header::defaults
 
@@ -243,21 +243,21 @@ proc ::search::header::rebuildLayoutsMenu {w} {
   }
 }
 
-trace variable sDateMin w ::utils::validate::Date
-trace variable sDateMax w ::utils::validate::Date
-trace variable sEventDateMin w ::utils::validate::Date
-trace variable sEventDateMax w ::utils::validate::Date
+trace add variable sDateMin write ::utils::validate::Date
+trace add variable sDateMax write ::utils::validate::Date
+trace add variable sEventDateMin write ::utils::validate::Date
+trace add variable sEventDateMax write ::utils::validate::Date
 
 
-trace variable sGlMin w {::utils::validate::Integer 9999 0}
-trace variable sGlMax w {::utils::validate::Integer 9999 0}
+trace add variable sGlMin write {::utils::validate::Integer 9999 0}
+trace add variable sGlMax write {::utils::validate::Integer 9999 0}
 
-trace variable sGnumMin w {::utils::validate::Integer -9999999 0}
-trace variable sGnumMax w {::utils::validate::Integer -9999999 0}
+trace add variable sGnumMin write {::utils::validate::Integer -9999999 0}
+trace add variable sGnumMax write {::utils::validate::Integer -9999999 0}
 
 # Forcing ECO entry to be valid ECO codes:
 foreach i {sEcoMin sEcoMax} {
-  trace variable $i w {::utils::validate::Regexp {^$|^[A-Ea-e]$|^[A-Ea-e][0-9]$|^[A-Ea-e][0-9][0-9]$|^[A-Ea-e][0-9][0-9][a-z]$|^[A-Ea-e][0-9][0-9][a-z][1-4]$}}
+  trace add variable $i write {::utils::validate::Regexp {^$|^[A-Ea-e]$|^[A-Ea-e][0-9]$|^[A-Ea-e][0-9][0-9]$|^[A-Ea-e][0-9][0-9][a-z]$|^[A-Ea-e][0-9][0-9][a-z][1-4]$}}
 }
 
 set sHeaderFlagFrame 0
@@ -742,50 +742,6 @@ proc ::search::getSearchOptions {dest_list} {
 	     lappend search $fCounts($i) $fCountsV($i)
         }
     }
-}
-
-proc ::search::header::save {} {
-  global sWhite sBlack sEvent sSite sRound sAnnotated sDateMin sDateMax sIgnoreCol
-  global sWhiteEloMin sWhiteEloMax sBlackEloMin sBlackEloMax
-  global sEloDiffMin sEloDiffMax sGlMin sGlMax
-  global sEco sEcoMin sEcoMax sHeaderFlags sSideToMoveW sSideToMoveB
-  global sResWin sResLoss sResDraw sResOther sPgntext
-
-  set ftype { { "Scid SearchOptions files" {".sso"} } }
-  set fName [tk_getSaveFile -initialdir [pwd] -filetypes $ftype -title "Create a SearchOptions file"]
-  if {$fName == ""} { return }
-
-  if {[string compare [file extension $fName] ".sso"] != 0} {
-    append fName ".sso"
-  }
-
-  if {[catch {set searchF [open [file nativename $fName] w]} ]} {
-    tk_messageBox -title "Error: Unable to open file" -type ok -icon error \
-        -message "Unable to create SearchOptions file: $fName"
-    return
-  }
-  puts $searchF "\# SearchOptions File created by Scid $::scidVersion"
-  puts $searchF "set searchType Header"
-  getSearchEntries
-
-  # First write the regular variables:
-  foreach i {sWhite sBlack sEvent sSite sRound sAnnotated sDateMin sDateMax sResWin
-    sResLoss sResDraw sResOther sWhiteEloMin sWhiteEloMax sBlackEloMin
-    sBlackEloMax sEcoMin sEcoMax sEloDiffMin sEloDiffMax
-    sIgnoreCol sSideToMoveW sSideToMoveB sGlMin sGlMax ::search::filter::operation} {
-    puts $searchF "set $i [list [set $i]]"
-  }
-  # Now write the array values:
-  foreach i [array names sHeaderFlags] {
-    puts $searchF "set sHeaderFlags($i) [list $sHeaderFlags($i)]"
-  }
-  foreach i [array names sPgntext] {
-    puts $searchF "set sPgntext($i) [list $sPgntext($i)]"
-  }
-
-  tk_messageBox -type ok -icon info -title "Search Options saved" \
-      -message "Header search options saved to: $fName"
-  close $searchF
 }
 
 ##############################

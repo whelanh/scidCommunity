@@ -145,6 +145,7 @@ menuText E GameReplace "Save: Replace game..." 6 \
   {Save this game, replacing the old version}
 menuText E GameAdd "Save: Add New Game..." 6 \
   {Save this game as a new game in the database}
+menuText E GameDelete "Delete Game" 0 {Toggle delete flag of the current game}
 menuText E GameDeepest "Identify Opening" 0 \
   {Goto the deepest game position listed in the ECO book}
 menuText E GameGotoMove "Goto Move Number..." 5 \
@@ -205,6 +206,7 @@ menuText E ToolsTrainCalvar "Calculation of variations"  0 {Calculation of varia
 menuText E ToolsTrainFindBestMove "Find best move"  0 {Find best move}
 menuText E ToolsTrainFics "Play on FICS"  0 {Play on freechess.org}
 menuText E ToolsEngineTournament "Engine tournament"  0 {Start a tournament between chess engines}
+menuText E ToolsTimeAnalysis "Time Analysis" 0 {Show clock time graph for the current game}
 menuText E ToolsBookTuning "Book tuning" 0 {Book tuning}
 menuText E ToolsDownloadTWIC "Download TWIC Games" 0 {Download the latest The Week In Chess (TWIC) games}
 menuText E ToolsConnectHardware "Connect Hardware" 8 {Connect external hardware}
@@ -272,7 +274,8 @@ menuText E OptionsMovesHighlightLastMoveDisplay "Show Square" 0 {Display last mo
 menuText E OptionsMovesHighlightLastMoveWidth "Width" 0 {Thickness of line}
 menuText E OptionsMovesHighlightLastMoveColor "Color" 0 {Color of line}
 menuText E OptionsMovesHighlightLastMoveArrow "Show Arrow" 0 {Show a Arrow with Highlight}
-menuText E OptionsMovesHighlightLastMoveNag "Show evaluation symbols" 0
+menuText E OptionsMovesHighlightLastMoveNag "Show annotation symbols" 0
+menuText E OptionsMovesHighlightLastMoveEval "Show evaluation symbols" 0
 menuText E OptionsMoves "Moves" 0 {Move entry options}
 menuText E OptionsMovesAnimate "Animation Time" 1 \
   {Set the amount of time used to animate moves}
@@ -290,7 +293,7 @@ menuText E OptionsMovesKey "Keyboard Completion" 0 \
 menuText E OptionsMovesShowVarArrows "Show Arrows for Variations" 0 {Turn on/off arrows showing moves in variations}
 menuText E OptionsMovesShowEngineVariationArrows "Show Arrows for Engine Variations" 0 {Turn on/off arrows showing engine variation lines in multiPV mode}
 menuText E OptionsMovesGlossOfDanger "Color Coded Gloss of Danger" 0 {Turn on/off color coded gloss of danger}
-translate E OptionsMovesTreeDepth {Default Tree Window Move Depth}
+translate E OptionsMovesTreeDepth {Default Tree Window Plies}
 menuText E OptionsNumbers "Number Format" 0 {Select the number format}
 menuText E OptionsTheme "Theme" 0 {Change look of interface}
 menuText E OptionsWindows "Windows" 0 {Window options}
@@ -326,6 +329,9 @@ menuText E HelpTip "Tip of the Day" 0 {Show a useful Scid tip}
 menuText E HelpStartup "Startup Window" 0 {Show the startup window}
 menuText E HelpAbout "About" 0 {Information about ScidCommunity}
 
+# Toolbar tooltips:
+menuText E RotateBoard "Rotate board" 0 {Rotate board}
+
 # Game info box popup menu:
 menuText E GInfoHideNext "Hide Next Move" 0
 menuText E GInfoMaterial "Show Material Values" 0
@@ -342,7 +348,61 @@ menuText E GInfoMark "(Un)Mark This Game" 4
 menuText E GInfoInformant "Configure informant values" 0
 
 # General buttons:
+translate E LichessOpenExplore {Lichess OpenExplore}
+translate E LichessTitle {Lichess Opening Explorer}
+translate E LichessApiTokenReq {Lichess API Token (required):}
+translate E LichessDatabase {Database:}
+translate E LichessMasters {Masters}
+translate E LichessGames {Lichess Games}
+translate E LichessPlayer {Player}
+translate E LichessNumMoves {Number of moves:}
+translate E LichessTopGames {Top games:}
+translate E LichessRecentGames {Recent games:}
+translate E LichessSinceYear {Since year:}
+translate E LichessUntilYear {Until year:}
+translate E LichessSinceMonth {Since (YYYY-MM):}
+translate E LichessUntilMonth {Until (YYYY-MM):}
+translate E LichessTimeControls {Time Controls}
+translate E LichessRatingGroups {Rating Groups}
+translate E LichessPlayerName {Player username:}
+translate E LichessPlayerColor {Player color:}
+translate E LichessWhite {White}
+translate E LichessBlack {Black}
+translate E LichessGameModes {Game Modes}
+translate E LichessRated {Rated}
+translate E LichessCasual {Casual}
+translate E LichessTokenRequired {A Lichess API token is required.\n\nAs of March 2026, Lichess requires an API token to access the Opening Explorer. Please enter your token in the "Lichess API Token" field above.\n\nYou can create a token at: https://lichess.org/account/oauth/token}
+translate E LichessPlayerRequired {Please enter a Lichess username for the Player database.}
+translate E LichessQuerying {Querying Lichess Opening Explorer...}
+translate E LichessFailedQuery {Failed to query Lichess Opening Explorer:\n%s}
+translate E LichessPositionNotFound {Position not found in the %s database.\n\nThe API returned:\n%s}
+translate E LichessResultsTitle {Lichess Opening Explorer - %s Database}
+translate E LichessSummaryInfo {Total: %s games  |  White wins: %s (%s%%)  |  Draws: %s (%s%%)  |  Black wins: %s (%s%%)}
+translate E LichessNoGamesFound {No games found for this position.}
+translate E LichessMoves {Moves:}
+translate E LichessColMove {Move}
+translate E LichessColWhite {White}
+translate E LichessColDraws {Draws}
+translate E LichessColBlack {Black}
+translate E LichessColTotal {Total}
+translate E LichessColWinPct {Win%}
+translate E LichessColAvgRating {Avg Rating}
+translate E LichessColECO {ECO}
+translate E LichessColOpening {Opening}
+translate E LichessTopGamesTitle {Top Games:}
+translate E LichessRecentGamesTitle {Recent Games:}
+translate E LichessColWinner {Winner}
+translate E LichessColWhiteRating {W.Rating}
+translate E LichessColBlackRating {B.Rating}
+translate E LichessColDate {Date}
+translate E LichessLoadGameConfirm {Load game %s vs %s (ID: %s) into the clipbase?}
+translate E LichessLoadGameTitle {Load Game}
+translate E LichessFetchGameFailed {Failed to fetch game %s:\n%s}
+translate E LichessGameNotFound {Game %s not found on Lichess.}
+translate E LichessImportFailed {Failed to import game:\n%s}
+translate E LichessGameLoaded {Game loaded into clipbase successfully.}
 translate E Back {Back}
+translate E Apply {Apply}
 translate E Browse {Browse}
 translate E Cancel {Cancel}
 translate E Continue {Continue}
@@ -350,6 +410,7 @@ translate E Clear {Clear}
 translate E Close {Close}
 translate E Contents {Contents}
 translate E Defaults {Defaults}
+translate E InvertSearch {Invert Search}
 translate E Delete {Delete}
 translate E Graph {Graph}
 translate E Help {Help}
@@ -362,6 +423,7 @@ translate E MergeGame {Merge Game}
 translate E MergeGames {Merge Games}
 translate E Preview {Preview}
 translate E Revert {Revert}
+translate E Rename {Rename}
 translate E Save {Save}
 translate E Search {Search}
 translate E Stop {Stop}
@@ -431,6 +493,11 @@ translate E readonly {read-only}
 translate E ErrNotOpen {This is not an open database.}
 translate E ErrReadOnly {This database is read-only; it cannot be altered.}
 translate E ErrSearchInterrupted {Search was interrupted; results are incomplete.}
+translate E ErrNoClockComments {No [%clk] clock comments were found in this game.  Add clock times via the Comments Window (Ctrl+E) to use this feature.}
+translate E ErrFileInUse {Error: the file is already in use. Please close any other application using this database. If the program was closed unexpectedly, you may need to delete the .lock file associated with the database.}
+
+
+
 
 # Game information:
 translate E twin {twin}
@@ -504,7 +571,7 @@ menuText E TreeOptFastAndSlowmode "Fast and slow mode" 0 {Fast mode then slow mo
 menuText E TreeOptStartStop "Auto refreshing" 0 {Toggles automatic refreshing of the tree window}
 menuText E TreeOptLock "Lock" 0 {Lock/unlock the tree to the current database}
 menuText E TreeOptTraining "Training" 0 {Turn on/off tree training mode}
-menuText E TreeOptDepth "Move depth" 0 {Number of half moves to display in tree (1-4)}
+menuText E TreeOptDepth "Plies" 0 {Number of plies (half moves) to display in tree (1-4)}
 menuText E TreeOptAutosave "Auto-Save Cache File" 0 \
   {Auto-save the cache file when closing the tree window}
 menuText E TreeHelp "Help" 0
@@ -513,7 +580,7 @@ menuText E TreeHelpIndex "Help Index" 0
 translate E SaveCache {Save Cache}
 translate E Training {Training}
 translate E LockTree {Lock}
-translate E TreeDepth {Tree depth (half moves):}
+translate E TreeDepth {Plies:}
 translate E TreeLocked {locked}
 translate E TreeBest {Best}
 translate E TreeBestGames {Best Tree Games}
@@ -622,11 +689,13 @@ menuText E GraphOptionsBoth "Both" 1
 menuText E GraphOptionsPInfo "Player Info player" 0
 menuText E GraphOptionsEloFile "Elo from rating file" 0
 menuText E GraphOptionsEloDB "Elo from database" 0
-translate E GraphFilterTitle "Filter Graph: frequency per 1000 games"
+translate E GraphFilterTitle "Filter Graph: percentage of games reaching position"
 translate E GraphAbsFilterTitle "Filter Graph: frequency of the games"
+translate E GraphWinPctTitle "Filter Graph: win % (1-0 and 0-1) at current position by year"
 translate E ConfigureFilter "Configure X-Axes for Year, Rating and Moves"
 translate E FilterEstimate "Estimate"
 translate E TitleFilterGraph "Scid: Filter Graph"
+translate E WinPct "Win %"
 
 # Analysis window:
 translate E AddVariation {Add Variation}
@@ -662,6 +731,13 @@ translate E Informant+= {White has a slight advantage}
 translate E Informant+/- {White has a clear advantage}
 translate E Informant+- {White has a decisive advantage}
 translate E Informant+-- {White has a crushing advantage}
+translate E AutoComment {Auto Comment}
+translate E AutoCommentTooltip {Generate AI commentary for the current position}
+translate E AnalysisAutoCommentTooltip {Generate AI commentary for the entire game}
+translate E GameComment {Game Comment}
+translate E GameCommentTooltip {Scan game for annotated moves and generate AI summary}
+translate E TimeMs {Time(ms)}
+
 
 # Book window
 translate E Book {Book}
@@ -1106,6 +1182,7 @@ translate E ECOSummary {Summary for}
 translate E ECOFrequency {Frequency of subcodes for}
 
 # Opening Report:
+translate E OprepReportFor {Report for}
 translate E OprepTitle {Opening Report}
 translate E OprepReport {Report}
 translate E OprepGenerated {Generated by}
@@ -1174,6 +1251,8 @@ translate E OprepTheoryTable {Theory Table}
 translate E OprepTableComment {Generated from the %u highest-rated games.}
 translate E OprepExtraMoves {Extra note moves in theory table}
 translate E OprepMaxGames {Maximum games in theory table}
+translate E OprepMergeMoves {Move limit for merged games}
+translate E OprepMergeUnique {Merge only unique games}
 translate E OprepViewHTML {View HTML}
 
 # Player Report:
@@ -1253,6 +1332,7 @@ translate E ClassifyNew {Only games with no ECO code yet}
 translate E ClassifyCodes {ECO Codes to use}
 translate E ClassifyBasic {Basic codes only ("B12", ...)}
 translate E ClassifyExtended {Scid extensions ("B12j", ...)}
+translate E ClassifyResult {ECO classification complete: $result game(s) updated.}
 
 # Compaction:
 translate E NameFile {Name file}
@@ -1579,6 +1659,9 @@ translate E FICSUnrated {Unrated}
 translate E FICSRegisteredPlayer {Registered player only}
 translate E FICSFreePlayer {Free player only}
 translate E FICSNetError {Network error\nCan't connect to }
+translate E OptionsFICS {FICS}
+translate E FICSTerminalColor {Terminal color}
+translate E FICSTextColor {Text color}
 
 # Game review
 translate E GameReview {Game review}
@@ -1661,6 +1744,8 @@ translate E FindCurrentGame {Find current game}
 translate E DeleteGame {Delete game}
 translate E UndeleteGame {Undelete game}
 translate E ResetSort {Reset sort}
+translate E LayoutExists {Layout '%s' already exists.}
+translate E ConfirmDeleteLayout {Are you sure you want to delete the layout '%s'?}
 
 translate E ConvertNullMove {Convert null moves to comments}
 translate E SetupBoard {Setup Board}
@@ -1697,5 +1782,32 @@ translate E OptionsTablebaseDir "Select up to 4 table base folders:"
 # Evaluation bar
 translate E BestMoveArrow "Best move arrow"
 translate E NewLocalEngine "+ New engine ..."
+
+# Batch Annotate
+translate E BatchAnnotate {Batch Annotate}
+translate E BatchEngineSelection {Engine Selection}
+translate E BatchChessEngine {Chess Engine:}
+translate E BatchNumberOfInstances {Number of Instances:}
+translate E BatchGameReview {Game Review}
+translate E BatchTimePerMove {Time per move (sec):}
+translate E BatchAnnotateBlunders {Annotate blunders only}
+translate E BatchBlunderThreshold {Blunder threshold:}
+translate E BatchVariationLength {Variation length (moves):}
+translate E BatchOpeningBook {Opening Book}
+translate E BatchUseBook {Use Book}
+translate E BatchAnnotateVariations {Annotate variations}
+translate E BatchShortAnnotations {Short annotations}
+translate E BatchAddScoreToShort {Add score to short annotations}
+translate E BatchClearOld {Clear old comments and variations}
+translate E BatchInitializingEngines {Initializing engines...}
+translate E BatchAnalyzingGames {Analyzing Games...}
+translate E BatchProgress {Batch Annotate Progress}
+translate E BatchComplete {Batch Annotation Complete!}
+translate E BatchCancelled {Batch Annotation Cancelled}
+translate E BatchStart {Start}
+translate E BatchCancel {Cancel}
+translate E BatchCompleted {completed}
+translate E BatchGames {games}
+translate E BatchProcessed {processed}
 }
 # end of english.tcl

@@ -82,7 +82,7 @@ proc ::tree::make { { baseNumber -1 } {locked 0} } {
 
   menu $w.menu.mask.recent
   foreach f $::tree::mask::recentMask {
-    $w.menu.mask.recent add command -label $f -command "::tree::mask::open $f"
+    $w.menu.mask.recent add command -label $f -command [list ::tree::mask::open $f]
   }
   $w.menu.mask add cascade -label TreeMaskOpenRecent -menu $w.menu.mask.recent
   set helpMessage($w.menu.mask,2) TreeMaskOpenRecent
@@ -165,8 +165,9 @@ proc ::tree::make { { baseNumber -1 } {locked 0} } {
   dialogbutton $w.buttons.close -textvar ::tr(Close) -command "::tree::closeTree $baseNumber"
 
   pack $w.buttons.best $w.buttons.graph $w.buttons.bStartStop $w.buttons.allgames $w.buttons.training \
-      $w.buttons.depthlabel $w.buttons.depth \
       -side left -padx 3 -pady 2
+  pack $w.buttons.depthlabel -side left -padx "15 3" -pady 2
+  pack $w.buttons.depth -side left -padx "0 3" -pady 2
   packbuttons right $w.buttons.close $w.buttons.stop
   $w.buttons.stop configure -state disabled
 
@@ -578,9 +579,13 @@ proc ::tree::displayLines { baseNumber moves } {
       $w.f.tl insert end "[::trans [lindex $m 0] ]" bluefg
       # comment
       set comment [lindex $m 3]
-      set firstLine [ lindex [split $comment "\n"] 0 ]
-      $w.f.tl insert end " $firstLine\n" tagtooltip$idx
-      ::utils::tooltip::Set $w.f.tl -tag tagtooltip$idx $comment
+      if {$comment != ""} {
+        set firstLine [ lindex [split $comment "\n"] 0 ]
+        $w.f.tl insert end " $firstLine" tagtooltip$idx
+        ::utils::tooltip::Set $w.f.tl -tag tagtooltip$idx $comment
+        $w.f.tl tag bind tagtooltip$idx <Double-Button-1> "::tree::mask::addComment [lindex $m 0]"
+      }
+      $w.f.tl insert end "\n"
 
       # Bind right button to popup a contextual menu:
       $w.f.tl tag bind tagclick$idx <ButtonPress-$::MB3> "::tree::mask::contextMenu $w.f.tl  [lindex $m 0] %x %y %X %Y ; break"
@@ -836,7 +841,7 @@ set tree(standardLines) {
 }
 # if there is a treecache file source it, otherwise use hard coded
 # values above
-catch {source [scidConfigFile treecache]}
+catch {safeLoadConfig [scidConfigFile treecache]}
 
 
 ################################################################################
@@ -1068,6 +1073,84 @@ namespace eval ::tree::mask {
   set maxRecent 10
 }
 ################################################################################
+# safeReadMaskFile - safely read and validate a mask file
+# Returns 1 on success, 0 on failure
+# This proc validates the file format without using "source" to prevent
+# arbitrary code execution from malicious .stm files
+################################################################################
+proc ::tree::mask::safeReadMaskFile {filename} {
+  global ::tree::mask::maskSerialized
+
+  # Read file contents
+  if {[catch {
+    set fd [::open $filename r]
+    fconfigure $fd -encoding utf-8
+    set content [read $fd]
+    ::close $fd
+  } err]} {
+    return 0
+  }
+
+  # Trim whitespace
+  set content [string trim $content]
+
+  # Validate file format: must start with "set ::tree::mask::maskSerialized"
+  set prefix "set ::tree::mask::maskSerialized "
+  if {![string equal -length [string length $prefix] $content $prefix]} {
+    return 0
+  }
+
+  # Extract everything after the prefix - this handles multi-line content
+  set listData [string range $content [string length $prefix] end]
+  set listData [string trim $listData]
+
+  # Validate that the list data is well-formed by attempting to parse it
+  # as a Tcl list. This ensures balanced braces and valid list structure.
+  # Tcl's llength handles multi-line brace-delimited content correctly.
+  if {[catch {llength $listData}]} {
+    return 0
+  }
+
+  # The save function uses [list [array get ...]] which wraps data in braces,
+  # so llength returns 1. We need to extract the inner data for validation.
+  if {[catch {set innerData [lindex $listData 0]}]} {
+    return 0
+  }
+
+  # Validate the inner data structure
+  # Check a sample of entries for performance (first 100 pairs)
+  if {[catch {
+    set len [llength $innerData]
+    # Must have even number of elements (key-value pairs)
+    if {$len % 2 != 0} {
+      error "Invalid mask data structure"
+    }
+    # Validate a sample of key-value pairs (up to 100)
+    set maxCheck [expr {min($len, 200)}]
+    for {set i 0} {$i < $maxCheck} {incr i 2} {
+      set key [lindex $innerData $i]
+      set value [lindex $innerData [expr {$i + 1}]]
+      # Key should be a non-empty string (FEN position identifier)
+      if {$key eq ""} {
+        error "Empty key in mask data"
+      }
+      # Value should be a list with 2 elements (moves list, comment)
+      if {[catch {llength $value} valLen] || $valLen != 2} {
+        error "Invalid mask value structure for key: $key"
+      }
+    }
+  } err]} {
+    return 0
+  }
+
+  # All validations passed, set the data
+  # Use innerData (without the extra outer braces from [list ...]) for compatibility
+  # with the existing code that does: array set mask $maskSerialized
+  set ::tree::mask::maskSerialized $innerData
+  return 1
+}
+
+################################################################################
 #
 ################################################################################
 proc ::tree::mask::open { {filename ""} } {
@@ -1085,7 +1168,11 @@ proc ::tree::mask::open { {filename ""} } {
     ::tree::mask::askForSave
     array unset ::tree::mask::mask
     array set ::tree::mask::mask {}
-    source $filename
+    if {![::tree::mask::safeReadMaskFile $filename]} {
+      tk_messageBox -title "scidCommunity" -icon error -type ok \
+          -message "Invalid or corrupted mask file: [file tail $filename]"
+      return
+    }
     array set mask $maskSerialized
     set maskSerialized {}
     set ::tree::mask::maskFile $filename
@@ -1104,7 +1191,7 @@ proc ::tree::mask::open { {filename ""} } {
         if { [winfo exists $w] } {
           $w.menu.mask.recent delete 0 end
           foreach f $::tree::mask::recentMask {
-            $w.menu.mask.recent add command -label $f -command "::tree::mask::open $f"
+            $w.menu.mask.recent add command -label $f -command [list ::tree::mask::open $f]
           }
         }
       }
@@ -1538,6 +1625,14 @@ proc ::tree::mask::getImage { move nmr } {
   set loc [expr 4 + $nmr]
   set img [lindex $moves $idxm $loc]
   if {$img == ""} { set img tb_empty }
+  if {[string match "::tree::mask::image*" $img]} {
+    set type [string range $img 19 end]
+    if {[info exists ::tree::mask::marker2image($type)]} {
+        set img $::tree::mask::marker2image($type)
+    } else {
+        set img tb_empty
+    }
+  }
   return $img
 }
 

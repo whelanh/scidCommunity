@@ -1,6 +1,24 @@
 #ifndef PHALANX_INCLUDED
 #define PHALANX_INCLUDED
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <ctype.h>
+#include <signal.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+
+#ifdef _WIN32
+  #include <windows.h>
+  #include <fcntl.h>
+  #include <io.h>
+#else
+  #include <unistd.h>
+  #include <sys/time.h>
+#endif
+
 #define VERSION "XXII-pg"
 
 #ifdef GNUFUN
@@ -8,8 +26,6 @@
 #endif
 
 #ifdef _WIN32
-  #include <windows.h>
-
   #ifndef GNUFUN
     extern int opterr;
     extern int optind;
@@ -25,20 +41,9 @@
   #define clearTimeout(DUMMY)
 
 #else
-  #include <unistd.h>
-  #include <sys/time.h>
   #define setTimeout(FN, SEC) signal(SIGALRM,FN); alarm(SEC);
   #define clearTimeout(DUMMY) alarm(0);
 #endif
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-#include <ctype.h>
-#include <signal.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 
 /*
  * COMPATIBILITY

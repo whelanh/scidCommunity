@@ -1,4 +1,7 @@
-# Text for menu names and status bar help messages in Serbian Cyrillic.
+# Copyright (C) 2025-2026 Hugh Whelan
+# SPDX-License-Identifier: GPL-2.0-or-later
+
+# Text for menu names and status bar help messages in Romanian.
 # Part of Scid (Shane's Chess Information Database).
 #
 # Instructions for adding a new language:
@@ -143,6 +146,7 @@ menuText L GameReplace "Salvare: înlocuiți jocul..." 6 \
   {Salvați acest joc, înlocuind versiunea veche}
 menuText L GameAdd "Salvare: Adăugați un joc nou..." 6 \
   {Salvați acest joc ca joc nou în baza de date}
+menuText L GameDelete "Șterge jocul" 0 {Comută steagul de ștergere pentru jocul curent}
 menuText L GameDeepest "Identificați deschiderea" 0 \
   {Mergeți la cea mai profundă poziție de joc listată în cartea ECO}
 menuText L GameGotoMove "Du-te la Mută ​​numărul..." 5 \
@@ -203,6 +207,7 @@ menuText L ToolsTrainCalvar "Calculul variațiilor"  0 {Calculul variațiilor an
 menuText L ToolsTrainFindBestMove "Găsiți cea mai bună mișcare"  0 {Găsiți cea mai bună mișcare}
 menuText L ToolsTrainFics "Joacă pe FICS"  0 {Joacă pe freechess.org}
 menuText L ToolsEngineTournament "Turneu de motoare"  0 {Începeți un turneu între motoarele de șah}
+menuText L ToolsTimeAnalysis "Analiza timpului" 0 {Afișează graficul timpului ceasului pentru jocul curent}
 menuText L ToolsBookTuning "Tuning de carte" 0 {Tuning de carte}
 menuText L ToolsDownloadTWIC "Descărcați jocurile TWIC" 0 {Descărcați cele mai recente jocuri The Week In Chess (TWIC).}
 menuText L ToolsConnectHardware "Conectați Hardware" 8 {Conectați hardware extern}
@@ -269,7 +274,8 @@ menuText L OptionsMovesHighlightLastMoveDisplay "Afișează Square" 0 {Afișeaz�
 menuText L OptionsMovesHighlightLastMoveWidth "Lăţime" 0 {Grosimea liniei}
 menuText L OptionsMovesHighlightLastMoveColor "Culoare" 0 {Culoarea liniei}
 menuText L OptionsMovesHighlightLastMoveArrow "Arată săgeata" 0 {Afișați o săgeată cu Evidențiere}
-menuText L OptionsMovesHighlightLastMoveNag "Afișați simbolurile de evaluare" 0
+menuText L OptionsMovesHighlightLastMoveNag "Afișați simbolurile de adnotare" 0
+menuText L OptionsMovesHighlightLastMoveEval "Afișați simbolurile de evaluare" 0
 menuText L OptionsMoves "Mișcări" 0 {Mutați opțiunile de intrare}
 menuText L OptionsMovesAnimate "Timp de animație" 1 \
   {Setați durata de timp folosită pentru a anima mișcările}
@@ -323,6 +329,9 @@ menuText L HelpTip "Sfatul zilei" 0 {Afișați un sfat util Scid}
 menuText L HelpStartup "Fereastra de pornire" 0 {Afișați fereastra de pornire}
 menuText L HelpAbout "Despre" 0 {Informații despre ScidCommunity}
 
+# Toolbar tooltips:
+menuText L RotateBoard "Rotiți placa" 0 {Rotiți placa}
+
 # Game info box popup menu:
 menuText L GInfoHideNext "Ascunde următoarea mișcare" 0
 menuText L GInfoMaterial "Afișați valorile materiale" 0
@@ -339,14 +348,69 @@ menuText L GInfoMark "(Anulați) marcați acest joc" 4
 menuText L GInfoInformant "Configurați valorile informatorilor" 0
 
 # General buttons:
-translate L Back {Spate}
+translate L LichessOpenExplore {Lichess OpenExplore}
+translate L LichessTitle {Lichess Opening Explorer}
+translate L LichessApiTokenReq {Token API Lichess (obligatoriu):}
+translate L LichessDatabase {Baza de date:}
+translate L LichessMasters {Maestrii}
+translate L LichessGames {Jocuri cu Lichess}
+translate L LichessPlayer {Player}
+translate L LichessNumMoves {Numar de miscari:}
+translate L LichessTopGames {Top jocuri:}
+translate L LichessRecentGames {Meciuri recente:}
+translate L LichessSinceYear {Din anul:}
+translate L LichessUntilYear {Pana la an:}
+translate L LichessSinceMonth {De la (AAAA-LL):}
+translate L LichessUntilMonth {Până la (AAAA-LL):}
+translate L LichessTimeControls {Controale timpului}
+translate L LichessRatingGroups {Grupuri de evaluare}
+translate L LichessPlayerName {Nume utilizator jucător:}
+translate L LichessPlayerColor {Culoare jucător:}
+translate L LichessWhite {Alb}
+translate L LichessBlack {Negru}
+translate L LichessGameModes {Moduri de joc}
+translate L LichessRated {Evaluat}
+translate L LichessCasual {Casual}
+translate L LichessTokenRequired {Este necesar un simbol API Lichess.\n\nÎncepând cu martie 2026, Lichess necesită un simbol API pentru a accesa Opening Explorer. Vă rugăm să introduceți simbolul în câmpul „Lichess API Token” de mai sus.\n\nPuteți crea un simbol la: https://lichess.org/account/oauth/token}
+translate L LichessPlayerRequired {Vă rugăm să introduceți un nume de utilizator Lichess pentru baza de date Player.}
+translate L LichessQuerying {Se interogă Lichess Opening Explorer...}
+translate L LichessFailedQuery {Nu s-a putut interoga Lichess Opening Explorer:\n%s}
+translate L LichessPositionNotFound {Poziția nu a fost găsită în baza de date %s.\n\nAPI-ul a returnat:\n%s}
+translate L LichessResultsTitle {Lichess Opening Explorer - Baza de date %s}
+translate L LichessSummaryInfo {Total: %s jocuri |  Albul câștigă: %s (%s%%) |  Extrageri: %s (%s%%) |  Câștigări negre: %s (%s%%)}
+translate L LichessNoGamesFound {Nu s-au găsit jocuri pentru această poziție.}
+translate L LichessMoves {Mișcări:}
+translate L LichessColMove {Mişcare}
+translate L LichessColWhite {Alb}
+translate L LichessColDraws {Remiză}
+translate L LichessColBlack {Negru}
+translate L LichessColTotal {Total}
+translate L LichessColWinPct {Câştiga%}
+translate L LichessColAvgRating {Evaluare medie}
+translate L LichessColECO {ECO}
+translate L LichessColOpening {Deschidere}
+translate L LichessTopGamesTitle {Top jocuri:}
+translate L LichessRecentGamesTitle {Jocuri recente:}
+translate L LichessColWinner {Câştigător}
+translate L LichessColWhiteRating {Evaluare W}
+translate L LichessColBlackRating {B.Evaluare}
+translate L LichessColDate {Data}
+translate L LichessLoadGameConfirm {Încărcați jocul %s vs %s (ID: %s) în baza de clipuri?}
+translate L LichessLoadGameTitle {Încărcați jocul}
+translate L LichessFetchGameFailed {Nu s-a putut prelua jocul %s:\n%s}
+translate L LichessGameNotFound {Jocul %s nu a fost găsit pe Lichess.}
+translate L LichessImportFailed {Nu s-a putut importa jocul:\n%s}
+translate L LichessGameLoaded {Jocul a fost încărcat cu succes în clipbase.}
+translate L Back {Înapoi}
+translate L Apply {Aplicați}
 translate L Browse {Răsfoiește}
 translate L Cancel {Anula}
 translate L Continue {Continua}
-translate L Clear {Clar}
-translate L Close {Aproape}
+translate L Clear {Șterge}
+translate L Close {Închide}
 translate L Contents {Cuprins}
 translate L Defaults {Valori implicite}
+translate L InvertSearch {Căutare inversă}
 translate L Delete {Şterge}
 translate L Graph {Grafic}
 translate L Help {Ajutor}
@@ -359,17 +423,18 @@ translate L MergeGame {Merge Game}
 translate L MergeGames {Jocuri de îmbinare}
 translate L Preview {Previzualizare}
 translate L Revert {Reveni}
+translate L Rename {Redenumiți}
 translate L Save {Salva}
 translate L Search {Căutare}
 translate L Stop {Stop}
-translate L Store {Magazin}
+translate L Store {Salvează}
 translate L Update {Actualizare}
 translate L ChangeOrient {Schimbați orientarea ferestrei}
 translate L ShowIcons {Afișați pictograme}
 translate L None {Nici unul}
 translate L First {Primul}
 translate L Current {Actual}
-translate L Last {Dura}
+translate L Last {Ultimul}
 
 # General messages:
 translate L game {joc}
@@ -382,9 +447,9 @@ translate L No {Nu}
 translate L Both {ambele}
 translate L King {Rege}
 translate L Queen {Regină}
-translate L Rook {Rook}
-translate L Bishop {Episcop}
-translate L Knight {Cavaler}
+translate L Rook {Turn}
+translate L Bishop {Nebun}
+translate L Knight {Cal}
 translate L Pawn {Pion}
 translate L White {Alb}
 translate L Black {Negru}
@@ -393,7 +458,7 @@ translate L Rating {Evaluare}
 translate L RatingDiff {Diferența de evaluare (alb - negru)}
 translate L AverageRating {Evaluare medie}
 translate L Event {Eveniment}
-translate L Site {Site}
+translate L Site {Loc}
 translate L Country {Ţară}
 translate L IgnoreColors {Ignora culorile}
 translate L Date {Data}
@@ -428,6 +493,11 @@ translate L readonly {numai pentru citire}
 translate L ErrNotOpen {Aceasta nu este o bază de date deschisă.}
 translate L ErrReadOnly {Această bază de date este doar pentru citire; nu poate fi alterat.}
 translate L ErrSearchInterrupted {Căutarea a fost întreruptă; rezultatele sunt incomplete.}
+translate L ErrNoClockComments {Nu au fost găsite comentarii la ceas [%clk] în acest joc.    Adăugați orele de ceas prin fereastra de comentarii (Ctrl+E) pentru a utiliza această funcție.}
+translate L ErrFileInUse {Eroare: fișierul este deja în uz. Vă rugăm să închideți orice altă aplicație care utilizează această bază de date. Dacă programul a fost închis în mod neașteptat, poate fi necesar să ștergeți fișierul .lock asociat cu baza de date.}
+
+
+
 
 # Game information:
 translate L twin {geamăn}
@@ -619,11 +689,13 @@ menuText L GraphOptionsBoth "ambele" 1
 menuText L GraphOptionsPInfo "Player Info player" 0
 menuText L GraphOptionsEloFile "Elo din fișierul de evaluare" 0
 menuText L GraphOptionsEloDB "Elo din baza de date" 0
-translate L GraphFilterTitle "Filter Graph: frecvență la 1000 de jocuri"
+translate L GraphFilterTitle "Graficul filtrului: procentul de jocuri care ating poziția"
 translate L GraphAbsFilterTitle "Filter Graph: frecvența jocurilor"
+translate L GraphWinPctTitle "Grafic de filtru: % de câștig (1-0 și 0-1) la poziția curentă pe an"
 translate L ConfigureFilter "Configurați axele X pentru an, evaluare și mișcări"
 translate L FilterEstimate "Estima"
 translate L TitleFilterGraph "Scid: Filter Graph"
+translate L WinPct "% de câștig"
 
 # Analysis window:
 translate L AddVariation {Adăugați o variație}
@@ -659,6 +731,13 @@ translate L Informant+= {Albul are un mic avantaj}
 translate L Informant+/- {Albul are un avantaj clar}
 translate L Informant+- {Albul are un avantaj decisiv}
 translate L Informant+-- {Albul are un avantaj zdrobitor}
+translate L AutoComment {Comentariu automat}
+translate L AutoCommentTooltip {Generați comentarii AI pentru poziția curentă}
+translate L AnalysisAutoCommentTooltip {Generați comentarii AI pentru întregul joc}
+translate L GameComment {Comentariu joc}
+translate L GameCommentTooltip {Scanează jocul pentru mișcări adnotate și generează un rezumat AI}
+translate L TimeMs {Timp (ms)}
+
 
 # Book window
 translate L Book {Carte}
@@ -728,7 +807,7 @@ menuText L CrosstabEditDate "Data" 0
 menuText L CrosstabOpt "Afişa" 0
 menuText L CrosstabOptAll "Toate-joaca-toate" 0
 menuText L CrosstabOptSwiss "elvețian" 0
-menuText L CrosstabOptKnockout "Făcut praf" 0
+menuText L CrosstabOptKnockout "Eliminatoriu" 0
 menuText L CrosstabOptAuto "Auto" 1
 menuText L CrosstabOptAges "Vârstele în ani" 8
 menuText L CrosstabOptNats "Naționalități" 0
@@ -1096,6 +1175,7 @@ translate L ECOSummary {Rezumat pentru}
 translate L ECOFrequency {Frecvența subcodurilor pentru}
 
 # Opening Report:
+translate L OprepReportFor {Raport pentru}
 translate L OprepTitle {Raport de deschidere}
 translate L OprepReport {Raport}
 translate L OprepGenerated {Generat de}
@@ -1164,6 +1244,8 @@ translate L OprepTheoryTable {Tabel Teoretic}
 translate L OprepTableComment {Generat din %u jocuri cu cele mai bune cote.}
 translate L OprepExtraMoves {Mișcări suplimentare de note în tabelul teoretic}
 translate L OprepMaxGames {Maxim de jocuri la masa teoretică}
+translate L OprepMergeMoves {Limita de mutare pentru jocurile îmbinate}
+translate L OprepMergeUnique {Îmbină doar jocuri unice}
 translate L OprepViewHTML {Vizualizați HTML}
 
 # Player Report:
@@ -1243,6 +1325,7 @@ translate L ClassifyNew {Doar jocuri fără cod ECO încă}
 translate L ClassifyCodes {Coduri ECO de utilizat}
 translate L ClassifyBasic {Numai coduri de bază ("B12", ...)}
 translate L ClassifyExtended {Extensii Scid ("B12j", ...)}
+translate L ClassifyResult {Clasificare ECO finalizată: joc(uri) $result actualizat.}
 
 # Compaction:
 translate L NameFile {Fișier cu nume}
@@ -1561,6 +1644,9 @@ translate L FICSUnrated {Neevaluat}
 translate L FICSRegisteredPlayer {Doar jucător înregistrat}
 translate L FICSFreePlayer {Doar jucător gratuit}
 translate L FICSNetError {Eroare de rețea\Nu se poate conecta la}
+translate L OptionsFICS {FICS}
+translate L FICSTerminalColor {Culoarea terminalului}
+translate L FICSTextColor {Culoarea textului}
 
 # Game review
 translate L GameReview {Revizuirea jocului}
@@ -1638,6 +1724,8 @@ translate L FindCurrentGame {Găsiți jocul curent}
 translate L DeleteGame {Șterge jocul}
 translate L UndeleteGame {Anulați ștergerea jocului}
 translate L ResetSort {Resetează sortarea}
+translate L LayoutExists {Aspectul „%s” există deja.}
+translate L ConfirmDeleteLayout {Sigur doriți să ștergeți aspectul „%s”?}
 
 translate L ConvertNullMove {Convertiți mișcările nule în comentarii}
 translate L SetupBoard {Placă de configurare}
@@ -1674,5 +1762,32 @@ translate L OptionsTablebaseDir "Selectați până la 4 dosare de bază de tabel
 # Evaluation bar
 translate L BestMoveArrow "Cea mai bună săgeată de mișcare"
 translate L NewLocalEngine "+ Motor nou..."
+
+# Batch Annotate
+translate L BatchAnnotate {Adnotare lot}
+translate L BatchEngineSelection {Selectarea motorului}
+translate L BatchChessEngine {Motor de șah:}
+translate L BatchNumberOfInstances {Număr de instanțe:}
+translate L BatchGameReview {Recenzia jocului}
+translate L BatchTimePerMove {Timp pe mișcare (sec):}
+translate L BatchAnnotateBlunders {Adnotați numai gafele}
+translate L BatchBlunderThreshold {Pragul de gafă:}
+translate L BatchVariationLength {Lungimea variației (mușcări):}
+translate L BatchOpeningBook {Cartea de deschidere}
+translate L BatchUseBook {Folosește Cartea}
+translate L BatchAnnotateVariations {Adnotați variațiile}
+translate L BatchShortAnnotations {Adnotări scurte}
+translate L BatchAddScoreToShort {Adăugați scor la adnotările scurte}
+translate L BatchClearOld {Ștergeți comentariile și variantele vechi}
+translate L BatchInitializingEngines {Se inițializează motoarele...}
+translate L BatchAnalyzingGames {Se analizează jocurile...}
+translate L BatchProgress {Adnotarea lotului de progres}
+translate L BatchComplete {Adnotarea lotului finalizată!}
+translate L BatchCancelled {Adnotarea lotului a fost anulată}
+translate L BatchStart {Început}
+translate L BatchCancel {Anula}
+translate L BatchCompleted {completat}
+translate L BatchGames {jocuri}
+translate L BatchProcessed {prelucrate}
 }
 # end of english.tcl

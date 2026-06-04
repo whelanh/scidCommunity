@@ -27,8 +27,11 @@
 int language = 0; // default to english
 //  0 = en,
 //  1 = fr, 2 = es, 3 = de, 4 = it, 5 = ne, 6 = cz
-//  7 = hu, 8 = no, 9 = sw, 10 = ca, 11 = fi, 12 = gr
+//  7 = hu, 8 = no, 9 = sw, 10 = ca, 11 = fi, 12 = gr, 13 = pt, 14 = he, 15 = swa
+//  16 = hi, 17 = uk, 18 = bn, 19 = ko, 20 = ja, 21 = zh, 22 = ro, 23 = bg
 //  TODO Piece translations for greek
+//  Note: Languages using multi-byte UTF-8 piece chars (gr, he, ko, zh, bg) use empty
+//  strings here; translation is handled by Tcl-side string map instead.
 const char *langPieces[] = {"",
                             "PPKRQDRTBFNC",
                             "PPKRQDRTBANC",
@@ -41,13 +44,29 @@ const char *langPieces[] = {"",
                             "PBKKQDRTBLNS",
                             "PPKRQDRTBANC",
                             "PSKKQDRTBLNR",
-                            ""};
+                            "",
+                            "PPKRQDRTBBNC", // 13 pt
+                            "", // 14 = he (multi-byte UTF-8)
+                            "", // 15 = swa
+                            "", // 16 = hi
+                            "", // 17 = uk
+                            "", // 18 = bn
+                            "", // 19 = ko
+                            "", // 20 = ja
+                            "", // 21 = zh
+                            "PPKRQDRTBNNC", // 22 = ro
+                            ""  // 23 = bg
+};
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // transPieces():
 // Given a string, will translate pieces from english to another language
 void transPieces(char *s) {
   if (language == 0)
+    return;
+  // Bounds check: verify langPieces[language] has at least 12 characters
+  // to avoid OOB reads for languages with empty mappings (he, swa, hi, uk, bn)
+  if (strlen(langPieces[language]) < 12)
     return;
   char *ptr = s;
   int i;
@@ -68,6 +87,10 @@ void transPieces(char *s) {
 char transPiecesChar(char c) {
   char ret = c;
   if (language == 0)
+    return c;
+  // Bounds check: verify langPieces[language] has at least 12 characters
+  // to avoid OOB reads for languages with empty mappings (he, swa, hi, uk, bn)
+  if (strlen(langPieces[language]) < 12)
     return c;
   for (int i = 0; i < 12; i += 2) {
     if (c == langPieces[language][i]) {
@@ -912,8 +935,37 @@ std::string Game::currentPosUCI() const {
   return res;
 }
 
+std::vector<std::string> Game::mainLineUCI() const {
+  std::vector<std::string> res;
+  char buf[256] = {};
+  if (HasNonStandardStart(buf)) {
+    res.push_back(std::string("position fen ") + buf + " moves");
+  } else {
+    res.push_back("position startpos moves");
+  }
+  auto it_pos = std::unique_ptr<Position>{};
+  auto it = FirstMove->Next();
+  for (auto m = it; !m->endMarker(); m = m->Next()) {
+    if (m->isNull()) {
+      if (!it_pos) {
+        it_pos = std::make_unique<Position>(StartPos ? *StartPos
+                                                     : Position::getStdStart());
+      }
+      for (auto end = m->Next(); it != end; it = it->Next()) {
+        it_pos->DoSimpleMove(it->moveData);
+      }
+      it_pos->PrintFEN(buf);
+      res.push_back(std::string("position fen ") + buf + " moves");
+    } else {
+      auto end = m->moveData.toLongNotation(buf);
+      res.emplace_back(buf, end);
+    }
+  }
+  return res;
+}
+
 ///////////////////////////////////////////////////////////////////////////
-// The following functions modify the moves graph in order to add or delete
+// The following functions modify the moves graph
 // moves. Promoting variations also modifies the moves graph.
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

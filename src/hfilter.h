@@ -21,8 +21,16 @@
 
 #include "common.h"
 #include <algorithm>
+#include <atomic>
+#include <cstring>
 #include <iterator>
 #include <memory>
+
+#ifdef _MSC_VER
+#define SCID_RESTRICT __restrict
+#else
+#define SCID_RESTRICT __restrict__
+#endif
 
 /*
  * A database can be searched according to different criteria and the list of
@@ -35,7 +43,7 @@
 class Filter {
 	std::unique_ptr<byte[]> data_; // The actual filter data.
 	gamenumT size_;                // Number of values in filter.
-	gamenumT nonzero_;             // Number of nonzero values in filter.
+	std::atomic<gamenumT> nonzero_; // Number of nonzero values in filter.
 	size_t capacity_;              // Number of values allocated for data_.
 
 public:
@@ -116,6 +124,104 @@ public:
 			}
 			std::fill(data_.get(), data_.get() + size_, value);
 			nonzero_ = (value == 0) ? 0 : size_;
+		}
+	}
+
+	/**
+	 * AND this filter with @e other: keep a game only if both filters include
+	 * it. Equivalent to: for each i, if other[i]==0 then set this[i]=0.
+	 * Significantly faster than per-element Set() calls.
+	 */
+	void andWith(const Filter& other) {
+		ASSERT(size_ == other.size_);
+		if (!other.data_) {
+			// other is all-ones: no change
+			return;
+		}
+		if (!data_) {
+			// this is all-ones: result = copy of other
+			allocate(size_);
+			std::memcpy(data_.get(), other.data_.get(), size_);
+			nonzero_ = other.nonzero_.load();
+			return;
+		}
+		// Both have data: zero out any position where other is zero.
+		byte* SCID_RESTRICT dst = data_.get();
+		const byte* SCID_RESTRICT src = other.data_.get();
+		gamenumT cnt = 0;
+		for (gamenumT i = 0; i < size_; ++i) {
+			if (src[i] == 0)
+				dst[i] = 0;
+			if (dst[i] != 0)
+				++cnt;
+		}
+		nonzero_ = cnt;
+	}
+
+	/**
+	 * OR this filter with @e other: include a game if either filter includes
+	 * it. For positions where this is 0 but other is non-zero, copy other's
+	 * value. Equivalent to: for each i, if this[i]==0 then this[i]=other[i].
+	 */
+	void orWith(const Filter& other) {
+		ASSERT(size_ == other.size_);
+		if (!other.data_) {
+			// other is all-ones: result is all-ones
+			data_.reset();
+			nonzero_ = size_;
+			return;
+		}
+		if (!data_) {
+			// this is all-ones: already includes everything, no change
+			return;
+		}
+		// Both have data: for each position where this==0, copy other.
+		byte* SCID_RESTRICT dst = data_.get();
+		const byte* SCID_RESTRICT src = other.data_.get();
+		gamenumT cnt = 0;
+		for (gamenumT i = 0; i < size_; ++i) {
+			if (dst[i] == 0 && src[i] != 0)
+				dst[i] = src[i];
+			if (dst[i] != 0)
+				++cnt;
+		}
+		nonzero_ = cnt;
+	}
+
+	/**
+	 * Copy values from @e other into this filter.
+	 */
+	void copyFrom(const Filter& other) {
+		ASSERT(size_ == other.size_);
+		if (!other.data_) {
+			data_.reset();
+			nonzero_ = size_;
+		} else {
+			if (!data_)
+				allocate(size_);
+			std::memcpy(data_.get(), other.data_.get(), size_);
+			nonzero_ = other.nonzero_.load();
+		}
+	}
+
+	/**
+	 * Negate: games that were included become excluded and vice-versa.
+	 * Included games are set to value 1.
+	 */
+	void negateAll() {
+		if (!data_) {
+			allocate(size_);
+			std::fill(data_.get(), data_.get() + size_, byte(0));
+			nonzero_ = 0;
+		} else {
+			byte* d = data_.get();
+			gamenumT cnt = 0;
+			for (gamenumT i = 0; i < size_; ++i) {
+				d[i] = (d[i] == 0) ? 1 : 0;
+				if (d[i] != 0)
+					++cnt;
+			}
+			nonzero_ = cnt;
 		}
 	}
 
@@ -274,6 +380,63 @@ public:
 	 *     insert_or_assign(gnum, value - 1);
 	 */
 	void set(gamenumT gnum, byte value) { return main_->Set(gnum, value); }
+
+	/**
+	 * Bulk AND: keep game i only if @e other includes it.
+	 * Much faster than per-element set()/get() loops.
+	 * If @e other has a mask, falls back to per-element processing.
+	 */
+	void andWith(const HFilter& other) {
+		if (other.mask_ == nullptr) {
+			main_->andWith(*other.main_);
+		} else {
+			for (gamenumT i = 0, n = main_->Size(); i < n; ++i) {
+				if (main_->Get(i) != 0 && other.get(i) == 0)
+					main_->Set(i, 0);
+			}
+		}
+	}
+
+	/**
+	 * Bulk OR: for each game excluded from this but included in @e other,
+	 * copy the value from @e other.
+	 * Much faster than per-element set()/get() loops.
+	 * If @e other has a mask, falls back to per-element processing.
+	 */
+	void orWith(const HFilter& other) {
+		if (other.mask_ == nullptr) {
+			main_->orWith(*other.main_);
+		} else {
+			for (gamenumT i = 0, n = main_->Size(); i < n; ++i) {
+				if (main_->Get(i) == 0) {
+					byte v = other.get(i);
+					if (v != 0)
+						main_->Set(i, v);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Bulk COPY: copy all values from @e other into this filter.
+	 * Much faster than per-element set()/get() loops.
+	 * If @e other has a mask, falls back to per-element processing.
+	 */
+	void copyFrom(const HFilter& other) {
+		if (other.mask_ == nullptr) {
+			main_->copyFrom(*other.main_);
+		} else {
+			for (gamenumT i = 0, n = main_->Size(); i < n; ++i) {
+				main_->Set(i, other.get(i));
+			}
+		}
+	}
+
+	/**
+	 * Negate: included games become excluded (0) and excluded games become
+	 * included (value 1).
+	 */
+	void negateAll() { main_->negateAll(); }
 };
 
 /**

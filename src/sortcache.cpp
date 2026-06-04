@@ -103,8 +103,8 @@ SortCache::SortCache(const Index* idx, const NameBase* nbase)
 
 SortCache::~SortCache() {
 	th_interrupt();
-	delete[] hash_;
-	delete[] fullMap_;
+	delete_huge(hash_, nGames_);
+	delete_huge(fullMap_, nGames_);
 }
 
 SortCache* SortCache::create(const Index* idx, const NameBase* nb,
@@ -163,7 +163,7 @@ size_t SortCache::select(size_t row_offset, size_t row_count,
 	size_t row_end = std::min(row_offset + row_count, maxResults);
 
 	if (!valid_fullMap_) {
-		gamenumT* v = new gamenumT[maxResults];
+		gamenumT* v = new_huge<gamenumT>(maxResults);
 		gamenumT* v_end = v + maxResults;
 		if (maxResults == nGames_) {
 			// std::iota(v, v_end, 0);
@@ -181,7 +181,7 @@ size_t SortCache::select(size_t row_offset, size_t row_count,
 		}
 		std::partial_sort(v + skip, v + row_end, v_end, CmpLess(this));
 		std::copy(v + row_offset, v + row_end, result);
-		delete[] v;
+		delete_huge(v, maxResults);
 	} else {
 		if (maxResults == nGames_) {
 			std::copy(fullMap_ + row_offset, fullMap_ + row_end, result);
@@ -268,11 +268,9 @@ void SortCache::generateHashCache() {
 	ASSERT(th_ == nullptr);
 
 	valid_fullMap_ = false;
+	delete_huge(hash_, nGames_);
 	nGames_ = index_->GetNumGames();
-
-	// Generate the hash table.
-	delete[] hash_;
-	hash_ = new uint32_t[nGames_];
+	hash_ = new_huge<uint32_t>(nGames_);
 	for (gamenumT i = 0; i < nGames_; i++) {
 		hash_[i] = calcHash(i);
 	}
@@ -285,8 +283,8 @@ void SortCache::generateHashCache() {
 void SortCache::sortAsynchronously() {
 	ASSERT(th_ == nullptr);
 
-	delete[] fullMap_;
-	fullMap_ = new gamenumT[nGames_];
+	delete_huge(fullMap_, nGames_);
+	fullMap_ = new_huge<gamenumT>(nGames_);
 	th_ = new std::thread(&SortCache::th_sort, this);
 }
 

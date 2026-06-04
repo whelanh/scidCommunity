@@ -17,9 +17,8 @@ set analysis(logMax) 5000
 #
 set analysis(log_stdout) 0
 
-set useAnalysisBook 1
 set analysisBookSlot 1
-set useAnalysisBookName ""
+set useAnalysisBookName $::book::lastBook
 set wentOutOfBook 0
 # State variable: 1 <=> engine is making an initial
 # assessment of the current position, before progressing
@@ -111,11 +110,7 @@ proc resetEngine {n} {
 
 resetEngine 1
 resetEngine 2
-
 set annotateMode 0
-set annotationVariationLength 9
-set annotateWhiteMoves 1
-set annotateBlackMoves 1
 
 ################################################################################
 # calculateNodes
@@ -221,7 +216,7 @@ proc engine {arglist} {
 #   - Sources the engines configuration file (may call `engine` repeatedly).
 ################################################################################
 proc ::enginelist::read {} {
-    catch {source [scidConfigFile engines]}
+    catch {safeLoadConfig [scidConfigFile engines] "" {engine engine}}
 }
 
 ################################################################################
@@ -409,6 +404,15 @@ proc ::enginelist::choose {} {
         return }
     win::createDialog $w
     ::setTitle $w "Scid: [tr ToolsAnalysis]"
+    wm resizable $w 1 1
+    wm minsize $w 450 350
+    wm transient $w .
+    
+    # Center the window
+    update idletasks
+    set x [expr {[winfo screenwidth $w]/2 - [winfo width $w]/2}]
+    set y [expr {[winfo screenheight $w]/2 - [winfo height $w]/2}]
+    wm geometry $w "+$x+$y"
     ttk::frame $w.buttons
     ttk::frame $w.list
     # Set up enginelist
@@ -476,7 +480,7 @@ proc ::enginelist::setTime {index {time -1}} {
     set engines(list) [lreplace $engines(list) $index $index $e]
 }
 
-trace variable engines(newElo) w [list ::utils::validate::Integer [sc_info limit elo] 0]
+trace add variable engines(newElo) write [list ::utils::validate::Integer [sc_info limit elo] 0]
 
 # ::enginelist::delete
 #   Removes an engine from the list.
@@ -842,8 +846,8 @@ proc configAnnotation {} {
         return
     }
 
-    trace variable blunderThreshold w {::utils::validate::Regexp {^[0-9]*\.?[0-9]*$}}
-    trace variable tempdelay w {::utils::validate::Regexp {^[0-9]*\.?[0-9]*$}}
+    trace add variable blunderThreshold write {::utils::validate::Regexp {^[0-9]*\.?[0-9]*$}}
+    trace add variable tempdelay write {::utils::validate::Regexp {^[0-9]*\.?[0-9]*$}}
     
     set tempdelay [expr {$autoplayDelay / 1000.0}]
     win::createDialog $w
@@ -1047,11 +1051,11 @@ proc markExercise { prevscore score nag} {
     
     set deltamove [expr {$score - $prevscore}]
     # filter tactics so only those with high gains are kept
-    if { [expr abs($deltamove)] < $::informant("+/-") } { return 0 }
+    if { [expr abs($deltamove)] < $::informant(+/-) } { return 0 }
     # dismiss games where the result is already clear (high score,and we continue in the same way)
     if { [expr $prevscore * $score] >= 0} {
-        if { [expr abs($prevscore) ] > $::informant("+--") } { return 0 }
-        if { [expr abs($prevscore)] > $::informant("+-") && [expr abs($score) ] < [expr 2 * abs($prevscore)]} { return 0 }
+        if { [expr abs($prevscore) ] > $::informant(+--) } { return 0 }
+        if { [expr abs($prevscore)] > $::informant(+-) && [expr abs($score) ] < [expr 2 * abs($prevscore)]} { return 0 }
     }
     
     # The best move is much better than others.
@@ -1063,13 +1067,13 @@ proc markExercise { prevscore score nag} {
     
     # There is no other winning moves (the best move may not win, of course, but
     # I reject exercises when there are e.g. moves leading to +9, +7 and +5 scores)
-    if { [expr $score * $sc2] > 0.0 && [expr abs($score)] > $::informant("+-") && [expr abs($sc2)] > $::informant("+-") } {
+    if { [expr $score * $sc2] > 0.0 && [expr abs($score)] > $::informant(+-) && [expr abs($sc2)] > $::informant(+-) } {
         return 0
     }
     
     # The best move does not lose position.
-    if {[sc_pos side] == "white" && $score < [expr 0.0 - $::informant("+/-")] } { return 0 }
-    if {[sc_pos side] == "black" && $score > $::informant("+/-") } { return 0}
+    if {[sc_pos side] == "white" && $score < [expr 0.0 - $::informant(+/-)] } { return 0 }
+    if {[sc_pos side] == "black" && $score > $::informant(+/-) } { return 0}
     
     # Move is not obvious: check that it is not the first move guessed at low depths
     set pv [ lindex [ lindex $::analysis(multiPV1) 0 ] 2 ]
@@ -1258,13 +1262,13 @@ proc addAnnotation { {n 1} } {
     set deltamove [expr {$prevscore - $score}]
     # and whether the game was already lost for us
     #
-    set gameIsLost [expr {$prevscore < (0.0 - $::informant("+--"))}]
+    set gameIsLost [expr {$prevscore < (0.0 - $::informant(+--))}]
     
     # Invert this logic for black
     #
     if { $tomove == "white" } {
         set deltamove [expr {0.0 - $deltamove}]
-        set gameIsLost [expr {$prevscore > $::informant("+--")}] 
+        set gameIsLost [expr {$prevscore > $::informant(+--)}] 
     }
     
     # Note btw that if the score decay is - unexpectedly - negative, we played
@@ -1332,14 +1336,14 @@ proc addAnnotation { {n 1} } {
         if { $isBlunder > 0 } {
             # Add move score nag, and possibly an exercise
             #
-            if {       $absdeltamove > $::informant("??") } {
+            if {       $absdeltamove > $::informant(??) } {
                 set exerciseMarked [ markExercise $prevscore $score "??" ]
-            } elseif { $absdeltamove > $::informant("?")  } {
+            } elseif { $absdeltamove > $::informant(?)  } {
                 set exerciseMarked [ markExercise $prevscore $score "?" ]
-            } elseif { $absdeltamove > $::informant("?!") } {
+            } elseif { $absdeltamove > $::informant(?!) } {
                 sc_pos addNag "?!"
             }
-        } elseif { $absdeltamove > $::informant("!?") } {
+        } elseif { $absdeltamove > $::informant(!?) } {
             sc_pos addNag "!?"
         }
             
@@ -1398,7 +1402,7 @@ proc addAnnotation { {n 1} } {
             sc_move forward
         }
     } else {
-        if { $isBlunder == 0 && $absdeltamove > $::informant("!?") } {
+        if { $isBlunder == 0 && $absdeltamove > $::informant(!?) } {
             sc_pos addNag "!?"
         }
         if { $scoreAllMoves } { 
@@ -1446,7 +1450,7 @@ proc scoreToNag {score} {
     # Find the score in the informant map
     set tmp [expr { abs( $score ) }]
     for { set i 0 } { $i < 4 } { incr i } {
-        if { $tmp < $::informant("$ana_informantList($i)") } {
+        if { $tmp < $::informant($ana_informantList($i)) } {
             break
         }
     }
@@ -1834,7 +1838,7 @@ proc makeAnalysisWin { {n 1} {index -1} {autostart 1}} {
     }
 
     # Try to execute the analysis program:
-    set open_err [catch {set analysis(pipe$n) [open "| [list $analysisCommand] $analysisArgs" "r+"]}]
+    set open_err [catch {set analysis(pipe$n) [open [list | $analysisCommand {*}$analysisArgs] "r+"]}]
 
     # Return to original dir if necessary:
     if {$oldpwd != ""} { catch {cd $oldpwd} }
@@ -1941,7 +1945,7 @@ proc makeAnalysisWin { {n 1} {index -1} {autostart 1}} {
     if {$analysis(uci$n)} {
 	pack $w.b1.alllines -side left
     }
-    if {$n ==1} {
+    if {$n == 1} {
         pack $w.b1.multipv $w.b1.annotate $w.b1.automove $w.b1.bFinishGame -side left
     } else  {
         pack $w.b1.multipv $w.b1.automove -side left
@@ -2764,7 +2768,7 @@ proc updateAnalysisText {{n 1}} {
         ::board::updateEvalBar .main.board $::analysis(score$n)
         
         # Draw multi-colored arrows for top 3 PV lines (if UCI engine with multiPV)
-        if { $analysis(uci$n) && [winfo exists .main.board] } {
+        if { $analysis(uci$n) && [winfo exists .main.board] && $::arrowLastMove } {
             set uciMoves {}
             # Extract first move from each PV line (up to 3 lines)
             # multiPVraw format: {depth score {pv_moves} scoremate time}
@@ -3236,7 +3240,7 @@ proc updateAnalysis {{n 1}} {
 ################################################################################
 
 set temptime 0
-trace variable temptime w {::utils::validate::Regexp {^[0-9]*\.?[0-9]*$}}
+trace add variable temptime write {::utils::validate::Regexp {^[0-9]*\.?[0-9]*$}}
 
 proc setAutomoveTime {{n 1}} {
     global analysis temptime dialogResult

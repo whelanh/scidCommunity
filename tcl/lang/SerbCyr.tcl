@@ -1,3 +1,6 @@
+# Copyright (C) 2025-2026 Hugh Whelan
+# SPDX-License-Identifier: GPL-2.0-or-later
+
 # Text for menu names and status bar help messages in Serbian Cyrillic.
 # Part of Scid (Shane's Chess Information Database).
 #
@@ -143,6 +146,7 @@ menuText J GameReplace "Сачувај: Замени игру..." 6 \
   {Сачувајте ову игру, замењујући стару верзију}
 menuText J GameAdd "Сачувај: Додај нову игру..." 6 \
   {Сачувајте ову игру као нову игру у бази података}
+menuText J GameDelete "Избриши игру" 0 {Укључите заставицу за брисање тренутне игре}
 menuText J GameDeepest "Идентификујте отварање" 0 \
   {Иди на најдубљу позицију игре наведену у ЕКО књизи}
 menuText J GameGotoMove "Иди на премести број..." 5 \
@@ -203,6 +207,7 @@ menuText J ToolsTrainCalvar "Прорачун варијација"  0 {Прор
 menuText J ToolsTrainFindBestMove "Пронађите најбољи потез"  0 {Пронађите најбољи потез}
 menuText J ToolsTrainFics "Играјте на ФИЦС-у"  0 {Играјте на фреецхесс.орг}
 menuText J ToolsEngineTournament "Турнир мотора"  0 {Започните турнир између шаховских машина}
+menuText J ToolsTimeAnalysis "Анализа времена" 0 {Прикажи временски графикон за тренутну игру}
 menuText J ToolsBookTuning "Боок тунинг" 0 {Боок тунинг}
 menuText J ToolsDownloadTWIC "Преузмите ТВИЦ игре" 0 {Преузмите најновије игре Тхе Веек Ин Цхесс (ТВИЦ).}
 menuText J ToolsConnectHardware "Повежите хардвер" 8 {Повежите спољни хардвер}
@@ -270,6 +275,7 @@ menuText J OptionsMovesHighlightLastMoveWidth "Ширина" 0 {Дебљина �
 menuText J OptionsMovesHighlightLastMoveColor "Боја" 0 {Боја линије}
 menuText J OptionsMovesHighlightLastMoveArrow "Прикажи стрелицу" 0 {Прикажи стрелицу са истицањем}
 menuText J OptionsMovesHighlightLastMoveNag "Прикажи симболе за евалуацију" 0
+menuText J OptionsMovesHighlightLastMoveEval "Прикажи симболе за евалуацију" 0
 menuText J OptionsMoves "Покрети" 0 {Померите опције уноса}
 menuText J OptionsMovesAnimate "Аниматион Тиме" 1 \
   {Подесите количину времена која се користи за анимирање покрета}
@@ -323,6 +329,9 @@ menuText J HelpTip "Савет дана" 0 {Покажите користан С
 menuText J HelpStartup "Прозор за покретање" 0 {Прикажи прозор за покретање}
 menuText J HelpAbout "Абоут" 0 {Информације о СцидЦоммунити}
 
+# Toolbar tooltips:
+menuText J RotateBoard "Ротирајте плочу" 0 {Ротирајте плочу}
+
 # Game info box popup menu:
 menuText J GInfoHideNext "Сакриј следећи потез" 0
 menuText J GInfoMaterial "Прикажи материјалне вредности" 0
@@ -339,7 +348,61 @@ menuText J GInfoMark "(Уни)маркирај ову игру" 4
 menuText J GInfoInformant "Конфигуришите вредности информатора" 0
 
 # General buttons:
+translate J LichessOpenExplore {Лицхесс ОпенЕкплоре}
+translate J LichessTitle {Лицхесс Опенинг Екплорер}
+translate J LichessApiTokenReq {Лицхесс АПИ токен (обавезно):}
+translate J LichessDatabase {База података:}
+translate J LichessMasters {Мастерс}
+translate J LichessGames {Лицхесс Гамес}
+translate J LichessPlayer {Плаиер}
+translate J LichessNumMoves {Број потеза:}
+translate J LichessTopGames {Најбоље игре:}
+translate J LichessRecentGames {Недавне игре:}
+translate J LichessSinceYear {Од године:}
+translate J LichessUntilYear {До године:}
+translate J LichessSinceMonth {Од (ГГГГ-ММ):}
+translate J LichessUntilMonth {До (ГГГГ-ММ):}
+translate J LichessTimeControls {Контроле времена}
+translate J LichessRatingGroups {Групе за оцењивање}
+translate J LichessPlayerName {Корисничко име играча:}
+translate J LichessPlayerColor {Боја играча:}
+translate J LichessWhite {Бела}
+translate J LichessBlack {Црно}
+translate J LichessGameModes {Режими игре}
+translate J LichessRated {Оцењено}
+translate J LichessCasual {Цасуал}
+translate J LichessTokenRequired {Лицхесс АПИ токен је неопходан.\n\nОд марта 2026. Лицхесс захтева АПИ токен за приступ Опенинг Екплорер-у. Унесите свој токен у поље „Лицхесс АПИ Токен" изнад.\n\nМожете да направите токен на: https://lichess.org/account/oauth/token}
+translate J LichessPlayerRequired {Унесите Лицхесс корисничко име за базу података играча.}
+translate J LichessQuerying {Упит за Лицхесс Отварање Екплорера...}
+translate J LichessFailedQuery {Упит за Лицхесс Опенинг Екплорер није успео:\n%s}
+translate J LichessPositionNotFound {Позиција није пронађена у бази података %s.\n\nАПИ је вратио:\n%s}
+translate J LichessResultsTitle {Лицхесс Опенинг Екплорер - %s база података}
+translate J LichessSummaryInfo {Укупно: %s игара |  Бели победе: %s (%s%%) |  Извлачење: %s (%s%%) |  Победе црних: %s (%s%%)}
+translate J LichessNoGamesFound {Нису пронађене игре за ову позицију.}
+translate J LichessMoves {Покрети:}
+translate J LichessColMove {Помери се}
+translate J LichessColWhite {Бела}
+translate J LichessColDraws {Дравс}
+translate J LichessColBlack {Црно}
+translate J LichessColTotal {Укупно}
+translate J LichessColWinPct {победа%}
+translate J LichessColAvgRating {Просечна оцена}
+translate J LichessColECO {ЕЦО}
+translate J LichessColOpening {Отварање}
+translate J LichessTopGamesTitle {Најбоље игре:}
+translate J LichessRecentGamesTitle {Недавне игре:}
+translate J LichessColWinner {Победник}
+translate J LichessColWhiteRating {В.Ратинг}
+translate J LichessColBlackRating {Б.Ратинг}
+translate J LichessColDate {Датум}
+translate J LichessLoadGameConfirm {Учитати игру %с вс %с (ИД: %с) у базу клипова?}
+translate J LichessLoadGameTitle {Лоад Гаме}
+translate J LichessFetchGameFailed {Преузимање игре %с није успело:\н%с}
+translate J LichessGameNotFound {Игра %с није пронађена на Лицхесс-у.}
+translate J LichessImportFailed {Увоз игре није успео:\н%с}
+translate J LichessGameLoaded {Игра је успешно учитана у базу клипова.}
 translate J Back {Назад}
+translate J Apply {Примени}
 translate J Browse {Прегледај}
 translate J Cancel {Откажи}
 translate J Continue {Настави}
@@ -347,6 +410,7 @@ translate J Clear {Јасно}
 translate J Close {Затвори}
 translate J Contents {Садржај}
 translate J Defaults {Дефаултс}
+translate J InvertSearch {Инверт Сеарцх}
 translate J Delete {Избриши}
 translate J Graph {Граф}
 translate J Help {Помоћ}
@@ -359,6 +423,7 @@ translate J MergeGame {Игра спајања}
 translate J MergeGames {Мерге Гамес}
 translate J Preview {Преглед}
 translate J Revert {Врати}
+translate J Rename {Преименуј}
 translate J Save {Сачувај}
 translate J Search {Тражи}
 translate J Stop {Стани}
@@ -380,12 +445,12 @@ translate J all {све}
 translate J Yes {Да}
 translate J No {бр}
 translate J Both {И једно и друго}
-translate J King {Краљу}
+translate J King {Краљ}
 translate J Queen {Краљица}
 translate J Rook {Топ}
-translate J Bishop {бискупе}
-translate J Knight {Книгхт}
-translate J Pawn {Павн}
+translate J Bishop {Ловац}
+translate J Knight {Скакач}
+translate J Pawn {Пешак}
 translate J White {Бела}
 translate J Black {Црно}
 translate J Player {Плаиер}
@@ -428,6 +493,11 @@ translate J readonly {само за читање}
 translate J ErrNotOpen {Ово није отворена база података.}
 translate J ErrReadOnly {Ова база података је само за читање; не може се мењати.}
 translate J ErrSearchInterrupted {Претрага је прекинута; резултати су непотпуни.}
+translate J ErrNoClockComments {У овој игри нису пронађени [%цлк] коментари на сат.\н\нДодајте време сата преко прозора за коментаре (Цтрл+Е) да бисте користили ову функцију.}
+translate J ErrFileInUse {Грешка: датотека је већ у употреби. Затворите било коју другу апликацију која користи ову базу података. Ако је програм неочекивано затворен, можда ћете морати да избришете .лоцк датотеку повезану са базом података.}
+
+
+
 
 # Game information:
 translate J twin {близанац}
@@ -453,7 +523,7 @@ translate J PInfoEditRatings {Уреди оцене}
 translate J PInfoEloFile {Филе}
 
 # Tablebase information:
-translate J Draw {Драв}
+translate J Draw {Реми}
 translate J with {са}
 translate J only {само}
 translate J lose {изгубити}
@@ -619,11 +689,13 @@ menuText J GraphOptionsBoth "И једно и друго" 1
 menuText J GraphOptionsPInfo "Плаиер Инфо плаиер" 0
 menuText J GraphOptionsEloFile "Ело из фајла за оцењивање" 0
 menuText J GraphOptionsEloDB "Ело из базе података" 0
-translate J GraphFilterTitle "Графикон филтера: учесталост на 1000 игара"
+translate J GraphFilterTitle "Графикон филтера: проценат игара које су достигле позицију"
 translate J GraphAbsFilterTitle "Графикон филтера: учесталост игара"
+translate J GraphWinPctTitle "Графикон филтера: % победа (1-0 и 0-1) на тренутној позицији по години"
 translate J ConfigureFilter "Конфигуришите Кс-осе за годину, оцену и покрете"
 translate J FilterEstimate "Процена"
 translate J TitleFilterGraph "Сцид: Графикон филтера"
+translate J WinPct "% победа"
 
 # Analysis window:
 translate J AddVariation {Додај варијацију}
@@ -659,6 +731,13 @@ translate J Informant+= {Бела има малу предност}
 translate J Informant+/- {Бели имају јасну предност}
 translate J Informant+- {Бели имају одлучујућу предност}
 translate J Informant+-- {Бели имају поразну предност}
+translate J AutoComment {Ауто Цоммент}
+translate J AutoCommentTooltip {Генеришите АИ коментар за тренутну позицију}
+translate J AnalysisAutoCommentTooltip {Генеришите АИ коментар за целу игру}
+translate J GameComment {Гаме Цоммент}
+translate J GameCommentTooltip {Скенирајте игру за обележеним потезима и генеришете АИ резиме}
+translate J TimeMs {време(мс)}
+
 
 # Book window
 translate J Book {Боок}
@@ -1096,6 +1175,7 @@ translate J ECOSummary {Резиме за}
 translate J ECOFrequency {Учесталост подкодова за}
 
 # Opening Report:
+translate J OprepReportFor {Извештај за}
 translate J OprepTitle {Извештај о отварању}
 translate J OprepReport {Извештај}
 translate J OprepGenerated {Генерисано од}
@@ -1164,6 +1244,8 @@ translate J OprepTheoryTable {Тхеори Табле}
 translate J OprepTableComment {Генерисано од %u игара са највећом оценом.}
 translate J OprepExtraMoves {Додатни покрети нота у теоријској табели}
 translate J OprepMaxGames {Табела максималног броја игара у теорији}
+translate J OprepMergeMoves {Ограничење померања за обједињене игре}
+translate J OprepMergeUnique {Спојите само јединствене игре}
 translate J OprepViewHTML {Прикажи ХТМЛ}
 
 # Player Report:
@@ -1243,6 +1325,7 @@ translate J ClassifyNew {Само игре које још немају ЕКО �
 translate J ClassifyCodes {ЕКО кодови за употребу}
 translate J ClassifyBasic {Само основни кодови ("Б12", ...)}
 translate J ClassifyExtended {Сцид екстензије ("Б12ј", ...)}
+translate J ClassifyResult {ЕКО класификација је завршена: $ресулт игре су ажуриране.}
 
 # Compaction:
 translate J NameFile {Име датотеке}
@@ -1561,6 +1644,9 @@ translate J FICSUnrated {Унратед}
 translate J FICSRegisteredPlayer {Само регистровани играч}
 translate J FICSFreePlayer {Само бесплатан играч}
 translate J FICSNetError {Мрежна грешка\Не могу да се повежем}
+translate J OptionsFICS {ФИЦС}
+translate J FICSTerminalColor {Боја терминала}
+translate J FICSTextColor {Боја текста}
 
 # Game review
 translate J GameReview {Преглед игре}
@@ -1638,6 +1724,8 @@ translate J FindCurrentGame {Пронађите тренутну игру}
 translate J DeleteGame {Обриши игру}
 translate J UndeleteGame {Поништи брисање игре}
 translate J ResetSort {Ресетуј сортирање}
+translate J LayoutExists {Распоред '%s' већ постоји.}
+translate J ConfirmDeleteLayout {Да ли сте сигурни да желите да избришете изглед „%s"?}
 
 translate J ConvertNullMove {Претворите нулте потезе у коментаре}
 translate J SetupBoard {Сетуп Боард}
@@ -1674,5 +1762,32 @@ translate J OptionsTablebaseDir "Изаберите до 4 основне фас
 # Evaluation bar
 translate J BestMoveArrow "Стрелица за најбољи покрет"
 translate J NewLocalEngine "+ Нови мотор..."
+
+# Batch Annotate
+translate J BatchAnnotate {Батцх Аннотате}
+translate J BatchEngineSelection {Избор мотора}
+translate J BatchChessEngine {Шаховска машина:}
+translate J BatchNumberOfInstances {Број инстанци:}
+translate J BatchGameReview {Преглед игре}
+translate J BatchTimePerMove {Време по потезу (сек):}
+translate J BatchAnnotateBlunders {Бележите само грешке}
+translate J BatchBlunderThreshold {Праг грешке:}
+translate J BatchVariationLength {Дужина варијације (покрети):}
+translate J BatchOpeningBook {Отварање књиге}
+translate J BatchUseBook {Користи књигу}
+translate J BatchAnnotateVariations {Означите варијације}
+translate J BatchShortAnnotations {Кратке напомене}
+translate J BatchAddScoreToShort {Додајте резултат кратким напоменама}
+translate J BatchClearOld {Обришите старе коментаре и варијације}
+translate J BatchInitializingEngines {Покретање мотора...}
+translate J BatchAnalyzingGames {Анализирање игара...}
+translate J BatchProgress {Напредак скупне белешке}
+translate J BatchComplete {Групна анотација је завршена!}
+translate J BatchCancelled {Групна напомена је отказана}
+translate J BatchStart {Почни}
+translate J BatchCancel {Откажи}
+translate J BatchCompleted {завршено}
+translate J BatchGames {игрице}
+translate J BatchProcessed {обрађене}
 }
 # end of english.tcl

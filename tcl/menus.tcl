@@ -179,6 +179,7 @@ menu $m.exportcurrent
   $m.exportcurrent add command -label ToolsExpCurrentHTMLJS \
       -command {::html::exportCurrentGame}
 $m add cascade -label ToolsExpCurrent -menu $m.exportcurrent
+$m add command -label GameDelete -accelerator "Ctrl+X" -command ::game::ToggleDeleteFlag
 $m add separator
 $m add command -label GameFirst -accelerator "Ctrl+Shift+Up" -command {::game::LoadNextPrev first}
 $m add command -label GamePrev -accelerator "Ctrl+Up" -command {::game::LoadNextPrev previous}
@@ -204,8 +205,7 @@ $m add command -label SearchMaterial -command ::search::material -accelerator "C
 $m add separator
 $m add checkbutton -label WindowsPList -variable plistWin -command ::plist::toggle -accelerator "Ctrl+Shift+P"
 $m add checkbutton -label WindowsTmt -variable tourneyWin -command ::tourney::toggle -accelerator "Ctrl+Shift+T"
-$m add separator
-$m add command -label SearchUsing -accel "Ctrl+Shift+U" -command ::search::usefile
+
 
 
 ### Play menu:
@@ -260,6 +260,7 @@ $m add command -label ToolsOpReport \
     -accelerator "Ctrl+Shift+O" -command ::optable::makeReportWin
 $m add command -label ToolsTracker \
     -accelerator "Ctrl+Shift+K" -command ::ptrack::make
+$m add command -label ToolsTimeAnalysis -command ::tools::graphs::time::Open
 $m add command -label ToolsBookTuning -command ::book::tuning
 $m add command -label ToolsDownloadTWIC -command "::twic::downloadWeek latest"
 menu $m.hardware
@@ -432,8 +433,25 @@ proc updateMenuStates {{menuname}} {
     $m.game entryconfig [tr GameLast] -state $state
     $m.game entryconfig [tr GameRandom] -state $state
 
+    # Find if there is an active Game List window for sort order
+    set sortStr ""
+    set filter "dbfilter"
+    foreach w $::windows::gamelist::wins {
+      if {$::gamelistBase($w) == $::curr_db && [info exists ::glistSortStr($w.games.glist)]} {
+        set sortStr [string trim $::glistSortStr($w.games.glist)]
+        set filter $::gamelistFilter($w)
+        break
+      }
+    }
+
     # Load previous button:
-    if {[sc_filter previous]} {set state normal} else {set state disabled}
+    set state disabled
+    if {$sortStr != "" && $sortStr != "0 +" && [sc_game number] > 0} {
+      set r [sc_base gamelocation $::curr_db $filter $sortStr [sc_game number]]
+      if {$r != "none" && $r > 0} { set state normal }
+    } else {
+      if {[sc_filter previous]} {set state normal}
+    }
     $m.game entryconfig [tr GamePrev] -state $state
     .main.tb.gprev configure -state $state
 
@@ -442,7 +460,13 @@ proc updateMenuStates {{menuname}} {
     $m.game entryconfig [tr GameReload] -state $state
 
     # Load next button:
-    if {[sc_filter next]} {set state normal} else {set state disabled}
+    set state disabled
+    if {$sortStr != "" && $sortStr != "0 +" && [sc_game number] > 0} {
+      set r [sc_base gamelocation $::curr_db $filter $sortStr [sc_game number]]
+      if {$r != "none" && $r < [expr {[sc_filter count $::curr_db $filter] - 1}]} { set state normal }
+    } else {
+      if {[sc_filter next]} {set state normal}
+    }
     $m.game entryconfig [tr GameNext] -state $state
     .main.tb.gnext configure -state $state
 
@@ -456,6 +480,13 @@ proc updateMenuStates {{menuname}} {
       set state disabled
     }
     $m.game entryconfig [tr GameReplace] -state $state
+
+    # Delete game button:
+    set state normal
+    if {[sc_game number] == 0  ||  $isReadOnly } {
+      set state disabled
+    }
+    $m.game entryconfig [tr GameDelete] -state $state
   }
   {.menu.options} {
     set ::optionsFullScreen [wm attributes . -fullscreen]
@@ -594,18 +625,21 @@ proc checkMenuUnderline {menu} {
 #
 ################################################################################
 proc configInformant { w } {
-  global informant
+  global informant informantDefaults
 
   ttk::frame $w.spinF
   set idx 0
   set row 0
 
-  foreach i [lsort [array names informant]] {
-    if {$i == "\"++-\""} { continue } ; # ignore old version: ++- from options.dat
-    ttk::label $w.spinF.labelExpl$idx -text [ ::tr "Informant[ string trim $i "\""]" ]
-    ttk::label $w.spinF.label$idx -text $i
+  foreach i {!? ?! ? ?? += +/- +- +--} {
+    ttk::label $w.spinF.labelExpl$idx -text [ ::tr "Informant$i" ]
+    set lbl "$i"
+    if {[info exists informantDefaults($i)]} {
+      append lbl " ($informantDefaults($i))"
+    }
+    ttk::label $w.spinF.label$idx -text $lbl
      # Allow the configuration of "won game" up to "Mate found"
-     if {$i == "\"+--\""} {
+     if {$i == "+--"} {
          ttk::spinbox $w.spinF.sp$idx -textvariable informant($i) -width 5 -from 0.0 -to 328.0 -increment 1.0 -validate all -validatecommand { regexp {^[0-9]\.[0-9]$} %P }
      } else {
          ttk::spinbox $w.spinF.sp$idx -textvariable informant($i) -width 5 -from 0.0 -to 9.9 -increment 0.1 -validate all -validatecommand { regexp {^[0-9]\.[0-9]$} %P }
@@ -621,6 +655,23 @@ proc configInformant { w } {
 }
 
 ################################################################################
+
+proc configFICS { w } {
+  ttk::label $w.lterm -text [::tr FICSTerminalColor]
+  canvas $w.termSample -width 30 -height 20 -background $::fics::consolebg -highlightthickness 1
+  ttk::button $w.bterm -text "..." -command [list ::fics::chooseTerminalColor $w.termSample]
+
+  ttk::label $w.ltext -text [::tr FICSTextColor]
+  canvas $w.textSample -width 30 -height 20 -background $::fics::consolefg -highlightthickness 1
+  ttk::button $w.btext -text "..." -command [list ::fics::chooseTextColor $w.textSample]
+
+  grid $w.lterm -row 0 -column 0 -sticky w -padx "0 10"
+  grid $w.termSample -row 0 -column 1 -padx "0 5"
+  grid $w.bterm -row 0 -column 2
+  grid $w.ltext -row 1 -column 0 -sticky w -padx "0 10" -pady "10 0"
+  grid $w.textSample -row 1 -column 1 -padx "0 5" -pady "10 0"
+  grid $w.btext -row 1 -column 2 -pady "10 0"
+}
 
 proc getBooksDir { widget } {
   global scidBooksDir

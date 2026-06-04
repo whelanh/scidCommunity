@@ -38,15 +38,77 @@ proc vwaitTimed { var {delay 0} {warn "warnuser"} } {
 proc bindMouseWheel {bindtag callback} {
     switch -- [tk windowingsystem] {
 	x11 {
+	    bind $bindtag <Button-4> "$callback -1; break"
+	    bind $bindtag <Button-5> "$callback +1; break"
 	    bind $bindtag <ButtonPress-4> "$callback -1; break"
 	    bind $bindtag <ButtonPress-5> "$callback +1; break"
+	    bind $bindtag <MouseWheel> {
+		if {%D < 0} { event generate %W <Button-5> } else { event generate %W <Button-4> }
+		break
+	    }
 	}
 	win32 {
-	    bind $bindtag <<MWheel>> "[append callback { [expr {-(%d/120)}]}]; break"
-	}
+      bind $bindtag <MouseWheel> "[append callback { [expr {-%D/120}]}]; break"
+  }
 	aqua {
 	    bind $bindtag <MouseWheel> "[append callback { [expr {-(%D)}]} ]; break"
 	}
+    }
+}
+
+# collapseMenubuttons:
+#   Dynamically hides menubuttons that don't fit in the available width
+#   and moves them into an overflow menu.
+#   container: the frame containing the menubuttons
+#   overflowName: the name of the overflow menubutton widget
+#   collapsible: dict mapping widget names to display labels
+#
+proc collapseMenubuttons {container overflowName collapsible} {
+    set avail [winfo width $container]
+    if {$avail <= 1} { return }
+
+    set slaves [grid slaves $container]
+    set req [::tcl::mathop::+ {*}[lmap e $slaves {winfo reqwidth $e}]]
+
+    set currentHidden {}
+    set collapsed $container.$overflowName
+    if {$collapsed in $slaves} {
+        incr req -[winfo reqwidth $collapsed]
+        foreach name [lreverse [dict keys $collapsible]] {
+            set widget $container.$name
+            if {$widget ni $slaves} {
+                lappend currentHidden $name
+                incr req [winfo reqwidth $widget]
+            }
+        }
+    }
+    set willHide {}
+    if {$req > $avail} {
+        incr req [winfo reqwidth $collapsed]
+        foreach name [lreverse [dict keys $collapsible]] {
+            if {$req <= $avail} { break }
+            lappend willHide $name
+            incr req -[winfo reqwidth $container.$name]
+        }
+    }
+    if {$willHide eq $currentHidden} { return }
+
+    foreach name [dict keys $collapsible] {
+        grid $container.$name
+    }
+    if {[llength $willHide] == 0} {
+        grid remove $collapsed
+    } else {
+        foreach name $willHide {
+            grid remove $container.$name
+        }
+        set m [$collapsed cget -menu]
+        $m delete 0 end
+        foreach name [lreverse $willHide] {
+            set submenu [$container.$name cget -menu]
+            $m add cascade -label [dict get $collapsible $name] -menu $submenu
+        }
+        grid $collapsed
     }
 }
 
@@ -602,6 +664,8 @@ namespace eval gameclock {
   proc start { n } {
     if {$::gameclock::data(running$n)} { return }
     set ::gameclock::data(running$n) 1
+    # Capture the clock value at the start of the turn
+    set ::gameclock::data(startSec$n) $::gameclock::data(counter$n)
     ::gameclock::every 1000 "draw $n" $n
   }
   ################################################################################
@@ -613,7 +677,13 @@ namespace eval gameclock {
   }
   ################################################################################
   proc storeTimeComment { color } {
-    set sec [::gameclock::getSec $color]
+    # Provide the time captured at the BEGINNING of the move for counting-down clocks (Serious Game)
+    if {[info exists ::gameclock::data(startSec$color)] && $::gameclock::data(startSec$color) < 0} {
+        set sec [expr {0 - $::gameclock::data(startSec$color)}]
+    } else {
+        # For counting-up clocks (Tactical Game), fallback to the original behavior (End of Move)
+        set sec [::gameclock::getSec $color]
+    }
     set h [format "%d" [expr abs($sec) / 60 / 60] ]
     set m [format "%02d" [expr (abs($sec) / 60) % 60] ]
     set s [format "%02d" [expr abs($sec) % 60] ]

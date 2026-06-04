@@ -14,27 +14,34 @@
 # a "TODO translate me" is appended at each line needing it
 
 array set encodings {
-  czech iso8859-2
-  deutsch iso8859-1
+  czech utf-8
+  deutsch utf-8
   francais utf-8
-  hungary iso8859-2
+  hungary utf-8
   italian utf-8
   chinese utf-8
-  nederlan iso8859-1
-  norsk iso8859-1
-  polish iso8859-2
-  portbr iso8859-1
+  nederlan utf-8
+  norsk utf-8
+  polish utf-8
+  portbr utf-8
   russian utf-8
   serbian iso8859-2
-  spanish iso8859-1
-  swedish iso8859-1
-  catalan iso8859-1
-  suomi iso8859-1
+  spanish utf-8
+  swedish utf-8
+  catalan utf-8
+  suomi utf-8
   greek utf-8
   turkish utf-8
   SerbCyr utf-8
   japanese utf-8
   romanian utf-8
+  hebrew utf-8
+  swahili utf-8
+  hindi utf-8
+  ukrainian utf-8
+  bengali utf-8
+  korean utf-8
+  bulgarian utf-8
 }
 
 array set codes {
@@ -59,10 +66,18 @@ array set codes {
   SerbCyr J
   japanese A
   romanian L
+  hebrew V
+  swahili Z
+  hindi h
+  ukrainian Q
+  bengali b
+  korean k
+  bulgarian g
 }
 
 set languages {czech deutsch francais hungary italian chinese nederlan norsk polish
-  portbr spanish swedish serbian russian catalan suomi greek turkish SerbCyr japanese romanian
+  portbr spanish swedish serbian russian catalan suomi greek turkish SerbCyr 
+  japanese romanian hebrew swahili hindi ukrainian bengali korean bulgarian
 }
 
 ################################################################################

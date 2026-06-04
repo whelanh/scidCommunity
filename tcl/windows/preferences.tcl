@@ -64,6 +64,7 @@ proc ::preferences::Open { {toggle ""} } {
   lappend configList [tr OptionsSounds] ::utils::sound::OptionsDialog
   lappend configList [tr OptionsMoves] ::preferences::moves
   lappend configList [tr ConfigureInformant] configInformant
+  lappend configList [tr OptionsFICS] configFICS
   set maxlen 0
   ### create the dialogs
   foreach {m init} $configList {
@@ -99,43 +100,33 @@ proc ::preferences::checkFileDir { widget command type oldvalue} {
     $command "$filename"
 }
 
-proc ::preferences::resources { } {
-    # Directories
+proc ::preferences::resources {} {
     set w .resDialog
     if { [winfo exists $w] } return
 
     win::createDialog $w
     ::setTitle $w "Scid Resources"
 
-    set idx 0
-    foreach file { ::ThemePackageFile ::spellCheckFile ::ecoFile ::scidBooksDir ::scidBasesDir ::scidPhotoDir ::utils::sound::soundFolder } \
-        label { OptionsThemeDir OptionsSpell OptionsECO OptionsBooksDir OptionsTacticsBasesDir OptionsPhotosDir SoundsFolder} \
-        valtype { isfile isfile isfile isdirectory isdirectory isdirectory isdirectory } \
-        command { getThemePkgFile getSpellCheckFile getECOFile getBooksDir getTacticsBasesDir getPhotoDir ::utils::sound::GetDialogChooseFolder } \
-        checkvaluecommand { readThemePkgFile readSpellCheckFile readECOFile setBooksDir setTacticsBasesDir setPhotoDir ::utils::sound::OptionsDialogChooseFolder } {
-        incr idx
-        ttk::label $w.$file -text [tr $label]:
-        ttk::frame $w.$idx
-        set temp ""
-        if { [info exists $file] } { set temp [set $file] }
-        ttk::entry $w.$idx.file -width 80
-        $w.$idx.file insert end $temp
-        ttk::button $w.$idx.b -text "..." -command "$command $w.$idx.file"
-        $w.$idx.file configure -validate key -validatecommand "
-              after cancel ::preferences::checkFileDir $w.$idx.file $checkvaluecommand $valtype $file
-              after 200 ::preferences::checkFileDir $w.$idx.file $checkvaluecommand $valtype $file
-              return true"
-        pack $w.$file $w.$idx -anchor w -fill x
-        pack $w.$idx.b -side right -padx 2
-        pack $w.$idx.file -side left -padx 2 -fill x -expand yes
+    # Resource configuration: {varName labelKey validationType browseCmd validateCmd}
+    set resourceConfig {
+        {::ThemePackageFile          OptionsThemeDir        isfile      getThemePkgFile                       readThemePkgFile}
+        {::spellCheckFile            OptionsSpell           isfile      getSpellCheckFile                     readSpellCheckFile}
+        {::ecoFile                   OptionsECO             isfile      getECOFile                            readECOFile}
+        {::scidBooksDir              OptionsBooksDir        isdirectory getBooksDir                           setBooksDir}
+        {::scidBasesDir              OptionsTacticsBasesDir isdirectory getTacticsBasesDir                    setTacticsBasesDir}
+        {::scidPhotoDir              OptionsPhotosDir       isdirectory getPhotoDir                           setPhotoDir}
+        {::utils::sound::soundFolder SoundsFolder           isdirectory ::utils::sound::GetDialogChooseFolder ::utils::sound::OptionsDialogChooseFolder}
     }
+
+    set row 0
+    foreach config $resourceConfig {
+        lassign $config varName labelKey valType browseCmd validateCmd
+        createResourceEntry $w $row $varName $labelKey $valType $browseCmd $validateCmd
+        incr row
+    }
+
     ttk::label $w.folderHelp -text $::tr(SoundsFolderHelp)
     pack $w.folderHelp -side top -anchor w
-
-    ttk::frame $w.b
-    pack $w.b -side bottom -fill x
-    dialogbutton $w.b.ok -text "OK" -command "destroy $w"
-    packbuttons right $w.b.ok
 
     wm protocol $w WM_DELETE_WINDOW [list apply {{w} {
         if {[grab current $w] eq $w} {
@@ -144,6 +135,34 @@ proc ::preferences::resources { } {
     }} $w]
     wm resizable $w 1 0
     grab $w
+}
+
+proc ::preferences::createResourceEntry {w row varName labelKey valType browseCmd validateCmd} {
+    ttk::label $w.label$row -text "[tr $labelKey]:"
+    ttk::frame $w.entry$row
+    set entry $w.entry$row.path
+
+    set currentValue ""
+    if {[info exists $varName]} {
+        set currentValue [set $varName]
+    }
+
+    ttk::entry $entry -width 80
+    $entry insert end $currentValue
+
+    ttk::button $w.entry$row.browse -text "..." \
+        -command [list $browseCmd $entry]
+
+    # Debounce: avoid validating incomplete paths during typing
+    set validateCall [list ::preferences::checkFileDir $entry $validateCmd $valType $varName]
+    bind $entry <KeyRelease> [list apply {{cmd} {
+        after cancel $cmd
+        after 200 $cmd
+    }} $validateCall]
+
+    pack $w.label$row $w.entry$row -anchor w -fill x
+    pack $w.entry$row.browse -side right -padx 2
+    pack $entry -side left -padx 2 -fill x -expand yes
 }
 
 proc ::preferences::validateautoplay { } {
@@ -174,8 +193,6 @@ proc ::preferences::moves { t } {
     ttk::checkbutton $t.oms -variable  suggestMoves -text [tr OptionsMovesSuggest]
     ttk::checkbutton $t.osv -variable  showVarPopup -text [tr OptionsShowVarPopup]
     ttk::checkbutton $t.osp -variable ::pgn::moveNumberSpaces -text [tr OptionsMovesSpace]
-    ttk::checkbutton $t.sva -variable showVarArrows -text [tr OptionsMovesShowVarArrows]
-    ttk::checkbutton $t.eva -variable showEngineVariationArrows -text [tr OptionsMovesShowEngineVariationArrows]
     ttk::checkbutton $t.lichess -variable ::lichessFormat -text [tr OptionsMovesLichess]
     ttk::checkbutton $t.god -variable glossOfDanger -text [tr OptionsMovesGlossOfDanger] -command updateBoard
 
@@ -192,19 +209,25 @@ proc ::preferences::moves { t } {
     ttk::labelframe $t.high -text [tr OptionsMovesHighlightLastMove]
     ttk::checkbutton $t.high.hlm -variable ::highlightLastMove -text [tr OptionsMovesHighlightLastMoveDisplay] -command "updateBoard"
     ttk::checkbutton $t.high.arrow -variable ::arrowLastMove -text [tr OptionsMovesHighlightLastMoveArrow] -command "updateBoard"
+    ttk::checkbutton $t.high.sva -variable showVarArrows -text [tr OptionsMovesShowVarArrows]
+    ttk::checkbutton $t.high.eva -variable showEngineVariationArrows -text [tr OptionsMovesShowEngineVariationArrows]
     ttk::label $t.high.tl -text [tr OptionsMovesHighlightLastMoveWidth]
     ttk::spinbox $t.high.thick -width 2 -textvariable ::highlightLastMoveWidth -from 1 -to 5 -increment 1 \
         -validate key -validatecommand { return [string is digit %S] } -command "updateBoard"
     ttk::button $t.high.color -text $::tr(ColorMarker) -command chooseHighlightColor
     ttk::checkbutton $t.high.nag -variable ::highlightLastMoveNag -text [tr OptionsMovesHighlightLastMoveNag] -command "updateBoard"
+    ttk::checkbutton $t.high.eval -variable ::highlightLastMoveEval -text [tr OptionsMovesHighlightLastMoveEval] -command "updateBoard"
     grid $t.high.hlm -row 0 -column 0 -sticky w
     grid $t.high.tl -row 0 -column 1 -padx "10 5"
     grid $t.high.thick -row 0 -column 2
     grid $t.high.color -row 1 -column 2 -pady "2 0"
     grid $t.high.arrow -row 1 -column 0 -columnspan 2 -sticky w
-    grid $t.high.nag -row 2 -column 0 -sticky w
+    grid $t.high.sva -row 2 -column 0 -columnspan 3 -sticky w -padx "20 0"
+    grid $t.high.eva -row 3 -column 0 -columnspan 3 -sticky w -padx "20 0"
+    grid $t.high.nag -row 4 -column 0 -sticky w
+    grid $t.high.eval -row 5 -column 0 -sticky w
     pack $t.auto.label $t.auto.spDelay -side left -padx "0 10" -anchor w
-    pack $t.ani $t.omc $t.omk $t.oms $t.osv $t.osp $t.auto $t.sva $t.eva $t.lichess $t.god $t.tree -side top -anchor w
+    pack $t.ani $t.omc $t.omk $t.oms $t.osv $t.osp $t.auto $t.lichess $t.god $t.tree -side top -anchor w
     pack $t.high -side top -anchor w -pady "5 0"
 }
 

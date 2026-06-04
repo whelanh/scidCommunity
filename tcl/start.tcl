@@ -39,43 +39,11 @@ if {[catch {package require Tk 8.6}]} {
 }
 set useLocalTooltip [catch {package require tooltip 2.0}]
 
-# Tcl 8.6/9.0 compatibility: trace variable -> trace add variable
-if {[package vcompare [info patchlevel] 9.0] >= 0} {
-    # Tcl 9.0+: create wrapper for old trace variable syntax
-    rename trace _trace_orig
-    proc trace {op args} {
-        if {$op eq "variable"} {
-            # Map old single-letter ops to new full names: w->write, r->read, u->unset
-            set varName [lindex $args 0]
-            set opsList [lindex $args 1]
-            set command [lindex $args 2]
-            set newOps ""
-            foreach char [split $opsList ""] {
-                switch $char {
-                    w { append newOps "write " }
-                    r { append newOps "read " }
-                    u { append newOps "unset " }
-                }
-            }
-            return [_trace_orig add variable $varName [string trim $newOps] $command]
-        } elseif {$op eq "vdelete"} {
-            set varName [lindex $args 0]
-            set opsList [lindex $args 1]
-            set command [lindex $args 2]
-            set newOps ""
-            foreach char [split $opsList ""] {
-                switch $char {
-                    w { append newOps "write " }
-                    r { append newOps "read " }
-                    u { append newOps "unset " }
-                }
-            }
-            return [_trace_orig remove variable $varName [string trim $newOps] $command]
-        } else {
-            return [_trace_orig $op {*}$args]
-        }
-    }
-}
+# Note: all scidCommunity Tcl code uses the modern "trace add variable" syntax
+# (compatible with both Tcl 8.6 and 9.0). A previous "rename trace" wrapper
+# has been removed because it broke the file dialog's selectPath write-trace,
+# preventing directory navigation (double-click / up-arrow) from updating the
+# file list.
 
 set scidVersion [sc_info version]
 set scidVersionDate [sc_info version date]
@@ -241,6 +209,7 @@ proc InitImg {} {
       lappend boardStyles [file tail $piecetype]
     }
   }
+  set boardStyles [lsort -nocase $boardStyles]
 }
 if {[catch {InitImg}]} {
   tk_messageBox -type ok -icon error -title "scidCommunity: Error" \
@@ -253,16 +222,22 @@ proc InitTooltip {} {
     source [file nativename [file join $::scidTclDir "utils/tklib_tooltip.tcl"]]
   }
   namespace eval ::utils::tooltip {
-    proc Set {args} { tooltip::tooltip {*}$args }
+    proc Set {args} {
+      set msg [lindex $args end]
+      if {[string match "-*" $msg]} {
+        set args [lreplace $args end end " $msg"]
+      }
+      tooltip::tooltip {*}$args
+    }
   }
 }
 InitTooltip
 
 # Helper function to get the correct button image name for the current theme
-# For dark themes (dark, cobalt2), returns the _white variant if it exists
+# For dark themes, returns the _white variant if it exists
 proc ::button_image {buttonName} {
   set theme [ttk::style theme use]
-  if {[string first "dark" $theme] != -1 || $theme eq "cobalt2"} {
+  if {$theme in $::darkThemes} {
     set whiteName "${buttonName}_white"
     if {[lsearch [image names] $whiteName] != -1} {
       return $whiteName
@@ -317,7 +292,7 @@ proc ::splash::add {text} {
 
 # Platform specific operations
 if { $unixOS } {
-  # adds a checkbox to show hidden files
+  # adds a checkbox to show hidden files (works correctly without the trace wrapper)
   catch {tk_getOpenFile -with-invalid-argument}
   namespace eval ::tk::dialog::file {
     variable showHiddenBtn 1
@@ -338,42 +313,117 @@ if { $macOS } {
 
 
 ####################################################
+# safeLoadConfig - Load a Scid configuration file in a restricted interpreter.
+# Only "set" commands are forwarded to the main interpreter's global scope.
+# This prevents execution of arbitrary code when loading user-editable config files.
+# @param filename:     the absolute path to the config file
+# @param encoding:     file encoding (empty string = system default)
+# @param extraAliases: flat list of {alias-name target-command} pairs to expose
+#
+proc safeLoadConfig {filename {encoding ""} {extraAliases {}}} {
+  if {![file exists $filename]} { return }
+  set _fd ""
+  if {[catch {
+    set _fd [open $filename r]
+    if {$encoding ne ""} { fconfigure $_fd -encoding $encoding }
+    set _content [read $_fd]
+    close $_fd
+    set _fd ""
+  }]} {
+    catch { close $_fd }
+    return
+  }
+
+  set _interp [interp create -safe]
+
+  # Block commands that could be used to redefine aliases or create new procs.
+  foreach _cmd {interp proc rename trace} {
+    catch { interp hide $_interp $_cmd }
+  }
+
+  # Redirect "set" so that assignments reach the main interpreter's global scope.
+  interp alias $_interp set {} ::safeConfigSet
+
+  # Expose any caller-requested additional commands (e.g. "engine" for engines.dat).
+  foreach {_alias _target} $extraAliases {
+    interp alias $_interp $_alias {} {*}$_target
+  }
+
+  # Evaluate each syntactically-complete command separately so that one
+  # failed or malicious command does not block the remaining assignments.
+  set _buf ""
+  foreach _line [split $_content "\n"] {
+    append _buf $_line "\n"
+    if {[info complete $_buf] && [string trim $_buf] ne ""} {
+      catch { $_interp eval $_buf }
+      set _buf ""
+    }
+  }
+  if {[string trim $_buf] ne ""} {
+    catch { $_interp eval $_buf }
+  }
+
+  interp delete $_interp
+}
+
+# ::safeConfigSet - forwards "set" calls from safeLoadConfig to the main interp.
+proc ::safeConfigSet {varname args} {
+  if {[llength $args] == 0} {
+    # Read mode: return the variable's current value from the main interpreter.
+    catch { return [uplevel #0 [list set $varname]] }
+    return ""
+  }
+  # Write mode: ensure the parent namespace exists, then set in the main interp.
+  set _ns [uplevel #0 [list namespace qualifiers $varname]]
+  if {$_ns ne "" && ![uplevel #0 [list namespace exists $_ns]]} {
+    uplevel #0 [list namespace eval $_ns {}]
+  }
+  uplevel #0 [list set $varname [lindex $args 0]]
+}
+
+####################################################
 # safeSource() - source a file using a safe interpreter
 # @filename:  the absolute path to the file to source (load and execute)
 # @args:      pairs of varname value that are visible to the sourced code
 #
-# This function execute the code inside a safe tcl interpreter and override
-# "set" to import the variables of the executed code in the ::unsafe namespace.
+# This function executes the code inside a fresh safe Tcl interpreter and
+# overrides "set" to import the variables of the executed code into the
+# ::unsafe namespace.  A new interpreter is created for each call so that
+# state from one sourced file cannot leak into the next.
+#
 # Attention must be paid to not evaluate ::unsafe vars, for example:
 # set ::unsafe::badcode {tk_messageBox -message executeme}
 # eval $::unsafe::badcode
 # after idle $::unsafe::badcode
 
 proc safeSource {filename args} {
-  if {![info exists ::safeInterp]} {
-    set ::safeInterp [::safe::interpCreate]
-    interp hide $::safeInterp set
-    interp alias $::safeInterp set {} ::safeSet $::safeInterp
-  }
   set f [file nativename "$filename"]
   set d [file dirname $f]
   set n [file tail $f]
-  set vdir [::safe::interpAddToAccessPath $::safeInterp $d]
-  interp alias $::safeInterp image {} ::safeImage $::safeInterp [list $vdir $d]
+
+  set _interp [::safe::interpCreate]
+  interp hide $_interp set
+  interp alias $_interp set {} ::safeSet $_interp
+
+  set vdir [::safe::interpAddToAccessPath $_interp $d]
+  interp alias $_interp image {} ::safeImage $_interp [list $vdir $d]
   foreach {varname value} $args {
-    $::safeInterp eval [list set $varname $value]
+    $_interp eval [list set $varname $value]
   }
-  $::safeInterp eval [list set vdir $vdir]
-  $::safeInterp eval "source \$vdir/$n"
+  $_interp eval [list set vdir $vdir]
+  $_interp eval "source \$vdir/$n"
   foreach {varname value} $args {
-    $::safeInterp eval [list unset $varname]
+    $_interp eval [list unset $varname]
   }
+  ::safe::interpDelete $_interp
 }
+
 proc safeSet {i args} {
-  #TODO: do not import local variables
-  #if {[$::safeInterp eval info level] == 0}
-  foreach {varname value} $args {
-    set ::unsafe::$varname $value
+  # In write mode (2 args), store the value in the ::unsafe namespace so that
+  # callers can read it back. In read mode (1 arg) nothing is stored because
+  # there is no new value to import.
+  if {[llength $args] == 2} {
+    set ::unsafe::[lindex $args 0] [lindex $args 1]
   }
   interp invokehidden $i set {*}$args
 }
@@ -404,6 +454,7 @@ proc safeSourceStyle {filename} {
   interp alias $safeInterp image {} ::safeImage $safeInterp [list $vdir $dir]
   interp alias $safeInterp ttk::style {} ::safeStyle $safeInterp
   interp alias $safeInterp ::styleOption {} ::safeStyleOption $safeInterp
+  interp alias $safeInterp registerDarkTheme {} ::registerDarkTheme
 
   $safeInterp eval [list set vdir $vdir]
   $safeInterp eval "source \$vdir/[file tail $filename]"
@@ -437,16 +488,33 @@ proc safeStyleOption {interp args} {
     styleOption {*}$args
 }
 
+# Evaluate a ttk::style theme settings body in a fresh minimal safe interpreter.
+# Only ttk::style commands are available; image/package/registerDarkTheme aliases
+# from the parent theme interpreter are not inherited.
+# A depth counter prevents unbounded recursion if a malicious body calls
+# ttk::style theme settings again.
+set ::safeStyleBodyDepth 0
+proc safeStyleEvalBody {script} {
+  if {$::safeStyleBodyDepth >= 3} { return }
+  incr ::safeStyleBodyDepth
+  set bodyInterp [interp create -safe]
+  interp alias $bodyInterp ttk::style {} ::safeStyle $bodyInterp
+  catch { $bodyInterp eval $script }
+  interp delete $bodyInterp
+  incr ::safeStyleBodyDepth -1
+}
+
 # Evaluate ttk::style commands invoked inside the restricted script.
-# If the command includes a script (ttk::style theme settings or ttk::style theme create)
-# it is evaluated using the safe interpreter.
+# If the command includes a body script (ttk::style theme settings or
+# ttk::style theme create ... -settings) it is evaluated in a fresh minimal
+# safe interpreter via safeStyleEvalBody, avoiding re-entrant use of $interp.
 proc safeStyle {interp args} {
   lassign $args theme settings themeName script
   if {$theme eq "theme"} {
     if { $settings eq "settings"} {
       set curr_theme [ttk::style theme use]
       ttk::style theme use $themeName
-      $interp eval $script
+      safeStyleEvalBody $script
       ttk::style theme use $curr_theme
       return
     }
@@ -455,7 +523,10 @@ proc safeStyle {interp args} {
     if {$script_i != -1} {
       set script_j [expr $script_i + 1]
       ttk::style {*}[lreplace $args $script_i $script_j]
-      $interp eval [list ttk::style theme settings $themeName [lindex $args $script_j]]
+      set curr_theme [ttk::style theme use]
+      ttk::style theme use $themeName
+      safeStyleEvalBody [lindex $args $script_j]
+      ttk::style theme use $curr_theme
       return
     }
   }
@@ -467,84 +538,6 @@ proc safeStyle {interp args} {
 # Load default/saved values
 source [file nativename [file join $::scidTclDir "options.tcl"]]
 
-# Create a custom "sand" theme that inherits from classic and adjusts background
-if {[lsearch -exact [ttk::style theme names] sand] == -1} {
-  ttk::style theme create sand -parent classic -settings {
-    # Sand theme based on Chess_Manager_Web palette
-    # Base/UI background and text
-    ttk::style configure . \
-      -background #D2B48C \
-      -fieldbackground #F4E1C6 \
-      -foreground #3B2F2F \
-      -selectbackground #B08968 \
-      -selectforeground #1E1A19
-    ttk::style configure TFrame -background #D2B48C
-    ttk::style configure TLabel -background #D2B48C -foreground #3B2F2F
-    ttk::style configure TNotebook -background #D2B48C
-    # Content windows (Tree view, Game List, PGN text via applyThemeStyle)
-    ttk::style configure Treeview -background #F4E1C6 -fieldbackground #F4E1C6 -foreground #3B2F2F
-    ttk::style map Treeview \
-      -background [list selected #B08968] \
-      -foreground [list selected #1E1A19]
-    # Inputs
-    ttk::style configure TEntry -fieldbackground #F4E1C6 -foreground #3B2F2F
-    ttk::style configure TCombobox -fieldbackground #F4E1C6 -foreground #3B2F2F
-    # Buttons
-    ttk::style configure TButton -background #C19A6B -foreground #1E1A19 -borderwidth 1 -relief raised -padding {6 2}
-    ttk::style map TButton -background [list active #CFB080 pressed #A67C52] -relief [list pressed sunken]
-    # Menubuttons
-    ttk::style configure TMenubutton -background #C19A6B -foreground #1E1A19 -borderwidth 1 -relief raised
-    # Checkboxes and radiobuttons: explicit indicator colors for visibility
-    ttk::style configure TCheckbutton -background #D2B48C -foreground #3B2F2F -indicatorcolor #F4E1C6
-    ttk::style map TCheckbutton \
-      -background [list active #D2B48C] \
-      -indicatorcolor [list pressed #F4E1C6 selected #4a90d9 alternate #4a90d9]
-    ttk::style configure TRadiobutton -background #D2B48C -foreground #3B2F2F -indicatorcolor #F4E1C6
-    ttk::style map TRadiobutton \
-      -background [list active #D2B48C] \
-      -indicatorcolor [list pressed #F4E1C6 selected #4a90d9 alternate #4a90d9]
-  }
-}
-
-# Create a custom "cobalt2" theme inspired by Wes Bos's popular VSCode theme
-if {[lsearch -exact [ttk::style theme names] cobalt2] == -1} {
-  ttk::style theme create cobalt2 -parent classic -settings {
-    # Cobalt2 theme - dark blue theme inspired by Wes Bos's VSCode theme
-    # Color palette: Blue #193549, Blue Dark #122738, Highlight #1F4662, Yellow #ffc600, Hot Pink #ff0088, Orange #ff9d00
-    # Base/UI background and text
-    ttk::style configure . \
-      -background #193549 \
-      -fieldbackground #122738 \
-      -foreground #ffffff \
-      -selectbackground #1F4662 \
-      -selectforeground #ffc600
-    ttk::style configure TFrame -background #193549
-    ttk::style configure TLabel -background #193549 -foreground #ffffff
-    ttk::style configure TNotebook -background #193549
-    # Content windows (Tree view, Game List, PGN text via applyThemeStyle)
-    ttk::style configure Treeview -background #122738 -fieldbackground #122738 -foreground #ffffff
-    ttk::style map Treeview \
-      -background [list selected #1F4662] \
-      -foreground [list selected #ffc600]
-    # Inputs
-    ttk::style configure TEntry -fieldbackground #122738 -foreground #ffc600
-    ttk::style configure TCombobox -fieldbackground #122738 -foreground #ffc600
-    # Buttons
-    ttk::style configure TButton -background #1F4662 -foreground #ffc600 -borderwidth 1 -relief raised -padding {6 2}
-    ttk::style map TButton -background [list active #234E6D pressed #122738] -relief [list pressed sunken]
-    # Menubuttons
-    ttk::style configure TMenubutton -background #1F4662 -foreground #ffc600 -borderwidth 1 -relief raised
-    # Checkboxes and radiobuttons: explicit indicator colors for visibility
-    ttk::style configure TCheckbutton -background #193549 -foreground #ffffff -indicatorcolor #122738
-    ttk::style map TCheckbutton \
-      -background [list active #193549] \
-      -indicatorcolor [list pressed #122738 selected #ff9d00 alternate #ff9d00]
-    ttk::style configure TRadiobutton -background #193549 -foreground #ffffff -indicatorcolor #122738
-    ttk::style map TRadiobutton \
-      -background [list active #193549] \
-      -indicatorcolor [list pressed #122738 selected #ff9d00 alternate #ff9d00]
-  }
-}
 
 proc calculateTreeviewRowHeight { } {
   set row_height [expr { round(1.1 * [font metrics font_Regular -linespace]) }]
@@ -616,8 +609,28 @@ proc styleOption {themeName pattern value} {
   lappend ::themeOptions [list $themeName $pattern $value]
 }
 
-# Load darktheme, must load here to have it in place if used
-source -encoding utf-8 [file nativename [file join $::scidTclDir "darktheme.tcl"]]
+set ::darkThemes {}
+
+proc ::registerDarkTheme {themeName} {
+  if {$themeName ni $::darkThemes} {
+    lappend ::darkThemes $themeName
+  }
+}
+
+# ----------------------------------------------------------------------
+# Dynamic Theme Auto-Loader
+# Loads custom .tcl themes from the local "themes" subdirectory.
+# ----------------------------------------------------------------------
+set themeDir [file join [file dirname [info script]] "themes"]
+if {[file isdirectory $themeDir]} {
+    set themeFiles [glob -nocomplain -directory $themeDir *.tcl]
+    foreach themeFile $themeFiles {
+        if {[catch {safeSourceStyle $themeFile} err]} {
+            puts stderr "Warning: Failed to load theme file $themeFile - $err"
+        }
+    }
+}
+
 # Load more theme
 if { [file exists $::ThemePackageFile] } {
   catch { ::safeSourceStyle $::ThemePackageFile }
@@ -740,10 +753,10 @@ proc configure_style {} {
     option add [lindex $elem 1] [lindex $elem 2]
   }
 
-  #Load light or dark icons (if the theme name contains "dark" or is cobalt2)
+  #Load light or dark icons based on the dynamic dark theme registry
   set icons_dir "icons_light"
   set theme [ttk::style theme use]
-  if {[string first "dark" $theme] != -1 || $theme eq "cobalt2"} {
+  if {$theme in $::darkThemes} {
     set icons_dir "icons_dark"
   }
   set dname [file join $::scidImgDir $icons_dir]
@@ -891,6 +904,7 @@ utils/validate.tcl
 utils/win.tcl
 enginecfg.tcl
 enginecomm.tcl
+chart.tcl
 misc.tcl
 htext.tcl
 file.tcl
@@ -941,6 +955,11 @@ board.tcl
 move.tcl
 main.tcl
 tools/uci.tcl
+tools/stored_eval.tcl
+tools/lichess_eval.tcl
+tools/lichess_openex.tcl
+tools/auto_comment.tcl
+tools/analysis_auto_comment.tcl
 end.tcl
 tools/tacgame.tcl
 tools/sergame.tcl
@@ -952,7 +971,7 @@ tools/reviewgame.tcl
 tools/inputengine.tcl
 tools/novag.tcl
 tools/tablebase.tcl
-tools/lichess_eval.tcl
+tools/batch_annotate.tcl
 }
 
 foreach f $tcl_files {

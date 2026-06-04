@@ -177,7 +177,10 @@ proc updateStatusBar {} {
     # show [%clk] command (if we are not playing)
     set toMove  [sc_pos side]
     set comment [sc_pos getComment]
-    ::board::updateEvalBar .main.board [getScorefromComment $comment 10]
+    set evalScore [getScorefromComment $comment 10]
+    if {$evalScore ne "" || ![info exists ::mainEvalBarEngineID_]} {
+        ::board::updateEvalBar .main.board $evalScore
+    }
     if { ![gameclock::isRunning] } {
         set ::gamePlayers(clockW) ""
         set ::gamePlayers(clockB) ""
@@ -373,7 +376,7 @@ proc ::updateMainEvalBar {engineID bestmove evaluation {pvlines {}}} {
     }
     if {$engineID == $::mainEvalBarEngineID_} {
         ::board::updateEvalBar .main.board $evaluation
-        if {$::showMainEvalBarArrow} {
+        if {$::showMainEvalBarArrow && $::arrowLastMove} {
             # Convert all PV moves to UCI format
             set uciMoves {}
             set lineCount 0
@@ -463,6 +466,9 @@ proc ::createMainEvalBarMenu {w} {
 proc toggleRotateBoard {} {
     ::board::flip .main.board
 }
+proc main_isFlipped {} {
+    tailcall ::board::isFlipped .main.board
+}
 
 
 
@@ -508,13 +514,13 @@ proc showVars {} {
     # No need to display an empty menu
     if {$numVars == 0} { return }
 
+    set prev_focus [focus]
     set w .variations
-    if {[winfo exists $w]} { return }
+    destroy $w
 
-    # Present a menu of the possible variations
+    # Present a non-blocking popup of the possible variations
     toplevel $w
-    ::setTitle $w $::tr(Variations)
-    setWinLocation $w
+    wm overrideredirect $w 1
     set h [expr $numVars + 1]
     if { $h> 19} { set h 19 }
     ttk::treeview $w.lbVar -columns {0} -show {} -selectmode browse
@@ -547,20 +553,19 @@ proc showVars {} {
         $w.lbVar insert {} end -id $j -values [list "$str"]
         incr j
     }
+
+    bind $w <FocusOut>        [list destroy $w]
+    bind $w <Escape>          [list focus $prev_focus]
+    bind $w <Left>            [list focus $prev_focus]
+    bind $w <Return>          [list focus $prev_focus]
+    bind $w <Return>          {+::move::EnterVar [%W selection]}
+    bind $w <Right>           {event generate %W <Return> -when tail}
+    bind $w <ButtonRelease-1> {event generate %W <Return> -when tail}
+
+    ::tk::PlaceWindow $w widget .main.board
+    focus $w.lbVar
     $w.lbVar focus 0
     $w.lbVar selection set 0
-
-    bind $w <Configure> "recordWinSize $w"
-    bind $w <Escape> "destroy $w"
-    bind $w <Left> "destroy $w"
-    bind $w <Right> "::move::EnterVar \[$w.lbVar selection\]; destroy $w"
-    bind $w <Return> "event generate $w <Right>"
-    bind $w <ButtonRelease-1> "event generate $w <Right>"
-
-    tkwait visibility $w
-    ::tk::SetFocusGrab $w $w.lbVar
-    tkwait window $w
-    ::tk::RestoreFocusGrab $w $w.lbVar
 }
 ################################################################################
 #
@@ -696,13 +701,68 @@ proc readPhotoFile {fname} {
 
 
 #convert $data string tolower case and strip the first two blanks.
+# Normalize a player name for photo lookup
+# Converts to lowercase, removes spaces, and strips diacritical marks
+# Examples:
+#   "Carlsen, Magnus" -> "carlsen,magnus"
+#   "carlsen, magnus" -> "carlsen,magnus"
+#   "Kasparov, Garry" -> "kasparov,garry"
+#   "Lékó, Peter" -> "leko,peter"
+#   "Grischuk, Alexander" -> "grischuk,alexander"
+proc normalizePhotoName {name} {
+    # Convert to lowercase
+    set name [string tolower $name]
+    
+    # Remove ALL spaces (not just first two)
+    regsub -all { } $name {} name
+    
+    # Convert common accented/diacritical characters to ASCII equivalents
+    # This handles most European chess player names
+    array set charmap {
+        à a á a â a ã a ä a å a ā a
+        è e é e ê e ë e ē e
+        ì i í i î i ï i ī i
+        ò o ó o ô o õ o ö o ø o ō o
+        ù u ú u û u ü u ū u
+        ý y ÿ y
+        ç c ć c ĉ c č c
+        ð d đ d
+        ĝ g ğ g
+        ĥ h
+        ĵ j
+        ķ k
+        ł l
+        ñ n ń n ň n
+        ř r
+        ś s ŝ s š s
+        ţ t ț t ť t
+        ź z ż z
+        ß ss
+        æ ae
+        œ ae
+        а a б b в v г g д d е e ё yo
+        ж zh з z и i й y к k л l м m н n о o п p р r
+        с s т t у u ф f х kh ц ts ч ch ш sh щ shch
+        ъ y ы y ь y э e ю yu я ya
+    }
+    
+    set result {}
+    for {set i 0} {$i < [string length $name]} {incr i} {
+        set c [string index $name $i]
+        if {[info exists charmap($c)]} {
+            append result $charmap($c)
+        } else {
+            append result $c
+        }
+    }
+    set name $result
+    
+    return $name
+}
+
+# Old function kept for backwards compatibility
 proc trimString {data} {
-    set data [string tolower $data]
-    set strindex [string first "\ " $data]
-    set data [string replace $data $strindex $strindex]
-    set strindex [string first "\ " $data]
-    set data [string replace $data $strindex $strindex]
-    return $data
+    return [normalizePhotoName $data]
 }
 
 
@@ -718,6 +778,93 @@ proc getphoto {name} {
     return $data
 }
 
+
+# Array to store custom photo filenames (indexed by normalized player name)
+array set customPhoto {}
+
+# List of {globpattern filepath} pairs for wildcard custom photo matching.
+# Populated by loadCustomPhotos for any image filename containing parentheses.
+set customPhotoWild {}
+
+proc loadCustomPhotos {} {
+    # Load custom photos from the user-configured photo directory.
+    # Supports: .gif and .png files (JPEG often not supported by Tcl/Tk)
+    # Recommended size: 80x80 to 200x200 pixels (larger images may display too big)
+    #
+    # Two filename conventions are supported:
+    #
+    # 1. Exact match (no parentheses in filename):
+    #       "Carlsen, Magnus.png"  ->  normalized and stored in ::customPhoto array
+    #       "Smith.png"         ->  normalized and stored in ::customPhoto array
+    #    The name is normalized (lowercase, accents stripped, spaces removed) before
+    #    lookup, so "Carlsen, Magnus.png" matches a player named "Carlsen, Magnus".
+    #
+    # 2. Wildcard match (parentheses present in filename):
+    #    Parentheses act as wildcards (each () pair becomes * in the match pattern),
+    #    allowing flexible matching against the raw player name. This syntax is used
+    #    because "*" is illegal in filenames on Windows.
+    #
+    #       "(stockfish).png"      ->  matches any player name containing "stockfish"
+    #                                  (pattern: *stockfish*)
+    #       "Smith().png"       ->  matches any player name starting with "Smith"
+    #                                  (pattern: smith*)
+    #       "()Stockfish().png"    ->  same as (stockfish).png, more explicit
+    #                                  (pattern: *stockfish*)
+    #
+    #    Patterns are matched case-insensitively against the raw player name as it
+    #    appears in the game header (e.g., "Stockfish 17", "stockfish_elo3500").
+    #
+    # Priority: exact match wins over wildcard. Among wildcards, first file found wins.
+
+    if {![info exists ::scidPhotoDir] || ![file isdirectory $::scidPhotoDir]} {
+        return 0
+    }
+
+    set count 0
+    set pwd [pwd]
+
+    if {[catch {cd $::scidPhotoDir}]} {
+        return 0
+    }
+
+    # Reset wildcard list on each load so stale entries don't accumulate
+    set ::customPhotoWild {}
+
+    # Search for image files with supported extensions (GIF and PNG only)
+    foreach pattern {*.gif *.png} {
+        foreach imgfile [glob -nocomplain $pattern] {
+            set playername [file rootname $imgfile]
+
+            # Test that the image file is valid by trying to create a temp photo
+            if {[catch {image create photo _tmpPhoto -file $imgfile} result]} {
+                continue
+            }
+            image delete _tmpPhoto
+
+            set abspath [file normalize $imgfile]
+
+            if {[string first "(" $playername] != -1} {
+                # Wildcard filename: translate parentheses into * wildcards.
+                # "(" and ")" each become "*", then collapse any "**" runs.
+                set globpat [string tolower $playername]
+                set globpat [string map {"(" "*" ")" "*"} $globpat]
+                while {[string first "**" $globpat] != -1} {
+                    set globpat [string map {"**" "*"} $globpat]
+                }
+                lappend ::customPhotoWild [list $globpat $abspath]
+            } else {
+                # Exact match: normalize as usual (handles accents, case, spaces)
+                set key [normalizePhotoName $playername]
+                set ::customPhoto($key) $abspath
+            }
+            incr count
+        }
+    }
+
+    cd $pwd
+
+    return $count
+}
 
 proc loadPlayersPhoto {} {
   set ::gamePlayers(photoW) {}
@@ -741,6 +888,11 @@ proc loadPlayersPhoto {} {
           }
       }
   }
+  
+  # Load custom photos (gif, jpg, jpeg, png) from the user-configured directory
+  set nCustom [loadCustomPhotos]
+  incr nImg $nCustom
+  incr nFiles $nCustom
 
   return [list $nImg $nFiles]
 }
@@ -759,8 +911,7 @@ proc normalizePlayerName { engine } {
             set spelled $spell_name
         }
     }
-    set engine [string tolower $engine]
-
+    
     if { [string first "deep " $engine] == 0 } {
         # strip "deep "
         set engine [string range $engine 5 end]
@@ -772,29 +923,72 @@ proc normalizePlayerName { engine } {
     set strindex [string first "\ " $engine]
     set engine [string replace $engine $strindex $strindex]
     set strindex [string first "," $engine]
-    set slen [string len $engine]
+    set slen [string length $engine]
     if { $strindex == -1 && $slen > 2 } {
         #seems to be a engine name:
         # search until longest name matches an engine name
-        set slen [string len $engine]
+        set slen [string length $engine]
         for { set strindex $slen} {![info exists ::unsafe::spffile([string range $engine 0 $strindex])]\
                     && $strindex > 2 } {set strindex [expr {$strindex - 1}] } { }
         set engine [string range $engine 0 $strindex]
     }
+    
+    # Apply final normalization (lowercase, remove spaces, handle accents)
+    set engine [normalizePhotoName $engine]
+    
     return [list $engine $spelled]
 }
 
 
 # updatePlayerPhotos
 #   Updates the images photoW and photoB for the two players of the current game.
+#   Photo lookup proceeds in priority order:
+#     1. Exact custom photo match   (::customPhoto array, normalized name key)
+#     2. Wildcard custom photo match (::customPhotoWild list, parentheses-derived glob)
+#     3. SPF photo file fallback
 #
 proc updatePlayerPhotos {{force ""}} {
     foreach {name img} {nameW photoW nameB photoB} {
         set spellname $::gamePlayers($name)
-        if {$::gamePlayers($img) != $spellname} {
+        if {$::gamePlayers($img) != $spellname || $force == "-force"} {
             set ::gamePlayers($img) $spellname
-            lassign [normalizePlayerName $spellname] spellname
-            image create photo $img -data [getphoto $spellname]
+            lassign [normalizePlayerName $spellname] normalized
+
+            # 1. Exact custom photo match (existing behavior, unchanged)
+            if {[info exists ::customPhoto($normalized)]} {
+                image create photo $img -file $::customPhoto($normalized)
+
+            # 2. Wildcard custom photo match (new)
+            } elseif {[llength $::customPhotoWild] > 0} {
+                set rawlower [string tolower $spellname]
+                set matched ""
+                foreach entry $::customPhotoWild {
+                    lassign $entry globpat filepath
+                    if {[string match $globpat $rawlower]} {
+                        set matched $filepath
+                        break
+                    }
+                }
+                if {$matched ne ""} {
+                    image create photo $img -file $matched
+                } else {
+                    set data [getphoto $normalized]
+                    if {$data ne ""} {
+                        image create photo $img -data $data
+                    } else {
+                        $img blank
+                    }
+                }
+
+            # 3. SPF file fallback (existing behavior, unchanged)
+            } else {
+                set data [getphoto $normalized]
+                if {$data ne ""} {
+                    image create photo $img -data $data
+                } else {
+                    $img blank
+                }
+            }
         }
     }
 }
@@ -871,7 +1065,7 @@ proc confirmReplaceMove {} {
 # If the current position is not the end of the game, the default action is to add the move as a new variant.
 # The move notation can be SAN or UCI.
 # Return true if the move is both legal and has been successfully added.
-proc addMoveEx {{move} {action "var"}} {
+proc addMoveEx {{move} {action "var"} {notify "-pgn -animate"}} {
     undoFeature save
     if {[catch {
         if {![sc_pos isAt vend]} {
@@ -895,7 +1089,7 @@ proc addMoveEx {{move} {action "var"}} {
         return 0
     }
 
-    ::notify::PosChanged -pgn -animate
+    ::notify::PosChanged {*}$notify
     ::pgn::CheckRepetition
     return 1
 }
@@ -944,7 +1138,7 @@ proc addMoveUCI {{moveUCI} {animate "-animate"}} {
 
     if { [::fics::setPremove $sq1 $sq2] || ! [::fics::playerCanMove]} { return 0 } ;# not player's turn
 
-    if {! [::move::Follow $moveUCI] && ! [addMoveEx $moveUCI]} {
+    if {! [::move::Follow $moveUCI] && ! [addMoveEx $moveUCI var "-pgn $animate"]} {
         return 0
     }
 
@@ -1141,6 +1335,11 @@ proc addMarker {w x y} {
 proc selectMarker {} {
     set w_ .mainSelectMarker
     toplevel $w_
+    # This small picker is a transient helper window, so tiling WMs should
+    # treat it like a floating dialog instead of a normal application window.
+    catch { wm transient $w_ . }
+    catch { wm group $w_ . }
+    catch { wm attributes $w_ -type dialog }
     if {! $::macOS } {
         wm attributes $w_ -topmost 1
     } else {
@@ -1343,10 +1542,9 @@ proc CreateMainBoard { {w} } {
   bind $w <ButtonRelease> "focus $w"
   bind $w <Configure> {+::resizeMainBoard }
 
-  bindMouseWheel $w "main_mousewheelHandler"
-  foreach e "$w.board $w.board.bd $w.board.bar" {
-    bindtags $e [linsert [bindtags $e] 2 $w]
-  }
+  bindMouseWheel $w.board "main_mousewheelHandler"
+  bindMouseWheel $w.board.bd "main_mousewheelHandler"
+  bindMouseWheel $w.board.bar "main_mousewheelHandler"
 
   ttk::frame $w.space
   grid $w.space -row 4 -column 0 -columnspan 3 -sticky nsew
@@ -1423,7 +1621,7 @@ proc setToolbarTooltips { tb } {
 	newdb FileNew open FileOpen finder FileFinder
 	save GameReplace closedb FileClose bkm FileBookmarks
 	gprev GamePrev gnext GameNext
-	newgame GameNew copy EditCopy paste EditPaste
+	newgame GameNew copy EditCopy paste EditPaste rotate RotateBoard
 	boardsearch SearchCurrent
 	headersearch SearchHeader materialsearch SearchMaterial
 	switcher WindowsSwitcher glist WindowsGList pgn WindowsPGN tmt WindowsTmt
@@ -1458,6 +1656,8 @@ proc InitToolbar {{tb}} {
 	ttk::button .main.tb.copy -image tb_copy -command ::gameAddToClipbase -padding {2 0}
 	ttk::button .main.tb.paste -image tb_paste \
 		-command {catch {sc_clipbase paste}; updateBoard -pgn} -padding {2 0}
+	ttk::button .main.tb.rotate -image tb_BD_Flip \
+		-command toggleRotateBoard -padding {2 0}
 	ttk::frame .main.tb.space2 -width 4
 	ttk::button .main.tb.gprev -image tb_gprev -command {::game::LoadNextPrev previous} -padding {2 0}
 	ttk::button .main.tb.gnext -image tb_gnext -command {::game::LoadNextPrev next} -padding {2 0}
@@ -1479,7 +1679,7 @@ proc InitToolbar {{tb}} {
 
 	foreach i {newdb open save closedb finder bkm newgame copy paste gprev gnext \
 		  boardsearch headersearch materialsearch \
-		  switcher glist pgn tmt maint eco tree crosstab engine help} {
+		  switcher glist pgn tmt maint eco tree crosstab engine help rotate} {
 	  .main.tb.$i configure -takefocus 0
 	}
 
@@ -1513,10 +1713,12 @@ proc ConfigToolbar { w } {
   pack [ttk::frame $w.f] -side top -fill x
   set col 0
   set row 0
-  foreach i {newdb open closedb finder save bkm row gprev gnext row newgame copy paste row boardsearch headersearch \
+  foreach i {newdb open closedb finder save bkm row gprev gnext row newgame copy paste rotate row boardsearch headersearch \
 		 materialsearch row switcher glist pgn tmt maint eco tree crosstab engine } {
       if { $i eq "row" } { incr row; set col 0 } else {
-	  ttk::button $w.f.$i -image tb_$i -command "toggleToolbarButton $w.f $i"
+	  set img tb_$i
+	  if {$i eq "rotate"} { set img tb_BD_Flip }
+	  ttk::button $w.f.$i -image $img -command "toggleToolbarButton $w.f $i"
 	  if { $::toolbar_temp($i) } { $w.f.$i state pressed }
 	  grid $w.f.$i -row $row -column $col -sticky news -padx 4 -pady "0 8"
 	  incr col
@@ -1551,7 +1753,7 @@ proc redrawToolbar {} {
   }
   if {$seen} { pack .main.tb.space2 -side left }
   set seen 0
-  foreach i {newgame copy paste} {
+  foreach i {newgame copy paste rotate} {
     if {$::toolbar_state($i)} {
       set seen 1; set seenAny 1
       pack .main.tb.$i -side left -pady 1 -padx 0 -ipadx 0 -pady 0 -ipady 0

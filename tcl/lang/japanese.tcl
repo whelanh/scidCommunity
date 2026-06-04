@@ -1,4 +1,7 @@
-# Text for menu names and status bar help messages in Serbian Cyrillic.
+# Copyright (C) 2025-2026 Hugh Whelan
+# SPDX-License-Identifier: GPL-2.0-or-later
+
+# Text for menu names and status bar help messages in Japanese.
 # Part of Scid (Shane's Chess Information Database).
 #
 # Instructions for adding a new language:
@@ -143,7 +146,8 @@ menuText A GameReplace "保存: ゲームを置き換えます..." 6 \
   {このゲームを保存して古いバージョンを置き換えます}
 menuText A GameAdd "保存: 新しいゲームを追加..." 6 \
   {このゲームを新しいゲームとしてデータベースに保存します}
-menuText A GameDeepest "開口部の識別" 0 \
+menuText A GameDelete "ゲームの削除" 0 {現在のゲームの削除フラグを切り替えます}
+menuText A GameDeepest "定跡の識別" 0 \
   {ECOブックに記載されている最も深いゲームポジションに移動します}
 menuText A GameGotoMove "移動番号に移動..." 5 \
   {現在のゲームの指定された手番号に移動します}
@@ -203,6 +207,7 @@ menuText A ToolsTrainCalvar "変動の計算"  0 {バリエーション計算ト
 menuText A ToolsTrainFindBestMove "最善の手を見つける"  0 {最善の手を見つける}
 menuText A ToolsTrainFics "FICS でプレイする"  0 {freechess.org でプレイする}
 menuText A ToolsEngineTournament "エンジントーナメント"  0 {チェス エンジン間でトーナメントを開始する}
+menuText A ToolsTimeAnalysis "時間分析" 0 {現在のゲームの時間グラフを表示します}
 menuText A ToolsBookTuning "ブックチューニング" 0 {ブックチューニング}
 menuText A ToolsDownloadTWIC "TWIC ゲームをダウンロード" 0 {最新の The Week In Chess (TWIC) ゲームをダウンロード}
 menuText A ToolsConnectHardware "ハードウェアを接続する" 8 {外部ハードウェアを接続する}
@@ -233,16 +238,16 @@ menuText A ToolsExpFilterHTMLJS "フィルターを HTML および JavaScript �
 menuText A ToolsImportOne "1 つの PGN ゲームをインポート..." 0 \
   {PGN テキストからゲームをインポートする}
 menuText A ToolsImportFile "PGN ファイルからゲームをインポート..." 7 {PGN ファイルからゲームをインポートする}
-menuText A ToolsStartEngine1 "エンジン1を始動します" 13  {エンジン1を始動します}
-menuText A ToolsStartEngine2 "エンジン2を始動します" 13  {エンジン2を始動します}
+menuText A ToolsStartEngine1 "エンジン1を開始" 13  {エンジン1を始動します}
+menuText A ToolsStartEngine2 "エンジン2を開始" 13  {エンジン2を始動します}
 menuText A ToolsCaptureBoard "現在のボードをキャプチャ..." 5  {現在のボードを画像として保存します。}
 
 # Play menu
 menuText A Play "遊ぶ" 0
 
 # --- Correspondence Chess
-menuText A CCResign "辞任する" 1 {辞任（電子メールではない）}
-menuText A CCClaimDraw "抽選を請求する" 6 {移動を送信して引き分けを請求します (電子メール経由ではありません)}
+menuText A CCResign "投了" 1 {辞任（電子メールではない）}
+menuText A CCClaimDraw "引き分けを請求" 6 {移動を送信して引き分けを請求します (電子メール経由ではありません)}
 
 # menu in cc window:
 
@@ -269,7 +274,8 @@ menuText A OptionsMovesHighlightLastMoveDisplay "ショースクエア" 0 {最�
 menuText A OptionsMovesHighlightLastMoveWidth "幅" 0 {線の太さ}
 menuText A OptionsMovesHighlightLastMoveColor "色" 0 {線の色}
 menuText A OptionsMovesHighlightLastMoveArrow "矢印を表示" 0 {ハイライト付きの矢印を表示する}
-menuText A OptionsMovesHighlightLastMoveNag "評価記号を表示" 0
+menuText A OptionsMovesHighlightLastMoveNag "注釈記号を表示" 0
+menuText A OptionsMovesHighlightLastMoveEval "評価記号を表示" 0
 menuText A OptionsMoves "移動" 0 {移動エントリオプション}
 menuText A OptionsMovesAnimate "アニメーション時間" 1 \
   {動きのアニメーション化に使用する時間を設定します}
@@ -323,6 +329,9 @@ menuText A HelpTip "今日のヒント" 0 {役立つ Scid ヒントを表示す�
 menuText A HelpStartup "起動ウィンドウ" 0 {起動ウィンドウを表示する}
 menuText A HelpAbout "について" 0 {ScidCommunityに関する情報}
 
+# Toolbar tooltips:
+menuText A RotateBoard "ボードを回転する" 0 {ボードを回転する}
+
 # Game info box popup menu:
 menuText A GInfoHideNext "次の動きを隠す" 0
 menuText A GInfoMaterial "マテリアル値を表示" 0
@@ -339,19 +348,74 @@ menuText A GInfoMark "このゲームにマークを付ける(外す)" 4
 menuText A GInfoInformant "インフォーマントの値を構成する" 0
 
 # General buttons:
+translate A LichessOpenExplore {リチェス OpenExplore}
+translate A LichessTitle {Lichess オープニングエクスプローラー}
+translate A LichessApiTokenReq {Lichess API トークン (必須):}
+translate A LichessDatabase {データベース:}
+translate A LichessMasters {マスターズ}
+translate A LichessGames {リッチゲーム}
+translate A LichessPlayer {プレーヤー}
+translate A LichessNumMoves {移動数:}
+translate A LichessTopGames {人気のゲーム:}
+translate A LichessRecentGames {最近のゲーム:}
+translate A LichessSinceYear {年以降:}
+translate A LichessUntilYear {年まで:}
+translate A LichessSinceMonth {以降 (YYYY-MM):}
+translate A LichessUntilMonth {(YYYY-MM) まで:}
+translate A LichessTimeControls {時間制御}
+translate A LichessRatingGroups {評価グループ}
+translate A LichessPlayerName {プレイヤーのユーザー名:}
+translate A LichessPlayerColor {プレーヤーの色:}
+translate A LichessWhite {白}
+translate A LichessBlack {黒}
+translate A LichessGameModes {ゲームモード}
+translate A LichessRated {評価済み}
+translate A LichessCasual {カジュアル}
+translate A LichessTokenRequired {Lichess API トークンが必要です。\n\n現在、Lichess はオープニング エクスプローラーにアクセスするために API トークンを必要とします。上の「Lichess API トークン」フィールドにトークンを入力してください。\n\nトークンは https://lichess.org/account/oauth/token で作成できます。}
+translate A LichessPlayerRequired {Player データベースの Lichess ユーザー名を入力してください。}
+translate A LichessQuerying {Lichess にクエリを実行しています エクスプローラーを開いています...}
+translate A LichessFailedQuery {エクスプローラーを開く Lichess のクエリに失敗しました:\n%s}
+translate A LichessPositionNotFound {位置が %s データベースに見つかりません。\n\nAPI が返されました:\n%s}
+translate A LichessResultsTitle {Lichess がエクスプローラーを開く - %s データベース}
+translate A LichessSummaryInfo {合計: %s ゲーム |  白の勝ち: %s (%s%%) |  ドロー: %s (%s%%) |  黒の勝ち: %s (%s%%)}
+translate A LichessNoGamesFound {このポジションに該当するゲームは見つかりませんでした。}
+translate A LichessMoves {移動:}
+translate A LichessColMove {動く}
+translate A LichessColWhite {白}
+translate A LichessColDraws {ドロー}
+translate A LichessColBlack {黒}
+translate A LichessColTotal {合計}
+translate A LichessColWinPct {勝つ％}
+translate A LichessColAvgRating {平均評価}
+translate A LichessColECO {エコ}
+translate A LichessColOpening {オープニング}
+translate A LichessTopGamesTitle {人気のゲーム:}
+translate A LichessRecentGamesTitle {最近のゲーム:}
+translate A LichessColWinner {勝者}
+translate A LichessColWhiteRating {W.評価}
+translate A LichessColBlackRating {B.評価}
+translate A LichessColDate {日付}
+translate A LichessLoadGameConfirm {ゲーム %s 対 %s (ID: %s) をクリップベースにロードしますか?}
+translate A LichessLoadGameTitle {ゲームをロードする}
+translate A LichessFetchGameFailed {ゲーム %s の取得に失敗しました:\n%s}
+translate A LichessGameNotFound {ゲーム %s が Lichess に見つかりません。}
+translate A LichessImportFailed {ゲームのインポートに失敗しました:\n%s}
+translate A LichessGameLoaded {ゲームがクリップベースに正常にロードされました。}
 translate A Back {戻る}
-translate A Browse {ブラウズ}
+translate A Apply {適用}
+translate A Browse {参照}
 translate A Cancel {キャンセル}
-translate A Continue {続く}
+translate A Continue {続行}
 translate A Clear {クリア}
-translate A Close {近い}
+translate A Close {閉じる}
 translate A Contents {コンテンツ}
 translate A Defaults {デフォルト}
-translate A Delete {消去}
+translate A InvertSearch {逆検索}
+translate A Delete {削除}
 translate A Graph {グラフ}
 translate A Help {ヘルプ}
 translate A Hide {隠れる}
-translate A Import {輸入}
+translate A Import {インポート}
 translate A Index {索引}
 translate A LoadGame {ゲームをロードする}
 translate A BrowseGame {ブラウズゲーム}
@@ -359,10 +423,11 @@ translate A MergeGame {マージゲーム}
 translate A MergeGames {ゲームをマージする}
 translate A Preview {プレビュー}
 translate A Revert {元に戻す}
+translate A Rename {名前の変更}
 translate A Save {保存}
 translate A Search {検索}
 translate A Stop {停止}
-translate A Store {店}
+translate A Store {保存}
 translate A Update {アップデート}
 translate A ChangeOrient {ウィンドウの向きを変更する}
 translate A ShowIcons {アイコンを表示}
@@ -374,17 +439,17 @@ translate A Last {最後}
 # General messages:
 translate A game {ゲーム}
 translate A games {ゲーム}
-translate A move {動く}
-translate A moves {動く}
+translate A move {手}
+translate A moves {手}
 translate A all {全て}
 translate A Yes {はい}
 translate A No {いいえ}
 translate A Both {両方}
-translate A King {王}
-translate A Queen {女王}
+translate A King {キング}
+translate A Queen {クイーン}
 translate A Rook {ルーク}
-translate A Bishop {司教}
-translate A Knight {騎士}
+translate A Bishop {ビショップ}
+translate A Knight {ナイト}
 translate A Pawn {ポーン}
 translate A White {白}
 translate A Black {黒}
@@ -393,7 +458,7 @@ translate A Rating {評価}
 translate A RatingDiff {評価差（白－黒）}
 translate A AverageRating {平均評価}
 translate A Event {イベント}
-translate A Site {サイト}
+translate A Site {場所}
 translate A Country {国}
 translate A IgnoreColors {色を無視する}
 translate A Date {日付}
@@ -428,6 +493,11 @@ translate A readonly {読み取り専用}
 translate A ErrNotOpen {これはオープンなデータベースではありません。}
 translate A ErrReadOnly {このデータベースは読み取り専用です。変更することはできません。}
 translate A ErrSearchInterrupted {検索は中断されました。結果は不完全です。}
+translate A ErrNoClockComments {このゲームには [%clk] クロック コメントが見つかりませんでした。    この機能を使用するには、コメント ウィンドウ (Ctrl+E) を使用してクロック時間を追加します。}
+translate A ErrFileInUse {エラー: ファイルはすでに使用されています。このデータベースを使用している他のアプリケーションを閉じてください。プログラムが予期せず終了した場合は、データベースに関連付けられた .lock ファイルの削除が必要になる場合があります。}
+
+
+
 
 # Game information:
 translate A twin {ツイン}
@@ -453,11 +523,11 @@ translate A PInfoEditRatings {評価の編集}
 translate A PInfoEloFile {ファイル}
 
 # Tablebase information:
-translate A Draw {描く}
+translate A Draw {引き分け}
 translate A with {と}
 translate A only {のみ}
-translate A lose {失う}
-translate A loses {負ける}
+translate A lose {負け}
+translate A loses {負け}
 
 # Tip of the day:
 translate A Tip {ヒント}
@@ -619,11 +689,13 @@ menuText A GraphOptionsBoth "両方" 1
 menuText A GraphOptionsPInfo "プレイヤー情報 プレイヤー" 0
 menuText A GraphOptionsEloFile "評価ファイルからの Elo" 0
 menuText A GraphOptionsEloDB "データベースからのエロ" 0
-translate A GraphFilterTitle "フィルターグラフ: 1000 ゲームあたりの頻度"
+translate A GraphFilterTitle "フィルター グラフ: 順位に到達したゲームの割合"
 translate A GraphAbsFilterTitle "フィルターグラフ: ゲームの頻度"
+translate A GraphWinPctTitle "フィルター グラフ: 現在の順位での年別の勝利率 (1-0 および 0-1)"
 translate A ConfigureFilter "年、評価、移動の X 軸を構成する"
 translate A FilterEstimate "見積もり"
 translate A TitleFilterGraph "Scid: フィルター グラフ"
+translate A WinPct "勝つ ％"
 
 # Analysis window:
 translate A AddVariation {バリエーションを追加する}
@@ -659,6 +731,13 @@ translate A Informant+= {白が若干有利}
 translate A Informant+/- {白が明らかに有利}
 translate A Informant+- {白には決定的な優位性がある}
 translate A Informant+-- {白には圧倒的な優位性がある}
+translate A AutoComment {自動コメント}
+translate A AutoCommentTooltip {現在のポジションのAIコメントを生成}
+translate A AnalysisAutoCommentTooltip {ゲーム全体の AI コメントを生成}
+translate A GameComment {ゲームコメント}
+translate A GameCommentTooltip {注釈付きの動きのゲームをスキャンし、AI サマリーを生成します}
+translate A TimeMs {時間(ミリ秒)}
+
 
 # Book window
 translate A Book {本}
@@ -1096,6 +1175,7 @@ translate A ECOSummary {の概要}
 translate A ECOFrequency {サブコードの頻度}
 
 # Opening Report:
+translate A OprepReportFor {のレポート}
 translate A OprepTitle {オープニングレポート}
 translate A OprepReport {報告}
 translate A OprepGenerated {生成者}
@@ -1164,6 +1244,8 @@ translate A OprepTheoryTable {理論表}
 translate A OprepTableComment {%u 個の最高評価のゲームから生成されました。}
 translate A OprepExtraMoves {追加ノートが理論テーブル内で移動する}
 translate A OprepMaxGames {理論上の最大ゲーム数表}
+translate A OprepMergeMoves {統合されたゲームの移動制限}
+translate A OprepMergeUnique {ユニークなゲームのみをマージする}
 translate A OprepViewHTML {HTMLを表示する}
 
 # Player Report:
@@ -1243,6 +1325,7 @@ translate A ClassifyNew {ECO コードがまだないゲームのみ}
 translate A ClassifyCodes {使用するECOコード}
 translate A ClassifyBasic {基本コードのみ（「B12」など）}
 translate A ClassifyExtended {Scid 拡張子 (「B12j」など)}
+translate A ClassifyResult {ECO 分類が完了しました: $result ゲームが更新されました。}
 
 # Compaction:
 translate A NameFile {ファイルに名前を付ける}
@@ -1561,6 +1644,9 @@ translate A FICSUnrated {未評価}
 translate A FICSRegisteredPlayer {登録プレイヤーのみ}
 translate A FICSFreePlayer {無料プレイヤーのみ}
 translate A FICSNetError {ネットワーク エラー\接続できません}
+translate A OptionsFICS {FICS}
+translate A FICSTerminalColor {端子色}
+translate A FICSTextColor {文字の色}
 
 # Game review
 translate A GameReview {ゲームレビュー}
@@ -1638,6 +1724,8 @@ translate A FindCurrentGame {現在のゲームを探す}
 translate A DeleteGame {ゲームを削除する}
 translate A UndeleteGame {ゲームの削除を取り消す}
 translate A ResetSort {並べ替えをリセット}
+translate A LayoutExists {レイアウト '%s' はすでに存在します。}
+translate A ConfirmDeleteLayout {レイアウト '%s' を削除してもよろしいですか?}
 
 translate A ConvertNullMove {null 移動をコメントに変換する}
 translate A SetupBoard {セットアップボード}
@@ -1674,5 +1762,32 @@ translate A OptionsTablebaseDir "最大 4 つのテーブル ベース フォル
 # Evaluation bar
 translate A BestMoveArrow "最善手矢印"
 translate A NewLocalEngine "+ 新しいエンジン ..."
+
+# Batch Annotate
+translate A BatchAnnotate {バッチ注釈付け}
+translate A BatchEngineSelection {エンジンの選択}
+translate A BatchChessEngine {チェスエンジン:}
+translate A BatchNumberOfInstances {インスタンスの数:}
+translate A BatchGameReview {ゲームレビュー}
+translate A BatchTimePerMove {移動あたりの時間 (秒):}
+translate A BatchAnnotateBlunders {間違いのみに注釈を付ける}
+translate A BatchBlunderThreshold {失策の閾値:}
+translate A BatchVariationLength {変化の長さ (動き):}
+translate A BatchOpeningBook {オープニングブック}
+translate A BatchUseBook {ブックを使用する}
+translate A BatchAnnotateVariations {バリエーションに注釈を付ける}
+translate A BatchShortAnnotations {短い注釈}
+translate A BatchAddScoreToShort {短い注釈にスコアを追加する}
+translate A BatchClearOld {古いコメントとバリエーションを削除する}
+translate A BatchInitializingEngines {エンジンを初期化しています...}
+translate A BatchAnalyzingGames {ゲームを分析中...}
+translate A BatchProgress {バッチ注釈の進行状況}
+translate A BatchComplete {バッチアノテーションが完了しました!}
+translate A BatchCancelled {バッチ注釈がキャンセルされました}
+translate A BatchStart {始める}
+translate A BatchCancel {キャンセル}
+translate A BatchCompleted {完了しました}
+translate A BatchGames {ゲーム}
+translate A BatchProcessed {処理された}
 }
 # end of english.tcl

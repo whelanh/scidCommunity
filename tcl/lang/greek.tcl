@@ -137,6 +137,7 @@ menuText G GameReplace "Αποθήκευση: Αντικατάσταση παρ�
   {Αποθηκεύστε αυτή τη παρτίδα αντικαθιστώντας την παλαιότερη εκδοχή της}
 menuText G GameAdd "Αποθήκευση: Προσθήκη νέας παρτίδας..." 6 \
   {Αποθηκεύστε αυτή τη παρτίδα ως νέα παρτίδα στην βάση δεδομένων}
+menuText G GameDelete "Διαγραφή παιχνιδιού" 0 {Εναλλαγή σημαίας διαγραφής του τρέχοντος παιχνιδιού}
 menuText G GameDeepest "Αναγνώριση ανοίγματος" 0 \
   {Μετάβαση στην πιο προχωρημένη θέση της παρτίδας που αναφέρεται στην ECO}
 menuText G GameGotoMove "Μετάβαση στην κίνηση με αριθμό..." 5 \
@@ -197,6 +198,7 @@ menuText G ToolsTrainCalvar "Υπολογισμός βαριαντών"  0 {Πρ
 menuText G ToolsTrainFindBestMove "Εύρεση καλύτερης κίνησης"  0 {Βρείτε την καλύτερη κίνηση}
 menuText G ToolsTrainFics "Παιχνίδι στον FICS"  0 {Παίξτε στο freechess.org}
 menuText G ToolsEngineTournament "Τουρνουά μηχανών"  0 {Ξεκινήστε ένα τουρνουά ανάμεσα σε μηχανές σκακιού}
+menuText G ToolsTimeAnalysis "Ανάλυση χρόνου" 0 {Εμφάνιση γραφήματος ώρας ρολογιού για το τρέχον παιχνίδι}
 menuText G ToolsBookTuning "Συντονισμός βιβλίου" 0 {Συντονισμός βιβλίου}
 menuText G ToolsDownloadTWIC "Λήψη παιχνιδιών TWIC" 0 {Λήψη των τελευταίων παιχνιδιών The Week In Chess (TWIC)}
 menuText G ToolsConnectHardware "Σύνδεση περιφερειακού" 8 {Συνδέστε εξωτερικό περιφερειακό}
@@ -263,7 +265,8 @@ menuText G OptionsMovesHighlightLastMoveDisplay "Εμφάνιση" 0 {Προβο
 menuText G OptionsMovesHighlightLastMoveWidth "Πλάτος" 0 {Το πάχος της γραμμής}
 menuText G OptionsMovesHighlightLastMoveColor "Χρώμα" 0 {Το χρώμα τηςη γραμμής}
 menuText G OptionsMovesHighlightLastMoveArrow "Εμφάνιση βέλους" 0 {Εμφάνιση βέλους με επισήμανση}
-menuText G OptionsMovesHighlightLastMoveNag "Εμφάνιση συμβόλων αξιολόγησης" 0
+menuText G OptionsMovesHighlightLastMoveNag "Εμφάνιση συμβόλων σχολιασμού" 0
+menuText G OptionsMovesHighlightLastMoveEval "Εμφάνιση συμβόλων αξιολόγησης" 0
 menuText G OptionsMoves "Κινήσεις" 0 {Επιλογές εισαγωγής κίνησης}
 menuText G OptionsMovesAnimate "Χρόνος απεικόνισης κίνησης" 1 \
   {Καθορίστε την διάρκεια απεικόνισης της κίνησης}
@@ -317,6 +320,9 @@ menuText G HelpTip "Συμβουλή της ημέρας" 0 {Εμφάνιση χ
 menuText G HelpStartup "Παράθυρο έναρξης" 0 {Εμφανίζει το παράθυρο έναρξης}
 menuText G HelpAbout "Για το Scid" 0 {Πληροφορίες για το Scid}
 
+# Toolbar tooltips:
+menuText G RotateBoard "Περιστρέψτε τον πίνακα" 0 {Περιστρέψτε τον πίνακα}
+
 # Game info box popup menu:
 menuText G GInfoHideNext "Απόκρυψη επόμενης κίνησης" 0
 menuText G GInfoMaterial "Εμφάνισης της αξίας των κομματιών" 0
@@ -333,7 +339,61 @@ menuText G GInfoMark "(Μη-)Σημείωση αυτής της παρτίδας
 menuText G GInfoInformant "Ρύθμιση τιμών πληροφορίας" 0
 
 # General buttons:
+translate G LichessOpenExplore {Lichess Άνοιγμα Εξερευνητή}
+translate G LichessTitle {Εξερευνητής Ανοιγμάτων Lichess}
+translate G LichessApiTokenReq {Token Lichess API (απαιτείται):}
+translate G LichessDatabase {Βάση δεδομένων:}
+translate G LichessMasters {Masters}
+translate G LichessGames {Παιχνίδια Lichess}
+translate G LichessPlayer {Παίχτης}
+translate G LichessNumMoves {Αριθμός κινήσεων:}
+translate G LichessTopGames {Κορυφαία παιχνίδια:}
+translate G LichessRecentGames {Πρόσφατα παιχνίδια:}
+translate G LichessSinceYear {Από το έτος:}
+translate G LichessUntilYear {Μέχρι το έτος:}
+translate G LichessSinceMonth {Από (ΕΕΕΕ-ΜΜ):}
+translate G LichessUntilMonth {Έως (ΕΕΕΕ-ΜΜ):}
+translate G LichessTimeControls {Έλεγχοι χρόνου}
+translate G LichessRatingGroups {Ομάδες αξιολόγησης}
+translate G LichessPlayerName {Όνομα χρήστη παίκτη:}
+translate G LichessPlayerColor {Χρώμα παίκτη:}
+translate G LichessWhite {Λευκό}
+translate G LichessBlack {Μαύρος}
+translate G LichessGameModes {Λειτουργίες παιχνιδιού}
+translate G LichessRated {Βαθμολογήθηκε}
+translate G LichessCasual {Ανέμελος}
+translate G LichessTokenRequired {Απαιτείται ένα διακριτικό API Lichess.\n\nΑπό τον Μάρτιο του 2026, το Lichess απαιτεί ένα διακριτικό API για πρόσβαση στην Εξερεύνηση ανοίγματος. Εισαγάγετε το διακριτικό σας στο πεδίο "Lichess API Token" παραπάνω.\n\nΜπορείτε να δημιουργήσετε ένα διακριτικό στη διεύθυνση: https://lichess.org/account/oauth/token}
+translate G LichessPlayerRequired {Εισαγάγετε ένα όνομα χρήστη Lichess για τη βάση δεδομένων του Player.}
+translate G LichessQuerying {Querying Lichess Opening Explorer...}
+translate G LichessFailedQuery {Απέτυχε το ερώτημα Lichess Opening Explorer:\n%s}
+translate G LichessPositionNotFound {Η θέση δεν βρέθηκε στη βάση δεδομένων %s.\n\nΤο API επέστρεψε:\n%s}
+translate G LichessResultsTitle {Lichess Opening Explorer - Βάση δεδομένων %s}
+translate G LichessSummaryInfo {Σύνολο: %s παιχνίδια |  Ο λευκός κερδίζει: %s (%s%%) |  Κλήρωση: %s (%s%%) |  Νίκες μαύρου: %s (%s%%)}
+translate G LichessNoGamesFound {Δεν βρέθηκαν παιχνίδια για αυτή τη θέση.}
+translate G LichessMoves {Κινήσεις:}
+translate G LichessColMove {Κίνηση}
+translate G LichessColWhite {Λευκό}
+translate G LichessColDraws {Ισοπαλίες}
+translate G LichessColBlack {Μαύρος}
+translate G LichessColTotal {Σύνολο}
+translate G LichessColWinPct {Νίκη%}
+translate G LichessColAvgRating {Μέση Βαθμολογία}
+translate G LichessColECO {ECO}
+translate G LichessColOpening {Ανοιγμα}
+translate G LichessTopGamesTitle {Κορυφαία παιχνίδια:}
+translate G LichessRecentGamesTitle {Πρόσφατα παιχνίδια:}
+translate G LichessColWinner {Νικητής}
+translate G LichessColWhiteRating {W.Βαθμολογία}
+translate G LichessColBlackRating {Β. Βαθμολογία}
+translate G LichessColDate {Ημερομηνία}
+translate G LichessLoadGameConfirm {Φόρτωση παιχνιδιού %s έναντι %s (ID: %s) στο clipbase;}
+translate G LichessLoadGameTitle {Φόρτωση παιχνιδιού}
+translate G LichessFetchGameFailed {Απέτυχε η ανάκτηση του παιχνιδιού %s:\n%s}
+translate G LichessGameNotFound {Το παιχνίδι %s δεν βρέθηκε στο Lichess.}
+translate G LichessImportFailed {Αποτυχία εισαγωγής παιχνιδιού:\n%s}
+translate G LichessGameLoaded {Το παιχνίδι φορτώθηκε με επιτυχία στο clipbase.}
 translate G Back {Πίσω}
+translate G Apply {Εφαρμογή}
 translate G Browse {Αναζήτηση}
 translate G Cancel {Άκυρο}
 translate G Continue {Συνέχεια}
@@ -341,10 +401,11 @@ translate G Clear {Καθαρισμός}
 translate G Close {Κλείσιμο}
 translate G Contents {Περιεχόμενα}
 translate G Defaults {Αρχικό}
+translate G InvertSearch {Αντιστροφή αναζήτησης}
 translate G Delete {Διαγραφή}
 translate G Graph {Γράφημα}
 translate G Help {Βοήθεια}
-translate G Hide {Κρύβω}
+translate G Hide {Απόκρυψη}
 translate G Import {Εισαγωγή}
 translate G Index {Κατάλογος}
 translate G LoadGame {Φώρτωση παρτίδας}
@@ -353,6 +414,7 @@ translate G MergeGame {Συνένωση παρτίδας}
 translate G MergeGames {Συνένωση παρτίδων}
 translate G Preview {Προεπισκόπηση}
 translate G Revert {Επαναφορά}
+translate G Rename {Μετονομασία}
 translate G Save {Αποθήκευση}
 translate G Search {Αναζήτηση}
 translate G Stop {Διακοπή}
@@ -422,6 +484,11 @@ translate G readonly {μόνο για ανάγνωση}
 translate G ErrNotOpen {Αυτή η βάση δεδομένων δεν είναι ανοικτή.}
 translate G ErrReadOnly {Αυτή η βάση δεδομένων είναι μόνον για ανάγνωση. Δεν μπορεί να αντικατασταθεί.}
 translate G ErrSearchInterrupted {Η αναζήτηση διακόπηκε. Τα αποτελέσματα δεν είναι πλήρη.}
+translate G ErrNoClockComments {Δεν βρέθηκαν [%clk] σχόλια ρολογιού σε αυτό το παιχνίδι.    Προσθέστε ώρες ρολογιού μέσω του παραθύρου σχολίων (Ctrl+E) για να χρησιμοποιήσετε αυτήν τη δυνατότητα.}
+translate G ErrFileInUse {Σφάλμα: το αρχείο χρησιμοποιείται ήδη. Κλείστε οποιαδήποτε άλλη εφαρμογή χρησιμοποιώντας αυτήν τη βάση δεδομένων. Εάν το πρόγραμμα έκλεισε απροσδόκητα, ίσως χρειαστεί να διαγράψετε το αρχείο .lock που σχετίζεται με τη βάση δεδομένων.}
+
+
+
 
 # Game information:
 translate G twin {δίδυμες}
@@ -613,11 +680,13 @@ menuText G GraphOptionsBoth "Και τα δύο" 1
 menuText G GraphOptionsPInfo "Πληροφορίες παίκτη" 0
 menuText G GraphOptionsEloFile "Elo από το αρχείο αξιολόγησης" 0
 menuText G GraphOptionsEloDB "Elo από τη βάση δεδομένων" 0
-translate G GraphFilterTitle "Φίλτρο γραφήματος: συχνότητα ανά 1000 παρτίδες"
+translate G GraphFilterTitle "Γράφημα φίλτρου: ποσοστό των παιχνιδιών που έφτασαν σε θέση"
 translate G GraphAbsFilterTitle "Φίλτρο γραφήματος: συχνότητα παρτίδας"
+translate G GraphWinPctTitle "Γράφημα φίλτρου: % νίκης (1-0 και 0-1) στην τρέχουσα θέση ανά έτος"
 translate G ConfigureFilter "Προσαρμογή των αξόνων Χ ως προς Έτος, Βαθμολογία και Κινήσεις"
 translate G FilterEstimate "Εκτίμηση"
 translate G TitleFilterGraph "Scid: Φιλτράρισμα γραφήματος"
+translate G WinPct "% νίκης"
 
 # Analysis window:
 translate G AddVariation {Προσθήκη βαριάντας}
@@ -653,6 +722,13 @@ translate G Informant+= {Τα Λευκά έχουν μικρό πλεονέκτ�
 translate G Informant+/- {Τα Λευκά έχουν μέτριο πλεονέκτημα}
 translate G Informant+- {Τα Λευκά έχουν αποφασιστικό πλεονέκτημα}
 translate G Informant+-- {Η παρτίδα θεωρείται κερδισμένη}
+translate G AutoComment {Αυτόματο σχόλιο}
+translate G AutoCommentTooltip {Δημιουργήστε σχόλια τεχνητής νοημοσύνης για την τρέχουσα θέση}
+translate G AnalysisAutoCommentTooltip {Δημιουργήστε σχόλια AI για ολόκληρο το παιχνίδι}
+translate G GameComment {Σχόλιο παιχνιδιού}
+translate G GameCommentTooltip {Σαρώστε το παιχνίδι για σχολιασμένες κινήσεις και δημιουργήστε περίληψη AI}
+translate G TimeMs {Χρόνος(ms)}
+
 
 # Book window
 translate G Book {Βιβλίο}
@@ -1098,6 +1174,7 @@ translate G ECOSummary {Περίληψη της}
 translate G ECOFrequency {Συχνότητα υποκωδίκων για}
 
 # Opening Report:
+translate G OprepReportFor {Αναφορά για}
 translate G OprepTitle {Έκθεση ανοίγματος}
 translate G OprepReport {Έκθεση/αναφορά}
 translate G OprepGenerated {Δημιουργήθηκε από τον/την}
@@ -1166,6 +1243,8 @@ translate G OprepTheoryTable {Πίνακας ανοιγμάτων}
 translate G OprepTableComment {Δημιουργήθηκε από τις %u με την υψηλότερη βαθμολογία.}
 translate G OprepExtraMoves {Επιπλέον κινήσεις στις σημειώσεις του πίνακα ανοιγμάτων}
 translate G OprepMaxGames {Μέγιστος αριθμός παρτίδων στον πίνακα ανοιγμάτων}
+translate G OprepMergeMoves {Μετακίνηση ορίου για συγχωνευμένα παιχνίδια}
+translate G OprepMergeUnique {Συγχωνεύστε μόνο μοναδικά παιχνίδια}
 translate G OprepViewHTML {Εμφάνιση HTML}
 
 # Player Report:
@@ -1245,6 +1324,7 @@ translate G ClassifyNew {Μόνον παρτίδες χωρίς ακόμη κώ�
 translate G ClassifyCodes {Κωδικοί ECO προς χρήση}
 translate G ClassifyBasic {Μόνον βασικοί κωδικοί ("B12", ...)}
 translate G ClassifyExtended {Επεκτάσεις Scid ("B12j", ...)}
+translate G ClassifyResult {Ολοκληρώθηκε η ταξινόμηση ECO: Ενημερώθηκε το παιχνίδι(α) $result.}
 
 # Compaction:
 translate G NameFile {Αρχείο ονομάτων}
@@ -1573,6 +1653,9 @@ translate G FICSUnrated {Χωρίς αξιολόγηση}
 translate G FICSRegisteredPlayer {Μόνο εγγεγραμμένος παίκτης}
 translate G FICSFreePlayer {Δωρεάν παίκτης μόνο}
 translate G FICSNetError {Σφάλμα δικτύου\Δεν είναι δυνατή η σύνδεση}
+translate G OptionsFICS {FICS}
+translate G FICSTerminalColor {Χρώμα τερματικού}
+translate G FICSTextColor {Χρώμα κειμένου}
 
 # Game review
 translate G GameReview {Επισκόπηση παρτίδας}
@@ -1650,6 +1733,8 @@ translate G FindCurrentGame {Βρείτε το τρέχον παιχνίδι}
 translate G DeleteGame {Διαγραφή παιχνιδιού}
 translate G UndeleteGame {Αναίρεση διαγραφής παιχνιδιού}
 translate G ResetSort {Επαναφορά ταξινόμησης}
+translate G LayoutExists {Η διάταξη '%s' υπάρχει ήδη.}
+translate G ConfirmDeleteLayout {Είστε βέβαιοι ότι θέλετε να διαγράψετε τη διάταξη '%s';}
 
 translate G ConvertNullMove {Μετατροπή μηδενικών κινήσεων σε σχόλια}
 translate G SetupBoard {Πίνακας εγκατάστασης}
@@ -1686,5 +1771,32 @@ translate G OptionsTablebaseDir "Επιλέξτε έως και 4 φακέλου
 # Evaluation bar
 translate G BestMoveArrow "Το καλύτερο βέλος κίνησης"
 translate G NewLocalEngine "+ Νέος κινητήρας..."
+
+# Batch Annotate
+translate G BatchAnnotate {Σχόλιο παρτίδας}
+translate G BatchEngineSelection {Επιλογή κινητήρα}
+translate G BatchChessEngine {Μηχανή σκακιού:}
+translate G BatchNumberOfInstances {Αριθμός περιπτώσεων:}
+translate G BatchGameReview {Κριτική παιχνιδιού}
+translate G BatchTimePerMove {Χρόνος ανά κίνηση (δευτ.):}
+translate G BatchAnnotateBlunders {Σημειώστε μόνο γκάφες}
+translate G BatchBlunderThreshold {Όριο σφαλμάτων:}
+translate G BatchVariationLength {Μήκος παραλλαγής (κινήσεις):}
+translate G BatchOpeningBook {Βιβλίο ανοίγματος}
+translate G BatchUseBook {Χρησιμοποιήστε το βιβλίο}
+translate G BatchAnnotateVariations {Σημειώστε παραλλαγές}
+translate G BatchShortAnnotations {Σύντομοι σχολιασμοί}
+translate G BatchAddScoreToShort {Προσθήκη βαθμολογίας σε σύντομους σχολιασμούς}
+translate G BatchClearOld {Διαγράψτε παλιά σχόλια και παραλλαγές}
+translate G BatchInitializingEngines {Αρχικοποίηση κινητήρων...}
+translate G BatchAnalyzingGames {Ανάλυση παιχνιδιών...}
+translate G BatchProgress {Batch Annotate Progress}
+translate G BatchComplete {Ολοκληρώθηκε ο σχολιασμός παρτίδας!}
+translate G BatchCancelled {Ο σχολιασμός παρτίδας ακυρώθηκε}
+translate G BatchStart {Αρχή}
+translate G BatchCancel {Ματαίωση}
+translate G BatchCompleted {ολοκληρώθηκε το}
+translate G BatchGames {παιχνίδια}
+translate G BatchProcessed {επεξεργασμένα}
 }
 # end of english.tcl

@@ -14,15 +14,15 @@ menuText K FileClose "Tancar base" 0 {Tanca la base de dades Scid activa}
 menuText K FileFinder "Visor de fitxers" 0 {Obre la finestra del visor de fitxers}
 menuText K FileBookmarks "Partides preferides" 0 {Seleccionar partides preferides (Ctrl+B)}
 menuText K FileBookmarksAdd "Afegir" 0 \
-  {Marca la partida i posiciÛ actual de la base de dades}
+  {Marca la partida i posici√≥ actual de la base de dades}
 menuText K FileBookmarksFile "Arxivar" 8 \
-  {Arxiva un marcador de la partida i posiciÛ actuals}
+  {Arxiva un marcador de la partida i posici√≥ actuals}
 menuText K FileBookmarksEdit "Editar partides preferides..." 0 \
-  {Edita els men˙s de les partides preferides}
+  {Edita els men√∫s de les partides preferides}
 menuText K FileBookmarksList "Mostrar partides preferides" 0 \
-  {Mostra les carpetes preferides a una sola llista, sense submen˙s}
-menuText K FileBookmarksSub "Mostrar partides marcades amb submen˙s" 0 \
-  {Mostrar les carpetes preferides com submen˙s, no a una sola llista}
+  {Mostra les carpetes preferides a una sola llista, sense submen√∫s}
+menuText K FileBookmarksSub "Mostrar partides marcades amb submen√∫s" 0 \
+  {Mostrar les carpetes preferides com submen√∫s, no a una sola llista}
 menuText K FileMaint "Manteniment" 0 \
   {Eines de manteniment de bases de dades Scid}
 menuText K FileMaintWin "Finestra de manteniment" 0 \
@@ -35,24 +35,24 @@ menuText K FileMaintSort "Ordenar base de dades..." 0 \
   {Ordena totes les partides de la base de dades}
 menuText K FileMaintDelete "Esborrar partides duplicades..." 0 \
   {Cerca partides duplicades i les marca per ser esborrades}
-menuText K FileMaintTwin "Finestra d'inspecciÛ de duplicades" 11 \
-  {Obre/actualiza la finestra d'inspecciÛ de duplicades}
-menuText K FileMaintName "Ortografia de noms" 0 {Eines d'ortografia i ediciÛ de noms}
-menuText K FileMaintNameEditor "Finestra d'ediciÛ de noms" 22 \
-  {Obre/tanca la finestra d'ediciÛ de noms}
-menuText K FileMaintNamePlayer "ComprovaciÛ ortogr‡fica de noms de jugadors..." 39 \
-  {ComprovaciÛ ortogr‡fica de jugadors fent servir un arxiu de comprovaciÛ ortogr‡fica}
-menuText K FileMaintNameEvent "ComprovaciÛ ortogr‡fica de noms de torneigs..." 39 \
-  {ComprovaciÛ ortogr‡fica de torneigs fent servir l'arxiu de comprovaciÛ ortogr‡fica}
-menuText K FileMaintNameSite "ComprovaciÛ ortogr‡fica de noms de llocs..." 39 \
-  {ComprovaciÛ ortogr‡fica de llocs fent servir l'arxiu de comprovaciÛ ortogr‡fica}
-menuText K FileMaintNameRound "ComprovaciÛ ortogr‡fica de rondes..." 28 \
-  {ComprovaciÛ ortogr‡fica de rondes fent servir l'arxiu de comprovaciÛ ortogr‡fica}
-menuText K FileReadOnly "NomÈs de lectura..." 5 \
-  {Tracta la actual base de dades com nomÈs de lectura, prevenint canvis}
+menuText K FileMaintTwin "Finestra d'inspecci√≥ de duplicades" 11 \
+  {Obre/actualiza la finestra d'inspecci√≥ de duplicades}
+menuText K FileMaintName "Ortografia de noms" 0 {Eines d'ortografia i edici√≥ de noms}
+menuText K FileMaintNameEditor "Finestra d'edici√≥ de noms" 22 \
+  {Obre/tanca la finestra d'edici√≥ de noms}
+menuText K FileMaintNamePlayer "Comprovaci√≥ ortogr√†fica de noms de jugadors..." 39 \
+  {Comprovaci√≥ ortogr√†fica de jugadors fent servir un arxiu de comprovaci√≥ ortogr√†fica}
+menuText K FileMaintNameEvent "Comprovaci√≥ ortogr√†fica de noms de torneigs..." 39 \
+  {Comprovaci√≥ ortogr√†fica de torneigs fent servir l'arxiu de comprovaci√≥ ortogr√†fica}
+menuText K FileMaintNameSite "Comprovaci√≥ ortogr√†fica de noms de llocs..." 39 \
+  {Comprovaci√≥ ortogr√†fica de llocs fent servir l'arxiu de comprovaci√≥ ortogr√†fica}
+menuText K FileMaintNameRound "Comprovaci√≥ ortogr√†fica de rondes..." 28 \
+  {Comprovaci√≥ ortogr√†fica de rondes fent servir l'arxiu de comprovaci√≥ ortogr√†fica}
+menuText K FileReadOnly "Nom√©s de lectura..." 5 \
+  {Tracta la actual base de dades com nom√©s de lectura, prevenint canvis}
 menuText K FileSwitch "Canviar de base de dades" 0 \
   {Canvia a una base de dades oberta diferent}
-menuText K FileOpenLichessTournament "Torneig obert de Lichess" 0 {Baixeu i obriu jocs de transmissiÛ del torneig Lichess en directe}
+menuText K FileOpenLichessTournament "Torneig obert de Lichess" 0 {Baixeu i obriu jocs de transmissi√≥ del torneig Lichess en directe}
 menuText K FileImportLichess "Importa la meva Lichess" 0 {Importa jocs des del teu compte de Lichess}
 menuText K FileImportChessCom "Importa el meu chess.com" 0 {Importa jocs des del teu compte de chess.com}
 menuText K FileExit "Sortir" 0 {Sortir de Scid}
@@ -65,36 +65,36 @@ menuText K EditAdd "Afegir variant" 0 \
 menuText K EditDelete "Esborrar variant" 0 {Esborra la variant d'aquesta jugada}
 menuText K EditFirst "Convertir a primera variant" 0 \
   {Fa que una variant sigui la primera a la llista}
-menuText K EditMain "Variant a lÌnia principal" 0 \
-   {Promou una variant per a que sigui la lÌnia principal}
+menuText K EditMain "Variant a l√≠nia principal" 0 \
+   {Promou una variant per a que sigui la l√≠nia principal}
 menuText K EditTrial "Provar variant" 1 \
   {Inicia/Atura el mode de prova, per a verificar una idea a l'escaquer}
 menuText K EditStrip "Eliminar" 2 \
   {Eliminar comentaris o variants d'aquesta partida}
-menuText K EditUndo "DesfÈs" 0 {DesfÈs l'˙ltim canvi de la partida}
-menuText K EditRedo "RefÈs" 0 {RefÈs l'˙ltim canvi de la partida}
+menuText K EditUndo "Desf√©s" 0 {Desf√©s l'√∫ltim canvi de la partida}
+menuText K EditRedo "Ref√©s" 0 {Ref√©s l'√∫ltim canvi de la partida}
 menuText K EditStripComments "Comentaris" 0 \
   {Esborra tots els comentaris i variants d'aquesta partida}
 menuText K EditStripVars "Variants" 0 {Esborra totes les variants d'aquesta partida}
-menuText K EditStripBegin "Jugades des del comenÁament" 1 \
-  {Treu els moviments des del comenÁament de la partida}
+menuText K EditStripBegin "Jugades des del comen√ßament" 1 \
+  {Treu els moviments des del comen√ßament de la partida}
 menuText K EditStripEnd "Jugades fins el final" 0 \
   {Treu els moviments fins al final de la partida}
 menuText K EditReset "Neteja la base de treball" 0 \
   {Neteja la base de treball (clipbase) per deixar-la completament buida}
 menuText K EditCopy "Copiar aquesta partida a la base de treball" 1 \
   {Copia aquesta partida a la base de treball (clipbase)}
-menuText K EditPaste "Enganxar l'˙ltima partida de la base de treball" 2 \
+menuText K EditPaste "Enganxar l'√∫ltima partida de la base de treball" 2 \
   {Enganxa al final de la base actual la partida activa de la base de treball (clipbase)}
 menuText K EditPastePGN "Enganxa el text del Clipboard com una partida PGN..." 10 \
-  {Interpreta el text de la base de treball (clipbase) com una partida en notaciÛ PGN i l'enganxa}
-menuText K EditSetup "Establir posiciÛ inicial..." 26 \
-  {Inicia una posiciÛ a l'escaquer amb la posiciÛ de la partida}
-menuText K EditCopyBoard "Copiar posiciÛ" 8 \
-  {Copia la posiciÛ actual en notaciÛ FEN a la selecciÛ de text (clipboard)}
-menuText K EditPasteBoard "Enganxar posiciÛ inicial" 6 \
-  {Posa la posiciÛ inicial des de la selecciÛ de text actual (clipboard)}
-menuText K ConfigureScid "PreferËncies..." 0 {Configura totes les opcions de l'SCID}
+  {Interpreta el text de la base de treball (clipbase) com una partida en notaci√≥ PGN i l'enganxa}
+menuText K EditSetup "Establir posici√≥ inicial..." 26 \
+  {Inicia una posici√≥ a l'escaquer amb la posici√≥ de la partida}
+menuText K EditCopyBoard "Copiar posici√≥" 8 \
+  {Copia la posici√≥ actual en notaci√≥ FEN a la selecci√≥ de text (clipboard)}
+menuText K EditPasteBoard "Enganxar posici√≥ inicial" 6 \
+  {Posa la posici√≥ inicial des de la selecci√≥ de text actual (clipboard)}
+menuText K ConfigureScid "Prefer√®ncies..." 0 {Configura totes les opcions de l'SCID}
 
 # Game menu:
 menuText K Game "Partida" 0
@@ -103,20 +103,21 @@ menuText K GameNew "Nova partida" 0 \
 menuText K GameFirst "Carregar primera partida" 7 {Carrega la primera partida filtrada}
 menuText K GamePrev "Carregar partida anterior" 16 {Carrega la anterior partida filtrada}
 menuText K GameReload "Recargar partida actual" 0 \
-  {Torna a carregar aquesta partida, descartant qualsevol canvi introduÔt}
+  {Torna a carregar aquesta partida, descartant qualsevol canvi introdu√Øt}
 menuText K GameNext "Carregar propera partida " 7 {Carrega la propera partida filtrada}
-menuText K GameLast "Carregar ˙ltima partida" 9 {Carrega l'˙ltima partida filtrada}
-menuText K GameRandom "Carregar partida aleatoria" 16 {Carrega aleatÚriament una partida filtrada}
-menuText K GameNumber "Carregar partida n˙mero..." 3 \
-  {Carrega una partida posant el seu n˙mero}
-menuText K GameReplace "Desar: ReemplaÁa la partida..." 10 \
-  {Desa aquesta partida, reemplaÁant-ne la versiÛ anterior}
+menuText K GameLast "Carregar √∫ltima partida" 9 {Carrega l'√∫ltima partida filtrada}
+menuText K GameRandom "Carregar partida aleatoria" 16 {Carrega aleat√≤riament una partida filtrada}
+menuText K GameNumber "Carregar partida n√∫mero..." 3 \
+  {Carrega una partida posant el seu n√∫mero}
+menuText K GameReplace "Desar: Reempla√ßa la partida..." 10 \
+  {Desa aquesta partida, reempla√ßant-ne la versi√≥ anterior}
 menuText K GameAdd "Desar: Afegir nova partida..." 9 \
   {Enregistra aquesta partida com una nova entrada a la base de dades}
+menuText K GameDelete "Suprimeix el joc" 0 {Commuta la supressi√≥ de la bandera del joc actual}
 menuText K GameDeepest "Identificar obertura" 1 \
-  {Ves a la posiciÛ mÈs avanÁada de la partida d'acord amb el llibre ECO}
-menuText K GameGotoMove "Anar a la jugada n˙mero..." 6 \
-  {Ves al n˙mero de jugada especificat dins la partida actual}
+  {Ves a la posici√≥ m√©s avan√ßada de la partida d'acord amb el llibre ECO}
+menuText K GameGotoMove "Anar a la jugada n√∫mero..." 6 \
+  {Ves al n√∫mero de jugada especificat dins la partida actual}
 menuText K GameNovelty "Trobar Novetat..." 12 \
   {Cerca la primera jugada d'aquesta partida que no s'ha jugat abans}
 
@@ -125,13 +126,13 @@ menuText K Search "Cercar" 0
 menuText K SearchReset "Netejar el filtre" 0 \
   {Retorna el filtre a l'estat per defecte per a incloure-hi totes les partides}
 menuText K SearchNegate "Invertir filtre" 0 \
-  {Inverteix el filtre per incloure nomÈs les partides prËviament excloses}
-menuText K SearchCurrent "PosiciÛ actual..." 0 \
-  {Cerca per la posiciÛ actual de l'escaquer}
+  {Inverteix el filtre per incloure nom√©s les partides pr√®viament excloses}
+menuText K SearchCurrent "Posici√≥ actual..." 0 \
+  {Cerca per la posici√≥ actual de l'escaquer}
 menuText K SearchHeader "Metadades..." 0 \
-  {Cerca per les metadades de la capÁalera (jugador, torneig, etc)}
-menuText K SearchMaterial "Material/PatrÛ..." 0 \
-  {Cerca posiciÛ per material o patrÛ}
+  {Cerca per les metadades de la cap√ßalera (jugador, torneig, etc)}
+menuText K SearchMaterial "Material/Patr√≥..." 0 \
+  {Cerca posici√≥ per material o patr√≥}
 menuText K SearchUsing "Fer servir arxiu de recerca..." 0 \
   {Cerca fent servir un arxiu d'opcions de recerca}
 
@@ -142,7 +143,7 @@ menuText K WindowsComment "Editor de comentaris" 0 \
 menuText K WindowsGList "Llistat de partides" 0 \
   {Obre/tanca la  finestra de llistat de partides}
 menuText K WindowsPGN "Finestra PGN" 8 \
-  {Obre/tanca la finestra PGN (notaciÛ de partida)}
+  {Obre/tanca la finestra PGN (notaci√≥ de partida)}
 menuText K WindowsPList "Cercador de jugadors" 2 {Obre/tanca el cercador de jugadors}
 menuText K WindowsTmt "Visor de torneigs" 9 {Obre/tanca el visor de torneigs}
 menuText K WindowsSwitcher "Bescanviador de bases de dades" 0 \
@@ -150,52 +151,53 @@ menuText K WindowsSwitcher "Bescanviador de bases de dades" 0 \
 menuText K WindowsMaint "Finestra de manteniment" 11 \
   {Obre/tanca la finestra de manteniment}
 menuText K WindowsECO "Cercador ECO" 0 {Obre/tanca la finestra del cercador ECO}
-menuText K WindowsStats "Finestra d'estadÌstiques" 12 \
-  {Obre/tanca la finestra d'estadÌstiques del filtre}
+menuText K WindowsStats "Finestra d'estad√≠stiques" 12 \
+  {Obre/tanca la finestra d'estad√≠stiques del filtre}
 menuText K WindowsTree "Finestra de l'Arbre d'Obertures" 6 {Obre/tanca la finestra de l'Arbre d'Obertures (Book)}
 menuText K WindowsBook "Finestra de Llibres d'Obertures" 0 {Obrir/Tancar la finestra de Llibres d'Obertures (Book)}
 menuText K WindowsCorrChess "Finestra d'Escacs Postal" 0 {Obrir/Tancar la Finestra d'Escacs Postal}
-menuText K WindowsGraph "Gr‡fic d'an‡lisi" 0 {Obriu la finestra Gr‡fic amb els temps i les avaluacions dels moviments}
+menuText K WindowsGraph "Gr√†fic d'an√†lisi" 0 {Obriu la finestra Gr√†fic amb els temps i les avaluacions dels moviments}
 
 # Tools menu:
 menuText K Tools "Eines" 0
-menuText K ToolsConfigureEngines "Configura motors" 10 {Canvia par‡metres dels diferents motors}
-menuText K ToolsAnalysis "Motor d'an‡lisi..." 0 \
-  {Inicia/Atura un motor d'an·lisi d'escacs}
-menuText K ToolsAnalysis2 "Motor d'an‡lisi #2..." 18 \
-  {Inicia/Atura el segon motor d'an·lisi d'escacs}
+menuText K ToolsConfigureEngines "Configura motors" 10 {Canvia par√†metres dels diferents motors}
+menuText K ToolsAnalysis "Motor d'an√†lisi..." 0 \
+  {Inicia/Atura un motor d'an√°lisi d'escacs}
+menuText K ToolsAnalysis2 "Motor d'an√†lisi #2..." 18 \
+  {Inicia/Atura el segon motor d'an√°lisi d'escacs}
 menuText K ToolsCross "Quadre" 0 {Mostra el Quadre del torneig per aquesta partida}
-menuText K ToolsFilterGraph "Filtre Gr‡fic Rel." 7 \
-  {Obre/tanca la finestra del filtre gr‡fic per valors relatius}
-menuText K ToolsAbsFilterGraph "Filtre gr‡fic Abs." 7 {Obrir/Tancar la finestra de filtre gr‡fic per valors absoluts}
+menuText K ToolsFilterGraph "Filtre Gr√†fic Rel." 7 \
+  {Obre/tanca la finestra del filtre gr√†fic per valors relatius}
+menuText K ToolsAbsFilterGraph "Filtre gr√†fic Abs." 7 {Obrir/Tancar la finestra de filtre gr√†fic per valors absoluts}
 menuText K ToolsOpReport "Informe d'obertura" 1 \
-  {Crea un informe de l'obertura per la posiciÛ actual}
+  {Crea un informe de l'obertura per la posici√≥ actual}
 menuText K ToolsOpenBaseAsTree "Obrir base com a arbre" 0   {Obrir una base i utilitzar-la a la Finestre Arbre (Tree)}
 menuText K ToolsOpenRecentBaseAsTree "Obrir base recent com a arbre" 0   {Obre una base recent i utilitzar-la a la Finestra Arbre (Tree)} 
 menuText K ToolsTracker "Rastrejador de peces"  14 {Obre la finestra del rastrejador de peces}
-menuText K ToolsTraining "Entrenament"  0 {Entrenament (t‡ctica, obertures,...}
-menuText K ToolsTacticalGame "Partida t‡ctica"  0 {Jugar una partida t‡ctica}
+menuText K ToolsTraining "Entrenament"  0 {Entrenament (t√†ctica, obertures,...}
+menuText K ToolsTacticalGame "Partida t√†ctica"  0 {Jugar una partida t√†ctica}
 menuText K ToolsSeriousGame "Partida seriosa"  0 {Jugar una partida seriosa}
 menuText K ToolsTrainOpenings "Obertures"  0 {Entrenament amb un repertori}
 menuText K ToolsTrainReviewGame "Revisar partida"  0 {Endevina les jugades realitzades en una partida}
-menuText K ToolsTrainTactics "T‡ctica"  0 {Resoldre problemes de t‡ctica}
-menuText K ToolsTrainCalvar "C‡lcul de variants"  0 {C‡lcul de variants}
+menuText K ToolsTrainTactics "T√†ctica"  0 {Resoldre problemes de t√†ctica}
+menuText K ToolsTrainCalvar "C√†lcul de variants"  0 {C√†lcul de variants}
 menuText K ToolsTrainFindBestMove "Trobar la millor jugada"  0 {Cerca la millor jugada}
 menuText K ToolsTrainFics "Jugar a Internet"  0 {Jugar a freechess.org}
-menuText K ToolsEngineTournament "Torneig de motors"  0 {ComenÁa un torneig entre motors}
+menuText K ToolsEngineTournament "Torneig de motors"  0 {Comen√ßa un torneig entre motors}
+menuText K ToolsTimeAnalysis "An√†lisi del temps" 0 {Mostra el gr√†fic del temps del rellotge per al joc actual}
 menuText K ToolsBookTuning "Ajustar Llibre d'obertures" 0 {Ajustar Llibre (Book)}
-menuText CA ToolsDownloadTWIC "Descarrega partides TWIC" 0 {Descarrega les partides m√©s recents The Week In Chess (TWIC)}
+menuText CA ToolsDownloadTWIC "Descarrega partides TWIC" 0 {Descarrega les partides m√É¬©s recents The Week In Chess (TWIC)}
 menuText K ToolsConnectHardware "Connectar maquinari" 0 {Connectar maquinari extern}
-menuText K ToolsConnectHardwareConfigure "ConfiguraciÛ" 1 {ConfiguraciÛ}
+menuText K ToolsConnectHardwareConfigure "Configuraci√≥" 1 {Configuraci√≥}
 menuText K ToolsConnectHardwareNovagCitrineConnect "Connectar Novag" 0 {Connectar Novag}
 menuText K ToolsConnectHardwareInputEngineConnect "Connectar dispositiu d'entrada" 0 {Connectar dispositiu d'entrada (com el de DGT) a Scid}
 
-menuText K ToolsPInfo "InformaciÛ del Jugador" 16 \
-  {Obrir/actualitzar la finestra d'InformaciÛ del Jugador}
+menuText K ToolsPInfo "Informaci√≥ del Jugador" 16 \
+  {Obrir/actualitzar la finestra d'Informaci√≥ del Jugador}
 menuText K ToolsPlayerReport "Informe del jugador..." 3 \
   {Crea un informe sobre un jugador}
-menuText K ToolsRating "Gr‡fic de l'Elo" 0 \
-  {Gr·fic del historial Elo dels jugadors de la partida actual}
+menuText K ToolsRating "Gr√†fic de l'Elo" 0 \
+  {Gr√°fic del historial Elo dels jugadors de la partida actual}
 menuText K ToolsExpCurrent "Exportar la partida actual" 0 \
   {Escriu la partida actual a un arxiu de text}
 menuText K ToolsExpCurrentPGN "Exportar la partida a un arxiu PGN..." 33 \
@@ -216,7 +218,7 @@ menuText K ToolsImportFile "Importar un arxiu de partides PGN..." 2 \
   {Importa partides de un arxiu PGN}
 menuText K ToolsStartEngine1 "Iniciar motor 1" 0  {Iniciar motor 1}
 menuText K ToolsStartEngine2 "Iniciar motor 2" 0  {Iniciar Motor 2}
-menuText K ToolsCaptureBoard "Desa posiciÛ actual" 0  {Desa la posiciÛ del tauler actual com a imatge.}
+menuText K ToolsCaptureBoard "Desa posici√≥ actual" 0  {Desa la posici√≥ del tauler actual com a imatge.}
 
 # Play menu
 menuText K Play "Jugar" 0
@@ -233,128 +235,188 @@ menuText K CCClaimDraw "Reclamar taules" 0 {Enviar un jugada i reclamar taules}
 menuText K Options "Opcions" 0
 menuText K OptionsBoardGraphics "Caselles..." 0 {Escollir textures per les caselles}
 translate K OptionsBGW {Escollir textura per les caselles}
-translate K OptionsBoardGraphicsText {Escollir arxiu gr‡fic per a les caselles blanques i negres}
-menuText K OptionsBoardNames "Els meus noms..." 0 {Edita els noms amb els que pot aparËixer un jugador}
-menuText K OptionsExport "ExportaciÛ" 0 {Canvia les opcions d'exportaciÛ de text}
+translate K OptionsBoardGraphicsText {Escollir arxiu gr√†fic per a les caselles blanques i negres}
+menuText K OptionsBoardNames "Els meus noms..." 0 {Edita els noms amb els que pot apar√®ixer un jugador}
+menuText K OptionsExport "Exportaci√≥" 0 {Canvia les opcions d'exportaci√≥ de text}
 menuText K OptionsFonts "Fonts" 0 {Canvia les fonts}
 menuText K OptionsFontsRegular "Habitual" 0 {Canvia la font habitual}
-menuText K OptionsFontsMenu "Men˙" 0 {Canvia la font del men˙}
+menuText K OptionsFontsMenu "Men√∫" 0 {Canvia la font del men√∫}
 menuText K OptionsFontsSmall "Petita" 0 {Canvia a mida de font petita}
 menuText K OptionsFontsTiny "Diminuta" 0 {Canvia a mida de font diminuta}
 menuText K OptionsFontsFixed "Fixa" 0 {Canvia la amplada de la font a fixa}
-menuText K OptionsGInfo "InformaciÛ de la partida" 0 {InformaciÛ de la partida}
+menuText K OptionsGInfo "Informaci√≥ de la partida" 0 {Informaci√≥ de la partida}
 menuText K OptionsLanguage "Llenguatge" 0 {Selecciona el llenguatge del programa}
-menuText K OptionsMovesTranslatePieces "Tradueix nom de les peces" 0 {Tradueix la primera lletra del nom de les peces al tauler de notaciÛ}
-menuText K OptionsMovesHighlightLastMove "Mostra ˙ltima jugada" 0 {Ressalta l'˙ltima jugada'}
-menuText K OptionsMovesHighlightLastMoveDisplay "Mostra casella" 0 {Ressalta la casella de l'˙ltima jugada}
-menuText K OptionsMovesHighlightLastMoveWidth "Gruix" 0 {Gruix de lÌnia}
-menuText K OptionsMovesHighlightLastMoveColor "Color" 0 {Color de lÌnia}
+menuText K OptionsMovesTranslatePieces "Tradueix nom de les peces" 0 {Tradueix la primera lletra del nom de les peces al tauler de notaci√≥}
+menuText K OptionsMovesHighlightLastMove "Mostra √∫ltima jugada" 0 {Ressalta l'√∫ltima jugada'}
+menuText K OptionsMovesHighlightLastMoveDisplay "Mostra casella" 0 {Ressalta la casella de l'√∫ltima jugada}
+menuText K OptionsMovesHighlightLastMoveWidth "Gruix" 0 {Gruix de l√≠nia}
+menuText K OptionsMovesHighlightLastMoveColor "Color" 0 {Color de l√≠nia}
 menuText K OptionsMovesHighlightLastMoveArrow "Mostra fletxa" 0 {Inclou fletxa amb ressaltat}
-menuText K OptionsMovesHighlightLastMoveNag "Mostra sÌmbols d'avaluaciÛ" 0
+menuText K OptionsMovesHighlightLastMoveNag "Mostra s√≠mbols d'anotaci√≥" 0
+menuText K OptionsMovesHighlightLastMoveEval "Mostra s√≠mbols d'avaluaci√≥" 0
 menuText K OptionsMoves "Jugades" 0 {Opcions d'entrada de jugades}
-menuText K OptionsMovesAnimate "Velocitat d'animaciÛ" 1 \
-  {Posa el temps d'animaciÛ entre jugades}
-menuText K OptionsMovesDelay "Retard de la jugada autom‡tica..." 0 \
+menuText K OptionsMovesAnimate "Velocitat d'animaci√≥" 1 \
+  {Posa el temps d'animaci√≥ entre jugades}
+menuText K OptionsMovesDelay "Retard de la jugada autom√†tica..." 0 \
   {Posa el temps de retard per la modalitat de autojugada}
 menuText K OptionsMovesCoord "Entrada de jugades per coordenades" 0 \
   {Accepta entrada de jugades pel sistema de "coordenades" ("g1f3")}
 menuText K OptionsMovesSuggest "Mostrar suggeriments" 20 \
   {Activa/desactiva el suggeriment de jugades}
 menuText K OptionsShowVarPopup "Mostrar finestra de variants" 0 {Activar/Desactivar la finestra de variants}
-menuText K OptionsMovesSpace "Afegir espai desprÈs del n˙mero de jugada" 0 {Afegir espai desprÈs del n˙mero de jugada}  
+menuText K OptionsMovesSpace "Afegir espai despr√©s del n√∫mero de jugada" 0 {Afegir espai despr√©s del n√∫mero de jugada}  
 menuText K OptionsMovesLichess "Format Lichess/ChessBase per a anotacions" 0 {Utilitzeu el format Lichess/ChessBase per als marcadors quadrats i les fletxes}
-menuText K OptionsMovesKey "Teclat Intel∑ligent" 0 \
-{Activa/desactiva la funciÛ d'autocompletat intel∑ligent de jugades amb teclat}
+menuText K OptionsMovesKey "Teclat Intel¬∑ligent" 0 \
+{Activa/desactiva la funci√≥ d'autocompletat intel¬∑ligent de jugades amb teclat}
 menuText K OptionsMovesShowVarArrows "Mostra fletxes per a les variants" 0 {Activa o desactiva la mostra de fletxes per a les variants sobre el tauler}
-menuText K OptionsMovesShowEngineVariationArrows "Mostra les fletxes per a les variacions del motor" 0 {Activar/desactivar les fletxes que mostren les lÌnies de variaciÛ del motor en mode multiPV}
+menuText K OptionsMovesShowEngineVariationArrows "Mostra les fletxes per a les variacions del motor" 0 {Activar/desactivar les fletxes que mostren les l√≠nies de variaci√≥ del motor en mode multiPV}
 menuText K OptionsMovesGlossOfDanger "Marques de perill de colors" 0 {Activa o desactiva les marques de perill de colors}
 translate K OptionsMovesTreeDepth {Profunditat de moviment de la finestra de l'arbre per defecte}
-menuText K OptionsNumbers "Format de n˙meros" 11 {Selecciona el format de n˙meros}
+menuText K OptionsNumbers "Format de n√∫meros" 11 {Selecciona el format de n√∫meros}
 menuText K OptionsTheme "Tema" 0 {Canviar l'aspecte del programari}
 menuText K OptionsWindows "Finestres" 0 {Opcions de finestra}
 menuText K OptionsSounds "Sons" 2 {Configura el so d'anunci de les jugades}
 menuText K OptionsResources "Recursos..." 0 {Tria carpetes i fitxers de recursos}
 menuText K OptionsWindowsDock "Bloqueja finestres" 0 {Bloqueja i agrupa finestres}
-menuText K OptionsWindowsSaveLayout "Desar disposiciÛ" 0 {Desar disposiciÛ}
-menuText K OptionsWindowsRestoreLayout "Restaurar disposiciÛ" 0 {Restaurar disposiciÛ}
-menuText K OptionsWindowsShowGameInfo "Mostrar informaciÛ de la partida" 0 {Mostrar informaciÛ de la partida}
-menuText K OptionsWindowsAutoLoadLayout "Auto carregar primera disposiciÛ" 0 {Autocarregar primera disposiciÛ en comenÁar}
+menuText K OptionsWindowsSaveLayout "Desar disposici√≥" 0 {Desar disposici√≥}
+menuText K OptionsWindowsRestoreLayout "Restaurar disposici√≥" 0 {Restaurar disposici√≥}
+menuText K OptionsWindowsShowGameInfo "Mostrar informaci√≥ de la partida" 0 {Mostrar informaci√≥ de la partida}
+menuText K OptionsWindowsAutoLoadLayout "Auto carregar primera disposici√≥" 0 {Autocarregar primera disposici√≥ en comen√ßar}
 menuText K OptionsECO "Cargar arxiu ECO..." 7 \
-  {Cargar l'arxiu de clasificaciÛ ECO}
-menuText K OptionsSpell "Cargar arxiu de comprovaciÛ ortogr‡fica..." 2 \
-  {Carga l'arxiu de comprovaciÛ ortogr‡fica Scid}
+  {Cargar l'arxiu de clasificaci√≥ ECO}
+menuText K OptionsSpell "Cargar arxiu de comprovaci√≥ ortogr√†fica..." 2 \
+  {Carga l'arxiu de comprovaci√≥ ortogr√†fica Scid}
 menuText K OptionsTable "Directori de les TB...(Taules de finals)" 19 \
   {Selecciona el directori de finals; s'utilitzaran totes les TB d'aquest directori}
 menuText K OptionsRecent "Arxius recents..." 9 \
-  {Canvia el nombre d'arxius recentes que es mostren al men˙ Arxiu}
+  {Canvia el nombre d'arxius recentes que es mostren al men√∫ Arxiu}
 menuText K OptionsBooksDir "Carpeta de llibres d'obertures..." 0 {Fixa la carpeta d'els llibres d'obertures (Books)}
-menuText K OptionsTacticsBasesDir "Carpeta de bases de dades..." 0 {Fixa la carpeta de la base d'entrenament t‡ctic}
+menuText K OptionsTacticsBasesDir "Carpeta de bases de dades..." 0 {Fixa la carpeta de la base d'entrenament t√†ctic}
 menuText K OptionsPhotosDir "Directori d'imatges..." 0 {Configura el directori base per a imatges}
-menuText K OptionsThemeDir "Fitxer(s) d'aspecte:"  0 { Carrega un fitxer d'aspecte de la interfÌcie }
+menuText K OptionsThemeDir "Fitxer(s) d'aspecte:"  0 { Carrega un fitxer d'aspecte de la interf√≠cie }
 menuText K OptionsSave "Desar opcions" 0 \
   {Desa totes les opcions a l'arxiu $::optionsFile}
 menuText K OptionsAutoSave "Autoguardar opcions en sortir" 0 \
-  {Guarda autom‡ticament totes les opcions quan es surt de Scid}
+  {Guarda autom√†ticament totes les opcions quan es surt de Scid}
 
 # Help menu:
 menuText K Help "Ajuda" 1
-menuText K HelpContents "Continguts" 0 {Mostra la p‡gina de continguts del fitxer d'ajuda}
-menuText K HelpIndex "Õndex" 0 {Mostra la p‡gina d'Ìndex del fitxer d'ajuda}
-menuText K HelpGuide "Guia r‡pida" 0 {Mostra la p‡gina de guia r‡pida del fitxer d'ajuda}
-menuText K HelpHints "Suggeriments" 1 {Mostra la p‡gina de suggeriments del fitxer d'ajuda}
-menuText K HelpContact "InformaciÛ de contacte" 15 \
-  {Mostra la p‡gina d'informaciÛ de contacte del fitxer d'ajuda}
-menuText K HelpTip "Suggeriment del dia" 0 {Mostra un pr‡ctic suggerimentent de Scid}
+menuText K HelpContents "Continguts" 0 {Mostra la p√†gina de continguts del fitxer d'ajuda}
+menuText K HelpIndex "√çndex" 0 {Mostra la p√†gina d'√≠ndex del fitxer d'ajuda}
+menuText K HelpGuide "Guia r√†pida" 0 {Mostra la p√†gina de guia r√†pida del fitxer d'ajuda}
+menuText K HelpHints "Suggeriments" 1 {Mostra la p√†gina de suggeriments del fitxer d'ajuda}
+menuText K HelpContact "Informaci√≥ de contacte" 15 \
+  {Mostra la p√†gina d'informaci√≥ de contacte del fitxer d'ajuda}
+menuText K HelpTip "Suggeriment del dia" 0 {Mostra un pr√†ctic suggerimentent de Scid}
 menuText K HelpStartup "Finestra d'inici" 0 {Mostra la finestra d'inici}
-menuText K HelpAbout "Sobre l'Scid" 10 {InformaciÛ al voltant de Scid}
+menuText K HelpAbout "Sobre l'Scid" 10 {Informaci√≥ al voltant de Scid}
+
+# Toolbar tooltips:
+menuText K RotateBoard "Gira el tauler" 0 {Gira el tauler}
 
 # Game info box popup menu:
-menuText K GInfoHideNext "Ocultar seg¸ent jugada" 0
+menuText K GInfoHideNext "Ocultar seg√ºent jugada" 0
 menuText K GInfoMaterial "Mostrar valor del material" 0
 menuText K GInfoFEN "Mostrar FEN" 8
 menuText K GInfoMarks "Mostrar caselles i fletxes de colors" 29
-menuText K GInfoWrap "Dividir lÌnies llargues" 0
+menuText K GInfoWrap "Dividir l√≠nies llargues" 0
 menuText K GInfoFullComment "Mostrar comentaris complets" 8
 menuText K GInfoPhotos "Mostrar fotografies" 5
 menuText K GInfoTBNothing "TBs: res" 5
-menuText K GInfoTBResult  "TBs: nomÈs resultat" 10
+menuText K GInfoTBResult  "TBs: nom√©s resultat" 10
 menuText K GInfoTBAll "TBs: resultat i millor jugada" 23
 menuText K GInfoDelete "(No)Esborrar aquesta partida" 4
 menuText K GInfoMark "(No)Marcar aquesta partida" 4
-menuText K GInfoInformant "Configurar valors d'informaciÛ" 0
+menuText K GInfoInformant "Configurar valors d'informaci√≥" 0
 
 # General buttons:
+translate K LichessOpenExplore {Lichess OpenExplore}
+translate K LichessTitle {Lichess Opening Explorer}
+translate K LichessApiTokenReq {Token de l'API Lichess (obligatori):}
+translate K LichessDatabase {Base de dades:}
+translate K LichessMasters {Mestres}
+translate K LichessGames {Jocs de Lichess}
+translate K LichessPlayer {Jugador}
+translate K LichessNumMoves {Nombre de moviments:}
+translate K LichessTopGames {Jocs principals:}
+translate K LichessRecentGames {Partits recents:}
+translate K LichessSinceYear {Des de l'any:}
+translate K LichessUntilYear {Fins a l'any:}
+translate K LichessSinceMonth {Des de (AAAA-MM):}
+translate K LichessUntilMonth {Fins (AAAA-MM):}
+translate K LichessTimeControls {Controls de temps}
+translate K LichessRatingGroups {Grups de valoraci√≥}
+translate K LichessPlayerName {Nom d'usuari del jugador:}
+translate K LichessPlayerColor {Color del jugador:}
+translate K LichessWhite {Blanc}
+translate K LichessBlack {Negre}
+translate K LichessGameModes {Modes de joc}
+translate K LichessRated {Valorat}
+translate K LichessCasual {Casual}
+translate K LichessTokenRequired {Cal un testimoni d'API de Lichess.\n\nA partir del mar√ß de 2026, Lichess requereix un testimoni d'API per accedir a l'Opening Explorer. Introdu√Øu el vostre testimoni al camp "Lichess API Token" de dalt.\n\nPodeu crear un testimoni a: https://lichess.org/account/oauth/token}
+translate K LichessPlayerRequired {Introdu√Øu un nom d'usuari de Lichess per a la base de dades del jugador.}
+translate K LichessQuerying {Consultant l'explorador d'obertura de Lichess...}
+translate K LichessFailedQuery {No s'ha pogut consultar l'explorador d'obertura de Lichess:\n%s}
+translate K LichessPositionNotFound {No s'ha trobat la posici√≥ a la base de dades %s.\n\nL'API ha retornat:\n%s}
+translate K LichessResultsTitle {Explorador d'obertura de Lichess - Base de dades %s}
+translate K LichessSummaryInfo {Total: %s jocs |  Guanyes blanques: %s (%s%%) |  Sorteig: %s (%s%%) |  Guanyes negres: %s (%s%%)}
+translate K LichessNoGamesFound {No s'han trobat jocs per a aquesta posici√≥.}
+translate K LichessMoves {Moviments:}
+translate K LichessColMove {Mou-te}
+translate K LichessColWhite {Blanc}
+translate K LichessColDraws {Empates}
+translate K LichessColBlack {Negre}
+translate K LichessColTotal {Total}
+translate K LichessColWinPct {Guanyador%}
+translate K LichessColAvgRating {Valoraci√≥ mitjana}
+translate K LichessColECO {ECO}
+translate K LichessColOpening {Obertura}
+translate K LichessTopGamesTitle {Jocs principals:}
+translate K LichessRecentGamesTitle {Jocs recents:}
+translate K LichessColWinner {Guanyador}
+translate K LichessColWhiteRating {Valoraci√≥ W}
+translate K LichessColBlackRating {B.Valoraci√≥}
+translate K LichessColDate {Data}
+translate K LichessLoadGameConfirm {Carregar el joc %s vs %s (ID: %s) al clipbase?}
+translate K LichessLoadGameTitle {Carrega el joc}
+translate K LichessFetchGameFailed {No s'ha pogut recuperar el joc %s:\n%s}
+translate K LichessGameNotFound {El joc %s no s'ha trobat a Lichess.}
+translate K LichessImportFailed {No s'ha pogut importar el joc:\n%s}
+translate K LichessGameLoaded {El joc s'ha carregat correctament al clipbase.}
 translate K Back {Enrera}
+translate K Apply {Aplicar}
 translate K Browse {Mirar}
-translate K Cancel {Cancel∑lar}
+translate K Cancel {Cancel¬∑lar}
 translate K Continue {Continuar}
 translate K Clear {Netejar}
 translate K Close {Tancar}
 translate K Contents {Continguts}
 translate K Defaults {Per defecte}
+translate K InvertSearch {Inverteix la cerca}
 translate K Delete {Esborrar}
-translate K Graph {Gr‡fic}
+translate K Graph {Gr√†fic}
 translate K Help {Ajut}
 translate K Hide {Amaga}
 translate K Import {Importar}
-translate K Index {œndex}
+translate K Index {√èndex}
 translate K LoadGame {Cargar partida}
 translate K BrowseGame {Mirar partida}
 translate K MergeGame {Incorporar partida}
 translate K MergeGames {Barrejar o fusionar partides}
-translate K Preview {Vista prËvia}
+translate K Preview {Vista pr√®via}
 translate K Revert {Retrocedir}
+translate K Rename {Canvia el nom}
 translate K Save {Desar}
 translate K Search {Cercar}
 translate K Stop {Aturar}
 translate K Store {Enregistrar}
 translate K Update {Actualitzar}
-translate K ChangeOrient {Canviar l'orientaciÛ de la finestra}
+translate K ChangeOrient {Canviar l'orientaci√≥ de la finestra}
 translate K ShowIcons {Mostra Icones} 
 translate K None {Cap}
 translate K First {Primera}
 translate K Current {Actual}
-translate K Last {⁄ltima}
+translate K Last {√öltima}
 
 # General messages:
 translate K game {partida}
@@ -362,7 +424,7 @@ translate K games {partides}
 translate K move {jugada}
 translate K moves {jugades}
 translate K all {tod}
-translate K Yes {SÌ}
+translate K Yes {S√≠}
 translate K No {No}
 translate K Both {Ambdos}
 translate K King {Rei}
@@ -370,12 +432,12 @@ translate K Queen {Dama}
 translate K Rook {Torre}
 translate K Bishop {Alfil}
 translate K Knight {Cavall}
-translate K Pawn {PeÛ}
+translate K Pawn {Pe√≥}
 translate K White {Blanques}
 translate K Black {Negres}
 translate K Player {Jugador}
 translate K Rating {Elo}
-translate K RatingDiff {DiferËncia d'Elo (Blanques - Negres)}
+translate K RatingDiff {Difer√®ncia d'Elo (Blanques - Negres)}
 translate K AverageRating {Elo promig}
 translate K Event {Torneig}
 translate K Site {Lloc}
@@ -383,10 +445,10 @@ translate K Country {Pais}
 translate K IgnoreColors {Ignorar colors}
 translate K Date {Data}
 translate K EventDate {Data del torneig}
-translate K Decade {DËcada}
+translate K Decade {D√®cada}
 translate K Year {Any}
 translate K Month {Mes}
-translate K Months {gener febrer marÁ abril maig juny juliol agost setembre octubre novembre desembre}
+translate K Months {gener febrer mar√ß abril maig juny juliol agost setembre octubre novembre desembre}
 translate K Days {diu dil dim dic dij div dis}
 translate K YearToToday {Any fins avui}
 translate K YearToTodayTooltip {Estableix la data a la d'un any abans d'avui}
@@ -404,35 +466,40 @@ translate K noGames {no hi ha partides}
 translate K allGames {totes les partides}
 translate K empty {buida}
 translate K clipbase {clipbase}
-translate K score {puntuaciÛ}
-translate K StartPos {PosiciÛ inicial}
+translate K score {puntuaci√≥}
+translate K StartPos {Posici√≥ inicial}
 translate K Total {Total}
-translate K readonly {nomÈs de lectura}
+translate K readonly {nom√©s de lectura}
 
 # Standard error messages:
-translate K ErrNotOpen {La base de dades no est· oberta.}
-translate K ErrReadOnly {Aquesta base de dades es nomÈs de lectura; no pot ser modificada.}
+translate K ErrNotOpen {La base de dades no est√° oberta.}
+translate K ErrReadOnly {Aquesta base de dades es nom√©s de lectura; no pot ser modificada.}
 translate K ErrSearchInterrupted {Recerca aturada; els resultats den ser incomplets.}
+translate K ErrNoClockComments {No s'han trobat comentaris de rellotge [%clk] en aquest joc.    Afegiu hores de rellotge mitjan√ßant la finestra de comentaris (Ctrl+E) per utilitzar aquesta funci√≥.}
+translate K ErrFileInUse {Error: el fitxer ja est√† en √∫s. Tanqueu qualsevol altra aplicaci√≥ que utilitzi aquesta base de dades. Si el programa es va tancar de manera inesperada, √©s possible que h√†giu d'eliminar el fitxer .lock associat a la base de dades.}
+
+
+
 
 # Game information:
 translate K twin {doble}
 translate K deleted {esborrades}
 translate K comment {comentari}
 translate K hidden {ocult}
-translate K LastMove {⁄ltima jugada}
+translate K LastMove {√öltima jugada}
 translate K NextMove {Seguent}
 translate K GameStart {Inici de partida}
-translate K LineStart {Inici de lÌnia}
+translate K LineStart {Inici de l√≠nia}
 translate K GameEnd {Final de partida}
-translate K LineEnd {Final de lÌnia}
+translate K LineEnd {Final de l√≠nia}
 
 # Player information:
 translate K PInfoAll {Resultats per <b>totes</b> les partides}
 translate K PInfoFilter {Resultats per les partides <b>filtrades</b>}
 translate K PInfoAgainst {Resultats en contra}
-translate K PInfoMostWhite {Obertures mÈs comuns amb Blanques}
-translate K PInfoMostBlack {Obertures mÈs comuns amb Negres}
-translate K PInfoRating {Historial de classificaciÛ}
+translate K PInfoMostWhite {Obertures m√©s comuns amb Blanques}
+translate K PInfoMostBlack {Obertures m√©s comuns amb Negres}
+translate K PInfoRating {Historial de classificaci√≥}
 translate K PInfoBio {Biografia}
 translate K PInfoEditRatings {Editar elos}
 translate K PInfoEloFile {Fitxer}
@@ -440,62 +507,62 @@ translate K PInfoEloFile {Fitxer}
 # Tablebase information:
 translate K Draw {Taules}
 translate K with {amb}
-translate K only {nomÈs}
+translate K only {nom√©s}
 translate K lose {maneres de perdre}
 translate K loses {fa perdre}
 
 # Tip of the day:
 translate K Tip {Suggeriment}
-translate K TipAtStartup {Suggeriment en comenÁar}
+translate K TipAtStartup {Suggeriment en comen√ßar}
 translate K TipConvertPGN {Pots obtenir un millor rendiment convertint fitxers PGN}
 
 # Tree window menus:
 menuText K TreeFile "Arxiu" 0
-menuText K TreeFileFillWithBase "Omplir memÚria cau amb base" 0 {Omplir la memÚria cau amb totes les partides de la base actual}
-menuText K TreeFileFillWithGame "Omplir memÚria cau amb partida" 0 {Omple la memÚria cau amb la partida actual de la base actual}
-menuText K TreeFileSetCacheSize "Tamany de memÚria cau" 0 {Estableix el tamany del memÚria cau}
-menuText K TreeFileCacheInfo "InformaciÛ de memÚria cau" 0 {InformaciÛ i ˙s de la memÚria cau}
-menuText K TreeFileSave "Desar arxiu memÚria cau" 0 \
-  {Desa l'arxiu memÚria cau de l'arbre (.stc)}
-menuText K TreeFileFill "Construir arbre a la memÚria cau" 2 \
-  {Construir arxiu memÚria cau amb posiciones d'obertura comunes}
+menuText K TreeFileFillWithBase "Omplir mem√≤ria cau amb base" 0 {Omplir la mem√≤ria cau amb totes les partides de la base actual}
+menuText K TreeFileFillWithGame "Omplir mem√≤ria cau amb partida" 0 {Omple la mem√≤ria cau amb la partida actual de la base actual}
+menuText K TreeFileSetCacheSize "Tamany de mem√≤ria cau" 0 {Estableix el tamany del mem√≤ria cau}
+menuText K TreeFileCacheInfo "Informaci√≥ de mem√≤ria cau" 0 {Informaci√≥ i √∫s de la mem√≤ria cau}
+menuText K TreeFileSave "Desar arxiu mem√≤ria cau" 0 \
+  {Desa l'arxiu mem√≤ria cau de l'arbre (.stc)}
+menuText K TreeFileFill "Construir arbre a la mem√≤ria cau" 2 \
+  {Construir arxiu mem√≤ria cau amb posiciones d'obertura comunes}
 menuText K TreeFileBest "Llista de millors partides" 9 {Mostra la llista de l'arbre amb les millors partides}
-menuText K TreeFileGraph "Finestra gr‡fica de l'arbre" 0 \
-  {Mostra un gr‡fic per aquesta branca de l'arbre}
+menuText K TreeFileGraph "Finestra gr√†fica de l'arbre" 0 \
+  {Mostra un gr√†fic per aquesta branca de l'arbre}
 menuText K TreeFileCopy "Copiar text de l'arbre al clipboard" 1 \
   {Copiar text de l'arbre al clipboard}
 menuText K TreeFileClose "Tancar finestra de l'arbre" 0 \
   {Tancar finestra de l'arbre}
-menuText K TreeMask "M‡scara" 0
-menuText K TreeMaskNew "Nova" 0 {Nova m‡scara}
-menuText K TreeMaskOpen "Obrir" 0 {Obrir m‡scara}
-menuText K TreeMaskOpenRecent "Obre recent" 0 {Obre m‡scara recent}
-menuText K TreeMaskSave "Desar" 0 {Desar m‡scara}
-menuText K TreeMaskClose "Tancar" 0 {Tancar m‡scara}
-menuText K TreeMaskFillWithGame "Omplir amb partida" 0 {Omple la m‡scara amb la partida}
-menuText K TreeMaskFillWithBase "Omplir amb base" 0 {Omple la m‡scara amb totes les partides de la base}
-menuText K TreeMaskInfo "Info" 0 {Mostra estadÌstiques per la m‡scara actual}
-menuText K TreeMaskDisplay "Mostra el mapa de m‡scares" 0 {Mostra les dades de la m‡scara en forma d'arbre}
-menuText K TreeMaskSearch "Cerca" 0 {Cerca dins de la m‡scara actual}
+menuText K TreeMask "M√†scara" 0
+menuText K TreeMaskNew "Nova" 0 {Nova m√†scara}
+menuText K TreeMaskOpen "Obrir" 0 {Obrir m√†scara}
+menuText K TreeMaskOpenRecent "Obre recent" 0 {Obre m√†scara recent}
+menuText K TreeMaskSave "Desar" 0 {Desar m√†scara}
+menuText K TreeMaskClose "Tancar" 0 {Tancar m√†scara}
+menuText K TreeMaskFillWithGame "Omplir amb partida" 0 {Omple la m√†scara amb la partida}
+menuText K TreeMaskFillWithBase "Omplir amb base" 0 {Omple la m√†scara amb totes les partides de la base}
+menuText K TreeMaskInfo "Info" 0 {Mostra estad√≠stiques per la m√†scara actual}
+menuText K TreeMaskDisplay "Mostra el mapa de m√†scares" 0 {Mostra les dades de la m√†scara en forma d'arbre}
+menuText K TreeMaskSearch "Cerca" 0 {Cerca dins de la m√†scara actual}
 menuText K TreeSort "Ordenar" 0
-menuText K TreeSortAlpha "AlfabÈticament" 0
+menuText K TreeSortAlpha "Alfab√©ticament" 0
 menuText K TreeSortECO "Per codi ECO" 11
-menuText K TreeSortFreq "Per freq¸encia" 4
-menuText K TreeSortScore "Per puntuaciÛ" 4
+menuText K TreeSortFreq "Per freq√ºencia" 4
+menuText K TreeSortScore "Per puntuaci√≥" 4
 menuText K TreeOpt "Opcions" 1
 menuText K TreeOptSlowmode "Mode Lent" 0 {Jugada lenta per actualitzacions (Alta qualitat)}
-menuText K TreeOptFastmode "Mode R‡pid" 0 {Jugada r‡pida per actualitzacions (no trasllada jugades)}
-menuText K TreeOptFastAndSlowmode "Mode R‡pid i Lent" 0 {Jugada r‡pida i mode lent per actualitzacions}
-menuText K TreeOptStartStop "Auto actualitzat" 0 {Actualizat autom‡tic de la finestra de l'arbre}
+menuText K TreeOptFastmode "Mode R√†pid" 0 {Jugada r√†pida per actualitzacions (no trasllada jugades)}
+menuText K TreeOptFastAndSlowmode "Mode R√†pid i Lent" 0 {Jugada r√†pida i mode lent per actualitzacions}
+menuText K TreeOptStartStop "Auto actualitzat" 0 {Actualizat autom√†tic de la finestra de l'arbre}
 menuText K TreeOptLock "Bloquejar" 1 {Bloqueja/desbloqueja l'arbre de la base de dades actual}
 menuText K TreeOptTraining "Entrenament" 2 {Activa/desactiva el mode d'entrenament de l'arbre}
 menuText K TreeOptDepth "Moure la profunditat" 0 {Nombre de mig moviments per mostrar a l'arbre (1-4)}
-menuText K TreeOptAutosave "Autoguardar arxiu memÚria cau" 0 \
-  {Desar autom‡ticament l'arxiu memÚria cau quan es tanca la finestra de l'arbre}
+menuText K TreeOptAutosave "Autoguardar arxiu mem√≤ria cau" 0 \
+  {Desar autom√†ticament l'arxiu mem√≤ria cau quan es tanca la finestra de l'arbre}
 menuText K TreeHelp "Ajut" 1
 menuText K TreeHelpTree "Ajut de l'arbre" 4
-menuText K TreeHelpIndex "Õndex del fitxer d'ajuda" 0
-translate K SaveCache {Desar memÚria cau}
+menuText K TreeHelpIndex "√çndex del fitxer d'ajuda" 0
+translate K SaveCache {Desar mem√≤ria cau}
 translate K Training {Entrenament}
 translate K LockTree {Bloquejar}
 translate K TreeDepth {Profunditat de l'arbre (meitat de moviments):}
@@ -505,24 +572,24 @@ translate K TreeBestGames {Millors partides de l'arbre}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate K TreeTitleRow \
-{Movim.                        ECO       Freq¸encia   Puntu. EloPm Perf AnyPm %Taules      %Guanyar}
+{Movim.                        ECO       Freq√ºencia   Puntu. EloPm Perf AnyPm %Taules      %Guanyar}
 translate K TreeTotal {TOTAL}
 translate K DoYouWantToSaveFirst {Vols desar-ho abans}
-translate K AddToMask {Afegir a m‡scara}
-translate K RemoveFromMask {Elimina des de la m‡scara}
-translate K AddThisMoveToMask {Afegir aquesta jugada a la M‡scara}
-translate K SearchMask {Cerca a la m‡scara}
-translate K DisplayMask {Mostra m‡scara}
+translate K AddToMask {Afegir a m√†scara}
+translate K RemoveFromMask {Elimina des de la m√†scara}
+translate K AddThisMoveToMask {Afegir aquesta jugada a la M√†scara}
+translate K SearchMask {Cerca a la m√†scara}
+translate K DisplayMask {Mostra m√†scara}
 translate K Nag {Codi Nag}
 translate K Marker {Marcador}
 translate K Include {Incloure}
 translate K Exclude {Excloure}
-translate K MainLine {LÌnia principal}
+translate K MainLine {L√≠nia principal}
 translate K Bookmark {Preferida}
-translate K NewLine {LÌnia nova}
+translate K NewLine {L√≠nia nova}
 translate K ToBeVerified {Per a verificar}
 translate K ToTrain {Per a entrenar}
-translate K Dubious {DubtÛs}
+translate K Dubious {Dubt√≥s}
 translate K ToRemove {Per a treure}
 translate K NoMarker {Sense marcador}
 translate K ColorMarker {Color}
@@ -532,9 +599,9 @@ translate K YellowMark {Groc}
 translate K BlueMark {Blau}
 translate K RedMark {Vermell}
 translate K CommentMove {Comentar jugada}
-translate K CommentPosition {Comentar posiciÛ}
-translate K AddMoveToMaskFirst {Afegir primer la jugada a la m‡scara}
-translate K OpenAMaskFileFirst {Obrir primer un arxiu de m‡scara}
+translate K CommentPosition {Comentar posici√≥}
+translate K AddMoveToMaskFirst {Afegir primer la jugada a la m√†scara}
+translate K OpenAMaskFileFirst {Obrir primer un arxiu de m√†scara}
 translate K Positions {Posicions}
 translate K Moves {Jugades}
 
@@ -547,7 +614,7 @@ menuText K FinderSortType "Tipus" 0
 menuText K FinderSortSize "Tamany" 0
 menuText K FinderSortMod "Modificat" 0
 menuText K FinderSortName "Nom" 0
-menuText K FinderSortPath "CamÌ" 0
+menuText K FinderSortPath "Cam√≠" 0
 menuText K FinderTypes "Tipus" 0
 menuText K FinderTypesScid "Bases de dades Scid" 0
 menuText K FinderTypesOld "Bases de dades Scid en format antic" 12
@@ -556,15 +623,15 @@ menuText K FinderTypesEPD "Arxius EPD (llibre)" 0
 menuText K FinderTypesRep "Arxius de Repertori" 12
 menuText K FinderHelp "Ajut" 1
 menuText K FinderHelpFinder "Ajut del visor d'Arxius" 0
-menuText K FinderHelpIndex "Õndex de l'ajut" 0
+menuText K FinderHelpIndex "√çndex de l'ajut" 0
 translate K FileFinder {Visor d'Arxius}
 translate K FinderDir {Directori}
 translate K FinderDirs {Directoris}
 translate K FinderFiles {Arxius}
 translate K FinderUpDir {amunt}
 translate K FinderCtxOpen {Obrir}
-translate K FinderCtxBackup {CÚpia de seguretat (Backup)}
-translate K FinderCtxCopy {CÚpia}
+translate K FinderCtxBackup {C√≤pia de seguretat (Backup)}
+translate K FinderCtxCopy {C√≤pia}
 translate K FinderCtxMove {Jugada}
 translate K FinderCtxDelete {Esborrar}
 
@@ -576,8 +643,8 @@ menuText K PListSort "Ordenar" 0
 menuText K PListSortName "Nom" 0
 menuText K PListSortElo "Elo" 0
 menuText K PListSortGames "Partides" 0
-menuText K PListSortOldest "MÈs antiga" 10
-menuText K PListSortNewest "MÈs nova" 4
+menuText K PListSortOldest "M√©s antiga" 10
+menuText K PListSortNewest "M√©s nova" 4
 
 # Tournament finder:
 menuText K TmtFile "Arxiu" 0
@@ -591,7 +658,7 @@ menuText K TmtSortElo "Elo" 0
 menuText K TmtSortSite "Lloc" 0
 menuText K TmtSortEvent "Torneig" 1
 menuText K TmtSortWinner "Guanyador" 0
-translate K TmtLimit "LÌmit de llista"
+translate K TmtLimit "L√≠mit de llista"
 translate K TmtMeanElo "Promig d'Elo inferior"
 translate K TmtNone "No s'han trovat torneig que coincideixin."
 
@@ -604,40 +671,42 @@ menuText K GraphOptions "Opcions" 0
 menuText K GraphOptionsWhite "Blanques" 0
 menuText K GraphOptionsBlack "Negres" 0
 menuText K GraphOptionsBoth "Ambdos" 0
-menuText K GraphOptionsPInfo "Opcions informaciÛ jugador" 0
-menuText K GraphOptionsEloFile "Elo des de fitxer de qualificaciÛ" 0
+menuText K GraphOptionsPInfo "Opcions informaci√≥ jugador" 0
+menuText K GraphOptionsEloFile "Elo des de fitxer de qualificaci√≥" 0
 menuText K GraphOptionsEloDB "Elo des de la base de dades" 0
-translate K GraphFilterTitle "Filtre gr‡fic: freq¸encia per 1000 partides"
-translate K GraphAbsFilterTitle "Filtre gr‡fic: freq¸encia de les partides"
+translate K GraphFilterTitle "Filtre gr√†fic: freq√ºencia per 1000 partides"
+translate K GraphAbsFilterTitle "Filtre gr√†fic: freq√ºencia de les partides"
+translate K GraphWinPctTitle "Gr√†fic de filtre: % de vict√≤ria (1-0 i 0-1) a la posici√≥ actual per any"
 translate K ConfigureFilter {Configurar Eix-X per Any, Rating i Jugades}
 translate K FilterEstimate "Estimar"
-translate K TitleFilterGraph "Scid: Filtre Gr‡fic"
+translate K TitleFilterGraph "Scid: Filtre Gr√†fic"
+translate K WinPct "% de vict√≤ria"
 
 # Analysis window:
 translate K AddVariation {Afegir variant}
 translate K AddAllVariations {Afegir totes les variants}
 translate K AddMove {Afegir jugada}
 translate K Annotate {Anotar}
-translate K ShowAnalysisBoard {Mostrar escaquer d'an·lisi}
+translate K ShowAnalysisBoard {Mostrar escaquer d'an√°lisi}
 translate K ShowInfo {Mostra info del motor}
 translate K FinishGame {Finalitzar partida}
 translate K StopEngine {Parar motor}
 translate K StartEngine {Iniciar motor}
-translate K LockEngine {Bloqueja motor en la posiciÛ actual}
-translate K AnalysisCommand {DirecciÛ d'an‡lisi}
-translate K PreviousChoices {Eleccions prËvies}
+translate K LockEngine {Bloqueja motor en la posici√≥ actual}
+translate K AnalysisCommand {Direcci√≥ d'an√†lisi}
+translate K PreviousChoices {Eleccions pr√®vies}
 translate K AnnotateTime {Posar el temps entre jugades a segons}
 translate K AnnotateWhich {Afegir variants}
-translate K AnnotateAll {Per a jugades dels dos b‡ndols}
+translate K AnnotateAll {Per a jugades dels dos b√†ndols}
 translate K AnnotateAllMoves {Anotar totes les jugades}
-translate K AnnotateWhite {NomÈs per jugades de les Blanques}
-translate K AnnotateBlack {NomÈs per jugades de les Negres}
+translate K AnnotateWhite {Nom√©s per jugades de les Blanques}
+translate K AnnotateBlack {Nom√©s per jugades de les Negres}
 translate K AnnotateBlundersOnly {Quan la jugada de la partida es un error}
-translate K AnnotateBlundersOnlyScoreChange {An‡lisi informant d'errors, amb canvi de puntuaciÛ des de: }
+translate K AnnotateBlundersOnlyScoreChange {An√†lisi informant d'errors, amb canvi de puntuaci√≥ des de: }
 translate K BlundersThreshold {Marge d'error }
 translate K ScoreAllMoves {Avalua totes les jugades}
 translate K LowPriority {Baixa prioritat del processador}
-translate K ClickHereToSeeMoves {Prem aquÌ per veure les jugades}
+translate K ClickHereToSeeMoves {Prem aqu√≠ per veure les jugades}
 translate K ConfigureInformant {Anotacions}
 translate K Informant!? {Jugada interesant}
 translate K Informant? {Jugada dolenta}
@@ -647,6 +716,13 @@ translate K Informant+= {Les Blanques tenen un lleuger avantatge}
 translate K Informant+/- {Les Blanques tenen avantatge}
 translate K Informant+- {Les Blanques tenen un avantatge decisiu}
 translate K Informant+-- {La partida es considerada com guanyada}
+translate K AutoComment {Comentari autom√†tic}
+translate K AutoCommentTooltip {Genereu comentaris d'IA per a la posici√≥ actual}
+translate K AnalysisAutoCommentTooltip {Genera comentaris d'IA per a tot el joc}
+translate K GameComment {Comentari del joc}
+translate K GameCommentTooltip {Escaneja el joc per trobar moviments anotats i genera un resum de l'IA}
+translate K TimeMs {Temps (ms)}
+
 
 # Book window
 translate K Book {Llibre}
@@ -654,26 +730,26 @@ translate K OtherBookMoves {Altres jugades del llibre}
 translate K OtherBookMovesTooltip {Jugades a les que el contrari te una respuesta}
 
 # Analysis Engine open dialog:
-translate K EngineList {Llista de Motors d'An‡lisi}
+translate K EngineList {Llista de Motors d'An√†lisi}
 translate K EngineName {Nom}
 translate K EngineCmd {Ordre}
-translate K EngineArgs {Par‡metres}
+translate K EngineArgs {Par√†metres}
 translate K EngineDir {Directori}
 translate K EngineElo {Elo}
 translate K EngineTime {Data}
 translate K EngineNew {Nova}
 translate K EngineEdit {Editar}
 translate K EngineRequired {Els camps en negreta son obligatoris; la resta opcionals}
-translate K EngineProtocol {Protocol de comunicaciÛ}
-translate K EngineNotation {AnotaciÛ de les jugades}
-translate K EngineFlipEvaluation {Inverteix perspectiva d'avaluaciÛ}
-translate K EngineShowLog {Mostra histÚric de comunicacions}
+translate K EngineProtocol {Protocol de comunicaci√≥}
+translate K EngineNotation {Anotaci√≥ de les jugades}
+translate K EngineFlipEvaluation {Inverteix perspectiva d'avaluaci√≥}
+translate K EngineShowLog {Mostra hist√≤ric de comunicacions}
 translate K EngineNetworkd {Accepta connexions remotes}
 translate K EngineSelect {Selecciona el motor actual}
 translate K EngineAddLocal {Afegeix motor local}
 translate K EngineAddRemote {Afegeix motor en remot}
 translate K EngineReload {Recarrega motor actual}
-translate K EngineClone {Crea una cÚpia del motor actual}
+translate K EngineClone {Crea una c√≤pia del motor actual}
 translate K EngineDelete {Esborra el motor actual}
 
 # PGN window menus:
@@ -681,27 +757,27 @@ menuText K PgnFile "Arxiu" 0
 menuText K PgnFileCopy "Copiar partida al portapapers" 0
 menuText K PgnFilePrint "Imprimir a arxiu..." 0
 menuText K PgnFileClose "Tancar finestra PGN" 0
-menuText K PgnOpt "PresentaciÛ" 0
-menuText K PgnOptColor "Color de la presentaciÛ" 0
-menuText K PgnOptShort "EncapÁalament petit (3 lÌnies)" 13
-menuText K PgnOptSymbols "Anotacions simbÛliques" 0
+menuText K PgnOpt "Presentaci√≥" 0
+menuText K PgnOptColor "Color de la presentaci√≥" 0
+menuText K PgnOptShort "Encap√ßalament petit (3 l√≠nies)" 13
+menuText K PgnOptSymbols "Anotacions simb√≥liques" 0
 menuText K PgnOptIndentC "Sangria a comentaris" 0
 menuText K PgnOptIndentV "Sangria a variants" 11
-menuText K PgnOptColumn "Estil de columna (un jugada per lÌnia)" 1
-menuText K PgnOptSpace "Espai desprÈs del n˙mero del jugada" 0
+menuText K PgnOptColumn "Estil de columna (un jugada per l√≠nia)" 1
+menuText K PgnOptSpace "Espai despr√©s del n√∫mero del jugada" 0
 menuText K PgnOptStripMarks "Treure codis de color a cassella/fletxa" 3
 menuText K PgnOptBoldMainLine "Utilitzar text en negreta per les jugades principals" 4
 menuText K PgnColor "Colors" 1
-menuText K PgnColorHeader "EncapÁalament..." 0
+menuText K PgnColorHeader "Encap√ßalament..." 0
 menuText K PgnColorAnno "Anotacions..." 0
 menuText K PgnColorComments "Comentaris..." 0
 menuText K PgnColorVars "Variants..." 0
 menuText K PgnColorBackground "Fons..." 0
-menuText K PgnColorMain "LÌnia principal..." 0
-menuText K PgnColorCurrent "Color de fons de l'˙ltima jugada..." 1
+menuText K PgnColorMain "L√≠nia principal..." 0
+menuText K PgnColorCurrent "Color de fons de l'√∫ltima jugada..." 1
 menuText K PgnHelp "Ajut" 1
 menuText K PgnHelpPgn "Ajut de PGN" 9
-menuText K PgnHelpIndex "Õndex de l'ajut" 0
+menuText K PgnHelpIndex "√çndex de l'ajut" 0
 translate K PgnWindowTitle {Planilla - partida %u}
 
 # Crosstable window menus:
@@ -713,34 +789,34 @@ menuText K CrosstabEdit "Editar" 0
 menuText K CrosstabEditEvent "Torneig" 0
 menuText K CrosstabEditSite "Lloc" 0
 menuText K CrosstabEditDate "Data" 0
-menuText K CrosstabOpt "PresentaciÛ" 0
+menuText K CrosstabOpt "Presentaci√≥" 0
 menuText K CrosstabOptAll "Tots contra tots" 0
-menuText K CrosstabOptSwiss "SuÌs" 0
-menuText K CrosstabOptKnockout "EliminatÚria directa" 0
+menuText K CrosstabOptSwiss "Su√≠s" 0
+menuText K CrosstabOptKnockout "Eliminat√≤ria directa" 0
 menuText K CrosstabOptAuto "Auto" 0
 menuText K CrosstabOptAges "Edat en anys" 1
 menuText K CrosstabOptNats "Nacionalitats" 0
 menuText K CrosstabOptRatings "Elo" 0
-menuText K CrosstabOptTitles "TÌtols" 0
+menuText K CrosstabOptTitles "T√≠tols" 0
 menuText K CrosstabOptBreaks "Puntuacions de desempat" 0
 menuText K CrosstabOptDeleted "Incluore partides esborrades" 17
-menuText K CrosstabOptColors "Colors (nomÈs a la taula d'un SuÌs)" 0
-menuText K CrosstabOptColumnNumbers "Columnes numerades (NomÈs en la taula tots contra tots)" 11
-menuText K CrosstabOptGroup "Grups de classificaciÛ" 0
+menuText K CrosstabOptColors "Colors (nom√©s a la taula d'un Su√≠s)" 0
+menuText K CrosstabOptColumnNumbers "Columnes numerades (Nom√©s en la taula tots contra tots)" 11
+menuText K CrosstabOptGroup "Grups de classificaci√≥" 0
 menuText K CrosstabSort "Ordenar" 0
 menuText K CrosstabSortName "Per nom" 4
 menuText K CrosstabSortRating "Per Elo" 4
-menuText K CrosstabSortScore "Per puntuaciÛ" 4
+menuText K CrosstabSortScore "Per puntuaci√≥" 4
 menuText K CrosstabColor "Color" 2
 menuText K CrosstabColorPlain "Text simple" 0
 menuText K CrosstabColorHyper "Hipertext" 0
 menuText K CrosstabHelp "Ajut" 1
-menuText K CrosstabHelpCross "Ajut de ClassificaciÛ" 9
-menuText K CrosstabHelpIndex "œndex de l'ajut" 0
+menuText K CrosstabHelpCross "Ajut de Classificaci√≥" 9
+menuText K CrosstabHelpIndex "√èndex de l'ajut" 0
 translate K SetFilter {Posar filtre}
 translate K AddToFilter {Afegir al filtre}
-translate K Swiss {SuÌs}
-translate K Category {CategorÌa}
+translate K Swiss {Su√≠s}
+translate K Category {Categor√≠a}
 
 # Opening report window menus:
 menuText K OprepFile "Arxiu" 0
@@ -754,13 +830,13 @@ menuText K OprepFavoritesEdit "Editar informe preferit..." 0
 menuText K OprepFavoritesGenerate "Generar informe..." 0
 menuText K OprepHelp "Ajut" 1
 menuText K OprepHelpReport "Ajut de l'informe de l'obertura" 11
-menuText K OprepHelpIndex "Õndex de l'ajut" 0
+menuText K OprepHelpIndex "√çndex de l'ajut" 0
 
 # Header search:
 translate K HeaderSearch {Cerca per metadades}
-translate K EndSideToMove {B‡ndol a moure ver al final de la partida}
+translate K EndSideToMove {B√†ndol a moure ver al final de la partida}
 translate K GamesWithNoECO {Partides sense ECO?}
-translate K GameLength {DuraciÛ:}
+translate K GameLength {Duraci√≥:}
 translate K FindGamesWith {Trobar partides amb}
 translate K StdStart {Inici estandar}
 translate K Promotions {Promocions}
@@ -774,21 +850,21 @@ translate K MiddlegameFlag {Mig joc}
 translate K EndgameFlag {Finals}
 translate K NoveltyFlag {Novetat}
 translate K PawnFlag {Estructura de peons}
-translate K TacticsFlag {T‡ctiques}
+translate K TacticsFlag {T√†ctiques}
 translate K QsideFlag {Joc de flanc de dama}
 translate K KsideFlag {Joc de flanc de rei}
 translate K BrilliancyFlag {Genialitat}
 translate K BlunderFlag {Error}
 translate K UserFlag {Usuari}
-translate K PgnContains {PGN contÈ text}
+translate K PgnContains {PGN cont√© text}
 translate K PgnTag {Etiqueta}
-translate K TagContains {contÈ}
+translate K TagContains {cont√©}
 translate K Variant {Variant}
 translate K Annotator {Comentarista}
-translate K Cmnts {NomÈs partides comentades}
+translate K Cmnts {Nom√©s partides comentades}
 
 # Game list window:
-translate K GlistNumber {N˙mero}
+translate K GlistNumber {N√∫mero}
 translate K GlistWhite {Blanques}
 translate K GlistBlack {Negres}
 translate K GlistWElo {Elo-B}
@@ -811,9 +887,9 @@ translate K GlistVars {Variants}
 translate K GlistComments {Comentaris}
 translate K GlistAnnos {Anotacions}
 translate K GlistStart {Inici}
-translate K GlistGameNumber {N˙mero de partida}
-translate K GlistAverageElo {Elo Mitj‡}
-translate K GlistRating {QualificaciÛ}
+translate K GlistGameNumber {N√∫mero de partida}
+translate K GlistAverageElo {Elo Mitj√†}
+translate K GlistRating {Qualificaci√≥}
 translate K GlistFindText {Trobar text}
 translate K GlistMoveField {Jugades}
 translate K GlistEditField {Configurar}
@@ -842,7 +918,7 @@ translate K GsortBlackName {Nom Negres}
 translate K GsortECO {ECO}
 translate K GsortResult {Resultat}
 translate K GsortMoveCount {Nombre de jugades}
-translate K GsortAverageElo {Elo Mitj‡}
+translate K GsortAverageElo {Elo Mitj√†}
 translate K GsortCountry {Pais}
 translate K GsortDeleted {Esborrada}
 translate K GsortEventDate {Data Esdeveniment}
@@ -874,7 +950,7 @@ translate K NumDeletedGames {Partides esborrades:}
 translate K NumFilterGames {Partides al filtre:}
 translate K YearRange {Rang d'anys:}
 translate K RatingRange {Rang d'Elo:}
-translate K Description {DescripciÛ}
+translate K Description {Descripci√≥}
 translate K Flag {Marca}
 translate K CustomFlags {Etiquetes personalitzades}
 translate K DeleteCurrent {Esborrar partida actual}
@@ -890,7 +966,7 @@ translate K MarkAll {Marcar totes les partides}
 translate K UnmarkCurrent {No marcar partida actual}
 translate K UnmarkFilter {No marcar partides filtrades}
 translate K UnmarkAll {No marcar totes les partides}
-translate K Spellchecking {RevisiÛ ortogr‡fica}
+translate K Spellchecking {Revisi√≥ ortogr√†fica}
 translate K Players {Jugadors}
 translate K Events {Torneigs}
 translate K Sites {Llocs}
@@ -899,57 +975,57 @@ translate K DatabaseOps {Operacions amb la base de dades}
 translate K ReclassifyGames {Reclassificar partides per ECO...}
 translate K CompactDatabase {Compactar base de dades}
 translate K SortDatabase {Ordenar base de dades}
-translate K AddEloRatings {Afegir classificaciÛ Elo}
-translate K AutoloadGame {Autocargar n˙mero de partida}
+translate K AddEloRatings {Afegir classificaci√≥ Elo}
+translate K AutoloadGame {Autocargar n√∫mero de partida}
 translate K StripTags {Treure etiquetes PGN}
 translate K StripTag {Treure etiquetes}
 translate K Cleaner {MultiEines}
 translate K CleanerHelp {
-L'Scid executar‡, a l'actual base de dades, totes les accions de manteniment
-que seleccionis de la llista seg¸ent.
+L'Scid executar√†, a l'actual base de dades, totes les accions de manteniment
+que seleccionis de la llista seg√ºent.
 
-S'aplicar· l'estat actual a la classificaciÛ ECO i al di‡leg d'esborrat de
+S'aplicar√° l'estat actual a la classificaci√≥ ECO i al di√†leg d'esborrat de
 duplicades si selecciones aquestes funcions.
 }
 translate K CleanerConfirm {
-Un cop la MultiEina de manteniment comenÁa no pot ser aturada!
+Un cop la MultiEina de manteniment comen√ßa no pot ser aturada!
 
 En una base de dades gran pot trigar molt de temps, depenent de les funcions que s'hagi seleccionat i el seu estat actual.
 
-N'est‡s segur/a de voler comenÁar les funcions de manteniment que has escollit?
+N'est√†s segur/a de voler comen√ßar les funcions de manteniment que has escollit?
 }
 # Twinchecker
 translate K TwinCheckUndelete {Prem "u" per no esborrar-ne cap (undelete)}
 translate K TwinCheckprevPair {Parella previa}
-translate K TwinChecknextPair {PrÚxima Parella}
+translate K TwinChecknextPair {Pr√≤xima Parella}
 translate K TwinChecker {Scid: Verificar partides duplicades}
 translate K TwinCheckTournament {Partides d'un torneig:}
 translate K TwinCheckNoTwin {No duplicada  }
-translate K TwinCheckNoTwinfound {No s'han trovat duplicades per aquesta partida.\nper mostrar duplicades amb aquesta finestra fes servir la funciÛ "Esborrar partides duplicades..." }
+translate K TwinCheckNoTwinfound {No s'han trovat duplicades per aquesta partida.\nper mostrar duplicades amb aquesta finestra fes servir la funci√≥ "Esborrar partides duplicades..." }
 translate K TwinCheckTag {Compartir etiquetes...}
 translate K TwinCheckFound1 {Scid ha trobat $result partides duplicades}
 translate K TwinCheckFound2 {i les marca com esborrades}
 translate K TwinCheckNoDelete {No hi ha partides en aquesta base per esborrar.}
-translate K TwinCriteria1 {Els teus par‡metres per cercar duplicades potencialment poden fer que partides diferents amb jugades similars siguin marcades com a duplicades.}
-translate K TwinCriteria2 {Es recomenable que escolleixis "No" per "algunes jugades", hauries d'escollir "SÌ"  pels par‡metres colors, torneigs, lloc, ronda, any i mes.\nVols continuar, malgrat aixÚ, i esborrar les partides duplicades?}
-translate K TwinCriteria3 {Es recomenable que especifiquis "SÌ" per al menys dos par‡metres de "mateix lloc", "mateixa ronda" i "mateix any".\nVols continuar, malgrat aixÚ, i esborrar duplicades?}
-translate K TwinCriteriaConfirm {Scid: Confirmar par‡metres per partides duplicades}
-translate K TwinChangeTag "Canviar les sig¸ents etiquetes de les:\n\n partides"
-translate K AllocRatingDescription "Aquesta ordre far‡ servir l'arxiu actual SpellCheck per afegir puntuacions ELO i partides a la base. On un jugador no tingui Elo perÚ si el tingui al llistat d'Spellcheck, se li afegir‡ l'Elo."
+translate K TwinCriteria1 {Els teus par√†metres per cercar duplicades potencialment poden fer que partides diferents amb jugades similars siguin marcades com a duplicades.}
+translate K TwinCriteria2 {Es recomenable que escolleixis "No" per "algunes jugades", hauries d'escollir "S√≠"  pels par√†metres colors, torneigs, lloc, ronda, any i mes.\nVols continuar, malgrat aix√≤, i esborrar les partides duplicades?}
+translate K TwinCriteria3 {Es recomenable que especifiquis "S√≠" per al menys dos par√†metres de "mateix lloc", "mateixa ronda" i "mateix any".\nVols continuar, malgrat aix√≤, i esborrar duplicades?}
+translate K TwinCriteriaConfirm {Scid: Confirmar par√†metres per partides duplicades}
+translate K TwinChangeTag "Canviar les sig√ºents etiquetes de les:\n\n partides"
+translate K AllocRatingDescription "Aquesta ordre far√† servir l'arxiu actual SpellCheck per afegir puntuacions ELO i partides a la base. On un jugador no tingui Elo per√≤ si el tingui al llistat d'Spellcheck, se li afegir√† l'Elo."
 translate K RatingOverride "Sobre-escriure Elos existents no buits?"
 translate K AddRatings "Afegir Elos a:"
 translate K AddedRatings {Scid ha afegit $r ratings Elo a $g partides.}
 
 #Bookmark editor
-translate K NewSubmenu "Nou submen˙"
+translate K NewSubmenu "Nou submen√∫"
 
 # Comment editor:
-translate K AnnotationSymbols  {SÌmbols d'annotaciÛ:}
+translate K AnnotationSymbols  {S√≠mbols d'annotaci√≥:}
 translate K Comment {Comentari:}
 translate K InsertMark {Insertar marca}
 translate K InsertMarkHelp {
 Insertar/treure marca: Selecciona color, tipus, cassella.
-Insertar/treure fletxa: BotÛ dret sobre dos caselles.
+Insertar/treure fletxa: Bot√≥ dret sobre dos caselles.
 }
 
 # Nag buttons in comment editor:
@@ -973,12 +1049,12 @@ translate K Diagram {Diagrama}
 
 # Board search:
 translate K BoardSearch {Escaquer de recerca}
-translate K FilterOperation {OperaciÛ al filtre actual:}
+translate K FilterOperation {Operaci√≥ al filtre actual:}
 translate K FilterAnd {Y (Restringir filtre)}
 translate K FilterOr {O (Afegir al filtre)}
 translate K FilterIgnore {IGNORAR (Posar a zero el filtre)}
 translate K SearchType {Tipus de recerca:}
-translate K SearchBoardExact {PosiciÛ exacta (totes les peces a les mateixes caselles)}
+translate K SearchBoardExact {Posici√≥ exacta (totes les peces a les mateixes caselles)}
 translate K SearchBoardPawns {Peons (igual material, tots els peons a les mateixes caselles)}
 translate K SearchBoardFiles {Columnes (igual material, tots els peons a les mateixes columnes)}
 translate K SearchBoardAny {Qualsevol (igual material, peons i peces a qualsevol lloc)}
@@ -1005,17 +1081,17 @@ translate K HalfMoves {mitges jugades}
 
 # Common endings in material search:
 translate K EndingPawns {Finals de peons}
-translate K EndingRookVsPawns {Torre vs. peÛ(ns)}
-translate K EndingRookPawnVsRook {Torre i 1 peÛ vs. torre}
-translate K EndingRookPawnsVsRook {Torre i peÛ(ns) vs. torre}
+translate K EndingRookVsPawns {Torre vs. pe√≥(ns)}
+translate K EndingRookPawnVsRook {Torre i 1 pe√≥ vs. torre}
+translate K EndingRookPawnsVsRook {Torre i pe√≥(ns) vs. torre}
 translate K EndingRooks {Finals de torre vs. torre}
-translate K EndingRooksPassedA {Finals de torre vs. torre amb peÛ passat}
+translate K EndingRooksPassedA {Finals de torre vs. torre amb pe√≥ passat}
 translate K EndingRooksDouble {Finals de dues torres}
 translate K EndingBishops {Finals d'alfil vs. alfil}
 translate K EndingBishopVsKnight {Finals d'alfil vs. cavall}
 translate K EndingKnights {Finals de cavall vs. cavall}
 translate K EndingQueens {Finals de dama vs. dama}
-translate K EndingQueenPawnVsQueen {Dama i 1 peÛ vs. dama}
+translate K EndingQueenPawnVsQueen {Dama i 1 pe√≥ vs. dama}
 translate K BishopPairVsKnightPair {Mig joc de dos alfils vs. dos cavalls}
 
 # Common patterns in material search:
@@ -1024,7 +1100,7 @@ translate K PatternWhiteIQPBreakE6 {PDA blanc: d4-d5 ruptura vs. e6}
 translate K PatternWhiteIQPBreakC6 {PDA blanc: d4-d5 ruptura vs. c6}
 translate K PatternBlackIQP {PDA negre}
 translate K PatternWhiteBlackIQP {PDA blanc vs. PDA negre}
-translate K PatternCoupleC3D4 {Parella de peons aÔllats blancs c3+d4}
+translate K PatternCoupleC3D4 {Parella de peons a√Øllats blancs c3+d4}
 translate K PatternHangingC5D5 {Peons penjants negres a c5 i d5}
 translate K PatternMaroczy {Anell de Maroczy (amb peons a c4 i e4)}
 translate K PatternRookSacC3 {Sacrifici de torre a c3}
@@ -1041,8 +1117,8 @@ translate K ClassifyGame {Classificar partida}
 # Setup position:
 translate K EmptyBoard {Escaquer buit}
 translate K InitialBoard {Escaquer inicial}
-translate K SideToMove {B‡ndol que mou}
-translate K MoveNumber {Jugada n˙mero}
+translate K SideToMove {B√†ndol que mou}
+translate K MoveNumber {Jugada n√∫mero}
 translate K Castling {Enroc}
 translate K EnPassantFile {Columna al pas}
 translate K ClearFen {Treure FEN}
@@ -1055,19 +1131,19 @@ translate K GoBack {Tornar enrera}
 # Replace move dialog:
 translate K ReplaceMove {Substituir jugada}
 translate K AddNewVar {Afegir nova variant}
-translate K NewMainLine {Nova LÌnia Principal}
+translate K NewMainLine {Nova L√≠nia Principal}
 translate K ReplaceMoveMessage {Ja existeix una jugada.
 
 Pots substituir-la, descartant totes les jugades posteriors, o afegir-la com una nova variant.
 
-(Pots evitar seguir veient aquest missatge en el futur desactivant l'opciÛ "Preguntar abans de substituir moviments" al men˙ Opcions: Jugades.)}
+(Pots evitar seguir veient aquest missatge en el futur desactivant l'opci√≥ "Preguntar abans de substituir moviments" al men√∫ Opcions: Jugades.)}
 
 # Make database read-only dialog:
-translate K ReadOnlyDialog {Si fas que aquesta base de dades sigui nomÈs de lectura no es permetran fer canvis. No es podran desar o substituir partides, i no es podran alterar les senyals d'esborrat. Qualsevol ordenaciÛ o classificaciÛ per ECO ser‡ temporal.
+translate K ReadOnlyDialog {Si fas que aquesta base de dades sigui nom√©s de lectura no es permetran fer canvis. No es podran desar o substituir partides, i no es podran alterar les senyals d'esborrat. Qualsevol ordenaci√≥ o classificaci√≥ per ECO ser√† temporal.
 
-Pots recuperar f‡cilment el mode d'escriptura tancant-la i obrint-la de nou.
+Pots recuperar f√†cilment el mode d'escriptura tancant-la i obrint-la de nou.
 
-Realment vols fer que aquesta base de dades sigui nomÈs de lectura?}
+Realment vols fer que aquesta base de dades sigui nom√©s de lectura?}
 
 # Clear game dialog:
 translate K ClearGameDialog {Aquesta partida ha estat modificada.
@@ -1077,120 +1153,123 @@ Realment vols continuar i eliminar els canvis fets?
 
 # Exit dialog:
 translate K ExitDialog {Vols sortir de l'Scid?}
-translate K ExitUnsaved {La seg¸ent base de dades tÈ canvis a partides no desades. Si surts ara es perdran aquests canvis.}
+translate K ExitUnsaved {La seg√ºent base de dades t√© canvis a partides no desades. Si surts ara es perdran aquests canvis.}
 
 # Import window:
 translate K PasteCurrentGame {Enganxar partida actual}
 translate K ImportHelp1 \
   {Introduir o enganxar una partida en format PGN al marc superior.}
 translate K ImportHelp2 \
-  {Qualsevol error important la partida es mostrar‡ aquÌ.}
+  {Qualsevol error important la partida es mostrar√† aqu√≠.}
 translate K OverwriteExistingMoves {Sobreescriure jugades existents?}
 
 # ECO Browser:
 translate K ECOAllSections {totes les divisions ECO}
-translate K ECOSection {divisiÛ ECO}
+translate K ECOSection {divisi√≥ ECO}
 translate K ECOSummary {Resum de}
-translate K ECOFrequency {Freq¸encia dels subcodis per}
+translate K ECOFrequency {Freq√ºencia dels subcodis per}
 
 # Opening Report:
+translate K OprepReportFor {Informe per}
 translate K OprepTitle {Informe de l'obertura}
 translate K OprepReport {Informe}
 translate K OprepGenerated {Generat per}
-translate K OprepStatsHist {EstadÌstiques e Historia}
-translate K OprepStats {EstadÌstiques}
+translate K OprepStatsHist {Estad√≠stiques e Historia}
+translate K OprepStats {Estad√≠stiques}
 translate K OprepStatAll {Totes les partides referides}
 translate K OprepStatBoth {Ambdues amb Elo}
 translate K OprepStatSince {Des de}
-translate K OprepOldest {Partides mÈs antigues}
-translate K OprepNewest {Partides mÈs noves}
+translate K OprepOldest {Partides m√©s antigues}
+translate K OprepNewest {Partides m√©s noves}
 translate K OprepPopular {Popularitat actual}
-translate K OprepFreqAll {Freq¸encia a tots els anys: }
-translate K OprepFreq1   {Des de l'˙ltim any fins avui:     }
-translate K OprepFreq5   {En els ˙ltims 5 anys fins avui:   }
-translate K OprepFreq10  {En els ˙ltimos 10 anys fins avui:  }
+translate K OprepFreqAll {Freq√ºencia a tots els anys: }
+translate K OprepFreq1   {Des de l'√∫ltim any fins avui:     }
+translate K OprepFreq5   {En els √∫ltims 5 anys fins avui:   }
+translate K OprepFreq10  {En els √∫ltimos 10 anys fins avui:  }
 translate K OprepEvery {un cop cada %u partides}
 translate K OprepUp {puja un %u%s respecte al total d'anys}
 translate K OprepDown {baixa un %u%s respecte al total d'anys}
 translate K OprepSame {no hi han canvis respecte al total d'anys}
-translate K OprepMostFrequent {Jugadors mÈs freq¸ents}
-translate K OprepMostFrequentOpponents {Rivals mÈs freq¸entes}
+translate K OprepMostFrequent {Jugadors m√©s freq√ºents}
+translate K OprepMostFrequentOpponents {Rivals m√©s freq√ºentes}
 translate K OprepRatingsPerf {Elo i Rendiment}
 translate K OprepAvgPerf {Promig Elo i rendiment}
 translate K OprepWRating {Elo de les blanques}
 translate K OprepBRating {Elo de les negres}
 translate K OprepWPerf {Rendiment de les blanques}
 translate K OprepBPerf {Rendiment de les negres}
-translate K OprepHighRating {Partida amb el promig d'Elo mÈs gran}
+translate K OprepHighRating {Partida amb el promig d'Elo m√©s gran}
 translate K OprepTrends {Tendencies de Resultats}
-translate K OprepResults {Resultat de duracions i freq¸encies}
-translate K OprepLength {DuraciÛ de la partida}
-translate K OprepFrequency {Freq¸encia}
+translate K OprepResults {Resultat de duracions i freq√ºencies}
+translate K OprepLength {Duraci√≥ de la partida}
+translate K OprepFrequency {Freq√ºencia}
 translate K OprepWWins {Blanques guanyen: }
 translate K OprepBWins {Negres guanyen:  }
 translate K OprepDraws {Taules:        }
 translate K OprepWholeDB {al conjunt de la base de dades}
-translate K OprepShortest {VictÚries mÈs curtes}
+translate K OprepShortest {Vict√≤ries m√©s curtes}
 translate K OprepMovesThemes {Jugades i temes}
-translate K OprepMoveOrders {LÌnies de jugades que arriben a la posiciÛ de l'informe}
+translate K OprepMoveOrders {L√≠nies de jugades que arriben a la posici√≥ de l'informe}
 translate K OprepMoveOrdersOne \
-  {NomÈs hi ha una lÌnia de jugades que arriba fins aquesta posiciÛ:}
+  {Nom√©s hi ha una l√≠nia de jugades que arriba fins aquesta posici√≥:}
 translate K OprepMoveOrdersAll \
-  {Hi han %u lÌnies que arriben a aquesta posiciÛ:}
+  {Hi han %u l√≠nies que arriben a aquesta posici√≥:}
 translate K OprepMoveOrdersMany \
-  {Hi han %u lÌnies que arriben a aquesta posiciÛ. Les %u mÈs comuns son:}
-translate K OprepMovesFrom {Jugades des de la posiciÛ de l'informe}
-translate K OprepMostFrequentEcoCodes {Obertures mÈs freq¸ents}
+  {Hi han %u l√≠nies que arriben a aquesta posici√≥. Les %u m√©s comuns son:}
+translate K OprepMovesFrom {Jugades des de la posici√≥ de l'informe}
+translate K OprepMostFrequentEcoCodes {Obertures m√©s freq√ºents}
 translate K OprepThemes {Temes Posicionals}
-translate K OprepThemeDescription {Freq¸encia dels temes a les primeres %u jugades de cada partida}
+translate K OprepThemeDescription {Freq√ºencia dels temes a les primeres %u jugades de cada partida}
 translate K OprepThemeSameCastling {Enroc al mateix flanc}
 translate K OprepThemeOppCastling {Enrocs a flancs diferents}
 translate K OprepThemeNoCastling {El dos Reis sense enrocar}
 translate K OprepThemeKPawnStorm {Avalantxa dels peons del Rei}
 translate K OprepThemeQueenswap {Canvi de Dames}
-translate K OprepThemeWIQP {PeÛ de dama aÔllat de les blanques}
-translate K OprepThemeBIQP {PeÛn de dama aÔllat de les negres}
-translate K OprepThemeWP567 {Peons blancs a 5/6/7™ fila}
-translate K OprepThemeBP234 {Peons negres a 2/3/4™ fila}
+translate K OprepThemeWIQP {Pe√≥ de dama a√Øllat de les blanques}
+translate K OprepThemeBIQP {Pe√≥n de dama a√Øllat de les negres}
+translate K OprepThemeWP567 {Peons blancs a 5/6/7¬™ fila}
+translate K OprepThemeBP234 {Peons negres a 2/3/4¬™ fila}
 translate K OprepThemeOpenCDE {Columnes c/d/e obertes}
-translate K OprepTheme1BishopPair {Un b‡ndol te parella d'alfils}
+translate K OprepTheme1BishopPair {Un b√†ndol te parella d'alfils}
 translate K OprepEndgames {Finals}
 translate K OprepReportGames {Informe de partides}
 translate K OprepAllGames {Totes les partides}
-translate K OprepEndClass {Tipus de finales d'acord a l'˙ltima posiciÛ de les partides}
+translate K OprepEndClass {Tipus de finales d'acord a l'√∫ltima posici√≥ de les partides}
 translate K OprepTheoryTable {Taula de Teoria}
 translate K OprepTableComment {Generada a partir de les %u partides amb millor Elo.}
-translate K OprepExtraMoves {AnnotaciÛ extra de moviments a la taula de teoria}
-translate K OprepMaxGames {M‡xim de partides a la taula de teoria}
+translate K OprepExtraMoves {Annotaci√≥ extra de moviments a la taula de teoria}
+translate K OprepMaxGames {M√†xim de partides a la taula de teoria}
+translate K OprepMergeMoves {L√≠mit de moviment per a jocs combinats}
+translate K OprepMergeUnique {Combina nom√©s jocs √∫nics}
 translate K OprepViewHTML {Veure HTML}
 
 # Player Report:
 translate K PReportTitle {Informe del jugador}
 translate K PReportColorWhite {amb les peces blanques}
 translate K PReportColorBlack {amb les peces negres}
-translate K PReportMoves {%s desprÈs}
+translate K PReportMoves {%s despr√©s}
 translate K PReportOpenings {Obertures}
 translate K PReportClipbase {Buidar el portapapers i copiar les partides}
 
 # Piece Tracker window:
-translate K TrackerSelectSingle {El botÛ esquerra selecciona la peÁa.}
-translate K TrackerSelectPair {El botÛ esquerra selecciona la peÁa; el botÛn dret tambÈ selecciona la germana.}
-translate K TrackerSelectPawn {El botÛ esquerra selecciona el peÛ; el botÛ dret selecciona els 8 peons.}
-translate K TrackerStat {EstadÌstica}
+translate K TrackerSelectSingle {El bot√≥ esquerra selecciona la pe√ßa.}
+translate K TrackerSelectPair {El bot√≥ esquerra selecciona la pe√ßa; el bot√≥n dret tamb√© selecciona la germana.}
+translate K TrackerSelectPawn {El bot√≥ esquerra selecciona el pe√≥; el bot√≥ dret selecciona els 8 peons.}
+translate K TrackerStat {Estad√≠stica}
 translate K TrackerGames {% de partides amb jugada a aquesta cassella}
 translate K TrackerTime {% de temps cap aquesta cassella}
 translate K TrackerMoves {Jugades}
-translate K TrackerMovesStart {Escriu el n˙mero de la jugada des d'on comenÁar la recerca.}
-translate K TrackerMovesStop {Escriu el n˙mero de la jugada on s'ha d'aturar la recerca.}
+translate K TrackerMovesStart {Escriu el n√∫mero de la jugada des d'on comen√ßar la recerca.}
+translate K TrackerMovesStop {Escriu el n√∫mero de la jugada on s'ha d'aturar la recerca.}
 
 # Game selection dialogs:
 translate K SelectAllGames {Totes les partides de la base de dades}
-translate K SelectFilterGames {NomÈs les partides filtrades}
-translate K SelectTournamentGames {NomÈs les partides de l'actual torneig}
-translate K SelectOlderGames {NomÈs partides antigues}
+translate K SelectFilterGames {Nom√©s les partides filtrades}
+translate K SelectTournamentGames {Nom√©s les partides de l'actual torneig}
+translate K SelectOlderGames {Nom√©s partides antigues}
 
 # Delete Twins window:
-translate K TwinsNote {Per a ser duplicades, dos partides han de tenir quan menys els mateixos dos jugadors i els criteris que fixis a sota. Quan es troba un parell de duplicades, es borra la partida mÈs curta. Suggeriment: es millor fer la correcciÛ ortogr‡fica de la base de dades abans d'iniciar l'esborrat de duplicades, per que millora la seva detecciÛ.}
+translate K TwinsNote {Per a ser duplicades, dos partides han de tenir quan menys els mateixos dos jugadors i els criteris que fixis a sota. Quan es troba un parell de duplicades, es borra la partida m√©s curta. Suggeriment: es millor fer la correcci√≥ ortogr√†fica de la base de dades abans d'iniciar l'esborrat de duplicades, per que millora la seva detecci√≥.}
 translate K TwinsCriteria {Criteris: Les partides duplicades han de tenir...}
 translate K TwinsWhich {Partides a examinar}
 translate K TwinsColors {Jugadors amb igual color?}
@@ -1199,13 +1278,13 @@ translate K TwinsSite {Mateix lloc?}
 translate K TwinsRound {Mateixa ronda?}
 translate K TwinsYear {Mateix any?}
 translate K TwinsMonth {Mateix mes?}
-translate K TwinsDay {Mateix dÌa?}
+translate K TwinsDay {Mateix d√≠a?}
 translate K TwinsResult {Mateix resultat?}
 translate K TwinsECO {Mateix codi ECO?}
 translate K TwinsMoves {Mateixes jugades?}
 translate K TwinsPlayers {Comparant noms de jugadors:}
 translate K TwinsPlayersExact {Trobo exactes}
-translate K TwinsPlayersPrefix {NomÈs les primeres 4 lletres}
+translate K TwinsPlayersPrefix {Nom√©s les primeres 4 lletres}
 translate K TwinsWhen {Quan es borren partides duplicades}
 translate K TwinsSkipShort {Ignorar totes les partides amb menys de 5 jugades?}
 translate K TwinsUndelete {Treure en primer lloc marques d'esborrat?}
@@ -1213,15 +1292,15 @@ translate K TwinsSetFilter {Posar al filtre totes les partides esborrades?}
 translate K TwinsComments {Saltar sempre partides amb comentaris?}
 translate K TwinsVars {Saltar sempre partides amb variants?}
 translate K TwinsDeleteWhich {Quina partida esborrar:}
-translate K TwinsDeleteShorter {Partida mÈs curta}
-translate K TwinsDeleteOlder {N˙mero de partida mÈs petit}
-translate K TwinsDeleteNewer {N˙mero de partida mÈs gran}
+translate K TwinsDeleteShorter {Partida m√©s curta}
+translate K TwinsDeleteOlder {N√∫mero de partida m√©s petit}
+translate K TwinsDeleteNewer {N√∫mero de partida m√©s gran}
 translate K TwinsDelete {Esborrar partides}
 
 # Name editor window:
 translate K NameEditType {Tipus de dada a editar}
 translate K NameEditSelect {Partides a editar}
-translate K NameEditReplace {ReemplaÁar}
+translate K NameEditReplace {Reempla√ßar}
 translate K NameEditWith {amb}
 translate K NameEditMatches {Ja hi son: Presionar Ctrl+1 a Ctrl+9 per seleccionar-ne}
 
@@ -1229,18 +1308,19 @@ translate K NameEditMatches {Ja hi son: Presionar Ctrl+1 a Ctrl+9 per selecciona
 translate K CheckGames {Veure partides}
 translate K CheckGamesWhich {Veure partides}
 translate K CheckAll {Totes les partides}
-translate K CheckSelectFilterGames {NomÈs partides al filtre}
+translate K CheckSelectFilterGames {Nom√©s partides al filtre}
 
 # Classify window:
 translate K Classify {Classificar}
 translate K ClassifyWhich {Classificar per codi ECO}
 translate K ClassifyAll {Totes les partides (sobreescriure codi ECO)}
-translate K ClassifyYear {Totes les partides jugades a l'˙ltim any}
-translate K ClassifyMonth {Totes les partides jugades a l'˙ltim mes}
-translate K ClassifyNew {NomÈs les partides sense codi ECO}
+translate K ClassifyYear {Totes les partides jugades a l'√∫ltim any}
+translate K ClassifyMonth {Totes les partides jugades a l'√∫ltim mes}
+translate K ClassifyNew {Nom√©s les partides sense codi ECO}
 translate K ClassifyCodes {Codi ECO a utilitzar}
-translate K ClassifyBasic {NomÈs codi b‡sic ("B12", ...)}
+translate K ClassifyBasic {Nom√©s codi b√†sic ("B12", ...)}
 translate K ClassifyExtended {Extensions Scid ("B12j", ...)}
+translate K ClassifyResult {Classificaci√≥ ECO completa: joc(s) de $resultat actualitzat.}
 
 # Compaction:
 translate K NameFile {Arxiu de noms}
@@ -1249,11 +1329,11 @@ translate K Names {Noms}
 translate K Unused {No utilitzat}
 translate K SizeKb {Tamany (kb)}
 translate K CurrentState {Estat actual}
-translate K AfterCompaction {DesprÈs de la compactaciÛ}
+translate K AfterCompaction {Despr√©s de la compactaci√≥}
 translate K CompactNames {Compactar arxiu de noms}
 translate K CompactGames {Compactar arxiu de partides}
-translate K NoUnusedNames "No hi han noms sense utilitzar, per tant l'arxiu de noms ja est‡ compactat."
-translate K NoUnusedGames "L'arxiu ja est‡ totalment compactat."
+translate K NoUnusedNames "No hi han noms sense utilitzar, per tant l'arxiu de noms ja est√† compactat."
+translate K NoUnusedGames "L'arxiu ja est√† totalment compactat."
 translate K GameFileCompacted {L'arxiu de partides de la base de dades ha estat compactada.}
 
 # Sorting:
@@ -1268,13 +1348,13 @@ translate K ExportComments {Exportar comentaris?}
 translate K ExportVariations {Exportar variants?}
 translate K IndentComments {Sangrar comentaris?}
 translate K IndentVariations {Sangrar variants?}
-translate K ExportColumnStyle {Estil de columna (una jugada per lÌnia)?}
-translate K ExportSymbolStyle {Estil d'anotaciÛ simbÛlica:}
+translate K ExportColumnStyle {Estil de columna (una jugada per l√≠nia)?}
+translate K ExportSymbolStyle {Estil d'anotaci√≥ simb√≥lica:}
 translate K ExportStripMarks {Treure marca de codis de cassella/fletxa dels comentaris?}
 
 # Goto game/move dialogs:
-translate K LoadGameNumber {Entra el n˙mero de la partida a carregar:}
-translate K GotoMoveNumber {Anar a la jugada n˙mero:}
+translate K LoadGameNumber {Entra el n√∫mero de la partida a carregar:}
+translate K GotoMoveNumber {Anar a la jugada n√∫mero:}
 
 # Copy games dialog:
 translate K CopyAllGames {Copia totes les jugades a}
@@ -1288,8 +1368,8 @@ translate K CopyErr {No es poden copiar les partides}
 translate K CopyErrSource {la base de dades font}
 translate K CopyErrTarget {la base de dades de desti}
 translate K CopyErrNoGames {no te partides al filtre}
-translate K CopyErrReadOnly {es de nomÈs lectura}
-translate K CopyErrNotOpen {no est‡ oberta}
+translate K CopyErrReadOnly {es de nom√©s lectura}
+translate K CopyErrNotOpen {no est√† oberta}
 
 # Colors:
 translate K LightSquares {Caselles blanques}
@@ -1307,7 +1387,7 @@ translate K Novelty {Novetat}
 translate K NoveltyInterrupt {Recerca de novetat interrompuda}
 translate K NoveltyNone {Cap novetat trobada en aquesta partida}
 translate K NoveltyHelp {
-L'Scid trobar‡ la primera jugada de l'actual partida que representi una posiciÛ no existent a la base de dades seleccionada o al llibre d'obertures ECO.
+L'Scid trobar√† la primera jugada de l'actual partida que representi una posici√≥ no existent a la base de dades seleccionada o al llibre d'obertures ECO.
 }
 
 # Sounds configuration:
@@ -1315,37 +1395,37 @@ translate K SoundsFolder {Directori d'arxius de so}
 translate K SoundsFolderHelp {El directori ha de tenir els arxius King.wav, a.wav, 1.wav, etc}
 translate K SoundsAnnounceOptions {Opcions d'anunci de jugades}
 translate K SoundsAnnounceNew {Anunciar noves jugades quan estiguin fetes}
-translate K SoundsMoveSoundOnly {Mou nomÈs el so (desactiva els anuncis)}
+translate K SoundsMoveSoundOnly {Mou nom√©s el so (desactiva els anuncis)}
 translate K SoundsAnnounceForward {Anunciar jugades quan avancem una jugada}
 translate K SoundsAnnounceBack {Anunciar jugada quan rectifiquem o retrocedim una jugada}
-translate K SoundsSoundDisabled {L'Scid no ha pogut trobar el paquet d'‡udio Snack al inicialitzar;\nEl so est‡ desactivat.}
+translate K SoundsSoundDisabled {L'Scid no ha pogut trobar el paquet d'√†udio Snack al inicialitzar;\nEl so est√† desactivat.}
 
 # Upgrading databases:
-translate K Upgrading {ActualitzaciÛ}
+translate K Upgrading {Actualitzaci√≥}
 translate K ConfirmOpenNew {
-Aquest es un format de base de dades antico (Scid 3) que no es pot obrir amb Scid 4, pero ja s'ha creat una versiÛn en el format nou (Scid 4).
+Aquest es un format de base de dades antico (Scid 3) que no es pot obrir amb Scid 4, pero ja s'ha creat una versi√≥n en el format nou (Scid 4).
 
-Vols abrir la versiÛ de format nou de la base de dades?
+Vols abrir la versi√≥ de format nou de la base de dades?
 }
 translate K ConfirmUpgrade {
-Aquesta es una base de dades en un format antic (Scid 3). S'ha de crear una versiÛ amb el nou format abans de poder utilitzar-la a Scid 4.
+Aquesta es una base de dades en un format antic (Scid 3). S'ha de crear una versi√≥ amb el nou format abans de poder utilitzar-la a Scid 4.
 
-L'actualitzaciÛ crear‡ una nova versiÛ de la base de dades.
+L'actualitzaci√≥ crear√† una nova versi√≥ de la base de dades.
 
-Pot trigar temps, pero nomÈs cal fer-ho un cop. Pots cancelar si triga massa temps.
+Pot trigar temps, pero nom√©s cal fer-ho un cop. Pots cancelar si triga massa temps.
 
 Vols actualitzar aquesta base de dades ara?
 }
 
 # Recent files options:
-translate K RecentFilesMenu {Nombre d'arxius recents al men˙ Arxiu}
-translate K RecentFilesExtra {Nombre d'arxius recents al submen˙ extra}
+translate K RecentFilesMenu {Nombre d'arxius recents al men√∫ Arxiu}
+translate K RecentFilesExtra {Nombre d'arxius recents al submen√∫ extra}
 
 # My Player Names options:
 translate K MyPlayerNamesDescription {
-Escriu una llista de noms alternatius per jugador, un nom per cada lÌnia. Es permeten comodins (per exemple "?" per un caracter, "*" per varis caracters).
+Escriu una llista de noms alternatius per jugador, un nom per cada l√≠nia. Es permeten comodins (per exemple "?" per un caracter, "*" per varis caracters).
 
-Cada cop que es carregui una partida amb un jugador de la llista es girar‡ l'escaquer, si fos necessari, per veure la partida des de la perspectiva del jugador.
+Cada cop que es carregui una partida amb un jugador de la llista es girar√† l'escaquer, si fos necessari, per veure la partida des de la perspectiva del jugador.
 }
 
 #Coach
@@ -1354,12 +1434,12 @@ translate K showblundervalue {Mostrar valor de la ficada de pota}
 translate K showscore {Mostrar marcador}
 translate K coachgame {Entrenador}
 translate K configurecoachgame {Configurar entrenador}
-translate K configuregame {ConfiguraciÛ de partida}
+translate K configuregame {Configuraci√≥ de partida}
 translate K Phalanxengine {Motor Phalanx}
 translate K Coachengine {Motor entrenador}
 translate K difficulty {Dificultat}
 translate K hard {Dur}
-translate K easy {F‡cil}
+translate K easy {F√†cil}
 translate K Playwith {Juga amb}
 translate K white {blanques}
 translate K black {negres}
@@ -1367,19 +1447,19 @@ translate K both {ambdos}
 translate K Play {Jugar}
 translate K Noblunder {Sense errors}
 translate K blunder {Ficades de pota}
-translate K Noinfo {-- Sense informaciÛ --}
+translate K Noinfo {-- Sense informaci√≥ --}
 translate K PhalanxOrTogaMissing {No es troben ni Phalanx ni Toga}
-translate K moveblunderthreshold {La jugada es un error si la pËrdua de puntuaciÛ es mÈs gran que }
-translate K limitanalysis {Temps lÌmit per l'an‡lisi del motor}
+translate K moveblunderthreshold {La jugada es un error si la p√®rdua de puntuaci√≥ es m√©s gran que }
+translate K limitanalysis {Temps l√≠mit per l'an√†lisi del motor}
 translate K seconds {segons}
 translate K Abort {Abortar}
 translate K Resume {Reanudar}
 translate K OutOfOpening {Fora de l'obertura}
-translate K NotFollowedLine {No segueixes la lÌnia}
+translate K NotFollowedLine {No segueixes la l√≠nia}
 translate K DoYouWantContinue {Vols continuar?}
 translate K CoachIsWatching {Entrenador}
 translate K Ponder {Pensar sempre (motor)}
-translate K LimitELO {Limitar forÁa ELO}
+translate K LimitELO {Limitar for√ßa ELO}
 translate K DubiousMovePlayedTakeBack {Jugada dubtosa, vols rectificar?}
 translate K WeakMovePlayedTakeBack {Jugada fluixa, vols rectificar?}
 translate K BadMovePlayedTakeBack {Jugada dolenta, vols rectificar?}
@@ -1389,57 +1469,57 @@ translate K EndOfVar {Fi de la variant}
 translate K Openingtrainer {Entrenador d'obertures}
 translate K DisplayCM {Mostra jugades possibles}
 translate K DisplayCMValue {Mostra valor de les jugades possibles}
-translate K DisplayOpeningStats {Mostra estadÌstiques}
+translate K DisplayOpeningStats {Mostra estad√≠stiques}
 translate K ShowReport {Mostra informe}
 translate K NumberOfGoodMovesPlayed {jugades bones fetes}
 translate K NumberOfDubiousMovesPlayed {jugades dubtoses fetes}
 translate K NumberOfMovesPlayedNotInRepertoire {jugades fetes fora del repertori}
-translate K NumberOfTimesPositionEncountered {vegades trobada la posiciÛ}
-translate K PlayerBestMove  {Permet ˙nicament les millors jugades}
+translate K NumberOfTimesPositionEncountered {vegades trobada la posici√≥}
+translate K PlayerBestMove  {Permet √∫nicament les millors jugades}
 translate K OpponentBestMove {El contrari juga les millors jugades}
-translate K OnlyFlaggedLines {NomÈs lÌnies marcades}
-translate K resetStats {Reinicia estadÌstiques}
-translate K Repertoiretrainingconfiguration {ConfiguraciÛ del repertori d'entrenament}
+translate K OnlyFlaggedLines {Nom√©s l√≠nies marcades}
+translate K resetStats {Reinicia estad√≠stiques}
+translate K Repertoiretrainingconfiguration {Configuraci√≥ del repertori d'entrenament}
 translate K Loadingrepertoire {Carregant repertori}
 translate K Movesloaded {Jugades carregades}
 translate K Repertoirenotfound {Repertori no trobat}
 translate K Openfirstrepertoirewithtype {Obrir primer una base amb una icona/tipus de repertori al costat dret}
-translate K Movenotinrepertoire {La jugada no est‡ al repertori}
+translate K Movenotinrepertoire {La jugada no est√† al repertori}
 translate K PositionsInRepertoire {Posicions al repertori}
 translate K PositionsNotPlayed {Posicions no jugades}
 translate K PositionsPlayed {Posicions jugades}
 translate K Success {Exits}
 translate K DubiousMoves {Jugades dubtoses}
 translate K OutOfRepertoire {Fora de repertori}
-translate K ConfigureTactics {Configurar t‡ctica}
+translate K ConfigureTactics {Configurar t√†ctica}
 translate K ResetScores {Reiniciar marcadors (puntuacions)}
 translate K LoadingBase {Cargant base}
-translate K Tactics {T‡ctica}
+translate K Tactics {T√†ctica}
 translate K ShowSolution {Mostrar resposta}
 translate K NextExercise {Proper exercici}
 translate K PrevExercise {Exercici anterior}
 translate K StopTraining {Atura l'entrenament}
-translate K Next {Seg¸ent}
+translate K Next {Seg√ºent}
 translate K ResettingScore {Reiniciant marcador}
 translate K LoadingGame {Cargant partida}
 translate K MateFound {Trobat mat}
 translate K BestSolutionNotFound { NO s'ha trobat la millor resposta!}
 translate K MateNotFound {Mat no trobat}
-translate K ShorterMateExists {Existeix un mat mÈs curt}
+translate K ShorterMateExists {Existeix un mat m√©s curt}
 translate K ScorePlayed {Marcador jugat}
 translate K Expected {Esperat}
 translate K ChooseTrainingBase {Escollir base d'entrenament}
 translate K Thinking {Pensant}
-translate K AnalyzeDone {An‡lisi fet}
+translate K AnalyzeDone {An√†lisi fet}
 translate K WinWonGame {Guanya la partida guanyada}
-translate K Lines {LÌnies}
+translate K Lines {L√≠nies}
 translate K ConfigureUCIengine {Configurar motor UCI}
-translate K SpecificOpening {Obertura especÌfica}
+translate K SpecificOpening {Obertura espec√≠fica}
 translate K StartNewGame {Iniciar nova partida}
 translate K FixedLevel {Nivell fix}
 translate K Opening {Obrint}
 translate K RandomLevel {Nivell aleatori}
-translate K StartFromCurrentPosition {Iniciar des de la posiciÛ actual}
+translate K StartFromCurrentPosition {Iniciar des de la posici√≥ actual}
 translate K FixedDepth {Profunditat fixe}
 translate K Nodes {Nodes} 
 translate K Depth {Profunditat}
@@ -1452,23 +1532,23 @@ translate K TimeMin {min}
 translate K TimeSec {seg}
 translate K AllExercisesDone {Tots els exercicis fets}
 translate K MoveOutOfBook {Jugada fora del llibre}
-translate K LastBookMove {⁄ltima jugada del llibre}
+translate K LastBookMove {√öltima jugada del llibre}
 translate K AnnotateSeveralGames {Anotar les partides\ndes de l'actual fins la partida: }
 translate K FindOpeningErrors {Trobar errors als primers }
-translate K MarkTacticalExercises {Marca exercicis t‡ctics}
+translate K MarkTacticalExercises {Marca exercicis t√†ctics}
 translate K UseBook {Utilitzar llibre d'obertures}
-translate K MultiPV {M˙ltiples Variants}
-translate K Hash {MemÚria Hash}
+translate K MultiPV {M√∫ltiples Variants}
+translate K Hash {Mem√≤ria Hash}
 translate K OwnBook {Utilitzar el llibre del motor}
 translate K BookFile {Llibre d'obertures}
 translate K AnnotateVariations {Anotar variants}
 translate K ShortAnnotations {Anotacions curtes}
 translate K addAnnotatorTag {Afegir etiqueta d'anotador}
-translate K AddScoreToShortAnnotations {Afegir puntuaciÛ per anotaciones curtes}
+translate K AddScoreToShortAnnotations {Afegir puntuaci√≥ per anotaciones curtes}
 translate K Export {Exportar}
 translate K BookPartiallyLoaded {Llibre carregat parcialment}
-translate K Calvar {C‡lcul de variants}
-translate K ConfigureCalvar {ConfiguraciÛ}
+translate K Calvar {C√†lcul de variants}
+translate K ConfigureCalvar {Configuraci√≥}
 # Opening names used in tacgame.tcl
 translate K Reti {Obertura Reti}
 translate K English {Obertura Anglesa}
@@ -1483,7 +1563,7 @@ translate K Scandinavian {Defensa Escandinava}
 translate K AlekhineDefence {Defensa Alekhine}
 translate K Pirc {Defensa Pirc}
 translate K CaroKann {Defensa Caro-Kann}
-translate K CaroKannAdvance {Defensa Caro-Kann, Variant de l'avanÁament}
+translate K CaroKannAdvance {Defensa Caro-Kann, Variant de l'avan√ßament}
 translate K Sicilian {Defensa Siciliana}
 translate K SicilianAlapin {Defensa Siciliana, Variant Alapin}
 translate K SicilianClosed {Defensa Siciliana, Variant Tancada}
@@ -1501,11 +1581,11 @@ translate K SpanishExchange {Obertura Espanyola, Variant del Canvi}
 translate K SpanishOpen {Obertura Espanyola}
 translate K SpanishClosed {Obertura Espanyola, Variant Tancada}
 translate K FrenchDefence {Defensa Francesa}
-translate K FrenchAdvance {Defensa Francesa, Variant de l'AvanÁament}
+translate K FrenchAdvance {Defensa Francesa, Variant de l'Avan√ßament}
 translate K FrenchTarrasch {Defensa Francesa, Variant Tarrasch}
 translate K FrenchWinawer {Defensa Francesa, Variant Winawer}
 translate K FrenchExchange {Defensa Francesa, Variant del canvi}
-translate K QueensPawn {Obertura de PeÛ de Dama}
+translate K QueensPawn {Obertura de Pe√≥ de Dama}
 translate K Slav {Defensa Eslava}
 translate K QGA {Gambit de Dama Acceptat}
 translate K QGD {Gambit de Dama Declinat}
@@ -1513,33 +1593,33 @@ translate K QGDExchange {Gambit de Dama Declinat, Variant del Canvi}
 translate K SemiSlav {Defensa Semi-Eslava del Gambit de Dama Declinat}
 translate K QGDwithBg5 {Gambit de Dama Declinat amb Ag5}
 translate K QGDOrthodox {Gambit de Dama Declinat,  Defensa Ortodoxa}
-translate K Grunfeld {Defensa Gr¸nfeld}
-translate K GrunfeldExchange {Defensa Gr¸nfeld, Variant del canvi}
-translate K GrunfeldRussian {Defensa Gr¸nfeld, Variant Russa}
+translate K Grunfeld {Defensa Gr√ºnfeld}
+translate K GrunfeldExchange {Defensa Gr√ºnfeld, Variant del canvi}
+translate K GrunfeldRussian {Defensa Gr√ºnfeld, Variant Russa}
 translate K Catalan {Catalana}
 translate K CatalanOpen {Obertura Catalana}
 translate K CatalanClosed {Obertura Catalana, Variant Tancada}
 translate K QueensIndian {Defensa India de Dama}
 translate K NimzoIndian {Obertura Nimzo-India}
-translate K NimzoIndianClassical {Obertura Nimzo-India Cl‡ssica}
+translate K NimzoIndianClassical {Obertura Nimzo-India Cl√†ssica}
 translate K NimzoIndianRubinstein {Defensa Nimzo-India, Variant Rubinstein}
 translate K KingsIndian {India de Rei}
-translate K KingsIndianSamisch {Defensa India de Rei, Variant S‰misch}
+translate K KingsIndianSamisch {Defensa India de Rei, Variant S√§misch}
 translate K KingsIndianMainLine {India de Rei, Linia Principal}
 
 # FICS
 translate K ConfigureFics {Configurar FICS}
-translate K FICSGuest {AutentificaciÛ com convidat}
+translate K FICSGuest {Autentificaci√≥ com convidat}
 translate K FICSServerPort {Port del servidor}
-translate K FICSServerAddress {AdreÁa IP}
+translate K FICSServerAddress {Adre√ßa IP}
 translate K FICSRefresh {Refresca}
 translate K FICSTimesealPort {Port Timeseal}
 translate K FICSSilence {Silenci}
 translate K FICSOffers {Ofertes}
 translate K FICSConsole {Consola}
 translate K FICSGames {Partides}
-translate K FICSUnobserve {Atura l'observaciÛ d'una partida}
-translate K FICSProfile {Mostra la teva histÚria i perfil}
+translate K FICSUnobserve {Atura l'observaci√≥ d'una partida}
+translate K FICSProfile {Mostra la teva hist√≤ria i perfil}
 translate K FICSRelayedGames {Partides ajornades}
 translate K FICSFindOpponent {Cercar contrari}
 translate K FICSTakeback {Retrocedeix}
@@ -1547,9 +1627,9 @@ translate K FICSTakeback2 {Retrocedeix 2}
 translate K FICSInitTime {Temps inicial (min)}
 translate K FICSIncrement {Increment (seg)}
 translate K FICSRatedGame {Partida amb rating}
-translate K FICSAutoColour {autom‡tic}
+translate K FICSAutoColour {autom√†tic}
 translate K FICSManualConfirm {confirma manualment}
-translate K FICSFilterFormula {Filtrar amb fÛrmula}
+translate K FICSFilterFormula {Filtrar amb f√≥rmula}
 translate K FICSIssueSeek {Panell de desafiaments}
 translate K FICSChallenge {Desafiar}
 translate K FICSAccept {acceptar}
@@ -1565,28 +1645,31 @@ translate K FICSRatedGames {Partides avaluades}
 translate K FICSUnratedGames {Partides no avaluades}
 translate K FICSRated {Avaluada}
 translate K FICSUnrated {No Avaluada}
-translate K FICSRegisteredPlayer {NomÈs perfils registrats}
-translate K FICSFreePlayer {NomÈs perfils gratuÔts}
+translate K FICSRegisteredPlayer {Nom√©s perfils registrats}
+translate K FICSFreePlayer {Nom√©s perfils gratu√Øts}
 translate K FICSNetError {Error de xarxa\nNo es pot connectar amb }
+translate K OptionsFICS {FICS}
+translate K FICSTerminalColor {Color terminal}
+translate K FICSTextColor {Color del text}
 
 # Game review
-translate K GameReview {RevisiÛ de la partida}
+translate K GameReview {Revisi√≥ de la partida}
 translate K GameReviewTimeExtended {Temps incrementat}
 translate K GameReviewMargin {Marge d'error}
-translate K GameReviewAutoContinue {Continua autom‡ticament quan la jugada sigui correcta}
+translate K GameReviewAutoContinue {Continua autom√†ticament quan la jugada sigui correcta}
 translate K GameReviewReCalculate {Fes servir temps addicional}
 translate K GameReviewAnalyzingMovePlayedDuringTheGame {Analitzant jugada feta a la partida}
-translate K GameReviewAnalyzingThePosition {Analitzant la posiciÛ}
+translate K GameReviewAnalyzingThePosition {Analitzant la posici√≥}
 translate K GameReviewEnterYourMove {Introdueix la teva jugada}
 translate K GameReviewCheckingYourMove {Analitzant la teva jugada}
 translate K GameReviewYourMoveWasAnalyzed {La teva jugada ha estat analitzada}
 translate K GameReviewYouPlayedSameMove {Has jugat la mateixa jugada que la partida}
-translate K GameReviewScoreOfYourMove {ValoraciÛ de la teva jugada}
-translate K GameReviewGameMoveScore {ValoraciÛ de la jugada de la partida}
-translate K GameReviewEngineScore {ValoraciÛ del motor}
+translate K GameReviewScoreOfYourMove {Valoraci√≥ de la teva jugada}
+translate K GameReviewGameMoveScore {Valoraci√≥ de la jugada de la partida}
+translate K GameReviewEngineScore {Valoraci√≥ del motor}
 translate K GameReviewYouPlayedLikeTheEngine {Has jugat com el motor}
-translate K GameReviewNotEngineMoveButGoodMove {No Ès la jugada del motor, perÚ tambÈ Ès bona}
-translate K GameReviewMoveNotGood {Aquesta jugada no Ès bona, perÚ la valoraciÛ si}
+translate K GameReviewNotEngineMoveButGoodMove {No √©s la jugada del motor, per√≤ tamb√© √©s bona}
+translate K GameReviewMoveNotGood {Aquesta jugada no √©s bona, per√≤ la valoraci√≥ si}
 translate K GameReviewMovesPlayedLike {Jugades com}
 translate K GameReviewMovesPlayedEngine {Jugades del motor}
 
@@ -1599,28 +1682,28 @@ translate K CCDlgShowPassword {Mostra contrasenya}
 # Connect Hardware dialogs
 translate K ExtHWConfigConnection {Configurar maquinari extern}
 translate K ExtHWPort {Port}
-translate K ExtHWEngineCmd {LÌnia d'ordres del motor}
-translate K ExtHWEngineParam {Par‡metre del motor}
-translate K ExtHWShowButton {Mostrar botÛ}
+translate K ExtHWEngineCmd {L√≠nia d'ordres del motor}
+translate K ExtHWEngineParam {Par√†metre del motor}
+translate K ExtHWShowButton {Mostrar bot√≥}
 translate K ExtHWHardware {Maquinari}
 translate K ExtHWNovag {Novag Citrine}
 translate K ExtHWInputEngine {Motor d'entrada}
 translate K ExtHWNoBoard {Sense escaquer}
-translate K NovagReferee {¿rbitre}
+translate K NovagReferee {√Ärbitre}
 
 # Input Engine dialogs
 translate K IEConsole {Consola d'entrada del motor}
 translate K IESending {Jugades enviades per}
 translate K IESynchronise {Sincronitzar}
 translate K IERotate  {Rotar}
-translate K IEUnableToStart {Impossible comenÁar amb el motor d'entrada:}
+translate K IEUnableToStart {Impossible comen√ßar amb el motor d'entrada:}
 
 # Calculation of Variations
-translate K DoneWithPosition {Fet amb la posiciÛ}
+translate K DoneWithPosition {Fet amb la posici√≥}
 
 translate K Board {Escaquer}
-translate K showGameInfo {Mostrar informaciÛ de la partida}
-translate K autoResizeBoard {Tamany autom‡tic de l'escaquer}
+translate K showGameInfo {Mostrar informaci√≥ de la partida}
+translate K autoResizeBoard {Tamany autom√†tic de l'escaquer}
 translate K DockTop {Moure amunt}
 translate K DockBottom {Moure abaix}
 translate K DockLeft {Moure a l'esquerra}
@@ -1636,18 +1719,20 @@ translate K LoadatStartup {Carrega al engegar}
 # Gamelist window
 translate K ShowHideDB {Mostra/amaga bases de dades}
 translate K ChangeFilter {Canvia filtre}
-translate K ChangeLayout {Carrega/Desa/canvia criteris d'ordenaciÛ i disposiciÛ de columnes}
-translate K ShowHideStatistic {Mostra/amaga estadÌstiques}
-translate K BoardFilter {Mostra nomÈs partides que continguin aquesta mateixa posiciÛ}
+translate K ChangeLayout {Carrega/Desa/canvia criteris d'ordenaci√≥ i disposici√≥ de columnes}
+translate K ShowHideStatistic {Mostra/amaga estad√≠stiques}
+translate K BoardFilter {Mostra nom√©s partides que continguin aquesta mateixa posici√≥}
 translate K CopyGameTo {Copia partida a...}
 translate K FindBar {Barra de cerca}
 translate K FindCurrentGame {Troba partida actual}
 translate K DeleteGame {Esborra partida}
-translate K UndeleteGame {DesfÈs esborrar partida}
+translate K UndeleteGame {Desf√©s esborrar partida}
 translate K ResetSort {Neteja criteri d'ordre}
+translate K LayoutExists {El disseny '%s' ja existeix.}
+translate K ConfirmDeleteLayout {Esteu segur que voleu suprimir el disseny '%s'?}
 
-translate K ConvertNullMove {Converteix jugades nul∑les en comentaris}
-translate K SetupBoard {Configura posiciÛ}
+translate K ConvertNullMove {Converteix jugades nul¬∑les en comentaris}
+translate K SetupBoard {Configura posici√≥}
 translate K Rotate {Gira}
 translate K SwitchColors {Canvia colors}
 translate K FlipBoard {Gira tauler}
@@ -1657,15 +1742,15 @@ translate K ImportingFrom {Important des de}
 translate K ImportingIn {Importa partides a}
 translate K UseLastTag {Fes servir etiquetes\nde la partida anterior}
 translate K Random {Aleatori}
-translate K BackToMainline {Ves a la lÌnia principal}
+translate K BackToMainline {Ves a la l√≠nia principal}
 translate K LeaveVariant {Surt de la variant}
-translate K Autoplay {Juga autom‡ticament}
+translate K Autoplay {Juga autom√†ticament}
 translate K ShowHideCoords {Mostra/amaga coordenades}
-translate K ShowHideEvalBar {Mostra/amaga la barra d'avaluaciÛ}
+translate K ShowHideEvalBar {Mostra/amaga la barra d'avaluaci√≥}
 translate K ShowHideMaterial {Mostra/amaga material}
 translate K SelectMarker {Seleccioneu Marcador}
 translate K FullScreen {Pantalla completa}
-translate K FilterStatistic {Filtra estadÌstiques}
+translate K FilterStatistic {Filtra estad√≠stiques}
 translate K MakeCorrections {Fes correccions}
 translate K Surnames {Cognoms}
 translate K Ambiguous {Ambigu}
@@ -1675,11 +1760,38 @@ translate K OptionsToolbar "Barra d'eines de la finestra principal"
 translate K OptionsBoard "Escaquer"
 translate K OptionsBoardSize "Tamany de l'escaquer"
 translate K OptionsBoardPieces "Estil de peces"
-translate K OptionsInternationalization "LocalitzaciÛ"
+translate K OptionsInternationalization "Localitzaci√≥"
 translate K OptionsTablebaseDir "Selecciona fins a 4 fitxers de base de taules:"
 
 # Evaluation bar
 translate K BestMoveArrow "Fletxa de la millor jugada"
 translate K NewLocalEngine "+ Nou Motor ..."
+
+# Batch Annotate
+translate K BatchAnnotate {Anotaci√≥ per lots}
+translate K BatchEngineSelection {Selecci√≥ del motor}
+translate K BatchChessEngine {Motor d'escacs:}
+translate K BatchNumberOfInstances {Nombre d'inst√†ncies:}
+translate K BatchGameReview {Revisi√≥ del joc}
+translate K BatchTimePerMove {Temps per moviment (s):}
+translate K BatchAnnotateBlunders {Anoteu nom√©s errors}
+translate K BatchBlunderThreshold {Llindar d'error:}
+translate K BatchVariationLength {Durada de la variaci√≥ (moviments):}
+translate K BatchOpeningBook {Llibre d'obertura}
+translate K BatchUseBook {Utilitza el llibre}
+translate K BatchAnnotateVariations {Anotar variacions}
+translate K BatchShortAnnotations {Anotacions breus}
+translate K BatchAddScoreToShort {Afegiu puntuaci√≥ a anotacions curtes}
+translate K BatchClearOld {Esborra els comentaris i les variacions antigues}
+translate K BatchInitializingEngines {Inicialitzant motors...}
+translate K BatchAnalyzingGames {S'estan analitzant els jocs...}
+translate K BatchProgress {Progr√©s d'anotacions per lots}
+translate K BatchComplete {Anotaci√≥ per lots completada!}
+translate K BatchCancelled {S'ha cancel¬∑lat l'anotaci√≥ del lot}
+translate K BatchStart {Comen√ßa}
+translate K BatchCancel {Cancel¬∑la}
+translate K BatchCompleted {completat}
+translate K BatchGames {jocs}
+translate K BatchProcessed {processats}
 }
 # end of english.tcl

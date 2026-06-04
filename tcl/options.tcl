@@ -29,7 +29,7 @@ proc InitDefaultToolbar {} {
   foreach {tbicon status}  {
     newdb 0 open 0 save 0 closedb 0
     finder 0 bkm 0 gprev 0 gnext 0
-    newgame 0 copy 0 paste 0
+    newgame 0 copy 0 paste 0 rotate 0
     boardsearch 0 headersearch 0 materialsearch 0
     switcher 0 glist 0 pgn 0 tmt 0 maint 0 eco 0 tree 0 crosstab 0 engine 0
   } {
@@ -136,6 +136,10 @@ proc InitDefaultAnnotate {} {
   set ::annotateMoves all
   set ::annotateBlunders blundersonly
   set ::scoreAllMoves 0
+  set ::useAnalysisBook 1
+  set ::annotateWhiteMoves 1
+  set ::annotateBlackMoves 1
+  set ::annotationVariationLength 9
   # Blunder Threshold
   set ::blunderThreshold 1.0
 }
@@ -207,6 +211,7 @@ set translatePieces 1
 set arrowLastMove 0
 set highlightLastMove 1
 set highlightLastMoveNag 1
+set highlightLastMoveEval 0
 set highlightLastMoveWidth 2
 set highlightLastMoveColor "grey"
 set highlightLastMovePattern {} ; # this option is not saved
@@ -241,7 +246,7 @@ set ::tactics::analysisTime 3
 set ::tacgame::threshold 0.9
 set ::tacgame::blunderwarning false
 set ::tacgame::blunderwarningvalue 0.0
-set ::tacgame::levelMin 1200
+set ::tacgame::levelMin 700
 set ::tacgame::levelMax 2200
 set ::tacgame::levelFixed 1500
 set ::tacgame::randomLevel 0
@@ -250,6 +255,7 @@ set ::tacgame::showblunder 1
 set ::tacgame::showblundervalue 1
 set ::tacgame::showblunderfound 1
 set ::tacgame::showmovevalue 1
+set ::tacgame::playerSide "white"
 set ::tacgame::showevaluation 1
 set ::tacgame::isLimitedAnalysisTime 1
 set ::tacgame::analysisTime 10
@@ -433,6 +439,8 @@ array set optable {
   Endgames 1
   MaxGames 500
   ExtraMoves 1
+  MergeMoves 8
+  MergeUnique 1
 }
 array set optableDefaults [array get optable]
 
@@ -455,15 +463,26 @@ array set preportDefaults [array get preport]
 
 # Analysis options (Informant values)
 # The different threshold values for !? ?? += etc
-array set informant {}
-set informant("!?") 0.5
-set informant("?") 1.5
-set informant("??") 3.0
-set informant("?!") 0.5
-set informant("+=") 0.5
-set informant("+/-") 1.5
-set informant("+-") 3.0
-set informant("+--") 5.5
+# Thresholds based on typical values used by Lichess/Chess.com for club players (~1500 rating)
+array set informantDefaults {
+  !? 0.3
+  ?! 0.3
+  ?  0.8
+  ?? 1.5
+  += 0.5
+  +/- 1.5
+  +- 2.5
+  +-- 4.0
+}
+# Ensure the arrays are clean of any quoted keys that might have persisted.
+foreach arr {informant informantDefaults} {
+    foreach name [array names $arr *\"*] {
+        unset ${arr}($name)
+    }
+}
+array set informant [array get informantDefaults]
+
+# [/] Modify `tcl/options.tcl` to use unquoted keys in `informantDefaults`
 
 # Export file options:
 set exportFlags(comments) 1
@@ -576,7 +595,7 @@ set optionsFile [scidConfigFile options]
 ################################################################################
 #  Load options file. All default values should be set before this point or new saved values will be overwritten by default ones
 ################################################################################
-if {[file exists $optionsFile] && [catch {source $optionsFile}]} {
+if {[file exists $optionsFile] && [catch {safeLoadConfig $optionsFile}]} {
   tk_messageBox -message $::errorInfo
 }
 
@@ -622,12 +641,12 @@ proc options.write {} {
           ::pgn::indentVars ::pgn::indentComments ::pgn::showPhoto \
           ::pgn::shortHeader ::pgn::boldMainLine ::pgn::stripMarks ::pgn::figurine \
           ::pgn::symbolicNags ::pgn::moveNumberSpaces ::pgn::columnFormat \
-          tree(order) optionsAutoSave ::tree::mask::recentMask \
+          tree(order) tree(moveDepth) optionsAutoSave ::tree::mask::recentMask \
           ecoFile suggestMoves showVarPopup showVarArrows showEngineVariationArrows \
           blunderThreshold autoplayDelay animateDelay boardCoords \
           moveEntry(AutoExpand) moveEntry(Coord) \
           translatePieces lichessFormat arrowLastMove highlightLastMove highlightLastMoveWidth \
-          highlightLastMoveColor highlightLastMoveNag \
+          highlightLastMoveColor highlightLastMoveNag highlightLastMoveEval \
           glossOfDanger locale(numeric) \
           spellCheckFile autoRaise windowsDock showGameInfo \
           exportFlags(comments) exportFlags(vars) \
@@ -640,6 +659,7 @@ proc options.write {} {
           engineCoach1 engineCoach2 scidBooksDir scidBasesDir ::book::lastBook \
           ::utils::sound::soundFolder ::utils::sound::announceNew \
           ::utils::sound::announceForward ::utils::sound::announceBack \
+          ::utils::sound::moveSoundOnly \
           ::tacgame::threshold ::tacgame::blunderwarning ::tacgame::blunderwarningvalue \
           ::tacgame::levelMin  ::tacgame::levelMax  ::tacgame::levelFixed ::tacgame::randomLevel \
           ::tacgame::isLimitedAnalysisTime ::tacgame::showblunder ::tacgame::showblundervalue \
@@ -654,6 +674,7 @@ proc options.write {} {
           FilterMaxYear FilterMinYear FilterStepYear FilterGuessELO lookTheme ThemePackageFile autoResizeBoard \
           isBatchOpening isBatchOpeningMoves isBatch \
           markTacticalExercises scoreAllMoves \
+          useAnalysisBook annotateWhiteMoves annotateBlackMoves annotationVariationLength \
           isAnnotateVar isShortAnnotation addScoreToShortAnnotations annotateBlunders\
           addAnnotatorTag annotateMoves } {
       puts $optionF "set $i [list [set $i]]"
@@ -744,7 +765,7 @@ proc options.write {} {
         ::win::saveWinGeometry $wnd
       }
       if {$::winGeometry($wnd) ne ""} {
-        puts $optionF "set ::winGeometry($wnd) $::winGeometry($wnd)"
+        puts $optionF "set ::winGeometry([list $wnd]) [list $::winGeometry($wnd)]"
       }
     }
 

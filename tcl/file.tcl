@@ -109,13 +109,40 @@ proc ::file::Open {{fName ""}} {
     set ::curr_db $::file::lastOpened
     ::windows::gamelist::Open $::curr_db
     ::notify::DatabaseChanged
-    set gamenum 1
+    set gamenum 0
     foreach {tagname tagvalue} [sc_base extra $::curr_db] {
       if {$tagname eq "autoload" && [string is integer -strict $tagvalue] && $tagvalue > 0} {
         set gamenum $tagvalue
         break
       }
     }
+    
+    if {[sc_base numGames $::curr_db] > 0} {
+      set sortStr ""
+      foreach w $::windows::gamelist::wins {
+        if {$::gamelistBase($w) == $::curr_db && [info exists ::glistSortStr($w.games.glist)]} {
+          set sortStr [string trim $::glistSortStr($w.games.glist)]
+          break
+        }
+      }
+      
+      # If there is a custom sort order (i.e. not default "0 +"), override the autoload game
+      # with the first game from that sorted result.
+      if {$sortStr != "" && $sortStr != "0 +"} {
+        if {[catch {sc_base gameslist $::curr_db 0 1 "dbfilter" $sortStr} topGameRes] == 0} {
+          if {[llength $topGameRes] >= 3} {
+            set idx [lindex $topGameRes 0]
+            lassign [split $idx "_"] gn ply
+            if {[string is integer -strict $gn] && $gn > 0} {
+              set gamenum $gn
+            }
+          }
+        }
+      }
+    }
+
+    if {$gamenum == 0} { set gamenum 1 }
+
     if {$gamenum <= [sc_base numGames $::curr_db]} {
       ::game::Load $gamenum 0
     } else {
@@ -278,6 +305,8 @@ proc ::file::Close {{base -1}} {
 }
 
 proc ::file::SwitchToBase {{b} {saveHistory 1}} {
+  if {$b == [sc_base current]} { return 1 }
+
   set err 1
   if {![catch {sc_base switch $b} res]} {
     set err 0

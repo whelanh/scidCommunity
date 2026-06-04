@@ -15,7 +15,8 @@ long ptime(void)
 	else
 	{
 #ifdef _WIN32
-		return GetTickCount()/10;
+		/* GetTickCount returns milliseconds since system start. */
+		return (long)((unsigned long)GetTickCount() / 10);
 #else
 		struct timeval t;
 		gettimeofday( &t, NULL );

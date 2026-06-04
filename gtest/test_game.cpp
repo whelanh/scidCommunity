@@ -311,6 +311,120 @@ TEST(Test_Game, currentPosUCI_fen) {
   }
 }
 
+TEST(Test_Game, mainLineUCI_standard_start) {
+	std::string_view pgn = "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 1/2-1/2";
+	Game game;
+	pgn::parse_game({pgn.data(), pgn.data() + pgn.size()}, PgnVisitor{game});
+
+	auto result = game.mainLineUCI();
+
+	std::vector<std::string> expected = {"position startpos moves",
+	                                     "e2e4",
+	                                     "e7e5",
+	                                     "g1f3",
+	                                     "b8c6",
+	                                     "f1b5",
+	                                     "a7a6"};
+	EXPECT_EQ(expected, result);
+}
+
+TEST(Test_Game, mainLineUCI_fen) {
+	std::string_view pgn = "[FEN \"8/8/8/8/2p5/1k1p4/p4N2/2K5 w - - 0 198\"]\n"
+	                       "198.Kd2 a1=Q 199.Ke3 Qe1+ 0-1";
+	Game game;
+	pgn::parse_game({pgn.data(), pgn.data() + pgn.size()}, PgnVisitor{game});
+
+	auto result = game.mainLineUCI();
+
+	std::vector<std::string> expected = {
+	    "position fen 8/8/8/8/2p5/1k1p4/p4N2/2K5 w - - 0 198 moves", "c1d2",
+	    "a2a1q", "d2e3", "a1e1"};
+	EXPECT_EQ(expected, result);
+}
+
+TEST(Test_Game, mainLineUCI_empty_game) {
+	Game game;
+
+	auto result = game.mainLineUCI();
+
+	std::vector<std::string> expected = {"position startpos moves"};
+	EXPECT_EQ(expected, result);
+}
+
+TEST(Test_Game, mainLineUCI_castling) {
+	std::string_view pgn = "1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5 4.O-O Nf6 5.d3 O-O *";
+	Game game;
+	pgn::parse_game({pgn.data(), pgn.data() + pgn.size()}, PgnVisitor{game});
+
+	auto result = game.mainLineUCI();
+
+	std::vector<std::string> expected = {"position startpos moves",
+	                                     "e2e4",
+	                                     "e7e5",
+	                                     "g1f3",
+	                                     "b8c6",
+	                                     "f1c4",
+	                                     "f8c5",
+	                                     "e1g1",
+	                                     "g8f6",
+	                                     "d2d3",
+	                                     "e8g8"};
+	EXPECT_EQ(expected, result);
+}
+
+TEST(Test_Game, mainLineUCI_ignores_variations) {
+	std::string_view pgn = "1.e4 e5 (1...c5 2.Nf3) 2.Nf3 *";
+	Game game;
+	pgn::parse_game({pgn.data(), pgn.data() + pgn.size()}, PgnVisitor{game});
+
+	auto result = game.mainLineUCI();
+
+	std::vector<std::string> expected = {"position startpos moves", "e2e4",
+	                                     "e7e5", "g1f3"};
+	EXPECT_EQ(expected, result);
+}
+
+TEST(Test_Game, mainLineUCI_with_null_move) {
+	std::string_view pgn =
+	    "[FEN \"rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1\"]\n"
+	    "1...e5 2.-- d5 3.exd5 *";
+	Game game;
+	pgn::parse_game({pgn.data(), pgn.data() + pgn.size()}, PgnVisitor{game});
+
+	auto result = game.mainLineUCI();
+
+	std::vector<std::string> expected = {
+	    "position fen rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 "
+	    "1 moves",
+	    "e7e5",
+	    "position fen rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - "
+	    "1 2 moves",
+	    "d7d5", "e4d5"};
+	EXPECT_EQ(expected, result);
+}
+
+TEST(Test_Game, mainLineUCI_multiple_null_moves) {
+	std::string_view pgn = "1.e4 -- 2.d4 -- 3.c4 -- 4.Nf3 *";
+	Game game;
+	pgn::parse_game({pgn.data(), pgn.data() + pgn.size()}, PgnVisitor{game});
+
+	auto result = game.mainLineUCI();
+
+	std::vector<std::string> expected = {
+	    "position startpos moves",
+	    "e2e4",
+	    "position fen rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 1 "
+	    "2 moves",
+	    "d2d4",
+	    "position fen rnbqkbnr/pppppppp/8/8/3PP3/8/PPP2PPP/RNBQKBNR w KQkq - 1 "
+	    "3 moves",
+	    "c2c4",
+	    "position fen rnbqkbnr/pppppppp/8/8/2PPP3/8/PP3PPP/RNBQKBNR w KQkq - 1 "
+	    "4 moves",
+	    "g1f3"};
+	EXPECT_EQ(expected, result);
+}
+
 TEST(Test_Game, illegalPGN_Castling) {
   std::string_view pgn = "1.e4 e5 2.Nf3 Nf6 3.Be2 Be7 4.O-O O-O 5.O-O";
   Game game;
@@ -473,4 +587,405 @@ TEST(Test_Game, illegalSCID4_KingCapture) {
                            "1.d4 e6 2.e4 Bb4+ {_} 3.Ke2 Be1 4.Ke1");
   EXPECT_EQ(decode_gameview(data), "1.d4 e6  2.e4 Bb4+  3.-- Bxe1  4.a4");
   EXPECT_EQ(decode_game(data), "d4 e6 e4 Bb4+ -- ");
+}
+
+// ================================================================
+// Tests for game_parseNag: symbolic NAG parsing
+// ================================================================
+
+TEST(Test_Game, parseNag_moves) {
+  auto parse = [](const char *s) {
+    return game_parseNag({s, s + std::strlen(s)});
+  };
+  // Move quality annotations
+  EXPECT_EQ(NAG_GoodMove, parse("!"));
+  EXPECT_EQ(NAG_PoorMove, parse("?"));
+  EXPECT_EQ(NAG_ExcellentMove, parse("!!"));
+  EXPECT_EQ(NAG_Blunder, parse("??"));
+  EXPECT_EQ(NAG_InterestingMove, parse("!?"));
+  EXPECT_EQ(NAG_DubiousMove, parse("?!"));
+  EXPECT_EQ(NAG_OnlyMove, parse("[]"));
+}
+
+TEST(Test_Game, parseNag_positional) {
+  auto parse = [](const char *s) {
+    return game_parseNag({s, s + std::strlen(s)});
+  };
+  // Positional evaluations
+  EXPECT_EQ(NAG_Equal, parse("="));
+  EXPECT_EQ(NAG_Unclear, parse("~"));
+  EXPECT_EQ(NAG_WhiteSlight, parse("+="));
+  EXPECT_EQ(NAG_WhiteSlight, parse("+/="));
+  EXPECT_EQ(NAG_BlackSlight, parse("=+"));
+  EXPECT_EQ(NAG_BlackSlight, parse("=/+"));
+  EXPECT_EQ(NAG_WhiteClear, parse("+/-"));
+  EXPECT_EQ(NAG_BlackClear, parse("-/+"));
+  EXPECT_EQ(NAG_WhiteDecisive, parse("+-"));
+  EXPECT_EQ(NAG_BlackDecisive, parse("-+"));
+  EXPECT_EQ(NAG_WhiteCrushing, parse("+--"));
+  EXPECT_EQ(NAG_BlackCrushing, parse("--+"));
+  EXPECT_EQ(NAG_Compensation, parse("=/&"));
+  EXPECT_EQ(NAG_Compensation, parse("~="));
+}
+
+TEST(Test_Game, parseNag_attacks_and_counterplay) {
+  auto parse = [](const char *s) {
+    return game_parseNag({s, s + std::strlen(s)});
+  };
+  EXPECT_EQ(NAG_WithAttack, parse("+>"));
+  EXPECT_EQ(NAG_WithBlackAttack, parse("->"));
+  EXPECT_EQ(NAG_SlightCounterPlay, parse("<+>"));
+  EXPECT_EQ(NAG_BlackSlightCounterPlay, parse("<->"));
+  EXPECT_EQ(NAG_CounterPlay, parse("<++>"));
+  EXPECT_EQ(NAG_BlackCounterPlay, parse("<-->"));
+  EXPECT_EQ(NAG_DecisiveCounterPlay, parse("<+++>"));
+  EXPECT_EQ(NAG_BlackDecisiveCounterPlay, parse("<--->"));
+}
+
+TEST(Test_Game, parseNag_spatial_and_misc) {
+  auto parse = [](const char *s) {
+    return game_parseNag({s, s + std::strlen(s)});
+  };
+  // Kingside/Queenside
+  EXPECT_EQ(NAG_SlightKingSide, parse(">"));
+  EXPECT_EQ(NAG_ModerateKingSide, parse(">>"));
+  EXPECT_EQ(NAG_KingSide, parse(">>>"));
+  EXPECT_EQ(NAG_SlightQueenSide, parse("<"));
+  EXPECT_EQ(NAG_ModerateQueenSide, parse("<<"));
+  EXPECT_EQ(NAG_QueenSide, parse("<<<"));
+
+  // Centre
+  EXPECT_EQ(NAG_SlightCentre, parse("[+]"));
+  EXPECT_EQ(NAG_Centre, parse("[++]"));
+
+  // Zugzwang
+  EXPECT_EQ(NAG_ZugZwang, parse("ZZ"));
+  EXPECT_EQ(NAG_BlackZugZwang, parse("zz"));
+
+  // Special symbols
+  EXPECT_EQ(NAG_Novelty, parse("N"));
+  EXPECT_EQ(NAG_Diagram, parse("D"));
+  EXPECT_EQ(NAG_WeakPoint, parse("x"));
+  EXPECT_EQ(NAG_BishopPair, parse("BB"));
+  EXPECT_EQ(NAG_OppositeBishops, parse("Bb"));
+  EXPECT_EQ(NAG_WithIdea, parse("/\\"));
+  EXPECT_EQ(NAG_Diagonal, parse("/"));
+  EXPECT_EQ(NAG_File, parse("<=>"));
+  EXPECT_EQ(NAG_Ending, parse("_|_"));
+  EXPECT_EQ(NAG_Without, parse("_|"));
+  EXPECT_EQ(NAG_With, parse("|_"));
+  EXPECT_EQ(NAG_Etc, parse("||"));
+  EXPECT_EQ(NAG_BetterIs, parse("(_)"));
+  EXPECT_EQ(NAG_VariousMoves, parse("R"));
+  EXPECT_EQ(NAG_Comment, parse("RR"));
+  EXPECT_EQ(NAG_See, parse("--"));
+  EXPECT_EQ(NAG_SeparatedPawns, parse("o-o"));
+  EXPECT_EQ(NAG_UnitedPawns, parse("oo"));
+  EXPECT_EQ(NAG_PassedPawn, parse("o^"));
+}
+
+TEST(Test_Game, parseNag_numeric) {
+  auto parse = [](const char *s) {
+    return game_parseNag({s, s + std::strlen(s)});
+  };
+  EXPECT_EQ(1, parse("$1"));
+  EXPECT_EQ(14, parse("$14"));
+  EXPECT_EQ(201, parse("$201"));
+  EXPECT_EQ(0, parse("$0"));
+}
+
+TEST(Test_Game, parseNag_invalid) {
+  auto parse = [](const char *s) {
+    return game_parseNag({s, s + std::strlen(s)});
+  };
+  EXPECT_EQ(0, parse(""));
+  EXPECT_EQ(0, parse("!@"));
+  EXPECT_EQ(0, parse("?@"));
+  EXPECT_EQ(0, parse("+@"));
+  EXPECT_EQ(0, parse("=@"));
+  EXPECT_EQ(0, parse("B@"));
+  EXPECT_EQ(0, parse("Zx"));
+  EXPECT_EQ(0, parse("za"));
+  EXPECT_EQ(0, parse("toolongstr"));
+}
+
+// ================================================================
+// Tests for game_printNag: NAG to string conversion
+// ================================================================
+
+TEST(Test_Game, printNag_numeric) {
+  char buf[16];
+  game_printNag(0, buf, false, PGN_FORMAT_Plain);
+  EXPECT_STREQ("", buf);
+
+  game_printNag(1, buf, false, PGN_FORMAT_Plain);
+  EXPECT_STREQ("$1", buf);
+
+  game_printNag(14, buf, false, PGN_FORMAT_Plain);
+  EXPECT_STREQ("$14", buf);
+
+  game_printNag(201, buf, false, PGN_FORMAT_Plain);
+  EXPECT_STREQ("$201", buf);
+}
+
+TEST(Test_Game, printNag_symbolic) {
+  char buf[16];
+  game_printNag(NAG_GoodMove, buf, true, PGN_FORMAT_Plain);
+  EXPECT_STREQ("!", buf);
+
+  game_printNag(NAG_Blunder, buf, true, PGN_FORMAT_Plain);
+  EXPECT_STREQ("??", buf);
+
+  game_printNag(NAG_WhiteSlight, buf, true, PGN_FORMAT_Plain);
+  EXPECT_STREQ("+=", buf);
+
+  game_printNag(NAG_BlackDecisive, buf, true, PGN_FORMAT_Plain);
+  EXPECT_STREQ("-+", buf);
+
+  game_printNag(NAG_Diagram, buf, true, PGN_FORMAT_Plain);
+  EXPECT_STREQ("D", buf);
+
+  game_printNag(NAG_Diagram, buf, true, PGN_FORMAT_HTML);
+  EXPECT_STREQ("<i>(D)</i>", buf);
+}
+
+// ================================================================
+// Tests for transPieces: piece letter translation
+// ================================================================
+
+TEST(Test_Game, transPieces_english) {
+  int saved = language;
+  language = 0; // English, no translation
+  char str[] = "KQRBNPkqrbnp";
+  transPieces(str);
+  EXPECT_STREQ("KQRBNPkqrbnp", str); // unchanged
+  language = saved;
+}
+
+TEST(Test_Game, transPieces_french) {
+  int saved = language;
+  language = 1; // French: PPKRQDRTBFNC
+  char c = transPiecesChar('K');
+  EXPECT_EQ('R', c); // King -> Roi
+  c = transPiecesChar('Q');
+  EXPECT_EQ('D', c); // Queen -> Dame
+  c = transPiecesChar('B');
+  EXPECT_EQ('F', c); // Bishop -> Fou
+  c = transPiecesChar('N');
+  EXPECT_EQ('C', c); // Knight -> Cavalier
+  language = saved;
+}
+
+TEST(Test_Game, transPieces_portuguese) {
+  int saved = language;
+  language = 13; // Portuguese: PPKRQDRTBBNC
+  char c = transPiecesChar('K');
+  EXPECT_EQ('R', c); // King -> Rei
+  c = transPiecesChar('Q');
+  EXPECT_EQ('D', c); // Queen -> Dama
+  c = transPiecesChar('R');
+  EXPECT_EQ('T', c); // Rook -> Torre
+  c = transPiecesChar('B');
+  EXPECT_EQ('B', c); // Bishop -> Bispo
+  c = transPiecesChar('N');
+  EXPECT_EQ('C', c); // Knight -> Cavalo
+  language = saved;
+}
+
+TEST(Test_Game, transPiecesChar_noMatch) {
+  int saved = language;
+  language = 1;
+  // Lowercase letters should not be translated
+  EXPECT_EQ('a', transPiecesChar('a'));
+  EXPECT_EQ('z', transPiecesChar('z'));
+  language = saved;
+}
+
+// ================================================================
+// Tests for Game NAG management: AddNag, RemoveNag, ClearNags
+// ================================================================
+
+TEST(Test_Game, nag_add_and_clear) {
+  std::string_view pgn = "1.e4 e5";
+  Game game;
+  PgnParseLog pgnLog;
+  pgnParseGame(pgn.data(), pgn.size(), game, pgnLog);
+
+  game.MoveToStart();
+  game.MoveForward(); // after 1.e4
+
+  EXPECT_EQ(OK, game.AddNag(NAG_GoodMove));
+  byte *nags = game.GetNags();
+  EXPECT_EQ(NAG_GoodMove, nags[0]);
+
+  // Adding a zero NAG should be a no-op
+  EXPECT_EQ(OK, game.AddNag(0));
+
+  // Adding another move NAG (1-6) should replace
+  EXPECT_EQ(OK, game.AddNag(NAG_Blunder));
+  nags = game.GetNags();
+  EXPECT_EQ(NAG_Blunder, nags[0]);
+
+  // Add a positional NAG
+  EXPECT_EQ(OK, game.AddNag(NAG_WhiteSlight));
+  nags = game.GetNags();
+  EXPECT_EQ(NAG_Blunder, nags[0]);
+  EXPECT_EQ(NAG_WhiteSlight, nags[1]);
+
+  // Replacing a positional NAG
+  EXPECT_EQ(OK, game.AddNag(NAG_BlackDecisive));
+  nags = game.GetNags();
+  EXPECT_EQ(NAG_BlackDecisive, nags[1]);
+
+  // ClearNags
+  game.ClearNags();
+  nags = game.GetNags();
+  EXPECT_EQ(0, nags[0]);
+}
+
+TEST(Test_Game, nag_remove) {
+  std::string_view pgn = "1.e4 e5";
+  Game game;
+  PgnParseLog pgnLog;
+  pgnParseGame(pgn.data(), pgn.size(), game, pgnLog);
+
+  game.MoveToStart();
+  game.MoveForward();
+
+  game.AddNag(NAG_ExcellentMove); // move NAG
+  game.AddNag(NAG_WhiteClear);    // position NAG
+
+  // Remove move NAG
+  game.RemoveNag(true);
+  byte *nags = game.GetNags();
+  EXPECT_EQ(NAG_WhiteClear, nags[0]);
+
+  // Remove position NAG
+  game.RemoveNag(false);
+  nags = game.GetNags();
+  EXPECT_EQ(0, nags[0]);
+}
+
+// ================================================================
+// Tests for Game::strip: removing variations, comments, NAGs
+// ================================================================
+
+TEST(Test_Game, strip_variations) {
+  std::string_view pgn = "1.e4 e5 (1...c5 2.Nf3) 2.Nf3 Nc6";
+  Game game;
+  pgn::parse_game({pgn.data(), pgn.data() + pgn.size()}, PgnVisitor{game});
+
+  // After parsing, verify the game has variations by writing PGN
+  game.SetPgnFormat(PGN_FORMAT_Plain);
+  game.ResetPgnStyle(PGN_STYLE_TAGS | PGN_STYLE_VARS);
+  auto pgn_before = game.WriteToPGN(75, true);
+  std::string before(pgn_before.first, pgn_before.second);
+  EXPECT_NE(std::string::npos, before.find("("));
+
+  game.strip(true, false, false); // strip variations
+  auto pgn_after = game.WriteToPGN(75, true);
+  std::string after(pgn_after.first, pgn_after.second);
+  EXPECT_EQ(std::string::npos, after.find("("));
+}
+
+TEST(Test_Game, strip_comments) {
+  std::string_view pgn = "1.e4 {good move} e5 2.Nf3";
+  Game game;
+  pgn::parse_game({pgn.data(), pgn.data() + pgn.size()}, PgnVisitor{game});
+
+  game.MoveToStart();
+  game.MoveForward(); // after 1.e4
+  EXPECT_STRNE("", game.GetMoveComment());
+
+  game.strip(false, true, false); // strip comments
+  game.MoveToStart();
+  game.MoveForward();
+  EXPECT_STREQ("", game.GetMoveComment());
+}
+
+TEST(Test_Game, strip_nags) {
+  std::string_view pgn = "1.e4! e5 2.Nf3";
+  Game game;
+  PgnParseLog pgnLog;
+  pgnParseGame(pgn.data(), pgn.size(), game, pgnLog);
+
+  game.MoveToStart();
+  game.MoveForward();
+  EXPECT_NE(0, game.GetNags()[0]);
+
+  game.strip(false, false, true); // strip NAGs
+  game.MoveToStart();
+  game.MoveForward();
+  EXPECT_EQ(0, game.GetNags()[0]);
+}
+
+// ================================================================
+// Tests for Game navigation edge cases
+// ================================================================
+
+TEST(Test_Game, navigation_boundaries) {
+  std::string_view pgn = "1.e4 e5 2.Nf3";
+  Game game;
+  PgnParseLog pgnLog;
+  pgnParseGame(pgn.data(), pgn.size(), game, pgnLog);
+
+  // At start, MoveBackup should fail
+  game.MoveToStart();
+  EXPECT_TRUE(game.AtStart());
+  EXPECT_NE(OK, game.MoveBackup());
+
+  // At end, MoveForward should fail
+  game.MoveToEnd();
+  EXPECT_TRUE(game.AtEnd());
+  EXPECT_NE(OK, game.MoveForward());
+
+  // Move to specific ply
+  game.MoveToPly(2); // after 1...e5
+  EXPECT_EQ(2, game.GetCurrentPly());
+}
+
+TEST(Test_Game, navigation_variations) {
+  std::string_view pgn = "1.e4 e5 (1...c5 2.Nf3) 2.Nf3";
+  Game game;
+  pgn::parse_game({pgn.data(), pgn.data() + pgn.size()}, PgnVisitor{game});
+
+  game.MoveToStart();
+  game.MoveForward(); // after 1.e4
+  EXPECT_EQ(0u, game.GetVarLevel());
+
+  // Enter variation
+  EXPECT_EQ(OK, game.MoveIntoVariation(0));
+  EXPECT_EQ(1u, game.GetVarLevel());
+
+  // Exit variation
+  EXPECT_EQ(OK, game.MoveExitVariation());
+  EXPECT_EQ(0u, game.GetVarLevel());
+}
+
+TEST(Test_Game, setStartFen_valid) {
+  Game game;
+  const char *fen =
+      "r1bqkbnr/pppppppp/2n5/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 1 2";
+  EXPECT_EQ(OK, game.SetStartFen(fen));
+  EXPECT_TRUE(game.HasNonStandardStart());
+  char outFEN[256];
+  game.HasNonStandardStart(outFEN);
+  EXPECT_STREQ(fen, outFEN);
+}
+
+TEST(Test_Game, setStartFen_invalid) {
+  Game game;
+  EXPECT_NE(OK, game.SetStartFen("not a valid fen"));
+  EXPECT_FALSE(game.HasNonStandardStart());
+}
+
+TEST(Test_Game, getResultStr) {
+  Game game;
+  EXPECT_EQ("*", game.GetResultStr());
+  game.SetResult(RESULT_White);
+  EXPECT_EQ("1-0", game.GetResultStr());
+  game.SetResult(RESULT_Black);
+  EXPECT_EQ("0-1", game.GetResultStr());
+  game.SetResult(RESULT_Draw);
+  EXPECT_EQ("1/2-1/2", game.GetResultStr());
 }

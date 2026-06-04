@@ -1,6 +1,8 @@
 name: scidcommunity
-base: core22
+base: core24
 version: git
+platforms:
+  amd64:
 title: scidCommunity
 summary: Community-enhanced chess database and analysis application
 license: GPL-2.0
@@ -96,12 +98,12 @@ parts:
       - libxss1
       - libfontconfig1
       - libfreetype6
-      - libpng16-16
+      - libpng16-16t64
       - zlib1g
     override-build: |
-      snapcraftctl build
+      craftctl default
     override-prime: |
-      snapcraftctl prime
+      craftctl default
       # Debug: List Tcl/Tk installation to verify paths
       echo "=== Checking Tcl/Tk files ==="
       find . -name "init.tcl" -o -name "tk.tcl" -o -name "msgcat*" | head -30 || true

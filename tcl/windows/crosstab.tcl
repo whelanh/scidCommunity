@@ -84,6 +84,7 @@ proc ::crosstab::Open {} {
             result
         puts $tempfile $result
         close $tempfile
+        ::crosstab::CopyFlagsForHtml $fname $result
       }
     }
   }
@@ -218,6 +219,38 @@ proc ::crosstab::AddToFilter {} {
   sc_game crosstable filter
   sc_base switch $curr_base
   ::notify::filter $::crosstab::dbase_ dbfilter
+}
+
+# ::crosstab::CopyFlagsForHtml
+#   After writing an HTML crosstable to htmlFile, scan the HTML for references
+#   to "flags/flag_xxx.gif" and copy each referenced flag image from
+#   $::scidImgDir/flags into a "flags/" subdirectory next to the HTML file,
+#   so the resulting HTML is self-contained and portable.
+proc ::crosstab::CopyFlagsForHtml {htmlFile htmlContent} {
+  set srcDir [file join $::scidImgDir flags]
+  if {![file isdirectory $srcDir]} { return }
+  set dstDir [file join [file dirname $htmlFile] flags]
+  # Collect unique flag filenames referenced in the HTML.
+  set seen [dict create]
+  foreach match [regexp -all -inline {flags/(flag_[a-z]+\.gif)} $htmlContent] {
+      if {[string match flags/* $match]} { continue }
+      dict set seen $match 1
+  }
+  if {[dict size $seen] == 0} { return }
+  if {![file isdirectory $dstDir]} {
+      if {[catch {file mkdir $dstDir} err]} {
+          tk_messageBox -title "Scid: Error saving flags" -type ok -icon warning \
+              -message "Unable to create flags directory: $dstDir\n$err"
+          return
+      }
+  }
+  foreach gif [dict keys $seen] {
+      set src [file join $srcDir $gif]
+      set dst [file join $dstDir $gif]
+      if {[file exists $src] && ![file exists $dst]} {
+          catch {file copy -- $src $dst}
+      }
+  }
 }
 
 proc ::crosstab::Refresh {} {

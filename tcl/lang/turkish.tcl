@@ -1,3 +1,5 @@
+# Copyright (C) 2025-2026 Hugh Whelan
+# SPDX-License-Identifier: GPL-2.0-or-later
 
 # turkish.tcl
 # Turkish translations for Scid.
@@ -107,6 +109,7 @@ menuText T GameReplace "Kaydet: Oyunu değiştir..." 6 \
   {Eski sürümü değiştirerek bu oyunu kaydedin}
 menuText T GameAdd "Kaydet: Yeni Oyun Ekle..." 6 \
   {Bu oyunu veritabanına yeni bir oyun olarak kaydet}
+menuText T GameDelete "Oyunu Sil" 0 {Mevcut oyunun bayrağını silmeyi aç / kapat}
 menuText T GameDeepest "Açılışı Tanımlayın" 0 \
   {ECO kitabında listelenen en derin oyun pozisyonuna gidin}
 menuText T GameGotoMove "Numarayı Taşı'ya Git..." 5 \
@@ -167,6 +170,7 @@ menuText T ToolsTrainCalvar "Varyasyonların hesaplanması"  0 {Varyasyonların 
 menuText T ToolsTrainFindBestMove "En iyi hamleyi bul"  0 {En iyi hamleyi bul}
 menuText T ToolsTrainFics "FICS'te oyna"  0 {freechess.org'da oynayın}
 menuText T ToolsEngineTournament "Motor turnuvası"  0 {Satranç motorları arasında bir turnuva başlatın}
+menuText T ToolsTimeAnalysis "Zaman Analizi" 0 {Mevcut oyunun saat zaman grafiğini göster}
 menuText T ToolsBookTuning "Kitap ayarlama" 0 {Kitap ayarlama}
 menuText T ToolsDownloadTWIC "TWIC Oyunlarını İndirin" 0 {En yeni The Week In Chess (TWIC) oyunlarını indirin}
 menuText T ToolsConnectHardware "Donanımı Bağlayın" 8 {Harici donanımı bağlayın}
@@ -233,7 +237,8 @@ menuText T OptionsMovesHighlightLastMoveDisplay "Kareyi Göster" 0 {Son hamleyi 
 menuText T OptionsMovesHighlightLastMoveWidth "Genişlik" 0 {Çizgi kalınlığı}
 menuText T OptionsMovesHighlightLastMoveColor "Renk" 0 {Çizgi rengi}
 menuText T OptionsMovesHighlightLastMoveArrow "Ok Göster" 0 {Vurgulu Bir Ok Göster}
-menuText T OptionsMovesHighlightLastMoveNag "Değerlendirme sembollerini göster" 0
+menuText T OptionsMovesHighlightLastMoveNag "Açıklama sembollerini göster" 0
+menuText T OptionsMovesHighlightLastMoveEval "Değerlendirme sembollerini göster" 0
 menuText T OptionsMoves "Hareketler" 0 {Giriş seçeneklerini taşı}
 menuText T OptionsMovesAnimate "Animasyon Süresi" 1 \
   {Hareketleri canlandırmak için kullanılan süreyi ayarlayın}
@@ -251,8 +256,7 @@ menuText T OptionsMovesKey "Klavye Tamamlama" 0 \
 menuText T OptionsMovesShowVarArrows "Varyasyonlar için Okları Göster" 0 {Hareketleri varyasyonlarda gösteren okları açma/kapama}
 menuText T OptionsMovesShowEngineVariationArrows "Motor Varyasyonları için Okları Göster" 0 {MultiPV modunda motor değişim çizgilerini gösteren açma/kapama okları}
 menuText T OptionsMovesGlossOfDanger "Renk Kodlu Tehlike Parlatıcısı" 0 {Renk kodlu tehlike parlaklığını açma/kapama}
-# ====== TODO To be translated ======
-translate T OptionsMovesTreeDepth {Default Tree Window Move Depth}
+translate T OptionsMovesTreeDepth {Varsayılan Ağaç Penceresi Taşıma Derinliği}
 menuText T OptionsNumbers "Sayı Formatı" 0 {Sayı biçimini seçin}
 menuText T OptionsTheme "Tema" 0 {Arayüzün görünümünü değiştirin}
 menuText T OptionsWindows "Windows" 0 {Pencere seçenekleri}
@@ -288,6 +292,9 @@ menuText T HelpTip "Günün İpucu" 0 {Yararlı bir Scid ipucu göster}
 menuText T HelpStartup "Başlangıç ​​Penceresi" 0 {Başlangıç ​​penceresini göster}
 menuText T HelpAbout "Hakkında" 0 {ScidCommunity hakkında bilgiler}
 
+# Toolbar tooltips:
+menuText T RotateBoard "Tahtayı döndür" 0 {Tahtayı döndür}
+
 # Game info box popup menu:
 menuText T GInfoHideNext "Sonraki Hamleyi Gizle" 0
 menuText T GInfoMaterial "Malzeme Değerlerini Göster" 0
@@ -304,7 +311,61 @@ menuText T GInfoMark "Bu Oyunu İşaretle (Kaldır)" 4
 menuText T GInfoInformant "Bilgilendirici değerlerini yapılandırma" 0
 
 # General buttons:
+translate T LichessOpenExplore {Lichess OpenExplore}
+translate T LichessTitle {Lichess Açılış Gezgini}
+translate T LichessApiTokenReq {Lichess API Jetonu (gerekli):}
+translate T LichessDatabase {Veritabanı:}
+translate T LichessMasters {Ustalar}
+translate T LichessGames {Lichess Oyunları}
+translate T LichessPlayer {Oyuncu}
+translate T LichessNumMoves {Hareket sayısı:}
+translate T LichessTopGames {En iyi oyunlar:}
+translate T LichessRecentGames {Son oyunlar:}
+translate T LichessSinceYear {yıldan beri:}
+translate T LichessUntilYear {yılına kadar:}
+translate T LichessSinceMonth {(YYYY-AA) tarihinden bu yana:}
+translate T LichessUntilMonth {(YYYY-AA) tarihine kadar:}
+translate T LichessTimeControls {Zaman Kontrolleri}
+translate T LichessRatingGroups {Derecelendirme Grupları}
+translate T LichessPlayerName {Oyuncu kullanıcı adı:}
+translate T LichessPlayerColor {Oyuncu rengi:}
+translate T LichessWhite {Beyaz}
+translate T LichessBlack {Siyah}
+translate T LichessGameModes {Oyun Modları}
+translate T LichessRated {derecelendirildi}
+translate T LichessCasual {Gündelik}
+translate T LichessTokenRequired {Bir Lichess API jetonu gereklidir.\n\nMart 2026 itibarıyla Lichess, Açılış Gezgini'ne erişmek için bir API jetonuna ihtiyaç duymaktadır. Lütfen jetonunuzu yukarıdaki "Lichess API Token" alanına girin.\n\nTokenınızı şu adreste oluşturabilirsiniz: https://lichess.org/account/oauth/token}
+translate T LichessPlayerRequired {Lütfen Player veritabanı için bir Lichess kullanıcı adı girin.}
+translate T LichessQuerying {Lichess Sorgulanıyor Explorer Açılıyor...}
+translate T LichessFailedQuery {Lichess Açılış Gezgini sorgulanamadı:\n%s}
+translate T LichessPositionNotFound {%s veritabanında konum bulunamadı.\n\nAPI şunu döndürdü:\n%s}
+translate T LichessResultsTitle {Lichess Açılış Gezgini - %s Veritabanı}
+translate T LichessSummaryInfo {Toplam: %s oyun |  Beyaz kazanır: %s (%s%%) |  Beraberlik: %s (%s%%) |  Siyah galibiyet: %s (%s%%)}
+translate T LichessNoGamesFound {Bu pozisyona uygun oyun bulunamadı.}
+translate T LichessMoves {Hareketler:}
+translate T LichessColMove {Taşınmak}
+translate T LichessColWhite {Beyaz}
+translate T LichessColDraws {Beraberlik}
+translate T LichessColBlack {Siyah}
+translate T LichessColTotal {Toplam}
+translate T LichessColWinPct {Kazanç%}
+translate T LichessColAvgRating {Ort. Derecelendirme}
+translate T LichessColECO {EKO}
+translate T LichessColOpening {Açılış}
+translate T LichessTopGamesTitle {En Popüler Oyunlar:}
+translate T LichessRecentGamesTitle {Son Oyunlar:}
+translate T LichessColWinner {Kazanan}
+translate T LichessColWhiteRating {W.Değerlendirmesi}
+translate T LichessColBlackRating {B.Derecelendirme}
+translate T LichessColDate {Tarih}
+translate T LichessLoadGameConfirm {%s vs %s oyunu (ID: %s) klip tabanına yüklensin mi?}
+translate T LichessLoadGameTitle {Oyunu Yükle}
+translate T LichessFetchGameFailed {%s oyunu getirilemedi:\n%s}
+translate T LichessGameNotFound {%s oyunu Lichess'te bulunamadı.}
+translate T LichessImportFailed {Oyun içe aktarılamadı:\n%s}
+translate T LichessGameLoaded {Oyun, Clipbase'e başarıyla yüklendi.}
 translate T Back {Geri}
+translate T Apply {Uygula}
 translate T Browse {Göz at}
 translate T Cancel {İptal etmek}
 translate T Continue {Devam etmek}
@@ -312,6 +373,7 @@ translate T Clear {Temizlemek}
 translate T Close {Kapalı}
 translate T Contents {İçindekiler}
 translate T Defaults {Varsayılanlar}
+translate T InvertSearch {Aramayı Ters Çevir}
 translate T Delete {Silmek}
 translate T Graph {Grafik}
 translate T Help {Yardım}
@@ -324,6 +386,7 @@ translate T MergeGame {Oyunu Birleştir}
 translate T MergeGames {Oyunları Birleştir}
 translate T Preview {Önizleme}
 translate T Revert {Geri al}
+translate T Rename {Yeniden isimlendirmek}
 translate T Save {Kaydetmek}
 translate T Search {Aramak}
 translate T Stop {Durmak}
@@ -393,6 +456,11 @@ translate T readonly {salt okunur}
 translate T ErrNotOpen {Bu açık bir veritabanı değil.}
 translate T ErrReadOnly {Bu veritabanı salt okunurdur; değiştirilemez.}
 translate T ErrSearchInterrupted {Arama kesintiye uğradı; sonuçlar eksik.}
+translate T ErrNoClockComments {Bu oyunda [%clk] saat yorumu bulunamadı.    Bu özelliği kullanmak için Yorumlar Penceresini (Ctrl+E) kullanarak saat sürelerini ekleyin.}
+translate T ErrFileInUse {Hata: Dosya zaten kullanımda. Lütfen bu veritabanını kullanan diğer uygulamaları kapatın. Program beklenmedik bir şekilde kapatıldıysa veritabanıyla ilişkili .lock dosyasını silmeniz gerekebilir.}
+
+
+
 
 # Game information:
 translate T twin {ikiz}
@@ -466,8 +534,7 @@ menuText T TreeOptFastAndSlowmode "Hızlı ve yavaş mod" 0 {Güncellemeler içi
 menuText T TreeOptStartStop "Otomatik yenileme" 0 {Ağaç penceresinin otomatik olarak yenilenmesini açar/kapatır}
 menuText T TreeOptLock "Kilit" 0 {Ağacı geçerli veritabanına kilitleme/kilidini açma}
 menuText T TreeOptTraining "Eğitim" 0 {Ağaç eğitimi modunu aç/kapat}
-# ====== TODO To be translated ======
-menuText T TreeOptDepth "Move depth" 0 {Number of half moves to display in tree (1-4)}
+menuText T TreeOptDepth "Derinliği taşı" 0 {Ağaçta görüntülenecek yarım hamle sayısı (1-4)}
 menuText T TreeOptAutosave "Önbellek Dosyasını Otomatik Kaydet" 0 \
   {Ağaç penceresini kapatırken önbellek dosyasını otomatik olarak kaydet}
 menuText T TreeHelp "Yardım" 0
@@ -476,8 +543,7 @@ menuText T TreeHelpIndex "Yardım Dizini" 0
 translate T SaveCache {Önbelleği Kaydet}
 translate T Training {Eğitim}
 translate T LockTree {Kilit}
-# ====== TODO To be translated ======
-translate T TreeDepth {Tree depth (half moves):}
+translate T TreeDepth {Ağaç derinliği (yarım hamle):}
 translate T TreeLocked {kilitli}
 translate T TreeBest {En iyi}
 translate T TreeBestGames {En İyi Ağaç Oyunları}
@@ -586,11 +652,13 @@ menuText T GraphOptionsBoth "İkisi birden" 1
 menuText T GraphOptionsPInfo "Oyuncu Bilgisi oynatıcısı" 0
 menuText T GraphOptionsEloFile "Derecelendirme dosyasından Elo" 0
 menuText T GraphOptionsEloDB "Veritabanından Elo" 0
-translate T GraphFilterTitle "Filtre Grafiği: 1000 oyun başına frekans"
+translate T GraphFilterTitle "Filtre Grafiği: konuma ulaşan oyunların yüzdesi"
 translate T GraphAbsFilterTitle "Filtre Grafiği: oyunların sıklığı"
+translate T GraphWinPctTitle "Filtre Grafiği: yıllara göre mevcut konumda kazanma yüzdesi (1-0 ve 0-1)"
 translate T ConfigureFilter "Yıl, Derecelendirme ve Hareketler için X Eksenlerini Yapılandırma"
 translate T FilterEstimate "Tahmin etmek"
 translate T TitleFilterGraph "Scid: Filtre Grafiği"
+translate T WinPct "Kazanç %"
 
 # Analysis window:
 translate T AddVariation {Varyasyon Ekle}
@@ -626,6 +694,13 @@ translate T Informant+= {Beyazın hafif bir avantajı var}
 translate T Informant+/- {Beyazın bariz bir avantajı var}
 translate T Informant+- {Beyaz'ın belirleyici bir avantajı var}
 translate T Informant+-- {Beyazın ezici bir avantajı var}
+translate T AutoComment {Otomatik Yorum}
+translate T AutoCommentTooltip {Mevcut konum için yapay zeka yorumu oluşturun}
+translate T AnalysisAutoCommentTooltip {Oyunun tamamı için yapay zeka yorumları oluşturun}
+translate T GameComment {Oyun Yorumu}
+translate T GameCommentTooltip {Açıklamalı hareketler için oyunu tarayın ve AI özeti oluşturun}
+translate T TimeMs {Zaman(ms)}
+
 
 # Book window
 translate T Book {Kitap}
@@ -1063,6 +1138,7 @@ translate T ECOSummary {Özet}
 translate T ECOFrequency {Alt kodların sıklığı}
 
 # Opening Report:
+translate T OprepReportFor {Şunun için rapor:}
 translate T OprepTitle {Açılış Raporu}
 translate T OprepReport {Rapor}
 translate T OprepGenerated {Tarafından oluşturuldu}
@@ -1131,6 +1207,8 @@ translate T OprepTheoryTable {Teori Tablosu}
 translate T OprepTableComment {En yüksek puan alan %u oyundan oluşturuldu.}
 translate T OprepExtraMoves {Teori tablosundaki ekstra not hareketleri}
 translate T OprepMaxGames {Teori tablosundaki maksimum oyunlar}
+translate T OprepMergeMoves {Birleştirilmiş oyunlar için taşıma sınırı}
+translate T OprepMergeUnique {Yalnızca benzersiz oyunları birleştir}
 translate T OprepViewHTML {HTML'yi görüntüle}
 
 # Player Report:
@@ -1210,6 +1288,7 @@ translate T ClassifyNew {Yalnızca henüz ECO kodu olmayan oyunlar}
 translate T ClassifyCodes {Kullanılacak ECO Kodları}
 translate T ClassifyBasic {Yalnızca temel kodlar ("B12", ...)}
 translate T ClassifyExtended {Scid uzantıları ("B12j", ...)}
+translate T ClassifyResult {ECO sınıflandırması tamamlandı: $result oyun(lar)ı güncellendi.}
 
 # Compaction:
 translate T NameFile {Ad dosyası}
@@ -1281,8 +1360,7 @@ translate T SoundsFolder {Ses Dosyaları Klasörü}
 translate T SoundsFolderHelp {Klasör King.wav, a.wav, 1.wav, vb. dosyalarını içermelidir.}
 translate T SoundsAnnounceOptions {Duyuru Seçeneklerini Taşı}
 translate T SoundsAnnounceNew {Yeni hamleleri yapıldıkça duyurun}
-# ====== TODO To be translated ======
-translate T SoundsMoveSoundOnly {Move sound only (disable announcements)}
+translate T SoundsMoveSoundOnly {Yalnızca sesi taşı (duyuruları devre dışı bırak)}
 translate T SoundsAnnounceForward {Bir hamle ileri giderken hamleleri duyurun}
 translate T SoundsAnnounceBack {Geri çekilirken veya bir hamle geri giderken duyurun}
 translate T SoundsSoundDisabled {Scid başlangıçta Snack ses paketini bulamadı;\nSes devre dışı.}
@@ -1529,6 +1607,9 @@ translate T FICSUnrated {Derecelendirilmemiş}
 translate T FICSRegisteredPlayer {Yalnızca kayıtlı oyuncu}
 translate T FICSFreePlayer {Yalnızca ücretsiz oynatıcı}
 translate T FICSNetError {Ağ hatası\Bağlanılamıyor}
+translate T OptionsFICS {FICS}
+translate T FICSTerminalColor {Terminal rengi}
+translate T FICSTextColor {Metin rengi}
 
 # Game review
 translate T GameReview {Oyun incelemesi}
@@ -1606,6 +1687,8 @@ translate T FindCurrentGame {Mevcut oyunu bul}
 translate T DeleteGame {Oyunu sil}
 translate T UndeleteGame {Oyunun silinmesini geri al}
 translate T ResetSort {Sıralamayı sıfırla}
+translate T LayoutExists {'%s' düzeni zaten mevcut.}
+translate T ConfirmDeleteLayout {'%s' düzenini silmek istediğinizden emin misiniz?}
 
 translate T ConvertNullMove {Boş hareketleri yorumlara dönüştürün}
 translate T SetupBoard {Kurulum Panosu}
@@ -1642,5 +1725,32 @@ translate T OptionsTablebaseDir "En fazla 4 tablo tabanı klasörü seçin:"
 # Evaluation bar
 translate T BestMoveArrow "En iyi hamle oku"
 translate T NewLocalEngine "+ Yeni motor ..."
+
+# Batch Annotate
+translate T BatchAnnotate {Toplu Açıklama Ekleme}
+translate T BatchEngineSelection {Motor Seçimi}
+translate T BatchChessEngine {Satranç Motoru:}
+translate T BatchNumberOfInstances {Örnek Sayısı:}
+translate T BatchGameReview {Oyun İncelemesi}
+translate T BatchTimePerMove {Hareket başına süre (sn):}
+translate T BatchAnnotateBlunders {Yalnızca hatalara açıklama ekleyin}
+translate T BatchBlunderThreshold {Hata eşiği:}
+translate T BatchVariationLength {Değişim uzunluğu (hamleler):}
+translate T BatchOpeningBook {Açılış Kitabı}
+translate T BatchUseBook {Kitabı Kullan}
+translate T BatchAnnotateVariations {Varyasyonlara açıklama ekleyin}
+translate T BatchShortAnnotations {Kısa açıklamalar}
+translate T BatchAddScoreToShort {Kısa ek açıklamalara puan ekleyin}
+translate T BatchClearOld {Eski yorumları ve varyasyonları temizle}
+translate T BatchInitializingEngines {Motorlar başlatılıyor...}
+translate T BatchAnalyzingGames {Oyunlar Analiz Ediliyor...}
+translate T BatchProgress {Toplu Açıklama İlerleme Durumu}
+translate T BatchComplete {Toplu Açıklama Tamamlandı!}
+translate T BatchCancelled {Toplu Açıklama İptal Edildi}
+translate T BatchStart {Başlangıç}
+translate T BatchCancel {İptal etmek}
+translate T BatchCompleted {tamamlanmış}
+translate T BatchGames {oyunlar}
+translate T BatchProcessed {işlenmiş}
 }
 # end of english.tcl

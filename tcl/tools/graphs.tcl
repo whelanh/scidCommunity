@@ -292,7 +292,7 @@ proc tools::graphs::filter::Open {} {
   bind $w.c <1> tools::graphs::filter::Switch
   bind $w.c <$::MB3> ::tools::graphs::filter::Refresh
 
-  foreach {name text} {decade Decade year Year elo Rating move moves} {
+  foreach {name text} {decade Decade year Year elo Rating move moves winpct WinPct} {
     ttk::radiobutton $w.b.$name -text $::tr($text) \
         -variable ::tools::graphs::filter::type -value $name \
         -command ::tools::graphs::filter::Refresh
@@ -312,7 +312,8 @@ proc tools::graphs::filter::Switch {} {
     "decade" { set type "year" }
     "year" { set type "elo" }
     "elo" { set type "move" }
-    "move" { set type "decade" }
+    "move" { set type "winpct" }
+    "winpct" { set type "decade" }
   }
   ::tools::graphs::filter::Refresh
 }
@@ -336,8 +337,8 @@ proc ::tools::graphs::filter::Refresh {} {
     for {set i 1} {$i <=  $FilterMaxElo- $FilterMinElo} { incr i } {
       lappend vlines [list gray80 1 at $i.5]
     }
-  } elseif {$::tools::graphs::filter::type == "year"} {
-    # Vertical lines for Year-range graph:
+  } elseif {$::tools::graphs::filter::type == "year" || $::tools::graphs::filter::type == "winpct"} {
+    # Vertical lines for Year-range graph (also used by the W/B win-% graph):
     for {set i 1} {$i <= $FilterMaxYear- $FilterMinYear} {incr i } {
       lappend vlines [list gray80 1 at $i.5]
     }
@@ -349,6 +350,13 @@ proc ::tools::graphs::filter::Refresh {} {
       if {$i == 4  ||  $i == 9} { set vlineColor steelBlue }
       lappend vlines [list $vlineColor 1 at $i.5]
     }
+  }
+
+  # The W/B win-% graph illustrates only the games at the current position
+  # and so is handled in its own dedicated branch below.
+  if {$::tools::graphs::filter::type == "winpct"} {
+    ::tools::graphs::filter::RefreshWinPct $w $width $height $vlines
+    return
   }
 
   ::utils::graph::create filter -width $width -height $height -xtop 40 -ytop 35 \
@@ -416,17 +424,60 @@ proc ::tools::graphs::filter::Refresh {} {
     }
   }
 
+  # Determine which filter to use and the appropriate denominator:
+  # If a tree window is open, we want to show stats for the current position
+  # by using the tree filter (composed with dbfilter).
+  # Otherwise, just use dbfilter.
+  set currentBase [sc_base current]
+  set filterToUse "dbfilter"
+  
+  # Determine the denominator based on tree window state:
+  # - When "All Games" is checked in tree: denominator = total DB games
+  # - When "All Games" is unchecked: denominator = dbfilter count (e.g., only ICCF games)
+  # - When no tree window: denominator = total DB games
+  if {[winfo exists .treeWin$currentBase]} {
+    # Check if "All Games" is unchecked in the tree window
+    # When unchecked, the tree is showing a filtered subset (e.g., only ICCF games)
+    if {[info exists ::tree(allgames$currentBase)] && $::tree(allgames$currentBase) == 0} {
+      # Tree is showing dbfilter subset, so use dbfilter count as denominator
+      set denominatorFilter "dbfilter"
+    } else {
+      # Tree is showing all games, so use total database as denominator
+      set denominatorFilter ""
+    }
+    # Compose dbfilter with tree filter to get games at this position AND matching dbfilter
+    set treeFilter [sc_filter compose $currentBase "dbfilter" "tree"]
+    if {$treeFilter != ""} {
+      set filterToUse $treeFilter
+    }
+  } else {
+    # No tree window, use total database as denominator
+    set denominatorFilter ""
+  }
+  
+  set totalFilterGames 0
+  set totalGamesInRanges 0
+  set min 100.0
+
   foreach {start end label} $rlist {
     if {$ftype == "date"} { append end ".12.31" }
-    set r [sc_filter freq [sc_base current] dbfilter $ftype $start $end $FilterGuessELO]
+    set r [sc_filter freq $currentBase $filterToUse $ftype $start $end $FilterGuessELO]
     set filter [lindex $r 0]
-    set all [lindex $r 1]
+    if {$denominatorFilter != ""} {
+      set rSubset [sc_filter freq $currentBase $denominatorFilter $ftype $start $end $FilterGuessELO]
+      set all [lindex $rSubset 0]
+    } else {
+      set all [lindex $r 1]
+    }
+    set totalGamesInRanges [expr {$totalGamesInRanges + $all}]
     if {$all == 0} {
       set freq 0.0
     } else {
-      set freq [expr {double($filter) * 1000.0 / double($all)}]
+      set freq [expr {double($filter) * 100.0 / double($all)}]
     }
-    if {$freq >= 1000.0} { set freq 999.9 }
+    set totalFilterGames [expr {$totalFilterGames + $filter}]
+    if {$freq >= 100.0} { set freq 99.9 }
+    if {$freq < $min} { set min $freq }
     incr count
     lappend dlist $count
     lappend dlist $freq
@@ -434,24 +485,47 @@ proc ::tools::graphs::filter::Refresh {} {
     lappend xlabels [list $count $label]
   }
 
-  # Find a suitable spacing of y-axis labels:
-  set ytick 0.1
-  if {$max > 1.0} { set ytick 0.2 }
-  if {$max > 2.5} { set ytick 0.5 }
-  if {$max >   5} { set ytick   1 }
-  if {$max >  10} { set ytick   2 }
-  if {$max >  25} { set ytick   5 }
-  if {$max >  50} { set ytick  10 }
-  if {$max > 100} { set ytick  20 }
-  if {$max > 250} { set ytick  50 }
-  if {$max > 500} { set ytick 100 }
+  # Set dynamic y-axis range to show more variation
+  # Set ymin to 10% below minimum value, but never negative
+  if {$count > 0} {
+    set range [expr {$max - $min}]
+    set ymin [expr {$min - $range * 0.1}]
+    if {$ymin < 0} { set ymin 0 }
+    set ymax $max
+  } else {
+    set ymin 0
+    set ymax 10
+  }
+
+  # Calculate ytick to show approximately 10 intervals across the visible range
+  set displayRange [expr {$ymax - $ymin}]
+  if {$displayRange > 0} {
+    set rawTick [expr {$displayRange / 10.0}]
+    # Round to a nice number (1, 2, 5 times power of 10)
+    set logVal [expr {floor(log10($rawTick))}]
+    set magnitude [expr {pow(10, $logVal)}]
+    set normalized [expr {$rawTick / $magnitude}]
+    if {$normalized < 1.5} {
+      set ytick [expr {1.0 * $magnitude}]
+    } elseif {$normalized < 3.5} {
+      set ytick [expr {2.0 * $magnitude}]
+    } elseif {$normalized < 7.5} {
+      set ytick [expr {5.0 * $magnitude}]
+    } else {
+      set ytick [expr {10.0 * $magnitude}]
+    }
+  } else {
+    set ytick 1
+  }
   set hlines [list [list gray80 1 each $ytick]]
-  # Add mean horizontal line:
-  set filter [sc_filter count]
-  set all [sc_base numGames $::curr_db]
-  if {$all > 0} {
-    set mean [expr {double($filter) * 1000.0 / double($all)}]
-    if {$mean >= 1000.0} { set mean 999.9 }
+
+  # Add mean horizontal line in red:
+  # The mean represents overall popularity: total games at position as percentage of games across all ranges
+  # This accounts for games with invalid dates/ratings that are excluded from the graph
+  if {$totalGamesInRanges > 0 && $totalFilterGames > 0} {
+    set mean [expr {double($totalFilterGames) * 100.0 / double($totalGamesInRanges)}]
+    if {$mean >= 100.0} { set mean 99.9 }
+    # Add red horizontal line at mean value
     lappend hlines [list red 1 at $mean]
   }
 
@@ -461,10 +535,88 @@ proc ::tools::graphs::filter::Refresh {} {
   ::utils::graph::data filter data -color darkBlue -points 1 -lines 1 -bars 0 \
       -linewidth 2 -radius 4 -outline darkBlue -coords $dlist
   ::utils::graph::configure filter -xlabels $xlabels -ytick $ytick \
-      -hline $hlines -ymin 0 -xmin 0.5 -xmax [expr {$count + 0.5}]
+      -hline $hlines -ymin $ymin -ymax $max -xmin 0.5 -xmax [expr {$count + 0.5}]
   ::utils::graph::redraw filter
   $w.c itemconfigure title -text $::tr(GraphFilterTitle)
   $w.c itemconfigure type -text $typeName
+  $w.b.status configure -text "  $::tr(Filter): [::windows::gamelist::filterText]"
+  unbusyCursor .
+  update
+}
+
+proc ::tools::graphs::filter::RefreshWinPct {w width height vlines} {
+  global FilterMaxYear FilterMinYear FilterStepYear FilterGuessELO
+
+  ::utils::graph::create filter -width $width -height $height -xtop 40 -ytop 35 \
+      -ytick 5 -xtick 1 -font font_Small -canvas $w.c -textcolor black \
+      -vline $vlines -background lightYellow -tickcolor black -xmin 0 -xmax 1
+  ::utils::graph::redraw filter
+  busyCursor .
+  update
+
+  set rlist {}
+  for {set i $FilterMinYear} {$i <= $FilterMaxYear} {set i [expr {$i + $FilterStepYear}]} {
+    lappend rlist $i
+    lappend rlist [expr {$i + $FilterStepYear - 1}]
+    lappend rlist [expr {$i + $FilterStepYear / 2}]
+  }
+
+  set currentBase [sc_base current]
+  set filterToUse "dbfilter"
+  if {[winfo exists .treeWin$currentBase]} {
+    set treeFilter [sc_filter compose $currentBase "dbfilter" "tree"]
+    if {$treeFilter != ""} {
+      set filterToUse $treeFilter
+    }
+  }
+
+  set count 0
+  set dlistWhite {}
+  set dlistBlack {}
+  set xlabels {}
+  set maxPct 0.0
+
+  foreach {start end label} $rlist {
+    set r [sc_filter freq $currentBase $filterToUse date $start $end.12.31 $FilterGuessELO]
+    set total [lindex $r 0]
+    set whiteWins [lindex $r 2]
+    set blackWins [lindex $r 3]
+    if {$total == 0} {
+      set whitePct 0.0
+      set blackPct 0.0
+    } else {
+      set whitePct [expr {double($whiteWins) * 100.0 / double($total)}]
+      set blackPct [expr {double($blackWins) * 100.0 / double($total)}]
+    }
+    incr count
+    lappend dlistWhite $count $whitePct
+    lappend dlistBlack $count $blackPct
+    if {$whitePct > $maxPct} { set maxPct $whitePct }
+    if {$blackPct > $maxPct} { set maxPct $blackPct }
+    lappend xlabels [list $count $label]
+  }
+
+  set ymax [expr {$maxPct + 5.0}]
+  if {$ymax < 10.0} { set ymax 10.0 }
+  if {$ymax > 100.0} { set ymax 100.0 }
+  if {$ymax >= 50.0} {
+    set ytick 10
+  } elseif {$ymax >= 20.0} {
+    set ytick 5
+  } else {
+    set ytick 2
+  }
+  set hlines [list [list gray80 1 each $ytick]]
+
+  ::utils::graph::data filter white -color darkBlue -points 1 -lines 1 -bars 0 \
+      -linewidth 2 -radius 4 -outline darkBlue -key "1-0" -coords $dlistWhite
+  ::utils::graph::data filter black -color red -points 1 -lines 1 -bars 0 \
+      -linewidth 2 -radius 4 -outline red -key "0-1" -coords $dlistBlack
+  ::utils::graph::configure filter -xlabels $xlabels -ytick $ytick \
+      -hline $hlines -ymin 0 -ymax $ymax -xmin 0.5 -xmax [expr {$count + 0.5}]
+  ::utils::graph::redraw filter
+  $w.c itemconfigure title -text $::tr(GraphWinPctTitle)
+  $w.c itemconfigure type -text $::tr(Year)
   $w.b.status configure -text "  $::tr(Filter): [::windows::gamelist::filterText]"
   unbusyCursor .
   update
@@ -513,8 +665,8 @@ proc MoveTimeList {color add} {
         }
     }
     set movenr 0
-    set offset 0.0
-    if {  $color == "w" } { set offset 0.5 }
+    set offset 0.5
+    if {  $color == "w" } { set offset 1.0 }
     set sum 0.0
     for {set i 0} { $i < $n} { incr i } {
         # only look for the first match, because normaly only one of these types should used in game
@@ -1144,4 +1296,229 @@ proc ::tools::graphs::absfilter::Refresh {} {
   unbusyCursor .
   update
 }
+
+########################################
+# Time Analysis graph window
+
+namespace eval ::tools::graphs::time {}
+
+# ElapsedList:
+#   From a MoveTimeList result {x0 t0 x1 t1 ...} (remaining clock times),
+#   compute elapsed time per move as the delta between consecutive entries.
+#   Returns {moveNum elapsedMins ...} starting from the 2nd clock entry.
+#   The first entry is skipped because the starting time is unknown.
+#   For bar-chart side-by-side layout, White bars are offset -0.2 and
+#   Black bars are offset +0.2 from integer move numbers.
+proc ::tools::graphs::time::ElapsedList {coordsList offset} {
+  set result {}
+  set n [llength $coordsList]
+  # Need at least two entries to compute a delta
+  if {$n < 4} { return $result }
+  for {set i 2} {$i < $n} {incr i 2} {
+    set prevTime [lindex $coordsList [expr {$i - 1}]]
+    set currX    [lindex $coordsList $i]
+    set currTime [lindex $coordsList [expr {$i + 1}]]
+    set elapsed  [expr {$prevTime - $currTime}]
+    if {$elapsed < 0} { set elapsed 0 }
+    set moveNum  [expr {int($currX)}]
+    lappend result [expr {$moveNum + $offset}] $elapsed
+  }
+  return $result
+}
+
+proc ::tools::graphs::time::Open {} {
+  set w .tgraph
+  if {[winfo exists $w]} {
+    focus $w
+    ::tools::graphs::time::Refresh
+    return
+  }
+
+  toplevel $w
+  wm title $w "scidCommunity: Time Analysis"
+
+  # ---- Line graph canvas (top) ----
+  canvas $w.c -width 600 -height 280 \
+    -selectforeground [ttk::style lookup . -foreground] \
+    -background [ttk::style lookup . -background]
+  $w.c create text 25 5 -tag title -justify center -width 1 \
+      -font font_Regular -anchor n
+
+  # ---- Bar chart canvas (bottom) ----
+  canvas $w.c2 -width 600 -height 200 \
+    -selectforeground [ttk::style lookup . -foreground] \
+    -background [ttk::style lookup . -background]
+  $w.c2 create text 25 5 -tag bartitle -justify center -width 1 \
+      -font font_Regular -anchor n
+
+  # ---- Button bar ----
+  ttk::frame $w.btns
+  ttk::button $w.btns.refresh -text "Refresh" \
+      -command ::tools::graphs::time::Refresh
+  ttk::button $w.btns.close -text "Close" -command "destroy $w"
+  pack $w.btns.refresh -side left -padx 4 -pady 2
+  pack $w.btns.close   -side right -padx 4 -pady 2
+
+  pack $w.btns -side bottom -fill x
+  pack $w.c    -side top    -expand yes -fill both
+  pack $w.c2   -side top    -fill both
+
+  bind $w <Configure> {
+    # Resize line graph (top canvas)
+    .tgraph.c itemconfigure title -width [expr {[winfo width .tgraph.c] - 20}]
+    .tgraph.c coords title [expr {[winfo width .tgraph.c] / 2}] 8
+    if {[::utils::graph::isgraph tgraph]} {
+      ::utils::graph::configure tgraph \
+          -height [expr {[winfo height .tgraph.c] - 50}] \
+          -width  [expr {[winfo width  .tgraph.c] - 60}]
+      ::utils::graph::redraw tgraph
+    }
+    # Resize bar chart (bottom canvas)
+    .tgraph.c2 itemconfigure bartitle -width [expr {[winfo width .tgraph.c2] - 20}]
+    .tgraph.c2 coords bartitle [expr {[winfo width .tgraph.c2] / 2}] 8
+    if {[::utils::graph::isgraph tgraph2]} {
+      ::utils::graph::configure tgraph2 \
+          -height [expr {[winfo height .tgraph.c2] - 50}] \
+          -width  [expr {[winfo width  .tgraph.c2] - 60}]
+      ::utils::graph::redraw tgraph2
+    }
+  }
+  bind $w <F1> {helpWindow Index}
+
+  ::tools::graphs::time::Refresh
+}
+
+proc ::tools::graphs::time::Refresh {} {
+  set w .tgraph
+  if {![winfo exists $w]} { return }
+
+  # Fetch remaining clock data for both colours (add=0 => remaining time)
+  set coordsW [MoveTimeList "w" 0]
+  set coordsB [MoveTimeList "b" 0]
+
+  if {[llength $coordsW] == 0 && [llength $coordsB] == 0} {
+    # Clear any previous graph drawings from both canvases
+    $w.c  delete -withtag gtgraph
+    $w.c2 delete -withtag gtgraph2
+    tk_messageBox -parent $w -icon info -title "Time Analysis" \
+        -message [tr ErrNoClockComments]
+
+    return
+  }
+
+  set white [sc_game info white]
+  set black [sc_game info black]
+  set date  [sc_game info date]
+
+  # ---- Line graph (remaining clock time) ----
+
+  set maxMins 0
+  foreach lst [list $coordsW $coordsB] {
+    foreach {xv yv} $lst {
+      if {$yv > $maxMins} { set maxMins $yv }
+    }
+  }
+  set ytick 1
+  if {$maxMins > 10}  { set ytick  2 }
+  if {$maxMins > 30}  { set ytick  5 }
+  if {$maxMins > 60}  { set ytick 10 }
+  if {$maxMins > 120} { set ytick 20 }
+
+  set height [expr {[winfo height $w.c] - 50}]
+  set width  [expr {[winfo width  $w.c] - 60}]
+  if {$height < 50} { set height 230 }
+  if {$width  < 50} { set width  540 }
+
+  ::utils::graph::create tgraph \
+      -width $width -height $height \
+      -xtop 40 -ytop 30 \
+      -font font_Small -canvas $w.c \
+      -textcolor black -tickcolor black \
+      -background white \
+      -xtick 1 -ytick $ytick \
+      -ymin 0 \
+      -hline [list [list gray80 1 each $ytick]] \
+      -vline {{gray80 1 each 1} {steelBlue 1 each 5}}
+
+  ::utils::graph::data tgraph bounds -points 0 -lines 0 -bars 0 \
+      -coords {0 0 1 0}
+
+  if {[llength $coordsW] > 0} {
+    ::utils::graph::data tgraph white \
+        -color darkgreen -outline darkgreen \
+        -points 1 -lines 1 -linewidth 2 -radius 3 \
+        -key {} -coords $coordsW
+  }
+  if {[llength $coordsB] > 0} {
+    ::utils::graph::data tgraph black \
+        -color steelBlue -outline steelBlue \
+        -points 1 -lines 1 -linewidth 2 -radius 3 \
+        -key {} -coords $coordsB
+  }
+
+  ::utils::graph::redraw tgraph
+  $w.c itemconfigure title -text "Remaining Clock Time: $white vs $black  ($date)"
+  $w.c itemconfigure title -width [expr {[winfo width $w.c] - 20}]
+  $w.c coords title [expr {[winfo width $w.c] / 2}] 8
+
+  # ---- Bar chart (time spent per move) ----
+
+  # Compute elapsed (time spent) per move for each player:
+  # White bars offset -0.2, Black bars offset +0.2 for side-by-side display
+  set elapsedW [::tools::graphs::time::ElapsedList $coordsW -0.2]
+  set elapsedB [::tools::graphs::time::ElapsedList $coordsB  0.2]
+
+  set maxElapsed 0
+  foreach lst [list $elapsedW $elapsedB] {
+    foreach {xv yv} $lst {
+      if {$yv > $maxElapsed} { set maxElapsed $yv }
+    }
+  }
+  set ytick2 0.5
+  if {$maxElapsed > 2}  { set ytick2 1 }
+  if {$maxElapsed > 5}  { set ytick2 2 }
+  if {$maxElapsed > 10} { set ytick2 5 }
+  if {$maxElapsed > 30} { set ytick2 10}
+
+  set height2 [expr {[winfo height $w.c2] - 50}]
+  set width2  [expr {[winfo width  $w.c2] - 60}]
+  if {$height2 < 50} { set height2 150 }
+  if {$width2  < 50} { set width2  540 }
+
+  ::utils::graph::create tgraph2 \
+      -width $width2 -height $height2 \
+      -xtop 40 -ytop 30 \
+      -font font_Small -canvas $w.c2 \
+      -textcolor black -tickcolor black \
+      -background white \
+      -xtick 1 -ytick $ytick2 \
+      -ymin 0 \
+      -hline [list [list gray80 1 each $ytick2]] \
+      -vline {{gray80 1 each 1} {steelBlue 1 each 5}}
+
+  ::utils::graph::data tgraph2 bounds -points 0 -lines 0 -bars 0 \
+      -coords {0 0 1 0}
+
+  if {[llength $elapsedW] > 0} {
+    ::utils::graph::data tgraph2 wbars \
+        -color darkgreen -outline black \
+        -points 0 -lines 0 -bars 1 \
+        -barwidth 0.35 \
+        -coords $elapsedW
+  }
+  if {[llength $elapsedB] > 0} {
+    ::utils::graph::data tgraph2 bbars \
+        -color steelBlue -outline black \
+        -points 0 -lines 0 -bars 1 \
+        -barwidth 0.35 \
+        -coords $elapsedB
+  }
+
+  ::utils::graph::redraw tgraph2
+  $w.c2 itemconfigure bartitle \
+      -text "Time Spent Per Move (minutes) — White (green)  Black (blue)"
+  $w.c2 itemconfigure bartitle -width [expr {[winfo width $w.c2] - 20}]
+  $w.c2 coords bartitle [expr {[winfo width $w.c2] / 2}] 8
+}
+
 ### End of file: graphs.tcl

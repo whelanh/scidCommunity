@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.2.32
+Version:        5.1.3.38
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit fa099d624b86177bdf09a17eb220c6f33c7c00ed
+%global commit 6275afc056d3a1b039781ab3e2ac86244698de34
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,151 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Tue May 26, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-38
+- "Enable local language sounds if they exist; tied to language choice"
+* Fri May 22, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-36
+- "Fix saving Tree depth preference"
+* Thu May 21, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-35
+- "Translation updates"
+* Mon May 18, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-34
+- "Add Delete/Cntrl + x to Game menu"
+* Sun May 17, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-33
+- "Assign Cntrl + x to delete games in Game List window"
+* Wed May 13, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-32
+- "Add translations for Lichess OpenExplore button"
+* Mon May 12, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-31
+* Mon May 12, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-30
+- "Refine Lichess OpenExplore button in the PGN"
+* Mon May 11, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-29
+- "Add Lichess OpenExplore button to PGN window to access Lichess Opening Explorer data"
+* Sat May 9, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-27
+- "Add Berlin piece set"
+* Fri May 8, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-26
+- "Add Bulgarian language translation"
+* Thu May 7, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-25
+- "Translation completions"
+* Thu May 7, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-24
+- "Allow users to choose FICS background and text color in the Options/Preferences menu"
+* Wed May 6, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-23
+- "Allow users to rename and delete custom Game List window layouts"
+* Fri May 1, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-22
+- "Change language encodings"
+* Thu Apr 30, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-20
+- "Improve word wrap in Board comment box; update Portuguese translation"
+* Thu Apr 30, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-19
+- "Add new Win graph to Rel. Filter Graph suite"
+* Wed Apr 29, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-18
+- "Bring Batch Annotation output inline with Analysis window output"
+* Tue Apr 28, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-17
+- "Refine batch annotation feature"
+* Mon Apr 27, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-16
+- "Add batch annotation feature; update dark theme cursor"
+* Thu Apr 25, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-14
+- "Fix evaluation bar when Engine Window open"
+* Thu Apr 23, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-12
+- "Improve help; allow reference database in Opening Report; bug fixes"
+* Wed Apr 22, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-11
+- "Add 3 new language options"
+* Wed Apr 22, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-10
+- "Fix ratings column labels in FICS Players tab"
+* Tue Apr 21, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-09
+- "Fix crosstable flags, file dialog, 'best move' notation in Lichess Table Base dialog"
+* Sun Apr 19, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-08
+- "Add language"
+* Fri Apr 17, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-07
+- "Fix crash when no games loaded on open"
+* Fri Apr 17, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-06
+- "Fix Load Next and Previous Game in Game List window"
+* Thu Apr 16, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-05
+- "Improved translations; Rel. Graph axis formatting"
+* Sat Apr 11, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-04
+- "Revise Relative Filter Graph"
+* Fri Apr 10, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-03
+- "Rel. Filter graph fix + improved translations"
+* Fri Apr 10, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-02
+- "Improved translations"
+* Thu Apr 9, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-97
+- "Fix gamelist ordering on auto-load"
+* Wed Apr 8, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-96
+- "Simplify manual time entry; improve German translation"
+* Tue Apr 7, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-95
+- "Fix mouse wheel bindings in Board display"
+* Tue Apr 7, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-93
+- "Security enhancements (no functional change)"
+* Mon Apr 6, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-92
+- "Remove auto-scroll on double-click in the Gamelist window"
+* Mon Apr 6, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-90
+- "Speed enhancements + game selection fix"
+* Sun Apr 5, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-89
+- "Fix issue with multi-game select in Gamelist Window"
+* Sat Apr 4, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-88
+- "Persist multiple game choices in Gamelist Window; revert no compaction while Engine Window open"
+* Sat Apr 4, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-87
+- "Allow Ctrl + mouse click and Shift + mouse click to select multiple games in Gamelist Window"
+* Fri Apr 3, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-86
+- "Minor fixes to time recording in Serious games and Time Analysis graph labels"
+* Tue Mar 31 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-85
+- "Fix loading of informant values"
+* Mon Mar 30 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-84
+- "Add rotate board button; add default informant labels to Preferences menu"
+* Sat Mar 28 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-83
+- "Add ability to use wildcards in custom photo names"
+* Sat Mar 28 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-81
+- "Simplify custom photo usage (png and gif)"
+* Thu Mar 26 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-80
+- "Complete overhaul and update of Opening Report"
+* Thu Mar 26 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-79
+- "Add ability to show evaluation symbols; update Help files"
+* Thu Mar 26 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-78
+- "Add Invert Search button to the Header Search window"
+* Wed Mar 25 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-77
+- "Fix mask feature in the Tree Window"
+* Tue Mar 24 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-73
+- "Enable THP support for Linux users"
+* Mon Mar 23 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-72
+- "Security hardening"
+* Mon Mar 23 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-69
+- "Link Load Game features to the Game List Window"
+* Sat Mar 21 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-68
+- "Expand .lock message + translate"
+* Fri Mar 20 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-67
+- "Various fixes, local language translations"
+* Thu Mar 19 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-65
+- "Add new themes and modularize theme handling"
+* Wed Mar 18 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-63
+- "Add time analysis graphs and time input; add base corruption safeguard"
+* Tue Mar 17 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-62
+- "Added options for Tactical Game play"
+* Sat Mar 14 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-61
+- "Improved Portuguese translation and improved AI comment prompts"
+* Fri Mar 13 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-52
+- "Fix navigation issue with the board arrow keys at variations"
+* Thu Mar 12 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-51
+- "Move AI comment buttons to Engine Window and add Portuguese piece encoding"
+* Thu Mar 12 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-50
+- "Restore in-memory caching of engine results in the Engine Window"
+* Wed Mar 11 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-49
+- "Engine score regraph redrawn when user selects a new game"
+* Wed Mar 11 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-48
+- "Added Game Accuracy labels in the Engine Score chart in the Engine Window"
+* Mon Mar 09 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-44
+- "Add move navigation from the score graph in the Engine Window"
+* Mon Mar 09 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-41
+- "Add Scid score graph to the Engine Window"
+* Sun Mar 08 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-40
+- "Honor user preference for no arrows in analysis/engine windows; add move sounds"
+* Sat Mar 07 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-39
+- "Added tree information to Auto Comment prompts and incorporated upstream changes"
+* Thu Mar 05 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-38
+- "Added local language support for Auto Comment buttons"
+* Thu Mar 05 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-37
+- "Final improvements for prompts used for the Auto Comment buttons"
+* Wed Mar 04 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-36
+- "Refinements to prompts used in Auto Comment buttons"
+* Tue Mar 03 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-35
+- "Add Auto Comment buttons to the PGN and Analysis Engine windows"
+* Fri Feb 27 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-33
+- "Added stored evaluations panel to top of the Engine Window"
 * Thu Feb 26 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-32
 - "Added new Lichess Eval button in PGN window to look up stored evals"
 * Tue Feb 24 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.2-31

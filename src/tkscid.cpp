@@ -43,8 +43,10 @@
 #include <algorithm>
 #include <cstring>
 #include <filesystem>
+#include <future>
 #include <numeric>
 #include <set>
+#include <thread>
 #include <unordered_map>
 
 // Tcl 8.6/9.0 compatibility: Tcl_Size introduced in 9.0
@@ -988,6 +990,9 @@ UI_res_t sc_base_duplicates(scidBaseT *dbase, UI_handle_t ti, int argc,
 
   // We use a hashtable to limit duplicate game comparisons; each game
   // is only compared to others that hash to the same value.
+  // The hash incorporates White+Black players, and optionally Event, Site,
+  // and Year when those criteria are required to match — this dramatically
+  // reduces the size of comparison buckets for prolific players.
   std::vector<gNumListT> hash(numGames);
   size_t n_hash = 0;
   const std::vector<uint32_t> &hashMap =
@@ -1009,8 +1014,19 @@ UI_res_t sc_base_duplicates(scidBaseT *dbase, UI_handle_t ti, int argc,
       if (!criteria.sameColors && bl > wh) {
         std::swap(wh, bl);
       }
+      uint64_t h = (uint64_t(wh) << 32) | bl;
+
+      // Mix in additional fields when they are required to match.
+      // Using distinct multipliers avoids systematic cancellation.
+      if (criteria.sameEvent)
+        h ^= uint64_t(ie->GetEvent()) * 0x9e3779b97f4a7c15ULL;
+      if (criteria.sameSite)
+        h ^= uint64_t(ie->GetSite()) * 0xbf58476d1ce4e5b9ULL;
+      if (criteria.sameYear)
+        h ^= uint64_t(ie->GetYear()) * 0x94d049bb133111ebULL;
+
       gNumListT *node = &(hash[n_hash++]);
-      node->hash = (uint64_t(wh) << 32) + bl;
+      node->hash = h;
       node->gNumber = i;
     }
   }
@@ -1231,59 +1247,135 @@ int sc_eco_base(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
   }
 
   scidBaseT &dbase = *db;
-  auto entry_op = [&](IndexEntry &ie) {
-    if (ie.GetLength() == 0)
-      return false;
 
-    // Ignore games with existing ECO code if directed:
-    if (option == ECO_NOCODE && ie.GetEcoCode() != 0)
-      return false;
+  // Collect the list of game numbers to classify (respecting the filter).
+  std::string filterName =
+      (option == ECO_FILTER) ? "dbfilter" : dbase.newFilter();
+  auto hf = dbase.getFilter(filterName);
 
-    // Ignore games before starting date if directed:
-    if (option == ECO_DATE && ie.GetDate() < startDate)
-      return false;
+  std::vector<gamenumT> gameNums;
+  gameNums.reserve(hf->size());
+  for (auto gnum : hf)
+    gameNums.push_back(gnum);
 
-    auto bbuf = dbase.getGame(ie);
-    Game *g = scratchGame;
-    if (g->DecodeSkipTags(&bbuf) != OK)
-      return false;
+  if (option != ECO_FILTER)
+    dbase.deleteFilter(filterName.c_str());
 
-    ecoT ecoCode = ECO_None;
-    for (;;) {
-      auto pos = g->GetCurrentPos();
-      if (pos->TotalMaterial() < ecoBook->FewestPieces())
-        break;
+  const gamenumT total = static_cast<gamenumT>(gameNums.size());
+  if (total == 0)
+    return UI_Result(ti, OK, 0);
 
-      const auto eco = ecoBook->findECO(pos);
-      if (eco != ECO_None) {
-        ecoCode = eco;
+  // Sentinel meaning "game not processed / no change needed".
+  // ecoT is uint16_t; 0xFFFF is not a valid ECO code.
+  constexpr ecoT kNoChange = static_cast<ecoT>(0xFFFF);
+
+  // Pre-compute ECO codes in parallel.
+  // Each worker thread uses its own Game object (Game is not thread-safe).
+  // PBook::findECO is read-only on an unordered_multimap → concurrent reads OK.
+  // scidBaseT::getGame() uses mmap → concurrent reads OK.
+  const unsigned nThreads =
+      std::max(1u, std::min(std::thread::hardware_concurrency(), 8u));
+  const gamenumT chunkSize = (total + nThreads - 1) / nThreads;
+
+  // results[i] == kNoChange → no update needed for gameNums[i].
+  // results[i] == some ECO  → set that ECO code for gameNums[i].
+  std::vector<ecoT> results(total, kNoChange);
+
+  auto classify_chunk = [&](gamenumT begin, gamenumT end) {
+    Game g; // Per-thread Game object
+    for (gamenumT i = begin; i < end; ++i) {
+      const gamenumT gnum = gameNums[i];
+      const IndexEntry *ie = dbase.getIndexEntry(gnum);
+
+      if (ie->GetLength() == 0)
+        continue;
+      if (option == ECO_NOCODE && ie->GetEcoCode() != 0)
+        continue;
+      if (option == ECO_DATE && ie->GetDate() < startDate)
+        continue;
+
+      auto bbuf = dbase.getGame(*ie);
+      if (g.DecodeSkipTags(&bbuf) != OK)
+        continue;
+
+      ecoT ecoCode = ECO_None;
+      for (;;) {
+        auto pos = g.GetCurrentPos();
+        if (pos->TotalMaterial() < ecoBook->FewestPieces())
+          break;
+
+        const auto eco = ecoBook->findECO(pos);
+        if (eco != ECO_None)
+          ecoCode = eco;
+
+        simpleMoveT sm;
+        if (g.DecodeNextMove(&bbuf, sm) != OK)
+          break;
+
+        g.GetCurrentPos()->DoSimpleMove(sm);
       }
 
-      simpleMoveT sm;
-      if (g->DecodeNextMove(&bbuf, sm) != OK)
-        break;
+      if (!extendedCodes)
+        ecoCode = eco_BasicCode(ecoCode);
 
-      g->GetCurrentPos()->DoSimpleMove(sm);
+      // Record only if the computed code differs from what is stored.
+      if (ie->GetEcoCode() != ecoCode)
+        results[i] = ecoCode;
     }
-
-    if (!extendedCodes) {
-      ecoCode = eco_BasicCode(ecoCode);
-    }
-
-    if (ie.GetEcoCode() != ecoCode) {
-      ie.SetEcoCode(ecoCode);
-      return true;
-    }
-    return false;
   };
 
-  std::string filter = (option == ECO_FILTER) ? "dbfilter" : dbase.newFilter();
-  auto hf = dbase.getFilter(filter);
-  auto changes = dbase.transformIndex(hf, UI_CreateProgress(ti), entry_op);
-  if (option == ECO_FILTER)
-    dbase.deleteFilter(filter.c_str());
+  // Launch worker futures (all but the last chunk).
+  std::vector<std::future<void>> futures;
+  futures.reserve(nThreads - 1);
+  for (unsigned t = 0; t + 1 < nThreads; ++t) {
+    const gamenumT begin = t * chunkSize;
+    const gamenumT end = std::min(begin + chunkSize, total);
+    if (begin >= total)
+      break;
+    futures.push_back(
+        std::async(std::launch::async, classify_chunk, begin, end));
+  }
+  // Process the last chunk on the calling thread while workers run.
+  {
+    const gamenumT begin = (nThreads - 1) * chunkSize;
+    if (begin < total)
+      classify_chunk(begin, total);
+  }
+  for (auto &f : futures)
+    f.get();
 
-  return UI_Result(ti, changes.first, changes.second);
+  // Build sorted (gnum, new_eco) pairs for the games that need updating.
+  // gameNums is in ascending order (HFilter iterates in gnum order), so
+  // changes will also be in ascending order — matching transformIndex_ order.
+  std::vector<std::pair<gamenumT, ecoT>> changes;
+  changes.reserve(total / 4);
+  for (gamenumT i = 0; i < total; ++i) {
+    if (results[i] != kNoChange)
+      changes.emplace_back(gameNums[i], results[i]);
+  }
+
+  if (changes.empty())
+    return UI_Result(ti, OK, 0);
+
+  // Build a filter containing only the games that need updating, then apply
+  // the pre-computed ECO codes serially via transformIndex.
+  // The lambda uses a positional counter: transformIndex_ iterates in
+  // ascending gnum order over the filter, which matches the order of changes.
+  std::string applyFilterName = dbase.newFilter();
+  auto applyHf = dbase.getFilter(applyFilterName);
+  applyHf->clear();
+  for (const auto &[gnum, eco] : changes)
+    applyHf->set(gnum, 1);
+
+  size_t changeIdx = 0;
+  auto entry_op = [&](IndexEntry &ie) -> bool {
+    ie.SetEcoCode(changes[changeIdx++].second);
+    return true;
+  };
+
+  auto res = dbase.transformIndex(applyHf, UI_CreateProgress(ti), entry_op);
+  dbase.deleteFilter(applyFilterName.c_str());
+  return UI_Result(ti, res.first, res.second);
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1471,9 +1563,10 @@ namespace {
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // sc_filter_freq:
-//    Returns a two-integer list showing how many filter games,
+//    Returns a list showing how many filter games,
 //    and how many total database games, meet the specified
-//    date or mean rating range criteria.
+//    date or mean rating range criteria, plus a breakdown of
+//    the results of the filtered games.
 //    Usage:
 //        sc_filter freq baseId filterName date <startdate> [<endDate>]
 //    or  sc_filter freq baseId filterName elo <lowerMeanElo> [<upperMeanElo>]
@@ -1487,6 +1580,15 @@ namespace {
 //    will be ignored. Also, if one player has an Elo rating but
 //    the other does not, the other rating will be assumed to be
 //    same as the nonzero rating, up to a maximum of 2200.
+//
+//    The returned Tcl list contains:
+//        filteredCount  - games in the filter within the range
+//        allCount       - all DB games within the range
+//        filteredWhite  - filtered games with result 1-0
+//        filteredBlack  - filtered games with result 0-1
+//        filteredDraw   - filtered games with result 1/2-1/2
+//    The trailing result counters are appended unconditionally; existing
+//    callers that use only lindex 0/1 are unaffected.
 int sc_filter_freq(scidBaseT *dbase, const HFilter &filter, Tcl_Interp *ti,
                    int argc, const char **argv) {
   const char *usage = "Usage: sc_filter freq baseId filterName date|elo|move "
@@ -1540,6 +1642,32 @@ int sc_filter_freq(scidBaseT *dbase, const HFilter &filter, Tcl_Interp *ti,
   // Calculate frequencies in the specified date or rating range:
   uint filteredCount = 0;
   uint allCount = 0;
+  uint filteredWhite = 0;
+  uint filteredBlack = 0;
+  uint filteredDraw = 0;
+
+  // Helper lambda to record a game that is inside the requested range.
+  // Tallies the totals and, if the game is in the filter, the per-result
+  // breakdown used by graphs that compare wins vs losses.
+  auto recordGame = [&](const IndexEntry *ie, uint gnum) {
+    allCount++;
+    if (filter.get(gnum) != 0) {
+      filteredCount++;
+      switch (ie->GetResult()) {
+      case RESULT_White:
+        filteredWhite++;
+        break;
+      case RESULT_Black:
+        filteredBlack++;
+        break;
+      case RESULT_Draw:
+        filteredDraw++;
+        break;
+      default:
+        break;
+      }
+    }
+  };
 
   if (eloMode) {
     for (uint gnum = 0, n = dbase->numGames(); gnum < n; gnum++) {
@@ -1554,10 +1682,7 @@ int sc_filter_freq(scidBaseT *dbase, const HFilter &filter, Tcl_Interp *ti,
           bothElo += (wElo > 2200 ? 2200 : wElo);
         }
         if (bothElo >= minElo && bothElo <= maxElo) {
-          allCount++;
-          if (filter.get(gnum) != 0) {
-            filteredCount++;
-          }
+          recordGame(ie, gnum);
         }
       } else {
         // Klimmek: if lowest Elo in the Range: count them
@@ -1566,10 +1691,7 @@ int sc_filter_freq(scidBaseT *dbase, const HFilter &filter, Tcl_Interp *ti,
           mini = ie->GetBlackElo();
         if (mini < minElo || mini >= maxElo)
           continue;
-        allCount++;
-        if (filter.get(gnum) != 0) {
-          filteredCount++;
-        }
+        recordGame(ie, gnum);
       }
     }
   } else if (moveMode) {
@@ -1579,10 +1701,7 @@ int sc_filter_freq(scidBaseT *dbase, const HFilter &filter, Tcl_Interp *ti,
       const IndexEntry *ie = dbase->getIndexEntry(gnum);
       uint move = ie->GetNumHalfMoves();
       if (move >= minMove && move <= maxMove) {
-        allCount++;
-        if (filter.get(gnum) != 0) {
-          filteredCount++;
-        }
+        recordGame(ie, gnum);
       }
     }
   } else { // datemode
@@ -1590,15 +1709,15 @@ int sc_filter_freq(scidBaseT *dbase, const HFilter &filter, Tcl_Interp *ti,
       const IndexEntry *ie = dbase->getIndexEntry(gnum);
       dateT date = ie->GetDate();
       if (date >= startDate && date <= endDate) {
-        allCount++;
-        if (filter.get(gnum) != 0) {
-          filteredCount++;
-        }
+        recordGame(ie, gnum);
       }
     }
   }
   appendUintElement(ti, filteredCount);
   appendUintElement(ti, allCount);
+  appendUintElement(ti, filteredWhite);
+  appendUintElement(ti, filteredBlack);
+  appendUintElement(ti, filteredDraw);
   return TCL_OK;
 }
 
@@ -1839,10 +1958,7 @@ int sc_filter_old(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
     if (argc == 5) {
       const HFilter f = dbase->getFilter(argv[4]);
       if (f != 0) {
-        for (uint i = 0, n = dbase->numGames(); i < n; i++) {
-          if (filter.get(i) != 0 && f.get(i) == 0)
-            filter.set(i, 0);
-        }
+        filter.andWith(f);
         return UI_Result(ti, OK);
       }
     }
@@ -1852,10 +1968,7 @@ int sc_filter_old(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
     if (argc == 5) {
       const HFilter f = dbase->getFilter(argv[4]);
       if (f != 0) {
-        for (uint i = 0, n = dbase->numGames(); i < n; i++) {
-          if (filter.get(i) == 0)
-            filter.set(i, f.get(i));
-        }
+        filter.orWith(f);
         return UI_Result(ti, OK);
       }
     }
@@ -1865,9 +1978,7 @@ int sc_filter_old(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
     if (argc == 5) {
       const HFilter f = dbase->getFilter(argv[4]);
       if (f != 0) {
-        for (uint i = 0, n = dbase->numGames(); i < n; i++) {
-          filter.set(i, f.get(i));
-        }
+        filter.copyFrom(f);
         return UI_Result(ti, OK);
       }
     }
@@ -1877,9 +1988,7 @@ int sc_filter_old(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
     return sc_filter_freq(dbase, filter, ti, argc, argv);
 
   case FILTER_NEGATE:
-    for (uint i = 0, n = dbase->numGames(); i < n; i++) {
-      filter.set(i, !filter.get(i));
-    }
+    filter.negateAll();
     return UI_Result(ti, OK);
 
   case FILTER_COUNT:
@@ -2002,16 +2111,17 @@ int sc_filter_old(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
 
 int sc_game(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
   static const char *options[] = {
-      "altered",    "crosstable", "eco",        "find",
-      "firstMoves", "import",     "info",       "load",
-      "merge",      "moves",      "new",        "novelty",
-      "number",     "pgn",        "pop",        "push",
-      "SANtoUCI",   "save",       "startBoard", "strip",
-      "tags",       "truncate",   "variant",    "UCI_currentPos",
-      "undo",       "undoAll",    "undoPoint",  "redo",
-      NULL};
+      "altered",        "clear",        "crosstable", "eco",
+      "find",           "firstMoves",   "import",     "info",
+      "load",           "merge",        "moves",      "new",
+      "novelty",        "number",       "pgn",        "pop",
+      "push",           "SANtoUCI",     "save",       "startBoard",
+      "strip",          "tags",         "truncate",   "variant",
+      "UCI_currentPos", "UCI_mainLine", "undo",       "undoAll",
+      "undoPoint",      "redo",         NULL};
   enum {
     GAME_ALTERED,
+    GAME_CLEAR,
     GAME_CROSSTABLE,
     GAME_ECO,
     GAME_FIND,
@@ -2035,6 +2145,7 @@ int sc_game(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
     GAME_TRUNCATE,
     GAME_VARIANT,
     GAME_UCI_CURRENTPOS,
+    GAME_UCI_MAINLINE,
     GAME_UNDO,
     GAME_UNDO_ALL,
     GAME_UNDO_POINT,
@@ -2050,6 +2161,10 @@ int sc_game(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
   switch (index) {
   case GAME_ALTERED:
     return UI_Result(ti, OK, db->gameAltered);
+
+  case GAME_CLEAR:
+    db->game->Clear();
+    return UI_Result(ti, OK);
 
   case GAME_CROSSTABLE:
     return sc_game_crosstable(cd, ti, argc, argv);
@@ -2144,6 +2259,15 @@ int sc_game(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
 
   case GAME_UCI_CURRENTPOS:
     return UI_Result(ti, OK, db->game->currentPosUCI());
+
+  case GAME_UCI_MAINLINE: {
+    auto vec = db->game->mainLineUCI();
+    UI_List res(vec.size());
+    for (auto const &e : vec) {
+      res.push_back(e);
+    }
+    return UI_Result(ti, OK, res);
+  }
 
   case GAME_UNDO:
     if (argc > 2 && strCompare("size", argv[2]) == 0) {
@@ -2274,6 +2398,7 @@ int sc_game_crosstable(ClientData, Tcl_Interp *ti, int argc,
   bool showAges = true;
   bool showColors = true;
   bool showCountries = true;
+  bool showFlags = true;
   bool showTallies = true;
   bool showRatings = true;
   bool showTitles = true;
@@ -2344,8 +2469,10 @@ int sc_game_crosstable(ClientData, Tcl_Interp *ti, int argc,
       showCountries = true;
       break;
     case EOPT_FLAGS_OFF:
+      showFlags = false;
       break;
     case EOPT_FLAGS_ON:
+      showFlags = true;
       break;
     case EOPT_TALLIES_OFF:
       showTallies = false;
@@ -2465,6 +2592,7 @@ int sc_game_crosstable(ClientData, Tcl_Interp *ti, int argc,
   ctable->SetSwissColors(showColors);
   ctable->SetAges(showAges);
   ctable->SetCountries(showCountries);
+  ctable->SetFlags(showFlags);
   ctable->SetTallies(showTallies);
   ctable->SetElos(showRatings);
   ctable->SetTitles(showTitles);
@@ -2570,9 +2698,9 @@ int sc_game_crosstable(ClientData, Tcl_Interp *ti, int argc,
                      NULL);
   }
 
-  char stemp[1000];
-  sprintf(stemp, "%s%s%s, ", g->GetEventStr(), newlineStr, g->GetSiteStr());
-  Tcl_AppendResult(ti, stemp, NULL);
+  char stemp[256];
+  Tcl_AppendResult(ti, g->GetEventStr(), newlineStr, g->GetSiteStr(), ", ",
+                   NULL);
   date_DecodeToString(firstSeenDate, stemp);
   strTrimDate(stemp);
   Tcl_AppendResult(ti, stemp, NULL);
@@ -2590,8 +2718,8 @@ int sc_game_crosstable(ClientData, Tcl_Interp *ti, int argc,
     appendUintResult(ti, avgElo);
     uint category = ctable->FideCategory(avgElo);
     if (category > 0 && mode == CROSSTABLE_AllPlayAll) {
-      sprintf(stemp, "  (%s %u)", translate(ti, "Category", "Category"),
-              category);
+      std::snprintf(stemp, sizeof(stemp), "  (%s %u)",
+                    translate(ti, "Category", "Category"), category);
       Tcl_AppendResult(ti, stemp, NULL);
     }
     Tcl_AppendResult(ti, newlineStr, NULL);
@@ -2895,7 +3023,7 @@ int sc_game_info(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
   Tcl_AppendResult(ti, temp, NULL);
   eloT elo = db->game->GetWhiteElo();
   if (elo != 0) {
-    sprintf(temp, " <red>%u</red>", elo);
+    std::snprintf(temp, sizeof(temp), " <red>%u</red>", elo);
     Tcl_AppendResult(ti, temp, NULL);
   }
   std::snprintf(temp, sizeof(temp), "  --  <pi %s>%s</pi>",
@@ -2907,17 +3035,17 @@ int sc_game_info(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
   Tcl_AppendResult(ti, temp, NULL);
   elo = db->game->GetBlackElo();
   if (elo != 0) {
-    sprintf(temp, " <red>%u</red>", elo);
+    std::snprintf(temp, sizeof(temp), " <red>%u</red>", elo);
     Tcl_AppendResult(ti, temp, NULL);
   }
 
   if (hideNextMove) {
-    sprintf(temp, "<br>(%s: %s)", translate(ti, "Result"),
-            translate(ti, "hidden"));
+    std::snprintf(temp, sizeof(temp), "<br>(%s: %s)", translate(ti, "Result"),
+                  translate(ti, "hidden"));
   } else {
-    sprintf(temp, "<br>%s <red>(%u)</red>",
-            RESULT_LONGSTR[db->game->GetResult()],
-            (db->game->GetNumHalfMoves() + 1) / 2);
+    std::snprintf(temp, sizeof(temp), "<br>%s <red>(%u)</red>",
+                  RESULT_LONGSTR[db->game->GetResult()],
+                  (db->game->GetNumHalfMoves() + 1) / 2);
   }
   Tcl_AppendResult(ti, temp, NULL);
 
@@ -3046,8 +3174,9 @@ int sc_game_info(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     strAppend(temp, ")");
     printNags = false;
   } else {
-    sprintf(temp, "<run ::move::Back>%u.%s%s</run>", prevMoveCount,
-            toMove == WHITE ? ".." : "", tempTrans); // san);
+    std::snprintf(temp, sizeof(temp), "<run ::move::Back>%u.%s%s</run>",
+                  prevMoveCount, toMove == WHITE ? ".." : "",
+                  tempTrans); // san);
     printNags = true;
   }
   Tcl_AppendResult(ti, translate(ti, "LastMove", "Last move"), NULL);
@@ -3079,13 +3208,14 @@ int sc_game_info(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     strAppend(temp, ")");
     printNags = false;
   } else if (hideNextMove) {
-    sprintf(temp, "%u.%s(", moveCount, toMove == WHITE ? "" : "..");
+    std::snprintf(temp, sizeof(temp), "%u.%s(", moveCount,
+                  toMove == WHITE ? "" : "..");
     strAppend(temp, translate(ti, "hidden"));
     strAppend(temp, ")");
     printNags = false;
   } else {
-    sprintf(temp, "<run ::move::Forward>%u.%s%s</run>", moveCount,
-            toMove == WHITE ? "" : "..", tempTrans); // san);
+    std::snprintf(temp, sizeof(temp), "<run ::move::Forward>%u.%s%s</run>",
+                  moveCount, toMove == WHITE ? "" : "..", tempTrans); // san);
     printNags = true;
   }
   Tcl_AppendResult(ti, "   ", translate(ti, "NextMove", "Next"), NULL);
@@ -3112,13 +3242,13 @@ int sc_game_info(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
   if (showMaterialValue) {
     uint mWhite = db->game->GetCurrentPos()->MaterialValue(WHITE);
     uint mBlack = db->game->GetCurrentPos()->MaterialValue(BLACK);
-    sprintf(temp, "    <gray>(%u-%u", mWhite, mBlack);
+    std::snprintf(temp, sizeof(temp), "    <gray>(%u-%u", mWhite, mBlack);
     Tcl_AppendResult(ti, temp, NULL);
     if (mWhite > mBlack) {
-      sprintf(temp, ":+%u", mWhite - mBlack);
+      std::snprintf(temp, sizeof(temp), ":+%u", mWhite - mBlack);
       Tcl_AppendResult(ti, temp, NULL);
     } else if (mBlack > mWhite) {
-      sprintf(temp, ":-%u", mBlack - mWhite);
+      std::snprintf(temp, sizeof(temp), ":-%u", mBlack - mWhite);
       Tcl_AppendResult(ti, temp, NULL);
     }
     Tcl_AppendResult(ti, ")</gray>", NULL);
@@ -3135,14 +3265,15 @@ int sc_game_info(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
       db->game->GetSAN(s);
       strcpy(tempTrans, s);
       transPieces(tempTrans);
-      sprintf(temp, "   <run sc_var enter %u; updateBoard -animate>v%u", vnum,
-              vnum + 1);
+      std::snprintf(temp, sizeof(temp),
+                    "   <run sc_var enter %u; updateBoard -animate>v%u", vnum,
+                    vnum + 1);
       Tcl_AppendResult(ti, "<green>", temp, "</green>: ", NULL);
       if (s[0] == 0) {
-        sprintf(temp, "<darkblue>(empty)</darkblue>");
+        std::snprintf(temp, sizeof(temp), "<darkblue>(empty)</darkblue>");
       } else {
-        sprintf(temp, "<darkblue>%u.%s%s</darkblue>", moveCount,
-                toMove == WHITE ? "" : "..", tempTrans); // s);
+        std::snprintf(temp, sizeof(temp), "<darkblue>%u.%s%s</darkblue>",
+                      moveCount, toMove == WHITE ? "" : "..", tempTrans); // s);
       }
       Tcl_AppendResult(ti, temp, NULL);
       byte *firstNag = db->game->GetNextNags();
@@ -4751,6 +4882,39 @@ int sc_info(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
     }
     if (strcmp(argv[2], "gr") == 0) {
       language = 12;
+    }
+    if (strcmp(argv[2], "pt") == 0) {
+      language = 13;
+    }
+    if (strcmp(argv[2], "he") == 0) {
+      language = 14;
+    }
+    if (strcmp(argv[2], "swa") == 0) {
+      language = 15;
+    }
+    if (strcmp(argv[2], "hi") == 0) {
+      language = 16;
+    }
+    if (strcmp(argv[2], "uk") == 0) {
+      language = 17;
+    }
+    if (strcmp(argv[2], "bn") == 0) {
+      language = 18;
+    }
+    if (strcmp(argv[2], "ko") == 0) {
+      language = 19;
+    }
+    if (strcmp(argv[2], "ja") == 0) {
+      language = 20;
+    }
+    if (strcmp(argv[2], "zh") == 0) {
+      language = 21;
+    }
+    if (strcmp(argv[2], "ro") == 0) {
+      language = 22;
+    }
+    if (strcmp(argv[2], "bg") == 0) {
+      language = 23;
     }
 
     break;
@@ -7038,8 +7202,8 @@ UI_res_t sc_name_spellcheck(UI_handle_t ti, scidBaseT &dbase,
       if (i == 0)
         correctionCount++;
 
-      sprintf(tempStr, "%s\"%s\"\t>> \"%s\" (%u)", strAmbiguous, origName,
-              corrections[i], frequency);
+      std::snprintf(tempStr, sizeof(tempStr), "%s\"%s\"\t>> \"%s\" (%u)",
+                    strAmbiguous, origName, corrections[i], frequency);
       correctCmd += tempStr;
 
       if (nt == NAME_PLAYER) { // Look for a player birthdate:
@@ -7969,134 +8133,153 @@ int sc_search_board(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
   }
   size_t startFilterCount = filter->size();
 
-  // Here is the loop that searches on each game:
-  Game tmpGame;
-  Game *g = &tmpGame;
-  gamenumT gameNum = 0;
-  for (gamenumT n = dbase->numGames(); gameNum < n; gameNum++) {
-    if ((gameNum % 5000) == 0) { // Update the percentage done bar:
-      if (!progress.report(gameNum, n))
-        break;
-    }
-    // First, apply the filter operation:
-    if (filterOp == FILTEROP_AND) { // Skip any games not in the filter:
-      if (filter.get(gameNum) == 0) {
+  const gamenumT totalGames = dbase->numGames();
+
+  // Collect candidates to search, respecting the filterOp:
+  // AND → only games currently in the filter
+  // OR  → only games currently NOT in the filter
+  // Also zero-out games with no data upfront (for AND; OR simply skips them).
+  std::vector<gamenumT> candidates;
+  candidates.reserve(totalGames / 4);
+  for (gamenumT gn = 0; gn < totalGames; ++gn) {
+    const bool inFilter = (filter.get(gn) != 0);
+    if (filterOp == FILTEROP_AND) {
+      if (!inFilter)
+        continue;
+      if (dbase->getIndexEntry(gn)->GetLength() == 0) {
+        filter.set(gn, 0); // exclude immediately
         continue;
       }
-    } else /* filterOp==FILTEROP_OR*/ { // Skip any games in the filter:
-      if (filter.get(gameNum) != 0) {
+    } else { // FILTEROP_OR
+      if (inFilter)
         continue;
-      } else {
-        // OK, this game is NOT in the filter.
-        // Add it so filterCounts are kept up to date:
-        filter.set(gameNum, 1);
-      }
+      if (dbase->getIndexEntry(gn)->GetLength() == 0)
+        continue;
     }
+    candidates.push_back(gn);
+  }
 
-    const IndexEntry *ie = dbase->getIndexEntry(gameNum);
-    if (ie->GetLength() == 0) {
-      // Skip games with no gamefile record:
-      filter.set(gameNum, 0);
-      continue;
-    }
+  // results[i] is the ply for candidates[i]:
+  // 0 → no match (exclude from filter for AND; keep excluded for OR)
+  // >0 → match at that ply
+  // 0xFF as sentinel for "read error" (handled below)
+  constexpr uint8_t kReadError = 0xFF;
+  std::vector<uint8_t> results(candidates.size(), 0);
+  bool readError = false;
 
-    // Set "useVars" to true only if the search specified searching
-    // in variations, AND this game has variations:
-    bool useVars = searchInVars && ie->GetVariationsFlag();
+  // Search candidates in parallel.
+  // pos and posFlip are read-only during the search (Tcl is single-threaded and
+  // blocks here until all futures complete; no other command can modify them).
+  const unsigned nThreads =
+      std::max(1u, std::min(std::thread::hardware_concurrency(), 8u));
+  const size_t cand_total = candidates.size();
+  const size_t chunkSize = (cand_total + nThreads - 1) / nThreads;
 
-    bool possibleMatch = true;
-    bool possibleFlippedMatch = flip;
+  auto search_chunk = [&](size_t begin, size_t end) {
+    Game g; // Per-thread Game object
+    for (size_t ci = begin; ci < end; ++ci) {
+      const gamenumT gameNum = candidates[ci];
+      const IndexEntry *ie = dbase->getIndexEntry(gameNum);
 
-    // Apply speedups if we are not searching in variations:
-    if (!useVars) {
-      if (!ie->GetStartFlag()) {
-        // Speedups that only apply to standard start games:
-        if (useHpSigSpeedup && hpSig != 0xFFFF) {
-          const byte *hpData = ie->GetHomePawnData();
-          if (!hpSig_PossibleMatch(hpSig, hpData)) {
-            possibleMatch = false;
-          }
-          if (possibleFlippedMatch) {
-            if (!hpSig_PossibleMatch(hpSigFlip, hpData)) {
+      bool useVars = searchInVars && ie->GetVariationsFlag();
+      bool possibleMatch = true;
+      bool possibleFlippedMatch = flip;
+
+      if (!useVars) {
+        if (!ie->GetStartFlag()) {
+          if (useHpSigSpeedup && hpSig != 0xFFFF) {
+            const byte *hpData = ie->GetHomePawnData();
+            if (!hpSig_PossibleMatch(hpSig, hpData))
+              possibleMatch = false;
+            if (possibleFlippedMatch && !hpSig_PossibleMatch(hpSigFlip, hpData))
               possibleFlippedMatch = false;
-            }
           }
         }
-      }
-
-      // If this game has no promotions, check the material of its final
-      // position, since the searched position might be unreachable:
-      if (possibleMatch) {
-        if (!matsig_isReachable(msig, ie->GetFinalMatSig(),
-                                ie->GetPromotionsFlag(),
-                                ie->GetUnderPromoFlag())) {
+        if (possibleMatch && !matsig_isReachable(msig, ie->GetFinalMatSig(),
+                                                 ie->GetPromotionsFlag(),
+                                                 ie->GetUnderPromoFlag()))
           possibleMatch = false;
-        }
-      }
-      if (possibleFlippedMatch) {
-        if (!matsig_isReachable(msigFlip, ie->GetFinalMatSig(),
+        if (possibleFlippedMatch &&
+            !matsig_isReachable(msigFlip, ie->GetFinalMatSig(),
                                 ie->GetPromotionsFlag(),
-                                ie->GetUnderPromoFlag())) {
+                                ie->GetUnderPromoFlag()))
           possibleFlippedMatch = false;
+      }
+
+      if (!possibleMatch && !possibleFlippedMatch)
+        continue; // result stays 0
+
+      auto bbuf = dbase->getGame(*ie);
+      if (!bbuf) {
+        results[ci] = kReadError;
+        continue;
+      }
+
+      uint ply = 0;
+      if (useVars) {
+        g.DecodeMovesOnly(bbuf);
+        if (ply == 0 && possibleMatch && g.ExactMatch(pos, NULL, searchType))
+          ply = g.GetCurrentPly() + 1;
+        if (ply == 0 && possibleFlippedMatch &&
+            g.ExactMatch(posFlip, NULL, searchType))
+          ply = g.GetCurrentPly() + 1;
+        if (ply == 0 && possibleMatch) {
+          g.MoveToStart();
+          if (g.VarExactMatch(pos, searchType))
+            ply = g.GetCurrentPly() + 1;
+        }
+        if (ply == 0 && possibleFlippedMatch) {
+          g.MoveToStart();
+          if (g.VarExactMatch(posFlip, searchType))
+            ply = g.GetCurrentPly() + 1;
+        }
+      } else {
+        if (possibleMatch) {
+          auto bbuf_clone = bbuf;
+          if (g.ExactMatch(pos, &bbuf_clone, searchType))
+            ply = g.GetCurrentPly() + 1;
+        }
+        if (ply == 0 && possibleFlippedMatch) {
+          if (g.ExactMatch(posFlip, &bbuf, searchType))
+            ply = g.GetCurrentPly() + 1;
         }
       }
+      results[ci] = static_cast<uint8_t>(ply > 255 ? 255 : ply);
     }
+  };
 
-    if (!possibleMatch && !possibleFlippedMatch) {
+  std::vector<std::future<void>> futures;
+  futures.reserve(nThreads - 1);
+  for (unsigned t = 0; t + 1 < nThreads; ++t) {
+    const size_t begin = t * chunkSize;
+    const size_t end = std::min(begin + chunkSize, cand_total);
+    if (begin >= cand_total)
+      break;
+    futures.push_back(std::async(std::launch::async, search_chunk, begin, end));
+  }
+  {
+    const size_t begin = (nThreads - 1) * chunkSize;
+    if (begin < cand_total)
+      search_chunk(begin, cand_total);
+  }
+  for (auto &f : futures)
+    f.get();
+
+  // Apply results to the filter serially.
+  for (size_t ci = 0; ci < cand_total; ++ci) {
+    const gamenumT gameNum = candidates[ci];
+    const uint8_t ply = results[ci];
+    if (ply == kReadError) {
+      readError = true;
       filter.set(gameNum, 0);
-      continue;
+    } else if (filterOp == FILTEROP_AND) {
+      // For AND: keep the game at its match ply, or exclude if no match.
+      filter.set(gameNum, ply);
+    } else { // FILTEROP_OR
+      // For OR: only add the game if it matched.
+      if (ply > 0)
+        filter.set(gameNum, ply);
     }
-
-    // At this point, the game needs to be loaded:
-    auto bbuf = dbase->getGame(*ie);
-    if (!bbuf) {
-      return errorResult(ti, "Error reading game file.");
-    }
-    uint ply = 0;
-    if (useVars) {
-      g->DecodeMovesOnly(bbuf);
-      // Try matching the game without variations first:
-      if (ply == 0 && possibleMatch) {
-        if (g->ExactMatch(pos, NULL, searchType)) {
-          ply = g->GetCurrentPly() + 1;
-        }
-      }
-      if (ply == 0 && possibleFlippedMatch) {
-        if (g->ExactMatch(posFlip, NULL, searchType)) {
-          ply = g->GetCurrentPly() + 1;
-        }
-      }
-      if (ply == 0 && possibleMatch) {
-        g->MoveToStart();
-        if (g->VarExactMatch(pos, searchType)) {
-          ply = g->GetCurrentPly() + 1;
-        }
-      }
-      if (ply == 0 && possibleFlippedMatch) {
-        g->MoveToStart();
-        if (g->VarExactMatch(posFlip, searchType)) {
-          ply = g->GetCurrentPly() + 1;
-        }
-      }
-    } else {
-      // No searching in variations:
-      if (possibleMatch) {
-        auto bbuf_clone = bbuf;
-        if (g->ExactMatch(pos, &bbuf_clone, searchType)) {
-          // Set its auto-load move number to the matching move:
-          ply = g->GetCurrentPly() + 1;
-        }
-      }
-      if (ply == 0 && possibleFlippedMatch) {
-        if (g->ExactMatch(posFlip, &bbuf, searchType)) {
-          ply = g->GetCurrentPly() + 1;
-        }
-      }
-    }
-    if (ply > 255) {
-      ply = 255;
-    }
-    filter.set(gameNum, ply);
   }
 
   progress.report(1, 1);
@@ -8104,12 +8287,13 @@ int sc_search_board(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
     delete posFlip;
   }
 
-  // Now print statistics and time for the search:
+  if (readError) {
+    return errorResult(ti, "Error reading game file.");
+  }
+
+  // Print statistics and time for the search:
   char temp[200];
   int centisecs = timer.CentiSecs();
-  if (gameNum != dbase->numGames()) {
-    Tcl_AppendResult(ti, errMsgSearchInterrupted(ti), "  ", NULL);
-  }
   sprintf(temp, "%lu / %lu  (%d%c%02d s)",
           static_cast<unsigned long>(filter->size()),
           static_cast<unsigned long>(startFilterCount), centisecs / 100,

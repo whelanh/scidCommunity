@@ -1,3 +1,6 @@
+# Copyright (C) 2025-2026 Hugh Whelan
+# SPDX-License-Identifier: GPL-2.0-or-later
+
 ############################################################
 ### Lichess Cloud Eval lookup
 ### Queries the Lichess cloud evaluation API and displays results
@@ -108,6 +111,8 @@ proc ::lichess_eval::lookupPosition {} {
     toplevel $w
     wm title $w "Lichess Cloud Eval"
     wm resizable $w 1 1
+    wm minsize $w 600 400
+    if {[winfo exists .]} { wm transient $w . }
 
     ttk::frame $w.content -padding 20
     pack $w.content -fill both -expand 1
@@ -160,8 +165,12 @@ proc ::lichess_eval::lookupPosition {} {
 
     # Center the window
     update idletasks
-    set x [expr {[winfo screenwidth $w]/2 - [winfo width $w]/2}]
-    set y [expr {[winfo screenheight $w]/2 - [winfo height $w]/2}]
+    set winWidth [winfo width $w]
+    set winHeight [winfo height $w]
+    if {$winWidth < 100} { set winWidth 600 }
+    if {$winHeight < 100} { set winHeight 400 }
+    set x [expr {([winfo screenwidth $w] - $winWidth) / 2}]
+    set y [expr {([winfo screenheight $w] - $winHeight) / 2}]
     wm geometry $w "+$x+$y"
 }
 

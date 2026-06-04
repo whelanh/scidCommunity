@@ -6,9 +6,12 @@ on:
       - '*'
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -18,12 +21,18 @@ jobs:
       - name: Fetch tags
         run: git fetch --force --tags
 
+      - name: Install Snapcraft
+        run: sudo snap install --classic snapcraft
+
       - name: Build snap
-        uses: snapcore/action-build@v1
         id: build
+        run: |
+          sudo snapcraft pack --destructive-mode
+          SNAP_FILE=$(ls *.snap)
+          echo "snap=$SNAP_FILE" >> "$GITHUB_OUTPUT"
 
       - name: Upload snap artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: snap
           path: ${{ steps.build.outputs.snap }}

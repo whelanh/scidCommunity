@@ -184,7 +184,7 @@ namespace eval ExtHardware {
 }
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # source the options file to overwrite the above setup
-  if {[catch {source [scidConfigFile ExtHardware]} ]} {
+  if {[catch {safeLoadConfig [scidConfigFile ExtHardware]} ]} {
     #::splash::add "Unable to find the options file: [file tail $optionsFile]"
   } else {
 
@@ -357,7 +357,7 @@ namespace eval inputengine {
 
     ::ExtHardware::HWbuttonImg tb_eng_connecting
 
-    if {[catch {set InputEngine(pipe) [open "| $engine $port $param" "r+"]} result]} {
+    if {[catch {set InputEngine(pipe) [open [list | $engine $port $param] "r+"]} result]} {
       ::ExtHardware::HWbuttonImg tb_eng_error
       tk_messageBox -title "Scid: Input Engine" -icon warning -type ok \
           -message "[::tr IEUnableToStart]\n$engine $port $param"

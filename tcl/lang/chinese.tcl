@@ -1,3 +1,6 @@
+# Copyright (C) 2025-2026 Hugh Whelan
+# SPDX-License-Identifier: GPL-2.0-or-later
+
 # chinese.tcl:
 # Text for menu names and status bar help messages in Chinese (Standard Mandarin).
 # Part of Scid (Shane's Chess Information Database).
@@ -75,7 +78,7 @@ menuText M EditPasteBoard "粘贴开始局面" 0 {从剪贴板设置开始局面
 menuText M ConfigureScid "偏好设置..." 0 {配置SCID的所有选项}
 
 # Game menu:
-menuText M Game "游戏" 0
+menuText M Game "对局" 0
 menuText M GameNew "新游戏" 0 {重置为空游戏}
 menuText M GameFirst "加载第一局" 0 {加载第一个过滤的游戏}
 menuText M GamePrev "加载上一局" 0 {加载上一个过滤的游戏}
@@ -86,6 +89,7 @@ menuText M GameRandom "加载随机游戏" 0 {随机加载一个过滤的游戏}
 menuText M GameNumber "加载游戏编号..." 0 {通过输入编号加载游戏}
 menuText M GameReplace "保存：替换游戏..." 0 {保存此游戏，替换旧版本}
 menuText M GameAdd "保存：添加新游戏..." 0 {将此游戏保存为数据库中的新游戏}
+menuText M GameDelete "删除游戏" 0 {切换删除当前游戏的标志}
 menuText M GameDeepest "识别开局" 0 {转到ECO手册中列出的最深游戏位置}
 menuText M GameGotoMove "转到着法编号..." 0 {转到当前游戏中的指定着法编号}
 menuText M GameNovelty "查找新着..." 0 {查找此游戏中之前未下过的第一步棋}
@@ -141,6 +145,7 @@ menuText M ToolsTrainCalvar "变化计算"  0 {变化计算训练}
 menuText M ToolsTrainFindBestMove "寻找最佳着法"  0 {寻找最佳着法}
 menuText M ToolsTrainFics "在FICS上对弈"  0 {在freechess.org上对弈}
 menuText M ToolsEngineTournament "引擎锦标赛"  0 {在国际象棋引擎之间开始锦标赛}
+menuText M ToolsTimeAnalysis "时间分析" 0 {显示当前游戏的时钟时间图}
 menuText M ToolsBookTuning "调整开局库" 0
 menuText M ToolsDownloadTWIC "下载TWIC对局" 0 {下载最新的《本周国际象棋》(TWIC)对局}
 menuText M ToolsConnectHardware "连接硬件" 0
@@ -204,7 +209,8 @@ menuText M OptionsMovesHighlightLastMoveDisplay "显示格子" 0 {显示最后�
 menuText M OptionsMovesHighlightLastMoveWidth "宽度" 0 {线条粗细}
 menuText M OptionsMovesHighlightLastMoveColor "Color" 0 {线条颜色}
 menuText M OptionsMovesHighlightLastMoveArrow "显示箭头" 0 {显示带高亮的箭头}
-menuText M OptionsMovesHighlightLastMoveNag "显示评估符号" 0
+menuText M OptionsMovesHighlightLastMoveNag "显示注解符号" 0
+menuText M OptionsMovesHighlightLastMoveEval "显示评估符号" 0
 menuText M OptionsMoves "着法" 0 {着法输入选项}
 menuText M OptionsMovesAnimate "动画时间" 1 \
   {设置用于动画着法的时间}
@@ -258,6 +264,9 @@ menuText M HelpTip "每日提示" 0 {显示有用的Scid提示}
 menuText M HelpStartup "启动窗口" 0 {显示启动窗口}
 menuText M HelpAbout "关于Scid" 0 {关于Scid的信息}
 
+# Toolbar tooltips:
+menuText M RotateBoard "旋转棋盘" 0 {旋转棋盘}
+
 # Game info box popup menu:
 menuText M GInfoHideNext "Hide Next Move" 0
 menuText M GInfoMaterial "Show Material Values" 0
@@ -274,14 +283,69 @@ menuText M GInfoMark "(Un)Mark This Game" 4
 menuText M GInfoInformant "Configure informant values" 0
 
 # General buttons:
+translate M LichessOpenExplore {Lichess 开放探索}
+translate M LichessTitle {Lichess 开放资源管理器}
+translate M LichessApiTokenReq {Lichess API 令牌（必需）：}
+translate M LichessDatabase {数据库：}
+translate M LichessMasters {大师赛}
+translate M LichessGames {对局}
+translate M LichessPlayer {玩家}
+translate M LichessNumMoves {动作次数：}
+translate M LichessTopGames {热门游戏：}
+translate M LichessRecentGames {最近的比赛：}
+translate M LichessSinceYear {自年份以来：}
+translate M LichessUntilYear {截止年份：}
+translate M LichessSinceMonth {自 (YYYY-MM):}
+translate M LichessUntilMonth {直到（年-月）：}
+translate M LichessTimeControls {时间控制}
+translate M LichessRatingGroups {评级组}
+translate M LichessPlayerName {玩家用户名：}
+translate M LichessPlayerColor {球员颜色：}
+translate M LichessWhite {白方}
+translate M LichessBlack {黑方}
+translate M LichessGameModes {游戏模式}
+translate M LichessRated {有等级分}
+translate M LichessCasual {休闲}
+translate M LichessTokenRequired {需要 Lichess API 令牌。\n\n自 2026 年 3 月起，Lichess 需要 API 令牌才能访问 Opening Explorer。请在上面的“Lichess API 令牌”字段中输入您的令牌。\n\n您可以在以下位置创建令牌：https://lichess.org/account/oauth/token}
+translate M LichessPlayerRequired {请输入玩家数据库的 Lichess 用户名。}
+translate M LichessQuerying {正在查询 Lichess 打开资源管理器...}
+translate M LichessFailedQuery {无法查询 Lichess 打开资源管理器:\n%s}
+translate M LichessPositionNotFound {在 %s 数据库中找不到位置。\n\nAPI 返回:\n%s}
+translate M LichessResultsTitle {Lichess 打开资源管理器 - %s 数据库}
+translate M LichessSummaryInfo {总计：%s 场比赛 |  白色获胜：%s (%s%%) |  抽奖：%s (%s%%) |  黑胜：%s (%s%%)}
+translate M LichessNoGamesFound {没有找到适合该职位的游戏。}
+translate M LichessMoves {动作：}
+translate M LichessColMove {移动}
+translate M LichessColWhite {白色的}
+translate M LichessColDraws {和局}
+translate M LichessColBlack {黑色的}
+translate M LichessColTotal {全部的}
+translate M LichessColWinPct {赢％}
+translate M LichessColAvgRating {平均评分}
+translate M LichessColECO {ECO}
+translate M LichessColOpening {开幕}
+translate M LichessTopGamesTitle {热门游戏：}
+translate M LichessRecentGamesTitle {最近的比赛：}
+translate M LichessColWinner {优胜者}
+translate M LichessColWhiteRating {W.评级}
+translate M LichessColBlackRating {B.评级}
+translate M LichessColDate {日期}
+translate M LichessLoadGameConfirm {将游戏 %s vs %s（ID：%s）加载到棋谱库中吗？}
+translate M LichessLoadGameTitle {加载游戏}
+translate M LichessFetchGameFailed {无法获取游戏 %s:\n%s}
+translate M LichessGameNotFound {在 Lichess 上找不到游戏 %s。}
+translate M LichessImportFailed {导入游戏失败:\n%s}
+translate M LichessGameLoaded {游戏已成功加载到棋谱库中。}
 translate M Back {Back}
+translate M Apply {应用}
 translate M Browse {浏览}
 translate M Cancel {取消}
-translate M Continue {Continue}
+translate M Continue {继续}
 translate M Clear {清除}
 translate M Close {关闭}
 translate M Contents {目录}
 translate M Defaults {Defaults}
+translate M InvertSearch {反向搜索}
 translate M Delete {删除}
 translate M Graph {图表}
 translate M Help {帮助}
@@ -294,12 +358,13 @@ translate M MergeGame {Merge Game}
 translate M MergeGames {Merge Games}
 translate M Preview {Preview}
 translate M Revert {Revert}
+translate M Rename {重命名}
 translate M Save {保存}
 translate M Search {搜索}
 translate M Stop {停止}
-translate M Store {Store}
+translate M Store {保存}
 translate M Update {更新}
-translate M ChangeOrient {Change window orientation}
+translate M ChangeOrient {更改窗口方向}
 translate M ShowIcons {Show Icons}
 translate M None {无}
 translate M First {第一个}
@@ -363,6 +428,11 @@ translate M readonly {read-only}
 translate M ErrNotOpen {This is not an open database.}
 translate M ErrReadOnly {This database is read-only; it cannot be altered.}
 translate M ErrSearchInterrupted {Search was interrupted; results are incomplete.}
+translate M ErrNoClockComments {在此游戏中未找到 [%clk] 时钟注释。    通过注释窗口 (Ctrl+E) 添加时钟时间以使用此功能。}
+translate M ErrFileInUse {错误：该文件已被使用。请关闭使用此数据库的任何其他应用程序。如果程序意外关闭，您可能需要删除与数据库关联的 .lock 文件。}
+
+
+
 
 # Game information:
 translate M twin {重复}
@@ -391,8 +461,8 @@ translate M PInfoEloFile {直线}
 translate M Draw {和棋}
 translate M with {与}
 translate M only {仅}
-translate M lose {lose}
-translate M loses {loses}
+translate M lose {输}
+translate M loses {输}
 
 # Tip of the day:
 translate M Tip {提示}
@@ -554,11 +624,13 @@ menuText M GraphOptionsBoth "Both" 1
 menuText M GraphOptionsPInfo "Player Info player" 0
 menuText M GraphOptionsEloFile "Elo from rating file" 0
 menuText M GraphOptionsEloDB "Elo from database" 0
-translate M GraphFilterTitle "Filter Graph: frequency per 1000 games"
+translate M GraphFilterTitle "过滤图：达到排名的游戏百分比"
 translate M GraphAbsFilterTitle "Filter Graph: frequency of the games"
+translate M GraphWinPctTitle "过滤图：当前位置每年的获胜百分比（1-0 和 0-1）"
 translate M ConfigureFilter "Configure X-Axes for Year, Rating and Moves"
 translate M FilterEstimate "Estimate"
 translate M TitleFilterGraph "Scid: Filter Graph"
+translate M WinPct "赢 ％"
 
 # Analysis window:
 translate M AddVariation {Add Variation}
@@ -594,6 +666,13 @@ translate M Informant+= {White has a slight advantage}
 translate M Informant+/- {White has a clear advantage}
 translate M Informant+- {White has a decisive advantage}
 translate M Informant+-- {White has a crushing advantage}
+translate M AutoComment {自动评论}
+translate M AutoCommentTooltip {为当前位置生成AI解说}
+translate M AnalysisAutoCommentTooltip {为整个游戏生成 AI 解说}
+translate M GameComment {游戏评论}
+translate M GameCommentTooltip {扫描游戏中带注释的动作并生成 AI 摘要}
+translate M TimeMs {时间（毫秒）}
+
 
 # Book window
 translate M Book {开局库}
@@ -718,14 +797,14 @@ translate M DeleteFlag {Delete flag}
 translate M WhiteOpFlag {White opening}
 translate M BlackOpFlag {Black opening}
 translate M MiddlegameFlag {中局}
-translate M EndgameFlag {终局之战}
-translate M NoveltyFlag {新奇}
-translate M PawnFlag {典当结构}
-translate M TacticsFlag {策略}
-translate M QsideFlag {皇后区玩耍}
-translate M KsideFlag {国王边比赛}
-translate M BrilliancyFlag {辉煌}
-translate M BlunderFlag {错误}
+translate M EndgameFlag {残局}
+translate M NoveltyFlag {新着}
+translate M PawnFlag {兵形}
+translate M TacticsFlag {战术}
+translate M QsideFlag {后翼}
+translate M KsideFlag {王翼}
+translate M BrilliancyFlag {妙手}
+translate M BlunderFlag {失误}
 translate M UserFlag {用户}
 translate M PgnContains {PGN 包含文本}
 translate M PgnTag {标签}
@@ -1031,6 +1110,7 @@ translate M ECOSummary {总结}
 translate M ECOFrequency {子代码的频率}
 
 # Opening Report:
+translate M OprepReportFor {报告对象}
 translate M OprepTitle {开幕报告}
 translate M OprepReport {报告}
 translate M OprepGenerated {生成者}
@@ -1099,6 +1179,8 @@ translate M OprepTheoryTable {理论表}
 translate M OprepTableComment {由 %u 个评分最高的游戏生成。}
 translate M OprepExtraMoves {理论表中的额外注释移动}
 translate M OprepMaxGames {理论表中的最大博弈数}
+translate M OprepMergeMoves {合并游戏的移动限制}
+translate M OprepMergeUnique {仅合并独特的游戏}
 translate M OprepViewHTML {查看 HTML}
 
 # Player Report:
@@ -1178,6 +1260,7 @@ translate M ClassifyNew {仅限还没有 ECO 代码的游戏}
 translate M ClassifyCodes {使用的 ECO 代码}
 translate M ClassifyBasic {仅基本代码（“B12”，...）}
 translate M ClassifyExtended {Scid 扩展（“B12j”，...）}
+translate M ClassifyResult {ECO 分类完成：$结果游戏已更新。}
 
 # Compaction:
 translate M NameFile {命名文件}
@@ -1496,6 +1579,9 @@ translate M FICSUnrated {未评级}
 translate M FICSRegisteredPlayer {仅限注册玩家}
 translate M FICSFreePlayer {仅限免费玩家}
 translate M FICSNetError {网络错误\无法连接}
+translate M OptionsFICS {菲克斯}
+translate M FICSTerminalColor {端子颜色}
+translate M FICSTextColor {文字颜色}
 
 # Game review
 translate M GameReview {游戏回顾}
@@ -1573,6 +1659,8 @@ translate M FindCurrentGame {查找当前游戏}
 translate M DeleteGame {删除游戏}
 translate M UndeleteGame {恢复删除游戏}
 translate M ResetSort {重置排序}
+translate M LayoutExists {布局“%s”已存在。}
+translate M ConfirmDeleteLayout {您确定要删除布局“%s”吗？}
 
 translate M ConvertNullMove {将空动作转换为评论}
 translate M SetupBoard {设置板}
@@ -1609,5 +1697,32 @@ translate M OptionsTablebaseDir "最多选择 4 个表基础文件夹："
 # Evaluation bar
 translate M BestMoveArrow "最佳移动箭头"
 translate M NewLocalEngine "+ 新引擎..."
+
+# Batch Annotate
+translate M BatchAnnotate {批量注释}
+translate M BatchEngineSelection {发动机选型}
+translate M BatchChessEngine {国际象棋引擎：}
+translate M BatchNumberOfInstances {实例数量：}
+translate M BatchGameReview {游戏评论}
+translate M BatchTimePerMove {每次移动时间（秒）：}
+translate M BatchAnnotateBlunders {仅注释错误}
+translate M BatchBlunderThreshold {错误阈值：}
+translate M BatchVariationLength {变化长度（移动）：}
+translate M BatchOpeningBook {开本}
+translate M BatchUseBook {使用书}
+translate M BatchAnnotateVariations {注释变化}
+translate M BatchShortAnnotations {简短的注释}
+translate M BatchAddScoreToShort {为简短注释添加分数}
+translate M BatchClearOld {清除旧的注释和变化}
+translate M BatchInitializingEngines {正在初始化引擎...}
+translate M BatchAnalyzingGames {分析游戏...}
+translate M BatchProgress {批量标注进度}
+translate M BatchComplete {批量标注完成！}
+translate M BatchCancelled {批量注释取消}
+translate M BatchStart {开始}
+translate M BatchCancel {取消}
+translate M BatchCompleted {完全的}
+translate M BatchGames {游戏}
+translate M BatchProcessed {加工过的}
 }
 # end of english.tcl

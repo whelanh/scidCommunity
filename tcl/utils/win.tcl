@@ -160,7 +160,7 @@ proc ::win::undockWindow { wnd srctab {title ""} } {
 
 	if {$srctab ne "" } {
 		set old_options [::docking::remove_tab $wnd $srctab]
-		set title "Scid: [dict get $old_options -text]"
+		set title "scidCommunity: [dict get $old_options -text]"
 	}
 
 	wm manage $wnd
@@ -253,6 +253,12 @@ proc ::win::manageWindow {wnd title} {
 proc ::win::createDialog {w {y 10}} {
 	toplevel $w -padx 10 -pady $y
 	::applyThemeColor_background $w
+
+	# Give window managers enough metadata to handle Scid dialogs as dialogs.
+	# Some tiling WMs use these hints to decide whether a window should float.
+	catch { wm transient $w . }
+	catch { wm group $w . }
+	catch { wm attributes $w -type dialog }
 }
 
 # Make sure that a window is visible

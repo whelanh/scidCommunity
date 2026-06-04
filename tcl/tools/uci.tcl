@@ -366,7 +366,7 @@ namespace eval uci {
             catch {cd $dir}
         }
         # Try to execute the analysis program:
-        if {[catch {set pipe [open "| [list $cmd] $arg" "r+"]} result]} {
+        if {[catch {set pipe [open [list | $cmd {*}$arg] "r+"]} result]} {
             if {$oldpwd != ""} { catch {cd $oldpwd} }
             tk_messageBox -title "Scid: error starting UCI engine" \
                     -icon warning -type ok -message "Unable to start the program:\n$cmd"
@@ -734,7 +734,7 @@ namespace eval uci {
         }
         
         # Try to execute the analysis program:
-        if {[catch {set uciInfo(pipe$n) [open "| [list $analysisCommand] $analysisArgs" "r+"]} result]} {
+        if {[catch {set uciInfo(pipe$n) [open [list | $analysisCommand {*}$analysisArgs] "r+"]} result]} {
             if {$oldpwd != ""} { catch {cd $oldpwd} }
             tk_messageBox -title "Scid: error starting engine" -icon warning -type ok \
                     -message "Unable to start the program:\n$analysisCommand"
