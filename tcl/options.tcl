@@ -29,7 +29,7 @@ proc InitDefaultToolbar {} {
   foreach {tbicon status}  {
     newdb 0 open 0 save 0 closedb 0
     finder 0 bkm 0 gprev 0 gnext 0
-    newgame 0 copy 0 paste 0 rotate 0
+    newgame 0 copy 0 paste 0
     boardsearch 0 headersearch 0 materialsearch 0
     switcher 0 glist 0 pgn 0 tmt 0 maint 0 eco 0 tree 0 crosstab 0 engine 0
   } {

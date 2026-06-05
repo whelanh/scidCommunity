@@ -5153,7 +5153,7 @@ int sc_pos(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
       "fen",       "getComment",     "getNags",    "hash",        "html",
       "isAt",      "isCheck",        "isLegal",    "isPromotion", "moveNumber",
       "pgnOffset", "setComment",     "side",       "moves",       "location",
-      "attacks",   "getPrevComment", "coordToSAN", NULL};
+      "attacks",   "getPrevComment", "coordToSAN", "isMate", NULL};
   enum {
     POS_ADDNAG,
     POS_ANALYZE,
@@ -5177,7 +5177,8 @@ int sc_pos(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
     LOCATION,
     POS_ATTACKS,
     POS_GETPREVCOMMENT,
-    POS_COORDTOSAN
+    POS_COORDTOSAN,
+    POS_ISMATE
   };
 
   char boardStr[200];
@@ -5316,6 +5317,9 @@ int sc_pos(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
       }
     }
   } break;
+
+  case POS_ISMATE:
+    return UI_Result(ti, OK, db->game->GetCurrentPos()->IsKingInMate());
 
   case POS_COORDTOSAN: {
     if (argc != 4)
