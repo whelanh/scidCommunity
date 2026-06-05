@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.3.38
+Version:        5.1.3.40
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 6275afc056d3a1b039781ab3e2ac86244698de34
+%global commit 766f29ea067a96e9e001e2cbc1c173f8e33dc8f5
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Fri Jun 05, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-40
+- "Import some board display improvements from Uwe/codeberg/myscid"
 * Tue May 26, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-38
 - "Enable local language sounds if they exist; tied to language choice"
 * Fri May 22, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-36
