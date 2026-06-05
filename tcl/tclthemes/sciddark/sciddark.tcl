@@ -146,7 +146,7 @@ foreach t { blue mint green sand purple grey } \
                      selected $I(button-a) {selected active} $I(button-pa) \
                      disabled $I(button-d) pressed $I(button-p)] \
                 -border { 13 12 13 12 } -padding {4 0} -sticky nswe
-            ttk::style configure Tbutton -padding {2 0 2 0}
+            ttk::style configure TButton -padding {2 0 2 0}
 
             ## Checkbuttons.
             ttk::style element create Checkbutton.indicator image \
@@ -329,7 +329,9 @@ unset ::tks
 unset ::bgct
 
 # Register dark variants so scidCommunity switches to dark toolbar icons
-foreach _dt {sciddarkblue sciddarkmint sciddarkgreen sciddarksand sciddarkpurple sciddarkgrey} {
-    registerDarkTheme $_dt
+if {[info commands registerDarkTheme] ne ""} {
+    foreach _dt {sciddarkblue sciddarkmint sciddarkgreen sciddarksand sciddarkpurple sciddarkgrey} {
+        registerDarkTheme $_dt
+    }
 }
 unset -nocomplain _dt
