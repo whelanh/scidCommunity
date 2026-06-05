@@ -599,6 +599,11 @@ if {[file exists $optionsFile] && [catch {safeLoadConfig $optionsFile}]} {
   tk_messageBox -message $::errorInfo
 }
 
+# Clean up legacy toolbar_state entries that no longer map to widgets
+if {[info exists toolbar_state(rotate)]} {
+  unset toolbar_state(rotate)
+}
+
 # Now, if the options file was written by Scid 3.5 or older, it has a lot of
 # yucky variable names in the global namespace. So convert them to the new
 # namespace variables:

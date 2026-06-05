@@ -1657,7 +1657,9 @@ proc toggleToolbarButton { b i } {
 proc toggleAllToolbarButtons { b state } {
     foreach i [array names ::toolbar_temp] {
 	set ::toolbar_temp($i) $state
-	if { $state } { $b.$i state pressed } else { $b.$i state !pressed }
+	if {[winfo exists $b.$i]} {
+	    if { $state } { $b.$i state pressed } else { $b.$i state !pressed }
+	}
     }
     array set ::toolbar_state [array get ::toolbar_temp]
     redrawToolbar
