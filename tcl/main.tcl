@@ -1692,7 +1692,12 @@ proc redrawToolbar { args } {
     set lastCascade -1
     set n [.menu index end]
     for {set i 0} {$n ne "none" && $i <= $n} {incr i} {
-        if {[.menu type $i] eq "cascade"} { set lastCascade $i }
+        if {[.menu type $i] eq "cascade"} {
+            # Skip tb_bkm cascade (added by previous toolbar redraw) - only count top-level menu cascades
+            if {[catch {.menu entrycget $i -image} img] || $img ne "tb_bkm"} {
+                set lastCascade $i
+            }
+        }
     }
     set tbStart [expr {$lastCascade + 1}]
     if {$n ne "none" && $n >= $tbStart} {
