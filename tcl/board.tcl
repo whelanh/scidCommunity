@@ -492,10 +492,6 @@ proc ::board::new {w {psize 40} } {
   canvas $w.score -width 8 -cursor hand2
   grid $w.score -row 6 -column 12 -rowspan 8 -sticky ew
   grid remove $w.score
-  canvas $w.mat -width 20 -height $bsize -highlightthickness 0
-  ::applyThemeColor_background $w.mat
-  grid $w.mat -row 6 -column 13 -rowspan 8 -pady 0
-  grid remove $w.mat
 
   ::board::coords $w
   ::board::update $w
@@ -512,8 +508,8 @@ proc ::board::addNamesBar {w {varname}} {
   grid $w.playerW.color -row 0 -column 0 -sticky news -padx 2 -pady 2
   grid $w.playerW.name -row 0 -column 1 -sticky w
   grid $w.playerW.elo -row 0 -column 2 -sticky w
-  grid $w.playerW.clock -row 0 -column 3 -sticky e
-  grid $w.playerW.tomove -row 0 -column 4 -sticky w -padx 4
+  grid $w.playerW.clock -row 0 -column 5 -sticky e
+  grid $w.playerW.tomove -row 0 -column 6 -sticky w -padx 4
   grid columnconfigure $w.playerW 3 -weight 1
   grid $w.playerW -row 16 -column 3 -columnspan 8 -sticky news -pady 4
 
@@ -526,10 +522,61 @@ proc ::board::addNamesBar {w {varname}} {
   grid $w.playerB.color -row 0 -column 0 -sticky news -padx 2 -pady 2
   grid $w.playerB.name -row 0 -column 1 -sticky w
   grid $w.playerB.elo -row 0 -column 2 -sticky w
-  grid $w.playerB.clock -row 0 -column 3 -sticky e
-  grid $w.playerB.tomove -row 0 -column 4 -sticky w -padx 4
+  grid $w.playerB.clock -row 0 -column 5 -sticky e
+  grid $w.playerB.tomove -row 0 -column 6 -sticky w -padx 4
   grid columnconfigure $w.playerB 3 -weight 1
   grid $w.playerB -row 3 -column 3 -columnspan 8 -sticky news -pady 4
+
+  ttk_canvas $w.playerW.materialDiff -height 20 -width 0
+  grid $w.playerW.materialDiff -row 0 -column 3 -sticky e
+  ttk_canvas $w.playerB.materialDiff -height 20 -width 0
+  grid $w.playerB.materialDiff -row 0 -column 3 -sticky e
+  grid remove $w.playerW.materialDiff $w.playerB.materialDiff
+
+  ttk::label $w.playerW.mval -textvariable ::board::_matValW($w) -style fieldbg.TLabel -font font_Small
+  ttk::label $w.playerB.mval -textvariable ::board::_matValB($w) -style fieldbg.TLabel -font font_Small
+  grid $w.playerW.mval -row 0 -column 4 -sticky news
+  grid $w.playerB.mval -row 0 -column 4 -sticky news
+}
+
+proc ::board::InfoBarSmall {w} {
+  set ::infoBarMode compact
+  grid propagate $w.bar.info 0
+  grid forget $w.bar.info
+  grid $w.bar.prev -row 0 -column 1 -sticky news
+  grid $w.bar.next -row 0 -column 2 -sticky news
+  grid $w.bar.coords -row 0 -column 3 -sticky news
+  grid $w.bar.material -row 0 -column 4 -sticky news
+  grid $w.bar.score -row 0 -column 5 -sticky ews
+  grid $w.bar.flip -row 0 -column 6 -sticky news
+  grid $w.bar.marker -row 0 -column 7 -sticky news
+  grid $w.bar.play -row 0 -column 8 -sticky news
+  grid $w.bar.leavevar -row 0 -column 9 -sticky news
+  grid $w.bar.back -row 0 -column 10 -sticky news
+  grid $w.bar.forward -row 0 -column 11 -sticky news
+  grid $w.bar.endvar -row 0 -column 12 -sticky news
+  grid $w.bar -row 20 -column 0 -columnspan 13 -sticky n
+  $w.bar.next configure -command "::board::InfoBarNormal $w; ::resizeMainBoard"
+}
+
+proc ::board::InfoBarNormal {w} {
+  set ::infoBarMode normal
+  grid propagate $w.bar.info 0
+  grid $w.bar.info -in $w.bar -row 0 -column 0 -rowspan 2 -sticky news -padx {0 4}
+  grid $w.bar.leavevar -row 0 -column 2 -sticky news
+  grid $w.bar.back -row 0 -column 3 -sticky news
+  grid $w.bar.forward -row 0 -column 4 -sticky news
+  grid $w.bar.endvar -row 0 -column 5 -sticky news
+  grid $w.bar.material -row 1 -column 3 -sticky news
+  grid $w.bar.score -row 1 -column 4 -sticky ews
+  grid $w.bar.marker -row 1 -column 2 -sticky news
+  grid $w.bar.prev -row 0 -column 1 -sticky news
+  grid $w.bar.next -row 1 -column 1 -sticky news
+  grid $w.bar.flip -row 1 -column 5 -sticky news
+  grid forget $w.bar.play
+  grid forget $w.bar.coords
+  grid $w.bar -row 20 -column 0 -columnspan 13 -sticky news -pady {2 0}
+  $w.bar.next configure -command "::board::InfoBarSmall $w; ::resizeMainBoard"
 }
 
 proc ::board::addInfoBar {w varname} {
@@ -539,29 +586,41 @@ proc ::board::addInfoBar {w varname} {
   autoscrollBars y $w.bar.info $w.bar.info.t
   $w.bar.info.t tag bind click <Any-Enter> "$w.bar.info.t configure -cursor hand2"
   $w.bar.info.t tag bind click <Any-Leave> "$w.bar.info.t configure -cursor {}"
-  ttk::button $w.bar.leavevar -image tb_BD_BackStart -style Toolbutton
-  ttk::button $w.bar.back -image tb_BD_Back -style Toolbutton
-  ttk::button $w.bar.forward -image tb_BD_Forward -style Toolbutton
-  ttk::button $w.bar.endvar -image tb_BD_ForwardEnd -style Toolbutton
+  ttk::button $w.bar.leavevar -image ::icon::tb_start -style Toolbutton
+  ttk::button $w.bar.back -image ::icon::tb_prev -style Toolbutton
+  ttk::button $w.bar.forward -image ::icon::tb_next -style Toolbutton
+  ttk::button $w.bar.endvar -image ::icon::tb_end -style Toolbutton
+  ttk::button $w.bar.play -image ::icon::tb_play -style Toolbutton -command "startAutoplay"
   set menu [::board::newToolBar_ $w $varname]
-  ttk::button $w.bar.cmd -image tb_BD_ShowToolbar -style Toolbutton \
-    -command "::board::updateToolBar_ $menu $varname $w.bar.cmd"
-  grid $w.bar.cmd -in $w.bar -row 0 -column 0 -sticky news
-  grid $w.bar.info -in $w.bar -row 0 -column 1 -sticky news -padx 4
-  grid $w.bar.leavevar -row 0 -column 2 -sticky news
-  grid $w.bar.back -row 0 -column 3 -sticky news
-  grid $w.bar.forward -row 0 -column 4 -sticky news
-  grid $w.bar.endvar -row 0 -column 5 -sticky news
-  grid columnconfigure $w.bar 1 -weight 1
-  grid $w.bar -row 20 -column 3 -columnspan 8 -sticky news -pady 4
-  ::bind $w.bar <Configure> {+
-	grid remove %W.leavevar
-	grid remove %W.endvar
-	if {%w > 450} {
-	  grid %W.leavevar
-	  grid %W.endvar
-	}
+  ttk::button $w.bar.flip -image ::icon::tb_flip -command { toggleRotateBoard } -style Toolbutton
+  ttk::button $w.bar.material -image ::icon::tb_material -style Toolbutton -command {
+    set ::gameInfo(showMaterial) [::board::toggleMaterial .main.board]
   }
+  ::utils::tooltip::Set $w.bar.flip "$::tr(FlipBoard)"
+  ::utils::tooltip::Set $w.bar.material "$::tr(ShowHideMaterial)"
+  ttk::button $w.bar.score -image ::icon::tb_score -style Toolbutton -command {
+    set ::showEvalBar(.main) [::board::toggleEvalBar .main.board]
+    unset -nocomplain ::mainEvalBarEngineID_
+    ::board::updateEvalBar .main.board ""
+    ::board::mark::DrawMultipleBestMoves .main.board {}
+  }
+  ::utils::tooltip::Set $w.bar.score "$::tr(ShowHideEvalBar)"
+  ttk::button $w.bar.coords -image ::icon::tb_coords_small -style Toolbutton -command {
+    set ::boardCoords [::board::coords .main.board]
+    ::board::resize .main.board redraw
+  }
+  ::utils::tooltip::Set $w.bar.coords "$::tr(ShowHideCoords)"
+  ttk::button $w.bar.prev -image ::icon::tb_player -command {::pinfo::playerInfo [sc_game info [sc_pos side]]} -style Toolbutton
+  ttk::button $w.bar.next -image ::icon::tb_gameinfo -style Toolbutton
+  ttk::button $w.bar.marker -image ::icon::tb_SelectMarker -command { ::selectMarker } -style Toolbutton
+  ::utils::tooltip::Set $w.bar.marker "$::tr(SelectMarker)"
+  if {[info exists ::infoBarMode] && $::infoBarMode eq "compact"} {
+    ::board::InfoBarSmall $w
+  } else {
+    ::board::InfoBarNormal $w
+  }
+  grid columnconfigure $w.bar 1 -weight 0
+  grid columnconfigure $w.bar 0 -weight 1
 }
 
 proc ::board::addInfo {{w} {msg}} {
@@ -865,8 +924,6 @@ proc ::board::resize {w psize} {
     $w.bd coords sq$pos $x1 $y1 $x2 $y2
   }
 
-  # resize the material canvas
-  $w.mat configure -height $bsize
 
   ::board::coords $w $::board::_coords($w)
   ::board::update $w
@@ -1373,7 +1430,7 @@ proc ::board::mark::DrawRectangle { pathName square color pattern } {
 
 # ::board::mark::DrawNag --
 # Display annotation symbol (e.g. !, ?, !?) at the upper RIGHT corner of a square
-proc ::board::mark::DrawNag { pathName square nag color} {
+proc ::board::mark::DrawNag { pathName square nag color {textcolor "white"}} {
   if {$square < 0  ||  $square > 63} { return }
   set box [::board::mark::GetBox $pathName.bd $square]
   set bsize $::board::_size($pathName)
@@ -1397,7 +1454,7 @@ proc ::board::mark::DrawNag { pathName square nag color} {
   }
   $pathName.bd create oval $p(0) $p(1) $p(2) $p(3) -outline $color -fill $color -tag highlightLastMove
   $pathName.bd create text [expr [lindex $box 2] - $offsetX] [expr [lindex $box 1] + $offsetY] -text $nag \
-      -tag highlightLastMove -fill white -font [list font_Bold $size bold]
+      -tag highlightLastMove -fill $textcolor -font [list font_Bold $size bold]
 }
 
 # ::board::mark::DrawEvalNag --
@@ -1652,6 +1709,30 @@ proc  ::board::lastMoveHighlight {w moveuci {nag ""}} {
             }
         }
     }
+    # Show game result indicator next to the Kings (0, 1, ½, or #)
+    if { $::highlightLastMoveNag } {
+      set isMate [expr {[string first "#" $nag] >= 0}]
+      if {[sc_pos isAt end] || $isMate} {
+        set res [sc_game tag get Result]
+        if { $res ne "*" || $isMate } {
+          if { $isMate } { set res "M" }
+          switch $res {
+            0 { set t1 0; set t2 1 }
+            1 { set t1 1; set t2 0 }
+            = { set t1 "\u00BD"; set t2 "\u00BD" }
+            M { if { [string index $::board::_data($w) 65] eq "w" } {
+                    set t1 "#"; set t2 1
+                } else {
+                    set t2 "#"; set t1 1
+                }
+              }
+            default { return }
+          }
+          ::board::mark::DrawNag $w [string first "K" $::board::_data($w)] $t1 "#d0d0d0" "#303030"
+          ::board::mark::DrawNag $w [string first "k" $::board::_data($w)] $t2 "#303030" "#d0d0d0"
+        }
+      }
+    }
   }
 }
 
@@ -1816,10 +1897,30 @@ proc ::board::flip {w {newstate -1}} {
 # ::board::material
 # displays material balance
 ################################################################################
+proc ::board::configureMaterialBar { w } {
+  foreach i { W B } {
+      set width [expr $::board::_size($w) * 8 - [winfo width $w.player$i.name] - [winfo width $w.player$i.elo] - \
+                 [winfo width $w.player$i.clock] - [winfo width $w.player$i.color] - [winfo width $w.player$i.tomove] - \
+                 [winfo width $w.player$i.mval] ]
+      set len [$w.player$i.materialDiff cget -width]
+      if { $width < $len && $::board::_matDiff($i,$w) > 0 } {
+          grid $w.player$i.materialDiff -row 1 -column 1 -sticky e -columnspan 5
+          grid $w.player$i.mval -row 1 -column 6 -sticky news
+      } else {
+          grid $w.player$i.materialDiff -row 0 -column 3 -sticky e -columnspan 1
+          grid $w.player$i.mval -row 0 -column 4 -sticky news
+      }
+  }
+}
 proc ::board::material {w} {
-  set f $w.mat
-
-  $f delete material
+  if {![winfo exists $w.playerW.materialDiff]} { return }
+  set matDiff 0
+  set mat(W) ""
+  set mat(B) ""
+  set ::board::_matDiff(W,$w) 0
+  set ::board::_matDiff(B,$w) 0
+  $w.playerW.materialDiff delete material
+  $w.playerB.materialDiff delete material
 
   set board [string range $::board::_data($w) 0 63]
   set p 0
@@ -1830,60 +1931,85 @@ proc ::board::material {w} {
   for {set i 0} {$i < [string length $board]} {incr i} {
     set ch [string index $board $i]
     switch -- $ch {
-      p {incr p -1}
-      P {incr p}
-      n {incr n -1}
-      N {incr n}
-      b {incr b -1}
-      B {incr b}
-      r {incr r -1}
-      R {incr r}
-      q {incr q -1}
-      Q {incr q}
+      p {incr p -1; incr matDiff -1}
+      P {incr p; incr matDiff 1}
+      n {incr n -1; incr matDiff -3}
+      N {incr n; incr matDiff 3}
+      b {incr b -1; incr matDiff -3}
+      B {incr b; incr matDiff 3}
+      r {incr r -1; incr matDiff -5}
+      R {incr r; incr matDiff 5}
+      q {incr q -1; incr matDiff -9}
+      Q {incr q; incr matDiff 9}
     }
   }
-  set sum [expr abs($p) + abs($n) +abs($b) +abs($r) +abs($q) ]
-  set rank 0
-
+  if {$matDiff < 0} {
+      set ::board::_matValB($w) "+[expr abs($matDiff)] "
+      set ::board::_matValW($w) ""
+  } elseif {$matDiff > 0} {
+      set ::board::_matValW($w) "+$matDiff "
+      set ::board::_matValB($w) ""
+  } else {
+      set ::board::_matValW($w) ""
+      set ::board::_matValB($w) ""
+  }
   foreach pType {q r b n p} {
     set count [expr "\$$pType"]
+    set side ""
     if {$count < 0} {
-      addMaterial $count $pType $f $rank $sum
-      incr rank [expr abs($count) ]
+      set count [expr abs($count)]
+      set side B
+    } elseif {$count > 0} {
+      set side W
+    }
+    if { $side ne "" } {
+        for {set i 0} {$i<$count} {incr i} {
+            append mat($side) $pType
+            incr ::board::_matDiff($side,$w)
+        }
     }
   }
-  foreach pType {q r b n p} {
-    set count [expr "\$$pType"]
-    if {$count > 0} {
-      addMaterial $count $pType $f $rank $sum
-      incr rank [expr abs($count) ]
-    }
-  }
+  set col b
+  if {[string first "dark" [ttk::style theme use]] != -1} { set col w }
+  ::board::addMaterial $w.playerW.materialDiff $mat(W) $col
+  ::board::addMaterial $w.playerB.materialDiff $mat(B) $col
+  ::board::configureMaterialBar $w
 }
-proc ::board::addMaterial {count piece parent rank sum} {
-  if {$count == 0} {return}
-  if {$count <0} {
-    set col "b"
-    set count [expr 0 - $count ]
-  } else  {
-    set col "w"
-  }
-  set w [$parent cget -width]
-  set h [$parent cget -height]
-  set offset [expr ($h - ($sum * 20)) / 2]
-  if {$offset <0} { set offset 0 }
-  set x [expr $w / 2]
+
+proc ::board::addMaterial { w pieces c} {
+  set count [string length $pieces]
+  set wi [expr $count * 18]
+  set h [$w cget -height]
+  set y [expr $h / 2]
+  $w configure -width $wi
   for {set i 0} {$i<$count} {incr i} {
-    set y [expr $rank * 20 +10 + $offset + $i * 20]
-    $parent create image $x $y -image $col${piece}20 -tag material
+    set x [expr $i * 18 + 9]
+    set piece [string index $pieces $i]
+    $w create image $x $y -image $c${piece}20 -tag material
   }
 }
 proc ::board::toggleMaterial {w} {
   set ::board::_showmat($w) [expr {1 - $::board::_showmat($w)}]
-  if {$::board::_showmat($w)} {
-    grid $w.mat
+  if {!$::board::_showmat($w)} {
+    set ::board::_matDiff(W,$w) 0
+    set ::board::_matDiff(B,$w) 0
+    set ::board::_matValW($w) ""
+    set ::board::_matValB($w) ""
+    if { [winfo exists $w.playerW] } {
+        $w.playerW.materialDiff delete material
+        $w.playerB.materialDiff delete material
+        grid forget $w.playerW.materialDiff
+        grid forget $w.playerB.materialDiff
+        grid forget $w.playerW.mval
+        grid forget $w.playerB.mval
+    }
   } else {
-    grid remove $w.mat
+    if { [winfo exists $w.playerW] } {
+        grid $w.playerW.materialDiff -row 0 -column 3 -sticky e
+        grid $w.playerB.materialDiff -row 0 -column 3 -sticky e
+        grid $w.playerW.mval -row 0 -column 4 -sticky news
+        grid $w.playerB.mval -row 0 -column 4 -sticky news
+    }
   }
   ::board::update $w
   return $::board::_showmat($w)

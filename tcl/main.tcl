@@ -290,13 +290,13 @@ proc updateMainToolbar {} {
     unset -nocomplain ::gameInfoBar(tb_BD_VarPromote)
     unset -nocomplain ::gameInfoBar(tb_BD_VarLeave)
     unset -nocomplain ::gameInfoBar(tb_BD_BackToMainline)
-    ::board::setButtonImg .main.board leavevar tb_BD_BackStart
+    ::board::setButtonImg .main.board leavevar ::icon::tb_start
   } else {
     set ::gameInfoBar(tb_BD_VarDelete) { ::pgn::deleteVar }
     set ::gameInfoBar(tb_BD_VarPromote) { ::pgn::mainVar }
     set ::gameInfoBar(tb_BD_VarLeave) { ::move::ExitVar }
     set ::gameInfoBar(tb_BD_BackToMainline) { while {[sc_var level] != 0} {::move::ExitVar} }
-    ::board::setButtonImg .main.board leavevar tb_BD_exitvar
+    ::board::setButtonImg .main.board leavevar ::icon::tb_up
   }
 
   set ::gameInfoBar(tb_BD_SetupBoard) "setupBoard"
@@ -1495,6 +1495,7 @@ proc CreateMainBoard { {w} } {
   if {$::showEvalBar($w)} { ::board::toggleEvalBar $w.board }
   if {$::gameInfo(showMaterial)} { ::board::toggleMaterial $w.board }
 
+  ::options.store ::infoBarMode normal
   ::board::addNamesBar $w.board gamePlayers
   ::board::addInfoBar $w.board gameInfoBar
 
@@ -1621,69 +1622,23 @@ proc setToolbarTooltips { tb } {
 	newdb FileNew open FileOpen finder FileFinder
 	save GameReplace closedb FileClose bkm FileBookmarks
 	gprev GamePrev gnext GameNext
-	newgame GameNew copy EditCopy paste EditPaste rotate RotateBoard
+	newgame GameNew copy EditCopy paste EditPaste
 	boardsearch SearchCurrent
 	headersearch SearchHeader materialsearch SearchMaterial
 	switcher WindowsSwitcher glist WindowsGList pgn WindowsPGN tmt WindowsTmt
 	maint WindowsMaint eco WindowsECO tree WindowsTree crosstab ToolsCross
 	engine ToolsAnalysis } {
-	::utils::tooltip::Set $tb.$b $::helpMessage($::language,$m)
+	catch { ::utils::tooltip::Set $tb.$b $::helpMessage($::language,$m) }
     }
 }
 
 proc InitToolbar {{tb}} {
 	ttk::frame $tb -relief raised -border 1
-	ttk::button $tb.newdb -image tb_newdb -command ::file::New -padding {2 0}
-	ttk::button .main.tb.open -image tb_open -command ::file::Open -padding {2 0}
-	ttk::button .main.tb.save -image tb_save  -padding {2 0} -command {
-	  if {[sc_game number] != 0} {
-		#busyCursor .
-		gameReplace
-		# catch {.save.buttons.save invoke}
-		#unbusyCursor .
-	  } else {
-		gameAdd
-	  }
-	}
-	ttk::button .main.tb.closedb -image tb_closedb -command ::file::Close -padding {2 0}
-	ttk::button .main.tb.finder -image tb_finder -command ::file::finder::Open -padding {2 0}
 	ttk::menubutton .main.tb.bkm -image tb_bkm -menu .main.tb.bkm.menu -padding {2 0}
-	menu .main.tb.bkm.menu
-	::bookmarks::RefreshMenu .main.tb.bkm.menu
-
-	ttk::frame .main.tb.space1 -width 4
-	ttk::button .main.tb.newgame -image tb_newgame -command ::game::Clear -padding {2 0}
-	ttk::button .main.tb.copy -image tb_copy -command ::gameAddToClipbase -padding {2 0}
-	ttk::button .main.tb.paste -image tb_paste \
-		-command {catch {sc_clipbase paste}; updateBoard -pgn} -padding {2 0}
-	ttk::button .main.tb.rotate -image tb_BD_Flip \
-		-command toggleRotateBoard -padding {2 0}
-	ttk::frame .main.tb.space2 -width 4
 	ttk::button .main.tb.gprev -image tb_gprev -command {::game::LoadNextPrev previous} -padding {2 0}
 	ttk::button .main.tb.gnext -image tb_gnext -command {::game::LoadNextPrev next} -padding {2 0}
-	ttk::frame .main.tb.space3 -width 4
-	ttk::button .main.tb.boardsearch -image tb_boardsearch -command ::search::board -padding {2 0}
-	ttk::button .main.tb.headersearch -image tb_headersearch -command ::search::header -padding {2 0}
-	ttk::button .main.tb.materialsearch -image tb_materialsearch -command ::search::material -padding {2 0}
-	ttk::frame .main.tb.space4 -width 4
-	ttk::button .main.tb.switcher -image tb_switcher -command ::windows::switcher::Open -padding {2 0}
-	ttk::button .main.tb.glist -image tb_glist -command ::windows::gamelist::Open -padding {2 0}
-	ttk::button .main.tb.pgn -image tb_pgn -command ::pgn::OpenClose -padding {2 0}
-	ttk::button .main.tb.tmt -image tb_tmt -command ::tourney::toggle -padding {2 0}
-	ttk::button .main.tb.maint -image tb_maint -command ::maint::OpenClose -padding {2 0}
-	ttk::button .main.tb.eco -image tb_eco -command ::windows::eco::OpenClose -padding {2 0}
-	ttk::button .main.tb.tree -image tb_tree -command ::tree::make -padding {2 0}
-	ttk::button .main.tb.crosstab -image tb_crosstab -command ::crosstab::OpenClose -padding {2 0}
-	ttk::button .main.tb.engine -image tb_engine -command ::enginewin::Open -padding {2 0}
-	ttk::button .main.tb.help -image tb_help -command {helpWindow Index} -padding {2 0}
-
-	foreach i {newdb open save closedb finder bkm newgame copy paste gprev gnext \
-		  boardsearch headersearch materialsearch \
-		  switcher glist pgn tmt maint eco tree crosstab engine help rotate} {
-	  .main.tb.$i configure -takefocus 0
-	}
-
-    setToolbarTooltips $tb
+	menu .main.tb.bkm.menu
+	::bookmarks::RefreshMenu .main.tb.bkm.menu
 	redrawToolbar
 }
 
@@ -1713,12 +1668,10 @@ proc ConfigToolbar { w } {
   pack [ttk::frame $w.f] -side top -fill x
   set col 0
   set row 0
-  foreach i {newdb open closedb finder save bkm row gprev gnext row newgame copy paste rotate row boardsearch headersearch \
+  foreach i {newdb open closedb finder save bkm row gprev gnext row newgame copy paste row boardsearch headersearch \
 		 materialsearch row switcher glist pgn tmt maint eco tree crosstab engine } {
       if { $i eq "row" } { incr row; set col 0 } else {
-	  set img tb_$i
-	  if {$i eq "rotate"} { set img tb_BD_Flip }
-	  ttk::button $w.f.$i -image $img -command "toggleToolbarButton $w.f $i"
+	  ttk::button $w.f.$i -image tb_$i -command "toggleToolbarButton $w.f $i"
 	  if { $::toolbar_temp($i) } { $w.f.$i state pressed }
 	  grid $w.f.$i -row $row -column $col -sticky news -padx 4 -pady "0 8"
 	  incr col
@@ -1733,53 +1686,78 @@ proc ConfigToolbar { w } {
   pack $w.on $w.off -side left -padx 2 -pady "5 0"
 }
 
-proc redrawToolbar {} {
-  foreach i [winfo children .main.tb] { pack forget $i }
-  set seenAny 0
-  set seen 0
-  foreach i {newdb open closedb finder save bkm} {
-    if {$::toolbar_state($i)} {
-      set seen 1; set seenAny 1
-      pack .main.tb.$i -side left -pady 1 -padx 0 -ipadx 0 -pady 0 -ipady 0
+proc redrawToolbar { args } {
+    # Remove any previously-added toolbar icons from the menu bar.
+    # The first N entries are the cascade menus; toolbar icons start after them.
+    set lastCascade -1
+    set n [.menu index end]
+    for {set i 0} {$n ne "none" && $i <= $n} {incr i} {
+        if {[.menu type $i] eq "cascade"} {
+            # Skip tb_bkm cascade (added by previous toolbar redraw) - only count top-level menu cascades
+            if {[catch {.menu entrycget $i -image} img] || $img ne "tb_bkm"} {
+                set lastCascade $i
+            }
+        }
     }
-  }
-  if {$seen} { pack .main.tb.space1 -side left }
-  set seen 0
-  foreach i {gprev gnext} {
-    if {$::toolbar_state($i)} {
-      set seen 1; set seenAny 1
-      pack .main.tb.$i -side left -pady 1 -padx 0 -ipadx 0 -pady 0 -ipady 0
+    set tbStart [expr {$lastCascade + 1}]
+    if {$n ne "none" && $n >= $tbStart} {
+        .menu delete $tbStart $n
     }
-  }
-  if {$seen} { pack .main.tb.space2 -side left }
-  set seen 0
-  foreach i {newgame copy paste rotate} {
-    if {$::toolbar_state($i)} {
-      set seen 1; set seenAny 1
-      pack .main.tb.$i -side left -pady 1 -padx 0 -ipadx 0 -pady 0 -ipady 0
+
+    # Mapping from toolbar icon name to its command
+    array set tbCmd {
+        newdb       ::file::New
+        open        ::file::Open
+        closedb     ::file::Close
+        save        {if {[sc_game number] != 0} { gameReplace } else { gameAdd }}
+        finder      ::file::finder::Open
+        newgame     ::game::Clear
+        gprev       {::game::LoadNextPrev previous}
+        gnext       {::game::LoadNextPrev next}
+        copy        ::gameAddToClipbase
+        paste       {catch {sc_clipbase paste}; updateBoard -pgn}
+        boardsearch ::search::board
+        headersearch ::search::header
+        materialsearch ::search::material
+        pgn         ::pgn::OpenClose
+        tmt         ::tourney::toggle
+        maint       ::maint::OpenClose
+        switcher    ::windows::switcher::Open
+        glist       ::windows::gamelist::Open
+        eco         ::windows::eco::OpenClose
+        tree        ::tree::make
+        crosstab    ::crosstab::OpenClose
+        engine      ::enginewin::Open
     }
-  }
-  if {$seen} { pack .main.tb.space3 -side left }
-  set seen 0
-  foreach i {boardsearch headersearch materialsearch} {
-    if {$::toolbar_state($i)} {
-      set seen 1; set seenAny 1
-      pack .main.tb.$i -side left -pady 1 -padx 0 -ipadx 0 -pady 0 -ipady 0
+
+    # Mapping from toolbar icon name to its help/tooltip key
+    array set tbHelp {
+        newdb FileNew  open FileOpen  closedb FileClose  save GameReplace
+        finder FileFinder  newgame GameNew  gprev GamePrev  gnext GameNext
+        copy EditCopy  paste EditPaste  boardsearch SearchCurrent
+        headersearch SearchHeader  materialsearch SearchMaterial
+        pgn WindowsPGN  tmt WindowsTmt  maint WindowsMaint
+        switcher WindowsSwitcher  glist WindowsGList  eco WindowsECO
+        tree WindowsTree  crosstab ToolsCross  engine ToolsAnalysis
     }
-  }
-  if {$seen} { pack .main.tb.space4 -side left }
-  set seen 0
-  foreach i {switcher glist pgn tmt maint eco tree crosstab engine} {
-    if {$::toolbar_state($i)} {
-      set seen 1; set seenAny 1
-      pack .main.tb.$i -side left -pady 1 -padx 0 -ipadx 0 -pady 0 -ipady 0
+
+    set nr $tbStart
+    foreach i {newdb open closedb finder save newgame gprev gnext copy paste \
+                boardsearch headersearch materialsearch pgn tmt \
+                maint switcher glist eco tree crosstab engine} {
+        if {$::toolbar_state($i)} {
+            .menu add command -image tb_$i -command $tbCmd($i)
+            catch { ::utils::tooltip::Set .menu -index $nr $::helpMessage($::language,$tbHelp($i)) }
+            incr nr
+        }
     }
-  }
-  if {$seenAny} {
-    grid .main.tb -row 0 -column 0 -columnspan 3 -sticky we
-  } else {
+    if {$::toolbar_state(bkm)} {
+        if {![winfo exists .menubookmarks]} { menu .menubookmarks }
+        .menu add cascade -image tb_bkm -menu .menubookmarks
+        ::bookmarks::RefreshMenu .menubookmarks
+    }
+    # Hide the old toolbar frame — all icons now live in the menu bar
     grid forget .main.tb
-  }
 }
 
 ##############################
