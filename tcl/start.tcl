@@ -631,6 +631,18 @@ if {[file isdirectory $themeDir]} {
     }
 }
 
+# Load bundled Uwe Klimmek ttk-themes (image-based, require direct source)
+set _tclthemesDir [file join [file dirname [info script]] "tclthemes"]
+if {[file isdirectory $_tclthemesDir]} {
+    foreach _themeScript [glob -nocomplain -directory $_tclthemesDir */scid*.tcl] {
+        if {[catch {source -encoding utf-8 [file nativename $_themeScript]} _err]} {
+            puts stderr "Warning: Failed to load bundled theme $_themeScript - $_err"
+        }
+    }
+    unset -nocomplain _themeScript _err
+}
+unset -nocomplain _tclthemesDir
+
 # Load more theme
 if { [file exists $::ThemePackageFile] } {
   catch { ::safeSourceStyle $::ThemePackageFile }

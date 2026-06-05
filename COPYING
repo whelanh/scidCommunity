@@ -27,6 +27,10 @@ The Berlin piece set images (img/pieces/Berlin/) were sourced from ChessX
 http://www.enpassant.dk/chess/fonteng.htm, and ported to scid vs. PC by
 stevenaaus. ChessX is a GPL project.
 
+The TTK themes and dark toolbar icons in tcl/tclthemes/ and img/icons_dark/
+were created by Uwe Klimmek (https://codeberg.org/scid/ttk-themes) and are
+distributed under the BSD-like 2-clause Tcl License. See tcl/tclthemes/LICENSE.
+
 Applicability:
 --------------
 
