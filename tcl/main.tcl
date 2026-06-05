@@ -1495,6 +1495,7 @@ proc CreateMainBoard { {w} } {
   if {$::showEvalBar($w)} { ::board::toggleEvalBar $w.board }
   if {$::gameInfo(showMaterial)} { ::board::toggleMaterial $w.board }
 
+  ::options.store ::infoBarMode normal
   ::board::addNamesBar $w.board gamePlayers
   ::board::addInfoBar $w.board gameInfoBar
 
@@ -1736,7 +1737,7 @@ proc redrawToolbar { args } {
     }
 
     set nr $tbStart
-    foreach i {newdb open closedb save finder newgame gprev gnext copy paste \
+    foreach i {newdb open closedb finder save newgame gprev gnext copy paste \
                 boardsearch headersearch materialsearch pgn tmt \
                 maint switcher glist eco tree crosstab engine} {
         if {$::toolbar_state($i)} {

@@ -540,6 +540,7 @@ proc ::board::addNamesBar {w {varname}} {
 }
 
 proc ::board::InfoBarSmall {w} {
+  set ::infoBarMode compact
   grid propagate $w.bar.info 0
   grid forget $w.bar.info
   grid $w.bar.prev -row 0 -column 1 -sticky news
@@ -559,6 +560,7 @@ proc ::board::InfoBarSmall {w} {
 }
 
 proc ::board::InfoBarNormal {w} {
+  set ::infoBarMode normal
   grid propagate $w.bar.info 0
   grid $w.bar.info -in $w.bar -row 0 -column 0 -rowspan 2 -sticky news -padx {0 4}
   grid $w.bar.leavevar -row 0 -column 2 -sticky news
@@ -594,6 +596,7 @@ proc ::board::addInfoBar {w varname} {
   ttk::button $w.bar.material -image ::icon::tb_material -style Toolbutton -command {
     set ::gameInfo(showMaterial) [::board::toggleMaterial .main.board]
   }
+  ::utils::tooltip::Set $w.bar.flip "$::tr(FlipBoard)"
   ::utils::tooltip::Set $w.bar.material "$::tr(ShowHideMaterial)"
   ttk::button $w.bar.score -image ::icon::tb_score -style Toolbutton -command {
     set ::showEvalBar(.main) [::board::toggleEvalBar .main.board]
@@ -603,7 +606,7 @@ proc ::board::addInfoBar {w varname} {
   }
   ::utils::tooltip::Set $w.bar.score "$::tr(ShowHideEvalBar)"
   ttk::button $w.bar.coords -image ::icon::tb_coords_small -style Toolbutton -command {
-    set c [::board::coords .main.board]
+    set ::boardCoords [::board::coords .main.board]
     ::board::resize .main.board redraw
   }
   ::utils::tooltip::Set $w.bar.coords "$::tr(ShowHideCoords)"
@@ -611,7 +614,11 @@ proc ::board::addInfoBar {w varname} {
   ttk::button $w.bar.next -image ::icon::tb_gameinfo -style Toolbutton
   ttk::button $w.bar.marker -image ::icon::tb_SelectMarker -command { ::selectMarker } -style Toolbutton
   ::utils::tooltip::Set $w.bar.marker "$::tr(SelectMarker)"
-  ::board::InfoBarNormal $w
+  if {[info exists ::infoBarMode] && $::infoBarMode eq "compact"} {
+    ::board::InfoBarSmall $w
+  } else {
+    ::board::InfoBarNormal $w
+  }
   grid columnconfigure $w.bar 1 -weight 0
   grid columnconfigure $w.bar 0 -weight 1
 }
@@ -1423,7 +1430,7 @@ proc ::board::mark::DrawRectangle { pathName square color pattern } {
 
 # ::board::mark::DrawNag --
 # Display annotation symbol (e.g. !, ?, !?) at the upper RIGHT corner of a square
-proc ::board::mark::DrawNag { pathName square nag color} {
+proc ::board::mark::DrawNag { pathName square nag color {textcolor "white"}} {
   if {$square < 0  ||  $square > 63} { return }
   set box [::board::mark::GetBox $pathName.bd $square]
   set bsize $::board::_size($pathName)
@@ -1447,7 +1454,7 @@ proc ::board::mark::DrawNag { pathName square nag color} {
   }
   $pathName.bd create oval $p(0) $p(1) $p(2) $p(3) -outline $color -fill $color -tag highlightLastMove
   $pathName.bd create text [expr [lindex $box 2] - $offsetX] [expr [lindex $box 1] + $offsetY] -text $nag \
-      -tag highlightLastMove -fill white -font [list font_Bold $size bold]
+      -tag highlightLastMove -fill $textcolor -font [list font_Bold $size bold]
 }
 
 # ::board::mark::DrawEvalNag --
@@ -1719,9 +1726,10 @@ proc  ::board::lastMoveHighlight {w moveuci {nag ""}} {
                     set t2 "#"; set t1 1
                 }
               }
+            default { return }
           }
-          ::board::mark::DrawNag $w [string first "K" $::board::_data($w)] $t1 "#d0d0d0"
-          ::board::mark::DrawNag $w [string first "k" $::board::_data($w)] $t2 "#303030"
+          ::board::mark::DrawNag $w [string first "K" $::board::_data($w)] $t1 "#d0d0d0" "#303030"
+          ::board::mark::DrawNag $w [string first "k" $::board::_data($w)] $t2 "#303030" "#d0d0d0"
         }
       }
     }
@@ -1985,16 +1993,22 @@ proc ::board::toggleMaterial {w} {
   if {!$::board::_showmat($w)} {
     set ::board::_matDiff(W,$w) 0
     set ::board::_matDiff(B,$w) 0
+    set ::board::_matValW($w) ""
+    set ::board::_matValB($w) ""
     if { [winfo exists $w.playerW] } {
         $w.playerW.materialDiff delete material
         $w.playerB.materialDiff delete material
         grid forget $w.playerW.materialDiff
         grid forget $w.playerB.materialDiff
+        grid forget $w.playerW.mval
+        grid forget $w.playerB.mval
     }
   } else {
     if { [winfo exists $w.playerW] } {
         grid $w.playerW.materialDiff -row 0 -column 3 -sticky e
         grid $w.playerB.materialDiff -row 0 -column 3 -sticky e
+        grid $w.playerW.mval -row 0 -column 4 -sticky news
+        grid $w.playerB.mval -row 0 -column 4 -sticky news
     }
   }
   ::board::update $w
