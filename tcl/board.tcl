@@ -1711,7 +1711,7 @@ proc  ::board::lastMoveHighlight {w moveuci {nag ""}} {
     }
     # Show game result indicator next to the Kings (0, 1, ½, or #)
     if { $::highlightLastMoveNag } {
-      set isMate [expr {[string first "#" $nag] >= 0}]
+      set isMate [sc_pos isMate]
       if {[sc_pos isAt end] || $isMate} {
         set res [sc_game tag get Result]
         if { $res ne "*" || $isMate } {

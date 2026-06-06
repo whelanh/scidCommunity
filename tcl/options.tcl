@@ -29,7 +29,7 @@ proc InitDefaultToolbar {} {
   foreach {tbicon status}  {
     newdb 0 open 0 save 0 closedb 0
     finder 0 bkm 0 gprev 0 gnext 0
-    newgame 0 copy 0 paste 0 rotate 0
+    newgame 0 copy 0 paste 0
     boardsearch 0 headersearch 0 materialsearch 0
     switcher 0 glist 0 pgn 0 tmt 0 maint 0 eco 0 tree 0 crosstab 0 engine 0
   } {
@@ -597,6 +597,11 @@ set optionsFile [scidConfigFile options]
 ################################################################################
 if {[file exists $optionsFile] && [catch {safeLoadConfig $optionsFile}]} {
   tk_messageBox -message $::errorInfo
+}
+
+# Clean up legacy toolbar_state entries that no longer map to widgets
+if {[info exists toolbar_state(rotate)]} {
+  unset toolbar_state(rotate)
 }
 
 # Now, if the options file was written by Scid 3.5 or older, it has a lot of

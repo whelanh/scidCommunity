@@ -1657,7 +1657,9 @@ proc toggleToolbarButton { b i } {
 proc toggleAllToolbarButtons { b state } {
     foreach i [array names ::toolbar_temp] {
 	set ::toolbar_temp($i) $state
-	if { $state } { $b.$i state pressed } else { $b.$i state !pressed }
+	if {[winfo exists $b.$i]} {
+	    if { $state } { $b.$i state pressed } else { $b.$i state !pressed }
+	}
     }
     array set ::toolbar_state [array get ::toolbar_temp]
     redrawToolbar
@@ -1671,7 +1673,7 @@ proc ConfigToolbar { w } {
   foreach i {newdb open closedb finder save bkm row gprev gnext row newgame copy paste row boardsearch headersearch \
 		 materialsearch row switcher glist pgn tmt maint eco tree crosstab engine } {
       if { $i eq "row" } { incr row; set col 0 } else {
-	  ttk::button $w.f.$i -image tb_$i -command "toggleToolbarButton $w.f $i"
+      ttk::button $w.f.$i -image ::icon::tb_$i -command "toggleToolbarButton $w.f $i"
 	  if { $::toolbar_temp($i) } { $w.f.$i state pressed }
 	  grid $w.f.$i -row $row -column $col -sticky news -padx 4 -pady "0 8"
 	  incr col
@@ -1694,7 +1696,7 @@ proc redrawToolbar { args } {
     for {set i 0} {$n ne "none" && $i <= $n} {incr i} {
         if {[.menu type $i] eq "cascade"} {
             # Skip tb_bkm cascade (added by previous toolbar redraw) - only count top-level menu cascades
-            if {[catch {.menu entrycget $i -image} img] || $img ne "tb_bkm"} {
+            if {[catch {.menu entrycget $i -image} img] || $img ne "::icon::tb_bkm"} {
                 set lastCascade $i
             }
         }
@@ -1746,14 +1748,14 @@ proc redrawToolbar { args } {
                 boardsearch headersearch materialsearch pgn tmt \
                 maint switcher glist eco tree crosstab engine} {
         if {$::toolbar_state($i)} {
-            .menu add command -image tb_$i -command $tbCmd($i)
+            .menu add command -image ::icon::tb_$i -command $tbCmd($i)
             catch { ::utils::tooltip::Set .menu -index $nr $::helpMessage($::language,$tbHelp($i)) }
             incr nr
         }
     }
     if {$::toolbar_state(bkm)} {
         if {![winfo exists .menubookmarks]} { menu .menubookmarks }
-        .menu add cascade -image tb_bkm -menu .menubookmarks
+        .menu add cascade -image ::icon::tb_bkm -menu .menubookmarks
         ::bookmarks::RefreshMenu .menubookmarks
     }
     # Hide the old toolbar frame — all icons now live in the menu bar
