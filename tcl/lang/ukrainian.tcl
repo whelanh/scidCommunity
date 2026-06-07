@@ -113,6 +113,8 @@ menuText Q GameGotoMove "Перейти до номера переміщення
   {Перейти до вказаного номера ходу в поточній грі}
 menuText Q GameNovelty "Знайти новинку..." 7 \
   {Знайдіть перший хід цієї гри, який ще не грав}
+menuText Q PlayTournament "Грати в турнір..." 0 \
+    {Грайте в турнір двигунів}
 
 # Search Menu:
 menuText Q Search "Пошук" 0
@@ -1381,8 +1383,106 @@ translate Q RecentFilesExtra {Кількість останніх файлів �
 
 # My Player Names options:
 translate Q MyPlayerNamesDescription {Введіть список бажаних імен гравців нижче, по одному імені в рядку. Допускаються символи підстановки (наприклад, «?» для будь-якого окремого символу, «*» для будь-якої послідовності символів).
+# ====== TODO To be translated ======
+translate Q configComp {Налаштувати турнір}
+# ====== TODO To be translated ======
+translate Q Tournament {Турнір}
+# ====== TODO To be translated ======
+translate Q Available {в наявності}
+# ====== TODO To be translated ======
+translate Q Selected {Вибране}
+# ====== TODO To be translated ======
+translate Q RoundRobin {Кругова система}
+# ====== TODO To be translated ======
+translate Q Gauntlet {рукавичка}
+# ====== TODO To be translated ======
+translate Q CompGameNext {Наступна гра:}
+# ====== TODO To be translated ======
+translate Q TimeperGame {Час на\Гру}
+# ====== TODO To be translated ======
+translate Q TimeperMove {Час на\хід}
+# ====== TODO To be translated ======
+translate Q compStoreTime {Час зберігання:}
+# ====== TODO To be translated ======
+translate Q Clock {Годинник}
+# ====== TODO To be translated ======
+translate Q compConcurrent {Одночасні ігри:}
+# ====== TODO To be translated ======
+translate Q compShowBoards {Show Boards}
+# ====== TODO To be translated ======
+translate Q compCarousel {Карусельна система}
+# ====== TODO To be translated ======
+translate Q compSaveEval {Зберегти оцінку}
+# ====== TODO To be translated ======
+translate Q compCanceledGames {Скасовані або тайм-аут гри:}
+# ====== TODO To be translated ======
+translate Q Replay {Повтор}
+# ====== TODO To be translated ======
+translate Q compStart {старт}
+# ====== TODO To be translated ======
+translate Q compSave {Зберігайте після кожної гри}
+# ====== TODO To be translated ======
+translate Q compStop {Зупинка після закінчення акту. гра}
+# ====== TODO To be translated ======
+translate Q compRunning {Турнір триває}
+# ====== TODO To be translated ======
+translate Q Restart {Перезапустіть}
+# ====== TODO To be translated ======
+translate Q compFinished {Турнір завершено}
+# ====== TODO To be translated ======
+translate Q compStopped {Турнір зупинено}
 
 Кожного разу, коли завантажується гра з гравцем у списку, шахівниця головного вікна повертатиметься, якщо необхідно, щоб показати гру з точки зору цього гравця.}
+
+# Computer Tournament:
+# MISSING TRANSLATION for configComp:
+# translate E configComp {Configure Tournament}
+# MISSING TRANSLATION for Tournament:
+# translate E Tournament {Tournament}
+# MISSING TRANSLATION for Available:
+# translate E Available {Available}
+# MISSING TRANSLATION for Selected:
+# translate E Selected {Selected}
+# MISSING TRANSLATION for RoundRobin:
+# translate E RoundRobin {Round Robin}
+# MISSING TRANSLATION for Gauntlet:
+# translate E Gauntlet {Gauntlet}
+# MISSING TRANSLATION for CompGameNext:
+# translate E CompGameNext {Next game:}
+# MISSING TRANSLATION for TimeperGame:
+# translate E TimeperGame {Time per\nGame}
+# MISSING TRANSLATION for TimeperMove:
+# translate E TimeperMove {Time per\nMove}
+# MISSING TRANSLATION for compStoreTime:
+# translate E compStoreTime {Store Time: }
+# MISSING TRANSLATION for Clock:
+# translate E Clock {Clock}
+# MISSING TRANSLATION for compConcurrent:
+# translate E compConcurrent {Concurrent games: }
+# MISSING TRANSLATION for compShowBoards:
+# translate E compShowBoards {Show Boards}
+# MISSING TRANSLATION for compCarousel:
+# translate E compCarousel {Carousel system}
+# MISSING TRANSLATION for compSaveEval:
+# translate E compSaveEval {Save evaluation}
+# MISSING TRANSLATION for compCanceledGames:
+# translate E compCanceledGames {Canceled or timed out games:}
+# MISSING TRANSLATION for Replay:
+# translate E Replay {Replay}
+# MISSING TRANSLATION for compStart:
+# translate E compStart {Start}
+# MISSING TRANSLATION for compSave:
+# translate E compSave {Save after every game}
+# MISSING TRANSLATION for compStop:
+# translate E compStop {Stop after end\nof act. game}
+# MISSING TRANSLATION for compRunning:
+# translate E compRunning {Tournament in progress}
+# MISSING TRANSLATION for Restart:
+# translate E Restart {Restart}
+# MISSING TRANSLATION for compFinished:
+# translate E compFinished {Tournament finished}
+# MISSING TRANSLATION for compStopped:
+# translate E compStopped {Tournament stopped}
 
 #Coach
 translate Q showblunderexists {показати, що помилка існує}
@@ -1757,8 +1857,8 @@ translate Q TBNoMoves {Законних ходів не знайдено.}
 translate Q TBTooMany {Забагато частин. Настільна база Lichess підтримує до 7 предметів.}
 translate Q TBQuerying {Запит Lichess API...}
 translate Q TBError {Помилка запуску curl для запиту Lichess.}
-translate Q TBNotFound {Позиція не знайдена в базі таблиць або помилка API.}
 translate Q TBQueryError {Неправильна відповідь від API бази таблиць.}
+translate Q TBNotFound {Позиція не знайдена в базі таблиць або помилка API.}
 translate Q TBCategory {Категорія посади:}
 translate Q TBTrainingHidden {(Режим навчання; результати приховані)}
 }

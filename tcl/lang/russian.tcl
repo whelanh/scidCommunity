@@ -119,6 +119,8 @@ menuText R GameGotoMove "Перейти к ходу номер..." 5 \
   {Перейти к определённому ходу текущей партии}
 menuText R GameNovelty "Найти новинку..." 2 \
   {Найти первый ход в этой партии, который раньше не применялся}
+menuText R PlayTournament "Играть в турнир..." 0 \
+    {Сыграть турнир по двигателям}
 
 # Search Menu:
 menuText R Search "Поиск" 1
@@ -1403,10 +1405,108 @@ translate R RecentFilesExtra {Число недавно загруженных �
 
 # My Player Names options:
 translate R MyPlayerNamesDescription {
+# ====== TODO To be translated ======
+translate R configComp {Настроить турнир}
+# ====== TODO To be translated ======
+translate R Tournament {Турнир}
+# ====== TODO To be translated ======
+translate R Available {Доступный}
+# ====== TODO To be translated ======
+translate R Selected {Выбрано}
+# ====== TODO To be translated ======
+translate R RoundRobin {Круговая система}
+# ====== TODO To be translated ======
+translate R Gauntlet {Рукавица}
+# ====== TODO To be translated ======
+translate R CompGameNext {Следующая игра:}
+# ====== TODO To be translated ======
+translate R TimeperGame {Время за\Игру}
+# ====== TODO To be translated ======
+translate R TimeperMove {Время за\ход}
+# ====== TODO To be translated ======
+translate R compStoreTime {Время хранения:}
+# ====== TODO To be translated ======
+translate R Clock {Часы}
+# ====== TODO To be translated ======
+translate R compConcurrent {Параллельные игры:}
+# ====== TODO To be translated ======
+translate R compShowBoards {Показать доски}
+# ====== TODO To be translated ======
+translate R compCarousel {Карусельная система}
+# ====== TODO To be translated ======
+translate R compSaveEval {Сохранить оценку}
+# ====== TODO To be translated ======
+translate R compCanceledGames {Отмененные или истекшие игры:}
+# ====== TODO To be translated ======
+translate R Replay {Повтор}
+# ====== TODO To be translated ======
+translate R compStart {Начинать}
+# ====== TODO To be translated ======
+translate R compSave {Сохраняйтесь после каждой игры}
+# ====== TODO To be translated ======
+translate R compStop {Остановиться после окончания действия. игра}
+# ====== TODO To be translated ======
+translate R compRunning {Турнир в разгаре}
+# ====== TODO To be translated ======
+translate R Restart {Перезапуск}
+# ====== TODO To be translated ======
+translate R compFinished {Турнир завершен}
+# ====== TODO To be translated ======
+translate R compStopped {Турнир остановлен}
 Ввести список привилегированных имён игроков ниже, по одному имени на строку. Маски разрешены (например, "?" для любого единичного символа, "*" для любой последовательности символов)
 
 Каждый раз, когда партия с игроком в списке загружена, главное окно шахматной доски будет при необходимости поворачивается, чтобы показать партию от перспективы игрока.
 }
+
+# Computer Tournament:
+# MISSING TRANSLATION for configComp:
+# translate E configComp {Configure Tournament}
+# MISSING TRANSLATION for Tournament:
+# translate E Tournament {Tournament}
+# MISSING TRANSLATION for Available:
+# translate E Available {Available}
+# MISSING TRANSLATION for Selected:
+# translate E Selected {Selected}
+# MISSING TRANSLATION for RoundRobin:
+# translate E RoundRobin {Round Robin}
+# MISSING TRANSLATION for Gauntlet:
+# translate E Gauntlet {Gauntlet}
+# MISSING TRANSLATION for CompGameNext:
+# translate E CompGameNext {Next game:}
+# MISSING TRANSLATION for TimeperGame:
+# translate E TimeperGame {Time per\nGame}
+# MISSING TRANSLATION for TimeperMove:
+# translate E TimeperMove {Time per\nMove}
+# MISSING TRANSLATION for compStoreTime:
+# translate E compStoreTime {Store Time: }
+# MISSING TRANSLATION for Clock:
+# translate E Clock {Clock}
+# MISSING TRANSLATION for compConcurrent:
+# translate E compConcurrent {Concurrent games: }
+# MISSING TRANSLATION for compShowBoards:
+# translate E compShowBoards {Show Boards}
+# MISSING TRANSLATION for compCarousel:
+# translate E compCarousel {Carousel system}
+# MISSING TRANSLATION for compSaveEval:
+# translate E compSaveEval {Save evaluation}
+# MISSING TRANSLATION for compCanceledGames:
+# translate E compCanceledGames {Canceled or timed out games:}
+# MISSING TRANSLATION for Replay:
+# translate E Replay {Replay}
+# MISSING TRANSLATION for compStart:
+# translate E compStart {Start}
+# MISSING TRANSLATION for compSave:
+# translate E compSave {Save after every game}
+# MISSING TRANSLATION for compStop:
+# translate E compStop {Stop after end\nof act. game}
+# MISSING TRANSLATION for compRunning:
+# translate E compRunning {Tournament in progress}
+# MISSING TRANSLATION for Restart:
+# translate E Restart {Restart}
+# MISSING TRANSLATION for compFinished:
+# translate E compFinished {Tournament finished}
+# MISSING TRANSLATION for compStopped:
+# translate E compStopped {Tournament stopped}
 
 #Coach
 translate R showblunderexists {показать существующие ошибки}
@@ -1781,8 +1881,8 @@ translate R TBNoMoves {Законных ходов не обнаружено.}
 translate R TBTooMany {Слишком много кусочков. Основание стола Lichess поддерживает до 7 штук.}
 translate R TBQuerying {Запрос API Lichess...}
 translate R TBError {Ошибка при запуске Curl для запроса Lichess.}
-translate R TBNotFound {Позиция не найдена в базе таблиц или ошибка API.}
 translate R TBQueryError {Ошибка при разборе ответа API Lichess.}
+translate R TBNotFound {Позиция не найдена в базе таблиц или ошибка API.}
 translate R TBCategory {Категория позиции:}
 translate R TBTrainingHidden {(Режим обучения; результаты скрыты)}
 }

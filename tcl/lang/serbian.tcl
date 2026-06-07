@@ -122,6 +122,9 @@ menuText Y GameGotoMove "Idi na potez broj..." 5 \
   {Idi na odreeni broj potez u tekuoj partiji}
 menuText Y GameNovelty "Pronai novost..." 8 \
   {Pronai prvi potez ove partije koji nije igran ranije}
+# ====== TODO To be translated ======
+menuText Y PlayTournament "Play Tournament..." 0 \
+    {Play an engine tournament}
 
 # Search Menu:
 menuText Y Search "Pretrai" 3
@@ -1716,6 +1719,54 @@ translate Y RecentFilesExtra {Number of recent files in extra submenu} ;# ***
 
 # My Player Names options:
 translate Y MyPlayerNamesDescription {
+# ====== TODO To be translated ======
+translate Y configComp {Configure Tournament}
+# ====== TODO To be translated ======
+translate Y Tournament {Tournament}
+# ====== TODO To be translated ======
+translate Y Available {Available}
+# ====== TODO To be translated ======
+translate Y Selected {Selected}
+# ====== TODO To be translated ======
+translate Y RoundRobin {Round Robin}
+# ====== TODO To be translated ======
+translate Y Gauntlet {Gauntlet}
+# ====== TODO To be translated ======
+translate Y CompGameNext {Next game:}
+# ====== TODO To be translated ======
+translate Y TimeperGame {Time per\nGame}
+# ====== TODO To be translated ======
+translate Y TimeperMove {Time per\nMove}
+# ====== TODO To be translated ======
+translate Y compStoreTime {Store Time: }
+# ====== TODO To be translated ======
+translate Y Clock {Clock}
+# ====== TODO To be translated ======
+translate Y compConcurrent {Concurrent games: }
+# ====== TODO To be translated ======
+translate Y compShowBoards {Show Boards}
+# ====== TODO To be translated ======
+translate Y compCarousel {Carousel system}
+# ====== TODO To be translated ======
+translate Y compSaveEval {Save evaluation}
+# ====== TODO To be translated ======
+translate Y compCanceledGames {Canceled or timed out games:}
+# ====== TODO To be translated ======
+translate Y Replay {Replay}
+# ====== TODO To be translated ======
+translate Y compStart {Start}
+# ====== TODO To be translated ======
+translate Y compSave {Save after every game}
+# ====== TODO To be translated ======
+translate Y compStop {Stop after end\nof act. game}
+# ====== TODO To be translated ======
+translate Y compRunning {Tournament in progress}
+# ====== TODO To be translated ======
+translate Y Restart {Restart}
+# ====== TODO To be translated ======
+translate Y compFinished {Tournament finished}
+# ====== TODO To be translated ======
+translate Y compStopped {Tournament stopped}
 Enter a list of preferred player names below, one name per line. Wildcards (e.g. "?" for any single character, "*" for any sequence of characters) are permitted.
 
 Every time a game with a player in the list is loaded, the main window chessboard will be rotated if necessary to show the game from that players perspective.

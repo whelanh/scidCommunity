@@ -144,6 +144,8 @@ menuText G GameGotoMove "Μετάβαση στην κίνηση με αριθμ�
   {Μετάβαση στην κίνηση με συγκεκριμένο αριθμό στην τρέχουσα παρτίδα}
 menuText G GameNovelty "Αναζήτηση νεοτερισμού..." 7 \
   {Βρείτε την πρώτη κίνηση αυτής της παρτίδας που δεν έχει παιχθεί ποτέ}
+menuText G PlayTournament "Παίξτε Τουρνουά..." 0 \
+    {Παίξτε ένα τουρνουά κινητήρα}
 
 # Search Menu:
 menuText G Search "Αναζήτηση" 0
@@ -1428,10 +1430,108 @@ translate G RecentFilesExtra {Πλήθος των πρόσφατων αρχεί�
 
 # My Player Names options:
 translate G MyPlayerNamesDescription {
+# ====== TODO To be translated ======
+translate G configComp {Διαμόρφωση Τουρνουά}
+# ====== TODO To be translated ======
+translate G Tournament {Τουρνουά}
+# ====== TODO To be translated ======
+translate G Available {Διαθέσιμος}
+# ====== TODO To be translated ======
+translate G Selected {Επιλεγμένο}
+# ====== TODO To be translated ======
+translate G RoundRobin {Round Robin}
+# ====== TODO To be translated ======
+translate G Gauntlet {Γάντι}
+# ====== TODO To be translated ======
+translate G CompGameNext {Επόμενο παιχνίδι:}
+# ====== TODO To be translated ======
+translate G TimeperGame {Χρόνος ανά\Παιχνίδι}
+# ====== TODO To be translated ======
+translate G TimeperMove {Χρόνος ανά\Μετακίνηση}
+# ====== TODO To be translated ======
+translate G compStoreTime {Ώρα καταστήματος:}
+# ====== TODO To be translated ======
+translate G Clock {Ρολόι}
+# ====== TODO To be translated ======
+translate G compConcurrent {Ταυτόχρονα παιχνίδια:}
+# ====== TODO To be translated ======
+translate G compShowBoards {Εμφάνιση πινάκων}
+# ====== TODO To be translated ======
+translate G compCarousel {Σύστημα καρουζέλ}
+# ====== TODO To be translated ======
+translate G compSaveEval {Αποθήκευση αξιολόγησης}
+# ====== TODO To be translated ======
+translate G compCanceledGames {Παιχνίδια που ακυρώθηκαν ή έληξαν:}
+# ====== TODO To be translated ======
+translate G Replay {Ξαναπαίζω}
+# ====== TODO To be translated ======
+translate G compStart {Αρχή}
+# ====== TODO To be translated ======
+translate G compSave {Αποθήκευση μετά από κάθε παιχνίδι}
+# ====== TODO To be translated ======
+translate G compStop {Διακοπή μετά το τέλος της πράξης. παιχνίδι}
+# ====== TODO To be translated ======
+translate G compRunning {Τουρνουά σε εξέλιξη}
+# ====== TODO To be translated ======
+translate G Restart {Επανεκκίνηση}
+# ====== TODO To be translated ======
+translate G compFinished {Το τουρνουά ολοκληρώθηκε}
+# ====== TODO To be translated ======
+translate G compStopped {Το τουρνουά σταμάτησε}
 Δημιουργήστε παρακάτω μια λίστα των ονομάτων των προτιμόμενων παικτών, ένα για κάθε γραμμή. Τα συμβολα μπαλαντέρ (π.χ. "?" για κάνε έναν μοναδικό χαρακτήρα, "*" για οποιαδήποτε ακολουθία χαρακτήρων) επιτρέπονται.
 
 Κάθε φορά που θα φορτώνεται μια παρτίδα με παίκτη που υπάρχειστην λίστα, αν είναι απαραίτητο η σκακιέρα του κυρίως παραθύρου θα περιστρέφεται ώστε η παρτίδα να προβάλεται από την μεριά αυτού του παίκτη.
 }
+
+# Computer Tournament:
+# MISSING TRANSLATION for configComp:
+# translate E configComp {Configure Tournament}
+# MISSING TRANSLATION for Tournament:
+# translate E Tournament {Tournament}
+# MISSING TRANSLATION for Available:
+# translate E Available {Available}
+# MISSING TRANSLATION for Selected:
+# translate E Selected {Selected}
+# MISSING TRANSLATION for RoundRobin:
+# translate E RoundRobin {Round Robin}
+# MISSING TRANSLATION for Gauntlet:
+# translate E Gauntlet {Gauntlet}
+# MISSING TRANSLATION for CompGameNext:
+# translate E CompGameNext {Next game:}
+# MISSING TRANSLATION for TimeperGame:
+# translate E TimeperGame {Time per\nGame}
+# MISSING TRANSLATION for TimeperMove:
+# translate E TimeperMove {Time per\nMove}
+# MISSING TRANSLATION for compStoreTime:
+# translate E compStoreTime {Store Time: }
+# MISSING TRANSLATION for Clock:
+# translate E Clock {Clock}
+# MISSING TRANSLATION for compConcurrent:
+# translate E compConcurrent {Concurrent games: }
+# MISSING TRANSLATION for compShowBoards:
+# translate E compShowBoards {Show Boards}
+# MISSING TRANSLATION for compCarousel:
+# translate E compCarousel {Carousel system}
+# MISSING TRANSLATION for compSaveEval:
+# translate E compSaveEval {Save evaluation}
+# MISSING TRANSLATION for compCanceledGames:
+# translate E compCanceledGames {Canceled or timed out games:}
+# MISSING TRANSLATION for Replay:
+# translate E Replay {Replay}
+# MISSING TRANSLATION for compStart:
+# translate E compStart {Start}
+# MISSING TRANSLATION for compSave:
+# translate E compSave {Save after every game}
+# MISSING TRANSLATION for compStop:
+# translate E compStop {Stop after end\nof act. game}
+# MISSING TRANSLATION for compRunning:
+# translate E compRunning {Tournament in progress}
+# MISSING TRANSLATION for Restart:
+# translate E Restart {Restart}
+# MISSING TRANSLATION for compFinished:
+# translate E compFinished {Tournament finished}
+# MISSING TRANSLATION for compStopped:
+# translate E compStopped {Tournament stopped}
 
 #Coach
 translate G showblunderexists {εμφάνιση ότι το σφάλμα υπάρχει}
@@ -1806,6 +1906,7 @@ translate G TBNoMoves {Δεν βρέθηκαν νομικές κινήσεις.}
 translate G TBTooMany {Πάρα πολλά κομμάτια. Η επιτραπέζια βάση Lichess υποστηρίζει έως και 7 κομμάτια.}
 translate G TBQuerying {Querying Lichess API...}
 translate G TBError {Σφάλμα κατά την εκκίνηση του curl στο ερώτημα Lichess.}
+translate G TBQueryError {Μη έγκυρη απάντηση από το API του tablebase.}
 translate G TBNotFound {Η θέση δεν βρέθηκε στη βάση του πίνακα ή σφάλμα API.}
 translate G TBCategory {Κατηγορία θέσης:}
 translate G TBTrainingHidden {(Λειτουργία προπόνησης, τα αποτελέσματα είναι κρυφά)}

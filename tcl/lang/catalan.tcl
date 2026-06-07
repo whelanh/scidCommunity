@@ -120,6 +120,8 @@ menuText K GameGotoMove "Anar a la jugada número..." 6 \
   {Ves al número de jugada especificat dins la partida actual}
 menuText K GameNovelty "Trobar Novetat..." 12 \
   {Cerca la primera jugada d'aquesta partida que no s'ha jugat abans}
+menuText K PlayTournament "Juga al torneig..." 0 \
+    {Juga un torneig de motors}
 
 # Search Menu:
 menuText K Search "Cercar" 0
@@ -1423,10 +1425,108 @@ translate K RecentFilesExtra {Nombre d'arxius recents al submenú extra}
 
 # My Player Names options:
 translate K MyPlayerNamesDescription {
+# ====== TODO To be translated ======
+translate K configComp {Configura el torneig}
+# ====== TODO To be translated ======
+translate K Tournament {Torneig}
+# ====== TODO To be translated ======
+translate K Available {Disponible}
+# ====== TODO To be translated ======
+translate K Selected {Seleccionat}
+# ====== TODO To be translated ======
+translate K RoundRobin {Round Robin}
+# ====== TODO To be translated ======
+translate K Gauntlet {Guantlet}
+# ====== TODO To be translated ======
+translate K CompGameNext {Següent joc:}
+# ====== TODO To be translated ======
+translate K TimeperGame {Temps per\Joc}
+# ====== TODO To be translated ======
+translate K TimeperMove {Temps per\Moviment}
+# ====== TODO To be translated ======
+translate K compStoreTime {Hora de la botiga:}
+# ====== TODO To be translated ======
+translate K Clock {Rellotge}
+# ====== TODO To be translated ======
+translate K compConcurrent {Jocs simultanis:}
+# ====== TODO To be translated ======
+translate K compShowBoards {Mostra els taulers}
+# ====== TODO To be translated ======
+translate K compCarousel {Sistema de carrusel}
+# ====== TODO To be translated ======
+translate K compSaveEval {Guardar l'avaluació}
+# ====== TODO To be translated ======
+translate K compCanceledGames {Partits cancel·lats o esgotats:}
+# ====== TODO To be translated ======
+translate K Replay {Repetició}
+# ====== TODO To be translated ======
+translate K compStart {Comença}
+# ====== TODO To be translated ======
+translate K compSave {Estalvia després de cada joc}
+# ====== TODO To be translated ======
+translate K compStop {Atura després del final\de l'acte. joc}
+# ====== TODO To be translated ======
+translate K compRunning {Torneig en curs}
+# ====== TODO To be translated ======
+translate K Restart {Reinicieu}
+# ====== TODO To be translated ======
+translate K compFinished {Torneig acabat}
+# ====== TODO To be translated ======
+translate K compStopped {Torneig aturat}
 Escriu una llista de noms alternatius per jugador, un nom per cada línia. Es permeten comodins (per exemple "?" per un caracter, "*" per varis caracters).
 
 Cada cop que es carregui una partida amb un jugador de la llista es girarà l'escaquer, si fos necessari, per veure la partida des de la perspectiva del jugador.
 }
+
+# Computer Tournament:
+# MISSING TRANSLATION for configComp:
+# translate E configComp {Configure Tournament}
+# MISSING TRANSLATION for Tournament:
+# translate E Tournament {Tournament}
+# MISSING TRANSLATION for Available:
+# translate E Available {Available}
+# MISSING TRANSLATION for Selected:
+# translate E Selected {Selected}
+# MISSING TRANSLATION for RoundRobin:
+# translate E RoundRobin {Round Robin}
+# MISSING TRANSLATION for Gauntlet:
+# translate E Gauntlet {Gauntlet}
+# MISSING TRANSLATION for CompGameNext:
+# translate E CompGameNext {Next game:}
+# MISSING TRANSLATION for TimeperGame:
+# translate E TimeperGame {Time per\nGame}
+# MISSING TRANSLATION for TimeperMove:
+# translate E TimeperMove {Time per\nMove}
+# MISSING TRANSLATION for compStoreTime:
+# translate E compStoreTime {Store Time: }
+# MISSING TRANSLATION for Clock:
+# translate E Clock {Clock}
+# MISSING TRANSLATION for compConcurrent:
+# translate E compConcurrent {Concurrent games: }
+# MISSING TRANSLATION for compShowBoards:
+# translate E compShowBoards {Show Boards}
+# MISSING TRANSLATION for compCarousel:
+# translate E compCarousel {Carousel system}
+# MISSING TRANSLATION for compSaveEval:
+# translate E compSaveEval {Save evaluation}
+# MISSING TRANSLATION for compCanceledGames:
+# translate E compCanceledGames {Canceled or timed out games:}
+# MISSING TRANSLATION for Replay:
+# translate E Replay {Replay}
+# MISSING TRANSLATION for compStart:
+# translate E compStart {Start}
+# MISSING TRANSLATION for compSave:
+# translate E compSave {Save after every game}
+# MISSING TRANSLATION for compStop:
+# translate E compStop {Stop after end\nof act. game}
+# MISSING TRANSLATION for compRunning:
+# translate E compRunning {Tournament in progress}
+# MISSING TRANSLATION for Restart:
+# translate E Restart {Restart}
+# MISSING TRANSLATION for compFinished:
+# translate E compFinished {Tournament finished}
+# MISSING TRANSLATION for compStopped:
+# translate E compStopped {Tournament stopped}
 
 #Coach
 translate K showblunderexists {Mostrar ficada de pota}
@@ -1801,6 +1901,7 @@ translate K TBNoMoves {No s'han trobat moviments legals.}
 translate K TBTooMany {Massa peces. La base de taula Lichess admet fins a 7 peces.}
 translate K TBQuerying {Consultant l'API de Lichess...}
 translate K TBError {S'ha produït un error en iniciar curl per consultar Lichess.}
+translate K TBQueryError {Resposta no vàlida de l'API tablebase.}
 translate K TBNotFound {No s'ha trobat la posició a la base de taules o error de l'API.}
 translate K TBCategory {Categoria de la posició:}
 translate K TBTrainingHidden {(Mode d'entrenament; els resultats estan ocults)}

@@ -153,6 +153,8 @@ menuText A GameGotoMove "移動番号に移動..." 5 \
   {現在のゲームの指定された手番号に移動します}
 menuText A GameNovelty "ノベルティを見つけてください..." 7 \
   {これまでプレイしたことのないこのゲームの最初の手を見つけてください}
+menuText A PlayTournament "トーナメントをプレイ..." 0 \
+    {エンジントーナメントをプレイする}
 
 # Search Menu:
 menuText A Search "検索" 0
@@ -1421,8 +1423,106 @@ translate A RecentFilesExtra {追加のサブメニューの最近使用した�
 
 # My Player Names options:
 translate A MyPlayerNamesDescription {以下に希望するプレイヤー名のリストを 1 行に 1 つずつ入力してください。ワイルドカード (例: 単一文字の場合は「?」、一連の文字の場合は「*」) を使用できます。
+# ====== TODO To be translated ======
+translate A configComp {トーナメントの構成}
+# ====== TODO To be translated ======
+translate A Tournament {トーナメント}
+# ====== TODO To be translated ======
+translate A Available {利用可能}
+# ====== TODO To be translated ======
+translate A Selected {選択済み}
+# ====== TODO To be translated ======
+translate A RoundRobin {ラウンドロビン}
+# ====== TODO To be translated ======
+translate A Gauntlet {ガントレット}
+# ====== TODO To be translated ======
+translate A CompGameNext {次の試合:}
+# ====== TODO To be translated ======
+translate A TimeperGame {ゲームあたりの時間}
+# ====== TODO To be translated ======
+translate A TimeperMove {\移動あたりの時間}
+# ====== TODO To be translated ======
+translate A compStoreTime {ストア時間:}
+# ====== TODO To be translated ======
+translate A Clock {クロック}
+# ====== TODO To be translated ======
+translate A compConcurrent {同時進行のゲーム:}
+# ====== TODO To be translated ======
+translate A compShowBoards {ボードを表示する}
+# ====== TODO To be translated ======
+translate A compCarousel {カルーセルシステム}
+# ====== TODO To be translated ======
+translate A compSaveEval {評価を保存する}
+# ====== TODO To be translated ======
+translate A compCanceledGames {キャンセルまたはタイムアウトになったゲーム:}
+# ====== TODO To be translated ======
+translate A Replay {リプレイ}
+# ====== TODO To be translated ======
+translate A compStart {始める}
+# ====== TODO To be translated ======
+translate A compSave {ゲームごとに保存する}
+# ====== TODO To be translated ======
+translate A compStop {行為の終了後に停止します。ゲーム}
+# ====== TODO To be translated ======
+translate A compRunning {トーナメント開催中}
+# ====== TODO To be translated ======
+translate A Restart {再起動}
+# ====== TODO To be translated ======
+translate A compFinished {トーナメントが終了しました}
+# ====== TODO To be translated ======
+translate A compStopped {トーナメントは中止されました}
 
 リストにプレイヤーが含まれるゲームがロードされるたびに、必要に応じてメイン ウィンドウのチェス盤が回転し、そのプレイヤーの視点からゲームを表示します。}
+
+# Computer Tournament:
+# MISSING TRANSLATION for configComp:
+# translate E configComp {Configure Tournament}
+# MISSING TRANSLATION for Tournament:
+# translate E Tournament {Tournament}
+# MISSING TRANSLATION for Available:
+# translate E Available {Available}
+# MISSING TRANSLATION for Selected:
+# translate E Selected {Selected}
+# MISSING TRANSLATION for RoundRobin:
+# translate E RoundRobin {Round Robin}
+# MISSING TRANSLATION for Gauntlet:
+# translate E Gauntlet {Gauntlet}
+# MISSING TRANSLATION for CompGameNext:
+# translate E CompGameNext {Next game:}
+# MISSING TRANSLATION for TimeperGame:
+# translate E TimeperGame {Time per\nGame}
+# MISSING TRANSLATION for TimeperMove:
+# translate E TimeperMove {Time per\nMove}
+# MISSING TRANSLATION for compStoreTime:
+# translate E compStoreTime {Store Time: }
+# MISSING TRANSLATION for Clock:
+# translate E Clock {Clock}
+# MISSING TRANSLATION for compConcurrent:
+# translate E compConcurrent {Concurrent games: }
+# MISSING TRANSLATION for compShowBoards:
+# translate E compShowBoards {Show Boards}
+# MISSING TRANSLATION for compCarousel:
+# translate E compCarousel {Carousel system}
+# MISSING TRANSLATION for compSaveEval:
+# translate E compSaveEval {Save evaluation}
+# MISSING TRANSLATION for compCanceledGames:
+# translate E compCanceledGames {Canceled or timed out games:}
+# MISSING TRANSLATION for Replay:
+# translate E Replay {Replay}
+# MISSING TRANSLATION for compStart:
+# translate E compStart {Start}
+# MISSING TRANSLATION for compSave:
+# translate E compSave {Save after every game}
+# MISSING TRANSLATION for compStop:
+# translate E compStop {Stop after end\nof act. game}
+# MISSING TRANSLATION for compRunning:
+# translate E compRunning {Tournament in progress}
+# MISSING TRANSLATION for Restart:
+# translate E Restart {Restart}
+# MISSING TRANSLATION for compFinished:
+# translate E compFinished {Tournament finished}
+# MISSING TRANSLATION for compStopped:
+# translate E compStopped {Tournament stopped}
 
 #Coach
 translate A showblunderexists {間違いが存在することを示す}
@@ -1797,6 +1897,7 @@ translate A TBNoMoves {法的な措置は見つかりませんでした。}
 translate A TBTooMany {ピースが多すぎます。 Lichess テーブルベースは最大 7 個までサポートします。}
 translate A TBQuerying {Lichess API をクエリしています...}
 translate A TBError {Lichess をクエリするためにカールを起動中にエラーが発生しました。}
+translate A TBQueryError {テーブルベース API からの応答が無効です。}
 translate A TBNotFound {テーブルベースで位置が見つからないか、API エラーです。}
 translate A TBCategory {ポジションカテゴリー:}
 translate A TBTrainingHidden {(トレーニングモード、結果は非表示)}

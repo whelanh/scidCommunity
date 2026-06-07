@@ -112,6 +112,8 @@ menuText Z GameGotoMove "Nenda kwa Hoja Nambari..." 5 \
   {Nenda kwa nambari maalum ya kusonga katika mchezo wa sasa}
 menuText Z GameNovelty "Tafuta Novelty..." 7 \
   {Tafuta hatua ya kwanza ya mchezo huu ambayo haijacheza hapo awali}
+menuText Z PlayTournament "Cheza Mashindano..." 0 \
+    {Cheza mashindano ya injini}
 
 # Search Menu:
 menuText Z Search "Tafuta" 0
@@ -1380,8 +1382,106 @@ translate Z RecentFilesExtra {Idadi ya faili za hivi majuzi katika menyu ndogo y
 
 # My Player Names options:
 translate Z MyPlayerNamesDescription {Ingiza orodha ya majina ya wachezaji unayopendelea hapa chini, jina moja kwa kila mstari. Kadi za pori (k.m. "?" kwa herufi yoyote moja, "*" kwa mfuatano wowote wa herufi) zinaruhusiwa.
+# ====== TODO To be translated ======
+translate Z configComp {Sanidi Mashindano}
+# ====== TODO To be translated ======
+translate Z Tournament {Mashindano}
+# ====== TODO To be translated ======
+translate Z Available {Inapatikana}
+# ====== TODO To be translated ======
+translate Z Selected {Imechaguliwa}
+# ====== TODO To be translated ======
+translate Z RoundRobin {Mzunguko wa Robin}
+# ====== TODO To be translated ======
+translate Z Gauntlet {Gauntlet}
+# ====== TODO To be translated ======
+translate Z CompGameNext {Mchezo unaofuata:}
+# ====== TODO To be translated ======
+translate Z TimeperGame {Muda kwa\Mchezo}
+# ====== TODO To be translated ======
+translate Z TimeperMove {Muda kwa\Hamisha}
+# ====== TODO To be translated ======
+translate Z compStoreTime {Saa ya Kuhifadhi:}
+# ====== TODO To be translated ======
+translate Z Clock {Saa}
+# ====== TODO To be translated ======
+translate Z compConcurrent {Michezo ya pamoja:}
+# ====== TODO To be translated ======
+translate Z compShowBoards {Onyesha Vibao}
+# ====== TODO To be translated ======
+translate Z compCarousel {Mfumo wa jukwa}
+# ====== TODO To be translated ======
+translate Z compSaveEval {Hifadhi tathmini}
+# ====== TODO To be translated ======
+translate Z compCanceledGames {Michezo iliyoghairiwa au kuisha muda:}
+# ====== TODO To be translated ======
+translate Z Replay {Cheza tena}
+# ====== TODO To be translated ======
+translate Z compStart {Anza}
+# ====== TODO To be translated ======
+translate Z compSave {Okoa baada ya kila mchezo}
+# ====== TODO To be translated ======
+translate Z compStop {Acha baada ya mwisho \ wa kitendo. mchezo}
+# ====== TODO To be translated ======
+translate Z compRunning {Mashindano yanaendelea}
+# ====== TODO To be translated ======
+translate Z Restart {Anzisha upya}
+# ====== TODO To be translated ======
+translate Z compFinished {Mashindano yamekamilika}
+# ====== TODO To be translated ======
+translate Z compStopped {Mashindano yamesimamishwa}
 
 Kila wakati mchezo ulio na mchezaji katika orodha unapopakiwa, dirisha kuu la chessboard litazungushwa ikiwa ni lazima ili kuonyesha mchezo kutoka kwa mtazamo huo wa wachezaji.}
+
+# Computer Tournament:
+# MISSING TRANSLATION for configComp:
+# translate E configComp {Configure Tournament}
+# MISSING TRANSLATION for Tournament:
+# translate E Tournament {Tournament}
+# MISSING TRANSLATION for Available:
+# translate E Available {Available}
+# MISSING TRANSLATION for Selected:
+# translate E Selected {Selected}
+# MISSING TRANSLATION for RoundRobin:
+# translate E RoundRobin {Round Robin}
+# MISSING TRANSLATION for Gauntlet:
+# translate E Gauntlet {Gauntlet}
+# MISSING TRANSLATION for CompGameNext:
+# translate E CompGameNext {Next game:}
+# MISSING TRANSLATION for TimeperGame:
+# translate E TimeperGame {Time per\nGame}
+# MISSING TRANSLATION for TimeperMove:
+# translate E TimeperMove {Time per\nMove}
+# MISSING TRANSLATION for compStoreTime:
+# translate E compStoreTime {Store Time: }
+# MISSING TRANSLATION for Clock:
+# translate E Clock {Clock}
+# MISSING TRANSLATION for compConcurrent:
+# translate E compConcurrent {Concurrent games: }
+# MISSING TRANSLATION for compShowBoards:
+# translate E compShowBoards {Show Boards}
+# MISSING TRANSLATION for compCarousel:
+# translate E compCarousel {Carousel system}
+# MISSING TRANSLATION for compSaveEval:
+# translate E compSaveEval {Save evaluation}
+# MISSING TRANSLATION for compCanceledGames:
+# translate E compCanceledGames {Canceled or timed out games:}
+# MISSING TRANSLATION for Replay:
+# translate E Replay {Replay}
+# MISSING TRANSLATION for compStart:
+# translate E compStart {Start}
+# MISSING TRANSLATION for compSave:
+# translate E compSave {Save after every game}
+# MISSING TRANSLATION for compStop:
+# translate E compStop {Stop after end\nof act. game}
+# MISSING TRANSLATION for compRunning:
+# translate E compRunning {Tournament in progress}
+# MISSING TRANSLATION for Restart:
+# translate E Restart {Restart}
+# MISSING TRANSLATION for compFinished:
+# translate E compFinished {Tournament finished}
+# MISSING TRANSLATION for compStopped:
+# translate E compStopped {Tournament stopped}
 
 #Coach
 translate Z showblunderexists {show blunder ipo}
@@ -1756,6 +1856,7 @@ translate Z TBNoMoves {Hakuna hatua za kisheria zilizopatikana.}
 translate Z TBTooMany {Vipande vingi sana. Tablebase ya Lichess inasaidia hadi vipande 7.}
 translate Z TBQuerying {Querying Lichess API...}
 translate Z TBError {Hitilafu imetokea wakati wa kuzindua curl ili kuuliza Lichess.}
+translate Z TBQueryError {Jibu batili kutoka kwa tablebase API.}
 translate Z TBNotFound {Nafasi haipatikani kwenye msingi wa meza au hitilafu ya API.}
 translate Z TBCategory {Kitengo cha Nafasi:}
 translate Z TBTrainingHidden {(Njia ya mafunzo; matokeo yamefichwa)}
