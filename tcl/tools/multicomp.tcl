@@ -863,12 +863,18 @@ proc ::comp::compCheckMove { game tomove expired bestmove } {
         if { [expr { abs($_Data(score,$game))} ] < 1 } { set _Data(result,$game) = }
         lappend _Data(comments,$game) "Game ends: $tomove Move $bestmove ismate $_Data(mate,$game) Score $_Data(score,$game)"
     } elseif { $_Data(mate,$game) } {
-        ### checkmate
-        set len [llength $_Data(matemoves,$game)]
-        lappend _Data(moves,$game) $_Data(matemoves,$game)
-        set _Data(result,$game) [expr { $len == 1  ? 1 : 0}]
-        if { $tomove == "black" } { set _Data(result,$game) [expr { 1 - $_Data(result,$game) }] }
-        lappend _Data(comments,$game) "Mate detected: $tomove Move $bestmove Moves to Mate: $_Data(matemoves,$game)"
+        # Mate score means the side to move has a forced win.
+        set _Data(result,$game) [expr {$tomove eq "white" ? 1 : 0}]
+        set mateMoves $_Data(matemoves,$game)
+        foreach mv $mateMoves {
+            lappend _Data(moves,$game) $mv
+            lappend _Data(comments,$game) ""
+        }
+        if {[llength $mateMoves] > 0} {
+            set _Data(comments,$game) [lreplace $_Data(comments,$game) end end "Mate detected: $tomove PV: $mateMoves"]
+        } else {
+            lappend _Data(comments,$game) "Mate detected: $tomove"
+        }
     } else {
         lassign [::comp::compUpdateboard $_Data(board,$game) $bestmove] moveOk _Data(board,$game)
         if { $moveOk } {
