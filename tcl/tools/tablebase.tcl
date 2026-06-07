@@ -5,6 +5,18 @@
 namespace eval ::tablebase {
     # Use HTTPS for the Lichess tablebase API
     variable lichessUrl "https://tablebase.lichess.ovh/standard"
+    variable lichessChess960Url "https://tablebase.lichess.ovh/chess960"
+}
+
+# ::tablebase::getApiUrl
+#   Returns the correct Lichess tablebase API URL based on game variant.
+#
+proc ::tablebase::getApiUrl {} {
+    set gameVariant [sc_game variant]
+    if {$gameVariant eq "chess960"} {
+        return $::tablebase::lichessChess960Url
+    }
+    return $::tablebase::lichessUrl
 }
 
 # ::tablebase::countPieces
@@ -34,8 +46,8 @@ proc ::tablebase::queryTablebaseResult {fen} {
     # (Lichess expects standard URL encoding like %20, not underscores)
     set urlFen [string map {" " "%20"} $fen]
     
-    # Construct the API URL
-    set url "$::tablebase::lichessUrl?fen=$urlFen"
+    # Construct the API URL (variant-aware)
+    set url "[::tablebase::getApiUrl]?fen=$urlFen"
     
     # Try to query the tablebase
     set result ""
@@ -116,8 +128,8 @@ proc ::tablebase::lookupPosition {} {
     # Convert spaces in FEN to underscores for the URL
     set urlFen [string map {" " "_"} $fen]
     
-    # Construct the API URL
-    set url "$::tablebase::lichessUrl?fen=$urlFen"
+    # Construct the API URL (variant-aware)
+    set url "[::tablebase::getApiUrl]?fen=$urlFen"
     
     # Show a temporary "Loading..." message
     set w .tablebaseResult
@@ -476,7 +488,7 @@ proc ::tablebase::window::results {} {
     
     # URL-encode spaces in FEN for the query string
     set urlFen [string map {" " "%20"} $fen]
-    set url "$::tablebase::lichessUrl?fen=$urlFen"
+    set url "[::tablebase::getApiUrl]?fen=$urlFen"
     
     # Asynchronous curl
     incr ::tablebase::window::requestCount
