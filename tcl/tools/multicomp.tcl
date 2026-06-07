@@ -856,6 +856,7 @@ proc ::comp::compCheckMove { game tomove expired bestmove } {
     set result 0
 #potentiel prolemeatisch Halogen blockiert alles, u.u. auch den Desktop! kovisto oder Smarthink blockieren
     if { $bestmove eq "Time out"} {
+        set _Data(result,$game) [expr {$tomove eq "white" ? 0 : 1}]
         lappend _Data(comments,$game) "Time out: $tomove move $bestmove ismate $_Data(mate,$game) score $_Data(score,$game)"
     } elseif { ! [regexp {[a-h][1-8][a-h][1-8]} $bestmove] } {
         set _Data(result,$game) [ expr { $_Data(score,$game) > 0 ? 1 : 0}]
