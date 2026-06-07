@@ -1782,6 +1782,7 @@ translate R TBTooMany {Слишком много кусочков. Основа�
 translate R TBQuerying {Запрос API Lichess...}
 translate R TBError {Ошибка при запуске Curl для запроса Lichess.}
 translate R TBNotFound {Позиция не найдена в базе таблиц или ошибка API.}
+translate R TBQueryError {Ошибка при разборе ответа API Lichess.}
 translate R TBCategory {Категория позиции:}
 translate R TBTrainingHidden {(Режим обучения; результаты скрыты)}
 }

@@ -1798,6 +1798,7 @@ translate J TBTooMany {Превише комада. Лицхесс постољ�
 translate J TBQuerying {Querying Lichess API...}
 translate J TBError {Грешка при покретању цурл-а за упит Лицхесс-а.}
 translate J TBNotFound {Позиција није пронађена у бази табеле или грешка у АПИ-ју.}
+translate J TBQueryError {Грешка: неисправан одговор Лицхесс-а.}
 translate J TBCategory {Категорија позиције:}
 translate J TBTrainingHidden {(Режим обуке; резултати су скривени)}
 }

@@ -1798,6 +1798,7 @@ translate g TBTooMany {Твърде много парчета. Базата за
 translate g TBQuerying {Извършва се заявка за API на Lichess...}
 translate g TBError {Грешка при стартиране на curl за заявка на Lichess.}
 translate g TBNotFound {Позицията не е намерена в табличната база или грешка в API.}
+translate g TBQueryError {Невалиден отговор от API на табличната база.}
 translate g TBCategory {Категория на позицията:}
 translate g TBTrainingHidden {(Режим на обучение; резултатите са скрити)}
 }

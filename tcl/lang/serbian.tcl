@@ -2416,6 +2416,8 @@ translate Y TBError {Error launching curl to query Lichess.}
 # ====== TODO To be translated ======
 translate Y TBNotFound {Position not found in tablebase or API error.}
 # ====== TODO To be translated ======
+translate Y TBQueryError {Error querying tablebase / invalid response.}
+# ====== TODO To be translated ======
 translate Y TBCategory {Position Category:}
 # ====== TODO To be translated ======
 translate Y TBTrainingHidden {(Training mode; results are hidden)}

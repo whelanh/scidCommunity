@@ -1758,6 +1758,7 @@ translate Q TBTooMany {Забагато частин. Настільна баз�
 translate Q TBQuerying {Запит Lichess API...}
 translate Q TBError {Помилка запуску curl для запиту Lichess.}
 translate Q TBNotFound {Позиція не знайдена в базі таблиць або помилка API.}
+translate Q TBQueryError {Неправильна відповідь від API бази таблиць.}
 translate Q TBCategory {Категорія посади:}
 translate Q TBTrainingHidden {(Режим навчання; результати приховані)}
 }

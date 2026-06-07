@@ -12,7 +12,8 @@ namespace eval ::tablebase {
 #   for Chess960 positions (same pattern as cloud eval / opening explorer).
 #
 proc ::tablebase::buildUrl {fen} {
-    set urlFen [string map {" " "%20"} $fen]
+    # Properly URL-encode the FEN string
+    set urlFen [string map {" " "%20" "+" "%2B" "/" "%2F"} $fen]
     set url "$::tablebase::lichessUrl?fen=$urlFen"
     set gameVariant [sc_game variant]
     if {$gameVariant eq "chess960"} {
@@ -487,8 +488,9 @@ proc ::tablebase::window::results {} {
     incr ::tablebase::window::requestCount
     set currentReq $::tablebase::window::requestCount
     set ::tablebase::window::buffer($currentReq) ""
-    
-    if {![catch {open "| curl -s --max-time 10 $url" r} fd]} {
+
+    # Use list-form open to avoid shell injection
+    if {![catch {open "|[list curl -s --max-time 10 $url]" r} fd]} {
         fconfigure $fd -blocking 0
         fileevent $fd readable [list ::tablebase::window::curlCallback $fd $fen $currentReq]
     } else {
@@ -517,8 +519,11 @@ proc ::tablebase::window::curlCallback {fd fen reqId} {
 }
 
 proc ::tablebase::window::compareWin {a b} {
-    set dtzA [expr {abs([lindex $a 0])}]
-    set dtzB [expr {abs([lindex $b 0])}]
+    # Normalize DTZ to numeric default (0) when empty
+    set rawDtzA [lindex $a 0]
+    set rawDtzB [lindex $b 0]
+    set dtzA [expr {$rawDtzA eq "" ? 0 : abs($rawDtzA)}]
+    set dtzB [expr {$rawDtzB eq "" ? 0 : abs($rawDtzB)}]
     if {$dtzA != $dtzB} { return [expr {$dtzA - $dtzB}] }
     set dtmA [lindex $a 1]; set dtmB [lindex $b 1]
     if {$dtmA ne "" && $dtmB ne ""} { return [expr {abs($dtmA) - abs($dtmB)}] }
@@ -526,8 +531,11 @@ proc ::tablebase::window::compareWin {a b} {
 }
 
 proc ::tablebase::window::compareLoss {a b} {
-    set dtzA [expr {abs([lindex $a 0])}]
-    set dtzB [expr {abs([lindex $b 0])}]
+    # Normalize DTZ to numeric default (0) when empty
+    set rawDtzA [lindex $a 0]
+    set rawDtzB [lindex $b 0]
+    set dtzA [expr {$rawDtzA eq "" ? 0 : abs($rawDtzA)}]
+    set dtzB [expr {$rawDtzB eq "" ? 0 : abs($rawDtzB)}]
     if {$dtzA != $dtzB} { return [expr {$dtzB - $dtzA}] }
     set dtmA [lindex $a 1]; set dtmB [lindex $b 1]
     if {$dtmA ne "" && $dtmB ne ""} { return [expr {abs($dtmB) - abs($dtmA)}] }

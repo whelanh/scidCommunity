@@ -1733,6 +1733,7 @@ translate M TBTooMany {太多了。 Lichess 桌底座最多可容纳 7 块。}
 translate M TBQuerying {正在查询 Lichess API...}
 translate M TBError {启动curl 查询Lichess 时出错。}
 translate M TBNotFound {在表库中找不到位置或 API 错误。}
+translate M TBQueryError {表库 API 的响应无效。}
 translate M TBCategory {职位类别：}
 translate M TBTrainingHidden {（训练模式；结果隐藏）}
 }
