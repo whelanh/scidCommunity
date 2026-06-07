@@ -1794,5 +1794,16 @@ translate N BatchCancel {Annuleren}
 translate N BatchCompleted {voltooid}
 translate N BatchGames {spellen}
 translate N BatchProcessed {verwerkt}
+translate N TablebaseWindow {Tablebase-venster}
+translate N TBWinMoves {--- Winnende zetten ---}
+translate N TBDrawMoves {--- Tekenbewegingen ---}
+translate N TBLossMoves {--- Verliezende zetten ---}
+translate N TBNoMoves {Geen legale zetten gevonden.}
+translate N TBTooMany {Te veel stukken. Lichess tafelonderstel ondersteunt maximaal 7 stuks.}
+translate N TBQuerying {Lichess-API opvragen...}
+translate N TBError {Fout bij het starten van curl om Lichess te ondervragen.}
+translate N TBNotFound {Positie niet gevonden in tablebase of API-fout.}
+translate N TBCategory {Functiecategorie:}
+translate N TBTrainingHidden {(Trainingsmodus; resultaten zijn verborgen)}
 }
 # end of english.tcl

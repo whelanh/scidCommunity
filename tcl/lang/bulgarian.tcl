@@ -1789,5 +1789,17 @@ translate g BatchCancel {Отказ}
 translate g BatchCompleted {завършен}
 translate g BatchGames {игри}
 translate g BatchProcessed {обработени}
+translate g TablebaseWindow {Прозорец на таблична база}
+translate g TBWinMoves {--- Печеливши движения ---}
+translate g TBDrawMoves {--- Движения за рисуване ---}
+translate g TBLossMoves {--- Губещи ходове ---}
+translate g TBNoMoves {Няма открити законни ходове.}
+translate g TBTooMany {Твърде много парчета. Базата за маса Lichess поддържа до 7 части.}
+translate g TBQuerying {Извършва се заявка за API на Lichess...}
+translate g TBError {Грешка при стартиране на curl за заявка на Lichess.}
+translate g TBNotFound {Позицията не е намерена в табличната база или грешка в API.}
+translate g TBQueryError {Невалиден отговор от API на табличната база.}
+translate g TBCategory {Категория на позицията:}
+translate g TBTrainingHidden {(Режим на обучение; резултатите са скрити)}
 }
-# end of bulgarian.tcl
+# end of english.tcl

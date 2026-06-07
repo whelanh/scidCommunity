@@ -1771,5 +1771,16 @@ translate O BatchCancel {Kansellere}
 translate O BatchCompleted {fullført}
 translate O BatchGames {spill}
 translate O BatchProcessed {behandlet}
+translate O TablebaseWindow {Tablebase-vindu}
+translate O TBWinMoves {--- Vinnende trekk ---}
+translate O TBDrawMoves {--- Tegning Moves ---}
+translate O TBLossMoves {--- Tapte trekk ---}
+translate O TBNoMoves {Ingen lovlige trekk funnet.}
+translate O TBTooMany {For mange stykker. Lichess bordbunn støtter opptil 7 deler.}
+translate O TBQuerying {Spørrer Lichess API...}
+translate O TBError {Feil ved start av curl for å spørre Lichess.}
+translate O TBNotFound {Finner ikke posisjon i tabellbase eller API-feil.}
+translate O TBCategory {Stillingskategori:}
+translate O TBTrainingHidden {(Opplæringsmodus; resultatene er skjult)}
 }
 # end of english.tcl

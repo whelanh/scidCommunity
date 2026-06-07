@@ -1791,5 +1791,16 @@ translate P BatchCancel {Anulowaæ}
 translate P BatchCompleted {zakoñczony}
 translate P BatchGames {zawody sportowe}
 translate P BatchProcessed {obrobiony}
+translate P TablebaseWindow {Okno podstawy tabeli}
+translate P TBWinMoves {--- Zwycięskie ruchy ---}
+translate P TBDrawMoves {--- Rysowanie ruchów ---}
+translate P TBLossMoves {--- Utrata ruchów ---}
+translate P TBNoMoves {Nie znaleziono żadnych legalnych ruchów.}
+translate P TBTooMany {Za dużo kawałków. Podstawa stołu Lichess obsługuje do 7 elementów.}
+translate P TBQuerying {Wysyłam zapytanie do API Lichess...}
+translate P TBError {Błąd podczas uruchamiania curl w celu wysłania zapytania do Lichess.}
+translate P TBNotFound {Nie znaleziono pozycji w bazie tabeli lub wystąpił błąd API.}
+translate P TBCategory {Kategoria stanowiska:}
+translate P TBTrainingHidden {(Tryb treningu; wyniki są ukryte)}
 }
 # end of english.tcl

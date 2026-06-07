@@ -1772,5 +1772,16 @@ translate I BatchCancel {Cancellare}
 translate I BatchCompleted {completato}
 translate I BatchGames {giochi}
 translate I BatchProcessed {elaborato}
+translate I TablebaseWindow {Finestra della base tabella}
+translate I TBWinMoves {--- Mosse vincenti ---}
+translate I TBDrawMoves {--- Mosse di disegno ---}
+translate I TBLossMoves {--- Mosse Perdenti ---}
+translate I TBNoMoves {Nessuna mossa legale trovata.}
+translate I TBTooMany {Troppi pezzi. Il base tavolo Lichess supporta fino a 7 pezzi.}
+translate I TBQuerying {Interrogazione dell'API Lichess in corso...}
+translate I TBError {Errore durante l'avvio di curl per interrogare Lichess.}
+translate I TBNotFound {Posizione non trovata nella tablebase o errore API.}
+translate I TBCategory {Categoria di posizione:}
+translate I TBTrainingHidden {(Modalità formazione; i risultati sono nascosti)}
 }
 # end of english.tcl

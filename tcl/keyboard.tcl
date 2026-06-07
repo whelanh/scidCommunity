@@ -95,6 +95,7 @@ proc keyboardShortcuts {w} {
 	bind $w <Control-P> ::plist::toggle
 	bind $w <Control-T> ::tourney::toggle
 	bind $w <Control-X> ::crosstab::Open
+	bind $w <Control-equal> ::tablebase::window::Open
 	bind $w <Control-x> { if {![excludeTextWidget %W]} { ::game::ToggleDeleteFlag } }
 
 

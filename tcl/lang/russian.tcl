@@ -1773,5 +1773,17 @@ translate R BatchCancel {Отмена}
 translate R BatchCompleted {завершенный}
 translate R BatchGames {игры}
 translate R BatchProcessed {обработано}
+translate R TablebaseWindow {Окно таблицы}
+translate R TBWinMoves {--- Выигрышные ходы ---}
+translate R TBDrawMoves {--- Рисование движений ---}
+translate R TBLossMoves {--- Проигрышные ходы ---}
+translate R TBNoMoves {Законных ходов не обнаружено.}
+translate R TBTooMany {Слишком много кусочков. Основание стола Lichess поддерживает до 7 штук.}
+translate R TBQuerying {Запрос API Lichess...}
+translate R TBError {Ошибка при запуске Curl для запроса Lichess.}
+translate R TBNotFound {Позиция не найдена в базе таблиц или ошибка API.}
+translate R TBQueryError {Ошибка при разборе ответа API Lichess.}
+translate R TBCategory {Категория позиции:}
+translate R TBTrainingHidden {(Режим обучения; результаты скрыты)}
 }
 # end of english.tcl

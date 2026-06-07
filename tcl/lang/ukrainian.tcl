@@ -1749,5 +1749,17 @@ translate Q BatchCancel {Скасувати}
 translate Q BatchCompleted {завершено}
 translate Q BatchGames {ігри}
 translate Q BatchProcessed {оброблені}
+translate Q TablebaseWindow {Вікно бази даних}
+translate Q TBWinMoves {--- Переможні ходи ---}
+translate Q TBDrawMoves {--- Малювання рухів ---}
+translate Q TBLossMoves {--- Програшні ходи ---}
+translate Q TBNoMoves {Законних ходів не знайдено.}
+translate Q TBTooMany {Забагато частин. Настільна база Lichess підтримує до 7 предметів.}
+translate Q TBQuerying {Запит Lichess API...}
+translate Q TBError {Помилка запуску curl для запиту Lichess.}
+translate Q TBNotFound {Позиція не знайдена в базі таблиць або помилка API.}
+translate Q TBQueryError {Неправильна відповідь від API бази таблиць.}
+translate Q TBCategory {Категорія посади:}
+translate Q TBTrainingHidden {(Режим навчання; результати приховані)}
 }
 # end of english.tcl

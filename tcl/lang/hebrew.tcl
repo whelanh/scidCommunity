@@ -1749,5 +1749,16 @@ translate V BatchCancel {לְבַטֵל}
 translate V BatchCompleted {הושלם}
 translate V BatchGames {משחקים}
 translate V BatchProcessed {מְעוּבָּד}
+translate V TablebaseWindow {חלון בסיס שולחן}
+translate V TBWinMoves {--- מהלכים מנצחים ---}
+translate V TBDrawMoves {--- ציור מהלכים ---}
+translate V TBLossMoves {--- מהלכים מפסידים ---}
+translate V TBNoMoves {לא נמצאו מהלכים חוקיים.}
+translate V TBTooMany {יותר מדי חתיכות. בסיס השולחן של ליצ'ס תומך בעד 7 חלקים.}
+translate V TBQuerying {מחפש את ממשק API של Lichess...}
+translate V TBError {שגיאה בהפעלת תלתל לשאילתה של Lichess.}
+translate V TBNotFound {המיקום לא נמצא בבסיס הטבלה או בשגיאת API.}
+translate V TBCategory {קטגוריית תפקיד:}
+translate V TBTrainingHidden {(מצב אימון; התוצאות מוסתרות)}
 }
 # end of english.tcl

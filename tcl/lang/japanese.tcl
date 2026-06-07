@@ -1789,5 +1789,16 @@ translate A BatchCancel {キャンセル}
 translate A BatchCompleted {完了しました}
 translate A BatchGames {ゲーム}
 translate A BatchProcessed {処理された}
+translate A TablebaseWindow {テーブルベースウィンドウ}
+translate A TBWinMoves {--- 必勝技 ---}
+translate A TBDrawMoves {--- 描画動作 ---}
+translate A TBLossMoves {--- 負け技 ---}
+translate A TBNoMoves {法的な措置は見つかりませんでした。}
+translate A TBTooMany {ピースが多すぎます。 Lichess テーブルベースは最大 7 個までサポートします。}
+translate A TBQuerying {Lichess API をクエリしています...}
+translate A TBError {Lichess をクエリするためにカールを起動中にエラーが発生しました。}
+translate A TBNotFound {テーブルベースで位置が見つからないか、API エラーです。}
+translate A TBCategory {ポジションカテゴリー:}
+translate A TBTrainingHidden {(トレーニングモード、結果は非表示)}
 }
 # end of english.tcl
