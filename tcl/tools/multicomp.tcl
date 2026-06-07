@@ -962,7 +962,7 @@ proc ::comp::compNextMove { game tomove expired bestmove } {
         ::engine::send compEngine$tomove$game Go [list $position $parameter]
     } else {
         ::comp::compSaveGame $game 
-puts "End $game [set _Data(name,$game)(nameW)] - [set ::comp:::_Data(name,$game)(nameB)] result: $_Data(result,$game)"
+puts "End $game [set _Data(name,$game)(nameW)] - [set _Data(name,$game)(nameB)] result: $_Data(result,$game)"
         after 1000 "::comp::compOkEnd $game"
     }
 }
