@@ -336,8 +336,8 @@ foreach t { blue mint green sand purple grey } \
         }
     }
 }
-unset ::tks
-unset ::bgct
+unset -nocomplain ::tks
+unset -nocomplain ::bgct
 
 # Register dark variants so scidCommunity switches to dark toolbar icons
 if {[info commands registerDarkTheme] ne ""} {

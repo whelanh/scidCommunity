@@ -319,5 +319,5 @@ foreach t { blue mint green purple sand pink grey } \
         }
     }
 }
-unset ::tks
-unset ::bgct
+unset -nocomplain ::tks
+unset -nocomplain ::bgct

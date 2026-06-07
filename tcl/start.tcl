@@ -626,7 +626,7 @@ if {[file isdirectory $themeDir]} {
     set themeFiles [glob -nocomplain -directory $themeDir *.tcl]
     foreach themeFile $themeFiles {
         if {[catch {safeSourceStyle $themeFile} err]} {
-            puts stderr "Warning: Failed to load theme file $themeFile - $err"
+            catch { puts stderr "Warning: Failed to load theme file $themeFile - $err" }
         }
     }
 }
@@ -643,7 +643,7 @@ proc ::loadDeferredTheme {themeName} {
     dict unset ::deferredThemes $themeName
     set ::_createTheme $themeName
     if {[catch {source -encoding utf-8 [file nativename $script]} err]} {
-        puts stderr "Warning: Failed to load deferred theme $themeName - $err"
+        catch { puts stderr "Warning: Failed to load deferred theme $themeName - $err" }
     }
     unset -nocomplain ::_createTheme
 }
@@ -653,7 +653,7 @@ set _tclthemesDir [file join [file dirname [info script]] "tclthemes"]
 if {[file isdirectory $_tclthemesDir]} {
     foreach _themeScript [glob -nocomplain -directory $_tclthemesDir */scid*.tcl] {
         if {[catch {source -encoding utf-8 [file nativename $_themeScript]} _err]} {
-            puts stderr "Warning: Failed to load bundled theme $_themeScript - $_err"
+            catch { puts stderr "Warning: Failed to load bundled theme $_themeScript - $_err" }
         }
     }
     unset -nocomplain _themeScript _err
