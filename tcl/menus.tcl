@@ -238,6 +238,7 @@ $m add checkbutton -label WindowsECO -accelerator "Ctrl+Y" -variable ::windows::
 $m add checkbutton -label WindowsStats -variable ::windows::stats::isOpen -accelerator "Ctrl+I" -command ::windows::stats::Open
 $m add checkbutton -label WindowsTree -variable treeWin -command ::tree::make -accelerator "Ctrl+T"
 $m add checkbutton -label WindowsBook -variable ::book::isOpen -command ::book::open -accelerator "F6"
+$m add checkbutton -label [tr TablebaseWindow] -variable ::tablebase::window::isOpen -command ::tablebase::window::Open -accelerator "Ctrl+="
 $m add command -label WindowsGraph -command ::tools::graphs::score::Refresh
 
 

@@ -360,3 +360,284 @@ proc ::tablebase::showError {w message} {
     bind $w <Return> "destroy $w"
     focus $w.error.close
 }
+
+# =======================================================================
+# Lichess Endgame Tablebase Dedicated Window 
+# =======================================================================
+
+namespace eval ::tablebase::window {
+    variable isOpen 0
+    variable tbTraining 0
+    variable requestCount 0
+    variable buffer
+}
+
+# ::tablebase::window::isOpen
+proc ::tablebase::window::isOpen {} {
+    return [winfo exists .tbWin]
+}
+
+# ::tablebase::window::Open
+proc ::tablebase::window::Open {} {
+    set w .tbWin
+    if {[winfo exists $w]} { 
+        wm deiconify $w
+        raise $w
+        return 
+    }
+    
+    ::createToplevel $w
+    ::setTitle $w "scidCommunity: [tr TablebaseWindow]"
+    
+    # Control frame at the bottom
+    pack [ttk::frame $w.b] -side bottom -fill x -pady 5 -padx 5
+    
+    # Results frame (autoscrollText creates the frame)
+    set f $w.pos
+    
+    # Text widget for results
+    autoscrollText y $f $f.text Treeview
+    $f.text configure -width 40 -height 20 -font font_Fixed -wrap none -state normal
+    
+    # Determine if theme is dark by checking the background color's brightness
+    set bg [ttk::style lookup TFrame -background]
+    if {$bg eq ""} { set bg "white" }
+    set isDark 0
+    catch {
+        foreach {r g b} [winfo rgb . $bg] break
+        if {($r*299 + $g*587 + $b*114) / 1000 < 32768} { set isDark 1 }
+    }
+    
+    if {$isDark} {
+        set win_color "#66ff66"  ;# light green
+        set draw_color "#88ccff" ;# light blue
+        set loss_color "#ff6666" ;# light red
+        set move_color "#66ccff" ;# lighter blue for links
+    } else {
+        set win_color "darkgreen"
+        set draw_color "darkblue"
+        set loss_color "darkred"
+        set move_color "blue"
+    }
+    
+    # Text tags for styling
+    $f.text tag configure win_title -foreground $win_color -font font_Bold
+    $f.text tag configure draw_title -foreground $draw_color -font font_Bold
+    $f.text tag configure loss_title -foreground $loss_color -font font_Bold
+    $f.text tag configure move -foreground $move_color
+    $f.text tag bind move <Enter> "$f.text configure -cursor hand2"
+    $f.text tag bind move <Leave> "$f.text configure -cursor {}"
+    
+    pack $f -side top -fill both -expand yes
+    
+    # Buttons
+    ttk::checkbutton $w.b.training -text $::tr(Training) -variable ::tablebase::window::tbTraining -command ::tablebase::window::results
+    ttk::button $w.b.refresh -text "Refresh" -command ::tablebase::window::results
+    dialogbutton $w.b.close -text $::tr(Close) -command "destroy $w"
+    
+    packbuttons right $w.b.close
+    pack $w.b.training $w.b.refresh -side left -padx 2 -pady 2
+    
+    bind $w <Destroy> { set ::tablebase::window::tbTraining 0; set ::tablebase::window::isOpen 0 }
+    wm minsize $w 350 400
+    ::createToplevelFinalize $w
+    
+    set ::tablebase::window::isOpen 1
+    set ::tablebase::window::tbTraining 0
+    ::tablebase::window::results
+}
+
+# ::tablebase::window::results
+proc ::tablebase::window::results {} {
+    set w .tbWin
+    if {![winfo exists $w]} { return }
+    
+    set t $w.pos.text
+    $t configure -state normal
+    $t delete 1.0 end
+    
+    if {$::tablebase::window::tbTraining} {
+        $t insert end "\n [tr TBTrainingHidden]\n"
+        $t configure -state disabled
+        return
+    }
+    
+    # Check piece count
+    set fen [sc_pos fen]
+    set pieces [::tablebase::countPieces $fen]
+    if {$pieces > 7} {
+        $t insert end "\n [tr TBTooMany]\n"
+        $t configure -state disabled
+        return
+    }
+    
+    $t insert end "\n [tr TBQuerying]\n"
+    $t configure -state disabled
+    
+    # URL-encode spaces in FEN for the query string
+    set urlFen [string map {" " "%20"} $fen]
+    set url "$::tablebase::lichessUrl?fen=$urlFen"
+    
+    # Asynchronous curl
+    incr ::tablebase::window::requestCount
+    set currentReq $::tablebase::window::requestCount
+    set ::tablebase::window::buffer($currentReq) ""
+    
+    if {![catch {open "| curl -s --max-time 10 $url" r} fd]} {
+        fconfigure $fd -blocking 0
+        fileevent $fd readable [list ::tablebase::window::curlCallback $fd $fen $currentReq]
+    } else {
+        $t configure -state normal
+        $t delete 1.0 end
+        $t insert end "\n [tr TBError]\n"
+        $t configure -state disabled
+    }
+}
+
+proc ::tablebase::window::curlCallback {fd fen reqId} {
+    set w .tbWin
+    
+    append ::tablebase::window::buffer($reqId) [read $fd]
+    
+    if {[eof $fd]} {
+        set result $::tablebase::window::buffer($reqId)
+        unset ::tablebase::window::buffer($reqId)
+        catch {close $fd}
+        
+        # Only update if this is the most recent request and window exists
+        if {[winfo exists $w] && $reqId == $::tablebase::window::requestCount} {
+            ::tablebase::window::displayResults $result $fen
+        }
+    }
+}
+
+proc ::tablebase::window::compareWin {a b} {
+    set dtzA [expr {abs([lindex $a 0])}]
+    set dtzB [expr {abs([lindex $b 0])}]
+    if {$dtzA != $dtzB} { return [expr {$dtzA - $dtzB}] }
+    set dtmA [lindex $a 1]; set dtmB [lindex $b 1]
+    if {$dtmA ne "" && $dtmB ne ""} { return [expr {abs($dtmA) - abs($dtmB)}] }
+    return 0
+}
+
+proc ::tablebase::window::compareLoss {a b} {
+    set dtzA [expr {abs([lindex $a 0])}]
+    set dtzB [expr {abs([lindex $b 0])}]
+    if {$dtzA != $dtzB} { return [expr {$dtzB - $dtzA}] }
+    set dtmA [lindex $a 1]; set dtmB [lindex $b 1]
+    if {$dtmA ne "" && $dtmB ne ""} { return [expr {abs($dtmB) - abs($dtmA)}] }
+    return 0
+}
+
+proc ::tablebase::window::displayResults {jsonData fen} {
+    set w .tbWin
+    if {![winfo exists $w]} { return }
+    
+    set t $w.pos.text
+    $t configure -state normal
+    $t delete 1.0 end
+    
+    if {[string match "*not found*" $jsonData] || [string match "*error*" $jsonData]} {
+        $t insert end "\n [tr TBNotFound]\n"
+        $t configure -state disabled
+        return
+    }
+    
+    set category ""
+    regexp {"category":"([^"]+)"} $jsonData -> category
+    
+    $t insert end "\n [tr TBCategory] $category\n\n"
+    
+    # Extract the moves array
+    set movesJson ""
+    if {[regexp {"moves":\[(.*?)\]} $jsonData -> movesJson]} {
+        # Parse individual moves manually using regex
+        set moveMatches [regexp -all -inline {\{[^\}]+\}} $movesJson]
+        
+        set winMoves {}
+        set drawMoves {}
+        set lossMoves {}
+        
+        foreach moveObj $moveMatches {
+            set uci ""
+            set san ""
+            set mcat ""
+            set wdl ""
+            set dtz ""
+            set dtm ""
+            
+            regexp {"uci":"([^"]+)"} $moveObj -> uci
+            regexp {"san":"([^"]+)"} $moveObj -> san
+            regexp {"category":"([^"]+)"} $moveObj -> mcat
+            regexp {"wdl":(-?\d+)} $moveObj -> wdl
+            regexp {"dtz":(-?\d+)} $moveObj -> dtz
+            regexp {"dtm":(-?\d+)} $moveObj -> dtm
+            
+            if {$san eq ""} { set san [::tablebase::uciToSan $uci $fen] }
+            
+            # Format display string
+            set displayStr [format "%-8s %-12s DTZ: %-4s" $san $mcat [expr {$dtz ne "" ? abs($dtz) : "-"}]]
+            if {$dtm ne ""} {
+                append displayStr [format " DTM: %-4s" [expr {abs($dtm)}]]
+            }
+            
+            if {$wdl > 0} {
+                lappend winMoves [list $dtz $dtm $displayStr $san]
+            } elseif {$wdl == 0} {
+                lappend drawMoves [list $dtz $dtm $displayStr $san]
+            } else {
+                lappend lossMoves [list $dtz $dtm $displayStr $san]
+            }
+        }
+        
+        set winMoves [lsort -command ::tablebase::window::compareWin $winMoves]
+        set drawMoves [lsort -command ::tablebase::window::compareLoss $drawMoves]
+        set lossMoves [lsort -command ::tablebase::window::compareLoss $lossMoves]
+        
+        if {[llength $winMoves] > 0} {
+            $t insert end " [tr TBWinMoves]\n" win_title
+            foreach m $winMoves { 
+                set san [lindex $m 3]
+                $t insert end "  "
+                $t insert end "[lindex $m 2]" [list move $san]
+                $t insert end "\n"
+                
+                # Make moves clickable
+                $t tag bind $san <ButtonPress-1> [list ::tablebase::window::addMove $san]
+            }
+            $t insert end "\n"
+        }
+        if {[llength $drawMoves] > 0} {
+            $t insert end " [tr TBDrawMoves]\n" draw_title
+            foreach m $drawMoves { 
+                set san [lindex $m 3]
+                $t insert end "  "
+                $t insert end "[lindex $m 2]" [list move $san]
+                $t insert end "\n"
+                $t tag bind $san <ButtonPress-1> [list ::tablebase::window::addMove $san]
+            }
+            $t insert end "\n"
+        }
+        if {[llength $lossMoves] > 0} {
+            $t insert end " [tr TBLossMoves]\n" loss_title
+            foreach m $lossMoves { 
+                set san [lindex $m 3]
+                $t insert end "  "
+                $t insert end "[lindex $m 2]" [list move $san]
+                $t insert end "\n"
+                $t tag bind $san <ButtonPress-1> [list ::tablebase::window::addMove $san]
+            }
+            $t insert end "\n"
+        }
+    } else {
+        $t insert end " [tr TBNoMoves]\n"
+    }
+    
+    $t configure -state disabled
+}
+
+proc ::tablebase::window::addMove {san} {
+    if {[catch {sc_move addSan $san} err] == 0} {
+        updateBoard
+    }
+}

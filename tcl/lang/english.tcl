@@ -1803,5 +1803,16 @@ translate E BatchCancel {Cancel}
 translate E BatchCompleted {completed}
 translate E BatchGames {games}
 translate E BatchProcessed {processed}
+translate E TablebaseWindow {Tablebase Window}
+translate E TBWinMoves {--- Winning Moves ---}
+translate E TBDrawMoves {--- Drawing Moves ---}
+translate E TBLossMoves {--- Losing Moves ---}
+translate E TBNoMoves {No legal moves found.}
+translate E TBTooMany {Too many pieces. Lichess tablebase supports up to 7 pieces.}
+translate E TBQuerying {Querying Lichess API...}
+translate E TBError {Error launching curl to query Lichess.}
+translate E TBNotFound {Position not found in tablebase or API error.}
+translate E TBCategory {Position Category:}
+translate E TBTrainingHidden {(Training mode; results are hidden)}
 }
 # end of english.tcl

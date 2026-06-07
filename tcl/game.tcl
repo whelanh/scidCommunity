@@ -426,6 +426,7 @@ namespace eval ::notify {
     updateAnalysis 1
     updateAnalysis 2
     ::windows::commenteditor::Refresh
+    ::tablebase::window::results
     if {[winfo exists .twinchecker]} { updateTwinChecker }
     if {[winfo exists .bookWin]} { ::book::refresh }
     if {[winfo exists .bookTuningWin]} { ::book::refreshTuning }
