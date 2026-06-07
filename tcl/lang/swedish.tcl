@@ -118,6 +118,8 @@ menuText W GameGotoMove "Gå till drag nummer..." 8 \
   {Gå till ett specifikt drag i partiet}
 menuText W GameNovelty "Hitta nyhet..." 7 \
   {Hitta det första draget i partiet som inte spelats tidigare}
+menuText W PlayTournament "Spela turnering..." 0 \
+    {Spela en motorturnering}
 
 # Search Menu:
 menuText W Search "Sök" 0
@@ -1407,10 +1409,108 @@ translate W RecentFilesExtra {Antal senast öppnade filer i extra undermeny}
 
 # My Player Names options:
 translate W MyPlayerNamesDescription {
+# ====== TODO To be translated ======
+translate W configComp {Konfigurera turnering}
+# ====== TODO To be translated ======
+translate W Tournament {Turnering}
+# ====== TODO To be translated ======
+translate W Available {Tillgänglig}
+# ====== TODO To be translated ======
+translate W Selected {Vald}
+# ====== TODO To be translated ======
+translate W RoundRobin {Round Robin}
+# ====== TODO To be translated ======
+translate W Gauntlet {Gatlopp}
+# ====== TODO To be translated ======
+translate W CompGameNext {Nästa match:}
+# ====== TODO To be translated ======
+translate W TimeperGame {Tid per spel}
+# ====== TODO To be translated ======
+translate W TimeperMove {Tid per\Flytt}
+# ====== TODO To be translated ======
+translate W compStoreTime {Butikstid:}
+# ====== TODO To be translated ======
+translate W Clock {Klocka}
+# ====== TODO To be translated ======
+translate W compConcurrent {Samtidiga spel:}
+# ====== TODO To be translated ======
+translate W compShowBoards {Visa brädor}
+# ====== TODO To be translated ======
+translate W compCarousel {Karusellsystem}
+# ====== TODO To be translated ======
+translate W compSaveEval {Spara utvärdering}
+# ====== TODO To be translated ======
+translate W compCanceledGames {Inställda eller tidsgränsade spel:}
+# ====== TODO To be translated ======
+translate W Replay {Spela om}
+# ====== TODO To be translated ======
+translate W compStart {Start}
+# ====== TODO To be translated ======
+translate W compSave {Spara efter varje match}
+# ====== TODO To be translated ======
+translate W compStop {Stoppa efter aktens slut. spel}
+# ====== TODO To be translated ======
+translate W compRunning {Turneringen pågår}
+# ====== TODO To be translated ======
+translate W Restart {Starta om}
+# ====== TODO To be translated ======
+translate W compFinished {Turneringen avslutad}
+# ====== TODO To be translated ======
+translate W compStopped {Turneringen stoppas}
 Ange en lista på dina favoritspelare här nedanför. Skriv ett namn per rad. Jokertecken ("?", t ex, motsvarar ett enstaka tecken medan "*" står för flera tecken) är tillåtna.
 
 Varje gång ett parti med en spelare vars namn står i denna lista öppnas kommer brädet automatiskt att vridas så att partiet visas från spelarens perspektiv.
 } 
+
+# Computer Tournament:
+# MISSING TRANSLATION for configComp:
+# translate E configComp {Configure Tournament}
+# MISSING TRANSLATION for Tournament:
+# translate E Tournament {Tournament}
+# MISSING TRANSLATION for Available:
+# translate E Available {Available}
+# MISSING TRANSLATION for Selected:
+# translate E Selected {Selected}
+# MISSING TRANSLATION for RoundRobin:
+# translate E RoundRobin {Round Robin}
+# MISSING TRANSLATION for Gauntlet:
+# translate E Gauntlet {Gauntlet}
+# MISSING TRANSLATION for CompGameNext:
+# translate E CompGameNext {Next game:}
+# MISSING TRANSLATION for TimeperGame:
+# translate E TimeperGame {Time per\nGame}
+# MISSING TRANSLATION for TimeperMove:
+# translate E TimeperMove {Time per\nMove}
+# MISSING TRANSLATION for compStoreTime:
+# translate E compStoreTime {Store Time: }
+# MISSING TRANSLATION for Clock:
+# translate E Clock {Clock}
+# MISSING TRANSLATION for compConcurrent:
+# translate E compConcurrent {Concurrent games: }
+# MISSING TRANSLATION for compShowBoards:
+# translate E compShowBoards {Show Boards}
+# MISSING TRANSLATION for compCarousel:
+# translate E compCarousel {Carousel system}
+# MISSING TRANSLATION for compSaveEval:
+# translate E compSaveEval {Save evaluation}
+# MISSING TRANSLATION for compCanceledGames:
+# translate E compCanceledGames {Canceled or timed out games:}
+# MISSING TRANSLATION for Replay:
+# translate E Replay {Replay}
+# MISSING TRANSLATION for compStart:
+# translate E compStart {Start}
+# MISSING TRANSLATION for compSave:
+# translate E compSave {Save after every game}
+# MISSING TRANSLATION for compStop:
+# translate E compStop {Stop after end\nof act. game}
+# MISSING TRANSLATION for compRunning:
+# translate E compRunning {Tournament in progress}
+# MISSING TRANSLATION for Restart:
+# translate E Restart {Restart}
+# MISSING TRANSLATION for compFinished:
+# translate E compFinished {Tournament finished}
+# MISSING TRANSLATION for compStopped:
+# translate E compStopped {Tournament stopped}
 
 #Coach
 translate W showblunderexists {visa blunder finns}
@@ -1785,6 +1885,7 @@ translate W TBNoMoves {Inga lagliga drag hittades.}
 translate W TBTooMany {För många bitar. Lichess bordsbas stöder upp till 7 delar.}
 translate W TBQuerying {Frågar Lichess API...}
 translate W TBError {Det gick inte att starta curl för att fråga Lichess.}
+translate W TBQueryError {Ogiltigt svar från tablebase API.}
 translate W TBNotFound {Positionen hittades inte i tabellbasen eller API-fel.}
 translate W TBCategory {Positionskategori:}
 translate W TBTrainingHidden {(Träningsläge; resultaten är dolda)}

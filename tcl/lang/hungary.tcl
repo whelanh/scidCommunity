@@ -115,6 +115,8 @@ menuText H GameGotoMove "Ugrás megadott sorszámú lépéshez..." 1 \
   {Megadott sorszámú lépéshez ugrik az aktuális játszmában.}
 menuText H GameNovelty "Újítás keresése..." 1 \
   {Megkeresi ebben a játszmában az elsõ olyan lépést, amely korábban nem fordult elõ.}
+menuText H PlayTournament "Játssz versenyt..." 0 \
+    {Játssz egy motorversenyt}
 
 # Search Menu:
 menuText H Search "Keresés" 0
@@ -1402,10 +1404,108 @@ translate H RecentFilesExtra {Az aktuális fájlok száma a kiegészítõ almen�
 
 # My Player Names options:
 translate H MyPlayerNamesDescription {
+# ====== TODO To be translated ======
+translate H configComp {Verseny konfigurálása}
+# ====== TODO To be translated ======
+translate H Tournament {Verseny}
+# ====== TODO To be translated ======
+translate H Available {Elérhető}
+# ====== TODO To be translated ======
+translate H Selected {Kiválasztott}
+# ====== TODO To be translated ======
+translate H RoundRobin {Round Robin}
+# ====== TODO To be translated ======
+translate H Gauntlet {Páncélkesztyű}
+# ====== TODO To be translated ======
+translate H CompGameNext {Következő meccs:}
+# ====== TODO To be translated ======
+translate H TimeperGame {Játékonkénti idő}
+# ====== TODO To be translated ======
+translate H TimeperMove {Idő per\Mozgás}
+# ====== TODO To be translated ======
+translate H compStoreTime {Tárolási idő:}
+# ====== TODO To be translated ======
+translate H Clock {Óra}
+# ====== TODO To be translated ======
+translate H compConcurrent {Párhuzamos játékok:}
+# ====== TODO To be translated ======
+translate H compShowBoards {Táblák megjelenítése}
+# ====== TODO To be translated ======
+translate H compCarousel {Körhinta rendszer}
+# ====== TODO To be translated ======
+translate H compSaveEval {Értékelés mentése}
+# ====== TODO To be translated ======
+translate H compCanceledGames {Törölt vagy lejárt játékok:}
+# ====== TODO To be translated ======
+translate H Replay {Visszajátszás}
+# ====== TODO To be translated ======
+translate H compStart {Indul}
+# ====== TODO To be translated ======
+translate H compSave {Mentés minden játék után}
+# ====== TODO To be translated ======
+translate H compStop {Az aktus vége után állj le. játék}
+# ====== TODO To be translated ======
+translate H compRunning {A torna folyamatban}
+# ====== TODO To be translated ======
+translate H Restart {Indítsa újra}
+# ====== TODO To be translated ======
+translate H compFinished {A bajnokság befejeződött}
+# ====== TODO To be translated ======
+translate H compStopped {A bajnokság leállt}
 Add meg az általad kedvelt játékosok nevét, soronként egyet. Helyettesítõ karaktereket (pl. "?" tetszõleges karakter helyett, "*" tetszõleges karaktersorozat helyett) is használhatsz.
 
 Amikor betöltöd egy a listán szereplõ játékos játszmáját, a fõablak sakktáblája szükség esetén elfordul, hogy a játszmát annak a játékosnak a szemszögébõl mutassa.
 }
+
+# Computer Tournament:
+# MISSING TRANSLATION for configComp:
+# translate E configComp {Configure Tournament}
+# MISSING TRANSLATION for Tournament:
+# translate E Tournament {Tournament}
+# MISSING TRANSLATION for Available:
+# translate E Available {Available}
+# MISSING TRANSLATION for Selected:
+# translate E Selected {Selected}
+# MISSING TRANSLATION for RoundRobin:
+# translate E RoundRobin {Round Robin}
+# MISSING TRANSLATION for Gauntlet:
+# translate E Gauntlet {Gauntlet}
+# MISSING TRANSLATION for CompGameNext:
+# translate E CompGameNext {Next game:}
+# MISSING TRANSLATION for TimeperGame:
+# translate E TimeperGame {Time per\nGame}
+# MISSING TRANSLATION for TimeperMove:
+# translate E TimeperMove {Time per\nMove}
+# MISSING TRANSLATION for compStoreTime:
+# translate E compStoreTime {Store Time: }
+# MISSING TRANSLATION for Clock:
+# translate E Clock {Clock}
+# MISSING TRANSLATION for compConcurrent:
+# translate E compConcurrent {Concurrent games: }
+# MISSING TRANSLATION for compShowBoards:
+# translate E compShowBoards {Show Boards}
+# MISSING TRANSLATION for compCarousel:
+# translate E compCarousel {Carousel system}
+# MISSING TRANSLATION for compSaveEval:
+# translate E compSaveEval {Save evaluation}
+# MISSING TRANSLATION for compCanceledGames:
+# translate E compCanceledGames {Canceled or timed out games:}
+# MISSING TRANSLATION for Replay:
+# translate E Replay {Replay}
+# MISSING TRANSLATION for compStart:
+# translate E compStart {Start}
+# MISSING TRANSLATION for compSave:
+# translate E compSave {Save after every game}
+# MISSING TRANSLATION for compStop:
+# translate E compStop {Stop after end\nof act. game}
+# MISSING TRANSLATION for compRunning:
+# translate E compRunning {Tournament in progress}
+# MISSING TRANSLATION for Restart:
+# translate E Restart {Restart}
+# MISSING TRANSLATION for compFinished:
+# translate E compFinished {Tournament finished}
+# MISSING TRANSLATION for compStopped:
+# translate E compStopped {Tournament stopped}
 
 #Coach
 translate H showblunderexists {Jelezd a durva hibát}
@@ -1780,6 +1880,7 @@ translate H TBNoMoves {Nem található törvényes lépés.}
 translate H TBTooMany {Túl sok darab. A Lichess asztallap legfeljebb 7 darabot támogat.}
 translate H TBQuerying {Lichess API lekérdezése...}
 translate H TBError {Hiba a curl indításakor a Lichess lekérdezéséhez.}
+translate H TBQueryError {Érvénytelen válasz a tablebase API-tól.}
 translate H TBNotFound {A pozíció nem található a táblázatbázisban vagy API hiba.}
 translate H TBCategory {Pozíció kategória:}
 translate H TBTrainingHidden {(edzési mód; az eredmények rejtettek)}

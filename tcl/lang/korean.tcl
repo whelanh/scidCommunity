@@ -153,6 +153,8 @@ menuText k GameGotoMove "이동번호로 이동..." 5 \
   {현재 게임에서 이동번호로 이동}
 menuText k GameNovelty "참신함을 찾아보세요..." 7 \
   {이전에 플레이한 적이 없는 이 게임의 첫 번째 수를 찾아보세요.}
+menuText k PlayTournament "토너먼트 플레이..." 0 \
+    {엔진 토너먼트 플레이}
 
 # Search Menu:
 menuText k Search "찾다" 0
@@ -1421,8 +1423,106 @@ translate k RecentFilesExtra {추가 하위 메뉴의 최신 파일 수}
 
 # My Player Names options:
 translate k MyPlayerNamesDescription {아래에 선호하는 플레이어 이름 목록을 한 줄에 입력하세요. 애니메이션 캐릭터(예: 단일 경우의 문자 "?", 소속의 문자의 "*")가 해당됩니다.
+# ====== TODO To be translated ======
+translate k configComp {토너먼트 구성}
+# ====== TODO To be translated ======
+translate k Tournament {토너먼트}
+# ====== TODO To be translated ======
+translate k Available {사용 가능}
+# ====== TODO To be translated ======
+translate k Selected {선택된}
+# ====== TODO To be translated ======
+translate k RoundRobin {라운드 로빈}
+# ====== TODO To be translated ======
+translate k Gauntlet {긴 장갑}
+# ====== TODO To be translated ======
+translate k CompGameNext {다음 게임:}
+# ====== TODO To be translated ======
+translate k TimeperGame {게임당 시간}
+# ====== TODO To be translated ======
+translate k TimeperMove {이동당 시간}
+# ====== TODO To be translated ======
+translate k compStoreTime {매장 시간:}
+# ====== TODO To be translated ======
+translate k Clock {시계}
+# ====== TODO To be translated ======
+translate k compConcurrent {동시 게임:}
+# ====== TODO To be translated ======
+translate k compShowBoards {보드 표시}
+# ====== TODO To be translated ======
+translate k compCarousel {캐러셀 시스템}
+# ====== TODO To be translated ======
+translate k compSaveEval {평가 저장}
+# ====== TODO To be translated ======
+translate k compCanceledGames {취소되거나 시간 초과된 게임:}
+# ====== TODO To be translated ======
+translate k Replay {다시 하다}
+# ====== TODO To be translated ======
+translate k compStart {시작}
+# ====== TODO To be translated ======
+translate k compSave {매 경기 후 저장}
+# ====== TODO To be translated ======
+translate k compStop {행위 종료 후 중지합니다. 게임}
+# ====== TODO To be translated ======
+translate k compRunning {토너먼트 진행 중}
+# ====== TODO To be translated ======
+translate k Restart {다시 시작}
+# ====== TODO To be translated ======
+translate k compFinished {토너먼트 종료}
+# ====== TODO To be translated ======
+translate k compStopped {토너먼트가 중단되었습니다}
 
 목록에 플레이어가 있는 게임이 로드될 때마다 해당 플레이어의 관점에서 게임을 표시하기 위해 필요한 경우 기본 창 체스판이 회전합니다.}
+
+# Computer Tournament:
+# MISSING TRANSLATION for configComp:
+# translate E configComp {Configure Tournament}
+# MISSING TRANSLATION for Tournament:
+# translate E Tournament {Tournament}
+# MISSING TRANSLATION for Available:
+# translate E Available {Available}
+# MISSING TRANSLATION for Selected:
+# translate E Selected {Selected}
+# MISSING TRANSLATION for RoundRobin:
+# translate E RoundRobin {Round Robin}
+# MISSING TRANSLATION for Gauntlet:
+# translate E Gauntlet {Gauntlet}
+# MISSING TRANSLATION for CompGameNext:
+# translate E CompGameNext {Next game:}
+# MISSING TRANSLATION for TimeperGame:
+# translate E TimeperGame {Time per\nGame}
+# MISSING TRANSLATION for TimeperMove:
+# translate E TimeperMove {Time per\nMove}
+# MISSING TRANSLATION for compStoreTime:
+# translate E compStoreTime {Store Time: }
+# MISSING TRANSLATION for Clock:
+# translate E Clock {Clock}
+# MISSING TRANSLATION for compConcurrent:
+# translate E compConcurrent {Concurrent games: }
+# MISSING TRANSLATION for compShowBoards:
+# translate E compShowBoards {Show Boards}
+# MISSING TRANSLATION for compCarousel:
+# translate E compCarousel {Carousel system}
+# MISSING TRANSLATION for compSaveEval:
+# translate E compSaveEval {Save evaluation}
+# MISSING TRANSLATION for compCanceledGames:
+# translate E compCanceledGames {Canceled or timed out games:}
+# MISSING TRANSLATION for Replay:
+# translate E Replay {Replay}
+# MISSING TRANSLATION for compStart:
+# translate E compStart {Start}
+# MISSING TRANSLATION for compSave:
+# translate E compSave {Save after every game}
+# MISSING TRANSLATION for compStop:
+# translate E compStop {Stop after end\nof act. game}
+# MISSING TRANSLATION for compRunning:
+# translate E compRunning {Tournament in progress}
+# MISSING TRANSLATION for Restart:
+# translate E Restart {Restart}
+# MISSING TRANSLATION for compFinished:
+# translate E compFinished {Tournament finished}
+# MISSING TRANSLATION for compStopped:
+# translate E compStopped {Tournament stopped}
 
 #Coach
 translate k showblunderexists {함께가 존재함을 보여라}
@@ -1797,6 +1897,7 @@ translate k TBNoMoves {법적 움직임이 발견되지 않았습니다.}
 translate k TBTooMany {조각이 너무 많습니다. Lichess 테이블베이스는 최대 7개까지 지원합니다.}
 translate k TBQuerying {Lichess API 쿼리 중...}
 translate k TBError {Lichess를 쿼리하기 위해 컬을 실행하는 중에 오류가 발생했습니다.}
+translate k TBQueryError {테이블베이스 API의 응답이 잘못되었습니다.}
 translate k TBNotFound {테이블베이스 또는 API 오류에서 위치를 찾을 수 없습니다.}
 translate k TBCategory {직위 범주:}
 translate k TBTrainingHidden {(훈련 모드, 결과는 숨겨짐)}

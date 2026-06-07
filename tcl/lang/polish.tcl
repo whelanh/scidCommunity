@@ -119,6 +119,8 @@ menuText P GameGotoMove "Przejd do posunicia nr..." 13 \
   {Przejd do posunicia o podanym numerze}
 menuText P GameNovelty "Znajd nowink..." 7 \
   {Znajd pierwsze posunicie partii niegrane wczeniej}
+menuText P PlayTournament "Zagraj w turnieju..." 0 \
+    {Zagraj w turnieju silnikowym}
 
 # Search Menu:
 menuText P Search "Szukaj" 0
@@ -1421,10 +1423,108 @@ translate P RecentFilesExtra {Liczba ostatnich plikw w dodatkowym podmenu}
 
 # My Player Names options:
 translate P MyPlayerNamesDescription {
+# ====== TODO To be translated ======
+translate P configComp {Skonfiguruj turniej}
+# ====== TODO To be translated ======
+translate P Tournament {Turniej}
+# ====== TODO To be translated ======
+translate P Available {Dostępny}
+# ====== TODO To be translated ======
+translate P Selected {Wybrany}
+# ====== TODO To be translated ======
+translate P RoundRobin {Okrągły Robin}
+# ====== TODO To be translated ======
+translate P Gauntlet {Rękawica}
+# ====== TODO To be translated ======
+translate P CompGameNext {Następna gra:}
+# ====== TODO To be translated ======
+translate P TimeperGame {Czas na\grę}
+# ====== TODO To be translated ======
+translate P TimeperMove {Czas na\Ruch}
+# ====== TODO To be translated ======
+translate P compStoreTime {Czas przechowywania:}
+# ====== TODO To be translated ======
+translate P Clock {Zegar}
+# ====== TODO To be translated ======
+translate P compConcurrent {Równoczesne gry:}
+# ====== TODO To be translated ======
+translate P compShowBoards {Pokaż tablice}
+# ====== TODO To be translated ======
+translate P compCarousel {System karuzelowy}
+# ====== TODO To be translated ======
+translate P compSaveEval {Zapisz ocenę}
+# ====== TODO To be translated ======
+translate P compCanceledGames {Gry anulowane lub przeterminowane:}
+# ====== TODO To be translated ======
+translate P Replay {Powtórna rozgrywka}
+# ====== TODO To be translated ======
+translate P compStart {Start}
+# ====== TODO To be translated ======
+translate P compSave {Zapisz po każdej grze}
+# ====== TODO To be translated ======
+translate P compStop {Zatrzymaj się po zakończeniu aktu. gra}
+# ====== TODO To be translated ======
+translate P compRunning {Turniej w toku}
+# ====== TODO To be translated ======
+translate P Restart {Uruchom ponownie}
+# ====== TODO To be translated ======
+translate P compFinished {Turniej zakończony}
+# ====== TODO To be translated ======
+translate P compStopped {Turniej zatrzymany}
 Podaj list preferowanych nazwisk graczy, po jednym w wierszu. W nazwiskach mona stosowa znaki specjalne (np. "?" - dowolny znak, "*" - dowolna sekwencja znakw).
 
 Wszystkie partie grane przez jednego z graczy z listy bd wywietlane z jego perspektywy.
 }
+
+# Computer Tournament:
+# MISSING TRANSLATION for configComp:
+# translate E configComp {Configure Tournament}
+# MISSING TRANSLATION for Tournament:
+# translate E Tournament {Tournament}
+# MISSING TRANSLATION for Available:
+# translate E Available {Available}
+# MISSING TRANSLATION for Selected:
+# translate E Selected {Selected}
+# MISSING TRANSLATION for RoundRobin:
+# translate E RoundRobin {Round Robin}
+# MISSING TRANSLATION for Gauntlet:
+# translate E Gauntlet {Gauntlet}
+# MISSING TRANSLATION for CompGameNext:
+# translate E CompGameNext {Next game:}
+# MISSING TRANSLATION for TimeperGame:
+# translate E TimeperGame {Time per\nGame}
+# MISSING TRANSLATION for TimeperMove:
+# translate E TimeperMove {Time per\nMove}
+# MISSING TRANSLATION for compStoreTime:
+# translate E compStoreTime {Store Time: }
+# MISSING TRANSLATION for Clock:
+# translate E Clock {Clock}
+# MISSING TRANSLATION for compConcurrent:
+# translate E compConcurrent {Concurrent games: }
+# MISSING TRANSLATION for compShowBoards:
+# translate E compShowBoards {Show Boards}
+# MISSING TRANSLATION for compCarousel:
+# translate E compCarousel {Carousel system}
+# MISSING TRANSLATION for compSaveEval:
+# translate E compSaveEval {Save evaluation}
+# MISSING TRANSLATION for compCanceledGames:
+# translate E compCanceledGames {Canceled or timed out games:}
+# MISSING TRANSLATION for Replay:
+# translate E Replay {Replay}
+# MISSING TRANSLATION for compStart:
+# translate E compStart {Start}
+# MISSING TRANSLATION for compSave:
+# translate E compSave {Save after every game}
+# MISSING TRANSLATION for compStop:
+# translate E compStop {Stop after end\nof act. game}
+# MISSING TRANSLATION for compRunning:
+# translate E compRunning {Tournament in progress}
+# MISSING TRANSLATION for Restart:
+# translate E Restart {Restart}
+# MISSING TRANSLATION for compFinished:
+# translate E compFinished {Tournament finished}
+# MISSING TRANSLATION for compStopped:
+# translate E compStopped {Tournament stopped}
 
 #Coach
 translate P showblunderexists {zjawisko, e bd istnieje}
@@ -1799,6 +1899,7 @@ translate P TBNoMoves {Nie znaleziono żadnych legalnych ruchów.}
 translate P TBTooMany {Za dużo kawałków. Podstawa stołu Lichess obsługuje do 7 elementów.}
 translate P TBQuerying {Wysyłam zapytanie do API Lichess...}
 translate P TBError {Błąd podczas uruchamiania curl w celu wysłania zapytania do Lichess.}
+translate P TBQueryError {Nieprawidłowa odpowiedź z interfejsu API bazy tabel.}
 translate P TBNotFound {Nie znaleziono pozycji w bazie tabeli lub wystąpił błąd API.}
 translate P TBCategory {Kategoria stanowiska:}
 translate P TBTrainingHidden {(Tryb treningu; wyniki są ukryte)}

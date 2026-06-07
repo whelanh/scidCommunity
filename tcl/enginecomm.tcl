@@ -590,8 +590,10 @@ proc ::xboard::sendGo {id msgData} {
             "movetime" { ::engine::rawsend $id "st $limit_value" }
         }
     }
-    regexp {^position(?: fen)? (.*?) moves(.*)$} $position -> fen moves
-    if {$fen eq "startpos"} {
+    set fen ""
+    set moves ""
+    regexp {^position(?: fen)? (.*?)(?:\s+moves(.*))?$} $position -> fen moves
+    if {$fen eq "" || $fen eq "startpos"} {
         set fen "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
     }
     ::engine::rawsend $id "setboard $fen"

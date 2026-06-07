@@ -152,6 +152,8 @@ menuText E GameGotoMove "Goto Move Number..." 5 \
   {Go to a specified move number in the current game}
 menuText E GameNovelty "Find Novelty..." 7 \
   {Find the first move of this game that has not played before}
+menuText E PlayTournament "Play Tournament..." 0 \
+    {Play an engine tournament}
 
 # Search Menu:
 menuText E Search "Search" 0
@@ -1437,6 +1439,32 @@ Enter a list of preferred player names below, one name per line. Wildcards (e.g.
 
 Every time a game with a player in the list is loaded, the main window chessboard will be rotated if necessary to show the game from that players perspective.
 }
+
+# Computer Tournament:
+translate E configComp {Configure Tournament}
+translate E Tournament {Tournament}
+translate E Available {Available}
+translate E Selected {Selected}
+translate E RoundRobin {Round Robin}
+translate E Gauntlet {Gauntlet}
+translate E CompGameNext {Next game:}
+translate E TimeperGame {Time per\nGame}
+translate E TimeperMove {Time per\nMove}
+translate E compStoreTime {Store Time: }
+translate E Clock {Clock}
+translate E compConcurrent {Concurrent games: }
+translate E compShowBoards {Show Boards}
+translate E compCarousel {Carousel system}
+translate E compSaveEval {Save evaluation}
+translate E compCanceledGames {Canceled or timed out games:}
+translate E Replay {Replay}
+translate E compStart {Start}
+translate E compSave {Save after every game}
+translate E compStop {Stop after end\nof act. game}
+translate E compRunning {Tournament in progress}
+translate E Restart {Restart}
+translate E compFinished {Tournament finished}
+translate E compStopped {Tournament stopped}
 
 #Coach
 translate E showblunderexists {show blunder exists}

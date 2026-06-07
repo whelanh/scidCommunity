@@ -193,6 +193,8 @@ $m add command -label GameDeepest -accelerator "Ctrl+Shift+D" -command {
 }
 $m add command -label GameGotoMove -accelerator "Ctrl+U" -command ::game::GotoMoveNumber
 $m add command -label GameNovelty -accelerator "Ctrl+Shift+Y" -command findNovelty
+$m add command -label PlayTournament -command { compInit } -accelerator "Ctrl+Shift+R"
+bind . <Control-Shift-R> { compInit }
 
 
 ### Search menu:

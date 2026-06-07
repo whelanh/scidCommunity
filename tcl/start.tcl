@@ -972,6 +972,8 @@ tools/lichess_eval.tcl
 tools/lichess_openex.tcl
 tools/auto_comment.tcl
 tools/analysis_auto_comment.tcl
+tools/enginenowin.tcl
+tools/multicomp.tcl
 end.tcl
 tools/tacgame.tcl
 tools/sergame.tcl
