@@ -206,7 +206,7 @@ proc compInit { } {
   }
   win::createDialog $w
   wm state $w withdrawn
-  wm title $w [tr configComp]
+  wm title $w "scidCommunity [tr Engine] [tr Tournament]"
   setWinLocation $w
 
   grid [ttk::labelframe $w.engines -text [tr ToolsConfigureEngines]] -row 0 -column 0 -rowspan 3 -sticky nswe -padx "0 10"
@@ -405,7 +405,7 @@ proc compInit { } {
 
   bind $w <Configure> "recordWinSize $w"
   wm protocol $w WM_DELETE_WINDOW compClose
-  wm resizable $w 0 0
+  wm resizable $w 1 1
   bind $w <Escape> compClose
   bind $w <F1> {helpWindow Tourney}
   update
@@ -584,7 +584,7 @@ puts "$num_games GAMES total: $_Data(games)"
   $w.buttons.save configure -text [tr compStop] -command "toggleEndAfterGame" -state normal
   pack forget $w.buttons.load
   $w.buttons.cancel configure -text [tr Cancel] -command { compAbort } -state normal
-  wm title $w "Scid [tr Engine] [tr Tournament]"
+  wm title $w "scidCommunity [tr Engine] [tr Tournament]"
   focus $w.buttons.ok
 
   ttk::progressbar $w.progress -mode determinate -maximum $num_games -variable ::comp::_Data(current)
