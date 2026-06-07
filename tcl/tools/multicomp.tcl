@@ -879,7 +879,8 @@ proc ::comp::compCheckMove { game tomove expired bestmove } {
         lassign [::comp::compUpdateboard $_Data(board,$game) $bestmove] moveOk _Data(board,$game)
         if { $moveOk } {
             set result 1
-            lassign [::comp::checkRepetition $_Data(repetition,$game) $_Data(board,$game)] isRepetition _Data(repetition,$game)
+            set sideToMove [expr {$tomove eq "white" ? "b" : "w"}]
+            lassign [::comp::checkRepetition $_Data(repetition,$game) "$_Data(board,$game) $sideToMove"] isRepetition _Data(repetition,$game)
             lassign [::comp::checkfiftyMoveRule $_Data(moves50,$game) $_Data(material,$game) $_Data(pawns,$game) $_Data(board,$game)] \
                 isFifty _Data(moves50,$game) _Data(material,$game) _Data(pawns,$game)
             if {$_Data(showscores) && $_Data(scoreIsNew,$game) } {
@@ -1082,9 +1083,9 @@ proc compTimeout {game tomove} {
     global ::comp::_Data
 
     puts "Timed out Game $game"
-    puts "Timed out Game $game"
-    set expired [expr {[clock clicks -milli] - $_Data(lasttime,$game)}]
-    ::comp::compNextMove $game $tomove $expired "Time out"
+    set expired [expr [clock clicks -milli] - $_Data(lasttime,$game)]
+    ::comp::compNextMove $game $tomove 0 "Time out"
+}
 
 proc compAbort {} {
     # Close all games, called when game is active
