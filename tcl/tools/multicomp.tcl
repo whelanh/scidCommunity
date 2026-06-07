@@ -1075,9 +1075,9 @@ proc compTimeout {game tomove} {
     global ::comp::_Data
 
     puts "Timed out Game $game"
-    set expired [expr [clock clicks -milli] - $_Data(lasttime,$game)]
-    ::comp::compNextMove $game $tomove 0 "Time out"
-}
+    puts "Timed out Game $game"
+    set expired [expr {[clock clicks -milli] - $_Data(lasttime,$game)}]
+    ::comp::compNextMove $game $tomove $expired "Time out"
 
 proc compAbort {} {
     # Close all games, called when game is active
