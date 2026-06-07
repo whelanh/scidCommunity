@@ -1403,7 +1403,7 @@ translate T CompGameNext {Sonraki oyun:}
 # ====== TODO To be translated ======
 translate T TimeperGame {Oyun Başına Süre}
 # ====== TODO To be translated ======
-translate T TimeperMove {\Hareket başına süre}
+translate T TimeperMove {Hareket başına süre}
 # ====== TODO To be translated ======
 translate T compStoreTime {Mağaza Süresi:}
 # ====== TODO To be translated ======
