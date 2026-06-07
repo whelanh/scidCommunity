@@ -443,7 +443,7 @@ proc loadComp {} {
     foreach e $_Data(playernames) {
         set found [lsearch -exact $engList $e]
         if { $found < 0 } {
-            tk_messageBox -type ok -title {Scid: Fehler} -message "Engine [lindex $_Data(playernames) $i] not found."
+            tk_messageBox -type ok -title {Scid: Fehler} -message "Engine $e not found."
             return
         }
     }
