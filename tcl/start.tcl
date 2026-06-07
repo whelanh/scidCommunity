@@ -631,6 +631,23 @@ if {[file isdirectory $themeDir]} {
     }
 }
 
+# Lazy theme loading: maps deferred theme names to their script paths.
+# Image-based themes (sciddark*, scid*) register non-active variants here
+# at source time; the theme is fully created on demand when the user selects it.
+set ::deferredThemes [dict create]
+
+# Load a deferred image-based theme on demand (called when user selects it)
+proc ::loadDeferredTheme {themeName} {
+    if {![info exists ::deferredThemes] || ![dict exists $::deferredThemes $themeName]} return
+    set script [dict get $::deferredThemes $themeName]
+    dict unset ::deferredThemes $themeName
+    set ::_createTheme $themeName
+    if {[catch {source -encoding utf-8 [file nativename $script]} err]} {
+        puts stderr "Warning: Failed to load deferred theme $themeName - $err"
+    }
+    unset -nocomplain ::_createTheme
+}
+
 # Load bundled Uwe Klimmek ttk-themes (image-based, require direct source)
 set _tclthemesDir [file join [file dirname [info script]] "tclthemes"]
 if {[file isdirectory $_tclthemesDir]} {

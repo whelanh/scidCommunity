@@ -30,6 +30,17 @@ if { [info commands styleOption] eq "" } {
 
 foreach t { blue mint green sand purple grey } \
     c { "#3b6dce" "#7d9d6c" "#54b564" "#b58554" "#9f60a9" "#858585" } {
+    set _themeName "sciddark$t"
+    # Skip already-created themes (e.g. on re-source for deferred loading)
+    if {$_themeName in [ttk::style theme names]} { continue }
+    # Defer non-active themes for lazy loading (avoids loading ~100 PNGs per variant)
+    if {[info exists ::deferredThemes]} {
+        set _wanted [expr {[info exists ::_createTheme] ? $::_createTheme : $::lookTheme}]
+        if {$_themeName ne $_wanted} {
+            dict set ::deferredThemes $_themeName [file normalize [info script]]
+            continue
+        }
+    }
     set ::tks $t
     set ::bgct $c
     namespace eval ttk::theme::sciddark$t {

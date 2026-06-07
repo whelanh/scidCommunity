@@ -28,6 +28,17 @@ if { [info commands styleOption] eq "" } {
 
 foreach t { blue mint green purple sand pink grey } \
     c { "#5464c4" "#7cac50" "#50ac69" "#8050ac" "#ac9750" "#ac5093" "#606060" } {
+    set _themeName "scid$t"
+    # Skip already-created themes (e.g. on re-source for deferred loading)
+    if {$_themeName in [ttk::style theme names]} { continue }
+    # Defer non-active themes for lazy loading (avoids loading ~100 PNGs per variant)
+    if {[info exists ::deferredThemes]} {
+        set _wanted [expr {[info exists ::_createTheme] ? $::_createTheme : $::lookTheme}]
+        if {$_themeName ne $_wanted} {
+            dict set ::deferredThemes $_themeName [file normalize [info script]]
+            continue
+        }
+    }
     set ::tks $t
     set ::bgct $c
     namespace eval ttk::theme::scid$t {

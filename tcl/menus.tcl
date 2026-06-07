@@ -546,11 +546,20 @@ proc menuUpdateBases {} {
 proc menuUpdateThemes {} {
   set m .menu.options.theme
   $m delete $::menuThemeListIdx end
-  foreach i [lsort [ttk::style theme names]] {
+  # Combine registered themes with deferred (not yet loaded) ones
+  set allThemes [ttk::style theme names]
+  if {[info exists ::deferredThemes]} {
+      foreach name [dict keys $::deferredThemes] {
+          if {$name ni $allThemes} {
+              lappend allThemes $name
+          }
+      }
+  }
+  foreach i [lsort $allThemes] {
       # Skip alt and clam themes as they are essentially duplicates of classic
       if {$i eq "alt" || $i eq "clam"} { continue }
       $m add radiobutton -label "$i" -value $i -variable ::lookTheme \
-      -command {ttk::style theme use $::lookTheme; configure_menus}
+      -command {::loadDeferredTheme $::lookTheme; ttk::style theme use $::lookTheme; configure_menus}
   }
 }
 
