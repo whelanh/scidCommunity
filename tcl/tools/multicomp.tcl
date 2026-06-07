@@ -572,7 +572,7 @@ puts "$num_games GAMES total: $_Data(games)"
     if {$answer != "ok"} {return}
   }
   if {![sc_pos isAt end] && $_Data(start) > 0} {
-    set answer [tk_messageBox -title Tournanment -icon question -type okcancel \
+    set answer [tk_messageBox -title Tournament -icon question -type okcancel \
 	-message {Die aktuelle Partie ist nicht am Ende der Partie. Fortfahren?} -parent $w]
     if {$answer != "ok"} {return}
   }
