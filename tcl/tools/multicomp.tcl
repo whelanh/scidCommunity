@@ -451,7 +451,7 @@ proc loadComp {} {
     ::comp::updateSelectedEngines
     compInit
     createGames $_Data(carousel)
-    destroy .comp.engines.list
+    if {[winfo exists .comp.engines.list]} { destroy .comp.engines.list }
 }
 
 proc createGames { carousel } {
