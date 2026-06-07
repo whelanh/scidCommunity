@@ -125,8 +125,8 @@ proc ::tablebase::lookupPosition {} {
     # Get the FEN of the current position
     set fen [sc_pos fen]
     
-    # Convert spaces in FEN to underscores for the URL
-    set urlFen [string map {" " "_"} $fen]
+    # URL-encode spaces in FEN for the query string
+    set urlFen [string map {" " "%20"} $fen]
     
     # Construct the API URL (variant-aware)
     set url "[::tablebase::getApiUrl]?fen=$urlFen"
@@ -555,6 +555,13 @@ proc ::tablebase::window::displayResults {jsonData fen} {
         return
     }
     
+    # Guard against empty or non-JSON response
+    if {![string match "\{*" $jsonData]} {
+        $t insert end "\n [tr TBQueryError]\n"
+        $t configure -state disabled
+        return
+    }
+    
     set category ""
     regexp {"category":"([^"]+)"} $jsonData -> category
     
@@ -574,14 +581,12 @@ proc ::tablebase::window::displayResults {jsonData fen} {
             set uci ""
             set san ""
             set mcat ""
-            set wdl ""
             set dtz ""
             set dtm ""
             
             regexp {"uci":"([^"]+)"} $moveObj -> uci
             regexp {"san":"([^"]+)"} $moveObj -> san
             regexp {"category":"([^"]+)"} $moveObj -> mcat
-            regexp {"wdl":(-?\d+)} $moveObj -> wdl
             regexp {"dtz":(-?\d+)} $moveObj -> dtz
             regexp {"dtm":(-?\d+)} $moveObj -> dtm
             
@@ -593,12 +598,12 @@ proc ::tablebase::window::displayResults {jsonData fen} {
                 append displayStr [format " DTM: %-4s" [expr {abs($dtm)}]]
             }
             
-            if {$wdl > 0} {
-                lappend winMoves [list $dtz $dtm $displayStr $san]
-            } elseif {$wdl == 0} {
-                lappend drawMoves [list $dtz $dtm $displayStr $san]
-            } else {
-                lappend lossMoves [list $dtz $dtm $displayStr $san]
+            # Classify by category (the Lichess API no longer includes a wdl field)
+            switch -glob $mcat {
+                "win"  { lappend winMoves  [list $dtz $dtm $displayStr $san] }
+                "draw" { lappend drawMoves [list $dtz $dtm $displayStr $san] }
+                "loss" { lappend lossMoves [list $dtz $dtm $displayStr $san] }
+                default { lappend drawMoves [list $dtz $dtm $displayStr $san] }
             }
         }
         
