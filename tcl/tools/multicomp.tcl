@@ -567,7 +567,7 @@ puts "$num_games GAMES total: $_Data(games)"
 
   set _Data(database) $::curr_db
   if {[sc_base isReadOnly $_Data(database)]} {
-    set answer [tk_messageBox -title Tournanment -icon question -type okcancel \
+    set answer [tk_messageBox -title Tournament -icon question -type okcancel \
 	-message {Database is read only. Continue ?} -parent $w]
     if {$answer != "ok"} {return}
   }
