@@ -1793,5 +1793,16 @@ translate K BatchCancel {Cancel·la}
 translate K BatchCompleted {completat}
 translate K BatchGames {jocs}
 translate K BatchProcessed {processats}
+translate K TablebaseWindow {Finestra Tablebase}
+translate K TBWinMoves {--- Moviments guanyadors ---}
+translate K TBDrawMoves {--- Dibuix moviments ---}
+translate K TBLossMoves {--- Moviments perduts ---}
+translate K TBNoMoves {No s'han trobat moviments legals.}
+translate K TBTooMany {Massa peces. La base de taula Lichess admet fins a 7 peces.}
+translate K TBQuerying {Consultant l'API de Lichess...}
+translate K TBError {S'ha produït un error en iniciar curl per consultar Lichess.}
+translate K TBNotFound {No s'ha trobat la posició a la base de taules o error de l'API.}
+translate K TBCategory {Categoria de la posició:}
+translate K TBTrainingHidden {(Mode d'entrenament; els resultats estan ocults)}
 }
 # end of english.tcl

@@ -1820,5 +1820,16 @@ translate D BatchCancel {Stornieren}
 translate D BatchCompleted {vollendet}
 translate D BatchGames {Spiele}
 translate D BatchProcessed {verarbeitet}
+translate D TablebaseWindow {Tablebase-Fenster}
+translate D TBWinMoves {--- Gewinnzüge ---}
+translate D TBDrawMoves {--- Zeichenbewegungen ---}
+translate D TBLossMoves {--- Züge verlieren ---}
+translate D TBNoMoves {Keine legalen Schritte gefunden.}
+translate D TBTooMany {Zu viele Stücke. Der Lichess-Tischfuß trägt bis zu 7 Teile.}
+translate D TBQuerying {Lichess-API wird abgefragt...}
+translate D TBError {Fehler beim Starten von Curl zur Abfrage von Lichess.}
+translate D TBNotFound {Position in der Tabellenbasis nicht gefunden oder API-Fehler.}
+translate D TBCategory {Positionskategorie:}
+translate D TBTrainingHidden {(Trainingsmodus; Ergebnisse werden ausgeblendet)}
 }
 # end of english.tcl

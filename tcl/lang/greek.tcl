@@ -1798,5 +1798,16 @@ translate G BatchCancel {Ματαίωση}
 translate G BatchCompleted {ολοκληρώθηκε το}
 translate G BatchGames {παιχνίδια}
 translate G BatchProcessed {επεξεργασμένα}
+translate G TablebaseWindow {Παράθυρο βάσης πίνακα}
+translate G TBWinMoves {--- Κινήσεις που κερδίζουν ---}
+translate G TBDrawMoves {--- Κινήσεις σχεδίασης ---}
+translate G TBLossMoves {--- Χάνοντας κινήσεις ---}
+translate G TBNoMoves {Δεν βρέθηκαν νομικές κινήσεις.}
+translate G TBTooMany {Πάρα πολλά κομμάτια. Η επιτραπέζια βάση Lichess υποστηρίζει έως και 7 κομμάτια.}
+translate G TBQuerying {Querying Lichess API...}
+translate G TBError {Σφάλμα κατά την εκκίνηση του curl στο ερώτημα Lichess.}
+translate G TBNotFound {Η θέση δεν βρέθηκε στη βάση του πίνακα ή σφάλμα API.}
+translate G TBCategory {Κατηγορία θέσης:}
+translate G TBTrainingHidden {(Λειτουργία προπόνησης, τα αποτελέσματα είναι κρυφά)}
 }
 # end of english.tcl

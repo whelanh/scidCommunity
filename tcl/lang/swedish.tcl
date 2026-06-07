@@ -1777,5 +1777,16 @@ translate W BatchCancel {Avboka}
 translate W BatchCompleted {avslutad}
 translate W BatchGames {spel}
 translate W BatchProcessed {bearbetas}
+translate W TablebaseWindow {Tabellbasfönster}
+translate W TBWinMoves {--- Vinnande drag ---}
+translate W TBDrawMoves {--- Rita rörelser ---}
+translate W TBLossMoves {--- Förlorade drag ---}
+translate W TBNoMoves {Inga lagliga drag hittades.}
+translate W TBTooMany {För många bitar. Lichess bordsbas stöder upp till 7 delar.}
+translate W TBQuerying {Frågar Lichess API...}
+translate W TBError {Det gick inte att starta curl för att fråga Lichess.}
+translate W TBNotFound {Positionen hittades inte i tabellbasen eller API-fel.}
+translate W TBCategory {Positionskategori:}
+translate W TBTrainingHidden {(Träningsläge; resultaten är dolda)}
 }
 # end of english.tcl

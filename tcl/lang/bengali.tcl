@@ -1748,5 +1748,16 @@ translate b BatchCancel {বাতিল করুন}
 translate b BatchCompleted {সম্পন্ন}
 translate b BatchGames {গেম}
 translate b BatchProcessed {প্রক্রিয়া করা}
+translate b TablebaseWindow {টেবিলবেস উইন্ডো}
+translate b TBWinMoves {--- উইনিং মুভ ---}
+translate b TBDrawMoves {--- অঙ্কন চালনা ---}
+translate b TBLossMoves {--- হারানো চালগুলি ---}
+translate b TBNoMoves {কোন আইনি পদক্ষেপ পাওয়া যায়নি.}
+translate b TBTooMany {অনেক টুকরা. লিচেস টেবিলবেস 7 টুকরা পর্যন্ত সমর্থন করে।}
+translate b TBQuerying {Lichess API জিজ্ঞাসা করা হচ্ছে...}
+translate b TBError {Lichess ক্যোয়ারী করতে কার্ল চালু করতে ত্রুটি৷}
+translate b TBNotFound {টেবিলবেস বা API ত্রুটিতে অবস্থান পাওয়া যায়নি।}
+translate b TBCategory {অবস্থান বিভাগ:}
+translate b TBTrainingHidden {(প্রশিক্ষণ মোড; ফলাফল লুকানো আছে)}
 }
 # end of english.tcl

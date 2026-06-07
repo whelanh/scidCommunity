@@ -1789,5 +1789,16 @@ translate J BatchCancel {Откажи}
 translate J BatchCompleted {завршено}
 translate J BatchGames {игрице}
 translate J BatchProcessed {обрађене}
+translate J TablebaseWindow {Таблебасе Виндов}
+translate J TBWinMoves {--- Победнички потези ---}
+translate J TBDrawMoves {--- Покрети цртања ---}
+translate J TBLossMoves {--- Губитни потези ---}
+translate J TBNoMoves {Није пронађен ниједан правни потез.}
+translate J TBTooMany {Превише комада. Лицхесс постоље за сто подржава до 7 комада.}
+translate J TBQuerying {Querying Lichess API...}
+translate J TBError {Грешка при покретању цурл-а за упит Лицхесс-а.}
+translate J TBNotFound {Позиција није пронађена у бази табеле или грешка у АПИ-ју.}
+translate J TBCategory {Категорија позиције:}
+translate J TBTrainingHidden {(Режим обуке; резултати су скривени)}
 }
 # end of english.tcl

@@ -1752,5 +1752,16 @@ translate T BatchCancel {İptal etmek}
 translate T BatchCompleted {tamamlanmış}
 translate T BatchGames {oyunlar}
 translate T BatchProcessed {işlenmiş}
+translate T TablebaseWindow {Tablo Tabanı Penceresi}
+translate T TBWinMoves {--- Kazandıran Hareketler ---}
+translate T TBDrawMoves {--- Çizim Hareketleri ---}
+translate T TBLossMoves {--- Kaybetme Hareketleri ---}
+translate T TBNoMoves {Yasal hamle bulunamadı.}
+translate T TBTooMany {Çok fazla parça. Lichess masa tabanı 7 parçaya kadar destekler.}
+translate T TBQuerying {Lichess API'si sorgulanıyor...}
+translate T TBError {Lichess'i sorgulamak için curl başlatılırken hata oluştu.}
+translate T TBNotFound {Tablo tabanında konum bulunamadı veya API hatası.}
+translate T TBCategory {Pozisyon Kategorisi:}
+translate T TBTrainingHidden {(Eğitim modu; sonuçlar gizlenir)}
 }
 # end of english.tcl

@@ -1802,5 +1802,16 @@ translate U BatchCancel {Peruuta}
 translate U BatchCompleted {valmiiksi}
 translate U BatchGames {pelejä}
 translate U BatchProcessed {käsitelty}
+translate U TablebaseWindow {Taulukkopohja-ikkuna}
+translate U TBWinMoves {--- Voittoliikkeet ---}
+translate U TBDrawMoves {--- Piirustusliikkeet ---}
+translate U TBLossMoves {--- Liikkeiden häviäminen ---}
+translate U TBNoMoves {Laillisia siirtoja ei löytynyt.}
+translate U TBTooMany {Liian monta kappaletta. Lichess-pöytäjalusta tukee jopa 7 osaa.}
+translate U TBQuerying {Kysellään Lichess-sovellusliittymää...}
+translate U TBError {Virhe käynnistettäessä curl-kyselyä Lichessille.}
+translate U TBNotFound {Sijaintia ei löydy taulukkokannasta tai API-virhe.}
+translate U TBCategory {Aseman luokka:}
+translate U TBTrainingHidden {(Harjoitustila; tulokset piilotetaan)}
 }
 # end of english.tcl

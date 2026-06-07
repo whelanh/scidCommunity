@@ -2397,5 +2397,27 @@ translate Y BatchCompleted {completed}
 translate Y BatchGames {games}
 # ====== TODO To be translated ======
 translate Y BatchProcessed {processed}
+# ====== TODO To be translated ======
+translate Y TablebaseWindow {Tablebase Window}
+# ====== TODO To be translated ======
+translate Y TBWinMoves {--- Winning Moves ---}
+# ====== TODO To be translated ======
+translate Y TBDrawMoves {--- Drawing Moves ---}
+# ====== TODO To be translated ======
+translate Y TBLossMoves {--- Losing Moves ---}
+# ====== TODO To be translated ======
+translate Y TBNoMoves {No legal moves found.}
+# ====== TODO To be translated ======
+translate Y TBTooMany {Too many pieces. Lichess tablebase supports up to 7 pieces.}
+# ====== TODO To be translated ======
+translate Y TBQuerying {Querying Lichess API...}
+# ====== TODO To be translated ======
+translate Y TBError {Error launching curl to query Lichess.}
+# ====== TODO To be translated ======
+translate Y TBNotFound {Position not found in tablebase or API error.}
+# ====== TODO To be translated ======
+translate Y TBCategory {Position Category:}
+# ====== TODO To be translated ======
+translate Y TBTrainingHidden {(Training mode; results are hidden)}
 }
 # end of serbian.tcl

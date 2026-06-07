@@ -1748,5 +1748,16 @@ translate Z BatchCancel {Ghairi}
 translate Z BatchCompleted {imekamilika}
 translate Z BatchGames {michezo}
 translate Z BatchProcessed {imechakatwa}
+translate Z TablebaseWindow {Dirisha la Meza}
+translate Z TBWinMoves {--- Hatua za Ushindi ---}
+translate Z TBDrawMoves {--- Hatua za Kuchora ---}
+translate Z TBLossMoves {--- Kupoteza harakati ----}
+translate Z TBNoMoves {Hakuna hatua za kisheria zilizopatikana.}
+translate Z TBTooMany {Vipande vingi sana. Tablebase ya Lichess inasaidia hadi vipande 7.}
+translate Z TBQuerying {Querying Lichess API...}
+translate Z TBError {Hitilafu imetokea wakati wa kuzindua curl ili kuuliza Lichess.}
+translate Z TBNotFound {Nafasi haipatikani kwenye msingi wa meza au hitilafu ya API.}
+translate Z TBCategory {Kitengo cha Nafasi:}
+translate Z TBTrainingHidden {(Njia ya mafunzo; matokeo yamefichwa)}
 }
 # end of english.tcl

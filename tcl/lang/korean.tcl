@@ -1789,5 +1789,16 @@ translate k BatchCancel {취소}
 translate k BatchCompleted {완전한}
 translate k BatchGames {계략}
 translate k BatchProcessed {처리됨}
+translate k TablebaseWindow {테이블베이스 창}
+translate k TBWinMoves {--- 승리 동작 ---}
+translate k TBDrawMoves {--- 그리기 동작 ---}
+translate k TBLossMoves {--- 잃어버린 움직임 ---}
+translate k TBNoMoves {법적 움직임이 발견되지 않았습니다.}
+translate k TBTooMany {조각이 너무 많습니다. Lichess 테이블베이스는 최대 7개까지 지원합니다.}
+translate k TBQuerying {Lichess API 쿼리 중...}
+translate k TBError {Lichess를 쿼리하기 위해 컬을 실행하는 중에 오류가 발생했습니다.}
+translate k TBNotFound {테이블베이스 또는 API 오류에서 위치를 찾을 수 없습니다.}
+translate k TBCategory {직위 범주:}
+translate k TBTrainingHidden {(훈련 모드, 결과는 숨겨짐)}
 }
 # end of english.tcl

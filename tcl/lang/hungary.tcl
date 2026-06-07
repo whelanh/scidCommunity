@@ -1772,5 +1772,16 @@ translate H BatchCancel {Mégsem}
 translate H BatchCompleted {elkészült}
 translate H BatchGames {játékok}
 translate H BatchProcessed {feldolgozott}
+translate H TablebaseWindow {Táblázatbázis ablak}
+translate H TBWinMoves {--- Nyerő lépések ---}
+translate H TBDrawMoves {--- Rajzmozgások ---}
+translate H TBLossMoves {--- Vesztes mozdulatok ---}
+translate H TBNoMoves {Nem található törvényes lépés.}
+translate H TBTooMany {Túl sok darab. A Lichess asztallap legfeljebb 7 darabot támogat.}
+translate H TBQuerying {Lichess API lekérdezése...}
+translate H TBError {Hiba a curl indításakor a Lichess lekérdezéséhez.}
+translate H TBNotFound {A pozíció nem található a táblázatbázisban vagy API hiba.}
+translate H TBCategory {Pozíció kategória:}
+translate H TBTrainingHidden {(edzési mód; az eredmények rejtettek)}
 }
 # end of english.tcl

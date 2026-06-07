@@ -1748,5 +1748,16 @@ translate h BatchCancel {रद्द करना}
 translate h BatchCompleted {पुरा होना}
 translate h BatchGames {खेल}
 translate h BatchProcessed {प्रसंस्कृत}
+translate h TablebaseWindow {टेबलबेस विंडो}
+translate h TBWinMoves {---जीतने की चालें ---}
+translate h TBDrawMoves {--- ड्राइंग चालें ---}
+translate h TBLossMoves {--- हारने वाली चालें ---}
+translate h TBNoMoves {कोई कानूनी कदम नहीं मिला.}
+translate h TBTooMany {बहुत सारे टुकड़े. लाइकेस टेबलबेस 7 टुकड़ों तक का समर्थन करता है।}
+translate h TBQuerying {लाइकेस एपीआई को क्वेरी किया जा रहा है...}
+translate h TBError {लिचेस को क्वेरी करने के लिए कर्ल लॉन्च करने में त्रुटि।}
+translate h TBNotFound {टेबलबेस या एपीआई त्रुटि में स्थिति नहीं मिली।}
+translate h TBCategory {पद श्रेणी:}
+translate h TBTrainingHidden {(प्रशिक्षण मोड; परिणाम छिपे हुए हैं)}
 }
 # end of english.tcl

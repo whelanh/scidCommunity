@@ -1789,5 +1789,16 @@ translate L BatchCancel {Anula}
 translate L BatchCompleted {completat}
 translate L BatchGames {jocuri}
 translate L BatchProcessed {prelucrate}
+translate L TablebaseWindow {Fereastra Tablebase}
+translate L TBWinMoves {--- Mișcări câștigătoare ---}
+translate L TBDrawMoves {--- Mișcări de desen ---}
+translate L TBLossMoves {--- Mișcări pierdute ---}
+translate L TBNoMoves {Nu au fost găsite mișcări legale.}
+translate L TBTooMany {Prea multe piese. Baza de masă Lichess acceptă până la 7 piese.}
+translate L TBQuerying {Se interogează API-ul Lichess...}
+translate L TBError {Eroare la lansarea curl pentru a interoga Lichess.}
+translate L TBNotFound {Poziția nu a fost găsită în baza de tabele sau eroare API.}
+translate L TBCategory {Categoria postului:}
+translate L TBTrainingHidden {(Modul de antrenament; rezultatele sunt ascunse)}
 }
 # end of english.tcl
