@@ -5,18 +5,20 @@
 namespace eval ::tablebase {
     # Use HTTPS for the Lichess tablebase API
     variable lichessUrl "https://tablebase.lichess.ovh/standard"
-    variable lichessChess960Url "https://tablebase.lichess.ovh/chess960"
 }
 
-# ::tablebase::getApiUrl
-#   Returns the correct Lichess tablebase API URL based on game variant.
+# ::tablebase::buildUrl
+#   Constructs the tablebase API URL from a FEN, adding variant parameter
+#   for Chess960 positions (same pattern as cloud eval / opening explorer).
 #
-proc ::tablebase::getApiUrl {} {
+proc ::tablebase::buildUrl {fen} {
+    set urlFen [string map {" " "%20"} $fen]
+    set url "$::tablebase::lichessUrl?fen=$urlFen"
     set gameVariant [sc_game variant]
     if {$gameVariant eq "chess960"} {
-        return $::tablebase::lichessChess960Url
+        append url "&variant=chess960"
     }
-    return $::tablebase::lichessUrl
+    return $url
 }
 
 # ::tablebase::countPieces
@@ -42,12 +44,8 @@ proc ::tablebase::countPieces {fen} {
 #   Returns: "winning", "losing", "draw", or "error: <message>"
 #
 proc ::tablebase::queryTablebaseResult {fen} {
-    # URL-encode spaces in FEN for the query string
-    # (Lichess expects standard URL encoding like %20, not underscores)
-    set urlFen [string map {" " "%20"} $fen]
-    
     # Construct the API URL (variant-aware)
-    set url "[::tablebase::getApiUrl]?fen=$urlFen"
+    set url [::tablebase::buildUrl $fen]
     
     # Try to query the tablebase
     set result ""
@@ -125,11 +123,8 @@ proc ::tablebase::lookupPosition {} {
     # Get the FEN of the current position
     set fen [sc_pos fen]
     
-    # URL-encode spaces in FEN for the query string
-    set urlFen [string map {" " "%20"} $fen]
-    
     # Construct the API URL (variant-aware)
-    set url "[::tablebase::getApiUrl]?fen=$urlFen"
+    set url [::tablebase::buildUrl $fen]
     
     # Show a temporary "Loading..." message
     set w .tablebaseResult
@@ -486,9 +481,7 @@ proc ::tablebase::window::results {} {
     $t insert end "\n [tr TBQuerying]\n"
     $t configure -state disabled
     
-    # URL-encode spaces in FEN for the query string
-    set urlFen [string map {" " "%20"} $fen]
-    set url "[::tablebase::getApiUrl]?fen=$urlFen"
+    set url [::tablebase::buildUrl $fen]
     
     # Asynchronous curl
     incr ::tablebase::window::requestCount
