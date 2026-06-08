@@ -509,7 +509,7 @@ translate Y Index {Indeks}
 translate Y LoadGame {Uitaj partiju}
 translate Y BrowseGame {Browse game} ;# ***
 # ====== TODO To be translated ======
-translate Y PgnOpenInViewer {Open in PGN Viewer}
+translate Y PgnOpenInViewer {Отвори у PGN прегледачу}
 translate Y MergeGame {Merge game} ;# ***
 # ====== TODO To be translated ======
 translate Y MergeGames {Merge Games}
@@ -859,11 +859,11 @@ translate Y TitleFilterGraph "Scid: Filter Graph"
 # ====== TODO To be translated ======
 translate Y WinPct "Win %"
 # ====== TODO To be translated ======
-translate Y GraphLine "Line Chart"
+translate Y GraphLine "Линијски графикон"
 # ====== TODO To be translated ======
-translate Y GraphBar "Bar Chart"
+translate Y GraphBar "Стубични графикон"
 # ====== TODO To be translated ======
-translate Y GraphPopup "Popup Board"
+translate Y GraphPopup "Искачућа табла"
 # ====== TODO To be translated ======
 translate Y PgnVarClose {Close all variants}
 # ====== TODO To be translated ======

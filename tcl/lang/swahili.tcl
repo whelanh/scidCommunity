@@ -1408,8 +1408,8 @@ translate Z Selected {Imechaguliwa}
 translate Z RoundRobin {Mzunguko wa Robin}
 translate Z Gauntlet {Gauntlet}
 translate Z CompGameNext {Mchezo unaofuata:}
-translate Z TimeperGame {Muda kwa\Mchezo}
-translate Z TimeperMove {Muda kwa\Hamisha}
+translate Z TimeperGame {Muda kwa Mchezo}
+translate Z TimeperMove {Muda kwa Hamisha}
 translate Z compStoreTime {Saa ya Kuhifadhi:}
 translate Z Clock {Saa}
 translate Z compConcurrent {Michezo ya pamoja:}
@@ -1420,7 +1420,7 @@ translate Z compCanceledGames {Michezo iliyoghairiwa au kuisha muda:}
 translate Z Replay {Cheza tena}
 translate Z compStart {Anza}
 translate Z compSave {Okoa baada ya kila mchezo}
-translate Z compStop {Acha baada ya mwisho \ wa kitendo. mchezo}
+translate Z compStop {Simamisha baada ya mchezo wa mwisho}
 translate Z compRunning {Mashindano yanaendelea}
 translate Z Restart {Anzisha upya}
 translate Z compFinished {Mashindano yamekamilika}

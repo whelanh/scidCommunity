@@ -1432,8 +1432,8 @@ translate I Selected {Selezionato}
 translate I RoundRobin {Girotondo}
 translate I Gauntlet {Guanto di sfida}
 translate I CompGameNext {Prossima partita:}
-translate I TimeperGame {Tempo per\Gioco}
-translate I TimeperMove {Tempo per\Move}
+translate I TimeperGame {Tempo per partita}
+translate I TimeperMove {Tempo per mossa}
 translate I compStoreTime {Tempo di negozio:}
 translate I Clock {Orologio}
 translate I compConcurrent {Giochi simultanei:}
@@ -1444,7 +1444,7 @@ translate I compCanceledGames {Partite annullate o scadute:}
 translate I Replay {Rigiocare}
 translate I compStart {Inizio}
 translate I compSave {Salva dopo ogni partita}
-translate I compStop {Interruzione dopo la fine dell'atto. gioco}
+translate I compStop {Interrompi al termine della partita}
 translate I compRunning {Torneo in corso}
 translate I Restart {Ricomincia}
 translate I compFinished {Torneo finito}

@@ -681,7 +681,7 @@ translate O PgnOptIndentC "Innrykk kommentarer"
 translate O PgnOptIndentV "Innrykkvarianter"
 translate O PgnOptColumn "Kolonnestil (ett trekk per linje)"
 translate O PgnOptSpace "Mellomrom etter flyttetall"
-translate O PgnOptStripMarks "Strip out Colored Square/Arrow Codes"
+translate O PgnOptStripMarks "Fjern fargede ruter/pilkoder"
 translate O PgnOptBoldMainLine "Bruk fet tekst for hovedlinjebevegelser"
 
 # Analysis window:
@@ -1418,9 +1418,9 @@ translate O RecentFilesMenu {Number of recent files in File menu} ;# ***
 translate O RecentFilesExtra {Number of recent files in extra submenu} ;# ***
 
 # My Player Names options:
-translate O MyPlayerNamesDescription {Enter a list of preferred player names below, one name per line. Wildcards (e.g. "?" for any single character, "*" for any sequence of characters) are permitted.
-Every time a game with a player in the list is loaded, the main window chessboard will be rotated if necessary to show the game from that players perspective.
-} ;# ***
+translate O MyPlayerNamesDescription {Skriv inn en liste over foretrukne spillernavn nedenfor, ett navn per linje. Jokertegn (f.eks. "?" for et enkelt tegn, "*" for en sekvens av tegn) er tillatt.
+Hver gang et spill med en spiller i listen lastes, vil hovedvinduets sjakkbrett roteres om nødvendig for å vise spillet fra spillerens perspektiv.
+}
 
 # Computer Tournament:
 translate O configComp {Konfigurer turnering}

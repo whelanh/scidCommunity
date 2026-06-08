@@ -1450,7 +1450,7 @@ translate A RoundRobin {ラウンドロビン}
 translate A Gauntlet {ガントレット}
 translate A CompGameNext {次の試合:}
 translate A TimeperGame {ゲームあたりの時間}
-translate A TimeperMove {\移動あたりの時間}
+translate A TimeperMove {移動あたりの時間}
 translate A compStoreTime {ストア時間:}
 translate A Clock {クロック}
 translate A compConcurrent {同時進行のゲーム:}

@@ -1455,8 +1455,8 @@ translate N Selected {Gekozen}
 translate N RoundRobin {Ronde Robin}
 translate N Gauntlet {Handschoen}
 translate N CompGameNext {Volgende spel:}
-translate N TimeperGame {Tijd per\spel}
-translate N TimeperMove {Tijd per\Verplaatsing}
+translate N TimeperGame {Tijd per spel}
+translate N TimeperMove {Tijd per zet}
 translate N compStoreTime {Winkeltijd:}
 translate N Clock {Klok}
 translate N compConcurrent {Gelijktijdige spellen:}
@@ -1467,7 +1467,7 @@ translate N compCanceledGames {Geannuleerde of time-out wedstrijden:}
 translate N Replay {Opnieuw afspelen}
 translate N compStart {Begin}
 translate N compSave {Bewaar na elk spel}
-translate N compStop {Stop na einde\van actie. spel}
+translate N compStop {Stop na einde van actie}
 translate N compRunning {Toernooi in uitvoering}
 translate N Restart {Opnieuw opstarten}
 translate N compFinished {Toernooi afgelopen}

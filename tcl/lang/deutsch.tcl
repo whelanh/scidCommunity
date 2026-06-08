@@ -1479,7 +1479,8 @@ translate D Selected {Ausgewählt}
 translate D RoundRobin {Round Robin}
 translate D Gauntlet {Stulpe}
 translate D CompGameNext {Nächstes Spiel:}
-translate D TimeperGame {Zeit pro\Spiel}
+translate D TimeperGame {Zeit pro
+Spiel}
 translate D TimeperMove {Zeit pro Zug}
 translate D compStoreTime {Lagerzeit:}
 translate D Clock {Uhr}

@@ -22,6 +22,7 @@
 #include "textbuf.h"
 #include <algorithm>
 #include <cstring>
+#include <memory>
 
 // Piece letters translation
 int language = 0; // default to english
@@ -2111,13 +2112,12 @@ errorT Game::WriteMoveList(TextBuffer *tb, moveT *oldCurrentMove,
           tb->PrintString("<board>");
         } else {
           MoveForward();
-          DString *dstr = new DString;
+          std::unique_ptr<DString> dstr = std::make_unique<DString>();
           if (IsHtmlFormat()) {
-            CurrentPos->DumpHtmlBoard(dstr, HtmlStyle, NULL);
+            CurrentPos->DumpHtmlBoard(dstr.get(), HtmlStyle, NULL);
           }
           MoveBackup();
           tb->PrintString(dstr->Data());
-          delete dstr;
         }
         if (IsHtmlFormat() && VarDepth == 0) {
           tb->PrintString("<b>");

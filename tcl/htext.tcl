@@ -612,17 +612,31 @@ proc ::htext::showVar { w pos } {
 }
 
 proc ::htext::resetToggleVar { w hideVar} {
+    if {![info exists ::htext::hideVarValue($w)]} {
+        set ::htext::hideVarValue($w) {}
+    }
     set i [llength $::htext::hideVarValue($w)]
     while { $i > 0 } {
         incr i -1
-        toggleHideVar $w $i $hideVar
+        if {$i >= 0 && $i < [llength $::htext::hideVarValue($w)]} {
+            toggleHideVar $w $i $hideVar
+        }
     }
 }
 
 proc ::htext::toggleHideVar { w n {hv ""}} {
-    lassign [$w tag nextrange toggle$n 1.0] start end
+    if {[catch {$w tag nextrange toggle$n 1.0} range]} {
+        return
+    }
+    lassign $range start end
+    if {$start eq "" || $end eq ""} {
+        return
+    }
     if { $hv eq "" } {
-        set hv [expr - [$w tag cget var$n -elide] + 1 ];
+        if {[catch {$w tag cget var$n -elide} elideVal]} {
+            return
+        }
+        set hv [expr - $elideVal + 1]
     }
     $w tag configure var$n -elide $hv
     $w configure -state normal
@@ -634,5 +648,8 @@ proc ::htext::toggleHideVar { w n {hv ""}} {
     $w tag configure var$n -elide $hv
     $w tag add toggle$n $start $end
     $w configure -state disabled
+    if {![info exists ::htext::hideVarValue($w)]} {
+        set ::htext::hideVarValue($w) {}
+    }
     set ::htext::hideVarValue($w) [lreplace $::htext::hideVarValue($w) $n $n $hv]
 }

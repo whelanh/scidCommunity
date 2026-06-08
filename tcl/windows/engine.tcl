@@ -853,7 +853,7 @@ proc ::enginewin::updateDisplay {id msgData} {
     $pv_lines configure -state disabled
 
     # Extract best move (UCI format) from raw PV for arrow display
-    set best_move [string range $pv 0 3]
+    set best_move [lindex [split $pv] 0]
 
     # show bestmove for first three multipv
     if {$line < 4 && ![::enginewin::stateLocked $id]} {

@@ -63,12 +63,12 @@ namespace eval ::pgnviewer {
         return $ret
     }
     proc ::pgnviewer::GotoScoreMove {w xc} {
-        set n [string index $w 3]
+        regexp {^\.pv(\d+)} $w -> n
         set x [expr round([::utils::graph::xunmap score$n $xc] * 2 + 0.5) ]
         ::pgnviewer::update .pv$n $n [lindex $::pgnviewer::_evalMove($n) $x]
     }
     proc ::pgnviewer::ScorePopupEval {w mc xc yc} {
-        set n [string index $w 3]
+        regexp {^\.pv(\d+)} $w -> n
         set x [expr round([::utils::graph::xunmap score$n $mc] * 2 + 0.5) ]
         if { $x <= 0 || $x >= [llength $::pgnviewer::_evalMove($n)] } return
         set move [lindex $::pgnviewer::_game($n) [lindex $::pgnviewer::_evalMove($n) $x]]

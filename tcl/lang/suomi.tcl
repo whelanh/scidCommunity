@@ -699,7 +699,7 @@ translate U TitleFilterGraph "Scid: graafi"
 translate U WinPct "voitto %"
 translate U GraphLine "Viivakaavio"
 translate U GraphBar "Pylväsdiagrammi"
-translate U GraphPopup "Popup Board"
+translate U GraphPopup "Ponnahduslauta"
 translate U PgnVarClose {Sulje kaikki versiot}
 translate U PgnVarOpen {Avaa kaikki versiot}
 translate U PgnEvaluate {Arvioida}
@@ -1473,7 +1473,7 @@ translate U compCanceledGames {Peruutetut tai aikakatkaistut pelit:}
 translate U Replay {Uusinta}
 translate U compStart {Aloita}
 translate U compSave {Tallenna jokaisen pelin jälkeen}
-translate U compStop {Pysäytä toiminnan päätyttyä. peli}
+translate U compStop {Pysäytä pelin päätyttyä}
 translate U compRunning {Turnaus käynnissä}
 translate U Restart {Käynnistä uudelleen}
 translate U compFinished {Turnaus päättynyt}

@@ -1541,9 +1541,7 @@ proc ::tools::graphs::score::Popup {w positionLongStr textleft textright xc yc {
     lassign $positionLongStr pos lastmove
     catch { ::board::update $w.bd $pos }
 
-    if {$lastmove ne ""} {
-      ::board::lastMoveHighlight $w.bd $lastmove
-    }
+    ::board::lastMoveHighlight $w.bd $lastmove
     # Make sure the popup window can fit on the screen:
     set screen_w [winfo vrootwidth $w]
     set screen_h [winfo vrootheight $w]

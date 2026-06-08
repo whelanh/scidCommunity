@@ -503,14 +503,14 @@ proc ::board::updateFlag { w name col} {
         set col "W"
     } elseif { [string index $col 0] == "b" } {
         set col "B" } else { return }
-    $w.player${col}.name configure -image ""
+    $w.player${col}.name configure -image "" -compound none
     if { $name eq "" } { return }
     if {[catch {sc_name info -htext $name} pinfo]} { set pinfo ""}
     set found [string first " \[" $pinfo]
     set country ""
     if { $found > 0 } {
         set countryID [string range $pinfo [expr $found - 3] [expr $found - 1]]
-        $w.player${col}.name configure -image [getFlagImage $countryID]
+        $w.player${col}.name configure -image [getFlagImage $countryID] -compound left
     }
 }
 
@@ -1433,7 +1433,7 @@ proc ::board::mark::DrawBestMove {w moveUCI {color "#FF0000"} } {
   } else {
     set from [ ::board::sq [ string range $moveUCI 0 1 ] ]
     set to [ ::board::sq [ string range $moveUCI 2 3 ] ]
-    ::board::mark::DrawArrowEx $w $from $to $color 0.066 {3.6 4.8 2.0} $color
+    ::board::mark::DrawArrowEx $w $from $to $color 0.066 {3.6 4.8 2.0} bestmove1
   }
 }
 

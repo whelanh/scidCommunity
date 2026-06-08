@@ -1432,7 +1432,7 @@ translate H RoundRobin {Round Robin}
 translate H Gauntlet {Páncélkesztyű}
 translate H CompGameNext {Következő meccs:}
 translate H TimeperGame {Játékonkénti idő}
-translate H TimeperMove {Idő per\Mozgás}
+translate H TimeperMove {Idő lépésenként}
 translate H compStoreTime {Tárolási idő:}
 translate H Clock {Óra}
 translate H compConcurrent {Párhuzamos játékok:}
