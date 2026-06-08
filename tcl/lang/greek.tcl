@@ -411,7 +411,6 @@ translate G Hide {Απόκρυψη}
 translate G Import {Εισαγωγή}
 translate G Index {Κατάλογος}
 translate G LoadGame {Φώρτωση παρτίδας}
-translate G BrowseGame {Περιήγηση παρτίδας}
 translate G PgnOpenInViewer {Άνοιγμα στο PGN Viewer}
 translate G MergeGame {Συνένωση παρτίδας}
 translate G MergeGames {Συνένωση παρτίδων}

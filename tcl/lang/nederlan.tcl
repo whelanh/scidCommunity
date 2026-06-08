@@ -408,7 +408,6 @@ translate N Hide {Verbergen}
 translate N Import {Importeren}
 translate N Index {Index}
 translate N LoadGame {Partij laden}
-translate N BrowseGame {Door de partij bladeren}
 translate N PgnOpenInViewer {Openen in PGN-viewer}
 translate N MergeGame {Partij Samenvoegen}
 translate N MergeGames {Voeg Partijen Samen}

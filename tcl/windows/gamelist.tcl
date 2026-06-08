@@ -1408,8 +1408,6 @@ proc glist.popupmenu_ {{w} {x} {y} {abs_x} {abs_y} {layout}} {
            -command "::file::SwitchToBase $::glistBase($w) 0; ::game::Load $idx $ply"
         $w.game_menu add command -label [tr PgnOpenInViewer] \
            -command "::pgnviewer::new $::glistBase($w) $idx $ply"
-        $w.game_menu add command -label $::tr(BrowseGame) \
-           -command "::gbrowser::new $::glistBase($w) $idx $ply"
         $w.game_menu add command -label $::tr(MergeGame) \
            -command "mergeGame $::glistBase($w) $idx"
       }

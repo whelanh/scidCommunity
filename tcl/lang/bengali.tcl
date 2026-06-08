@@ -379,7 +379,6 @@ translate b Hide {লুকান}
 translate b Import {আমদানি}
 translate b Index {সূচক}
 translate b LoadGame {লোড গেম}
-translate b BrowseGame {খেলা ব্রাউজ করুন}
 translate b PgnOpenInViewer {PGN ভিউয়ারে খুলুন}
 translate b MergeGame {গেম মার্জ করুন}
 translate b MergeGames {গেম মার্জ করুন}

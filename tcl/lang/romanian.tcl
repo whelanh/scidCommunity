@@ -420,7 +420,6 @@ translate L Hide {Ascunde}
 translate L Import {Import}
 translate L Index {Index}
 translate L LoadGame {Încărcați jocul}
-translate L BrowseGame {Răsfoiește jocul}
 translate L PgnOpenInViewer {Deschideți în PGN Viewer}
 translate L MergeGame {Merge Game}
 translate L MergeGames {Jocuri de îmbinare}

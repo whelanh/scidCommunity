@@ -419,7 +419,6 @@ translate E Hide {Hide}
 translate E Import {Import}
 translate E Index {Index}
 translate E LoadGame {Load Game}
-translate E BrowseGame {Browse Game}
 translate E PgnOpenInViewer {Open in PGN Viewer}
 translate E MergeGame {Merge Game}
 translate E MergeGames {Merge Games}

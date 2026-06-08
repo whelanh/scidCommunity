@@ -389,7 +389,6 @@ translate O Hide {Gjemme}
 translate O Import {Importer}
 translate O Index {Innhold}
 translate O LoadGame {Hent parti}
-translate O BrowseGame {Bla gjennom parti}
 translate O PgnOpenInViewer {Åpne i PGN Viewer}
 translate O MergeGame {Smelt parti}
 translate O MergeGames {Slå sammen spill}

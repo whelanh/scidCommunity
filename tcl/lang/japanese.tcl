@@ -420,7 +420,6 @@ translate A Hide {隠れる}
 translate A Import {インポート}
 translate A Index {索引}
 translate A LoadGame {ゲームをロードする}
-translate A BrowseGame {ブラウズゲーム}
 translate A PgnOpenInViewer {PGN ビューアで開く}
 translate A MergeGame {マージゲーム}
 translate A MergeGames {ゲームをマージする}

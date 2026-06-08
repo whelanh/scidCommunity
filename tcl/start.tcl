@@ -265,7 +265,6 @@ foreach ns {
   ::bookmarks
   ::edit
   ::game
-  ::gbrowser
   ::search
   ::search::filter ::search::board ::search::header ::search::material
   ::windows
@@ -950,7 +949,6 @@ file/maint.tcl
 edit.tcl
 game.tcl
 windows.tcl
-windows/browser.tcl
 windows/gamelist.tcl
 windows/pgn.tcl
 windows/preferences.tcl

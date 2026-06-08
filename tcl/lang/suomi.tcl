@@ -418,7 +418,6 @@ translate U Hide {Piilota}
 translate U Import {Tuo}
 translate U Index {Hakemisto}
 translate U LoadGame {Lataa peli}
-translate U BrowseGame {Selaa peliä}
 translate U PgnOpenInViewer {Avaa PGN Viewerissa}
 translate U MergeGame {Yhdistä peli}
 translate U MergeGames {Yhdistä pelit}

@@ -420,7 +420,6 @@ translate J Hide {Сакриј се}
 translate J Import {Увоз}
 translate J Index {Индекс}
 translate J LoadGame {Лоад Гаме}
-translate J BrowseGame {Бровсе Гаме}
 translate J PgnOpenInViewer {Отворите у ПГН Виевер-у}
 translate J MergeGame {Игра спајања}
 translate J MergeGames {Мерге Гамес}

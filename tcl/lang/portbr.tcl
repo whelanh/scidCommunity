@@ -388,7 +388,6 @@ translate B Hide {Ocultar}
 translate B Import {Importar}
 translate B Index {Índice}
 translate B LoadGame {Carrega jogo}
-translate B BrowseGame {Listar jogo}
 translate B PgnOpenInViewer {Abrir no visualizador PGN}
 translate B MergeGame {Fazer fusão do jogo}
 translate B MergeGames {Fusão dos jogos}

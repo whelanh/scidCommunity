@@ -420,7 +420,6 @@ translate g Hide {Скрий се}
 translate g Import {Импортиране}
 translate g Index {Индекс}
 translate g LoadGame {Зареждане на играта}
-translate g BrowseGame {Преглед на играта}
 translate g PgnOpenInViewer {Отворете в PGN Viewer}
 translate g MergeGame {Игра за сливане}
 translate g MergeGames {Обединяване на игри}

@@ -386,7 +386,6 @@ translate R Hide {закрытие}
 translate R Import {Импорт}
 translate R Index {Индекс}
 translate R LoadGame {Загрузка партии}
-translate R BrowseGame {Просмотр партии}
 translate R PgnOpenInViewer {Открыть в программе просмотра PGN}
 translate R MergeGame {Объединение партий}
 translate R MergeGames {Объединение партий}

@@ -377,7 +377,7 @@ proc ::htext::display {w helptext {section ""} {fixed 1} {baseId ""} {showDiagra
         set glCommand "::game::LoadMenu $w $useBase $gnum %X %Y"
         $w tag bind $gameTag <ButtonPress-1> $glCommand
         $w tag bind $gameTag <ButtonPress-$::MB3> \
-            "::gbrowser::new $useBase $gnum"
+            "::pgnviewer::new $useBase $gnum"
         $w tag bind $gameTag <Any-Enter> \
             "$w tag configure $gameTag -foreground white
              $w tag configure $gameTag -background DodgerBlue4

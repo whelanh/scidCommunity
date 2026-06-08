@@ -395,7 +395,6 @@ translate F Hide {Cacher}
 translate F Import {Importer}
 translate F Index {Index}
 translate F LoadGame {Charger cette partie}
-translate F BrowseGame {Explorer la partie dans une fenêtre séparée}
 translate F PgnOpenInViewer {Ouvrir dans la visionneuse PGN}
 translate F MergeGame {Fusionner la partie comme variante}
 translate F MergeGames {Fusionner les parties}

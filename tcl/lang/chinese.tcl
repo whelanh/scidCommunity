@@ -355,7 +355,6 @@ translate M Hide {隐藏}
 translate M Import {导入}
 translate M Index {索引}
 translate M LoadGame {Load Game}
-translate M BrowseGame {Browse Game}
 translate M PgnOpenInViewer {在 PGN 查看器中打开}
 translate M MergeGame {Merge Game}
 translate M MergeGames {Merge Games}

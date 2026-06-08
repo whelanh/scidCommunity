@@ -380,7 +380,6 @@ translate V Hide {לְהַסתִיר}
 translate V Import {יְבוּא}
 translate V Index {מַדָד}
 translate V LoadGame {טען משחק}
-translate V BrowseGame {עיון במשחק}
 translate V PgnOpenInViewer {פתח ב-PGN Viewer}
 translate V MergeGame {משחק מיזוג}
 translate V MergeGames {מיזוג משחקים}

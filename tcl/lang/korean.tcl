@@ -420,7 +420,6 @@ translate k Hide {숨다}
 translate k Import {가져오다}
 translate k Index {색깔}
 translate k LoadGame {게임로드}
-translate k BrowseGame {게임 찾아보기}
 translate k PgnOpenInViewer {PGN 뷰어에서 열기}
 translate k MergeGame {긴급 경기}
 translate k MergeGames {긴급 경기}

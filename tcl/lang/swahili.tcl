@@ -379,7 +379,6 @@ translate Z Hide {Ficha}
 translate Z Import {Ingiza}
 translate Z Index {Kielezo}
 translate Z LoadGame {Mchezo wa Kupakia}
-translate Z BrowseGame {Vinjari Mchezo}
 translate Z PgnOpenInViewer {Fungua katika Kitazamaji cha PGN}
 translate Z MergeGame {Unganisha Mchezo}
 translate Z MergeGames {Unganisha Michezo}
