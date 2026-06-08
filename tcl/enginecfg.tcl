@@ -139,7 +139,7 @@ proc ::enginecfg::dlgNewLocal {} {
     set fName [tk_getOpenFile -initialdir $::scidEnginesDir -filetypes $ftype]
     if {$fName eq ""} { return "" }
     set ::scidEnginesDir [file dirname $fName]
-    return [::enginecfg::add [list $fName $fName {} {} {} 0 {} {} {}]]
+    return [::enginecfg::add [list $fName $fName {} {} {} 0 {} 1 {}]]
 }
 
 # Pop up a dialog box for the user to enter the url of a remote engine

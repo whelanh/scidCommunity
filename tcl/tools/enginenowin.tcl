@@ -90,7 +90,7 @@ proc ::engineNoWin::initEngineOptions {id w options} {
 }
 
 proc ::engineNoWin::saveEngineSetup { id } {
-    upvar ::enginecfg::engConfig_$id engConfig_
+    if { ![info exists ::enginecfg::engConfig_$id] } { return }
     ::enginecfg::save [set ::enginecfg::engConfig_$id]
 }
 
