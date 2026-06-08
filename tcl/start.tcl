@@ -973,6 +973,8 @@ tools/import.tcl
 tools/optable.tcl
 tools/preport.tcl
 tools/pinfo.tcl
+tools/enginenowin.tcl
+tools/enginelist.tcl
 tools/analysis.tcl
 tools/wbdetect.tcl
 tools/graphs.tcl
@@ -994,7 +996,6 @@ tools/lichess_eval.tcl
 tools/lichess_openex.tcl
 tools/auto_comment.tcl
 tools/analysis_auto_comment.tcl
-tools/enginenowin.tcl
 tools/multicomp.tcl
 end.tcl
 tools/tacgame.tcl
