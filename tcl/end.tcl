@@ -1007,6 +1007,7 @@ proc helpAbout {} {
   append str "Copyright (C) 2008-2011 Alexander Wagner\n"
   append str "Copyright (C) 2011 Gerd Lorscheid\n"
   append str "Copyright (C) 2009-2026 Fulvio Benini\n"
+  append str "Copyright (C) 2018-2026 Uwe Klimmek\n"
   append str "Copyright (C) 2025-2026 Hugh Whelan\n"
   append str "\nhttps://github.com/whelanh/scidCommunity\n"
   append str "\nscidCommunity is licenced under the\n"

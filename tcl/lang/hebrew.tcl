@@ -381,6 +381,7 @@ translate V Import {יְבוּא}
 translate V Index {מַדָד}
 translate V LoadGame {טען משחק}
 translate V BrowseGame {עיון במשחק}
+translate V PgnOpenInViewer {פתח ב-PGN Viewer}
 translate V MergeGame {משחק מיזוג}
 translate V MergeGames {מיזוג משחקים}
 translate V Preview {תצוגה מקדימה}
@@ -658,6 +659,21 @@ translate V ConfigureFilter "הגדר את צירי X עבור שנה, דירו�
 translate V FilterEstimate "לְהַעֲרִיך"
 translate V TitleFilterGraph "Scid: גרף מסנן"
 translate V WinPct "ניצחון %"
+translate V GraphLine "תרשים קווים"
+translate V GraphBar "תרשים עמודות"
+translate V GraphPopup "לוח קופצים"
+translate V PgnVarClose {סגור את כל הגרסאות}
+translate V PgnVarOpen {פתח את כל הגרסאות}
+translate V PgnEvaluate {לְהַעֲרִיך}
+translate V PgnSaveEval {שמור הערכה}
+translate V PgnOptShort "כותרת קצרה (3 שורות)."
+translate V PgnOptSymbols "הערות סמליות"
+translate V PgnOptIndentC "הערות לכניסה"
+translate V PgnOptIndentV "וריאציות כניסה"
+translate V PgnOptColumn "סגנון עמודה (מהלך אחד בכל שורה)"
+translate V PgnOptSpace "רווח לאחר מספרי תנועה"
+translate V PgnOptStripMarks "הסר קודי ריבוע/חץ צבעוני"
+translate V PgnOptBoldMainLine "השתמש בטקסט מודגש עבור מהלכי קו ראשי"
 
 # Analysis window:
 translate V AddVariation {הוסף וריאציה}
@@ -1383,106 +1399,33 @@ translate V RecentFilesExtra {מספר הקבצים האחרונים בתפרי�
 
 # My Player Names options:
 translate V MyPlayerNamesDescription {הזן רשימה של שמות שחקנים מועדפים למטה, שם אחד בכל שורה. תווים כלליים (למשל "?" עבור כל תו בודד, "*" עבור כל רצף של תווים) מותרים.
-# ====== TODO To be translated ======
-translate V configComp {הגדר את הטורניר}
-# ====== TODO To be translated ======
-translate V Tournament {טוּרנִיר}
-# ====== TODO To be translated ======
-translate V Available {זָמִין}
-# ====== TODO To be translated ======
-translate V Selected {נִבחָר}
-# ====== TODO To be translated ======
-translate V RoundRobin {רובין עגול}
-# ====== TODO To be translated ======
-translate V Gauntlet {כְּפָפַת שִׁריוֹן}
-# ====== TODO To be translated ======
-translate V CompGameNext {המשחק הבא:}
-# ====== TODO To be translated ======
-translate V TimeperGame {זמן ל\משחק}
-# ====== TODO To be translated ======
-translate V TimeperMove {זמן לכל תנועה}
-# ====== TODO To be translated ======
-translate V compStoreTime {זמן חנות:}
-# ====== TODO To be translated ======
-translate V Clock {שָׁעוֹן}
-# ====== TODO To be translated ======
-translate V compConcurrent {משחקים במקביל:}
-# ====== TODO To be translated ======
-translate V compShowBoards {הצג לוחות}
-# ====== TODO To be translated ======
-translate V compCarousel {מערכת קרוסלה}
-# ====== TODO To be translated ======
-translate V compSaveEval {שמור הערכה}
-# ====== TODO To be translated ======
-translate V compCanceledGames {משחקים שבוטלו או פג פסק זמן:}
-# ====== TODO To be translated ======
-translate V Replay {מִשְׂחָק חוֹזֵר}
-# ====== TODO To be translated ======
-translate V compStart {הַתחָלָה}
-# ====== TODO To be translated ======
-translate V compSave {שמור אחרי כל משחק}
-# ====== TODO To be translated ======
-translate V compStop {עצור לאחר סיום המעשה. מִשְׂחָק}
-# ====== TODO To be translated ======
-translate V compRunning {הטורניר בעיצומו}
-# ====== TODO To be translated ======
-translate V Restart {הפעל מחדש}
-# ====== TODO To be translated ======
-translate V compFinished {הטורניר הסתיים}
-# ====== TODO To be translated ======
-translate V compStopped {הטורניר הופסק}
-
 בכל פעם שמשחק עם שחקן ברשימה נטען, לוח השחמט של החלון הראשי יסובב במידת הצורך כדי להציג את המשחק מנקודת המבט של השחקן הזה.}
 
 # Computer Tournament:
-# MISSING TRANSLATION for configComp:
-# translate E configComp {Configure Tournament}
-# MISSING TRANSLATION for Tournament:
-# translate E Tournament {Tournament}
-# MISSING TRANSLATION for Available:
-# translate E Available {Available}
-# MISSING TRANSLATION for Selected:
-# translate E Selected {Selected}
-# MISSING TRANSLATION for RoundRobin:
-# translate E RoundRobin {Round Robin}
-# MISSING TRANSLATION for Gauntlet:
-# translate E Gauntlet {Gauntlet}
-# MISSING TRANSLATION for CompGameNext:
-# translate E CompGameNext {Next game:}
-# MISSING TRANSLATION for TimeperGame:
-# translate E TimeperGame {Time per\nGame}
-# MISSING TRANSLATION for TimeperMove:
-# translate E TimeperMove {Time per\nMove}
-# MISSING TRANSLATION for compStoreTime:
-# translate E compStoreTime {Store Time: }
-# MISSING TRANSLATION for Clock:
-# translate E Clock {Clock}
-# MISSING TRANSLATION for compConcurrent:
-# translate E compConcurrent {Concurrent games: }
-# MISSING TRANSLATION for compShowBoards:
-# translate E compShowBoards {Show Boards}
-# MISSING TRANSLATION for compCarousel:
-# translate E compCarousel {Carousel system}
-# MISSING TRANSLATION for compSaveEval:
-# translate E compSaveEval {Save evaluation}
-# MISSING TRANSLATION for compCanceledGames:
-# translate E compCanceledGames {Canceled or timed out games:}
-# MISSING TRANSLATION for Replay:
-# translate E Replay {Replay}
-# MISSING TRANSLATION for compStart:
-# translate E compStart {Start}
-# MISSING TRANSLATION for compSave:
-# translate E compSave {Save after every game}
-# MISSING TRANSLATION for compStop:
-# translate E compStop {Stop after end\nof act. game}
-# MISSING TRANSLATION for compRunning:
-# translate E compRunning {Tournament in progress}
-# MISSING TRANSLATION for Restart:
-# translate E Restart {Restart}
-# MISSING TRANSLATION for compFinished:
-# translate E compFinished {Tournament finished}
-# MISSING TRANSLATION for compStopped:
-# translate E compStopped {Tournament stopped}
+translate V configComp {הגדר את הטורניר}
+translate V Tournament {טוּרנִיר}
+translate V Available {זָמִין}
+translate V Selected {נִבחָר}
+translate V RoundRobin {רובין עגול}
+translate V Gauntlet {כְּפָפַת שִׁריוֹן}
+translate V CompGameNext {המשחק הבא:}
+translate V TimeperGame {זמן ל\משחק}
+translate V TimeperMove {זמן לכל תנועה}
+translate V compStoreTime {זמן חנות:}
+translate V Clock {שָׁעוֹן}
+translate V compConcurrent {משחקים במקביל:}
+translate V compShowBoards {הצג לוחות}
+translate V compCarousel {מערכת קרוסלה}
+translate V compSaveEval {שמור הערכה}
+translate V compCanceledGames {משחקים שבוטלו או פג פסק זמן:}
+translate V Replay {מִשְׂחָק חוֹזֵר}
+translate V compStart {הַתחָלָה}
+translate V compSave {שמור אחרי כל משחק}
+translate V compStop {עצור לאחר סיום המעשה. מִשְׂחָק}
+translate V compRunning {הטורניר בעיצומו}
+translate V Restart {הפעל מחדש}
+translate V compFinished {הטורניר הסתיים}
+translate V compStopped {הטורניר הופסק}
 
 #Coach
 translate V showblunderexists {להראות טעות קיימת}

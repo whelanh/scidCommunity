@@ -421,6 +421,7 @@ translate g Import {Импортиране}
 translate g Index {Индекс}
 translate g LoadGame {Зареждане на играта}
 translate g BrowseGame {Преглед на играта}
+translate g PgnOpenInViewer {Отворете в PGN Viewer}
 translate g MergeGame {Игра за сливане}
 translate g MergeGames {Обединяване на игри}
 translate g Preview {Преглед}
@@ -698,6 +699,21 @@ translate g ConfigureFilter "Конфигурирайте X-оси за годи
 translate g FilterEstimate "Оценка"
 translate g TitleFilterGraph "Scid: Филтърна графика"
 translate g WinPct "печалба %"
+translate g GraphLine "Линейна диаграма"
+translate g GraphBar "Стълбовидна диаграма"
+translate g GraphPopup "Изскачаща дъска"
+translate g PgnVarClose {Затворете всички варианти}
+translate g PgnVarOpen {Отворете всички варианти}
+translate g PgnEvaluate {Оценете}
+translate g PgnSaveEval {Запазване на оценката}
+translate g PgnOptShort "Кратко (3-редово) заглавие"
+translate g PgnOptSymbols "Символни анотации"
+translate g PgnOptIndentC "Отстъп на коментарите"
+translate g PgnOptIndentV "Вариации на отстъпа"
+translate g PgnOptColumn "Стил на колона (едно движение на ред)"
+translate g PgnOptSpace "Интервал след числата за преместване"
+translate g PgnOptStripMarks "Отстранете кодовете на цветни квадратчета/стрелки"
+translate g PgnOptBoldMainLine "Използвайте получер текст за ходове на основната линия"
 
 # Analysis window:
 translate g AddVariation {Добавете вариация}
@@ -1423,106 +1439,33 @@ translate g RecentFilesExtra {Брой скорошни файлове в доп
 
 # My Player Names options:
 translate g MyPlayerNamesDescription {Въведете списък с предпочитани имена на играчи по-долу, по едно име на ред. Заместващи символи (напр. „?“ за всеки отделен знак, „*“ за всяка последователност от знаци) са разрешени.
-# ====== TODO To be translated ======
-translate g configComp {Конфигуриране на турнира}
-# ====== TODO To be translated ======
-translate g Tournament {Турнир}
-# ====== TODO To be translated ======
-translate g Available {Наличен}
-# ====== TODO To be translated ======
-translate g Selected {Избрано}
-# ====== TODO To be translated ======
-translate g RoundRobin {Round Robin}
-# ====== TODO To be translated ======
-translate g Gauntlet {Ръкавица}
-# ====== TODO To be translated ======
-translate g CompGameNext {Следваща игра:}
-# ====== TODO To be translated ======
-translate g TimeperGame {Време за\игра}
-# ====== TODO To be translated ======
-translate g TimeperMove {Време на ход}
-# ====== TODO To be translated ======
-translate g compStoreTime {Време за съхранение:}
-# ====== TODO To be translated ======
-translate g Clock {Часовник}
-# ====== TODO To be translated ======
-translate g compConcurrent {Едновременни игри:}
-# ====== TODO To be translated ======
-translate g compShowBoards {Показване на табла}
-# ====== TODO To be translated ======
-translate g compCarousel {Каруселна система}
-# ====== TODO To be translated ======
-translate g compSaveEval {Запазване на оценката}
-# ====== TODO To be translated ======
-translate g compCanceledGames {Отменени или изтекли игри:}
-# ====== TODO To be translated ======
-translate g Replay {Повторение}
-# ====== TODO To be translated ======
-translate g compStart {Започнете}
-# ====== TODO To be translated ======
-translate g compSave {Запазване след всяка игра}
-# ====== TODO To be translated ======
-translate g compStop {Спрете след края\на акта. игра}
-# ====== TODO To be translated ======
-translate g compRunning {Турнирът е в ход}
-# ====== TODO To be translated ======
-translate g Restart {Рестартирайте}
-# ====== TODO To be translated ======
-translate g compFinished {Турнирът приключи}
-# ====== TODO To be translated ======
-translate g compStopped {Турнирът спря}
-
 Всеки път, когато се зареди игра с играч в списъка, шахматната дъска на главния прозорец ще се завърти, ако е необходимо, за да се покаже играта от гледна точка на този играч.}
 
 # Computer Tournament:
-# MISSING TRANSLATION for configComp:
-# translate E configComp {Configure Tournament}
-# MISSING TRANSLATION for Tournament:
-# translate E Tournament {Tournament}
-# MISSING TRANSLATION for Available:
-# translate E Available {Available}
-# MISSING TRANSLATION for Selected:
-# translate E Selected {Selected}
-# MISSING TRANSLATION for RoundRobin:
-# translate E RoundRobin {Round Robin}
-# MISSING TRANSLATION for Gauntlet:
-# translate E Gauntlet {Gauntlet}
-# MISSING TRANSLATION for CompGameNext:
-# translate E CompGameNext {Next game:}
-# MISSING TRANSLATION for TimeperGame:
-# translate E TimeperGame {Time per\nGame}
-# MISSING TRANSLATION for TimeperMove:
-# translate E TimeperMove {Time per\nMove}
-# MISSING TRANSLATION for compStoreTime:
-# translate E compStoreTime {Store Time: }
-# MISSING TRANSLATION for Clock:
-# translate E Clock {Clock}
-# MISSING TRANSLATION for compConcurrent:
-# translate E compConcurrent {Concurrent games: }
-# MISSING TRANSLATION for compShowBoards:
-# translate E compShowBoards {Show Boards}
-# MISSING TRANSLATION for compCarousel:
-# translate E compCarousel {Carousel system}
-# MISSING TRANSLATION for compSaveEval:
-# translate E compSaveEval {Save evaluation}
-# MISSING TRANSLATION for compCanceledGames:
-# translate E compCanceledGames {Canceled or timed out games:}
-# MISSING TRANSLATION for Replay:
-# translate E Replay {Replay}
-# MISSING TRANSLATION for compStart:
-# translate E compStart {Start}
-# MISSING TRANSLATION for compSave:
-# translate E compSave {Save after every game}
-# MISSING TRANSLATION for compStop:
-# translate E compStop {Stop after end\nof act. game}
-# MISSING TRANSLATION for compRunning:
-# translate E compRunning {Tournament in progress}
-# MISSING TRANSLATION for Restart:
-# translate E Restart {Restart}
-# MISSING TRANSLATION for compFinished:
-# translate E compFinished {Tournament finished}
-# MISSING TRANSLATION for compStopped:
-# translate E compStopped {Tournament stopped}
+translate g configComp {Конфигуриране на турнира}
+translate g Tournament {Турнир}
+translate g Available {Наличен}
+translate g Selected {Избрано}
+translate g RoundRobin {Round Robin}
+translate g Gauntlet {Ръкавица}
+translate g CompGameNext {Следваща игра:}
+translate g TimeperGame {Време за\игра}
+translate g TimeperMove {Време на ход}
+translate g compStoreTime {Време за съхранение:}
+translate g Clock {Часовник}
+translate g compConcurrent {Едновременни игри:}
+translate g compShowBoards {Показване на табла}
+translate g compCarousel {Каруселна система}
+translate g compSaveEval {Запазване на оценката}
+translate g compCanceledGames {Отменени или изтекли игри:}
+translate g Replay {Повторение}
+translate g compStart {Започнете}
+translate g compSave {Запазване след всяка игра}
+translate g compStop {Спрете след края\на акта. игра}
+translate g compRunning {Турнирът е в ход}
+translate g Restart {Рестартирайте}
+translate g compFinished {Турнирът приключи}
+translate g compStopped {Турнирът спря}
 
 #Coach
 translate g showblunderexists {покажете, че гафът съществува}

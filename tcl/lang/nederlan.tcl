@@ -409,6 +409,7 @@ translate N Import {Importeren}
 translate N Index {Index}
 translate N LoadGame {Partij laden}
 translate N BrowseGame {Door de partij bladeren}
+translate N PgnOpenInViewer {Openen in PGN-viewer}
 translate N MergeGame {Partij Samenvoegen}
 translate N MergeGames {Voeg Partijen Samen}
 translate N Preview {Proefbeeld}
@@ -687,6 +688,21 @@ translate N ConfigureFilter {Configureer de X-as voor Jaar, Elo en Zetten}
 translate N FilterEstimate "Schat"
 translate N TitleFilterGraph "Scid: Filtergrafiek"
 translate N WinPct "Win%"
+translate N GraphLine "Lijndiagram"
+translate N GraphBar "Staafdiagram"
+translate N GraphPopup "Pop-upbord"
+translate N PgnVarClose {Sluit alle varianten}
+translate N PgnVarOpen {Open alle varianten}
+translate N PgnEvaluate {Evalueer}
+translate N PgnSaveEval {Evaluatie opslaan}
+translate N PgnOptShort "Korte koptekst (3 regels)."
+translate N PgnOptSymbols "Symbolische annotaties"
+translate N PgnOptIndentC "Opmerkingen inspringen"
+translate N PgnOptIndentV "Variaties inspringen"
+translate N PgnOptColumn "Kolomstijl (één zet per regel)"
+translate N PgnOptSpace "Spatie na zetnummers"
+translate N PgnOptStripMarks "Verwijder de gekleurde vierkant-/pijlcodes"
+translate N PgnOptBoldMainLine "Gebruik vetgedrukte tekst voor hoofdlijnverplaatsingen"
 
 # Analysis window:
 translate N AddVariation {Toevoegen variant}
@@ -1428,106 +1444,34 @@ translate N RecentFilesExtra {Aantal recente bestand in extra submenu}
 
 # My Player Names options:
 translate N MyPlayerNamesDescription {Voeg hieronder een lijst met voorkeur spelernamen in, 1 speler per regel. Jokers (bvb "?" voor elke letter, "*" voor een reeks letters) zijn toegelaten.
-# ====== TODO To be translated ======
-translate N configComp {Toernooi configureren}
-# ====== TODO To be translated ======
-translate N Tournament {Toernooi}
-# ====== TODO To be translated ======
-translate N Available {Beschikbaar}
-# ====== TODO To be translated ======
-translate N Selected {Gekozen}
-# ====== TODO To be translated ======
-translate N RoundRobin {Ronde Robin}
-# ====== TODO To be translated ======
-translate N Gauntlet {Handschoen}
-# ====== TODO To be translated ======
-translate N CompGameNext {Volgende spel:}
-# ====== TODO To be translated ======
-translate N TimeperGame {Tijd per\spel}
-# ====== TODO To be translated ======
-translate N TimeperMove {Tijd per\Verplaatsing}
-# ====== TODO To be translated ======
-translate N compStoreTime {Winkeltijd:}
-# ====== TODO To be translated ======
-translate N Clock {Klok}
-# ====== TODO To be translated ======
-translate N compConcurrent {Gelijktijdige spellen:}
-# ====== TODO To be translated ======
-translate N compShowBoards {Borden tonen}
-# ====== TODO To be translated ======
-translate N compCarousel {Carrousel systeem}
-# ====== TODO To be translated ======
-translate N compSaveEval {Evaluatie opslaan}
-# ====== TODO To be translated ======
-translate N compCanceledGames {Geannuleerde of time-out wedstrijden:}
-# ====== TODO To be translated ======
-translate N Replay {Opnieuw afspelen}
-# ====== TODO To be translated ======
-translate N compStart {Begin}
-# ====== TODO To be translated ======
-translate N compSave {Bewaar na elk spel}
-# ====== TODO To be translated ======
-translate N compStop {Stop na einde\van actie. spel}
-# ====== TODO To be translated ======
-translate N compRunning {Toernooi in uitvoering}
-# ====== TODO To be translated ======
-translate N Restart {Opnieuw opstarten}
-# ====== TODO To be translated ======
-translate N compFinished {Toernooi afgelopen}
-# ====== TODO To be translated ======
-translate N compStopped {Toernooi gestopt}
 Telkens een partij uit de lijst word geladen, zal het schaakbord worden gedraaid indien nodig om de partij vanuit die speler zijn perspektief te tonen.
 } ;
 
 # Computer Tournament:
-# MISSING TRANSLATION for configComp:
-# translate E configComp {Configure Tournament}
-# MISSING TRANSLATION for Tournament:
-# translate E Tournament {Tournament}
-# MISSING TRANSLATION for Available:
-# translate E Available {Available}
-# MISSING TRANSLATION for Selected:
-# translate E Selected {Selected}
-# MISSING TRANSLATION for RoundRobin:
-# translate E RoundRobin {Round Robin}
-# MISSING TRANSLATION for Gauntlet:
-# translate E Gauntlet {Gauntlet}
-# MISSING TRANSLATION for CompGameNext:
-# translate E CompGameNext {Next game:}
-# MISSING TRANSLATION for TimeperGame:
-# translate E TimeperGame {Time per\nGame}
-# MISSING TRANSLATION for TimeperMove:
-# translate E TimeperMove {Time per\nMove}
-# MISSING TRANSLATION for compStoreTime:
-# translate E compStoreTime {Store Time: }
-# MISSING TRANSLATION for Clock:
-# translate E Clock {Clock}
-# MISSING TRANSLATION for compConcurrent:
-# translate E compConcurrent {Concurrent games: }
-# MISSING TRANSLATION for compShowBoards:
-# translate E compShowBoards {Show Boards}
-# MISSING TRANSLATION for compCarousel:
-# translate E compCarousel {Carousel system}
-# MISSING TRANSLATION for compSaveEval:
-# translate E compSaveEval {Save evaluation}
-# MISSING TRANSLATION for compCanceledGames:
-# translate E compCanceledGames {Canceled or timed out games:}
-# MISSING TRANSLATION for Replay:
-# translate E Replay {Replay}
-# MISSING TRANSLATION for compStart:
-# translate E compStart {Start}
-# MISSING TRANSLATION for compSave:
-# translate E compSave {Save after every game}
-# MISSING TRANSLATION for compStop:
-# translate E compStop {Stop after end\nof act. game}
-# MISSING TRANSLATION for compRunning:
-# translate E compRunning {Tournament in progress}
-# MISSING TRANSLATION for Restart:
-# translate E Restart {Restart}
-# MISSING TRANSLATION for compFinished:
-# translate E compFinished {Tournament finished}
-# MISSING TRANSLATION for compStopped:
-# translate E compStopped {Tournament stopped}
+translate N configComp {Toernooi configureren}
+translate N Tournament {Toernooi}
+translate N Available {Beschikbaar}
+translate N Selected {Gekozen}
+translate N RoundRobin {Ronde Robin}
+translate N Gauntlet {Handschoen}
+translate N CompGameNext {Volgende spel:}
+translate N TimeperGame {Tijd per\spel}
+translate N TimeperMove {Tijd per\Verplaatsing}
+translate N compStoreTime {Winkeltijd:}
+translate N Clock {Klok}
+translate N compConcurrent {Gelijktijdige spellen:}
+translate N compShowBoards {Borden tonen}
+translate N compCarousel {Carrousel systeem}
+translate N compSaveEval {Evaluatie opslaan}
+translate N compCanceledGames {Geannuleerde of time-out wedstrijden:}
+translate N Replay {Opnieuw afspelen}
+translate N compStart {Begin}
+translate N compSave {Bewaar na elk spel}
+translate N compStop {Stop na einde\van actie. spel}
+translate N compRunning {Toernooi in uitvoering}
+translate N Restart {Opnieuw opstarten}
+translate N compFinished {Toernooi afgelopen}
+translate N compStopped {Toernooi gestopt}
 
 #Coach
 translate N showblunderexists {toon dat er een blunder is}

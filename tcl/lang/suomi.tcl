@@ -419,6 +419,7 @@ translate U Import {Tuo}
 translate U Index {Hakemisto}
 translate U LoadGame {Lataa peli}
 translate U BrowseGame {Selaa peliä}
+translate U PgnOpenInViewer {Avaa PGN Viewerissa}
 translate U MergeGame {Yhdistä peli}
 translate U MergeGames {Yhdistä pelit}
 translate U Preview {Esikatselu}
@@ -696,6 +697,21 @@ translate U ConfigureFilter "Muokkaa X-akseli; vuosi, vahvuus, siirrot"
 translate U FilterEstimate "Arvioi"
 translate U TitleFilterGraph "Scid: graafi"
 translate U WinPct "voitto %"
+translate U GraphLine "Viivakaavio"
+translate U GraphBar "Pylväsdiagrammi"
+translate U GraphPopup "Popup Board"
+translate U PgnVarClose {Sulje kaikki versiot}
+translate U PgnVarOpen {Avaa kaikki versiot}
+translate U PgnEvaluate {Arvioida}
+translate U PgnSaveEval {Tallenna arviointi}
+translate U PgnOptShort "Lyhyt (3-rivinen) otsikko"
+translate U PgnOptSymbols "Symboliset huomautukset"
+translate U PgnOptIndentC "Sisennä kommentit"
+translate U PgnOptIndentV "Sisennyksen muunnelmat"
+translate U PgnOptColumn "Sarakkeen tyyli (yksi liike riviä kohden)"
+translate U PgnOptSpace "Välilyönti numeroiden siirron jälkeen"
+translate U PgnOptStripMarks "Poista värilliset neliö-/nuolikoodit"
+translate U PgnOptBoldMainLine "Käytä lihavoitua tekstiä päärivin liikkeisiin"
 
 # Analysis window:
 translate U AddVariation {Lisää muunnelma}
@@ -1433,109 +1449,35 @@ translate U RecentFilesMenu {Viimeaikaisten tiedostojen lkm Tiedosto-valikossa}
 translate U RecentFilesExtra {Viimeaikaisten tiedostojen lkm extra-alivalikossa}
 
 # My Player Names options:
-translate U MyPlayerNamesDescription {
-# ====== TODO To be translated ======
-translate U configComp {Määritä turnaus}
-# ====== TODO To be translated ======
-translate U Tournament {Turnaus}
-# ====== TODO To be translated ======
-translate U Available {Saatavilla}
-# ====== TODO To be translated ======
-translate U Selected {Valittu}
-# ====== TODO To be translated ======
-translate U RoundRobin {Round Robin}
-# ====== TODO To be translated ======
-translate U Gauntlet {Gauntlet}
-# ====== TODO To be translated ======
-translate U CompGameNext {Seuraava peli:}
-# ====== TODO To be translated ======
-translate U TimeperGame {Aika per peli}
-# ====== TODO To be translated ======
-translate U TimeperMove {Aika per siirto}
-# ====== TODO To be translated ======
-translate U compStoreTime {Varastoaika:}
-# ====== TODO To be translated ======
-translate U Clock {Kello}
-# ====== TODO To be translated ======
-translate U compConcurrent {Samanaikaiset pelit:}
-# ====== TODO To be translated ======
-translate U compShowBoards {Näytä taulut}
-# ====== TODO To be translated ======
-translate U compCarousel {Karusellijärjestelmä}
-# ====== TODO To be translated ======
-translate U compSaveEval {Tallenna arviointi}
-# ====== TODO To be translated ======
-translate U compCanceledGames {Peruutetut tai aikakatkaistut pelit:}
-# ====== TODO To be translated ======
-translate U Replay {Uusinta}
-# ====== TODO To be translated ======
-translate U compStart {Aloita}
-# ====== TODO To be translated ======
-translate U compSave {Tallenna jokaisen pelin jälkeen}
-# ====== TODO To be translated ======
-translate U compStop {Pysäytä toiminnan päätyttyä. peli}
-# ====== TODO To be translated ======
-translate U compRunning {Turnaus käynnissä}
-# ====== TODO To be translated ======
-translate U Restart {Käynnistä uudelleen}
-# ====== TODO To be translated ======
-translate U compFinished {Turnaus päättynyt}
-# ====== TODO To be translated ======
-translate U compStopped {Turnaus pysähtyi}
-Lisää alle käyttämäsi pelaajanimet, yksi nimi per rivi. Voit käyttää villikortteja (esim. "?" korvaa yksittäisen merkin, "*" korvaa kuinka monta peräkkäistä merkkiä hyvänsä).
-
+translate U MyPlayerNamesDescription {Lisää alle käyttämäsi pelaajanimet, yksi nimi per rivi. Voit käyttää villikortteja (esim. "?" korvaa yksittäisen merkin, "*" korvaa kuinka monta peräkkäistä merkkiä hyvänsä).
 Aina kun Scid lataa pelin, jossa on käyttämäsi pelaajanimi, peli näytetään pelaajan näkökulmasta. Tarvittaessa lauta käännetään niin, että musta pelaa alhaalta ylös.
 }
 
 # Computer Tournament:
-# MISSING TRANSLATION for configComp:
-# translate E configComp {Configure Tournament}
-# MISSING TRANSLATION for Tournament:
-# translate E Tournament {Tournament}
-# MISSING TRANSLATION for Available:
-# translate E Available {Available}
-# MISSING TRANSLATION for Selected:
-# translate E Selected {Selected}
-# MISSING TRANSLATION for RoundRobin:
-# translate E RoundRobin {Round Robin}
-# MISSING TRANSLATION for Gauntlet:
-# translate E Gauntlet {Gauntlet}
-# MISSING TRANSLATION for CompGameNext:
-# translate E CompGameNext {Next game:}
-# MISSING TRANSLATION for TimeperGame:
-# translate E TimeperGame {Time per\nGame}
-# MISSING TRANSLATION for TimeperMove:
-# translate E TimeperMove {Time per\nMove}
-# MISSING TRANSLATION for compStoreTime:
-# translate E compStoreTime {Store Time: }
-# MISSING TRANSLATION for Clock:
-# translate E Clock {Clock}
-# MISSING TRANSLATION for compConcurrent:
-# translate E compConcurrent {Concurrent games: }
-# MISSING TRANSLATION for compShowBoards:
-# translate E compShowBoards {Show Boards}
-# MISSING TRANSLATION for compCarousel:
-# translate E compCarousel {Carousel system}
-# MISSING TRANSLATION for compSaveEval:
-# translate E compSaveEval {Save evaluation}
-# MISSING TRANSLATION for compCanceledGames:
-# translate E compCanceledGames {Canceled or timed out games:}
-# MISSING TRANSLATION for Replay:
-# translate E Replay {Replay}
-# MISSING TRANSLATION for compStart:
-# translate E compStart {Start}
-# MISSING TRANSLATION for compSave:
-# translate E compSave {Save after every game}
-# MISSING TRANSLATION for compStop:
-# translate E compStop {Stop after end\nof act. game}
-# MISSING TRANSLATION for compRunning:
-# translate E compRunning {Tournament in progress}
-# MISSING TRANSLATION for Restart:
-# translate E Restart {Restart}
-# MISSING TRANSLATION for compFinished:
-# translate E compFinished {Tournament finished}
-# MISSING TRANSLATION for compStopped:
-# translate E compStopped {Tournament stopped}
+translate U configComp {Määritä turnaus}
+translate U Tournament {Turnaus}
+translate U Available {Saatavilla}
+translate U Selected {Valittu}
+translate U RoundRobin {Round Robin}
+translate U Gauntlet {Gauntlet}
+translate U CompGameNext {Seuraava peli:}
+translate U TimeperGame {Aika per peli}
+translate U TimeperMove {Aika per siirto}
+translate U compStoreTime {Varastoaika:}
+translate U Clock {Kello}
+translate U compConcurrent {Samanaikaiset pelit:}
+translate U compShowBoards {Näytä taulut}
+translate U compCarousel {Karusellijärjestelmä}
+translate U compSaveEval {Tallenna arviointi}
+translate U compCanceledGames {Peruutetut tai aikakatkaistut pelit:}
+translate U Replay {Uusinta}
+translate U compStart {Aloita}
+translate U compSave {Tallenna jokaisen pelin jälkeen}
+translate U compStop {Pysäytä toiminnan päätyttyä. peli}
+translate U compRunning {Turnaus käynnissä}
+translate U Restart {Käynnistä uudelleen}
+translate U compFinished {Turnaus päättynyt}
+translate U compStopped {Turnaus pysähtyi}
 
 #Coach
 translate U showblunderexists {näytä virheet}

@@ -421,6 +421,7 @@ translate L Import {Import}
 translate L Index {Index}
 translate L LoadGame {Încărcați jocul}
 translate L BrowseGame {Răsfoiește jocul}
+translate L PgnOpenInViewer {Deschideți în PGN Viewer}
 translate L MergeGame {Merge Game}
 translate L MergeGames {Jocuri de îmbinare}
 translate L Preview {Previzualizare}
@@ -698,6 +699,21 @@ translate L ConfigureFilter "Configurați axele X pentru an, evaluare și mișc�
 translate L FilterEstimate "Estima"
 translate L TitleFilterGraph "Scid: Filter Graph"
 translate L WinPct "% de câștig"
+translate L GraphLine "Diagramă cu linii"
+translate L GraphBar "Diagramă cu bare"
+translate L GraphPopup "Tablă pop-up"
+translate L PgnVarClose {Închideți toate variantele}
+translate L PgnVarOpen {Deschide toate variantele}
+translate L PgnEvaluate {Evalua}
+translate L PgnSaveEval {Salvați evaluarea}
+translate L PgnOptShort "Antet scurt (3 linii)."
+translate L PgnOptSymbols "Adnotări simbolice"
+translate L PgnOptIndentC "Indentarea comentariilor"
+translate L PgnOptIndentV "Variații de indentare"
+translate L PgnOptColumn "Stil coloană (o mișcare pe linie)"
+translate L PgnOptSpace "Spațiu după Mutare numere"
+translate L PgnOptStripMarks "Scoateți codurile pătrate/săgeți colorate"
+translate L PgnOptBoldMainLine "Folosiți textul aldine pentru mutarea liniei principale"
 
 # Analysis window:
 translate L AddVariation {Adăugați o variație}
@@ -1423,106 +1439,33 @@ translate L RecentFilesExtra {Numărul de fișiere recente în submeniul suplime
 
 # My Player Names options:
 translate L MyPlayerNamesDescription {Introduceți mai jos o listă cu numele jucătorilor preferați, câte un nume pe linie. Caracterele metalice (de exemplu, „?” pentru orice caracter unic, „*” pentru orice secvență de caractere) sunt permise.
-# ====== TODO To be translated ======
-translate L configComp {Configurați turneul}
-# ====== TODO To be translated ======
-translate L Tournament {turneu}
-# ====== TODO To be translated ======
-translate L Available {Disponibil}
-# ====== TODO To be translated ======
-translate L Selected {Selectat}
-# ====== TODO To be translated ======
-translate L RoundRobin {Round Robin}
-# ====== TODO To be translated ======
-translate L Gauntlet {Mănuşă}
-# ====== TODO To be translated ======
-translate L CompGameNext {Următorul joc:}
-# ====== TODO To be translated ======
-translate L TimeperGame {Timp per\Joc}
-# ====== TODO To be translated ======
-translate L TimeperMove {Timp per\Mutare}
-# ====== TODO To be translated ======
-translate L compStoreTime {Ora magazinului:}
-# ====== TODO To be translated ======
-translate L Clock {Ceas}
-# ====== TODO To be translated ======
-translate L compConcurrent {Jocuri concurente:}
-# ====== TODO To be translated ======
-translate L compShowBoards {Afișați panouri}
-# ====== TODO To be translated ======
-translate L compCarousel {Sistem de carusel}
-# ====== TODO To be translated ======
-translate L compSaveEval {Salvați evaluarea}
-# ====== TODO To be translated ======
-translate L compCanceledGames {Jocuri anulate sau expirate:}
-# ====== TODO To be translated ======
-translate L Replay {Reluare}
-# ====== TODO To be translated ======
-translate L compStart {Început}
-# ====== TODO To be translated ======
-translate L compSave {Economisiți după fiecare joc}
-# ====== TODO To be translated ======
-translate L compStop {Opriți după sfârșitul actului. joc}
-# ====== TODO To be translated ======
-translate L compRunning {Turneu în desfășurare}
-# ====== TODO To be translated ======
-translate L Restart {Repornire}
-# ====== TODO To be translated ======
-translate L compFinished {Turneul terminat}
-# ====== TODO To be translated ======
-translate L compStopped {Turneul s-a oprit}
-
 De fiecare dată când se încarcă un joc cu un jucător în listă, tabla de șah din fereastra principală va fi rotită dacă este necesar pentru a afișa jocul din perspectiva jucătorului respectiv.}
 
 # Computer Tournament:
-# MISSING TRANSLATION for configComp:
-# translate E configComp {Configure Tournament}
-# MISSING TRANSLATION for Tournament:
-# translate E Tournament {Tournament}
-# MISSING TRANSLATION for Available:
-# translate E Available {Available}
-# MISSING TRANSLATION for Selected:
-# translate E Selected {Selected}
-# MISSING TRANSLATION for RoundRobin:
-# translate E RoundRobin {Round Robin}
-# MISSING TRANSLATION for Gauntlet:
-# translate E Gauntlet {Gauntlet}
-# MISSING TRANSLATION for CompGameNext:
-# translate E CompGameNext {Next game:}
-# MISSING TRANSLATION for TimeperGame:
-# translate E TimeperGame {Time per\nGame}
-# MISSING TRANSLATION for TimeperMove:
-# translate E TimeperMove {Time per\nMove}
-# MISSING TRANSLATION for compStoreTime:
-# translate E compStoreTime {Store Time: }
-# MISSING TRANSLATION for Clock:
-# translate E Clock {Clock}
-# MISSING TRANSLATION for compConcurrent:
-# translate E compConcurrent {Concurrent games: }
-# MISSING TRANSLATION for compShowBoards:
-# translate E compShowBoards {Show Boards}
-# MISSING TRANSLATION for compCarousel:
-# translate E compCarousel {Carousel system}
-# MISSING TRANSLATION for compSaveEval:
-# translate E compSaveEval {Save evaluation}
-# MISSING TRANSLATION for compCanceledGames:
-# translate E compCanceledGames {Canceled or timed out games:}
-# MISSING TRANSLATION for Replay:
-# translate E Replay {Replay}
-# MISSING TRANSLATION for compStart:
-# translate E compStart {Start}
-# MISSING TRANSLATION for compSave:
-# translate E compSave {Save after every game}
-# MISSING TRANSLATION for compStop:
-# translate E compStop {Stop after end\nof act. game}
-# MISSING TRANSLATION for compRunning:
-# translate E compRunning {Tournament in progress}
-# MISSING TRANSLATION for Restart:
-# translate E Restart {Restart}
-# MISSING TRANSLATION for compFinished:
-# translate E compFinished {Tournament finished}
-# MISSING TRANSLATION for compStopped:
-# translate E compStopped {Tournament stopped}
+translate L configComp {Configurați turneul}
+translate L Tournament {turneu}
+translate L Available {Disponibil}
+translate L Selected {Selectat}
+translate L RoundRobin {Round Robin}
+translate L Gauntlet {Mănuşă}
+translate L CompGameNext {Următorul joc:}
+translate L TimeperGame {Timp per\Joc}
+translate L TimeperMove {Timp per\Mutare}
+translate L compStoreTime {Ora magazinului:}
+translate L Clock {Ceas}
+translate L compConcurrent {Jocuri concurente:}
+translate L compShowBoards {Afișați panouri}
+translate L compCarousel {Sistem de carusel}
+translate L compSaveEval {Salvați evaluarea}
+translate L compCanceledGames {Jocuri anulate sau expirate:}
+translate L Replay {Reluare}
+translate L compStart {Început}
+translate L compSave {Economisiți după fiecare joc}
+translate L compStop {Opriți după sfârșitul actului. joc}
+translate L compRunning {Turneu în desfășurare}
+translate L Restart {Repornire}
+translate L compFinished {Turneul terminat}
+translate L compStopped {Turneul s-a oprit}
 
 #Coach
 translate L showblunderexists {arată că gafa există}

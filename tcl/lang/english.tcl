@@ -420,6 +420,7 @@ translate E Import {Import}
 translate E Index {Index}
 translate E LoadGame {Load Game}
 translate E BrowseGame {Browse Game}
+translate E PgnOpenInViewer {Open in PGN Viewer}
 translate E MergeGame {Merge Game}
 translate E MergeGames {Merge Games}
 translate E Preview {Preview}
@@ -697,6 +698,21 @@ translate E ConfigureFilter "Configure X-Axes for Year, Rating and Moves"
 translate E FilterEstimate "Estimate"
 translate E TitleFilterGraph "Scid: Filter Graph"
 translate E WinPct "Win %"
+translate E GraphLine "Line Chart"
+translate E GraphBar "Bar Chart"
+translate E GraphPopup "Popup Board"
+translate E PgnVarClose {Close all variants}
+translate E PgnVarOpen {Open all variants}
+translate E PgnEvaluate {Evaluate}
+translate E PgnSaveEval {Save Evaluation}
+translate E PgnOptShort "Short (3-line) Header"
+translate E PgnOptSymbols "Symbolic Annotations"
+translate E PgnOptIndentC "Indent Comments"
+translate E PgnOptIndentV "Indent Variations"
+translate E PgnOptColumn "Column Style (one move per line)"
+translate E PgnOptSpace "Space after Move Numbers"
+translate E PgnOptStripMarks "Strip out Colored Square/Arrow Codes"
+translate E PgnOptBoldMainLine "Use Bold Text for Main Line Moves"
 
 # Analysis window:
 translate E AddVariation {Add Variation}
@@ -1434,9 +1450,7 @@ translate E RecentFilesMenu {Number of recent files in File menu}
 translate E RecentFilesExtra {Number of recent files in extra submenu}
 
 # My Player Names options:
-translate E MyPlayerNamesDescription {
-Enter a list of preferred player names below, one name per line. Wildcards (e.g. "?" for any single character, "*" for any sequence of characters) are permitted.
-
+translate E MyPlayerNamesDescription {Enter a list of preferred player names below, one name per line. Wildcards (e.g. "?" for any single character, "*" for any sequence of characters) are permitted.
 Every time a game with a player in the list is loaded, the main window chessboard will be rotated if necessary to show the game from that players perspective.
 }
 

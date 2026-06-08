@@ -10,6 +10,7 @@ namespace eval ::htext {}
 set helpWin(Stack) {}
 set helpWin(yStack) {}
 set helpWin(Indent) 0
+array set ::htext::hideVarValue {}
 
 # help_PushStack and help_PopStack:
 #   Implements the stack of help windows for the "Back" button.
@@ -254,7 +255,7 @@ proc ::htext::extractSectionName {tagName} {
 
 set ::htext::interrupt 0
 
-proc ::htext::display {w helptext {section ""} {fixed 1} {baseId ""}} {
+proc ::htext::display {w helptext {section ""} {fixed 1} {baseId ""} {showDiagramm 0} {m_callback "mTagProcess"} {c_callback "cTagProcess"}} {
   global helpWin
   # set start [clock clicks -milli]
   set helpWin(Indent) 0
@@ -389,30 +390,34 @@ proc ::htext::display {w helptext {section ""} {fixed 1} {baseId ""}} {
         # Check if it is a move tag:
         set moveTag $tagName
         set tagName "m"
-		  ### TODO
-		  ### Does not work for variations as the var-Tag appears before
-		  ### the <m_ tags, therefore this overwrites font sizes
-        ### $w tag configure $moveTag -font font_Figurine_ML
-        $w tag bind $moveTag <ButtonRelease-1> "sc_move pgn [string range $moveTag 2 end]; updateBoard; ::pgn::CheckRepetition"
-        # Bind middle button to popup a PGN board:
-        $w tag bind $moveTag <ButtonPress-$::MB2> "::pgn::ShowBoard .pgnWin.text $moveTag %X %Y"
-        $w tag bind $moveTag <ButtonRelease-$::MB2> "::pgn::HideBoard"
-        # invoking contextual menu in PGN window
-        $w tag bind $moveTag <ButtonPress-$::MB3> "sc_move pgn [string range $moveTag 2 end]; updateBoard; ::pgn::CheckRepetition"
-        $w tag bind $moveTag <Any-Enter> "$w tag configure $moveTag -underline 1
+        if { $m_callback ne "mTagProcess" } {
+          $m_callback $w $moveTag
+        } else {
+          $w tag bind $moveTag <ButtonRelease-1> "sc_move pgn [string range $moveTag 2 end]; updateBoard; ::pgn::CheckRepetition"
+          # Bind middle button to popup a PGN board:
+          $w tag bind $moveTag <ButtonPress-$::MB2> "::pgn::ShowBoard .pgnWin.text $moveTag %X %Y"
+          $w tag bind $moveTag <ButtonRelease-$::MB2> "::pgn::HideBoard"
+          # invoking contextual menu in PGN window
+          $w tag bind $moveTag <ButtonPress-$::MB3> "sc_move pgn [string range $moveTag 2 end]; updateBoard; ::pgn::CheckRepetition"
+          $w tag bind $moveTag <Any-Enter> "$w tag configure $moveTag -underline 1
         $w configure -cursor hand2"
-        $w tag bind $moveTag <Any-Leave> "$w tag configure $moveTag -underline 0
+          $w tag bind $moveTag <Any-Leave> "$w tag configure $moveTag -underline 0
         $w configure -cursor {}"
+        }
       } elseif {[strIsPrefix "c_" $tagName]} {
         # Check if it is a comment tag:
         set commentTag $tagName
         set tagName "c"
-        $w tag configure $commentTag -foreground $::pgnColor(Comment) -font font_Regular
-        $w tag bind $commentTag <ButtonRelease-1> "sc_move pgn [string range $commentTag 2 end]; updateBoard; ::pgn::CheckRepetition; ::makeCommentWin"
-        $w tag bind $commentTag <Any-Enter> "$w tag configure $commentTag -underline 1
+        if { $c_callback ne "cTagProcess" } {
+          $c_callback $w $commentTag
+        } else {
+          $w tag configure $commentTag -foreground $::pgnColor(Comment) -font font_Regular
+          $w tag bind $commentTag <ButtonRelease-1> "sc_move pgn [string range $commentTag 2 end]; updateBoard; ::pgn::CheckRepetition; ::makeCommentWin"
+          $w tag bind $commentTag <Any-Enter> "$w tag configure $commentTag -underline 1
         $w configure -cursor hand2"
-        $w tag bind $commentTag <Any-Leave> "$w tag configure $commentTag -underline 0
+          $w tag bind $commentTag <Any-Leave> "$w tag configure $commentTag -underline 0
         $w configure -cursor {}"
+        }
       }
       
       if {$tagName == "h1"} {$w insert end "\n"}
@@ -597,4 +602,37 @@ proc openURL {url} {
     }
   }
   unbusyCursor .
+}
+
+proc ::htext::showVar { w pos } {
+    set tag [lsearch -inline [$w tag names $pos] var*]
+    if { $tag ne "" && [$w tag cget $tag -elide]} {
+        ::htext::toggleHideVar $w [string range $tag 3 end]
+    }
+}
+
+proc ::htext::resetToggleVar { w hideVar} {
+    set i [llength $::htext::hideVarValue($w)]
+    while { $i > 0 } {
+        incr i -1
+        toggleHideVar $w $i $hideVar
+    }
+}
+
+proc ::htext::toggleHideVar { w n {hv ""}} {
+    lassign [$w tag nextrange toggle$n 1.0] start end
+    if { $hv eq "" } {
+        set hv [expr - [$w tag cget var$n -elide] + 1 ];
+    }
+    $w tag configure var$n -elide $hv
+    $w configure -state normal
+    if { $hv } {
+        $w replace $start $end " \[+\] "
+    } else {
+        $w replace $start $end " \[-\] "
+    }
+    $w tag configure var$n -elide $hv
+    $w tag add toggle$n $start $end
+    $w configure -state disabled
+    set ::htext::hideVarValue($w) [lreplace $::htext::hideVarValue($w) $n $n $hv]
 }

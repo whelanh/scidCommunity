@@ -421,6 +421,7 @@ translate J Import {Увоз}
 translate J Index {Индекс}
 translate J LoadGame {Лоад Гаме}
 translate J BrowseGame {Бровсе Гаме}
+translate J PgnOpenInViewer {Отворите у ПГН Виевер-у}
 translate J MergeGame {Игра спајања}
 translate J MergeGames {Мерге Гамес}
 translate J Preview {Преглед}
@@ -698,6 +699,21 @@ translate J ConfigureFilter "Конфигуришите Кс-осе за год�
 translate J FilterEstimate "Процена"
 translate J TitleFilterGraph "Сцид: Графикон филтера"
 translate J WinPct "% победа"
+translate J GraphLine "Линијски графикон"
+translate J GraphBar "Бар Цхарт"
+translate J GraphPopup "Попуп Боард"
+translate J PgnVarClose {Затворите све варијанте}
+translate J PgnVarOpen {Отворите све варијанте}
+translate J PgnEvaluate {Евалуате}
+translate J PgnSaveEval {Сачувај евалуацију}
+translate J PgnOptShort "Кратко (3 реда) заглавље"
+translate J PgnOptSymbols "Симболиц Аннотатионс"
+translate J PgnOptIndentC "Индент Цомментс"
+translate J PgnOptIndentV "Индент Вариатионс"
+translate J PgnOptColumn "Стил колоне (један потез по реду)"
+translate J PgnOptSpace "Размак после бројева померања"
+translate J PgnOptStripMarks "Скините обојене квадратне кодове/кодове са стрелицама"
+translate J PgnOptBoldMainLine "Користите подебљани текст за покрете главне линије"
 
 # Analysis window:
 translate J AddVariation {Додај варијацију}
@@ -1423,106 +1439,33 @@ translate J RecentFilesExtra {Број недавних датотека у до
 
 # My Player Names options:
 translate J MyPlayerNamesDescription {Унесите листу жељених имена играча испод, једно име по реду. Дозвољени су џокер знакови (нпр. "?" за било који појединачни знак, "*" за било који низ знакова).
-# ====== TODO To be translated ======
-translate J configComp {Конфигуришите турнир}
-# ====== TODO To be translated ======
-translate J Tournament {Турнир}
-# ====== TODO To be translated ======
-translate J Available {Доступан}
-# ====== TODO To be translated ======
-translate J Selected {Изабрано}
-# ====== TODO To be translated ======
-translate J RoundRobin {Роунд Робин}
-# ====== TODO To be translated ======
-translate J Gauntlet {Гаунтлет}
-# ====== TODO To be translated ======
-translate J CompGameNext {Следећа утакмица:}
-# ====== TODO To be translated ======
-translate J TimeperGame {Време по игри}
-# ====== TODO To be translated ======
-translate J TimeperMove {Време по\Мове}
-# ====== TODO To be translated ======
-translate J compStoreTime {Време продавнице:}
-# ====== TODO To be translated ======
-translate J Clock {Сат}
-# ====== TODO To be translated ======
-translate J compConcurrent {Истовремене игре:}
-# ====== TODO To be translated ======
-translate J compShowBoards {Схов Боардс}
-# ====== TODO To be translated ======
-translate J compCarousel {Цароусел систем}
-# ====== TODO To be translated ======
-translate J compSaveEval {Сачувај евалуацију}
-# ====== TODO To be translated ======
-translate J compCanceledGames {Отказане или истекле игре:}
-# ====== TODO To be translated ======
-translate J Replay {Реплаи}
-# ====== TODO To be translated ======
-translate J compStart {Почни}
-# ====== TODO To be translated ======
-translate J compSave {Сачувајте после сваке утакмице}
-# ====== TODO To be translated ======
-translate J compStop {Зауставите се након завршетка чина. игра}
-# ====== TODO To be translated ======
-translate J compRunning {Турнир је у току}
-# ====== TODO To be translated ======
-translate J Restart {Поново покрени}
-# ====== TODO To be translated ======
-translate J compFinished {Турнир је завршен}
-# ====== TODO To be translated ======
-translate J compStopped {Турнир је заустављен}
-
 Сваки пут када се учита игра са играчем на листи, шаховска табла главног прозора ће се ротирати ако је потребно да се игра прикаже из перспективе тог играча.}
 
 # Computer Tournament:
-# MISSING TRANSLATION for configComp:
-# translate E configComp {Configure Tournament}
-# MISSING TRANSLATION for Tournament:
-# translate E Tournament {Tournament}
-# MISSING TRANSLATION for Available:
-# translate E Available {Available}
-# MISSING TRANSLATION for Selected:
-# translate E Selected {Selected}
-# MISSING TRANSLATION for RoundRobin:
-# translate E RoundRobin {Round Robin}
-# MISSING TRANSLATION for Gauntlet:
-# translate E Gauntlet {Gauntlet}
-# MISSING TRANSLATION for CompGameNext:
-# translate E CompGameNext {Next game:}
-# MISSING TRANSLATION for TimeperGame:
-# translate E TimeperGame {Time per\nGame}
-# MISSING TRANSLATION for TimeperMove:
-# translate E TimeperMove {Time per\nMove}
-# MISSING TRANSLATION for compStoreTime:
-# translate E compStoreTime {Store Time: }
-# MISSING TRANSLATION for Clock:
-# translate E Clock {Clock}
-# MISSING TRANSLATION for compConcurrent:
-# translate E compConcurrent {Concurrent games: }
-# MISSING TRANSLATION for compShowBoards:
-# translate E compShowBoards {Show Boards}
-# MISSING TRANSLATION for compCarousel:
-# translate E compCarousel {Carousel system}
-# MISSING TRANSLATION for compSaveEval:
-# translate E compSaveEval {Save evaluation}
-# MISSING TRANSLATION for compCanceledGames:
-# translate E compCanceledGames {Canceled or timed out games:}
-# MISSING TRANSLATION for Replay:
-# translate E Replay {Replay}
-# MISSING TRANSLATION for compStart:
-# translate E compStart {Start}
-# MISSING TRANSLATION for compSave:
-# translate E compSave {Save after every game}
-# MISSING TRANSLATION for compStop:
-# translate E compStop {Stop after end\nof act. game}
-# MISSING TRANSLATION for compRunning:
-# translate E compRunning {Tournament in progress}
-# MISSING TRANSLATION for Restart:
-# translate E Restart {Restart}
-# MISSING TRANSLATION for compFinished:
-# translate E compFinished {Tournament finished}
-# MISSING TRANSLATION for compStopped:
-# translate E compStopped {Tournament stopped}
+translate J configComp {Конфигуришите турнир}
+translate J Tournament {Турнир}
+translate J Available {Доступан}
+translate J Selected {Изабрано}
+translate J RoundRobin {Роунд Робин}
+translate J Gauntlet {Гаунтлет}
+translate J CompGameNext {Следећа утакмица:}
+translate J TimeperGame {Време по игри}
+translate J TimeperMove {Време по\Мове}
+translate J compStoreTime {Време продавнице:}
+translate J Clock {Сат}
+translate J compConcurrent {Истовремене игре:}
+translate J compShowBoards {Схов Боардс}
+translate J compCarousel {Цароусел систем}
+translate J compSaveEval {Сачувај евалуацију}
+translate J compCanceledGames {Отказане или истекле игре:}
+translate J Replay {Реплаи}
+translate J compStart {Почни}
+translate J compSave {Сачувајте после сваке утакмице}
+translate J compStop {Зауставите се након завршетка чина. игра}
+translate J compRunning {Турнир је у току}
+translate J Restart {Поново покрени}
+translate J compFinished {Турнир је завршен}
+translate J compStopped {Турнир је заустављен}
 
 #Coach
 translate J showblunderexists {показати да грешка постоји}

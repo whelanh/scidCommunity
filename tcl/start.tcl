@@ -964,6 +964,7 @@ windows/crosstab.tcl
 windows/pfinder.tcl
 windows/tourney.tcl
 windows/switcher.tcl
+windows/pgnviewer.tcl
 search/search.tcl
 search/board.tcl
 search/header.tcl

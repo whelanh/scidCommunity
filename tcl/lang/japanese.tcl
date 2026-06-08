@@ -421,6 +421,7 @@ translate A Import {インポート}
 translate A Index {索引}
 translate A LoadGame {ゲームをロードする}
 translate A BrowseGame {ブラウズゲーム}
+translate A PgnOpenInViewer {PGN ビューアで開く}
 translate A MergeGame {マージゲーム}
 translate A MergeGames {ゲームをマージする}
 translate A Preview {プレビュー}
@@ -698,6 +699,21 @@ translate A ConfigureFilter "年、評価、移動の X 軸を構成する"
 translate A FilterEstimate "見積もり"
 translate A TitleFilterGraph "Scid: フィルター グラフ"
 translate A WinPct "勝つ ％"
+translate A GraphLine "折れ線グラフ"
+translate A GraphBar "棒グラフ"
+translate A GraphPopup "ポップアップボード"
+translate A PgnVarClose {すべてのバリエーションを閉じる}
+translate A PgnVarOpen {すべてのバリエーションを開く}
+translate A PgnEvaluate {評価する}
+translate A PgnSaveEval {評価の保存}
+translate A PgnOptShort "短い (3 行) ヘッダー"
+translate A PgnOptSymbols "記号的な注釈"
+translate A PgnOptIndentC "コメントのインデント"
+translate A PgnOptIndentV "インデントのバリエーション"
+translate A PgnOptColumn "列スタイル (1 行につき 1 回の移動)"
+translate A PgnOptSpace "移動番号の後のスペース"
+translate A PgnOptStripMarks "色付きの四角形/矢印コードを取り除く"
+translate A PgnOptBoldMainLine "主線の移動に太字のテキストを使用する"
 
 # Analysis window:
 translate A AddVariation {バリエーションを追加する}
@@ -1423,106 +1439,33 @@ translate A RecentFilesExtra {追加のサブメニューの最近使用した�
 
 # My Player Names options:
 translate A MyPlayerNamesDescription {以下に希望するプレイヤー名のリストを 1 行に 1 つずつ入力してください。ワイルドカード (例: 単一文字の場合は「?」、一連の文字の場合は「*」) を使用できます。
-# ====== TODO To be translated ======
-translate A configComp {トーナメントの構成}
-# ====== TODO To be translated ======
-translate A Tournament {トーナメント}
-# ====== TODO To be translated ======
-translate A Available {利用可能}
-# ====== TODO To be translated ======
-translate A Selected {選択済み}
-# ====== TODO To be translated ======
-translate A RoundRobin {ラウンドロビン}
-# ====== TODO To be translated ======
-translate A Gauntlet {ガントレット}
-# ====== TODO To be translated ======
-translate A CompGameNext {次の試合:}
-# ====== TODO To be translated ======
-translate A TimeperGame {ゲームあたりの時間}
-# ====== TODO To be translated ======
-translate A TimeperMove {\移動あたりの時間}
-# ====== TODO To be translated ======
-translate A compStoreTime {ストア時間:}
-# ====== TODO To be translated ======
-translate A Clock {クロック}
-# ====== TODO To be translated ======
-translate A compConcurrent {同時進行のゲーム:}
-# ====== TODO To be translated ======
-translate A compShowBoards {ボードを表示する}
-# ====== TODO To be translated ======
-translate A compCarousel {カルーセルシステム}
-# ====== TODO To be translated ======
-translate A compSaveEval {評価を保存する}
-# ====== TODO To be translated ======
-translate A compCanceledGames {キャンセルまたはタイムアウトになったゲーム:}
-# ====== TODO To be translated ======
-translate A Replay {リプレイ}
-# ====== TODO To be translated ======
-translate A compStart {始める}
-# ====== TODO To be translated ======
-translate A compSave {ゲームごとに保存する}
-# ====== TODO To be translated ======
-translate A compStop {行為の終了後に停止します。ゲーム}
-# ====== TODO To be translated ======
-translate A compRunning {トーナメント開催中}
-# ====== TODO To be translated ======
-translate A Restart {再起動}
-# ====== TODO To be translated ======
-translate A compFinished {トーナメントが終了しました}
-# ====== TODO To be translated ======
-translate A compStopped {トーナメントは中止されました}
-
 リストにプレイヤーが含まれるゲームがロードされるたびに、必要に応じてメイン ウィンドウのチェス盤が回転し、そのプレイヤーの視点からゲームを表示します。}
 
 # Computer Tournament:
-# MISSING TRANSLATION for configComp:
-# translate E configComp {Configure Tournament}
-# MISSING TRANSLATION for Tournament:
-# translate E Tournament {Tournament}
-# MISSING TRANSLATION for Available:
-# translate E Available {Available}
-# MISSING TRANSLATION for Selected:
-# translate E Selected {Selected}
-# MISSING TRANSLATION for RoundRobin:
-# translate E RoundRobin {Round Robin}
-# MISSING TRANSLATION for Gauntlet:
-# translate E Gauntlet {Gauntlet}
-# MISSING TRANSLATION for CompGameNext:
-# translate E CompGameNext {Next game:}
-# MISSING TRANSLATION for TimeperGame:
-# translate E TimeperGame {Time per\nGame}
-# MISSING TRANSLATION for TimeperMove:
-# translate E TimeperMove {Time per\nMove}
-# MISSING TRANSLATION for compStoreTime:
-# translate E compStoreTime {Store Time: }
-# MISSING TRANSLATION for Clock:
-# translate E Clock {Clock}
-# MISSING TRANSLATION for compConcurrent:
-# translate E compConcurrent {Concurrent games: }
-# MISSING TRANSLATION for compShowBoards:
-# translate E compShowBoards {Show Boards}
-# MISSING TRANSLATION for compCarousel:
-# translate E compCarousel {Carousel system}
-# MISSING TRANSLATION for compSaveEval:
-# translate E compSaveEval {Save evaluation}
-# MISSING TRANSLATION for compCanceledGames:
-# translate E compCanceledGames {Canceled or timed out games:}
-# MISSING TRANSLATION for Replay:
-# translate E Replay {Replay}
-# MISSING TRANSLATION for compStart:
-# translate E compStart {Start}
-# MISSING TRANSLATION for compSave:
-# translate E compSave {Save after every game}
-# MISSING TRANSLATION for compStop:
-# translate E compStop {Stop after end\nof act. game}
-# MISSING TRANSLATION for compRunning:
-# translate E compRunning {Tournament in progress}
-# MISSING TRANSLATION for Restart:
-# translate E Restart {Restart}
-# MISSING TRANSLATION for compFinished:
-# translate E compFinished {Tournament finished}
-# MISSING TRANSLATION for compStopped:
-# translate E compStopped {Tournament stopped}
+translate A configComp {トーナメントの構成}
+translate A Tournament {トーナメント}
+translate A Available {利用可能}
+translate A Selected {選択済み}
+translate A RoundRobin {ラウンドロビン}
+translate A Gauntlet {ガントレット}
+translate A CompGameNext {次の試合:}
+translate A TimeperGame {ゲームあたりの時間}
+translate A TimeperMove {\移動あたりの時間}
+translate A compStoreTime {ストア時間:}
+translate A Clock {クロック}
+translate A compConcurrent {同時進行のゲーム:}
+translate A compShowBoards {ボードを表示する}
+translate A compCarousel {カルーセルシステム}
+translate A compSaveEval {評価を保存する}
+translate A compCanceledGames {キャンセルまたはタイムアウトになったゲーム:}
+translate A Replay {リプレイ}
+translate A compStart {始める}
+translate A compSave {ゲームごとに保存する}
+translate A compStop {行為の終了後に停止します。ゲーム}
+translate A compRunning {トーナメント開催中}
+translate A Restart {再起動}
+translate A compFinished {トーナメントが終了しました}
+translate A compStopped {トーナメントは中止されました}
 
 #Coach
 translate A showblunderexists {間違いが存在することを示す}
