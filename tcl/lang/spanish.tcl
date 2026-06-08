@@ -420,7 +420,6 @@ translate S Hide {Esconder}
 translate S Import {Importar}
 translate S Index {Índice}
 translate S LoadGame {Cargar partida}
-translate S BrowseGame {Hojear partida}
 translate S PgnOpenInViewer {Abrir en Visor PGN}
 translate S MergeGame {Incorporar partida}
 translate S MergeGames {Mezclar o fusionar partidas}

@@ -380,7 +380,6 @@ translate Q Hide {Сховати}
 translate Q Import {Імпорт}
 translate Q Index {Індекс}
 translate Q LoadGame {Завантажити гру}
-translate Q BrowseGame {Огляд гри}
 translate Q PgnOpenInViewer {Відкрити в PGN Viewer}
 translate Q MergeGame {Гра «Злиття».}
 translate Q MergeGames {Злиття ігор}

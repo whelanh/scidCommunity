@@ -402,7 +402,6 @@ translate K Hide {Amaga}
 translate K Import {Importar}
 translate K Index {Ïndex}
 translate K LoadGame {Cargar partida}
-translate K BrowseGame {Mirar partida}
 translate K PgnOpenInViewer {Obre al PGN Viewer}
 translate K MergeGame {Incorporar partida}
 translate K MergeGames {Barrejar o fusionar partides}

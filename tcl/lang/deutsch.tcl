@@ -413,7 +413,6 @@ translate D Hide {Verbergen}
 translate D Import {Importieren}
 translate D Index {Index}
 translate D LoadGame {Partie laden}
-translate D BrowseGame {Partie betrachten}
 translate D PgnOpenInViewer {Im PGN Viewer öffnen}
 translate D MergeGame {Partie zusammenfügen}
 translate D MergeGames {Partien kombinieren}

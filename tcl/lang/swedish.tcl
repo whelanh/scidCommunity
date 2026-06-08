@@ -390,7 +390,6 @@ translate W Hide {Dölja}
 translate W Import {Importera}
 translate W Index {Index}
 translate W LoadGame {Ladda parti}
-translate W BrowseGame {Bläddra genom partier}
 translate W PgnOpenInViewer {Öppna i PGN Viewer}
 translate W MergeGame {Slå samman parti}
 translate W MergeGames {Slå samman partier}

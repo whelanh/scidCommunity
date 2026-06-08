@@ -84,7 +84,7 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   <li><a Book>Book</a> window</li>
   <li><a BookTuning>Book</a> tuning</li>
   <li><a Bookmarks>Bookmarks</a></li>
-  <li><a GameList Browsing>Browsing games</a></li>
+  <li><a GameList Browsing>Loading and merging games</a></li>
   </ul>
   
   <h3>C</h3>
@@ -1693,7 +1693,7 @@ set helpText(GameList) {<h1>The Game List window</h1>
   </p>
   <p>
   The right mouse button produces a menu for the selected game, in which
-  you can browse or merge the game (see below), delete (or undelete) the
+  you can open (load) in the viewer or merge the game (see below), delete (or undelete) the
   game, or exclude it from the filter.
   Note that deleting a game only turns on its delete flag; it will remain in
   the database until you <a Compact>compact</a> it.
@@ -1721,19 +1721,12 @@ set helpText(GameList) {<h1>The Game List window</h1>
   from the <menu>Options</menu> menu.
   </p>
   
-  <h3><name Browsing>Browsing and merging games</name></h3>
+  <h3><name Browsing>Loading and merging games</name></h3>
   <p>
   The game list right-mouse menu (and some other windows, such as the
   <a Reports Opening>opening report</a> window and the
   <a Tree Best>best games list</a> of the <a Tree>tree</a> window)
-  provide the choice of loading, browsing or merging a game.
-  </p>
-  <p>
-  When <term>Browse game</term> is selected, the moves of the selected
-  game (without comments or variations) will be displayed in a separate
-  window. This is a useful way of previewing another game without
-  affecting the currently loaded game. The size of this window may be
-  changes by +/- keys or Ctrl-Mousewheel.
+  provide the choice of loading or merging a game.
   </p>
   <p>
   The <term>Merge game</term> feature provides a way to include the

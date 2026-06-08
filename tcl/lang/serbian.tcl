@@ -507,7 +507,6 @@ translate Y Hide {Hide}
 translate Y Import {Uvoz}
 translate Y Index {Indeks}
 translate Y LoadGame {Uitaj partiju}
-translate Y BrowseGame {Browse game} ;# ***
 # ====== TODO To be translated ======
 translate Y PgnOpenInViewer {Отвори у PGN прегледачу}
 translate Y MergeGame {Merge game} ;# ***

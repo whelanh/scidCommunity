@@ -387,7 +387,6 @@ translate H Hide {Elrejt}
 translate H Import {Import}
 translate H Index {Tárgymutató}
 translate H LoadGame {Játszma betöltése}
-translate H BrowseGame {Játszma nézegetése}
 translate H PgnOpenInViewer {Megnyitás a PGN Viewerben}
 translate H MergeGame {Játszma beolvasztása}
 translate H MergeGames {Játszmák beolvasztása}

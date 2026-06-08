@@ -383,7 +383,6 @@ translate T Hide {Saklamak}
 translate T Import {İçe aktarmak}
 translate T Index {Dizin}
 translate T LoadGame {Oyunu Yükle}
-translate T BrowseGame {Oyuna Göz At}
 translate T PgnOpenInViewer {PGN Görüntüleyicide Aç}
 translate T MergeGame {Oyunu Birleştir}
 translate T MergeGames {Oyunları Birleştir}

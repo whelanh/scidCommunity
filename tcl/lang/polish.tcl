@@ -401,7 +401,6 @@ translate P Hide {Ukrywa}
 translate P Import {Pobierz}
 translate P Index {Indeks}
 translate P LoadGame {Wczytaj parti}
-translate P BrowseGame {Przegldaj parti}
 translate P PgnOpenInViewer {Otwórz w przeglądarce PGN}
 translate P MergeGame {Docz parti}
 translate P MergeGames {Wcz gr}

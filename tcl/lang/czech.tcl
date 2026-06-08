@@ -383,7 +383,6 @@ translate C Hide {Skrt}
 translate C Import {Import}
 translate C Index {Index}
 translate C LoadGame {Nathnout partii}
-translate C BrowseGame {Prohldnout partii}
 translate C PgnOpenInViewer {Otevřít v prohlížeči PGN}
 translate C MergeGame {Pipojit partii}
 translate C MergeGames {Pipojit partie}

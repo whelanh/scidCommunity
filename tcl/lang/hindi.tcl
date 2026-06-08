@@ -379,7 +379,6 @@ translate h Hide {छिपाना}
 translate h Import {आयात}
 translate h Index {अनुक्रमणिका}
 translate h LoadGame {खेल लोड करें}
-translate h BrowseGame {गेम ब्राउज़ करें}
 translate h PgnOpenInViewer {पीजीएन व्यूअर में खोलें}
 translate h MergeGame {मर्ज गेम}
 translate h MergeGames {खेलों को मर्ज करें}

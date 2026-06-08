@@ -387,7 +387,6 @@ translate I Hide {Nascondi}
 translate I Import {Importa}
 translate I Index {Indice}
 translate I LoadGame {Carica partita}
-translate I BrowseGame {Visualizza partita}
 translate I PgnOpenInViewer {Apri nel Visualizzatore PGN}
 translate I MergeGame {Fondi partita}
 translate I MergeGames {Unisci partite}
