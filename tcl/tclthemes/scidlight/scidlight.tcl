@@ -45,12 +45,14 @@ foreach t { blue mint green purple sand pink grey } \
         set t $::tks
         proc LoadImages {color {patterns {*.png}}} {
             set themedir [file join [file dirname [info script]] scid]
+            set count 0
             foreach imgdir [list $themedir $themedir$color] {
                 foreach pattern $patterns {
                     foreach file [glob -directory $imgdir $pattern] {
                         set img [file tail [file rootname $file]]
                         if {![info exists images($img)]} {
                             set images($img) [image create photo -file $file]
+                            incr count
                         }
                     }
                 }
