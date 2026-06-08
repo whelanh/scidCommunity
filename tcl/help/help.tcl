@@ -1693,7 +1693,7 @@ set helpText(GameList) {<h1>The Game List window</h1>
   </p>
   <p>
   The right mouse button produces a menu for the selected game, in which
-  you can browse or merge the game (see below), delete (or undelete) the
+  you can open (load) in the viewer or merge the game (see below), delete (or undelete) the
   game, or exclude it from the filter.
   Note that deleting a game only turns on its delete flag; it will remain in
   the database until you <a Compact>compact</a> it.
