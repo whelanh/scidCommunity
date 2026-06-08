@@ -1743,23 +1743,48 @@ proc redrawToolbar { args } {
         tree WindowsTree  crosstab ToolsCross  engine ToolsAnalysis
     }
 
-    set nr $tbStart
-    foreach i {newdb open closedb finder save newgame gprev gnext copy paste \
-                boardsearch headersearch materialsearch pgn tmt \
-                maint switcher glist eco tree crosstab engine} {
-        if {$::toolbar_state($i)} {
-            .menu add command -image ::icon::tb_$i -command $tbCmd($i)
-            catch { ::utils::tooltip::Set .menu -index $nr $::helpMessage($::language,$tbHelp($i)) }
-            incr nr
+    if {$::windowsOS} {
+        # Windows: use ttk::buttons in the toolbar frame (native menus can't render images)
+        grid .main.tb -row 0 -column 0 -columnspan 3 -sticky we
+        # Destroy any dynamically-created buttons (keep bkm, gprev, gnext from InitToolbar)
+        foreach child [winfo children .main.tb] {
+            set name [winfo name $child]
+            if {$name ni {bkm gprev gnext}} {
+                pack forget $child
+                destroy $child
+            }
         }
+        # Pack the 3 permanent buttons first
+        pack .main.tb.bkm .main.tb.gprev .main.tb.gnext -side left -padx 1 -pady 1
+        # Add selected toolbar items as ttk::buttons
+        foreach i {newdb open closedb finder save newgame copy paste \
+                    boardsearch headersearch materialsearch pgn tmt \
+                    maint switcher glist eco tree crosstab engine} {
+            if {$::toolbar_state($i)} {
+                ttk::button .main.tb.$i -image ::icon::tb_$i -command $tbCmd($i) -padding {2 0}
+                pack .main.tb.$i -side left -padx 1 -pady 1
+                catch { ::utils::tooltip::Set .main.tb.$i $::helpMessage($::language,$tbHelp($i)) }
+            }
+        }
+    } else {
+        set nr $tbStart
+        foreach i {newdb open closedb finder save newgame gprev gnext copy paste \
+                    boardsearch headersearch materialsearch pgn tmt \
+                    maint switcher glist eco tree crosstab engine} {
+            if {$::toolbar_state($i)} {
+                .menu add command -image ::icon::tb_$i -command $tbCmd($i)
+                catch { ::utils::tooltip::Set .menu -index $nr $::helpMessage($::language,$tbHelp($i)) }
+                incr nr
+            }
+        }
+        if {$::toolbar_state(bkm)} {
+            if {![winfo exists .menubookmarks]} { menu .menubookmarks }
+            .menu add cascade -image ::icon::tb_bkm -menu .menubookmarks
+            ::bookmarks::RefreshMenu .menubookmarks
+        }
+        # Hide the old toolbar frame — icons live in the menu bar
+        grid forget .main.tb
     }
-    if {$::toolbar_state(bkm)} {
-        if {![winfo exists .menubookmarks]} { menu .menubookmarks }
-        .menu add cascade -image ::icon::tb_bkm -menu .menubookmarks
-        ::bookmarks::RefreshMenu .menubookmarks
-    }
-    # Hide the old toolbar frame — all icons now live in the menu bar
-    grid forget .main.tb
 }
 
 ##############################
