@@ -61,7 +61,7 @@ array set ::enginewin::engState {}
 proc ::enginewin::listEngines {} {
     lmap id [array names ::enginewin::engState] {
         set follow [::enginewin::stateFollow $id]
-        if {!$follow && ![::enginewin::statePaused $id]} { continue }
+        if {!$follow && ![::enginewin::statePaused $id] || [info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id)} { continue }
         list $id $::enginewin_lastengine($id) $follow
     }
 }
@@ -70,10 +70,12 @@ proc ::enginewin::listEngines {} {
 proc ::enginewin::onNewGame {id} {
     set ::enginewin::m_(newgame,$id) true
     ::stored_eval::clear $id
-    # Clear the engine score chart so it will be regenerated for the new game
-    # This is done for all engine windows (not just follow state) similar to stored eval
-    if {[winfo exists .engineWin$id.chart.canvas]} {
-        ::chart::clear .engineWin$id.chart.canvas 1
+    set w .engineWin$id
+    if { [info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id) } {
+        set w .pv$::enginewin::pgnviewer($id).engineWin$id
+    }
+    if {[winfo exists $w.chart.canvas]} {
+        ::chart::clear $w.chart.canvas 1
     }
 }
 
@@ -83,17 +85,29 @@ proc ::enginewin::onPosChanged { {ids ""}} {
     foreach {id} [array names ::enginewin::engState] {
         if {![::enginewin::stateFollow $id]} { continue }
         if {$ids ne "" && $id ni $ids} { continue }
-        if {$position eq ""} {
-            set position [sc_game UCI_currentPos]
-            set ply [expr {[sc_var level] ? -1 : [sc_pos location]}]
-        }
-        if {[catch { ::enginewin::sendPosition $id $position $ply }]} {
-            ::enginewin::changeState $id paused.deceased
+        if {$ids == $id && $::enginewin::pgnviewer($id) } {
+            lassign [::pgnviewer::getPosition $::enginewin::pgnviewer($ids)] position ply
+            if {[catch { ::enginewin::sendPosition $ids $position $ply }]} {
+                ::enginewin::changeState $id paused.deceased
+            }
+            break
+        } else {
+            if {$position eq ""} {
+                set position [sc_game UCI_currentPos]
+                set ply [expr {[sc_var level] ? -1 : [sc_pos location]}]
+            }
+            if {[catch { ::enginewin::sendPosition $id $position $ply }]} {
+                ::enginewin::changeState $id paused.deceased
+            }
         }
     }
     # Update stored eval display for all engine windows
     foreach {id} [array names ::enginewin::engState] {
-        if {[winfo exists .engineWin$id.stored_eval]} {
+        set w .engineWin$id
+        if { [info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id) } {
+            set w .pv$::enginewin::pgnviewer($id).engineWin$id
+        }
+        if {[winfo exists $w.stored_eval]} {
             ::enginewin::updateStoredEvalDisplay $id
         }
     }
@@ -101,9 +115,15 @@ proc ::enginewin::onPosChanged { {ids ""}} {
 
 # Start an engine (if necessary it will opens a new enginewin window).
 # Return the engine's id.
-proc ::enginewin::start { {id ""} {enginename ""} } {
-    if {$id eq "" || ![winfo exists .engineWin$id]} {
-        set id [::enginewin::Open $id $enginename]
+proc ::enginewin::start { {id ""} {enginename ""} {pgnviewer 0}} {
+    if { $pgnviewer > 0 } {
+        if { $id eq "" || ![winfo exists .pv$pgnviewer.engineWin$id]} {
+            set id [::enginewin::Open $id $enginename $pgnviewer]
+        } elseif {![::enginewin::statePaused $id]} {
+            return $id
+        }
+    } elseif {$id eq "" || ![winfo exists .engineWin$id]} {
+        set id [::enginewin::Open $id $enginename $pgnviewer]
     } elseif {![::enginewin::statePaused $id]} {
         return $id
     }
@@ -115,7 +135,11 @@ proc ::enginewin::start { {id ""} {enginename ""} } {
 # Stop the engine.
 # Return true if a StopGo message was sent to the engine.
 proc ::enginewin::stop {id} {
-    if {[winfo exists .engineWin$id] &&
+    set w .engineWin$id
+    if {[info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id)} {
+        set w .pv$::enginewin::pgnviewer($id).engineWin$id
+    }
+    if {[winfo exists $w] &&
         ([::enginewin::stateFollow $id] || [::enginewin::stateLocked $id])} {
         ::enginewin::changeState $id paused.*
         ::engine::send $id StopGo
@@ -133,18 +157,31 @@ proc ::enginewin::toggleStartStop { {id ""} {enginename ""} } {
     return [::enginewin::start $id $enginename]
 }
 
-proc ::enginewin::Open { {id ""} {enginename ""} } {
+proc ::enginewin::Open { {id ""} {enginename ""} {pgnviewer 0} } {
     if {$id == ""} {
         set id 1
-        while {[winfo exists .engineWin$id]} {
-            incr id
+        if { $pgnviewer } {
+            while {[info exists ::enginewin::pgnviewer($id)]} {
+                incr id
+            }
+        } else {
+            while {[winfo exists .engineWin$id]} {
+                incr id
+            }
         }
     }
-    set w .engineWin$id
-    if {! [::win::createWindow $w ""]} {
-        ::win::makeVisible $w
-        return
+    if { $pgnviewer } {
+        set w .pv$pgnviewer.engineWin$id
+        ttk::frame $w
+    } else {
+        set w .engineWin$id
+        if {! [::win::createWindow $w ""]} {
+            ::win::makeVisible $w
+            return
+        }
     }
+    set ::enginewin::pgnviewer($id) $pgnviewer
+    set ::enginewin::w($id) $w
 
     ::options.store ::enginewin_lastengine($id) ""
     ::options.store ::enginewin_autorun($id) {{movetime 50}}
@@ -225,16 +262,18 @@ proc ::enginewin::Open { {id ""} {enginename ""} } {
     bind $w <<NotifyNewGame>> "::enginewin::onNewGame $id"
 
     # The engine should be closed before the debug .text is destroyed
-    bind $w.config <Destroy> "
+    bind $w.config <Destroy> [list apply {{id w} {
+        if {![info exists ::enginewin::engState($id)]} { return }
         ::stored_eval::cancelQuery $id
         ::stored_eval::clear $id
         unset ::enginewin::engState($id)
         ::engine::close $id
         array unset ::enginewin::m_ *,$id
         array unset ::enginewin::pv_ *,$id
-        unset ::enginecfg::engConfig_$id
+        catch { unset ::enginecfg::engConfig_$id }
+        unset ::enginewin::pgnviewer($id)
         ::notify::EngineBestMove $id {} {} {}
-    "
+    }} $id $w]
 
     set ::enginewin::engState($id) {}
     set ::enginewin::m_(afterId,$id) {}
@@ -288,7 +327,7 @@ proc ::enginewin::createDisplayFrame {id display} {
 
         if {$old_markmove ne ""} { %W tag remove markmove {*}$old_markmove }
         %W tag add markmove {*}$new_markmove
-        after cancel $::enginewin:::m_(afterId,$id)
+        after cancel $::enginewin::m_(afterId,$id)
         set ::enginewin::m_(afterId,$id) [after 10 [list apply {{id w} {
             # An exception will be thrown if the engine sent an illegal pv,
             # the tag was removed, the text widget is destroyed or not visible
@@ -335,6 +374,9 @@ proc ::enginewin::createStoredEvalFrame {id frame} {
 # Update the stored eval display for the current board position.
 proc ::enginewin::updateStoredEvalDisplay {id} {
     set w .engineWin$id
+    if { [info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id) } {
+        set w .pv$::enginewin::pgnviewer($id).engineWin$id
+    }
     if {![winfo exists $w.stored_eval]} { return }
     
     set fen [sc_pos fen]
@@ -515,6 +557,9 @@ proc ::enginewin::applyLimits {id} {
 # Show can be "hide", "" (toggle), or the name of an option
 proc ::enginewin::toggleConfigPane {id {show ""}} {
     set w .engineWin$id
+    if { [info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id) } {
+        set w .pv$::enginewin::pgnviewer($id).engineWin$id
+    }
     set isVisible [expr {[grid info $w.config] ne ""}]
     if {$show eq "" && $isVisible} { set show "hide" }
 
@@ -532,6 +577,9 @@ proc ::enginewin::toggleConfigPane {id {show ""}} {
 
 proc ::enginewin::changeDisplayLayout {id param value} {
     set w .engineWin$id
+    if { [info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id) } {
+        set w .pv$::enginewin::pgnviewer($id).engineWin$id
+    }
     switch $param {
         "debug" {
             ::enginewin::logEngine $id $value
@@ -547,15 +595,19 @@ proc ::enginewin::changeDisplayLayout {id param value} {
 }
 
 proc ::enginewin::logEngine {id on} {
-    catch { .engineWin$id.pane forget .engineWin$id.debug }
-    .engineWin$id.debug.lines configure -state normal
-    .engineWin$id.debug.lines delete 1.0 end
-    .engineWin$id.debug.lines configure -state disabled
+    set w .engineWin$id
+    if { [info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id) } {
+        set w .pv$::enginewin::pgnviewer($id).engineWin$id
+    }
+    catch { $w.pane forget $w.debug }
+    $w.debug.lines configure -state normal
+    $w.debug.lines delete 1.0 end
+    $w.debug.lines configure -state disabled
     if {$on} {
-        .engineWin$id.pane insert 0 .engineWin$id.debug -weight 1
+        $w.pane insert 0 $w.debug -weight 1
         ::engine::setLogCmd $id \
-            [list ::enginewin::updateDebug $id .engineWin$id.debug.lines "" ""]\
-            [list ::enginewin::updateDebug $id .engineWin$id.debug.lines header ">>"]
+            [list ::enginewin::updateDebug $id $w.debug.lines "" ""]\
+            [list ::enginewin::updateDebug $id $w.debug.lines header ">>"]
     } else {
         ::engine::setLogCmd $id "" ""
     }
@@ -628,6 +680,11 @@ proc ::enginewin::updateDebug {id widget tag prefix msg} {
 proc ::enginewin::updateChart {id {msgData ""}} {
     if {[set ::enginewin_chartH($id)] < 10} { return }
 
+    set w .engineWin$id
+    if { [info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id) } {
+        set w .pv$::enginewin::pgnviewer($id).engineWin$id
+    }
+
     lassign $msgData multipv depth seldepth nodes nps hashfull tbhits time score score_type score_wdl pv
     if {$multipv != 1 || $score eq ""} { return }
 
@@ -647,11 +704,11 @@ proc ::enginewin::updateChart {id {msgData ""}} {
 
     foreach ply $plies {
         dict set depths $ply $depth
-        ::chart::setDataPoint .engineWin$id.chart.canvas $ply $score \
+        ::chart::setDataPoint $w.chart.canvas $ply $score \
             [list ::enginewin::chartCallback $id $::enginewin::pv_(pos,$id) $depth $seldepth]
     }
 
-    set canvas .engineWin$id.chart.canvas
+    set canvas $w.chart.canvas
     set currentScores [::chart::getScores $canvas]
     if {[llength $currentScores] > 1} {
         lassign [::accuracy::calculate $currentScores] wAcc bAcc
@@ -696,6 +753,9 @@ proc ::enginewin::updateDisplay {id msgData} {
     if {$tbhits eq ""} { set tbhits 0 }
 
     set w .engineWin$id
+    if { [info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id) } {
+        set w .pv$::enginewin::pgnviewer($id).engineWin$id
+    }
     $w.header_info.text configure -state normal
     $w.header_info.text delete 1.0 end
     $w.header_info.text insert end "[tr Time]: " header
@@ -790,45 +850,31 @@ proc ::enginewin::updateDisplay {id msgData} {
     if {[info exists extraInfo]} {
         $pv_lines insert $line.end "  ([join $extraInfo {  }])" lmargin
     }
-
     $pv_lines configure -state disabled
-    
-    # Accumulate raw PV data for multi-arrow display (before SAN conversion)
-    if {$msgData ne "" && $pv ne ""} {
-        set depthNum $depth
-        if {![string is integer -strict $depthNum]} { set depthNum 0 }
-        # Store as 4-field tuple: {multipv score score_type pv}
-        set pvEntry [list $multipv $score $score_type $pv]
-        if {$multipv == 1} {
-            # New iteration at a new depth - start fresh
-            set ::enginewin::m_(currentPVs,$id) [list $pvEntry]
-            set ::enginewin::m_(currentDepth,$id) $depthNum
-        } else {
-            lappend ::enginewin::m_(currentPVs,$id) $pvEntry
-        }
-    }
-    
-    # Store this PV line for multi-arrow display
-    if {$line >= 1 && $line <= 3} {
-        # Store the first move from this PV line
-        set first_move [string trimleft $pvDisplay ".0123456789"]
-        if {$notation == 2 || $notation == -2} {
-            set first_move [::trans $first_move]
-        }
-        set ::enginewin::m_(pvlines,$id) [lreplace $::enginewin::m_(pvlines,$id) [expr {$line - 1}] [expr {$line - 1}] $first_move]
-    }
 
-    if {$line == 1 && ![::enginewin::stateLocked $id]} {
-        if {$scoreside eq "engine" && $::enginewin::pv_(btm,$id) && $score ne ""} {
-            set sign_reversed [expr { [string index $score 0] eq "+" ? "-" : "+" }]
-            set score "$sign_reversed[string range $score 1 end]"
+    # Extract best move (UCI format) from raw PV for arrow display
+    set best_move [lindex [split $pv] 0]
+
+    # show bestmove for first three multipv
+    if {$line < 4 && ![::enginewin::stateLocked $id]} {
+        if { $line == 1 } {
+            set ::enginewin::scorePV1($id) $scoreStr
+        } elseif { $::enginewin::scorePV1($id) ne "" && $scoreStr ne "" && \
+                   [string index $::enginewin::scorePV1($id) 1] ne "M" && [string index $scoreStr 1] ne "M" && \
+                   [catch {expr { abs($::enginewin::scorePV1($id) - $scoreStr) }} diff] == 0 && \
+                   $diff > $::informant(+/-) } {
+            set scoreStr ""
+            set best_move ""
         }
-        set best_move [string trimleft $pv ".0123456789"]
-        if {$notation == 2 || $notation == -2} {
-            set best_move [::trans $best_move]
+        if {$scoreside eq "engine" && $::enginewin::pv_(btm,$id) && $scoreStr ne ""} {
+            set sign_reversed [expr { [string index $scoreStr 0] eq "+" ? "-" : "+" }]
+            set scoreStr "$sign_reversed[string range $scoreStr 1 end]"
         }
-        # Send the first move and all stored PV lines
-        ::notify::EngineBestMove $id $best_move $scoreStr $::enginewin::m_(pvlines,$id)
+        if { [info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id) } {
+            ::pgnviewer::EngineBestMove $::enginewin::pgnviewer($id) $id $scoreStr $best_move [::enginewin::getEngineColor 1 $line]
+        } else {
+            ::notify::EngineBestMove $id $best_move $scoreStr [::enginewin::getEngineColor $id $line]
+        }
     }
 }
 
@@ -836,12 +882,19 @@ proc ::enginewin::updateDisplay {id msgData} {
 # Update the window's title and ::enginewin_lastengine accordingly.
 proc ::enginewin::updateEngineName {id name} {
     set ::enginewin_lastengine($id) $name
-    ::setTitle .engineWin$id "[tr Engine]: $name"
-    event generate .engineWin$id.config.btn <<UpdateEngineName>> -data [list $name]
+    set w .engineWin$id
+    if { [info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id) } {
+        set w .pv$::enginewin::pgnviewer($id).engineWin$id
+    }
+    ::setTitle $w "[tr Engine]: $name"
+    event generate $w.config.btn <<UpdateEngineName>> -data [list $name]
 }
 
 proc ::enginewin::updateOptions {id msgData} {
     set w .engineWin$id
+    if { [info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id) } {
+        set w .pv$::enginewin::pgnviewer($id).engineWin$id
+    }
     if {$msgData eq ""} {
         $w.btn.multipv set ""
         $w.btn.multipv configure -state disabled
@@ -975,6 +1028,9 @@ proc ::enginewin::changeState {id newState} {
         btn.startStop   {p* {!pressed !user1}   *run {pressed !user1}   * {!pressed user1}}
     }
     set w .engineWin$id
+    if { [info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id) } {
+        set w .pv$::enginewin::pgnviewer($id).engineWin$id
+    }
     set closed [string match *sed $newState]
     foreach {btn btnspec} $buttons {
         if {$closed} {
@@ -996,7 +1052,15 @@ proc ::enginewin::changeState {id newState} {
             $w.btn.lock configure -state disabled
         }
         ::chart::moveCursorLine $w.chart.canvas ""
-        ::notify::EngineBestMove $id "" "" {}
+        if { $::enginewin::pgnviewer($id) } {
+            ::pgnviewer::EngineBestMove $::enginewin::pgnviewer($id) $id "" "" [::enginewin::getEngineColor 1 1]
+            ::pgnviewer::EngineBestMove $::enginewin::pgnviewer($id) $id "" "" [::enginewin::getEngineColor 1 2]
+            ::pgnviewer::EngineBestMove $::enginewin::pgnviewer($id) $id "" "" [::enginewin::getEngineColor 1 3]
+        } else {
+            ::notify::EngineBestMove $id "" "" [::enginewin::getEngineColor $id 1]
+            ::notify::EngineBestMove $id "" "" [::enginewin::getEngineColor $id 2]
+            ::notify::EngineBestMove $id "" "" [::enginewin::getEngineColor $id 3]
+        }
     } elseif {$::enginewin::engState($id) in {paused.idle paused.closed}} {
         ::enginewin::toggleConfigPane $id hide
     }
@@ -1006,6 +1070,18 @@ proc ::enginewin::changeState {id newState} {
 proc ::enginewin::stateFollow {id} {string match f* $::enginewin::engState($id)}
 proc ::enginewin::stateLocked {id} {string match l* $::enginewin::engState($id)}
 proc ::enginewin::statePaused {id} {string match paused.idle $::enginewin::engState($id)}
+
+proc ::enginewin::getEngineColor {id pv} {
+    array set color {
+        1 "#ff0000"  2 "#ff4000"  3 "#ff4040"
+        4 "#00ff00"  5 "#40ff00"  6 "#40ff40"
+        7 "#0000ff"  8 "#4000ff"  9 "#4040ff"
+       10 "#ffff00" 11 "#ffff40" 12 "#ffff80"
+    }
+    set id [expr {($id-1) * 3 + $pv}]
+    if { $id > 12 } { set id 1 }
+    return $color($id)
+}
 
 # If any, closes the connection with the current engine.
 # If "config" is not "" opens a connection with a new engine.
@@ -1028,6 +1104,9 @@ proc ::enginewin::connectEngine {id enginename} {
     ::enginewin::updateEngineName $id $name
 
     set configFrame .engineWin$id.config.options
+    if { [info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id) } {
+        set configFrame .pv$::enginewin::pgnviewer($id).engineWin$id.config.options
+    }
     set netport [::enginecfg::resetConfigOptions $id $configFrame $config]
 
     if {$config eq ""} { return }
@@ -1073,6 +1152,9 @@ proc ::enginewin::connectEngine {id enginename} {
 proc ::enginewin::callback {id msg} {
     variable pv_
     set configFrame .engineWin$id.config.options
+    if { [info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id) } {
+        set configFrame .pv$::enginewin::pgnviewer($id).engineWin$id.config.options
+    }
     lassign $msg msgType msgData
     switch $msgType {
         "InfoConfig" {
@@ -1091,7 +1173,11 @@ proc ::enginewin::callback {id msg} {
                 if {$pv_(ply,$id) < 0} { set pv_(ply,$id) "" }
                 set ::enginewin::m_(posPly,$id) ""
                 ::enginewin::changeState $id *.run
-                ::chart::moveCursorLine .engineWin$id.chart.canvas $pv_(ply,$id)
+                set cw .engineWin$id
+                if { [info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id) } {
+                    set cw .pv$::enginewin::pgnviewer($id).engineWin$id
+                }
+                ::chart::moveCursorLine $cw.chart.canvas $pv_(ply,$id)
             } else {
                 ::enginewin::changeState $id *.*.autorun
                 set pv_(ply,$id) [inMainLine $::enginewin::m_(mainLine,$id) $pv_(pos,$id) $n_ply]
@@ -1196,7 +1282,14 @@ proc ::enginewin::sendPosition {id position plyInMainLine} {
         set m_(newgame,$id) false
         ::engine::send $id NewGame [list analysis post_pv post_wdl [sc_game variant]]
         set m_(mainLine,$id) [sc_game UCI_mainLine]
-        ::chart::clear .engineWin$id.chart.canvas [expr {[llength $m_(mainLine,$id)] - 1}]
+        if { [info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id) } {
+            set m_(mainLine,$id) [::pgnviewer::getMainline $::enginewin::pgnviewer($id)]
+        }
+        set w .engineWin$id
+        if { [info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id) } {
+            set w .pv$::enginewin::pgnviewer($id).engineWin$id
+        }
+        ::chart::clear $w.chart.canvas [expr {[llength $m_(mainLine,$id)] - 1}]
         set ::enginewin::pv_(depths,$id) [dict create]
         set ::enginewin::pv_(postponed,$id) $plyInMainLine
     }

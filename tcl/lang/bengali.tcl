@@ -380,6 +380,7 @@ translate b Import {আমদানি}
 translate b Index {সূচক}
 translate b LoadGame {লোড গেম}
 translate b BrowseGame {খেলা ব্রাউজ করুন}
+translate b PgnOpenInViewer {PGN ভিউয়ারে খুলুন}
 translate b MergeGame {গেম মার্জ করুন}
 translate b MergeGames {গেম মার্জ করুন}
 translate b Preview {পূর্বরূপ}
@@ -657,6 +658,21 @@ translate b ConfigureFilter "বছর, রেটিং এবং মুভে�
 translate b FilterEstimate "অনুমান"
 translate b TitleFilterGraph "Scid: ফিল্টার গ্রাফ"
 translate b WinPct "জয় %"
+translate b GraphLine "লাইন চার্ট"
+translate b GraphBar "বার চার্ট"
+translate b GraphPopup "পপআপ বোর্ড"
+translate b PgnVarClose {সমস্ত বৈকল্পিক বন্ধ করুন}
+translate b PgnVarOpen {সমস্ত বৈকল্পিক খুলুন}
+translate b PgnEvaluate {মূল্যায়ন করুন}
+translate b PgnSaveEval {মূল্যায়ন সংরক্ষণ করুন}
+translate b PgnOptShort "ছোট (3-লাইন) হেডার"
+translate b PgnOptSymbols "প্রতীকী টীকা"
+translate b PgnOptIndentC "ইন্ডেন্ট মন্তব্য"
+translate b PgnOptIndentV "ইন্ডেন্ট বৈচিত্র"
+translate b PgnOptColumn "কলাম শৈলী (প্রতি লাইনে এক মুভ)"
+translate b PgnOptSpace "স্থানান্তর নম্বর পরে স্থান"
+translate b PgnOptStripMarks "রঙিন স্কোয়ার/তীর কোডগুলি বের করুন"
+translate b PgnOptBoldMainLine "মেইন লাইন মুভের জন্য বোল্ড টেক্সট ব্যবহার করুন"
 
 # Analysis window:
 translate b AddVariation {বৈচিত্র যোগ করুন}
@@ -1382,106 +1398,33 @@ translate b RecentFilesExtra {অতিরিক্ত সাবমেনুত�
 
 # My Player Names options:
 translate b MyPlayerNamesDescription {নিচে পছন্দের প্লেয়ারের নামের তালিকা লিখুন, প্রতি লাইনে একটি নাম। ওয়াইল্ডকার্ড (যেমন "?" যেকোনো একক অক্ষরের জন্য, "*" অক্ষরের যেকোনো অনুক্রমের জন্য) অনুমোদিত।
-# ====== TODO To be translated ======
-translate b configComp {টুর্নামেন্ট কনফিগার করুন}
-# ====== TODO To be translated ======
-translate b Tournament {টুর্নামেন্ট}
-# ====== TODO To be translated ======
-translate b Available {পাওয়া যায়}
-# ====== TODO To be translated ======
-translate b Selected {নির্বাচিত}
-# ====== TODO To be translated ======
-translate b RoundRobin {রাউন্ড রবিন}
-# ====== TODO To be translated ======
-translate b Gauntlet {গান্টলেট}
-# ====== TODO To be translated ======
-translate b CompGameNext {পরবর্তী খেলা:}
-# ====== TODO To be translated ======
-translate b TimeperGame {খেলা প্রতি সময়}
-# ====== TODO To be translated ======
-translate b TimeperMove {সময় প্রতি \ মুভ}
-# ====== TODO To be translated ======
-translate b compStoreTime {দোকান সময়:}
-# ====== TODO To be translated ======
-translate b Clock {ঘড়ি}
-# ====== TODO To be translated ======
-translate b compConcurrent {সমসাময়িক গেম:}
-# ====== TODO To be translated ======
-translate b compShowBoards {বোর্ড দেখান}
-# ====== TODO To be translated ======
-translate b compCarousel {ক্যারোজেল সিস্টেম}
-# ====== TODO To be translated ======
-translate b compSaveEval {মূল্যায়ন সংরক্ষণ করুন}
-# ====== TODO To be translated ======
-translate b compCanceledGames {বাতিল বা টাইম আউট গেম:}
-# ====== TODO To be translated ======
-translate b Replay {রিপ্লে}
-# ====== TODO To be translated ======
-translate b compStart {শুরু করুন}
-# ====== TODO To be translated ======
-translate b compSave {প্রতিটি খেলার পরে সংরক্ষণ করুন}
-# ====== TODO To be translated ======
-translate b compStop {কাজ শেষ হওয়ার পরে থামুন। খেলা}
-# ====== TODO To be translated ======
-translate b compRunning {টুর্নামেন্ট চলছে}
-# ====== TODO To be translated ======
-translate b Restart {রিস্টার্ট করুন}
-# ====== TODO To be translated ======
-translate b compFinished {টুর্নামেন্ট শেষ}
-# ====== TODO To be translated ======
-translate b compStopped {টুর্নামেন্ট বন্ধ}
-
 প্রতিবার তালিকার একজন খেলোয়াড়ের সাথে একটি খেলা লোড করা হলে, সেই খেলোয়াড়দের দৃষ্টিকোণ থেকে খেলাটি দেখানোর জন্য প্রয়োজনে মূল উইন্ডো চেসবোর্ডটি ঘোরানো হবে।}
 
 # Computer Tournament:
-# MISSING TRANSLATION for configComp:
-# translate E configComp {Configure Tournament}
-# MISSING TRANSLATION for Tournament:
-# translate E Tournament {Tournament}
-# MISSING TRANSLATION for Available:
-# translate E Available {Available}
-# MISSING TRANSLATION for Selected:
-# translate E Selected {Selected}
-# MISSING TRANSLATION for RoundRobin:
-# translate E RoundRobin {Round Robin}
-# MISSING TRANSLATION for Gauntlet:
-# translate E Gauntlet {Gauntlet}
-# MISSING TRANSLATION for CompGameNext:
-# translate E CompGameNext {Next game:}
-# MISSING TRANSLATION for TimeperGame:
-# translate E TimeperGame {Time per\nGame}
-# MISSING TRANSLATION for TimeperMove:
-# translate E TimeperMove {Time per\nMove}
-# MISSING TRANSLATION for compStoreTime:
-# translate E compStoreTime {Store Time: }
-# MISSING TRANSLATION for Clock:
-# translate E Clock {Clock}
-# MISSING TRANSLATION for compConcurrent:
-# translate E compConcurrent {Concurrent games: }
-# MISSING TRANSLATION for compShowBoards:
-# translate E compShowBoards {Show Boards}
-# MISSING TRANSLATION for compCarousel:
-# translate E compCarousel {Carousel system}
-# MISSING TRANSLATION for compSaveEval:
-# translate E compSaveEval {Save evaluation}
-# MISSING TRANSLATION for compCanceledGames:
-# translate E compCanceledGames {Canceled or timed out games:}
-# MISSING TRANSLATION for Replay:
-# translate E Replay {Replay}
-# MISSING TRANSLATION for compStart:
-# translate E compStart {Start}
-# MISSING TRANSLATION for compSave:
-# translate E compSave {Save after every game}
-# MISSING TRANSLATION for compStop:
-# translate E compStop {Stop after end\nof act. game}
-# MISSING TRANSLATION for compRunning:
-# translate E compRunning {Tournament in progress}
-# MISSING TRANSLATION for Restart:
-# translate E Restart {Restart}
-# MISSING TRANSLATION for compFinished:
-# translate E compFinished {Tournament finished}
-# MISSING TRANSLATION for compStopped:
-# translate E compStopped {Tournament stopped}
+translate b configComp {টুর্নামেন্ট কনফিগার করুন}
+translate b Tournament {টুর্নামেন্ট}
+translate b Available {পাওয়া যায়}
+translate b Selected {নির্বাচিত}
+translate b RoundRobin {রাউন্ড রবিন}
+translate b Gauntlet {গান্টলেট}
+translate b CompGameNext {পরবর্তী খেলা:}
+translate b TimeperGame {খেলা প্রতি সময়}
+translate b TimeperMove {সময় প্রতি \ মুভ}
+translate b compStoreTime {দোকান সময়:}
+translate b Clock {ঘড়ি}
+translate b compConcurrent {সমসাময়িক গেম:}
+translate b compShowBoards {বোর্ড দেখান}
+translate b compCarousel {ক্যারোজেল সিস্টেম}
+translate b compSaveEval {মূল্যায়ন সংরক্ষণ করুন}
+translate b compCanceledGames {বাতিল বা টাইম আউট গেম:}
+translate b Replay {রিপ্লে}
+translate b compStart {শুরু করুন}
+translate b compSave {প্রতিটি খেলার পরে সংরক্ষণ করুন}
+translate b compStop {কাজ শেষ হওয়ার পরে থামুন। খেলা}
+translate b compRunning {টুর্নামেন্ট চলছে}
+translate b Restart {রিস্টার্ট করুন}
+translate b compFinished {টুর্নামেন্ট শেষ}
+translate b compStopped {টুর্নামেন্ট বন্ধ}
 
 #Coach
 translate b showblunderexists {শো ভুল বিদ্যমান}

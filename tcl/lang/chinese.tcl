@@ -356,6 +356,7 @@ translate M Import {导入}
 translate M Index {索引}
 translate M LoadGame {Load Game}
 translate M BrowseGame {Browse Game}
+translate M PgnOpenInViewer {在 PGN 查看器中打开}
 translate M MergeGame {Merge Game}
 translate M MergeGames {Merge Games}
 translate M Preview {Preview}
@@ -633,6 +634,21 @@ translate M ConfigureFilter "Configure X-Axes for Year, Rating and Moves"
 translate M FilterEstimate "Estimate"
 translate M TitleFilterGraph "Scid: Filter Graph"
 translate M WinPct "赢 ％"
+translate M GraphLine "折线图"
+translate M GraphBar "条形图"
+translate M GraphPopup "弹出板"
+translate M PgnVarClose {关闭所有变体}
+translate M PgnVarOpen {打开所有变体}
+translate M PgnEvaluate {评价}
+translate M PgnSaveEval {保存评价}
+translate M PgnOptShort "短（3 行）标头"
+translate M PgnOptSymbols "符号注释"
+translate M PgnOptIndentC "缩进注释"
+translate M PgnOptIndentV "缩进变化"
+translate M PgnOptColumn "列样式（每行一次移动）"
+translate M PgnOptSpace "移动数字后的空格"
+translate M PgnOptStripMarks "去掉彩色方块/箭头代码"
+translate M PgnOptBoldMainLine "使用粗体文本进行主线移动"
 
 # Analysis window:
 translate M AddVariation {Add Variation}
@@ -1358,106 +1374,33 @@ translate M RecentFilesExtra {额外子菜单中最近文件的数量}
 
 # My Player Names options:
 translate M MyPlayerNamesDescription {在下面输入首选玩家姓名列表，每行一个姓名。允许使用通配符（例如“？”表示任何单个字符，“*”表示任何字符序列）。
-# ====== TODO To be translated ======
-translate M configComp {配置锦标赛}
-# ====== TODO To be translated ======
-translate M Tournament {比赛}
-# ====== TODO To be translated ======
-translate M Available {可用的}
-# ====== TODO To be translated ======
-translate M Selected {已选择}
-# ====== TODO To be translated ======
-translate M RoundRobin {循环赛}
-# ====== TODO To be translated ======
-translate M Gauntlet {挑战}
-# ====== TODO To be translated ======
-translate M CompGameNext {下一场比赛：}
-# ====== TODO To be translated ======
-translate M TimeperGame {每场比赛时间}
-# ====== TODO To be translated ======
-translate M TimeperMove {每次\移动时间}
-# ====== TODO To be translated ======
-translate M compStoreTime {储存时间：}
-# ====== TODO To be translated ======
-translate M Clock {钟}
-# ====== TODO To be translated ======
-translate M compConcurrent {并发游戏：}
-# ====== TODO To be translated ======
-translate M compShowBoards {显示板}
-# ====== TODO To be translated ======
-translate M compCarousel {轮播系统}
-# ====== TODO To be translated ======
-translate M compSaveEval {保存评价}
-# ====== TODO To be translated ======
-translate M compCanceledGames {取消或超时的比赛：}
-# ====== TODO To be translated ======
-translate M Replay {重播}
-# ====== TODO To be translated ======
-translate M compStart {开始}
-# ====== TODO To be translated ======
-translate M compSave {每场比赛后保存}
-# ====== TODO To be translated ======
-translate M compStop {行为结束后停止。游戏}
-# ====== TODO To be translated ======
-translate M compRunning {比赛进行中}
-# ====== TODO To be translated ======
-translate M Restart {重新启动}
-# ====== TODO To be translated ======
-translate M compFinished {比赛结束}
-# ====== TODO To be translated ======
-translate M compStopped {比赛停止}
-
 每次加载列表中包含玩家的游戏时，如有必要，主窗口棋盘都会旋转，以从该玩家的角度显示游戏。}
 
 # Computer Tournament:
-# MISSING TRANSLATION for configComp:
-# translate E configComp {Configure Tournament}
-# MISSING TRANSLATION for Tournament:
-# translate E Tournament {Tournament}
-# MISSING TRANSLATION for Available:
-# translate E Available {Available}
-# MISSING TRANSLATION for Selected:
-# translate E Selected {Selected}
-# MISSING TRANSLATION for RoundRobin:
-# translate E RoundRobin {Round Robin}
-# MISSING TRANSLATION for Gauntlet:
-# translate E Gauntlet {Gauntlet}
-# MISSING TRANSLATION for CompGameNext:
-# translate E CompGameNext {Next game:}
-# MISSING TRANSLATION for TimeperGame:
-# translate E TimeperGame {Time per\nGame}
-# MISSING TRANSLATION for TimeperMove:
-# translate E TimeperMove {Time per\nMove}
-# MISSING TRANSLATION for compStoreTime:
-# translate E compStoreTime {Store Time: }
-# MISSING TRANSLATION for Clock:
-# translate E Clock {Clock}
-# MISSING TRANSLATION for compConcurrent:
-# translate E compConcurrent {Concurrent games: }
-# MISSING TRANSLATION for compShowBoards:
-# translate E compShowBoards {Show Boards}
-# MISSING TRANSLATION for compCarousel:
-# translate E compCarousel {Carousel system}
-# MISSING TRANSLATION for compSaveEval:
-# translate E compSaveEval {Save evaluation}
-# MISSING TRANSLATION for compCanceledGames:
-# translate E compCanceledGames {Canceled or timed out games:}
-# MISSING TRANSLATION for Replay:
-# translate E Replay {Replay}
-# MISSING TRANSLATION for compStart:
-# translate E compStart {Start}
-# MISSING TRANSLATION for compSave:
-# translate E compSave {Save after every game}
-# MISSING TRANSLATION for compStop:
-# translate E compStop {Stop after end\nof act. game}
-# MISSING TRANSLATION for compRunning:
-# translate E compRunning {Tournament in progress}
-# MISSING TRANSLATION for Restart:
-# translate E Restart {Restart}
-# MISSING TRANSLATION for compFinished:
-# translate E compFinished {Tournament finished}
-# MISSING TRANSLATION for compStopped:
-# translate E compStopped {Tournament stopped}
+translate M configComp {配置锦标赛}
+translate M Tournament {比赛}
+translate M Available {可用的}
+translate M Selected {已选择}
+translate M RoundRobin {循环赛}
+translate M Gauntlet {挑战}
+translate M CompGameNext {下一场比赛：}
+translate M TimeperGame {每场比赛时间}
+translate M TimeperMove {每次\移动时间}
+translate M compStoreTime {储存时间：}
+translate M Clock {钟}
+translate M compConcurrent {并发游戏：}
+translate M compShowBoards {显示板}
+translate M compCarousel {轮播系统}
+translate M compSaveEval {保存评价}
+translate M compCanceledGames {取消或超时的比赛：}
+translate M Replay {重播}
+translate M compStart {开始}
+translate M compSave {每场比赛后保存}
+translate M compStop {行为结束后停止。游戏}
+translate M compRunning {比赛进行中}
+translate M Restart {重新启动}
+translate M compFinished {比赛结束}
+translate M compStopped {比赛停止}
 
 #Coach
 translate M showblunderexists {显示存在错误}

@@ -380,6 +380,7 @@ translate h Import {आयात}
 translate h Index {अनुक्रमणिका}
 translate h LoadGame {खेल लोड करें}
 translate h BrowseGame {गेम ब्राउज़ करें}
+translate h PgnOpenInViewer {पीजीएन व्यूअर में खोलें}
 translate h MergeGame {मर्ज गेम}
 translate h MergeGames {खेलों को मर्ज करें}
 translate h Preview {पूर्व दर्शन}
@@ -657,6 +658,21 @@ translate h ConfigureFilter "वर्ष, रेटिंग और चाल �
 translate h FilterEstimate "अनुमान लगाना"
 translate h TitleFilterGraph "स्किड: फ़िल्टर ग्राफ़"
 translate h WinPct "जीतना %"
+translate h GraphLine "लाइन चार्ट"
+translate h GraphBar "बार चार्ट"
+translate h GraphPopup "पॉपअप बोर्ड"
+translate h PgnVarClose {सभी प्रकार बंद करें}
+translate h PgnVarOpen {सभी प्रकार खोलें}
+translate h PgnEvaluate {मूल्यांकन करना}
+translate h PgnSaveEval {मूल्यांकन सहेजें}
+translate h PgnOptShort "लघु (3-पंक्ति) हेडर"
+translate h PgnOptSymbols "प्रतीकात्मक टिप्पणियाँ"
+translate h PgnOptIndentC "इंडेंट टिप्पणियाँ"
+translate h PgnOptIndentV "इंडेंट विविधताएँ"
+translate h PgnOptColumn "स्तंभ शैली (प्रति पंक्ति एक चाल)"
+translate h PgnOptSpace "चाल संख्या के बाद स्थान"
+translate h PgnOptStripMarks "रंगीन चौकोर/तीर कोड हटा दें"
+translate h PgnOptBoldMainLine "मेन लाइन मूव्स के लिए बोल्ड टेक्स्ट का उपयोग करें"
 
 # Analysis window:
 translate h AddVariation {विविधता जोड़ें}
@@ -1382,106 +1398,33 @@ translate h RecentFilesExtra {अतिरिक्त सबमेनू मे
 
 # My Player Names options:
 translate h MyPlayerNamesDescription {नीचे पसंदीदा खिलाड़ियों के नामों की सूची दर्ज करें, प्रति पंक्ति एक नाम। वाइल्डकार्ड (जैसे किसी एकल वर्ण के लिए "?", वर्णों के किसी भी क्रम के लिए "*") की अनुमति है।
-# ====== TODO To be translated ======
-translate h configComp {टूर्नामेंट कॉन्फ़िगर करें}
-# ====== TODO To be translated ======
-translate h Tournament {टूर्नामेंट}
-# ====== TODO To be translated ======
-translate h Available {उपलब्ध}
-# ====== TODO To be translated ======
-translate h Selected {चयनित}
-# ====== TODO To be translated ======
-translate h RoundRobin {राउंड रोबिन}
-# ====== TODO To be translated ======
-translate h Gauntlet {लोहे का दस्ताना}
-# ====== TODO To be translated ======
-translate h CompGameNext {अगला गेम:}
-# ====== TODO To be translated ======
-translate h TimeperGame {प्रति गेम समय}
-# ====== TODO To be translated ======
-translate h TimeperMove {प्रति चाल समय}
-# ====== TODO To be translated ======
-translate h compStoreTime {स्टोर का समय:}
-# ====== TODO To be translated ======
-translate h Clock {घड़ी}
-# ====== TODO To be translated ======
-translate h compConcurrent {समवर्ती खेल:}
-# ====== TODO To be translated ======
-translate h compShowBoards {बोर्ड दिखाएँ}
-# ====== TODO To be translated ======
-translate h compCarousel {हिंडोला प्रणाली}
-# ====== TODO To be translated ======
-translate h compSaveEval {मूल्यांकन सहेजें}
-# ====== TODO To be translated ======
-translate h compCanceledGames {रद्द किए गए या समयबद्ध खेल:}
-# ====== TODO To be translated ======
-translate h Replay {REPLAY}
-# ====== TODO To be translated ======
-translate h compStart {शुरू}
-# ====== TODO To be translated ======
-translate h compSave {प्रत्येक गेम के बाद सहेजें}
-# ====== TODO To be translated ======
-translate h compStop {कार्य समाप्ति के बाद रुकें। खेल}
-# ====== TODO To be translated ======
-translate h compRunning {टूर्नामेंट चल रहा है}
-# ====== TODO To be translated ======
-translate h Restart {पुनः आरंभ करें}
-# ====== TODO To be translated ======
-translate h compFinished {टूर्नामेंट ख़त्म}
-# ====== TODO To be translated ======
-translate h compStopped {टूर्नामेंट रुक गया}
-
 हर बार जब सूची में किसी खिलाड़ी के साथ गेम लोड किया जाता है, तो गेम को उस खिलाड़ी के दृष्टिकोण से दिखाने के लिए यदि आवश्यक हो तो मुख्य विंडो शतरंज की बिसात को घुमाया जाएगा।}
 
 # Computer Tournament:
-# MISSING TRANSLATION for configComp:
-# translate E configComp {Configure Tournament}
-# MISSING TRANSLATION for Tournament:
-# translate E Tournament {Tournament}
-# MISSING TRANSLATION for Available:
-# translate E Available {Available}
-# MISSING TRANSLATION for Selected:
-# translate E Selected {Selected}
-# MISSING TRANSLATION for RoundRobin:
-# translate E RoundRobin {Round Robin}
-# MISSING TRANSLATION for Gauntlet:
-# translate E Gauntlet {Gauntlet}
-# MISSING TRANSLATION for CompGameNext:
-# translate E CompGameNext {Next game:}
-# MISSING TRANSLATION for TimeperGame:
-# translate E TimeperGame {Time per\nGame}
-# MISSING TRANSLATION for TimeperMove:
-# translate E TimeperMove {Time per\nMove}
-# MISSING TRANSLATION for compStoreTime:
-# translate E compStoreTime {Store Time: }
-# MISSING TRANSLATION for Clock:
-# translate E Clock {Clock}
-# MISSING TRANSLATION for compConcurrent:
-# translate E compConcurrent {Concurrent games: }
-# MISSING TRANSLATION for compShowBoards:
-# translate E compShowBoards {Show Boards}
-# MISSING TRANSLATION for compCarousel:
-# translate E compCarousel {Carousel system}
-# MISSING TRANSLATION for compSaveEval:
-# translate E compSaveEval {Save evaluation}
-# MISSING TRANSLATION for compCanceledGames:
-# translate E compCanceledGames {Canceled or timed out games:}
-# MISSING TRANSLATION for Replay:
-# translate E Replay {Replay}
-# MISSING TRANSLATION for compStart:
-# translate E compStart {Start}
-# MISSING TRANSLATION for compSave:
-# translate E compSave {Save after every game}
-# MISSING TRANSLATION for compStop:
-# translate E compStop {Stop after end\nof act. game}
-# MISSING TRANSLATION for compRunning:
-# translate E compRunning {Tournament in progress}
-# MISSING TRANSLATION for Restart:
-# translate E Restart {Restart}
-# MISSING TRANSLATION for compFinished:
-# translate E compFinished {Tournament finished}
-# MISSING TRANSLATION for compStopped:
-# translate E compStopped {Tournament stopped}
+translate h configComp {टूर्नामेंट कॉन्फ़िगर करें}
+translate h Tournament {टूर्नामेंट}
+translate h Available {उपलब्ध}
+translate h Selected {चयनित}
+translate h RoundRobin {राउंड रोबिन}
+translate h Gauntlet {लोहे का दस्ताना}
+translate h CompGameNext {अगला गेम:}
+translate h TimeperGame {प्रति गेम समय}
+translate h TimeperMove {प्रति चाल समय}
+translate h compStoreTime {स्टोर का समय:}
+translate h Clock {घड़ी}
+translate h compConcurrent {समवर्ती खेल:}
+translate h compShowBoards {बोर्ड दिखाएँ}
+translate h compCarousel {हिंडोला प्रणाली}
+translate h compSaveEval {मूल्यांकन सहेजें}
+translate h compCanceledGames {रद्द किए गए या समयबद्ध खेल:}
+translate h Replay {REPLAY}
+translate h compStart {शुरू}
+translate h compSave {प्रत्येक गेम के बाद सहेजें}
+translate h compStop {कार्य समाप्ति के बाद रुकें। खेल}
+translate h compRunning {टूर्नामेंट चल रहा है}
+translate h Restart {पुनः आरंभ करें}
+translate h compFinished {टूर्नामेंट ख़त्म}
+translate h compStopped {टूर्नामेंट रुक गया}
 
 #Coach
 translate h showblunderexists {दिखाएँ भूल मौजूद है}

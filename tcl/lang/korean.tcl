@@ -421,6 +421,7 @@ translate k Import {가져오다}
 translate k Index {색깔}
 translate k LoadGame {게임로드}
 translate k BrowseGame {게임 찾아보기}
+translate k PgnOpenInViewer {PGN 뷰어에서 열기}
 translate k MergeGame {긴급 경기}
 translate k MergeGames {긴급 경기}
 translate k Preview {미리보기}
@@ -698,6 +699,21 @@ translate k ConfigureFilter "연도, 등급 및 이동에 대한 X축 구성"
 translate k FilterEstimate "최종"
 translate k TitleFilterGraph "Scid: 그래프 분석"
 translate k WinPct "기다립니다 %"
+translate k GraphLine "꺾은선형 차트"
+translate k GraphBar "막대 차트"
+translate k GraphPopup "팝업보드"
+translate k PgnVarClose {모든 변형 닫기}
+translate k PgnVarOpen {모든 변형 열기}
+translate k PgnEvaluate {평가하다}
+translate k PgnSaveEval {평가 저장}
+translate k PgnOptShort "짧은(3줄) 헤더"
+translate k PgnOptSymbols "기호 주석"
+translate k PgnOptIndentC "주석 들여쓰기"
+translate k PgnOptIndentV "들여쓰기 변형"
+translate k PgnOptColumn "열 스타일(한 줄에 한 번씩 이동)"
+translate k PgnOptSpace "이동 번호 뒤의 공백"
+translate k PgnOptStripMarks "컬러 사각형/화살표 코드 제거"
+translate k PgnOptBoldMainLine "메인 라인 이동에 굵은 텍스트 사용"
 
 # Analysis window:
 translate k AddVariation {변형 추가}
@@ -1423,106 +1439,33 @@ translate k RecentFilesExtra {추가 하위 메뉴의 최신 파일 수}
 
 # My Player Names options:
 translate k MyPlayerNamesDescription {아래에 선호하는 플레이어 이름 목록을 한 줄에 입력하세요. 애니메이션 캐릭터(예: 단일 경우의 문자 "?", 소속의 문자의 "*")가 해당됩니다.
-# ====== TODO To be translated ======
-translate k configComp {토너먼트 구성}
-# ====== TODO To be translated ======
-translate k Tournament {토너먼트}
-# ====== TODO To be translated ======
-translate k Available {사용 가능}
-# ====== TODO To be translated ======
-translate k Selected {선택된}
-# ====== TODO To be translated ======
-translate k RoundRobin {라운드 로빈}
-# ====== TODO To be translated ======
-translate k Gauntlet {긴 장갑}
-# ====== TODO To be translated ======
-translate k CompGameNext {다음 게임:}
-# ====== TODO To be translated ======
-translate k TimeperGame {게임당 시간}
-# ====== TODO To be translated ======
-translate k TimeperMove {이동당 시간}
-# ====== TODO To be translated ======
-translate k compStoreTime {매장 시간:}
-# ====== TODO To be translated ======
-translate k Clock {시계}
-# ====== TODO To be translated ======
-translate k compConcurrent {동시 게임:}
-# ====== TODO To be translated ======
-translate k compShowBoards {보드 표시}
-# ====== TODO To be translated ======
-translate k compCarousel {캐러셀 시스템}
-# ====== TODO To be translated ======
-translate k compSaveEval {평가 저장}
-# ====== TODO To be translated ======
-translate k compCanceledGames {취소되거나 시간 초과된 게임:}
-# ====== TODO To be translated ======
-translate k Replay {다시 하다}
-# ====== TODO To be translated ======
-translate k compStart {시작}
-# ====== TODO To be translated ======
-translate k compSave {매 경기 후 저장}
-# ====== TODO To be translated ======
-translate k compStop {행위 종료 후 중지합니다. 게임}
-# ====== TODO To be translated ======
-translate k compRunning {토너먼트 진행 중}
-# ====== TODO To be translated ======
-translate k Restart {다시 시작}
-# ====== TODO To be translated ======
-translate k compFinished {토너먼트 종료}
-# ====== TODO To be translated ======
-translate k compStopped {토너먼트가 중단되었습니다}
-
 목록에 플레이어가 있는 게임이 로드될 때마다 해당 플레이어의 관점에서 게임을 표시하기 위해 필요한 경우 기본 창 체스판이 회전합니다.}
 
 # Computer Tournament:
-# MISSING TRANSLATION for configComp:
-# translate E configComp {Configure Tournament}
-# MISSING TRANSLATION for Tournament:
-# translate E Tournament {Tournament}
-# MISSING TRANSLATION for Available:
-# translate E Available {Available}
-# MISSING TRANSLATION for Selected:
-# translate E Selected {Selected}
-# MISSING TRANSLATION for RoundRobin:
-# translate E RoundRobin {Round Robin}
-# MISSING TRANSLATION for Gauntlet:
-# translate E Gauntlet {Gauntlet}
-# MISSING TRANSLATION for CompGameNext:
-# translate E CompGameNext {Next game:}
-# MISSING TRANSLATION for TimeperGame:
-# translate E TimeperGame {Time per\nGame}
-# MISSING TRANSLATION for TimeperMove:
-# translate E TimeperMove {Time per\nMove}
-# MISSING TRANSLATION for compStoreTime:
-# translate E compStoreTime {Store Time: }
-# MISSING TRANSLATION for Clock:
-# translate E Clock {Clock}
-# MISSING TRANSLATION for compConcurrent:
-# translate E compConcurrent {Concurrent games: }
-# MISSING TRANSLATION for compShowBoards:
-# translate E compShowBoards {Show Boards}
-# MISSING TRANSLATION for compCarousel:
-# translate E compCarousel {Carousel system}
-# MISSING TRANSLATION for compSaveEval:
-# translate E compSaveEval {Save evaluation}
-# MISSING TRANSLATION for compCanceledGames:
-# translate E compCanceledGames {Canceled or timed out games:}
-# MISSING TRANSLATION for Replay:
-# translate E Replay {Replay}
-# MISSING TRANSLATION for compStart:
-# translate E compStart {Start}
-# MISSING TRANSLATION for compSave:
-# translate E compSave {Save after every game}
-# MISSING TRANSLATION for compStop:
-# translate E compStop {Stop after end\nof act. game}
-# MISSING TRANSLATION for compRunning:
-# translate E compRunning {Tournament in progress}
-# MISSING TRANSLATION for Restart:
-# translate E Restart {Restart}
-# MISSING TRANSLATION for compFinished:
-# translate E compFinished {Tournament finished}
-# MISSING TRANSLATION for compStopped:
-# translate E compStopped {Tournament stopped}
+translate k configComp {토너먼트 구성}
+translate k Tournament {토너먼트}
+translate k Available {사용 가능}
+translate k Selected {선택된}
+translate k RoundRobin {라운드 로빈}
+translate k Gauntlet {긴 장갑}
+translate k CompGameNext {다음 게임:}
+translate k TimeperGame {게임당 시간}
+translate k TimeperMove {이동당 시간}
+translate k compStoreTime {매장 시간:}
+translate k Clock {시계}
+translate k compConcurrent {동시 게임:}
+translate k compShowBoards {보드 표시}
+translate k compCarousel {캐러셀 시스템}
+translate k compSaveEval {평가 저장}
+translate k compCanceledGames {취소되거나 시간 초과된 게임:}
+translate k Replay {다시 하다}
+translate k compStart {시작}
+translate k compSave {매 경기 후 저장}
+translate k compStop {행위 종료 후 중지합니다. 게임}
+translate k compRunning {토너먼트 진행 중}
+translate k Restart {다시 시작}
+translate k compFinished {토너먼트 종료}
+translate k compStopped {토너먼트가 중단되었습니다}
 
 #Coach
 translate k showblunderexists {함께가 존재함을 보여라}

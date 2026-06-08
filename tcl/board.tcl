@@ -498,6 +498,22 @@ proc ::board::new {w {psize 40} } {
   return $w
 }
 
+proc ::board::updateFlag { w name col} {
+    if { [string index $col 0] == "w" } {
+        set col "W"
+    } elseif { [string index $col 0] == "b" } {
+        set col "B" } else { return }
+    $w.player${col}.name configure -image "" -compound none
+    if { $name eq "" } { return }
+    if {[catch {sc_name info -htext $name} pinfo]} { set pinfo ""}
+    set found [string first " \[" $pinfo]
+    set country ""
+    if { $found > 0 } {
+        set countryID [string range $pinfo [expr $found - 3] [expr $found - 1]]
+        $w.player${col}.name configure -image [getFlagImage $countryID] -compound left
+    }
+}
+
 proc ::board::addNamesBar {w {varname}} {
   ttk::frame $w.playerW -style fieldbg.TLabel
   frame $w.playerW.color -background #EAE0C8 -width 6 -height 6
@@ -1411,11 +1427,13 @@ proc ::board::mark::DrawMultipleBestMoves {w moves_list} {
 # It also eliminate any existing best move arrow.
 # So, if moveUCI == "", it just deletes any existing best move arrow.
 # TODO: draw a better arrow that has the alpha channel.
-proc ::board::mark::DrawBestMove {w moveUCI} {
+proc ::board::mark::DrawBestMove {w moveUCI {color "#FF0000"} } {
   if {$moveUCI eq ""} {
     ::board::mark::DrawMultipleBestMoves $w {}
   } else {
-    ::board::mark::DrawMultipleBestMoves $w [list $moveUCI]
+    set from [ ::board::sq [ string range $moveUCI 0 1 ] ]
+    set to [ ::board::sq [ string range $moveUCI 2 3 ] ]
+    ::board::mark::DrawArrowEx $w $from $to $color 0.066 {3.6 4.8 2.0} bestmove1
   }
 }
 

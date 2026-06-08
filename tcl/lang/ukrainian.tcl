@@ -381,6 +381,7 @@ translate Q Import {Імпорт}
 translate Q Index {Індекс}
 translate Q LoadGame {Завантажити гру}
 translate Q BrowseGame {Огляд гри}
+translate Q PgnOpenInViewer {Відкрити в PGN Viewer}
 translate Q MergeGame {Гра «Злиття».}
 translate Q MergeGames {Злиття ігор}
 translate Q Preview {Попередній перегляд}
@@ -658,6 +659,21 @@ translate Q ConfigureFilter "Налаштуйте осі X для року, ре
 translate Q FilterEstimate "Оцінка"
 translate Q TitleFilterGraph "Scid: Графік фільтра"
 translate Q WinPct "Виграти %"
+translate Q GraphLine "Лінійна діаграма"
+translate Q GraphBar "Гістограма"
+translate Q GraphPopup "Спливаюча панель"
+translate Q PgnVarClose {Закрити всі варіанти}
+translate Q PgnVarOpen {Відкрити всі варіанти}
+translate Q PgnEvaluate {Оцініть}
+translate Q PgnSaveEval {Зберегти оцінку}
+translate Q PgnOptShort "Короткий (3 рядки) заголовок"
+translate Q PgnOptSymbols "Символічні анотації"
+translate Q PgnOptIndentC "Відступ коментарів"
+translate Q PgnOptIndentV "Варіації відступів"
+translate Q PgnOptColumn "Стиль стовпця (один хід на рядок)"
+translate Q PgnOptSpace "Пробіл після чисел ходу"
+translate Q PgnOptStripMarks "Видаліть коди кольорових квадратів/стрілок"
+translate Q PgnOptBoldMainLine "Використовуйте жирний текст для переміщення основної лінії"
 
 # Analysis window:
 translate Q AddVariation {Додати варіацію}
@@ -1383,106 +1399,33 @@ translate Q RecentFilesExtra {Кількість останніх файлів �
 
 # My Player Names options:
 translate Q MyPlayerNamesDescription {Введіть список бажаних імен гравців нижче, по одному імені в рядку. Допускаються символи підстановки (наприклад, «?» для будь-якого окремого символу, «*» для будь-якої послідовності символів).
-# ====== TODO To be translated ======
-translate Q configComp {Налаштувати турнір}
-# ====== TODO To be translated ======
-translate Q Tournament {Турнір}
-# ====== TODO To be translated ======
-translate Q Available {в наявності}
-# ====== TODO To be translated ======
-translate Q Selected {Вибране}
-# ====== TODO To be translated ======
-translate Q RoundRobin {Кругова система}
-# ====== TODO To be translated ======
-translate Q Gauntlet {рукавичка}
-# ====== TODO To be translated ======
-translate Q CompGameNext {Наступна гра:}
-# ====== TODO To be translated ======
-translate Q TimeperGame {Час на\Гру}
-# ====== TODO To be translated ======
-translate Q TimeperMove {Час на\хід}
-# ====== TODO To be translated ======
-translate Q compStoreTime {Час зберігання:}
-# ====== TODO To be translated ======
-translate Q Clock {Годинник}
-# ====== TODO To be translated ======
-translate Q compConcurrent {Одночасні ігри:}
-# ====== TODO To be translated ======
-translate Q compShowBoards {Show Boards}
-# ====== TODO To be translated ======
-translate Q compCarousel {Карусельна система}
-# ====== TODO To be translated ======
-translate Q compSaveEval {Зберегти оцінку}
-# ====== TODO To be translated ======
-translate Q compCanceledGames {Скасовані або тайм-аут гри:}
-# ====== TODO To be translated ======
-translate Q Replay {Повтор}
-# ====== TODO To be translated ======
-translate Q compStart {старт}
-# ====== TODO To be translated ======
-translate Q compSave {Зберігайте після кожної гри}
-# ====== TODO To be translated ======
-translate Q compStop {Зупинка після закінчення акту. гра}
-# ====== TODO To be translated ======
-translate Q compRunning {Турнір триває}
-# ====== TODO To be translated ======
-translate Q Restart {Перезапустіть}
-# ====== TODO To be translated ======
-translate Q compFinished {Турнір завершено}
-# ====== TODO To be translated ======
-translate Q compStopped {Турнір зупинено}
-
 Кожного разу, коли завантажується гра з гравцем у списку, шахівниця головного вікна повертатиметься, якщо необхідно, щоб показати гру з точки зору цього гравця.}
 
 # Computer Tournament:
-# MISSING TRANSLATION for configComp:
-# translate E configComp {Configure Tournament}
-# MISSING TRANSLATION for Tournament:
-# translate E Tournament {Tournament}
-# MISSING TRANSLATION for Available:
-# translate E Available {Available}
-# MISSING TRANSLATION for Selected:
-# translate E Selected {Selected}
-# MISSING TRANSLATION for RoundRobin:
-# translate E RoundRobin {Round Robin}
-# MISSING TRANSLATION for Gauntlet:
-# translate E Gauntlet {Gauntlet}
-# MISSING TRANSLATION for CompGameNext:
-# translate E CompGameNext {Next game:}
-# MISSING TRANSLATION for TimeperGame:
-# translate E TimeperGame {Time per\nGame}
-# MISSING TRANSLATION for TimeperMove:
-# translate E TimeperMove {Time per\nMove}
-# MISSING TRANSLATION for compStoreTime:
-# translate E compStoreTime {Store Time: }
-# MISSING TRANSLATION for Clock:
-# translate E Clock {Clock}
-# MISSING TRANSLATION for compConcurrent:
-# translate E compConcurrent {Concurrent games: }
-# MISSING TRANSLATION for compShowBoards:
-# translate E compShowBoards {Show Boards}
-# MISSING TRANSLATION for compCarousel:
-# translate E compCarousel {Carousel system}
-# MISSING TRANSLATION for compSaveEval:
-# translate E compSaveEval {Save evaluation}
-# MISSING TRANSLATION for compCanceledGames:
-# translate E compCanceledGames {Canceled or timed out games:}
-# MISSING TRANSLATION for Replay:
-# translate E Replay {Replay}
-# MISSING TRANSLATION for compStart:
-# translate E compStart {Start}
-# MISSING TRANSLATION for compSave:
-# translate E compSave {Save after every game}
-# MISSING TRANSLATION for compStop:
-# translate E compStop {Stop after end\nof act. game}
-# MISSING TRANSLATION for compRunning:
-# translate E compRunning {Tournament in progress}
-# MISSING TRANSLATION for Restart:
-# translate E Restart {Restart}
-# MISSING TRANSLATION for compFinished:
-# translate E compFinished {Tournament finished}
-# MISSING TRANSLATION for compStopped:
-# translate E compStopped {Tournament stopped}
+translate Q configComp {Налаштувати турнір}
+translate Q Tournament {Турнір}
+translate Q Available {в наявності}
+translate Q Selected {Вибране}
+translate Q RoundRobin {Кругова система}
+translate Q Gauntlet {рукавичка}
+translate Q CompGameNext {Наступна гра:}
+translate Q TimeperGame {Час на\Гру}
+translate Q TimeperMove {Час на\хід}
+translate Q compStoreTime {Час зберігання:}
+translate Q Clock {Годинник}
+translate Q compConcurrent {Одночасні ігри:}
+translate Q compShowBoards {Show Boards}
+translate Q compCarousel {Карусельна система}
+translate Q compSaveEval {Зберегти оцінку}
+translate Q compCanceledGames {Скасовані або тайм-аут гри:}
+translate Q Replay {Повтор}
+translate Q compStart {старт}
+translate Q compSave {Зберігайте після кожної гри}
+translate Q compStop {Зупинка після закінчення акту. гра}
+translate Q compRunning {Турнір триває}
+translate Q Restart {Перезапустіть}
+translate Q compFinished {Турнір завершено}
+translate Q compStopped {Турнір зупинено}
 
 #Coach
 translate Q showblunderexists {показати, що помилка існує}

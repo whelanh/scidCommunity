@@ -403,6 +403,7 @@ translate K Import {Importar}
 translate K Index {Ïndex}
 translate K LoadGame {Cargar partida}
 translate K BrowseGame {Mirar partida}
+translate K PgnOpenInViewer {Obre al PGN Viewer}
 translate K MergeGame {Incorporar partida}
 translate K MergeGames {Barrejar o fusionar partides}
 translate K Preview {Vista prèvia}
@@ -683,6 +684,21 @@ translate K ConfigureFilter {Configurar Eix-X per Any, Rating i Jugades}
 translate K FilterEstimate "Estimar"
 translate K TitleFilterGraph "Scid: Filtre Gràfic"
 translate K WinPct "% de victòria"
+translate K GraphLine "Gràfic de línies"
+translate K GraphBar "Gràfic de barres"
+translate K GraphPopup "Tauler emergent"
+translate K PgnVarClose {Tanca totes les variants}
+translate K PgnVarOpen {Obre totes les variants}
+translate K PgnEvaluate {Avaluar}
+translate K PgnSaveEval {Guardar l'avaluació}
+translate K PgnOptShort "Capçalera curta (3 línies)."
+translate K PgnOptSymbols "Anotacions simbòliques"
+translate K PgnOptIndentC "Sagnat de comentaris"
+translate K PgnOptIndentV "Variacions de sagnat"
+translate K PgnOptColumn "Estil de columna (un moviment per línia)"
+translate K PgnOptSpace "Espai després de Moure números"
+translate K PgnOptStripMarks "Elimina els codis quadrats/fletxes de colors"
+translate K PgnOptBoldMainLine "Utilitzeu text en negreta per als moviments de línia principal"
 
 # Analysis window:
 translate K AddVariation {Afegir variant}
@@ -1424,109 +1440,35 @@ translate K RecentFilesMenu {Nombre d'arxius recents al menú Arxiu}
 translate K RecentFilesExtra {Nombre d'arxius recents al submenú extra}
 
 # My Player Names options:
-translate K MyPlayerNamesDescription {
-# ====== TODO To be translated ======
-translate K configComp {Configura el torneig}
-# ====== TODO To be translated ======
-translate K Tournament {Torneig}
-# ====== TODO To be translated ======
-translate K Available {Disponible}
-# ====== TODO To be translated ======
-translate K Selected {Seleccionat}
-# ====== TODO To be translated ======
-translate K RoundRobin {Round Robin}
-# ====== TODO To be translated ======
-translate K Gauntlet {Guantlet}
-# ====== TODO To be translated ======
-translate K CompGameNext {Següent joc:}
-# ====== TODO To be translated ======
-translate K TimeperGame {Temps per\Joc}
-# ====== TODO To be translated ======
-translate K TimeperMove {Temps per\Moviment}
-# ====== TODO To be translated ======
-translate K compStoreTime {Hora de la botiga:}
-# ====== TODO To be translated ======
-translate K Clock {Rellotge}
-# ====== TODO To be translated ======
-translate K compConcurrent {Jocs simultanis:}
-# ====== TODO To be translated ======
-translate K compShowBoards {Mostra els taulers}
-# ====== TODO To be translated ======
-translate K compCarousel {Sistema de carrusel}
-# ====== TODO To be translated ======
-translate K compSaveEval {Guardar l'avaluació}
-# ====== TODO To be translated ======
-translate K compCanceledGames {Partits cancel·lats o esgotats:}
-# ====== TODO To be translated ======
-translate K Replay {Repetició}
-# ====== TODO To be translated ======
-translate K compStart {Comença}
-# ====== TODO To be translated ======
-translate K compSave {Estalvia després de cada joc}
-# ====== TODO To be translated ======
-translate K compStop {Atura després del final\de l'acte. joc}
-# ====== TODO To be translated ======
-translate K compRunning {Torneig en curs}
-# ====== TODO To be translated ======
-translate K Restart {Reinicieu}
-# ====== TODO To be translated ======
-translate K compFinished {Torneig acabat}
-# ====== TODO To be translated ======
-translate K compStopped {Torneig aturat}
-Escriu una llista de noms alternatius per jugador, un nom per cada línia. Es permeten comodins (per exemple "?" per un caracter, "*" per varis caracters).
-
+translate K MyPlayerNamesDescription {Escriu una llista de noms alternatius per jugador, un nom per cada línia. Es permeten comodins (per exemple "?" per un caracter, "*" per varis caracters).
 Cada cop que es carregui una partida amb un jugador de la llista es girarà l'escaquer, si fos necessari, per veure la partida des de la perspectiva del jugador.
 }
 
 # Computer Tournament:
-# MISSING TRANSLATION for configComp:
-# translate E configComp {Configure Tournament}
-# MISSING TRANSLATION for Tournament:
-# translate E Tournament {Tournament}
-# MISSING TRANSLATION for Available:
-# translate E Available {Available}
-# MISSING TRANSLATION for Selected:
-# translate E Selected {Selected}
-# MISSING TRANSLATION for RoundRobin:
-# translate E RoundRobin {Round Robin}
-# MISSING TRANSLATION for Gauntlet:
-# translate E Gauntlet {Gauntlet}
-# MISSING TRANSLATION for CompGameNext:
-# translate E CompGameNext {Next game:}
-# MISSING TRANSLATION for TimeperGame:
-# translate E TimeperGame {Time per\nGame}
-# MISSING TRANSLATION for TimeperMove:
-# translate E TimeperMove {Time per\nMove}
-# MISSING TRANSLATION for compStoreTime:
-# translate E compStoreTime {Store Time: }
-# MISSING TRANSLATION for Clock:
-# translate E Clock {Clock}
-# MISSING TRANSLATION for compConcurrent:
-# translate E compConcurrent {Concurrent games: }
-# MISSING TRANSLATION for compShowBoards:
-# translate E compShowBoards {Show Boards}
-# MISSING TRANSLATION for compCarousel:
-# translate E compCarousel {Carousel system}
-# MISSING TRANSLATION for compSaveEval:
-# translate E compSaveEval {Save evaluation}
-# MISSING TRANSLATION for compCanceledGames:
-# translate E compCanceledGames {Canceled or timed out games:}
-# MISSING TRANSLATION for Replay:
-# translate E Replay {Replay}
-# MISSING TRANSLATION for compStart:
-# translate E compStart {Start}
-# MISSING TRANSLATION for compSave:
-# translate E compSave {Save after every game}
-# MISSING TRANSLATION for compStop:
-# translate E compStop {Stop after end\nof act. game}
-# MISSING TRANSLATION for compRunning:
-# translate E compRunning {Tournament in progress}
-# MISSING TRANSLATION for Restart:
-# translate E Restart {Restart}
-# MISSING TRANSLATION for compFinished:
-# translate E compFinished {Tournament finished}
-# MISSING TRANSLATION for compStopped:
-# translate E compStopped {Tournament stopped}
+translate K configComp {Configura el torneig}
+translate K Tournament {Torneig}
+translate K Available {Disponible}
+translate K Selected {Seleccionat}
+translate K RoundRobin {Round Robin}
+translate K Gauntlet {Guantlet}
+translate K CompGameNext {Següent joc:}
+translate K TimeperGame {Temps per\Joc}
+translate K TimeperMove {Temps per\Moviment}
+translate K compStoreTime {Hora de la botiga:}
+translate K Clock {Rellotge}
+translate K compConcurrent {Jocs simultanis:}
+translate K compShowBoards {Mostra els taulers}
+translate K compCarousel {Sistema de carrusel}
+translate K compSaveEval {Guardar l'avaluació}
+translate K compCanceledGames {Partits cancel·lats o esgotats:}
+translate K Replay {Repetició}
+translate K compStart {Comença}
+translate K compSave {Estalvia després de cada joc}
+translate K compStop {Atura després del final\de l'acte. joc}
+translate K compRunning {Torneig en curs}
+translate K Restart {Reinicieu}
+translate K compFinished {Torneig acabat}
+translate K compStopped {Torneig aturat}
 
 #Coach
 translate K showblunderexists {Mostrar ficada de pota}

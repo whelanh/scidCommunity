@@ -391,6 +391,7 @@ translate W Import {Importera}
 translate W Index {Index}
 translate W LoadGame {Ladda parti}
 translate W BrowseGame {Bläddra genom partier}
+translate W PgnOpenInViewer {Öppna i PGN Viewer}
 translate W MergeGame {Slå samman parti}
 translate W MergeGames {Slå samman partier}
 translate W Preview {Förhandsgranska}
@@ -668,6 +669,21 @@ translate W ConfigureFilter {Konfigurera X-axlar för År, Rating och Drag}
 translate W FilterEstimate "Uppskatta"
 translate W TitleFilterGraph "Scid: Filtergraf"
 translate W WinPct "Vinst %"
+translate W GraphLine "Linjediagram"
+translate W GraphBar "Stapeldiagram"
+translate W GraphPopup "Popup-tavla"
+translate W PgnVarClose {Stäng alla varianter}
+translate W PgnVarOpen {Öppna alla varianter}
+translate W PgnEvaluate {Utvärdera}
+translate W PgnSaveEval {Spara utvärdering}
+translate W PgnOptShort "Kort (3-rads) sidhuvud"
+translate W PgnOptSymbols "Symboliska anteckningar"
+translate W PgnOptIndentC "Indragskommentarer"
+translate W PgnOptIndentV "Indragsvariationer"
+translate W PgnOptColumn "Kolumnstil (ett drag per rad)"
+translate W PgnOptSpace "Mellanslag efter dragnummer"
+translate W PgnOptStripMarks "Ta bort färgade fyrkants-/pilkoder"
+translate W PgnOptBoldMainLine "Använd fet text för huvudlinjeförflyttningar"
 
 # Analysis window:
 translate W AddVariation {Lägg till variation}
@@ -1408,109 +1424,35 @@ translate W RecentFilesMenu {Antal senast öppnade filer i Arkivmenyn}
 translate W RecentFilesExtra {Antal senast öppnade filer i extra undermeny}
 
 # My Player Names options:
-translate W MyPlayerNamesDescription {
-# ====== TODO To be translated ======
-translate W configComp {Konfigurera turnering}
-# ====== TODO To be translated ======
-translate W Tournament {Turnering}
-# ====== TODO To be translated ======
-translate W Available {Tillgänglig}
-# ====== TODO To be translated ======
-translate W Selected {Vald}
-# ====== TODO To be translated ======
-translate W RoundRobin {Round Robin}
-# ====== TODO To be translated ======
-translate W Gauntlet {Gatlopp}
-# ====== TODO To be translated ======
-translate W CompGameNext {Nästa match:}
-# ====== TODO To be translated ======
-translate W TimeperGame {Tid per spel}
-# ====== TODO To be translated ======
-translate W TimeperMove {Tid per\Flytt}
-# ====== TODO To be translated ======
-translate W compStoreTime {Butikstid:}
-# ====== TODO To be translated ======
-translate W Clock {Klocka}
-# ====== TODO To be translated ======
-translate W compConcurrent {Samtidiga spel:}
-# ====== TODO To be translated ======
-translate W compShowBoards {Visa brädor}
-# ====== TODO To be translated ======
-translate W compCarousel {Karusellsystem}
-# ====== TODO To be translated ======
-translate W compSaveEval {Spara utvärdering}
-# ====== TODO To be translated ======
-translate W compCanceledGames {Inställda eller tidsgränsade spel:}
-# ====== TODO To be translated ======
-translate W Replay {Spela om}
-# ====== TODO To be translated ======
-translate W compStart {Start}
-# ====== TODO To be translated ======
-translate W compSave {Spara efter varje match}
-# ====== TODO To be translated ======
-translate W compStop {Stoppa efter aktens slut. spel}
-# ====== TODO To be translated ======
-translate W compRunning {Turneringen pågår}
-# ====== TODO To be translated ======
-translate W Restart {Starta om}
-# ====== TODO To be translated ======
-translate W compFinished {Turneringen avslutad}
-# ====== TODO To be translated ======
-translate W compStopped {Turneringen stoppas}
-Ange en lista på dina favoritspelare här nedanför. Skriv ett namn per rad. Jokertecken ("?", t ex, motsvarar ett enstaka tecken medan "*" står för flera tecken) är tillåtna.
-
+translate W MyPlayerNamesDescription {Ange en lista på dina favoritspelare här nedanför. Skriv ett namn per rad. Jokertecken ("?", t ex, motsvarar ett enstaka tecken medan "*" står för flera tecken) är tillåtna.
 Varje gång ett parti med en spelare vars namn står i denna lista öppnas kommer brädet automatiskt att vridas så att partiet visas från spelarens perspektiv.
 } 
 
 # Computer Tournament:
-# MISSING TRANSLATION for configComp:
-# translate E configComp {Configure Tournament}
-# MISSING TRANSLATION for Tournament:
-# translate E Tournament {Tournament}
-# MISSING TRANSLATION for Available:
-# translate E Available {Available}
-# MISSING TRANSLATION for Selected:
-# translate E Selected {Selected}
-# MISSING TRANSLATION for RoundRobin:
-# translate E RoundRobin {Round Robin}
-# MISSING TRANSLATION for Gauntlet:
-# translate E Gauntlet {Gauntlet}
-# MISSING TRANSLATION for CompGameNext:
-# translate E CompGameNext {Next game:}
-# MISSING TRANSLATION for TimeperGame:
-# translate E TimeperGame {Time per\nGame}
-# MISSING TRANSLATION for TimeperMove:
-# translate E TimeperMove {Time per\nMove}
-# MISSING TRANSLATION for compStoreTime:
-# translate E compStoreTime {Store Time: }
-# MISSING TRANSLATION for Clock:
-# translate E Clock {Clock}
-# MISSING TRANSLATION for compConcurrent:
-# translate E compConcurrent {Concurrent games: }
-# MISSING TRANSLATION for compShowBoards:
-# translate E compShowBoards {Show Boards}
-# MISSING TRANSLATION for compCarousel:
-# translate E compCarousel {Carousel system}
-# MISSING TRANSLATION for compSaveEval:
-# translate E compSaveEval {Save evaluation}
-# MISSING TRANSLATION for compCanceledGames:
-# translate E compCanceledGames {Canceled or timed out games:}
-# MISSING TRANSLATION for Replay:
-# translate E Replay {Replay}
-# MISSING TRANSLATION for compStart:
-# translate E compStart {Start}
-# MISSING TRANSLATION for compSave:
-# translate E compSave {Save after every game}
-# MISSING TRANSLATION for compStop:
-# translate E compStop {Stop after end\nof act. game}
-# MISSING TRANSLATION for compRunning:
-# translate E compRunning {Tournament in progress}
-# MISSING TRANSLATION for Restart:
-# translate E Restart {Restart}
-# MISSING TRANSLATION for compFinished:
-# translate E compFinished {Tournament finished}
-# MISSING TRANSLATION for compStopped:
-# translate E compStopped {Tournament stopped}
+translate W configComp {Konfigurera turnering}
+translate W Tournament {Turnering}
+translate W Available {Tillgänglig}
+translate W Selected {Vald}
+translate W RoundRobin {Round Robin}
+translate W Gauntlet {Gatlopp}
+translate W CompGameNext {Nästa match:}
+translate W TimeperGame {Tid per spel}
+translate W TimeperMove {Tid per\Flytt}
+translate W compStoreTime {Butikstid:}
+translate W Clock {Klocka}
+translate W compConcurrent {Samtidiga spel:}
+translate W compShowBoards {Visa brädor}
+translate W compCarousel {Karusellsystem}
+translate W compSaveEval {Spara utvärdering}
+translate W compCanceledGames {Inställda eller tidsgränsade spel:}
+translate W Replay {Spela om}
+translate W compStart {Start}
+translate W compSave {Spara efter varje match}
+translate W compStop {Stoppa efter aktens slut. spel}
+translate W compRunning {Turneringen pågår}
+translate W Restart {Starta om}
+translate W compFinished {Turneringen avslutad}
+translate W compStopped {Turneringen stoppas}
 
 #Coach
 translate W showblunderexists {visa blunder finns}

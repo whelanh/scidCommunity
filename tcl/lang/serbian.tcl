@@ -508,6 +508,8 @@ translate Y Import {Uvoz}
 translate Y Index {Indeks}
 translate Y LoadGame {Uitaj partiju}
 translate Y BrowseGame {Browse game} ;# ***
+# ====== TODO To be translated ======
+translate Y PgnOpenInViewer {Отвори у PGN прегледачу}
 translate Y MergeGame {Merge game} ;# ***
 # ====== TODO To be translated ======
 translate Y MergeGames {Merge Games}
@@ -856,6 +858,36 @@ translate Y FilterEstimate "Estimate"
 translate Y TitleFilterGraph "Scid: Filter Graph"
 # ====== TODO To be translated ======
 translate Y WinPct "Win %"
+# ====== TODO To be translated ======
+translate Y GraphLine "Линијски графикон"
+# ====== TODO To be translated ======
+translate Y GraphBar "Стубични графикон"
+# ====== TODO To be translated ======
+translate Y GraphPopup "Искачућа табла"
+# ====== TODO To be translated ======
+translate Y PgnVarClose {Close all variants}
+# ====== TODO To be translated ======
+translate Y PgnVarOpen {Open all variants}
+# ====== TODO To be translated ======
+translate Y PgnEvaluate {Evaluate}
+# ====== TODO To be translated ======
+translate Y PgnSaveEval {Save Evaluation}
+# ====== TODO To be translated ======
+translate Y PgnOptShort "Short (3-line) Header"
+# ====== TODO To be translated ======
+translate Y PgnOptSymbols "Symbolic Annotations"
+# ====== TODO To be translated ======
+translate Y PgnOptIndentC "Indent Comments"
+# ====== TODO To be translated ======
+translate Y PgnOptIndentV "Indent Variations"
+# ====== TODO To be translated ======
+translate Y PgnOptColumn "Column Style (one move per line)"
+# ====== TODO To be translated ======
+translate Y PgnOptSpace "Space after Move Numbers"
+# ====== TODO To be translated ======
+translate Y PgnOptStripMarks "Strip out Colored Square/Arrow Codes"
+# ====== TODO To be translated ======
+translate Y PgnOptBoldMainLine "Use Bold Text for Main Line Moves"
 
 # Analysis window:
 translate Y AddVariation {Dodaj varijantu}

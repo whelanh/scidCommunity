@@ -384,6 +384,7 @@ translate C Import {Import}
 translate C Index {Index}
 translate C LoadGame {Nathnout partii}
 translate C BrowseGame {Prohldnout partii}
+translate C PgnOpenInViewer {Otevřít v prohlížeči PGN}
 translate C MergeGame {Pipojit partii}
 translate C MergeGames {Pipojit partie}
 translate C Preview {Nhled}
@@ -662,6 +663,21 @@ translate C ConfigureFilter {Konfigurovat x-souadnici pro rok, rating a tahy}
 translate C FilterEstimate "Odhadnout"
 translate C TitleFilterGraph "Scid: Graf filtru"
 translate C WinPct "% výhry"
+translate C GraphLine "Spojnicový graf"
+translate C GraphBar "Sloupcový graf"
+translate C GraphPopup "Popup Board"
+translate C PgnVarClose {Zavřete všechny varianty}
+translate C PgnVarOpen {Otevřete všechny varianty}
+translate C PgnEvaluate {Vyhodnoťte}
+translate C PgnSaveEval {Uložit hodnocení}
+translate C PgnOptShort "Krátké (3 řádkové) záhlaví"
+translate C PgnOptSymbols "Symbolické poznámky"
+translate C PgnOptIndentC "Odsadit komentáře"
+translate C PgnOptIndentV "Variace odsazení"
+translate C PgnOptColumn "Styl sloupce (jeden tah na řádek)"
+translate C PgnOptSpace "Mezera za čísly přesunu"
+translate C PgnOptStripMarks "Odstraňte barevné kódy čtverců/šipek"
+translate C PgnOptBoldMainLine "Pro pohyby hlavní čáry použijte tučný text"
 
 # Analysis window:
 translate C AddVariation {Pidat variantu}
@@ -1402,109 +1418,35 @@ translate C RecentFilesMenu {Poet nedvnch soubor v menu Soubor}
 translate C RecentFilesExtra {Poet nedvnch soubor v extra podmenu}
 
 # My Player Names options:
-translate C MyPlayerNamesDescription {
-# ====== TODO To be translated ======
-translate C configComp {Konfigurace turnaje}
-# ====== TODO To be translated ======
-translate C Tournament {Turnaj}
-# ====== TODO To be translated ======
-translate C Available {K dispozici}
-# ====== TODO To be translated ======
-translate C Selected {Vybraný}
-# ====== TODO To be translated ======
-translate C RoundRobin {Round Robin}
-# ====== TODO To be translated ======
-translate C Gauntlet {Rukavice}
-# ====== TODO To be translated ======
-translate C CompGameNext {Další hra:}
-# ====== TODO To be translated ======
-translate C TimeperGame {Čas na\hru}
-# ====== TODO To be translated ======
-translate C TimeperMove {Čas za\tah}
-# ====== TODO To be translated ======
-translate C compStoreTime {Čas uložení:}
-# ====== TODO To be translated ======
-translate C Clock {Hodiny}
-# ====== TODO To be translated ======
-translate C compConcurrent {Souběžné hry:}
-# ====== TODO To be translated ======
-translate C compShowBoards {Zobrazit nástěnky}
-# ====== TODO To be translated ======
-translate C compCarousel {Karuselový systém}
-# ====== TODO To be translated ======
-translate C compSaveEval {Uložit hodnocení}
-# ====== TODO To be translated ======
-translate C compCanceledGames {Zrušené nebo vypršel časový limit:}
-# ====== TODO To be translated ======
-translate C Replay {Přehrát znovu}
-# ====== TODO To be translated ======
-translate C compStart {Start}
-# ====== TODO To be translated ======
-translate C compSave {Uložte po každé hře}
-# ====== TODO To be translated ======
-translate C compStop {Zastavte se po skončení akce. hra}
-# ====== TODO To be translated ======
-translate C compRunning {Turnaj probíhá}
-# ====== TODO To be translated ======
-translate C Restart {Restartujte}
-# ====== TODO To be translated ======
-translate C compFinished {Turnaj ukončen}
-# ====== TODO To be translated ======
-translate C compStopped {Turnaj zastaven}
-Oteve seznam se jmny preferovanch hr, kad jmno na jeden dek. Zstupn znaky (tj. "?" pro jakkoliv jeden znak, "*" pro jakoukoliv sekvenci znak) jsou povoleny.
-
+translate C MyPlayerNamesDescription {Oteve seznam se jmny preferovanch hr, kad jmno na jeden dek. Zstupn znaky (tj. "?" pro jakkoliv jeden znak, "*" pro jakoukoliv sekvenci znak) jsou povoleny.
 Vdy, kdy se nathne partie hre uvedenho v seznamu, achovnice v hlavnm okn se oto, jestlie je to nutn k zobrazen partie z perspektivy tohoto hre.
 }
 
 # Computer Tournament:
-# MISSING TRANSLATION for configComp:
-# translate E configComp {Configure Tournament}
-# MISSING TRANSLATION for Tournament:
-# translate E Tournament {Tournament}
-# MISSING TRANSLATION for Available:
-# translate E Available {Available}
-# MISSING TRANSLATION for Selected:
-# translate E Selected {Selected}
-# MISSING TRANSLATION for RoundRobin:
-# translate E RoundRobin {Round Robin}
-# MISSING TRANSLATION for Gauntlet:
-# translate E Gauntlet {Gauntlet}
-# MISSING TRANSLATION for CompGameNext:
-# translate E CompGameNext {Next game:}
-# MISSING TRANSLATION for TimeperGame:
-# translate E TimeperGame {Time per\nGame}
-# MISSING TRANSLATION for TimeperMove:
-# translate E TimeperMove {Time per\nMove}
-# MISSING TRANSLATION for compStoreTime:
-# translate E compStoreTime {Store Time: }
-# MISSING TRANSLATION for Clock:
-# translate E Clock {Clock}
-# MISSING TRANSLATION for compConcurrent:
-# translate E compConcurrent {Concurrent games: }
-# MISSING TRANSLATION for compShowBoards:
-# translate E compShowBoards {Show Boards}
-# MISSING TRANSLATION for compCarousel:
-# translate E compCarousel {Carousel system}
-# MISSING TRANSLATION for compSaveEval:
-# translate E compSaveEval {Save evaluation}
-# MISSING TRANSLATION for compCanceledGames:
-# translate E compCanceledGames {Canceled or timed out games:}
-# MISSING TRANSLATION for Replay:
-# translate E Replay {Replay}
-# MISSING TRANSLATION for compStart:
-# translate E compStart {Start}
-# MISSING TRANSLATION for compSave:
-# translate E compSave {Save after every game}
-# MISSING TRANSLATION for compStop:
-# translate E compStop {Stop after end\nof act. game}
-# MISSING TRANSLATION for compRunning:
-# translate E compRunning {Tournament in progress}
-# MISSING TRANSLATION for Restart:
-# translate E Restart {Restart}
-# MISSING TRANSLATION for compFinished:
-# translate E compFinished {Tournament finished}
-# MISSING TRANSLATION for compStopped:
-# translate E compStopped {Tournament stopped}
+translate C configComp {Konfigurace turnaje}
+translate C Tournament {Turnaj}
+translate C Available {K dispozici}
+translate C Selected {Vybraný}
+translate C RoundRobin {Round Robin}
+translate C Gauntlet {Rukavice}
+translate C CompGameNext {Další hra:}
+translate C TimeperGame {Čas na\hru}
+translate C TimeperMove {Čas za\tah}
+translate C compStoreTime {Čas uložení:}
+translate C Clock {Hodiny}
+translate C compConcurrent {Souběžné hry:}
+translate C compShowBoards {Zobrazit nástěnky}
+translate C compCarousel {Karuselový systém}
+translate C compSaveEval {Uložit hodnocení}
+translate C compCanceledGames {Zrušené nebo vypršel časový limit:}
+translate C Replay {Přehrát znovu}
+translate C compStart {Start}
+translate C compSave {Uložte po každé hře}
+translate C compStop {Zastavte se po skončení akce. hra}
+translate C compRunning {Turnaj probíhá}
+translate C Restart {Restartujte}
+translate C compFinished {Turnaj ukončen}
+translate C compStopped {Turnaj zastaven}
 
 #Coach
 translate C showblunderexists {ukzat ptomnost hrub chyby}

@@ -390,6 +390,7 @@ translate O Import {Importer}
 translate O Index {Innhold}
 translate O LoadGame {Hent parti}
 translate O BrowseGame {Bla gjennom parti}
+translate O PgnOpenInViewer {Åpne i PGN Viewer}
 translate O MergeGame {Smelt parti}
 translate O MergeGames {Slå sammen spill}
 translate O Preview {Forhåndsvis}
@@ -667,6 +668,21 @@ translate O ConfigureFilter {Konfigurer X-akser for år, vurdering og trekk}
 translate O FilterEstimate "Beregne"
 translate O TitleFilterGraph "Scid: Filter Graph"
 translate O WinPct "Vinn %"
+translate O GraphLine "Linjediagram"
+translate O GraphBar "Søylediagram"
+translate O GraphPopup "Popup-tavle"
+translate O PgnVarClose {Lukk alle varianter}
+translate O PgnVarOpen {Åpne alle varianter}
+translate O PgnEvaluate {Evaluere}
+translate O PgnSaveEval {Lagre evaluering}
+translate O PgnOptShort "Kort (3-linjers) topptekst"
+translate O PgnOptSymbols "Symbolske merknader"
+translate O PgnOptIndentC "Innrykk kommentarer"
+translate O PgnOptIndentV "Innrykkvarianter"
+translate O PgnOptColumn "Kolonnestil (ett trekk per linje)"
+translate O PgnOptSpace "Mellomrom etter flyttetall"
+translate O PgnOptStripMarks "Fjern fargede ruter/pilkoder"
+translate O PgnOptBoldMainLine "Bruk fet tekst for hovedlinjebevegelser"
 
 # Analysis window:
 translate O AddVariation {Legg til variasjon}
@@ -1402,111 +1418,35 @@ translate O RecentFilesMenu {Number of recent files in File menu} ;# ***
 translate O RecentFilesExtra {Number of recent files in extra submenu} ;# ***
 
 # My Player Names options:
-translate O MyPlayerNamesDescription {
-Enter a list of preferred player names below, one name per line. Wildcards (e.g. "?" for any single character, "*" for any sequence of characters) are permitted.
-
-Every time a game with a player in the list is loaded, the main window chessboard will be rotated if necessary to show the game from that players perspective.
-} ;# ***
+translate O MyPlayerNamesDescription {Skriv inn en liste over foretrukne spillernavn nedenfor, ett navn per linje. Jokertegn (f.eks. "?" for et enkelt tegn, "*" for en sekvens av tegn) er tillatt.
+Hver gang et spill med en spiller i listen lastes, vil hovedvinduets sjakkbrett roteres om nødvendig for å vise spillet fra spillerens perspektiv.
+}
 
 # Computer Tournament:
-# ====== TODO To be translated ======
 translate O configComp {Konfigurer turnering}
-# ====== TODO To be translated ======
 translate O Tournament {Turnering}
-# ====== TODO To be translated ======
 translate O Available {Tilgjengelig}
-# ====== TODO To be translated ======
 translate O Selected {Valgt}
-# ====== TODO To be translated ======
 translate O RoundRobin {Round Robin}
-# ====== TODO To be translated ======
 translate O Gauntlet {Hanske}
-# ====== TODO To be translated ======
 translate O CompGameNext {Neste kamp:}
-# ====== TODO To be translated ======
 translate O TimeperGame {Tid per spill}
-# ====== TODO To be translated ======
 translate O TimeperMove {Tid per\Flytt}
-# ====== TODO To be translated ======
 translate O compStoreTime {Lagringstid:}
-# ====== TODO To be translated ======
 translate O Clock {Klokke}
-# ====== TODO To be translated ======
 translate O compConcurrent {Samtidige spill:}
-# ====== TODO To be translated ======
 translate O compShowBoards {Vis brett}
-# ====== TODO To be translated ======
 translate O compCarousel {Karusellsystem}
-# ====== TODO To be translated ======
 translate O compSaveEval {Lagre evaluering}
-# ====== TODO To be translated ======
 translate O compCanceledGames {Avlyste eller tidsavbrutt spill:}
-# ====== TODO To be translated ======
 translate O Replay {Replay}
-# ====== TODO To be translated ======
 translate O compStart {Start}
-# ====== TODO To be translated ======
 translate O compSave {Lagre etter hvert spill}
-# ====== TODO To be translated ======
 translate O compStop {Stopp etter endt handling. spill}
-# ====== TODO To be translated ======
 translate O compRunning {Turnering pågår}
-# ====== TODO To be translated ======
 translate O Restart {Start på nytt}
-# ====== TODO To be translated ======
 translate O compFinished {Turneringen avsluttet}
-# ====== TODO To be translated ======
 translate O compStopped {Turneringen stoppet}
-
-# Computer Tournament:
-# MISSING TRANSLATION for configComp:
-# translate E configComp {Configure Tournament}
-# MISSING TRANSLATION for Tournament:
-# translate E Tournament {Tournament}
-# MISSING TRANSLATION for Available:
-# translate E Available {Available}
-# MISSING TRANSLATION for Selected:
-# translate E Selected {Selected}
-# MISSING TRANSLATION for RoundRobin:
-# translate E RoundRobin {Round Robin}
-# MISSING TRANSLATION for Gauntlet:
-# translate E Gauntlet {Gauntlet}
-# MISSING TRANSLATION for CompGameNext:
-# translate E CompGameNext {Next game:}
-# MISSING TRANSLATION for TimeperGame:
-# translate E TimeperGame {Time per\nGame}
-# MISSING TRANSLATION for TimeperMove:
-# translate E TimeperMove {Time per\nMove}
-# MISSING TRANSLATION for compStoreTime:
-# translate E compStoreTime {Store Time: }
-# MISSING TRANSLATION for Clock:
-# translate E Clock {Clock}
-# MISSING TRANSLATION for compConcurrent:
-# translate E compConcurrent {Concurrent games: }
-# MISSING TRANSLATION for compShowBoards:
-# translate E compShowBoards {Show Boards}
-# MISSING TRANSLATION for compCarousel:
-# translate E compCarousel {Carousel system}
-# MISSING TRANSLATION for compSaveEval:
-# translate E compSaveEval {Save evaluation}
-# MISSING TRANSLATION for compCanceledGames:
-# translate E compCanceledGames {Canceled or timed out games:}
-# MISSING TRANSLATION for Replay:
-# translate E Replay {Replay}
-# MISSING TRANSLATION for compStart:
-# translate E compStart {Start}
-# MISSING TRANSLATION for compSave:
-# translate E compSave {Save after every game}
-# MISSING TRANSLATION for compStop:
-# translate E compStop {Stop after end\nof act. game}
-# MISSING TRANSLATION for compRunning:
-# translate E compRunning {Tournament in progress}
-# MISSING TRANSLATION for Restart:
-# translate E Restart {Restart}
-# MISSING TRANSLATION for compFinished:
-# translate E compFinished {Tournament finished}
-# MISSING TRANSLATION for compStopped:
-# translate E compStopped {Tournament stopped}
 
 #Coach
 translate O showblunderexists {Vis at feil eksisterer}

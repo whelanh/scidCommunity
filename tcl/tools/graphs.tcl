@@ -1522,3 +1522,39 @@ proc ::tools::graphs::time::Refresh {} {
 }
 
 ### End of file: graphs.tcl
+
+proc ::tools::graphs::score::Popup {w positionLongStr textleft textright xc yc {above false}} {
+    if {! [winfo exists $w]} {
+        toplevel $w
+        applyThemeColor_background $w
+        wm overrideredirect $w 1
+        ttk::label $w.l
+        grid $w.l -sticky w -row 0 -column 0
+        ttk::label $w.r
+        grid $w.r -sticky e -row 0 -column 1
+        ::board::new $w.bd 30
+        grid $w.bd -row 1 -columnspan 2
+        ::update idletasks
+    }
+    $w.l configure -text $textleft
+    $w.r configure -text $textright
+    lassign $positionLongStr pos lastmove
+    catch { ::board::update $w.bd $pos }
+
+    ::board::lastMoveHighlight $w.bd $lastmove
+    # Make sure the popup window can fit on the screen:
+    set screen_w [winfo vrootwidth $w]
+    set screen_h [winfo vrootheight $w]
+    set top_y [winfo rooty .]
+    set dx [winfo reqwidth $w]
+    set dy [winfo reqheight $w]
+    set xc [expr {max(0, $xc - int($dx / 2))}]
+    set xc [expr {min($xc, $screen_w - $dx)}]
+    if {$yc < $dy + $top_y} { set above false }
+    if {$yc + $dy > $screen_h} { set above true }
+    if {$above} { set yc [expr {max(0, $yc - $dy)}] } { incr yc 20 }
+    ::board::resize $w.bd redraw
+    wm geometry $w "+$xc+$yc"
+    wm deiconify $w
+    raiseWin $w
+}

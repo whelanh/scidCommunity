@@ -384,6 +384,7 @@ translate T Import {İçe aktarmak}
 translate T Index {Dizin}
 translate T LoadGame {Oyunu Yükle}
 translate T BrowseGame {Oyuna Göz At}
+translate T PgnOpenInViewer {PGN Görüntüleyicide Aç}
 translate T MergeGame {Oyunu Birleştir}
 translate T MergeGames {Oyunları Birleştir}
 translate T Preview {Önizleme}
@@ -661,6 +662,21 @@ translate T ConfigureFilter "Yıl, Derecelendirme ve Hareketler için X Eksenler
 translate T FilterEstimate "Tahmin etmek"
 translate T TitleFilterGraph "Scid: Filtre Grafiği"
 translate T WinPct "Kazanç %"
+translate T GraphLine "Çizgi Grafiği"
+translate T GraphBar "Çubuk Grafik"
+translate T GraphPopup "Açılır Pano"
+translate T PgnVarClose {Tüm varyantları kapat}
+translate T PgnVarOpen {Tüm çeşitleri aç}
+translate T PgnEvaluate {Değerlendirmek}
+translate T PgnSaveEval {Değerlendirmeyi Kaydet}
+translate T PgnOptShort "Kısa (3 satırlı) Başlık"
+translate T PgnOptSymbols "Sembolik Açıklamalar"
+translate T PgnOptIndentC "Yorumları Girintilendir"
+translate T PgnOptIndentV "Girinti Çeşitleri"
+translate T PgnOptColumn "Sütun Stili (satır başına bir hareket)"
+translate T PgnOptSpace "Hareket Numaralarından Sonra Boşluk"
+translate T PgnOptStripMarks "Renkli Kare/Ok Kodlarını Çıkarın"
+translate T PgnOptBoldMainLine "Ana Satır Hareketleri için Kalın Metin Kullanın"
 
 # Analysis window:
 translate T AddVariation {Varyasyon Ekle}
@@ -1386,106 +1402,33 @@ translate T RecentFilesExtra {Ekstra alt menüdeki son dosyaların sayısı}
 
 # My Player Names options:
 translate T MyPlayerNamesDescription {Tercih ettiğiniz oyuncu adlarının listesini her satıra bir ad gelecek şekilde aşağıya girin. Joker karakterlere (örneğin herhangi bir tek karakter için "?", herhangi bir karakter dizisi için "*") izin verilir.
-# ====== TODO To be translated ======
-translate T configComp {Turnuvayı Yapılandır}
-# ====== TODO To be translated ======
-translate T Tournament {Turnuva}
-# ====== TODO To be translated ======
-translate T Available {Mevcut}
-# ====== TODO To be translated ======
-translate T Selected {Seçildi}
-# ====== TODO To be translated ======
-translate T RoundRobin {Yuvarlak Robin}
-# ====== TODO To be translated ======
-translate T Gauntlet {Eldiven}
-# ====== TODO To be translated ======
-translate T CompGameNext {Sonraki oyun:}
-# ====== TODO To be translated ======
-translate T TimeperGame {Oyun Başına Süre}
-# ====== TODO To be translated ======
-translate T TimeperMove {Hareket başına süre}
-# ====== TODO To be translated ======
-translate T compStoreTime {Mağaza Süresi:}
-# ====== TODO To be translated ======
-translate T Clock {Saat}
-# ====== TODO To be translated ======
-translate T compConcurrent {Eşzamanlı oyunlar:}
-# ====== TODO To be translated ======
-translate T compShowBoards {Panoları Göster}
-# ====== TODO To be translated ======
-translate T compCarousel {Atlıkarınca sistemi}
-# ====== TODO To be translated ======
-translate T compSaveEval {Değerlendirmeyi kaydet}
-# ====== TODO To be translated ======
-translate T compCanceledGames {İptal edilen veya zaman aşımına uğrayan oyunlar:}
-# ====== TODO To be translated ======
-translate T Replay {Tekrar oynat}
-# ====== TODO To be translated ======
-translate T compStart {Başlangıç}
-# ====== TODO To be translated ======
-translate T compSave {Her oyundan sonra kaydet}
-# ====== TODO To be translated ======
-translate T compStop {Eylemin bitiminden sonra dur. oyun}
-# ====== TODO To be translated ======
-translate T compRunning {Turnuva devam ediyor}
-# ====== TODO To be translated ======
-translate T Restart {Tekrar başlat}
-# ====== TODO To be translated ======
-translate T compFinished {Turnuva bitti}
-# ====== TODO To be translated ======
-translate T compStopped {Turnuva durduruldu}
-
 Listede bir oyuncu bulunan bir oyun her yüklendiğinde, oyunu o oyuncunun bakış açısından göstermek için gerekirse ana pencere satranç tahtası döndürülecektir.}
 
 # Computer Tournament:
-# MISSING TRANSLATION for configComp:
-# translate E configComp {Configure Tournament}
-# MISSING TRANSLATION for Tournament:
-# translate E Tournament {Tournament}
-# MISSING TRANSLATION for Available:
-# translate E Available {Available}
-# MISSING TRANSLATION for Selected:
-# translate E Selected {Selected}
-# MISSING TRANSLATION for RoundRobin:
-# translate E RoundRobin {Round Robin}
-# MISSING TRANSLATION for Gauntlet:
-# translate E Gauntlet {Gauntlet}
-# MISSING TRANSLATION for CompGameNext:
-# translate E CompGameNext {Next game:}
-# MISSING TRANSLATION for TimeperGame:
-# translate E TimeperGame {Time per\nGame}
-# MISSING TRANSLATION for TimeperMove:
-# translate E TimeperMove {Time per\nMove}
-# MISSING TRANSLATION for compStoreTime:
-# translate E compStoreTime {Store Time: }
-# MISSING TRANSLATION for Clock:
-# translate E Clock {Clock}
-# MISSING TRANSLATION for compConcurrent:
-# translate E compConcurrent {Concurrent games: }
-# MISSING TRANSLATION for compShowBoards:
-# translate E compShowBoards {Show Boards}
-# MISSING TRANSLATION for compCarousel:
-# translate E compCarousel {Carousel system}
-# MISSING TRANSLATION for compSaveEval:
-# translate E compSaveEval {Save evaluation}
-# MISSING TRANSLATION for compCanceledGames:
-# translate E compCanceledGames {Canceled or timed out games:}
-# MISSING TRANSLATION for Replay:
-# translate E Replay {Replay}
-# MISSING TRANSLATION for compStart:
-# translate E compStart {Start}
-# MISSING TRANSLATION for compSave:
-# translate E compSave {Save after every game}
-# MISSING TRANSLATION for compStop:
-# translate E compStop {Stop after end\nof act. game}
-# MISSING TRANSLATION for compRunning:
-# translate E compRunning {Tournament in progress}
-# MISSING TRANSLATION for Restart:
-# translate E Restart {Restart}
-# MISSING TRANSLATION for compFinished:
-# translate E compFinished {Tournament finished}
-# MISSING TRANSLATION for compStopped:
-# translate E compStopped {Tournament stopped}
+translate T configComp {Turnuvayı Yapılandır}
+translate T Tournament {Turnuva}
+translate T Available {Mevcut}
+translate T Selected {Seçildi}
+translate T RoundRobin {Yuvarlak Robin}
+translate T Gauntlet {Eldiven}
+translate T CompGameNext {Sonraki oyun:}
+translate T TimeperGame {Oyun Başına Süre}
+translate T TimeperMove {Hareket başına süre}
+translate T compStoreTime {Mağaza Süresi:}
+translate T Clock {Saat}
+translate T compConcurrent {Eşzamanlı oyunlar:}
+translate T compShowBoards {Panoları Göster}
+translate T compCarousel {Atlıkarınca sistemi}
+translate T compSaveEval {Değerlendirmeyi kaydet}
+translate T compCanceledGames {İptal edilen veya zaman aşımına uğrayan oyunlar:}
+translate T Replay {Tekrar oynat}
+translate T compStart {Başlangıç}
+translate T compSave {Her oyundan sonra kaydet}
+translate T compStop {Eylemin bitiminden sonra dur. oyun}
+translate T compRunning {Turnuva devam ediyor}
+translate T Restart {Tekrar başlat}
+translate T compFinished {Turnuva bitti}
+translate T compStopped {Turnuva durduruldu}
 
 #Coach
 translate T showblunderexists {hatanın var olduğunu göster}

@@ -389,6 +389,7 @@ translate B Import {Importar}
 translate B Index {Índice}
 translate B LoadGame {Carrega jogo}
 translate B BrowseGame {Listar jogo}
+translate B PgnOpenInViewer {Abrir no visualizador PGN}
 translate B MergeGame {Fazer fusão do jogo}
 translate B MergeGames {Fusão dos jogos}
 translate B Preview {Visualização}
@@ -670,6 +671,21 @@ translate B ConfigureFilter {Configurar Eixos X para Ano, Rating e Movimentos}
 translate B FilterEstimate "Estimar"
 translate B TitleFilterGraph "Scid: Gráfico de Filtro"
 translate B WinPct "Vitória %"
+translate B GraphLine "Gráfico de linhas"
+translate B GraphBar "Gráfico de barras"
+translate B GraphPopup "Quadro pop-up"
+translate B PgnVarClose {Fechar todas as variantes}
+translate B PgnVarOpen {Abra todas as variantes}
+translate B PgnEvaluate {Avaliar}
+translate B PgnSaveEval {Salvar avaliação}
+translate B PgnOptShort "Cabeçalho curto (3 linhas)"
+translate B PgnOptSymbols "Anotações Simbólicas"
+translate B PgnOptIndentC "Comentários de recuo"
+translate B PgnOptIndentV "Variações de recuo"
+translate B PgnOptColumn "Estilo de coluna (um movimento por linha)"
+translate B PgnOptSpace "Espaço após mover números"
+translate B PgnOptStripMarks "Retire os códigos de quadrados/setas coloridos"
+translate B PgnOptBoldMainLine "Use texto em negrito para movimentos de linha principal"
 
 # Analysis window:
 translate B AddVariation {Adicionar variante}
@@ -1410,109 +1426,35 @@ translate B RecentFilesMenu {Número de arquivos recentes no menu Arquivo}
 translate B RecentFilesExtra {Número de arquivos recentes no submenu extra} 
 
 # My Player Names options:
-translate B MyPlayerNamesDescription {
-# ====== TODO To be translated ======
-translate B configComp {Configurar torneio}
-# ====== TODO To be translated ======
-translate B Tournament {Torneio}
-# ====== TODO To be translated ======
-translate B Available {Disponível}
-# ====== TODO To be translated ======
-translate B Selected {Selecionado}
-# ====== TODO To be translated ======
-translate B RoundRobin {Rodada Robin}
-# ====== TODO To be translated ======
-translate B Gauntlet {Manopla}
-# ====== TODO To be translated ======
-translate B CompGameNext {Próximo jogo:}
-# ====== TODO To be translated ======
-translate B TimeperGame {Tempo por\Jogo}
-# ====== TODO To be translated ======
-translate B TimeperMove {Tempo por\movimento}
-# ====== TODO To be translated ======
-translate B compStoreTime {Tempo de armazenamento:}
-# ====== TODO To be translated ======
-translate B Clock {Relógio}
-# ====== TODO To be translated ======
-translate B compConcurrent {Jogos simultâneos:}
-# ====== TODO To be translated ======
-translate B compShowBoards {Mostrar painéis}
-# ====== TODO To be translated ======
-translate B compCarousel {Sistema carrossel}
-# ====== TODO To be translated ======
-translate B compSaveEval {Salvar avaliação}
-# ====== TODO To be translated ======
-translate B compCanceledGames {Jogos cancelados ou expirados:}
-# ====== TODO To be translated ======
-translate B Replay {Repetir}
-# ====== TODO To be translated ======
-translate B compStart {Começar}
-# ====== TODO To be translated ======
-translate B compSave {Salve depois de cada jogo}
-# ====== TODO To be translated ======
-translate B compStop {Pare após o fim do ato. jogo}
-# ====== TODO To be translated ======
-translate B compRunning {Torneio em andamento}
-# ====== TODO To be translated ======
-translate B Restart {Reiniciar}
-# ====== TODO To be translated ======
-translate B compFinished {Torneio terminado}
-# ====== TODO To be translated ======
-translate B compStopped {Torneio interrompido}
-Entre com uma lista dos nomes de jogadores preferidos, abaixo, um nome por linha. Substitutos (ex. "?" para qualquer caracter único, "*" para qualquer sequência de caracteres) são permitidas.
-
+translate B MyPlayerNamesDescription {Entre com uma lista dos nomes de jogadores preferidos, abaixo, um nome por linha. Substitutos (ex. "?" para qualquer caracter único, "*" para qualquer sequência de caracteres) são permitidas.
 Cada vez que um jogo com um jogador da lista é carregado, o tabuleiro da janela principal sofrerá rotação, se necessário, para mostrar o jogo da perspectiva desse jogador..
 } 
 
 # Computer Tournament:
-# MISSING TRANSLATION for configComp:
-# translate E configComp {Configure Tournament}
-# MISSING TRANSLATION for Tournament:
-# translate E Tournament {Tournament}
-# MISSING TRANSLATION for Available:
-# translate E Available {Available}
-# MISSING TRANSLATION for Selected:
-# translate E Selected {Selected}
-# MISSING TRANSLATION for RoundRobin:
-# translate E RoundRobin {Round Robin}
-# MISSING TRANSLATION for Gauntlet:
-# translate E Gauntlet {Gauntlet}
-# MISSING TRANSLATION for CompGameNext:
-# translate E CompGameNext {Next game:}
-# MISSING TRANSLATION for TimeperGame:
-# translate E TimeperGame {Time per\nGame}
-# MISSING TRANSLATION for TimeperMove:
-# translate E TimeperMove {Time per\nMove}
-# MISSING TRANSLATION for compStoreTime:
-# translate E compStoreTime {Store Time: }
-# MISSING TRANSLATION for Clock:
-# translate E Clock {Clock}
-# MISSING TRANSLATION for compConcurrent:
-# translate E compConcurrent {Concurrent games: }
-# MISSING TRANSLATION for compShowBoards:
-# translate E compShowBoards {Show Boards}
-# MISSING TRANSLATION for compCarousel:
-# translate E compCarousel {Carousel system}
-# MISSING TRANSLATION for compSaveEval:
-# translate E compSaveEval {Save evaluation}
-# MISSING TRANSLATION for compCanceledGames:
-# translate E compCanceledGames {Canceled or timed out games:}
-# MISSING TRANSLATION for Replay:
-# translate E Replay {Replay}
-# MISSING TRANSLATION for compStart:
-# translate E compStart {Start}
-# MISSING TRANSLATION for compSave:
-# translate E compSave {Save after every game}
-# MISSING TRANSLATION for compStop:
-# translate E compStop {Stop after end\nof act. game}
-# MISSING TRANSLATION for compRunning:
-# translate E compRunning {Tournament in progress}
-# MISSING TRANSLATION for Restart:
-# translate E Restart {Restart}
-# MISSING TRANSLATION for compFinished:
-# translate E compFinished {Tournament finished}
-# MISSING TRANSLATION for compStopped:
-# translate E compStopped {Tournament stopped}
+translate B configComp {Configurar torneio}
+translate B Tournament {Torneio}
+translate B Available {Disponível}
+translate B Selected {Selecionado}
+translate B RoundRobin {Rodada Robin}
+translate B Gauntlet {Manopla}
+translate B CompGameNext {Próximo jogo:}
+translate B TimeperGame {Tempo por\Jogo}
+translate B TimeperMove {Tempo por\movimento}
+translate B compStoreTime {Tempo de armazenamento:}
+translate B Clock {Relógio}
+translate B compConcurrent {Jogos simultâneos:}
+translate B compShowBoards {Mostrar painéis}
+translate B compCarousel {Sistema carrossel}
+translate B compSaveEval {Salvar avaliação}
+translate B compCanceledGames {Jogos cancelados ou expirados:}
+translate B Replay {Repetir}
+translate B compStart {Começar}
+translate B compSave {Salve depois de cada jogo}
+translate B compStop {Pare após o fim do ato. jogo}
+translate B compRunning {Torneio em andamento}
+translate B Restart {Reiniciar}
+translate B compFinished {Torneio terminado}
+translate B compStopped {Torneio interrompido}
 
 #Coach
 translate B showblunderexists {mostra que existe um erro crasso}

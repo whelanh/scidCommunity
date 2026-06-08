@@ -412,6 +412,7 @@ translate G Import {Εισαγωγή}
 translate G Index {Κατάλογος}
 translate G LoadGame {Φώρτωση παρτίδας}
 translate G BrowseGame {Περιήγηση παρτίδας}
+translate G PgnOpenInViewer {Άνοιγμα στο PGN Viewer}
 translate G MergeGame {Συνένωση παρτίδας}
 translate G MergeGames {Συνένωση παρτίδων}
 translate G Preview {Προεπισκόπηση}
@@ -689,6 +690,21 @@ translate G ConfigureFilter "Προσαρμογή των αξόνων Χ ως π
 translate G FilterEstimate "Εκτίμηση"
 translate G TitleFilterGraph "Scid: Φιλτράρισμα γραφήματος"
 translate G WinPct "% νίκης"
+translate G GraphLine "Γραμμικό γράφημα"
+translate G GraphBar "Διάγραμμα ράβδων"
+translate G GraphPopup "Αναδυόμενος πίνακας"
+translate G PgnVarClose {Κλείστε όλες τις παραλλαγές}
+translate G PgnVarOpen {Ανοίξτε όλες τις παραλλαγές}
+translate G PgnEvaluate {Αξιολογώ}
+translate G PgnSaveEval {Αποθήκευση Αξιολόγησης}
+translate G PgnOptShort "Σύντομη κεφαλίδα (3 γραμμών)."
+translate G PgnOptSymbols "Συμβολικοί σχολιασμοί"
+translate G PgnOptIndentC "Σχόλια εσοχής"
+translate G PgnOptIndentV "Παραλλαγές εσοχής"
+translate G PgnOptColumn "Στυλ στήλης (μία κίνηση ανά γραμμή)"
+translate G PgnOptSpace "Διάστημα μετά την κίνηση αριθμών"
+translate G PgnOptStripMarks "Αφαιρέστε τους έγχρωμους κωδικούς τετραγώνου/βέλους"
+translate G PgnOptBoldMainLine "Χρησιμοποιήστε Έντονο κείμενο για κινήσεις κύριας γραμμής"
 
 # Analysis window:
 translate G AddVariation {Προσθήκη βαριάντας}
@@ -1429,109 +1445,35 @@ translate G RecentFilesMenu {Πλήθος των πρόσφατων αρχείω
 translate G RecentFilesExtra {Πλήθος των πρόσφατων αρχείων του επιπλέον υπομενού}
 
 # My Player Names options:
-translate G MyPlayerNamesDescription {
-# ====== TODO To be translated ======
-translate G configComp {Διαμόρφωση Τουρνουά}
-# ====== TODO To be translated ======
-translate G Tournament {Τουρνουά}
-# ====== TODO To be translated ======
-translate G Available {Διαθέσιμος}
-# ====== TODO To be translated ======
-translate G Selected {Επιλεγμένο}
-# ====== TODO To be translated ======
-translate G RoundRobin {Round Robin}
-# ====== TODO To be translated ======
-translate G Gauntlet {Γάντι}
-# ====== TODO To be translated ======
-translate G CompGameNext {Επόμενο παιχνίδι:}
-# ====== TODO To be translated ======
-translate G TimeperGame {Χρόνος ανά\Παιχνίδι}
-# ====== TODO To be translated ======
-translate G TimeperMove {Χρόνος ανά\Μετακίνηση}
-# ====== TODO To be translated ======
-translate G compStoreTime {Ώρα καταστήματος:}
-# ====== TODO To be translated ======
-translate G Clock {Ρολόι}
-# ====== TODO To be translated ======
-translate G compConcurrent {Ταυτόχρονα παιχνίδια:}
-# ====== TODO To be translated ======
-translate G compShowBoards {Εμφάνιση πινάκων}
-# ====== TODO To be translated ======
-translate G compCarousel {Σύστημα καρουζέλ}
-# ====== TODO To be translated ======
-translate G compSaveEval {Αποθήκευση αξιολόγησης}
-# ====== TODO To be translated ======
-translate G compCanceledGames {Παιχνίδια που ακυρώθηκαν ή έληξαν:}
-# ====== TODO To be translated ======
-translate G Replay {Ξαναπαίζω}
-# ====== TODO To be translated ======
-translate G compStart {Αρχή}
-# ====== TODO To be translated ======
-translate G compSave {Αποθήκευση μετά από κάθε παιχνίδι}
-# ====== TODO To be translated ======
-translate G compStop {Διακοπή μετά το τέλος της πράξης. παιχνίδι}
-# ====== TODO To be translated ======
-translate G compRunning {Τουρνουά σε εξέλιξη}
-# ====== TODO To be translated ======
-translate G Restart {Επανεκκίνηση}
-# ====== TODO To be translated ======
-translate G compFinished {Το τουρνουά ολοκληρώθηκε}
-# ====== TODO To be translated ======
-translate G compStopped {Το τουρνουά σταμάτησε}
-Δημιουργήστε παρακάτω μια λίστα των ονομάτων των προτιμόμενων παικτών, ένα για κάθε γραμμή. Τα συμβολα μπαλαντέρ (π.χ. "?" για κάνε έναν μοναδικό χαρακτήρα, "*" για οποιαδήποτε ακολουθία χαρακτήρων) επιτρέπονται.
-
+translate G MyPlayerNamesDescription {Δημιουργήστε παρακάτω μια λίστα των ονομάτων των προτιμόμενων παικτών, ένα για κάθε γραμμή. Τα συμβολα μπαλαντέρ (π.χ. "?" για κάνε έναν μοναδικό χαρακτήρα, "*" για οποιαδήποτε ακολουθία χαρακτήρων) επιτρέπονται.
 Κάθε φορά που θα φορτώνεται μια παρτίδα με παίκτη που υπάρχειστην λίστα, αν είναι απαραίτητο η σκακιέρα του κυρίως παραθύρου θα περιστρέφεται ώστε η παρτίδα να προβάλεται από την μεριά αυτού του παίκτη.
 }
 
 # Computer Tournament:
-# MISSING TRANSLATION for configComp:
-# translate E configComp {Configure Tournament}
-# MISSING TRANSLATION for Tournament:
-# translate E Tournament {Tournament}
-# MISSING TRANSLATION for Available:
-# translate E Available {Available}
-# MISSING TRANSLATION for Selected:
-# translate E Selected {Selected}
-# MISSING TRANSLATION for RoundRobin:
-# translate E RoundRobin {Round Robin}
-# MISSING TRANSLATION for Gauntlet:
-# translate E Gauntlet {Gauntlet}
-# MISSING TRANSLATION for CompGameNext:
-# translate E CompGameNext {Next game:}
-# MISSING TRANSLATION for TimeperGame:
-# translate E TimeperGame {Time per\nGame}
-# MISSING TRANSLATION for TimeperMove:
-# translate E TimeperMove {Time per\nMove}
-# MISSING TRANSLATION for compStoreTime:
-# translate E compStoreTime {Store Time: }
-# MISSING TRANSLATION for Clock:
-# translate E Clock {Clock}
-# MISSING TRANSLATION for compConcurrent:
-# translate E compConcurrent {Concurrent games: }
-# MISSING TRANSLATION for compShowBoards:
-# translate E compShowBoards {Show Boards}
-# MISSING TRANSLATION for compCarousel:
-# translate E compCarousel {Carousel system}
-# MISSING TRANSLATION for compSaveEval:
-# translate E compSaveEval {Save evaluation}
-# MISSING TRANSLATION for compCanceledGames:
-# translate E compCanceledGames {Canceled or timed out games:}
-# MISSING TRANSLATION for Replay:
-# translate E Replay {Replay}
-# MISSING TRANSLATION for compStart:
-# translate E compStart {Start}
-# MISSING TRANSLATION for compSave:
-# translate E compSave {Save after every game}
-# MISSING TRANSLATION for compStop:
-# translate E compStop {Stop after end\nof act. game}
-# MISSING TRANSLATION for compRunning:
-# translate E compRunning {Tournament in progress}
-# MISSING TRANSLATION for Restart:
-# translate E Restart {Restart}
-# MISSING TRANSLATION for compFinished:
-# translate E compFinished {Tournament finished}
-# MISSING TRANSLATION for compStopped:
-# translate E compStopped {Tournament stopped}
+translate G configComp {Διαμόρφωση Τουρνουά}
+translate G Tournament {Τουρνουά}
+translate G Available {Διαθέσιμος}
+translate G Selected {Επιλεγμένο}
+translate G RoundRobin {Round Robin}
+translate G Gauntlet {Γάντι}
+translate G CompGameNext {Επόμενο παιχνίδι:}
+translate G TimeperGame {Χρόνος ανά\Παιχνίδι}
+translate G TimeperMove {Χρόνος ανά\Μετακίνηση}
+translate G compStoreTime {Ώρα καταστήματος:}
+translate G Clock {Ρολόι}
+translate G compConcurrent {Ταυτόχρονα παιχνίδια:}
+translate G compShowBoards {Εμφάνιση πινάκων}
+translate G compCarousel {Σύστημα καρουζέλ}
+translate G compSaveEval {Αποθήκευση αξιολόγησης}
+translate G compCanceledGames {Παιχνίδια που ακυρώθηκαν ή έληξαν:}
+translate G Replay {Ξαναπαίζω}
+translate G compStart {Αρχή}
+translate G compSave {Αποθήκευση μετά από κάθε παιχνίδι}
+translate G compStop {Διακοπή μετά το τέλος της πράξης. παιχνίδι}
+translate G compRunning {Τουρνουά σε εξέλιξη}
+translate G Restart {Επανεκκίνηση}
+translate G compFinished {Το τουρνουά ολοκληρώθηκε}
+translate G compStopped {Το τουρνουά σταμάτησε}
 
 #Coach
 translate G showblunderexists {εμφάνιση ότι το σφάλμα υπάρχει}
