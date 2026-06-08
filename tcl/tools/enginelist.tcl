@@ -124,7 +124,7 @@ proc ::enginelist::sort {{type ""}} {
     global engines
 
     if {$type == ""} {
-        set type time; #$engines(sort)
+        set type Time; #$engines(sort)
     } else {
         set engines(sort) $type
     }
@@ -155,8 +155,11 @@ proc ::enginelist::sort {{type ""}} {
         $w.list.list insert {} end -id $count -values [list $name $elo $date]
         incr count
     }
-    lassign [$w.list.list children {}] firstItem
-    $w.list.list selection set $firstItem
+    set children [$w.list.list children {}]
+    if {[llength $children] > 0} {
+        lassign $children firstItem
+        $w.list.list selection set $firstItem
+    }
 }
 ################################################################################
 # ::enginelist::choose
@@ -353,7 +356,7 @@ proc ::enginelist::edit {index} {
                     .engineEdit.editEngine.opts configure -state enabled
                     # Set the directory from the executable path if possible:
                     set engines(newDir) [file dirname $fName]
-                    if {$engines(newDir) == ""} [ set engines(newDir) .]
+                    if {$engines(newDir) == ""} { set engines(newDir) . }
                 }
             }
             grid $f.b$i -row $row -column 2 -sticky we
@@ -363,11 +366,14 @@ proc ::enginelist::edit {index} {
             ttk::button $f.current -text " . " -command {
                 set engines(newDir) .
             }
-            ttk::button $f.user -text "~/.scid" -command {
-                set engines(newDir) $scidUserDir
-            }
             if {$::windowsOS} {
-                $f.user configure -text "scid.exe dir"
+                ttk::button $f.user -text "scid.exe dir" -command {
+                    set engines(newDir) $scidInstallDir
+                }
+            } else {
+                ttk::button $f.user -text "~/.scid" -command {
+                    set engines(newDir) $scidUserDir
+                }
             }
             grid $f.current -row $row -column 2 -sticky we
             grid $f.user -row $row -column 3 -sticky we
@@ -425,26 +431,49 @@ proc ::enginelist::edit {index} {
         }
     }
     if { $engines(newEngine) } {
-        set command "set ::engines(list) \"[lreplace $::engines(list) $index $index]\"
-            ::enginelist::sort
-            ::enginecfg::write
-            destroy $w"
+        set cancelCmd [list ::enginelist::cancelNewEngine $index]
+        ttk::button $f.cancel -text $::tr(Cancel) -command "
+            $cancelCmd
+            destroy $w
+        "
+        bind $w <Escape> "
+            $cancelCmd
+            destroy $w
+        "
+        bind $w <Destroy> "
+            if {\[winfo exists $w\]} {
+                $cancelCmd
+            }
+            raise .enginelist
+            focus .enginelist
+        "
     } else {
-        set command "destroy $w"
+        ttk::button $f.cancel -text $::tr(Cancel) -command "destroy $w"
+        bind $w <Escape> "destroy $w"
+        bind $w <Destroy> "raise .enginelist; focus .enginelist"
     }
-    ttk::button $f.cancel -text $::tr(Cancel) -command $command
     ttk::label $f.required -font font_Small -text $::tr(EngineRequired)
     grid $f.required -row $row -column 0 -columnspan 2 -sticky we
     grid $f.ok -row $row -column 2 -sticky we -pady { 10 0 }
     grid $f.cancel -row $row -column 3 -sticky we -pady { 10 0 }
 
     bind $w <Return> "$f.ok invoke"
-    bind $w <Escape> "destroy $w"
-    bind $w <Destroy> "raise .enginelist; focus .enginelist"
     bind $w <F1> { helpWindow Analysis List }
     focus $w.f.eName
     wm resizable $w 1 0
     catch {grab $w}
+}
+
+# ::enginelist::cancelNewEngine
+#   Removes a new engine placeholder from the list when the user cancels
+#   the engine creation dialog. This cleanup is needed when a temporary
+#   engine was added by ::enginecfg::dlgNewLocal.
+#
+proc ::enginelist::cancelNewEngine {index} {
+    global engines
+    set engines(list) [lreplace $engines(list) $index $index]
+    ::enginelist::sort
+    ::enginecfg::write
 }
 
 proc ::enginelist::eng_messages {id w msg} {
