@@ -789,14 +789,19 @@ proc configure_style {} {
     set icons_dir "icons_dark"
   }
   set dname [file join $::scidImgDir $icons_dir]
-  foreach {fname} [glob -directory $dname *.png] {
-    set iname [string range [file tail $fname] 0 end-4]
-    image create photo ::icon::$iname -format png -file $fname
+  if {[catch {set iconFiles [glob -directory $dname *.png]}]} {
+    catch { puts stderr "Warning: Icon directory not found: $dname" }
+  } else {
+    foreach {fname} $iconFiles {
+      set iname [string range [file tail $fname] 0 end-4]
+      catch { image create photo ::icon::$iname -format png -file $fname }
+    }
   }
 }
 bind . <<ThemeChanged>> { if {"%W" eq "."} { configure_style } }
 
 catch { ttk::style theme use $::lookTheme }
+configure_style
 configure_menus
 
 

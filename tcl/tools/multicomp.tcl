@@ -527,7 +527,7 @@ proc startComp { } {
     
     if {$_Data(timecontrol) == "permove"} {
         set _Data(time) [expr {int($_Data(seconds) * 1000)}]
-        puts "Move delay is $_Data(time) milliseconds"
+        catch { puts "Move delay is $_Data(time) milliseconds" }
     } 
 
     if {$_Data(firstonly)} {
@@ -560,7 +560,7 @@ proc compOk {} {
   global ::comp::_Data
 
   set num_games [llength $_Data(games)]
-puts "$num_games GAMES total: $_Data(games)"
+catch { puts "$num_games GAMES total: $_Data(games)" }
   if { $num_games == 0 } return 
   ## wait short for cleanup the engine analysis windows
   set w .comp
@@ -636,7 +636,7 @@ puts "$num_games GAMES total: $_Data(games)"
     set k     [lindex $thisgame 2]
     if {$name1 != {} && $name2 != {}} {
       incr game
-puts "Start $_Data(current): $name1 - $name2"
+catch { puts "Start $_Data(current): $name1 - $name2" }
       after [expr {$game * 500} ] "compNM $game \"$name1\" \"$name2\" $k"
       incr _Data(runninggames)
       set _Data(this,$game) $thisgame
@@ -657,7 +657,7 @@ proc ::comp::compOkEnd {game} {
             set thisgame [lindex $_Data(games) [expr $_Data(current) - 1]]
             incr _Data(current)
         } else {
-puts "replay $_Data(this,$game)"
+catch { puts "replay $_Data(this,$game)" }
             set thisgame $_Data(this,$game)
         }
         if { $_Data(autosave) } { autocompSave }
@@ -666,7 +666,7 @@ puts "replay $_Data(this,$game)"
         set k     [lindex $thisgame 2]
         if {$name1 != {} && $name2 != {}} {
             after 500 "compNM $game \"$name1\" \"$name2\" $k"
-puts "Start $_Data(current): Slot $game $name1 - $name2"
+catch { puts "Start $_Data(current): Slot $game $name1 - $name2" }
             incr _Data(runninggames)
             set _Data(this,$game) $thisgame
         }
@@ -725,7 +725,7 @@ proc ::comp::readBookLine {game} {
 
     set inbook 1
     while { $cSGLock } {
-        puts "wait for make bookline"
+        catch { puts "wait for make bookline" }
         vwait ::comp::cSGLock
     }
     set cSGLock 1
@@ -815,7 +815,7 @@ proc ::comp::compUpdateboard {board move} {
     set p [string index $board $from]
 #todo sollte nicht vorkommen
     if { ! ($p in {K Q R B N P k q r b n p} ) || $from == $to } {
-        puts "wrong piece or wrong move: Piece:\($p\) Move $move $from $to $board"
+        catch { puts "wrong piece or wrong move: Piece:\($p\) Move $move $from $to $board" }
         return [list 0 $board]
     }
     if {$p eq "P" && $to > 55 } {
@@ -923,7 +923,7 @@ proc ::comp::compCheckMove { game tomove expired bestmove } {
             lappend _Data(comments,$game) "Wrong Move or wrong Piece: $tomove $bestmove\n$_Data(board,$game)"
             foreach i [array names ::comp::_Data] {
                 if { [string first ",$game" $i] > 0} {
-                    puts "::comp::_Data($i) [list $::comp::_Data($i)]"
+                    catch { puts "::comp::_Data($i) [list $::comp::_Data($i)]" }
                 }
             }
         }
@@ -970,7 +970,7 @@ proc ::comp::compNextMove { game tomove expired bestmove } {
         ::engine::send compEngine$tomove$game Go [list $position $parameter]
     } else {
         ::comp::compSaveGame $game 
-puts "End $game [set _Data(name,$game)(nameW)] - [set _Data(name,$game)(nameB)] result: $_Data(result,$game)"
+catch { puts "End $game [set _Data(name,$game)(nameW)] - [set _Data(name,$game)(nameB)] result: $_Data(result,$game)" }
         after 1000 "::comp::compOkEnd $game"
     }
 }
@@ -991,7 +991,7 @@ proc ::comp::compSaveGame {game} {
         sc_base switch $_Data(database)
     }
     while { $cSGLock } {
-        puts "wait for save"
+        catch { puts "wait for save" }
         vwait ::comp::cSGLock
     }
     set cSGLock 1
@@ -1082,7 +1082,7 @@ proc ::comp::getEngList {} {
 proc compTimeout {game tomove} {
     global ::comp::_Data
 
-    puts "Timed out Game $game"
+    catch { puts "Timed out Game $game" }
     set expired [expr [clock clicks -milli] - $_Data(lasttime,$game)]
     ::comp::compNextMove $game $tomove 0 "Time out"
 }
