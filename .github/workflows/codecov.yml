@@ -42,7 +42,7 @@ jobs:
           lcov --remove coverage.info '/usr/*' '*/googletest/*' --output-file coverage.info --ignore-errors mismatch,negative,gcov
 
       - name: Upload to Codecov
-        uses: codecov/codecov-action@v6
+        uses: codecov/codecov-action@v7
         with:
           files: build/coverage.info
           fail_ci_if_error: true
