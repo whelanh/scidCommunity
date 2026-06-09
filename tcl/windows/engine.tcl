@@ -75,7 +75,11 @@ proc ::enginewin::onNewGame {id} {
         set w .pv$::enginewin::pgnviewer($id).engineWin$id
     }
     if {[winfo exists $w.chart.canvas]} {
-        ::chart::clear $w.chart.canvas 1
+        set mainLine [sc_game UCI_mainLine]
+        if { [info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id) } {
+            set mainLine [::pgnviewer::getMainline $::enginewin::pgnviewer($id)]
+        }
+        ::chart::clear $w.chart.canvas [expr {max(1, [llength $mainLine] - 1)}]
     }
 }
 
@@ -154,7 +158,11 @@ proc ::enginewin::toggleStartStop { {id ""} {enginename ""} } {
     if {[::enginewin::stop $id]} {
         return $id
     }
-    return [::enginewin::start $id $enginename]
+    set pgnviewer 0
+    if {[info exists ::enginewin::pgnviewer($id)]} {
+        set pgnviewer $::enginewin::pgnviewer($id)
+    }
+    return [::enginewin::start $id $enginename $pgnviewer]
 }
 
 proc ::enginewin::Open { {id ""} {enginename ""} {pgnviewer 0} } {
@@ -714,6 +722,7 @@ proc ::enginewin::updateChart {id {msgData ""}} {
         lassign [::accuracy::calculate $currentScores] wAcc bAcc
         ::chart::setAccuracy $canvas $wAcc $bAcc
     }
+
 }
 proc ::enginewin::chartCallback {id uci_pos depth seldepth ply value} {
     if {$value eq "" } {
@@ -1052,6 +1061,11 @@ proc ::enginewin::changeState {id newState} {
             $w.btn.lock configure -state disabled
         }
         ::chart::moveCursorLine $w.chart.canvas ""
+        # Mirror cursor hide to PGN viewer chart
+        if {$::enginewin::pgnviewer($id)} {
+            set pvCanvas .pv$::enginewin::pgnviewer($id).c
+            if {[winfo exists $pvCanvas]} { ::chart::moveCursorLine $pvCanvas "" }
+        }
         if { $::enginewin::pgnviewer($id) } {
             ::pgnviewer::EngineBestMove $::enginewin::pgnviewer($id) $id "" "" [::enginewin::getEngineColor 1 1]
             ::pgnviewer::EngineBestMove $::enginewin::pgnviewer($id) $id "" "" [::enginewin::getEngineColor 1 2]
@@ -1069,7 +1083,7 @@ proc ::enginewin::changeState {id newState} {
 
 proc ::enginewin::stateFollow {id} {string match f* $::enginewin::engState($id)}
 proc ::enginewin::stateLocked {id} {string match l* $::enginewin::engState($id)}
-proc ::enginewin::statePaused {id} {string match paused.idle $::enginewin::engState($id)}
+proc ::enginewin::statePaused {id} {string match p* $::enginewin::engState($id)}
 
 proc ::enginewin::getEngineColor {id pv} {
     array set color {
@@ -1178,6 +1192,11 @@ proc ::enginewin::callback {id msg} {
                     set cw .pv$::enginewin::pgnviewer($id).engineWin$id
                 }
                 ::chart::moveCursorLine $cw.chart.canvas $pv_(ply,$id)
+                # Mirror cursor to PGN viewer chart
+                if {[info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id)} {
+                    set pvCanvas .pv$::enginewin::pgnviewer($id).c
+                    if {[winfo exists $pvCanvas]} { ::chart::moveCursorLine $pvCanvas $pv_(ply,$id) }
+                }
             } else {
                 ::enginewin::changeState $id *.*.autorun
                 set pv_(ply,$id) [inMainLine $::enginewin::m_(mainLine,$id) $pv_(pos,$id) $n_ply]
@@ -1281,6 +1300,7 @@ proc ::enginewin::sendPosition {id position plyInMainLine} {
     if {$m_(newgame,$id)} {
         set m_(newgame,$id) false
         ::engine::send $id NewGame [list analysis post_pv post_wdl [sc_game variant]]
+        set oldMainLine [expr {[info exists m_(mainLine,$id)] ? $m_(mainLine,$id) : ""}]
         set m_(mainLine,$id) [sc_game UCI_mainLine]
         if { [info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id) } {
             set m_(mainLine,$id) [::pgnviewer::getMainline $::enginewin::pgnviewer($id)]
@@ -1289,7 +1309,20 @@ proc ::enginewin::sendPosition {id position plyInMainLine} {
         if { [info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id) } {
             set w .pv$::enginewin::pgnviewer($id).engineWin$id
         }
-        ::chart::clear $w.chart.canvas [expr {[llength $m_(mainLine,$id)] - 1}]
+        if {$oldMainLine eq ""} {
+            ::chart::clear $w.chart.canvas [expr {[llength $m_(mainLine,$id)] - 1}]
+        }
+        # Mirror disabled: the embedded engine window handles chart/display.
+        # if {$::enginewin::pgnviewer($id)} {
+        #     set pvN $::enginewin::pgnviewer($id)
+        #     set pvCanvas .pv$pvN.c
+        #     if {[winfo exists $pvCanvas]} {
+        #         ::chart::clear $pvCanvas [expr {[llength $m_(mainLine,$id)] - 1}]
+        #         if {[lsearch [.pv$pvN.p panes] $pvCanvas] == -1} {
+        #             .pv$pvN.p add $pvCanvas -weight 0
+        #         }
+        #     }
+        # }
         set ::enginewin::pv_(depths,$id) [dict create]
         set ::enginewin::pv_(postponed,$id) $plyInMainLine
     }

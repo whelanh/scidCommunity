@@ -574,6 +574,7 @@ struct GamePos {
   std::vector<int> NAGs; // "Numeric Annotation Glyph"
   std::string comment;   // text annotation of the position.
   std::string lastMoveSAN; // move that was played to reach the position.
+  std::string lastMoveUCI; // UCI notation of that same move.
 };
 
 /**
@@ -613,6 +614,8 @@ inline void collectPositions(Game &game, TCont &dest) {
     gamepos.comment = game.GetMoveComment();
     game.GetPrevSAN(strBuf);
     gamepos.lastMoveSAN = strBuf;
+    game.GetPrevMoveUCI(strBuf);
+    gamepos.lastMoveUCI = strBuf;
 
   } while (game.MoveForwardInPGN() == OK);
 }

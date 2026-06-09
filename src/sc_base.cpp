@@ -435,7 +435,7 @@ UI_res_t sc_base_gameslist(scidBaseT* dbase, UI_handle_t ti, int argc, const cha
 static UI_res_t sc_base_getGameHelper(UI_handle_t ti, Game& game) {
 	auto positions = gamepos::collectPositions(game);
 	UI_List res(positions.size());
-	UI_List posInfo(6);
+	UI_List posInfo(7);
 	for (const auto& pos : positions) {
 		posInfo.clear();
 		posInfo.push_back(pos.RAVdepth);
@@ -452,6 +452,7 @@ static UI_res_t sc_base_getGameHelper(UI_handle_t ti, Game& game) {
 		posInfo.push_back(nags);
 		posInfo.push_back(pos.comment);
 		posInfo.push_back(pos.lastMoveSAN);
+		posInfo.push_back(pos.lastMoveUCI);
 		res.push_back(posInfo);
 	}
 	return UI_Result(ti, OK, res);
@@ -475,7 +476,7 @@ static UI_res_t sc_base_getGameHelper(UI_handle_t ti, Game& game) {
  * in a language independent manner. comment: text annotation of the
  * current position. lastMoveSAN: the last move that was played to reach the
  * current position. The move is indicated using English "Standard Algebraic
- * Notation".
+ * Notation". lastMoveUCI: the last move in UCI notation (e.g. "e2e4").
  */
 UI_res_t sc_base_getGame(scidBaseT* dbase, UI_handle_t ti, int argc,
                          const char** argv) {

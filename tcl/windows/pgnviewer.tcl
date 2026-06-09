@@ -7,7 +7,7 @@ namespace eval ::pgnviewer {
     proc ::pgnviewer::getPosition { n } {
         set nr $::pgnviewer::_move($n)
         set move [lindex $::pgnviewer::_game($n) $nr]
-        lassign $move rav depth board2 nag comment san uci tag
+        lassign $move rav depth board2 nag comment san uci
         set ply [lindex $::pgnviewer::_mainMove($n) $nr]
         if { $rav > 0 || $ply < 0} {
             return [list "position fen $board2" $ply]
@@ -17,7 +17,7 @@ namespace eval ::pgnviewer {
             while { $rav } {
                 incr nr -1
                 set move [lindex $::pgnviewer::_game($n) $nr]
-                lassign $move rav depth board nag comment san uci2 tag
+                lassign $move rav depth board nag comment san uci2
             }
         } else {
             set board $board2
@@ -40,7 +40,7 @@ namespace eval ::pgnviewer {
         set m 1
         for { set i 1 } { $i <= $::pgnviewer::_maxply($n) } {} {
             set move [lindex $::pgnviewer::_game($n) $i]
-            lassign $move rav depth board nag comment san uci tag
+            lassign $move rav depth board nag comment san uci
             lappend ::pgnviewer::_mainLine($n) $uci
             lappend ::pgnviewer::_mainMove($n) $m
             set j [nextScoreMove $n $i]
@@ -89,99 +89,90 @@ namespace eval ::pgnviewer {
     }
     proc ::pgnviewer::ScoreUpdate { n } {
         if { ! [winfo exists .pv$n.t.text] } { return }
-        set data {}
-        set max [expr $::pgnviewer::_MaxY($n) - 0.1 ]
-        set val ""
-        set score ""
+        set canvas .pv$n.c
+        if { ! [winfo exists $canvas] } { return }
+
+        # When an engine is running it populates the chart directly
+        # via updateChart (same path as the standalone Engine window).
+        set eid $::pgnviewer::_engine($n)
+        if {$eid ne "" && [winfo exists .pv$n.engineWin$eid]} { return }
+        if {$::pgnviewer::_evalEngine($n) > 0} { return }
+
+        # Determine total plies from _evalMove
+        set totalPlies [llength $::pgnviewer::_evalMove($n)]
+        set maxPly [expr {$totalPlies > 1 ? $totalPlies - 1 : 1}]
+
+        ::chart::clear $canvas $maxPly
+
+        # Populate chart from _scores.
+        # _scores format: {movenr score movenr score ...}
+        # movenr to ply: ply = int(round((movenr + 0.5) * 2))
+        # Scores are in pawns; normalize to White's perspective by negating
+        # Black-to-move positions (odd ply) — matches updateChart in engine.tcl.
+        foreach {movenr score} $::pgnviewer::_scores($n) {
+            set ply [expr {int(round(($movenr + 0.5) * 2))}]
+            if {$ply < 0} { set ply 0 }
+            if {$ply > $maxPly} { set ply $maxPly }
+            if {$ply % 2 == 1} { set score [expr { - $score }] }
+            set cp [expr {int($score * 100)}]
+            ::chart::setDataPoint $canvas $ply $cp \
+                [list ::pgnviewer::chartCallback $n]
+        }
+
+        # Calculate and display accuracy (same method as engine window)
+        set currentScores [::chart::getScores $canvas]
+        if {[llength $currentScores] > 1} {
+            lassign [::accuracy::calculate $currentScores] wAcc bAcc
+            ::chart::setAccuracy $canvas $wAcc $bAcc
+        }
+
+        # Move cursor to current position
+        set evalIdx [lsearch $::pgnviewer::_evalMove($n) $::pgnviewer::_move($n)]
+        if {$evalIdx >= 0} {
+            ::chart::moveCursorLine $canvas $evalIdx
+        } else {
+            ::chart::moveCursorLine $canvas
+        }
+
+        # Update eval bar
         set evalBar ""
-        set movenr [expr [lsearch $::pgnviewer::_evalMove($n) $::pgnviewer::_move($n)] / 2.0 - 0.5]
-        if { $movenr >= 0.0 } {
+        if {$evalIdx >= 0} {
+            set movenr [expr {$evalIdx / 2.0 - 0.5}]
             set i [lsearch $::pgnviewer::_scores($n) $movenr]
             if { $i >= 0 && !($i % 2) } {
                 incr i
-                set score [lindex $::pgnviewer::_scores($n) $i]
-                set evalBar $score
-                if { $score > $max } { set score $max } elseif { $score < -$max } { set score -$max }
-                set val "$movenr $score"
+                set evalBar [lindex $::pgnviewer::_scores($n) $i]
             }
         }
-        # recalc score for max value
-        foreach { i j } $::pgnviewer::_scores($n) {
-            lappend  data $i
-            if { $j > $max } { set j $max
-            } elseif { $j < -$max } { set j -$max }
-            lappend  data $j
+        ::board::updateEvalBar .pv$n.bd $evalBar
+    }
+    proc ::pgnviewer::chartCallback {n ply value} {
+        if {$value eq ""} {
+            # Click: navigate to position
+            if {$ply >= 0 && $ply < [llength $::pgnviewer::_evalMove($n)]} {
+                ::pgnviewer::update .pv$n $n [lindex $::pgnviewer::_evalMove($n) $ply]
+            }
+            return ""
         }
-        # -15 same as xtop on create
-
-        ::utils::graph::create score$n -width 100 -height 68 -xtop 15 -ytop 0 \
-            -ytick 1 -xtick 1 -font font_Small -canvas .pv$n.c -textcolor [ttk::style lookup . -foreground] \
-            -hline [list [list gray40 1 each 5 ]] \
-            -vline [list [list gray40 1 each 5] [list steelBlue 1 each 20]]
-        ::utils::graph::configure score$n -width [expr [winfo width .pv$n.t.text] - 15] -height [winfo height .pv$n.c]
-        if { $::pgnviewer::_evalType($n) } {
-          set linecolor #FF5E0E
-          set linewidth 1
-          set psize 2
-          set lmsl [llength $data]
-          if { $lmsl > 2 } {
-              set bfill #202020
-              set wfill #706a64 ;# "#a0a0a0"
-              set xmsl [list 0 0]
-              set outcolor ""
-              set i 0
-              set x0 0
-              set x1 0
-              set y1 0
-              while { $i < $lmsl } {
-                  set x2 [lindex $data $i]
-                  incr i
-                  set y2 [lindex $data $i]
-                  if { $y2 >= 0 && $y1 <= 0 } {
-                      set outcolor $bfill
-                  }
-                  if { $y2 <= 0 && $y1 >= 0 } {
-                      set outcolor $wfill
-                  }
-                  if { $outcolor ne "" } {
-                      if { $y2 == $y1 } {
-                          set x0 $x2
-                      } else {
-                          # caclulate intersection with x-axis
-                          set x0 [expr {$x1 - ($y1 * ($x2 - $x1) / ($y2 - $y1))}]
-                      }
-                      lappend xmsl $x0 0
-                       ::utils::graph::data score$n datax$i -color $outcolor -points 0 -lines 2 -bars 0 \
-                                 -linewidth 1 -radius $psize -outline $outcolor -coords $xmsl
-                      set xmsl [list $x0 0]
-                      set outcolor ""
-                  }
-                  lappend xmsl $x2 $y2
-                  set x1 $x2
-                  set y1 $y2
-                  incr i
-              }
-              lappend xmsl $x2 0 $x0 0
-              set outcolor $wfill
-              if { $y2 < 0 } {
-                  set outcolor $bfill
-              }
-              ::utils::graph::data score$n datax$i -color $linecolor -points 0 -lines 2 -bars 0 \
-                         -linewidth $linewidth -radius $psize -outline $outcolor -coords $xmsl
-          }
-          ::utils::graph::data score$n data -color $linecolor -points 0 -lines 1 -bars 0 \
-                     -linewidth $linewidth -radius $psize -outline $linecolor \
-                     -coords $data
-          ::utils::graph::data score$n actMove -color #df5f00 -points 1 -lines 0 -bars 0 \
-                     -radius 4 -outline #df5f00 -coords $val
-      } else {
-          catch {::utils::graph::data score$n data -color red -points 0 -lines 0 -bars 2 \
-                     -linewidth 2 -radius 2 -outline red -coords $data }
-          ::utils::graph::data score$n actMove -color #a00b0b -points 0 -lines 0 -bars 2 \
-              -linewidth 4 -radius 2 -outline #a00b0b -coords $val
-      }
-      ::utils::graph::redraw score$n
-      ::board::updateEvalBar .pv$n.bd $evalBar
+        # Hover: format tooltip
+        set label ""
+        if {$ply > 0 && $ply < [llength $::pgnviewer::_evalMove($n)]} {
+            set gameIdx [lindex $::pgnviewer::_evalMove($n) $ply]
+            set move [lindex $::pgnviewer::_game($n) $gameIdx]
+            set moveNum [expr {($ply + 1) / 2}]
+            set san [lindex $move 5]
+            if {$ply % 2 == 1} {
+                set label "$moveNum. $san"
+            } else {
+                set label "$moveNum... $san"
+            }
+        }
+        if {abs($value) >= 100000} {
+            set scoreStr "#[format {%+d} [expr {$value / 100000}]]"
+        } else {
+            set scoreStr [format {%+.2f} [expr {$value / 100.0}]]
+        }
+        return "$label\n$scoreStr"
     }
 
     set ::pgnCalcAktiv 0
@@ -216,7 +207,7 @@ namespace eval ::pgnviewer {
         for { set i 0 } { $i <= $::pgnviewer::_maxply($n) } {} {
             set move [lindex $::pgnviewer::_game($n) $i]
             set ::pgnviewer::_score($n) ""
-            lassign $move rav depth board nag comment san uci tag
+            lassign $move rav depth board nag comment san uci
             set ::pgnviewer::_score($n) [getScorefromComment $comment 12]
             insertScore $n
             lappend ::pgnviewer::_evalMove($n) $i
@@ -224,41 +215,20 @@ namespace eval ::pgnviewer {
             set i [nextScoreMove $n $i]
         }
         # Scoregraph nur anzeigen, wenn auch Scores da sind
-        if { [llength $::pgnviewer::_scores($n)] > 2 } { .pv$n.p add .pv$n.c -weight 0 }
         ::pgnviewer::ScoreUpdate $n
     }
 
-    # Evaluate Score with engine
+    # Evaluate Score with engine (uses same engine autorun path as Engine 1 window)
     proc ::pgnviewer::CalcScore { n time } {
-        # Scoregraph anzeigen, da diese nun berechnet werden
-        if { [lsearch [.pv$n.p panes] .pv$n.c] == -1 } { .pv$n.p add .pv$n.c }
-        # only one calculation should run, because vwait does not work for more than one
-        if { $::pgnCalcAktiv > 0 && $time > 0 } { return }
-        if { $::pgnCalcAktiv < 0 } { set ::pgnCalcAktiv 0 }
-        incr ::pgnCalcAktiv
-        set ::pgnviewer::_engply($n) -0.5
-        set ::pgnviewer::_evalEngine($n) [::enginewin::Open {} $::enginewin_lastengine(1) $n]
-        for { set i 0 } { $i <= $::pgnviewer::_maxply($n) } {} {
-            set move [lindex $::pgnviewer::_game($n) $i]
-            set ::pgnviewer::_evalAktMove($n) $i
-            set ::pgnviewer::_score($n) ""
-            lassign $move rav depth board nag comment san uci tag
-            catch { ::enginewin::sendPosition $::pgnviewer::_evalEngine($n) "position fen $board" $i }
-            after $time "::enginewin::stop $::pgnviewer::_evalEngine($n); set ::pgnviewer::_evalAktMove($n) 0"
-            vwait ::pgnviewer::_evalAktMove($n)
-            insertScore $n
-            ::pgnviewer::ScoreUpdate $n
-            set ::pgnviewer::_engply($n) [expr $::pgnviewer::_engply($n) + 0.5]
-            set i [nextScoreMove $n $i]
-            # check if window is open and calculation is not abort
-            if { ![winfo exists .pv$n.t.text] || ! $::pgnCalcAktiv} { break }
+        if { $::enginewin_lastengine(1) eq "" } { return }
+        set id $::pgnviewer::_engine($n)
+        if {$id eq "" || ![winfo exists .pv$n.engineWin$id]} {
+            ::pgnviewer::engineOnOff $n
+            set id $::pgnviewer::_engine($n)
         }
-        ::pgnviewer::ScoreUpdate $n
-        ::enginewin::stop $::pgnviewer::_evalEngine($n)
-        ::engine::close $::pgnviewer::_evalEngine($n)
-        set ::pgnviewer::_evalEngine($n) 0
-        set ::pgnviewer::_evalAktMove($n) 0
-        incr ::pgnCalcAktiv -1
+        if {$id ne ""} {
+            set ::enginewin_autorun($id) [list [list movetime $time]]
+        }
     }
 
     proc ::pgnviewer::SaveScore { n } {
@@ -284,24 +254,13 @@ namespace eval ::pgnviewer {
     }
 
     proc ::pgnviewer::SetupScoreGraphPopup { w n } {
-        if { $::pgnviewer::_showPopup($n) } {
-            bind $w.c <Motion> {::pgnviewer::ScorePopupEval %W %x %X %Y}
-            bind $w.c <Any-Leave> {::pgnviewer::HideBoard}
-        } else {
-            bind $w.c <Motion> ""
-            bind $w.c <Any-Leave> ""
-        }
+        # Chart handles tooltips natively; kept as a no-op for callers.
     }
 
     proc ::pgnviewer::ScoreGraph { w n } {
-        canvas $w.c -width 100 -height 68 -selectforeground [ttk::style lookup . -foreground] -background [ttk::style lookup . -background]
-        bind $w <Configure> "::pgnviewer::ScoreUpdate $n"
-        bind $w.c <1> {::pgnviewer::GotoScoreMove %W %x}
+        ttk_canvas $w.c -highlightthickness 0 -width 100 -height 68
+        ::chart::init $w.c {FONT font_Regular}
         bind $w.c <2> {incr ::pgnCalcAktiv -1}
-        ::pgnviewer::SetupScoreGraphPopup $w $n
-        ttk::bindMouseWheel $w.c "::pgnviewer::ScaleScoreGraph $n"
-        $w.c itemconfigure text -width [expr {[winfo width $w.c] - 20}]
-        $w.c coords text [expr {[winfo width $w.c] / 2}] 10
     }
 
     proc ::pgnviewer::EngineBestMove { n e score move color} {
@@ -323,20 +282,18 @@ namespace eval ::pgnviewer {
             grid forget $w.engineWin$id
             destroy $w.engineWin$id
             ::pgnviewer::EngineBestMove $n "" "" "" ""
-             set ::pgnviewer::_engine($n) ""
+            set ::pgnviewer::_engine($n) ""
         } else {
-            set id [::enginewin::start $id $::enginewin_lastengine(1) $n]
+            set id [::enginewin::Open $id $::enginewin_lastengine(1) $n]
             set ew $w.engineWin$id
             $ew.display.pv_lines configure -height 0
             catch { $ew.pane forget $ew.stored_eval }
             catch { $ew.pane forget $ew.debug }
-            set wh [winfo height $w]
-            incr wh 200
-            $w configure -height $wh
             ::update
             grid $ew -row 2 -column 0 -sticky news -columnspan 2
-            grid rowconfigure $w 2 -weight 0
+            grid rowconfigure $w 2 -weight 1
             set ::pgnviewer::_engine($n) $id
+            catch { $w.p forget $w.c }
         }
     }
 
@@ -504,7 +461,7 @@ namespace eval ::pgnviewer {
         $w.t.text tag configure right -justify right
         ::pgnviewer::ScoreGraph $w $n
         $w.p add $w.t -weight 1
-#        $w.p add $w.c -weight 0
+        catch { $w.p forget $w.c }
 
         bind $w <F1> {helpWindow GameList Browsing}
         bind $w <Escape> "destroy $w"
@@ -547,7 +504,7 @@ namespace eval ::pgnviewer {
         if {$gnum > 0} {
             menu $w.evalmenu
             foreach {time_value} {1000 600 200 100 50} {
-                $w.evalmenu add command -label "$time_value ms" -command "$w.b2.eval configure -text {$time_value ms} -state disabled; ::pgnviewer::CalcScore $n $time_value; $w.b2.eval configure -state normal -text [tr PgnEvaluate]"
+                $w.evalmenu add command -label "$time_value ms" -command "::pgnviewer::CalcScore $n $time_value"
             }
             ttk::menubutton $w.b2.eval -text [tr PgnEvaluate] -style Toolbutton -direction above -menu $w.evalmenu
             ttk::button $w.b2.sav -image ::icon::tb_save -command "::pgnviewer::SaveScore $n"
@@ -770,12 +727,12 @@ namespace eval ::pgnviewer {
                 set san1 ""
                 set ply $::pgnviewer::_move($n)
                 set move [lindex $::pgnviewer::_game($n) $ply]
-                lassign $move rav depth board nag comment san uci tag
+                lassign $move rav depth board nag comment san uci
                 set stop $ply
                 while { $ply < $::pgnviewer::_maxply($n) } {
                     incr ply
                     set move [lindex $::pgnviewer::_game($n) $ply]
-                    lassign $move rav1 depth1 board1 nag1 comment1 san1 uci1 tag1
+                    lassign $move rav1 depth1 board1 nag1 comment1 san1 uci11
                     if { ($rav == $rav1 && $depth == $depth1) } { break }
                     if { $rav1 == 0 && $rav > 0} { set ply $stop ; break }
                 }
@@ -784,34 +741,34 @@ namespace eval ::pgnviewer {
             "-1" { ; # previous move in same line/variation
                 set ply $::pgnviewer::_move($n)
                 set move [lindex $::pgnviewer::_game($n) $ply]
-                lassign $move rav depth board nag comment san uci tag
+                lassign $move rav depth board nag comment san uci
                 while { $ply > 0 } {
                     incr ply -1
                     set move [lindex $::pgnviewer::_game($n) $ply]
-                    lassign $move rav1 depth1 board1 nag1 comment1 san1 uci1 tag1
+                    lassign $move rav1 depth1 board1 nag1 comment1 san1 uci11
                     if { ($rav == $rav1 && $depth == $depth1) || $rav1 < $rav } { break }
                 }
             }
             "up" { ; # Leave Variation
                 set ply $::pgnviewer::_move($n)
                 set move [lindex $::pgnviewer::_game($n) $ply]
-                lassign $move rav depth board nag comment san uci tag
+                lassign $move rav depth board nag comment san uci
                 while { $ply > 0 } {
                     incr ply -1
                     set move [lindex $::pgnviewer::_game($n) $ply]
-                    lassign $move rav1 depth1 board1 nag1 comment1 san1 uci1 tag1
+                    lassign $move rav1 depth1 board1 nag1 comment1 san1 uci11
                     if { $rav1 < $rav || $rav1 == 0 } { break }
                 }
             }
             "down" { ; # Enter Variation
                 set ply $::pgnviewer::_move($n)
                 set move [lindex $::pgnviewer::_game($n) $ply]
-                lassign $move rav depth board nag comment san uci tag
+                lassign $move rav depth board nag comment san uci
                 set stop $ply
                 while { $ply < $::pgnviewer::_maxply($n) } {
                     incr ply
                     set move [lindex $::pgnviewer::_game($n) $ply]
-                    lassign $move rav1 depth1 board1 nag1 comment1 san1 uci1 tag1
+                    lassign $move rav1 depth1 board1 nag1 comment1 san1 uci11
                     if { ($rav != $rav1 )|| ($depth != $depth1) } { break }
                 }
             }
@@ -819,7 +776,7 @@ namespace eval ::pgnviewer {
         if {$ply > $::pgnviewer::_maxply($n)} { set ply $::pgnviewer::_maxply($n) }
         if {$ply < 0 } { set ply 0 }
         set move [lindex $::pgnviewer::_game($n) $ply]
-        lassign $move rav depth board nag comment san uci tag
+        lassign $move rav depth board nag comment san uci
         set move [lindex $::pgnviewer::_game($n) [expr $ply - 1]]
         lassign $move rav2 depth2 board2 nag2 comment2
 
@@ -843,7 +800,7 @@ namespace eval ::pgnviewer {
         set board [FENtoBoard $board]
         ::board::update $w.bd $board 0
         ::board::material $w.bd
-        ::pgnviewer::update_current_move $w $tag
+        ::pgnviewer::update_current_move $w $n
         # Workaround for board.tcl
         if {$uci ne "" } { after [expr $::animateDelay + 5] ::pgnviewer::lastMoveHighlight $w.bd $n $uci $san \"$nag\" $ply \"$board\" }
 
