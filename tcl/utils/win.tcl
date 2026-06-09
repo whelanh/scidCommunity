@@ -811,7 +811,7 @@ proc ::docking::layout_restore { slot } {
   foreach sashpos $::docking::restore_sashpos {
     # It is necessary to process all the events beforehand because
     # "sashpos" will query the panedwindow's available space.
-    update
+    update idletasks
 
     lassign $sashpos pw sash
     set i 0
@@ -833,11 +833,11 @@ proc ::docking::layout_restore { slot } {
   foreach pair $::docking::restore_wnds {
     lassign $pair ::docking::layout_dest_notebook wnd
     ::docking::create_window $wnd
-
-    # Needed for ttk::notebooks with multiple tabs (e.g., .baseWin and. main)
-    # that are not displayed correctly otherwise (due to "notebook select").
-    update
   }
+
+  # Single final update to process all pending layout/rendering at once
+  update
+
   unset -nocomplain ::docking::layout_dest_notebook
   unset -nocomplain ::docking::restore_wnds
 

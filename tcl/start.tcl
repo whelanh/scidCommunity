@@ -235,12 +235,13 @@ InitTooltip
 
 # Helper function to get the correct button image name for the current theme
 # For dark themes, returns the _white variant if it exists
+# Uses a cached dict for O(1) lookup instead of O(n) lsearch through all images
+set ::_buttonImageCache [dict create]
 proc ::button_image {buttonName} {
   set theme [ttk::style theme use]
   if {$theme in $::darkThemes} {
-    set whiteName "${buttonName}_white"
-    if {[lsearch [image names] $whiteName] != -1} {
-      return $whiteName
+    if {[dict exists $::_buttonImageCache $buttonName]} {
+      return [dict get $::_buttonImageCache $buttonName]
     }
   }
   return $buttonName
@@ -782,19 +783,38 @@ proc configure_style {} {
   }
 
   #Load light or dark icons based on the dynamic dark theme registry
+  # Skip if icons are already loaded (avoids re-creating on theme switch)
   set icons_dir "icons_light"
   set theme [ttk::style theme use]
   if {$theme in $::darkThemes} {
     set icons_dir "icons_dark"
   }
-  set dname [file join $::scidImgDir $icons_dir]
-  if {[catch {set iconFiles [glob -directory $dname *.png]}]} {
-    catch { puts stderr "Warning: Icon directory not found: $dname" }
-  } else {
-    foreach {fname} $iconFiles {
-      set iname [string range [file tail $fname] 0 end-4]
-      catch { image create photo ::icon::$iname -format png -file $fname }
+  if {![info exists ::_iconsLoaded] || $::_iconsLoaded ne $icons_dir} {
+    set dname [file join $::scidImgDir $icons_dir]
+    set ::_buttonImageCache [dict create]
+    if {[catch {set iconFiles [glob -directory $dname *.png]}]} {
+      catch { puts stderr "Warning: Icon directory not found: $dname" }
+    } else {
+      foreach {fname} $iconFiles {
+        set iname [string range [file tail $fname] 0 end-4]
+        if {![info exists ::icon::$iname]} {
+          catch { image create photo ::icon::$iname -format png -file $fname }
+        }
+      }
+      # Build button_image cache: map each icon base name to _white variant if it exists
+      # _white variants are loaded from img/buttons/ as global names (no icon:: prefix)
+      set allNames [dict create]
+      foreach n [image names] { dict set allNames $n 1 }
+      foreach iname [dict keys $allNames "icon::*"] {
+        set base [string range $iname 6 end]
+        if {[string match "*_white" $base]} continue
+        set whiteName "${base}_white"
+        if {[dict exists $allNames $whiteName]} {
+          dict set ::_buttonImageCache $base $whiteName
+        }
+      }
     }
+    set ::_iconsLoaded $icons_dir
   }
 }
 bind . <<ThemeChanged>> { if {"%W" eq "."} { configure_style } }
