@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.3.44
+Version:        5.1.3.48
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 1b050ea7bf4c755303bd7def3862fc1bf803f259
+%global commit d94ccfa3a2cf84afa8b21470875015f125f36242
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Tue Jun 09, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-48
+- "Improve engine config and adopt PGN Viewer from Uwe"
 * Sun Jun 07, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-44
 - "Add Tablebase window; Add engine tournament from Uwe"
 * Sat Jun 06, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-43
