@@ -515,7 +515,8 @@ namespace eval ::pgnviewer {
         bind $w <Up> "::pgnviewer::update $w $n up"
         bind $w <Down> "::pgnviewer::update $w $n down"
         bind $w.bd <Configure> "::pgnviewer::autosize $w"
-        ttk::bindMouseWheel $w "::pgnviewer::mousewheelHandler $w $n"
+        bindMouseWheel $w.bd "::pgnviewer::mousewheelHandler $w $n"
+        bindMouseWheel $w.bd.bd "::pgnviewer::mousewheelHandler $w $n"
         $w.t.text tag bind tag <ButtonRelease-1> "::pgnviewer::toggleheader $w $n"
         $w.t.text tag bind tag <ButtonRelease-3> "::pgnviewer::togglephoto $w $n"
 

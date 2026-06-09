@@ -370,7 +370,7 @@ proc ::optable::makeReportWin {args} {
   $w.text configure -state normal
   $w.text delete 1.0 end
   regsub -all "\n" $report "<br>" report
-  ::htext::display $w.text $report "" 1 $::optable::_baseNumber
+  ::htext::display $w.text $report
   $w.text configure -state disabled
   unbusyCursor .
 
