@@ -254,12 +254,14 @@ proc ::htext::extractSectionName {tagName} {
 }
 
 set ::htext::interrupt 0
+set ::htext::baseId ""
 
-proc ::htext::display {w helptext {section ""} {fixed 1} {baseId ""} {showDiagramm 0} {m_callback "mTagProcess"} {c_callback "cTagProcess"}} {
+proc ::htext::display {w helptext {section ""} {fixed 1} {showDiagramm 0} {m_callback "mTagProcess"} {c_callback "cTagProcess"}} {
   global helpWin
   # set start [clock clicks -milli]
   set helpWin(Indent) 0
-  set ::htext::interrupt 0
+set ::htext::interrupt 0
+set ::htext::baseId ""
   $w mark set insert 0.0
   $w configure -state normal
   set linkName ""
@@ -372,7 +374,7 @@ proc ::htext::display {w helptext {section ""} {fixed 1} {baseId ""} {showDiagra
         set gameTag $tagName
         set tagName "g"
         set gnum [string range $gameTag 2 end]
-        set useBase $baseId
+        set useBase $::htext::baseId
         if {$useBase eq ""} { set useBase [sc_base current] }
         set glCommand "::game::LoadMenu $w $useBase $gnum %X %Y"
         $w tag bind $gameTag <ButtonPress-1> $glCommand
