@@ -72,12 +72,8 @@ jobs:
           sed -i 's/    update idletasks/    update/' tcl/utils/win.tcl
           # 2. Remove the consolidated final update
           sed -i '/^  # Single final update/,/^  update$/d' tcl/utils/win.tcl
-          # 3. Re-add update after each create_window that was removed
-          sed -i '/^    ::docking::create_window \$wnd$/a\
-\
-    # Needed for ttk::notebooks with multiple tabs (e.g., .baseWin and. main)\
-    # that are not displayed correctly otherwise (due to "notebook select").\
-    update' tcl/utils/win.tcl
+          # 3. Re-add update after each create_window
+          sed -i 's|    ::docking::create_window \$wnd$|&\n\n    # Needed for ttk::notebooks with multiple tabs (e.g., .baseWin and. main)\n    # that are not displayed correctly otherwise (due to "notebook select").\n    update|' tcl/utils/win.tcl
 
       - name: Get version from tag
         id: get_version
