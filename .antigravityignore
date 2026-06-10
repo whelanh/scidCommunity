@@ -1,0 +1,23 @@
+# Block build environments and compiled binaries
+/build/
+/out/
+/bin/
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dll
+*.exe
+
+# Block non-code assets and environment states
+*.log
+*.tmp
+*.bak
+.git/
+/docs/
+/googletest/
+/scripts/
+/snack2.2.11/
+
+
