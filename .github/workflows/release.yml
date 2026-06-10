@@ -64,6 +64,21 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Patch layout restore for Windows layout test
+        shell: bash
+        run: |
+          # Revert v5.1.3.48 layout_restore changes to test Windows layout issue
+          # 1. update idletasks -> update
+          sed -i 's/    update idletasks/    update/' tcl/utils/win.tcl
+          # 2. Remove the consolidated final update
+          sed -i '/^  # Single final update/,/^  update$/d' tcl/utils/win.tcl
+          # 3. Re-add update after each create_window that was removed
+          sed -i '/^    ::docking::create_window \$wnd$/a\
+\
+    # Needed for ttk::notebooks with multiple tabs (e.g., .baseWin and. main)\
+    # that are not displayed correctly otherwise (due to "notebook select").\
+    update' tcl/utils/win.tcl
+
       - name: Get version from tag
         id: get_version
         shell: bash
