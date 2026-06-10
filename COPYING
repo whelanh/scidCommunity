@@ -1,11 +1,16 @@
 scidCommunity
-Copyright (C) 1999-2003 Shane Hudson
-Copyright (C) 2024-2026 Hugh Whelan and contributors
+Copyright (C) 1999-2004 Shane Hudson
+Copyright (C) 2006-2009 Pascal Georges
+Copyright (C) 2008-2011 Alexander Wagner
+Copyright (C) 2011 Gerd Lorscheid
+Copyright (C) 2009-2026 Fulvio Benini
+Copyright (C) 2018-2026 Uwe Klimmek
+Copyright (C) 2025-2026 Hugh Whelan
 Website: https://github.com/whelanh/scidCommunity
 
 scidCommunity is a fork of Scid (Shane's Chess Information Database).
 Scid was originally written by Shane Hudson and further developed 
-by Pascal Georges and many others.
+by Pascal Georges, Fulvio Benini, and many others.
 
 Files copyrighted by respective authors:
 ----------------------------------------
