@@ -861,6 +861,19 @@ proc ::enginewin::updateDisplay {id msgData} {
     }
     $pv_lines configure -state disabled
 
+    # Accumulate raw PV data for stored eval cache
+    if {$pv ne ""} {
+        set depthNum $depth
+        if {![string is integer -strict $depthNum]} { set depthNum 0 }
+        set pvEntry [list $multipv $score $score_type $pv]
+        if {$multipv == 1} {
+            set ::enginewin::m_(currentPVs,$id) [list $pvEntry]
+            set ::enginewin::m_(currentDepth,$id) $depthNum
+        } else {
+            lappend ::enginewin::m_(currentPVs,$id) $pvEntry
+        }
+    }
+
     # Extract best move (UCI format) from raw PV for arrow display
     set best_move [lindex [split $pv] 0]
 
