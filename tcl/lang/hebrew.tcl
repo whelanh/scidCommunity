@@ -1425,6 +1425,13 @@ translate V compRunning {הטורניר בעיצומו}
 translate V Restart {הפעל מחדש}
 translate V compFinished {הטורניר הסתיים}
 translate V compStopped {הטורניר הופסק}
+translate V compForceDraw {כוח ציור}
+translate V compForceResign {להכריח להתפטר}
+translate V compAfterMove {לאחר המעבר:}
+translate V compNumMoves {מספר מהלכים:}
+translate V compScoreLess {ציון <:}
+translate V compScoreGreater {ציון >:}
+translate V compRepeatReverse {חזור הפוך}
 
 #Coach
 translate V showblunderexists {להראות טעות קיימת}

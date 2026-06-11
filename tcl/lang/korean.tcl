@@ -1465,6 +1465,13 @@ translate k compRunning {토너먼트 진행 중}
 translate k Restart {다시 시작}
 translate k compFinished {토너먼트 종료}
 translate k compStopped {토너먼트가 중단되었습니다}
+translate k compForceDraw {포스 드로우}
+translate k compForceResign {강제 사임}
+translate k compAfterMove {이동 후:}
+translate k compNumMoves {이동 횟수:}
+translate k compScoreLess {점수 <:}
+translate k compScoreGreater {점수 >:}
+translate k compRepeatReverse {역방향 반복}
 
 #Coach
 translate k showblunderexists {함께가 존재함을 보여라}

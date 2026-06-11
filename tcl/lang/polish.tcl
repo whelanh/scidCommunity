@@ -1466,6 +1466,13 @@ translate P compRunning {Turniej w toku}
 translate P Restart {Uruchom ponownie}
 translate P compFinished {Turniej zakończony}
 translate P compStopped {Turniej zatrzymany}
+translate P compForceDraw {Wymuś losowanie}
+translate P compForceResign {Wymusić rezygnację}
+translate P compAfterMove {Po ruchu:}
+translate P compNumMoves {Liczba ruchów:}
+translate P compScoreLess {Wynik <:}
+translate P compScoreGreater {Wynik >:}
+translate P compRepeatReverse {Powtórz w odwrotnej kolejności}
 
 #Coach
 translate P showblunderexists {zjawisko, e bd istnieje}

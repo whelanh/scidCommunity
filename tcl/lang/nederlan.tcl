@@ -1471,6 +1471,13 @@ translate N compRunning {Toernooi in uitvoering}
 translate N Restart {Opnieuw opstarten}
 translate N compFinished {Toernooi afgelopen}
 translate N compStopped {Toernooi gestopt}
+translate N compForceDraw {Forceer gelijkspel}
+translate N compForceResign {Forceer aftreden}
+translate N compAfterMove {Na verhuizing:}
+translate N compNumMoves {Aantal bewegingen:}
+translate N compScoreLess {Score <:}
+translate N compScoreGreater {Score >:}
+translate N compRepeatReverse {Herhaal omgekeerd}
 
 #Coach
 translate N showblunderexists {toon dat er een blunder is}

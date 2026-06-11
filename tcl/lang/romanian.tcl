@@ -1465,6 +1465,13 @@ translate L compRunning {Turneu în desfășurare}
 translate L Restart {Repornire}
 translate L compFinished {Turneul terminat}
 translate L compStopped {Turneul s-a oprit}
+translate L compForceDraw {Remiză forțată}
+translate L compForceResign {Demisia forțată}
+translate L compAfterMove {După mutare:}
+translate L compNumMoves {Număr mișcări:}
+translate L compScoreLess {Scor <:}
+translate L compScoreGreater {Scor >:}
+translate L compRepeatReverse {Repetați invers}
 
 #Coach
 translate L showblunderexists {arată că gafa există}

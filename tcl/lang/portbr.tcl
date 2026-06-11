@@ -1454,6 +1454,13 @@ translate B compRunning {Torneio em andamento}
 translate B Restart {Reiniciar}
 translate B compFinished {Torneio terminado}
 translate B compStopped {Torneio interrompido}
+translate B compForceDraw {Forçar sorteio}
+translate B compForceResign {Forçar renúncia}
+translate B compAfterMove {Após a mudança:}
+translate B compNumMoves {Num Movimentos:}
+translate B compScoreLess {Pontuação <:}
+translate B compScoreGreater {Pontuação >:}
+translate B compRepeatReverse {Repetir reverso}
 
 #Coach
 translate B showblunderexists {mostra que existe um erro crasso}

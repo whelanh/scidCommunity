@@ -1425,6 +1425,13 @@ translate Q compRunning {Турнір триває}
 translate Q Restart {Перезапустіть}
 translate Q compFinished {Турнір завершено}
 translate Q compStopped {Турнір зупинено}
+translate Q compForceDraw {Примусове малювання}
+translate Q compForceResign {Змусити подати у відставку}
+translate Q compAfterMove {Після переїзду:}
+translate Q compNumMoves {Кількість ходів:}
+translate Q compScoreLess {Оцінка <:}
+translate Q compScoreGreater {Оцінка >:}
+translate Q compRepeatReverse {Повторіть у зворотному напрямку}
 
 #Coach
 translate Q showblunderexists {показати, що помилка існує}

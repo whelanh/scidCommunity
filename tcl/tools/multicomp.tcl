@@ -379,13 +379,13 @@ proc compInit { } {
   grid $w.config.autosave -row $row -column 0 -columnspan 2 -sticky w
 
   incr row
-  ttk::labelframe $w.config.forceDraw -text "Force Draw"
+  ttk::labelframe $w.config.forceDraw -text [tr compForceDraw]
   ttk::checkbutton $w.config.forceDraw.cb -variable ::comp::_Data(forceDraw)
-  ttk::label $w.config.forceDraw.afterLabel -text "After move:"
+  ttk::label $w.config.forceDraw.afterLabel -text [tr compAfterMove]
   ttk::spinbox $w.config.forceDraw.after -textvariable ::comp::_Data(forceDrawAfterMove) -from 0 -to 999 -width 4
-  ttk::label $w.config.forceDraw.numLabel -text "Num Moves:"
+  ttk::label $w.config.forceDraw.numLabel -text [tr compNumMoves]
   ttk::spinbox $w.config.forceDraw.num -textvariable ::comp::_Data(forceDrawNumMoves) -from 1 -to 999 -width 4
-  ttk::label $w.config.forceDraw.scoreLabel -text "Score <:"
+  ttk::label $w.config.forceDraw.scoreLabel -text [tr compScoreLess]
   ttk::spinbox $w.config.forceDraw.score -textvariable ::comp::_Data(forceDrawScore) -from 0 -to 100 -width 5 -increment 0.01
   pack $w.config.forceDraw.cb $w.config.forceDraw.afterLabel $w.config.forceDraw.after \
       $w.config.forceDraw.numLabel $w.config.forceDraw.num \
@@ -393,11 +393,11 @@ proc compInit { } {
   grid $w.config.forceDraw -row $row -column 0 -columnspan 2 -sticky ew -pady 2
 
   incr row
-  ttk::labelframe $w.config.forceResign -text "Force Resign"
+  ttk::labelframe $w.config.forceResign -text [tr compForceResign]
   ttk::checkbutton $w.config.forceResign.cb -variable ::comp::_Data(forceResign)
-  ttk::label $w.config.forceResign.numLabel -text "Num Moves:"
+  ttk::label $w.config.forceResign.numLabel -text [tr compNumMoves]
   ttk::spinbox $w.config.forceResign.num -textvariable ::comp::_Data(forceResignNumMoves) -from 1 -to 999 -width 4
-  ttk::label $w.config.forceResign.scoreLabel -text "Score >:"
+  ttk::label $w.config.forceResign.scoreLabel -text [tr compScoreGreater]
   ttk::spinbox $w.config.forceResign.score -textvariable ::comp::_Data(forceResignScore) -from 0 -to 100 -width 5 -increment 0.1
   pack $w.config.forceResign.cb $w.config.forceResign.numLabel $w.config.forceResign.num \
       $w.config.forceResign.scoreLabel $w.config.forceResign.score -side left -padx 2
@@ -421,7 +421,7 @@ proc compInit { } {
   pack $w.config.book.combo $w.config.book.value -side right -padx "0 5"
 
   incr row
-  ttk::checkbutton $w.config.repeatReverse -text "Repeat reverse" -variable ::comp::_Data(repeatReverse)
+  ttk::checkbutton $w.config.repeatReverse -text [tr compRepeatReverse] -variable ::comp::_Data(repeatReverse)
   grid $w.config.repeatReverse -row $row -column 0 -padx 13 -sticky w
 
   incr row
@@ -676,6 +676,7 @@ catch { puts "$num_games GAMES total: $_Data(games)" }
   set _Data(runninggames) 0
   set _Data(paused) 0
   ::comp:loadBook $_Data(bookName)
+  if { $_Data(repeatReverse) } { array unset _Data {bookCache,*} }
   append _Data(statustext) [tr compRunning]
   while {$_Data(runninggames) < $_Data(processes) && $_Data(current) <= $_Data(lastgame)} {
     set thisgame [lindex $_Data(games) [expr $_Data(current) - 1]]
@@ -704,6 +705,7 @@ proc ::comp::compOkEnd {game} {
     if { ! $_Data(endaftergame) && $_Data(current) <= $_Data(lastgame) } {
         if { $_Data(result,$game) != "*" || !$_Data(replaybrokengame) } {
             set thisgame [lindex $_Data(games) [expr $_Data(current) - 1]]
+            set _Data(currentIdx,$game) $_Data(current)
             incr _Data(current)
         } else {
 catch { puts "replay $_Data(this,$game)" }
@@ -718,7 +720,6 @@ catch { puts "replay $_Data(this,$game)" }
 catch { puts "Start $_Data(current): Slot $game $name1 - $name2" }
             incr _Data(runninggames)
             set _Data(this,$game) $thisgame
-            set _Data(currentIdx,$game) $_Data(current)
         }
     }
     if { $_Data(runninggames) > 0 } return
@@ -763,10 +764,9 @@ catch { puts "Start $_Data(current): Slot $game $name1 - $name2" }
 proc ::comp::makeBookLine {game} {
     global ::comp::_Data
     foreach i $_Data(moves,$game) {
-        lappend _Data(comments,$game) ""
+        lappend _Data(comments,$game) "Book"
         lassign [::comp::compUpdateboard $_Data(board,$game) $i] res _Data(board,$game)
     }
-    set _Data(comments,$game) [lreplace $_Data(comments,$game) end end "last move from $_Data(bookName)"]
 }
 
 #read bookline from *.bin opening book
@@ -823,13 +823,32 @@ proc compNM {game n m k} {
     set _Data(scoreHistory,$game) {}
     set _Data(board,$game) "RNBQKBNRPPPPPPPP................................pppppppprnbqkbnr"
     if { $_Data(usebook) } {
-        set isReverse [expr {$_Data(repeatReverse) && $_Data(currentIdx,$game) % 2 == 0}]
-        set pairId [expr {($_Data(currentIdx,$game) + 1) / 2}]
-        if { $isReverse && [info exists _Data(bookCache,$pairId)] } {
-            set cached $_Data(bookCache,$pairId)
-            set _Data(moves,$game) [lindex $cached 0]
-            set _Data(fen,$game) [lindex $cached 1]
-            set _Data(board,$game) [lindex $cached 2]
+        if { $_Data(repeatReverse) } {
+            set pairId [expr {($_Data(currentIdx,$game) + 1) / 2}]
+            if { [info exists _Data(bookCache,$pairId)] } {
+                set cached $_Data(bookCache,$pairId)
+                set _Data(moves,$game) [lindex $cached 0]
+                set _Data(fen,$game) [lindex $cached 1]
+                set _Data(board,$game) [lindex $cached 2]
+                set _Data(comments,$game) {}
+                foreach mv $_Data(moves,$game) { lappend _Data(comments,$game) "Book" }
+            } else {
+                switch $_Data(bookTyp) {
+                    "opn" {
+                        set _Data(moves,$game) $::comp::openline([expr {int( rand()*$_Data(maxopen) )}])
+                        ::comp::makeBookLine $game
+                    }
+                    "epd" {
+                        set _Data(fen,$game) $::comp::openline([expr {int( rand()*$_Data(maxopen) )}])
+                        set _Data(board,$game) [::comp::FENtoBoard $_Data(fen,$game)]
+                    }
+                    "bin" {
+                        set _Data(moves,$game) [::comp::readBookLine $game]
+                        ::comp::makeBookLine $game
+                    }
+                }
+                set _Data(bookCache,$pairId) [list $_Data(moves,$game) $_Data(fen,$game) $_Data(board,$game)]
+            }
         } else {
             switch $_Data(bookTyp) {
                 "opn" {
@@ -844,9 +863,6 @@ proc compNM {game n m k} {
                     set _Data(moves,$game) [::comp::readBookLine $game]
                     ::comp::makeBookLine $game
                 }
-            }
-            if { $_Data(repeatReverse) } {
-                set _Data(bookCache,$pairId) [list $_Data(moves,$game) $_Data(fen,$game) $_Data(board,$game)]
             }
         }
     }
@@ -1052,15 +1068,16 @@ proc ::comp::compCheckAdjudication {game} {
     global ::comp::_Data
 
     lappend _Data(scoreHistory,$game) $_Data(score,$game)
-    set n_moves [llength $_Data(moves,$game)]
+    set n_plies [llength $_Data(moves,$game)]
+    set n_moves [expr {$n_plies / 2}]
 
     if { $_Data(forceDraw) && $n_moves >= $_Data(forceDrawAfterMove) } {
-        set numCheck $_Data(forceDrawNumMoves)
+        set numPiles [expr {$_Data(forceDrawNumMoves) * 2}]
         set threshold $_Data(forceDrawScore)
         set history $_Data(scoreHistory,$game)
         set histLen [llength $history]
-        if { $histLen >= $numCheck } {
-            set recent [lrange $history end-[expr {$numCheck-1}] end]
+        if { $histLen >= $numPiles } {
+            set recent [lrange $history end-[expr {$numPiles-1}] end]
             set allBelow 1
             foreach s $recent {
                 if { abs($s) >= $threshold } {
@@ -1069,7 +1086,7 @@ proc ::comp::compCheckAdjudication {game} {
                 }
             }
             if { $allBelow } {
-                set txt "Force draw adjudication ($numCheck moves |score|<[format {%.2f} $threshold])"
+                set txt "Force draw adjudication ($_Data(forceDrawNumMoves) moves |score|<[format {%.2f} $threshold])"
                 set n [llength $_Data(comments,$game)]
                 if { $n > 0 } {
                     set last [lindex $_Data(comments,$game) end]
@@ -1083,12 +1100,12 @@ proc ::comp::compCheckAdjudication {game} {
     }
 
     if { $_Data(forceResign) } {
-        set numCheck $_Data(forceResignNumMoves)
+        set numPiles [expr {$_Data(forceResignNumMoves) * 2}]
         set threshold $_Data(forceResignScore)
         set history $_Data(scoreHistory,$game)
         set histLen [llength $history]
-        if { $histLen >= $numCheck } {
-            set recent [lrange $history end-[expr {$numCheck-1}] end]
+        if { $histLen >= $numPiles } {
+            set recent [lrange $history end-[expr {$numPiles-1}] end]
             set whiteWins 1
             foreach s $recent {
                 if { $s <= $threshold } {
@@ -1097,7 +1114,7 @@ proc ::comp::compCheckAdjudication {game} {
                 }
             }
             if { $whiteWins } {
-                set txt "Force resign adjudication: White wins ($numCheck moves score>[format {%.1f} $threshold])"
+                set txt "Force resign adjudication: White wins ($_Data(forceResignNumMoves) moves score>[format {%.1f} $threshold])"
                 set n [llength $_Data(comments,$game)]
                 if { $n > 0 } {
                     set last [lindex $_Data(comments,$game) end]
@@ -1115,7 +1132,7 @@ proc ::comp::compCheckAdjudication {game} {
                 }
             }
             if { $blackWins } {
-                set txt "Force resign adjudication: Black wins ($numCheck moves score<-[format {%.1f} $threshold])"
+                set txt "Force resign adjudication: Black wins ($_Data(forceResignNumMoves) moves score<-[format {%.1f} $threshold])"
                 set n [llength $_Data(comments,$game)]
                 if { $n > 0 } {
                     set last [lindex $_Data(comments,$game) end]

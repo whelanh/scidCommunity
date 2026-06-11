@@ -1473,6 +1473,13 @@ translate G compRunning {Τουρνουά σε εξέλιξη}
 translate G Restart {Επανεκκίνηση}
 translate G compFinished {Το τουρνουά ολοκληρώθηκε}
 translate G compStopped {Το τουρνουά σταμάτησε}
+translate G compForceDraw {Force Draw}
+translate G compForceResign {Αναγκαστική παραίτηση}
+translate G compAfterMove {Μετά τη μετακίνηση:}
+translate G compNumMoves {Αριθμός κινήσεων:}
+translate G compScoreLess {Βαθμολογία <:}
+translate G compScoreGreater {Βαθμολογία >:}
+translate G compRepeatReverse {Επαναλάβετε αντίστροφα}
 
 #Coach
 translate G showblunderexists {εμφάνιση ότι το σφάλμα υπάρχει}

@@ -1424,6 +1424,13 @@ translate Z compRunning {Mashindano yanaendelea}
 translate Z Restart {Anzisha upya}
 translate Z compFinished {Mashindano yamekamilika}
 translate Z compStopped {Mashindano yamesimamishwa}
+translate Z compForceDraw {Lazimisha Kuteka}
+translate Z compForceResign {Lazimisha Kujiuzulu}
+translate Z compAfterMove {Baada ya kuhama:}
+translate Z compNumMoves {Nambari ya Uhamishaji:}
+translate Z compScoreLess {Alama <:}
+translate Z compScoreGreater {Alama >:}
+translate Z compRepeatReverse {Rudia kinyume}
 
 #Coach
 translate Z showblunderexists {show blunder ipo}

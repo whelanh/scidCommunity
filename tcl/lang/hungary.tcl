@@ -1447,6 +1447,13 @@ translate H compRunning {A torna folyamatban}
 translate H Restart {Indítsa újra}
 translate H compFinished {A bajnokság befejeződött}
 translate H compStopped {A bajnokság leállt}
+translate H compForceDraw {Force Draw}
+translate H compForceResign {Lemondás kényszerítése}
+translate H compAfterMove {Költözés után:}
+translate H compNumMoves {Mozdulatok száma:}
+translate H compScoreLess {Pontszám <:}
+translate H compScoreGreater {Pontszám >:}
+translate H compRepeatReverse {Ismételje meg fordítva}
 
 #Coach
 translate H showblunderexists {Jelezd a durva hibát}

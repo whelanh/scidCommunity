@@ -1499,6 +1499,13 @@ translate S compRunning {Torneo en curso}
 translate S Restart {Reanudar}
 translate S compFinished {Torneo terminado}
 translate S compStopped {Torneo detenido}
+translate S compForceDraw {Forzar sorteo}
+translate S compForceResign {Forzar la renuncia}
+translate S compAfterMove {Después de la mudanza:}
+translate S compNumMoves {Número de movimientos:}
+translate S compScoreLess {Puntuación <:}
+translate S compScoreGreater {Puntuación >:}
+translate S compRepeatReverse {Repetir al revés}
 
 #Coach
 translate S showblunderexists {Mostrar metedura de pata}

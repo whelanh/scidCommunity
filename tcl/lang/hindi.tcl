@@ -1424,6 +1424,13 @@ translate h compRunning {टूर्नामेंट चल रहा है}
 translate h Restart {पुनः आरंभ करें}
 translate h compFinished {टूर्नामेंट ख़त्म}
 translate h compStopped {टूर्नामेंट रुक गया}
+translate h compForceDraw {बलपूर्वक ड्रा}
+translate h compForceResign {जबरन इस्तीफा दें}
+translate h compAfterMove {चाल के बाद:}
+translate h compNumMoves {संख्या चालें:}
+translate h compScoreLess {स्कोर <:}
+translate h compScoreGreater {स्कोर >:}
+translate h compRepeatReverse {उलटा दोहराएँ}
 
 #Coach
 translate h showblunderexists {दिखाएँ भूल मौजूद है}

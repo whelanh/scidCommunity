@@ -1478,6 +1478,13 @@ translate E compRunning {Tournament in progress}
 translate E Restart {Restart}
 translate E compFinished {Tournament finished}
 translate E compStopped {Tournament stopped}
+translate E compForceDraw {Force Draw}
+translate E compForceResign {Force Resign}
+translate E compAfterMove {After move:}
+translate E compNumMoves {Num Moves:}
+translate E compScoreLess {Score <:}
+translate E compScoreGreater {Score >:}
+translate E compRepeatReverse {Repeat reverse}
 
 #Coach
 translate E showblunderexists {show blunder exists}
