@@ -1465,6 +1465,13 @@ translate g compRunning {Турнирът е в ход}
 translate g Restart {Рестартирайте}
 translate g compFinished {Турнирът приключи}
 translate g compStopped {Турнирът спря}
+translate g compForceDraw {Принудително равенство}
+translate g compForceResign {Принуди оставката}
+translate g compAfterMove {След преместване:}
+translate g compNumMoves {Брой ходове:}
+translate g compScoreLess {Резултат <:}
+translate g compScoreGreater {Резултат >:}
+translate g compRepeatReverse {Повторете обратно}
 
 #Coach
 translate g showblunderexists {покажете, че гафът съществува}

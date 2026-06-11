@@ -1424,6 +1424,13 @@ translate b compRunning {টুর্নামেন্ট চলছে}
 translate b Restart {রিস্টার্ট করুন}
 translate b compFinished {টুর্নামেন্ট শেষ}
 translate b compStopped {টুর্নামেন্ট বন্ধ}
+translate b compForceDraw {ফোর্স ড্র}
+translate b compForceResign {জোর করে পদত্যাগ করুন}
+translate b compAfterMove {সরানোর পরে:}
+translate b compNumMoves {নম মুভ:}
+translate b compScoreLess {স্কোর <:}
+translate b compScoreGreater {স্কোর >:}
+translate b compRepeatReverse {বিপরীত পুনরাবৃত্তি}
 
 #Coach
 translate b showblunderexists {শো ভুল বিদ্যমান}

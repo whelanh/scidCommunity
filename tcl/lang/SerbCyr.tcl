@@ -1465,6 +1465,13 @@ translate J compRunning {Турнир је у току}
 translate J Restart {Поново покрени}
 translate J compFinished {Турнир је завршен}
 translate J compStopped {Турнир је заустављен}
+translate J compForceDraw {Форце Драв}
+translate J compForceResign {Форце Ресигн}
+translate J compAfterMove {После селидбе:}
+translate J compNumMoves {Број потеза:}
+translate J compScoreLess {Резултат <:}
+translate J compScoreGreater {Резултат >:}
+translate J compRepeatReverse {Поновите обрнуто}
 
 #Coach
 translate J showblunderexists {показати да грешка постоји}

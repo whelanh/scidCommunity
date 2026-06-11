@@ -1428,6 +1428,13 @@ translate T compRunning {Turnuva devam ediyor}
 translate T Restart {Tekrar başlat}
 translate T compFinished {Turnuva bitti}
 translate T compStopped {Turnuva durduruldu}
+translate T compForceDraw {Çekmeye Zorla}
+translate T compForceResign {İstifaya Zorla}
+translate T compAfterMove {Taşındıktan sonra:}
+translate T compNumMoves {Hareket Sayısı:}
+translate T compScoreLess {Puan <:}
+translate T compScoreGreater {Puan >:}
+translate T compRepeatReverse {Ters yönde tekrarla}
 
 #Coach
 translate T showblunderexists {hatanın var olduğunu göster}

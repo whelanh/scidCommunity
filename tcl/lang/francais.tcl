@@ -1452,6 +1452,13 @@ translate F compRunning {Tournoi en cours}
 translate F Restart {Redémarrage}
 translate F compFinished {Tournoi terminé}
 translate F compStopped {Tournoi arrêté}
+translate F compForceDraw {Forcer la nulle}
+translate F compForceResign {Forcer l'abandon}
+translate F compAfterMove {Après le coup :}
+translate F compNumMoves {Nombre de coups :}
+translate F compScoreLess {Score < :}
+translate F compScoreGreater {Score > :}
+translate F compRepeatReverse {Répéter en sens inverse}
 
 #Coach
 translate F showblunderexists {Montrer si erreur}

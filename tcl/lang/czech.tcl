@@ -1446,6 +1446,13 @@ translate C compRunning {Turnaj probíhá}
 translate C Restart {Restartujte}
 translate C compFinished {Turnaj ukončen}
 translate C compStopped {Turnaj zastaven}
+translate C compForceDraw {Vynutit remízu}
+translate C compForceResign {Vynutit si rezignaci}
+translate C compAfterMove {Po přesunu:}
+translate C compNumMoves {Počet pohybů:}
+translate C compScoreLess {Skóre <:}
+translate C compScoreGreater {Skóre >:}
+translate C compRepeatReverse {Opakujte obráceně}
 
 #Coach
 translate C showblunderexists {ukzat ptomnost hrub chyby}

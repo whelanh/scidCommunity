@@ -1496,6 +1496,13 @@ translate D compRunning {Turnier läuft}
 translate D Restart {Neustart}
 translate D compFinished {Turnier beendet}
 translate D compStopped {Das Turnier wurde gestoppt}
+translate D compForceDraw {Force Draw}
+translate D compForceResign {Rücktritt erzwingen}
+translate D compAfterMove {Nach dem Umzug:}
+translate D compNumMoves {Anzahl Züge:}
+translate D compScoreLess {Ergebnis <:}
+translate D compScoreGreater {Ergebnis >:}
+translate D compRepeatReverse {Wiederholen Sie den Vorgang umgekehrt}
 
 #Coach
 translate D showblunderexists {Enginefehler anzeigen}

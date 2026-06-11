@@ -1798,6 +1798,20 @@ translate Y Restart {Restart}
 translate Y compFinished {Tournament finished}
 # ====== TODO To be translated ======
 translate Y compStopped {Tournament stopped}
+# ====== TODO To be translated ======
+translate Y compForceDraw {Force Draw}
+# ====== TODO To be translated ======
+translate Y compForceResign {Force Resign}
+# ====== TODO To be translated ======
+translate Y compAfterMove {After move:}
+# ====== TODO To be translated ======
+translate Y compNumMoves {Num Moves:}
+# ====== TODO To be translated ======
+translate Y compScoreLess {Score <:}
+# ====== TODO To be translated ======
+translate Y compScoreGreater {Score >:}
+# ====== TODO To be translated ======
+translate Y compRepeatReverse {Repeat reverse}
 Enter a list of preferred player names below, one name per line. Wildcards (e.g. "?" for any single character, "*" for any sequence of characters) are permitted.
 
 Every time a game with a player in the list is loaded, the main window chessboard will be rotated if necessary to show the game from that players perspective.

@@ -1400,6 +1400,13 @@ translate M compRunning {比赛进行中}
 translate M Restart {重新启动}
 translate M compFinished {比赛结束}
 translate M compStopped {比赛停止}
+translate M compForceDraw {强制和棋}
+translate M compForceResign {强制辞职}
+translate M compAfterMove {移动后：}
+translate M compNumMoves {移动次数：}
+translate M compScoreLess {分数 <:}
+translate M compScoreGreater {分数>：}
+translate M compRepeatReverse {重复反向}
 
 #Coach
 translate M showblunderexists {显示存在错误}

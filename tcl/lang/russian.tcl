@@ -1448,6 +1448,13 @@ translate R compRunning {Турнир в разгаре}
 translate R Restart {Перезапуск}
 translate R compFinished {Турнир завершен}
 translate R compStopped {Турнир остановлен}
+translate R compForceDraw {Принудительная ничья}
+translate R compForceResign {Принудительная отставка}
+translate R compAfterMove {После переезда:}
+translate R compNumMoves {Количество ходов:}
+translate R compScoreLess {Оценка <:}
+translate R compScoreGreater {Оценка >:}
+translate R compRepeatReverse {Повторить в обратном порядке}
 
 #Coach
 translate R showblunderexists {показать существующие ошибки}

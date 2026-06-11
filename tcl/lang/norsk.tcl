@@ -1446,6 +1446,13 @@ translate O compRunning {Turnering pågår}
 translate O Restart {Start på nytt}
 translate O compFinished {Turneringen avsluttet}
 translate O compStopped {Turneringen stoppet}
+translate O compForceDraw {Tving uavgjort}
+translate O compForceResign {Tvinge opp}
+translate O compAfterMove {Etter flytting:}
+translate O compNumMoves {Antall trekk:}
+translate O compScoreLess {Poengsum <:}
+translate O compScoreGreater {Poengsum >:}
+translate O compRepeatReverse {Gjenta omvendt}
 
 #Coach
 translate O showblunderexists {Vis at feil eksisterer}

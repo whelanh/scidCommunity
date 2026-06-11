@@ -1465,6 +1465,13 @@ translate A compRunning {トーナメント開催中}
 translate A Restart {再起動}
 translate A compFinished {トーナメントが終了しました}
 translate A compStopped {トーナメントは中止されました}
+translate A compForceDraw {フォースドロー}
+translate A compForceResign {強制辞任}
+translate A compAfterMove {移動後:}
+translate A compNumMoves {移動数:}
+translate A compScoreLess {スコア <:}
+translate A compScoreGreater {スコア >:}
+translate A compRepeatReverse {逆を繰り返す}
 
 #Coach
 translate A showblunderexists {間違いが存在することを示す}

@@ -1452,6 +1452,13 @@ translate W compRunning {Turneringen pågår}
 translate W Restart {Starta om}
 translate W compFinished {Turneringen avslutad}
 translate W compStopped {Turneringen stoppas}
+translate W compForceDraw {Tvinga oavgjort}
+translate W compForceResign {Tvinga avgå}
+translate W compAfterMove {Efter flytt:}
+translate W compNumMoves {Antal drag:}
+translate W compScoreLess {Poäng <:}
+translate W compScoreGreater {Poäng >:}
+translate W compRepeatReverse {Upprepa omvänt}
 
 #Coach
 translate W showblunderexists {visa blunder finns}
