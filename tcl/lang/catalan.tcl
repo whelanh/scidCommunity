@@ -1468,13 +1468,13 @@ translate K compRunning {Torneig en curs}
 translate K Restart {Reinicieu}
 translate K compFinished {Torneig acabat}
 translate K compStopped {Torneig aturat}
-translate K compForceDraw {Sorteig de força}
-translate K compForceResign {Força la dimissió}
+translate K compForceDraw {Forçar empat}
+translate K compForceResign {Forçar la rendició}
 translate K compAfterMove {Després del moviment:}
-translate K compNumMoves {Núm. moviments:}
-translate K compScoreLess {Puntuació <:}
-translate K compScoreGreater {Puntuació >:}
-translate K compRepeatReverse {Repetiu el revés}
+translate K compNumMoves {Núm. de moviments:}
+translate K compScoreLess {Puntuació inferior a:}
+translate K compScoreGreater {Puntuació superior a:}
+translate K compRepeatReverse {Repetir en sentit invers}
 
 #Coach
 translate K showblunderexists {Mostrar ficada de pota}

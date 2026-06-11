@@ -1477,7 +1477,7 @@ translate U compRunning {Turnaus käynnissä}
 translate U Restart {Käynnistä uudelleen}
 translate U compFinished {Turnaus päättynyt}
 translate U compStopped {Turnaus pysähtyi}
-translate U compForceDraw {Force Draw}
+translate U compForceDraw {Pakotettu tasapeli}
 translate U compForceResign {Pakota eroamaan}
 translate U compAfterMove {Siirron jälkeen:}
 translate U compNumMoves {Liikkeiden määrä:}

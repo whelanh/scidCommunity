@@ -1472,9 +1472,9 @@ translate N Restart {Opnieuw opstarten}
 translate N compFinished {Toernooi afgelopen}
 translate N compStopped {Toernooi gestopt}
 translate N compForceDraw {Forceer gelijkspel}
-translate N compForceResign {Forceer aftreden}
-translate N compAfterMove {Na verhuizing:}
-translate N compNumMoves {Aantal bewegingen:}
+translate N compForceResign {Forceer opgeven}
+translate N compAfterMove {Na zet:}
+translate N compNumMoves {Aantal zetten:}
 translate N compScoreLess {Score <:}
 translate N compScoreGreater {Score >:}
 translate N compRepeatReverse {Herhaal omgekeerd}

@@ -1446,7 +1446,7 @@ translate C compRunning {Turnaj probíhá}
 translate C Restart {Restartujte}
 translate C compFinished {Turnaj ukončen}
 translate C compStopped {Turnaj zastaven}
-translate C compForceDraw {Force Draw}
+translate C compForceDraw {Vynutit remízu}
 translate C compForceResign {Vynutit si rezignaci}
 translate C compAfterMove {Po přesunu:}
 translate C compNumMoves {Počet pohybů:}

@@ -1426,8 +1426,8 @@ translate Z compFinished {Mashindano yamekamilika}
 translate Z compStopped {Mashindano yamesimamishwa}
 translate Z compForceDraw {Lazimisha Kuteka}
 translate Z compForceResign {Lazimisha Kujiuzulu}
-translate Z compAfterMove {Baada ya kuhama:}
-translate Z compNumMoves {Nambari ya Uhamishaji:}
+translate Z compAfterMove {Baada ya mwendo:}
+translate Z compNumMoves {Idadi ya mawendo:}
 translate Z compScoreLess {Alama <:}
 translate Z compScoreGreater {Alama >:}
 translate Z compRepeatReverse {Rudia kinyume}

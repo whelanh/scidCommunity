@@ -1448,7 +1448,7 @@ translate I compRunning {Torneo in corso}
 translate I Restart {Ricomincia}
 translate I compFinished {Torneo finito}
 translate I compStopped {Torneo interrotto}
-translate I compForceDraw {Tiraggio della forza}
+translate I compForceDraw {Patta forzata}
 translate I compForceResign {Forza le dimissioni}
 translate I compAfterMove {Dopo lo spostamento:}
 translate I compNumMoves {Numero di mosse:}

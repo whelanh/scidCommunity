@@ -847,7 +847,9 @@ proc compNM {game n m k} {
                         ::comp::makeBookLine $game
                     }
                 }
-                set _Data(bookCache,$pairId) [list $_Data(moves,$game) $_Data(fen,$game) $_Data(board,$game)]
+                if {![info exists _Data(bookCache,$pairId)]} {
+                    set _Data(bookCache,$pairId) [list $_Data(moves,$game) $_Data(fen,$game) $_Data(board,$game)]
+                }
             }
         } else {
             switch $_Data(bookTyp) {
