@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.3.48
+Version:        5.1.3.50
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit d94ccfa3a2cf84afa8b21470875015f125f36242
+%global commit b5c6153f393ba21b031adc852f3532f666771d7d
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Thu Jun 11, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-50
+- "Add repeat reverse, draw and resign options for engine tournaments"
 * Tue Jun 09, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-48
 - "Improve engine config and adopt PGN Viewer from Uwe"
 * Sun Jun 07, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-44
