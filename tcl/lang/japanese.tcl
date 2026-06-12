@@ -246,7 +246,7 @@ menuText A ToolsCaptureBoard "現在のボードをキャプチャ..." 5  {現�
 
 # Play menu
 menuText A Play "遊ぶ" 0
-menuText A LichessPuzzles "リッチパズル" 0 {Lichess パズルをインタラクティブに解く}
+menuText A LichessPuzzles "リチェスパズル" 0 {Lichess パズルをインタラクティブに解く}
 
 # --- Correspondence Chess
 menuText A CCResign "投了" 1 {辞任（電子メールではない）}
@@ -406,7 +406,7 @@ translate A LichessImportFailed {ゲームのインポートに失敗しまし�
 translate A LichessGameLoaded {ゲームがクリップベースに正常にロードされました。}
 
 # Lichess Puzzles
-translate A LichessPuzzlesTitle {リッチパズル}
+translate A LichessPuzzlesTitle {リチェスパズル}
 translate A LichessPuzzlesDailyTitle {デイリーパズル}
 translate A LichessPuzzlesQuerying {Lichess パズルをクエリしています...}
 translate A LichessPuzzlesFailed {Lichess パズルのクエリに失敗しました:\n%s}
@@ -437,7 +437,7 @@ translate A LichessPuzzlesSolvedTitle {パズルが解けました！}
 translate A LichessPuzzlesTheme {テーマ：}
 translate A LichessPuzzlesMix {ヘルシーミックス}
 translate A LichessPuzzlesId {パズルID}
-translate A LichessPuzzlesPlays {演劇}
+translate A LichessPuzzlesPlays {プレイ回数}
 translate A LichessPuzzlesThemes {テーマ}
 translate A LichessPuzzlesPerf {タイプ}
 translate A LichessPuzzlesClock {クロック}

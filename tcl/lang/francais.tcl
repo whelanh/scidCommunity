@@ -397,7 +397,7 @@ translate F LichessPuzzlesStop {Arrêt}
 translate F LichessPuzzlesNew {Nouveau casse-tête}
 translate F LichessPuzzlesHint {Obtenez un indice}
 translate F LichessPuzzlesViewSolution {Voir la solution}
-translate F LichessPuzzlesHintMsg {Regardez l'article sur %s.}
+translate F LichessPuzzlesHintMsg {Regardez la pièce sur %s.}
 translate F LichessPuzzlesSolutionMsg {Solution :\n%s}
 translate F LichessPuzzlesDifficulty {Difficulté:}
 translate F LichessPuzzlesDiffEasiest {Le plus simple}
@@ -412,9 +412,9 @@ translate F LichessPuzzlesSolvedTitle {Énigme résolue !}
 translate F LichessPuzzlesTheme {Thème:}
 translate F LichessPuzzlesMix {Mélange sain}
 translate F LichessPuzzlesId {Identifiant du puzzle}
-translate F LichessPuzzlesPlays {Pièces}
+translate F LichessPuzzlesPlays {Coups}
 translate F LichessPuzzlesThemes {Thèmes}
-translate F LichessPuzzlesPerf {Taper}
+translate F LichessPuzzlesPerf {Type}
 translate F LichessPuzzlesClock {Horloge}
 translate F LichessPuzzlesRated {Noté}
 translate F LichessPuzzlesGame {Jeu}

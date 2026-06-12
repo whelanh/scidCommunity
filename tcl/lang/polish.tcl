@@ -418,7 +418,7 @@ translate P LichessPuzzlesSolvedTitle {Zagadka rozwiązana!}
 translate P LichessPuzzlesTheme {Temat:}
 translate P LichessPuzzlesMix {Zdrowa mieszanka}
 translate P LichessPuzzlesId {Identyfikator puzzli}
-translate P LichessPuzzlesPlays {Odtwarza}
+translate P LichessPuzzlesPlays {Rozgrywki}
 translate P LichessPuzzlesThemes {Motywy}
 translate P LichessPuzzlesPerf {Typ}
 translate P LichessPuzzlesClock {Zegar}

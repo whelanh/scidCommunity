@@ -394,8 +394,8 @@ translate O LichessPuzzlesViewSolution {Se løsning}
 translate O LichessPuzzlesHintMsg {Se på stykket på %s.}
 translate O LichessPuzzlesSolutionMsg {Løsning:\n%s}
 translate O LichessPuzzlesDifficulty {Vanskelighet:}
-translate O LichessPuzzlesDiffEasiest {Easiest}
-translate O LichessPuzzlesDiffEasiestThenNormal {Easiest, then normal}
+translate O LichessPuzzlesDiffEasiest {Enklest}
+translate O LichessPuzzlesDiffEasiestThenNormal {Enklest, deretter normal}
 translate O LichessPuzzlesDiffNormal {Normal}
 translate O LichessPuzzlesDiffNormalThenHardest {Normal, så vanskeligst}
 translate O LichessPuzzlesDiffHardest {Hardest}

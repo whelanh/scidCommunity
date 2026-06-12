@@ -385,7 +385,7 @@ translate C LichessPuzzlesStop {Zastávka}
 translate C LichessPuzzlesNew {Nové Puzzle}
 translate C LichessPuzzlesHint {Získejte nápovědu}
 translate C LichessPuzzlesViewSolution {Zobrazit řešení}
-translate C LichessPuzzlesHintMsg {Podívejte se na díl na %s.}
+translate C LichessPuzzlesHintMsg {Podívejte se na figuru na %s.}
 translate C LichessPuzzlesSolutionMsg {Řešení:\n%s}
 translate C LichessPuzzlesDifficulty {Obtížnost:}
 translate C LichessPuzzlesDiffEasiest {Nejjednodušší}

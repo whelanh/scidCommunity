@@ -416,7 +416,7 @@ translate U LichessPuzzlesWrong {Se ei ole oikea liike - kokeile jotain muuta.}
 translate U LichessPuzzlesBestMove {Paras liike!  Jatka...}
 translate U LichessPuzzlesSolved {Palapeli ratkaistu! Onnittelut!}
 translate U LichessPuzzlesPlaying {Ratkaistaan ​​arvoitusta...}
-translate U LichessPuzzlesStop {Stop}
+translate U LichessPuzzlesStop {Pysäytä}
 translate U LichessPuzzlesNew {Uusi palapeli}
 translate U LichessPuzzlesHint {Hanki vihje}
 translate U LichessPuzzlesViewSolution {Näytä ratkaisu}

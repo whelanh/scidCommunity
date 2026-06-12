@@ -212,7 +212,7 @@ menuText R ToolsCaptureBoard "Фиксировать текущую позици
 
 # Play menu
 menuText R Play "Играть" 1
-menuText R LichessPuzzles "Пазлы с лишаями" 0 {Решайте головоломки Lichess в интерактивном режиме}
+menuText R LichessPuzzles "Lichess Шахматные задачи" 0 {Решайте головоломки Lichess в интерактивном режиме}
 
 # --- Correspondence Chess
 menuText R CCResign "Сдаться" 0 {Сдаться (не через электронную почту)}

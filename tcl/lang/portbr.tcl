@@ -405,7 +405,7 @@ translate B LichessPuzzlesSolvedTitle {Quebra-cabeça resolvido!}
 translate B LichessPuzzlesTheme {Tema:}
 translate B LichessPuzzlesMix {Mistura saudável}
 translate B LichessPuzzlesId {ID do quebra-cabeça}
-translate B LichessPuzzlesPlays {Peças}
+translate B LichessPuzzlesPlays {Jogadas}
 translate B LichessPuzzlesThemes {Temas}
 translate B LichessPuzzlesPerf {Tipo}
 translate B LichessPuzzlesClock {Relógio}

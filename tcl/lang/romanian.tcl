@@ -437,7 +437,7 @@ translate L LichessPuzzlesSolvedTitle {Puzzle rezolvat!}
 translate L LichessPuzzlesTheme {Temă:}
 translate L LichessPuzzlesMix {Mix sănătos}
 translate L LichessPuzzlesId {ID puzzle}
-translate L LichessPuzzlesPlays {Joacă}
+translate L LichessPuzzlesPlays {Încercări}
 translate L LichessPuzzlesThemes {Teme}
 translate L LichessPuzzlesPerf {Tip}
 translate L LichessPuzzlesClock {Ceas}

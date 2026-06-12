@@ -245,7 +245,18 @@ namespace eval ::lichess_puzzles {
         set themeDisplay [concat [list [tr LichessPuzzlesMix]] $::lichess_puzzles::themeNames]
         ttk::combobox $w.controls.theme -width 22 -state readonly \
             -values $themeDisplay -textvariable ::lichess_puzzles::themeLabel
-        $w.controls.theme current 0
+        # Set the correct index based on persisted theme
+        set themeIdx 0
+        if {$::lichess_puzzles::theme ne ""} {
+            set themeIdx [lsearch -exact $::lichess_puzzles::themeKeys $::lichess_puzzles::theme]
+            if {$themeIdx >= 0} {
+                incr themeIdx
+                set ::lichess_puzzles::themeLabel [lindex $themeDisplay $themeIdx]
+            } else {
+                set themeIdx 0
+            }
+        }
+        $w.controls.theme current $themeIdx
         bind $w.controls.theme <<ComboboxSelected>> ::lichess_puzzles::onThemeChange
         grid $w.controls.themelbl -row $row -column 0 -sticky w -padx {0 8} -pady 2
         grid $w.controls.theme    -row $row -column 1 -columnspan 2 -sticky ew -pady 2
@@ -393,11 +404,13 @@ namespace eval ::lichess_puzzles {
 
         # Try to get a puzzle from the queue first
         set gotData 0
+        set reqFilterKey [list $reqDiff $reqTheme $reqColor]
         while {[llength $puzzleQueue] > 0} {
             set entry [lindex $puzzleQueue 0]
             set puzzleQueue [lrange $puzzleQueue 1 end]
-            lassign $entry entryPuzzlePart entryGamePart entryId
-            if {![::lichess_puzzles::isSeen $entryId]} {
+            lassign $entry entryPuzzlePart entryGamePart entryId entryFilterKey
+            # Only use this entry if it matches current filter and hasn't been seen
+            if {[info exists entryFilterKey] && $entryFilterKey eq $reqFilterKey && ![::lichess_puzzles::isSeen $entryId]} {
                 set puzzlePart $entryPuzzlePart
                 set gamePart   $entryGamePart
                 set puzzleId   $entryId
@@ -514,6 +527,9 @@ namespace eval ::lichess_puzzles {
             return
         }
 
+        # Store the filter key for each puzzle
+        set filterKey [list $diff $theme $color]
+
         # Parse batch response: {"puzzles": [{puzzle:{...}, game:{...}}, ...]}
         if {[regexp -indices {"puzzles"\s*:\s*\[} $batchResult match]} {
             set arrStart [lindex $match 1]
@@ -534,7 +550,7 @@ namespace eval ::lichess_puzzles {
                 set eid ""
                 if {$pp ne ""} { regexp {"id"\s*:\s*"([^"]*)"} $pp -> eid }
                 if {$eid ne "" && ![::lichess_puzzles::isSeen $eid]} {
-                    lappend puzzleQueue [list $pp $gp $eid]
+                    lappend puzzleQueue [list $pp $gp $eid $filterKey]
                 }
             }
         }
@@ -673,11 +689,6 @@ namespace eval ::lichess_puzzles {
         set solutionMoves $puzzleData(solution)
         set solutionIndex 0
 
-        # Mark this puzzle as seen
-        if {$puzzleData(puzzleId) ne ""} {
-            ::lichess_puzzles::markSeen $puzzleData(puzzleId)
-        }
-
         # Cancel any stale after-events from a previous puzzle
         after cancel $::lichess_puzzles::pendingSolve
         after cancel $::lichess_puzzles::pendingComp
@@ -692,6 +703,11 @@ namespace eval ::lichess_puzzles {
         if {![::lichess_puzzles::loadPuzzlePosition]} {
             setMsg [tr LichessPuzzlesLoadError]
             return 0
+        }
+
+        # Mark this puzzle as seen only after successful load
+        if {$puzzleData(puzzleId) ne ""} {
+            ::lichess_puzzles::markSeen $puzzleData(puzzleId)
         }
 
         setMsg [tr LichessPuzzlesSolve]
@@ -1011,6 +1027,7 @@ namespace eval ::lichess_puzzles {
     proc clearHints {} {
         variable hintSquares
         foreach sq $hintSquares {
+            catch { ::board::mark::remove ".main.board" "full" $sq }
             catch { ::board::colorSquare ".main.board" $sq "" }
         }
         set hintSquares {}

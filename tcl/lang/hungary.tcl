@@ -385,7 +385,7 @@ translate H LichessPuzzlesWrong {Nem ez a lépés – próbáljon ki valami más
 translate H LichessPuzzlesBestMove {A legjobb lépés!  Folytasd...}
 translate H LichessPuzzlesSolved {Rejtvény megoldva! Gratulálok!}
 translate H LichessPuzzlesPlaying {Rejtvény megoldása...}
-translate H LichessPuzzlesStop {Stop}
+translate H LichessPuzzlesStop {Állj}
 translate H LichessPuzzlesNew {Új rejtvény}
 translate H LichessPuzzlesHint {Kap egy tippet}
 translate H LichessPuzzlesViewSolution {Megoldás megtekintése}

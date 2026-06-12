@@ -405,7 +405,7 @@ translate D LichessPuzzlesQuerying {Lichess-Rätsel werden abgefragt...}
 translate D LichessPuzzlesFailed {Lichess-Rätsel konnten nicht abgefragt werden:\n%s}
 translate D LichessPuzzlesParseError {Rätseldaten konnten nicht analysiert werden}
 translate D LichessPuzzlesLoadError {Die Puzzle-Position konnte nicht geladen werden}
-translate D LichessPuzzlesSolve {Du bist dran! Finden Sie den besten Umzug.}
+translate D LichessPuzzlesSolve {Du bist dran! Finde den besten Zug.}
 translate D LichessPuzzlesCorrect {Guter Schachzug!}
 translate D LichessPuzzlesWrong {Das ist nicht der richtige Schritt – probieren Sie etwas anderes.}
 translate D LichessPuzzlesBestMove {Bester Schachzug!  Weitermachen...}
@@ -415,7 +415,7 @@ translate D LichessPuzzlesStop {Stoppen}
 translate D LichessPuzzlesNew {Neues Puzzle}
 translate D LichessPuzzlesHint {Holen Sie sich einen Hinweis}
 translate D LichessPuzzlesViewSolution {Lösung anzeigen}
-translate D LichessPuzzlesHintMsg {Schauen Sie sich den Artikel auf %s an.}
+translate D LichessPuzzlesHintMsg {Schauen Sie sich die Figur auf %s an.}
 translate D LichessPuzzlesSolutionMsg {Lösung:\n%s}
 translate D LichessPuzzlesDifficulty {Schwierigkeit:}
 translate D LichessPuzzlesDiffEasiest {Am einfachsten}

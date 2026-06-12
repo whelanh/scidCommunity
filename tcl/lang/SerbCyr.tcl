@@ -422,8 +422,8 @@ translate J LichessPuzzlesStop {Стани}
 translate J LichessPuzzlesNew {Нев Пуззле}
 translate J LichessPuzzlesHint {Добијте савет}
 translate J LichessPuzzlesViewSolution {Погледајте решење}
-translate J LichessPuzzlesHintMsg {Погледајте комад на %с.}
-translate J LichessPuzzlesSolutionMsg {Решење:\н%с}
+translate J LichessPuzzlesHintMsg {Погледајте комад на %s.}
+translate J LichessPuzzlesSolutionMsg {Решење:\n%s}
 translate J LichessPuzzlesDifficulty {потешкоћа:}
 translate J LichessPuzzlesDiffEasiest {Најлакше}
 translate J LichessPuzzlesDiffEasiestThenNormal {Најлакше, онда нормално}
@@ -443,7 +443,7 @@ translate J LichessPuzzlesPerf {Тип}
 translate J LichessPuzzlesClock {Сат}
 translate J LichessPuzzlesRated {Оцењено}
 translate J LichessPuzzlesGame {Игра}
-translate J LichessPuzzlesNoNew {Нису пронађене нове загонетке за ова подешавања.\н\нПробајте да промените тему, тежину или боју слагалице.}
+translate J LichessPuzzlesNoNew {Нису пронађене нове загонетке за ова подешавања.\n\nПробајте да промените тему, тежину или боју слагалице.}
 
 translate J Back {Назад}
 translate J Apply {Примени}

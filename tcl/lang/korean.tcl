@@ -413,7 +413,7 @@ translate k LichessPuzzlesFailed {Lichess 퍼즐을 쿼리하지 못했습니다
 translate k LichessPuzzlesParseError {퍼즐 데이터를 구문 분석하지 못했습니다.}
 translate k LichessPuzzlesLoadError {퍼즐 위치를 로드하지 못했습니다.}
 translate k LichessPuzzlesSolve {당신 차례입니다! 최선의 움직임을 찾아보세요.}
-translate k LichessPuzzlesCorrect {호수!}
+translate k LichessPuzzlesCorrect {정답!}
 translate k LichessPuzzlesWrong {그건 그런 움직임이 아닙니다. 다른 것을 시도해 보세요.}
 translate k LichessPuzzlesBestMove {최고의 움직임!  계속하세요...}
 translate k LichessPuzzlesSolved {퍼즐이 풀렸습니다! 축하해요!}
@@ -437,7 +437,7 @@ translate k LichessPuzzlesSolvedTitle {퍼즐이 풀렸습니다!}
 translate k LichessPuzzlesTheme {주제:}
 translate k LichessPuzzlesMix {건강한 믹스}
 translate k LichessPuzzlesId {퍼즐아이디}
-translate k LichessPuzzlesPlays {연극}
+translate k LichessPuzzlesPlays {두기}
 translate k LichessPuzzlesThemes {테마}
 translate k LichessPuzzlesPerf {유형}
 translate k LichessPuzzlesClock {시계}

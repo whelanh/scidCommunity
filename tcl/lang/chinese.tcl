@@ -357,7 +357,7 @@ translate M LichessPuzzlesStop {停止}
 translate M LichessPuzzlesNew {新谜题}
 translate M LichessPuzzlesHint {获取提示}
 translate M LichessPuzzlesViewSolution {查看解决方案}
-translate M LichessPuzzlesHintMsg {看看 %s 上的文章。}
+translate M LichessPuzzlesHintMsg {查看 %s 上的棋子。}
 translate M LichessPuzzlesSolutionMsg {解决方案：\n%s}
 translate M LichessPuzzlesDifficulty {困难：}
 translate M LichessPuzzlesDiffEasiest {最简单}
