@@ -205,6 +205,7 @@ menuText b ToolsCaptureBoard "বর্তমান বোর্ড ক্যা
 
 # Play menu
 menuText b Play "খেলা" 0
+menuText b LichessPuzzles "লিচেস পাজল" 0 {লিচেস পাজলগুলি ইন্টারেক্টিভভাবে সমাধান করুন}
 
 # --- Correspondence Chess
 menuText b CCResign "পদত্যাগ করুন" 1 {পদত্যাগ করুন (ইমেলের মাধ্যমে নয়)}
@@ -362,6 +363,47 @@ translate b LichessFetchGameFailed {খেলা %s আনতে ব্যর্
 translate b LichessGameNotFound {গেম %s লিচেসে পাওয়া যায়নি।}
 translate b LichessImportFailed {খেলা আমদানি করতে ব্যর্থ হয়েছে:\n%s}
 translate b LichessGameLoaded {ক্লিপবেসে খেলা সফলভাবে লোড হয়েছে৷}
+
+# Lichess Puzzles
+translate b LichessPuzzlesTitle {লিচেস পাজল}
+translate b LichessPuzzlesDailyTitle {দৈনিক ধাঁধা}
+translate b LichessPuzzlesQuerying {লিচেস পাজল জিজ্ঞাসা করা হচ্ছে...}
+translate b LichessPuzzlesFailed {লিচেস পাজল জিজ্ঞাসা করতে ব্যর্থ হয়েছে:\n%s}
+translate b LichessPuzzlesParseError {ধাঁধার ডেটা পার্স করতে ব্যর্থ হয়েছে৷}
+translate b LichessPuzzlesLoadError {ধাঁধার অবস্থান লোড করতে ব্যর্থ হয়েছে৷}
+translate b LichessPuzzlesSolve {তোমার পালা! সেরা পদক্ষেপ খুঁজুন.}
+translate b LichessPuzzlesCorrect {ভাল পদক্ষেপ!}
+translate b LichessPuzzlesWrong {এটি পদক্ষেপ নয় -- অন্য কিছু চেষ্টা করুন।}
+translate b LichessPuzzlesBestMove {সেরা পদক্ষেপ!  চালিয়ে যান...}
+translate b LichessPuzzlesSolved {ধাঁধার সমাধান! অভিনন্দন!}
+translate b LichessPuzzlesPlaying {ধাঁধা সমাধান করা হচ্ছে...}
+translate b LichessPuzzlesStop {থামো}
+translate b LichessPuzzlesNew {নতুন ধাঁধা}
+translate b LichessPuzzlesHint {একটি ইঙ্গিত পান}
+translate b LichessPuzzlesViewSolution {সমাধান দেখুন}
+translate b LichessPuzzlesHintMsg {%s-এ অংশটি দেখুন।}
+translate b LichessPuzzlesSolutionMsg {সমাধান:\n%s}
+translate b LichessPuzzlesDifficulty {অসুবিধা:}
+translate b LichessPuzzlesDiffEasiest {সবচেয়ে সহজ}
+translate b LichessPuzzlesDiffEasiestThenNormal {সবচেয়ে সহজ, তারপর স্বাভাবিক}
+translate b LichessPuzzlesDiffNormal {স্বাভাবিক}
+translate b LichessPuzzlesDiffNormalThenHardest {স্বাভাবিক, তারপর সবচেয়ে কঠিন}
+translate b LichessPuzzlesDiffHardest {কঠিনতম}
+translate b LichessPuzzlesColor {এইভাবে খেলুন:}
+translate b LichessPuzzlesNextColor {পরবর্তী ধাঁধার রঙ:}
+translate b LichessPuzzlesSideToMove {পাশ সরানো}
+translate b LichessPuzzlesSolvedTitle {ধাঁধা সমাধান!}
+translate b LichessPuzzlesTheme {থিম:}
+translate b LichessPuzzlesMix {স্বাস্থ্যকর মিশ্রণ}
+translate b LichessPuzzlesId {ধাঁধা আইডি}
+translate b LichessPuzzlesPlays {নাটক করে}
+translate b LichessPuzzlesThemes {থিম}
+translate b LichessPuzzlesPerf {টাইপ}
+translate b LichessPuzzlesClock {ঘড়ি}
+translate b LichessPuzzlesRated {রেট}
+translate b LichessPuzzlesGame {খেলা}
+translate b LichessPuzzlesNoNew {এই সেটিংসের জন্য কোনো নতুন ধাঁধা পাওয়া যায়নি।\n\nথিম, অসুবিধা বা ধাঁধার রঙ পরিবর্তন করার চেষ্টা করুন।}
+
 translate b Back {ফিরে}
 translate b Apply {প্রয়োগ করুন}
 translate b Browse {ব্রাউজ করুন}

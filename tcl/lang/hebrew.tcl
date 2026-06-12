@@ -206,6 +206,7 @@ menuText V ToolsCaptureBoard "לכידת לוח נוכחי..." 5  {שמור את
 
 # Play menu
 menuText V Play "לְשַׂחֵק" 0
+menuText V LichessPuzzles "פאזלים של ליצ'ס" 0 {פתור חידות ליצ'ס באופן אינטראקטיבי}
 
 # --- Correspondence Chess
 menuText V CCResign "לְהִתְפַּטֵר" 1 {התפטר (לא באמצעות דואר אלקטרוני)}
@@ -363,6 +364,47 @@ translate V LichessFetchGameFailed {אחזור המשחק %s:\n%s נכשל}
 translate V LichessGameNotFound {המשחק %s לא נמצא ב-Lichess.}
 translate V LichessImportFailed {ייבוא ​​המשחק נכשל:\n%s}
 translate V LichessGameLoaded {המשחק נטען ל-clipbase בהצלחה.}
+
+# Lichess Puzzles
+translate V LichessPuzzlesTitle {פאזלים של ליצ'ס}
+translate V LichessPuzzlesDailyTitle {פאזל יומי}
+translate V LichessPuzzlesQuerying {מחפש חידות של ליצ'ס...}
+translate V LichessPuzzlesFailed {השאילתה של חידות Lichess נכשלה:\n%s}
+translate V LichessPuzzlesParseError {ניתוח נתוני פאזל נכשל}
+translate V LichessPuzzlesLoadError {טעינת עמדת הפאזל נכשלה}
+translate V LichessPuzzlesSolve {תורך! מצא את המהלך הטוב ביותר.}
+translate V LichessPuzzlesCorrect {מהלך טוב!}
+translate V LichessPuzzlesWrong {זה לא המהלך - נסה משהו אחר.}
+translate V LichessPuzzlesBestMove {המהלך הכי טוב!  לְהַמשִׁיך לָלֶכֶת...}
+translate V LichessPuzzlesSolved {חידה נפתרה! מזל טוב!}
+translate V LichessPuzzlesPlaying {פותרים חידה...}
+translate V LichessPuzzlesStop {לְהַפְסִיק}
+translate V LichessPuzzlesNew {פאזל חדש}
+translate V LichessPuzzlesHint {קבלו רמז}
+translate V LichessPuzzlesViewSolution {צפה בפתרון}
+translate V LichessPuzzlesHintMsg {תסתכל על היצירה ב-%s.}
+translate V LichessPuzzlesSolutionMsg {פתרון:\n%s}
+translate V LichessPuzzlesDifficulty {קוֹשִׁי:}
+translate V LichessPuzzlesDiffEasiest {הכי קל}
+translate V LichessPuzzlesDiffEasiestThenNormal {הכי קל, אחר כך נורמלי}
+translate V LichessPuzzlesDiffNormal {נוֹרמָלִי}
+translate V LichessPuzzlesDiffNormalThenHardest {רגיל, ואז הכי קשה}
+translate V LichessPuzzlesDiffHardest {הכי קשה}
+translate V LichessPuzzlesColor {שחק בתור:}
+translate V LichessPuzzlesNextColor {צבע הפאזל הבא:}
+translate V LichessPuzzlesSideToMove {צד לזוז}
+translate V LichessPuzzlesSolvedTitle {חידה נפתרה!}
+translate V LichessPuzzlesTheme {נוֹשֵׂא:}
+translate V LichessPuzzlesMix {תערובת בריאה}
+translate V LichessPuzzlesId {מזהה פאזל}
+translate V LichessPuzzlesPlays {מחזות}
+translate V LichessPuzzlesThemes {ערכות נושא}
+translate V LichessPuzzlesPerf {סוּג}
+translate V LichessPuzzlesClock {שָׁעוֹן}
+translate V LichessPuzzlesRated {מדורג}
+translate V LichessPuzzlesGame {מִשְׂחָק}
+translate V LichessPuzzlesNoNew {לא נמצאו פאזלים חדשים עבור ההגדרות האלה.\n\nנסה לשנות את הנושא, הקושי או צבע הפאזל.}
+
 translate V Back {בְּחֲזָרָה}
 translate V Apply {לִפְנוֹת}
 translate V Browse {לְדַפדֵף}

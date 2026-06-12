@@ -237,6 +237,7 @@ menuText D ToolsCaptureBoard "Brettfoto..." 0  {Aktuelles Brett als Bild speiche
 
 # Play menu
 menuText D Play "Spielen" 0 {Partien spielen}
+menuText D LichessPuzzles "Lichess-Rätsel" 0 {Lösen Sie Lichess-Rätsel interaktiv}
 
 # --- Correspondence Chess
 menuText D CCResign "Aufgeben" 0 {Partie aufgeben (funktioniert nicht via eMail)}
@@ -396,6 +397,47 @@ translate D LichessFetchGameFailed {Das Spiel %s:\n%s konnte nicht abgerufen wer
 translate D LichessGameNotFound {Spiel %s wurde auf Lichess nicht gefunden.}
 translate D LichessImportFailed {Spiel konnte nicht importiert werden:\n%s}
 translate D LichessGameLoaded {Das Spiel wurde erfolgreich in Clipbase geladen.}
+
+# Lichess Puzzles
+translate D LichessPuzzlesTitle {Lichess-Rätsel}
+translate D LichessPuzzlesDailyTitle {Tägliches Rätsel}
+translate D LichessPuzzlesQuerying {Lichess-Rätsel werden abgefragt...}
+translate D LichessPuzzlesFailed {Lichess-Rätsel konnten nicht abgefragt werden:\n%s}
+translate D LichessPuzzlesParseError {Rätseldaten konnten nicht analysiert werden}
+translate D LichessPuzzlesLoadError {Die Puzzle-Position konnte nicht geladen werden}
+translate D LichessPuzzlesSolve {Du bist dran! Finden Sie den besten Umzug.}
+translate D LichessPuzzlesCorrect {Guter Schachzug!}
+translate D LichessPuzzlesWrong {Das ist nicht der richtige Schritt – probieren Sie etwas anderes.}
+translate D LichessPuzzlesBestMove {Bester Schachzug!  Weitermachen...}
+translate D LichessPuzzlesSolved {Rätsel gelöst! Glückwunsch!}
+translate D LichessPuzzlesPlaying {Rätsel lösen...}
+translate D LichessPuzzlesStop {Stoppen}
+translate D LichessPuzzlesNew {Neues Puzzle}
+translate D LichessPuzzlesHint {Holen Sie sich einen Hinweis}
+translate D LichessPuzzlesViewSolution {Lösung anzeigen}
+translate D LichessPuzzlesHintMsg {Schauen Sie sich den Artikel auf %s an.}
+translate D LichessPuzzlesSolutionMsg {Lösung:\n%s}
+translate D LichessPuzzlesDifficulty {Schwierigkeit:}
+translate D LichessPuzzlesDiffEasiest {Am einfachsten}
+translate D LichessPuzzlesDiffEasiestThenNormal {Am einfachsten, dann normal}
+translate D LichessPuzzlesDiffNormal {Normal}
+translate D LichessPuzzlesDiffNormalThenHardest {Normal, dann am schwersten}
+translate D LichessPuzzlesDiffHardest {Am schwierigsten}
+translate D LichessPuzzlesColor {Spielen Sie als:}
+translate D LichessPuzzlesNextColor {Nächste Puzzlefarbe:}
+translate D LichessPuzzlesSideToMove {Seite zum Bewegen}
+translate D LichessPuzzlesSolvedTitle {Rätsel gelöst!}
+translate D LichessPuzzlesTheme {Thema:}
+translate D LichessPuzzlesMix {Gesunde Mischung}
+translate D LichessPuzzlesId {Puzzle-ID}
+translate D LichessPuzzlesPlays {Spielt}
+translate D LichessPuzzlesThemes {Themen}
+translate D LichessPuzzlesPerf {Typ}
+translate D LichessPuzzlesClock {Uhr}
+translate D LichessPuzzlesRated {Bewertet}
+translate D LichessPuzzlesGame {Spiel}
+translate D LichessPuzzlesNoNew {Für diese Einstellungen wurden keine neuen Rätsel gefunden.\n\nVersuchen Sie, das Thema, den Schwierigkeitsgrad oder die Rätselfarbe zu ändern.}
+
 translate D Back {Zurück}
 translate D Apply {Anwenden}
 translate D Browse {Auswählen}

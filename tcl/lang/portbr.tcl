@@ -212,6 +212,7 @@ menuText B ToolsCaptureBoard "Capturar posição atual..." 5  {Salva uma imagem 
 
 # Play menu
 menuText B Play "Jogar" 0
+menuText B LichessPuzzles "Quebra-cabeças de Lichess" 0 {Resolva quebra-cabeças Lichess interativamente}
 
 # --- Correspondence Chess
 menuText B CCResign "Abandonar" 0 {Aceita a derrota (no via eMail)}
@@ -371,6 +372,47 @@ translate B LichessFetchGameFailed {Falha ao buscar o jogo %s:\n%s}
 translate B LichessGameNotFound {Jogo %s não encontrado no Lichess.}
 translate B LichessImportFailed {Falha ao importar o jogo:\n%s}
 translate B LichessGameLoaded {Jogo carregado no clipbase com sucesso.}
+
+# Lichess Puzzles
+translate B LichessPuzzlesTitle {Quebra-cabeças de Lichess}
+translate B LichessPuzzlesDailyTitle {Quebra-cabeça diário}
+translate B LichessPuzzlesQuerying {Consultando quebra-cabeças do Lichess...}
+translate B LichessPuzzlesFailed {Falha ao consultar os quebra-cabeças do Lichess:\n%s}
+translate B LichessPuzzlesParseError {Falha ao analisar os dados do quebra-cabeça}
+translate B LichessPuzzlesLoadError {Falha ao carregar a posição do quebra-cabeça}
+translate B LichessPuzzlesSolve {Sua vez! Encontre a melhor jogada.}
+translate B LichessPuzzlesCorrect {Boa jogada!}
+translate B LichessPuzzlesWrong {Essa não é a decisão – tente outra coisa.}
+translate B LichessPuzzlesBestMove {Melhor jogada!  Continue...}
+translate B LichessPuzzlesSolved {Quebra-cabeça resolvido! Parabéns!}
+translate B LichessPuzzlesPlaying {Resolvendo quebra-cabeça...}
+translate B LichessPuzzlesStop {Parar}
+translate B LichessPuzzlesNew {Novo quebra-cabeça}
+translate B LichessPuzzlesHint {Obtenha uma dica}
+translate B LichessPuzzlesViewSolution {Ver solução}
+translate B LichessPuzzlesHintMsg {Veja a peça em %s.}
+translate B LichessPuzzlesSolutionMsg {Solução:\n%s}
+translate B LichessPuzzlesDifficulty {Dificuldade:}
+translate B LichessPuzzlesDiffEasiest {Mais fácil}
+translate B LichessPuzzlesDiffEasiestThenNormal {Mais fácil, então normal}
+translate B LichessPuzzlesDiffNormal {Normal}
+translate B LichessPuzzlesDiffNormalThenHardest {Normal, depois o mais difícil}
+translate B LichessPuzzlesDiffHardest {Mais difícil}
+translate B LichessPuzzlesColor {Jogue como:}
+translate B LichessPuzzlesNextColor {Próxima cor do quebra-cabeça:}
+translate B LichessPuzzlesSideToMove {Lado para mover}
+translate B LichessPuzzlesSolvedTitle {Quebra-cabeça resolvido!}
+translate B LichessPuzzlesTheme {Tema:}
+translate B LichessPuzzlesMix {Mistura saudável}
+translate B LichessPuzzlesId {ID do quebra-cabeça}
+translate B LichessPuzzlesPlays {Peças}
+translate B LichessPuzzlesThemes {Temas}
+translate B LichessPuzzlesPerf {Tipo}
+translate B LichessPuzzlesClock {Relógio}
+translate B LichessPuzzlesRated {Avaliado}
+translate B LichessPuzzlesGame {Jogo}
+translate B LichessPuzzlesNoNew {Não foram encontrados novos quebra-cabeças para essas configurações.\n\nTente alterar o tema, a dificuldade ou a cor do quebra-cabeça.}
+
 translate B Back {Voltar}
 translate B Apply {Aplicar}
 translate B Browse {Navegar} 

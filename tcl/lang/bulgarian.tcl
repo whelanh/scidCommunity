@@ -246,6 +246,7 @@ menuText g ToolsCaptureBoard "Заснемане на текущата дъск�
 
 # Play menu
 menuText g Play "Играйте" 0
+menuText g LichessPuzzles "Пъзели за шах" 0 {Решавайте пъзелите Lichess интерактивно}
 
 # --- Correspondence Chess
 menuText g CCResign "Подай си оставката" 1 {Подайте оставка (не чрез имейл)}
@@ -403,6 +404,47 @@ translate g LichessFetchGameFailed {Неуспешно извличане на �
 translate g LichessGameNotFound {Играта %s не е намерена в Lichess.}
 translate g LichessImportFailed {Неуспешно импортиране на игра:\n%s}
 translate g LichessGameLoaded {Играта се зареди успешно в базата клипове.}
+
+# Lichess Puzzles
+translate g LichessPuzzlesTitle {Пъзели за шах}
+translate g LichessPuzzlesDailyTitle {Ежедневен пъзел}
+translate g LichessPuzzlesQuerying {Запитване за пъзели Lichess...}
+translate g LichessPuzzlesFailed {Неуспешно запитване за пъзели Lichess:\n%s}
+translate g LichessPuzzlesParseError {Неуспешно анализиране на данните за пъзел}
+translate g LichessPuzzlesLoadError {Неуспешно зареждане на позицията на пъзела}
+translate g LichessPuzzlesSolve {Твой ред! Намерете най-добрия ход.}
+translate g LichessPuzzlesCorrect {Добър ход!}
+translate g LichessPuzzlesWrong {Това не е ходът - опитайте нещо друго.}
+translate g LichessPuzzlesBestMove {Най-добрият ход!  продължавай...}
+translate g LichessPuzzlesSolved {Пъзелът е решен! честито!}
+translate g LichessPuzzlesPlaying {Решаване на пъзел...}
+translate g LichessPuzzlesStop {Спрете}
+translate g LichessPuzzlesNew {Нов пъзел}
+translate g LichessPuzzlesHint {Получете подсказка}
+translate g LichessPuzzlesViewSolution {Вижте решение}
+translate g LichessPuzzlesHintMsg {Вижте частта на %s.}
+translate g LichessPuzzlesSolutionMsg {Решение:\n%s}
+translate g LichessPuzzlesDifficulty {Трудност:}
+translate g LichessPuzzlesDiffEasiest {Най-лесно}
+translate g LichessPuzzlesDiffEasiestThenNormal {Най-лесно, после нормално}
+translate g LichessPuzzlesDiffNormal {нормално}
+translate g LichessPuzzlesDiffNormalThenHardest {Нормално, тогава най-трудно}
+translate g LichessPuzzlesDiffHardest {Най-трудно}
+translate g LichessPuzzlesColor {Играйте като:}
+translate g LichessPuzzlesNextColor {Следващ цвят на пъзела:}
+translate g LichessPuzzlesSideToMove {Страна за движение}
+translate g LichessPuzzlesSolvedTitle {Пъзелът е решен!}
+translate g LichessPuzzlesTheme {Тема:}
+translate g LichessPuzzlesMix {Здравословен микс}
+translate g LichessPuzzlesId {ID на пъзела}
+translate g LichessPuzzlesPlays {Пиеси}
+translate g LichessPuzzlesThemes {Теми}
+translate g LichessPuzzlesPerf {Тип}
+translate g LichessPuzzlesClock {Часовник}
+translate g LichessPuzzlesRated {Оценен}
+translate g LichessPuzzlesGame {Игра}
+translate g LichessPuzzlesNoNew {Няма намерени нови пъзели за тези настройки.\n\nОпитайте да промените темата, трудността или цвета на пъзела.}
+
 translate g Back {Назад}
 translate g Apply {Приложи}
 translate g Browse {Прегледайте}

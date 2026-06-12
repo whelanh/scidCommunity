@@ -246,6 +246,7 @@ menuText k ToolsCaptureBoard "현재 캡처 중..." 5  {현재 보드를 이미�
 
 # Play menu
 menuText k Play "플레이" 0
+menuText k LichessPuzzles "리치 퍼즐" 0 {Lichess 퍼즐을 대화식으로 해결하세요}
 
 # --- Correspondence Chess
 menuText k CCResign "기권" 1 {사임(이메일을 통하지 않음)}
@@ -403,6 +404,47 @@ translate k LichessFetchGameFailed {%s 게임을 가져오지 못했습니다:\n
 translate k LichessGameNotFound {Lichess에서 %s 게임을 찾을 수 없습니다.}
 translate k LichessImportFailed {게임을 가져오지 못했습니다:\n%s}
 translate k LichessGameLoaded {게임이 클립베이스에 성공적으로 로드되었습니다.}
+
+# Lichess Puzzles
+translate k LichessPuzzlesTitle {리치 퍼즐}
+translate k LichessPuzzlesDailyTitle {일일 퍼즐}
+translate k LichessPuzzlesQuerying {Lichess 퍼즐을 쿼리하는 중...}
+translate k LichessPuzzlesFailed {Lichess 퍼즐을 쿼리하지 못했습니다:\n%s}
+translate k LichessPuzzlesParseError {퍼즐 데이터를 구문 분석하지 못했습니다.}
+translate k LichessPuzzlesLoadError {퍼즐 위치를 로드하지 못했습니다.}
+translate k LichessPuzzlesSolve {당신 차례입니다! 최선의 움직임을 찾아보세요.}
+translate k LichessPuzzlesCorrect {호수!}
+translate k LichessPuzzlesWrong {그건 그런 움직임이 아닙니다. 다른 것을 시도해 보세요.}
+translate k LichessPuzzlesBestMove {최고의 움직임!  계속하세요...}
+translate k LichessPuzzlesSolved {퍼즐이 풀렸습니다! 축하해요!}
+translate k LichessPuzzlesPlaying {퍼즐을 푸는 중...}
+translate k LichessPuzzlesStop {멈추다}
+translate k LichessPuzzlesNew {새로운 퍼즐}
+translate k LichessPuzzlesHint {힌트 얻기}
+translate k LichessPuzzlesViewSolution {솔루션 보기}
+translate k LichessPuzzlesHintMsg {%s의 작품을 보세요.}
+translate k LichessPuzzlesSolutionMsg {해결책:\n%s}
+translate k LichessPuzzlesDifficulty {어려움:}
+translate k LichessPuzzlesDiffEasiest {가장 쉬운}
+translate k LichessPuzzlesDiffEasiestThenNormal {가장 쉬우며 그 다음은 보통}
+translate k LichessPuzzlesDiffNormal {정상}
+translate k LichessPuzzlesDiffNormalThenHardest {보통, 그 다음이 가장 어렵다}
+translate k LichessPuzzlesDiffHardest {가장 어렵다}
+translate k LichessPuzzlesColor {다음과 같이 플레이하세요:}
+translate k LichessPuzzlesNextColor {다음 퍼즐 색상:}
+translate k LichessPuzzlesSideToMove {이동할 면}
+translate k LichessPuzzlesSolvedTitle {퍼즐이 풀렸습니다!}
+translate k LichessPuzzlesTheme {주제:}
+translate k LichessPuzzlesMix {건강한 믹스}
+translate k LichessPuzzlesId {퍼즐아이디}
+translate k LichessPuzzlesPlays {연극}
+translate k LichessPuzzlesThemes {테마}
+translate k LichessPuzzlesPerf {유형}
+translate k LichessPuzzlesClock {시계}
+translate k LichessPuzzlesRated {정격}
+translate k LichessPuzzlesGame {게임}
+translate k LichessPuzzlesNoNew {이 설정에 대한 새로운 퍼즐을 찾을 수 없습니다.\n\n테마, 난이도 또는 퍼즐 색상을 변경해 보세요.}
+
 translate k Back {뒤로}
 translate k Apply {적용하다}
 translate k Browse {찾아보기}

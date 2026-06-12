@@ -237,6 +237,7 @@ menuText G ToolsCaptureBoard "Σύλληψη τρέχουσας σκακιέρα
 
 # Play menu
 menuText G Play "Παιχνίδι" 0
+menuText G LichessPuzzles "Lichess παζλ" 0 {Λύστε γρίφους Lichess διαδραστικά}
 
 # --- Correspondence Chess
 menuText G CCResign "Παραίτηση" 1 {Παραιτηθείτε (όχι μέσω eMail)}
@@ -394,6 +395,47 @@ translate G LichessFetchGameFailed {Απέτυχε η ανάκτηση του π
 translate G LichessGameNotFound {Το παιχνίδι %s δεν βρέθηκε στο Lichess.}
 translate G LichessImportFailed {Αποτυχία εισαγωγής παιχνιδιού:\n%s}
 translate G LichessGameLoaded {Το παιχνίδι φορτώθηκε με επιτυχία στο clipbase.}
+
+# Lichess Puzzles
+translate G LichessPuzzlesTitle {Lichess παζλ}
+translate G LichessPuzzlesDailyTitle {Καθημερινό παζλ}
+translate G LichessPuzzlesQuerying {Αναζήτηση παζλ Lichess...}
+translate G LichessPuzzlesFailed {Απέτυχε το ερώτημα για παζλ Lichess:\n%s}
+translate G LichessPuzzlesParseError {Αποτυχία ανάλυσης δεδομένων παζλ}
+translate G LichessPuzzlesLoadError {Η φόρτωση της θέσης του παζλ απέτυχε}
+translate G LichessPuzzlesSolve {Σειρά σου! Βρείτε την καλύτερη κίνηση.}
+translate G LichessPuzzlesCorrect {Καλή κίνηση!}
+translate G LichessPuzzlesWrong {Δεν είναι αυτή η κίνηση -- δοκιμάστε κάτι άλλο.}
+translate G LichessPuzzlesBestMove {Η καλύτερη κίνηση!  Συνεχίζω...}
+translate G LichessPuzzlesSolved {Λύθηκε ο γρίφος! Συγχαρητήρια!}
+translate G LichessPuzzlesPlaying {Επίλυση παζλ...}
+translate G LichessPuzzlesStop {Στάση}
+translate G LichessPuzzlesNew {Νέο παζλ}
+translate G LichessPuzzlesHint {Λάβετε μια υπόδειξη}
+translate G LichessPuzzlesViewSolution {Προβολή Λύσης}
+translate G LichessPuzzlesHintMsg {Δείτε το κομμάτι στο %s.}
+translate G LichessPuzzlesSolutionMsg {Λύση:\n%s}
+translate G LichessPuzzlesDifficulty {Δυσκολία:}
+translate G LichessPuzzlesDiffEasiest {Το πιο εύκολο}
+translate G LichessPuzzlesDiffEasiestThenNormal {Το πιο εύκολο, μετά το κανονικό}
+translate G LichessPuzzlesDiffNormal {Κανονικός}
+translate G LichessPuzzlesDiffNormalThenHardest {Κανονικό, μετά το πιο δύσκολο}
+translate G LichessPuzzlesDiffHardest {Το πιο δύσκολο}
+translate G LichessPuzzlesColor {Παίξτε ως:}
+translate G LichessPuzzlesNextColor {Επόμενο χρώμα παζλ:}
+translate G LichessPuzzlesSideToMove {Πλευρά για κίνηση}
+translate G LichessPuzzlesSolvedTitle {Λύθηκε ο γρίφος!}
+translate G LichessPuzzlesTheme {Θέμα:}
+translate G LichessPuzzlesMix {Υγιεινό μείγμα}
+translate G LichessPuzzlesId {Αναγνωριστικό παζλ}
+translate G LichessPuzzlesPlays {Παίζει}
+translate G LichessPuzzlesThemes {Θέματα}
+translate G LichessPuzzlesPerf {Τύπος}
+translate G LichessPuzzlesClock {Ρολόι}
+translate G LichessPuzzlesRated {Βαθμολογήθηκε}
+translate G LichessPuzzlesGame {Παιχνίδι}
+translate G LichessPuzzlesNoNew {Δεν βρέθηκαν νέα παζλ για αυτές τις ρυθμίσεις.\n\nΔοκιμάστε να αλλάξετε το θέμα, τη δυσκολία ή το χρώμα του παζλ.}
+
 translate G Back {Πίσω}
 translate G Apply {Εφαρμογή}
 translate G Browse {Αναζήτηση}

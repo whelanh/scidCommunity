@@ -246,6 +246,7 @@ menuText L ToolsCaptureBoard "Capturați tabloul curent..." 5  {Salvați tabloul
 
 # Play menu
 menuText L Play "Juca" 0
+menuText L LichessPuzzles "Puzzle-uri Lichess" 0 {Rezolvați puzzle-uri Lichess în mod interactiv}
 
 # --- Correspondence Chess
 menuText L CCResign "Demisiona" 1 {Demisia (nu prin e-mail)}
@@ -403,6 +404,47 @@ translate L LichessFetchGameFailed {Nu s-a putut prelua jocul %s:\n%s}
 translate L LichessGameNotFound {Jocul %s nu a fost găsit pe Lichess.}
 translate L LichessImportFailed {Nu s-a putut importa jocul:\n%s}
 translate L LichessGameLoaded {Jocul a fost încărcat cu succes în clipbase.}
+
+# Lichess Puzzles
+translate L LichessPuzzlesTitle {Puzzle-uri Lichess}
+translate L LichessPuzzlesDailyTitle {Puzzle zilnic}
+translate L LichessPuzzlesQuerying {Se interoghează puzzle-urile Lichess...}
+translate L LichessPuzzlesFailed {Nu s-a putut interoga puzzle-urile Lichess:\n%s}
+translate L LichessPuzzlesParseError {Nu s-au putut analiza datele puzzle-ului}
+translate L LichessPuzzlesLoadError {Poziția puzzle-ului a eșuat}
+translate L LichessPuzzlesSolve {rândul tău! Găsiți cea mai bună mișcare.}
+translate L LichessPuzzlesCorrect {Bună mișcare!}
+translate L LichessPuzzlesWrong {Nu asta este mișcarea -- încearcă altceva.}
+translate L LichessPuzzlesBestMove {Cea mai bună mișcare!  Continuă...}
+translate L LichessPuzzlesSolved {Puzzle rezolvat! Felicitări!}
+translate L LichessPuzzlesPlaying {Rezolvarea puzzle-ului...}
+translate L LichessPuzzlesStop {Stop}
+translate L LichessPuzzlesNew {Puzzle nou}
+translate L LichessPuzzlesHint {Obțineți un indiciu}
+translate L LichessPuzzlesViewSolution {Vizualizați soluția}
+translate L LichessPuzzlesHintMsg {Uită-te la piesa de pe %s.}
+translate L LichessPuzzlesSolutionMsg {Soluție:\n%s}
+translate L LichessPuzzlesDifficulty {Dificultate:}
+translate L LichessPuzzlesDiffEasiest {Cel mai usor}
+translate L LichessPuzzlesDiffEasiestThenNormal {Cel mai ușor, apoi normal}
+translate L LichessPuzzlesDiffNormal {Normal}
+translate L LichessPuzzlesDiffNormalThenHardest {Normal, apoi cel mai greu}
+translate L LichessPuzzlesDiffHardest {Cel mai greu}
+translate L LichessPuzzlesColor {Joacă ca:}
+translate L LichessPuzzlesNextColor {Următoarea culoare a puzzle-ului:}
+translate L LichessPuzzlesSideToMove {Partea de mișcare}
+translate L LichessPuzzlesSolvedTitle {Puzzle rezolvat!}
+translate L LichessPuzzlesTheme {Temă:}
+translate L LichessPuzzlesMix {Mix sănătos}
+translate L LichessPuzzlesId {ID puzzle}
+translate L LichessPuzzlesPlays {Joacă}
+translate L LichessPuzzlesThemes {Teme}
+translate L LichessPuzzlesPerf {Tip}
+translate L LichessPuzzlesClock {Ceas}
+translate L LichessPuzzlesRated {Evaluat}
+translate L LichessPuzzlesGame {Joc}
+translate L LichessPuzzlesNoNew {Nu s-au găsit puzzle-uri noi pentru aceste setări.\n\nÎncercați să schimbați tema, dificultatea sau culoarea puzzle-ului.}
+
 translate L Back {Înapoi}
 translate L Apply {Aplicați}
 translate L Browse {Răsfoiește}

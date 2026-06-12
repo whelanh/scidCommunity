@@ -223,6 +223,7 @@ menuText P ToolsCaptureBoard "Przechwy biec tablic..." 0  {Zapis biecej tablicy 
 
 # Play menu
 menuText P Play "Gra" 0
+menuText P LichessPuzzles "Łamigłówki Lichess" 0 {Rozwiązuj interaktywne zagadki Lichess}
 
 # --- Correspondence Chess
 menuText P CCResign "Rezygnowa" 0 {Zrezygnuj (nie przez e-mail)}
@@ -384,6 +385,47 @@ translate P LichessFetchGameFailed {Nie udało się pobrać gry %s:\n%s}
 translate P LichessGameNotFound {Nie znaleziono gry %s na Lichess.}
 translate P LichessImportFailed {Nie udało się zaimportować gry:\n%s}
 translate P LichessGameLoaded {Gra została pomyślnie załadowana do Clipbase.}
+
+# Lichess Puzzles
+translate P LichessPuzzlesTitle {Łamigłówki Lichess}
+translate P LichessPuzzlesDailyTitle {Codzienna łamigłówka}
+translate P LichessPuzzlesQuerying {Odpytywanie zagadek Lichess...}
+translate P LichessPuzzlesFailed {Nie udało się zapytać o łamigłówki Lichess:\n%s}
+translate P LichessPuzzlesParseError {Nie udało się przeanalizować danych puzzli}
+translate P LichessPuzzlesLoadError {Nie udało się załadować pozycji układanki}
+translate P LichessPuzzlesSolve {Twoja kolej! Znajdź najlepszy ruch.}
+translate P LichessPuzzlesCorrect {Dobry ruch!}
+translate P LichessPuzzlesWrong {To nie jest ten ruch — spróbuj czegoś innego.}
+translate P LichessPuzzlesBestMove {Najlepszy ruch!  Kontynuować...}
+translate P LichessPuzzlesSolved {Zagadka rozwiązana! Gratulacje!}
+translate P LichessPuzzlesPlaying {Rozwiązywanie zagadek...}
+translate P LichessPuzzlesStop {Zatrzymywać się}
+translate P LichessPuzzlesNew {Nowa łamigłówka}
+translate P LichessPuzzlesHint {Uzyskaj wskazówkę}
+translate P LichessPuzzlesViewSolution {Zobacz rozwiązanie}
+translate P LichessPuzzlesHintMsg {Spójrz na kawałek na %s.}
+translate P LichessPuzzlesSolutionMsg {Rozwiązanie:\n%s}
+translate P LichessPuzzlesDifficulty {Trudność:}
+translate P LichessPuzzlesDiffEasiest {Najłatwiej}
+translate P LichessPuzzlesDiffEasiestThenNormal {Najłatwiej, potem normalnie}
+translate P LichessPuzzlesDiffNormal {Normalna}
+translate P LichessPuzzlesDiffNormalThenHardest {Normalne, potem najtrudniejsze}
+translate P LichessPuzzlesDiffHardest {Najtrudniejsze}
+translate P LichessPuzzlesColor {Graj jako:}
+translate P LichessPuzzlesNextColor {Następny kolor puzzli:}
+translate P LichessPuzzlesSideToMove {Strona do poruszania się}
+translate P LichessPuzzlesSolvedTitle {Zagadka rozwiązana!}
+translate P LichessPuzzlesTheme {Temat:}
+translate P LichessPuzzlesMix {Zdrowa mieszanka}
+translate P LichessPuzzlesId {Identyfikator puzzli}
+translate P LichessPuzzlesPlays {Odtwarza}
+translate P LichessPuzzlesThemes {Motywy}
+translate P LichessPuzzlesPerf {Typ}
+translate P LichessPuzzlesClock {Zegar}
+translate P LichessPuzzlesRated {Oceniono}
+translate P LichessPuzzlesGame {Gra}
+translate P LichessPuzzlesNoNew {Nie znaleziono nowych łamigłówek dla tych ustawień.\n\nSpróbuj zmienić motyw, poziom trudności lub kolor łamigłówki.}
+
 translate P Back {Z powrotem}
 translate P Apply {Stosować}
 translate P Browse {Przegldaj}

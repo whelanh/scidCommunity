@@ -205,6 +205,7 @@ menuText h ToolsCaptureBoard "वर्तमान बोर्ड कैप्
 
 # Play menu
 menuText h Play "खेल" 0
+menuText h LichessPuzzles "लाइकेस पहेलियाँ" 0 {लाइकेस पहेलियों को अंतःक्रियात्मक रूप से हल करें}
 
 # --- Correspondence Chess
 menuText h CCResign "इस्तीफ़ा देना" 1 {इस्तीफा दें (ईमेल के माध्यम से नहीं)}
@@ -362,6 +363,47 @@ translate h LichessFetchGameFailed {गेम %s लाने में वि�
 translate h LichessGameNotFound {गेम %s लिचेस पर नहीं मिला।}
 translate h LichessImportFailed {गेम आयात करने में विफल:\n%s}
 translate h LichessGameLoaded {गेम सफलतापूर्वक क्लिपबेस में लोड हो गया।}
+
+# Lichess Puzzles
+translate h LichessPuzzlesTitle {लाइकेस पहेलियाँ}
+translate h LichessPuzzlesDailyTitle {दैनिक पहेली}
+translate h LichessPuzzlesQuerying {लाइकेस पहेलियां पूछी जा रही हैं...}
+translate h LichessPuzzlesFailed {लाइकेस पहेलियाँ क्वेरी करने में विफल:\n%s}
+translate h LichessPuzzlesParseError {पहेली डेटा को पार्स करने में विफल}
+translate h LichessPuzzlesLoadError {पहेली स्थिति लोड करने में विफल}
+translate h LichessPuzzlesSolve {आपकी बारी! सर्वोत्तम चाल खोजें.}
+translate h LichessPuzzlesCorrect {अच्छा कदम!}
+translate h LichessPuzzlesWrong {यह कदम नहीं है - कुछ और प्रयास करें।}
+translate h LichessPuzzlesBestMove {सर्वोत्तम कदम!  जाता रहना...}
+translate h LichessPuzzlesSolved {पहेली सुलझ गई! बधाई हो!}
+translate h LichessPuzzlesPlaying {पहेली सुलझा रहा हूँ...}
+translate h LichessPuzzlesStop {रुकना}
+translate h LichessPuzzlesNew {नई पहेली}
+translate h LichessPuzzlesHint {एक संकेत प्राप्त करें}
+translate h LichessPuzzlesViewSolution {समाधान देखें}
+translate h LichessPuzzlesHintMsg {%s पर अंश देखें.}
+translate h LichessPuzzlesSolutionMsg {समाधान:\n%s}
+translate h LichessPuzzlesDifficulty {कठिनाई:}
+translate h LichessPuzzlesDiffEasiest {सबसे आसान}
+translate h LichessPuzzlesDiffEasiestThenNormal {सबसे आसान, फिर सामान्य}
+translate h LichessPuzzlesDiffNormal {सामान्य}
+translate h LichessPuzzlesDiffNormalThenHardest {सामान्य, फिर सबसे कठिन}
+translate h LichessPuzzlesDiffHardest {मुश्किल}
+translate h LichessPuzzlesColor {इस प्रकार खेलें:}
+translate h LichessPuzzlesNextColor {अगला पहेली रंग:}
+translate h LichessPuzzlesSideToMove {स्थानांतरित करने के लिए पक्ष}
+translate h LichessPuzzlesSolvedTitle {पहेली सुलझ गई!}
+translate h LichessPuzzlesTheme {विषय:}
+translate h LichessPuzzlesMix {स्वास्थ्यवर्धक मिश्रण}
+translate h LichessPuzzlesId {पहेली आईडी}
+translate h LichessPuzzlesPlays {नाटकों}
+translate h LichessPuzzlesThemes {विषय-वस्तु}
+translate h LichessPuzzlesPerf {प्रकार}
+translate h LichessPuzzlesClock {घड़ी}
+translate h LichessPuzzlesRated {रेटेड}
+translate h LichessPuzzlesGame {खेल}
+translate h LichessPuzzlesNoNew {इन सेटिंग्स के लिए कोई नई पहेली नहीं मिली।\n\nथीम, कठिनाई या पहेली का रंग बदलने का प्रयास करें।}
+
 translate h Back {पीछे}
 translate h Apply {लागू करें}
 translate h Browse {ब्राउज़}

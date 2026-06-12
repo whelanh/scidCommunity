@@ -213,6 +213,7 @@ menuText O ToolsCaptureBoard "Ta opp gjeldende tavle..." 0  {Lagre gjeldende tav
 
 # Play menu
 menuText O Play "Spille" 0
+menuText O LichessPuzzles "Lichess gåter" 0 {Løs Lichess-oppgaver interaktivt}
 
 # --- Correspondence Chess
 menuText O CCResign "Si opp" 0 {Si opp (ikke via e-post)}
@@ -372,6 +373,47 @@ translate O LichessFetchGameFailed {Kunne ikke hente spillet %s:\n%s}
 translate O LichessGameNotFound {Spillet %s ble ikke funnet på Lichess.}
 translate O LichessImportFailed {Kunne ikke importere spillet:\n%s}
 translate O LichessGameLoaded {Spillet ble lastet inn i clipbase.}
+
+# Lichess Puzzles
+translate O LichessPuzzlesTitle {Lichess gåter}
+translate O LichessPuzzlesDailyTitle {Daglig puslespill}
+translate O LichessPuzzlesQuerying {Spør på Lichess-oppgaver...}
+translate O LichessPuzzlesFailed {Kunne ikke søke i Lichess-oppgaver:\n%s}
+translate O LichessPuzzlesParseError {Kunne ikke analysere puslespilldata}
+translate O LichessPuzzlesLoadError {Kunne ikke laste puslespillposisjonen}
+translate O LichessPuzzlesSolve {Din tur! Finn det beste trekket.}
+translate O LichessPuzzlesCorrect {Godt trekk!}
+translate O LichessPuzzlesWrong {Det er ikke grepet – prøv noe annet.}
+translate O LichessPuzzlesBestMove {Beste trekket!  Fortsett...}
+translate O LichessPuzzlesSolved {Gåte løst! Gratulerer!}
+translate O LichessPuzzlesPlaying {Løser puslespill...}
+translate O LichessPuzzlesStop {Stoppe}
+translate O LichessPuzzlesNew {Nytt puslespill}
+translate O LichessPuzzlesHint {Få et hint}
+translate O LichessPuzzlesViewSolution {Se løsning}
+translate O LichessPuzzlesHintMsg {Se på stykket på %s.}
+translate O LichessPuzzlesSolutionMsg {Løsning:\n%s}
+translate O LichessPuzzlesDifficulty {Vanskelighet:}
+translate O LichessPuzzlesDiffEasiest {Easiest}
+translate O LichessPuzzlesDiffEasiestThenNormal {Easiest, then normal}
+translate O LichessPuzzlesDiffNormal {Normal}
+translate O LichessPuzzlesDiffNormalThenHardest {Normal, så vanskeligst}
+translate O LichessPuzzlesDiffHardest {Hardest}
+translate O LichessPuzzlesColor {Spill som:}
+translate O LichessPuzzlesNextColor {Neste puslespillfarge:}
+translate O LichessPuzzlesSideToMove {Side å flytte}
+translate O LichessPuzzlesSolvedTitle {Gåte løst!}
+translate O LichessPuzzlesTheme {Tema:}
+translate O LichessPuzzlesMix {Sunn blanding}
+translate O LichessPuzzlesId {Puslespill-ID}
+translate O LichessPuzzlesPlays {Spiller}
+translate O LichessPuzzlesThemes {Temaer}
+translate O LichessPuzzlesPerf {Type}
+translate O LichessPuzzlesClock {Klokke}
+translate O LichessPuzzlesRated {Vurdert}
+translate O LichessPuzzlesGame {Spill}
+translate O LichessPuzzlesNoNew {Fant ingen nye oppgaver for disse innstillingene.\n\nPrøv å endre tema, vanskelighetsgrad eller puslespillfarge.}
+
 translate O Back {Tilbake}
 translate O Apply {Bruk}
 translate O Browse {Browse} ;# ***
