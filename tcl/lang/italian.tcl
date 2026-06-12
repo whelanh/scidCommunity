@@ -211,6 +211,7 @@ menuText I ToolsCaptureBoard "Salva la posizione come immagine..." 13  {Salva la
 
 # Play menu
 menuText I Play "Gioca" 0
+menuText I LichessPuzzles "Puzzle di Lichess" 0 {Risolvi i puzzle di Lichess in modo interattivo}
 
 # --- Correspondence Chess
 menuText I CCResign "Abbandona" 1 {Abbandona la partita (non tramite email)}
@@ -370,6 +371,47 @@ translate I LichessFetchGameFailed {Impossibile recuperare il gioco %s:\n%s}
 translate I LichessGameNotFound {Gioco %s non trovato su Lichess.}
 translate I LichessImportFailed {Impossibile importare il gioco:\n%s}
 translate I LichessGameLoaded {Gioco caricato correttamente in clipbase.}
+
+# Lichess Puzzles
+translate I LichessPuzzlesTitle {Puzzle di Lichess}
+translate I LichessPuzzlesDailyTitle {Puzzle quotidiano}
+translate I LichessPuzzlesQuerying {Interrogando gli enigmi di Lichess...}
+translate I LichessPuzzlesFailed {Impossibile interrogare i puzzle Lichess:\n%s}
+translate I LichessPuzzlesParseError {Impossibile analizzare i dati del puzzle}
+translate I LichessPuzzlesLoadError {Impossibile caricare la posizione del puzzle}
+translate I LichessPuzzlesSolve {È il tuo turno! Trova la mossa migliore.}
+translate I LichessPuzzlesCorrect {Buona mossa!}
+translate I LichessPuzzlesWrong {Non è questa la mossa: prova qualcos'altro.}
+translate I LichessPuzzlesBestMove {La mossa migliore!  Continuare...}
+translate I LichessPuzzlesSolved {Enigma risolto! Congratulazioni!}
+translate I LichessPuzzlesPlaying {Risolvere l'enigma...}
+translate I LichessPuzzlesStop {Fermare}
+translate I LichessPuzzlesNew {Nuovo enigma}
+translate I LichessPuzzlesHint {Ottieni un suggerimento}
+translate I LichessPuzzlesViewSolution {Visualizza la soluzione}
+translate I LichessPuzzlesHintMsg {Guarda il pezzo su %s.}
+translate I LichessPuzzlesSolutionMsg {Soluzione:\n%s}
+translate I LichessPuzzlesDifficulty {Difficoltà:}
+translate I LichessPuzzlesDiffEasiest {Il più semplice}
+translate I LichessPuzzlesDiffEasiestThenNormal {Più semplice, quindi normale}
+translate I LichessPuzzlesDiffNormal {Normale}
+translate I LichessPuzzlesDiffNormalThenHardest {Normale, quindi più difficile}
+translate I LichessPuzzlesDiffHardest {Più difficile}
+translate I LichessPuzzlesColor {Gioca come:}
+translate I LichessPuzzlesNextColor {Colore del puzzle successivo:}
+translate I LichessPuzzlesSideToMove {Lato da spostare}
+translate I LichessPuzzlesSolvedTitle {Enigma risolto!}
+translate I LichessPuzzlesTheme {Tema:}
+translate I LichessPuzzlesMix {Miscela sana}
+translate I LichessPuzzlesId {Identificazione dell'enigma}
+translate I LichessPuzzlesPlays {Gioca}
+translate I LichessPuzzlesThemes {Temi}
+translate I LichessPuzzlesPerf {Tipo}
+translate I LichessPuzzlesClock {Orologio}
+translate I LichessPuzzlesRated {Valutato}
+translate I LichessPuzzlesGame {Gioco}
+translate I LichessPuzzlesNoNew {Nessun nuovo puzzle trovato per queste impostazioni.\n\nProva a cambiare il tema, la difficoltà o il colore del puzzle.}
+
 translate I Back {Indietro}
 translate I Apply {Applica}
 translate I Browse {Browse}

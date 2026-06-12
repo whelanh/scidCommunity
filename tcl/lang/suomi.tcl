@@ -244,6 +244,7 @@ menuText U ToolsCaptureBoard "Kuvakaappaus asemasta..." 1  {Tallenna asema kuvan
 
 # Play menu
 menuText U Play "Pelaa" 0
+menuText U LichessPuzzles "Lichess palapelit" 0 {Ratkaise Lichess-pulmia interaktiivisesti}
 
 # --- Correspondence Chess
 menuText U CCResign "Luovuta" 0 {Luovuta (ei sähköposti)}
@@ -401,6 +402,47 @@ translate U LichessFetchGameFailed {Pelin %s nouto epäonnistui:\n%s}
 translate U LichessGameNotFound {Peliä %s ei löydy Lichessistä.}
 translate U LichessImportFailed {Pelin tuonti epäonnistui:\n%s}
 translate U LichessGameLoaded {Peli ladattiin leikekantaan onnistuneesti.}
+
+# Lichess Puzzles
+translate U LichessPuzzlesTitle {Lichess palapelit}
+translate U LichessPuzzlesDailyTitle {Päivittäinen palapeli}
+translate U LichessPuzzlesQuerying {Kysellään Lichess-pulmia...}
+translate U LichessPuzzlesFailed {Lichess-pulmien kysely epäonnistui:\n%s}
+translate U LichessPuzzlesParseError {Pulmatietojen jäsentäminen epäonnistui}
+translate U LichessPuzzlesLoadError {Palapelin sijainnin lataaminen epäonnistui}
+translate U LichessPuzzlesSolve {Sinun vuorosi! Löydä paras liike.}
+translate U LichessPuzzlesCorrect {Hyvä liike!}
+translate U LichessPuzzlesWrong {Se ei ole oikea liike - kokeile jotain muuta.}
+translate U LichessPuzzlesBestMove {Paras liike!  Jatka...}
+translate U LichessPuzzlesSolved {Palapeli ratkaistu! Onnittelut!}
+translate U LichessPuzzlesPlaying {Ratkaistaan ​​arvoitusta...}
+translate U LichessPuzzlesStop {Pysäytä}
+translate U LichessPuzzlesNew {Uusi palapeli}
+translate U LichessPuzzlesHint {Hanki vihje}
+translate U LichessPuzzlesViewSolution {Näytä ratkaisu}
+translate U LichessPuzzlesHintMsg {Katso kappaletta %s.}
+translate U LichessPuzzlesSolutionMsg {Ratkaisu:\n%s}
+translate U LichessPuzzlesDifficulty {Vaikeusaste:}
+translate U LichessPuzzlesDiffEasiest {Helpoin}
+translate U LichessPuzzlesDiffEasiestThenNormal {Helpoin, sitten normaali}
+translate U LichessPuzzlesDiffNormal {Normaali}
+translate U LichessPuzzlesDiffNormalThenHardest {Normaalia, sitten vaikeinta}
+translate U LichessPuzzlesDiffHardest {Vaikein}
+translate U LichessPuzzlesColor {Pelaa nimellä:}
+translate U LichessPuzzlesNextColor {Seuraava palapelin väri:}
+translate U LichessPuzzlesSideToMove {Sivu liikkumaan}
+translate U LichessPuzzlesSolvedTitle {Palapeli ratkaistu!}
+translate U LichessPuzzlesTheme {Teema:}
+translate U LichessPuzzlesMix {Terve sekoitus}
+translate U LichessPuzzlesId {Palapelin tunnus}
+translate U LichessPuzzlesPlays {Toistetaan}
+translate U LichessPuzzlesThemes {Teemat}
+translate U LichessPuzzlesPerf {Tyyppi}
+translate U LichessPuzzlesClock {Kello}
+translate U LichessPuzzlesRated {Arvioitu}
+translate U LichessPuzzlesGame {Peli}
+translate U LichessPuzzlesNoNew {Näille asetuksille ei löytynyt uusia pulmia.\n\nKokeile vaihtaa teemaa, vaikeusastetta tai pulman väriä.}
+
 translate U Back {Palaa}
 translate U Apply {Käytä}
 translate U Browse {Selaa}

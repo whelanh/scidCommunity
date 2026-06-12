@@ -181,6 +181,7 @@ menuText M ToolsCaptureBoard "捕获当前棋盘..." 5  {将当前棋盘保存�
 
 # Play menu
 menuText M Play "Play" 0
+menuText M LichessPuzzles "巫妖谜题" 0 {以交互方式解决 Lichess 谜题}
 
 # --- Correspondence Chess
 menuText M CCResign "Resign" 1 {Resign (not via eMail)}
@@ -338,6 +339,47 @@ translate M LichessFetchGameFailed {无法获取游戏 %s:\n%s}
 translate M LichessGameNotFound {在 Lichess 上找不到游戏 %s。}
 translate M LichessImportFailed {导入游戏失败:\n%s}
 translate M LichessGameLoaded {游戏已成功加载到棋谱库中。}
+
+# Lichess Puzzles
+translate M LichessPuzzlesTitle {巫妖谜题}
+translate M LichessPuzzlesDailyTitle {每日拼图}
+translate M LichessPuzzlesQuerying {查询 Lichess 谜题...}
+translate M LichessPuzzlesFailed {无法查询 Lichess 谜题:\n%s}
+translate M LichessPuzzlesParseError {解析谜题数据失败}
+translate M LichessPuzzlesLoadError {无法加载拼图位置}
+translate M LichessPuzzlesSolve {轮到你了！找到最好的举动。}
+translate M LichessPuzzlesCorrect {好举动！}
+translate M LichessPuzzlesWrong {这不是正确的做法——尝试其他方法。}
+translate M LichessPuzzlesBestMove {最好的举动！  继续前进...}
+translate M LichessPuzzlesSolved {谜题解决了！恭喜！}
+translate M LichessPuzzlesPlaying {解决谜题...}
+translate M LichessPuzzlesStop {停止}
+translate M LichessPuzzlesNew {新谜题}
+translate M LichessPuzzlesHint {获取提示}
+translate M LichessPuzzlesViewSolution {查看解决方案}
+translate M LichessPuzzlesHintMsg {查看 %s 上的棋子。}
+translate M LichessPuzzlesSolutionMsg {解决方案：\n%s}
+translate M LichessPuzzlesDifficulty {困难：}
+translate M LichessPuzzlesDiffEasiest {最简单}
+translate M LichessPuzzlesDiffEasiestThenNormal {最简单，然后正常}
+translate M LichessPuzzlesDiffNormal {普通的}
+translate M LichessPuzzlesDiffNormalThenHardest {正常，然后是最难的}
+translate M LichessPuzzlesDiffHardest {最难的}
+translate M LichessPuzzlesColor {扮演：}
+translate M LichessPuzzlesNextColor {下一个拼图颜色：}
+translate M LichessPuzzlesSideToMove {侧面移动}
+translate M LichessPuzzlesSolvedTitle {谜题解决了！}
+translate M LichessPuzzlesTheme {主题：}
+translate M LichessPuzzlesMix {健康搭配}
+translate M LichessPuzzlesId {拼图ID}
+translate M LichessPuzzlesPlays {戏剧}
+translate M LichessPuzzlesThemes {主题}
+translate M LichessPuzzlesPerf {类型}
+translate M LichessPuzzlesClock {钟}
+translate M LichessPuzzlesRated {额定}
+translate M LichessPuzzlesGame {游戏}
+translate M LichessPuzzlesNoNew {没有找到适合这些设置的新谜题。\n\n尝试更改主题、难度或谜题颜色。}
+
 translate M Back {Back}
 translate M Apply {应用}
 translate M Browse {浏览}

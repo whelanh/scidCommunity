@@ -207,6 +207,7 @@ menuText C ToolsCaptureBoard "Uloit aktuln achovnici..." 0  {Uloit aktuln achovn
 
 # Play menu
 menuText C Play "Hra" 0
+menuText C LichessPuzzles "Lichess hádanky" 0 {Interaktivně řešte hádanky Lichess}
 
 # --- Correspondence Chess
 menuText C CCResign "Vzdt" 0 {Vzdt (nikoliv prostednictvm e-mailu)}
@@ -366,6 +367,47 @@ translate C LichessFetchGameFailed {Nepodařilo se načíst hru %s:\n%s}
 translate C LichessGameNotFound {Hra %s nebyla na Lichess nalezena.}
 translate C LichessImportFailed {Import hry:\n%s se nezdařil}
 translate C LichessGameLoaded {Hra byla úspěšně načtena do schránky.}
+
+# Lichess Puzzles
+translate C LichessPuzzlesTitle {Lichess hádanky}
+translate C LichessPuzzlesDailyTitle {Denní hádanka}
+translate C LichessPuzzlesQuerying {Dotazování na hádanky Lichess...}
+translate C LichessPuzzlesFailed {Selhal dotaz na hádanky Lichess:\n%s}
+translate C LichessPuzzlesParseError {Analýza dat puzzle se nezdařila}
+translate C LichessPuzzlesLoadError {Pozici skládačky se nepodařilo načíst}
+translate C LichessPuzzlesSolve {Jste na řadě! Najděte nejlepší tah.}
+translate C LichessPuzzlesCorrect {Dobrý tah!}
+translate C LichessPuzzlesWrong {To není ten správný krok – zkuste něco jiného.}
+translate C LichessPuzzlesBestMove {Nejlepší tah!  Pokračuj...}
+translate C LichessPuzzlesSolved {Hádanka vyřešena! Gratuluji!}
+translate C LichessPuzzlesPlaying {Řešení hádanky...}
+translate C LichessPuzzlesStop {Zastávka}
+translate C LichessPuzzlesNew {Nové Puzzle}
+translate C LichessPuzzlesHint {Získejte nápovědu}
+translate C LichessPuzzlesViewSolution {Zobrazit řešení}
+translate C LichessPuzzlesHintMsg {Podívejte se na figuru na %s.}
+translate C LichessPuzzlesSolutionMsg {Řešení:\n%s}
+translate C LichessPuzzlesDifficulty {Obtížnost:}
+translate C LichessPuzzlesDiffEasiest {Nejjednodušší}
+translate C LichessPuzzlesDiffEasiestThenNormal {Nejjednodušší, pak normální}
+translate C LichessPuzzlesDiffNormal {Normální}
+translate C LichessPuzzlesDiffNormalThenHardest {Normální, pak nejtěžší}
+translate C LichessPuzzlesDiffHardest {Nejtěžší}
+translate C LichessPuzzlesColor {Hrajte jako:}
+translate C LichessPuzzlesNextColor {Další barva puzzle:}
+translate C LichessPuzzlesSideToMove {Strana k pohybu}
+translate C LichessPuzzlesSolvedTitle {Hádanka vyřešena!}
+translate C LichessPuzzlesTheme {Téma:}
+translate C LichessPuzzlesMix {Zdravá směs}
+translate C LichessPuzzlesId {ID hádanky}
+translate C LichessPuzzlesPlays {Hraje}
+translate C LichessPuzzlesThemes {Témata}
+translate C LichessPuzzlesPerf {Typ}
+translate C LichessPuzzlesClock {Hodiny}
+translate C LichessPuzzlesRated {Hodnoceno}
+translate C LichessPuzzlesGame {Hra}
+translate C LichessPuzzlesNoNew {Pro tato nastavení nebyly nalezeny žádné nové hádanky.\n\nZkuste změnit téma, obtížnost nebo barvu hádanky.}
+
 translate C Back {Zpt}
 translate C Apply {Použít}
 translate C Browse {Prohlet}

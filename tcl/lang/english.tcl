@@ -245,6 +245,7 @@ menuText E ToolsCaptureBoard "Capture Current Board..." 5  {Save the current boa
 
 # Play menu
 menuText E Play "Play" 0
+menuText E LichessPuzzles "Lichess Puzzles" 0 {Solve Lichess puzzles interactively}
 
 # --- Correspondence Chess
 menuText E CCResign "Resign" 1 {Resign (not via eMail)}
@@ -402,6 +403,47 @@ translate E LichessFetchGameFailed {Failed to fetch game %s:\n%s}
 translate E LichessGameNotFound {Game %s not found on Lichess.}
 translate E LichessImportFailed {Failed to import game:\n%s}
 translate E LichessGameLoaded {Game loaded into clipbase successfully.}
+
+# Lichess Puzzles
+translate E LichessPuzzlesTitle {Lichess Puzzles}
+translate E LichessPuzzlesDailyTitle {Daily Puzzle}
+translate E LichessPuzzlesQuerying {Querying Lichess puzzles...}
+translate E LichessPuzzlesFailed {Failed to query Lichess puzzles:\n%s}
+translate E LichessPuzzlesParseError {Failed to parse puzzle data}
+translate E LichessPuzzlesLoadError {Failed to load puzzle position}
+translate E LichessPuzzlesSolve {Your turn! Find the best move.}
+translate E LichessPuzzlesCorrect {Good move!}
+translate E LichessPuzzlesWrong {That's not the move -- try something else.}
+translate E LichessPuzzlesBestMove {Best move!  Keep going...}
+translate E LichessPuzzlesSolved {Puzzle solved! Congratulations!}
+translate E LichessPuzzlesPlaying {Solving puzzle...}
+translate E LichessPuzzlesStop {Stop}
+translate E LichessPuzzlesNew {New Puzzle}
+translate E LichessPuzzlesHint {Get a Hint}
+translate E LichessPuzzlesViewSolution {View Solution}
+translate E LichessPuzzlesHintMsg {Look at the piece on %s.}
+translate E LichessPuzzlesSolutionMsg {Solution:\n%s}
+translate E LichessPuzzlesDifficulty {Difficulty:}
+translate E LichessPuzzlesDiffEasiest {Easiest}
+translate E LichessPuzzlesDiffEasiestThenNormal {Easiest, then normal}
+translate E LichessPuzzlesDiffNormal {Normal}
+translate E LichessPuzzlesDiffNormalThenHardest {Normal, then hardest}
+translate E LichessPuzzlesDiffHardest {Hardest}
+translate E LichessPuzzlesColor {Play as:}
+translate E LichessPuzzlesNextColor {Next puzzle color:}
+translate E LichessPuzzlesSideToMove {Side to move}
+translate E LichessPuzzlesSolvedTitle {Puzzle Solved!}
+translate E LichessPuzzlesTheme {Theme:}
+translate E LichessPuzzlesMix {Healthy mix}
+translate E LichessPuzzlesId {Puzzle ID}
+translate E LichessPuzzlesPlays {Plays}
+translate E LichessPuzzlesThemes {Themes}
+translate E LichessPuzzlesPerf {Type}
+translate E LichessPuzzlesClock {Clock}
+translate E LichessPuzzlesRated {Rated}
+translate E LichessPuzzlesGame {Game}
+translate E LichessPuzzlesNoNew {No new puzzles found for these settings.\n\nTry changing the theme, difficulty, or puzzle color.}
+
 translate E Back {Back}
 translate E Apply {Apply}
 translate E Browse {Browse}

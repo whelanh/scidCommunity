@@ -230,6 +230,7 @@ menuText N ToolsCaptureBoard "Huidig ??bord vastleggen..." 5  {Sla het huidige b
 
 # Play menu
 menuText N Play "Speel" 0
+menuText N LichessPuzzles "Lichess-puzzels" 0 {Los Lichess-puzzels interactief op}
 
 # --- Correspondence Chess
 menuText N CCResign "Geef op" 0 {Geef op (niet via e-mail)}
@@ -391,6 +392,47 @@ translate N LichessFetchGameFailed {Kan spel %s:\n%s niet ophalen}
 translate N LichessGameNotFound {Spel %s niet gevonden op Lichess.}
 translate N LichessImportFailed {Kan game:\n%s niet importeren}
 translate N LichessGameLoaded {Spel is succesvol in clipbase geladen.}
+
+# Lichess Puzzles
+translate N LichessPuzzlesTitle {Lichess-puzzels}
+translate N LichessPuzzlesDailyTitle {Dagelijkse puzzel}
+translate N LichessPuzzlesQuerying {Lichess-puzzels opvragen...}
+translate N LichessPuzzlesFailed {Kan Lichess-puzzels niet opvragen:\n%s}
+translate N LichessPuzzlesParseError {Kan puzzelgegevens niet parseren}
+translate N LichessPuzzlesLoadError {Kan de puzzelpositie niet laden}
+translate N LichessPuzzlesSolve {Jouw beurt! Vind de beste zet.}
+translate N LichessPuzzlesCorrect {Goede zet!}
+translate N LichessPuzzlesWrong {Dat is niet de bedoeling: probeer iets anders.}
+translate N LichessPuzzlesBestMove {Beste zet!  Blijf doorgaan...}
+translate N LichessPuzzlesSolved {Puzzel opgelost! Gefeliciteerd!}
+translate N LichessPuzzlesPlaying {Puzzel oplossen...}
+translate N LichessPuzzlesStop {Stop}
+translate N LichessPuzzlesNew {Nieuwe puzzel}
+translate N LichessPuzzlesHint {Ontvang een hint}
+translate N LichessPuzzlesViewSolution {Bekijk oplossing}
+translate N LichessPuzzlesHintMsg {Kijk naar het stuk op %s.}
+translate N LichessPuzzlesSolutionMsg {Oplossing:\n%s}
+translate N LichessPuzzlesDifficulty {Moeilijkheidsgraad:}
+translate N LichessPuzzlesDiffEasiest {Makkelijkst}
+translate N LichessPuzzlesDiffEasiestThenNormal {Makkelijkst, dan normaal}
+translate N LichessPuzzlesDiffNormal {Normaal}
+translate N LichessPuzzlesDiffNormalThenHardest {Normaal, daarna het moeilijkst}
+translate N LichessPuzzlesDiffHardest {Het moeilijkst}
+translate N LichessPuzzlesColor {Speel als:}
+translate N LichessPuzzlesNextColor {Volgende puzzelkleur:}
+translate N LichessPuzzlesSideToMove {Kant om te bewegen}
+translate N LichessPuzzlesSolvedTitle {Puzzel opgelost!}
+translate N LichessPuzzlesTheme {Thema:}
+translate N LichessPuzzlesMix {Gezonde mix}
+translate N LichessPuzzlesId {Puzzel-ID}
+translate N LichessPuzzlesPlays {Speelt}
+translate N LichessPuzzlesThemes {Thema's}
+translate N LichessPuzzlesPerf {Type}
+translate N LichessPuzzlesClock {Klok}
+translate N LichessPuzzlesRated {Beoordeeld}
+translate N LichessPuzzlesGame {Spel}
+translate N LichessPuzzlesNoNew {Er zijn geen nieuwe puzzels gevonden voor deze instellingen.\n\nProbeer het thema, de moeilijkheidsgraad of de puzzelkleur te wijzigen.}
+
 translate N Back {Terug}
 translate N Apply {Toepassen}
 translate N Browse {Bladeren} ;

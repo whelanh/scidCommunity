@@ -212,6 +212,7 @@ menuText R ToolsCaptureBoard "Фиксировать текущую позици
 
 # Play menu
 menuText R Play "Играть" 1
+menuText R LichessPuzzles "Lichess Шахматные задачи" 0 {Решайте головоломки Lichess в интерактивном режиме}
 
 # --- Correspondence Chess
 menuText R CCResign "Сдаться" 0 {Сдаться (не через электронную почту)}
@@ -369,6 +370,47 @@ translate R LichessFetchGameFailed {Не удалось загрузить иг�
 translate R LichessGameNotFound {Игра %s не найдена на Lichess.}
 translate R LichessImportFailed {Не удалось импортировать игру:\n%s}
 translate R LichessGameLoaded {Игра успешно загружена в базу клипов.}
+
+# Lichess Puzzles
+translate R LichessPuzzlesTitle {Пазлы с лишаями}
+translate R LichessPuzzlesDailyTitle {Ежедневная головоломка}
+translate R LichessPuzzlesQuerying {Запрос головоломок Lichess...}
+translate R LichessPuzzlesFailed {Не удалось запросить головоломки Lichess:\n%s}
+translate R LichessPuzzlesParseError {Не удалось проанализировать данные головоломки.}
+translate R LichessPuzzlesLoadError {Не удалось загрузить позицию головоломки.}
+translate R LichessPuzzlesSolve {Ваша очередь! Найдите лучший ход.}
+translate R LichessPuzzlesCorrect {Хороший ход!}
+translate R LichessPuzzlesWrong {Это не тот ход — попробуйте что-нибудь другое.}
+translate R LichessPuzzlesBestMove {Лучший ход!  Продолжать идти...}
+translate R LichessPuzzlesSolved {Головоломка решена! Поздравляем!}
+translate R LichessPuzzlesPlaying {Решение головоломки...}
+translate R LichessPuzzlesStop {Останавливаться}
+translate R LichessPuzzlesNew {Новая головоломка}
+translate R LichessPuzzlesHint {Получить подсказку}
+translate R LichessPuzzlesViewSolution {Посмотреть решение}
+translate R LichessPuzzlesHintMsg {Посмотрите на фрагмент на %s.}
+translate R LichessPuzzlesSolutionMsg {Решение:\n%s}
+translate R LichessPuzzlesDifficulty {Сложность:}
+translate R LichessPuzzlesDiffEasiest {Самый простой}
+translate R LichessPuzzlesDiffEasiestThenNormal {Проще, потом нормально}
+translate R LichessPuzzlesDiffNormal {Нормальный}
+translate R LichessPuzzlesDiffNormalThenHardest {Обычное, затем самое сложное}
+translate R LichessPuzzlesDiffHardest {Самый трудный}
+translate R LichessPuzzlesColor {Играть как:}
+translate R LichessPuzzlesNextColor {Следующий цвет головоломки:}
+translate R LichessPuzzlesSideToMove {Сторона для перемещения}
+translate R LichessPuzzlesSolvedTitle {Головоломка решена!}
+translate R LichessPuzzlesTheme {Тема:}
+translate R LichessPuzzlesMix {Здоровая смесь}
+translate R LichessPuzzlesId {Идентификатор головоломки}
+translate R LichessPuzzlesPlays {Пьесы}
+translate R LichessPuzzlesThemes {Темы}
+translate R LichessPuzzlesPerf {Тип}
+translate R LichessPuzzlesClock {Часы}
+translate R LichessPuzzlesRated {Рейтинг}
+translate R LichessPuzzlesGame {Игра}
+translate R LichessPuzzlesNoNew {Для этих настроек новых головоломок не найдено.\n\nПопробуйте изменить тему, сложность или цвет головоломки.}
+
 translate R Back {Назад}
 translate R Apply {Применять}
 translate R Browse {Просмотр}

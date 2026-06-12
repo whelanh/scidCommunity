@@ -209,6 +209,7 @@ menuText T ToolsCaptureBoard "Mevcut Panoyu Yakala..." 5  {Geçerli panoyu resim
 
 # Play menu
 menuText T Play "Oynamak" 0
+menuText T LichessPuzzles "Lichess Bulmacaları" 0 {Lichess bulmacalarını etkileşimli olarak çözün}
 
 # --- Correspondence Chess
 menuText T CCResign "İstifa etmek" 1 {İstifa (e-posta yoluyla değil)}
@@ -366,6 +367,47 @@ translate T LichessFetchGameFailed {%s oyunu getirilemedi:\n%s}
 translate T LichessGameNotFound {%s oyunu Lichess'te bulunamadı.}
 translate T LichessImportFailed {Oyun içe aktarılamadı:\n%s}
 translate T LichessGameLoaded {Oyun, Clipbase'e başarıyla yüklendi.}
+
+# Lichess Puzzles
+translate T LichessPuzzlesTitle {Lichess Bulmacaları}
+translate T LichessPuzzlesDailyTitle {Günlük Bulmaca}
+translate T LichessPuzzlesQuerying {Lichess bulmacaları sorgulanıyor...}
+translate T LichessPuzzlesFailed {Lichess bulmacaları sorgulanamadı:\n%s}
+translate T LichessPuzzlesParseError {Bulmaca verileri ayrıştırılamadı}
+translate T LichessPuzzlesLoadError {Bulmaca konumu yüklenemedi}
+translate T LichessPuzzlesSolve {Sıra sende! En iyi hamleyi bulun.}
+translate T LichessPuzzlesCorrect {İyi hamle!}
+translate T LichessPuzzlesWrong {Hareket bu değil; başka bir şey deneyin.}
+translate T LichessPuzzlesBestMove {En iyi hamle!  Devam etmek...}
+translate T LichessPuzzlesSolved {Bulmaca çözüldü! Tebrikler!}
+translate T LichessPuzzlesPlaying {Bulmaca çözmek...}
+translate T LichessPuzzlesStop {Durmak}
+translate T LichessPuzzlesNew {Yeni Bulmaca}
+translate T LichessPuzzlesHint {Bir İpucu Alın}
+translate T LichessPuzzlesViewSolution {Çözümü Görüntüle}
+translate T LichessPuzzlesHintMsg {%s'deki parçaya bakın.}
+translate T LichessPuzzlesSolutionMsg {Çözüm:\n%s}
+translate T LichessPuzzlesDifficulty {Zorluk:}
+translate T LichessPuzzlesDiffEasiest {En kolay}
+translate T LichessPuzzlesDiffEasiestThenNormal {En kolayı, o zaman normal}
+translate T LichessPuzzlesDiffNormal {Normal}
+translate T LichessPuzzlesDiffNormalThenHardest {Normal, sonra en zoru}
+translate T LichessPuzzlesDiffHardest {En zor}
+translate T LichessPuzzlesColor {Şu şekilde oynayın:}
+translate T LichessPuzzlesNextColor {Sonraki bulmaca rengi:}
+translate T LichessPuzzlesSideToMove {Taşınacak taraf}
+translate T LichessPuzzlesSolvedTitle {Bulmaca Çözüldü!}
+translate T LichessPuzzlesTheme {Tema:}
+translate T LichessPuzzlesMix {Sağlıklı karışım}
+translate T LichessPuzzlesId {Bulmaca Kimliği}
+translate T LichessPuzzlesPlays {Oynatmalar}
+translate T LichessPuzzlesThemes {Temalar}
+translate T LichessPuzzlesPerf {Tip}
+translate T LichessPuzzlesClock {Saat}
+translate T LichessPuzzlesRated {derecelendirildi}
+translate T LichessPuzzlesGame {Oyun}
+translate T LichessPuzzlesNoNew {Bu ayarlar için yeni bulmaca bulunamadı.\n\nTemayı, zorluğu veya bulmaca rengini değiştirmeyi deneyin.}
+
 translate T Back {Geri}
 translate T Apply {Uygula}
 translate T Browse {Göz at}

@@ -224,6 +224,7 @@ menuText K ToolsCaptureBoard "Desa posició actual" 0  {Desa la posició del tau
 
 # Play menu
 menuText K Play "Jugar" 0
+menuText K LichessPuzzles "Trencaclosques de Lichess" 0 {Resoldre trencaclosques de Lichess de manera interactiva}
 
 # --- Correspondence Chess
 menuText K CCResign "Abandonar" 0 {Abandonar}
@@ -385,6 +386,47 @@ translate K LichessFetchGameFailed {No s'ha pogut recuperar el joc %s:\n%s}
 translate K LichessGameNotFound {El joc %s no s'ha trobat a Lichess.}
 translate K LichessImportFailed {No s'ha pogut importar el joc:\n%s}
 translate K LichessGameLoaded {El joc s'ha carregat correctament al clipbase.}
+
+# Lichess Puzzles
+translate K LichessPuzzlesTitle {Trencaclosques de Lichess}
+translate K LichessPuzzlesDailyTitle {Trencaclosques diaris}
+translate K LichessPuzzlesQuerying {Consultant trencaclosques de Lichess...}
+translate K LichessPuzzlesFailed {No s'han pogut consultar els trencaclosques de Lichess:\n%s}
+translate K LichessPuzzlesParseError {No s'han pogut analitzar les dades del trencaclosques}
+translate K LichessPuzzlesLoadError {No s'ha pogut carregar la posició del trencaclosques}
+translate K LichessPuzzlesSolve {El teu torn! Troba el millor moviment.}
+translate K LichessPuzzlesCorrect {Bona jugada!}
+translate K LichessPuzzlesWrong {Aquest no és el moviment, prova una altra cosa.}
+translate K LichessPuzzlesBestMove {La millor jugada!  Segueix així...}
+translate K LichessPuzzlesSolved {Trencaclosques resolt! Felicitats!}
+translate K LichessPuzzlesPlaying {Resolvant trencaclosques...}
+translate K LichessPuzzlesStop {Atureu-vos}
+translate K LichessPuzzlesNew {Nou trencaclosques}
+translate K LichessPuzzlesHint {Obteniu una pista}
+translate K LichessPuzzlesViewSolution {Veure la solució}
+translate K LichessPuzzlesHintMsg {Mireu la peça a %s.}
+translate K LichessPuzzlesSolutionMsg {Solució:\n%s}
+translate K LichessPuzzlesDifficulty {Dificultat:}
+translate K LichessPuzzlesDiffEasiest {El més fàcil}
+translate K LichessPuzzlesDiffEasiestThenNormal {El més fàcil, després normal}
+translate K LichessPuzzlesDiffNormal {Normal}
+translate K LichessPuzzlesDiffNormalThenHardest {Normal, després més difícil}
+translate K LichessPuzzlesDiffHardest {El més difícil}
+translate K LichessPuzzlesColor {Juga com:}
+translate K LichessPuzzlesNextColor {Color del trencaclosques següent:}
+translate K LichessPuzzlesSideToMove {Lateral per moure's}
+translate K LichessPuzzlesSolvedTitle {Trencaclosques resolt!}
+translate K LichessPuzzlesTheme {Tema:}
+translate K LichessPuzzlesMix {Barreja saludable}
+translate K LichessPuzzlesId {ID del trencaclosques}
+translate K LichessPuzzlesPlays {Reproduccions}
+translate K LichessPuzzlesThemes {Temes}
+translate K LichessPuzzlesPerf {Tipus}
+translate K LichessPuzzlesClock {Rellotge}
+translate K LichessPuzzlesRated {Valorat}
+translate K LichessPuzzlesGame {Joc}
+translate K LichessPuzzlesNoNew {No s'han trobat trencaclosques nous per a aquesta configuració.\n\nProva de canviar el tema, la dificultat o el color del trencaclosques.}
+
 translate K Back {Enrera}
 translate K Apply {Aplicar}
 translate K Browse {Mirar}

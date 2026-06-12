@@ -206,6 +206,7 @@ menuText Q ToolsCaptureBoard "Захопити поточну плату..." 5  
 
 # Play menu
 menuText Q Play "грати" 0
+menuText Q LichessPuzzles "Головоломки Lichess" 0 {Вирішуйте головоломки Lichess в інтерактивному режимі}
 
 # --- Correspondence Chess
 menuText Q CCResign "Здатися" 1 {Здатися (не електронною поштою)}
@@ -363,6 +364,47 @@ translate Q LichessFetchGameFailed {Не вдалося отримати гру 
 translate Q LichessGameNotFound {Гра %s не знайдена на Lichess.}
 translate Q LichessImportFailed {Не вдалося імпортувати гру:\n%s}
 translate Q LichessGameLoaded {Гру успішно завантажено в базу кліпів.}
+
+# Lichess Puzzles
+translate Q LichessPuzzlesTitle {Головоломки Lichess}
+translate Q LichessPuzzlesDailyTitle {Щоденна головоломка}
+translate Q LichessPuzzlesQuerying {Опитування головоломок Lichess...}
+translate Q LichessPuzzlesFailed {Не вдалося запитати головоломки Lichess:\n%s}
+translate Q LichessPuzzlesParseError {Не вдалося проаналізувати дані головоломки}
+translate Q LichessPuzzlesLoadError {Не вдалося завантажити позицію головоломки}
+translate Q LichessPuzzlesSolve {Ваша черга! Знайдіть найкращий хід.}
+translate Q LichessPuzzlesCorrect {Хороший хід!}
+translate Q LichessPuzzlesWrong {Це не той крок — спробуйте щось інше.}
+translate Q LichessPuzzlesBestMove {Найкращий хід!  Продовжуйте...}
+translate Q LichessPuzzlesSolved {Головоломка вирішена! Щиро вітаю!}
+translate Q LichessPuzzlesPlaying {Розгадування головоломки...}
+translate Q LichessPuzzlesStop {СТІЙ}
+translate Q LichessPuzzlesNew {Нова головоломка}
+translate Q LichessPuzzlesHint {Отримати підказку}
+translate Q LichessPuzzlesViewSolution {Переглянути рішення}
+translate Q LichessPuzzlesHintMsg {Подивіться на фрагмент на %s.}
+translate Q LichessPuzzlesSolutionMsg {Рішення:\n%s}
+translate Q LichessPuzzlesDifficulty {Складність:}
+translate Q LichessPuzzlesDiffEasiest {Найпростіше}
+translate Q LichessPuzzlesDiffEasiestThenNormal {Найпростіше, потім нормально}
+translate Q LichessPuzzlesDiffNormal {нормальний}
+translate Q LichessPuzzlesDiffNormalThenHardest {Нормально, потім найважче}
+translate Q LichessPuzzlesDiffHardest {Найважче}
+translate Q LichessPuzzlesColor {Грати як:}
+translate Q LichessPuzzlesNextColor {Наступний колір головоломки:}
+translate Q LichessPuzzlesSideToMove {Сторона для переміщення}
+translate Q LichessPuzzlesSolvedTitle {Головоломка вирішена!}
+translate Q LichessPuzzlesTheme {Тема:}
+translate Q LichessPuzzlesMix {Здорова суміш}
+translate Q LichessPuzzlesId {ID головоломки}
+translate Q LichessPuzzlesPlays {П'єси}
+translate Q LichessPuzzlesThemes {Теми}
+translate Q LichessPuzzlesPerf {Тип}
+translate Q LichessPuzzlesClock {Годинник}
+translate Q LichessPuzzlesRated {Оцінений}
+translate Q LichessPuzzlesGame {Гра}
+translate Q LichessPuzzlesNoNew {Для цих налаштувань не знайдено нових головоломок.\n\nСпробуйте змінити тему, складність або колір головоломки.}
+
 translate Q Back {Назад}
 translate Q Apply {Застосувати}
 translate Q Browse {Огляд}

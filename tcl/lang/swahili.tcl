@@ -205,6 +205,7 @@ menuText Z ToolsCaptureBoard "Nasa Bodi ya Sasa..." 5  {Hifadhi ubao wa sasa kam
 
 # Play menu
 menuText Z Play "Cheza" 0
+menuText Z LichessPuzzles "Mafumbo ya Lichess" 0 {Tatua mafumbo ya Lichess kwa maingiliano}
 
 # --- Correspondence Chess
 menuText Z CCResign "Kujiuzulu" 1 {Kujiuzulu (sio kupitia barua pepe)}
@@ -362,6 +363,47 @@ translate Z LichessFetchGameFailed {Imeshindwa kuleta mchezo %s:\n%s}
 translate Z LichessGameNotFound {Mchezo %s haupatikani kwenye Lichess.}
 translate Z LichessImportFailed {Imeshindwa kuleta mchezo:\n%s}
 translate Z LichessGameLoaded {Mchezo umepakiwa kwenye clipbase.}
+
+# Lichess Puzzles
+translate Z LichessPuzzlesTitle {Mafumbo ya Lichess}
+translate Z LichessPuzzlesDailyTitle {Mafumbo ya Kila Siku}
+translate Z LichessPuzzlesQuerying {Kuuliza mafumbo ya Lichess...}
+translate Z LichessPuzzlesFailed {Imeshindwa kuuliza mafumbo ya Lichess:\n%s}
+translate Z LichessPuzzlesParseError {Imeshindwa kuchanganua data ya mafumbo}
+translate Z LichessPuzzlesLoadError {Imeshindwa kupakia nafasi ya chemshabongo}
+translate Z LichessPuzzlesSolve {Zamu yako! Tafuta hatua bora zaidi.}
+translate Z LichessPuzzlesCorrect {Hatua nzuri!}
+translate Z LichessPuzzlesWrong {Hiyo sio hoja -- jaribu kitu kingine.}
+translate Z LichessPuzzlesBestMove {Hoja bora!  Endelea...}
+translate Z LichessPuzzlesSolved {Fumbo limetatuliwa! Hongera!}
+translate Z LichessPuzzlesPlaying {Inatatua fumbo...}
+translate Z LichessPuzzlesStop {Acha}
+translate Z LichessPuzzlesNew {Fumbo Mpya}
+translate Z LichessPuzzlesHint {Pata Dokezo}
+translate Z LichessPuzzlesViewSolution {Tazama Suluhisho}
+translate Z LichessPuzzlesHintMsg {Angalia kipande kwenye %s.}
+translate Z LichessPuzzlesSolutionMsg {Suluhisho:\n%s}
+translate Z LichessPuzzlesDifficulty {Ugumu:}
+translate Z LichessPuzzlesDiffEasiest {Rahisi zaidi}
+translate Z LichessPuzzlesDiffEasiestThenNormal {Rahisi zaidi, basi kawaida}
+translate Z LichessPuzzlesDiffNormal {Kawaida}
+translate Z LichessPuzzlesDiffNormalThenHardest {Kawaida, basi ngumu zaidi}
+translate Z LichessPuzzlesDiffHardest {Ngumu zaidi}
+translate Z LichessPuzzlesColor {Cheza kama:}
+translate Z LichessPuzzlesNextColor {Rangi inayofuata ya fumbo:}
+translate Z LichessPuzzlesSideToMove {Upande wa kusonga}
+translate Z LichessPuzzlesSolvedTitle {Fumbo Limetatuliwa!}
+translate Z LichessPuzzlesTheme {Mandhari:}
+translate Z LichessPuzzlesMix {Mchanganyiko wenye afya}
+translate Z LichessPuzzlesId {Kitambulisho cha chemshabongo}
+translate Z LichessPuzzlesPlays {Inacheza}
+translate Z LichessPuzzlesThemes {Mandhari}
+translate Z LichessPuzzlesPerf {Aina}
+translate Z LichessPuzzlesClock {Saa}
+translate Z LichessPuzzlesRated {Imekadiriwa}
+translate Z LichessPuzzlesGame {Mchezo}
+translate Z LichessPuzzlesNoNew {Hakuna mafumbo mapya yaliyopatikana kwa mipangilio hii.\n\nJaribu kubadilisha mandhari, ugumu au rangi ya mafumbo.}
+
 translate Z Back {Nyuma}
 translate Z Apply {Tumia}
 translate Z Browse {Vinjari}

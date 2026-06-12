@@ -246,6 +246,7 @@ menuText A ToolsCaptureBoard "現在のボードをキャプチャ..." 5  {現�
 
 # Play menu
 menuText A Play "遊ぶ" 0
+menuText A LichessPuzzles "リチェスパズル" 0 {Lichess パズルをインタラクティブに解く}
 
 # --- Correspondence Chess
 menuText A CCResign "投了" 1 {辞任（電子メールではない）}
@@ -403,6 +404,47 @@ translate A LichessFetchGameFailed {ゲーム %s の取得に失敗しました:
 translate A LichessGameNotFound {ゲーム %s が Lichess に見つかりません。}
 translate A LichessImportFailed {ゲームのインポートに失敗しました:\n%s}
 translate A LichessGameLoaded {ゲームがクリップベースに正常にロードされました。}
+
+# Lichess Puzzles
+translate A LichessPuzzlesTitle {リチェスパズル}
+translate A LichessPuzzlesDailyTitle {デイリーパズル}
+translate A LichessPuzzlesQuerying {Lichess パズルをクエリしています...}
+translate A LichessPuzzlesFailed {Lichess パズルのクエリに失敗しました:\n%s}
+translate A LichessPuzzlesParseError {パズルデータの解析に失敗しました}
+translate A LichessPuzzlesLoadError {パズルの位置を読み込めませんでした}
+translate A LichessPuzzlesSolve {あなたの番です！最善の動きを見つけてください。}
+translate A LichessPuzzlesCorrect {いい動きだ！}
+translate A LichessPuzzlesWrong {それは問題ではありません。別のことを試してください。}
+translate A LichessPuzzlesBestMove {最高の動き！  続けて...}
+translate A LichessPuzzlesSolved {パズルが解けた！おめでとう！}
+translate A LichessPuzzlesPlaying {パズルを解いています...}
+translate A LichessPuzzlesStop {停止}
+translate A LichessPuzzlesNew {新しいパズル}
+translate A LichessPuzzlesHint {ヒントを得る}
+translate A LichessPuzzlesViewSolution {ソリューションを見る}
+translate A LichessPuzzlesHintMsg {%s の作品を見てください。}
+translate A LichessPuzzlesSolutionMsg {解決策:\n%s}
+translate A LichessPuzzlesDifficulty {困難：}
+translate A LichessPuzzlesDiffEasiest {最も簡単な}
+translate A LichessPuzzlesDiffEasiestThenNormal {最も簡単、次に普通}
+translate A LichessPuzzlesDiffNormal {普通}
+translate A LichessPuzzlesDiffNormalThenHardest {普通、それから最も難しい}
+translate A LichessPuzzlesDiffHardest {最も難しい}
+translate A LichessPuzzlesColor {としてプレイします:}
+translate A LichessPuzzlesNextColor {次のパズルの色:}
+translate A LichessPuzzlesSideToMove {移動する側}
+translate A LichessPuzzlesSolvedTitle {パズルが解けました！}
+translate A LichessPuzzlesTheme {テーマ：}
+translate A LichessPuzzlesMix {ヘルシーミックス}
+translate A LichessPuzzlesId {パズルID}
+translate A LichessPuzzlesPlays {プレイ回数}
+translate A LichessPuzzlesThemes {テーマ}
+translate A LichessPuzzlesPerf {タイプ}
+translate A LichessPuzzlesClock {クロック}
+translate A LichessPuzzlesRated {評価済み}
+translate A LichessPuzzlesGame {ゲーム}
+translate A LichessPuzzlesNoNew {これらの設定では新しいパズルが見つかりません。\n\nテーマ、難易度、またはパズルの色を変更してみてください。}
+
 translate A Back {戻る}
 translate A Apply {適用}
 translate A Browse {参照}

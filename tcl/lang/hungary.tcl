@@ -211,6 +211,7 @@ menuText H ToolsCaptureBoard "Az aktuális tábla rögzítése..." 0  {Mentse el
 
 # Play menu
 menuText H Play "Játék" 0
+menuText H LichessPuzzles "Lichess rejtvények" 0 {Oldja meg a Lichess rejtvényeket interaktívan}
 
 # --- Correspondence Chess
 menuText H CCResign "Feladás" 0 {Feladás (nem eMail útján)}
@@ -370,6 +371,47 @@ translate H LichessFetchGameFailed {Nem sikerült letölteni a következő ját�
 translate H LichessGameNotFound {A(z) %s játék nem található a Lichessen.}
 translate H LichessImportFailed {Nem sikerült importálni a játékot:\n%s}
 translate H LichessGameLoaded {A játék sikeresen betöltődött a klipbázisba.}
+
+# Lichess Puzzles
+translate H LichessPuzzlesTitle {Lichess rejtvények}
+translate H LichessPuzzlesDailyTitle {Napi puzzle}
+translate H LichessPuzzlesQuerying {Lichess rejtvények lekérdezése...}
+translate H LichessPuzzlesFailed {Nem sikerült lekérdezni a Lichess rejtvényeket:\n%s}
+translate H LichessPuzzlesParseError {Nem sikerült elemezni a rejtvényadatokat}
+translate H LichessPuzzlesLoadError {Nem sikerült betölteni a rejtvény pozícióját}
+translate H LichessPuzzlesSolve {Ön a sor! Találja meg a legjobb lépést.}
+translate H LichessPuzzlesCorrect {Jó lépés!}
+translate H LichessPuzzlesWrong {Nem ez a lépés – próbáljon ki valami mást.}
+translate H LichessPuzzlesBestMove {A legjobb lépés!  Folytasd...}
+translate H LichessPuzzlesSolved {Rejtvény megoldva! Gratulálok!}
+translate H LichessPuzzlesPlaying {Rejtvény megoldása...}
+translate H LichessPuzzlesStop {Állj}
+translate H LichessPuzzlesNew {Új rejtvény}
+translate H LichessPuzzlesHint {Kap egy tippet}
+translate H LichessPuzzlesViewSolution {Megoldás megtekintése}
+translate H LichessPuzzlesHintMsg {Nézd meg a darabot a %s oldalon.}
+translate H LichessPuzzlesSolutionMsg {Megoldás:\n%s}
+translate H LichessPuzzlesDifficulty {Nehézség:}
+translate H LichessPuzzlesDiffEasiest {A legkönnyebb}
+translate H LichessPuzzlesDiffEasiestThenNormal {A legegyszerűbb, aztán a normális}
+translate H LichessPuzzlesDiffNormal {Normál}
+translate H LichessPuzzlesDiffNormalThenHardest {Normális, akkor a legnehezebb}
+translate H LichessPuzzlesDiffHardest {A legnehezebb}
+translate H LichessPuzzlesColor {Játssz mint:}
+translate H LichessPuzzlesNextColor {Következő puzzle színe:}
+translate H LichessPuzzlesSideToMove {Oldalt a mozgáshoz}
+translate H LichessPuzzlesSolvedTitle {Rejtvény megoldva!}
+translate H LichessPuzzlesTheme {Téma:}
+translate H LichessPuzzlesMix {Egészséges keverék}
+translate H LichessPuzzlesId {Puzzle ID}
+translate H LichessPuzzlesPlays {Játszik}
+translate H LichessPuzzlesThemes {Témák}
+translate H LichessPuzzlesPerf {Írja be}
+translate H LichessPuzzlesClock {Óra}
+translate H LichessPuzzlesRated {Névleges}
+translate H LichessPuzzlesGame {Játék}
+translate H LichessPuzzlesNoNew {Nem találhatók új rejtvények ezekhez a beállításokhoz.\n\nMódosítsa a témát, a nehézségi fokot vagy a rejtvény színét.}
+
 translate H Back {Vissza}
 translate H Apply {Alkalmazni}
 translate H Browse {Tallóz}

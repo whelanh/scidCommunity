@@ -214,6 +214,7 @@ menuText W ToolsCaptureBoard "Spara aktuellt schackbräde..." 0  {Spara det aktu
 
 # Play menu
 menuText W Play "Spela" 0
+menuText W LichessPuzzles "Lichess pussel" 0 {Lös Lichess-pussel interaktivt}
 
 # --- Correspondence Chess
 menuText W CCResign "Ge upp" 0 {Ge upp (inte via eMail)}
@@ -373,6 +374,47 @@ translate W LichessFetchGameFailed {Det gick inte att hämta spelet %s:\n%s}
 translate W LichessGameNotFound {Spelet %s hittades inte på Lichess.}
 translate W LichessImportFailed {Det gick inte att importera spel:\n%s}
 translate W LichessGameLoaded {Spelet laddades in i clipbase.}
+
+# Lichess Puzzles
+translate W LichessPuzzlesTitle {Lichess pussel}
+translate W LichessPuzzlesDailyTitle {Dagligt pussel}
+translate W LichessPuzzlesQuerying {Frågar Lichess-pussel...}
+translate W LichessPuzzlesFailed {Det gick inte att fråga Lichess-pussel:\n%s}
+translate W LichessPuzzlesParseError {Det gick inte att analysera pusseldata}
+translate W LichessPuzzlesLoadError {Det gick inte att ladda pusselpositionen}
+translate W LichessPuzzlesSolve {Din tur! Hitta det bästa draget.}
+translate W LichessPuzzlesCorrect {Bra drag!}
+translate W LichessPuzzlesWrong {Det är inte flytten – prova något annat.}
+translate W LichessPuzzlesBestMove {Bästa draget!  Fortsätta...}
+translate W LichessPuzzlesSolved {Pussel löst! Grattis!}
+translate W LichessPuzzlesPlaying {Löser pussel...}
+translate W LichessPuzzlesStop {Stopp}
+translate W LichessPuzzlesNew {Nytt pussel}
+translate W LichessPuzzlesHint {Få ett tips}
+translate W LichessPuzzlesViewSolution {Visa lösning}
+translate W LichessPuzzlesHintMsg {Titta på stycket på %s.}
+translate W LichessPuzzlesSolutionMsg {Lösning:\n%s}
+translate W LichessPuzzlesDifficulty {Svårighet:}
+translate W LichessPuzzlesDiffEasiest {Enklast}
+translate W LichessPuzzlesDiffEasiestThenNormal {Enklast, sedan normalt}
+translate W LichessPuzzlesDiffNormal {Normal}
+translate W LichessPuzzlesDiffNormalThenHardest {Normalt, sedan svårast}
+translate W LichessPuzzlesDiffHardest {Svårast}
+translate W LichessPuzzlesColor {Spela som:}
+translate W LichessPuzzlesNextColor {Nästa pusselfärg:}
+translate W LichessPuzzlesSideToMove {Sidan att flytta}
+translate W LichessPuzzlesSolvedTitle {Pussel löst!}
+translate W LichessPuzzlesTheme {Tema:}
+translate W LichessPuzzlesMix {Hälsosam mix}
+translate W LichessPuzzlesId {Pussel ID}
+translate W LichessPuzzlesPlays {Spelar}
+translate W LichessPuzzlesThemes {teman}
+translate W LichessPuzzlesPerf {Typ}
+translate W LichessPuzzlesClock {Klocka}
+translate W LichessPuzzlesRated {Betygsatt}
+translate W LichessPuzzlesGame {Spel}
+translate W LichessPuzzlesNoNew {Inga nya pussel hittades för dessa inställningar.\n\nFörsök att ändra tema, svårighetsgrad eller pusselfärg.}
+
 translate W Back {Tillbaka}
 translate W Apply {Tillämpa}
 translate W Browse {Bläddra}

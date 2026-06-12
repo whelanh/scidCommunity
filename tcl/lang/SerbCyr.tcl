@@ -246,6 +246,7 @@ menuText J ToolsCaptureBoard "Сними тренутну таблу..." 5  {С�
 
 # Play menu
 menuText J Play "Играј" 0
+menuText J LichessPuzzles "Лицхесс Пуззлес" 0 {Интерактивно решавајте Лицхесс загонетке}
 
 # --- Correspondence Chess
 menuText J CCResign "Поднесите оставку" 1 {Поднесите оставку (не путем е-поште)}
@@ -403,6 +404,47 @@ translate J LichessFetchGameFailed {Преузимање игре %с није �
 translate J LichessGameNotFound {Игра %с није пронађена на Лицхесс-у.}
 translate J LichessImportFailed {Увоз игре није успео:\н%с}
 translate J LichessGameLoaded {Игра је успешно учитана у базу клипова.}
+
+# Lichess Puzzles
+translate J LichessPuzzlesTitle {Лицхесс Пуззлес}
+translate J LichessPuzzlesDailyTitle {Даили Пуззле}
+translate J LichessPuzzlesQuerying {Испитивање Лицхесс слагалица...}
+translate J LichessPuzzlesFailed {Упит за Лицхесс загонетке није успео:\н%с}
+translate J LichessPuzzlesParseError {Рашчлањивање података слагалице није успело}
+translate J LichessPuzzlesLoadError {Учитавање позиције слагалице није успело}
+translate J LichessPuzzlesSolve {Твој ред! Пронађите најбољи потез.}
+translate J LichessPuzzlesCorrect {Добар потез!}
+translate J LichessPuzzlesWrong {То није потез - покушајте нешто друго.}
+translate J LichessPuzzlesBestMove {Најбољи потез!  Настави...}
+translate J LichessPuzzlesSolved {Загонетка решена! Честитамо!}
+translate J LichessPuzzlesPlaying {Решавање загонетке...}
+translate J LichessPuzzlesStop {Стани}
+translate J LichessPuzzlesNew {Нев Пуззле}
+translate J LichessPuzzlesHint {Добијте савет}
+translate J LichessPuzzlesViewSolution {Погледајте решење}
+translate J LichessPuzzlesHintMsg {Погледајте комад на %s.}
+translate J LichessPuzzlesSolutionMsg {Решење:\n%s}
+translate J LichessPuzzlesDifficulty {потешкоћа:}
+translate J LichessPuzzlesDiffEasiest {Најлакше}
+translate J LichessPuzzlesDiffEasiestThenNormal {Најлакше, онда нормално}
+translate J LichessPuzzlesDiffNormal {Нормално}
+translate J LichessPuzzlesDiffNormalThenHardest {Нормално, онда најтеже}
+translate J LichessPuzzlesDiffHardest {Најтеже}
+translate J LichessPuzzlesColor {Играј као:}
+translate J LichessPuzzlesNextColor {Следећа боја слагалице:}
+translate J LichessPuzzlesSideToMove {Страна за кретање}
+translate J LichessPuzzlesSolvedTitle {Пуззле Солвед!}
+translate J LichessPuzzlesTheme {Тема:}
+translate J LichessPuzzlesMix {Здрава мешавина}
+translate J LichessPuzzlesId {ИД слагалице}
+translate J LichessPuzzlesPlays {Плаис}
+translate J LichessPuzzlesThemes {Теме}
+translate J LichessPuzzlesPerf {Тип}
+translate J LichessPuzzlesClock {Сат}
+translate J LichessPuzzlesRated {Оцењено}
+translate J LichessPuzzlesGame {Игра}
+translate J LichessPuzzlesNoNew {Нису пронађене нове загонетке за ова подешавања.\n\nПробајте да промените тему, тежину или боју слагалице.}
+
 translate J Back {Назад}
 translate J Apply {Примени}
 translate J Browse {Прегледај}

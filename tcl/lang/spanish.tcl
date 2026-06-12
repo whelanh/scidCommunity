@@ -228,6 +228,7 @@ menuText S ToolsCaptureBoard "Capturar Tablero Actual..." 0  {Guardar el tablero
 
 # Play menu
 menuText S Play "Jugar" 0
+menuText S LichessPuzzles "Rompecabezas de Liches" 0 {Resuelve rompecabezas de Lichess de forma interactiva}
 
 # --- Correspondence Chess
 menuText S CCResign "Abandonar" 0 {Abandona}
@@ -403,6 +404,47 @@ translate S LichessFetchGameFailed {No se pudo recuperar el juego %s:\n%s}
 translate S LichessGameNotFound {Juego %s no encontrado en Lichess.}
 translate S LichessImportFailed {No se pudo importar el juego:\n%s}
 translate S LichessGameLoaded {El juego se cargó correctamente en Clipbase.}
+
+# Lichess Puzzles
+translate S LichessPuzzlesTitle {Rompecabezas de Liches}
+translate S LichessPuzzlesDailyTitle {Rompecabezas diario}
+translate S LichessPuzzlesQuerying {Consultando rompecabezas de Lichess...}
+translate S LichessPuzzlesFailed {No se pudieron consultar los rompecabezas de Lichess:\n%s}
+translate S LichessPuzzlesParseError {No se pudieron analizar los datos del rompecabezas}
+translate S LichessPuzzlesLoadError {No se pudo cargar la posición del rompecabezas}
+translate S LichessPuzzlesSolve {¡Tu turno! Encuentra el mejor movimiento.}
+translate S LichessPuzzlesCorrect {¡Buen movimiento!}
+translate S LichessPuzzlesWrong {Ese no es el movimiento; prueba con otra cosa.}
+translate S LichessPuzzlesBestMove {¡Mejor movimiento!  Sigue adelante...}
+translate S LichessPuzzlesSolved {¡Rompecabezas resuelto! ¡Felicidades!}
+translate S LichessPuzzlesPlaying {Resolviendo rompecabezas...}
+translate S LichessPuzzlesStop {Detener}
+translate S LichessPuzzlesNew {Nuevo rompecabezas}
+translate S LichessPuzzlesHint {Obtenga una pista}
+translate S LichessPuzzlesViewSolution {Ver solución}
+translate S LichessPuzzlesHintMsg {Mira la pieza de %s.}
+translate S LichessPuzzlesSolutionMsg {Solución:\n%s}
+translate S LichessPuzzlesDifficulty {Dificultad:}
+translate S LichessPuzzlesDiffEasiest {mas facil}
+translate S LichessPuzzlesDiffEasiestThenNormal {Más fácil, luego normal}
+translate S LichessPuzzlesDiffNormal {Normal}
+translate S LichessPuzzlesDiffNormalThenHardest {Normal, luego lo más difícil}
+translate S LichessPuzzlesDiffHardest {mas dificil}
+translate S LichessPuzzlesColor {Juega como:}
+translate S LichessPuzzlesNextColor {Siguiente color del rompecabezas:}
+translate S LichessPuzzlesSideToMove {Lado para moverse}
+translate S LichessPuzzlesSolvedTitle {¡Rompecabezas resuelto!}
+translate S LichessPuzzlesTheme {Tema:}
+translate S LichessPuzzlesMix {Mezcla saludable}
+translate S LichessPuzzlesId {ID de rompecabezas}
+translate S LichessPuzzlesPlays {juega}
+translate S LichessPuzzlesThemes {Temas}
+translate S LichessPuzzlesPerf {Tipo}
+translate S LichessPuzzlesClock {Reloj}
+translate S LichessPuzzlesRated {Clasificado}
+translate S LichessPuzzlesGame {Juego}
+translate S LichessPuzzlesNoNew {No se encontraron nuevos rompecabezas para esta configuración.\n\nIntenta cambiar el tema, la dificultad o el color del rompecabezas.}
+
 translate S Back {Atrás}
 translate S Apply {Aplicar}
 translate S Browse {Hojear}
