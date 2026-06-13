@@ -4,7 +4,7 @@
 <img width="256" height="256" alt="io github whelanh scidCommunity" src="https://github.com/user-attachments/assets/26277294-00cb-4660-964d-f88f4364e9c8" />
 </p>
 
-**scidCommunity** is a powerful chess analysis and database program. Originally derived from `Scid` (Shane's Chess Information Database), it has evolved into a distinct tool with numerous enhancements and a growing community of over 2,500 users.
+**scidCommunity** is a powerful chess analysis and database program. Originally derived from `Scid` (Shane's Chess Information Database), it has evolved into a distinct tool with numerous enhancements and a growing community of over 2,700 users.
 
 While it maintains compatibility with the original Scid database formats, **scidCommunity** focuses on modern features like integrations with Lichess and Chess.com, user-requested improvements, and a streamlined experience for analysis and database management. **scidCommunity** is free software and is released under the GPL licence.
 
@@ -43,8 +43,9 @@ While it maintains compatibility with the original Scid database formats, **scid
 20. Thanks to a well thought out and detailed [user proposal](https://github.com/whelanh/scidCommunity/discussions/32), developers can now access Scid databases directly in their code using scidCommunity's new headless API.  More documentation can be found in the /docs folder.
 21. Lichess-based calculation of White and Black's "Game Accuracy" [included](https://github.com/whelanh/scidCommunity/discussions/49) in the upper left of the engine score graph in the **Engine Window**.
 22. For games with `[%clk ]` time comments, a new **Tools/Time Analysis** [feature](https://github.com/whelanh/scidCommunity/discussions/59) charts clock time remaining and time used per move.
-23. Thanks to a [user suggestion](https://github.com/whelanh/scidCommunity/discussions/123), a new "Lichess OpenExplorer" button has been added to the **PGN Window** that provides access to the Lichess Opening Explorer data from the Masters, Lichess, and Player databases.
+23. Thanks to a [user suggestion](https://github.com/whelanh/scidCommunity/discussions/123), a new **Lichess OpenExplorer** button has been added to the **PGN Window** that provides access to the Lichess Opening Explorer data from the Masters, Lichess, and Player databases.
 24. New [engine vs. engine tournament feature](https://github.com/whelanh/scidCommunity/discussions/162) and [PGN Viewer](https://github.com/whelanh/scidCommunity/discussions/161) adopted from [Uwe Klimmek](https://codeberg.org/scid/scid) 
+25. Daily chess puzzle and more puzzles from Lichess with the new **Lichess Puzzles** feature under the **Play** menu.
 
 *Users with suggestions for further enhancements are welcome to write something in the Discussion section or submit a pull request.  Enjoy!*
 
