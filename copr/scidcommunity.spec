@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.3.51
+Version:        5.1.3.52
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit ecba3f86eb6159df628665109d4c7944d5659984
+%global commit 37b3de18a9347bae93e553920891720f730dccaf
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Sat Jun 13, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-52
+- "Add new Lichess Puzzles feature under Play menu"
 * Thu Jun 11, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-51
 - "Restore caching of local evaluations in engine window"
 * Thu Jun 11, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-50
