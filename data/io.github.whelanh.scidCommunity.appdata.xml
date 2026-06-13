@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+ <release version="5.1.3.53" date="2026-06-13">
+      <description>
+        <p>Enable saving engine settings for Serious Game</p>
+      </description>
+    </release>
  <release version="5.1.3.52" date="2026-06-13">
       <description>
         <p>Add new Lichess Puzzles feature under the Play menu</p>
