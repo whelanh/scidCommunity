@@ -606,8 +606,8 @@ namespace eval uci {
     # will generate a list of list {{name}/value} pairs
     ################################################################################
     proc saveConfig {} {
-        global ::uci::optList ::uci::newOptions
-        set newOptions {}
+        global ::uci::optList ::uci::newOptions ::uci::engineListIndex
+        set ::uci::newOptions {}
         set w .uciConfigWin.c.f
         set optnbr 0
         
@@ -621,9 +621,19 @@ namespace eval uci {
                 set value [$w.fopt.opt$optnbr get]
             }
             if { $elt(type) != "button" } {
-                lappend newOptions [ list $elt(name)  $value ]
+                lappend ::uci::newOptions [ list $elt(name)  $value ]
             }
             incr optnbr
+        }
+        
+        if {[info exists engineListIndex] && \
+            [string is integer -strict $engineListIndex] && \
+            $engineListIndex >= 0 && \
+            $engineListIndex < [llength $::engines(list)]} {
+            set engineData [lindex $::engines(list) $engineListIndex]
+            lset engineData 8 $::uci::newOptions
+            lset ::engines(list) $engineListIndex $engineData
+            ::enginecfg::write
         }
     }
 
