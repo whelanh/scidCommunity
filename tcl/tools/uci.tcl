@@ -626,7 +626,10 @@ namespace eval uci {
             incr optnbr
         }
         
-        if {[info exists engineListIndex]} {
+        if {[info exists engineListIndex] && \
+            [string is integer -strict $engineListIndex] && \
+            $engineListIndex >= 0 && \
+            $engineListIndex < [llength $::engines(list)]} {
             set engineData [lindex $::engines(list) $engineListIndex]
             lset engineData 8 $::uci::newOptions
             lset ::engines(list) $engineListIndex $engineData
