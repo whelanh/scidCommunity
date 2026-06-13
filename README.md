@@ -45,7 +45,7 @@ While it maintains compatibility with the original Scid database formats, **scid
 22. For games with `[%clk ]` time comments, a new **Tools/Time Analysis** [feature](https://github.com/whelanh/scidCommunity/discussions/59) charts clock time remaining and time used per move.
 23. Thanks to a [user suggestion](https://github.com/whelanh/scidCommunity/discussions/123), a new **Lichess OpenExplorer** button has been added to the **PGN Window** that provides access to the Lichess Opening Explorer data from the Masters, Lichess, and Player databases.
 24. New [engine vs. engine tournament feature](https://github.com/whelanh/scidCommunity/discussions/162) and [PGN Viewer](https://github.com/whelanh/scidCommunity/discussions/161) adopted from [Uwe Klimmek](https://codeberg.org/scid/scid) 
-25. Daily chess puzzle and more puzzles from Lichess with the new **Lichess Puzzles** feature under the **Play** menu.
+25. Daily chess puzzle and more puzzles from Lichess with the new [**Lichess Puzzles**](https://github.com/whelanh/scidCommunity/discussions/167) feature under the **Play** menu.
 
 *Users with suggestions for further enhancements are welcome to write something in the Discussion section or submit a pull request.  Enjoy!*
 
