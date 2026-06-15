@@ -158,7 +158,7 @@ set boardfile_lite "LightWood3-l"
 set boardSize 40
 
 # boardStyle: Default board piece set.
-set boardStyle Merida1
+set boardStyle Neo-Wood
 
 # Colors: squareColor_dark and squareColor_lite are square colors
 #     whitecolor/blackcolor are piece colors
