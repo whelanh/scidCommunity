@@ -1,0 +1,21 @@
+Isometric Plastic Chess Pieces
+================================
+
+These chess piece images are derived from the "2D Chess Pack" by Screaming Brain Studios,
+specifically the isometric "Plastic" material variant.
+
+  Creator : Screaming Brain Studios
+            https://opengameart.org/users/screaming-brain-studios
+            https://www.patreon.com/ScreamingBrainStudios
+
+  Source  : https://opengameart.org/content/2d-chess-pack
+
+  License : Creative Commons Zero (CC0) – Public Domain
+            http://creativecommons.org/publicdomain/zero/1.0/
+
+The CC0 license means these assets are released into the public domain. No attribution
+is legally required, but the creator has noted:
+  "Credit is always appreciated, but never required :)"
+
+The original 128×128 tile sheets were cropped, background-removed, and repacked into
+horizontal PNG strips compatible with the scidCommunity chess interface.
