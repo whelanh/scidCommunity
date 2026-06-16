@@ -1810,6 +1810,13 @@ translate F SetupBoard {Définir la position de départ}
 translate F Rotate {Rotation}
 translate F SwitchColors {Changer de couleur}
 translate F FlipBoard {Retourner l'échiquier}
+translate F Board3D {Tableau 3D}
+translate F Board3DReset {Réinitialiser}
+translate F Board3DResetTip {Réinitialiser la caméra à la vue par défaut}
+translate F Board3DZoomIn {Zoomer}
+translate F Board3DZoomOut {Zoom arrière}
+translate F Board3DDragToRotate {Faites glisser pour faire pivoter}
+translate F Board3DScrollToZoom {Faites défiler pour zoomer}
 translate F ImportPGN {Importer un jeu PGN}
 translate F ImportingFiles {Importer des fichiers PGN dans}
 translate F ImportingFrom {Importation de}

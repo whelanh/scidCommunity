@@ -1782,6 +1782,13 @@ translate Z SetupBoard {Bodi ya Kuweka}
 translate Z Rotate {Zungusha}
 translate Z SwitchColors {Badilisha rangi}
 translate Z FlipBoard {Ubao Mgeuzo}
+translate Z Board3D {Bodi ya 3D}
+translate Z Board3DReset {Weka upya}
+translate Z Board3DResetTip {Weka upya kamera iwe mwonekano chaguomsingi}
+translate Z Board3DZoomIn {Kuza}
+translate Z Board3DZoomOut {Zoom Out}
+translate Z Board3DDragToRotate {Buruta ili kuzungusha}
+translate Z Board3DScrollToZoom {Sogeza ili kukuza}
 translate Z ImportPGN {Ingiza mchezo wa PGN}
 translate Z ImportingFiles {Inaleta faili za PGN ndani}
 translate Z ImportingFrom {Inaleta kutoka}

@@ -1824,6 +1824,13 @@ translate P SetupBoard {Pyta konfiguracyjna}
 translate P Rotate {Obraca}
 translate P SwitchColors {Zmie kolor}
 translate P FlipBoard {Odwie tablic}
+translate P Board3D {Tablica 3D}
+translate P Board3DReset {Nastawić}
+translate P Board3DResetTip {Zresetuj kamerę do widoku domyślnego}
+translate P Board3DZoomIn {Powiększ}
+translate P Board3DZoomOut {Pomniejsz}
+translate P Board3DDragToRotate {Przeciągnij, aby obrócić}
+translate P Board3DScrollToZoom {Przewiń, aby powiększyć}
 translate P ImportPGN {Importuj gr PGN}
 translate P ImportingFiles {Importowanie plikw PGN w formacie PDF}
 translate P ImportingFrom {Importowanie z}

@@ -1823,6 +1823,13 @@ translate g SetupBoard {Табло за настройка}
 translate g Rotate {Завъртете}
 translate g SwitchColors {Превключете цветовете}
 translate g FlipBoard {Flip Board}
+translate g Board3D {3D дъска}
+translate g Board3DReset {Нулиране}
+translate g Board3DResetTip {Нулирайте камерата към изгледа по подразбиране}
+translate g Board3DZoomIn {Увеличете}
+translate g Board3DZoomOut {Намаляване}
+translate g Board3DDragToRotate {Плъзнете, за да завъртите}
+translate g Board3DScrollToZoom {Превъртете, за да увеличите}
 translate g ImportPGN {Импортирайте PGN игра}
 translate g ImportingFiles {Импортиране на PGN файлове}
 translate g ImportingFrom {Импортиране от}

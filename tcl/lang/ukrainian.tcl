@@ -1783,6 +1783,13 @@ translate Q SetupBoard {Налаштування дошки}
 translate Q Rotate {Обертати}
 translate Q SwitchColors {Перемикайте кольори}
 translate Q FlipBoard {Flip Board}
+translate Q Board3D {3D дошка}
+translate Q Board3DReset {Скинути}
+translate Q Board3DResetTip {Скинути камеру до стандартного вигляду}
+translate Q Board3DZoomIn {Збільшити}
+translate Q Board3DZoomOut {Зменшити}
+translate Q Board3DDragToRotate {Перетягніть, щоб повернути}
+translate Q Board3DScrollToZoom {Прокрутіть, щоб збільшити}
 translate Q ImportPGN {Імпорт гри PGN}
 translate Q ImportingFiles {Імпорт файлів PGN}
 translate Q ImportingFrom {Імпорт з}

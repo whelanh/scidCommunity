@@ -1829,6 +1829,13 @@ translate N SetupBoard {Opstellingsbord}
 translate N Rotate {Draaien}
 translate N SwitchColors {Wissel van kleur}
 translate N FlipBoard {Flipbord}
+translate N Board3D {3D-bord}
+translate N Board3DReset {Opnieuw instellen}
+translate N Board3DResetTip {Reset de camera naar de standaardweergave}
+translate N Board3DZoomIn {Inzoomen}
+translate N Board3DZoomOut {Uitzoomen}
+translate N Board3DDragToRotate {Sleep om te roteren}
+translate N Board3DScrollToZoom {Scroll om te zoomen}
 translate N ImportPGN {PGN-spel importeren}
 translate N ImportingFiles {PGN-bestanden importeren in}
 translate N ImportingFrom {Importeren van}

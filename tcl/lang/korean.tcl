@@ -1823,6 +1823,13 @@ translate k SetupBoard {설정 보드}
 translate k Rotate {회전}
 translate k SwitchColors {색상 전환}
 translate k FlipBoard {플립보드}
+translate k Board3D {3D 보드}
+translate k Board3DReset {다시 놓기}
+translate k Board3DResetTip {카메라를 기본 보기로 재설정}
+translate k Board3DZoomIn {확대}
+translate k Board3DZoomOut {축소}
+translate k Board3DDragToRotate {드래그하여 회전}
+translate k Board3DScrollToZoom {스크롤하여 확대/축소}
 translate k ImportPGN {PGN 게임 가져오기}
 translate k ImportingFiles {PGN 파일 가져오기}
 translate k ImportingFrom {다음에서 가져오기}

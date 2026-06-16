@@ -1823,6 +1823,13 @@ translate J SetupBoard {Сетуп Боард}
 translate J Rotate {Ротирај}
 translate J SwitchColors {Замените боје}
 translate J FlipBoard {Флип Боард}
+translate J Board3D {3Д плоча}
+translate J Board3DReset {Ресетуј}
+translate J Board3DResetTip {Вратите камеру на подразумевани приказ}
+translate J Board3DZoomIn {Увећај}
+translate J Board3DZoomOut {Зоом Оут}
+translate J Board3DDragToRotate {Превуците да бисте ротирали}
+translate J Board3DScrollToZoom {Скролујте да бисте зумирали}
 translate J ImportPGN {Увезите ПГН игру}
 translate J ImportingFiles {Увоз ПГН датотека у}
 translate J ImportingFrom {Увоз из}

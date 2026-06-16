@@ -1831,6 +1831,13 @@ translate G SetupBoard {Πίνακας εγκατάστασης}
 translate G Rotate {Γυρίζω}
 translate G SwitchColors {Εναλλαγή χρωμάτων}
 translate G FlipBoard {Flip Board}
+translate G Board3D {3D πίνακας}
+translate G Board3DReset {Επαναφορά}
+translate G Board3DResetTip {Επαναφέρετε την κάμερα στην προεπιλεγμένη προβολή}
+translate G Board3DZoomIn {Μεγέθυνση}
+translate G Board3DZoomOut {Σμίκρυνση}
+translate G Board3DDragToRotate {Σύρετε για περιστροφή}
+translate G Board3DScrollToZoom {Κάντε κύλιση για μεγέθυνση}
 translate G ImportPGN {Εισαγωγή παιχνιδιού PGN}
 translate G ImportingFiles {Εισαγωγή αρχείων PGN σε}
 translate G ImportingFrom {Εισαγωγή από}

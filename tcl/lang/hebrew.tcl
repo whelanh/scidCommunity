@@ -1783,6 +1783,13 @@ translate V SetupBoard {לוח התקנה}
 translate V Rotate {לְסוֹבֵב}
 translate V SwitchColors {החלף צבעים}
 translate V FlipBoard {Flip Board}
+translate V Board3D {לוח תלת מימד}
+translate V Board3DReset {אִתחוּל}
+translate V Board3DResetTip {אפס את המצלמה לתצוגת ברירת המחדל}
+translate V Board3DZoomIn {לְהִתְמַקֵד}
+translate V Board3DZoomOut {זום אאוט}
+translate V Board3DDragToRotate {גרור כדי לסובב}
+translate V Board3DScrollToZoom {גלול להגדלה}
 translate V ImportPGN {ייבוא משחק PGN}
 translate V ImportingFiles {ייבוא קבצי PGN פנימה}
 translate V ImportingFrom {מייבא מ}

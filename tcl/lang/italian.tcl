@@ -1806,6 +1806,13 @@ translate I SetupBoard {Scheda di installazione}
 translate I Rotate {Ruotare}
 translate I SwitchColors {Cambia i colori}
 translate I FlipBoard {Lavagna ribaltabile}
+translate I Board3D {Scheda 3D}
+translate I Board3DReset {Reset}
+translate I Board3DResetTip {Ripristina la visualizzazione predefinita della fotocamera}
+translate I Board3DZoomIn {Ingrandisci}
+translate I Board3DZoomOut {Rimpicciolisci}
+translate I Board3DDragToRotate {Trascina per ruotare}
+translate I Board3DScrollToZoom {Scorri per ingrandire}
 translate I ImportPGN {Importa il gioco PGN}
 translate I ImportingFiles {Importazione di file PGN in}
 translate I ImportingFrom {Importazione da}

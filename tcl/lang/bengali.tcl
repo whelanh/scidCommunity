@@ -1782,6 +1782,13 @@ translate b SetupBoard {সেটআপ বোর্ড}
 translate b Rotate {ঘোরান}
 translate b SwitchColors {রঙ পরিবর্তন করুন}
 translate b FlipBoard {ফ্লিপ বোর্ড}
+translate b Board3D {3D বোর্ড}
+translate b Board3DReset {রিসেট করুন}
+translate b Board3DResetTip {ডিফল্ট ভিউতে ক্যামেরা রিসেট করুন}
+translate b Board3DZoomIn {জুম ইন করুন}
+translate b Board3DZoomOut {জুম আউট করুন}
+translate b Board3DDragToRotate {ঘোরাতে টেনে আনুন}
+translate b Board3DScrollToZoom {জুম করতে স্ক্রোল করুন}
 translate b ImportPGN {PGN গেম ইম্পোর্ট করুন}
 translate b ImportingFiles {PGN ফাইল আমদানি করা হচ্ছে}
 translate b ImportingFrom {থেকে আমদানি করা হচ্ছে}

@@ -1826,6 +1826,13 @@ translate K SetupBoard {Configura posició}
 translate K Rotate {Gira}
 translate K SwitchColors {Canvia colors}
 translate K FlipBoard {Gira tauler}
+translate K Board3D {Tauler 3D}
+translate K Board3DReset {Restableix}
+translate K Board3DResetTip {Restableix la càmera a la vista predeterminada}
+translate K Board3DZoomIn {Apropa}
+translate K Board3DZoomOut {Allunya el zoom}
+translate K Board3DDragToRotate {Arrossegueu per girar}
+translate K Board3DScrollToZoom {Desplaceu-vos per fer zoom}
 translate K ImportPGN {Importa partida en PGN}
 translate K ImportingFiles {Important fitxers PGN a}
 translate K ImportingFrom {Important des de}

@@ -1854,6 +1854,13 @@ translate D SetupBoard {Stellung eingeben}
 translate D Rotate {Drehen}
 translate D SwitchColors {Farbe wechseln}
 translate D FlipBoard {Brett drehen}
+translate D Board3D {3D-Brett}
+translate D Board3DReset {Zurücksetzen}
+translate D Board3DResetTip {Kamera auf Standardansicht zurücksetzen}
+translate D Board3DZoomIn {Vergrößern}
+translate D Board3DZoomOut {Herauszoomen}
+translate D Board3DDragToRotate {Zum Drehen ziehen}
+translate D Board3DScrollToZoom {Zum Zoomen scrollen}
 translate D ImportPGN {Importiere PGN Partieen}
 translate D ImportingFiles {Importiere PGN Dateien nach}
 translate D ImportingFrom {Importiere von}

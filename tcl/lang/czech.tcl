@@ -1804,6 +1804,13 @@ translate C SetupBoard {Instalan deska}
 translate C Rotate {Stdat}
 translate C SwitchColors {Pepnout barvy}
 translate C FlipBoard {Flip Board}
+translate C Board3D {3D deska}
+translate C Board3DReset {Resetovat}
+translate C Board3DResetTip {Obnovte výchozí zobrazení fotoaparátu}
+translate C Board3DZoomIn {Přiblížit}
+translate C Board3DZoomOut {Oddálit}
+translate C Board3DDragToRotate {Přetažením otočte}
+translate C Board3DScrollToZoom {Přejděte k přiblížení}
 translate C ImportPGN {Importujte hru PGN}
 translate C ImportingFiles {Import soubor PGN do}
 translate C ImportingFrom {Import z}

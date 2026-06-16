@@ -195,6 +195,38 @@ proc ::board3d::redraw3d {w} {
   set ch [dict get $cam viewH]
   $bd coords bg -100 -100 [expr {$cw + 100}] [expr {$ch + 100}]
 
+  # Draw board base/thickness
+  set baseThickness 0.5
+  set baseFaces {
+    {{-4 -4 0} {4 -4 0} {4 -4 -0.5} {-4 -4 -0.5} {0 -4 -0.25}}
+    {{4 -4 0} {4 4 0} {4 4 -0.5} {4 -4 -0.5} {4 0 -0.25}}
+    {{4 4 0} {-4 4 0} {-4 4 -0.5} {4 4 -0.5} {0 4 -0.25}}
+    {{-4 4 0} {-4 -4 0} {-4 -4 -0.5} {-4 4 -0.5} {-4 0 -0.25}}
+  }
+  set faceDepths {}
+  foreach face $baseFaces {
+    lassign [lindex $face 4] cx cy cz
+    lappend faceDepths [::board3d::_depth $cam $cx $cy $cz]
+  }
+  set faceOrder {0 1 2 3}
+  set faceOrder [lsort -integer -decreasing -index 0 \
+      [lmap f $faceOrder dep $faceDepths { list [expr {int($dep * 1000)}] $f }]]
+  set faceOrder [lmap pair $faceOrder { lindex $pair 1 }]
+
+  foreach f $faceOrder {
+    set face [lindex $baseFaces $f]
+    set corners {}
+    foreach pt [lrange $face 0 3] {
+      lassign $pt px py pz
+      lassign [::board3d::_project $cam $px $py $pz] sx sy
+      lappend corners $sx $sy
+    }
+    if {[lindex $corners 0] > -10000} {
+      # Dark wood color for base
+      $bd create polygon {*}$corners -fill #2a1b14 -outline #1a0b04 -tag board3d
+    }
+  }
+
   # Draw board squares
   foreach sq $drawOrder {
     set corners [lindex $projCorners $sq]
@@ -209,7 +241,7 @@ proc ::board3d::redraw3d {w} {
       set color $::squareColor_dark
     }
 
-    $bd create polygon {*}$corners -fill $color -outline "" -tag board3d
+    $bd create polygon {*}$corners -fill $color -outline $color -tag board3d
   }
 
   # Draw pieces — size each piece to its own projected square
@@ -230,22 +262,23 @@ proc ::board3d::redraw3d {w} {
     }
     if {$pieceSize == 0} { set pieceSize [lindex $::boardSizes end] }
 
-    # Row-progressive y-shift: far pieces need to be pushed back into their
-    # squares to compensate for perspective foreshortening.
-    # Row 0 (nearest): 0%, row 1: 5%, ..., row 7: 35% of square height.
-    set row [expr {$sq / 8}]
-    if {$flip} { set row [expr {7 - $row}] }
-    set sqH [expr {abs($sy3 - $sy0)}]
-    set shift [expr {$row * 0.05 * $sqH}]
-    set cy [expr {$cy - $shift}]
+    # Draw drop shadow
+    set sw [expr {$sqW * 0.7}]
+    set sh [expr {$sw * 0.35}]
+    $bd create oval [expr {$cx - $sw/2.0}] [expr {$cy - $sh/2.0}] \
+        [expr {$cx + $sw/2.0}] [expr {$cy + $sh/2.0}] \
+        -fill #111111 -stipple gray50 -outline "" -tag board3d
 
+    # Billboarding: Anchor the bottom of the piece image to the center of the square.
+    # This keeps the pieces properly grounded regardless of perspective, eliminating
+    # the need for manual row-based y-shifts.
     set pieceImg $::board::letterToPiece($piece)$pieceSize
     set tags [list board3d p$sq]
-    if {[catch { $bd create image $cx $cy -image $pieceImg -tag $tags -anchor c }]} {
+    if {[catch { $bd create image $cx $cy -image $pieceImg -tag $tags -anchor s }]} {
       foreach s $::boardSizes {
         set pieceImg $::board::letterToPiece($piece)$s
         if {![catch {image width $pieceImg}]} {
-          $bd create image $cx $cy -image $pieceImg -tag $tags -anchor c
+          $bd create image $cx $cy -image $pieceImg -tag $tags -anchor s
           break
         }
       }

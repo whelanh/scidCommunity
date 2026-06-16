@@ -1823,6 +1823,13 @@ translate L SetupBoard {Placă de configurare}
 translate L Rotate {Roti}
 translate L SwitchColors {Schimbați culorile}
 translate L FlipBoard {Flip Board}
+translate L Board3D {Placă 3D}
+translate L Board3DReset {Resetați}
+translate L Board3DResetTip {Resetați camera la vizualizarea implicită}
+translate L Board3DZoomIn {Măriți}
+translate L Board3DZoomOut {Micșorați}
+translate L Board3DDragToRotate {Trageți pentru a roti}
+translate L Board3DScrollToZoom {Derulați pentru a mări}
 translate L ImportPGN {Importați jocul PGN}
 translate L ImportingFiles {Importul fișierelor PGN în}
 translate L ImportingFrom {Import de la}
