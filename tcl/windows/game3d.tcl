@@ -44,7 +44,7 @@ proc ::windows::game3d::Close {} {
 #
 proc ::windows::game3d::_create {w} {
   toplevel $w
-  wm title $w "Scid: [tr Board3D]"
+  wm title $w "scidCommunity: [tr Board3D]"
   wm minsize $w 400 400
   wm geometry $w 1040x1080
 
