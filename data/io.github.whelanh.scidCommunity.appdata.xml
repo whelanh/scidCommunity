@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+ <release version="5.1.3.56" date="2026-06-16">
+      <description>
+        <p>Add new 3D Board Window feature</p>
+      </description>
+    </release>
  <release version="5.1.3.53" date="2026-06-13">
       <description>
         <p>Enable saving engine settings for Serious Game</p>
