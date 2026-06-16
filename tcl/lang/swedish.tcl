@@ -1810,6 +1810,13 @@ translate W SetupBoard {Installationsbräda}
 translate W Rotate {Rotera}
 translate W SwitchColors {Byt färger}
 translate W FlipBoard {Blädderbräda}
+translate W Board3D {3D-bräda}
+translate W Board3DReset {Återställa}
+translate W Board3DResetTip {Återställ kameran till standardvyn}
+translate W Board3DZoomIn {Zooma in}
+translate W Board3DZoomOut {Zooma ut}
+translate W Board3DDragToRotate {Dra för att rotera}
+translate W Board3DScrollToZoom {Bläddra för att zooma}
 translate W ImportPGN {Importera PGN-spel}
 translate W ImportingFiles {Importera PGN-filer till}
 translate W ImportingFrom {Importerar från}

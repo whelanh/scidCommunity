@@ -1786,6 +1786,13 @@ translate T SetupBoard {Kurulum Panosu}
 translate T Rotate {Döndür}
 translate T SwitchColors {Renkleri değiştir}
 translate T FlipBoard {Çevirme Tahtası}
+translate T Board3D {3D Tahta}
+translate T Board3DReset {Sıfırla}
+translate T Board3DResetTip {Kamerayı varsayılan görünüme sıfırla}
+translate T Board3DZoomIn {Yakınlaştır}
+translate T Board3DZoomOut {Uzaklaştır}
+translate T Board3DDragToRotate {Döndürmek için sürükleyin}
+translate T Board3DScrollToZoom {Yakınlaştırmak için kaydırın}
 translate T ImportPGN {PGN oyununu içe aktar}
 translate T ImportingFiles {PGN dosyalarını içe aktarma}
 translate T ImportingFrom {Şuradan içe aktarılıyor:}

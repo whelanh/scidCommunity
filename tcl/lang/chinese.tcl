@@ -1758,6 +1758,13 @@ translate M SetupBoard {设置板}
 translate M Rotate {旋转}
 translate M SwitchColors {切换颜色}
 translate M FlipBoard {翻板}
+translate M Board3D {3D板}
+translate M Board3DReset {重置}
+translate M Board3DResetTip {将相机重置为默认视图}
+translate M Board3DZoomIn {放大}
+translate M Board3DZoomOut {缩小}
+translate M Board3DDragToRotate {拖动旋转}
+translate M Board3DScrollToZoom {滚动缩放}
 translate M ImportPGN {导入PGN游戏}
 translate M ImportingFiles {将 PGN 文件导入}
 translate M ImportingFrom {导入自}

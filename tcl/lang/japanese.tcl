@@ -1823,6 +1823,13 @@ translate A SetupBoard {セットアップボード}
 translate A Rotate {回転}
 translate A SwitchColors {色の切り替え}
 translate A FlipBoard {フリップボード}
+translate A Board3D {3Dボード}
+translate A Board3DReset {リセット}
+translate A Board3DResetTip {カメラをデフォルトのビューにリセット}
+translate A Board3DZoomIn {ズームイン}
+translate A Board3DZoomOut {ズームアウト}
+translate A Board3DDragToRotate {ドラッグして回転します}
+translate A Board3DScrollToZoom {スクロールしてズーム}
 translate A ImportPGN {PGN ゲームをインポートする}
 translate A ImportingFiles {PGN ファイルをインポートする}
 translate A ImportingFrom {からのインポート}

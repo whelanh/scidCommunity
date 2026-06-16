@@ -1805,6 +1805,13 @@ translate H SetupBoard {Beállítási tábla}
 translate H Rotate {Forog}
 translate H SwitchColors {Válts színeket}
 translate H FlipBoard {Flip Board}
+translate H Board3D {3D tábla}
+translate H Board3DReset {Reset}
+translate H Board3DResetTip {A kamera visszaállítása az alapértelmezett nézetre}
+translate H Board3DZoomIn {Nagyítás}
+translate H Board3DZoomOut {Kicsinyítés}
+translate H Board3DDragToRotate {Húzza az elforgatáshoz}
+translate H Board3DScrollToZoom {Görgessen a nagyításhoz}
 translate H ImportPGN {PGN játék importálása}
 translate H ImportingFiles {PGN fájlok importálása}
 translate H ImportingFrom {Importálás innen}

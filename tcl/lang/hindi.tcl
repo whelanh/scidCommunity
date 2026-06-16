@@ -1782,6 +1782,13 @@ translate h SetupBoard {सेटअप बोर्ड}
 translate h Rotate {घुमाएँ}
 translate h SwitchColors {रंग बदलें}
 translate h FlipBoard {फ्लिप बोर्ड}
+translate h Board3D {3डी बोर्ड}
+translate h Board3DReset {रीसेट करें}
+translate h Board3DResetTip {कैमरे को डिफ़ॉल्ट दृश्य पर रीसेट करें}
+translate h Board3DZoomIn {ज़ूम इन}
+translate h Board3DZoomOut {ज़ूम आउट}
+translate h Board3DDragToRotate {घुमाने के लिए खींचें}
+translate h Board3DScrollToZoom {ज़ूम करने के लिए स्क्रॉल करें}
 translate h ImportPGN {पीजीएन गेम आयात करें}
 translate h ImportingFiles {पीजीएन फ़ाइलें आयात करना}
 translate h ImportingFrom {से आयात किया जा रहा है}

@@ -1857,6 +1857,13 @@ translate S SetupBoard {Tablero de configuración}
 translate S Rotate {Girar}
 translate S SwitchColors {Cambiar colores}
 translate S FlipBoard {Tablero giratorio}
+translate S Board3D {Tablero 3D}
+translate S Board3DReset {Reiniciar}
+translate S Board3DResetTip {Restablecer la cámara a la vista predeterminada}
+translate S Board3DZoomIn {Dar un golpe de zoom}
+translate S Board3DZoomOut {Alejar}
+translate S Board3DDragToRotate {Arrastrar para rotar}
+translate S Board3DScrollToZoom {Desplácese para ampliar}
 translate S ImportPGN {Importar juego PGN}
 translate S ImportingFiles {Importar archivos PGN en}
 translate S ImportingFrom {Importando desde}

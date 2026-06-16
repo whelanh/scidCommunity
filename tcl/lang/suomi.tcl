@@ -1835,6 +1835,13 @@ translate U SetupBoard {Asennustaulu}
 translate U Rotate {Kiertää}
 translate U SwitchColors {Vaihda värejä}
 translate U FlipBoard {Flip Board}
+translate U Board3D {3D-taulu}
+translate U Board3DReset {Nollaa}
+translate U Board3DResetTip {Palauta kamera oletusnäkymään}
+translate U Board3DZoomIn {Lähennä}
+translate U Board3DZoomOut {Loitonna}
+translate U Board3DDragToRotate {Vedä kiertääksesi}
+translate U Board3DScrollToZoom {Vieritä zoomaukseen}
 translate U ImportPGN {Tuo PGN-peli}
 translate U ImportingFiles {PGN-tiedostojen tuonti sisään}
 translate U ImportingFrom {Tuodaan kohteesta}

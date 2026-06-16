@@ -1836,6 +1836,13 @@ translate E SetupBoard {Setup Board}
 translate E Rotate {Rotate}
 translate E SwitchColors {Switch colors}
 translate E FlipBoard {Flip Board}
+translate E Board3D {3D Board}
+translate E Board3DReset {Reset}
+translate E Board3DResetTip {Reset camera to default view}
+translate E Board3DZoomIn {Zoom In}
+translate E Board3DZoomOut {Zoom Out}
+translate E Board3DDragToRotate {Drag to rotate}
+translate E Board3DScrollToZoom {Scroll to zoom}
 translate E ImportPGN {Import PGN game}
 translate E ImportingFiles {Importing PGN files in}
 translate E ImportingFrom {Importing from}

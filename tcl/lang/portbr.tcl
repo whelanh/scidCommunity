@@ -1812,6 +1812,13 @@ translate B SetupBoard {Definir tabuleiro}
 translate B Rotate {Rotacionar}
 translate B SwitchColors {Trocar cores}
 translate B FlipBoard {Virar o tabuleiro}
+translate B Board3D {Quadro 3D}
+translate B Board3DReset {Reiniciar}
+translate B Board3DResetTip {Redefinir a câmera para visualização padrão}
+translate B Board3DZoomIn {Ampliar}
+translate B Board3DZoomOut {Diminuir zoom}
+translate B Board3DDragToRotate {Arraste para girar}
+translate B Board3DScrollToZoom {Role para ampliar}
 translate B ImportPGN {Importar jogo em PGN}
 translate B ImportingFiles {Importar arquivos PGN para}
 translate B ImportingFrom {Importando de}

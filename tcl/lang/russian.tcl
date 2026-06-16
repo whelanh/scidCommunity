@@ -1806,6 +1806,13 @@ translate R SetupBoard {Настроить доску}
 translate R Rotate {Повернуть}
 translate R SwitchColors {Переключить цвета}
 translate R FlipBoard {Повернуть доску}
+translate R Board3D {3D доска}
+translate R Board3DReset {Перезагрузить}
+translate R Board3DResetTip {Сбросить камеру к виду по умолчанию}
+translate R Board3DZoomIn {Увеличить масштаб}
+translate R Board3DZoomOut {Уменьшить масштаб}
+translate R Board3DDragToRotate {Перетащите, чтобы повернуть}
+translate R Board3DScrollToZoom {Прокрутите, чтобы увеличить}
 translate R ImportPGN {Импортировать файл PGN}
 translate R ImportingFiles {Импортировать файлы PGN в}
 translate R ImportingFrom {Импортировать из}

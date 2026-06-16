@@ -1804,6 +1804,13 @@ translate O SetupBoard {Oppsettbrett}
 translate O Rotate {Rotere}
 translate O SwitchColors {Bytt farger}
 translate O FlipBoard {Flipbrett}
+translate O Board3D {3D-brett}
+translate O Board3DReset {Tilbakestill}
+translate O Board3DResetTip {Tilbakestill kameraet til standardvisning}
+translate O Board3DZoomIn {Zoom inn}
+translate O Board3DZoomOut {Zoom ut}
+translate O Board3DDragToRotate {Dra for å rotere}
+translate O Board3DScrollToZoom {Rull for å zoome}
 translate O ImportPGN {Importer PGN-spill}
 translate O ImportingFiles {Importerer PGN-filer inn}
 translate O ImportingFrom {Importerer fra}

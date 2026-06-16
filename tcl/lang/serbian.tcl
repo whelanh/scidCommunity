@@ -3010,6 +3010,20 @@ translate Y SwitchColors {Switch colors}
 # ====== TODO To be translated ======
 translate Y FlipBoard {Flip Board}
 # ====== TODO To be translated ======
+translate Y Board3D {3D Board}
+# ====== TODO To be translated ======
+translate Y Board3DReset {Reset}
+# ====== TODO To be translated ======
+translate Y Board3DResetTip {Reset camera to default view}
+# ====== TODO To be translated ======
+translate Y Board3DZoomIn {Zoom In}
+# ====== TODO To be translated ======
+translate Y Board3DZoomOut {Zoom Out}
+# ====== TODO To be translated ======
+translate Y Board3DDragToRotate {Drag to rotate}
+# ====== TODO To be translated ======
+translate Y Board3DScrollToZoom {Scroll to zoom}
+# ====== TODO To be translated ======
 translate Y ImportPGN {Import PGN game}
 # ====== TODO To be translated ======
 translate Y ImportingFiles {Importing PGN files in}
