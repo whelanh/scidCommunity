@@ -103,7 +103,8 @@ jobs:
           cd tcltk
           git clone --depth=1 --branch core-8-6-15 https://github.com/tcltk/tcl.git
           cd tcl\win
-          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
+          for /f "tokens=*" %%i in ('"C:\ProgramData\Chocolatey\bin\vswhere.exe" -products * -requires Microsoft.Component.MSBuild -property installationPath -latest') do set VS_PATH=%%i
+          call "%VS_PATH%\VC\Auxiliary\Build\vcvarsall.bat" x64
           nmake -f makefile.vc release OPTS=nomsvcrt INSTALLDIR=%GITHUB_WORKSPACE%\tcldir
           nmake -f makefile.vc install OPTS=nomsvcrt INSTALLDIR=%GITHUB_WORKSPACE%\tcldir
 
@@ -113,7 +114,8 @@ jobs:
           cd tcltk
           git clone --depth=1 --branch core-8-6-15 https://github.com/tcltk/tk.git
           cd tk\win
-          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
+          for /f "tokens=*" %%i in ('"C:\ProgramData\Chocolatey\bin\vswhere.exe" -products * -requires Microsoft.Component.MSBuild -property installationPath -latest') do set VS_PATH=%%i
+          call "%VS_PATH%\VC\Auxiliary\Build\vcvarsall.bat" x64
           nmake -f makefile.vc release OPTS=nomsvcrt INSTALLDIR=%GITHUB_WORKSPACE%\tcldir
           nmake -f makefile.vc install OPTS=nomsvcrt INSTALLDIR=%GITHUB_WORKSPACE%\tcldir
 
@@ -131,7 +133,8 @@ jobs:
       - name: Build Stockfish
         shell: cmd
         run: |
-          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
+          for /f "tokens=*" %%i in ('"C:\ProgramData\Chocolatey\bin\vswhere.exe" -products * -requires Microsoft.Component.MSBuild -property installationPath -latest') do set VS_PATH=%%i
+          call "%VS_PATH%\VC\Auxiliary\Build\vcvarsall.bat" x64
           git clone --depth=1 --branch sf_17 https://github.com/official-stockfish/Stockfish.git stockfish
           cd stockfish\src
           cl /std:c++20 /DNDEBUG /DUSE_POPCNT /DUSE_AVX2 /DUSE_SSE41 /DUSE_SSSE3 /DUSE_SSE2 /GS- /MT /O2 /Oi /Ot /Oy /GL /EHsc *.cpp nnue/*.cpp nnue/features/*.cpp syzygy/*.cpp /link /LTCG /STACK:reserve=8388608 /OUT:stockfish.exe advapi32.lib
