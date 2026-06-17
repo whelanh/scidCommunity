@@ -110,7 +110,7 @@ def process_style(style_name, white_path, black_path, output_dir):
         # then boosted by 10% so pieces feel larger and more imposing.
         # Pieces taller than the slot are clipped at the top; the bottom-align
         # below ensures all bases remain on the board surface.
-        shared_scale = (size / max_height) * 1.1
+        shared_scale = (size / max_height) * 1.15
 
         strip = Image.new("RGBA", (size * 12, size), (0, 0, 0, 0))
 
