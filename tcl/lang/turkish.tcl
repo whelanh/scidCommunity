@@ -789,6 +789,7 @@ translate T EngineAddRemote {Uzak motor ekleme}
 translate T EngineReload {Mevcut motoru yeniden yükleyin}
 translate T EngineClone {Geçerli motorun bir kopyasını oluşturun}
 translate T EngineDelete {Mevcut motoru sil}
+translate T EngineOpenAnalysis {Açık Analiz}
 
 # PGN window menus:
 menuText T PgnFile "Dosya" 0

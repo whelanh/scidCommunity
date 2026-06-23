@@ -825,6 +825,7 @@ translate D EngineAddRemote {Fügen Sie eine Remote-Engine hinzu}
 translate D EngineReload {Laden Sie die aktuelle Engine neu}
 translate D EngineClone {Erstellen Sie eine Kopie der aktuellen Engine}
 translate D EngineDelete {Löschen Sie die aktuelle Engine}
+translate D EngineOpenAnalysis {Offene Analyse}
 
 # PGN window menus:
 menuText D PgnFile "Datei" 0

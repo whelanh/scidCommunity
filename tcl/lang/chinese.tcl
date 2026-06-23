@@ -761,6 +761,7 @@ translate M EngineAddRemote {Add a remote engine}
 translate M EngineReload {Reload the current engine}
 translate M EngineClone {Create a copy of the current engine}
 translate M EngineDelete {Delete the current engine}
+translate M EngineOpenAnalysis {开放分析}
 
 # PGN window menus:
 menuText M PgnFile "直线" 0

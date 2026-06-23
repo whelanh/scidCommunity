@@ -793,6 +793,7 @@ translate H EngineAddRemote {Adjon hozzá egy távoli motort}
 translate H EngineReload {Töltse be újra az aktuális motort}
 translate H EngineClone {Készítsen másolatot az aktuális motorról}
 translate H EngineDelete {Törölje az aktuális motort}
+translate H EngineOpenAnalysis {Nyissa meg az Elemzést}
 
 # PGN window menus:
 menuText H PgnFile "Fájl" 0

@@ -1253,6 +1253,8 @@ translate Y EngineClone {Create a copy of the current engine}
 # ====== TODO To be translated ======
 translate Y EngineDelete {Delete the current engine}
 # ====== TODO To be translated ======
+translate Y EngineOpenAnalysis {Open Analysis}
+# ====== TODO To be translated ======
 menuText Y PgnFile "File" 0
 # ====== TODO To be translated ======
 menuText Y PgnFileCopy "Copy Game to Clipboard" 0

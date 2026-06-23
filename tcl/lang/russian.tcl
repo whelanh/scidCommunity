@@ -792,6 +792,7 @@ translate R EngineAddRemote {Добавить удаленный двигате�
 translate R EngineReload {Перезагрузить текущий движок}
 translate R EngineClone {Создать действующую движку}
 translate R EngineDelete {Удалить текущий движок}
+translate R EngineOpenAnalysis {Открытый анализ}
 
 # PGN window menus:
 menuText R PgnFile "Файл" 0

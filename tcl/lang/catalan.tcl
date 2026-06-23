@@ -811,6 +811,7 @@ translate K EngineAddRemote {Afegeix motor en remot}
 translate K EngineReload {Recarrega motor actual}
 translate K EngineClone {Crea una còpia del motor actual}
 translate K EngineDelete {Esborra el motor actual}
+translate K EngineOpenAnalysis {Anàlisi oberta}
 
 # PGN window menus:
 menuText K PgnFile "Arxiu" 0

@@ -786,6 +786,7 @@ translate Q EngineAddRemote {Додайте віддалений двигун}
 translate Q EngineReload {Перезавантажте поточний двигун}
 translate Q EngineClone {Створіть копію поточного движка}
 translate Q EngineDelete {Видалити поточний механізм}
+translate Q EngineOpenAnalysis {Відкрити аналіз}
 
 # PGN window menus:
 menuText Q PgnFile "Файл" 0

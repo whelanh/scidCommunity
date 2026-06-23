@@ -826,6 +826,7 @@ translate J EngineAddRemote {Додајте удаљени мотор}
 translate J EngineReload {Поново учитајте тренутни мотор}
 translate J EngineClone {Направите копију тренутног мотора}
 translate J EngineDelete {Избришите тренутни мотор}
+translate J EngineOpenAnalysis {Отворена анализа}
 
 # PGN window menus:
 menuText J PgnFile "Филе" 0

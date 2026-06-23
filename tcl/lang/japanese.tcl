@@ -826,6 +826,7 @@ translate A EngineAddRemote {リモート エンジンを追加する}
 translate A EngineReload {現在のエンジンをリロードします}
 translate A EngineClone {現在のエンジンのコピーを作成する}
 translate A EngineDelete {現在のエンジンを削除します}
+translate A EngineOpenAnalysis {オープン分析}
 
 # PGN window menus:
 menuText A PgnFile "ファイル" 0

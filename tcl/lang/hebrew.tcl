@@ -786,6 +786,7 @@ translate V EngineAddRemote {הוסף מנוע מרוחק}
 translate V EngineReload {טען מחדש את המנוע הנוכחי}
 translate V EngineClone {צור עותק של המנוע הנוכחי}
 translate V EngineDelete {מחק את המנוע הנוכחי}
+translate V EngineOpenAnalysis {פתח את הניתוח}
 
 # PGN window menus:
 menuText V PgnFile "קוֹבֶץ" 0

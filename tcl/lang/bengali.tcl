@@ -785,6 +785,7 @@ translate b EngineAddRemote {একটি দূরবর্তী ইঞ্জ�
 translate b EngineReload {বর্তমান ইঞ্জিন পুনরায় লোড করুন}
 translate b EngineClone {বর্তমান ইঞ্জিনের একটি অনুলিপি তৈরি করুন}
 translate b EngineDelete {বর্তমান ইঞ্জিন মুছুন}
+translate b EngineOpenAnalysis {খোলা বিশ্লেষণ}
 
 # PGN window menus:
 menuText b PgnFile "ফাইল" 0

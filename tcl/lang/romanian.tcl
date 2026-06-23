@@ -826,6 +826,7 @@ translate L EngineAddRemote {Adăugați un motor de la distanță}
 translate L EngineReload {Reîncărcați motorul actual}
 translate L EngineClone {Creați o copie a motorului curent}
 translate L EngineDelete {Ștergeți motorul actual}
+translate L EngineOpenAnalysis {Analiză deschisă}
 
 # PGN window menus:
 menuText L PgnFile "Fişier" 0

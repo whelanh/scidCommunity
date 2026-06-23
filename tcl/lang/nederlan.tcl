@@ -815,6 +815,7 @@ translate N EngineAddRemote {Voeg een externe motor toe}
 translate N EngineReload {Herlaad de huidige engine}
 translate N EngineClone {Maak een kopie van de huidige engine}
 translate N EngineDelete {Verwijder de huidige engine}
+translate N EngineOpenAnalysis {Analyse openen}
 
 # PGN window menus:
 menuText N PgnFile "Bestand" 0

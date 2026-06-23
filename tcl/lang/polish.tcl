@@ -806,6 +806,7 @@ translate P EngineAddRemote {Dodaj odczalny silnik}
 translate P EngineReload {Zaaduj ponownie rozruch}
 translate P EngineClone {Utwrz baz gwn}
 translate P EngineDelete {Usu uruchomienie silnika}
+translate P EngineOpenAnalysis {Otwarta analiza}
 
 # PGN window menus:
 menuText P PgnFile "Plik" 0

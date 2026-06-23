@@ -798,6 +798,7 @@ translate B EngineAddRemote {Adicionar um mecanismo remoto}
 translate B EngineReload {Recarregue o mecanismo atual}
 translate B EngineClone {Crie uma cópia do mecanismo atual}
 translate B EngineDelete {Exclua o mecanismo atual}
+translate B EngineOpenAnalysis {Análise aberta}
 
 # PGN window menus:
 menuText B PgnFile "Arquivo" 0

@@ -785,6 +785,7 @@ translate h EngineAddRemote {एक रिमोट इंजन जोड़े
 translate h EngineReload {वर्तमान इंजन को पुनः लोड करें}
 translate h EngineClone {वर्तमान इंजन की एक प्रति बनाएँ}
 translate h EngineDelete {वर्तमान इंजन हटाएँ}
+translate h EngineOpenAnalysis {विश्लेषण खोलें}
 
 # PGN window menus:
 menuText h PgnFile "फ़ाइल" 0

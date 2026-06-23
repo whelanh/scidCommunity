@@ -798,6 +798,7 @@ translate F EngineAddRemote {Ajouter un moteur distant}
 translate F EngineReload {Recharger le moteur actuel}
 translate F EngineClone {Créer une copie du moteur actuel}
 translate F EngineDelete {Supprimer le moteur actuel}
+translate F EngineOpenAnalysis {Open Analysis}
 
 # PGN window menus:
 menuText F PgnFile "Fichier" 0

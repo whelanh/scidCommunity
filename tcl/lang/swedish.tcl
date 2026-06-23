@@ -796,6 +796,7 @@ translate W EngineAddRemote {Lägg till en fjärrmotor}
 translate W EngineReload {Ladda om den nuvarande motorn}
 translate W EngineClone {Skapa en kopia av den aktuella motorn}
 translate W EngineDelete {Ta bort den aktuella motorn}
+translate W EngineOpenAnalysis {Öppna Analys}
 
 # PGN window menus:
 menuText W PgnFile "Fil" 0

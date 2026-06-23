@@ -795,6 +795,7 @@ translate O EngineAddRemote {Legg til en ekstern motor}
 translate O EngineReload {Last inn gjeldende motor på nytt}
 translate O EngineClone {Lag en kopi av gjeldende motor}
 translate O EngineDelete {Slett gjeldende motor}
+translate O EngineOpenAnalysis {Åpne Analyse}
 
 # PGN window menus:
 menuText O PgnFile "Fil" 0

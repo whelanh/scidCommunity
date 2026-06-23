@@ -824,6 +824,7 @@ translate U EngineAddRemote {Lisää etämoottori}
 translate U EngineReload {Lataa nykyinen moottori uudelleen}
 translate U EngineClone {Luo kopio nykyisestä moottorista}
 translate U EngineDelete {Poista nykyinen moottori}
+translate U EngineOpenAnalysis {Avaa analyysi}
 
 # PGN window menus:
 menuText U PgnFile "Tiedosto" 0

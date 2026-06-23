@@ -785,6 +785,7 @@ translate Z EngineAddRemote {Ongeza injini ya mbali}
 translate Z EngineReload {Pakia tena injini ya sasa}
 translate Z EngineClone {Unda nakala ya injini ya sasa}
 translate Z EngineDelete {Futa injini ya sasa}
+translate Z EngineOpenAnalysis {Fungua Uchambuzi}
 
 # PGN window menus:
 menuText Z PgnFile "Faili" 0

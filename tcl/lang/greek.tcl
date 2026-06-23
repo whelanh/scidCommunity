@@ -817,6 +817,7 @@ translate G EngineAddRemote {Προσθέστε έναν απομακρυσμέ�
 translate G EngineReload {Φορτώστε ξανά τον τρέχοντα κινητήρα}
 translate G EngineClone {Δημιουργήστε ένα αντίγραφο του τρέχοντος κινητήρα}
 translate G EngineDelete {Διαγράψτε τον τρέχοντα κινητήρα}
+translate G EngineOpenAnalysis {Ανοιχτή Ανάλυση}
 
 # PGN window menus:
 menuText G PgnFile "Αρχείο" 0

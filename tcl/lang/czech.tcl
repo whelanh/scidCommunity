@@ -790,6 +790,7 @@ translate C EngineAddRemote {Pidejte vzdlen motor}
 translate C EngineReload {Znovu natte aktuln motor}
 translate C EngineClone {Vytvote kopii aktulnho motoru}
 translate C EngineDelete {Smazat aktuln motor}
+translate C EngineOpenAnalysis {Otevřená analýza}
 
 # PGN window menus:
 menuText C PgnFile "Soubor" 0

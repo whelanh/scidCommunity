@@ -826,6 +826,7 @@ translate g EngineAddRemote {Добавете дистанционен двиг�
 translate g EngineReload {Презаредете текущия двигател}
 translate g EngineClone {Създайте копие на текущия двигател}
 translate g EngineDelete {Изтрийте текущия двигател}
+translate g EngineOpenAnalysis {Отворете Анализ}
 
 # PGN window menus:
 menuText g PgnFile "Файл" 0
