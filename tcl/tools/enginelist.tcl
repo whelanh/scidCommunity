@@ -236,13 +236,16 @@ proc ::enginelist::choose {} {
         ::enginelist::delete [lindex [.enginelist.list.list selection] 0]
     }
     ttk::label $f.sep -text "   "
-    dialogbutton $f.ok -text "OK" -command {
+    dialogbutton $f.open -text [tr EngineOpenAnalysis] -command {
         ::enginelist::openSelected 1
+    }
+    dialogbutton $f.ok -text "OK" -command {
+        destroy .enginelist
     }
     dialogbutton $f.cancel -text $::tr(Cancel) -command {
         destroy .enginelist
     }
-    packbuttons right $f.cancel $f.ok
+    packbuttons right $f.cancel $f.ok $f.open
     pack $f.add $f.edit $f.delete -side left -padx 1
 
     ::enginelist::sort
@@ -250,7 +253,7 @@ proc ::enginelist::choose {} {
     wm protocol $w WM_DELETE_WINDOW "destroy $w"
     bind $w <F1> { helpWindow Analysis List }
     bind $w <Escape> "destroy $w"
-    bind $w.list.list <Return> "$w.buttons.ok invoke; break"
+    bind $w.list.list <Return> "$w.buttons.open invoke; break"
 }
 
 # ::enginelist::setTime
