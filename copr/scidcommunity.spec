@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.3.56
+Version:        5.1.3.57
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit d6e3c2636f3482e4fe4414b1e01d351c517d5495
+%global commit f6f7d6414f73fee5da63dd9efbbd30262db97c9a
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Tue Jun 23, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-57
+- "Allow multiple simultaneous Analysis Windows"
 * Tue Jun 16, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-56
 - "Add new 3D Board window"
 * Sat Jun 13, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-53
