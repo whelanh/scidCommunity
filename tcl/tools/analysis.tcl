@@ -1302,9 +1302,10 @@ proc makeAnalysisWin { {n 1} {index -1} {autostart 1}} {
     set n_engines [llength $::engines(list)]
     if { $index >= $n_engines} {
         if { $n_engines > 0 } {
-            tk_messageBox -message "Invalid Engine Number: [expr $index +1]"
+            set index 0
+        } else {
+            return
         }
-        return
     }
 
     set engineData [lindex $::engines(list) $index]
