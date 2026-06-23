@@ -744,6 +744,7 @@ translate P Annotate {Komentuj}
 translate P ShowAnalysisBoard {Poka tablic angielsk}
 translate P ShowInfo {Poka informacje o silniku}
 translate P FinishGame {Zakocz gr}
+translate P FinishGameSlot2Warning {Gniazdo silnika 2 jest już używane przez otwarte okno analizy.\n\nZakończ grę korzysta z gniazd silnika 1 i 2 i może przejąć kontrolę nad tym silnikiem. Kontynuować?}
 translate P StopEngine {Zatrzymaj silnik}
 translate P StartEngine {Uruchomiony silnik}
 translate P LockEngine {Zablokuj silnik w pozycjach biecych}

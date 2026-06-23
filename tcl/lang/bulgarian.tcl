@@ -764,6 +764,7 @@ translate g Annotate {Анотирайте}
 translate g ShowAnalysisBoard {Показване на таблото за анализ}
 translate g ShowInfo {Показване на информация за двигателя}
 translate g FinishGame {Завършете играта}
+translate g FinishGameSlot2Warning {Слот 2 на машина вече се използва от отворен прозорец за анализ.\n\nFinish Game използва слотове 1 и 2 на машина и може да поеме контрола над тази машина. Продължаване?}
 translate g StopEngine {Спрете двигателя}
 translate g StartEngine {Стартирайте двигателя}
 translate g LockEngine {Заключете двигателя до текущата позиция}

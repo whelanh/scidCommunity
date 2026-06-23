@@ -749,6 +749,7 @@ translate K Annotate {Anotar}
 translate K ShowAnalysisBoard {Mostrar escaquer d'análisi}
 translate K ShowInfo {Mostra info del motor}
 translate K FinishGame {Finalitzar partida}
+translate K FinishGameSlot2Warning {L'espai de motor 2 ja està en ús per una finestra d'anàlisi oberta.\n\nFinalitza el joc utilitza els espais de motor 1 i 2 i pot prendre el control d'aquest motor. Continuar?}
 translate K StopEngine {Parar motor}
 translate K StartEngine {Iniciar motor}
 translate K LockEngine {Bloqueja motor en la posició actual}

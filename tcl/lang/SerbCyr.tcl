@@ -764,6 +764,7 @@ translate J Annotate {Анотирајте}
 translate J ShowAnalysisBoard {Прикажи таблу за анализу}
 translate J ShowInfo {Прикажи информације о мотору}
 translate J FinishGame {Заврши игру}
+translate J FinishGameSlot2Warning {Слот 2 мотора је већ у употреби од стране отвореног прозора за анализу.\н\нФинисх Гаме користи слотове 1 и 2 мотора и може преузети контролу над тим мотором. Наставити?}
 translate J StopEngine {Зауставите мотор}
 translate J StartEngine {Покрените мотор}
 translate J LockEngine {Закључајте мотор у тренутни положај}

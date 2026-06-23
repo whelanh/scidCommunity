@@ -763,6 +763,7 @@ translate E Annotate {Annotate}
 translate E ShowAnalysisBoard {Show analysis board}
 translate E ShowInfo {Show engine info}
 translate E FinishGame {Finish game}
+translate E FinishGameSlot2Warning {Engine slot 2 is already in use by an open Analysis window.\n\nFinish Game uses engine slots 1 and 2 and may take control of that engine. Continue?}
 translate E StopEngine {Stop engine}
 translate E StartEngine {Start engine}
 translate E LockEngine {Lock engine to current position}

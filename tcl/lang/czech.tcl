@@ -728,6 +728,7 @@ translate C Annotate {Anotace}
 translate C ShowAnalysisBoard {Ukzat achovnici analzy}
 translate C ShowInfo {Ukzat informaci o hernm programu}
 translate C FinishGame {Ukonit partii}
+translate C FinishGameSlot2Warning {Slot motoru 2 je již používán otevřeným oknem analýzy.\n\nDokončit hru používá sloty motoru 1 a 2 a může převzít kontrolu nad tímto enginem. Pokračovat?}
 translate C StopEngine {Zastavit hern program}
 translate C StartEngine {Spustit hern program}
 translate C LockEngine {Uzamt hern program v aktuln pozici}

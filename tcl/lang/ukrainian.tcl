@@ -724,6 +724,7 @@ translate Q Annotate {Анотуйте}
 translate Q ShowAnalysisBoard {Show analysis board}
 translate Q ShowInfo {Показати інформацію про двигун}
 translate Q FinishGame {Закінчити гру}
+translate Q FinishGameSlot2Warning {Слот двигуна 2 уже використовується відкритим вікном аналізу.\n\nFinish Game використовує слоти двигуна 1 і 2 і може взяти на себе контроль над цим механізмом. Продовжити?}
 translate Q StopEngine {Зупиніть двигун}
 translate Q StartEngine {Запустити двигун}
 translate Q LockEngine {Зафіксуйте двигун у поточному положенні}

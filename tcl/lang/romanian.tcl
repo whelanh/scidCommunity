@@ -764,6 +764,7 @@ translate L Annotate {Adnota}
 translate L ShowAnalysisBoard {Afișați panoul de analiză}
 translate L ShowInfo {Afișați informații despre motor}
 translate L FinishGame {Termină jocul}
+translate L FinishGameSlot2Warning {Slot pentru motor 2 este deja utilizat de o fereastră de analiză deschisă.\n\nFinish Game utilizează sloturile pentru motor 1 și 2 și poate prelua controlul asupra motorului respectiv. Continua?}
 translate L StopEngine {Opriți motorul}
 translate L StartEngine {Porniți motorul}
 translate L LockEngine {Blocați motorul în poziția curentă}

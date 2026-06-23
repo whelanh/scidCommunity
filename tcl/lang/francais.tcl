@@ -736,6 +736,7 @@ translate F Annotate {Annotation}
 translate F ShowAnalysisBoard {Montrer échiquier d'analyse}
 translate F ShowInfo {Montrer infos moteur}
 translate F FinishGame {Continuer la partie}
+translate F FinishGameSlot2Warning {L'emplacement de moteur 2 est déjà utilisé par une fenêtre d'analyse ouverte.\n\nFinish Game utilise les emplacements de moteur 1 et 2 et peut prendre le contrôle de ce moteur. Continuer?}
 translate F StopEngine {Arrêter le moteur}
 translate F StartEngine {Démarrer le moteur}
 translate F LockEngine {Verrouiller moteur à la position actuelle}

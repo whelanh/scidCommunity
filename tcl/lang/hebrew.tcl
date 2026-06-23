@@ -724,6 +724,7 @@ translate V Annotate {הערה}
 translate V ShowAnalysisBoard {הצג לוח ניתוח}
 translate V ShowInfo {הצג מידע על מנוע}
 translate V FinishGame {סיים משחק}
+translate V FinishGameSlot2Warning {חריץ מנוע 2 כבר נמצא בשימוש על ידי חלון ניתוח פתוח.\n\nFinish Game משתמש בחריצי מנוע 1 ו-2 ועשוי להשתלט על המנוע הזה. לְהַמשִׁיך?}
 translate V StopEngine {עצור מנוע}
 translate V StartEngine {הפעל מנוע}
 translate V LockEngine {נעל את המנוע למצב הנוכחי}

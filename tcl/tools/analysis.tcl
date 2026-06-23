@@ -1293,22 +1293,16 @@ proc makeAnalysisWin { {n 1} {index -1} {autostart 1}} {
     resetEngine $n
 
     if { $index < 0 } {
-        # engine selection dialog
-        set index [::enginelist::choose]
-        if { $index == "" ||  $index < 0 } { return }
-        catch {
-            ::enginelist::setTime $index
-        }
-    } else {
-        # F2, F3
-        set index [expr {$n - 1}]
+        # No engine specified: show the engine list. It opens the analysis
+        # window itself (in a free slot) once an engine is chosen.
+        ::enginelist::choose
+        return
     }
 
     set n_engines [llength $::engines(list)]
     if { $index >= $n_engines} {
         if { $n_engines > 0 } {
             tk_messageBox -message "Invalid Engine Number: [expr $index +1]"
-            makeAnalysisWin $n -1
         }
         return
     }
@@ -1890,6 +1884,14 @@ proc toggleFinishGame { { n 1 } } {
 		.analysisWin$n.b1.annotate configure -state normal
 		.analysisWin$n.b1.automove configure -state normal
 		return
+	}
+
+	# Safeguard: Finish Game uses engine slots 1 and 2. If slot 2 is already
+	# occupied by another Analysis window, warn before potentially taking it over.
+	if {[winfo exists .analysisWin2]} {
+		set ans [tk_messageBox -title "Scid: $::tr(FinishGame)" -icon warning -type okcancel \
+			-message $::tr(FinishGameSlot2Warning)]
+		if {$ans ne "ok"} { return }
 	}
 
 	set w .configFinishGame

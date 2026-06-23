@@ -174,6 +174,30 @@ proc engine.singleclick_ {{w} {x} {y}} {
         ::enginelist::sort [$w column $col -id]
     }
 }
+# ::enginelist::freeSlot
+#   Returns the lowest analysis-window slot number (>= 1) that is not
+#   currently in use, so that multiple analysis windows can coexist.
+#
+proc ::enginelist::freeSlot {} {
+    set n 1
+    while {[winfo exists ".analysisWin$n"]} { incr n }
+    return $n
+}
+
+# ::enginelist::openSelected
+#   Opens an analysis window for the engine currently selected in the
+#   engine list, using the lowest free slot. If closeList is true the
+#   engine list dialog is closed afterwards (OK / Return); otherwise it
+#   stays open so several engines can be launched (double-click).
+#
+proc ::enginelist::openSelected {{closeList 1}} {
+    set sel [lindex [.enginelist.list.list selection] 0]
+    if {$sel eq "" || $sel < 0} { return }
+    catch { ::enginelist::setTime $sel }
+    if {$closeList} { destroy .enginelist }
+    ::makeAnalysisWin [::enginelist::freeSlot] $sel
+}
+
 proc ::enginelist::choose {} {
     global engines
     set w .enginelist
@@ -200,7 +224,7 @@ proc ::enginelist::choose {} {
     # The list of choices:
     pack $w.list -side top -fill y -expand 1
     pack $w.buttons -side top -fill x -pady { 5 0 }
-    bind $w.list.list <Double-ButtonRelease-1> "$w.buttons.ok invoke; break"
+    bind $w.list.list <Double-ButtonRelease-1> "::enginelist::openSelected 0; break"
     bind $w.list.list <ButtonRelease-1> "engine.singleclick_ %W %x %y"
 
     set f $w.buttons
@@ -213,11 +237,9 @@ proc ::enginelist::choose {} {
     }
     ttk::label $f.sep -text "   "
     dialogbutton $f.ok -text "OK" -command {
-        set engines(selection) [lindex [.enginelist.list.list selection] 0]
-        destroy .enginelist
+        ::enginelist::openSelected 1
     }
     dialogbutton $f.cancel -text $::tr(Cancel) -command {
-        set engines(selection) ""
         destroy .enginelist
     }
     packbuttons right $f.cancel $f.ok
@@ -229,10 +251,6 @@ proc ::enginelist::choose {} {
     bind $w <F1> { helpWindow Analysis List }
     bind $w <Escape> "destroy $w"
     bind $w.list.list <Return> "$w.buttons.ok invoke; break"
-    set engines(selection) ""
-    catch {grab $w}
-    tkwait window $w
-    return $engines(selection)
 }
 
 # ::enginelist::setTime

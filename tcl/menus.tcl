@@ -256,7 +256,7 @@ $m  add command -label ToolsStartEngine1 \
     -command "::enginewin::start 1" -accelerator "F2"
 $m  add command -label ToolsStartEngine2 \
     -command "::enginewin::start 2" -accelerator "F3"
-$m  add command -label ToolsAnalysis -command "makeAnalysisWin 1"
+$m  add command -label ToolsAnalysis -command "::enginelist::choose"
 $m add separator
 $m add checkbutton -label ToolsFilterGraph \
     -accelerator "Ctrl+Shift+G" -variable filterGraph -command tools::graphs::filter::Open

@@ -733,6 +733,7 @@ translate O Annotate {Annoter}
 translate O ShowAnalysisBoard {Vis analysetavle}
 translate O ShowInfo {Vis motorinfo}
 translate O FinishGame {Fullfør spillet}
+translate O FinishGameSlot2Warning {Motorspor 2 er allerede i bruk av et åpent analysevindu.\n\nFinish Game bruker motorspor 1 og 2 og kan ta kontroll over denne motoren. Fortsette?}
 translate O StopEngine {Stopp motoren}
 translate O StartEngine {Start motoren}
 translate O LockEngine {Lås motoren til gjeldende posisjon}

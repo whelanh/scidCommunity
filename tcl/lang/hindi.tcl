@@ -723,6 +723,7 @@ translate h Annotate {एन्नोटेट}
 translate h ShowAnalysisBoard {विश्लेषण बोर्ड दिखाएँ}
 translate h ShowInfo {इंजन की जानकारी दिखाएँ}
 translate h FinishGame {खेल ख़त्म करो}
+translate h FinishGameSlot2Warning {इंजन स्लॉट 2 पहले से ही एक खुली विश्लेषण विंडो द्वारा उपयोग में है।\n\nफिनिश गेम इंजन स्लॉट 1 और 2 का उपयोग करता है और उस इंजन का नियंत्रण ले सकता है। जारी रखना?}
 translate h StopEngine {इंजन बंद करो}
 translate h StartEngine {इंजन प्रारंभ करें}
 translate h LockEngine {इंजन को वर्तमान स्थिति में लॉक करें}

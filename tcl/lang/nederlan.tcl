@@ -753,6 +753,7 @@ translate N Annotate {Annotatie}
 translate N ShowAnalysisBoard {Toon het analysebord}
 translate N ShowInfo {Toon engine informatie}
 translate N FinishGame {Beeindig de partij}
+translate N FinishGameSlot2Warning {Engine-slot 2 wordt al gebruikt door een geopend analysevenster.\n\nFinish Game gebruikt engine-slots 1 en 2 en kan de controle over die engine overnemen. Doorgaan?}
 translate N StopEngine {Stop de engine}
 translate N StartEngine {Start de engine}
 translate N LockEngine {Fixeer de engine op de huidige stelling}

@@ -730,6 +730,7 @@ translate R Annotate {Аннотация}
 translate R ShowAnalysisBoard {Показать доску анализа}
 translate R ShowInfo {Показать информацию движка}
 translate R FinishGame {Завершить партию}
+translate R FinishGameSlot2Warning {Слот движка 2 уже используется открытым окном анализа.\n\nЗавершить игру использует слоты движка 1 и 2 и может взять под свой контроль этот движок. Продолжать?}
 translate R StopEngine {Остановить движок}
 translate R StartEngine {Запустить движок}
 translate R LockEngine {Закрепить движок в этой позиции}

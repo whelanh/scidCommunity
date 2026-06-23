@@ -734,6 +734,7 @@ translate I Annotate {Annota}
 translate I ShowAnalysisBoard {Mostra la finestra dell'analisi}
 translate I ShowInfo {Mostra le informazioni del motore}
 translate I FinishGame {Termina la partita}
+translate I FinishGameSlot2Warning {Lo slot motore 2 è già utilizzato da una finestra di analisi aperta.\n\nFinisci gioco utilizza gli slot motore 1 e 2 e può prendere il controllo di quel motore. Continuare?}
 translate I StopEngine {Ferma il motore}
 translate I StartEngine {Avvia il motore}
 translate I LockEngine {Blocca il motore alla posizione corrente}
