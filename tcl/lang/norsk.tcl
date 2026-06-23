@@ -733,6 +733,7 @@ translate O Annotate {Annoter}
 translate O ShowAnalysisBoard {Vis analysetavle}
 translate O ShowInfo {Vis motorinfo}
 translate O FinishGame {Fullfør spillet}
+translate O FinishGameSlot2Warning {Motorspor 2 er allerede i bruk av et åpent analysevindu.\n\nFinish Game bruker motorspor 1 og 2 og kan ta kontroll over denne motoren. Fortsette?}
 translate O StopEngine {Stopp motoren}
 translate O StartEngine {Start motoren}
 translate O LockEngine {Lås motoren til gjeldende posisjon}
@@ -794,6 +795,7 @@ translate O EngineAddRemote {Legg til en ekstern motor}
 translate O EngineReload {Last inn gjeldende motor på nytt}
 translate O EngineClone {Lag en kopi av gjeldende motor}
 translate O EngineDelete {Slett gjeldende motor}
+translate O EngineOpenAnalysis {Åpne Analyse}
 
 # PGN window menus:
 menuText O PgnFile "Fil" 0

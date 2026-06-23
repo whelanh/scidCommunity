@@ -780,6 +780,7 @@ translate S Annotate {Anotar}
 translate S ShowAnalysisBoard {Mostrar tablero de análisis}
 translate S ShowInfo {Muestra info del motor}
 translate S FinishGame {Finalizar partida}
+translate S FinishGameSlot2Warning {La ranura del motor 2 ya está en uso en una ventana de Análisis abierta.\n\nFinish Game utiliza las ranuras del motor 1 y 2 y puede tomar el control de ese motor. ¿Continuar?}
 translate S StopEngine {Parar motor}
 translate S StartEngine {Empezar motor}
 translate S LockEngine {Bloquea motor en posición actual}
@@ -841,6 +842,7 @@ translate S EngineAddRemote {Agregar un motor remoto}
 translate S EngineReload {Recargar el motor actual}
 translate S EngineClone {Crear una copia del motor actual.}
 translate S EngineDelete {Eliminar el motor actual}
+translate S EngineOpenAnalysis {Análisis abierto}
 
 # PGN window menus:
 menuText S PgnFile "Archivo" 0

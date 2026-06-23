@@ -723,6 +723,7 @@ translate b Annotate {টীকা}
 translate b ShowAnalysisBoard {বিশ্লেষণ বোর্ড দেখান}
 translate b ShowInfo {ইঞ্জিনের তথ্য দেখান}
 translate b FinishGame {খেলা শেষ করুন}
+translate b FinishGameSlot2Warning {ইঞ্জিন স্লট 2 ইতিমধ্যেই একটি খোলা বিশ্লেষণ উইন্ডো ব্যবহার করছে৷\n\nফিনিশ গেমটি ইঞ্জিন স্লট 1 এবং 2 ব্যবহার করে এবং সেই ইঞ্জিনের নিয়ন্ত্রণ নিতে পারে৷ চালিয়ে যান?}
 translate b StopEngine {ইঞ্জিন বন্ধ করুন}
 translate b StartEngine {ইঞ্জিন চালু করুন}
 translate b LockEngine {বর্তমান অবস্থানে ইঞ্জিন লক করুন}
@@ -784,6 +785,7 @@ translate b EngineAddRemote {একটি দূরবর্তী ইঞ্জ�
 translate b EngineReload {বর্তমান ইঞ্জিন পুনরায় লোড করুন}
 translate b EngineClone {বর্তমান ইঞ্জিনের একটি অনুলিপি তৈরি করুন}
 translate b EngineDelete {বর্তমান ইঞ্জিন মুছুন}
+translate b EngineOpenAnalysis {খোলা বিশ্লেষণ}
 
 # PGN window menus:
 menuText b PgnFile "ফাইল" 0

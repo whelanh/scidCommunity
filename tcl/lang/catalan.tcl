@@ -749,6 +749,7 @@ translate K Annotate {Anotar}
 translate K ShowAnalysisBoard {Mostrar escaquer d'análisi}
 translate K ShowInfo {Mostra info del motor}
 translate K FinishGame {Finalitzar partida}
+translate K FinishGameSlot2Warning {L'espai de motor 2 ja està en ús per una finestra d'anàlisi oberta.\n\nFinalitza el joc utilitza els espais de motor 1 i 2 i pot prendre el control d'aquest motor. Continuar?}
 translate K StopEngine {Parar motor}
 translate K StartEngine {Iniciar motor}
 translate K LockEngine {Bloqueja motor en la posició actual}
@@ -810,6 +811,7 @@ translate K EngineAddRemote {Afegeix motor en remot}
 translate K EngineReload {Recarrega motor actual}
 translate K EngineClone {Crea una còpia del motor actual}
 translate K EngineDelete {Esborra el motor actual}
+translate K EngineOpenAnalysis {Anàlisi oberta}
 
 # PGN window menus:
 menuText K PgnFile "Arxiu" 0

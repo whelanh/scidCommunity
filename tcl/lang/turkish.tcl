@@ -727,6 +727,7 @@ translate T Annotate {Açıklama ekle}
 translate T ShowAnalysisBoard {Analiz panosunu göster}
 translate T ShowInfo {Motor bilgilerini göster}
 translate T FinishGame {Oyunu bitir}
+translate T FinishGameSlot2Warning {Motor yuvası 2 zaten açık bir Analiz penceresi tarafından kullanılıyor.\n\nOyunu Bitir, motor yuvaları 1 ve 2'yi kullanır ve bu motorun kontrolünü ele geçirebilir. Devam etmek?}
 translate T StopEngine {Motoru durdur}
 translate T StartEngine {Motoru çalıştır}
 translate T LockEngine {Motoru mevcut konuma kilitle}
@@ -788,6 +789,7 @@ translate T EngineAddRemote {Uzak motor ekleme}
 translate T EngineReload {Mevcut motoru yeniden yükleyin}
 translate T EngineClone {Geçerli motorun bir kopyasını oluşturun}
 translate T EngineDelete {Mevcut motoru sil}
+translate T EngineOpenAnalysis {Açık Analiz}
 
 # PGN window menus:
 menuText T PgnFile "Dosya" 0

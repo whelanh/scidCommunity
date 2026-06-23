@@ -764,6 +764,7 @@ translate k Annotate {달기}
 translate k ShowAnalysisBoard {분석판표시}
 translate k ShowInfo {엔진 정보 표시}
 translate k FinishGame {게임 종료}
+translate k FinishGameSlot2Warning {엔진 슬롯 2는 열려 있는 분석 창에서 이미 사용 중입니다.\n\nFinish Game은 엔진 슬롯 1과 2를 사용하며 해당 엔진을 제어할 수 있습니다. 계속하다?}
 translate k StopEngine {엔진 정지}
 translate k StartEngine {엔진의 변화}
 translate k LockEngine {엔진을 현재 위치로 고정}
@@ -825,6 +826,7 @@ translate k EngineAddRemote {원격 엔진 추가}
 translate k EngineReload {현재 엔진을 다시 로드합니다.}
 translate k EngineClone {현재 엔진의 활동을 참여합니다.}
 translate k EngineDelete {현재 엔진 삭제}
+translate k EngineOpenAnalysis {공개 분석}
 
 # PGN window menus:
 menuText k PgnFile "파일" 0

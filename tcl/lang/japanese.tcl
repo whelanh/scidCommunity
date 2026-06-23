@@ -764,6 +764,7 @@ translate A Annotate {Annotate}
 translate A ShowAnalysisBoard {分析ボードを表示する}
 translate A ShowInfo {エンジン情報を表示}
 translate A FinishGame {ゲームを終了する}
+translate A FinishGameSlot2Warning {エンジン スロット 2 は、開いている分析ウィンドウですでに使用されています。\n\nゲームを終了すると、エンジン スロット 1 と 2 が使用され、そのエンジンの制御が取得される可能性があります。続く？}
 translate A StopEngine {エンジンを停止する}
 translate A StartEngine {エンジンを始動する}
 translate A LockEngine {エンジンを現在の位置にロックする}
@@ -825,6 +826,7 @@ translate A EngineAddRemote {リモート エンジンを追加する}
 translate A EngineReload {現在のエンジンをリロードします}
 translate A EngineClone {現在のエンジンのコピーを作成する}
 translate A EngineDelete {現在のエンジンを削除します}
+translate A EngineOpenAnalysis {オープン分析}
 
 # PGN window menus:
 menuText A PgnFile "ファイル" 0

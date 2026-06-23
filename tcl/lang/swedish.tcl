@@ -734,6 +734,7 @@ translate W Annotate {Kommentera}
 translate W ShowAnalysisBoard {Visa Analysbräde}
 translate W ShowInfo {Visa schackmotorinformation}
 translate W FinishGame {Avsluta parti}
+translate W FinishGameSlot2Warning {Motorplats 2 används redan av ett öppet analysfönster.\n\nFinish Game använder motorplats 1 och 2 och kan ta kontroll över den motorn. Fortsätta?}
 translate W StopEngine {Stoppa schackmotor}
 translate W StartEngine {Starta schackmotor}
 translate W LockEngine {Lås schackmotor vid nuvarande position}
@@ -795,6 +796,7 @@ translate W EngineAddRemote {Lägg till en fjärrmotor}
 translate W EngineReload {Ladda om den nuvarande motorn}
 translate W EngineClone {Skapa en kopia av den aktuella motorn}
 translate W EngineDelete {Ta bort den aktuella motorn}
+translate W EngineOpenAnalysis {Öppna Analys}
 
 # PGN window menus:
 menuText W PgnFile "Fil" 0

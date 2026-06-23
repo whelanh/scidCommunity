@@ -731,6 +731,7 @@ translate H Annotate {Lásd el értékelõ jelekkel}
 translate H ShowAnalysisBoard {Mutasd az elemzõtáblát}
 translate H ShowInfo {Mutasd a motor kiírásait}
 translate H FinishGame {Fejezd be a játszmát}
+translate H FinishGameSlot2Warning {A 2. motorhelyet már használja egy megnyitott elemzési ablak.\n\nA játék befejezése az 1. és 2. motorhelyet használja, és átveheti az irányítást a motor felett. Folytatja?}
 translate H StopEngine {Állítsd le a motort}
 translate H StartEngine {Indítsd el a motort}
 translate H LockEngine {Tartsd a motort ennél az állásnál}
@@ -792,6 +793,7 @@ translate H EngineAddRemote {Adjon hozzá egy távoli motort}
 translate H EngineReload {Töltse be újra az aktuális motort}
 translate H EngineClone {Készítsen másolatot az aktuális motorról}
 translate H EngineDelete {Törölje az aktuális motort}
+translate H EngineOpenAnalysis {Nyissa meg az Elemzést}
 
 # PGN window menus:
 menuText H PgnFile "Fájl" 0

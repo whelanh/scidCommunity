@@ -736,6 +736,7 @@ translate B Annotate {Anotar}
 translate B ShowAnalysisBoard {Mostrar tabuleiro de análise}
 translate B ShowInfo {Mostrar informações do engine}
 translate B FinishGame {Encerrar jogo}
+translate B FinishGameSlot2Warning {O slot 2 do mecanismo já está em uso por uma janela de análise aberta.\n\nConcluir O jogo usa os slots 1 e 2 do mecanismo e pode assumir o controle desse mecanismo. Continuar?}
 translate B StopEngine {Parar engine}
 translate B StartEngine {Iniciar engine}
 translate B LockEngine {Travar engine na posição corrente}
@@ -797,6 +798,7 @@ translate B EngineAddRemote {Adicionar um mecanismo remoto}
 translate B EngineReload {Recarregue o mecanismo atual}
 translate B EngineClone {Crie uma cópia do mecanismo atual}
 translate B EngineDelete {Exclua o mecanismo atual}
+translate B EngineOpenAnalysis {Análise aberta}
 
 # PGN window menus:
 menuText B PgnFile "Arquivo" 0

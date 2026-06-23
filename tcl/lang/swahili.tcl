@@ -723,6 +723,7 @@ translate Z Annotate {Dokeza}
 translate Z ShowAnalysisBoard {Onyesha ubao wa uchambuzi}
 translate Z ShowInfo {Onyesha habari ya injini}
 translate Z FinishGame {Maliza mchezo}
+translate Z FinishGameSlot2Warning {Nafasi ya injini 2 tayari inatumika kwenye dirisha lililofunguliwa la Uchambuzi.\n\nFinish Game hutumia nafasi za injini 1 na 2 na inaweza kuchukua udhibiti wa injini hiyo. Ungependa kuendelea?}
 translate Z StopEngine {Simamisha injini}
 translate Z StartEngine {Anza injini}
 translate Z LockEngine {Funga injini kwa nafasi ya sasa}
@@ -784,6 +785,7 @@ translate Z EngineAddRemote {Ongeza injini ya mbali}
 translate Z EngineReload {Pakia tena injini ya sasa}
 translate Z EngineClone {Unda nakala ya injini ya sasa}
 translate Z EngineDelete {Futa injini ya sasa}
+translate Z EngineOpenAnalysis {Fungua Uchambuzi}
 
 # PGN window menus:
 menuText Z PgnFile "Faili" 0

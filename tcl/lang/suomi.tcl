@@ -762,6 +762,7 @@ translate U Annotate {Kommentoi}
 translate U ShowAnalysisBoard {Näytä analyysilauta}
 translate U ShowInfo {Näytä tiedot moottorista}
 translate U FinishGame {Lopeta peli}
+translate U FinishGameSlot2Warning {Moottoripaikka 2 on jo avoimen analyysiikkunan käytössä.\n\nFinish Game käyttää moottorin paikkoja 1 ja 2 ja saattaa ottaa kyseisen moottorin hallintaansa. Jatkaa?}
 translate U StopEngine {Pysäytä moottori}
 translate U StartEngine {Käynnistä moottori}
 translate U LockEngine {Lukitse moottori nykyiseen asemaan}
@@ -823,6 +824,7 @@ translate U EngineAddRemote {Lisää etämoottori}
 translate U EngineReload {Lataa nykyinen moottori uudelleen}
 translate U EngineClone {Luo kopio nykyisestä moottorista}
 translate U EngineDelete {Poista nykyinen moottori}
+translate U EngineOpenAnalysis {Avaa analyysi}
 
 # PGN window menus:
 menuText U PgnFile "Tiedosto" 0

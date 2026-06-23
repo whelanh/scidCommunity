@@ -755,6 +755,7 @@ translate G Annotate {Υπομνηματισμός}
 translate G ShowAnalysisBoard {Εμφάνισης της σκακιέρας ανάλυσης}
 translate G ShowInfo {Εμφάνιση πληροφοριών μηχανής}
 translate G FinishGame {Ολοκλήρωση παρτίδας}
+translate G FinishGameSlot2Warning {Η υποδοχή 2 του κινητήρα χρησιμοποιείται ήδη από ένα ανοιχτό παράθυρο ανάλυσης.\n\nΤο Finish Game χρησιμοποιεί τις υποδοχές 1 και 2 του κινητήρα και μπορεί να αναλάβει τον έλεγχο αυτού του κινητήρα. Συνεχίζω;}
 translate G StopEngine {Διακοπή μηχανής}
 translate G StartEngine {Εκκίνηση μηχανής}
 translate G LockEngine {Κλείδωμα της μηχανής στην τρέχουσα θέση}
@@ -816,6 +817,7 @@ translate G EngineAddRemote {Προσθέστε έναν απομακρυσμέ�
 translate G EngineReload {Φορτώστε ξανά τον τρέχοντα κινητήρα}
 translate G EngineClone {Δημιουργήστε ένα αντίγραφο του τρέχοντος κινητήρα}
 translate G EngineDelete {Διαγράψτε τον τρέχοντα κινητήρα}
+translate G EngineOpenAnalysis {Ανοιχτή Ανάλυση}
 
 # PGN window menus:
 menuText G PgnFile "Αρχείο" 0

@@ -1139,6 +1139,8 @@ translate Y ShowInfo {Show engine info}
 # ====== TODO To be translated ======
 translate Y FinishGame {Finish game}
 # ====== TODO To be translated ======
+translate Y FinishGameSlot2Warning {Engine slot 2 is already in use by an open Analysis window.\n\nFinish Game uses engine slots 1 and 2 and may take control of that engine. Continue?}
+# ====== TODO To be translated ======
 translate Y StopEngine {Stop engine}
 # ====== TODO To be translated ======
 translate Y StartEngine {Start engine}
@@ -1250,6 +1252,8 @@ translate Y EngineReload {Reload the current engine}
 translate Y EngineClone {Create a copy of the current engine}
 # ====== TODO To be translated ======
 translate Y EngineDelete {Delete the current engine}
+# ====== TODO To be translated ======
+translate Y EngineOpenAnalysis {Open Analysis}
 # ====== TODO To be translated ======
 menuText Y PgnFile "File" 0
 # ====== TODO To be translated ======

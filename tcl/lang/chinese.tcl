@@ -699,6 +699,7 @@ translate M Annotate {注释}
 translate M ShowAnalysisBoard {Show analysis board}
 translate M ShowInfo {Show engine info}
 translate M FinishGame {Finish game}
+translate M FinishGameSlot2Warning {引擎槽 2 已被打开的分析窗口使用。\n\n完成游戏使用引擎槽 1 和 2，并可能控制该引擎。继续？}
 translate M StopEngine {Stop engine}
 translate M StartEngine {Start engine}
 translate M LockEngine {Lock engine to current position}
@@ -760,6 +761,7 @@ translate M EngineAddRemote {Add a remote engine}
 translate M EngineReload {Reload the current engine}
 translate M EngineClone {Create a copy of the current engine}
 translate M EngineDelete {Delete the current engine}
+translate M EngineOpenAnalysis {开放分析}
 
 # PGN window menus:
 menuText M PgnFile "直线" 0
