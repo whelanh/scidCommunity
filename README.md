@@ -46,6 +46,7 @@ While it maintains compatibility with the original Scid database formats, **scid
 23. Thanks to a [user suggestion](https://github.com/whelanh/scidCommunity/discussions/123), a new **Lichess OpenExplorer** button has been added to the **PGN Window** that provides access to the Lichess Opening Explorer data from the Masters, Lichess, and Player databases.
 24. New [engine vs. engine tournament feature](https://github.com/whelanh/scidCommunity/discussions/162) and [PGN Viewer](https://github.com/whelanh/scidCommunity/discussions/161) adopted from [Uwe Klimmek](https://codeberg.org/scid/scid) 
 25. Daily chess puzzle and more puzzles from Lichess with the new [**Lichess Puzzles**](https://github.com/whelanh/scidCommunity/discussions/167) feature under the **Play** menu.
+26. Based on a [user request](https://github.com/whelanh/scidCommunity/discussions/176), it is now possible to open an arbitrarily large number of **Analysis Windows** by double clicking the engines in the **Configure Engines** or **Analysis Window..** pop up dialogs.
 
 *Users with suggestions for further enhancements are welcome to write something in the Discussion section or submit a pull request.  Enjoy!*
 
