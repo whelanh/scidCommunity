@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.3.57
+Version:        5.1.3.58
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit f6f7d6414f73fee5da63dd9efbbd30262db97c9a
+%global commit 1c45a63ce4843388fd565344d1fb6908e8e42b2e
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Fri Jun 26, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-58
+- "Include user-corrected Polish translation file"
 * Tue Jun 23, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-57
 - "Allow multiple simultaneous Analysis Windows"
 * Tue Jun 16, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-56
