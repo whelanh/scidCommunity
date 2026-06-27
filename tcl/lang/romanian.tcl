@@ -1903,3 +1903,138 @@ translate L TBCategory {Categoria postului:}
 translate L TBTrainingHidden {(Modul de antrenament; rezultatele sunt ascunse)}
 }
 # end of english.tcl
+
+
+############################################################
+#
+# Romanian tip of the day
+# Machine-translated scaffold - please review and correct.
+
+set tips(L) {
+  {
+    scidCommunity are peste 40 <a Index>pagini de ajutor </a>, iar în majoritatea ferestrelor scidCommunity, apăsarea tastei <b>F1</b> va produce pagina de ajutor despre acea fereastră.
+  }
+  {
+    Unele ferestre scidCommunity (de exemplu, zona de informații despre joc, baza de date <a Switcher>comutator</a>) au un meniu cu butonul dreapta al mouse-ului. Încercați să apăsați butonul din dreapta al mouse-ului în fiecare fereastră pentru a vedea dacă are una și ce funcții sunt disponibile.
+  }
+  {
+    scidCommunity vă oferă mai mult de o modalitate de a introduce mișcări de șah, permițându-vă să alegeți care vi se potrivește cel mai bine. Puteți folosi mouse-ul (cu sau fără sugestie de mutare) sau tastatura (cu sau fără finalizarea mișcării). Citiți pagina de ajutor <a Moves> introducerea mutărilor de șah </a> pentru detalii.
+  }
+  {
+    Dacă aveți câteva baze de date pe care le deschideți des, adăugați un <a Bookmarks>marcaj</a> pentru fiecare și apoi le veți putea deschide mai rapid folosind meniul de marcaje.
+  }
+  {
+    Puteți urmări turneele majore de șah în timp real folosind funcția <b>Open Lichess Tournament </b> din meniul <b>File</b>. scidCommunity va monitoriza și actualiza automat jocurile live pentru tine.
+  }
+  {
+    Puteți vedea toate mișcările jocului curent (cu orice variații și comentarii) folosind fereastra <a PGN>PGN </a>. În fereastra PGN, puteți merge la orice mișcare făcând clic pe butonul stâng al mouse-ului sau utilizați butonul din mijloc sau dreapta pentru a vedea o previzualizare a acelei poziții.
+  }
+  {
+    Puteți copia jocuri dintr-o bază de date în alta folosind drag and drop cu butonul stâng al mouse-ului în fereastra <a Switcher>database switcher</a>.
+  }
+  {
+    scidCommunity poate deschide fișiere PGN, chiar dacă sunt comprimate cu Gzip (cu un sufix de nume de fișier .gz). Fișierele PGN sunt deschise numai în citire, așa că, dacă doriți să editați un fișier PGN în scidCommunity, creați o nouă bază de date scidCommunity și copiați jocurile cu fișiere PGN în ea folosind <a Switcher>comutator de baze de date</a>.
+  }
+  {
+    Dacă aveți o bază de date mare pe care o utilizați cu fereastra <a Tree>arborele</a> des, merită să selectați <b>Umpleți fișierul cache </b> din meniul Fișier din fereastra arborescentă. Acest lucru va aminti statisticile arborelui pentru multe poziții de deschidere comune, făcând accesul arborilor mai rapid pentru baza de date.
+  }
+  {
+    The <a Tree>copac</a> fereastra vă poate afișa toate mișcările jucate din poziția curentă, dar dacă doriți să vedeți și toate ordinele de mutare care au ajuns în această poziție, le puteți găsi prin generarea unui <a OpReport>raport de deschidere</a>.
+  }
+  {
+    Pentru a importa rapid propriile jocuri de pe site-uri online, utilizați <b>Import my Lichess</b> sau <b>Import my chess.com</b> din meniul <b>File</b>. Pur și simplu introduceți numele de utilizator și o dată de începere pentru a vă descărca jocurile cu metadate complete.
+  }
+  {
+    În fereastra <a GameList>listă de jocuri </a>, apăsați butonul stânga sau dreapta al mouse-ului de pe antetul fiecărei coloane pentru a-i ajusta lățimea.
+  }
+  {
+    Cu <a PInfo>informațiile jucătorului</a> fereastra (doar faceți clic pe numele fiecărui jucător în zona de informații despre joc de sub tabla de șah din fereastra principală pentru a o deschide), puteți seta cu ușurință <a Searches Filter>filtra</a> pentru a conține toate jocurile unui anumit jucător cu un anumit rezultat făcând clic pe orice valoare care este afișată <red>în text roșu</red>.
+  }
+  {
+    Când studiezi o deschidere, poate fi foarte util să faci o <a Searches Board>căutare de tablă </a> cu opțiunea <b>Pioni</b> sau <b>Files</b> pe o poziție importantă de deschidere, deoarece aceasta poate dezvălui alte deschideri care ajung la aceeași structură de pion.
+  }
+  {
+    În zona de informații despre joc (sub tabla de șah), puteți apăsa butonul din dreapta al mouse-ului pentru a crea un meniu pentru personalizarea acestuia. De exemplu, puteți face ca scidCommunity să ascundă următoarea mișcare, care este utilă pentru antrenament, jucând printr-un joc ghicind mișcările.
+  }
+  {
+    Dacă faci adesea multe baze de date <a Maintenance>întreţinere</a> pe o bază de date mare, puteți face mai multe lucrări de întreținere simultan folosind <a Maintenance Cleaner>mai curat</a>.
+  }
+  {
+    Fereastra <a PGN>PGN </a> include butoane de acces rapid pentru a încărca jocul curent pe <b>Lichess.org</b> sau <b>Chess.com</b>. Acest lucru vă permite să utilizați instantaneu funcțiile lor puternice de analiză și partajare a motorului bazat pe cloud.
+  }
+  {
+    Dacă aveți o bază de date mare în care majoritatea jocurilor au un EventDate și doriți jocurile în ordinea datei, luați în considerare <a Sorting>sortarea </a> după EventDate apoi Eveniment în loc de Data apoi Eveniment, deoarece acest lucru va ajuta să păstrați jocurile în același turneu cu date diferite împreună (presupunând că toate au aceeași Data Eveniment, desigur).
+  }
+  {
+    Înainte de <a Maintenance Twins> să ștergeți jocurile gemene </a>, este o idee bună să <a Maintenance Spellcheck>verificați ortografic</a> baza de date, deoarece acest lucru va permite scidCommunity să găsească mai mulți gemeni și să le marcheze pentru ștergere.
+  }
+  {
+    <a Flags>Steaguri</a> sunt utile pentru marcarea jocurilor de baze de date cu caracteristici pe care poate doriți să le căutați mai târziu, cum ar fi structura pionilor, tactici etc. Puteți căuta după steaguri cu un <a Searches Header>căutarea antetului</a>.
+  }
+  {
+    Dacă jucați un joc și doriți să încercați unele mișcări fără a modifica jocul, pur și simplu porniți modul de încercare (cu comanda rapidă <b>Ctrl+spațiu </b> sau din pictograma barei de instrumente), apoi dezactivați-l din nou pentru a reveni la jocul original când ați terminat.
+  }
+  {
+    Pentru a găsi cele mai proeminente jocuri (cu adversarii cu cotații ridicate) care ajung într-o anumită poziție, deschideți fereastra <a Tree>arborele</a> și de acolo deschideți lista celor mai bune jocuri. Puteți chiar să restricționați lista de cele mai bune jocuri pentru a afișa numai jocurile cu un anumit rezultat.
+  }
+  {
+    Utilizați butonul <b>Chessdb Engine Tree</b> din fereastra <a PGN>PGN</a> pentru a consulta baza de date cloud <b>ChessDB.cn</b>. Conține miliarde de poziții pre-analizate și evaluări computerizate pentru aproape orice deschidere.
+  }
+  {
+    O modalitate excelentă de a studia o deschidere folosind o bază de date mare de jocuri este să activați modul de antrenament în fereastra <a Tree>arborele </a>, apoi să jucați împotriva bazei de date pentru a vedea ce linii apar des.
+  }
+  {
+    Dacă aveți două baze de date deschise și doriți să vedeți statisticile <a Tree>arborele</a> ale primei baze de date în timp ce examinați un joc din a doua bază de date, trebuie doar să apăsați butonul <b>Lock</b> din fereastra arborelui pentru a o bloca în prima bază de date și apoi treceți la a doua bază.
+  }
+  {
+    The <a Tmt>găsitor de turnee</a> nu este utilă numai pentru a găsi un anumit turneu, dar poate fi folosit și pentru a vedea în ce turnee a concurat recent un anumit jucător sau pentru a răsfoi cele mai bune turnee jucate într-o anumită țară.
+  }
+  {
+    Există o serie de modele comune definite în fereastra de căutare <a Searches Material>Material/Pattern</a> pe care le puteți găsi utile pentru deschideri sau pentru studiul jocurilor de mijloc.
+  }
+  {
+    Când căutați o anumită situație materială în fereastra de căutare <a Searches Material>Material/Pattern</a>, este adesea util să restricționați căutarea la jocurile care se potrivesc pentru cel puțin câteva jumătăți de mișcare pentru a elimina jocurile în care situația căutată a avut loc doar pentru scurt timp.
+  }
+  {
+    Dacă ajungeți la un final de joc cu 7 sau mai puține piese, faceți clic pe butonul <b>Base de masă </b> din fereastra <a PGN>PGN </a> pentru a obține o analiză perfectă din bazele de masă Lichess.
+  }
+  {
+    Dacă aveți o bază de date importantă pe care nu doriți să o modificați accidental, selectați <b>Numai citire...</b> din meniul <b>Fișier</b> după deschiderea acesteia sau modificați permisiunile pentru fișiere pentru a fi doar pentru citire.
+  }
+  {
+    Dacă utilizați XBoard sau WinBoard (sau un alt program de șah care poate copia o poziție de șah în notație standard FEN în clipboard) și doriți să copiați poziția actuală de șah în scidCommunity, cel mai rapid și mai simplu mod este să selectați <b>Copiați poziția</b> din meniul Fișier din XBoard/WinBoard, apoi <b>Lipiți tabla de pornire</b> din meniul Editare din scidCommunity.
+  }
+  {
+    Într-o <a Searches Header>căutarea antetului</a>, numele jucătorilor/evenimentelor/site-ului/rundei nu țin cont de majuscule și minuscule și se potrivesc oriunde într-un nume. În schimb, puteți alege să efectuați o căutare cu caractere joker care distinge majuscule și minuscule (unde „?” = orice caracter și „*” = zero sau mai multe caractere) introducând textul de căutare „între ghilimele”. De exemplu, tastați „*BEL” (cu ghilimele) în câmpul site-ului pentru a găsi toate jocurile jucate în Belgia, dar nu în Belgrad.
+  }
+  {
+    Dacă doriți să corectați o mișcare într-un joc fără a pierde toate mișcările jucate după aceasta, deschideți fereastra <a Import>Import</a>, apăsați butonul <b>Lipiți jocul curent</b>, editați mișcarea incorectă și apoi apăsați <b>Import</b>.
+  }
+  {
+    Dacă aveți încărcat un fișier de clasificare ECO, puteți merge la cea mai profundă poziție clasificată din jocul curent cu <b>Identify opening</b> în meniul <b>Game</b> (comandă rapidă: Ctrl+Shift+D).
+  }
+  {
+    Fiți la curent cu cele mai recente jocuri din întreaga lume utilizând <b>Descărcați jocuri TWIC</b> din meniul <b>Tools</b>. Se descarcă automat și deschide cel mai recent PGN săptămânal de la <b>The Week In Chess </b>.
+  }
+  {
+    Dacă doriți să verificați dimensiunea unui fișier sau data ultimei modificări înainte de a-l deschide, utilizați <a Finder>găsitor de fișiere</a> să-l deschidă.
+  }
+  {
+    Un <a OpReport>raport de deschidere</a> este excelent pentru a afla mai multe despre o anumită poziție. Puteți vedea cât de bine marchează, dacă duce la extrageri scurte frecvente și teme poziționale comune.
+  }
+  {
+    Puteți adăuga cele mai comune simboluri de adnotare (!, !?, +=, etc) la mișcarea sau poziția curentă cu comenzile rapide de la tastatură fără a fi nevoie să utilizați editorul de comentarii <a Comment> <a> -- de exemplu, tastați „!” apoi tasta Return pentru a adăuga un „!” simbol de adnotare. Consultați pagina de ajutor <a Moves>Introducerea mutărilor de șah </a> pentru detalii.
+  }
+  {
+    Dacă răsfoiți deschideri într-o bază de date cu <a Tree>copac</a>, puteți vedea o imagine de ansamblu utilă a cât de bine a punctat deschiderea curentă recent și între jucătorii cu rating ridicat, deschizând fereastra Statistici (comandă rapidă: Ctrl+I).
+  }
+  {
+    În <b>Browser de jocuri</b> fereastra, puteți modifica dimensiunea plăcii ținând apăsată tasta <b>Ctrl</b> şi <b>Schimbare</b> tastele și apăsând tasta <b>Stânga</b> sau <b>Corect</b> tasta săgeată.
+  }
+  {
+    După o <a Searches>căutare</a>, puteți răsfoi cu ușurință prin toate jocurile potrivite ținând apăsat <b>Ctrl</b> și apăsând butonul <b>Sus</b> sau <b>Jos</b> tasta pentru a încărca precedentul sau următorul <a Searches Filter>filtra</a> joc.
+  }
+  {
+    Windows poate fi andocat prin verificarea intrării relevante din meniul de opțiuni. Filele pot fi trase și plasate dintr-un blocnotes în altul și așezate făcând clic dreapta pe widgetul file.
+  }
+}

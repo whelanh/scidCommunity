@@ -1885,3 +1885,138 @@ translate H TBCategory {Pozíció kategória:}
 translate H TBTrainingHidden {(edzési mód; az eredmények rejtettek)}
 }
 # end of english.tcl
+
+
+############################################################
+#
+# Hungarian tip of the day
+# Machine-translated scaffold - please review and correct.
+
+set tips(H) {
+  {
+    A scidCommunity több mint 40 <a Index> súgóoldallal </a> rendelkezik, és a legtöbb scidCommunity ablakban a <b>F1</b> billentyű lenyomása az adott ablakról szóló súgóoldalt hozza létre.
+  }
+  {
+    Néhány scidCommunity ablak (például a játék információs területe, adatbázis <a Switcher> kapcsoló </a>) rendelkezik jobb egérgombos menüvel. Próbálja meg megnyomni a jobb egérgombot minden ablakban, hogy megnézze, van-e ilyen, és milyen funkciók érhetők el.
+  }
+  {
+    A scidCommunity egynél több módot kínál a sakklépések megadására, így kiválaszthatja, melyik a legmegfelelőbb. Használhatja az egeret (mozgatási javaslattal vagy anélkül) vagy a billentyűzetet (mozgatás befejezésével vagy anélkül). A részletekért olvassa el a <a Moves> sakklépések megadása </a> súgóoldalt.
+  }
+  {
+    Ha van néhány gyakran megnyitott adatbázisa, mindegyikhez adjon hozzá egy <a Bookmarks> könyvjelzőt </a>, és a könyvjelzők menü segítségével gyorsabban nyithatja meg őket.
+  }
+  {
+    A nagyobb sakkversenyeket valós időben követheti a <b>Open Lichess Tournament</b> funkció segítségével a <b>File</b> menüben. A scidCommunity automatikusan felügyeli és frissíti az élő játékokat.
+  }
+  {
+    A <a PGN>PGN ablak </a> segítségével megtekintheti az aktuális játék összes lépését (bármilyen változattal és megjegyzéssel). A PGN ablakban a bal egérgombbal kattintva bármelyik lépéshez ugorhat, vagy a középső vagy jobb egérgombbal megtekintheti az adott pozíció előnézetét.
+  }
+  {
+    A <a Switcher>adatbázis-váltó</a> ablakban a bal egérgombbal húzással másolhat játékokat egyik adatbázisból a másikba.
+  }
+  {
+    A scidCommunity meg tudja nyitni a PGN fájlokat, még akkor is, ha azok Gzip-fájllal vannak tömörítve (.gz fájlnév utótaggal). A PGN fájlok csak olvasható módon vannak megnyitva, ezért ha szerkeszteni szeretne egy PGN fájlt a scidCommunity alkalmazásban, hozzon létre egy új scidCommunity adatbázist, és másolja át a PGN fájljátékokat a <a Switcher> adatbázisváltó </a> segítségével.
+  }
+  {
+    Ha nagy adatbázisunk van, amelyet gyakran használunk a <a Tree>tree</a> ablakkal, akkor érdemes a faablak Fájl menüjéből kiválasztani a <b>Cache file kitöltése</b> lehetőséget. Ez megjegyzi a fa statisztikáit számos gyakori nyitási pozícióhoz, ami gyorsabbá teszi az adatbázis elérését.
+  }
+  {
+    A <a Tree>fa</a> ablak megjelenítheti az összes lejátszott lépést az aktuális pozícióból, de ha szeretné látni az összes mozgási parancsot is, amely elérte ezt a pozíciót, akkor megtalálhatja őket egy <a OpReport> nyitójelentés </a> generálásával.
+  }
+  {
+    Saját játékainak online webhelyekről történő gyors importálásához használja a <b>Import my Lichess</b> vagy <b>Import my chess.com</b> parancsot a <b>Fájl</b> menüből. Egyszerűen adja meg felhasználónevét és kezdési dátumát, hogy letöltse a játékait a teljes metaadatokkal együtt.
+  }
+  {
+    A <a GameList>játéklista</a> ablakban nyomja meg a bal vagy jobb egérgombot az egyes oszlopok fejlécén a szélességének beállításához.
+  }
+  {
+    A <a PInfo>játékos információs </a> ablakkal (csak kattintson bármelyik játékos nevére a főablak sakktábla alatti játékinformációs területen) egyszerűen beállíthatja a <a Searches Filter> szűrőt </a>, hogy egy adott játékos összes játékát tartalmazza egy bizonyos eredménnyel, ha rákattint bármely értékre, amely <red> piros szöveggel jelenik meg </red>.
+  }
+  {
+    Egy nyílás tanulmányozásakor nagyon hasznos lehet egy <a Searches Board> táblakeresés </a> a <b>Pawns</b> vagy <b>Files</b> opcióval egy fontos nyitópozíción, mivel ez más nyílásokat is felfedhet, amelyek elérik ugyanazt a gyalogszerkezetet.
+  }
+  {
+    A játék információs területen (a sakktábla alatt) a jobb egérgomb megnyomásával létrehozhat egy menüt a testreszabáshoz. Például beállíthatja, hogy a scidCommunity elrejtse a következő lépést, ami hasznos az edzéshez úgy, hogy egy játékon keresztül kitalálja a mozdulatokat.
+  }
+  {
+    Ha gyakran végez sok adatbázis <a Maintenance> karbantartást </a> egy nagy adatbázison, akkor egyszerre több karbantartási feladatot is elvégezhet a <a Maintenance Cleaner> Cleaner </a> segítségével.
+  }
+  {
+    A <a PGN>PGN ablak </a> gyorselérési gombokkal rendelkezik, amelyekkel feltöltheti aktuális játékát a <b>Lichess.org</b> vagy <b>Chess.com</b> oldalra. Ez lehetővé teszi a hatékony felhőalapú motorelemzési és -megosztási funkciók azonnali használatát.
+  }
+  {
+    Ha van egy nagy adatbázisa, ahol a legtöbb játéknak van EventDate, és szeretné, hogy a játékok dátum szerinti sorrendben legyenek, fontolja meg <a Sorting> rendezését </a> EseményDátum, majd Esemény szerint a Dátum, majd Esemény helyett, mivel ez segít abban, hogy a játékokat ugyanazon a versenyen tartsák, különböző dátumokkal (természetesen feltéve, hogy mindegyiknek ugyanaz az eseménydátuma).
+  }
+  {
+    Mielőtt <a Maintenance Twins> törölné az ikerjátékokat </a>, célszerű <a Maintenance Spellcheck> helyesírás-ellenőrzést</a> elvégezni az adatbázisban, mivel ez lehetővé teszi a scidCommunity számára, hogy további ikreket találjon, és megjelölje őket törlésre.
+  }
+  {
+    <a Flags> A zászlók </a> hasznosak az adatbázisjátékok olyan jellemzőkkel való megjelölésére, amelyekre később érdemes lehet keresni, mint például a gyalogszerkezet, taktika stb. A <a Searches Header> fejléckereséssel </a> kereshet zászlók alapján.
+  }
+  {
+    Ha végigjátszod a játékot, és szeretnél kipróbálni néhány mozdulatot a játék megváltoztatása nélkül, egyszerűen kapcsold be a Próba módot (a <b>Ctrl+szóköz</b> parancsikonnal vagy az eszköztár ikonjáról), majd kapcsold ki ismét, hogy visszatérj az eredeti játékhoz, ha végzett.
+  }
+  {
+    Ha meg szeretné keresni a legjelentősebb játékokat (magasan értékelt ellenfelekkel), amelyek elértek egy adott pozíciót, nyissa meg a <a Tree>tree</a> ablakot, és onnan nyissa meg a legjobb játékok listáját. Még a legjobb játékok listáját is korlátozhatja, hogy csak az adott eredménnyel rendelkező játékok jelenjenek meg.
+  }
+  {
+    Használja a <b>chessdb Motorfa</b> gombot a <a PGN>PGN ablak</a> konzultálni a <b>ChessDB.cn</b> felhő adatbázis. Több milliárd előre elemzett pozíciót és számítógépes értékelést tartalmaz szinte minden nyitáshoz.
+  }
+  {
+    Nagyszerű módja annak, hogy egy megnyitást tanulmányozzon egy nagy játékadatbázis segítségével, ha bekapcsolja a képzési módot a <a Tree>tree</a> ablakban, majd az adatbázis ellen játszva megnézi, mely vonalak fordulnak elő gyakran.
+  }
+  {
+    Ha két adatbázis van nyitva, és az első adatbázis <a Tree>fa</a> statisztikáit szeretné látni, miközben egy játékot a második adatbázisból vizsgál, csak nyomja meg a <b>Lock</b> gombot a faablakban, hogy zárolja az első adatbázishoz, majd váltson a második bázisra.
+  }
+  {
+    A <a Tmt> versenykereső </a> nem csak egy adott verseny megkeresésére használható, hanem arra is használható, hogy megnézze, milyen versenyeken vett részt a közelmúltban egy adott játékos, vagy böngésszen az adott országban lejátszott legjobb versenyek között.
+  }
+  {
+    A <a Searches Material>Material/Pattern</a> keresőablakban számos gyakori minta van meghatározva, amelyeket hasznosnak találhatsz nyitáskor vagy középjátékos tanulmányozáskor.
+  }
+  {
+    Amikor a <a Searches Material>Material/Pattern</a> keresőablakban egy adott anyagi helyzetet keresünk, gyakran hasznos a keresést olyan játékokra korlátozni, amelyek legalább néhány félmozdulattal megegyeznek, hogy kiküszöböljük azokat a játékokat, ahol a keresett helyzet csak rövid ideig fordult elő.
+  }
+  {
+    Ha egy végjátékhoz érsz 7 vagy kevesebb darabbal, kattints a <b>Table Base</b> gombra a <a PGN>PGN ablakban</a>, hogy tökéletes elemzést kapj a Lichess végjáték táblabázisaiból.
+  }
+  {
+    Ha van egy fontos adatbázisa, amelyet nem szeretne véletlenül megváltoztatni, válassza a lehetőséget <b>Csak olvasható...</b> a <b>Fájl</b> menü megnyitása után, vagy módosítsa a fájljogosultságait írásvédettre.
+  }
+  {
+    Ha XBoard-ot vagy WinBoard-ot használ (vagy más olyan sakkprogramot, amely képes a vágólapra másolni egy sakkpozíciót szabványos FEN-jelöléssel) és át szeretné másolni az aktuális sakkpozíciót a scidCommunityba, akkor a leggyorsabb és legegyszerűbb módja a <b>Másolási pozíció</b> az XBoard/WinBoard Fájl menüjéből, majd <b>Indítótábla beillesztése</b> a scidCommunity Szerkesztés menüjéből.
+  }
+  {
+    A <a Searches Header> fejléckeresésben </a> a játékos/esemény/helyszín/kör neve nem különbözteti meg a kis- és nagybetűket, és a névben bárhol megegyeznek. Választhat helyette a kis- és nagybetűket megkülönböztető helyettesítő karakteres keresést (ahol "?" = tetszőleges karakter, és "*" = nulla vagy több karakter), ha beírja a keresési szöveget "idézőjelbe". Például írja be a „*BEL” szót (az idézet karaktereivel) a webhely mezőbe, hogy megtalálja az összes Belgiumban játszott játékot, de Belgrádban nem.
+  }
+  {
+    Ha úgy szeretne kijavítani egy lépést a játékban, hogy közben nem veszít el minden utána megtett lépést, nyissa meg a <a Import>Import</a> ablakot, nyomja meg a <b>Paste Current game</b> gombot, szerkessze a hibás lépést, majd nyomja meg a <b>Import</b> gombot.
+  }
+  {
+    Ha ECO besorolási fájl van betöltve, az aktuális játékban a <b>Identify opening</b> gombbal léphet a legmélyebb besorolású pozícióba a <b>Game</b> menüben (parancsikon: Ctrl+Shift+D).
+  }
+  {
+    Legyen naprakész a világ legfrissebb játékaival a <b>Download TWIC Games</b> használatával a <b>Tools</b> menüben. Automatikusan letölti és megnyitja a <b>The Week In Chess </b> legfrissebb heti PGN-jét.
+  }
+  {
+    Ha a megnyitás előtt ellenőrizni szeretné egy fájl méretét vagy utolsó módosításának dátumát, használja a <a Finder>fájlkeresőt </a> a megnyitásához.
+  }
+  {
+    A <a OpReport> nyitójelentés </a> kiválóan alkalmas arra, hogy többet megtudjon egy adott pozícióról. Láthatja, hogy milyen jó pontszámot ad, vezet-e gyakori rövid húzáshoz, és gyakori helyzeti témák.
+  }
+  {
+    A <a Comment> megjegyzésszerkesztő <a> használata nélkül hozzáadhatja a leggyakoribb megjegyzésszimbólumokat (!, !?, += stb.) az aktuális mozgáshoz vagy pozícióhoz billentyűparancsokkal – például írja be a "!" majd a Return billentyűvel adjon hozzá egy "!" megjegyzés szimbólum. A részletekért lásd a <a Moves>Sakklépések bevitele </a> súgóoldalt.
+  }
+  {
+    Ha egy adatbázisban a <a Tree>fával </a> böngészik a megnyitások között, akkor a Statisztika ablak megnyitásával hasznos áttekintést kaphat arról, hogy az aktuális nyitás milyen jól teljesít a közelmúltban, illetve a magasan értékelt játékosok között.
+  }
+  {
+    A <b>Game Browser</b> ablakban a <b>Ctrl</b> és <b>Shift</b> billentyűk lenyomva tartásával, valamint a <b>Bal</b> vagy <b>Jobbra</b> nyílbillentyű megnyomásával módosíthatja a tábla méretét.
+  }
+  {
+    Egy <a Searches> keresés </a> után könnyedén böngészhet az összes megfelelő játék között, ha lenyomva tartja a <b>Ctrl</b> és a <b>Fel</b> vagy <b>Down</b> billentyűt az előző vagy a következő <a Searches Filter>játék</a> szűrő betöltéséhez.
+  }
+  {
+    A Windows az opciómenü megfelelő bejegyzésének ellenőrzésével dokkolható. A lapok áthúzhatók egyik jegyzetfüzetből a másikba, és a fül widgetre való jobb kattintással elhelyezhetők.
+  }
+}

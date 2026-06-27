@@ -1890,3 +1890,138 @@ translate F TBCategory {Catégorie de poste :}
 translate F TBTrainingHidden {(Mode Entraînement ; les résultats sont masqués)}
 }
 # end of english.tcl
+
+
+############################################################
+#
+# French tip of the day
+# Machine-translated scaffold - please review and correct.
+
+set tips(F) {
+  {
+    scidCommunity en compte plus de 40 <a Index>pages d'aide</a>, et dans la plupart des fenêtres de scidCommunity, en appuyant sur la touche <b>F1</b> La clé produira la page d'aide sur cette fenêtre.
+  }
+  {
+    Certaines fenêtres de scidCommunity (par exemple la zone d'informations sur le jeu, la base de données <a Switcher>switcher</a>) ont un menu avec le bouton droit de la souris. Essayez d'appuyer sur le bouton droit de la souris dans chaque fenêtre pour voir si elle en a une et quelles fonctions sont disponibles.
+  }
+  {
+    scidCommunity vous propose plusieurs façons de saisir des mouvements d'échecs, vous permettant de choisir celui qui vous convient le mieux. Vous pouvez utiliser la souris (avec ou sans suggestion de déplacement) ou le clavier (avec ou sans réalisation de déplacement). Lisez la page d'aide <a Moves> sur la saisie des mouvements d'échecs </a> pour plus de détails.
+  }
+  {
+    Si vous avez quelques bases de données que vous ouvrez souvent, ajoutez un <a Bookmarks>signet</a> pour chacun, et vous pourrez alors les ouvrir plus rapidement en utilisant le menu des favoris.
+  }
+  {
+    Vous pouvez suivre les principaux tournois d'échecs en temps réel à l'aide de la fonction <b>Open Lichess Tournament</b> dans le menu <b>Fichier</b>. scidCommunity surveillera et mettra automatiquement à jour les jeux en direct pour vous.
+  }
+  {
+    Vous pouvez voir tous les mouvements du jeu en cours (avec toutes les variantes et commentaires) en utilisant la fenêtre <a PGN>PGN </a>. Dans la fenêtre PGN, vous pouvez accéder à n'importe quel mouvement en cliquant dessus avec le bouton gauche de la souris, ou utiliser le bouton central ou droit de la souris pour voir un aperçu de cette position.
+  }
+  {
+    Vous pouvez copier des jeux d'une base de données à une autre par glisser-déposer avec le bouton gauche de la souris dans la <a Switcher>commutateur de base de données</a> fenêtre.
+  }
+  {
+    scidCommunity peut ouvrir les fichiers PGN, même s'ils sont compressés avec Gzip (avec un suffixe de nom de fichier .gz). Les fichiers PGN sont ouverts en lecture seule, donc si vous souhaitez modifier un fichier PGN dans scidCommunity, créez une nouvelle base de données scidCommunity et copiez-y les jeux de fichiers PGN en utilisant le <a Switcher>commutateur de base de données</a>.
+  }
+  {
+    Si vous utilisez souvent une grande base de données avec la fenêtre <a Tree>tree</a>, il vaut la peine de sélectionner <b>Fill cache file</b> dans le menu Fichier de la fenêtre arborescente. Cela mémorisera les statistiques des arbres pour de nombreuses positions d'ouverture courantes, ce qui rendra l'accès aux arbres plus rapide pour la base de données.
+  }
+  {
+    Le <a Tree>arbre</a> La fenêtre peut vous montrer tous les coups joués à partir de la position actuelle, mais si vous souhaitez également voir tous les ordres de coups qui ont atteint cette position, vous pouvez les retrouver en générant un <a OpReport>rapport d'ouverture</a>.
+  }
+  {
+    Pour importer rapidement vos propres parties à partir de sites en ligne, utilisez <b> Importer mon Lichess </b> ou <b> Importer mon chess.com </b> dans le menu <b> Fichier </b>. Entrez simplement votre nom d'utilisateur et une date de début pour télécharger vos jeux avec des métadonnées complètes.
+  }
+  {
+    Dans la fenêtre <a GameList>game list</a>, appuyez sur le bouton gauche ou droit de la souris sur l'en-tête de chaque colonne pour ajuster sa largeur.
+  }
+  {
+    Avec le <a PInfo>informations sur le joueur</a> fenêtre (cliquez simplement sur le nom de l'un des joueurs dans la zone d'informations du jeu sous l'échiquier de la fenêtre principale pour l'ouvrir), vous pouvez facilement définir le <a Searches Filter>filtre</a> pour contenir tous les jeux d'un certain joueur avec un certain résultat en cliquant sur n'importe quelle valeur affichée <red>en texte rouge</red>.
+  }
+  {
+    Lors de l'étude d'une ouverture, il peut être très utile de faire une recherche <a Searches Board>board </a> avec l'option <b>Pions</b> ou <b>Fichiers</b> sur une position d'ouverture importante, car cela peut révéler d'autres ouvertures qui atteignent la même structure de pions.
+  }
+  {
+    Dans la zone d'informations du jeu (sous l'échiquier), vous pouvez appuyer sur le bouton droit de la souris pour produire un menu permettant de le personnaliser. Par exemple, vous pouvez faire en sorte que scidCommunity masque le prochain mouvement, ce qui est utile pour l'entraînement, en jouant à un jeu devinant les mouvements.
+  }
+  {
+    Si vous faites souvent beaucoup de base de données <a Maintenance>entretien</a> sur une grande base de données, vous pouvez effectuer plusieurs tâches de maintenance à la fois en utilisant le <a Maintenance Cleaner>nettoyeur</a>.
+  }
+  {
+    La fenêtre <a PGN>PGN </a> comporte des boutons d'accès rapide pour télécharger votre partie en cours sur <b>Lichess.org</b> ou <b>Chess.com</b>. Cela vous permet d'utiliser instantanément leurs puissantes fonctionnalités d'analyse et de partage de moteur basées sur le cloud.
+  }
+  {
+    Si vous disposez d'une grande base de données dans laquelle la plupart des jeux ont une date d'événement et que vous souhaitez que les jeux soient classés par date, envisagez de <a Sorting>trier </a> par Date d'événement puis Événement au lieu de Date puis Événement, car cela aidera à conserver les jeux dans le même tournoi avec des dates différentes ensemble (en supposant qu'ils ont tous la même Date d'événement, bien sûr).
+  }
+  {
+    Avant <a Maintenance Twins> de supprimer des jeux jumeaux </a>, c'est une bonne idée de <a Maintenance Spellcheck> vérifier l'orthographe </a> de votre base de données car cela permettra à scidCommunity de trouver plus de jumeaux et de les marquer pour suppression.
+  }
+  {
+    <a Flags>Drapeaux</a> sont utiles pour marquer les jeux de base de données avec des caractéristiques que vous souhaiterez peut-être rechercher ultérieurement, telles que la structure des pions, les tactiques, etc. Vous pouvez effectuer une recherche par drapeaux avec un <a Searches Header>recherche d'en-tête</a>.
+  }
+  {
+    Si vous jouez à un jeu et souhaitez essayer quelques mouvements sans altérer le jeu, activez simplement le mode Essai (avec le raccourci <b>Ctrl+espace</b> ou depuis l'icône de la barre d'outils), puis désactivez-le à nouveau pour revenir au jeu d'origine lorsque vous avez terminé.
+  }
+  {
+    Pour trouver les jeux les plus importants (avec des adversaires de haut niveau) atteignant une position particulière, ouvrez la fenêtre <a Tree>tree </a> et à partir de là, ouvrez la liste des meilleurs jeux. Vous pouvez même restreindre la liste des meilleurs jeux pour afficher uniquement les jeux avec un résultat particulier.
+  }
+  {
+    Utilisez le bouton <b>chessdb Engine Tree</b> dans la fenêtre <a PGN>PGN </a> pour consulter la base de données cloud <b>ChessDB.cn</b>. Il contient des milliards de postes pré-analysés et d'évaluations informatiques pour presque toutes les ouvertures.
+  }
+  {
+    Un excellent moyen d'étudier une ouverture à l'aide d'une grande base de données de jeux consiste à activer le mode entraînement dans la fenêtre <a Tree>tree </a>, puis à jouer contre la base de données pour voir quelles lignes apparaissent souvent.
+  }
+  {
+    Si vous avez deux bases de données ouvertes et que vous souhaitez voir <a Tree>arbre</a> statistiques de la première base de données tout en examinant un jeu de la deuxième base de données, appuyez simplement sur la touche <b>Verrouillage</b> dans la fenêtre arborescente pour le verrouiller sur la première base de données, puis passer à la deuxième base.
+  }
+  {
+    Le <a Tmt>chercheur de tournoi</a> n'est pas seulement utile pour trouver un tournoi particulier, mais peut également être utilisé pour voir à quels tournois un certain joueur a participé récemment ou parcourir les meilleurs tournois joués dans un pays particulier.
+  }
+  {
+    Il existe un certain nombre de modèles courants définis dans la fenêtre de recherche <a Searches Material>Matériau/Motif</a> que vous pourriez trouver utiles pour les ouvertures ou l'étude du milieu de jeu.
+  }
+  {
+    Lors de la recherche d'une situation matérielle particulière dans la fenêtre de recherche <a Searches Material>Matériau/Motif</a>, il est souvent utile de limiter la recherche aux jeux qui correspondent à au moins quelques demi-coups afin d'éliminer les jeux où la situation recherchée ne s'est produite que brièvement.
+  }
+  {
+    Si vous atteignez une fin de partie avec 7 pièces ou moins, cliquez sur le bouton <b> Table Base </b> dans la fenêtre <a PGN> PGN </a> pour obtenir une analyse parfaite des bases de table de fin de partie Lichess.
+  }
+  {
+    Si vous disposez d'une base de données importante que vous ne souhaitez pas modifier accidentellement, sélectionnez <b>Lecture seule...</b> dans le menu <b>Fichier</b> après l'avoir ouverte, ou modifiez ses autorisations de fichier pour qu'elles soient en lecture seule.
+  }
+  {
+    Si vous utilisez XBoard ou WinBoard (ou un autre programme d'échecs capable de copier une position d'échecs en notation FEN standard dans le presse-papiers) et que vous souhaitez copier sa position d'échecs actuelle dans scidCommunity, le moyen le plus rapide et le plus simple est de sélectionner <b> Copier la position </b> dans le menu Fichier de XBoard/WinBoard, puis <b> Coller la planche de démarrage </b> dans le menu Édition de communauté scid.
+  }
+  {
+    Dans un <a Searches Header>recherche d'en-tête</a>, les noms de joueur/événement/site/tour ne sont pas sensibles à la casse et correspondent n'importe où dans un nom. Vous pouvez choisir d'effectuer une recherche générique sensible à la casse (où "?" = n'importe quel caractère et "*" = zéro ou plusieurs caractères) en saisissant le texte de recherche "entre guillemets". Par exemple, tapez "*BEL" (avec les guillemets) dans le champ du site pour trouver tous les jeux joués en Belgique mais pas à Belgrade.
+  }
+  {
+    Si vous souhaitez corriger un coup dans une partie sans perdre tous les coups joués après, ouvrez la fenêtre <a Import> Importer </a>, appuyez sur le bouton <b> Coller la partie en cours </b>, modifiez le coup incorrect puis appuyez sur <b> Importer </b>.
+  }
+  {
+    Si vous avez chargé un fichier de classification ECO, vous pouvez accéder à la position classée la plus profonde du jeu en cours avec <b>Identifier l'ouverture</b> dans le menu <b>Jeu</b> (raccourci : Ctrl+Shift+D).
+  }
+  {
+    Restez à jour avec les derniers jeux du monde entier en utilisant <b> Téléchargez TWIC Games </b> dans le menu <b> Outils </b>. Il télécharge et ouvre automatiquement le dernier PGN hebdomadaire de <b> The Week In Chess </b>.
+  }
+  {
+    Si vous souhaitez vérifier la taille d'un fichier ou sa date de dernière modification avant de l'ouvrir, utilisez l'option <a Finder>chercheur de fichiers</a> pour l'ouvrir.
+  }
+  {
+    Un <a OpReport>rapport d'ouverture</a> est idéal pour en savoir plus sur un poste particulier. Vous pouvez voir à quel point il obtient de bons résultats, s'il conduit à des tirages courts fréquents et à des thèmes de position courants.
+  }
+  {
+    Vous pouvez ajouter les symboles d'annotation les plus courants (!, !?, +=, etc.) au déplacement ou à la position actuelle avec des raccourcis clavier sans avoir besoin d'utiliser l'éditeur de commentaires <a Comment> <a> -- par exemple, tapez "!" puis la touche Retour pour ajouter un "!" symbole d'annotation. Consultez la page d'aide <a Moves> Saisie des mouvements d'échecs </a> pour plus de détails.
+  }
+  {
+    Si vous parcourez les ouvertures dans une base de données avec le <a Tree>arbre</a>, vous pouvez avoir un aperçu utile des scores récents de l'ouverture en cours et des joueurs les mieux notés en ouvrant la fenêtre Statistiques (raccourci : Ctrl+I).
+  }
+  {
+    Dans la fenêtre <b>Game Browser</b>, vous pouvez modifier la taille du plateau en maintenant enfoncées les touches <b>Ctrl</b> et <b>Shift</b> et en appuyant sur la touche fléchée <b>Gauche</b> ou <b>Droite</b>.
+  }
+  {
+    Après un <a Searches>recherche</a>, vous pouvez facilement parcourir tous les jeux correspondants en maintenant enfoncé <b>Ctrl</b> et en appuyant sur le <b>En haut</b> ou <b>Vers le bas</b> touche pour charger le précédent ou le suivant <a Searches Filter>filtre</a> jeu.
+  }
+  {
+    Windows peut être ancré en cochant l'entrée correspondante dans le menu d'options. Les onglets peuvent être glissés et déposés d'un bloc-notes à un autre et disposés en cliquant avec le bouton droit sur le widget d'onglets.
+  }
+}

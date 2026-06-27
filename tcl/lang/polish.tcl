@@ -1630,3 +1630,138 @@ translate P TBCategory {Kategoria pozycji:}
 translate P TBTrainingHidden {(Tryb treningu; wyniki są ukryte)}
 }
 # end of polish.tcl
+
+
+############################################################
+#
+# Polish tip of the day
+# Machine-translated scaffold - please review and correct.
+
+set tips(P) {
+  {
+    scidCommunity ma ponad 40 <a Index>stron pomocy </a>, a w większości okien scidCommunity naciśnięcie klawisza <b>F1</b> spowoduje wyświetlenie strony pomocy dotyczącej tego okna.
+  }
+  {
+    Niektóre okna scidCommunity (np. obszar informacji o grze, baza danych <a Switcher>przełącznik</a>) mają menu obsługiwane prawym przyciskiem myszy. Spróbuj nacisnąć prawy przycisk myszy w każdym oknie, aby sprawdzić, czy je posiada i jakie funkcje są dostępne.
+  }
+  {
+    scidCommunity oferuje więcej niż jeden sposób wprowadzania ruchów szachowych, pozwalając Ci wybrać, który najbardziej Ci odpowiada. Możesz używać myszy (z sugestią ruchu lub bez) lub klawiatury (z zakończeniem ruchu lub bez). Przeczytaj stronę pomocy <a Moves>wprowadzanie ruchów szachowych </a>, aby uzyskać szczegółowe informacje.
+  }
+  {
+    Jeśli masz kilka często otwieranych baz danych, dodaj plik <a Bookmarks>zakładka w książce</a> dla każdego z nich, a wtedy będziesz mógł je szybciej otworzyć korzystając z menu zakładek.
+  }
+  {
+    Możesz śledzić najważniejsze turnieje szachowe w czasie rzeczywistym, korzystając z funkcji <b>Open Lichess Tournament</b> w menu <b>Plik</b>. scidCommunity będzie automatycznie monitorować i aktualizować gry na żywo za Ciebie.
+  }
+  {
+    Możesz zobaczyć wszystkie ruchy w bieżącej grze (ze wszystkimi odmianami i komentarzami) za pomocą okna <a PGN>PGN </a>. W oknie PGN możesz przejść do dowolnego ruchu klikając na niego lewym przyciskiem myszy lub używając środkowego lub prawego przycisku myszy, aby zobaczyć podgląd tej pozycji.
+  }
+  {
+    Możesz kopiować gry z jednej bazy danych do drugiej, przeciągając i upuszczając lewy przycisk myszy <a Switcher>przełącznik bazy danych</a> okno.
+  }
+  {
+    scidCommunity może otwierać pliki PGN, nawet jeśli są skompresowane za pomocą programu Gzip (z przyrostkiem nazwy pliku .gz). Pliki PGN są otwierane tylko do odczytu, więc jeśli chcesz edytować plik PGN w scidCommunity, utwórz nową bazę danych scidCommunity i skopiuj do niej gry z pliku PGN za pomocą <a Switcher>przełącznik bazy danych</a>.
+  }
+  {
+    Jeśli masz dużą bazę danych, której używasz z <a Tree>drzewo</a> okna często, warto się na to zdecydować <b>Wypełnij plik pamięci podręcznej</b> z menu Plik w oknie drzewa. Spowoduje to zapamiętanie statystyk drzewa dla wielu typowych pozycji otwarcia, dzięki czemu dostęp do drzewa będzie szybszy dla bazy danych.
+  }
+  {
+    The <a Tree>drzewo</a> może pokazać wszystkie ruchy wykonane z bieżącej pozycji, ale jeśli chcesz także zobaczyć wszystkie rozkazy ruchu, które osiągnęły tę pozycję, możesz je znaleźć, generując <a OpReport>raport otwarcia</a>.
+  }
+  {
+    Aby szybko zaimportować własne partie ze stron internetowych, użyj polecenia <b>Importuj moje Lichess</b> lub <b>Importuj moje chess.com</b> z menu <b>Plik</b>. Wystarczy wpisać swoją nazwę użytkownika i datę rozpoczęcia, aby pobrać gry z pełnymi metadanymi.
+  }
+  {
+    W oknie <a GameList>listy gier </a> naciśnij lewy lub prawy przycisk myszy na nagłówku każdej kolumny, aby dostosować jej szerokość.
+  }
+  {
+    Z <a PInfo>informacje o graczu</a> oknie (wystarczy kliknąć nazwę dowolnego gracza w obszarze informacji o grze poniżej szachownicy w oknie głównym, aby je otworzyć), możesz łatwo ustawić <a Searches Filter>filtr</a> aby wyświetlić wszystkie gry danego gracza z określonym wynikiem, klikając dowolną wyświetloną wartość <red>czerwonym tekstem</red>.
+  }
+  {
+    Podczas studiowania otworu bardzo przydatne może być wykonanie a <a Searches Board>wyszukiwanie tablicy</a> z <b>Pionki</b> Lub <b>Akta</b> opcję na ważnej pozycji otwarcia, ponieważ może to ujawnić inne otwarcia, które osiągną tę samą strukturę pionka.
+  }
+  {
+    W obszarze informacji o grze (poniżej szachownicy) możesz nacisnąć prawy przycisk myszy, aby wyświetlić menu umożliwiające jego dostosowanie. Na przykład możesz sprawić, że scidCommunity ukryje następny ruch, co jest przydatne podczas treningu, grając w grę polegającą na zgadywaniu ruchów.
+  }
+  {
+    Jeśli często robisz dużo bazy danych <a Maintenance>konserwacja</a> w dużej bazie danych możesz wykonać kilka zadań konserwacyjnych jednocześnie, korzystając z narzędzia <a Maintenance Cleaner>odkurzacz</a>.
+  }
+  {
+    Okno <a PGN>PGN </a> zawiera przyciski szybkiego dostępu umożliwiające przesłanie aktualnej gry do <b>Lichess.org </b> lub <b>Chess.com </b>. Dzięki temu możesz natychmiast korzystać z ich potężnego silnika opartego na chmurze i funkcji udostępniania.
+  }
+  {
+    Jeśli masz dużą bazę danych, w której większość gier ma datę zdarzenia i chcesz, aby gry były uporządkowane według dat, rozważ <a Sorting> sortowanie </a> według daty zdarzenia, następnie zdarzenia zamiast daty, a następnie wydarzenia, ponieważ pomoże to zachować gry w tym samym turnieju z różnymi datami razem (oczywiście zakładając, że wszystkie mają tę samą datę wydarzenia).
+  }
+  {
+    Przed <a Maintenance Twins>usunięciem gier bliźniaczych </a> dobrym pomysłem jest <a Maintenance Spellcheck>sprawdzenie pisowni</a> w bazie danych, ponieważ umożliwi to scidCommunity znalezienie większej liczby bliźniaków i oznaczenie ich do usunięcia.
+  }
+  {
+    <a Flags>Flagi </a> są przydatne do oznaczania gier w bazie danych z cechami, które możesz chcieć wyszukać w późniejszym czasie, takimi jak struktura pionków, taktyka itp. Możesz wyszukiwać według flag za pomocą <a Searches Header>przeszukiwania nagłówka </a>.
+  }
+  {
+    Jeśli grasz w grę i chcesz wypróbować pewne ruchy bez zmiany gry, po prostu włącz tryb próbny (za pomocą skrótu <b>Ctrl+spacja </b> lub za pomocą ikony na pasku narzędzi), a następnie wyłącz go ponownie, aby po zakończeniu powrócić do oryginalnej gry.
+  }
+  {
+    Aby znaleźć najpopularniejsze gry (z wysoko ocenianymi przeciwnikami) osiągające określoną pozycję, otwórz plik <a Tree>drzewo</a> i stamtąd otwórz listę najlepszych gier. Możesz nawet ograniczyć listę najlepszych gier, aby wyświetlała tylko gry z określonym wynikiem.
+  }
+  {
+    Użyj przycisku <b>chessdb Engine Tree </b> w oknie <a PGN>PGN </a>, aby sprawdzić bazę danych w chmurze <b>ChessDB.cn</b>. Zawiera miliardy wstępnie przeanalizowanych pozycji i ocen komputerowych dla niemal każdego otwarcia.
+  }
+  {
+    Świetnym sposobem na naukę debiutu przy użyciu dużej bazy gier jest włączenie trybu treningowego w <a Tree>drzewo</a> następnie zagraj z bazą danych, aby zobaczyć, które linie często się pojawiają.
+  }
+  {
+    Jeśli masz otwarte dwie bazy danych i chcesz zobaczyć statystyki <a Tree>tree</a> pierwszej bazy danych podczas sprawdzania gry z drugiej bazy danych, po prostu naciśnij przycisk <b>Lock</b> w oknie drzewa, aby zablokować je w pierwszej bazie danych, a następnie przełączyć się do drugiej bazy.
+  }
+  {
+    The <a Tmt>wyszukiwarka turniejów</a> jest nie tylko przydatny do znalezienia konkretnego turnieju, ale może być również użyty do sprawdzenia, w jakich turniejach dany gracz brał ostatnio udział lub przeglądania najlepszych turniejów rozgrywanych w danym kraju.
+  }
+  {
+    W oknie wyszukiwania <a Searches Material>Material/Pattern</a> zdefiniowanych jest wiele typowych wzorców, które mogą okazać się przydatne przy badaniu debiutów lub gry środkowej.
+  }
+  {
+    Podczas wyszukiwania konkretnej sytuacji materialnej w oknie wyszukiwania <a Searches Material>Materiał/Wzorzec </a>, często przydatne jest ograniczenie wyszukiwania do gier, które pasują do co najmniej kilku półruchów, aby wyeliminować gry, w których szukana sytuacja wystąpiła tylko na krótko.
+  }
+  {
+    Jeśli dojdziesz do gry końcowej składającej się z 7 lub mniej elementów, kliknij przycisk <b>Podstawa stołu </b> w oknie <a PGN>PGN </a>, aby uzyskać doskonałą analizę z baz stołów gry końcowej Lichess.
+  }
+  {
+    Jeśli posiadasz ważną bazę danych, której nie chcesz przypadkowo modyfikować, po jej otwarciu wybierz <b>Tylko do odczytu...</b> z menu <b>Plik</b> lub zmień uprawnienia pliku na tylko do odczytu.
+  }
+  {
+    Jeśli używasz XBoard lub WinBoard (lub innego programu szachowego, który może skopiować pozycję szachową w standardowej notacji FEN do schowka) i chcesz skopiować jej aktualną pozycję szachową do scidCommunity, najszybszym i najłatwiejszym sposobem jest wybranie <b>Kopiuj pozycję</b> z menu Plik w XBoard/WinBoard, a następnie <b>Wklej planszę startową </b> z menu Edycja w społeczność scid.
+  }
+  {
+    w <a Searches Header>wyszukiwanie nagłówków</a>, w nazwach graczy/wydarzeń/stron/rund nie jest rozróżniana wielkość liter i można je dopasować w dowolnym miejscu nazwy. Zamiast tego możesz wybrać wyszukiwanie z uwzględnieniem wielkości liter (gdzie „?” = dowolny pojedynczy znak i „*” = zero lub więcej znaków), wpisując wyszukiwany tekst „w cudzysłowie”. Na przykład wpisz „*BEL” (z cudzysłowem) w polu witryny, aby znaleźć wszystkie mecze rozgrywane w Belgii, ale nie w Belgradzie.
+  }
+  {
+    Jeśli chcesz poprawić ruch w grze bez utraty wszystkich zagranych po nim ruchów, otwórz okno <a Import>Import</a>, wciśnij przycisk <b>Wklej bieżącą grę</b>, edytuj nieprawidłowy ruch, a następnie naciśnij <b>Import</b>.
+  }
+  {
+    Jeśli masz załadowany plik klasyfikacji ECO, możesz przejść do najgłębszej sklasyfikowanej pozycji w bieżącej grze za pomocą <b>Identyfikuj otwarcie</b> w menu <b>Gra</b> (skrót: Ctrl+Shift+D).
+  }
+  {
+    Bądź na bieżąco z najnowszymi grami z całego świata, korzystając z <b>Pobierz TWIC Games</b> w menu <b>Tools</b>. Automatycznie pobiera i otwiera najnowszy cotygodniowy PGN z <b>The Week In Chess</b>.
+  }
+  {
+    Jeśli chcesz sprawdzić rozmiar pliku lub datę jego ostatniej modyfikacji przed jego otwarciem, użyj opcji <a Finder>wyszukiwarka plików</a> aby to otworzyć.
+  }
+  {
+    Jakiś <a OpReport>raport otwarcia</a> świetnie nadaje się do zdobywania większej wiedzy na temat konkretnego stanowiska. Możesz zobaczyć, jak dobrze zdobywa punkty, czy prowadzi do częstych krótkich remisów i typowych motywów pozycyjnych.
+  }
+  {
+    Możesz dodać najpopularniejsze symbole adnotacji (!, !?, += itp.) do bieżącego ruchu lub pozycji za pomocą skrótów klawiaturowych bez konieczności korzystania z edytora komentarzy <a Comment> <a> — na przykład wpisz „!” następnie klawisz Return, aby dodać „!” symbol adnotacji. Szczegóły znajdziesz na stronie pomocy <a Moves>Wprowadzanie ruchów szachowych</a>.
+  }
+  {
+    Jeśli przeglądasz oferty w bazie danych za pomocą rozszerzenia <a Tree>drzewo</a>, otwierając okno Statystyki (skrót: Ctrl+I), możesz zobaczyć przydatne zestawienie wyników bieżącego otwarcia oraz rankingów graczy o wysokich ocenach.
+  }
+  {
+    W oknie <b>Game Browser</b> możesz zmienić rozmiar planszy, przytrzymując klawisze <b>Ctrl</b> i <b>Shift</b> i naciskając klawisz strzałki <b>W lewo</b> lub <b>W prawo</b>.
+  }
+  {
+    Po <a Searches>wyszukiwaniu </a> możesz z łatwością przeglądać wszystkie pasujące gry, przytrzymując <b>Ctrl</b> i naciskając klawisz <b>Up</b> lub <b>Down</b>, aby załadować poprzednią lub następną <a Searches Filter>filter</a> grę.
+  }
+  {
+    Okna można zadokować zaznaczając odpowiednią pozycję w menu opcji. Karty można przeciągać i upuszczać z jednego notatnika do drugiego oraz układać je, klikając prawym przyciskiem myszy widżet karty.
+  }
+}

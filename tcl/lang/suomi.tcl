@@ -1915,3 +1915,138 @@ translate U TBCategory {Aseman luokka:}
 translate U TBTrainingHidden {(Harjoitustila; tulokset piilotetaan)}
 }
 # end of english.tcl
+
+
+############################################################
+#
+# Finnish tip of the day
+# Machine-translated scaffold - please review and correct.
+
+set tips(U) {
+  {
+    scidCommunityssa on yli 40 <a Index> ohjesivua </a>, ja useimmissa scidCommunity-ikkunoissa <b>F1</b> -näppäimen painaminen tuottaa ohjesivun kyseisestä ikkunasta.
+  }
+  {
+    Joissakin scidCommunity-ikkunoissa (esim. pelin tietoalue, tietokanta <a Switcher>-kytkin </a>) on hiiren kakkospainikkeen valikko. Kokeile painaa hiiren oikeaa painiketta jokaisessa ikkunassa nähdäksesi, onko siinä sellainen ja mitä toimintoja on saatavilla.
+  }
+  {
+    scidCommunity tarjoaa sinulle useamman kuin yhden tavan kirjoittaa shakkiliikkeitä, jolloin voit valita sinulle parhaiten sopivan. Voit käyttää hiirtä (siirtoehdotuksen kanssa tai ilman) tai näppäimistöä (siirron kanssa tai ilman). Lue lisätietoja <a Moves>shakkiliikkeiden syöttämisen </a> ohjesivulta.
+  }
+  {
+    Jos sinulla on muutama tietokanta, joita avaat usein, lisää <a Bookmarks>kirjanmerkki</a> jokaiselle, niin voit avata ne nopeammin kirjanmerkkivalikon avulla.
+  }
+  {
+    Voit seurata suuria shakkiturnauksia reaaliajassa käyttämällä <b>Open Lichess Tournament</b> -ominaisuutta <b>File</b> -valikossa. scidCommunity valvoo ja päivittää livepelejä automaattisesti puolestasi.
+  }
+  {
+    Voit nähdä kaikki nykyisen pelin liikkeet (kaikki muunnelmat ja kommentit) käyttämällä <a PGN>PGN-ikkunaa </a>. PGN-ikkunassa voit siirtyä mihin tahansa siirtoon napsauttamalla sitä hiiren vasenta painiketta tai käyttää hiiren keski- tai oikeaa painiketta nähdäksesi esikatselun kyseisestä sijainnista.
+  }
+  {
+    Voit kopioida pelejä tietokannasta toiseen vetämällä ja pudottamalla hiiren vasemmalla painikkeella <a Switcher> tietokannan vaihtaja </a> -ikkunassa.
+  }
+  {
+    scidCommunity voi avata PGN-tiedostoja, vaikka ne olisi pakattu Gzipillä (.gz-tiedostonimen päätteellä). PGN-tiedostot avataan vain luku -tilassa, joten jos haluat muokata PGN-tiedostoa scidCommunityssa, luo uusi scidCommunity-tietokanta ja kopioi PGN-tiedostopelit siihen käyttämällä <a Switcher>-tietokannan vaihtajaa </a>.
+  }
+  {
+    Jos sinulla on suuri tietokanta, jota käytät usein <a Tree>tree</a> -ikkunan kanssa, kannattaa valita puuikkunan Tiedosto-valikosta <b>Täytä välimuistitiedosto </b>. Tämä muistaa monien yleisten avautumisasemien puutilastot, mikä nopeuttaa tietokannan käyttöä.
+  }
+  {
+    <a Tree>puu </a> -ikkuna voi näyttää kaikki siirrot, jotka on pelattu nykyisestä sijainnista, mutta jos haluat nähdä myös kaikki siirtomääräykset, jotka ovat saavuttaneet tämän sijainnin, löydät ne luomalla <a OpReport>avaamisraportin</a>.
+  }
+  {
+    Voit tuoda omat pelisi nopeasti online-sivustoilta käyttämällä <b>Import my Lichess</b> tai <b>Import my chess.com</b> <b>File</b>-valikosta. Syötä vain käyttäjätunnuksesi ja aloituspäivä ladataksesi pelisi täydellisine metatiedoin.
+  }
+  {
+    Paina <a GameList>peliluettelo </a> -ikkunassa kunkin sarakkeen otsikon vasenta tai oikeaa painiketta säätääksesi sen leveyttä.
+  }
+  {
+    <a PInfo>pelaajatiedot </a> -ikkunassa (napsauta jompaakumpaa pelaajan nimeä pelin tietoalueella pääikkunan shakkilaudan alapuolella avataksesi sen), voit helposti asettaa <a Searches Filter>-suodattimen </a> sisältämään kaikki tietyn pelaajan pelit tietyllä tuloksella napsauttamalla mitä tahansa arvoa, joka näkyy <red> punaisella tekstillä </red>.
+  }
+  {
+    Kun tutkitaan aukkoa, voi olla erittäin hyödyllistä tehdä <a Searches Board> lautahaku </a> <b> Pawns</b> tai <b>Files</b> -vaihtoehdolla tärkeässä avausasennossa, koska tämä voi paljastaa muita aukkoja, jotka saavuttavat saman sotilasrakenteen.
+  }
+  {
+    Pelin tietoalueella (shakkilaudan alla) voit painaa hiiren oikeaa painiketta tuottaaksesi valikon sen mukauttamiseen. Voit esimerkiksi saada scidCommunityn piilottamaan seuraavan liikkeen, joka on hyödyllinen harjoittelussa pelaamalla peliä arvaamalla liikkeet.
+  }
+  {
+    Jos teet usein paljon tietokannan <a Maintenance> ylläpitoa </a> suuressa tietokannassa, voit suorittaa useita ylläpitotöitä kerralla käyttämällä <a Maintenance Cleaner> Cleaner</a> -toimintoa.
+  }
+  {
+    <a PGN>PGN-ikkunassa </a> on pikapainikkeet, joilla voit ladata nykyisen pelisi osoitteeseen <b>Lichess.org</b> tai <b>Chess.com</b>. Tämän avulla voit käyttää välittömästi heidän tehokkaita pilvipohjaisia ​​moottorianalyysi- ja jakamisominaisuuksia.
+  }
+  {
+    Jos sinulla on suuri tietokanta, jossa useimmilla peleillä on EventDate ja haluat pelit päivämääräjärjestyksessä, harkitse <a Sorting>lajittelua </a> sen mukaan Tapahtumapäivämäärä ja sitten Tapahtuma päivämäärän ja tapahtuman sijaan, koska tämä auttaa pitämään saman turnauksen pelit eri päivämäärillä yhdessä (olettaen tietysti, että niillä kaikilla on sama EventDate).
+  }
+  {
+    Ennen <a Maintenance Twins> kaksoispelien </a> poistamista on hyvä idea <a Maintenance Spellcheck> tarkistaa </a> tietokantasi oikeinkirjoitus, koska näin scidCommunity löytää lisää kaksosia ja merkitsee ne poistettavaksi.
+  }
+  {
+    <a Flags>Liput </a> ovat hyödyllisiä tietokantapelien merkitsemiseen ominaisuuksilla, joita saatat haluta etsiä myöhemmin, kuten pelinappulan rakennetta, taktiikoita jne. Voit etsiä lippujen perusteella <a Searches Header> otsikkohaulla </a>.
+  }
+  {
+    Jos pelaat peliä ja haluat kokeilla joitain liikkeitä muuttamatta peliä, ota vain kokeilutila käyttöön (<b>Ctrl+välilyönti</b>-pikanäppäimellä tai työkalupalkin kuvakkeesta) ja sammuta se sitten uudelleen palataksesi alkuperäiseen peliin, kun olet valmis.
+  }
+  {
+    Löytääksesi näkyvimmät pelit (joissa on korkealuokkaisia ​​vastustajia), jotka saavuttavat tietyn paikan, avaa <a Tree>tree</a> -ikkuna ja sieltä parhaiden pelien luettelo. Voit jopa rajoittaa parhaiden pelien luetteloa näyttämään vain tietyn tuloksen saaneet pelit.
+  }
+  {
+    Käytä <b>chessdb Engine Tree</b> -painiketta <a PGN>PGN-ikkunassa </a> tarkastellaksesi <b>ChessDB.cn</b> -pilvitietokantaa. Se sisältää miljardeja esianalysoituja paikkoja ja tietokonearvioita lähes jokaiselle avaukselle.
+  }
+  {
+    Loistava tapa tutkia aukkoa suuren pelitietokannan avulla on ottaa harjoitustila käyttöön <a Tree>tree</a> -ikkunassa ja pelata tietokantaa vastaan ​​nähdäksesi, mitkä rivit esiintyvät usein.
+  }
+  {
+    Jos sinulla on kaksi tietokantaa auki ja haluat nähdä <a Tree>tree</a> -tilastot ensimmäisestä tietokannasta tutkiessasi peliä toisesta tietokannasta, paina puuikkunan <b>Lock</b> -painiketta lukitaksesi sen ensimmäiseen tietokantaan ja vaihda sitten toiseen kantaan.
+  }
+  {
+    <a Tmt>turnaushaku </a> ei ole hyödyllinen vain tietyn turnauksen etsimisessä, vaan sitä voidaan käyttää myös katsomaan, mihin turnauksiin tietty pelaaja on osallistunut viime aikoina, tai selaamaan tietyn maan huipputurnauksia.
+  }
+  {
+    <a Searches Material>Material/Pattern</a> -hakuikkunassa on määritelty useita yleisiä kuvioita, joista voi olla hyötyä avauksissa tai keskipelissä.
+  }
+  {
+    Kun etsit tiettyä materiaalitilannetta <a Searches Material>Material/Pattern</a> -hakuikkunassa, on usein hyödyllistä rajoittaa haku peleihin, jotka vastaavat vähintään muutaman puoliliikkeen osalta, jotta vältetään pelit, joissa etsitty tilanne esiintyi vain hetken.
+  }
+  {
+    Jos saavutat loppupelin, jossa on 7 tai vähemmän nappulaa, napsauta <b>Table Base</b> -painiketta <a PGN>PGN-ikkunassa </a> saadaksesi täydellisen analyysin Lichessin päätepelien taulukoista.
+  }
+  {
+    Jos sinulla on tärkeä tietokanta, jota et halua vahingossa muuttaa, valitse <b>Read-only...</b> <b>File</b>-valikosta sen avaamisen jälkeen tai muuta sen tiedostooikeudet vain luku -käyttöön.
+  }
+  {
+    Jos käytät XBoardia tai WinBoardia (tai jotain muuta shakkiohjelmaa, joka voi kopioida shakkipaikan tavallisella FEN-merkinnällä leikepöydälle) ja haluat kopioida sen nykyisen shakkipaikan scidCommunityyn, nopein ja helpoin tapa on valita <b>Kopioi sijainti</b> XBoardin/WinBoardin Tiedosto-valikosta <b>Liitä aloitustaulu</b> scidCommunityn Muokkaa-valikosta.
+  }
+  {
+    <a Searches Header>otsikkohaussa </a> pelaajien/tapahtuman/paikan/kierroksen nimet eivät erota kirjainkoosta ja vastaavat missä tahansa nimessä. Voit tehdä sen sijaan kirjainkoolla olevan yleismerkkihaun (jossa "?" = mikä tahansa yksittäinen merkki ja "*" = nolla tai useampi merkki) kirjoittamalla hakuteksti "lainausmerkeissä". Kirjoita esimerkiksi "*BEL" (lainausmerkit) sivustokenttään löytääksesi kaikki Belgiassa pelatut pelit, mutta ei Belgradissa.
+  }
+  {
+    Jos haluat korjata pelin liikkeen menettämättä kaikkia sen jälkeen pelattuja liikkeitä, avaa <a Import>Import</a>-ikkuna, paina <b>Liitä nykyinen peli</b> -painiketta, muokkaa väärää siirtoa ja paina sitten <b>Import</b>.
+  }
+  {
+    Jos sinulla on ladattu ECO-luokitustiedosto, voit siirtyä nykyisen pelin syvimpään luokiteltuun kohtaan <b>Identify opening </b> -painikkeella <b>Game</b> -valikossa (pikanäppäin: Ctrl+Shift+D).
+  }
+  {
+    Pysy ajan tasalla uusimmista peleistä ympäri maailmaa käyttämällä <b>Lataa TWIC Games</b> <b>Tools</b> -valikossa. Se lataa ja avaa automaattisesti uusimman viikoittaisen PGN:n <b>The Week In Chess </b> -julkaisusta.
+  }
+  {
+    Jos haluat tarkistaa tiedoston koon tai sen viimeisimmän muokkauksen päivämäärän ennen sen avaamista, käytä <a Finder>tiedostohakua </a> sen avaamiseen.
+  }
+  {
+    <a OpReport>aloitusraportti </a> on loistava tapa oppia lisää tietystä asemasta. Näet, kuinka hyvin se saa pisteet, johtaako se usein lyhyisiin arvontoihin ja yleisiä sijaintiteemoja.
+  }
+  {
+    Voit lisätä yleisimmät huomautussymbolit (!, !?, += jne.) nykyiseen siirtoon tai sijaintiin pikanäppäimillä ilman, että sinun tarvitsee käyttää <a Comment>kommenttieditoria <a> – esimerkiksi kirjoita "!" sitten Return-näppäintä lisätäksesi "!" huomautussymboli. Katso lisätietoja <a Moves>Shakkiliikkeiden syöttämisen </a> ohjesivulta.
+  }
+  {
+    Jos selaat tietokannan aukkoja <a Tree>-puulla </a>, voit nähdä hyödyllisen yleiskatsauksen nykyisen avauksen pisteytyksen viime aikoina ja korkealuokkaisten pelaajien välillä avaamalla Tilastot-ikkunan (pikanäppäin: Ctrl+I).
+  }
+  {
+    <b>Game Browser</b> -ikkunassa voit muuttaa pelilaudan kokoa pitämällä <b>Ctrl</b>- ja <b>Shift</b>-näppäimiä alhaalla ja painamalla <b>Left</b> tai <b>Oikea</b>-nuolinäppäintä.
+  }
+  {
+    <a Searches>haun</a> jälkeen voit helposti selata kaikkia vastaavia pelejä pitämällä <b>Ctrl</b> painettuna ja painamalla <b>Up</b>- tai <b>Down</b>-näppäintä ladataksesi edellisen tai seuraavan <a Searches Filter>-suodattimen</a>.
+  }
+  {
+    Windows voidaan telakoida tarkistamalla vastaava merkintä asetusvalikosta. Välilehtiä voidaan vetää ja pudottaa yhdestä muistikirjasta toiseen ja asetella napsauttamalla hiiren kakkospainikkeella välilehtiwidgetiä.
+  }
+}
