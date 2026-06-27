@@ -2023,7 +2023,7 @@ set tips(L) {
     Un <a OpReport>raport de deschidere</a> este excelent pentru a afla mai multe despre o anumită poziție. Puteți vedea cât de bine marchează, dacă duce la extrageri scurte frecvente și teme poziționale comune.
   }
   {
-    Puteți adăuga cele mai comune simboluri de adnotare (!, !?, +=, etc) la mișcarea sau poziția curentă cu comenzile rapide de la tastatură fără a fi nevoie să utilizați editorul de comentarii <a Comment> <a> -- de exemplu, tastați „!” apoi tasta Return pentru a adăuga un „!” simbol de adnotare. Consultați pagina de ajutor <a Moves>Introducerea mutărilor de șah </a> pentru detalii.
+    Puteți adăuga cele mai comune simboluri de adnotare (!, !?, +=, etc) la mișcarea sau poziția curentă cu comenzile rapide de la tastatură fără a fi nevoie să utilizați <a Comment>editorul de comentarii</a> -- de exemplu, tastați „!" apoi tasta Return pentru a adăuga un „!" simbol de adnotare. Consultați pagina de ajutor <a Moves>Introducerea mutărilor de șah </a> pentru detalii.
   }
   {
     Dacă răsfoiți deschideri într-o bază de date cu <a Tree>copac</a>, puteți vedea o imagine de ansamblu utilă a cât de bine a punctat deschiderea curentă recent și între jucătorii cu rating ridicat, deschizând fereastra Statistici (comandă rapidă: Ctrl+I).

@@ -2004,7 +2004,7 @@ set tips(O) {
     En <a OpReport>åpningsrapport</a> er flott for å lære mer om en bestemt stilling. Du kan se hvor godt det scorer, om det fører til hyppige korte trekninger og vanlige posisjonstemaer.
   }
   {
-    Du kan legge til de vanligste merknadssymbolene (!, !?, +=, osv.) til gjeldende trekk eller posisjon med hurtigtaster uten å måtte bruke <a Comment>kommentarredigering<a> -- for eksempel, skriv "!" deretter returtasten for å legge til et "!" merknadssymbol. Se hjelpesiden <a Moves>Entering sjakktrekk</a> for detaljer.
+    Du kan legge til de vanligste merknadssymbolene (!, !?, +=, osv.) til gjeldende trekk eller posisjon med hurtigtaster uten å måtte bruke <a Comment>kommentarredigering</a> -- for eksempel, skriv "!" deretter returtasten for å legge til et "!" merknadssymbol. Se hjelpesiden <a Moves>Entering sjakktrekk</a> for detaljer.
   }
   {
     Hvis du blar gjennom åpninger i en database med <a Tree>treet</a>, kan du se en nyttig oversikt over hvor godt den nåværende åpningen scorer nylig og mellom høyt rangerte spillere ved å åpne statistikkvinduet (snarvei: Ctrl+I).

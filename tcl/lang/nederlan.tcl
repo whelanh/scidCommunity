@@ -2029,7 +2029,7 @@ set tips(N) {
     Een <a OpReport> openingsrapport </a> is ideaal om meer over een bepaalde functie te weten te komen. U kunt zien hoe goed het scoort, of het leidt tot frequente korte trekkingen en gemeenschappelijke positionele thema's.
   }
   {
-    U kunt de meest voorkomende annotatiesymbolen (!, !?, +=, enz.) aan de huidige zet of positie toevoegen met sneltoetsen zonder dat u de <a Comment>commentaareditor <a> hoeft te gebruiken - typ bijvoorbeeld "!" en vervolgens de Return-toets om een ​​"!" annotatie symbool. Zie de helppagina <a Moves>Schaakzetten invoeren </a> voor details.
+    U kunt de meest voorkomende annotatiesymbolen (!, !?, +=, enz.) aan de huidige zet of positie toevoegen met sneltoetsen zonder dat u de <a Comment>commentaareditor</a> hoeft te gebruiken - typ bijvoorbeeld "!" en vervolgens de Return-toets om een ​​"!" annotatie symbool. Zie de helppagina <a Moves>Schaakzetten invoeren </a> voor details.
   }
   {
     Als u door openingen in een database bladert met de <a Tree>boom</a>, kunt u een handig overzicht zien van hoe goed de huidige opening recentelijk scoort en tussen spelers met een hoge rating door het venster Statistieken te openen (sneltoets: Ctrl+I).

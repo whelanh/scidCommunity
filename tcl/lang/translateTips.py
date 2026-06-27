@@ -201,9 +201,9 @@ async def safe_translate(translator, text, dest, max_retries=3):
         except Exception as e:
             if attempt == max_retries - 1:
                 print("    Translation failed after %d attempts: %s" % (max_retries, e))
-                return text
+                raise
             await asyncio.sleep(1)
-    return text
+    raise RuntimeError("Translation failed after exhausting retries")
 
 
 async def translate_segments(translator, tip, dest):
@@ -226,20 +226,23 @@ async def translate_segments(translator, tip, dest):
 
 async def translate_tip(translator, tip, dest):
     # Primary: translate the whole tip with the tags protected as sentinels.
-    protected, tags = protect_tags(tip)
-    translated = await safe_translate(translator, protected, dest)
-    restored = restore_tags(translated, tags)
-    # Accept the result only if every tag came back, in the original order,
-    # with no leftover sentinel debris and no link left wrapping empty text.
-    good = (TAG_RE.findall(restored) == tags
-            and not SENTINEL_FRAGMENT_RE.search(restored)
-            and not EMPTY_TAG_RE.search(restored))
-    if good:
-        return sanitize_for_tcl_braces(restored.strip()), True
-    # Otherwise re-translate without ever sending the tags to Google, which
-    # keeps every tag exactly where it belongs (at some cost to fluency).
-    seg = await translate_segments(translator, tip, dest)
-    return sanitize_for_tcl_braces(seg.strip()), False
+    try:
+        protected, tags = protect_tags(tip)
+        translated = await safe_translate(translator, protected, dest)
+        restored = restore_tags(translated, tags)
+        # Accept the result only if every tag came back, in the original order,
+        # with no leftover sentinel debris and no link left wrapping empty text.
+        good = (TAG_RE.findall(restored) == tags
+                and not SENTINEL_FRAGMENT_RE.search(restored)
+                and not EMPTY_TAG_RE.search(restored))
+        if good:
+            return sanitize_for_tcl_braces(restored.strip()), True
+        # Otherwise re-translate without ever sending the tags to Google, which
+        # keeps every tag exactly where it belongs (at some cost to fluency).
+        seg = await translate_segments(translator, tip, dest)
+        return sanitize_for_tcl_braces(seg.strip()), False
+    except Exception:
+        return None, False
 
 
 def build_tips_block(letter, lang_name, translated_tips):
@@ -285,6 +288,10 @@ async def process_language_file(translator, filename, letter, encoding, lang_nam
     fallbacks = 0
     for n, tip in enumerate(english_tips, start=1):
         out, ok = await translate_tip(translator, tip, dest)
+        if out is None:
+            fallbacks += 1
+            print("    tip %d: translation failed, skipping" % n)
+            continue
         if not ok:
             fallbacks += 1
             print("    tip %d: used tag-safe segmented fallback (review wording)" % n)
@@ -295,7 +302,7 @@ async def process_language_file(translator, filename, letter, encoding, lang_nam
 
     if dry_run:
         out_path = path + '.tips.new'
-        with open(out_path, 'w', encoding=encoding, errors='replace') as f:
+        with open(out_path, 'w', encoding=encoding) as f:
             f.write(block)
         print("  Wrote preview: %s (%d tips, %d fallbacks)"
               % (out_path, len(translated), fallbacks))
@@ -304,7 +311,7 @@ async def process_language_file(translator, filename, letter, encoding, lang_nam
             content = f.read()
         if not content.endswith('\n'):
             content += '\n'
-        with open(path, 'w', encoding=encoding, errors='replace') as f:
+        with open(path, 'w', encoding=encoding) as f:
             f.write(content)
             f.write(block)
         print("  Appended to %s (%d tips, %d fallbacks)"

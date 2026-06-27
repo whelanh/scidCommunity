@@ -2026,7 +2026,7 @@ set tips(K) {
     An <a OpReport>informe d'obertura</a> és ideal per aprendre més sobre una posició concreta. Podeu veure com de bé puntua, si condueix a sorteigs curts freqüents i temes posicionals comuns.
   }
   {
-    Podeu afegir els símbols d'anotació més habituals (!, !?, +=, etc.) al moviment o posició actual amb tecles de drecera sense necessitat d'utilitzar l'editor de comentaris <a Comment><a>, per exemple, escriviu "!" després la tecla Retorn per afegir un "!" símbol d'anotació. Consulteu la pàgina d'ajuda <a Moves>Entrar moviments d'escacs </a> per obtenir més informació.
+    Podeu afegir els símbols d'anotació més habituals (!, !?, +=, etc.) al moviment o posició actual amb tecles de drecera sense necessitat d'utilitzar <a Comment>l'editor de comentaris</a>, per exemple, escriviu "!" després la tecla Retorn per afegir un "!" símbol d'anotació. Consulteu la pàgina d'ajuda <a Moves>Entrar moviments d'escacs </a> per obtenir més informació.
   }
   {
     Si esteu navegant per les obertures en una base de dades amb el <a Tree>arbre</a>, podeu veure una visió general útil de la puntuació de l'obertura actual recentment i entre jugadors ben valorats obrint la finestra Estadístiques (drecera: Ctrl+I).

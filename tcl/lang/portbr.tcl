@@ -2012,7 +2012,7 @@ set tips(B) {
     Um <a OpReport>relatório de abertura</a> é ótimo para aprender mais sobre uma posição específica. Você pode ver quão bem ele pontua, se leva a empates curtos frequentes e temas posicionais comuns.
   }
   {
-    Você pode adicionar os símbolos de anotação mais comuns (!, !?, +=, etc) ao movimento ou posição atual com atalhos de teclado sem precisar usar o editor de comentários <a Comment><a> - por exemplo, digite "!" em seguida, a tecla Return para adicionar um "!" símbolo de anotação. Consulte a página de ajuda <a Moves>Inserindo movimentos de xadrez </a> para obter detalhes.
+    Você pode adicionar os símbolos de anotação mais comuns (!, !?, +=, etc) ao movimento ou posição atual com atalhos de teclado sem precisar usar o <a Comment>editor de comentários</a> - por exemplo, digite "!" em seguida, a tecla Return para adicionar um "!" símbolo de anotação. Consulte a página de ajuda <a Moves>Inserindo movimentos de xadrez </a> para obter detalhes.
   }
   {
     Se você estiver navegando por vagas em um banco de dados com o <a Tree>árvore</a>, você pode ter uma visão geral útil de quão bem a abertura atual está pontuando recentemente e entre jogadores de alto rating abrindo a janela Estatísticas (atalho: Ctrl+I).

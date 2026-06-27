@@ -1750,7 +1750,7 @@ set tips(P) {
     Jakiś <a OpReport>raport otwarcia</a> świetnie nadaje się do zdobywania większej wiedzy na temat konkretnego stanowiska. Możesz zobaczyć, jak dobrze zdobywa punkty, czy prowadzi do częstych krótkich remisów i typowych motywów pozycyjnych.
   }
   {
-    Możesz dodać najpopularniejsze symbole adnotacji (!, !?, += itp.) do bieżącego ruchu lub pozycji za pomocą skrótów klawiaturowych bez konieczności korzystania z edytora komentarzy <a Comment> <a> — na przykład wpisz „!” następnie klawisz Return, aby dodać „!” symbol adnotacji. Szczegóły znajdziesz na stronie pomocy <a Moves>Wprowadzanie ruchów szachowych</a>.
+    Możesz dodać najpopularniejsze symbole adnotacji (!, !?, += itp.) do bieżącego ruchu lub pozycji za pomocą skrótów klawiaturowych bez konieczności korzystania z <a Comment>edytora komentarzy</a> — na przykład wpisz „!" następnie klawisz Return, aby dodać „!" symbol adnotacji. Szczegóły znajdziesz na stronie pomocy <a Moves>Wprowadzanie ruchów szachowych</a>.
   }
   {
     Jeśli przeglądasz oferty w bazie danych za pomocą rozszerzenia <a Tree>drzewo</a>, otwierając okno Statystyki (skrót: Ctrl+I), możesz zobaczyć przydatne zestawienie wyników bieżącego otwarcia oraz rankingów graczy o wysokich ocenach.
