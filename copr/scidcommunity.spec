@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.3.59
+Version:        5.1.3.61
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 2e0bef8502465b346575cf4c1d7330400bd2ef0b
+%global commit 9018615ddd6befad2e51fcce1138fe235c1dcfab
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Sun Jul 05, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-61
+- "Fix engine reporting issue (integer overflow)"
 * Sun Jun 28, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-59
 - "Include translated Tip of The Day"
 * Fri Jun 26, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-58
