@@ -330,7 +330,13 @@ proc ::enginewin::createDisplayFrame {id display} {
         # set movestart [%W index "@%x,%y wordstart"]
         # %W tag add markmove $movestart "$movestart wordend"
         set movestart "[%W search -backwards -regexp {\s} "@%x,%y"] +1chars"
-        set new_markmove [list [%W index $movestart] [%W search " " $movestart]]
+        # Limit the forward search to the current line: when the pv is the last
+        # text on the line (e.g. the engine sent no node count or WDL info) there
+        # is no trailing space and an unbounded search would wrap onto the next
+        # line, highlighting the depth/score/first move of the following line.
+        set moveend [%W search " " $movestart "$movestart lineend"]
+        if {$moveend eq ""} { set moveend [%W index "$movestart lineend"] }
+        set new_markmove [list [%W index $movestart] $moveend]
         if {$new_markmove eq $old_markmove} { return }
 
         if {$old_markmove ne ""} { %W tag remove markmove {*}$old_markmove }
@@ -946,10 +952,18 @@ proc ::enginewin::updateOptions {id msgData} {
 # If index is not valid an exception is raised.
 proc ::enginewin::getMoves {w index} {
     lassign [$w tag nextrange moves "$index linestart"] begin end
+    # Constrain the forward search to the current line. If the pv is the last
+    # text on the line (e.g. the engine sent no node count or WDL info) there is
+    # no trailing space; an unbounded search would wrap onto the next line and
+    # return moves mixed with the depth/score of the following line, which would
+    # make the last move impossible to select. In that case fall back to the end
+    # of the moves range ($end) so the whole line (including the last move) is used.
     if {[regexp {^\d+\.0$} $index]} {
-        set end [$w search " " $begin]
+        set space [$w search " " $begin "$begin lineend"]
+        if {$space ne ""} { set end $space }
     } elseif {![regexp {^\d+\.end$} $index]} {
-        set end [$w search " " $index]
+        set space [$w search " " $index "$index lineend"]
+        if {$space ne ""} { set end $space }
     }
     if {[$w tag nextrange translated $begin $end] eq ""} {
         set moves [$w get $begin $end]
