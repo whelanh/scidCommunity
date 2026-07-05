@@ -744,7 +744,10 @@ proc ::uci::parseline {id line} {
         set idx -1
         set tokens [list multipv depth seldepth nodes nps hashfull tbhits time score]
         foreach elem [split $line] {
-            if {[string is integer -strict $elem]} {
+            # Use wideinteger (64-bit) rather than integer: in Tcl 8.6 "string is
+            # integer" only accepts 32-bit values, so large node/nps/tbhits counts
+            # (> 2147483647, common in long searches) would be silently dropped.
+            if {[string is wideinteger -strict $elem]} {
                 if {$idx >= 0 && $idx <= 8} {
                     lset msgData $idx $elem
                 } elseif {$idx == 10} {
