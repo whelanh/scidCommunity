@@ -790,9 +790,11 @@ proc ::enginewin::updateDisplay {id msgData} {
         $pv_lines configure -state disabled
         # Clear stored PV lines for multi-arrow display
         set ::enginewin::m_(pvlines,$id) {}
-        foreach key [array names ::enginewin::pvBestMove $id,*] {
-            unset ::enginewin::pvBestMove($key)
-        }
+if {[array exists ::enginewin::pvBestMove]} {
+    foreach key [array names ::enginewin::pvBestMove "$id,*"] {
+        unset ::enginewin::pvBestMove($key)
+    }
+}
         return
     }
 
