@@ -790,6 +790,11 @@ proc ::enginewin::updateDisplay {id msgData} {
         $pv_lines configure -state disabled
         # Clear stored PV lines for multi-arrow display
         set ::enginewin::m_(pvlines,$id) {}
+if {[array exists ::enginewin::pvBestMove]} {
+    foreach key [array names ::enginewin::pvBestMove "$id,*"] {
+        unset ::enginewin::pvBestMove($key)
+    }
+}
         return
     }
 
@@ -901,8 +906,23 @@ proc ::enginewin::updateDisplay {id msgData} {
         if { [info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id) } {
             ::pgnviewer::EngineBestMove $::enginewin::pgnviewer($id) $id $scoreStr $best_move [::enginewin::getEngineColor 1 $line]
         } else {
-            ::notify::EngineBestMove $id $best_move $scoreStr [::enginewin::getEngineColor $id $line]
-        }
+            set ::enginewin::pvBestMove($id,$multipv) $best_move
+            if {$multipv == 1} {
+                foreach key [array names ::enginewin::pvBestMove $id,*] {
+                    if {$key ne "$id,1"} { unset ::enginewin::pvBestMove($key) }
+                }
+            }
+set allMoves {}
+for {set pv 1} {$pv <= 3} {incr pv} {
+    if {[info exists ::enginewin::pvBestMove($id,$pv)]} {
+        lappend allMoves $::enginewin::pvBestMove($id,$pv)
+    }
+}
+set notifyScore $scoreStr
+if {$multipv != 1 && [info exists ::enginewin::scorePV1($id)]} {
+    set notifyScore $::enginewin::scorePV1($id)
+}
+::notify::EngineBestMove $id $best_move $notifyScore $allMoves
     }
 }
 
@@ -1098,9 +1118,14 @@ proc ::enginewin::changeState {id newState} {
             ::pgnviewer::EngineBestMove $::enginewin::pgnviewer($id) $id "" "" [::enginewin::getEngineColor 1 2]
             ::pgnviewer::EngineBestMove $::enginewin::pgnviewer($id) $id "" "" [::enginewin::getEngineColor 1 3]
         } else {
-            ::notify::EngineBestMove $id "" "" [::enginewin::getEngineColor $id 1]
-            ::notify::EngineBestMove $id "" "" [::enginewin::getEngineColor $id 2]
-            ::notify::EngineBestMove $id "" "" [::enginewin::getEngineColor $id 3]
+if {[array exists ::enginewin::pvBestMove]} {
+    foreach key [array names ::enginewin::pvBestMove "$id,*"] {
+        unset ::enginewin::pvBestMove($key)
+    }
+}
+            ::notify::EngineBestMove $id "" "" {}
+            ::notify::EngineBestMove $id "" "" {}
+            ::notify::EngineBestMove $id "" "" {}
         }
     } elseif {$::enginewin::engState($id) in {paused.idle paused.closed}} {
         ::enginewin::toggleConfigPane $id hide
