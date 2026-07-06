@@ -912,14 +912,17 @@ if {[array exists ::enginewin::pvBestMove]} {
                     if {$key ne "$id,1"} { unset ::enginewin::pvBestMove($key) }
                 }
             }
-            set allMoves {}
-            for {set pv 1} {$pv <= 3} {incr pv} {
-                if {[info exists ::enginewin::pvBestMove($id,$pv)]} {
-                    lappend allMoves $::enginewin::pvBestMove($id,$pv)
-                }
-            }
-            ::notify::EngineBestMove $id $best_move $scoreStr $allMoves
-        }
+set allMoves {}
+for {set pv 1} {$pv <= 3} {incr pv} {
+    if {[info exists ::enginewin::pvBestMove($id,$pv)]} {
+        lappend allMoves $::enginewin::pvBestMove($id,$pv)
+    }
+}
+set notifyScore $scoreStr
+if {$multipv != 1 && [info exists ::enginewin::scorePV1($id)]} {
+    set notifyScore $::enginewin::scorePV1($id)
+}
+::notify::EngineBestMove $id $best_move $notifyScore $allMoves
     }
 }
 
