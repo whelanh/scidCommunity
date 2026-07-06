@@ -901,7 +901,7 @@ proc ::enginewin::updateDisplay {id msgData} {
         if { [info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id) } {
             ::pgnviewer::EngineBestMove $::enginewin::pgnviewer($id) $id $scoreStr $best_move [::enginewin::getEngineColor 1 $line]
         } else {
-            ::notify::EngineBestMove $id $best_move $scoreStr [::enginewin::getEngineColor $id $line]
+            ::notify::EngineBestMove $id $best_move $scoreStr [list $best_move]
         }
     }
 }
@@ -1098,9 +1098,9 @@ proc ::enginewin::changeState {id newState} {
             ::pgnviewer::EngineBestMove $::enginewin::pgnviewer($id) $id "" "" [::enginewin::getEngineColor 1 2]
             ::pgnviewer::EngineBestMove $::enginewin::pgnviewer($id) $id "" "" [::enginewin::getEngineColor 1 3]
         } else {
-            ::notify::EngineBestMove $id "" "" [::enginewin::getEngineColor $id 1]
-            ::notify::EngineBestMove $id "" "" [::enginewin::getEngineColor $id 2]
-            ::notify::EngineBestMove $id "" "" [::enginewin::getEngineColor $id 3]
+            ::notify::EngineBestMove $id "" "" {}
+            ::notify::EngineBestMove $id "" "" {}
+            ::notify::EngineBestMove $id "" "" {}
         }
     } elseif {$::enginewin::engState($id) in {paused.idle paused.closed}} {
         ::enginewin::toggleConfigPane $id hide

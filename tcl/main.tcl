@@ -386,6 +386,8 @@ proc ::updateMainEvalBar {engineID bestmove evaluation {pvlines {}}} {
                 set cleanMove [string map {"\u2654" K "\u2655" Q "\u2656" R "\u2657" B "\u2658" N} [::untrans $move]]
                 if {[catch { sc_game SANtoUCI $cleanMove } moveUCI] == 0 && $moveUCI ne ""} {
                     lappend uciMoves $moveUCI
+                } elseif {[regexp {^[a-h][1-8][a-h][1-8][qrbn]?$} $cleanMove]} {
+                    lappend uciMoves $cleanMove
                 }
                 incr lineCount
             }
