@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.3.61
+Version:        5.1.3.62
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 9018615ddd6befad2e51fcce1138fe235c1dcfab
+%global commit f9fe6206aed1d87a544137cf452d9a6d54862687
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Mon Jul 06, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-62
+- "Fix arrow display if engine started from evaluation bar"
 * Sun Jul 05, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-61
 - "Fix engine reporting issue (integer overflow)"
 * Sun Jun 28, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-59
