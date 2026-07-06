@@ -790,6 +790,9 @@ proc ::enginewin::updateDisplay {id msgData} {
         $pv_lines configure -state disabled
         # Clear stored PV lines for multi-arrow display
         set ::enginewin::m_(pvlines,$id) {}
+        foreach key [array names ::enginewin::pvBestMove $id,*] {
+            unset ::enginewin::pvBestMove($key)
+        }
         return
     }
 
@@ -901,7 +904,19 @@ proc ::enginewin::updateDisplay {id msgData} {
         if { [info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id) } {
             ::pgnviewer::EngineBestMove $::enginewin::pgnviewer($id) $id $scoreStr $best_move [::enginewin::getEngineColor 1 $line]
         } else {
-            ::notify::EngineBestMove $id $best_move $scoreStr [list $best_move]
+            set ::enginewin::pvBestMove($id,$multipv) $best_move
+            if {$multipv == 1} {
+                foreach key [array names ::enginewin::pvBestMove $id,*] {
+                    if {$key ne "$id,1"} { unset ::enginewin::pvBestMove($key) }
+                }
+            }
+            set allMoves {}
+            for {set pv 1} {$pv <= 3} {incr pv} {
+                if {[info exists ::enginewin::pvBestMove($id,$pv)]} {
+                    lappend allMoves $::enginewin::pvBestMove($id,$pv)
+                }
+            }
+            ::notify::EngineBestMove $id $best_move $scoreStr $allMoves
         }
     }
 }
@@ -1098,6 +1113,9 @@ proc ::enginewin::changeState {id newState} {
             ::pgnviewer::EngineBestMove $::enginewin::pgnviewer($id) $id "" "" [::enginewin::getEngineColor 1 2]
             ::pgnviewer::EngineBestMove $::enginewin::pgnviewer($id) $id "" "" [::enginewin::getEngineColor 1 3]
         } else {
+            foreach key [array names ::enginewin::pvBestMove $id,*] {
+                unset ::enginewin::pvBestMove($key)
+            }
             ::notify::EngineBestMove $id "" "" {}
             ::notify::EngineBestMove $id "" "" {}
             ::notify::EngineBestMove $id "" "" {}
