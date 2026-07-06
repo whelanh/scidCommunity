@@ -923,6 +923,7 @@ if {$multipv != 1 && [info exists ::enginewin::scorePV1($id)]} {
     set notifyScore $::enginewin::scorePV1($id)
 }
 ::notify::EngineBestMove $id $best_move $notifyScore $allMoves
+        }
     }
 }
 
