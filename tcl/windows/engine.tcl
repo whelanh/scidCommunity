@@ -1115,9 +1115,11 @@ proc ::enginewin::changeState {id newState} {
             ::pgnviewer::EngineBestMove $::enginewin::pgnviewer($id) $id "" "" [::enginewin::getEngineColor 1 2]
             ::pgnviewer::EngineBestMove $::enginewin::pgnviewer($id) $id "" "" [::enginewin::getEngineColor 1 3]
         } else {
-            foreach key [array names ::enginewin::pvBestMove $id,*] {
-                unset ::enginewin::pvBestMove($key)
-            }
+if {[array exists ::enginewin::pvBestMove]} {
+    foreach key [array names ::enginewin::pvBestMove "$id,*"] {
+        unset ::enginewin::pvBestMove($key)
+    }
+}
             ::notify::EngineBestMove $id "" "" {}
             ::notify::EngineBestMove $id "" "" {}
             ::notify::EngineBestMove $id "" "" {}
