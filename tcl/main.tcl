@@ -380,6 +380,8 @@ proc ::updateMainEvalBar {engineID bestmove evaluation {pvlines {}}} {
             # Convert all PV moves to UCI format
             set uciMoves {}
             set lineCount 0
+            set legalUciMoves {}
+            set haveLegalUciMoves 0
             foreach move $pvlines {
                 # If showEngineVariationArrows is disabled, only show the best move (first line)
                 if {!$::showEngineVariationArrows && $lineCount >= 1} { break }
@@ -387,7 +389,14 @@ proc ::updateMainEvalBar {engineID bestmove evaluation {pvlines {}}} {
                 if {[catch { sc_game SANtoUCI $cleanMove } moveUCI] == 0 && $moveUCI ne ""} {
                     lappend uciMoves $moveUCI
                 } elseif {[regexp {^[a-h][1-8][a-h][1-8][qrbn]?$} $cleanMove]} {
-                    lappend uciMoves $cleanMove
+                    if {!$haveLegalUciMoves} {
+                        set legalUciMoves {}
+                        foreach {san uci} [sc_pos moves 1] { lappend legalUciMoves $uci }
+                        set haveLegalUciMoves 1
+                    }
+                    if {$cleanMove in $legalUciMoves} {
+                        lappend uciMoves $cleanMove
+                    }
                 }
                 incr lineCount
             }
