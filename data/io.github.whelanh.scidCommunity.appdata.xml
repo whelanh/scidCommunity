@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+ <release version="5.1.3.64" date="2026-07-08">
+      <description>
+        <p>Improve Polish translations and add Polish help file</p>
+      </description>
+    </release>
  <release version="5.1.3.63" date="2026-07-06">
       <description>
         <p>Fix arrow display if engine started from the evaluation bar</p>
