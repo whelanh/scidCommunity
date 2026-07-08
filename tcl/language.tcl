@@ -292,6 +292,28 @@ proc tr {tag {lang ""}} {
   return $tag
 }
 ################################################################################
+# loadTranslatedHelp:
+#   Sources the translated help-page file (if any) for the given language
+#   letter. Files reside in tcl/help/ and define language-prefixed keys such
+#   as helpText(P,Contents)/helpTitle(P,Contents). Sourced at most once per
+#   language; missing files are ignored so untranslated languages simply keep
+#   using the English help pages.
+################################################################################
+array set ::helpLangFile { P helpPL.tcl }
+array set ::helpLangLoaded {}
+
+proc loadTranslatedHelp {lang} {
+  global helpTitle helpText
+  if {[info exists ::helpLangLoaded($lang)]} { return }
+  if {![info exists ::helpLangFile($lang)]} { return }
+  set ::helpLangLoaded($lang) 1
+  set path [file nativename [file join $::scidTclDir help $::helpLangFile($lang)]]
+  if {![file readable $path]} { return }
+  if {[catch { source -encoding utf-8 $path } err]} {
+    tk_messageBox -message "Error loading $lang help: $err"
+  }
+}
+################################################################################
 #
 ################################################################################
 proc setLanguage {} {
@@ -340,6 +362,12 @@ proc setLanguage {} {
   } err ]} {
     tk_messageBox -message "Error loading $lang language: $err"
   }
+
+  # Load translated help pages on demand for languages that provide them.
+  # Files live in tcl/help/ and define language-prefixed keys, e.g.
+  # helpText(P,Contents); the help viewer falls back to English for any
+  # topic a translation omits. Each file is sourced at most once.
+  loadTranslatedHelp $lang
 
   # If using Tk, translate all menus:
   if {[winfo exists .menu]} { setLanguageMenus }
