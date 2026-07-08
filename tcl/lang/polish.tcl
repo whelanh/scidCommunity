@@ -774,7 +774,7 @@ menuText P PgnColorCurrent {Tło bieżącego posunięcia...} 0
 menuText P PgnHelp {Pomoc} 0
 menuText P PgnHelpPgn {Pomoc PGN} 0
 menuText P PgnHelpIndex {Indeks} 0
-translate P PgnWindowTitle {Okno PGN  }
+translate P PgnWindowTitle {Okno PGN - partia %u}
 
 
 # Crosstable window menus:
