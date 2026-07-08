@@ -2049,7 +2049,7 @@ set tips(P) {
     szukana sytuacja wystąpiła tylko chwilowo.
   }
   {
-    Jeśli osiągniesz końcówkę z 7 lub mniej figurami, kliknij przycisk <b>Table Base</b> w Oknie <aOknie PGN>PGN</a>, aby uzyskać perfekcyjną analizę z baz tabel końcowych Lichess.
+    Jeśli osiągniesz końcówkę z 7 lub mniej figurami, kliknij przycisk <b>Table Base</b> w oknie <a PGN>PGN</a>, aby uzyskać perfekcyjną analizę z baz tabel końcowych Lichess.
   }
   {
     Jeśli posiadasz ważną bazę danych, której nie chcesz przypadkowo zmienić,
