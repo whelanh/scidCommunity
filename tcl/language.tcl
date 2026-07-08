@@ -306,9 +306,9 @@ proc loadTranslatedHelp {lang} {
   global helpTitle helpText
   if {[info exists ::helpLangLoaded($lang)]} { return }
   if {![info exists ::helpLangFile($lang)]} { return }
-  set ::helpLangLoaded($lang) 1
   set path [file nativename [file join $::scidTclDir help $::helpLangFile($lang)]]
   if {![file readable $path]} { return }
+  set ::helpLangLoaded($lang) 1
   if {[catch { source -encoding utf-8 $path } err]} {
     tk_messageBox -message "Error loading $lang help: $err"
   }
