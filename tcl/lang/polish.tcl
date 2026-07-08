@@ -58,7 +58,7 @@ menuText P EditReset {Opróżnij schowek} 0 {Całkowicie opróżnij bazę schowk
 menuText P EditCopy {Kopiuj tę partię do schowka} 0 {Kopiuj tę partię do bazy schowka}
 menuText P EditPaste {Wklej ostatnią partię ze schowka} 0 {Wklej tutaj aktywną partię z bazy schowka}
 menuText P EditPastePGN {Wklej tekst ze schowka jako partię PGN...} 0 {Zinterpretuj tekst ze schowka jako partię w notacji PGN i wklej ją tutaj}
-menuText P EditSetup {Ustaw pozycję...} 0 {Ustaw pozycję  partii}
+menuText P EditSetup {Ustaw pozycję...} 0 {Ustaw pozycję partii}
 menuText P EditCopyBoard {Kopiuj pozycję jako FEN} 0 {Kopiuj bieżącą pozycję w notacji FEN do zaznaczenia tekstowego (schowka)}
 menuText P EditPasteBoard {Wklej pozycję jako FEN} 0 {Ustaw pozycję początkową z bieżącego zaznaczenia tekstowego (schowka)}
 menuText P ConfigureScid {Preferencje...} 0 {Skonfiguruj wszystkie opcje Scid}
