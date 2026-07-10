@@ -123,14 +123,14 @@ menuText M WindowsTree "棋局树" 0 {显示/隐藏棋局树窗口}
 menuText M WindowsBook "开局库窗口" 0 {打开/关闭开局库窗口}
 menuText M WindowsCorrChess "通讯窗口" 0 {打开/关闭通讯窗口}
 menuText M WindowsGraph "分析图表" 0 {打开显示着法时间和评估的图表窗口}
-menuText M WindowsEPD "环保署窗口..." 0 {打开 EPD（位置文件）编辑器窗口}
+menuText M WindowsEPD "EPD窗口..." 0 {打开 EPD（位置文件）编辑器窗口}
 
 # EPD window:
-translate M EpdPasteAnal {焊膏分析}
+translate M EpdPasteAnal {粘贴分析}
 translate M EpdSortOpcodes {排序操作码}
-translate M EpdAddPosition {添加职位}
+translate M EpdAddPosition {添加位置}
 translate M EpdFindPos {寻找游戏中的位置}
-translate M EpdAnalPosition {分析职位...}
+translate M EpdAnalPosition {分析位置...}
 translate M EpdStripOpcodes {剥离操作码...}
 translate M EpdAnnotateTime {每个位置的秒数}
 translate M EpdCountBestMoves {计算最佳动作}
@@ -138,7 +138,7 @@ translate M EpdDontSave {不保存}
 translate M EpdReadOnly {只读}
 translate M EpdAltered {改变的}
 translate M EpdNoMoves {没有动作}
-translate M positions {职位}
+translate M positions {位置}
 
 # Tools menu:
 menuText M Tools "工具" 0

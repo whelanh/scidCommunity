@@ -160,10 +160,10 @@ translate W EpdAnalPosition {Analysera positioner...}
 translate W EpdStripOpcodes {Avlägsna opkoder...}
 translate W EpdAnnotateTime {Sekunder per position}
 translate W EpdCountBestMoves {Räkna bästa drag}
-translate W EpdDontSave {Don't Save}
+translate W EpdDontSave {Spara inte}
 translate W EpdReadOnly {skrivskyddad}
 translate W EpdAltered {ändrats}
-translate W EpdNoMoves {no moves}
+translate W EpdNoMoves {inga drag}
 translate W positions {positioner}
 
 # Tools menu:

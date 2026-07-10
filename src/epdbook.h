@@ -6,6 +6,7 @@
 #include <string>
 #include <string_view>
 #include <string.h>
+#include <unordered_map>
 #include <vector>
 
 struct EpdEntry {
@@ -18,6 +19,7 @@ class EpdBook {
 	bool altered_ = false;
 	bool readOnly_ = false;
 	std::vector<EpdEntry> entries_;
+	std::unordered_map<std::string, size_t> fenIndex_;
 	uint nextIndex_ = 0;
 
 	static std::string canonicalFen(Position* pos);

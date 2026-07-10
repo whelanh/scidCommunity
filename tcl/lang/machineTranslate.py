@@ -196,6 +196,7 @@ def to_tcl_unicode(text):
 def safe_translate(session, text, src='en', dest='es', max_retries=3):
     """
     Safely translate text with retry logic and error handling.
+    Returns the translated text on success, or None on failure.
     """
     if not text or not text.strip():
         return text
@@ -211,10 +212,10 @@ def safe_translate(session, text, src='en', dest='es', max_retries=3):
         except Exception as e:
             if attempt == max_retries - 1:
                 print(f"    Translation failed after {max_retries} attempts: {e}")
-                return text
+                return None
             time.sleep(1)
 
-    return text
+    return None
 
 def process_all_files(script_dir):
     """
@@ -337,30 +338,37 @@ def process_file(input_file, target_language, encoding, return_stats=False):
                             print(f"Translating Line {i+2} (menuText full, {len(entry_lines)} lines)...")
                             text1_tr = safe_translate(session, match_full.group(2), src='en', dest=target_language)
                             text2_tr = safe_translate(session, match_full.group(4), src='en', dest=target_language)
-                            translated_lines = f'{match_full.group(1)}"{text1_tr}"{match_full.group(3)}{{{text2_tr}}}{match_full.group(5)}'
-                            
+                            if text1_tr is not None and text2_tr is not None:
+                                translated_lines = f'{match_full.group(1)}"{text1_tr}"{match_full.group(3)}{{{text2_tr}}}{match_full.group(5)}'
+
                         elif match_quotes:
                             print(f"Translating Line {i+2} (menuText quotes)...")
                             text1_tr = safe_translate(session, match_quotes.group(2), src='en', dest=target_language)
-                            translated_lines = f'{match_quotes.group(1)}"{text1_tr}"{match_quotes.group(3)}\n'
+                            if text1_tr is not None:
+                                translated_lines = f'{match_quotes.group(1)}"{text1_tr}"{match_quotes.group(3)}\n'
 
                         elif match_trans_braces:
                             print(f"Translating Line {i+2} (translate braces, {len(entry_lines)} lines)...")
                             text_tr = safe_translate(session, match_trans_braces.group(2), src='en', dest=target_language)
-                            translated_lines = f'{match_trans_braces.group(1)}{{{text_tr}}}{match_trans_braces.group(3)}'
+                            if text_tr is not None:
+                                translated_lines = f'{match_trans_braces.group(1)}{{{text_tr}}}{match_trans_braces.group(3)}'
 
                         elif match_trans_quotes:
                             print(f"Translating Line {i+2} (translate quotes)...")
                             text_tr = safe_translate(session, match_trans_quotes.group(2), src='en', dest=target_language)
-                            translated_lines = f'{match_trans_quotes.group(1)}"{text_tr}"{match_trans_quotes.group(3)}\n'
+                            if text_tr is not None:
+                                translated_lines = f'{match_trans_quotes.group(1)}"{text_tr}"{match_trans_quotes.group(3)}\n'
 
                         if translated_lines:
                             outfile.write(translated_lines)
                             translation_count += 1
                             i += len(entry_lines)  # Skip all the lines we've processed
                         else:
-                            print(f"Warning: Line {i+2} follows TODO but doesn't match any expected format.")
-                            print(f"  Content: {first_line.strip()}")
+                            if match_full or match_quotes or match_trans_braces or match_trans_quotes:
+                                print(f"Warning: Translation failed for line {i+2}, preserving TODO marker.")
+                            else:
+                                print(f"Warning: Line {i+2} follows TODO but doesn't match any expected format.")
+                                print(f"  Content: {first_line.strip()}")
                 
                 i += 1
 

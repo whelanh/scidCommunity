@@ -63,6 +63,10 @@ namespace eval epd {
   proc epdFindText {id entry} {
     set lb .epd$id.lb
     set text .epd$id.text
+    # Flush unsaved edits before searching
+    if {[$text edit modified]} {
+      storeEpdText $id
+    }
     set find [$entry get]
     set i [$lb curselection]
     if {$i == ""} { set i 0 }
@@ -374,7 +378,14 @@ namespace eval epd {
   proc updateEpdWins {} {
     variable maxEpd
     for {set i 1} {$i <= $maxEpd} {incr i} {
-      if {[winfo exists .epd$i]} { updateEpdWin $i }
+      if {[winfo exists .epd$i]} {
+        set text .epd$i.text
+        # Preserve unsaved edits before refreshing
+        if {[winfo exists $text] && [$text edit modified]} {
+          storeEpdText $i
+        }
+        updateEpdWin $i
+      }
     }
   }
 

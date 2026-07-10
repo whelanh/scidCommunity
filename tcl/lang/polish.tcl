@@ -108,18 +108,18 @@ menuText P WindowsGraph {Wykres analizy} 0 {Otwórz okno wykresu z czasami posun
 menuText P WindowsEPD "Okno EPD..." 0 {Otwórz okno edytora EPD (pliku pozycji).}
 
 # EPD window:
-translate P EpdPasteAnal {Analiza pasty}
-translate P EpdSortOpcodes {Sortuj kody operacji}
+translate P EpdPasteAnal {Wklej analizę}
+translate P EpdSortOpcodes {Sortuj kody operacyjne}
 translate P EpdAddPosition {Dodaj pozycję}
-translate P EpdFindPos {Znajdź pozycję w grze}
-translate P EpdAnalPosition {Analizuj pozycje...}
-translate P EpdStripOpcodes {Usuń kody operacji...}
-translate P EpdAnnotateTime {Sekundy na pozycję}
+translate P EpdFindPos {Znajdź pozycję w partii}
+translate P EpdAnalPosition {Analizuj pozycję...}
+translate P EpdStripOpcodes {Usuń kody operacyjne...}
+translate P EpdAnnotateTime {Sekund na pozycję}
 translate P EpdCountBestMoves {Policz najlepsze ruchy}
 translate P EpdDontSave {Nie zapisuj}
-translate P EpdReadOnly {tylko do odczytu}
-translate P EpdAltered {zmieniony}
-translate P EpdNoMoves {żadnych ruchów}
+translate P EpdReadOnly {Tylko do odczytu}
+translate P EpdAltered {Zmieniony}
+translate P EpdNoMoves {Brak ruchów}
 translate P positions {pozycje}
 
 # Tools menu:

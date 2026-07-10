@@ -16,6 +16,7 @@
 
 #include "epdbook.h"
 #include "misc.h"
+#include <cstdio>
 #include <fstream>
 
 EpdBook::~EpdBook() { delete[] fileName_; }
@@ -43,23 +44,21 @@ std::string EpdBook::canonicalFen(Position* pos) {
 
 bool EpdBook::find(Position* pos, const char** ptrComment) const {
 	std::string fen = canonicalFen(pos);
-	for (const auto& e : entries_) {
-		if (e.fen == fen) {
-			if (ptrComment) {
-				*ptrComment = e.comment.c_str();
-			}
-			return true;
+	auto it = fenIndex_.find(fen);
+	if (it != fenIndex_.end()) {
+		if (ptrComment) {
+			*ptrComment = entries_[it->second].comment.c_str();
 		}
+		return true;
 	}
 	return false;
 }
 
 int EpdBook::getIndex(Position* pos) const {
 	std::string fen = canonicalFen(pos);
-	for (size_t i = 0; i < entries_.size(); ++i) {
-		if (entries_[i].fen == fen) {
-			return static_cast<int>(i);
-		}
+	auto it = fenIndex_.find(fen);
+	if (it != fenIndex_.end()) {
+		return static_cast<int>(it->second);
 	}
 	return -1;
 }
@@ -74,14 +73,16 @@ int EpdBook::setIndex(uint idx) {
 
 void EpdBook::insert(Position* pos, const char* comment) {
 	std::string fen = canonicalFen(pos);
-	for (auto& e : entries_) {
-		if (e.fen == fen) { // Already exists: overwrite the comment.
-			e.comment = comment;
-			altered_ = true;
-			return;
-		}
+	auto it = fenIndex_.find(fen);
+	if (it != fenIndex_.end()) {
+		// Already exists: overwrite the comment.
+		entries_[it->second].comment = comment;
+		altered_ = true;
+		return;
 	}
-	entries_.push_back({std::move(fen), std::string(comment)});
+	size_t newIndex = entries_.size();
+	entries_.push_back({fen, std::string(comment)});
+	fenIndex_[fen] = newIndex;
 	altered_ = true;
 }
 
@@ -155,17 +156,27 @@ errorT EpdBook::readFile() {
 	}
 
 	entries_.clear();
+	fenIndex_.clear();
 	Position pos;
 	std::string line;
+	uint lineNumber = 0;
 	while (std::getline(in, line)) {
+		lineNumber++;
 		if (!line.empty() && line.back() == '\r') {
 			line.pop_back();
 		}
 		if (line.empty()) {
 			continue;
 		}
+		std::string originalLine = line;
 		if (pos.ReadFromFEN(line.c_str()) != OK) {
-			continue; // Skip malformed lines.
+			// Preserve malformed line as raw text to prevent data loss.
+			// Use a synthetic FEN key that won't match any valid position.
+			std::string malformedKey = "MALFORMED:" + std::to_string(lineNumber);
+			size_t idx = entries_.size();
+			entries_.push_back({malformedKey, originalLine});
+			fenIndex_[malformedKey] = idx;
+			continue;
 		}
 
 		// Skip over the first four (FEN) fields to reach the opcodes.
@@ -225,48 +236,77 @@ errorT EpdBook::writeFile() {
 	if (fileName_ == nullptr) {
 		return ERROR_FileOpen;
 	}
-	std::ofstream out(fileName_, std::ios::binary | std::ios::trunc);
+
+	// Create a temporary file in the same directory as the target file
+	std::string tempFileName = std::string(fileName_) + ".tmp";
+	std::ofstream out(tempFileName, std::ios::binary | std::ios::trunc);
 	if (!out) {
 		return ERROR_FileOpen;
 	}
 
 	for (const auto& e : entries_) {
-		out << e.fen;
-		bool atCodeStart = true;
-		const char* s = e.comment.c_str();
-		while (*s != 0) {
-			if (*s == '\n') {
-				if (!atCodeStart) {
-					out << ';';
-				}
-				atCodeStart = true;
-				s++;
-				while (*s == ' ') {
+		// Check if this is a malformed line preserved during read
+		if (e.fen.rfind("MALFORMED:", 0) == 0) {
+			// Write the original line as-is
+			out << e.comment << '\n';
+		} else {
+			out << e.fen;
+			bool atCodeStart = true;
+			const char* s = e.comment.c_str();
+			while (*s != 0) {
+				if (*s == '\n') {
+					if (!atCodeStart) {
+						out << ';';
+					}
+					atCodeStart = true;
+					s++;
+					while (*s == ' ') {
+						s++;
+					}
+				} else {
+					if (atCodeStart) {
+						out << ' ';
+					}
+					atCodeStart = false;
+					switch (*s) {
+					case '\\':
+						out << "\\\\";
+						break;
+					case ';':
+						out << "\\s";
+						break;
+					default:
+						out << *s;
+					}
 					s++;
 				}
-			} else {
-				if (atCodeStart) {
-					out << ' ';
-				}
-				atCodeStart = false;
-				switch (*s) {
-				case '\\':
-					out << "\\\\";
-					break;
-				case ';':
-					out << "\\s";
-					break;
-				default:
-					out << *s;
-				}
-				s++;
 			}
+			out << '\n';
 		}
-		out << '\n';
 	}
+
+	// Flush and close, checking for errors
+	out.flush();
 	if (!out) {
+		out.close();
+		std::remove(tempFileName.c_str());
 		return ERROR_FileWrite;
 	}
+	out.close();
+	if (!out.good() && out.eof()) {
+		// EOF is expected; only fail if badbit is set
+		if (out.bad()) {
+			std::remove(tempFileName.c_str());
+			return ERROR_FileWrite;
+		}
+	}
+
+	// Atomically replace the original file
+	if (std::rename(tempFileName.c_str(), fileName_) != 0) {
+		std::remove(tempFileName.c_str());
+		return ERROR_FileWrite;
+	}
+
 	altered_ = false;
 	return OK;
 }
