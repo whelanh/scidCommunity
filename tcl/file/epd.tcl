@@ -274,6 +274,7 @@ namespace eval epd {
       set w .confirmEPDExit
       if {[winfo exists $w]} { return }
       toplevel $w
+      ::applyThemeColor_background $w
       wm title $w Scid
       set ::epd::answer 2
       pack [ttk::frame $w.top] -side top
@@ -480,6 +481,7 @@ namespace eval epd {
     set w .epdAnnotateConfig
     if {[winfo exists $w]} { raiseWin $w ; return }
     toplevel $w
+    ::applyThemeColor_background $w
     wm title $w "Analyze EPD"
     ::epd::placeWin $w .epd$id
 
@@ -765,6 +767,7 @@ namespace eval epd {
     if {! [winfo exists .epd$id]} { return }
     if {[winfo exists .epdStrip]} { raiseWin .epdStrip ; return }
     set w [toplevel .epdStrip]
+    ::applyThemeColor_background $w
     wm title $w "Strip EPD Opcode"
     ::epd::placeWin $w .epd$id
     wm resizable $w false false

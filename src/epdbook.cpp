@@ -19,6 +19,10 @@
 #include <cstdio>
 #include <fstream>
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 EpdBook::~EpdBook() { delete[] fileName_; }
 
 void EpdBook::setFileName(const char* fname) {
@@ -283,15 +287,23 @@ errorT EpdBook::writeFile() {
 		return ERROR_FileWrite;
 	}
 
-	// Atomically replace the original file
+	// Atomically replace the original file with the temporary file.
 #ifdef _WIN32
-	// Windows std::rename() fails if the destination exists.
-	std::remove(fileName_);
-#endif
+	// POSIX rename() replaces an existing destination atomically, but the
+	// Windows CRT rename() fails if the destination exists. Use MoveFileEx
+	// with MOVEFILE_REPLACE_EXISTING so the original file stays intact until
+	// the temporary file is successfully promoted (no delete-then-rename gap).
+	if (!MoveFileExA(tempFileName.c_str(), fileName_,
+	                 MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH)) {
+		std::remove(tempFileName.c_str());
+		return ERROR_FileWrite;
+	}
+#else
 	if (std::rename(tempFileName.c_str(), fileName_) != 0) {
 		std::remove(tempFileName.c_str());
 		return ERROR_FileWrite;
 	}
+#endif
 
 	altered_ = false;
 	return OK;
