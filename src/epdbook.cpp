@@ -278,12 +278,9 @@ errorT EpdBook::writeFile() {
 		return ERROR_FileWrite;
 	}
 	out.close();
-	if (!out.good() && out.eof()) {
-		// EOF is expected; only fail if badbit is set
-		if (out.bad()) {
-			std::remove(tempFileName.c_str());
-			return ERROR_FileWrite;
-		}
+	if (out.fail()) {
+		std::remove(tempFileName.c_str());
+		return ERROR_FileWrite;
 	}
 
 	// Atomically replace the original file
