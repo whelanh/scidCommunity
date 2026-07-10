@@ -195,6 +195,7 @@ translate A EpdAnalPosition {ポジションを分析...}
 translate A EpdStripOpcodes {オペコードを削除...}
 translate A EpdAnnotateTime {ポジションあたりの秒数}
 translate A EpdCountBestMoves {最善の手を数える}
+translate A EpdSaveLog {結果をファイルに保存}
 translate A EpdDontSave {保存しないでください}
 translate A EpdReadOnly {読み取り専用}
 translate A EpdAltered {変更された}

@@ -195,6 +195,7 @@ translate g EpdAnalPosition {Анализ на позициите...}
 translate g EpdStripOpcodes {Изтриване на кодове за операции...}
 translate g EpdAnnotateTime {Секунди на позиция}
 translate g EpdCountBestMoves {Пребройте най-добрите ходове}
+translate g EpdSaveLog {Запазете резултатите във файл}
 translate g EpdDontSave {Не спестявайте}
 translate g EpdReadOnly {само за четене}
 translate g EpdAltered {променен}

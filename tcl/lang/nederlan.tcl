@@ -175,6 +175,7 @@ translate N EpdAnalPosition {Analyseer posities...}
 translate N EpdStripOpcodes {Strip-opcodes...}
 translate N EpdAnnotateTime {Seconden per positie}
 translate N EpdCountBestMoves {Tel de beste zetten}
+translate N EpdSaveLog {Resultaten opslaan in bestand}
 translate N EpdDontSave {Niet opslaan}
 translate N EpdReadOnly {alleen-lezen}
 translate N EpdAltered {gewijzigd}

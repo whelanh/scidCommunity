@@ -153,6 +153,7 @@ translate C EpdAnalPosition {Analyzovat pozice...}
 translate C EpdStripOpcodes {Odstraňte operační kódy...}
 translate C EpdAnnotateTime {Sekundy na pozici}
 translate C EpdCountBestMoves {Počítejte nejlepší tahy}
+translate C EpdSaveLog {Uložit výsledky do souboru}
 translate C EpdDontSave {Neukládat}
 translate C EpdReadOnly {pouze pro čtení}
 translate C EpdAltered {změněno}

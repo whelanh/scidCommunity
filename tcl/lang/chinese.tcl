@@ -134,6 +134,7 @@ translate M EpdAnalPosition {分析位置...}
 translate M EpdStripOpcodes {剥离操作码...}
 translate M EpdAnnotateTime {每个位置的秒数}
 translate M EpdCountBestMoves {计算最佳动作}
+translate M EpdSaveLog {将结果保存到文件}
 translate M EpdDontSave {不保存}
 translate M EpdReadOnly {只读}
 translate M EpdAltered {改变的}

@@ -160,6 +160,7 @@ translate W EpdAnalPosition {Analysera positioner...}
 translate W EpdStripOpcodes {Avlägsna opkoder...}
 translate W EpdAnnotateTime {Sekunder per position}
 translate W EpdCountBestMoves {Räkna bästa drag}
+translate W EpdSaveLog {Spara resultat till fil}
 translate W EpdDontSave {Spara inte}
 translate W EpdReadOnly {skrivskyddad}
 translate W EpdAltered {ändrats}

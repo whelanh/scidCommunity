@@ -195,6 +195,7 @@ translate J EpdAnalPosition {Анализирајте позиције...}
 translate J EpdStripOpcodes {Скидање опкодова...}
 translate J EpdAnnotateTime {Секунде по позицији}
 translate J EpdCountBestMoves {Бројите најбоље потезе}
+translate J EpdSaveLog {Сачувајте резултате у датотеку}
 translate J EpdDontSave {Не штеди}
 translate J EpdReadOnly {само за читање}
 translate J EpdAltered {измењени}

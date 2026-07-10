@@ -157,6 +157,7 @@ translate I EpdAnalPosition {Analizza posizioni...}
 translate I EpdStripOpcodes {Elimina codici operativi...}
 translate I EpdAnnotateTime {Secondi per posizione}
 translate I EpdCountBestMoves {Conta le mosse migliori}
+translate I EpdSaveLog {Salva i risultati su file}
 translate I EpdDontSave {Non salvare}
 translate I EpdReadOnly {sola lettura}
 translate I EpdAltered {alterato}

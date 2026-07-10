@@ -181,6 +181,7 @@ translate D EpdAnalPosition {Positionen analysieren...}
 translate D EpdStripOpcodes {Opcodes entfernen...}
 translate D EpdAnnotateTime {Sekunden pro Position}
 translate D EpdCountBestMoves {Zähle die besten Züge}
+translate D EpdSaveLog {Ergebnisse in Datei speichern}
 translate D EpdDontSave {Nicht speichern}
 translate D EpdReadOnly {schreibgeschützt}
 translate D EpdAltered {verändert}

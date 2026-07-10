@@ -154,6 +154,7 @@ translate b EpdAnalPosition {অবস্থান বিশ্লেষণ ক�
 translate b EpdStripOpcodes {স্ট্রিপ অপকোড...}
 translate b EpdAnnotateTime {অবস্থান প্রতি সেকেন্ড}
 translate b EpdCountBestMoves {সেরা চাল গণনা}
+translate b EpdSaveLog {ফাইলে ফলাফল সংরক্ষণ করুন}
 translate b EpdDontSave {সংরক্ষণ করবেন না}
 translate b EpdReadOnly {শুধুমাত্র পঠনযোগ্য}
 translate b EpdAltered {পরিবর্তিত}

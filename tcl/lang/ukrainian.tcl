@@ -155,6 +155,7 @@ translate Q EpdAnalPosition {Аналіз позицій...}
 translate Q EpdStripOpcodes {Видалення кодів операцій...}
 translate Q EpdAnnotateTime {Секунд на позицію}
 translate Q EpdCountBestMoves {Порахуйте найкращі ходи}
+translate Q EpdSaveLog {Зберегти результати у файл}
 translate Q EpdDontSave {Не зберігайте}
 translate Q EpdReadOnly {тільки для читання}
 translate Q EpdAltered {змінено}

@@ -158,6 +158,7 @@ translate T EpdAnalPosition {Pozisyonları Analiz Edin...}
 translate T EpdStripOpcodes {Opcode'ları soyun...}
 translate T EpdAnnotateTime {Pozisyon başına saniye}
 translate T EpdCountBestMoves {En iyi hamleleri sayın}
+translate T EpdSaveLog {Sonuçları dosyaya kaydet}
 translate T EpdDontSave {Kaydetme}
 translate T EpdReadOnly {salt okunur}
 translate T EpdAltered {değiştirilmiş}

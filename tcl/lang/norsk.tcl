@@ -159,6 +159,7 @@ translate O EpdAnalPosition {Analyser posisjoner...}
 translate O EpdStripOpcodes {Strip Opcodes...}
 translate O EpdAnnotateTime {Sekunder per stilling}
 translate O EpdCountBestMoves {Tell de beste trekkene}
+translate O EpdSaveLog {Lagre resultater til fil}
 translate O EpdDontSave {Ikke lagre}
 translate O EpdReadOnly {skrivebeskyttet}
 translate O EpdAltered {endret}

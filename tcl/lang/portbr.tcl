@@ -158,6 +158,7 @@ translate B EpdAnalPosition {Analisar Posições...}
 translate B EpdStripOpcodes {Tirar códigos de operação...}
 translate B EpdAnnotateTime {Segundos por posição}
 translate B EpdCountBestMoves {Conte os melhores movimentos}
+translate B EpdSaveLog {Salvar resultados em arquivo}
 translate B EpdDontSave {Não salve}
 translate B EpdReadOnly {somente leitura}
 translate B EpdAltered {alterado}

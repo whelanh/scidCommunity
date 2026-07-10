@@ -3595,6 +3595,12 @@ set helpText(EPD) {<h1>EPD files</h1>
   to each position), or <b>Both</b>. scidCommunity then steps through every
   position, and the EPD opcodes added are: acd, acn, ce, dm and pv.
   </p>
+  <p>
+  Check <b>Save results to file</b> to write the per-position results to a
+  text file. Each line records: position number, the sought move from the EPD
+  file, the engine's found move, TRUE/FALSE match, depth, score, and the
+  FEN string. A summary footer shows the total best moves found.
+  </p>
 
   <h3>Stripping out EPD fields</h3>
   <p>

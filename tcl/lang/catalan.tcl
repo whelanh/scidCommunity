@@ -170,6 +170,7 @@ translate K EpdAnalPosition {Analitza les posicions...}
 translate K EpdStripOpcodes {Elimina els codis operatius...}
 translate K EpdAnnotateTime {Segons per posició}
 translate K EpdCountBestMoves {Compteu els millors moviments}
+translate K EpdSaveLog {Desa els resultats al fitxer}
 translate K EpdDontSave {No deseu}
 translate K EpdReadOnly {només de lectura}
 translate K EpdAltered {alterat}

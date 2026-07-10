@@ -193,6 +193,7 @@ translate U EpdAnalPosition {Analysoi positiot...}
 translate U EpdStripOpcodes {Poista käyttökoodit...}
 translate U EpdAnnotateTime {Sekuntia per paikka}
 translate U EpdCountBestMoves {Laske parhaat liikkeet}
+translate U EpdSaveLog {Tallenna tulokset tiedostoon}
 translate U EpdDontSave {Älä Tallenna}
 translate U EpdReadOnly {vain luku -tilassa}
 translate U EpdAltered {muutettu}

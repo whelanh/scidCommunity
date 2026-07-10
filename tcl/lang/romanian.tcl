@@ -195,6 +195,7 @@ translate L EpdAnalPosition {Analizați pozițiile...}
 translate L EpdStripOpcodes {Eliminați codurile operaționale...}
 translate L EpdAnnotateTime {Secunde pe poziție}
 translate L EpdCountBestMoves {Numără cele mai bune mișcări}
+translate L EpdSaveLog {Salvați rezultatele în fișier}
 translate L EpdDontSave {Nu salvați}
 translate L EpdReadOnly {numai pentru citire}
 translate L EpdAltered {alterat}

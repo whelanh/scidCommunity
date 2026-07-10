@@ -154,6 +154,7 @@ translate Z EpdAnalPosition {Changanua Vyeo...}
 translate Z EpdStripOpcodes {Misimbo ya Ukanda...}
 translate Z EpdAnnotateTime {Sekunde kwa kila nafasi}
 translate Z EpdCountBestMoves {Hesabu hatua bora zaidi}
+translate Z EpdSaveLog {Hifadhi matokeo kwenye faili}
 translate Z EpdDontSave {Usihifadhi}
 translate Z EpdReadOnly {kusoma tu}
 translate Z EpdAltered {imebadilishwa}

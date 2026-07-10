@@ -33,6 +33,7 @@ namespace eval epd {
   variable epdEngineName
   variable bestMoves {}
   variable epdName
+  variable saveLog 0
 
   set maxEpd [sc_info limit epd]
   array set epdTimer {}
@@ -500,24 +501,17 @@ namespace eval epd {
     ttk::radiobutton $w.mode.annot -variable epdAnnotateMode -value 0 -text [tr Annotate]
     ttk::radiobutton $w.mode.both  -variable epdAnnotateMode -value 2 -text [tr Both]
 
-    pack $w.engine $w.seconds $w.mode -side top -pady 5 -padx 5
+    ttk::frame $w.log
+    ttk::checkbutton $w.log.cb -variable ::epd::saveLog -text [tr EpdSaveLog]
+
+    pack $w.engine $w.seconds $w.mode $w.log -side top -pady 5 -padx 5
     pack $w.engine.label $w.engine.combo     -side left -fill x -padx 5
     pack $w.seconds.label $w.seconds.spDelay -side left -fill x -padx 5
     pack $w.mode.tally $w.mode.annot $w.mode.both -side left -fill x -padx 3
+    pack $w.log.cb -side left -fill x -padx 3
 
     ttk::frame $w.buttons
-    dialogbutton $w.buttons.ok -text OK -command "
-      set i \[$w.engine.combo current\]
-      set isUCI \[lindex \[lindex \$engines(list) \$i\] 7\]
-      if {!\$isUCI} {
-        tk_messageBox -type ok -icon info -title Oops -message {Only UCI engines supported} -parent $w
-        return
-      }
-      set name \[$w.engine.combo get\]
-      destroy $w
-      update
-      ::epd::launchAnnotateEpd $id \$i \$name
-    "
+    dialogbutton $w.buttons.ok -text OK -command "::epd::startAnnotateEpd $id $w"
     dialogbutton $w.buttons.cancel -text [tr Cancel] -command "destroy $w"
     pack $w.buttons -side bottom -padx 5 -pady 5
     pack $w.buttons.ok $w.buttons.cancel -side left -padx 10
@@ -525,9 +519,39 @@ namespace eval epd {
     bind $w <Escape> "$w.buttons.cancel invoke"
   }
 
+  ###  Validate the annotation config dialog and start annotation, optionally
+  ###  prompting for a results log file.
+  proc startAnnotateEpd {id w} {
+    global engines
+    set idx [$w.engine.combo current]
+    set isUCI [lindex [lindex $engines(list) $idx] 7]
+    if {!$isUCI} {
+      tk_messageBox -type ok -icon info -title Oops \
+          -message {Only UCI engines supported} -parent $w
+      return
+    }
+    set name [$w.engine.combo get]
+
+    set logfile ""
+    if {$::epd::saveLog} {
+      set epdpath [sc_epd name $id]
+      set logfile [tk_getSaveFile \
+          -initialdir [file dirname $epdpath] \
+          -initialfile "[file rootname [file tail $epdpath]]-analysis.txt" \
+          -filetypes {{"Text files" {.txt}} {"All files" *}} \
+          -title "Save EPD analysis results" -parent $w]
+      if {$logfile == ""} { return }
+    }
+
+    destroy $w
+    update
+    ::epd::launchAnnotateEpd $id $idx $name $logfile
+  }
+
   ###  Launch the analysis engine and annotate each EPD, starting from the top.
   ###  Pausing the analysis engine terminates annotation.
-  proc launchAnnotateEpd {id win name} {
+  ###  If logfile is non-empty, the per-position results are written to it.
+  proc launchAnnotateEpd {id win name {logfile ""}} {
     variable epdTimer
     variable epdEngineName
     variable bestMoves
@@ -548,6 +572,28 @@ namespace eval epd {
       if {!$::analysis(analyzeMode$win)} { toggleEngineAnalysis $win }
     }
 
+    # Open the results log file, if requested.
+    set logfp ""
+    if {$logfile != ""} {
+      if {[catch {open $logfile w} logfp]} {
+        tk_messageBox -type ok -icon error -title "EPD analysis log" \
+            -message "Could not open log file:\n$logfp" -parent $w
+        set logfp ""
+      } else {
+        set modeText [lindex {Annotate {Count best moves} Both} $epdAnnotateMode]
+        puts $logfp "EPD analysis results"
+        puts $logfp "Engine:   $name"
+        puts $logfp "EPD file: [sc_epd name $id]"
+        puts $logfp "Mode:     $modeText"
+        puts $logfp "Time/pos: $epdDelay s"
+        puts $logfp "Date:     [clock format [clock seconds]]"
+        puts $logfp [string repeat - 100]
+        puts $logfp [format "%-4s %-16s %-10s %-7s %5s %8s  %s" \
+            "Pos" "Sought(bm/am)" "Found" "Result" "Depth" "Score" "FEN"]
+        puts $logfp [string repeat - 100]
+      }
+    }
+
     set size [sc_epd size $id ]
     set epdTimer($id) 0
     set bestMovesFound 0
@@ -559,31 +605,28 @@ namespace eval epd {
       $w.lb see $i
       update idletasks
       loadEpd $id
+      # Capture the sought move(s) for this position before any mutation.
+      set soughtMoves $bestMoves
       after [expr $epdDelay * 1000 ] "set ::epd::epdTimer($id) 1"
       vwait ::epd::epdTimer($id)
+
+      set foundMove [lindex $::analysis(lastHistory$win) 0]
+      set result [::epd::evalBestMove $soughtMoves $foundMove]
       set status {}
       if {$epdAnnotateMode > 0} {
         set status no-result
-        set bestPV [lindex $::analysis(lastHistory$win) 0]
-        if {$bestMoves != ""} {
+        if {$soughtMoves != ""} {
           incr bestMovesNoted
-          if {[string match avoid* $bestMoves]} {
-            set bestMoves [string range $bestMoves 6 end]
-            if {[lsearch -exact $bestMoves $bestPV] == -1} {
-              incr bestMovesFound
-              set status success
-            } else {
-              set status fail
-            }
+          if {$result eq "TRUE"} {
+            incr bestMovesFound
+            set status success
           } else {
-            if {[lsearch -exact $bestMoves $bestPV] > -1} {
-              incr bestMovesFound
-              set status success
-            } else {
-              set status fail
-            }
+            set status fail
           }
         }
+      }
+      if {$logfp != ""} {
+        ::epd::logAnnotateRow $logfp $win [expr {$i + 1}] $soughtMoves $foundMove $result
       }
       if {$epdAnnotateMode != 1} {
         pasteAnalysis $id $win $status
@@ -602,7 +645,42 @@ namespace eval epd {
       $w.bottom.status configure -text $result
       if {$epdAnnotateMode == 2} { $w.text insert end "\n$result" }
     }
+
+    if {$logfp != ""} {
+      puts $logfp [string repeat - 100]
+      if {$bestMovesNoted > 0} {
+        puts $logfp "Best moves found: $bestMovesFound / $bestMovesNoted"
+      }
+      catch { close $logfp }
+    }
     set epdAnnotation 0
+  }
+
+  ###  Compare the engine's move against a position's bm/am opcode value.
+  ###  soughtMoves is "" (none), "e4 Nf3 ..." (best moves), or
+  ###  "avoid Nf3 ..." (avoid moves). Returns TRUE, FALSE or "-".
+  proc evalBestMove {soughtMoves foundMove} {
+    if {$soughtMoves eq "" || $foundMove eq ""} { return "-" }
+    if {[string match avoid* $soughtMoves]} {
+      set avoid [string range $soughtMoves 6 end]
+      return [expr {[lsearch -exact $avoid $foundMove] == -1 ? "TRUE" : "FALSE"}]
+    }
+    return [expr {[lsearch -exact $soughtMoves $foundMove] > -1 ? "TRUE" : "FALSE"}]
+  }
+
+  ###  Write one result row to the analysis log file.
+  proc logAnnotateRow {logfp win posNo soughtMoves foundMove result} {
+    set depth $::analysis(depth$win)
+    if {$::analysis(scoremate$win) != 0} {
+      set score [format "M%d" $::analysis(scoremate$win)]
+    } else {
+      set score [format "%+.2f" $::analysis(score$win)]
+    }
+    set fen [string range [sc_pos fen] 0 end-4]
+    if {$soughtMoves eq ""} { set soughtMoves "-" }
+    if {$foundMove eq ""} { set foundMove "?" }
+    puts $logfp [format "%-4d %-16s %-10s %-7s %5s %8s  %s" \
+        $posNo $soughtMoves $foundMove $result $depth $score $fen]
   }
 
   ################################################################################

@@ -157,6 +157,7 @@ translate H EpdAnalPosition {Pozíciók elemzése...}
 translate H EpdStripOpcodes {Opkódok levágása...}
 translate H EpdAnnotateTime {Másodperc pozíciónként}
 translate H EpdCountBestMoves {Számold meg a legjobb mozdulatokat}
+translate H EpdSaveLog {Az eredmények mentése fájlba}
 translate H EpdDontSave {Ne mentse}
 translate H EpdReadOnly {csak olvasható}
 translate H EpdAltered {megváltozott}

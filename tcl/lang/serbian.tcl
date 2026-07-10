@@ -176,6 +176,8 @@ translate Y EpdAnnotateTime {Seconds per position}
 # ====== TODO To be translated ======
 translate Y EpdCountBestMoves {Count best moves}
 # ====== TODO To be translated ======
+translate Y EpdSaveLog {Save results to file}
+# ====== TODO To be translated ======
 translate Y EpdDontSave {Don't Save}
 # ====== TODO To be translated ======
 translate Y EpdReadOnly {read-only}

@@ -161,6 +161,7 @@ translate R EpdAnalPosition {Анализ позиций...}
 translate R EpdStripOpcodes {Удалить коды операций...}
 translate R EpdAnnotateTime {Секунды на позицию}
 translate R EpdCountBestMoves {Подсчитайте лучшие ходы}
+translate R EpdSaveLog {Сохранить результаты в файл}
 translate R EpdDontSave {Не сохранять}
 translate R EpdReadOnly {только для чтения}
 translate R EpdAltered {измененный}

@@ -195,6 +195,7 @@ translate k EpdAnalPosition {위치 분석...}
 translate k EpdStripOpcodes {스트립 Opcode...}
 translate k EpdAnnotateTime {위치당 초}
 translate k EpdCountBestMoves {최고의 움직임을 계산}
+translate k EpdSaveLog {결과를 파일로 저장}
 translate k EpdDontSave {저장하지 않음}
 translate k EpdReadOnly {읽기 전용}
 translate k EpdAltered {변경된}

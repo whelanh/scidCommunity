@@ -154,6 +154,7 @@ translate h EpdAnalPosition {पदों का विश्लेषण कर
 translate h EpdStripOpcodes {स्ट्रिप ऑपकोड...}
 translate h EpdAnnotateTime {प्रति स्थिति सेकंड}
 translate h EpdCountBestMoves {सर्वोत्तम चालें गिनें}
+translate h EpdSaveLog {फ़ाइल में परिणाम सहेजें}
 translate h EpdDontSave {सहेजें मत}
 translate h EpdReadOnly {केवल पढ़ने के लिए}
 translate h EpdAltered {बदल}

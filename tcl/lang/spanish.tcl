@@ -172,6 +172,7 @@ translate S EpdAnalPosition {Analizar Posiciones...}
 translate S EpdStripOpcodes {Quitar códigos de operación...}
 translate S EpdAnnotateTime {Segundos por posición}
 translate S EpdCountBestMoves {Cuente los mejores movimientos}
+translate S EpdSaveLog {Guardar resultados en un archivo}
 translate S EpdDontSave {No guardar}
 translate S EpdReadOnly {solo lectura}
 translate S EpdAltered {alterado}

@@ -186,6 +186,7 @@ translate G EpdAnalPosition {Ανάλυση θέσεων...}
 translate G EpdStripOpcodes {Αφαιρέστε τους κωδικούς λειτουργίας...}
 translate G EpdAnnotateTime {Δευτερόλεπτα ανά θέση}
 translate G EpdCountBestMoves {Μετρήστε τις καλύτερες κινήσεις}
+translate G EpdSaveLog {Αποθηκεύστε τα αποτελέσματα στο αρχείο}
 translate G EpdDontSave {Μην Αποθήκευση}
 translate G EpdReadOnly {μόνο για ανάγνωση}
 translate G EpdAltered {αλλοιώθηκε}

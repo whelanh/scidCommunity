@@ -155,6 +155,7 @@ translate V EpdAnalPosition {ניתוח עמדות...}
 translate V EpdStripOpcodes {הסר קודים...}
 translate V EpdAnnotateTime {שניות לכל תפקיד}
 translate V EpdCountBestMoves {ספור את המהלכים הטובים ביותר}
+translate V EpdSaveLog {שמור תוצאות לקובץ}
 translate V EpdDontSave {אל תחסוך}
 translate V EpdReadOnly {לקריאה בלבד}
 translate V EpdAltered {השתנה}
