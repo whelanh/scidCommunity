@@ -143,6 +143,23 @@ menuText Z WindowsTree "Dirisha la mti" 0 {Fungua / funga dirisha la Mti}
 menuText Z WindowsBook "Dirisha la Kitabu" 0 {Fungua/funga dirisha la Kitabu}
 menuText Z WindowsCorrChess "Dirisha la Mawasiliano" 0 {Fungua/funga dirisha la Mawasiliano}
 menuText Z WindowsGraph "Grafu ya Uchambuzi" 0 {Fungua dirisha la Grafu na nyakati za hatua na tathmini}
+menuText Z WindowsEPD "Dirisha la EPD..." 0 {Fungua dirisha la mhariri wa EPD (faili ya nafasi).}
+
+# EPD window:
+translate Z EpdPasteAnal {Uchambuzi wa Bandika}
+translate Z EpdSortOpcodes {Panga Opcodes}
+translate Z EpdAddPosition {Ongeza Nafasi}
+translate Z EpdFindPos {Pata Nafasi katika Mchezo}
+translate Z EpdAnalPosition {Changanua Vyeo...}
+translate Z EpdStripOpcodes {Misimbo ya Ukanda...}
+translate Z EpdAnnotateTime {Sekunde kwa kila nafasi}
+translate Z EpdCountBestMoves {Hesabu hatua bora zaidi}
+translate Z EpdSaveLog {Hifadhi matokeo kwenye faili}
+translate Z EpdDontSave {Usihifadhi}
+translate Z EpdReadOnly {kusoma tu}
+translate Z EpdAltered {imebadilishwa}
+translate Z EpdNoMoves {hakuna hatua}
+translate Z positions {nafasi}
 
 # Tools menu:
 menuText Z Tools "Zana" 0
@@ -1862,138 +1879,3 @@ translate Z TBCategory {Kitengo cha Nafasi:}
 translate Z TBTrainingHidden {(Njia ya mafunzo; matokeo yamefichwa)}
 }
 # end of english.tcl
-
-
-############################################################
-#
-# Swahili tip of the day
-# Machine-translated scaffold - please review and correct.
-
-set tips(Z) {
-  {
-    scidCommunity ina zaidi ya kurasa 40 <a Index> za usaidizi</a>, na katika madirisha mengi ya scidCommunity kubonyeza kitufe cha <b>F1</b> kitatoa ukurasa wa usaidizi kuhusu dirisha hilo.
-  }
-  {
-    Baadhi ya madirisha ya scidJumuiya (k.m. eneo la taarifa ya mchezo, hifadhidata <a Switcher>kibadilisha</a>) yana menyu ya kitufe cha kulia cha kipanya. Jaribu kubonyeza kitufe cha kulia cha panya kwenye kila dirisha ili kuona ikiwa ina moja na ni kazi gani zinazopatikana.
-  }
-  {
-    scidCommunity inakupa zaidi ya njia moja ya kuingiza miondoko ya chess, huku ikikuruhusu kuchagua ni ipi inayokufaa zaidi. Unaweza kutumia kipanya (pamoja na au bila pendekezo la kusogeza) au kibodi (ikiwa na au bila kukamilika kwa kusogeza). Soma ukurasa wa usaidizi wa <a Moves>kuingia kwenye chess move</a> kwa maelezo zaidi.
-  }
-  {
-    Ikiwa una hifadhidata chache ambazo unafungua mara kwa mara, ongeza a <a Bookmarks>alamisho</a> kwa kila moja, na kisha utaweza kuzifungua kwa kasi kwa kutumia menyu ya alamisho.
-  }
-  {
-    Unaweza kufuata mashindano makubwa ya chess katika muda halisi ukitumia kipengele cha <b>Open Lichess Tournament</b> kwenye menyu ya <b>Faili</b>. scidCommunity itafuatilia na kusasisha michezo ya moja kwa moja kwa ajili yako kiotomatiki.
-  }
-  {
-    Unaweza kuona hatua zote za mchezo wa sasa (pamoja na tofauti zozote na maoni) kwa kutumia <a PGN>PGN window</a>. Katika dirisha la PGN, unaweza kwenda kwa hoja yoyote kwa kubofya kitufe cha kushoto cha kipanya juu yake, au tumia kitufe cha kati au cha kulia ili kuona onyesho la kukagua nafasi hiyo.
-  }
-  {
-    Unaweza kunakili michezo kutoka hifadhidata moja hadi nyingine kwa kuburuta na kudondosha kwa kitufe cha kushoto cha kipanya kwenye kidirisha cha <a Switcher>kibadilisha hifadhidata</a>.
-  }
-  {
-    scidCommunity inaweza kufungua faili za PGN, hata kama zimebanwa na Gzip (na kiambishi tamati cha .gz cha jina la faili). Faili za PGN hufunguliwa kusoma pekee, kwa hivyo ikiwa unataka kuhariri faili ya PGN katika scidCommunity, unda hifadhidata mpya ya scidCommunity na unakili michezo ya faili ya PGN ukitumia <a Switcher>kibadilisha hifadhidata</a>.
-  }
-  {
-    Ikiwa una hifadhidata kubwa unayotumia na dirisha la <a Tree>mti</a> mara nyingi, inafaa kuchagua <b>Jaza faili ya kache</b> kutoka kwa menyu ya Faili ya dirisha la mti. Hii itakumbuka takwimu za miti kwa nafasi nyingi za kawaida za ufunguzi, na kufanya ufikiaji wa mti kwa hifadhidata haraka.
-  }
-  {
-    The <a Tree>mti</a> dirisha linaweza kukuonyesha hatua zote zinazochezwa kutoka kwa nafasi ya sasa, lakini ikiwa pia unataka kuona maagizo yote ya kusogeza yaliyofikia nafasi hii, unaweza kuyapata kwa kutengeneza <a OpReport>ripoti ya ufunguzi</a>.
-  }
-  {
-    Ili kuleta kwa haraka michezo yako mwenyewe kutoka kwa tovuti za mtandaoni, tumia <b>Leta Lichess yangu</b> au <b>Leta chess.com</b> yangu kutoka kwenye menyu ya <b>Faili</b>. Ingiza tu jina lako la mtumiaji na tarehe ya kuanza kupakua michezo yako na metadata kamili.
-  }
-  {
-    Katika <a GameList>orodha ya mchezo</a> dirisha, bonyeza kitufe cha kushoto au kulia cha kipanya kwenye kichwa cha kila safu ili kurekebisha upana wake.
-  }
-  {
-    Pamoja na <a PInfo>habari za mchezaji</a> dirisha (bonyeza tu jina la mchezaji katika eneo la habari la mchezo chini ya dirisha kuu la chessboard ili kuifungua), unaweza kuweka kwa urahisi <a Searches Filter>chujio</a> ili kujumuisha michezo yote ya mchezaji fulani na matokeo fulani kwa kubofya thamani yoyote inayoonyeshwa <red>katika maandishi nyekundu</red>.
-  }
-  {
-    Wakati wa kusoma ufunguzi, inaweza kuwa muhimu sana kufanya utafutaji wa <a Searches Board> ubao </a> na chaguo la <b>Pawns</b> au <b>Files</b> kwenye nafasi muhimu ya ufunguzi, kwa kuwa hii inaweza kufunua fursa nyingine zinazofikia muundo sawa wa pawn.
-  }
-  {
-    Katika eneo la maelezo ya mchezo (chini ya ubao wa chess), unaweza kubofya kitufe cha kulia cha kipanya ili kutoa menyu ya kuibinafsisha. Kwa mfano, unaweza kufanya scidCommunity kuficha hatua inayofuata ambayo ni muhimu kwa mafunzo kwa kucheza ingawa mchezo unakisia mienendo.
-  }
-  {
-    Ikiwa mara nyingi unafanya hifadhidata nyingi <a Maintenance>utunzaji</a> kwenye hifadhidata kubwa, unaweza kufanya kazi kadhaa za matengenezo mara moja kwa kutumia <a Maintenance Cleaner>cleaner</a>.
-  }
-  {
-    Dirisha la <a PGN>PGN</a> linaangazia vitufe vya ufikiaji wa haraka ili kupakia mchezo wako wa sasa kwenye <b>Lichess.org</b> au <b>Chess.com</b>. Hii hukuruhusu kutumia papo hapo uchanganuzi wao wa nguvu wa injini inayotegemea wingu na vipengele vya kushiriki.
-  }
-  {
-    Ikiwa una hifadhidata kubwa ambapo michezo mingi ina Tarehe ya Tukio na unataka michezo kwa mpangilio wa tarehe, zingatia <a Sorting> kupanga </a> kulingana na Tarehe ya Tukio kisha Tukio badala ya Tarehe kisha Tukio, kwani hii itasaidia kuweka michezo katika mashindano sawa na tarehe tofauti pamoja (ikizingatiwa kuwa zote zina Tarehe ya Tukio sawa, bila shaka).
-  }
-  {
-    Kabla ya <a Maintenance Twins>kufuta michezo pacha</a>, ni vyema <a Maintenance Spellcheck>kukagua</a> hifadhidata yako kwa kuwa hii itawezesha scidCommunity kupata mapacha zaidi na kuwatia alama ili kufutwa.
-  }
-  {
-    <a Flags>Alamisho</a> ni muhimu kwa kuashiria michezo ya hifadhidata yenye sifa ambazo unaweza kutaka kuzitafuta baadaye, kama vile muundo wa pawn, mbinu, n.k. Unaweza kutafuta kwa kutumia bendera kwa utafutaji wa <a Searches Header>kichwa </a>.
-  }
-  {
-    Ikiwa unacheza mchezo na unataka kujaribu hatua kadhaa bila kubadilisha mchezo, washa modi ya Jaribio (kwa njia ya mkato ya <b>Ctrl+space</b> au kutoka kwenye aikoni ya upau wa vidhibiti), kisha uizime tena ili urejee kwenye mchezo wa awali ukimaliza.
-  }
-  {
-    Ili kupata michezo maarufu zaidi (iliyo na wapinzani wa viwango vya juu) kufikia nafasi fulani, fungua dirisha la <a Tree>mti</a> na kutoka hapo, fungua orodha ya michezo bora zaidi. Unaweza hata kuzuia orodha bora ya michezo ili kuonyesha michezo iliyo na matokeo mahususi pekee.
-  }
-  {
-    Tumia kitufe cha <b>chessdb Engine Tree</b> katika dirisha la <a PGN>PGN</a> ili kuangalia hifadhidata ya wingu <b>ChessDB.cn</b>. Ina mabilioni ya nafasi zilizochanganuliwa awali na tathmini za kompyuta kwa karibu ufunguzi wowote.
-  }
-  {
-    Njia nzuri ya kusoma ufunguzi kwa kutumia hifadhidata kubwa ya michezo ni kuwasha modi ya mafunzo kwenye dirisha la <a Tree>mti</a>, kisha ucheze dhidi ya hifadhidata ili kuona ni mistari gani hutokea mara kwa mara.
-  }
-  {
-    Ikiwa una hifadhidata mbili zilizofunguliwa, na unataka kuona takwimu <a Tree>tree</a> za hifadhidata ya kwanza huku ukichunguza mchezo kutoka kwa hifadhidata ya pili, bonyeza tu kitufe cha <b>Funga</b> kwenye dirisha la mti ili kuifunga kwa hifadhidata ya kwanza na kisha ubadilishe hadi msingi wa pili.
-  }
-  {
-    Kitafuta <a Tmt>tournament finder</a> sio tu muhimu kwa kutafuta mashindano fulani, lakini pia inaweza kutumika kuona ni mashindano gani mchezaji fulani ameshiriki hivi karibuni au kuvinjari mashindano ya juu yaliyochezwa katika nchi fulani.
-  }
-  {
-    Kuna idadi ya miundo ya kawaida iliyofafanuliwa katika <a Searches Material>Nyenzo/Muundo</a> dirisha la utafutaji ambalo unaweza kupata kufaa kwa fursa au utafiti wa mchezo wa kati.
-  }
-  {
-    Unapotafuta hali fulani ya nyenzo katika dirisha la utafutaji la <a Searches Material>Nyenzo/Muundo</a>, mara nyingi ni muhimu kuzuia utafutaji kwenye michezo inayolingana na angalau hatua chache za nusu ili kuondoa michezo ambapo hali iliyotafutwa ilitokea kwa muda mfupi tu.
-  }
-  {
-    Ukifikia tamati ya vipande 7 au chache, bofya kitufe cha <b>Jedwali</b> kwenye <a PGN>PGN window</a> ili kupata uchanganuzi kamili kutoka kwa misingi ya mchezo wa mwisho wa Lichess.
-  }
-  {
-    Iwapo una hifadhidata muhimu ambayo hutaki kuibadilisha kimakosa, chagua <b>Soma-tu...</b> kutoka kwenye menyu ya <b>Faili</b> baada ya kuifungua, au ubadilishe ruhusa zake za faili zisomwe tu.
-  }
-  {
-    Ikiwa unatumia XBoard au WinBoard (au programu nyingine ya chess inayoweza kunakili nafasi ya chess katika nukuu ya kawaida ya FEN kwenye ubao wa kunakili) na unataka kunakili nafasi yake ya sasa ya chess kwa scidCommunity, njia ya haraka na rahisi zaidi ni kuchagua. <b>Nakili Nafasi</b> kutoka kwa menyu ya Faili katika XBoard/WinBoard, basi <b>Bandika ubao wa kuanza</b> kutoka kwa menyu ya Hariri katika scidCommunity.
-  }
-  {
-    Katika <a Searches Header>utafutaji wa kichwa</a>, majina ya wachezaji/tukio/tovuti/ duru hayajali ukubwa na yanalingana popote katika jina. Unaweza kuchagua kufanya utafutaji wa kadi-mwitu unaozingatia kesi badala yake (wapi "?" = herufi yoyote na "*" = sifuri au herufi zaidi) kwa kuingiza maandishi ya utafutaji "katika nukuu". Kwa mfano, andika "*BEL" (kwa vibambo vya kunukuu) katika uga wa tovuti ili kupata michezo yote inayochezwa nchini Ubelgiji lakini si Belgrade.
-  }
-  {
-    Ikiwa ungependa kusahihisha hatua katika mchezo bila kupoteza hatua zote zilizochezwa baada yake, fungua dirisha la <a Import>Ingiza</a>, bonyeza kitufe cha <b>Bandika mchezo wa sasa</b>, hariri hatua isiyo sahihi kisha ubonyeze <b>Ingiza</b>.
-  }
-  {
-    Ikiwa una faili ya uainishaji wa ECO iliyopakiwa, unaweza kwenda kwenye nafasi iliyoainishwa ya kina zaidi katika mchezo wa sasa kwa <b>Tambua ufunguzi</b> katika menyu ya <b>Mchezo</b> (njia ya mkato: Ctrl+Shift+D).
-  }
-  {
-    Pata habari kuhusu michezo ya hivi punde kutoka duniani kote kwa kutumia <b>Pakua Michezo ya TWIC</b> katika menyu ya <b>Zana</b>. Inapakua kiotomatiki na kufungua PGN ya hivi punde ya kila wiki kutoka <b>The Week In Chess</b>.
-  }
-  {
-    Ikiwa unataka kuangalia saizi ya faili au tarehe yake ya marekebisho ya mwisho kabla ya kuifungua, tumia <a Finder>kitafuta faili</a> kuifungua.
-  }
-  {
-    An <a OpReport>ripoti ya ufunguzi</a> ni nzuri kwa kujifunza zaidi kuhusu nafasi fulani. Unaweza kuona jinsi inavyopata alama, iwe inaongoza kwa michoro fupi za mara kwa mara, na mandhari ya kawaida ya nafasi.
-  }
-  {
-    Unaweza kuongeza alama za ufafanuzi za kawaida (!, !?, +=, n.k) kwenye hatua ya sasa au nafasi ukitumia mikato ya kibodi bila kuhitaji kutumia <a Comment>kihariri cha maoni<a> -- kwa mfano, andika "!" kisha kitufe cha Kurudi ili kuongeza "!" alama ya kidokezo. Tazama ukurasa wa usaidizi wa <a Moves>Kuingia kwa miondoko ya chess</a> kwa maelezo.
-  }
-  {
-    Ikiwa unavinjari fursa katika hifadhidata kwa <a Tree>mti</a>, unaweza kuona muhtasari muhimu wa jinsi nafasi ya sasa inavyopata bao hivi majuzi na kati ya wachezaji walio na viwango vya juu kwa kufungua dirisha la Takwimu (njia ya mkato: Ctrl+I).
-  }
-  {
-    Katika dirisha la <b>Kivinjari cha Mchezo</b>, unaweza kubadilisha ukubwa wa ubao kwa kushikilia vitufe vya <b>Ctrl</b> na <b>Shift</b> na kubofya vishale <b>Kushoto</b> au <b>Kulia</b>
-  }
-  {
-    Baada ya a <a Searches>tafuta</a>, unaweza kuvinjari kwa urahisi michezo yote inayolingana kwa kushikilia chini <b>Ctrl</b> na kushinikiza <b>Juu</b> au <b>Chini</b> ufunguo wa kupakia uliopita au ujao <a Searches Filter>chujio</a> mchezo.
-  }
-  {
-    Windows inaweza kuunganishwa kwa kuangalia ingizo linalofaa kwenye menyu ya chaguo. Vichupo vinaweza kuburutwa na kudondoshwa kutoka daftari moja hadi nyingine na kuwekwa nje kwa kubofya kulia kwenye wijeti ya kichupo.
-  }
-}

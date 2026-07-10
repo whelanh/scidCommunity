@@ -103,6 +103,11 @@ proc ::file::Open {{fName ""}} {
     set fName [tk_getOpenFile -initialdir $::initialDir(base) -filetypes $ftype -title "Open a Scid file"]
   }
   set err [::file::Open_ "$fName"]
+  if {$err == 2 && [string tolower [file extension "$fName"]] == ".epd"} {
+    set ::initialDir(base) [file dirname "$fName"]
+    ::recentFiles::add "$fName"
+    return 2
+  }
   if {$err == 0} {
     set ::initialDir(base) [file dirname "$fName"]
     ::recentFiles::add "$fName"
@@ -164,7 +169,7 @@ proc ::file::OpenOrSwitch { fname } {
 proc ::file::openBaseAsTree { { fName "" } } {
   set current [sc_base current]
   set err [::file::Open $fName]
-  if {! $err} {
+  if {$err == 0} {
     ::file::SwitchToBase $current
     ::tree::make $::file::lastOpened 1
   }
@@ -195,14 +200,11 @@ proc ::file::Open_ {fName } {
       catch { sc_base extra $::file::lastOpened type 3 }
     }
   } elseif {"$ext" == ".epd"} {
-    # EPD file:
-    set err [catch {sc_base create MEMORY "$fName"} ::file::lastOpened]
-    if {$err} {
-      ERROR::MessageBox "$fName\n"
-    } else {
-      importPgnFile $::file::lastOpened [list "$fName"]
-      sc_base extra $::file::lastOpened type 3
+    # EPD file: open in dedicated EPD editor window.
+    if {[::epd::newEpdWin open "$fName"]} {
+      return 2
     }
+    return 1
   } else {
     if {$ext == ".si5" || $ext eq ""} {
       set dbType "SCID5"
@@ -330,7 +332,8 @@ proc ::file::BaseName {baseIdx} {
 proc ::file::autoLoadBases.load {} {
   if {![info exists ::autoLoadBases]} { return }
   foreach base $::autoLoadBases {
-    if {[::file::Open $base] != 0} {
+    set err [::file::Open $base]
+    if {$err != 0 && $err != 2} {
       set idx [lsearch -exact $::autoLoadBases $base]
       if {$idx != -1} { set ::autoLoadBases [lreplace $::autoLoadBases $idx $idx] }
     }

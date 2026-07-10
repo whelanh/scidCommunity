@@ -164,6 +164,23 @@ menuText N WindowsBook "Boek Venster" 0 {Open/sluit het Boek venster}
 menuText N WindowsCorrChess "Correspondentieschaak venster" 0 \
     {Open/sluit het correspondentieschaak venster}
 menuText N WindowsGraph "Analyse grafiek" 0 {Open het grafiekvenster met de zettijden en evaluaties}
+menuText N WindowsEPD "EPD-venster..." 0 {Open een EPD-editor (positiebestand).}
+
+# EPD window:
+translate N EpdPasteAnal {Plak Analyse}
+translate N EpdSortOpcodes {Sorteer opcodes}
+translate N EpdAddPosition {Positie toevoegen}
+translate N EpdFindPos {Vind positie in het spel}
+translate N EpdAnalPosition {Analyseer posities...}
+translate N EpdStripOpcodes {Strip-opcodes...}
+translate N EpdAnnotateTime {Seconden per positie}
+translate N EpdCountBestMoves {Tel de beste zetten}
+translate N EpdSaveLog {Resultaten opslaan in bestand}
+translate N EpdDontSave {Niet opslaan}
+translate N EpdReadOnly {alleen-lezen}
+translate N EpdAltered {gewijzigd}
+translate N EpdNoMoves {geen bewegingen}
+translate N positions {posities}
 
 # Tools menu:
 menuText N Tools "Gereedschappen" 0
@@ -1909,138 +1926,3 @@ translate N TBCategory {Functiecategorie:}
 translate N TBTrainingHidden {(Trainingsmodus; resultaten zijn verborgen)}
 }
 # end of english.tcl
-
-
-############################################################
-#
-# Dutch tip of the day
-# Machine-translated scaffold - please review and correct.
-
-set tips(N) {
-  {
-    scidCommunity heeft meer dan 40 <a Index>helppagina's </a>, en in de meeste scidCommunity-vensters zal het indrukken van de toets <b>F1</b> de helppagina over dat venster openen.
-  }
-  {
-    Sommige scidCommunity-vensters (bijvoorbeeld het spelinformatiegebied, de database <a Switcher>switcher </a>) hebben een rechtermuisknopmenu. Probeer in elk venster op de rechtermuisknop te drukken om te zien of er een is en welke functies beschikbaar zijn.
-  }
-  {
-    scidCommunity biedt u meer dan één manier om schaakzetten in te voeren, zodat u kunt kiezen welke het beste bij u past. U kunt de muis (met of zonder zetsuggestie) of het toetsenbord (met of zonder zetvoltooiing) gebruiken. Lees de helppagina <a Moves>invoeren van schaakzetten </a> voor details.
-  }
-  {
-    Als u een paar databases heeft die u vaak opent, voeg dan voor elke database een <a Bookmarks>bladwijzer</a> toe, zodat u ze sneller kunt openen via het bladwijzermenu.
-  }
-  {
-    Je kunt grote schaaktoernooien in realtime volgen met de functie <b>Open Lichess Tournament</b> in het menu <b>Bestand</b>. scidCommunity zal de live games automatisch voor u controleren en bijwerken.
-  }
-  {
-    U kunt alle zetten van het huidige spel (met eventuele variaties en commentaar) bekijken in het <a PGN>PGN-venster </a>. In het PGN-venster kunt u naar elke zet gaan door er met de linkermuisknop op te klikken, of u kunt de middelste of rechtermuisknop gebruiken om een ​​voorbeeld van die positie te zien.
-  }
-  {
-    U kunt partijen van de ene database naar de andere kopiëren door middel van slepen en neerzetten met de linkermuisknop in het venster <a Switcher>databaseswitcher</a>.
-  }
-  {
-    scidCommunity kan PGN-bestanden openen, zelfs als ze zijn gecomprimeerd met Gzip (met het achtervoegsel .gz-bestandsnaam). PGN-bestanden worden alleen-lezen geopend, dus als u een PGN-bestand in scidCommunity wilt bewerken, maakt u een nieuwe scidCommunity-database en kopieert u de PGN-bestandspellen ernaartoe met behulp van de <a Switcher>databaseswitcher </a>.
-  }
-  {
-    Als u een grote database heeft die u vaak gebruikt met het venster <a Tree>boom</a>, is het de moeite waard om <b>Cachebestand vullen</b> te selecteren in het menu Bestand van het boomvenster. Dit onthoudt stamboomstatistieken voor veel voorkomende openingsposities, waardoor de toegang tot de stamboom sneller wordt voor de database.
-  }
-  {
-    In het <a Tree>boomvenster </a> kunt u alle zetten zien die vanaf de huidige positie zijn gespeeld, maar als u ook alle zetorders wilt zien die deze positie hebben bereikt, kunt u deze vinden door een <a OpReport> openingsrapport </a> te genereren.
-  }
-  {
-    Om snel uw eigen partijen van online sites te importeren, gebruikt u <b> Mijn Lichess importeren </b> of <b> Mijn chess.com importeren </b> vanuit het menu <b> Bestand </b>. Voer eenvoudig uw gebruikersnaam en een startdatum in om uw games met volledige metadata te downloaden.
-  }
-  {
-    In het venster <a GameList>spellenlijst</a> drukt u met de linker- of rechtermuisknop op de kop van elke kolom om de breedte ervan aan te passen.
-  }
-  {
-    Met het venster <a PInfo>spelerinformatie</a> (klik gewoon op een van de spelersnamen in het spelinfogebied onder het hoofdvensterschaakbord om het te openen), kunt u eenvoudig het <a Searches Filter>filter</a> instellen om alle partijen van een bepaalde speler met een bepaald resultaat te bevatten door op een waarde te klikken die wordt weergegeven <red> in rode tekst </red>.
-  }
-  {
-    Bij het bestuderen van een opening kan het erg handig zijn om een ​​<a Searches Board>bordzoekopdracht</a> uit te voeren met de optie <b>Pionnen</b> of <b>Bestanden</b> op een belangrijke openingspositie, omdat dit andere openingen kan onthullen die dezelfde pionnenstructuur bereiken.
-  }
-  {
-    In het spelinformatiegebied (onder het schaakbord) kunt u op de rechtermuisknop drukken om een ​​menu te openen waarmee u het schaakbord kunt aanpassen. U kunt scidCommunity bijvoorbeeld de volgende zet laten verbergen, wat handig is voor training door een spel te spelen waarbij u de zetten raadt.
-  }
-  {
-    Als u vaak veel database-<a Maintenance>onderhoud</a> uitvoert op een grote database, kunt u met de <a Maintenance Cleaner>cleaner</a> meerdere onderhoudswerkzaamheden tegelijk uitvoeren.
-  }
-  {
-    Het <a PGN>PGN-venster </a> bevat sneltoetsen waarmee u uw huidige partij kunt uploaden naar <b>Lichess.org</b> of <b>Chess.com</b>. Hierdoor kunt u direct gebruik maken van hun krachtige cloudgebaseerde engine-analyse- en deelfuncties.
-  }
-  {
-    Als je een grote database hebt waarin de meeste games een EventDate hebben en je wilt de games in datumvolgorde, overweeg dan om <a Sorting> te sorteren </a> op EventDate en vervolgens Event in plaats van Date en Event, omdat dit helpt om games in hetzelfde toernooi met verschillende data bij elkaar te houden (ervan uitgaande dat ze allemaal dezelfde EventDate hebben natuurlijk).
-  }
-  {
-    Voordat u <a Maintenance Twins> dubbele spellen verwijdert </a>, is het een goed idee om uw database <a Maintenance Spellcheck> op spelling te controleren </a>, omdat scidCommunity hierdoor meer tweelingen kan vinden en deze kan markeren voor verwijdering.
-  }
-  {
-    <a Flags>Vlaggen</a> zijn handig voor het markeren van databasepartijen met kenmerken waarnaar u later misschien wilt zoeken, zoals pionnenstructuur, tactieken, enz. U kunt zoeken op vlaggen met een <a Searches Header>koptekstzoekopdracht</a>.
-  }
-  {
-    Als u een spel speelt en enkele zetten wilt uitproberen zonder het spel te wijzigen, schakelt u eenvoudigweg de proefmodus in (met de sneltoets <b>Ctrl+spatiebalk</b> of via het werkbalkpictogram) en schakelt u deze vervolgens weer uit om terug te keren naar het originele spel als u klaar bent.
-  }
-  {
-    Om de meest prominente spellen (met hoog gewaardeerde tegenstanders) te vinden die een bepaalde positie bereiken, opent u het <a Tree>boom</a>-venster en opent u van daaruit de lijst met beste spellen. Je kunt zelfs de lijst met beste games beperken, zodat alleen games met een bepaald resultaat worden weergegeven.
-  }
-  {
-    Gebruik de <b>chessdb Engine Tree</b> knop in het <a PGN>PGN venster</a> om de <b>ChessDB.cn</b> cloud database te raadplegen. Het bevat miljarden vooraf geanalyseerde posities en computerevaluaties voor vrijwel elke opening.
-  }
-  {
-    Een geweldige manier om een ​​opening te bestuderen met behulp van een grote database met partijen, is door de trainingsmodus in het <a Tree>boom</a>-venster in te schakelen en vervolgens tegen de database te spelen om te zien welke lijnen vaak voorkomen.
-  }
-  {
-    Als u twee databases open heeft en u wilt de <a Tree>boom</a>-statistieken van de eerste database bekijken terwijl u een partij uit de tweede database onderzoekt, drukt u gewoon op de knop <b>Vergrendelen</b> in het boomvenster om deze te vergrendelen op de eerste database en vervolgens over te schakelen naar het tweede honk.
-  }
-  {
-    De <a Tmt>toernooizoeker </a> is niet alleen handig om een ​​bepaald toernooi te vinden, maar kan ook worden gebruikt om te zien aan welke toernooien een bepaalde speler onlangs heeft deelgenomen of om door de toptoernooien te bladeren die in een bepaald land zijn gespeeld.
-  }
-  {
-    Er zijn een aantal algemene patronen gedefinieerd in het zoekvenster <a Searches Material>Materiaal/Patroon</a> die u wellicht handig vindt voor het bestuderen van openingen of middenspel.
-  }
-  {
-    Bij het zoeken naar een bepaalde materiële situatie in het zoekvenster <a Searches Material>Materiaal/Patroon</a>, is het vaak nuttig om de zoekopdracht te beperken tot partijen die minstens een paar halve zetten overeenkomen, om partijen te elimineren waarin de gezochte situatie slechts kortstondig voorkwam.
-  }
-  {
-    Als u een eindspel met 7 of minder stukken bereikt, klikt u op de knop <b>Tafelbasis</b> in het <a PGN>PGN-venster</a> om een ​​perfecte analyse te krijgen van de Lichess-eindspeltabelbasissen.
-  }
-  {
-    Als u een belangrijke database heeft die u niet per ongeluk wilt wijzigen, selecteert u <b>Alleen-lezen...</b> in het menu <b>Bestand</b> nadat u deze hebt geopend, of wijzigt u de bestandsrechten zodat deze alleen-lezen is.
-  }
-  {
-    Als u XBoard of WinBoard gebruikt (of een ander schaakprogramma dat een schaakpositie in standaard FEN-notatie naar het klembord kan kopiëren) en de huidige schaakpositie naar scidCommunity wilt kopiëren, is de snelste en gemakkelijkste manier om <b> Positie kopiëren </b> te selecteren in het menu Bestand in XBoard/WinBoard, en vervolgens <b> Startbord plakken </b> in het menu Bewerken scidGemeenschap.
-  }
-  {
-    Bij een <a Searches Header>koptekstzoekopdracht </a> zijn de namen van spelers/evenementen/sites/rondes hoofdlettergevoelig en komen ze overal in de naam overeen. U kunt ervoor kiezen om in plaats daarvan een hoofdlettergevoelige zoekopdracht met jokertekens uit te voeren (waarbij "?" = een enkel teken en "*" = nul of meer tekens) door de zoektekst "tussen aanhalingstekens" in te voeren. Typ bijvoorbeeld "*BEL" (met de aanhalingstekens) in het siteveld om alle games te vinden die in België worden gespeeld, maar niet in Belgrado.
-  }
-  {
-    Als u een zet in een partij wilt corrigeren zonder alle zetten die erna zijn gespeeld te verliezen, opent u het venster <a Import>Importeren</a>, drukt u op de knop <b>Huidige partij plakken</b>, bewerkt u de onjuiste zet en drukt u vervolgens op <b>Importeren</b>.
-  }
-  {
-    Als je een ECO-classificatiebestand hebt geladen, kun je naar de diepste geclassificeerde positie in het huidige spel gaan met <b>Identificeer opening</b> in het menu <b>Spel</b> (sneltoets: Ctrl+Shift+D).
-  }
-  {
-    Blijf op de hoogte van de nieuwste games van over de hele wereld door <b>TWIC Games </b> te downloaden in het menu <b>Extra </b>. Het downloadt en opent automatisch de nieuwste wekelijkse PGN van <b> The Week In Chess </b>.
-  }
-  {
-    Als u de grootte van een bestand of de datum van de laatste wijziging wilt controleren voordat u het opent, gebruikt u de <a Finder>bestandszoeker </a> om het te openen.
-  }
-  {
-    Een <a OpReport> openingsrapport </a> is ideaal om meer over een bepaalde functie te weten te komen. U kunt zien hoe goed het scoort, of het leidt tot frequente korte trekkingen en gemeenschappelijke positionele thema's.
-  }
-  {
-    U kunt de meest voorkomende annotatiesymbolen (!, !?, +=, enz.) aan de huidige zet of positie toevoegen met sneltoetsen zonder dat u de <a Comment>commentaareditor</a> hoeft te gebruiken - typ bijvoorbeeld "!" en vervolgens de Return-toets om een ​​"!" annotatie symbool. Zie de helppagina <a Moves>Schaakzetten invoeren </a> voor details.
-  }
-  {
-    Als u door openingen in een database bladert met de <a Tree>boom</a>, kunt u een handig overzicht zien van hoe goed de huidige opening recentelijk scoort en tussen spelers met een hoge rating door het venster Statistieken te openen (sneltoets: Ctrl+I).
-  }
-  {
-    In het venster <b>Gamebrowser</b> kunt u de bordgrootte wijzigen door de toetsen <b>Ctrl</b> en <b>Shift</b> ingedrukt te houden en op de pijltjestoets <b>Links</b> of <b>Rechts</b> te drukken.
-  }
-  {
-    Na een <a Searches>zoekopdracht</a> kunt u eenvoudig door alle overeenkomende spellen bladeren door <b>Ctrl</b> ingedrukt te houden en op de toets <b>Omhoog</b> of <b>Omlaag</b> te drukken om het vorige of volgende <a Searches Filter>filter</a> spel te laden.
-  }
-  {
-    Windows kan worden gedockt door het relevante item in het optiemenu aan te vinken. Tabbladen kunnen van het ene notitieboekje naar het andere worden gesleept en neergezet en worden opgemaakt door met de rechtermuisknop op de tabbladwidget te klikken.
-  }
-}

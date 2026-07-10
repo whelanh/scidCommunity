@@ -142,6 +142,23 @@ menuText C WindowsTree "Stromov okno" 4 {Otevt/zavt stromov okno}
 menuText C WindowsBook "Okno knihovny zahjen" 0 {Otevt/zavt okno knihovny zahjen}
 menuText C WindowsCorrChess "Korespondenn okno" 0 {Otevt/zavt okno knihovny zahjen}
 menuText C WindowsGraph "Analza Graf" 0 {Otevete okno Graf s asy tah a vyhodnocenm}
+menuText C WindowsEPD "EPD okno..." 0 {Otevřete okno editoru EPD (soubor pozic).}
+
+# EPD window:
+translate C EpdPasteAnal {Analýza pasty}
+translate C EpdSortOpcodes {Třídit operační kódy}
+translate C EpdAddPosition {Přidat pozici}
+translate C EpdFindPos {Najděte pozici ve hře}
+translate C EpdAnalPosition {Analyzovat pozice...}
+translate C EpdStripOpcodes {Odstraňte operační kódy...}
+translate C EpdAnnotateTime {Sekundy na pozici}
+translate C EpdCountBestMoves {Počítejte nejlepší tahy}
+translate C EpdSaveLog {Uložit výsledky do souboru}
+translate C EpdDontSave {Neukládat}
+translate C EpdReadOnly {pouze pro čtení}
+translate C EpdAltered {změněno}
+translate C EpdNoMoves {žádné pohyby}
+translate C positions {pozice}
 
 # Tools menu:
 menuText C Tools "Nstroje" 3
@@ -1884,138 +1901,3 @@ translate C TBCategory {Kategorie pozice:}
 translate C TBTrainingHidden {(Tréninkový režim; výsledky jsou skryté)}
 }
 # end of english.tcl
-
-
-############################################################
-#
-# Czech tip of the day
-# Machine-translated scaffold - please review and correct.
-
-set tips(C) {
-  {
-    scidCommunity má přes 40 <a Index> stránek nápovědy </a> a ve většině oken scidCommunity stisknutím klávesy <b>F1</b> vytvoříte stránku nápovědy o tomto okně.
-  }
-  {
-    Některá okna scidCommunity (např. oblast s informacemi o hře, databáze <a Switcher>přepínač</a>) mají nabídku pravého tlačítka myši. Zkuste stisknout pravé tlačítko myši v každém okně, abyste zjistili, zda je má a jaké funkce jsou k dispozici.
-  }
-  {
-    scidCommunity vám nabízí více než jeden způsob zadávání šachových tahů a umožňuje vám vybrat si ten, který vám nejlépe vyhovuje. Můžete použít myš (s návrhem pohybu nebo bez něj) nebo klávesnici (s dokončením pohybu nebo bez něj). Podrobnosti najdete na stránce nápovědy <a Moves> zadávání šachových tahů </a>.
-  }
-  {
-    Pokud máte několik databází, které často otevíráte, přidejte <a Bookmarks>záložku </a> pro každou z nich a pak je budete moci rychleji otevřít pomocí nabídky záložek.
-  }
-  {
-    Velké šachové turnaje můžete sledovat v reálném čase pomocí funkce <b>Open Lichess Tournament</b> v nabídce <b>File</b>. scidCommunity bude automaticky sledovat a aktualizovat živé hry za vás.
-  }
-  {
-    Všechny tahy aktuální hry (s jakýmikoli variacemi a komentáři) můžete vidět pomocí okna <a PGN>PGN </a>. V okně PGN můžete přejít na jakýkoli pohyb kliknutím levým tlačítkem myši na něj nebo pomocí prostředního nebo pravého tlačítka myši zobrazit náhled této pozice.
-  }
-  {
-    Hry můžete kopírovat z jedné databáze do druhé pomocí přetažení levým tlačítkem myši v okně <a Switcher>database switcher</a>.
-  }
-  {
-    scidCommunity může otevírat soubory PGN, i když jsou komprimovány pomocí Gzip (s příponou souboru .gz). Soubory PGN se otevírají pouze pro čtení, takže pokud chcete upravit soubor PGN v scidCommunity, vytvořte novou databázi scidCommunity a zkopírujte do ní hry se soubory PGN pomocí přepínače <a Switcher> databáze </a>.
-  }
-  {
-    Pokud máte velkou databázi, kterou často používáte s oknem <a Tree>tree</a>, vyplatí se vybrat <b>Fill cache file</b> ze stromového okna File menu. To si zapamatuje statistiku stromu pro mnoho běžných pozic otevření, což zrychlí přístup ke stromu pro databázi.
-  }
-  {
-    Okno <a Tree>strom</a> vám může ukázat všechny tahy hrané z aktuální pozice, ale pokud chcete také vidět všechny příkazy k tahu, které dosáhly této pozice, můžete je najít vygenerováním <a OpReport>zahajovací zprávy </a>.
-  }
-  {
-    Chcete-li rychle importovat své vlastní hry z online stránek, použijte <b>Import my Lichess</b> nebo <b>Import my chess.com</b> z nabídky <b>File</b>. Jednoduše zadejte své uživatelské jméno a datum zahájení a stáhněte si hry s úplnými metadaty.
-  }
-  {
-    V okně <a GameList>seznam her </a> stiskněte levé nebo pravé tlačítko myši na záhlaví každého sloupce a upravte jeho šířku.
-  }
-  {
-    S oknem <a PInfo>informace o hráči </a> (stačí kliknout na jméno kteréhokoli hráče v oblasti informací o hře pod šachovnicí hlavního okna pro jeho otevření) můžete snadno nastavit <a Searches Filter>filtr </a> tak, aby obsahoval všechny hry určitého hráče s určitým výsledkem kliknutím na jakoukoli hodnotu, která je zobrazena <red> červeně </red>.
-  }
-  {
-    Při studiu otevření může být velmi užitečné provést <a Searches Board>hledání hrací desky </a> s možností <b>Pawns</b> nebo <b>Files</b> na důležité pozici otevření, protože to může odhalit další otvory, které dosahují stejné struktury pěšce.
-  }
-  {
-    V oblasti informací o hře (pod šachovnicí) můžete stisknutím pravého tlačítka myši vytvořit nabídku pro přizpůsobení. Například můžete scidCommunity přimět skrýt další tah, což je užitečné pro trénink tím, že budete hrát hru s hádáním tahů.
-  }
-  {
-    Pokud často děláte hodně databáze <a Maintenance>údržba</a> na velké databázi můžete provádět několik úloh údržby najednou pomocí <a Maintenance Cleaner>čistič</a>.
-  }
-  {
-    Okno <a PGN>PGN</a> obsahuje tlačítka rychlého přístupu pro nahrání vaší aktuální hry na <b>Lichess.org</b> nebo <b>Chess.com</b>. To vám umožní okamžitě používat jejich výkonnou cloudovou analýzu a funkce sdílení.
-  }
-  {
-    Pokud máte velkou databázi, kde většina her má EventDate a chcete hry v pořadí podle data, zvažte <a Sorting> seřazení </a> podle EventDate potom Event namísto Date potom Event, protože to pomůže udržet hry ve stejném turnaji s různými daty pohromadě (samozřejmě za předpokladu, že všechny mají stejné EventDate).
-  }
-  {
-    Před <a Maintenance Twins> smazáním dvojčat </a> je dobré <a Maintenance Spellcheck> zkontrolovat </a> vaši databázi, protože to umožní scidCommunity najít další dvojčata a označit je pro smazání.
-  }
-  {
-    <a Flags>Flags</a> jsou užitečné pro označování databázových her charakteristikami, které budete chtít později vyhledat, jako je struktura pěšce, taktika atd. Můžete vyhledávat podle vlajek pomocí <a Searches Header>header search </a>.
-  }
-  {
-    Pokud hrajete hru a chcete si vyzkoušet některé pohyby, aniž byste hru změnili, jednoduše zapněte zkušební režim (pomocí zkratky <b>Ctrl+mezera </b> nebo pomocí ikony na panelu nástrojů), poté jej opět vypněte, abyste se po dokončení vrátili k původní hře.
-  }
-  {
-    Chcete-li najít nejprominentnější hry (s vysoce hodnocenými protivníky), které dosahují konkrétní pozice, otevřete okno <a Tree>tree</a> a odtud otevřete seznam nejlepších her. Můžete dokonce omezit seznam nejlepších her tak, aby se zobrazovaly pouze hry s konkrétním výsledkem.
-  }
-  {
-    Pomocí tlačítka <b>chessdb Engine Tree</b> v okně <a PGN>PGN</a> můžete nahlédnout do cloudové databáze <b>ChessDB.cn</b>. Obsahuje miliardy předem analyzovaných pozic a počítačová hodnocení pro téměř každé otevření.
-  }
-  {
-    Skvělý způsob, jak studovat otevření pomocí velké databáze her, je zapnout tréninkový režim v okně <a Tree>tree</a> a poté hrát proti databázi, abyste viděli, které řádky se často vyskytují.
-  }
-  {
-    Pokud máte otevřené dvě databáze a chcete vidět <a Tree>tree</a> statistiku první databáze při zkoumání hry z druhé databáze, stačí stisknout tlačítko <b>Lock</b> v okně stromu, abyste ji uzamkli do první databáze a poté přepněte na druhou základnu.
-  }
-  {
-    The <a Tmt>vyhledávač turnajů</a> je nejen užitečný pro vyhledání konkrétního turnaje, ale může být také použit k zobrazení turnajů, na kterých určitý hráč v poslední době soutěžil, nebo k procházení nejlepších turnajů hraných v konkrétní zemi.
-  }
-  {
-    V okně pro vyhledávání <a Searches Material>Material/Pattern</a> je definována řada společných vzorů, které můžete považovat za užitečné pro otevření nebo studium středních her.
-  }
-  {
-    Při hledání konkrétní materiální situace v okně pro vyhledávání <a Searches Material>Material/Pattern</a> je často užitečné omezit vyhledávání na hry, které se shodují alespoň na několik polovičních tahů, aby se eliminovaly hry, kde se hledaná situace vyskytla jen krátce.
-  }
-  {
-    Pokud dosáhnete koncové hry se 7 nebo méně figurkami, klikněte na tlačítko <b>Table Base</b> v okně <a PGN>PGN</a> a získejte dokonalou analýzu stolních základen koncové hry Lichess.
-  }
-  {
-    Pokud máte důležitou databázi, kterou nechcete náhodně měnit, vyberte po jejím otevření <b>Jen pro čtení...</b> z nabídky <b>File</b> nebo změňte její oprávnění k souboru tak, aby byla pouze pro čtení.
-  }
-  {
-    Pokud používáte XBoard nebo WinBoard (nebo nějaký jiný šachový program, který dokáže zkopírovat šachovou pozici ve standardní notaci FEN do schránky) a chcete zkopírovat její aktuální šachovou pozici do scidCommunity, nejrychlejší a nejjednodušší způsob je vybrat <b>Pozice kopírování</b> z nabídky Soubor v XBoard/WinBoard, poté <b>Vložte startovací desku</b> z nabídky Upravit v scidCommunity.
-  }
-  {
-    V a <a Searches Header>hledání hlavičky</a>, názvy hráčů/událostí/míst/kol nerozlišují malá a velká písmena a shodují se kdekoli v názvu. Místo toho můžete zvolit vyhledávání se zástupnými znaky rozlišujícími velká a malá písmena (kde "?" = libovolný jednotlivý znak a "*" = nula nebo více znaků) zadáním hledaného textu "v uvozovkách". Například zadejte „*BEL“ (s uvozovkami) do pole webu, abyste našli všechny hry hrané v Belgii, ale ne v Bělehradě.
-  }
-  {
-    Pokud chcete opravit tah ve hře, aniž byste ztratili všechny tahy odehrané po něm, otevřete okno <a Import>Import</a>, stiskněte tlačítko <b>Vložit aktuální hru</b>, upravte nesprávný tah a poté stiskněte <b>Import</b>.
-  }
-  {
-    Pokud máte načtený soubor klasifikace ECO, můžete přejít na nejhlubší klasifikaci v aktuální hře pomocí <b>Identify opening</b> v nabídce <b>Game</b> (zkratka: Ctrl+Shift+D).
-  }
-  {
-    Zůstaňte v obraze s nejnovějšími hrami z celého světa pomocí <b>Stáhněte si TWIC Games</b> v nabídce <b>Tools</b>. Automaticky stáhne a otevře nejnovější týdenní PGN z <b>The Week In Chess </b>.
-  }
-  {
-    Chcete-li před otevřením zkontrolovat velikost souboru nebo datum jeho poslední úpravy, otevřete jej pomocí <a Finder>file finder</a>.
-  }
-  {
-    An <a OpReport>úvodní zpráva</a> je skvělé pro získání více informací o konkrétní pozici. Můžete vidět, jak dobře boduje, zda vede k častým krátkým tahům a společným pozičním tématům.
-  }
-  {
-    K aktuálnímu pohybu nebo pozici můžete přidat nejběžnější anotační symboly (!, !?, += atd.) pomocí klávesových zkratek, aniž byste museli používat <a Comment>editor komentářů <a> – například napište "!" poté klávesou Return přidejte znak "!" symbol anotace. Podrobnosti najdete na stránce nápovědy <a Moves>Zadávání šachových tahů</a>.
-  }
-  {
-    Pokud prohlížíte otvory v databázi pomocí <a Tree>strom</a>, můžete zobrazit užitečný přehled o tom, jak dobře se daří aktuálnímu otevření v poslední době a mezi vysoce hodnocenými hráči, otevřením okna Statistiky (zkratka: Ctrl+I).
-  }
-  {
-    V okně <b>Game Browser</b> můžete změnit velikost hrací desky podržením kláves <b>Ctrl</b> a <b>Shift</b> a stisknutím klávesy se šipkou <b>Left</b> nebo <b>Right</b>.
-  }
-  {
-    Po a <a Searches>vyhledávání</a>, můžete snadno procházet všechny odpovídající hry přidržením <b>Ctrl</b> a stisknutím tlačítka <b>Nahoru</b> nebo <b>Dolů</b> tlačítko pro načtení předchozího nebo dalšího <a Searches Filter>filtr</a> hra.
-  }
-  {
-    Windows lze ukotvit zaškrtnutím příslušné položky v nabídce možností. Karty lze přetahovat a pouštět z jednoho poznámkového bloku do druhého a rozkládat kliknutím pravým tlačítkem na widget karet.
-  }
-}

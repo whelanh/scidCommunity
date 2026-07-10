@@ -30,6 +30,7 @@
 #include "game.h"
 #include "optable.h"
 #include "pbook.h"
+#include "epdbook.h"
 #include "pgnparse.h"
 #include "polyglot.h"
 #include "position.h"
@@ -69,6 +70,9 @@ static std::unique_ptr<PBook> ecoBook; // eco classification pbook.
 static SpellChecker *spellChk;         // Name correction.
 static OpTable *reports[2] = {NULL, NULL};
 
+const int MAX_EPD = 4;                  // Max simultaneously open EPD windows.
+static EpdBook *epdBooks[MAX_EPD] = {NULL, NULL, NULL, NULL};
+
 void scid_Exit(void *) {
   DBasePool::closeAll();
   if (scratchGame != NULL)
@@ -78,6 +82,10 @@ void scid_Exit(void *) {
   for (size_t i = 0, n = sizeof(reports) / sizeof(reports[0]); i < n; i++) {
     if (reports[i] != NULL)
       delete reports[i];
+  }
+  for (int i = 0; i < MAX_EPD; i++) {
+    delete epdBooks[i];
+    epdBooks[i] = NULL;
   }
 }
 
@@ -4934,8 +4942,8 @@ int sc_info(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
 // sc_info limit:
 //    Limits that Scid imposes.
 int sc_info_limit(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
-  static const char *options[] = {"elo", "year", "bases", NULL};
-  enum { LIM_ELO, LIM_YEAR, LIM_BASES };
+  static const char *options[] = {"elo", "year", "bases", "epd", NULL};
+  enum { LIM_ELO, LIM_YEAR, LIM_BASES, LIM_EPD };
   int index = -1;
   int result = 0;
 
@@ -4956,16 +4964,277 @@ int sc_info_limit(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     result = MAX_BASES;
     break;
 
+  case LIM_EPD:
+    result = MAX_EPD;
+    break;
+
   default:
-    return UI_Result(ti, ERROR_BadArg, "Usage: sc_info limit <elo|year|bases>");
+    return UI_Result(ti, ERROR_BadArg,
+                     "Usage: sc_info limit <elo|year|bases|epd>");
   }
 
   return UI_Result(ti, OK, result);
 }
 
+/// EPD functions
+
+// sc_epd_open: Open or create an EPD file.
+static int sc_epd_open(Tcl_Interp* ti, int argc, const char** argv, bool create) {
+	if (argc != 3) {
+		return errorResult(ti, "Usage: sc_epd create|open <filename>");
+	}
+	const char* filename = argv[2];
+
+	// Check not already open.
+	for (int i = 0; i < MAX_EPD; i++) {
+		if (epdBooks[i] && strEqual(filename, epdBooks[i]->getFileName())) {
+			return errorResult(ti,
+			                   "The EPD file you selected is already open.");
+		}
+	}
+
+	// Find a free slot.
+	int freeID = -1;
+	for (int i = 0; i < MAX_EPD; i++) {
+		if (epdBooks[i] == NULL) {
+			freeID = i;
+			break;
+		}
+	}
+	if (freeID == -1) {
+		return errorResult(ti,
+		                   "Too many EPD files are open; close one first.");
+	}
+
+	auto* pb = new EpdBook;
+	epdBooks[freeID] = pb;
+	pb->setFileName(filename);
+
+	errorT err = create ? pb->writeFile() : pb->readFile();
+	if (err != OK) {
+		delete pb;
+		epdBooks[freeID] = NULL;
+		Tcl_AppendResult(ti, "Unable to ",
+		                 create ? "create" : "open",
+		                 " EPD file: ", filename, NULL);
+		return TCL_ERROR;
+	}
+	return setIntResult(ti, freeID + 1);
+}
+
+// sc_epd_deepest: Returns the deepest ply matching any EPD position.
+static int sc_epd_deepest(Tcl_Interp* ti, int epdID) {
+	EpdBook* pb = epdBooks[epdID];
+	uint ply = 0;
+	auto location = db->game->currentLocation();
+	db->game->MoveToStart();
+	do {
+		if (pb->find(db->game->GetCurrentPos(), nullptr)) {
+			ply = db->game->GetCurrentPly();
+		}
+	} while (db->game->MoveForward() == OK);
+	db->game->restoreLocation(location);
+	return setUintResult(ti, ply);
+}
+
+// sc_epd_moves: Returns legal SAN moves whose destinations exist as entries.
+static int sc_epd_moves(Tcl_Interp* ti, int epdID) {
+	EpdBook* pb = epdBooks[epdID];
+	Position* gamePos = db->game->GetCurrentPos();
+
+	Position scratch = *gamePos;
+	MoveList moveList;
+	gamePos->GenerateMoves(&moveList);
+
+	for (uint i = 0; i < moveList.Size(); i++) {
+		auto* smPtr = moveList.Get(i);
+		scratch.DoSimpleMove(smPtr);
+		if (pb->find(&scratch, nullptr)) {
+			char sanStr[20];
+			gamePos->MakeSANString(smPtr, sanStr, SAN_MATETEST);
+			Tcl_AppendElement(ti, sanStr);
+		}
+		scratch.UndoSimpleMove(*smPtr);
+	}
+	return TCL_OK;
+}
+
+static int sc_epd_set(Tcl_Interp*, int epdID, const char* text) {
+	EpdBook* pb = epdBooks[epdID];
+	pb->insert(db->game->GetCurrentPos(), text);
+	return TCL_OK;
+}
+
+static int sc_epd_write(Tcl_Interp* ti, int epdID) {
+	if (epdBooks[epdID]->writeFile() != OK) {
+		return errorResult(ti, "Error writing EPD file.");
+	}
+	return TCL_OK;
+}
+
+// sc_epd: Scid EPD (position) file functions.
+int sc_epd(ClientData cd, Tcl_Interp* ti, int argc, const char** argv) {
+	static const char* options[] = {"altered", "available", "close",   "create",
+	                                "deepest", "get",       "load",    "moves",
+	                                "name",    "next",      "open",    "prev",
+	                                "readonly","set",       "size",    "strip",
+	                                "write",   "exists",    "index",   NULL};
+	enum {
+		EPD_ALTERED,  EPD_AVAILABLE, EPD_CLOSE,  EPD_CREATE,
+		EPD_DEEPEST,  EPD_GET,       EPD_LOAD,   EPD_MOVES,
+		EPD_NAME,     EPD_NEXT,      EPD_OPEN,   EPD_PREV,
+		EPD_READONLY, EPD_SET,       EPD_SIZE,   EPD_STRIP,
+		EPD_WRITE,    EPD_EXISTS,    EPD_INDEX
+	};
+	int index = -1;
+	if (argc > 1) {
+		index = strUniqueMatch(argv[1], options);
+	}
+	if (index < 0) {
+		return InvalidCommand(ti, "sc_epd", options);
+	}
+
+	if (index == EPD_AVAILABLE) {
+		uint avail = 0;
+		for (int i = 0; i < MAX_EPD; i++) {
+			if (epdBooks[i] == NULL) {
+				avail++;
+			}
+		}
+		return setUintResult(ti, avail);
+	}
+	if (index == EPD_OPEN) {
+		return sc_epd_open(ti, argc, argv, false);
+	}
+	if (index == EPD_CREATE) {
+		return sc_epd_open(ti, argc, argv, true);
+	}
+
+	int epdID = -1;
+	if (argc >= 3) {
+		epdID = strGetInteger(argv[2]) - 1;
+	}
+	if (epdID < 0 || epdID >= MAX_EPD || epdBooks[epdID] == NULL) {
+		Tcl_AppendResult(ti, "Error: sc_epd ", options[index],
+		                 ": invalid EPD ID number", NULL);
+		return TCL_ERROR;
+	}
+
+	switch (index) {
+	case EPD_ALTERED:
+		return UI_Result(ti, OK, epdBooks[epdID]->isAltered());
+
+	case EPD_CLOSE:
+		delete epdBooks[epdID];
+		epdBooks[epdID] = NULL;
+		break;
+
+	case EPD_DEEPEST:
+		return sc_epd_deepest(ti, epdID);
+
+	case EPD_GET: {
+		const char* text = nullptr;
+		if (epdBooks[epdID]->find(db->game->GetCurrentPos(), &text)) {
+			Tcl_AppendResult(ti, text, NULL);
+		}
+		break;
+	}
+
+	case EPD_LOAD: {
+		if (argc != 4) {
+			return errorResult(ti, "Usage: sc_epd load <epdID> <index>");
+		}
+		int idx = strGetInteger(argv[3]);
+		Position pos;
+		if (epdBooks[epdID]->loadByIndex(&pos, idx)) {
+			db->game->Clear();
+			db->gameNumber = -1;
+			db->game->SetStartPos(pos);
+			db->gameAltered = true;
+		}
+		break;
+	}
+
+	case EPD_MOVES:
+		return sc_epd_moves(ti, epdID);
+
+	case EPD_NAME:
+		Tcl_AppendResult(ti, epdBooks[epdID]->getFileName(), NULL);
+		break;
+
+	case EPD_NEXT: {
+		Position pos;
+		if (epdBooks[epdID]->findNext(&pos, true)) {
+			db->game->Clear();
+			db->gameNumber = -1;
+			db->game->SetStartPos(pos);
+			db->gameAltered = true;
+		}
+		break;
+	}
+
+	case EPD_PREV: {
+		Position pos;
+		if (epdBooks[epdID]->findNext(&pos, false)) {
+			db->game->Clear();
+			db->gameNumber = -1;
+			db->game->SetStartPos(pos);
+			db->gameAltered = true;
+		}
+		break;
+	}
+
+	case EPD_READONLY:
+		return UI_Result(ti, OK, epdBooks[epdID]->isReadOnly());
+
+	case EPD_SET:
+		if (argc != 4) {
+			return errorResult(ti, "Usage: sc_epd set <epdID> <text>");
+		}
+		return sc_epd_set(ti, epdID, argv[3]);
+
+	case EPD_SIZE:
+		return setUintResult(ti, epdBooks[epdID]->size());
+
+	case EPD_STRIP:
+		if (argc != 4) {
+			return errorResult(ti,
+			                   "Usage: sc_epd strip <epdID> <epdcode>");
+		}
+		return setUintResult(
+		    ti, epdBooks[epdID]->stripOpcode(argv[3]));
+
+	case EPD_WRITE:
+		return sc_epd_write(ti, epdID);
+
+	case EPD_EXISTS:
+		return UI_Result(
+		    ti, OK,
+		    epdBooks[epdID]->find(db->game->GetCurrentPos(), nullptr));
+
+	case EPD_INDEX: {
+		EpdBook* pb = epdBooks[epdID];
+		if (argc == 3) {
+			return setIntResult(
+			    ti, pb->getIndex(db->game->GetCurrentPos()));
+		} else if (argc == 4) {
+			return setIntResult(
+			    ti, pb->setIndex(strGetUnsigned(argv[3])));
+		} else {
+			return errorResult(
+			    ti, "Usage: sc_epd index <epdID> [<index>]");
+		}
+	}
+
+	default:
+		ASSERT(0);
+	}
+	return TCL_OK;
+}
+
+
 //////////////////////////////////////////////////////////////////////
 //  MOVE functions
-
 int sc_move(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
   static const char *options[] = {"add",    "addSan",  "back", "end",
                                   "endVar", "forward", "pgn",  "ply",

@@ -745,6 +745,7 @@ set helpText(Menus) {<h1>scidCommunity menus</h1>
   <li><menu>Tree window</menu>: Opens/closes the <a Tree>tree window</a>.</li>
   <li><menu>Book window</menu>: Opens/closes the <a Book>opening book</a> window.</li>
   <li><menu>Score Graph</menu>: Refreshes the <a Graphs Score>score graph</a>.</li>
+  <li><menu>EPD Window...</menu>: Opens an <a EPD>EPD</a> (position file) editor window.</li>
   </ul>
 
   <h3><name Play>Play</name></h3>
@@ -3551,41 +3552,55 @@ set helpText(EPD) {<h1>EPD files</h1>
   adding comments for positions you regularly reach in games.
   </p>
   <p>
-  You can create a new EPD file or open an existing one, from the
-  <menu>New</menu> and <menu>Open</menu> commands of the
-  <menu>File</menu> menu. At most four EPD files can be open at any time.
+  You can open an existing EPD file with the <menu>File / Open</menu> command
+  of the main window (or by passing it on the command line), or open/create one
+  from the <menu>Windows / EPD Window...</menu> menu. Within an EPD window, its
+  own <menu>File</menu> menu also has <menu>New</menu> and <menu>Open</menu>
+  commands. At most four EPD files can be open at any time.
   </p>
   
   <h3>EPD windows</h3>
   <p>
-  For each open EPD file, you will see a window which shows the text for
-  the current position. You do not have to press the Store button to store
-  any changes you make to a positions text; the text will be stored whenever
-  you move to a different position in the game.
+  For each open EPD file, you will see a window which shows the opcode text
+  for the current position. There is no separate "Store" step for opcodes you
+  edit: the text is stored automatically whenever you move to a different
+  position or move the mouse out of the text editor. Use the EPD window's
+  <menu>File / Save</menu> command (or <b>Ctrl+S</b>) to write the file to disk.
   </p>
   
   <h3>Navigating EPD files</h3>
   <p>
-  To browse through the positions in a EPD file, use the
-  <menu>Next position</menu> and <menu>Previous position</menu> commands
-  from the EPD window <menu>Tools</menu> menu, or use the shortcut
-  keys <b>Ctrl+DownArrow</b> and <b>Ctrl+UpArrow</b>.
-  These commands move to the next/previous position in the file, clearing
-  the current game and setting its start position.
+  Browse positions by clicking on them in the left-hand listbox, or use
+  <b>Ctrl+Down</b> (next position) and <b>Ctrl+Up</b> (previous position).
+  The listbox shows each position's four-field FEN string with its line number.
+  Loading a position clears the current game and sets its start position to the
+  EPD position.
+  </p>
+  <p>
+  The EPD window's <menu>Tools</menu> menu also includes commands to
+  <menu>Add Position</menu> (insert the current board), <menu>Find Position in
+  Game</menu> (jump to the deepest ply with an EPD match), and
+  <menu>Paste Analysis</menu> (copy opcodes from a running engine into the
+  current EPD text).
   </p>
 
   <h3>Annotating</h3>
   <p>
-  EPD-files can be automatically annotated by selecting Tools /
-  Annotate position. The upcoming dialogue asks for the time that
-  should be used for the analysis, then the <a Analysis List>engine
-  list</a> is opened for selection of an engine to be used. <b>Note</b> If an
-  analysis window is already opened, the analysis is done using this
-  engine without asking the user beforehand. Then the engine is
-  started and the result added to the EPD. The EPD tags used are :
-  acd, acn, ce and pv.
+  EPD files can be automatically annotated by selecting <menu>Tools /
+  Analyze Positions...</menu>. The dialog lets you choose the time to spend
+  per position, a <term>UCI</term> engine (from your configured
+  <a Analysis List>engine list</a>), and a mode: <b>Count best moves</b>
+  (only tally how often the engine agrees with the <b>bm</b>/<b>am</b>
+  opcodes, without changing the file), <b>Annotate</b> (add analysis opcodes
+  to each position), or <b>Both</b>. scidCommunity then steps through every
+  position, and the EPD opcodes added are: acd, acn, ce, dm and pv.
   </p>
   <p>
+  Check <b>Save results to file</b> to write the per-position results to a
+  text file. Each line records: position number, the sought move from the EPD
+  file, the engine's found move, TRUE/FALSE match, depth, score, and the
+  FEN string. A summary footer shows the total best moves found.
+  </p>
 
   <h3>Stripping out EPD fields</h3>
   <p>
@@ -3595,24 +3610,27 @@ set helpText(EPD) {<h1>EPD files</h1>
   acn, pm, pv and id fields but you may only need the ce and pv fields.
   </p>
   <p>
-  You can strip out an EPD opcode from all positions in the EPD file using
-  the <menu>Strip out EPD field</menu> from the EPD window <menu>Tools</menu>
-  menu.
+  Remove an opcode from every position by selecting
+  <menu>Tools / Strip Opcodes...</menu> (or <b>Ctrl+O</b>), then enter the
+  opcode name (without the trailing space). The EPD file is not written to
+  disk until you <menu>File / Save</menu>.
   </p>
 
   <h3>The EPD window status bar</h3>
   <p>
-  The status bar of each EPD window shows:
+  The status bar shows:
   <ul>
-  <li>- the file status (<b>--</b> means unchanged, <b>XX</b> means
-  changed, and <b>%%</b> means read-only); </li>
-  <li>- the file name; </li>
-  <li>- the number of positions in the file; </li>
-  <li>- legal moves from the current position reach another position
-  in this EPD file.</li>
+  <li>the file name (in the window title bar);</li>
+  <li>the file status: <b>altered</b> if the file has unsaved changes, or
+  <b>read-only</b> if it cannot be written;</li>
+  <li>the number of positions in the file;</li>
+  <li>a list of legal moves from the current position that lead to other
+  positions in this EPD file, if any.</li>
   </ul>
+  During batch annotation, the status bar shows the engine name
+  and time-per-position instead.
   
-  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, July 2026)</footer></p>
 }
 
 

@@ -183,6 +183,23 @@ menuText E WindowsTree "Tree Window" 0 {Open/close the Tree window}
 menuText E WindowsBook "Book Window" 0 {Open/close the Book window}
 menuText E WindowsCorrChess "Correspondence Window" 0 {Open/close the Correspondence window}
 menuText E WindowsGraph "Analysis Graph" 0 {Open the Graph window with moves' times and evaluations}
+menuText E WindowsEPD "EPD Window..." 0 {Open an EPD (position file) editor window}
+
+# EPD window:
+translate E EpdPasteAnal {Paste Analysis}
+translate E EpdSortOpcodes {Sort Opcodes}
+translate E EpdAddPosition {Add Position}
+translate E EpdFindPos {Find Position in Game}
+translate E EpdAnalPosition {Analyze Positions...}
+translate E EpdStripOpcodes {Strip Opcodes...}
+translate E EpdAnnotateTime {Seconds per position}
+translate E EpdCountBestMoves {Count best moves}
+translate E EpdSaveLog {Save results to file}
+translate E EpdDontSave {Don't Save}
+translate E EpdReadOnly {read-only}
+translate E EpdAltered {altered}
+translate E EpdNoMoves {no moves}
+translate E positions {positions}
 
 # Tools menu:
 menuText E Tools "Tools" 0

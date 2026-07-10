@@ -157,6 +157,36 @@ menuText Y WindowsBook "Book Window" 0 {Open/close the Book window}
 menuText Y WindowsCorrChess "Correspondence Window" 0 {Open/close the Correspondence window}
 # ====== TODO To be translated ======
 menuText Y WindowsGraph "Analysis Graph" 0 {Open the Graph window with moves' times and evaluations}
+# ====== TODO To be translated ======
+menuText Y WindowsEPD "EPD Window..." 0 {Open an EPD (position file) editor window}
+# ====== TODO To be translated ======
+translate Y EpdPasteAnal {Paste Analysis}
+# ====== TODO To be translated ======
+translate Y EpdSortOpcodes {Sort Opcodes}
+# ====== TODO To be translated ======
+translate Y EpdAddPosition {Add Position}
+# ====== TODO To be translated ======
+translate Y EpdFindPos {Find Position in Game}
+# ====== TODO To be translated ======
+translate Y EpdAnalPosition {Analyze Positions...}
+# ====== TODO To be translated ======
+translate Y EpdStripOpcodes {Strip Opcodes...}
+# ====== TODO To be translated ======
+translate Y EpdAnnotateTime {Seconds per position}
+# ====== TODO To be translated ======
+translate Y EpdCountBestMoves {Count best moves}
+# ====== TODO To be translated ======
+translate Y EpdSaveLog {Save results to file}
+# ====== TODO To be translated ======
+translate Y EpdDontSave {Don't Save}
+# ====== TODO To be translated ======
+translate Y EpdReadOnly {read-only}
+# ====== TODO To be translated ======
+translate Y EpdAltered {altered}
+# ====== TODO To be translated ======
+translate Y EpdNoMoves {no moves}
+# ====== TODO To be translated ======
+translate Y positions {positions}
 
 # Tools menu:
 menuText Y Tools "Alati" 0

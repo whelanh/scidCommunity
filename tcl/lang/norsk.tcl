@@ -148,6 +148,23 @@ menuText O WindowsTree "Trevindu" 0 {Åpne/lukk trevinduet}
 menuText O WindowsBook "Bokvindu" 0 {Åpne/lukk bokvinduet}
 menuText O WindowsCorrChess "Korrespondansevindu" 0 {Åpne/lukk korrespondansevinduet}
 menuText O WindowsGraph "Analysegraf" 0 {Åpne grafvinduet med trekktider og evalueringer}
+menuText O WindowsEPD "EPD-vindu..." 0 {Åpne et EPD-redigeringsvindu (posisjonsfil).}
+
+# EPD window:
+translate O EpdPasteAnal {Lim inn analyse}
+translate O EpdSortOpcodes {Sorter Opcodes}
+translate O EpdAddPosition {Legg til posisjon}
+translate O EpdFindPos {Finn posisjon i spillet}
+translate O EpdAnalPosition {Analyser posisjoner...}
+translate O EpdStripOpcodes {Strip Opcodes...}
+translate O EpdAnnotateTime {Sekunder per stilling}
+translate O EpdCountBestMoves {Tell de beste trekkene}
+translate O EpdSaveLog {Lagre resultater til fil}
+translate O EpdDontSave {Ikke lagre}
+translate O EpdReadOnly {skrivebeskyttet}
+translate O EpdAltered {endret}
+translate O EpdNoMoves {ingen bevegelser}
+translate O positions {stillinger}
 
 # Tools menu:
 menuText O Tools "Verktøy" 0
@@ -1884,138 +1901,3 @@ translate O TBCategory {Stillingskategori:}
 translate O TBTrainingHidden {(Opplæringsmodus; resultatene er skjult)}
 }
 # end of english.tcl
-
-
-############################################################
-#
-# Norwegian tip of the day
-# Machine-translated scaffold - please review and correct.
-
-set tips(O) {
-  {
-    scidCommunity har over 40 <a Index>hjelpesider</a>, og i de fleste scidCommunity-vinduer vil et trykk på <b>F1</b>-tasten produsere hjelpesiden om det vinduet.
-  }
-  {
-    Noen scidCommunity-vinduer (f.eks. spillinformasjonsområdet, databasen <a Switcher>switcher</a>) har en meny med høyre museknapp. Prøv å trykke på høyre museknapp i hvert vindu for å se om det har en og hvilke funksjoner som er tilgjengelige.
-  }
-  {
-    scidCommunity tilbyr deg mer enn én måte å legge inn sjakktrekk, slik at du kan velge det som passer deg best. Du kan bruke musen (med eller uten bevegelsesforslag) eller tastaturet (med eller uten fullføring av bevegelse). Les hjelpesiden for <a Moves>inntasting av sjakktrekk</a> for detaljer.
-  }
-  {
-    Hvis du har noen få databaser du åpner ofte, legg til et <a Bookmarks>bokmerke</a> for hver enkelt, og så vil du kunne åpne dem raskere ved å bruke bokmerkemenyen.
-  }
-  {
-    Du kan følge store sjakkturneringer i sanntid ved å bruke <b>Open Lichess Tournament</b>-funksjonen i <b>File</b>-menyen. scidCommunity vil automatisk overvåke og oppdatere live-spillene for deg.
-  }
-  {
-    Du kan se alle trekkene i det gjeldende spillet (med alle varianter og kommentarer) ved å bruke <a PGN>PGN-vinduet</a>. I PGN-vinduet kan du gå til et hvilket som helst trekk ved å klikke med venstre museknapp på det, eller bruke midt- eller høyre museknapp for å se en forhåndsvisning av den posisjonen.
-  }
-  {
-    Du kan kopiere spill fra en database til en annen ved å dra og slippe med venstre museknapp i <a Switcher>databasebyttervinduet </a>.
-  }
-  {
-    scidCommunity kan åpne PGN-filer, selv om de er komprimert med Gzip (med et .gz-filnavnsuffiks). PGN-filer åpnes skrivebeskyttet, så hvis du ønsker å redigere en PGN-fil i scidCommunity, oppretter du en ny scidCommunity-database og kopierer PGN-filspillene til den ved å bruke <a Switcher>database switcher</a>.
-  }
-  {
-    Hvis du har en stor database du bruker med <a Tree>tree</a>-vinduet ofte, er det verdt å velge <b>Fyll cache-fil</b> fra filmenyen i trevinduet. Dette vil huske trestatistikk for mange vanlige åpningsposisjoner, noe som gjør tretilgang raskere for databasen.
-  }
-  {
-    <a Tree>treet</a>-vinduet kan vise deg alle trekk som er spilt fra gjeldende posisjon, men hvis du også vil se alle trekkordrene som nådde denne posisjonen, kan du finne dem ved å generere en <a OpReport>åpningsrapport</a>.
-  }
-  {
-    For raskt å importere dine egne spill fra nettsider, bruk <b>Import my Lichess</b> eller <b>Import my chess.com</b> fra <b>File</b>-menyen. Bare skriv inn brukernavnet ditt og en startdato for å laste ned spillene dine med full metadata.
-  }
-  {
-    I <a GameList>spillliste</a>-vinduet, trykk venstre eller høyre museknapp på overskriften til hver kolonne for å justere bredden.
-  }
-  {
-    Med <a PInfo>spillerinformasjon</a>-vinduet (bare klikk på et av spillernes navn i spillinformasjonsområdet under hovedvinduets sjakkbrett for å åpne det), kan du enkelt stille inn <a Searches Filter>filteret</a> til å inneholde alle spill av en bestemt spiller med et bestemt resultat ved å klikke på en verdi som vises <red> i rød tekst </red>.
-  }
-  {
-    Når du studerer en åpning, kan det være veldig nyttig å gjøre et <a Searches Board>brettsøk</a> med <b>Pawns</b> eller <b>Files</b> alternativet på en viktig åpningsposisjon, da dette kan avsløre andre åpninger som når samme bondestruktur.
-  }
-  {
-    I spillinformasjonsområdet (under sjakkbrettet) kan du trykke på høyre museknapp for å lage en meny for å tilpasse den. For eksempel kan du få scidCommunity til å skjule neste trekk, noe som er nyttig for trening ved å spille gjennom et spill som gjetter trekkene.
-  }
-  {
-    Hvis du ofte utfører mye database <a Maintenance>vedlikehold</a> på en stor database, kan du utføre flere vedlikeholdsjobber samtidig ved å bruke <a Maintenance Cleaner>cleaner</a>.
-  }
-  {
-    <a PGN>PGN-vinduet</a> har hurtigtilgangsknapper for å laste opp ditt nåværende spill til <b>Lichess.org</b> eller <b>Chess.com</b>. Dette lar deg bruke deres kraftige skybaserte motoranalyse og delingsfunksjoner umiddelbart.
-  }
-  {
-    Hvis du har en stor database der de fleste spillene har en EventDate og du vil ha spillene i datorekkefølge, vurder å <a Sorting>sorting</a> den etter EventDate og deretter Event i stedet for Date og deretter Event, da dette vil bidra til å holde spill i samme turnering med forskjellige datoer sammen (forutsatt at de alle har samme EventDate, selvfølgelig).
-  }
-  {
-    Før <a Maintenance Twins>sletter tvillingspill</a>, er det en god idé å <a Maintenance Spellcheck>stavesjekke</a> databasen din, siden dette vil gjøre det mulig for scidCommunity å finne flere tvillinger og merke dem for sletting.
-  }
-  {
-    <a Flags>Flagg</a> er nyttige for å markere databasespill med egenskaper du kanskje vil søke etter på et senere tidspunkt, som bondestruktur, taktikk osv. Du kan søke etter flagg med et <a Searches Header>hodesøk</a>.
-  }
-  {
-    Hvis du spiller gjennom et spill og ønsker å prøve noen trekk uten å endre spillet, slår du ganske enkelt på prøvemodus (med <b>Ctrl+mellomrom</b> snarveien eller fra verktøylinjeikonet), og deretter slår du det av igjen for å gå tilbake til det originale spillet når du er ferdig.
-  }
-  {
-    For å finne de mest fremtredende spillene (med høyt rangerte motstandere) som når en bestemt posisjon, åpner du <a Tree>treet</a>-vinduet og åpner listen over beste spill derfra. Du kan til og med begrense listen over beste spill til kun å vise spill med et bestemt resultat.
-  }
-  {
-    Bruk <b>chessdb Engine Tree</b>-knappen i <a PGN>PGN-vinduet</a> for å konsultere <b>ChessDB.cn</b> skydatabasen. Den inneholder milliarder av forhåndsanalyserte stillinger og datamaskinevalueringer for nesten alle åpninger.
-  }
-  {
-    En fin måte å studere en åpning ved å bruke en stor database med spill er å slå på treningsmodus i <a Tree>tree</a>-vinduet, og deretter spille mot databasen for å se hvilke linjer som forekommer ofte.
-  }
-  {
-    Hvis du har to databaser åpne, og ønsker å se <a Tree>tree</a>-statistikk for den første databasen mens du undersøker et spill fra den andre databasen, trykker du bare på <b>Lock</b>-knappen i trevinduet for å låse den til den første databasen og deretter bytte til den andre basen.
-  }
-  {
-    <a Tmt>turneringsfinneren</a> er ikke bare nyttig for å finne en bestemt turnering, men kan også brukes til å se hvilke turneringer en bestemt spiller har konkurrert i nylig eller bla gjennom de beste turneringene som spilles i et bestemt land.
-  }
-  {
-    Det er en rekke vanlige mønstre definert i <a Searches Material>Material/Pattern</a> søkevinduet som du kan finne nyttige for åpninger eller mellomspillstudier.
-  }
-  {
-    Når du søker etter en bestemt materiell situasjon i <a Searches Material>Material/Pattern</a> søkevinduet, er det ofte nyttig å begrense søket til spill som matcher i minst et par halve trekk for å eliminere spill der den søkte situasjonen bare skjedde kort.
-  }
-  {
-    Hvis du når et sluttspill med 7 eller færre brikker, klikk på <b>Table Base</b>-knappen i <a PGN>PGN-vinduet</a> for å få perfekt analyse fra Lichess sluttspilltabellbaser.
-  }
-  {
-    Hvis du har en viktig database du ikke vil endre ved et uhell, velger du <b>Skrivebeskyttet...</b> fra <b>Fil</b>-menyen etter å ha åpnet den, eller endre filtillatelsene til å være skrivebeskyttet.
-  }
-  {
-    Hvis du bruker XBoard eller WinBoard (eller et annet sjakkprogram som kan kopiere en sjakkposisjon i standard FEN-notasjon til utklippstavlen) og ønsker å kopiere den nåværende sjakkposisjonen til scidCommunity, er den raskeste og enkleste måten å velge <b>Kopier posisjon</b> fra Fil-menyen i XBoard/WinBoard, deretter <b>Lim inn startbrett</b> fra Rediger-menyen i scidCommunity.
-  }
-  {
-    I et <a Searches Header>header-søk</a>, er navn på spiller/begivenhet/nettsted/runde skille mellom store og små bokstaver og samsvarer hvor som helst i et navn. Du kan velge å gjøre et søk med jokertegn som skiller mellom store og små bokstaver (der "?" = et enkelt tegn og "*" = null eller flere tegn) ved å skrive inn søketeksten "i anførselstegn". Skriv for eksempel "*BEL" (med anførselstegn) i sidefeltet for å finne alle spill som spilles i Belgia, men ikke Beograd.
-  }
-  {
-    Hvis du vil korrigere et trekk i et spill uten å tape alle trekkene som er spilt etter det, åpner du <a Import>Import</a>-vinduet, trykker på <b>Lim inn gjeldende spill</b>-knappen, redigerer feil trekk og trykker deretter <b>Import</b>.
-  }
-  {
-    Hvis du har en ECO-klassifiseringsfil lastet, kan du gå til den dypeste klassifiserte posisjonen i det gjeldende spillet med <b>Identifiser åpning</b> i <b>Spill</b>-menyen (snarvei: Ctrl+Shift+D).
-  }
-  {
-    Hold deg oppdatert med de nyeste spillene fra hele verden ved å bruke <b>Last ned TWIC Games</b> i <b>Tools</b>-menyen. Den laster automatisk ned og åpner den siste ukentlige PGN fra <b>The Week In Chess</b>.
-  }
-  {
-    Hvis du vil sjekke størrelsen på en fil eller datoen for siste endring før du åpner den, bruk <a Finder>filsøkeren</a> for å åpne den.
-  }
-  {
-    En <a OpReport>åpningsrapport</a> er flott for å lære mer om en bestemt stilling. Du kan se hvor godt det scorer, om det fører til hyppige korte trekninger og vanlige posisjonstemaer.
-  }
-  {
-    Du kan legge til de vanligste merknadssymbolene (!, !?, +=, osv.) til gjeldende trekk eller posisjon med hurtigtaster uten å måtte bruke <a Comment>kommentarredigering</a> -- for eksempel, skriv "!" deretter returtasten for å legge til et "!" merknadssymbol. Se hjelpesiden <a Moves>Entering sjakktrekk</a> for detaljer.
-  }
-  {
-    Hvis du blar gjennom åpninger i en database med <a Tree>treet</a>, kan du se en nyttig oversikt over hvor godt den nåværende åpningen scorer nylig og mellom høyt rangerte spillere ved å åpne statistikkvinduet (snarvei: Ctrl+I).
-  }
-  {
-    I <b>Game Browser</b>-vinduet kan du endre brettstørrelsen ved å holde nede <b>Ctrl</b> og <b>Shift</b>-tastene, og trykke på <b>Venstre</b> eller <b>Høyre</b>-piltasten.
-  }
-  {
-    Etter et <a Searches>søk</a>, kan du enkelt bla gjennom alle matchende spill ved å holde nede <b>Ctrl</b> og trykke på <b>Opp</b> eller <b>Ned</b>-tasten for å laste forrige eller neste <a Searches Filter>filter</a>spill.
-  }
-  {
-    Windows kan dokkes ved å sjekke den aktuelle oppføringen i alternativmenyen. Faner kan dras og slippes fra en notatbok til en annen og legges ut ved å høyreklikke på fanemodulen.
-  }
-}

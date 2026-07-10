@@ -245,6 +245,10 @@ $m add checkbutton -label WindowsBook -variable ::book::isOpen -command ::book::
 $m add checkbutton -label [tr TablebaseWindow] -variable ::tablebase::window::isOpen -command ::tablebase::window::Open -accelerator "Ctrl+="
 $m add checkbutton -label [tr Board3D] -variable ::windows::game3d::isOpen -command ::windows::game3d::toggle -accelerator "Ctrl+3"
 $m add command -label WindowsGraph -command ::tools::graphs::score::Refresh
+$m add separator
+$m add command -label WindowsEPD -command {::epd::newEpdWin open}
+
+
 
 
 ### Tools menu:

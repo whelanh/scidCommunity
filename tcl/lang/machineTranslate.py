@@ -55,12 +55,65 @@ Note: Most common codes are 2 letters, Chinese uses special codes
 
 import sys
 import argparse
-# from googletrans import Translator # We will import inside main/async to avoiding global side effects if possible, but global is fine.
+import googletrans
 from googletrans import Translator
 import re
 import time
 import asyncio
+import inspect
 import os
+
+# googletrans changed from a synchronous API (<= 3.1.0) to an asyncio-based API
+# (>= 4.0.0), where Translator.translate() became a coroutine and Translator
+# became an async context manager. Detect which flavour is installed once, so
+# the rest of this script can stay synchronous regardless of the version.
+_IS_ASYNC = inspect.iscoroutinefunction(Translator.translate)
+
+
+class TranslationSession:
+    """Synchronous facade over googletrans that works with both the old
+    synchronous (<= 3.1.0) and the new asyncio-based (>= 4.0.0) API.
+
+    For the async API we keep a single persistent event loop for the whole
+    run: creating a fresh loop per call (e.g. asyncio.run) would close the
+    loop that the internal httpx.AsyncClient is bound to and raise
+    "Event loop is closed" on the next translation.
+    """
+
+    def __init__(self):
+        self._loop = None
+        if _IS_ASYNC:
+            self._loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(self._loop)
+        self._translator = Translator()
+
+    def translate(self, text, src='auto', dest='en'):
+        if _IS_ASYNC:
+            res = self._loop.run_until_complete(
+                self._translator.translate(text, src=src, dest=dest))
+        else:
+            res = self._translator.translate(text, src=src, dest=dest)
+            # Belt-and-suspenders: handle a future version that returns an
+            # awaitable without being flagged as a coroutine function.
+            if inspect.isawaitable(res):
+                loop = self._loop or asyncio.new_event_loop()
+                res = loop.run_until_complete(res)
+        return res.text if hasattr(res, 'text') else str(res)
+
+    def close(self):
+        try:
+            client = getattr(self._translator, 'client', None)
+            if _IS_ASYNC:
+                if client is not None and hasattr(client, 'aclose') and self._loop is not None:
+                    self._loop.run_until_complete(client.aclose())
+            elif client is not None and hasattr(client, 'close'):
+                client.close()
+        except Exception:
+            pass
+        finally:
+            if self._loop is not None:
+                self._loop.close()
+                self._loop = None
 
 # Language file to language code mapping
 # We don't do    'serbian.tcl': 'sr',      # Serbian because googletrans doesn't have serbian latinate
@@ -140,9 +193,10 @@ def get_encoding_for_file(input_file):
 def to_tcl_unicode(text):
     return text
 
-async def safe_translate(translator, text, src='en', dest='es', max_retries=3):
+def safe_translate(session, text, src='en', dest='es', max_retries=3):
     """
     Safely translate text with retry logic and error handling.
+    Returns the translated text on success, or None on failure.
     """
     if not text or not text.strip():
         return text
@@ -151,24 +205,19 @@ async def safe_translate(translator, text, src='en', dest='es', max_retries=3):
         try:
             # Add a small delay to avoid rate limiting
             if attempt > 0:
-                await asyncio.sleep(1 + attempt)
+                time.sleep(1 + attempt)
 
-            result = await translator.translate(text, src=src, dest=dest)
-
-            if hasattr(result, 'text'):
-                return result.text
-            else:
-                return str(result)
+            return session.translate(text, src=src, dest=dest)
 
         except Exception as e:
             if attempt == max_retries - 1:
                 print(f"    Translation failed after {max_retries} attempts: {e}")
-                return text
-            await asyncio.sleep(1)
+                return None
+            time.sleep(1)
 
-    return text
+    return None
 
-async def process_all_files(script_dir):
+def process_all_files(script_dir):
     """
     Process all language files in the current directory.
     Uses the LANGUAGE_FILE_MAP to determine the appropriate language code for each file.
@@ -199,7 +248,7 @@ async def process_all_files(script_dir):
             encoding = get_encoding_for_file(file_path)
             
             # Process the file
-            result = await process_file(file_path, lang_code, encoding, return_stats=True)
+            result = process_file(file_path, lang_code, encoding, return_stats=True)
             
             if result:
                 total_files += 1
@@ -229,8 +278,8 @@ async def process_all_files(script_dir):
     print("\nNote: Check the .new files for each language file.")
     print("="*70)
 
-async def process_file(input_file, target_language, encoding, return_stats=False):
-    translator = Translator()
+def process_file(input_file, target_language, encoding, return_stats=False):
+    session = TranslationSession()
     output_file = input_file + '.new'
 
     if encoding is None:
@@ -287,32 +336,39 @@ async def process_file(input_file, target_language, encoding, return_stats=False
 
                         if match_full:
                             print(f"Translating Line {i+2} (menuText full, {len(entry_lines)} lines)...")
-                            text1_tr = await safe_translate(translator, match_full.group(2), src='en', dest=target_language)
-                            text2_tr = await safe_translate(translator, match_full.group(4), src='en', dest=target_language)
-                            translated_lines = f'{match_full.group(1)}"{text1_tr}"{match_full.group(3)}{{{text2_tr}}}{match_full.group(5)}'
-                            
+                            text1_tr = safe_translate(session, match_full.group(2), src='en', dest=target_language)
+                            text2_tr = safe_translate(session, match_full.group(4), src='en', dest=target_language)
+                            if text1_tr is not None and text2_tr is not None:
+                                translated_lines = f'{match_full.group(1)}"{text1_tr}"{match_full.group(3)}{{{text2_tr}}}{match_full.group(5)}'
+
                         elif match_quotes:
                             print(f"Translating Line {i+2} (menuText quotes)...")
-                            text1_tr = await safe_translate(translator, match_quotes.group(2), src='en', dest=target_language)
-                            translated_lines = f'{match_quotes.group(1)}"{text1_tr}"{match_quotes.group(3)}\n'
+                            text1_tr = safe_translate(session, match_quotes.group(2), src='en', dest=target_language)
+                            if text1_tr is not None:
+                                translated_lines = f'{match_quotes.group(1)}"{text1_tr}"{match_quotes.group(3)}\n'
 
                         elif match_trans_braces:
                             print(f"Translating Line {i+2} (translate braces, {len(entry_lines)} lines)...")
-                            text_tr = await safe_translate(translator, match_trans_braces.group(2), src='en', dest=target_language)
-                            translated_lines = f'{match_trans_braces.group(1)}{{{text_tr}}}{match_trans_braces.group(3)}'
+                            text_tr = safe_translate(session, match_trans_braces.group(2), src='en', dest=target_language)
+                            if text_tr is not None:
+                                translated_lines = f'{match_trans_braces.group(1)}{{{text_tr}}}{match_trans_braces.group(3)}'
 
                         elif match_trans_quotes:
                             print(f"Translating Line {i+2} (translate quotes)...")
-                            text_tr = await safe_translate(translator, match_trans_quotes.group(2), src='en', dest=target_language)
-                            translated_lines = f'{match_trans_quotes.group(1)}"{text_tr}"{match_trans_quotes.group(3)}\n'
+                            text_tr = safe_translate(session, match_trans_quotes.group(2), src='en', dest=target_language)
+                            if text_tr is not None:
+                                translated_lines = f'{match_trans_quotes.group(1)}"{text_tr}"{match_trans_quotes.group(3)}\n'
 
                         if translated_lines:
                             outfile.write(translated_lines)
                             translation_count += 1
                             i += len(entry_lines)  # Skip all the lines we've processed
                         else:
-                            print(f"Warning: Line {i+2} follows TODO but doesn't match any expected format.")
-                            print(f"  Content: {first_line.strip()}")
+                            if match_full or match_quotes or match_trans_braces or match_trans_quotes:
+                                print(f"Warning: Translation failed for line {i+2}, preserving TODO marker.")
+                            else:
+                                print(f"Warning: Line {i+2} follows TODO but doesn't match any expected format.")
+                                print(f"  Content: {first_line.strip()}")
                 
                 i += 1
 
@@ -339,6 +395,8 @@ async def process_file(input_file, target_language, encoding, return_stats=False
         if return_stats:
             return None
         sys.exit(1)
+    finally:
+        session.close()
 
 def main():
     # Translate all TODO comments in spanish.tcl to Spanish
@@ -369,10 +427,12 @@ Examples:
 
     args = parser.parse_args()
 
+    print(f"googletrans {googletrans.__version__} - {'async' if _IS_ASYNC else 'sync'} mode")
+
     if args.all:
         # Process all language files
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        asyncio.run(process_all_files(script_dir))
+        process_all_files(script_dir)
     else:
         # Process single file
         if not args.filename:
@@ -382,7 +442,7 @@ Examples:
         print(f"Target language: {args.language}")
         print("-" * 50)
 
-        asyncio.run(process_file(args.filename, args.language, args.encoding))
+        process_file(args.filename, args.language, args.encoding)
 
 if __name__ == '__main__':
     main()
