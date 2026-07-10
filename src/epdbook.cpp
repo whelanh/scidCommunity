@@ -302,6 +302,10 @@ errorT EpdBook::writeFile() {
 	}
 
 	// Atomically replace the original file
+#ifdef _WIN32
+	// Windows std::rename() fails if the destination exists.
+	std::remove(fileName_);
+#endif
 	if (std::rename(tempFileName.c_str(), fileName_) != 0) {
 		std::remove(tempFileName.c_str());
 		return ERROR_FileWrite;
