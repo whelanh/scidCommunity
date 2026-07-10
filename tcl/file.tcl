@@ -106,7 +106,7 @@ proc ::file::Open {{fName ""}} {
   if {$err == 2 && [string tolower [file extension "$fName"]] == ".epd"} {
     set ::initialDir(base) [file dirname "$fName"]
     ::recentFiles::add "$fName"
-    return 0
+    return 2
   }
   if {$err == 0} {
     set ::initialDir(base) [file dirname "$fName"]
@@ -169,7 +169,7 @@ proc ::file::OpenOrSwitch { fname } {
 proc ::file::openBaseAsTree { { fName "" } } {
   set current [sc_base current]
   set err [::file::Open $fName]
-  if {! $err} {
+  if {$err == 0} {
     ::file::SwitchToBase $current
     ::tree::make $::file::lastOpened 1
   }
@@ -332,7 +332,8 @@ proc ::file::BaseName {baseIdx} {
 proc ::file::autoLoadBases.load {} {
   if {![info exists ::autoLoadBases]} { return }
   foreach base $::autoLoadBases {
-    if {[::file::Open $base] != 0} {
+    set err [::file::Open $base]
+    if {$err != 0 && $err != 2} {
       set idx [lsearch -exact $::autoLoadBases $base]
       if {$idx != -1} { set ::autoLoadBases [lreplace $::autoLoadBases $idx $idx] }
     }
