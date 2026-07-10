@@ -27,6 +27,7 @@ add_subdirectory(${CMAKE_BINARY_DIR}/googletest ${CMAKE_BINARY_DIR}/googletest/B
 # scid_sources
 set(SCID_BASE
   ../src/codec_scid4.cpp
+  ../src/epdbook.cpp
   ../src/scidbase.cpp
   ../src/sortcache.cpp
   ../src/stored.cpp

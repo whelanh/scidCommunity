@@ -159,23 +159,14 @@ errorT EpdBook::readFile() {
 	fenIndex_.clear();
 	Position pos;
 	std::string line;
-	uint lineNumber = 0;
 	while (std::getline(in, line)) {
-		lineNumber++;
 		if (!line.empty() && line.back() == '\r') {
 			line.pop_back();
 		}
 		if (line.empty()) {
 			continue;
 		}
-		std::string originalLine = line;
 		if (pos.ReadFromFEN(line.c_str()) != OK) {
-			// Preserve malformed line as raw text to prevent data loss.
-			// Use a synthetic FEN key that won't match any valid position.
-			std::string malformedKey = "MALFORMED:" + std::to_string(lineNumber);
-			size_t idx = entries_.size();
-			entries_.push_back({malformedKey, originalLine});
-			fenIndex_[malformedKey] = idx;
 			continue;
 		}
 
@@ -245,44 +236,38 @@ errorT EpdBook::writeFile() {
 	}
 
 	for (const auto& e : entries_) {
-		// Check if this is a malformed line preserved during read
-		if (e.fen.rfind("MALFORMED:", 0) == 0) {
-			// Write the original line as-is
-			out << e.comment << '\n';
-		} else {
-			out << e.fen;
-			bool atCodeStart = true;
-			const char* s = e.comment.c_str();
-			while (*s != 0) {
-				if (*s == '\n') {
-					if (!atCodeStart) {
-						out << ';';
-					}
-					atCodeStart = true;
-					s++;
-					while (*s == ' ') {
-						s++;
-					}
-				} else {
-					if (atCodeStart) {
-						out << ' ';
-					}
-					atCodeStart = false;
-					switch (*s) {
-					case '\\':
-						out << "\\\\";
-						break;
-					case ';':
-						out << "\\s";
-						break;
-					default:
-						out << *s;
-					}
+		out << e.fen;
+		bool atCodeStart = true;
+		const char* s = e.comment.c_str();
+		while (*s != 0) {
+			if (*s == '\n') {
+				if (!atCodeStart) {
+					out << ';';
+				}
+				atCodeStart = true;
+				s++;
+				while (*s == ' ') {
 					s++;
 				}
+			} else {
+				if (atCodeStart) {
+					out << ' ';
+				}
+				atCodeStart = false;
+				switch (*s) {
+				case '\\':
+					out << "\\\\";
+					break;
+				case ';':
+					out << "\\s";
+					break;
+				default:
+					out << *s;
+				}
+				s++;
 			}
-			out << '\n';
 		}
+		out << '\n';
 	}
 
 	// Flush and close, checking for errors
