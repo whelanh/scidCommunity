@@ -12,8 +12,9 @@
 # entire set of code falls apart (and interferes with other applications
 # during annotation).
 #
-# Warning: sc_epd open (EpdBook::readFile) silently drops any EPD position with
-#   a duplicate or malformed FEN string.
+# Note: sc_epd open (EpdBook::readFile) keeps the last occurrence of any
+#   duplicate FEN (later lines overwrite earlier ones). Malformed lines are
+#   preserved when reading, but will not match any valid board position.
 #
 # Caution: Updating modifications to the text widget requires that the
 #   respective position be loaded on the main board. When navigating the
