@@ -103,6 +103,11 @@ proc ::file::Open {{fName ""}} {
     set fName [tk_getOpenFile -initialdir $::initialDir(base) -filetypes $ftype -title "Open a Scid file"]
   }
   set err [::file::Open_ "$fName"]
+  if {$err == 2 && [string tolower [file extension "$fName"]] == ".epd"} {
+    set ::initialDir(base) [file dirname "$fName"]
+    ::recentFiles::add "$fName"
+    return 0
+  }
   if {$err == 0} {
     set ::initialDir(base) [file dirname "$fName"]
     ::recentFiles::add "$fName"
