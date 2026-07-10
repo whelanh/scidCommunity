@@ -431,6 +431,7 @@ namespace eval ::notify {
     if {[winfo exists .bookTuningWin]} { ::book::refreshTuning }
     updateNoveltyWin
     ::updateTreeFilter
+    ::epd::updateEpdWins
   }
 
   # To be called when the current database change or a new base is opened

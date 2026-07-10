@@ -962,6 +962,7 @@ misc.tcl
 htext.tcl
 file.tcl
 file/finder.tcl
+file/epd.tcl
 file/bookmark.tcl
 file/recent.tcl
 file/spellchk.tcl

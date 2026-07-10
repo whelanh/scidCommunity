@@ -147,6 +147,22 @@ menuText B WindowsTree "Árvore" 0 {Abre/fecha a janela da árvore de pesquisa}
 menuText B WindowsBook "Janela do Livro de Aberturas" 0 {Abre/Fecha  a janela do livro de aberturas}
 menuText B WindowsCorrChess "Janela de Correspondência" 0 {Abre/Fecha a janela de correspondência}
 menuText B WindowsGraph "Gráfico de análise" 0 {Abra a janela Gráfico com tempos e avaliações dos movimentos}
+menuText B WindowsEPD "Janela EPD..." 0 {Abra uma janela do editor EPD (arquivo de posição)}
+
+# EPD window:
+translate B EpdPasteAnal {Colar Análise}
+translate B EpdSortOpcodes {Classificar códigos de operação}
+translate B EpdAddPosition {Adicionar posição}
+translate B EpdFindPos {Encontre a posição no jogo}
+translate B EpdAnalPosition {Analisar Posições...}
+translate B EpdStripOpcodes {Tirar códigos de operação...}
+translate B EpdAnnotateTime {Segundos por posição}
+translate B EpdCountBestMoves {Conte os melhores movimentos}
+translate B EpdDontSave {Não salve}
+translate B EpdReadOnly {somente leitura}
+translate B EpdAltered {alterado}
+translate B EpdNoMoves {sem movimentos}
+translate B positions {posições}
 
 # Tools menu:
 menuText B Tools "Ferramentas" 0
@@ -1892,138 +1908,3 @@ translate B TBCategory {Categoria de posição:}
 translate B TBTrainingHidden {(Modo de treinamento; os resultados estão ocultos)}
 }
 # end of english.tcl
-
-
-############################################################
-#
-# Portuguese tip of the day
-# Machine-translated scaffold - please review and correct.
-
-set tips(B) {
-  {
-    O scidCommunity tem mais de 40 <a Index>páginas de ajuda </a> e, na maioria das janelas do scidCommunity, pressionar a tecla <b>F1</b> produzirá a página de ajuda sobre essa janela.
-  }
-  {
-    Algumas janelas do scidCommunity (por exemplo, a área de informações do jogo, banco de dados <a Switcher>switcher</a>) possuem um menu com o botão direito do mouse. Experimente pressionar o botão direito do mouse em cada janela para ver se ela possui uma e quais funções estão disponíveis.
-  }
-  {
-    scidCommunity oferece mais de uma maneira de inserir movimentos de xadrez, permitindo que você escolha a que melhor lhe convier. Você pode usar o mouse (com ou sem sugestão de movimento) ou o teclado (com ou sem conclusão de movimento). Leia a página de ajuda <a Moves>inserindo movimentos de xadrez </a> para obter detalhes.
-  }
-  {
-    Se você tiver alguns bancos de dados que abre com frequência, adicione um <a Bookmarks>marcador</a> para cada um, e então você poderá abri-los mais rapidamente usando o menu de favoritos.
-  }
-  {
-    Você pode acompanhar os principais torneios de xadrez em tempo real usando o recurso <b>Open Lichess Tournament</b> no menu <b>File</b>. O scidCommunity monitorará e atualizará automaticamente os jogos ao vivo para você.
-  }
-  {
-    Você pode ver todos os movimentos do jogo atual (com quaisquer variações e comentários) usando a janela <a PGN>PGN </a>. Na janela PGN, você pode ir para qualquer movimento clicando com o botão esquerdo do mouse sobre ele, ou usar o botão do meio ou direito do mouse para ver uma prévia dessa posição.
-  }
-  {
-    Você pode copiar jogos de um banco de dados para outro arrastando e soltando com o botão esquerdo do mouse na <a Switcher>alternador de banco de dados</a> janela.
-  }
-  {
-    scidCommunity pode abrir arquivos PGN, mesmo se eles estiverem compactados com Gzip (com um sufixo de nome de arquivo .gz). Os arquivos PGN são abertos somente leitura, portanto, se você deseja editar um arquivo PGN no scidCommunity, crie um novo banco de dados scidCommunity e copie os jogos do arquivo PGN para ele usando o <a Switcher>comutador de banco de dados </a>.
-  }
-  {
-    Se você tiver um banco de dados grande que usa frequentemente com a janela <a Tree>árvore</a>, vale a pena selecionar <b>Preencher arquivo de cache</b> no menu Arquivo da janela em árvore. Isso lembrará as estatísticas da árvore para muitas posições de abertura comuns, tornando o acesso à árvore mais rápido para o banco de dados.
-  }
-  {
-    A janela <a Tree>árvore</a> pode mostrar todos os movimentos executados a partir da posição atual, mas se você também quiser ver todas as ordens de movimento que alcançaram esta posição, você pode encontrá-las gerando um <a OpReport>relatório de abertura </a>.
-  }
-  {
-    Para importar rapidamente seus próprios jogos de sites online, use <b>Import my Lichess</b> ou <b>Import my chess.com</b> no menu <b>Arquivo</b>. Basta inserir seu nome de usuário e uma data de início para baixar seus jogos com metadados completos.
-  }
-  {
-    Na janela <a GameList>lista de jogos </a>, pressione o botão esquerdo ou direito do mouse no cabeçalho de cada coluna para ajustar sua largura.
-  }
-  {
-    Com o <a PInfo>informações do jogador</a> janela (basta clicar no nome de qualquer jogador na área de informações do jogo abaixo do tabuleiro de xadrez da janela principal para abri-lo), você pode facilmente definir o <a Searches Filter>filtro</a> conter todos os jogos de um determinado jogador com um determinado resultado clicando em qualquer valor exibido <red>em texto vermelho</red>.
-  }
-  {
-    Ao estudar uma vaga, pode ser muito útil fazer uma <a Searches Board>pesquisa de quadro</a> com o <b>Peões</b> ou <b>Arquivos</b> opção em uma posição de abertura importante, pois isso pode revelar outras aberturas que atingem a mesma estrutura de peões.
-  }
-  {
-    Na área de informações do jogo (abaixo do tabuleiro de xadrez), você pode pressionar o botão direito do mouse para produzir um menu para personalizá-lo. Por exemplo, você pode fazer com que o scidCommunity oculte o próximo movimento, o que é útil para o treinamento, jogando um jogo de adivinhação dos movimentos.
-  }
-  {
-    Se você costuma fazer muitos bancos de dados <a Maintenance>manutenção</a> em um banco de dados grande, você pode realizar vários trabalhos de manutenção ao mesmo tempo usando o <a Maintenance Cleaner>limpador</a>.
-  }
-  {
-    A janela <a PGN>PGN </a> possui botões de acesso rápido para enviar seu jogo atual para <b>Lichess.org</b> ou <b>Chess.com</b>. Isso permite que você use instantaneamente seus poderosos recursos de análise e compartilhamento de mecanismo baseados em nuvem.
-  }
-  {
-    Se você tiver um banco de dados grande onde a maioria dos jogos tem um EventDate e quiser os jogos em ordem de data, considere <a Sorting>classificá-lo </a> por EventDate e depois Event em vez de Date e Event, pois isso ajudará a manter os jogos no mesmo torneio com datas diferentes juntos (assumindo que todos tenham o mesmo EventDate, é claro).
-  }
-  {
-    Antes de <a Maintenance Twins> excluir jogos gêmeos </a>, é uma boa ideia <a Maintenance Spellcheck> verificar a ortografia </a> em seu banco de dados, pois isso permitirá que o scidCommunity encontre mais gêmeos e marque-os para exclusão.
-  }
-  {
-    <a Flags>Flags</a> são úteis para marcar jogos de banco de dados com características que você pode querer pesquisar posteriormente, como estrutura de peões, táticas, etc. Você pode pesquisar por flags com uma <a Searches Header>pesquisa de cabeçalho </a>.
-  }
-  {
-    Se você estiver jogando e quiser experimentar alguns movimentos sem alterar o jogo, basta ativar o modo de teste (com o atalho <b>Ctrl+espaço</b> ou no ícone da barra de ferramentas) e desligá-lo novamente para retornar ao jogo original quando terminar.
-  }
-  {
-    Para encontrar os jogos mais proeminentes (com adversários de alto nível) alcançando uma determinada posição, abra a janela <a Tree>árvore</a> e a partir daí, abra a lista dos melhores jogos. Você pode até restringir a lista dos melhores jogos para mostrar apenas jogos com um determinado resultado.
-  }
-  {
-    Use o botão <b>chessdb Engine Tree</b> na janela <a PGN>PGN</a> para consultar o banco de dados em nuvem <b>ChessDB.cn</b>. Ele contém bilhões de posições pré-analisadas e avaliações computadorizadas para quase todas as vagas.
-  }
-  {
-    Uma ótima maneira de estudar uma abertura usando um grande banco de dados de jogos é ativar o modo de treinamento na janela <a Tree>árvore</a> e, em seguida, jogar contra o banco de dados para ver quais linhas ocorrem com frequência.
-  }
-  {
-    Se você tiver dois bancos de dados abertos e quiser ver <a Tree>árvore</a> estatísticas do primeiro banco de dados enquanto examina um jogo do segundo banco de dados, basta pressionar o botão <b>Trancar</b> na janela da árvore para bloqueá-lo no primeiro banco de dados e depois mudar para a segunda base.
-  }
-  {
-    O <a Tmt>localizador de torneios </a> não é útil apenas para encontrar um torneio específico, mas também pode ser usado para ver em quais torneios um determinado jogador competiu recentemente ou navegar pelos principais torneios disputados em um determinado país.
-  }
-  {
-    Há uma série de padrões comuns definidos na janela de pesquisa <a Searches Material>Material/Padrão</a> que podem ser úteis para aberturas ou estudo de meio-jogo.
-  }
-  {
-    Ao pesquisar uma situação material específica na janela de pesquisa de <a Searches Material>Material/Padrão</a>, geralmente é útil restringir a pesquisa a jogos que correspondam a pelo menos alguns meios-movimentos para eliminar jogos em que a situação pesquisada ocorreu apenas brevemente.
-  }
-  {
-    Se você chegar a um final de jogo com 7 ou menos peças, clique no botão <b>Base da tabela </b> na janela <a PGN>PGN </a> para obter uma análise perfeita das bases de mesa do final do jogo Lichess.
-  }
-  {
-    Se você tiver um banco de dados importante que não deseja alterar acidentalmente, selecione <b>Somente leitura...</b> no menu <b>Arquivo</b> após abri-lo ou altere suas permissões de arquivo para somente leitura.
-  }
-  {
-    Se você usa XBoard ou WinBoard (ou algum outro programa de xadrez que pode copiar uma posição de xadrez na notação FEN padrão para a área de transferência) e deseja copiar sua posição atual de xadrez para scidCommunity, a maneira mais rápida e fácil é selecionar <b>Copiar Posição</b> no menu Arquivo no XBoard/WinBoard, então <b>Colar placa inicial</b> no menu Editar em comunidade scid.
-  }
-  {
-    Em um <a Searches Header>pesquisa de cabeçalho</a>, os nomes dos jogadores/evento/site/rodada não diferenciam maiúsculas de minúsculas e correspondem a qualquer lugar do nome. Você pode optar por fazer uma pesquisa curinga com distinção entre maiúsculas e minúsculas (onde "?" = qualquer caractere único e "*" = zero ou mais caracteres) inserindo o texto de pesquisa "entre aspas". Por exemplo, digite "*BEL" (com aspas) no campo do site para encontrar todos os jogos disputados na Bélgica, mas não em Belgrado.
-  }
-  {
-    Se você deseja corrigir um movimento em um jogo sem perder todos os movimentos executados depois dele, abra a janela <a Import>Importar</a>, pressione o botão <b>Colar jogo atual</b>, edite o movimento incorreto e pressione <b>Importar</b>.
-  }
-  {
-    Se você tiver um arquivo de classificação ECO carregado, você pode ir para a posição classificada mais profunda no jogo atual com <b>Identificar abertura </b> no menu <b>Jogo </b> (atalho: Ctrl+Shift+D).
-  }
-  {
-    Mantenha-se atualizado com os jogos mais recentes de todo o mundo usando <b> Baixar TWIC Games </b> no menu <b> Ferramentas </b>. Ele baixa e abre automaticamente o PGN semanal mais recente de <b>The Week In Chess</b>.
-  }
-  {
-    Se você quiser verificar o tamanho de um arquivo ou a data da última modificação antes de abri-lo, use o <a Finder>localizador de arquivos </a> para abri-lo.
-  }
-  {
-    Um <a OpReport>relatório de abertura</a> é ótimo para aprender mais sobre uma posição específica. Você pode ver quão bem ele pontua, se leva a empates curtos frequentes e temas posicionais comuns.
-  }
-  {
-    Você pode adicionar os símbolos de anotação mais comuns (!, !?, +=, etc) ao movimento ou posição atual com atalhos de teclado sem precisar usar o <a Comment>editor de comentários</a> - por exemplo, digite "!" em seguida, a tecla Return para adicionar um "!" símbolo de anotação. Consulte a página de ajuda <a Moves>Inserindo movimentos de xadrez </a> para obter detalhes.
-  }
-  {
-    Se você estiver navegando por vagas em um banco de dados com o <a Tree>árvore</a>, você pode ter uma visão geral útil de quão bem a abertura atual está pontuando recentemente e entre jogadores de alto rating abrindo a janela Estatísticas (atalho: Ctrl+I).
-  }
-  {
-    Na janela <b>Game Browser</b>, você pode alterar o tamanho do tabuleiro mantendo pressionadas as teclas <b>Ctrl</b> e <b>Shift</b> e pressionando as teclas de seta <b>Esquerda</b> ou <b>Direita</b>.
-  }
-  {
-    Depois de um <a Searches>procurar</a>, você pode navegar facilmente por todos os jogos correspondentes mantendo pressionado <b>Ctrl</b> e pressionando o <b>Acima</b> ou <b>Abaixo</b> tecla para carregar o anterior ou o próximo <a Searches Filter>filtro</a> jogo.
-  }
-  {
-    O Windows pode ser encaixado marcando a entrada relevante no menu de opções. As guias podem ser arrastadas e soltas de um bloco de notas para outro e dispostas clicando com o botão direito no widget da guia.
-  }
-}

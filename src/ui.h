@@ -82,6 +82,7 @@ UI_res_t sc_base        (UI_extra_t, UI_handle_t, int argc, const char ** argv);
 UI_res_t sc_book        (UI_extra_t, UI_handle_t, int argc, const char ** argv);
 UI_res_t sc_clipbase    (UI_extra_t, UI_handle_t, int argc, const char ** argv);
 UI_res_t sc_eco         (UI_extra_t, UI_handle_t, int argc, const char ** argv);
+UI_res_t sc_epd         (UI_extra_t, UI_handle_t, int argc, const char ** argv);
 UI_res_t sc_filter      (UI_extra_t, UI_handle_t, int argc, const char ** argv);
 UI_res_t sc_game        (UI_extra_t, UI_handle_t, int argc, const char ** argv);
 UI_res_t sc_info        (UI_extra_t, UI_handle_t, int argc, const char ** argv);

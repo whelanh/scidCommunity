@@ -147,6 +147,22 @@ menuText T WindowsTree "Ağaç Penceresi" 0 {Ağaç penceresini aç/kapat}
 menuText T WindowsBook "Kitap Penceresi" 0 {Kitap penceresini aç/kapat}
 menuText T WindowsCorrChess "Yazışma Penceresi" 0 {Yazışma penceresini aç/kapat}
 menuText T WindowsGraph "Analiz Grafiği" 0 {Hareket sürelerini ve değerlendirmelerini içeren Grafik penceresini açın}
+menuText T WindowsEPD "EPD Penceresi..." 0 {Bir EPD (konum dosyası) düzenleyici penceresi açın}
+
+# EPD window:
+translate T EpdPasteAnal {Yapıştırma Analizi}
+translate T EpdSortOpcodes {Opcode'ları Sırala}
+translate T EpdAddPosition {Pozisyon Ekle}
+translate T EpdFindPos {Oyundaki Konumu Bul}
+translate T EpdAnalPosition {Pozisyonları Analiz Edin...}
+translate T EpdStripOpcodes {Opcode'ları soyun...}
+translate T EpdAnnotateTime {Pozisyon başına saniye}
+translate T EpdCountBestMoves {En iyi hamleleri sayın}
+translate T EpdDontSave {Kaydetme}
+translate T EpdReadOnly {salt okunur}
+translate T EpdAltered {değiştirilmiş}
+translate T EpdNoMoves {hareket yok}
+translate T positions {pozisyonlar}
 
 # Tools menu:
 menuText T Tools "Aletler" 0
@@ -1866,138 +1882,3 @@ translate T TBCategory {Pozisyon Kategorisi:}
 translate T TBTrainingHidden {(Eğitim modu; sonuçlar gizlenir)}
 }
 # end of english.tcl
-
-
-############################################################
-#
-# Turkish tip of the day
-# Machine-translated scaffold - please review and correct.
-
-set tips(T) {
-  {
-    scidCommunity'de 40'tan fazla <a Index> yardım sayfası </a> bulunur ve çoğu scidCommunity penceresinde <b>F1</b> tuşuna basıldığında o pencereyle ilgili yardım sayfası oluşturulur.
-  }
-  {
-    Bazı scidCommunity pencerelerinde (örneğin oyun bilgi alanı, veritabanı <a Switcher> değiştirici </a>) sağ fare düğmesi menüsü bulunur. Bir pencerenin olup olmadığını ve hangi işlevlerin mevcut olduğunu görmek için her pencerede sağ fare düğmesine basmayı deneyin.
-  }
-  {
-    scidCommunity size satranç hamlelerine girmenin birden fazla yolunu sunarak size en uygun olanı seçmenize olanak tanır. Fareyi (hareket önerisiyle veya öneri olmadan) veya klavyeyi (hareket tamamlamayla veya tamamlama olmadan) kullanabilirsiniz. Ayrıntılar için <a Moves>satranç hamlelerine girme</a> yardım sayfasını okuyun.
-  }
-  {
-    Sık açtığınız birkaç veritabanınız varsa, her biri için bir <a Bookmarks>yer imi</a> ekleyin; ardından yer imleri menüsünü kullanarak bunları daha hızlı açabilirsiniz.
-  }
-  {
-    <b>Dosya</b> menüsündeki <b>Açık Lichess Turnuvası</b> özelliğini kullanarak büyük satranç turnuvalarını gerçek zamanlı olarak takip edebilirsiniz. scidCommunity sizin için canlı oyunları otomatik olarak izleyecek ve güncelleyecektir.
-  }
-  {
-    <a PGN>PGN penceresini</a> kullanarak mevcut oyunun tüm hamlelerini (her türlü varyasyon ve yorumla birlikte) görebilirsiniz. PGN penceresinde, farenin sol tuşuna tıklayarak herhangi bir hamleye gidebilir veya o pozisyonun önizlemesini görmek için farenin orta veya sağ tuşunu kullanabilirsiniz.
-  }
-  {
-    <a Switcher>veritabanı değiştirici</a> penceresinde sol fare düğmesiyle sürükleyip bırakarak oyunları bir veritabanından diğerine kopyalayabilirsiniz.
-  }
-  {
-    scidCommunity, Gzip ile sıkıştırılmış olsalar bile (.gz dosya adı son ekiyle) PGN dosyalarını açabilir. PGN dosyaları salt okunur olarak açılır, bu nedenle scidCommunity'de bir PGN dosyasını düzenlemek istiyorsanız yeni bir scidCommunity veritabanı oluşturun ve <a Switcher>veritabanı değiştiriciyi </a> kullanarak PGN dosyası oyunlarını ona kopyalayın.
-  }
-  {
-    <a Tree>ağaç</a> penceresiyle sıklıkla kullandığınız büyük bir veritabanınız varsa, ağaç penceresi Dosya menüsünden <b>Önbellek dosyasını doldur</b> seçeneğini seçmeniz faydalı olacaktır. Bu, birçok yaygın açılış pozisyonuna ilişkin ağaç istatistiklerini hatırlayacak ve veritabanı için ağaca erişimi daha hızlı hale getirecektir.
-  }
-  {
-    <a Tree>ağaç</a> penceresi size mevcut konumdan oynanan tüm hamleleri gösterebilir, ancak aynı zamanda bu konuma ulaşan tüm hamle emirlerini de görmek istiyorsanız, bunları bir <a OpReport>açılış raporu</a> oluşturarak bulabilirsiniz.
-  }
-  {
-    Kendi oyunlarınızı çevrimiçi sitelerden hızlı bir şekilde içe aktarmak için, <b>Dosya</b> menüsünden <b>Lichess'imi içe aktar</b> veya <b> chess.com'umu içe aktar</b> seçeneğini kullanın. Oyunlarınızı tam meta verilerle indirmek için kullanıcı adınızı ve başlangıç ​​tarihinizi girmeniz yeterlidir.
-  }
-  {
-    <a GameList>oyun listesi</a> penceresinde, genişliğini ayarlamak için her sütunun başlığı üzerinde sol veya sağ fare düğmesine basın.
-  }
-  {
-    ile <a PInfo>oyuncu bilgisi</a> penceresinde (açmak için ana pencere satranç tahtasının altındaki oyun bilgi alanında bulunan oyuncu adlarından birinin üzerine tıklamanız yeterlidir), <a Searches Filter>filtre</a> görüntülenen herhangi bir değere tıklandığında belirli bir sonuca sahip belirli bir oyuncunun tüm oyunlarını içermek <red>kırmızı metinle</red>.
-  }
-  {
-    Bir açıklığı incelerken şunları yapmak çok yararlı olabilir: <a Searches Board>pano araması</a> ile <b>Piyonlar</b> veya <b>Dosyalar</b> Önemli bir açılış pozisyonundaki seçenek, aynı piyon yapısına ulaşan diğer açılışları ortaya çıkarabilir.
-  }
-  {
-    Oyun bilgi alanında (satranç tahtasının altında), onu özelleştirmek üzere bir menü oluşturmak için farenin sağ tuşuna basabilirsiniz. Örneğin, hamleleri tahmin eden bir oyun oynayarak scidCommunity'nin antrenman için yararlı olan bir sonraki hamleyi gizlemesini sağlayabilirsiniz.
-  }
-  {
-    Büyük bir veritabanında sıklıkla çok sayıda veritabanı <a Maintenance>bakımı</a> yapıyorsanız, <a Maintenance Cleaner>temizleyiciyi</a> kullanarak birkaç bakım işini aynı anda yapabilirsiniz.
-  }
-  {
-    <a PGN>PGN penceresi</a>, mevcut oyununuzu <b>Lichess.org</b> veya <b>Chess.com</b> adresine yüklemek için hızlı erişim düğmeleri içerir. Bu, güçlü bulut tabanlı motor analizi ve paylaşım özelliklerini anında kullanmanıza olanak tanır.
-  }
-  {
-    Çoğu oyunun EventDate'e sahip olduğu geniş bir veritabanınız varsa ve oyunların tarih sırasına göre olmasını istiyorsanız, şunu göz önünde bulundurun: <a Sorting>sıralama</a> bunu EventDate, ardından Date yerine Event, ardından Event olarak yapın, çünkü bu aynı turnuvadaki farklı tarihlerdeki oyunları bir arada tutmaya yardımcı olacaktır (tabii ki hepsinin aynı EventDate'e sahip olduğunu varsayarak).
-  }
-  {
-    <a Maintenance Twins>İkiz oyunları </a> silmeden önce, veritabanınızda <a Maintenance Spellcheck>yazım denetimi yapmak</a> iyi bir fikirdir çünkü bu, scidCommunity'nin daha fazla ikiz bulmasını ve bunları silinmek üzere işaretlemesini sağlayacaktır.
-  }
-  {
-    <a Flags>Bayraklar</a>, piyon yapısı, taktikler vb. gibi daha sonra aramak isteyebileceğiniz özellikleri içeren veritabanı oyunlarını işaretlemek için kullanışlıdır. <a Searches Header>başlık araması</a> ile bayraklara göre arama yapabilirsiniz.
-  }
-  {
-    Bir oyun oynuyorsanız ve oyunu değiştirmeden bazı hareketleri denemek istiyorsanız, Deneme modunu açın (<b>Ctrl+boşluk</b> kısayoluyla veya araç çubuğu simgesinden), ardından işiniz bittiğinde orijinal oyuna dönmek için tekrar kapatın.
-  }
-  {
-    Belirli bir konuma ulaşan en öne çıkan oyunları (yüksek reytingli rakiplerle) bulmak için <a Tree>ağaç</a> penceresini açın ve oradan en iyi oyunlar listesini açın. Hatta en iyi oyunlar listesini yalnızca belirli bir sonuca sahip oyunları gösterecek şekilde kısıtlayabilirsiniz.
-  }
-  {
-    <b>ChessDB.cn</b> bulut veritabanına başvurmak için <a PGN>PGN penceresinde</a> <b>chessdb Engine Tree</b> düğmesini kullanın. Neredeyse her açılış için milyarlarca önceden analiz edilmiş pozisyon ve bilgisayar değerlendirmesi içerir.
-  }
-  {
-    Geniş bir oyun veritabanını kullanarak bir açılışı incelemenin harika bir yolu, <a Tree>ağaç</a> penceresinde eğitim modunu açmak, ardından hangi satırların sıklıkla oluştuğunu görmek için veritabanına karşı oynamaktır.
-  }
-  {
-    İki veritabanınız açıksa ve ikinci veritabanından bir oyunu incelerken ilk veritabanının <a Tree>tree</a> istatistiklerini görmek istiyorsanız, ağaç penceresindeki <b>Lock</b> butonuna basarak onu ilk veritabanına kilitleyin ve ardından ikinci veritabanına geçin.
-  }
-  {
-    <a Tmt>turnuva bulucu</a> yalnızca belirli bir turnuvayı bulmak için yararlı olmakla kalmaz, aynı zamanda belirli bir oyuncunun yakın zamanda hangi turnuvalarda yarıştığını görmek veya belirli bir ülkede oynanan en iyi turnuvalara göz atmak için de kullanılabilir.
-  }
-  {
-    <a Searches Material>Malzeme/Desen</a> arama penceresinde tanımlanan ve açılışlar veya oyun ortası çalışmaları için faydalı bulabileceğiniz bir dizi ortak kalıp vardır.
-  }
-  {
-    <a Searches Material>Malzeme/Desen</a> arama penceresinde belirli bir maddi durum ararken, aranan durumun yalnızca kısa süreliğine meydana geldiği oyunları ortadan kaldırmak için aramayı en az birkaç yarım hamleyle eşleşen oyunlarla sınırlamak genellikle yararlıdır.
-  }
-  {
-    7 veya daha az taşla oyunsonuna ulaşırsanız, <b>Masa Tabanı</b> düğmesi <a PGN>PGN penceresi</a> Lichess'in oyunsonu tablo tabanlarından mükemmel analizler elde etmek için.
-  }
-  {
-    Yanlışlıkla değiştirmek istemediğiniz önemli bir veritabanınız varsa, açtıktan sonra <b>Dosya</b> menüsünden <b>Salt Okunur...</b> öğesini seçin veya dosya izinlerini salt okunur olacak şekilde değiştirin.
-  }
-  {
-    XBoard veya WinBoard (veya standart FEN gösteriminde bir satranç pozisyonunu panoya kopyalayabilen başka bir satranç programı) kullanıyorsanız ve mevcut satranç pozisyonunu scidCommunity'ye kopyalamak istiyorsanız, en hızlı ve en kolay yol, XBoard/WinBoard'daki Dosya menüsünden <b>Pozisyonu Kopyala</b> seçeneğini seçmek ve ardından scidCommunity'deki Düzen menüsünden <b>Başlangıç ​​tahtasını yapıştır</b> seçeneğini seçmektir.
-  }
-  {
-    <a Searches Header>başlık aramasında</a>, oyuncu/etkinlik/site/tur adları büyük/küçük harfe duyarlı değildir ve adın herhangi bir yerinde eşleşir. Arama metnini "tırnak içinde" girerek bunun yerine büyük/küçük harfe duyarlı bir joker karakter araması yapmayı seçebilirsiniz (burada "?" = herhangi bir tek karakter ve "*" = sıfır veya daha fazla karakter). Örneğin, Belçika'da oynanan ancak Belgrad'da oynanmayan tüm oyunları bulmak için site alanına "*BEL" (tırnak karakterleriyle birlikte) yazın.
-  }
-  {
-    Bir oyundaki bir hamleyi, kendisinden sonra oynanan tüm hamleleri kaybetmeden düzeltmek istiyorsanız, <a Import>İçe Aktar</a> penceresini açın, <b>Geçerli oyunu yapıştır</b> düğmesine basın, yanlış hamleyi düzenleyin ve ardından <b>İçe Aktar</b> tuşuna basın.
-  }
-  {
-    Yüklü bir ECO sınıflandırma dosyanız varsa, <b>Oyun</b> menüsünde (kısayol: Ctrl+Shift+D) <b>Açılışı tanımla</b> ile mevcut oyunda en derin sınıflandırılmış konuma gidebilirsiniz.
-  }
-  {
-    <b>Araçlar</b> menüsündeki <b>TWIC Oyunlarını İndir</b> seçeneğini kullanarak dünyanın dört bir yanındaki en yeni oyunlardan haberdar olun. <b>The Week In Chess</b>'den en son haftalık PGN'yi otomatik olarak indirir ve açar.
-  }
-  {
-    Bir dosyayı açmadan önce dosyanın boyutunu veya son değiştirilme tarihini kontrol etmek istiyorsanız, dosyayı açmak için <a Finder>dosya bulucuyu</a> kullanın.
-  }
-  {
-    <a OpReport>açılış raporu</a>, belirli bir pozisyon hakkında daha fazla bilgi edinmek için harikadır. Ne kadar iyi puan aldığını, sık sık kısa çekilişlere yol açıp açmadığını ve ortak konumsal temaları görebilirsiniz.
-  }
-  {
-    <a Comment>yorum düzenleyicisini<a> kullanmanıza gerek kalmadan klavye kısayollarıyla en yaygın açıklama sembollerini (!, !?, +=, vb.) geçerli harekete veya konuma ekleyebilirsiniz; örneğin, "!" yazın. ardından "!" eklemek için Return tuşuna basın. ek açıklama sembolü. Ayrıntılar için <a Moves>Satranç hamlelerine girme</a> yardım sayfasına bakın.
-  }
-  {
-    <a Tree>ağacı</a> ile bir veri tabanındaki açılışlara göz atıyorsanız, İstatistikler penceresini (kısayol: Ctrl+I) açarak mevcut açılışın son zamanlarda ve yüksek puan alan oyuncular arasında ne kadar iyi puan aldığına dair yararlı bir genel bakış görebilirsiniz.
-  }
-  {
-    <b>Oyun Tarayıcısı</b> penceresinde, <b>Ctrl</b> ve <b>Shift</b> tuşlarını basılı tutup <b>Sol</b> veya <b>Sağ</b> ok tuşuna basarak tahta boyutunu değiştirebilirsiniz.
-  }
-  {
-    bir süre sonra <a Searches>aramak</a>tuşunu basılı tutarak eşleşen tüm oyunlara kolayca göz atabilirsiniz. <b>Ctrl</b> ve tuşuna basmak <b>Yukarı</b> veya <b>Aşağı</b> önceki veya sonrakini yükleme tuşu <a Searches Filter>filtre</a> oyun.
-  }
-  {
-    Seçenek menüsündeki ilgili giriş kontrol edilerek Windows yerleştirilebilir. Sekmeler bir not defterinden diğerine sürüklenip bırakılabilir ve sekme widget'ına sağ tıklanarak düzenlenebilir.
-  }
-}

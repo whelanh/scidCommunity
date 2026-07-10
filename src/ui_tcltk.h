@@ -244,6 +244,7 @@ UI_impl::UI_res_t sc_base        (UI_impl::UI_extra_t, UI_impl::UI_handle_t, int
 UI_impl::UI_res_t sc_book        (UI_impl::UI_extra_t, UI_impl::UI_handle_t, int argc, const char ** argv);
 UI_impl::UI_res_t sc_clipbase    (UI_impl::UI_extra_t, UI_impl::UI_handle_t, int argc, const char ** argv);
 UI_impl::UI_res_t sc_eco         (UI_impl::UI_extra_t, UI_impl::UI_handle_t, int argc, const char ** argv);
+UI_impl::UI_res_t sc_epd         (UI_impl::UI_extra_t, UI_impl::UI_handle_t, int argc, const char ** argv);
 UI_impl::UI_res_t sc_filter      (UI_impl::UI_extra_t, UI_impl::UI_handle_t, int argc, const char ** argv);
 UI_impl::UI_res_t sc_game        (UI_impl::UI_extra_t, UI_impl::UI_handle_t, int argc, const char ** argv);
 UI_impl::UI_res_t sc_info        (UI_impl::UI_extra_t, UI_impl::UI_handle_t, int argc, const char ** argv);
@@ -266,6 +267,7 @@ inline int UI_impl::initTclTk (UI_handle_t ti)
 	Tcl_CreateCommand(ti, "sc_book"     , sc_book       , 0, NULL);
 	Tcl_CreateCommand(ti, "sc_clipbase" , sc_clipbase   , 0, NULL);
 	Tcl_CreateCommand(ti, "sc_eco"      , sc_eco        , 0, NULL);
+	Tcl_CreateCommand(ti, "sc_epd"      , sc_epd        , 0, NULL);
 	Tcl_CreateCommand(ti, "sc_filter"   , sc_filter     , 0, NULL);
 	Tcl_CreateCommand(ti, "sc_game"     , sc_game       , 0, NULL);
 	Tcl_CreateCommand(ti, "sc_info"     , sc_info       , 0, NULL);

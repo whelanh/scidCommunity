@@ -195,14 +195,11 @@ proc ::file::Open_ {fName } {
       catch { sc_base extra $::file::lastOpened type 3 }
     }
   } elseif {"$ext" == ".epd"} {
-    # EPD file:
-    set err [catch {sc_base create MEMORY "$fName"} ::file::lastOpened]
-    if {$err} {
-      ERROR::MessageBox "$fName\n"
-    } else {
-      importPgnFile $::file::lastOpened [list "$fName"]
-      sc_base extra $::file::lastOpened type 3
+    # EPD file: open in dedicated EPD editor window.
+    if {[::epd::newEpdWin open "$fName"]} {
+      return 2
     }
+    return 1
   } else {
     if {$ext == ".si5" || $ext eq ""} {
       set dbType "SCID5"
