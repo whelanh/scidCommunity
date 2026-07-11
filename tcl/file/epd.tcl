@@ -556,7 +556,6 @@ namespace eval epd {
   ###  If logfile is non-empty, the per-position results are written to it.
   proc launchAnnotateEpd {id engineIdx name {logfile ""}} {
     variable epdEngineName
-    variable bestMoves
     global epdAnnotateMode epdAnnotation epdDelay
 
     set w .epd$id
@@ -628,8 +627,10 @@ namespace eval epd {
         updateAnalysis $win
       } iterErr]} { set annErr $iterErr ; break }
 
-      # Capture the sought move(s) for this position before any mutation.
-      set soughtMoves $bestMoves
+      # Read the sought move(s) (bm/am) directly for THIS position. Do not
+      # rely on the deferred bestMoves variable: it is updated by updateEpdWin
+      # from an after-idle callback and therefore lags one position behind.
+      set soughtMoves [::epd::soughtMovesFor $id]
 
       # Wait epdDelay seconds while actively pumping the event loop so the
       # engine keeps analysing. Using an active wait (rather than
@@ -726,6 +727,20 @@ namespace eval epd {
     set move ""
     regexp {[a-zA-Z][^ ]*} [::epd::pvSAN $win] move
     return $move
+  }
+
+  ###  Return the bm (best) or am (avoid) move list for the current EPD
+  ###  position, in the form used by evalBestMove: "" (none), "Qc7 Qd6"
+  ###  (best moves) or "avoid Nf3 h4" (avoid moves).
+  proc soughtMovesFor {id} {
+    set text [sc_epd get $id]
+    if {[regexp -line {^bm[ \t]+(.+)$} $text -> m]} {
+      return [string trim [string map {, { }} $m]]
+    }
+    if {[regexp -line {^am[ \t]+(.+)$} $text -> m]} {
+      return "avoid [string trim [string map {, { }} $m]]"
+    }
+    return {}
   }
 
   ###  Compare the engine's move against a position's bm/am opcode value.
