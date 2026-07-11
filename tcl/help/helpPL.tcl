@@ -3462,11 +3462,11 @@ set helpText(P,EPD) {<h1>Pliki EPD</h1>
   </p>
   <p>
   Plik EPD zawiera wiele zdefiniowanych <term>opcode’ów</term> (pól),
-  które w pliku są oddzielane średnikami (<b>;</b>), ale w oknie EPD
+  które w pliku są oddzielane średnikami (<b>;</b>), a w oknie EPD
   ScidCommunity są pokazywane w osobnych wierszach, aby ułatwić edycję.
   Średnik wewnątrz pola EPD jest przez ScidCommunity zapisywany jako
   "<b>\s</b>", aby odróżnić go od znacznika końca pola.
-  Każda pozycja i odpowiadające jej opcode’y są zapisane w EPD na jednym
+  Każda pozycja i odpowiadające jej opcode’y są zapisane w pliku EPD w jednym
   wierszu.
   </p>
   <p>
@@ -3498,7 +3498,7 @@ set helpText(P,EPD) {<h1>Pliki EPD</h1>
   </p>
   <p>
   Można utworzyć nowy plik EPD lub otworzyć istniejący za pomocą komend
-  <menu>Noey...</menu> i <menu>Otwórz...</menu> z menu <menu>Plik</menu>. W danym
+  <menu>Nowy...</menu> i <menu>Otwórz...</menu> z menu <menu>Plik</menu> w oknie EPD. W danym
   momencie może być otwartych maksymalnie cztery pliki EPD.
   </p>
   
@@ -3522,10 +3522,9 @@ set helpText(P,EPD) {<h1>Pliki EPD</h1>
 
   <h3>Analizowanie</h3>
   <p>
-  Pliki EPD można automatycznie analizować, wybierając Tools /
-  Annotate position. Pojawiające się okno dialogowe pyta o czas,
-  który ma zostać użyty do analizy, a następnie otwiera listę
-  <a Analysis List>silników</a>, z której można wybrać silnik do użycia.
+  Pliki EPD można automatycznie analizować, wybierając <b>Narzędzia /
+  Analizuj pozycję...</b>. Pojawiające się okno dialogowe pyta o czas,
+  który ma zostać użyty do analizy i z listy  można wybrać silnik do użycia.
   <b>Uwaga</b>: jeśli okno analizy jest już otwarte, analiza zostanie wykonana
   przy użyciu tego silnika bez wcześniejszego pytania użytkownika.
   Następnie silnik jest uruchamiany, a wynik dodawany do EPD.
@@ -3542,7 +3541,7 @@ set helpText(P,EPD) {<h1>Pliki EPD</h1>
   </p>
   <p>
   Można usunąć kod operacji EPD z wszystkich pozycji w pliku EPD za pomocą
-  <menu>Strip out EPD field</menu> z menu <menu>Tools</menu> okna EPD.
+  <menu>Usuń kody operacji...</menu> z menu <menu>Narzędzia </menu> okna EPD.
   </p>
 
   <h3>Pasek stanu okna EPD</h3>
