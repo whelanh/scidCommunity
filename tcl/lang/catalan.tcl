@@ -1923,3 +1923,138 @@ translate K TBCategory {Categoria de la posició:}
 translate K TBTrainingHidden {(Mode d'entrenament; els resultats estan ocults)}
 }
 # end of english.tcl
+
+
+############################################################
+#
+# Catalan tip of the day
+# Machine-translated scaffold - please review and correct.
+
+set tips(K) {
+  {
+    scidCommunity té més de 40 <a Index>pàgines d'ajuda </a> i a la majoria de finestres de scidCommunity, prement la tecla <b>F1</b> es generarà la pàgina d'ajuda sobre aquesta finestra.
+  }
+  {
+    Algunes finestres de scidCommunity (per exemple, l'àrea d'informació del joc, la base de dades <a Switcher>commutador</a>) tenen un menú amb el botó dret del ratolí. Proveu de prémer el botó dret del ratolí a cada finestra per veure si en té una i quines funcions hi ha disponibles.
+  }
+  {
+    scidCommunity t'ofereix més d'una manera d'introduir moviments d'escacs, permetent-te triar la que més t'agradi. Podeu utilitzar el ratolí (amb o sense suggeriment de moviment) o el teclat (amb o sense completar el moviment). Llegiu la pàgina d'ajuda <a Moves> introduint moviments d'escacs </a> per obtenir més informació.
+  }
+  {
+    Si teniu unes quantes bases de dades que obriu sovint, afegiu una <a Bookmarks>adreces d'interès </a> per a cadascuna i, a continuació, les podreu obrir més ràpidament mitjançant el menú d'adreces d'interès.
+  }
+  {
+    Podeu seguir els principals tornejos d'escacs en temps real mitjançant la funció <b>Open Lichess Tournament </b> al menú <b>File </b>. scidCommunity supervisarà i actualitzarà automàticament els jocs en directe.
+  }
+  {
+    Pots veure tots els moviments del joc actual (amb qualsevol variació i comentari) mitjançant la finestra <a PGN>PGN </a>. A la finestra PGN, podeu anar a qualsevol moviment fent-hi clic amb el botó esquerre del ratolí o utilitzar el botó mitjà o dret del ratolí per veure una vista prèvia d'aquesta posició.
+  }
+  {
+    Podeu copiar jocs d'una base de dades a una altra fent servir arrossegar i deixar anar amb el botó esquerre del ratolí <a Switcher>commutador de bases de dades</a> finestra.
+  }
+  {
+    scidCommunity pot obrir fitxers PGN, encara que estiguin comprimits amb Gzip (amb un sufix de nom de fitxer .gz). Els fitxers PGN s'obren només de lectura, de manera que si voleu editar un fitxer PGN a scidCommunity, creeu una nova base de dades scidCommunity i copieu-hi els jocs de fitxers PGN mitjançant el <a Switcher>commutador de bases de dades</a>.
+  }
+  {
+    Si teniu una base de dades gran que utilitzeu amb el <a Tree>arbre</a> finestra sovint, val la pena seleccionar-la <b>Ompliu el fitxer de memòria cau</b> des del menú Fitxer de la finestra de l'arbre. Això recordarà les estadístiques de l'arbre per a moltes posicions d'obertura comunes, fent que l'accés a l'arbre sigui més ràpid per a la base de dades.
+  }
+  {
+    El <a Tree>arbre</a> La finestra us pot mostrar tots els moviments jugats des de la posició actual, però si també voleu veure totes les ordres de moviment que han arribat a aquesta posició, podeu trobar-los generant un <a OpReport>informe d'obertura</a>.
+  }
+  {
+    Per importar ràpidament els vostres propis jocs des de llocs en línia, feu servir <b>Import my Lichess</b> o <b>Import my chess.com</b> des del menú <b>File</b>. Simplement introduïu el vostre nom d'usuari i una data d'inici per descarregar els vostres jocs amb metadades completes.
+  }
+  {
+    En el <a GameList>llista de jocs</a> finestra, premeu el botó esquerre o dret del ratolí a l'encapçalament de cada columna per ajustar-ne l'amplada.
+  }
+  {
+    Amb el <a PInfo>informació del jugador</a> finestra (només feu clic al nom del jugador a l'àrea d'informació del joc a sota del tauler d'escacs de la finestra principal per obrir-lo), podeu configurar fàcilment el <a Searches Filter>filtre</a> per contenir totes les partides d'un determinat jugador amb un resultat determinat fent clic a qualsevol valor que es mostri <red>en text vermell</red>.
+  }
+  {
+    Quan s'estudia una obertura, pot ser molt útil fer a <a Searches Board>cerca del tauler</a> amb el <b>Peons</b> o <b>Fitxers</b> opció en una posició d'obertura important, ja que això pot revelar altres obertures que arribin a la mateixa estructura de peons.
+  }
+  {
+    A l'àrea d'informació del joc (a sota del tauler d'escacs), podeu prémer el botó dret del ratolí per crear un menú per personalitzar-lo. Per exemple, podeu fer que scidCommunity amagui el següent moviment que és útil per entrenar jugant a un joc endevinant els moviments.
+  }
+  {
+    Si sovint feu molta base de dades <a Maintenance>manteniment</a> en una gran base de dades, podeu fer diverses tasques de manteniment alhora utilitzant el <a Maintenance Cleaner>més netejador</a>.
+  }
+  {
+    La finestra <a PGN>PGN </a> inclou botons d'accés ràpid per penjar el vostre joc actual a <b>Lichess.org</b> o <b>Chess.com</b>. Això us permet utilitzar a l'instant les seves potents funcions d'anàlisi i compartició de motors basats en núvol.
+  }
+  {
+    Si teniu una gran base de dades on la majoria dels jocs tenen una data d'esdeveniment i voleu que els jocs estiguin en ordre de data, considereu <a Sorting>ordenar </a> per Data de l'esdeveniment i després per Esdeveniment en lloc de Data i esdeveniment, ja que això ajudarà a mantenir els jocs al mateix torneig amb dates diferents juntes (suposant que tots tinguin la mateixa data d'esdeveniment, és clar).
+  }
+  {
+    Abans de <a Maintenance Twins>suprimir jocs bessons </a>, és una bona idea <a Maintenance Spellcheck>verificar l'ortografia </a> la vostra base de dades, ja que això permetrà que scidCommunity trobi més bessons i els marqueu per esborrar-los.
+  }
+  {
+    <a Flags>Banderes</a> són útils per marcar jocs de base de dades amb característiques que potser voldreu cercar més endavant, com ara l'estructura de peons, tàctiques, etc. Podeu cercar per banderes amb un <a Searches Header>cerca de capçalera</a>.
+  }
+  {
+    Si esteu jugant a un joc i voleu provar alguns moviments sense alterar el joc, només heu d'activar el mode de prova (amb la drecera <b>Ctrl+espai </b> o des de la icona de la barra d'eines) i, a continuació, desactiveu-lo de nou per tornar al joc original quan hàgiu acabat.
+  }
+  {
+    Per trobar els jocs més destacats (amb oponents ben valorats) que arriben a una posició determinada, obriu el <a Tree>arbre</a> finestra i des d'allà, obriu la llista de millors jocs. Fins i tot podeu restringir la llista de millors jocs per mostrar només els jocs amb un resultat determinat.
+  }
+  {
+    Utilitzeu el botó <b>Chessdb Engine Tree </b> a la finestra <a PGN>PGN </a> per consultar la base de dades del núvol <b>ChessDB.cn</b>. Conté milers de milions de posicions analitzades prèviament i avaluacions informàtiques per a gairebé qualsevol obertura.
+  }
+  {
+    Una bona manera d'estudiar una obertura mitjançant una gran base de dades de jocs és activar el mode d'entrenament al <a Tree>arbre</a> finestra i, a continuació, jugueu contra la base de dades per veure quines línies es produeixen sovint.
+  }
+  {
+    Si teniu dues bases de dades obertes i voleu veure-les <a Tree>arbre</a> estadístiques de la primera base de dades mentre examineu un joc de la segona base de dades, només heu de prémer el botó <b>Bloqueig</b> botó a la finestra de l'arbre per bloquejar-lo a la primera base de dades i després canviar a la segona base.
+  }
+  {
+    El <a Tmt>cercador de tornejos</a> No només és útil per trobar un torneig en concret, sinó que també es pot utilitzar per veure en quins tornejos ha competit un determinat jugador recentment o navegar pels principals tornejos jugats en un país determinat.
+  }
+  {
+    Hi ha una sèrie de patrons comuns definits a la finestra de cerca <a Searches Material>Material/Pattern</a> que us poden resultar útils per a les obertures o l'estudi del joc mitjà.
+  }
+  {
+    Quan cerqueu una situació material concreta a la finestra de cerca <a Searches Material>Material/Patró </a>, sovint és útil restringir la cerca a jocs que coincideixin almenys durant uns quants mitges moviments per eliminar els jocs en què la situació cercada només es va produir breument.
+  }
+  {
+    Si arribeu a un final de joc amb 7 peces o menys, feu clic al botó <b>Base de taula </b> a la finestra <a PGN>PGN </a> per obtenir una anàlisi perfecta de les bases de taula de final de Lichess.
+  }
+  {
+    Si teniu una base de dades important que no voleu alterar accidentalment, seleccioneu <b>Només lectura...</b> al menú <b>Fitxer</b> després d'obrir-la, o canvieu els seus permisos de fitxer perquè siguin només de lectura.
+  }
+  {
+    Si utilitzeu XBoard o WinBoard (o algun altre programa d'escacs que pugui copiar una posició d'escacs en notació FEN estàndard al porta-retalls) i voleu copiar la seva posició actual d'escacs a scidCommunity, la manera més ràpida i senzilla és seleccionar <b>Copia la posició</b> des del menú Fitxer a XBoard/WinBoard, llavors <b>Enganxeu el tauler d'inici</b> des del menú Edita a scidCommunity.
+  }
+  {
+    En a <a Searches Header>cerca de capçalera</a>, els noms dels jugadors/esdeveniments/llocs/rondes no distingeixen entre majúscules i minúscules i coincideixen a qualsevol part d'un nom. Podeu optar per fer una cerca amb comodins que distingeix entre majúscules i minúscules (on "?" = qualsevol caràcter i "*" = zero o més caràcters) introduint el text de cerca "entre cometes". Per exemple, escriviu "*BEL" (amb les cometes) al camp del lloc per trobar tots els jocs jugats a Bèlgica però no a Belgrad.
+  }
+  {
+    Si voleu corregir un moviment en un joc sense perdre tots els moviments jugats després, obriu la finestra <a Import>Importa </a>, premeu el botó <b>Enganxa el joc actual </b>, editeu el moviment incorrecte i premeu <b>Importa </b>.
+  }
+  {
+    Si tens un fitxer de classificació ECO carregat, pots anar a la posició classificada més profunda del joc actual amb <b>Identifica l'obertura </b> al menú <b>Joc </b> (drecera: Ctrl+Maj+D).
+  }
+  {
+    Estigueu al dia dels jocs més recents d'arreu del món mitjançant <b>Descarregueu Jocs TWIC </b> al menú <b>Eines </b>. Es baixa automàticament i obre l'últim PGN setmanal de <b>The Week In Chess </b>.
+  }
+  {
+    Si voleu comprovar la mida d'un fitxer o la seva data de darrera modificació abans d'obrir-lo, utilitzeu el <a Finder>cercador de fitxers</a> per obrir-lo.
+  }
+  {
+    An <a OpReport>informe d'obertura</a> és ideal per aprendre més sobre una posició concreta. Podeu veure com de bé puntua, si condueix a sorteigs curts freqüents i temes posicionals comuns.
+  }
+  {
+    Podeu afegir els símbols d'anotació més habituals (!, !?, +=, etc.) al moviment o posició actual amb tecles de drecera sense necessitat d'utilitzar <a Comment>l'editor de comentaris</a>, per exemple, escriviu "!" després la tecla Retorn per afegir un "!" símbol d'anotació. Consulteu la pàgina d'ajuda <a Moves>Entrar moviments d'escacs </a> per obtenir més informació.
+  }
+  {
+    Si esteu navegant per les obertures en una base de dades amb el <a Tree>arbre</a>, podeu veure una visió general útil de la puntuació de l'obertura actual recentment i entre jugadors ben valorats obrint la finestra Estadístiques (drecera: Ctrl+I).
+  }
+  {
+    A la finestra <b>Navegador de jocs </b>, podeu canviar la mida del tauler mantenint premudes les tecles <b>Ctrl</b> i <b>Maj </b> i prement la fletxa <b>Esquerra </b> o <b>Dreta </b>.
+  }
+  {
+    Després d'a <a Searches>cerca</a>, podeu navegar fàcilment per tots els jocs coincidents mantenint premut <b>Ctrl</b> i prement el <b>Amunt</b> o <b>Avall</b> tecla per carregar l'anterior o el següent <a Searches Filter>filtre</a> joc.
+  }
+  {
+    Windows es pot acoblar marcant l'entrada corresponent al menú d'opcions. Les pestanyes es poden arrossegar i deixar anar d'un quadern a un altre i disposar-les fent clic amb el botó dret al giny de la pestanya.
+  }
+}

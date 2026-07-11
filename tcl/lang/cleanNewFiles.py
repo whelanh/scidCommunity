@@ -94,11 +94,58 @@ def read_file_robust(filepath):
         with open(filepath, 'r', encoding=encoding, errors='replace') as f:
             return f.readlines(), f'{encoding}-replace'
 
+def extract_footer(lines):
+    """
+    Extracts top-level trailing content that lives OUTSIDE the
+    proc setLanguage_X {} { ... } block, i.e. a "set tips(<letter>) { ... }"
+    Tip of the Day block (and any preceding banner/comment header).
+
+    This content is not part of english.tcl's structure, so the reference
+    driven reconstruction in clean_and_reorder() would otherwise silently
+    drop it. Returning it here lets us re-append it verbatim.
+    Returns a list of raw lines (may be empty).
+    """
+    tips_idx = None
+    for idx, line in enumerate(lines):
+        if re.match(r'^\s*set\s+tips\(', line):
+            tips_idx = idx
+            break
+    if tips_idx is None:
+        return []
+
+    # Walk back over the contiguous comment/blank header and, if present,
+    # start at the banner divider line (######...) so we keep the section
+    # header but do NOT swallow the "# end of ...tcl" line that belongs to
+    # the reconstructed proc output above it.
+    divider_idx = None
+    j = tips_idx - 1
+    while j >= 0 and (lines[j].strip() == '' or lines[j].lstrip().startswith('#')):
+        if re.match(r'^#{6,}', lines[j].strip()):
+            divider_idx = j
+        j -= 1
+    start = divider_idx if divider_idx is not None else tips_idx
+
+    # Collect from start until the tips block's braces are balanced.
+    footer = []
+    brace = 0
+    seen_brace = False
+    for k in range(start, len(lines)):
+        footer.append(lines[k])
+        if k >= tips_idx:
+            opens = lines[k].count('{')
+            closes = lines[k].count('}')
+            brace += opens - closes
+            if opens or closes:
+                seen_brace = True
+            if seen_brace and brace <= 0:
+                break
+    return footer
+
 def parse_target_file(filepath):
     """
     Parses the target file into a dictionary of {key: lines_list}.
     Handles multi-line translations that span multiple lines.
-    Returns: (header_lines, translations, encoding)
+    Returns: (header_lines, translations, footer_lines, encoding)
     """
     translations = {}
     header_lines = []
@@ -106,6 +153,7 @@ def parse_target_file(filepath):
     cmd_pattern = re.compile(r'^\s*(menuText|translate)\s+\S+\s+(\S+)')
     
     lines, encoding = read_file_robust(filepath)
+    footer_lines = extract_footer(lines)
     in_header = True
     
     i = 0
@@ -153,10 +201,10 @@ def parse_target_file(filepath):
         
         i += 1
 
-    return header_lines, translations, encoding
+    return header_lines, translations, footer_lines, encoding
 
 def clean_and_reorder(target_file, reference_file, lang_code):
-    header, translations, target_encoding = parse_target_file(target_file)
+    header, translations, footer, target_encoding = parse_target_file(target_file)
     output_file = target_file + '.clean'
     
     print(f"Reading target file: {target_file}")
@@ -234,6 +282,21 @@ def clean_and_reorder(target_file, reference_file, lang_code):
                     out.write(line)
                 
                 i += 1
+            
+            # Re-append any top-level trailing content (e.g. the
+            # "set tips(<letter>) { ... }" Tip of the Day block) that lives
+            # outside the setLanguage proc. english.tcl has no such block, so
+            # the reference-driven reconstruction above never emits it; without
+            # this the translated Tips Of The Day would be lost on every run.
+            if footer:
+                if not footer[0].strip().startswith('#'):
+                    out.write("\n")
+                else:
+                    out.write("\n\n")
+                for footer_line in footer:
+                    out.write(footer_line)
+                if not footer[-1].endswith("\n"):
+                    out.write("\n")
                     
         print(f"Successfully cleaned file saved to: {output_file} ({target_encoding})")
                     

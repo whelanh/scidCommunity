@@ -1951,3 +1951,138 @@ translate D TBCategory {Positionskategorie:}
 translate D TBTrainingHidden {(Trainingsmodus; Ergebnisse werden ausgeblendet)}
 }
 # end of english.tcl
+
+
+############################################################
+#
+# German tip of the day
+# Machine-translated scaffold - please review and correct.
+
+set tips(D) {
+  {
+    scidCommunity hat über 40 <a Index>Hilfeseiten</a> und in den meisten scidCommunity-Fenstern wird durch Drücken der Taste <b>F1</b> die Hilfeseite zu diesem Fenster angezeigt.
+  }
+  {
+    Einige scidCommunity-Fenster (z. B. der Spielinformationsbereich, der Datenbank-<a Switcher>-Switcher</a>) verfügen über ein Menü mit der rechten Maustaste. Versuchen Sie, in jedem Fenster die rechte Maustaste zu drücken, um zu sehen, ob es eines gibt und welche Funktionen verfügbar sind.
+  }
+  {
+    scidCommunity bietet Ihnen mehr als eine Möglichkeit, Schachzüge einzugeben, sodass Sie auswählen können, welche am besten zu Ihnen passt. Sie können die Maus (mit oder ohne Zugvorschlag) oder die Tastatur (mit oder ohne Zugabschluss) verwenden. Weitere Informationen finden Sie auf der Hilfeseite <a Moves>Eingabe von Schachzügen </a>.
+  }
+  {
+    Wenn Sie einige Datenbanken häufig öffnen, fügen Sie für jede Datenbank ein <a Bookmarks>Lesezeichen</a> hinzu. Dann können Sie sie über das Lesezeichenmenü schneller öffnen.
+  }
+  {
+    Sie können große Schachturniere in Echtzeit verfolgen, indem Sie die Funktion <b>Lichess-Turnier öffnen </b> im Menü <b>Datei </b> verwenden. scidCommunity überwacht und aktualisiert die Live-Spiele automatisch für Sie.
+  }
+  {
+    Sie können alle Züge der aktuellen Partie (mit etwaigen Variationen und Kommentaren) im <a PGN>PGN-Fenster </a> sehen. Im PGN-Fenster können Sie zu jedem Zug gehen, indem Sie mit der linken Maustaste darauf klicken, oder die mittlere oder rechte Maustaste verwenden, um eine Vorschau dieser Position anzuzeigen.
+  }
+  {
+    Sie können Spiele per Drag & Drop mit der linken Maustaste im Fenster <a Switcher>Datenbankumschalter </a> von einer Datenbank in eine andere kopieren.
+  }
+  {
+    scidCommunity kann PGN-Dateien öffnen, auch wenn sie mit Gzip komprimiert sind (mit dem Dateinamensuffix .gz). PGN-Dateien werden schreibgeschützt geöffnet. Wenn Sie also eine PGN-Datei in scidCommunity bearbeiten möchten, erstellen Sie eine neue scidCommunity-Datenbank und kopieren Sie die PGN-Datei mit dem in diese Datenbank <a Switcher>Datenbankumschalter</a>.
+  }
+  {
+    Wenn Sie eine große Datenbank haben, die Sie häufig mit dem Fenster <a Tree>Baum </a> verwenden, lohnt es sich, im Menü Datei des Baumfensters die Option <b>Cache-Datei füllen </b> auszuwählen. Dadurch werden Baumstatistiken für viele gängige Eröffnungspositionen gespeichert, wodurch der Baumzugriff für die Datenbank beschleunigt wird.
+  }
+  {
+    Das <a Tree>Baum</a>-Fenster kann Ihnen alle Züge anzeigen, die von der aktuellen Position aus gespielt wurden. Wenn Sie jedoch auch alle Zugbefehle sehen möchten, die diese Position erreicht haben, können Sie diese finden, indem Sie einen <a OpReport>Eröffnungsbericht </a> erstellen.
+  }
+  {
+    Um Ihre eigenen Partien schnell von Online-Sites zu importieren, verwenden Sie <b>Import my Lichess</b> oder <b>Import my chess.com</b> aus dem Menü <b>Datei</b>. Geben Sie einfach Ihren Benutzernamen und ein Startdatum ein, um Ihre Spiele mit vollständigen Metadaten herunterzuladen.
+  }
+  {
+    Drücken Sie im Fenster <a GameList>Spieleliste</a> die linke oder rechte Maustaste auf die Überschrift jeder Spalte, um deren Breite anzupassen.
+  }
+  {
+    Mit dem <a PInfo>Spielerinformationen</a> Fenster (klicken Sie einfach auf einen der Spielernamen im Spielinfobereich unter dem Schachbrett des Hauptfensters, um es zu öffnen), können Sie das ganz einfach festlegen <a Searches Filter>Filter</a> um alle Spiele eines bestimmten Spielers mit einem bestimmten Ergebnis anzuzeigen, indem Sie auf einen beliebigen angezeigten Wert klicken <red>in roter Schrift</red>.
+  }
+  {
+    Beim Studium einer Eröffnung kann es sehr nützlich sein, eine <a Searches Board>Brettsuche</a> mit der Option <b>Bauern</b> oder <b>Dateien</b> an einer wichtigen Eröffnungsposition durchzuführen, da dadurch möglicherweise andere Eröffnungen aufgedeckt werden, die die gleiche Bauernstruktur erreichen.
+  }
+  {
+    Im Spielinformationsbereich (unterhalb des Schachbretts) können Sie mit der rechten Maustaste ein Menü zum Anpassen öffnen. Beispielsweise können Sie scidCommunity veranlassen, den nächsten Zug auszublenden, was für das Training nützlich ist, indem Sie ein Spiel durchspielen und die Züge erraten.
+  }
+  {
+    Wenn Sie häufig viele Datenbanken bearbeiten <a Maintenance>Wartung</a> In einer großen Datenbank können Sie mit dem mehrere Wartungsaufgaben gleichzeitig ausführen <a Maintenance Cleaner>Reiniger</a>.
+  }
+  {
+    Das <a PGN>PGN-Fenster </a> verfügt über Schnellzugriffsschaltflächen zum Hochladen Ihrer aktuellen Partie auf <b>Lichess.org</b> oder <b>Chess.com</b>. Dadurch können Sie die leistungsstarken cloudbasierten Engine-Analyse- und Freigabefunktionen sofort nutzen.
+  }
+  {
+    Wenn Sie über eine große Datenbank verfügen, in der die meisten Spiele ein EventDate haben, und Sie die Spiele in der Datumsreihenfolge haben möchten, sollten Sie eine <a Sorting>Sortierung</a> nach EventDate, dann Event statt nach Date, dann Event in Betracht ziehen, da dies dabei hilft, Spiele im selben Turnier mit unterschiedlichen Daten zusammenzuhalten (vorausgesetzt natürlich, sie haben alle das gleiche EventDate).
+  }
+  {
+    Bevor Sie Zwillingsspiele <a Maintenance Twins> löschen </a>, ist es eine gute Idee, Ihre Datenbank <a Maintenance Spellcheck> einer Rechtschreibprüfung </a> zu unterziehen, da dies es scidCommunity ermöglicht, weitere Zwillinge zu finden und sie zum Löschen zu markieren.
+  }
+  {
+    <a Flags>Flags</a> sind nützlich, um Datenbankspiele mit Merkmalen zu markieren, nach denen Sie möglicherweise später suchen möchten, wie z. B. Bauernstruktur, Taktik usw. Sie können mit einer <a Searches Header>Header-Suche </a> nach Flaggen suchen.
+  }
+  {
+    Wenn Sie ein Spiel durchspielen und einige Züge ausprobieren möchten, ohne das Spiel zu verändern, schalten Sie einfach den Testmodus ein (mit der Tastenkombination <b>Strg+Leertaste</b> oder über das Symbol in der Symbolleiste) und schalten Sie ihn dann wieder aus, um zum ursprünglichen Spiel zurückzukehren, wenn Sie fertig sind.
+  }
+  {
+    Um die prominentesten Spiele (mit hoch bewerteten Gegnern) zu finden, die eine bestimmte Position erreichen, öffnen Sie das Fenster <a Tree>Baum</a> und öffnen Sie von dort aus die Liste der besten Spiele. Sie können die Liste der besten Spiele sogar einschränken, um nur Spiele mit einem bestimmten Ergebnis anzuzeigen.
+  }
+  {
+    Verwenden Sie die Schaltfläche <b>chessdb Engine Tree </b> im <a PGN>PGN-Fenster </a>, um die Cloud-Datenbank <b>ChessDB.cn</b> zu konsultieren. Es enthält Milliarden vorab analysierter Stellungen und Computerbewertungen für nahezu jede Eröffnung.
+  }
+  {
+    Eine gute Möglichkeit, eine Eröffnung mithilfe einer großen Datenbank an Partien zu studieren, besteht darin, den Trainingsmodus im Fenster <a Tree>Baum</a> zu aktivieren und dann gegen die Datenbank zu spielen, um zu sehen, welche Varianten häufig vorkommen.
+  }
+  {
+    Wenn Sie zwei Datenbanken geöffnet haben und <a Tree>Baum</a>-Statistiken der ersten Datenbank sehen möchten, während Sie ein Spiel aus der zweiten Datenbank untersuchen, drücken Sie einfach die Schaltfläche <b>Sperren</b> im Baumfenster, um es an die erste Datenbank zu binden, und wechseln Sie dann zur zweiten Datenbank.
+  }
+  {
+    Der <a Tmt>Turnierfinder</a> ist nicht nur nützlich, um ein bestimmtes Turnier zu finden, sondern kann auch verwendet werden, um zu sehen, an welchen Turnieren ein bestimmter Spieler kürzlich teilgenommen hat, oder um die Top-Turniere zu durchsuchen, die in einem bestimmten Land gespielt werden.
+  }
+  {
+    Im Suchfenster <a Searches Material>Material/Muster</a> sind eine Reihe gängiger Muster definiert, die für Eröffnungen oder Mittelspielstudien nützlich sein können.
+  }
+  {
+    Bei der Suche nach einer bestimmten Materialsituation im Suchfenster <a Searches Material>Material/Muster</a> ist es oft sinnvoll, die Suche auf Partien zu beschränken, die mindestens für einige Halbzüge übereinstimmen, um Partien auszuschließen, bei denen die gesuchte Situation nur kurz vorkam.
+  }
+  {
+    Wenn Sie ein Endspiel mit 7 oder weniger Teilen erreichen, klicken Sie auf <b>Tischbasis</b> Schaltfläche in der <a PGN>PGN-Fenster</a> um eine perfekte Analyse der Lichess-Endspieltabellenbasen zu erhalten.
+  }
+  {
+    Wenn Sie eine wichtige Datenbank haben, die Sie nicht versehentlich ändern möchten, wählen Sie nach dem Öffnen die Option <b>Schreibgeschützt...</b> aus dem Menü <b>Datei</b> oder ändern Sie die Dateiberechtigungen auf schreibgeschützt.
+  }
+  {
+    Wenn Sie XBoard oder WinBoard (oder ein anderes Schachprogramm, das eine Schachposition in der Standard-FEN-Notation in die Zwischenablage kopieren kann) verwenden und die aktuelle Schachposition in scidCommunity kopieren möchten, ist die Auswahl die schnellste und einfachste Möglichkeit <b>Position kopieren</b> dann über das Menü „Datei“ in XBoard/WinBoard <b>Starttafel einfügen</b> aus dem Bearbeiten-Menü in scidCommunity.
+  }
+  {
+    Bei einer <a Searches Header>Header-Suche </a> wird bei Spieler-/Ereignis-/Standort-/Rundennamen die Groß-/Kleinschreibung nicht beachtet und sie stimmen überall im Namen überein. Sie können stattdessen eine Suche mit Platzhaltern unter Berücksichtigung der Groß- und Kleinschreibung durchführen (wobei „?“ = ein beliebiges einzelnes Zeichen und „*“ = null oder mehr Zeichen), indem Sie den Suchtext „in Anführungszeichen“ eingeben. Geben Sie beispielsweise „*BEL“ (mit Anführungszeichen) in das Site-Feld ein, um alle Spiele zu finden, die in Belgien, aber nicht in Belgrad gespielt werden.
+  }
+  {
+    Wenn Sie einen Zug in einer Partie korrigieren möchten, ohne alle danach gespielten Züge zu verlieren, öffnen Sie das Fenster <a Import>Importieren </a>, klicken Sie auf die Schaltfläche <b>Aktuelle Partie einfügen </b>, bearbeiten Sie den falschen Zug und drücken Sie dann auf <b>Importieren </b>.
+  }
+  {
+    Wenn Sie eine ECO-Klassifizierungsdatei geladen haben, können Sie mit <b>Eröffnung identifizieren </b> im Menü <b>Partie</b> zur tiefsten klassifizierten Position in der aktuellen Partie gehen (Tastenkürzel: Strg+Umschalt+D).
+  }
+  {
+    Bleiben Sie über die neuesten Spiele aus der ganzen Welt auf dem Laufenden, indem Sie <b>TWIC-Spiele herunterladen </b> im Menü <b>Tools </b> verwenden. Es lädt automatisch die neueste wöchentliche PGN von <b>The Week In Chess</b> herunter und öffnet sie.
+  }
+  {
+    Wenn Sie vor dem Öffnen die Größe einer Datei oder das Datum der letzten Änderung überprüfen möchten, öffnen Sie sie mit dem <a Finder>Dateifinder </a>.
+  }
+  {
+    Ein <a OpReport>Eröffnungsbericht</a> eignet sich hervorragend, um mehr über eine bestimmte Position zu erfahren. Sie können sehen, wie gut es abschneidet, ob es zu häufigen Short Draws und häufigen Positionsthemen führt.
+  }
+  {
+    Sie können der aktuellen Bewegung oder Position mit Tastaturkürzeln die gängigsten Anmerkungssymbole (!, !?, += usw.) hinzufügen, ohne den <a Comment>Kommentareditor <a> verwenden zu müssen – geben Sie beispielsweise „!“ ein. dann die Eingabetaste, um ein „!“ hinzuzufügen. Anmerkungssymbol. Weitere Informationen finden Sie auf der Hilfeseite <a Moves>Eingabe von Schachzügen </a>.
+  }
+  {
+    Wenn Sie Eröffnungen in einer Datenbank mit dem <a Tree>-Baum </a> durchsuchen, können Sie einen nützlichen Überblick darüber sehen, wie gut die aktuelle Eröffnung in letzter Zeit und zwischen hoch bewerteten Spielern gepunktet hat, indem Sie das Statistikfenster öffnen (Tastenkürzel: Strg+I).
+  }
+  {
+    Im <b>Spielbrowser</b>-Fenster können Sie die Spielbrettgröße ändern, indem Sie die Tasten <b>Strg</b> und <b>Umschalt</b> gedrückt halten und die Pfeiltaste <b>Links</b> oder <b>Rechts</b> drücken.
+  }
+  {
+    Nach einer <a Searches>Suche</a> können Sie ganz einfach alle passenden Spiele durchsuchen, indem Sie <b>Strg</b> gedrückt halten und die Taste <b>Nach oben </b> oder <b>Nach unten </b> drücken, um das vorherige oder nächste <a Searches Filter>Filter</a>-Spiel zu laden.
+  }
+  {
+    Fenster können angedockt werden, indem der entsprechende Eintrag im Optionsmenü aktiviert wird. Registerkarten können per Drag-and-Drop von einem Notizbuch in ein anderes gezogen und durch Klicken mit der rechten Maustaste auf das Registerkarten-Widget angeordnet werden.
+  }
+}
