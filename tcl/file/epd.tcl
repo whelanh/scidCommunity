@@ -743,16 +743,30 @@ namespace eval epd {
     return {}
   }
 
+  ###  Normalise a SAN move for comparison. EPD bm/am fields often omit the
+  ###  check "+" and mate "#" suffixes that an engine reports, and castling is
+  ###  sometimes written with zeros (0-0) instead of letters (O-O). Strip the
+  ###  suffixes and canonicalise castling so equivalent moves compare equal.
+  proc normMove {m} {
+    set m [string trimright $m "+#!?"]
+    set m [string map {0-0-0 O-O-O 0-0 O-O} $m]
+    return $m
+  }
+
   ###  Compare the engine's move against a position's bm/am opcode value.
   ###  soughtMoves is "" (none), "e4 Nf3 ..." (best moves), or
   ###  "avoid Nf3 ..." (avoid moves). Returns TRUE, FALSE or "-".
   proc evalBestMove {soughtMoves foundMove} {
     if {$soughtMoves eq "" || $foundMove eq ""} { return "-" }
+    set foundMove [::epd::normMove $foundMove]
     if {[string match avoid* $soughtMoves]} {
-      set avoid [string range $soughtMoves 6 end]
+      set avoid {}
+      foreach m [string range $soughtMoves 6 end] { lappend avoid [::epd::normMove $m] }
       return [expr {[lsearch -exact $avoid $foundMove] == -1 ? "TRUE" : "FALSE"}]
     }
-    return [expr {[lsearch -exact $soughtMoves $foundMove] > -1 ? "TRUE" : "FALSE"}]
+    set best {}
+    foreach m $soughtMoves { lappend best [::epd::normMove $m] }
+    return [expr {[lsearch -exact $best $foundMove] > -1 ? "TRUE" : "FALSE"}]
   }
 
   ###  Write one result row to the analysis log file.
