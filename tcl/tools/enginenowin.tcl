@@ -15,7 +15,12 @@ proc ::engineNoWin::initEngine { id engine callback } {
     lassign $config name cmd args wdir elo time url uci options
     set ::enginecfg::engConfig_$id $config
     ::engine::setLogCmd $id {}
+    if {$wdir ne "" && $wdir ne "."} {
+        set oldwdir [pwd]
+        cd $wdir
+    }
     ::engine::connect $id $callback $cmd $args
+    if {[info exists oldwdir]} { cd $oldwdir }
     if { $options ne "" } { ::engine::send $id SetOptions $options }
     return 1
 }
@@ -81,7 +86,9 @@ proc ::engineNoWin::initEngineOptions {id w options} {
     if { ! [winfo exists $w.text.reset] } {
         lset ::enginecfg::engConfig_$id 8 $options
         ::enginecfg::createOptionWidgets $id $w $options
-        ::engine::replyInfoConfig $id
+        if {[winfo exists $w.text.reset]} {
+            ::engine::replyInfoConfig $id
+        }
     } else {
         lset ::enginecfg::engConfig_$id 8 $options
         ::enginecfg::updateOptionWidgets $id $w $options {}
