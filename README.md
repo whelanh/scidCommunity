@@ -4,7 +4,7 @@
 <img width="256" height="256" alt="io github whelanh scidCommunity" src="https://github.com/user-attachments/assets/26277294-00cb-4660-964d-f88f4364e9c8" />
 </p>
 
-**scidCommunity** is a powerful chess analysis and database program. Originally derived from `Scid` (Shane's Chess Information Database), it has evolved into a distinct tool with numerous enhancements and a growing community of over 2,900 users around the world.
+**scidCommunity** is a powerful chess analysis and database program. Originally derived from `Scid` (Shane's Chess Information Database), it has evolved into a distinct tool with numerous enhancements and a growing community of over 3,000 users around the world.
 
 While it maintains compatibility with the original Scid database formats, **scidCommunity** focuses on modern features like integrations with Lichess and Chess.com, user-requested improvements, and a streamlined experience for analysis and database management. **scidCommunity** is free software and is released under the GPL licence.
 
@@ -12,7 +12,7 @@ While it maintains compatibility with the original Scid database formats, **scid
 
 *Most recent changes:*
 
-1. Based on a [user request](https://github.com/whelanh/scidCommunity/discussions/188), a dedicated **.epd analysis window** is now available (and opens automatically when you open an .epd file).
+1. Based on a [user request](https://github.com/whelanh/scidCommunity/discussions/188), a dedicated **.epd analysis window** is now [available](https://github.com/whelanh/scidCommunity/discussions/192) (and opens automatically when you open an .epd file).
 2. Based on a [user request](https://github.com/whelanh/scidCommunity/discussions/176), it is now possible to open an arbitrarily large number of **Analysis Windows** by double clicking the engines in the **Configure Engines** or **Analysis Window..** pop up dialogs.
 3. Daily chess puzzle and more puzzles from Lichess with the new [**Lichess Puzzles**](https://github.com/whelanh/scidCommunity/discussions/167) feature under the **Play** menu.
 
