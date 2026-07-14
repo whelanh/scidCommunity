@@ -800,7 +800,12 @@ namespace eval sergame {
       set wtime [expr [::gameclock::getSec 1] * 1000 ]
       set btime [expr [::gameclock::getSec 2] * 1000 ]
       if {$timeMode == "timebonus"} {
-        ::sergame::sendToEngine $n "go ponder wtime $wtime btime $btime winc $::uci::uciInfo(winc$n) binc $::uci::uciInfo(binc$n)"
+        if {$::sergame::useChessClock} {
+          ::sergame::sendToEngine $n "go ponder wtime $wtime btime $btime winc $::uci::uciInfo(winc$n) binc $::uci::uciInfo(binc$n)"
+        } else {
+          set movetime [expr $::sergame::movetime > 0 ? $::sergame::movetime : 3000]
+          ::sergame::sendToEngine $n "go ponder movetime $movetime"
+        }
       } elseif {$timeMode == "depth"} {
         ::sergame::sendToEngine $n "go ponder depth $::uci::uciInfo(fixeddepth$n)"
       } elseif {$timeMode == "movetime"} {
