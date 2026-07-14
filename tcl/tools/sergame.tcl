@@ -10,6 +10,9 @@
 
 namespace eval sergame {
 
+  set ::uci::uciInfo(log_stdout1) 0
+  set ::uci::uciInfo(log_stdout2) 0
+
   # if true, follow a specific opening
   set openingMovesList {}
   set openingMovesHash {}
@@ -890,7 +893,7 @@ namespace eval sergame {
   # logEngine: optional engine communication logging
   ################################################################################
   proc logEngine {n text} {
-    if {$::uci::uciInfo(log_stdout$n)} {
+    if {[info exists ::uci::uciInfo(log_stdout$n)] && $::uci::uciInfo(log_stdout$n)} {
       puts stdout "$n $text"
     }
   }
