@@ -194,8 +194,7 @@ menuText K ToolsOpenBaseAsTree "Obrir base com a arbre" 0   {Obrir una base i ut
 menuText K ToolsOpenRecentBaseAsTree "Obrir base recent com a arbre" 0   {Obre una base recent i utilitzar-la a la Finestra Arbre (Tree)} 
 menuText K ToolsTracker "Rastrejador de peces"  14 {Obre la finestra del rastrejador de peces}
 menuText K ToolsTraining "Entrenament"  0 {Entrenament (tàctica, obertures,...}
-menuText K ToolsTacticalGame "Partida tàctica"  0 {Jugar una partida tàctica}
-menuText K ToolsSeriousGame "Partida seriosa"  0 {Jugar una partida seriosa}
+menuText K ToolsPlayVsEngine "Juga contra el motor"  0 {Juga una partida contra un motor d'escacs}
 menuText K ToolsTrainOpenings "Obertures"  0 {Entrenament amb un repertori}
 menuText K ToolsTrainReviewGame "Revisar partida"  0 {Endevina les jugades realitzades en una partida}
 menuText K ToolsTrainTactics "Tàctica"  0 {Resoldre problemes de tàctica}
@@ -1542,22 +1541,15 @@ translate K showblunderexists {Mostrar ficada de pota}
 translate K showblundervalue {Mostrar valor de la ficada de pota}
 translate K showscore {Mostrar marcador}
 translate K coachgame {Entrenador}
-translate K configurecoachgame {Configurar entrenador}
-translate K configuregame {Configuració de partida}
-translate K Phalanxengine {Motor Phalanx}
-translate K Coachengine {Motor entrenador}
-translate K difficulty {Dificultat}
-translate K hard {Dur}
-translate K easy {Fàcil}
-translate K Playwith {Juga amb}
 translate K white {blanques}
 translate K black {negres}
 translate K both {ambdos}
+translate K configurePlayEngine {Juga contra el motor}
+translate K UseChessClock {Utilitza el rellotge d'escacs}
 translate K Play {Jugar}
 translate K Noblunder {Sense errors}
 translate K blunder {Ficades de pota}
 translate K Noinfo {-- Sense informació --}
-translate K PhalanxOrTogaMissing {No es troben ni Phalanx ni Toga}
 translate K moveblunderthreshold {La jugada es un error si la pèrdua de puntuació es més gran que }
 translate K limitanalysis {Temps límit per l'anàlisi del motor}
 translate K seconds {segons}
@@ -1625,9 +1617,7 @@ translate K Lines {Línies}
 translate K ConfigureUCIengine {Configurar motor UCI}
 translate K SpecificOpening {Obertura específica}
 translate K StartNewGame {Iniciar nova partida}
-translate K FixedLevel {Nivell fix}
 translate K Opening {Obrint}
-translate K RandomLevel {Nivell aleatori}
 translate K StartFromCurrentPosition {Iniciar des de la posició actual}
 translate K FixedDepth {Profunditat fixe}
 translate K Nodes {Nodes} 

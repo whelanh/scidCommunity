@@ -176,8 +176,7 @@ menuText Z ToolsOpenBaseAsTree "Fungua msingi kama mti ..." 0   {Fungua msingi n
 menuText Z ToolsOpenRecentBaseAsTree "Fungua msingi wa hivi karibuni kama mti" 0   {Fungua msingi wa hivi karibuni na uitumie kwenye dirisha la Mti}
 menuText Z ToolsTracker "Kifuatilia Kipande"  6 {Fungua dirisha la Tracker ya kipande}
 menuText Z ToolsTraining "Mafunzo"  0 {Vyombo vya mafunzo (mbinu, fursa, ...)}
-menuText Z ToolsTacticalGame "Mchezo wa mbinu"  0 {Cheza mchezo na mbinu}
-menuText Z ToolsSeriousGame "Mchezo mzito"  0 {Cheza mchezo mzito}
+menuText Z ToolsPlayVsEngine "Cheza dhidi ya Injini"  0 {Cheza mchezo dhidi ya injini ya chess}
 menuText Z ToolsTrainOpenings "Ufunguzi"  0 {Treni na repertoire}
 menuText Z ToolsTrainReviewGame "Kagua mchezo"  0 {Nadhani hatua zinazochezwa katika mchezo}
 menuText Z ToolsTrainTactics "Mbinu"  0 {Tatua mbinu}
@@ -1498,22 +1497,15 @@ translate Z showblunderexists {show blunder ipo}
 translate Z showblundervalue {onyesha thamani ya makosa}
 translate Z showscore {onyesha alama}
 translate Z coachgame {mchezo wa kocha}
-translate Z configurecoachgame {Sanidi mchezo wa mbinu}
-translate Z configuregame {Mpangilio wa mchezo}
-translate Z Phalanxengine {Injini ya phalanx}
-translate Z Coachengine {Injini ya kocha}
-translate Z difficulty {ugumu}
-translate Z hard {ngumu}
-translate Z easy {rahisi}
-translate Z Playwith {Cheza na}
 translate Z white {nyeupe}
 translate Z black {nyeusi}
 translate Z both {zote mbili}
+translate Z configurePlayEngine {Cheza dhidi ya Injini}
+translate Z UseChessClock {Tumia saa ya chess}
 translate Z Play {Cheza}
 translate Z Noblunder {Hakuna kosa}
 translate Z blunder {blunder}
 translate Z Noinfo {-- Hakuna habari --}
-translate Z PhalanxOrTogaMissing {Phalanx au Toga haipatikani}
 translate Z moveblunderthreshold {hoja ni kosa ikiwa hasara ni kubwa kuliko}
 translate Z limitanalysis {punguza muda wa uchambuzi wa injini}
 translate Z seconds {sekunde}
@@ -1581,9 +1573,7 @@ translate Z Lines {Mistari}
 translate Z ConfigureUCIengine {Sanidi injini ya UCI}
 translate Z SpecificOpening {Ufunguzi maalum}
 translate Z StartNewGame {Anza mchezo mpya}
-translate Z FixedLevel {Kiwango kisichobadilika}
 translate Z Opening {Ufunguzi}
-translate Z RandomLevel {Kiwango cha nasibu}
 translate Z StartFromCurrentPosition {Anza kutoka kwa nafasi ya sasa}
 translate Z FixedDepth {Kina kisichobadilika}
 translate Z Nodes {Nodi}

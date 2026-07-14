@@ -217,8 +217,7 @@ menuText k ToolsOpenBaseAsTree "나무처럼 리본..." 0   {팝을 열어 트�
 menuText k ToolsOpenRecentBaseAsTree "앞으로는 트리로" 0   {기지를 유지하는 나무 창에서 사용하세요}
 menuText k ToolsTracker "조각 추적기"  6 {조각 추적기 창구}
 menuText k ToolsTraining "훈련"  0 {훈련도구(전술, 부활,...)}
-menuText k ToolsTacticalGame "게임 전술"  0 {가지고 있는 전술적 게임을 활동해보세요}
-menuText k ToolsSeriousGame "통제하는 활동"  0 {활동적인 활동을 수행합니다.}
+menuText k ToolsPlayVsEngine "플레이 대 엔진"  0 {체스 엔진과 게임을 해보세요}
 menuText k ToolsTrainOpenings "재개"  0 {레퍼토리로 훈련하기}
 menuText k ToolsTrainReviewGame "게임평론"  0 {게임에서 동작하는 동작을 취하기}
 menuText k ToolsTrainTactics "전술"  0 {문제 해결 전술}
@@ -1539,22 +1538,15 @@ translate k showblunderexists {함께가 존재함을 보여라}
 translate k showblundervalue {전투의 꼴을 보여줘}
 translate k showscore {점수 표시}
 translate k coachgame {코치게임}
-translate k configurecoachgame {게임 전술 구성}
-translate k configuregame {게임 구성}
-translate k Phalanxengine {팔랑크스 엔진}
-translate k Coachengine {코치 엔진}
-translate k difficulty {어려움}
-translate k hard {한}
-translate k easy {쉬움}
-translate k Playwith {함께 놀다}
 translate k white {하얀색}
 translate k black {검은색}
 translate k both {둘 다}
+translate k configurePlayEngine {플레이 대 엔진}
+translate k UseChessClock {체스 시계 사용}
 translate k Play {놀다}
 translate k Noblunder {ㅇ 없음}
 translate k blunder {빅데이터}
 translate k Noinfo {-- 정보 없음 --}
-translate k PhalanxOrTogaMissing {Phalanx 또는 Toga를 찾을 수 없습니다.}
 translate k moveblunderthreshold {손실이 다음보다 크면 이동은 선택입니다.}
 translate k limitanalysis {엔진 분석 시간 제한}
 translate k seconds {초}
@@ -1622,9 +1614,7 @@ translate k Lines {부분}
 translate k ConfigureUCIengine {UCI 엔진 구성}
 translate k SpecificOpening {특정개시}
 translate k StartNewGame {새로운 게임 시작}
-translate k FixedLevel {안정적인 레벨}
 translate k Opening {당신에게}
-translate k RandomLevel {레벨}
 translate k StartFromCurrentPosition {현재 위치에서 시작}
 translate k FixedDepth {고정된 크기}
 translate k Nodes {구분}

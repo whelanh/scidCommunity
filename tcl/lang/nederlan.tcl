@@ -200,8 +200,7 @@ menuText N ToolsOpenBaseAsTree "Open base als boom" 0   {Open een databank en ge
 menuText N ToolsOpenRecentBaseAsTree "Open een recente databank als boom" 0   {Open een recente databank en gebruik ze in een boom venster}
 menuText N ToolsTracker "Stuk Spoorvolger "  0 {Open het Stuk Spoorvolger venster}
 menuText N ToolsTraining "Training"  0 {Training gereedschappen (taktiek, openingen,...) }
-menuText N ToolsTacticalGame "Taktische partij"  0 {Speel een taktische partij}
-menuText N ToolsSeriousGame "Ernstige partij"  0 {Speel een ernstige partij}
+menuText N ToolsPlayVsEngine "Speel versus motor"  0 {Speel een spel tegen een schaakengine}
 menuText N ToolsTrainOpenings "Openingen "  0 {Repertoriumtraining}
 menuText N ToolsTrainReviewGame "Herspeel Partij"  0 {Zoek de zetten gespeeld in een partij}
 menuText N ToolsTrainTactics "Tactiek "  0 {Los tactische stellingen op }
@@ -1545,22 +1544,15 @@ translate N showblunderexists {toon dat er een blunder is}
 translate N showblundervalue {toon blunder waarde}
 translate N showscore {toon score}
 translate N coachgame {coach partij}
-translate N configurecoachgame {configureer coach partij}
-translate N configuregame {Partij instellingen}
-translate N Phalanxengine {Phalanx engine}
-translate N Coachengine {Coach machiee}
-translate N difficulty {moeilijkheid}
-translate N hard {erg moeilijk}
-translate N easy {gemakkelijk}
-translate N Playwith {Speel met}
 translate N white {wit}
 translate N black {zwart}
 translate N both {beide}
+translate N configurePlayEngine {Speel versus motor}
+translate N UseChessClock {Gebruik schaakklok}
 translate N Play {Spel}
 translate N Noblunder {Geen blunder}
 translate N blunder {Blunder}
 translate N Noinfo {-- Geen info --}
-translate N PhalanxOrTogaMissing {Phalanx of Toga werden niet gevonden}
 translate N moveblunderthreshold {zet is blunder als het verlies groter is dan}
 translate N limitanalysis {limiet engine analyse tijd}
 translate N seconds {seconden}
@@ -1628,9 +1620,7 @@ translate N Lines {Varianten}
 translate N ConfigureUCIengine {Configureer UCI engine}
 translate N SpecificOpening {Specifieke opening}
 translate N StartNewGame {Start nieuwe partij}
-translate N FixedLevel {Vast niveau}
 translate N Opening {Opening}
-translate N RandomLevel {Willekeurig niveau}
 translate N StartFromCurrentPosition {Start vanaf de huidige stelling}
 translate N FixedDepth {Vaste diepte}
 translate N Nodes {Knooppunten} 

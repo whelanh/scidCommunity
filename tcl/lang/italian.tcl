@@ -181,8 +181,7 @@ menuText I ToolsOpenBaseAsTree "Apri come albero..." 1   {Apre un database nella
 menuText I ToolsOpenRecentBaseAsTree "Apri recente come albero" 2   {Apre un database recente nella finestra per l'albero}
 menuText I ToolsTracker "Dislocazione dei pezzi"  0 {Apre/chiude la finestra con la traccia sulla dislocazione dei pezzi}
 menuText I ToolsTraining "Allenamento"  0 {Strumenti per l'allenamento (tattica, aperture,...) }
-menuText I ToolsTacticalGame "Partita tattica"  8 {Gioca una partita tattica}
-menuText I ToolsSeriousGame "Partita seria"  0 {Gioca una partita seria}
+menuText I ToolsPlayVsEngine "Gioca contro Engine"  0 {Gioca una partita contro un motore di scacchi}
 menuText I ToolsTrainOpenings "Aperture"  0 {Allenati con un repertorio}
 menuText I ToolsTrainReviewGame "Rivedi partita"  0 {Indovina le mosse giocate in partita}
 menuText I ToolsTrainTactics "Tattica"  0 {Risolvi problemi tattici}
@@ -1522,22 +1521,15 @@ translate I showblunderexists {mostra gli errori}
 translate I showblundervalue {mostra il valore dell'errore}
 translate I showscore {mostra il punteggio}
 translate I coachgame {partita con maestro}
-translate I configurecoachgame {configura la partita con il maestro}
-translate I configuregame {Configurazione della partita}
-translate I Phalanxengine {Motore Phalanx}
-translate I Coachengine {Motore per il maestro}
-translate I difficulty {difficoltà}
-translate I hard {difficile}
-translate I easy {facile}
-translate I Playwith {Gioca con}
 translate I white {Bianco}
 translate I black {Nero}
 translate I both {Entrambi}
+translate I configurePlayEngine {Gioca contro Engine}
+translate I UseChessClock {Usa l'orologio per gli scacchi}
 translate I Play {Gioca}
 translate I Noblunder {Nessun errore}
 translate I blunder {errore}
 translate I Noinfo {-- Nessuna info --}
-translate I PhalanxOrTogaMissing {Phalanx o Toga non trovato}
 translate I moveblunderthreshold {la mossa è un errore se la perdita è maggiore di}
 translate I limitanalysis {limita il tempo di analisi del motore}
 translate I seconds {secondi}
@@ -1605,9 +1597,7 @@ translate I Lines {Linee}
 translate I ConfigureUCIengine {Configura il motore UCI}
 translate I SpecificOpening {Apertura Specifica}
 translate I StartNewGame {Inizia una nuova partita}
-translate I FixedLevel {Livello prefissato}
 translate I Opening {Apertura}
-translate I RandomLevel {Livello casuale}
 translate I StartFromCurrentPosition {Parti dalla posizione attuale}
 translate I FixedDepth {Profondità fissa}
 translate I Nodes {Nodi}

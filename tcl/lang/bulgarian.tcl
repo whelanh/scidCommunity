@@ -217,8 +217,7 @@ menuText g ToolsOpenBaseAsTree "Отворена основа като дърв�
 menuText g ToolsOpenRecentBaseAsTree "Отворете скорошната база като дърво" 0   {Отворете скорошна база и я използвайте в дървовидния прозорец}
 menuText g ToolsTracker "Проследяване на парчета"  6 {Отворете прозореца на Piece Tracker}
 menuText g ToolsTraining "обучение"  0 {Инструменти за обучение (тактики, отваряния,...)}
-menuText g ToolsTacticalGame "Тактическа игра"  0 {Играйте игра с тактика}
-menuText g ToolsSeriousGame "Сериозна игра"  0 {Играйте сериозна игра}
+menuText g ToolsPlayVsEngine "Играйте срещу двигател"  0 {Играйте игра срещу шах двигател}
 menuText g ToolsTrainOpenings "Отвори"  0 {Тренирайте с репертоар}
 menuText g ToolsTrainReviewGame "Преглед на играта"  0 {Познайте ходове, изиграни в игра}
 menuText g ToolsTrainTactics "Тактика"  0 {Решете тактика}
@@ -1539,22 +1538,15 @@ translate g showblunderexists {покажете, че гафът съществ�
 translate g showblundervalue {покажете стойност на грешка}
 translate g showscore {покажи резултат}
 translate g coachgame {треньорска игра}
-translate g configurecoachgame {Конфигуриране на тактическа игра}
-translate g configuregame {Конфигурация на играта}
-translate g Phalanxengine {Фалангов двигател}
-translate g Coachengine {Двигател за автобус}
-translate g difficulty {трудност}
-translate g hard {трудно}
-translate g easy {лесно}
-translate g Playwith {Играйте с}
 translate g white {бяло}
 translate g black {черен}
 translate g both {и двете}
+translate g configurePlayEngine {Играйте срещу двигател}
+translate g UseChessClock {Use chess clock}
 translate g Play {Играйте}
 translate g Noblunder {Без гаф}
 translate g blunder {гаф}
 translate g Noinfo {-- Няма информация --}
-translate g PhalanxOrTogaMissing {Фаланга или Тога не са намерени}
 translate g moveblunderthreshold {ходът е грешка, ако загубата е по-голяма от}
 translate g limitanalysis {ограничаване на времето за анализ на двигателя}
 translate g seconds {секунди}
@@ -1622,9 +1614,7 @@ translate g Lines {линии}
 translate g ConfigureUCIengine {Конфигурирайте UCI двигателя}
 translate g SpecificOpening {Специфичен отвор}
 translate g StartNewGame {Започнете нова игра}
-translate g FixedLevel {Фиксирано ниво}
 translate g Opening {Отваряне}
-translate g RandomLevel {Случайно ниво}
 translate g StartFromCurrentPosition {Започнете от текущата позиция}
 translate g FixedDepth {Фиксирана дълбочина}
 translate g Nodes {Възли}

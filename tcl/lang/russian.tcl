@@ -183,8 +183,7 @@ menuText R ToolsOpenBaseAsTree "Открыть базу в виде дерева
 menuText R ToolsOpenRecentBaseAsTree "Открыть последнюю базу как дерево" 0   {Открывает последнюю базу и использует её в древовидном окне}
 menuText R ToolsTracker "Положение фигуры"  4 {Открыть окно положения фигуры}
 menuText R ToolsTraining "Обучение"  0 {Обучающие инструменты (тактика, дебюты, ...)}
-menuText R ToolsTacticalGame "Тактические партии"  0 {Играть тактические партии}
-menuText R ToolsSeriousGame "Серьёзная игра"  0 {Играть серьёзную партию}
+menuText R ToolsPlayVsEngine "Игра против движка"  0 {Сыграйте в игру против шахматного движка}
 menuText R ToolsTrainOpenings "Дебюты"  0 {Тренировки с репертуаром}
 menuText R ToolsTrainReviewGame "Обзор партии"  0 {Обдумывание сделанных ходов}
 menuText R ToolsTrainTactics "Тактика"  0 {Решать тактические задачи}
@@ -1522,22 +1521,15 @@ translate R showblunderexists {показать существующие оши�
 translate R showblundervalue {показать вес ошибок}
 translate R showscore {показать счёт}
 translate R coachgame {тренировочная партия}
-translate R configurecoachgame {Настроить тренировочную партию}
-translate R configuregame {Настройка партии}
-translate R Phalanxengine {Движок Phalanx}
-translate R Coachengine {Движок тренера}
-translate R difficulty {Сложность}
-translate R hard {высокая}
-translate R easy {низкая}
-translate R Playwith {Играть с}
 translate R white {белые}
 translate R black {чёрные}
 translate R both {оба}
+translate R configurePlayEngine {Игра против движка}
+translate R UseChessClock {Используйте шахматные часы}
 translate R Play {Играть}
 translate R Noblunder {Без ошибок}
 translate R blunder {ошибка}
 translate R Noinfo {-- Нет информации --}
-translate R PhalanxOrTogaMissing {Phalanx или Toga не найдены}
 translate R moveblunderthreshold {ход ошибочен, если потеряно более чем}
 translate R limitanalysis {предельное время анализа движка}
 translate R seconds {секунд}
@@ -1605,9 +1597,7 @@ translate R Lines {Планы}
 translate R ConfigureUCIengine {Настройка UCI движка}
 translate R SpecificOpening {Особый дебют}
 translate R StartNewGame {Начать новую партию}
-translate R FixedLevel {Фиксированный уровень}
 translate R Opening {Дебют}
-translate R RandomLevel {Случайный уровень}
 translate R StartFromCurrentPosition {Начать с текущей позиции}
 translate R FixedDepth {Фиксированная глубина}
 translate R Nodes {Узлы}

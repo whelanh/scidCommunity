@@ -181,8 +181,7 @@ menuText H ToolsOpenBaseAsTree "Adatbázis megnyitása faként" 10   {Faszerkeze
 menuText H ToolsOpenRecentBaseAsTree "Nemrég használt adatbázis megnyitása faként" 7   {Faszerkezet-ablakban megnyit egy nemrég használt adatbázist.}
 menuText H ToolsTracker "Figurakövetõ"  0 {Kinyitja/becsukja a figurakövetõ ablakot.}
 menuText H ToolsTraining "Edzés"  0 {Segédeszközök edzéshez (taktika, megnyitás,...) }
-menuText H ToolsTacticalGame "Taktikai játszma"  0 {Taktikai jellegû játszma kezdése}
-menuText H ToolsSeriousGame "Komoly játszma"  0 {Komoly játszma kezdése}
+menuText H ToolsPlayVsEngine "Play versus Engine"  0 {Játssz egy játékot sakkmotor ellen}
 menuText H ToolsTrainOpenings "Megnyitás"  0 {Edzés repertoárral}
 menuText H ToolsTrainReviewGame "Játék áttekintése"  0 {Találd meg a játékban játszott mozdulatokat}
 menuText H ToolsTrainTactics "Taktika"  0 {Feladványok megfejtése}
@@ -1521,22 +1520,15 @@ translate H showblunderexists {Jelezd a durva hibát}
 translate H showblundervalue {Mutasd a durva hiba mértékét}
 translate H showscore {Mutasd az értékelést}
 translate H coachgame {Edzõ bekapcsolása}
-translate H configurecoachgame {Edzõs üzemmód beállításai}
-translate H configuregame {Játszmabeállítások}
-translate H Phalanxengine {Phalanx}
-translate H Coachengine {Edzõmotor}
-translate H difficulty {Nehézség}
-translate H hard {nehéz}
-translate H easy {könnyû}
-translate H Playwith {Színed}
 translate H white {világos}
 translate H black {sötét}
 translate H both {mindkettõ}
+translate H configurePlayEngine {Play versus Engine}
+translate H UseChessClock {Használj sakkórát}
 translate H Play {Játék}
 translate H Noblunder {Nincs durva hiba}
 translate H blunder {durva hiba}
 translate H Noinfo {-- Nincs adat --}
-translate H PhalanxOrTogaMissing {Phalanx vagy Toga nincs meg}
 translate H moveblunderthreshold {egy lépés durva hiba, ha a veszteség nagyobb mint}
 translate H limitanalysis {A motor ennyi ideig elemezhet}
 translate H seconds {másodperc}
@@ -1604,9 +1596,7 @@ translate H Lines {Változatok}
 translate H ConfigureUCIengine {UCI-motor beállítása}
 translate H SpecificOpening {Meghatározott megnyitás}
 translate H StartNewGame {Új játszma}
-translate H FixedLevel {Megadott szint}
 translate H Opening {Megnyitás}
-translate H RandomLevel {Véletlen szint}
 translate H StartFromCurrentPosition {Ez legyen a kezdõállás}
 translate H FixedDepth {Adott mélység}
 translate H Nodes {Csomópont} 

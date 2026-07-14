@@ -211,6 +211,8 @@ menuText Y ToolsTracker "Piece Tracker"  0 {Open the Piece Tracker window} ;# **
 # ====== TODO To be translated ======
 menuText Y ToolsTraining "Training"  0 {Training tools (tactics, openings,...) }
 # ====== TODO To be translated ======
+menuText Y ToolsPlayVsEngine "Play versus Engine"  0 {Play a game against a chess engine}
+# ====== TODO To be translated ======
 menuText Y ToolsTacticalGame "Tactical game"  0 {Play a game with tactics}
 # ====== TODO To be translated ======
 menuText Y ToolsSeriousGame "Serious game"  0 {Play a serious game}
@@ -2498,6 +2500,10 @@ translate Y black {black}
 # ====== TODO To be translated ======
 translate Y both {both}
 # ====== TODO To be translated ======
+translate Y configurePlayEngine {Play versus Engine}
+# ====== TODO To be translated ======
+translate Y UseChessClock {Use chess clock}
+# ====== TODO To be translated ======
 translate Y Play {Play}
 # ====== TODO To be translated ======
 translate Y Noblunder {No blunder}
@@ -3183,3 +3189,4 @@ translate Y TBNotFound {Position not found in tablebase or API error.}
 translate Y TBCategory {Position Category:}
 # ====== TODO To be translated ======
 translate Y TBTrainingHidden {(Training mode; results are hidden)}
+

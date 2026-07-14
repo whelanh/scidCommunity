@@ -177,8 +177,7 @@ menuText V ToolsOpenBaseAsTree "בסיס פתוח כעץ..." 0   {פתח בסי�
 menuText V ToolsOpenRecentBaseAsTree "פתח את הבסיס האחרון כעץ" 0   {פתח בסיס אחרון והשתמש בו בחלון עץ}
 menuText V ToolsTracker "Piece Tracker"  6 {פתח את החלון Piece Tracker}
 menuText V ToolsTraining "הַדְרָכָה"  0 {כלי אימון (טקטיקות, פתיחות,...)}
-menuText V ToolsTacticalGame "משחק טקטי"  0 {שחק משחק עם טקטיקה}
-menuText V ToolsSeriousGame "משחק רציני"  0 {שחק משחק רציני}
+menuText V ToolsPlayVsEngine "משחק מול מנוע"  0 {שחקו משחק נגד מנוע שחמט}
 menuText V ToolsTrainOpenings "פתחים"  0 {אימון עם רפרטואר}
 menuText V ToolsTrainReviewGame "סקירת משחק"  0 {נחש מהלכים ששיחקו במשחק}
 menuText V ToolsTrainTactics "טַקטִיקָה"  0 {לפתור טקטיקות}
@@ -1499,22 +1498,15 @@ translate V showblunderexists {להראות טעות קיימת}
 translate V showblundervalue {להראות ערך טעות}
 translate V showscore {להראות ציון}
 translate V coachgame {משחק מאמן}
-translate V configurecoachgame {הגדר משחק טקטי}
-translate V configuregame {תצורת המשחק}
-translate V Phalanxengine {מנוע פלנקס}
-translate V Coachengine {מנוע אוטובוס}
-translate V difficulty {קוֹשִׁי}
-translate V hard {קָשֶׁה}
-translate V easy {קַל}
-translate V Playwith {לשחק עם}
 translate V white {לָבָן}
 translate V black {שָׁחוֹר}
 translate V both {שְׁנֵיהֶם}
+translate V configurePlayEngine {משחק מול מנוע}
+translate V UseChessClock {השתמש בשעון שחמט}
 translate V Play {לְשַׂחֵק}
 translate V Noblunder {בלי טעות}
 translate V blunder {לְפַשֵׁל}
 translate V Noinfo {-- אין מידע --}
-translate V PhalanxOrTogaMissing {פלנקס או טוגה לא נמצאו}
 translate V moveblunderthreshold {המעבר הוא טעות אם ההפסד גדול מ}
 translate V limitanalysis {להגביל את זמן ניתוח המנוע}
 translate V seconds {שניות}
@@ -1582,9 +1574,7 @@ translate V Lines {קווים}
 translate V ConfigureUCIengine {Configure UCI engine}
 translate V SpecificOpening {פתיחה ספציפית}
 translate V StartNewGame {התחל משחק חדש}
-translate V FixedLevel {רמה קבועה}
 translate V Opening {פְּתִיחָה}
-translate V RandomLevel {רמה אקראית}
 translate V StartFromCurrentPosition {התחל מהמיקום הנוכחי}
 translate V FixedDepth {עומק קבוע}
 translate V Nodes {צמתים}

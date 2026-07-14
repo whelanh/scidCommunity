@@ -196,8 +196,7 @@ menuText S ToolsOpenBaseAsTree "Abrir base como árbol" 0   {Abrir una base y us
 menuText S ToolsOpenRecentBaseAsTree "Abrir base reciente como árbol" 0   {Abre una base reciente y la usa en ventana de árbol (Tree)} 
 menuText S ToolsTracker "Rastreador de piezas"  14 {Abre la ventana del rastreador de piezas}
 menuText S ToolsTraining "Entrenamiento"  0 {Entrenamiento (táctica, aperturas,...)}
-menuText S ToolsTacticalGame "Partida táctica..."  0 {Juega una partida táctica}
-menuText S ToolsSeriousGame "Partida seria..."  0 {Juega una partida seria}
+menuText S ToolsPlayVsEngine "Juego versus motor"  0 {Juega una partida contra un motor de ajedrez}
 menuText S ToolsTrainOpenings "Entrenamiento de aperturas"  0 {Entrenamiento con un repertorio}
 menuText S ToolsTrainReviewGame "Revisar partida"  0 {Adivina movimientos jugados en una partida}
 menuText S ToolsTrainTactics "Táctica (problemas)"  0 {Resuelve problemas de táctica}
@@ -1573,22 +1572,15 @@ translate S showblunderexists {Mostrar metedura de pata}
 translate S showblundervalue {Mostrar valor de la metedura de pata}
 translate S showscore {Mostrar marcador}
 translate S coachgame {Entrenador}
-translate S configurecoachgame {Configurar entrenador}
-translate S configuregame {Configuración de partida}
-translate S Phalanxengine {Motor Phalanx}
-translate S Coachengine {Motor entrenador}
-translate S difficulty {Dificultad}
-translate S hard {Duro}
-translate S easy {Fácil}
-translate S Playwith {Juega con}
 translate S white {blancas}
 translate S black {negras}
 translate S both {ambos}
+translate S configurePlayEngine {Juego versus motor}
+translate S UseChessClock {Usa el reloj de ajedrez}
 translate S Play {Jugar}
 translate S Noblunder {Sin errores}
 translate S blunder {Meteduras de pata}
 translate S Noinfo {-- Sin información --}
-translate S PhalanxOrTogaMissing {Phalanx o Toga no encontrado}
 translate S moveblunderthreshold {El movimiento es una metedura de pata si la pérdida de puntuación es mayor que }
 translate S limitanalysis {Tiempo límite para análisis del motor}
 translate S seconds {segundos}
@@ -1656,9 +1648,7 @@ translate S Lines {Líneas}
 translate S ConfigureUCIengine {Configurar motor UCI}
 translate S SpecificOpening {Apertura específica}
 translate S StartNewGame {Empezar partida nueva}
-translate S FixedLevel {Nivel fijado}
 translate S Opening {Abriendo}
-translate S RandomLevel {Nivel aleatorio}
 translate S StartFromCurrentPosition {Empezar desde la posición actual}
 translate S FixedDepth {Profundidad fija}
 translate S Nodes {Nodos} 

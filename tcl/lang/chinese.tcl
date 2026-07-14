@@ -155,8 +155,7 @@ menuText M ToolsOpenBaseAsTree "打开数据库到树窗口..." 0 {打开数据�
 menuText M ToolsOpenRecentBaseAsTree "打开最近的数据库到树窗口" 0 {打开最近的数据库并在树窗口中使用}
 menuText M ToolsTracker "棋子追踪器"  6 {打开棋子追踪器窗口}
 menuText M ToolsTraining "训练"  0 {训练工具（战术、开局等）}
-menuText M ToolsTacticalGame "战术对局"  0 {进行战术对局}
-menuText M ToolsSeriousGame "认真对局"  0 {进行认真对局}
+menuText M ToolsPlayVsEngine "游戏与引擎"  0 {与国际象棋引擎玩游戏}
 menuText M ToolsTrainOpenings "开局"  0 {使用开局谱训练}
 menuText M ToolsTrainReviewGame "复盘"  0 {猜测对局中的着法}
 menuText M ToolsTrainTactics "战术"  0 {解决战术问题}
@@ -1474,22 +1473,15 @@ translate M showblunderexists {显示存在错误}
 translate M showblundervalue {显示错误值}
 translate M showscore {显示分数}
 translate M coachgame {教练比赛}
-translate M configurecoachgame {配置战术游戏}
-translate M configuregame {游戏配置}
-translate M Phalanxengine {方阵发动机}
-translate M Coachengine {客车发动机}
-translate M difficulty {困难}
-translate M hard {难的}
-translate M easy {简单的}
-translate M Playwith {玩}
 translate M white {白色的}
 translate M black {黑色的}
 translate M both {两个都}
+translate M configurePlayEngine {游戏与引擎}
+translate M UseChessClock {使用国际象棋时钟}
 translate M Play {玩}
 translate M Noblunder {没有失误}
 translate M blunder {错误}
 translate M Noinfo {-- 暂无信息 --}
-translate M PhalanxOrTogaMissing {未找到方阵或托加}
 translate M moveblunderthreshold {如果损失大于，则移动是错误的}
 translate M limitanalysis {限制引擎分析时间}
 translate M seconds {秒}
@@ -1557,9 +1549,7 @@ translate M Lines {线路}
 translate M ConfigureUCIengine {配置UCI引擎}
 translate M SpecificOpening {具体开盘}
 translate M StartNewGame {开始新游戏}
-translate M FixedLevel {固定级别}
 translate M Opening {开幕}
-translate M RandomLevel {随机等级}
 translate M StartFromCurrentPosition {从当前位置开始}
 translate M FixedDepth {固定深度}
 translate M Nodes {节点}

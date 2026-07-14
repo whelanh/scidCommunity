@@ -177,8 +177,7 @@ menuText C ToolsOpenBaseAsTree "Otevt databzi jako strom" 0   {Otevt databzi a p
 menuText C ToolsOpenRecentBaseAsTree "Otevt nedvnou databzi jako strom" 0   {Otevt nedvnou databzi a pout ji ve stromovm okn}
 menuText C ToolsTracker "Stopa figur"  0 {Otevt okno stopae figur}
 menuText C ToolsTraining "Trnink"  0 {Trninkov nstroje (taktika, zahjen,...) }
-menuText C ToolsTacticalGame "Taktick partie"  0 {Hrt partii s taktickm zamenm}
-menuText C ToolsSeriousGame "Vn partie"  0 {Hrt vnou partii}
+menuText C ToolsPlayVsEngine "Play versus Engine"  0 {Zahrajte si hru proti šachovému motoru}
 menuText C ToolsTrainOpenings "Zahjen"  0 {Trnovat s repertorem zahjen}
 menuText C ToolsTrainReviewGame "Projt partii"  0 {Hdat tahy sehran v partii}
 menuText C ToolsTrainTactics "Taktika"  0 {eit taktick koly}
@@ -1520,22 +1519,15 @@ translate C showblunderexists {ukzat ptomnost hrub chyby}
 translate C showblundervalue {ukzat hodnotu hrub chyby}
 translate C showscore {ukzat skre}
 translate C coachgame {kouovac partie}
-translate C configurecoachgame {konfigurovat kouovac partii}
-translate C configuregame {Konfigurace partie}
-translate C Phalanxengine {Hern program phalanx}
-translate C Coachengine {Kouovac hern program}
-translate C difficulty {obtnost}
-translate C hard {nron}
-translate C easy {snadn}
-translate C Playwith {Hrt s}
 translate C white {bl}
 translate C black {ern}
 translate C both {oba}
+translate C configurePlayEngine {Play versus Engine}
+translate C UseChessClock {Použijte šachové hodiny}
 translate C Play {Hrt}
 translate C Noblunder {dn hrub chyba}
 translate C blunder {hrub chyba}
 translate C Noinfo {-- dn informace --}
-translate C PhalanxOrTogaMissing {Phalanx nebo Toga nenalezen}
 translate C moveblunderthreshold {chyba je hrub, jestlie ztrta je vt ne}
 translate C limitanalysis {omezit as analzy hernho programu}
 translate C seconds {sekund}
@@ -1603,9 +1595,7 @@ translate C Lines {Varianty}
 translate C ConfigureUCIengine {Konfigurovat nstroj UCI}
 translate C SpecificOpening {Vybran zahjen}
 translate C StartNewGame {Zat novou hru}
-translate C FixedLevel {Pevn rove}
 translate C Opening {Zahjen}
-translate C RandomLevel {Nhodn rove}
 translate C StartFromCurrentPosition {Zat z aktuln pozice}
 translate C FixedDepth {Pevn hloubka}
 translate C Nodes {Uzly} 
