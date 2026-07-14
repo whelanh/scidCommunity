@@ -637,6 +637,7 @@ namespace eval sergame {
 
     if { [sc_pos side] != $::sergame::engineColor } {
       set ::sergame::waitPlayerMove 1
+      ::sergame::updateAnalysisText
       after 1000 ::sergame::engineGo $n
       return
     }
@@ -645,6 +646,8 @@ namespace eval sergame {
     set takebackClockB ""
     if {$::sergame::waitPlayerMove} {
       set ::sergame::waitPlayerMove 0
+      lappend ::sergame::lscore $::uci::uciInfo(score2)
+      set ::sergame::lscore [lrange $::sergame::lscore end-1 end]
       set takebackClockW [::gameclock::getSec 1]
       set takebackClockB [::gameclock::getSec 2]
       clocks toggle $n
