@@ -726,7 +726,7 @@ namespace eval sergame {
       set ::analysis(waitForReadyOk$n) 0
       ::sergame::sendToEngine $n "isready"
       vwaitTimed ::analysis(waitForReadyOk$n) 5000 "nowarn"
-      if {$::analysis(waitForReadyOk$n) == 0} {
+      if {$::analysis(waitForReadyOk$n) != 0} {
         # Timeout - abort engine operation
         tk_messageBox -type ok -icon error -parent .main -title "Engine Error" -message "Engine did not respond to isready"
         ::sergame::abortGame
