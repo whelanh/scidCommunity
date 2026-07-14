@@ -21,6 +21,7 @@ proc ::engineNoWin::initEngine { id engine callback } {
     }
     if {[catch {::engine::connect $id $callback $cmd $args} err]} {
         if {[info exists oldwdir]} { cd $oldwdir }
+        unset -nocomplain ::enginecfg::engConfig_$id
         error $err
     }
     if {[info exists oldwdir]} { cd $oldwdir }
