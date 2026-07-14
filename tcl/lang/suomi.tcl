@@ -215,8 +215,7 @@ menuText U ToolsOpenBaseAsTree "Avaa kanta puuna..." 0   {Avaa tietokanta ja kä
 menuText U ToolsOpenRecentBaseAsTree "Avaa viimeaikainen kanta puuna" 1   {Avaa viimeaikainen tietokanta ja käsittele sitä puurakenteena}
 menuText U ToolsTracker "Nappuloiden liikkuminen"  0 {Avaa ikkuna, jossa seuraat napppuloiden sijaintia ja liikkumista laudalla}
 menuText U ToolsTraining "Valmennus"  2 {Työkaluja valmennukseen (taktiikka, avaukset...) }
-menuText U ToolsTacticalGame "Taktinen peli"  2 {Pelaa taktisesti painottunut peli}
-menuText U ToolsSeriousGame "Virallinen peli"  7 {Pelaa virallinen peli}
+menuText U ToolsPlayVsEngine "Pelaa versus Engine"  0 {Pelaa peliä shakkimoottoria vastaan}
 menuText U ToolsTrainOpenings "Avaukset"  5 {Harjoittele repertuaariasi}
 menuText U ToolsTrainReviewGame "Arvaa siirto"  11 {Arvaa pelin seuraava siirto}
 menuText U ToolsTrainTactics "Taktiikkaharjoitukset"  9 {Ratko taktiikoita}
@@ -1551,22 +1550,15 @@ translate U showblunderexists {näytä virheet}
 translate U showblundervalue {näytä virheen pistearvo}
 translate U showscore {näytä tulos}
 translate U coachgame {valmennus}
-translate U configurecoachgame {Taktisen pelin asetukset}
-translate U configuregame {Peliasetukset}
-translate U Phalanxengine {Phalanx-moottori}
-translate U Coachengine {Valmennusmoottori}
-translate U difficulty {vaikeusaste}
-translate U hard {vaikea}
-translate U easy {helppo}
-translate U Playwith {Pelaa}
 translate U white {valeilla}
 translate U black {mustilla}
 translate U both {molemmilla}
+translate U configurePlayEngine {Pelaa versus Engine}
+translate U UseChessClock {Käytä shakkikelloa}
 translate U Play {Pelaa}
 translate U Noblunder {Ei virhe}
 translate U blunder {virhe}
 translate U Noinfo {-- Ei info --}
-translate U PhalanxOrTogaMissing {Phalanx tai Toga ei löydy}
 translate U moveblunderthreshold {sirto on virhe, jos tappio on enemmän kuin}
 translate U limitanalysis {rajoita koneanalyysin aikaa}
 translate U seconds {sekuntia}
@@ -1634,9 +1626,7 @@ translate U Lines {Muunnelmat}
 translate U ConfigureUCIengine {UCI-moottorin asetukset}
 translate U SpecificOpening {Tietty avaus}
 translate U StartNewGame {Aloita uusi peli}
-translate U FixedLevel {Kiinteä taso}
 translate U Opening {Avaus}
-translate U RandomLevel {Satunnainen taso}
 translate U StartFromCurrentPosition {Aloita tämänhetkisestä asemasta}
 translate U FixedDepth {Kiinteä syvyys}
 translate U Nodes {Noodit}

@@ -217,8 +217,7 @@ menuText J ToolsOpenBaseAsTree "Отворена база као дрво..." 0 
 menuText J ToolsOpenRecentBaseAsTree "Отворите недавну базу као стабло" 0   {Отворите недавну базу и користите је у прозору Трее}
 menuText J ToolsTracker "Пиеце Трацкер"  6 {Отворите прозор Пиеце Трацкер}
 menuText J ToolsTraining "Обука"  0 {Алати за обуку (тактике, отвори,...)}
-menuText J ToolsTacticalGame "Тактичка игра"  0 {Играјте игру са тактиком}
-menuText J ToolsSeriousGame "Озбиљна игра"  0 {Играјте озбиљну игру}
+menuText J ToolsPlayVsEngine "Играј против мотора"  0 {Играјте игру против шаховске машине}
 menuText J ToolsTrainOpenings "Отвори"  0 {Тренирајте са репертоаром}
 menuText J ToolsTrainReviewGame "Преглед игре"  0 {Погодите потезе одигране у игри}
 menuText J ToolsTrainTactics "Тактика"  0 {Решите тактику}
@@ -1539,22 +1538,15 @@ translate J showblunderexists {показати да грешка постоји
 translate J showblundervalue {показати вредност грешке}
 translate J showscore {схов сцоре}
 translate J coachgame {тренерска игра}
-translate J configurecoachgame {Конфигуришите тактичку игру}
-translate J configuregame {Конфигурација игре}
-translate J Phalanxengine {Пхаланк мотор}
-translate J Coachengine {Мотор за аутобусе}
-translate J difficulty {тешкоћа}
-translate J hard {тешко}
-translate J easy {лако}
-translate J Playwith {Играј се са}
 translate J white {бела}
 translate J black {црна}
 translate J both {обоје}
+translate J configurePlayEngine {Играј против мотора}
+translate J UseChessClock {Користите шаховски сат}
 translate J Play {Играј}
 translate J Noblunder {Нема грешке}
 translate J blunder {грешка}
 translate J Noinfo {-- Нема информација --}
-translate J PhalanxOrTogaMissing {Фаланга или Тога нису пронађени}
 translate J moveblunderthreshold {потез је грешка ако је губитак већи од}
 translate J limitanalysis {ограничити време анализе мотора}
 translate J seconds {секунди}
@@ -1622,9 +1614,7 @@ translate J Lines {Линије}
 translate J ConfigureUCIengine {Конфигуришите УЦИ мотор}
 translate J SpecificOpening {Специфично отварање}
 translate J StartNewGame {Започните нову игру}
-translate J FixedLevel {Фиксни ниво}
 translate J Opening {Отварање}
-translate J RandomLevel {Случајни ниво}
 translate J StartFromCurrentPosition {Почните са тренутне позиције}
 translate J FixedDepth {Фиксна дубина}
 translate J Nodes {Чворови}

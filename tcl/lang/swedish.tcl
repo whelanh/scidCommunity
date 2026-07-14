@@ -184,8 +184,7 @@ menuText W ToolsOpenBaseAsTree "Öppna databas som träd" 0   {Öppna en databas
 menuText W ToolsOpenRecentBaseAsTree "Öppna senaste databasen som träd" 0   {Öppna den senaste databasen och använd den i Trädfönstret}
 menuText W ToolsTracker "Sök material"  0 {Öppnar dialog för att söka efter en viss materiell balans} 
 menuText W ToolsTraining "Träning"  0 {Träningsverktyg (taktik, öppningar,...) }
-menuText W ToolsTacticalGame "Taktiskt parti"  0 {Spela ett parti med taktik}
-menuText W ToolsSeriousGame "Seriöst parti"  0 {Spela ett seriöst parti}
+menuText W ToolsPlayVsEngine "Spela mot motor"  0 {Spela ett parti mot en schackmotor}
 menuText W ToolsTrainOpenings "Öppningar"  0 {Träna med en repetoar}
 menuText W ToolsTrainReviewGame "Granska parti"  0 {Gissa drag spelade i ett parti}
 menuText W ToolsTrainTactics "Taktik"  0 {Lösa taktik}
@@ -1526,22 +1525,15 @@ translate W showblunderexists {visa blunder finns}
 translate W showblundervalue {visa blundervärde}
 translate W showscore {visa värdering}
 translate W coachgame {tränarparti}
-translate W configurecoachgame {konfigurera tränarparti}
-translate W configuregame {Konfigurera parti}
-translate W Phalanxengine {Phalanx schackmotor}
-translate W Coachengine {Tränarschackmotor}
-translate W difficulty {svårighetsgrad}
-translate W hard {svår}
-translate W easy {lätt}
-translate W Playwith {Spela med}
 translate W white {vit}
 translate W black {svart}
 translate W both {båda}
+translate W configurePlayEngine {Spela mot motor}
+translate W UseChessClock {Använd schackklocka}
 translate W Play {Spela}
 translate W Noblunder {Ingen blunder}
 translate W blunder {blunder}
 translate W Noinfo {-- Ingen information --}
-translate W PhalanxOrTogaMissing {Phalanx eller Toga hittades inte}
 translate W moveblunderthreshold {drag är en blunder om förlust är större än}
 translate W limitanalysis {begränsa schackmotors analystid}
 translate W seconds {sekunder}
@@ -1609,9 +1601,7 @@ translate W Lines {Variationer}
 translate W ConfigureUCIengine {Konfigurera UCI-schackmotor}
 translate W SpecificOpening {Specifik öppning}
 translate W StartNewGame {Starta nytt parti}
-translate W FixedLevel {Fast nivå}
 translate W Opening {Öppning}
-translate W RandomLevel {Slumpmässig nivå}
 translate W StartFromCurrentPosition {Starta från den aktuella positionen}
 translate W FixedDepth {Fast sökdjup}
 translate W Nodes {Noder} 

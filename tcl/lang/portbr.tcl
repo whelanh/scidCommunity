@@ -182,8 +182,7 @@ menuText B ToolsOpenBaseAsTree "Abre base como árvore" 0   {Abre uma base e a u
 menuText B ToolsOpenRecentBaseAsTree "Abre base recente como árvore" 0   {Abre uma base recente e a utiliza numa janela de árvore}
 menuText B ToolsTracker "Acompanha Peça"  0 {Abre a janela de acompanhamento de peças} 
 menuText B ToolsTraining "Treinamento"  0 {Ferramentas de Treinamento (táticas, aberturas,...) }
-menuText B ToolsTacticalGame "Jogo Tático"  0 {Jogar com táticas}
-menuText B ToolsSeriousGame "Jogo Sério"  0 {Jogar um jogo sério}
+menuText B ToolsPlayVsEngine "Jogue contra o motor"  0 {Jogue contra um motor de xadrez}
 menuText B ToolsTrainOpenings "Aberturas"  0 {Treinamento com um repertório}
 menuText B ToolsTrainReviewGame "Rever jogo"  0 {Acompanhar movimentos de um jogo}
 menuText B ToolsTrainTactics "Táticas"  0 {Exercícios de tática}
@@ -1528,22 +1527,15 @@ translate B showblunderexists {mostra que existe um erro crasso}
 translate B showblundervalue {mostra o valor do erro crasso}
 translate B showscore {mostra o score}
 translate B coachgame {auxílio ao jogo}
-translate B configurecoachgame {configura auxílio ao jogo}
-translate B configuregame {Configuração do jogo}
-translate B Phalanxengine {Engine Phalanx}
-translate B Coachengine {Engine de auxílio}
-translate B difficulty {dificuldade}
-translate B hard {difícil}
-translate B easy {fácil}
-translate B Playwith {Jogar com}
 translate B white {brancas}
 translate B black {pretas}
 translate B both {ambas}
+translate B configurePlayEngine {Jogue contra o motor}
+translate B UseChessClock {Use o relógio de xadrez}
 translate B Play {Jogar}
 translate B Noblunder {Nenhum erro crasso}
 translate B blunder {erro crasso}
 translate B Noinfo {-- Sem informações --}
-translate B PhalanxOrTogaMissing {Phalanx ou Toga não encontrado}
 translate B moveblunderthreshold {movimento é um erro crasso se a perda  maior que}
 translate B limitanalysis {limita tempo de análise do engine}
 translate B seconds {segundos}
@@ -1611,9 +1603,7 @@ translate B Lines {Linhas}
 translate B ConfigureUCIengine {Configurar engine UCI}
 translate B SpecificOpening {Abertura específica}
 translate B StartNewGame {Iniciar novo jogo}
-translate B FixedLevel {Nível fixo}
 translate B Opening {Abertura}
-translate B RandomLevel {Nível aleatório}
 translate B StartFromCurrentPosition {Iniciar a partir da posição corrente}
 translate B FixedDepth {Profundidade fixa}
 translate B Nodes {Ns} 

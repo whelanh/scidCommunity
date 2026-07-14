@@ -35,7 +35,7 @@ set helpText(Contents) {<h1>scidCommunity Help Contents</h1>
   <li><a PTracker><b>Piece Tracker</b></a></li>
   <li><a PList><b>Player Finder</b> window</a></li>
   <li><a PInfo><b>Player Info</b> window</a></li>
-  <li><a TacticalGame><b>Tactical game</b> window</a></li>
+  <li><a PlayVsEngine><b>Play vs Engine</b> window</a></li>
   <li><a Tmt><b>Tournament Finder</b> window</a></li>
   <li><a Tree><b>Tree</b> window</a></li>
   <li><a Graphs><b>Graph</b> windows</a></li>
@@ -226,8 +226,7 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   <li><a PList>Player Finder</a> window</li>
   <li><a PInfo>Player Info</a> window</li>
   <li><a Reports Player>Player report</a> window</li>
-  <li><a TacticalGame>Play tactical game</a></li>
-  <li><a SeriousGame>Play serious game</a></li>
+  <li><a PlayVsEngine>Play versus Engine</a></li>
   </ul>
   
   <h3>Q</h3>
@@ -245,7 +244,6 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   <li><a Searches Filter>Search filter</a></li>
   <li><a Menus Search>Search menu</a></li>
   <li><a Searches>Searches</a></li>
-  <li><a SeriousGame>Play serious game</a></li>
   <li><a Sorting>Sorting a database</a></li>
   <li><a Maintenance Spellcheck>Spellchecking names</a></li>
   <li><a Switcher>Switcher</a> window</li>
@@ -254,7 +252,6 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   <h3>T</h3>
   <ul>
   <li><a PGNTablebase>Table Base (PGN Window button)</a></li>
-  <li><a TacticalGame>Tactical game</a></li>
   <li><a Menus Tools>Tools menu</a></li>
   <li><a Tmt>Tournament finder</a></li>
   <li><a LichessTournament>Tournament broadcasts (Lichess)</a></li>
@@ -750,10 +747,8 @@ set helpText(Menus) {<h1>scidCommunity menus</h1>
 
   <h3><name Play>Play</name></h3>
   <ul>
-  <li><menu>Serious Game</menu>: Configures and starts a <a SeriousGame>serious game</a>
-  against a <term>UCI</term> chess engine in tournament conditions.</li>
-  <li><menu>Tactical Game</menu>: Configures and starts a <a TacticalGame>tactical game</a>
-  against a chess engine at an adjustable level.</li>
+  <li><menu>Play versus Engine</menu>: Configures and starts a <a PlayVsEngine>game against a chess engine</a>
+  with coaching, time controls, opening books, and ponder support.</li>
   <li><menu>FICS Training</menu>: Configures connection to the <a FICS>Free Internet
   Chess Server</a> (FICS) to play against human opponents or take part in training sessions.</li>
   <li><menu>Training</menu>: Training submenu.</li>
@@ -4636,50 +4631,59 @@ set helpText(Book) {<h1>Book window</h1>
   <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
-# Tactical game window help
-set helpTitle(TacticalGame) "Tactical Game Window"
-set helpText(TacticalGame) {<h1>Tactical game window</h1>
+# Play versus Engine window help
+set helpTitle(PlayVsEngine) "Play versus Engine Window"
+set helpText(PlayVsEngine) {<h1>Play versus Engine window</h1>
   <p>
-  Play a tactical game against an engine simulating an opponent with a
-  given Elo rating.  The opponent is played by Phalanx and the coach
-  by any UCI engine the user has configured. The right engines are automatically selected by their
-  names, and should be correctly configured (this is the default when
-  scidCommunity is installed).
+  Play a game against a <term>UCI</term> chess engine with optional coaching,
+  time controls, opening books, and ponder support.
   </p>
   <p>
-  <b>Note</b> that a special version of the Phalanx engine is
-  required. This special version comes with the scidCommunity package.
+  A second "coach" engine can run in the background to detect blunders made
+  by the player and annotate them automatically.  The coach can also watch
+  the player's moves and offer takebacks when a weak or bad move is detected.
   </p>
   <p>
-  The following parameters must be configured :
+  The configuration window offers the following options:
   <ul>
-  <li><term>Fixed level</term>: sets a fixed Elo rating for the opponent</li>
-  <li><term>Random level</term>: chooses a random level between the
-  minimum and maximum level specified by the left and right slider
-  respectively.
-  </li>
-  <li><term>Opening:</term>
+  <li><term>Engine:</term> select the opponent engine from the list of
+  configured UCI engines. The <term>Configure UCI engine</term> button opens
+  the engine-specific settings dialog, where you can limit the engine's Elo
+  strength, adjust hash size, etc.</li>
+  <li><term>Coach:</term> select a second engine to analyze the game in the
+  background. Optional features include <term>Coach is watching</term> (offers
+  takebacks on bad player moves), <term>Add score to annotations</term>, and
+  <term>limit engine analysis time</term> to reduce CPU usage.</li>
+  <li><term>Time Mode:</term>
   <ul>
-     <li><term>Start new game</term>: starts a new game choosing a
-     random opening.</li>
-     <li><term>Start from current position</term>: let the game begin
-     with the current board position.</li>
-     <li><term>Specific opening</term>: the opponent will play a
-     specific opening, that can be chosen from the list below. This is
-     useful for opening training.</li>
+     <li><term>Use chess clock:</term> when checked, the standard time
+     controls (Time+Bonus, Fixed Depth, Nodes, Seconds per Move) apply and
+     clocks count down. When unchecked, clocks count up with no time
+     pressure and the engine uses a fixed move time.</li>
+     <li><term>Time + bonus:</term> Fischer clock with separate time and
+     increment settings for White and Black.</li>
+     <li><term>Fixed depth:</term> engine searches to a fixed depth (plies).</li>
+     <li><term>Nodes:</term> engine searches a fixed number of nodes.</li>
+     <li><term>Seconds per move:</term> engine is given a fixed time per move.</li>
+  </ul></li>
+  <li><term>Use book:</term> the engine will play moves from the selected
+  Polyglot (.bin) opening book until it is out of book.</li>
+  <li><term>Permanent thinking:</term> the engine thinks during the player's
+  time (ponder).</li>
+  <li><term>Start from current position:</term> begin the game from the
+  current board position.</li>
+  <li><term>Specific opening:</term> the engine will play a specific opening
+  line selected from the list below.</li>
   </ul>
-  <li><term>Limit engine analysis time</term> allows to limit the time used by the
-  coach to check the players moves for errors. If this time is not
-  limited the coach is allowed to think in the background.</li>
-  </ul>
-  <p>Tip: If you switch on the <a Graphs>score graph</a>, you can see the use of time and the rating of the position during the game.</p>
-  <p>To start a tactical game press <term>Play</term></p> 
-
-  <p><b>Note</b> a similar function can be achieved by playing a
-  <a SeriousGame>serious game</a> against any UCI engine that allows
-  for limiting its strength.
+  <p>
+  The game window shows clocks (when using chess clock mode), a blunder
+  detection panel (showing whether the engine made a blunder, the blunder
+  value in pawns, and the current evaluation score), and a blunder threshold
+  slider to control sensitivity.
   </p>
-  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
+  <p>Tip: If you switch on the <a Graphs>score graph</a>, you can see the use
+  of time and the evaluation of the position during the game.</p>
+  <p><footer>(Updated: scidCommunity, July 2026)</footer></p>
 }
 
 # Opening Trainer window help
@@ -4815,104 +4819,7 @@ set helpText(OpeningTrainer) {<h1>Opening Trainer</h1>
   <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
-# Serious game window help
-set helpTitle(SeriousGame) "Serious Game Window"
-set helpText(SeriousGame) {<h1>Serious game window</h1>
-  <p>
-  Serious games can be played against any <term>UCI</term> engine set
-  up for the usage with scidCommunity. A list of all possible opponents is
-  given on top of the <term>Game configuration</term> window. The
-  button <term>Configure UCI engine</term> additionally gives access
-  to the engines parameters. By default, they are set such as in the
-  <a Analysis List>engine configuration</a>.
-  </p>
-  <p>
-  Next, the book that should be used can be chosen from those opening
-  books available to scidCommunity. Unchecking the <term>Use book</term> box
-  will disable the use of an opening book and the engine will start
-  calculating moves right from the beginning.
-  </p>
-  <p>
-  The section <term>Time mode</term> allows to set the timing used for
-  the engine. Various settings are possible here:
-  <ul>
-     <li><term>Time + bonus</term> specifies the time for the whole
-     game and a possible increment per move (Fisher clock). The
-     default is set to 5 minutes per game and 10 seconds increment per
-     move which is a usual setting for Blitz games. Note, that the
-     times for Black and White can be set independently. This allows
-     to set a short amount of time for the engine and give a longer
-     time of thinking to the player, and thus strengthening the
-     players analysing possibilities while weakening the engines
-     abilities in case of <term>Permanent thinking</term> is off (see
-     below).
-     </li>
-
-     <li><term>Fixed depth</term> does not set the time per game but
-     the depth the engine will calculate in half moves. As this
-     disables the ability to calculate deeper if necessary, the
-     computer will not see certain mates and combinations, the engine
-     may play weaker and thus offer a better partner for training
-     purposes.
-     <p>
-     <b>Note</b>: some, especially commercial, engines also offer to
-     weaken their strength in Elo units. Most likely this will offer a
-     more suitable algorithm than limiting the search depth. In scidCommunity,
-     such games are also offered as <a TacticalGame>Tactical games</a>
-     against the free Phalanx engine.
-     </p>
-     </li>
-
-     <li><term>Nodes</term> is similar to limiting the search depth,
-     but here the engine has to move after the evaluation of a certain
-     number of positions. (The default is 10,000.)
-     </li>
-
-     <li><term>Seconds per move</term> allows the engine to spend a
-     certain amount of time at maximum for a given position. Some
-     engines will move faster in certain circumstances, but they will
-     not exceed the time limit set here. As <term>Fixed depth</term>
-     and <term>Nodes</term> this also limits the engines playing
-     strength, but also gives a pretty responsive game play.
-     </li>
-  </ul>
-  </p>
-  <p>
-  Serious games can start from the current board position if the box
-  <term>Start from current position</term> is checked. This allows
-  e.g. to play out defined middle game positions that arise from an
-  opening.
-  </p>
-  <p>
-  <term>Permanent thinking</term> (sometimes also called ponder)
-  allows the engine to calculate on the players time. If unchecked, the
-  engine will stop analysing the position if the player has the move.
-  If the game is set for a fixed time per move, this will weaken the
-  engine. On the other hand, the engine might move immediately, if the
-  player made the move it was analysing on the players time.
-  </p>
-  <p>
-  <term>Coach is watching</term> will open a dialogue offering to take
-  back a move if the player made a blunder (due to the engines
-  evaluation of his last move).
-  </p>
-  <p>
-  For training of openings <term>Specific opening</term> can be
-  checked. In the list below one can choose the opening to play. The
-  player then should follow the line chosen, otherwise scidCommunity will ask
-  if the move should be taken back.
-  </p>
-
-  <p>
-  After setting all parameters of the game and hitting the Play
-  button, scidCommunity will set up the opponent engine show the clocks and
-  start the game. The player must not make a move till the clocks
-  appear. Note that it might take some time for the chess engine to
-  start up and initialise properly.
-  </p>
-
-  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
-}
+# Now part of Play versus Engine (see above)
 
 # Tactics Trainer
 set helpTitle(TacticsTrainer) "Training: Tactics"

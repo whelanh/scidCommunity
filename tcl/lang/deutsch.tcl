@@ -207,8 +207,7 @@ menuText D ToolsOpenRecentBaseAsTree "Letzte DB als Baum" 0   {Öffne zuletzt ve
 menuText D ToolsTracker "Figurenverteilung"  7 \
   {Figurenverteilungsfenster öffnen}
 menuText D ToolsTraining "Training"  0 {Trainingswerkzeuge (Taktik, Eröffnungen,...) }
-menuText D ToolsTacticalGame "Trainingspartie"  0 {Trainingspartie spielen}
-menuText D ToolsSeriousGame "Ernste Partie"  0 {Ernste Partie spielen}
+menuText D ToolsPlayVsEngine "Spielen gegen Engine"  0 {Spielen Sie eine Partie gegen eine Schachmaschine}
 menuText D ToolsTrainOpenings "Eröffnungen"  0 {Eröffnungsrepertoire trainieren}
 menuText D ToolsTrainReviewGame "Partie nachspielen"  0 {Finden von Zügen wie in vorgegebener Partie}
 menuText D ToolsTrainTactics "Taktik"  0 {Taktische Stellungen lösen}
@@ -1570,22 +1569,15 @@ translate D showblunderexists {Enginefehler anzeigen}
 translate D showblundervalue {Fehlerbewertung anzeigen}
 translate D showscore {Bewertung anzeigen}
 translate D coachgame {Coach Partie}
-translate D configurecoachgame {Trainingspartie konfigurieren}
-translate D configuregame {Spiel konfigurieren}
-translate D Phalanxengine {Phalanx engine}
-translate D Coachengine {Coach Engine}
-translate D difficulty {Schwierigkeit}
-translate D hard {schwer}
-translate D easy {leicht}
-translate D Playwith {Spiel mit}
 translate D white {Weiß}
 translate D black {Schwarz}
 translate D both {beide}
+translate D configurePlayEngine {Spielen gegen Engine}
+translate D UseChessClock {Benutze eine Schachuhr}
 translate D Play {Spielen}
 translate D Noblunder {Kein Fehler}
 translate D blunder {Fehler}
 translate D Noinfo {-- Keine Info --}
-translate D PhalanxOrTogaMissing {Phalanx oder Toga nicht gefunden!}
 translate D moveblunderthreshold {fehlerhafter Zug, wenn Verlust größer als}
 translate D limitanalysis {Analysezeit der Engine begrenzen}
 translate D seconds {Sekunden}
@@ -1653,9 +1645,7 @@ translate D Lines {Variantenzahl}
 translate D ConfigureUCIengine {UCI Engine konfigurieren}
 translate D SpecificOpening {Ausgewählte Eröffnung}
 translate D StartNewGame {Neue Partie}
-translate D FixedLevel {Feste Stärke}
 translate D Opening {Eröffnung}
-translate D RandomLevel {Zufallsstärke}
 translate D StartFromCurrentPosition {Von aktueller Position starten}
 translate D FixedDepth {Feste Tiefe}
 translate D Nodes {Knoten} 

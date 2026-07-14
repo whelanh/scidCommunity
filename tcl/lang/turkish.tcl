@@ -180,8 +180,7 @@ menuText T ToolsOpenBaseAsTree "Tabanı ağaç gibi aç..." 0   {Bir üs açın 
 menuText T ToolsOpenRecentBaseAsTree "Son tabanı ağaç olarak aç" 0   {Yeni bir temel açın ve onu Ağaç penceresinde kullanın}
 menuText T ToolsTracker "Parça Takipçisi"  6 {Parça Takipçisi penceresini açın}
 menuText T ToolsTraining "Eğitim"  0 {Antrenman araçları (taktikler, açılışlar,...)}
-menuText T ToolsTacticalGame "Taktik oyunu"  0 {Taktikli bir oyun oyna}
-menuText T ToolsSeriousGame "Ciddi oyun"  0 {Ciddi bir oyun oyna}
+menuText T ToolsPlayVsEngine "Motora Karşı Oyna"  0 {Satranç motoruna karşı oyun oyna}
 menuText T ToolsTrainOpenings "Açılışlar"  0 {Bir repertuarla antrenman yapın}
 menuText T ToolsTrainReviewGame "Oyunu incele"  0 {Bir oyunda oynanan hamleleri tahmin edin}
 menuText T ToolsTrainTactics "Taktikler"  0 {Taktikleri çöz}
@@ -1502,22 +1501,15 @@ translate T showblunderexists {hatanın var olduğunu göster}
 translate T showblundervalue {gaf değerini göster}
 translate T showscore {puanı göster}
 translate T coachgame {antrenör oyunu}
-translate T configurecoachgame {Taktiksel oyunu yapılandır}
-translate T configuregame {Oyun yapılandırması}
-translate T Phalanxengine {Phalanx motoru}
-translate T Coachengine {Antrenör motoru}
-translate T difficulty {zorluk}
-translate T hard {zor}
-translate T easy {kolay}
-translate T Playwith {İle oyna}
 translate T white {beyaz}
 translate T black {siyah}
 translate T both {ikisi birden}
+translate T configurePlayEngine {Motora Karşı Oyna}
+translate T UseChessClock {Satranç saatini kullan}
 translate T Play {Oynamak}
 translate T Noblunder {Hata yok}
 translate T blunder {gaf}
 translate T Noinfo {-- Bilgi yok --}
-translate T PhalanxOrTogaMissing {Phalanx veya Toga bulunamadı}
 translate T moveblunderthreshold {kayıp daha büyükse hamle bir hatadır}
 translate T limitanalysis {motor analiz süresini sınırlayın}
 translate T seconds {saniye}
@@ -1585,9 +1577,7 @@ translate T Lines {çizgiler}
 translate T ConfigureUCIengine {UCI motorunu yapılandırma}
 translate T SpecificOpening {Özel açılış}
 translate T StartNewGame {Yeni oyuna başla}
-translate T FixedLevel {Sabit seviye}
 translate T Opening {Açılış}
-translate T RandomLevel {Rastgele seviye}
 translate T StartFromCurrentPosition {Geçerli konumdan başla}
 translate T FixedDepth {Sabit derinlik}
 translate T Nodes {Düğümler}

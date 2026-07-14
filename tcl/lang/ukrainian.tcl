@@ -177,8 +177,7 @@ menuText Q ToolsOpenBaseAsTree "Відкрита основа як дерево.
 menuText Q ToolsOpenRecentBaseAsTree "Відкрити останню базу як дерево" 0   {Відкрийте останню базу та використовуйте її у вікні дерева}
 menuText Q ToolsTracker "Відстеження фрагментів"  6 {Відкрийте вікно Piece Tracker}
 menuText Q ToolsTraining "Навчання"  0 {Інструменти навчання (тактика, відкриття,...)}
-menuText Q ToolsTacticalGame "Тактична гра"  0 {Грайте в гру з тактикою}
-menuText Q ToolsSeriousGame "Серйозна гра"  0 {Грайте в серйозну гру}
+menuText Q ToolsPlayVsEngine "Грайте проти двигуна"  0 {Зіграйте проти шахової машини}
 menuText Q ToolsTrainOpenings "Отвори"  0 {Тренуватися з репертуаром}
 menuText Q ToolsTrainReviewGame "Оглядова гра"  0 {Вгадай ходи в грі}
 menuText Q ToolsTrainTactics "Тактика"  0 {Вирішіть тактику}
@@ -1499,22 +1498,15 @@ translate Q showblunderexists {показати, що помилка існує}
 translate Q showblundervalue {показати значення помилки}
 translate Q showscore {показати рахунок}
 translate Q coachgame {тренерська гра}
-translate Q configurecoachgame {Налаштувати тактичну гру}
-translate Q configuregame {Конфігурація гри}
-translate Q Phalanxengine {Двигун Phalanx}
-translate Q Coachengine {Туристичний двигун}
-translate Q difficulty {труднощі}
-translate Q hard {важко}
-translate Q easy {легко}
-translate Q Playwith {Грати з}
 translate Q white {білий}
 translate Q black {чорний}
 translate Q both {обидва}
+translate Q configurePlayEngine {Грайте проти двигуна}
+translate Q UseChessClock {Використовуйте шаховий годинник}
 translate Q Play {грати}
 translate Q Noblunder {Ніякої помилки}
 translate Q blunder {промах}
 translate Q Noinfo {-- Немає інформації --}
-translate Q PhalanxOrTogaMissing {Фаланга або Тога не знайдені}
 translate Q moveblunderthreshold {хід є помилкою, якщо втрата більша ніж}
 translate Q limitanalysis {обмежити час аналізу двигуна}
 translate Q seconds {секунд}
@@ -1582,9 +1574,7 @@ translate Q Lines {Лінії}
 translate Q ConfigureUCIengine {Налаштувати механізм UCI}
 translate Q SpecificOpening {Конкретне відкриття}
 translate Q StartNewGame {Почніть нову гру}
-translate Q FixedLevel {Фіксований рівень}
 translate Q Opening {відкриття}
-translate Q RandomLevel {Випадковий рівень}
 translate Q StartFromCurrentPosition {Почати з поточної позиції}
 translate Q FixedDepth {Фіксована глибина}
 translate Q Nodes {Вузли}

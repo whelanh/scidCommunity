@@ -183,8 +183,7 @@ menuText O ToolsOpenBaseAsTree "Åpen base som tre" 0   {Åpne en base og bruk d
 menuText O ToolsOpenRecentBaseAsTree "Åpne nylig base som tre" 0   {Åpne en nylig base og bruk den i trevinduet}
 menuText O ToolsTracker "Brikkesporing"  0 {Åpne brikkesporingsvinduet}
 menuText O ToolsTraining "Opplæring"  0 {Treningsverktøy (taktikk, åpninger,...)}
-menuText O ToolsTacticalGame "Taktisk spill"  0 {Spill et spill med taktikk}
-menuText O ToolsSeriousGame "Seriøst spill"  0 {Spill et seriøst spill}
+menuText O ToolsPlayVsEngine "Spill mot motor"  0 {Spill et spill mot en sjakkmotor}
 menuText O ToolsTrainOpenings "Åpninger"  0 {Tren med repertoar}
 menuText O ToolsTrainReviewGame "Gjennomgå spillet"  0 {Gjett trekk som spilles i et spill}
 menuText O ToolsTrainTactics "Taktikk"  0 {Løs taktikk}
@@ -1520,22 +1519,15 @@ translate O showblunderexists {Vis at feil eksisterer}
 translate O showblundervalue {vise feilverdi}
 translate O showscore {vis poengsum}
 translate O coachgame {trenerspill}
-translate O configurecoachgame {konfigurere trenerspill}
-translate O configuregame {Spillkonfigurasjon}
-translate O Phalanxengine {Phalanx motor}
-translate O Coachengine {Bussmotor}
-translate O difficulty {vanskelighet}
-translate O hard {hard}
-translate O easy {lett}
-translate O Playwith {Lek med}
 translate O white {hvit}
 translate O black {svart}
 translate O both {både}
+translate O configurePlayEngine {Spill mot motor}
+translate O UseChessClock {Bruk sjakkklokke}
 translate O Play {Spille}
 translate O Noblunder {Ingen tabbe}
 translate O blunder {tabbe}
 translate O Noinfo {-- Ingen info --}
-translate O PhalanxOrTogaMissing {Phalanx eller Toga ikke funnet}
 translate O moveblunderthreshold {flytting er en tabbe hvis tapet er større enn}
 translate O limitanalysis {begrense motoranalysetiden}
 translate O seconds {sekunder}
@@ -1603,9 +1595,7 @@ translate O Lines {Linjer}
 translate O ConfigureUCIengine {Konfigurer UCI-motoren}
 translate O SpecificOpening {Spesifikk åpning}
 translate O StartNewGame {Start nytt spill}
-translate O FixedLevel {Fast nivå}
 translate O Opening {Åpning}
-translate O RandomLevel {Tilfeldig nivå}
 translate O StartFromCurrentPosition {Start fra nåværende posisjon}
 translate O FixedDepth {Fast dybde}
 translate O Nodes {Noder} 

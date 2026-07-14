@@ -176,8 +176,7 @@ menuText b ToolsOpenBaseAsTree "গাছ হিসাবে খোলা ভি
 menuText b ToolsOpenRecentBaseAsTree "গাছ হিসাবে সাম্প্রতিক বেস খুলুন" 0   {একটি সাম্প্রতিক বেস খুলুন এবং এটি ট্রি উইন্ডোতে ব্যবহার করুন}
 menuText b ToolsTracker "পিস ট্র্যাকার"  6 {পিস ট্র্যাকার উইন্ডো খুলুন}
 menuText b ToolsTraining "প্রশিক্ষণ"  0 {প্রশিক্ষণের সরঞ্জাম (কৌশল, খোলা,...)}
-menuText b ToolsTacticalGame "কৌশলগত খেলা"  0 {কৌশলের সাথে একটি খেলা খেলুন}
-menuText b ToolsSeriousGame "গুরুতর খেলা"  0 {একটি গুরুতর খেলা খেলুন}
+menuText b ToolsPlayVsEngine "খেলা বনাম ইঞ্জিন"  0 {একটি দাবা ইঞ্জিনের বিরুদ্ধে একটি খেলা খেলুন}
 menuText b ToolsTrainOpenings "খোলা"  0 {একটি সংগ্রহশালা সঙ্গে ট্রেন}
 menuText b ToolsTrainReviewGame "খেলা পর্যালোচনা"  0 {একটি খেলায় খেলা অনুমান চাল}
 menuText b ToolsTrainTactics "কৌশল"  0 {কৌশল সমাধান করুন}
@@ -1498,22 +1497,15 @@ translate b showblunderexists {শো ভুল বিদ্যমান}
 translate b showblundervalue {ভুল মান দেখান}
 translate b showscore {স্কোর দেখান}
 translate b coachgame {কোচ খেলা}
-translate b configurecoachgame {কৌশলগত খেলা কনফিগার করুন}
-translate b configuregame {গেম কনফিগারেশন}
-translate b Phalanxengine {ফ্যালানক্স ইঞ্জিন}
-translate b Coachengine {কোচ ইঞ্জিন}
-translate b difficulty {অসুবিধা}
-translate b hard {কঠিন}
-translate b easy {সহজ}
-translate b Playwith {সঙ্গে খেলা}
 translate b white {সাদা}
 translate b black {কালো}
 translate b both {উভয়}
+translate b configurePlayEngine {খেলা বনাম ইঞ্জিন}
+translate b UseChessClock {দাবা ঘড়ি ব্যবহার করুন}
 translate b Play {খেলা}
 translate b Noblunder {কোন ভুল নেই}
 translate b blunder {ভুল}
 translate b Noinfo {-- কোন তথ্য নেই --}
-translate b PhalanxOrTogaMissing {ফ্যালানক্স বা টোগা পাওয়া যায়নি}
 translate b moveblunderthreshold {ক্ষতির চেয়ে বেশি হলে সরানো একটি ভুল}
 translate b limitanalysis {ইঞ্জিন বিশ্লেষণের সময় সীমিত করুন}
 translate b seconds {সেকেন্ড}
@@ -1581,9 +1573,7 @@ translate b Lines {লাইন}
 translate b ConfigureUCIengine {UCI ইঞ্জিন কনফিগার করুন}
 translate b SpecificOpening {নির্দিষ্ট খোলার}
 translate b StartNewGame {নতুন গেম শুরু করুন}
-translate b FixedLevel {স্থির স্তর}
 translate b Opening {খোলা হচ্ছে}
-translate b RandomLevel {এলোমেলো স্তর}
 translate b StartFromCurrentPosition {বর্তমান অবস্থান থেকে শুরু করুন}
 translate b FixedDepth {স্থির গভীরতা}
 translate b Nodes {নোড}

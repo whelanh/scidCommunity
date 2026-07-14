@@ -217,8 +217,7 @@ menuText A ToolsOpenBaseAsTree "ベースをツリーとして開く..." 0   {�
 menuText A ToolsOpenRecentBaseAsTree "最近のベースをツリーとして開く" 0   {最近のベースを開いてツリーウィンドウで使用します}
 menuText A ToolsTracker "ピーストラッカー"  6 {ピーストラッカーウィンドウを開く}
 menuText A ToolsTraining "トレーニング"  0 {トレーニングツール (戦術、オープニングなど)}
-menuText A ToolsTacticalGame "戦術ゲーム"  0 {戦術を考えてゲームをプレイする}
-menuText A ToolsSeriousGame "真剣勝負"  0 {真剣なゲームをする}
+menuText A ToolsPlayVsEngine "プレイ対エンジン"  0 {チェスエンジンと対戦する}
 menuText A ToolsTrainOpenings "開口部"  0 {レパートリーを持ってトレーニングする}
 menuText A ToolsTrainReviewGame "ゲームのレビュー"  0 {ゲームでの動きを推測する}
 menuText A ToolsTrainTactics "戦術"  0 {戦術を解決する}
@@ -1539,22 +1538,15 @@ translate A showblunderexists {間違いが存在することを示す}
 translate A showblundervalue {失敗値を表示する}
 translate A showscore {スコアを表示}
 translate A coachgame {コーチゲーム}
-translate A configurecoachgame {戦術ゲームを設定する}
-translate A configuregame {ゲーム構成}
-translate A Phalanxengine {ファランクスエンジン}
-translate A Coachengine {コーチエンジン}
-translate A difficulty {困難}
-translate A hard {難しい}
-translate A easy {簡単}
-translate A Playwith {と遊ぶ}
 translate A white {白}
 translate A black {黒}
 translate A both {両方}
+translate A configurePlayEngine {プレイ対エンジン}
+translate A UseChessClock {チェスクロックを使用する}
 translate A Play {遊ぶ}
 translate A Noblunder {失敗はありません}
 translate A blunder {失策}
 translate A Noinfo {-- 情報なし --}
-translate A PhalanxOrTogaMissing {ファランクスまたはトーガが見つかりません}
 translate A moveblunderthreshold {損失が以下の場合、移動は失敗です。}
 translate A limitanalysis {エンジン解析時間を制限する}
 translate A seconds {秒}
@@ -1622,9 +1614,7 @@ translate A Lines {ライン}
 translate A ConfigureUCIengine {UCIエンジンの設定}
 translate A SpecificOpening {特定の開口部}
 translate A StartNewGame {新しいゲームを始める}
-translate A FixedLevel {固定レベル}
 translate A Opening {オープニング}
-translate A RandomLevel {ランダムレベル}
 translate A StartFromCurrentPosition {現在の位置から開始}
 translate A FixedDepth {固定深さ}
 translate A Nodes {ノード}

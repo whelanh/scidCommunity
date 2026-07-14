@@ -217,8 +217,7 @@ menuText L ToolsOpenBaseAsTree "Baza deschisă ca un copac..." 0   {Deschideți 
 menuText L ToolsOpenRecentBaseAsTree "Deschide baza recentă ca arbore" 0   {Deschideți o bază recentă și utilizați-o în fereastra Tree}
 menuText L ToolsTracker "Piece Tracker"  6 {Deschideți fereastra Piece Tracker}
 menuText L ToolsTraining "Antrenamentul"  0 {Instrumente de antrenament (tactici, deschideri,...)}
-menuText L ToolsTacticalGame "Joc tactic"  0 {Joacă un joc cu tactică}
-menuText L ToolsSeriousGame "Joc serios"  0 {Joacă un joc serios}
+menuText L ToolsPlayVsEngine "Joacă împotriva motorului"  0 {Joacă un joc împotriva unui motor de șah}
 menuText L ToolsTrainOpenings "Deschideri"  0 {Antrenează-te cu un repertoriu}
 menuText L ToolsTrainReviewGame "Joc de recenzie"  0 {Ghiciți mișcările jucate într-un joc}
 menuText L ToolsTrainTactics "Tactici"  0 {Rezolvați tactici}
@@ -1539,22 +1538,15 @@ translate L showblunderexists {arată că gafa există}
 translate L showblundervalue {arata valoarea gafei}
 translate L showscore {arată scorul}
 translate L coachgame {joc antrenor}
-translate L configurecoachgame {Configurați jocul tactic}
-translate L configuregame {Configurarea jocului}
-translate L Phalanxengine {Motor de falange}
-translate L Coachengine {Motorul autocarului}
-translate L difficulty {dificultate}
-translate L hard {greu}
-translate L easy {uşor}
-translate L Playwith {Joacă-te cu}
 translate L white {alb}
 translate L black {negru}
 translate L both {ambele}
+translate L configurePlayEngine {Joacă împotriva motorului}
+translate L UseChessClock {Folosește ceasul de șah}
 translate L Play {Juca}
 translate L Noblunder {Fără gafă}
 translate L blunder {gafă}
 translate L Noinfo {-- Fara informatii --}
-translate L PhalanxOrTogaMissing {Falange sau Toga nu au fost găsite}
 translate L moveblunderthreshold {mutarea este o gafă dacă pierderea este mai mare decât}
 translate L limitanalysis {limitează timpul de analiză a motorului}
 translate L seconds {secunde}
@@ -1622,9 +1614,7 @@ translate L Lines {Linii}
 translate L ConfigureUCIengine {Configurați motorul UCI}
 translate L SpecificOpening {Deschidere specifica}
 translate L StartNewGame {Începeți un nou joc}
-translate L FixedLevel {Nivel fix}
 translate L Opening {Deschidere}
-translate L RandomLevel {Nivel aleatoriu}
 translate L StartFromCurrentPosition {Începeți de la poziția curentă}
 translate L FixedDepth {Adâncime fixă}
 translate L Nodes {Noduri}

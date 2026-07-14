@@ -176,8 +176,7 @@ menuText h ToolsOpenBaseAsTree "वृक्ष के रूप में ख�
 menuText h ToolsOpenRecentBaseAsTree "हालिया आधार को पेड़ के रूप में खोलें" 0   {एक हालिया आधार खोलें और इसे ट्री विंडो में उपयोग करें}
 menuText h ToolsTracker "टुकड़ा ट्रैकर"  6 {पीस ट्रैकर विंडो खोलें}
 menuText h ToolsTraining "प्रशिक्षण"  0 {प्रशिक्षण उपकरण (रणनीति, उद्घाटन,...)}
-menuText h ToolsTacticalGame "सामरिक खेल"  0 {रणनीति के साथ खेल खेलें}
-menuText h ToolsSeriousGame "गंभीर खेल"  0 {एक गंभीर खेल खेलें}
+menuText h ToolsPlayVsEngine "प्ले बनाम इंजन"  0 {शतरंज इंजन के विरुद्ध एक खेल खेलें}
 menuText h ToolsTrainOpenings "उद्घाटन"  0 {प्रदर्शनों की सूची के साथ प्रशिक्षण लें}
 menuText h ToolsTrainReviewGame "खेल की समीक्षा करें"  0 {किसी गेम में खेली गई चालों का अनुमान लगाएं}
 menuText h ToolsTrainTactics "युक्ति"  0 {रणनीति हल करें}
@@ -1498,22 +1497,15 @@ translate h showblunderexists {दिखाएँ भूल मौजूद ह�
 translate h showblundervalue {भूल मूल्य दिखाओ}
 translate h showscore {स्कोर दिखाओ}
 translate h coachgame {कोच खेल}
-translate h configurecoachgame {सामरिक खेल कॉन्फ़िगर करें}
-translate h configuregame {खेल विन्यास}
-translate h Phalanxengine {फालानक्स इंजन}
-translate h Coachengine {कोच इंजन}
-translate h difficulty {कठिनाई}
-translate h hard {मुश्किल}
-translate h easy {आसान}
-translate h Playwith {सोचना}
 translate h white {सफ़ेद}
 translate h black {काला}
 translate h both {दोनों}
+translate h configurePlayEngine {प्ले बनाम इंजन}
+translate h UseChessClock {शतरंज की घड़ी का प्रयोग करें}
 translate h Play {खेल}
 translate h Noblunder {कोई भूल नहीं}
 translate h blunder {बड़ी भूल}
 translate h Noinfo {--कोई जानकारी नहीं --}
-translate h PhalanxOrTogaMissing {फालानक्स या टोगा नहीं मिला}
 translate h moveblunderthreshold {यदि हानि अधिक हो तो यह कदम एक भूल है}
 translate h limitanalysis {इंजन विश्लेषण समय सीमित करें}
 translate h seconds {सेकंड}
@@ -1581,9 +1573,7 @@ translate h Lines {पंक्तियां}
 translate h ConfigureUCIengine {यूसीआई इंजन कॉन्फ़िगर करें}
 translate h SpecificOpening {विशिष्ट उद्घाटन}
 translate h StartNewGame {नया खेल प्रारंभ करें}
-translate h FixedLevel {निश्चित स्तर}
 translate h Opening {प्रारंभिक}
-translate h RandomLevel {यादृच्छिक स्तर}
 translate h StartFromCurrentPosition {वर्तमान स्थिति से प्रारंभ करें}
 translate h FixedDepth {निश्चित गहराई}
 translate h Nodes {नोड्स}

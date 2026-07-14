@@ -208,8 +208,7 @@ menuText G ToolsOpenBaseAsTree "Άνοιγμα βάσης ως δένδρου...
 menuText G ToolsOpenRecentBaseAsTree "Άνοιγμα πρόσφατης βάσης ως δένδρου" 0   {Ανοίξτε μια πρόσφατη βάση και χρησιμοποιήστε την μέσα από το παράθυρο του δένδρου}
 menuText G ToolsTracker "Ανιχνευτής κομματιού"  6 {Ανοίξτε το παράθυρο του ανιχνευτή κομματιού}
 menuText G ToolsTraining "Προπόνηση"  0 {Προπονητικά εργαλεία (τακτικές, ανοίγματα...)}
-menuText G ToolsTacticalGame "Παρτίδα τακτικής"  0 {Παίξτε μια παρτίδα τακτικής}
-menuText G ToolsSeriousGame "Σοβαρή παρτίδα"  0 {Παίξτε μια σοβαρή παρτίδα}
+menuText G ToolsPlayVsEngine "Παίξτε εναντίον του κινητήρα"  0 {Παίξτε ένα παιχνίδι ενάντια σε μια μηχανή σκακιού}
 menuText G ToolsTrainOpenings "Ανοίγματα"  0 {Προπονηθείτε με ένα ρεπερτόριο}
 menuText G ToolsTrainReviewGame "Επισκόπηση παρτίδας"  0 {Μαντέψτε τις κινήσεις που έγιναν σε μια παρτίδα}
 menuText G ToolsTrainTactics "Τακτικές"  0 {Επιλύστε τακτικές}
@@ -1547,22 +1546,15 @@ translate G showblunderexists {εμφάνιση ότι το σφάλμα υπά�
 translate G showblundervalue {εμφάνιση της αξίας του σφάλματος}
 translate G showscore {εμφάνιση σκορ}
 translate G coachgame {διδασκαλία παρτίδας}
-translate G configurecoachgame {Προσαρμογή τακτικής παρτίδας}
-translate G configuregame {Προσαρμογή παρτίδας}
-translate G Phalanxengine {Μηχανή Phalanx}
-translate G Coachengine {Μηχανή Coach}
-translate G difficulty {δυσκολία}
-translate G hard {δύσκολη}
-translate G easy {εύκολη}
-translate G Playwith {Παιχνίδι με}
 translate G white {λευκά}
 translate G black {μαύρα}
 translate G both {και τα δυο}
+translate G configurePlayEngine {Παίξτε εναντίον του κινητήρα}
+translate G UseChessClock {Χρησιμοποιήστε το ρολόι σκακιού}
 translate G Play {Παιχνίδι}
 translate G Noblunder {Χωρίς σφάλματα}
 translate G blunder {σφάλμα}
 translate G Noinfo {-- Καμια πληροφορία --}
-translate G PhalanxOrTogaMissing {Δεν βρέθηκε Phalanx ή Toga}
 translate G moveblunderthreshold {η κίνηση είναι σφάλμα αν η απώλεια είναι μεγαλύτερη από}
 translate G limitanalysis {περιορισμός του χρόνου ανάλυσης της μηχανής}
 translate G seconds {δευτερόλεπτα}
@@ -1630,9 +1622,7 @@ translate G Lines {Γραμμές}
 translate G ConfigureUCIengine {Προσαρμογή μηχανής UCI}
 translate G SpecificOpening {Συγκεκριμένο άνοιγμα}
 translate G StartNewGame {Έναρξη νέας παρτίδας}
-translate G FixedLevel {Σταθερό επίπεδο}
 translate G Opening {Άνοιγμα}
-translate G RandomLevel {Τυχαίο επίπεδο}
 translate G StartFromCurrentPosition {Εκκίνηση από την τρέχουσα θέση}
 translate G FixedDepth {Σταθερού βάθους}
 translate G Nodes {Κόμβοι}

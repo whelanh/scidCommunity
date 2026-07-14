@@ -666,6 +666,7 @@ namespace eval gameclock {
     set ::gameclock::data(running$n) 1
     # Capture the clock value at the start of the turn
     set ::gameclock::data(startSec$n) $::gameclock::data(counter$n)
+    set ::gameclock::data(startTimeMillis$n) [clock milliseconds]
     ::gameclock::every 1000 "draw $n" $n
   }
   ################################################################################
@@ -677,24 +678,48 @@ namespace eval gameclock {
   }
   ################################################################################
   proc storeTimeComment { color } {
-    # Provide the time captured at the BEGINNING of the move for counting-down clocks (Serious Game)
-    if {[info exists ::gameclock::data(startSec$color)] && $::gameclock::data(startSec$color) < 0} {
-        set sec [expr {0 - $::gameclock::data(startSec$color)}]
-    } else {
-        # For counting-up clocks (Tactical Game), fallback to the original behavior (End of Move)
-        set sec [::gameclock::getSec $color]
-    }
+    # Provide the time captured at the end of the move (remaining clock time)
+    set sec [::gameclock::getSec $color]
     set h [format "%d" [expr abs($sec) / 60 / 60] ]
     set m [format "%02d" [expr (abs($sec) / 60) % 60] ]
     set s [format "%02d" [expr abs($sec) % 60] ]
     set time "$h:$m:$s"
 
+    set comment [sc_pos getComment]
     #Replace %clk if present, otherwise prepend it
-    if {[regsub {\[%clk\s*.*?\]} [sc_pos getComment] "\[%clk $time\]" comment]} {
-      sc_pos setComment "$comment"
-    } else {
-      sc_pos setComment "\[%clk $time\]$comment"
+    if {![regsub {\[%clk\s*.*?\]} $comment "\[%clk $time\]" comment]} {
+      set comment "\[%clk $time\]$comment"
     }
+
+    # Record eval (elapsed) time in [%emt]
+    if {[info exists ::gameclock::data(startTimeMillis$color)]} {
+      set elapsedMillis [expr {[clock milliseconds] - $::gameclock::data(startTimeMillis$color)}]
+      if {$elapsedMillis >= 0} {
+        set elapsedSec [expr {$elapsedMillis / 1000}]
+        set eh [format "%d" [expr $elapsedSec / 60 / 60] ]
+        set em [format "%02d" [expr ($elapsedSec / 60) % 60] ]
+        set es [format "%02d" [expr $elapsedSec % 60] ]
+        set elapsedTime "$eh:$em:$es"
+        #Replace %emt if present, otherwise prepend it
+        if {![regsub {\[%emt\s*.*?\]} $comment "\[%emt $elapsedTime\]" comment]} {
+          set comment "\[%emt $elapsedTime\]$comment"
+        }
+      }
+    } elseif {[info exists ::gameclock::data(startSec$color)]} {
+      set elapsedSec [expr {$::gameclock::data(counter$color) - $::gameclock::data(startSec$color)}]
+      if {$elapsedSec >= 0} {
+        set eh [format "%d" [expr $elapsedSec / 60 / 60] ]
+        set em [format "%02d" [expr ($elapsedSec / 60) % 60] ]
+        set es [format "%02d" [expr $elapsedSec % 60] ]
+        set elapsedTime "$eh:$em:$es"
+        #Replace %emt if present, otherwise prepend it
+        if {![regsub {\[%emt\s*.*?\]} $comment "\[%emt $elapsedTime\]" comment]} {
+          set comment "\[%emt $elapsedTime\]$comment"
+        }
+      }
+    }
+
+    sc_pos setComment "$comment"
   }
   ################################################################################
   proc toggleClock { n } {

@@ -190,8 +190,7 @@ menuText F ToolsOpenBaseAsTree "Ouvrir une base dans l'arbre" 11 {Ouvrir une bas
 menuText F ToolsOpenRecentBaseAsTree "Ouvrir une base récente dans l'arbre" 16 {Ouvrir une base récente dans la fenêtre d'arbre}
 menuText F ToolsTracker "Suivi de pièce"  3 {Ouvrir la fenêtre de suivi de pièce}
 menuText F ToolsTraining "Entraînement"  0 {Entraînement (tactique, ouvertures, ...) }
-menuText F ToolsTacticalGame "Partie tactique"  7 {Jouer une partie tactique}
-menuText F ToolsSeriousGame "Partie sérieuse"  7 {Jouer une partie sans handicap}
+menuText F ToolsPlayVsEngine "Jouer contre Engine"  0 {Jouez à une partie contre un moteur d'échecs}
 menuText F ToolsTrainOpenings "Ouvertures"  0 {Entraînement avec un répertoire d'ouvertures}
 menuText F ToolsTrainReviewGame "Reviser la partie"  0 {Étudier la partie en devinant les coups joués}
 menuText F ToolsTrainTactics "Exercices tactiques"  0 {Résoudre des problèmes tactiques}
@@ -1526,22 +1525,15 @@ translate F showblunderexists {Montrer si erreur}
 translate F showblundervalue {Montrer la valeur de l'erreur}
 translate F showscore {Montrer score}
 translate F coachgame {Entraînement}
-translate F configurecoachgame {Configurer une partie avec entraîneur}
-translate F configuregame {Configurer une partie sérieuse}
-translate F Phalanxengine {moteur Phalanx}
-translate F Coachengine {entraîneur}
-translate F difficulty {difficulté}
-translate F hard {difficile}
-translate F easy {facile}
-translate F Playwith {Jouer avec}
 translate F white {blanc}
 translate F black {noir}
 translate F both {les deux}
+translate F configurePlayEngine {Jouer contre Engine}
+translate F UseChessClock {Utiliser l'horloge d'échecs}
 translate F Play {Jouer}
 translate F Noblunder {Pas d'erreur}
 translate F blunder {erreur}
 translate F Noinfo {-- Pas d'info --}
-translate F PhalanxOrTogaMissing {Phalanx ou Toga non trouvé}
 translate F moveblunderthreshold {le coup est une erreur si les pertes sont supérieures à }
 translate F limitanalysis {limiter le temps d'analyse}
 translate F seconds {secondes}
@@ -1609,9 +1601,7 @@ translate F Lines {Lignes}
 translate F ConfigureUCIengine {Configurer le moteur UCI}
 translate F SpecificOpening {Ouverture spécifique}
 translate F StartNewGame {Nouvelle partie}
-translate F FixedLevel {Niveau fixe}
 translate F Opening {Ouverture}
-translate F RandomLevel {Niveau aléatoire}
 translate F StartFromCurrentPosition {Jouer depuis la position actuelle}
 translate F FixedDepth {Profondeur fixe}
 translate F Nodes {Noeuds} 

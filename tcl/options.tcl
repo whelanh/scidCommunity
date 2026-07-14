@@ -243,25 +243,6 @@ set windowsDock 1
 
 set ::tactics::analysisTime 3
 
-set ::tacgame::threshold 0.9
-set ::tacgame::blunderwarning false
-set ::tacgame::blunderwarningvalue 0.0
-set ::tacgame::levelMin 700
-set ::tacgame::levelMax 2200
-set ::tacgame::levelFixed 1500
-set ::tacgame::randomLevel 0
-set ::tacgame::isLimitedAnalysisTime 1
-set ::tacgame::showblunder 1
-set ::tacgame::showblundervalue 1
-set ::tacgame::showblunderfound 1
-set ::tacgame::showmovevalue 1
-set ::tacgame::playerSide "white"
-set ::tacgame::showevaluation 1
-set ::tacgame::isLimitedAnalysisTime 1
-set ::tacgame::analysisTime 10
-set ::tacgame::openingType new
-set ::tacgame::chosenOpening 0
-
 # Analysis command: to start chess analysis engine.
 set analysisCommand ""
 if {$windowsOS} {
@@ -340,7 +321,7 @@ set ::pinfo::dnburl        "http://d-nb.info/gnd"
 # Defaults for Novag Citrine
 set ::novag::referee "OFF"
 
-# Defaults for serious game training
+# Defaults for Play versus Engine
 set ::sergame::isOpening 0
 set ::sergame::chosenOpening 0
 set ::sergame::chosenEngine 0
@@ -353,10 +334,23 @@ set ::sergame::depth 3
 set ::sergame::movetime 0
 set ::sergame::nodes 10000
 set ::sergame::ponder 0
-set ::uci::uciInfo(wtime3) [expr 5 * 60 * 1000 ]
-set ::uci::uciInfo(winc3) [expr 10 * 1000 ]
-set ::uci::uciInfo(btime3) [expr 5 * 60 * 1000 ]
-set ::uci::uciInfo(binc3) [expr 10 * 1000 ]
+set ::sergame::useChessClock 1
+set ::sergame::showblunder 1
+set ::sergame::showblundervalue 1
+set ::sergame::showevaluation 1
+set ::sergame::threshold 0.9
+set ::sergame::isLimitedAnalysisTime 1
+set ::sergame::analysisTime 10
+set ::sergame::storeEval 0
+set ::sergame::coachIndex 0
+set ::sergame::playerColor "white"
+set ::uci::uciInfo(wtime1) [expr 5 * 60 * 1000 ]
+set ::uci::uciInfo(winc1) [expr 10 * 1000 ]
+set ::uci::uciInfo(btime1) [expr 5 * 60 * 1000 ]
+set ::uci::uciInfo(binc1) [expr 10 * 1000 ]
+set ::uci::uciInfo(fixeddepth1) 3
+set ::uci::uciInfo(fixednodes1) 10000
+set ::uci::uciInfo(movetime1) 3000
 
 # Defaults for initial directories:
 set initialDir(base) "."
@@ -665,15 +659,14 @@ proc options.write {} {
           ::utils::sound::soundFolder ::utils::sound::announceNew \
           ::utils::sound::announceForward ::utils::sound::announceBack \
           ::utils::sound::moveSoundOnly \
-          ::tacgame::threshold ::tacgame::blunderwarning ::tacgame::blunderwarningvalue \
-          ::tacgame::levelMin  ::tacgame::levelMax  ::tacgame::levelFixed ::tacgame::randomLevel \
-          ::tacgame::isLimitedAnalysisTime ::tacgame::showblunder ::tacgame::showblundervalue \
-          ::tacgame::showblunderfound ::tacgame::showmovevalue ::tacgame::showevaluation \
-          ::tacgame::isLimitedAnalysisTime ::tacgame::analysisTime ::tacgame::openingType ::tacgame::chosenOpening \
+          ::sergame::threshold ::sergame::isLimitedAnalysisTime ::sergame::showblunder ::sergame::showblundervalue \
+          ::sergame::showevaluation ::sergame::analysisTime ::sergame::useChessClock ::sergame::storeEval \
           ::sergame::chosenOpening ::sergame::chosenEngine ::sergame::useBook ::sergame::bookToUse \
           ::sergame::startFromCurrent ::sergame::coachIsWatching ::sergame::timeMode \
           ::sergame::depth ::sergame::movetime ::sergame::nodes ::sergame::ponder ::sergame::isOpening \
-          ::uci::uciInfo(wtime3) ::uci::uciInfo(winc3) ::uci::uciInfo(btime3) ::uci::uciInfo(binc3) \
+          ::sergame::coachIndex ::sergame::playerColor \
+          ::uci::uciInfo(wtime1) ::uci::uciInfo(winc1) ::uci::uciInfo(btime1) ::uci::uciInfo(binc1) \
+          ::uci::uciInfo(fixeddepth1) ::uci::uciInfo(fixednodes1) ::uci::uciInfo(movetime1) \
           boardfile_lite boardfile_dark \
           FilterMaxMoves FilterMinMoves FilterStepMoves FilterMaxElo FilterMinElo FilterStepElo \
           FilterMaxYear FilterMinYear FilterStepYear FilterGuessELO lookTheme ThemePackageFile autoResizeBoard \

@@ -216,8 +216,7 @@ menuText E ToolsOpenBaseAsTree "Open base as tree..." 0   {Open a base and use i
 menuText E ToolsOpenRecentBaseAsTree "Open recent base as tree" 0   {Open a recent base and use it in Tree window}
 menuText E ToolsTracker "Piece Tracker"  6 {Open the Piece Tracker window}
 menuText E ToolsTraining "Training"  0 {Training tools (tactics, openings,...) }
-menuText E ToolsTacticalGame "Tactical game"  0 {Play a game with tactics}
-menuText E ToolsSeriousGame "Serious game"  0 {Play a serious game}
+menuText E ToolsPlayVsEngine "Play versus Engine"  0 {Play a game against a chess engine}
 menuText E ToolsTrainOpenings "Openings"  0 {Train with a repertoire}
 menuText E ToolsTrainReviewGame "Review game"  0 {Guess moves played in a game}
 menuText E ToolsTrainTactics "Tactics"  0 {Solve tactics}
@@ -1552,22 +1551,15 @@ translate E showblunderexists {show blunder exists}
 translate E showblundervalue {show blunder value}
 translate E showscore {show score}
 translate E coachgame {coach game}
-translate E configurecoachgame {Configure tactical game}
-translate E configuregame {Game configuration}
-translate E Phalanxengine {Phalanx engine}
-translate E Coachengine {Coach engine}
-translate E difficulty {difficulty}
-translate E hard {hard}
-translate E easy {easy}
-translate E Playwith {Play with}
 translate E white {white}
 translate E black {black}
 translate E both {both}
+translate E configurePlayEngine {Play versus Engine}
+translate E UseChessClock {Use chess clock}
 translate E Play {Play}
 translate E Noblunder {No blunder}
 translate E blunder {blunder}
 translate E Noinfo {-- No info --}
-translate E PhalanxOrTogaMissing {Phalanx or Toga not found}
 translate E moveblunderthreshold {move is a blunder if loss is greater than}
 translate E limitanalysis {limit engine analysis time}
 translate E seconds {seconds}
@@ -1635,9 +1627,7 @@ translate E Lines {Lines}
 translate E ConfigureUCIengine {Configure UCI engine}
 translate E SpecificOpening {Specific opening}
 translate E StartNewGame {Start new game}
-translate E FixedLevel {Fixed level}
 translate E Opening {Opening}
-translate E RandomLevel {Random level}
 translate E StartFromCurrentPosition {Start from current position}
 translate E FixedDepth {Fixed depth}
 translate E Nodes {Nodes}
