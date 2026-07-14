@@ -134,11 +134,13 @@ namespace eval sergame {
     ttk::checkbutton $w.fengines.cbPonder -text $::tr(Ponder) -variable ::sergame::ponder
     pack $w.fengines.cbPonder -side top -anchor w
 
-    # Player color selection
-    if {[::board::isFlipped .main.board]} {
-      set ::sergame::playerColor "black"
-    } else {
-      set ::sergame::playerColor "white"
+    # Player color selection (respect saved preference, default to board orientation)
+    if {$::sergame::playerColor == ""} {
+      if {[::board::isFlipped .main.board]} {
+        set ::sergame::playerColor "black"
+      } else {
+        set ::sergame::playerColor "white"
+      }
     }
     ttk::frame $w.fengines.player
     ttk::label $w.fengines.player.l -text "$::tr(Player) $::tr(GlistColor)"
@@ -174,40 +176,48 @@ namespace eval sergame {
     ttk::checkbutton $w.ftime.cbChessClock -text $::tr(UseChessClock) -variable ::sergame::useChessClock
     pack $w.ftime.cbChessClock -side top -anchor w -pady {0 5}
 
-    ttk::frame $w.ftime.timebonus
-    pack $w.ftime.timebonus -side top -fill x
+    # --- Clock time settings (independent of engine thinking mode) ---
+    ttk::frame $w.ftime.clock
+    pack $w.ftime.clock -side top -fill x
 
     set row 0
-    ttk::radiobutton $w.ftime.timebonus.rb1 -text $::tr(TimeBonus) -value "timebonus" -variable ::sergame::timeMode
-    grid $w.ftime.timebonus.rb1 -row $row -column 0 -sticky w -rowspan 2
-
-    ttk::label $w.ftime.timebonus.whitelabel -text $::tr(White)
-    grid $w.ftime.timebonus.whitelabel -row $row -column 1
-    ttk::spinbox $w.ftime.timebonus.whitespminutes -background white -width 2 -from 1 -to 120 -increment 1 -validate all -validatecommand { regexp {^[0-9]+$} %P }
-    grid $w.ftime.timebonus.whitespminutes -row $row -column 2
-    ttk::label $w.ftime.timebonus.whitelminutes -text $::tr(TimeMin)
-    grid $w.ftime.timebonus.whitelminutes -row $row -column 3
-    ttk::spinbox $w.ftime.timebonus.whitespseconds -background white -width 2 -from 0 -to 60 -increment 1 -validate all -validatecommand { regexp {^[0-9]+$} %P }
-    grid $w.ftime.timebonus.whitespseconds -row $row -column 4
-    ttk::label $w.ftime.timebonus.whitelseconds -text $::tr(TimeSec)
-    grid $w.ftime.timebonus.whitelseconds -row $row -column 5
+    ttk::label $w.ftime.clock.whitelabel -text $::tr(White)
+    grid $w.ftime.clock.whitelabel -row $row -column 0
+    ttk::spinbox $w.ftime.clock.whitespminutes -background white -width 2 -from 1 -to 120 -increment 1 -validate all -validatecommand { regexp {^[0-9]+$} %P }
+    grid $w.ftime.clock.whitespminutes -row $row -column 1
+    ttk::label $w.ftime.clock.whitelminutes -text $::tr(TimeMin)
+    grid $w.ftime.clock.whitelminutes -row $row -column 2
+    ttk::spinbox $w.ftime.clock.whitespseconds -background white -width 2 -from 0 -to 60 -increment 1 -validate all -validatecommand { regexp {^[0-9]+$} %P }
+    grid $w.ftime.clock.whitespseconds -row $row -column 3
+    ttk::label $w.ftime.clock.whitelseconds -text $::tr(TimeSec)
+    grid $w.ftime.clock.whitelseconds -row $row -column 4
 
     incr row
-    ttk::label $w.ftime.timebonus.blacklabel -text $::tr(Black)
-    grid $w.ftime.timebonus.blacklabel -row $row -column 1
-    ttk::spinbox $w.ftime.timebonus.blackspminutes -background white -width 2 -from 1 -to 120 -increment 1 -validate all -validatecommand { regexp {^[0-9]+$} %P }
-    grid $w.ftime.timebonus.blackspminutes -row $row -column 2
-    ttk::label $w.ftime.timebonus.blacklminutes -text $::tr(TimeMin)
-    grid $w.ftime.timebonus.blacklminutes -row $row -column 3
-    ttk::spinbox $w.ftime.timebonus.blackspseconds -background white -width 2 -from 0 -to 60 -increment 1 -validate all -validatecommand { regexp {^[0-9]+$} %P }
-    grid $w.ftime.timebonus.blackspseconds -row $row -column 4
-    ttk::label $w.ftime.timebonus.blacklseconds -text $::tr(TimeSec)
-    grid $w.ftime.timebonus.blacklseconds -row $row -column 5
+    ttk::label $w.ftime.clock.blacklabel -text $::tr(Black)
+    grid $w.ftime.clock.blacklabel -row $row -column 0
+    ttk::spinbox $w.ftime.clock.blackspminutes -background white -width 2 -from 1 -to 120 -increment 1 -validate all -validatecommand { regexp {^[0-9]+$} %P }
+    grid $w.ftime.clock.blackspminutes -row $row -column 1
+    ttk::label $w.ftime.clock.blacklminutes -text $::tr(TimeMin)
+    grid $w.ftime.clock.blacklminutes -row $row -column 2
+    ttk::spinbox $w.ftime.clock.blackspseconds -background white -width 2 -from 0 -to 60 -increment 1 -validate all -validatecommand { regexp {^[0-9]+$} %P }
+    grid $w.ftime.clock.blackspseconds -row $row -column 3
+    ttk::label $w.ftime.clock.blacklseconds -text $::tr(TimeSec)
+    grid $w.ftime.clock.blacklseconds -row $row -column 4
 
-    $w.ftime.timebonus.whitespminutes set [expr $::uci::uciInfo(wtime1) / (60 * 1000)]
-    $w.ftime.timebonus.whitespseconds set [expr $::uci::uciInfo(winc1) /  1000]
-    $w.ftime.timebonus.blackspminutes set [expr $::uci::uciInfo(btime1) / (60 * 1000)]
-    $w.ftime.timebonus.blackspseconds set [expr $::uci::uciInfo(binc1) /  1000 ]
+    $w.ftime.clock.whitespminutes set [expr $::uci::uciInfo(wtime1) / (60 * 1000)]
+    $w.ftime.clock.whitespseconds set [expr $::uci::uciInfo(winc1) /  1000]
+    $w.ftime.clock.blackspminutes set [expr $::uci::uciInfo(btime1) / (60 * 1000)]
+    $w.ftime.clock.blackspseconds set [expr $::uci::uciInfo(binc1) /  1000 ]
+
+    # --- Engine thinking mode ---
+    ttk::separator $w.ftime.sep -orient horizontal
+    pack $w.ftime.sep -side top -fill x -pady 5
+
+    # Time Bonus (engine uses remaining clock time)
+    ttk::frame $w.ftime.timebonus
+    ttk::radiobutton $w.ftime.timebonus.button -text $::tr(TimeBonus) -value "timebonus" -variable ::sergame::timeMode
+    pack $w.ftime.timebonus -side top -fill x
+    pack $w.ftime.timebonus.button -side left
 
     # Fixed depth
     ttk::frame $w.ftime.depth
@@ -294,10 +304,10 @@ namespace eval sergame {
           set ::sergame::useBook 0
         }
       }
-      set ::uci::uciInfo(wtime1) [expr [.configSerGameWin.ftime.timebonus.whitespminutes get]*1000*60]
-      set ::uci::uciInfo(btime1) [expr [.configSerGameWin.ftime.timebonus.blackspminutes get]*1000*60]
-      set ::uci::uciInfo(winc1) [expr [.configSerGameWin.ftime.timebonus.whitespseconds get]*1000]
-      set ::uci::uciInfo(binc1) [expr [.configSerGameWin.ftime.timebonus.blackspseconds get]*1000]
+      set ::uci::uciInfo(wtime1) [expr [.configSerGameWin.ftime.clock.whitespminutes get]*1000*60]
+      set ::uci::uciInfo(btime1) [expr [.configSerGameWin.ftime.clock.blackspminutes get]*1000*60]
+      set ::uci::uciInfo(winc1) [expr [.configSerGameWin.ftime.clock.whitespseconds get]*1000]
+      set ::uci::uciInfo(binc1) [expr [.configSerGameWin.ftime.clock.blackspseconds get]*1000]
       set ::uci::uciInfo(fixeddepth1) [.configSerGameWin.ftime.depth.value get]
       set ::uci::uciInfo(fixednodes1) [.configSerGameWin.ftime.nodes.value get]
       set ::uci::uciInfo(movetime1) [expr [.configSerGameWin.ftime.movetime.value get]*1000]
@@ -541,9 +551,7 @@ namespace eval sergame {
   proc clocks {cmd {n 1}} {
     switch $cmd {
       init {
-          ::gameclock::new "" 1
-          ::gameclock::new "" 2
-          if {$::sergame::useChessClock && $::sergame::timeMode == "timebonus"} {
+          if {$::sergame::useChessClock} {
             ::gameclock::setSec 1 [expr 0 - $::uci::uciInfo(wtime$n)/1000]
             ::gameclock::setSec 2 [expr 0 - $::uci::uciInfo(btime$n)/1000]
           } else {
@@ -565,13 +573,13 @@ namespace eval sergame {
       toggle {
           if {[::gameclock::stop 1]} {
             ::gameclock::storeTimeComment 1
-            if {$::sergame::useChessClock && $::sergame::timeMode == "timebonus"} {
+            if {$::sergame::useChessClock} {
               ::gameclock::add 1 [expr $::uci::uciInfo(winc$n)/1000]
             }
             ::gameclock::start 2
           } elseif {[::gameclock::stop 2]} {
             ::gameclock::storeTimeComment 2
-            if {$::sergame::useChessClock && $::sergame::timeMode == "timebonus"} {
+            if {$::sergame::useChessClock} {
               ::gameclock::add 2 [expr $::uci::uciInfo(binc$n)/1000]
             }
             ::gameclock::start 1

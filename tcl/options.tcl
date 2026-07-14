@@ -342,6 +342,8 @@ set ::sergame::threshold 0.9
 set ::sergame::isLimitedAnalysisTime 1
 set ::sergame::analysisTime 10
 set ::sergame::storeEval 0
+set ::sergame::coachIndex 0
+set ::sergame::playerColor "white"
 set ::uci::uciInfo(wtime1) [expr 5 * 60 * 1000 ]
 set ::uci::uciInfo(winc1) [expr 10 * 1000 ]
 set ::uci::uciInfo(btime1) [expr 5 * 60 * 1000 ]
@@ -662,6 +664,7 @@ proc options.write {} {
           ::sergame::chosenOpening ::sergame::chosenEngine ::sergame::useBook ::sergame::bookToUse \
           ::sergame::startFromCurrent ::sergame::coachIsWatching ::sergame::timeMode \
           ::sergame::depth ::sergame::movetime ::sergame::nodes ::sergame::ponder ::sergame::isOpening \
+          ::sergame::coachIndex ::sergame::playerColor \
           ::uci::uciInfo(wtime1) ::uci::uciInfo(winc1) ::uci::uciInfo(btime1) ::uci::uciInfo(binc1) \
           ::uci::uciInfo(fixeddepth1) ::uci::uciInfo(fixednodes1) ::uci::uciInfo(movetime1) \
           boardfile_lite boardfile_dark \
