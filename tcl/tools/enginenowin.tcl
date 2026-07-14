@@ -19,7 +19,10 @@ proc ::engineNoWin::initEngine { id engine callback } {
         set oldwdir [pwd]
         cd $wdir
     }
-    ::engine::connect $id $callback $cmd $args
+    if {[catch {::engine::connect $id $callback $cmd $args} err]} {
+        if {[info exists oldwdir]} { cd $oldwdir }
+        error $err
+    }
     if {[info exists oldwdir]} { cd $oldwdir }
     if { $options ne "" } { ::engine::send $id SetOptions $options }
     return 1

@@ -146,18 +146,18 @@ proc ::lucaschess::downloadFile {url destFile} {
     set tempFile [file join $destDir "_download_tmp"]
 
     if {[auto_execok curl] ne ""} {
-        if {[catch {exec curl -L -s -o "$tempFile" "$url" 2>@1} err]} {
+        if {[catch {exec curl -L -s --max-time 120 -o "$tempFile" "$url" 2>@1} err]} {
             error "curl download failed: $err"
         }
     } elseif {[auto_execok wget] ne ""} {
-        if {[catch {exec wget -q -O "$tempFile" "$url" 2>@1} err]} {
+        if {[catch {exec wget -q --timeout=120 -O "$tempFile" "$url" 2>@1} err]} {
             error "wget download failed: $err"
         }
     } elseif {[info exists ::windowsOS] && $::windowsOS && [auto_execok powershell] ne ""} {
         set ::env(SCID_LC_DL_URL) $url
         set ::env(SCID_LC_DL_FILE) $tempFile
         if {[catch {exec powershell -NoLogo -NoProfile -Command \
-            {Invoke-WebRequest -Uri $env:SCID_LC_DL_URL -OutFile $env:SCID_LC_DL_FILE}} err]} {
+            {$ProgressPreference = 'SilentlyContinue'; Invoke-WebRequest -Uri $env:SCID_LC_DL_URL -OutFile $env:SCID_LC_DL_FILE -TimeoutSec 120}} err]} {
             error "PowerShell download failed: $err"
         }
     } else {
@@ -209,24 +209,18 @@ proc ::lucaschess::fetchGitHubApi {apiUrl} {
 # ::lucaschess::parseGitHubDir
 proc ::lucaschess::parseGitHubDir {json} {
     set files {}
-    set names {}
-    set namePat {"name"\s*:\s*"([^"]+)"}
-    foreach {_ n} [regexp -all -inline $namePat $json] { lappend names $n }
+    # Match JSON objects and extract name/download_url pairs together
+    set objPat {\{[^\}]*"name"\s*:\s*"([^"]+)"[^\}]*"download_url"\s*:\s*("null"|"([^"]+)")[^\}]*\}}
+    foreach {_ name nullOrUrl actualUrl} [regexp -all -inline $objPat $json] {
+        # Skip if download_url is null or missing
+        if {$nullOrUrl eq "null" || $actualUrl eq ""} { continue }
+        if {$name eq ""} { continue }
 
-    set dls {}
-    set dlPat {"download_url"\s*:\s*"([^"]+)"}
-    foreach {_ d} [regexp -all -inline $dlPat $json] { lappend dls $d }
-
-    set count [llength $names]
-    for {set i 0} {$i < $count} {incr i} {
-        set name [lindex $names $i]
-        set dl [lindex $dls $i]
-        if {$name eq "" || $dl eq ""} { continue }
         set skip 0
         foreach ext $::lucaschess::skipExtensions {
             if {[string match "*$ext" $name]} { set skip 1; break }
         }
-        if {!$skip} { lappend files [list $name $dl] }
+        if {!$skip} { lappend files [list $name $actualUrl] }
     }
     return $files
 }
@@ -297,7 +291,15 @@ proc ::lucaschess::installEngine {enginedata} {
     set dlg .lucaschessdlg
     if {[winfo exists $dlg]} { destroy $dlg }
 
-    if {$::windowsOS} { set os "win32" } else { set os "linux" }
+    if {$::windowsOS} {
+        set os "win32"
+    } elseif {$::macOS} {
+        tk_messageBox -title "scidCommunity" -icon error \
+            -message "Lucas Chess engine installation is not supported on macOS.\n\nThe Lucas Chess R repository does not provide macOS binaries."
+        return
+    } else {
+        set os "linux"
+    }
 
     win::createDialog $dlg
     ::setTitle $dlg "scidCommunity: Installing $name"
@@ -321,7 +323,7 @@ proc ::lucaschess::installEngine {enginedata} {
     set engineName [::enginecfg::uniquename "Lucas Chess $name"]
 
     set newEngine [list $engineName $exePath {} $engineDir $elo [clock seconds] \
-        [list white 1 none false normal {}] 1 {}]
+        {} 1 {}]
     lappend ::engines(list) $newEngine
     ::enginecfg::write
     ::enginelist::sort
