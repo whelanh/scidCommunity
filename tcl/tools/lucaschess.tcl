@@ -146,7 +146,7 @@ proc ::lucaschess::downloadFile {url destFile} {
     set tempFile [file join $destDir "_download_tmp"]
 
     if {[auto_execok curl] ne ""} {
-        if {[catch {exec curl -L -s --max-time 120 -o "$tempFile" "$url" 2>@1} err]} {
+        if {[catch {exec curl -L -f -sS --max-time 120 -o "$tempFile" "$url" 2>@1} err]} {
             error "curl download failed: $err"
         }
     } elseif {[auto_execok wget] ne ""} {
