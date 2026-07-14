@@ -42,7 +42,7 @@ namespace eval sergame {
   # config: configuration dialog for Play versus Engine
   ################################################################################
   proc config {} {
-    global ::sergame::chosenOpening
+    global ::sergame::chosenOpening ::sergame::playerColor
 
     set w ".configSerGameWin"
     if {[winfo exists $w]} {
@@ -56,68 +56,98 @@ namespace eval sergame {
     bind $w <F1> { helpWindow PlayVsEngine }
     setWinLocation $w
 
-    ttk::frame $w.fconfig -padding 10
+    # Create frames
+    ttk::frame $w.fconfig
+    ttk::frame $w.fconfig2
     ttk::frame $w.fbuttons
-    ttk::labelframe $w.fengines -text $::tr(Engine)
-    ttk::labelframe $w.fcoach -text $::tr(CoachIsWatching)
+    ttk::labelframe $w.fengines -text "$::tr(Player) - $::tr(Engine)"
+    ttk::labelframe $w.fcoach -text "Coaching"
     ttk::labelframe $w.ftime -text $::tr(TimeMode)
     ttk::labelframe $w.fopening -text $::tr(Opening)
 
-    grid $w.fengines -row 0 -column 0 -sticky nswe -padx { 0 10 }
-    grid $w.fcoach -row 0 -column 1 -sticky nswe -padx { 10 0 }
-    grid $w.fopening -row 1 -column 0 -sticky nswe -padx { 0 10 } -pady { 10 0 }
-    grid $w.ftime -row 1 -column 1 -sticky nswe -padx { 10 0 } -pady { 10 0 }
-    grid $w.fconfig -row 2 -column 1 -sticky we -pady { 10 0 }
-    grid $w.fbuttons -row 2 -column 1 -sticky e
+    # Grid them visually identical to uwe's layout
+    grid $w.fengines -row 0 -column 0 -pady { 0 10 } -sticky nswe -padx { 0 10 }
+    grid $w.fcoach -row 0 -column 1 -pady { 0 10 } -sticky nswe -padx { 0 10 }
+    grid $w.fopening -row 1 -column 0 -pady { 0 10 } -sticky nswe -padx { 0 10 }
+    grid $w.ftime -row 1 -column 1 -pady { 0 10 } -sticky nswe -padx { 0 10 }
+    grid $w.fconfig -row 2 -column 0 -pady { 0 10 } -sticky we -padx { 0 10 }
+    grid $w.fconfig2 -row 2 -column 1 -pady { 0 10 } -sticky we -padx { 0 10 }
+    grid $w.fbuttons -row 3 -column 1 -sticky se
 
-    # builds the list of UCI engines
-    ttk::frame $w.fengines.fEnginesList
-    ttk::treeview $w.fengines.fEnginesList.lbEngines -columns {0} -show {} -selectmode browse \
-        -yscrollcommand "$w.fengines.fEnginesList.ybar set"
-    $w.fengines.fEnginesList.lbEngines column 0 -width 100
-    $w.fengines.fEnginesList.lbEngines configure -height 5
-    ttk::scrollbar $w.fengines.fEnginesList.ybar -command "$w.fengines.fEnginesList.lbEngines yview"
-    pack $w.fengines.fEnginesList.ybar -side right -fill y
-    pack $w.fengines.fEnginesList.lbEngines -side left -fill x -expand 1
-    pack $w.fengines.fEnginesList -expand yes -fill x -side top
-
+    # ------------------ fengines frame ------------------
+    # builds the list of UCI engines and formats the combobox
+    set uciEngineNames {}
     set i 0
     set idx 0
     foreach e $::engines(list) {
       if { [lindex $e 7] != 1} { incr idx ; continue }
       set ::sergame::engineListBox($i) $idx
       set name [lindex $e 0]
-      $w.fengines.fEnginesList.lbEngines insert {} end -id $idx -values [list $name]
+      lappend uciEngineNames $name
+      if {$idx == $::sergame::chosenEngine} {
+        set selectedUciIdx $i
+      }
       incr i
       incr idx
     }
 
-    # Engine configuration (limit strength for example)
-    ttk::button $w.fengines.bEngineConfig -text $::tr(ConfigureUCIengine) -command {
-      set sel [.configSerGameWin.fengines.fEnginesList.lbEngines selection]
-      set index $::sergame::engineListBox($sel)
-      set engineData [lindex $::engines(list) $index]
-      set name [lindex $engineData 0]
-      set cmd [ toAbsPath [lindex $engineData 1] ]
-      set args [lindex $engineData 2]
-      set dir [ toAbsPath [lindex $engineData 3] ]
-      set options [lindex $engineData 8]
-      set ::uci::engineListIndex $index
-      ::uci::uciConfig 3 [ toAbsPath $cmd ] $args [ toAbsPath $dir ] $options
-    }
-    pack $w.fengines.bEngineConfig -side bottom -anchor e -padx 4 -pady {5 0}
-
-    if {$i == 0} {
+    if {[llength $uciEngineNames] == 0} {
       tk_messageBox -type ok -message "No UCI engine defined" -icon error
       destroy $w
       return
     }
 
-    $w.fengines.fEnginesList.lbEngines selection set $::sergame::chosenEngine
-    $w.fengines.fEnginesList.lbEngines see $::sergame::chosenEngine
+    ttk::frame $w.fengines.sel
+    ttk::combobox $w.fengines.sel.combo -state readonly -values $uciEngineNames -width 22
+    if {[info exists selectedUciIdx]} {
+      $w.fengines.sel.combo current $selectedUciIdx
+    } else {
+      $w.fengines.sel.combo current 0
+    }
 
-    # Coach engine selection (all engines, not just UCI)
-    ttk::label $w.fcoach.lCoach -text "Coach Engine:"
+    ttk::button $w.fengines.sel.bEngineConfig -text "..." -width 3 -command {
+      set selectedName [.configSerGameWin.fengines.sel.combo get]
+      set chosenIndex -1
+      set idx 0
+      foreach e $::engines(list) {
+        if {[lindex $e 0] eq $selectedName} {
+          set chosenIndex $idx
+          break
+        }
+        incr idx
+      }
+      if {$chosenIndex != -1} {
+        set engineData [lindex $::engines(list) $chosenIndex]
+        set name [lindex $engineData 0]
+        set cmd [ toAbsPath [lindex $engineData 1] ]
+        set args [lindex $engineData 2]
+        set dir [ toAbsPath [lindex $engineData 3] ]
+        set options [lindex $engineData 8]
+        set ::uci::engineListIndex $chosenIndex
+        ::uci::uciConfig 3 [ toAbsPath $cmd ] $args [ toAbsPath $dir ] $options
+      }
+    }
+    pack $w.fengines.sel.combo -side left -fill x -expand yes
+    pack $w.fengines.sel.bEngineConfig -side left -padx {5 0}
+    pack $w.fengines.sel -side top -fill x -pady 5
+
+    ttk::checkbutton $w.fengines.cbPonder -text $::tr(Ponder) -variable ::sergame::ponder
+    pack $w.fengines.cbPonder -side top -anchor w
+
+    # Player color selection
+    if {[::board::isFlipped .main.board]} {
+      set ::sergame::playerColor "black"
+    } else {
+      set ::sergame::playerColor "white"
+    }
+    ttk::frame $w.fengines.player
+    ttk::label $w.fengines.player.l -text "$::tr(Player) $::tr(GlistColor)"
+    ttk::radiobutton $w.fengines.player.w -text $::tr(white) -value "white" -variable ::sergame::playerColor
+    ttk::radiobutton $w.fengines.player.b -text $::tr(black) -value "black" -variable ::sergame::playerColor
+    pack $w.fengines.player.l $w.fengines.player.w $w.fengines.player.b -side left -padx 4
+    pack $w.fengines.player -side top -anchor w -pady 5
+
+    # ------------------ coach frame ------------------
     set coachNames {}
     set ci 0
     foreach e $::engines(list) {
@@ -125,27 +155,22 @@ namespace eval sergame {
       incr ci
     }
     if {[expr $ci - 1] < $::sergame::coachIndex} { set ::sergame::coachIndex 0 }
-    ttk::combobox $w.fcoach.cbCoach -values $coachNames -state readonly -width 20
-    catch { $w.fcoach.cbCoach set [lindex $coachNames $::sergame::coachIndex] }
 
-    ttk::checkbutton $w.fcoach.cbCoachWatching -text $::tr(CoachIsWatching) -variable ::sergame::coachIsWatching
-    ttk::checkbutton $w.fcoach.cbStoreEval -text $::tr(AddScoreToShortAnnotations) -variable ::sergame::storeEval
-    ttk::checkbutton $w.fcoach.cbLimitAnalysis -text $::tr(limitanalysis) -variable ::sergame::isLimitedAnalysisTime
-    ttk::label $w.fcoach.lblAnalysisTime -textvariable ::sergame::analysisTime
-    ttk::label $w.fcoach.lblSec -text $::tr(seconds)
-    ttk::scale $w.fcoach.scaleAnalysisTime -orient horizontal -from 5 -to 60 -length 120 -variable ::sergame::analysisTime \
-        -command { ::utils::validate::roundScale ::sergame::analysisTime 1 }
+    ttk::frame $w.fcoach.en
+    ttk::checkbutton $w.fcoach.en.cbCoachWatching -text $::tr(CoachIsWatching) -variable ::sergame::coachIsWatching
+    ttk::combobox $w.fcoach.en.cbCoach -values $coachNames -state readonly -width 20
+    catch { $w.fcoach.en.cbCoach set [lindex $coachNames $::sergame::coachIndex] }
+    pack $w.fcoach.en.cbCoachWatching $w.fcoach.en.cbCoach -side left -padx 4 -pady 5
 
-    grid $w.fcoach.lCoach -row 0 -column 0 -padx 4 -sticky w
-    grid $w.fcoach.cbCoach -row 0 -column 1 -padx 4 -sticky w
-    grid $w.fcoach.cbCoachWatching -row 1 -column 0 -columnspan 2 -padx 4 -sticky w
-    grid $w.fcoach.cbStoreEval -row 2 -column 0 -columnspan 2 -padx 4 -sticky w
-    grid $w.fcoach.cbLimitAnalysis -row 3 -column 0 -columnspan 2 -padx 4 -sticky w
-    grid $w.fcoach.lblAnalysisTime -row 4 -column 0 -padx 4 -sticky e
-    grid $w.fcoach.lblSec -row 4 -column 1 -padx {0 4} -sticky w
-    grid $w.fcoach.scaleAnalysisTime -row 5 -column 0 -columnspan 2 -padx 4 -sticky we
+    ttk::frame $w.fcoach.ad
+    ttk::checkbutton $w.fcoach.ad.cbLimitAnalysis -text $::tr(limitanalysis) -variable ::sergame::isLimitedAnalysisTime
+    ttk::spinbox $w.fcoach.ad.val -width 3 -from 5 -to 360 -increment 1 -textvariable ::sergame::analysisTime -validate all -validatecommand { regexp {^[0-9]+$} %P }
+    ttk::label $w.fcoach.ad.lblSec -text $::tr(seconds)
+    pack $w.fcoach.ad.cbLimitAnalysis $w.fcoach.ad.val $w.fcoach.ad.lblSec -side left -anchor w -padx 4
 
-    # Time control frame
+    pack $w.fcoach.en $w.fcoach.ad -side top -anchor w -padx 4
+
+    # ------------------ ftime frame ------------------
     ttk::checkbutton $w.ftime.cbChessClock -text $::tr(UseChessClock) -variable ::sergame::useChessClock
     pack $w.ftime.cbChessClock -side top -anchor w -pady {0 5}
 
@@ -158,11 +183,11 @@ namespace eval sergame {
 
     ttk::label $w.ftime.timebonus.whitelabel -text $::tr(White)
     grid $w.ftime.timebonus.whitelabel -row $row -column 1
-    ttk::spinbox $w.ftime.timebonus.whitespminutes -width 2 -from 1 -to 120 -increment 1 -validate all -validatecommand { regexp {^[0-9]+$} %P }
+    ttk::spinbox $w.ftime.timebonus.whitespminutes -background white -width 2 -from 1 -to 120 -increment 1 -validate all -validatecommand { regexp {^[0-9]+$} %P }
     grid $w.ftime.timebonus.whitespminutes -row $row -column 2
     ttk::label $w.ftime.timebonus.whitelminutes -text $::tr(TimeMin)
     grid $w.ftime.timebonus.whitelminutes -row $row -column 3
-    ttk::spinbox $w.ftime.timebonus.whitespseconds -width 2 -from 0 -to 60 -increment 1 -validate all -validatecommand { regexp {^[0-9]+$} %P }
+    ttk::spinbox $w.ftime.timebonus.whitespseconds -background white -width 2 -from 0 -to 60 -increment 1 -validate all -validatecommand { regexp {^[0-9]+$} %P }
     grid $w.ftime.timebonus.whitespseconds -row $row -column 4
     ttk::label $w.ftime.timebonus.whitelseconds -text $::tr(TimeSec)
     grid $w.ftime.timebonus.whitelseconds -row $row -column 5
@@ -170,11 +195,11 @@ namespace eval sergame {
     incr row
     ttk::label $w.ftime.timebonus.blacklabel -text $::tr(Black)
     grid $w.ftime.timebonus.blacklabel -row $row -column 1
-    ttk::spinbox $w.ftime.timebonus.blackspminutes -width 2 -from 1 -to 120 -increment 1 -validate all -validatecommand { regexp {^[0-9]+$} %P }
+    ttk::spinbox $w.ftime.timebonus.blackspminutes -background white -width 2 -from 1 -to 120 -increment 1 -validate all -validatecommand { regexp {^[0-9]+$} %P }
     grid $w.ftime.timebonus.blackspminutes -row $row -column 2
     ttk::label $w.ftime.timebonus.blacklminutes -text $::tr(TimeMin)
     grid $w.ftime.timebonus.blacklminutes -row $row -column 3
-    ttk::spinbox $w.ftime.timebonus.blackspseconds -width 2 -from 0 -to 60 -increment 1 -validate all -validatecommand { regexp {^[0-9]+$} %P }
+    ttk::spinbox $w.ftime.timebonus.blackspseconds -background white -width 2 -from 0 -to 60 -increment 1 -validate all -validatecommand { regexp {^[0-9]+$} %P }
     grid $w.ftime.timebonus.blackspseconds -row $row -column 4
     ttk::label $w.ftime.timebonus.blacklseconds -text $::tr(TimeSec)
     grid $w.ftime.timebonus.blacklseconds -row $row -column 5
@@ -187,7 +212,7 @@ namespace eval sergame {
     # Fixed depth
     ttk::frame $w.ftime.depth
     ttk::radiobutton $w.ftime.depth.button -text $::tr(FixedDepth) -value "depth" -variable ::sergame::timeMode -width 16
-    ttk::spinbox $w.ftime.depth.value -width 3 -from 1 -to 20 -increment 1 -validate all -validatecommand { regexp {^[0-9]+$} %P }
+    ttk::spinbox $w.ftime.depth.value -background white -width 3 -from 1 -to 20 -increment 1 -validate all -validatecommand { regexp {^[0-9]+$} %P }
     $w.ftime.depth.value set $::sergame::depth
     pack $w.ftime.depth -side top -fill x
     pack $w.ftime.depth.button -side left
@@ -196,7 +221,7 @@ namespace eval sergame {
     # Nodes (raw value, no x1000)
     ttk::frame $w.ftime.nodes
     ttk::radiobutton $w.ftime.nodes.button -text $::tr(Nodes) -value "nodes" -variable ::sergame::timeMode -width 16
-    ttk::spinbox $w.ftime.nodes.value -width 8 -from 1 -to 10000000 -increment 1000 -validate all -validatecommand { regexp {^[0-9]+$} %P }
+    ttk::spinbox $w.ftime.nodes.value -background white -width 8 -from 1 -to 10000000 -increment 1000 -validate all -validatecommand { regexp {^[0-9]+$} %P }
     $w.ftime.nodes.value set $::sergame::nodes
     pack $w.ftime.nodes -side top -fill x
     pack $w.ftime.nodes.button -side left
@@ -205,7 +230,7 @@ namespace eval sergame {
     # Seconds per move
     ttk::frame $w.ftime.movetime
     ttk::radiobutton $w.ftime.movetime.button -text $::tr(SecondsPerMove) -value "movetime" -variable ::sergame::timeMode -width 16
-    ttk::spinbox $w.ftime.movetime.value -width 3 -from 1 -to 120 -increment 1 -validate all -validatecommand { regexp {^[0-9]+$} %P }
+    ttk::spinbox $w.ftime.movetime.value -background white -width 3 -from 1 -to 120 -increment 1 -validate all -validatecommand { regexp {^[0-9]+$} %P }
     $w.ftime.movetime.value set [ expr $::sergame::movetime /1000]
     pack $w.ftime.movetime -side top -fill x
     pack $w.ftime.movetime.button -side left
@@ -234,11 +259,10 @@ namespace eval sergame {
     pack $w.fconfig.cbUseBook -side top -anchor w
     pack $w.fconfig.combo -side top -anchor w -padx 20 -fill x
 
-    ttk::checkbutton $w.fconfig.cbPosition -text $::tr(StartFromCurrentPosition) -variable ::sergame::startFromCurrent
-    pack $w.fconfig.cbPosition -side top -anchor w
-
-    ttk::checkbutton $w.fconfig.cbPonder -text $::tr(Ponder) -variable ::sergame::ponder
-    pack $w.fconfig.cbPonder -side top -anchor w
+    # Config options 2
+    ttk::checkbutton $w.fconfig2.cbPosition -text $::tr(StartFromCurrentPosition) -variable ::sergame::startFromCurrent
+    ttk::checkbutton $w.fconfig2.storeEval -text $::tr(AddScoreToShortAnnotations) -variable ::sergame::storeEval
+    pack $w.fconfig2.cbPosition $w.fconfig2.storeEval -side top -anchor w
 
     # Specific opening
     ttk::checkbutton $w.fopening.cbOpening -text $::tr(SpecificOpening) -variable ::sergame::isOpening
@@ -256,15 +280,13 @@ namespace eval sergame {
     $w.fopening.fOpeningList.lbOpening see $::sergame::chosenOpening
 
     ttk::scrollbar $w.fopening.fOpeningList.ybar -command "$w.fopening.fOpeningList.lbOpening yview"
+    pack $w.fopening.cbOpening -fill x -side top
     pack $w.fopening.fOpeningList.ybar -side right -fill y
     pack $w.fopening.fOpeningList.lbOpening -side left -fill both -expand 1
     pack $w.fopening.fOpeningList -fill both -side top
-    pack $w.fopening.cbOpening -fill x -side top
 
     ttk::button $w.fbuttons.close -text $::tr(Play) -command {
       focus .
-      set ::sergame::chosenEngine [.configSerGameWin.fengines.fEnginesList.lbEngines selection]
-      set ::sergame::engineName [.configSerGameWin.fengines.fEnginesList.lbEngines set $::sergame::chosenEngine 0]
       set ::sergame::chosenOpening [.configSerGameWin.fopening.fOpeningList.lbOpening selection]
       if {$::sergame::useBook} {
         set ::sergame::bookToUse [.configSerGameWin.fconfig.combo get]
@@ -281,7 +303,7 @@ namespace eval sergame {
       set ::uci::uciInfo(movetime1) [expr [.configSerGameWin.ftime.movetime.value get]*1000]
 
       # Find the coach engine index
-      set coachSelName [.configSerGameWin.fcoach.cbCoach get]
+      set coachSelName [.configSerGameWin.fcoach.en.cbCoach get]
       set ci 0
       foreach e $::engines(list) {
         if {[lindex $e 0] eq $coachSelName} {
@@ -291,10 +313,23 @@ namespace eval sergame {
         incr ci
       }
 
-      if {$::sergame::chosenEngine eq ""} {
+      # Get selected engine index from the combobox
+      set selectedName [.configSerGameWin.fengines.sel.combo get]
+      set chosenIndex -1
+      set idx 0
+      foreach e $::engines(list) {
+        if {[lindex $e 0] eq $selectedName} {
+          set chosenIndex $idx
+          break
+        }
+        incr idx
+      }
+      set ::sergame::chosenEngine $chosenIndex
+      if {$::sergame::chosenEngine == -1} {
         tk_messageBox -title "scidCommunity" -message "Please select an engine" -icon warning
         return
       }
+      set ::sergame::engineName $selectedName
 
       destroy .configSerGameWin
       ::sergame::play $::sergame::chosenEngine
@@ -329,13 +364,17 @@ namespace eval sergame {
     set ::sergame::blunderWarningLabel ""
     set ::sergame::scoreLabel ""
 
-    # Engine plays for the upper side
-    if {[::board::isFlipped .main.board]} {
-      set ::sergame::playerColor "black"
-      set ::sergame::engineColor "white"
-    } else {
-      set ::sergame::playerColor "white"
+    # Engine plays for the opposite side of player color
+    if {$::sergame::playerColor == "white"} {
       set ::sergame::engineColor "black"
+      if {[::board::isFlipped .main.board]} {
+        ::board::flipAuto .main.board 0
+      }
+    } else {
+      set ::sergame::engineColor "white"
+      if {![::board::isFlipped .main.board]} {
+        ::board::flipAuto .main.board 1
+      }
     }
 
     # Start opponent engine (engine 1)
@@ -423,10 +462,8 @@ namespace eval sergame {
     pack $w.fthreshold -side top -fill both -pady 5 -padx 10
     pack [ttk::separator $w.line2 -orient horizontal] -side top -fill x -padx 10 -pady 5
     pack $w.finformations -side top -fill both -pady 5 -padx 10
-    if {$::sergame::useChessClock} {
-      pack $w.fclocks -side top -fill both -pady 5 -padx 10
-      pack $w.fclockb $w.fclockw -side left -padx 10 -pady 5 -expand 1
-    }
+    pack $w.fclocks -side top -fill both -pady 5 -padx 10
+    pack $w.fclockb $w.fclockw -side left -padx 10 -pady 5 -expand 1
     pack $w.fbuttons -side top -pady "10 15"
 
     ttk::checkbutton $w.fdisplay.b1 -text $::tr(showblunderexists) -variable ::sergame::showblunder
@@ -449,13 +486,11 @@ namespace eval sergame {
     ttk::button $w.fbuttons.close -textvar ::tr(Abort) -command "destroy .coachWin"
     pack $w.fbuttons.close -expand yes -fill both -padx 20 -pady 2
 
-    if {$::sergame::useChessClock} {
-      ::gameclock::new $w.fclockb 2 80
-      ::gameclock::new $w.fclockw 1 80
-      ::gameclock::reset 1
-      ::gameclock::reset 2
-      ::gameclock::start 1
-    }
+    ::gameclock::new $w.fclockb 2 80
+    ::gameclock::new $w.fclockw 1 80
+    ::gameclock::reset 1
+    ::gameclock::reset 2
+    ::gameclock::start 1
 
     bind $w <F1> { helpWindow PlayVsEngine }
     bind $w <Destroy> "if {\[string equal $w %W\]} {::sergame::abortGame}"
@@ -529,16 +564,16 @@ namespace eval sergame {
       }
       toggle {
           if {[::gameclock::stop 1]} {
+            ::gameclock::storeTimeComment 1
             if {$::sergame::useChessClock && $::sergame::timeMode == "timebonus"} {
               ::gameclock::add 1 [expr $::uci::uciInfo(winc$n)/1000]
             }
-            ::gameclock::storeTimeComment 1
             ::gameclock::start 2
           } elseif {[::gameclock::stop 2]} {
+            ::gameclock::storeTimeComment 2
             if {$::sergame::useChessClock && $::sergame::timeMode == "timebonus"} {
               ::gameclock::add 2 [expr $::uci::uciInfo(binc$n)/1000]
             }
-            ::gameclock::storeTimeComment 2
             ::gameclock::start 1
           }
           ::notify::PosChanged -pgn
@@ -590,11 +625,9 @@ namespace eval sergame {
     set takebackClockB ""
     if {$::sergame::waitPlayerMove} {
       set ::sergame::waitPlayerMove 0
-      if {$::sergame::useChessClock} {
-        set takebackClockW [::gameclock::getSec 1]
-        set takebackClockB [::gameclock::getSec 2]
-        clocks toggle $n
-      }
+      set takebackClockW [::gameclock::getSec 1]
+      set takebackClockB [::gameclock::getSec 2]
+      clocks toggle $n
       repetition
     }
 
@@ -637,7 +670,7 @@ namespace eval sergame {
             sc_var promote
             sc_move forward 1
           }
-          if {$::sergame::useChessClock} { clocks toggle $n }
+          clocks toggle $n
           updateBoard -pgn -animate
           repetition
           after 1000 ::sergame::engineGo $n
@@ -655,7 +688,7 @@ namespace eval sergame {
         sc_move addSan $move
         ::utils::sound::AnnounceNewMove $move
         set ::uci::uciInfo(prevscore$n) 0.0
-        if {$::sergame::useChessClock} { clocks toggle $n }
+        clocks toggle $n
         updateBoard -pgn -animate
         repetition
         after 1000 ::sergame::engineGo $n
@@ -745,7 +778,7 @@ namespace eval sergame {
     updateBoard -pgn -animate
     repetition
 
-    if {$::sergame::useChessClock} { clocks toggle $n }
+    clocks toggle $n
 
     # After engine moves, start coach analysis for blunder detection
     if {$::sergame::showblunder || $::sergame::showevaluation} {
