@@ -646,8 +646,7 @@ namespace eval sergame {
     set takebackClockB ""
     if {$::sergame::waitPlayerMove} {
       set ::sergame::waitPlayerMove 0
-      lappend ::sergame::lscore $::uci::uciInfo(score2)
-      set ::sergame::lscore [lrange $::sergame::lscore end-1 end]
+      set ::sergame::lscore [list $::uci::uciInfo(score2)]
       set takebackClockW [::gameclock::getSec 1]
       set takebackClockB [::gameclock::getSec 2]
       clocks toggle $n
@@ -795,6 +794,8 @@ namespace eval sergame {
 
     if { $::uci::uciInfo(bestmove$n) == "abort" } { return }
 
+    ::sergame::updatePlayerAnalysis $::uci::uciInfo(score$n)
+
     ::uci::sc_move_add $::uci::uciInfo(bestmove$n)
     ::utils::sound::AnnounceNewMove $::uci::uciInfo(bestmove$n)
     set ::uci::uciInfo(prevscore$n) $::uci::uciInfo(score$n)
@@ -882,75 +883,102 @@ namespace eval sergame {
   }
 
   ################################################################################
-  # updateAnalysisText: blunder detection from coach engine
+  # updatePlayerAnalysis: assess the player's just-played move
+  ################################################################################
+  proc updatePlayerAnalysis { sc1 } {
+    if { ![winfo exists .coachWin] } { return }
+
+    if {[llength $::sergame::lscore] == 0} {
+      if {$::sergame::showblunder} {
+        .coachWin.finformations.l1 configure -background linen
+        set ::sergame::blunderWarningLabel $::tr(Noinfo)
+        set ::sergame::blunderpending 0
+      }
+      if {$::sergame::showevaluation} {
+        set ::sergame::scoreLabel "Score : $sc1"
+      } else {
+        set ::sergame::scoreLabel ""
+      }
+      return
+    }
+
+    set sc2 [lindex $::sergame::lscore end]
+    if {$sc2 == ""} {
+      set ::sergame::blunderWarningLabel $::tr(Noinfo)
+      set ::sergame::blunderpending 0
+      if {$::sergame::showevaluation} {
+        set ::sergame::scoreLabel "Score : $sc1"
+      } else {
+        set ::sergame::scoreLabel ""
+      }
+      return
+    }
+
+    if { $::sergame::showblunder } {
+      set threshold $::sergame::threshold
+      if { ($sc1 - $sc2 > $threshold && $::sergame::engineColor == "black") || \
+            ($sc1 - $sc2 < [expr 0.0 - $threshold] && $::sergame::engineColor == "white") } {
+        set ::sergame::lastblundervalue [expr $sc1-$sc2]
+        if { [expr abs($sc2)] < $::informant(+--) } {
+          if {$::sergame::coachNag ne ""} {
+            catch {sc_pos removeNag $::sergame::coachNag}
+          }
+          set b [expr abs($::sergame::lastblundervalue)]
+          if { $b >= $::informant(?!) && $b < $::informant(?) } {
+            sc_pos addNag "?!"
+            set ::sergame::coachNag "?!"
+          } elseif { $b >= $::informant(?) && $b < $::informant(??) } {
+            sc_pos addNag "?"
+            set ::sergame::coachNag "?"
+          } elseif { $b >= $::informant(??) } {
+            sc_pos addNag "??"
+            set ::sergame::coachNag "??"
+          }
+        }
+        .coachWin.finformations.l1 configure -background LightCoral
+        if { $::sergame::showblundervalue } {
+          set tmp $::tr(blunder)
+          append tmp [format " %+8.2f" [expr abs($sc1-$sc2)]]
+          set ::sergame::blunderWarningLabel $tmp
+          set ::sergame::blunderpending 1
+        } else {
+          set ::sergame::blunderWarningLabel "$::tr(blunder) !"
+          set ::sergame::blunderpending 1
+        }
+      } else {
+        if {$::sergame::coachNag ne ""} {
+          catch {sc_pos removeNag $::sergame::coachNag}
+          set ::sergame::coachNag ""
+        }
+        .coachWin.finformations.l1 configure -background linen
+        set ::sergame::blunderWarningLabel $::tr(Noblunder)
+        set ::sergame::blunderpending 0
+      }
+    }
+
+    if { $::sergame::showevaluation } {
+      set ::sergame::scoreLabel "Score : $sc1"
+    } else {
+      set ::sergame::scoreLabel ""
+    }
+  }
+
+  ################################################################################
+  # updateAnalysisText: refresh live coach analysis during the player's turn
   ################################################################################
   proc updateAnalysisText { } {
     if { ![winfo exists .coachWin] } { return }
     if { $::sergame::engineColor == "" } { return }
     if { $::sergame::engineColor == [sc_pos side] } { return }
 
-    catch {
-      set sc1 $::uci::uciInfo(score2)
-      set sc2 [lindex $::sergame::lscore end]
-    }
-
-    if {[llength $::sergame::lscore] < 2} {
+    if { $::sergame::showblunder } {
+      .coachWin.finformations.l1 configure -background linen
       set ::sergame::blunderWarningLabel $::tr(Noinfo)
-      set ::sergame::scoreLabel ""
-      if {[llength $::sergame::lscore] == 1 && $::sergame::showevaluation } {
-        set ::sergame::scoreLabel "Score : [lindex $::sergame::lscore end]"
-      }
-      return
+      set ::sergame::blunderpending 0
     }
 
-    if { $::sergame::showblunder && $::sergame::engineColor != [sc_pos side] } {
-      if {[llength $::sergame::lscore] >= 2} {
-        set threshold $::sergame::threshold
-        if { ($sc1 - $sc2 > $threshold && $::sergame::engineColor == "black") || \
-              ($sc1 - $sc2 < [expr 0.0 - $threshold] && $::sergame::engineColor == "white") } {
-          set ::sergame::lastblundervalue [expr $sc1-$sc2]
-          if { [expr abs($sc2)] < $::informant(+--) } {
-            # Remove only the previous coach-generated NAG
-            if {$::sergame::coachNag ne ""} {
-              catch {sc_pos removeNag $::sergame::coachNag}
-            }
-            set b [expr abs($::sergame::lastblundervalue)]
-            if { $b >= $::informant(?!) && $b < $::informant(?) } {
-              sc_pos addNag "?!"
-              set ::sergame::coachNag "?!"
-            } elseif { $b >= $::informant(?) && $b < $::informant(??) } {
-              sc_pos addNag "?"
-              set ::sergame::coachNag "?"
-            } elseif { $b >= $::informant(??) } {
-              sc_pos addNag "??"
-              set ::sergame::coachNag "??"
-            }
-          }
-          .coachWin.finformations.l1 configure -background LightCoral
-          if { $::sergame::showblundervalue } {
-            set tmp $::tr(blunder)
-            append tmp [format " %+8.2f" [expr abs($sc1-$sc2)]]
-            set ::sergame::blunderWarningLabel $tmp
-            set ::sergame::blunderpending 1
-          } else {
-            set ::sergame::blunderWarningLabel "$::tr(blunder) !"
-            set ::sergame::blunderpending 1
-          }
-        } else {
-          # Remove only the coach-generated NAG when move is not a blunder
-          if {$::sergame::coachNag ne ""} {
-            catch {sc_pos removeNag $::sergame::coachNag}
-            set ::sergame::coachNag ""
-          }
-          .coachWin.finformations.l1 configure -background linen
-          set ::sergame::blunderWarningLabel $::tr(Noblunder)
-          set ::sergame::blunderpending 0
-        }
-      }
-    }
-
-    if { $::sergame::showevaluation } {
-      set ::sergame::scoreLabel "Score : $sc1"
+    if { $::sergame::showevaluation && [info exists ::uci::uciInfo(score2)] && $::uci::uciInfo(score2) != "" } {
+      set ::sergame::scoreLabel "Score : $::uci::uciInfo(score2)"
     } else {
       set ::sergame::scoreLabel ""
     }
