@@ -34,6 +34,7 @@ namespace eval sergame {
   set lscore {}
   set blunderWarningLabel ""
   set scoreLabel 0.0
+  set coachNag ""
 
   # list of fen positions played to detect 3 fold repetition
   set lFen {}
@@ -150,18 +151,32 @@ namespace eval sergame {
     pack $w.fengines.player -side top -anchor w -pady 5
 
     # ------------------ coach frame ------------------
+    # Build coach list using same UCI-only filter as engine selector
     set coachNames {}
+    array unset ::sergame::coachListBox
     set ci 0
+    set idx 0
+    set selectedCoachIdx 0
     foreach e $::engines(list) {
+      if { [lindex $e 7] != 1} { incr idx ; continue }
+      set ::sergame::coachListBox($ci) $idx
       lappend coachNames [lindex $e 0]
+      if {$idx == $::sergame::coachIndex} {
+        set selectedCoachIdx $ci
+      }
       incr ci
+      incr idx
     }
-    if {[expr $ci - 1] < $::sergame::coachIndex} { set ::sergame::coachIndex 0 }
+    if {[llength $coachNames] == 0} {
+      # Fallback if no UCI engines
+      set coachNames [list "No UCI engine"]
+      set selectedCoachIdx 0
+    }
 
     ttk::frame $w.fcoach.en
     ttk::checkbutton $w.fcoach.en.cbCoachWatching -text $::tr(CoachIsWatching) -variable ::sergame::coachIsWatching
     ttk::combobox $w.fcoach.en.cbCoach -values $coachNames -state readonly -width 20
-    catch { $w.fcoach.en.cbCoach set [lindex $coachNames $::sergame::coachIndex] }
+    catch { $w.fcoach.en.cbCoach current $selectedCoachIdx }
     pack $w.fcoach.en.cbCoachWatching $w.fcoach.en.cbCoach -side left -padx 4 -pady 5
 
     ttk::frame $w.fcoach.ad
@@ -312,34 +327,23 @@ namespace eval sergame {
       set ::uci::uciInfo(fixednodes1) [.configSerGameWin.ftime.nodes.value get]
       set ::uci::uciInfo(movetime1) [expr [.configSerGameWin.ftime.movetime.value get]*1000]
 
-      # Find the coach engine index
-      set coachSelName [.configSerGameWin.fcoach.en.cbCoach get]
-      set ci 0
-      foreach e $::engines(list) {
-        if {[lindex $e 0] eq $coachSelName} {
-          set ::sergame::coachIndex $ci
-          break
-        }
-        incr ci
+      # Resolve coach engine index from combobox selection
+      set coachComboIdx [.configSerGameWin.fcoach.en.cbCoach current]
+      if {[info exists ::sergame::coachListBox($coachComboIdx)]} {
+        set ::sergame::coachIndex $::sergame::coachListBox($coachComboIdx)
+      } else {
+        set ::sergame::coachIndex 0
       }
 
-      # Get selected engine index from the combobox
-      set selectedName [.configSerGameWin.fengines.sel.combo get]
-      set chosenIndex -1
-      set idx 0
-      foreach e $::engines(list) {
-        if {[lindex $e 0] eq $selectedName} {
-          set chosenIndex $idx
-          break
-        }
-        incr idx
-      }
-      set ::sergame::chosenEngine $chosenIndex
-      if {$::sergame::chosenEngine == -1} {
+      # Resolve engine index from combobox selection
+      set engineComboIdx [.configSerGameWin.fengines.sel.combo current]
+      if {[info exists ::sergame::engineListBox($engineComboIdx)]} {
+        set ::sergame::chosenEngine $::sergame::engineListBox($engineComboIdx)
+      } else {
         tk_messageBox -title "scidCommunity" -message "Please select an engine" -icon warning
         return
       }
-      set ::sergame::engineName $selectedName
+      set ::sergame::engineName [.configSerGameWin.fengines.sel.combo get]
 
       destroy .configSerGameWin
       ::sergame::play $::sergame::chosenEngine
@@ -373,6 +377,7 @@ namespace eval sergame {
     set ::sergame::blunderpending 0
     set ::sergame::blunderWarningLabel ""
     set ::sergame::scoreLabel ""
+    set ::sergame::coachNag ""
 
     # Engine plays for the opposite side of player color
     if {$::sergame::playerColor == "white"} {
@@ -388,8 +393,8 @@ namespace eval sergame {
     }
 
     # Start opponent engine (engine 1)
-    ::uci::startEngine $::sergame::engineListBox($engine) $n
-    set engineData [lindex $::engines(list) $::sergame::engineListBox($engine)]
+    ::uci::startEngine $engine $n
+    set engineData [lindex $::engines(list) $engine]
     foreach {option} [lindex $engineData 8] {
       array set ::uciOptions$n $option
     }
@@ -435,6 +440,8 @@ namespace eval sergame {
         if {[catch {sc_move addSan $m}]} { }
         lappend openingMovesHash [sc_pos hash]
       }
+      # Rewind to starting position before gameplay begins
+      sc_move start
     }
 
     if {!$::sergame::startFromCurrent} {
@@ -464,8 +471,14 @@ namespace eval sergame {
     ttk::frame $w.fthreshold
     ttk::frame $w.finformations
     ttk::frame $w.fclocks
-    ttk::labelframe $w.fclockw -text "$::tr(Time) $::tr(Player)"
-    ttk::labelframe $w.fclockb -text "$::tr(Time) $::tr(Engine)"
+    # Clock labels show White/Black based on player's color selection
+    if {$::sergame::playerColor == "white"} {
+      ttk::labelframe $w.fclockw -text "$::tr(Time) $::tr(White)"
+      ttk::labelframe $w.fclockb -text "$::tr(Time) $::tr(Black)"
+    } else {
+      ttk::labelframe $w.fclockw -text "$::tr(Time) $::tr(Black)"
+      ttk::labelframe $w.fclockb -text "$::tr(Time) $::tr(White)"
+    }
     ttk::frame $w.fbuttons
     pack $w.fdisplay -side top -fill both -pady 5 -padx 10
     pack [ttk::separator $w.line1 -orient horizontal] -side top -fill x -padx 10 -pady 5
@@ -500,7 +513,6 @@ namespace eval sergame {
     ::gameclock::new $w.fclockw 1 80
     ::gameclock::reset 1
     ::gameclock::reset 2
-    ::gameclock::start 1
 
     bind $w <F1> { helpWindow PlayVsEngine }
     bind $w <Destroy> "if {\[string equal $w %W\]} {::sergame::abortGame}"
@@ -636,7 +648,7 @@ namespace eval sergame {
       set takebackClockW [::gameclock::getSec 1]
       set takebackClockB [::gameclock::getSec 2]
       clocks toggle $n
-      repetition
+      if {[repetition]} { return }
     }
 
     # Make a move from a specific opening (engine's turn)
@@ -680,7 +692,7 @@ namespace eval sergame {
           }
           clocks toggle $n
           updateBoard -pgn -animate
-          repetition
+          if {[repetition]} { return }
           after 1000 ::sergame::engineGo $n
           return
         }
@@ -698,7 +710,7 @@ namespace eval sergame {
         set ::uci::uciInfo(prevscore$n) 0.0
         clocks toggle $n
         updateBoard -pgn -animate
-        repetition
+        if {[repetition]} { return }
         after 1000 ::sergame::engineGo $n
         return
       }
@@ -711,9 +723,15 @@ namespace eval sergame {
       if { $::sergame::ponder } {
         ::sergame::sendToEngine $n "stop"
       }
-      set ::analysis(waitForReadyOk$n) 1
+      set ::analysis(waitForReadyOk$n) 0
       ::sergame::sendToEngine $n "isready"
-      vwait ::analysis(waitForReadyOk$n)
+      vwaitTimed ::analysis(waitForReadyOk$n) 5000 "nowarn"
+      if {$::analysis(waitForReadyOk$n) == 0} {
+        # Timeout - abort engine operation
+        tk_messageBox -type ok -icon error -parent .main -title "Engine Error" -message "Engine did not respond to isready"
+        ::sergame::abortGame
+        return
+      }
       ::sergame::sendToEngine $n "position fen [sc_pos fen]"
 
       if {$timeMode == "timebonus"} {
@@ -785,7 +803,7 @@ namespace eval sergame {
     }
 
     updateBoard -pgn -animate
-    repetition
+    if {[repetition]} { return }
 
     clocks toggle $n
 
@@ -822,7 +840,7 @@ namespace eval sergame {
   # repetition: detect threefold repetition
   ################################################################################
   proc repetition {} {
-    set elt [lrange [split [sc_pos fen]] 0 2]
+    set elt [lrange [split [sc_pos fen]] 0 3]
     if { $elt != [ lindex $::sergame::lFen end ] } {
       lappend ::sergame::lFen $elt
     }
@@ -840,9 +858,13 @@ namespace eval sergame {
     global ::sergame::isLimitedAnalysisTime ::sergame::analysisTime
     set n 2
     after cancel ::sergame::stopAnalyze
-    set ::analysis(waitForReadyOk$n) 1
+    set ::analysis(waitForReadyOk$n) 0
     ::uci::sendToEngine $n "isready"
-    vwait ::analysis(waitForReadyOk$n)
+    vwaitTimed ::analysis(waitForReadyOk$n) 5000 "nowarn"
+    if {$::analysis(waitForReadyOk$n) == 0} {
+      # Timeout - abort coach analysis
+      return
+    }
     ::uci::sendToEngine $n "position fen [sc_pos fen]"
     ::uci::sendToEngine $n "go infinite"
 
@@ -885,14 +907,20 @@ namespace eval sergame {
               ($sc1 - $sc2 < [expr 0.0 - $threshold] && $::sergame::engineColor == "white") } {
           set ::sergame::lastblundervalue [expr $sc1-$sc2]
           if { [expr abs($sc2)] < $::informant(+--) } {
-            sc_pos clearNags
+            # Remove only the previous coach-generated NAG
+            if {$::sergame::coachNag ne ""} {
+              catch {sc_pos removeNag $::sergame::coachNag}
+            }
             set b [expr abs($::sergame::lastblundervalue)]
             if { $b >= $::informant(?!) && $b < $::informant(?) } {
               sc_pos addNag "?!"
+              set ::sergame::coachNag "?!"
             } elseif { $b >= $::informant(?) && $b < $::informant(??) } {
               sc_pos addNag "?"
+              set ::sergame::coachNag "?"
             } elseif { $b >= $::informant(??) } {
               sc_pos addNag "??"
+              set ::sergame::coachNag "??"
             }
           }
           .coachWin.finformations.l1 configure -background LightCoral
@@ -906,7 +934,11 @@ namespace eval sergame {
             set ::sergame::blunderpending 1
           }
         } else {
-          sc_pos clearNags
+          # Remove only the coach-generated NAG when move is not a blunder
+          if {$::sergame::coachNag ne ""} {
+            catch {sc_pos removeNag $::sergame::coachNag}
+            set ::sergame::coachNag ""
+          }
           .coachWin.finformations.l1 configure -background linen
           set ::sergame::blunderWarningLabel $::tr(Noblunder)
           set ::sergame::blunderpending 0

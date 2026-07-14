@@ -244,7 +244,6 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   <li><a Searches Filter>Search filter</a></li>
   <li><a Menus Search>Search menu</a></li>
   <li><a Searches>Searches</a></li>
-  <li><a PlayVsEngine>Play versus Engine</a></li>
   <li><a Sorting>Sorting a database</a></li>
   <li><a Maintenance Spellcheck>Spellchecking names</a></li>
   <li><a Switcher>Switcher</a> window</li>
@@ -253,7 +252,6 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   <h3>T</h3>
   <ul>
   <li><a PGNTablebase>Table Base (PGN Window button)</a></li>
-  <li><a PlayVsEngine>Play versus Engine</a></li>
   <li><a Menus Tools>Tools menu</a></li>
   <li><a Tmt>Tournament finder</a></li>
   <li><a LichessTournament>Tournament broadcasts (Lichess)</a></li>
@@ -4642,7 +4640,7 @@ set helpText(PlayVsEngine) {<h1>Play versus Engine window</h1>
   </p>
   <p>
   A second "coach" engine can run in the background to detect blunders made
-  by the opponent and annotate them automatically.  The coach can also watch
+  by the player and annotate them automatically.  The coach can also watch
   the player's moves and offer takebacks when a weak or bad move is detected.
   </p>
   <p>

@@ -695,18 +695,26 @@ namespace eval gameclock {
     if {[info exists ::gameclock::data(startTimeMillis$color)]} {
       set elapsedMillis [expr {[clock milliseconds] - $::gameclock::data(startTimeMillis$color)}]
       if {$elapsedMillis >= 0} {
-        set elapsedSec [expr {$elapsedMillis / 1000.0}]
+        set elapsedSec [expr {$elapsedMillis / 1000}]
+        set eh [format "%d" [expr $elapsedSec / 60 / 60] ]
+        set em [format "%02d" [expr ($elapsedSec / 60) % 60] ]
+        set es [format "%02d" [expr $elapsedSec % 60] ]
+        set elapsedTime "$eh:$em:$es"
         #Replace %emt if present, otherwise prepend it
-        if {![regsub {\[%emt\s*.*?\]} $comment "\[%emt $elapsedSec\]" comment]} {
-          set comment "\[%emt $elapsedSec\]$comment"
+        if {![regsub {\[%emt\s*.*?\]} $comment "\[%emt $elapsedTime\]" comment]} {
+          set comment "\[%emt $elapsedTime\]$comment"
         }
       }
     } elseif {[info exists ::gameclock::data(startSec$color)]} {
       set elapsedSec [expr {$::gameclock::data(counter$color) - $::gameclock::data(startSec$color)}]
       if {$elapsedSec >= 0} {
+        set eh [format "%d" [expr $elapsedSec / 60 / 60] ]
+        set em [format "%02d" [expr ($elapsedSec / 60) % 60] ]
+        set es [format "%02d" [expr $elapsedSec % 60] ]
+        set elapsedTime "$eh:$em:$es"
         #Replace %emt if present, otherwise prepend it
-        if {![regsub {\[%emt\s*.*?\]} $comment "\[%emt $elapsedSec\]" comment]} {
-          set comment "\[%emt $elapsedSec\]$comment"
+        if {![regsub {\[%emt\s*.*?\]} $comment "\[%emt $elapsedTime\]" comment]} {
+          set comment "\[%emt $elapsedTime\]$comment"
         }
       }
     }

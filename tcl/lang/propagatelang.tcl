@@ -168,7 +168,12 @@ proc checkfile {code langfile enc} {
     incr i
   }
 
-  foreach l [lrange $langData [ expr $lastLine + 1 ] end] {
+  set remainingLines [lrange $langData [ expr $lastLine + 1 ] end]
+  # Exclude empty final sentinel if source file already ends with newline
+  if {[llength $remainingLines] > 0 && [lindex $remainingLines end] eq ""} {
+    set remainingLines [lrange $remainingLines 0 end-1]
+  }
+  foreach l $remainingLines {
     puts $fnew $l
   }
   close $fnew
