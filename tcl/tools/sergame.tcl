@@ -708,14 +708,15 @@ namespace eval sergame {
       vwait ::analysis(waitForReadyOk$n)
       ::sergame::sendToEngine $n "position fen [sc_pos fen]"
 
-      if {!$::sergame::useChessClock} {
-        # Counting-up clocks: use movetime for engine
-        set movetime [expr $::sergame::movetime > 0 ? $::sergame::movetime : 3000]
-        ::sergame::sendToEngine $n "go movetime $movetime"
-      } elseif {$timeMode == "timebonus"} {
-        set wtime [expr [::gameclock::getSec 1] * 1000 ]
-        set btime [expr [::gameclock::getSec 2] * 1000 ]
-        ::sergame::sendToEngine $n "go wtime $wtime btime $btime winc $::uci::uciInfo(winc$n) binc $::uci::uciInfo(binc$n)"
+      if {$timeMode == "timebonus"} {
+        if {$::sergame::useChessClock} {
+          set wtime [expr [::gameclock::getSec 1] * 1000 ]
+          set btime [expr [::gameclock::getSec 2] * 1000 ]
+          ::sergame::sendToEngine $n "go wtime $wtime btime $btime winc $::uci::uciInfo(winc$n) binc $::uci::uciInfo(binc$n)"
+        } else {
+          set movetime [expr $::sergame::movetime > 0 ? $::sergame::movetime : 3000]
+          ::sergame::sendToEngine $n "go movetime $movetime"
+        }
       } elseif {$timeMode == "depth"} {
         ::sergame::sendToEngine $n "go depth $::uci::uciInfo(fixeddepth$n)"
       } elseif {$timeMode == "movetime"} {
