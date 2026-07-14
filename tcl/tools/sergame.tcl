@@ -861,7 +861,7 @@ namespace eval sergame {
     set ::analysis(waitForReadyOk$n) 0
     ::uci::sendToEngine $n "isready"
     vwaitTimed ::analysis(waitForReadyOk$n) 5000 "nowarn"
-    if {$::analysis(waitForReadyOk$n) == 0} {
+    if {$::analysis(waitForReadyOk$n) != 0} {
       # Timeout - abort coach analysis
       return
     }
