@@ -267,7 +267,7 @@ proc ::lucaschess::downloadEngineDir {enginedata os} {
         if {$fileName eq $exe} {
             set exePath $destFile
         }
-        if {!$::windowsOS && [string match "*$exe*" $fileName]} {
+        if {!$::windowsOS && $fileName eq $exe} {
             if {[catch {file attributes $destFile -permissions 0755}]} {}
         }
     }
