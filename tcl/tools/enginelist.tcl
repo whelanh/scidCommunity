@@ -235,6 +235,7 @@ proc ::enginelist::choose {} {
     dialogbutton $f.delete -text $::tr(Delete...) -command {
         ::enginelist::delete [lindex [.enginelist.list.list selection] 0]
     }
+    dialogbutton $f.lucaschess -text "Lucas Chess" -command { ::lucaschess::choose }
     ttk::label $f.sep -text "   "
     dialogbutton $f.open -text [tr EngineOpenAnalysis] -command {
         ::enginelist::openSelected 1
@@ -246,7 +247,7 @@ proc ::enginelist::choose {} {
         destroy .enginelist
     }
     packbuttons right $f.cancel $f.ok $f.open
-    pack $f.add $f.edit $f.delete -side left -padx 1
+    pack $f.lucaschess $f.add $f.edit $f.delete -side left -padx 1
 
     ::enginelist::sort
     focus $w.list.list
