@@ -29,6 +29,7 @@
 #include "tree.h"
 #include <array>
 #include <cassert>
+#include <filesystem>
 #include <memory>
 #include <string_view>
 #include <unordered_map>
@@ -424,7 +425,7 @@ private:
 	std::vector<std::pair<std::string, SortCache*>> sortCaches_;
 	mutable std::unordered_map<idNumberT, eloT> peakEloCache_;
 	errorT err_open_ = OK;
-	std::string lockFile_;
+	std::filesystem::path lockFile_;
 
 private:
 	errorT openHelper(ICodecDatabase::Codec dbtype, fileModeT mode,

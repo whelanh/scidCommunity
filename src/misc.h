@@ -20,12 +20,36 @@
 
 #include "common.h"
 #include <algorithm>
+#include <filesystem>
 #include <string>
+#include <string_view>
 #include <cstring>
 #include <stdio.h>
 #include <ctype.h>   // For isspace(), etc
 #include <cstdlib>
 #include <vector>
+
+/// Converts a UTF-8 encoded filename (e.g. the strings returned by the Tcl C
+/// API) into a std::filesystem::path.
+/// On Windows the narrow-string file APIs interpret filenames using the ANSI
+/// code page, breaking paths that contain non-ASCII characters; constructing
+/// the path from char8_t performs the correct UTF-8 conversion instead.
+inline std::filesystem::path pathFromUtf8(std::string_view filename) {
+	auto fname = reinterpret_cast<const char8_t*>(filename.data());
+	return {fname, fname + filename.size()};
+}
+
+/// fopen() replacement that interprets @e filename as UTF-8 on all platforms.
+inline FILE* fopenUtf8(const char* filename, const char* mode) {
+#ifdef _WIN32
+	wchar_t wmode[8] = {};
+	for (size_t i = 0; i < 7 && mode[i]; ++i)
+		wmode[i] = static_cast<wchar_t>(mode[i]);
+	return _wfopen(pathFromUtf8(filename).c_str(), wmode);
+#else
+	return fopen(filename, mode);
+#endif
+}
 
 /**
  * class StrRange - parse a string interpreting its content as 1 or 2 integers

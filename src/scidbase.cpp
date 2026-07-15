@@ -22,6 +22,7 @@
 #include "codec_scid4.h"
 #include "codec_scid5.h"
 #include "common.h"
+#include "misc.h"
 #include "sortcache.h"
 #include "stored.h"
 #include <algorithm>
@@ -91,8 +92,10 @@ errorT scidBaseT::openHelper(ICodecDatabase::Codec dbtype, fileModeT fMode,
 	// File-based locking for write modes (skip for MEMORY databases)
 	if (dbtype != ICodecDatabase::MEMORY &&
 	    (fMode == FMODE_WriteOnly || fMode == FMODE_Both || fMode == FMODE_Create)) {
-		std::string lockPath = std::string(filename) + ".lock";
-		if (std::filesystem::exists(lockPath)) {
+		auto lockPath = pathFromUtf8(filename);
+		lockPath += ".lock";
+		std::error_code ec;
+		if (std::filesystem::exists(lockPath, ec)) {
 			return ERROR_FileInUse;
 		}
 		// Create the lock file
@@ -101,7 +104,7 @@ errorT scidBaseT::openHelper(ICodecDatabase::Codec dbtype, fileModeT fMode,
 			return ERROR_FileWrite;
 		}
 		lockStream.close();
-		lockFile_ = lockPath;
+		lockFile_ = std::move(lockPath);
 	}
 
 	auto [db, err] = ICodecDatabase::open(dbtype, fMode, filename, progress,
@@ -126,7 +129,8 @@ errorT scidBaseT::openHelper(ICodecDatabase::Codec dbtype, fileModeT fMode,
 		nb_->Clear();
 		// Clean up lock file on failure
 		if (!lockFile_.empty()) {
-			std::filesystem::remove(lockFile_);
+			std::error_code ec;
+			std::filesystem::remove(lockFile_, ec);
 			lockFile_.clear();
 		}
 	}
@@ -139,7 +143,8 @@ void scidBaseT::Close() {
 
 	// Remove lock file if present
 	if (!lockFile_.empty()) {
-		std::filesystem::remove(lockFile_);
+		std::error_code ec;
+		std::filesystem::remove(lockFile_, ec);
 		lockFile_.clear();
 	}
 

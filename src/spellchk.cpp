@@ -253,7 +253,8 @@ errorT SpellChecker::read(const char* filename, const Progress& progress)
 	// Open the file and get the file size.
 	Filebuf file;
 	std::streamsize fileSize = -1;
-	if (file.open(filename, std::ios::in | std::ios::binary | std::ios::ate) != 0) {
+	if (file.open(pathFromUtf8(filename),
+	              std::ios::in | std::ios::binary | std::ios::ate) != 0) {
 		fileSize = file.pubseekoff(0, std::ios::cur, std::ios::in);
 		file.pubseekoff(0, std::ios::beg, std::ios::in);
 	}
