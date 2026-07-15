@@ -91,7 +91,6 @@ set ::lucaschess::enginesLinux {
     {cassandre       {Cassandre 0.24}          1140 {Cassandre-0.24}      cassandre   0 {}   {}   {}}
     {maia-1100       {Maia-1100}               1100 {Lc0-0.27.0}          maia        1 1090 1090 {nodes=1}}
     {eguzkilore      {Eguzkilore 1.0}          1000 {eguzkilore}          eguzkilore  0 {}   {}   {}}
-    {alouette        {Alouette 0.1.7}           800 {alouette64}          alouette    0 {}   {}   {}}
 }
 
 set ::lucaschess::enginesWindows {
