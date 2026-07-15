@@ -413,6 +413,7 @@ namespace eval sergame {
     set ::sergame::engineBlunderDelta 0.0
     set ::sergame::engineBlunderSeverity 0
     set ::sergame::missedCapitalization 0
+    set ::sergame::showBestMove 0
 
     if {$::sergame::playerColor == "random"} {
       set ::sergame::playerColor [expr {rand() < 0.5 ? "white" : "black"}]
@@ -443,12 +444,14 @@ namespace eval sergame {
     set ::uci::uciInfo(score$n) 0.0
     set ::uci::uciInfo(ponder$n) ""
 
+    set ::uci::uciInfo(prevscore2) 0.0
+    set ::uci::uciInfo(score2) 0.0
+    set ::uci::uciInfo(pipe2) ""
+
     if {$::sergame::coachIsWatching} {
       ::uci::startEngine $::sergame::coachIndex 2
       set ::uci::uciInfo(multipv2) 1
       ::sergame::changePVSize 2
-      set ::uci::uciInfo(prevscore2) 0.0
-      set ::uci::uciInfo(score2) 0.0
     }
 
     if {$::sergame::startFromCurrent} {
@@ -587,7 +590,7 @@ namespace eval sergame {
       ::uci::closeUCIengine $n
       set ::uci::uciInfo(bestmove$n) "abort"
     }
-    if { $::uci::uciInfo(pipe2) != ""} {
+    if { [info exists ::uci::uciInfo(pipe2)] && $::uci::uciInfo(pipe2) != ""} {
       ::uci::closeUCIengine 2
     }
     if {[winfo exists .coachWin]} {
@@ -692,6 +695,7 @@ namespace eval sergame {
       set ::sergame::engineBlunderSeverity 0
       set ::sergame::engineBlunderDelta 0.0
       set ::sergame::missedCapitalization 0
+      set ::sergame::showBestMove 0
       set ::sergame::blunderCheckPending 0
       set takebackClockW [::gameclock::getSec 1]
       set takebackClockB [::gameclock::getSec 2]
@@ -723,9 +727,14 @@ namespace eval sergame {
         set prevScore [lindex $::sergame::lscore 0]
         if {$prevScore != ""} {
           ::sergame::stopAnalyze
+          if {[info exists ::uci::uciInfo(pv2)] && $::uci::uciInfo(pv2) != ""} {
+            set ::sergame::prevPv $::uci::uciInfo(pv2)
+            set ::sergame::prevFen [expr {[info exists ::sergame::lastAnalyzeFen] ? $::sergame::lastAnalyzeFen : [sc_pos fen]}]
+          }
           ::sergame::sendToEngine 2 "position fen [sc_pos fen]"
-          ::sergame::sendToEngine 2 "go depth 10"
+          ::sergame::sendToEngine 2 "go depth 12"
           set ::uci::uciInfo(score2) ""
+          set ::uci::uciInfo(bestmove2) ""
           set ::sergame::blunderCheckPending 1
         }
       } else {
@@ -859,7 +868,7 @@ namespace eval sergame {
       set prevScore [lindex $::sergame::lscore 0]
       set startTime [clock milliseconds]
       set maxWait 3000
-      while {$::uci::uciInfo(score2) == "" && $::uci::uciInfo(pipe2) != "" && [expr {[clock milliseconds] - $startTime}] < $maxWait} {
+      while {$::uci::uciInfo(bestmove2) == "" && $::uci::uciInfo(pipe2) != "" && [expr {[clock milliseconds] - $startTime}] < $maxWait} {
         update
         after 10
       }
@@ -886,9 +895,40 @@ namespace eval sergame {
           if {$blunder == 1} { set tBlunder "DubiousMovePlayedTakeBack"
           } elseif {$blunder == 2} { set tBlunder "WeakMovePlayedTakeBack"
           } else { set tBlunder "BadMovePlayedTakeBack" }
+          set msg $::tr($tBlunder)
+          set bestMoveText ""
+          set prevPv [expr {[info exists ::sergame::prevPv] ? $::sergame::prevPv : ""}]
+          if {$prevPv ne ""} {
+            set bestMoveUCI [lindex [split $prevPv] 0]
+            if {$bestMoveUCI ne ""} {
+              set prevFen [expr {[info exists ::sergame::prevFen] ? $::sergame::prevFen : [sc_pos fen]}]
+              set bestMoveText $bestMoveUCI
+              set san [::uci::formatPv $bestMoveUCI $prevFen]
+              if {$san ne ""} { set bestMoveText $san }
+            }
+          }
           clocks stop
-          set answer [tk_messageBox -icon question -parent .main -title "scidCommunity" -type yesno -message $::tr($tBlunder)]
-          if {$answer == yes} {
+          set choice [tk_dialog .blunderDialog "scidCommunity" $msg question 0 \
+              "Show Best Move" "Try Again" "Use My Move"]
+          if {$choice == 0} {
+            set ::sergame::postPlayerScore ""
+            sc_move back 1
+            ::gameclock::setSec 1 [expr 0 - $::sergame::takebackClockW]
+            ::gameclock::setSec 2 [expr 0 - $::sergame::takebackClockB]
+            clocks start
+            ::notify::PosChanged -pgn
+            if {$bestMoveText ne ""} {
+              set ::sergame::blunderWarningLabel "Best move: $bestMoveText"
+            } else {
+              set ::sergame::blunderWarningLabel "Try a different move"
+            }
+            set ::sergame::blunderpending 1
+            set ::sergame::showBestMove 1
+            .coachWin.finformations.l1 configure -background LightYellow
+            ::sergame::startAnalyze
+            after 1000 ::sergame::engineGo $n
+            return
+          } elseif {$choice == 1} {
             set ::sergame::postPlayerScore ""
             sc_move back 1
             ::gameclock::setSec 1 [expr 0 - $::sergame::takebackClockW]
@@ -1006,7 +1046,8 @@ namespace eval sergame {
       return
     }
     ::uci::sendToEngine $n "position fen [sc_pos fen]"
-    ::uci::sendToEngine $n "go infinite"
+    set ::sergame::lastAnalyzeFen [sc_pos fen]
+    ::uci::sendToEngine $n "go depth 12"
     set ::sergame::coachAnalyzed 1
 
     if { $isLimitedAnalysisTime == 1 } {
@@ -1094,7 +1135,7 @@ namespace eval sergame {
     if { $::sergame::engineColor == [sc_pos side] } { return }
 
     if { $::sergame::showblunder } {
-      if {$::sergame::playerBlunderSeverity == 0 && $::sergame::engineBlunderSeverity == 0 && !$::sergame::missedCapitalization} {
+      if {$::sergame::playerBlunderSeverity == 0 && $::sergame::engineBlunderSeverity == 0 && !$::sergame::missedCapitalization && !$::sergame::showBestMove} {
       .coachWin.finformations.l1 configure -background linen
       set ::sergame::blunderWarningLabel $::tr(Noinfo)
       set ::sergame::blunderpending 0
@@ -1118,6 +1159,7 @@ namespace eval sergame {
     set ::sergame::engineBlunderDelta 0.0
     set ::sergame::engineBlunderSeverity 0
     set ::sergame::missedCapitalization 0
+    set ::sergame::showBestMove 0
   }
 
   ################################################################################
