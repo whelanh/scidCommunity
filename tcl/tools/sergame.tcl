@@ -292,7 +292,7 @@ namespace eval sergame {
     # Config options 2
     ttk::checkbutton $w.fconfig2.cbPosition -text $::tr(StartFromCurrentPosition) -variable ::sergame::startFromCurrent
     ttk::checkbutton $w.fconfig2.storeEval -text $::tr(AddScoreToShortAnnotations) -variable ::sergame::storeEval
-    ttk::checkbutton $w.fconfig2.storeEvalAll -text "Add score to all moves" -variable ::sergame::storeEvalAll
+    ttk::checkbutton $w.fconfig2.storeEvalAll -text $::tr(AddScoreToAllMoves) -variable ::sergame::storeEvalAll
     pack $w.fconfig2.cbPosition $w.fconfig2.storeEval $w.fconfig2.storeEvalAll -side top -anchor w
 
     # Specific opening
