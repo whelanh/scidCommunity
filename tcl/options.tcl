@@ -342,6 +342,7 @@ set ::sergame::threshold 0.9
 set ::sergame::isLimitedAnalysisTime 1
 set ::sergame::analysisTime 10
 set ::sergame::storeEval 0
+set ::sergame::storeEvalAll 0
 set ::sergame::coachIndex 0
 set ::sergame::playerColor "white"
 set ::uci::uciInfo(wtime1) [expr 5 * 60 * 1000 ]
@@ -661,6 +662,7 @@ proc options.write {} {
           ::utils::sound::moveSoundOnly \
           ::sergame::threshold ::sergame::isLimitedAnalysisTime ::sergame::showblunder ::sergame::showblundervalue \
           ::sergame::showevaluation ::sergame::analysisTime ::sergame::useChessClock ::sergame::storeEval \
+          ::sergame::storeEvalAll \
           ::sergame::chosenOpening ::sergame::chosenEngine ::sergame::useBook ::sergame::bookToUse \
           ::sergame::startFromCurrent ::sergame::coachIsWatching ::sergame::timeMode \
           ::sergame::depth ::sergame::movetime ::sergame::nodes ::sergame::ponder ::sergame::isOpening \
