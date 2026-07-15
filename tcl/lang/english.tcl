@@ -1654,6 +1654,7 @@ translate E AnnotateVariations {Annotate variations}
 translate E ShortAnnotations {Short annotations}
 translate E addAnnotatorTag {Add annotator tag}
 translate E AddScoreToShortAnnotations {Add score to annotations}
+translate E AddScoreToAllMoves {Add score to all moves}
 translate E Export {Export}
 translate E BookPartiallyLoaded {Book partially loaded}
 translate E Calvar {Calculation of variations}

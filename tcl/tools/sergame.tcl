@@ -21,10 +21,11 @@ namespace eval sergame {
   array set engineListBox {}
   set engineName ""
   set bookSlot 2
-  set storeEval 0
-  set coachIndex 0
+  if {![info exists storeEval]} { set storeEval 0 }
+  if {![info exists storeEvalAll]} { set storeEvalAll 0 }
+  if {![info exists coachIndex]} { set coachIndex 0 }
   set engineColor ""
-  set playerColor ""
+  if {![info exists playerColor]} { set playerColor "" }
 
   # coach blunder tracking
   set resignCount 0
@@ -104,6 +105,7 @@ namespace eval sergame {
       $w.fengines.sel.combo current $selectedUciIdx
     } else {
       $w.fengines.sel.combo current 0
+      set ::sergame::chosenEngine $::sergame::engineListBox(0)
     }
 
     ttk::button $w.fengines.sel.bEngineConfig -text "..." -width 3 -command {
@@ -147,7 +149,8 @@ namespace eval sergame {
     ttk::label $w.fengines.player.l -text "$::tr(Player) $::tr(GlistColor)"
     ttk::radiobutton $w.fengines.player.w -text $::tr(white) -value "white" -variable ::sergame::playerColor
     ttk::radiobutton $w.fengines.player.b -text $::tr(black) -value "black" -variable ::sergame::playerColor
-    pack $w.fengines.player.l $w.fengines.player.w $w.fengines.player.b -side left -padx 4
+    ttk::radiobutton $w.fengines.player.r -text $::tr(Random) -value "random" -variable ::sergame::playerColor
+    pack $w.fengines.player.l $w.fengines.player.w $w.fengines.player.b $w.fengines.player.r -side left -padx 4
     pack $w.fengines.player -side top -anchor w -pady 5
 
     # ------------------ coach frame ------------------
@@ -174,7 +177,8 @@ namespace eval sergame {
     }
 
     ttk::frame $w.fcoach.en
-    ttk::checkbutton $w.fcoach.en.cbCoachWatching -text $::tr(CoachIsWatching) -variable ::sergame::coachIsWatching
+    ttk::checkbutton $w.fcoach.en.cbCoachWatching -text $::tr(CoachIsWatching) -variable ::sergame::coachIsWatching \
+        -command "::sergame::toggleCoachControls $w"
     ttk::combobox $w.fcoach.en.cbCoach -values $coachNames -state readonly -width 20
     catch { $w.fcoach.en.cbCoach current $selectedCoachIdx }
     pack $w.fcoach.en.cbCoachWatching $w.fcoach.en.cbCoach -side left -padx 4 -pady 5
@@ -186,6 +190,7 @@ namespace eval sergame {
     pack $w.fcoach.ad.cbLimitAnalysis $w.fcoach.ad.val $w.fcoach.ad.lblSec -side left -anchor w -padx 4
 
     pack $w.fcoach.en $w.fcoach.ad -side top -anchor w -padx 4
+    ::sergame::toggleCoachControls $w
 
     # ------------------ ftime frame ------------------
     ttk::checkbutton $w.ftime.cbChessClock -text $::tr(UseChessClock) -variable ::sergame::useChessClock
@@ -287,7 +292,8 @@ namespace eval sergame {
     # Config options 2
     ttk::checkbutton $w.fconfig2.cbPosition -text $::tr(StartFromCurrentPosition) -variable ::sergame::startFromCurrent
     ttk::checkbutton $w.fconfig2.storeEval -text $::tr(AddScoreToShortAnnotations) -variable ::sergame::storeEval
-    pack $w.fconfig2.cbPosition $w.fconfig2.storeEval -side top -anchor w
+    ttk::checkbutton $w.fconfig2.storeEvalAll -text $::tr(AddScoreToAllMoves) -variable ::sergame::storeEvalAll
+    pack $w.fconfig2.cbPosition $w.fconfig2.storeEval $w.fconfig2.storeEvalAll -side top -anchor w
 
     # Specific opening
     ttk::checkbutton $w.fopening.cbOpening -text $::tr(SpecificOpening) -variable ::sergame::isOpening
@@ -312,39 +318,12 @@ namespace eval sergame {
 
     ttk::button $w.fbuttons.close -text $::tr(Play) -command {
       focus .
-      set ::sergame::chosenOpening [.configSerGameWin.fopening.fOpeningList.lbOpening selection]
+      ::sergame::syncConfigVars
       if {$::sergame::useBook} {
-        set ::sergame::bookToUse [.configSerGameWin.fconfig.combo get]
         if {$::sergame::bookToUse == "" } {
           set ::sergame::useBook 0
         }
       }
-      set ::uci::uciInfo(wtime1) [expr [.configSerGameWin.ftime.clock.whitespminutes get]*1000*60]
-      set ::uci::uciInfo(btime1) [expr [.configSerGameWin.ftime.clock.blackspminutes get]*1000*60]
-      set ::uci::uciInfo(winc1) [expr [.configSerGameWin.ftime.clock.whitespseconds get]*1000]
-      set ::uci::uciInfo(binc1) [expr [.configSerGameWin.ftime.clock.blackspseconds get]*1000]
-      set ::uci::uciInfo(fixeddepth1) [.configSerGameWin.ftime.depth.value get]
-      set ::uci::uciInfo(fixednodes1) [.configSerGameWin.ftime.nodes.value get]
-      set ::uci::uciInfo(movetime1) [expr [.configSerGameWin.ftime.movetime.value get]*1000]
-
-      # Resolve coach engine index from combobox selection
-      set coachComboIdx [.configSerGameWin.fcoach.en.cbCoach current]
-      if {[info exists ::sergame::coachListBox($coachComboIdx)]} {
-        set ::sergame::coachIndex $::sergame::coachListBox($coachComboIdx)
-      } else {
-        set ::sergame::coachIndex 0
-      }
-
-      # Resolve engine index from combobox selection
-      set engineComboIdx [.configSerGameWin.fengines.sel.combo current]
-      if {[info exists ::sergame::engineListBox($engineComboIdx)]} {
-        set ::sergame::chosenEngine $::sergame::engineListBox($engineComboIdx)
-      } else {
-        tk_messageBox -title "scidCommunity" -message "Please select an engine" -icon warning
-        return
-      }
-      set ::sergame::engineName [.configSerGameWin.fengines.sel.combo get]
-
       destroy .configSerGameWin
       ::sergame::play $::sergame::chosenEngine
     }
@@ -354,9 +333,55 @@ namespace eval sergame {
     bind $w <Escape> { .configSerGameWin.fbuttons.cancel invoke }
     bind $w <Return> { .configSerGameWin.fbuttons.close invoke }
     bind $w <F1> { helpWindow PlayVsEngine }
-    bind $w <Destroy> ""
+    bind $w <Destroy> "::sergame::syncConfigVars"
     bind $w <Configure> "recordWinSize $w"
     wm resizable $w 0 0
+  }
+
+  proc syncConfigVars {} {
+    set w ".configSerGameWin"
+    if {![winfo exists $w]} { return }
+
+    if {[catch {$w.fengines.sel.combo current} engineComboIdx] == 0} {
+      if {[info exists ::sergame::engineListBox($engineComboIdx)]} {
+        set ::sergame::chosenEngine $::sergame::engineListBox($engineComboIdx)
+      }
+      set ::sergame::engineName [$w.fengines.sel.combo get]
+    }
+
+    if {[catch {$w.fcoach.en.cbCoach current} coachComboIdx] == 0} {
+      if {[info exists ::sergame::coachListBox($coachComboIdx)]} {
+        set ::sergame::coachIndex $::sergame::coachListBox($coachComboIdx)
+      }
+    }
+
+    catch { set ::sergame::depth [$w.ftime.depth.value get] }
+    catch { set ::sergame::nodes [$w.ftime.nodes.value get] }
+    catch { set ::sergame::movetime [expr {[$w.ftime.movetime.value get] * 1000}] }
+
+    catch { set ::uci::uciInfo(wtime1) [expr {[$w.ftime.clock.whitespminutes get] * 1000 * 60}] }
+    catch { set ::uci::uciInfo(btime1) [expr {[$w.ftime.clock.blackspminutes get] * 1000 * 60}] }
+    catch { set ::uci::uciInfo(winc1) [expr {[$w.ftime.clock.whitespseconds get] * 1000}] }
+    catch { set ::uci::uciInfo(binc1) [expr {[$w.ftime.clock.blackspseconds get] * 1000}] }
+    catch { set ::uci::uciInfo(fixeddepth1) $::sergame::depth }
+    catch { set ::uci::uciInfo(fixednodes1) $::sergame::nodes }
+    catch { set ::uci::uciInfo(movetime1) $::sergame::movetime }
+
+    catch { set ::sergame::chosenOpening [$w.fopening.fOpeningList.lbOpening selection] }
+
+    if {$::sergame::useBook} {
+      catch { set ::sergame::bookToUse [$w.fconfig.combo get] }
+    }
+  }
+
+  proc toggleCoachControls {w} {
+    if {$::sergame::coachIsWatching} {
+      $w.fcoach.ad.cbLimitAnalysis configure -state normal
+      $w.fcoach.ad.val configure -state normal
+    } else {
+      $w.fcoach.ad.cbLimitAnalysis configure -state disabled
+      $w.fcoach.ad.val configure -state disabled
+    }
   }
 
   ################################################################################
@@ -378,6 +403,18 @@ namespace eval sergame {
     set ::sergame::blunderWarningLabel ""
     set ::sergame::scoreLabel ""
     set ::sergame::coachNag ""
+    set ::sergame::coachAnalyzed 0
+    set ::sergame::playerBlunderDelta 0.0
+    set ::sergame::playerBlunderSeverity 0
+    set ::sergame::postPlayerScore ""
+    set ::sergame::engineBlunderDelta 0.0
+    set ::sergame::engineBlunderSeverity 0
+    set ::sergame::missedCapitalization 0
+    set ::sergame::showBestMove 0
+
+    if {$::sergame::playerColor == "random"} {
+      set ::sergame::playerColor [expr {rand() < 0.5 ? "white" : "black"}]
+    }
 
     # Engine plays for the opposite side of player color
     if {$::sergame::playerColor == "white"} {
@@ -404,12 +441,15 @@ namespace eval sergame {
     set ::uci::uciInfo(score$n) 0.0
     set ::uci::uciInfo(ponder$n) ""
 
-    # Start coach engine (engine 2)
-    ::uci::startEngine $::sergame::coachIndex 2
-    set ::uci::uciInfo(multipv2) 1
-    ::sergame::changePVSize 2
     set ::uci::uciInfo(prevscore2) 0.0
     set ::uci::uciInfo(score2) 0.0
+    set ::uci::uciInfo(pipe2) ""
+
+    if {$::sergame::coachIsWatching} {
+      ::uci::startEngine $::sergame::coachIndex 2
+      set ::uci::uciInfo(multipv2) 1
+      ::sergame::changePVSize 2
+    }
 
     if {$::sergame::startFromCurrent} {
       set isOpening 0
@@ -547,7 +587,7 @@ namespace eval sergame {
       ::uci::closeUCIengine $n
       set ::uci::uciInfo(bestmove$n) "abort"
     }
-    if { $::uci::uciInfo(pipe2) != ""} {
+    if { [info exists ::uci::uciInfo(pipe2)] && $::uci::uciInfo(pipe2) != ""} {
       ::uci::closeUCIengine 2
     }
     if {[winfo exists .coachWin]} {
@@ -647,8 +687,69 @@ namespace eval sergame {
     if {$::sergame::waitPlayerMove} {
       set ::sergame::waitPlayerMove 0
       set ::sergame::lscore [list $::uci::uciInfo(score2)]
+      set ::sergame::playerBlunderSeverity 0
+      set ::sergame::playerBlunderDelta 0.0
+      set ::sergame::engineBlunderSeverity 0
+      set ::sergame::engineBlunderDelta 0.0
+      set ::sergame::missedCapitalization 0
+      set ::sergame::showBestMove 0
+      set ::sergame::blunderCheckPending 0
       set takebackClockW [::gameclock::getSec 1]
       set takebackClockB [::gameclock::getSec 2]
+      set ::sergame::takebackClockW $takebackClockW
+      set ::sergame::takebackClockB $takebackClockB
+
+      # Engine blunder detection using coach engine (compare evals before/after engine's move)
+      if { $::sergame::coachIsWatching && $::sergame::coachAnalyzed && $::sergame::postPlayerScore != "" } {
+        set engineCurrScore [lindex $::sergame::lscore 0]
+        if {$engineCurrScore != ""} {
+          set engineDelta [expr {$engineCurrScore - $::sergame::postPlayerScore}]
+          set engBlunder 0
+          if {$::sergame::playerColor == "white"} {
+            if {$engineDelta > $::informant(??)} { set engBlunder 3
+            } elseif {$engineDelta > $::informant(?)} { set engBlunder 2
+            } elseif {$engineDelta > $::informant(?!)} { set engBlunder 1 }
+          } else {
+            if {$engineDelta < [expr {0.0 - $::informant(??)}]} { set engBlunder 3
+            } elseif {$engineDelta < [expr {0.0 - $::informant(?)}]} { set engBlunder 2
+            } elseif {$engineDelta < [expr {0.0 - $::informant(?!)}]} { set engBlunder 1 }
+          }
+          set ::sergame::engineBlunderDelta $engineDelta
+          set ::sergame::engineBlunderSeverity $engBlunder
+        }
+      }
+
+      # Player blunder detection using coach engine (engine 2) - start async
+      if { $::sergame::coachIsWatching && $::sergame::coachAnalyzed && $::uci::uciInfo(pipe2) != "" } {
+        set prevScore [lindex $::sergame::lscore 0]
+        if {$prevScore != ""} {
+          ::sergame::stopAnalyze
+          if {[info exists ::uci::uciInfo(pv2)] && $::uci::uciInfo(pv2) != ""} {
+            set ::sergame::prevPv $::uci::uciInfo(pv2)
+            set ::sergame::prevFen [expr {[info exists ::sergame::lastAnalyzeFen] ? $::sergame::lastAnalyzeFen : [sc_pos fen]}]
+          }
+          ::sergame::sendToEngine 2 "position fen [sc_pos fen]"
+          ::sergame::sendToEngine 2 "go depth 12"
+          set ::uci::uciInfo(score2) ""
+          set ::uci::uciInfo(bestmove2) ""
+          set ::sergame::blunderCheckPending 1
+        }
+      } else {
+        set ::sergame::blunderCheckPending 0
+      }
+
+      # Store coach eval on the engine's previous move (only when coach is active)
+      if { ($::sergame::storeEval == 1 || $::sergame::showevaluation == 1) && $::sergame::coachAnalyzed } {
+        set engineMoveScore [lindex $::sergame::lscore 0]
+        if {$engineMoveScore != ""} {
+          catch {
+            sc_move back 1
+            storeEvalComment $engineMoveScore
+            sc_move forward 1
+          }
+        }
+      }
+
       clocks toggle $n
       if {[repetition]} { return }
     }
@@ -757,50 +858,124 @@ namespace eval sergame {
     set ::uci::uciInfo(bestmove$n) ""
     vwait ::uci::uciInfo(bestmove$n)
 
-    # Blunder detection: coach watches player's move
-    if { $::sergame::coachIsWatching && $::uci::uciInfo(prevscore$n) != "" } {
-      set blunder 0
-      set delta [expr $::uci::uciInfo(score$n) - $::uci::uciInfo(prevscore$n)]
-      if {$delta > $::informant(?!) && $::sergame::engineColor == "white" ||
-        $delta < [expr 0.0 - $::informant(?!)] && $::sergame::engineColor == "black" } {
-        set blunder 1
-      }
-      if {$delta > $::informant(?) && $::sergame::engineColor == "white" ||
-        $delta < [expr 0.0 - $::informant(?)] && $::sergame::engineColor == "black" } {
-        set blunder 2
-      }
-      if {$delta > $::informant(??) && $::sergame::engineColor == "white" ||
-        $delta < [expr 0.0 - $::informant(??)] && $::sergame::engineColor == "black" } {
-        set blunder 3
-      }
-      if {$blunder == 1} {
-        set tBlunder "DubiousMovePlayedTakeBack"
-      } elseif {$blunder == 2} {
-        set tBlunder "WeakMovePlayedTakeBack"
-      } elseif {$blunder == 3} {
-        set tBlunder "BadMovePlayedTakeBack"
-      }
-      if {$blunder != 0} {
-        clocks stop
-        set answer [tk_messageBox -icon question -parent .main -title "scidCommunity" -type yesno -message $::tr($tBlunder) ]
-        if {$answer == yes} {
-          takeBack $takebackClockW $takebackClockB
-          after 1000 ::sergame::engineGo $n
-          return
-        }
-        clocks start
-      }
-    }
-
     if { $::uci::uciInfo(bestmove$n) == "abort" } { return }
 
-    ::sergame::updatePlayerAnalysis $::uci::uciInfo(score$n)
+    # Finish async player blunder check (coach ran in parallel with engine)
+    if {$::sergame::blunderCheckPending} {
+      set prevScore [lindex $::sergame::lscore 0]
+      set startTime [clock milliseconds]
+      set maxWait 3000
+      while {$::uci::uciInfo(bestmove2) == "" && $::uci::uciInfo(pipe2) != "" && [expr {[clock milliseconds] - $startTime}] < $maxWait} {
+        update
+        after 10
+      }
+      set currScore $::uci::uciInfo(score2)
+      if {$currScore != "" && $prevScore != ""} {
+        set delta [expr {$currScore - $prevScore}]
+        set blunder 0
+        if {$::sergame::playerColor == "white"} {
+          if {$delta < [expr {0.0 - $::informant(??)}]} { set blunder 3
+          } elseif {$delta < [expr {0.0 - $::informant(?)}]} { set blunder 2
+          } elseif {$delta < [expr {0.0 - $::informant(?!)}]} { set blunder 1 }
+        } else {
+          if {$delta > $::informant(??)} { set blunder 3
+          } elseif {$delta > $::informant(?)} { set blunder 2
+          } elseif {$delta > $::informant(?!)} { set blunder 1 }
+        }
+        set ::sergame::playerBlunderDelta $delta
+        set ::sergame::playerBlunderSeverity $blunder
+        set ::sergame::postPlayerScore $currScore
+        if {$::sergame::storeEvalAll == 1 && $::sergame::coachAnalyzed} {
+          storeEvalComment $currScore
+        }
+        if {$blunder != 0} {
+          if {$blunder == 1} { set tBlunder "DubiousMovePlayedTakeBack"
+          } elseif {$blunder == 2} { set tBlunder "WeakMovePlayedTakeBack"
+          } else { set tBlunder "BadMovePlayedTakeBack" }
+          set msg $::tr($tBlunder)
+          set bestMoveText ""
+          set prevPv [expr {[info exists ::sergame::prevPv] ? $::sergame::prevPv : ""}]
+          if {$prevPv ne ""} {
+            set bestMoveUCI [lindex [split $prevPv] 0]
+            if {$bestMoveUCI ne ""} {
+              set prevFen [expr {[info exists ::sergame::prevFen] ? $::sergame::prevFen : [sc_pos fen]}]
+              set bestMoveText $bestMoveUCI
+              set san [::uci::formatPv $bestMoveUCI $prevFen]
+              if {$san ne ""} { set bestMoveText $san }
+            }
+          }
+          clocks stop
+          set choice [tk_dialog .blunderDialog "scidCommunity" $msg question 0 \
+              "Show Best Move" "Try Again" "Use My Move"]
+          if {$choice == 0} {
+            set ::sergame::postPlayerScore ""
+            sc_move back 1
+            ::gameclock::setSec 1 [expr 0 - $::sergame::takebackClockW]
+            ::gameclock::setSec 2 [expr 0 - $::sergame::takebackClockB]
+            clocks start
+            ::notify::PosChanged -pgn
+            if {$bestMoveText ne ""} {
+              set ::sergame::blunderWarningLabel "Best move: $bestMoveText"
+            } else {
+              set ::sergame::blunderWarningLabel "Try a different move"
+            }
+            set ::sergame::blunderpending 1
+            set ::sergame::showBestMove 1
+            .coachWin.finformations.l1 configure -background LightYellow
+            ::sergame::startAnalyze
+            after 1000 ::sergame::engineGo $n
+            return
+          } elseif {$choice == 1} {
+            set ::sergame::postPlayerScore ""
+            sc_move back 1
+            ::gameclock::setSec 1 [expr 0 - $::sergame::takebackClockW]
+            ::gameclock::setSec 2 [expr 0 - $::sergame::takebackClockB]
+            clocks start
+            ::notify::PosChanged -pgn
+            ::sergame::startAnalyze
+            after 1000 ::sergame::engineGo $n
+            return
+          }
+          clocks start
+        }
+      }
+      set ::sergame::blunderCheckPending 0
+    }
+
+    # Check if player capitalized on an opponent engine blunder
+    if { $::sergame::engineBlunderSeverity != 0 && $::sergame::playerBlunderSeverity == 0 } {
+      set engineCurrScore [lindex $::sergame::lscore 0]
+      if {$engineCurrScore != "" && $::sergame::postPlayerScore != ""} {
+        set playerDelta [expr {$::sergame::postPlayerScore - $engineCurrScore}]
+    set ::sergame::missedCapitalization 0
+    set ::sergame::blunderCheckPending 0
+    set ::sergame::takebackClockW ""
+    set ::sergame::takebackClockB ""
+        if {$::sergame::playerColor == "white"} {
+          if {$playerDelta <= $::informant(!?)} {
+            set ::sergame::missedCapitalization 1
+          } else {
+            set ::sergame::engineBlunderSeverity 0
+          }
+        } else {
+          if {$playerDelta >= [expr {0.0 - $::informant(!?)}]} {
+            set ::sergame::missedCapitalization 1
+          } else {
+            set ::sergame::engineBlunderSeverity 0
+          }
+        }
+      }
+    } else {
+      set ::sergame::missedCapitalization 0
+    }
+
+    set ::uci::uciInfo(prevscore$n) $::uci::uciInfo(score$n)
+    ::sergame::updatePlayerAnalysis $::uci::uciInfo(score$n) $::uci::uciInfo(score2)
 
     ::uci::sc_move_add $::uci::uciInfo(bestmove$n)
     ::utils::sound::AnnounceNewMove $::uci::uciInfo(bestmove$n)
-    set ::uci::uciInfo(prevscore$n) $::uci::uciInfo(score$n)
 
-    if { $::sergame::storeEval == 1 || $::sergame::showevaluation == 1 } {
+    if { ($::sergame::storeEval == 1 || $::sergame::showevaluation == 1) && !$::sergame::coachAnalyzed } {
       if {[info exists ::uci::uciInfo(score$n)]} {
         storeEvalComment $::uci::uciInfo(score$n)
       }
@@ -811,8 +986,7 @@ namespace eval sergame {
 
     clocks toggle $n
 
-    # After engine moves, start coach analysis for blunder detection
-    if {$::sergame::showblunder || $::sergame::showevaluation} {
+    if {$::sergame::coachIsWatching} {
       ::sergame::startAnalyze
     }
 
@@ -866,11 +1040,12 @@ namespace eval sergame {
     ::uci::sendToEngine $n "isready"
     vwaitTimed ::analysis(waitForReadyOk$n) 5000 "nowarn"
     if {$::analysis(waitForReadyOk$n) != 0} {
-      # Timeout - abort coach analysis
       return
     }
     ::uci::sendToEngine $n "position fen [sc_pos fen]"
-    ::uci::sendToEngine $n "go infinite"
+    set ::sergame::lastAnalyzeFen [sc_pos fen]
+    ::uci::sendToEngine $n "go depth 12"
+    set ::sergame::coachAnalyzed 1
 
     if { $isLimitedAnalysisTime == 1 } {
       after [expr 1000 * $analysisTime] ::sergame::stopAnalyze
@@ -885,66 +1060,57 @@ namespace eval sergame {
   ################################################################################
   # updatePlayerAnalysis: assess the player's just-played move
   ################################################################################
-  proc updatePlayerAnalysis { sc1 } {
+  proc updatePlayerAnalysis { sc1 sc2 } {
     if { ![winfo exists .coachWin] } { return }
 
-    if {[llength $::sergame::lscore] == 0} {
-      if {$::sergame::showblunder} {
-        .coachWin.finformations.l1 configure -background linen
-        set ::sergame::blunderWarningLabel $::tr(Noinfo)
-        set ::sergame::blunderpending 0
-      }
-      if {$::sergame::showevaluation} {
-        set ::sergame::scoreLabel "Score : $sc1"
-      } else {
-        set ::sergame::scoreLabel ""
-      }
-      return
-    }
-
-    set sc2 [lindex $::sergame::lscore end]
-    if {$sc2 == ""} {
-      set ::sergame::blunderWarningLabel $::tr(Noinfo)
-      set ::sergame::blunderpending 0
-      if {$::sergame::showevaluation} {
-        set ::sergame::scoreLabel "Score : $sc1"
-      } else {
-        set ::sergame::scoreLabel ""
-      }
-      return
+    if { $::sergame::showevaluation && $sc2 != "" } {
+      set ::sergame::scoreLabel "Score : $sc2"
+    } else {
+      set ::sergame::scoreLabel ""
     }
 
     if { $::sergame::showblunder } {
-      set threshold $::sergame::threshold
-      if { ($sc1 - $sc2 > $threshold && $::sergame::engineColor == "black") || \
-            ($sc1 - $sc2 < [expr 0.0 - $threshold] && $::sergame::engineColor == "white") } {
-        set ::sergame::lastblundervalue [expr $sc1-$sc2]
-        if { [expr abs($sc2)] < $::informant(+--) } {
+      if {$::sergame::playerBlunderSeverity != 0} {
+        set delta $::sergame::playerBlunderDelta
+        set ::sergame::lastblundervalue [expr abs($delta)]
+        set scPrev [lindex $::sergame::lscore end]
+        if { [expr abs($scPrev)] < $::informant(+--) } {
           if {$::sergame::coachNag ne ""} {
             catch {sc_pos removeNag $::sergame::coachNag}
           }
-          set b [expr abs($::sergame::lastblundervalue)]
+          set b [expr abs($delta)]
           if { $b >= $::informant(?!) && $b < $::informant(?) } {
-            sc_pos addNag "?!"
+            catch {sc_pos addNag "?!"}
             set ::sergame::coachNag "?!"
           } elseif { $b >= $::informant(?) && $b < $::informant(??) } {
-            sc_pos addNag "?"
+            catch {sc_pos addNag "?"}
             set ::sergame::coachNag "?"
           } elseif { $b >= $::informant(??) } {
-            sc_pos addNag "??"
+            catch {sc_pos addNag "??"}
             set ::sergame::coachNag "??"
           }
         }
         .coachWin.finformations.l1 configure -background LightCoral
         if { $::sergame::showblundervalue } {
           set tmp $::tr(blunder)
-          append tmp [format " %+8.2f" [expr abs($sc1-$sc2)]]
+          append tmp [format " %+8.2f" $::sergame::lastblundervalue]
           set ::sergame::blunderWarningLabel $tmp
-          set ::sergame::blunderpending 1
         } else {
           set ::sergame::blunderWarningLabel "$::tr(blunder) !"
-          set ::sergame::blunderpending 1
         }
+        set ::sergame::blunderpending 1
+      } elseif {$::sergame::missedCapitalization} {
+        if {$::sergame::coachNag ne ""} {
+          catch {sc_pos removeNag $::sergame::coachNag}
+          set ::sergame::coachNag ""
+        }
+        .coachWin.finformations.l1 configure -background LightYellow
+        set ::sergame::blunderWarningLabel "You missed an opportunity - opponent made a mistake"
+        set ::sergame::blunderpending 1
+      } elseif {$::sergame::engineBlunderSeverity != 0} {
+        .coachWin.finformations.l1 configure -background LightYellow
+        set ::sergame::blunderWarningLabel "Opponent made a mistake - look for winning move"
+        set ::sergame::blunderpending 1
       } else {
         if {$::sergame::coachNag ne ""} {
           catch {sc_pos removeNag $::sergame::coachNag}
@@ -954,12 +1120,6 @@ namespace eval sergame {
         set ::sergame::blunderWarningLabel $::tr(Noblunder)
         set ::sergame::blunderpending 0
       }
-    }
-
-    if { $::sergame::showevaluation } {
-      set ::sergame::scoreLabel "Score : $sc1"
-    } else {
-      set ::sergame::scoreLabel ""
     }
   }
 
@@ -972,9 +1132,11 @@ namespace eval sergame {
     if { $::sergame::engineColor == [sc_pos side] } { return }
 
     if { $::sergame::showblunder } {
+      if {$::sergame::playerBlunderSeverity == 0 && $::sergame::engineBlunderSeverity == 0 && !$::sergame::missedCapitalization && !$::sergame::showBestMove} {
       .coachWin.finformations.l1 configure -background linen
       set ::sergame::blunderWarningLabel $::tr(Noinfo)
       set ::sergame::blunderpending 0
+      }
     }
 
     if { $::sergame::showevaluation && [info exists ::uci::uciInfo(score2)] && $::uci::uciInfo(score2) != "" } {
@@ -988,6 +1150,13 @@ namespace eval sergame {
     set ::sergame::blunderWarningLabel $::tr(Noinfo)
     set ::sergame::scoreLabel ""
     set ::sergame::lscore {}
+    set ::sergame::playerBlunderDelta 0.0
+    set ::sergame::playerBlunderSeverity 0
+    set ::sergame::postPlayerScore ""
+    set ::sergame::engineBlunderDelta 0.0
+    set ::sergame::engineBlunderSeverity 0
+    set ::sergame::missedCapitalization 0
+    set ::sergame::showBestMove 0
   }
 
   ################################################################################
