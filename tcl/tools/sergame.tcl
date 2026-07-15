@@ -412,12 +412,13 @@ namespace eval sergame {
     set ::sergame::missedCapitalization 0
     set ::sergame::showBestMove 0
 
-    if {$::sergame::playerColor == "random"} {
-      set ::sergame::playerColor [expr {rand() < 0.5 ? "white" : "black"}]
+    set ::sergame::activeColor $::sergame::playerColor
+    if {$::sergame::activeColor == "random"} {
+      set ::sergame::activeColor [expr {rand() < 0.5 ? "white" : "black"}]
     }
 
     # Engine plays for the opposite side of player color
-    if {$::sergame::playerColor == "white"} {
+    if {$::sergame::activeColor == "white"} {
       set ::sergame::engineColor "black"
       if {[::board::isFlipped .main.board]} {
         ::board::flipAuto .main.board 0
@@ -486,7 +487,7 @@ namespace eval sergame {
 
     if {!$::sergame::startFromCurrent} {
       sc_game tags set -event "Play vs Engine"
-      sc_game tags set -$::sergame::playerColor "Player"
+      sc_game tags set -$::sergame::activeColor "Player"
       sc_game tags set -$::sergame::engineColor "$::sergame::engineName"
       sc_game tags set -date [::utils::date::today]
     }
@@ -511,13 +512,12 @@ namespace eval sergame {
     ttk::frame $w.fthreshold
     ttk::frame $w.finformations
     ttk::frame $w.fclocks
-    # Clock labels show White/Black based on player's color selection
-    if {$::sergame::playerColor == "white"} {
-      ttk::labelframe $w.fclockw -text "$::tr(Time) $::tr(White)"
-      ttk::labelframe $w.fclockb -text "$::tr(Time) $::tr(Black)"
+    if {$::sergame::activeColor == "white"} {
+      ttk::labelframe $w.fclockw -text "$::tr(Time) $::tr(Player)"
+      ttk::labelframe $w.fclockb -text "$::tr(Time) $::tr(Engine)"
     } else {
-      ttk::labelframe $w.fclockw -text "$::tr(Time) $::tr(Black)"
-      ttk::labelframe $w.fclockb -text "$::tr(Time) $::tr(White)"
+      ttk::labelframe $w.fclockw -text "$::tr(Time) $::tr(Engine)"
+      ttk::labelframe $w.fclockb -text "$::tr(Time) $::tr(Player)"
     }
     ttk::frame $w.fbuttons
     pack $w.fdisplay -side top -fill both -pady 5 -padx 10
@@ -651,6 +651,58 @@ namespace eval sergame {
     ::notify::PosChanged -pgn
   }
 
+  proc blunderDialog {msg bestMoveText} {
+    set w .blunderDialog
+    if {[winfo exists $w]} { destroy $w }
+
+    toplevel $w
+    wm title $w "scidCommunity"
+    wm transient $w .
+    wm resizable $w 0 0
+    applyThemeColor_background $w
+
+    ttk::frame $w.msg
+    ttk::label $w.msg.l -text $msg -wraplength 400 -justify left
+    pack $w.msg.l -padx 15 -pady 15
+    pack $w.msg -fill x
+
+    ttk::separator $w.sep -orient horizontal
+    pack $w.sep -fill x -padx 10
+
+    ttk::frame $w.best
+    ttk::label $w.best.l -text "" -wraplength 400 -foreground "#1a1aff"
+    pack $w.best.l -padx 15 -pady {10 5}
+    pack $w.best -fill x
+
+    ttk::separator $w.sep2 -orient horizontal
+    pack $w.sep2 -fill x -padx 10
+
+    set ::blunderResult -1
+    ttk::frame $w.btns
+    ttk::button $w.btns.show -text "Show Best Move" -command "
+      if {[string length \"$bestMoveText\"] > 0} {
+        $w.best.l configure -text \"Best move: $bestMoveText\"
+      } else {
+        $w.best.l configure -text \"(Best move not available)\"
+      }
+      $w.btns.show configure -state disabled
+    "
+    ttk::button $w.btns.retry -text "Try Again" -command {set ::blunderResult 1}
+    ttk::button $w.btns.keep -text "Use My Move" -command {set ::blunderResult 2}
+    pack $w.btns.show $w.btns.retry $w.btns.keep -side left -padx 5
+    pack $w.btns -pady {5 15}
+
+    wm protocol $w WM_DELETE_WINDOW {set ::blunderResult 2}
+    bind $w <Escape> {set ::blunderResult 2}
+    setWinLocation $w
+    focus $w.btns.retry
+    grab set $w
+    tkwait variable ::blunderResult
+    grab release $w
+    catch {destroy $w}
+    return $::blunderResult
+  }
+
   proc sendToEngine {n text} {
     ::sergame::logEngine $n "Scid  : $text"
     catch {puts $::uci::uciInfo(pipe$n) $text}
@@ -705,15 +757,14 @@ namespace eval sergame {
         if {$engineCurrScore != ""} {
           set engineDelta [expr {$engineCurrScore - $::sergame::postPlayerScore}]
           set engBlunder 0
-          if {$::sergame::playerColor == "white"} {
-            if {$engineDelta > $::informant(??)} { set engBlunder 3
-            } elseif {$engineDelta > $::informant(?)} { set engBlunder 2
-            } elseif {$engineDelta > $::informant(?!)} { set engBlunder 1 }
-          } else {
-            if {$engineDelta < [expr {0.0 - $::informant(??)}]} { set engBlunder 3
-            } elseif {$engineDelta < [expr {0.0 - $::informant(?)}]} { set engBlunder 2
-            } elseif {$engineDelta < [expr {0.0 - $::informant(?!)}]} { set engBlunder 1 }
+          set absEngDelta [expr abs($engineDelta)]
+          if {$absEngDelta >= $::sergame::threshold} {
+            if {$absEngDelta >= $::informant(??)} { set engBlunder 3
+            } elseif {$absEngDelta >= $::informant(?)} { set engBlunder 2
+            } elseif {$absEngDelta >= $::informant(?!)} { set engBlunder 1 }
           }
+          if {$::sergame::activeColor == "black" && $engineDelta > 0} { set engBlunder 0 }
+          if {$::sergame::activeColor == "white" && $engineDelta < 0} { set engBlunder 0 }
           set ::sergame::engineBlunderDelta $engineDelta
           set ::sergame::engineBlunderSeverity $engBlunder
         }
@@ -873,15 +924,14 @@ namespace eval sergame {
       if {$currScore != "" && $prevScore != ""} {
         set delta [expr {$currScore - $prevScore}]
         set blunder 0
-        if {$::sergame::playerColor == "white"} {
-          if {$delta < [expr {0.0 - $::informant(??)}]} { set blunder 3
-          } elseif {$delta < [expr {0.0 - $::informant(?)}]} { set blunder 2
-          } elseif {$delta < [expr {0.0 - $::informant(?!)}]} { set blunder 1 }
-        } else {
-          if {$delta > $::informant(??)} { set blunder 3
-          } elseif {$delta > $::informant(?)} { set blunder 2
-          } elseif {$delta > $::informant(?!)} { set blunder 1 }
+        set absDelta [expr abs($delta)]
+        if {$absDelta >= $::sergame::threshold} {
+          if {$absDelta >= $::informant(??)} { set blunder 3
+          } elseif {$absDelta >= $::informant(?)} { set blunder 2
+          } elseif {$absDelta >= $::informant(?!)} { set blunder 1 }
         }
+        if {$::sergame::activeColor == "white" && $delta > 0} { set blunder 0 }
+        if {$::sergame::activeColor == "black" && $delta < 0} { set blunder 0 }
         set ::sergame::playerBlunderDelta $delta
         set ::sergame::playerBlunderSeverity $blunder
         set ::sergame::postPlayerScore $currScore
@@ -905,27 +955,8 @@ namespace eval sergame {
             }
           }
           clocks stop
-          set choice [tk_dialog .blunderDialog "scidCommunity" $msg question 0 \
-              "Show Best Move" "Try Again" "Use My Move"]
-          if {$choice == 0} {
-            set ::sergame::postPlayerScore ""
-            sc_move back 1
-            ::gameclock::setSec 1 [expr 0 - $::sergame::takebackClockW]
-            ::gameclock::setSec 2 [expr 0 - $::sergame::takebackClockB]
-            clocks start
-            ::notify::PosChanged -pgn
-            if {$bestMoveText ne ""} {
-              set ::sergame::blunderWarningLabel "Best move: $bestMoveText"
-            } else {
-              set ::sergame::blunderWarningLabel "Try a different move"
-            }
-            set ::sergame::blunderpending 1
-            set ::sergame::showBestMove 1
-            .coachWin.finformations.l1 configure -background LightYellow
-            ::sergame::startAnalyze
-            after 1000 ::sergame::engineGo $n
-            return
-          } elseif {$choice == 1} {
+          set choice [::sergame::blunderDialog $msg $bestMoveText]
+          if {$choice == 1} {
             set ::sergame::postPlayerScore ""
             sc_move back 1
             ::gameclock::setSec 1 [expr 0 - $::sergame::takebackClockW]
@@ -947,11 +978,8 @@ namespace eval sergame {
       set engineCurrScore [lindex $::sergame::lscore 0]
       if {$engineCurrScore != "" && $::sergame::postPlayerScore != ""} {
         set playerDelta [expr {$::sergame::postPlayerScore - $engineCurrScore}]
-    set ::sergame::missedCapitalization 0
-    set ::sergame::blunderCheckPending 0
-    set ::sergame::takebackClockW ""
-    set ::sergame::takebackClockB ""
-        if {$::sergame::playerColor == "white"} {
+        set ::sergame::missedCapitalization 0
+        if {$::sergame::activeColor == "white"} {
           if {$playerDelta <= $::informant(!?)} {
             set ::sergame::missedCapitalization 1
           } else {
