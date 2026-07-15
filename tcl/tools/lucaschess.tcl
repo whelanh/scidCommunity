@@ -6,8 +6,12 @@
 namespace eval lucaschess {}
 
 # Engine data from Lucas Chess R OSEngines.py
+# The available engines, executable names and ELOs differ between Linux
+# (bin/OS/linux/Engines) and Windows (bin/OS/win32/Engines), so a
+# separate table is kept for each platform.
 # Each entry: {key name elo exe folder nodes_compatible lucas_elo_min lucas_elo_max lucas_config}
-set ::lucaschess::engines {
+# "exe" may contain a relative sub-path inside the engine folder.
+set ::lucaschess::enginesLinux {
     {stockfish       {Stockfish 18}            3700 {stockfish-18-64}      stockfish   0 1340 1559 {depth 1-4, UCI_Elo=1400-3100}}
     {komodo          {Dragon-1}                3529 {dragon-linux}         komodo      1 1355 1944 {depth 1-4}}
     {patricia        {Patricia 4 v2}           3500 {patricia_4_v2}        patricia    0 {}   {}   {}}
@@ -87,6 +91,83 @@ set ::lucaschess::engines {
     {cassandre       {Cassandre 0.24}          1140 {Cassandre-0.24}      cassandre   0 {}   {}   {}}
     {maia-1100       {Maia-1100}               1100 {Lc0-0.27.0}          maia        1 1090 1090 {nodes=1}}
     {eguzkilore      {Eguzkilore 1.0}          1000 {eguzkilore}          eguzkilore  0 {}   {}   {}}
+    {alouette        {Alouette 0.1.7}           800 {alouette64}          alouette    0 {}   {}   {}}
+}
+
+set ::lucaschess::enginesWindows {
+    {stockfish       {Stockfish 18}            3700 {Stockfish-18-64.exe}  stockfish   1 1340 1559 {depth 1-4, UCI_Elo=1400-3100}}
+    {dragon          {Dragon-1 (needs AVX2)}   3529 {dragon-64bit-avx2.exe} komodo     1 {}   {}   {}}
+    {patricia        {Patricia 4 v2}           3500 {patricia_4_v2.exe}   patricia    0 500  3000 {UCI_Elo=500-3000}}
+    {komodo          {Komodo 13.02}            3406 {komodo-13.02-64bit.exe} komodo    0 1355 1944 {depth 1-4}}
+    {lc0             {Lc0 0.32.1}              3300 {lc0.exe}             lc0         1 {}   {}   {}}
+    {andscacs        {Andscacs 0.9432n}        3264 {andscacs_32_no_popcnt.exe} andscacs 1 {} {}  {}}
+    {gull            {Gull 3}                  3125 {Gull 3 w32 XP.exe}   gull        0 {}   {}   {}}
+    {texel           {Texel 1.08}              3100 {texel64old.exe}      texel       1 1282 2500 {depth 1-4, UCI_Elo=700-2500}}
+    {houdini         {Houdini 1.5a}            3093 {Houdini_15a_w32.exe} houdini     0 {}   {}   {}}
+    {critter         {Critter 1.6a}            3091 {Critter_1.6a_32bit.exe} critter  1 1383 1979 {depth 1-4}}
+    {cheng           {Cheng 4.41}              3030 {cheng4_x64.exe}      cheng       0 1245 2950 {depth 1-4, UCI_Elo=800-2500}}
+    {hannibal        {Hannibal 1.4b}           3000 {Hannibal1.4bx32.exe} hannibal    0 {}   {}   {}}
+    {gaviota         {Gaviota 1.0}             2950 {gaviota-1.0-win32.exe} gaviota   1 1331 1911 {depth 1-4}}
+    {rybka           {Rybka 2.3.2a}            2936 {Rybka v2.3.2a.w32.exe} rybka     1 1200 2400 {UCI_Elo=1200-2400}}
+    {rodentii        {Rodent II 0.9.64}        2912 {rodentII_x32.exe}    rodentII    1 888  2647 {NPS=1-3830}}
+    {discocheck      {DiscoCheck 5.2.1}        2890 {DiscoCheck.exe}      discocheck  1 1298 1731 {depth 1-4}}
+    {toga            {DeepToga 1.9.6nps}       2843 {DeepToga1.9.6nps.exe} toga       0 1304 2850 {depth 1-4, NPS=3.4K-300K}}
+    {rhetoric        {Rhetoric 1.4.3}          2810 {Rhetoric_x32.exe}    rhetoric    1 1300 2600 {UCI_Elo=1300-2600}}
+    {glaurung        {Glaurung 2.2}            2793 {Windows/glaurung-w64.exe} glaurung 1 1500 1914 {depth 2-4}}
+    {fruit           {Fruit 2.3.1}             2786 {Fruit-2-3-1.exe}     fruit       0 1478 1876 {depth 1-4}}
+    {gambitfruit     {Gambit-Fruit 1.0}        2750 {gfruit.exe}          gambitfruit 1 2500 2850 {NPS=30K-300K}}
+    {ct800           {CT800 1.46}              2720 {CT800_V1.46_x64.exe} ct800       1 1000 2500 {UCI_Elo=1000-2500}}
+    {delfi           {Delfi 5.4}               2686 {Delfi.exe}           delfi       0 {}   {}   {}}
+    {daydreamer      {Daydreamer 1.75}         2670 {Windows/32 bit/daydreamer-175-32-ja.exe} daydreamer 1 1413 1662 {depth 2-4}}
+    {alaric          {Alaric 707}              2662 {Alaric707.exe}       alaric      1 {}   {}   {}}
+    {arminius        {Arminius 2017-01-01}     2662 {Arminius2017-01-01-32Bit.exe} arminius 1 {} {} {}}
+    {cyrano          {Cyrano 0.6b17}           2647 {Cyrano.exe}          cyrano      0 {}   {}   {}}
+    {wildcat         {WildCat 8}               2627 {WildCat_8.exe}       wildcat     0 {}   {}   {}}
+    {demolito        {Demolito}                2627 {demolito_32bit_old.exe} demolito 0 {}   {}   {}}
+    {zappa           {Zappa 1.1}               2581 {zappa.exe}           zappa       1 {}   {}   {}}
+    {amyan           {Amyan 1.72}              2575 {amyan.exe}           amyan       1 1000 2400 {UCI_Elo=1000-2400}}
+    {ufim            {Ufim 8.02}               2532 {ufim802.exe}         ufim        0 700  2000 {UCI_Elo=700-2000}}
+    {garbochess      {GarboChess 2.20}         2526 {GarboChess2-32.exe}  garbochess  0 {}   {}   {}}
+    {greko           {GreKo 12.9}              2508 {GreKo.exe}           greko       1 1225 2794 {depth 1-4, UCI_Elo=1600-2400}}
+    {greko98         {GreKo 9.8}               2500 {Greko98a.exe}        greko98     1 745  2795 {NPS=1K-4K}}
+    {umko            {Umko 0.7}                2488 {w32/umko_x32.exe}    umko        0 {}   {}   {}}
+    {hamsters        {Hamsters 0.5}            2487 {Hamsters.exe}        hamsters    1 1000 2000 {UCI_Elo=1000-2000}}
+    {pawny           {Pawny 0.3.1}             2484 {windows/pawny_0.3.1_x86.exe} pawny 0 1288 1573 {depth 2-4}}
+    {simplex         {Simplex 0.9.8}           2396 {Windows/simplex-098-32-ja.exe} simplex 0 1147 1705 {depth 1-4}}
+    {gaia            {Gaia 3.5}                2378 {gaia32.exe}          gaia        0 {}   {}   {}}
+    {paladin         {Paladin 0.1}             2254 {Paladin_32bits_old.exe} paladin  0 {}   {}   {}}
+    {chispa          {Chispa 4.0.3}            2227 {chispa403-blend.exe} chispa      1 {}   {}   {}}
+    {maia-2200       {Maia-2200}               2200 {lc0.exe}             maia        1 {}   {}   {nodes=800}}
+    {lime            {Lime v66}                2119 {Lime_v66.exe}        lime        0 {}   {}   {}}
+    {monarch         {Monarch 1.7}             2100 {Monarch(v1.7).exe}   monarch     0 {}   {}   {}}
+    {clarabit        {Clarabit 1.00}           2058 {clarabit_100_x32_win.exe} clarabit 1 1182 1536 {depth 1-4}}
+    {bikjump         {BikJump 2.01}            2026 {bikjump.exe}         bikjump     0 {}   {}   {}}
+    {cdrill-2000     {CDrill 2000}             2000 {cdrill_2000.exe}     cdrill2000  0 {}   {}   {}}
+    {cinnamon        {Cinnamon 1.2c}           1930 {cinnamon_1.2c-generic.exe} cinnamon 0 {} {} {}}
+    {maia-1900       {Maia-1900}               1900 {lc0.exe}             maia        1 2402 3054 {nodes=450}}
+    {roce            {Roce 0.0390}             1854 {roce39.exe}          roce        0 {}   {}   {}}
+    {maia-1800       {Maia-1800}               1800 {lc0.exe}             maia        1 2190 2334 {nodes=300}}
+    {rocinante       {Rocinante 2.0}           1800 {Windows/Intel/rocinante-20-32-ja.exe} rocinante 0 1860 1921 {}}
+    {cdrill-1800     {CDrill 1800}             1800 {CDrill_1800_Build_4.exe} cdrill  0 {}   {}   {}}
+    {maia-1700       {Maia-1700}               1700 {lc0.exe}             maia        1 1740 2040 {nodes=130}}
+    {maia-1600       {Maia-1600}               1600 {lc0.exe}             maia        1 1500 1627 {nodes=60}}
+    {irina           {Irina 0.23}              1600 {irina.exe}           irina       0 100  1743 {NPS=20-30000}}
+    {maia-1500       {Maia-1500}               1500 {lc0.exe}             maia        1 1410 1410 {nodes=30}}
+    {eguzki          {Eguzki 1.0}              1500 {eguzki.exe}          eguzki      0 1000 2700 {UCI_Elo=1000-2700}}
+    {tarrasch        {Tarrasch Toy 0.906}      1481 {TarraschToyEngineV0.906.exe} tarrasch 0 {} {} {}}
+    {maia-1400       {Maia-1400}               1400 {lc0.exe}             maia        1 1326 1326 {nodes=12}}
+    {maia-1300       {Maia-1300}               1300 {lc0.exe}             maia        1 {}   {}   {nodes=5}}
+    {maia-1200       {Maia-1200}               1200 {lc0.exe}             maia        1 {}   {}   {nodes=2}}
+    {maia-1100       {Maia-1100}               1100 {lc0.exe}             maia        1 1090 1090 {nodes=1}}
+    {eguzkilore      {Eguzkilore 1.0}          1000 {eguzkilore.exe}      eguzkilore  0 {}   {}   {}}
+}
+
+# Select the table matching the current platform (macOS shows the Linux
+# list, but installation is blocked in ::lucaschess::installEngine).
+if {$::windowsOS} {
+    set ::lucaschess::engines $::lucaschess::enginesWindows
+} else {
+    set ::lucaschess::engines $::lucaschess::enginesLinux
 }
 
 # Depth-to-ELO calibration from Lucas Chess ManagerElo (engine depth=ELO)
@@ -225,12 +306,16 @@ proc ::lucaschess::parseGitHubDir {json} {
     return $files
 }
 
+# ::lucaschess::urlEncodePath
+# Minimal percent-encoding for raw.githubusercontent.com paths
+proc ::lucaschess::urlEncodePath {path} {
+    return [string map {" " %20} $path]
+}
+
 # ::lucaschess::downloadEngineDir
 proc ::lucaschess::downloadEngineDir {enginedata os} {
     lassign $enginedata key name elo exe folder nodes_comp lelo_min lelo_max config
     set destDir [file join $::scidEnginesDir "lucaschess" $folder]
-
-    if {$::windowsOS} { set exe "$exe.exe" }
 
     if {[file exists [file join $destDir $exe]]} {
         set answer [tk_messageBox -title "scidCommunity" -icon question -type yesno \
@@ -248,8 +333,16 @@ proc ::lucaschess::downloadEngineDir {enginedata os} {
         # API failed - fall back to direct download
     }
 
-    if {[llength $filesToDl] == 0} {
-        set filesToDl [list [list $exe "$::lucaschess::githubBase/$os/Engines/$folder/$exe"]]
+    # The engine binary may live in a sub-directory of the engine folder
+    # (e.g. "Windows/Intel/rocinante-20-32-ja.exe"), which the top-level
+    # API listing does not include. Make sure it is always downloaded.
+    set haveExe 0
+    foreach fileInfo $filesToDl {
+        if {[lindex $fileInfo 0] eq $exe} { set haveExe 1; break }
+    }
+    if {!$haveExe} {
+        lappend filesToDl [list $exe \
+            "$::lucaschess::githubBase/$os/Engines/$folder/[::lucaschess::urlEncodePath $exe]"]
     }
 
     file mkdir $destDir
@@ -257,7 +350,7 @@ proc ::lucaschess::downloadEngineDir {enginedata os} {
     set errors {}
     foreach fileInfo $filesToDl {
         lassign $fileInfo fileName downloadUrl
-        set destFile [file join $destDir $fileName]
+        set destFile [file join $destDir {*}[file split $fileName]]
         if {[catch {
             ::lucaschess::downloadFile $downloadUrl $destFile
         } err]} {
