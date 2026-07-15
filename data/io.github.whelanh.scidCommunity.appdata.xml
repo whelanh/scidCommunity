@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+ <release version="5.1.3.72" date="2026-07-15">
+      <description>
+        <p>Add Lucas Chess engine installs; consolidate Tactical and Serious Game play</p>
+      </description>
+    </release>
  <release version="5.1.3.70" date="2026-07-12">
       <description>
         <p>EPD report fix</p>
