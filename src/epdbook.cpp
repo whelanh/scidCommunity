@@ -17,7 +17,9 @@
 #include "epdbook.h"
 #include "misc.h"
 #include <cstdio>
+#include <filesystem>
 #include <fstream>
+#include <system_error>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -147,7 +149,8 @@ errorT EpdBook::readFile() {
 	if (fileName_ == nullptr) {
 		return ERROR_FileOpen;
 	}
-	std::ifstream in(fileName_, std::ios::binary);
+	const auto filePath = pathFromUtf8(fileName_);
+	std::ifstream in(filePath, std::ios::binary);
 	if (!in) {
 		return ERROR_FileOpen;
 	}
@@ -155,7 +158,7 @@ errorT EpdBook::readFile() {
 	// Determine whether the file is writable. Opening in append mode does
 	// not truncate or modify the file if nothing is written.
 	{
-		std::ofstream test(fileName_, std::ios::app);
+		std::ofstream test(filePath, std::ios::app);
 		readOnly_ = !test.is_open();
 	}
 
@@ -233,8 +236,10 @@ errorT EpdBook::writeFile() {
 	}
 
 	// Create a temporary file in the same directory as the target file
-	std::string tempFileName = std::string(fileName_) + ".tmp";
-	std::ofstream out(tempFileName, std::ios::binary | std::ios::trunc);
+	const auto targetPath = pathFromUtf8(fileName_);
+	auto tempPath = targetPath;
+	tempPath += ".tmp";
+	std::ofstream out(tempPath, std::ios::binary | std::ios::trunc);
 	if (!out) {
 		return ERROR_FileOpen;
 	}
@@ -278,12 +283,14 @@ errorT EpdBook::writeFile() {
 	out.flush();
 	if (!out) {
 		out.close();
-		std::remove(tempFileName.c_str());
+		std::error_code ec;
+		std::filesystem::remove(tempPath, ec);
 		return ERROR_FileWrite;
 	}
 	out.close();
 	if (out.fail()) {
-		std::remove(tempFileName.c_str());
+		std::error_code ec;
+		std::filesystem::remove(tempPath, ec);
 		return ERROR_FileWrite;
 	}
 
@@ -293,14 +300,16 @@ errorT EpdBook::writeFile() {
 	// Windows CRT rename() fails if the destination exists. Use MoveFileEx
 	// with MOVEFILE_REPLACE_EXISTING so the original file stays intact until
 	// the temporary file is successfully promoted (no delete-then-rename gap).
-	if (!MoveFileExA(tempFileName.c_str(), fileName_,
+	if (!MoveFileExW(tempPath.c_str(), targetPath.c_str(),
 	                 MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH)) {
-		std::remove(tempFileName.c_str());
+		std::error_code ec;
+		std::filesystem::remove(tempPath, ec);
 		return ERROR_FileWrite;
 	}
 #else
-	if (std::rename(tempFileName.c_str(), fileName_) != 0) {
-		std::remove(tempFileName.c_str());
+	if (std::rename(tempPath.c_str(), targetPath.c_str()) != 0) {
+		std::error_code ec;
+		std::filesystem::remove(tempPath, ec);
 		return ERROR_FileWrite;
 	}
 #endif

@@ -125,7 +125,7 @@ std::string PBook::EcoSummary(const std::string_view prefix) const {
 std::pair<errorT, std::unique_ptr<PBook> >
 PBook::ReadEcoFile(const char* FileName) {
     std::filebuf fp;
-    if (!fp.open(FileName, std::ios::in | std::ios::binary))
+    if (!fp.open(pathFromUtf8(FileName), std::ios::in | std::ios::binary))
         return std::make_pair(ERROR_FileOpen, nullptr);
 
     std::unique_ptr<PBook> pb(new PBook);

@@ -7,6 +7,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <filesystem>
 
 #include "board.h"
 #include "book.h"
@@ -17,6 +18,23 @@
 #include "move_legal.h"
 #include "san.h"
 #include "util.h"
+
+// The filenames received from Tcl are UTF-8 encoded, but on Windows fopen()
+// interprets narrow strings using the ANSI code page: convert explicitly.
+// Note: cannot use misc.h/fopenUtf8 here because the polyglot headers clash
+// with the scid ones (e.g. the global A1..H8 constants).
+static FILE* fopen_utf8(const char* filename, const char* mode) {
+#ifdef _WIN32
+	auto fname = reinterpret_cast<const char8_t*>(filename);
+	std::filesystem::path path{fname, fname + strlen(filename)};
+	wchar_t wmode[8] = {};
+	for (size_t i = 0; i < 7 && mode[i]; ++i)
+		wmode[i] = static_cast<wchar_t>(mode[i]);
+	return _wfopen(path.c_str(), wmode);
+#else
+	return fopen(filename, mode);
+#endif
+}
 
 // types
 
@@ -175,7 +193,7 @@ int scid_book_movesupdate(char* moves, char* probs, const int BookNumber,
 		// file return 0; // nothing to do
 	}
 
-	if (!(f = fopen(tempfile, "wb+"))) {
+	if (!(f = fopen_utf8(tempfile, "wb+"))) {
 		return -1; // fail
 	}
 	probs_written = 0;
@@ -255,12 +273,12 @@ int scid_book_open(const char file_name[], const int BookNumber) {
 
 	int ReadOnlyFile = 0;
 
-	BookFile[BookNumber] = fopen(file_name, "rb+");
+	BookFile[BookNumber] = fopen_utf8(file_name, "rb+");
 
 	//--------------------------------------------------
 	if (BookFile[BookNumber] == NULL) {
 		// the book can not be opened in read/write mode, try read only
-		BookFile[BookNumber] = fopen(file_name, "rb");
+		BookFile[BookNumber] = fopen_utf8(file_name, "rb");
 		ReadOnlyFile = 1;
 		if (BookFile[BookNumber] == NULL)
 			return -1;
@@ -390,7 +408,7 @@ void book_open(const char file_name[], const int BookNumber) {
 
 	ASSERT(file_name != NULL);
 
-	BookFile[BookNumber] = fopen(file_name, "rb+");
+	BookFile[BookNumber] = fopen_utf8(file_name, "rb+");
 
 	if (BookFile[BookNumber] == NULL)
 		my_fatal("book_open(): can't open file \"%s\": %s\n", file_name,
