@@ -355,25 +355,22 @@ namespace eval sergame {
       }
     }
 
-    set ::sergame::depth [$w.ftime.depth.value get]
-    set ::sergame::nodes [$w.ftime.nodes.value get]
-    set ::sergame::movetime [expr {[$w.ftime.movetime.value get] * 1000}]
+    catch { set ::sergame::depth [$w.ftime.depth.value get] }
+    catch { set ::sergame::nodes [$w.ftime.nodes.value get] }
+    catch { set ::sergame::movetime [expr {[$w.ftime.movetime.value get] * 1000}] }
 
-    set ::uci::uciInfo(wtime1) [expr {[$w.ftime.clock.whitespminutes get] * 1000 * 60}]
-    set ::uci::uciInfo(btime1) [expr {[$w.ftime.clock.blackspminutes get] * 1000 * 60}]
-    set ::uci::uciInfo(winc1) [expr {[$w.ftime.clock.whitespseconds get] * 1000}]
-    set ::uci::uciInfo(binc1) [expr {[$w.ftime.clock.blackspseconds get] * 1000}]
-    set ::uci::uciInfo(fixeddepth1) $::sergame::depth
-    set ::uci::uciInfo(fixednodes1) $::sergame::nodes
-    set ::uci::uciInfo(movetime1) $::sergame::movetime
+    catch { set ::uci::uciInfo(wtime1) [expr {[$w.ftime.clock.whitespminutes get] * 1000 * 60}] }
+    catch { set ::uci::uciInfo(btime1) [expr {[$w.ftime.clock.blackspminutes get] * 1000 * 60}] }
+    catch { set ::uci::uciInfo(winc1) [expr {[$w.ftime.clock.whitespseconds get] * 1000}] }
+    catch { set ::uci::uciInfo(binc1) [expr {[$w.ftime.clock.blackspseconds get] * 1000}] }
+    catch { set ::uci::uciInfo(fixeddepth1) $::sergame::depth }
+    catch { set ::uci::uciInfo(fixednodes1) $::sergame::nodes }
+    catch { set ::uci::uciInfo(movetime1) $::sergame::movetime }
 
-    set ::sergame::chosenOpening [$w.fopening.fOpeningList.lbOpening selection]
+    catch { set ::sergame::chosenOpening [$w.fopening.fOpeningList.lbOpening selection] }
 
     if {$::sergame::useBook} {
-      set book [$w.fconfig.combo get]
-      if {$book ne ""} {
-        set ::sergame::bookToUse $book
-      }
+      catch { set ::sergame::bookToUse [$w.fconfig.combo get] }
     }
   }
 
