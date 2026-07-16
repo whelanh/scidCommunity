@@ -612,7 +612,13 @@ proc ::docking::manage_click_ {noteb x y localX localY} {
 	set wnd [lindex [$noteb tabs] $tab]
 	lassign [::win::getMenu $wnd] menu
 	if {$menu ne ""} {
-		tk_popup $menu $x $y
+		# On Windows the selected menu command runs inside the native modal
+		# loop of "$menu post": if the command destroys its own window (and
+		# with it $menu, e.g. File/Close), tk_popup fails while unwinding.
+		# Ignore the error in that case, re-raise it otherwise.
+		if {[catch {tk_popup $menu $x $y} err] && [winfo exists $menu]} {
+			error $err
+		}
 	} else {
 		::win::closeWindow $wnd
 	}

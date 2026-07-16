@@ -194,7 +194,10 @@ namespace eval epd {
     $m add command -label [tr FileNew] -underline 0 -command {::epd::newEpdWin create}
     $m add command -label [tr FileOpen] -underline 0 -command {::epd::newEpdWin open}
     $m add command -label [tr Save] -accelerator "Ctrl+S" -underline 0 -command "::epd::saveEpdWin $id"
-    $m add command -label [tr Close] -accelerator "Ctrl+W" -underline 0 -command "::epd::closeEpdWin $id"
+    # Closing is deferred with "after idle" because on Windows menu commands
+    # execute inside the native menu's modal loop: destroying the window (and
+    # with it this menu) at that point crashes tk_popup/tk::PostOverPoint.
+    $m add command -label [tr Close] -accelerator "Ctrl+W" -underline 0 -command "after idle {::epd::closeEpdWin $id}"
 
     set m $w.menu.tools
     $m add command -label [tr EpdPasteAnal] -accelerator "Ctrl+P" -underline 0 -command "::epd::pasteAnalysis $id"

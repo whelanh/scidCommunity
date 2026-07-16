@@ -191,6 +191,24 @@ errorT EpdBook::readFile() {
 			}
 		}
 
+		// Some EPD files use a full 6-field FEN: also skip the optional
+		// numeric halfmove clock and fullmove number fields ("... 0 1").
+		// EPD opcodes always begin with a letter, so a field consisting
+		// entirely of digits cannot be the start of an opcode.
+		for (int i = 0; i < 2; i++) {
+			const char* t = s;
+			while (*t >= '0' && *t <= '9') {
+				t++;
+			}
+			if (t == s || (*t != ' ' && *t != 0 && *t != ';')) {
+				break;
+			}
+			s = t;
+			while (*s == ' ') {
+				s++;
+			}
+		}
+
 		// Parse each opcode field, converting "\s" -> ';' and "\\" -> '\'.
 		std::string comment;
 		while (*s == ';' || *s == ' ') {
