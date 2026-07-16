@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.3.72
+Version:        5.1.3.74
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 84e67ecf5b15533a54bb034ff6e34a1c78e42d8f
+%global commit 7c38810e42e5544afc803bc145341b0d7d2daf8b
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Thu Jul 16, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-74
+- "Various refinements and bug fixes (for Windows)"
 * Wed Jul 15, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-72
 - "Add Lucas Chess engine installs; consolidate Tactical and Serious Game play"
 * Sun Jul 12, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-70
