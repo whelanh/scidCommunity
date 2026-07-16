@@ -1127,30 +1127,45 @@ if {$startup(tip)} { ::tip::show }
 
 # Try to load the spellcheck file:
 if {$loadAtStart(spell)} {
-  progressWindow "scidCommunity - [tr Spellcheking]" "Loading $spellCheckFile ..."
-  set err [catch {sc_name read $spellCheckFile} result]
-  closeProgressWindow
+  ::splash::add "Loading spellcheck file in background: [file tail $spellCheckFile]"
+  sc_name read $spellCheckFile
 }
 
 
-after 1 {
-  ::file::autoLoadBases.load
+# fullname:
+# Given a file name, returns its absolute name.
+#
+proc fullname {fname} {
+  return [file normalize $fname]
+}
 
-  # fullname:
-  # Given a file name, returns its absolute name.
-  #
-  proc fullname {fname} {
-    if {[file pathtype $fname] == "absolute"} { return $fname }
-    set old [pwd]
-    if {[catch {cd [file dirname $fname]}]} { return $fname }
-    set fname [file join [pwd] [file tail $fname]]
-    catch {cd $old}
-    return $fname
+# Open databases one at a time, yielding to the event loop between each.
+proc ::file::openDelayed {baseList} {
+  if {[llength $baseList] == 0} { return }
+  set base [lindex $baseList 0]
+  set remaining [lrange $baseList 1 end]
+
+  set err [::file::Open $base]
+  if {[info exists ::autoLoadBases] && $err != 0 && $err != 2} {
+    set idx [lsearch -exact $::autoLoadBases $base]
+    if {$idx != -1} { set ::autoLoadBases [lreplace $::autoLoadBases $idx $idx] }
   }
-  # Loading a database if specified on the command line:
+
+  if {[llength $remaining] > 0} {
+    after idle [list ::file::openDelayed $remaining]
+  }
+}
+
+after 1 {
+  # Collect all databases to open: auto-load bases + command-line args
+  set dbList {}
+  if {[info exists ::autoLoadBases]} {
+    foreach base $::autoLoadBases { lappend dbList $base }
+  }
   foreach cmdbase $::argv {
-    ::file::Open "[fullname $cmdbase]"
+    lappend dbList [fullname $cmdbase]
   }
+  ::file::openDelayed $dbList
 }
 
 
