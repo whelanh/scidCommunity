@@ -9262,7 +9262,7 @@ int sc_search_header(ClientData, Tcl_Interp *ti, scidBaseT *base,
 
   // Set up White name matches array:
   std::vector<bool> mWhite;
-  checkSpellChkReady(true);
+  checkSpellChkReady(false);
   if (wTitles != NULL && spellChk != NULL) {
     bool allTitlesOn = true;
     for (uint t = 0; t < NUM_TITLES; t++) {
