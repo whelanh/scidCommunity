@@ -7601,7 +7601,7 @@ UI_res_t sc_name(UI_extra_t cd, UI_handle_t ti, int argc, const char **argv) {
     index = strUniqueMatch(argv[1], options);
   }
 
-  checkSpellChkReady(true);
+  checkSpellChkReady(false);
 
   if (!db->inUse) {
     return errorResult(ti, ERROR_FileNotOpen, errMsgNotOpen(ti));
