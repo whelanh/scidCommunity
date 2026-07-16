@@ -74,7 +74,7 @@ static std::future<SpellChecker*> spellChkFuture; // async load future
 static std::atomic<bool> spellChkLoading{false};  // true while async load in progress
 static OpTable *reports[2] = {NULL, NULL};
 
-static void checkSpellChkReady();
+static void checkSpellChkReady(bool block = false);
 
 const int MAX_EPD = 4;                  // Max simultaneously open EPD windows.
 static EpdBook *epdBooks[MAX_EPD] = {NULL, NULL, NULL, NULL};
@@ -2628,7 +2628,7 @@ int sc_game_crosstable(ClientData, Tcl_Interp *ti, int argc,
   }
 
   // Find all games that should be listed in the crosstable:
-  checkSpellChkReady();
+  checkSpellChkReady(true);
   const SpellChecker *spell = spellChk;
   bool tableFullMessage = false;
   for (uint i = 0, n = db->numGames(); i < n; i++) {
@@ -7339,12 +7339,18 @@ UI_res_t sc_name_ratings(UI_handle_t ti, scidBaseT &dbase,
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // checkSpellChkReady:
-//   Non-blocking check: if async spellcheck load completed, swap it in.
-static void checkSpellChkReady() {
+//   Checks if async spellcheck load completed and swaps it in.
+//   When block=true, waits for completion; when false, returns immediately.
+static void checkSpellChkReady(bool block) {
   if (!spellChkLoading.load()) return;
   if (!spellChkFuture.valid()) return;
-  if (spellChkFuture.wait_for(std::chrono::seconds(0)) != std::future_status::ready)
-    return;
+
+  if (block) {
+    spellChkFuture.wait();
+  } else {
+    if (spellChkFuture.wait_for(std::chrono::seconds(0)) != std::future_status::ready)
+      return;
+  }
 
   SpellChecker* newChk = spellChkFuture.get();
   spellChkLoading.store(false);
@@ -7366,7 +7372,7 @@ int sc_name_read(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     return UI_Result(ti, ERROR_BadArg, "Usage: sc_name read <spellcheck-file>");
   }
 
-  checkSpellChkReady();
+  checkSpellChkReady(true);
 
   if (argc > 2) {
     const char *filename = argv[2];
@@ -7590,7 +7596,7 @@ UI_res_t sc_name(UI_extra_t cd, UI_handle_t ti, int argc, const char **argv) {
     index = strUniqueMatch(argv[1], options);
   }
 
-  checkSpellChkReady();
+  checkSpellChkReady(true);
 
   if (!db->inUse) {
     return errorResult(ti, ERROR_FileNotOpen, errMsgNotOpen(ti));
@@ -7623,7 +7629,7 @@ UI_res_t sc_name(UI_extra_t cd, UI_handle_t ti, int argc, const char **argv) {
   };
 
   if (spellChk == NULL) {
-    checkSpellChkReady();
+    checkSpellChkReady(true);
     if (spellChk == NULL) {
     return UI_Result(ti, ERROR,
                      "A spellcheck file has not been loaded.\n\n"
@@ -9251,7 +9257,7 @@ int sc_search_header(ClientData, Tcl_Interp *ti, scidBaseT *base,
 
   // Set up White name matches array:
   std::vector<bool> mWhite;
-  checkSpellChkReady();
+  checkSpellChkReady(true);
   if (wTitles != NULL && spellChk != NULL) {
     bool allTitlesOn = true;
     for (uint t = 0; t < NUM_TITLES; t++) {

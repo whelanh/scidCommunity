@@ -903,6 +903,7 @@ proc loadPlayersPhoto {} {
   incr nImg $nCustom
   incr nFiles $nCustom
 
+  updatePlayerPhotos -force
   return [list $nImg $nFiles]
 }
 after idle loadPlayersPhoto

@@ -1136,12 +1136,7 @@ if {$loadAtStart(spell)} {
 # Given a file name, returns its absolute name.
 #
 proc fullname {fname} {
-  if {[file pathtype $fname] == "absolute"} { return $fname }
-  set old [pwd]
-  if {[catch {cd [file dirname $fname]}]} { return $fname }
-  set fname [file join [pwd] [file tail $fname]]
-  catch {cd $old}
-  return $fname
+  return [file normalize $fname]
 }
 
 # Open databases one at a time, yielding to the event loop between each.
