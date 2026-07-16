@@ -7343,7 +7343,11 @@ UI_res_t sc_name_ratings(UI_handle_t ti, scidBaseT &dbase,
 //   When block=true, waits for completion; when false, returns immediately.
 static void checkSpellChkReady(bool block) {
   if (!spellChkLoading.load()) return;
-  if (!spellChkFuture.valid()) return;
+  if (!spellChkFuture.valid()) {
+    // Defensive: avoid getting stuck in a perpetual "loading" state.
+    spellChkLoading.store(false);
+    return;
+  }
 
   if (block) {
     spellChkFuture.wait();
@@ -7352,7 +7356,14 @@ static void checkSpellChkReady(bool block) {
       return;
   }
 
-  SpellChecker* newChk = spellChkFuture.get();
+  SpellChecker* newChk = nullptr;
+  try {
+    newChk = spellChkFuture.get();
+  } catch (...) {
+    spellChkLoading.store(false);
+    return;
+  }
+
   spellChkLoading.store(false);
   if (newChk == NULL) return;
 
