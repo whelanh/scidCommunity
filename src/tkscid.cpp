@@ -7373,7 +7373,7 @@ int sc_name_read(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
 
     if (!spellChkLoading.load()) {
       spellChkLoading.store(true);
-      std::string fname(pathFromUtf8(filename));
+      std::string fname(filename);
       spellChkFuture = std::async(std::launch::async, [fname]() -> SpellChecker* {
         auto result = SpellChecker::Create(fname.c_str(), Progress());
         if (result.first != OK) return nullptr;
