@@ -845,6 +845,16 @@ proc loadCustomPhotos {} {
     foreach pattern {*.gif *.png} {
         foreach imgfile [glob -nocomplain $pattern] {
             if {![file readable $imgfile] || [file size $imgfile] == 0} { continue }
+            # Cheap signature validation to avoid later Tk errors on corrupt/invalid files.
+            set ext [string tolower [file extension $imgfile]]
+            if {$ext eq ".png" || $ext eq ".gif"} {
+                if {[catch {set fh [open $imgfile r]}]} { continue }
+                fconfigure $fh -translation binary -encoding binary
+                set sig [read $fh 8]
+                close $fh
+                if {$ext eq ".png" && $sig ne "\x89PNG\r\n\x1a\n"} { continue }
+                if {$ext eq ".gif" && ![regexp {^GIF8[79]a$} [string range $sig 0 5]]} { continue }
+            }
             set playername [file rootname $imgfile]
 
             set abspath [file normalize $imgfile]
