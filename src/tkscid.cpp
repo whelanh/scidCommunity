@@ -7383,7 +7383,7 @@ int sc_name_read(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     return UI_Result(ti, ERROR_BadArg, "Usage: sc_name read <spellcheck-file>");
   }
 
-  checkSpellChkReady(true);
+  checkSpellChkReady(argc > 2);
 
   if (argc > 2) {
     const char *filename = argv[2];
@@ -7644,12 +7644,15 @@ UI_res_t sc_name(UI_extra_t cd, UI_handle_t ti, int argc, const char **argv) {
     return sc_name_edit(cd, ti, argc, argv);
   };
 
-  if (spellChk == NULL) {
-    checkSpellChkReady(true);
+  if (index == OPT_RATINGS || index == OPT_RETRIEVENAME ||
+      index == OPT_SPELLCHECK || index == OPT_ELO) {
     if (spellChk == NULL) {
-    return UI_Result(ti, ERROR,
-                     "A spellcheck file has not been loaded.\n\n"
-                     "You can load one from the Options menu.");
+      checkSpellChkReady(true);
+      if (spellChk == NULL) {
+        return UI_Result(ti, ERROR,
+                         "A spellcheck file has not been loaded.\n\n"
+                         "You can load one from the Options menu.");
+      }
     }
   }
 
