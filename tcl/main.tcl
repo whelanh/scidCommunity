@@ -849,7 +849,7 @@ proc loadCustomPhotos {} {
             set ext [string tolower [file extension $imgfile]]
             if {$ext eq ".png" || $ext eq ".gif"} {
                 if {[catch {set fh [open $imgfile r]}]} { continue }
-                fconfigure $fh -translation binary -encoding binary
+                fconfigure $fh -translation binary -encoding iso8859-1
                 set sig [read $fh 8]
                 close $fh
                 if {$ext eq ".png" && $sig ne "\x89PNG\r\n\x1a\n"} { continue }
