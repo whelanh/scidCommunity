@@ -1144,7 +1144,13 @@ proc ::file::openDelayed {baseList} {
   if {[llength $baseList] == 0} { return }
   set base [lindex $baseList 0]
   set remaining [lrange $baseList 1 end]
-  catch {::file::Open $base}
+
+  set err [::file::Open $base]
+  if {[info exists ::autoLoadBases] && $err != 0 && $err != 2} {
+    set idx [lsearch -exact $::autoLoadBases $base]
+    if {$idx != -1} { set ::autoLoadBases [lreplace $::autoLoadBases $idx $idx] }
+  }
+
   if {[llength $remaining] > 0} {
     after idle [list ::file::openDelayed $remaining]
   }
