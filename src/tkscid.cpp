@@ -2628,7 +2628,7 @@ int sc_game_crosstable(ClientData, Tcl_Interp *ti, int argc,
   }
 
   // Find all games that should be listed in the crosstable:
-  checkSpellChkReady(true);
+  checkSpellChkReady(false);
   const SpellChecker *spell = spellChk;
   bool tableFullMessage = false;
   for (uint i = 0, n = db->numGames(); i < n; i++) {
