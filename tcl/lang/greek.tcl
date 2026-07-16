@@ -745,7 +745,7 @@ translate G GraphAbsFilterTitle "Φίλτρο γραφήματος: συχνότ
 translate G GraphWinPctTitle "Γράφημα φίλτρου: % νίκης (1-0 και 0-1) στην τρέχουσα θέση ανά έτος"
 translate G ConfigureFilter "Προσαρμογή των αξόνων Χ ως προς Έτος, Βαθμολογία και Κινήσεις"
 translate G FilterEstimate "Εκτίμηση"
-translate G TitleFilterGraph "Scid: Φιλτράρισμα γραφήματος"
+translate G TitleFilterGraph "scidCommunity: Φιλτράρισμα γραφήματος"
 translate G WinPct "% νίκης"
 translate G GraphLine "Γραμμικό γράφημα"
 translate G GraphBar "Διάγραμμα ράβδων"
@@ -1079,7 +1079,7 @@ translate G CleanerConfirm {
 translate G TwinCheckUndelete {to flip; "u" undeletes both)}
 translate G TwinCheckprevPair {Προηγούμενο ζεύγος}
 translate G TwinChecknextPair {Επόμενο ζεύγος}
-translate G TwinChecker {Scid: έλεγχος δίδυμων παρτίδων}
+translate G TwinChecker {scidCommunity: έλεγχος δίδυμων παρτίδων}
 translate G TwinCheckTournament {Παρτίδες προκριματικού:}
 translate G TwinCheckNoTwin {Δεν υπάρχουν δίδυμα }
 translate G TwinCheckNoTwinfound {Δεν εντοπίστηκαν δίδυμα για την παρτίδα αυτή.\nΓια να δείτε τις δίδυμες παρτίδες χρησιμοποιώντας το παράθυρο αυτό, πρέπει πρώτα να χρησιμοποιήσετε την λειτουργία "Διαγραφή δίδυμων παρτίδων...". }
@@ -1090,7 +1090,7 @@ translate G TwinCheckNoDelete {Σε αυτή τη βάση δεδομένων δ
 translate G TwinCriteria1 {Οι ρυθμίσεις σας για την αναζήτηση δίδυμων παρτίδων πιθανόν να προκαλούν το μαρκάρισμα  μη-δίδυμων παρτίδων ως δίδυμες.}
 translate G TwinCriteria2 {Αν έχετε επιλέξει "Όχι" για τις "όμοιες κινήσεις", συνιστούμε να επιλέξετε "Ναι" στις ρυθμίσεις για χρώματα, διοργανώσεις, τοποθεσίες, έτος και μήνες.\nΘέλετε να συνεχίσετε και να διαγραφούν οι δίδυμες;}
 translate G TwinCriteria3 {Συνιστούμε να επιλέξετε "Ναι" τουλάχιστον για δύο ρυθμίσεις "ίδια τοποθεσία", "ίδιος γύρος" και "ίδιο έτος".\nΘέλετε να συνεχίσετε και να διαγραφούν οι δίδυμες;}
-translate G TwinCriteriaConfirm {Scid: Επιβεβαίωση ρυθμίσεων διδύμων}
+translate G TwinCriteriaConfirm {scidCommunity: Επιβεβαίωση ρυθμίσεων διδύμων}
 translate G TwinChangeTag "Αλλαγή των ακόλουθων ετικετών παρτίδας:\n\n"
 translate G AllocRatingDescription "Η εντολή αυτή θα χρησιμοποιήσει το τρέχον αρχείο ορθογραφικού ελέγχου για να προσθέσει βαθμολογίες Elo σε αυτή την βάση δεδομένων. Αν ο παίκτης/παίκτρια δεν έχει τρέχουσα βαθμολογία αλλά η βαθμολογία του/της την στιγμή της παρτίδας εμφανίζεται στο αρχείο ορθογραφικού ελέγχου, αυτή η βαθμολογία θα προστεθεί."
 translate G RatingOverride "Να αντικατασταθούν οι υπάρχουσες μη-μηδενικές βαθμολογίες;"

@@ -743,7 +743,7 @@ translate N GraphAbsFilterTitle "Filtergrafiek: frequentie van de partijen"
 translate N GraphWinPctTitle "Filtergrafiek: win% (1-0 en 0-1) op huidige positie per jaar"
 translate N ConfigureFilter {Configureer de X-as voor Jaar, Elo en Zetten}
 translate N FilterEstimate "Schat"
-translate N TitleFilterGraph "Scid: Filtergrafiek"
+translate N TitleFilterGraph "scidCommunity: Filtergrafiek"
 translate N WinPct "Win%"
 translate N GraphLine "Lijndiagram"
 translate N GraphBar "Staafdiagram"
@@ -1076,7 +1076,7 @@ Weet u zeker dat u de geselecteerde onderhoudsfuncties wilt uitvoeren?
 translate N TwinCheckUndelete {omwisselen; "u" maakt de verwijdering van beide ongedaan)}
 translate N TwinCheckprevPair {Vorige paar}
 translate N TwinChecknextPair {Volgende paar}
-translate N TwinChecker {Scid: Tweeling partij verifieerder}
+translate N TwinChecker {scidCommunity: Tweeling partij verifieerder}
 translate N TwinCheckTournament {Partijen in het toernooi:}
 translate N TwinCheckNoTwin {Geen tweeling  }
 translate N TwinCheckNoTwinfound {Er werd geen tweeling gedetecteerd voor deze partij.\n
@@ -1088,7 +1088,7 @@ translate N TwinCheckNoDelete {Er zijn geen partijen in deze databank om te verw
 translate N TwinCriteria1 { Uw instellingen voor het vinden van tweeling partijen kunnen mogelijkerwijs \n tot gevolg hebben dat partijen met gelijkaardige zetten ten onrechte als tweelingen worden aangegeven.}
 translate N TwinCriteria2 {Het wordt aangeraden dat indien U "Nee" selecteert voor "dezelfde zetten" dat U dan "Ja" selecteert voor de kleuren, event, plaats, ronde, jaar en maand instellingen.\n Wil U doorgaan en de tweelingen toch verwijderen?}
 translate N TwinCriteria3 {Het wordt aangeraden dat U "Ja" selecteert voor tenminste twee instellingen uit "zelfde plaats", "zelfde ronde" en "zelfde jaar".\n Wil U doorgaan en de tweelingen toch verwijderen?}
-translate N TwinCriteriaConfirm {Scid: Bevestig tweeling instellingen}
+translate N TwinCriteriaConfirm {scidCommunity: Bevestig tweeling instellingen}
 translate N TwinChangeTag "Veranderder de volgende partij labels:\n\n"
 translate N AllocRatingDescription "Dit commando zal het huidige spellingscontrole bestand gebruiken om Elo punten toe te voegen aan partijen in deze databank. Indien een speler geen huidige Elo punten heeft maar zijn/haar punten op het moment van het spel zijn aanwezig in het spellingscontrole bestand dan zullen deze punten toegevoegd worden."
 translate N RatingOverride "Overschrijf bestaande, van nul verschillende, punten?"

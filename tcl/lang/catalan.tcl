@@ -739,7 +739,7 @@ translate K GraphAbsFilterTitle "Filtre gràfic: freqüencia de les partides"
 translate K GraphWinPctTitle "Gràfic de filtre: % de victòria (1-0 i 0-1) a la posició actual per any"
 translate K ConfigureFilter {Configurar Eix-X per Any, Rating i Jugades}
 translate K FilterEstimate "Estimar"
-translate K TitleFilterGraph "Scid: Filtre Gràfic"
+translate K TitleFilterGraph "scidCommunity: Filtre Gràfic"
 translate K WinPct "% de victòria"
 translate K GraphLine "Gràfic de línies"
 translate K GraphBar "Gràfic de barres"
@@ -1075,7 +1075,7 @@ N'estàs segur/a de voler començar les funcions de manteniment que has escollit
 translate K TwinCheckUndelete {Prem "u" per no esborrar-ne cap (undelete)}
 translate K TwinCheckprevPair {Parella previa}
 translate K TwinChecknextPair {Pròxima Parella}
-translate K TwinChecker {Scid: Verificar partides duplicades}
+translate K TwinChecker {scidCommunity: Verificar partides duplicades}
 translate K TwinCheckTournament {Partides d'un torneig:}
 translate K TwinCheckNoTwin {No duplicada  }
 translate K TwinCheckNoTwinfound {No s'han trovat duplicades per aquesta partida.\nper mostrar duplicades amb aquesta finestra fes servir la funció "Esborrar partides duplicades..." }
@@ -1086,7 +1086,7 @@ translate K TwinCheckNoDelete {No hi ha partides en aquesta base per esborrar.}
 translate K TwinCriteria1 {Els teus paràmetres per cercar duplicades potencialment poden fer que partides diferents amb jugades similars siguin marcades com a duplicades.}
 translate K TwinCriteria2 {Es recomenable que escolleixis "No" per "algunes jugades", hauries d'escollir "Sí"  pels paràmetres colors, torneigs, lloc, ronda, any i mes.\nVols continuar, malgrat això, i esborrar les partides duplicades?}
 translate K TwinCriteria3 {Es recomenable que especifiquis "Sí" per al menys dos paràmetres de "mateix lloc", "mateixa ronda" i "mateix any".\nVols continuar, malgrat això, i esborrar duplicades?}
-translate K TwinCriteriaConfirm {Scid: Confirmar paràmetres per partides duplicades}
+translate K TwinCriteriaConfirm {scidCommunity: Confirmar paràmetres per partides duplicades}
 translate K TwinChangeTag "Canviar les sigüents etiquetes de les:\n\n partides"
 translate K AllocRatingDescription "Aquesta ordre farà servir l'arxiu actual SpellCheck per afegir puntuacions ELO i partides a la base. On un jugador no tingui Elo però si el tingui al llistat d'Spellcheck, se li afegirà l'Elo."
 translate K RatingOverride "Sobre-escriure Elos existents no buits?"

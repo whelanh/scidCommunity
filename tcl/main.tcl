@@ -1028,7 +1028,7 @@ proc getPromoPiece {} {
     set ::result 2
     toplevel $w
     # wm transient $w .main
-    ::setTitle $w "Scid"
+    ::setTitle $w "scidCommunity"
     wm resizable $w 0 0
     set col "w"
     if { [sc_pos side] == "black" } { set col "b" }
@@ -1061,7 +1061,7 @@ proc confirmReplaceMove {} {
     }
 
     option add *Dialog.msg.wrapLength 4i interactive
-    catch {tk_dialog .dialog "Scid: $::tr(ReplaceMove)?" \
+    catch {tk_dialog .dialog "scidCommunity: $::tr(ReplaceMove)?" \
                 $::tr(ReplaceMoveMessage) "" 0 \
                 $::tr(ReplaceMove) $::tr(NewMainLine) \
                 $::tr(AddNewVar) $::tr(Cancel)} answer

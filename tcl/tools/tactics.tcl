@@ -277,7 +277,7 @@ namespace eval tactics {
 
         ::uci::resetUciInfo $::tactics::engineSlot
         set analysisEngine(analyzeMode) 0
-        progressWindow "Scid" [tr StartEngine]
+        progressWindow "scidCommunity" [tr StartEngine]
         set err [::uci::startEngine $engineIdx $::tactics::engineSlot]
         closeProgressWindow
         if {$err != 0} { return }
@@ -388,7 +388,7 @@ namespace eval tactics {
         #reset site tag for each game
         set numGames [sc_filter count $baseId $filter]
         set cancelScoreReset 0
-        progressWindow "Scid" $::tr(ResettingScore) $::tr(Cancel) "set ::tactics::cancelScoreReset 1"
+        progressWindow "scidCommunity" $::tr(ResettingScore) $::tr(Cancel) "set ::tactics::cancelScoreReset 1"
         for {set g 0} {$g < $numGames && $cancelScoreReset == 0} {incr g 100} {
             updateProgressWindow $g $numGames
 

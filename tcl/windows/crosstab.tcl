@@ -57,7 +57,7 @@ proc ::crosstab::Open {} {
     set fname [tk_getSaveFile -initialdir [pwd] -filetypes $ftype  -title "Save Crosstable"]
     if {$fname != ""} {
       if {[catch {set tempfile [open $fname w]}]} {
-        tk_messageBox -title "Scid: Error saving file" -type ok -icon warning -message "Unable to save the file: $fname\n\n"
+        tk_messageBox -title "scidCommunity: Error saving file" -type ok -icon warning -message "Unable to save the file: $fname\n\n"
       } else {
         puts -nonewline $tempfile [$::crosstab::win.f.text get 1.0 end]
         close $tempfile
@@ -75,7 +75,7 @@ proc ::crosstab::Open {} {
         append fname ".html"
       }
       if {[catch {set tempfile [open $fname w]}]} {
-        tk_messageBox -title "Scid: Error saving file" -type ok -icon warning -message "Unable to save the file: $fname\n\n"
+        tk_messageBox -title "scidCommunity: Error saving file" -type ok -icon warning -message "Unable to save the file: $fname\n\n"
       } else {
         catch {sc_game crosstable html $crosstab(sort) $crosstab(type) \
               $crosstab(ratings) $crosstab(countries) $crosstab(flags) $crosstab(titles) \
@@ -239,7 +239,7 @@ proc ::crosstab::CopyFlagsForHtml {htmlFile htmlContent} {
   if {[dict size $seen] == 0} { return }
   if {![file isdirectory $dstDir]} {
       if {[catch {file mkdir $dstDir} err]} {
-          tk_messageBox -title "Scid: Error saving flags" -type ok -icon warning \
+          tk_messageBox -title "scidCommunity: Error saving flags" -type ok -icon warning \
               -message "Unable to create flags directory: $dstDir\n$err"
           return
       }

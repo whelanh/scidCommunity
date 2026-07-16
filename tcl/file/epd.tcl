@@ -145,7 +145,7 @@ namespace eval epd {
     # Initialize the EpdBook internals.
     if {[catch {sc_epd $cmd $fname} result]} {
       if {$showErrors} {
-        tk_messageBox -type ok -icon error -title "Scid: EPD file error" -message $result
+        tk_messageBox -type ok -icon error -title "scidCommunity: EPD file error" -message $result
       }
       return 0
     }
@@ -275,7 +275,7 @@ namespace eval epd {
       if {[winfo exists $w]} { return }
       toplevel $w
       ::applyThemeColor_background $w
-      wm title $w Scid
+      wm title $w scidCommunity
       set ::epd::answer 2
       pack [ttk::frame $w.top] -side top
       addHorizontalRule $w
@@ -477,6 +477,13 @@ namespace eval epd {
   proc configAnnotateEpd {id} {
     global engines epdAnnotateMode
     if {! [winfo exists .epd$id.text]} { return }
+
+    if {[llength $engines(list)] == 0} {
+      tk_messageBox -type ok -icon info -title "scidCommunity: no engines" \
+          -message "No chess engines are configured.\nPlease add an engine ([tr Tools] -> [tr EngineList]) first." \
+          -parent .epd$id
+      return
+    }
 
     set w .epdAnnotateConfig
     if {[winfo exists $w]} { raiseWin $w ; return }
@@ -898,8 +905,8 @@ namespace eval epd {
     if {$field == ""} {return}
     set result [sc_epd strip $id $field]
     updateEpdWin $id
-    tk_messageBox -type ok -icon info -title "Scid: EPD field stripped" \
-        -message "Scid stripped EPD field \"$field\" from $result positions." -parent .epd$id
+    tk_messageBox -type ok -icon info -title "scidCommunity: EPD field stripped" \
+        -message "scidCommunity stripped EPD field \"$field\" from $result positions." -parent .epd$id
   }
 
   ################################################################################

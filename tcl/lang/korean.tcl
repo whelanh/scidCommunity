@@ -754,7 +754,7 @@ translate k GraphAbsFilterTitle "필터 그래프: 게임용"
 translate k GraphWinPctTitle "분석 그래프: 연도별 현재 위치에서 승률(1-0 및 0-1)"
 translate k ConfigureFilter "연도, 등급 및 이동에 대한 X축 구성"
 translate k FilterEstimate "최종"
-translate k TitleFilterGraph "Scid: 그래프 분석"
+translate k TitleFilterGraph "scidCommunity: 그래프 분석"
 translate k WinPct "기다립니다 %"
 translate k GraphLine "꺾은선형 차트"
 translate k GraphBar "막대 차트"
@@ -1083,7 +1083,7 @@ translate k CleanerConfirm {Cleaner 유지 관리는 한 번만 시작하면 중
 translate k TwinCheckUndelete {뒤집다; "u"는 둘 다 삭제 취소합니다)}
 translate k TwinCheckprevPair {이전 예비}
 translate k TwinChecknextPair {다음다음}
-translate k TwinChecker {Scid: 트윈 게임 체커}
+translate k TwinChecker {scidCommunity: 트윈 게임 체커}
 translate k TwinCheckTournament {반대 게임:}
 translate k TwinCheckNoTwin {트윈 없음}
 translate k TwinCheckNoTwinfound {이 게임에서는 트윈 게임이 존재하지 않았습니다.\n이 창을 사용하여 트윈을 표시하지 않으면 먼저 "트윈 게임 삭제..." 기능을 전달했습니다.}
@@ -1094,7 +1094,7 @@ translate k TwinCheckNoDelete {이 데이터베이스에는 중복 게임이 없
 translate k TwinCriteria1 {게임을 찾기 설정으로 인해 비슷한 동작을 하는 쌍둥이가 아닌 게임이 쌍둥이로 연결될 가능성이 높습니다.}
 translate k TwinCriteria2 {"같은 동작"에 "아니오"를 선택했다면 색상, 이벤트, 사이트, 순환, 연도 및 월 설정에 "예"를 선택하는 것이었죠.\n계속해서 트윈을 삭제하여 Enter?}
 translate k TwinCriteria3 {"동일 사이트", "동일 라운드" 및 "동일 연도" 설정 중 최소 2개에 대해 "예"를 경고하는 것이 좋습니다.\n그래도 계속해서 보안을 삭제하시겠습니까?}
-translate k TwinCriteriaConfirm {Scid: 트윈 설정 확인}
+translate k TwinCriteriaConfirm {scidCommunity: 트윈 설정 확인}
 translate k TwinChangeTag "다음 게임 태그를 변경하시기 바랍니다:\n\n"
 translate k AllocRatingDescription "이 복합은 현재 맞춤법 검사 파일을 사용하여 이 데이터베이스의 게임에 Elo 등급을 추가합니다. 플레이어에게 현재 등급이 있는 경우에는 게임 등급이 맞춤법 검사 파일에 포함되는 경우 해당 등급이 추가됩니다."
 translate k RatingOverride "0이 아닌 고유 등급 쓰기"

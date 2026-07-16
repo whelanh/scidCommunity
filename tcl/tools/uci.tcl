@@ -368,7 +368,7 @@ namespace eval uci {
         # Try to execute the analysis program:
         if {[catch {set pipe [open [list | $cmd {*}$arg] "r+"]} result]} {
             if {$oldpwd != ""} { catch {cd $oldpwd} }
-            tk_messageBox -title "Scid: error starting UCI engine" \
+            tk_messageBox -title "scidCommunity: error starting UCI engine" \
                     -icon warning -type ok -message "Unable to start the program:\n$cmd"
             return
         }
@@ -746,7 +746,7 @@ namespace eval uci {
         # Try to execute the analysis program:
         if {[catch {set uciInfo(pipe$n) [open [list | $analysisCommand {*}$analysisArgs] "r+"]} result]} {
             if {$oldpwd != ""} { catch {cd $oldpwd} }
-            tk_messageBox -title "Scid: error starting engine" -icon warning -type ok \
+            tk_messageBox -title "scidCommunity: error starting engine" -icon warning -type ok \
                     -message "Unable to start the program:\n$analysisCommand"
             return 1
         }
@@ -820,7 +820,7 @@ namespace eval uci {
         fileevent $pipe readable {}
         
         if {! $uciok } {
-            tk_messageBox -title "Scid: error closing UCI engine" \
+            tk_messageBox -title "scidCommunity: error closing UCI engine" \
                     -icon warning -type ok -message "Not an UCI engine"
         }
         

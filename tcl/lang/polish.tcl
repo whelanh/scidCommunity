@@ -651,7 +651,7 @@ translate P GraphAbsFilterTitle {Wykres filtra: częstotliwość partii}
 translate P GraphWinPctTitle {Wykres filtra: % wygranych (1-0 i 0-1) w bieżącej pozycji według roku}
 translate P ConfigureFilter {Konfiguruj osie X dla roku, rankingu i posunięć}
 translate P FilterEstimate {Szacuj}
-translate P TitleFilterGraph {Scid: wykres filtra}
+translate P TitleFilterGraph {scidCommunity: wykres filtra}
 translate P WinPct {% zwycięstw}
 translate P GraphLine {Wykres liniowy}
 translate P GraphBar {Wykres słupkowy}
@@ -985,7 +985,7 @@ Czy na pewno chcesz rozpocząć wybrane zadania?
 translate P TwinCheckUndelete {aby przełączyć; "u" przywraca obie)}
 translate P TwinCheckprevPair {Poprzednia para}
 translate P TwinChecknextPair {Następna para}
-translate P TwinChecker {Scid: sprawdzanie duplikatów partii}
+translate P TwinChecker {scidCommunity: sprawdzanie duplikatów partii}
 translate P TwinCheckTournament {Partie w turnieju:}
 translate P TwinCheckNoTwin {Brak duplikatu  }
 translate P TwinCheckNoTwinfound {Nie wykryto duplikatu tej partii.\nAby pokazać duplikaty w tym oknie, najpierw użyj funkcji "Usuń duplikaty partii...". }
@@ -996,7 +996,7 @@ translate P TwinCheckNoDelete {W tej bazie nie ma partii do usunięcia.}
 translate P TwinCriteria1 { Twoje ustawienia wyszukiwania duplikatów mogą sprawić, że\npartie niebędące duplikatami, ale z podobnymi posunięciami, zostaną oznaczone jako duplikaty.}
 translate P TwinCriteria2 {Jeśli wybierzesz "Nie" dla "te same posunięcia", zaleca się wybranie "Tak" dla ustawień kolorów, turnieju, miejsca, rundy, roku i miesiąca.\nCzy mimo to kontynuować i usunąć duplikaty? }
 translate P TwinCriteria3 {Zaleca się wybranie "Tak" dla co najmniej dwóch ustawień: "to samo miejsce", "ta sama runda" i "ten sam rok".\nCzy mimo to kontynuować i usunąć duplikaty?}
-translate P TwinCriteriaConfirm {Scid: potwierdź ustawienia duplikatów}
+translate P TwinCriteriaConfirm {scidCommunity: potwierdź ustawienia duplikatów}
 translate P TwinChangeTag {Zmień następujące znaczniki partii:
 
 }

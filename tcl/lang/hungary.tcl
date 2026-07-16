@@ -721,7 +721,7 @@ translate H GraphAbsFilterTitle "Szûrõgrafikon: játszmák gyakorisága"
 translate H GraphWinPctTitle "Szűrési grafikon: Nyerési % (1-0 és 0-1) az aktuális pozíciónál évenként"
 translate H ConfigureFilter {Állítsd be az X tengelyt évre, értékszámra vagy lépésre}
 translate H FilterEstimate "Becslés"
-translate H TitleFilterGraph "Scid: Szûrõgrafikon"
+translate H TitleFilterGraph "scidCommunity: Szûrõgrafikon"
 translate H WinPct "Nyerés %"
 translate H GraphLine "Vonaldiagram"
 translate H GraphBar "Oszlopdiagram"
@@ -1055,7 +1055,7 @@ Biztos, hogy neki akarsz látni a kijelölt gondozási feladatoknak?
 translate H TwinCheckUndelete {váltás; "u" mindkettõt helyreállítja)}
 translate H TwinCheckprevPair {Elõzõ pár}
 translate H TwinChecknextPair {Következõ pár}
-translate H TwinChecker {Scid: Ikerjátszma-ellenõrzés}
+translate H TwinChecker {scidCommunity: Ikerjátszma-ellenõrzés}
 translate H TwinCheckTournament {E verseny játszmái:}
 translate H TwinCheckNoTwin {Nem ikrek  }
 translate H TwinCheckNoTwinfound {Ennek a játszmának nincs ikertestvére.\nEbben az ablakban akkor lehet megjeleníteni az ikreket, ha elõbb az "Ikerjátszmák törlése..." funkciót használod. }
@@ -1066,7 +1066,7 @@ translate H TwinCheckNoDelete {Ebben az adatbázisban nincsenek törlendõ játs
 translate H TwinCriteria1 {Ikerjátszmák megtalálását célzó beállításaid azzal a veszéllyel járnak,\nhogy hasonló lépéseket tartalmazó (nem-iker) játszmákat is megjelölök törlésre..}
 translate H TwinCriteria2 {Ha "azonos lépések"-nél "Nem"-et választottad, akkor célszerû "Igen"-t választani a színek, az esemény, a helyszín, a forduló, az év és a hónap beállításainál.\nAkarod folytatni, és mindenképpen törölni az ikreket?}
 translate H TwinCriteria3 {Ajánlatos "azonos helyszín", "azonos forduló" és "azonos év" beállításai közül legalább kettõt "Igen"-nek választani.\nAkarod folytatni, és mindenképpen törölni az ikreket?}
-translate H TwinCriteriaConfirm {Scid: Erõsítsd meg az ikerbeállításokat}
+translate H TwinCriteriaConfirm {scidCommunity: Erõsítsd meg az ikerbeállításokat}
 translate H TwinChangeTag "Változtasd meg a következõ játszmacímkéket:\n\n"
 translate H AllocRatingDescription "Ez a parancs a jelenlegi helyesírásellenõrzõ fájl felhasználásával Élõ-pontokkal látja el az adatbázis játszmáit. Ha egy játékosnak jelenleg nincs Élõje, de a játszma idején érvényes Élõje benne van a helyesírásellenõrzõ fájlban, azt az Élõt fogja kapni."
 translate H RatingOverride "Felülírjam a meglévõ 0-tól különbözõ Élõket?"

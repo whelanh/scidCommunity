@@ -351,7 +351,7 @@ proc ::preport::previewHTML {} {
   set tmpfile "TempPlayerReport"
   set fname [file join $tmpdir $tmpfile]
   if {[catch {set tempfile [open $fname.html w]}]} {
-    tk_messageBox -title "Scid: Error writing report" -type ok -icon warning \
+    tk_messageBox -title "scidCommunity: Error writing report" -type ok -icon warning \
         -message "Unable to write the file: $fname.html"
   }
   puts $tempfile [::preport::report html 1]
@@ -380,12 +380,12 @@ proc ::preport::saveReport {fmt} {
   }
 
   set fname [tk_getSaveFile -initialdir [pwd] -filetypes $ftype \
-      -defaultextension $default -title "Scid: Save opening report"]
+      -defaultextension $default -title "scidCommunity: Save opening report"]
   if {$fname == ""} { return }
 
   busyCursor .
   if {[catch {set tempfile [open $fname w]}]} {
-    tk_messageBox -title "Scid: Error writing report" -type ok -icon warning \
+    tk_messageBox -title "scidCommunity: Error writing report" -type ok -icon warning \
         -message "Unable to write the file: $fname\n\n"
   } else {
     set report [::preport::report $fmt 1]

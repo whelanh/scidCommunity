@@ -720,7 +720,7 @@ translate R GraphAbsFilterTitle "Диаграмма фильтра: частот
 translate R GraphWinPctTitle "График фильтров: процент побед (1-0 и 0-1) в текущей позиции по годам"
 translate R ConfigureFilter {Настройка оси Х по годам, рейтингу и ходам}
 translate R FilterEstimate "Оценка"
-translate R TitleFilterGraph "Scid: Диаграмма фильтра"
+translate R TitleFilterGraph "scidCommunity: Диаграмма фильтра"
 translate R WinPct "Победить %"
 translate R GraphLine "Линейный график"
 translate R GraphBar "Гистограмма"
@@ -1054,7 +1054,7 @@ translate R CleanerConfirm {
 translate R TwinCheckUndelete {сбросить; "u" восстанавливает оба)}
 translate R TwinCheckprevPair {Предыдущая пара}
 translate R TwinChecknextPair {Следующая пара}
-translate R TwinChecker {Scid: Контролёр партий-дубликатов}
+translate R TwinChecker {scidCommunity: Контролёр партий-дубликатов}
 translate R TwinCheckTournament {Партий в турнире:}
 translate R TwinCheckNoTwin {Нет дубликатов}
 translate R TwinCheckNoTwinfound {Для этой партии не найдено дубликатов.\nДля показа дубликатов с использованием этого окна, вы должны вначале использовать функцию "Удалить партии-дубликаты...".}
@@ -1065,7 +1065,7 @@ translate R TwinCheckNoDelete {В этой базе данных нет парт
 translate R TwinCriteria1 { Ваши настройки для поиска дубликатов могут потенциально привести\nк тому, что разные партии с похожими ходами могут быть помечены, как дубликаты.}
 translate R TwinCriteria2 {Рекомендуется в том случае, когда вы выбираете "Нет" для "одинаковых ходов", вы должны выбрать "Да" для настроек цветов, турниров, местоположений, раундов, годов и месяцев.\nХотите ли вы продолжить и удалить дубликаты в любом случае?}
 translate R TwinCriteria3 {Рекомендуется в том случае, когда вы выбираете "Да" минимум для двух настроек "тоже местоположение", "тот же раунд" и "тот же год".\nХотите ли вы продолжить и удалить дубликаты в любом случае?}
-translate R TwinCriteriaConfirm {Scid: Подтвердить настройки партий-дубликатов}
+translate R TwinCriteriaConfirm {scidCommunity: Подтвердить настройки партий-дубликатов}
 translate R TwinChangeTag "Изменение тегов следующих партий:\n\n"
 translate R AllocRatingDescription "Эта команда использует текущий файл коррекции для добавления рейтинга Эло к партиям в этой базе данных. Везде, где игрок не имел текущий рейтинг хотя его/её рейтинг в той партии описан в файле коррекции, рейтинг будет добавлен."
 translate R RatingOverride "Перезаписать существующие ненулевые рейтинги?"

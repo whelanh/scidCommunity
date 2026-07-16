@@ -35,7 +35,7 @@ proc ::file::Exit {}  {
 
   # Only ask before exiting if there are unsaved changes:
   if {$unsavedCount > 0} {
-    set answer [tk_messageBox -title "Scid: [tr FileExit]" \
+    set answer [tk_messageBox -title "scidCommunity: [tr FileExit]" \
         -message $msg -type yesno -icon question]
     if {$answer != "yes"} { return }
   }
@@ -181,7 +181,7 @@ proc ::file::Open_ {fName } {
 
   set ext [string tolower [file extension "$fName"] ]
   if {[sc_base slot $fName] != 0} {
-    tk_messageBox -title "Scid: opening file" -message "The database you selected is already opened."
+    tk_messageBox -title "scidCommunity: opening file" -message "The database you selected is already opened."
     return 1
   }
 
@@ -191,7 +191,7 @@ proc ::file::Open_ {fName } {
   } elseif {"$ext" == ".pgn"} {
     # PGN file:
     set tip "[tr Tip]:\n[tr TipConvertPGN]\n([tr Database] -> [tr CopyAllGames] -> [tr FileNew])"
-    progressWindow "Scid" "$::tr(OpeningTheDatabase): $fName...\n\n$tip" $::tr(Cancel)
+    progressWindow "scidCommunity" "$::tr(OpeningTheDatabase): $fName...\n\n$tip" $::tr(Cancel)
     set err [catch {sc_base open PGN "$fName"} ::file::lastOpened]
     closeProgressWindow
     if {$err} {
@@ -211,10 +211,10 @@ proc ::file::Open_ {fName } {
     } elseif {$ext == ".si4"} {
       set dbType "SCID4"
     } else {
-      tk_messageBox -title "Scid: opening file" -message "Unsupported database format:  $ext"
+      tk_messageBox -title "scidCommunity: opening file" -message "Unsupported database format:  $ext"
       return 1;
     }
-    progressWindow "Scid" "$::tr(OpeningTheDatabase): [file tail "$fName"]..." $::tr(Cancel)
+    progressWindow "scidCommunity" "$::tr(OpeningTheDatabase): [file tail "$fName"]..." $::tr(Cancel)
     set err [catch {sc_base open $dbType $fName} ::file::lastOpened]
     closeProgressWindow
     if {$err} {
@@ -251,7 +251,7 @@ proc ::file::Upgrade {name} {
     return 1
   }
 
-  progressWindow "Scid" "$::tr(Opening): [file tail $name]..." $::tr(Cancel)
+  progressWindow "scidCommunity" "$::tr(Opening): [file tail $name]..." $::tr(Cancel)
   set err [catch {sc_base open $name} ::file::lastOpened]
   closeProgressWindow
   if {$::errorCode == $::ERROR::NameDataLoss} {
@@ -265,7 +265,7 @@ proc ::file::Upgrade {name} {
       file delete "$name.sn4"
       file delete "$name.si4" }
   } else {
-    progressWindow "Scid" [concat $::tr(CompactDatabase) "..."] $::tr(Cancel)
+    progressWindow "scidCommunity" [concat $::tr(CompactDatabase) "..."] $::tr(Cancel)
     set err_compact [catch {sc_base compact $::file::lastOpened}]
     closeProgressWindow
     if {$err_compact} { ERROR::MessageBox }

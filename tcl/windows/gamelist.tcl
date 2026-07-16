@@ -155,7 +155,7 @@ proc ::windows::gamelist::FilterExport {{w}} {
 	                          -typevariable ::gamelistExport \
 	                          -title [tr ToolsExpFilter] ]
 	if {$fName == ""} { return }
-	progressWindow "Scid" "Exporting games..." $::tr(Cancel)
+	progressWindow "scidCommunity" "Exporting games..." $::tr(Cancel)
 	if {[file extension $fName] == ""} { append fName ".pgn" }
 	set err [catch {sc_filter export $::gamelistBase($w) $::gamelistFilter($w) \
 	                    $::glistSortStr($w.games.glist) $fName $::gamelistExport }]
@@ -172,7 +172,7 @@ proc ::windows::gamelist::ExportSelected {{w} {glist_w}} {
 	                          -typevariable ::gamelistExport \
 	                          -title "Export Selected Games" ]
 	if {$fName == ""} { return }
-	progressWindow "Scid" "Exporting selected games..." $::tr(Cancel)
+	progressWindow "scidCommunity" "Exporting selected games..." $::tr(Cancel)
 	if {[file extension $fName] == ""} { append fName ".pgn" }
 	if {[info exists ::glistMultiSel($glist_w)]} {
 		set all_sel $::glistMultiSel($glist_w)
@@ -275,7 +275,7 @@ proc ::windows::gamelist::Awesome {{w} {txt}} {
 		#Split the string using " + "
 		foreach {dummy sub} [regexp -all -inline {(.+?)(?:\s\+\s|$)} $txt] {
 			set cmd [list sc_filter search $::gamelistBase($w) $filter header -filter OR]
-			progressWindow "Scid" "$::tr(HeaderSearch)..." $::tr(Cancel)
+			progressWindow "scidCommunity" "$::tr(HeaderSearch)..." $::tr(Cancel)
 			set res [{*}$cmd {*}[AweParse $sub]]
 			closeProgressWindow
 		}
@@ -437,7 +437,7 @@ proc ::windows::gamelist::CopyGames {{w} {srcBase} {dstBase} {filter "dbfilter"}
 		if {$confirm != "ok"} { return }
 	}
 
-	progressWindow "Scid" "$::tr(CopyGames)..." $::tr(Cancel)
+	progressWindow "scidCommunity" "$::tr(CopyGames)..." $::tr(Cancel)
 	set copyErr [catch {sc_base copygames $srcBase $filter $dstBase} result]
 	closeProgressWindow
 	if {$copyErr} { ERROR::MessageBox "$result"}

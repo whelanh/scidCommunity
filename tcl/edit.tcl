@@ -368,7 +368,7 @@ proc fenErrorDialog {{msg {}}} {
   if {[winfo exists .setup]} {
     tk_messageBox -icon info -type ok -title "scidCommunity: Invalid FEN" -message $msg -parent .setup
   } else {
-    tk_messageBox -icon info -type ok -title "Scid: Invalid FEN" -message $msg
+    tk_messageBox -icon info -type ok -title "scidCommunity: Invalid FEN" -message $msg
   }
 }
 

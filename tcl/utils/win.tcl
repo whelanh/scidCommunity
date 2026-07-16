@@ -60,8 +60,8 @@ proc setTitle { w title } {
 	lassign [::win::isDocked $w] docked_nb w
 	if {$docked_nb ne ""} {
 		# in docked mode trim down title to spare space
-		if {[string equal -length 6 $title "Scid: "]} {
-			set title [string range $title 6 end]
+		if {[string equal -length 15 $title "scidCommunity: "]} {
+			set title [string range $title 15 end]
 		} elseif {[string equal -length 16 $title "ScidCommunity - "]} {
 			set title [string range $title 16 end]
 		}
@@ -188,8 +188,8 @@ proc ::win::dockWindow {wnd} {
 	::win::saveWinGeometry $wnd
 	# in docked mode trim down title to spare space
 	set title [wm title $wnd]
-	if {[string equal -length 6 $title "Scid: "]} {
-		set title [string range $title 6 end]
+	if {[string equal -length 15 $title "scidCommunity: "]} {
+		set title [string range $title 15 end]
 	}
 
 	lassign [::win::getMenu $wnd] menu wmenu

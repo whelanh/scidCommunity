@@ -713,7 +713,7 @@ translate Z GraphAbsFilterTitle "Kichujio cha Grafu: marudio ya michezo"
 translate Z GraphWinPctTitle "Kichujio cha Grafu: shinda % (1-0 na 0-1) katika nafasi ya sasa baada ya mwaka"
 translate Z ConfigureFilter "Sanidi X-Axes kwa Mwaka, Ukadiriaji na Uhamishaji"
 translate Z FilterEstimate "Kadiria"
-translate Z TitleFilterGraph "Scid: Grafu ya Kichujio"
+translate Z TitleFilterGraph "scidCommunity: Grafu ya Kichujio"
 translate Z WinPct "Shinda %"
 translate Z GraphLine "Chati ya mstari"
 translate Z GraphBar "Chati ya Baa"
@@ -1042,7 +1042,7 @@ Je, una uhakika unataka kuanza utendakazi wa matengenezo uliyochagua?}
 translate Z TwinCheckUndelete {kupindua; "u" inafuta zote mbili)}
 translate Z TwinCheckprevPair {Jozi iliyotangulia}
 translate Z TwinChecknextPair {Jozi inayofuata}
-translate Z TwinChecker {Scid: Kikagua mchezo pacha}
+translate Z TwinChecker {scidCommunity: Kikagua mchezo pacha}
 translate Z TwinCheckTournament {Michezo katika mashindano:}
 translate Z TwinCheckNoTwin {Hakuna pacha}
 translate Z TwinCheckNoTwinfound {Hakuna pacha aliyetambuliwa kwa mchezo huu.\nIsionyeshe mapacha kwa kutumia dirisha hili, lazima kwanza utumie chaguo la "Futa michezo pacha...".}
@@ -1053,7 +1053,7 @@ translate Z TwinCheckNoDelete {Hakuna michezo katika hifadhidata hii ya kufuta.}
 translate Z TwinCriteria1 {Mipangilio yako ya kutafuta michezo pacha inaweza\kusababisha michezo isiyo ya mapacha yenye hatua zinazofanana kuwekewa alama ya kuwa mapacha.}
 translate Z TwinCriteria2 {Inapendekezwa kuwa ukichagua "Hapana" kwa "hatua sawa", unapaswa kuchagua "Ndiyo" kwa rangi, tukio, tovuti, mipangilio ya mzunguko, mwaka na mwezi.\nJe, ungependa kuendelea na kufuta mapacha hata hivyo?}
 translate Z TwinCriteria3 {Inapendekezwa kwamba ubainishe "Ndiyo" kwa angalau mipangilio miwili ya "tovuti moja", "raundi sawa" na "mwaka mmoja".\nJe, ungependa kuendelea na kufuta mapacha hata hivyo?}
-translate Z TwinCriteriaConfirm {Scid: Thibitisha mipangilio pacha}
+translate Z TwinCriteriaConfirm {scidCommunity: Thibitisha mipangilio pacha}
 translate Z TwinChangeTag "Badilisha lebo za mchezo zifuatazo:\n\n"
 translate Z AllocRatingDescription "Amri hii itatumia faili ya sasa ya kukagua tahajia kuongeza ukadiriaji wa Elo kwa michezo katika hifadhidata hii. Popote ambapo mchezaji hana ukadiriaji wa sasa lakini ukadiriaji wake wakati wa mchezo umeorodheshwa kwenye faili ya kikagua tahajia, ukadiriaji huo utaongezwa."
 translate Z RatingOverride "Batilisha ukadiriaji uliopo ambao sio sifuri"

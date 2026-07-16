@@ -714,7 +714,7 @@ translate Q GraphAbsFilterTitle "Графік фільтра: частота і�
 translate Q GraphWinPctTitle "Графік фільтрів: % виграшів (1-0 і 0-1) на поточній позиції за роками"
 translate Q ConfigureFilter "Налаштуйте осі X для року, рейтингу та ходів"
 translate Q FilterEstimate "Оцінка"
-translate Q TitleFilterGraph "Scid: Графік фільтра"
+translate Q TitleFilterGraph "scidCommunity: Графік фільтра"
 translate Q WinPct "Виграти %"
 translate Q GraphLine "Лінійна діаграма"
 translate Q GraphBar "Гістограма"
@@ -1043,7 +1043,7 @@ translate Q CleanerConfirm {Після початку обслуговуванн
 translate Q TwinCheckUndelete {перевертати; "u" відновлює обидва)}
 translate Q TwinCheckprevPair {Попередня пара}
 translate Q TwinChecknextPair {Наступна пара}
-translate Q TwinChecker {Scid: Twin Game Checker}
+translate Q TwinChecker {scidCommunity: Twin Game Checker}
 translate Q TwinCheckTournament {Ігри в турнірі:}
 translate Q TwinCheckNoTwin {Немає двійні}
 translate Q TwinCheckNoTwinfound {Для цієї гри не виявлено двійників.\nЩоб не показувати двійників у цьому вікні, спершу скористайтеся функцією «Видалити ігри-близнюки...».}
@@ -1054,7 +1054,7 @@ translate Q TwinCheckNoDelete {У цій базі даних немає ігор
 translate Q TwinCriteria1 {Ваші налаштування для пошуку партій-близнюків потенційно ймовірно призведуть до того, що ігри без близнюків із подібними ходами позначатимуться як двійники.}
 translate Q TwinCriteria2 {Якщо ви вибираєте «Ні» для «однакових ходів», рекомендовано вибрати «Так» для налаштувань кольорів, події, місця, раунду, року та місяця.\nВи все одно бажаєте продовжити та видалити близнюків?}
 translate Q TwinCriteria3 {Рекомендується вказати «Так» принаймні для двох налаштувань «той самий сайт», «той самий раунд» і «той же рік».\nВи все одно бажаєте продовжити та видалити близнюків?}
-translate Q TwinCriteriaConfirm {Scid: Підтвердьте налаштування близнюків}
+translate Q TwinCriteriaConfirm {scidCommunity: Підтвердьте налаштування близнюків}
 translate Q TwinChangeTag "Змініть такі теги гри:\n\n"
 translate Q AllocRatingDescription "Ця команда використовуватиме поточний файл перевірки орфографії, щоб додати рейтинг Elo до ігор у цій базі даних. Якщо гравець не має поточного рейтингу, але його/її рейтинг на момент гри вказано у файлі перевірки орфографії, цей рейтинг буде додано."
 translate Q RatingOverride "Перезаписати наявні ненульові оцінки"

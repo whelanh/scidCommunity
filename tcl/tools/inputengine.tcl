@@ -34,7 +34,7 @@ namespace eval ExtHardware {
   proc saveHardwareOptions {} {
      set optionF ""
      if {[catch {open [scidConfigFile ExtHardware] w} optionF]} {
-        tk_messageBox -title "Scid: Unable to write file" -type ok -icon warning \
+        tk_messageBox -title "scidCommunity: Unable to write file" -type ok -icon warning \
            -message "Unable to write options file: [scidConfigFile InputEngine]\n$optionF"
      } else {
         puts $optionF "# Scid options file"
@@ -353,7 +353,7 @@ namespace eval inputengine {
 
     if {[catch {set InputEngine(pipe) [open [list | $engine $port $param] "r+"]} result]} {
       ::ExtHardware::HWbuttonImg tb_eng_error
-      tk_messageBox -title "Scid: Input Engine" -icon warning -type ok \
+      tk_messageBox -title "scidCommunity: Input Engine" -icon warning -type ok \
           -message "[::tr IEUnableToStart]\n$engine $port $param"
       ::inputengine::resetEngine
       return
@@ -558,7 +558,7 @@ namespace eval inputengine {
           switch -regexp -- $event \
           "string ERROR *" {
             set err [string range $event 7 end]
-            tk_messageBox -title "Scid: Input Engine" \
+            tk_messageBox -title "scidCommunity: Input Engine" \
             -icon warning -type ok -message "Engine $err"
             catch {close $pipe}
             ::ExtHardware::HWbuttonImg tb_eng_error

@@ -770,7 +770,7 @@ translate S GraphAbsFilterTitle "Filtro gráfico: frecuencia de las partidas"
 translate S GraphWinPctTitle "Gráfico de filtro: % de victorias (1-0 y 0-1) en la posición actual por año"
 translate S ConfigureFilter {Configurar Eje-X para Año, Rating y Movimientos}
 translate S FilterEstimate "Estimar"
-translate S TitleFilterGraph "Scid: Filtro Gráfico"
+translate S TitleFilterGraph "scidCommunity: Filtro Gráfico"
 translate S WinPct "Ganar %"
 translate S GraphLine "Gráfico de líneas"
 translate S GraphBar "Gráfico de barras"
@@ -1106,7 +1106,7 @@ Esto puede tomar mucho tiempo en una base de datos grande, dependiendo de las fu
 translate S TwinCheckUndelete {Pulsar "u" para no borrar ninguna (undelete)}
 translate S TwinCheckprevPair {Pareja anterior}
 translate S TwinChecknextPair {Pareja siguiente}
-translate S TwinChecker {Scid: Verificar partidas dobles}
+translate S TwinChecker {scidCommunity: Verificar partidas dobles}
 translate S TwinCheckTournament {Partidas en torneo:}
 translate S TwinCheckNoTwin {No doble  }
 translate S TwinCheckNoTwinfound {No fueron detectados dobles para esta partida.\nPara mostrar dobles usando esta ventana debes usar la función Borrar partidas dobles..." }
@@ -1117,7 +1117,7 @@ translate S TwinCheckNoDelete {No hay partidas en esta base para borrar.}
 translate S TwinCriteria1 {Tus parámetros para encontrar partidas dobles potencialmente pueden causar partidas no-dobles con movimientos similares a ser marcadas como dobles.}
 translate S TwinCriteria2 {Es recomendable que si elijes "No" para "algunos movimientos", elijas "Sí" para los parámetros colores, eventos, lugar, ronda, año y mes.\n¿Quieres continuar y borrar partidas dobles en cualquier caso?}
 translate S TwinCriteria3 {Es recomendable que especifiques "Sí" para al menos dos parámetros de "mismo lugar", "misma ronda" y "mismo año".\n¿Quieres continuar y borrar dobles en todo caso?}
-translate S TwinCriteriaConfirm {Scid: Confirmar parámetros para partidas dobles}
+translate S TwinCriteriaConfirm {scidCommunity: Confirmar parámetros para partidas dobles}
 translate S TwinChangeTag "Cambiar las siguientes etiquetas de las:\n\n partidas"
 translate S AllocRatingDescription "Este comando usará el actual fichero SpellCheck para añadir  puntuaciones ELO y partidas en esta base. Donde quiera que un jugador no tenga puntuación pero su puntuación en el listado del  fichero  spellcheck , su puntuación será añadida."
 translate S RatingOverride "¿Sobreescribir puntuaciones existentes no nulas?"

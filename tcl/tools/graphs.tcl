@@ -69,7 +69,7 @@ proc getScorefromComment { comment maxY } {
 proc ::tools::graphs::Save {mode w} {
   if {! [winfo exists $w]} { return }
   set ftypes {{"PostScript files" {.eps .ps}} {"All files" *}}
-  set fname [tk_getSaveFile -filetypes $ftypes -parent $w -defaultextension ".eps" -title "Scid: Save Graph"]
+  set fname [tk_getSaveFile -filetypes $ftypes -parent $w -defaultextension ".eps" -title "scidCommunity: Save Graph"]
   if {$fname == ""} { return }
 
   if {[file extension $fname] != ".eps" && [file extension $fname] != ".ps" } {
@@ -822,7 +822,7 @@ proc ::tools::graphs::score::Refresh { {docreate 1 }} {
       ::utils::graph::redraw score
     }
     bind $w.c <1> {::tools::graphs::score::Move %x}
-    ::setTitle $w "Scid: [tr WindowsGraph]"
+    ::setTitle $w "scidCommunity: [tr WindowsGraph]"
     ::createToplevelFinalize $w
     ::tools::graphs::score::ConfigMenus
   }

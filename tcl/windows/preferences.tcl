@@ -105,7 +105,7 @@ proc ::preferences::resources {} {
     if { [winfo exists $w] } return
 
     win::createDialog $w
-    ::setTitle $w "Scid Resources"
+    ::setTitle $w "scidCommunity Resources"
 
     # Resource configuration: {varName labelKey validationType browseCmd validateCmd}
     set resourceConfig {

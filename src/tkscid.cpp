@@ -7510,8 +7510,8 @@ UI_res_t sc_name_spellcheck(UI_handle_t ti, scidBaseT &dbase,
 
   // Now generate the return message:
   static const char *NAME_TYPE_STRING[] = {"player", "event", "site", "round"};
-  sprintf(tempStr, "Scid found %u %s name correction%s.\n", correctionCount,
-          NAME_TYPE_STRING[nt], strPlural(correctionCount));
+  sprintf(tempStr, "scidCommunity found %u %s name correction%s.\n",
+          correctionCount, NAME_TYPE_STRING[nt], strPlural(correctionCount));
   std::string res = tempStr;
   res += "Edit the list to remove any corrections you do not want.\n"
          "Only lines of the form:\n"

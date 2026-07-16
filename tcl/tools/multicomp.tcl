@@ -481,7 +481,7 @@ proc loadComp {} {
     foreach e $_Data(playernames) {
         set found [lsearch -exact $engList $e]
         if { $found < 0 } {
-            tk_messageBox -type ok -title {Scid: Fehler} -message "Engine $e not found."
+            tk_messageBox -type ok -title {scidCommunity: Fehler} -message "Engine $e not found."
             return
         }
     }
@@ -1275,7 +1275,7 @@ proc compClose {} {
         # comp is running. Double check before exitting
         set msg {A Computer Tournament is running.}
         
-        set answer [tk_dialog .unsaved "Scid: Confirm Quit" $msg question {} "   [tr FileExit]   " [tr Cancel]]
+        set answer [tk_dialog .unsaved "scidCommunity: Confirm Quit" $msg question {} "   [tr FileExit]   " [tr Cancel]]
         if {$answer != 0} {
             return
         }
@@ -1317,7 +1317,7 @@ proc autocompSave {} {
 proc doCompSave { filename } {
     global ::comp::_Data
     if { [catch {open $filename w} stofile]} {
-        tk_messageBox -title "Scid: Save Tournament" -type ok -icon warning -message "Unable to write tournament file:\n$filename"
+        tk_messageBox -title "scidCommunity: Save Tournament" -type ok -icon warning -message "Unable to write tournament file:\n$filename"
     } else {
         puts $stofile "# Scid comptournament file"
         puts $stofile ""

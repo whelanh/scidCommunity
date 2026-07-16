@@ -360,7 +360,7 @@ proc ::pinfo::ReplaceIDTags { pinfo pname } {
 
 proc ::pinfo::Open {} {
   set w .playerInfoWin
-  if {[::win::createWindow $w "Scid: [tr ToolsPInfo]"]} {
+  if {[::win::createWindow $w "scidCommunity: [tr ToolsPInfo]"]} {
     ttk::frame $w.frame
     ttk_text $w.frame.text -font font_Regular -wrap none -state disabled
     autoscrollBars both $w.frame $w.frame.text

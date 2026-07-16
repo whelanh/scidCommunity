@@ -30,7 +30,7 @@ proc ::tourney::Open {} {
   if {! [info exists ::tourney::_defaults]} { ::tourney::defaults }
 
   ::createToplevel $w
-  ::setTitle $w "Scid: [tr WindowsTmt]"
+  ::setTitle $w "scidCommunity: [tr WindowsTmt]"
   wm title $w "scidCommunity: [tr WindowsTmt]"
 
   bind $w <F1> {helpWindow Tmt}

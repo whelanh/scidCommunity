@@ -1113,7 +1113,7 @@ if {$loadAtStart(eco)} {
 bind TNotebook <Key-Right> {}
 bind TNotebook <Key-Left>  {}
 
-wm iconname . "Scid"
+wm iconname . "scidCommunity"
 wm protocol . WM_DELETE_WINDOW { ::file::Exit }
 setMenu . .menu
 keyboardShortcuts .

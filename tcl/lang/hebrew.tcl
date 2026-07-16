@@ -714,7 +714,7 @@ translate V GraphAbsFilterTitle "גרף סינון: תדירות המשחקים"
 translate V GraphWinPctTitle "גרף סינון: % win (1-0 ו-0-1) במיקום הנוכחי לפי שנה"
 translate V ConfigureFilter "הגדר את צירי X עבור שנה, דירוג ומהלכים"
 translate V FilterEstimate "לְהַעֲרִיך"
-translate V TitleFilterGraph "Scid: גרף מסנן"
+translate V TitleFilterGraph "scidCommunity: גרף מסנן"
 translate V WinPct "ניצחון %"
 translate V GraphLine "תרשים קווים"
 translate V GraphBar "תרשים עמודות"
@@ -1043,7 +1043,7 @@ translate V CleanerConfirm {לאחר תחילת תחזוקה נקייה, לא נ
 translate V TwinCheckUndelete {להעיף; "u" מבטל את שניהם)}
 translate V TwinCheckprevPair {זוג קודם}
 translate V TwinChecknextPair {הזוג הבא}
-translate V TwinChecker {Scid: בודק משחק תאומים}
+translate V TwinChecker {scidCommunity: בודק משחק תאומים}
 translate V TwinCheckTournament {משחקים בטורניר:}
 translate V TwinCheckNoTwin {אין תאום}
 translate V TwinCheckNoTwinfound {לא זוהה תאומים למשחק זה.\nאל תראה תאומים באמצעות חלון זה, עליך להשתמש תחילה בפונקציה "מחק משחקי תאומים...".}
@@ -1054,7 +1054,7 @@ translate V TwinCheckNoDelete {אין משחקים במסד הנתונים הז�
 translate V TwinCriteria1 {ההגדרות שלך למציאת משחקי תאומים עלולות לגרום למשחקים שאינם תאומים עם מהלכים דומים לסימון כתאומים.}
 translate V TwinCriteria2 {מומלץ שאם תבחר "לא" עבור "אותם מהלכים", תבחר "כן" להגדרות הצבעים, האירוע, האתר, הסבב, השנה והחודש.\nהאם בכל זאת ברצונך להמשיך ולמחוק תאומים?}
 translate V TwinCriteria3 {מומלץ לציין "כן" לפחות עבור שתיים מההגדרות "אותו אתר", "אותו סבב" ו"אותה שנה".\nהאם בכל זאת ברצונך להמשיך ולמחוק תאומים?}
-translate V TwinCriteriaConfirm {Scid: אשר את הגדרות התאומים}
+translate V TwinCriteriaConfirm {scidCommunity: אשר את הגדרות התאומים}
 translate V TwinChangeTag "שנה את תגי המשחק הבאים:\n\n"
 translate V AllocRatingDescription "פקודה זו תשתמש בקובץ בדיקת האיות הנוכחי כדי להוסיף דירוגי Elo למשחקים במסד נתונים זה. בכל מקום שלשחקן אין דירוג נוכחי אבל הדירוג שלו בזמן המשחק רשום בקובץ בדיקת האיות, הדירוג הזה יתווסף."
 translate V RatingOverride "החלף דירוגים קיימים שאינם אפס"

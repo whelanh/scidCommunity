@@ -718,7 +718,7 @@ translate C GraphAbsFilterTitle "Graf filtru: etnost parti"
 translate C GraphWinPctTitle "Graf filtru: % výhry (1-0 a 0-1) na aktuální pozici podle roku"
 translate C ConfigureFilter {Konfigurovat x-souadnici pro rok, rating a tahy}
 translate C FilterEstimate "Odhadnout"
-translate C TitleFilterGraph "Scid: Graf filtru"
+translate C TitleFilterGraph "scidCommunity: Graf filtru"
 translate C WinPct "% výhry"
 translate C GraphLine "Spojnicový graf"
 translate C GraphBar "Sloupcový graf"
@@ -1052,7 +1052,7 @@ Jste si jisti, e chcete zat s drbskmi funkcemi, kter jste zvolili?
 translate C TwinCheckUndelete {pevrtit; "u" obnov ob)}
 translate C TwinCheckprevPair {Pedchoz dvojice}
 translate C TwinChecknextPair {Nsledujc dvojice}
-translate C TwinChecker {Scid: Kontrola zdvojench parti}
+translate C TwinChecker {scidCommunity: Kontrola zdvojench parti}
 translate C TwinCheckTournament {Partie turnaje:}
 translate C TwinCheckNoTwin {dn duplicita  }
 translate C TwinCheckNoTwinfound {Pro tuto partii nebyla nalezena dn zdvojen partie.\nPro zobrazen zdvojench parti v tomto okn muste nejprve pout funkci "Smazat zdvojen partie...". }
@@ -1063,7 +1063,7 @@ translate C TwinCheckNoDelete {V tto databzi nejsou dn partie ke smazn.}
 translate C TwinCriteria1 { Vae nastaven pro hledn zdvojench parti mohou zpsobit oznaen\nnezdvojench parti s podobnmi tahy jako zdvojen partie.}
 translate C TwinCriteria2 {Pokud pro "stejn tahy" uvedete "Ne", doporuuje se uvst "Ano" pro barvu, udlost, msto, kolo, rok a msc.\Chcete pesto pokraovat a smazat zdvojen partie? }
 translate C TwinCriteria3 {Doporuuje se uvst "Ano" pro alespo dv z nastaven "stejn msto", "stejn kolo" a "stejn rok".\nChcete pesto pokraovat a smazat zdvojen partie?}
-translate C TwinCriteriaConfirm {Scid: Potvrdit nastaven dvojic}
+translate C TwinCriteriaConfirm {scidCommunity: Potvrdit nastaven dvojic}
 translate C TwinChangeTag "Zmnit nsledujc tagy partie:\n\n"
 translate C AllocRatingDescription "Tento pkaz pouije aktuln soubor kontroly peklep pro pidn Elo rating do parti v tto databzi. Pokud njak hr nem aktuln rating, ale jeho rating z doby sehrn partie je uveden v souboru kontroly peklep, bude tento jeho rating pidn."
 translate C RatingOverride "Pepsat stvajc nenulov ratingy?"

@@ -341,7 +341,7 @@ proc configAnnotation {} {
     
     set tempdelay [expr {$autoplayDelay / 1000.0}]
     win::createDialog $w
-    ::setTitle $w "Scid: $::tr(Annotate)"
+    ::setTitle $w "scidCommunity: $::tr(Annotate)"
     wm resizable $w 0 0
     set f [ttk::frame $w.f]
     pack $f -expand 1
@@ -1329,7 +1329,7 @@ proc makeAnalysisWin { {n 1} {index -1} {autostart 1}} {
     if {$oldpwd != ""} { catch {cd $oldpwd} }
 
     if {$open_err} {
-        tk_messageBox -title "Scid: error starting analysis" \
+        tk_messageBox -title "scidCommunity: error starting analysis" \
                 -icon warning -type ok \
                 -message "Unable to start the program:\n$analysisCommand"
         resetEngine $n
@@ -1890,7 +1890,7 @@ proc toggleFinishGame { { n 1 } } {
 	# Safeguard: Finish Game uses engine slots 1 and 2. If slot 2 is already
 	# occupied by another Analysis window, warn before potentially taking it over.
 	if {[winfo exists .analysisWin2]} {
-		set ans [tk_messageBox -title "Scid: $::tr(FinishGame)" -icon warning -type okcancel \
+		set ans [tk_messageBox -title "scidCommunity: $::tr(FinishGame)" -icon warning -type okcancel \
 			-message $::tr(FinishGameSlot2Warning)]
 		if {$ans ne "ok"} { return }
 	}
@@ -1898,7 +1898,7 @@ proc toggleFinishGame { { n 1 } } {
 	set w .configFinishGame
 	win::createDialog $w
 	wm resizable $w 0 0
-	::setTitle $w "Scid: $::tr(FinishGame)"
+	::setTitle $w "scidCommunity: $::tr(FinishGame)"
 
 	ttk::labelframe $w.wh_f -text "$::tr(White)" -padding 5
 	grid $w.wh_f -column 0 -row 0 -columnspan 2 -sticky we -pady 8
@@ -2742,7 +2742,7 @@ proc setAutomoveTime {{n 1}} {
     set w .apdialog
     win::createDialog $w
     #wm transient $w .analysisWin
-    ::setTitle $w "Scid: Engine thinking time"
+    ::setTitle $w "scidCommunity: Engine thinking time"
     wm resizable $w 0 0
     ttk::frame $w.f
     pack $w.f -expand 1

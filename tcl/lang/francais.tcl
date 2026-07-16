@@ -726,7 +726,7 @@ translate F GraphAbsFilterTitle "Graphique de filtre: fréquence des parties"
 translate F GraphWinPctTitle "Graphique de filtre : % de victoire (1-0 et 0-1) à la position actuelle par année"
 translate F ConfigureFilter {Configurer l'axe des X par année, classement et coups}
 translate F FilterEstimate "Estimer"
-translate F TitleFilterGraph "Scid: Graphe de filtre"
+translate F TitleFilterGraph "scidCommunity: Graphe de filtre"
 translate F WinPct "Gagner %"
 translate F GraphLine "Graphique linéaire"
 translate F GraphBar "Graphique à barres"
@@ -1060,7 +1060,7 @@ Etes vous sûr que vous voulez commencer les fonctions de maintenance que vous a
 translate F TwinCheckUndelete {pour permuter; "u" pour annuler l'effacement des deux}
 translate F TwinCheckprevPair {Paire précédente}
 translate F TwinChecknextPair {Paire suivante}
-translate F TwinChecker {Scid: vérificateur de doublon}
+translate F TwinChecker {scidCommunity: vérificateur de doublon}
 translate F TwinCheckTournament {Parties dans le tournoi:}
 translate F TwinCheckNoTwin {Pas de doublon  }
 translate F TwinCheckNoTwinfound {Aucun doublon n'a été détecté pour ce jeu.\nPour afficher les doublon dans cette fenêtre, vous devez d'abord utiliser la fonction "Purger les doublon...". }
@@ -1071,7 +1071,7 @@ translate F TwinCheckNoDelete {Il n'y a pas de parties dans cette base à efface
 translate F TwinCriteria1 { Les paramètres pour trouver des doublons risquent de\nfaire que des parties différentes avec des coups similaires soient marquées comme des doublons.}
 translate F TwinCriteria2 {Il est recommandé de sélectionner "Non" pour "mêmes coups", vous devriez sélectionner "Oui" pour les couleurs, événement, site, ronde, année et mois.\nVoulez-vous continuer et effacer les doublons quand même ? }
 translate F TwinCriteria3 {Il est recommandé de sélectionner "Oui" pour au moins deux des paramètres "même site", "même ronde" et "même année".\nVoulez-vous continuer et effacer les doublons quand même ?}
-translate F TwinCriteriaConfirm {Scid: Confirmer les paramètres de doublons}
+translate F TwinCriteriaConfirm {scidCommunity: Confirmer les paramètres de doublons}
 translate F TwinChangeTag "Changer les tags de partie suivants:\n\n"
 translate F AllocRatingDescription "Cette commande va utiliser les fichiers de vérification de noms et de classement Elo pour les parties de cette base. Chaque fois qu'un joueur n'a pas de classement mais que son classement est listé dans le fichier de vérification de noms à la date de la partie, ce classement est pris en compte."
 translate F RatingOverride "Remplacer le classement non nul existant"

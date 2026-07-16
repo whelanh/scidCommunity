@@ -1123,7 +1123,7 @@ translate Y ConfigureFilter "Configure X-Axes for Year, Rating and Moves"
 # ====== TODO To be translated ======
 translate Y FilterEstimate "Estimate"
 # ====== TODO To be translated ======
-translate Y TitleFilterGraph "Scid: Filter Graph"
+translate Y TitleFilterGraph "scidCommunity: Filter Graph"
 # ====== TODO To be translated ======
 translate Y WinPct "Win %"
 # ====== TODO To be translated ======
@@ -1732,7 +1732,7 @@ translate Y TwinCheckprevPair {Previous pair}
 # ====== TODO To be translated ======
 translate Y TwinChecknextPair {Next pair}
 # ====== TODO To be translated ======
-translate Y TwinChecker {Scid: Twin game checker}
+translate Y TwinChecker {scidCommunity: Twin game checker}
 # ====== TODO To be translated ======
 translate Y TwinCheckTournament {Games in tournament:}
 # ====== TODO To be translated ======
@@ -1754,7 +1754,7 @@ translate Y TwinCriteria2 {It is recommended that if you select "No" for "same m
 # ====== TODO To be translated ======
 translate Y TwinCriteria3 {It is recommended that you specify "Yes" for at least two of the "same site", "same round" and "same year" settings.\nDo you want to continue and delete twins anyway?}
 # ====== TODO To be translated ======
-translate Y TwinCriteriaConfirm {Scid: Confirm twin settings}
+translate Y TwinCriteriaConfirm {scidCommunity: Confirm twin settings}
 # ====== TODO To be translated ======
 translate Y TwinChangeTag "Change the following game tags:\n\n"
 # ====== TODO To be translated ======

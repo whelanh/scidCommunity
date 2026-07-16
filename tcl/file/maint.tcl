@@ -332,7 +332,7 @@ proc ::maint::Refresh {} {
 proc markTwins {{parent .}} {
   global twinSettings
   if {[sc_base numGames $::curr_db] == 0} {
-    tk_messageBox -type ok -icon info -title [concat "Scid: " $::tr(noGames)] \
+    tk_messageBox -type ok -icon info -title [concat "scidCommunity: " $::tr(noGames)] \
         -message $::tr(TwinCheckNoDelete)
     return
   }
@@ -515,7 +515,7 @@ proc doMarkDups {{parent .}} {
     set message [subst $::tr(TwinCheckFound1)]
     if {$result > 0} {append message $::tr(TwinCheckFound2)}
     append message "."
-    tk_messageBox -type ok -parent $parent -icon info -title [concat "Scid: " $::tr(Result)] \
+    tk_messageBox -type ok -parent $parent -icon info -title [concat "scidCommunity: " $::tr(Result)] \
         -message $message
   }
   ::maint::Refresh
@@ -825,7 +825,7 @@ proc compactDB {{base -1}} {
   append msg "Missing names (bad idx): [lindex $stats 3]"
   append msg "\n\nProceed?"
   set confirm [tk_messageBox -type okcancel -icon info -parent . \
-               -title [concat "Scid: " $::tr(CompactDatabase)] \
+               -title [concat "scidCommunity: " $::tr(CompactDatabase)] \
                -message "$msg"]
   if {$confirm != "ok"} { return }
 
@@ -861,7 +861,7 @@ proc compactDB {{base -1}} {
     set msg "[sc_base filename $base]\n\n"
     append msg [tr GameFileCompacted]
     tk_messageBox -type ok -icon info -parent . \
-        -title [concat "Scid: " $::tr(CompactDatabase)] \
+        -title [concat "scidCommunity: " $::tr(CompactDatabase)] \
         -message "$msg"
     ::notify::DatabaseModified $base
     ::game::Clear
@@ -1191,7 +1191,7 @@ proc doCleaner {} {
             -delete $twinSettings(delete)} result]} {
       set message $result
     } else {
-      set message "Scid found $result twin games"
+      set message "scidCommunity found $result twin games"
       if {$result > 0} {append message " and set their delete flags"}
     }
     $t insert end "   $message.\n"

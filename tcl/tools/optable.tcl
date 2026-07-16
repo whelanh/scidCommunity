@@ -1545,7 +1545,7 @@ proc ::optable::generateFavoriteReports {} {
   ttk::entry $w.dir.entry -textvariable ::reportDir
   ttk::button $w.dir.choose -text $::tr(Browse...) -command {
     set tmpdir [tk_chooseDirectory -parent .reportFavoritesDlg \
-        -title "Scid: Choose Report Folder"]
+        -title "scidCommunity: Choose Report Folder"]
     if {$tmpdir != ""} {
       set ::reportDir [file nativename $tmpdir]
     }

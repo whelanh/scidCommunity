@@ -32,13 +32,13 @@ proc loadSpellCheckFile {{message 1}} {
   set fullname [tk_getOpenFile -initialdir [file dirname $spellCheckFile] -filetypes $ftype -title "Open Spellcheck file"]
   if {![string compare $fullname ""]} { return "" }
 
-  progressWindow "Scid - [tr Spellcheking]" "Loading $fullname ..."
+  progressWindow "scidCommunity - [tr Spellcheking]" "Loading $fullname ..."
   set err [catch {sc_name read $fullname} result]
   closeProgressWindow
   if {$err} {
       if {$message} {
         tk_messageBox -title "ERROR: Unable to read file" -type ok \
-          -icon error -message "Scid could not correctly read the spellcheck file you selected:\n\n$result"
+          -icon error -message "scidCommunity could not correctly read the spellcheck file you selected:\n\n$result"
       }
     return ""
   }
@@ -70,13 +70,13 @@ proc readSpellCheckFile { fullname {message 1}} {
   global spellCheckFile
 
     if { $fullname != ""} {
-        progressWindow "Scid - [tr Spellcheking]" "Loading $fullname ..."
+        progressWindow "scidCommunity - [tr Spellcheking]" "Loading $fullname ..."
         set err [catch {sc_name read $fullname} result]
         closeProgressWindow
         if {$err} {
             if {$message} {
                 tk_messageBox -title "ERROR: Unable to read file" -type ok -parent .resDialog \
-                    -icon error -message "Scid could not correctly read the spellcheck file you selected:\n\n$result\n$fullname"
+                    -icon error -message "scidCommunity could not correctly read the spellcheck file you selected:\n\n$result\n$fullname"
             }
             return 0
         }
@@ -167,7 +167,7 @@ proc updateSpellCheckWin {type} {
     global spellcheckAmbiguous
 
     .spellcheckWin.text.text delete 1.0 end
-    .spellcheckWin.text.text insert end "Scid is finding spelling corrections.\nPlease wait..."
+    .spellcheckWin.text.text insert end "scidCommunity is finding spelling corrections.\nPlease wait..."
 
     # Enable the progress bar
     #
@@ -181,7 +181,7 @@ proc updateSpellCheckWin {type} {
                                    -ambiguous $spellcheckAmbiguous $type} result]
     stopScanning
     if {$err} {
-        ERROR::MessageBox "" "Scid: Spellcheck results"
+        ERROR::MessageBox "" "scidCommunity: Spellcheck results"
         return
     }
 
@@ -201,7 +201,7 @@ proc openSpellCheckWin {type {parent .}} {
     set w .spellcheckWin
 
     if {[winfo exists $w]} {
-        tk_messageBox -type ok -icon info -title "Scid: Spellcheck error" \
+        tk_messageBox -type ok -icon info -title "scidCommunity: Spellcheck error" \
                       -parent $parent \
                       -message "The spellcheck window is already open; close it first."
         return
@@ -274,7 +274,7 @@ proc openSpellCheckWin {type {parent .}} {
         catch {set spelltext [.spellcheckWin.text.text get 1.0 end-1c]}
         .spellcheckWin.text.text delete 1.0 end
         .spellcheckWin.text.text insert end \
-            "Scid is making the spelling corrections.\nPlease wait..."
+            "scidCommunity is making the spelling corrections.\nPlease wait..."
 
         # Enable the progress bar
         #
@@ -295,7 +295,7 @@ proc openSpellCheckWin {type {parent .}} {
             append msg "Number of games NOT corrected (date<birth or >death): "
             append msg "[lindex $spell_result 3]"
             tk_messageBox -type ok -parent .spellcheckWin \
-                -title "Scid: $::tr(Spellchecking) $::tr(Result)" -message $msg
+                -title "scidCommunity: $::tr(Spellchecking) $::tr(Result)" -message $msg
         }
         unbusyCursor .
         focus .

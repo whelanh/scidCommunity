@@ -763,7 +763,7 @@ namespace eval html {
   proc exportCurrentFilter {} {
     # Check that we have some games to export:
     if {[sc_filter count] == 0} {
-      tk_messageBox -title "Scid: Filter empty" -type ok -icon info \
+      tk_messageBox -title "scidCommunity: Filter empty" -type ok -icon info \
           -message "The filter contains no games."
       return
     }
@@ -784,7 +784,7 @@ namespace eval html {
     catch {file copy -force [file join $sourcedir scid.js] $dirtarget}
     catch {file copy -force [file join $sourcedir scid.css] $dirtarget}
     # writeIndex "[file join $dirtarget $prefix].html" $prefix
-    progressWindow "Scid" "Exporting games..."
+    progressWindow "scidCommunity" "Exporting games..."
     set savedGameNum [sc_game number]
     set gn [sc_filter first]
     set players {}
@@ -1247,7 +1247,7 @@ namespace eval html {
   ################################################################################
   proc exportPGN { fName selection } {
     if {$selection == "filter"} {
-      progressWindow "Scid" "Exporting games..." $::tr(Cancel)
+      progressWindow "scidCommunity" "Exporting games..." $::tr(Cancel)
     }
     sc_base export $selection "PGN" $fName -append 0 -starttext "" -endtext "" -comments 1 -variations 1 \
         -space 1 -symbols 1 -indentC 0 -indentV 0 -column 0 -noMarkCodes 1 -convertNullMoves 1

@@ -302,7 +302,7 @@ namespace eval ::pgnviewer {
         if { [winfo exists $w] } return
 
         win::createDialog $w
-        ::setTitle $w "Scid PGN-Viewer Defaults"
+        ::setTitle $w "scidCommunity PGN-Viewer Defaults"
 
         ttk::frame $w.config
         ttk::checkbutton $w.config.sh -text [tr PgnOptShort] -variable ::pgnviewer::shortHeader -command "::pgnviewer::updateDefaults $n"

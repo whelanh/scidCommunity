@@ -149,7 +149,7 @@ namespace eval opening {
     set allLinesHashList {}
     
     set ::curr_db [sc_base current]
-    progressWindow "Scid" "$::tr(Loadingrepertoire)..." $::tr(Cancel) "::opening::sc_progressBar"
+    progressWindow "scidCommunity" "$::tr(Loadingrepertoire)..." $::tr(Cancel) "::opening::sc_progressBar"
     for {set g 1} { $g <= [sc_base numGames $::curr_db]} { incr g} {
       if {$cancelLoadRepertoire} { break  }
       if {$onlyFlaggedLines && ![sc_base gameflag $::curr_db $g get W] && ![sc_base gameflag $::curr_db $g get B]} {

@@ -724,7 +724,7 @@ translate W GraphAbsFilterTitle "Filtergraf: frekvens för partierna"
 translate W GraphWinPctTitle "Filterdiagram: vinst % (1-0 och 0-1) vid aktuell position per år"
 translate W ConfigureFilter {Konfigurera X-axlar för År, Rating och Drag}
 translate W FilterEstimate "Uppskatta"
-translate W TitleFilterGraph "Scid: Filtergraf"
+translate W TitleFilterGraph "scidCommunity: Filtergraf"
 translate W WinPct "Vinst %"
 translate W GraphLine "Linjediagram"
 translate W GraphBar "Stapeldiagram"
@@ -1058,7 +1058,7 @@ På en stor databas kan detta ta ett bra tag. Tidsåtgången beror på valda åt
 translate W TwinCheckUndelete {att växla; "u" tar tillbaka båda)}
 translate W TwinCheckprevPair {Tidigare par}
 translate W TwinChecknextPair {Nästa par}
-translate W TwinChecker {Scid: Dublettpartikontrollerare}
+translate W TwinChecker {scidCommunity: Dublettpartikontrollerare}
 translate W TwinCheckTournament {Partier i turnering:}
 translate W TwinCheckNoTwin {Ingen dublett  }
 translate W TwinCheckNoTwinfound {Ingen dublett detekterades för detta parti.\nFör att visa dubletter med detta fönster, måste du först använda "Ta bort dublettpartier..."-funktionen. }
@@ -1069,7 +1069,7 @@ translate W TwinCheckNoDelete {Det finns inga partier i denna databas att ta bor
 translate W TwinCriteria1 { Dina inställningar för att hitta dublettpartier är potentiellt sannorlika att\norsaka att icke-dublettpartier med liknande drag blir markerade som dubletter.}
 translate W TwinCriteria2 {Det är rekommenderat att om du väljer "Nej" för "samma drag" och att du väljer "Ja" för Färger, Evenemang, Plats, Runda, År och Månads inställningar.\nVill du fortsätta och ta bort dubletter ändå? }
 translate W TwinCriteria3 {Det är rekommenderat att du specificerar "Ja" för åtminstonde två av "samma plats", "samma runda" och "samma år" inställningar.\nVill du fortsätta och ta bort dubletter ändå?}
-translate W TwinCriteriaConfirm {Scid: Bekräfta dublettinställningar}
+translate W TwinCriteriaConfirm {scidCommunity: Bekräfta dublettinställningar}
 translate W TwinChangeTag "Ändra följande partitaggar:\n\n"
 translate W AllocRatingDescription "Detta kommando kommer att använda den aktuella stavningskontrollfilen för att lägga till Elo-rating till partier i denna databas. Där en spelare inte har en aktuell rating men hans/hennes rating vid tiden för partiet är listat i stavningskontrollfilen, kommer denna rating att läggas till."
 translate W RatingOverride "Skriv över existerande inte-noll rating?"

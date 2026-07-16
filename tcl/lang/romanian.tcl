@@ -754,7 +754,7 @@ translate L GraphAbsFilterTitle "Filter Graph: frecvența jocurilor"
 translate L GraphWinPctTitle "Grafic de filtru: % de câștig (1-0 și 0-1) la poziția curentă pe an"
 translate L ConfigureFilter "Configurați axele X pentru an, evaluare și mișcări"
 translate L FilterEstimate "Estima"
-translate L TitleFilterGraph "Scid: Filter Graph"
+translate L TitleFilterGraph "scidCommunity: Filter Graph"
 translate L WinPct "% de câștig"
 translate L GraphLine "Diagramă cu linii"
 translate L GraphBar "Diagramă cu bare"
@@ -1083,7 +1083,7 @@ Sigur doriți să începeți funcțiile de întreținere pe care le-ați selecta
 translate L TwinCheckUndelete {a răsturna; „u” le anulează pe ambele)}
 translate L TwinCheckprevPair {Perechea anterioară}
 translate L TwinChecknextPair {Următoarea pereche}
-translate L TwinChecker {Scid: Verificator de joc dublu}
+translate L TwinChecker {scidCommunity: Verificator de joc dublu}
 translate L TwinCheckTournament {Jocuri din turneu:}
 translate L TwinCheckNoTwin {Nici un geamăn}
 translate L TwinCheckNoTwinfound {Nu a fost detectat niciun geamăn pentru acest joc.\nNu arătați gemeni folosind această fereastră, trebuie mai întâi să utilizați funcția „Ștergeți jocurile gemene...”.}
@@ -1094,7 +1094,7 @@ translate L TwinCheckNoDelete {Nu există jocuri de șters în această bază de
 translate L TwinCriteria1 {Este posibil ca setările dvs. pentru găsirea de jocuri gemene să provoace ca jocurile non-gemeni cu mișcări similare să fie marcate ca gemeni.}
 translate L TwinCriteria2 {Se recomandă ca dacă selectați „Nu” pentru „aceleași mișcări”, să selectați „Da” pentru setările de culori, eveniment, site, rundă, an și lună.\nDoriți să continuați și să ștergeți gemeni oricum?}
 translate L TwinCriteria3 {Este recomandat să specificați „Da” pentru cel puțin două dintre setările „același site”, „aceeași rundă” și „același an”.\nDoriți să continuați și să ștergeți gemeni oricum?}
-translate L TwinCriteriaConfirm {Scid: Confirmați setările duble}
+translate L TwinCriteriaConfirm {scidCommunity: Confirmați setările duble}
 translate L TwinChangeTag "Schimbați următoarele etichete de joc:\n\n"
 translate L AllocRatingDescription "Această comandă va folosi fișierul de verificare ortografică curent pentru a adăuga evaluări Elo la jocurile din această bază de date. Oriunde un jucător nu are o evaluare curentă, dar ratingul său la momentul jocului este listat în fișierul de verificare ortografică, acel rating va fi adăugat."
 translate L RatingOverride "Suprascrie evaluările existente diferite de zero"

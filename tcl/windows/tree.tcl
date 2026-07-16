@@ -33,7 +33,7 @@ proc ::tree::make { { baseNumber -1 } {locked 0} } {
   ::createToplevel .treeWin$baseNumber
 
   # Set the tree window title now:
-  ::setTitle $w "Scid: [tr WindowsTree] $baseNumber"
+  ::setTitle $w "scidCommunity: [tr WindowsTree] $baseNumber"
   set ::treeWin$baseNumber 1
   set tree(training$baseNumber) 0
   set tree(autorefresh$baseNumber) 1
@@ -710,7 +710,7 @@ proc ::tree::status { msg baseNumber } {
   if { $tree(status$baseNumber) == "" } {
     catch {sc_base filename $baseNumber} tree(status$baseNumber)
     set tree(status$baseNumber) [file tail $tree(status$baseNumber)]
-    ::setTitle $w "Scid: [tr WindowsTree] $baseNumber: $tree(status$baseNumber)"
+    ::setTitle $w "scidCommunity: [tr WindowsTree] $baseNumber: $tree(status$baseNumber)"
   }
 
   if {$msg != ""} {
@@ -904,7 +904,7 @@ proc ::tree::graph { baseNumber {bpress 0}} {
     update
     bind $w <Configure> "::tree::graphRedraw $baseNumber"
     bind $w.c <Button-1> "::tree::graph $baseNumber"
-    ::setTitle $w "Scid: Tree Graph $baseNumber: [file tail [sc_base filename $baseNumber]]"
+    ::setTitle $w "scidCommunity: Tree Graph $baseNumber: [file tail [sc_base filename $baseNumber]]"
     # wm minsize $w 300 200
     ::tree::configGraphMenus "" $baseNumber
   } elseif {$bpress == 1} {
@@ -1691,7 +1691,7 @@ proc ::tree::mask::fillWithBase {} {
   }
 
   set n [sc_base numGames $::curr_db]
-  progressWindow "Scid" "[tr TreeMaskFillWithBase]" $::tr(Stop)
+  progressWindow "scidCommunity" "[tr TreeMaskFillWithBase]" $::tr(Stop)
   for {set gnum 1} { $gnum <= $n} {incr gnum} {
     if {[catch { updateProgressWindow $gnum $n }]} { break }
     ::tree::mask::fillWithGame $::curr_db $gnum 0

@@ -723,7 +723,7 @@ translate O GraphAbsFilterTitle "Filter Graph: frekvens av spillene"
 translate O GraphWinPctTitle "Filtergraf: vinn % (1-0 og 0-1) ved nåværende posisjon etter år"
 translate O ConfigureFilter {Konfigurer X-akser for år, vurdering og trekk}
 translate O FilterEstimate "Beregne"
-translate O TitleFilterGraph "Scid: Filter Graph"
+translate O TitleFilterGraph "scidCommunity: Filter Graph"
 translate O WinPct "Vinn %"
 translate O GraphLine "Linjediagram"
 translate O GraphBar "Søylediagram"
@@ -1057,7 +1057,7 @@ Er du sikker på at du vil starte vedlikeholdsfunksjonene du har valgt?
 translate O TwinCheckUndelete {å snu; "u" angre sletting av begge)}
 translate O TwinCheckprevPair {Forrige par}
 translate O TwinChecknextPair {Neste par}
-translate O TwinChecker {Scid: Tvillingspillsjekker}
+translate O TwinChecker {scidCommunity: Tvillingspillsjekker}
 translate O TwinCheckTournament {Spill i turneringen:}
 translate O TwinCheckNoTwin {Ingen tvilling}
 translate O TwinCheckNoTwinfound {Ingen tvilling ble oppdaget for dette spillet.\nIkke vis tvillinger med dette vinduet, du må først bruke funksjonen "Slett tvillingspill...".}
@@ -1068,7 +1068,7 @@ translate O TwinCheckNoDelete {Det er ingen spill i denne databasen å slette.}
 translate O TwinCriteria1 {Innstillingene dine for å finne tvillingspill vil sannsynligvis føre til at ikke-tvillingspill med lignende trekk blir merket som tvillinger.}
 translate O TwinCriteria2 {Det anbefales at hvis du velger "Nei" for "samme trekk", bør du velge "Ja" for innstillingene for farger, hendelse, side, runde, år og måned.\nVil du fortsette og slette tvillinger likevel?}
 translate O TwinCriteria3 {Det anbefales at du spesifiserer "Ja" for minst to av innstillingene "samme side", "samme runde" og "samme år".\nVil du fortsette og slette tvillinger likevel?}
-translate O TwinCriteriaConfirm {Scid: Bekreft tvillinginnstillinger}
+translate O TwinCriteriaConfirm {scidCommunity: Bekreft tvillinginnstillinger}
 translate O TwinChangeTag "Endre følgende spillkoder:\n\n"
 translate O AllocRatingDescription "Denne kommandoen vil bruke gjeldende stavekontrollfil for å legge til Elo-vurderinger til spill i denne databasen. Uansett hvor en spiller ikke har noen nåværende vurdering, men hans/hennes vurdering på tidspunktet for spillet er oppført i stavekontrollfilen, vil denne vurderingen bli lagt til."
 translate O RatingOverride "Vil du overskrive eksisterende vurderinger som ikke er null?"

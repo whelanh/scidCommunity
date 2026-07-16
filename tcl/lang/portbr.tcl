@@ -726,7 +726,7 @@ translate B GraphAbsFilterTitle "Gráfico de filtro: frequência dos jogos"
 translate B GraphWinPctTitle "Gráfico de filtro: % de ganhos (1-0 e 0-1) na posição atual por ano"
 translate B ConfigureFilter {Configurar Eixos X para Ano, Rating e Movimentos}
 translate B FilterEstimate "Estimar"
-translate B TitleFilterGraph "Scid: Gráfico de Filtro"
+translate B TitleFilterGraph "scidCommunity: Gráfico de Filtro"
 translate B WinPct "Vitória %"
 translate B GraphLine "Gráfico de linhas"
 translate B GraphBar "Gráfico de barras"
@@ -1060,7 +1060,7 @@ Você está certo de que quer iniciar as ações de manutenção selecionadas?
 translate B TwinCheckUndelete {para virar; "u" recupera ambos)}
 translate B TwinCheckprevPair {Par anterior}
 translate B TwinChecknextPair {Próximo par}
-translate B TwinChecker {Scid: Verificador de duplicadas}
+translate B TwinChecker {scidCommunity: Verificador de duplicadas}
 translate B TwinCheckTournament {Jogos no torneio:}
 translate B TwinCheckNoTwin {Nenhuma duplicada  }
 translate B TwinCheckNoTwinfound {Nenhuma duplicada foi detectada para este jogo.\nPara mostrar duplicadas nesta janela, você deve usar primeiro a funçãoo "Apagar Duplicadas...". }
@@ -1071,7 +1071,7 @@ translate B TwinCheckNoDelete {No há jogos para excluir nesta base.}
 translate B TwinCriteria1 { Suas configurações para encontrar duplicadas podem \nfazer com que não duplicadas com movimentos similares sejam marcadas como se fossem.}
 translate B TwinCriteria2 { recomendado que, se você selecionar "Não" para "mesmos movimentos", você selecione "Sim" para as cores, evento, local, rodada, ano e mês.\nVocê quer continuar e excluir as duplicatas mesmo assim? }
 translate B TwinCriteria3 { recomendado que você especifique "Sim" para pelo menos duas das configurações de "mesmo local", "mesma rodada" e "mesmo ano".\nVocê quer continuar e excluir as duplicatas mesmo assim?}
-translate B TwinCriteriaConfirm {Scid: Confirme as configurações de duplicadas}
+translate B TwinCriteriaConfirm {scidCommunity: Confirme as configurações de duplicadas}
 translate B TwinChangeTag "Alterar as seguintes tags:\n\n"
 translate B AllocRatingDescription "Este comando utiliza o arquivo corrente de verificação ortográfica para adicionar ratings Elo aos jogos nesta base. Sempre que um jogador não tiver um rating corrente, mas seu rating no momento do jogo estiver listado no arquivo de verifição, esse rating será adicionado."
 translate B RatingOverride "Sobrescrever ratings existentes diferentes de zero?"

@@ -54,24 +54,27 @@ if {[llength $engines(list)] == 0} {
     # No engines, so set up a default engine list:
     set phalanx "phalanx-scid"
     set togaII "togaII"
+    set stockfish "stockfish"
     if { $::windowsOS } {
         set phalanx "phalanx-scid.exe"
         set togaII "TogaII.exe"
+        set stockfish "stockfish.exe"
     }
-    set scidEngPaths [list $::scidExeDir [file join $::scidExeDir "engines" ] [file join $::scidShareDir "engines" ] \
+    set scidEngPaths [list $::scidEnginesDir $::scidExeDir [file join $::scidExeDir "engines" ] [file join $::scidShareDir "engines" ] \
             [ file join $::scidUserDir "engines" ]  [ file join /usr local share scid engines ] \
             [ file join /usr local bin ] [ file join  /usr bin ] [ file join /usr local games ] [ file join /usr games ] \
             [file join $::scidExeDir "engines" "phalanx-scid" ] [file join $::scidExeDir "engines" "togaII1.2.1a" "src" ] ]
 
     # The next four lists should have the same length!
-    set scidEngCmds [list $phalanx $togaII ]
-    set scidEngNames [list "Phalanx-Scid" "Toga II" ]
+    set scidEngCmds [list $stockfish $phalanx $togaII ]
+    set scidEngNames [list "Stockfish" "Phalanx-Scid" "Toga II" ]
     array set parentDirs "
+    $stockfish { stockfish }
     $phalanx { phalanx-scid Phalanx-XXII }
     $togaII  { togaII1.2.1a toga togaII [ file join togaII1.2.1a src ] }
     "
 
-    set isUCI [list 0 1]
+    set isUCI [list 1 0 1]
 
     # Let's search the engines:
     foreach cmd $scidEngCmds name $scidEngNames uci $isUCI {
@@ -82,7 +85,7 @@ if {[llength $engines(list)] == 0} {
                 engine [list \
                         Name $name \
                         Cmd  $c \
-                        Dir  . \
+                        Dir  [file dirname $c] \
                         UCI  $uci \
                         UCIoptions {} \
                         ]
@@ -94,7 +97,7 @@ if {[llength $engines(list)] == 0} {
                         engine [list \
                                 Name $name \
                                 Cmd  $c \
-                                Dir  . \
+                                Dir  [file dirname $c] \
                                 UCI  $uci \
                                 UCIoptions {} \
                                 ]

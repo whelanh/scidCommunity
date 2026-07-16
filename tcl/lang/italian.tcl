@@ -724,7 +724,7 @@ translate I GraphAbsFilterTitle "Grafico del filtro: frequenza delle partite"
 translate I GraphWinPctTitle "Filtra grafico: percentuale di vittorie (1-0 e 0-1) nella posizione attuale per anno"
 translate I ConfigureFilter {Configura l'asse delle X per Anno, Rating e Mosse}
 translate I FilterEstimate "Stima"
-translate I TitleFilterGraph "Scid: Grafico del filtro"
+translate I TitleFilterGraph "scidCommunity: Grafico del filtro"
 translate I WinPct "Vincita %"
 translate I GraphLine "Grafico a linee"
 translate I GraphBar "Grafico a barre"
@@ -1054,7 +1054,7 @@ Sei sicuro di voler procedere con le funzioni selezionate?}
 translate I TwinCheckUndelete {per invertire; "u" recupera entrambe}
 translate I TwinCheckprevPair {Coppia precedente}
 translate I TwinChecknextPair {Coppia seguente}
-translate I TwinChecker {Scid: Controllo partite doppie}
+translate I TwinChecker {scidCommunity: Controllo partite doppie}
 translate I TwinCheckTournament {Partite nel torneo:}
 translate I TwinCheckNoTwin {Nessuna partita doppia}
 translate I TwinCheckNoTwinfound {Nessun doppio è stato trovato per questa partita.\nPer mostrare i doppi con questa finestra, devi prima usare la funzione "Cancella le partite doppie".}
@@ -1065,7 +1065,7 @@ translate I TwinCheckNoDelete {Non ci sono partite da cancellare nel database.}
 translate I TwinCriteria1 {Le impostazioni per trovare le partite doppie possono portare a determinare come doppie partite diverse con mosse simili.}
 translate I TwinCriteria2 {Si consiglia di selezionare "No" per "Stesse mosse", e "Sì" per colori, evento, luogo, turno, anno e mese.\nVuoi procedere e cancellare le partite doppie comunque?}
 translate I TwinCriteria3 {Si consiglia di selezionare "Sì" per almeno due tra "stesso luogo", "stesso turno" e "stesso anno".\nVuoi procedere e cancellare le partite doppie comunque?}
-translate I TwinCriteriaConfirm {Scid: Conferma le impostazioni per le partite doppie}
+translate I TwinCriteriaConfirm {scidCommunity: Conferma le impostazioni per le partite doppie}
 translate I TwinChangeTag "Cambia i seguenti tag della partita:\n\n"
 translate I AllocRatingDescription "Questo comando usa l'attuale controllore ortografico per aggiungere i punteggi Elo alle partite in questo database. Se un giocatore non ha un punteggio ma il suo punteggio al momento della partita è presente nel controllore ortografico, quel punteggio sarà aggiunto."
 translate I RatingOverride "Sovrascrivi i punteggi diversi da zero?"

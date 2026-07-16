@@ -752,7 +752,7 @@ translate U GraphAbsFilterTitle "graafi: pelien yleisyys"
 translate U GraphWinPctTitle "Suodatuskaavio: Voittoprosentti (1-0 ja 0-1) nykyisessä sijainnissa vuosittain"
 translate U ConfigureFilter "Muokkaa X-akseli; vuosi, vahvuus, siirrot"
 translate U FilterEstimate "Arvioi"
-translate U TitleFilterGraph "Scid: graafi"
+translate U TitleFilterGraph "scidCommunity: graafi"
 translate U WinPct "voitto %"
 translate U GraphLine "Viivakaavio"
 translate U GraphBar "Pylväsdiagrammi"
@@ -1086,7 +1086,7 @@ Oletko varma, että haluat ajaa puhdistusajon?
 translate U TwinCheckUndelete {Vaihda valinta; "u" peruu poiston}
 translate U TwinCheckprevPair {Edellinen pari}
 translate U TwinChecknextPair {Seuraava pari}
-translate U TwinChecker {Scid: Tuplien poisto}
+translate U TwinChecker {scidCommunity: Tuplien poisto}
 translate U TwinCheckTournament {Pelit turnauksessa:}
 translate U TwinCheckNoTwin {Ei tupla}
 translate U TwinCheckNoTwinfound {Pelille ei löytynyt tuplaa.\nNähdäksesi tuplat tässä ikkunassa valitse "Poista tuplat..." -toiminto.}
@@ -1097,7 +1097,7 @@ translate U TwinCheckNoDelete {Ei poistettavia pelejä tietokannassa.}
 translate U TwinCriteria1 { Asetuksillasi löytyy todennäköisesti valetuplia,\neli pelejä joissa on samat siirrot, mutta jotka eivät ole tuplia.}
 translate U TwinCriteria2 {Mikäli valitset "Ei" samoille siirroille, sinun pitäisi valita "Kyllä" väreille, tapahtumalle, kierrokselle, vuodelle ja kuukaudelle.\nHaluatko silti jatkaa? }
 translate U TwinCriteria3 {Kannattaa valita "Kyllä" ainakin kahdelle seuraavista "sama paikka", "sama kierros" ja "sama vuosi".\nHaluatko silti jatkaa?}
-translate U TwinCriteriaConfirm {Scid: Vahvista tupla-asetukset}
+translate U TwinCriteriaConfirm {scidCommunity: Vahvista tupla-asetukset}
 translate U TwinChangeTag "Muuta seuraavat merkinnät:\n\n"
 translate U AllocRatingDescription "Tämä komento käyttää oikeinkirjoitustiedostoa määrittääkseen Elo-luvut tietokannan peleille. Mikäli pelaajalla ei ole voimassa olevaa lukua, käytetään oikeinkirjoitustiedostossa olevaa lukua peliajankohtana - mikäli sellainen on olemassa."
 translate U RatingOverride "Kirjoita yli olemassaolevat luvut?"

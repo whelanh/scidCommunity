@@ -717,7 +717,7 @@ translate T GraphAbsFilterTitle "Filtre Grafiği: oyunların sıklığı"
 translate T GraphWinPctTitle "Filtre Grafiği: yıllara göre mevcut konumda kazanma yüzdesi (1-0 ve 0-1)"
 translate T ConfigureFilter "Yıl, Derecelendirme ve Hareketler için X Eksenlerini Yapılandırma"
 translate T FilterEstimate "Tahmin etmek"
-translate T TitleFilterGraph "Scid: Filtre Grafiği"
+translate T TitleFilterGraph "scidCommunity: Filtre Grafiği"
 translate T WinPct "Kazanç %"
 translate T GraphLine "Çizgi Grafiği"
 translate T GraphBar "Çubuk Grafik"
@@ -1046,7 +1046,7 @@ Seçtiğiniz bakım işlevlerini başlatmak istediğinizden emin misiniz?}
 translate T TwinCheckUndelete {çevirmek; "u" her ikisinin de silinmesini geri alır)}
 translate T TwinCheckprevPair {Önceki çift}
 translate T TwinChecknextPair {Sonraki çift}
-translate T TwinChecker {Scid: İkiz oyun denetleyicisi}
+translate T TwinChecker {scidCommunity: İkiz oyun denetleyicisi}
 translate T TwinCheckTournament {Turnuvadaki oyunlar:}
 translate T TwinCheckNoTwin {İkiz yok}
 translate T TwinCheckNoTwinfound {Bu oyun için ikiz bulunamadı.\nBu pencereyi kullanarak ikizleri göstermek için öncelikle "İkiz oyunları sil..." işlevini kullanmanız gerekir.}
@@ -1057,7 +1057,7 @@ translate T TwinCheckNoDelete {Bu veritabanında silinecek oyun yok.}
 translate T TwinCriteria1 {İkiz oyunları bulmaya yönelik ayarlarınız, benzer hareketlere sahip ikiz olmayan oyunların ikiz olarak işaretlenmesine neden olabilir.}
 translate T TwinCriteria2 {"Aynı hamleler" için "Hayır"ı seçerseniz renkler, etkinlik, site, tur, yıl ve ay ayarları için "Evet"i seçmeniz önerilir.\nYine de devam edip ikizleri silmek istiyor musunuz?}
 translate T TwinCriteria3 {"Aynı site", "aynı tur" ve "aynı yıl" ayarlarından en az ikisi için "Evet" seçeneğini belirtmeniz önerilir.\nYine de devam edip ikizleri silmek istiyor musunuz?}
-translate T TwinCriteriaConfirm {Scid: İkiz ayarlarını onaylayın}
+translate T TwinCriteriaConfirm {scidCommunity: İkiz ayarlarını onaylayın}
 translate T TwinChangeTag "Aşağıdaki oyun etiketlerini değiştirin:\n\n"
 translate T AllocRatingDescription "Bu komut, bu veritabanındaki oyunlara Elo derecelendirmeleri eklemek için mevcut yazım denetimi dosyasını kullanacaktır. Bir oyuncunun geçerli derecelendirmesi olmadığı ancak oyun sırasındaki puanının yazım denetimi dosyasında listelendiği her yerde, bu derecelendirme eklenecektir."
 translate T RatingOverride "Mevcut sıfır olmayan derecelendirmelerin üzerine yaz"

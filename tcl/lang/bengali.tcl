@@ -713,7 +713,7 @@ translate b GraphAbsFilterTitle "ফিল্টার গ্রাফ: গে�
 translate b GraphWinPctTitle "ফিল্টার গ্রাফ: বছর অনুসারে বর্তমান অবস্থানে জয় % (1-0 এবং 0-1)"
 translate b ConfigureFilter "বছর, রেটিং এবং মুভের জন্য X-অক্ষ কনফিগার করুন"
 translate b FilterEstimate "অনুমান"
-translate b TitleFilterGraph "Scid: ফিল্টার গ্রাফ"
+translate b TitleFilterGraph "scidCommunity: ফিল্টার গ্রাফ"
 translate b WinPct "জয় %"
 translate b GraphLine "লাইন চার্ট"
 translate b GraphBar "বার চার্ট"
@@ -1042,7 +1042,7 @@ translate b CleanerConfirm {একবার ক্লিনার রক্ষ�
 translate b TwinCheckUndelete {উল্টানো; "u" উভয়ই মুছে ফেলে)}
 translate b TwinCheckprevPair {আগের জুটি}
 translate b TwinChecknextPair {পরের জুটি}
-translate b TwinChecker {Scid: টুইন গেম চেকার}
+translate b TwinChecker {scidCommunity: টুইন গেম চেকার}
 translate b TwinCheckTournament {টুর্নামেন্টে খেলা:}
 translate b TwinCheckNoTwin {যমজ নেই}
 translate b TwinCheckNoTwinfound {এই গেমটির জন্য কোন যমজ শনাক্ত করা হয়নি৷\nএই উইন্ডোটি ব্যবহার করে যমজ দেখান না, আপনাকে প্রথমে "যমজ গেম মুছুন..." ফাংশন ব্যবহার করতে হবে৷}
@@ -1053,7 +1053,7 @@ translate b TwinCheckNoDelete {মুছে ফেলার জন্য এই 
 translate b TwinCriteria1 {যমজ গেমগুলি খোঁজার জন্য আপনার সেটিংস সম্ভবত যমজ হিসাবে চিহ্নিত হওয়ার জন্য অনুরূপ চাল সহ নন-টুইন গেমগুলির কারণ হতে পারে৷}
 translate b TwinCriteria2 {এটি সুপারিশ করা হয় যে আপনি যদি "একই চাল" এর জন্য "না" নির্বাচন করেন, তাহলে রং, ইভেন্ট, সাইট, রাউন্ড, বছর এবং মাসের সেটিংসের জন্য আপনাকে "হ্যাঁ" নির্বাচন করা উচিত।\nআপনি কি যাইহোক যমজ সন্তানকে চালিয়ে যেতে এবং মুছতে চান?}
 translate b TwinCriteria3 {এটি বাঞ্ছনীয় যে আপনি "একই সাইট", "একই রাউন্ড" এবং "একই বছর" সেটিংসের অন্তত দুটির জন্য "হ্যাঁ" নির্দিষ্ট করুন৷\nআপনি কি যাইহোক যমজ সন্তানকে চালিয়ে যেতে এবং মুছতে চান?}
-translate b TwinCriteriaConfirm {Scid: টুইন সেটিংস নিশ্চিত করুন}
+translate b TwinCriteriaConfirm {scidCommunity: টুইন সেটিংস নিশ্চিত করুন}
 translate b TwinChangeTag "নিম্নলিখিত গেম ট্যাগ পরিবর্তন করুন:\n\n"
 translate b AllocRatingDescription "এই কমান্ডটি এই ডাটাবেসের গেমগুলিতে Elo রেটিং যোগ করতে বর্তমান বানান পরীক্ষা ফাইল ব্যবহার করবে। যেখানেই একজন খেলোয়াড়ের বর্তমান রেটিং নেই কিন্তু খেলার সময় তার রেটিং বানান পরীক্ষা ফাইলে তালিকাভুক্ত করা হয়েছে, সেই রেটিং যোগ করা হবে।"
 translate b RatingOverride "বিদ্যমান নন-জিরো রেটিং ওভাররাইট করুন"

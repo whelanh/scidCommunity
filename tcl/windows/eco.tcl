@@ -88,7 +88,7 @@ proc ::windows::eco::Refresh {{code "x"}} {
       ::utils::graph::configure eco -width [expr {[winfo width .ecograph.pane.graph.c] - 60} ]
       ::utils::graph::redraw eco
     }
-    ::setTitle $w "Scid: [tr WindowsECO]"
+    ::setTitle $w "scidCommunity: [tr WindowsECO]"
     ::utils::graph::create eco -width 1 -height 1 -xtop 50 -ytop 20 \
       -xmin 0.5 -xtick 1 -ytick 5 -font font_Small -canvas $graph.c
 

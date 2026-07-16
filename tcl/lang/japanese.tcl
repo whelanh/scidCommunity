@@ -754,7 +754,7 @@ translate A GraphAbsFilterTitle "フィルターグラフ: ゲームの頻度"
 translate A GraphWinPctTitle "フィルター グラフ: 現在の順位での年別の勝利率 (1-0 および 0-1)"
 translate A ConfigureFilter "年、評価、移動の X 軸を構成する"
 translate A FilterEstimate "見積もり"
-translate A TitleFilterGraph "Scid: フィルター グラフ"
+translate A TitleFilterGraph "scidCommunity: フィルター グラフ"
 translate A WinPct "勝つ ％"
 translate A GraphLine "折れ線グラフ"
 translate A GraphBar "棒グラフ"
@@ -1083,7 +1083,7 @@ translate A CleanerConfirm {クリーナーのメンテナンスが開始され�
 translate A TwinCheckUndelete {反転する。 「u」は両方の削除を取り消します）}
 translate A TwinCheckprevPair {前のペア}
 translate A TwinChecknextPair {次のペア}
-translate A TwinChecker {Scid: ツイン ゲーム チェッカー}
+translate A TwinChecker {scidCommunity: ツイン ゲーム チェッカー}
 translate A TwinCheckTournament {トーナメントでのゲーム:}
 translate A TwinCheckNoTwin {双子はいない}
 translate A TwinCheckNoTwinfound {このゲームでは双子が検出されませんでした。\nこのウィンドウを使用して双子を表示しない場合は、最初に「双子のゲームを削除...」機能を使用する必要があります。}
@@ -1094,7 +1094,7 @@ translate A TwinCheckNoDelete {このデータベースには削除するゲー�
 translate A TwinCriteria1 {ツイン ゲームを検索するための設定により、同様の動きを持つ非ツイン ゲームがツインとしてマークされる可能性があります。}
 translate A TwinCriteria2 {「同じ動き」で「いいえ」を選択した場合は、色、イベント、サイト、ラウンド、年、月の設定で「はい」を選択することをお勧めします。\n続行して双子を削除しますか?}
 translate A TwinCriteria3 {「同じサイト」、「同じラウンド」、「同じ年」設定のうち少なくとも 2 つで「はい」を指定することをお勧めします。\n続行して双子を削除しますか?}
-translate A TwinCriteriaConfirm {Scid: ツイン設定を確認する}
+translate A TwinCriteriaConfirm {scidCommunity: ツイン設定を確認する}
 translate A TwinChangeTag "次のゲーム タグを変更します:\n\n"
 translate A AllocRatingDescription "このコマンドは、現在のスペルチェック ファイルを使用して、このデータベース内のゲームに Elo レーティングを追加します。プレイヤーに現在のレーティングがなくても、ゲーム時のレーティングがスペルチェック ファイルにリストされている場合は、そのレーティングが追加されます。"
 translate A RatingOverride "既存のゼロ以外の評価を上書きする"

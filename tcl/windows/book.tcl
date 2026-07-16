@@ -433,7 +433,7 @@ namespace eval book {
   proc export {} {
     ::windows::gamelist::Refresh
     updateTitle
-    progressWindow "Scid" "ExportingBook..." $::tr(Cancel) "::book::sc_progressBar"
+    progressWindow "scidCommunity" "ExportingBook..." $::tr(Cancel) "::book::sc_progressBar"
     set ::book::cancelBookExport 0
     set ::book::exportCount 0
     ::book::book2pgn

@@ -753,7 +753,7 @@ translate E GraphAbsFilterTitle "Filter Graph: frequency of the games"
 translate E GraphWinPctTitle "Filter Graph: win % (1-0 and 0-1) at current position by year"
 translate E ConfigureFilter "Configure X-Axes for Year, Rating and Moves"
 translate E FilterEstimate "Estimate"
-translate E TitleFilterGraph "Scid: Filter Graph"
+translate E TitleFilterGraph "scidCommunity: Filter Graph"
 translate E WinPct "Win %"
 translate E GraphLine "Line Chart"
 translate E GraphBar "Bar Chart"
@@ -1086,7 +1086,7 @@ Are you sure you want to commence the maintenance functions you selected?
 translate E TwinCheckUndelete {to flip; "u" undeletes both)}
 translate E TwinCheckprevPair {Previous pair}
 translate E TwinChecknextPair {Next pair}
-translate E TwinChecker {Scid: Twin game checker}
+translate E TwinChecker {scidCommunity: Twin game checker}
 translate E TwinCheckTournament {Games in tournament:}
 translate E TwinCheckNoTwin {No twin  }
 translate E TwinCheckNoTwinfound {No twin was detected for this game.\nTo show twins using this window, you must first use the "Delete twin games..." function. }
@@ -1097,7 +1097,7 @@ translate E TwinCheckNoDelete {There are no games in this database to delete.}
 translate E TwinCriteria1 { Your settings for finding twin games are potentially likely to\ncause non-twin games with similar moves to be marked as twins.}
 translate E TwinCriteria2 {It is recommended that if you select "No" for "same moves", you should select "Yes" for the colors, event, site, round, year and month settings.\nDo you want to continue and delete twins anyway? }
 translate E TwinCriteria3 {It is recommended that you specify "Yes" for at least two of the "same site", "same round" and "same year" settings.\nDo you want to continue and delete twins anyway?}
-translate E TwinCriteriaConfirm {Scid: Confirm twin settings}
+translate E TwinCriteriaConfirm {scidCommunity: Confirm twin settings}
 translate E TwinChangeTag "Change the following game tags:\n\n"
 translate E AllocRatingDescription "This command will use the current spellcheck file to add Elo ratings to games in this database. Wherever a player has no current rating but his/her rating at the time of the game is listed in the spellcheck file, that rating will be added."
 translate E RatingOverride "Overwrite existing non-zero ratings"

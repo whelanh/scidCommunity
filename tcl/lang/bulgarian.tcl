@@ -754,7 +754,7 @@ translate g GraphAbsFilterTitle "Графика на филтъра: често�
 translate g GraphWinPctTitle "Филтърна графика: % победи (1-0 и 0-1) на текущата позиция по години"
 translate g ConfigureFilter "Конфигурирайте X-оси за година, рейтинг и ходове"
 translate g FilterEstimate "Оценка"
-translate g TitleFilterGraph "Scid: Филтърна графика"
+translate g TitleFilterGraph "scidCommunity: Филтърна графика"
 translate g WinPct "печалба %"
 translate g GraphLine "Линейна диаграма"
 translate g GraphBar "Стълбовидна диаграма"
@@ -1083,7 +1083,7 @@ translate g CleanerConfirm {Веднъж започнала поддръжкат
 translate g TwinCheckUndelete {обръщам; "u" отменя и двете)}
 translate g TwinCheckprevPair {Предишен чифт}
 translate g TwinChecknextPair {Следваща двойка}
-translate g TwinChecker {Scid: Двойна игра за проверка}
+translate g TwinChecker {scidCommunity: Двойна игра за проверка}
 translate g TwinCheckTournament {Игри в турнира:}
 translate g TwinCheckNoTwin {Няма близнак}
 translate g TwinCheckNoTwinfound {Не беше открит близнак за тази игра.\nЗа да не показвате близнаци чрез този прозорец, първо трябва да използвате функцията „Изтриване на игри с близнаци...“.}
@@ -1094,7 +1094,7 @@ translate g TwinCheckNoDelete {В тази база данни няма игри
 translate g TwinCriteria1 {Вашите настройки за намиране на игри с близнаци е потенциално вероятно\да накарат игрите без близнаци с подобни ходове да бъдат маркирани като близнаци.}
 translate g TwinCriteria2 {Препоръчително е, ако изберете „Не“ за „едни и същи ходове“, да изберете „Да“ за настройките за цветове, събитие, сайт, кръг, година и месец.\nИскате ли да продължите и да изтриете близнаците въпреки това?}
 translate g TwinCriteria3 {Препоръчително е да посочите „Да“ за поне две от настройките „същият сайт“, „същият кръг“ и „същата година“.\nИскате ли въпреки това да продължите и да изтриете близнаци?}
-translate g TwinCriteriaConfirm {Scid: Потвърдете настройките за близнаци}
+translate g TwinCriteriaConfirm {scidCommunity: Потвърдете настройките за близнаци}
 translate g TwinChangeTag "Променете следните тагове на играта:\n\n"
 translate g AllocRatingDescription "Тази команда ще използва текущия файл за проверка на правописа, за да добави Elo оценки към игрите в тази база данни. Когато даден играч няма текуща оценка, но неговата/нейната оценка по време на играта е посочена във файла за проверка на правописа, тази оценка ще бъде добавена."
 translate g RatingOverride "Презаписване на съществуващи ненулеви оценки"
