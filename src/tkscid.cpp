@@ -42,6 +42,8 @@
 #include "tree.h"
 #include "ui.h"
 #include <algorithm>
+#include <atomic>
+#include <chrono>
 #include <cstring>
 #include <filesystem>
 #include <future>
@@ -68,12 +70,20 @@ const int MAX_BASES = 9;
 static Game *scratchGame = NULL;       // "scratch" game for searches, etc.
 static std::unique_ptr<PBook> ecoBook; // eco classification pbook.
 static SpellChecker *spellChk;         // Name correction.
+static std::future<SpellChecker*> spellChkFuture; // async load future
+static std::atomic<bool> spellChkLoading{false};  // true while async load in progress
 static OpTable *reports[2] = {NULL, NULL};
+
+static void checkSpellChkReady();
 
 const int MAX_EPD = 4;                  // Max simultaneously open EPD windows.
 static EpdBook *epdBooks[MAX_EPD] = {NULL, NULL, NULL, NULL};
 
 void scid_Exit(void *) {
+  if (spellChkFuture.valid()) {
+    SpellChecker* newChk = spellChkFuture.get();
+    if (newChk) delete newChk;
+  }
   DBasePool::closeAll();
   if (scratchGame != NULL)
     delete scratchGame;
@@ -2618,6 +2628,7 @@ int sc_game_crosstable(ClientData, Tcl_Interp *ti, int argc,
   }
 
   // Find all games that should be listed in the crosstable:
+  checkSpellChkReady();
   const SpellChecker *spell = spellChk;
   bool tableFullMessage = false;
   for (uint i = 0, n = db->numGames(); i < n; i++) {
@@ -7327,6 +7338,23 @@ UI_res_t sc_name_ratings(UI_handle_t ti, scidBaseT &dbase,
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// checkSpellChkReady:
+//   Non-blocking check: if async spellcheck load completed, swap it in.
+static void checkSpellChkReady() {
+  if (!spellChkLoading.load()) return;
+  if (!spellChkFuture.valid()) return;
+  if (spellChkFuture.wait_for(std::chrono::seconds(0)) != std::future_status::ready)
+    return;
+
+  SpellChecker* newChk = spellChkFuture.get();
+  spellChkLoading.store(false);
+  if (newChk == NULL) return;
+
+  if (spellChk != NULL) delete spellChk;
+  spellChk = newChk;
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // sc_name_read:
 //   Reads a Scid name spelling file into memory, and returns a list of
 //   four integers: the number of player, event, site and round names in
@@ -7338,20 +7366,20 @@ int sc_name_read(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     return UI_Result(ti, ERROR_BadArg, "Usage: sc_name read <spellcheck-file>");
   }
 
+  checkSpellChkReady();
+
   if (argc > 2) {
     const char *filename = argv[2];
-    Progress progress = UI_CreateProgress(ti);
-    std::pair<errorT, SpellChecker *> newSpell =
-        SpellChecker::Create(filename, progress);
-    if (newSpell.first != OK) {
-      return UI_Result(ti, newSpell.first,
-                       "Error reading name spellcheck file.");
+
+    if (!spellChkLoading.load()) {
+      spellChkLoading.store(true);
+      std::string fname(pathFromUtf8(filename));
+      spellChkFuture = std::async(std::launch::async, [fname]() -> SpellChecker* {
+        auto result = SpellChecker::Create(fname.c_str(), Progress());
+        if (result.first != OK) return nullptr;
+        return result.second;
+      });
     }
-    if (spellChk != NULL) {
-      delete spellChk;
-    }
-    spellChk = newSpell.second;
-    progress.report(1, 1);
   }
 
   UI_List res(NUM_NAME_TYPES);
@@ -7562,6 +7590,8 @@ UI_res_t sc_name(UI_extra_t cd, UI_handle_t ti, int argc, const char **argv) {
     index = strUniqueMatch(argv[1], options);
   }
 
+  checkSpellChkReady();
+
   if (!db->inUse) {
     return errorResult(ti, ERROR_FileNotOpen, errMsgNotOpen(ti));
   }
@@ -7593,9 +7623,12 @@ UI_res_t sc_name(UI_extra_t cd, UI_handle_t ti, int argc, const char **argv) {
   };
 
   if (spellChk == NULL) {
+    checkSpellChkReady();
+    if (spellChk == NULL) {
     return UI_Result(ti, ERROR,
                      "A spellcheck file has not been loaded.\n\n"
                      "You can load one from the Options menu.");
+    }
   }
 
   switch (index) {
@@ -9218,6 +9251,7 @@ int sc_search_header(ClientData, Tcl_Interp *ti, scidBaseT *base,
 
   // Set up White name matches array:
   std::vector<bool> mWhite;
+  checkSpellChkReady();
   if (wTitles != NULL && spellChk != NULL) {
     bool allTitlesOn = true;
     for (uint t = 0; t < NUM_TITLES; t++) {

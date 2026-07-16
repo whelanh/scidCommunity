@@ -844,13 +844,8 @@ proc loadCustomPhotos {} {
     # Search for image files with supported extensions (GIF and PNG only)
     foreach pattern {*.gif *.png} {
         foreach imgfile [glob -nocomplain $pattern] {
+            if {![file readable $imgfile] || [file size $imgfile] == 0} { continue }
             set playername [file rootname $imgfile]
-
-            # Test that the image file is valid by trying to create a temp photo
-            if {[catch {image create photo _tmpPhoto -file $imgfile} result]} {
-                continue
-            }
-            image delete _tmpPhoto
 
             set abspath [file normalize $imgfile]
 
@@ -877,12 +872,15 @@ proc loadCustomPhotos {} {
     return $count
 }
 
-proc loadPlayersPhoto {} {
+proc loadPlayersPhoto_init {} {
   set ::gamePlayers(photoW) {}
   set ::gamePlayers(photoB) {}
   image create photo photoW
   image create photo photoB
+}
+loadPlayersPhoto_init
 
+proc loadPlayersPhoto {} {
   # Directories where Scid searches for the photo files
   set photodirs [list $::scidDataDir $::scidUserDir $::scidConfigDir [file join $::scidShareDir "photos"]]
   if {[info exists ::scidPhotoDir]} { lappend photodirs $::scidPhotoDir }
@@ -907,7 +905,7 @@ proc loadPlayersPhoto {} {
 
   return [list $nImg $nFiles]
 }
-loadPlayersPhoto
+after idle loadPlayersPhoto
 
 # Normalizes player or game engine names by standardizing case, removing
 # specific prefixes ('deep '), and eliminating excess whitespace.
