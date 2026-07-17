@@ -160,6 +160,9 @@ translate h EpdReadOnly {केवल पढ़ने के लिए}
 translate h EpdAltered {बदल}
 translate h EpdNoMoves {कोई चाल नहीं}
 translate h positions {पदों}
+translate h EpdDeleteRow {पंक्ति को हटाएं}
+translate h EpdCloseWarning {यह EPD फ़ाइल बदल दी गई है.\nक्या आप इसे सहेजना चाहते हैं?}
+translate h EpdDeletePosition {स्थिति हटाएँ}
 
 # Tools menu:
 menuText h Tools "औजार" 0

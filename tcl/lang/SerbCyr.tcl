@@ -201,6 +201,9 @@ translate J EpdReadOnly {само за читање}
 translate J EpdAltered {измењени}
 translate J EpdNoMoves {нема потеза}
 translate J positions {позиције}
+translate J EpdDeleteRow {Избриши ред}
+translate J EpdCloseWarning {Ова ЕПД датотека је измењена.\нЖелите ли да је сачувате?}
+translate J EpdDeletePosition {Избриши позицију}
 
 # Tools menu:
 menuText J Tools "Алати" 0

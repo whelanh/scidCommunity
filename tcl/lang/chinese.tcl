@@ -140,6 +140,9 @@ translate M EpdReadOnly {只读}
 translate M EpdAltered {改变的}
 translate M EpdNoMoves {没有动作}
 translate M positions {位置}
+translate M EpdDeleteRow {删除行}
+translate M EpdCloseWarning {此 EPD 文件已被更改。\n您要保存它吗？}
+translate M EpdDeletePosition {删除职位}
 
 # Tools menu:
 menuText M Tools "工具" 0

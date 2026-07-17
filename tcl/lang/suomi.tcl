@@ -199,6 +199,9 @@ translate U EpdReadOnly {vain luku -tilassa}
 translate U EpdAltered {muutettu}
 translate U EpdNoMoves {ei liikkeitä}
 translate U positions {asemat}
+translate U EpdDeleteRow {Poista rivi}
+translate U EpdCloseWarning {Tätä EPD-tiedostoa on muutettu.\nHaluatko tallentaa sen?}
+translate U EpdDeletePosition {Poista sijainti}
 
 # Tools menu:
 menuText U Tools "Työkalut" 1

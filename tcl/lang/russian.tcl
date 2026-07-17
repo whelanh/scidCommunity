@@ -167,6 +167,9 @@ translate R EpdReadOnly {только для чтения}
 translate R EpdAltered {измененный}
 translate R EpdNoMoves {никаких движений}
 translate R positions {позиции}
+translate R EpdDeleteRow {Удалить строку}
+translate R EpdCloseWarning {Этот файл EPD был изменен.\nХотите сохранить его?}
+translate R EpdDeletePosition {Удалить позицию}
 
 # Tools menu:
 menuText R Tools "Инструменты" 2

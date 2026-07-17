@@ -5084,14 +5084,15 @@ int sc_epd(ClientData cd, Tcl_Interp* ti, int argc, const char** argv) {
 	static const char* options[] = {"altered", "available", "close",   "create",
 	                                "deepest", "get",       "load",    "moves",
 	                                "name",    "next",      "open",    "prev",
-	                                "readonly","set",       "size",    "strip",
-	                                "write",   "exists",    "index",   NULL};
+	                                "readonly","remove",    "set",     "size",
+	                                "strip",   "write",     "exists",  "index",
+	                                NULL};
 	enum {
 		EPD_ALTERED,  EPD_AVAILABLE, EPD_CLOSE,  EPD_CREATE,
 		EPD_DEEPEST,  EPD_GET,       EPD_LOAD,   EPD_MOVES,
 		EPD_NAME,     EPD_NEXT,      EPD_OPEN,   EPD_PREV,
-		EPD_READONLY, EPD_SET,       EPD_SIZE,   EPD_STRIP,
-		EPD_WRITE,    EPD_EXISTS,    EPD_INDEX
+		EPD_READONLY, EPD_REMOVE,    EPD_SET,    EPD_SIZE,
+		EPD_STRIP,    EPD_WRITE,     EPD_EXISTS, EPD_INDEX
 	};
 	int index = -1;
 	if (argc > 1) {
@@ -5193,6 +5194,16 @@ int sc_epd(ClientData cd, Tcl_Interp* ti, int argc, const char** argv) {
 
 	case EPD_READONLY:
 		return UI_Result(ti, OK, epdBooks[epdID]->isReadOnly());
+
+	case EPD_REMOVE: {
+		if (argc != 4) {
+			return errorResult(ti,
+			    "Usage: sc_epd remove <epdID> <index>");
+		}
+		int idx = strGetInteger(argv[3]);
+		epdBooks[epdID]->removeByIndex(idx);
+		break;
+	}
 
 	case EPD_SET:
 		if (argc != 4) {

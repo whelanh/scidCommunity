@@ -49,6 +49,7 @@ public:
 	bool loadByIndex(Position* pos, uint idx) const;
 
 	uint stripOpcode(const char* opcode);
+	void removeByIndex(uint idx);
 };
 
 #endif // SCID_EPDBOOK_H

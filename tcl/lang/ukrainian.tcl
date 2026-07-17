@@ -161,6 +161,9 @@ translate Q EpdReadOnly {тільки для читання}
 translate Q EpdAltered {змінено}
 translate Q EpdNoMoves {немає рухів}
 translate Q positions {позиції}
+translate Q EpdDeleteRow {Видалити рядок}
+translate Q EpdCloseWarning {Цей файл EPD було змінено.\nЗберегти його?}
+translate Q EpdDeletePosition {Видалити позицію}
 
 # Tools menu:
 menuText Q Tools "Інструменти" 0

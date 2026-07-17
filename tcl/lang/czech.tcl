@@ -159,6 +159,9 @@ translate C EpdReadOnly {pouze pro čtení}
 translate C EpdAltered {změněno}
 translate C EpdNoMoves {žádné pohyby}
 translate C positions {pozice}
+translate C EpdDeleteRow {Smazat řádek}
+translate C EpdCloseWarning {Tento soubor EPD byl změněn.\nPřejete si jej uložit?}
+translate C EpdDeletePosition {Smazat pozici}
 
 # Tools menu:
 menuText C Tools "Nstroje" 3

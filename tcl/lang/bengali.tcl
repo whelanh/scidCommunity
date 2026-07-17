@@ -160,6 +160,9 @@ translate b EpdReadOnly {শুধুমাত্র পঠনযোগ্য}
 translate b EpdAltered {পরিবর্তিত}
 translate b EpdNoMoves {কোন নড়াচড়া}
 translate b positions {অবস্থান}
+translate b EpdDeleteRow {সারি মুছুন}
+translate b EpdCloseWarning {এই EPD ফাইলটি পরিবর্তন করা হয়েছে।\nআপনি কি এটি সংরক্ষণ করতে চান?}
+translate b EpdDeletePosition {অবস্থান মুছুন}
 
 # Tools menu:
 menuText b Tools "টুলস" 0

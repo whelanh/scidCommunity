@@ -160,6 +160,9 @@ translate Z EpdReadOnly {kusoma tu}
 translate Z EpdAltered {imebadilishwa}
 translate Z EpdNoMoves {hakuna hatua}
 translate Z positions {nafasi}
+translate Z EpdDeleteRow {Futa safu mlalo}
+translate Z EpdCloseWarning {Faili hii ya EPD imebadilishwa.\nJe, ungependa kuihifadhi?}
+translate Z EpdDeletePosition {Futa Nafasi}
 
 # Tools menu:
 menuText Z Tools "Zana" 0

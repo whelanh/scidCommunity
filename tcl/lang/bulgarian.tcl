@@ -201,6 +201,9 @@ translate g EpdReadOnly {само за четене}
 translate g EpdAltered {променен}
 translate g EpdNoMoves {никакви движения}
 translate g positions {позиции}
+translate g EpdDeleteRow {Изтриване на ред}
+translate g EpdCloseWarning {Този EPD файл е променен.\nИскате ли да го запазите?}
+translate g EpdDeletePosition {Изтриване на позиция}
 
 # Tools menu:
 menuText g Tools "Инструменти" 0

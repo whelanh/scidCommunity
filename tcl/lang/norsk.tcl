@@ -165,6 +165,9 @@ translate O EpdReadOnly {skrivebeskyttet}
 translate O EpdAltered {endret}
 translate O EpdNoMoves {ingen bevegelser}
 translate O positions {stillinger}
+translate O EpdDeleteRow {Slett rad}
+translate O EpdCloseWarning {Denne EPD-filen har blitt endret.\nVil du lagre den?}
+translate O EpdDeletePosition {Slett posisjon}
 
 # Tools menu:
 menuText O Tools "Verktøy" 0

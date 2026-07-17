@@ -164,6 +164,9 @@ translate B EpdReadOnly {somente leitura}
 translate B EpdAltered {alterado}
 translate B EpdNoMoves {sem movimentos}
 translate B positions {posições}
+translate B EpdDeleteRow {Excluir linha}
+translate B EpdCloseWarning {Este arquivo EPD foi alterado.\nDeseja salvá-lo?}
+translate B EpdDeletePosition {Excluir posição}
 
 # Tools menu:
 menuText B Tools "Ferramentas" 0

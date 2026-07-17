@@ -145,6 +145,20 @@ uint EpdBook::stripOpcode(const char* opcode) {
 	return countFound;
 }
 
+void EpdBook::removeByIndex(uint idx) {
+	if (idx >= entries_.size())
+		return;
+	fenIndex_.erase(entries_[idx].fen);
+	entries_.erase(entries_.begin() + idx);
+	for (size_t i = idx; i < entries_.size(); i++) {
+		fenIndex_[entries_[i].fen] = i;
+	}
+	if (nextIndex_ >= idx && nextIndex_ > 0) {
+		nextIndex_--;
+	}
+	altered_ = true;
+}
+
 errorT EpdBook::readFile() {
 	if (fileName_ == nullptr) {
 		return ERROR_FileOpen;

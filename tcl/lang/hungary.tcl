@@ -163,6 +163,9 @@ translate H EpdReadOnly {csak olvasható}
 translate H EpdAltered {megváltozott}
 translate H EpdNoMoves {nincs mozdulat}
 translate H positions {pozíciókat}
+translate H EpdDeleteRow {Sor törlése}
+translate H EpdCloseWarning {Ez az EPD-fájl módosult.\nSzeretné menteni?}
+translate H EpdDeletePosition {Pozíció törlése}
 
 # Tools menu:
 menuText H Tools "Eszközök" 0

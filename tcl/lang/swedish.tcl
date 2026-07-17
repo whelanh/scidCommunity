@@ -166,6 +166,9 @@ translate W EpdReadOnly {skrivskyddad}
 translate W EpdAltered {ändrats}
 translate W EpdNoMoves {inga drag}
 translate W positions {positioner}
+translate W EpdDeleteRow {Ta bort rad}
+translate W EpdCloseWarning {Denna EPD-fil har ändrats.\nVill du spara den?}
+translate W EpdDeletePosition {Ta bort position}
 
 # Tools menu:
 menuText W Tools "Verktyg" 0

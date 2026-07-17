@@ -203,6 +203,7 @@ namespace eval epd {
     $m add command -label [tr EpdPasteAnal] -accelerator "Ctrl+P" -underline 0 -command "::epd::pasteAnalysis $id"
     $m add command -label [tr EpdSortOpcodes] -accelerator "Ctrl+Shift+S" -underline 0 -command "::epd::sortEpdText $id"
     $m add command -label [tr EpdAddPosition] -accelerator "Ctrl+A" -underline 0 -command "::epd::addPosition $id"
+    $m add command -label [tr EpdDeletePosition] -command "::epd::deleteEpdRow $id"
     $m add command -label [tr EpdFindPos] -command "::epd::moveToDeepestMatch $id"
     $m add separator
     $m add command -label [tr EpdAnalPosition] -command "::epd::configAnnotateEpd $id"
@@ -230,6 +231,11 @@ namespace eval epd {
     $w.text.edit add command -label "Copy" -command "tk_textCopy $w.text"
     $w.text.edit add command -label "Paste" -command "tk_textPaste $w.text"
     bind $w.text <ButtonPress-3> "tk_popup $w.text.edit %X %Y"
+
+    # Right-mouse button menu for listbox:
+    menu $w.lb.edit -tearoff 0
+    $w.lb.edit add command -label [tr EpdDeleteRow] -command "::epd::deleteEpdRow $id"
+    bind $w.lb <ButtonPress-3> "tk_popup $w.lb.edit %X %Y"
 
     bind $w <F1> { helpWindow EPD }
     bind $w <Control-Down> "::epd::nextEpd $id"
@@ -284,7 +290,7 @@ namespace eval epd {
       addHorizontalRule $w
       pack [ttk::frame $w.bottom] -expand 1 -fill x -side bottom
 
-      ttk::label $w.top.txt -text "This EPD file has been altered.\nDo you wish to save it?"
+      ttk::label $w.top.txt -text [tr EpdCloseWarning]
       pack $w.top.txt -padx 5 -pady 5 -side right
 
       ttk::button $w.bottom.b1 -width 10 -text [tr Save]     -command {destroy .confirmEPDExit ; set ::epd::answer 0}
@@ -304,6 +310,46 @@ namespace eval epd {
     sc_epd close $id
     focus .main
     destroy .epd$id
+  }
+
+  ################################################################################
+  ### Delete the selected EPD row.
+  ################################################################################
+  proc deleteEpdRow {id} {
+    set w .epd$id
+    if {![winfo exists $w]} { return }
+    if {[sc_epd readonly $id]} { return }
+    set idx [$w.lb curselection]
+    if {$idx == ""} { return }
+
+    if {[$w.text edit modified]} {
+      storeEpdText $id
+    }
+
+    sc_epd remove $id $idx
+
+    $w.lb delete $idx
+    set size [$w.lb size]
+    for {set i $idx} {$i < $size} {incr i} {
+      set line [$w.lb get $i]
+      if {[regexp {^\d+\s+(.*)$} $line -> fen]} {
+        $w.lb delete $i
+        $w.lb insert $i "[expr {$i + 1}]    $fen"
+      }
+    }
+
+    set remaining [$w.lb size]
+    if {$remaining == 0} {
+      updateEpdWin $id
+      return
+    }
+
+    if {$idx >= $remaining} {
+      set idx [expr {$remaining - 1}]
+    }
+    $w.lb selection set $idx
+    $w.lb see $idx
+    updateEpdWin $id
   }
 
   ################################################################################
@@ -739,6 +785,95 @@ namespace eval epd {
     return $move
   }
 
+  ###  Return the slot number of the first open analysis engine window,
+  ###  or -1.
+  proc findAnalysisWin {} {
+    for {set n 1} {$n <= 16} {incr n} {
+      if {[winfo exists .analysisWin$n]} {
+        return $n
+      }
+    }
+    return -1
+  }
+
+  ###  Return the slot number of the first open engineWin window, or -1.
+  proc findEngineWin {} {
+    for {set n 1} {$n <= 16} {incr n} {
+      if {[winfo exists .engineWin$n]} {
+        return $n
+      }
+    }
+    return -1
+  }
+
+  ###  Build EPD opcode text from a running or recently-run engine.
+  ###  Returns opcode lines (may be empty) by checking analysisWin first,
+  ###  then engineWin.
+  proc buildEngineOpcodes {} {
+    set text {}
+
+    set win [::epd::findAnalysisWin]
+    if {$win != -1} {
+      set bm [::epd::bestMoveSAN $win]
+      if {$bm != ""} {
+        append text "bm $bm\n"
+      }
+      set dm [expr abs($::analysis(scoremate$win))]
+      if {$dm != 0} {
+        set pm [::epd::pvSAN $win]
+        if {$pm != ""} {
+          append text "pm $pm\n"
+        }
+      } else {
+        set ce [expr {int($::analysis(score$win) * 100)}]
+        if {[sc_pos side] == "black"} { set ce [expr {0 - $ce}] }
+        append text "ce $ce\n"
+      }
+      return $text
+    }
+
+    set win [::epd::findEngineWin]
+    if {$win != -1} {
+      if {[info exists ::enginewin::pvBestMove($win,1)]} {
+        set uci $::enginewin::pvBestMove($win,1)
+        if {$uci != ""} {
+          catch { set bm [sc_pos coordToSAN [sc_pos fen] $uci] }
+          if {[info exists bm] && $bm != ""} {
+            append text "bm $bm\n"
+          }
+        }
+      }
+      if {[info exists ::enginewin::scorePV1($win)]
+          && $::enginewin::scorePV1($win) != ""} {
+        set scoreStr $::enginewin::scorePV1($win)
+        set btm [info exists ::enginewin::pv_(btm,$win)]
+        set sideEngine [expr {
+          [info exists ::enginewin::m_(scoreside,$win)]
+          && $::enginewin::m_(scoreside,$win) eq "engine"
+        }]
+        if {[string match {*M*} $scoreStr]} {
+          if {$sideEngine && $btm} {
+            if {[string index $scoreStr 0] eq "+"} {
+              set scoreStr "-[string range $scoreStr 1 end]"
+            } else {
+              set scoreStr "+[string range $scoreStr 1 end]"
+            }
+          }
+          append text "pm $scoreStr\n"
+        } else {
+          set ce [expr {int([string map {"+" ""} $scoreStr] * 100)}]
+          if {$sideEngine && $btm} {
+            set ce [expr {0 - $ce}]
+          }
+          append text "ce $ce\n"
+        }
+      }
+      return $text
+    }
+
+    return $text
+  }
+
   ###  Return the bm (best) or am (avoid) move list for the current EPD
   ###  position, in the form used by evalBestMove: "" (none), "Qc7 Qd6"
   ###  (best moves) or "avoid Nf3 h4" (avoid moves).
@@ -920,7 +1055,7 @@ namespace eval epd {
     if {[sc_epd exists $id]} {
       set idx [sc_epd index $id]
     } else {
-      sc_epd set $id ""
+      sc_epd set $id [::epd::buildEngineOpcodes]
       set size [sc_epd size $id]
       set fen [string range [sc_pos fen] 0 end-4]
       $w.lb insert end "$size    $fen"
