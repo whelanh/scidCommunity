@@ -1075,6 +1075,8 @@ namespace eval sergame {
     ::uci::sendToEngine $n "position fen [sc_pos fen]"
     set ::sergame::lastAnalyzeFen [sc_pos fen]
     ::uci::sendToEngine $n "go depth 12"
+    set ::uci::uciInfo(score2) ""
+    set ::uci::uciInfo(bestmove2) ""
     set ::sergame::coachAnalyzed 1
 
     if { $isLimitedAnalysisTime == 1 } {
