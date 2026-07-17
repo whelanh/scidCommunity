@@ -408,7 +408,6 @@ namespace eval epd {
     sc_game pop
 
     updateEpdWin $id
-    $w.lb see $idx
   }
   ################################################################################
   ### Save changes to the EPD file.
