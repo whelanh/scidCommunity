@@ -193,6 +193,10 @@ translate Y EpdDeleteRow {Delete row}
 translate Y EpdCloseWarning {This EPD file has been altered.\nDo you wish to save it?}
 # ====== TODO To be translated ======
 translate Y EpdDeletePosition {Delete Position}
+# ====== TODO To be translated ======
+translate Y EpdCopyRecord {Copy Record}
+# ====== TODO To be translated ======
+translate Y EpdPasteRecord {Paste Record}
 
 # Tools menu:
 menuText Y Tools "Alati" 0

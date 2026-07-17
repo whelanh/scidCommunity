@@ -163,6 +163,8 @@ translate b positions {অবস্থান}
 translate b EpdDeleteRow {সারি মুছুন}
 translate b EpdCloseWarning {এই EPD ফাইলটি পরিবর্তন করা হয়েছে।\nআপনি কি এটি সংরক্ষণ করতে চান?}
 translate b EpdDeletePosition {অবস্থান মুছুন}
+translate b EpdCopyRecord {কপি রেকর্ড}
+translate b EpdPasteRecord {পেস্ট রেকর্ড}
 
 # Tools menu:
 menuText b Tools "টুলস" 0

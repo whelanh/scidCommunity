@@ -166,6 +166,8 @@ translate I positions {posizioni}
 translate I EpdDeleteRow {Elimina riga}
 translate I EpdCloseWarning {Questo file EPD è stato modificato.\nVuoi salvarlo?}
 translate I EpdDeletePosition {Elimina posizione}
+translate I EpdCopyRecord {Copia registrazione}
+translate I EpdPasteRecord {Incolla registrazione}
 
 # Tools menu:
 menuText I Tools "Strumenti" 0

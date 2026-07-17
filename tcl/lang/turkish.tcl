@@ -167,6 +167,8 @@ translate T positions {pozisyonlar}
 translate T EpdDeleteRow {Satırı sil}
 translate T EpdCloseWarning {Bu EPD dosyası değiştirildi.\nKaydetmek istiyor musunuz?}
 translate T EpdDeletePosition {Pozisyonu Sil}
+translate T EpdCopyRecord {Kaydı Kopyala}
+translate T EpdPasteRecord {Kaydı Yapıştır}
 
 # Tools menu:
 menuText T Tools "Aletler" 0

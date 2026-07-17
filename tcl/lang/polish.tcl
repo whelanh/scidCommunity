@@ -125,6 +125,8 @@ translate P positions {pozycje}
 translate P EpdDeleteRow {Usuń wiersz}
 translate P EpdCloseWarning {Ten plik EPD został zmieniony.\nCzy chcesz go zapisać?}
 translate P EpdDeletePosition {Usuń pozycję}
+translate P EpdCopyRecord {Kopiuj zapis}
+translate P EpdPasteRecord {Wklej zapis}
 
 # Tools menu:
 menuText P Tools {Narzędzia} 0
@@ -1824,7 +1826,7 @@ translate P TBNotFound {Nie znaleziono pozycji w tablicy końcówek albo wystąp
 translate P TBCategory {Kategoria pozycji:}
 translate P TBTrainingHidden {(Tryb treningu; wyniki są ukryte)}
 }
-# end of polish.tcl
+# end of english.tcl
 
 
 ############################################################

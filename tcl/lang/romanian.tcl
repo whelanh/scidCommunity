@@ -204,6 +204,8 @@ translate L positions {pozitii}
 translate L EpdDeleteRow {Ștergeți rândul}
 translate L EpdCloseWarning {Acest fișier EPD a fost modificat.\nDoriți să-l salvați?}
 translate L EpdDeletePosition {Șterge poziție}
+translate L EpdCopyRecord {Copiați înregistrarea}
+translate L EpdPasteRecord {Lipiți înregistrarea}
 
 # Tools menu:
 menuText L Tools "Instrumente" 0

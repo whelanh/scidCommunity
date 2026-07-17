@@ -166,6 +166,8 @@ translate H positions {pozíciókat}
 translate H EpdDeleteRow {Sor törlése}
 translate H EpdCloseWarning {Ez az EPD-fájl módosult.\nSzeretné menteni?}
 translate H EpdDeletePosition {Pozíció törlése}
+translate H EpdCopyRecord {Rekord másolása}
+translate H EpdPasteRecord {Paste Record}
 
 # Tools menu:
 menuText H Tools "Eszközök" 0

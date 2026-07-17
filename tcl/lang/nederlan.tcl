@@ -184,6 +184,8 @@ translate N positions {posities}
 translate N EpdDeleteRow {Rij verwijderen}
 translate N EpdCloseWarning {Dit EPD-bestand is gewijzigd.\nWilt u het opslaan?}
 translate N EpdDeletePosition {Positie verwijderen}
+translate N EpdCopyRecord {Kopieer opname}
+translate N EpdPasteRecord {Plak record}
 
 # Tools menu:
 menuText N Tools "Gereedschappen" 0

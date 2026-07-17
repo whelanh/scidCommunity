@@ -202,6 +202,8 @@ translate U positions {asemat}
 translate U EpdDeleteRow {Poista rivi}
 translate U EpdCloseWarning {Tätä EPD-tiedostoa on muutettu.\nHaluatko tallentaa sen?}
 translate U EpdDeletePosition {Poista sijainti}
+translate U EpdCopyRecord {Kopioi tietue}
+translate U EpdPasteRecord {Liitä tietue}
 
 # Tools menu:
 menuText U Tools "Työkalut" 1

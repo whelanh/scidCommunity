@@ -204,6 +204,8 @@ translate J positions {позиције}
 translate J EpdDeleteRow {Избриши ред}
 translate J EpdCloseWarning {Ова ЕПД датотека је измењена.\nЖелите ли да је сачувате?}
 translate J EpdDeletePosition {Избриши позицију}
+translate J EpdCopyRecord {Копирај запис}
+translate J EpdPasteRecord {Пасте Рецорд}
 
 # Tools menu:
 menuText J Tools "Алати" 0
