@@ -1604,7 +1604,7 @@ translate T AnnotateVariations {Varyasyonlara açıklama ekleyin}
 translate T ShortAnnotations {Kısa açıklamalar}
 translate T addAnnotatorTag {Ek açıklama etiketi ekle}
 translate T AddScoreToShortAnnotations {Ek açıklamalara puan ekleyin}
-translate T AddScoreToAllMoves {Add score to all moves}
+translate T AddScoreToAllMoves {Tüm hamlelere puan ekle}
 translate T Export {İhracat}
 translate T BookPartiallyLoaded {Kitap kısmen yüklendi}
 translate T Calvar {Varyasyonların hesaplanması}

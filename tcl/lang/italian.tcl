@@ -1624,7 +1624,7 @@ translate I AnnotateVariations {Annota le varianti}
 translate I ShortAnnotations {Annotazione breve}
 translate I addAnnotatorTag {Aggiungi il tag dell'annotazione}
 translate I AddScoreToShortAnnotations {Aggiungi il punteggio alle annotazioni brevi}
-translate I AddScoreToAllMoves {Add score to all moves}
+translate I AddScoreToAllMoves {Aggiungi punteggio a tutte le mosse}
 translate I Export {Esporta}
 translate I BookPartiallyLoaded {Libro caricato parzialmente}
 translate I Calvar {Calcolo delle varianti}

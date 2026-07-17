@@ -1641,7 +1641,7 @@ translate g AnnotateVariations {Анотирайте вариации}
 translate g ShortAnnotations {Кратки анотации}
 translate g addAnnotatorTag {Добавете етикет за анотатор}
 translate g AddScoreToShortAnnotations {Добавете резултат към анотациите}
-translate g AddScoreToAllMoves {Add score to all moves}
+translate g AddScoreToAllMoves {Добавете резултат към всички ходове}
 translate g Export {Експортиране}
 translate g BookPartiallyLoaded {Книгата е частично заредена}
 translate g Calvar {Изчисляване на вариации}

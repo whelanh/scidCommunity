@@ -1641,7 +1641,7 @@ translate L AnnotateVariations {Adnotați variațiile}
 translate L ShortAnnotations {Adnotări scurte}
 translate L addAnnotatorTag {Adăugați etichetă de adnotator}
 translate L AddScoreToShortAnnotations {Adăugați scor la adnotări}
-translate L AddScoreToAllMoves {Add score to all moves}
+translate L AddScoreToAllMoves {Adaugă scor la toate mișcările}
 translate L Export {Export}
 translate L BookPartiallyLoaded {Cartea încărcată parțial}
 translate L Calvar {Calculul variațiilor}

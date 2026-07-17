@@ -1600,7 +1600,7 @@ translate b AnnotateVariations {বৈচিত্র টীকা}
 translate b ShortAnnotations {সংক্ষিপ্ত টীকা}
 translate b addAnnotatorTag {টীকা ট্যাগ যোগ করুন}
 translate b AddScoreToShortAnnotations {টীকাগুলিতে স্কোর যোগ করুন}
-translate b AddScoreToAllMoves {Add score to all moves}
+translate b AddScoreToAllMoves {সমস্ত চালে স্কোর যোগ করুন}
 translate b Export {রপ্তানি}
 translate b BookPartiallyLoaded {বই আংশিক লোড}
 translate b Calvar {বৈচিত্র্যের গণনা}

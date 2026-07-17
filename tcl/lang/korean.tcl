@@ -1641,7 +1641,7 @@ translate k AnnotateVariations {변형에 달기}
 translate k ShortAnnotations {지하철}
 translate k addAnnotatorTag {자 태그 표시}
 translate k AddScoreToShortAnnotations {추가 점수를 찾았습니다}
-translate k AddScoreToAllMoves {Add score to all moves}
+translate k AddScoreToAllMoves {모든 동작에 점수 추가}
 translate k Export {다}
 translate k BookPartiallyLoaded {책이 부분적으로 읽혔어요}
 translate k Calvar {변형작업}

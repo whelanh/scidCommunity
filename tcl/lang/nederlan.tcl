@@ -1647,7 +1647,7 @@ translate N AnnotateVariations {Becommentarieer varianten}
 translate N ShortAnnotations {Korte commentaren}
 translate N addAnnotatorTag {Voeg een commentaar label toe}
 translate N AddScoreToShortAnnotations {Voeg de score toe aan de korte commentaren}
-translate N AddScoreToAllMoves {Add score to all moves}
+translate N AddScoreToAllMoves {Voeg score toe aan alle zetten}
 translate N Export {Export}
 translate N BookPartiallyLoaded {Boek gedeeltelijk geladen}
 translate N Calvar {Berekening van de varianten}
