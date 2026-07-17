@@ -852,15 +852,8 @@ namespace eval epd {
           [info exists ::enginewin::m_(scoreside,$win)]
           && $::enginewin::m_(scoreside,$win) eq "engine"
         }]
-        if {[string match {*M*} $scoreStr]} {
-          if {$sideEngine && $btm} {
-            if {[string index $scoreStr 0] eq "+"} {
-              set scoreStr "-[string range $scoreStr 1 end]"
-            } else {
-              set scoreStr "+[string range $scoreStr 1 end]"
-            }
-          }
-          append text "pm $scoreStr\n"
+        if {[regexp {^[+-]?M(\d+)$} $scoreStr -> dm]} {
+          append text "dm $dm\n"
         } else {
           set ce [expr {int([string map {"+" ""} $scoreStr] * 100)}]
           if {$sideEngine && $btm} {
