@@ -1622,6 +1622,7 @@ translate C AnnotateVariations {Anotovat varianty}
 translate C ShortAnnotations {Krtk anotace}
 translate C addAnnotatorTag {Pidat znaku anottora}
 translate C AddScoreToShortAnnotations {Pidat skre ke krtkm anotacm}
+translate C AddScoreToAllMoves {Přidejte skóre ke všem tahům}
 translate C Export {Export}
 translate C BookPartiallyLoaded {Knihovna zahjen sten nataena}
 translate C Calvar {Propoet variant}

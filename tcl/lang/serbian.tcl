@@ -2705,6 +2705,7 @@ translate Y ShortAnnotations {Short annotations}
 translate Y addAnnotatorTag {Add annotator tag}
 # ====== TODO To be translated ======
 translate Y AddScoreToShortAnnotations {Add score to annotations}
+translate Y AddScoreToAllMoves {Add score to all moves}
 # ====== TODO To be translated ======
 translate Y Export {Export}
 # ====== TODO To be translated ======

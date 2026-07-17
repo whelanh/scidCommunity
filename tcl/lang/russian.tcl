@@ -1624,6 +1624,7 @@ translate R AnnotateVariations {Комментировать варианты}
 translate R ShortAnnotations {Показать комментарии}
 translate R addAnnotatorTag {Добавить тег аннотирующего}
 translate R AddScoreToShortAnnotations {Добавить счёт в короткие аннотации}
+translate R AddScoreToAllMoves {Добавляйте очки ко всем ходам}
 translate R Export {Экспорт}
 translate R BookPartiallyLoaded {Книга частично загружена}
 translate R Calvar {Расчёт вариантов}

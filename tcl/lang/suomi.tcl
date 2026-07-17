@@ -1653,6 +1653,7 @@ translate U AnnotateVariations {Annotoi muunnelmat}
 translate U ShortAnnotations {Lyhyet annotaatiot}
 translate U addAnnotatorTag {Lisää merkintä annotaattorista}
 translate U AddScoreToShortAnnotations {Lisää tulos annotaatioihin}
+translate U AddScoreToAllMoves {Lisää pisteet kaikkiin liikkeisiin}
 translate U Export {Vie}
 translate U BookPartiallyLoaded {Kirja osittain ladattu}
 translate U Calvar {Muunnelmien laskenta}

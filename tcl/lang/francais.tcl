@@ -1628,6 +1628,7 @@ translate F AnnotateVariations {Annoter les variantes}
 translate F ShortAnnotations {Annotations courtes}
 translate F addAnnotatorTag {Ajouter Annotateur}
 translate F AddScoreToShortAnnotations {Ajouter score aux annotations courtes}
+translate F AddScoreToAllMoves {Ajouter un score à tous les mouvements}
 translate F Export {Exporter}
 translate F BookPartiallyLoaded {Bibliothèque chargée en partie}
 translate F Calvar {Calcul de variantes}

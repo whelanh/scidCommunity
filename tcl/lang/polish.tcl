@@ -1552,6 +1552,7 @@ translate P AnnotateVariations {Komentuj warianty}
 translate P ShortAnnotations {Krótkie adnotacje}
 translate P addAnnotatorTag {Dodaj znacznik komentatora}
 translate P AddScoreToShortAnnotations {Dodaj ocenę do adnotacji}
+translate P AddScoreToAllMoves {Dodaj wynik do wszystkich ruchów}
 translate P Export {Eksportuj}
 translate P BookPartiallyLoaded {Księga częściowo wczytana}
 translate P Calvar {Liczenie wariantów}

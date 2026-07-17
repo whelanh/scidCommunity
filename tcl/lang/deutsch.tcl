@@ -1672,6 +1672,7 @@ translate D AnnotateVariations {Varianten kommentieren}
 translate D ShortAnnotations {Kurze Kommentare}
 translate D addAnnotatorTag {Kommentar Tag hinzufügen}
 translate D AddScoreToShortAnnotations {Bewertung hinzufügen}
+translate D AddScoreToAllMoves {Fügen Sie allen Zügen Punkte hinzu}
 translate D Export {Export}
 translate D BookPartiallyLoaded {Buch teilweise geladen}
 translate D Calvar {Training: Variantenberechnung}

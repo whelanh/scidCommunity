@@ -1601,6 +1601,7 @@ translate Q AnnotateVariations {Примітки до варіацій}
 translate Q ShortAnnotations {Короткі анотації}
 translate Q addAnnotatorTag {Додайте тег анотатора}
 translate Q AddScoreToShortAnnotations {Додайте оцінку до анотацій}
+translate Q AddScoreToAllMoves {Додати оцінку до всіх ходів}
 translate Q Export {Експорт}
 translate Q BookPartiallyLoaded {Книга завантажена частково}
 translate Q Calvar {Розрахунок варіацій}
