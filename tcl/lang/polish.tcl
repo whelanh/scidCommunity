@@ -1824,7 +1824,7 @@ translate P TBNotFound {Nie znaleziono pozycji w tablicy końcówek albo wystąp
 translate P TBCategory {Kategoria pozycji:}
 translate P TBTrainingHidden {(Tryb treningu; wyniki są ukryte)}
 }
-# end of english.tcl
+# end of polish.tcl
 
 
 ############################################################
