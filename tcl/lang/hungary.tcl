@@ -1623,6 +1623,7 @@ translate H AnnotateVariations {Változatok kommentálása}
 translate H ShortAnnotations {Rövid kommentár}
 translate H addAnnotatorTag {Értékelõ jel hozzáadása}
 translate H AddScoreToShortAnnotations {Rövid kommentár kiegészítése értékeléssel}
+translate H AddScoreToAllMoves {Add score to all moves}
 translate H Export {Export}
 translate H BookPartiallyLoaded {Megnyitástár részlegesen betöltve}
 translate H Calvar {Változatok számítása}

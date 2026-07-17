@@ -1628,6 +1628,7 @@ translate W AnnotateVariations {Kommentera variationer}
 translate W ShortAnnotations {Korta kommentarer}
 translate W addAnnotatorTag {Lägg till kommentator-tagg}
 translate W AddScoreToShortAnnotations {Lägg till värdering till korta kommentarer}
+translate W AddScoreToAllMoves {Add score to all moves}
 translate W Export {Exportera}
 translate W BookPartiallyLoaded {Bok delvis öppnad}
 translate W Calvar {Beräkning av variationer}

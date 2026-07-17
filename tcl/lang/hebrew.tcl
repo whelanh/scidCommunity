@@ -1601,6 +1601,7 @@ translate V AnnotateVariations {הערה וריאציות}
 translate V ShortAnnotations {הערות קצרות}
 translate V addAnnotatorTag {הוסף תג יוצר}
 translate V AddScoreToShortAnnotations {הוסף ניקוד להערות}
+translate V AddScoreToAllMoves {Add score to all moves}
 translate V Export {יְצוּא}
 translate V BookPartiallyLoaded {הספר נטען חלקית}
 translate V Calvar {חישוב וריאציות}

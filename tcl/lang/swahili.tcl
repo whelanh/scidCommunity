@@ -1600,6 +1600,7 @@ translate Z AnnotateVariations {Fafanua tofauti}
 translate Z ShortAnnotations {Maelezo mafupi}
 translate Z addAnnotatorTag {Ongeza lebo ya kichambuzi}
 translate Z AddScoreToShortAnnotations {Ongeza alama kwa vidokezo}
+translate Z AddScoreToAllMoves {Add score to all moves}
 translate Z Export {Hamisha}
 translate Z BookPartiallyLoaded {Kitabu kimejaa kiasi}
 translate Z Calvar {Uhesabuji wa tofauti}

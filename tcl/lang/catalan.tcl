@@ -1644,6 +1644,7 @@ translate K AnnotateVariations {Anotar variants}
 translate K ShortAnnotations {Anotacions curtes}
 translate K addAnnotatorTag {Afegir etiqueta d'anotador}
 translate K AddScoreToShortAnnotations {Afegir puntuació per anotaciones curtes}
+translate K AddScoreToAllMoves {Add score to all moves}
 translate K Export {Exportar}
 translate K BookPartiallyLoaded {Llibre carregat parcialment}
 translate K Calvar {Càlcul de variants}

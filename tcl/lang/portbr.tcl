@@ -1630,6 +1630,7 @@ translate B AnnotateVariations {Anotar variantes}
 translate B ShortAnnotations {Anotações curtas}
 translate B addAnnotatorTag {Adicionar tag do anotador}
 translate B AddScoreToShortAnnotations {Adicionar o score às anotações curtas}
+translate B AddScoreToAllMoves {Add score to all moves}
 translate B Export {Exportar}
 translate B BookPartiallyLoaded {Livro parcialmente carregado}
 translate B Calvar {Cálculo de variantes}

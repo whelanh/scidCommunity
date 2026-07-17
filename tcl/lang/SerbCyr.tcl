@@ -1641,6 +1641,7 @@ translate J AnnotateVariations {Означите варијације}
 translate J ShortAnnotations {Кратке напомене}
 translate J addAnnotatorTag {Додајте ознаку анотатора}
 translate J AddScoreToShortAnnotations {Додајте резултат напоменама}
+translate J AddScoreToAllMoves {Add score to all moves}
 translate J Export {Извоз}
 translate J BookPartiallyLoaded {Књига је делимично учитана}
 translate J Calvar {Прорачун варијација}

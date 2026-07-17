@@ -1622,6 +1622,7 @@ translate O AnnotateVariations {Kommenter varianter}
 translate O ShortAnnotations {Korte merknader}
 translate O addAnnotatorTag {Legg til annotator-tag}
 translate O AddScoreToShortAnnotations {Legg poengsum til korte merknader}
+translate O AddScoreToAllMoves {Add score to all moves}
 translate O Export {Eksport}
 translate O BookPartiallyLoaded {Boken er delvis lastet}
 translate O Calvar {Beregning av variasjoner}

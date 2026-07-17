@@ -1675,6 +1675,7 @@ translate S AnnotateVariations {Anotar variantes}
 translate S ShortAnnotations {Anotaciones cortas}
 translate S addAnnotatorTag {Añadir etiqueta de anotador}
 translate S AddScoreToShortAnnotations {Añadir puntuación para anotaciones cortas}
+translate S AddScoreToAllMoves {Add score to all moves}
 translate S Export {Exportar}
 translate S BookPartiallyLoaded {Libro parcialmente cargado}
 translate S Calvar {Cálculo de variantes}

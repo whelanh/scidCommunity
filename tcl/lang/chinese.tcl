@@ -1576,6 +1576,7 @@ translate M AnnotateVariations {注释变化}
 translate M ShortAnnotations {简短的注释}
 translate M addAnnotatorTag {添加注释器标签}
 translate M AddScoreToShortAnnotations {为注释添加分数}
+translate M AddScoreToAllMoves {Add score to all moves}
 translate M Export {出口}
 translate M BookPartiallyLoaded {书已部分加载}
 translate M Calvar {变化的计算}

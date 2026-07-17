@@ -1600,6 +1600,7 @@ translate h AnnotateVariations {विविधताओं पर टिप्�
 translate h ShortAnnotations {लघु टिप्पणियाँ}
 translate h addAnnotatorTag {एनोटेटर टैग जोड़ें}
 translate h AddScoreToShortAnnotations {एनोटेशन में स्कोर जोड़ें}
+translate h AddScoreToAllMoves {Add score to all moves}
 translate h Export {निर्यात}
 translate h BookPartiallyLoaded {पुस्तक आंशिक रूप से भरी हुई है}
 translate h Calvar {विविधताओं की गणना}

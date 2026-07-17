@@ -1641,6 +1641,7 @@ translate A AnnotateVariations {バリエーションに注釈を付ける}
 translate A ShortAnnotations {短い注釈}
 translate A addAnnotatorTag {アノテータータグを追加する}
 translate A AddScoreToShortAnnotations {注釈にスコアを追加する}
+translate A AddScoreToAllMoves {Add score to all moves}
 translate A Export {輸出}
 translate A BookPartiallyLoaded {本が部分的に読み込まれています}
 translate A Calvar {変動の計算}

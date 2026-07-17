@@ -1649,6 +1649,7 @@ translate G AnnotateVariations {Υπομνηματισμός βαριαντών}
 translate G ShortAnnotations {Σύντομος υπομνηματισμός}
 translate G addAnnotatorTag {Προσθήκη εκτικέτας του υπομνηματιστή}
 translate G AddScoreToShortAnnotations {Προσθήκη σκορ στους υπομνηματισμούς}
+translate G AddScoreToAllMoves {Add score to all moves}
 translate G Export {Εξαγωγή}
 translate G BookPartiallyLoaded {Το βιβλίο φορτώθηκε μερικώς}
 translate G Calvar {Υπολογισμο βαριαντών}

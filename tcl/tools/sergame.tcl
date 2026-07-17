@@ -292,7 +292,7 @@ namespace eval sergame {
     # Config options 2
     ttk::checkbutton $w.fconfig2.cbPosition -text $::tr(StartFromCurrentPosition) -variable ::sergame::startFromCurrent
     ttk::checkbutton $w.fconfig2.storeEval -text $::tr(AddScoreToShortAnnotations) -variable ::sergame::storeEval
-    ttk::checkbutton $w.fconfig2.storeEvalAll -text $::tr(AddScoreToAllMoves) -variable ::sergame::storeEvalAll
+    ttk::checkbutton $w.fconfig2.storeEvalAll -text [::tr AddScoreToAllMoves] -variable ::sergame::storeEvalAll
     pack $w.fconfig2.cbPosition $w.fconfig2.storeEval $w.fconfig2.storeEvalAll -side top -anchor w
 
     # Specific opening
@@ -403,6 +403,7 @@ namespace eval sergame {
     set ::sergame::blunderWarningLabel ""
     set ::sergame::scoreLabel ""
     set ::sergame::coachNag ""
+    set ::sergame::blunderCheckPending 0
     set ::sergame::coachAnalyzed 0
     set ::sergame::playerBlunderDelta 0.0
     set ::sergame::playerBlunderSeverity 0
