@@ -5201,7 +5201,10 @@ int sc_epd(ClientData cd, Tcl_Interp* ti, int argc, const char** argv) {
 			    "Usage: sc_epd remove <epdID> <index>");
 		}
 		int idx = strGetInteger(argv[3]);
-		epdBooks[epdID]->removeByIndex(idx);
+		if (idx < 0 || static_cast<uint>(idx) >= epdBooks[epdID]->size()) {
+			return errorResult(ti, "Error: sc_epd remove: index out of range");
+		}
+		epdBooks[epdID]->removeByIndex(static_cast<uint>(idx));
 		break;
 	}
 
