@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.3.77
+Version:        5.1.3.78
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit af1514f04aa3030898d9ca6584afac4817cebc15
+%global commit 521d2c0d0c7e87c6131d207ca66db5a2f7d41cc3
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Fri Jul 17, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-78
+- "More Epd window and Play versus Engine refinements"
 * Fri Jul 17, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-77
 - "Epd window and Play versus Engine refinements"
 * Thu Jul 16, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-76
