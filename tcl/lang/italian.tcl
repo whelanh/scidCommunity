@@ -163,6 +163,9 @@ translate I EpdReadOnly {sola lettura}
 translate I EpdAltered {alterato}
 translate I EpdNoMoves {nessuna mossa}
 translate I positions {posizioni}
+translate I EpdDeleteRow {Elimina riga}
+translate I EpdCloseWarning {Questo file EPD è stato modificato.\nVuoi salvarlo?}
+translate I EpdDeletePosition {Elimina posizione}
 
 # Tools menu:
 menuText I Tools "Strumenti" 0

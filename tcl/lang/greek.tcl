@@ -192,6 +192,9 @@ translate G EpdReadOnly {μόνο για ανάγνωση}
 translate G EpdAltered {αλλοιώθηκε}
 translate G EpdNoMoves {χωρίς κινήσεις}
 translate G positions {θέσεις}
+translate G EpdDeleteRow {Διαγραφή σειράς}
+translate G EpdCloseWarning {Αυτό το αρχείο EPD έχει τροποποιηθεί.\nΘέλετε να το αποθηκεύσετε;}
+translate G EpdDeletePosition {Διαγραφή θέσης}
 
 # Tools menu:
 menuText G Tools "Εργαλεία" 0

@@ -201,6 +201,9 @@ translate L EpdReadOnly {numai pentru citire}
 translate L EpdAltered {alterat}
 translate L EpdNoMoves {fara miscari}
 translate L positions {pozitii}
+translate L EpdDeleteRow {Ștergeți rândul}
+translate L EpdCloseWarning {Acest fișier EPD a fost modificat.\nDoriți să-l salvați?}
+translate L EpdDeletePosition {Șterge poziție}
 
 # Tools menu:
 menuText L Tools "Instrumente" 0

@@ -164,6 +164,9 @@ translate T EpdReadOnly {salt okunur}
 translate T EpdAltered {değiştirilmiş}
 translate T EpdNoMoves {hareket yok}
 translate T positions {pozisyonlar}
+translate T EpdDeleteRow {Satırı sil}
+translate T EpdCloseWarning {Bu EPD dosyası değiştirildi.\nKaydetmek istiyor musunuz?}
+translate T EpdDeletePosition {Pozisyonu Sil}
 
 # Tools menu:
 menuText T Tools "Aletler" 0

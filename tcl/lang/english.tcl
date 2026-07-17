@@ -200,6 +200,9 @@ translate E EpdReadOnly {read-only}
 translate E EpdAltered {altered}
 translate E EpdNoMoves {no moves}
 translate E positions {positions}
+translate E EpdDeleteRow {Delete row}
+translate E EpdCloseWarning {This EPD file has been altered.\nDo you wish to save it?}
+translate E EpdDeletePosition {Delete Position}
 
 # Tools menu:
 menuText E Tools "Tools" 0

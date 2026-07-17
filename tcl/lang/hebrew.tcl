@@ -161,6 +161,9 @@ translate V EpdReadOnly {לקריאה בלבד}
 translate V EpdAltered {השתנה}
 translate V EpdNoMoves {ללא תנועות}
 translate V positions {עמדות}
+translate V EpdDeleteRow {מחק שורה}
+translate V EpdCloseWarning {קובץ EPD זה השתנה.\nהאם ברצונך לשמור אותו?}
+translate V EpdDeletePosition {מחק עמדה}
 
 # Tools menu:
 menuText V Tools "כְּלֵי עֲבוֹדָה" 0

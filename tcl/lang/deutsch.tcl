@@ -187,6 +187,9 @@ translate D EpdReadOnly {schreibgeschützt}
 translate D EpdAltered {verändert}
 translate D EpdNoMoves {keine Bewegungen}
 translate D positions {Positionen}
+translate D EpdDeleteRow {Zeile löschen}
+translate D EpdCloseWarning {Diese EPD-Datei wurde geändert.\nMöchten Sie sie speichern?}
+translate D EpdDeletePosition {Position löschen}
 
 # Tools menu:
 menuText D Tools "Werkzeuge" 0

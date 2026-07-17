@@ -181,6 +181,9 @@ translate N EpdReadOnly {alleen-lezen}
 translate N EpdAltered {gewijzigd}
 translate N EpdNoMoves {geen bewegingen}
 translate N positions {posities}
+translate N EpdDeleteRow {Rij verwijderen}
+translate N EpdCloseWarning {Dit EPD-bestand is gewijzigd.\nWilt u het opslaan?}
+translate N EpdDeletePosition {Positie verwijderen}
 
 # Tools menu:
 menuText N Tools "Gereedschappen" 0

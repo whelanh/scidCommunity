@@ -201,6 +201,9 @@ translate k EpdReadOnly {읽기 전용}
 translate k EpdAltered {변경된}
 translate k EpdNoMoves {움직임 없음}
 translate k positions {위치}
+translate k EpdDeleteRow {행 삭제}
+translate k EpdCloseWarning {이 EPD 파일은 변경되었습니다.\n저장하시겠습니까?}
+translate k EpdDeletePosition {위치 삭제}
 
 # Tools menu:
 menuText k Tools "도구" 0

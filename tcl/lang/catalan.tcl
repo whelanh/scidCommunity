@@ -176,6 +176,9 @@ translate K EpdReadOnly {només de lectura}
 translate K EpdAltered {alterat}
 translate K EpdNoMoves {sense moviments}
 translate K positions {posicions}
+translate K EpdDeleteRow {Suprimeix la fila}
+translate K EpdCloseWarning {Aquest fitxer EPD s'ha alterat.\nEl voleu desar?}
+translate K EpdDeletePosition {Suprimeix la posició}
 
 # Tools menu:
 menuText K Tools "Eines" 0
