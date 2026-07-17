@@ -415,7 +415,7 @@ namespace eval sergame {
 
     set ::sergame::activeColor $::sergame::playerColor
     if {$::sergame::activeColor == "random"} {
-      set ::sergame::activeColor [expr {rand() < 0.5 ? "white" : "black"}]
+      set ::sergame::activeColor [lindex {white black} [expr {int(rand() * 2)}]]
     }
 
     # Engine plays for the opposite side of player color
