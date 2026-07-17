@@ -176,6 +176,8 @@ translate F positions {postes}
 translate F EpdDeleteRow {Supprimer la ligne}
 translate F EpdCloseWarning {Ce fichier EPD a été modifié.\nVoulez-vous le sauvegarder ?}
 translate F EpdDeletePosition {Supprimer le poste}
+translate F EpdCopyRecord {Copier l'enregistrement}
+translate F EpdPasteRecord {Coller l'enregistrement}
 
 # Tools menu:
 menuText F Tools "Outils" 2

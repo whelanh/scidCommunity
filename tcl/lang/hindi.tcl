@@ -163,6 +163,8 @@ translate h positions {पदों}
 translate h EpdDeleteRow {पंक्ति को हटाएं}
 translate h EpdCloseWarning {यह EPD फ़ाइल बदल दी गई है.\nक्या आप इसे सहेजना चाहते हैं?}
 translate h EpdDeletePosition {स्थिति हटाएँ}
+translate h EpdCopyRecord {रिकॉर्ड कॉपी करें}
+translate h EpdPasteRecord {रिकार्ड चिपकाएँ}
 
 # Tools menu:
 menuText h Tools "औजार" 0

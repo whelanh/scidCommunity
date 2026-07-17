@@ -179,6 +179,8 @@ translate K positions {posicions}
 translate K EpdDeleteRow {Suprimeix la fila}
 translate K EpdCloseWarning {Aquest fitxer EPD s'ha alterat.\nEl voleu desar?}
 translate K EpdDeletePosition {Suprimeix la posició}
+translate K EpdCopyRecord {Copia el registre}
+translate K EpdPasteRecord {Enganxa el registre}
 
 # Tools menu:
 menuText K Tools "Eines" 0

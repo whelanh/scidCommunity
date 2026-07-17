@@ -162,6 +162,8 @@ translate C positions {pozice}
 translate C EpdDeleteRow {Smazat řádek}
 translate C EpdCloseWarning {Tento soubor EPD byl změněn.\nPřejete si jej uložit?}
 translate C EpdDeletePosition {Smazat pozici}
+translate C EpdCopyRecord {Kopírovat záznam}
+translate C EpdPasteRecord {Vložit záznam}
 
 # Tools menu:
 menuText C Tools "Nstroje" 3

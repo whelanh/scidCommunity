@@ -164,6 +164,8 @@ translate V positions {עמדות}
 translate V EpdDeleteRow {מחק שורה}
 translate V EpdCloseWarning {קובץ EPD זה השתנה.\nהאם ברצונך לשמור אותו?}
 translate V EpdDeletePosition {מחק עמדה}
+translate V EpdCopyRecord {העתק רשומה}
+translate V EpdPasteRecord {הדבק רשומה}
 
 # Tools menu:
 menuText V Tools "כְּלֵי עֲבוֹדָה" 0

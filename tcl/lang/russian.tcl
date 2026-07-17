@@ -170,6 +170,8 @@ translate R positions {позиции}
 translate R EpdDeleteRow {Удалить строку}
 translate R EpdCloseWarning {Этот файл EPD был изменен.\nХотите сохранить его?}
 translate R EpdDeletePosition {Удалить позицию}
+translate R EpdCopyRecord {Копировать запись}
+translate R EpdPasteRecord {Вставить запись}
 
 # Tools menu:
 menuText R Tools "Инструменты" 2

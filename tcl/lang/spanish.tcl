@@ -181,6 +181,8 @@ translate S positions {posiciones}
 translate S EpdDeleteRow {Eliminar fila}
 translate S EpdCloseWarning {Este archivo EPD ha sido modificado.\n¿Desea guardarlo?}
 translate S EpdDeletePosition {Eliminar posición}
+translate S EpdCopyRecord {Copiar registro}
+translate S EpdPasteRecord {Pegar registro}
 
 # Tools menu:
 menuText S Tools "Herramientas" 0

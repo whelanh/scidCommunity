@@ -190,6 +190,8 @@ translate D positions {Positionen}
 translate D EpdDeleteRow {Zeile löschen}
 translate D EpdCloseWarning {Diese EPD-Datei wurde geändert.\nMöchten Sie sie speichern?}
 translate D EpdDeletePosition {Position löschen}
+translate D EpdCopyRecord {Datensatz kopieren}
+translate D EpdPasteRecord {Datensatz einfügen}
 
 # Tools menu:
 menuText D Tools "Werkzeuge" 0

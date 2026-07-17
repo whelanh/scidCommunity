@@ -163,6 +163,8 @@ translate Z positions {nafasi}
 translate Z EpdDeleteRow {Futa safu mlalo}
 translate Z EpdCloseWarning {Faili hii ya EPD imebadilishwa.\nJe, ungependa kuihifadhi?}
 translate Z EpdDeletePosition {Futa Nafasi}
+translate Z EpdCopyRecord {Nakili Rekodi}
+translate Z EpdPasteRecord {Bandika Rekodi}
 
 # Tools menu:
 menuText Z Tools "Zana" 0

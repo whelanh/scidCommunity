@@ -143,6 +143,8 @@ translate M positions {位置}
 translate M EpdDeleteRow {删除行}
 translate M EpdCloseWarning {此 EPD 文件已被更改。\n您要保存它吗？}
 translate M EpdDeletePosition {删除职位}
+translate M EpdCopyRecord {复制记录}
+translate M EpdPasteRecord {粘贴记录}
 
 # Tools menu:
 menuText M Tools "工具" 0

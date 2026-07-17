@@ -125,6 +125,8 @@ translate P positions {pozycje}
 translate P EpdDeleteRow {Usuń wiersz}
 translate P EpdCloseWarning {Ten plik EPD został zmieniony.\nCzy chcesz go zapisać?}
 translate P EpdDeletePosition {Usuń pozycję}
+translate P EpdCopyRecord {Kopiuj zapis}
+translate P EpdPasteRecord {Wklej zapis}
 
 # Tools menu:
 menuText P Tools {Narzędzia} 0

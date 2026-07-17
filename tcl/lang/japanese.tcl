@@ -204,6 +204,8 @@ translate A positions {ポジション}
 translate A EpdDeleteRow {行の削除}
 translate A EpdCloseWarning {この EPD ファイルは変更されています。\n保存しますか?}
 translate A EpdDeletePosition {位置の削除}
+translate A EpdCopyRecord {レコードのコピー}
+translate A EpdPasteRecord {レコードの貼り付け}
 
 # Tools menu:
 menuText A Tools "ツール" 0

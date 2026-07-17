@@ -34,6 +34,8 @@ namespace eval epd {
   variable bestMoves {}
   variable epdName
   variable saveLog 0
+  variable clipFen {}
+  variable clipOpcodes {}
 
   set maxEpd [sc_info limit epd]
   array set epdTimer {}
@@ -204,6 +206,8 @@ namespace eval epd {
     $m add command -label [tr EpdSortOpcodes] -accelerator "Ctrl+Shift+S" -underline 0 -command "::epd::sortEpdText $id"
     $m add command -label [tr EpdAddPosition] -accelerator "Ctrl+A" -underline 0 -command "::epd::addPosition $id"
     $m add command -label [tr EpdDeletePosition] -command "::epd::deleteEpdRow $id"
+    $m add command -label [tr EpdCopyRecord] -command "::epd::copyEpdRecord $id"
+    $m add command -label [tr EpdPasteRecord] -command "::epd::pasteEpdRecord $id"
     $m add command -label [tr EpdFindPos] -command "::epd::moveToDeepestMatch $id"
     $m add separator
     $m add command -label [tr EpdAnalPosition] -command "::epd::configAnnotateEpd $id"
@@ -234,6 +238,7 @@ namespace eval epd {
 
     # Right-mouse button menu for listbox:
     menu $w.lb.edit -tearoff 0
+    $w.lb.edit add command -label [tr EpdCopyRecord] -command "::epd::copyEpdRecord $id"
     $w.lb.edit add command -label [tr EpdDeleteRow] -command "::epd::deleteEpdRow $id"
     bind $w.lb <ButtonPress-3> "tk_popup $w.lb.edit %X %Y"
 
@@ -352,6 +357,58 @@ namespace eval epd {
     updateEpdWin $id
   }
 
+  ################################################################################
+  ### Copy the selected EPD record (FEN + opcodes) to a clipboard variable.
+  ################################################################################
+  proc copyEpdRecord {id} {
+    variable clipFen
+    variable clipOpcodes
+    set w .epd$id
+    if {![winfo exists $w]} { return }
+    set idx [$w.lb curselection]
+    if {$idx == ""} { return }
+
+    if {[$w.text edit modified]} {
+      storeEpdText $id
+    }
+
+    set clipFen [join [lrange [split [sc_pos fen] " "] 0 3] " "]
+    set clipOpcodes [sc_epd get $id]
+  }
+
+  ################################################################################
+  ### Paste the previously copied EPD record into this EPD file.
+  ################################################################################
+  proc pasteEpdRecord {id} {
+    variable clipFen
+    variable clipOpcodes
+    if {$clipFen eq ""} { return }
+    set w .epd$id
+    if {![winfo exists $w]} { return }
+    if {[sc_epd readonly $id]} { return }
+
+    if {[$w.text edit modified]} {
+      storeEpdText $id
+    }
+
+    sc_game push
+    sc_game startBoard $clipFen
+
+    set exists [sc_epd exists $id]
+    sc_epd set $id $clipOpcodes
+
+    if {!$exists} {
+      set size [sc_epd size $id]
+      $w.lb insert end "$size    $clipFen"
+      set idx [expr {$size - 1}]
+    } else {
+      set idx [sc_epd index $id]
+    }
+
+    sc_game pop
+
+    updateEpdWin $id
+  }
   ################################################################################
   ### Save changes to the EPD file.
   ################################################################################

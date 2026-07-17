@@ -195,6 +195,8 @@ translate G positions {θέσεις}
 translate G EpdDeleteRow {Διαγραφή σειράς}
 translate G EpdCloseWarning {Αυτό το αρχείο EPD έχει τροποποιηθεί.\nΘέλετε να το αποθηκεύσετε;}
 translate G EpdDeletePosition {Διαγραφή θέσης}
+translate G EpdCopyRecord {Αντιγραφή εγγραφής}
+translate G EpdPasteRecord {Επικόλληση εγγραφής}
 
 # Tools menu:
 menuText G Tools "Εργαλεία" 0

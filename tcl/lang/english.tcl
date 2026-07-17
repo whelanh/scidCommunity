@@ -203,6 +203,8 @@ translate E positions {positions}
 translate E EpdDeleteRow {Delete row}
 translate E EpdCloseWarning {This EPD file has been altered.\nDo you wish to save it?}
 translate E EpdDeletePosition {Delete Position}
+translate E EpdCopyRecord {Copy Record}
+translate E EpdPasteRecord {Paste Record}
 
 # Tools menu:
 menuText E Tools "Tools" 0

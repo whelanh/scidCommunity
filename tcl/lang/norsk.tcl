@@ -168,6 +168,8 @@ translate O positions {stillinger}
 translate O EpdDeleteRow {Slett rad}
 translate O EpdCloseWarning {Denne EPD-filen har blitt endret.\nVil du lagre den?}
 translate O EpdDeletePosition {Slett posisjon}
+translate O EpdCopyRecord {Kopier posten}
+translate O EpdPasteRecord {Lim inn post}
 
 # Tools menu:
 menuText O Tools "Verktøy" 0

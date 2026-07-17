@@ -164,6 +164,8 @@ translate Q positions {позиції}
 translate Q EpdDeleteRow {Видалити рядок}
 translate Q EpdCloseWarning {Цей файл EPD було змінено.\nЗберегти його?}
 translate Q EpdDeletePosition {Видалити позицію}
+translate Q EpdCopyRecord {Копіювати запис}
+translate Q EpdPasteRecord {Вставити запис}
 
 # Tools menu:
 menuText Q Tools "Інструменти" 0

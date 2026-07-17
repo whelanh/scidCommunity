@@ -204,6 +204,8 @@ translate g positions {позиции}
 translate g EpdDeleteRow {Изтриване на ред}
 translate g EpdCloseWarning {Този EPD файл е променен.\nИскате ли да го запазите?}
 translate g EpdDeletePosition {Изтриване на позиция}
+translate g EpdCopyRecord {Копиране на запис}
+translate g EpdPasteRecord {Поставяне на запис}
 
 # Tools menu:
 menuText g Tools "Инструменти" 0

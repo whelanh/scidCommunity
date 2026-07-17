@@ -185,7 +185,7 @@ namespace eval sergame {
 
     ttk::frame $w.fcoach.ad
     ttk::checkbutton $w.fcoach.ad.cbLimitAnalysis -text $::tr(limitanalysis) -variable ::sergame::isLimitedAnalysisTime
-    ttk::spinbox $w.fcoach.ad.val -width 3 -from 5 -to 360 -increment 1 -textvariable ::sergame::analysisTime -validate all -validatecommand { regexp {^[0-9]+$} %P }
+    ttk::spinbox $w.fcoach.ad.val -width 3 -from 1 -to 360 -increment 1 -textvariable ::sergame::analysisTime -validate all -validatecommand { regexp {^[0-9]+$} %P }
     ttk::label $w.fcoach.ad.lblSec -text $::tr(seconds)
     pack $w.fcoach.ad.cbLimitAnalysis $w.fcoach.ad.val $w.fcoach.ad.lblSec -side left -anchor w -padx 4
 
@@ -415,7 +415,7 @@ namespace eval sergame {
 
     set ::sergame::activeColor $::sergame::playerColor
     if {$::sergame::activeColor == "random"} {
-      set ::sergame::activeColor [expr {rand() < 0.5 ? "white" : "black"}]
+      set ::sergame::activeColor [lindex {white black} [expr {int(rand() * 2)}]]
     }
 
     # Engine plays for the opposite side of player color
@@ -1065,6 +1065,7 @@ namespace eval sergame {
     global ::sergame::isLimitedAnalysisTime ::sergame::analysisTime
     set n 2
     after cancel ::sergame::stopAnalyze
+    ::sergame::sendToEngine $n "stop"
     set ::analysis(waitForReadyOk$n) 0
     ::uci::sendToEngine $n "isready"
     vwaitTimed ::analysis(waitForReadyOk$n) 5000 "nowarn"
