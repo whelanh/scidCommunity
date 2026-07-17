@@ -818,11 +818,12 @@ namespace eval epd {
       if {$bm != ""} {
         append text "bm $bm\n"
       }
-      set dm [expr abs($::analysis(scoremate$win))]
+      set dm [expr {abs($::analysis(scoremate$win))}]
       if {$dm != 0} {
-        set pm [::epd::pvSAN $win]
-        if {$pm != ""} {
-          append text "pm $pm\n"
+        append text "dm $dm\n"
+        set pv [::epd::pvSAN $win]
+        if {$pv != ""} {
+          append text "pv $pv\n"
         }
       } else {
         set ce [expr {int($::analysis(score$win) * 100)}]
