@@ -372,7 +372,7 @@ namespace eval epd {
       storeEpdText $id
     }
 
-    set clipFen [string range [sc_pos fen] 0 end-4]
+    set clipFen [join [lrange [split [sc_pos fen] " "] 0 3] " "]
     set clipOpcodes [sc_epd get $id]
   }
 
@@ -400,19 +400,16 @@ namespace eval epd {
     if {!$exists} {
       set size [sc_epd size $id]
       $w.lb insert end "$size    $clipFen"
-      set idx [expr $size - 1]
+      set idx [expr {$size - 1}]
     } else {
       set idx [sc_epd index $id]
     }
 
     sc_game pop
 
-    $w.lb selection clear 0 end
-    $w.lb selection set $idx
-    $w.lb see $idx
     updateEpdWin $id
+    $w.lb see $idx
   }
-
   ################################################################################
   ### Save changes to the EPD file.
   ################################################################################
