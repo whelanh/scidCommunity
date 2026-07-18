@@ -1010,6 +1010,11 @@ namespace eval sergame {
     set ::analysis(waitForReadyOk$n) 1
     ::uci::sendToEngine $n "isready"
     vwaitTimed ::analysis(waitForReadyOk$n) 5000 "nowarn"
+    if {$::analysis(waitForReadyOk$n) != 0} {
+      tk_messageBox -type ok -icon error -parent .main -title "Engine Error" -message "Engine did not respond to isready"
+      ::sergame::abortGame
+      return
+    }
     ::uci::sendToEngine $n "position fen [sc_pos fen]"
     set ::sergame::lastAnalyzeFen [sc_pos fen]
     ::uci::sendToEngine $n "go infinite"
