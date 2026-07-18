@@ -445,14 +445,15 @@ namespace eval sergame {
     set ::uci::uciInfo(score$n) 0.0
     set ::uci::uciInfo(ponder$n) ""
 
-    set ::uci::uciInfo(prevscore2) 0.0
-    set ::uci::uciInfo(score2) 0.0
+    set ::uci::uciInfo(prevscore2) ""
+    set ::uci::uciInfo(score2) ""
     set ::uci::uciInfo(pipe2) ""
 
     if {$::sergame::coachIsWatching} {
       ::uci::startEngine $::sergame::coachIndex 2
       set ::uci::uciInfo(multipv2) 1
       ::sergame::changePVSize 2
+      ::sergame::startAnalyze
     }
 
     if {$::sergame::startFromCurrent} {
@@ -568,7 +569,20 @@ namespace eval sergame {
   proc callback {cmd args} {
     switch $cmd {
         premove {
-            return [expr { ! $::sergame::waitPlayerMove }]
+            if { $::sergame::waitPlayerMove } {
+              # Player is about to move — cancel any pending deferred-eval
+              # from the previous engine move so it doesn't land on the
+              # wrong position, then freeze the coach's eval BEFORE the
+              # board changes.
+              after cancel ::sergame::_storeCoachEvalDeferred
+              if {$::sergame::coachIsWatching} {
+                ::sergame::stopAnalyze
+              }
+              set ::sergame::liveScore $::uci::uciInfo(score2)
+              set ::sergame::livePv $::uci::uciInfo(pv2)
+              return 0
+            }
+            return 1
         }
         stop { destroy .coachWin }
     }
@@ -727,7 +741,7 @@ namespace eval sergame {
     if { [sc_pos side] != $::sergame::engineColor } {
       set ::sergame::waitPlayerMove 1
       ::sergame::updateAnalysisText
-      after 1000 ::sergame::engineGo $n
+      after 200 ::sergame::engineGo $n
       return
     }
 
@@ -737,9 +751,8 @@ namespace eval sergame {
       set ::sergame::waitPlayerMove 0
       set ::sergame::playerMoved 1
 
-      # Freeze the coach's view of the position before the player moved
-      set ::sergame::liveScore $::uci::uciInfo(score2)
-      set ::sergame::livePv $::uci::uciInfo(pv2)
+      # liveScore/livePv were already frozen in the premove callback
+      # before the board changed — cannot be sign-corrupted.
 
       set takebackClockW [::gameclock::getSec 1]
       set takebackClockB [::gameclock::getSec 2]
@@ -922,23 +935,17 @@ namespace eval sergame {
 
     set ::uci::uciInfo(prevscore$n) $::uci::uciInfo(score$n)
 
+    # Store eval on the player's move BEFORE the engine's move is played
+    if { $wasTakeback == 0 && $playerDidMove && ( $::sergame::storeEval == 1 || $::sergame::storeEvalAll == 1 ) } {
+      if {$::sergame::coachIsWatching && $::sergame::liveScore ne ""} {
+        storeEvalComment $::sergame::liveScore
+      } elseif {[info exists ::uci::uciInfo(score$n)]} {
+        storeEvalComment $::uci::uciInfo(score$n)
+      }
+    }
+
     ::uci::sc_move_add $::uci::uciInfo(bestmove$n)
     ::utils::sound::AnnounceNewMove $::uci::uciInfo(bestmove$n)
-
-    if { $wasTakeback == 0 && $playerDidMove && ( $::sergame::storeEval == 1 || $::sergame::storeEvalAll == 1 ) } {
-      if {[info exists ::uci::uciInfo(score$n)]} {
-        storeEvalComment $::uci::uciInfo(score$n)
-      }
-    }
-
-    # Store eval on the engine's move itself (coach's view)
-    if { ( $::sergame::storeEval == 1 || $::sergame::showevaluation == 1 ) } {
-      if {$::sergame::coachIsWatching && $::sergame::liveScore != ""} {
-        storeEvalComment $::sergame::liveScore
-      } elseif {!$::sergame::coachIsWatching && [info exists ::uci::uciInfo(score$n)]} {
-        storeEvalComment $::uci::uciInfo(score$n)
-      }
-    }
 
     updateBoard -pgn -animate
     if {[repetition]} { return }
@@ -947,6 +954,17 @@ namespace eval sergame {
 
     if {$::sergame::coachIsWatching} {
       ::sergame::startAnalyze
+    }
+
+    # Store eval on the engine's move — deferred so the coach has time
+    # to analyze the new position after startAnalyze.
+    if { ( $::sergame::storeEval == 1 || $::sergame::storeEvalAll == 1 || $::sergame::showevaluation == 1 ) } {
+      if {$::sergame::coachIsWatching} {
+        after cancel ::sergame::_storeCoachEvalDeferred
+        after 500 ::sergame::_storeCoachEvalDeferred
+      } elseif {[info exists ::uci::uciInfo(score$n)]} {
+        storeEvalComment $::uci::uciInfo(score$n)
+      }
     }
 
     if { $::sergame::resignCount > 3 } {
@@ -1115,6 +1133,15 @@ namespace eval sergame {
     set ::sergame::lscore {}
     set ::sergame::liveScore ""
     set ::sergame::livePv ""
+  }
+
+  proc _storeCoachEvalDeferred {} {
+    # The coach has been repositioned by startAnalyze and should have
+    # produced at least one info line by now.  Store its eval on the
+    # current position (the engine's last move).
+    if {[info exists ::uci::uciInfo(score2)] && $::uci::uciInfo(score2) ne ""} {
+      storeEvalComment $::uci::uciInfo(score2)
+    }
   }
 
   ################################################################################
