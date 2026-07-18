@@ -901,7 +901,6 @@ namespace eval sergame {
           return
         }
         clocks start
-        set wasTakeback 1
       }
     }
 
