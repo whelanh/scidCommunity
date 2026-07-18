@@ -1115,7 +1115,7 @@ bind TNotebook <Key-Left>  {}
 
 wm iconname . "scidCommunity"
 wm protocol . WM_DELETE_WINDOW { ::file::Exit }
-setMenu . .menu
+if {!$::windowsOS} { setMenu . .menu }
 keyboardShortcuts .
 
 ::docking::layout_restore 1

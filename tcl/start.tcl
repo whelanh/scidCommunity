@@ -680,6 +680,8 @@ proc configure_menus {} {
     catch { .menu configure -font font_Menu }
   }
 
+  catch { ::windowsMenubarRefreshFont }
+
   if {$::unixOS} {
     set bg [ttk::style lookup . -background]
     set activeBg [ttk::style lookup . -background active]
