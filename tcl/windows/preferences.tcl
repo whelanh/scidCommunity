@@ -276,7 +276,6 @@ proc ::preferences::fonts { w } {
             if {$new_options != ""} {
                 set ::fontOptions($name) $new_options
             }
-            if {$name eq "Menu"} { catch { configure_menus } }
         }} $font]
         grid $w.lb$f -row $idx -column 0 -sticky w -pady 5
         grid $w.font$f -row $idx -column 1 -sticky w -padx 5 -pady 5

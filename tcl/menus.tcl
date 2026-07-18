@@ -599,9 +599,6 @@ proc setLanguageMenus {} {
   ::tools::graphs::score::ConfigMenus
   ::tools::graphs::rating::ConfigMenus
 
-  # Rebuild the Windows custom menubar so labels match the new language
-  catch { ::windowsMenubarRebuild }
-
   # Check for duplicate menu underline characters in this language:
   # set ::verifyMenus 1
   if {[info exists ::verifyMenus] && $::verifyMenus} {

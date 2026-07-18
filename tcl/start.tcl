@@ -676,12 +676,6 @@ proc configure_menus {} {
   option add *Menu*TearOff 0
   if {[llength $::fontOptions(Menu)] == 4} { option add *Menu*Font font_Menu }
 
-  if {[winfo exists .menu]} {
-    catch { .menu configure -font font_Menu }
-  }
-
-  catch { ::windowsMenubarRefreshFont }
-
   if {$::unixOS} {
     set bg [ttk::style lookup . -background]
     set activeBg [ttk::style lookup . -background active]
@@ -1043,8 +1037,6 @@ tools/batch_annotate.tcl
 foreach f $tcl_files {
   source -encoding utf-8 [file nativename [file join $::scidTclDir "$f"]]
 }
-
-configure_menus
 
 ###
 ### End of file: start.tcl

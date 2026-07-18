@@ -1484,9 +1484,6 @@ proc resizeMainBoard {} {
     if { [llength [pack slaves .main.tb]] != 0 } {
       set availh [expr $availh - [winfo height .main.tb] ]
     }
-    if {$::windowsOS && [winfo exists .main.tb.menubar]} {
-      set availh [expr $availh - [winfo height .main.tb.menubar] ]
-    }
     set ::boardSize [::board::resizeAuto .main.board "0 0 $availw $availh"]
   }
 }
@@ -1711,50 +1708,6 @@ proc ConfigToolbar { w } {
   pack $w.on $w.off -side left -padx 2 -pady "5 0"
 }
 
-# Build a custom menu bar on Windows using ttk::menubutton widgets.
-# This is needed because the Windows native menubar ignores Tk font settings.
-# The menubar is placed inside .main.tb (the toolbar frame).
-proc ::windowsMenubarRebuild {} {
-    if {!$::windowsOS} return
-    if {![winfo exists .main.tb]} return
-
-    set tb .main.tb
-    if {![winfo exists $tb.menubar]} {
-        ttk::frame $tb.menubar
-    } else {
-        foreach child [winfo children $tb.menubar] { destroy $child }
-    }
-
-    # Pack menubar at the top of the toolbar frame
-    pack $tb.menubar -side top -fill x -pady {0 2}
-
-    # Create menubuttons from .menu cascade entries
-    set n [.menu index end]
-    if {$n eq "none"} { return }
-
-    set col 0
-    for {set i 0} {$i <= $n} {incr i} {
-        if {[.menu type $i] ne "cascade"} continue
-        set label [.menu entrycget $i -label]
-        set submenu [.menu entrycget $i -menu]
-        if {$submenu eq ""} continue
-        # Skip toolbar entries added to .menu (they have images)
-        if {![catch {.menu entrycget $i -image} img] && $img ne ""} continue
-
-        ttk::menubutton $tb.menubar.mb$col -text $label \
-            -menu $submenu -direction below -font font_Menu
-        pack $tb.menubar.mb$col -side left -padx 0 -pady 0
-        incr col
-    }
-}
-
-proc ::windowsMenubarRefreshFont {} {
-    if {!$::windowsOS || ![winfo exists .main.tb.menubar]} return
-    foreach child [winfo children .main.tb.menubar] {
-        catch { $child configure -font font_Menu }
-    }
-}
-
 proc redrawToolbar { args } {
     # Remove any previously-added toolbar icons from the menu bar.
     # The first N entries are the cascade menus; toolbar icons start after them.
@@ -1813,17 +1766,15 @@ proc redrawToolbar { args } {
     if {$::windowsOS} {
         # Windows: use ttk::buttons in the toolbar frame (native menus can't render images)
         grid .main.tb -row 0 -column 0 -columnspan 3 -sticky we
-        # Rebuild the custom menubar (replaces native Windows menubar which ignores -font)
-        ::windowsMenubarRebuild
-        # Destroy any dynamically-created buttons (keep bkm, gprev, gnext and menubar from InitToolbar)
+        # Destroy any dynamically-created buttons (keep bkm, gprev, gnext from InitToolbar)
         foreach child [winfo children .main.tb] {
             set name [winfo name $child]
-            if {$name ni {bkm gprev gnext menubar}} {
+            if {$name ni {bkm gprev gnext}} {
                 pack forget $child
                 destroy $child
             }
         }
-        # Pack the 3 permanent buttons after the menubar
+        # Pack the 3 permanent buttons first
         pack .main.tb.bkm .main.tb.gprev .main.tb.gnext -side left -padx 1 -pady 1
         # Add selected toolbar items as ttk::buttons
         foreach i {newdb open closedb finder save newgame copy paste \
