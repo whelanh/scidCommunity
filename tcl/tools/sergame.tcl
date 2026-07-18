@@ -957,7 +957,7 @@ namespace eval sergame {
       }
       catch {sc_game save [sc_game number] [sc_base current]}
       ::notify::GameChanged
-      tk_messageBox -type ok -message "$::tr(Iresign) - Result saved" -parent .main -icon info
+      tk_messageBox -type ok -message "$::tr(Iresign) - $::tr(ResultSaved)" -parent .main -icon info
       set ::sergame::resignCount 0
     }
 
