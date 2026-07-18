@@ -1550,6 +1550,7 @@ translate I DubiousMovePlayedTakeBack {Mossa dubbia, vuoi ripetere?}
 translate I WeakMovePlayedTakeBack {Mossa debole, vuoi ripetere?}
 translate I BadMovePlayedTakeBack {Mossa cattiva, vuoi ripetere?}
 translate I Iresign {Abbandono}
+translate I ResultSaved {Risultato salvato}
 translate I yourmoveisnotgood {La tua mossa non è buona}
 translate I EndOfVar {Fine della variante}
 translate I Openingtrainer {Allenatore delle aperture}

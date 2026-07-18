@@ -1527,6 +1527,7 @@ translate V DubiousMovePlayedTakeBack {מהלך מפוקפק שיחק, האם א
 translate V WeakMovePlayedTakeBack {מהלך חלש שיחק, האם אתה רוצה לקחת בחזרה?}
 translate V BadMovePlayedTakeBack {מהלך רע שיחק, האם אתה רוצה לקחת בחזרה?}
 translate V Iresign {אני מתפטר}
+translate V ResultSaved {התוצאה נשמרה}
 translate V yourmoveisnotgood {המהלך שלך לא טוב}
 translate V EndOfVar {סוף וריאציה}
 translate V Openingtrainer {מאמן פתיחה}

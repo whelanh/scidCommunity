@@ -1567,6 +1567,7 @@ translate L DubiousMovePlayedTakeBack {Mișcare dubioasă a fost jucată, vrei s
 translate L WeakMovePlayedTakeBack {S-a jucat o mișcare slabă, vrei să o luăm înapoi?}
 translate L BadMovePlayedTakeBack {Mișcare proastă a fost jucată, vrei să o luăm înapoi?}
 translate L Iresign {demisionez}
+translate L ResultSaved {Rezultat salvat}
 translate L yourmoveisnotgood {miscarea ta nu este buna}
 translate L EndOfVar {Sfârșitul variației}
 translate L Openingtrainer {Antrenor de deschidere}

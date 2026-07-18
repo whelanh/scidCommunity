@@ -1598,6 +1598,7 @@ translate D DubiousMovePlayedTakeBack {Zweifelhafter Zug gespielt, wollen Sie ih
 translate D WeakMovePlayedTakeBack {Dies ist kein guter Zug, wollen Sie ihn zurücknehmen?}
 translate D BadMovePlayedTakeBack {Dies ist ein schlechter Zug, wollen Sie ihn zurücknehmen?}
 translate D Iresign {Ich gebe auf}
+translate D ResultSaved {Ergebnis gespeichert}
 translate D yourmoveisnotgood {Ihr Zug ist nicht gut}
 translate D EndOfVar {Variantenende}
 translate D Openingtrainer {Eröffnungstrainer}

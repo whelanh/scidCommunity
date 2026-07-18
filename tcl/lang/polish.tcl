@@ -1478,6 +1478,7 @@ translate P DubiousMovePlayedTakeBack {Zagrano wątpliwe posunięcie, czy chcesz
 translate P WeakMovePlayedTakeBack {Zagrano słabe posunięcie, czy chcesz je cofnąć?}
 translate P BadMovePlayedTakeBack {Zagrano złe posunięcie, czy chcesz je cofnąć?}
 translate P Iresign {Poddaję się}
+translate P ResultSaved {Wynik zapisany}
 translate P yourmoveisnotgood {twoje posunięcie nie jest dobre}
 translate P EndOfVar {Koniec wariantu}
 translate P Openingtrainer {Trener debiutowy}
@@ -1826,7 +1827,7 @@ translate P TBNotFound {Nie znaleziono pozycji w tablicy końcówek albo wystąp
 translate P TBCategory {Kategoria pozycji:}
 translate P TBTrainingHidden {(Tryb treningu; wyniki są ukryte)}
 }
-# end of polish.tcl
+# end of english.tcl
 
 
 ############################################################

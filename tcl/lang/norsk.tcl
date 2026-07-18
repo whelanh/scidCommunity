@@ -1548,6 +1548,7 @@ translate O DubiousMovePlayedTakeBack {Tvilsomt trekk spilt, vil du ta tilbake?}
 translate O WeakMovePlayedTakeBack {Svak trekk spilt, vil du ta tilbake?}
 translate O BadMovePlayedTakeBack {Dårlig trekk spilt, vil du ta tilbake?}
 translate O Iresign {Jeg sier opp}
+translate O ResultSaved {Resultatet er lagret}
 translate O yourmoveisnotgood {trekket ditt er ikke bra}
 translate O EndOfVar {Slutt på variasjon}
 translate O Openingtrainer {Åpningstrener}

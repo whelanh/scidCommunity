@@ -1567,6 +1567,7 @@ translate A DubiousMovePlayedTakeBack {疑わしい手が出ました。取り�
 translate A WeakMovePlayedTakeBack {弱い手が出ました。取り返しますか?}
 translate A BadMovePlayedTakeBack {悪い手が出ました。取り返しますか?}
 translate A Iresign {辞任します}
+translate A ResultSaved {結果が保存されました}
 translate A yourmoveisnotgood {あなたの動きは良くありません}
 translate A EndOfVar {バリエーションの終了}
 translate A Openingtrainer {オープニングトレーナー}

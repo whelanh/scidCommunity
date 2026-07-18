@@ -1548,6 +1548,7 @@ translate C DubiousMovePlayedTakeBack {Byl zahrn pochybn tah, chcete ho vrtit?}
 translate C WeakMovePlayedTakeBack {Byl zahrn slab tah, chcete ho vrtit?}
 translate C BadMovePlayedTakeBack {Byl zahrn patn tah, chcete ho vrtit?}
 translate C Iresign {Vzdvm}
+translate C ResultSaved {Výsledek uložen}
 translate C yourmoveisnotgood {v tah nen dobr}
 translate C EndOfVar {Konec varianty}
 translate C Openingtrainer {Trenr zahjen}

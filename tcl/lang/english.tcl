@@ -1580,6 +1580,7 @@ translate E DubiousMovePlayedTakeBack {Dubious move played, do you want to take 
 translate E WeakMovePlayedTakeBack {Weak move played, do you want to take back ?}
 translate E BadMovePlayedTakeBack {Bad move played, do you want to take back ?}
 translate E Iresign {I resign}
+translate E ResultSaved {Result saved}
 translate E yourmoveisnotgood {your move is not good}
 translate E EndOfVar {End of variation}
 translate E Openingtrainer {Opening trainer}

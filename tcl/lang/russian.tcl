@@ -1550,6 +1550,7 @@ translate R DubiousMovePlayedTakeBack {Сделан сомнительный х�
 translate R WeakMovePlayedTakeBack {Сделан слабый ход, вы хотите его отменить?}
 translate R BadMovePlayedTakeBack {Сыгран плохой ход, вы хотите его отменить?}
 translate R Iresign {Я сдаюсь}
+translate R ResultSaved {Результат сохранен}
 translate R yourmoveisnotgood {ваш ход не хороший}
 translate R EndOfVar {Конец вариантов}
 translate R Openingtrainer {Тренер дебюта}

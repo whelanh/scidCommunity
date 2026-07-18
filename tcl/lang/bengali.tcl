@@ -1526,6 +1526,7 @@ translate b DubiousMovePlayedTakeBack {সন্দেহজনক পদক্�
 translate b WeakMovePlayedTakeBack {দুর্বল পদক্ষেপ খেলেছে, আপনি কি ফিরিয়ে নিতে চান?}
 translate b BadMovePlayedTakeBack {খারাপ চাল খেলেছে, ফিরিয়ে নিতে চান?}
 translate b Iresign {আমি পদত্যাগ করি}
+translate b ResultSaved {ফলাফল সংরক্ষিত}
 translate b yourmoveisnotgood {তোমার চাল ভালো না}
 translate b EndOfVar {বৈচিত্র্যের সমাপ্তি}
 translate b Openingtrainer {উদ্বোধনী প্রশিক্ষক}

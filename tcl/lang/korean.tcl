@@ -1567,6 +1567,7 @@ translate k DubiousMovePlayedTakeBack {의심스러운 움직임이 실행되었
 translate k WeakMovePlayedTakeBack {당신을 사용할 수 있었습니다. 뒤돌리시?}
 translate k BadMovePlayedTakeBack {승인되지 않은 사용이 가능했습니다. 취소하시겠습니까?}
 translate k Iresign {나는 사임한다}
+translate k ResultSaved {결과가 저장되었습니다}
 translate k yourmoveisnotgood {네 말이 맞지 않아}
 translate k EndOfVar {변형 끝}
 translate k Openingtrainer {부활 트레이너}

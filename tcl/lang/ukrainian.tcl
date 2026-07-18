@@ -1527,6 +1527,7 @@ translate Q DubiousMovePlayedTakeBack {Зіграно сумнівний хід,
 translate Q WeakMovePlayedTakeBack {Зіграно слабкий хід, хочеш повернути?}
 translate Q BadMovePlayedTakeBack {Зіграно невдалий хід, хочеш повернути?}
 translate Q Iresign {Я звільняюся}
+translate Q ResultSaved {Результат збережено}
 translate Q yourmoveisnotgood {твій крок поганий}
 translate Q EndOfVar {Кінець варіації}
 translate Q Openingtrainer {Тренажер відкриття}

@@ -1554,6 +1554,7 @@ translate F DubiousMovePlayedTakeBack {Coup douteux joué, voulez-vous reprendre
 translate F WeakMovePlayedTakeBack {Coup faible joué, voulez-vous reprendre le coup ?}
 translate F BadMovePlayedTakeBack {Mauvais coup joué, voulez-vous reprendre le coup ?}
 translate F Iresign {J'abandonne}
+translate F ResultSaved {Résultat enregistré}
 translate F yourmoveisnotgood {Votre coup n'est pas bon}
 translate F EndOfVar {Fin de variante}
 translate F Openingtrainer {Entraînement aux ouvertures}

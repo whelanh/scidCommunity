@@ -1579,6 +1579,7 @@ translate U DubiousMovePlayedTakeBack {Epäilyttävä siirto, haluatko peruuttaa
 translate U WeakMovePlayedTakeBack {Heikko siirto, haluatko peruuttaa sen?}
 translate U BadMovePlayedTakeBack {Huono siirto, haluatko peruuttaa sen?}
 translate U Iresign {Luovutan}
+translate U ResultSaved {Tulos tallennettu}
 translate U yourmoveisnotgood {siirtosi ei ole hyvä}
 translate U EndOfVar {Muunnelman loppu}
 translate U Openingtrainer {Avausvalmentaja}
