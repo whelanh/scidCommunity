@@ -1575,6 +1575,7 @@ translate G DubiousMovePlayedTakeBack {Η κίνηση που παίχτηκε �
 translate G WeakMovePlayedTakeBack {Η κίνηση που παίχτηκε είναι αδύναμη, θέλετε να την αναιρέσετε;}
 translate G BadMovePlayedTakeBack {Η κίνηση που παίχτηκε είναι κακή, θέλετε να την αναιρέσετε;}
 translate G Iresign {Παραιτούμαι}
+translate G ResultSaved {Το αποτέλεσμα αποθηκεύτηκε}
 translate G yourmoveisnotgood {η κίνησή σας δεν είναι καλή}
 translate G EndOfVar {Τέλος βαριάντας}
 translate G Openingtrainer {Προπόνηση ανοιγμάτων}

@@ -1567,6 +1567,7 @@ translate g DubiousMovePlayedTakeBack {Изигран съмнителен хо�
 translate g WeakMovePlayedTakeBack {Изигран слаб ход, искаш ли да върнеш?}
 translate g BadMovePlayedTakeBack {Изигран лош ход, искаш ли да вземеш обратно?}
 translate g Iresign {подавам оставка}
+translate g ResultSaved {Резултатът е запазен}
 translate g yourmoveisnotgood {ходът ти не е добър}
 translate g EndOfVar {Край на варианта}
 translate g Openingtrainer {Откриващ треньор}

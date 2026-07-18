@@ -1601,6 +1601,7 @@ translate S DubiousMovePlayedTakeBack {Movimiento dudoso, ¿quieres rectificar?}
 translate S WeakMovePlayedTakeBack {Movimiento flojo, ¿quieres rectificar ?}
 translate S BadMovePlayedTakeBack {Movimiento malo, ¿quieres rectificar ?}
 translate S Iresign {Yo abandono}
+translate S ResultSaved {Resultado guardado}
 translate S yourmoveisnotgood {tu movimiento no es bueno}
 translate S EndOfVar {Fin de la variante}
 translate S Openingtrainer {Entrenador de aperturas}

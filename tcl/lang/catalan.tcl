@@ -1570,6 +1570,7 @@ translate K DubiousMovePlayedTakeBack {Jugada dubtosa, vols rectificar?}
 translate K WeakMovePlayedTakeBack {Jugada fluixa, vols rectificar?}
 translate K BadMovePlayedTakeBack {Jugada dolenta, vols rectificar?}
 translate K Iresign {Abandono}
+translate K ResultSaved {Resultat guardat}
 translate K yourmoveisnotgood {la teva jugada es dolenta}
 translate K EndOfVar {Fi de la variant}
 translate K Openingtrainer {Entrenador d'obertures}

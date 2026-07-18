@@ -1526,6 +1526,7 @@ translate h DubiousMovePlayedTakeBack {खेला गया संदिग्
 translate h WeakMovePlayedTakeBack {कमजोर चाल चली, क्या आप वापस लेना चाहेंगे?}
 translate h BadMovePlayedTakeBack {खराब चाल चली, क्या आप वापस लेना चाहेंगे?}
 translate h Iresign {मैंने इस्तीफा दिया}
+translate h ResultSaved {परिणाम सहेजा गया}
 translate h yourmoveisnotgood {आपका कदम अच्छा नहीं है}
 translate h EndOfVar {भिन्नता का अंत}
 translate h Openingtrainer {उद्घाटन प्रशिक्षक}

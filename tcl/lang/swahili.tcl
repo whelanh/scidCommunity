@@ -1526,6 +1526,7 @@ translate Z DubiousMovePlayedTakeBack {Hoja mbaya imechezwa, ungependa kuchukua 
 translate Z WeakMovePlayedTakeBack {Hoja dhaifu imechezwa, ungependa kuchukua tena?}
 translate Z BadMovePlayedTakeBack {Hoja mbaya imechezwa, ungependa kuchukua tena?}
 translate Z Iresign {najiuzulu}
+translate Z ResultSaved {Matokeo yamehifadhiwa}
 translate Z yourmoveisnotgood {hoja yako si nzuri}
 translate Z EndOfVar {Mwisho wa tofauti}
 translate Z Openingtrainer {Mkufunzi wa ufunguzi}

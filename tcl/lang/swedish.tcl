@@ -1554,6 +1554,7 @@ translate W DubiousMovePlayedTakeBack {Ett tveksamt drag spelades, vill du ta ti
 translate W WeakMovePlayedTakeBack {Ett svagt drag spelades, vill du ta tillbaka det ?}
 translate W BadMovePlayedTakeBack {Ett dåligt drag spelades, vill du ta tillbaka det ?}
 translate W Iresign {Jag ger upp}
+translate W ResultSaved {Resultatet har sparats}
 translate W yourmoveisnotgood {ditt drag är inte bra}
 translate W EndOfVar {Slut på variation}
 translate W Openingtrainer {Öppningstränare}

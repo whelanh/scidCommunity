@@ -2554,6 +2554,8 @@ translate Y BadMovePlayedTakeBack {Bad move played, do you want to take back ?}
 # ====== TODO To be translated ======
 translate Y Iresign {I resign}
 # ====== TODO To be translated ======
+translate Y ResultSaved {Result saved}
+# ====== TODO To be translated ======
 translate Y yourmoveisnotgood {your move is not good}
 # ====== TODO To be translated ======
 translate Y EndOfVar {End of variation}

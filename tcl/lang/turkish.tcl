@@ -1530,6 +1530,7 @@ translate T DubiousMovePlayedTakeBack {Şüpheli bir hamle yapıldı, geri almak
 translate T WeakMovePlayedTakeBack {Zayıf hamle oynandı, geri almak ister misin?}
 translate T BadMovePlayedTakeBack {Kötü hamle oynandı, geri almak ister misin?}
 translate T Iresign {istifa ediyorum}
+translate T ResultSaved {Sonuç kaydedildi}
 translate T yourmoveisnotgood {hareketin iyi değil}
 translate T EndOfVar {Varyasyonun sonu}
 translate T Openingtrainer {Açılış eğitmeni}

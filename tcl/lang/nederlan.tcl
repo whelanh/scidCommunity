@@ -1573,6 +1573,7 @@ translate N DubiousMovePlayedTakeBack {Twijfelachtige zet gespeeld. Wil je terug
 translate N WeakMovePlayedTakeBack {Zwakke zet gespeeld, wil je terugnemen ?}
 translate N BadMovePlayedTakeBack {Slechte zet gespeeld, wil je terugnemen ?}
 translate N Iresign {Ik geef op}
+translate N ResultSaved {Resultaat opgeslagen}
 translate N yourmoveisnotgood {Je zet is niet goed}
 translate N EndOfVar {Eind van variant}
 translate N Openingtrainer {Opening trainer}

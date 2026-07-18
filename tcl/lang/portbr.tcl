@@ -1556,6 +1556,7 @@ translate B DubiousMovePlayedTakeBack {Movimento duvidoso, quer voltar ?}
 translate B WeakMovePlayedTakeBack {Movimento fraco, quer voltar ?}
 translate B BadMovePlayedTakeBack {Movimento ruim, quer voltar ?}
 translate B Iresign {Eu desisto}
+translate B ResultSaved {Resultado salvo}
 translate B yourmoveisnotgood {seu movimento não é bom}
 translate B EndOfVar {Fim da variante}
 translate B Openingtrainer {Treinador de aberturas}

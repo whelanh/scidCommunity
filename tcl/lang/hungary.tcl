@@ -1549,6 +1549,7 @@ translate H DubiousMovePlayedTakeBack {Kétes lépés, visszaveszed?}
 translate H WeakMovePlayedTakeBack {Gyenge lépés, visszaveszed?}
 translate H BadMovePlayedTakeBack {Rossz lépés, visszaveszed?}
 translate H Iresign {Feladom.}
+translate H ResultSaved {Eredmény mentve}
 translate H yourmoveisnotgood {Ez nem jó lépés.}
 translate H EndOfVar {A változatnak vége.}
 translate H Openingtrainer {Megnyitásgyakorlás}

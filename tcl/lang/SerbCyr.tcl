@@ -1567,6 +1567,7 @@ translate J DubiousMovePlayedTakeBack {Одигран је сумњив поте
 translate J WeakMovePlayedTakeBack {Слаб потез је одигран, да ли желите да вратите?}
 translate J BadMovePlayedTakeBack {Лош потез одигран, да ли желите да вратите?}
 translate J Iresign {дајем оставку}
+translate J ResultSaved {Резултат је сачуван}
 translate J yourmoveisnotgood {ваш потез није добар}
 translate J EndOfVar {Крај варијације}
 translate J Openingtrainer {Отварање тренера}

@@ -1502,6 +1502,7 @@ translate M DubiousMovePlayedTakeBack {可疑的举动，你想收回吗？}
 translate M WeakMovePlayedTakeBack {下棋较弱，要收回吗？}
 translate M BadMovePlayedTakeBack {下棋不好，要收回吗？}
 translate M Iresign {我辞职}
+translate M ResultSaved {结果已保存}
 translate M yourmoveisnotgood {你的举动不好}
 translate M EndOfVar {变异结束}
 translate M Openingtrainer {开场教练}
