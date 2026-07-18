@@ -1034,17 +1034,21 @@ namespace eval sergame {
         ::sergame::threshold ::sergame::lastblundervalue ::sergame::scoreLabel \
         ::sergame::blunderpending ::sergame::coachNag
 
+    if { ![winfo exists .coachWin] } { return }
+    if { $::sergame::engineColor == "" } { return }
+
     # only update when it is human turn
     if { $::sergame::engineColor == [sc_pos side] } { return }
 
-    set sc1 $::uci::uciInfo(score2)
+    set sc1 ""
+    if {[info exists ::uci::uciInfo(score2)]} { set sc1 $::uci::uciInfo(score2) }
     set sc2 [lindex $lscore end]
 
     # Not enough scores yet
-    if {[llength $lscore] < 1 || $sc2 eq ""} {
+    if { $sc1 eq "" || [llength $lscore] < 1 || $sc2 eq "" } {
       set blunderWarningLabel $::tr(Noinfo)
       set scoreLabel ""
-      if {[llength $lscore] >= 1 && $showevaluation } {
+      if { $showevaluation && $sc1 ne "" } {
         set scoreLabel "Score : $sc1"
       }
       return
