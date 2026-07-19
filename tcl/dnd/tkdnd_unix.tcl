@@ -293,7 +293,7 @@ proc xdnd::_HandleXdndDrop { time } {
   if {![llength $_common_drag_source_types]} {return refuse_drop}
 
   if {$_fetch_action_list} {
-    set actions [_fetch_action_list $drag_source]
+    set actions [_fetch_action_list $_drag_source]
     if {[llength $actions]} { set _actionlist $actions }
     set _fetch_action_list 0
   }
