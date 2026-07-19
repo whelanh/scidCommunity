@@ -461,8 +461,6 @@ proc ::board::new {w {psize 40} } {
   set ::board::_evalbarWidth($w) 0
   set ::board::_evalbarScale($w) 1
   set ::board::_poffset($w) 0
-  set ::board::_xoffset($w) 0
-  set ::board::_yoffset($w) 0
 
   set border $::board::_border($w)
   set bsize [expr {$psize * 8 + $border * 9} ]
@@ -917,22 +915,16 @@ proc ::board::resizeAuto {w bbox} {
 #
 # ::board::calcSize
 #   Computes board canvas size and square positions for the given piece size.
-#   Sets _poffset (piece height overflow above square), _yoffset (extra canvas
-#   headroom at top so tall pieces on rank 8 are not clipped), and _xoffset
-#   (extra canvas width for outer coordinates).
+#   Sets _poffset (piece height overflow above square) and applies it as extra
+#   headroom at the top of the canvas so tall pieces on rank 8 aren't clipped.
 #   Returns the canvas width.
 #
 proc ::board::calcSize {w psize} {
     set border $::board::_border($w)
-    # _poffset: how many pixels taller the piece image is than the square
     set ::board::_poffset($w) [expr { ([image height $::board::letterToPiece(K)$psize] - $psize) }]
-    set ::board::_xoffset($w) 0
-    set ::board::_yoffset($w) 0
-    # Extra vertical headroom needed so rank-8 pieces aren't clipped
-    set ::board::_yoffset($w) $::board::_poffset($w)
 
     set bsize [expr {$psize * 8 + $border * 9}]
-    set hsize [expr {$psize * 8 + $border * 9 + $::board::_yoffset($w)}]
+    set hsize [expr {$psize * 8 + $border * 9 + $::board::_poffset($w)}]
 
     $w.bd configure -width $bsize -height $hsize
     set ::board::_size($w) $psize
@@ -942,7 +934,7 @@ proc ::board::calcSize {w psize} {
         set xi [expr {$i % 8}]
         set yi [expr {int($i/8)}]
         set x1 [expr {$xi * ($psize + $border) + $border}]
-        set y1 [expr {(7 - $yi) * ($psize + $border) + $border + $::board::_yoffset($w)}]
+        set y1 [expr {(7 - $yi) * ($psize + $border) + $border + $::board::_poffset($w)}]
         set x2 [expr {$x1 + $psize}]
         set y2 [expr {$y1 + $psize}]
         set pos $i
@@ -2241,7 +2233,8 @@ proc ::board::animate {w oldboard newboard} {
           [string tolower [string index $newboard $rto]] == "r"} {
           # A castling move animation.
           # Move the rook back to initial square until animation is complete:
-          eval $w.bd coords p$rto [::board::midSquare $w $rfrom]
+          lassign [::board::midSquare $w $rfrom] rx ry
+          $w.bd coords p$rto $rx [expr {$ry - int($::board::_poffset($w)/2)}]
           set from $kfrom
           set to $kto
           set from2 $rfrom
@@ -2250,7 +2243,8 @@ proc ::board::animate {w oldboard newboard} {
           [string tolower [string index $newboard $rfrom]] == "r"  &&
           [string tolower [string index $oldboard $kto]] == "k"  &&
           [string tolower [string index $oldboard $rto]] == "r"} {
-          eval $w.bd coords p$rfrom [::board::midSquare $w $rto]
+          lassign [::board::midSquare $w $rto] rx ry
+          $w.bd coords p$rfrom $rx [expr {$ry - int($::board::_poffset($w)/2)}]
           set from $kto
           set to $kfrom
           set from2 $rto
@@ -2340,7 +2334,8 @@ proc ::board::animate {w oldboard newboard} {
   }
 
   # Move the animated piece back to its starting point:
-  eval $w.bd coords p$to [::board::midSquare $w $from]
+  lassign [::board::midSquare $w $from] sx sy
+  $w.bd coords p$to $sx [expr {$sy - int($::board::_poffset($w)/2)}]
   $w.bd raise p$to
 
   # Start the animation:
@@ -2367,7 +2362,7 @@ proc ::board::_animate {w} {
   set toX [lindex $toMid 0]
   set toY [lindex $toMid 1]
   set x [expr {$fromX + round(($toX - $fromX) * $ratio)} ]
-  set y [expr {$fromY + round(($toY - $fromY) * $ratio)} ]
+  set y [expr {$fromY + round(($toY - $fromY) * $ratio) - int($::board::_poffset($w)/2)} ]
   $w.bd coords p$to $x $y
   $w.bd raise p$to
   if {$from2 >= 0} {
@@ -2379,7 +2374,7 @@ proc ::board::_animate {w} {
       set toX [lindex $toMid 0]
       set toY [lindex $toMid 1]
       set x [expr {$fromX + round(($toX - $fromX) * $ratio)} ]
-      set y [expr {$fromY + round(($toY - $fromY) * $ratio)} ]
+      set y [expr {$fromY + round(($toY - $fromY) * $ratio) - int($::board::_poffset($w)/2)} ]
       $w.bd coords p$to2 $x $y
       $w.bd raise p$to2
   }
