@@ -68,19 +68,29 @@ proc SetBoardTextures {} {
 #   available board sizes to that font.
 #
 proc setPieceFont {font} {
+	if {[info exists ::boardSizes]} {
+		foreach size $::boardSizes {
+			catch { image delete e$size }
+			foreach p {wp wn wb wr wq wk bp bn bb br bq bk} {
+				catch { image delete $p$size }
+			}
+		}
+	}
 	set ::boardSizes {}
 	set dname [file join $::scidImgDir pieces $font]
-	set fnames [glob -nocomplain -directory $dname *.png]
-	append fnames " " [glob -nocomplain -directory $dname *.gif]
+	set fnames [glob -nocomplain -directory $dname *.png *.gif]
 	foreach {fname} $fnames {
 		if {! [catch {image create photo tmpPieces -file "$fname"}]} {
-			set size [image height tmpPieces]
+			set hsize [image height tmpPieces]
+			set size [expr {[image width tmpPieces] / 12}]
 			if {[lsearch -exact $::boardSizes $size] == -1} {
-				image create photo e$size -height $size -width $size
+				catch { image delete e$size }
+				image create photo e$size -height $hsize -width $size
 				set x 0
 				foreach p {wp wn wb wr wq wk bp bn bb br bq bk} {
-					image create photo $p$size -width $size -height $size
-					$p$size copy tmpPieces -from $x 0 [expr {$x + $size}] $size
+					catch { image delete $p$size }
+					image create photo $p$size -width $size -height $hsize
+					$p$size copy tmpPieces -from $x 0 [expr {$x + $size}] $hsize
 					incr x $size
 				}
 				lappend ::boardSizes $size
@@ -206,7 +216,7 @@ proc chooseBoardColors { w {choice -1}} {
   ttk::frame $bd.p
   ttk::label $bd.p.lb -text [tr OptionsBoardPieces]
   ttk::combobox $bd.p.pieces -width 12 -textvar ::boardStyle -values $::boardStyles
-  bind $bd.p.pieces <<ComboboxSelected>> { setPieceFont $::boardStyle; updateBoard }
+  bind $bd.p.pieces <<ComboboxSelected>> { setPieceFont $::boardStyle; ::board::resize .main.board $::boardSize; ::resizeMainBoard; updateBoard }
   ttk::frame $bd.s
   ttk::label $bd.s.lb -text [tr OptionsBoardSize]
   ttk::checkbutton $bd.s.auto -text "Auto" -variable ::autoResizeBoard -command "::resizeMainBoard"
@@ -450,6 +460,9 @@ proc ::board::new {w {psize 40} } {
   set ::board::_evalbarHeight($w) 0
   set ::board::_evalbarWidth($w) 0
   set ::board::_evalbarScale($w) 1
+  set ::board::_poffset($w) 0
+  set ::board::_xoffset($w) 0
+  set ::board::_yoffset($w) 0
 
   set border $::board::_border($w)
   set bsize [expr {$psize * 8 + $border * 9} ]
@@ -474,6 +487,8 @@ proc ::board::new {w {psize 40} } {
 
     $bd create rectangle $x1 $y1 $x2 $y2 -tag sq$i -outline ""
   }
+
+  ::board::calcSize $w $psize
 
   # Set up coordinate labels:
   for {set i 1} {$i <= 8} {incr i} {
@@ -900,11 +915,47 @@ proc ::board::resizeAuto {w bbox} {
 #   If the size argument is "redraw", the board is redrawn.
 #   Returns the new size of the board.
 #
+# ::board::calcSize
+#   Computes board canvas size and square positions for the given piece size.
+#   Sets _poffset (piece height overflow above square), _yoffset (extra canvas
+#   headroom at top so tall pieces on rank 8 are not clipped), and _xoffset
+#   (extra canvas width for outer coordinates).
+#   Returns the canvas width.
+#
+proc ::board::calcSize {w psize} {
+    set border $::board::_border($w)
+    # _poffset: how many pixels taller the piece image is than the square
+    set ::board::_poffset($w) [expr { ([image height $::board::letterToPiece(K)$psize] - $psize) }]
+    set ::board::_xoffset($w) 0
+    set ::board::_yoffset($w) 0
+    # Extra vertical headroom needed so rank-8 pieces aren't clipped
+    set ::board::_yoffset($w) $::board::_poffset($w)
+
+    set bsize [expr {$psize * 8 + $border * 9}]
+    set hsize [expr {$psize * 8 + $border * 9 + $::board::_yoffset($w)}]
+
+    $w.bd configure -width $bsize -height $hsize
+    set ::board::_size($w) $psize
+
+    # Resize each square:
+    for {set i 0} {$i < 64} {incr i} {
+        set xi [expr {$i % 8}]
+        set yi [expr {int($i/8)}]
+        set x1 [expr {$xi * ($psize + $border) + $border}]
+        set y1 [expr {(7 - $yi) * ($psize + $border) + $border + $::board::_yoffset($w)}]
+        set x2 [expr {$x1 + $psize}]
+        set y2 [expr {$y1 + $psize}]
+        set pos $i
+        if {$::board::_flip($w)} { set pos [expr {63 - $i}] }
+        $w.bd coords sq$pos $x1 $y1 $x2 $y2
+    }
+    return $bsize
+}
+
 proc ::board::resize {w psize} {
   global boardSizes
 
   set oldsize $::board::_size($w)
-  if {$psize == $oldsize} { return $oldsize }
   if {$psize == "redraw"} { set psize $oldsize }
   if {$psize == "-1"} {
     set index [lsearch -exact $boardSizes $oldsize]
@@ -921,25 +972,7 @@ proc ::board::resize {w psize} {
   # Verify that we have a valid size:
   if {[lsearch -exact $boardSizes $psize] < 0} { return $oldsize }
 
-  set border $::board::_border($w)
-  set bsize [expr {$psize * 8 + $border * 9} ]
-
-  $w.bd configure -width $bsize -height $bsize
-  set ::board::_size($w) $psize
-
-  # Resize each square:
-  for {set i 0} {$i < 64} {incr i} {
-    set xi [expr {$i % 8}]
-    set yi [expr {int($i/8)}]
-    set x1 [expr {$xi * ($psize + $border) + $border }]
-    set y1 [expr {(7 - $yi) * ($psize + $border) + $border }]
-    set x2 [expr {$x1 + $psize }]
-    set y2 [expr {$y1 + $psize }]
-    set pos $i
-    if {$::board::_flip($w)} { set pos [expr {63 - $i}] }
-    $w.bd coords sq$pos $x1 $y1 $x2 $y2
-  }
-
+  ::board::calcSize $w $psize
 
   ::board::coords $w $::board::_coords($w)
   ::board::update $w
@@ -1661,7 +1694,7 @@ proc ::board::drawPiece {w sq piece {tag_name ""}} {
   }
   $w.bd delete $tag_name
   lassign [::board::midSquare $w $sq] xc yc
-  $w.bd create image $xc $yc -tag $tag_name \
+  $w.bd create image $xc [expr {$yc - int($::board::_poffset($w)/2)}] -tag $tag_name \
     -image $::board::letterToPiece($piece)$::board::_size($w)
 }
 
@@ -1778,9 +1811,18 @@ proc ::board::update {w {board ""} {animate 0}} {
   $w.bd delete mark
 
   $w.bd delete tmp_animate
-
-  # Draw each square:
-  for {set sq 0} { $sq < 64 } { incr sq } {
+  if { [::board::isFlipped $w] } {
+      set from 0
+      set to 64
+      set delta 1
+  } else {
+      set from 63
+      set to -1
+      set delta -1
+  }
+  # Draw each square from top rank to bottom rank so that tall pieces
+  # on lower ranks are drawn last and appear on top of the row above:
+  for {set sq $from} { $sq ne $to } { incr sq $delta } {
     set piece [string index $board $sq]
     # Compute the XY coordinates for the centre of the square:
     set midpoint [::board::midSquare $w $sq]
@@ -1797,7 +1839,7 @@ proc ::board::update {w {board ""} {animate 0}} {
 
     # Delete any old image for this square, and add the new one:
     $w.bd delete p$sq
-    $w.bd create image $xc $yc -image $::board::letterToPiece($piece)$psize -tag p$sq
+    $w.bd create image $xc [expr {$yc - int($::board::_poffset($w)/2)}] -image $::board::letterToPiece($piece)$psize -tag p$sq
   }
   if {$::board::_coords($w) >= 3 } {
       $w.bd raise innercoords
