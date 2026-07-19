@@ -549,6 +549,14 @@ translate N ErrSearchInterrupted {Zoeken werd onderbroken; de resultaten zijn on
 translate N ErrNoClockComments {Er zijn geen [%clk] klokcommentaren gevonden in dit spel.    Voeg kloktijden toe via het opmerkingenvenster (Ctrl+E) om deze functie te gebruiken.}
 translate N ErrFileInUse {Fout: het bestand is al in gebruik. Sluit alle andere toepassingen die deze database gebruiken. Als het programma onverwacht werd afgesloten, moet u mogelijk het .lock-bestand verwijderen dat aan de database is gekoppeld.}
 
+# Drag and drop
+translate N DndCannotOpenUri {Kan URI niet openen}
+translate N DndInvalidUri {Ongeldige URI}
+translate N DndUriRejected {URI afgewezen}
+translate N DndUriRejectedDetail {Scid-databases (.si5, .si4, .si3) of PGN/EPD-bestanden.}
+translate N DndEmptyUriList {Geen bestanden gevonden in verwijderde URI-lijst}
+translate N DndOwnerDidntRespond {Neerzetten mislukt: selectie-eigenaar heeft niet gereageerd}
+
 
 
 

@@ -785,6 +785,18 @@ translate Y ErrNoClockComments {No [%clk] clock comments were found in this game
 # ====== TODO To be translated ======
 translate Y ErrFileInUse {Error: the file is already in use. Please close any other application using this database. If the program was closed unexpectedly, you may need to delete the .lock file associated with the database.}
 # ====== TODO To be translated ======
+translate Y DndCannotOpenUri {Cannot open URI}
+# ====== TODO To be translated ======
+translate Y DndInvalidUri {Invalid URI}
+# ====== TODO To be translated ======
+translate Y DndUriRejected {URI rejected}
+# ====== TODO To be translated ======
+translate Y DndUriRejectedDetail {Scid databases (.si5, .si4, .si3), or PGN/EPD files.}
+# ====== TODO To be translated ======
+translate Y DndEmptyUriList {No files found in dropped URI list}
+# ====== TODO To be translated ======
+translate Y DndOwnerDidntRespond {Drop failed: selection owner didn't respond}
+# ====== TODO To be translated ======
 translate Y twin {twin}
 # ====== TODO To be translated ======
 translate Y deleted {deleted}

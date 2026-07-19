@@ -462,6 +462,14 @@ translate P ErrSearchInterrupted {Wyszukiwanie przerwano; wyniki są niepełne.}
 translate P ErrNoClockComments {W tej partii nie znaleziono komentarzy zegara [%clk]. Aby użyć tej funkcji, dodaj czasy zegara w oknie komentarzy (Ctrl+E).}
 translate P ErrFileInUse {Błąd: plik jest już używany. Zamknij inne aplikacje korzystające z tej bazy. Jeśli program został nieoczekiwanie zamknięty, może być konieczne usunięcie pliku .lock powiązanego z bazą.}
 
+# Drag and drop
+translate P DndCannotOpenUri {Nie można otworzyć identyfikatora URI}
+translate P DndInvalidUri {Nieprawidłowy identyfikator URI}
+translate P DndUriRejected {URI odrzucony}
+translate P DndUriRejectedDetail {Bazy danych Scid (.si5, .si4, .si3) lub pliki PGN/EPD.}
+translate P DndEmptyUriList {Nie znaleziono plików na usuniętej liście URI}
+translate P DndOwnerDidntRespond {Upuszczenie nie powiodło się: właściciel wyboru nie odpowiedział}
+
 
 
 

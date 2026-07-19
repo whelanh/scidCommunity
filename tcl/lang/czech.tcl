@@ -524,6 +524,14 @@ translate C ErrSearchInterrupted {Hledn bylo perueno; vsledky nejsou kompletn.}
 translate C ErrNoClockComments {V tto he nebyly nalezeny dn komente hodin [%clk].    Chcete-li pout tuto funkci, pidejte hodiny prostednictvm okna Komente (Ctrl+E).}
 translate C ErrFileInUse {Chyba: soubor se ji pouv. Zavete vechny ostatn aplikace pouvajc tuto databzi. Pokud byl program neoekvan ukonen, me bt nutn odstranit soubor .lock spojen s databz.}
 
+# Drag and drop
+translate C DndCannotOpenUri {Nelze otevřít URI}
+translate C DndInvalidUri {Neplatný identifikátor URI}
+translate C DndUriRejected {URI zamítnuto}
+translate C DndUriRejectedDetail {Databáze Scid (.si5, .si4, .si3) nebo soubory PGN/EPD.}
+translate C DndEmptyUriList {Ve vynechaném seznamu URI nebyly nalezeny žádné soubory}
+translate C DndOwnerDidntRespond {Přetažení se nezdařilo: vlastník výběru neodpověděl}
+
 
 
 

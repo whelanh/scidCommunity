@@ -552,6 +552,14 @@ translate G ErrSearchInterrupted {Η αναζήτηση διακόπηκε. Τα
 translate G ErrNoClockComments {Δεν βρέθηκαν [%clk] σχόλια ρολογιού σε αυτό το παιχνίδι.    Προσθέστε ώρες ρολογιού μέσω του παραθύρου σχολίων (Ctrl+E) για να χρησιμοποιήσετε αυτήν τη δυνατότητα.}
 translate G ErrFileInUse {Σφάλμα: το αρχείο χρησιμοποιείται ήδη. Κλείστε οποιαδήποτε άλλη εφαρμογή χρησιμοποιώντας αυτήν τη βάση δεδομένων. Εάν το πρόγραμμα έκλεισε απροσδόκητα, ίσως χρειαστεί να διαγράψετε το αρχείο .lock που σχετίζεται με τη βάση δεδομένων.}
 
+# Drag and drop
+translate G DndCannotOpenUri {Δεν είναι δυνατό το άνοιγμα του URI}
+translate G DndInvalidUri {Μη έγκυρο URI}
+translate G DndUriRejected {Το URI απορρίφθηκε}
+translate G DndUriRejectedDetail {Βάσεις δεδομένων Scid (.si5, .si4, .si3) ή αρχεία PGN/EPD.}
+translate G DndEmptyUriList {Δεν βρέθηκαν αρχεία στη λίστα URI που απορρίφθηκε}
+translate G DndOwnerDidntRespond {Η απόθεση απέτυχε: ο κάτοχος της επιλογής δεν απάντησε}
+
 
 
 

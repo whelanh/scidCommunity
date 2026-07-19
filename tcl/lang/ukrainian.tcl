@@ -521,6 +521,14 @@ translate Q ErrSearchInterrupted {Пошук було перервано; рез
 translate Q ErrNoClockComments {У цій грі не знайдено коментарів щодо годинника [%clk].  Щоб скористатися цією функцією, додайте час за допомогою вікна коментарів (Ctrl+E).}
 translate Q ErrFileInUse {Помилка: файл уже використовується. Будь ласка, закрийте будь-які інші програми, які використовують цю базу даних. Якщо програму було несподівано закрито, можливо, вам доведеться видалити файл .lock, пов’язаний із базою даних.}
 
+# Drag and drop
+translate Q DndCannotOpenUri {Неможливо відкрити URI}
+translate Q DndInvalidUri {Недійсний URI}
+translate Q DndUriRejected {URI відхилено}
+translate Q DndUriRejectedDetail {Бази даних Scid (.si5, .si4, .si3) або файли PGN/EPD.}
+translate Q DndEmptyUriList {У видаленому списку URI не знайдено файлів}
+translate Q DndOwnerDidntRespond {Викинути не вдалося: власник вибору не відповів}
+
 
 
 

@@ -561,6 +561,14 @@ translate J ErrSearchInterrupted {Претрага је прекинута; ре
 translate J ErrNoClockComments {У овој игри нису пронађени [%цлк] коментари на сат.\н\нДодајте време сата преко прозора за коментаре (Цтрл+Е) да бисте користили ову функцију.}
 translate J ErrFileInUse {Грешка: датотека је већ у употреби. Затворите било коју другу апликацију која користи ову базу података. Ако је програм неочекивано затворен, можда ћете морати да избришете .лоцк датотеку повезану са базом података.}
 
+# Drag and drop
+translate J DndCannotOpenUri {Није могуће отворити УРИ}
+translate J DndInvalidUri {Неважећи УРИ}
+translate J DndUriRejected {УРИ одбијен}
+translate J DndUriRejectedDetail {Сцид базе података (.си5, .си4, .си3) или ПГН/ЕПД датотеке.}
+translate J DndEmptyUriList {Није пронађена ниједна датотека на испуштеној УРИ листи}
+translate J DndOwnerDidntRespond {Отпуштање није успело: власник избора није одговорио}
+
 
 
 

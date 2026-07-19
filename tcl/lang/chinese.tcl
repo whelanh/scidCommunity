@@ -496,6 +496,14 @@ translate M ErrSearchInterrupted {Search was interrupted; results are incomplete
 translate M ErrNoClockComments {在此游戏中未找到 [%clk] 时钟注释。    通过注释窗口 (Ctrl+E) 添加时钟时间以使用此功能。}
 translate M ErrFileInUse {错误：该文件已被使用。请关闭使用此数据库的任何其他应用程序。如果程序意外关闭，您可能需要删除与数据库关联的 .lock 文件。}
 
+# Drag and drop
+translate M DndCannotOpenUri {无法打开 URI}
+translate M DndInvalidUri {无效的 URI}
+translate M DndUriRejected {URI 被拒绝}
+translate M DndUriRejectedDetail {Scid 数据库（.si5、.si4、.si3）或 PGN/EPD 文件。}
+translate M DndEmptyUriList {在删除的 URI 列表中找不到文件}
+translate M DndOwnerDidntRespond {删除失败：选择所有者没有响应}
+
 
 
 

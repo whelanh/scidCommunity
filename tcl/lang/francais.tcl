@@ -536,6 +536,14 @@ translate F ErrSearchInterrupted {La recherche a été interrompue; les résulta
 translate F ErrNoClockComments {Aucun commentaire d'horloge [%clk] n'a été trouvé dans ce jeu.    Ajoutez des heures d'horloge via la fenêtre de commentaires (Ctrl+E) pour utiliser cette fonctionnalité.}
 translate F ErrFileInUse {Erreur : le fichier est déjà utilisé. Veuillez fermer toute autre application utilisant cette base de données. Si le programme a été fermé de manière inattendue, vous devrez peut-être supprimer le fichier .lock associé à la base de données.}
 
+# Drag and drop
+translate F DndCannotOpenUri {Impossible d'ouvrir l'URI}
+translate F DndInvalidUri {URI invalide}
+translate F DndUriRejected {URI rejeté}
+translate F DndUriRejectedDetail {Bases de données Scid (.si5, .si4, .si3) ou fichiers PGN/EPD.}
+translate F DndEmptyUriList {Aucun fichier trouvé dans la liste des URI supprimés}
+translate F DndOwnerDidntRespond {Échec de l'abandon : le propriétaire de la sélection n'a pas répondu}
+
 
 
 

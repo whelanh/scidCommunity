@@ -543,6 +543,14 @@ translate K ErrSearchInterrupted {Recerca aturada; els resultats den ser incompl
 translate K ErrNoClockComments {No s'han trobat comentaris de rellotge [%clk] en aquest joc.    Afegiu hores de rellotge mitjançant la finestra de comentaris (Ctrl+E) per utilitzar aquesta funció.}
 translate K ErrFileInUse {Error: el fitxer ja està en ús. Tanqueu qualsevol altra aplicació que utilitzi aquesta base de dades. Si el programa es va tancar de manera inesperada, és possible que hàgiu d'eliminar el fitxer .lock associat a la base de dades.}
 
+# Drag and drop
+translate K DndCannotOpenUri {No es pot obrir l'URI}
+translate K DndInvalidUri {URI no vàlid}
+translate K DndUriRejected {URI rebutjat}
+translate K DndUriRejectedDetail {Bases de dades Scid (.si5, .si4, .si3) o fitxers PGN/EPD.}
+translate K DndEmptyUriList {No s'han trobat fitxers a la llista d'URI abandonada}
+translate K DndOwnerDidntRespond {S'ha produït un error: el propietari de la selecció no ha respost}
+
 
 
 

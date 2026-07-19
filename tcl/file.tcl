@@ -428,7 +428,7 @@ proc OpenUri {window uriFiles} {
 
   if {[llength $errorList]} {
     if {[string match file:* $uriFiles] && [llength $databaseList] == 0} {
-      set message "Cannot open URI"
+      set message [tr DndCannotOpenUri]
       if {[llength $errorList] > 10} {
         append message \n\n [join [lrange $errorList 0 9] \n]
         append message \n...
@@ -436,25 +436,25 @@ proc OpenUri {window uriFiles} {
         append message \n\n [join $errorList \n]
       }
     } else {
-      set message "Invalid URI"
+      set message [tr DndInvalidUri]
     }
     tk_messageBox -icon warning -type ok -parent . -message $message
   }
 
   if {[llength $rejectList]} {
-    set message "URI rejected"
+    set message [tr DndUriRejected]
     if {[llength $rejectList] > 10} {
       append message \n\n [join [lrange $rejectList 0 9] \n]
       append message \n...
     } else {
       append message \n\n [join $rejectList \n]
     }
-    set detail {Scid databases (.si5, .si4, .si3), or PGN/EPD files.}
+    set detail [tr DndUriRejectedDetail]
     tk_messageBox -icon info -type ok -parent . -message $message -detail $detail
   }
 
   if {[llength $databaseList] + [llength $rejectList] + [llength $errorList] == 0} {
-    set message "No files found in dropped URI list"
+    set message [tr DndEmptyUriList]
     tk_messageBox -icon info -type ok -parent . -message $message
   }
 }
@@ -466,7 +466,7 @@ proc bgerror {err} {
     after idle [list tk_messageBox \
       -icon error \
       -parent $parent \
-      -message "Drop failed: selection owner didn't respond" \
+      -message [tr DndOwnerDidntRespond] \
     ]
   } elseif {[string match {*selection doesn't exist*} $err]} {
   } else {

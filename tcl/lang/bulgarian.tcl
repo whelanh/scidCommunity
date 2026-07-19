@@ -561,6 +561,14 @@ translate g ErrSearchInterrupted {Търсенето беше прекъснат
 translate g ErrNoClockComments {В тази игра не бяха намерени [%clk] коментари за часовник.  Добавете времена на часовника чрез прозореца за коментари (Ctrl+E), за да използвате тази функция.}
 translate g ErrFileInUse {Грешка: файлът вече се използва. Моля, затворете всяко друго приложение, използващо тази база данни. Ако програмата е била затворена неочаквано, може да се наложи да изтриете файла .lock, свързан с базата данни.}
 
+# Drag and drop
+translate g DndCannotOpenUri {Не може да се отвори URI}
+translate g DndInvalidUri {Невалиден URI}
+translate g DndUriRejected {URI адресът е отхвърлен}
+translate g DndUriRejectedDetail {Scid бази данни (.si5, .si4, .si3) или PGN/EPD файлове.}
+translate g DndEmptyUriList {Няма намерени файлове в изпуснатия URI списък}
+translate g DndOwnerDidntRespond {Пускането не бе успешно: собственикът на селекцията не отговори}
+
 
 
 

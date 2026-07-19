@@ -559,6 +559,14 @@ translate U ErrSearchInterrupted {Haku keskeytyi; tulokset ovat vaillinaiset.}
 translate U ErrNoClockComments {Tästä pelistä ei löytynyt [%clk] kellon kommentteja.    Lisää kelloajat kommenttiikkunan kautta (Ctrl+E) käyttääksesi tätä ominaisuutta.}
 translate U ErrFileInUse {Virhe: tiedosto on jo käytössä. Sulje kaikki muut tätä tietokantaa käyttävät sovellukset. Jos ohjelma suljettiin odottamatta, saatat joutua poistamaan tietokantaan liittyvän .lock-tiedoston.}
 
+# Drag and drop
+translate U DndCannotOpenUri {URI-osoitetta ei voi avata}
+translate U DndInvalidUri {Virheellinen URI}
+translate U DndUriRejected {URI hylätty}
+translate U DndUriRejectedDetail {Scid-tietokannat (.si5, .si4, .si3) tai PGN/EPD-tiedostot.}
+translate U DndEmptyUriList {Pudotetusta URI-luettelosta ei löytynyt tiedostoja}
+translate U DndOwnerDidntRespond {Pudotus epäonnistui: valinnan omistaja ei vastannut}
+
 
 
 

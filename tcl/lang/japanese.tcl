@@ -561,6 +561,14 @@ translate A ErrSearchInterrupted {検索は中断されました。結果は不�
 translate A ErrNoClockComments {このゲームには [%clk] クロック コメントが見つかりませんでした。    この機能を使用するには、コメント ウィンドウ (Ctrl+E) を使用してクロック時間を追加します。}
 translate A ErrFileInUse {エラー: ファイルはすでに使用されています。このデータベースを使用している他のアプリケーションを閉じてください。プログラムが予期せず終了した場合は、データベースに関連付けられた .lock ファイルの削除が必要になる場合があります。}
 
+# Drag and drop
+translate A DndCannotOpenUri {URIを開けません}
+translate A DndInvalidUri {無効な URI}
+translate A DndUriRejected {URIが拒否されました}
+translate A DndUriRejectedDetail {Scid データベース (.si5、.si4、.si3)、または PGN/EPD ファイル。}
+translate A DndEmptyUriList {ドロップされた URI リストにファイルが見つかりませんでした}
+translate A DndOwnerDidntRespond {ドロップ失敗: 選択範囲の所有者が応答しませんでした}
+
 
 
 

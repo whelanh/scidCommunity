@@ -531,6 +531,14 @@ translate W ErrSearchInterrupted {Sökningen avbröts; resultatet är inte fulls
 translate W ErrNoClockComments {Inga [%clk] klockkommentarer hittades i det här spelet.    Lägg till klocktider via kommentarsfönstret (Ctrl+E) för att använda den här funktionen.}
 translate W ErrFileInUse {Fel: filen används redan. Stäng alla andra program som använder denna databas. Om programmet stängdes oväntat kan du behöva ta bort .lock-filen som är kopplad till databasen.}
 
+# Drag and drop
+translate W DndCannotOpenUri {Det går inte att öppna URI}
+translate W DndInvalidUri {Ogiltig URI}
+translate W DndUriRejected {URI avvisades}
+translate W DndUriRejectedDetail {Scid-databaser (.si5, .si4, .si3) eller PGN/EPD-filer.}
+translate W DndEmptyUriList {Inga filer hittades i listan med utelämnad URI}
+translate W DndOwnerDidntRespond {Släpp misslyckades: valets ägare svarade inte}
+
 
 
 

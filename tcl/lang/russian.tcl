@@ -527,6 +527,14 @@ translate R ErrSearchInterrupted {Поиск был прерван; резуль
 translate R ErrNoClockComments {В этой игре не обнаружено комментариев к часам [%clk].    Чтобы использовать эту функцию, добавьте время на часах через окно комментариев (Ctrl+E).}
 translate R ErrFileInUse {Ошибка: файл уже используется. Пожалуйста, закройте любое другое приложение, использующее эту базу данных. Если программа была неожиданно закрыта, возможно, вам придется удалить файл .lock, связанный с базой данных.}
 
+# Drag and drop
+translate R DndCannotOpenUri {Невозможно открыть URI}
+translate R DndInvalidUri {Неверный URI}
+translate R DndUriRejected {URI отклонен}
+translate R DndUriRejectedDetail {Базы данных Scid (.si5, .si4, .si3) или файлы PGN/EPD.}
+translate R DndEmptyUriList {В отброшенном списке URI файлы не найдены}
+translate R DndOwnerDidntRespond {Не удалось удалить: владелец выбора не ответил}
+
 
 
 

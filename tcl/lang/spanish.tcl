@@ -561,6 +561,14 @@ translate S ErrSearchInterrupted {La busqueda se interrumpió; los resultados so
 translate S ErrNoClockComments {No se encontraron comentarios de reloj [%clk] en este juego.    Agregue tiempos de reloj a través de la ventana de comentarios (Ctrl+E) para usar esta función.}
 translate S ErrFileInUse {Error: el archivo ya está en uso. Cierre cualquier otra aplicación que utilice esta base de datos. Si el programa se cerró inesperadamente, es posible que deba eliminar el archivo .lock asociado con la base de datos.}
 
+# Drag and drop
+translate S DndCannotOpenUri {No se puede abrir la URI}
+translate S DndInvalidUri {URI no válida}
+translate S DndUriRejected {URI rechazada}
+translate S DndUriRejectedDetail {Bases de datos Scid (.si5, .si4, .si3) o archivos PGN/EPD.}
+translate S DndEmptyUriList {No se encontraron archivos en la lista de URI eliminada}
+translate S DndOwnerDidntRespond {Error al soltar: el propietario de la selección no respondió}
+
 
 
 

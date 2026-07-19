@@ -520,6 +520,14 @@ translate Z ErrSearchInterrupted {Utafutaji ulikatizwa; matokeo hayajakamilika.}
 translate Z ErrNoClockComments {Hakuna maoni ya saa [%clk] yaliyopatikana katika mchezo huu.  Ongeza saa za saa kupitia Dirisha la Maoni (Ctrl+E) ili kutumia kipengele hiki.}
 translate Z ErrFileInUse {Hitilafu: faili tayari inatumika. Tafadhali funga programu nyingine yoyote kwa kutumia hifadhidata hii. Ikiwa programu ilifungwa bila kutarajia, huenda ukahitaji kufuta faili ya .lock inayohusishwa na hifadhidata.}
 
+# Drag and drop
+translate Z DndCannotOpenUri {Haiwezi kufungua URI}
+translate Z DndInvalidUri {URI batili}
+translate Z DndUriRejected {URI imekataliwa}
+translate Z DndUriRejectedDetail {Hifadhidata za Scid (.si5, .si4, .si3), au faili za PGN/EPD.}
+translate Z DndEmptyUriList {Hakuna faili zilizopatikana katika orodha iliyodondoshwa ya URI}
+translate Z DndOwnerDidntRespond {Imeshindwa kuangusha: mmiliki aliyechaguliwa hakujibu}
+
 
 
 

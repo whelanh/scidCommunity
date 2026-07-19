@@ -560,6 +560,14 @@ translate E ErrSearchInterrupted {Search was interrupted; results are incomplete
 translate E ErrNoClockComments {No [%clk] clock comments were found in this game.  Add clock times via the Comments Window (Ctrl+E) to use this feature.}
 translate E ErrFileInUse {Error: the file is already in use. Please close any other application using this database. If the program was closed unexpectedly, you may need to delete the .lock file associated with the database.}
 
+# Drag and drop
+translate E DndCannotOpenUri {Cannot open URI}
+translate E DndInvalidUri {Invalid URI}
+translate E DndUriRejected {URI rejected}
+translate E DndUriRejectedDetail {Scid databases (.si5, .si4, .si3), or PGN/EPD files.}
+translate E DndEmptyUriList {No files found in dropped URI list}
+translate E DndOwnerDidntRespond {Drop failed: selection owner didn't respond}
+
 
 
 
