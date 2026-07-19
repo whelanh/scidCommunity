@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+ <release version="5.1.3.81" date="2026-07-19">
+      <description>
+        <p>Enable drag and drop of database, PGN and epd files into scidCommunity</p>
+      </description>
+    </release>
  <release version="5.1.3.80" date="2026-07-18">
       <description>
         <p>Fix coaching in Play versus Engine</p>
