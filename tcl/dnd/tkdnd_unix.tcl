@@ -1002,7 +1002,7 @@ proc xdnd::_convert_to_unsigned {data format} {
   switch $format {
     8  { set mask 0xff }
     16 { set mask 0xffff }
-    32 { set mask 0xffffff }
+    32 { set mask 0xffffffff }
     default {error "unsupported format $format"}
   }
   ## Convert signed integer into unsigned...

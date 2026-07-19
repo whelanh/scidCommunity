@@ -754,6 +754,7 @@ class TkDND_DropTarget: public IDropTarget {
       }
 
       if (data == NULL) {
+        if (typeObjc == 0) { Tcl_DecrRefCount(result); return S_OK; }
         // We failed to get the data.
         type = typeObj[0]; Tcl_IncrRefCount(type);
         data = GetData_Bytearray(pDataObject, type);
@@ -813,7 +814,7 @@ class TkDND_DropTarget: public IDropTarget {
 private:
 
     Tcl_Obj *GetData_Bytearray(IDataObject *pDataObject, Tcl_Obj *formatObj) {
-      STGMEDIUM StgMed;
+      STGMEDIUM StgMed = {0};
       FORMATETC fmte = { 0, (DVTARGETDEVICE FAR *)NULL,
                          DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
       Tcl_Obj *result;
@@ -821,7 +822,7 @@ private:
       fmte.cfFormat = RegisterClipboardFormat(TCL_GETSTRING(formatObj));
       if (pDataObject->QueryGetData(&fmte) != S_OK ||
           pDataObject->GetData(&fmte, &StgMed) != S_OK ) {
-        Tcl_NewStringObj("unsupported type", -1);
+        return Tcl_NewStringObj("unsupported type", -1);
       }
       bytes = (unsigned char *) GlobalLock(StgMed.hGlobal);
       result = Tcl_NewByteArrayObj(bytes, GlobalSize(StgMed.hGlobal));

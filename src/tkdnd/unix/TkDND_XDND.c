@@ -1139,15 +1139,11 @@ int TkDND_HandleGenericEvent(ClientData clientData, XEvent *eventPtr) {
       TkDND_Dict_Put(interp, dict,     "keysym",   XKeysymToString(sym));
       break;
     case EnterNotify:
+      Tcl_DecrRefCount(dict);
       return 0;
-      TkDND_Dict_Put(interp, dict, "type", "EnterNotify");
-      TkDND_Dict_PutLong(interp, dict, "time", eventPtr->xcrossing.time);
-      break;
     case LeaveNotify:
+      Tcl_DecrRefCount(dict);
       return 0;
-      TkDND_Dict_Put(interp, dict, "type", "LeaveNotify");
-      TkDND_Dict_PutLong(interp, dict, "time", eventPtr->xcrossing.time);
-      break;
     case SelectionRequest:
       main_window = Tk_MainWindow(interp);
       TkDND_Dict_Put(interp, dict, "type", "SelectionRequest");
@@ -1304,7 +1300,12 @@ int TkDND_FetchActionListObjCmd(ClientData clientData, Tcl_Interp *interp,
   }
 
   tkwin = Tk_MainWindow(interp);
-  source = atoi(Tcl_GetString(objv[1]));
+  {
+    long src;
+    if (Tcl_GetLongFromObj(interp, objv[1], &src) != TCL_OK)
+      return TCL_ERROR;
+    source = (Window) src;
+  }
 
   int result = XGetWindowProperty(Tk_Display(tkwin), source,
                                   Tk_InternAtom(tkwin, "XdndActionList"),
@@ -1698,7 +1699,7 @@ int TkDND_XChangePropertyObjCmd(ClientData clientData,
       }
       for (i = 0; i < numItems; i++) {
         char *dummy;
-        propPtr[i] = (short) strtol(Tcl_GetString(field[i]), &dummy, 0);
+        propPtr[i] = strtol(Tcl_GetString(field[i]), &dummy, 0);
       }
       break;
     }

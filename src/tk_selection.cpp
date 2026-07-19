@@ -111,7 +111,7 @@ selectionGet(Tcl_Interp* ti, Tk_Window tkwin, Atom selection, Atom target, unsig
 		CloseClipboard();
 	}
 
-	if (!notAvailable)
+	if (!done && !notAvailable)
 	{
 		Tcl_AppendResult(	ti,
 								Tk_GetAtomName(tkwin, selection),
@@ -555,7 +555,7 @@ selectionSend(	Tcl_Interp* ti,
 				Tcl_Size nfields;
 				Tcl_Obj** field;
 
-				if ((success = Tcl_ListObjGetElements(ti, data, &nfields, &field)))
+				if ((success = Tcl_ListObjGetElements(ti, data, &nfields, &field)) == TCL_OK)
 				{
 					uint16_t* props = reinterpret_cast<uint16_t*>(ckalloc(sizeof(uint16_t)*nfields));
 
@@ -582,7 +582,7 @@ selectionSend(	Tcl_Interp* ti,
 				Tcl_Size nfields;
 				Tcl_Obj** field;
 
-				if ((success = Tcl_ListObjGetElements(ti, data, &nfields, &field)))
+				if ((success = Tcl_ListObjGetElements(ti, data, &nfields, &field)) == TCL_OK)
 				{
 					uint32_t* props = reinterpret_cast<uint32_t*>(ckalloc(sizeof(uint32_t)*nfields));
 

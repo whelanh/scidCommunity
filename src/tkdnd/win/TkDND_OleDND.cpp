@@ -251,14 +251,14 @@ int TkDND_DoDragDropObjCmd(ClientData clientData, Tcl_Interp *interp,
             pDropFiles->fWide = FALSE;
 #endif /* UNICODE */
             CurPosition = (TCHAR *) (LPBYTE(pDropFiles) + sizeof(DROPFILES)); 
-            for (i = 0; i < file_nu; i++) {
+            for (int j = 0; j < file_nu; j++) {
               const char *native_name;
-              TCHAR *pszFileName;
+              TCHAR *pszFileName = NULL;
               TCHAR api_name[MAX_PATH+2];
               // Convert File Name to native paths...
               Tcl_DStringInit(&ds);
               native_name = Tcl_TranslateFileName(NULL, 
-                                Tcl_GetString(File[i]), &ds);
+                                Tcl_GetString(File[j]), &ds);
               if (native_name != NULL) {
                 if (Tcl_NumUtfChars(native_name, -1) > MAX_PATH) {
                   native_name = "too long filename!";
@@ -277,6 +277,9 @@ int TkDND_DoDragDropObjCmd(ClientData clientData, Tcl_Interp *interp,
                 pszFileName = Tcl_UtfToExternalDString(NULL,
                                                        api_name, -1, &ds);
 #endif /* UNICODE */
+              } else {
+                Tcl_DStringFree(&ds);
+                continue;
               }
               // Copy the file name into global memory.
               lstrcpy(CurPosition, pszFileName);
