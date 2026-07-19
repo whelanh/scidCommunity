@@ -501,8 +501,8 @@ translate M DndCannotOpenUri {无法打开 URI}
 translate M DndInvalidUri {无效的 URI}
 translate M DndUriRejected {URI 被拒绝}
 translate M DndUriRejectedDetail {Scid 数据库（.si5、.si4、.si3）或 PGN/EPD 文件。}
-translate M DndEmptyUriList {在删除的 URI 列表中找不到文件}
-translate M DndOwnerDidntRespond {删除失败：选择所有者没有响应}
+translate M DndEmptyUriList {在拖放的 URI 列表中找不到文件}
+translate M DndOwnerDidntRespond {拖放失败：选择所有者没有响应}
 
 
 
