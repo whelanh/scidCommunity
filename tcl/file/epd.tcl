@@ -263,6 +263,10 @@ namespace eval epd {
     bind $w.text <Control-y> "catch \"$w.text edit redo\"; break;"
     bind $w.text <Leave> "if {\[$w.text edit modified\]} {::epd::storeEpdText $id}"
 
+    if {[::game::Clear] == "cancel"} {
+      closeEpdWin $id
+      return 0
+    }
     loadEpdLines $id
     updateEpdWin $id
 
