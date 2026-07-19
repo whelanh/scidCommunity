@@ -535,7 +535,7 @@ translate O DndCannotOpenUri {Kan ikke åpne URI}
 translate O DndInvalidUri {Ugyldig URI}
 translate O DndUriRejected {URI avvist}
 translate O DndUriRejectedDetail {Scid-databaser (.si5, .si4, .si3) eller PGN/EPD-filer.}
-translate O DndEmptyUriList {Ingen filer funnet i slettet URI-liste}
+translate O DndEmptyUriList {Ingen filer funnet i sluppet URI-liste}
 translate O DndOwnerDidntRespond {Slipp mislyktes: utvalgseieren svarte ikke}
 
 

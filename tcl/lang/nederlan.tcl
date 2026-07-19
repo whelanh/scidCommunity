@@ -554,7 +554,7 @@ translate N DndCannotOpenUri {Kan URI niet openen}
 translate N DndInvalidUri {Ongeldige URI}
 translate N DndUriRejected {URI afgewezen}
 translate N DndUriRejectedDetail {Scid-databases (.si5, .si4, .si3) of PGN/EPD-bestanden.}
-translate N DndEmptyUriList {Geen bestanden gevonden in verwijderde URI-lijst}
+translate N DndEmptyUriList {Geen bestanden gevonden in neergezette URI-lijst}
 translate N DndOwnerDidntRespond {Neerzetten mislukt: selectie-eigenaar heeft niet gereageerd}
 
 

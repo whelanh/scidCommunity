@@ -526,7 +526,7 @@ translate Z DndInvalidUri {URI batili}
 translate Z DndUriRejected {URI imekataliwa}
 translate Z DndUriRejectedDetail {Hifadhidata za Scid (.si5, .si4, .si3), au faili za PGN/EPD.}
 translate Z DndEmptyUriList {Hakuna faili zilizopatikana katika orodha iliyodondoshwa ya URI}
-translate Z DndOwnerDidntRespond {Imeshindwa kuangusha: mmiliki aliyechaguliwa hakujibu}
+translate Z DndOwnerDidntRespond {Imeshindwa kuangusha: mmiliki wa uteuzi hakujibu}
 
 
 

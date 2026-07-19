@@ -526,8 +526,8 @@ translate Q DndCannotOpenUri {Неможливо відкрити URI}
 translate Q DndInvalidUri {Недійсний URI}
 translate Q DndUriRejected {URI відхилено}
 translate Q DndUriRejectedDetail {Бази даних Scid (.si5, .si4, .si3) або файли PGN/EPD.}
-translate Q DndEmptyUriList {У видаленому списку URI не знайдено файлів}
-translate Q DndOwnerDidntRespond {Викинути не вдалося: власник вибору не відповів}
+translate Q DndEmptyUriList {У скинутому списку URI не знайдено файлів}
+translate Q DndOwnerDidntRespond {Скидання не вдалося: власник вибору не відповів}
 
 
 

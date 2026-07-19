@@ -527,7 +527,7 @@ translate V DndInvalidUri {URI לא חוקי}
 translate V DndUriRejected {URI נדחה}
 translate V DndUriRejectedDetail {מסדי נתונים של Scid (.si5, .si4, .si3), או קבצי PGN/EPD.}
 translate V DndEmptyUriList {לא נמצאו קבצים ברשימת ה-URI שנשמט}
-translate V DndOwnerDidntRespond {ההורדה נכשלה: בעל הבחירה לא הגיב}
+translate V DndOwnerDidntRespond {השמטה נכשלה: בעל הבחירה לא הגיב}
 
 
 

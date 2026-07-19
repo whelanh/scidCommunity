@@ -557,7 +557,7 @@ translate G DndCannotOpenUri {Δεν είναι δυνατό το άνοιγμα
 translate G DndInvalidUri {Μη έγκυρο URI}
 translate G DndUriRejected {Το URI απορρίφθηκε}
 translate G DndUriRejectedDetail {Βάσεις δεδομένων Scid (.si5, .si4, .si3) ή αρχεία PGN/EPD.}
-translate G DndEmptyUriList {Δεν βρέθηκαν αρχεία στη λίστα URI που απορρίφθηκε}
+translate G DndEmptyUriList {Δεν βρέθηκαν αρχεία στη λίστα URI που αποτέθηκε}
 translate G DndOwnerDidntRespond {Η απόθεση απέτυχε: ο κάτοχος της επιλογής δεν απάντησε}
 
 

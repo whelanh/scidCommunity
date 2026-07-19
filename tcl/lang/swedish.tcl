@@ -536,8 +536,8 @@ translate W DndCannotOpenUri {Det går inte att öppna URI}
 translate W DndInvalidUri {Ogiltig URI}
 translate W DndUriRejected {URI avvisades}
 translate W DndUriRejectedDetail {Scid-databaser (.si5, .si4, .si3) eller PGN/EPD-filer.}
-translate W DndEmptyUriList {Inga filer hittades i listan med utelämnad URI}
-translate W DndOwnerDidntRespond {Släpp misslyckades: valets ägare svarade inte}
+translate W DndEmptyUriList {Inga filer hittades i listan med släppta URI:er}
+translate W DndOwnerDidntRespond {Släpp misslyckades: urvalets ägare svarade inte}
 
 
 

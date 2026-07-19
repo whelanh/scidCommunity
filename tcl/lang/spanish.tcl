@@ -566,7 +566,7 @@ translate S DndCannotOpenUri {No se puede abrir la URI}
 translate S DndInvalidUri {URI no válida}
 translate S DndUriRejected {URI rechazada}
 translate S DndUriRejectedDetail {Bases de datos Scid (.si5, .si4, .si3) o archivos PGN/EPD.}
-translate S DndEmptyUriList {No se encontraron archivos en la lista de URI eliminada}
+translate S DndEmptyUriList {No se encontraron archivos en la lista de URI soltada}
 translate S DndOwnerDidntRespond {Error al soltar: el propietario de la selección no respondió}
 
 
