@@ -541,8 +541,8 @@ translate F DndCannotOpenUri {Impossible d'ouvrir l'URI}
 translate F DndInvalidUri {URI invalide}
 translate F DndUriRejected {URI rejeté}
 translate F DndUriRejectedDetail {Bases de données Scid (.si5, .si4, .si3) ou fichiers PGN/EPD.}
-translate F DndEmptyUriList {Aucun fichier trouvé dans la liste des URI supprimés}
-translate F DndOwnerDidntRespond {Échec de l'abandon : le propriétaire de la sélection n'a pas répondu}
+translate F DndEmptyUriList {Aucun fichier trouvé dans la liste des URI déposés}
+translate F DndOwnerDidntRespond {Échec du dépôt : le propriétaire de la sélection n'a pas répondu}
 
 
 

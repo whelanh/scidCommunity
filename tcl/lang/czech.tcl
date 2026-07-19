@@ -529,7 +529,7 @@ translate C DndCannotOpenUri {Nelze otevřít URI}
 translate C DndInvalidUri {Neplatný identifikátor URI}
 translate C DndUriRejected {URI zamítnuto}
 translate C DndUriRejectedDetail {Databáze Scid (.si5, .si4, .si3) nebo soubory PGN/EPD.}
-translate C DndEmptyUriList {Ve vynechaném seznamu URI nebyly nalezeny žádné soubory}
+translate C DndEmptyUriList {Ve přetaženém seznamu URI nebyly nalezeny žádné soubory}
 translate C DndOwnerDidntRespond {Přetažení se nezdařilo: vlastník výběru neodpověděl}
 
 

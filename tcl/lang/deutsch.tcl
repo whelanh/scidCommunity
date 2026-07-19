@@ -561,8 +561,8 @@ translate D DndCannotOpenUri {URI kann nicht geöffnet werden}
 translate D DndInvalidUri {Ungültiger URI}
 translate D DndUriRejected {URI abgelehnt}
 translate D DndUriRejectedDetail {Scid-Datenbanken (.si5, .si4, .si3) oder PGN/EPD-Dateien.}
-translate D DndEmptyUriList {In der gelöschten URI-Liste wurden keine Dateien gefunden}
-translate D DndOwnerDidntRespond {Das Löschen ist fehlgeschlagen: Der Eigentümer der Auswahl hat nicht geantwortet}
+translate D DndEmptyUriList {In der abgelegten URI-Liste wurden keine Dateien gefunden}
+translate D DndOwnerDidntRespond {Ziehen fehlgeschlagen: Der Eigentümer der Auswahl hat nicht geantwortet}
 
 
 
