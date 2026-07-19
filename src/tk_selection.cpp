@@ -14,6 +14,10 @@
 #include <string.h>
 #include <assert.h>
 
+#if defined(_MSC_VER)
+typedef unsigned int uint;
+#endif
+
 #include "dstring.h"
 
 #if !defined(TCL_SIZE_MAX)
