@@ -528,6 +528,14 @@ translate I ErrSearchInterrupted {Ricerca interrotta; il risultato è incompleto
 translate I ErrNoClockComments {Nessun commento sull'orologio [%clk] trovato in questo gioco.    Aggiungi gli orari dell'orologio tramite la finestra Commenti (Ctrl+E) per utilizzare questa funzione.}
 translate I ErrFileInUse {Errore: il file è già in uso. Chiudi qualsiasi altra applicazione che utilizza questo database. Se il programma è stato chiuso inaspettatamente, potrebbe essere necessario eliminare il file .lock associato al database.}
 
+# Drag and drop
+translate I DndCannotOpenUri {Impossibile aprire l'URI}
+translate I DndInvalidUri {URI non valido}
+translate I DndUriRejected {URI rifiutato}
+translate I DndUriRejectedDetail {Database Scid (.si5, .si4, .si3) o file PGN/EPD.}
+translate I DndEmptyUriList {Nessun file trovato nell'elenco URI rilasciato}
+translate I DndOwnerDidntRespond {Eliminazione non riuscita: il proprietario della selezione non ha risposto}
+
 
 
 

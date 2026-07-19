@@ -530,6 +530,14 @@ translate O ErrSearchInterrupted {Search was interrupted; results are incomplete
 translate O ErrNoClockComments {Ingen [%clk] klokkekommentarer ble funnet i dette spillet.    Legg til klokketider via kommentarvinduet (Ctrl+E) for å bruke denne funksjonen.}
 translate O ErrFileInUse {Feil: filen er allerede i bruk. Lukk alle andre programmer som bruker denne databasen. Hvis programmet ble avsluttet uventet, må du kanskje slette .lock-filen knyttet til databasen.}
 
+# Drag and drop
+translate O DndCannotOpenUri {Kan ikke åpne URI}
+translate O DndInvalidUri {Ugyldig URI}
+translate O DndUriRejected {URI avvist}
+translate O DndUriRejectedDetail {Scid-databaser (.si5, .si4, .si3) eller PGN/EPD-filer.}
+translate O DndEmptyUriList {Ingen filer funnet i sluppet URI-liste}
+translate O DndOwnerDidntRespond {Slipp mislyktes: utvalgseieren svarte ikke}
+
 
 
 

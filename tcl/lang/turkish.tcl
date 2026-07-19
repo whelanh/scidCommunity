@@ -524,6 +524,14 @@ translate T ErrSearchInterrupted {Arama kesintiye uğradı; sonuçlar eksik.}
 translate T ErrNoClockComments {Bu oyunda [%clk] saat yorumu bulunamadı.    Bu özelliği kullanmak için Yorumlar Penceresini (Ctrl+E) kullanarak saat sürelerini ekleyin.}
 translate T ErrFileInUse {Hata: Dosya zaten kullanımda. Lütfen bu veritabanını kullanan diğer uygulamaları kapatın. Program beklenmedik bir şekilde kapatıldıysa veritabanıyla ilişkili .lock dosyasını silmeniz gerekebilir.}
 
+# Drag and drop
+translate T DndCannotOpenUri {URI açılamıyor}
+translate T DndInvalidUri {Geçersiz URI}
+translate T DndUriRejected {URI reddedildi}
+translate T DndUriRejectedDetail {Scid veritabanları (.si5, .si4, .si3) veya PGN/EPD dosyaları.}
+translate T DndEmptyUriList {Bırakılan URI listesinde dosya bulunamadı}
+translate T DndOwnerDidntRespond {Bırakma başarısız oldu: seçim sahibi yanıt vermedi}
+
 
 
 

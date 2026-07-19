@@ -528,6 +528,14 @@ translate H ErrSearchInterrupted {Keresés megszakítva; az eredmények hiányos
 translate H ErrNoClockComments {Ebben a játékban nem találhatók [%clk] órára vonatkozó megjegyzések.    A funkció használatához adja hozzá az óraidõt a Megjegyzés ablakon keresztül (Ctrl+E).}
 translate H ErrFileInUse {Hiba: a fájl már használatban van. Kérjük, zárjon be minden más alkalmazást, amely ezt az adatbázist használja. Ha a program váratlanul bezárult, elõfordulhat, hogy törölnie kell az adatbázishoz társított .lock fájlt.}
 
+# Drag and drop
+translate H DndCannotOpenUri {Az URI nem nyitható meg}
+translate H DndInvalidUri {Érvénytelen URI}
+translate H DndUriRejected {URI elutasítva}
+translate H DndUriRejectedDetail {Scid adatbázisok (.si5, .si4, .si3) vagy PGN/EPD fájlok.}
+translate H DndEmptyUriList {Nem található fájl az eldobott URI-listában}
+translate H DndOwnerDidntRespond {Az eldobás sikertelen: a kiválasztás tulajdonosa nem válaszolt}
+
 
 
 

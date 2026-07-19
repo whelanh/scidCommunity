@@ -576,10 +576,10 @@ proc ::windows::gamelist::createMenu_ {w} {
 }
 
 proc ::windows::gamelist::createGList_ {{w}} {
-	if {[winfo exists $w.games]} { destroy $w.games }
-	ttk::frame $w.games -borderwidth 0 -padding {8 5 5 2}
-	glist.create $w.games "ly$w"
-	grid $w.games -row 0 -column 2 -sticky news
+  if {[winfo exists $w.games]} { destroy $w.games }
+  ttk::frame $w.games -borderwidth 0 -padding {8 5 5 2}
+  glist.create $w.games "ly$w"
+  grid $w.games -row 0 -column 2 -sticky news
 }
 
 proc ::windows::gamelist::createExportMenu_ {{w} {m}} {

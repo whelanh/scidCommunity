@@ -362,3 +362,114 @@ proc ::file::autoLoadBases.remove { {baseIdx} } {
   }
   return $idx
 }
+
+proc RegisterDropEvents {target} {
+  if {$::macOS} {return}
+  ::tkdnd::drop_target register $target DND_Files
+  bind $target <<DropEnter>> { HandleDropEvent enter %W}
+  bind $target <<DropLeave>> { HandleDropEvent leave %W}
+  bind $target <<Drop>> { HandleDropEvent %D %W}
+}
+
+proc HandleDropEvent {action window} {
+  switch $action {
+    enter  {}
+    leave  {}
+    default {
+      after idle [namespace code [list OpenUri $window $action]]
+    }
+  }
+  return copy
+}
+
+proc OpenUri {window uriFiles} {
+  raiseWin [winfo toplevel $window]
+  update idletasks
+
+  set errorList {}
+  set rejectList {}
+  set databaseList {}
+  set filelist $uriFiles
+
+  foreach file $filelist {
+    set uri [string trimright $file]
+    set file $uri
+    if {[string length $file]} {
+      if {[string equal -length 5 $file "file:"]} {
+        if {[string equal -length 17 $file "file://localhost/"]} {
+          set file [string range $file 16 end]
+        } elseif {[string equal -length 8 $file "file:///"]} {
+          set file [string range $file 7 end]
+        } elseif {[string index $file 5] eq "/"} {
+          set file [string range $uri 5 end]
+          for {set n 1} {$n < 5} {incr n} { if {[string index $file $n] eq "/"} { break } }
+          set file [string range $uri [expr {$n - 1}] end]
+          if {![file exists $file]} {
+            set i [string first "/" $file 1]
+            if {$i >= 0} {
+              set f [string range $file $i end]
+              if {[file exists $f]} { set file $f }
+            }
+          }
+        } else {
+          set file [string range $file 5 end]
+        }
+      }
+      set file [file normalize $file]
+    }
+    if {[file exists $file]} {
+      lappend databaseList $file
+    }
+  }
+
+  foreach file $databaseList {
+    ::file::Open $file
+  }
+
+  if {[llength $errorList]} {
+    if {[string match file:* $uriFiles] && [llength $databaseList] == 0} {
+      set message [tr DndCannotOpenUri]
+      if {[llength $errorList] > 10} {
+        append message \n\n [join [lrange $errorList 0 9] \n]
+        append message \n...
+      } else {
+        append message \n\n [join $errorList \n]
+      }
+    } else {
+      set message [tr DndInvalidUri]
+    }
+    tk_messageBox -icon warning -type ok -parent . -message $message
+  }
+
+  if {[llength $rejectList]} {
+    set message [tr DndUriRejected]
+    if {[llength $rejectList] > 10} {
+      append message \n\n [join [lrange $rejectList 0 9] \n]
+      append message \n...
+    } else {
+      append message \n\n [join $rejectList \n]
+    }
+    set detail [tr DndUriRejectedDetail]
+    tk_messageBox -icon info -type ok -parent . -message $message -detail $detail
+  }
+
+  if {[llength $databaseList] + [llength $rejectList] + [llength $errorList] == 0} {
+    set message [tr DndEmptyUriList]
+    tk_messageBox -icon info -type ok -parent . -message $message
+  }
+}
+
+proc bgerror {err} {
+  if {$err eq "selection owner didn't respond"} {
+    set parent [::tkdnd::get_drop_target]
+    if {[llength $parent] == 0} { set parent . }
+    after idle [list tk_messageBox \
+      -icon error \
+      -parent $parent \
+      -message [tr DndOwnerDidntRespond] \
+    ]
+  } elseif {[string match {*selection doesn't exist*} $err]} {
+  } else {
+    ERROR::Error $err
+  }
+}

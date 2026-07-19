@@ -561,6 +561,14 @@ translate k ErrSearchInterrupted {중단되었습니다. 결과가 잘못되었�
 translate k ErrNoClockComments {이 게임에는 [%clk] 시계 댓글이 없습니다.  이 기능을 사용하려면 설명 창(Ctrl+E)을 통해 감시 시간을 추가하세요.}
 translate k ErrFileInUse {오류: 파일이 이미 사용 중입니다. 이 데이터베이스를 사용하는 다른 응용 프로그램을 따르세요. 프로그램이 종료되는 경우 데이터베이스와 연결된 .lock 파일을 삭제해야 할 수도 있습니다.}
 
+# Drag and drop
+translate k DndCannotOpenUri {URI를 열 수 없습니다.}
+translate k DndInvalidUri {잘못된 URI}
+translate k DndUriRejected {URI가 거부됨}
+translate k DndUriRejectedDetail {Scid 데이터베이스(.si5, .si4, .si3) 또는 PGN/EPD 파일.}
+translate k DndEmptyUriList {삭제된 URI 목록에서 파일을 찾을 수 없습니다.}
+translate k DndOwnerDidntRespond {삭제 실패: 선택 소유자가 응답하지 않았습니다.}
+
 
 
 

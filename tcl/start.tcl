@@ -89,6 +89,7 @@ set unixOS 0
 set macOS 0
 if {[tk windowingsystem] == "aqua"} {
   set macOS 1
+  set macCocoa 1
 } elseif {$tcl_platform(platform) == "unix"} {
   set unixOS 1
 } elseif {$tcl_platform(platform) == "windows"} {
@@ -943,6 +944,9 @@ set ::curr_db [sc_base current]
 
 
 set tcl_files {
+dnd/tkdnd.tcl
+dnd/tkdnd_unix.tcl
+dnd/tkdnd_windows.tcl
 language.tcl
 errors.tcl
 utils.tcl
@@ -1032,6 +1036,10 @@ tools/inputengine.tcl
 tools/novag.tcl
 tools/tablebase.tcl
 tools/batch_annotate.tcl
+}
+
+if {$macOS} {
+  lappend tcl_files dnd/tkdnd_macosx.tcl
 }
 
 foreach f $tcl_files {

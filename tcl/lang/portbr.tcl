@@ -529,6 +529,14 @@ translate B ErrSearchInterrupted {Pesquisa interrompida; os resultados estão in
 translate B ErrNoClockComments {Nenhum comentário de relógio [%clk] foi encontrado neste jogo. Adicione horários de relógio através da janela de comentários (Ctrl+E) para usar este recurso.}
 translate B ErrFileInUse {Erro: o arquivo já está em uso. Feche qualquer outro aplicativo que use este banco de dados. Se o programa foi fechado inesperadamente, pode ser necessário excluir o arquivo .lock associado ao banco de dados.}
 
+# Drag and drop
+translate B DndCannotOpenUri {Não é possível abrir o URI}
+translate B DndInvalidUri {URI inválido}
+translate B DndUriRejected {URI rejeitado}
+translate B DndUriRejectedDetail {Bancos de dados Scid (.si5, .si4, .si3) ou arquivos PGN/EPD.}
+translate B DndEmptyUriList {Nenhum arquivo encontrado na lista de URIs eliminados}
+translate B DndOwnerDidntRespond {Falha ao descartar: o proprietário da seleção não respondeu}
+
 
 
 

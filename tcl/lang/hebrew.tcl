@@ -521,6 +521,14 @@ translate V ErrSearchInterrupted {החיפוש הופסק; התוצאות אינ
 translate V ErrNoClockComments {לא נמצאו הערות לשעון [%clk] במשחק הזה.  הוסף זמני שעון דרך חלון ההערות (Ctrl+E) כדי להשתמש בתכונה זו.}
 translate V ErrFileInUse {שגיאה: הקובץ כבר בשימוש. אנא סגור כל יישום אחר המשתמש במסד נתונים זה. אם התוכנית נסגרה באופן בלתי צפוי, ייתכן שיהיה עליך למחוק את קובץ ה-.lock המשויך למסד הנתונים.}
 
+# Drag and drop
+translate V DndCannotOpenUri {לא ניתן לפתוח את URI}
+translate V DndInvalidUri {URI לא חוקי}
+translate V DndUriRejected {URI נדחה}
+translate V DndUriRejectedDetail {מסדי נתונים של Scid (.si5, .si4, .si3), או קבצי PGN/EPD.}
+translate V DndEmptyUriList {לא נמצאו קבצים ברשימת ה-URI שנשמט}
+translate V DndOwnerDidntRespond {השמטה נכשלה: בעל הבחירה לא הגיב}
+
 
 
 

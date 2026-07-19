@@ -520,6 +520,14 @@ translate b ErrSearchInterrupted {অনুসন্ধান ব্যাহত
 translate b ErrNoClockComments {এই গেমটিতে কোনো [%clk] ঘড়ির মন্তব্য পাওয়া যায়নি।  এই বৈশিষ্ট্যটি ব্যবহার করতে মন্তব্য উইন্ডো (Ctrl+E) এর মাধ্যমে ঘড়ির সময় যোগ করুন।}
 translate b ErrFileInUse {ত্রুটি: ফাইলটি ইতিমধ্যেই ব্যবহার করা হচ্ছে৷ এই ডাটাবেস ব্যবহার করে অন্য কোনো অ্যাপ্লিকেশন বন্ধ করুন. প্রোগ্রামটি অপ্রত্যাশিতভাবে বন্ধ হয়ে গেলে, আপনাকে ডাটাবেসের সাথে যুক্ত .lock ফাইলটি মুছে ফেলতে হতে পারে।}
 
+# Drag and drop
+translate b DndCannotOpenUri {URI খুলতে পারে না}
+translate b DndInvalidUri {অবৈধ URI}
+translate b DndUriRejected {URI প্রত্যাখ্যান করা হয়েছে}
+translate b DndUriRejectedDetail {Scid ডাটাবেস (.si5, .si4, .si3), বা PGN/EPD ফাইল।}
+translate b DndEmptyUriList {বাদ দেওয়া ইউআরআই তালিকায় কোনো ফাইল পাওয়া যায়নি}
+translate b DndOwnerDidntRespond {ড্রপ ব্যর্থ হয়েছে: নির্বাচনের মালিক সাড়া দেননি}
+
 
 
 

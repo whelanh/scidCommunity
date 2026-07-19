@@ -556,6 +556,14 @@ translate D ErrSearchInterrupted \
 translate D ErrNoClockComments {In diesem Spiel wurden keine [%clk] Uhrkommentare gefunden.    Fügen Sie Uhrzeiten über das Kommentarfenster (Strg+E) hinzu, um diese Funktion zu nutzen.}
 translate D ErrFileInUse {Fehler: Die Datei wird bereits verwendet. Bitte schließen Sie alle anderen Anwendungen, die diese Datenbank verwenden. Wenn das Programm unerwartet geschlossen wurde, müssen Sie möglicherweise die mit der Datenbank verknüpfte .lock-Datei löschen.}
 
+# Drag and drop
+translate D DndCannotOpenUri {URI kann nicht geöffnet werden}
+translate D DndInvalidUri {Ungültiger URI}
+translate D DndUriRejected {URI abgelehnt}
+translate D DndUriRejectedDetail {Scid-Datenbanken (.si5, .si4, .si3) oder PGN/EPD-Dateien.}
+translate D DndEmptyUriList {In der abgelegten URI-Liste wurden keine Dateien gefunden}
+translate D DndOwnerDidntRespond {Ziehen fehlgeschlagen: Der Eigentümer der Auswahl hat nicht geantwortet}
+
 
 
 

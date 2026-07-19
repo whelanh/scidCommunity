@@ -561,6 +561,14 @@ translate L ErrSearchInterrupted {Căutarea a fost întreruptă; rezultatele sun
 translate L ErrNoClockComments {Nu au fost găsite comentarii la ceas [%clk] în acest joc.    Adăugați orele de ceas prin fereastra de comentarii (Ctrl+E) pentru a utiliza această funcție.}
 translate L ErrFileInUse {Eroare: fișierul este deja în uz. Vă rugăm să închideți orice altă aplicație care utilizează această bază de date. Dacă programul a fost închis în mod neașteptat, poate fi necesar să ștergeți fișierul .lock asociat cu baza de date.}
 
+# Drag and drop
+translate L DndCannotOpenUri {Nu se poate deschide URI}
+translate L DndInvalidUri {URI nevalid}
+translate L DndUriRejected {URI respins}
+translate L DndUriRejectedDetail {Baze de date Scid (.si5, .si4, .si3) sau fișiere PGN/EPD.}
+translate L DndEmptyUriList {Nu s-au găsit fișiere în lista de URI abandonată}
+translate L DndOwnerDidntRespond {Eliminarea nu a reușit: proprietarul selecției nu a răspuns}
+
 
 
 

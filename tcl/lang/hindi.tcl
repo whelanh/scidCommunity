@@ -520,6 +520,14 @@ translate h ErrSearchInterrupted {खोज बाधित हुई; परि
 translate h ErrNoClockComments {इस गेम में कोई [%clk] घड़ी टिप्पणियाँ नहीं मिलीं।  इस सुविधा का उपयोग करने के लिए टिप्पणी विंडो (Ctrl+E) के माध्यम से घड़ी का समय जोड़ें।}
 translate h ErrFileInUse {त्रुटि: फ़ाइल पहले से ही उपयोग में है. कृपया इस डेटाबेस का उपयोग करने वाले किसी अन्य एप्लिकेशन को बंद करें। यदि प्रोग्राम अप्रत्याशित रूप से बंद हो गया था, तो आपको डेटाबेस से जुड़ी .lock फ़ाइल को हटाने की आवश्यकता हो सकती है।}
 
+# Drag and drop
+translate h DndCannotOpenUri {यूआरआई नहीं खोला जा सकता}
+translate h DndInvalidUri {अमान्य यूआरआई}
+translate h DndUriRejected {यूआरआई अस्वीकृत}
+translate h DndUriRejectedDetail {स्किड डेटाबेस (.si5, .si4, .si3), या PGN/EPD फ़ाइलें।}
+translate h DndEmptyUriList {हटाई गई यूआरआई सूची में कोई फ़ाइल नहीं मिली}
+translate h DndOwnerDidntRespond {ड्रॉप विफल: चयन स्वामी ने कोई उत्तर नहीं दिया}
+
 
 
 
