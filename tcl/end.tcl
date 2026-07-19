@@ -1120,6 +1120,20 @@ keyboardShortcuts .
 
 ::docking::layout_restore 1
 
+proc initDragDrop {} {
+  after idle { RegisterDropEvents .main.gameInfo }
+  after idle { RegisterDropEvents .main.board }
+}
+
+if {!$::macOS} {
+  after idle {
+    initDragDrop
+    if {[tk windowingsystem] eq "x11"} {
+      after idle { ::tkdnd::xdnd::registerWrapper . }
+    }
+  }
+}
+
 menuUpdateBases
 menuUpdateThemes
 

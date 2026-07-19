@@ -256,10 +256,20 @@ UI_impl::UI_res_t sc_search      (UI_impl::UI_extra_t, UI_impl::UI_handle_t, int
 UI_impl::UI_res_t sc_tree        (UI_impl::UI_extra_t, UI_impl::UI_handle_t, int argc, const char ** argv);
 UI_impl::UI_res_t sc_var         (UI_impl::UI_extra_t, UI_impl::UI_handle_t, int argc, const char ** argv);
 
+#ifndef __APPLE__
+extern "C" { int Tkdnd_Init(Tcl_Interp*); }
+#endif
+void Tk_Selection_Init(Tcl_Interp*);
+
 inline int UI_impl::initTclTk (UI_handle_t ti)
 {
 	if (Tcl_Init (ti) == TCL_ERROR) { return TCL_ERROR; }
 	if (Tk_Init (ti) == TCL_ERROR) { return TCL_ERROR; }
+
+#ifndef __APPLE__
+	Tkdnd_Init (ti);
+#endif
+	Tk_Selection_Init (ti);
 
 	Tcl_CreateCommand(ti, "strIsPrefix" , str_is_prefix , 0, NULL);
 	Tcl_CreateCommand(ti, "strPrefixLen", str_prefix_len, 0, NULL);

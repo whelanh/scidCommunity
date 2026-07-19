@@ -129,6 +129,7 @@ namespace eval pgn {
     ttk::frame $w.frame
     ttk_text $w.text -wrap word -tabs {1c right 2c 4c}
     autoscrollBars y $w.frame $w.text
+    after idle [list after idle [list RegisterDropEvents $w.text]]
     if { $::pgn::boldMainLine } {
         $w.text configure -font font_Bold
     }
