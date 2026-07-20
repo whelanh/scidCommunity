@@ -129,6 +129,7 @@ menuText C SearchUsing "Hledat pomoc souboru voleb..." 14 {Hledat s pouitm voleb
 
 # Windows menu:
 menuText C Windows "Okna" 0
+menuText C WindowsBoard "Rada" 0 {Zobrazit hlavní okno desky}
 menuText C WindowsComment "Editor koment" 0 {Otevt/zavt editor koment}
 menuText C WindowsGList "Seznam parti" 2 {Otevt/zavt okno se seznamem parti}
 menuText C WindowsPGN "Okno PGN" 5 {Otevt/zavt okno PGN}

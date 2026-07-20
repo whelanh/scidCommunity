@@ -156,6 +156,7 @@ menuText D SearchUsing "Mit Suchoptionsdatei..." 4 \
 
 # Windows menu:
 menuText D Windows "Fenster" 0
+menuText D WindowsBoard "Planke" 0 {Zeigt das Hauptplatinenfenster an}
 menuText D WindowsComment "Kommentareditor" 0 {Kommentareditor öffnen/schließen}
 menuText D WindowsGList "Partieliste" 6 {Partieliste öffnen/schließen}
 menuText D WindowsPGN "PGN-Fenster" 0 {PGN-Fenster (Partienotation) öffnen/schließen}

@@ -107,6 +107,7 @@ menuText M SearchUsing "使用搜索选项文件..." 0 {使用SearchOptions文�
 
 # Windows menu:
 menuText M Windows "窗口" 0
+menuText M WindowsBoard "木板" 0 {显示主板窗口}
 menuText M WindowsComment "注释编辑器" 0 {显示/隐藏注释编辑器窗口}
 menuText M WindowsGList "对局列表" 0 {打开/关闭对局列表窗口}
 menuText M WindowsPGN "PGN窗口" 0 {显示/隐藏PGN（游戏记谱）窗口}

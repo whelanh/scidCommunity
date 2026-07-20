@@ -126,6 +126,7 @@ menuText h SearchUsing "खोज फ़ाइल का उपयोग कर�
 
 # Windows menu:
 menuText h Windows "खिड़कियाँ" 0
+menuText h WindowsBoard "तख़्ता" 0 {मुख्य बोर्ड विंडो दिखाएँ}
 menuText h WindowsComment "टिप्पणी संपादक" 0 {टिप्पणी संपादक खोलें/बंद करें}
 menuText h WindowsGList "खेल सूची" 0 {गेम सूची विंडो खोलें/बंद करें}
 menuText h WindowsPGN "पीजीएन विंडो" 0 \

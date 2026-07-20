@@ -133,6 +133,7 @@ menuText R SearchUsing "Использовать файл поиска..." 0 {П
 
 # Windows menu:
 menuText R Windows "Окна" 0
+menuText R WindowsBoard "Доска" 0 {Показать главное окно доски}
 menuText R WindowsComment "Редактор комментариев" 0 {Открыть/закрыть редактор комментариев}
 menuText R WindowsGList "Список партий" 0 {Открыть/закрыть окно списка партий}
 menuText R WindowsPGN "Окно PGN" 0 \

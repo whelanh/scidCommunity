@@ -167,6 +167,7 @@ menuText k SearchUsing "파일 검색 사용 중..." 0 {SearchOptions 파일을 
 
 # Windows menu:
 menuText k Windows "다루다" 0
+menuText k WindowsBoard "판자" 0 {메인보드 창 표시}
 menuText k WindowsComment "댓글 편집자" 0 {댓글 편집자/닫기}
 menuText k WindowsGList "게임 목록" 0 {게임 목록 창구/닫기}
 menuText k WindowsPGN "PGN 창" 0 \
