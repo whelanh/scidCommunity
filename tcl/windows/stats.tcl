@@ -259,9 +259,6 @@ proc ::windows::stats::refresh_wnd {} {
   $w configure -state normal
   $w delete 1.0 end
   $w insert end $s
-  $w tag configure bgGray -background gray95
-  # Shade every second line to help readability:
-  set lastLineNum [expr {int([$w index end])}]
 
   $w tag configure blue -foreground dodgerblue3
   $w tag configure red -foreground red

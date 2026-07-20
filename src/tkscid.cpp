@@ -3153,8 +3153,8 @@ int sc_game_info(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
                        translate(ti, "twin"), ")</run></blue>", nullptr);
     }
   }
-  sprintf(
-      temp,
+  std::snprintf(
+      temp, sizeof(temp),
       "<br><darkblue><run ::crosstab::Open>%s:  %s</run> (%s)</darkblue><br>",
       db->game->GetSiteStr(), db->game->GetEventStr(), db->game->GetRoundStr());
   Tcl_AppendResult(ti, temp, nullptr);

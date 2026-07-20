@@ -482,7 +482,7 @@ void OpTable::Clear() {
     delete Line[i];
   }
   for (i = 0; i < NumMoveOrders; i++) {
-    delete MoveOrder[i].moves;
+    delete[] MoveOrder[i].moves;
   }
   NumLines = NumTableLines = 0;
   NumMoveOrders = 0;

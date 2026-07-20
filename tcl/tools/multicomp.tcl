@@ -716,7 +716,7 @@ catch { puts "replay $_Data(this,$game)" }
         set name2 [lindex $thisgame 1]
         set k     [lindex $thisgame 2]
         if {$name1 != {} && $name2 != {}} {
-            after 500 "compNM $game \"$name1\" \"$name2\" $k"
+            after 500 [list compNM $game $name1 $name2 $k]
 catch { puts "Start $_Data(current): Slot $game $name1 - $name2" }
             incr _Data(runninggames)
             set _Data(this,$game) $thisgame

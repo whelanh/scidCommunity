@@ -53,11 +53,7 @@ void * my_malloc(size_t size) {
    void * address;
 
    ASSERT(size>0);
-#ifdef WINCE
-   address = (void*)my_Tcl_Alloc(size);
-#else
    address = malloc(size);
-#endif
    if (address == nullptr) my_fatal("my_malloc(): malloc(): %s\n",strerror(errno));
 
    return address;
@@ -69,11 +65,7 @@ void * my_realloc(void * address, size_t size) {
 
    ASSERT(address!=nullptr);
    ASSERT(size>0);
-#ifdef WINCE
-   address = (void*) my_Tcl_Realloc((char*)address,size);
-#else
    address = realloc(address,size);
-#endif
    if (address == nullptr) my_fatal("my_realloc(): realloc(): %s\n",strerror(errno));
 
    return address;
@@ -113,12 +105,14 @@ void my_fatal(const char format[], ...) {
    ASSERT(format!=nullptr);
 
    va_start(ap,format);
-
    vfprintf(stderr,format,ap);
-#ifndef WINCE
-  if (LogFile != nullptr) vfprintf(LogFile,format,ap);
-#endif
    va_end(ap);
+
+   if (LogFile != nullptr) {
+      va_start(ap,format);
+      vfprintf(LogFile,format,ap);
+      va_end(ap);
+   }
 
    if (Error) { // recursive error
       my_log("POLYGLOT *** RECURSIVE ERROR ***\n");

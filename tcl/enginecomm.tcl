@@ -260,7 +260,7 @@ proc ::engine::init_ {id channel callback} {
 }
 
 proc ::engine::destroy_ {id {localReply ""}} {
-    after cancel "::engine::done_ $id"
+    after cancel [list ::engine::done_ $id]
     if {[info exists ::engconn(nextHandshake_$id)]} {
         after cancel $::engconn(nextHandshake_$id)
     }
@@ -413,7 +413,7 @@ proc ::engine::onMessages_ {id channel} {
 }
 
 proc ::engine::done_ {id} {
-    after cancel "::engine::done_ $id"
+    after cancel [list ::engine::done_ $id]
     switch $::engconn(waitReply_$id) {
         "hello" {
             if {[info exists ::engconn(nextHandshake_$id)]} {

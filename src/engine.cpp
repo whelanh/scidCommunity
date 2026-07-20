@@ -1041,7 +1041,7 @@ Engine::SetHashTableKilobytes (uint size)
 	{
       TranTableSize = bytes / sizeof(transTableEntryT);
       if ((TranTableSize % 2) == 1) { TranTableSize--; }
-      if (TranTable != nullptr) { delete[] TranTable; }
+      delete[] TranTable;
       TranTable = new transTableEntryT [TranTableSize]{};
     }
     ClearHashTable();
@@ -1058,7 +1058,7 @@ Engine::SetPawnTableKilobytes (uint size)
 	if(PawnTableSize != bytes / sizeof(pawnTableEntryT))
 	{
       PawnTableSize = bytes / sizeof(pawnTableEntryT);
-      if (PawnTable != nullptr) { delete[] PawnTable; }
+      delete[] PawnTable;
       PawnTable = new pawnTableEntryT [PawnTableSize]{};
     }
     ClearPawnTable();
@@ -2171,12 +2171,14 @@ void
 Engine::Output (const char * format, ...)
 {
     va_list ap;
-    va_start (ap, format);
-    vprintf (format, ap);
+    va_start(ap, format);
+    vprintf(format, ap);
+    va_end(ap);
     if (LogFile != nullptr) {
-        vfprintf (LogFile, format, ap);
+        va_start(ap, format);
+        vfprintf(LogFile, format, ap);
+        va_end(ap);
     }
-    va_end (ap);
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Engine::PrintPV

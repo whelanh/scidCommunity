@@ -1415,10 +1415,6 @@ bool Game::MaterialMatch(bool PromotionsFlag, ByteBuffer &buf, byte *min,
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Game::ExactMatch():
 //      Exact position search test.
-//      If sm is not nullptr, its from, to, promote etc will be filled with
-//      the next move at the matching position, if there is one.
-//      If neverMatch is non-nullptr, the boolean it points to is set to
-//      true if the game could never match even with extra moves.
 //
 bool Game::ExactMatch(Position *searchPos, ByteBuffer *buf,
                       gameExactMatchT searchType) {
@@ -2453,8 +2449,11 @@ errorT Game::WritePGN(TextBuffer *tb) {
         tb->PrintString(dstr.Data());
       } else {
         StartPos->PrintFEN(std::copy_n("Position: ", 10, temp));
-        std::snprintf(temp + std::strlen(temp), sizeof(temp) - std::strlen(temp),
-                      "%s", newline);
+        size_t len = std::strlen(temp);
+        if (len < sizeof(temp)) {
+            std::snprintf(temp + len, sizeof(temp) - len, "%s", newline);
+        }
+        temp[sizeof(temp) - 1] = '\0';
         tb->PrintString(temp);
       }
     }
@@ -2530,7 +2529,10 @@ errorT Game::WritePGN(TextBuffer *tb) {
     if (StartPos) {
       StartPos->PrintFEN(std::copy_n("[FEN \"", 6, temp));
       auto len = std::strlen(temp);
-      std::snprintf(temp + len, sizeof(temp) - len, "\"]%s", newline);
+      if (len < sizeof(temp)) {
+          std::snprintf(temp + len, sizeof(temp) - len, "\"]%s", newline);
+      }
+      temp[sizeof(temp) - 1] = '\0';
       tb->PrintString(temp);
     }
     if (IsColorFormat()) {

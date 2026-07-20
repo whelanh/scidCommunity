@@ -182,7 +182,7 @@ char *
 strDuplicate (const char * original)
 {
     ASSERT (original != nullptr);
-    char * newStr = new char [strLength(original) + 1];
+    char * newStr = new (std::nothrow) char[strLength(original) + 1];
     if (newStr == nullptr)  return nullptr;
     char *s = newStr;
     while (*original != 0) {

@@ -733,7 +733,7 @@ class TkDND_DropTarget: public IDropTarget {
               TkDND_Status_Eval(1);
               if (status == TCL_OK) {
                 strncpy((char *) szTempStr, Tcl_GetStringResult(interp), sizeof(szTempStr) - 1);
-                szTempStr[sizeof(szTempStr) - 1] = 0;
+                ((char*)szTempStr)[sizeof(szTempStr) - 1] = 0;
                 data = GetData_FileGroupDescriptorW(pDataObject);
               }
               break;
@@ -743,7 +743,7 @@ class TkDND_DropTarget: public IDropTarget {
               TkDND_Status_Eval(1);
               if (status == TCL_OK) {
                 strncpy((char *) szTempStr, Tcl_GetStringResult(interp), sizeof(szTempStr) - 1);
-                szTempStr[sizeof(szTempStr) - 1] = 0;
+                ((char*)szTempStr)[sizeof(szTempStr) - 1] = 0;
                 data = GetData_FileGroupDescriptor(pDataObject);
               }
               break;
@@ -1066,7 +1066,7 @@ private:
           char file_name[MAX_PATH+1];
           GlobalLock(content_storage.pstm);
           snprintf(file_name, sizeof(file_name), "%s\\%s",
-                   szTempStr, file_descriptor.cFileName);
+                   (const char*)szTempStr, file_descriptor.cFileName);
           if (StreamToFile(content_storage.pstm, file_name) == S_OK) {
             Tcl_DString ds;
             Tcl_DStringInit(&ds);
