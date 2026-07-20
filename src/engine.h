@@ -46,7 +46,7 @@ struct principalVarT {
 // scoreFlagT
 //  Types of transposition table score and endgame recognition score.
 //
-typedef byte scoreFlagT;
+using scoreFlagT = byte;
 const scoreFlagT
     SCORE_NONE  = 0,    // Not a useful score.
     SCORE_EXACT = 1,    // Exact score.
@@ -188,30 +188,26 @@ public:
         MinSearchTime = MaxSearchTime = SearchTime;
         MinDepthCheckTime = 4; // will not check time until depth is at least of this value
 #ifndef WINCE
-        LogFile = NULL;
+        LogFile = nullptr;
 #endif
         Debug = false;
         PostInfo = false;
         XBoardMode = false;
         Pruning = false;
         RepStackSize = 0;
-        TranTable = NULL;
+        TranTable = nullptr;
         TranTableSize = 0;
         TranTableSequence = 0;
-        PawnTable = NULL;
+        PawnTable = nullptr;
         PawnTableSize = 0;
         SetHashTableKilobytes (ENGINE_HASH_KB);
         SetPawnTableKilobytes (ENGINE_PAWN_KB);
-        CallbackFunction = NULL;
+        CallbackFunction = nullptr;
         RootPos.StdStart();
         Pos.StdStart();
         for (auto& e : PV) { e.length = 0; }
     }
-#ifdef WINCE
-    ~Engine()  { my_Tcl_Free((char*) TranTable);  my_Tcl_Free((char*) PawnTable); }
-#else
     ~Engine()  { delete[] TranTable;  delete[] PawnTable; }
-#endif
     void SetSearchDepth (uint ply) {
         if (ply < 1) { ply = 1; }
         if (ply > ENGINE_MAX_PLY) { ply = ENGINE_MAX_PLY; }

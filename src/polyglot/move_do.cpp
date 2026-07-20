@@ -3,11 +3,7 @@
 
 // includes
 
-#ifdef WINCE
-#include <stdlib.h>
-#else
 #include <cstdlib>
-#endif
 
 #include "board.h"
 #include "colour.h"
@@ -208,7 +204,7 @@ static void square_clear(board_t * board, int square, int piece) {
    int pos, piece_12, colour;
    int sq, size;
 
-   ASSERT(board!=NULL);
+   ASSERT(board!=nullptr);
    ASSERT(square_is_ok(square));
    ASSERT(piece_is_ok(piece));
 
@@ -266,7 +262,7 @@ static void square_set(board_t * board, int square, int piece, int pos) {
    int piece_12, colour;
    int sq, size;
 
-   ASSERT(board!=NULL);
+   ASSERT(board!=nullptr);
    ASSERT(square_is_ok(square));
    ASSERT(piece_is_ok(piece));
    ASSERT(pos>=0);
@@ -322,7 +318,7 @@ static void square_move(board_t * board, int from, int to, int piece) {
    int colour, pos;
    int piece_index;
 
-   ASSERT(board!=NULL);
+   ASSERT(board!=nullptr);
    ASSERT(square_is_ok(from));
    ASSERT(square_is_ok(to));
    ASSERT(piece_is_ok(piece));

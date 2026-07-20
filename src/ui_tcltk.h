@@ -69,10 +69,10 @@ inline int Main (int argc, char* argv[], void (*exit) (void*)) {
 						"/usr/share/scid/tcl/start.tcl",
 						"/usr/local/share/scid/tcl/start.tcl",
 						"/opt/scid/share/scid/tcl/start.tcl",
-						NULL
+						nullptr
 					};
 					bool found = false;
-					for (int i = 0; systemPaths[i] != NULL; i++) {
+					for (int i = 0; systemPaths[i] != nullptr; i++) {
 						strncpy(sourceFileName, systemPaths[i], sizeof(sourceFileName) - 1);
 						sourceFileName[sizeof(sourceFileName) - 1] = '\0';
 						if (Tcl_Access(sourceFileName, 4) == 0) {
@@ -271,23 +271,23 @@ inline int UI_impl::initTclTk (UI_handle_t ti)
 #endif
 	Tk_Selection_Init (ti);
 
-	Tcl_CreateCommand(ti, "strIsPrefix" , str_is_prefix , 0, NULL);
-	Tcl_CreateCommand(ti, "strPrefixLen", str_prefix_len, 0, NULL);
-	Tcl_CreateCommand(ti, "sc_base"     , sc_base       , 0, NULL);
-	Tcl_CreateCommand(ti, "sc_book"     , sc_book       , 0, NULL);
-	Tcl_CreateCommand(ti, "sc_clipbase" , sc_clipbase   , 0, NULL);
-	Tcl_CreateCommand(ti, "sc_eco"      , sc_eco        , 0, NULL);
-	Tcl_CreateCommand(ti, "sc_epd"      , sc_epd        , 0, NULL);
-	Tcl_CreateCommand(ti, "sc_filter"   , sc_filter     , 0, NULL);
-	Tcl_CreateCommand(ti, "sc_game"     , sc_game       , 0, NULL);
-	Tcl_CreateCommand(ti, "sc_info"     , sc_info       , 0, NULL);
-	Tcl_CreateCommand(ti, "sc_move"     , sc_move       , 0, NULL);
-	Tcl_CreateCommand(ti, "sc_name"     , sc_name       , 0, NULL);
-	Tcl_CreateCommand(ti, "sc_report"   , sc_report     , 0, NULL);
-	Tcl_CreateCommand(ti, "sc_pos"      , sc_pos        , 0, NULL);
-	Tcl_CreateCommand(ti, "sc_search"   , sc_search     , 0, NULL);
-	Tcl_CreateCommand(ti, "sc_tree"     , sc_tree       , 0, NULL);
-	Tcl_CreateCommand(ti, "sc_var"      , sc_var        , 0, NULL);
+	Tcl_CreateCommand(ti, "strIsPrefix" , str_is_prefix , 0, nullptr);
+	Tcl_CreateCommand(ti, "strPrefixLen", str_prefix_len, 0, nullptr);
+	Tcl_CreateCommand(ti, "sc_base"     , sc_base       , 0, nullptr);
+	Tcl_CreateCommand(ti, "sc_book"     , sc_book       , 0, nullptr);
+	Tcl_CreateCommand(ti, "sc_clipbase" , sc_clipbase   , 0, nullptr);
+	Tcl_CreateCommand(ti, "sc_eco"      , sc_eco        , 0, nullptr);
+	Tcl_CreateCommand(ti, "sc_epd"      , sc_epd        , 0, nullptr);
+	Tcl_CreateCommand(ti, "sc_filter"   , sc_filter     , 0, nullptr);
+	Tcl_CreateCommand(ti, "sc_game"     , sc_game       , 0, nullptr);
+	Tcl_CreateCommand(ti, "sc_info"     , sc_info       , 0, nullptr);
+	Tcl_CreateCommand(ti, "sc_move"     , sc_move       , 0, nullptr);
+	Tcl_CreateCommand(ti, "sc_name"     , sc_name       , 0, nullptr);
+	Tcl_CreateCommand(ti, "sc_report"   , sc_report     , 0, nullptr);
+	Tcl_CreateCommand(ti, "sc_pos"      , sc_pos        , 0, nullptr);
+	Tcl_CreateCommand(ti, "sc_search"   , sc_search     , 0, nullptr);
+	Tcl_CreateCommand(ti, "sc_tree"     , sc_tree       , 0, nullptr);
+	Tcl_CreateCommand(ti, "sc_var"      , sc_var        , 0, nullptr);
 
 	return TCL_OK;
 }

@@ -53,7 +53,7 @@ Parser::Parser(char* line) {
 	ASSERT(line != 0);
 
 	extra = strchr(line, '#');
-	if (extra != NULL) {
+	if (extra != nullptr) {
 		// Make [line, extra) a null terminated string
 		*extra++ = 0;
 	}
@@ -96,18 +96,18 @@ Parser::Parser(char* line) {
 			// comparisons, e.g:   @PLAYER ", .-"
 			// would indicate to exclude dots, commas, spaces and dashes.
 			extra = strchr(name, '"');
-			if (extra != NULL) {
+			if (extra != nullptr) {
 				char* end = strchr(++extra, '"');
-				if (end != NULL) {
+				if (end != nullptr) {
 					*end = 0;
 				} else {
-					extra = NULL;
+					extra = nullptr;
 				}
 			}
 			break;
 		default:
 			type = SPELL_NEWNAME;
-			if (extra != NULL) {
+			if (extra != nullptr) {
 				// Spelling files can provide player informations like titles/gender,
 				// countries, highest elo, date of birth, date of death. For example:
 				// Polgar, Judit           #gm+w HUN [2735] 1976
@@ -149,7 +149,7 @@ public:
 			case SPELL_SECTIONSTART:
 				nt_ = NameBase::NameTypeFromString(data.name);
 				if (!NameBase::IsValidNameType(nt_)) return ERROR_CorruptData;
-				if (data.extra != NULL) {
+				if (data.extra != nullptr) {
 					sp_.excludeChars_[nt_] = data.extra;
 				} else {
 					sp_.excludeChars_[nt_].clear();
@@ -247,8 +247,8 @@ private:
  */
 errorT SpellChecker::read(const char* filename, const Progress& progress)
 {
-	ASSERT(filename != NULL);
-	ASSERT(staticStrings_ == NULL);
+	ASSERT(filename != nullptr);
+	ASSERT(staticStrings_ == nullptr);
 
 	// Open the file and get the file size.
 	Filebuf file;
@@ -264,6 +264,7 @@ errorT SpellChecker::read(const char* filename, const Progress& progress)
 
 	// Parse the file lines
 	staticStrings_ = (char*) malloc(fileSize + 1);
+	if (staticStrings_ == nullptr) return ERROR_FileOpen;
 	char* bEnd = staticStrings_ + fileSize + 1;
 	char* line = staticStrings_;
 	size_t nRead;
@@ -393,14 +394,14 @@ PlayerInfo::getTitle() const
         "GM", "IM", "FM",
         "WGM", "WIM", "WFM", "W",
         "CGM", "CIM", "HGM",
-        NULL
+        nullptr
     };
     const char ** titlePtr = titles;
 
     const char* comment = GetComment();
     if (*comment == 0) { return ""; }
 
-    while (*titlePtr != NULL) {
+    while (*titlePtr != nullptr) {
         if (strIsCasePrefix (*titlePtr, comment)) { return *titlePtr; }
         titlePtr++;
     }

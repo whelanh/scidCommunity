@@ -697,16 +697,16 @@ proc ::board::setButtonCmd {{w} {button} {cmd}} {
   } else {
     $w.bar.$button configure -state normal
     ::bind $w.bar.$button <ButtonPress-1> "
-      $cmd
-      set ::board::repeatCmd \[expr int(\$::board::repeatCmd *0.8)\]
-      after \$::board::repeatCmd \"event generate $w.bar.$button <ButtonPress-1>\"
+      [list {*}[list $cmd]]
+      set ::board::repeatCmd \[expr {int(\$::board::repeatCmd * 0.8)}]
+      after \$::board::repeatCmd [list event generate $w.bar.$button <ButtonPress-1>]
     "
     ::bind $w.bar.$button <Any-Leave> "
-      after cancel \"event generate $w.bar.$button <ButtonPress-1>\"
+      after cancel [list event generate $w.bar.$button <ButtonPress-1>]
       set ::board::repeatCmd 400
     "
     ::bind $w.bar.$button <ButtonRelease-1> "
-      after cancel \"event generate $w.bar.$button <ButtonPress-1>\"
+      after cancel [list event generate $w.bar.$button <ButtonPress-1>]
       set ::board::repeatCmd 400
     "
   }

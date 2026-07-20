@@ -187,7 +187,7 @@ int piece_from_char(int c) {
    const char * ptr;
 
    ptr = strchr(PieceString,c);
-   if (ptr == NULL) return PieceNone256;
+   if (ptr == nullptr) return PieceNone256;
 
    return piece_from_12(ptr-PieceString);
 }
@@ -196,7 +196,7 @@ int piece_from_char(int c) {
 
 bool char_is_piece(int c) {
 
-   return strchr("PNBRQK",c) != NULL;
+   return strchr("PNBRQK",c) != nullptr;
 }
 
 // end of piece.cpp

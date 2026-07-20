@@ -545,9 +545,6 @@ set spellCheckFile [file join $scidShareDir "spelling.ssp"]
 # book configuration
 set ::book::lastBook "" ; # book name without extension (.bin)
 
-# Engines list file: -- OLD NAMES, NO LONGER USED
-#set engines(file) [file join $scidUserDir "engines.lis"]
-#set engines(backup) [file join $scidUserDir "engines.bak"]
 
 # Engines data:
 set engines(list) {}

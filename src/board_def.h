@@ -22,11 +22,11 @@
 
 #pragma once
 
-typedef unsigned char pieceT;  // e.g ROOK or WK
-typedef unsigned char colorT;  // WHITE or BLACK
-typedef unsigned char squareT; // e.g. A3
-typedef unsigned char rankT;   // Chess board rank
-typedef unsigned char fyleT;   // Chess board file
+using pieceT = unsigned char;  // e.g ROOK or WK
+using colorT = unsigned char;  // WHITE or BLACK
+using squareT = unsigned char; // e.g. A3
+using rankT = unsigned char;   // Chess board rank
+using fyleT = unsigned char;   // Chess board file
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // PIECES COLORS

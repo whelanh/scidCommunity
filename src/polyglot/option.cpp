@@ -3,11 +3,7 @@
 
 // includes
 
-#ifdef WINCE
-#include <stdlib.h>
-#else
 #include <cstdlib>
-#endif
 #include <cstring>
 
 #include "option.h"
@@ -28,49 +24,49 @@ struct option_t {
 
 static option_t Option[] = {
 
-   { "OptionFile",    NULL, }, // string
+   { "OptionFile",    nullptr, }, // string
 
    // options
 
-   { "EngineName",    NULL, }, // string
-   { "EngineDir",     NULL, }, // string
-   { "EngineCommand", NULL, }, // string
+   { "EngineName",    nullptr, }, // string
+   { "EngineDir",     nullptr, }, // string
+   { "EngineCommand", nullptr, }, // string
 
-   { "Log",           NULL, }, // true/false
-   { "LogFile",       NULL, }, // string
+   { "Log",           nullptr, }, // true/false
+   { "LogFile",       nullptr, }, // string
 
-   { "Chess960",      NULL, }, // true/false
+   { "Chess960",      nullptr, }, // true/false
 
-   { "Resign",        NULL, }, // true/false
-   { "ResignMoves",   NULL, }, // move number
-   { "ResignScore",   NULL, }, // centipawns
+   { "Resign",        nullptr, }, // true/false
+   { "ResignMoves",   nullptr, }, // move number
+   { "ResignScore",   nullptr, }, // centipawns
 
-   { "MateScore",     NULL, }, // centipawns
+   { "MateScore",     nullptr, }, // centipawns
 
-   { "Book",          NULL, }, // true/false
-   { "BookFile",      NULL, }, // string
+   { "Book",          nullptr, }, // true/false
+   { "BookFile",      nullptr, }, // string
 
-   { "BookRandom",    NULL, }, // true/false
-   { "BookLearn",     NULL, }, // true/false
+   { "BookRandom",    nullptr, }, // true/false
+   { "BookLearn",     nullptr, }, // true/false
 
-   { "KibitzMove",    NULL, }, // true/false
-   { "KibitzPV",      NULL, }, // true/false
+   { "KibitzMove",    nullptr, }, // true/false
+   { "KibitzPV",      nullptr, }, // true/false
 
-   { "KibitzCommand", NULL, }, // string
-   { "KibitzDelay",   NULL, }, // seconds
+   { "KibitzCommand", nullptr, }, // string
+   { "KibitzDelay",   nullptr, }, // seconds
 
-   { "ShowPonder",    NULL, }, // true/false
+   { "ShowPonder",    nullptr, }, // true/false
 
    // work-arounds
 
-   { "UCIVersion",    NULL, }, // 1-
-   { "CanPonder",     NULL, }, // true/false
-   { "SyncStop",      NULL, }, // true/false
-   { "PromoteWorkAround", NULL, }, // true/false
+   { "UCIVersion",    nullptr, }, // 1-
+   { "CanPonder",     nullptr, }, // true/false
+   { "SyncStop",      nullptr, }, // true/false
+   { "PromoteWorkAround", nullptr, }, // true/false
 
-   // { "",              NULL, },
+   // { "",              nullptr, },
 
-   { NULL,            NULL, },
+   { nullptr,            nullptr, },
 };
 
 // prototypes
@@ -132,11 +128,11 @@ bool option_set(const char var[], const char val[]) {
 
    option_t * opt;
 
-   ASSERT(var!=NULL);
-   ASSERT(val!=NULL);
+   ASSERT(var!=nullptr);
+   ASSERT(val!=nullptr);
 
    opt = option_find(var);
-   if (opt == NULL) return false;
+   if (opt == nullptr) return false;
 
    my_string_set(&opt->val,val);
 
@@ -151,13 +147,13 @@ static option_t * option_find(const char var[]) {
 
    option_t * opt;
 
-   ASSERT(var!=NULL);
+   ASSERT(var!=nullptr);
 
-   for (opt = &Option[0]; opt->var != NULL; opt++) {
+   for (opt = &Option[0]; opt->var != nullptr; opt++) {
       if (my_string_case_equal(opt->var,var)) return opt;
    }
 
-   return NULL;
+   return nullptr;
 }
 
 // end of option.cpp

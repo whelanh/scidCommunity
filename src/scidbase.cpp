@@ -67,7 +67,7 @@ scidBaseT::scidBaseT() {
 	fileMode_ = FMODE_None;
 	dbFilter = new Filter(0);
 	treeFilter = new Filter(0);
-	stats_ = NULL;
+	stats_ = nullptr;
 }
 
 scidBaseT::~scidBaseT() {
@@ -172,9 +172,9 @@ void scidBaseT::Close() {
 }
 
 void scidBaseT::clear() {
-	if (stats_ != NULL) {
+	if (stats_ != nullptr) {
 		delete stats_;
-		stats_ = NULL;
+		stats_ = nullptr;
 	}
 	duplicates_.reset();
 	treeCache.Clear();
@@ -453,7 +453,7 @@ scidBaseT::getFilterComponents(std::string_view filterID) const {
  * Statistics
  */
 const scidBaseT::Stats& scidBaseT::getStats() const {
-	if (stats_ == NULL)
+	if (stats_ == nullptr)
 		stats_ = new scidBaseT::Stats(this);
 	return *stats_;
 }
@@ -857,7 +857,7 @@ errorT scidBaseT::compact(const Progress& progress) {
 		for (size_t i = 0, n = oldSC.size(); i < n; i++) {
 			const std::string& criteria = oldSC[i].first;
 			SortCache* sc = SortCache::create(idx, nb_, criteria.c_str());
-			if (sc != NULL) {
+			if (sc != nullptr) {
 				sc->incrRef(oldSC[i].second);
 				sortCaches_.emplace_back(criteria, sc);
 			}
@@ -876,10 +876,10 @@ errorT scidBaseT::compact(const Progress& progress) {
  * @param criteria: the list of fields by which games will be ordered.
  *                  Each field should be followed by '+' to indicate an
  *                  ascending order or by '-' for a descending order.
- * @returns a pointer to a SortCache object in case of success, NULL otherwise.
+ * @returns a pointer to a SortCache object in case of success, nullptr otherwise.
  */
 SortCache* scidBaseT::getSortCache(const char* criteria) {
-	ASSERT(criteria != NULL);
+	ASSERT(criteria != nullptr);
 
 	for (auto& sortCache : sortCaches_) {
 		if (sortCache.first == criteria)
@@ -887,7 +887,7 @@ SortCache* scidBaseT::getSortCache(const char* criteria) {
 	}
 
 	SortCache* sc = SortCache::create(idx, getNameBase(), criteria);
-	if (sc != NULL)
+	if (sc != nullptr)
 		sortCaches_.emplace_back(criteria, sc);
 
 	return sc;
@@ -918,7 +918,7 @@ bool scidBaseT::createSortCache(const char* criteria) {
 size_t scidBaseT::listGames(const char* criteria, size_t start, size_t count,
                             const HFilter& filter, gamenumT* destCont) {
 	const SortCache* sc = getSortCache(criteria);
-	if (sc == NULL)
+	if (sc == nullptr)
 		return 0;
 
 	return sc->select(start, count, filter, destCont);
@@ -926,13 +926,13 @@ size_t scidBaseT::listGames(const char* criteria, size_t start, size_t count,
 
 size_t scidBaseT::sortedPosition(const char* criteria, const HFilter& filter,
                                  gamenumT gameId) {
-	ASSERT(filter != NULL && filter->size() <= numGames());
+	ASSERT(filter != nullptr && filter->size() <= numGames());
 
 	if (gameId >= numGames() || filter->get(gameId) == 0)
 		return INVALID_GAMEID;
 
 	SortCache* sc = getSortCache(criteria);
-	if (sc == NULL)
+	if (sc == nullptr)
 		return INVALID_GAMEID;
 
 	return sc->sortedPosition(gameId, filter);

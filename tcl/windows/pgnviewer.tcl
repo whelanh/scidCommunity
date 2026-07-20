@@ -808,8 +808,8 @@ namespace eval ::pgnviewer {
             if {$::pgnviewer::_move($n) == $ply || $ply >= $::pgnviewer::_maxply($n)} {
                 ::pgnviewer::autoplay $w $n
             } else {
-                after cancel "::pgnviewer::update $w $n +1"
-                after $::autoplayDelay "::pgnviewer::update $w $n +1"
+                after cancel [list ::pgnviewer::update $w $n +1]
+                after $::autoplayDelay [list ::pgnviewer::update $w $n +1]
             }
         }
         set ::pgnviewer::_move($n) $ply

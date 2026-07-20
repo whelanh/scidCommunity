@@ -24,8 +24,8 @@
 #include <string>
 #include <string_view>
 #include <cstring>
-#include <stdio.h>
-#include <ctype.h>   // For isspace(), etc
+#include <cstdio>
+#include <cctype>   // For isspace(), etc
 #include <cstdlib>
 #include <vector>
 
@@ -91,14 +91,14 @@ public:
 		virtual bool report(size_t done, size_t total, const char* msg) = 0;
 	};
 
-	Progress(Impl* f = NULL) : f_(f) {}
+	Progress(Impl* f = nullptr) : f_(f) {}
 	Progress(const Progress&) = delete;
 	~Progress() { delete f_; }
 
 	bool report(size_t done, size_t total) const {
 		return operator()(done, total);
 	}
-	bool operator()(size_t done, size_t total, const char* msg = NULL) const {
+	bool operator()(size_t done, size_t total, const char* msg = nullptr) const {
 		if (f_) return f_->report(done, total, msg);
 		return true;
 	}
@@ -205,7 +205,7 @@ bool   strGetBoolean (const char * str);
 inline int
 strGetInteger(const char * str)
 {
-	return std::strtol(str, NULL, 10);
+	return std::strtol(str, nullptr, 10);
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -214,12 +214,12 @@ strGetInteger(const char * str)
 //    Defaults to zero (as strtoul does) for non-numeric strings.
 //
 inline uint32_t strGetUnsigned(const char* str) {
-	ASSERT(str != NULL);
-	return static_cast<uint32_t>(std::strtoul(str, NULL, 10));
+	ASSERT(str != nullptr);
+	return static_cast<uint32_t>(std::strtoul(str, nullptr, 10));
 }
 
 inline int strCaseCompare(const char* str1, const char* str2) {
-	ASSERT(str1 != NULL && str2 != NULL);
+	ASSERT(str1 != nullptr && str2 != nullptr);
 	const unsigned char* s1 = reinterpret_cast<const unsigned char*>(str1);
 	const unsigned char* s2 = reinterpret_cast<const unsigned char*>(str2);
 	int c1, c2;
@@ -234,7 +234,7 @@ inline int strCaseCompare(const char* str1, const char* str2) {
 }
 
 inline int strCompareRound(const char* str1, const char* str2) {
-	ASSERT(str1 != NULL && str2 != NULL);
+	ASSERT(str1 != nullptr && str2 != nullptr);
 	uint32_t a = strGetUnsigned(str1);
 	uint32_t b = strGetUnsigned(str2);
 	if (a == b)
@@ -243,7 +243,7 @@ inline int strCompareRound(const char* str1, const char* str2) {
 }
 
 inline bool strEqual(const char* str1, const char* str2) {
-	ASSERT(str1 != NULL && str2 != NULL);
+	ASSERT(str1 != nullptr && str2 != nullptr);
 	return (std::strcmp(str1, str2) == 0);
 }
 
@@ -251,7 +251,7 @@ void   strGetIntegers (const char * str, int * results, uint nResults);
 void   strGetUnsigneds (const char * str, uint * results, uint nResults);
 resultT strGetResult (const char * str);
 
-typedef uint flagT;
+using flagT = uint;
 const flagT FLAG_EMPTY = 0;
 const flagT FLAG_YES = 1;
 const flagT FLAG_NO = 2;
@@ -300,7 +300,7 @@ strContainsChar (const char * str, char ch)
 // interpreted as unsigned char) that differ in the strings being compared.
 inline int strCompare(const char* s1, const char* s2)
 {
-    ASSERT (s1 != NULL  &&  s2 != NULL);
+    ASSERT (s1 != nullptr  &&  s2 != nullptr);
     while (1) {
         if (*s1 != *s2) {
             return ((int) *s1) - ((int) *s2);
@@ -318,7 +318,7 @@ inline int strCompare(const char* s1, const char* s2)
 inline void
 strCopy (char * target, const char * original)
 {
-    ASSERT (target != NULL  &&  original != NULL);
+    ASSERT (target != nullptr  &&  original != nullptr);
     while (*original != 0) {
         *target = *original;
         target++;
@@ -334,7 +334,7 @@ strCopy (char * target, const char * original)
 inline uint
 strPrefix (const char * s1, const char * s2)
 {
-    ASSERT (s1 != NULL  &&  s2 != NULL);
+    ASSERT (s1 != nullptr  &&  s2 != nullptr);
     uint count = 0;
     while (*s1 == *s2) {
         if (*s1 == 0) { // seen end of string, strings are identical
@@ -431,7 +431,7 @@ strAlphaContains (const char * longStr, const char * keyStr)
 inline uint
 strLength (const char * str)
 {
-    ASSERT(str != NULL);
+    ASSERT(str != nullptr);
     uint len = 0;
     while (*str != 0) { len++; str++; }
     return len;

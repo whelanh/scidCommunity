@@ -6,11 +6,7 @@
 #include <cctype>
 #include <cstdio>
 
-#ifdef WINCE
-#include <stdlib.h>
-#else
 #include <cstdlib>
-#endif
 
 #include "board.h"
 #include "colour.h"
@@ -42,8 +38,8 @@ bool board_from_fen(board_t * board, const char string[]) {
    int piece;
    int king_pos[ColourNb];
 
-   ASSERT(board!=NULL);
-   ASSERT(string!=NULL);
+   ASSERT(board!=nullptr);
+   ASSERT(string!=nullptr);
 
    board_clear(board);
 

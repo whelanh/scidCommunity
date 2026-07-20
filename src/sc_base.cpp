@@ -346,7 +346,7 @@ UI_res_t sc_base_gameslist(scidBaseT* dbase, UI_handle_t ti, int argc, const cha
 	size_t start = strGetUnsigned(argv[3]);
 	size_t count = strGetUnsigned(argv[4]);
 	const HFilter filter = dbase->getFilter(argv[5]);
-	if (filter == NULL)
+	if (filter == nullptr)
 		return UI_Result(ti, ERROR_BadArg, usage);
 	gamenumT* idxList = new gamenumT[count];
 	count = dbase->listGames(argv[6], start, count, filter, idxList);
@@ -655,7 +655,7 @@ UI_res_t sc_base_stats(const scidBaseT* dbase, UI_handle_t ti, int argc, const c
 	UI_List res(6);
 
 	enum { OPT_DATE, OPT_ECO, OPT_FLAG, OPT_FLAGS, OPT_RATINGS, OPT_RESULTS };
-	const char * options[] = { "dates", "eco", "flag", "flags", "ratings", "results", NULL };
+	const char * options[] = { "dates", "eco", "flag", "flags", "ratings", "results", nullptr };
 	switch (strExactMatch(subcmd, options)) {
 	case OPT_DATE:
 		res.push_back(date_GetYear(stats.minDate));
@@ -808,7 +808,7 @@ UI_res_t sc_base_tournaments(const scidBaseT* dbase, UI_handle_t ti, int argc, c
 	long nResults = strGetUnsigned(argv[4]);
 
 	static const char* options[] = {
-		"-avgelo", "-n_games", "-n_players", "-player", "-sort", NULL
+		"-avgelo", "-n_games", "-n_players", "-player", "-sort", nullptr
 	};
 	enum { AVGELO, N_GAMES, N_PLAYERS, PLAYER, SORT };
 
@@ -968,7 +968,7 @@ UI_res_t sc_base (UI_extra_t cd, UI_handle_t ti, int argc, const char ** argv)
 	    "piecetrack",      "player_elo",      "slot",            "sortcache",       "stats",
 	    "strip",           "switch",          "taglist",         "tournaments",     "type",
 	    "gamesummary",
-	    NULL
+	    nullptr
 	};
 	enum {
 	    BASE_CLOSE,        BASE_COMPACT,      BASE_COPYGAMES,

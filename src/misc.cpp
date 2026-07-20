@@ -14,8 +14,8 @@
 
 #include "common.h"
 #include "misc.h"
-#include <stdio.h>
-#include <ctype.h>     // For isspace() function.
+#include <cstdio>
+#include <cctype>     // For isspace() function.
 #include <cmath>
 
 //////////////////////////////////////////////////////////////////////
@@ -164,7 +164,7 @@ eco_LastSubCode (ecoT eco)
 char *
 strAppend (char * target, const char * extra)
 {
-    ASSERT (target != NULL  &&  extra != NULL);
+    ASSERT (target != nullptr  &&  extra != nullptr);
     while (*target != 0)  { target++; }  // get to end of target string
     while (*extra != 0) {
         *target = *extra;
@@ -181,9 +181,9 @@ strAppend (char * target, const char * extra)
 char *
 strDuplicate (const char * original)
 {
-    ASSERT (original != NULL);
+    ASSERT (original != nullptr);
     char * newStr = new char [strLength(original) + 1];
-    if (newStr == NULL)  return NULL;
+    if (newStr == nullptr)  return nullptr;
     char *s = newStr;
     while (*original != 0) {
         *s = *original;
@@ -210,7 +210,7 @@ strDuplicate (const char * original)
 uint
 strPad (char * target, const char * original, int width, char padding)
 {
-    ASSERT (target != NULL  &&  original != NULL);
+    ASSERT (target != nullptr  &&  original != nullptr);
     if (width < 0) {
         strCopy (target, original);
         return strLength (original);
@@ -233,7 +233,7 @@ strPad (char * target, const char * original, int width, char padding)
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // strFirstChar():
 //      Returns the pointer into the provided string where the
-//      FIRST occurrence of matchChar is, or NULL if the string
+//      FIRST occurrence of matchChar is, or nullptr if the string
 //      does not contain matchChar at all.
 //      Equivalent to strchr().
 const char *
@@ -244,20 +244,20 @@ strFirstChar (const char * target, char matchChar)
         if (*s == matchChar) { return s; }
         s++;
     }
-    return NULL;
+    return nullptr;
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // strLastChar():
 //      Returns the pointer into the provided string where the
-//      LAST occurrence of matchChar is, or NULL if the string
+//      LAST occurrence of matchChar is, or nullptr if the string
 //      does not contain matchChar at all.
 //      Equivalent to strrchr().
 const char *
 strLastChar (const char * target, char matchChar)
 {
     const char * s = target;
-    const char * last = NULL;
+    const char * last = nullptr;
     while (*s != 0) {
         if (*s == matchChar) { last = s; }
         s++;
@@ -308,7 +308,7 @@ uint
 strTrimSuffix (char * target, char suffixChar)
 {
     uint trimCount = 0;
-    char * lastSuffixPtr = NULL;
+    char * lastSuffixPtr = nullptr;
     char * s = target;
     while (*s) {
         if (*s == suffixChar) {
@@ -318,7 +318,7 @@ strTrimSuffix (char * target, char suffixChar)
         trimCount++;
         s++;
     }
-    if (lastSuffixPtr == NULL) { return 0; }
+    if (lastSuffixPtr == nullptr) { return 0; }
     *lastSuffixPtr = 0;
     return trimCount;
 }
@@ -349,7 +349,7 @@ strTrimMarkCodes (char * str)
     char * in = str;
     char * out = str;
     bool inCode = false;
-    char * startLocation = NULL;
+    char * startLocation = nullptr;
 
     while (1) {
         char ch = *in;
@@ -417,7 +417,7 @@ strTrimMarkup (char * str)
 const char *
 strFirstWord (const char * str)
 {
-    ASSERT (str != NULL);
+    ASSERT (str != nullptr);
     while (*str != 0  &&  isspace(static_cast<unsigned char>(*str))) { str++; }
     return str;
 }
@@ -430,7 +430,7 @@ strFirstWord (const char * str)
 const char *
 strNextWord (const char * str)
 {
-    ASSERT (str != NULL);
+    ASSERT (str != nullptr);
     while (*str != 0  &&  !isspace(static_cast<unsigned char>(*str))) { str++; }
     while (*str != 0  &&  isspace(static_cast<unsigned char>(*str))) { str++; }
     return str;
@@ -480,10 +480,10 @@ bool
 strGetBoolean (const char * str)
 {
     static const char * sTrue[] = {
-        "true", "yes", "on", "1", "ja", "si", "oui", NULL
+        "true", "yes", "on", "1", "ja", "si", "oui", nullptr
     };
     static const char * sFalse[] = {
-        "false", "no", "off", "0", NULL
+        "false", "no", "off", "0", nullptr
     };
     if (str[0] == 0) { return false; }
 
@@ -491,14 +491,14 @@ strGetBoolean (const char * str)
     bool matchedFalse = false;
 
     const char ** next = sTrue;
-    while (*next != NULL) {
+    while (*next != nullptr) {
         if (strIsCasePrefix (str, *next)  ||  strIsCasePrefix (*next, str)) {
            matchedTrue = true;
         }
         next++;
     }
     next = sFalse;
-    while (*next != NULL) {
+    while (*next != nullptr) {
         if (strIsCasePrefix (str, *next)  ||  strIsCasePrefix (*next, str)) {
            matchedFalse = true;
         }
@@ -609,12 +609,12 @@ strGetSquare (const char * str)
 //
 //      If the flag <exact> is true, only complete matches are considered.
 //      Otherwise, unique abbreviations are accepted.
-//      Example: looking up "repl" in {"repeat", "replace", NULL} would
+//      Example: looking up "repl" in {"repeat", "replace", nullptr} would
 //      return 1 (matching "replace") but looking up "rep" would
 //      return -1 because its match is ambiguous.
 //
 //      The array "strTable" does NOT need to be in any order, but the last
-//      entry must be NULL.
+//      entry must be nullptr.
 int
 strUniqueExactMatch (const char * keyStr, const char ** strTable, bool exact)
 {
@@ -625,10 +625,10 @@ strUniqueExactMatch (const char * keyStr, const char ** strTable, bool exact)
     const char ** entryPtr = strTable;
     
     // If keyStr or strTable are null, return no match:
-    if (keyStr == NULL  ||  strTable == NULL) { return -1; }
+    if (keyStr == nullptr  ||  strTable == nullptr) { return -1; }
     
     // Check each entry in turn:
-    for (int i=0;  *entryPtr != NULL;  entryPtr++, i++) {
+    for (int i=0;  *entryPtr != nullptr;  entryPtr++, i++) {
         // Check the key against this entry, character by character:
         for (s1 = keyStr, s2 = *entryPtr;  *s1 == *s2;  s1++, s2++) {
             // If *s1 is 0, we found an EXACT match, so return it now:

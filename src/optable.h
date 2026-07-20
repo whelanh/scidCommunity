@@ -172,7 +172,7 @@ private:
 
 public:
   OpTable(const char *type, Game *g, PBook *ecoBook) { Init(type, g, ecoBook); }
-  OpTable(const char *type, Game *g) { Init(type, g, NULL); }
+  OpTable(const char *type, Game *g) { Init(type, g, nullptr); }
   ~OpTable() {
     Clear();
     delete[] Type;
@@ -219,11 +219,7 @@ public:
   void PrintStemLine(DString *dstr, uint format, bool exclude);
   void PrintStemLine(DString *dstr) { PrintStemLine(dstr, Format, false); }
   void MakeRows(void);
-#ifdef WINCE
-  void DumpLines(/*FILE **/ Tcl_Channel fp);
-#else
   void DumpLines(FILE *fp);
-#endif
   void PrintTable(DString *dstr, const char *title, const char *comment);
   void PrintHTML(DString *str, const char *title, const char *comment);
   void PrintText(DString *str, const char *title, const char *comment,

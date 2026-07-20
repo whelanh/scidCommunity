@@ -5,11 +5,7 @@
 
 #include <cctype>
 #include <cstdio>
-#ifdef WINCE
-#include <stdlib.h>
-#else
 #include <cstdlib>
-#endif
 #include <cstring>
 
 #include "attack.h"
@@ -50,7 +46,7 @@ bool move_to_san(int move, const board_t * board, char string[], int size) {
 
    ASSERT(move_is_ok(move));
    ASSERT(board_is_ok(board));
-   ASSERT(string!=NULL);
+   ASSERT(string!=nullptr);
    ASSERT(size>=8);
 
    ASSERT(move_is_legal(move,board));
@@ -156,7 +152,7 @@ int move_from_san(const char string[], const board_t * board) {
    char s[256];
    int move;
 
-   ASSERT(string!=NULL);
+   ASSERT(string!=nullptr);
    ASSERT(board_is_ok(board));
 
    san_to_lan(string,board,s,256);
@@ -176,7 +172,7 @@ int move_from_san_debug(const char string[], const board_t * board) {
    int i, move;
    char move_string[256];
 
-   ASSERT(string!=NULL);
+   ASSERT(string!=nullptr);
    ASSERT(board_is_ok(board));
 
    gen_legal_moves(list,board);
@@ -200,9 +196,9 @@ static bool san_to_lan(const char san[], const board_t * board, char string[], i
    int king, rook;
    char king_string[3], rook_string[3];
 
-   ASSERT(san!=NULL);
+   ASSERT(san!=nullptr);
    ASSERT(board_is_ok(board));
-   ASSERT(string!=NULL);
+   ASSERT(string!=nullptr);
    ASSERT(size>=8);
 
    // init
@@ -375,7 +371,7 @@ static int move_from_lan(const char string[], const board_t * board) {
    int piece;
    int side;
 
-   ASSERT(string!=NULL);
+   ASSERT(string!=nullptr);
    ASSERT(board_is_ok(board));
 
    // init

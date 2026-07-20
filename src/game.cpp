@@ -105,7 +105,7 @@ char transPiecesChar(char c) {
 const char *ratingTypeNames[8] = {"Elo", "Rating", "Rapid", "ICCF", "USCF",
                                   "DWZ", "ECF",
                                   // End of array marker:
-                                  NULL};
+                                  nullptr};
 
 typedef Game *GamePtr;
 
@@ -115,7 +115,7 @@ typedef Game *GamePtr;
 // TODO
 //    replace < and > in NAG codes by <lt> and <gt>
 void game_printNag(byte nag, char *str, bool asSymbol, gameFormatT format) {
-  ASSERT(str != NULL);
+  ASSERT(str != nullptr);
 
   if (nag == 0) {
     *str = 0;
@@ -683,13 +683,13 @@ bool Game::SetPgnFormatFromString(const char *str) {
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Game::FindExtraTag():
 //   Finds and returns an extra PGN tag if it
-//   exists, or NULL if it does not exist.
+//   exists, or nullptr if it does not exist.
 const char *Game::FindExtraTag(const char *tag) const {
   for (auto &e : extraTags_) {
     if (e.first == tag)
       return e.second.c_str();
   }
-  return NULL;
+  return nullptr;
 }
 
 std::string_view Game::GetResultStr() const {
@@ -704,9 +704,9 @@ std::string_view Game::GetResultStr() const {
 //      is stored as a comment of FirstMove.
 //
 void Game::SetMoveComment(const char *comment) {
-  ASSERT(CurrentMove != NULL && CurrentMove->prev != NULL);
+  ASSERT(CurrentMove != nullptr && CurrentMove->prev != nullptr);
   moveT *m = CurrentMove->prev;
-  if (comment == NULL) {
+  if (comment == nullptr) {
     m->comment.clear();
   } else {
     m->comment = comment;
@@ -757,7 +757,7 @@ int Game::setRating(colorT col, const char *ratingType, size_t ratingTypeLen,
 // Also update all the necessary fields in the simpleMove structure
 // (CurrentMove->moveData) so it can be undone.
 //
-errorT Game::MoveForward(void) {
+errorT Game::MoveForward() {
   if (CurrentMove->endMarker())
     return ERROR_EndOfMoveList;
 
@@ -774,7 +774,7 @@ errorT Game::MoveForward(void) {
 // Game::MoveBackup():
 //      Backup one move.
 //
-errorT Game::MoveBackup(void) {
+errorT Game::MoveBackup() {
   if (CurrentMove->prev->startMarker())
     return ERROR_StartOfMoveList;
 
@@ -810,7 +810,7 @@ errorT Game::MoveIntoVariation(uint varNumber) {
 // Game::MoveExitVariation():
 //      Move out of a variation, to the parent.
 //
-errorT Game::MoveExitVariation(void) {
+errorT Game::MoveExitVariation() {
   if (VarDepth == 0) // not in a variation!
     return ERROR_NoVariation;
 
@@ -1415,18 +1415,18 @@ bool Game::MaterialMatch(bool PromotionsFlag, ByteBuffer &buf, byte *min,
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Game::ExactMatch():
 //      Exact position search test.
-//      If sm is not NULL, its from, to, promote etc will be filled with
+//      If sm is not nullptr, its from, to, promote etc will be filled with
 //      the next move at the matching position, if there is one.
-//      If neverMatch is non-NULL, the boolean it points to is set to
+//      If neverMatch is non-nullptr, the boolean it points to is set to
 //      true if the game could never match even with extra moves.
 //
 bool Game::ExactMatch(Position *searchPos, ByteBuffer *buf,
                       gameExactMatchT searchType) {
-  // If buf is NULL, the game is in memory. Otherwise, Decode only
+  // If buf is nullptr, the game is in memory. Otherwise, Decode only
   // the necessary moves:
   errorT err = OK;
 
-  if (buf == NULL) {
+  if (buf == nullptr) {
     MoveToStart();
   } else {
     err = DecodeSkipTags(buf);
@@ -1573,7 +1573,7 @@ bool Game::ExactMatch(Position *searchPos, ByteBuffer *buf,
     }
 
   Move_Forward:
-    if (buf == NULL) {
+    if (buf == nullptr) {
       err = MoveForward();
     } else {
       simpleMoveT nextMove;
@@ -1762,7 +1762,7 @@ const char *Game::GetNextSAN() {
 //      Print the SAN representation of the current move to a string.
 //      Prints an empty string ("") if not at a move.
 void Game::GetSAN(char *str) {
-  ASSERT(str != NULL);
+  ASSERT(str != nullptr);
   strcpy(str, GetNextSAN());
 }
 
@@ -1771,7 +1771,7 @@ void Game::GetSAN(char *str) {
 //      Print the SAN representation of the previous move to a string.
 //      Prints an empty string ("") if not at a move.
 void Game::GetPrevSAN(char *str) {
-  ASSERT(str != NULL);
+  ASSERT(str != nullptr);
   moveT *m = CurrentMove->prev;
   if (m->startMarker() || m->endMarker()) {
     str[0] = 0;
@@ -1790,7 +1790,7 @@ void Game::GetPrevSAN(char *str) {
 //      Print the UCI representation of the current move to a string.
 //      Prints an empty string ("") if not at a move.
 void Game::GetPrevMoveUCI(char *str) const {
-  ASSERT(str != NULL);
+  ASSERT(str != nullptr);
   const auto m = CurrentMove->prev;
   if (!m->startMarker())
     str = m->moveData.toLongNotation(str);
@@ -1803,7 +1803,7 @@ void Game::GetPrevMoveUCI(char *str) const {
 //      Print the UCI representation of the next move to a string.
 //      Prints an empty string ("") if not at a move.
 void Game::GetNextMoveUCI(char *str) {
-  ASSERT(str != NULL);
+  ASSERT(str != nullptr);
   if (!CurrentMove->endMarker())
     str = CurrentMove->moveData.toLongNotation(str);
 
@@ -2114,7 +2114,7 @@ errorT Game::WriteMoveList(TextBuffer *tb, moveT *oldCurrentMove,
           MoveForward();
           std::unique_ptr<DString> dstr = std::make_unique<DString>();
           if (IsHtmlFormat()) {
-            CurrentPos->DumpHtmlBoard(dstr.get(), HtmlStyle, NULL);
+            CurrentPos->DumpHtmlBoard(dstr.get(), HtmlStyle, nullptr);
           }
           MoveBackup();
           tb->PrintString(dstr->Data());
@@ -2191,7 +2191,7 @@ errorT Game::WriteMoveList(TextBuffer *tb, moveT *oldCurrentMove,
             MoveForward();
             DString *dstr = new DString;
             if (IsHtmlFormat()) {
-              CurrentPos->DumpHtmlBoard(dstr, HtmlStyle, NULL);
+              CurrentPos->DumpHtmlBoard(dstr, HtmlStyle, nullptr);
             }
             MoveBackup();
             tb->PrintString(dstr->Data());
@@ -2342,7 +2342,7 @@ errorT Game::WritePGN(TextBuffer *tb) {
   }
 
   // First: is there a pre-game comment? If so, print it:
-  //    if (FirstMove->comment != NULL && (PgnStyle & PGN_STYLE_COMMENTS)
+  //    if (FirstMove->comment != nullptr && (PgnStyle & PGN_STYLE_COMMENTS)
   //        &&  ! strIsAllWhitespace (FirstMove->comment)) {
   //        tb->AddTranslation ('\n', newline);
   //        char * s = FirstMove->comment;
@@ -2435,7 +2435,7 @@ errorT Game::WritePGN(TextBuffer *tb) {
       tb->PrintString(ecoStr);
     }
     auto annotator = FindExtraTag("Annotator");
-    if (annotator != NULL) {
+    if (annotator != nullptr) {
       std::snprintf(temp, sizeof(temp), " (%s)", annotator);
       tb->PrintString(temp);
     }
@@ -2449,11 +2449,12 @@ errorT Game::WritePGN(TextBuffer *tb) {
     if (StartPos) {
       if (IsHtmlFormat()) {
         DString dstr;
-        StartPos->DumpHtmlBoard(&dstr, HtmlStyle, NULL);
+        StartPos->DumpHtmlBoard(&dstr, HtmlStyle, nullptr);
         tb->PrintString(dstr.Data());
       } else {
         StartPos->PrintFEN(std::copy_n("Position: ", 10, temp));
-        std::strcat(temp, newline);
+        std::snprintf(temp + std::strlen(temp), sizeof(temp) - std::strlen(temp),
+                      "%s", newline);
         tb->PrintString(temp);
       }
     }
@@ -2528,8 +2529,8 @@ errorT Game::WritePGN(TextBuffer *tb) {
     // Finally, write the FEN tag if necessary:
     if (StartPos) {
       StartPos->PrintFEN(std::copy_n("[FEN \"", 6, temp));
-      auto it_end = std::copy_n("\"]", 2, temp + std::strlen(temp));
-      std::strcpy(it_end, newline);
+      auto len = std::strlen(temp);
+      std::snprintf(temp + len, sizeof(temp) - len, "\"]%s", newline);
       tb->PrintString(temp);
     }
     if (IsColorFormat()) {
@@ -2616,7 +2617,7 @@ void Game::LoadStandardTags(IndexEntry const &ie, TagRoster const &tags) {
   SetBlackRatingType(ie.GetBlackRatingType());
   SetResult(ie.GetResult());
   SetEco(ie.GetEcoCode());
-  ie.GetFlagStr(ScidFlags, NULL);
+  ie.GetFlagStr(ScidFlags, nullptr);
   if (!ie.isChessStd())
     assignTagValue("Variant", "Chess960");
 }
@@ -3160,7 +3161,7 @@ std::pair<IndexEntry, TagRoster> Game::Encode(std::vector<byte> &dest) const {
 //      detected.
 //
 errorT Game::DecodeNextMove(ByteBuffer *buf, simpleMoveT &sm) {
-  ASSERT(buf != NULL);
+  ASSERT(buf != nullptr);
 
   auto [err, val] = buf->nextLineMove();
   if (err)
@@ -3177,7 +3178,7 @@ errorT Game::DecodeNextMove(ByteBuffer *buf, simpleMoveT &sm) {
 //      mainline move.
 //
 errorT Game::DecodeSkipTags(ByteBuffer *buf) {
-  ASSERT(buf != NULL);
+  ASSERT(buf != nullptr);
 
   Clear();
   errorT err = buf->decodeTags([](auto, auto) {});

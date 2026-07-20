@@ -98,7 +98,7 @@ void SortCache::th_sort() {
 
 SortCache::SortCache(const Index* idx, const NameBase* nbase)
     : nGames_(0), valid_fullMap_(false), th_interrupt_(false),
-      partialHash_(false), fullMap_(NULL), th_(NULL), hash_(NULL), index_(idx),
+      partialHash_(false), fullMap_(nullptr), th_(nullptr), hash_(nullptr), index_(idx),
       nbase_(nbase), refCount_(0) {}
 
 SortCache::~SortCache() {
@@ -109,7 +109,7 @@ SortCache::~SortCache() {
 
 SortCache* SortCache::create(const Index* idx, const NameBase* nb,
                              const char* criteria) {
-	ASSERT(idx != NULL && nb != NULL && criteria != NULL);
+	ASSERT(idx != nullptr && nb != nullptr && criteria != nullptr);
 
 	static const char fields[] = {
 	    SORTING_date,       SORTING_year,         SORTING_event,
@@ -124,7 +124,7 @@ SortCache* SortCache::create(const Index* idx, const NameBase* nb,
 	static const char* fields_end = fields + sizeof(fields);
 
 	if (*criteria == '\0') // Invalid empty criteria.
-		return NULL;
+		return nullptr;
 
 	SortCache* sc = new SortCache(idx, nb);
 
@@ -140,7 +140,7 @@ SortCache* SortCache::create(const Index* idx, const NameBase* nb,
 		    || i >= sizeof(sc->criteria_)) // No space left for SORTING_sentinel
 		{
 			delete sc;
-			return NULL;
+			return nullptr;
 		}
 	}
 	sc->criteria_[i] = SORTING_sentinel;
@@ -153,8 +153,8 @@ SortCache* SortCache::create(const Index* idx, const NameBase* nb,
 
 size_t SortCache::select(size_t row_offset, size_t row_count,
                          const HFilter& filter, gamenumT* result) const {
-	ASSERT(filter != NULL && filter->size() <= nGames_);
-	ASSERT(result != NULL);
+	ASSERT(filter != nullptr && filter->size() <= nGames_);
+	ASSERT(result != nullptr);
 
 	const size_t maxResults = filter->size();
 	if (row_count == 0 || row_offset >= maxResults)
@@ -313,7 +313,7 @@ bool SortCache::CmpLess::operator()(gamenumT g1, gamenumT g2) const {
 static const int RESULT_SORT[] = { 0, 3, 1, 2 };
 static int nameComp(const NameBase* nbase, nameT nt, idNumberT id1,
                     idNumberT id2) {
-	ASSERT(nbase != NULL);
+	ASSERT(nbase != nullptr);
 	return (id1 == id2) ? 0
 	                    : strCaseCompare(nbase->GetName(nt, id1),
 	                                     nbase->GetName(nt, id2));

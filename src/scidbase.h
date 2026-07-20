@@ -258,7 +258,7 @@ struct scidBaseT {
 	 * @param start:    the offset of the first row to return.
 	 *                  The offset of the initial row is 0.
 	 * @param count:    maximum number of rows to return.
-	 * @param filter:   a reference to a valid (!= NULL) HFilter object.
+	 * @param filter:   a reference to a valid (!= nullptr) HFilter object.
 	 *                  Games not included into the filter will be ignored.
 	 * @param[out] destCont: valid pointer to an array where the sorted list of
 	 *                       games will be stored (should be able to contain at
@@ -275,7 +275,7 @@ struct scidBaseT {
 	 * @param criteria: the list of fields by which games will be ordered.
 	 *                  Each field should be followed by '+' to indicate an
 	 *                  ascending order or by '-' for a descending order.
-	 * @param filter:   a reference to a valid (!= NULL) HFilter object.
+	 * @param filter:   a reference to a valid (!= nullptr) HFilter object.
 	 *                  Games not included into the filter will be ignored.
 	 * @param gameId:   the id of the game.
 	 * @returns the sorted position of @e gameId.

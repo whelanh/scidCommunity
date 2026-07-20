@@ -69,15 +69,15 @@ int TkDND_RegisterDragDropObjCmd(ClientData clientData, Tcl_Interp *interp,
   Tcl_ResetResult(interp);
 
   tkwin = TkDND_TkWin(objv[1]);
-  if (tkwin == NULL) {
+  if (tkwin == nullptr) {
     Tcl_AppendResult(interp, "invalid Tk widget path: \"",
-                             Tcl_GetString(objv[1]), (char *) NULL);
+                             Tcl_GetString(objv[1]), (char *) nullptr);
     return TCL_ERROR;
   }
   Tk_MakeWindowExist(tkwin);
 
   pDropTarget = new TkDND_DropTarget(interp, tkwin);
-  if (pDropTarget == NULL) {
+  if (pDropTarget == nullptr) {
     Tcl_SetResult(interp, (char *) "out of memory", TCL_STATIC);
     return TCL_ERROR;
   }
@@ -86,13 +86,13 @@ int TkDND_RegisterDragDropObjCmd(ClientData clientData, Tcl_Interp *interp,
     case E_OUTOFMEMORY: {
       delete pDropTarget;
       Tcl_AppendResult(interp, "unable to register \"", Tcl_GetString(objv[1]),
-                "\" as a drop target: out of memory", (char *) NULL);
+                "\" as a drop target: out of memory", (char *) nullptr);
       break;
     }
     case DRAGDROP_E_INVALIDHWND: {
       delete pDropTarget;
       Tcl_AppendResult(interp, "unable to register \"", Tcl_GetString(objv[1]),
-                "\" as a drop target: invalid window handle", (char *) NULL);
+                "\" as a drop target: invalid window handle", (char *) nullptr);
       break;
     }
     case DRAGDROP_E_ALREADYREGISTERED: {
@@ -115,16 +115,16 @@ int TkDND_RevokeDragDropObjCmd(ClientData clientData, Tcl_Interp *interp,
   Tcl_ResetResult(interp);
 
   tkwin = TkDND_TkWin(objv[1]);
-  if (tkwin == NULL) {
+  if (tkwin == nullptr) {
     Tcl_AppendResult(interp, "invalid Tk widget path: \"",
-                             Tcl_GetString(objv[1]), (char *) NULL);
+                             Tcl_GetString(objv[1]), (char *) nullptr);
     return TCL_ERROR;
   }
 
   hret = RevokeDragDrop(Tk_GetHWND(Tk_WindowId(tkwin)));
   if (hret != S_OK) {
     Tcl_AppendResult(interp, "Tk widget \"", Tcl_GetString(objv[1]),
-              "\" has never been registered as a drop target", (char *) NULL);
+              "\" has never been registered as a drop target", (char *) nullptr);
     return TCL_ERROR;
   }
               
@@ -133,8 +133,8 @@ int TkDND_RevokeDragDropObjCmd(ClientData clientData, Tcl_Interp *interp,
 
 int TkDND_DoDragDropObjCmd(ClientData clientData, Tcl_Interp *interp,
                            int objc, Tcl_Obj *const objv[]) {
-  TkDND_DataObject *pDataObject = NULL;
-  TkDND_DropSource *pDropSource = NULL;
+  TkDND_DataObject *pDataObject = nullptr;
+  TkDND_DropSource *pDropSource = nullptr;
   Tcl_Obj         **elem;
   DWORD             actions = 0;
   DWORD             dwEffect;
@@ -146,7 +146,7 @@ int TkDND_DoDragDropObjCmd(ClientData clientData, Tcl_Interp *interp,
   STGMEDIUM        *m_pstgmed;
   static const char *DropTypes[] = {
     "CF_UNICODETEXT", "CF_TEXT", "CF_HDROP",
-    (char *) NULL
+    (char *) nullptr
   };
   enum droptypes {
     TYPE_CF_UNICODETEXT, TYPE_CF_TEXT, TYPE_CF_HDROP
@@ -154,7 +154,7 @@ int TkDND_DoDragDropObjCmd(ClientData clientData, Tcl_Interp *interp,
   static const char *DropActions[] = {
     "copy", "move", "link", "ask",  "private", "refuse_drop",
     "default",
-    (char *) NULL
+    (char *) nullptr
   };
   enum dropactions {
     ActionCopy, ActionMove, ActionLink, ActionAsk, ActionPrivate,
@@ -189,9 +189,9 @@ int TkDND_DoDragDropObjCmd(ClientData clientData, Tcl_Interp *interp,
   status = Tcl_ListObjGetElements(interp, objv[3], &elem_nu, &elem);
   if (status != TCL_OK) return status;
   m_pfmtetc  = new FORMATETC[elem_nu];
-  if (m_pfmtetc == NULL) return TCL_ERROR;
+  if (m_pfmtetc == nullptr) return TCL_ERROR;
   m_pstgmed  = new STGMEDIUM[elem_nu];
-  if (m_pstgmed == NULL) {
+  if (m_pstgmed == nullptr) {
     delete[] m_pfmtetc; return TCL_ERROR;
   }
   for (i = 0; i < elem_nu; i++) {
@@ -253,19 +253,19 @@ int TkDND_DoDragDropObjCmd(ClientData clientData, Tcl_Interp *interp,
             CurPosition = (TCHAR *) (LPBYTE(pDropFiles) + sizeof(DROPFILES)); 
             for (int j = 0; j < file_nu; j++) {
               const char *native_name;
-              TCHAR *pszFileName = NULL;
+              TCHAR *pszFileName = nullptr;
               TCHAR api_name[MAX_PATH+2];
               // Convert File Name to native paths...
               Tcl_DStringInit(&ds);
-              native_name = Tcl_TranslateFileName(NULL, 
+              native_name = Tcl_TranslateFileName(nullptr, 
                                 Tcl_GetString(File[j]), &ds);
-              if (native_name != NULL) {
+              if (native_name != nullptr) {
                 if (Tcl_NumUtfChars(native_name, -1) > MAX_PATH) {
                   native_name = "too long filename!";
                 }
               }
 
-              if (native_name != NULL) {
+              if (native_name != nullptr) {
 #ifdef UNICODE
                 Tcl_UtfToUniChar(native_name, (Tcl_UniChar *) api_name);
                 pszFileName = api_name;
@@ -274,7 +274,7 @@ int TkDND_DoDragDropObjCmd(ClientData clientData, Tcl_Interp *interp,
                 // Convert the file name using the system encoding.
                 Tcl_DStringFree(&ds);
                 Tcl_DStringInit(&ds);
-                pszFileName = Tcl_UtfToExternalDString(NULL,
+                pszFileName = Tcl_UtfToExternalDString(nullptr,
                                                        api_name, -1, &ds);
 #endif /* UNICODE */
               } else {
@@ -285,7 +285,7 @@ int TkDND_DoDragDropObjCmd(ClientData clientData, Tcl_Interp *interp,
               lstrcpy(CurPosition, pszFileName);
               /*
                * Move the current position beyond the file name copied, and
-               * don't forget the NULL terminator (+1)
+               * don't forget the nullptr terminator (+1)
                */
               CurPosition = 1 + _tcschr(pszFileName, '\0');
               Tcl_DStringFree(&ds);
@@ -316,13 +316,13 @@ int TkDND_DoDragDropObjCmd(ClientData clientData, Tcl_Interp *interp,
   }; /* for (i = 0; i < elem_nu; i++) */
   
   pDataObject = new TkDND_DataObject(m_pfmtetc, m_pstgmed, elem_nu);
-  if (pDataObject == NULL) {
+  if (pDataObject == nullptr) {
     Tcl_SetResult(interp, (char *) "unable to create OLE Data object", TCL_STATIC);
     return TCL_ERROR;
   }
   
   pDropSource = new TkDND_DropSource();
-  if (pDropSource == NULL) {
+  if (pDropSource == nullptr) {
     pDataObject->Release();
     Tcl_SetResult(interp, (char *) "unable to create OLE Drop Source object",TCL_STATIC);
     return TCL_ERROR;
@@ -378,7 +378,7 @@ int DLLEXPORT Tkdnd_Init(Tcl_Interp *interp) {
   /*
    * Get the version, because we really need 8.3.3+.
    */
-  Tcl_GetVersion(&major, &minor, &patchlevel, NULL);
+  Tcl_GetVersion(&major, &minor, &patchlevel, nullptr);
   if ((major == 8) && (minor == 3) && (patchlevel < 3)) {
     Tcl_SetResult(interp, (char *) "tkdnd requires Tk 8.3.3 or greater", TCL_STATIC);
     return TCL_ERROR;
@@ -387,32 +387,32 @@ int DLLEXPORT Tkdnd_Init(Tcl_Interp *interp) {
   /*
    * Initialise OLE.
    */
-  hret = OleInitialize(NULL);
+  hret = OleInitialize(nullptr);
   
   /*
    * If OleInitialize returns S_FALSE, OLE has already been initialized
    */
   if (hret != S_OK && hret != S_FALSE) {
     Tcl_AppendResult(interp, "unable to initialize OLE2",
-      (char *) NULL);
+      (char *) nullptr);
     return TCL_ERROR;
   }
 
   /* Register the various commands */
   if (Tcl_CreateObjCommand(interp, "_RegisterDragDrop",
            (Tcl_ObjCmdProc*) TkDND_RegisterDragDropObjCmd,
-           (ClientData) NULL, (Tcl_CmdDeleteProc *) NULL) == NULL) {
+           (ClientData) nullptr, (Tcl_CmdDeleteProc *) nullptr) == nullptr) {
       return TCL_ERROR;
   }
   if (Tcl_CreateObjCommand(interp, "_RevokeDragDrop",
            (Tcl_ObjCmdProc*) TkDND_RevokeDragDropObjCmd,
-           (ClientData) NULL, (Tcl_CmdDeleteProc *) NULL) == NULL) {
+           (ClientData) nullptr, (Tcl_CmdDeleteProc *) nullptr) == nullptr) {
       return TCL_ERROR;
   }
 
   if (Tcl_CreateObjCommand(interp, "_DoDragDrop",
            (Tcl_ObjCmdProc*) TkDND_DoDragDropObjCmd,
-           (ClientData) NULL, (Tcl_CmdDeleteProc *) NULL) == NULL) {
+           (ClientData) nullptr, (Tcl_CmdDeleteProc *) nullptr) == nullptr) {
       return TCL_ERROR;
   }
 

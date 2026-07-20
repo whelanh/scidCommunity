@@ -7,9 +7,6 @@
 // includes
 
 #include <cstdio>
-#ifdef WINCE
-#include <tcl.h>
-#endif
 // constants
 
 #undef FALSE
@@ -52,21 +49,21 @@
 
 // types
 
-typedef signed char sint8;
-typedef unsigned char uint8;
+using sint8 = signed char;
+using uint8 = unsigned char;
 
-typedef signed short sint16;
-typedef unsigned short uint16;
+using sint16 = signed short;
+using uint16 = unsigned short;
 
-typedef signed int sint32;
-typedef unsigned int uint32;
+using sint32 = signed int;
+using uint32 = unsigned int;
 
 #ifdef _MSC_VER
-  typedef signed __int64 sint64;
-  typedef unsigned __int64 uint64;
+  using sint64 = signed __int64;
+  using uint64 = unsigned __int64;
 #else
-  typedef signed long long int sint64;
-  typedef unsigned long long int uint64;
+  using sint64 = signed long long int;
+  using uint64 = unsigned long long int;
 #endif
 
 struct my_timer_t {
@@ -83,23 +80,12 @@ extern void   util_init             ();
 
 extern sint64 my_atoll              (const char string[]);
 
-//extern int    my_round              (double x);
-
-extern void * my_malloc             (int size);
-extern void * my_realloc            (void * address, int size);
+extern void * my_malloc             (size_t size);
+extern void * my_realloc            (void * address, size_t size);
 extern void   my_free               (void * address);
-
-extern void   my_log_open           (const char file_name[]);
-extern void   my_log_close          ();
 
 extern void   my_log                (const char format[], ...);
 extern void   my_fatal              (const char format[], ...);
-
-#ifdef WINCE
-extern bool   my_file_read_line     (Tcl_Channel file, char string[], int size);
-#else
-extern bool   my_file_read_line     (FILE * file, char string[], int size);
-#endif
 
 extern bool   my_string_empty       (const char string[]);
 extern bool   my_string_equal       (const char string_1[], const char string_2[]);

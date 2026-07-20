@@ -686,7 +686,7 @@ catch { puts "$num_games GAMES total: $_Data(games)" }
     if {$name1 != {} && $name2 != {}} {
       incr game
 catch { puts "Start $_Data(current): $name1 - $name2" }
-      after [expr {$game * 500} ] "compNM $game \"$name1\" \"$name2\" $k"
+      after [expr {$game * 500}] [list compNM $game $name1 $name2 $k]
       incr _Data(runninggames)
       set _Data(this,$game) $thisgame
       set _Data(currentIdx,$game) $_Data(current)

@@ -78,9 +78,9 @@ CompressedFilter::CompressFrom (Filter * filter)
     delete[] CompressedData;
 
     CFilterSize = filter->Size();
-    if(filter->data() == NULL) {
+    if(filter->data() == nullptr) {
         CompressedLength = 0;
-        CompressedData = NULL;
+        CompressedData = nullptr;
         return;
     }
     byte * tempBuf = new byte [CFilterSize + OVERFLOW_BYTES];
@@ -164,7 +164,7 @@ const uint MIN_RLE_LENGTH = 9;
 static uint
 packBytemap (const byte * inBuffer, byte * outBuffer, uint inLength)
 {
-    ASSERT (inBuffer != NULL  &&  outBuffer != NULL);
+    ASSERT (inBuffer != nullptr  &&  outBuffer != nullptr);
 
     byte prevLiteral = 0;
     const byte * inPtr = inBuffer;
@@ -277,7 +277,7 @@ static errorT
 unpackBytemap (const byte * inBuffer, byte * outBuffer, uint inLength,
                uint outLength)
 {
-    ASSERT (inBuffer != NULL  &&  outBuffer != NULL);
+    ASSERT (inBuffer != nullptr  &&  outBuffer != nullptr);
     if (inLength == 0) { return ERROR_Corrupt; }
 
     // Check if the buffer was copied without compression:

@@ -352,7 +352,7 @@ public:
 			return {to, INVALID_PIECE};
 		}
 		case KING:
-			if (moveCode == 0) // NULL MOVE
+			if (moveCode == 0) // nullptr MOVE
 				return {from, PAWN};
 
 			if (moveCode <= 8) {

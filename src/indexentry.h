@@ -418,7 +418,7 @@ inline uint32_t IndexEntry::StrToFlagMask(const char* flags)
 inline uint
 IndexEntry::GetFlagStr(char* dest, const char* flags) const
 {
-    if (flags == NULL) { flags = "DWBMENPTKQ!?U123456"; }
+    if (flags == nullptr) { flags = "DWBMENPTKQ!?U123456"; }
     uint count = 0;
     while (*flags != 0) {
         uint32_t mask = CharToFlagMask(*flags);

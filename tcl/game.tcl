@@ -257,7 +257,7 @@ proc ::game::Load { selection {ply ""} } {
     return 0
   }
 
-  if {$ply != ""} { eval "sc_move ply $ply" }
+  if {$ply != "" && [string is integer -strict $ply]} { sc_move ply $ply }
 
   set extraTags [sc_game tag get Extra]
   regexp {FlipB "([01])"\n} $extraTags -> flipB

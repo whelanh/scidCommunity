@@ -14,7 +14,7 @@
 
 bool list_is_ok(const list_t * list) {
 
-   if (list == NULL) return false;
+   if (list == nullptr) return false;
 
    if (list->size >= ListSize) return false;
 
@@ -25,7 +25,7 @@ bool list_is_ok(const list_t * list) {
 
 void list_clear(list_t * list) {
 
-   ASSERT(list!=NULL);
+   ASSERT(list!=nullptr);
 
    list->size = 0;
 }
@@ -106,7 +106,7 @@ void list_copy(list_t * dst, const list_t * src) {
 
    int i;
 
-   ASSERT(dst!=NULL);
+   ASSERT(dst!=nullptr);
    ASSERT(list_is_ok(src));
 
    dst->size = src->size;

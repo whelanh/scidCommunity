@@ -2211,13 +2211,13 @@ JSON_HEDLEY_DIAGNOSTIC_POP
 #if defined(__cplusplus)
     #if __cplusplus >= 201103L
         #define JSON_HEDLEY_NULL JSON_HEDLEY_DIAGNOSTIC_DISABLE_CPP98_COMPAT_WRAP_(nullptr)
-    #elif defined(NULL)
-        #define JSON_HEDLEY_NULL NULL
+    #elif defined(nullptr)
+        #define JSON_HEDLEY_NULL nullptr
     #else
         #define JSON_HEDLEY_NULL JSON_HEDLEY_STATIC_CAST(void*, 0)
     #endif
-#elif defined(NULL)
-    #define JSON_HEDLEY_NULL NULL
+#elif defined(nullptr)
+    #define JSON_HEDLEY_NULL nullptr
 #else
     #define JSON_HEDLEY_NULL ((void*) 0)
 #endif
