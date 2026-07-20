@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+ <release version="5.1.3.82" date="2026-07-20">
+      <description>
+        <p>Add 3D piece set; enable saving undocked board layout</p>
+      </description>
+    </release>
  <release version="5.1.3.81" date="2026-07-19">
       <description>
         <p>Enable drag and drop of database, PGN and epd files into scidCommunity</p>

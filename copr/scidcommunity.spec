@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.3.81
+Version:        5.1.3.82
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit bfc594a54ff924537f7197b51d7b6c59c2609893
+%global commit 67b79b8568c319d6202d341673062c53039ab614
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Mon Jul 20, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-82
+- "Add 3D piece set; enable saving undocked board layout"
 * Sun Jul 19, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-81
 - "Enable drag and drop of database, PGN and epd files into scidCommunity"
 * Sat Jul 18, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-80
