@@ -17,7 +17,7 @@
 #define SCID_TEXTBUF_H
 
 #include "common.h"
-#include <stdio.h>
+#include <cstdio>
 
 class TextBuffer
 {
@@ -70,9 +70,9 @@ public:
     void     NewlinesToSpaces (bool b) { ConvertNewlines = b; }
 
     void     AddTranslation (char ch, const char * str);
-    // void     ClearTranslation (char ch) { Translation[ch] = NULL; }
+    // void     ClearTranslation (char ch) { Translation[ch] = nullptr; }
     // Changed ch to int, to avoid compiler warnings. 
-    void     ClearTranslation (int ch) { Translation[ch] = NULL; }
+    void     ClearTranslation (int ch) { Translation[ch] = nullptr; }
     void     ClearTranslations () { HasTranslations = false; }
     void     PauseTranslations () { PausedTranslations = true; }
     void     ResumeTranslations () { PausedTranslations = false; }
@@ -96,7 +96,7 @@ TextBuffer::AddChar (char ch)
     if (HasTranslations  &&  !PausedTranslations) {
         byte b = (byte) ch;
         const char * str = Translation[b];
-        if (str != NULL) {
+        if (str != nullptr) {
             const char * s = str;
             while (*s) {
                 *Current++ = *s++;

@@ -24,7 +24,7 @@ typedef unsigned int uint;
 typedef int Tcl_Size;
 #endif
 
-#define nullptr NULL
+
 #define M_ASSERT(x) assert(x)
 
 

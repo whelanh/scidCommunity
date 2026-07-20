@@ -169,7 +169,7 @@ inline void Position::CalcPinsDir(directionT dir, pieceT attacker) {
 //
 inline void Position::AddLegalMove(MoveList *mlist, squareT from, squareT to,
                                    pieceT promo) {
-  ASSERT(mlist != NULL);
+  ASSERT(mlist != nullptr);
   auto &sm = mlist->emplace_back();
   makeMove(from, to, promo, sm);
 }
@@ -178,7 +178,7 @@ inline void Position::AddLegalMove(MoveList *mlist, squareT from, squareT to,
 // Position::GenSliderMoves():
 //      Generate slider moves along a direction, for a sliding
 //      piece of the specified color from the specified square.
-//      If sqset != NULL, moves must be to a square in sqset.
+//      If sqset != nullptr, moves must be to a square in sqset.
 inline void Position::GenSliderMoves(MoveList *mlist, colorT color,
                                      squareT fromSq, directionT dir,
                                      SquareSet *sqset, bool capturesOnly) {
@@ -191,7 +191,7 @@ inline void Position::GenSliderMoves(MoveList *mlist, colorT color,
     pieceT p = Board[dest];
     if (p == EMPTY) {
       if (!capturesOnly) {
-        if (sqset == NULL || sqset->Contains(dest)) {
+        if (sqset == nullptr || sqset->Contains(dest)) {
           AddLegalMove(mlist, fromSq, dest, EMPTY);
         }
       }
@@ -199,7 +199,7 @@ inline void Position::GenSliderMoves(MoveList *mlist, colorT color,
     }
     // We have reached a piece. Add the capture if it is an enemy.
     if (piece_Color_NotEmpty(p) != color) {
-      if (sqset == NULL || sqset->Contains(dest)) {
+      if (sqset == nullptr || sqset->Contains(dest)) {
         AddLegalMove(mlist, fromSq, dest, EMPTY);
       }
     }
@@ -210,7 +210,7 @@ inline void Position::GenSliderMoves(MoveList *mlist, colorT color,
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Position::GenKnightMoves():
 //      Generate knight moves.
-//      If sqset != NULL, moves must be to a square in sqset.
+//      If sqset != nullptr, moves must be to a square in sqset.
 inline void Position::GenKnightMoves(MoveList *mlist, colorT c, squareT fromSq,
                                      SquareSet *sqset, bool capturesOnly) {
   const squareT *destPtr = knightAttacks[fromSq];
@@ -225,7 +225,7 @@ inline void Position::GenKnightMoves(MoveList *mlist, colorT c, squareT fromSq,
       continue;
     }
     if (piece_Color(p) != c) {
-      if (sqset == NULL || sqset->Contains(dest)) {
+      if (sqset == nullptr || sqset->Contains(dest)) {
         AddLegalMove(mlist, fromSq, dest, EMPTY);
       }
     }
@@ -438,7 +438,7 @@ inline bool Position::IsValidEnPassant(squareT from, squareT to) {
 // Position::GenPawnMoves():
 //      Generate legal pawn moves.
 //      If dir != NULL_DIR, pawn MUST move in direction dir or its opposite.
-//      If sqset != NULL, pawn MUST move to a square in sqset.
+//      If sqset != nullptr, pawn MUST move to a square in sqset.
 //      The dir and sq parameters are for pinned pawns and check evasions.
 void Position::GenPawnMoves(MoveList *mlist, squareT from, directionT dir,
                             SquareSet *sqset, genMovesT genType) {
@@ -463,7 +463,7 @@ void Position::GenPawnMoves(MoveList *mlist, squareT from, directionT dir,
   if (genNonCaptures &&
       (dir == NULL_DIR || dir == forward || oppdir == forward)) {
     dest = square_Move(from, forward);
-    if (Board[dest] == EMPTY && (sqset == NULL || sqset->Contains(dest))) {
+    if (Board[dest] == EMPTY && (sqset == nullptr || sqset->Contains(dest))) {
       if (square_Rank(dest) == promoRank) {
         AddPromotions(mlist, from, dest);
       } else {
@@ -472,7 +472,7 @@ void Position::GenPawnMoves(MoveList *mlist, squareT from, directionT dir,
     }
     if (square_Rank(from) == secondRank && Board[dest] == EMPTY) {
       dest = square_Move(dest, forward);
-      if (Board[dest] == EMPTY && (sqset == NULL || sqset->Contains(dest))) {
+      if (Board[dest] == EMPTY && (sqset == nullptr || sqset->Contains(dest))) {
         AddLegalMove(mlist, from, dest, EMPTY);
       }
     }
@@ -488,7 +488,7 @@ void Position::GenPawnMoves(MoveList *mlist, squareT from, directionT dir,
   directionT capdir = forward | LEFT;
   if (dir == NULL_DIR || dir == capdir || oppdir == capdir) {
     dest = square_Move(from, capdir);
-    if (POSSIBLE_CAPTURE(dest) && (sqset == NULL || sqset->Contains(dest))) {
+    if (POSSIBLE_CAPTURE(dest) && (sqset == nullptr || sqset->Contains(dest))) {
       if (square_Rank(dest) == promoRank) {
         AddPromotions(mlist, from, dest);
       } else {
@@ -499,7 +499,7 @@ void Position::GenPawnMoves(MoveList *mlist, squareT from, directionT dir,
   capdir = forward | RIGHT;
   if (dir == NULL_DIR || dir == capdir || oppdir == capdir) {
     dest = square_Move(from, capdir);
-    if (POSSIBLE_CAPTURE(dest) && (sqset == NULL || sqset->Contains(dest))) {
+    if (POSSIBLE_CAPTURE(dest) && (sqset == nullptr || sqset->Contains(dest))) {
       if (square_Rank(dest) == promoRank) {
         AddPromotions(mlist, from, dest);
       } else {
@@ -517,7 +517,7 @@ void Position::GenPawnMoves(MoveList *mlist, squareT from, directionT dir,
 // Position::GetHPSig():
 //      Return the position's home pawn signature.
 //
-uint Position::GetHPSig(void) {
+uint Position::GetHPSig() {
   uint hpSig = 0;
   pieceT *b = &(Board[A2]);
   if (*b == WP) {
@@ -596,7 +596,7 @@ Position::Position() {
 // Position::Clear():
 //      Clear the board and associated structures.
 //
-void Position::Clear(void) {
+void Position::Clear() {
   int i;
   for (i = A1; i <= H8; i++) {
     Board[i] = EMPTY;
@@ -811,7 +811,7 @@ errorT Position::AddPiece(pieceT p, squareT sq) {
 //      For example WK on e1, WQ on e2, BQ on e7 on the e-fyle
 //      means the WQ is Pinned in the direction UP.
 //
-void Position::CalcPins(void) {
+void Position::CalcPins() {
   Pinned[0] = Pinned[1] = Pinned[2] = Pinned[3] = Pinned[4] = Pinned[5] =
       Pinned[6] = Pinned[7] = Pinned[8] = Pinned[9] = Pinned[10] = Pinned[11] =
           Pinned[12] = Pinned[13] = Pinned[14] = Pinned[15] = NULL_DIR;
@@ -848,7 +848,7 @@ void Position::CalcPins(void) {
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Position::GenPieceMoves():
 //      Generates moves for a nonpawn, nonking piece.
-//      If sqset != NULL, moves must be to a square in sqset.<
+//      If sqset != nullptr, moves must be to a square in sqset.<
 void Position::GenPieceMoves(MoveList *mlist, squareT fromSq, SquareSet *sqset,
                              bool capturesOnly) {
   colorT c = ToMove;
@@ -881,7 +881,7 @@ void Position::GenPieceMoves(MoveList *mlist, squareT fromSq, SquareSet *sqset,
 //    moves for that type of piece are generated.
 void Position::GenerateMoves(MoveList *mlist, pieceT pieceType,
                              genMovesT genType, bool maybeInCheck) {
-  ASSERT(mlist != NULL);
+  ASSERT(mlist != nullptr);
 
   bool genNonCaptures = (genType & GEN_NON_CAPS);
   bool capturesOnly = !genNonCaptures;
@@ -933,7 +933,7 @@ void Position::GenerateMoves(MoveList *mlist, pieceT pieceType,
 
     if (pinned != NULL_DIR) { // piece x is pinned to king
       if (ptype == PAWN) {
-        GenPawnMoves(mlist, sq, pinned, NULL, genType);
+        GenPawnMoves(mlist, sq, pinned, nullptr, genType);
       } else if (ptype == KNIGHT) {
         // do nothing -- pinned knights cannot move
       } else {
@@ -942,18 +942,18 @@ void Position::GenerateMoves(MoveList *mlist, pieceT pieceType,
         if (ptype == QUEEN ||
             (ptype == ROOK && !direction_IsDiagonal(pinned)) ||
             (ptype == BISHOP && direction_IsDiagonal(pinned))) {
-          GenSliderMoves(mlist, ToMove, sq, pinned, NULL, capturesOnly);
-          GenSliderMoves(mlist, ToMove, sq, dirOpposite[pinned], NULL,
+          GenSliderMoves(mlist, ToMove, sq, pinned, nullptr, capturesOnly);
+          GenSliderMoves(mlist, ToMove, sq, dirOpposite[pinned], nullptr,
                          capturesOnly);
         }
       }
     } else {
       // This piece is free to move anywhere
       if (ptype == PAWN) {
-        GenPawnMoves(mlist, sq, NULL_DIR, NULL, genType);
+        GenPawnMoves(mlist, sq, NULL_DIR, nullptr, genType);
       } else {
         // Knight/Queen/Bishop/Rook:
-        GenPieceMoves(mlist, sq, NULL, capturesOnly);
+        GenPieceMoves(mlist, sq, nullptr, capturesOnly);
       }
     }
   }
@@ -1091,7 +1091,7 @@ int Position::IsLegalMove(squareT from, squareT to, pieceT promo) const {
 //
 void Position::GenCheckEvasions(MoveList *mlist, pieceT mask, genMovesT genType,
                                 SquareList *checkSquares) {
-  ASSERT(mlist != NULL);
+  ASSERT(mlist != nullptr);
   uint numChecks = checkSquares->Size();
 
   // Assert that king IS actually in check:
@@ -1202,7 +1202,7 @@ int Position::TreeCalcAttacks(squareT target) {
 // Position::CalcAttacks():
 //      Calculate the number of attacks by a side on a square.
 //      This function also puts a list of the attacking piece squares
-//      in the fromSqs parameter if it is non-NULL.
+//      in the fromSqs parameter if it is non-nullptr.
 //
 //      It ONLY uses the Board[] and Material[] lists of the Position, and
 //      ASSUMES they are correct with respect to each other, but it does
@@ -1212,12 +1212,12 @@ int Position::TreeCalcAttacks(squareT target) {
 //      without having to update other information.
 uint Position::CalcAttacks(colorT side, squareT target,
                            SquareList *fromSquares) const {
-  // If squares is NULL, caller doesn't want a list of the squares of
-  // attacking pieces. To avoid comparing fromSquares with NULL every time
+  // If squares is nullptr, caller doesn't want a list of the squares of
+  // attacking pieces. To avoid comparing fromSquares with nullptr every time
   // we find a check, we set up a local array to use instead if fromSquares
-  // is NULL.
+  // is nullptr.
   SquareList fromSqs;
-  if (fromSquares == NULL) {
+  if (fromSquares == nullptr) {
     fromSquares = &fromSqs;
   }
 
@@ -1372,7 +1372,7 @@ uint Position::CalcAttacks(colorT side, squareT target,
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Position::IsKingInCheck
 //   Returns true if the king of the side to move is in check.
-//   If the specified move is not NULL, it must be the legal move
+//   If the specified move is not nullptr, it must be the legal move
 //   that the opponent played to reach this position. This will
 //   be used as a speed optimization, by skipping cases where the
 //   move could not have left the king in check.
@@ -1438,7 +1438,7 @@ uint Position::Mobility(pieceT p, colorT color, squareT from) {
 // Position::IsKingInMate():
 //      Quick check if king is in mate.
 //
-bool Position::IsKingInMate(void) {
+bool Position::IsKingInMate() {
   SquareList checkSquares;
   uint numChecks = CalcNumChecks(GetKingSquare(ToMove), &checkSquares);
   if (numChecks == 0) {
@@ -1460,7 +1460,7 @@ bool Position::IsKingInMate(void) {
 //     - if the two kings are adjacent;
 //     - if there are any pawns on the 1st/8th rank;
 //     - if the side to move is already checking the enemy king.
-bool Position::IsLegal(void) {
+bool Position::IsLegal() {
   squareT stmKing = GetKingSquare();
   squareT enemyKing = GetEnemyKingSquare();
   if (square_Adjacent(stmKing, enemyKing)) {
@@ -1478,7 +1478,7 @@ bool Position::IsLegal(void) {
   if (RankCount(BP, RANK_8) != 0) {
     return false;
   }
-  if (CalcAttacks(ToMove, enemyKing, NULL) > 0) {
+  if (CalcAttacks(ToMove, enemyKing, nullptr) > 0) {
     return false;
   }
   return true;
@@ -1524,7 +1524,7 @@ void Position::makeMove(squareT from, squareT to, pieceT promo,
     res.from = from;
     res.to = to;
     res.promote = EMPTY;
-  } else if (promo == PAWN) { // NULL MOVE
+  } else if (promo == PAWN) { // nullptr MOVE
     res.from = GetKingSquare(ToMove);
     res.to = res.from;
     res.promote = EMPTY;
@@ -1585,7 +1585,7 @@ void Position::fillMove(simpleMoveT &sm) const {
 //      fields in the simpleMove structure so it can be undone.
 //
 void Position::DoSimpleMove(simpleMoveT *sm) {
-  ASSERT(sm != NULL);
+  ASSERT(sm != nullptr);
   // update move fields that (maybe) have not yet been set:
   fillMove(*sm);
   DoSimpleMove(*sm);
@@ -1821,7 +1821,7 @@ uint Position::MaterialValue(colorT c) {
 //      should be added to checking or mating moves.
 //
 void Position::MakeSANString(simpleMoveT *m, char *s, sanFlagT flag) {
-  ASSERT(m != NULL && s != NULL);
+  ASSERT(m != nullptr && s != nullptr);
   ASSERT(m->from == List[ToMove][ListPos[m->from]]);
   const squareT from = m->from;
   const squareT to = m->to;
@@ -1974,7 +1974,7 @@ errorT Position::MakeCoordMoves(const char *moves, size_t moveslen,
 //
 errorT Position::ReadCoordMove(simpleMoveT *m, const char *str, size_t slen,
                                bool reverse) {
-  ASSERT(m != NULL && str != NULL);
+  ASSERT(m != nullptr && str != nullptr);
 
   auto promote = EMPTY;
   if (slen == 5) {
@@ -2019,7 +2019,7 @@ static size_t trimCheck(const char *str, size_t slen) {
 
 errorT Position::ReadMovePawn(simpleMoveT *sm, const char *str, size_t slen,
                               fyleT frFyle) {
-  ASSERT(sm != NULL && str != NULL && frFyle <= H_FYLE);
+  ASSERT(sm != nullptr && str != nullptr && frFyle <= H_FYLE);
 
   if (slen < 2)
     return ERROR_InvalidMove;
@@ -2096,7 +2096,7 @@ errorT Position::ReadMovePawn(simpleMoveT *sm, const char *str, size_t slen,
 
 errorT Position::ReadMoveKing(simpleMoveT *sm, const char *str,
                               size_t slen) const {
-  ASSERT(sm != NULL && str != NULL);
+  ASSERT(sm != nullptr && str != nullptr);
 
   if (slen < 3 || slen > 6)
     return ERROR_InvalidMove;
@@ -2130,7 +2130,7 @@ errorT Position::ReadMoveKing(simpleMoveT *sm, const char *str,
 //
 errorT Position::ReadMove(simpleMoveT *sm, const char *str, size_t slen,
                           pieceT piece) const {
-  ASSERT(sm != NULL && str != NULL);
+  ASSERT(sm != nullptr && str != nullptr);
   ASSERT(piece == QUEEN || piece == ROOK || piece == BISHOP || piece == KNIGHT);
 
   if (slen < 3 || slen > 6)
@@ -2199,7 +2199,7 @@ errorT Position::ReadMoveCastle(simpleMoveT *sm, std::string_view str) const {
 // If the move is legal, it stores the result in @e sm.
 errorT Position::ParseMove(simpleMoveT *sm, const char *str,
                            const char *strEnd) {
-  ASSERT(str != NULL);
+  ASSERT(str != nullptr);
 
   const auto length = trimCheck(str, std::distance(str, strEnd));
   if (length < 2 || length > 9)
@@ -2289,7 +2289,7 @@ errorT Position::ReadFromLongStr(const char *str) {
 //      "RNBQKBNRPPPPPPPP................................pppppppprbnqkbnr w"
 //
 void Position::MakeLongStr(char *str) const {
-  ASSERT(str != NULL);
+  ASSERT(str != nullptr);
   char *s = str;
   for (squareT sq = A1; sq <= H8; sq++) {
     *s++ = PIECE_CHAR[Board[sq]];
@@ -2385,7 +2385,7 @@ const char *FEN_parsePieces(const char *str, AddPiece add) {
 /// counter to be invalid, so this routine can also read positions
 /// from EPD lines (which only share the first four fields with FEN).
 errorT Position::ReadFromFEN(const char *str) {
-  ASSERT(str != NULL);
+  ASSERT(str != nullptr);
 
   auto is_space = [](char ch) {
     return isspace(static_cast<unsigned char>(ch));
@@ -2548,9 +2548,10 @@ errorT Position::ReadFromFEN(const char *str) {
   // Finally, the fullmove counter:
   skip_spaces();
   if (*str) {
-    int i = atoi(str);
-    if (i >= 1) {
-      PlyCounter = (i - 1) * 2;
+    char* endptr;
+    long i = strtol(str, &endptr, 10);
+    if (i >= 1 && endptr != str) {
+      PlyCounter = static_cast<uint>((i - 1) * 2);
     }
   }
   if (ToMove == BLACK) {
@@ -2590,7 +2591,7 @@ errorT Position::ReadFromFENorUCI(std::string_view str) {
 }
 
 void Position::PrintFEN(char *str) const {
-  ASSERT(str != NULL);
+  ASSERT(str != nullptr);
   uint emptyRun, iRank, iFyle;
   for (iRank = 0; iRank < 8; iRank++) {
     const pieceT *pBoard = &(Board[(7 - iRank) * 8]);
@@ -2700,7 +2701,7 @@ void Position::DumpHtmlBoard(DString *dstr, uint style, const char *dir,
   uint height = hs[style].height;
   uint iRank, iFyle;
   pieceT *pBoard;
-  if (dir == NULL) {
+  if (dir == nullptr) {
     dir = hs[style].dir;
   }
 

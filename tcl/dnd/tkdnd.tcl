@@ -161,14 +161,6 @@ namespace eval tkdnd {
     }
   };# initialise
 
-# proc GetDropFileTempDirectory { } {
-#   variable _drop_file_temp_dir
-#   return $_drop_file_temp_dir
-# }
-# proc SetDropFileTempDirectory { dir } {
-#   variable _drop_file_temp_dir
-#   set _drop_file_temp_dir $dir
-# }
 
   initialise
   

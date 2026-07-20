@@ -89,6 +89,12 @@ proc ::chesscom::startDownload {w} {
     return
   }
 
+  if {![regexp {^[a-zA-Z0-9_-]+$} $username]} {
+    tk_messageBox -icon warning -type ok -title "Chess.com Import" \
+      -message "Username contains invalid characters."
+    return
+  }
+
   if {![regexp {^\d{4}$} $yearStr]} {
     tk_messageBox -icon warning -type ok -title "Chess.com Import" \
       -message "Please enter a 4-digit start year (YYYY)."

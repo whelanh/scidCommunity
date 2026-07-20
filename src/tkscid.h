@@ -82,7 +82,6 @@ int sc_tree_cachesize (TCL_ARGS);
 int sc_tree_cacheinfo (TCL_ARGS);
 
 int sc_var_delete     (TCL_ARGS);
-int sc_var_delete_free(TCL_ARGS);
 int sc_var_enter      (TCL_ARGS);
 int sc_var_first      (TCL_ARGS);
 int sc_var_list       (TCL_ARGS);
@@ -91,8 +90,6 @@ errorT search_index(const scidBaseT* base, HFilter& filter, int argc, const char
 int sc_search_board   (Tcl_Interp* ti, const scidBaseT* dbase, HFilter filter, int argc, const char** argv);
 int sc_search_material (TCL_ARGS);
 int sc_search_header  (ClientData cd, Tcl_Interp * ti, scidBaseT* base, HFilter& filter, int argc, const char ** argv);
-int sc_search_rep_add (TCL_ARGS);
-int sc_search_rep_go  (TCL_ARGS);
 
 int sc_book_load      (TCL_ARGS);
 int sc_book_close     (TCL_ARGS);

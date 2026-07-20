@@ -304,7 +304,7 @@ private:
 
 inline bool SearchTournaments::sort(const char* criteria, size_t nOrdered) {
 	static const char* criterions [] = {
-		 "Date", "Elo", "Event", "Games", "Players", "Site", NULL
+		 "Date", "Elo", "Event", "Games", "Players", "Site", nullptr
 	};
 	enum { DATE, ELO, EVENT, GAMES, PLAYERS, SITE };
 

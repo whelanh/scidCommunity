@@ -91,7 +91,7 @@ public:
 	 * @param criteria: the list of fields by which games will be ordered.
 	 *                  Each field should be followed by '+' to indicate an
 	 *                  ascending order or by '-' for a descending order.
-	 * @returns a pointer to the new object in case of success, NULL otherwise.
+	 * @returns a pointer to the new object in case of success, nullptr otherwise.
 	 */
 	static SortCache* create(const Index* idx, const NameBase* nb,
 	                         const char* criteria);
@@ -117,7 +117,7 @@ public:
 	 * @param row_offset:  the offset of the first row to return.
 	 *                     The offset of the initial row is 0.
 	 * @param row_count:   maximum number of rows to return.
-	 * @param filter:      a reference to a valid (!= NULL) HFilter object.
+	 * @param filter:      a reference to a valid (!= nullptr) HFilter object.
 	 *                     Games not included into the filter will be ignored.
 	 * @param[out] result: valid pointer to an array where the sorted list of
 	 *                     games will be stored (should be able to contain at
@@ -130,7 +130,7 @@ public:
 	/**
 	 * Get the sorted position of a game.
 	 * @param gameId: the id of the game.
-	 * @param filter: a reference to a valid (!= NULL) HFilter object.
+	 * @param filter: a reference to a valid (!= nullptr) HFilter object.
 	 *                Games not included into the filter will be ignored,
 	 *                and @e gameId must be included into the filter.
 	 * @returns the sorted position of @e gameId.

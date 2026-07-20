@@ -58,7 +58,7 @@ UI_res_t sc_info_priority(UI_extra_t, UI_handle_t ti, int argc,
 	// Try to obtain a process handle for setting the priority class:
 	HANDLE hProcess = OpenProcess(
 	    PROCESS_SET_INFORMATION | PROCESS_QUERY_INFORMATION, false, pid);
-	if (hProcess == NULL)
+	if (hProcess == nullptr)
 		return UI_Result(ti, ERROR, "Unable to set process priority.");
 
 	if (argc == 4)

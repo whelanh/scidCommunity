@@ -343,9 +343,9 @@ public:
     
     HRESULT __stdcall GetCanonicalFormatEtc(FORMATETC *pFormatEct,
                       FORMATETC *pFormatEtcOut) {
-      // Apparently we have to set this field to NULL even though we don't do
+      // Apparently we have to set this field to nullptr even though we don't do
       // anything else.
-      pFormatEtcOut->ptd = NULL;
+      pFormatEtcOut->ptd = nullptr;
       return E_NOTIMPL;
     }; /* GetCanonicalFormatEtc */
     
@@ -532,15 +532,15 @@ class TkDND_DropTarget: public IDropTarget {
       IEnumFORMATETC *pEF;
       FORMATETC fetc;
       char tmp[64];
-      Tcl_Obj *typelist    = Tcl_NewListObj(0, NULL), *element,
-              *actionlist  = Tcl_NewListObj(0, NULL), *objv[8],
-              *pressedkeys = Tcl_NewListObj(0, NULL), *result,
-              *codelist    = Tcl_NewListObj(0, NULL);
+      Tcl_Obj *typelist    = Tcl_NewListObj(0, nullptr), *element,
+              *actionlist  = Tcl_NewListObj(0, nullptr), *objv[8],
+              *pressedkeys = Tcl_NewListObj(0, nullptr), *result,
+              *codelist    = Tcl_NewListObj(0, nullptr);
       int i, status, index;
       static const char *DropActions[] = {
         "copy", "move", "link", "ask",  "private", "refuse_drop",
         "default", 
-        (char *) NULL
+        (char *) nullptr
       };
       enum dropactions {
         ActionCopy, ActionMove, ActionLink, ActionAsk, ActionPrivate,
@@ -549,42 +549,42 @@ class TkDND_DropTarget: public IDropTarget {
 
       // Get the types supported by the drag source.
       if (pDataObject->EnumFormatEtc(DATADIR_GET, &pEF) == S_OK) {
-        while (pEF->Next(1, &fetc, NULL) == S_OK) {
+        while (pEF->Next(1, &fetc, nullptr) == S_OK) {
           if (pDataObject->QueryGetData(&fetc) == S_OK) {
             /* Get the format name from windows */
             element = TCL_NEWSTRING(FormatName(fetc.cfFormat), -1);
-            Tcl_ListObjAppendElement(NULL, typelist, element);
+            Tcl_ListObjAppendElement(nullptr, typelist, element);
             /* Store the numeric code of the format */
             sprintf(tmp, "0x%08x", fetc.cfFormat);
             element = Tcl_NewStringObj(tmp, -1);
-            Tcl_ListObjAppendElement(NULL, codelist, element);
+            Tcl_ListObjAppendElement(nullptr, codelist, element);
           }; // if (pIDataSource->QueryGetData(&fetc) == S_OK)
-        }; // while (pEF->Next(1, &fetc, NULL) == S_OK)
+        }; // while (pEF->Next(1, &fetc, nullptr) == S_OK)
       }; // if (pIDataSource->EnumFormatEtc(DATADIR_GET, &pEF) == S_OK)
 
       // Get the state of the keyboard modifier keys.
       // MK_CONTROL, MK_SHIFT, MK_ALT, MK_RBUTTON, MK_LBUTTON
       if (grfKeyState & MK_CONTROL)
-        Tcl_ListObjAppendElement(NULL,pressedkeys,Tcl_NewStringObj("ctrl", -1));
+        Tcl_ListObjAppendElement(nullptr,pressedkeys,Tcl_NewStringObj("ctrl", -1));
       if (grfKeyState & MK_SHIFT)
-        Tcl_ListObjAppendElement(NULL,pressedkeys,Tcl_NewStringObj("shift",-1));
+        Tcl_ListObjAppendElement(nullptr,pressedkeys,Tcl_NewStringObj("shift",-1));
       if (grfKeyState & MK_ALT)
-        Tcl_ListObjAppendElement(NULL,pressedkeys,Tcl_NewStringObj("alt", -1));
+        Tcl_ListObjAppendElement(nullptr,pressedkeys,Tcl_NewStringObj("alt", -1));
       if (grfKeyState & MK_RBUTTON)
-        Tcl_ListObjAppendElement(NULL,pressedkeys,Tcl_NewStringObj("3", -1));
+        Tcl_ListObjAppendElement(nullptr,pressedkeys,Tcl_NewStringObj("3", -1));
       if (grfKeyState & MK_MBUTTON)
-        Tcl_ListObjAppendElement(NULL,pressedkeys,Tcl_NewStringObj("2", -1));
+        Tcl_ListObjAppendElement(nullptr,pressedkeys,Tcl_NewStringObj("2", -1));
       if (grfKeyState & MK_LBUTTON)
-        Tcl_ListObjAppendElement(NULL,pressedkeys,Tcl_NewStringObj("1", -1));
+        Tcl_ListObjAppendElement(nullptr,pressedkeys,Tcl_NewStringObj("1", -1));
       
       // Get the actions supported by the drag source.
       // DROPEFFECT_COPY, DROPEFFECT_MOVE, DROPEFFECT_LINK
       if (*pdwEffect & DROPEFFECT_COPY)
-        Tcl_ListObjAppendElement(NULL,actionlist,Tcl_NewStringObj("copy", -1));
+        Tcl_ListObjAppendElement(nullptr,actionlist,Tcl_NewStringObj("copy", -1));
       if (*pdwEffect & DROPEFFECT_MOVE)
-        Tcl_ListObjAppendElement(NULL,actionlist,Tcl_NewStringObj("move", -1));
+        Tcl_ListObjAppendElement(nullptr,actionlist,Tcl_NewStringObj("move", -1));
       if (*pdwEffect & DROPEFFECT_LINK)
-        Tcl_ListObjAppendElement(NULL,actionlist,Tcl_NewStringObj("link", -1));
+        Tcl_ListObjAppendElement(nullptr,actionlist,Tcl_NewStringObj("link", -1));
 
       // We are ready to pass the info to the Tcl level, and get the desired
       // action.
@@ -619,12 +619,12 @@ class TkDND_DropTarget: public IDropTarget {
     }; /* DragEnter */
     
     STDMETHODIMP DragOver(DWORD grfKeyState, POINTL pt, DWORD *pdwEffect) {
-      Tcl_Obj *objv[5], *pressedkeys = Tcl_NewListObj(0, NULL), *result;
+      Tcl_Obj *objv[5], *pressedkeys = Tcl_NewListObj(0, nullptr), *result;
       int i, status, index;
       static const char *DropActions[] = {
         "copy", "move", "link", "ask",  "private", "refuse_drop",
         "default",
-        (char *) NULL
+        (char *) nullptr
       };
       enum dropactions {
         ActionCopy, ActionMove, ActionLink, ActionAsk, ActionPrivate,
@@ -634,17 +634,17 @@ class TkDND_DropTarget: public IDropTarget {
       // Get the state of the keyboard modifier keys.
       // MK_CONTROL, MK_SHIFT, MK_ALT, MK_RBUTTON, MK_LBUTTON
       if (grfKeyState & MK_CONTROL)
-        Tcl_ListObjAppendElement(NULL,pressedkeys,Tcl_NewStringObj("ctrl", -1));
+        Tcl_ListObjAppendElement(nullptr,pressedkeys,Tcl_NewStringObj("ctrl", -1));
       if (grfKeyState & MK_SHIFT)
-        Tcl_ListObjAppendElement(NULL,pressedkeys,Tcl_NewStringObj("shift",-1));
+        Tcl_ListObjAppendElement(nullptr,pressedkeys,Tcl_NewStringObj("shift",-1));
       if (grfKeyState & MK_ALT)
-        Tcl_ListObjAppendElement(NULL,pressedkeys,Tcl_NewStringObj("alt", -1));
+        Tcl_ListObjAppendElement(nullptr,pressedkeys,Tcl_NewStringObj("alt", -1));
       if (grfKeyState & MK_RBUTTON)
-        Tcl_ListObjAppendElement(NULL,pressedkeys,Tcl_NewStringObj("3", -1));
+        Tcl_ListObjAppendElement(nullptr,pressedkeys,Tcl_NewStringObj("3", -1));
       if (grfKeyState & MK_MBUTTON)
-        Tcl_ListObjAppendElement(NULL,pressedkeys,Tcl_NewStringObj("2", -1));
+        Tcl_ListObjAppendElement(nullptr,pressedkeys,Tcl_NewStringObj("2", -1));
       if (grfKeyState & MK_LBUTTON)
-        Tcl_ListObjAppendElement(NULL,pressedkeys,Tcl_NewStringObj("1", -1));
+        Tcl_ListObjAppendElement(nullptr,pressedkeys,Tcl_NewStringObj("1", -1));
 
       // We are ready to pass the info to the Tcl level, and get the desired
       // action.
@@ -686,13 +686,13 @@ class TkDND_DropTarget: public IDropTarget {
     
     STDMETHODIMP Drop(IDataObject *pDataObject, DWORD grfKeyState, 
                       POINTL pt, DWORD *pdwEffect) {
-      Tcl_Obj *objv[7], *result, **typeObj, *data = NULL, *type,
-              *pressedkeys = NULL;
+      Tcl_Obj *objv[7], *result, **typeObj, *data = nullptr, *type,
+              *pressedkeys = nullptr;
       int i, type_index, status, index, typeObjc;
       static const char *DropTypes[] = {
         "CF_UNICODETEXT", "CF_TEXT", "CF_HDROP",
         "FileGroupDescriptorW", "FileGroupDescriptor",
-        (char *) NULL
+        (char *) nullptr
       };
       enum droptypes {
         TYPE_CF_UNICODETEXT, TYPE_CF_TEXT, TYPE_CF_HDROP,
@@ -701,7 +701,7 @@ class TkDND_DropTarget: public IDropTarget {
       static const char *DropActions[] = {
         "copy", "move", "link", "ask",  "private", "refuse_drop",
         "default",
-        (char *) NULL
+        (char *) nullptr
       };
       enum dropactions {
         ActionCopy, ActionMove, ActionLink, ActionAsk, ActionPrivate,
@@ -732,7 +732,8 @@ class TkDND_DropTarget: public IDropTarget {
               objv[0]=Tcl_NewStringObj("tkdnd::GetDropFileTempDirectory", -1);
               TkDND_Status_Eval(1);
               if (status == TCL_OK) {
-                strcpy((char *) szTempStr, Tcl_GetStringResult(interp));
+                strncpy((char *) szTempStr, Tcl_GetStringResult(interp), sizeof(szTempStr) - 1);
+                ((char*)szTempStr)[sizeof(szTempStr) - 1] = 0;
                 data = GetData_FileGroupDescriptorW(pDataObject);
               }
               break;
@@ -741,19 +742,20 @@ class TkDND_DropTarget: public IDropTarget {
               objv[0] = Tcl_NewStringObj("tkdnd::GetDropFileTempDirectory", -1);
               TkDND_Status_Eval(1);
               if (status == TCL_OK) {
-                strcpy((char *) szTempStr, Tcl_GetStringResult(interp));
+                strncpy((char *) szTempStr, Tcl_GetStringResult(interp), sizeof(szTempStr) - 1);
+                ((char*)szTempStr)[sizeof(szTempStr) - 1] = 0;
                 data = GetData_FileGroupDescriptor(pDataObject);
               }
               break;
           }
         }
-        if (data != NULL) {
+        if (data != nullptr) {
           type = typeObj[type_index]; Tcl_IncrRefCount(type);
           break; // We have got the data!
         }
       }
 
-      if (data == NULL) {
+      if (data == nullptr) {
         if (typeObjc == 0) { Tcl_DecrRefCount(result); return S_OK; }
         // We failed to get the data.
         type = typeObj[0]; Tcl_IncrRefCount(type);
@@ -763,19 +765,19 @@ class TkDND_DropTarget: public IDropTarget {
       
       // Get the state of the keyboard modifier keys.
       // MK_CONTROL, MK_SHIFT, MK_ALT, MK_RBUTTON, MK_LBUTTON
-      pressedkeys = Tcl_NewListObj(0, NULL);
+      pressedkeys = Tcl_NewListObj(0, nullptr);
       if (grfKeyState & MK_CONTROL)
-        Tcl_ListObjAppendElement(NULL,pressedkeys,Tcl_NewStringObj("ctrl", -1));
+        Tcl_ListObjAppendElement(nullptr,pressedkeys,Tcl_NewStringObj("ctrl", -1));
       if (grfKeyState & MK_SHIFT)
-        Tcl_ListObjAppendElement(NULL,pressedkeys,Tcl_NewStringObj("shift",-1));
+        Tcl_ListObjAppendElement(nullptr,pressedkeys,Tcl_NewStringObj("shift",-1));
       if (grfKeyState & MK_ALT)
-        Tcl_ListObjAppendElement(NULL,pressedkeys,Tcl_NewStringObj("alt", -1));
+        Tcl_ListObjAppendElement(nullptr,pressedkeys,Tcl_NewStringObj("alt", -1));
       if (grfKeyState & MK_RBUTTON)
-        Tcl_ListObjAppendElement(NULL,pressedkeys,Tcl_NewStringObj("3", -1));
+        Tcl_ListObjAppendElement(nullptr,pressedkeys,Tcl_NewStringObj("3", -1));
       if (grfKeyState & MK_MBUTTON)
-        Tcl_ListObjAppendElement(NULL,pressedkeys,Tcl_NewStringObj("2", -1));
+        Tcl_ListObjAppendElement(nullptr,pressedkeys,Tcl_NewStringObj("2", -1));
       if (grfKeyState & MK_LBUTTON)
-        Tcl_ListObjAppendElement(NULL,pressedkeys,Tcl_NewStringObj("1", -1));
+        Tcl_ListObjAppendElement(nullptr,pressedkeys,Tcl_NewStringObj("1", -1));
 
       // We are ready to pass the info to the Tcl level, and get the desired
       // action.
@@ -815,7 +817,7 @@ private:
 
     Tcl_Obj *GetData_Bytearray(IDataObject *pDataObject, Tcl_Obj *formatObj) {
       STGMEDIUM StgMed = {0};
-      FORMATETC fmte = { 0, (DVTARGETDEVICE FAR *)NULL,
+      FORMATETC fmte = { 0, (DVTARGETDEVICE FAR *)nullptr,
                          DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
       Tcl_Obj *result;
       unsigned char *bytes;
@@ -833,7 +835,7 @@ private:
 
     Tcl_Obj *GetData_CF_UNICODETEXT(IDataObject *pDataObject) {
       STGMEDIUM StgMed;
-      FORMATETC fmte = { CF_UNICODETEXT, (DVTARGETDEVICE FAR *)NULL,
+      FORMATETC fmte = { CF_UNICODETEXT, (DVTARGETDEVICE FAR *)nullptr,
                          DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
       
       if (pDataObject->QueryGetData(&fmte) == S_OK) {
@@ -861,19 +863,19 @@ private:
           return result;
         }
       }
-      return NULL;
+      return nullptr;
     }; /* GetData_CF_UNICODETEXT */
 
     Tcl_Obj *GetData_CF_TEXT(IDataObject *pDataObject) {
       STGMEDIUM StgMed;
-      FORMATETC fmte = { CF_TEXT, (DVTARGETDEVICE FAR *)NULL,
+      FORMATETC fmte = { CF_TEXT, (DVTARGETDEVICE FAR *)nullptr,
                          DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
-      FORMATETC fmte_locale = { CF_LOCALE, (DVTARGETDEVICE FAR *)NULL,
+      FORMATETC fmte_locale = { CF_LOCALE, (DVTARGETDEVICE FAR *)nullptr,
                          DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
       
       if (pDataObject->QueryGetData(&fmte) == S_OK) {
         // Determine the encoding to use to convert this text.
-        Tcl_Encoding encoding = NULL;
+        Tcl_Encoding encoding = nullptr;
         char *data, *destPtr;
         if (pDataObject->QueryGetData(&fmte_locale) == S_OK) {
           if (pDataObject->GetData(&fmte_locale, &StgMed) == S_OK) {
@@ -890,7 +892,7 @@ private:
             GetLocaleInfoA(locale, LOCALE_IDEFAULTANSICODEPAGE,
                      Tcl_DStringValue(&ds)+2, Tcl_DStringLength(&ds)-2);
             GlobalUnlock(StgMed.hGlobal);
-            encoding = Tcl_GetEncoding(NULL, Tcl_DStringValue(&ds));
+            encoding = Tcl_GetEncoding(nullptr, Tcl_DStringValue(&ds));
             Tcl_DStringFree(&ds);
           } 
         }
@@ -919,7 +921,7 @@ private:
           return result;
         }
       }
-      return NULL;
+      return nullptr;
     }; /* GetData_CF_TEXT */
     
     Tcl_Obj *GetData_CF_HDROP(IDataObject *pDataObject) {
@@ -930,7 +932,7 @@ private:
       STGMEDIUM StgMed;
       memset(&StgMed, 0, sizeof(StgMed));
       StgMed.tymed = TYMED_HGLOBAL;
-      FORMATETC fmte = { CF_HDROP, (DVTARGETDEVICE FAR *)NULL,
+      FORMATETC fmte = { CF_HDROP, (DVTARGETDEVICE FAR *)nullptr,
                          DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
       if (pDataObject->QueryGetData(&fmte) == S_OK) {
         if (pDataObject->GetData(&fmte, &StgMed) == S_OK) {
@@ -938,16 +940,16 @@ private:
           UINT cFiles;
           TCHAR szFile[MAX_PATH+2];
           Tcl_Obj *result, *item;
-          char *utf_8_data = NULL, *p;
+          char *utf_8_data = nullptr, *p;
 
           hdrop = (HDROP) GlobalLock(StgMed.hGlobal);
-          if ( NULL == hdrop ) {
+          if ( nullptr == hdrop ) {
             GlobalUnlock(hdrop);
             ReleaseStgMedium(&StgMed);
-            return NULL;
+            return nullptr;
           }
-          cFiles = ::DragQueryFile(hdrop, (UINT)-1, NULL, 0);
-          result = Tcl_NewListObj(0, NULL);
+          cFiles = ::DragQueryFile(hdrop, (UINT)-1, nullptr, 0);
+          result = Tcl_NewListObj(0, nullptr);
 
           for (UINT count = 0; count < cFiles; count++) {
             ::DragQueryFile(hdrop, count, szFile, sizeof(szFile));
@@ -969,7 +971,7 @@ private:
               if (*p == '\\') *p = '/';
             }
             item = Tcl_NewStringObj(utf_8_data, -1);
-            Tcl_ListObjAppendElement(NULL, result, item);
+            Tcl_ListObjAppendElement(nullptr, result, item);
 #if defined(UNICODE)
             Tcl_DStringFree(&ds);
 #endif /* UNICODE */
@@ -981,7 +983,7 @@ private:
           return result;
         }
       }
-      return NULL;
+      return nullptr;
     }; /* GetData_CF_HDROP */
 
 #define BLOCK_SIZE 1024
@@ -1011,25 +1013,25 @@ private:
 
     Tcl_Obj *GetData_FileGroupDescriptor(IDataObject *pDataObject) {
       STGMEDIUM StgMed;
-      FORMATETC fmte_locale    = { CF_LOCALE, (DVTARGETDEVICE FAR *) NULL,
+      FORMATETC fmte_locale    = { CF_LOCALE, (DVTARGETDEVICE FAR *) nullptr,
                                    DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
-      FORMATETC descriptor_fmt = { 0, (DVTARGETDEVICE FAR *) NULL,
+      FORMATETC descriptor_fmt = { 0, (DVTARGETDEVICE FAR *) nullptr,
                                    DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
-      FORMATETC contents_fmt   = { 0, (DVTARGETDEVICE FAR *) NULL,
+      FORMATETC contents_fmt   = { 0, (DVTARGETDEVICE FAR *) nullptr,
                                    DVASPECT_CONTENT, -1, TYMED_ISTREAM };
       HRESULT hr = S_OK;
       FILEGROUPDESCRIPTOR *file_group_descriptor;
       FILEDESCRIPTOR file_descriptor;
-      Tcl_Encoding encoding = NULL;
+      Tcl_Encoding encoding = nullptr;
 
       descriptor_fmt.cfFormat = RegisterClipboardFormat(CFSTR_FILEDESCRIPTOR);
       contents_fmt.cfFormat   = RegisterClipboardFormat(CFSTR_FILECONTENTS);
-      if (pDataObject->QueryGetData(&descriptor_fmt) != S_OK) return NULL;
-      if (pDataObject->QueryGetData(&contents_fmt) != S_OK) return NULL;
+      if (pDataObject->QueryGetData(&descriptor_fmt) != S_OK) return nullptr;
+      if (pDataObject->QueryGetData(&contents_fmt) != S_OK) return nullptr;
       // Get the descriptor information
       STGMEDIUM storage = {0,0,0};
       hr = pDataObject->GetData(&descriptor_fmt, &storage);
-      if (hr != S_OK) return NULL;
+      if (hr != S_OK) return nullptr;
       file_group_descriptor = (FILEGROUPDESCRIPTOR *)
                               GlobalLock(storage.hGlobal);
       // Determine the encoding to use to convert this text.
@@ -1048,11 +1050,11 @@ private:
           GetLocaleInfoA(locale, LOCALE_IDEFAULTANSICODEPAGE,
                   Tcl_DStringValue(&ds)+2, Tcl_DStringLength(&ds)-2);
           GlobalUnlock(StgMed.hGlobal);
-          encoding = Tcl_GetEncoding(NULL, Tcl_DStringValue(&ds));
+          encoding = Tcl_GetEncoding(nullptr, Tcl_DStringValue(&ds));
           Tcl_DStringFree(&ds);
         } 
       }
-      Tcl_Obj *result = Tcl_NewListObj(0, NULL);
+      Tcl_Obj *result = Tcl_NewListObj(0, nullptr);
       // For each file, get the name and copy the stream to a file
       for (unsigned int file_index = 0;
            file_index < file_group_descriptor->cItems; file_index++) {
@@ -1063,14 +1065,13 @@ private:
           // Dump stream into a file.
           char file_name[MAX_PATH+1];
           GlobalLock(content_storage.pstm);
-          strcpy(file_name, (char *) szTempStr);
-          strcat(file_name, "\\");
-          strcat(file_name, (char *) file_descriptor.cFileName);
+          snprintf(file_name, sizeof(file_name), "%s\\%s",
+                   (const char*)szTempStr, file_descriptor.cFileName);
           if (StreamToFile(content_storage.pstm, file_name) == S_OK) {
             Tcl_DString ds;
             Tcl_DStringInit(&ds);
             Tcl_ExternalToUtfDString(encoding, file_name, -1, &ds);
-            Tcl_ListObjAppendElement(NULL, result,
+            Tcl_ListObjAppendElement(nullptr, result,
                        Tcl_NewStringObj(Tcl_DStringValue(&ds), -1));
             Tcl_DStringFree(&ds);
           }
@@ -1110,9 +1111,9 @@ private:
     }; /* StreamToFileW */
 
     Tcl_Obj *GetData_FileGroupDescriptorW(IDataObject *pDataObject) {
-      FORMATETC descriptor_fmt = { 0, (DVTARGETDEVICE FAR *) NULL,
+      FORMATETC descriptor_fmt = { 0, (DVTARGETDEVICE FAR *) nullptr,
                                    DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
-      FORMATETC contents_fmt   = { 0, (DVTARGETDEVICE FAR *) NULL,
+      FORMATETC contents_fmt   = { 0, (DVTARGETDEVICE FAR *) nullptr,
                                    DVASPECT_CONTENT, -1, TYMED_ISTREAM };
       HRESULT hr = S_OK;
       FILEGROUPDESCRIPTORW *file_group_descriptor;
@@ -1121,16 +1122,16 @@ private:
 
       descriptor_fmt.cfFormat = RegisterClipboardFormat(CFSTR_FILEDESCRIPTORW);
       contents_fmt.cfFormat   = RegisterClipboardFormat(CFSTR_FILECONTENTS);
-      if (pDataObject->QueryGetData(&descriptor_fmt) != S_OK) return NULL;
-      if (pDataObject->QueryGetData(&contents_fmt) != S_OK) return NULL;
+      if (pDataObject->QueryGetData(&descriptor_fmt) != S_OK) return nullptr;
+      if (pDataObject->QueryGetData(&contents_fmt) != S_OK) return nullptr;
       // Get the descriptor information
       STGMEDIUM storage = {0,0,0};
       hr = pDataObject->GetData(&descriptor_fmt, &storage);
-      if (hr != S_OK) return NULL;
+      if (hr != S_OK) return nullptr;
       file_group_descriptor = (FILEGROUPDESCRIPTORW *)
                               GlobalLock(storage.hGlobal);
 
-      Tcl_Obj *result = Tcl_NewListObj(0, NULL);
+      Tcl_Obj *result = Tcl_NewListObj(0, nullptr);
       // For each file, get the name and copy the stream to a file
       for (unsigned int file_index = 0;
            file_index < file_group_descriptor->cItems; file_index++) {
@@ -1146,23 +1147,7 @@ private:
                                        file_descriptor.cFileName, -1);
           GlobalLock(content_storage.pstm);
           if (StreamToFileW(content_storage.pstm, Tcl_GetUnicode(item))==S_OK) {
-            Tcl_ListObjAppendElement(NULL, result, item);
-#if 0
-          } else {
-            LPVOID lpMsgBuf;
-            if (!FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | 
-                FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-                NULL, GetLastError(),
-                MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
-                (LPTSTR) &lpMsgBuf, 0, NULL )) {
-               // Handle the error.
-            }
-            // Display the string.
-            MessageBox( NULL, (LPCTSTR)lpMsgBuf, "Error",
-                        MB_OK | MB_ICONINFORMATION );
-            // Free the buffer.
-            LocalFree( lpMsgBuf );
-#endif
+            Tcl_ListObjAppendElement(nullptr, result, item);
           }
           GlobalUnlock(content_storage.pstm);
         }

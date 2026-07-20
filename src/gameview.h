@@ -535,7 +535,7 @@ private:
 			if (promo == INVALID_PIECE)
 				return {}; // decode error
 
-			if (promo == PAWN) // NULL MOVE
+			if (promo == PAWN) // nullptr MOVE
 				return TResult(toMove, 0, 0, KING);
 
 			// CASTLE

@@ -518,30 +518,6 @@ int TkDND_RegisterWrapperObjCmd(ClientData clientData, Tcl_Interp *interp,
   return TCL_OK;
 }
 
-#if 0
-int TkDND_UnregisterWrapperObjCmd(ClientData clientData, Tcl_Interp *interp,
-                              int objc, Tcl_Obj *const objv[]) {
-#ifdef SUPPORT_EMBEDDED_TOPLEVEL
-  Tk_Window tkwin;
-  unsigned i;
-  if (objc != 2) {
-    Tcl_WrongNumArgs(interp, 1, objv, "path");
-    return TCL_ERROR;
-  }
-  Window wmFrame = GetWmFrame(TkDND_TkWin(interp, objv[1]));
-  for (i = 0; i < wrapperList.size; ++i) {
-    if (wrapperList.targets[i].win == wmFrame) {
-      memcpy(wrapperList.targets + i*sizeof(Wrapper),
-             wrapperList.targets + (i + 1)*sizeof(Wrapper),
-             (wrapperList.size - i - 1)*sizeof(Wrapper));
-      wrapperList.size -= 1;
-      SetPossiblyWmFrameUnaware(tkwin, wmFrame);
-    }
-  }
-#endif
-  return TCL_OK;
-}
-#endif
 
 int TkDND_RegisterTypesObjCmd(ClientData clientData, Tcl_Interp *interp,
                               int objc, Tcl_Obj *const objv[]) {

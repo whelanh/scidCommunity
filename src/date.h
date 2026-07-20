@@ -19,7 +19,7 @@
 #include <algorithm>
 #include <cstddef>
 #include <cstdlib>
-#include <stdint.h>
+#include <cstdint>
 
 // DATE STORAGE FORMAT:
 // In memory, dates are stored in a 32-bit (4-byte) uint, of which only
@@ -86,7 +86,7 @@ inline bool date_isPartial(dateT date) {
 inline void
 date_DecodeToString (dateT date, char * str)
 {
-    ASSERT(str != NULL);
+    ASSERT(str != nullptr);
     uint32_t year, month, day;
 
     year = date_GetYear (date);
@@ -127,27 +127,27 @@ inline dateT
 date_EncodeFromString (const char * str)
 {
     // Do checks on str's validity as a date string:
-    ASSERT(str != NULL);
+    ASSERT(str != nullptr);
 
     dateT date;
     uint32_t year, month, day;
 
     // convert year:
-    year = std::strtoul(str, NULL, 10);
+    year = std::strtoul(str, nullptr, 10);
     if (year > YEAR_MAX) { year = 0; }
     date = year << YEAR_SHIFT;
     while (*str != 0  &&  *str != '.') { str++; }
     if (*str == '.') { str++; }
 
     // convert month:
-    month = std::strtoul(str, NULL, 10);
+    month = std::strtoul(str, nullptr, 10);
     if (month > 12) { return date; }
     date |= (month << MONTH_SHIFT);
     while (*str != 0  &&  *str != '.') { str++; }
     if (*str == '.') { str++; }
 
     // convert day:
-    day = std::strtoul(str, NULL, 10);
+    day = std::strtoul(str, nullptr, 10);
     if (day > 31) { return date; }
     date |= (day << DAY_SHIFT);
 

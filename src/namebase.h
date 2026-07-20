@@ -148,7 +148,7 @@ public:
 	 */
 	std::vector<idNumberT> getFirstMatches(nameT nt, const char* str,
 	                                       size_t maxMatches) const {
-		ASSERT(IsValidNameType(nt) && str != NULL);
+		ASSERT(IsValidNameType(nt) && str != nullptr);
 
 		std::vector<idNumberT> res;
 		size_t len = strlen(str);
@@ -197,7 +197,7 @@ public:
 	 * @returns OK or ERROR_NameNotFound if the name does not exists.
 	 */
 	errorT FindExactName(nameT nt, const char* str, idNumberT* idPtr) const {
-		ASSERT(IsValidNameType(nt) && str != NULL && idPtr != NULL);
+		ASSERT(IsValidNameType(nt) && str != nullptr && idPtr != nullptr);
 
 		auto it = idx_[nt].find(str);
 		if (it != idx_[nt].end()) {

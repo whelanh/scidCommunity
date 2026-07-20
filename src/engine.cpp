@@ -281,7 +281,7 @@ isOutpost (const pieceT * board, squareT sq, colorT color)
 //   Returns a score in centipawns for the current engine position,
 //   from the perspective of the side to move.
 int
-Engine::Score (void)
+Engine::Score ()
 {
     return Score (-Infinity, Infinity);
 }
@@ -290,7 +290,7 @@ static uint nScoreCalls = 0;
 static uint nScoreFull  = 0;
 
 inline int
-Engine::ScoreWhiteMaterial (void)
+Engine::ScoreWhiteMaterial ()
 {
     const byte* pieceCount = Pos.GetMaterial();
     return  pieceCount[WQ] * QueenValue   +  pieceCount[WR] * RookValue
@@ -299,7 +299,7 @@ Engine::ScoreWhiteMaterial (void)
 }
 
 inline int
-Engine::ScoreBlackMaterial (void)
+Engine::ScoreBlackMaterial ()
 {
     const byte* pieceCount = Pos.GetMaterial();
     return  pieceCount[BQ] * QueenValue   +  pieceCount[BR] * RookValue
@@ -308,7 +308,7 @@ Engine::ScoreBlackMaterial (void)
 }
 
 int
-Engine::ScoreMaterial (void)
+Engine::ScoreMaterial ()
 {
     int score = ScoreWhiteMaterial() - ScoreBlackMaterial();
     return (Pos.GetToMove() == WHITE) ? score : -score;
@@ -731,7 +731,7 @@ Engine::ScorePawnStructure (pawnTableEntryT * pawnEntry)
 
     bool inPawnEndgame = (Pos.NumNonPawns(WHITE) == 1
                             &&  Pos.NumNonPawns(BLACK) == 1);
-    pawnTableEntryT * hashEntry = NULL;
+    pawnTableEntryT * hashEntry = nullptr;
 
     // Check for a pawn hash table hit, but not in pawn endings:
     if (!inPawnEndgame) {
@@ -953,7 +953,7 @@ Engine::PushRepeat (Position * pos)
 // Engine::PopRepeat
 //   Pops the last entry off the repetition stack.
 inline void
-Engine::PopRepeat (void)
+Engine::PopRepeat ()
 {
     ASSERT (RepStackSize > 0);
     RepStackSize--;
@@ -964,7 +964,7 @@ Engine::PopRepeat (void)
 //   Returns true if the position is a certain draw through neither
 //   side having mating material.
 bool
-Engine::NoMatingMaterial (void)
+Engine::NoMatingMaterial ()
 {
     uint npieces = Pos.TotalMaterial();
 
@@ -983,7 +983,7 @@ Engine::NoMatingMaterial (void)
 //   Returns  true if a draw has been reached through fifty full
 //   moves since the last capture or pawn move.
 bool
-Engine::FiftyMoveDraw (void)
+Engine::FiftyMoveDraw ()
 {
     if (RepStackSize < 100) { return false; }
 
@@ -1009,7 +1009,7 @@ Engine::FiftyMoveDraw (void)
 //   with the same side to move, castling and en passant settings.
 //   The current occurrence is included in the returned count.
 uint
-Engine::RepeatedPosition (void)
+Engine::RepeatedPosition ()
 {
     uint hash = Pos.HashValue();
     uint pawnhash = Pos.PawnHashValue();
@@ -1041,7 +1041,7 @@ Engine::SetHashTableKilobytes (uint size)
 	{
       TranTableSize = bytes / sizeof(transTableEntryT);
       if ((TranTableSize % 2) == 1) { TranTableSize--; }
-      if (TranTable != NULL) { delete[] TranTable; }
+      delete[] TranTable;
       TranTable = new transTableEntryT [TranTableSize]{};
     }
     ClearHashTable();
@@ -1058,7 +1058,7 @@ Engine::SetPawnTableKilobytes (uint size)
 	if(PawnTableSize != bytes / sizeof(pawnTableEntryT))
 	{
       PawnTableSize = bytes / sizeof(pawnTableEntryT);
-      if (PawnTable != NULL) { delete[] PawnTable; }
+      delete[] PawnTable;
       PawnTable = new pawnTableEntryT [PawnTableSize]{};
     }
     ClearPawnTable();
@@ -1068,7 +1068,7 @@ Engine::SetPawnTableKilobytes (uint size)
 // Engine::ClearHashTable
 //   Clear the transposition table.
 void
-Engine::ClearHashTable (void)
+Engine::ClearHashTable ()
 {
     for (uint i = 0; i < TranTableSize; i++) {
         TranTable[i].flags = SCORE_NONE;
@@ -1080,7 +1080,7 @@ Engine::ClearHashTable (void)
 // Engine::ClearPawnTable
 //   Clear the pawn structure hash table.
 void
-Engine::ClearPawnTable (void)
+Engine::ClearPawnTable ()
 {
     for (uint i = 0; i < PawnTableSize; i++) {
         PawnTable[i].pawnhash = 0;
@@ -1185,7 +1185,7 @@ Engine::StoreHash (int depth, scoreFlagT ttFlag, int score,
         if (depth < ttEntry->depth) {
             // Do not overwrite an existing better entry for the same
             // position; but if there was no move, add one:
-            if (ttEntry->bestMove == 0  &&  bestMove != NULL) {
+            if (ttEntry->bestMove == 0  &&  bestMove != nullptr) {
                 tte_SetBestMove (ttEntry, bestMove);
             }
             return;
@@ -1211,7 +1211,7 @@ Engine::StoreHash (int depth, scoreFlagT ttFlag, int score,
     tte_SetFlags (ttEntry, ttFlag, stm, Pos.GetCastlingFlags(), isOnlyMove);
     ttEntry->sequence = TranTableSequence;
     ttEntry->bestMove = 0;
-    if (bestMove != NULL) {
+    if (bestMove != nullptr) {
         ASSERT (bestMove->movingPiece != EMPTY);
         ASSERT (piece_Color(bestMove->movingPiece) == stm);
         ASSERT (bestMove->from <= H8);
@@ -1228,7 +1228,7 @@ scoreFlagT
 Engine::ProbeHash (int depth, int * score, ScoredMove * bestMove, bool * isOnlyMove)
 {
     // Clear the best move:
-    if (bestMove != NULL) { bestMove->from = bestMove->to = NULL_SQUARE; }
+    if (bestMove != nullptr) { bestMove->from = bestMove->to = NULL_SQUARE; }
 
     if (TranTableSize == 0) { return SCORE_NONE; }
 
@@ -1251,18 +1251,18 @@ Engine::ProbeHash (int depth, int * score, ScoredMove * bestMove, bool * isOnlyM
 
     // If a hash move is stored, we return it even if the depth is not
     // sufficient, because it will be useful for move ordering anyway.
-    if (bestMove != NULL  &&  ttEntry->bestMove != 0) {
+    if (bestMove != nullptr  &&  ttEntry->bestMove != 0) {
         tte_GetBestMove (ttEntry, bestMove);
         const pieceT* board = Pos.GetBoard();
         bestMove->movingPiece = board[bestMove->from];
     }
-    if (isOnlyMove != NULL) {
+    if (isOnlyMove != nullptr) {
         *isOnlyMove = tte_IsOnlyMove (ttEntry);
     }
     // Only return an exact or bounded score if the stored depth is at
     // least as large as the requested depth:
     if (ttEntry->depth < depth) { return SCORE_NONE; }
-    if (score != NULL) {
+    if (score != nullptr) {
         *score = ttEntry->score;
         // Convert mating scores to exclude the current Ply count:
         if (IsMatingScore(*score)) { *score -= Ply; }
@@ -1277,12 +1277,12 @@ static uint nFailHighFirstMove = 0;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Engine::SetPosition
 //   Set the current position. If the new position parameter
-//   is NULL, the standard starting position is used.
+//   is nullptr, the standard starting position is used.
 void
 Engine::SetPosition (Position * newpos)
 {
     // Set the position:
-    if (newpos == NULL) {
+    if (newpos == nullptr) {
         RootPos.StdStart();
         Pos.StdStart();
     } else {
@@ -1304,8 +1304,8 @@ Engine::SetPosition (Position * newpos)
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Engine::Think
 //   Initiate a search from the current position. If the supplied
-//   move list is NULL, generate and examine all legal moves at the
-//   root position. However, if the move list is not NULL, it
+//   move list is nullptr, generate and examine all legal moves at the
+//   root position. However, if the move list is not nullptr, it
 //   contains a subset of the legal moves to be analyzed.
 //
 //   Returns the score (in centipawns, for the side to move) and
@@ -1329,7 +1329,7 @@ Engine::Think (MoveList * mlist)
 
     // If no legal move list was specified, generate and search all moves:
     MoveList tmpMoveList;
-    if (mlist == NULL) {
+    if (mlist == nullptr) {
         mlist = &tmpMoveList;
         Pos.GenerateMoves(mlist);
     }
@@ -1439,7 +1439,7 @@ Engine::SearchRoot (int depth, int alpha, int beta, MoveList * mlist)
 
     // If no legal move list was specified, generate and search all moves:
     MoveList tmpMoveList;
-    if (mlist == NULL) {
+    if (mlist == nullptr) {
         mlist = &tmpMoveList;
         Pos.GenerateMoves(mlist);
     }
@@ -1770,7 +1770,7 @@ Engine::Search (int depth, int alpha, int beta, bool tryNullMove)
     // the true score of this position, with no best move.
     if (alpha == oldAlpha) {
         ASSERT (bestMoveIndex < 0);
-        StoreHash (depth, SCORE_UPPER, alpha, NULL, isOnlyMove);
+        StoreHash (depth, SCORE_UPPER, alpha, nullptr, isOnlyMove);
     } else {
         // Update the transposition table with the best move:
         ASSERT (bestMoveIndex >= 0);
@@ -2171,12 +2171,14 @@ void
 Engine::Output (const char * format, ...)
 {
     va_list ap;
-    va_start (ap, format);
-    vprintf (format, ap);
-    if (LogFile != NULL) {
-        vfprintf (LogFile, format, ap);
+    va_start(ap, format);
+    vprintf(format, ap);
+    va_end(ap);
+    if (LogFile != nullptr) {
+        va_start(ap, format);
+        vfprintf(LogFile, format, ap);
+        va_end(ap);
     }
-    va_end (ap);
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Engine::PrintPV
@@ -2249,7 +2251,7 @@ Engine::OutOfTime ()
         IsOutOfTime = (ms > SearchTime);
     }
 
-    if (!IsOutOfTime  &&  CallbackFunction != NULL) {
+    if (!IsOutOfTime  &&  CallbackFunction != nullptr) {
         IsOutOfTime = CallbackFunction (this, CallbackData);
     }
 

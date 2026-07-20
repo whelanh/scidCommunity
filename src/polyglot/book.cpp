@@ -86,11 +86,14 @@ void scid_book_update(char* probs, const int BookNumber) {
 	char* s;
 
 	s = strtok(probs, " ");
-	sscanf(s, "%d", &(prob[prob_count]));
-	prob_count++;
-	while ((s = strtok(NULL, " ")) != NULL) {
+	if (s != nullptr) {
 		sscanf(s, "%d", &(prob[prob_count]));
 		prob_count++;
+		while ((s = strtok(nullptr, " ")) != nullptr) {
+			if (prob_count >= 100) return;
+			sscanf(s, "%d", &(prob[prob_count]));
+			prob_count++;
+		}
 	}
 
 	first_pos = find_pos(scid_board[BookNumber]->key, BookNumber);
@@ -145,10 +148,10 @@ int scid_book_movesupdate(char* moves, char* probs, const int BookNumber,
 	char* s;
 	probs_copy = strdup(probs); // strtok modifies its first argument
 	s = strtok(probs_copy, " ");
-	if (s != NULL) {
+	if (s != nullptr) {
 		sscanf(s, "%d", &(prob[prob_count]));
 		prob_count++;
-		while ((s = strtok(NULL, " ")) != NULL) {
+		while ((s = strtok(nullptr, " ")) != nullptr) {
 			if (prob_count >= MAX_MOVES) {
 				free(probs_copy);
 				return -1; // fail
@@ -172,10 +175,10 @@ int scid_book_movesupdate(char* moves, char* probs, const int BookNumber,
 	moves_copy = strdup(moves); // strtok modifies its first argument
 	move_count = 0;
 	s = strtok(moves_copy, " ");
-	if (s != NULL) {
+	if (s != nullptr) {
 		move[move_count] = move_from_san(s, scid_board[BookNumber]);
 		move_count++;
-		while ((s = strtok(NULL, " ")) != NULL) {
+		while ((s = strtok(nullptr, " ")) != nullptr) {
 			if (move_count >= MAX_MOVES) {
 				free(moves_copy);
 				return -1; // fail
@@ -261,7 +264,7 @@ int scid_book_movesupdate(char* moves, char* probs, const int BookNumber,
 
 // =================================================================
 int scid_book_close(const int BookNumber) {
-	if (BookFile[BookNumber] != NULL) {
+	if (BookFile[BookNumber] != nullptr) {
 		if (fclose(BookFile[BookNumber]) == EOF) {
 			return -1;
 		}
@@ -276,11 +279,11 @@ int scid_book_open(const char file_name[], const int BookNumber) {
 	BookFile[BookNumber] = fopen_utf8(file_name, "rb+");
 
 	//--------------------------------------------------
-	if (BookFile[BookNumber] == NULL) {
+	if (BookFile[BookNumber] == nullptr) {
 		// the book can not be opened in read/write mode, try read only
 		BookFile[BookNumber] = fopen_utf8(file_name, "rb");
 		ReadOnlyFile = 1;
-		if (BookFile[BookNumber] == NULL)
+		if (BookFile[BookNumber] == nullptr)
 			return -1;
 	}
 	//--------------------------------------------------
@@ -398,7 +401,7 @@ int scid_position_book_disp(const board_t* board, char* s,
 
 void book_clear(const int BookNumber) {
 
-	BookFile[BookNumber] = NULL;
+	BookFile[BookNumber] = nullptr;
 	BookSize[BookNumber] = 0;
 }
 
@@ -406,11 +409,11 @@ void book_clear(const int BookNumber) {
 
 void book_open(const char file_name[], const int BookNumber) {
 
-	ASSERT(file_name != NULL);
+	ASSERT(file_name != nullptr);
 
 	BookFile[BookNumber] = fopen_utf8(file_name, "rb+");
 
-	if (BookFile[BookNumber] == NULL)
+	if (BookFile[BookNumber] == nullptr)
 		my_fatal("book_open(): can't open file \"%s\": %s\n", file_name,
 		         strerror(errno));
 
@@ -439,7 +442,7 @@ bool is_in_book(const board_t* board, const int BookNumber) {
 	int pos;
 	entry_t entry[1];
 
-	ASSERT(board != NULL);
+	ASSERT(board != nullptr);
 	for (pos = find_pos(board->key, BookNumber); pos < BookSize[BookNumber];
 	     pos++) {
 		read_entry(entry, pos, BookNumber);
@@ -494,7 +497,7 @@ static int find_pos(uint64 key, const int BookNumber) {
 
 // read_entry()
 static void read_entry_file(FILE* f, entry_t* entry) {
-	ASSERT(entry != NULL);
+	ASSERT(entry != nullptr);
 
 	entry->key = read_integer(f, 8);
 	entry->move = static_cast<uint16_t>(read_integer(f, 2));
@@ -508,7 +511,7 @@ static void read_entry_file(FILE* f, entry_t* entry) {
 
 // read_entry()
 static void read_entry(entry_t* entry, int n, const int BookNumber) {
-	ASSERT(entry != NULL);
+	ASSERT(entry != nullptr);
 	ASSERT(n >= 0 && n < BookSize[BookNumber]);
 	if (fseek(BookFile[BookNumber], n * 16, SEEK_SET) == -1) {
 		my_fatal("read_entry(): fseek(): %s\n", strerror(errno));
@@ -519,7 +522,7 @@ static void read_entry(entry_t* entry, int n, const int BookNumber) {
 
 // write_entry_file
 static void write_entry_file(FILE* f, const entry_t* entry) {
-	ASSERT(entry != NULL);
+	ASSERT(entry != nullptr);
 	write_integer(f, 8, entry->key);
 	write_integer(f, 2, entry->move);
 	write_integer(f, 2, entry->count);
@@ -533,7 +536,7 @@ static void write_entry_file(FILE* f, const entry_t* entry) {
 // write_entry()
 static void write_entry(const entry_t* entry, int n, const int BookNumber) {
 
-	ASSERT(entry != NULL);
+	ASSERT(entry != nullptr);
 	ASSERT(n >= 0 && n < BookSize[BookNumber]);
 	if (fseek(BookFile[BookNumber], n * 16, SEEK_SET) == -1) {
 		my_fatal("write_entry(): fseek(): %s\n", strerror(errno));
@@ -547,7 +550,7 @@ static uint64 read_integer(FILE* file, int size) {
 	uint64 n;
 	int i;
 	int b;
-	ASSERT(file != NULL);
+	ASSERT(file != nullptr);
 	ASSERT(size > 0 && size <= 8);
 
 	n = 0;
@@ -574,7 +577,7 @@ static uint64 read_integer(FILE* file, int size) {
 static void write_integer(FILE* file, int size, uint64 n) {
 	int i;
 	int b;
-	ASSERT(file != NULL);
+	ASSERT(file != nullptr);
 	ASSERT(size > 0 && size <= 8);
 	ASSERT(size == 8 || n >> (size * 8) == 0);
 

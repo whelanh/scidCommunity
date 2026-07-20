@@ -18,13 +18,13 @@
 
 #include "board_def.h"
 #include "error.h"
-#include <assert.h>
+#include <cassert>
 #include <cstddef>
-#include <stdint.h>
+#include <cstdint>
 
 #ifdef __linux__
 #include <sys/mman.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <memory>
 #include <type_traits>
 #include <new>
@@ -89,7 +89,7 @@ template <typename T> inline void delete_huge(T* ptr, size_t n) {
 
 // Version: div by 100 for major number, modulo 100 for minor number
 // so 109 = 1.9, 110 = 1.10, etc.
-typedef unsigned short versionT;
+using versionT = unsigned short;
 const versionT SCID_VERSION = 400;     // Current file format version = 4.0
 
 // Version string - use build-time definition from CMake if available, otherwise fallback to default
@@ -109,16 +109,16 @@ const versionT SCID_VERSION = 400;     // Current file format version = 4.0
 // TYPE DEFINITIONS
 
 //  General types
-typedef unsigned char byte;      //  8 bit unsigned
-typedef uint16_t ushort;         // 16 bit unsigned
-typedef uint32_t uint;           // 32 bit unsigned
-typedef int32_t  sint;           // 32 bit signed
+using byte = unsigned char;      //  8 bit unsigned
+using ushort = uint16_t;         // 16 bit unsigned
+using uint = uint32_t;           // 32 bit unsigned
+using sint = int32_t;            // 32 bit signed
 
 //  Chess Types
-typedef byte                    directionT;  // e.g. UP_LEFT
-typedef byte                    leftDiagT;   // Up-left diagonals
-typedef byte                    rightDiagT;  // Up-right diagonals
-typedef byte                    castleDirT;  // LEFT or RIGHT
+using directionT = byte;                    // e.g. UP_LEFT
+using leftDiagT = byte;                     // Up-left diagonals
+using rightDiagT = byte;                    // Up-right diagonals
+using castleDirT = byte;                    // LEFT or RIGHT
 
 typedef char    sanStringT [ 10];   // SAN Move Notation
 
@@ -133,9 +133,9 @@ enum fileModeT {
 
 //  Game Information types
 
-typedef uint            gamenumT;
-typedef ushort          eloT;
-typedef ushort          ecoT;
+using gamenumT = uint;
+using eloT = ushort;
+using ecoT = ushort;
 typedef char            ecoStringT [6];   /* "A00j1" */
 
 const ecoT ECO_None = 0;
@@ -157,7 +157,7 @@ extern const char * ratingTypeNames [8];   // Defined in game.cpp
 // Result Type
 
 const uint NUM_RESULT_TYPES = 4;
-typedef byte    resultT;
+using resultT = byte;
 const resultT
     RESULT_None  = 0,
     RESULT_White = 1,

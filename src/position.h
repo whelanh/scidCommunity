@@ -17,7 +17,7 @@
 
 #include "common.h"
 #include "movelist.h"
-#include <stdio.h>
+#include <cstdio>
 #include <string>
 #include <string_view>
 
@@ -33,12 +33,12 @@ const byte WQ_CASTLE = 1, WK_CASTLE = 2, BQ_CASTLE = 4, BK_CASTLE = 8;
 // SANFlag: since checking if a move is check (to add the "+" to its
 //      SAN string) takes time, and checking for mate takes even
 //      longer, we specify whether we want this done with a flag.
-typedef byte sanFlagT;
+using sanFlagT = byte;
 const sanFlagT SAN_NO_CHECKTEST = 0, SAN_CHECKTEST = 1, SAN_MATETEST = 2;
 
 // Flags that Position::GenerateMoves() recognises:
 //
-typedef uint genMovesT;
+using genMovesT = uint;
 const genMovesT GEN_CAPTURES = 1, GEN_NON_CAPS = 2,
                 GEN_ALL_MOVES = (GEN_CAPTURES | GEN_NON_CAPS);
 
@@ -52,7 +52,7 @@ private:
   //  Position:  Data structures
 
   pieceT Board[66];    // the actual board + a color square
-                       // and a NULL square.
+                       // and a nullptr square.
   uint Count[2];       // count of pieces & pawns each
   byte Material[16];   // count of each type of piece
   byte ListPos[64];    // ListPos stores the position in
@@ -233,10 +233,10 @@ public:
   uint CalcAttacks(colorT toMove, squareT kingSq, SquareList *squares) const;
   int TreeCalcAttacks(squareT target);
   uint CalcNumChecks() const {
-    return CalcAttacks(1 - ToMove, GetKingSquare(), NULL);
+    return CalcAttacks(1 - ToMove, GetKingSquare(), nullptr);
   }
   uint CalcNumChecks(squareT kingSq) const {
-    return CalcAttacks(1 - ToMove, kingSq, NULL);
+    return CalcAttacks(1 - ToMove, kingSq, nullptr);
   }
   uint CalcNumChecks(squareT kingSq, SquareList *checkSquares) const {
     return CalcAttacks(1 - ToMove, kingSq, checkSquares);

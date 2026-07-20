@@ -260,7 +260,7 @@ proc ::engine::init_ {id channel callback} {
 }
 
 proc ::engine::destroy_ {id {localReply ""}} {
-    after cancel "::engine::done_ $id"
+    after cancel [list ::engine::done_ $id]
     if {[info exists ::engconn(nextHandshake_$id)]} {
         after cancel $::engconn(nextHandshake_$id)
     }
@@ -344,7 +344,7 @@ proc ::engine::handshake_ {id protocols} {
         unset -nocomplain ::engconn(nextHandshake_$id)
         if {$::engconn(protocol_$id) eq "xboard"} {
             # TODO: this hack is necessary for old engines like phalanx
-            after 2000 "::engine::done_ $id"
+            after 2000 [list ::engine::done_ $id]
         }
     }
 }
@@ -413,7 +413,7 @@ proc ::engine::onMessages_ {id channel} {
 }
 
 proc ::engine::done_ {id} {
-    after cancel "::engine::done_ $id"
+    after cancel [list ::engine::done_ $id]
     switch $::engconn(waitReply_$id) {
         "hello" {
             if {[info exists ::engconn(nextHandshake_$id)]} {
@@ -526,7 +526,7 @@ proc ::xboard::sendOptions {id msgData} {
             ::engine::rawsend $id "option $name=$value"
         }
     }
-    after 200 "::engine::done_ $id"
+    after 200 [list ::engine::done_ $id]
 }
 
 proc ::uci::sendNewGame {id msgData} {
@@ -679,7 +679,7 @@ proc ::xboard::parseline {id line} {
                     continue
                 }
                 if {$name eq "done"} {
-                    after cancel "::engine::done_ $id"
+    after cancel [list ::engine::done_ $id]
                     if {$default} {
                         return 1
                     }

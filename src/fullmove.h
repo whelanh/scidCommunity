@@ -62,7 +62,7 @@ public:
 
 	// Special moves:
 	// NONE: encoded as 0 (from 0 to 0);
-	// NULL: encoded as 65 (from 1 to 1);
+	// nullptr: encoded as 65 (from 1 to 1);
 	// PROMO: encoded setting the special move flag to 1
 	// ENPASSANT: encoded setting the special move flag to 2
 	// CASTLING: encoded setting the special move flag to 3, from is the square

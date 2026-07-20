@@ -212,7 +212,7 @@ bool char_is_rank(int c) {
 bool square_to_string(int square, char string[], int size) {
 
    ASSERT(square_is_ok(square));
-   ASSERT(string!=NULL);
+   ASSERT(string!=nullptr);
    ASSERT(size>=3);
 
    if (size < 3) return false;
@@ -230,7 +230,7 @@ int square_from_string(const char string[]) {
 
    int file, rank;
 
-   ASSERT(string!=NULL);
+   ASSERT(string!=nullptr);
 
    if (string[0] < 'a' || string[0] > 'h') return SquareNone;
    if (string[1] < '1' || string[1] > '8') return SquareNone;

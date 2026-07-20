@@ -88,7 +88,7 @@ inline bool posHasOpenFyle(Position *pos, fyleT f) {
   return (pos->FyleCount(WP, f) == 0 && pos->FyleCount(BP, f) == 0);
 }
 
-void OpLine::Init(void) {
+void OpLine::Init() {
   GameNumber = 0;
   White = strDuplicate("");
   Black = strDuplicate("");
@@ -148,7 +148,7 @@ void OpLine::Init(Game *g, const IndexEntry *ie, gamenumT gameNum,
   ShortGame = false;
   while (i < columnMoves) {
     simpleMoveT *sm = g->GetCurrentMove();
-    if (sm == NULL) {
+    if (sm == nullptr) {
       Move[i][0] = 0;
       ShortGame = true;
     } else {
@@ -164,7 +164,7 @@ void OpLine::Init(Game *g, const IndexEntry *ie, gamenumT gameNum,
   // Now read in all the extra note moves:
   while (i < maxLineMoves) {
     simpleMoveT *sm = g->GetCurrentMove();
-    if (sm == NULL) {
+    if (sm == nullptr) {
       Move[i][0] = 0;
       ShortGame = true;
     } else {
@@ -176,7 +176,7 @@ void OpLine::Init(Game *g, const IndexEntry *ie, gamenumT gameNum,
     }
     i++;
   }
-  if (g->GetCurrentMove() == NULL) {
+  if (g->GetCurrentMove() == nullptr) {
     ShortGame = true;
   }
 
@@ -196,7 +196,7 @@ void OpLine::Init(Game *g, const IndexEntry *ie, gamenumT gameNum,
   g->restoreLocation(location);
 }
 
-void OpLine::Destroy(void) {
+void OpLine::Destroy() {
   delete[] White;
   delete[] Black;
   delete[] Site;
@@ -251,9 +251,9 @@ void OpLine::SetPositionalThemes(Position *pos) {
 void OpLine::Insert(OpLine *subline) {
   OpLine *subsub = subline->Next;
   subline->Next = Next;
-  if (subsub != NULL) {
+  if (subsub != nullptr) {
     OpLine *subtail = subsub;
-    while (subtail->Next != NULL) {
+    while (subtail->Next != nullptr) {
       subtail = subtail->Next;
     }
     subtail->Next = subline;
@@ -455,14 +455,14 @@ void OpTable::Init(const char *type, Game *g, PBook *ebook) {
       g->MoveExitVariation();
       continue;
     }
-    if (ebook != NULL && ECOstr_.empty()) {
+    if (ebook != nullptr && ECOstr_.empty()) {
       auto eco = ebook->findECOstr(g->GetCurrentPos());
       if (!eco.empty())
         ECOstr_.append(eco);
     }
     g->MoveBackup();
     simpleMoveT *sm = g->GetCurrentMove();
-    if (sm == NULL) {
+    if (sm == nullptr) {
       break;
     }
     g->GetCurrentPos()->MakeSANString(sm, StartLine[StartLength],
@@ -476,17 +476,13 @@ void OpTable::Init(const char *type, Game *g, PBook *ebook) {
   // Now the moves are in the StartLine[] array, in reverse order.
 }
 
-void OpTable::Clear(void) {
+void OpTable::Clear() {
   uint i;
   for (i = 0; i < NumLines; i++) {
     delete Line[i];
   }
   for (i = 0; i < NumMoveOrders; i++) {
-#ifdef WINCE
-    my_Tcl_Free((char *)MoveOrder[i].moves);
-#else
-    delete MoveOrder[i].moves;
-#endif
+    delete[] MoveOrder[i].moves;
   }
   NumLines = NumTableLines = 0;
   NumMoveOrders = 0;
@@ -498,13 +494,13 @@ void OpTable::Clear(void) {
   ExcludeMove[0] = 0;
 }
 
-void OpTable::ClearNotes(void) {
+void OpTable::ClearNotes() {
   // Clear all notes:
   for (uint i = 0; i < NumTableLines; i++) {
     Row[i] = Line[i];
     NLines[i] = 1;
     RowScore[i] = RESULT_SCORE[Line[i]->Result];
-    Line[i]->Next = NULL;
+    Line[i]->Next = nullptr;
     Line[i]->NoteMoveNum = 0;
     Line[i]->NoteNumber = 0;
   }
@@ -531,7 +527,7 @@ void OpTable::SetFormat(const char *str) { Format = FormatFromStr(str); }
 //    games that have been added to the database.
 //    The integer value returned is the percentage * 10,
 //    e.g. "573" for 57.3%
-uint OpTable::PercentScore(void) {
+uint OpTable::PercentScore() {
   uint percent = Results[RESULT_White] * 2;
   percent += Results[RESULT_Draw];
   percent = percent * 500;
@@ -547,7 +543,7 @@ uint OpTable::PercentScore(void) {
 // OpTable::TheoryPercent():
 //    Returns the percentage score for White across all
 //    games except those excluded from the theory table.
-uint OpTable::TheoryPercent(void) {
+uint OpTable::TheoryPercent() {
   uint percent = TheoryResults[RESULT_White] * 2;
   percent += TheoryResults[RESULT_Draw];
   percent = percent * 500;
@@ -564,7 +560,7 @@ uint OpTable::TheoryPercent(void) {
 //   Returns the score for White (multiplied by 2 to be an
 //   integer value) for all games except those excluded
 //   from the theory table.
-uint OpTable::TheoryScore(void) {
+uint OpTable::TheoryScore() {
   return TheoryResults[RESULT_White] * 2 + TheoryResults[RESULT_Draw];
 }
 
@@ -662,53 +658,18 @@ static uint int_sqrt(uint val) {
 //    Sets the target number of rows according to the
 //    number of lines, hopefully choosing a nice value.
 //    The formula is sqrt(NumTableLines*0.75) + 3.
-void OpTable::GuessNumRows(void) {
+void OpTable::GuessNumRows() {
   SetNumRows(int_sqrt((NumTableLines * 3) / 4) + 3);
 }
 
-#ifdef WINCE
-void OpTable::DumpLines(/*FILE * */ Tcl_Channel fp) {
-  MakeRows();
-  DString *dstr = new DString;
-  char buf[1024];
-  for (uint i = 0; i < NumRows; i++) {
-    bool first = true;
-    OpLine *line = Row[i];
-    OpLine *prevLine = NULL;
-    while (line != NULL) {
-      dstr->Clear();
-      if (first) {
-        first = false;
-        line->PrintNote(dstr, (StartLength + 2) / 2, 0, OPTABLE_Text);
-        // fprintf (fp, "ROW %u[%u]: ", i+1, NLines[i]);
-        sprintf(buf, "ROW %u[%u]: ", i + 1, NLines[i]);
-        my_Tcl_Write(fp, buf, strlen(buf));
-      } else {
-        // fprintf (fp, "   %u-NOTE: ", i+1);
-        sprintf(buf, "   %u-NOTE: ", i + 1);
-        my_Tcl_Write(fp, buf, strlen(buf));
-        line->PrintNote(dstr, (StartLength + 2) / 2,
-                        line->CommonLength(prevLine), OPTABLE_Text);
-      }
-      // fprintf (fp, "%s\n", dstr->Data());
-      sprintf(buf, "%s\n", dstr->Data());
-      my_Tcl_Write(fp, buf, strlen(buf));
-      prevLine = line;
-      line = line->Next;
-    }
-  }
-  delete dstr;
-}
-
-#else
 void OpTable::DumpLines(FILE *fp) {
   MakeRows();
   DString *dstr = new DString;
   for (uint i = 0; i < NumRows; i++) {
     bool first = true;
     OpLine *line = Row[i];
-    OpLine *prevLine = NULL;
-    while (line != NULL) {
+    OpLine *prevLine = nullptr;
+    while (line != nullptr) {
       dstr->Clear();
       if (first) {
         first = false;
@@ -726,7 +687,6 @@ void OpTable::DumpLines(FILE *fp) {
   }
   delete dstr;
 }
-#endif
 
 bool OpTable::IsRowMergable(uint rownum) {
   ASSERT(rownum > 0 && rownum < NumRows - 1);
@@ -752,7 +712,7 @@ void OpTable::MergeRow(uint rownum) {
 // OpTable::SelectTableLines():
 //    Select the NumTableLines highest-rated lines and
 //    move them to the start of the array of lines.
-void OpTable::SelectTableLines(void) {
+void OpTable::SelectTableLines() {
   uint i, j;
   if (NumLines == NumTableLines) {
     return;
@@ -775,7 +735,7 @@ void OpTable::SelectTableLines(void) {
   }
 }
 
-void OpTable::MakeRows(void) {
+void OpTable::MakeRows() {
   uint i;
 
   if (NumLines == 0) {
@@ -845,7 +805,7 @@ void OpTable::MakeRows(void) {
   for (i = 0; i < NumRows; i++) {
     OpLine *rowline = Row[i];
     OpLine *subline = Row[i]->Next;
-    while (subline != NULL) {
+    while (subline != nullptr) {
       subline->NoteMoveNum = subline->CommonLength(rowline);
       subline = subline->Next;
     }
@@ -872,11 +832,7 @@ void OpTable::SortTableLines(OpLine **lines, uint nlines, uint depth) {
     return;
   }
 
-#ifdef WINCE
-  opSortT *moves = (opSortT *)my_Tcl_Alloc(sizeof(opSortT[nlines]));
-#else
   opSortT *moves = new opSortT[nlines];
-#endif
 
   for (i = 0; i < nlines; i++) {
     bool newMove = true;
@@ -891,7 +847,7 @@ void OpTable::SortTableLines(OpLine **lines, uint nlines, uint depth) {
     if (newMove) {
       moves[nUnique].count = 1;
       moves[nUnique].move = lines[i]->GetMove(depth);
-      lines[i]->Next = NULL;
+      lines[i]->Next = nullptr;
       moves[nUnique].lineList = lines[i];
       nUnique++;
     }
@@ -930,7 +886,7 @@ void OpTable::SortTableLines(OpLine **lines, uint nlines, uint depth) {
   uint count = 0;
   for (i = 0; i < nUnique; i++) {
     OpLine *line = moves[i].lineList;
-    while (line != NULL) {
+    while (line != nullptr) {
       lines[count] = line;
       count++;
       line = line->Next;
@@ -945,11 +901,7 @@ void OpTable::SortTableLines(OpLine **lines, uint nlines, uint depth) {
   }
 
   // Delete the moves array:
-#ifdef WINCE
-  my_Tcl_Free((char *)moves);
-#else
   delete[] moves;
-#endif
 }
 
 void OpTable::PrintStemLine(DString *dstr, uint format, bool exclude) {
@@ -970,7 +922,7 @@ void OpTable::PrintStemLine(DString *dstr, uint format, bool exclude) {
 
 void OpTable::PrintTable(DString *dstr, const char *title,
                          const char *comment) {
-  ASSERT(title != NULL && comment != NULL);
+  ASSERT(title != nullptr && comment != nullptr);
   switch (Format) {
   case OPTABLE_HTML:
     PrintHTML(dstr, title, comment);
@@ -1218,7 +1170,7 @@ bool OpTable::HasNotes(OpLine *line, uint movenum) {
     line->NoteMoveNum = movenum + 1;
     line->NoteNumber = NumNotes;
   }
-  while (subline != NULL) {
+  while (subline != nullptr) {
     if (subline->NoteMoveNum == movenum) {
       if (!noteSeen) {
         noteSeen = true;
@@ -1296,11 +1248,11 @@ void OpTable::PrintNotes(DString *dstr, uint format) {
     } else {
       dstr->Append("[*", note, "*]  ");
     }
-    OpLine *prevLine = NULL;
+    OpLine *prevLine = nullptr;
     for (int n = NumTableLines - 1; n >= 0; n--) {
       if (Line[n]->NoteNumber == note) {
         uint mnum = Line[n]->NoteMoveNum;
-        if (prevLine != NULL) {
+        if (prevLine != nullptr) {
           mnum = Line[n]->CommonLength(prevLine);
           if (mnum <= Line[n]->NoteMoveNum && prevLine->Length > mnum) {
             dstr->Append(".", para);
@@ -1468,14 +1420,9 @@ void OpTable::TopPlayers(DString *dstr, colorT c, uint count) {
       largestPlayerID = id;
     }
   }
-#ifdef WINCE
-  playerFreqT *pf =
-      (playerFreqT *)my_Tcl_Alloc(sizeof(playerFreqT[largestPlayerID + 1]));
-#else
   playerFreqT *pf = new playerFreqT[largestPlayerID + 1];
-#endif
   for (i = 0; i <= largestPlayerID; i++) {
-    pf[i].name = NULL;
+    pf[i].name = nullptr;
     pf[i].frequency = 0;
     pf[i].minElo = pf[i].maxElo = 0;
     pf[i].score = 0;
@@ -1491,7 +1438,7 @@ void OpTable::TopPlayers(DString *dstr, colorT c, uint count) {
     uint id = 0;
     eloT elo = 0;
     eloT oppElo = 0;
-    const char *name = NULL;
+    const char *name = nullptr;
     uint score = 0;
     uint year = date_GetYear(Line[i]->Date);
     OpLine *line = Line[i];
@@ -1611,7 +1558,7 @@ void OpTable::TopPlayers(DString *dstr, colorT c, uint count) {
       dstr->Append(startRow, preNum, tempStr, postNum);
       uint freq = pf[index].frequency;
       ASSERT(freq > 0);
-      ASSERT(pf[index].name != NULL);
+      ASSERT(pf[index].name != nullptr);
       sprintf(tempStr, "%3u", freq);
       dstr->Append(nextCell, tempStr);
 
@@ -1680,11 +1627,7 @@ void OpTable::TopPlayers(DString *dstr, colorT c, uint count) {
   dstr->Append(endTable);
 
   // Delete temporary player frequency data:
-#ifdef WINCE
-  my_Tcl_Free((char *)pf);
-#else
   delete[] pf;
-#endif
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1825,14 +1768,14 @@ uint OpTable::AvgElo(colorT color, uint *count, uint *oppScore, uint *oppPerf) {
       }
     }
   }
-  if (count != NULL) {
+  if (count != nullptr) {
     *count = n;
   }
   if (n == 0) {
-    if (oppScore != NULL) {
+    if (oppScore != nullptr) {
       *oppScore = 0;
     }
-    if (oppPerf != NULL) {
+    if (oppPerf != nullptr) {
       *oppPerf = 0;
     }
     return 0;
@@ -1842,13 +1785,11 @@ uint OpTable::AvgElo(colorT color, uint *count, uint *oppScore, uint *oppPerf) {
   if (percent > 100) {
     percent = 100;
   }
-  if (oppScore != NULL) {
+  if (oppScore != nullptr) {
     *oppScore = percent;
   }
-  if (oppPerf != NULL) {
-#ifndef WINCE
+  if (oppPerf != nullptr) {
     *oppPerf = Crosstable::Performance(avgElo, percent);
-#endif
   }
   return (avgElo);
 }
@@ -1992,7 +1933,7 @@ void OpTable::ThemeReport(DString *dstr, uint argc, const char **argv) {
     endTable = "</tt>";
   }
 
-  // const char * themeName [NUM_POSTHEMES] = {NULL};
+  // const char * themeName [NUM_POSTHEMES] = {nullptr};
   // themeName [POSTHEME_CastSame]  = "Same-side castling:         ";
   // themeName [POSTHEME_CastOpp]   = "Opposite castling:          ";
   // themeName [POSTHEME_QueenSwap] = "Queens exchanged:           ";
@@ -2183,16 +2124,12 @@ void OpTable::EndMaterialReport(DString *dstr, const char *repGames,
 //    its start ply. The caller is responsible for deleting
 //    the allocated array, which ends with a (0,0) pair.
 uint *OpTable::SelectGames(char type, uint number) {
-#ifdef WINCE
-  uint *matches = (uint *)my_Tcl_Alloc(sizeof(uint[NumLines * 2 + 2]));
-#else
   uint *matches = new uint[NumLines * 2 + 2];
-#endif
   uint *match = matches;
 
   for (uint i = 0; i < NumLines; i++) {
     OpLine *line = Line[i];
-    if (line == NULL) {
+    if (line == nullptr) {
       continue;
     }
     if (line->GameNumber == 0) {

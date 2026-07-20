@@ -290,7 +290,7 @@ public:
 	 * It's the caller's responsibility to free the object with "delete".
 	 * Return:
 	 * - OK and a pointer to the new object
-	 * - on error the ERROR_*CODE* and NULL
+	 * - on error the ERROR_*CODE* and nullptr
 	 */
 	static std::pair<errorT, SpellChecker*> Create(const char* filename,
 	                                               const Progress& progress) {
@@ -298,7 +298,7 @@ public:
 		errorT err = res->read(filename, progress);
 		if (err != OK) {
 			delete res;
-			res = NULL;
+			res = nullptr;
 		}
 		return std::make_pair(err, res);
 	}
@@ -346,7 +346,7 @@ public:
 	*   the available data. If @bio != 0 the vector is filled with
 	*   the available biographic informations.
 	* - if @name is not found or is ambiguous (match multiple players)
-	*   returns NULL and @bio is untouched.
+	*   returns nullptr and @bio is untouched.
 	*/
 	const PlayerInfo* getPlayerInfo(const char* name,
 	                                std::vector<const char*>* bio = 0) const {
@@ -376,7 +376,7 @@ public:
 	}
 
 private:
-	SpellChecker() : staticStrings_(NULL) {}
+	SpellChecker() : staticStrings_(nullptr) {}
 	SpellChecker(const SpellChecker&);
 	SpellChecker& operator=(const SpellChecker&);
 

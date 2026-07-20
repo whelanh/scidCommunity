@@ -17,7 +17,7 @@
 #ifndef SCID_ERROR_H
 #define SCID_ERROR_H
 
-typedef   unsigned short   errorT;
+using errorT = unsigned short;
 
 const errorT
     OK = 0,

@@ -19,7 +19,7 @@ proc vwaitTimed { var {delay 0} {warn "warnuser"} } {
   }
 
   if { $delay != 0 } {
-    set timerId [after $delay "trigger $var $warn"]
+    set timerId [after $delay [list trigger $var $warn]]
   }
 
   vwait $var
@@ -1225,25 +1225,6 @@ namespace eval html {
   }
 
   ################################################################################
-  # proc writeIndex {fn prefix} {
-  # set f [open $fn w]
-  # puts $f "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">"
-  # puts $f "<html>"
-  # puts $f "<head>"
-  # puts $f "<meta content=\"text/html; charset=ISO-8859-1\" http-equiv=\"content-type\">"
-  # puts $f "<title>Scid</title>"
-  # puts $f "<meta content=\"Scid\" name=\"author\">"
-  # puts $f "</head>"
-  # puts $f "<frameset BORDER=\"0\" FRAMEBORDER=\"0\" FRAMESPACING=\"0\" COLS=\"380,*\">"
-  # puts $f "<frameset BORDER=\"0\" FRAMEBORDER=\"0\" FRAMESPACING=\"0\" ROWS=\"380,*\">"
-  # puts $f "<frame NAME=\"diagram\" SCROLLING=\"Auto\">"
-  # puts $f "<frame NAME=\"nav\" SRC=\"${prefix}_nav.html\" SCROLLING=\"Auto\">"
-  # puts $f "</frameset>"
-  # puts $f "<frame NAME=\"moves\" SRC=\"${prefix}_1.html\" SCROLLING=\"Auto\">"
-  # puts $f "</frameset>"
-  # puts $f "</html>"
-  # close $f
-  # }
   ################################################################################
   proc exportPGN { fName selection } {
     if {$selection == "filter"} {

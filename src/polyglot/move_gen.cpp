@@ -26,7 +26,7 @@ static void add_pawn_move    (list_t * list, int from, int to);
 
 void gen_legal_moves(list_t * list, const board_t * board) {
 
-   ASSERT(list!=NULL);
+   ASSERT(list!=nullptr);
    ASSERT(board_is_ok(board));
 
    gen_moves(list,board);
@@ -37,7 +37,7 @@ void gen_legal_moves(list_t * list, const board_t * board) {
 
 void gen_moves(list_t * list, const board_t * board) {
 
-   ASSERT(list!=NULL);
+   ASSERT(list!=nullptr);
    ASSERT(board_is_ok(board));
 
    list_clear(list);

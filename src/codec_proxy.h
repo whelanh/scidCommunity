@@ -79,7 +79,7 @@ public:
 	/**
 	 * Returns the list of errors produced by parseNext() calls.
 	 */
-	const char* parseErrors() { return NULL; }
+	const char* parseErrors() { return nullptr; }
 
 	/**
 	 * Adds a game into the database.
@@ -159,7 +159,7 @@ private:
 			buf.clear();
 
 			if (auto replace_game = game.FindExtraTag(special_replace_tag)) {
-				auto gnum = std::strtoul(replace_game, NULL, 10);
+				auto gnum = std::strtoul(replace_game, nullptr, 10);
 				if (gnum < CodecMemory::numGames()) {
 					game.RemoveExtraTag(special_replace_tag);
 					auto [ie, tags] = game.Encode(buf);

@@ -196,7 +196,7 @@ bool is_pinned(const board_t * board, int from, int to, int colour) {
    int inc;
    int sq, piece;
 
-   ASSERT(board!=NULL);
+   ASSERT(board!=nullptr);
    ASSERT(square_is_ok(from));
    ASSERT(square_is_ok(to));
    ASSERT(colour_is_ok(colour));

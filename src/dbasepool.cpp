@@ -23,7 +23,7 @@
 
 
 //Current database
-scidBaseT* db = NULL;
+scidBaseT* db = nullptr;
 
 namespace {
 // MAX_BASES is the maximum number of databases that can be open,
@@ -31,7 +31,7 @@ namespace {
 const int MAX_BASES = 9;
 const int CLIPBASE_NUM = MAX_BASES - 1;
 
-scidBaseT* dbList = NULL;      // array of database slots.
+scidBaseT* dbList = nullptr;      // array of database slots.
 }
 
 void DBasePool::init() {
@@ -46,7 +46,7 @@ void DBasePool::clearClipBase() {
 }
 
 void DBasePool::closeAll() {
-	ASSERT(dbList != NULL);
+	ASSERT(dbList != nullptr);
 	delete[] dbList;
 }
 

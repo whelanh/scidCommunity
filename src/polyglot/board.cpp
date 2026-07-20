@@ -32,7 +32,7 @@ bool board_is_ok(const board_t * board) {
    int colour, pos;
    int king, rook;
 
-   if (board == NULL) return false;
+   if (board == nullptr) return false;
 
    // optional heavy DEBUG mode
 
@@ -173,7 +173,7 @@ void board_clear(board_t * board) {
    int colour, pos;
    int piece;
 
-   ASSERT(board!=NULL);
+   ASSERT(board!=nullptr);
 
    // edge squares
 
@@ -225,7 +225,7 @@ void board_clear(board_t * board) {
 
 void board_start(board_t * board) {
 
-   ASSERT(board!=NULL);
+   ASSERT(board!=nullptr);
 
    if (!board_from_fen(board,StartFen)) { ASSERT(false); }
 }
@@ -234,7 +234,7 @@ void board_start(board_t * board) {
 
 void board_copy(board_t * dst, const board_t * src) {
 
-   ASSERT(dst!=NULL);
+   ASSERT(dst!=nullptr);
    ASSERT(board_is_ok(src));
 
    *dst = *src;
@@ -277,7 +277,7 @@ void board_init_list(board_t * board) {
    int sq_64, sq, piece;
    int colour, pos;
 
-   ASSERT(board!=NULL);
+   ASSERT(board!=nullptr);
 
    // init
 
