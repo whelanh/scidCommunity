@@ -165,6 +165,7 @@ menuText U SearchUsing "Haku tiedostolla..." 0 {Etsi käyttäen apuna erillistä
 
 # Windows menu:
 menuText U Windows "Ikkunat" 0
+menuText U WindowsBoard "hallitus" 0 {Näytä päätauluikkuna}
 menuText U WindowsComment "Kommentit" 0 {Avaa/sulje kommenttimuokkain}
 menuText U WindowsGList "Peliluettelo" 0 {Avaa/sulje peliluettelo}
 menuText U WindowsPGN "PGN-listaus" 1 \

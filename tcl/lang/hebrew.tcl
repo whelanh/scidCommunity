@@ -127,6 +127,7 @@ menuText V SearchUsing "משתמש בקובץ חיפוש..." 0 {חפש באמצ�
 
 # Windows menu:
 menuText V Windows "חלונות" 0
+menuText V WindowsBoard "לוּחַ" 0 {הצג את חלון הלוח הראשי}
 menuText V WindowsComment "עורך תגובות" 0 {פתח/סגור את עורך ההערות}
 menuText V WindowsGList "רשימת משחקים" 0 {פתח/סגור את חלון רשימת המשחקים}
 menuText V WindowsPGN "חלון PGN" 0 \

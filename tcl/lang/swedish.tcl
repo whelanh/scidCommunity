@@ -132,6 +132,7 @@ menuText W SearchUsing "Använd sökfil..." 10 {Använd en fil med lagrade sökv
 
 # Windows menu:
 menuText W Windows "Fönster" 0
+menuText W WindowsBoard "Styrelse" 0 {Visa huvudkortets fönster}
 menuText W WindowsComment "Kommentarseditor" 0 {Öppna/ stäng kommentarseditorn}
 menuText W WindowsGList "Partilista" 5 {Öppna/ stäng partilistan}
 menuText W WindowsPGN "PGN fönster" 0 \

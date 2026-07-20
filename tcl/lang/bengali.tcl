@@ -126,6 +126,7 @@ menuText b SearchUsing "অনুসন্ধান ফাইল ব্যবহ
 
 # Windows menu:
 menuText b Windows "উইন্ডোজ" 0
+menuText b WindowsBoard "বোর্ড" 0 {প্রধান বোর্ড উইন্ডো দেখান}
 menuText b WindowsComment "মন্তব্য সম্পাদক" 0 {মন্তব্য সম্পাদক খুলুন/বন্ধ করুন}
 menuText b WindowsGList "খেলা তালিকা" 0 {গেম লিস্ট উইন্ডো খুলুন/বন্ধ করুন}
 menuText b WindowsPGN "পিজিএন উইন্ডো" 0 \

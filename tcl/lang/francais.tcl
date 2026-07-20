@@ -137,6 +137,7 @@ menuText F SearchUsing "En utilisant un fichier d'options..." 3 \
 
 # Windows menu:
 menuText F Windows "Fenêtres" 1
+menuText F WindowsBoard "Conseil" 0 {Afficher la fenêtre principale du tableau}
 menuText F WindowsComment "Éditeur de commentaires" 1 \
   {Ouvrir/fermer l'éditeur de commentaires}
 menuText F WindowsGList "Liste des parties" 0 \

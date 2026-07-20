@@ -133,6 +133,7 @@ menuText I SearchUsing "Uso del file di ricerca..." 0 {Ricerca mediante un file 
 
 # Windows menu:
 menuText I Windows "Finestre" 2
+menuText I WindowsBoard "Asse" 0 {Mostra la finestra del tabellone principale}
 menuText I WindowsComment "Editor di commenti" 10 {Apre/chiude l'editor di commenti}
 menuText I WindowsGList "Lista di partite" 0 {Apre/chiude la lista di partite}
 menuText I WindowsPGN "Finestra PGN" 9 {Apre/chiude la finestra PGN (notazione della partita)}
