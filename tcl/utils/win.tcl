@@ -753,7 +753,13 @@ proc ::docking::layout_restore_pw { data } {
 
 proc ::docking::create_window {wnd} {
       switch -regexp -matchvar regmatch -- $wnd {
-      "\.(fdock)?main"                { ::docking::insert_tab .main $::docking::layout_dest_notebook end [list -text $::tr(Board) -compound none] }
+      "\.(fdock)?main" {
+        if {$::docking::layout_dest_notebook ne "undocked"} {
+          ::docking::insert_tab .main $::docking::layout_dest_notebook end [list -text $::tr(Board) -compound none]
+        } else {
+          ::win::undockWindow .main "" $::tr(Board)
+        }
+      }
       "\.(fdock)?pgnWin"              { ::pgn::OpenClose }
       "\.(fdock)?baseWin"             { ::windows::switcher::Open }
       "\.(fdock)?bookWin"             { ::book::open }
