@@ -496,7 +496,7 @@ proc ::pgn::openInChessDB {} {
   openURL $url
 }
 
-proc ::pgn::CheckRepetition {} {
+proc ::pgn::getRepetitionCount {} {
   set currentFen [lrange [split [sc_pos fen]] 0 3]
   set savedLoc [sc_pos pgnOffset]
   
@@ -518,6 +518,11 @@ proc ::pgn::CheckRepetition {} {
   
   # Restore position
   sc_move pgn $savedLoc
+  return $count
+}
+
+proc ::pgn::CheckRepetition {} {
+  set count [::pgn::getRepetitionCount]
   
   if {$count == 2} {
     tk_messageBox -message "2-fold repetition             " -title "Repetition Detection" -icon info -parent .
@@ -525,4 +530,5 @@ proc ::pgn::CheckRepetition {} {
     tk_messageBox -message "Draw - 3 Fold Repetition      " \
         -title "Repetition Detection" -icon info -parent .
   }
+  return $count
 }

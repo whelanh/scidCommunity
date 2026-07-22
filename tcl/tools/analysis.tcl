@@ -2005,6 +2005,12 @@ proc toggleFinishGame { { n 1 } } {
 	grab .analysisWin$n
 
 	while { [string index [sc_game info previousMove] end] != "#"} {
+		if {[::pgn::getRepetitionCount] >= 3} {
+			sc_game tags set -result "1/2-1/2"
+			updateBoard -pgn
+			break
+		}
+
 		# Check for 7-man tablebase position before making the move
 		set fen [sc_pos fen]
 		set pieceCount [::tablebase::countPieces $fen]
@@ -2055,6 +2061,12 @@ proc toggleFinishGame { { n 1 } } {
 			makeAnalysisMove $current_engine
 		}
 
+		if {[::pgn::getRepetitionCount] >= 3} {
+			sc_game tags set -result "1/2-1/2"
+			updateBoard -pgn
+			break
+		}
+
 		incr current_cmd
 		if {$current_cmd > 2} { set current_cmd 1 }
 		if {$::finishGameMode == 2} {
@@ -2075,6 +2087,14 @@ proc autoplayFinishGame { {n 1} } {
         toggleFinishGame $n
         return
     }
+
+    # Check for 3-fold repetition
+    if {[::pgn::getRepetitionCount] >= 3} {
+        sc_game tags set -result "1/2-1/2"
+        updateBoard -pgn
+        toggleFinishGame $n
+        return
+    }
     
     # Make the engine move
     .analysisWin$n.b1.move invoke
@@ -2086,6 +2106,14 @@ proc autoplayFinishGame { {n 1} } {
 proc ::autoplayFinishGameCheck { {n 1} } {
     if {!$::finishGameMode || ![winfo exists .analysisWin$n]} {return}
     
+    # Check for 3-fold repetition after move has been applied
+    if {[::pgn::getRepetitionCount] >= 3} {
+        sc_game tags set -result "1/2-1/2"
+        updateBoard -pgn
+        toggleFinishGame $n
+        return
+    }
+
     # Check piece count after move has been applied
     set fen [sc_pos fen]
     set pieceCount [::tablebase::countPieces $fen]
