@@ -215,7 +215,7 @@ proc ::win::toggleDocked {wnd} {
 	lassign [::win::isDocked $wnd] docked_nb wnd
 
 	# Check if the window can be docked/undocked
-	if {$wnd eq ".main" || [winfo class $wnd] ne "Frame"} {
+	if {[winfo class $wnd] ne "Frame"} {
 		return
 	}
 
@@ -646,10 +646,10 @@ proc ::docking::manage_rightclick_ {noteb x y localX localY} {
 		-command "::docking::move_tab_ $wnd $noteb w"
 	$m add command -label [ ::tr DockRight ] -state $state \
 		-command "::docking::move_tab_ $wnd $noteb e"
-	# Main board can not be closed or undocked
+	# Main board can not be closed
+	$m add separator
+	$m add command -label [ ::tr Undock ] -command "::win::undockWindow $wnd $noteb"
 	if { $wnd != ".main" } {
-		$m add separator
-		$m add command -label [ ::tr Undock ] -command "::win::undockWindow $wnd $noteb"
 		$m add command -label [ ::tr Close ] -command "::win::closeWindow $wnd"
 	}
 	tk_popup $m $x $y
