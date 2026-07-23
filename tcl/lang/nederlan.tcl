@@ -1827,6 +1827,7 @@ translate N DockBottom {Zend naar laatste plaats}
 translate N DockLeft {Zend naar links}
 translate N DockRight {Zend naar rechts}
 translate N Undock {Undock}
+translate N Dock {Dok}
 
 # Switcher window
 translate N AboutDatabase {Over deze databank}

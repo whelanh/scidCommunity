@@ -1780,6 +1780,7 @@ translate h DockBottom {नीचे की ओर ले जाएँ}
 translate h DockLeft {बाईं ओर जाएँ}
 translate h DockRight {दाईं ओर जाएँ}
 translate h Undock {अनडॉक}
+translate h Dock {डॉक}
 
 # Switcher window
 translate h AboutDatabase {इस डेटाबेस के बारे में}

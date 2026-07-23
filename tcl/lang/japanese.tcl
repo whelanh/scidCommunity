@@ -1821,6 +1821,7 @@ translate A DockBottom {一番下に移動}
 translate A DockLeft {左に移動}
 translate A DockRight {右に移動}
 translate A Undock {アンドック}
+translate A Dock {ドック}
 
 # Switcher window
 translate A AboutDatabase {このデータベースについて}

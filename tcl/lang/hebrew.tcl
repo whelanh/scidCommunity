@@ -1781,6 +1781,7 @@ translate V DockBottom {עברו למטה}
 translate V DockLeft {זז שמאלה}
 translate V DockRight {זז ימינה}
 translate V Undock {בטל עגינה}
+translate V Dock {עגינה}
 
 # Switcher window
 translate V AboutDatabase {על מאגר מידע זה}

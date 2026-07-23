@@ -1781,6 +1781,7 @@ translate Q DockBottom {Перемістіть вниз}
 translate Q DockLeft {Рух ліворуч}
 translate Q DockRight {Рух праворуч}
 translate Q Undock {Відстикувати}
+translate Q Dock {Док}
 
 # Switcher window
 translate Q AboutDatabase {Про цю базу даних}

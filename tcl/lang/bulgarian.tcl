@@ -1821,6 +1821,7 @@ translate g DockBottom {Преместване надолу}
 translate g DockLeft {Преместете се наляво}
 translate g DockRight {Преместете се надясно}
 translate g Undock {Откачване}
+translate g Dock {Док}
 
 # Switcher window
 translate g AboutDatabase {Относно тази база данни}

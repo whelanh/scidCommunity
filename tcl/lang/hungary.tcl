@@ -1803,6 +1803,7 @@ translate H DockBottom {Mozgatás alulra}
 translate H DockLeft {Mozgatás balra}
 translate H DockRight {Mozgatás jobbra}
 translate H Undock {Feloldás}
+translate H Dock {Dokkolás}
 
 # Switcher window
 translate H AboutDatabase {Errõl az adatbázisról}

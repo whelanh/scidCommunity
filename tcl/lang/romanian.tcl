@@ -1821,6 +1821,7 @@ translate L DockBottom {Mutați în jos}
 translate L DockLeft {Deplasați la stânga}
 translate L DockRight {Deplasați-vă la dreapta}
 translate L Undock {Deconectați}
+translate L Dock {Andocare}
 
 # Switcher window
 translate L AboutDatabase {Despre această bază de date}

@@ -1810,6 +1810,7 @@ translate B DockBottom {Mover para o final}
 translate B DockLeft {Mover para a esquerda}
 translate B DockRight {Mover para a direita}
 translate B Undock {Desacoplar}
+translate B Dock {Acoplar}
 
 # Switcher window
 translate B AboutDatabase {Sobre este banco de dados}

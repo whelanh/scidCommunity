@@ -1804,6 +1804,7 @@ translate R DockBottom {Двигаться вниз}
 translate R DockLeft {Двигаться влево}
 translate R DockRight {Двигаться вправо}
 translate R Undock {Расстыковать}
+translate R Dock {Док}
 
 # Switcher window
 translate R AboutDatabase {Об этой базе данных}
