@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.3.83
+Version:        5.1.3.84
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit af85de729ec67b40e8085f05a2a8de7079e38a4b
+%global commit 90614f4d5553f0f92c66ad5fda080ebc8ad96d09
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Thu Jul 23, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-84
+- "Add ability to undock main Board; easily re-dock all windows"
 * Tue Jul 21, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-83
 - "Code cleanup; add Board to Windows menu"
 * Mon Jul 20, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-82
