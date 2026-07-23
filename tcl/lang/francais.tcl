@@ -1808,7 +1808,7 @@ translate F DockBottom {Déplacer en bas}
 translate F DockLeft {Déplacer à gauche}
 translate F DockRight {Déplacer à droite}
 translate F Undock {Détacher}
-translate F Dock {Quai}
+translate F Dock {Ancrer}
 
 # Switcher window
 translate F AboutDatabase {À propos de cette base de données}

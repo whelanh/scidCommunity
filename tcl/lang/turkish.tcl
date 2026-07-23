@@ -1784,7 +1784,7 @@ translate T DockBottom {En alta taşı}
 translate T DockLeft {Sola git}
 translate T DockRight {Sağa git}
 translate T Undock {Bağlantıyı kes}
-translate T Dock {Rıhtım}
+translate T Dock {Yerleştir}
 
 # Switcher window
 translate T AboutDatabase {Bu Veritabanı Hakkında}

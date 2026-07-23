@@ -1756,7 +1756,7 @@ translate M DockBottom {移至底部}
 translate M DockLeft {向左移动}
 translate M DockRight {向右移动}
 translate M Undock {取消对接}
-translate M Dock {码头}
+translate M Dock {停靠}
 
 # Switcher window
 translate M AboutDatabase {关于此数据库}

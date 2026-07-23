@@ -1852,7 +1852,7 @@ translate D DockBottom {Nach unten}
 translate D DockLeft {Nach links}
 translate D DockRight {Nach rechts}
 translate D Undock {Fenster lösen}
-translate D Dock {Dock}
+translate D Dock {Andocken}
 
 # Switcher window
 translate D AboutDatabase {Über diese Datenbank}

@@ -1780,7 +1780,7 @@ translate b DockBottom {নীচে সরান}
 translate b DockLeft {বাম দিকে সরান}
 translate b DockRight {ডানদিকে সরান}
 translate b Undock {আনডক করুন}
-translate b Dock {ডক}
+translate b Dock {ডক করুন}
 
 # Switcher window
 translate b AboutDatabase {এই ডাটাবেস সম্পর্কে}

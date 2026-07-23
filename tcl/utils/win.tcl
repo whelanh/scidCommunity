@@ -715,15 +715,7 @@ proc ::docking::_addDockTab {wnd} {
 		foreach child $gridSlaves {
 			set info [grid info $child]
 			set row [dict get $info -row]
-			set column [dict get $info -column]
-			if {[catch {dict get $info -sticky}]} { set sticky {} } else {
-				set sticky [dict get $info -sticky]
-			}
-			if {[catch {dict get $info -columnspan}]} { set colspan 1 } else {
-				set colspan [dict get $info -columnspan]
-			}
-			grid $child -row [expr {$row + 1}] \
-				-column $column -columnspan $colspan -sticky $sticky
+			grid $child {*}$info -row [expr {$row + 1}]
 		}
 
 		# Restore shifted weights
@@ -758,15 +750,7 @@ proc ::docking::_removeDockTab {wnd} {
 			set info [grid info $child]
 			set row [dict get $info -row]
 			if {$row > 0} {
-				set column [dict get $info -column]
-				if {[catch {dict get $info -sticky}]} { set sticky {} } else {
-					set sticky [dict get $info -sticky]
-				}
-				if {[catch {dict get $info -columnspan}]} { set colspan 1 } else {
-					set colspan [dict get $info -columnspan]
-				}
-				grid $child -row [expr {$row - 1}] \
-					-column $column -columnspan $colspan -sticky $sticky
+				grid $child {*}$info -row [expr {$row - 1}]
 			}
 		}
 		# Restore original row weights
