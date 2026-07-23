@@ -1007,7 +1007,7 @@ int TkDND_SetPointerCursorObjCmd(ClientData clientData, Tcl_Interp *interp,
 
   cursor = TkDND_GetCursor(interp, objv[2]);
   if (cursor == None) {
-    Tcl_SetResult(interp, const_cast<char*>("invalid cursor name: "), TCL_STATIC);
+    Tcl_SetResult(interp, (char *)("invalid cursor name: "), TCL_STATIC);
     Tcl_AppendResult(interp, Tcl_GetString(objv[2]));
     return TCL_ERROR;
   }
@@ -1228,11 +1228,11 @@ int TkDND_AnnounceActionListObjCmd(ClientData clientData, Tcl_Interp *interp,
     return status;
 
   if (actions != descriptions) {
-    Tcl_SetResult(interp, const_cast<char*>("number of actions != number of descriptions"), TCL_STATIC);
+    Tcl_SetResult(interp, (char *)("number of actions != number of descriptions"), TCL_STATIC);
     return TCL_ERROR;
   }
   if (actions > 10) {
-    Tcl_SetResult(interp, const_cast<char*>("too many actions/descriptions"), TCL_STATIC);
+    Tcl_SetResult(interp, (char *)("too many actions/descriptions"), TCL_STATIC);
     return TCL_ERROR;
   }
 
@@ -1450,7 +1450,7 @@ int TkDND_SendXdndEnterObjCmd(ClientData clientData,
   r = XGetWindowProperty(display, proxy, Tk_InternAtom(source, "XdndAware"), 0, 1,
                          False, AnyPropertyType, &t, &f,&n,&a,&retval);
   if (r != Success) {
-    Tcl_SetResult(interp, const_cast<char*>("cannot retrieve XDND version from target"),
+    Tcl_SetResult(interp, (char *)("cannot retrieve XDND version from target"),
                   TCL_STATIC);
     return TCL_ERROR;
   }
@@ -1637,7 +1637,7 @@ int TkDND_XChangePropertyObjCmd(ClientData clientData,
     return TCL_ERROR;
   }
   if (format != 8 && format != 16 && format != 32) {
-    Tcl_SetResult(interp, const_cast<char*>("unsupported format: not 8, 16 or 32"), TCL_STATIC);
+    Tcl_SetResult(interp, (char *)("unsupported format: not 8, 16 or 32"), TCL_STATIC);
     return TCL_ERROR;
   }
   if (Tcl_GetIntFromObj(interp, objv[5], &format) != TCL_OK) {
@@ -1715,7 +1715,7 @@ int Tkdnd_Init(Tcl_Interp *interp) {
    */
   Tcl_GetVersion(&major, &minor, &patchlevel, NULL);
   if ((major == 8) && (minor == 3) && (patchlevel < 3)) {
-    Tcl_SetResult(interp, const_cast<char*>("tkdnd requires Tk 8.3.3 or greater"), TCL_STATIC);
+    Tcl_SetResult(interp, (char *)("tkdnd requires Tk 8.3.3 or greater"), TCL_STATIC);
     return TCL_ERROR;
   }
 
