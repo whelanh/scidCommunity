@@ -1802,7 +1802,7 @@ translate C DockBottom {Pesunout dol}
 translate C DockLeft {Pesunout doleva}
 translate C DockRight {Pesunout doprava}
 translate C Undock {Odpojit}
-translate C Dock {Dok}
+translate C Dock {Ukotvit}
 
 # Switcher window
 translate C AboutDatabase {O tto databzi}
