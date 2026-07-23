@@ -100,6 +100,7 @@ proc ::move::EnterVar {var_num} {
 	}
 	::notify::PosChanged "" -animate
 	::utils::sound::AnnounceForward [sc_game info previous]
+	::pgn::CheckRepetition
 }
 
 proc ::move::ExitVar {} {
@@ -125,6 +126,7 @@ proc ::move::EnterFirstVariation {} {
 		::notify::PosChanged "" -animate
 		::utils::sound::AnnounceForward [sc_game info previous]
 		if {[::move::drawVarArrows]} { ::move::showVarArrows }
+		::pgn::CheckRepetition
 		return
 	}
 
@@ -144,6 +146,7 @@ proc ::move::EnterFirstVariation {} {
 				::notify::PosChanged "" -animate
 				::utils::sound::AnnounceForward [sc_game info previous]
 				if {[::move::drawVarArrows]} { ::move::showVarArrows }
+				::pgn::CheckRepetition
 				return
 			}
 		}
@@ -164,6 +167,7 @@ proc ::move::ExitVariationToMainline {} {
 		::notify::PosChanged "" -animate
 		::utils::sound::AnnounceForward [sc_game info previous]
 		if {[::move::drawVarArrows]} { ::move::showVarArrows }
+		::pgn::CheckRepetition
 	}
 }
 
@@ -206,6 +210,7 @@ proc ::move::Forward {{count 1}} {
 		if {$count == 1} {
 			::utils::sound::AnnounceForward [sc_game info previous]
 		}
+		::pgn::CheckRepetition
 	}
 }
 

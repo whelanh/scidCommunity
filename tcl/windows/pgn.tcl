@@ -522,6 +522,10 @@ proc ::pgn::getRepetitionCount {} {
 }
 
 proc ::pgn::CheckRepetition {} {
+  if {([info exists ::finishGameMode] && $::finishGameMode) || ([info exists ::autoplayMode] && $::autoplayMode)} {
+    return [::pgn::getRepetitionCount]
+  }
+
   set count [::pgn::getRepetitionCount]
   
   if {$count == 2} {
