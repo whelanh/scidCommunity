@@ -1802,6 +1802,7 @@ translate O DockBottom {Flytt til bunnen}
 translate O DockLeft {Flytt til venstre}
 translate O DockRight {Flytt til høyre}
 translate O Undock {Koble fra}
+translate O Dock {Dokk}
 
 # Switcher window
 translate O AboutDatabase {Om denne databasen}

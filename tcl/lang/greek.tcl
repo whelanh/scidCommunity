@@ -1829,6 +1829,7 @@ translate G DockBottom {Μετάβαση στο κάτω μέρος}
 translate G DockLeft {Μετάβαση αριστερά}
 translate G DockRight {Μετάβαση δεξιά}
 translate G Undock {Αποκόληση}
+translate G Dock {Προκυμαία}
 
 # Switcher window
 translate G AboutDatabase {Σχετικά με αυτήν τη βάση δεδομένων}

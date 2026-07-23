@@ -1804,6 +1804,7 @@ translate I DockBottom {Sposta in basso}
 translate I DockLeft {Sposta a sinistra}
 translate I DockRight {Sposta a destra}
 translate I Undock {Sgancia}
+translate I Dock {Dock}
 
 # Switcher window
 translate I AboutDatabase {Informazioni}

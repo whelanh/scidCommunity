@@ -1732,6 +1732,7 @@ translate P DockBottom {Przenieś na dół}
 translate P DockLeft {Przenieś w lewo}
 translate P DockRight {Przenieś w prawo}
 translate P Undock {Oddokuj}
+translate P Dock {Dok}
 
 # Switcher window
 translate P AboutDatabase {O tej bazie}

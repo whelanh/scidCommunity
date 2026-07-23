@@ -1808,6 +1808,7 @@ translate W DockBottom {Drag nederst}
 translate W DockLeft {Drag till vänster}
 translate W DockRight {Drag till höger}
 translate W Undock {Avdocka}
+translate W Dock {Docka}
 
 # Switcher window
 translate W AboutDatabase {Om denna databas}

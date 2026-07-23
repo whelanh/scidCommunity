@@ -1780,6 +1780,7 @@ translate Z DockBottom {Sogeza hadi chini}
 translate Z DockLeft {Sogeza kushoto}
 translate Z DockRight {Sogeza kulia}
 translate Z Undock {Tendua}
+translate Z Dock {Gati}
 
 # Switcher window
 translate Z AboutDatabase {Kuhusu Hifadhidata Hii}

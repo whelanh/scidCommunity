@@ -178,6 +178,9 @@ proc ::win::undockWindow { wnd srctab {title ""} } {
 	# Remember the source notebook
 	set ::docking::notebook_name($wnd) $srctab
 
+	# Add a dock tab at the top for right-click re-docking
+	::docking::_addDockTab $wnd
+
 	#HACK: In Linux (tk8.6.8) without "after idle after 1"
 	#      sometimes the geometry is not restored correctly.
 	after idle after 1 "::win::restoreWinGeometry $wnd"
@@ -195,17 +198,36 @@ proc ::win::dockWindow {wnd} {
 	lassign [::win::getMenu $wnd] menu wmenu
 	$wmenu configure -menu {}
 
+	# Temporarily unbind <Destroy> on the embedded toplevel to prevent
+	# wm forget from cascading into window-specific destroy handlers
+	if {[string equal -length 6 $wnd ".fdock"]} {
+		set toplevel [string replace $wnd 1 5]
+		if {[winfo exists $toplevel]} {
+			set savedDestroy [bind $toplevel <Destroy>]
+			bind $toplevel <Destroy> {}
+		}
+	}
+
 	wm forget $wnd
+
+	# Remove dock tab added by undockWindow
+	::docking::_removeDockTab $wnd
 
 	if {[winfo exists $::docking::notebook_name($wnd)]} {
 		set dsttab $::docking::notebook_name($wnd)
 	} else {
 		set dsttab [::docking::choose_notebook $wnd]
 	}
-	unset ::docking::notebook_name($wnd)
+	unset -nocomplain ::docking::notebook_name($wnd)
 	::docking::insert_tab $wnd $dsttab end \
 		[list -text $title -image tb_close -compound left]
 
+	# Restore <Destroy> binding
+	if {[info exists savedDestroy]} {
+		bind $toplevel <Destroy> $savedDestroy
+	}
+
+	update
 	if {$menu ne ""} { ::setMenu $wmenu $menu }
 }
 
@@ -651,6 +673,123 @@ proc ::docking::manage_rightclick_ {noteb x y localX localY} {
 	$m add command -label [ ::tr Undock ] -command "::win::undockWindow $wnd $noteb"
 	if { $wnd != ".main" } {
 		$m add command -label [ ::tr Close ] -command "::win::closeWindow $wnd"
+	}
+	tk_popup $m $x $y
+}
+
+# Add a dock tab to an undocked window for right-click context menu
+proc ::docking::_addDockTab {wnd} {
+	set title [wm title $wnd]
+	if {[string equal -length 15 $title "scidCommunity: "]} {
+		set title [string range $title 15 end]
+	}
+	if {[string equal -length 6 $wnd ".fdock"]} {
+		set topwin [string replace $wnd 1 5]
+	} else {
+		set topwin $wnd
+	}
+
+	set tab ${topwin}.undocktab
+	if {[winfo exists $tab]} { destroy $tab }
+	ttk::frame $tab -relief raised -borderwidth 1
+	ttk::label $tab.label -text $title -image tb_close -compound left
+	pack $tab.label -side left -padx {5 0} -pady 1
+
+	set packSlaves [pack slaves $topwin]
+	set gridSlaves [grid slaves $topwin]
+
+	if {[llength $packSlaves] > 0} {
+		pack $tab -side top -fill x -before [lindex $packSlaves 0]
+	} elseif {[llength $gridSlaves] > 0} {
+		# Save row weights for later restore
+		set savedWeights {}
+		for {set r 0} {$r < 10} {incr r} {
+			if {![catch {grid rowconfigure $topwin $r -weight} w] && $w > 0} {
+				lappend savedWeights $r $w
+				grid rowconfigure $topwin $r -weight 0
+			}
+		}
+		set ::docking::tabWeights($topwin) $savedWeights
+
+		# Shift all existing grid children down by 1
+		foreach child $gridSlaves {
+			set info [grid info $child]
+			set row [dict get $info -row]
+			set column [dict get $info -column]
+			if {[catch {dict get $info -sticky}]} { set sticky {} } else {
+				set sticky [dict get $info -sticky]
+			}
+			if {[catch {dict get $info -columnspan}]} { set colspan 1 } else {
+				set colspan [dict get $info -columnspan]
+			}
+			grid $child -row [expr {$row + 1}] \
+				-column $column -columnspan $colspan -sticky $sticky
+		}
+
+		# Restore shifted weights
+		foreach {r w} $savedWeights {
+			grid rowconfigure $topwin [expr {$r + 1}] -weight $w
+		}
+		grid rowconfigure $topwin 0 -weight 0
+
+		# Insert tab at row 0
+		grid $tab -row 0 -column 0 -sticky ew -columnspan 99
+	} else {
+		pack $tab -side top -fill x
+	}
+	bind $tab <ButtonRelease-$::MB3> [list ::docking::_dockTabMenu $wnd %X %Y]
+	bind $tab.label <Button-1> [list ::win::dockWindow $wnd]
+}
+
+# Remove the dock tab when re-docking
+proc ::docking::_removeDockTab {wnd} {
+	if {[string equal -length 6 $wnd ".fdock"]} {
+		set topwin [string replace $wnd 1 5]
+	} else {
+		set topwin $wnd
+	}
+	set tab ${topwin}.undocktab
+	if {![winfo exists $tab]} { return }
+
+	if {[lsearch [grid slaves $topwin] $tab] >= 0} {
+		destroy $tab
+		# Shift remaining grid children up by 1
+		foreach child [grid slaves $topwin] {
+			set info [grid info $child]
+			set row [dict get $info -row]
+			if {$row > 0} {
+				set column [dict get $info -column]
+				if {[catch {dict get $info -sticky}]} { set sticky {} } else {
+					set sticky [dict get $info -sticky]
+				}
+				if {[catch {dict get $info -columnspan}]} { set colspan 1 } else {
+					set colspan [dict get $info -columnspan]
+				}
+				grid $child -row [expr {$row - 1}] \
+					-column $column -columnspan $colspan -sticky $sticky
+			}
+		}
+		# Restore original row weights
+		if {[info exists ::docking::tabWeights($topwin)]} {
+			foreach {r w} $::docking::tabWeights($topwin) {
+				grid rowconfigure $topwin $r -weight $w
+				grid rowconfigure $topwin [expr {$r + 1}] -weight 0
+			}
+			unset ::docking::tabWeights($topwin)
+		}
+	} else {
+		destroy $tab
+	}
+}
+
+# Right-click on the dock tab: show menu
+proc ::docking::_dockTabMenu {wnd x y} {
+	set m .docktabMenu
+	if {[winfo exists $m]} { destroy $m }
+	menu $m -tearoff 0
+	$m add command -label [::tr Dock] -command [list ::win::dockWindow $wnd]
+	if {$wnd ne ".fdockmain"} {
+		$m add command -label [::tr Close] -command [list ::win::closeWindow $wnd]
 	}
 	tk_popup $m $x $y
 }

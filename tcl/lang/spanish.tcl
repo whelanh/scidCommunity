@@ -1855,6 +1855,7 @@ translate S DockBottom {Mover abajo}
 translate S DockLeft {Mover a la izquierda}
 translate S DockRight {Mover a la derecha}
 translate S Undock {Ventana flotante}
+translate S Dock {Muelle}
 
 # Switcher window
 translate S AboutDatabase {Acerca de esta base de datos}

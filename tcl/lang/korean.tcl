@@ -1821,6 +1821,7 @@ translate k DockBottom {맨 아래로 이동}
 translate k DockLeft {왼쪽으로 이동}
 translate k DockRight {오른쪽으로 이동}
 translate k Undock {도킹하다}
+translate k Dock {독}
 
 # Switcher window
 translate k AboutDatabase {이 데이터베이스 정보}

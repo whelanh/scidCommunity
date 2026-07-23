@@ -1824,6 +1824,7 @@ translate K DockBottom {Moure abaix}
 translate K DockLeft {Moure a l'esquerra}
 translate K DockRight {Moure a la dreta}
 translate K Undock {Finestra flotant}
+translate K Dock {Moll}
 
 # Switcher window
 translate K AboutDatabase {Sobre aquesta base de dades}

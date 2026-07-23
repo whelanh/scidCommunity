@@ -1834,6 +1834,7 @@ translate E DockBottom {Move to bottom}
 translate E DockLeft {Move to left}
 translate E DockRight {Move to right}
 translate E Undock {Undock}
+translate E Dock {Dock}
 
 # Switcher window
 translate E AboutDatabase {About This Database}

@@ -1833,6 +1833,7 @@ translate U DockBottom {Siirrä alimmaksi}
 translate U DockLeft {Siirrä vasemmalle}
 translate U DockRight {Siirrä oikealle}
 translate U Undock {Vapauta lukitus}
+translate U Dock {Telakka}
 
 # Switcher window
 translate U AboutDatabase {Tietoja tästä tietokannasta}

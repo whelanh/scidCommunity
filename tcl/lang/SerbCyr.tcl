@@ -1821,6 +1821,7 @@ translate J DockBottom {Помери на дно}
 translate J DockLeft {Помери се лево}
 translate J DockRight {Помери удесно}
 translate J Undock {Одспојите}
+translate J Dock {Доцк}
 
 # Switcher window
 translate J AboutDatabase {О овој бази података}
