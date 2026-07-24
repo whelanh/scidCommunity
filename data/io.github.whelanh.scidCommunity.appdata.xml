@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+ <release version="5.1.3.85" date="2026-07-24">
+      <description>
+        <p>Restore repetition check</p>
+      </description>
+    </release>
  <release version="5.1.3.84" date="2026-07-23">
       <description>
         <p>Add ability to undock main Board; easily re-dock all windows</p>
