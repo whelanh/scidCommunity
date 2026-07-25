@@ -1158,7 +1158,6 @@ proc ::file::openDelayed {baseList} {
   if {[llength $baseList] == 0} { return }
   set base [lindex $baseList 0]
   set remaining [lrange $baseList 1 end]
-
   set err [::file::Open $base]
   if {[info exists ::autoLoadBases] && $err != 0 && $err != 2} {
     set idx [lsearch -exact $::autoLoadBases $base]

@@ -959,10 +959,45 @@ proc ::docking::layout_restore { slot } {
 
   # Create .main beforehand because some other windows depend on it
   # TODO: remove the dependencies
-  set ::docking::layout_dest_notebook [::docking::choose_notebook $wnd]
+
+  # Find .main in the layout to place it directly in its final state,
+  # avoiding a redundant dock-then-undock round-trip that rebuilds the
+  # widget tree (expensive when the board is saved as undocked).
+  set _main_nb ""
+  set _main_idx -1
+  for {set i 0} {$i < [llength $::docking::restore_wnds]} {incr i} {
+    set _pair [lindex $::docking::restore_wnds $i]
+    lassign $_pair _nb _candidate
+    if {[string match ".main" $_candidate] || [string match ".fdockmain" $_candidate]} {
+      set _main_nb $_nb
+      set _main_idx $i
+      break
+    }
+  }
+  if {$_main_idx != -1} {
+    set ::docking::restore_wnds [lreplace $::docking::restore_wnds $_main_idx $_main_idx]
+  }
+
+  # Place .main before populating so updateTitle (called by CreateMainBoard)
+  # can reach it: dock into the target notebook, or make a toplevel if undocked.
+  frame .main
+  if {$_main_nb eq "undocked"} {
+    wm manage .main
+    wm title .main "scidCommunity: $::tr(Board)"
+    wm protocol .main WM_DELETE_WINDOW "::win::closeWindow .main"
+  } elseif {$_main_nb ne ""} {
+    ::docking::insert_tab .main $_main_nb end [list -text $::tr(Board) -compound none]
+  } else {
+    set ::docking::layout_dest_notebook [::docking::choose_notebook $wnd]
+    ::win::manageWindow .main $::tr(Board)
+  }
   ::CreateMainBoard .main
-  lassign [::win::isDocked .main] docked_nb w
-  $docked_nb forget $w
+
+  # For undocked layouts, finish setup (dock tab, bindtags) now that all
+  # children exist. wm manage is idempotent so the toplevel stays a toplevel.
+  if {$_main_nb eq "undocked"} {
+    ::win::undockWindow .main "" $::tr(Board)
+  }
 
   # Restore windows
   foreach pair $::docking::restore_wnds {

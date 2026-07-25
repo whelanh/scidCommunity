@@ -1475,6 +1475,13 @@ proc setPlayMode { callback } {
 ################################################################################
 proc resizeMainBoard {} {
   if { $::autoResizeBoard } {
+    # Guard against re-entrant feedback: when the board is undocked,
+    # canvas resizing changes the toplevel size, which fires <Configure>
+    # again. Drop all nested calls during one resize pass.
+    if {[info exists ::_resizeMBGuard]} { return }
+    set ::_resizeMBGuard 1
+    after idle { unset -nocomplain ::_resizeMBGuard }
+
     update idletasks
     set availw [winfo width .main]
     set availh [winfo height .main]
