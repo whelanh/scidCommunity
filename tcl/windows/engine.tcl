@@ -194,6 +194,7 @@ proc ::enginewin::Open { {id ""} {enginename ""} {pgnviewer 0} } {
     ::options.store ::enginewin_lastengine($id) ""
     ::options.store ::enginewin_autorun($id) {{movetime 50}}
     ::options.store ::enginewin_chartH($id) 160
+    ::options.store ::enginewin_storedEvalH($id) 140
 
     # The main windows is divided in three parts:
     # - at the top $w.header_info which shows time, nps, etc...
@@ -242,12 +243,21 @@ proc ::enginewin::Open { {id ""} {enginename ""} {pgnviewer 0} } {
     $w.pane add $w.chart -weight 0
     bind $w.pane <Map>  [list apply {{id w} {
         update idletasks
-        $w.pane sashpos [expr {[llength [$w.pane panes]] - 2}] \
+        set npanes [llength [$w.pane panes]]
+        set chartSash [expr {$npanes - 2}]
+        $w.pane sashpos $chartSash \
             [expr {[winfo height $w.pane] - $::enginewin_chartH($id)}]
+        if {$npanes == 3} {
+            $w.pane sashpos 0 $::enginewin_storedEvalH($id)
+        }
     }} $id $w]
     bind $w.pane <ButtonRelease-1> [list apply {{id w} {
-        set n_sash [expr {[llength [$w.pane panes]] - 2}]
+        set npanes [llength [$w.pane panes]]
+        set n_sash [expr {$npanes - 2}]
         set ::enginewin_chartH($id) [expr {[winfo height $w.pane] - [$w.pane sashpos $n_sash]}]
+        if {$npanes == 3} {
+            set ::enginewin_storedEvalH($id) [$w.pane sashpos 0]
+        }
     }} $id $w]
 
     grid $w.pane -row 0 -column 0 -in $w.main -sticky news
@@ -299,6 +309,9 @@ proc ::enginewin::Open { {id ""} {enginename ""} {pgnviewer 0} } {
         set enginename $::enginewin_lastengine($id)
     }
     catch { ::enginewin::connectEngine $id $enginename }
+    if {$enginename ne ""} {
+        ::enginewin::toggleConfigPane $id hide
+    }
     return $id
 }
 
@@ -1185,7 +1198,7 @@ proc ::enginewin::connectEngine {id enginename} {
 
     switch $uci {
       0 { set protocol "xboard" }
-      1 { set protocol "uci" }
+      1 { set protocol [list uci xboard] }
       2 { set protocol "network" }
       default { set protocol [list uci xboard] }
     }

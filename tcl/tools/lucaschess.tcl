@@ -219,6 +219,11 @@ set ::lucaschess::githubApi "https://api.github.com/repos/lukasmonk/lucaschessR6
 
 set ::lucaschess::skipExtensions {.7z .zip .tar.gz .tar .tgz}
 
+# When the GitHub API fails, these patterns are tried to download companion
+# files directly from raw.githubusercontent.com.  %f is replaced with the
+# engine folder name.  Non-existent files return 404 and are skipped.
+set ::lucaschess::companionFilePatterns {%f.rc %f.ini %f.cfg %f.bin}
+
 # ::lucaschess::downloadFile
 proc ::lucaschess::downloadFile {url destFile} {
     set destDir [file dirname $destFile]
@@ -314,7 +319,7 @@ proc ::lucaschess::urlEncodePath {path} {
 # ::lucaschess::downloadEngineDir
 proc ::lucaschess::downloadEngineDir {enginedata os} {
     lassign $enginedata key name elo exe folder nodes_comp lelo_min lelo_max config
-    set destDir [file join $::scidEnginesDir "lucaschess" $folder]
+    set destDir [file join $::scidUserDir "engines" "lucaschess" $folder]
 
     if {[file exists [file join $destDir $exe]]} {
         set answer [tk_messageBox -title "scidCommunity" -icon question -type yesno \
@@ -329,7 +334,12 @@ proc ::lucaschess::downloadEngineDir {enginedata os} {
         set json [::lucaschess::fetchGitHubApi $apiUrl]
         set filesToDl [::lucaschess::parseGitHubDir $json]
     }]} {
-        # API failed - fall back to direct download
+        # API failed - fall back to guessing companion files
+        foreach pattern $::lucaschess::companionFilePatterns {
+            set fname [string map [list %f $folder] $pattern]
+            lappend filesToDl [list $fname \
+                "$::lucaschess::githubBase/$os/Engines/$folder/[::lucaschess::urlEncodePath $fname]"]
+        }
     }
 
     # The engine binary may live in a sub-directory of the engine folder
@@ -350,16 +360,17 @@ proc ::lucaschess::downloadEngineDir {enginedata os} {
     foreach fileInfo $filesToDl {
         lassign $fileInfo fileName downloadUrl
         set destFile [file join $destDir {*}[file split $fileName]]
+        set isExeFile [expr {$fileName eq $exe || [file tail $fileName] eq $exe}]
         if {[catch {
             ::lucaschess::downloadFile $downloadUrl $destFile
         } err]} {
-            lappend errors "$fileName: $err"
+            if {$isExeFile} { lappend errors "$fileName: $err" }
             continue
         }
-        if {$fileName eq $exe} {
+        if {$isExeFile} {
             set exePath $destFile
         }
-        if {!$::windowsOS && $fileName eq $exe} {
+        if {!$::windowsOS && $isExeFile} {
             if {[catch {file attributes $destFile -permissions 0755}]} {}
         }
     }
