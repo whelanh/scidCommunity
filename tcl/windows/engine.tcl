@@ -247,14 +247,14 @@ proc ::enginewin::Open { {id ""} {enginename ""} {pgnviewer 0} } {
         set chartSash [expr {$npanes - 2}]
         $w.pane sashpos $chartSash \
             [expr {[winfo height $w.pane] - $::enginewin_chartH($id)}]
-        set storedIdx [$w.pane index $w.stored_eval]
+        set storedIdx [lsearch -exact [$w.pane panes] $w.stored_eval]
         $w.pane sashpos $storedIdx $::enginewin_storedEvalH($id)
     }} $id $w]
     bind $w.pane <ButtonRelease-1> [list apply {{id w} {
         set npanes [llength [$w.pane panes]]
         set n_sash [expr {$npanes - 2}]
         set ::enginewin_chartH($id) [expr {[winfo height $w.pane] - [$w.pane sashpos $n_sash]}]
-        set storedIdx [$w.pane index $w.stored_eval]
+        set storedIdx [lsearch -exact [$w.pane panes] $w.stored_eval]
         set ::enginewin_storedEvalH($id) [$w.pane sashpos $storedIdx]
     }} $id $w]
 
