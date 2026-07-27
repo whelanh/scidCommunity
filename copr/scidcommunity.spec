@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.3.85
+Version:        5.1.3.86
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit b09af0cabac3151badaf963a29beda788db5f4ef
+%global commit 59b81be73e614f73e59c8530c6093596afc65850
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Mon Jul 27, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-86
+- "Engine Window layout save"
 * Fri Jul 24, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-85
 - "Restore repetition check"
 * Thu Jul 23, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-84
