@@ -276,7 +276,7 @@ proc ::lucaschess::downloadWithHTTP {url destFile} {
 # ::lucaschess::fetchGitHubApi
 proc ::lucaschess::fetchGitHubApi {apiUrl} {
     if {[auto_execok curl] ne ""} {
-        if {[catch {exec curl -L -s -H "Accept: application/vnd.github+json" \
+        if {[catch {exec curl -L -f -s -S -H "Accept: application/vnd.github+json" \
             -H "User-Agent: scidCommunity" "$apiUrl" 2>@1} result]} {
             error "GitHub API call failed: $result"
         }
