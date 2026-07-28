@@ -26,6 +26,11 @@ proc ::search::Open {ref_base ref_filter title create_subwnd} {
 	set w ".wnd_$title"
 	if {[winfo exists $w]} { destroy $w }
 	::win::createDialog $w
+	# Remove the transient/dialog hints so that tiling window managers (e.g. Niri)
+	# treat this as a normal peer window: no forced float above the main window,
+	# and a full title bar with close button is shown.
+	catch { wm transient $w {} }
+	catch { wm attributes $w -type normal }
 	::setTitle $w [::tr $title]
 
 	grid [ttk::frame $w.refdb] -sticky news
