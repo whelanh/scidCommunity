@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.3.86
+Version:        5.1.3.87
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 59b81be73e614f73e59c8530c6093596afc65850
+%global commit 5a7054d8c42c58780d007ea7d4313ede8c2a5425
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Tue Jul 28, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-87
+- "Improve pop up window behavior for tiling WMs"
 * Mon Jul 27, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-86
 - "Engine Window layout save"
 * Fri Jul 24, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-85

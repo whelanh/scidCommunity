@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+ <release version="5.1.3.87" date="2026-07-28">
+      <description>
+        <p>Improve pop up window behavior for tiling WMs</p>
+      </description>
+    </release>
  <release version="5.1.3.86" date="2026-07-27">
       <description>
         <p>Engine Window save layout</p>
