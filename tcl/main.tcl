@@ -532,7 +532,9 @@ proc showVars {} {
     # Present a non-blocking popup of the possible variations
     toplevel $w
     wm transient $w .
-    catch {wm attributes $w -topmost 1}
+    if {!$::macOS} {
+        catch {wm attributes $w -topmost 1}
+    }
     wm resizable $w 0 0
     set h [expr $numVars + 1]
     if { $h> 19} { set h 19 }
