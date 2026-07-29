@@ -531,13 +531,15 @@ proc showVars {} {
 
     # Present a non-blocking popup of the possible variations
     toplevel $w
-    wm overrideredirect $w 1
+    wm transient $w .
+    catch {wm attributes $w -topmost 1}
+    wm resizable $w 0 0
     set h [expr $numVars + 1]
     if { $h> 19} { set h 19 }
     ttk::treeview $w.lbVar -columns {0} -show {} -selectmode browse
     $w.lbVar configure -height $h
-    $w.lbVar column 0 -width 250
-    pack $w.lbVar -side left -fill both -expand 1
+    $w.lbVar column 0 -width 300
+    pack $w.lbVar -side left -fill both -expand 1 -padx 6 -pady 6
 
     #insert main line
     set move [sc_game info nextMove]
@@ -565,6 +567,15 @@ proc showVars {} {
         incr j
     }
 
+    update idletasks
+    if {! [winfo exists $w]} { return }
+
+    ::tk::PlaceWindow $w widget .main.board
+    focus $w.lbVar
+    raise $w
+    $w.lbVar focus 0
+    $w.lbVar selection set 0
+
     bind $w <FocusOut>        [list destroy $w]
     bind $w <Escape>          [list focus $prev_focus]
     bind $w <Left>            [list focus $prev_focus]
@@ -572,11 +583,6 @@ proc showVars {} {
     bind $w <Return>          {+::move::EnterVar [%W selection]}
     bind $w <Right>           {event generate %W <Return> -when tail}
     bind $w <ButtonRelease-1> {event generate %W <Return> -when tail}
-
-    ::tk::PlaceWindow $w widget .main.board
-    focus $w.lbVar
-    $w.lbVar focus 0
-    $w.lbVar selection set 0
 }
 ################################################################################
 #
