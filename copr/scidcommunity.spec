@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.3.88
+Version:        5.1.3.89
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 9a99e24fb63624f7e8a63443bf2f511c03d0925e
+%global commit c560f41f6f87d47bb3fd70be77da1584f1541166
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Thu Jul 30, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-89
+- "Fix variations window behavior for conventional WMs"
 * Wed Jul 29, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-88
 - "Fix variations window behavior for tiling WMs"
 * Tue Jul 28, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-87
