@@ -581,7 +581,7 @@ proc showVars {} {
     bind $w <FocusOut>        [list after 50 [list apply {{w} {
         if {[winfo exists $w]} {
             set f [focus]
-            if {$f eq "" || ![string match "${w}*" $f]} {
+            if {$f ne "" && ![string match "${w}*" $f]} {
                 destroy $w
             }
         }
