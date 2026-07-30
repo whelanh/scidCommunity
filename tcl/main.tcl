@@ -578,7 +578,14 @@ proc showVars {} {
     $w.lbVar focus 0
     $w.lbVar selection set 0
 
-    bind $w <FocusOut>        [list destroy $w]
+    bind $w <FocusOut>        [list after idle [list apply {{w} {
+        if {[winfo exists $w]} {
+            set f [focus]
+            if {$f eq "" || ![string match "${w}*" $f]} {
+                destroy $w
+            }
+        }
+    }} $w]]
     bind $w <Escape>          [list focus $prev_focus]
     bind $w <Left>            [list focus $prev_focus]
     bind $w <Return>          [list focus $prev_focus]
