@@ -131,7 +131,6 @@ menuText O SearchUsing "Bruk søkefil..." 0 {Søk vha lagrede søkevilkår}
 
 # Windows menu:
 menuText O Windows "Vinduer" 0
-menuText O WindowsBoard "Borde" 0 {Vis hovedtavlevinduet}
 menuText O WindowsComment "Kommentarer" 0 {Åpne/lukk kommentarvinduet}
 menuText O WindowsGList "Partioversikt" 0 {Åpne/lukk partioversikten}
 menuText O WindowsPGN "PGN-vindu" 0 \

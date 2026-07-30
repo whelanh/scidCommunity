@@ -130,7 +130,6 @@ menuText B SearchUsing "Usar arquivo de opções de filtro..." 0 {Pesquisa usand
 
 # Windows menu:
 menuText B Windows "Janelas" 0
-menuText B WindowsBoard "Quadro" 0 {Mostrar a janela principal do quadro}
 menuText B WindowsComment "Editor de Comentários" 0 {Abre/fecha o editor de comentários}
 menuText B WindowsGList "Lista de Jogos" 0 {Abre/fecha a janela com a lista de jogos}
 menuText B WindowsPGN "Notação PGN" 0 \

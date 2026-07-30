@@ -167,7 +167,6 @@ menuText J SearchUsing "Коришћење датотеке претраге..."
 
 # Windows menu:
 menuText J Windows "Виндовс" 0
-menuText J WindowsBoard "одбора" 0 {Прикажи прозор главне плоче}
 menuText J WindowsComment "Уредник коментара" 0 {Отворите/затворите уређивач коментара}
 menuText J WindowsGList "Листа игара" 0 {Отворите/затворите прозор листе игара}
 menuText J WindowsPGN "ПГН Виндов" 0 \

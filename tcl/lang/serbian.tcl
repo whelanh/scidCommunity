@@ -138,7 +138,6 @@ menuText Y SearchUsing "Pomou Search fajla..." 0 {Pretrauj pomou Search fajla}
 # Windows menu:
 menuText Y Windows "Prozori" 1
 # ====== TODO To be translated ======
-menuText Y WindowsBoard "Board" 0 {Show the main board window}
 menuText Y WindowsComment "Editor komentara" 0 {Otvori/zatvori editor komentara}
 menuText Y WindowsGList "Lista partija" 0 {Otvori/zatvori listu partija}
 menuText Y WindowsPGN "PGN prozor" 0 \

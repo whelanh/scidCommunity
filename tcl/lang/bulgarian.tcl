@@ -167,7 +167,6 @@ menuText g SearchUsing "Използване на файл за търсене..
 
 # Windows menu:
 menuText g Windows "Windows" 0
-menuText g WindowsBoard "дъска" 0 {Покажете прозореца на основната дъска}
 menuText g WindowsComment "Редактор на коментари" 0 {Отворете/затворете редактора на коментари}
 menuText g WindowsGList "Списък с игри" 0 {Отваряне/затваряне на прозореца със списък с игри}
 menuText g WindowsPGN "PGN прозорец" 0 \

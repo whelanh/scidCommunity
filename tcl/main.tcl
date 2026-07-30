@@ -1597,22 +1597,6 @@ proc CreateMainBoard { {w} } {
   updateTitle
 }
 
-# ::toggleMainBoard
-#   Restores the main board window if it was closed, or raises/focuses it.
-proc ::toggleMainBoard {} {
-  if {[winfo exists .main]} {
-    lassign [::win::isDocked .main] docked_nb w
-    if {$docked_nb eq ""} {
-      wm deiconify $w
-      raise $w
-      focus $w
-    }
-    return
-  }
-  ::CreateMainBoard .main
-  updateBoard -pgn
-}
-
 proc CreateGameInfo {} {
   # .gameInfo is the game information widget:
   #

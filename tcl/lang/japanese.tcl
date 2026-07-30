@@ -167,7 +167,6 @@ menuText A SearchUsing "ファイル検索を使用しています..." 0 {Search
 
 # Windows menu:
 menuText A Windows "窓" 0
-menuText A WindowsBoard "ボード" 0 {メインボードウィンドウを表示する}
 menuText A WindowsComment "コメントエディター" 0 {コメントエディタを開く/閉じる}
 menuText A WindowsGList "ゲームリスト" 0 {ゲームリストウィンドウの開閉}
 menuText A WindowsPGN "PGN ウィンドウ" 0 \

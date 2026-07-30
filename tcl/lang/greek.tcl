@@ -158,7 +158,6 @@ menuText G SearchUsing "Με χρήση αρχείου αναζήτησης..." 
 
 # Windows menu:
 menuText G Windows "Παράθυρα" 0
-menuText G WindowsBoard "Επιτροπή" 0 {Εμφάνιση του παραθύρου του κύριου πίνακα}
 menuText G WindowsComment "Συντάκτης σχολίων" 0 {Ανοίξτε/κλείστε τον συντάκτη σχολίων}
 menuText G WindowsGList "Λίστα παρτίδων" 0 {Ανοίξτε/κλείστε το παράθυρο με την λίστα των παρτίδων}
 menuText G WindowsPGN "Παράθυρο PGN" 0 \

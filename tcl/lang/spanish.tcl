@@ -142,7 +142,6 @@ menuText S SearchUsing "Usar archivo de búsqueda..." 0 \
 
 # Windows menu:
 menuText S Windows "Ventanas" 0
-menuText S WindowsBoard "Junta" 0 {Mostrar la ventana del tablero principal}
 menuText S WindowsComment "Editor de comentarios" 0 \
   {Abre/cierra el editor de comentarios}
 menuText S WindowsGList "Listado de partidas" 0 \

@@ -92,7 +92,6 @@ menuText P SearchUsing {Użyj pliku wyszukiwania...} 0 {Szukaj przy użyciu plik
 
 # Windows menu:
 menuText P Windows {Okna} 0
-menuText P WindowsBoard "Tablica" 0 {Pokaż okno płyty głównej}
 menuText P WindowsComment {Edytor komentarzy} 0 {Otwórz/zamknij edytor komentarzy}
 menuText P WindowsGList {Lista partii} 0 {Otwórz/zamknij okno listy partii}
 menuText P WindowsPGN {Okno PGN} 0 {Otwórz/zamknij okno PGN (zapis partii)}

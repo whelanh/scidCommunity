@@ -127,7 +127,6 @@ menuText Q SearchUsing "Використання файлу пошуку..." 0 {
 
 # Windows menu:
 menuText Q Windows "вікна" 0
-menuText Q WindowsBoard "дошка" 0 {Показати головне вікно дошки}
 menuText Q WindowsComment "Редактор коментарів" 0 {Відкрийте/закрийте редактор коментарів}
 menuText Q WindowsGList "Список ігор" 0 {Відкрити/закрити вікно списку ігор}
 menuText Q WindowsPGN "Вікно PGN" 0 \

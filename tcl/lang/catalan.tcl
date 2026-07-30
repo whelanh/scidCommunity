@@ -140,7 +140,6 @@ menuText K SearchUsing "Fer servir arxiu de recerca..." 0 \
 
 # Windows menu:
 menuText K Windows "Finestres" 0
-menuText K WindowsBoard "Junta" 0 {Mostra la finestra del tauler principal}
 menuText K WindowsComment "Editor de comentaris" 0 \
   {Obre/tanca l'editor de comentaris}
 menuText K WindowsGList "Llistat de partides" 0 \
