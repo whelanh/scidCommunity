@@ -578,7 +578,7 @@ proc showVars {} {
     $w.lbVar focus 0
     $w.lbVar selection set 0
 
-    bind $w <FocusOut>        [list after idle [list apply {{w} {
+    bind $w <FocusOut>        [list after 50 [list apply {{w} {
         if {[winfo exists $w]} {
             set f [focus]
             if {$f eq "" || ![string match "${w}*" $f]} {
@@ -586,12 +586,29 @@ proc showVars {} {
             }
         }
     }} $w]]
-    bind $w <Escape>          [list focus $prev_focus]
-    bind $w <Left>            [list focus $prev_focus]
-    bind $w <Return>          [list focus $prev_focus]
-    bind $w <Return>          {+::move::EnterVar [%W selection]}
+    bind $w <Escape>          [list apply {{prev_focus} { if {[winfo exists $prev_focus]} { focus $prev_focus } }} $prev_focus]
+    bind $w <Left>            [list apply {{prev_focus} { if {[winfo exists $prev_focus]} { focus $prev_focus } }} $prev_focus]
+    bind $w <Return>          [list apply {{w prev_focus} {
+        if {[winfo exists $prev_focus]} { focus $prev_focus }
+        set sel [$w.lbVar selection]
+        if {$sel ne ""} { ::move::EnterVar $sel }
+    }} $w $prev_focus]
     bind $w <Right>           {event generate %W <Return> -when tail}
-    bind $w <ButtonRelease-1> {event generate %W <Return> -when tail}
+
+    set ::varWindowPressed 0
+    bind $w.lbVar <ButtonPress-1> {
+        set ::varWindowPressed 1
+    }
+    bind $w.lbVar <ButtonRelease-1> [list apply {{w prev_focus} {
+        if {$::varWindowPressed} {
+            set ::varWindowPressed 0
+            set sel [$w.lbVar selection]
+            if {$sel ne ""} {
+                if {[winfo exists $prev_focus]} { focus $prev_focus }
+                ::move::EnterVar $sel
+            }
+        }
+    }} $w $prev_focus]
 }
 ################################################################################
 #
