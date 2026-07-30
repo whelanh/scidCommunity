@@ -126,7 +126,6 @@ menuText Z SearchUsing "Kwa kutumia Faili ya Utafutaji..." 0 {Tafuta kwa kutumia
 
 # Windows menu:
 menuText Z Windows "Windows" 0
-menuText Z WindowsBoard "Bodi" 0 {Onyesha dirisha kuu la bodi}
 menuText Z WindowsComment "Mhariri wa Maoni" 0 {Fungua/funga kihariri cha maoni}
 menuText Z WindowsGList "Orodha ya Mchezo" 0 {Fungua/funga dirisha la orodha ya mchezo}
 menuText Z WindowsPGN "Dirisha la PGN" 0 \

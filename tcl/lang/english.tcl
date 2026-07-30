@@ -166,7 +166,6 @@ menuText E SearchUsing "Using Search File..." 0 {Search using a SearchOptions fi
 
 # Windows menu:
 menuText E Windows "Windows" 0
-menuText E WindowsBoard "Board" 0 {Show the main board window}
 menuText E WindowsComment "Comment Editor" 0 {Open/close the comment editor}
 menuText E WindowsGList "Game List" 0 {Open/close the game list window}
 menuText E WindowsPGN "PGN Window" 0 \

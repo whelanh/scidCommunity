@@ -129,7 +129,6 @@ menuText H SearchUsing "Keresõfájl használata..." 0 {Keresés SearchOptions f
 
 # Windows menu:
 menuText H Windows "Ablakok" 0
-menuText H WindowsBoard "Bizottság" 0 {A főtábla ablakának megjelenítése}
 menuText H WindowsComment "Megjegyzésszerkesztõ" 0 {Megnyitja/bezárja a megjegyzésszerkesztõt.}
 menuText H WindowsGList "Játszmák listája" 9 {Kinyitja/becsukja a játszmák listáját mutató ablakot.}
 menuText H WindowsPGN "PGN" 0 \

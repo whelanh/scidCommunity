@@ -130,7 +130,6 @@ menuText T SearchUsing "Arama Dosyası Kullanılıyor..." 0 {SearchOptions dosya
 
 # Windows menu:
 menuText T Windows "Windows" 0
-menuText T WindowsBoard "Pano" 0 {Ana kart penceresini göster}
 menuText T WindowsComment "Yorum Düzenleyici" 0 {Yorum düzenleyiciyi aç/kapat}
 menuText T WindowsGList "Oyun Listesi" 0 {Oyun listesi penceresini aç/kapat}
 menuText T WindowsPGN "PGN Penceresi" 0 \

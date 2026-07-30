@@ -242,7 +242,6 @@ $m add checkbutton -label WindowsStats -variable ::windows::stats::isOpen -accel
 $m add checkbutton -label WindowsTree -variable treeWin -command ::tree::make -accelerator "Ctrl+T"
 $m add checkbutton -label WindowsBook -variable ::book::isOpen -command ::book::open -accelerator "F6"
 $m add checkbutton -label [tr TablebaseWindow] -variable ::tablebase::window::isOpen -command ::tablebase::window::Open -accelerator "Ctrl+="
-$m add command -label WindowsBoard -command ::toggleMainBoard
 $m add checkbutton -label [tr Board3D] -variable ::windows::game3d::isOpen -command ::windows::game3d::toggle -accelerator "Ctrl+3"
 $m add command -label WindowsGraph -command ::tools::graphs::score::Refresh
 $m add separator

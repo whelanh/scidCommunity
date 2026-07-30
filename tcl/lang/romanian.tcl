@@ -167,7 +167,6 @@ menuText L SearchUsing "Se utilizează fișierul de căutare..." 0 {Căutați fo
 
 # Windows menu:
 menuText L Windows "Windows" 0
-menuText L WindowsBoard "Bord" 0 {Afișează fereastra panoului principal}
 menuText L WindowsComment "Editor de comentarii" 0 {Deschide/închide editorul de comentarii}
 menuText L WindowsGList "Lista de jocuri" 0 {Deschide/închide fereastra cu lista de jocuri}
 menuText L WindowsPGN "Fereastra PGN" 0 \

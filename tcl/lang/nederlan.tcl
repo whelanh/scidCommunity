@@ -144,7 +144,6 @@ menuText N SearchUsing "Zoekopties" 0 \
 
 # Windows menu:
 menuText N Windows "Venster" 0
-menuText N WindowsBoard "Bord" 0 {Toon het hoofdbordvenster}
 menuText N WindowsComment "Bewerk commentaar" 0 \
  {Open/sluit commentaar bewerkings venster}
 menuText N WindowsGList "Toon alle partijen" 0 \
