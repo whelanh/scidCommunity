@@ -578,19 +578,37 @@ proc showVars {} {
     $w.lbVar focus 0
     $w.lbVar selection set 0
 
-    bind $w <FocusOut>        [list after 50 [list apply {{w} {
-        if {[winfo exists $w]} {
-            set f [focus]
-            if {$f ne "" && ![string match "${w}*" $f]} {
-                destroy $w
+    # On Windows, the board button's <ButtonRelease-1> fires after showVars
+    # creates .variations, causing Win32 to briefly steal focus back to the
+    # button widget. Installing <FocusOut> immediately would destroy the window
+    # during this transient focus transition. Delaying installation of the
+    # <FocusOut> binding until after the click sequence is fully complete
+    # prevents the window from being destroyed prematurely.
+    proc ::showVars::installFocusOut {w} {
+        if {![winfo exists $w]} { return }
+        bind $w <FocusOut> [list after 100 [list apply {{w} {
+            if {[winfo exists $w]} {
+                set f [focus]
+                if {$f ne "" && ![string match "${w}*" $f]} {
+                    destroy $w
+                }
             }
-        }
-    }} $w]]
-    bind $w <Escape>          [list apply {{prev_focus} { if {[winfo exists $prev_focus]} { focus $prev_focus } }} $prev_focus]
-    bind $w <Left>            [list apply {{prev_focus} { if {[winfo exists $prev_focus]} { focus $prev_focus } }} $prev_focus]
-    bind $w <Return>          [list apply {{w prev_focus} {
+        }} $w]]
+    }
+    after 300 [list ::showVars::installFocusOut $w]
+
+    bind $w <Escape>          [list apply {{w prev_focus} {
+        destroy $w
         if {[winfo exists $prev_focus]} { focus $prev_focus }
+    }} $w $prev_focus]
+    bind $w <Left>            [list apply {{w prev_focus} {
+        destroy $w
+        if {[winfo exists $prev_focus]} { focus $prev_focus }
+    }} $w $prev_focus]
+    bind $w <Return>          [list apply {{w prev_focus} {
         set sel [$w.lbVar selection]
+        destroy $w
+        if {[winfo exists $prev_focus]} { focus $prev_focus }
         if {$sel ne ""} { ::move::EnterVar $sel }
     }} $w $prev_focus]
     bind $w <Right>           {event generate %W <Return> -when tail}
@@ -604,6 +622,7 @@ proc showVars {} {
             set ::varWindowPressed 0
             set sel [$w.lbVar selection]
             if {$sel ne ""} {
+                destroy $w
                 if {[winfo exists $prev_focus]} { focus $prev_focus }
                 ::move::EnterVar $sel
             }
