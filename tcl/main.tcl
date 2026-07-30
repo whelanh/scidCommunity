@@ -573,21 +573,10 @@ proc showVars {} {
     if {! [winfo exists $w]} { return }
 
     ::tk::PlaceWindow $w widget .main.board
-    if {$::windowsOS} {
-        after idle [list apply {{w} {
-            if {[winfo exists $w]} {
-                focus $w.lbVar
-                raise $w
-                $w.lbVar focus 0
-                $w.lbVar selection set 0
-            }
-        }} $w]
-    } else {
-        focus $w.lbVar
-        raise $w
-        $w.lbVar focus 0
-        $w.lbVar selection set 0
-    }
+    focus $w.lbVar
+    raise $w
+    $w.lbVar focus 0
+    $w.lbVar selection set 0
 
     if {$::windowsOS} {
         bind $w <FocusOut>        [list after idle [list apply {{w} {

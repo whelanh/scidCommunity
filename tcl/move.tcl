@@ -203,7 +203,13 @@ proc ::move::Forward {{count 1}} {
 
 	if {$bArrows || $bVarPopup} {
 		if {$bArrows} { ::move::showVarArrows }
-		if {$bVarPopup} { showVars }
+		if {$bVarPopup} {
+			if {$::windowsOS} {
+				after idle showVars
+			} else {
+				showVars
+			}
+		}
 	} else {
 		sc_move forward $count
 		::notify::PosChanged "" -animate
