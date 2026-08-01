@@ -952,15 +952,15 @@ proc ::auto_comment::getTreeInfo {baseId} {
         if {[string match "*Move(s)*" $line] || [string match "*TOTAL:*" $line] || [string trim $line] eq ""} continue
         
         # Parse the fixed-width output of sc_tree stats (tkscid.cpp)
-        # MoveSeq: 4-28, Games: 36-42, Success%: 51-57, %Draws: 76-81, %Win: 82-93
+        # MoveSeq: 4-28, Games: 36-42, Success%: 51-57, %Draws: 82-87, %Win: 88-99
         catch {
             set moveSeq [string trim [string range $line 4 28]]
             if {$moveSeq eq "" || $moveSeq eq "---"} continue
             
             set games   [string trim [string range $line 36 42]]
             set success [string trim [string range $line 51 57]]
-            set draws   [string trim [string range $line 76 81]]
-            set win     [string trim [string range $line 82 93]]
+            set draws   [string trim [string range $line 82 87]]
+            set win     [string trim [string range $line 88 99]]
             
             if {$treeBlock eq ""} {
                 append treeBlock "Top 3 most frequent database lines for the current position (depth 4 plies):"

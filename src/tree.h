@@ -34,7 +34,8 @@ struct TreeNode {
 	gamenumT freq[NUM_RESULT_TYPES] = {}; // freq[0] is the total count.
 	gamenumT eloCount = 0;                // Count of games with an Elo.
 	gamenumT yearCount = 0;               // Count of games with year != 0.
-	std::vector<gamenumT> gameLengths;    // Length of each game in full moves.
+	unsigned long long lengthSum = 0;     // Sum of game lengths in full moves.
+	gamenumT lengthCount = 0;             // Count of games with a recorded length.
 	std::vector<FullMove> moves;          // Sequence of moves (1-4 half-moves)
 
 public:
@@ -112,12 +113,9 @@ public:
 	}
 
 	int avgLength() const {
-		if (gameLengths.empty())
+		if (lengthCount == 0)
 			return 0;
-		unsigned long long sum = 0;
-		for (auto len : gameLengths)
-			sum += len;
-		return static_cast<int>(sum / gameLengths.size());
+		return static_cast<int>(lengthSum / lengthCount);
 	}
 
 	static auto cmp_ngames_desc() {

@@ -8298,9 +8298,8 @@ int sc_tree_stats(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
       totals.eloCount += node.eloCount;
       totals.yearSum += node.yearSum;
       totals.yearCount += node.yearCount;
-      totals.gameLengths.insert(totals.gameLengths.end(),
-                                node.gameLengths.begin(),
-                                node.gameLengths.end());
+      totals.lengthSum += node.lengthSum;
+      totals.lengthCount += node.lengthCount;
     }
 
     // Now we print the list into the return string:
