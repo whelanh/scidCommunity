@@ -22,6 +22,18 @@ cd tk/unix
 make -j
 make install
 
+# Workaround: on newer macOS/Xcode, the SDK may ship a system tk.h (8.5, X11-based)
+# that can shadow the built 8.6 Aqua tk.h during compilation. Ensure the built
+# Tk headers are explicitly copied to the include directory.
+cd $Build_SourcesDirectory/tcltk/tk
+for h in generic/tk.h generic/tkDecls.h generic/tkPlatDecls.h macosx/tkMacOSX.h \
+         macosx/tkMacOSXDefault.h macosx/tkMacOSXInt.h macosx/tkMacOSXPort.h \
+         generic/tkText.h; do
+    if [ -f "$h" ] && [ ! -f "$Build_SourcesDirectory/tcltk/include/$(basename "$h")" ]; then
+        cp "$h" "$Build_SourcesDirectory/tcltk/include/"
+    fi
+done
+
 cd $Build_SourcesDirectory
 mkdir -p ScidCommunity.app/Contents
 cp -R $Build_SourcesDirectory/resources/macos ScidCommunity.app/Contents/Resources
