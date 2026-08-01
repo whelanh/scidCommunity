@@ -623,7 +623,7 @@ translate T TreeBestGames {En İyi Ağaç Oyunları}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate T TreeTitleRow \
-{                              ECO Frekans Puanını Taşı AvElo Perf AvYıl %Çekimler      %Win}
+{                              ECO Frekans Puanını Taşı AvElo Perf avLen AvYıl %Çekimler      %Win}
 translate T TreeTotal {TOPLAM}
 translate T DoYouWantToSaveFirst {Önce kaydetmek ister misiniz?}
 translate T AddToMask {Maskeye Ekle}

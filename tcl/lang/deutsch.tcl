@@ -659,7 +659,7 @@ translate D TreeBestGames {Beste Zugbaumpartien}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate D TreeTitleRow \
-{Zug                           ECO       Häufigkeit    Pkte   Elo  Erflg Jahr %Remis  %Gewinnen}
+{Zug                           ECO       Häufigkeit    Pkte   Elo  Erflg avLen Jahr %Remis  %Gewinnen}
 translate D TreeTotal {SUMME}
 translate D DoYouWantToSaveFirst {Soll zuerst gespeichert werden}
 translate D AddToMask {Zur Maske hinzufügen}

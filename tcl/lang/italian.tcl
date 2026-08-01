@@ -630,7 +630,7 @@ translate I TreeBestGames {Migliori partite}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate I TreeTitleRow \
-{Mossa                         ECO       Frequenza    Punt.  AvElo Perf AvAnno %Patta   %Vincita}
+{Mossa                         ECO       Frequenza    Punt.  AvElo Perf avLen AvAnno %Patta   %Vincita}
 translate I TreeTotal {TOTALE}
 translate I DoYouWantToSaveFirst {Vuoi prima salvare}
 translate I AddToMask {Aggiungi alla maschera}

@@ -8237,7 +8237,7 @@ int sc_tree_stats(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
   char temp[512]; // Increased size to accommodate longer move sequences
   std::string output;
   const char *titleRow = "    Move(s)                   ECO       Frequency    "
-                         "Score  AvElo Perf AvYear %Draws     %Win";
+                         "Score  AvElo Perf avLen AvYear %Draws     %Win";
   titleRow = translate(ti, "TreeTitleRow", titleRow);
   output.append(titleRow);
 
@@ -8248,6 +8248,7 @@ int sc_tree_stats(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     const auto score = node.score();
     const auto perf =
         node.eloCount < 10 ? 0 : static_cast<int>(node.eloPerformance());
+    const auto avLen = node.avgLength();
 
     std::snprintf(temp, sizeof(temp), "  %3d%c%1d%%", score / 10,
                   decimalPointChar, score % 10);
@@ -8262,6 +8263,12 @@ int sc_tree_stats(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
       dest.append("      ");
     } else {
       std::snprintf(temp, sizeof(temp), "  %4d", perf);
+      dest.append(temp);
+    }
+    if (avLen == 0) {
+      dest.append("      ");
+    } else {
+      std::snprintf(temp, sizeof(temp), "  %4d", avLen);
       dest.append(temp);
     }
     if (avgYear == 0) {
@@ -8291,6 +8298,9 @@ int sc_tree_stats(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
       totals.eloCount += node.eloCount;
       totals.yearSum += node.yearSum;
       totals.yearCount += node.yearCount;
+      totals.gameLengths.insert(totals.gameLengths.end(),
+                                node.gameLengths.begin(),
+                                node.gameLengths.end());
     }
 
     // Now we print the list into the return string:
@@ -8314,7 +8324,7 @@ int sc_tree_stats(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     // Print a totals line as well, if there are any moves in the tree:
     const char *totalString = translate(ti, "TreeTotal:", "TOTAL:");
     output.append("\n__________________________________________________________"
-                  "________________________________________\n");
+                  "______________________________________________\n");
     std::snprintf(temp, sizeof(temp), "%-32s    %7u:100%c0%%", totalString,
                   totals.freq[0], decimalPointChar);
     output.append(temp);

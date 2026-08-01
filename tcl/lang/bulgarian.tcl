@@ -660,7 +660,7 @@ translate g TreeBestGames {Най-добрите игри с дървета}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate g TreeTitleRow \
-  {Ход(ове) ECO Честота Резултат AvElo Perf AvYear %Равенства %Победа}
+  {Ход(ове) ECO Честота Резултат AvElo Perf avLen AvYear %Равенства %Победа}
 translate g TreeTotal {ОБЩО}
 translate g DoYouWantToSaveFirst {Искате ли първо да спестите}
 translate g AddToMask {Добавете към маската}

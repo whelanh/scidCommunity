@@ -665,6 +665,8 @@ std::vector<TreeNode> scidBaseT::getTreeStat(const HFilter& filter, int moveDept
 		}
 		res[mapIt->second].add(ie->GetResult(), ie->GetWhiteElo(),
 		                       ie->GetBlackElo(), ie->GetYear());
+		res[mapIt->second].gameLengths.push_back(
+		    (ie->GetNumHalfMoves() + 1) / 2);
 	}
 
 	std::sort(res.begin(), res.end(), TreeNode::cmp_ngames_desc());

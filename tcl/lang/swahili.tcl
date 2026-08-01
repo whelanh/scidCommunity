@@ -619,7 +619,7 @@ translate Z TreeBestGames {Michezo Bora ya Miti}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate Z TreeTitleRow \
-  {Move(s) ECO Frequency Score AvElo Perf AvYear %Draws %Shinda}
+  {Move(s) ECO Frequency Score AvElo Perf avLen AvYear %Draws %Shinda}
 translate Z TreeTotal {JUMLA}
 translate Z DoYouWantToSaveFirst {Je, unataka kuokoa kwanza}
 translate Z AddToMask {Ongeza kwa Mask}

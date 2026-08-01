@@ -660,7 +660,7 @@ translate k TreeBestGames {최고의 나무 게임}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate k TreeTitleRow \
-  {이동 ECO 체력 AvElo Perf AvYear %무승부 %승리}
+  {이동 ECO 체력 AvElo Perf avLen AvYear %무승부 %승리}
 translate k TreeTotal {총}
 translate k DoYouWantToSaveFirst {먼저 입력하시겠습니까?}
 translate k AddToMask {마스크에 추가}
