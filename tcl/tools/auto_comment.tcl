@@ -950,13 +950,17 @@ proc ::auto_comment::getTreeInfo {baseId} {
         if {$count >= 3} break
         # Skip header, total lines and empty lines
         if {[string match "*Move(s)*" $line] || [string match "*TOTAL:*" $line] || [string trim $line] eq ""} continue
-        
+
         # Parse the fixed-width output of sc_tree stats (tkscid.cpp)
+        # Format emitted by tkscid.cpp (lines 8315-8286):
+        # Base (0-49), Score (50-57), AvElo (58-63), Perf (64-69), AvLen (70-75),
+        # AvYear (76-81), %Draws (82-87), %Win (88-99)
+        # Example: " 1: e4 e5 Nf3 Nc6             A00      1234: 45.6%   52.3%  2100  2200    45  1995   32%      48.25%"
         # MoveSeq: 4-28, Games: 36-42, Success%: 51-57, %Draws: 82-87, %Win: 88-99
         catch {
             set moveSeq [string trim [string range $line 4 28]]
             if {$moveSeq eq "" || $moveSeq eq "---"} continue
-            
+
             set games   [string trim [string range $line 36 42]]
             set success [string trim [string range $line 51 57]]
             set draws   [string trim [string range $line 82 87]]
