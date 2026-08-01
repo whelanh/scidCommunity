@@ -8,7 +8,7 @@ fi
 
 cd $Build_SourcesDirectory
 mkdir -p tcltk && cd tcltk
-git clone --depth=1 --branch core-8-6-branch https://github.com/tcltk/tcl.git
+git clone --depth=1 --branch core-8-6-15 https://github.com/tcltk/tcl.git
 cd tcl/unix
 ./configure --prefix=$Build_SourcesDirectory/tcltk --enable-64bit --disable-shared
 make -j
@@ -16,7 +16,7 @@ make install
 
 cd $Build_SourcesDirectory
 mkdir -p tcltk && cd tcltk
-git clone --depth=1 --branch core-8-6-branch https://github.com/tcltk/tk.git
+git clone --depth=1 --branch core-8-6-15 https://github.com/tcltk/tk.git
 cd tk/unix
 ./configure --prefix=$Build_SourcesDirectory/tcltk --enable-64bit --enable-aqua
 make -j
