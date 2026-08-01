@@ -602,9 +602,9 @@ proc ::tree::displayLines { baseNumber moves } {
   # $w.f.tl configure -state disabled
 }
 ################################################################################
-# returns a list with (ngames freq success eloavg perf) or
+# returns a list with (ngames freq success eloavg perf avLen) or
 # {} if there was a problem during parsing
-# 1: e4     B00     37752: 47.1%   54.7%  2474  2513  2002   37%
+# 1: e4     B00     37752: 47.1%   54.7%  2474  2513  42  2002   37%
 ################################################################################
 proc ::tree::getLineValues { l } {
   set ret {}
@@ -637,6 +637,11 @@ proc ::tree::getLineValues { l } {
   } else  {
     lappend ret $perf
   }
+
+  if {[scan [string range $l 74 78] "%d" avLen] != 1} {
+    set avLen 0
+  }
+  lappend ret $avLen
 
   # Win column is 9 chars at the end
   set win [string range $l end-8 end]
@@ -688,7 +693,7 @@ proc ::tree::getColorWin { line } {
   if { $ngames < $::tree::scoreHighlight_MinGames } {
     return ""
   }
-  set winAdv [lindex $data 5]
+  set winAdv [lindex $data 6]
 
   # winAdv is White advantage (positive = good for White, negative = good for Black)
   # When it's White to move: positive winAdv is good (green), negative is bad (red)

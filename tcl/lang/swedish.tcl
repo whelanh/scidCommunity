@@ -630,7 +630,7 @@ translate W TreeBestGames {Bästa partier i trädet}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate W TreeTitleRow \
-{Drag                          ECO     Frekvens      Res.    Elo~  Nivå  År~   %Remi      %Vinna} 
+{Drag                          ECO     Frekvens      Res.    Elo~  Nivå avLen  År~   %Remi      %Vinna} 
 translate W TreeTotal {TOTALT} 
 translate W DoYouWantToSaveFirst {Vill du spara först}
 translate W AddToMask {Lägg till i sökmask}

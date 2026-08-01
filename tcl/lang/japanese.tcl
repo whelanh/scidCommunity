@@ -660,7 +660,7 @@ translate A TreeBestGames {ベストツリーゲーム}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate A TreeTitleRow \
-{移動                            ECO 頻度スコア AvElo Perf Av Year %Draws     %勝つ}
+{移動                            ECO 頻度スコア AvElo Perf avLen Av Year %Draws     %勝つ}
 translate A TreeTotal {合計}
 translate A DoYouWantToSaveFirst {最初に保存しますか?}
 translate A AddToMask {マスクに追加}

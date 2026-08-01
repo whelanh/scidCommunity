@@ -948,7 +948,7 @@ translate Y TreeBest {Best}
 translate Y TreeBestGames {Best Tree Games}
 # ====== TODO To be translated ======
 translate Y TreeTitleRow \
-  {    Move(s)                   ECO       Frequency    Score  AvElo Perf AvYear %Draws     %Win}
+  {    Move(s)                   ECO       Frequency    Score  AvElo Perf avLen AvYear %Draws     %Win}
 # ====== TODO To be translated ======
 translate Y TreeTotal {TOTAL}
 # ====== TODO To be translated ======
@@ -2826,11 +2826,11 @@ translate Y QGDwithBg5 {QGD with Bg5}
 # ====== TODO To be translated ======
 translate Y QGDOrthodox {QGD Orthodox}
 # ====== TODO To be translated ======
-translate Y Grunfeld {Grünfeld}
+translate Y Grunfeld {Grï¿½nfeld}
 # ====== TODO To be translated ======
-translate Y GrunfeldExchange {Grünfeld Exchange}
+translate Y GrunfeldExchange {Grï¿½nfeld Exchange}
 # ====== TODO To be translated ======
-translate Y GrunfeldRussian {Grünfeld Russian}
+translate Y GrunfeldRussian {Grï¿½nfeld Russian}
 # ====== TODO To be translated ======
 translate Y Catalan {Catalan}
 # ====== TODO To be translated ======
@@ -2848,7 +2848,7 @@ translate Y NimzoIndianRubinstein {Nimzo-Indian Rubinstein}
 # ====== TODO To be translated ======
 translate Y KingsIndian {King's Indian}
 # ====== TODO To be translated ======
-translate Y KingsIndianSamisch {King's Indian Sämisch}
+translate Y KingsIndianSamisch {King's Indian Sï¿½misch}
 # ====== TODO To be translated ======
 translate Y KingsIndianMainLine {King's Indian Main Line}
 # ====== TODO To be translated ======

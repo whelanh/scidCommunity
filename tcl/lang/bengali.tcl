@@ -619,7 +619,7 @@ translate b TreeBestGames {সেরা গাছ গেম}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate b TreeTitleRow \
-  {মুভ(গুলি) ECO ফ্রিকোয়েন্সি স্কোর AvElo Perf AvYear % Draws % Win}
+  {মুভ(গুলি) ECO ফ্রিকোয়েন্সি স্কোর AvElo Perf avLen AvYear % Draws % Win}
 translate b TreeTotal {মোট}
 translate b DoYouWantToSaveFirst {আপনি প্রথমে সংরক্ষণ করতে চান}
 translate b AddToMask {মাস্কে যোগ করুন}

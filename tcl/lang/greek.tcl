@@ -651,7 +651,7 @@ translate G TreeBestGames {Οι καλύτερες παρτίδες του δέ�
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate G TreeTitleRow \
-{Move                          ECO       Frequency    Score  AvElo Perf AvYear %Draws     %Νίκη}
+{Move                          ECO       Frequency    Score  AvElo Perf avLen AvYear %Draws     %Νίκη}
 translate G TreeTotal {ΣΥΝΟΛΟ}
 translate G DoYouWantToSaveFirst {Θέλετε να αποθηκεύσετε πρώτα;}
 translate G AddToMask {Προσθήκη στην μάσκα}

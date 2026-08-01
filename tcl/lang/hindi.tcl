@@ -619,7 +619,7 @@ translate h TreeBestGames {सर्वश्रेष्ठ वृक्ष ख
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate h TreeTitleRow \
-  {मूव(एं) ईसीओ फ्रीक्वेंसी स्कोर एवएलो पर्फ एवीवर्ष %ड्रॉ %जीत}
+  {मूव(एं) ईसीओ फ्रीक्वेंसी स्कोर एवएलो पर्फ avLen एवीवर्ष %ड्रॉ %जीत}
 translate h TreeTotal {कुल}
 translate h DoYouWantToSaveFirst {क्या आप पहले बचत करना चाहते हैं?}
 translate h AddToMask {मास्क में जोड़ें}

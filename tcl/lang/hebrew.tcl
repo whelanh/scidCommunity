@@ -620,7 +620,7 @@ translate V TreeBestGames {משחקי העץ הטובים ביותר}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate V TreeTitleRow \
-  {מהלכים ECO תדר ציון AvElo Perf AvYear % הגרלות %Win}
+  {מהלכים ECO תדר ציון AvElo Perf avLen AvYear % הגרלות %Win}
 translate V TreeTotal {סַך הַכֹּל}
 translate V DoYouWantToSaveFirst {האם אתה רוצה לשמור קודם}
 translate V AddToMask {הוסף למסכה}

@@ -557,7 +557,7 @@ translate P TreeBest {Najlepsze}
 translate P TreeBestGames {Najlepsze partie z drzewa}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
-translate P TreeTitleRow {    Posunięcie/a              ECO       Częstość     Wynik  ŚrElo Perf ŚrRok  %Remisów   %Wygr.}
+translate P TreeTitleRow {    Posunięcie/a              ECO       Częstość     Wynik  ŚrElo Perf avLen ŚrRok  %Remisów   %Wygr.}
 translate P TreeTotal {RAZEM}
 translate P DoYouWantToSaveFirst {Czy najpierw chcesz zapisać}
 translate P AddToMask {Dodaj do maski}

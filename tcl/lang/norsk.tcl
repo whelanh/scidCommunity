@@ -629,7 +629,7 @@ translate O TreeBestGames {Idealtrepartier}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate O TreeTitleRow \
-{Move                          ECO       Frequency    Score  AvElo Perf AvYear %Draws     %Vinne} ;# ***
+{Move                          ECO       Frequency    Score  AvElo Perf avLen AvYear %Draws     %Vinne} ;# ***
 translate O TreeTotal {SAMMENLAGT}
 translate O DoYouWantToSaveFirst {Vil du spare først}
 translate O AddToMask {Legg til maske}

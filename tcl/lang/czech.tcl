@@ -624,7 +624,7 @@ translate C TreeBestGames {Nejlep partie stromu}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate C TreeTitleRow \
-{Tah                           ECO       Frekvence    Skre  PrElo Perf  PrRok %remz   %Vyhrt}
+{Tah                           ECO       Frekvence    Skre  PrElo Perf avLen  PrRok %remz   %Vyhrt}
 translate C TreeTotal {CELKEM}
 translate C DoYouWantToSaveFirst {Chcete nejprve uloit}
 translate C AddToMask {Pidat do masky}

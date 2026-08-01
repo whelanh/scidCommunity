@@ -649,7 +649,7 @@ translate N TreeBestGames {Boom Beste partijen}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate N TreeTitleRow \
-{Zet                           ECO    Frekwentie    Score  GemElo Prest GemJaar %Remises  %Winnennen} ;
+{Zet                           ECO    Frekwentie    Score  GemElo Prest avLen GemJaar %Remises  %Winnennen} ;
 translate N TreeTotal {TOTAAL}
 translate N DoYouWantToSaveFirst {Wil u eerst de verandering bewaren?}
 translate N AddToMask {Toevoegen aan het Masker}

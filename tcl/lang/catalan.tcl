@@ -645,7 +645,7 @@ translate K TreeBestGames {Millors partides de l'arbre}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate K TreeTitleRow \
-{Movim.                        ECO       Freqüencia   Puntu. EloPm Perf AnyPm %Taules      %Guanyar}
+{Movim.                        ECO       Freqüencia   Puntu. EloPm Perf avLen AnyPm %Taules      %Guanyar}
 translate K TreeTotal {TOTAL}
 translate K DoYouWantToSaveFirst {Vols desar-ho abans}
 translate K AddToMask {Afegir a màscara}

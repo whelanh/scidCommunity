@@ -632,7 +632,7 @@ translate B TreeBestGames {Melhores jogos da árvore}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate B TreeTitleRow \
-{Mov.                          ECO       Frequência   Score  AvElo Perf AvAno %Empat   %Vitória}
+{Mov.                          ECO       Frequência   Score  AvElo Perf avLen AvAno %Empat   %Vitória}
 translate B TreeTotal {TOTAL}
 translate B DoYouWantToSaveFirst {Quer salvar primeiro?}
 translate B AddToMask {Adicionar  máscara}

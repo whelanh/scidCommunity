@@ -627,7 +627,7 @@ translate H TreeBestGames {A fa legjobb játszmái}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate H TreeTitleRow \
-{Lépés                         ECO       Gyakoriság  Eredm. ÁtlÉlõ Telj. Átl.év      %Gyõzelem}
+{Lépés                         ECO       Gyakoriság  Eredm. ÁtlÉlõ Telj. avLen Átl.év %Döntetlen %Gyõzelem}
 translate H TreeTotal {ÖSSZESEN}
 translate H DoYouWantToSaveFirst {Akarod elõbb menteni?}
 translate H AddToMask {Add hozzá a maszkhoz}

@@ -620,7 +620,7 @@ translate Q TreeBestGames {Найкращі ігри про дерева}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate Q TreeTitleRow \
-  {Ходи(-и) ECO Частота Оцінка AvElo Perf AvYear %Ничії %Виграш}
+  {Ходи(-и) ECO Частота Оцінка AvElo Perf avLen AvYear %Ничії %Виграш}
 translate Q TreeTotal {РАЗОМ}
 translate Q DoYouWantToSaveFirst {Ви хочете спочатку зберегти}
 translate Q AddToMask {Додати до маски}

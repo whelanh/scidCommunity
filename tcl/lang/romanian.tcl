@@ -660,7 +660,7 @@ translate L TreeBestGames {Cele mai bune jocuri cu copaci}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate L TreeTitleRow \
-{Mutare Scor de frecvență      ECO AvElo Perf AvYear % Draws      %Câştiga}
+{Mutare Scor de frecvență      ECO AvElo Perf avLen AvYear % Draws      %Câştiga}
 translate L TreeTotal {TOTAL}
 translate L DoYouWantToSaveFirst {Doriți să salvați mai întâi}
 translate L AddToMask {Adaugă la mască}
