@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 if [ -z "$Build_SourcesDirectory" ]; then
   Build_SourcesDirectory=$(pwd)
 fi
@@ -15,9 +17,6 @@ make install
 cd $Build_SourcesDirectory
 mkdir -p tcltk && cd tcltk
 git clone --depth=1 --branch core-8-6-branch https://github.com/tcltk/tk.git
-# LAYOUT_WITH_BASE_CHUNKS is not thread safe
-sed -i'' -e '/define TK_LAYOUT_WITH_BASE_CHUNKS/d' tk/macosx/tkMacOSXInt.h
-sed -i'' -e '/define TK_DRAW_IN_CONTEXT/d' tk/macosx/tkMacOSXInt.h
 cd tk/unix
 ./configure --prefix=$Build_SourcesDirectory/tcltk --enable-64bit --enable-aqua
 make -j
