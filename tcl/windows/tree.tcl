@@ -117,8 +117,7 @@ proc ::tree::make { { baseNumber -1 } {locked 0} } {
   $w.menu.opt add checkbutton -label TreeOptTraining -variable tree(training$baseNumber) -command "::tree::toggleTraining $baseNumber"
   set helpMessage($w.menu.opt,1) TreeOptTraining
 
-  $w.menu.opt add checkbutton -label [tr Annotations] -variable tree(nagsAutopopulate$baseNumber) -command "::tree::refresh $baseNumber"
-  set helpMessage($w.menu.opt,2) Annotations
+  $w.menu.opt add checkbutton -label Annotations -variable tree(nagsAutopopulate$baseNumber) -command "::tree::refresh $baseNumber"
 
   $w.menu.helpmenu add command -label TreeHelpTree -accelerator F1 -command {helpWindow Tree}
   $w.menu.helpmenu add command -label TreeHelpIndex -command {helpWindow Index}
