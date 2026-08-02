@@ -28,6 +28,7 @@
 #include <cstring>
 #include <sstream>
 #include <string>
+#include <vector>
 
 /// Store the number of pieces for each type and color.
 class MaterialCount {
@@ -415,6 +416,45 @@ public:
 			if (!fn(move))
 				return;
 		}
+	}
+
+	std::vector<byte> collectNextNAGs() {
+		auto it = bbuf_.data();
+		const auto end = bbuf_.data() + bbuf_.size();
+		std::vector<byte> nags;
+		int varDepth = 0;
+
+		while (it < end) {
+			switch (*it++) {
+			case 11: // ENCODE_NAG
+				if (it < end) {
+					if (varDepth == 0)
+						nags.push_back(*it);
+					++it; // skip nag byte
+				}
+				break;
+			case 12: // ENCODE_COMMENT
+				break;
+			case 13: // ENCODE_START_MARKER
+				// Variations start here; NAGs inside them belong to variation moves.
+				if (varDepth == 0)
+					return nags;
+				++varDepth;
+				break;
+			case 14: // ENCODE_END_MARKER
+				if (varDepth <= 0)
+					return nags; // corrupted stream; avoid underflow
+				--varDepth;
+				break;
+			case 15: // ENCODE_END_GAME
+				return nags;
+			default: // Move byte
+				if (varDepth == 0)
+					return nags;
+				break;
+			}
+		}
+		return nags;
 	}
 
 	FullMove getMove(int ply_to_skip) {

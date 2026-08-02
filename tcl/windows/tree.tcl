@@ -43,6 +43,9 @@ proc ::tree::make { { baseNumber -1 } {locked 0} } {
   set tree(order$baseNumber) "frequency"
   set tree(allgames$baseNumber) 1
   set tree(movedepth$baseNumber) $tree(moveDepth)
+  if { ! [info exists tree(nagsAutopopulate$baseNumber)] } {
+    set tree(nagsAutopopulate$baseNumber) 0
+  }
 
   bind $w <Destroy> "::tree::closeTree $baseNumber"
 
@@ -114,6 +117,8 @@ proc ::tree::make { { baseNumber -1 } {locked 0} } {
   $w.menu.opt add checkbutton -label TreeOptTraining -variable tree(training$baseNumber) -command "::tree::toggleTraining $baseNumber"
   set helpMessage($w.menu.opt,1) TreeOptTraining
 
+  $w.menu.opt add checkbutton -label Annotations -variable tree(nagsAutopopulate$baseNumber) -command "::tree::refresh $baseNumber"
+
   $w.menu.helpmenu add command -label TreeHelpTree -accelerator F1 -command {helpWindow Tree}
   $w.menu.helpmenu add command -label TreeHelpIndex -command {helpWindow Index}
 
@@ -150,14 +155,15 @@ proc ::tree::make { { baseNumber -1 } {locked 0} } {
 
   ttk::checkbutton $w.buttons.allgames -textvar ::tr(allGames) -variable tree(allgames$baseNumber) -command "::tree::refresh $baseNumber"
   ttk::checkbutton $w.buttons.training -textvar ::tr(Training) -variable tree(training$baseNumber) -command "::tree::toggleTraining $baseNumber"
-  
+  ttk::checkbutton $w.buttons.annotations -textvar ::tr(Annotations) -variable tree(nagsAutopopulate$baseNumber) -command "::tree::refresh $baseNumber"
+
   # Add move depth selector
   ttk::label $w.buttons.depthlabel -textvar ::tr(TreeDepth)
   ttk::spinbox $w.buttons.depth -from 1 -to 4 -width 3 \
       -textvariable tree(movedepth$baseNumber) -command "::tree::refresh $baseNumber"
   bind $w.buttons.depth <Return> "::tree::refresh $baseNumber"
 
-  foreach {b t} { best TreeFileBest graph TreeFileGraph allgames TreeOptLock  training TreeOptTraining bStartStop TreeOptStartStop depth TreeOptDepth depthlabel TreeOptDepth } {
+  foreach {b t} { best TreeFileBest graph TreeFileGraph allgames TreeOptLock  training TreeOptTraining bStartStop TreeOptStartStop depth TreeOptDepth depthlabel TreeOptDepth annotations Annotations } {
     set helpMessage($w.buttons.$b) $t
   }
 
@@ -165,6 +171,7 @@ proc ::tree::make { { baseNumber -1 } {locked 0} } {
   dialogbutton $w.buttons.close -textvar ::tr(Close) -command "::tree::closeTree $baseNumber"
 
   pack $w.buttons.best $w.buttons.graph $w.buttons.bStartStop $w.buttons.allgames $w.buttons.training \
+      $w.buttons.annotations \
       -side left -padx 3 -pady 2
   pack $w.buttons.depthlabel -side left -padx "15 3" -pady 2
   pack $w.buttons.depth -side left -padx "0 3" -pady 2
@@ -405,8 +412,45 @@ proc ::tree::dorefresh { baseNumber {filter "tree"}} {
   }
   catch {$w.f.tl itemconfigure 0 -foreground darkBlue}
 
+  # Extract evaluation NAGs from games and populate the mask or autoNag array
+  if { !$err && $tree(nagsAutopopulate$baseNumber) == 1 } {
+    # Clear stale auto NAGs from the previous position
+    foreach key [array names ::tree::autoNag "$baseNumber,*"] {
+      unset ::tree::autoNag($key)
+    }
+    unset -nocomplain tree(nagsError$baseNumber)
+    if { [catch {
+      set nagsData [sc_tree nags $baseNumber $filter 0]
+      if { $::tree::mask::maskFile != "" } {
+        ::tree::mask::setCacheFenIndex
+      }
+      foreach entry $nagsData {
+        set moveSAN [lindex $entry 0]
+        set bestNag ""
+        set bestCount 0
+        foreach {nag count} [lrange $entry 1 end] {
+          if { $count > $bestCount } {
+            set bestNag $nag
+            set bestCount $count
+          }
+        }
+        if { $bestNag != "" } {
+          set ::tree::autoNag($baseNumber,$moveSAN) $bestNag
+          if { $::tree::mask::maskFile != "" && [::tree::mask::moveExists $moveSAN] } {
+            catch { ::tree::mask::setNag $moveSAN $bestNag "" 0 }
+          }
+        }
+      }
+    } errMsg ] } {
+      set tree(nagsError$baseNumber) $errMsg
+    }
+  }
+
   ::tree::restoreButtons $w
   ::tree::status "" $baseNumber
+  if { [info exists tree(nagsError$baseNumber)] } {
+    ::tree::status "[tr Annotations]: $tree(nagsError$baseNumber)" $baseNumber
+  }
   displayLines $baseNumber $moves
 
   if {[winfo exists .treeGraph$baseNumber]} { ::tree::graph $baseNumber }
@@ -420,12 +464,13 @@ proc ::tree::dorefresh { baseNumber {filter "tree"}} {
 #
 ################################################################################
 proc ::tree::displayLines { baseNumber moves } {
-  global ::tree::mask::maskFile
+  global ::tree::mask::maskFile tree
 
   ::tree::mask::setCacheFenIndex
 
   set lMoves {}
   set w .treeWin$baseNumber
+  set showAutoNagCol 0
 
   $w.f.tl configure -state normal
 
@@ -459,12 +504,35 @@ proc ::tree::displayLines { baseNumber moves } {
     }
   }
 
+  # Determine if we have any auto NAGs for this display (mask-less mode)
+  if { $maskFile == "" && $tree(nagsAutopopulate$baseNumber) == 1 } {
+    for { set i 1 } { $i < [expr $len - 3 ] } { incr i } {
+      set line [lindex $moves $i]
+      if {$line == ""} { continue }
+      set move [lindex $line 1]
+      set move [::untrans $move]
+      set lookMove [lindex [split $move " "] 0]
+      if { [info exists ::tree::autoNag($baseNumber,$lookMove)] } {
+        set showAutoNagCol 1
+        break
+      }
+    }
+  }
+
+  # Pick the best empty spacer image (transparent if available, opaque GIF fallback)
+  set autoNagImg "tb_empty"
+  if { [lsearch [image names] "::icon::tb_empty"] != -1 } { set autoNagImg "::icon::tb_empty" }
+
   # Display the first line
-  if { $maskFile != "" } {
-    $w.f.tl image create end -image tb_empty -align center
-    $w.f.tl image create end -image tb_empty -align center
-    $w.f.tl insert end "    "
-    $w.f.tl tag bind tagclick0 <ButtonPress-$::MB3> "::tree::mask::contextMenu $w.f.tl dummy %x %y %X %Y ; break"
+  if { $maskFile != "" || $showAutoNagCol } {
+    $w.f.tl image create end -image $autoNagImg -align center
+    $w.f.tl image create end -image $autoNagImg -align center
+    if { $maskFile != "" } {
+      $w.f.tl insert end "    "
+      $w.f.tl tag bind tagclick0 <ButtonPress-$::MB3> "::tree::mask::contextMenu $w.f.tl dummy %x %y %X %Y ; break"
+    } else {
+      $w.f.tl insert end "     "
+    }
   }
   $w.f.tl insert end "[lindex $moves 0]\n" tagclick0
 
@@ -500,6 +568,23 @@ proc ::tree::displayLines { baseNumber moves } {
         $w.f.tl image create end -image tb_empty -align center
         $w.f.tl image create end -image tb_empty -align center
       }
+    } elseif { $showAutoNagCol } {
+      $w.f.tl image create end -image $autoNagImg -align center
+      $w.f.tl image create end -image $autoNagImg -align center
+      $w.f.tl insert end "  "
+      set autoNag ""
+      if { $i > 0 && $i < [expr $len - 3] && $move != "\[end\]" } {
+        set lookMove [lindex [split $move " "] 0]
+        if { [info exists ::tree::autoNag($baseNumber,$lookMove)] } {
+          set autoNag $::tree::autoNag($baseNumber,$lookMove)
+        }
+      }
+      if { $autoNag == "" } {
+        set autoNag "   "
+      } else {
+        set autoNag [string range "$autoNag   " 0 2]
+      }
+      $w.f.tl insert end $autoNag
     }
     # Move and stats
     set lineStart [$w.f.tl index "end - 1 chars"]
@@ -539,10 +624,15 @@ proc ::tree::displayLines { baseNumber moves } {
 
   # Display the last lines (total)
   for { set i [expr $len - 3 ] } { $i < [expr $len - 1 ] } { incr i } {
-    if { $maskFile != "" } {
-      $w.f.tl image create end -image tb_empty -align center
-      $w.f.tl image create end -image tb_empty -align center
-      $w.f.tl insert end "    "
+    if { $maskFile != "" || $showAutoNagCol } {
+      set img [expr { $maskFile != "" ? "tb_empty" : $autoNagImg }]
+      $w.f.tl image create end -image $img -align center
+      $w.f.tl image create end -image $img -align center
+      if { $maskFile != "" } {
+        $w.f.tl insert end "    "
+      } else {
+        $w.f.tl insert end "     "
+      }
     }
     $w.f.tl insert end "[lindex $moves $i]\n"
   }
