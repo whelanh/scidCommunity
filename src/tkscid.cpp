@@ -8093,8 +8093,8 @@ int sc_report_select(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
 //  SEARCH and TREE functions
 
 int sc_tree(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
-  static const char *options[] = {"stats", "cachesize", "cacheinfo", nullptr};
-  enum { TREE_STATS, TREE_CACHESIZE, TREE_CACHEINFO };
+  static const char *options[] = {"stats", "cachesize", "cacheinfo", "nags", nullptr};
+  enum { TREE_STATS, TREE_CACHESIZE, TREE_CACHEINFO, TREE_NAGS };
 
   int index = -1;
   if (argc > 1) {
@@ -8110,6 +8110,9 @@ int sc_tree(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
 
   case TREE_CACHEINFO:
     return sc_tree_cacheinfo(cd, ti, argc, argv);
+
+  case TREE_NAGS:
+    return sc_tree_nags(cd, ti, argc, argv);
 
   default:
     return InvalidCommand(ti, "sc_tree", options);
@@ -8357,6 +8360,42 @@ int sc_tree_cacheinfo(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     return UI_Result(ti, OK, base->treeCache.Size());
 
   return UI_Result(ti, OK, 0);
+}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// sc_tree_nags:
+//    Extract evaluation NAGs from games in the tree filter.
+//    Returns a Tcl list: { {moveSAN {nagSym count}...} ... }
+int sc_tree_nags(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
+  static const char *usage = "Usage: sc_tree nags baseId filterId [minElo]";
+  if (argc < 4)
+    return UI_Result(ti, ERROR_BadArg, usage);
+
+  scidBaseT *base = DBasePool::getBase(strGetUnsigned(argv[2]));
+  if (!base)
+    return UI_Result(ti, ERROR_BadArg, usage);
+
+  HFilter filter = base->getFilter(argv[3]);
+  if (filter == nullptr)
+    return UI_Result(ti, ERROR_BadArg, usage);
+
+  eloT minElo = (argc > 4) ? static_cast<eloT>(strGetUnsigned(argv[4])) : 0;
+
+  auto results = base->getTreeNAGs(filter, minElo);
+
+  UI_List resList(results.size());
+  for (auto& entry : results) {
+    size_t nPairs = entry.nagFreqs.size();
+    UI_List entryInfo(1 + 2 * nPairs);
+    entryInfo.push_back(entry.moveSAN);
+    for (auto& [nag, count] : entry.nagFreqs) {
+      char temp[16];
+      game_printNag(nag, temp, true, PGN_FORMAT_Plain);
+      entryInfo.push_back(temp);
+      entryInfo.push_back(count);
+    }
+    resList.push_back(entryInfo);
+  }
+  return UI_Result(ti, OK, resList);
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // sc_search:

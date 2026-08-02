@@ -674,6 +674,68 @@ std::vector<TreeNode> scidBaseT::getTreeStat(const HFilter& filter, int moveDept
 	return res;
 }
 
+std::vector<scidBaseT::TreeNAGEntry>
+scidBaseT::getTreeNAGs(const HFilter& filter, eloT minElo) const {
+	std::vector<TreeNAGEntry> results;
+	std::map<std::string, std::map<byte, uint>> nagHist;
+	std::map<std::string, std::pair<uint64_t, uint>> eloData;
+
+	for (gamenumT gnum = 0, n = numGames(); gnum < n; gnum++) {
+		uint ply = filter.get(gnum);
+		if (ply == 0)
+			continue;
+		ply--;
+
+		const IndexEntry* ie = getIndexEntry(gnum);
+
+		if (ie->GetNagCount() == 0)
+			continue;
+
+		eloT wElo = ie->GetWhiteElo();
+		eloT bElo = ie->GetBlackElo();
+		if (minElo > 0 && std::max(wElo, bElo) < minElo)
+			continue;
+
+		auto gv = getGame(ie);
+		FullMove fm = gv.getMove(ply);
+		if (!fm)
+			continue;
+
+		auto nags = gv.collectNextNAGs();
+		if (nags.empty())
+			continue;
+
+		char san[10];
+		std::strcpy(san, fm.getSAN().c_str());
+		std::string key(san);
+
+		for (auto nag : nags) {
+			nagHist[key][nag]++;
+		}
+
+		auto& elo = eloData[key];
+		elo.first += std::max(wElo, bElo);
+		elo.second++;
+	}
+
+	results.reserve(nagHist.size());
+	for (auto& [key, nags] : nagHist) {
+		TreeNAGEntry entry;
+		entry.moveSAN = key;
+		entry.nagFreqs = std::move(nags);
+
+		auto it = eloData.find(key);
+		if (it != eloData.end() && it->second.second > 0) {
+			entry.avgElo = static_cast<eloT>(
+			    it->second.first / it->second.second);
+		}
+
+		results.push_back(std::move(entry));
+	}
+
+	return results;
+}
+
 errorT scidBaseT::getCompactStat(unsigned long long* n_deleted,
                                  unsigned long long* n_unused,
                                  unsigned long long* n_sparse,

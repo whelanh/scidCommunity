@@ -417,6 +417,37 @@ public:
 		}
 	}
 
+	std::vector<byte> collectNextNAGs() {
+		auto it = bbuf_.data();
+		const auto end = bbuf_.data() + bbuf_.size();
+		std::vector<byte> nags;
+		int varDepth = 0;
+
+		while (it < end) {
+			switch (*it++) {
+			case 11: // ENCODE_NAG
+				if (it < end)
+					nags.push_back(*it++);
+				break;
+			case 12: // ENCODE_COMMENT
+				break;
+			case 13: // ENCODE_START_MARKER
+				++varDepth;
+				break;
+			case 14: // ENCODE_END_MARKER
+				--varDepth;
+				break;
+			case 15: // ENCODE_END_GAME
+				return nags;
+			default: // Move byte
+				if (varDepth == 0)
+					return nags;
+				break;
+			}
+		}
+		return nags;
+	}
+
 	FullMove getMove(int ply_to_skip) {
 		for (int ply = 0; ply <= ply_to_skip; ply++, cToMove_ = 1 - cToMove_) {
 			auto move = (cToMove_ == WHITE) ? DecodeNextMove<FullMove, WHITE>()

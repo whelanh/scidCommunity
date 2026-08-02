@@ -28,6 +28,7 @@
 #include "namebase.h"
 #include "tree.h"
 #include <array>
+#include <map>
 #include <cassert>
 #include <filesystem>
 #include <memory>
@@ -217,6 +218,14 @@ struct scidBaseT {
 
 	const Stats& getStats() const;
 	std::vector<TreeNode> getTreeStat(const HFilter& filter, int moveDepth = 1) const;
+
+	struct TreeNAGEntry {
+		std::string moveSAN;
+		eloT avgElo = 0;
+		std::map<byte, uint> nagFreqs;
+	};
+	std::vector<TreeNAGEntry> getTreeNAGs(const HFilter& filter, eloT minElo) const;
+
 	uint getNameFreq(nameT nt, idNumberT id) {
 		if (nameFreq_[nt].size() == 0)
 			nameFreq_ = getNameBase()->calcNameFreq(*idx);
