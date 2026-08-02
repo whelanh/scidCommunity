@@ -117,8 +117,8 @@ proc ::tree::make { { baseNumber -1 } {locked 0} } {
   $w.menu.opt add checkbutton -label TreeOptTraining -variable tree(training$baseNumber) -command "::tree::toggleTraining $baseNumber"
   set helpMessage($w.menu.opt,1) TreeOptTraining
 
-  $w.menu.opt add checkbutton -label [tr Annotations] -variable tree(nagsAutopopulate$baseNumber)
-  set helpMessage($w.menu.opt,2) "Automatically populate evaluation symbols (!, ?, !!, etc.) from database games"
+  $w.menu.opt add checkbutton -label [tr Annotations] -variable tree(nagsAutopopulate$baseNumber) -command "::tree::refresh $baseNumber"
+  set helpMessage($w.menu.opt,2) Annotations
 
   $w.menu.helpmenu add command -label TreeHelpTree -accelerator F1 -command {helpWindow Tree}
   $w.menu.helpmenu add command -label TreeHelpIndex -command {helpWindow Index}
@@ -164,7 +164,7 @@ proc ::tree::make { { baseNumber -1 } {locked 0} } {
       -textvariable tree(movedepth$baseNumber) -command "::tree::refresh $baseNumber"
   bind $w.buttons.depth <Return> "::tree::refresh $baseNumber"
 
-  foreach {b t} { best TreeFileBest graph TreeFileGraph allgames TreeOptLock  training TreeOptTraining bStartStop TreeOptStartStop depth TreeOptDepth depthlabel TreeOptDepth annotations TreeOptAnnotations } {
+  foreach {b t} { best TreeFileBest graph TreeFileGraph allgames TreeOptLock  training TreeOptTraining bStartStop TreeOptStartStop depth TreeOptDepth depthlabel TreeOptDepth annotations Annotations } {
     set helpMessage($w.buttons.$b) $t
   }
 
@@ -416,7 +416,10 @@ proc ::tree::dorefresh { baseNumber {filter "tree"}} {
   # Extract evaluation NAGs from games and populate the mask or autoNag array
   if { !$err && $tree(nagsAutopopulate$baseNumber) == 1 } {
     # Clear stale auto NAGs from the previous position
-    if { [info exists ::tree::autoNag] } { array unset ::tree::autoNag }
+    foreach key [array names ::tree::autoNag "$baseNumber,*"] {
+      unset ::tree::autoNag($key)
+    }
+    unset -nocomplain tree(nagsError$baseNumber)
     if { [catch {
       set nagsData [sc_tree nags $baseNumber $filter 0]
       foreach entry $nagsData {
@@ -433,7 +436,9 @@ proc ::tree::dorefresh { baseNumber {filter "tree"}} {
           set ::tree::autoNag($baseNumber,$moveSAN) $bestNag
           if { $::tree::mask::maskFile != "" } {
             ::tree::mask::setCacheFenIndex
-            catch { ::tree::mask::setNag $moveSAN $bestNag "" 0 }
+            if { [::tree::mask::moveExists $moveSAN] } {
+              catch { ::tree::mask::setNag $moveSAN $bestNag "" 0 }
+            }
           }
         }
       }

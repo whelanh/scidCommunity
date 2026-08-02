@@ -705,9 +705,7 @@ scidBaseT::getTreeNAGs(const HFilter& filter, eloT minElo) const {
 		if (nags.empty())
 			continue;
 
-		char san[10];
-		std::strcpy(san, fm.getSAN().c_str());
-		std::string key(san);
+		std::string key = fm.getSAN();
 
 		for (auto nag : nags) {
 			nagHist[key][nag]++;
