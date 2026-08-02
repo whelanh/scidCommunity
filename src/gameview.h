@@ -426,15 +426,23 @@ public:
 		while (it < end) {
 			switch (*it++) {
 			case 11: // ENCODE_NAG
-				if (it < end)
-					nags.push_back(*it++);
+				if (it < end) {
+					if (varDepth == 0)
+						nags.push_back(*it);
+					++it; // skip nag byte
+				}
 				break;
 			case 12: // ENCODE_COMMENT
 				break;
 			case 13: // ENCODE_START_MARKER
+				// Variations start here; NAGs inside them belong to variation moves.
+				if (varDepth == 0)
+					return nags;
 				++varDepth;
 				break;
 			case 14: // ENCODE_END_MARKER
+				if (varDepth <= 0)
+					return nags; // corrupted stream; avoid underflow
 				--varDepth;
 				break;
 			case 15: // ENCODE_END_GAME
