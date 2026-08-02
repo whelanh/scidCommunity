@@ -8364,7 +8364,7 @@ int sc_tree_cacheinfo(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // sc_tree_nags:
 //    Extract evaluation NAGs from games in the tree filter.
-//    Returns a Tcl list: { {moveSAN {nagSym count}...} ... }
+//    Returns a Tcl list: { {moveSAN nagSym count ...} ... }
 int sc_tree_nags(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
   static const char *usage = "Usage: sc_tree nags baseId filterId [minElo]";
   if (argc < 4)
