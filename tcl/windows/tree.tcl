@@ -421,6 +421,9 @@ proc ::tree::dorefresh { baseNumber {filter "tree"}} {
     unset -nocomplain tree(nagsError$baseNumber)
     if { [catch {
       set nagsData [sc_tree nags $baseNumber $filter 0]
+      if { $::tree::mask::maskFile != "" } {
+        ::tree::mask::setCacheFenIndex
+      }
       foreach entry $nagsData {
         set moveSAN [lindex $entry 0]
         set bestNag ""
@@ -433,11 +436,8 @@ proc ::tree::dorefresh { baseNumber {filter "tree"}} {
         }
         if { $bestNag != "" } {
           set ::tree::autoNag($baseNumber,$moveSAN) $bestNag
-          if { $::tree::mask::maskFile != "" } {
-            ::tree::mask::setCacheFenIndex
-            if { [::tree::mask::moveExists $moveSAN] } {
-              catch { ::tree::mask::setNag $moveSAN $bestNag "" 0 }
-            }
+          if { $::tree::mask::maskFile != "" && [::tree::mask::moveExists $moveSAN] } {
+            catch { ::tree::mask::setNag $moveSAN $bestNag "" 0 }
           }
         }
       }
