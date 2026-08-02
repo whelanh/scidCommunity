@@ -28,6 +28,7 @@
 #include <cstring>
 #include <sstream>
 #include <string>
+#include <vector>
 
 /// Store the number of pieces for each type and color.
 class MaterialCount {
