@@ -247,8 +247,9 @@ proc ::lichess_eval::doRefresh {} {
     set queryBuf ""
 
     # Clear existing display
-    if {[winfo exists $w.result]} { destroy $w.result }
-    if {[winfo exists $w.error]} { destroy $w.error }
+    if {[winfo exists $w.result]}  { destroy $w.result }
+    if {[winfo exists $w.error]}   { destroy $w.error }
+    if {[winfo exists $w.buttons]} { destroy $w.buttons }
     if {[winfo exists $w.content.loading]} { destroy $w.content.loading }
 
     set gameVariant [sc_game variant]
@@ -289,6 +290,7 @@ if {[catch {
     } else {
         ::lichess_eval::handleAsyncResponse $fen "" "Failed to query Lichess cloud eval: $err2"
     }
+  }
 }
 
 # ::lichess_eval::onAsyncData_
