@@ -96,7 +96,7 @@ proc ::lichess_eval::formatLine {fen sanMoves} {
 #   Used by both lookupPosition (new window) and refresh (existing window).
 #
 proc ::lichess_eval::queryCloudEval {fen variant} {
-    set urlFen [string map {" " "%20"} $fen]
+    set urlFen [string map {" " "%20" "/" "%2F" "+" "%2B" "?" "%3F" "&" "%26" "=" "%3D" "#" "%23" "%" "%25"} $fen]
     set url "$::lichess_eval::apiUrl?fen=$urlFen&multiPv=$::lichess_eval::multiPv&variant=$variant"
 
     set result ""
