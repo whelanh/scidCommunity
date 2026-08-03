@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.3.92
+Version:        5.1.3.93
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 26e4265580427199466e8409debbbf513fac0872
+%global commit 670d775b3fdc94bac1335430b2dd103aeb0055ae
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Mon Aug 03, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-93
+- "Make Lichess Eval window moves clickable and auto-refresh (if window left open)"
 * Sun Aug 02, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-92
 - "Add ability to toggle on NAG annotations in the Tree Window"
 * Sat Aug 01, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-91

@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+ <release version="5.1.3.93" date="2026-08-03">
+      <description>
+        <p>Make Lichess Eval window moves clickable and auto-refresh if window left open</p>
+      </description>
+    </release>
  <release version="5.1.3.92" date="2026-08-02">
       <description>
         <p>Add ability to toggle on NAG annotations in the Tree Window</p>
