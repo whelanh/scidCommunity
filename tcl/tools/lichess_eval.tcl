@@ -13,6 +13,8 @@ namespace eval ::lichess_eval {
     variable lastFen ""
     variable latestFen ""
     variable refreshPending ""
+    variable pendingFd ""
+    variable queryBuf ""
 }
 
 # ::lichess_eval::formatScore
@@ -205,8 +207,9 @@ proc ::lichess_eval::refresh {} {
     # Get current position
     set fen [sc_pos fen]
 
-    # Skip if FEN hasn't changed (e.g., pgnonly updates)
-    if {$fen eq $::lichess_eval::lastFen} {
+    # Skip if FEN matches the latest already requested (e.g., pgnonly updates,
+    # or re-triggering while an async query is still in flight)
+    if {$fen eq $::lichess_eval::latestFen} {
         return
     }
 
@@ -227,11 +230,21 @@ proc ::lichess_eval::refresh {} {
 #   Called after debounce delay expires.
 #
 proc ::lichess_eval::doRefresh {} {
+    variable pendingFd
+    variable queryBuf
+
     set w .lichessEvalResult
     if {![winfo exists $w]} { return }
 
     set fen $::lichess_eval::latestFen
     set ::lichess_eval::refreshPending ""
+
+    # Cancel any in-flight async curl
+    if {$pendingFd ne ""} {
+        catch { close $pendingFd }
+        set pendingFd ""
+    }
+    set queryBuf ""
 
     # Clear existing display
     if {[winfo exists $w.result]} { destroy $w.result }
@@ -253,94 +266,91 @@ proc ::lichess_eval::doRefresh {} {
 }
 
 # ::lichess_eval::queryCloudEvalAsync
-#   Asynchronously queries the Lichess cloud eval API.
-#   Calls handleAsyncResponse when complete.
+#   Asynchronously queries the Lichess cloud eval API using curl via a
+#   non-blocking pipe. Calls handleAsyncResponse when complete.
 #
 proc ::lichess_eval::queryCloudEvalAsync {fen variant} {
     set urlFen [string map {" " "%20"} $fen]
     set url "$::lichess_eval::apiUrl?fen=$urlFen&multiPv=$::lichess_eval::multiPv&variant=$variant"
 
-    # Ensure http and tls packages are available
-    if {[catch {package require http}]} {
-        ::lichess_eval::handleAsyncResponse $fen 0 "" "HTTP package not available"
+    if {[catch {
+        set fd [open [list | curl -s --max-time 10 -H {Accept: */*} $url] r]
+        fconfigure $fd -blocking 0 -buffering full
+        variable pendingFd
+        variable queryBuf
+        set pendingFd $fd
+        set queryBuf ""
+        fileevent $fd readable [list ::lichess_eval::onAsyncData_ $fd $fen]
+    } err]} {
+        ::lichess_eval::handleAsyncResponse $fen "" "curl not available: $err"
+    }
+}
+
+# ::lichess_eval::onAsyncData_
+#   Internal: handles readable event from the async curl pipe.
+#   Accumulates data and invokes handleAsyncResponse on EOF.
+#
+proc ::lichess_eval::onAsyncData_ {fd fen} {
+    variable pendingFd
+    variable queryBuf
+
+    if {$pendingFd ne $fd} {
+        catch { close $fd }
         return
     }
-    catch {package require tls}
-    catch {::http::register https 443 ::tls::socket}
 
-    # Start async HTTP request
-    if {[catch {
-        ::http::geturl $url -timeout 10000 -command [list ::lichess_eval::handleAsyncResponse $fen]
-    } err]} {
-        ::lichess_eval::handleAsyncResponse $fen 0 "" "HTTP request failed: $err"
+    if {[catch { append queryBuf [read $fd] }]} {
+        catch { close $fd }
+        set pendingFd ""
+        set queryBuf ""
+        return
+    }
+
+    if {[eof $fd]} {
+        set data $queryBuf
+        catch { close $fd }
+        set pendingFd ""
+        set queryBuf ""
+
+        if {[string match "*error*" $data] && ![regexp {"pvs"} $data]} {
+            ::lichess_eval::handleAsyncResponse $fen "" "Position not found in Lichess cloud eval database."
+            return
+        }
+
+        ::lichess_eval::handleAsyncResponse $fen $data
     }
 }
 
 # ::lichess_eval::handleAsyncResponse
-#   Callback for async HTTP response.
+#   Callback for async responses (from curl pipe or errors).
 #   Only updates display if FEN still matches latest request and window exists.
 #
-proc ::lichess_eval::handleAsyncResponse {requestedFen token {errMsg ""}} {
+proc ::lichess_eval::handleAsyncResponse {requestedFen data {errMsg ""}} {
     set w .lichessEvalResult
 
-    # Only process if window still exists
-    if {![winfo exists $w]} {
-        if {$token ne "0"} {
-            catch {::http::cleanup $token}
-        }
-        return
-    }
+    if {![winfo exists $w]} { return }
 
-    # Discard stale responses - only process if this FEN is still the latest
     if {$requestedFen ne $::lichess_eval::latestFen} {
-        if {$token ne "0"} {
-            catch {::http::cleanup $token}
-        }
-        destroy $w.content.loading
+        if {[winfo exists $w.content.loading]} { destroy $w.content.loading }
         return
     }
 
-    # Update lastFen to track what we've displayed
     set ::lichess_eval::lastFen $requestedFen
 
-    # Handle error case (token is "0" for errors)
-    if {$token eq "0"} {
-        destroy $w.content.loading
+    if {$data eq ""} {
+        if {[winfo exists $w.content.loading]} { destroy $w.content.loading }
         ::lichess_eval::showError $w "Failed to query Lichess cloud eval: $errMsg"
         return
     }
 
-    # Extract response
-    set ok 0
-    set result ""
-    set err ""
+    if {[winfo exists $w.content.loading]} { destroy $w.content.loading }
 
-    if {[catch {
-        set status [::http::status $token]
-        if {$status eq "ok"} {
-            set result [::http::data $token]
-            set ok 1
-        } else {
-            set err "HTTP status: $status"
-        }
-        ::http::cleanup $token
-    } cleanupErr]} {
-        set err "HTTP error: $cleanupErr"
-    }
-
-    destroy $w.content.loading
-
-    if {!$ok} {
-        ::lichess_eval::showError $w "Failed to query Lichess cloud eval: $err"
-        return
-    }
-
-    if {[string match "*error*" $result] && ![regexp {"pvs"} $result]} {
+    if {[string match "*error*" $data] && ![regexp {"pvs"} $data]} {
         ::lichess_eval::showError $w "Position not found in Lichess cloud eval database.\n\nThis position may not have been analyzed by Lichess users yet."
         return
     }
 
-    ::lichess_eval::displayResult $w $result $requestedFen
+    ::lichess_eval::displayResult $w $data $requestedFen
 }
 
 # ::lichess_eval::displayResult
@@ -493,9 +503,16 @@ proc ::lichess_eval::handleClick {w x y} {
 #
 proc ::lichess_eval::cleanupPvData {toplevel} {
     variable pvData
+    variable pendingFd
+    variable queryBuf
     foreach key [array names pvData "$toplevel.*"] {
         unset pvData($key)
     }
+    if {$pendingFd ne ""} {
+        catch { close $pendingFd }
+        set pendingFd ""
+    }
+    set queryBuf ""
 }
 
 # ::lichess_eval::showError
