@@ -501,11 +501,11 @@ proc ::lichess_eval::handleClick {w x y} {
 # ::lichess_eval::cleanupPvData
 #   Removes stored PV data for a toplevel window when it is destroyed.
 #
-proc ::lichess_eval::cleanupPvData {toplevel} {
+proc ::lichess_eval::cleanupPvData {textWidget} {
     variable pvData
     variable pendingFd
     variable queryBuf
-    foreach key [array names pvData "$toplevel.*"] {
+    foreach key [array names pvData "${textWidget},*"] {
         unset pvData($key)
     }
     if {$pendingFd ne ""} {
