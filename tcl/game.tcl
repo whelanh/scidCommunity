@@ -429,6 +429,7 @@ namespace eval ::notify {
     if {[winfo exists .twinchecker]} { updateTwinChecker }
     if {[winfo exists .bookWin]} { ::book::refresh }
     if {[winfo exists .bookTuningWin]} { ::book::refreshTuning }
+    if {[winfo exists .lichessEvalResult]} { ::lichess_eval::refresh }
     updateNoveltyWin
     ::updateTreeFilter
     ::epd::updateEpdWins

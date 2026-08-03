@@ -8,6 +8,8 @@
 namespace eval ::lichess_eval {
     variable apiUrl "https://lichess.org/api/cloud-eval"
     variable multiPv 5
+    variable pvData
+    array set pvData {}
 }
 
 # ::lichess_eval::formatScore
@@ -84,12 +86,45 @@ proc ::lichess_eval::formatLine {fen sanMoves} {
     return [string trim $result]
 }
 
+# ::lichess_eval::queryCloudEval
+#   Queries the Lichess cloud eval API and returns {ok result err fen}.
+#   Used by both lookupPosition (new window) and refresh (existing window).
+#
+proc ::lichess_eval::queryCloudEval {fen variant} {
+    set urlFen [string map {" " "%20"} $fen]
+    set url "$::lichess_eval::apiUrl?fen=$urlFen&multiPv=$::lichess_eval::multiPv&variant=$variant"
+
+    set result ""
+    set err ""
+    set ok 0
+
+    set cmd [list curl -s --max-time 10 -H "Accept: */*" $url]
+    if {![catch {exec {*}$cmd} result]} {
+        set ok 1
+    } else {
+        set err $result
+        if {![catch {package require http}]} {
+            catch {package require tls}
+            catch {::http::register https 443 ::tls::socket}
+            set token ""
+            if {![catch {set token [::http::geturl $url -timeout 10000]} httpErr]} {
+                set result [::http::data $token]
+                ::http::cleanup $token
+                set ok 1
+            } else {
+                set err $httpErr
+            }
+        }
+    }
+
+    return [list $ok $result $err $fen]
+}
+
 # ::lichess_eval::lookupPosition
 #   Queries the Lichess cloud eval API for the current position
 #   and displays the results in a popup window.
 #
 proc ::lichess_eval::lookupPosition {} {
-    # Get the current FEN and variant
     set fen [sc_pos fen]
     set gameVariant [sc_game variant]
     if {$gameVariant eq "chess960"} {
@@ -97,12 +132,6 @@ proc ::lichess_eval::lookupPosition {} {
     } else {
         set variant "standard"
     }
-
-    # URL-encode the FEN
-    set urlFen [string map {" " "%20"} $fen]
-
-    # Construct the API URL
-    set url "$::lichess_eval::apiUrl?fen=$urlFen&multiPv=$::lichess_eval::multiPv&variant=$variant"
 
     # Create or reset the popup window
     set w .lichessEvalResult
@@ -122,30 +151,7 @@ proc ::lichess_eval::lookupPosition {} {
 
     update idletasks
 
-    # Make the HTTP request using curl
-    set result ""
-    set err ""
-    set ok 0
-
-    set cmd [list curl -s --max-time 10 -H "Accept: */*" $url]
-    if {![catch {exec {*}$cmd} result]} {
-        set ok 1
-    } else {
-        set err $result
-        # Fallback: Tcl http
-        if {![catch {package require http}]} {
-            catch {package require tls}
-            catch {::http::register https 443 ::tls::socket}
-            set token ""
-            if {![catch {set token [::http::geturl $url -timeout 10000]} httpErr]} {
-                set result [::http::data $token]
-                ::http::cleanup $token
-                set ok 1
-            } else {
-                set err $httpErr
-            }
-        }
-    }
+    lassign [::lichess_eval::queryCloudEval $fen $variant] ok result err fen
 
     destroy $w.content.loading
 
@@ -154,13 +160,11 @@ proc ::lichess_eval::lookupPosition {} {
         return
     }
 
-    # Check for error responses
     if {[string match "*error*" $result] && ![regexp {"pvs"} $result]} {
         ::lichess_eval::showError $w "Position not found in Lichess cloud eval database.\n\nThis position may not have been analyzed by Lichess users yet."
         return
     }
 
-    # Parse and display
     ::lichess_eval::displayResult $w $result $fen
 
     # Center the window
@@ -172,6 +176,49 @@ proc ::lichess_eval::lookupPosition {} {
     set x [expr {([winfo screenwidth $w] - $winWidth) / 2}]
     set y [expr {([winfo screenheight $w] - $winHeight) / 2}]
     wm geometry $w "+$x+$y"
+}
+
+# ::lichess_eval::refresh
+#   Called automatically when the board position changes while the
+#   Lichess Eval window is open. Re-queries Lichess and updates the display.
+#
+proc ::lichess_eval::refresh {} {
+    set w .lichessEvalResult
+    if {![winfo exists $w]} { return }
+
+    # Clear existing display
+    if {[winfo exists $w.result]} { destroy $w.result }
+    if {[winfo exists $w.error]} { destroy $w.error }
+    if {[winfo exists $w.content.loading]} { destroy $w.content.loading }
+
+    # Get current position
+    set fen [sc_pos fen]
+    set gameVariant [sc_game variant]
+    if {$gameVariant eq "chess960"} {
+        set variant "chess960"
+    } else {
+        set variant "standard"
+    }
+
+    ttk::label $w.content.loading -text "Querying Lichess cloud eval..." -font font_Bold
+    pack $w.content.loading -pady 10
+    update idletasks
+
+    lassign [::lichess_eval::queryCloudEval $fen $variant] ok result err fen
+
+    destroy $w.content.loading
+
+    if {!$ok} {
+        ::lichess_eval::showError $w "Failed to query Lichess cloud eval: $err"
+        return
+    }
+
+    if {[string match "*error*" $result] && ![regexp {"pvs"} $result]} {
+        ::lichess_eval::showError $w "Position not found in Lichess cloud eval database.\n\nThis position may not have been analyzed by Lichess users yet."
+        return
+    }
+
+    ::lichess_eval::displayResult $w $result $fen
 }
 
 # ::lichess_eval::displayResult
@@ -238,7 +285,8 @@ proc ::lichess_eval::displayResult {w jsonData fen} {
 
     # Create a text widget for the PV lines
     text $w.result.lines -height 16 -width 70 -wrap word -relief solid \
-        -borderwidth 1 -font font_Regular -spacing1 4 -spacing3 4
+        -borderwidth 1 -font font_Regular -spacing1 4 -spacing3 4 \
+        -cursor hand2
     $w.result.lines tag configure pvnum -font font_Bold
     $w.result.lines tag configure score -font font_Bold -foreground "blue"
     $w.result.lines tag configure moves -font font_Regular
@@ -247,6 +295,9 @@ proc ::lichess_eval::displayResult {w jsonData fen} {
     set lineNum 1
     foreach pv $pvs {
         lassign $pv uciMoves cp mate
+
+        # Store UCI moves for click handling
+        set ::lichess_eval::pvData($w.result.lines,$lineNum) $uciMoves
 
         # Format the score
         set scoreArgs {}
@@ -260,6 +311,9 @@ proc ::lichess_eval::displayResult {w jsonData fen} {
         # Format with move numbers
         set numberedMoves [::lichess_eval::formatLine $fen $sanMoves]
 
+        # Track start position before inserting this PV block
+        set blockStart [$w.result.lines index end]
+
         # Insert into text widget
         $w.result.lines insert end "Line $lineNum" pvnum
         $w.result.lines insert end "  " {}
@@ -267,8 +321,13 @@ proc ::lichess_eval::displayResult {w jsonData fen} {
         $w.result.lines insert end "\n" {}
         $w.result.lines insert end "  $numberedMoves\n\n" moves
 
+        # Tag the entire PV block for click detection
+        $w.result.lines tag add pvline$lineNum $blockStart "end-2c"
+
         incr lineNum
     }
+
+    bind $w.result.lines <ButtonRelease-1> {::lichess_eval::handleClick %W %x %y}
 
     $w.result.lines configure -state disabled
 
@@ -281,6 +340,40 @@ proc ::lichess_eval::displayResult {w jsonData fen} {
     bind $w <Escape> "destroy $w"
     bind $w <Return> "destroy $w"
     focus $w.buttons.close
+
+    bind $w <Destroy> [list ::lichess_eval::cleanupPvData $w.result.lines]
+}
+
+# ::lichess_eval::handleClick
+#   Called when the user clicks on a PV line in the results window.
+#   Plays the first move of the clicked line on the board.
+#
+proc ::lichess_eval::handleClick {w x y} {
+    variable pvData
+    set clickedIndex [$w index @$x,$y]
+    set tags [$w tag names $clickedIndex]
+
+    foreach tag $tags {
+        if {[regexp {^pvline(\d+)$} $tag -> lineNum]} {
+            if {![info exists pvData($w,$lineNum)]} { return }
+            set uciMoves $pvData($w,$lineNum)
+            set firstMove [lindex [split $uciMoves " "] 0]
+            if {$firstMove eq ""} { return }
+
+            addMoveUCI $firstMove
+            return
+        }
+    }
+}
+
+# ::lichess_eval::cleanupPvData
+#   Removes stored PV data for a toplevel window when it is destroyed.
+#
+proc ::lichess_eval::cleanupPvData {toplevel} {
+    variable pvData
+    foreach key [array names pvData "$toplevel.*"] {
+        unset pvData($key)
+    }
 }
 
 # ::lichess_eval::showError
