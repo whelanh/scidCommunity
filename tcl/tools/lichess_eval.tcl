@@ -273,16 +273,21 @@ proc ::lichess_eval::queryCloudEvalAsync {fen variant} {
     set urlFen [string map {" " "%20"} $fen]
     set url "$::lichess_eval::apiUrl?fen=$urlFen&multiPv=$::lichess_eval::multiPv&variant=$variant"
 
-    if {[catch {
-        set fd [open [list | curl -s --max-time 10 -H {Accept: */*} $url] r]
-        fconfigure $fd -blocking 0 -buffering full
-        variable pendingFd
-        variable queryBuf
-        set pendingFd $fd
-        set queryBuf ""
-        fileevent $fd readable [list ::lichess_eval::onAsyncData_ $fd $fen]
-    } err]} {
-        ::lichess_eval::handleAsyncResponse $fen "" "curl not available: $err"
+if {[catch {
+    set fd [open [list | curl -s --max-time 10 -H {Accept: */*} $url] r]
+    fconfigure $fd -blocking 0 -buffering full
+    variable pendingFd
+    variable queryBuf
+    set pendingFd $fd
+    set queryBuf ""
+    fileevent $fd readable [list ::lichess_eval::onAsyncData_ $fd $fen]
+} err]} {
+    # Fallback to the synchronous implementation (which already falls back to Tcl http)
+    lassign [::lichess_eval::queryCloudEval $fen $variant] ok result err2 dummyFen
+    if {$ok} {
+        ::lichess_eval::handleAsyncResponse $fen $result
+    } else {
+        ::lichess_eval::handleAsyncResponse $fen "" "Failed to query Lichess cloud eval: $err2"
     }
 }
 
