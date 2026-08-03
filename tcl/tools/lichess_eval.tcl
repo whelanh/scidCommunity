@@ -10,6 +10,9 @@ namespace eval ::lichess_eval {
     variable multiPv 5
     variable pvData
     array set pvData {}
+    variable lastFen ""
+    variable latestFen ""
+    variable refreshPending ""
 }
 
 # ::lichess_eval::formatScore
@@ -137,6 +140,14 @@ proc ::lichess_eval::lookupPosition {} {
     set w .lichessEvalResult
     if {[winfo exists $w]} { destroy $w }
 
+    # Reset tracking variables for the new window
+    set ::lichess_eval::lastFen ""
+    set ::lichess_eval::latestFen ""
+    if {$::lichess_eval::refreshPending ne ""} {
+        after cancel $::lichess_eval::refreshPending
+        set ::lichess_eval::refreshPending ""
+    }
+
     toplevel $w
     wm title $w "Lichess Cloud Eval"
     wm resizable $w 1 1
@@ -167,6 +178,10 @@ proc ::lichess_eval::lookupPosition {} {
 
     ::lichess_eval::displayResult $w $result $fen
 
+    # Track the FEN we just displayed so refresh can detect changes
+    set ::lichess_eval::lastFen $fen
+    set ::lichess_eval::latestFen $fen
+
     # Center the window
     update idletasks
     set winWidth [winfo width $w]
@@ -181,18 +196,48 @@ proc ::lichess_eval::lookupPosition {} {
 # ::lichess_eval::refresh
 #   Called automatically when the board position changes while the
 #   Lichess Eval window is open. Re-queries Lichess and updates the display.
+#   This is debounced and async to avoid blocking the UI.
 #
 proc ::lichess_eval::refresh {} {
     set w .lichessEvalResult
     if {![winfo exists $w]} { return }
+
+    # Get current position
+    set fen [sc_pos fen]
+
+    # Skip if FEN hasn't changed (e.g., pgnonly updates)
+    if {$fen eq $::lichess_eval::lastFen} {
+        return
+    }
+
+    # Update the latest FEN we want to display
+    set ::lichess_eval::latestFen $fen
+
+    # Cancel any pending refresh
+    if {$::lichess_eval::refreshPending ne ""} {
+        after cancel $::lichess_eval::refreshPending
+    }
+
+    # Schedule a debounced refresh after 300ms
+    set ::lichess_eval::refreshPending [after 300 ::lichess_eval::doRefresh]
+}
+
+# ::lichess_eval::doRefresh
+#   Internal helper that performs the actual async refresh.
+#   Called after debounce delay expires.
+#
+proc ::lichess_eval::doRefresh {} {
+    set w .lichessEvalResult
+    if {![winfo exists $w]} { return }
+
+    set fen $::lichess_eval::latestFen
+    set ::lichess_eval::refreshPending ""
 
     # Clear existing display
     if {[winfo exists $w.result]} { destroy $w.result }
     if {[winfo exists $w.error]} { destroy $w.error }
     if {[winfo exists $w.content.loading]} { destroy $w.content.loading }
 
-    # Get current position
-    set fen [sc_pos fen]
     set gameVariant [sc_game variant]
     if {$gameVariant eq "chess960"} {
         set variant "chess960"
@@ -202,9 +247,86 @@ proc ::lichess_eval::refresh {} {
 
     ttk::label $w.content.loading -text "Querying Lichess cloud eval..." -font font_Bold
     pack $w.content.loading -pady 10
-    update idletasks
 
-    lassign [::lichess_eval::queryCloudEval $fen $variant] ok result err fen
+    # Start async query
+    ::lichess_eval::queryCloudEvalAsync $fen $variant
+}
+
+# ::lichess_eval::queryCloudEvalAsync
+#   Asynchronously queries the Lichess cloud eval API.
+#   Calls handleAsyncResponse when complete.
+#
+proc ::lichess_eval::queryCloudEvalAsync {fen variant} {
+    set urlFen [string map {" " "%20"} $fen]
+    set url "$::lichess_eval::apiUrl?fen=$urlFen&multiPv=$::lichess_eval::multiPv&variant=$variant"
+
+    # Ensure http and tls packages are available
+    if {[catch {package require http}]} {
+        ::lichess_eval::handleAsyncResponse $fen 0 "" "HTTP package not available"
+        return
+    }
+    catch {package require tls}
+    catch {::http::register https 443 ::tls::socket}
+
+    # Start async HTTP request
+    if {[catch {
+        ::http::geturl $url -timeout 10000 -command [list ::lichess_eval::handleAsyncResponse $fen]
+    } err]} {
+        ::lichess_eval::handleAsyncResponse $fen 0 "" "HTTP request failed: $err"
+    }
+}
+
+# ::lichess_eval::handleAsyncResponse
+#   Callback for async HTTP response.
+#   Only updates display if FEN still matches latest request and window exists.
+#
+proc ::lichess_eval::handleAsyncResponse {requestedFen token {errMsg ""}} {
+    set w .lichessEvalResult
+
+    # Only process if window still exists
+    if {![winfo exists $w]} {
+        if {$token ne "0"} {
+            catch {::http::cleanup $token}
+        }
+        return
+    }
+
+    # Discard stale responses - only process if this FEN is still the latest
+    if {$requestedFen ne $::lichess_eval::latestFen} {
+        if {$token ne "0"} {
+            catch {::http::cleanup $token}
+        }
+        destroy $w.content.loading
+        return
+    }
+
+    # Update lastFen to track what we've displayed
+    set ::lichess_eval::lastFen $requestedFen
+
+    # Handle error case (token is "0" for errors)
+    if {$token eq "0"} {
+        destroy $w.content.loading
+        ::lichess_eval::showError $w "Failed to query Lichess cloud eval: $errMsg"
+        return
+    }
+
+    # Extract response
+    set ok 0
+    set result ""
+    set err ""
+
+    if {[catch {
+        set status [::http::status $token]
+        if {$status eq "ok"} {
+            set result [::http::data $token]
+            set ok 1
+        } else {
+            set err "HTTP status: $status"
+        }
+        ::http::cleanup $token
+    } cleanupErr]} {
+        set err "HTTP error: $cleanupErr"
+    }
 
     destroy $w.content.loading
 
@@ -218,7 +340,7 @@ proc ::lichess_eval::refresh {} {
         return
     }
 
-    ::lichess_eval::displayResult $w $result $fen
+    ::lichess_eval::displayResult $w $result $requestedFen
 }
 
 # ::lichess_eval::displayResult
