@@ -270,7 +270,7 @@ proc ::lichess_eval::doRefresh {} {
 #   non-blocking pipe. Calls handleAsyncResponse when complete.
 #
 proc ::lichess_eval::queryCloudEvalAsync {fen variant} {
-    set urlFen [string map {" " "%20"} $fen]
+    set urlFen [string map {" " "%20" "/" "%2F" "+" "%2B" "?" "%3F" "&" "%26" "=" "%3D" "#" "%23" "%" "%25"} $fen]
     set url "$::lichess_eval::apiUrl?fen=$urlFen&multiPv=$::lichess_eval::multiPv&variant=$variant"
 
 if {[catch {
