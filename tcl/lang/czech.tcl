@@ -1923,7 +1923,7 @@ translate C LSSYourMessage {Vaše zpráva}
 translate C LSSGameID {Hra}
 translate C LSSOpponent {Oponent}
 translate C LSSTime {Čas}
-translate C LSSWhiteElo {Dobrý den}
+translate C LSSWhiteElo {WElo}
 translate C LSSBlackElo {BElo}
 translate C LSSEvent {Událost}
 translate C LSSLastMove {Poslední pohyb}
