@@ -727,9 +727,7 @@ proc ::lss::dictGetDefault {d key default} {
 # ::lss::normalizeMove - Strip disambiguation from SAN for comparison
 #
 proc ::lss::normalizeMove {move} {
-  if {[regexp {^[NBRQK][a-h]?[1-8]?x?[a-h][1-8]} $move]} {
-    regsub {^([NBRQK])[a-h]?[1-8]?} $move {\1} move
-  }
+  # Keep SAN disambiguation intact; different disambiguations can represent different legal moves.
   return $move
 }
 
