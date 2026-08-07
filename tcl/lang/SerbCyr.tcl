@@ -1957,7 +1957,10 @@ translate J LSSUpdating {Преузимање игара са ЛСС серве�
 translate J LSSGamesUpdated {Игре: %s додато, %с потези ажурирани, %с ажурирани}
 translate J LSSSendingMoves {Слање селидбе на ЛСС сервер...}
 translate J LSSMovesSent {Покрети послати: %s успешно, %с неуспешно}
-translate J LSSNeedUpdate {Прво притисните „Ажурирај игре“ да преузмете тренутне податке игре са сервера.}
+translate J LSSNoGamesFound {Нема пронађених игара.}
+translate J LSSFilterError {Грешка филтера.}
+translate J LSSConnectionFailed {Повезивање са ЛСС сервером није успело. Проверите своју мрежу.}
+translate J LSSAuthFailed {Аутентификација није успела. Проверите своје корисничко име и лозинку.}
 translate J LSSNoDatabase {Тренутно није отворена ниједна база података. Прво отворите базу података.}
 translate J LSSGameNumber {ЛСС}
 translate J LSSMyTime {Моје време}

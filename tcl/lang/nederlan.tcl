@@ -1963,7 +1963,10 @@ translate N LSSUpdating {Games ophalen van de LSS-server...}
 translate N LSSGamesUpdated {Spellen: %s toegevoegd, %s zetten bijgewerkt, %s up-to-date}
 translate N LSSSendingMoves {Verplaatsen naar de LSS-server verzenden...}
 translate N LSSMovesSent {Verzonden bewegingen: %s succesvol, %s mislukt}
-translate N LSSNeedUpdate {Druk eerst op "Games bijwerken" om de huidige spelgegevens van de server op te halen.}
+translate N LSSNoGamesFound {Geen spellen gevonden.}
+translate N LSSFilterError {Filterfout.}
+translate N LSSConnectionFailed {Kan geen verbinding maken met de LSS-server. Controleer uw netwerk.}
+translate N LSSAuthFailed {Authenticatie mislukt. Controleer uw gebruikersnaam en wachtwoord.}
 translate N LSSNoDatabase {Er is momenteel geen database geopend. Open eerst een database.}
 translate N LSSGameNumber {LSS}
 translate N LSSMyTime {Mijn tijd}

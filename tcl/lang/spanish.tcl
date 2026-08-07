@@ -1991,7 +1991,10 @@ translate S LSSUpdating {Obteniendo juegos del servidor LSS...}
 translate S LSSGamesUpdated {Juegos: %s agregados, %s movimientos actualizados, %s actualizados}
 translate S LSSSendingMoves {Enviando movimientos al servidor LSS...}
 translate S LSSMovesSent {Movimientos enviados: %s exitosos, %s fallidos}
-translate S LSSNeedUpdate {Primero presione "Actualizar juegos" para obtener los datos del juego actual del servidor.}
+translate S LSSNoGamesFound {No se encontraron juegos.}
+translate S LSSFilterError {Error de filtro.}
+translate S LSSConnectionFailed {No se pudo conectar al servidor LSS. Comprueba tu red.}
+translate S LSSAuthFailed {La autenticación falló. Verifique su nombre de usuario y contraseña.}
 translate S LSSNoDatabase {Actualmente no hay ninguna base de datos abierta. Primero abra una base de datos.}
 translate S LSSGameNumber {LSS}
 translate S LSSMyTime {mi tiempo}

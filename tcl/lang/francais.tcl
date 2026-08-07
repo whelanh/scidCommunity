@@ -1944,7 +1944,10 @@ translate F LSSUpdating {Récupération de jeux depuis le serveur LSS...}
 translate F LSSGamesUpdated {Jeux : %s ajoutés, %s mouvements mis à jour, %s à jour}
 translate F LSSSendingMoves {Envoi des mouvements au serveur LSS...}
 translate F LSSMovesSent {Déplacements envoyés : %s réussis, %s échoués}
-translate F LSSNeedUpdate {Veuillez d'abord appuyer sur « Mettre à jour les jeux » pour récupérer les données de jeu actuelles sur le serveur.}
+translate F LSSNoGamesFound {Aucun jeu trouvé.}
+translate F LSSFilterError {Erreur de filtre.}
+translate F LSSConnectionFailed {Échec de la connexion au serveur LSS. Vérifiez votre réseau.}
+translate F LSSAuthFailed {L'authentification a échoué. Vérifiez votre nom d'utilisateur et votre mot de passe.}
 translate F LSSNoDatabase {Aucune base de données n'est actuellement ouverte. Veuillez d'abord ouvrir une base de données.}
 translate F LSSGameNumber {LSS}
 translate F LSSMyTime {Mon temps}

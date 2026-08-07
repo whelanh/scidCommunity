@@ -1940,7 +1940,10 @@ translate R LSSUpdating {Загрузка игр с сервера LSS...}
 translate R LSSGamesUpdated {Игры: добавлено %s, обновлено ходов %s, обновлено %s}
 translate R LSSSendingMoves {Отправка ходов на сервер LSS...}
 translate R LSSMovesSent {Ходы отправлены: %s успешно, %s не удалось.}
-translate R LSSNeedUpdate {Пожалуйста, сначала нажмите «Обновить игры», чтобы получить текущие игровые данные с сервера.}
+translate R LSSNoGamesFound {Игры не найдены.}
+translate R LSSFilterError {Ошибка фильтра.}
+translate R LSSConnectionFailed {Не удалось подключиться к серверу LSS. Проверьте свою сеть.}
+translate R LSSAuthFailed {Аутентификация не удалась. Проверьте свое имя пользователя и пароль.}
 translate R LSSNoDatabase {Ни одна база данных в настоящее время не открыта. Пожалуйста, сначала откройте базу данных.}
 translate R LSSGameNumber {СЖО}
 translate R LSSMyTime {Мое время}

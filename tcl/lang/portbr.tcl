@@ -1946,7 +1946,10 @@ translate B LSSUpdating {Buscando jogos do servidor LSS...}
 translate B LSSGamesUpdated {Jogos: %s adicionados, %s movimentos atualizados, %s atualizados}
 translate B LSSSendingMoves {Enviando movimentos para o servidor LSS...}
 translate B LSSMovesSent {Movimentos enviados: %s bem sucedidos, %s falhados}
-translate B LSSNeedUpdate {Por favor, pressione "Atualizar Jogos" primeiro para buscar os dados atuais do jogo no servidor.}
+translate B LSSNoGamesFound {Nenhum jogo encontrado.}
+translate B LSSFilterError {Erro de filtro.}
+translate B LSSConnectionFailed {Falha ao conectar ao servidor LSS. Verifique sua rede.}
+translate B LSSAuthFailed {Falha na autenticação. Verifique seu nome de usuário e senha.}
 translate B LSSNoDatabase {Nenhum banco de dados está aberto no momento. Por favor, abra um banco de dados primeiro.}
 translate B LSSGameNumber {LSS}
 translate B LSSMyTime {Meu tempo}

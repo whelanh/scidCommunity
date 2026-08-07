@@ -1939,7 +1939,10 @@ translate H LSSUpdating {Játékok letöltése az LSS szerverről...}
 translate H LSSGamesUpdated {Játékok: %s hozzáadva, %s lépés frissítve, %s naprakész}
 translate H LSSSendingMoves {Költözések küldése az LSS szerverre...}
 translate H LSSMovesSent {Elküldve: %s sikeres, %s sikertelen}
-translate H LSSNeedUpdate {Kérjük, először nyomja meg a "Játékok frissítése" gombot az aktuális játékadatok letöltéséhez a szerverről.}
+translate H LSSNoGamesFound {Nem található játék.}
+translate H LSSFilterError {Szűrő hiba.}
+translate H LSSConnectionFailed {Nem sikerült csatlakozni az LSS-kiszolgálóhoz. Ellenőrizze a hálózatot.}
+translate H LSSAuthFailed {A hitelesítés nem sikerült. Ellenőrizze felhasználónevét és jelszavát.}
 translate H LSSNoDatabase {Jelenleg nincs megnyitva adatbázis. Először nyisson meg egy adatbázist.}
 translate H LSSGameNumber {LSS}
 translate H LSSMyTime {Az én időm}

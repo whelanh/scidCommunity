@@ -1960,7 +1960,10 @@ translate K LSSUpdating {S'estan obtenint jocs del servidor LSS...}
 translate K LSSGamesUpdated {Jocs: %s afegit, %s moviments actualitzats, %s actualitzat}
 translate K LSSSendingMoves {S'estan enviant moviments al servidor LSS...}
 translate K LSSMovesSent {Moviments enviats: %s amb èxit, %s fallat}
-translate K LSSNeedUpdate {Premeu "Actualitza jocs" primer per obtenir les dades actuals del joc del servidor.}
+translate K LSSNoGamesFound {No s'han trobat jocs.}
+translate K LSSFilterError {Error de filtre.}
+translate K LSSConnectionFailed {No s'ha pogut connectar al servidor LSS. Comproveu la vostra xarxa.}
+translate K LSSAuthFailed {L'autenticació ha fallat. Comproveu el vostre nom d'usuari i contrasenya.}
 translate K LSSNoDatabase {No hi ha cap base de dades oberta actualment. Obriu primer una base de dades.}
 translate K LSSGameNumber {LSS}
 translate K LSSMyTime {El meu temps}

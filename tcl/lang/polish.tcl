@@ -1868,7 +1868,10 @@ translate P LSSUpdating {Pobieranie gier z serwera LSS...}
 translate P LSSGamesUpdated {Gry: dodano %s, zaktualizowano ruchy %s, zaktualizowano %s}
 translate P LSSSendingMoves {Wysyłanie ruchów na serwer LSS...}
 translate P LSSMovesSent {Wysłano ruchy: %s pomyślne, %s nie powiodło się}
-translate P LSSNeedUpdate {Najpierw naciśnij „Aktualizuj gry”, aby pobrać aktualne dane gry z serwera.}
+translate P LSSNoGamesFound {Nie znaleziono żadnych gier.}
+translate P LSSFilterError {Błąd filtra.}
+translate P LSSConnectionFailed {Nie udało się połączyć z serwerem LSS. Sprawdź swoją sieć.}
+translate P LSSAuthFailed {Uwierzytelnienie nie powiodło się. Sprawdź swoją nazwę użytkownika i hasło.}
 translate P LSSNoDatabase {Żadna baza danych nie jest obecnie otwarta. Najpierw otwórz bazę danych.}
 translate P LSSGameNumber {LSS}
 translate P LSSMyTime {Mój czas}

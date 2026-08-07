@@ -1965,7 +1965,10 @@ translate G LSSUpdating {Λήψη παιχνιδιών από διακομιστ
 translate G LSSGamesUpdated {Παιχνίδια: %s προστέθηκε, %s μετακινήσεις ενημερώθηκαν, %s ενημερώθηκε}
 translate G LSSSendingMoves {Αποστολή κινήσεων στον διακομιστή LSS...}
 translate G LSSMovesSent {Στάλθηκαν κινήσεις: %s επιτυχής, %s απέτυχε}
-translate G LSSNeedUpdate {Πατήστε "Ενημέρωση παιχνιδιών" πρώτα για να λάβετε τρέχοντα δεδομένα παιχνιδιού από τον διακομιστή.}
+translate G LSSNoGamesFound {Δεν βρέθηκαν παιχνίδια.}
+translate G LSSFilterError {Σφάλμα φίλτρου.}
+translate G LSSConnectionFailed {Αποτυχία σύνδεσης με διακομιστή LSS. Ελέγξτε το δίκτυό σας.}
+translate G LSSAuthFailed {Ο έλεγχος ταυτότητας απέτυχε. Ελέγξτε το όνομα χρήστη και τον κωδικό πρόσβασής σας.}
 translate G LSSNoDatabase {Καμία βάση δεδομένων δεν είναι ανοιχτή αυτήν τη στιγμή. Ανοίξτε πρώτα μια βάση δεδομένων.}
 translate G LSSGameNumber {LSS}
 translate G LSSMyTime {Ο χρόνος μου}

@@ -1892,7 +1892,10 @@ translate M LSSUpdating {正在从 LSS 服务器获取游戏...}
 translate M LSSGamesUpdated {游戏：%s 已添加，%s 步已更新，%s 为最新}
 translate M LSSSendingMoves {正在将动作发送到 LSS 服务器...}
 translate M LSSMovesSent {已发送移动：%s 成功，%s 失败}
-translate M LSSNeedUpdate {请先按“更新游戏”从服务器获取当前游戏数据。}
+translate M LSSNoGamesFound {没有找到游戏。}
+translate M LSSFilterError {过滤器错误。}
+translate M LSSConnectionFailed {无法连接到 LSS 服务器。检查您的网络。}
+translate M LSSAuthFailed {认证失败。检查您的用户名和密码。}
 translate M LSSNoDatabase {当前没有打开数据库。请先打开一个数据库。}
 translate M LSSGameNumber {LSS}
 translate M LSSMyTime {我的时间}

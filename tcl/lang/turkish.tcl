@@ -1920,7 +1920,10 @@ translate T LSSUpdating {LSS sunucusundan oyunlar getiriliyor...}
 translate T LSSGamesUpdated {Oyunlar: %s eklendi, %s hamle güncellendi, %s güncel}
 translate T LSSSendingMoves {Hareketler LSS sunucusuna gönderiliyor...}
 translate T LSSMovesSent {Gönderilen hamleler: %s başarılı, %s başarısız}
-translate T LSSNeedUpdate {Sunucudan güncel oyun verilerini almak için lütfen önce "Oyunları Güncelle"ye basın.}
+translate T LSSNoGamesFound {Oyun bulunamadı.}
+translate T LSSFilterError {Filtre hatası.}
+translate T LSSConnectionFailed {LSS sunucusuna bağlanılamadı. Ağınızı kontrol edin.}
+translate T LSSAuthFailed {Kimlik doğrulama başarısız oldu. Kullanıcı adınızı ve şifrenizi kontrol edin.}
 translate T LSSNoDatabase {Şu anda hiçbir veritabanı açık değil. Lütfen önce bir veritabanı açın.}
 translate T LSSGameNumber {LSS}
 translate T LSSMyTime {Benim Zamanım}

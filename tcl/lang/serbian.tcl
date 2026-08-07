@@ -3280,6 +3280,14 @@ translate Y LSSSendingMoves {Sending moves to LSS server...}
 # ====== TODO To be translated ======
 translate Y LSSMovesSent {Moves sent: %s successful, %s failed}
 # ====== TODO To be translated ======
+translate Y LSSNoGamesFound {No games found.}
+# ====== TODO To be translated ======
+translate Y LSSFilterError {Filter error.}
+# ====== TODO To be translated ======
+translate Y LSSConnectionFailed {Failed to connect to LSS server. Check your network.}
+# ====== TODO To be translated ======
+translate Y LSSAuthFailed {Authentication failed. Check your username and password.}
+# ====== TODO To be translated ======
 translate Y LSSNeedUpdate {Please press "Update Games" first to fetch current game data from the server.}
 # ====== TODO To be translated ======
 translate Y LSSNoDatabase {No database is currently open. Please open a database first.}

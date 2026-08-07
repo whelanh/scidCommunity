@@ -1938,7 +1938,10 @@ translate O LSSUpdating {Henter spill fra LSS-server...}
 translate O LSSGamesUpdated {Spill: %s lagt til, %s trekk oppdatert, %s oppdatert}
 translate O LSSSendingMoves {Sender trekk til LSS-server...}
 translate O LSSMovesSent {Flytt sendt: %s vellykket, %s mislyktes}
-translate O LSSNeedUpdate {Vennligst trykk "Oppdater spill" først for å hente gjeldende spilldata fra serveren.}
+translate O LSSNoGamesFound {Ingen spill funnet.}
+translate O LSSFilterError {Filterfeil.}
+translate O LSSConnectionFailed {Kunne ikke koble til LSS-serveren. Sjekk nettverket ditt.}
+translate O LSSAuthFailed {Autentisering mislyktes. Sjekk brukernavnet og passordet ditt.}
 translate O LSSNoDatabase {Ingen database er åpen for øyeblikket. Vennligst åpne en database først.}
 translate O LSSGameNumber {LSS}
 translate O LSSMyTime {Min tid}

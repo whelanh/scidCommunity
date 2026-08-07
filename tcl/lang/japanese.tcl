@@ -1957,7 +1957,10 @@ translate A LSSUpdating {LSS サーバーからゲームを取得しています
 translate A LSSGamesUpdated {ゲーム: %s が追加されました、%s の移動が更新されました、%s は最新です}
 translate A LSSSendingMoves {LSS サーバーにムーブを送信しています...}
 translate A LSSMovesSent {送信された移動: %s は成功しました、%s は失敗しました}
-translate A LSSNeedUpdate {まず「ゲームの更新」を押して、サーバーから現在のゲームデータを取得してください。}
+translate A LSSNoGamesFound {ゲームが見つかりませんでした。}
+translate A LSSFilterError {フィルターエラー。}
+translate A LSSConnectionFailed {LSSサーバーへの接続に失敗しました。ネットワークを確認してください。}
+translate A LSSAuthFailed {認証に失敗しました。ユーザー名とパスワードを確認してください。}
 translate A LSSNoDatabase {現在開いているデータベースはありません。まずデータベースを開いてください。}
 translate A LSSGameNumber {LSS}
 translate A LSSMyTime {私の時間}

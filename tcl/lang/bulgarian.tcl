@@ -1957,7 +1957,10 @@ translate g LSSUpdating {Извличане на игри от LSS сървър.
 translate g LSSGamesUpdated {Игри: %s добавени, %s ходове актуализирани, %s актуални}
 translate g LSSSendingMoves {Изпращане на ходове към LSS сървър...}
 translate g LSSMovesSent {Изпратени ходове: %s успешни, %s неуспешни}
-translate g LSSNeedUpdate {Моля, първо натиснете „Актуализиране на игри“, за да изтеглите текущите данни за играта от сървъра.}
+translate g LSSNoGamesFound {Няма намерени игри.}
+translate g LSSFilterError {Грешка във филтъра.}
+translate g LSSConnectionFailed {Неуспешно свързване към LSS сървър. Проверете вашата мрежа.}
+translate g LSSAuthFailed {Неуспешно удостоверяване. Проверете вашето потребителско име и парола.}
 translate g LSSNoDatabase {В момента няма отворена база данни. Моля, първо отворете база данни.}
 translate g LSSGameNumber {LSS}
 translate g LSSMyTime {Моето време}

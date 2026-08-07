@@ -1916,7 +1916,10 @@ translate Z LSSUpdating {Inaleta michezo kutoka kwa seva ya LSS...}
 translate Z LSSGamesUpdated {Michezo: %s imeongezwa, %s hatua zimesasishwa, %s zimesasishwa}
 translate Z LSSSendingMoves {Inatuma hoja kwa seva ya LSS...}
 translate Z LSSMovesSent {Uhamishaji umetumwa: %s imefaulu, %s imeshindwa}
-translate Z LSSNeedUpdate {Tafadhali bonyeza "Sasisha Michezo" kwanza ili kuleta data ya sasa ya mchezo kutoka kwa seva.}
+translate Z LSSNoGamesFound {Hakuna michezo iliyopatikana.}
+translate Z LSSFilterError {Hitilafu ya kichujio.}
+translate Z LSSConnectionFailed {Imeshindwa kuunganisha kwenye seva ya LSS. Angalia mtandao wako.}
+translate Z LSSAuthFailed {Uthibitishaji umeshindwa. Angalia jina lako la mtumiaji na nenosiri.}
 translate Z LSSNoDatabase {Hakuna hifadhidata iliyofunguliwa kwa sasa. Tafadhali fungua hifadhidata kwanza.}
 translate Z LSSGameNumber {LSS}
 translate Z LSSMyTime {Wakati Wangu}

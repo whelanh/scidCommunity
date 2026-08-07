@@ -1938,7 +1938,10 @@ translate C LSSUpdating {Načítání her ze serveru LSS...}
 translate C LSSGamesUpdated {Hry: %s přidáno, %s tahů aktualizováno, %s aktuální}
 translate C LSSSendingMoves {Odesílání přesunů na server LSS...}
 translate C LSSMovesSent {Odeslané pohyby: %s úspěšné, %s se nezdařilo}
-translate C LSSNeedUpdate {Nejprve prosím stiskněte "Aktualizovat hry", abyste načetli aktuální herní data ze serveru.}
+translate C LSSNoGamesFound {Nebyly nalezeny žádné hry.}
+translate C LSSFilterError {Chyba filtru.}
+translate C LSSConnectionFailed {Připojení k serveru LSS se nezdařilo. Zkontrolujte svou síť.}
+translate C LSSAuthFailed {Ověření se nezdařilo. Zkontrolujte své uživatelské jméno a heslo.}
 translate C LSSNoDatabase {Momentálně není otevřena žádná databáze. Nejprve prosím otevřete databázi.}
 translate C LSSGameNumber {LSS}
 translate C LSSMyTime {Můj čas}

@@ -1988,7 +1988,10 @@ translate D LSSUpdating {Spiele vom LSS-Server abrufen...}
 translate D LSSGamesUpdated {Spiele: %s hinzugefügt, %s Bewegungen aktualisiert, %s auf dem neuesten Stand}
 translate D LSSSendingMoves {Bewegungen werden an den LSS-Server gesendet...}
 translate D LSSMovesSent {Gesendete Bewegungen: %s erfolgreich, %s fehlgeschlagen}
-translate D LSSNeedUpdate {Bitte klicken Sie zunächst auf „Spiele aktualisieren“, um aktuelle Spieldaten vom Server abzurufen.}
+translate D LSSNoGamesFound {Keine Spiele gefunden.}
+translate D LSSFilterError {Filterfehler.}
+translate D LSSConnectionFailed {Verbindung zum LSS-Server konnte nicht hergestellt werden. Überprüfen Sie Ihr Netzwerk.}
+translate D LSSAuthFailed {Authentifizierung fehlgeschlagen. Überprüfen Sie Ihren Benutzernamen und Ihr Passwort.}
 translate D LSSNoDatabase {Derzeit ist keine Datenbank geöffnet. Bitte öffnen Sie zunächst eine Datenbank.}
 translate D LSSGameNumber {LSS}
 translate D LSSMyTime {Meine Zeit}

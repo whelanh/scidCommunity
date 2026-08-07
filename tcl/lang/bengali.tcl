@@ -1916,7 +1916,10 @@ translate b LSSUpdating {LSS সার্ভার থেকে গেম আন
 translate b LSSGamesUpdated {গেম: %s যোগ করা হয়েছে, %s মুভ আপডেট করা হয়েছে, %s আপ টু ডেট}
 translate b LSSSendingMoves {LSS সার্ভারে সরানো হচ্ছে...}
 translate b LSSMovesSent {প্রেরণ করা হয়েছে: %s সফল, %s ব্যর্থ হয়েছে৷}
-translate b LSSNeedUpdate {সার্ভার থেকে বর্তমান গেম ডেটা আনতে প্রথমে "আপডেট গেমস" টিপুন৷}
+translate b LSSNoGamesFound {কোনো গেম পাওয়া যায়নি।}
+translate b LSSFilterError {ফিল্টার ত্রুটি।}
+translate b LSSConnectionFailed {LSS সার্ভারের সাথে সংযোগ করতে ব্যর্থ হয়েছে৷ আপনার নেটওয়ার্ক পরীক্ষা করুন.}
+translate b LSSAuthFailed {প্রমাণীকরণ ব্যর্থ হয়েছে৷ আপনার ব্যবহারকারীর নাম এবং পাসওয়ার্ড পরীক্ষা করুন.}
 translate b LSSNoDatabase {বর্তমানে কোনো ডাটাবেস খোলা নেই। প্রথমে একটি ডাটাবেস খুলুন.}
 translate b LSSGameNumber {এলএসএস}
 translate b LSSMyTime {আমার সময়}

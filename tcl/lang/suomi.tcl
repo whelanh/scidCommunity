@@ -1969,7 +1969,10 @@ translate U LSSUpdating {Haetaan pelejä LSS-palvelimelta...}
 translate U LSSGamesUpdated {Pelit: %s lisätty, %s siirtoa päivitetty, %s ajan tasalla}
 translate U LSSSendingMoves {Lähetetään siirtoja LSS-palvelimelle...}
 translate U LSSMovesSent {Siirrot lähetetty: %s onnistui, %s epäonnistui}
-translate U LSSNeedUpdate {Paina ensin "Päivitä pelit" hakeaksesi nykyiset pelitiedot palvelimelta.}
+translate U LSSNoGamesFound {Pelejä ei löytynyt.}
+translate U LSSFilterError {Suodatinvirhe.}
+translate U LSSConnectionFailed {Yhteyden muodostaminen LSS-palvelimeen epäonnistui. Tarkista verkkosi.}
+translate U LSSAuthFailed {Todennus epäonnistui. Tarkista käyttäjätunnuksesi ja salasanasi.}
 translate U LSSNoDatabase {Mikään tietokanta ei ole tällä hetkellä avoinna. Avaa ensin tietokanta.}
 translate U LSSGameNumber {LSS}
 translate U LSSMyTime {Minun Aikani}

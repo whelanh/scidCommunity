@@ -1957,7 +1957,10 @@ translate L LSSUpdating {Se preiau jocuri de pe serverul LSS...}
 translate L LSSGamesUpdated {Jocuri: %s adăugat, %s mișcări actualizate, %s actualizat}
 translate L LSSSendingMoves {Se trimite mișcări către serverul LSS...}
 translate L LSSMovesSent {Mișcări trimise: %s reușit, %s eșuat}
-translate L LSSNeedUpdate {Vă rugăm să apăsați mai întâi pe „Actualizare jocuri” pentru a prelua datele curente ale jocului de pe server.}
+translate L LSSNoGamesFound {Nu s-au găsit jocuri.}
+translate L LSSFilterError {Eroare de filtrare.}
+translate L LSSConnectionFailed {Nu s-a putut conecta la serverul LSS. Verificați-vă rețeaua.}
+translate L LSSAuthFailed {Autentificarea eșuată. Verificați-vă numele de utilizator și parola.}
 translate L LSSNoDatabase {Nicio bază de date nu este deschisă în prezent. Vă rugăm să deschideți mai întâi o bază de date.}
 translate L LSSGameNumber {LSS}
 translate L LSSMyTime {Timpul meu}
