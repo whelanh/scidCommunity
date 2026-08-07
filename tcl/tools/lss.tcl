@@ -151,12 +151,13 @@ proc ::lss::soapRequest {action soapBody {timeout 30000}} {
   set soapAction "$::lss::soapNS/$action"
   set timeoutSec [expr {$timeout / 1000}]
 
+  if {[catch {
     exec curl -s -S -m $timeoutSec \
       -H "Content-Type: text/xml; charset=utf-8" \
       -H "SOAPAction: $soapAction" \
       -H "User-Agent: scidCommunity-LSS/1.0" \
       --data-binary $soapEnvelope \
-      $::lss::server 2>@1
+      $::lss::server
   } result]} {
     return ""
   }
@@ -314,23 +315,24 @@ proc ::lss::createWindow {w} {
   set f1 $tab1.glist
   ttk::frame $f1
   set t1 $f1.tree
-  set cols {LSSGameID LSSOpponent LSSEvent LSSYourTime LSSOppTime LSSLastMove LSSYourMove LSSOfferDraw LSSResign LSSSent}
+  set cols {LSSGameID LSSOpponent LSSEvent LSSYourTime LSSOppTime LSSLastMove LSSDrawOffered LSSYourMove LSSOfferDraw LSSResign LSSSent}
   ttk::treeview $t1 -columns $cols -show headings -selectmode browse
   foreach {col text} {LSSGameID LSSGameID LSSOpponent LSSOpponent LSSEvent LSSEvent
     LSSYourTime LSSMyTime LSSOppTime LSSOppTime LSSLastMove LSSLastMove
-    LSSYourMove LSSYourMove LSSOfferDraw LSSOfferDraw LSSResign LSSResign LSSSent LSSSent} {
+    LSSDrawOffered LSSDrawOffered LSSYourMove LSSYourMove LSSOfferDraw LSSOfferDraw LSSResign LSSResign LSSSent LSSSent} {
     $t1 heading $col -text $::tr($text)
   }
-  $t1 column LSSGameID   -width 70  -stretch no
-  $t1 column LSSOpponent -width 135 -stretch no
-  $t1 column LSSEvent    -width 100  -stretch no
-  $t1 column LSSYourTime -width 80  -stretch no
-  $t1 column LSSOppTime  -width 80  -stretch no
-  $t1 column LSSLastMove -width 80  -stretch no
-  $t1 column LSSYourMove -width 85  -stretch no
-  $t1 column LSSOfferDraw -width 85 -stretch no
-  $t1 column LSSResign   -width 60 -stretch no
-  $t1 column LSSSent     -width 40  -stretch no
+  $t1 column LSSGameID   -width 55  -stretch no
+  $t1 column LSSOpponent -width 120 -stretch no
+  $t1 column LSSEvent    -width 85  -stretch no
+  $t1 column LSSYourTime -width 65  -stretch no
+  $t1 column LSSOppTime  -width 65  -stretch no
+  $t1 column LSSLastMove -width 75  -stretch no
+  $t1 column LSSDrawOffered -width 55 -stretch no
+  $t1 column LSSYourMove -width 35  -stretch no
+  $t1 column LSSOfferDraw -width 40 -stretch no
+  $t1 column LSSResign   -width 40 -stretch no
+  $t1 column LSSSent     -width 35  -stretch no
   set vsb1 [ttk::scrollbar $f1.vsb -orient vertical -command "$t1 yview"]
   $t1 configure -yscrollcommand "$vsb1 set"
   grid $t1 $vsb1 -sticky news
@@ -830,7 +832,9 @@ proc ::lss::buildGameRow {id extended} {
         }
       }
     }
+    set drawOffered [dictGetDefault $game drawOffered "false"]
     return [list $id $opponent $event $yourTime $oppTime $lastMove \
+      [expr {[string is true -strict $drawOffered] ? "\u2713" : ""}] \
       $yourMove \
       [expr {[info exists ::lss::drawOffers($id)] ? "\u2713" : ""}] \
       [expr {[info exists ::lss::resigns($id)] ? "\u2713" : ""}] \
@@ -914,7 +918,7 @@ proc ::lss::loadSelectedGame {w x y} {
 proc ::lss::onDrawClick {w x y} {
   if {[$w identify region $x $y] eq "heading"} { return }
   set colIdx [$w identify column $x $y]
-  set cols {LSSGameID LSSOpponent LSSEvent LSSYourTime LSSOppTime LSSLastMove LSSYourMove LSSOfferDraw LSSResign LSSSent}
+  set cols {LSSGameID LSSOpponent LSSEvent LSSYourTime LSSOppTime LSSLastMove LSSDrawOffered LSSYourMove LSSOfferDraw LSSResign LSSSent}
   set idx [string range $colIdx 1 end]
   if {![string is integer -strict $idx] || $idx < 1 || $idx > [llength $cols]} { return }
   set col [lindex $cols [expr {$idx - 1}]]

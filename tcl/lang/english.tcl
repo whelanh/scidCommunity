@@ -1979,5 +1979,6 @@ translate E LSSNoDatabase {No database is currently open. Please open a database
 translate E LSSGameNumber {LSS}
 translate E LSSMyTime {My Time}
 translate E LSSOppTime {Opp Time}
+translate E LSSDrawOffered {Draw Offered}
 }
 # end of english.tcl
