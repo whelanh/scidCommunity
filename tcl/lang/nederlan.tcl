@@ -1930,6 +1930,44 @@ translate N TBQueryError {Ongeldig antwoord van tablebase API.}
 translate N TBNotFound {Positie niet gevonden in tablebase of API-fout.}
 translate N TBCategory {Functiecategorie:}
 translate N TBTrainingHidden {(Trainingsmodus; resultaten zijn verborgen)}
+
+# LSS (Lechenicher SchachServer)
+menuText N ToolsTrainLSS "Speel op LSS" 0 {Speel op Lechenicher SchachServer}
+translate N LSSTitle {Speel op LSS - Lechenicher SchachServer}
+translate N LSSConfigure {LSS configureren}
+translate N LSSServer {LSS-server}
+translate N LSSLogin {Gebruikersnaam}
+translate N LSSPassword {Wachtwoord}
+translate N LSSConnect {Verbinden}
+translate N LSSClose {Dichtbij}
+translate N LSSUpdateGames {Spelletjes bijwerken}
+translate N LSSSendMoves {Verzend bewegingen}
+translate N LSSGamesList {Lijst met spellen}
+translate N LSSOpponentMessage {Bericht van de tegenstander}
+translate N LSSYourMessage {Jouw bericht}
+translate N LSSGameID {Spel}
+translate N LSSOpponent {Tegenstander}
+translate N LSSTime {Tijd}
+translate N LSSWhiteElo {WElo}
+translate N LSSBlackElo {BElo}
+translate N LSSEvent {Evenement}
+translate N LSSLastMove {Laatste zet}
+translate N LSSSent {Verstuurd}
+translate N LSSYourMove {Jouw zet}
+translate N LSSOfferDraw {Aanbieding gelijkspel}
+translate N LSSResign {Ontslag nemen}
+translate N LSSWaiting {Wachten}
+translate N LSSYourTurn {Jouw beurt}
+translate N LSSCredentialsNeeded {Voer uw LSS-gebruikersnaam en wachtwoord in.}
+translate N LSSUpdating {Games ophalen van de LSS-server...}
+translate N LSSGamesUpdated {Spellen: %s toegevoegd, %s zetten bijgewerkt, %s up-to-date}
+translate N LSSSendingMoves {Verplaatsen naar de LSS-server verzenden...}
+translate N LSSMovesSent {Verzonden bewegingen: %s succesvol, %s mislukt}
+translate N LSSNeedUpdate {Druk eerst op "Games bijwerken" om de huidige spelgegevens van de server op te halen.}
+translate N LSSNoDatabase {Er is momenteel geen database geopend. Open eerst een database.}
+translate N LSSGameNumber {LSS}
+translate N LSSMyTime {Mijn tijd}
+translate N LSSOppTime {Op tijd}
 }
 # end of english.tcl
 

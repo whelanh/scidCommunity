@@ -1927,6 +1927,44 @@ translate K TBQueryError {Resposta no vàlida de l'API tablebase.}
 translate K TBNotFound {No s'ha trobat la posició a la base de taules o error de l'API.}
 translate K TBCategory {Categoria de la posició:}
 translate K TBTrainingHidden {(Mode d'entrenament; els resultats estan ocults)}
+
+# LSS (Lechenicher SchachServer)
+menuText K ToolsTrainLSS "Juga a LSS" 0 {Juga a Lechenicher SchachServer}
+translate K LSSTitle {Juga a LSS - Lechenicher SchachServer}
+translate K LSSConfigure {Configurar LSS}
+translate K LSSServer {Servidor LSS}
+translate K LSSLogin {Nom d'usuari}
+translate K LSSPassword {Contrasenya}
+translate K LSSConnect {Connecta't}
+translate K LSSClose {Tancar}
+translate K LSSUpdateGames {Actualitzar jocs}
+translate K LSSSendMoves {Envia moviments}
+translate K LSSGamesList {Llista de jocs}
+translate K LSSOpponentMessage {Missatge de l'oponent}
+translate K LSSYourMessage {El teu missatge}
+translate K LSSGameID {Joc}
+translate K LSSOpponent {Oponent}
+translate K LSSTime {Temps}
+translate K LSSWhiteElo {WElo}
+translate K LSSBlackElo {BElo}
+translate K LSSEvent {Esdeveniment}
+translate K LSSLastMove {Últim moviment}
+translate K LSSSent {Enviat}
+translate K LSSYourMove {El teu moviment}
+translate K LSSOfferDraw {Sorteig de l'oferta}
+translate K LSSResign {Dimitir}
+translate K LSSWaiting {Esperant}
+translate K LSSYourTurn {El teu torn}
+translate K LSSCredentialsNeeded {Introduïu el vostre nom d'usuari i contrasenya de LSS.}
+translate K LSSUpdating {S'estan obtenint jocs del servidor LSS...}
+translate K LSSGamesUpdated {Jocs: %s afegit, %s moviments actualitzats, %s actualitzat}
+translate K LSSSendingMoves {S'estan enviant moviments al servidor LSS...}
+translate K LSSMovesSent {Moviments enviats: %s amb èxit, %s fallat}
+translate K LSSNeedUpdate {Premeu "Actualitza jocs" primer per obtenir les dades actuals del joc del servidor.}
+translate K LSSNoDatabase {No hi ha cap base de dades oberta actualment. Obriu primer una base de dades.}
+translate K LSSGameNumber {LSS}
+translate K LSSMyTime {El meu temps}
+translate K LSSOppTime {Temps d'Opp}
 }
 # end of english.tcl
 

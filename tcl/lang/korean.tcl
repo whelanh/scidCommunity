@@ -1924,6 +1924,44 @@ translate k TBQueryError {테이블베이스 API의 응답이 잘못되었습니
 translate k TBNotFound {테이블베이스 또는 API 오류에서 위치를 찾을 수 없습니다.}
 translate k TBCategory {직위 범주:}
 translate k TBTrainingHidden {(훈련 모드, 결과는 숨겨짐)}
+
+# LSS (Lechenicher SchachServer)
+menuText k ToolsTrainLSS "LSS에서 플레이" 0 {Lechenicher SchachServer에서 플레이}
+translate k LSSTitle {LSS에서 플레이 - Lechenicher SchachServer}
+translate k LSSConfigure {LSS 구성}
+translate k LSSServer {LSS 서버}
+translate k LSSLogin {사용자 이름}
+translate k LSSPassword {비밀번호}
+translate k LSSConnect {연결하다}
+translate k LSSClose {닫다}
+translate k LSSUpdateGames {게임 업데이트}
+translate k LSSSendMoves {움직임 보내기}
+translate k LSSGamesList {게임 목록}
+translate k LSSOpponentMessage {상대방의 메시지}
+translate k LSSYourMessage {귀하의 메시지}
+translate k LSSGameID {게임}
+translate k LSSOpponent {상대}
+translate k LSSTime {시간}
+translate k LSSWhiteElo {WElo}
+translate k LSSBlackElo {벨로}
+translate k LSSEvent {이벤트}
+translate k LSSLastMove {마지막 이동}
+translate k LSSSent {전송된}
+translate k LSSYourMove {당신의 움직임}
+translate k LSSOfferDraw {제안 추첨}
+translate k LSSResign {사직하다}
+translate k LSSWaiting {대기 중}
+translate k LSSYourTurn {당신의 차례}
+translate k LSSCredentialsNeeded {LSS 사용자 이름과 비밀번호를 입력하세요.}
+translate k LSSUpdating {LSS 서버에서 게임을 가져오는 중...}
+translate k LSSGamesUpdated {게임: %s 추가됨, %s 동작 업데이트됨, %s 최신 상태임}
+translate k LSSSendingMoves {LSS 서버로 이동을 보내는 중...}
+translate k LSSMovesSent {이동 전송됨: %s 성공, %s 실패}
+translate k LSSNeedUpdate {서버에서 현재 게임 데이터를 가져오려면 먼저 "게임 업데이트"를 누르십시오.}
+translate k LSSNoDatabase {현재 열려 있는 데이터베이스가 없습니다. 먼저 데이터베이스를 열어주세요.}
+translate k LSSGameNumber {LSS}
+translate k LSSMyTime {나의 시간}
+translate k LSSOppTime {기회 시간}
 }
 # end of english.tcl
 

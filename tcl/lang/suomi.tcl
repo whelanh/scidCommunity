@@ -1936,6 +1936,44 @@ translate U TBQueryError {Virheellinen vastaus tablebase API:lta.}
 translate U TBNotFound {Sijaintia ei löydy taulukkokannasta tai API-virhe.}
 translate U TBCategory {Aseman luokka:}
 translate U TBTrainingHidden {(Harjoitustila; tulokset piilotetaan)}
+
+# LSS (Lechenicher SchachServer)
+menuText U ToolsTrainLSS "Pelaa LSS:llä" 0 {Pelaa Lechenicher SchachServerissä}
+translate U LSSTitle {Pelaa LSS - Lechenicher SchachServerissä}
+translate U LSSConfigure {Määritä LSS}
+translate U LSSServer {LSS-palvelin}
+translate U LSSLogin {Käyttäjätunnus}
+translate U LSSPassword {Salasana}
+translate U LSSConnect {Yhdistä}
+translate U LSSClose {Lähellä}
+translate U LSSUpdateGames {Päivitä pelit}
+translate U LSSSendMoves {Lähetä liikkeet}
+translate U LSSGamesList {Peliluettelo}
+translate U LSSOpponentMessage {Vastustajan viesti}
+translate U LSSYourMessage {Viestisi}
+translate U LSSGameID {Peli}
+translate U LSSOpponent {Vastustaja}
+translate U LSSTime {Aika}
+translate U LSSWhiteElo {WElo}
+translate U LSSBlackElo {BElo}
+translate U LSSEvent {Tapahtuma}
+translate U LSSLastMove {Viimeinen siirto}
+translate U LSSSent {Lähetetty}
+translate U LSSYourMove {Sinun siirtosi}
+translate U LSSOfferDraw {Tarjous arvonta}
+translate U LSSResign {Eroa}
+translate U LSSWaiting {Odottaa}
+translate U LSSYourTurn {Sinun vuorosi}
+translate U LSSCredentialsNeeded {Anna LSS-käyttäjätunnuksesi ja salasanasi.}
+translate U LSSUpdating {Haetaan pelejä LSS-palvelimelta...}
+translate U LSSGamesUpdated {Pelit: %s lisätty, %s siirtoa päivitetty, %s ajan tasalla}
+translate U LSSSendingMoves {Lähetetään siirtoja LSS-palvelimelle...}
+translate U LSSMovesSent {Siirrot lähetetty: %s onnistui, %s epäonnistui}
+translate U LSSNeedUpdate {Paina ensin "Päivitä pelit" hakeaksesi nykyiset pelitiedot palvelimelta.}
+translate U LSSNoDatabase {Mikään tietokanta ei ole tällä hetkellä avoinna. Avaa ensin tietokanta.}
+translate U LSSGameNumber {LSS}
+translate U LSSMyTime {Minun Aikani}
+translate U LSSOppTime {Opp aika}
 }
 # end of english.tcl
 

@@ -1937,5 +1937,43 @@ translate E TBQueryError {Invalid response from tablebase API.}
 translate E TBNotFound {Position not found in tablebase or API error.}
 translate E TBCategory {Position Category:}
 translate E TBTrainingHidden {(Training mode; results are hidden)}
+
+# LSS (Lechenicher SchachServer)
+menuText E ToolsTrainLSS "Play on LSS" 0 {Play on Lechenicher SchachServer}
+translate E LSSTitle {Play on LSS - Lechenicher SchachServer}
+translate E LSSConfigure {Configure LSS}
+translate E LSSServer {LSS Server}
+translate E LSSLogin {Username}
+translate E LSSPassword {Password}
+translate E LSSConnect {Connect}
+translate E LSSClose {Close}
+translate E LSSUpdateGames {Update Games}
+translate E LSSSendMoves {Send Moves}
+translate E LSSGamesList {Games List}
+translate E LSSOpponentMessage {Opponent's Message}
+translate E LSSYourMessage {Your Message}
+translate E LSSGameID {Game}
+translate E LSSOpponent {Opponent}
+translate E LSSTime {Time}
+translate E LSSWhiteElo {WElo}
+translate E LSSBlackElo {BElo}
+translate E LSSEvent {Event}
+translate E LSSLastMove {Last Move}
+translate E LSSSent {Sent}
+translate E LSSYourMove {Your Move}
+translate E LSSOfferDraw {Offer Draw}
+translate E LSSResign {Resign}
+translate E LSSWaiting {Waiting}
+translate E LSSYourTurn {Your Turn}
+translate E LSSCredentialsNeeded {Please enter your LSS username and password.}
+translate E LSSUpdating {Fetching games from LSS server...}
+translate E LSSGamesUpdated {Games: %s added, %s moves updated, %s up to date}
+translate E LSSSendingMoves {Sending moves to LSS server...}
+translate E LSSMovesSent {Moves sent: %s successful, %s failed}
+translate E LSSNeedUpdate {Please press "Update Games" first to fetch current game data from the server.}
+translate E LSSNoDatabase {No database is currently open. Please open a database first.}
+translate E LSSGameNumber {LSS}
+translate E LSSMyTime {My Time}
+translate E LSSOppTime {Opp Time}
 }
 # end of english.tcl

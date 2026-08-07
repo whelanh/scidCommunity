@@ -1932,6 +1932,44 @@ translate G TBQueryError {Μη έγκυρη απάντηση από το API τ�
 translate G TBNotFound {Η θέση δεν βρέθηκε στη βάση του πίνακα ή σφάλμα API.}
 translate G TBCategory {Κατηγορία θέσης:}
 translate G TBTrainingHidden {(Λειτουργία προπόνησης, τα αποτελέσματα είναι κρυφά)}
+
+# LSS (Lechenicher SchachServer)
+menuText G ToolsTrainLSS "Παίξτε στο LSS" 0 {Παίξτε στον Lechenicher SchachServer}
+translate G LSSTitle {Παίξτε στο LSS - Lechenicher SchachServer}
+translate G LSSConfigure {Διαμόρφωση LSS}
+translate G LSSServer {Διακομιστής LSS}
+translate G LSSLogin {Όνομα χρήστη}
+translate G LSSPassword {Σύνθημα}
+translate G LSSConnect {Συνδέω}
+translate G LSSClose {Κοντά}
+translate G LSSUpdateGames {Ενημέρωση παιχνιδιών}
+translate G LSSSendMoves {Αποστολή κινήσεων}
+translate G LSSGamesList {Λίστα παιχνιδιών}
+translate G LSSOpponentMessage {Μήνυμα αντιπάλου}
+translate G LSSYourMessage {Το μήνυμά σας}
+translate G LSSGameID {Παιχνίδι}
+translate G LSSOpponent {Αντίπαλος}
+translate G LSSTime {Φορά}
+translate G LSSWhiteElo {WElo}
+translate G LSSBlackElo {BElo}
+translate G LSSEvent {Συμβάν}
+translate G LSSLastMove {Τελευταία Κίνηση}
+translate G LSSSent {Στάλθηκε}
+translate G LSSYourMove {Η κίνησή σας}
+translate G LSSOfferDraw {Κλήρωση προσφοράς}
+translate G LSSResign {Παραιτούμαι}
+translate G LSSWaiting {Αναμονή}
+translate G LSSYourTurn {Σειρά σας}
+translate G LSSCredentialsNeeded {Εισαγάγετε το όνομα χρήστη και τον κωδικό πρόσβασής σας στο LSS.}
+translate G LSSUpdating {Λήψη παιχνιδιών από διακομιστή LSS...}
+translate G LSSGamesUpdated {Παιχνίδια: %s προστέθηκε, %s μετακινήσεις ενημερώθηκαν, %s ενημερώθηκε}
+translate G LSSSendingMoves {Αποστολή κινήσεων στον διακομιστή LSS...}
+translate G LSSMovesSent {Στάλθηκαν κινήσεις: %s επιτυχής, %s απέτυχε}
+translate G LSSNeedUpdate {Πατήστε "Ενημέρωση παιχνιδιών" πρώτα για να λάβετε τρέχοντα δεδομένα παιχνιδιού από τον διακομιστή.}
+translate G LSSNoDatabase {Καμία βάση δεδομένων δεν είναι ανοιχτή αυτήν τη στιγμή. Ανοίξτε πρώτα μια βάση δεδομένων.}
+translate G LSSGameNumber {LSS}
+translate G LSSMyTime {Ο χρόνος μου}
+translate G LSSOppTime {Opp Time}
 }
 # end of english.tcl
 

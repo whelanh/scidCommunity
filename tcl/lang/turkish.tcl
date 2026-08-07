@@ -1887,6 +1887,44 @@ translate T TBQueryError {Tablo tabanı API'sinden geçersiz yanıt.}
 translate T TBNotFound {Tablo tabanında konum bulunamadı veya API hatası.}
 translate T TBCategory {Pozisyon Kategorisi:}
 translate T TBTrainingHidden {(Eğitim modu; sonuçlar gizlenir)}
+
+# LSS (Lechenicher SchachServer)
+menuText T ToolsTrainLSS "LSS'de oyna" 0 {Lechenicher SchachServer'da oynayın}
+translate T LSSTitle {LSS'de Oynayın - Lechenicher SchachServer}
+translate T LSSConfigure {LSS'yi yapılandırma}
+translate T LSSServer {LSS Sunucusu}
+translate T LSSLogin {Kullanıcı adı}
+translate T LSSPassword {Şifre}
+translate T LSSConnect {Bağlamak}
+translate T LSSClose {Kapalı}
+translate T LSSUpdateGames {Oyunları Güncelle}
+translate T LSSSendMoves {Hareket Gönder}
+translate T LSSGamesList {Oyun Listesi}
+translate T LSSOpponentMessage {Rakibin Mesajı}
+translate T LSSYourMessage {Mesajınız}
+translate T LSSGameID {Oyun}
+translate T LSSOpponent {Rakip}
+translate T LSSTime {Zaman}
+translate T LSSWhiteElo {WElo}
+translate T LSSBlackElo {BElo}
+translate T LSSEvent {Etkinlik}
+translate T LSSLastMove {Son Hareket}
+translate T LSSSent {Gönderilmiş}
+translate T LSSYourMove {Hareketiniz}
+translate T LSSOfferDraw {Teklif Çekilişi}
+translate T LSSResign {İstifa etmek}
+translate T LSSWaiting {Beklemek}
+translate T LSSYourTurn {Sıra sende}
+translate T LSSCredentialsNeeded {Lütfen LSS kullanıcı adınızı ve şifrenizi girin.}
+translate T LSSUpdating {LSS sunucusundan oyunlar getiriliyor...}
+translate T LSSGamesUpdated {Oyunlar: %s eklendi, %s hamle güncellendi, %s güncel}
+translate T LSSSendingMoves {Hareketler LSS sunucusuna gönderiliyor...}
+translate T LSSMovesSent {Gönderilen hamleler: %s başarılı, %s başarısız}
+translate T LSSNeedUpdate {Sunucudan güncel oyun verilerini almak için lütfen önce "Oyunları Güncelle"ye basın.}
+translate T LSSNoDatabase {Şu anda hiçbir veritabanı açık değil. Lütfen önce bir veritabanı açın.}
+translate T LSSGameNumber {LSS}
+translate T LSSMyTime {Benim Zamanım}
+translate T LSSOppTime {Rakip Zamanı}
 }
 # end of english.tcl
 

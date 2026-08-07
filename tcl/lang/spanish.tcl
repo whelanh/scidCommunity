@@ -1958,6 +1958,44 @@ translate S TBQueryError {Respuesta no válida de la API de base de tabla.}
 translate S TBNotFound {Posición no encontrada en la base de tabla o error de API.}
 translate S TBCategory {Categoría de puesto:}
 translate S TBTrainingHidden {(Modo de entrenamiento; los resultados están ocultos)}
+
+# LSS (Lechenicher SchachServer)
+menuText S ToolsTrainLSS "Jugar en LSS" 0 {Jugar en Lechenicher SchachServer}
+translate S LSSTitle {Jugar en LSS - Lechenicher SchachServer}
+translate S LSSConfigure {Configurar LSS}
+translate S LSSServer {Servidor LSS}
+translate S LSSLogin {Nombre de usuario}
+translate S LSSPassword {Contraseña}
+translate S LSSConnect {Conectar}
+translate S LSSClose {Cerca}
+translate S LSSUpdateGames {Actualizar juegos}
+translate S LSSSendMoves {Enviar movimientos}
+translate S LSSGamesList {Lista de juegos}
+translate S LSSOpponentMessage {Mensaje del oponente}
+translate S LSSYourMessage {Tu mensaje}
+translate S LSSGameID {Juego}
+translate S LSSOpponent {Adversario}
+translate S LSSTime {Tiempo}
+translate S LSSWhiteElo {BIENVENIDO}
+translate S LSSBlackElo {belo}
+translate S LSSEvent {Evento}
+translate S LSSLastMove {Último movimiento}
+translate S LSSSent {Enviado}
+translate S LSSYourMove {Tu movimiento}
+translate S LSSOfferDraw {Sorteo de oferta}
+translate S LSSResign {Renunciar}
+translate S LSSWaiting {Espera}
+translate S LSSYourTurn {Tu turno}
+translate S LSSCredentialsNeeded {Por favor ingrese su nombre de usuario y contraseña de LSS.}
+translate S LSSUpdating {Obteniendo juegos del servidor LSS...}
+translate S LSSGamesUpdated {Juegos: %s agregados, %s movimientos actualizados, %s actualizados}
+translate S LSSSendingMoves {Enviando movimientos al servidor LSS...}
+translate S LSSMovesSent {Movimientos enviados: %s exitosos, %s fallidos}
+translate S LSSNeedUpdate {Primero presione "Actualizar juegos" para obtener los datos del juego actual del servidor.}
+translate S LSSNoDatabase {Actualmente no hay ninguna base de datos abierta. Primero abra una base de datos.}
+translate S LSSGameNumber {LSS}
+translate S LSSMyTime {mi tiempo}
+translate S LSSOppTime {Tiempo de oportunidad}
 }
 # end of english.tcl
 

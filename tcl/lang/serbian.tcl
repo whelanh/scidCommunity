@@ -3217,4 +3217,76 @@ translate Y TBNotFound {Position not found in tablebase or API error.}
 translate Y TBCategory {Position Category:}
 # ====== TODO To be translated ======
 translate Y TBTrainingHidden {(Training mode; results are hidden)}
+# ====== TODO To be translated ======
+menuText Y ToolsTrainLSS "Play on LSS" 0 {Play on Lechenicher SchachServer}
+# ====== TODO To be translated ======
+translate Y LSSTitle {Play on LSS - Lechenicher SchachServer}
+# ====== TODO To be translated ======
+translate Y LSSConfigure {Configure LSS}
+# ====== TODO To be translated ======
+translate Y LSSServer {LSS Server}
+# ====== TODO To be translated ======
+translate Y LSSLogin {Username}
+# ====== TODO To be translated ======
+translate Y LSSPassword {Password}
+# ====== TODO To be translated ======
+translate Y LSSConnect {Connect}
+# ====== TODO To be translated ======
+translate Y LSSClose {Close}
+# ====== TODO To be translated ======
+translate Y LSSUpdateGames {Update Games}
+# ====== TODO To be translated ======
+translate Y LSSSendMoves {Send Moves}
+# ====== TODO To be translated ======
+translate Y LSSGamesList {Games List}
+# ====== TODO To be translated ======
+translate Y LSSOpponentMessage {Opponent's Message}
+# ====== TODO To be translated ======
+translate Y LSSYourMessage {Your Message}
+# ====== TODO To be translated ======
+translate Y LSSGameID {Game}
+# ====== TODO To be translated ======
+translate Y LSSOpponent {Opponent}
+# ====== TODO To be translated ======
+translate Y LSSTime {Time}
+# ====== TODO To be translated ======
+translate Y LSSWhiteElo {WElo}
+# ====== TODO To be translated ======
+translate Y LSSBlackElo {BElo}
+# ====== TODO To be translated ======
+translate Y LSSEvent {Event}
+# ====== TODO To be translated ======
+translate Y LSSLastMove {Last Move}
+# ====== TODO To be translated ======
+translate Y LSSSent {Sent}
+# ====== TODO To be translated ======
+translate Y LSSYourMove {Your Move}
+# ====== TODO To be translated ======
+translate Y LSSOfferDraw {Offer Draw}
+# ====== TODO To be translated ======
+translate Y LSSResign {Resign}
+# ====== TODO To be translated ======
+translate Y LSSWaiting {Waiting}
+# ====== TODO To be translated ======
+translate Y LSSYourTurn {Your Turn}
+# ====== TODO To be translated ======
+translate Y LSSCredentialsNeeded {Please enter your LSS username and password.}
+# ====== TODO To be translated ======
+translate Y LSSUpdating {Fetching games from LSS server...}
+# ====== TODO To be translated ======
+translate Y LSSGamesUpdated {Games: %s added, %s moves updated, %s up to date}
+# ====== TODO To be translated ======
+translate Y LSSSendingMoves {Sending moves to LSS server...}
+# ====== TODO To be translated ======
+translate Y LSSMovesSent {Moves sent: %s successful, %s failed}
+# ====== TODO To be translated ======
+translate Y LSSNeedUpdate {Please press "Update Games" first to fetch current game data from the server.}
+# ====== TODO To be translated ======
+translate Y LSSNoDatabase {No database is currently open. Please open a database first.}
+# ====== TODO To be translated ======
+translate Y LSSGameNumber {LSS}
+# ====== TODO To be translated ======
+translate Y LSSMyTime {My Time}
+# ====== TODO To be translated ======
+translate Y LSSOppTime {Opp Time}
 

@@ -1924,6 +1924,44 @@ translate A TBQueryError {テーブルベース API からの応答が無効で�
 translate A TBNotFound {テーブルベースで位置が見つからないか、API エラーです。}
 translate A TBCategory {ポジションカテゴリー:}
 translate A TBTrainingHidden {(トレーニングモード、結果は非表示)}
+
+# LSS (Lechenicher SchachServer)
+menuText A ToolsTrainLSS "LSSでプレイする" 0 {Lechenicher SchachServer でプレイする}
+translate A LSSTitle {LSS でプレイ - Lechenicher SchachServer}
+translate A LSSConfigure {LSS の構成}
+translate A LSSServer {LSSサーバー}
+translate A LSSLogin {ユーザー名}
+translate A LSSPassword {パスワード}
+translate A LSSConnect {接続する}
+translate A LSSClose {近い}
+translate A LSSUpdateGames {ゲームを更新する}
+translate A LSSSendMoves {送信移動}
+translate A LSSGamesList {ゲームリスト}
+translate A LSSOpponentMessage {相手のメッセージ}
+translate A LSSYourMessage {あなたのメッセージ}
+translate A LSSGameID {ゲーム}
+translate A LSSOpponent {対戦相手}
+translate A LSSTime {時間}
+translate A LSSWhiteElo {WElo}
+translate A LSSBlackElo {ベロ}
+translate A LSSEvent {イベント}
+translate A LSSLastMove {最後の動き}
+translate A LSSSent {送信済み}
+translate A LSSYourMove {あなたの動き}
+translate A LSSOfferDraw {オファー抽選}
+translate A LSSResign {辞任する}
+translate A LSSWaiting {待っている}
+translate A LSSYourTurn {あなたの番です}
+translate A LSSCredentialsNeeded {LSS ユーザー名とパスワードを入力してください。}
+translate A LSSUpdating {LSS サーバーからゲームを取得しています...}
+translate A LSSGamesUpdated {ゲーム: %s が追加されました、%s の移動が更新されました、%s は最新です}
+translate A LSSSendingMoves {LSS サーバーにムーブを送信しています...}
+translate A LSSMovesSent {送信された移動: %s は成功しました、%s は失敗しました}
+translate A LSSNeedUpdate {まず「ゲームの更新」を押して、サーバーから現在のゲームデータを取得してください。}
+translate A LSSNoDatabase {現在開いているデータベースはありません。まずデータベースを開いてください。}
+translate A LSSGameNumber {LSS}
+translate A LSSMyTime {私の時間}
+translate A LSSOppTime {作業時間}
 }
 # end of english.tcl
 

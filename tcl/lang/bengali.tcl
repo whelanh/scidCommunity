@@ -1883,6 +1883,44 @@ translate b TBQueryError {টেবিলবেস API থেকে অবৈধ
 translate b TBNotFound {টেবিলবেস বা API ত্রুটিতে অবস্থান পাওয়া যায়নি।}
 translate b TBCategory {অবস্থান বিভাগ:}
 translate b TBTrainingHidden {(প্রশিক্ষণ মোড; ফলাফল লুকানো আছে)}
+
+# LSS (Lechenicher SchachServer)
+menuText b ToolsTrainLSS "LSS এ খেলুন" 0 {Lechenicher SchachServer এ খেলুন}
+translate b LSSTitle {LSS-এ খেলুন - Lechenicher SchachServer}
+translate b LSSConfigure {LSS কনফিগার করুন}
+translate b LSSServer {LSS সার্ভার}
+translate b LSSLogin {ব্যবহারকারীর নাম}
+translate b LSSPassword {পাসওয়ার্ড}
+translate b LSSConnect {সংযোগ করুন}
+translate b LSSClose {বন্ধ}
+translate b LSSUpdateGames {গেম আপডেট করুন}
+translate b LSSSendMoves {মুভ পাঠান}
+translate b LSSGamesList {গেমের তালিকা}
+translate b LSSOpponentMessage {প্রতিপক্ষের বার্তা}
+translate b LSSYourMessage {আপনার বার্তা}
+translate b LSSGameID {খেলা}
+translate b LSSOpponent {প্রতিপক্ষ}
+translate b LSSTime {সময়}
+translate b LSSWhiteElo {ওয়েল}
+translate b LSSBlackElo {বেলো}
+translate b LSSEvent {ঘটনা}
+translate b LSSLastMove {লাস্ট মুভ}
+translate b LSSSent {পাঠানো হয়েছে}
+translate b LSSYourMove {আপনার পদক্ষেপ}
+translate b LSSOfferDraw {অফার ড্র}
+translate b LSSResign {পদত্যাগ করুন}
+translate b LSSWaiting {অপেক্ষা করছে}
+translate b LSSYourTurn {আপনার পালা}
+translate b LSSCredentialsNeeded {অনুগ্রহ করে আপনার LSS ব্যবহারকারীর নাম এবং পাসওয়ার্ড লিখুন।}
+translate b LSSUpdating {LSS সার্ভার থেকে গেম আনা হচ্ছে...}
+translate b LSSGamesUpdated {গেম: %s যোগ করা হয়েছে, %s মুভ আপডেট করা হয়েছে, %s আপ টু ডেট}
+translate b LSSSendingMoves {LSS সার্ভারে সরানো হচ্ছে...}
+translate b LSSMovesSent {প্রেরণ করা হয়েছে: %s সফল, %s ব্যর্থ হয়েছে৷}
+translate b LSSNeedUpdate {সার্ভার থেকে বর্তমান গেম ডেটা আনতে প্রথমে "আপডেট গেমস" টিপুন৷}
+translate b LSSNoDatabase {বর্তমানে কোনো ডাটাবেস খোলা নেই। প্রথমে একটি ডাটাবেস খুলুন.}
+translate b LSSGameNumber {এলএসএস}
+translate b LSSMyTime {আমার সময়}
+translate b LSSOppTime {সময় বিপরীত}
 }
 # end of english.tcl
 

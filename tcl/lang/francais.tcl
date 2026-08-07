@@ -1911,6 +1911,44 @@ translate F TBQueryError {Réponse non valide de l'API tablebase.}
 translate F TBNotFound {Position introuvable dans la base de table ou erreur API.}
 translate F TBCategory {Catégorie de poste :}
 translate F TBTrainingHidden {(Mode Entraînement ; les résultats sont masqués)}
+
+# LSS (Lechenicher SchachServer)
+menuText F ToolsTrainLSS "Jouer sur LSS" 0 {Jouez sur Lechenicher SchachServer}
+translate F LSSTitle {Jouer sur LSS - Lechenicher SchachServer}
+translate F LSSConfigure {Configurer LSS}
+translate F LSSServer {Serveur LSS}
+translate F LSSLogin {Nom d'utilisateur}
+translate F LSSPassword {Mot de passe}
+translate F LSSConnect {Connecter}
+translate F LSSClose {Fermer}
+translate F LSSUpdateGames {Mettre à jour les jeux}
+translate F LSSSendMoves {Envoyer des mouvements}
+translate F LSSGamesList {Liste des jeux}
+translate F LSSOpponentMessage {Message de l'adversaire}
+translate F LSSYourMessage {Votre message}
+translate F LSSGameID {Jeu}
+translate F LSSOpponent {Adversaire}
+translate F LSSTime {Temps}
+translate F LSSWhiteElo {WElo}
+translate F LSSBlackElo {BElo}
+translate F LSSEvent {Événement}
+translate F LSSLastMove {Dernier coup}
+translate F LSSSent {Envoyé}
+translate F LSSYourMove {Votre déménagement}
+translate F LSSOfferDraw {Tirage au sort}
+translate F LSSResign {Démissionner}
+translate F LSSWaiting {En attendant}
+translate F LSSYourTurn {À votre tour}
+translate F LSSCredentialsNeeded {Veuillez saisir votre nom d'utilisateur et votre mot de passe LSS.}
+translate F LSSUpdating {Récupération de jeux depuis le serveur LSS...}
+translate F LSSGamesUpdated {Jeux : %s ajoutés, %s mouvements mis à jour, %s à jour}
+translate F LSSSendingMoves {Envoi des mouvements au serveur LSS...}
+translate F LSSMovesSent {Déplacements envoyés : %s réussis, %s échoués}
+translate F LSSNeedUpdate {Veuillez d'abord appuyer sur « Mettre à jour les jeux » pour récupérer les données de jeu actuelles sur le serveur.}
+translate F LSSNoDatabase {Aucune base de données n'est actuellement ouverte. Veuillez d'abord ouvrir une base de données.}
+translate F LSSGameNumber {LSS}
+translate F LSSMyTime {Mon temps}
+translate F LSSOppTime {Temps Opp}
 }
 # end of english.tcl
 

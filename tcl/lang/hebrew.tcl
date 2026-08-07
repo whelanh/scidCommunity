@@ -1884,6 +1884,44 @@ translate V TBQueryError {תגובה לא חוקית מממשק API של tableba
 translate V TBNotFound {המיקום לא נמצא בבסיס הטבלה או בשגיאת API.}
 translate V TBCategory {קטגוריית תפקיד:}
 translate V TBTrainingHidden {(מצב אימון; התוצאות מוסתרות)}
+
+# LSS (Lechenicher SchachServer)
+menuText V ToolsTrainLSS "שחקו ב-LSS" 0 {שחקו ב-Lechenicher SchachServer}
+translate V LSSTitle {שחק ב-LSS - Lechenicher SchachServer}
+translate V LSSConfigure {הגדר את ה-LSS}
+translate V LSSServer {שרת LSS}
+translate V LSSLogin {שם משתמש}
+translate V LSSPassword {סִיסמָה}
+translate V LSSConnect {לְחַבֵּר}
+translate V LSSClose {לִסְגוֹר}
+translate V LSSUpdateGames {עדכן משחקים}
+translate V LSSSendMoves {שלח מהלכים}
+translate V LSSGamesList {רשימת משחקים}
+translate V LSSOpponentMessage {הודעת היריב}
+translate V LSSYourMessage {ההודעה שלך}
+translate V LSSGameID {מִשְׂחָק}
+translate V LSSOpponent {יָרִיב}
+translate V LSSTime {זְמַן}
+translate V LSSWhiteElo {WElo}
+translate V LSSBlackElo {BElo}
+translate V LSSEvent {מִקרֶה}
+translate V LSSLastMove {מהלך אחרון}
+translate V LSSSent {נשלח}
+translate V LSSYourMove {המהלך שלך}
+translate V LSSOfferDraw {הגרלת הצעה}
+translate V LSSResign {לְהִתְפַּטֵר}
+translate V LSSWaiting {הַמתָנָה}
+translate V LSSYourTurn {התור שלך}
+translate V LSSCredentialsNeeded {נא להזין את שם המשתמש והסיסמה שלך ב-LSS.}
+translate V LSSUpdating {מביא משחקים משרת LSS...}
+translate V LSSGamesUpdated {משחקים: %s נוספו, %s מהלכים עודכנו, %s מעודכנים}
+translate V LSSSendingMoves {שולח מהלכים לשרת LSS...}
+translate V LSSMovesSent {מהלכים נשלחו: %s הצליחו, %s נכשלו}
+translate V LSSNeedUpdate {אנא הקש תחילה על "עדכן משחקים" כדי להביא נתוני משחק נוכחיים מהשרת.}
+translate V LSSNoDatabase {אין בסיס נתונים פתוח כרגע. נא לפתוח מסד נתונים תחילה.}
+translate V LSSGameNumber {LSS}
+translate V LSSMyTime {הזמן שלי}
+translate V LSSOppTime {Opp Time}
 }
 # end of english.tcl
 

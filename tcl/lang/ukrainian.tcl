@@ -1884,6 +1884,44 @@ translate Q TBQueryError {Неправильна відповідь від API �
 translate Q TBNotFound {Позиція не знайдена в базі таблиць або помилка API.}
 translate Q TBCategory {Категорія посади:}
 translate Q TBTrainingHidden {(Режим навчання; результати приховані)}
+
+# LSS (Lechenicher SchachServer)
+menuText Q ToolsTrainLSS "Грайте на LSS" 0 {Грайте на Lechenicher SchachServer}
+translate Q LSSTitle {Грайте на LSS - Lechenicher SchachServer}
+translate Q LSSConfigure {Налаштувати LSS}
+translate Q LSSServer {Сервер LSS}
+translate Q LSSLogin {Ім'я користувача}
+translate Q LSSPassword {Пароль}
+translate Q LSSConnect {Підключитися}
+translate Q LSSClose {Закрити}
+translate Q LSSUpdateGames {Оновлення ігор}
+translate Q LSSSendMoves {Надіслати ходи}
+translate Q LSSGamesList {Список ігор}
+translate Q LSSOpponentMessage {Повідомлення опонента}
+translate Q LSSYourMessage {Ваше повідомлення}
+translate Q LSSGameID {Гра}
+translate Q LSSOpponent {Суперник}
+translate Q LSSTime {час}
+translate Q LSSWhiteElo {WElo}
+translate Q LSSBlackElo {BELo}
+translate Q LSSEvent {Подія}
+translate Q LSSLastMove {Останній хід}
+translate Q LSSSent {Надіслано}
+translate Q LSSYourMove {Ваш хід}
+translate Q LSSOfferDraw {Пропозиція Розіграш}
+translate Q LSSResign {Звільнитися}
+translate Q LSSWaiting {Очікування}
+translate Q LSSYourTurn {Ваша черга}
+translate Q LSSCredentialsNeeded {Будь ласка, введіть своє ім'я користувача та пароль LSS.}
+translate Q LSSUpdating {Отримання ігор із сервера LSS...}
+translate Q LSSGamesUpdated {Ігри: %s додано, %s ходів оновлено, %s оновлено}
+translate Q LSSSendingMoves {Надсилання ходів на сервер LSS...}
+translate Q LSSMovesSent {Ходи надіслано: %s успішно, %s не вдалося}
+translate Q LSSNeedUpdate {Будь ласка, спочатку натисніть «Оновити ігри», щоб отримати поточні дані гри з сервера.}
+translate Q LSSNoDatabase {Зараз немає відкритої бази даних. Спочатку відкрийте базу даних.}
+translate Q LSSGameNumber {LSS}
+translate Q LSSMyTime {Мій час}
+translate Q LSSOppTime {Час Opp}
 }
 # end of english.tcl
 
