@@ -156,7 +156,7 @@ proc ::lss::soapRequest {action soapBody {timeout 30000}} {
       -H "Content-Type: text/xml; charset=utf-8" \
       -H "SOAPAction: $soapAction" \
       -H "User-Agent: scidCommunity-LSS/1.0" \
-      --data-binary $soapEnvelope \
+      -d @- << $soapEnvelope \
       $::lss::server
   } result]} {
     return ""
@@ -322,16 +322,16 @@ proc ::lss::createWindow {w} {
     LSSDrawOffered LSSDrawOffered LSSYourMove LSSYourMove LSSOfferDraw LSSOfferDraw LSSResign LSSResign LSSSent LSSSent} {
     $t1 heading $col -text $::tr($text)
   }
-  $t1 column LSSGameID   -width 55  -stretch no
-  $t1 column LSSOpponent -width 120 -stretch no
-  $t1 column LSSEvent    -width 85  -stretch no
-  $t1 column LSSYourTime -width 65  -stretch no
-  $t1 column LSSOppTime  -width 65  -stretch no
-  $t1 column LSSLastMove -width 75  -stretch no
-  $t1 column LSSDrawOffered -width 55 -stretch no
-  $t1 column LSSYourMove -width 35  -stretch no
-  $t1 column LSSOfferDraw -width 40 -stretch no
-  $t1 column LSSResign   -width 40 -stretch no
+  $t1 column LSSGameID   -width 65  -stretch no
+  $t1 column LSSOpponent -width 130 -stretch no
+  $t1 column LSSEvent    -width 95  -stretch no
+  $t1 column LSSYourTime -width 80  -stretch no
+  $t1 column LSSOppTime  -width 80  -stretch no
+  $t1 column LSSLastMove -width 85  -stretch no
+  $t1 column LSSDrawOffered -width 75 -stretch no
+  $t1 column LSSYourMove -width 85  -stretch no
+  $t1 column LSSOfferDraw -width 60 -stretch no
+  $t1 column LSSResign   -width 60 -stretch no
   $t1 column LSSSent     -width 35  -stretch no
   set vsb1 [ttk::scrollbar $f1.vsb -orient vertical -command "$t1 yview"]
   $t1 configure -yscrollcommand "$vsb1 set"
