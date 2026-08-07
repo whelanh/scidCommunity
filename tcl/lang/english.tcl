@@ -1974,6 +1974,7 @@ translate E LSSNoGamesFound {No games found.}
 translate E LSSFilterError {Filter error.}
 translate E LSSConnectionFailed {Failed to connect to LSS server. Check your network.}
 translate E LSSAuthFailed {Authentication failed. Check your username and password.}
+translate E LSSNeedUpdate {Please press "Update Games" first to fetch current game data from the server.}
 translate E LSSNoDatabase {No database is currently open. Please open a database first.}
 translate E LSSGameNumber {LSS}
 translate E LSSMyTime {My Time}
