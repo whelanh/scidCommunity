@@ -1853,7 +1853,7 @@ translate P LSSYourMessage {Twoja wiadomość}
 translate P LSSGameID {Gra}
 translate P LSSOpponent {Przeciwnik}
 translate P LSSTime {Czas}
-translate P LSSWhiteElo {Witamy}
+translate P LSSWhiteElo {WElo}
 translate P LSSBlackElo {BElo}
 translate P LSSEvent {Wydarzenie}
 translate P LSSLastMove {Ostatni ruch}
