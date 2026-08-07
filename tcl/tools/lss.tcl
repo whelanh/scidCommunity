@@ -151,13 +151,12 @@ proc ::lss::soapRequest {action soapBody {timeout 30000}} {
   set soapAction "$::lss::soapNS/$action"
   set timeoutSec [expr {$timeout / 1000}]
 
-  if {[catch {
     exec curl -s -S -m $timeoutSec \
       -H "Content-Type: text/xml; charset=utf-8" \
       -H "SOAPAction: $soapAction" \
       -H "User-Agent: scidCommunity-LSS/1.0" \
-      -d @- << $soapEnvelope \
-      $::lss::server
+      --data-binary $soapEnvelope \
+      $::lss::server 2>@1
   } result]} {
     return ""
   }
