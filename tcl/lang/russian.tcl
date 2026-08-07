@@ -1911,7 +1911,7 @@ translate R TBTrainingHidden {(Режим обучения; результаты
 # LSS (Lechenicher SchachServer)
 menuText R ToolsTrainLSS "Играй на ЛСС" 0 {Играйте на сервере Lechenicher SchachServer}
 translate R LSSTitle {Играйте на LSS - Lechenicher SchachServer}
-translate R LSSConfigure {Настроить СЖО}
+translate R LSSConfigure {Настроить ЛСС}
 translate R LSSServer {ЛСС-сервер}
 translate R LSSLogin {Имя пользователя}
 translate R LSSPassword {Пароль}
