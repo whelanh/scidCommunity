@@ -1047,7 +1047,6 @@ proc ::lss::sendMoves {} {
     set move [lindex $newMoves 0]
     set moveCount [expr {$lssMoveCount + 1}]
     set fullMoveNum [expr {($moveCount + 1) / 2}]
-    puts stderr "LSS send: game=$id move=$move cnt=$fullMoveNum msg='$msg' draw=$offerDraw resign=$resign"
     set result [::lss::sendMoveSoap $id $fullMoveNum $move $msg $offerDraw $resign]
     if {$result eq "Success"} {
       incr successful
