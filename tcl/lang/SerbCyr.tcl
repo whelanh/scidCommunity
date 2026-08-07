@@ -1954,9 +1954,9 @@ translate J LSSWaiting {Чекам}
 translate J LSSYourTurn {Ваш ред}
 translate J LSSCredentialsNeeded {Унесите своје ЛСС корисничко име и лозинку.}
 translate J LSSUpdating {Преузимање игара са ЛСС сервера...}
-translate J LSSGamesUpdated {Игре: %s додато, %с потези ажурирани, %с ажурирани}
+translate J LSSGamesUpdated {Игре: %s додато, %s потези ажурирани, %s ажурирани}
 translate J LSSSendingMoves {Слање селидбе на ЛСС сервер...}
-translate J LSSMovesSent {Покрети послати: %s успешно, %с неуспешно}
+translate J LSSMovesSent {Покрети послати: %s успешно, %s неуспешно}
 translate J LSSNoGamesFound {Нема пронађених игара.}
 translate J LSSFilterError {Грешка филтера.}
 translate J LSSConnectionFailed {Повезивање са ЛСС сервером није успело. Проверите своју мрежу.}
