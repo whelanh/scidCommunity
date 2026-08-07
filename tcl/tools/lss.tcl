@@ -18,10 +18,15 @@ variable selectedGame -1
 variable savedGameNum 0
 variable gameData
 variable gameToDbMap
-variable opponentMessage ""
-variable yourMessage ""
 variable treeview ""
+variable treeviewWaiting ""
+variable oppMsgWidget ""
+variable yourMsgWidget ""
 variable statusText ""
+variable sentGames
+variable pendingMessages
+variable drawOffers
+variable resigns
 
 # SOAP settings
 variable soapNS "http://www.bennedik.com/webservices/XfccBasic"
@@ -146,31 +151,17 @@ proc ::lss::soapRequest {action soapBody {timeout 30000}} {
   set soapAction "$::lss::soapNS/$action"
   set timeoutSec [expr {$timeout / 1000}]
 
-  set tmpfile [file join $::scidUserDir "lss_soap_req_[pid].xml"]
-  catch {file delete $tmpfile}
-
-  if {[catch {
-    set fd [open $tmpfile w]
-    puts $fd $soapEnvelope
-    ::close $fd
-  } err]} {
-    catch {file delete $tmpfile}
-    return ""
-  }
-
   if {[catch {
     exec curl -s -S -m $timeoutSec \
       -H "Content-Type: text/xml; charset=utf-8" \
       -H "SOAPAction: $soapAction" \
       -H "User-Agent: scidCommunity-LSS/1.0" \
-      -d @$tmpfile \
+      -d @- << $soapEnvelope \
       $::lss::server
   } result]} {
-    catch {file delete $tmpfile}
     return ""
   }
 
-  catch {file delete $tmpfile}
   return $result
 }
 
@@ -187,11 +178,11 @@ proc ::lss::fetchGames {} {
 
   set response [::lss::soapRequest "GetMyGames" $soapBody]
   if {$response eq ""} {
-    return -code error "Failed to connect to LSS server. Check your network and TLS configuration."
+    return -code error [::tr LSSConnectionFailed]
   }
 
   if {[regexp {AuthenticationFailed|InvalidUsernameOrPassword} $response]} {
-    return -code error "Authentication failed. Check your username and password."
+    return -code error [::tr LSSAuthFailed]
   }
 
   return [::lss::parseGetMyGamesResponse $response]
@@ -279,7 +270,7 @@ proc ::lss::connect {} {
   set w .lss
   ::createToplevel $w
   ::setTitle $w $::tr(LSSTitle)
-  wm protocol $w WM_DELETE_WINDOW "::lss::close"
+  wm protocol $w WM_DELETE_WINDOW "::lss::closeWindow"
 
   ::lss::createWindow $w
 }
@@ -288,7 +279,7 @@ proc ::lss::connect {} {
 # ::lss::createWindow - Build the LSS window UI
 #
 proc ::lss::createWindow {w} {
-  bind $w <Escape> "::lss::close"
+  bind $w <Escape> "::lss::closeWindow"
   bind $w <FocusIn> "if {\[winfo exists $w\]} { ::lss::populateGameList }"
 
   # Branding with logo
@@ -413,7 +404,7 @@ proc ::lss::createWindow {w} {
   # Bottom buttons
   ttk::frame $w.buttons
   ttk::button $w.buttons.send -text $::tr(LSSSendMoves) -command ::lss::sendMoves
-  ttk::button $w.buttons.close -text $::tr(LSSClose) -command ::lss::close
+  ttk::button $w.buttons.close -text $::tr(LSSClose) -command ::lss::closeWindow
   pack $w.buttons.send -side left -padx 5 -pady 5
   pack $w.buttons.close -side right -padx 5 -pady 5
 
@@ -446,7 +437,7 @@ proc ::lss::updateGames {} {
   }
 
   if {[llength $::lss::games] == 0} {
-    set ::lss::statusText "No games found."
+    set ::lss::statusText [::tr LSSNoGamesFound]
     return
   }
 
@@ -463,7 +454,7 @@ proc ::lss::updateGames {} {
 
   # Single fast filter pass to find all existing LSS games
   if {[catch {sc_filter new $curDb} tmpFilter]} {
-    set ::lss::statusText "Filter error"
+    set ::lss::statusText [::tr LSSFilterError]
     if {$savedGame > 0} { catch {sc_game load $savedGame} }
     return
   }
@@ -533,127 +524,6 @@ proc ::lss::updateGames {} {
 }
 
 #
-# ::lss::processGame - Process a single game from LSS
-#   Find matching game in database (by LSS tag)
-#   If not found, create new game
-#   If found, update moves if needed
-#   Stores the db game number in gameToDbMap($lssId)
-#   Returns: new, updated, or unchanged
-#
-proc ::lss::processGame {game lssId tagMapVar} {
-  upvar $tagMapVar tagMap
-  set tagName "LSS"
-  set dbGameNum [::lss::findGameByTag $tagName $lssId tagMap]
-
-  if {$dbGameNum < 0} {
-    set dbGameNum [::lss::addNewGame $game $lssId $tagName]
-    if {$dbGameNum < 0} {
-      return unchanged
-    }
-    dict set tagMap $lssId $dbGameNum
-    set ::lss::gameToDbMap($lssId) $dbGameNum
-    return new
-  }
-
-  set ::lss::gameToDbMap($lssId) $dbGameNum
-
-  # Check for new moves
-  if {[::lss::needsMoveUpdate $game $dbGameNum]} {
-    ::lss::updateGameMoves $game $dbGameNum
-    return updated
-  }
-
-  return unchanged
-}
-
-#
-# ::lss::cacheFile - Returns path to the LSS game cache file
-#
-proc ::lss::cacheFile {} {
-  return [file join $::scidConfigDir "lss_game_cache.dat"]
-}
-
-#
-# ::lss::loadGameCache - Load cached LSS ID -> DB game number mappings
-#   On first run (no cache), uses sc_filter search tags to find existing LSS games
-#
-proc ::lss::loadGameCache {} {
-  set tagMap {}
-  set cachePath [::lss::cacheFile]
-  if {[file exists $cachePath]} {
-    if {![catch {set fd [open $cachePath r]}]} {
-      set data [read $fd]
-      ::close $fd
-      foreach line [split $data "\n"] {
-        set line [string trim $line]
-        if {$line eq ""} { continue }
-        if {![regexp {^(\d+)\s+(.*)$} $line -> lssId gameNum]} { continue }
-        if {![string is integer -strict $gameNum]} { continue }
-        if {[catch {sc_game load $gameNum}]} { continue }
-        set extra [sc_game tags get Extra]
-        set found 0
-        foreach eline [split $extra "\n"] {
-          if {[regexp "^LSS \"$lssId\"\$" $eline]} { set found 1; break }
-        }
-        if {$found} {
-          dict set tagMap $lssId $gameNum
-        }
-      }
-    }
-    if {[dict size $tagMap] > 0} { return $tagMap }
-  }
-
-  # Cache is empty (first run or rebuild needed).
-  # Use sc_filter to efficiently find games with LSS tags
-  set curDb [sc_base current]
-  if {[catch {sc_filter new $curDb} tmpFilter]} {
-    return $tagMap
-  }
-  catch {sc_filter reset $curDb $tmpFilter full}
-  catch {sc_filter search $curDb $tmpFilter tags LSS *}
-  set nMatches [expr {[catch {sc_filter count $curDb $tmpFilter} count] ? 0 : $count}]
-
-  if {$nMatches > 0 && $nMatches < 10000} {
-    foreach {idx line deleted} [sc_base gameslist $curDb 0 $nMatches $tmpFilter N+] {
-      if {![regexp {^(\d+)_} $idx -> gnum]} { continue }
-      if {[catch {sc_game load $gnum}]} { continue }
-      set extra [sc_game tags get Extra]
-      foreach eline [split $extra "\n"] {
-        if {[regexp {^LSS "([^"]+)"} $eline -> val]} {
-          dict set tagMap $val $gnum
-          break
-        }
-      }
-    }
-  }
-
-  puts stderr "LSS loadGameCache: built tagMap with [dict size $tagMap] entries"
-
-  catch {sc_filter reset $curDb $tmpFilter empty}
-  return $tagMap
-}
-
-#
-# ::lss::saveGameCache - Save LSS ID -> DB game number mappings to cache file
-#
-proc ::lss::saveGameCache {tagMap} {
-  set cachePath [::lss::cacheFile]
-  if {[catch {set fd [open $cachePath w]}]} { return }
-  dict for {lssId gameNum} $tagMap {
-    puts $fd "$lssId $gameNum"
-  }
-  ::close $fd
-}
-
-#
-# ::lss::findGameByTag - Look up LSS ID in the cache/tag map
-#
-proc ::lss::findGameByTag {tagName tagValue tagMap} {
-  if {![dict exists $tagMap $tagValue]} { return -1 }
-  return [dict get $tagMap $tagValue]
-}
-
-#
 # ::lss::parseEventDate - Try to extract a PGN date (YYYY.MM.DD) from an event name
 #   Looks for patterns like "2026-Aug" or "2026-Sep" etc.
 #   Returns "????.??.??" if no date found
@@ -677,8 +547,8 @@ proc ::lss::parseEventDate {event} {
 proc ::lss::addNewGame {game lssId tagName} {
   if {[catch {sc_game new}]} { return -1 }
 
-  set white [dict get $game white]
-  set black [dict get $game black]
+  set white [dictGetDefault $game white "?"]
+  set black [dictGetDefault $game black "?"]
   set event [dictGetDefault $game event ""]
   set whiteElo [dictGetDefault $game whiteElo 0]
   set blackElo [dictGetDefault $game blackElo 0]
@@ -803,15 +673,18 @@ proc ::lss::updateGameMoves {game dbGameNum} {
 
   if {$dbMoveCount >= $lssMoveCount} { return }
 
-  set newMoves [lrange $lssMoveTokens $dbMoveCount end]
+  # Verify DB moves are a prefix of server moves
+  for {set i 0} {$i < $dbMoveCount} {incr i} {
+    set dbM [regsub {[\+#]} [lindex $dbMoveTokens $i] ""]
+    set lsM [regsub {[\+#]} [lindex $lssMoveTokens $i] ""]
+    if {[::lss::normalizeMove $dbM] ne [::lss::normalizeMove $lsM]} { return }
+  }
 
-  # Navigate to end of main line
+  set newMoves [lrange $lssMoveTokens $dbMoveCount end]
   catch {sc_move end}
 
   foreach m $newMoves {
-    if {[catch {sc_move addSan $m}]} {
-      break
-    }
+    if {[catch {sc_move addSan $m}]} { return }
   }
 
   set curDb [sc_base current]
@@ -849,6 +722,24 @@ proc ::lss::dictGetDefault {d key default} {
     return [dict get $d $key]
   }
   return $default
+}
+
+#
+# ::lss::normalizeMove - Strip disambiguation from SAN for comparison
+#
+proc ::lss::normalizeMove {move} {
+  if {[regexp {^[NBRQK][a-h]?[1-8]?x?[a-h][1-8]} $move]} {
+    regsub {^([NBRQK])[a-h]?[1-8]?} $move {\1} move
+  }
+  return $move
+}
+
+#
+# ::lss::toInt - Convert value to integer, defaulting to 0
+#
+proc ::lss::toInt {val} {
+  if {[string is integer -strict $val]} { return [expr {$val}] }
+  return 0
 }
 
 #
@@ -899,10 +790,10 @@ proc ::lss::buildGameRow {id extended} {
   set opponent "?"
   if {$yourColor eq "white"} { set opponent $black } elseif {$yourColor eq "black"} { set opponent $white } else { set opponent "$white / $black" }
 
-  set daysP [dictGetDefault $game daysPlayer 0]
-  set hoursP [dictGetDefault $game hoursPlayer 0]
-  set daysO [dictGetDefault $game daysOpponent 0]
-  set hoursO [dictGetDefault $game hoursOpponent 0]
+  set daysP [::lss::toInt [dictGetDefault $game daysPlayer 0]]
+  set hoursP [::lss::toInt [dictGetDefault $game hoursPlayer 0]]
+  set daysO [::lss::toInt [dictGetDefault $game daysOpponent 0]]
+  set hoursO [::lss::toInt [dictGetDefault $game hoursOpponent 0]]
   set yourTime [format "%dd %dh" $daysP $hoursP]
   set oppTime [format "%dd %dh" $daysO $hoursO]
 
@@ -1014,7 +905,7 @@ proc ::lss::loadSelectedGame {w x y} {
   if {![regexp {^lss_(.+)$} $itemId -> id]} { return }
   if {[info exists ::lss::gameToDbMap($id)]} {
     set dbGameNum $::lss::gameToDbMap($id)
-    if {[sc_base inUse]} { set ::lss::savedGameNum [sc_game number] }
+    if {$::lss::savedGameNum == 0 && [sc_base inUse]} { set ::lss::savedGameNum [sc_game number] }
     if {[catch {sc_game load $dbGameNum}]} { return }
     ::notify::GameChanged
   }
@@ -1024,7 +915,7 @@ proc ::lss::loadSelectedGame {w x y} {
 # ::lss::onDrawClick - Toggle draw offer for a game when clicking the Offer Draw column
 #
 proc ::lss::onDrawClick {w x y} {
-  # identify returns "#N" indices; map to column names (tree col #0 is hidden)
+  if {[$w identify region $x $y] eq "heading"} { return }
   set colIdx [$w identify column $x $y]
   set cols {LSSGameID LSSOpponent LSSEvent LSSYourTime LSSOppTime LSSLastMove LSSYourMove LSSOfferDraw LSSResign LSSSent}
   set idx [string range $colIdx 1 end]
@@ -1111,8 +1002,19 @@ proc ::lss::sendMoves {} {
 
     if {$dbMoveCount <= $lssMoveCount} { continue }
 
-    set newMoves [lrange $dbMoveTokens $lssMoveCount end]
+    # Verify DB moves are a prefix of server moves
+    set prefixOk 1
+    for {set i 0} {$i < $lssMoveCount} {incr i} {
+      set dbM [regsub {[\+#]} [lindex $dbMoveTokens $i] ""]
+      set lsM [regsub {[\+#]} [lindex $lssMoveTokens $i] ""]
+      if {[::lss::normalizeMove $dbM] ne [::lss::normalizeMove $lsM]} {
+        set prefixOk 0
+        break
+      }
+    }
+    if {!$prefixOk} { continue }
 
+    set newMoves [lrange $dbMoveTokens $lssMoveCount end]
     if {[llength $newMoves] == 0} { continue }
 
     # Save and read per-game message
@@ -1128,23 +1030,17 @@ proc ::lss::sendMoves {} {
     catch {unset ::lss::drawOffers($id)}
     catch {unset ::lss::resigns($id)}
 
-    # Send each new move
-    set moveCount $lssMoveCount
-    set allSent 1
-    foreach move $newMoves {
-      incr moveCount
-      set fullMoveNum [expr {($moveCount + 1) / 2}]
-      set result [::lss::sendMoveSoap $id $fullMoveNum $move $msg $offerDraw $resign]
-      if {$result eq "Success"} {
-        incr successful
-      } else {
-        incr failed
-        set allSent 0
-        break
-      }
-      set msg ""  ;# only send message with first move
+    # Send only the first unsent move
+    set move [lindex $newMoves 0]
+    set moveCount [expr {$lssMoveCount + 1}]
+    set fullMoveNum [expr {($moveCount + 1) / 2}]
+    set result [::lss::sendMoveSoap $id $fullMoveNum $move $msg $offerDraw $resign]
+    if {$result eq "Success"} {
+      incr successful
+      set ::lss::sentGames($id) 1
+    } else {
+      incr failed
     }
-    if {$allSent} { set ::lss::sentGames($id) 1 }
   }
 
   # Restore the saved game
@@ -1187,14 +1083,13 @@ proc ::lss::sendMoveSoap {gameId moveCount move message offerDraw resign} {
 }
 
 #
-# ::lss::close - Close the LSS window and clean up
+# ::lss::closeWindow - Close the LSS window and clean up
 #
-proc ::lss::close {} {
+proc ::lss::closeWindow {} {
   set ::lss::playing 0
   if {[winfo exists .lss]} {
     destroy .lss
   }
-  after cancel ::lss::savedGameNum
   if {[info exists ::lss::savedGameNum] && $::lss::savedGameNum > 0 && [sc_base inUse]} {
     catch {sc_game load $::lss::savedGameNum}
     ::notify::GameChanged

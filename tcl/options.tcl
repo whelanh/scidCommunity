@@ -804,6 +804,7 @@ proc options.write {} {
     }
 
     close $optionF
+    catch {file attributes [scidConfigFile options] -permissions 0600}
     set ::statusBar "Options were saved to: [scidConfigFile options]"
   }
  }
