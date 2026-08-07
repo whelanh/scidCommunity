@@ -1976,8 +1976,8 @@ translate S LSSYourMessage {Tu mensaje}
 translate S LSSGameID {Juego}
 translate S LSSOpponent {Adversario}
 translate S LSSTime {Tiempo}
-translate S LSSWhiteElo {BIENVENIDO}
-translate S LSSBlackElo {belo}
+translate S LSSWhiteElo {WElo}
+translate S LSSBlackElo {BElo}
 translate S LSSEvent {Evento}
 translate S LSSLastMove {Último movimiento}
 translate S LSSSent {Enviado}
