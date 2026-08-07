@@ -328,9 +328,9 @@ proc ::lss::createWindow {w} {
   $t1 column LSSYourTime -width 80  -stretch no
   $t1 column LSSOppTime  -width 80  -stretch no
   $t1 column LSSLastMove -width 85  -stretch no
-  $t1 column LSSDrawOffered -width 75 -stretch no
+  $t1 column LSSDrawOffered -width 70 -stretch no
   $t1 column LSSYourMove -width 85  -stretch no
-  $t1 column LSSOfferDraw -width 60 -stretch no
+  $t1 column LSSOfferDraw -width 70 -stretch no
   $t1 column LSSResign   -width 60 -stretch no
   $t1 column LSSSent     -width 35  -stretch no
   set vsb1 [ttk::scrollbar $f1.vsb -orient vertical -command "$t1 yview"]
