@@ -747,6 +747,10 @@ proc ::lss::toInt {val} {
 proc ::lss::populateGameList {} {
   set saved [sc_game number]
 
+  # Preserve selections across rebuild (FocusIn triggers this while user is typing)
+  set sel1 [lindex [$::lss::treeview selection] 0]
+  set sel2 [lindex [$::lss::treeviewWaiting selection] 0]
+
   # Your Turn tab
   set t1 $::lss::treeview
   set children [$t1 children {}]
@@ -766,6 +770,14 @@ proc ::lss::populateGameList {} {
   }
 
   if {$saved > 0} { catch {sc_game load $saved} }
+
+  # Restore selections
+  if {$sel1 ne "" && [$::lss::treeview exists $sel1]} {
+    $::lss::treeview selection set $sel1
+  }
+  if {$sel2 ne "" && [$::lss::treeviewWaiting exists $sel2]} {
+    $::lss::treeviewWaiting selection set $sel2
+  }
 }
 
 #
@@ -1035,6 +1047,7 @@ proc ::lss::sendMoves {} {
     set move [lindex $newMoves 0]
     set moveCount [expr {$lssMoveCount + 1}]
     set fullMoveNum [expr {($moveCount + 1) / 2}]
+    puts stderr "LSS send: game=$id move=$move cnt=$fullMoveNum msg='$msg' draw=$offerDraw resign=$resign"
     set result [::lss::sendMoveSoap $id $fullMoveNum $move $msg $offerDraw $resign]
     if {$result eq "Success"} {
       incr successful
