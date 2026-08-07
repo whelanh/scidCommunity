@@ -1961,10 +1961,12 @@ translate g LSSNoGamesFound {Няма намерени игри.}
 translate g LSSFilterError {Грешка във филтъра.}
 translate g LSSConnectionFailed {Неуспешно свързване към LSS сървър. Проверете вашата мрежа.}
 translate g LSSAuthFailed {Неуспешно удостоверяване. Проверете вашето потребителско име и парола.}
+translate g LSSNeedUpdate {Моля, първо натиснете „Актуализиране на игри“, за да изтеглите текущите данни за играта от сървъра.}
 translate g LSSNoDatabase {В момента няма отворена база данни. Моля, първо отворете база данни.}
 translate g LSSGameNumber {LSS}
 translate g LSSMyTime {Моето време}
 translate g LSSOppTime {Opp Time}
+translate g LSSDrawOffered {Предлага се равенство}
 }
 # end of english.tcl
 

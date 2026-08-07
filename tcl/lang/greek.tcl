@@ -1969,10 +1969,12 @@ translate G LSSNoGamesFound {Δεν βρέθηκαν παιχνίδια.}
 translate G LSSFilterError {Σφάλμα φίλτρου.}
 translate G LSSConnectionFailed {Αποτυχία σύνδεσης με διακομιστή LSS. Ελέγξτε το δίκτυό σας.}
 translate G LSSAuthFailed {Ο έλεγχος ταυτότητας απέτυχε. Ελέγξτε το όνομα χρήστη και τον κωδικό πρόσβασής σας.}
+translate G LSSNeedUpdate {Πατήστε "Ενημέρωση παιχνιδιών" πρώτα για να λάβετε τρέχοντα δεδομένα παιχνιδιού από τον διακομιστή.}
 translate G LSSNoDatabase {Καμία βάση δεδομένων δεν είναι ανοιχτή αυτήν τη στιγμή. Ανοίξτε πρώτα μια βάση δεδομένων.}
 translate G LSSGameNumber {LSS}
 translate G LSSMyTime {Ο χρόνος μου}
 translate G LSSOppTime {Opp Time}
+translate G LSSDrawOffered {Προσφέρεται κλήρωση}
 }
 # end of english.tcl
 

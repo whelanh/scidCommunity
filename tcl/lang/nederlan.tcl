@@ -1967,10 +1967,12 @@ translate N LSSNoGamesFound {Geen spellen gevonden.}
 translate N LSSFilterError {Filterfout.}
 translate N LSSConnectionFailed {Kan geen verbinding maken met de LSS-server. Controleer uw netwerk.}
 translate N LSSAuthFailed {Authenticatie mislukt. Controleer uw gebruikersnaam en wachtwoord.}
+translate N LSSNeedUpdate {Druk eerst op "Games bijwerken" om de huidige spelgegevens van de server op te halen.}
 translate N LSSNoDatabase {Er is momenteel geen database geopend. Open eerst een database.}
 translate N LSSGameNumber {LSS}
 translate N LSSMyTime {Mijn tijd}
 translate N LSSOppTime {Op tijd}
+translate N LSSDrawOffered {Gelijkspel aangeboden}
 }
 # end of english.tcl
 

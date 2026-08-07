@@ -1948,10 +1948,12 @@ translate W LSSNoGamesFound {Inga spel hittades.}
 translate W LSSFilterError {Filterfel.}
 translate W LSSConnectionFailed {Det gick inte att ansluta till LSS-servern. Kontrollera ditt nätverk.}
 translate W LSSAuthFailed {Autentiseringen misslyckades. Kontrollera ditt användarnamn och lösenord.}
+translate W LSSNeedUpdate {Vänligen tryck på "Uppdatera spel" först för att hämta aktuell speldata från servern.}
 translate W LSSNoDatabase {Ingen databas är för närvarande öppen. Öppna en databas först.}
 translate W LSSGameNumber {LSS}
 translate W LSSMyTime {Min tid}
 translate W LSSOppTime {Upp tid}
+translate W LSSDrawOffered {Dragning erbjuds}
 }
 # end of english.tcl
 

@@ -1961,10 +1961,12 @@ translate k LSSNoGamesFound {게임을 찾을 수 없습니다.}
 translate k LSSFilterError {필터 오류입니다.}
 translate k LSSConnectionFailed {LSS 서버에 연결하지 못했습니다. 네트워크를 확인하세요.}
 translate k LSSAuthFailed {인증에 실패했습니다. 사용자 이름과 비밀번호를 확인하세요.}
+translate k LSSNeedUpdate {서버에서 현재 게임 데이터를 가져오려면 먼저 "게임 업데이트"를 누르십시오.}
 translate k LSSNoDatabase {현재 열려 있는 데이터베이스가 없습니다. 먼저 데이터베이스를 열어주세요.}
 translate k LSSGameNumber {LSS}
 translate k LSSMyTime {나의 시간}
 translate k LSSOppTime {기회 시간}
+translate k LSSDrawOffered {추첨 제공}
 }
 # end of english.tcl
 

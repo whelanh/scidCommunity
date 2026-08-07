@@ -1920,10 +1920,12 @@ translate h LSSNoGamesFound {कोई गेम नहीं मिला.}
 translate h LSSFilterError {फ़िल्टर त्रुटि.}
 translate h LSSConnectionFailed {LSS सर्वर से कनेक्ट करने में विफल. अपना नेटवर्क जांचें.}
 translate h LSSAuthFailed {प्रमाणीकरण विफल होना। अपना उपयोगकर्ता नाम और पासवर्ड जांचें.}
+translate h LSSNeedUpdate {कृपया सर्वर से वर्तमान गेम डेटा लाने के लिए पहले "अपडेट गेम्स" दबाएँ।}
 translate h LSSNoDatabase {फिलहाल कोई डेटाबेस खुला नहीं है. कृपया पहले एक डेटाबेस खोलें.}
 translate h LSSGameNumber {एलएसएस}
 translate h LSSMyTime {मेरा समय}
 translate h LSSOppTime {विपरीत समय}
+translate h LSSDrawOffered {ड्रा की पेशकश की गई}
 }
 # end of english.tcl
 

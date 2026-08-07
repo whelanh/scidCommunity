@@ -3297,4 +3297,6 @@ translate Y LSSGameNumber {LSS}
 translate Y LSSMyTime {My Time}
 # ====== TODO To be translated ======
 translate Y LSSOppTime {Opp Time}
+# ====== TODO To be translated ======
+translate Y LSSDrawOffered {Draw Offered}
 

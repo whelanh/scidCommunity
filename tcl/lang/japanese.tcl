@@ -1961,10 +1961,12 @@ translate A LSSNoGamesFound {ゲームが見つかりませんでした。}
 translate A LSSFilterError {フィルターエラー。}
 translate A LSSConnectionFailed {LSSサーバーへの接続に失敗しました。ネットワークを確認してください。}
 translate A LSSAuthFailed {認証に失敗しました。ユーザー名とパスワードを確認してください。}
+translate A LSSNeedUpdate {まず「ゲームの更新」を押して、サーバーから現在のゲームデータを取得してください。}
 translate A LSSNoDatabase {現在開いているデータベースはありません。まずデータベースを開いてください。}
 translate A LSSGameNumber {LSS}
 translate A LSSMyTime {私の時間}
 translate A LSSOppTime {作業時間}
+translate A LSSDrawOffered {抽選が行われました}
 }
 # end of english.tcl
 

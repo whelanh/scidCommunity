@@ -1920,10 +1920,12 @@ translate Z LSSNoGamesFound {Hakuna michezo iliyopatikana.}
 translate Z LSSFilterError {Hitilafu ya kichujio.}
 translate Z LSSConnectionFailed {Imeshindwa kuunganisha kwenye seva ya LSS. Angalia mtandao wako.}
 translate Z LSSAuthFailed {Uthibitishaji umeshindwa. Angalia jina lako la mtumiaji na nenosiri.}
+translate Z LSSNeedUpdate {Tafadhali bonyeza "Sasisha Michezo" kwanza ili kuleta data ya sasa ya mchezo kutoka kwa seva.}
 translate Z LSSNoDatabase {Hakuna hifadhidata iliyofunguliwa kwa sasa. Tafadhali fungua hifadhidata kwanza.}
 translate Z LSSGameNumber {LSS}
 translate Z LSSMyTime {Wakati Wangu}
 translate Z LSSOppTime {Muda wa Opp}
+translate Z LSSDrawOffered {Droo Imetolewa}
 }
 # end of english.tcl
 

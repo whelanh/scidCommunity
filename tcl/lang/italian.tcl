@@ -1944,10 +1944,12 @@ translate I LSSNoGamesFound {Nessun gioco trovato.}
 translate I LSSFilterError {Errore filtro.}
 translate I LSSConnectionFailed {Impossibile connettersi al server LSS. Controlla la tua rete.}
 translate I LSSAuthFailed {Autenticazione non riuscita. Controlla il tuo nome utente e la tua password.}
+translate I LSSNeedUpdate {Premi prima "Aggiorna giochi" per recuperare i dati di gioco correnti dal server.}
 translate I LSSNoDatabase {Nessun database è attualmente aperto. Per favore apri prima un database.}
 translate I LSSGameNumber {LSS}
 translate I LSSMyTime {Il mio tempo}
 translate I LSSOppTime {Tempo op}
+translate I LSSDrawOffered {Pareggio offerto}
 }
 # end of english.tcl
 

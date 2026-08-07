@@ -1921,10 +1921,12 @@ translate V LSSNoGamesFound {לא נמצאו משחקים.}
 translate V LSSFilterError {שגיאת סינון.}
 translate V LSSConnectionFailed {נכשל החיבור לשרת LSS. בדוק את הרשת שלך.}
 translate V LSSAuthFailed {האימות נכשל. בדוק את שם המשתמש והסיסמה שלך.}
+translate V LSSNeedUpdate {אנא הקש תחילה על "עדכן משחקים" כדי להביא נתוני משחק נוכחיים מהשרת.}
 translate V LSSNoDatabase {אין בסיס נתונים פתוח כרגע. נא לפתוח מסד נתונים תחילה.}
 translate V LSSGameNumber {LSS}
 translate V LSSMyTime {הזמן שלי}
 translate V LSSOppTime {Opp Time}
+translate V LSSDrawOffered {הגרלה מוצעת}
 }
 # end of english.tcl
 

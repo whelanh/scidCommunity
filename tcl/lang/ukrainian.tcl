@@ -1921,10 +1921,12 @@ translate Q LSSNoGamesFound {Ігор не знайдено.}
 translate Q LSSFilterError {Помилка фільтра.}
 translate Q LSSConnectionFailed {Не вдалося підключитися до сервера LSS. Перевірте свою мережу.}
 translate Q LSSAuthFailed {Помилка автентифікації. Перевірте своє ім'я користувача та пароль.}
+translate Q LSSNeedUpdate {Будь ласка, спочатку натисніть «Оновити ігри», щоб отримати поточні дані гри з сервера.}
 translate Q LSSNoDatabase {Зараз немає відкритої бази даних. Спочатку відкрийте базу даних.}
 translate Q LSSGameNumber {LSS}
 translate Q LSSMyTime {Мій час}
 translate Q LSSOppTime {Час Opp}
+translate Q LSSDrawOffered {Пропонується нічия}
 }
 # end of english.tcl
 

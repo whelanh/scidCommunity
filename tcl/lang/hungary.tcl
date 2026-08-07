@@ -1943,10 +1943,12 @@ translate H LSSNoGamesFound {Nem található játék.}
 translate H LSSFilterError {Szűrő hiba.}
 translate H LSSConnectionFailed {Nem sikerült csatlakozni az LSS-kiszolgálóhoz. Ellenőrizze a hálózatot.}
 translate H LSSAuthFailed {A hitelesítés nem sikerült. Ellenőrizze felhasználónevét és jelszavát.}
+translate H LSSNeedUpdate {Kérjük, először nyomja meg a "Játékok frissítése" gombot az aktuális játékadatok letöltéséhez a szerverről.}
 translate H LSSNoDatabase {Jelenleg nincs megnyitva adatbázis. Először nyisson meg egy adatbázist.}
 translate H LSSGameNumber {LSS}
 translate H LSSMyTime {Az én időm}
 translate H LSSOppTime {Opp idő}
+translate H LSSDrawOffered {Sorsolás Felajánlott}
 }
 # end of english.tcl
 

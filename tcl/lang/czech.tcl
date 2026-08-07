@@ -1942,10 +1942,12 @@ translate C LSSNoGamesFound {Nebyly nalezeny žádné hry.}
 translate C LSSFilterError {Chyba filtru.}
 translate C LSSConnectionFailed {Připojení k serveru LSS se nezdařilo. Zkontrolujte svou síť.}
 translate C LSSAuthFailed {Ověření se nezdařilo. Zkontrolujte své uživatelské jméno a heslo.}
+translate C LSSNeedUpdate {Nejprve prosím stiskněte "Aktualizovat hry", abyste načetli aktuální herní data ze serveru.}
 translate C LSSNoDatabase {Momentálně není otevřena žádná databáze. Nejprve prosím otevřete databázi.}
 translate C LSSGameNumber {LSS}
 translate C LSSMyTime {Můj čas}
 translate C LSSOppTime {Opp Time}
+translate C LSSDrawOffered {Nabídka remízy}
 }
 # end of english.tcl
 

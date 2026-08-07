@@ -1924,10 +1924,12 @@ translate T LSSNoGamesFound {Oyun bulunamadı.}
 translate T LSSFilterError {Filtre hatası.}
 translate T LSSConnectionFailed {LSS sunucusuna bağlanılamadı. Ağınızı kontrol edin.}
 translate T LSSAuthFailed {Kimlik doğrulama başarısız oldu. Kullanıcı adınızı ve şifrenizi kontrol edin.}
+translate T LSSNeedUpdate {Sunucudan güncel oyun verilerini almak için lütfen önce "Oyunları Güncelle"ye basın.}
 translate T LSSNoDatabase {Şu anda hiçbir veritabanı açık değil. Lütfen önce bir veritabanı açın.}
 translate T LSSGameNumber {LSS}
 translate T LSSMyTime {Benim Zamanım}
 translate T LSSOppTime {Rakip Zamanı}
+translate T LSSDrawOffered {Çekiliş Teklif Edildi}
 }
 # end of english.tcl
 

@@ -1942,10 +1942,12 @@ translate O LSSNoGamesFound {Ingen spill funnet.}
 translate O LSSFilterError {Filterfeil.}
 translate O LSSConnectionFailed {Kunne ikke koble til LSS-serveren. Sjekk nettverket ditt.}
 translate O LSSAuthFailed {Autentisering mislyktes. Sjekk brukernavnet og passordet ditt.}
+translate O LSSNeedUpdate {Vennligst trykk "Oppdater spill" først for å hente gjeldende spilldata fra serveren.}
 translate O LSSNoDatabase {Ingen database er åpen for øyeblikket. Vennligst åpne en database først.}
 translate O LSSGameNumber {LSS}
 translate O LSSMyTime {Min tid}
 translate O LSSOppTime {Opp tid}
+translate O LSSDrawOffered {Trekning tilbys}
 }
 # end of english.tcl
 

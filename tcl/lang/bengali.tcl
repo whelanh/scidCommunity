@@ -1920,10 +1920,12 @@ translate b LSSNoGamesFound {কোনো গেম পাওয়া যায
 translate b LSSFilterError {ফিল্টার ত্রুটি।}
 translate b LSSConnectionFailed {LSS সার্ভারের সাথে সংযোগ করতে ব্যর্থ হয়েছে৷ আপনার নেটওয়ার্ক পরীক্ষা করুন.}
 translate b LSSAuthFailed {প্রমাণীকরণ ব্যর্থ হয়েছে৷ আপনার ব্যবহারকারীর নাম এবং পাসওয়ার্ড পরীক্ষা করুন.}
+translate b LSSNeedUpdate {সার্ভার থেকে বর্তমান গেম ডেটা আনতে প্রথমে "আপডেট গেমস" টিপুন৷}
 translate b LSSNoDatabase {বর্তমানে কোনো ডাটাবেস খোলা নেই। প্রথমে একটি ডাটাবেস খুলুন.}
 translate b LSSGameNumber {এলএসএস}
 translate b LSSMyTime {আমার সময়}
 translate b LSSOppTime {সময় বিপরীত}
+translate b LSSDrawOffered {ড্র অফার করা হয়েছে}
 }
 # end of english.tcl
 

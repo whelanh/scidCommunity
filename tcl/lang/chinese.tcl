@@ -1896,10 +1896,12 @@ translate M LSSNoGamesFound {没有找到游戏。}
 translate M LSSFilterError {过滤器错误。}
 translate M LSSConnectionFailed {无法连接到 LSS 服务器。检查您的网络。}
 translate M LSSAuthFailed {认证失败。检查您的用户名和密码。}
+translate M LSSNeedUpdate {请先按“更新游戏”从服务器获取当前游戏数据。}
 translate M LSSNoDatabase {当前没有打开数据库。请先打开一个数据库。}
 translate M LSSGameNumber {LSS}
 translate M LSSMyTime {我的时间}
 translate M LSSOppTime {机会时间}
+translate M LSSDrawOffered {提供抽奖}
 }
 # end of english.tcl
 
