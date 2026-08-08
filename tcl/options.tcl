@@ -308,6 +308,12 @@ set ::fics::server_ip "0.0.0.0"
 set ::fics::premoveEnabled 1
 set ::fics::playing 0
 
+# Defaults for ICCF
+set ::iccf::username ""
+set ::iccf::password ""
+set ::iccf::server "https://www.iccf.com/xfccbasic.asmx"
+set ::iccf::playing 0
+
 # default resolvers for player info
 set ::pinfo::wikipAPI      "http://de.wikipedia.org/w/api.php?action=query&format=xml"
 # Appers PND resolver
@@ -740,6 +746,11 @@ proc options.write {} {
     }
     foreach i [lsort [array names ::fics::profileVars]] {
       puts $optionF "set ::fics::profileVars($i) [list $::fics::profileVars($i)]"
+    }
+
+    # save ICCF config
+    foreach i { username password server } {
+      puts $optionF "set ::iccf::$i [list [set ::iccf::$i]]"
     }
 
     # save pinfo config

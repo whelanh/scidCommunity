@@ -1937,5 +1937,40 @@ translate E TBQueryError {Invalid response from tablebase API.}
 translate E TBNotFound {Position not found in tablebase or API error.}
 translate E TBCategory {Position Category:}
 translate E TBTrainingHidden {(Training mode; results are hidden)}
+
+# ICCF (International Correspondence Chess Federation)
+menuText E ToolsTrainICCF "Play on ICCF" 0 {Play on ICCF}
+translate E ICCFTitle {Play on ICCF}
+translate E ICCFLogin {Username}
+translate E ICCFPassword {Password}
+translate E ICCFConnect {Connect}
+translate E ICCFClose {Close}
+translate E ICCFUpdateGames {Update Games}
+translate E ICCFSendMoves {Send Moves}
+translate E ICCFYourMessage {Your Message}
+translate E ICCFGameID {Game}
+translate E ICCFOpponent {Opponent}
+translate E ICCFEvent {Event}
+translate E ICCFLastMove {Last Move}
+translate E ICCFSent {Sent}
+translate E ICCFYourMove {Your Move}
+translate E ICCFOfferDraw {Offer Draw}
+translate E ICCFResign {Resign}
+translate E ICCFWaiting {Waiting}
+translate E ICCFYourTurn {Your Turn}
+translate E ICCFCredentialsNeeded {Please enter your ICCF username and password.}
+translate E ICCFUpdating {Fetching games from ICCF server...}
+translate E ICCFGamesUpdated {Games: %s added, %s moves updated, %s up to date}
+translate E ICCFSendingMoves {Sending moves to ICCF server...}
+translate E ICCFMovesSent {Moves sent: %s successful, %s failed}
+translate E ICCFNoGamesFound {No games found.}
+translate E ICCFFilterError {Filter error.}
+translate E ICCFConnectionFailed {Failed to connect to ICCF server. Check your network.}
+translate E ICCFAuthFailed {Authentication failed. Check your username and password.}
+translate E ICCFNeedUpdate {Please press "Update Games" first to fetch current game data from the server.}
+translate E ICCFNoDatabase {No database is currently open. Please open a database first.}
+translate E ICCFMyTime {My Clock}
+translate E ICCFOppTime {Opp Clock}
+translate E ICCFDrawOffered {Draw Offered}
 }
 # end of english.tcl
