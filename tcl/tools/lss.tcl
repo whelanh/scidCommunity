@@ -27,6 +27,7 @@ variable sentGames
 variable pendingMessages
 variable drawOffers
 variable resigns
+variable acceptDraws
 
 # SOAP settings
 variable soapNS "http://www.bennedik.com/webservices/XfccBasic"
@@ -61,6 +62,7 @@ proc ::lss::config {} {
   catch {array unset ::lss::pendingMessages}
   catch {array unset ::lss::drawOffers}
   catch {array unset ::lss::resigns}
+  catch {array unset ::lss::acceptDraws}
 
   if {$::lss::username ne "" && $::lss::password ne ""} {
     ::lss::connect
@@ -266,6 +268,7 @@ proc ::lss::connect {} {
   catch {array unset ::lss::pendingMessages}
   catch {array unset ::lss::drawOffers}
   catch {array unset ::lss::resigns}
+  catch {array unset ::lss::acceptDraws}
 
   set w .lss
   ::createToplevel $w
@@ -850,7 +853,7 @@ proc ::lss::buildGameRow {id extended} {
     return [list $id $opponent $event $yourTime $oppTime $lastMove \
       [expr {[string is true -strict $drawOffered] ? "\u2713" : ""}] \
       $yourMove \
-      [expr {[info exists ::lss::drawOffers($id)] ? "\u2713" : ""}] \
+      [expr {[info exists ::lss::acceptDraws($id)] ? "A" : [info exists ::lss::drawOffers($id)] ? "\u2713" : ""}] \
       [expr {[info exists ::lss::resigns($id)] ? "\u2713" : ""}] \
       [expr {[info exists ::lss::sentGames($id)] ? "\u2713" : ""}]]
   } else {
@@ -946,8 +949,20 @@ proc ::lss::onDrawClick {w x y} {
   if {$col eq "LSSOfferDraw"} {
     if {[info exists ::lss::drawOffers($id)]} {
       unset ::lss::drawOffers($id)
+      catch {unset ::lss::acceptDraws($id)}
     } else {
-      set ::lss::drawOffers($id) 1
+      # If opponent already offered a draw, this means "accept draw"
+      if {[info exists ::lss::gameData($id)]} {
+        set game $::lss::gameData($id)
+        set oppOffered [dictGetDefault $game drawOffered "false"]
+      } else {
+        set oppOffered "false"
+      }
+      if {[string is true -strict $oppOffered]} {
+        set ::lss::acceptDraws($id) 1
+      } else {
+        set ::lss::drawOffers($id) 1
+      }
       catch {unset ::lss::resigns($id)}
     }
   }
@@ -1044,8 +1059,10 @@ proc ::lss::sendMoves {} {
 
     set offerDraw [expr {[info exists ::lss::drawOffers($id)] ? "true" : "false"}]
     set resign [expr {[info exists ::lss::resigns($id)] ? "true" : "false"}]
+    set acceptDraw [expr {[info exists ::lss::acceptDraws($id)] ? "true" : "false"}]
     catch {unset ::lss::drawOffers($id)}
     catch {unset ::lss::resigns($id)}
+    catch {unset ::lss::acceptDraws($id)}
 
     # Send the first unsent move, or an empty move for resign/draw/message-only
     if {$hasNewMoves} {
@@ -1056,7 +1073,7 @@ proc ::lss::sendMoves {} {
       set moveCount $lssMoveCount
     }
     set fullMoveNum [expr {($moveCount + 1) / 2}]
-    set result [::lss::sendMoveSoap $id $fullMoveNum $move $msg $offerDraw $resign]
+    set result [::lss::sendMoveSoap $id $fullMoveNum $move $msg $offerDraw $resign $acceptDraw]
     if {$result eq "Success"} {
       incr successful
       set ::lss::sentGames($id) 1
@@ -1076,14 +1093,14 @@ proc ::lss::sendMoves {} {
 #
 # ::lss::sendMoveSoap - Send a single move via MakeAMove SOAP call
 #
-proc ::lss::sendMoveSoap {gameId moveCount move message offerDraw resign} {
+proc ::lss::sendMoveSoap {gameId moveCount move message offerDraw resign acceptDraw} {
   set soapBody "
         <ns:MakeAMove>
             <ns:username>[::lss::escapeXml $::lss::username]</ns:username>
             <ns:password>[::lss::escapeXml $::lss::password]</ns:password>
             <ns:gameId>$gameId</ns:gameId>
             <ns:resign>$resign</ns:resign>
-            <ns:acceptDraw>false</ns:acceptDraw>
+            <ns:acceptDraw>$acceptDraw</ns:acceptDraw>
             <ns:movecount>$moveCount</ns:movecount>
             <ns:myMove>[::lss::escapeXml $move]</ns:myMove>
             <ns:offerDraw>$offerDraw</ns:offerDraw>
