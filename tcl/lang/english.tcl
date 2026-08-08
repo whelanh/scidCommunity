@@ -1977,8 +1977,8 @@ translate E LSSAuthFailed {Authentication failed. Check your username and passwo
 translate E LSSNeedUpdate {Please press "Update Games" first to fetch current game data from the server.}
 translate E LSSNoDatabase {No database is currently open. Please open a database first.}
 translate E LSSGameNumber {LSS}
-translate E LSSMyTime {My Time}
-translate E LSSOppTime {Opp Time}
+translate E LSSMyTime {My Clock}
+translate E LSSOppTime {Opp Clock}
 translate E LSSDrawOffered {Draw Offered}
 }
 # end of english.tcl

@@ -554,7 +554,7 @@ proc ::lss::addNewGame {game lssId tagName} {
   set whiteElo [dictGetDefault $game whiteElo 0]
   set blackElo [dictGetDefault $game blackElo 0]
   set eventDate [dictGetDefault $game eventDate ""]
-  set site [dictGetDefault $game serverInfo "LSS"]
+  set site [dictGetDefault $game site [dictGetDefault $game serverInfo "LSS"]]
   set result [dictGetDefault $game result "Ongoing"]
   set variant [dictGetDefault $game variant ""]
   set setup [dictGetDefault $game setup "false"]
@@ -803,10 +803,12 @@ proc ::lss::buildGameRow {id extended} {
 
   set daysP [::lss::toInt [dictGetDefault $game daysPlayer 0]]
   set hoursP [::lss::toInt [dictGetDefault $game hoursPlayer 0]]
+  set minsP [::lss::toInt [dictGetDefault $game minutesPlayer 0]]
   set daysO [::lss::toInt [dictGetDefault $game daysOpponent 0]]
   set hoursO [::lss::toInt [dictGetDefault $game hoursOpponent 0]]
-  set yourTime [format "%dd %dh" $daysP $hoursP]
-  set oppTime [format "%dd %dh" $daysO $hoursO]
+  set minsO [::lss::toInt [dictGetDefault $game minutesOpponent 0]]
+  set yourTime [format "%dd %dh %dm" $daysP $hoursP $minsP]
+  set oppTime [format "%dd %dh %dm" $daysO $hoursO $minsO]
 
   set moves [dictGetDefault $game moves ""]
   set lastMove "?"
@@ -1013,22 +1015,24 @@ proc ::lss::sendMoves {} {
     set lssMoveTokens [::lss::parseSanTokens $lssMoves]
     set lssMoveCount [llength $lssMoveTokens]
 
-    if {$dbMoveCount <= $lssMoveCount} { continue }
+    if {$dbMoveCount <= $lssMoveCount && ![info exists ::lss::resigns($id)] && ![info exists ::lss::drawOffers($id)] && ![info exists ::lss::pendingMessages($id)]} { continue }
 
-    # Verify DB moves are a prefix of server moves
-    set prefixOk 1
-    for {set i 0} {$i < $lssMoveCount} {incr i} {
-      set dbM [regsub {[\+#]} [lindex $dbMoveTokens $i] ""]
-      set lsM [regsub {[\+#]} [lindex $lssMoveTokens $i] ""]
-      if {[::lss::normalizeMove $dbM] ne [::lss::normalizeMove $lsM]} {
-        set prefixOk 0
-        break
+    # Verify DB moves are a prefix of server moves (only if we have moves to compare)
+    if {$dbMoveCount >= $lssMoveCount} {
+      set prefixOk 1
+      for {set i 0} {$i < $lssMoveCount} {incr i} {
+        set dbM [regsub {[\+#]} [lindex $dbMoveTokens $i] ""]
+        set lsM [regsub {[\+#]} [lindex $lssMoveTokens $i] ""]
+        if {[::lss::normalizeMove $dbM] ne [::lss::normalizeMove $lsM]} {
+          set prefixOk 0
+          break
+        }
       }
+      if {!$prefixOk} { continue }
     }
-    if {!$prefixOk} { continue }
 
     set newMoves [lrange $dbMoveTokens $lssMoveCount end]
-    if {[llength $newMoves] == 0} { continue }
+    set hasNewMoves [expr {[llength $newMoves] > 0}]
 
     # Save and read per-game message
     if {[info exists ::lss::pendingMessages($id)]} {
@@ -1043,9 +1047,14 @@ proc ::lss::sendMoves {} {
     catch {unset ::lss::drawOffers($id)}
     catch {unset ::lss::resigns($id)}
 
-    # Send only the first unsent move
-    set move [lindex $newMoves 0]
-    set moveCount [expr {$lssMoveCount + 1}]
+    # Send the first unsent move, or an empty move for resign/draw/message-only
+    if {$hasNewMoves} {
+      set move [lindex $newMoves 0]
+      set moveCount [expr {$lssMoveCount + 1}]
+    } else {
+      set move ""
+      set moveCount $lssMoveCount
+    }
     set fullMoveNum [expr {($moveCount + 1) / 2}]
     set result [::lss::sendMoveSoap $id $fullMoveNum $move $msg $offerDraw $resign]
     if {$result eq "Success"} {
