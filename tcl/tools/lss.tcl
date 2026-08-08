@@ -322,21 +322,19 @@ proc ::lss::createWindow {w} {
     LSSDrawOffered LSSDrawOffered LSSYourMove LSSYourMove LSSOfferDraw LSSOfferDraw LSSResign LSSResign LSSSent LSSSent} {
     $t1 heading $col -text $::tr($text)
   }
-  $t1 column LSSGameID   -width 65  -stretch no
-  $t1 column LSSOpponent -width 130 -stretch no
-  $t1 column LSSEvent    -width 95  -stretch no
-  $t1 column LSSYourTime -width 80  -stretch no
-  $t1 column LSSOppTime  -width 80  -stretch no
-  $t1 column LSSLastMove -width 85  -stretch no
-  $t1 column LSSDrawOffered -width 70 -stretch no
-  $t1 column LSSYourMove -width 85  -stretch no
-  $t1 column LSSOfferDraw -width 70 -stretch no
-  $t1 column LSSResign   -width 60 -stretch no
-  $t1 column LSSSent     -width 35  -stretch no
+  foreach col $cols {
+    set text [$t1 heading $col -text]
+    $t1 column $col -width [expr {[font measure font_Regular $text] + 14}] -stretch no
+  }
+  # Give Last Move a bit extra for move notation like "13...Nc6"
+  $t1 column LSSLastMove -width [expr {[$t1 column LSSLastMove -width] + 10}]
   set vsb1 [ttk::scrollbar $f1.vsb -orient vertical -command "$t1 yview"]
-  $t1 configure -yscrollcommand "$vsb1 set"
-  grid $t1 $vsb1 -sticky news
+  set hsb1 [ttk::scrollbar $f1.hsb -orient horizontal -command "$t1 xview"]
+  $t1 configure -yscrollcommand "$vsb1 set" -xscrollcommand "$hsb1 set"
+  grid $t1  $vsb1 -sticky news
+  grid $hsb1       -sticky we
   grid rowconfigure $f1 0 -weight 1
+  grid rowconfigure $f1 1 -weight 0
   grid columnconfigure $f1 0 -weight 1
   bind $t1 <Double-ButtonRelease-1> "::lss::loadSelectedGame %W %x %y"
   bind $t1 <<TreeviewSelect>> "::lss::onGameSelect %W"
@@ -382,16 +380,18 @@ proc ::lss::createWindow {w} {
     LSSYourTime LSSMyTime LSSOppTime LSSOppTime LSSLastMove LSSLastMove} {
     $t2 heading $col -text $::tr($text)
   }
-  $t2 column LSSGameID   -width 70  -stretch no
-  $t2 column LSSOpponent -width 180 -stretch no
-  $t2 column LSSEvent    -width 130 -stretch no
-  $t2 column LSSYourTime -width 90  -stretch no
-  $t2 column LSSOppTime  -width 90  -stretch no
-  $t2 column LSSLastMove -width 100 -stretch yes -anchor center
+  foreach col $cols2 {
+    set text [$t2 heading $col -text]
+    $t2 column $col -width [expr {[font measure font_Regular $text] + 14}] -stretch no
+  }
+  $t2 column LSSLastMove -width [expr {[$t2 column LSSLastMove -width] + 20}] -stretch yes -anchor center
   set vsb2 [ttk::scrollbar $tab2.glist.vsb -orient vertical -command "$t2 yview"]
-  $t2 configure -yscrollcommand "$vsb2 set"
-  grid $t2 $vsb2 -sticky news
+  set hsb2 [ttk::scrollbar $tab2.glist.hsb -orient horizontal -command "$t2 xview"]
+  $t2 configure -yscrollcommand "$vsb2 set" -xscrollcommand "$hsb2 set"
+  grid $t2  $vsb2 -sticky news
+  grid $hsb2       -sticky we
   grid rowconfigure $tab2.glist 0 -weight 1
+  grid rowconfigure $tab2.glist 1 -weight 0
   grid columnconfigure $tab2.glist 0 -weight 1
   bind $t2 <Double-ButtonRelease-1> "::lss::loadSelectedGame %W %x %y"
   pack $tab2.glist -fill both -expand yes -padx 5 -pady 5
