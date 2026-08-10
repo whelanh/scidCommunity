@@ -329,8 +329,13 @@ proc ::lss::createWindow {w} {
     set text [$t1 heading $col -text]
     $t1 column $col -width [expr {[font measure font_Regular $text] + 14}] -stretch no
   }
-  # Give Last Move a bit extra for move notation like "13...Nc6"
-  $t1 column LSSLastMove -width [expr {[$t1 column LSSLastMove -width] + 10}]
+  # Center move text and status columns
+  $t1 column LSSLastMove -width [expr {[$t1 column LSSLastMove -width] + 10}] -anchor center
+  $t1 column LSSYourMove -anchor center
+  $t1 column LSSDrawOffered -anchor center
+  $t1 column LSSOfferDraw -anchor center
+  $t1 column LSSResign -anchor center
+  $t1 column LSSSent -anchor center
   set vsb1 [ttk::scrollbar $f1.vsb -orient vertical -command "$t1 yview"]
   set hsb1 [ttk::scrollbar $f1.hsb -orient horizontal -command "$t1 xview"]
   $t1 configure -yscrollcommand "$vsb1 set" -xscrollcommand "$hsb1 set"
@@ -591,6 +596,10 @@ proc ::lss::addNewGame {game lssId tagName} {
 
   # Set tags
   set extraTags [list "$tagName \"$lssId\""]
+  set hasWhite [dictGetDefault $game hasWhite ""]
+  if {$hasWhite ne "" && ![string is true -strict $hasWhite]} {
+    lappend extraTags "FlipB \"1\""
+  }
   if {$variant eq "Chess960"} {
     lappend extraTags "Variant \"Chess960\""
   }
@@ -749,6 +758,17 @@ proc ::lss::toInt {val} {
 #
 proc ::lss::populateGameList {} {
   set saved [sc_game number]
+  set ply [sc_pos pgnOffset]
+
+  # Get moves string for active game if loaded
+  set activeMovesStr ""
+  if {$saved > 0} {
+    catch {
+      sc_move end
+      set activeMovesStr [sc_game moves nomoves]
+      sc_move ply $ply
+    }
+  }
 
   # Preserve selections across rebuild (FocusIn triggers this while user is typing)
   set sel1 [lindex [$::lss::treeview selection] 0]
@@ -759,7 +779,7 @@ proc ::lss::populateGameList {} {
   set children [$t1 children {}]
   foreach child $children { $t1 delete $child }
   foreach id $::lss::yourTurnGames {
-    set rowVals [::lss::buildGameRow $id 1]
+    set rowVals [::lss::buildGameRow $id 1 $activeMovesStr]
     $t1 insert {} end -id "lss_${id}" -values $rowVals
   }
 
@@ -768,11 +788,14 @@ proc ::lss::populateGameList {} {
   set children [$t2 children {}]
   foreach child $children { $t2 delete $child }
   foreach id $::lss::waitingGames {
-    set rowVals [::lss::buildGameRow $id 0]
+    set rowVals [::lss::buildGameRow $id 0 $activeMovesStr]
     $t2 insert {} end -id "lss_${id}" -values $rowVals
   }
 
-  if {$saved > 0} { catch {sc_game load $saved} }
+  if {$saved > 0} {
+    catch {sc_game load $saved}
+    catch {::move::PGNOffset $ply}
+  }
 
   # Restore selections
   if {$sel1 ne "" && [$::lss::treeview exists $sel1]} {
@@ -785,11 +808,10 @@ proc ::lss::populateGameList {} {
 
 #
 # ::lss::buildGameRow
-
 #
 # ::lss::buildGameRow - Build treeview row values for a game
 #
-proc ::lss::buildGameRow {id extended} {
+proc ::lss::buildGameRow {id extended {activeMovesStr ""}} {
   if {![info exists ::lss::gameData($id)]} { return {} }
   set game $::lss::gameData($id)
   set white [dictGetDefault $game white "?"]
@@ -831,9 +853,16 @@ proc ::lss::buildGameRow {id extended} {
     set yourMove ""
     if {[info exists ::lss::gameToDbMap($id)]} {
       set dbGameNum $::lss::gameToDbMap($id)
-      if {![catch {sc_game load $dbGameNum}]} {
-        catch {sc_move end}
-        set dbMovesStr [sc_game moves nomoves]
+      set dbMovesStr ""
+      if {$activeMovesStr ne "" && $dbGameNum == [sc_game number]} {
+        set dbMovesStr $activeMovesStr
+      } else {
+        if {![catch {sc_game load $dbGameNum}]} {
+          catch {sc_move end}
+          set dbMovesStr [sc_game moves nomoves]
+        }
+      }
+      if {$dbMovesStr ne ""} {
         set dbMoves [llength [::lss::parseSanTokens $dbMovesStr]]
         set lssMoves [llength [::lss::parseSanTokens $moves]]
         if {$dbMoves > $lssMoves} {
@@ -924,8 +953,7 @@ proc ::lss::loadSelectedGame {w x y} {
   if {[info exists ::lss::gameToDbMap($id)]} {
     set dbGameNum $::lss::gameToDbMap($id)
     if {$::lss::savedGameNum == 0 && [sc_base inUse]} { set ::lss::savedGameNum [sc_game number] }
-    if {[catch {sc_game load $dbGameNum}]} { return }
-    ::notify::GameChanged
+    ::game::Load $dbGameNum
   }
 }
 
@@ -1007,6 +1035,8 @@ proc ::lss::sendMoves {} {
     set currentMsg [$::lss::yourMsgWidget get 1.0 end-1c]
     if {[string trim $currentMsg] ne ""} {
       set ::lss::pendingMessages($::lss::selectedGame) $currentMsg
+    } else {
+      catch {unset ::lss::pendingMessages($::lss::selectedGame)}
     }
     $::lss::yourMsgWidget delete 1.0 end
   }
@@ -1030,7 +1060,7 @@ proc ::lss::sendMoves {} {
     set lssMoveTokens [::lss::parseSanTokens $lssMoves]
     set lssMoveCount [llength $lssMoveTokens]
 
-    if {$dbMoveCount <= $lssMoveCount && ![info exists ::lss::resigns($id)] && ![info exists ::lss::drawOffers($id)] && ![info exists ::lss::pendingMessages($id)]} { continue }
+    if {$dbMoveCount <= $lssMoveCount && ![info exists ::lss::resigns($id)] && ![info exists ::lss::drawOffers($id)] && ![info exists ::lss::acceptDraws($id)] && ![info exists ::lss::pendingMessages($id)]} { continue }
 
     # Verify DB moves are a prefix of server moves (only if we have moves to compare)
     if {$dbMoveCount >= $lssMoveCount} {
@@ -1049,10 +1079,9 @@ proc ::lss::sendMoves {} {
     set newMoves [lrange $dbMoveTokens $lssMoveCount end]
     set hasNewMoves [expr {[llength $newMoves] > 0}]
 
-    # Save and read per-game message
+    # Read per-game message and flags
     if {[info exists ::lss::pendingMessages($id)]} {
       set msg $::lss::pendingMessages($id)
-      catch {unset ::lss::pendingMessages($id)}
     } else {
       set msg ""
     }
@@ -1060,9 +1089,6 @@ proc ::lss::sendMoves {} {
     set offerDraw [expr {[info exists ::lss::drawOffers($id)] ? "true" : "false"}]
     set resign [expr {[info exists ::lss::resigns($id)] ? "true" : "false"}]
     set acceptDraw [expr {[info exists ::lss::acceptDraws($id)] ? "true" : "false"}]
-    catch {unset ::lss::drawOffers($id)}
-    catch {unset ::lss::resigns($id)}
-    catch {unset ::lss::acceptDraws($id)}
 
     # Send the first unsent move, or an empty move for resign/draw/message-only
     if {$hasNewMoves} {
@@ -1077,6 +1103,10 @@ proc ::lss::sendMoves {} {
     if {$result eq "Success"} {
       incr successful
       set ::lss::sentGames($id) 1
+      catch {unset ::lss::pendingMessages($id)}
+      catch {unset ::lss::drawOffers($id)}
+      catch {unset ::lss::resigns($id)}
+      catch {unset ::lss::acceptDraws($id)}
     } else {
       incr failed
     }
