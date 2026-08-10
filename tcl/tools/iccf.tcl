@@ -328,8 +328,13 @@ proc ::iccf::createWindow {w} {
     set text [$t1 heading $col -text]
     $t1 column $col -width [expr {[font measure font_Regular $text] + 14}] -stretch no
   }
-  # Give Last Move a bit extra for move notation like "13...Nc6"
-  $t1 column ICCFLastMove -width [expr {[$t1 column ICCFLastMove -width] + 10}]
+  # Center move text and status columns
+  $t1 column ICCFLastMove -width [expr {[$t1 column ICCFLastMove -width] + 10}] -anchor center
+  $t1 column ICCFYourMove -anchor center
+  $t1 column ICCFDrawOffered -anchor center
+  $t1 column ICCFOfferDraw -anchor center
+  $t1 column ICCFResign -anchor center
+  $t1 column ICCFSent -anchor center
   set vsb1 [ttk::scrollbar $f1.vsb -orient vertical -command "$t1 yview"]
   set hsb1 [ttk::scrollbar $f1.hsb -orient horizontal -command "$t1 xview"]
   $t1 configure -yscrollcommand "$vsb1 set" -xscrollcommand "$hsb1 set"
@@ -574,6 +579,10 @@ proc ::iccf::addNewGame {game lssId tagName} {
 
   # Set tags
   set extraTags [list "$tagName \"$lssId\""]
+  set hasWhite [dictGetDefault $game hasWhite ""]
+  if {$hasWhite ne "" && ![string is true -strict $hasWhite]} {
+    lappend extraTags "FlipB \"1\""
+  }
   if {$variant eq "Chess960"} {
     lappend extraTags "Variant \"Chess960\""
   }
@@ -732,6 +741,17 @@ proc ::iccf::toInt {val} {
 #
 proc ::iccf::populateGameList {} {
   set saved [sc_game number]
+  set ply [sc_pos pgnOffset]
+
+  # Get moves string for active game if loaded
+  set activeMovesStr ""
+  if {$saved > 0} {
+    catch {
+      sc_move end
+      set activeMovesStr [sc_game moves nomoves]
+      sc_move ply $ply
+    }
+  }
 
   # Preserve selections across rebuild (FocusIn triggers this while user is typing)
   set sel1 [lindex [$::iccf::treeview selection] 0]
@@ -742,7 +762,7 @@ proc ::iccf::populateGameList {} {
   set children [$t1 children {}]
   foreach child $children { $t1 delete $child }
   foreach id $::iccf::yourTurnGames {
-    set rowVals [::iccf::buildGameRow $id 1]
+    set rowVals [::iccf::buildGameRow $id 1 $activeMovesStr]
     $t1 insert {} end -id "iccf_${id}" -values $rowVals
   }
 
@@ -751,11 +771,14 @@ proc ::iccf::populateGameList {} {
   set children [$t2 children {}]
   foreach child $children { $t2 delete $child }
   foreach id $::iccf::waitingGames {
-    set rowVals [::iccf::buildGameRow $id 0]
+    set rowVals [::iccf::buildGameRow $id 0 $activeMovesStr]
     $t2 insert {} end -id "iccf_${id}" -values $rowVals
   }
 
-  if {$saved > 0} { catch {sc_game load $saved} }
+  if {$saved > 0} {
+    catch {sc_game load $saved}
+    catch {::move::PGNOffset $ply}
+  }
 
   # Restore selections
   if {$sel1 ne "" && [$::iccf::treeview exists $sel1]} {
@@ -772,7 +795,7 @@ proc ::iccf::populateGameList {} {
 #
 # ::iccf::buildGameRow - Build treeview row values for a game
 #
-proc ::iccf::buildGameRow {id extended} {
+proc ::iccf::buildGameRow {id extended {activeMovesStr ""}} {
   if {![info exists ::iccf::gameData($id)]} { return {} }
   set game $::iccf::gameData($id)
   set white [dictGetDefault $game white "?"]
@@ -814,9 +837,16 @@ proc ::iccf::buildGameRow {id extended} {
     set yourMove ""
     if {[info exists ::iccf::gameToDbMap($id)]} {
       set dbGameNum $::iccf::gameToDbMap($id)
-      if {![catch {sc_game load $dbGameNum}]} {
-        catch {sc_move end}
-        set dbMovesStr [sc_game moves nomoves]
+      set dbMovesStr ""
+      if {$activeMovesStr ne "" && $dbGameNum == [sc_game number]} {
+        set dbMovesStr $activeMovesStr
+      } else {
+        if {![catch {sc_game load $dbGameNum}]} {
+          catch {sc_move end}
+          set dbMovesStr [sc_game moves nomoves]
+        }
+      }
+      if {$dbMovesStr ne ""} {
         set dbMoves [llength [::iccf::parseSanTokens $dbMovesStr]]
         set lssMoves [llength [::iccf::parseSanTokens $moves]]
         if {$dbMoves > $lssMoves} {
@@ -891,8 +921,7 @@ proc ::iccf::loadSelectedGame {w x y} {
   if {[info exists ::iccf::gameToDbMap($id)]} {
     set dbGameNum $::iccf::gameToDbMap($id)
     if {$::iccf::savedGameNum == 0 && [sc_base inUse]} { set ::iccf::savedGameNum [sc_game number] }
-    if {[catch {sc_game load $dbGameNum}]} { return }
-    ::notify::GameChanged
+    ::game::Load $dbGameNum
   }
 }
 
@@ -974,6 +1003,8 @@ proc ::iccf::sendMoves {} {
     set currentMsg [$::iccf::yourMsgWidget get 1.0 end-1c]
     if {[string trim $currentMsg] ne ""} {
       set ::iccf::pendingMessages($::iccf::selectedGame) $currentMsg
+    } else {
+      catch {unset ::iccf::pendingMessages($::iccf::selectedGame)}
     }
     $::iccf::yourMsgWidget delete 1.0 end
   }
@@ -997,7 +1028,7 @@ proc ::iccf::sendMoves {} {
     set lssMoveTokens [::iccf::parseSanTokens $lssMoves]
     set lssMoveCount [llength $lssMoveTokens]
 
-    if {$dbMoveCount <= $lssMoveCount && ![info exists ::iccf::resigns($id)] && ![info exists ::iccf::drawOffers($id)] && ![info exists ::iccf::pendingMessages($id)]} { continue }
+    if {$dbMoveCount <= $lssMoveCount && ![info exists ::iccf::resigns($id)] && ![info exists ::iccf::drawOffers($id)] && ![info exists ::iccf::acceptDraws($id)] && ![info exists ::iccf::pendingMessages($id)]} { continue }
 
     # Verify DB moves are a prefix of server moves (only if we have moves to compare)
     if {$dbMoveCount >= $lssMoveCount} {
@@ -1016,10 +1047,9 @@ proc ::iccf::sendMoves {} {
     set newMoves [lrange $dbMoveTokens $lssMoveCount end]
     set hasNewMoves [expr {[llength $newMoves] > 0}]
 
-    # Save and read per-game message
+    # Read per-game message and flags
     if {[info exists ::iccf::pendingMessages($id)]} {
       set msg $::iccf::pendingMessages($id)
-      catch {unset ::iccf::pendingMessages($id)}
     } else {
       set msg ""
     }
@@ -1027,9 +1057,6 @@ proc ::iccf::sendMoves {} {
     set offerDraw [expr {[info exists ::iccf::drawOffers($id)] ? "true" : "false"}]
     set resign [expr {[info exists ::iccf::resigns($id)] ? "true" : "false"}]
     set acceptDraw [expr {[info exists ::iccf::acceptDraws($id)] ? "true" : "false"}]
-    catch {unset ::iccf::drawOffers($id)}
-    catch {unset ::iccf::resigns($id)}
-    catch {unset ::iccf::acceptDraws($id)}
 
     # Send the first unsent move, or an empty move for resign/draw/message-only
     if {$hasNewMoves} {
@@ -1044,6 +1071,10 @@ proc ::iccf::sendMoves {} {
     if {$result eq "Success"} {
       incr successful
       set ::iccf::sentGames($id) 1
+      catch {unset ::iccf::pendingMessages($id)}
+      catch {unset ::iccf::drawOffers($id)}
+      catch {unset ::iccf::resigns($id)}
+      catch {unset ::iccf::acceptDraws($id)}
     } else {
       incr failed
     }
