@@ -1913,6 +1913,49 @@ translate B TBQueryError {Resposta inválida da API tablebase.}
 translate B TBNotFound {Posição não encontrada na base de tabela ou erro de API.}
 translate B TBCategory {Categoria de posição:}
 translate B TBTrainingHidden {(Modo de treinamento; os resultados estão ocultos)}
+
+# LSS (Lechenicher SchachServer)
+menuText B ToolsTrainLSS "Jogue no LSS" 0 {Jogue no Lechenicher SchachServer}
+translate B LSSTitle {Jogue no LSS - Lechenicher SchachServer}
+translate B LSSConfigure {Configurar LSS}
+translate B LSSServer {Servidor LSS}
+translate B LSSLogin {Nome de usuário}
+translate B LSSPassword {Senha}
+translate B LSSConnect {Conectar}
+translate B LSSClose {Fechar}
+translate B LSSUpdateGames {Atualizar jogos}
+translate B LSSSendMoves {Enviar movimentos}
+translate B LSSGamesList {Lista de jogos}
+translate B LSSOpponentMessage {Mensagem do oponente}
+translate B LSSYourMessage {Sua mensagem}
+translate B LSSGameID {Jogo}
+translate B LSSOpponent {Adversário}
+translate B LSSTime {Tempo}
+translate B LSSWhiteElo {WElo}
+translate B LSSBlackElo {BElo}
+translate B LSSEvent {Evento}
+translate B LSSLastMove {Último movimento}
+translate B LSSSent {Enviado}
+translate B LSSYourMove {Sua jogada}
+translate B LSSOfferDraw {Sorteio de ofertas}
+translate B LSSResign {Renunciar}
+translate B LSSWaiting {Esperando}
+translate B LSSYourTurn {Sua vez}
+translate B LSSCredentialsNeeded {Por favor, digite seu nome de usuário e senha do LSS.}
+translate B LSSUpdating {Buscando jogos do servidor LSS...}
+translate B LSSGamesUpdated {Jogos: %s adicionados, %s movimentos atualizados, %s atualizados}
+translate B LSSSendingMoves {Enviando movimentos para o servidor LSS...}
+translate B LSSMovesSent {Movimentos enviados: %s bem sucedidos, %s falhados}
+translate B LSSNoGamesFound {Nenhum jogo encontrado.}
+translate B LSSFilterError {Erro de filtro.}
+translate B LSSConnectionFailed {Falha ao conectar ao servidor LSS. Verifique sua rede.}
+translate B LSSAuthFailed {Falha na autenticação. Verifique seu nome de usuário e senha.}
+translate B LSSNeedUpdate {Por favor, pressione "Atualizar Jogos" primeiro para buscar os dados atuais do jogo no servidor.}
+translate B LSSNoDatabase {Nenhum banco de dados está aberto no momento. Por favor, abra um banco de dados primeiro.}
+translate B LSSGameNumber {LSS}
+translate B LSSMyTime {Meu tempo}
+translate B LSSOppTime {Tempo de operação}
+translate B LSSDrawOffered {Sorteio oferecido}
 }
 # end of english.tcl
 

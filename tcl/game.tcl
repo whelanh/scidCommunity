@@ -388,6 +388,7 @@ namespace eval ::notify {
     ::windows::gamelist::Refresh $follow
     ::maint::Refresh
     if {[winfo exists .iccf]} { ::iccf::populateGameList }
+    if {[winfo exists .lss]} { ::lss::populateGameList }
   }
 
   # To be called when the current position changes
@@ -492,6 +493,7 @@ namespace eval ::notify {
     ::tools::graphs::absfilter::Refresh
     if {[winfo exists .ecograph]} { ::windows::eco::update }
     if {[winfo exists .iccf]} { ::iccf::populateGameList }
+    if {[winfo exists .lss]} { ::lss::populateGameList }
   }
 
   # To be called when the filter of a database is changed (searches)

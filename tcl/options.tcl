@@ -313,6 +313,11 @@ set ::iccf::username ""
 set ::iccf::password ""
 set ::iccf::server "https://www.iccf.com/xfccbasic.asmx"
 set ::iccf::playing 0
+# Defaults for LSS
+set ::lss::username ""
+set ::lss::password ""
+set ::lss::server "https://www.chess-server.net/de/api/server/xfcc/soap"
+set ::lss::playing 0
 
 # default resolvers for player info
 set ::pinfo::wikipAPI      "http://de.wikipedia.org/w/api.php?action=query&format=xml"
@@ -748,9 +753,13 @@ proc options.write {} {
       puts $optionF "set ::fics::profileVars($i) [list $::fics::profileVars($i)]"
     }
 
-    # save ICCF config
+# save ICCF config
     foreach i { username password server } {
       puts $optionF "set ::iccf::$i [list [set ::iccf::$i]]"
+    }
+    # save LSS config
+    foreach i { username password server } {
+      puts $optionF "set ::lss::$i [list [set ::lss::$i]]"
     }
 
     # save pinfo config
@@ -804,6 +813,7 @@ proc options.write {} {
     }
 
     close $optionF
+    catch {file attributes [scidConfigFile options] -permissions 0600}
     set ::statusBar "Options were saved to: [scidConfigFile options]"
   }
  }

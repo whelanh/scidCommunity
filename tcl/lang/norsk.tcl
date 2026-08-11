@@ -1905,6 +1905,49 @@ translate O TBQueryError {Ugyldig svar fra tablebase API.}
 translate O TBNotFound {Finner ikke posisjon i tabellbase eller API-feil.}
 translate O TBCategory {Stillingskategori:}
 translate O TBTrainingHidden {(Opplæringsmodus; resultatene er skjult)}
+
+# LSS (Lechenicher SchachServer)
+menuText O ToolsTrainLSS "Spill på LSS" 0 {Spill på Lechenicher SchachServer}
+translate O LSSTitle {Spill på LSS - Lechenicher SchachServer}
+translate O LSSConfigure {Konfigurer LSS}
+translate O LSSServer {LSS-server}
+translate O LSSLogin {Brukernavn}
+translate O LSSPassword {Passord}
+translate O LSSConnect {Koble til}
+translate O LSSClose {Lukke}
+translate O LSSUpdateGames {Oppdater spill}
+translate O LSSSendMoves {Send trekk}
+translate O LSSGamesList {Spillliste}
+translate O LSSOpponentMessage {Motstanders melding}
+translate O LSSYourMessage {Din melding}
+translate O LSSGameID {Spill}
+translate O LSSOpponent {Motstander}
+translate O LSSTime {Tid}
+translate O LSSWhiteElo {WElo}
+translate O LSSBlackElo {BElo}
+translate O LSSEvent {Hendelse}
+translate O LSSLastMove {Siste trekk}
+translate O LSSSent {Sendt}
+translate O LSSYourMove {Ditt trekk}
+translate O LSSOfferDraw {Tilbudstrekning}
+translate O LSSResign {Si opp}
+translate O LSSWaiting {Venter}
+translate O LSSYourTurn {Din tur}
+translate O LSSCredentialsNeeded {Vennligst skriv inn ditt LSS-brukernavn og passord.}
+translate O LSSUpdating {Henter spill fra LSS-server...}
+translate O LSSGamesUpdated {Spill: %s lagt til, %s trekk oppdatert, %s oppdatert}
+translate O LSSSendingMoves {Sender trekk til LSS-server...}
+translate O LSSMovesSent {Flytt sendt: %s vellykket, %s mislyktes}
+translate O LSSNoGamesFound {Ingen spill funnet.}
+translate O LSSFilterError {Filterfeil.}
+translate O LSSConnectionFailed {Kunne ikke koble til LSS-serveren. Sjekk nettverket ditt.}
+translate O LSSAuthFailed {Autentisering mislyktes. Sjekk brukernavnet og passordet ditt.}
+translate O LSSNeedUpdate {Vennligst trykk "Oppdater spill" først for å hente gjeldende spilldata fra serveren.}
+translate O LSSNoDatabase {Ingen database er åpen for øyeblikket. Vennligst åpne en database først.}
+translate O LSSGameNumber {LSS}
+translate O LSSMyTime {Min tid}
+translate O LSSOppTime {Opp tid}
+translate O LSSDrawOffered {Trekning tilbys}
 }
 # end of english.tcl
 

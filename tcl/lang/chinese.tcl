@@ -1859,6 +1859,49 @@ translate M TBQueryError {表库 API 的响应无效。}
 translate M TBNotFound {在表库中找不到位置或 API 错误。}
 translate M TBCategory {职位类别：}
 translate M TBTrainingHidden {（训练模式；结果隐藏）}
+
+# LSS (Lechenicher SchachServer)
+menuText M ToolsTrainLSS "在 LSS 上玩" 0 {在 Lechenicher SchachServer 上玩}
+translate M LSSTitle {在 LSS 上玩 - Lechenicher SchachServer}
+translate M LSSConfigure {配置LSS}
+translate M LSSServer {LSS服务器}
+translate M LSSLogin {用户名}
+translate M LSSPassword {密码}
+translate M LSSConnect {连接}
+translate M LSSClose {关闭}
+translate M LSSUpdateGames {更新游戏}
+translate M LSSSendMoves {发送动作}
+translate M LSSGamesList {游戏列表}
+translate M LSSOpponentMessage {对手留言}
+translate M LSSYourMessage {您的留言}
+translate M LSSGameID {游戏}
+translate M LSSOpponent {对手}
+translate M LSSTime {时间}
+translate M LSSWhiteElo {韦洛}
+translate M LSSBlackElo {贝洛}
+translate M LSSEvent {事件}
+translate M LSSLastMove {最后一步}
+translate M LSSSent {发送}
+translate M LSSYourMove {你的举动}
+translate M LSSOfferDraw {优惠抽奖}
+translate M LSSResign {辞职}
+translate M LSSWaiting {等待}
+translate M LSSYourTurn {轮到你了}
+translate M LSSCredentialsNeeded {请输入您的 LSS 用户名和密码。}
+translate M LSSUpdating {正在从 LSS 服务器获取游戏...}
+translate M LSSGamesUpdated {游戏：%s 已添加，%s 步已更新，%s 为最新}
+translate M LSSSendingMoves {正在将动作发送到 LSS 服务器...}
+translate M LSSMovesSent {已发送移动：%s 成功，%s 失败}
+translate M LSSNoGamesFound {没有找到游戏。}
+translate M LSSFilterError {过滤器错误。}
+translate M LSSConnectionFailed {无法连接到 LSS 服务器。检查您的网络。}
+translate M LSSAuthFailed {认证失败。检查您的用户名和密码。}
+translate M LSSNeedUpdate {请先按“更新游戏”从服务器获取当前游戏数据。}
+translate M LSSNoDatabase {当前没有打开数据库。请先打开一个数据库。}
+translate M LSSGameNumber {LSS}
+translate M LSSMyTime {我的时间}
+translate M LSSOppTime {机会时间}
+translate M LSSDrawOffered {提供抽奖}
 }
 # end of english.tcl
 

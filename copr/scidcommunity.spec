@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.3.93
+Version:        5.1.3.94
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 670d775b3fdc94bac1335430b2dd103aeb0055ae
+%global commit d7144d901b22f6be24c9c8a8d34af0fba43f292c
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Tue Aug 11, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-94
+- "Adds a new feture to play on the Lechenicher SchachServer (LSS)"
 * Mon Aug 03, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-93
 - "Make Lichess Eval window moves clickable and auto-refresh (if window left open)"
 * Sun Aug 02, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-92
