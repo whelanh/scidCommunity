@@ -937,7 +937,7 @@ proc ::iccf::loadSelectedGame {w x y} {
 # ::iccf::onDrawClick - Toggle draw offer for a game when clicking the Offer Draw column
 #
 proc ::iccf::onDrawClick {w x y} {
-  if {[$w identify region $x $y] eq "heading"} { return }
+  if {[$w identify region $x $y] ni {cell tree}} { return }
   set colIdx [$w identify column $x $y]
   set cols {ICCFGameID ICCFOpponent ICCFEvent ICCFYourTime ICCFOppTime ICCFLastMove ICCFDrawOffered ICCFYourMove ICCFOfferDraw ICCFResign ICCFSent}
   set idx [string range $colIdx 1 end]
@@ -945,9 +945,8 @@ proc ::iccf::onDrawClick {w x y} {
   set col [lindex $cols [expr {$idx - 1}]]
 
   if {$col ni {ICCFOfferDraw ICCFResign}} { return }
-  set sel [$w selection]
-  if {[llength $sel] == 0} { return }
-  set itemId [lindex $sel 0]
+  set itemId [$w identify item $x $y]
+  if {$itemId eq ""} { return }
   if {![regexp {^iccf_(.+)$} $itemId -> id]} { return }
 
   if {$col eq "ICCFOfferDraw"} {
