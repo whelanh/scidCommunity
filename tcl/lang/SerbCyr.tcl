@@ -1924,6 +1924,49 @@ translate J TBQueryError {Грешка: неисправан одговор Ли
 translate J TBNotFound {Позиција није пронађена у бази табеле или грешка у АПИ-ју.}
 translate J TBCategory {Категорија позиције:}
 translate J TBTrainingHidden {(Режим обуке; резултати су скривени)}
+
+# LSS (Lechenicher SchachServer)
+menuText J ToolsTrainLSS "Играјте на ЛСС" 0 {Играјте на Лецхеницхер СцхацхСервер}
+translate J LSSTitle {Играјте на ЛСС - Лецхеницхер СцхацхСервер}
+translate J LSSConfigure {Конфигуришите ЛСС}
+translate J LSSServer {ЛСС Сервер}
+translate J LSSLogin {Корисничко име}
+translate J LSSPassword {Лозинка}
+translate J LSSConnect {Повежите се}
+translate J LSSClose {Затвори}
+translate J LSSUpdateGames {Ажурирајте игре}
+translate J LSSSendMoves {Сенд Мовес}
+translate J LSSGamesList {Games List}
+translate J LSSOpponentMessage {Порука противника}
+translate J LSSYourMessage {Ваша порука}
+translate J LSSGameID {Игра}
+translate J LSSOpponent {Противник}
+translate J LSSTime {Време}
+translate J LSSWhiteElo {ВЕло}
+translate J LSSBlackElo {БЕло}
+translate J LSSEvent {Догађај}
+translate J LSSLastMove {Ласт Мове}
+translate J LSSSent {Послано}
+translate J LSSYourMove {Иоур Мове}
+translate J LSSOfferDraw {Понуда Драв}
+translate J LSSResign {Поднесите оставку}
+translate J LSSWaiting {Чекам}
+translate J LSSYourTurn {Ваш ред}
+translate J LSSCredentialsNeeded {Унесите своје ЛСС корисничко име и лозинку.}
+translate J LSSUpdating {Преузимање игара са ЛСС сервера...}
+translate J LSSGamesUpdated {Игре: %s додато, %s потези ажурирани, %s ажурирани}
+translate J LSSSendingMoves {Слање селидбе на ЛСС сервер...}
+translate J LSSMovesSent {Покрети послати: %s успешно, %s неуспешно}
+translate J LSSNoGamesFound {Нема пронађених игара.}
+translate J LSSFilterError {Грешка филтера.}
+translate J LSSConnectionFailed {Повезивање са ЛСС сервером није успело. Проверите своју мрежу.}
+translate J LSSAuthFailed {Аутентификација није успела. Проверите своје корисничко име и лозинку.}
+translate J LSSNeedUpdate {Прво притисните „Ажурирај игре“ да преузмете тренутне податке игре са сервера.}
+translate J LSSNoDatabase {Тренутно није отворена ниједна база података. Прво отворите базу података.}
+translate J LSSGameNumber {ЛСС}
+translate J LSSMyTime {Моје време}
+translate J LSSOppTime {Опп Тиме}
+translate J LSSDrawOffered {Драв Офферед}
 }
 # end of english.tcl
 

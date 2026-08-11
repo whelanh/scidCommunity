@@ -1883,6 +1883,49 @@ translate h TBQueryError {टेबलबेस एपीआई से अमा
 translate h TBNotFound {टेबलबेस या एपीआई त्रुटि में स्थिति नहीं मिली।}
 translate h TBCategory {पद श्रेणी:}
 translate h TBTrainingHidden {(प्रशिक्षण मोड; परिणाम छिपे हुए हैं)}
+
+# LSS (Lechenicher SchachServer)
+menuText h ToolsTrainLSS "एलएसएस पर खेलें" 0 {लेचेनिचर स्कैचसर्वर पर खेलें}
+translate h LSSTitle {एलएसएस पर खेलें - लेचेनिचर स्कैचसर्वर}
+translate h LSSConfigure {एलएसएस कॉन्फ़िगर करें}
+translate h LSSServer {एलएसएस सर्वर}
+translate h LSSLogin {उपयोगकर्ता नाम}
+translate h LSSPassword {पासवर्ड}
+translate h LSSConnect {जोड़ना}
+translate h LSSClose {बंद करना}
+translate h LSSUpdateGames {गेम अपडेट करें}
+translate h LSSSendMoves {चालें भेजें}
+translate h LSSGamesList {खेलों की सूची}
+translate h LSSOpponentMessage {विरोधी का संदेश}
+translate h LSSYourMessage {आपका संदेश}
+translate h LSSGameID {खेल}
+translate h LSSOpponent {प्रतिद्वंद्वी}
+translate h LSSTime {समय}
+translate h LSSWhiteElo {वेलो}
+translate h LSSBlackElo {बेलो}
+translate h LSSEvent {आयोजन}
+translate h LSSLastMove {अंतिम चाल}
+translate h LSSSent {भेजा}
+translate h LSSYourMove {अपनी चाल}
+translate h LSSOfferDraw {ड्रॉ की पेशकश करेंं}
+translate h LSSResign {इस्तीफ़ा देना}
+translate h LSSWaiting {इंतज़ार में}
+translate h LSSYourTurn {आपकी बारी}
+translate h LSSCredentialsNeeded {कृपया अपना एलएसएस उपयोगकर्ता नाम और पासवर्ड दर्ज करें।}
+translate h LSSUpdating {एलएसएस सर्वर से गेम लाये जा रहे हैं...}
+translate h LSSGamesUpdated {गेम्स: %s जोड़ा गया, %s चालें अपडेट की गईं, %s अपडेट किया गया}
+translate h LSSSendingMoves {एलएसएस सर्वर पर चालें भेजी जा रही हैं...}
+translate h LSSMovesSent {चालें भेजी गईं: %s सफल, %s विफल}
+translate h LSSNoGamesFound {कोई गेम नहीं मिला.}
+translate h LSSFilterError {फ़िल्टर त्रुटि.}
+translate h LSSConnectionFailed {LSS सर्वर से कनेक्ट करने में विफल. अपना नेटवर्क जांचें.}
+translate h LSSAuthFailed {प्रमाणीकरण विफल होना। अपना उपयोगकर्ता नाम और पासवर्ड जांचें.}
+translate h LSSNeedUpdate {कृपया सर्वर से वर्तमान गेम डेटा लाने के लिए पहले "अपडेट गेम्स" दबाएँ।}
+translate h LSSNoDatabase {फिलहाल कोई डेटाबेस खुला नहीं है. कृपया पहले एक डेटाबेस खोलें.}
+translate h LSSGameNumber {एलएसएस}
+translate h LSSMyTime {मेरा समय}
+translate h LSSOppTime {विपरीत समय}
+translate h LSSDrawOffered {ड्रा की पेशकश की गई}
 }
 # end of english.tcl
 

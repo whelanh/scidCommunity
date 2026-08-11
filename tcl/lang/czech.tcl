@@ -1905,6 +1905,49 @@ translate C TBQueryError {Neplatná odpověď z rozhraní API tabulky.}
 translate C TBNotFound {Pozice nebyla nalezena v tabulce nebo chyba API.}
 translate C TBCategory {Kategorie pozice:}
 translate C TBTrainingHidden {(Tréninkový režim; výsledky jsou skryté)}
+
+# LSS (Lechenicher SchachServer)
+menuText C ToolsTrainLSS "Hrajte na LSS" 0 {Hrajte na Lechenicher SchachServer}
+translate C LSSTitle {Hrajte na LSS - Lechenicher SchachServer}
+translate C LSSConfigure {Nakonfigurujte LSS}
+translate C LSSServer {Server LSS}
+translate C LSSLogin {Uživatelské jméno}
+translate C LSSPassword {Heslo}
+translate C LSSConnect {Připojit}
+translate C LSSClose {Blízko}
+translate C LSSUpdateGames {Aktualizovat hry}
+translate C LSSSendMoves {Odeslat pohyby}
+translate C LSSGamesList {Seznam her}
+translate C LSSOpponentMessage {Zpráva oponenta}
+translate C LSSYourMessage {Vaše zpráva}
+translate C LSSGameID {Hra}
+translate C LSSOpponent {Oponent}
+translate C LSSTime {Čas}
+translate C LSSWhiteElo {WElo}
+translate C LSSBlackElo {BElo}
+translate C LSSEvent {Událost}
+translate C LSSLastMove {Poslední pohyb}
+translate C LSSSent {Odesláno}
+translate C LSSYourMove {Your Move}
+translate C LSSOfferDraw {Nabídka Draw}
+translate C LSSResign {Odstoupit}
+translate C LSSWaiting {Čekání}
+translate C LSSYourTurn {Jste na řadě}
+translate C LSSCredentialsNeeded {Zadejte své uživatelské jméno a heslo LSS.}
+translate C LSSUpdating {Načítání her ze serveru LSS...}
+translate C LSSGamesUpdated {Hry: %s přidáno, %s tahů aktualizováno, %s aktuální}
+translate C LSSSendingMoves {Odesílání přesunů na server LSS...}
+translate C LSSMovesSent {Odeslané pohyby: %s úspěšné, %s se nezdařilo}
+translate C LSSNoGamesFound {Nebyly nalezeny žádné hry.}
+translate C LSSFilterError {Chyba filtru.}
+translate C LSSConnectionFailed {Připojení k serveru LSS se nezdařilo. Zkontrolujte svou síť.}
+translate C LSSAuthFailed {Ověření se nezdařilo. Zkontrolujte své uživatelské jméno a heslo.}
+translate C LSSNeedUpdate {Nejprve prosím stiskněte "Aktualizovat hry", abyste načetli aktuální herní data ze serveru.}
+translate C LSSNoDatabase {Momentálně není otevřena žádná databáze. Nejprve prosím otevřete databázi.}
+translate C LSSGameNumber {LSS}
+translate C LSSMyTime {Můj čas}
+translate C LSSOppTime {Opp Time}
+translate C LSSDrawOffered {Nabídka remízy}
 }
 # end of english.tcl
 

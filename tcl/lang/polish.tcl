@@ -1835,6 +1835,49 @@ translate P TBQueryError {Nieprawidłowa odpowiedź API w tablicy końcówek.}
 translate P TBNotFound {Nie znaleziono pozycji w tablicy końcówek albo wystąpił błąd API.}
 translate P TBCategory {Kategoria pozycji:}
 translate P TBTrainingHidden {(Tryb treningu; wyniki są ukryte)}
+
+# LSS (Lechenicher SchachServer)
+menuText P ToolsTrainLSS "Graj na LSS" 0 {Graj na Lechenicher SchachServer}
+translate P LSSTitle {Graj na LSS - Lechenicher SchachServer}
+translate P LSSConfigure {Skonfiguruj LSS}
+translate P LSSServer {Serwer LSS}
+translate P LSSLogin {Nazwa użytkownika}
+translate P LSSPassword {Hasło}
+translate P LSSConnect {Łączyć}
+translate P LSSClose {Zamknąć}
+translate P LSSUpdateGames {Aktualizuj gry}
+translate P LSSSendMoves {Wyślij ruchy}
+translate P LSSGamesList {Lista gier}
+translate P LSSOpponentMessage {Wiadomość przeciwnika}
+translate P LSSYourMessage {Twoja wiadomość}
+translate P LSSGameID {Gra}
+translate P LSSOpponent {Przeciwnik}
+translate P LSSTime {Czas}
+translate P LSSWhiteElo {WElo}
+translate P LSSBlackElo {BElo}
+translate P LSSEvent {Wydarzenie}
+translate P LSSLastMove {Ostatni ruch}
+translate P LSSSent {Wysłano}
+translate P LSSYourMove {Twój ruch}
+translate P LSSOfferDraw {Losowanie ofert}
+translate P LSSResign {Rezygnować}
+translate P LSSWaiting {Czekanie}
+translate P LSSYourTurn {Twoja kolej}
+translate P LSSCredentialsNeeded {Wprowadź swoją nazwę użytkownika i hasło LSS.}
+translate P LSSUpdating {Pobieranie gier z serwera LSS...}
+translate P LSSGamesUpdated {Gry: dodano %s, zaktualizowano ruchy %s, zaktualizowano %s}
+translate P LSSSendingMoves {Wysyłanie ruchów na serwer LSS...}
+translate P LSSMovesSent {Wysłano ruchy: %s pomyślne, %s nie powiodło się}
+translate P LSSNoGamesFound {Nie znaleziono żadnych gier.}
+translate P LSSFilterError {Błąd filtra.}
+translate P LSSConnectionFailed {Nie udało się połączyć z serwerem LSS. Sprawdź swoją sieć.}
+translate P LSSAuthFailed {Uwierzytelnienie nie powiodło się. Sprawdź swoją nazwę użytkownika i hasło.}
+translate P LSSNeedUpdate {Najpierw naciśnij „Aktualizuj gry”, aby pobrać aktualne dane gry z serwera.}
+translate P LSSNoDatabase {Żadna baza danych nie jest obecnie otwarta. Najpierw otwórz bazę danych.}
+translate P LSSGameNumber {LSS}
+translate P LSSMyTime {Mój czas}
+translate P LSSOppTime {Czas op}
+translate P LSSDrawOffered {Oferowane losowanie}
 }
 # end of english.tcl
 

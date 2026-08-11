@@ -1906,6 +1906,49 @@ translate H TBQueryError {Érvénytelen válasz a tablebase API-tól.}
 translate H TBNotFound {A pozíció nem található a táblázatbázisban vagy API hiba.}
 translate H TBCategory {Pozíció kategória:}
 translate H TBTrainingHidden {(edzési mód; az eredmények rejtettek)}
+
+# LSS (Lechenicher SchachServer)
+menuText H ToolsTrainLSS "Játssz LSS-en" 0 {Játssz a Lechenicher SchachServeren}
+translate H LSSTitle {Játssz az LSS - Lechenicher SchachServeren}
+translate H LSSConfigure {LSS konfigurálása}
+translate H LSSServer {LSS szerver}
+translate H LSSLogin {Felhasználónév}
+translate H LSSPassword {Jelszó}
+translate H LSSConnect {Csatlakozás}
+translate H LSSClose {Közeli}
+translate H LSSUpdateGames {Játékok frissítése}
+translate H LSSSendMoves {Mozdulatok küldése}
+translate H LSSGamesList {Játékok listája}
+translate H LSSOpponentMessage {Az ellenfél üzenete}
+translate H LSSYourMessage {Az Ön üzenete}
+translate H LSSGameID {Játék}
+translate H LSSOpponent {Ellenfél}
+translate H LSSTime {Idő}
+translate H LSSWhiteElo {WElo}
+translate H LSSBlackElo {BElo}
+translate H LSSEvent {Esemény}
+translate H LSSLastMove {Utolsó lépés}
+translate H LSSSent {Küldött}
+translate H LSSYourMove {Az Ön lépése}
+translate H LSSOfferDraw {Ajánlatsorsolás}
+translate H LSSResign {Lemond}
+translate H LSSWaiting {Várakozás}
+translate H LSSYourTurn {Az Ön sora}
+translate H LSSCredentialsNeeded {Kérjük, adja meg LSS felhasználónevét és jelszavát.}
+translate H LSSUpdating {Játékok letöltése az LSS szerverről...}
+translate H LSSGamesUpdated {Játékok: %s hozzáadva, %s lépés frissítve, %s naprakész}
+translate H LSSSendingMoves {Költözések küldése az LSS szerverre...}
+translate H LSSMovesSent {Elküldve: %s sikeres, %s sikertelen}
+translate H LSSNoGamesFound {Nem található játék.}
+translate H LSSFilterError {Szűrő hiba.}
+translate H LSSConnectionFailed {Nem sikerült csatlakozni az LSS-kiszolgálóhoz. Ellenőrizze a hálózatot.}
+translate H LSSAuthFailed {A hitelesítés nem sikerült. Ellenőrizze felhasználónevét és jelszavát.}
+translate H LSSNeedUpdate {Kérjük, először nyomja meg a "Játékok frissítése" gombot az aktuális játékadatok letöltéséhez a szerverről.}
+translate H LSSNoDatabase {Jelenleg nincs megnyitva adatbázis. Először nyisson meg egy adatbázist.}
+translate H LSSGameNumber {LSS}
+translate H LSSMyTime {Az én időm}
+translate H LSSOppTime {Opp idő}
+translate H LSSDrawOffered {Sorsolás Felajánlott}
 }
 # end of english.tcl
 

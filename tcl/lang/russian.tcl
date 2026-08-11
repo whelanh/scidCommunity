@@ -1907,6 +1907,49 @@ translate R TBQueryError {Ошибка при разборе ответа API Li
 translate R TBNotFound {Позиция не найдена в базе таблиц или ошибка API.}
 translate R TBCategory {Категория позиции:}
 translate R TBTrainingHidden {(Режим обучения; результаты скрыты)}
+
+# LSS (Lechenicher SchachServer)
+menuText R ToolsTrainLSS "Играй на ЛСС" 0 {Играйте на сервере Lechenicher SchachServer}
+translate R LSSTitle {Играйте на LSS - Lechenicher SchachServer}
+translate R LSSConfigure {Настроить ЛСС}
+translate R LSSServer {ЛСС-сервер}
+translate R LSSLogin {Имя пользователя}
+translate R LSSPassword {Пароль}
+translate R LSSConnect {Соединять}
+translate R LSSClose {Закрывать}
+translate R LSSUpdateGames {Обновить игры}
+translate R LSSSendMoves {Отправить ходы}
+translate R LSSGamesList {Список игр}
+translate R LSSOpponentMessage {Сообщение оппонента}
+translate R LSSYourMessage {Ваше сообщение}
+translate R LSSGameID {Игра}
+translate R LSSOpponent {Противник}
+translate R LSSTime {Время}
+translate R LSSWhiteElo {Вело}
+translate R LSSBlackElo {БЕЛо}
+translate R LSSEvent {Событие}
+translate R LSSLastMove {Последний ход}
+translate R LSSSent {Отправил}
+translate R LSSYourMove {Ваш ход}
+translate R LSSOfferDraw {Предложение Розыгрыш}
+translate R LSSResign {Подать в отставку}
+translate R LSSWaiting {Ожидающий}
+translate R LSSYourTurn {Ваша очередь}
+translate R LSSCredentialsNeeded {Пожалуйста, введите имя пользователя и пароль LSS.}
+translate R LSSUpdating {Загрузка игр с сервера LSS...}
+translate R LSSGamesUpdated {Игры: добавлено %s, обновлено ходов %s, обновлено %s}
+translate R LSSSendingMoves {Отправка ходов на сервер LSS...}
+translate R LSSMovesSent {Ходы отправлены: %s успешно, %s не удалось.}
+translate R LSSNoGamesFound {Игры не найдены.}
+translate R LSSFilterError {Ошибка фильтра.}
+translate R LSSConnectionFailed {Не удалось подключиться к серверу LSS. Проверьте свою сеть.}
+translate R LSSAuthFailed {Аутентификация не удалась. Проверьте свое имя пользователя и пароль.}
+translate R LSSNeedUpdate {Пожалуйста, сначала нажмите «Обновить игры», чтобы получить текущие игровые данные с сервера.}
+translate R LSSNoDatabase {Ни одна база данных в настоящее время не открыта. Пожалуйста, сначала откройте базу данных.}
+translate R LSSGameNumber {СЖО}
+translate R LSSMyTime {Мое время}
+translate R LSSOppTime {Время приема}
+translate R LSSDrawOffered {Предлагается ничья}
 }
 # end of english.tcl
 

@@ -260,7 +260,7 @@ proc ::game::Load { selection {ply ""} } {
   if {$ply != "" && [string is integer -strict $ply]} { sc_move ply $ply }
 
   set extraTags [sc_game tag get Extra]
-  regexp {FlipB "([01])"\n} $extraTags -> flipB
+  regexp {FlipB "([01])"} $extraTags -> flipB
   if {![info exists flipB]} { set flipB -1 }
   ::board::flipAuto .main.board $flipB
 
@@ -313,6 +313,7 @@ proc ::game::ConfirmDiscard {} {
 
   ttk::button $w.saveBtn -text [tr SaveAndContinue] -image tb_BD_Save -compound left -command {
     set gnum [sc_game number]
+    ::game::updateFlipTag
     if {[catch {sc_game save $gnum $::curr_db}]} {
       ERROR::MessageBox
       set ::game::answer 0
@@ -323,6 +324,7 @@ proc ::game::ConfirmDiscard {} {
   }
 
   ttk::button $w.clipbaseBtn -text [tr EditCopy] -image tb_BD_SaveAs -compound left -command {
+    ::game::updateFlipTag
     if {[catch {sc_game save 0 $::clipbase_db}]} {
       ERROR::MessageBox
       set ::game::answer 0
@@ -351,6 +353,31 @@ proc ::game::ConfirmDiscard {} {
   return $::game::answer
 }
 
+# ::game::updateFlipTag
+#   Updates the FlipB tag in the current game's Extra tags to match main_isFlipped
+proc ::game::updateFlipTag {} {
+  set extra [sc_game tag get Extra]
+  set lines {}
+  set isFlipped [main_isFlipped]
+  set found 0
+  foreach line [split $extra "\n"] {
+    set line [string trim $line]
+    if {$line eq ""} continue
+    if {[regexp {^FlipB\s} $line]} {
+      if {$isFlipped} {
+        lappend lines "FlipB \"1\""
+        set found 1
+      }
+    } else {
+      lappend lines $line
+    }
+  }
+  if {$isFlipped && !$found} {
+    lappend lines "FlipB \"1\""
+  }
+  sc_game tags set -extra $lines
+}
+
 # Grouping intercommunication between windows
 # When complete this should be moved to a new notify.tcl file
 namespace eval ::notify {
@@ -360,6 +387,7 @@ namespace eval ::notify {
     ::notify::PosChanged newgame
     ::windows::gamelist::Refresh $follow
     ::maint::Refresh
+    if {[winfo exists .lss]} { ::lss::populateGameList }
   }
 
   # To be called when the current position changes
@@ -463,6 +491,7 @@ namespace eval ::notify {
     ::tools::graphs::filter::Refresh
     ::tools::graphs::absfilter::Refresh
     if {[winfo exists .ecograph]} { ::windows::eco::update }
+    if {[winfo exists .lss]} { ::lss::populateGameList }
   }
 
   # To be called when the filter of a database is changed (searches)

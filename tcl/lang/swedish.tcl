@@ -1911,6 +1911,49 @@ translate W TBQueryError {Ogiltigt svar från tablebase API.}
 translate W TBNotFound {Positionen hittades inte i tabellbasen eller API-fel.}
 translate W TBCategory {Positionskategori:}
 translate W TBTrainingHidden {(Träningsläge; resultaten är dolda)}
+
+# LSS (Lechenicher SchachServer)
+menuText W ToolsTrainLSS "Spela på LSS" 0 {Spela på Lechenicher SchachServer}
+translate W LSSTitle {Spela på LSS - Lechenicher SchachServer}
+translate W LSSConfigure {Konfigurera LSS}
+translate W LSSServer {LSS-server}
+translate W LSSLogin {Användarnamn}
+translate W LSSPassword {Lösenord}
+translate W LSSConnect {Ansluta}
+translate W LSSClose {Nära}
+translate W LSSUpdateGames {Uppdatera spel}
+translate W LSSSendMoves {Skicka drag}
+translate W LSSGamesList {Spellista}
+translate W LSSOpponentMessage {Motståndarens budskap}
+translate W LSSYourMessage {Ditt meddelande}
+translate W LSSGameID {Spel}
+translate W LSSOpponent {Motståndare}
+translate W LSSTime {Tid}
+translate W LSSWhiteElo {WElo}
+translate W LSSBlackElo {BElo}
+translate W LSSEvent {Händelse}
+translate W LSSLastMove {Sista draget}
+translate W LSSSent {Skickat}
+translate W LSSYourMove {Ditt drag}
+translate W LSSOfferDraw {Erbjudandedragning}
+translate W LSSResign {Avgå}
+translate W LSSWaiting {Väntan}
+translate W LSSYourTurn {Din tur}
+translate W LSSCredentialsNeeded {Ange ditt LSS-användarnamn och lösenord.}
+translate W LSSUpdating {Hämtar spel från LSS-server...}
+translate W LSSGamesUpdated {Spel: %s tillagda, %s drag uppdaterade, %s uppdaterade}
+translate W LSSSendingMoves {Skickar flyttningar till LSS-server...}
+translate W LSSMovesSent {Flyttningar skickade: %s lyckades, %s misslyckades}
+translate W LSSNoGamesFound {Inga spel hittades.}
+translate W LSSFilterError {Filterfel.}
+translate W LSSConnectionFailed {Det gick inte att ansluta till LSS-servern. Kontrollera ditt nätverk.}
+translate W LSSAuthFailed {Autentiseringen misslyckades. Kontrollera ditt användarnamn och lösenord.}
+translate W LSSNeedUpdate {Vänligen tryck på "Uppdatera spel" först för att hämta aktuell speldata från servern.}
+translate W LSSNoDatabase {Ingen databas är för närvarande öppen. Öppna en databas först.}
+translate W LSSGameNumber {LSS}
+translate W LSSMyTime {Min tid}
+translate W LSSOppTime {Upp tid}
+translate W LSSDrawOffered {Dragning erbjuds}
 }
 # end of english.tcl
 

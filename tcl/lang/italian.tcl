@@ -1907,6 +1907,49 @@ translate I TBQueryError {Risposta non valida dall'API tablebase.}
 translate I TBNotFound {Posizione non trovata nella tablebase o errore API.}
 translate I TBCategory {Categoria di posizione:}
 translate I TBTrainingHidden {(Modalità formazione; i risultati sono nascosti)}
+
+# LSS (Lechenicher SchachServer)
+menuText I ToolsTrainLSS "Gioca su LSS" 0 {Gioca su Lechenicher SchachServer}
+translate I LSSTitle {Gioca su LSS - Lechenicher SchachServer}
+translate I LSSConfigure {Configura LSS}
+translate I LSSServer {Server LSS}
+translate I LSSLogin {Nome utente}
+translate I LSSPassword {Password}
+translate I LSSConnect {Collegare}
+translate I LSSClose {Vicino}
+translate I LSSUpdateGames {Aggiorna giochi}
+translate I LSSSendMoves {Invia mosse}
+translate I LSSGamesList {Elenco dei giochi}
+translate I LSSOpponentMessage {Il messaggio dell'avversario}
+translate I LSSYourMessage {Il tuo messaggio}
+translate I LSSGameID {Gioco}
+translate I LSSOpponent {Avversario}
+translate I LSSTime {Tempo}
+translate I LSSWhiteElo {WElo}
+translate I LSSBlackElo {BElo}
+translate I LSSEvent {Evento}
+translate I LSSLastMove {Ultima mossa}
+translate I LSSSent {Inviato}
+translate I LSSYourMove {La tua mossa}
+translate I LSSOfferDraw {Offerta Sorteggio}
+translate I LSSResign {Dimettersi}
+translate I LSSWaiting {In attesa}
+translate I LSSYourTurn {Il tuo turno}
+translate I LSSCredentialsNeeded {Inserisci il tuo nome utente e password LSS.}
+translate I LSSUpdating {Recupero dei giochi dal server LSS in corso...}
+translate I LSSGamesUpdated {Giochi: %s aggiunti, %s mosse aggiornate, %s aggiornati}
+translate I LSSSendingMoves {Invio spostamenti al server LSS...}
+translate I LSSMovesSent {Mosse inviate: %s riuscite, %s fallite}
+translate I LSSNoGamesFound {Nessun gioco trovato.}
+translate I LSSFilterError {Errore filtro.}
+translate I LSSConnectionFailed {Impossibile connettersi al server LSS. Controlla la tua rete.}
+translate I LSSAuthFailed {Autenticazione non riuscita. Controlla il tuo nome utente e la tua password.}
+translate I LSSNeedUpdate {Premi prima "Aggiorna giochi" per recuperare i dati di gioco correnti dal server.}
+translate I LSSNoDatabase {Nessun database è attualmente aperto. Per favore apri prima un database.}
+translate I LSSGameNumber {LSS}
+translate I LSSMyTime {Il mio tempo}
+translate I LSSOppTime {Tempo op}
+translate I LSSDrawOffered {Pareggio offerto}
 }
 # end of english.tcl
 

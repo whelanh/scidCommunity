@@ -1924,6 +1924,49 @@ translate g TBQueryError {Невалиден отговор от API на таб
 translate g TBNotFound {Позицията не е намерена в табличната база или грешка в API.}
 translate g TBCategory {Категория на позицията:}
 translate g TBTrainingHidden {(Режим на обучение; резултатите са скрити)}
+
+# LSS (Lechenicher SchachServer)
+menuText g ToolsTrainLSS "Играйте на LSS" 0 {Играйте на Lechenicher SchachServer}
+translate g LSSTitle {Играйте на LSS - Lechenicher SchachServer}
+translate g LSSConfigure {Конфигурирайте LSS}
+translate g LSSServer {LSS сървър}
+translate g LSSLogin {Потребителско име}
+translate g LSSPassword {Парола}
+translate g LSSConnect {Свържете се}
+translate g LSSClose {затвори}
+translate g LSSUpdateGames {Актуализиране на игри}
+translate g LSSSendMoves {Изпращане на ходове}
+translate g LSSGamesList {Списък с игри}
+translate g LSSOpponentMessage {Съобщение на противника}
+translate g LSSYourMessage {Вашето съобщение}
+translate g LSSGameID {Игра}
+translate g LSSOpponent {Противник}
+translate g LSSTime {време}
+translate g LSSWhiteElo {WElo}
+translate g LSSBlackElo {БЕЛо}
+translate g LSSEvent {Събитие}
+translate g LSSLastMove {Последен ход}
+translate g LSSSent {Изпратено}
+translate g LSSYourMove {Вашият ход}
+translate g LSSOfferDraw {Теглене на оферта}
+translate g LSSResign {Подай си оставката}
+translate g LSSWaiting {Чакане}
+translate g LSSYourTurn {Твой ред}
+translate g LSSCredentialsNeeded {Моля, въведете вашето LSS потребителско име и парола.}
+translate g LSSUpdating {Извличане на игри от LSS сървър...}
+translate g LSSGamesUpdated {Игри: %s добавени, %s ходове актуализирани, %s актуални}
+translate g LSSSendingMoves {Изпращане на ходове към LSS сървър...}
+translate g LSSMovesSent {Изпратени ходове: %s успешни, %s неуспешни}
+translate g LSSNoGamesFound {Няма намерени игри.}
+translate g LSSFilterError {Грешка във филтъра.}
+translate g LSSConnectionFailed {Неуспешно свързване към LSS сървър. Проверете вашата мрежа.}
+translate g LSSAuthFailed {Неуспешно удостоверяване. Проверете вашето потребителско име и парола.}
+translate g LSSNeedUpdate {Моля, първо натиснете „Актуализиране на игри“, за да изтеглите текущите данни за играта от сървъра.}
+translate g LSSNoDatabase {В момента няма отворена база данни. Моля, първо отворете база данни.}
+translate g LSSGameNumber {LSS}
+translate g LSSMyTime {Моето време}
+translate g LSSOppTime {Opp Time}
+translate g LSSDrawOffered {Предлага се равенство}
 }
 # end of english.tcl
 

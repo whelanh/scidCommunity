@@ -1883,6 +1883,49 @@ translate Z TBQueryError {Jibu batili kutoka kwa tablebase API.}
 translate Z TBNotFound {Nafasi haipatikani kwenye msingi wa meza au hitilafu ya API.}
 translate Z TBCategory {Kitengo cha Nafasi:}
 translate Z TBTrainingHidden {(Njia ya mafunzo; matokeo yamefichwa)}
+
+# LSS (Lechenicher SchachServer)
+menuText Z ToolsTrainLSS "Cheza kwenye LSS" 0 {Cheza kwenye Lechenicher SchachServer}
+translate Z LSSTitle {Cheza kwenye LSS - Lechenicher SchachServer}
+translate Z LSSConfigure {Sanidi LSS}
+translate Z LSSServer {Seva ya LSS}
+translate Z LSSLogin {Jina la mtumiaji}
+translate Z LSSPassword {Nenosiri}
+translate Z LSSConnect {Unganisha}
+translate Z LSSClose {Funga}
+translate Z LSSUpdateGames {Sasisha Michezo}
+translate Z LSSSendMoves {Tuma Miondoko}
+translate Z LSSGamesList {Orodha ya Michezo}
+translate Z LSSOpponentMessage {Ujumbe wa Mpinzani}
+translate Z LSSYourMessage {Ujumbe Wako}
+translate Z LSSGameID {Mchezo}
+translate Z LSSOpponent {Mpinzani}
+translate Z LSSTime {Muda}
+translate Z LSSWhiteElo {WElo}
+translate Z LSSBlackElo {BElo}
+translate Z LSSEvent {Tukio}
+translate Z LSSLastMove {Hoja ya Mwisho}
+translate Z LSSSent {Imetumwa}
+translate Z LSSYourMove {Hoja Yako}
+translate Z LSSOfferDraw {Toa Droo}
+translate Z LSSResign {Kujiuzulu}
+translate Z LSSWaiting {Kusubiri}
+translate Z LSSYourTurn {Zamu Yako}
+translate Z LSSCredentialsNeeded {Tafadhali ingiza jina lako la mtumiaji na nenosiri la LSS.}
+translate Z LSSUpdating {Inaleta michezo kutoka kwa seva ya LSS...}
+translate Z LSSGamesUpdated {Michezo: %s imeongezwa, %s hatua zimesasishwa, %s zimesasishwa}
+translate Z LSSSendingMoves {Inatuma hoja kwa seva ya LSS...}
+translate Z LSSMovesSent {Uhamishaji umetumwa: %s imefaulu, %s imeshindwa}
+translate Z LSSNoGamesFound {Hakuna michezo iliyopatikana.}
+translate Z LSSFilterError {Hitilafu ya kichujio.}
+translate Z LSSConnectionFailed {Imeshindwa kuunganisha kwenye seva ya LSS. Angalia mtandao wako.}
+translate Z LSSAuthFailed {Uthibitishaji umeshindwa. Angalia jina lako la mtumiaji na nenosiri.}
+translate Z LSSNeedUpdate {Tafadhali bonyeza "Sasisha Michezo" kwanza ili kuleta data ya sasa ya mchezo kutoka kwa seva.}
+translate Z LSSNoDatabase {Hakuna hifadhidata iliyofunguliwa kwa sasa. Tafadhali fungua hifadhidata kwanza.}
+translate Z LSSGameNumber {LSS}
+translate Z LSSMyTime {Wakati Wangu}
+translate Z LSSOppTime {Muda wa Opp}
+translate Z LSSDrawOffered {Droo Imetolewa}
 }
 # end of english.tcl
 

@@ -1955,6 +1955,49 @@ translate D TBQueryError {Ungültige Antwort von der Tablebase-API.}
 translate D TBNotFound {Position in der Tabellenbasis nicht gefunden oder API-Fehler.}
 translate D TBCategory {Positionskategorie:}
 translate D TBTrainingHidden {(Trainingsmodus; Ergebnisse werden ausgeblendet)}
+
+# LSS (Lechenicher SchachServer)
+menuText D ToolsTrainLSS "Spielen Sie auf LSS" 0 {Spielen Sie auf dem Lechenicher SchachServer}
+translate D LSSTitle {Spielen Sie auf LSS - Lechenicher SchachServer}
+translate D LSSConfigure {LSS konfigurieren}
+translate D LSSServer {LSS-Server}
+translate D LSSLogin {Benutzername}
+translate D LSSPassword {Passwort}
+translate D LSSConnect {Verbinden}
+translate D LSSClose {Schließen}
+translate D LSSUpdateGames {Spiele aktualisieren}
+translate D LSSSendMoves {Bewegungen senden}
+translate D LSSGamesList {Spieleliste}
+translate D LSSOpponentMessage {Botschaft des Gegners}
+translate D LSSYourMessage {Ihre Nachricht}
+translate D LSSGameID {Spiel}
+translate D LSSOpponent {Gegner}
+translate D LSSTime {Zeit}
+translate D LSSWhiteElo {WLO}
+translate D LSSBlackElo {BElo}
+translate D LSSEvent {Ereignis}
+translate D LSSLastMove {Letzter Zug}
+translate D LSSSent {Gesendet}
+translate D LSSYourMove {Ihr Umzug}
+translate D LSSOfferDraw {Angebotsverlosung}
+translate D LSSResign {Zurücktreten}
+translate D LSSWaiting {Warten}
+translate D LSSYourTurn {Du bist dran}
+translate D LSSCredentialsNeeded {Bitte geben Sie Ihren LSS-Benutzernamen und Ihr Passwort ein.}
+translate D LSSUpdating {Spiele vom LSS-Server abrufen...}
+translate D LSSGamesUpdated {Spiele: %s hinzugefügt, %s Bewegungen aktualisiert, %s auf dem neuesten Stand}
+translate D LSSSendingMoves {Bewegungen werden an den LSS-Server gesendet...}
+translate D LSSMovesSent {Gesendete Bewegungen: %s erfolgreich, %s fehlgeschlagen}
+translate D LSSNoGamesFound {Keine Spiele gefunden.}
+translate D LSSFilterError {Filterfehler.}
+translate D LSSConnectionFailed {Verbindung zum LSS-Server konnte nicht hergestellt werden. Überprüfen Sie Ihr Netzwerk.}
+translate D LSSAuthFailed {Authentifizierung fehlgeschlagen. Überprüfen Sie Ihren Benutzernamen und Ihr Passwort.}
+translate D LSSNeedUpdate {Bitte klicken Sie zunächst auf „Spiele aktualisieren“, um aktuelle Spieldaten vom Server abzurufen.}
+translate D LSSNoDatabase {Derzeit ist keine Datenbank geöffnet. Bitte öffnen Sie zunächst eine Datenbank.}
+translate D LSSGameNumber {LSS}
+translate D LSSMyTime {Meine Zeit}
+translate D LSSOppTime {Opp Zeit}
+translate D LSSDrawOffered {Auslosung angeboten}
 }
 # end of english.tcl
 

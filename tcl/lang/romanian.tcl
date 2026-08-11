@@ -1924,6 +1924,49 @@ translate L TBQueryError {Răspuns nevalid de la API-ul tablebase.}
 translate L TBNotFound {Poziția nu a fost găsită în baza de tabele sau eroare API.}
 translate L TBCategory {Categoria postului:}
 translate L TBTrainingHidden {(Modul de antrenament; rezultatele sunt ascunse)}
+
+# LSS (Lechenicher SchachServer)
+menuText L ToolsTrainLSS "Joacă pe LSS" 0 {Joacă pe Lechenicher SchachServer}
+translate L LSSTitle {Joacă pe LSS - Lechenicher SchachServer}
+translate L LSSConfigure {Configurați LSS}
+translate L LSSServer {Server LSS}
+translate L LSSLogin {Nume de utilizator}
+translate L LSSPassword {Parolă}
+translate L LSSConnect {Conectați-vă}
+translate L LSSClose {Aproape}
+translate L LSSUpdateGames {Actualizați jocuri}
+translate L LSSSendMoves {Trimiteți mișcări}
+translate L LSSGamesList {Lista de jocuri}
+translate L LSSOpponentMessage {Mesajul adversarului}
+translate L LSSYourMessage {Mesajul dvs}
+translate L LSSGameID {Joc}
+translate L LSSOpponent {Adversar}
+translate L LSSTime {Timp}
+translate L LSSWhiteElo {WElo}
+translate L LSSBlackElo {BElo}
+translate L LSSEvent {Eveniment}
+translate L LSSLastMove {Ultima mutare}
+translate L LSSSent {Trimis}
+translate L LSSYourMove {Mișcarea ta}
+translate L LSSOfferDraw {Tragere la sorti}
+translate L LSSResign {Demisiona}
+translate L LSSWaiting {Aşteptare}
+translate L LSSYourTurn {Rândul tău}
+translate L LSSCredentialsNeeded {Vă rugăm să introduceți numele de utilizator și parola LSS.}
+translate L LSSUpdating {Se preiau jocuri de pe serverul LSS...}
+translate L LSSGamesUpdated {Jocuri: %s adăugat, %s mișcări actualizate, %s actualizat}
+translate L LSSSendingMoves {Se trimite mișcări către serverul LSS...}
+translate L LSSMovesSent {Mișcări trimise: %s reușit, %s eșuat}
+translate L LSSNoGamesFound {Nu s-au găsit jocuri.}
+translate L LSSFilterError {Eroare de filtrare.}
+translate L LSSConnectionFailed {Nu s-a putut conecta la serverul LSS. Verificați-vă rețeaua.}
+translate L LSSAuthFailed {Autentificarea eșuată. Verificați-vă numele de utilizator și parola.}
+translate L LSSNeedUpdate {Vă rugăm să apăsați mai întâi pe „Actualizare jocuri” pentru a prelua datele curente ale jocului de pe server.}
+translate L LSSNoDatabase {Nicio bază de date nu este deschisă în prezent. Vă rugăm să deschideți mai întâi o bază de date.}
+translate L LSSGameNumber {LSS}
+translate L LSSMyTime {Timpul meu}
+translate L LSSOppTime {Opp Time}
+translate L LSSDrawOffered {Remiză oferită}
 }
 # end of english.tcl
 

@@ -218,6 +218,7 @@ $m add command -label LichessPuzzles -command ::lichess_puzzles::start
 $m add separator
 $m add command -label ToolsPlayVsEngine -command ::sergame::config
 $m add command -label ToolsTrainFics -command ::fics::config
+$m add command -label ToolsTrainLSS -command ::lss::config
 $m add separator
 menu $m.training
   $m.training add command -label ToolsTrainOpenings -command ::opening::config
