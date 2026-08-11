@@ -1945,7 +1945,7 @@ translate A ICCFOfferDraw {オファー抽選}
 translate A ICCFResign {辞任する}
 translate A ICCFWaiting {待っている}
 translate A ICCFYourTurn {あなたの番です}
-translate A ICCFCredentialsNeeded {Please enter your ICCF username and password.}
+translate A ICCFCredentialsNeeded {ICCFのユーザー名とパスワードを入力してください。}
 translate A ICCFUpdating {ICCF サーバーからゲームを取得しています...}
 translate A ICCFGamesUpdated {ゲーム: %s が追加されました、%s の移動が更新されました、%s は最新です}
 translate A ICCFSendingMoves {ムーブを ICCF サーバーに送信しています...}

@@ -1912,7 +1912,7 @@ translate C ICCFTitle {Hrajte na ICCF}
 translate C ICCFLogin {Uživatelské jméno}
 translate C ICCFPassword {Heslo}
 translate C ICCFConnect {Připojit}
-translate C ICCFClose {Blízko}
+translate C ICCFClose {Zavt}
 translate C ICCFUpdateGames {Aktualizovat hry}
 translate C ICCFSendMoves {Odeslat pohyby}
 translate C ICCFYourMessage {Vaše zpráva}

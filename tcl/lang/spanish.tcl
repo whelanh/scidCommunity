@@ -1965,7 +1965,7 @@ translate S ICCFTitle {Jugar en ICCF}
 translate S ICCFLogin {Nombre de usuario}
 translate S ICCFPassword {Contraseña}
 translate S ICCFConnect {Conectar}
-translate S ICCFClose {Cerca}
+translate S ICCFClose {Cerrar}
 translate S ICCFUpdateGames {Actualizar juegos}
 translate S ICCFSendMoves {Enviar movimientos}
 translate S ICCFYourMessage {Tu mensaje}
@@ -1975,13 +1975,13 @@ translate S ICCFEvent {Evento}
 translate S ICCFLastMove {Último movimiento}
 translate S ICCFSent {Enviado}
 translate S ICCFYourMove {Tu movimiento}
-translate S ICCFOfferDraw {Sorteo de oferta}
+translate S ICCFOfferDraw {Ofrecer tablas}
 translate S ICCFResign {Renunciar}
 translate S ICCFWaiting {Espera}
 translate S ICCFYourTurn {Tu turno}
 translate S ICCFCredentialsNeeded {Por favor ingrese su nombre de usuario y contraseña de ICCF.}
 translate S ICCFUpdating {Obteniendo juegos del servidor ICCF...}
-translate S ICCFGamesUpdated {Juegos: %s agregados, %s movimientos actualizados, %s actualizados}
+translate S ICCFGamesUpdated {Juegos: %s agregados, %s movimientos actualizados, %s al día}
 translate S ICCFSendingMoves {Enviando movimientos al servidor ICCF...}
 translate S ICCFMovesSent {Movimientos enviados: %s exitosos, %s fallidos}
 translate S ICCFNoGamesFound {No se encontraron juegos.}
@@ -1990,9 +1990,9 @@ translate S ICCFConnectionFailed {No se pudo conectar al servidor ICCF. Comprueb
 translate S ICCFAuthFailed {La autenticación falló. Verifique su nombre de usuario y contraseña.}
 translate S ICCFNeedUpdate {Primero presione "Actualizar juegos" para obtener los datos del juego actual del servidor.}
 translate S ICCFNoDatabase {Actualmente no hay ninguna base de datos abierta. Primero abra una base de datos.}
-translate S ICCFMyTime {mi reloj}
-translate S ICCFOppTime {Reloj de oposición}
-translate S ICCFDrawOffered {Sorteo ofrecido}
+translate S ICCFMyTime {Mi reloj}
+translate S ICCFOppTime {Reloj del oponente}
+translate S ICCFDrawOffered {Tablas ofrecidas}
 # LSS (Lechenicher SchachServer)
 menuText S ToolsTrainLSS "Jugar en LSS" 0 {Jugar en Lechenicher SchachServer}
 translate S LSSTitle {Jugar en LSS - Lechenicher SchachServer}

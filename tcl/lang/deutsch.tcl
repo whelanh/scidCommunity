@@ -1972,7 +1972,7 @@ translate D ICCFEvent {Ereignis}
 translate D ICCFLastMove {Letzter Zug}
 translate D ICCFSent {Gesendet}
 translate D ICCFYourMove {Ihr Umzug}
-translate D ICCFOfferDraw {Angebotsverlosung}
+translate D ICCFOfferDraw {Remis anbieten}
 translate D ICCFResign {Zurücktreten}
 translate D ICCFWaiting {Warten}
 translate D ICCFYourTurn {Du bist dran}

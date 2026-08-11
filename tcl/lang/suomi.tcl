@@ -1943,7 +1943,7 @@ translate U ICCFTitle {Pelaa ICCF:llä}
 translate U ICCFLogin {Käyttäjätunnus}
 translate U ICCFPassword {Salasana}
 translate U ICCFConnect {Yhdistä}
-translate U ICCFClose {Lähellä}
+translate U ICCFClose {Sulje}
 translate U ICCFUpdateGames {Päivitä pelit}
 translate U ICCFSendMoves {Lähetä liikkeet}
 translate U ICCFYourMessage {Viestisi}
@@ -1953,7 +1953,7 @@ translate U ICCFEvent {Tapahtuma}
 translate U ICCFLastMove {Viimeinen siirto}
 translate U ICCFSent {Lähetetty}
 translate U ICCFYourMove {Sinun siirtosi}
-translate U ICCFOfferDraw {Tarjous arvonta}
+translate U ICCFOfferDraw {Tarjoa tasapeli}
 translate U ICCFResign {Eroa}
 translate U ICCFWaiting {Odottaa}
 translate U ICCFYourTurn {Sinun vuorosi}

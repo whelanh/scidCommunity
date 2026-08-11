@@ -1928,7 +1928,7 @@ translate F ICCFEvent {Événement}
 translate F ICCFLastMove {Dernier coup}
 translate F ICCFSent {Envoyé}
 translate F ICCFYourMove {Votre déménagement}
-translate F ICCFOfferDraw {Tirage au sort}
+translate F ICCFOfferDraw {Proposer nulle}
 translate F ICCFResign {Démissionner}
 translate F ICCFWaiting {En attendant}
 translate F ICCFYourTurn {À votre tour}

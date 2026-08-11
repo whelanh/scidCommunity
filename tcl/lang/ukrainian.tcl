@@ -1901,8 +1901,8 @@ translate Q ICCFEvent {Подія}
 translate Q ICCFLastMove {Останній хід}
 translate Q ICCFSent {Надіслано}
 translate Q ICCFYourMove {Ваш хід}
-translate Q ICCFOfferDraw {Offer Draw}
-translate Q ICCFResign {Звільнитися}
+translate Q ICCFOfferDraw {Запропонувати нічию}
+translate Q ICCFResign {Здатися}
 translate Q ICCFWaiting {Очікування}
 translate Q ICCFYourTurn {Ваша черга}
 translate Q ICCFCredentialsNeeded {Будь ласка, введіть своє ім'я користувача та пароль ICCF.}

@@ -3218,71 +3218,39 @@ translate Y TBCategory {Position Category:}
 # ====== TODO To be translated ======
 translate Y TBTrainingHidden {(Training mode; results are hidden)}
 # ====== TODO To be translated ======
-menuText Y ToolsTrainICCF "Play on ICCF" 0 {Play on ICCF}
-# ====== TODO To be translated ======
-translate Y ICCFTitle {Play on ICCF}
-# ====== TODO To be translated ======
-translate Y ICCFLogin {Username}
-# ====== TODO To be translated ======
-translate Y ICCFPassword {Password}
-# ====== TODO To be translated ======
-translate Y ICCFConnect {Connect}
-# ====== TODO To be translated ======
-translate Y ICCFClose {Close}
-# ====== TODO To be translated ======
-translate Y ICCFUpdateGames {Update Games}
-# ====== TODO To be translated ======
-translate Y ICCFSendMoves {Send Moves}
-# ====== TODO To be translated ======
-translate Y ICCFYourMessage {Your Message}
-# ====== TODO To be translated ======
-translate Y ICCFGameID {Game}
-# ====== TODO To be translated ======
-translate Y ICCFOpponent {Opponent}
-# ====== TODO To be translated ======
-translate Y ICCFEvent {Event}
-# ====== TODO To be translated ======
-translate Y ICCFLastMove {Last Move}
-# ====== TODO To be translated ======
-translate Y ICCFSent {Sent}
-# ====== TODO To be translated ======
-translate Y ICCFYourMove {Your Move}
-# ====== TODO To be translated ======
-translate Y ICCFOfferDraw {Offer Draw}
-# ====== TODO To be translated ======
-translate Y ICCFResign {Resign}
-# ====== TODO To be translated ======
-translate Y ICCFWaiting {Waiting}
-# ====== TODO To be translated ======
-translate Y ICCFYourTurn {Your Turn}
-# ====== TODO To be translated ======
-translate Y ICCFCredentialsNeeded {Please enter your ICCF username and password.}
-# ====== TODO To be translated ======
-translate Y ICCFUpdating {Fetching games from ICCF server...}
-# ====== TODO To be translated ======
-translate Y ICCFGamesUpdated {Games: %s added, %s moves updated, %s up to date}
-# ====== TODO To be translated ======
-translate Y ICCFSendingMoves {Sending moves to ICCF server...}
-# ====== TODO To be translated ======
-translate Y ICCFMovesSent {Moves sent: %s successful, %s failed}
-# ====== TODO To be translated ======
-translate Y ICCFNoGamesFound {No games found.}
-# ====== TODO To be translated ======
-translate Y ICCFFilterError {Filter error.}
-# ====== TODO To be translated ======
-translate Y ICCFConnectionFailed {Failed to connect to ICCF server. Check your network.}
-# ====== TODO To be translated ======
-translate Y ICCFAuthFailed {Authentication failed. Check your username and password.}
-# ====== TODO To be translated ======
-translate Y ICCFNeedUpdate {Please press "Update Games" first to fetch current game data from the server.}
-# ====== TODO To be translated ======
-translate Y ICCFNoDatabase {No database is currently open. Please open a database first.}
-# ====== TODO To be translated ======
-translate Y ICCFMyTime {My Clock}
-# ====== TODO To be translated ======
-translate Y ICCFOppTime {Opp Clock}
-# ====== TODO To be translated ======
-translate Y ICCFDrawOffered {Draw Offered}
+menuText Y ToolsTrainICCF "Igraj na ICCF-u" 0 {Igraj na ICCF-u}
+translate Y ICCFTitle {Igraj na ICCF-u}
+translate Y ICCFLogin {Korisničko ime}
+translate Y ICCFPassword {Lozinka}
+translate Y ICCFConnect {Poveži se}
+translate Y ICCFClose {Zatvori}
+translate Y ICCFUpdateGames {Ažuriraj igre}
+translate Y ICCFSendMoves {Pošalji poteze}
+translate Y ICCFYourMessage {Vaša poruka}
+translate Y ICCFGameID {Igra}
+translate Y ICCFOpponent {Protivnik}
+translate Y ICCFEvent {Događaj}
+translate Y ICCFLastMove {Poslednji potez}
+translate Y ICCFSent {Poslato}
+translate Y ICCFYourMove {Vaš potez}
+translate Y ICCFOfferDraw {Ponudi remi}
+translate Y ICCFResign {Predaj se}
+translate Y ICCFWaiting {Čekanje}
+translate Y ICCFYourTurn {Vi ste na potezu}
+translate Y ICCFCredentialsNeeded {Unesite svoje ICCF korisničko ime i lozinku.}
+translate Y ICCFUpdating {Preuzimanje igara sa ICCF servera...}
+translate Y ICCFGamesUpdated {Igre: %s dodato, %s poteza ažurirano, %s ažurno}
+translate Y ICCFSendingMoves {Slanje poteza na ICCF server...}
+translate Y ICCFMovesSent {Potezi poslati: %s uspešno, %s neuspešno}
+translate Y ICCFNoGamesFound {Nema pronađenih igara.}
+translate Y ICCFFilterError {Greška filtera.}
+translate Y ICCFConnectionFailed {Povezivanje na ICCF server nije uspelo. Proverite mrežu.}
+translate Y ICCFAuthFailed {Autentifikacija nije uspela. Proverite korisničko ime i lozinku.}
+translate Y ICCFNeedUpdate {Pritisnite "Ažuriraj igre" da prvo preuzmete trenutne podatke sa servera.}
+translate Y ICCFNoDatabase {Trenutno nema otvorene baze podataka. Prvo otvorite bazu.}
+translate Y ICCFMyTime {Moj sat}
+translate Y ICCFOppTime {Protivnikov sat}
+translate Y ICCFDrawOffered {Remi ponuđen}
 # ====== TODO To be translated ======
 menuText Y ToolsTrainLSS "Play on LSS" 0 {Play on Lechenicher SchachServer}
 # ====== TODO To be translated ======

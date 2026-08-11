@@ -1918,7 +1918,7 @@ translate W ICCFTitle {Spela på ICCF}
 translate W ICCFLogin {Användarnamn}
 translate W ICCFPassword {Lösenord}
 translate W ICCFConnect {Ansluta}
-translate W ICCFClose {Nära}
+translate W ICCFClose {Stäng}
 translate W ICCFUpdateGames {Uppdatera spel}
 translate W ICCFSendMoves {Skicka drag}
 translate W ICCFYourMessage {Ditt meddelande}
@@ -1928,7 +1928,7 @@ translate W ICCFEvent {Händelse}
 translate W ICCFLastMove {Sista draget}
 translate W ICCFSent {Skickat}
 translate W ICCFYourMove {Ditt drag}
-translate W ICCFOfferDraw {Erbjudandedragning}
+translate W ICCFOfferDraw {Erbjud remi}
 translate W ICCFResign {Avgå}
 translate W ICCFWaiting {Väntan}
 translate W ICCFYourTurn {Din tur}

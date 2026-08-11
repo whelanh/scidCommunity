@@ -1904,7 +1904,7 @@ translate T ICCFEvent {Etkinlik}
 translate T ICCFLastMove {Son Hareket}
 translate T ICCFSent {Gönderilmiş}
 translate T ICCFYourMove {Hareketiniz}
-translate T ICCFOfferDraw {Teklif Çekilişi}
+translate T ICCFOfferDraw {Remi Teklif Et}
 translate T ICCFResign {İstifa etmek}
 translate T ICCFWaiting {Beklemek}
 translate T ICCFYourTurn {Sıra sende}

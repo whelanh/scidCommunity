@@ -1876,7 +1876,7 @@ translate M ICCFEvent {事件}
 translate M ICCFLastMove {最后一步}
 translate M ICCFSent {发送}
 translate M ICCFYourMove {你的举动}
-translate M ICCFOfferDraw {优惠抽奖}
+translate M ICCFOfferDraw {和棋}
 translate M ICCFResign {辞职}
 translate M ICCFWaiting {等待}
 translate M ICCFYourTurn {轮到你了}
