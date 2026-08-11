@@ -163,6 +163,12 @@ proc ::iccf::soapRequest {action soapBody {timeout 30000}} {
     return ""
   }
 
+  # exec decodes stdout with the system encoding, which mangles UTF-8 when
+  # the system encoding is not UTF-8 (e.g. latin-1). Round-trip through
+  # system-encoding bytes and re-decode as UTF-8; a no-op when the system
+  # encoding is already UTF-8.
+  set result [encoding convertfrom utf-8 [encoding convertto [encoding system] $result]]
+
   return $result
 }
 
@@ -306,12 +312,14 @@ proc ::iccf::createWindow {w} {
   ttk::frame $tab1
   $nb add $tab1 -text $::tr(ICCFYourTurn)
 
-  # Update Games button
+  # Update Games and Send Moves buttons
   ttk::frame $tab1.top
   ttk::button $tab1.top.update -text $::tr(ICCFUpdateGames) -command ::iccf::updateGames
+  ttk::button $tab1.top.send -text $::tr(ICCFSendMoves) -command ::iccf::sendMoves
   ttk::label $tab1.top.status -textvariable ::iccf::statusText -width 50
   pack $tab1.top.update -side left -padx 5 -pady 5
   pack $tab1.top.status -side left -padx 5 -pady 5
+  pack $tab1.top.send -side right -padx 5 -pady 5
 
   # Your Turn game list treeview
   set f1 $tab1.glist
@@ -395,9 +403,7 @@ proc ::iccf::createWindow {w} {
 
   # Bottom buttons
   ttk::frame $w.buttons
-  ttk::button $w.buttons.send -text $::tr(ICCFSendMoves) -command ::iccf::sendMoves
   ttk::button $w.buttons.close -text $::tr(ICCFClose) -command ::iccf::closeWindow
-  pack $w.buttons.send -side left -padx 5 -pady 5
   pack $w.buttons.close -side right -padx 5 -pady 5
 
   pack $nb -fill both -expand yes
@@ -922,6 +928,8 @@ proc ::iccf::loadSelectedGame {w x y} {
     set dbGameNum $::iccf::gameToDbMap($id)
     if {$::iccf::savedGameNum == 0 && [sc_base inUse]} { set ::iccf::savedGameNum [sc_game number] }
     ::game::Load $dbGameNum
+    catch {sc_move end}
+    ::move::PGNOffset [sc_move pgn]
   }
 }
 
