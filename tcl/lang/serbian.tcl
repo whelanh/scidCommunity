@@ -3218,6 +3218,40 @@ translate Y TBCategory {Position Category:}
 # ====== TODO To be translated ======
 translate Y TBTrainingHidden {(Training mode; results are hidden)}
 # ====== TODO To be translated ======
+menuText Y ToolsTrainICCF "Igraj na ICCF-u" 0 {Igraj na ICCF-u}
+translate Y ICCFTitle {Igraj na ICCF-u}
+translate Y ICCFLogin {Korisničko ime}
+translate Y ICCFPassword {Lozinka}
+translate Y ICCFConnect {Poveži se}
+translate Y ICCFClose {Zatvori}
+translate Y ICCFUpdateGames {Ažuriraj igre}
+translate Y ICCFSendMoves {Pošalji poteze}
+translate Y ICCFYourMessage {Vaša poruka}
+translate Y ICCFGameID {Igra}
+translate Y ICCFOpponent {Protivnik}
+translate Y ICCFEvent {Događaj}
+translate Y ICCFLastMove {Poslednji potez}
+translate Y ICCFSent {Poslato}
+translate Y ICCFYourMove {Vaš potez}
+translate Y ICCFOfferDraw {Ponudi remi}
+translate Y ICCFResign {Predaj se}
+translate Y ICCFWaiting {Čekanje}
+translate Y ICCFYourTurn {Vi ste na potezu}
+translate Y ICCFCredentialsNeeded {Unesite svoje ICCF korisničko ime i lozinku.}
+translate Y ICCFUpdating {Preuzimanje igara sa ICCF servera...}
+translate Y ICCFGamesUpdated {Igre: %s dodato, %s poteza ažurirano, %s ažurno}
+translate Y ICCFSendingMoves {Slanje poteza na ICCF server...}
+translate Y ICCFMovesSent {Potezi poslati: %s uspešno, %s neuspešno}
+translate Y ICCFNoGamesFound {Nema pronađenih igara.}
+translate Y ICCFFilterError {Greška filtera.}
+translate Y ICCFConnectionFailed {Povezivanje na ICCF server nije uspelo. Proverite mrežu.}
+translate Y ICCFAuthFailed {Autentifikacija nije uspela. Proverite korisničko ime i lozinku.}
+translate Y ICCFNeedUpdate {Pritisnite "Ažuriraj igre" da prvo preuzmete trenutne podatke sa servera.}
+translate Y ICCFNoDatabase {Trenutno nema otvorene baze podataka. Prvo otvorite bazu.}
+translate Y ICCFMyTime {Moj sat}
+translate Y ICCFOppTime {Protivnikov sat}
+translate Y ICCFDrawOffered {Remi ponuđen}
+# ====== TODO To be translated ======
 menuText Y ToolsTrainLSS "Play on LSS" 0 {Play on Lechenicher SchachServer}
 # ====== TODO To be translated ======
 translate Y LSSTitle {Play on LSS - Lechenicher SchachServer}

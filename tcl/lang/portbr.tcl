@@ -1914,6 +1914,40 @@ translate B TBNotFound {Posição não encontrada na base de tabela ou erro de A
 translate B TBCategory {Categoria de posição:}
 translate B TBTrainingHidden {(Modo de treinamento; os resultados estão ocultos)}
 
+# ICCF (International Correspondence Chess Federation)
+menuText B ToolsTrainICCF "Jogue no ICCF" 0 {Jogue no ICCF}
+translate B ICCFTitle {Jogue no ICCF}
+translate B ICCFLogin {Nome de usuário}
+translate B ICCFPassword {Senha}
+translate B ICCFConnect {Conectar}
+translate B ICCFClose {Fechar}
+translate B ICCFUpdateGames {Atualizar jogos}
+translate B ICCFSendMoves {Enviar movimentos}
+translate B ICCFYourMessage {Sua mensagem}
+translate B ICCFGameID {Jogo}
+translate B ICCFOpponent {Adversário}
+translate B ICCFEvent {Evento}
+translate B ICCFLastMove {Último movimento}
+translate B ICCFSent {Enviado}
+translate B ICCFYourMove {Sua jogada}
+translate B ICCFOfferDraw {Sorteio de ofertas}
+translate B ICCFResign {Renunciar}
+translate B ICCFWaiting {Esperando}
+translate B ICCFYourTurn {Sua vez}
+translate B ICCFCredentialsNeeded {Por favor, digite seu nome de usuário e senha do ICCF.}
+translate B ICCFUpdating {Buscando jogos do servidor ICCF...}
+translate B ICCFGamesUpdated {Jogos: %s adicionados, %s movimentos atualizados, %s atualizados}
+translate B ICCFSendingMoves {Enviando movimentos para o servidor ICCF...}
+translate B ICCFMovesSent {Movimentos enviados: %s bem sucedidos, %s falhados}
+translate B ICCFNoGamesFound {Nenhum jogo encontrado.}
+translate B ICCFFilterError {Erro de filtro.}
+translate B ICCFConnectionFailed {Falha ao conectar ao servidor ICCF. Verifique sua rede.}
+translate B ICCFAuthFailed {Falha na autenticação. Verifique seu nome de usuário e senha.}
+translate B ICCFNeedUpdate {Por favor, pressione "Atualizar Jogos" primeiro para buscar os dados atuais do jogo no servidor.}
+translate B ICCFNoDatabase {Nenhum banco de dados está aberto no momento. Por favor, abra um banco de dados primeiro.}
+translate B ICCFMyTime {Meu relógio}
+translate B ICCFOppTime {Relógio operacional}
+translate B ICCFDrawOffered {Sorteio oferecido}
 # LSS (Lechenicher SchachServer)
 menuText B ToolsTrainLSS "Jogue no LSS" 0 {Jogue no Lechenicher SchachServer}
 translate B LSSTitle {Jogue no LSS - Lechenicher SchachServer}

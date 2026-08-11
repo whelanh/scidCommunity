@@ -308,6 +308,11 @@ set ::fics::server_ip "0.0.0.0"
 set ::fics::premoveEnabled 1
 set ::fics::playing 0
 
+# Defaults for ICCF
+set ::iccf::username ""
+set ::iccf::password ""
+set ::iccf::server "https://www.iccf.com/xfccbasic.asmx"
+set ::iccf::playing 0
 # Defaults for LSS
 set ::lss::username ""
 set ::lss::password ""
@@ -748,6 +753,10 @@ proc options.write {} {
       puts $optionF "set ::fics::profileVars($i) [list $::fics::profileVars($i)]"
     }
 
+# save ICCF config
+    foreach i { username password server } {
+      puts $optionF "set ::iccf::$i [list [set ::iccf::$i]]"
+    }
     # save LSS config
     foreach i { username password server } {
       puts $optionF "set ::lss::$i [list [set ::lss::$i]]"

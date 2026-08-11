@@ -1912,6 +1912,40 @@ translate W TBNotFound {Positionen hittades inte i tabellbasen eller API-fel.}
 translate W TBCategory {Positionskategori:}
 translate W TBTrainingHidden {(Träningsläge; resultaten är dolda)}
 
+# ICCF (International Correspondence Chess Federation)
+menuText W ToolsTrainICCF "Spela på ICCF" 0 {Spela på ICCF}
+translate W ICCFTitle {Spela på ICCF}
+translate W ICCFLogin {Användarnamn}
+translate W ICCFPassword {Lösenord}
+translate W ICCFConnect {Ansluta}
+translate W ICCFClose {Stäng}
+translate W ICCFUpdateGames {Uppdatera spel}
+translate W ICCFSendMoves {Skicka drag}
+translate W ICCFYourMessage {Ditt meddelande}
+translate W ICCFGameID {Spel}
+translate W ICCFOpponent {Motståndare}
+translate W ICCFEvent {Händelse}
+translate W ICCFLastMove {Sista draget}
+translate W ICCFSent {Skickat}
+translate W ICCFYourMove {Ditt drag}
+translate W ICCFOfferDraw {Erbjud remi}
+translate W ICCFResign {Avgå}
+translate W ICCFWaiting {Väntan}
+translate W ICCFYourTurn {Din tur}
+translate W ICCFCredentialsNeeded {Vänligen ange ditt ICCF-användarnamn och lösenord.}
+translate W ICCFUpdating {Hämtar spel från ICCF-server...}
+translate W ICCFGamesUpdated {Spel: %s tillagda, %s drag uppdaterade, %s uppdaterade}
+translate W ICCFSendingMoves {Skickar flyttningar till ICCF-server...}
+translate W ICCFMovesSent {Flyttningar skickade: %s lyckades, %s misslyckades}
+translate W ICCFNoGamesFound {Inga spel hittades.}
+translate W ICCFFilterError {Filterfel.}
+translate W ICCFConnectionFailed {Det gick inte att ansluta till ICCF-servern. Kontrollera ditt nätverk.}
+translate W ICCFAuthFailed {Autentiseringen misslyckades. Kontrollera ditt användarnamn och lösenord.}
+translate W ICCFNeedUpdate {Vänligen tryck på "Uppdatera spel" först för att hämta aktuell speldata från servern.}
+translate W ICCFNoDatabase {Ingen databas är för närvarande öppen. Öppna en databas först.}
+translate W ICCFMyTime {Min klocka}
+translate W ICCFOppTime {Opp klocka}
+translate W ICCFDrawOffered {Dragning erbjuds}
 # LSS (Lechenicher SchachServer)
 menuText W ToolsTrainLSS "Spela på LSS" 0 {Spela på Lechenicher SchachServer}
 translate W LSSTitle {Spela på LSS - Lechenicher SchachServer}

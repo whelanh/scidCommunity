@@ -1836,6 +1836,40 @@ translate P TBNotFound {Nie znaleziono pozycji w tablicy końcówek albo wystąp
 translate P TBCategory {Kategoria pozycji:}
 translate P TBTrainingHidden {(Tryb treningu; wyniki są ukryte)}
 
+# ICCF (International Correspondence Chess Federation)
+menuText P ToolsTrainICCF "Zagraj w ICCF" 0 {Zagraj w ICCF}
+translate P ICCFTitle {Zagraj w ICCF}
+translate P ICCFLogin {Nazwa użytkownika}
+translate P ICCFPassword {Hasło}
+translate P ICCFConnect {Łączyć}
+translate P ICCFClose {Zamknąć}
+translate P ICCFUpdateGames {Aktualizuj gry}
+translate P ICCFSendMoves {Wyślij ruchy}
+translate P ICCFYourMessage {Twoja wiadomość}
+translate P ICCFGameID {Gra}
+translate P ICCFOpponent {Przeciwnik}
+translate P ICCFEvent {Wydarzenie}
+translate P ICCFLastMove {Ostatni ruch}
+translate P ICCFSent {Wysłano}
+translate P ICCFYourMove {Twój ruch}
+translate P ICCFOfferDraw {Losowanie ofert}
+translate P ICCFResign {Rezygnować}
+translate P ICCFWaiting {Czekanie}
+translate P ICCFYourTurn {Twoja kolej}
+translate P ICCFCredentialsNeeded {Proszę podać swoją nazwę użytkownika i hasło ICCF.}
+translate P ICCFUpdating {Pobieranie gier z serwera ICCF...}
+translate P ICCFGamesUpdated {Gry: dodano %s, zaktualizowano ruchy %s, zaktualizowano %s}
+translate P ICCFSendingMoves {Wysyłanie ruchów na serwer ICCF...}
+translate P ICCFMovesSent {Wysłano ruchy: %s pomyślne, %s nie powiodło się}
+translate P ICCFNoGamesFound {Nie znaleziono żadnych gier.}
+translate P ICCFFilterError {Błąd filtra.}
+translate P ICCFConnectionFailed {Nie udało się połączyć z serwerem ICCF. Sprawdź swoją sieć.}
+translate P ICCFAuthFailed {Uwierzytelnienie nie powiodło się. Sprawdź swoją nazwę użytkownika i hasło.}
+translate P ICCFNeedUpdate {Najpierw naciśnij „Aktualizuj gry”, aby pobrać aktualne dane gry z serwera.}
+translate P ICCFNoDatabase {Żadna baza danych nie jest obecnie otwarta. Najpierw otwórz bazę danych.}
+translate P ICCFMyTime {Mój zegar}
+translate P ICCFOppTime {Zegar Oppa}
+translate P ICCFDrawOffered {Oferowane losowanie}
 # LSS (Lechenicher SchachServer)
 menuText P ToolsTrainLSS "Graj na LSS" 0 {Graj na Lechenicher SchachServer}
 translate P LSSTitle {Graj na LSS - Lechenicher SchachServer}

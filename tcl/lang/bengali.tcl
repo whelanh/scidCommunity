@@ -1884,6 +1884,40 @@ translate b TBNotFound {টেবিলবেস বা API ত্রুটি�
 translate b TBCategory {অবস্থান বিভাগ:}
 translate b TBTrainingHidden {(প্রশিক্ষণ মোড; ফলাফল লুকানো আছে)}
 
+# ICCF (International Correspondence Chess Federation)
+menuText b ToolsTrainICCF "আইসিসিএফ-এ খেলুন" 0 {আইসিসিএফ-এ খেলুন}
+translate b ICCFTitle {আইসিসিএফ-এ খেলুন}
+translate b ICCFLogin {ব্যবহারকারীর নাম}
+translate b ICCFPassword {পাসওয়ার্ড}
+translate b ICCFConnect {সংযোগ করুন}
+translate b ICCFClose {বন্ধ}
+translate b ICCFUpdateGames {গেম আপডেট করুন}
+translate b ICCFSendMoves {মুভ পাঠান}
+translate b ICCFYourMessage {আপনার বার্তা}
+translate b ICCFGameID {খেলা}
+translate b ICCFOpponent {প্রতিপক্ষ}
+translate b ICCFEvent {ঘটনা}
+translate b ICCFLastMove {লাস্ট মুভ}
+translate b ICCFSent {পাঠানো হয়েছে}
+translate b ICCFYourMove {আপনার পদক্ষেপ}
+translate b ICCFOfferDraw {অফার ড্র}
+translate b ICCFResign {পদত্যাগ করুন}
+translate b ICCFWaiting {অপেক্ষা করছে}
+translate b ICCFYourTurn {আপনার পালা}
+translate b ICCFCredentialsNeeded {অনুগ্রহ করে আপনার ICCF ব্যবহারকারীর নাম এবং পাসওয়ার্ড লিখুন।}
+translate b ICCFUpdating {ICCF সার্ভার থেকে গেম আনা হচ্ছে...}
+translate b ICCFGamesUpdated {গেম: %s যোগ করা হয়েছে, %s মুভ আপডেট করা হয়েছে, %s আপ টু ডেট}
+translate b ICCFSendingMoves {ICCF সার্ভারে সরানো হচ্ছে...}
+translate b ICCFMovesSent {প্রেরণ করা হয়েছে: %s সফল, %s ব্যর্থ হয়েছে৷}
+translate b ICCFNoGamesFound {কোনো গেম পাওয়া যায়নি।}
+translate b ICCFFilterError {ফিল্টার ত্রুটি।}
+translate b ICCFConnectionFailed {ICCF সার্ভারের সাথে সংযোগ করতে ব্যর্থ হয়েছে৷ আপনার নেটওয়ার্ক পরীক্ষা করুন.}
+translate b ICCFAuthFailed {প্রমাণীকরণ ব্যর্থ হয়েছে৷ আপনার ব্যবহারকারীর নাম এবং পাসওয়ার্ড পরীক্ষা করুন.}
+translate b ICCFNeedUpdate {সার্ভার থেকে বর্তমান গেম ডেটা আনতে প্রথমে "আপডেট গেমস" টিপুন৷}
+translate b ICCFNoDatabase {বর্তমানে কোনো ডাটাবেস খোলা নেই। প্রথমে একটি ডাটাবেস খুলুন.}
+translate b ICCFMyTime {আমার ঘড়ি}
+translate b ICCFOppTime {ঘড়ির বিপরীতে}
+translate b ICCFDrawOffered {ড্র অফার করা হয়েছে}
 # LSS (Lechenicher SchachServer)
 menuText b ToolsTrainLSS "LSS এ খেলুন" 0 {Lechenicher SchachServer এ খেলুন}
 translate b LSSTitle {LSS-এ খেলুন - Lechenicher SchachServer}

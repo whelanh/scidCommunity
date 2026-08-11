@@ -1925,6 +1925,40 @@ translate A TBNotFound {テーブルベースで位置が見つからないか�
 translate A TBCategory {ポジションカテゴリー:}
 translate A TBTrainingHidden {(トレーニングモード、結果は非表示)}
 
+# ICCF (International Correspondence Chess Federation)
+menuText A ToolsTrainICCF "ICCFでプレイする" 0 {ICCFでプレイする}
+translate A ICCFTitle {ICCFでプレイする}
+translate A ICCFLogin {ユーザー名}
+translate A ICCFPassword {パスワード}
+translate A ICCFConnect {接続する}
+translate A ICCFClose {近い}
+translate A ICCFUpdateGames {ゲームを更新する}
+translate A ICCFSendMoves {送信移動}
+translate A ICCFYourMessage {あなたのメッセージ}
+translate A ICCFGameID {ゲーム}
+translate A ICCFOpponent {対戦相手}
+translate A ICCFEvent {イベント}
+translate A ICCFLastMove {最後の動き}
+translate A ICCFSent {送信済み}
+translate A ICCFYourMove {あなたの動き}
+translate A ICCFOfferDraw {オファー抽選}
+translate A ICCFResign {辞任する}
+translate A ICCFWaiting {待っている}
+translate A ICCFYourTurn {あなたの番です}
+translate A ICCFCredentialsNeeded {ICCFのユーザー名とパスワードを入力してください。}
+translate A ICCFUpdating {ICCF サーバーからゲームを取得しています...}
+translate A ICCFGamesUpdated {ゲーム: %s が追加されました、%s の移動が更新されました、%s は最新です}
+translate A ICCFSendingMoves {ムーブを ICCF サーバーに送信しています...}
+translate A ICCFMovesSent {送信された移動: %s は成功しました、%s は失敗しました}
+translate A ICCFNoGamesFound {ゲームが見つかりませんでした。}
+translate A ICCFFilterError {フィルターエラー。}
+translate A ICCFConnectionFailed {ICCFサーバーへの接続に失敗しました。ネットワークを確認してください。}
+translate A ICCFAuthFailed {認証に失敗しました。ユーザー名とパスワードを確認してください。}
+translate A ICCFNeedUpdate {まず「ゲームの更新」を押して、サーバーから現在のゲームデータを取得してください。}
+translate A ICCFNoDatabase {現在開いているデータベースはありません。まずデータベースを開いてください。}
+translate A ICCFMyTime {私の時計}
+translate A ICCFOppTime {オップクロック}
+translate A ICCFDrawOffered {抽選が行われました}
 # LSS (Lechenicher SchachServer)
 menuText A ToolsTrainLSS "LSSでプレイする" 0 {Lechenicher SchachServer でプレイする}
 translate A LSSTitle {LSS でプレイ - Lechenicher SchachServer}

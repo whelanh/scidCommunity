@@ -387,6 +387,7 @@ namespace eval ::notify {
     ::notify::PosChanged newgame
     ::windows::gamelist::Refresh $follow
     ::maint::Refresh
+    if {[winfo exists .iccf]} { ::iccf::populateGameList }
     if {[winfo exists .lss]} { ::lss::populateGameList }
   }
 
@@ -491,6 +492,7 @@ namespace eval ::notify {
     ::tools::graphs::filter::Refresh
     ::tools::graphs::absfilter::Refresh
     if {[winfo exists .ecograph]} { ::windows::eco::update }
+    if {[winfo exists .iccf]} { ::iccf::populateGameList }
     if {[winfo exists .lss]} { ::lss::populateGameList }
   }
 

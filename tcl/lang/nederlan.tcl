@@ -1931,6 +1931,40 @@ translate N TBNotFound {Positie niet gevonden in tablebase of API-fout.}
 translate N TBCategory {Functiecategorie:}
 translate N TBTrainingHidden {(Trainingsmodus; resultaten zijn verborgen)}
 
+# ICCF (International Correspondence Chess Federation)
+menuText N ToolsTrainICCF "Speel op ICCF" 0 {Speel op ICCF}
+translate N ICCFTitle {Speel op ICCF}
+translate N ICCFLogin {Gebruikersnaam}
+translate N ICCFPassword {Wachtwoord}
+translate N ICCFConnect {Verbinden}
+translate N ICCFClose {Dichtbij}
+translate N ICCFUpdateGames {Spelletjes bijwerken}
+translate N ICCFSendMoves {Verzend bewegingen}
+translate N ICCFYourMessage {Jouw bericht}
+translate N ICCFGameID {Spel}
+translate N ICCFOpponent {Tegenstander}
+translate N ICCFEvent {Evenement}
+translate N ICCFLastMove {Laatste zet}
+translate N ICCFSent {Verstuurd}
+translate N ICCFYourMove {Jouw zet}
+translate N ICCFOfferDraw {Aanbieding gelijkspel}
+translate N ICCFResign {Ontslag nemen}
+translate N ICCFWaiting {Wachten}
+translate N ICCFYourTurn {Jouw beurt}
+translate N ICCFCredentialsNeeded {Voer uw ICCF-gebruikersnaam en wachtwoord in.}
+translate N ICCFUpdating {Games ophalen van de ICCF-server...}
+translate N ICCFGamesUpdated {Spellen: %s toegevoegd, %s zetten bijgewerkt, %s up-to-date}
+translate N ICCFSendingMoves {Bewegingen naar de ICCF-server verzenden...}
+translate N ICCFMovesSent {Verzonden bewegingen: %s succesvol, %s mislukt}
+translate N ICCFNoGamesFound {Geen spellen gevonden.}
+translate N ICCFFilterError {Filterfout.}
+translate N ICCFConnectionFailed {Kan geen verbinding maken met de ICCF-server. Controleer uw netwerk.}
+translate N ICCFAuthFailed {Authenticatie mislukt. Controleer uw gebruikersnaam en wachtwoord.}
+translate N ICCFNeedUpdate {Druk eerst op "Games bijwerken" om de huidige spelgegevens van de server op te halen.}
+translate N ICCFNoDatabase {Er is momenteel geen database geopend. Open eerst een database.}
+translate N ICCFMyTime {Mijn klok}
+translate N ICCFOppTime {Op klok}
+translate N ICCFDrawOffered {Gelijkspel aangeboden}
 # LSS (Lechenicher SchachServer)
 menuText N ToolsTrainLSS "Speel op LSS" 0 {Speel op Lechenicher SchachServer}
 translate N LSSTitle {Speel op LSS - Lechenicher SchachServer}

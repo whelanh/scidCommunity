@@ -1908,6 +1908,40 @@ translate I TBNotFound {Posizione non trovata nella tablebase o errore API.}
 translate I TBCategory {Categoria di posizione:}
 translate I TBTrainingHidden {(Modalità formazione; i risultati sono nascosti)}
 
+# ICCF (International Correspondence Chess Federation)
+menuText I ToolsTrainICCF "Gioca su ICCF" 0 {Gioca su ICCF}
+translate I ICCFTitle {Gioca su ICCF}
+translate I ICCFLogin {Nome utente}
+translate I ICCFPassword {Password}
+translate I ICCFConnect {Collegare}
+translate I ICCFClose {Vicino}
+translate I ICCFUpdateGames {Aggiorna giochi}
+translate I ICCFSendMoves {Invia mosse}
+translate I ICCFYourMessage {Il tuo messaggio}
+translate I ICCFGameID {Gioco}
+translate I ICCFOpponent {Avversario}
+translate I ICCFEvent {Evento}
+translate I ICCFLastMove {Ultima mossa}
+translate I ICCFSent {Inviato}
+translate I ICCFYourMove {La tua mossa}
+translate I ICCFOfferDraw {Offerta Sorteggio}
+translate I ICCFResign {Dimettersi}
+translate I ICCFWaiting {In attesa}
+translate I ICCFYourTurn {Il tuo turno}
+translate I ICCFCredentialsNeeded {Inserisci il tuo nome utente e password ICCF.}
+translate I ICCFUpdating {Recupero dei giochi dal server ICCF in corso...}
+translate I ICCFGamesUpdated {Giochi: %s aggiunti, %s mosse aggiornate, %s aggiornati}
+translate I ICCFSendingMoves {Invio spostamenti al server ICCF...}
+translate I ICCFMovesSent {Mosse inviate: %s riuscite, %s fallite}
+translate I ICCFNoGamesFound {Nessun gioco trovato.}
+translate I ICCFFilterError {Errore filtro.}
+translate I ICCFConnectionFailed {Impossibile connettersi al server ICCF. Controlla la tua rete.}
+translate I ICCFAuthFailed {Autenticazione non riuscita. Controlla il tuo nome utente e la tua password.}
+translate I ICCFNeedUpdate {Premi prima "Aggiorna giochi" per recuperare i dati di gioco correnti dal server.}
+translate I ICCFNoDatabase {Nessun database è attualmente aperto. Per favore apri prima un database.}
+translate I ICCFMyTime {Il mio orologio}
+translate I ICCFOppTime {Orologio Opp}
+translate I ICCFDrawOffered {Pareggio offerto}
 # LSS (Lechenicher SchachServer)
 menuText I ToolsTrainLSS "Gioca su LSS" 0 {Gioca su Lechenicher SchachServer}
 translate I LSSTitle {Gioca su LSS - Lechenicher SchachServer}

@@ -1912,6 +1912,40 @@ translate F TBNotFound {Position introuvable dans la base de table ou erreur API
 translate F TBCategory {Catégorie de poste :}
 translate F TBTrainingHidden {(Mode Entraînement ; les résultats sont masqués)}
 
+# ICCF (International Correspondence Chess Federation)
+menuText F ToolsTrainICCF "Jouer sur ICCF" 0 {Jouer sur ICCF}
+translate F ICCFTitle {Jouer sur ICCF}
+translate F ICCFLogin {Nom d'utilisateur}
+translate F ICCFPassword {Mot de passe}
+translate F ICCFConnect {Connecter}
+translate F ICCFClose {Fermer}
+translate F ICCFUpdateGames {Mettre à jour les jeux}
+translate F ICCFSendMoves {Envoyer des mouvements}
+translate F ICCFYourMessage {Votre message}
+translate F ICCFGameID {Jeu}
+translate F ICCFOpponent {Adversaire}
+translate F ICCFEvent {Événement}
+translate F ICCFLastMove {Dernier coup}
+translate F ICCFSent {Envoyé}
+translate F ICCFYourMove {Votre déménagement}
+translate F ICCFOfferDraw {Proposer nulle}
+translate F ICCFResign {Démissionner}
+translate F ICCFWaiting {En attendant}
+translate F ICCFYourTurn {À votre tour}
+translate F ICCFCredentialsNeeded {Veuillez saisir votre nom d'utilisateur et votre mot de passe ICCF.}
+translate F ICCFUpdating {Récupération de jeux depuis le serveur ICCF...}
+translate F ICCFGamesUpdated {Jeux : %s ajoutés, %s mouvements mis à jour, %s à jour}
+translate F ICCFSendingMoves {Envoi des mouvements au serveur ICCF...}
+translate F ICCFMovesSent {Déplacements envoyés : %s réussis, %s échoués}
+translate F ICCFNoGamesFound {Aucun jeu trouvé.}
+translate F ICCFFilterError {Erreur de filtre.}
+translate F ICCFConnectionFailed {Échec de la connexion au serveur ICCF. Vérifiez votre réseau.}
+translate F ICCFAuthFailed {L'authentification a échoué. Vérifiez votre nom d'utilisateur et votre mot de passe.}
+translate F ICCFNeedUpdate {Veuillez d'abord appuyer sur « Mettre à jour les jeux » pour récupérer les données de jeu actuelles sur le serveur.}
+translate F ICCFNoDatabase {Aucune base de données n'est actuellement ouverte. Veuillez d'abord ouvrir une base de données.}
+translate F ICCFMyTime {Mon horloge}
+translate F ICCFOppTime {Horloge Opp}
+translate F ICCFDrawOffered {Tirage offert}
 # LSS (Lechenicher SchachServer)
 menuText F ToolsTrainLSS "Jouer sur LSS" 0 {Jouez sur Lechenicher SchachServer}
 translate F LSSTitle {Jouer sur LSS - Lechenicher SchachServer}

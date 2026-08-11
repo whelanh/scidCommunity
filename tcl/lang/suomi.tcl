@@ -1937,6 +1937,40 @@ translate U TBNotFound {Sijaintia ei löydy taulukkokannasta tai API-virhe.}
 translate U TBCategory {Aseman luokka:}
 translate U TBTrainingHidden {(Harjoitustila; tulokset piilotetaan)}
 
+# ICCF (International Correspondence Chess Federation)
+menuText U ToolsTrainICCF "Pelaa ICCF:llä" 0 {Pelaa ICCF:llä}
+translate U ICCFTitle {Pelaa ICCF:llä}
+translate U ICCFLogin {Käyttäjätunnus}
+translate U ICCFPassword {Salasana}
+translate U ICCFConnect {Yhdistä}
+translate U ICCFClose {Sulje}
+translate U ICCFUpdateGames {Päivitä pelit}
+translate U ICCFSendMoves {Lähetä liikkeet}
+translate U ICCFYourMessage {Viestisi}
+translate U ICCFGameID {Peli}
+translate U ICCFOpponent {Vastustaja}
+translate U ICCFEvent {Tapahtuma}
+translate U ICCFLastMove {Viimeinen siirto}
+translate U ICCFSent {Lähetetty}
+translate U ICCFYourMove {Sinun siirtosi}
+translate U ICCFOfferDraw {Tarjoa tasapeli}
+translate U ICCFResign {Eroa}
+translate U ICCFWaiting {Odottaa}
+translate U ICCFYourTurn {Sinun vuorosi}
+translate U ICCFCredentialsNeeded {Anna ICCF-käyttäjätunnuksesi ja salasanasi.}
+translate U ICCFUpdating {Haetaan pelejä ICCF-palvelimelta...}
+translate U ICCFGamesUpdated {Pelit: %s lisätty, %s siirtoa päivitetty, %s ajan tasalla}
+translate U ICCFSendingMoves {Lähetetään siirtoja ICCF-palvelimelle...}
+translate U ICCFMovesSent {Siirrot lähetetty: %s onnistui, %s epäonnistui}
+translate U ICCFNoGamesFound {Pelejä ei löytynyt.}
+translate U ICCFFilterError {Suodatinvirhe.}
+translate U ICCFConnectionFailed {Yhteyden muodostaminen ICCF-palvelimeen epäonnistui. Tarkista verkkosi.}
+translate U ICCFAuthFailed {Todennus epäonnistui. Tarkista käyttäjätunnuksesi ja salasanasi.}
+translate U ICCFNeedUpdate {Paina ensin "Päivitä pelit" hakeaksesi nykyiset pelitiedot palvelimelta.}
+translate U ICCFNoDatabase {Mikään tietokanta ei ole tällä hetkellä avoinna. Avaa ensin tietokanta.}
+translate U ICCFMyTime {Minun Kelloni}
+translate U ICCFOppTime {Opp Kello}
+translate U ICCFDrawOffered {Arvonta tarjotaan}
 # LSS (Lechenicher SchachServer)
 menuText U ToolsTrainLSS "Pelaa LSS:llä" 0 {Pelaa Lechenicher SchachServerissä}
 translate U LSSTitle {Pelaa LSS - Lechenicher SchachServerissä}

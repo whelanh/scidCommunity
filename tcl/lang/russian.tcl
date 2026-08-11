@@ -1908,6 +1908,40 @@ translate R TBNotFound {Позиция не найдена в базе табл�
 translate R TBCategory {Категория позиции:}
 translate R TBTrainingHidden {(Режим обучения; результаты скрыты)}
 
+# ICCF (International Correspondence Chess Federation)
+menuText R ToolsTrainICCF "Играйте на ICCF" 0 {Играйте на ICCF}
+translate R ICCFTitle {Играйте на ICCF}
+translate R ICCFLogin {Имя пользователя}
+translate R ICCFPassword {Пароль}
+translate R ICCFConnect {Соединять}
+translate R ICCFClose {Закрывать}
+translate R ICCFUpdateGames {Обновить игры}
+translate R ICCFSendMoves {Отправить ходы}
+translate R ICCFYourMessage {Ваше сообщение}
+translate R ICCFGameID {Игра}
+translate R ICCFOpponent {Противник}
+translate R ICCFEvent {Событие}
+translate R ICCFLastMove {Последний ход}
+translate R ICCFSent {Отправил}
+translate R ICCFYourMove {Ваш ход}
+translate R ICCFOfferDraw {Предложение Розыгрыш}
+translate R ICCFResign {Подать в отставку}
+translate R ICCFWaiting {Ожидающий}
+translate R ICCFYourTurn {Ваша очередь}
+translate R ICCFCredentialsNeeded {Пожалуйста, введите имя пользователя и пароль ICCF.}
+translate R ICCFUpdating {Загрузка игр с сервера ICCF...}
+translate R ICCFGamesUpdated {Игры: добавлено %s, обновлено ходов %s, обновлено %s}
+translate R ICCFSendingMoves {Отправка ходов на сервер ICCF...}
+translate R ICCFMovesSent {Ходы отправлены: %s успешно, %s не удалось.}
+translate R ICCFNoGamesFound {Игры не найдены.}
+translate R ICCFFilterError {Ошибка фильтра.}
+translate R ICCFConnectionFailed {Не удалось подключиться к серверу ICCF. Проверьте свою сеть.}
+translate R ICCFAuthFailed {Аутентификация не удалась. Проверьте свое имя пользователя и пароль.}
+translate R ICCFNeedUpdate {Пожалуйста, сначала нажмите «Обновить игры», чтобы получить текущие игровые данные с сервера.}
+translate R ICCFNoDatabase {Ни одна база данных в настоящее время не открыта. Пожалуйста, сначала откройте базу данных.}
+translate R ICCFMyTime {Мои часы}
+translate R ICCFOppTime {Опп Часы}
+translate R ICCFDrawOffered {Предлагается ничья}
 # LSS (Lechenicher SchachServer)
 menuText R ToolsTrainLSS "Играй на ЛСС" 0 {Играйте на сервере Lechenicher SchachServer}
 translate R LSSTitle {Играйте на LSS - Lechenicher SchachServer}

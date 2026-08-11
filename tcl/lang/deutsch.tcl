@@ -1956,6 +1956,40 @@ translate D TBNotFound {Position in der Tabellenbasis nicht gefunden oder API-Fe
 translate D TBCategory {Positionskategorie:}
 translate D TBTrainingHidden {(Trainingsmodus; Ergebnisse werden ausgeblendet)}
 
+# ICCF (International Correspondence Chess Federation)
+menuText D ToolsTrainICCF "Spielen Sie auf ICCF" 0 {Spielen Sie auf ICCF}
+translate D ICCFTitle {Spielen Sie auf ICCF}
+translate D ICCFLogin {Benutzername}
+translate D ICCFPassword {Passwort}
+translate D ICCFConnect {Verbinden}
+translate D ICCFClose {Schließen}
+translate D ICCFUpdateGames {Spiele aktualisieren}
+translate D ICCFSendMoves {Bewegungen senden}
+translate D ICCFYourMessage {Ihre Nachricht}
+translate D ICCFGameID {Spiel}
+translate D ICCFOpponent {Gegner}
+translate D ICCFEvent {Ereignis}
+translate D ICCFLastMove {Letzter Zug}
+translate D ICCFSent {Gesendet}
+translate D ICCFYourMove {Ihr Umzug}
+translate D ICCFOfferDraw {Remis anbieten}
+translate D ICCFResign {Zurücktreten}
+translate D ICCFWaiting {Warten}
+translate D ICCFYourTurn {Du bist dran}
+translate D ICCFCredentialsNeeded {Bitte geben Sie Ihren ICCF-Benutzernamen und Ihr Passwort ein.}
+translate D ICCFUpdating {Spiele vom ICCF-Server abrufen...}
+translate D ICCFGamesUpdated {Spiele: %s hinzugefügt, %s Bewegungen aktualisiert, %s auf dem neuesten Stand}
+translate D ICCFSendingMoves {Bewegungen werden an den ICCF-Server gesendet...}
+translate D ICCFMovesSent {Gesendete Bewegungen: %s erfolgreich, %s fehlgeschlagen}
+translate D ICCFNoGamesFound {Keine Spiele gefunden.}
+translate D ICCFFilterError {Filterfehler.}
+translate D ICCFConnectionFailed {Es konnte keine Verbindung zum ICCF-Server hergestellt werden. Überprüfen Sie Ihr Netzwerk.}
+translate D ICCFAuthFailed {Die Authentifizierung ist fehlgeschlagen. Überprüfen Sie Ihren Benutzernamen und Ihr Passwort.}
+translate D ICCFNeedUpdate {Bitte klicken Sie zunächst auf „Spiele aktualisieren“, um aktuelle Spieldaten vom Server abzurufen.}
+translate D ICCFNoDatabase {Derzeit ist keine Datenbank geöffnet. Bitte öffnen Sie zunächst eine Datenbank.}
+translate D ICCFMyTime {Meine Uhr}
+translate D ICCFOppTime {Opp Uhr}
+translate D ICCFDrawOffered {Auslosung angeboten}
 # LSS (Lechenicher SchachServer)
 menuText D ToolsTrainLSS "Spielen Sie auf LSS" 0 {Spielen Sie auf dem Lechenicher SchachServer}
 translate D LSSTitle {Spielen Sie auf LSS - Lechenicher SchachServer}

@@ -279,7 +279,7 @@ foreach ns {
   ::tools::graphs::filter ::tools::graphs::absfilter ::tools::graphs::rating ::tools::graphs::score
   ::tb ::optable ::tablebase
   ::board ::move
-  ::sergame ::opening ::tactics ::calvar ::uci ::fics ::reviewgame ::novag ::lss
+::sergame ::opening ::tactics ::calvar ::uci ::fics ::reviewgame ::novag ::iccf ::lss
   ::config ::docking
   ::pinfo
   ::unsafe
@@ -1029,6 +1029,7 @@ end.tcl
 tools/sergame.tcl
 tools/calvar.tcl
 tools/fics.tcl
+tools/iccf.tcl
 tools/lss.tcl
 tools/opening.tcl
 tools/tactics.tcl
