@@ -1885,6 +1885,40 @@ translate Q TBNotFound {Позиція не знайдена в базі таб�
 translate Q TBCategory {Категорія посади:}
 translate Q TBTrainingHidden {(Режим навчання; результати приховані)}
 
+# ICCF (International Correspondence Chess Federation)
+menuText Q ToolsTrainICCF "Грайте на ICCF" 0 {Грайте на ICCF}
+translate Q ICCFTitle {Грайте на ICCF}
+translate Q ICCFLogin {Ім'я користувача}
+translate Q ICCFPassword {Пароль}
+translate Q ICCFConnect {Підключитися}
+translate Q ICCFClose {Закрити}
+translate Q ICCFUpdateGames {Оновлення ігор}
+translate Q ICCFSendMoves {Надіслати ходи}
+translate Q ICCFYourMessage {Ваше повідомлення}
+translate Q ICCFGameID {Гра}
+translate Q ICCFOpponent {Суперник}
+translate Q ICCFEvent {Подія}
+translate Q ICCFLastMove {Останній хід}
+translate Q ICCFSent {Надіслано}
+translate Q ICCFYourMove {Ваш хід}
+translate Q ICCFOfferDraw {Offer Draw}
+translate Q ICCFResign {Звільнитися}
+translate Q ICCFWaiting {Очікування}
+translate Q ICCFYourTurn {Ваша черга}
+translate Q ICCFCredentialsNeeded {Будь ласка, введіть своє ім'я користувача та пароль ICCF.}
+translate Q ICCFUpdating {Отримання ігор із сервера ICCF...}
+translate Q ICCFGamesUpdated {Ігри: %s додано, %s ходів оновлено, %s оновлено}
+translate Q ICCFSendingMoves {Надсилання ходів на сервер ICCF...}
+translate Q ICCFMovesSent {Ходи надіслано: %s успішно, %s не вдалося}
+translate Q ICCFNoGamesFound {Ігор не знайдено.}
+translate Q ICCFFilterError {Помилка фільтра.}
+translate Q ICCFConnectionFailed {Не вдалося підключитися до сервера ICCF. Перевірте свою мережу.}
+translate Q ICCFAuthFailed {Помилка автентифікації. Перевірте своє ім'я користувача та пароль.}
+translate Q ICCFNeedUpdate {Будь ласка, спочатку натисніть «Оновити ігри», щоб отримати поточні дані гри з сервера.}
+translate Q ICCFNoDatabase {Зараз немає відкритої бази даних. Спочатку відкрийте базу даних.}
+translate Q ICCFMyTime {Мій годинник}
+translate Q ICCFOppTime {Годинник Opp}
+translate Q ICCFDrawOffered {Пропонується нічия}
 # LSS (Lechenicher SchachServer)
 menuText Q ToolsTrainLSS "Грайте на LSS" 0 {Грайте на Lechenicher SchachServer}
 translate Q LSSTitle {Грайте на LSS - Lechenicher SchachServer}

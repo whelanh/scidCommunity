@@ -1884,6 +1884,40 @@ translate h TBNotFound {टेबलबेस या एपीआई त्र�
 translate h TBCategory {पद श्रेणी:}
 translate h TBTrainingHidden {(प्रशिक्षण मोड; परिणाम छिपे हुए हैं)}
 
+# ICCF (International Correspondence Chess Federation)
+menuText h ToolsTrainICCF "आईसीसीएफ पर खेलें" 0 {आईसीसीएफ पर खेलें}
+translate h ICCFTitle {आईसीसीएफ पर खेलें}
+translate h ICCFLogin {उपयोगकर्ता नाम}
+translate h ICCFPassword {पासवर्ड}
+translate h ICCFConnect {जोड़ना}
+translate h ICCFClose {बंद करना}
+translate h ICCFUpdateGames {गेम अपडेट करें}
+translate h ICCFSendMoves {चालें भेजें}
+translate h ICCFYourMessage {आपका संदेश}
+translate h ICCFGameID {खेल}
+translate h ICCFOpponent {प्रतिद्वंद्वी}
+translate h ICCFEvent {आयोजन}
+translate h ICCFLastMove {अंतिम चाल}
+translate h ICCFSent {भेजा}
+translate h ICCFYourMove {अपनी चाल}
+translate h ICCFOfferDraw {ड्रॉ की पेशकश करेंं}
+translate h ICCFResign {इस्तीफ़ा देना}
+translate h ICCFWaiting {इंतज़ार में}
+translate h ICCFYourTurn {आपकी बारी}
+translate h ICCFCredentialsNeeded {कृपया अपना ICCF उपयोगकर्ता नाम और पासवर्ड दर्ज करें।}
+translate h ICCFUpdating {ICCF सर्वर से गेम लाये जा रहे हैं...}
+translate h ICCFGamesUpdated {गेम्स: %s जोड़ा गया, %s चालें अपडेट की गईं, %s अपडेट किया गया}
+translate h ICCFSendingMoves {ICCF सर्वर पर स्थानांतरण भेजा जा रहा है...}
+translate h ICCFMovesSent {चालें भेजी गईं: %s सफल, %s विफल}
+translate h ICCFNoGamesFound {कोई गेम नहीं मिला.}
+translate h ICCFFilterError {फ़िल्टर त्रुटि.}
+translate h ICCFConnectionFailed {ICCF सर्वर से कनेक्ट करने में विफल. अपना नेटवर्क जांचें.}
+translate h ICCFAuthFailed {प्रमाणीकरण विफल होना। अपना उपयोगकर्ता नाम और पासवर्ड जांचें.}
+translate h ICCFNeedUpdate {कृपया सर्वर से वर्तमान गेम डेटा लाने के लिए पहले "अपडेट गेम्स" दबाएँ।}
+translate h ICCFNoDatabase {फिलहाल कोई डेटाबेस खुला नहीं है. कृपया पहले एक डेटाबेस खोलें.}
+translate h ICCFMyTime {मेरी घड़ी}
+translate h ICCFOppTime {विपरीत घड़ी}
+translate h ICCFDrawOffered {ड्रा की पेशकश की गई}
 # LSS (Lechenicher SchachServer)
 menuText h ToolsTrainLSS "एलएसएस पर खेलें" 0 {लेचेनिचर स्कैचसर्वर पर खेलें}
 translate h LSSTitle {एलएसएस पर खेलें - लेचेनिचर स्कैचसर्वर}

@@ -1884,6 +1884,40 @@ translate Z TBNotFound {Nafasi haipatikani kwenye msingi wa meza au hitilafu ya 
 translate Z TBCategory {Kitengo cha Nafasi:}
 translate Z TBTrainingHidden {(Njia ya mafunzo; matokeo yamefichwa)}
 
+# ICCF (International Correspondence Chess Federation)
+menuText Z ToolsTrainICCF "Cheza kwenye ICCF" 0 {Cheza kwenye ICCF}
+translate Z ICCFTitle {Cheza kwenye ICCF}
+translate Z ICCFLogin {Jina la mtumiaji}
+translate Z ICCFPassword {Nenosiri}
+translate Z ICCFConnect {Unganisha}
+translate Z ICCFClose {Funga}
+translate Z ICCFUpdateGames {Sasisha Michezo}
+translate Z ICCFSendMoves {Tuma Miondoko}
+translate Z ICCFYourMessage {Ujumbe Wako}
+translate Z ICCFGameID {Mchezo}
+translate Z ICCFOpponent {Mpinzani}
+translate Z ICCFEvent {Tukio}
+translate Z ICCFLastMove {Hoja ya Mwisho}
+translate Z ICCFSent {Imetumwa}
+translate Z ICCFYourMove {Hoja Yako}
+translate Z ICCFOfferDraw {Toa Droo}
+translate Z ICCFResign {Kujiuzulu}
+translate Z ICCFWaiting {Kusubiri}
+translate Z ICCFYourTurn {Zamu Yako}
+translate Z ICCFCredentialsNeeded {Tafadhali weka jina lako la mtumiaji na nenosiri la ICCF.}
+translate Z ICCFUpdating {Inaleta michezo kutoka kwa seva ya ICCF...}
+translate Z ICCFGamesUpdated {Michezo: %s imeongezwa, %s hatua zimesasishwa, %s zimesasishwa}
+translate Z ICCFSendingMoves {Inatuma uhamisho kwa seva ya ICCF...}
+translate Z ICCFMovesSent {Uhamishaji umetumwa: %s imefaulu, %s imeshindwa}
+translate Z ICCFNoGamesFound {Hakuna michezo iliyopatikana.}
+translate Z ICCFFilterError {Hitilafu ya kichujio.}
+translate Z ICCFConnectionFailed {Imeshindwa kuunganisha kwenye seva ya ICCF. Angalia mtandao wako.}
+translate Z ICCFAuthFailed {Uthibitishaji umeshindwa. Angalia jina lako la mtumiaji na nenosiri.}
+translate Z ICCFNeedUpdate {Tafadhali bonyeza "Sasisha Michezo" kwanza ili kuleta data ya sasa ya mchezo kutoka kwa seva.}
+translate Z ICCFNoDatabase {Hakuna hifadhidata iliyofunguliwa kwa sasa. Tafadhali fungua hifadhidata kwanza.}
+translate Z ICCFMyTime {Saa Yangu}
+translate Z ICCFOppTime {Saa ya Opp}
+translate Z ICCFDrawOffered {Droo Imetolewa}
 # LSS (Lechenicher SchachServer)
 menuText Z ToolsTrainLSS "Cheza kwenye LSS" 0 {Cheza kwenye Lechenicher SchachServer}
 translate Z LSSTitle {Cheza kwenye LSS - Lechenicher SchachServer}

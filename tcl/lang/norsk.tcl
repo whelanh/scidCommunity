@@ -1906,6 +1906,40 @@ translate O TBNotFound {Finner ikke posisjon i tabellbase eller API-feil.}
 translate O TBCategory {Stillingskategori:}
 translate O TBTrainingHidden {(Opplæringsmodus; resultatene er skjult)}
 
+# ICCF (International Correspondence Chess Federation)
+menuText O ToolsTrainICCF "Spill på ICCF" 0 {Spill på ICCF}
+translate O ICCFTitle {Spill på ICCF}
+translate O ICCFLogin {Brukernavn}
+translate O ICCFPassword {Passord}
+translate O ICCFConnect {Koble til}
+translate O ICCFClose {Lukke}
+translate O ICCFUpdateGames {Oppdater spill}
+translate O ICCFSendMoves {Send trekk}
+translate O ICCFYourMessage {Din melding}
+translate O ICCFGameID {Spill}
+translate O ICCFOpponent {Motstander}
+translate O ICCFEvent {Hendelse}
+translate O ICCFLastMove {Siste trekk}
+translate O ICCFSent {Sendt}
+translate O ICCFYourMove {Ditt trekk}
+translate O ICCFOfferDraw {Tilbudstrekning}
+translate O ICCFResign {Si opp}
+translate O ICCFWaiting {Venter}
+translate O ICCFYourTurn {Din tur}
+translate O ICCFCredentialsNeeded {Vennligst skriv inn ditt ICCF-brukernavn og passord.}
+translate O ICCFUpdating {Henter spill fra ICCF-serveren...}
+translate O ICCFGamesUpdated {Spill: %s lagt til, %s trekk oppdatert, %s oppdatert}
+translate O ICCFSendingMoves {Sender trekk til ICCF-server...}
+translate O ICCFMovesSent {Flytt sendt: %s vellykket, %s mislyktes}
+translate O ICCFNoGamesFound {Ingen spill funnet.}
+translate O ICCFFilterError {Filterfeil.}
+translate O ICCFConnectionFailed {Kunne ikke koble til ICCF-serveren. Sjekk nettverket ditt.}
+translate O ICCFAuthFailed {Autentisering mislyktes. Sjekk brukernavnet og passordet ditt.}
+translate O ICCFNeedUpdate {Vennligst trykk "Oppdater spill" først for å hente gjeldende spilldata fra serveren.}
+translate O ICCFNoDatabase {Ingen database er åpen for øyeblikket. Vennligst åpne en database først.}
+translate O ICCFMyTime {Klokken min}
+translate O ICCFOppTime {Opp Klokke}
+translate O ICCFDrawOffered {Trekning tilbys}
 # LSS (Lechenicher SchachServer)
 menuText O ToolsTrainLSS "Spill på LSS" 0 {Spill på Lechenicher SchachServer}
 translate O LSSTitle {Spill på LSS - Lechenicher SchachServer}

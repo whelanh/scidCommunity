@@ -1925,6 +1925,40 @@ translate g TBNotFound {Позицията не е намерена в табл�
 translate g TBCategory {Категория на позицията:}
 translate g TBTrainingHidden {(Режим на обучение; резултатите са скрити)}
 
+# ICCF (International Correspondence Chess Federation)
+menuText g ToolsTrainICCF "Играйте на ICCF" 0 {Играйте на ICCF}
+translate g ICCFTitle {Играйте на ICCF}
+translate g ICCFLogin {Потребителско име}
+translate g ICCFPassword {Парола}
+translate g ICCFConnect {Свържете се}
+translate g ICCFClose {затвори}
+translate g ICCFUpdateGames {Актуализиране на игри}
+translate g ICCFSendMoves {Изпращане на ходове}
+translate g ICCFYourMessage {Вашето съобщение}
+translate g ICCFGameID {Игра}
+translate g ICCFOpponent {противник}
+translate g ICCFEvent {Събитие}
+translate g ICCFLastMove {Последен ход}
+translate g ICCFSent {Изпратено}
+translate g ICCFYourMove {Вашият ход}
+translate g ICCFOfferDraw {Теглене на оферта}
+translate g ICCFResign {Подай си оставката}
+translate g ICCFWaiting {Чакане}
+translate g ICCFYourTurn {Твой ред}
+translate g ICCFCredentialsNeeded {Моля, въведете вашето потребителско име и парола за ICCF.}
+translate g ICCFUpdating {Извличане на игри от сървъра на ICCF...}
+translate g ICCFGamesUpdated {Игри: %s добавени, %s ходове актуализирани, %s актуални}
+translate g ICCFSendingMoves {Изпращане на ходове към сървъра на ICCF...}
+translate g ICCFMovesSent {Изпратени ходове: %s успешни, %s неуспешни}
+translate g ICCFNoGamesFound {Няма намерени игри.}
+translate g ICCFFilterError {Грешка във филтъра.}
+translate g ICCFConnectionFailed {Неуспешно свързване към ICCF сървъра. Проверете вашата мрежа.}
+translate g ICCFAuthFailed {Неуспешно удостоверяване. Проверете вашето потребителско име и парола.}
+translate g ICCFNeedUpdate {Моля, първо натиснете „Актуализиране на игри“, за да изтеглите текущите данни за играта от сървъра.}
+translate g ICCFNoDatabase {В момента няма отворена база данни. Моля, първо отворете база данни.}
+translate g ICCFMyTime {Моят часовник}
+translate g ICCFOppTime {Opp часовник}
+translate g ICCFDrawOffered {Предлага се равенство}
 # LSS (Lechenicher SchachServer)
 menuText g ToolsTrainLSS "Играйте на LSS" 0 {Играйте на Lechenicher SchachServer}
 translate g LSSTitle {Играйте на LSS - Lechenicher SchachServer}

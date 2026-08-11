@@ -1906,6 +1906,40 @@ translate C TBNotFound {Pozice nebyla nalezena v tabulce nebo chyba API.}
 translate C TBCategory {Kategorie pozice:}
 translate C TBTrainingHidden {(Tréninkový režim; výsledky jsou skryté)}
 
+# ICCF (International Correspondence Chess Federation)
+menuText C ToolsTrainICCF "Hrajte na ICCF" 0 {Hrajte na ICCF}
+translate C ICCFTitle {Hrajte na ICCF}
+translate C ICCFLogin {Uživatelské jméno}
+translate C ICCFPassword {Heslo}
+translate C ICCFConnect {Připojit}
+translate C ICCFClose {Blízko}
+translate C ICCFUpdateGames {Aktualizovat hry}
+translate C ICCFSendMoves {Odeslat pohyby}
+translate C ICCFYourMessage {Vaše zpráva}
+translate C ICCFGameID {Hra}
+translate C ICCFOpponent {Oponent}
+translate C ICCFEvent {Událost}
+translate C ICCFLastMove {Poslední pohyb}
+translate C ICCFSent {Odesláno}
+translate C ICCFYourMove {Váš pohyb}
+translate C ICCFOfferDraw {Nabídka Draw}
+translate C ICCFResign {Odstoupit}
+translate C ICCFWaiting {Čekání}
+translate C ICCFYourTurn {Jste na řadě}
+translate C ICCFCredentialsNeeded {Zadejte své uživatelské jméno a heslo ICCF.}
+translate C ICCFUpdating {Načítání her ze serveru ICCF...}
+translate C ICCFGamesUpdated {Hry: %s přidáno, %s tahů aktualizováno, %s aktuální}
+translate C ICCFSendingMoves {Odesílání přesunů na server ICCF...}
+translate C ICCFMovesSent {Odeslané pohyby: %s úspěšné, %s se nezdařilo}
+translate C ICCFNoGamesFound {Nebyly nalezeny žádné hry.}
+translate C ICCFFilterError {Chyba filtru.}
+translate C ICCFConnectionFailed {Připojení k serveru ICCF se nezdařilo. Zkontrolujte svou síť.}
+translate C ICCFAuthFailed {Ověření se nezdařilo. Zkontrolujte své uživatelské jméno a heslo.}
+translate C ICCFNeedUpdate {Nejprve prosím stiskněte "Aktualizovat hry" pro načtení aktuálních herních dat ze serveru.}
+translate C ICCFNoDatabase {Momentálně není otevřena žádná databáze. Nejprve prosím otevřete databázi.}
+translate C ICCFMyTime {Moje hodiny}
+translate C ICCFOppTime {Opp hodiny}
+translate C ICCFDrawOffered {Nabídka remízy}
 # LSS (Lechenicher SchachServer)
 menuText C ToolsTrainLSS "Hrajte na LSS" 0 {Hrajte na Lechenicher SchachServer}
 translate C LSSTitle {Hrajte na LSS - Lechenicher SchachServer}

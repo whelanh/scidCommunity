@@ -1933,6 +1933,40 @@ translate G TBNotFound {Η θέση δεν βρέθηκε στη βάση του
 translate G TBCategory {Κατηγορία θέσης:}
 translate G TBTrainingHidden {(Λειτουργία προπόνησης, τα αποτελέσματα είναι κρυφά)}
 
+# ICCF (International Correspondence Chess Federation)
+menuText G ToolsTrainICCF "Παίξτε στο ICCF" 0 {Παίξτε στο ICCF}
+translate G ICCFTitle {Παίξτε στο ICCF}
+translate G ICCFLogin {Όνομα χρήστη}
+translate G ICCFPassword {Σύνθημα}
+translate G ICCFConnect {Συνδέω}
+translate G ICCFClose {Κοντά}
+translate G ICCFUpdateGames {Ενημέρωση παιχνιδιών}
+translate G ICCFSendMoves {Αποστολή κινήσεων}
+translate G ICCFYourMessage {Το μήνυμά σας}
+translate G ICCFGameID {Παιχνίδι}
+translate G ICCFOpponent {Αντίπαλος}
+translate G ICCFEvent {Συμβάν}
+translate G ICCFLastMove {Τελευταία Κίνηση}
+translate G ICCFSent {Στάλθηκε}
+translate G ICCFYourMove {Η κίνησή σας}
+translate G ICCFOfferDraw {Κλήρωση προσφοράς}
+translate G ICCFResign {Παραιτούμαι}
+translate G ICCFWaiting {Αναμονή}
+translate G ICCFYourTurn {Σειρά σας}
+translate G ICCFCredentialsNeeded {Εισαγάγετε το όνομα χρήστη και τον κωδικό πρόσβασής σας στο ICCF.}
+translate G ICCFUpdating {Λήψη παιχνιδιών από τον διακομιστή ICCF...}
+translate G ICCFGamesUpdated {Παιχνίδια: %s προστέθηκε, %s μετακινήσεις ενημερώθηκαν, %s ενημερώθηκε}
+translate G ICCFSendingMoves {Αποστολή κινήσεων στον διακομιστή ICCF...}
+translate G ICCFMovesSent {Στάλθηκαν κινήσεις: %s επιτυχής, %s απέτυχε}
+translate G ICCFNoGamesFound {Δεν βρέθηκαν παιχνίδια.}
+translate G ICCFFilterError {Σφάλμα φίλτρου.}
+translate G ICCFConnectionFailed {Απέτυχε η σύνδεση με τον διακομιστή ICCF. Ελέγξτε το δίκτυό σας.}
+translate G ICCFAuthFailed {Ο έλεγχος ταυτότητας απέτυχε. Ελέγξτε το όνομα χρήστη και τον κωδικό πρόσβασής σας.}
+translate G ICCFNeedUpdate {Πατήστε "Ενημέρωση παιχνιδιών" πρώτα για να λάβετε τρέχοντα δεδομένα παιχνιδιού από τον διακομιστή.}
+translate G ICCFNoDatabase {Καμία βάση δεδομένων δεν είναι ανοιχτή αυτήν τη στιγμή. Ανοίξτε πρώτα μια βάση δεδομένων.}
+translate G ICCFMyTime {Το ρολόι μου}
+translate G ICCFOppTime {Ρολόι Opp}
+translate G ICCFDrawOffered {Προσφέρεται κλήρωση}
 # LSS (Lechenicher SchachServer)
 menuText G ToolsTrainLSS "Παίξτε στο LSS" 0 {Παίξτε στον Lechenicher SchachServer}
 translate G LSSTitle {Παίξτε στο LSS - Lechenicher SchachServer}

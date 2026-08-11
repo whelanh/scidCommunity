@@ -1885,6 +1885,40 @@ translate V TBNotFound {המיקום לא נמצא בבסיס הטבלה או ב
 translate V TBCategory {קטגוריית תפקיד:}
 translate V TBTrainingHidden {(מצב אימון; התוצאות מוסתרות)}
 
+# ICCF (International Correspondence Chess Federation)
+menuText V ToolsTrainICCF "שחקו ב-ICCF" 0 {שחקו ב-ICCF}
+translate V ICCFTitle {שחקו ב-ICCF}
+translate V ICCFLogin {שם משתמש}
+translate V ICCFPassword {סִיסמָה}
+translate V ICCFConnect {לְחַבֵּר}
+translate V ICCFClose {לִסְגוֹר}
+translate V ICCFUpdateGames {עדכן משחקים}
+translate V ICCFSendMoves {שלח מהלכים}
+translate V ICCFYourMessage {ההודעה שלך}
+translate V ICCFGameID {מִשְׂחָק}
+translate V ICCFOpponent {יָרִיב}
+translate V ICCFEvent {מִקרֶה}
+translate V ICCFLastMove {מהלך אחרון}
+translate V ICCFSent {נשלח}
+translate V ICCFYourMove {המהלך שלך}
+translate V ICCFOfferDraw {הגרלת הצעה}
+translate V ICCFResign {לְהִתְפַּטֵר}
+translate V ICCFWaiting {הַמתָנָה}
+translate V ICCFYourTurn {התור שלך}
+translate V ICCFCredentialsNeeded {אנא הזן את שם המשתמש והסיסמה שלך ב-ICCF.}
+translate V ICCFUpdating {מביא משחקים משרת ICCF...}
+translate V ICCFGamesUpdated {משחקים: %s נוספו, %s מהלכים עודכנו, %s מעודכנים}
+translate V ICCFSendingMoves {שולח מהלכים לשרת ICCF...}
+translate V ICCFMovesSent {מהלכים נשלחו: %s הצליחו, %s נכשלו}
+translate V ICCFNoGamesFound {לא נמצאו משחקים.}
+translate V ICCFFilterError {שגיאת סינון.}
+translate V ICCFConnectionFailed {נכשל החיבור לשרת ICCF. בדוק את הרשת שלך.}
+translate V ICCFAuthFailed {האימות נכשל. בדוק את שם המשתמש והסיסמה שלך.}
+translate V ICCFNeedUpdate {אנא הקש תחילה על "עדכן משחקים" כדי להביא נתוני משחק נוכחיים מהשרת.}
+translate V ICCFNoDatabase {אין בסיס נתונים פתוח כרגע. נא לפתוח מסד נתונים תחילה.}
+translate V ICCFMyTime {השעון שלי}
+translate V ICCFOppTime {שעון אופ}
+translate V ICCFDrawOffered {הגרלה מוצעת}
 # LSS (Lechenicher SchachServer)
 menuText V ToolsTrainLSS "שחקו ב-LSS" 0 {שחקו ב-Lechenicher SchachServer}
 translate V LSSTitle {שחק ב-LSS - Lechenicher SchachServer}

@@ -1928,6 +1928,40 @@ translate K TBNotFound {No s'ha trobat la posició a la base de taules o error d
 translate K TBCategory {Categoria de la posició:}
 translate K TBTrainingHidden {(Mode d'entrenament; els resultats estan ocults)}
 
+# ICCF (International Correspondence Chess Federation)
+menuText K ToolsTrainICCF "Juga a ICCF" 0 {Juga a ICCF}
+translate K ICCFTitle {Juga a ICCF}
+translate K ICCFLogin {Nom d'usuari}
+translate K ICCFPassword {Contrasenya}
+translate K ICCFConnect {Connecta't}
+translate K ICCFClose {Tancar}
+translate K ICCFUpdateGames {Actualitzar jocs}
+translate K ICCFSendMoves {Envia moviments}
+translate K ICCFYourMessage {El teu missatge}
+translate K ICCFGameID {Joc}
+translate K ICCFOpponent {Oponent}
+translate K ICCFEvent {Esdeveniment}
+translate K ICCFLastMove {Últim moviment}
+translate K ICCFSent {Enviat}
+translate K ICCFYourMove {El teu moviment}
+translate K ICCFOfferDraw {Sorteig de l'oferta}
+translate K ICCFResign {Dimitir}
+translate K ICCFWaiting {Esperant}
+translate K ICCFYourTurn {El teu torn}
+translate K ICCFCredentialsNeeded {Introduïu el vostre nom d'usuari i contrasenya ICCF.}
+translate K ICCFUpdating {S'estan obtenint jocs del servidor ICCF...}
+translate K ICCFGamesUpdated {Jocs: %s afegit, %s moviments actualitzats, %s actualitzat}
+translate K ICCFSendingMoves {S'estan enviant moviments al servidor ICCF...}
+translate K ICCFMovesSent {Moviments enviats: %s amb èxit, %s fallat}
+translate K ICCFNoGamesFound {No s'han trobat jocs.}
+translate K ICCFFilterError {Error de filtre.}
+translate K ICCFConnectionFailed {No s'ha pogut connectar al servidor ICCF. Comproveu la vostra xarxa.}
+translate K ICCFAuthFailed {L'autenticació ha fallat. Comproveu el vostre nom d'usuari i contrasenya.}
+translate K ICCFNeedUpdate {Premeu "Actualitza jocs" primer per obtenir les dades actuals del joc del servidor.}
+translate K ICCFNoDatabase {No hi ha cap base de dades oberta actualment. Obriu primer una base de dades.}
+translate K ICCFMyTime {El meu rellotge}
+translate K ICCFOppTime {Rellotge Opp}
+translate K ICCFDrawOffered {Sorteig ofert}
 # LSS (Lechenicher SchachServer)
 menuText K ToolsTrainLSS "Juga a LSS" 0 {Juga a Lechenicher SchachServer}
 translate K LSSTitle {Juga a LSS - Lechenicher SchachServer}

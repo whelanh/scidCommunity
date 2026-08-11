@@ -1888,6 +1888,40 @@ translate T TBNotFound {Tablo tabanında konum bulunamadı veya API hatası.}
 translate T TBCategory {Pozisyon Kategorisi:}
 translate T TBTrainingHidden {(Eğitim modu; sonuçlar gizlenir)}
 
+# ICCF (International Correspondence Chess Federation)
+menuText T ToolsTrainICCF "ICCF'de oynayın" 0 {ICCF'de oynayın}
+translate T ICCFTitle {ICCF'de oynayın}
+translate T ICCFLogin {Kullanıcı adı}
+translate T ICCFPassword {Şifre}
+translate T ICCFConnect {Bağlamak}
+translate T ICCFClose {Kapalı}
+translate T ICCFUpdateGames {Oyunları Güncelle}
+translate T ICCFSendMoves {Hareket Gönder}
+translate T ICCFYourMessage {Mesajınız}
+translate T ICCFGameID {Oyun}
+translate T ICCFOpponent {Rakip}
+translate T ICCFEvent {Etkinlik}
+translate T ICCFLastMove {Son Hareket}
+translate T ICCFSent {Gönderilmiş}
+translate T ICCFYourMove {Hareketiniz}
+translate T ICCFOfferDraw {Teklif Çekilişi}
+translate T ICCFResign {İstifa etmek}
+translate T ICCFWaiting {Beklemek}
+translate T ICCFYourTurn {Sıra sende}
+translate T ICCFCredentialsNeeded {Lütfen ICCF kullanıcı adınızı ve şifrenizi girin.}
+translate T ICCFUpdating {Oyunlar ICCF sunucusundan alınıyor...}
+translate T ICCFGamesUpdated {Oyunlar: %s eklendi, %s hamle güncellendi, %s güncel}
+translate T ICCFSendingMoves {Hareketler ICCF sunucusuna gönderiliyor...}
+translate T ICCFMovesSent {Gönderilen hamleler: %s başarılı, %s başarısız}
+translate T ICCFNoGamesFound {Oyun bulunamadı.}
+translate T ICCFFilterError {Filtre hatası.}
+translate T ICCFConnectionFailed {ICCF sunucusuna bağlanılamadı. Ağınızı kontrol edin.}
+translate T ICCFAuthFailed {Kimlik doğrulama başarısız oldu. Kullanıcı adınızı ve şifrenizi kontrol edin.}
+translate T ICCFNeedUpdate {Sunucudan güncel oyun verilerini almak için lütfen önce "Oyunları Güncelle"ye basın.}
+translate T ICCFNoDatabase {Şu anda hiçbir veritabanı açık değil. Lütfen önce bir veritabanı açın.}
+translate T ICCFMyTime {Saatim}
+translate T ICCFOppTime {Opp Saati}
+translate T ICCFDrawOffered {Çekiliş Teklif Edildi}
 # LSS (Lechenicher SchachServer)
 menuText T ToolsTrainLSS "LSS'de oyna" 0 {Lechenicher SchachServer'da oynayın}
 translate T LSSTitle {LSS'de Oynayın - Lechenicher SchachServer}

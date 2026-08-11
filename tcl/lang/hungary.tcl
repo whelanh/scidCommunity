@@ -1907,6 +1907,40 @@ translate H TBNotFound {A pozíció nem található a táblázatbázisban vagy A
 translate H TBCategory {Pozíció kategória:}
 translate H TBTrainingHidden {(edzési mód; az eredmények rejtettek)}
 
+# ICCF (International Correspondence Chess Federation)
+menuText H ToolsTrainICCF "Játssz az ICCF-en" 0 {Játssz az ICCF-en}
+translate H ICCFTitle {Játssz az ICCF-en}
+translate H ICCFLogin {Felhasználónév}
+translate H ICCFPassword {Jelszó}
+translate H ICCFConnect {Csatlakozás}
+translate H ICCFClose {Közeli}
+translate H ICCFUpdateGames {Játékok frissítése}
+translate H ICCFSendMoves {Mozdulatok küldése}
+translate H ICCFYourMessage {Az Ön üzenete}
+translate H ICCFGameID {Játék}
+translate H ICCFOpponent {Ellenfél}
+translate H ICCFEvent {Esemény}
+translate H ICCFLastMove {Utolsó lépés}
+translate H ICCFSent {Küldött}
+translate H ICCFYourMove {Az Ön lépése}
+translate H ICCFOfferDraw {Ajánlatsorsolás}
+translate H ICCFResign {Lemond}
+translate H ICCFWaiting {Várakozás}
+translate H ICCFYourTurn {Az Ön sora}
+translate H ICCFCredentialsNeeded {Kérjük, adja meg ICCF felhasználónevét és jelszavát.}
+translate H ICCFUpdating {Játékok letöltése az ICCF szerverről...}
+translate H ICCFGamesUpdated {Játékok: %s hozzáadva, %s lépés frissítve, %s naprakész}
+translate H ICCFSendingMoves {Költözések küldése az ICCF szerverre...}
+translate H ICCFMovesSent {Elküldve: %s sikeres, %s sikertelen}
+translate H ICCFNoGamesFound {Nem található játék.}
+translate H ICCFFilterError {Szűrő hiba.}
+translate H ICCFConnectionFailed {Nem sikerült csatlakozni az ICCF-kiszolgálóhoz. Ellenőrizze a hálózatot.}
+translate H ICCFAuthFailed {A hitelesítés nem sikerült. Ellenőrizze felhasználónevét és jelszavát.}
+translate H ICCFNeedUpdate {Kérjük, először nyomja meg a "Játékok frissítése" gombot az aktuális játékadatok letöltéséhez a szerverről.}
+translate H ICCFNoDatabase {Jelenleg nincs megnyitva adatbázis. Kérjük, először nyisson meg egy adatbázist.}
+translate H ICCFMyTime {Az én órám}
+translate H ICCFOppTime {Opp Óra}
+translate H ICCFDrawOffered {Sorsolás Felajánlott}
 # LSS (Lechenicher SchachServer)
 menuText H ToolsTrainLSS "Játssz LSS-en" 0 {Játssz a Lechenicher SchachServeren}
 translate H LSSTitle {Játssz az LSS - Lechenicher SchachServeren}

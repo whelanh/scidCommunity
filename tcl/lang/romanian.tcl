@@ -1925,6 +1925,40 @@ translate L TBNotFound {Poziția nu a fost găsită în baza de tabele sau eroar
 translate L TBCategory {Categoria postului:}
 translate L TBTrainingHidden {(Modul de antrenament; rezultatele sunt ascunse)}
 
+# ICCF (International Correspondence Chess Federation)
+menuText L ToolsTrainICCF "Joacă pe ICCF" 0 {Joacă pe ICCF}
+translate L ICCFTitle {Joacă pe ICCF}
+translate L ICCFLogin {Nume de utilizator}
+translate L ICCFPassword {Parolă}
+translate L ICCFConnect {Conectați-vă}
+translate L ICCFClose {Aproape}
+translate L ICCFUpdateGames {Actualizați jocuri}
+translate L ICCFSendMoves {Trimiteți mișcări}
+translate L ICCFYourMessage {Mesajul dvs}
+translate L ICCFGameID {Joc}
+translate L ICCFOpponent {Adversar}
+translate L ICCFEvent {Eveniment}
+translate L ICCFLastMove {Ultima mutare}
+translate L ICCFSent {Trimis}
+translate L ICCFYourMove {Mișcarea ta}
+translate L ICCFOfferDraw {Tragere la sorti}
+translate L ICCFResign {Demisiona}
+translate L ICCFWaiting {Aşteptare}
+translate L ICCFYourTurn {Rândul tău}
+translate L ICCFCredentialsNeeded {Vă rugăm să introduceți numele de utilizator și parola ICCF.}
+translate L ICCFUpdating {Se preiau jocuri de pe serverul ICCF...}
+translate L ICCFGamesUpdated {Jocuri: %s adăugat, %s mișcări actualizate, %s actualizat}
+translate L ICCFSendingMoves {Se trimite mișcări către serverul ICCF...}
+translate L ICCFMovesSent {Mișcări trimise: %s reușit, %s eșuat}
+translate L ICCFNoGamesFound {Nu s-au găsit jocuri.}
+translate L ICCFFilterError {Eroare de filtrare.}
+translate L ICCFConnectionFailed {Nu s-a putut conecta la serverul ICCF. Verificați-vă rețeaua.}
+translate L ICCFAuthFailed {Autentificarea eșuată. Verificați-vă numele de utilizator și parola.}
+translate L ICCFNeedUpdate {Vă rugăm să apăsați mai întâi pe „Actualizați jocuri” pentru a prelua datele curente ale jocului de pe server.}
+translate L ICCFNoDatabase {Nicio bază de date nu este deschisă în prezent. Vă rugăm să deschideți mai întâi o bază de date.}
+translate L ICCFMyTime {Ceasul meu}
+translate L ICCFOppTime {Ceas Opp}
+translate L ICCFDrawOffered {Remiză oferită}
 # LSS (Lechenicher SchachServer)
 menuText L ToolsTrainLSS "Joacă pe LSS" 0 {Joacă pe Lechenicher SchachServer}
 translate L LSSTitle {Joacă pe LSS - Lechenicher SchachServer}

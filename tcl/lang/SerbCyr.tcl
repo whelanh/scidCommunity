@@ -1925,6 +1925,40 @@ translate J TBNotFound {Позиција није пронађена у бази
 translate J TBCategory {Категорија позиције:}
 translate J TBTrainingHidden {(Режим обуке; резултати су скривени)}
 
+# ICCF (International Correspondence Chess Federation)
+menuText J ToolsTrainICCF "Играјте на ИЦЦФ" 0 {Играјте на ИЦЦФ}
+translate J ICCFTitle {Играјте на ИЦЦФ}
+translate J ICCFLogin {Корисничко име}
+translate J ICCFPassword {Лозинка}
+translate J ICCFConnect {Повежите се}
+translate J ICCFClose {Затвори}
+translate J ICCFUpdateGames {Ажурирајте игре}
+translate J ICCFSendMoves {Сенд Мовес}
+translate J ICCFYourMessage {Ваша порука}
+translate J ICCFGameID {Игра}
+translate J ICCFOpponent {Противник}
+translate J ICCFEvent {Догађај}
+translate J ICCFLastMove {Ласт Мове}
+translate J ICCFSent {Послано}
+translate J ICCFYourMove {Иоур Мове}
+translate J ICCFOfferDraw {Понуда Драв}
+translate J ICCFResign {Поднесите оставку}
+translate J ICCFWaiting {Чекам}
+translate J ICCFYourTurn {Ваш ред}
+translate J ICCFCredentialsNeeded {Унесите своје ИЦЦФ корисничко име и лозинку.}
+translate J ICCFUpdating {Преузимање игара са ИЦЦФ сервера...}
+translate J ICCFGamesUpdated {Игре: %с додато, %с потези ажурирани, %с ажурирани}
+translate J ICCFSendingMoves {Слање селидбе на ИЦЦФ сервер...}
+translate J ICCFMovesSent {Послати покрети: %с успешно, %с неуспешно}
+translate J ICCFNoGamesFound {Нема пронађених игара.}
+translate J ICCFFilterError {Грешка филтера.}
+translate J ICCFConnectionFailed {Повезивање са ИЦЦФ сервером није успело. Проверите своју мрежу.}
+translate J ICCFAuthFailed {Аутентификација није успела. Проверите своје корисничко име и лозинку.}
+translate J ICCFNeedUpdate {Прво притисните „Ажурирај игре“ да преузмете тренутне податке игре са сервера.}
+translate J ICCFNoDatabase {Тренутно није отворена ниједна база података. Прво отворите базу података.}
+translate J ICCFMyTime {Мој сат}
+translate J ICCFOppTime {Опп Цлоцк}
+translate J ICCFDrawOffered {Драв Офферед}
 # LSS (Lechenicher SchachServer)
 menuText J ToolsTrainLSS "Играјте на ЛСС" 0 {Играјте на Лецхеницхер СцхацхСервер}
 translate J LSSTitle {Играјте на ЛСС - Лецхеницхер СцхацхСервер}

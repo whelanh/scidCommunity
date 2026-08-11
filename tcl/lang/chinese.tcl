@@ -1860,6 +1860,40 @@ translate M TBNotFound {在表库中找不到位置或 API 错误。}
 translate M TBCategory {职位类别：}
 translate M TBTrainingHidden {（训练模式；结果隐藏）}
 
+# ICCF (International Correspondence Chess Federation)
+menuText M ToolsTrainICCF "参加ICCF比赛" 0 {参加ICCF比赛}
+translate M ICCFTitle {参加ICCF比赛}
+translate M ICCFLogin {用户名}
+translate M ICCFPassword {密码}
+translate M ICCFConnect {连接}
+translate M ICCFClose {关闭}
+translate M ICCFUpdateGames {更新游戏}
+translate M ICCFSendMoves {发送动作}
+translate M ICCFYourMessage {您的留言}
+translate M ICCFGameID {游戏}
+translate M ICCFOpponent {对手}
+translate M ICCFEvent {事件}
+translate M ICCFLastMove {最后一步}
+translate M ICCFSent {发送}
+translate M ICCFYourMove {你的举动}
+translate M ICCFOfferDraw {优惠抽奖}
+translate M ICCFResign {辞职}
+translate M ICCFWaiting {等待}
+translate M ICCFYourTurn {轮到你了}
+translate M ICCFCredentialsNeeded {请输入您的 ICCF 用户名和密码。}
+translate M ICCFUpdating {正在从 ICCF 服务器获取游戏...}
+translate M ICCFGamesUpdated {游戏：%s 已添加，%s 步已更新，%s 为最新}
+translate M ICCFSendingMoves {正在将动作发送到 ICCF 服务器...}
+translate M ICCFMovesSent {已发送移动：%s 成功，%s 失败}
+translate M ICCFNoGamesFound {没有找到游戏。}
+translate M ICCFFilterError {过滤器错误。}
+translate M ICCFConnectionFailed {无法连接到 ICCF 服务器。检查您的网络。}
+translate M ICCFAuthFailed {认证失败。检查您的用户名和密码。}
+translate M ICCFNeedUpdate {请先按“更新游戏”从服务器获取当前游戏数据。}
+translate M ICCFNoDatabase {当前没有打开数据库。请先打开一个数据库。}
+translate M ICCFMyTime {我的时钟}
+translate M ICCFOppTime {奥普时钟}
+translate M ICCFDrawOffered {提供抽奖}
 # LSS (Lechenicher SchachServer)
 menuText M ToolsTrainLSS "在 LSS 上玩" 0 {在 Lechenicher SchachServer 上玩}
 translate M LSSTitle {在 LSS 上玩 - Lechenicher SchachServer}

@@ -1925,6 +1925,40 @@ translate k TBNotFound {테이블베이스 또는 API 오류에서 위치를 찾
 translate k TBCategory {직위 범주:}
 translate k TBTrainingHidden {(훈련 모드, 결과는 숨겨짐)}
 
+# ICCF (International Correspondence Chess Federation)
+menuText k ToolsTrainICCF "ICCF에서 플레이" 0 {ICCF에서 플레이}
+translate k ICCFTitle {ICCF에서 플레이}
+translate k ICCFLogin {사용자 이름}
+translate k ICCFPassword {비밀번호}
+translate k ICCFConnect {연결하다}
+translate k ICCFClose {닫다}
+translate k ICCFUpdateGames {게임 업데이트}
+translate k ICCFSendMoves {움직임 보내기}
+translate k ICCFYourMessage {귀하의 메시지}
+translate k ICCFGameID {게임}
+translate k ICCFOpponent {상대}
+translate k ICCFEvent {이벤트}
+translate k ICCFLastMove {마지막 이동}
+translate k ICCFSent {전송된}
+translate k ICCFYourMove {당신의 움직임}
+translate k ICCFOfferDraw {제안 추첨}
+translate k ICCFResign {사직하다}
+translate k ICCFWaiting {대기 중}
+translate k ICCFYourTurn {당신의 차례}
+translate k ICCFCredentialsNeeded {ICCF 사용자 이름과 비밀번호를 입력하세요.}
+translate k ICCFUpdating {ICCF 서버에서 게임을 가져오는 중...}
+translate k ICCFGamesUpdated {게임: %s 추가됨, %s 동작 업데이트됨, %s 최신 상태임}
+translate k ICCFSendingMoves {ICCF 서버로 이동을 보내는 중...}
+translate k ICCFMovesSent {이동 전송됨: %s 성공, %s 실패}
+translate k ICCFNoGamesFound {게임을 찾을 수 없습니다.}
+translate k ICCFFilterError {필터 오류입니다.}
+translate k ICCFConnectionFailed {ICCF 서버에 연결하지 못했습니다. 네트워크를 확인하세요.}
+translate k ICCFAuthFailed {인증에 실패했습니다. 사용자 이름과 비밀번호를 확인하세요.}
+translate k ICCFNeedUpdate {서버에서 현재 게임 데이터를 가져오려면 먼저 "게임 업데이트"를 누르십시오.}
+translate k ICCFNoDatabase {현재 열려 있는 데이터베이스가 없습니다. 먼저 데이터베이스를 열어주세요.}
+translate k ICCFMyTime {내 시계}
+translate k ICCFOppTime {opp 시계}
+translate k ICCFDrawOffered {추첨 제공}
 # LSS (Lechenicher SchachServer)
 menuText k ToolsTrainLSS "LSS에서 플레이" 0 {Lechenicher SchachServer에서 플레이}
 translate k LSSTitle {LSS에서 플레이 - Lechenicher SchachServer}
