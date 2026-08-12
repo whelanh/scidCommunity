@@ -349,6 +349,8 @@ proc ::lss::createWindow {w} {
   $t1 column LSSOfferDraw -anchor center
   $t1 column LSSResign -anchor center
   $t1 column LSSSent -anchor center
+  $t1 tag configure timeLow -foreground #cc6600
+  $t1 tag configure timeUrgent -foreground red
   set vsb1 [ttk::scrollbar $f1.vsb -orient vertical -command "$t1 yview"]
   set hsb1 [ttk::scrollbar $f1.hsb -orient horizontal -command "$t1 xview"]
   $t1 configure -yscrollcommand "$vsb1 set" -xscrollcommand "$hsb1 set"
@@ -407,6 +409,8 @@ proc ::lss::createWindow {w} {
     $t2 column $col -width [expr {[font measure font_Regular $text] + 14 + $arrowWidth + $extra}] -stretch no
   }
   $t2 column LSSLastMove -width [expr {[$t2 column LSSLastMove -width] + 20}] -stretch yes -anchor center
+  $t2 tag configure timeLow -foreground #cc6600
+  $t2 tag configure timeUrgent -foreground red
   set vsb2 [ttk::scrollbar $tab2.glist.vsb -orient vertical -command "$t2 yview"]
   set hsb2 [ttk::scrollbar $tab2.glist.hsb -orient horizontal -command "$t2 xview"]
   $t2 configure -yscrollcommand "$vsb2 set" -xscrollcommand "$hsb2 set"
@@ -612,6 +616,29 @@ proc ::lss::addNewGame {game lssId tagName} {
 
   # Set tags
   set extraTags [list "$tagName \"$lssId\""]
+  foreach {key tag} {
+    timeControl TimeControl
+    whiteTitle WhiteTitle
+    blackTitle BlackTitle
+    whiteNA WhiteNA
+    blackNA BlackNA
+    whiteCountry WhiteCountry
+    blackCountry BlackCountry
+    whiteIccfID WhiteIccfId
+    blackIccfID BlackIccfId
+    whiteFideID WhiteFideId
+    blackFideID BlackFideId
+    eventSponsor EventSponsor
+    section Section
+    stage Stage
+    board Board
+  } {
+    set t [::lss::makeExtraTag $game $key $tag]
+    if {$t ne ""} { lappend extraTags $t }
+  }
+  if {[string is true -strict [dictGetDefault $game noEngines ""]]} {
+    lappend extraTags "NoEngines \"1\""
+  }
   set hasWhite [dictGetDefault $game hasWhite ""]
   if {$hasWhite ne "" && ![string is true -strict $hasWhite]} {
     lappend extraTags "FlipB \"1\""
@@ -744,13 +771,23 @@ proc ::lss::parseSanTokens {sanString} {
 }
 
 #
-# ::dictGetDefault - Get value from dict with default
+# ::lss::dictGetDefault - Get value from dict with default
 #
 proc ::lss::dictGetDefault {d key default} {
   if {[dict exists $d $key]} {
     return [dict get $d $key]
   }
   return $default
+}
+
+#
+# ::lss::makeExtraTag - Format a game dict field as an extra PGN tag
+#   Returns 'TagName "value"' or "" if the field is absent/zero
+#
+proc ::lss::makeExtraTag {game key tagName} {
+  set val [dictGetDefault $game $key ""]
+  if {$val eq "" || $val eq 0} { return "" }
+  return "$tagName \"$val\""
 }
 
 #
@@ -767,6 +804,23 @@ proc ::lss::normalizeMove {move} {
 proc ::lss::toInt {val} {
   if {[string is integer -strict $val]} { return [expr {$val}] }
   return 0
+}
+
+#
+# ::lss::rowTags - Return treeview tags flagging low reflection time
+#   timeUrgent: less than 2 days remaining, timeLow: less than 10 days
+#
+proc ::lss::rowTags {id} {
+  if {![info exists ::lss::gameData($id)]} { return {} }
+  set game $::lss::gameData($id)
+  set moves [dictGetDefault $game moves ""]
+  if {$moves eq ""} { return {} }
+  set mins [expr {[::lss::toInt [dictGetDefault $game daysPlayer 0]] * 1440 \
+                + [::lss::toInt [dictGetDefault $game hoursPlayer 0]] * 60 \
+                + [::lss::toInt [dictGetDefault $game minutesPlayer 0]]}]
+  if {$mins < [expr {2 * 1440}]} { return timeUrgent }
+  if {$mins < [expr {10 * 1440}]} { return timeLow }
+  return {}
 }
 
 #
@@ -882,7 +936,7 @@ proc ::lss::populateGameList {} {
   }
   foreach r [::lss::sortRows $t1 $rows] {
     lassign $r id rowVals
-    $t1 insert {} end -id "lss_${id}" -values $rowVals
+    $t1 insert {} end -id "lss_${id}" -values $rowVals -tags [::lss::rowTags $id]
   }
 
   # Waiting tab
@@ -895,7 +949,7 @@ proc ::lss::populateGameList {} {
   }
   foreach r [::lss::sortRows $t2 $rows] {
     lassign $r id rowVals
-    $t2 insert {} end -id "lss_${id}" -values $rowVals
+    $t2 insert {} end -id "lss_${id}" -values $rowVals -tags [::lss::rowTags $id]
   }
 
   if {$saved > 0} {
