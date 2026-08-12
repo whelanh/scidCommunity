@@ -22,6 +22,8 @@ variable treeview ""
 variable treeviewWaiting ""
 variable yourMsgWidget ""
 variable statusText ""
+variable sortCol
+variable sortDir
 variable sentGames
 variable pendingMessages
 variable drawOffers
@@ -330,11 +332,13 @@ proc ::iccf::createWindow {w} {
   foreach {col text} {ICCFGameID ICCFGameID ICCFOpponent ICCFOpponent ICCFEvent ICCFEvent
     ICCFYourTime ICCFMyTime ICCFOppTime ICCFOppTime ICCFLastMove ICCFLastMove
     ICCFDrawOffered ICCFDrawOffered ICCFYourMove ICCFYourMove ICCFOfferDraw ICCFOfferDraw ICCFResign ICCFResign ICCFSent ICCFSent} {
-    $t1 heading $col -text $::tr($text)
+    $t1 heading $col -text $::tr($text) -command [list ::iccf::onSortClick $t1 $col]
   }
+  set extraWidth {ICCFGameID 5 ICCFOpponent 25 ICCFEvent 25 ICCFYourTime 10 ICCFOppTime 10}
   foreach col $cols {
     set text [$t1 heading $col -text]
-    $t1 column $col -width [expr {[font measure font_Regular $text] + 14}] -stretch no
+    set extra [expr {[dict exists $extraWidth $col] ? [dict get $extraWidth $col] : 0}]
+    $t1 column $col -width [expr {[font measure font_Regular $text] + 14 + $extra}] -stretch no
   }
   # Center move text and status columns
   $t1 column ICCFLastMove -width [expr {[$t1 column ICCFLastMove -width] + 10}] -anchor center
@@ -378,11 +382,12 @@ proc ::iccf::createWindow {w} {
   ttk::treeview $t2 -columns $cols2 -show headings -selectmode browse
   foreach {col text} {ICCFGameID ICCFGameID ICCFOpponent ICCFOpponent ICCFEvent ICCFEvent
     ICCFYourTime ICCFMyTime ICCFOppTime ICCFOppTime ICCFLastMove ICCFLastMove} {
-    $t2 heading $col -text $::tr($text)
+    $t2 heading $col -text $::tr($text) -command [list ::iccf::onSortClick $t2 $col]
   }
   foreach col $cols2 {
     set text [$t2 heading $col -text]
-    $t2 column $col -width [expr {[font measure font_Regular $text] + 14}] -stretch no
+    set extra [expr {[dict exists $extraWidth $col] ? [dict get $extraWidth $col] : 0}]
+    $t2 column $col -width [expr {[font measure font_Regular $text] + 14 + $extra}] -stretch no
   }
   $t2 column ICCFLastMove -width [expr {[$t2 column ICCFLastMove -width] + 20}] -stretch yes -anchor center
   set vsb2 [ttk::scrollbar $tab2.glist.vsb -orient vertical -command "$t2 yview"]
@@ -400,6 +405,10 @@ proc ::iccf::createWindow {w} {
   set ::iccf::treeview $t1
   set ::iccf::treeviewWaiting $t2
   set ::iccf::yourMsgWidget $tab1.messages.txt
+
+  # Default sort: My Clock ascending (least time first)
+  ::iccf::setSort $t1 ICCFYourTime 1
+  ::iccf::setSort $t2 ICCFYourTime 1
 
   # Bottom buttons
   ttk::frame $w.buttons
@@ -502,7 +511,10 @@ proc ::iccf::updateGames {} {
       }
     }
 
-    if {[dictGetDefault $game myTurn "false"] && [string is true -strict [dictGetDefault $game myTurn "false"]]} {
+    if {![::iccf::gameStarted $game]} {
+      # Game has not started yet: keep it out of the Your Turn tab
+      lappend waitingList $id
+    } elseif {[dictGetDefault $game myTurn "false"] && [string is true -strict [dictGetDefault $game myTurn "false"]]} {
       lappend yourTurnList $id
     } else {
       lappend waitingList $id
@@ -743,6 +755,98 @@ proc ::iccf::toInt {val} {
 }
 
 #
+# ::iccf::gameStarted - Return 1 if the game has any moves, 0 if not started
+#
+proc ::iccf::gameStarted {game} {
+  set moves [dictGetDefault $game moves ""]
+  if {$moves eq ""} { return 0 }
+  if {[llength [::iccf::parseSanTokens $moves]] == 0} { return 0 }
+  return 1
+}
+
+#
+# ::iccf::setSort - Set the sort column/direction for a treeview and update
+#   the heading indicators (arrows)
+#
+proc ::iccf::setSort {tree col dir} {
+  set ::iccf::sortCol($tree) $col
+  set ::iccf::sortDir($tree) $dir
+  foreach c [$tree cget -columns] {
+    set text [regsub { (\u25B2|\u25BC)$} [$tree heading $c -text] ""]
+    if {$c eq $col} {
+      append text [expr {$dir ? " \u25B2" : " \u25BC"}]
+    }
+    $tree heading $c -text $text
+  }
+}
+
+#
+# ::iccf::onSortClick - Sort a gamelist treeview when a column heading is clicked
+#   Clicking the current sort column toggles the direction; a new column sorts ascending
+#
+proc ::iccf::onSortClick {tree col} {
+  set dir 1
+  if {[info exists ::iccf::sortCol($tree)] && $::iccf::sortCol($tree) eq $col} {
+    set dir [expr {!$::iccf::sortDir($tree)}]
+  }
+  ::iccf::setSort $tree $col $dir
+  ::iccf::populateGameList
+}
+
+#
+# ::iccf::sortRows - Sort {id rowVals} pairs according to the treeview sort state
+#   Game id and clock columns are compared numerically (total minutes), all
+#   other columns alphabetically (case-insensitive)
+#
+proc ::iccf::sortRows {tree rows} {
+  if {![info exists ::iccf::sortCol($tree)]} { set ::iccf::sortCol($tree) ICCFYourTime }
+  if {![info exists ::iccf::sortDir($tree)]} { set ::iccf::sortDir($tree) 1 }
+  set col $::iccf::sortCol($tree)
+  set dir $::iccf::sortDir($tree)
+  set colIdx [lsearch -exact [$tree cget -columns] $col]
+
+  set numeric 0
+  set data {}
+  foreach r $rows {
+    lassign $r id vals
+    switch -- $col {
+      ICCFGameID {
+        set numeric 1
+        set key [expr {[string is integer -strict $id] ? $id : 0}]
+      }
+      ICCFYourTime - ICCFOppTime {
+        set numeric 1
+        set game $::iccf::gameData($id)
+        if {$col eq "ICCFYourTime"} {
+          set d [::iccf::toInt [dictGetDefault $game daysPlayer 0]]
+          set h [::iccf::toInt [dictGetDefault $game hoursPlayer 0]]
+          set m [::iccf::toInt [dictGetDefault $game minutesPlayer 0]]
+        } else {
+          set d [::iccf::toInt [dictGetDefault $game daysOpponent 0]]
+          set h [::iccf::toInt [dictGetDefault $game hoursOpponent 0]]
+          set m [::iccf::toInt [dictGetDefault $game minutesOpponent 0]]
+        }
+        set key [expr {$d * 1440 + $h * 60 + $m}]
+      }
+      default {
+        set key [string tolower [lindex $vals $colIdx]]
+      }
+    }
+    lappend data [list $key $r]
+  }
+
+  if {$numeric} {
+    set data [lsort -index 0 -integer [expr {$dir ? "-increasing" : "-decreasing"}] $data]
+  } else {
+    set data [lsort -index 0 -dictionary [expr {$dir ? "-increasing" : "-decreasing"}] $data]
+  }
+
+  set sorted {}
+  foreach e $data { lappend sorted [lindex $e 1] }
+  return $sorted
+}
+
+#
 # ::iccf::populateGameList - Fill both treeviews
 #
 proc ::iccf::populateGameList {} {
@@ -767,8 +871,12 @@ proc ::iccf::populateGameList {} {
   set t1 $::iccf::treeview
   set children [$t1 children {}]
   foreach child $children { $t1 delete $child }
+  set rows {}
   foreach id $::iccf::yourTurnGames {
-    set rowVals [::iccf::buildGameRow $id 1 $activeMovesStr]
+    lappend rows [list $id [::iccf::buildGameRow $id 1 $activeMovesStr]]
+  }
+  foreach r [::iccf::sortRows $t1 $rows] {
+    lassign $r id rowVals
     $t1 insert {} end -id "iccf_${id}" -values $rowVals
   }
 
@@ -776,8 +884,12 @@ proc ::iccf::populateGameList {} {
   set t2 $::iccf::treeviewWaiting
   set children [$t2 children {}]
   foreach child $children { $t2 delete $child }
+  set rows {}
   foreach id $::iccf::waitingGames {
-    set rowVals [::iccf::buildGameRow $id 0 $activeMovesStr]
+    lappend rows [list $id [::iccf::buildGameRow $id 0 $activeMovesStr]]
+  }
+  foreach r [::iccf::sortRows $t2 $rows] {
+    lassign $r id rowVals
     $t2 insert {} end -id "iccf_${id}" -values $rowVals
   }
 
@@ -1019,6 +1131,9 @@ proc ::iccf::sendMoves {} {
   foreach id $::iccf::yourTurnGames {
     if {![info exists ::iccf::gameData($id)]} { continue }
     set game $::iccf::gameData($id)
+
+    # Never try to send moves for games that have not started yet
+    if {![::iccf::gameStarted $game]} { continue }
 
     if {![info exists ::iccf::gameToDbMap($id)]} { continue }
     set dbGameNum $::iccf::gameToDbMap($id)

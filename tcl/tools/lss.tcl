@@ -23,6 +23,8 @@ variable treeviewWaiting ""
 variable oppMsgWidget ""
 variable yourMsgWidget ""
 variable statusText ""
+variable sortCol
+variable sortDir
 variable sentGames
 variable pendingMessages
 variable drawOffers
@@ -331,11 +333,13 @@ proc ::lss::createWindow {w} {
   foreach {col text} {LSSGameID LSSGameID LSSOpponent LSSOpponent LSSEvent LSSEvent
     LSSYourTime LSSMyTime LSSOppTime LSSOppTime LSSLastMove LSSLastMove
     LSSDrawOffered LSSDrawOffered LSSYourMove LSSYourMove LSSOfferDraw LSSOfferDraw LSSResign LSSResign LSSSent LSSSent} {
-    $t1 heading $col -text $::tr($text)
+    $t1 heading $col -text $::tr($text) -command [list ::lss::onSortClick $t1 $col]
   }
+  set extraWidth {LSSGameID 5 LSSOpponent 25 LSSEvent 25 LSSYourTime 10 LSSOppTime 10}
   foreach col $cols {
     set text [$t1 heading $col -text]
-    $t1 column $col -width [expr {[font measure font_Regular $text] + 14}] -stretch no
+    set extra [expr {[dict exists $extraWidth $col] ? [dict get $extraWidth $col] : 0}]
+    $t1 column $col -width [expr {[font measure font_Regular $text] + 14 + $extra}] -stretch no
   }
   # Center move text and status columns
   $t1 column LSSLastMove -width [expr {[$t1 column LSSLastMove -width] + 10}] -anchor center
@@ -394,11 +398,12 @@ proc ::lss::createWindow {w} {
   ttk::treeview $t2 -columns $cols2 -show headings -selectmode browse
   foreach {col text} {LSSGameID LSSGameID LSSOpponent LSSOpponent LSSEvent LSSEvent
     LSSYourTime LSSMyTime LSSOppTime LSSOppTime LSSLastMove LSSLastMove} {
-    $t2 heading $col -text $::tr($text)
+    $t2 heading $col -text $::tr($text) -command [list ::lss::onSortClick $t2 $col]
   }
   foreach col $cols2 {
     set text [$t2 heading $col -text]
-    $t2 column $col -width [expr {[font measure font_Regular $text] + 14}] -stretch no
+    set extra [expr {[dict exists $extraWidth $col] ? [dict get $extraWidth $col] : 0}]
+    $t2 column $col -width [expr {[font measure font_Regular $text] + 14 + $extra}] -stretch no
   }
   $t2 column LSSLastMove -width [expr {[$t2 column LSSLastMove -width] + 20}] -stretch yes -anchor center
   set vsb2 [ttk::scrollbar $tab2.glist.vsb -orient vertical -command "$t2 yview"]
@@ -417,6 +422,10 @@ proc ::lss::createWindow {w} {
   set ::lss::treeviewWaiting $t2
   set ::lss::oppMsgWidget $tab1.messages.opp.txt
   set ::lss::yourMsgWidget $tab1.messages.your.txt
+
+  # Default sort: My Clock ascending (least time first)
+  ::lss::setSort $t1 LSSYourTime 1
+  ::lss::setSort $t2 LSSYourTime 1
 
   # Bottom buttons
   ttk::frame $w.buttons
@@ -760,6 +769,88 @@ proc ::lss::toInt {val} {
 }
 
 #
+# ::lss::setSort - Set the sort column/direction for a treeview and update
+#   the heading indicators (arrows)
+#
+proc ::lss::setSort {tree col dir} {
+  set ::lss::sortCol($tree) $col
+  set ::lss::sortDir($tree) $dir
+  foreach c [$tree cget -columns] {
+    set text [regsub { (\u25B2|\u25BC)$} [$tree heading $c -text] ""]
+    if {$c eq $col} {
+      append text [expr {$dir ? " \u25B2" : " \u25BC"}]
+    }
+    $tree heading $c -text $text
+  }
+}
+
+#
+# ::lss::onSortClick - Sort a gamelist treeview when a column heading is clicked
+#   Clicking the current sort column toggles the direction; a new column sorts ascending
+#
+proc ::lss::onSortClick {tree col} {
+  set dir 1
+  if {[info exists ::lss::sortCol($tree)] && $::lss::sortCol($tree) eq $col} {
+    set dir [expr {!$::lss::sortDir($tree)}]
+  }
+  ::lss::setSort $tree $col $dir
+  ::lss::populateGameList
+}
+
+#
+# ::lss::sortRows - Sort {id rowVals} pairs according to the treeview sort state
+#   Game id and clock columns are compared numerically (total minutes), all
+#   other columns alphabetically (case-insensitive)
+#
+proc ::lss::sortRows {tree rows} {
+  if {![info exists ::lss::sortCol($tree)]} { set ::lss::sortCol($tree) LSSYourTime }
+  if {![info exists ::lss::sortDir($tree)]} { set ::lss::sortDir($tree) 1 }
+  set col $::lss::sortCol($tree)
+  set dir $::lss::sortDir($tree)
+  set colIdx [lsearch -exact [$tree cget -columns] $col]
+
+  set numeric 0
+  set data {}
+  foreach r $rows {
+    lassign $r id vals
+    switch -- $col {
+      LSSGameID {
+        set numeric 1
+        set key [expr {[string is integer -strict $id] ? $id : 0}]
+      }
+      LSSYourTime - LSSOppTime {
+        set numeric 1
+        set game $::lss::gameData($id)
+        if {$col eq "LSSYourTime"} {
+          set d [::lss::toInt [dictGetDefault $game daysPlayer 0]]
+          set h [::lss::toInt [dictGetDefault $game hoursPlayer 0]]
+          set m [::lss::toInt [dictGetDefault $game minutesPlayer 0]]
+        } else {
+          set d [::lss::toInt [dictGetDefault $game daysOpponent 0]]
+          set h [::lss::toInt [dictGetDefault $game hoursOpponent 0]]
+          set m [::lss::toInt [dictGetDefault $game minutesOpponent 0]]
+        }
+        set key [expr {$d * 1440 + $h * 60 + $m}]
+      }
+      default {
+        set key [string tolower [lindex $vals $colIdx]]
+      }
+    }
+    lappend data [list $key $r]
+  }
+
+  if {$numeric} {
+    set data [lsort -index 0 -integer [expr {$dir ? "-increasing" : "-decreasing"}] $data]
+  } else {
+    set data [lsort -index 0 -dictionary [expr {$dir ? "-increasing" : "-decreasing"}] $data]
+  }
+
+  set sorted {}
+  foreach e $data { lappend sorted [lindex $e 1] }
+  return $sorted
+}
+
+#
 # ::lss::populateGameList - Fill both treeviews
 #
 proc ::lss::populateGameList {} {
@@ -784,8 +875,12 @@ proc ::lss::populateGameList {} {
   set t1 $::lss::treeview
   set children [$t1 children {}]
   foreach child $children { $t1 delete $child }
+  set rows {}
   foreach id $::lss::yourTurnGames {
-    set rowVals [::lss::buildGameRow $id 1 $activeMovesStr]
+    lappend rows [list $id [::lss::buildGameRow $id 1 $activeMovesStr]]
+  }
+  foreach r [::lss::sortRows $t1 $rows] {
+    lassign $r id rowVals
     $t1 insert {} end -id "lss_${id}" -values $rowVals
   }
 
@@ -793,8 +888,12 @@ proc ::lss::populateGameList {} {
   set t2 $::lss::treeviewWaiting
   set children [$t2 children {}]
   foreach child $children { $t2 delete $child }
+  set rows {}
   foreach id $::lss::waitingGames {
-    set rowVals [::lss::buildGameRow $id 0 $activeMovesStr]
+    lappend rows [list $id [::lss::buildGameRow $id 0 $activeMovesStr]]
+  }
+  foreach r [::lss::sortRows $t2 $rows] {
+    lassign $r id rowVals
     $t2 insert {} end -id "lss_${id}" -values $rowVals
   }
 
