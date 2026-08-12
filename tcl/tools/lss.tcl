@@ -335,11 +335,12 @@ proc ::lss::createWindow {w} {
     LSSDrawOffered LSSDrawOffered LSSYourMove LSSYourMove LSSOfferDraw LSSOfferDraw LSSResign LSSResign LSSSent LSSSent} {
     $t1 heading $col -text $::tr($text) -command [list ::lss::onSortClick $t1 $col]
   }
+  set arrowWidth [font measure font_Regular " \u25B2"]
   set extraWidth {LSSGameID 5 LSSOpponent 30 LSSEvent 35 LSSYourTime 15 LSSOppTime 15}
   foreach col $cols {
     set text [$t1 heading $col -text]
     set extra [expr {[dict exists $extraWidth $col] ? [dict get $extraWidth $col] : 0}]
-    $t1 column $col -width [expr {[font measure font_Regular $text] + 14 + $extra}] -stretch no
+    $t1 column $col -width [expr {[font measure font_Regular $text] + 14 + $arrowWidth + $extra}] -stretch no
   }
   # Center move text and status columns
   $t1 column LSSLastMove -width [expr {[$t1 column LSSLastMove -width] + 10}] -anchor center
@@ -403,7 +404,7 @@ proc ::lss::createWindow {w} {
   foreach col $cols2 {
     set text [$t2 heading $col -text]
     set extra [expr {[dict exists $extraWidth $col] ? [dict get $extraWidth $col] : 0}]
-    $t2 column $col -width [expr {[font measure font_Regular $text] + 14 + $extra}] -stretch no
+    $t2 column $col -width [expr {[font measure font_Regular $text] + 14 + $arrowWidth + $extra}] -stretch no
   }
   $t2 column LSSLastMove -width [expr {[$t2 column LSSLastMove -width] + 20}] -stretch yes -anchor center
   set vsb2 [ttk::scrollbar $tab2.glist.vsb -orient vertical -command "$t2 yview"]

@@ -334,11 +334,12 @@ proc ::iccf::createWindow {w} {
     ICCFDrawOffered ICCFDrawOffered ICCFYourMove ICCFYourMove ICCFOfferDraw ICCFOfferDraw ICCFResign ICCFResign ICCFSent ICCFSent} {
     $t1 heading $col -text $::tr($text) -command [list ::iccf::onSortClick $t1 $col]
   }
+  set arrowWidth [font measure font_Regular " \u25B2"]
   set extraWidth {ICCFGameID 5 ICCFOpponent 30 ICCFEvent 35 ICCFYourTime 15 ICCFOppTime 15}
   foreach col $cols {
     set text [$t1 heading $col -text]
     set extra [expr {[dict exists $extraWidth $col] ? [dict get $extraWidth $col] : 0}]
-    $t1 column $col -width [expr {[font measure font_Regular $text] + 14 + $extra}] -stretch no
+    $t1 column $col -width [expr {[font measure font_Regular $text] + 14 + $arrowWidth + $extra}] -stretch no
   }
   # Center move text and status columns
   $t1 column ICCFLastMove -width [expr {[$t1 column ICCFLastMove -width] + 10}] -anchor center
@@ -387,7 +388,7 @@ proc ::iccf::createWindow {w} {
   foreach col $cols2 {
     set text [$t2 heading $col -text]
     set extra [expr {[dict exists $extraWidth $col] ? [dict get $extraWidth $col] : 0}]
-    $t2 column $col -width [expr {[font measure font_Regular $text] + 14 + $extra}] -stretch no
+    $t2 column $col -width [expr {[font measure font_Regular $text] + 14 + $arrowWidth + $extra}] -stretch no
   }
   $t2 column ICCFLastMove -width [expr {[$t2 column ICCFLastMove -width] + 20}] -stretch yes -anchor center
   set vsb2 [ttk::scrollbar $tab2.glist.vsb -orient vertical -command "$t2 yview"]
