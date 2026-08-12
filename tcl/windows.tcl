@@ -11,10 +11,23 @@ set treeWin 0
 set pgnWin 0
 set filterGraph 0
 
+# Hyprland has a known XWayland bug: toplevels created via the
+# frame "-container 1" / toplevel "-use" reparenting trick below
+# never receive keyboard focus, even though the same trick works
+# fine on KDE, GNOME, Niri, and Windows. HYPRLAND_INSTANCE_SIGNATURE
+# is set only by Hyprland, so use it to skip the reparenting trick
+# there and fall back to a normal (non-dockable) toplevel instead.
+# Trade-off: windows created this way can't be docked/undocked at
+# runtime, and won't be remembered by layout save/restore, while
+# running under Hyprland.
+proc isHyprlandSession {} {
+  return [info exists ::env(HYPRLAND_INSTANCE_SIGNATURE)]
+}
+
 ################################################################################
 # Creates a toplevel window depending of the docking option
 ################################################################################
-proc createToplevel { {w} {closeto ""} } {
+proc createToplevel { {w} {closeto ""} {forceNative 0} } {
   # Raise window if already exist
   if { [winfo exists $w] } {
     lassign [::win::isDocked $w] docked_nb w
@@ -24,6 +37,14 @@ proc createToplevel { {w} {closeto ""} } {
         wm deiconify $w
     }
     return "already_exists"
+  }
+
+  if {[isHyprlandSession] && $forceNative} {
+    # Work around a Hyprland XWayland bug: windows built with the
+    # container-embed trick below never receive keyboard focus.
+    # Trade away docking for a normal, working toplevel.
+    toplevel $w
+    return
   }
 
   set f ".fdock[string range $w 1 end]"

@@ -276,7 +276,7 @@ proc ::iccf::connect {} {
   catch {array unset ::iccf::acceptDraws}
 
   set w .iccf
-  ::createToplevel $w
+  ::createToplevel $w "" 1
   ::setTitle $w $::tr(ICCFTitle)
   wm protocol $w WM_DELETE_WINDOW "::iccf::closeWindow"
 

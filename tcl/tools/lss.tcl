@@ -277,7 +277,7 @@ proc ::lss::connect {} {
   catch {array unset ::lss::acceptDraws}
 
   set w .lss
-  ::createToplevel $w
+  ::createToplevel $w "" 1
   ::setTitle $w $::tr(LSSTitle)
   wm protocol $w WM_DELETE_WINDOW "::lss::closeWindow"
 
