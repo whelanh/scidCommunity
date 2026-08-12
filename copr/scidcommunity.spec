@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.3.95
+Version:        5.1.3.96
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 2eb41a125e1ff2a13c60259dd10793dd730fdc41
+%global commit bfa858d58b7ce3288a91123fbca9ae915ff077b5
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Wed Aug 12, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-96
+- "Improvements to the LSS and ICCF game lists"
 * Tue Aug 11, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-95
 - "Adds a new feature to play on the ICCF Server"
 * Tue Aug 11, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-94
