@@ -334,7 +334,7 @@ proc ::iccf::createWindow {w} {
     ICCFDrawOffered ICCFDrawOffered ICCFYourMove ICCFYourMove ICCFOfferDraw ICCFOfferDraw ICCFResign ICCFResign ICCFSent ICCFSent} {
     $t1 heading $col -text $::tr($text) -command [list ::iccf::onSortClick $t1 $col]
   }
-  set extraWidth {ICCFGameID 5 ICCFOpponent 25 ICCFEvent 25 ICCFYourTime 10 ICCFOppTime 10}
+  set extraWidth {ICCFGameID 5 ICCFOpponent 30 ICCFEvent 35 ICCFYourTime 15 ICCFOppTime 15}
   foreach col $cols {
     set text [$t1 heading $col -text]
     set extra [expr {[dict exists $extraWidth $col] ? [dict get $extraWidth $col] : 0}]

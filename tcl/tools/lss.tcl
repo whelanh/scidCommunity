@@ -335,7 +335,7 @@ proc ::lss::createWindow {w} {
     LSSDrawOffered LSSDrawOffered LSSYourMove LSSYourMove LSSOfferDraw LSSOfferDraw LSSResign LSSResign LSSSent LSSSent} {
     $t1 heading $col -text $::tr($text) -command [list ::lss::onSortClick $t1 $col]
   }
-  set extraWidth {LSSGameID 5 LSSOpponent 25 LSSEvent 25 LSSYourTime 10 LSSOppTime 10}
+  set extraWidth {LSSGameID 5 LSSOpponent 30 LSSEvent 35 LSSYourTime 15 LSSOppTime 15}
   foreach col $cols {
     set text [$t1 heading $col -text]
     set extra [expr {[dict exists $extraWidth $col] ? [dict get $extraWidth $col] : 0}]
