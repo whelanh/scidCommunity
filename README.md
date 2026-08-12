@@ -4,7 +4,7 @@
 <img width="256" height="256" alt="io github whelanh scidCommunity" src="https://github.com/user-attachments/assets/26277294-00cb-4660-964d-f88f4364e9c8" />
 </p>
 
-**scidCommunity** is a powerful chess analysis and database program. Originally derived from `Scid` (Shane's Chess Information Database), it has evolved into a distinct tool with numerous enhancements and a growing community of over 3,200 users around the world.
+**scidCommunity** is a powerful chess analysis and database program. Originally derived from `Scid` (Shane's Chess Information Database), it has evolved into a distinct tool with numerous enhancements and a growing community of over 3,400 users around the world.
 
 While it maintains compatibility with the original Scid database formats, **scidCommunity** focuses on modern features like integrations with Lichess and Chess.com, user-requested improvements, and a streamlined experience for analysis and database management. **scidCommunity** is free software and is released under the GPL licence.
 
@@ -12,7 +12,7 @@ While it maintains compatibility with the original Scid database formats, **scid
 
 *Most recent changes:*
 
-1. New [feature](https://github.com/whelanh/scidCommunity/discussions/231)  added under the Play menu that integrates playing on the Lechenicher SchachServer (LSS)
+1. New [feature](https://github.com/whelanh/scidCommunity/discussions/231)  added under the Play menu that integrates playing on the Lechenicher SchachServer (LSS) and on the ICCF server.
 2. Based on a [user request](https://github.com/whelanh/scidCommunity/discussions/225), NAG annotations present in your database can be shown in the Tree View if you click the "Annotations" check box.
 3. Drag and drop of database, PGN, and .epd files is [now available](https://github.com/whelanh/scidCommunity/discussions/209). Drag files to either the Board display window or the PGN Window.
 
