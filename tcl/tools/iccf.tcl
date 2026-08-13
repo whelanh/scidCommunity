@@ -822,6 +822,21 @@ proc ::iccf::rowTags {id} {
 }
 
 #
+# ::iccf::dbMoves - Get the move text of a database game without loading it
+#   into the active game (preserves unsaved changes to the loaded game)
+#   Returns the movetext string, or "" on error
+#
+proc ::iccf::dbMoves {dbGameNum} {
+  if {[catch {
+    set pgnStr [sc_game pgn -gameNumber $dbGameNum -tags 0 -comments 0 -variations 0]
+  }]} {
+    return ""
+  }
+  regsub -all {\[[^\]]*\]} $pgnStr {} pgnStr
+  return $pgnStr
+}
+
+#
 # ::iccf::setSort - Set the sort column/direction for a treeview and update
 #   the heading indicators (arrows)
 #
@@ -950,11 +965,6 @@ proc ::iccf::populateGameList {} {
     $t2 insert {} end -id "iccf_${id}" -values $rowVals -tags [::iccf::rowTags $id]
   }
 
-  if {$saved > 0} {
-    catch {sc_game load $saved}
-    catch {::move::PGNOffset $ply}
-  }
-
   # Restore selections
   if {$sel1 ne "" && [$::iccf::treeview exists $sel1]} {
     $::iccf::treeview selection set $sel1
@@ -1016,10 +1026,9 @@ proc ::iccf::buildGameRow {id extended {activeMovesStr ""}} {
       if {$activeMovesStr ne "" && $dbGameNum == [sc_game number]} {
         set dbMovesStr $activeMovesStr
       } else {
-        if {![catch {sc_game load $dbGameNum}]} {
-          catch {sc_move end}
-          set dbMovesStr [sc_game moves nomoves]
-        }
+        # Read the DB game without loading it, to preserve unsaved changes
+        # to the game currently loaded on the board
+        set dbMovesStr [::iccf::dbMoves $dbGameNum]
       }
       if {$dbMovesStr ne ""} {
         set dbMoves [llength [::iccf::parseSanTokens $dbMovesStr]]
@@ -1172,8 +1181,6 @@ proc ::iccf::sendMoves {} {
   set ::iccf::statusText $::tr(ICCFSendingMoves)
   update idletasks
 
-  set savedGame [sc_game number]
-
   # Save message for currently selected game if any
   if {$::iccf::selectedGame > 0} {
     set currentMsg [$::iccf::yourMsgWidget get 1.0 end-1c]
@@ -1196,10 +1203,9 @@ proc ::iccf::sendMoves {} {
     set dbGameNum $::iccf::gameToDbMap($id)
     if {$dbGameNum <= 0} { continue }
 
-    if {[catch {sc_game load $dbGameNum}]} { continue }
-
-    catch {sc_move end}
-    set dbMovesStr [sc_game moves nomoves]
+    # Read the DB game without loading it, to preserve unsaved changes
+    # to the game currently loaded on the board
+    set dbMovesStr [::iccf::dbMoves $dbGameNum]
     set dbMoveTokens [::iccf::parseSanTokens $dbMovesStr]
     set dbMoveCount [llength $dbMoveTokens]
 
@@ -1258,9 +1264,6 @@ proc ::iccf::sendMoves {} {
       incr failed
     }
   }
-
-  # Restore the saved game
-  if {[catch {sc_game load $savedGame}]} {}
 
   set msg [format $::tr(ICCFMovesSent) $successful $failed]
   set ::iccf::statusText $msg
