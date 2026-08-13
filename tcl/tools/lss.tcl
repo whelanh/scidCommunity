@@ -453,6 +453,9 @@ proc ::lss::updateGames {} {
   set ::lss::statusText $::tr(LSSUpdating)
   update idletasks
 
+  # Clear any previous "Sent" checkmarks when updating games
+  catch {array unset ::lss::sentGames}
+
   set savedGame 0
   catch {set savedGame [sc_game number]}
 
