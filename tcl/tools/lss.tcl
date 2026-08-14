@@ -205,8 +205,8 @@ proc ::lss::fetchGames {} {
 proc ::lss::parseGetMyGamesResponse {xml} {
   set games {}
 
-  # Remove newlines between tags
-  regsub -all {\n} $xml "" xml
+  # Replace newlines with spaces (values like moves may span multiple lines)
+  regsub -all {\n} $xml " " xml
   regsub -all {>[\t ]+<} $xml {><} xml
 
   # Strip namespace prefixes only within tags: <ns1:tag> -> <tag>, </ns1:tag> -> </tag>
@@ -522,8 +522,11 @@ proc ::lss::updateGames {} {
 
     if {$dbGameNum > 0} {
       set ::lss::gameToDbMap($id) $dbGameNum
+      set tagsChanged [::lss::syncGameTags $game $id $dbGameNum "LSS"]
       if {[::lss::needsMoveUpdate $game $dbGameNum]} {
         ::lss::updateGameMoves $game $dbGameNum
+        incr updatedCount
+      } elseif {$tagsChanged} {
         incr updatedCount
       } else {
         incr unchangedCount
@@ -618,40 +621,7 @@ proc ::lss::addNewGame {game lssId tagName} {
   }
 
   # Set tags
-  set extraTags [list "$tagName \"$lssId\""]
-  foreach {key tag} {
-    timeControl TimeControl
-    whiteTitle WhiteTitle
-    blackTitle BlackTitle
-    whiteNA WhiteNA
-    blackNA BlackNA
-    whiteCountry WhiteCountry
-    blackCountry BlackCountry
-    whiteIccfID WhiteIccfId
-    blackIccfID BlackIccfId
-    whiteFideID WhiteFideId
-    blackFideID BlackFideId
-    eventSponsor EventSponsor
-    section Section
-    stage Stage
-    board Board
-  } {
-    set t [::lss::makeExtraTag $game $key $tag]
-    if {$t ne ""} { lappend extraTags $t }
-  }
-  if {[string is true -strict [dictGetDefault $game noEngines ""]]} {
-    lappend extraTags "NoEngines \"1\""
-  }
-  set hasWhite [dictGetDefault $game hasWhite ""]
-  if {$hasWhite ne "" && ![string is true -strict $hasWhite]} {
-    lappend extraTags "FlipB \"1\""
-  }
-  if {$variant eq "Chess960"} {
-    lappend extraTags "Variant \"Chess960\""
-  }
-  if {[string is true -strict $setup] && $startFen ne ""} {
-    lappend extraTags "SetUp \"1\"" "FEN \"$startFen\""
-  }
+  set extraTags [::lss::buildExtraTags $game $lssId $tagName]
   sc_game tags set -white $white -black $black -event $event \
     -site $site -date $date -round "?" -result $pgnResult \
     -whiteElo $whiteElo -blackElo $blackElo \
@@ -686,6 +656,147 @@ proc ::lss::addNewGame {game lssId tagName} {
 
   set newNum [sc_base numGames $curDb]
   return $newNum
+}
+
+#
+# ::lss::buildExtraTags - Build the list of managed extra PGN tags
+#   ("Name \"value\"" entries) for a server game
+#
+proc ::lss::buildExtraTags {game lssId tagName} {
+  set extraTags [list "$tagName \"$lssId\""]
+  foreach {key tag} {
+    timeControl TimeControl
+    whiteTitle WhiteTitle
+    blackTitle BlackTitle
+    whiteNA WhiteNA
+    blackNA BlackNA
+    whiteCountry WhiteCountry
+    blackCountry BlackCountry
+    whiteIccfID WhiteIccfId
+    blackIccfID BlackIccfId
+    whiteFideID WhiteFideId
+    blackFideID BlackFideId
+    eventSponsor EventSponsor
+    section Section
+    stage Stage
+    board Board
+  } {
+    set t [::lss::makeExtraTag $game $key $tag]
+    if {$t ne ""} { lappend extraTags $t }
+  }
+  if {[string is true -strict [dictGetDefault $game noEngines ""]]} {
+    lappend extraTags "NoEngines \"1\""
+  }
+  set hasWhite [dictGetDefault $game hasWhite ""]
+  if {$hasWhite ne "" && ![string is true -strict $hasWhite]} {
+    lappend extraTags "FlipB \"1\""
+  }
+  set variant [dictGetDefault $game variant ""]
+  if {$variant eq "Chess960"} {
+    lappend extraTags "Variant \"Chess960\""
+  }
+  set setup [dictGetDefault $game setup "false"]
+  set startFen [dictGetDefault $game fen ""]
+  if {[string is true -strict $setup] && $startFen ne ""} {
+    lappend extraTags "SetUp \"1\"" "FEN \"$startFen\""
+  }
+  return $extraTags
+}
+
+#
+# ::lss::syncGameTags - Refresh the PGN headers of an existing database game
+#   from fresh server data. Only fields the server actually provides are
+#   applied, so absent/zero values never erase existing headers.
+#   Returns 1 if the game was changed and saved, 0 otherwise.
+#
+proc ::lss::syncGameTags {game lssId dbGameNum tagName} {
+  if {[catch {sc_game load $dbGameNum}]} { return 0 }
+
+  # Standard tags: keep the current values, adopt the server value when present
+  set newWhite [sc_game tags get White]
+  set newBlack [sc_game tags get Black]
+  set newEvent [sc_game tags get Event]
+  set newSite [sc_game tags get Site]
+  set newDate [sc_game tags get Date]
+  set newRound [sc_game tags get Round]
+  set newWhiteElo [sc_game tags get WhiteElo]
+  set newBlackElo [sc_game tags get BlackElo]
+  set newResult [sc_game tags get Result]
+
+  set v [dictGetDefault $game white ""]
+  if {$v ne ""} { set newWhite $v }
+  set v [dictGetDefault $game black ""]
+  if {$v ne ""} { set newBlack $v }
+  set v [dictGetDefault $game event ""]
+  if {$v ne ""} { set newEvent $v }
+  set v [dictGetDefault $game site ""]
+  if {$v ne ""} { set newSite $v }
+  set v [dictGetDefault $game eventDate ""]
+  if {$v ne ""} { set newDate $v }
+  set v [dictGetDefault $game whiteElo 0]
+  if {$v > 0} { set newWhiteElo $v }
+  set v [dictGetDefault $game blackElo 0]
+  if {$v > 0} { set newBlackElo $v }
+
+  # Only adopt final results from the server; never downgrade a result
+  set v [dictGetDefault $game result ""]
+  switch $v {
+    WhiteWins           { set newResult "1" }
+    BlackWins           { set newResult "0" }
+    Draw                { set newResult "=" }
+    WhiteWinAdjudicated { set newResult "1" }
+    BlackWinAdjudicated { set newResult "0" }
+    DrawAdjudicated     { set newResult "=" }
+    WhiteDefaulted      { set newResult "1" }
+    BlackDefaulted      { set newResult "0" }
+  }
+
+  set changed 0
+  if {$newWhite ne [sc_game tags get White]} { set changed 1 }
+  if {$newBlack ne [sc_game tags get Black]} { set changed 1 }
+  if {$newEvent ne [sc_game tags get Event]} { set changed 1 }
+  if {$newSite ne [sc_game tags get Site]} { set changed 1 }
+  if {$newDate ne [sc_game tags get Date]} { set changed 1 }
+  if {$newResult ne [sc_game tags get Result]} { set changed 1 }
+  if {$newWhiteElo != [sc_game tags get WhiteElo]} { set changed 1 }
+  if {$newBlackElo != [sc_game tags get BlackElo]} { set changed 1 }
+
+  # Extra tags: refresh the managed ones, keep any others untouched
+  set managedNames {LSS TimeControl WhiteTitle BlackTitle WhiteNA BlackNA \
+    WhiteCountry BlackCountry WhiteIccfId BlackIccfId WhiteFideId BlackFideId \
+    EventSponsor Section Stage Board NoEngines FlipB Variant SetUp FEN}
+  set curLines [split [string trim [sc_game tags get Extra]] "\n"]
+  if {[llength $curLines] == 1 && [lindex $curLines 0] eq ""} { set curLines {} }
+  set keepLines {}
+  set curManaged {}
+  foreach line $curLines {
+    if {[regexp {^(\S+)} $line -> nm] && $nm in $managedNames} {
+      lappend curManaged $line
+    } else {
+      lappend keepLines $line
+    }
+  }
+  set newManaged [::lss::buildExtraTags $game $lssId $tagName]
+  # Preserve managed tags that the server does not re-provide (never erase)
+  set newNames {}
+  foreach line $newManaged { regexp {^(\S+)} $line -> nm ; lappend newNames $nm }
+  set kept {}
+  foreach line $curManaged {
+    regexp {^(\S+)} $line -> nm
+    if {$nm ni $newNames} { lappend kept $line }
+  }
+  set newManaged [concat $kept $newManaged]
+  if {[lsort $curManaged] ne [lsort $newManaged]} { set changed 1 }
+
+  if {!$changed} { return 0 }
+
+  sc_game tags set -white $newWhite -black $newBlack -event $newEvent \
+    -site $newSite -date $newDate -round $newRound -result $newResult \
+    -whiteElo $newWhiteElo -blackElo $newBlackElo \
+    -eventdate $newDate \
+    -extra [concat $keepLines $newManaged]
+  catch {sc_game save $dbGameNum [sc_base current]}
+  return 1
 }
 
 #
