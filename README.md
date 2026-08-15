@@ -88,9 +88,11 @@ Linux users can install scidCommunity from [Flathub](https://flathub.org/en/apps
 For the most recent developments, see the **[Releases](https://github.com/whelanh/scidCommunity/releases)** section or:
 * For rpm based Linux systems, ScidCommunity is also available through the [Fedora Copr Repo](https://copr.fedorainfracloud.org/coprs/whelanh/scidcommunity/)
 * For Arch-based systems, it is available on the [AUR](https://aur.archlinux.org/packages/scidcommunity) 
-* **scidCommunity** is also available from the [Snap Store](https://snapcraft.io/scidcommunity).
+* **scidCommunity** is also available from the [Snap Store](https://snapcraft.io/scidcommunity).  See the section below if you are an Ubuntu or Kubuntu user.
 
 **Windows Users** are advised to put their installation of scidCommunity in the `C:\Users\{your username}\AppData\Local\Programs` directory. Doing so will allow you to add the scidCommunity icon to the start menu using *right click -> add to start menu*.  This folder does not require administrator rights to edit files.  This directory may be hidden in File Explorer unless you select the option to see hidden folders.
+
+**Ubuntu/Kubuntu Users**  If you try and install the .deb pacakage from **Releases** using the Kubuntu App Center (Discover) or Ubuntu App Center, recent Ubuntu/Kubuntu versions frequently intercepts local .deb files, searches its store, and installs the sandboxed Snap version instead.  The Snap version is sandboxed with limited permissions.  scidCommunity's file chooser in the Snap version, for example, can't see your home directory unless you run `sudo snap connect :home` in a terminal. To actually install the .deb file from **Releases**, open a terminal and run `sudo snap remove scidcommunity --purge` (if you used the App Center before) and then run `sudo apt install ./scidcommunity-5.1.3.97-Linux.deb` (using the correct version number) from the directory where you downloaded the .deb file (most likely `~/Downloads`). 
 
 ## Building from Source
 
