@@ -1,7 +1,8 @@
 ; scidCommunity Windows installer (NSIS 3.x)
 ;
-; Usage (run from the repository root):
-;   makensis /DVERSION=5.1.3.0 /DDISPLAY_VERSION=5.1.3 /DSRCDIR=install packaging\windows\scidCommunity.nsi
+; Relative paths (icon, SRCDIR) are resolved against this script's directory.
+; Usage:
+;   makensis -DVERSION=5.1.3.0 -DDISPLAY_VERSION=5.1.3 -DSRCDIR=<packaged-dir> packaging\windows\scidCommunity.nsi
 ;
 ; VERSION:         4-part numeric version used for the file version resource
 ; DISPLAY_VERSION: user-visible version, used in the filename and uninstall entry
@@ -40,8 +41,8 @@ SetCompressor /SOLID lzma
 Name "scidCommunity ${DISPLAY_VERSION}"
 OutFile "scidCommunity-${DISPLAY_VERSION}-windows-x64-setup.exe"
 
-!define MUI_ICON "resources\win\scid.ico"
-!define MUI_UNICON "resources\win\scid.ico"
+!define MUI_ICON "..\..\resources\win\scid.ico"
+!define MUI_UNICON "..\..\resources\win\scid.ico"
 !define MUI_ABORTWARNING
 !define MUI_FINISHPAGE_RUN "$INSTDIR\bin\scidCommunity.exe"
 

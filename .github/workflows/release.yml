@@ -194,7 +194,7 @@ jobs:
           $parts = $verRaw.Split('.')
           while ($parts.Length -lt 4) { $parts += '0' }
           $fileVer = ($parts | Select-Object -First 4) -join '.'
-          & "${env:ProgramFiles(x86)}\NSIS\makensis.exe" -DVERSION=$fileVer -DDISPLAY_VERSION=$env:SCIDCOMMUNITY_VERSION -DSRCDIR="${{ github.workspace }}\install" packaging\windows\scidCommunity.nsi
+          & "${env:ProgramFiles(x86)}\NSIS\makensis.exe" "-DVERSION=$fileVer" "-DDISPLAY_VERSION=$env:SCIDCOMMUNITY_VERSION" "-DSRCDIR=${{ github.workspace }}\install" "packaging\windows\scidCommunity.nsi"
 
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v7
@@ -206,7 +206,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: scidCommunity-windows-installer
-          path: scidCommunity-*-windows-x64-setup.exe
+          path: packaging/windows/scidCommunity-*-windows-x64-setup.exe
 
   build-linux-deb:
     runs-on: ubuntu-latest
