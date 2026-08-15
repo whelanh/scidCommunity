@@ -184,11 +184,29 @@ jobs:
           dir lib\snack
           dir sounds
 
+      - name: Install NSIS
+        run: choco install nsis -y --no-progress
+
+      - name: Build NSIS installer
+        shell: powershell
+        run: |
+          $verRaw = "$env:SCIDCOMMUNITY_VERSION" -replace '-.*$',''
+          $parts = $verRaw.Split('.')
+          while ($parts.Length -lt 4) { $parts += '0' }
+          $fileVer = ($parts | Select-Object -First 4) -join '.'
+          makensis -DVERSION=$fileVer -DDISPLAY_VERSION=$env:SCIDCOMMUNITY_VERSION -DSRCDIR="${{ github.workspace }}\install" packaging\windows\scidCommunity.nsi
+
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v7
         with:
           name: scidCommunity-windows-x64
           path: install/
+
+      - name: Upload NSIS installer artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: scidCommunity-windows-installer
+          path: scidCommunity-*-windows-x64-setup.exe
 
   build-linux-deb:
     runs-on: ubuntu-latest
@@ -539,6 +557,7 @@ jobs:
           tag_name: ${{ steps.tag.outputs.tag_name }}
           files: |
             artifacts/scidCommunity-windows-x64.zip
+            artifacts/scidCommunity-windows-installer/*.exe
             artifacts/scidCommunity-ubuntu-deb/*.deb
             artifacts/scidCommunity-linux-rpm/*.rpm
             artifacts/scidCommunity-linux-appimage/*.AppImage
