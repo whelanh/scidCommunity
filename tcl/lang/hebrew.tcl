@@ -426,6 +426,7 @@ translate V LichessPuzzlesRated {מדורג}
 translate V LichessPuzzlesGame {מִשְׂחָק}
 translate V LichessPuzzlesNoNew {לא נמצאו פאזלים חדשים עבור ההגדרות האלה.\n\nנסה לשנות את הנושא, הקושי או צבע הפאזל.}
 
+translate V About {אוֹדוֹת}
 translate V Back {בְּחֲזָרָה}
 translate V Apply {לִפְנוֹת}
 translate V Browse {לְדַפדֵף}

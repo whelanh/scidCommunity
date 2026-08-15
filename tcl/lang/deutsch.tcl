@@ -459,6 +459,7 @@ translate D LichessPuzzlesRated {Bewertet}
 translate D LichessPuzzlesGame {Spiel}
 translate D LichessPuzzlesNoNew {Für diese Einstellungen wurden keine neuen Rätsel gefunden.\n\nVersuchen Sie, das Thema, den Schwierigkeitsgrad oder die Rätselfarbe zu ändern.}
 
+translate D About {Um}
 translate D Back {Zurück}
 translate D Apply {Anwenden}
 translate D Browse {Auswählen}

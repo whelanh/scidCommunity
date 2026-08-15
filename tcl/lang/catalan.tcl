@@ -448,6 +448,7 @@ translate K LichessPuzzlesRated {Valorat}
 translate K LichessPuzzlesGame {Joc}
 translate K LichessPuzzlesNoNew {No s'han trobat trencaclosques nous per a aquesta configuració.\n\nProva de canviar el tema, la dificultat o el color del trencaclosques.}
 
+translate K About {Sobre}
 translate K Back {Enrera}
 translate K Apply {Aplicar}
 translate K Browse {Mirar}

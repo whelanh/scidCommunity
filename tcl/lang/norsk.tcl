@@ -435,6 +435,7 @@ translate O LichessPuzzlesRated {Vurdert}
 translate O LichessPuzzlesGame {Spill}
 translate O LichessPuzzlesNoNew {Fant ingen nye oppgaver for disse innstillingene.\n\nPrøv å endre tema, vanskelighetsgrad eller puslespillfarge.}
 
+translate O About {Om}
 translate O Back {Tilbake}
 translate O Apply {Bruk}
 translate O Browse {Browse} ;# ***

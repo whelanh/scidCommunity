@@ -425,6 +425,7 @@ translate h LichessPuzzlesRated {रेटेड}
 translate h LichessPuzzlesGame {खेल}
 translate h LichessPuzzlesNoNew {इन सेटिंग्स के लिए कोई नई पहेली नहीं मिली।\n\nथीम, कठिनाई या पहेली का रंग बदलने का प्रयास करें।}
 
+translate h About {के बारे में}
 translate h Back {पीछे}
 translate h Apply {लागू करें}
 translate h Browse {ब्राउज़}

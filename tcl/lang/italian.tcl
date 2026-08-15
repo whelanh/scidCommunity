@@ -433,6 +433,7 @@ translate I LichessPuzzlesRated {Valutato}
 translate I LichessPuzzlesGame {Gioco}
 translate I LichessPuzzlesNoNew {Nessun nuovo puzzle trovato per queste impostazioni.\n\nProva a cambiare il tema, la difficoltà o il colore del puzzle.}
 
+translate I About {Di}
 translate I Back {Indietro}
 translate I Apply {Applica}
 translate I Browse {Browse}

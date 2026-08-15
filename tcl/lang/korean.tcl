@@ -466,6 +466,7 @@ translate k LichessPuzzlesRated {정격}
 translate k LichessPuzzlesGame {게임}
 translate k LichessPuzzlesNoNew {이 설정에 대한 새로운 퍼즐을 찾을 수 없습니다.\n\n테마, 난이도 또는 퍼즐 색상을 변경해 보세요.}
 
+translate k About {에 대한}
 translate k Back {뒤로}
 translate k Apply {적용하다}
 translate k Browse {찾아보기}

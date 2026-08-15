@@ -436,6 +436,7 @@ translate W LichessPuzzlesRated {Betygsatt}
 translate W LichessPuzzlesGame {Spel}
 translate W LichessPuzzlesNoNew {Inga nya pussel hittades för dessa inställningar.\n\nFörsök att ändra tema, svårighetsgrad eller pusselfärg.}
 
+translate W About {Om}
 translate W Back {Tillbaka}
 translate W Apply {Tillämpa}
 translate W Browse {Bläddra}

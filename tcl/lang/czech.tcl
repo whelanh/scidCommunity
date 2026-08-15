@@ -429,6 +429,7 @@ translate C LichessPuzzlesRated {Hodnoceno}
 translate C LichessPuzzlesGame {Hra}
 translate C LichessPuzzlesNoNew {Pro tato nastavení nebyly nalezeny žádné nové hádanky.\n\nZkuste změnit téma, obtížnost nebo barvu hádanky.}
 
+translate C About {O}
 translate C Back {Zpt}
 translate C Apply {Použít}
 translate C Browse {Prohlet}

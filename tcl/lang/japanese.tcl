@@ -466,6 +466,7 @@ translate A LichessPuzzlesRated {評価済み}
 translate A LichessPuzzlesGame {ゲーム}
 translate A LichessPuzzlesNoNew {これらの設定では新しいパズルが見つかりません。\n\nテーマ、難易度、またはパズルの色を変更してみてください。}
 
+translate A About {について}
 translate A Back {戻る}
 translate A Apply {適用}
 translate A Browse {参照}

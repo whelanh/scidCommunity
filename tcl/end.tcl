@@ -1015,7 +1015,7 @@ proc helpAbout {} {
   }
   regsub ",  $" $str "." str
 
-  tk_messageBox -title "About" -message $str -type ok
+  tk_messageBox -title [tr About] -message $str -type ok
 }
 
 #################

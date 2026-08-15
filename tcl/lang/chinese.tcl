@@ -401,6 +401,7 @@ translate M LichessPuzzlesRated {额定}
 translate M LichessPuzzlesGame {游戏}
 translate M LichessPuzzlesNoNew {没有找到适合这些设置的新谜题。\n\n尝试更改主题、难度或谜题颜色。}
 
+translate M About {关于}
 translate M Back {Back}
 translate M Apply {应用}
 translate M Browse {浏览}

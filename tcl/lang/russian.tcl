@@ -432,6 +432,7 @@ translate R LichessPuzzlesRated {Рейтинг}
 translate R LichessPuzzlesGame {Игра}
 translate R LichessPuzzlesNoNew {Для этих настроек новых головоломок не найдено.\n\nПопробуйте изменить тему, сложность или цвет головоломки.}
 
+translate R About {О}
 translate R Back {Назад}
 translate R Apply {Применять}
 translate R Browse {Просмотр}

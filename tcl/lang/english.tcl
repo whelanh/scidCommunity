@@ -465,6 +465,7 @@ translate E LichessPuzzlesRated {Rated}
 translate E LichessPuzzlesGame {Game}
 translate E LichessPuzzlesNoNew {No new puzzles found for these settings.\n\nTry changing the theme, difficulty, or puzzle color.}
 
+translate E About {About}
 translate E Back {Back}
 translate E Apply {Apply}
 translate E Browse {Browse}

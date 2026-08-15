@@ -466,6 +466,7 @@ translate S LichessPuzzlesRated {Clasificado}
 translate S LichessPuzzlesGame {Juego}
 translate S LichessPuzzlesNoNew {No se encontraron nuevos rompecabezas para esta configuración.\n\nIntenta cambiar el tema, la dificultad o el color del rompecabezas.}
 
+translate S About {Acerca de}
 translate S Back {Atrás}
 translate S Apply {Aplicar}
 translate S Browse {Hojear}

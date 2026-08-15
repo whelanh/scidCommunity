@@ -441,6 +441,7 @@ translate F LichessPuzzlesRated {Noté}
 translate F LichessPuzzlesGame {Jeu}
 translate F LichessPuzzlesNoNew {Aucune nouvelle énigme trouvée pour ces paramètres.\n\nEssayez de modifier le thème, la difficulté ou la couleur de l'énigme.}
 
+translate F About {À propos}
 translate F Back {Retour}
 translate F Apply {Appliquer}
 translate F Browse {Parcourir}

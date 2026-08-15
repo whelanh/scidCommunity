@@ -426,6 +426,7 @@ translate Q LichessPuzzlesRated {Оцінений}
 translate Q LichessPuzzlesGame {Гра}
 translate Q LichessPuzzlesNoNew {Для цих налаштувань не знайдено нових головоломок.\n\nСпробуйте змінити тему, складність або колір головоломки.}
 
+translate Q About {про}
 translate Q Back {Назад}
 translate Q Apply {Застосувати}
 translate Q Browse {Огляд}

@@ -466,6 +466,7 @@ translate g LichessPuzzlesRated {Оценен}
 translate g LichessPuzzlesGame {Игра}
 translate g LichessPuzzlesNoNew {Няма намерени нови пъзели за тези настройки.\n\nОпитайте да промените темата, трудността или цвета на пъзела.}
 
+translate g About {За}
 translate g Back {Назад}
 translate g Apply {Приложи}
 translate g Browse {Прегледайте}

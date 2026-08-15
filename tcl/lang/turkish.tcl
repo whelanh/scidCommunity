@@ -429,6 +429,7 @@ translate T LichessPuzzlesRated {derecelendirildi}
 translate T LichessPuzzlesGame {Oyun}
 translate T LichessPuzzlesNoNew {Bu ayarlar için yeni bulmaca bulunamadı.\n\nTemayı, zorluğu veya bulmaca rengini değiştirmeyi deneyin.}
 
+translate T About {Hakkında}
 translate T Back {Geri}
 translate T Apply {Uygula}
 translate T Browse {Göz at}

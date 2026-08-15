@@ -464,6 +464,7 @@ translate U LichessPuzzlesRated {Arvioitu}
 translate U LichessPuzzlesGame {Peli}
 translate U LichessPuzzlesNoNew {Näille asetuksille ei löytynyt uusia pulmia.\n\nKokeile vaihtaa teemaa, vaikeusastetta tai pulman väriä.}
 
+translate U About {Noin}
 translate U Back {Palaa}
 translate U Apply {Käytä}
 translate U Browse {Selaa}

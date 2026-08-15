@@ -425,6 +425,7 @@ translate b LichessPuzzlesRated {রেট}
 translate b LichessPuzzlesGame {খেলা}
 translate b LichessPuzzlesNoNew {এই সেটিংসের জন্য কোনো নতুন ধাঁধা পাওয়া যায়নি।\n\nথিম, অসুবিধা বা ধাঁধার রঙ পরিবর্তন করার চেষ্টা করুন।}
 
+translate b About {সম্পর্কে}
 translate b Back {ফিরে}
 translate b Apply {প্রয়োগ করুন}
 translate b Browse {ব্রাউজ করুন}

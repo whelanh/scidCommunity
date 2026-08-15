@@ -457,6 +457,7 @@ translate G LichessPuzzlesRated {Βαθμολογήθηκε}
 translate G LichessPuzzlesGame {Παιχνίδι}
 translate G LichessPuzzlesNoNew {Δεν βρέθηκαν νέα παζλ για αυτές τις ρυθμίσεις.\n\nΔοκιμάστε να αλλάξετε το θέμα, τη δυσκολία ή το χρώμα του παζλ.}
 
+translate G About {Για}
 translate G Back {Πίσω}
 translate G Apply {Εφαρμογή}
 translate G Browse {Αναζήτηση}

@@ -606,6 +606,8 @@ translate Y LichessPuzzlesGame {Game}
 # ====== TODO To be translated ======
 translate Y LichessPuzzlesNoNew {No new puzzles found for these settings.\n\nTry changing the theme, difficulty, or puzzle color.}
 # ====== TODO To be translated ======
+translate Y About {About}
+# ====== TODO To be translated ======
 translate Y Back {Back}
 # ====== TODO To be translated ======
 translate Y Apply {Apply}

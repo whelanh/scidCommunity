@@ -425,6 +425,7 @@ translate Z LichessPuzzlesRated {Imekadiriwa}
 translate Z LichessPuzzlesGame {Mchezo}
 translate Z LichessPuzzlesNoNew {Hakuna mafumbo mapya yaliyopatikana kwa mipangilio hii.\n\nJaribu kubadilisha mandhari, ugumu au rangi ya mafumbo.}
 
+translate Z About {Kuhusu}
 translate Z Back {Nyuma}
 translate Z Apply {Tumia}
 translate Z Browse {Vinjari}

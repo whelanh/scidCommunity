@@ -466,6 +466,7 @@ translate L LichessPuzzlesRated {Evaluat}
 translate L LichessPuzzlesGame {Joc}
 translate L LichessPuzzlesNoNew {Nu s-au găsit puzzle-uri noi pentru aceste setări.\n\nÎncercați să schimbați tema, dificultatea sau culoarea puzzle-ului.}
 
+translate L About {Despre}
 translate L Back {Înapoi}
 translate L Apply {Aplicați}
 translate L Browse {Răsfoiește}

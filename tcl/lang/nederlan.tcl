@@ -454,6 +454,7 @@ translate N LichessPuzzlesRated {Beoordeeld}
 translate N LichessPuzzlesGame {Spel}
 translate N LichessPuzzlesNoNew {Er zijn geen nieuwe puzzels gevonden voor deze instellingen.\n\nProbeer het thema, de moeilijkheidsgraad of de puzzelkleur te wijzigen.}
 
+translate N About {Over}
 translate N Back {Terug}
 translate N Apply {Toepassen}
 translate N Browse {Bladeren} ;

@@ -433,6 +433,7 @@ translate H LichessPuzzlesRated {Névleges}
 translate H LichessPuzzlesGame {Játék}
 translate H LichessPuzzlesNoNew {Nem találhatók új rejtvények ezekhez a beállításokhoz.\n\nMódosítsa a témát, a nehézségi fokot vagy a rejtvény színét.}
 
+translate H About {Körülbelül}
 translate H Back {Vissza}
 translate H Apply {Alkalmazni}
 translate H Browse {Tallóz}

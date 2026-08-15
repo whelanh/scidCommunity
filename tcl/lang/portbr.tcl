@@ -434,6 +434,7 @@ translate B LichessPuzzlesRated {Avaliado}
 translate B LichessPuzzlesGame {Jogo}
 translate B LichessPuzzlesNoNew {Não foram encontrados novos quebra-cabeças para essas configurações.\n\nTente alterar o tema, a dificuldade ou a cor do quebra-cabeça.}
 
+translate B About {Sobre}
 translate B Back {Voltar}
 translate B Apply {Aplicar}
 translate B Browse {Navegar} 

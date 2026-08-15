@@ -466,6 +466,7 @@ translate J LichessPuzzlesRated {Оцењено}
 translate J LichessPuzzlesGame {Игра}
 translate J LichessPuzzlesNoNew {Нису пронађене нове загонетке за ова подешавања.\n\nПробајте да промените тему, тежину или боју слагалице.}
 
+translate J About {Абоут}
 translate J Back {Назад}
 translate J Apply {Примени}
 translate J Browse {Прегледај}
