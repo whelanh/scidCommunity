@@ -194,7 +194,7 @@ jobs:
           $parts = $verRaw.Split('.')
           while ($parts.Length -lt 4) { $parts += '0' }
           $fileVer = ($parts | Select-Object -First 4) -join '.'
-          makensis -DVERSION=$fileVer -DDISPLAY_VERSION=$env:SCIDCOMMUNITY_VERSION -DSRCDIR="${{ github.workspace }}\install" packaging\windows\scidCommunity.nsi
+          & "${env:ProgramFiles(x86)}\NSIS\makensis.exe" -DVERSION=$fileVer -DDISPLAY_VERSION=$env:SCIDCOMMUNITY_VERSION -DSRCDIR="${{ github.workspace }}\install" packaging\windows\scidCommunity.nsi
 
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v7
