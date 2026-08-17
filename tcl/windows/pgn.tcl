@@ -144,6 +144,10 @@ namespace eval pgn {
     ::utils::tooltip::Set $w.bottompanel.chesscom "Upload game to Chess.com"
     pack $w.bottompanel.chesscom -side left -padx 2 -pady 2
 
+    ttk::button $w.bottompanel.lichesseval -text "Lichess Eval" -command ::lichess_eval::lookupPosition
+    ::utils::tooltip::Set $w.bottompanel.lichesseval "Lichess cloud evaluation for current position"
+    pack $w.bottompanel.lichesseval -side left -padx 2 -pady 2
+
     ttk::button $w.bottompanel.lichess -text "lichess.org" -command ::pgn::openInLichess
     ::utils::tooltip::Set $w.bottompanel.lichess "Upload game to Lichess.org"
     pack $w.bottompanel.lichess -side left -padx 2 -pady 2
@@ -151,10 +155,6 @@ namespace eval pgn {
     ttk::button $w.bottompanel.chessdb -text "chessdb Engine Tree" -command ::pgn::openInChessDB
     ::utils::tooltip::Set $w.bottompanel.chessdb "Open current position in ChessDB.cn"
     pack $w.bottompanel.chessdb -side left -padx 2 -pady 2
-
-    ttk::button $w.bottompanel.lichesseval -text "Lichess Eval" -command ::lichess_eval::lookupPosition
-    ::utils::tooltip::Set $w.bottompanel.lichesseval "Lichess cloud evaluation for current position"
-    pack $w.bottompanel.lichesseval -side left -padx 2 -pady 2
 
     ttk::button $w.bottompanel.lichessopenex -text [tr LichessOpenExplore] -command ::lichess_openex::openDialog
     ::utils::tooltip::Set $w.bottompanel.lichessopenex "Lichess Opening Explorer for current position"
