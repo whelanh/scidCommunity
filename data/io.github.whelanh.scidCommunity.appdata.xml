@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+ <release version="5.1.3.99" date="2026-08-17">
+      <description>
+        <p>Adopt Arena-style multiPV output in the Analysis Engine Window</p>
+      </description>
+    </release>
  <release version="5.1.3.97" date="2026-08-13">
       <description>
         <p>Further improvements to the LSS and ICCF game lists</p>
