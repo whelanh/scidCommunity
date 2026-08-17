@@ -88,6 +88,8 @@ proc resetEngine {n} {
     set analysis(wbEngineDetected$n) 0  ;# Is this a special Winboard engine?
     set analysis(multiPV$n) {}          ;# multiPV list sorted : depth score moves
     set analysis(multiPVraw$n) {}       ;# same thing but with raw UCI moves
+    set analysis(blockDepth$n) 0        ;# depth of the currently displayed multiPV block
+    set analysis(blockLineCount$n) 0    ;# number of lines in the current multiPV block
     set analysis(uci$n) 0               ;# UCI engine
     # UCI engine options in format ( name min max ). This is not engine config but its capabilities
     set analysis(uciOptions$n) {}
@@ -160,6 +162,8 @@ proc resetAnalysis {{n 1}} {
     set analysis(multiPVraw$n) {}
     set analysis(lastHistory$n) {}
     set analysis(maxmovenumber$n) 0
+    set analysis(blockDepth$n) 0
+    set analysis(blockLineCount$n) 0
 }
 
 trace add variable engines(newElo) write [list ::utils::validate::Integer [sc_info limit elo] 0]
@@ -2407,11 +2411,37 @@ proc updateAnalysisText {{n 1}} {
                 set analysis(lastHistory$n) $newhst
             }
         } else {
-            $h delete 1.0 end
-            # First line
+            # Continuous multiPV display: append a new block (with a dashed
+            # separator) whenever the engine reaches a new depth, and refresh
+            # the current block in place as more PVs arrive. This mirrors
+            # Arena's behaviour while keeping Scid's own columns/moves format.
             set pv [lindex $analysis(multiPV$n) 0]
             if { $pv != "" } {
-                catch { set newStr [format "%2d %s " [lindex $pv 0] [scoreToMate $score [lindex $pv 2] $n] ] }
+                set curDepth [lindex $pv 0]
+                # Start a new block when the depth changes, or when the widget
+                # is empty ("end - 1c" is "1.0" only for an empty widget).
+                # The empty check guards against blockDepth/blockLineCount
+                # being stale relative to a widget that was cleared elsewhere.
+                if {[$h index end-1c] == "1.0" || $analysis(blockDepth$n) != $curDepth} {
+                    if {[$h index insert] != "1.0"} {
+                        $h insert end "[string repeat {-} 70]\n" gray
+                    }
+                    set analysis(blockDepth$n) $curDepth
+                    set analysis(blockLineCount$n) 0
+                } else {
+                    # Replace the previous block. A Tk text widget always ends
+                    # with an implicit trailing newline, so "end - 1 lines" is
+                    # that empty final line, not the last PV line. The block's
+                    # N lines therefore sit at "end - (N+1) lines" through
+                    # "end - 1 lines"; deleting that range removes exactly the
+                    # block while preserving the trailing newline (deleting to
+                    # "end" would drop the newline and leave the first PV line
+                    # behind).
+                    $h delete "end - [expr {$analysis(blockLineCount$n) + 1}] lines" "end - 1 lines"
+                }
+
+                # First line
+                catch { set newStr [format "%2d %s " [lindex $pv 0] [scoreToMate [lindex $pv 1] [lindex $pv 2] $n] ] }
             
                 $h insert end "1 " gray
                 append newStr "[addMoveNumbers $n [::trans [lindex $pv 2]]] [format (%.2f)\n [lindex $pv 4]]"
@@ -2425,6 +2455,8 @@ proc updateAnalysisText {{n 1}} {
                     $h insert end [format "%2d %s %s (%.2f)\n" [lindex $pv 0] $score [addMoveNumbers $n [::trans [lindex $pv 2]]] [lindex $pv 4]] indent
                     incr lineNumber
                 }
+                set analysis(blockLineCount$n) [llength $analysis(multiPV$n)]
+                $h see end
             }
         }
         ################################################################################
