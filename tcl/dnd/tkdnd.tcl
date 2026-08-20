@@ -41,7 +41,9 @@
 # ======================================================================
 
 package require Tk
-package require tkDND 3.0
+if {[tk windowingsystem] ne "aqua"} {
+  package require tkDND 3.0
+}
 
 namespace eval tkdnd {
   variable _topw ".drag"
