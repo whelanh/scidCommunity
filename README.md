@@ -97,6 +97,9 @@ For the most recent developments, see the **[Releases](https://github.com/whelan
 ## Building from Source
 
 ### macOS
+The `ScidCommunity.app` bundle in **Releases** contains the app and it can be moved to `/Applications`. You can also create a symbolic link to the executable `ScidCommunity.app/Contents/scid/scid`.  **However Apple security protocols may prevent this or make it difficult to do.**
+
+You are probably going to have better luck if you build it from source using these commands:
 ```bash
 git clone https://github.com/whelanh/scidCommunity.git
 cd scidCommunity
@@ -104,7 +107,7 @@ cd scidCommunity
 make install
 ```
 
-The `ScidCommunity.app` bundle contains the app and can be moved to `/Applications`. You can also create a symbolic link to the executable `ScidCommunity.app/Contents/scid/scid`.  However Apple security protocols may make this difficult.  You can build it from source using the commands listed above and then invoke it from the scidCommunity folder using the terminal command `./scidCommunity`   You may need to run `./build_app.sh` several times for Apple to download the needed tcl/tk libraries.
+You can then invoke it from the scidCommunity folder using the terminal command `./scidCommunity`   You may need to run `./build_app.sh` several times for Apple to download the needed tcl/tk libraries.
 
 ### Linux
 Requires: `tcl8.6-dev`, `tk8.6-dev` (or equivalent for your distribution). It will now compile against tk and tcl 9.0 libraries (e.g. Fedora Rawhide `tcl-devel` and `tk-devel`).
