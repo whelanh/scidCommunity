@@ -721,8 +721,8 @@ namespace eval epd {
         puts $logfp "Time/pos: $epdDelay s"
         puts $logfp "Date:     [clock format [clock seconds]]"
         puts $logfp [string repeat - 100]
-        puts $logfp [format "%-4s %-16s %-10s %-7s %5s %8s  %s" \
-            "Pos" "Sought(bm/am)" "Found" "Result" "Depth" "Score" "FEN"]
+        puts $logfp [format "%-4s %-16s %-10s %-7s %7s %5s %8s  %s" \
+            "Pos" "Sought(bm/am)" "Found" "Result" "Time(s)" "Depth" "Score" "FEN"]
         puts $logfp [string repeat - 100]
       }
     }
@@ -742,6 +742,7 @@ namespace eval epd {
         loadEpd $id
         # Make sure the engine (whatever slot it is in) analyses this position.
         updateAnalysis $win
+        set posStartMs [clock milliseconds]
       } iterErr]} { set annErr $iterErr ; break }
 
       # Read the sought move(s) (bm/am) directly for THIS position. Do not
@@ -749,6 +750,11 @@ namespace eval epd {
       # from an after-idle callback and therefore lags one position behind.
       set soughtMoves [::epd::soughtMovesFor $id]
 
+      # Track the first moment the engine's best move matches the sought
+      # move(s), so we can report the time-to-solve even if the engine later
+      # changes its mind. This is pure Tcl string work inside the event loop
+      # and does not slow the engine (which runs in its own process).
+      set solveMs ""
       # Wait epdDelay seconds while actively pumping the event loop so the
       # engine keeps analysing. Using an active wait (rather than
       # after+vwait) is robust against timer starvation that occurs when a
@@ -756,8 +762,18 @@ namespace eval epd {
       set deadline [expr {[clock milliseconds] + int($epdDelay * 1000)}]
       while {[clock milliseconds] < $deadline} {
         if {![winfo exists .analysisWin$win]} { break }
+        if {$solveMs eq "" && $soughtMoves ne ""} {
+          set bmNow [::epd::bestMoveSAN $win]
+          if {$bmNow ne "" && [::epd::evalBestMove $soughtMoves $bmNow] eq "TRUE"} {
+            set solveMs [clock milliseconds]
+          }
+        }
         update
         after 50
+      }
+      set solveTime "-"
+      if {$solveMs ne ""} {
+        set solveTime [format "%.1f" [expr {($solveMs - $posStartMs) / 1000.0}]]
       }
 
       # Stop if the engine was paused or its window closed.
@@ -783,7 +799,7 @@ namespace eval epd {
           }
         }
         if {$logfp != ""} {
-          ::epd::logAnnotateRow $logfp $win [expr {$i + 1}] $soughtMoves $foundMove $result
+          ::epd::logAnnotateRow $logfp $win [expr {$i + 1}] $soughtMoves $foundMove $result $solveTime
         }
         if {$epdAnnotateMode != 1} {
           pasteAnalysis $id $win $status
@@ -970,7 +986,7 @@ namespace eval epd {
   }
 
   ###  Write one result row to the analysis log file.
-  proc logAnnotateRow {logfp win posNo soughtMoves foundMove result} {
+  proc logAnnotateRow {logfp win posNo soughtMoves foundMove result solveTime} {
     set depth $::analysis(depth$win)
     if {$::analysis(scoremate$win) != 0} {
       set score [format "M%d" $::analysis(scoremate$win)]
@@ -980,8 +996,8 @@ namespace eval epd {
     set fen [string range [sc_pos fen] 0 end-4]
     if {$soughtMoves eq ""} { set soughtMoves "-" }
     if {$foundMove eq ""} { set foundMove "?" }
-    puts $logfp [format "%-4d %-16s %-10s %-7s %5s %8s  %s" \
-        $posNo $soughtMoves $foundMove $result $depth $score $fen]
+    puts $logfp [format "%-4d %-16s %-10s %-7s %7s %5s %8s  %s" \
+        $posNo $soughtMoves $foundMove $result $solveTime $depth $score $fen]
   }
 
   ################################################################################
