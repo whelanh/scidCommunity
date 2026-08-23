@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.3.99
+Version:        5.1.4.00
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit b49c30689e29fa501a33d7e5bb04962d9493cb07 
+%global commit 946dc7534944aa9227d9f27f5eb9ccb18675f8a2 
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Sun Aug 23, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.4-00
+- "Add column to epd analyze positions report showing time reported best move found"
 * Mon Aug 17, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-99
 - "Adopt Arena-style multiPV output in the Analysis Engine Window"
 * Thu Aug 13, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.3-97
