@@ -618,6 +618,7 @@ menuText H TreeOptAutosave "Cache-fájl automatikus mentése" 11 \
 menuText H TreeHelp "Segítség" 0
 menuText H TreeHelpTree "Segítség a fához" 0
 menuText H TreeHelpIndex "Tartalom" 0
+menuText H TreeFindGames "Find games with annotation" 0 {Build the list of the games where this move was played with an annotation}
 translate H SaveCache {Cache mentése}
 translate H Training {Edzés}
 translate H LockTree {Rögzítés}
@@ -625,6 +626,8 @@ translate H TreeDepth {Fa mélysége (fél mozgás):}
 translate H TreeLocked {rögzítve}
 translate H TreeBest {Legjobb}
 translate H TreeBestGames {A fa legjobb játszmái}
+translate H TreeFindAnyAnn {any annotation}
+translate H TreeFindStalePos {The current position no longer matches the annotated tree position.\nGo back to it and try again.}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate H TreeTitleRow \

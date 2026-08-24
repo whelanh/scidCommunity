@@ -611,6 +611,7 @@ menuText Q TreeOptAutosave "Автоматичне збереження файл
 menuText Q TreeHelp "Довідка" 0
 menuText Q TreeHelpTree "Дерево Довідка" 0
 menuText Q TreeHelpIndex "Індекс довідки" 0
+menuText Q TreeFindGames "Find games with annotation" 0 {Build the list of the games where this move was played with an annotation}
 translate Q SaveCache {Зберегти кеш}
 translate Q Training {Навчання}
 translate Q LockTree {Замок}
@@ -618,6 +619,8 @@ translate Q TreeDepth {Глибина дерева (половина ходу):}
 translate Q TreeLocked {заблокований}
 translate Q TreeBest {Найкращий}
 translate Q TreeBestGames {Найкращі ігри про дерева}
+translate Q TreeFindAnyAnn {any annotation}
+translate Q TreeFindStalePos {The current position no longer matches the annotated tree position.\nGo back to it and try again.}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate Q TreeTitleRow \

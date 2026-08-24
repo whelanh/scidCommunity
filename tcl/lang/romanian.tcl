@@ -651,6 +651,7 @@ menuText L TreeOptAutosave "Salvare automată a fișierului cache" 0 \
 menuText L TreeHelp "Ajutor" 0
 menuText L TreeHelpTree "Tree Help" 0
 menuText L TreeHelpIndex "Index de ajutor" 0
+menuText L TreeFindGames "Find games with annotation" 0 {Build the list of the games where this move was played with an annotation}
 translate L SaveCache {Salvați cache}
 translate L Training {Antrenamentul}
 translate L LockTree {Blocare}
@@ -658,6 +659,8 @@ translate L TreeDepth {Adâncimea copacului (jumătate de mișcări):}
 translate L TreeLocked {încuiat}
 translate L TreeBest {Cel mai bun}
 translate L TreeBestGames {Cele mai bune jocuri cu copaci}
+translate L TreeFindAnyAnn {any annotation}
+translate L TreeFindStalePos {The current position no longer matches the annotated tree position.\nGo back to it and try again.}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate L TreeTitleRow \

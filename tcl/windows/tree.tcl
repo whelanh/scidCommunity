@@ -418,14 +418,23 @@ proc ::tree::dorefresh { baseNumber {filter "tree"}} {
     foreach key [array names ::tree::autoNag "$baseNumber,*"] {
       unset ::tree::autoNag($key)
     }
+    # Clear stale NAG histograms (used by "Find games with annotation")
+    foreach key [array names tree "nagHist$baseNumber,*"] {
+      unset tree($key)
+    }
     unset -nocomplain tree(nagsError$baseNumber)
     if { [catch {
       set nagsData [sc_tree nags $baseNumber $filter 0]
+      # Remember the position these data refer to
+      if { $baseNumber == [sc_base current] } {
+        set tree(lastFen$baseNumber) [sc_pos fen]
+      }
       if { $::tree::mask::maskFile != "" } {
         ::tree::mask::setCacheFenIndex
       }
       foreach entry $nagsData {
         set moveSAN [lindex $entry 0]
+        set tree(nagHist$baseNumber,$moveSAN) [lrange $entry 1 end]
         set bestNag ""
         set bestCount 0
         foreach {nag count} [lrange $entry 1 end] {
@@ -457,6 +466,206 @@ proc ::tree::dorefresh { baseNumber {filter "tree"}} {
 
   if {$::tree::trainingBase != 0 && $::tree::trainingColor == [sc_pos side]} {
     ::tree::doTraining
+  }
+}
+
+################################################################################
+# ::tree::getMoveNags
+#   Returns the list {nag count ...} of the annotations recorded (during the
+#   last tree refresh with the Annotations option enabled) for <move> in the
+#   displayed position, or {} if unknown.
+################################################################################
+proc ::tree::getMoveNags { baseNumber move } {
+  global tree
+  if { [info exists tree(nagHist$baseNumber,$move)] } {
+    return $tree(nagHist$baseNumber,$move)
+  }
+  return {}
+}
+
+################################################################################
+# ::tree::contextMenu
+#   Right-button menu on a move of the Tree window: offers to build the list
+#   of the games where this move was played, in the displayed position, with
+#   one of the recorded annotations.
+################################################################################
+proc ::tree::contextMenu { win baseNumber move x y xc yc } {
+  global tree
+  update idletasks
+
+  set mctxt $win.ctxtMenu
+  if { [winfo exists $mctxt] } {
+    destroy $mctxt
+  }
+
+  set raw {}
+  # The search needs a position snapshot from the last refresh; it is only
+  # available when this base was the current one at that time
+  if { [info exists tree(lastFen$baseNumber)] } {
+    set raw [::tree::getMoveNags $baseNumber $move]
+  }
+  set hists {}
+  foreach {nag count} $raw {
+    lappend hists [list $count $nag]
+  }
+  set hists [lsort -integer -decreasing -index 0 $hists]
+
+  menu $mctxt
+  if { [llength $hists] == 0 } {
+    $mctxt add command -label "[tr TreeFindGames]" -state disabled
+  } else {
+    menu $mctxt.find
+    $mctxt add cascade -label "[tr TreeFindGames]:" -menu $mctxt.find
+    foreach elt $hists {
+      lassign $elt count nag
+      $mctxt.find add command -label "$nag  ($count)" \
+          -command "::tree::findAnnotatedGames $baseNumber [list $move] [list $nag]"
+    }
+    $mctxt.find add separator
+    $mctxt.find add command -label "[tr TreeFindAnyAnn]" \
+        -command "::tree::findAnnotatedGames $baseNumber [list $move] any"
+  }
+  $mctxt post [winfo pointerx .] [winfo pointery .]
+}
+
+################################################################################
+# ::tree::gameHasNag
+#   Scans the main line of a game (as returned by [sc_base getGame]) and
+#   returns 1 if, immediately after reaching the position <fenPrefix> (the
+#   first four FEN fields), the move <move> was played with the annotation
+#   <nag> ("any" and "none" are also accepted).
+#
+#   Note: this does not rely on the ply stored in the search filter, since
+#   that value has a different meaning depending on whether the position
+#   searched for was the one before or after <move>.
+################################################################################
+proc ::tree::gameHasNag { positions fenPrefix move nag } {
+  set prevFen ""
+  foreach p $positions {
+    if { [lindex $p 0] != 0 } { continue } ;# skip variations
+    if { $prevFen ne ""
+         && [join [lrange [split $prevFen " "] 0 3] " "] eq $fenPrefix
+         && [lindex $p 5] eq $move } {
+      set nags [lindex $p 3]
+      switch -- $nag {
+        any  { if { $nags ne "" } { return 1 } }
+        none { if { $nags eq "" } { return 1 } }
+        default {
+          foreach n [split $nags " "] {
+            if { $n eq $nag } { return 1 }
+          }
+        }
+      }
+    }
+    set prevFen [lindex $p 2]
+  }
+  return 0
+}
+
+################################################################################
+# ::tree::findAnnotatedGames
+#   Builds the list of the games where, in the position displayed by the Tree
+#   window, the move <move> was played with the annotation <nag> and opens it
+#   in a game list window.
+#
+#   To keep the scan small, the move is first played on a scratch copy of the
+#   current game (push/addSan/pop) and a native position search is run on the
+#   resulting position: only the few games that actually played this move are
+#   then decoded to check their annotations.
+################################################################################
+proc ::tree::findAnnotatedGames { baseNumber move nag } {
+  global tree
+  if { [info exists ::tree::nagSearchBusy] && $::tree::nagSearchBusy } { return }
+
+  if { ! [info exists tree(lastFen$baseNumber)] } { return }
+  set fenPrefix [join [lrange [split $tree(lastFen$baseNumber) " "] 0 3] " "]
+
+  # The scratch navigation and the position search below operate on the
+  # current base and its current game
+  if { $baseNumber != [sc_base current] } {
+    tk_messageBox -title scidCommunity -icon warning -type ok \
+        -message [tr TreeFindStalePos]
+    return
+  }
+  # If the board has moved on since the last tree refresh, ask to go back
+  if { [join [lrange [split [sc_pos fen] " "] 0 3] " "] ne $fenPrefix } {
+    tk_messageBox -title scidCommunity -icon warning -type ok \
+        -message [tr TreeFindStalePos]
+    return
+  }
+
+  # Candidates: games that reached the position AFTER this move.
+  # The annotations are verified afterwards by scanning each candidate game
+  # for the move played from the displayed position.
+  set cand ""
+  set nCand 0
+  if { [catch { sc_game push copyfast }] } {
+    ERROR::MessageBox
+    return
+  }
+  set innerErr [catch {
+    sc_move addSan $move
+    set cand [sc_filter new $baseNumber]
+    sc_filter reset $baseNumber $cand full
+    sc_filter search $baseNumber $cand board Exact 0 0 -filter AND
+    if { $tree(allgames$baseNumber) == 0 } {
+      sc_filter and $baseNumber $cand dbfilter
+    }
+    set nCand [sc_filter count $baseNumber $cand]
+  }]
+  # Always restore the current game (pop also restores its altered flag)
+  sc_game pop
+
+  if { $innerErr || $nCand == 0 } {
+    if { $cand ne "" } { catch { sc_filter release $baseNumber $cand } }
+    ::tree::status "" $baseNumber
+    if { $innerErr && $::errorCode != $::ERROR::UserCancel } {
+      ERROR::MessageBox
+    }
+    return
+  }
+
+  # Working copy of the filter; non-matching games will be removed from it
+  set res [sc_filter new $baseNumber]
+  sc_filter copy $baseNumber $res $cand
+
+  set ::tree::nagSearchBusy 1
+  set scanned 0
+  set err [catch {
+    foreach {idx line deleted} [sc_base gameslist $baseNumber 0 $nCand $cand N+] {
+      set gnum [lindex [split $idx "_"] 0]
+      incr scanned
+      if { ($scanned % 100) == 0 } {
+        ::tree::status "[tr TreeFindGames]: $scanned / $nCand" $baseNumber
+        update idletasks
+      }
+      if { ! [::tree::gameHasNag [sc_base getGame $baseNumber $gnum] \
+                  $fenPrefix $move $nag] } {
+        sc_filter remove $baseNumber $res $gnum
+      }
+    }
+  }]
+  set ::tree::nagSearchBusy 0
+
+  catch { sc_filter release $baseNumber $cand }
+
+  ::tree::status "" $baseNumber
+  if { $err } {
+    catch { sc_filter release $baseNumber $res }
+    if { $::errorCode != $::ERROR::UserCancel } { ERROR::MessageBox }
+    return
+  }
+
+  # Open (or update) the game list window showing the result
+  set lw .treeNagList$baseNumber
+  set nagTxt [expr { $nag eq "any" ? "" : $nag }]
+  set ::gamelistTitle($lw) "[tr TreeFindGames]: $move$nagTxt"
+  if { [lsearch -exact $::windows::gamelist::wins $lw] != -1 } {
+    ::windows::gamelist::SetBase $lw $baseNumber $res
+    ::win::makeVisible $lw
+  } else {
+    if { ! [::win::createWindow $lw ""] } { return }
+    ::windows::gamelist::createWin_ $lw $baseNumber $res
   }
 }
 
@@ -615,6 +824,12 @@ proc ::tree::displayLines { baseNumber moves } {
     if { $maskFile != "" } {
       # Bind right button to popup a contextual menu:
       $w.f.tl tag bind tagclick$i <ButtonPress-$::MB3> "::tree::mask::contextMenu $w.f.tl $move %x %y %X %Y ; break"
+    } elseif { $tree(nagsAutopopulate$baseNumber) == 1
+               && $move != "" && $move != "---" && $move != "\[end\]" } {
+      # Bind right button to search games by annotation:
+      set lookMove [lindex [split $move " "] 0]
+      $w.f.tl tag bind tagclick$i <ButtonPress-$::MB3> \
+          "::tree::contextMenu $w.f.tl $baseNumber [list $lookMove] %x %y %X %Y ; break"
     }
     $w.f.tl tag add tagclick$i [expr $i +1 + $hasPositionComment].0 [expr $i + 1 + $hasPositionComment].end
 

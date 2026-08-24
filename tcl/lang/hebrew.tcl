@@ -611,6 +611,7 @@ menuText V TreeOptAutosave "שמירה אוטומטית של קובץ מטמון
 menuText V TreeHelp "עֶזרָה" 0
 menuText V TreeHelpTree "עזרה לעץ" 0
 menuText V TreeHelpIndex "אינדקס עזרה" 0
+menuText V TreeFindGames "Find games with annotation" 0 {Build the list of the games where this move was played with an annotation}
 translate V SaveCache {שמור מטמון}
 translate V Training {הַדְרָכָה}
 translate V LockTree {לִנְעוֹל}
@@ -618,6 +619,8 @@ translate V TreeDepth {עומק עץ (חצי מהלכים):}
 translate V TreeLocked {נָעוּל}
 translate V TreeBest {טוֹב בִּיוֹתֵר}
 translate V TreeBestGames {משחקי העץ הטובים ביותר}
+translate V TreeFindAnyAnn {any annotation}
+translate V TreeFindStalePos {The current position no longer matches the annotated tree position.\nGo back to it and try again.}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate V TreeTitleRow \

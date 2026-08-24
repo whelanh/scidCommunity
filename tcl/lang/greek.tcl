@@ -642,6 +642,7 @@ menuText G TreeOptAutosave "Αυτόματη αποθήκευση του αρχ�
 menuText G TreeHelp "Βοήθεια" 0
 menuText G TreeHelpTree "Δένδρο βοήθειας" 0
 menuText G TreeHelpIndex "Κατάλογος βοήθειας" 0
+menuText G TreeFindGames "Find games with annotation" 0 {Build the list of the games where this move was played with an annotation}
 translate G SaveCache {Αποθήκευση προσωρινής μνήμης Cache}
 translate G Training {Προπόνηση}
 translate G LockTree {Κλείδωμα}
@@ -649,6 +650,8 @@ translate G TreeDepth {Βάθος δέντρου (μισές κινήσεις):}
 translate G TreeLocked {κλειδωμένο}
 translate G TreeBest {Καλύτερο}
 translate G TreeBestGames {Οι καλύτερες παρτίδες του δένδρου}
+translate G TreeFindAnyAnn {any annotation}
+translate G TreeFindStalePos {The current position no longer matches the annotated tree position.\nGo back to it and try again.}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate G TreeTitleRow \

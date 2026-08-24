@@ -620,6 +620,7 @@ menuText O TreeOptAutosave "Autolagre hurtigbuffer" 0 \
 menuText O TreeHelp "Hjelp" 0
 menuText O TreeHelpTree "Tre hjelp" 0
 menuText O TreeHelpIndex "Innholdsfortegnelse" 0
+menuText O TreeFindGames "Find games with annotation" 0 {Build the list of the games where this move was played with an annotation}
 translate O SaveCache {Lagre hurtigbuffer}
 translate O Training {Trening}
 translate O LockTree {Lås}
@@ -627,6 +628,8 @@ translate O TreeDepth {Tredybde (halve bevegelser):}
 translate O TreeLocked {låst}
 translate O TreeBest {Beste}
 translate O TreeBestGames {Idealtrepartier}
+translate O TreeFindAnyAnn {any annotation}
+translate O TreeFindStalePos {The current position no longer matches the annotated tree position.\nGo back to it and try again.}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate O TreeTitleRow \

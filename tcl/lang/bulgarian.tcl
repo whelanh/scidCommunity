@@ -651,6 +651,7 @@ menuText g TreeOptAutosave "Автоматично запазване на ке�
 menuText g TreeHelp "Помощ" 0
 menuText g TreeHelpTree "Помощ за дърво" 0
 menuText g TreeHelpIndex "Помощен индекс" 0
+menuText g TreeFindGames "Find games with annotation" 0 {Build the list of the games where this move was played with an annotation}
 translate g SaveCache {Запазване на кеша}
 translate g Training {обучение}
 translate g LockTree {Заключване}
@@ -658,6 +659,8 @@ translate g TreeDepth {Дълбочина на дървото (половина 
 translate g TreeLocked {заключено}
 translate g TreeBest {Най-доброто}
 translate g TreeBestGames {Най-добрите игри с дървета}
+translate g TreeFindAnyAnn {any annotation}
+translate g TreeFindStalePos {The current position no longer matches the annotated tree position.\nGo back to it and try again.}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate g TreeTitleRow \

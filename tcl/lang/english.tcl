@@ -650,6 +650,7 @@ menuText E TreeOptAutosave "Auto-Save Cache File" 0 \
 menuText E TreeHelp "Help" 0
 menuText E TreeHelpTree "Tree Help" 0
 menuText E TreeHelpIndex "Help Index" 0
+menuText E TreeFindGames "Find games with annotation" 0 {Build the list of the games where this move was played with an annotation}
 translate E SaveCache {Save Cache}
 translate E Training {Training}
 translate E LockTree {Lock}
@@ -657,6 +658,8 @@ translate E TreeDepth {Plies:}
 translate E TreeLocked {locked}
 translate E TreeBest {Best}
 translate E TreeBestGames {Best Tree Games}
+translate E TreeFindAnyAnn {any annotation}
+translate E TreeFindStalePos {The current position no longer matches the annotated tree position.\nGo back to it and try again.}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate E TreeTitleRow \

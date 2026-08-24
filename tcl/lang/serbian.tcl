@@ -935,6 +935,8 @@ menuText Y TreeHelpTree "Tree Help" 0
 # ====== TODO To be translated ======
 menuText Y TreeHelpIndex "Help Index" 0
 # ====== TODO To be translated ======
+menuText Y TreeFindGames "Find games with annotation" 0 {Build the list of the games where this move was played with an annotation}
+# ====== TODO To be translated ======
 translate Y SaveCache {Save Cache}
 # ====== TODO To be translated ======
 translate Y Training {Training}
@@ -948,6 +950,10 @@ translate Y TreeLocked {locked}
 translate Y TreeBest {Best}
 # ====== TODO To be translated ======
 translate Y TreeBestGames {Best Tree Games}
+# ====== TODO To be translated ======
+translate Y TreeFindAnyAnn {any annotation}
+# ====== TODO To be translated ======
+translate Y TreeFindStalePos {The current position no longer matches the annotated tree position.\nGo back to it and try again.}
 # ====== TODO To be translated ======
 translate Y TreeTitleRow \
   {    Move(s)                   ECO       Frequency    Score  AvElo Perf avLen AvYear %Draws     %Win}

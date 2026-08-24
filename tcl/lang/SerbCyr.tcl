@@ -651,6 +651,7 @@ menuText J TreeOptAutosave "Ауто-Саве Цацхе Филе" 0 \
 menuText J TreeHelp "Помоћ" 0
 menuText J TreeHelpTree "Трее Хелп" 0
 menuText J TreeHelpIndex "Индекс помоћи" 0
+menuText J TreeFindGames "Find games with annotation" 0 {Build the list of the games where this move was played with an annotation}
 translate J SaveCache {Сачувај кеш}
 translate J Training {Обука}
 translate J LockTree {Закључај}
@@ -658,6 +659,8 @@ translate J TreeDepth {Дубина стабла (половине):}
 translate J TreeLocked {закључано}
 translate J TreeBest {Најбољи}
 translate J TreeBestGames {Најбоље игре са дрветом}
+translate J TreeFindAnyAnn {any annotation}
+translate J TreeFindStalePos {The current position no longer matches the annotated tree position.\nGo back to it and try again.}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate J TreeTitleRow \

@@ -614,6 +614,7 @@ menuText T TreeOptAutosave "Önbellek Dosyasını Otomatik Kaydet" 0 \
 menuText T TreeHelp "Yardım" 0
 menuText T TreeHelpTree "Ağaç Yardımı" 0
 menuText T TreeHelpIndex "Yardım Dizini" 0
+menuText T TreeFindGames "Find games with annotation" 0 {Build the list of the games where this move was played with an annotation}
 translate T SaveCache {Önbelleği Kaydet}
 translate T Training {Eğitim}
 translate T LockTree {Kilit}
@@ -621,6 +622,8 @@ translate T TreeDepth {Ağaç derinliği (yarım hamle):}
 translate T TreeLocked {kilitli}
 translate T TreeBest {En iyi}
 translate T TreeBestGames {En İyi Ağaç Oyunları}
+translate T TreeFindAnyAnn {any annotation}
+translate T TreeFindStalePos {The current position no longer matches the annotated tree position.\nGo back to it and try again.}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate T TreeTitleRow \

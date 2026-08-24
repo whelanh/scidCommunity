@@ -610,6 +610,7 @@ menuText b TreeOptAutosave "অটো-সেভ ক্যাশে ফাইল"
 menuText b TreeHelp "সাহায্য" 0
 menuText b TreeHelpTree "গাছ সাহায্য" 0
 menuText b TreeHelpIndex "সাহায্য সূচক" 0
+menuText b TreeFindGames "Find games with annotation" 0 {Build the list of the games where this move was played with an annotation}
 translate b SaveCache {ক্যাশে সংরক্ষণ করুন}
 translate b Training {প্রশিক্ষণ}
 translate b LockTree {তালা}
@@ -617,6 +618,8 @@ translate b TreeDepth {গাছের গভীরতা (অর্ধেক �
 translate b TreeLocked {তালাবদ্ধ}
 translate b TreeBest {সেরা}
 translate b TreeBestGames {সেরা গাছ গেম}
+translate b TreeFindAnyAnn {any annotation}
+translate b TreeFindStalePos {The current position no longer matches the annotated tree position.\nGo back to it and try again.}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate b TreeTitleRow \
