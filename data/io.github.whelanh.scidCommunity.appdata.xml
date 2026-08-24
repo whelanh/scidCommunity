@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+ <release version="5.1.4.01" date="2026-08-24">
+      <description>
+        <p>Bug fix: Use lighter fonts for dark theme items</p>
+      </description>
+    </release>
  <release version="5.1.4.00" date="2026-08-23">
       <description>
         <p>Add column to epd analyze positions report showing time to fine best reported move</p>
