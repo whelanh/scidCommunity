@@ -665,7 +665,10 @@ proc ::tree::findAnnotatedGames { baseNumber move nag } {
     ::windows::gamelist::SetBase $lw $baseNumber $res
     ::win::makeVisible $lw
   } else {
-    if { ! [::win::createWindow $lw ""] } { return }
+    if { ! [::win::createWindow $lw ""] } {
+      catch { sc_filter release $baseNumber $res }
+      return
+    }
     ::windows::gamelist::createWin_ $lw $baseNumber $res
   }
 }
