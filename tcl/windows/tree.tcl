@@ -423,6 +423,7 @@ proc ::tree::dorefresh { baseNumber {filter "tree"}} {
       unset tree($key)
     }
     unset -nocomplain tree(nagsError$baseNumber)
+    unset -nocomplain tree(lastFen$baseNumber)
     if { [catch {
       set nagsData [sc_tree nags $baseNumber $filter 0]
       # Remember the position these data refer to
