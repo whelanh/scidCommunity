@@ -671,6 +671,9 @@ proc ::board::setInfo {{w} {msg}} {
 # Show an alert message in the infobar.
 # If @e header is empty, append the message at the current infobar.
 proc ::board::setInfoAlert {{w} {header} {msg} {msgcolor} {cmd}} {
+  if {$msgcolor eq "black" && [ttk::style theme use] in $::darkThemes} {
+    set msgcolor [ttk::style lookup . -foreground "" black]
+  }
   $w.bar.info.t configure -state normal
   if {$header ne ""} {
     $w.bar.info.t delete 1.0 end

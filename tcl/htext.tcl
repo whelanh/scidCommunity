@@ -161,6 +161,41 @@ proc ::htext::updateRate {w rate} {
   set ::htext::updates($w) $rate
 }
 
+# Return true if the given color is dark (low perceived luminance).
+# This is used to keep text colors readable on dark backgrounds.
+proc ::htext::isDarkColor {w color} {
+  if {[catch {set rgb [winfo rgb $w $color]}]} { return 0 }
+  lassign $rgb r g b
+  set lum [expr {0.2126 * $r + 0.7152 * $g + 0.0722 * $b}]
+  return [expr {$lum < 32768}]
+}
+
+# Configure the htext tag colors that would otherwise be unreadable on a dark
+# background (e.g. "gray" used for the FEN line and "black"). The colors are
+# chosen based on the actual background of the widget, so the (light) help
+# window is left untouched.
+proc ::htext::configureColors {w} {
+  if {![winfo exists $w]} { return }
+  set bg [$w cget -background]
+  if {$bg ne "" && [::htext::isDarkColor $w $bg]} {
+    set gray "#a0a0a0"
+    set black [$w cget -foreground]
+    if {$black eq ""} { set black "white" }
+  } else {
+    set gray "gray20"
+    set black "black"
+  }
+  catch { $w tag configure gray -foreground $gray }
+  catch { $w tag configure black -foreground $black }
+
+  # applyThemeStyle rebinds <<ThemeChanged>> with a plain "bind" (which replaces
+  # any appended scripts), so re-append this hook unless it is already present.
+  set script [bind $w <<ThemeChanged>>]
+  if {[string first "::htext::configureColors $w" $script] == -1} {
+    bind $w <<ThemeChanged>> "+::htext::configureColors $w"
+  }
+}
+
 proc ::htext::init {w} {
   set cyan "\#007000"
   set maroon "\#990000"
@@ -225,6 +260,8 @@ proc ::htext::init {w} {
     incr lmargin 25
     $w tag configure "ip$i" -lmargin1 $lmargin -lmargin2 $lmargin
   }
+
+  ::htext::configureColors $w
 }
 
 proc ::htext::isStartTag {tagName} {
