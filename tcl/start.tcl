@@ -178,7 +178,16 @@ proc InitDirs {} {
       set oldDir [file nativename [file join $scidExeDir $subdir]]
       set newDir [file nativename [file join $scidUserDir $subdir]]
       if {[file isdirectory $oldDir] && ![file isdirectory $newDir]} {
-        catch {file copy -force -- $oldDir $newDir}
+        # Copy into a temporary sibling and rename it into place so a failed
+        # or partial copy never leaves a destination behind. Only a fully
+        # copied directory becomes $newDir, so a later launch will retry.
+        set tmpDir "$newDir.migrating"
+        catch {file delete -force -- $tmpDir}
+        if {![catch {file copy -force -- $oldDir $tmpDir}]} {
+          catch {file rename -- $tmpDir $newDir}
+        } else {
+          catch {file delete -force -- $tmpDir}
+        }
       }
     }
 
