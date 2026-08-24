@@ -114,9 +114,18 @@ proc InitDirs {} {
   }
 
   # scidUserDir: location of user-specific Scid files.
-  # This is "~/.scid" on Unix, and the Scid executable dir on Windows.
+  # This is "~/.scid" on Unix, and "%APPDATA%\scidCommunity" on Windows.
+  # Windows user files must live somewhere the current user can write to;
+  # the executable directory is read-only for standard users when installed
+  # machine-wide under "Program Files".
   if {$::windowsOS} {
-    set scidUserDir $scidExeDir
+    if {[info exists ::env(APPDATA)]} {
+      set scidUserDir [file join $::env(APPDATA) "scidCommunity"]
+    } elseif {[info exists ::env(USERPROFILE)]} {
+      set scidUserDir [file join $::env(USERPROFILE) "AppData" "Roaming" "scidCommunity"]
+    } else {
+      set scidUserDir $scidExeDir
+    }
   } else {
     regexp {(\d+\.\d+).*} $::scidVersion -> version
     set scidUserDir [file join $::env(HOME) ".scid$version"]
@@ -158,6 +167,40 @@ proc InitDirs {} {
     }
   }
   makeScidDir $scidUserDir
+
+  # Migrate user-specific files from the old Windows layout (stored next to
+  # the executable, e.g. "C:\Program Files\scidCommunity\bin") to the new
+  # per-user location so existing users keep their settings after updating.
+  # Each subdirectory is copied only if it exists in the old location and does
+  # not already exist in the new one, so we never overwrite newer data.
+  if {$::windowsOS && $scidUserDir ne $scidExeDir} {
+    foreach subdir {config data log engines} {
+      set oldDir [file nativename [file join $scidExeDir $subdir]]
+      set newDir [file nativename [file join $scidUserDir $subdir]]
+      if {[file isdirectory $oldDir] && ![file isdirectory $newDir]} {
+        catch {file copy -force -- $oldDir $newDir}
+      }
+    }
+
+    # Rewrite engine paths stored in the migrated engines.dat so they keep
+    # pointing at the user's own engines after they move to the new location.
+    set oldEnginesDir [file nativename [file join $scidExeDir "engines"]]
+    set newEnginesDir [file nativename [file join $scidUserDir "engines"]]
+    if {$oldEnginesDir ne $newEnginesDir && [file isdirectory $newEnginesDir]} {
+      set enginesFile [file join $scidConfigDir "engines.dat"]
+      if {[file exists $enginesFile]} {
+        set fd [open $enginesFile r]
+        set content [read $fd]
+        close $fd
+        if {[string first $oldEnginesDir $content] >= 0} {
+          set fd [open $enginesFile w]
+          puts -nonewline $fd [string map [list $oldEnginesDir $newEnginesDir] $content]
+          close $fd
+        }
+      }
+    }
+  }
+
   makeScidDir $scidConfigDir
   makeScidDir $scidDataDir
   makeScidDir $scidLogDir
