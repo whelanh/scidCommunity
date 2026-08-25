@@ -13,7 +13,7 @@ While it maintains compatibility with the original Scid database formats, **scid
 *Most recent changes:*
 
 1. New [feature](https://github.com/whelanh/scidCommunity/discussions/231)  added under the Play menu that integrates playing on the Lechenicher SchachServer (LSS) and on the ICCF server.
-2. Based on a [user request](https://github.com/whelanh/scidCommunity/discussions/225), NAG annotations present in your database can be shown in the Tree View if you click the "Annotations" check box.
+2. Based on a [user request](https://github.com/whelanh/scidCommunity/discussions/225), NAG annotations present in your database can be shown in the Tree View if you click the "Annotations" check box. If you right-click a move in the Tree View with an annotation symbol, you can populate a new Game List with just games with a NAG symbol for that move.
 3. Drag and drop of database, PGN, and .epd files is [now available](https://github.com/whelanh/scidCommunity/discussions/209). Drag files to either the Board display window or the PGN Window.
 
 <details>
