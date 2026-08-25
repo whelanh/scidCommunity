@@ -610,7 +610,7 @@ menuText Z TreeOptAutosave "Hifadhi Faili ya Cache kiotomatiki" 0 \
 menuText Z TreeHelp "Msaada" 0
 menuText Z TreeHelpTree "Msaada wa Mti" 0
 menuText Z TreeHelpIndex "Msaada Index" 0
-menuText Z TreeFindGames "Find games with annotation" 0 {Build the list of the games where this move was played with an annotation}
+menuText Z TreeFindGames "Tafuta michezo yenye maelezo" 0 {Tengeneza orodha ya michezo ambapo hatua hii ilichezwa ikiwa na maelezo}
 translate Z SaveCache {Hifadhi Cache}
 translate Z Training {Mafunzo}
 translate Z LockTree {Funga}
@@ -618,8 +618,8 @@ translate Z TreeDepth {Kina cha mti (nusu hatua):}
 translate Z TreeLocked {imefungwa}
 translate Z TreeBest {Bora zaidi}
 translate Z TreeBestGames {Michezo Bora ya Miti}
-translate Z TreeFindAnyAnn {any annotation}
-translate Z TreeFindStalePos {The current position no longer matches the annotated tree position.\nGo back to it and try again.}
+translate Z TreeFindAnyAnn {maelezo yoyote}
+translate Z TreeFindStalePos {Nafasi ya sasa hailingani tena na nafasi ya mti iliyofafanuliwa.\nRudi kwayo kisha ujaribu tena.}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate Z TreeTitleRow \

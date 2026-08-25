@@ -651,7 +651,7 @@ menuText A TreeOptAutosave "キャッシュファイルの自動保存" 0 \
 menuText A TreeHelp "ヘルプ" 0
 menuText A TreeHelpTree "ツリーヘルプ" 0
 menuText A TreeHelpIndex "ヘルプインデックス" 0
-menuText A TreeFindGames "Find games with annotation" 0 {Build the list of the games where this move was played with an annotation}
+menuText A TreeFindGames "注釈付きの対局を検索" 0 {この手が注釈付きで指された対局のリストを作成します}
 translate A SaveCache {キャッシュの保存}
 translate A Training {トレーニング}
 translate A LockTree {ロック}
@@ -659,8 +659,8 @@ translate A TreeDepth {ツリーの深さ (半分の移動):}
 translate A TreeLocked {ロックされた}
 translate A TreeBest {最高}
 translate A TreeBestGames {ベストツリーゲーム}
-translate A TreeFindAnyAnn {any annotation}
-translate A TreeFindStalePos {The current position no longer matches the annotated tree position.\nGo back to it and try again.}
+translate A TreeFindAnyAnn {任意の注釈}
+translate A TreeFindStalePos {現在の局面がツリーの注釈付き局面と一致しません。\n元の局面に戻ってやり直してください。}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate A TreeTitleRow \

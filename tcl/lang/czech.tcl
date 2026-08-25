@@ -615,7 +615,7 @@ menuText C TreeOptAutosave "Automatick ukldn cache souboru" 0 \
 menuText C TreeHelp "Npovda" 0
 menuText C TreeHelpTree "Npovda - Strom" 11
 menuText C TreeHelpIndex "Index npovdy" 0
-menuText C TreeFindGames "Find games with annotation" 0 {Build the list of the games where this move was played with an annotation}
+menuText C TreeFindGames "Najít partie s anotací" 0 {Vytvořit seznam partií, kde byl tento tah hrán s anotací}
 translate C SaveCache {Uloit cache}
 translate C Training {Trnink}
 translate C LockTree {Zamknout}
@@ -623,8 +623,8 @@ translate C TreeDepth {Hloubka stromu (pl tahu):}
 translate C TreeLocked {Zamknuto}
 translate C TreeBest {Nejlep}
 translate C TreeBestGames {Nejlep partie stromu}
-translate C TreeFindAnyAnn {any annotation}
-translate C TreeFindStalePos {The current position no longer matches the annotated tree position.\nGo back to it and try again.}
+translate C TreeFindAnyAnn {jakákoli anotace}
+translate C TreeFindStalePos {Aktuální pozice již neodpovídá anotované pozici stromu.\nVraťte se k ní a zkuste to znovu.}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate C TreeTitleRow \

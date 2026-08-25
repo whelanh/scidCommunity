@@ -667,7 +667,7 @@ menuText S TreeOptAutosave "Autoguardar archivo caché" 0 \
 menuText S TreeHelp "Ayuda" 1
 menuText S TreeHelpTree "Ayuda del árbol" 4
 menuText S TreeHelpIndex "Índice de la ayuda" 0
-menuText S TreeFindGames "Find games with annotation" 0 {Build the list of the games where this move was played with an annotation}
+menuText S TreeFindGames "Buscar partidas con anotación" 0 {Crear la lista de partidas donde este movimiento se jugó con una anotación}
 translate S SaveCache {Guardar caché}
 translate S Training {Entrenamiento}
 translate S LockTree {Bloquear}
@@ -675,8 +675,8 @@ translate S TreeDepth {Profundidad del árbol (medios movimientos):}
 translate S TreeLocked {Bloqueado}
 translate S TreeBest {Mejor}
 translate S TreeBestGames {Mejores partidas del árbol}
-translate S TreeFindAnyAnn {any annotation}
-translate S TreeFindStalePos {The current position no longer matches the annotated tree position.\nGo back to it and try again.}
+translate S TreeFindAnyAnn {cualquier anotación}
+translate S TreeFindStalePos {La posición actual ya no coincide con la posición anotada del árbol.\nVuelva a ella e inténtelo de nuevo.}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate S TreeTitleRow \

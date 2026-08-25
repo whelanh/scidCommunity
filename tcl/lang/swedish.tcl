@@ -621,7 +621,7 @@ menuText W TreeOptAutosave "Spara cache filen automatiskt" 0 \
 menuText W TreeHelp "Hjälp" 0
 menuText W TreeHelpTree "Trädhjälp" 0
 menuText W TreeHelpIndex "Hjälpindex" 0
-menuText W TreeFindGames "Find games with annotation" 0 {Build the list of the games where this move was played with an annotation}
+menuText W TreeFindGames "Hitta partier med kommentar" 0 {Skapa listan över partier där detta drag spelades med en kommentar}
 translate W SaveCache {Spara cache}
 translate W Training {Träna}
 translate W LockTree {Lås}
@@ -629,8 +629,8 @@ translate W TreeDepth {Träddjup (halva rörelser):}
 translate W TreeLocked {Låst}
 translate W TreeBest {Bäst}
 translate W TreeBestGames {Bästa partier i trädet}
-translate W TreeFindAnyAnn {any annotation}
-translate W TreeFindStalePos {The current position no longer matches the annotated tree position.\nGo back to it and try again.}
+translate W TreeFindAnyAnn {valfri kommentar}
+translate W TreeFindStalePos {Den aktuella ställningen matchar inte längre den kommenterade trädställningen.\nGå tillbaka till den och försök igen.}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate W TreeTitleRow \

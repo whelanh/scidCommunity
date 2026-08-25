@@ -649,7 +649,7 @@ menuText U TreeOptAutosave "Tallenna välimuisti automaattisesti" 0 \
 menuText U TreeHelp "Ohje" 0
 menuText U TreeHelpTree "Puun ohje" 0
 menuText U TreeHelpIndex "Aakkosellinen ohje" 0
-menuText U TreeFindGames "Find games with annotation" 0 {Build the list of the games where this move was played with an annotation}
+menuText U TreeFindGames "Etsi kommentoidut pelit" 0 {Muodosta luettelo peleistä, joissa tämä siirto pelattiin kommentoituna}
 translate U SaveCache {Tallenna välimuisti}
 translate U Training {Valmennus}
 translate U LockTree {Lukitse}
@@ -657,8 +657,8 @@ translate U TreeDepth {Puun syvyys (puolet liikkeet):}
 translate U TreeLocked {lukittu}
 translate U TreeBest {Paras}
 translate U TreeBestGames {Parhaat pelit}
-translate U TreeFindAnyAnn {any annotation}
-translate U TreeFindStalePos {The current position no longer matches the annotated tree position.\nGo back to it and try again.}
+translate U TreeFindAnyAnn {mikä tahansa kommentti}
+translate U TreeFindStalePos {Nykyinen asema ei enää vastaa puun kommentoitua asemaa.\nPalaa siihen ja yritä uudelleen.}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate U TreeTitleRow \

@@ -650,7 +650,7 @@ menuText D TreeOptAutosave "Autom. Cache-Datei sichern" 4 \
 menuText D TreeHelp "Hilfe" 0
 menuText D TreeHelpTree "Zugbaumhilfe" 0
 menuText D TreeHelpIndex "Index" 0
-menuText D TreeFindGames "Find games with annotation" 0 {Build the list of the games where this move was played with an annotation}
+menuText D TreeFindGames "Partien mit Anmerkung finden" 0 {Liste der Partien erstellen, in denen dieser Zug mit einer Anmerkung gespielt wurde}
 translate D SaveCache {Cache sichern}
 translate D Training {Training}
 translate D LockTree {Anbinden}
@@ -658,8 +658,8 @@ translate D TreeDepth {Baumtiefe (halbe Züge):}
 translate D TreeLocked {angebunden}
 translate D TreeBest {Beste}
 translate D TreeBestGames {Beste Zugbaumpartien}
-translate D TreeFindAnyAnn {any annotation}
-translate D TreeFindStalePos {The current position no longer matches the annotated tree position.\nGo back to it and try again.}
+translate D TreeFindAnyAnn {beliebige Anmerkung}
+translate D TreeFindStalePos {Die aktuelle Stellung stimmt nicht mehr mit der kommentierten Baumstellung überein.\nGehen Sie zu ihr zurück und versuchen Sie es erneut.}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate D TreeTitleRow \

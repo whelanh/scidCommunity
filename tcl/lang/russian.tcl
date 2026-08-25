@@ -617,7 +617,7 @@ menuText R TreeOptAutosave "Автосохранение файла кеша" 0 
 menuText R TreeHelp "Помощь" 0
 menuText R TreeHelpTree "Помощь по дереву" 0
 menuText R TreeHelpIndex "Индекс помощи" 0
-menuText R TreeFindGames "Find games with annotation" 0 {Build the list of the games where this move was played with an annotation}
+menuText R TreeFindGames "Найти партии с аннотацией" 0 {Составить список партий, где этот ход был сыгран с аннотацией}
 translate R SaveCache {Сохранить кеш}
 translate R Training {Тренировка}
 translate R LockTree {Блокировка}
@@ -625,8 +625,8 @@ translate R TreeDepth {Глубина дерева (половина хода):}
 translate R TreeLocked {Заблокировано}
 translate R TreeBest {Лучший}
 translate R TreeBestGames {Дерево лучших партий}
-translate R TreeFindAnyAnn {any annotation}
-translate R TreeFindStalePos {The current position no longer matches the annotated tree position.\nGo back to it and try again.}
+translate R TreeFindAnyAnn {любая аннотация}
+translate R TreeFindStalePos {Текущая позиция больше не соответствует аннотированной позиции дерева.\nВернитесь к ней и попробуйте снова.}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate R TreeTitleRow \

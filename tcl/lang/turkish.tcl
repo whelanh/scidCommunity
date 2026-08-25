@@ -614,7 +614,7 @@ menuText T TreeOptAutosave "Önbellek Dosyasını Otomatik Kaydet" 0 \
 menuText T TreeHelp "Yardım" 0
 menuText T TreeHelpTree "Ağaç Yardımı" 0
 menuText T TreeHelpIndex "Yardım Dizini" 0
-menuText T TreeFindGames "Find games with annotation" 0 {Build the list of the games where this move was played with an annotation}
+menuText T TreeFindGames "Açıklamalı oyunları bul" 0 {Bu hamlenin bir açıklama ile oynandığı oyunların listesini oluştur}
 translate T SaveCache {Önbelleği Kaydet}
 translate T Training {Eğitim}
 translate T LockTree {Kilit}
@@ -622,8 +622,8 @@ translate T TreeDepth {Ağaç derinliği (yarım hamle):}
 translate T TreeLocked {kilitli}
 translate T TreeBest {En iyi}
 translate T TreeBestGames {En İyi Ağaç Oyunları}
-translate T TreeFindAnyAnn {any annotation}
-translate T TreeFindStalePos {The current position no longer matches the annotated tree position.\nGo back to it and try again.}
+translate T TreeFindAnyAnn {herhangi bir açıklama}
+translate T TreeFindStalePos {Geçerli konum artık açıklama eklenmiş ağaç konumuyla eşleşmiyor.\nOna geri dönün ve tekrar deneyin.}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate T TreeTitleRow \

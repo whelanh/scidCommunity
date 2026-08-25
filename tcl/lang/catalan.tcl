@@ -636,7 +636,7 @@ menuText K TreeOptAutosave "Autoguardar arxiu memòria cau" 0 \
 menuText K TreeHelp "Ajut" 1
 menuText K TreeHelpTree "Ajut de l'arbre" 4
 menuText K TreeHelpIndex "Índex del fitxer d'ajuda" 0
-menuText K TreeFindGames "Find games with annotation" 0 {Build the list of the games where this move was played with an annotation}
+menuText K TreeFindGames "Cercar partides amb anotació" 0 {Crear la llista de partides on aquest moviment s'ha jugat amb una anotació}
 translate K SaveCache {Desar memòria cau}
 translate K Training {Entrenament}
 translate K LockTree {Bloquejar}
@@ -644,8 +644,8 @@ translate K TreeDepth {Profunditat de l'arbre (meitat de moviments):}
 translate K TreeLocked {Bloquejat}
 translate K TreeBest {Millor}
 translate K TreeBestGames {Millors partides de l'arbre}
-translate K TreeFindAnyAnn {any annotation}
-translate K TreeFindStalePos {The current position no longer matches the annotated tree position.\nGo back to it and try again.}
+translate K TreeFindAnyAnn {qualsevol anotació}
+translate K TreeFindStalePos {La posició actual ja no coincideix amb la posició anotada de l\x27arbre.\nTorneu-hi i torneu-ho a provar.}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate K TreeTitleRow \

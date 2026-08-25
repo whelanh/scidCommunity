@@ -651,7 +651,7 @@ menuText k TreeOptAutosave "자동 저장 파일" 0 \
 menuText k TreeHelp "돕다" 0
 menuText k TreeHelpTree "나무 도움말" 0
 menuText k TreeHelpIndex "도움말 색인" 0
-menuText k TreeFindGames "Find games with annotation" 0 {Build the list of the games where this move was played with an annotation}
+menuText k TreeFindGames "주석이 있는 대국 찾기" 0 {이 수가 주석과 함께 두어진 대국 목록을 생성합니다}
 translate k SaveCache {쿠키 저장}
 translate k Training {훈련}
 translate k LockTree {잠그다}
@@ -659,8 +659,8 @@ translate k TreeDepth {트리(반쯤 이동):}
 translate k TreeLocked {잠긴}
 translate k TreeBest {의}
 translate k TreeBestGames {최고의 나무 게임}
-translate k TreeFindAnyAnn {any annotation}
-translate k TreeFindStalePos {The current position no longer matches the annotated tree position.\nGo back to it and try again.}
+translate k TreeFindAnyAnn {모든 주석}
+translate k TreeFindStalePos {현재 포지션이 트리의 주석 포지션과 더 이상 일치하지 않습니다.\n해당 포지션으로 돌아가서 다시 시도하십시오.}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate k TreeTitleRow \

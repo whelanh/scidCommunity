@@ -640,7 +640,7 @@ menuText N TreeOptAutosave "Autom.cache-data Bewaren" 4 \
 menuText N TreeHelp "Help" 0
 menuText N TreeHelpTree "Hulp bij zoekboom" 0
 menuText N TreeHelpIndex "Index" 0
-menuText N TreeFindGames "Find games with annotation" 0 {Build the list of the games where this move was played with an annotation}
+menuText N TreeFindGames "Partijen met annotatie zoeken" 0 {Maak de lijst met partijen waarin deze zet met een annotatie is gespeeld}
 translate N SaveCache {Cache Bewaren}
 translate N Training {Training}
 translate N LockTree {Boom Vergrendelen}
@@ -648,8 +648,8 @@ translate N TreeDepth {Boomdiepte (halve zetten):}
 translate N TreeLocked {Vergrendeld}
 translate N TreeBest {Beste}
 translate N TreeBestGames {Boom Beste partijen}
-translate N TreeFindAnyAnn {any annotation}
-translate N TreeFindStalePos {The current position no longer matches the annotated tree position.\nGo back to it and try again.}
+translate N TreeFindAnyAnn {willekeurige annotatie}
+translate N TreeFindStalePos {De huidige stelling komt niet meer overeen met de geannoteerde boompositie.\nGa er naar terug en probeer het opnieuw.}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate N TreeTitleRow \
