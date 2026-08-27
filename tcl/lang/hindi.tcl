@@ -297,7 +297,7 @@ menuText h OptionsBooksDir "पुस्तकें निर्देशिक
 menuText h OptionsTacticsBasesDir "आधार निर्देशिका" 0 {रणनीति (प्रशिक्षण) आधार निर्देशिका सेट करता है}
 menuText h OptionsPhotosDir "फ़ोटो निर्देशिका" 0 {फ़ोटो आधार निर्देशिका सेट करता है}
 menuText h OptionsThemeDir "थीम फ़ाइल"  0 {GUI थीम पैकेज फ़ाइल लोड करें}
-translate h OptionsThemeOmarchy {उमर्की थीम का पालन करें}
+translate h OptionsThemeOmarchy {Omarchy थीम का पालन करें}
 menuText h OptionsSave "विकल्प सहेजें" 0 "Save all settable options to the file $::optionsFile"
 menuText h OptionsAutoSave "बाहर निकलने पर ऑटो-सेव विकल्प" 0 \
   {स्किड से बाहर निकलने पर सभी विकल्प स्वतः सहेजें}

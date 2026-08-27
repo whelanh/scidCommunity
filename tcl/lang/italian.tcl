@@ -304,7 +304,7 @@ menuText I OptionsBooksDir "Directory del libro di aperture" 0 {Configura la dir
 menuText I OptionsTacticsBasesDir "Directory dei database" 15 {Configura la directory per i database di allenamento}
 menuText I OptionsPhotosDir "Directory delle foto" 0 {Imposta la directory delle basi delle foto}
 menuText I OptionsThemeDir "File dei temi:"  0 {Carica un file del pacchetto del tema della GUI}
-translate I OptionsThemeOmarchy {Segui il tema Omarchia}
+translate I OptionsThemeOmarchy {Segui il tema Omarchy}
 menuText I OptionsSave "Salva opzioni" 3 \
   "Salva tutte le opzioni definibili nel file $::optionsFile"
 menuText I OptionsAutoSave "Salva opzioni all'uscita" 17 \

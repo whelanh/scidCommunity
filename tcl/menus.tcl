@@ -575,6 +575,7 @@ proc menuUpdateThemes {} {
   if {[info commands ::omarchyTheme::isOmarchy] ne "" && [::omarchyTheme::isOmarchy]} {
       $m add separator
       $m add checkbutton -label [tr OptionsThemeOmarchy] -variable ::omarchyAutoTheme
+      set ::MenuLabels($m,[$m index end]) OptionsThemeOmarchy
   }
 }
 
