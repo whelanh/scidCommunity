@@ -577,9 +577,9 @@ namespace eval sergame {
               after cancel ::sergame::_storeCoachEvalDeferred
               if {$::sergame::coachIsWatching} {
                 ::sergame::stopAnalyze
+                set ::sergame::liveScore $::uci::uciInfo(score2)
+                set ::sergame::livePv $::uci::uciInfo(pv2)
               }
-              set ::sergame::liveScore $::uci::uciInfo(score2)
-              set ::sergame::livePv $::uci::uciInfo(pv2)
               return 0
             }
             return 1
