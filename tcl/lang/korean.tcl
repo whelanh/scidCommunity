@@ -338,6 +338,7 @@ menuText k OptionsBooksDir "책장" 0 {여는 책을 설정합니다}
 menuText k OptionsTacticsBasesDir "키예프" 0 {훈련소에서 훈련을 시작합니다.}
 menuText k OptionsPhotosDir "사진의" 0 {기본적으로 사용자를 설정합니다.}
 menuText k OptionsThemeDir "주제 파일"  0 {GUI 테마 패키지 파일 로드}
+translate k OptionsThemeOmarchy {Omarchy 테마 따르기}
 menuText k OptionsSave "저장 옵션" 0 "Save all settable options to the file $::optionsFile"
 menuText k OptionsAutoSave "종료 시 자동 절약 옵션" 0 \
   {Scid 종료 시 모든 옵션 자동 저장}

@@ -567,7 +567,15 @@ proc menuUpdateThemes {} {
       # Skip alt and clam themes as they are essentially duplicates of classic
       if {$i eq "alt" || $i eq "clam"} { continue }
       $m add radiobutton -label "$i" -value $i -variable ::lookTheme \
-      -command {::loadDeferredTheme $::lookTheme; ttk::style theme use $::lookTheme; configure_menus}
+      -command {::loadDeferredTheme $::lookTheme; set ::omarchyAutoTheme 0; ttk::style theme use $::lookTheme; configure_menus}
+  }
+
+  # Omarchy-only toggle: whether to keep following the Omarchy color theme
+  # automatically. Selecting a theme above turns this off.
+  if {[info commands ::omarchyTheme::isOmarchy] ne "" && [::omarchyTheme::isOmarchy]} {
+      $m add separator
+      $m add checkbutton -label [tr OptionsThemeOmarchy] -variable ::omarchyAutoTheme
+      set ::MenuLabels($m,[$m index end]) OptionsThemeOmarchy
   }
 }
 

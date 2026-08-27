@@ -304,6 +304,7 @@ menuText H OptionsBooksDir "A megnyitástár könyvtára" 6 {Kijelöli a megnyit
 menuText H OptionsTacticsBasesDir "Az adatbázisok könyvtára" 4 {Kijelöli a taktikai (edzés) adatbázisok könyvtárát.}
 menuText H OptionsPhotosDir "Fotók könyvtár" 0 {Beállítja a fényképek alapkönyvtárát}
 menuText H OptionsThemeDir "Téma(k) Fájl:"  0 {Töltsön be egy GUI-témacsomag fájlt}
+translate H OptionsThemeOmarchy {Kövesse az Omarchy témát}
 menuText H OptionsSave "Beállítások mentése" 12 \
   "Minden beállítható értéket elment a $::optionsFile fájlba."
 menuText H OptionsAutoSave "Beállítások automatikus mentése kilépéskor." 0 \

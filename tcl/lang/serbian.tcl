@@ -390,6 +390,8 @@ menuText Y OptionsTacticsBasesDir "Bases directory" 0 {Sets the tactics (trainin
 menuText Y OptionsPhotosDir "Photos directory" 0 {Sets the photos bases directory}
 # ====== TODO To be translated ======
 menuText Y OptionsThemeDir "Theme(s) File:"  0 { Load a GUI theme package file }
+# ====== TODO To be translated ======
+translate Y OptionsThemeOmarchy {Follow Omarchy theme}
 menuText Y OptionsSave "Sauvaj opcije" 0 \
   "Sauvaj sve opcije u fajl $::optionsFile"
 menuText Y OptionsAutoSave "Auto-sauvaj opcije na izlasku" 0 \

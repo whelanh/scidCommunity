@@ -298,6 +298,7 @@ menuText V OptionsBooksDir "ספריית ספרים" 0 {מגדיר את ספרי
 menuText V OptionsTacticsBasesDir "ספריית בסיסים" 0 {מגדיר את ספריית הבסיסים של הטקטיקה (אימון).}
 menuText V OptionsPhotosDir "ספריית תמונות" 0 {מגדיר את ספריית בסיסי התמונות}
 menuText V OptionsThemeDir "קובץ ערכות נושא"  0 {טען קובץ חבילת ערכת נושא של GUI}
+translate V OptionsThemeOmarchy {עקוב אחר נושא Omarchy}
 menuText V OptionsSave "שמור אפשרויות" 0 "Save all settable options to the file $::optionsFile"
 menuText V OptionsAutoSave "אפשרויות שמירה אוטומטית ביציאה" 0 \
   {שמור אוטומטית את כל האפשרויות בעת יציאה מ-Scid}

@@ -301,6 +301,7 @@ menuText T OptionsBooksDir "Kitap dizini" 0 {Açılış kitapları dizinini ayar
 menuText T OptionsTacticsBasesDir "Baz dizini" 0 {Taktik (eğitim) temel dizinini ayarlar}
 menuText T OptionsPhotosDir "Fotoğraflar dizini" 0 {Fotoğraf tabanları dizinini ayarlar}
 menuText T OptionsThemeDir "Tema(lar) Dosyası"  0 {GUI tema paketi dosyasını yükleyin}
+translate T OptionsThemeOmarchy {Omarchy temasını takip edin}
 menuText T OptionsSave "Kaydetme Seçenekleri" 0 "Save all settable options to the file $::optionsFile"
 menuText T OptionsAutoSave "Çıkışta Otomatik Kaydetme Seçenekleri" 0 \
   {Scid'den çıkarken tüm seçenekleri otomatik kaydet}

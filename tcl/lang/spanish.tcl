@@ -336,6 +336,7 @@ menuText S OptionsTacticsBasesDir "Carpeta de bases de datos" 0 \
   {Fija la carpeta de la base de entrenamiento táctico}
 menuText S OptionsPhotosDir "Directorio de fotos" 0 {Establece el directorio de bases de fotos.}
 menuText S OptionsThemeDir "Archivo de tema(s):"  0 {Cargue un archivo de paquete de tema GUI}
+translate S OptionsThemeOmarchy {Sigue el tema de Omarquia}
 menuText S OptionsSave "Guardar opciones" 0 \
   "Guarda todas las opciones en el fichero $::optionsFile"
 menuText S OptionsAutoSave "Autoguardar opciones al salir" 0 \

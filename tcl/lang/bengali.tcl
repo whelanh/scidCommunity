@@ -297,6 +297,7 @@ menuText b OptionsBooksDir "বই ডিরেক্টরি" 0 {খোলা�
 menuText b OptionsTacticsBasesDir "বেস ডিরেক্টরি" 0 {কৌশল (প্রশিক্ষণ) বেস ডিরেক্টরি সেট করে}
 menuText b OptionsPhotosDir "ফটো ডিরেক্টরি" 0 {ফটো বেস ডিরেক্টরি সেট করে}
 menuText b OptionsThemeDir "থিম(গুলি) ফাইল"  0 {একটি GUI থিম প্যাকেজ ফাইল লোড করুন}
+translate b OptionsThemeOmarchy {Omarchy থিম অনুসরণ করুন}
 menuText b OptionsSave "সেভ অপশন" 0 "Save all settable options to the file $::optionsFile"
 menuText b OptionsAutoSave "প্রস্থান করার সময় স্বয়ংক্রিয় সংরক্ষণ বিকল্প" 0 \
   {Scid থেকে প্রস্থান করার সময় সমস্ত বিকল্প স্বয়ংক্রিয়ভাবে সংরক্ষণ করুন}
@@ -620,7 +621,6 @@ translate b TreeBest {সেরা}
 translate b TreeBestGames {সেরা গাছ গেম}
 translate b TreeFindAnyAnn {যেকোনো টীকা}
 translate b TreeFindStalePos {বর্তমান অবস্থানটি টীকাযুক্ত ট্রি অবস্থানের সাথে আর মিলছে না।\nসেটিতে ফিরে যান এবং আবার চেষ্টা করুন।}
-সেটিতে ফিরে যান এবং আবার চেষ্টা করুন।}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate b TreeTitleRow \

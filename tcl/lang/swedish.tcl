@@ -307,6 +307,7 @@ menuText W OptionsBooksDir "Öppningsbokskatalog" 0 {Anger Öppningsbokskataloge
 menuText W OptionsTacticsBasesDir "Taktikbaskatalog" 0 {Anger Taktikbaskatalog (för träning)}
 menuText W OptionsPhotosDir "Fotokatalog" 0 {Ställer in fotobaskatalogen}
 menuText W OptionsThemeDir "Temafil:"  0 {Ladda en GUI-temapaketfil}
+translate W OptionsThemeOmarchy {Följ temat Omarchy}
 menuText W OptionsSave "Spara alternativ" 7 \
   "Spara alla alternativ till en inställningsfil"
 menuText W OptionsAutoSave "Autospara vid avslut" 1 \

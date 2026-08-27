@@ -305,6 +305,7 @@ menuText B OptionsBooksDir "Diretório de Livros" 0 {Define o diretório para os
 menuText B OptionsTacticsBasesDir "Diretório de bases" 0 {Define o diretório para as bases de treinamento de táticas}
 menuText B OptionsPhotosDir "Diretório de Fotos" 0 {Define o diretório base de fotos}
 menuText B OptionsThemeDir "Carregar Tema(s)"  0 {Carrega arquivo de tema para a tela}
+translate B OptionsThemeOmarchy {Siga o tema Omarchy}
 menuText B OptionsSave "Salvar Configuração" 0 \
   "Salva a configuração no arquivo $::optionsFile"
 menuText B OptionsAutoSave "Salva Opções ao sair" 0 \

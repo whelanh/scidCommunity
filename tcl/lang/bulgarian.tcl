@@ -338,6 +338,7 @@ menuText g OptionsBooksDir "Указател с книги" 0 {Задава ди
 menuText g OptionsTacticsBasesDir "Бази директория" 0 {Задава директорията на тактическите (тренировъчни) бази}
 menuText g OptionsPhotosDir "Директория със снимки" 0 {Задава директорията с бази за снимки}
 menuText g OptionsThemeDir "Файл с тема(и)."  0 {Заредете пакетен файл с GUI тема}
+translate g OptionsThemeOmarchy {Следвайте темата Omarchy}
 menuText g OptionsSave "Опции за запазване" 0 "Save all settable options to the file $::optionsFile"
 menuText g OptionsAutoSave "Опции за автоматично запазване при излизане" 0 \
   {Автоматично запазване на всички опции при излизане от Scid}

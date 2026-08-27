@@ -338,6 +338,7 @@ menuText L OptionsBooksDir "Directorul cărților" 0 {Setează directorul cărț
 menuText L OptionsTacticsBasesDir "Directorul bazelor" 0 {Setează directorul bazelor de tactici (antrenament).}
 menuText L OptionsPhotosDir "Director de fotografii" 0 {Setează directorul bazelor de fotografii}
 menuText L OptionsThemeDir "Fișierul temei(e)."  0 {Încărcați un fișier de pachet temă GUI}
+translate L OptionsThemeOmarchy {Urmăriți tema Omarchy}
 menuText L OptionsSave "Opțiuni de salvare" 0 "Save all settable options to the file $::optionsFile"
 menuText L OptionsAutoSave "Opțiuni de salvare automată la ieșire" 0 \
   {Salvați automat toate opțiunile când ieșiți din Scid}

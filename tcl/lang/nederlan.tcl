@@ -325,6 +325,7 @@ menuText N OptionsBooksDir "Boeken map" 0 {Stel de map met openingsboeken in}
 menuText N OptionsTacticsBasesDir "Databases map" 0 {Stel de map met de  taktiek (training) databases in}
 menuText N OptionsPhotosDir "Foto's map" 0 {Stelt de fotobasismap in}
 menuText N OptionsThemeDir "Thema(s) Bestand:"  0 {Laad een GUI-themapakketbestand}
+translate N OptionsThemeOmarchy {Volg het Omarchy-thema}
 menuText N OptionsSave "Opties bewaren" 0 \
   "Bewaar alle instellingen in het bestand $::optionsFile"
 menuText N OptionsAutoSave "Automatisch bewaren opties tijdens afsluiten" 0 \

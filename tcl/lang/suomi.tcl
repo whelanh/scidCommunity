@@ -336,6 +336,7 @@ menuText U OptionsBooksDir "Avauskirjat" 0 {Hakemisto, jossa avauskirjat sijaits
 menuText U OptionsTacticsBasesDir "Taktiikkakannat" 0 {Hakemisto, jossa taktiikka (harjoitus) tietokannat sijaitsevat}
 menuText U OptionsPhotosDir "Valokuvahakemisto" 0 {Asettaa valokuvien perushakemiston}
 menuText U OptionsThemeDir "Teema(t) Tiedosto:"  0 {Lataa GUI-teeman pakettitiedosto}
+translate U OptionsThemeOmarchy {Seuraa Omarchy-teemaa}
 menuText U OptionsSave "Tallenna asetukset" 0 "Tallenna kaikki asetukset tiedostoon $::optionsFile"
 menuText U OptionsAutoSave "Automaattinen asetusten tallennus" 0 \
   {Tallenna asetukset automaattisesti ohjelmasta poistuttaessa}

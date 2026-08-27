@@ -197,6 +197,9 @@ set language E
 set ::lookTheme "sand"
 set ::ThemePackageFile ""
 
+# Auto-apply the Omarchy-derived theme on Omarchy systems (no-op elsewhere)
+set ::omarchyAutoTheme 1
+
 # Auto-save options when exiting:
 set optionsAutoSave 1
 
@@ -679,7 +682,7 @@ proc options.write {} {
           ::uci::uciInfo(fixeddepth1) ::uci::uciInfo(fixednodes1) ::uci::uciInfo(movetime1) \
           boardfile_lite boardfile_dark \
           FilterMaxMoves FilterMinMoves FilterStepMoves FilterMaxElo FilterMinElo FilterStepElo \
-          FilterMaxYear FilterMinYear FilterStepYear FilterGuessELO lookTheme ThemePackageFile autoResizeBoard \
+          FilterMaxYear FilterMinYear FilterStepYear FilterGuessELO lookTheme ThemePackageFile omarchyAutoTheme autoResizeBoard \
           isBatchOpening isBatchOpeningMoves isBatch \
           markTacticalExercises scoreAllMoves \
           useAnalysisBook annotateWhiteMoves annotateBlackMoves annotationVariationLength \

@@ -300,6 +300,7 @@ menuText C OptionsBooksDir "Adres knihoven zahjen" 0 {Nastaven adrese knihoven z
 menuText C OptionsTacticsBasesDir "Adres databz" 0 {Nastaven adres taktickch (trninkovch) databz}
 menuText C OptionsPhotosDir "Adres fotografi" 0 {Nastav adres fotografi}
 menuText C OptionsThemeDir "Soubor motiv:"  0 {Natte soubor balku motivu GUI}
+translate C OptionsThemeOmarchy {Sledujte téma Omarchy}
 menuText C OptionsSave "Uloit volby" 0 \
   "Uloit vechny nastaviteln volby do souboru $::optionsFile"
 menuText C OptionsAutoSave "Automaticky ukldat volby pi ukonen" 20 \
