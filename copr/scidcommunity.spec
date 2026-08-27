@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.4.02
+Version:        5.1.4.03
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 120ab48963bb66a81eea5203cd770de1c06b646c 
+%global commit 24b1570af85988203a7561a03cda8ce53463fd4e 
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Thu Aug 27, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.4-03
+- "Bug fix: in Play vs. Engine feature"
 * Mon Aug 24, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.4-02
 - "Enable NAG search from the Tree View menu by right-clicking a move showing annotations"
 * Mon Aug 24, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.4-01
