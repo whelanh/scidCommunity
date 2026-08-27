@@ -297,6 +297,7 @@ menuText Z OptionsBooksDir "Orodha ya vitabu" 0 {Inaweka saraka ya vitabu vya uf
 menuText Z OptionsTacticsBasesDir "Saraka ya misingi" 0 {Huweka saraka ya misingi ya mbinu (mafunzo).}
 menuText Z OptionsPhotosDir "Saraka ya picha" 0 {Huweka saraka ya misingi ya picha}
 menuText Z OptionsThemeDir "Faili ya Mandhari"  0 {Pakia faili ya kifurushi cha mandhari ya GUI}
+translate Z OptionsThemeOmarchy {Fuata mandhari ya Omarchy}
 menuText Z OptionsSave "Hifadhi Chaguo" 0 "Save all settable options to the file $::optionsFile"
 menuText Z OptionsAutoSave "Chaguo za Hifadhi Kiotomatiki unapotoka" 0 \
   {Hifadhi chaguo zote kiotomatiki unapoondoka kwenye Scid}

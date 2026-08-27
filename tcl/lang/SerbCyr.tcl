@@ -338,6 +338,7 @@ menuText J OptionsBooksDir "Именик књига" 0 {Поставља дир�
 menuText J OptionsTacticsBasesDir "База података" 0 {Поставља директоријум база тактике (тренинга).}
 menuText J OptionsPhotosDir "Директоријум фотографија" 0 {Поставља директоријум база фотографија}
 menuText J OptionsThemeDir "Тема(е) Филе"  0 {Учитајте датотеку пакета ГУИ теме}
+translate J OptionsThemeOmarchy {Пратите тему Омарцхи}
 menuText J OptionsSave "Саве Оптионс" 0 "Save all settable options to the file $::optionsFile"
 menuText J OptionsAutoSave "Опције аутоматског чувања на излазу" 0 \
   {Аутоматски сачувајте све опције када изађете из Сцида}

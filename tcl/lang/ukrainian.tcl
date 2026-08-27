@@ -298,6 +298,7 @@ menuText Q OptionsBooksDir "Каталог книг" 0 {Встановлює к�
 menuText Q OptionsTacticsBasesDir "Довідник баз" 0 {Задає тактику (підготовку) довідника баз}
 menuText Q OptionsPhotosDir "Каталог фотографій" 0 {Встановлює каталог баз фотографій}
 menuText Q OptionsThemeDir "Файл тем(и)."  0 {Завантажте файл пакета теми GUI}
+translate Q OptionsThemeOmarchy {Дотримуйтесь теми Omarchy}
 menuText Q OptionsSave "Параметри збереження" 0 "Save all settable options to the file $::optionsFile"
 menuText Q OptionsAutoSave "Параметри автоматичного збереження під час виходу" 0 \
   {Автоматичне збереження всіх параметрів під час виходу зі Scid}

@@ -304,6 +304,7 @@ menuText R OptionsBooksDir "Директория книг" 0 {Установит
 menuText R OptionsTacticsBasesDir "Директория баз" 0 {Установить директорию баз тактик (тренировок)}
 menuText R OptionsPhotosDir "Директория фото" 0 {Установить директорию фото}
 menuText R OptionsThemeDir "Файл/ы тем:"  0 { Загрузить файл темы интерфейса }
+translate R OptionsThemeOmarchy {Следуйте теме Омархии}
 menuText R OptionsSave "Сохранить установки" 0 "Сохранить все установки в файл $::optionsFile"
 menuText R OptionsAutoSave "Автосохранение установок при выходе" 0 \
   {Автосохранение всех установок при выходе из программы}

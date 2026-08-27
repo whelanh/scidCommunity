@@ -330,6 +330,7 @@ menuText D OptionsBooksDir "Verzeichnis für Eröffnungsbücher" 0 {Eröffnungsb
 menuText D OptionsTacticsBasesDir "Verzeichnis für Taktikdatenbanken" 0 {Verzeichnis für taktische Trainingsdatenbanken einstellen}
 menuText D OptionsPhotosDir "Verzeichnis für Spielerbilder" 0 {Verzeichnis für Bilder einstellen}
 menuText D OptionsThemeDir "Datei mit Design(s)"  0 { Packetdatei für GUI Design Themen einstellen }
+translate D OptionsThemeOmarchy {Folgen Sie dem Omarchy-Thema}
 menuText D OptionsSave "Optionen speichern" 0 \
   "Alle einstellbaren Optionen in der Datei $::optionsFile sichern"
 menuText D OptionsAutoSave "Speichern beim Beenden" 0 \

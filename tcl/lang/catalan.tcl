@@ -318,6 +318,7 @@ menuText K OptionsBooksDir "Carpeta de llibres d'obertures..." 0 {Fixa la carpet
 menuText K OptionsTacticsBasesDir "Carpeta de bases de dades..." 0 {Fixa la carpeta de la base d'entrenament tàctic}
 menuText K OptionsPhotosDir "Directori d'imatges..." 0 {Configura el directori base per a imatges}
 menuText K OptionsThemeDir "Fitxer(s) d'aspecte:"  0 { Carrega un fitxer d'aspecte de la interfície }
+translate K OptionsThemeOmarchy {Seguiu el tema Omarchy}
 menuText K OptionsSave "Desar opcions" 0 \
   {Desa totes les opcions a l'arxiu $::optionsFile}
 menuText K OptionsAutoSave "Autoguardar opcions en sortir" 0 \

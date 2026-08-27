@@ -329,6 +329,7 @@ menuText G OptionsBooksDir "Κατάλογος βιβλίων" 0 {Καθορίζ
 menuText G OptionsTacticsBasesDir "Bases directory" 0 {Sets the tactics (training) bases directory}
 menuText G OptionsPhotosDir "Κατάλογος φωτογραφιών" 0 {Ορίζει τον κατάλογο βάσεων φωτογραφιών}
 menuText G OptionsThemeDir "Αρχείο θεμάτων:"  0 {Φορτώστε ένα αρχείο πακέτου θέματος GUI}
+translate G OptionsThemeOmarchy {Ακολουθήστε το θέμα Omarchy}
 menuText G OptionsSave "Αποθήκευση επιλογών" 0 "Αποθηκεύστε όλες τις μεταβολές ρυθμίσεων στο αρχείο $::optionsFile"
 menuText G OptionsAutoSave "Αυτόματη αποθήκευση επιλογών κατά την έξοδο" 0 \
   {Να αποθηκεύονται αυτόματα οι επιλογές κατά την έξοδο από το Scid}

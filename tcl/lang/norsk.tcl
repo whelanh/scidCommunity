@@ -306,6 +306,7 @@ menuText O OptionsBooksDir "Bøker katalog" 0 {Angir åpningsbokkatalogen}
 menuText O OptionsTacticsBasesDir "Baser katalog" 0 {Angir taktikk (trening) basekatalogen}
 menuText O OptionsPhotosDir "Fotokatalog" 0 {Stiller inn fotobasekatalogen}
 menuText O OptionsThemeDir "Temafil:"  0 {Last inn en GUI-temapakkefil}
+translate O OptionsThemeOmarchy {Følg Omarchy-temaet}
 menuText O OptionsSave "Lagre innstillinger" 0 \
   "Lagre alle instillinger til $::optionsFile"
 menuText O OptionsAutoSave "Autolagre innstillinger ved avslutning" 0 \

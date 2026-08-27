@@ -338,6 +338,7 @@ menuText A OptionsBooksDir "書籍ディレクトリ" 0 {オープニングブ�
 menuText A OptionsTacticsBasesDir "ベースディレクトリ" 0 {戦術（トレーニング）ベースディレクトリを設定します}
 menuText A OptionsPhotosDir "写真ディレクトリ" 0 {写真のベースディレクトリを設定します}
 menuText A OptionsThemeDir "テーマファイル"  0 {GUIテーマパッケージファイルをロードする}
+translate A OptionsThemeOmarchy {オマーキーのテーマをフォローする}
 menuText A OptionsSave "保存オプション" 0 "Save all settable options to the file $::optionsFile"
 menuText A OptionsAutoSave "終了時の自動保存オプション" 0 \
   {Scid を終了するときにすべてのオプションを自動保存します}

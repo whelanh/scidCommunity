@@ -273,6 +273,7 @@ menuText M OptionsBooksDir "开局库目录" 0 {设置开局库目录}
 menuText M OptionsTacticsBasesDir "数据库目录" 0 {设置战术（训练）数据库目录}
 menuText M OptionsPhotosDir "照片目录" 0 {设置照片数据库目录}
 menuText M OptionsThemeDir "主题文件"  0 {加载GUI主题包文件}
+translate M OptionsThemeOmarchy {遵循 Omarchy 主题}
 menuText M OptionsSave "保存选项" 0 "将所有可设置选项保存到文件$::optionsFile"
 menuText M OptionsAutoSave "退出时自动保存选项" 0 \
   {退出Scid时自动保存所有选项}

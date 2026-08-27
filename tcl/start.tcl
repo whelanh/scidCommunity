@@ -718,6 +718,9 @@ if { [file exists $::ThemePackageFile] } {
   catch { ::safeSourceStyle $::ThemePackageFile }
 }
 
+# Auto-generate a theme from the active Omarchy color theme (no-op elsewhere).
+catch { source [file nativename [file join $::scidTclDir "omarchy-theme.tcl"]] }
+
 # The font for ttkEntry.c widgets cannot be set with ttk::style
 option add *TCombobox*font font_Regular
 option add *TEntry.font font_Regular
@@ -871,6 +874,15 @@ proc configure_style {} {
   }
 }
 bind . <<ThemeChanged>> { if {"%W" eq "."} { configure_style } }
+
+# On Omarchy systems the Omarchy-derived theme is made available regardless,
+# so it shows up in the Theme menu; it is auto-selected only if enabled.
+if {[info commands ::omarchyTheme::ensure] ne ""} {
+  set ::omarchyThemeName [::omarchyTheme::ensure]
+  if {$::omarchyThemeName ne "" && $::omarchyAutoTheme} {
+    set ::lookTheme $::omarchyThemeName
+  }
+}
 
 catch { ttk::style theme use $::lookTheme }
 configure_style

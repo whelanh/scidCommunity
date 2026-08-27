@@ -337,6 +337,7 @@ menuText E OptionsBooksDir "Books directory" 0 {Sets the opening books directory
 menuText E OptionsTacticsBasesDir "Bases directory" 0 {Sets the tactics (training) bases directory}
 menuText E OptionsPhotosDir "Photos directory" 0 {Sets the photos bases directory}
 menuText E OptionsThemeDir "Theme(s) File"  0 { Load a GUI theme package file }
+translate E OptionsThemeOmarchy {Follow Omarchy theme}
 menuText E OptionsSave "Save Options" 0 "Save all settable options to the file $::optionsFile"
 menuText E OptionsAutoSave "Auto-Save Options on Exit" 0 \
   {Auto-save all options when exiting Scid}
