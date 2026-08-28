@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+ <release version="5.1.4.05" date="2026-08-28">
+      <description>
+        <p>Add additional board colors and 3D pieces from https://codeberg.org/scid/scid.git</p>
+      </description>
+    </release>
  <release version="5.1.4.04" date="2026-08-27">
       <description>
         <p>Added automatic Omarchy Quattro theme detection and application on supported systems</p>

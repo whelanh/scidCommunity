@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.4.03
+Version:        5.1.4.05
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 24b1570af85988203a7561a03cda8ce53463fd4e 
+%global commit a7ebaefa7138be4fccc5bc8e0c1324751fd77812  
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Fri Aug 28, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.4-05
+- "Add additional board colors and 3D pieces from https://codeberg.org/scid/scid.git"
 * Thu Aug 27, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.4-03
 - "Bug fix: in Play vs. Engine feature"
 * Mon Aug 24, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.4-02
