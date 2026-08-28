@@ -79,24 +79,39 @@ proc setPieceFont {font} {
 	set ::boardSizes {}
 	set dname [file join $::scidImgDir pieces $font]
 	set fnames [glob -nocomplain -directory $dname *.png *.gif]
+	# Map each available sheet size to its file so we can render a board size
+	# using the next-smaller sheet where required.
+	set sheets {}
 	foreach {fname} $fnames {
 		if {! [catch {image create photo tmpPieces -file "$fname"}]} {
-			set hsize [image height tmpPieces]
 			set size [expr {[image width tmpPieces] / 12}]
-			if {[lsearch -exact $::boardSizes $size] == -1} {
-				catch { image delete e$size }
-				image create photo e$size -height $hsize -width $size
-				set x 0
-				foreach p {wp wn wb wr wq wk bp bn bb br bq bk} {
-					catch { image delete $p$size }
-					image create photo $p$size -width $size -height $hsize
-					$p$size copy tmpPieces -from $x 0 [expr {$x + $size}] $hsize
-					incr x $size
-				}
-				lappend ::boardSizes $size
-			}
+			dict set sheets $size $fname
 			image delete tmpPieces
 		}
+	}
+	# These 3D piece sets render a full size-step too large on the board,
+	# so draw each board size using the next-smaller piece sheet.
+	set smallerFonts [list 3D-brown 3Dbw 3DLB]
+	set useSmaller [expr {$font in $smallerFonts}]
+	foreach size [lsort -integer [dict keys $sheets]] {
+		set srcSize $size
+		if {$useSmaller} {
+			set cand [expr {$size - 5}]
+			if {[dict exists $sheets $cand]} { set srcSize $cand }
+		}
+		if {[catch {image create photo tmpPieces -file [dict get $sheets $srcSize]}]} { continue }
+		set hsize [image height tmpPieces]
+		catch { image delete e$size }
+		image create photo e$size -height $hsize -width $srcSize
+		set x 0
+		foreach p {wp wn wb wr wq wk bp bn bb br bq bk} {
+			catch { image delete $p$size }
+			image create photo $p$size -width $srcSize -height $hsize
+			$p$size copy tmpPieces -from $x 0 [expr {$x + $srcSize}] $hsize
+			incr x $srcSize
+		}
+		image delete tmpPieces
+		lappend ::boardSizes $size
 	}
 	if {[llength $::boardSizes] == 0 && $::boardStyle != "Merida"} {
 		set ::boardStyle "Merida"
