@@ -1080,21 +1080,67 @@ set PAWN 6
 ################################################################################
 proc getPromoPiece {} {
     set w .promoWin
-    set ::result 2
-    toplevel $w
-    # wm transient $w .main
+    set ::result 0
+    if {[winfo exists $w]} { destroy $w }
+
+    ::win::createDialog $w 5
     ::setTitle $w "scidCommunity"
     wm resizable $w 0 0
+    wm protocol $w WM_DELETE_WINDOW "set ::result 0 ; catch { grab release $w } ; destroy $w"
+
     set col "w"
     if { [sc_pos side] == "black" } { set col "b" }
-    ttk::button $w.bq -image ${col}q45 -command "set ::result 2 ; destroy $w"
-    ttk::button $w.br -image ${col}r45 -command "set ::result 3 ; destroy $w"
-    ttk::button $w.bb -image ${col}b45 -command "set ::result 4 ; destroy $w"
-    ttk::button $w.bn -image ${col}n45 -command "set ::result 5 ; destroy $w"
-    pack $w.bq $w.br $w.bb $w.bn -side left
-    bind $w <Escape> "set ::result 2 ; destroy $w"
-    bind $w <Return> "set ::result 2 ; destroy $w"
-    update
+
+    set size 45
+    if {[info exists ::boardSize] && [info exists ::boardSizes] && [lsearch -exact $::boardSizes $::boardSize] != -1} {
+        set size $::boardSize
+    } elseif {[info exists ::boardSizes] && [llength $::boardSizes] > 0} {
+        set size [lindex $::boardSizes 0]
+    }
+
+    set imgQ "${col}q$size"
+    set imgR "${col}r$size"
+    set imgB "${col}b$size"
+    set imgN "${col}n$size"
+
+    # Fallback to any existing board size images if the selected size isn't in image names
+    if {[lsearch -exact [image names] $imgQ] == -1 && [info exists ::boardSizes]} {
+        foreach s $::boardSizes {
+            if {[lsearch -exact [image names] "${col}q$s"] != -1} {
+                set imgQ "${col}q$s"
+                set imgR "${col}r$s"
+                set imgB "${col}b$s"
+                set imgN "${col}n$s"
+                break
+            }
+        }
+    }
+
+    if {[lsearch -exact [image names] $imgQ] != -1} {
+        ttk::button $w.bq -image $imgQ -command "set ::result 2 ; catch { grab release $w } ; destroy $w"
+        ttk::button $w.br -image $imgR -command "set ::result 3 ; catch { grab release $w } ; destroy $w"
+        ttk::button $w.bb -image $imgB -command "set ::result 4 ; catch { grab release $w } ; destroy $w"
+        ttk::button $w.bn -image $imgN -command "set ::result 5 ; catch { grab release $w } ; destroy $w"
+    } else {
+        ttk::button $w.bq -text "Queen"  -command "set ::result 2 ; catch { grab release $w } ; destroy $w"
+        ttk::button $w.br -text "Rook"   -command "set ::result 3 ; catch { grab release $w } ; destroy $w"
+        ttk::button $w.bb -text "Bishop" -command "set ::result 4 ; catch { grab release $w } ; destroy $w"
+        ttk::button $w.bn -text "Knight" -command "set ::result 5 ; catch { grab release $w } ; destroy $w"
+    }
+
+    pack $w.bq $w.br $w.bb $w.bn -side left -padx 2 -pady 2
+    bind $w <Escape> "set ::result 0 ; catch { grab release $w } ; destroy $w"
+    bind $w <Return> "set ::result 2 ; catch { grab release $w } ; destroy $w"
+
+    update idletasks
+    set parent .
+    if {[winfo exists .main.board]} { set parent .main.board }
+    set x [expr {[winfo rootx $parent] + ([winfo width $parent] - [winfo reqwidth $w]) / 2}]
+    set y [expr {[winfo rooty $parent] + ([winfo height $parent] - [winfo reqheight $w]) / 2}]
+    if {$x < 0} { set x 0 }
+    if {$y < 0} { set y 0 }
+    wm geometry $w "+${x}+${y}"
+
     catch { grab $w }
     tkwait window $w
     return $::result
@@ -1191,6 +1237,7 @@ proc addMoveUCI {{moveUCI} {animate "-animate"}} {
             5 { set promoLetter "n"}
             default {set promoLetter ""}
         }
+        if {$promoLetter eq ""} { return 0 }
         append moveUCI $promoLetter
     } else {
         # If it is King takes king then treat it as entering a null move:
