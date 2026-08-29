@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+ <release version="5.1.4.06" date="2026-08-29">
+      <description>
+        <p>Bug fix for pawn promotion</p>
+      </description>
+    </release>
  <release version="5.1.4.05" date="2026-08-28">
       <description>
         <p>Add additional board colors and 3D pieces from the upstream scid project</p>
