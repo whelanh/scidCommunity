@@ -2035,7 +2035,7 @@ proc ::tree::mask::fillWithGame { {base ""} {gnum ""} {refresh 1} } {
   set n [llength $game]
   for {set i 0} { $i < $n} {incr i} {
     # Quick assign
-    foreach {RAVd RAVn FEN NAGs comment lastMoveSAN} [lindex $game $i] {}
+    foreach {RAVd RAVn FEN NAGs comment lastMoveSAN lastMoveUCI} [lindex $game $i] {}
 
     if { $RAVd > $lastRAVd || ($RAVd == $lastRAVd && $RAVn != $lastRAVn) } {
       # New variation
