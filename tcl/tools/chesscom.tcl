@@ -107,10 +107,9 @@ proc ::chesscom::startDownload {w} {
     return
   }
 
-  set year [expr {int($yearStr)}]
-  set month [expr {int($monthStr)}]
-  set currentYear [clock format [clock seconds] -format "%Y"]
-  set currentYearInt [expr {int($currentYear)}]
+  scan $yearStr %d year
+  scan $monthStr %d month
+  set currentYearInt [clock format [clock seconds] -format "%Y"]
 
   if {$year <= 0 || $year > $currentYearInt} {
     tk_messageBox -icon warning -type ok -title "Chess.com Import" \
@@ -168,8 +167,8 @@ proc ::chesscom::startDownload {w} {
 #   Download month-by-month from start year/month to current month
 proc ::chesscom::downloadUserGames {username startYear startMonth dialogWin} {
   set pgnfile [file join $::chesscom::tempDir "chesscom_games.pgn"]
-  set currentYear [expr {int([clock format [clock seconds] -format "%Y"])}]
-  set currentMonth [expr {int([clock format [clock seconds] -format "%m"])}]
+  scan [clock format [clock seconds] -format "%Y"] %d currentYear
+  scan [clock format [clock seconds] -format "%m"] %d currentMonth
   set gamesFound 0
 
   # Calculate total months for progress bar

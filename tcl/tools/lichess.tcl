@@ -101,10 +101,9 @@ proc ::lichess::startDownload {w} {
       -message "Please enter a start month from 1 to 12."
     return
   }
-  set year [expr {int($yearStr)}]
-  set month [expr {int($monthStr)}]
-  set currentYearInt [expr {int([clock format [clock seconds] -format "%Y"])}]
-  set currentMonthInt [expr {int([clock format [clock seconds] -format "%m"])}]
+  scan $yearStr %d year
+  scan $monthStr %d month
+  set currentYearInt [clock format [clock seconds] -format "%Y"]
   if {$year <= 0 || $year > $currentYearInt} {
     tk_messageBox -icon warning -type ok -title "Lichess Import" \
       -message "Start year must be between 0001 and $currentYearInt."
@@ -179,83 +178,191 @@ proc ::lichess::startDownload {w} {
 
 proc ::lichess::downloadUserGames {username sinceMs untilMs} {
   set pgnfile [file join $::lichess::tempDir "lichess_games.pgn"]
-  
-  # Construct the Lichess API URL
-  set apiurl "https://lichess.org/api/games/user/${username}?tags=true&clocks=true&evals=true&opening=true&literate=true&since=${sinceMs}&until=${untilMs}"
-  
-  # Use exec curl to download via HTTPS (most reliable)
-  # Use auto_execok which works on all platforms (including Windows)
-  if {[auto_execok curl] ne ""} {
+
+  # Construct the Lichess API URL. Lichess moved the user game export
+  # endpoint to /games/export/{username} (the old /api/games/user/...
+  # endpoint was removed). A browser-like User-Agent is required because
+  # Lichess blocks requests from command-line tools and crawlers.
+  set apiurl "https://lichess.org/games/export/${username}?tags=true&clocks=true&evals=true&opening=true&literate=true&since=${sinceMs}&until=${untilMs}"
+  set userAgent "Mozilla/5.0 (X11; Linux x86_64; rv:130.0) Gecko/20100101 Firefox/130.0"
+
+  # Reuse a Lichess API token if the user has already configured one for the
+  # Opening Explorer. Authenticated requests get a much more generous rate
+  # limit than anonymous ones, but anonymous access still works.
+  set token ""
+  if {[info exists ::lichess_openex::apiToken]} {
+    set token [string trim $::lichess_openex::apiToken]
+  }
+
+  # Lichess aggressively throttles anonymous exports (returning
+  # "Please only run N request(s) at a time"), so retry with a short backoff.
+  set maxAttempts 6
+  for {set attempt 1} {$attempt <= $maxAttempts} {incr attempt} {
+    catch {file delete -force $pgnfile}
+
     if {[catch {
-      exec curl -L -s -o "$pgnfile" "$apiurl" 2>@1
+      ::lichess::downloadFile $apiurl $pgnfile $userAgent $token
     } err]} {
+      if {$attempt >= $maxAttempts} {
+        error "Lichess download failed: $err"
+      }
+      ::lichess::sleep [expr {1000 * $attempt}]
+      continue
+    }
+
+    if {![file exists $pgnfile]} {
+      if {$attempt >= $maxAttempts} {
+        error "Downloaded file is missing."
+      }
+      ::lichess::sleep [expr {1000 * $attempt}]
+      continue
+    }
+
+    if {[file size $pgnfile] == 0} {
+      error "No games found for user '$username'. Please check that the username is correct."
+    }
+
+    set firstline [::lichess::firstLine $pgnfile]
+
+    # Lichess returns a JSON error body when it throttles us.
+    if {[::lichess::isThrottled $firstline]} {
+      if {$attempt >= $maxAttempts} {
+        error "Lichess is limiting requests. Please wait a minute and try again, or set a Lichess API token in the Opening Explorer options."
+      }
+      ::lichess::sleep [expr {2000 * $attempt}]
+      continue
+    }
+
+    # Any other JSON body is an error. If we were using a token it may not be
+    # valid for this endpoint, so retry once anonymously before giving up.
+    if {[string index $firstline 0] eq "\{"} {
+      if {$token ne ""} {
+        set token ""
+        continue
+      }
+      if {[regexp {"error"\s*:\s*"([^"]*)"} $firstline -> errMsg]} {
+        error "Lichess API error: $errMsg"
+      }
+      error "Lichess API returned an unexpected response."
+    }
+
+    # Lichess returns an HTML page for blocked requests or unknown users.
+    if {[string match "<*" $firstline]} {
+      error "Lichess returned an unexpected page. Please check the username and try again later."
+    }
+
+    # A PGN export must start with a tag pair such as [Event "..."].
+    if {[string index $firstline 0] ne "\["} {
+      error "Downloaded data is not a PGN file. Please check the username."
+    }
+
+    ::lichess::openPGN $pgnfile $username
+    return
+  }
+}
+
+# ::lichess::downloadFile
+#   Download a URL to a file using curl/wget/PowerShell/http, optionally
+#   sending an Authorization header when a token is supplied.
+#
+proc ::lichess::downloadFile {apiurl pgnfile userAgent token} {
+  if {[auto_execok curl] ne ""} {
+    set cmd [list curl -L -s -A $userAgent]
+    if {$token ne ""} {
+      lappend cmd -H "Authorization: Bearer $token"
+    }
+    lappend cmd -o $pgnfile $apiurl
+    if {[catch {exec {*}$cmd 2>@1} err]} {
       error "curl download failed: $err"
     }
   } elseif {[auto_execok wget] ne ""} {
-    if {[catch {
-      exec wget -q -O "$pgnfile" "$apiurl" 2>@1
-    } err]} {
+    set cmd [list wget -q --user-agent=$userAgent]
+    if {$token ne ""} {
+      lappend cmd --header "Authorization: Bearer $token"
+    }
+    lappend cmd -O $pgnfile $apiurl
+    if {[catch {exec {*}$cmd 2>@1} err]} {
       error "wget download failed: $err"
     }
   } elseif {[info exists ::windowsOS] && $::windowsOS && [auto_execok powershell] ne ""} {
     # Windows fallback: PowerShell Invoke-WebRequest
-    if {[catch {
-      set ::env(SAFE_DL_URL) $apiurl
-      set ::env(SAFE_DL_FILE) $pgnfile
-      exec powershell -NoLogo -NoProfile -Command {Invoke-WebRequest -Uri $env:SAFE_DL_URL -OutFile $env:SAFE_DL_FILE} 2>@1
-    } err]} {
-      error "PowerShell download failed: $err"
+    set ::env(SAFE_DL_URL) $apiurl
+    set ::env(SAFE_DL_FILE) $pgnfile
+    set ::env(SAFE_DL_UA) $userAgent
+    if {$token ne ""} {
+      set ::env(SAFE_DL_TOKEN) $token
+      if {[catch {
+        exec powershell -NoLogo -NoProfile -Command {Invoke-WebRequest -Uri $env:SAFE_DL_URL -OutFile $env:SAFE_DL_FILE -UserAgent $env:SAFE_DL_UA -Headers @{Authorization = "Bearer $env:SAFE_DL_TOKEN"}} 2>@1
+      } err]} {
+        error "PowerShell download failed: $err"
+      }
+    } else {
+      if {[catch {
+        exec powershell -NoLogo -NoProfile -Command {Invoke-WebRequest -Uri $env:SAFE_DL_URL -OutFile $env:SAFE_DL_FILE -UserAgent $env:SAFE_DL_UA} 2>@1
+      } err]} {
+        error "PowerShell download failed: $err"
+      }
     }
   } else {
     # No external downloader; try Tcl http (requires TLS support)
-    ::lichess::downloadWithHTTP $apiurl $pgnfile
+    ::lichess::downloadWithHTTP $apiurl $pgnfile $userAgent $token
   }
-  
-  # Verify the file was downloaded
-  if {![file exists $pgnfile]} {
-    error "Downloaded file is missing"
-  }
-  
-  if {[file size $pgnfile] == 0} {
-    error "No games found for user '$username'. Please check that the username is correct."
-  }
-  
-  # Check if the file contains valid PGN data
+}
+
+# ::lichess::firstLine
+#   Return the first (trimmed) line of a file.
+#
+proc ::lichess::firstLine {pgnfile} {
   set fd [open $pgnfile r]
-  set firstline [gets $fd]
+  set line [string trim [gets $fd]]
   close $fd
-  
-  # Lichess returns error messages in plain text, check for common errors
-  if {[string match "*User not found*" $firstline] || [string match "*Invalid username*" $firstline]} {
-    error "User '$username' not found on Lichess.org"
-  }
-  
-  ::lichess::openPGN $pgnfile $username
+  return $line
+}
+
+# ::lichess::isThrottled
+#   True if the response is a Lichess rate/concurrency-limit JSON error.
+#
+proc ::lichess::isThrottled {firstline} {
+  return [expr {[string index $firstline 0] eq "\{" && [string match "*request(s) at a time*" $firstline]}]
+}
+
+# ::lichess::sleep
+#   Block for the given number of milliseconds while keeping the UI responsive.
+#
+proc ::lichess::sleep {ms} {
+  set ::lichess::_sleepDone 0
+  after $ms [list set ::lichess::_sleepDone 1]
+  vwait ::lichess::_sleepDone
 }
 
 # lichess::downloadWithHTTP
 #   Download using Tcl http package (fallback method)
 #
-proc ::lichess::downloadWithHTTP {apiurl pgnfile} {
+proc ::lichess::downloadWithHTTP {apiurl pgnfile {userAgent "Mozilla/5.0"} {token ""}} {
   package require http
   if {[catch {package require tls} tlsErr]} {
     error "Tcl TLS support is unavailable: $tlsErr. Install the tls package or use curl/wget/PowerShell to download."
   }
-  
+
   # Register TLS
   http::register https 443 [list ::tls::socket -autoservername true]
-  
+
   if {[catch {
     set fd [open $pgnfile wb]
-    set token [http::geturl $apiurl \
+    set headers [list User-Agent $userAgent]
+    if {$token ne ""} {
+      lappend headers Authorization "Bearer $token"
+    }
+    set httpToken [http::geturl $apiurl \
+      -headers $headers \
       -channel $fd \
       -timeout 120000]
     close $fd
-    
-    set status [http::code $token]
-    set ncode [http::ncode $token]
-    http::cleanup $token
-    
+
+    set status [http::code $httpToken]
+    set ncode [http::ncode $httpToken]
+    http::cleanup $httpToken
+
     if {$ncode != 200} {
       error "HTTP download failed with status: $status"
     }
