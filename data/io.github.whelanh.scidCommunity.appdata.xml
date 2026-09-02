@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+ <release version="5.1.4.08" date="2026-09-02">
+      <description>
+        <p>Bug fix for adding games/database to masks</p>
+      </description>
+    </release>
  <release version="5.1.4.07" date="2026-09-02">
       <description>
         <p>Bug fix for chess.com and Lichess game importers</p>
