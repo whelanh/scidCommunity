@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.4.06
+Version:        5.1.4.07
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit c953979b6647f8c55dbc6ef10b1959ca7d4544ad  
+%global commit ce773b1de7a88d1c41b32635c742f8ba834bfdac  
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Tue Mon 02, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.4-07
+- "Bug fix for chess.com and Lichess game importers"
 * Sat Aug 29, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.4-06
 - "Bug fix for pawn promotion"
 * Fri Aug 28, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.4-05
