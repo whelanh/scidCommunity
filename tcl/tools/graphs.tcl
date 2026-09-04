@@ -622,12 +622,8 @@ proc ::tools::graphs::filter::RefreshWinPct {w width height vlines} {
   update
 }
 
-#Invert white/black Score in Score graph, switches for display move time and adding time
-set ::tools::graphs::score::White 0
-set ::tools::graphs::score::Black 0
-set ::tools::graphs::score::Scores 1
-set ::tools::graphs::score::Times 1
-set ::tools::graphs::score::TimeSum 0
+# Maximum absolute evaluation value plotted on the evaluation graph;
+# larger scores are clamped. Used by ::tools::graphs::MoveScoreList.
 set ::tools::graphs::score::MaxY 6
 
 ###########################
@@ -761,153 +757,6 @@ proc ::tools::graphs::MoveScoreList { invw invb } {
     }
     return $moveScores
 }
-
-proc ::tools::graphs::score::Refresh { {docreate 1 }} {
-  set linecolor red
-  set firstColor darkgreen
-  set secondColor blue
-  set linewidth 2
-  set psize 2
-
-  set w .sgraph
-  # Game has changed, but window is not open: do nothing
-  if {! [winfo exists $w] && $docreate == 0 } { return }
-
-  if {! [winfo exists $w] } {
-    ::createToplevel $w
-    menu $w.menu
-    ::setMenu $w $w.menu
-    $w.menu add cascade -label GraphFile -menu $w.menu.file
-    menu $w.menu.file
-    $w.menu.file add command -label GraphFileColor \
-        -command "::tools::graphs::Save color $w.c"
-    $w.menu.file add command -label GraphFileGrey \
-        -command "::tools::graphs::Save gray $w.c"
-    $w.menu.file add separator
-    $w.menu.file add command -label GraphFileClose -command "destroy $w"
-    $w.menu add cascade -label GraphOptions -menu $w.menu.options
-    $w.menu add command -label Help -accelerator F1 -command {helpWindow Graphs Score}
-    #Checkbuttons for Invert white/black Score in Score graph
-    menu $w.menu.options
-    foreach i {White Black} {
-      $w.menu.options add checkbutton -label GraphOptions$i \
-          -variable ::tools::graphs::score::$i -offvalue "0" -onvalue "1" \
-          -command "::tools::graphs::score::Refresh"
-    }
-    canvas $w.c -width 500 -height 300 -selectforeground [ttk::style lookup . -foreground] -background [ttk::style lookup . -background]
-
-    $w.c create text 25 5 -tag text -justify center -width 1 \
-        -font font_Regular -anchor n
-    ttk::frame $w.fbuttons
-    # TODO translate
-    ttk::checkbutton $w.fbuttons.score -text "Eval" -variable ::tools::graphs::score::Scores \
-        -command "::tools::graphs::score::Refresh"
-    ttk::checkbutton $w.fbuttons.time -text [tr Time] -variable ::tools::graphs::score::Times \
-        -command "::tools::graphs::score::Refresh"
-    ttk::checkbutton $w.fbuttons.timesum -text $::tr(AnnotateTime) -variable ::tools::graphs::score::TimeSum \
-        -command "::tools::graphs::score::Refresh" -offvalue "1" -onvalue "0"
-    # TODO translate
-    ttk::label $w.fbuttons.labelm -text "Max Score:"
-    ttk::spinbox $w.fbuttons.maxy -textvariable ::tools::graphs::score::MaxY -justify right -from 1 -to 12 -width 2 -command ::tools::graphs::score::Refresh
-    pack $w.fbuttons.timesum $w.fbuttons.time $w.fbuttons.score -side right -padx 6 -pady 0
-    pack $w.fbuttons.maxy $w.fbuttons.labelm -side right
-    pack $w.fbuttons -side bottom -fill both
-    pack $w.c -side top -expand yes -fill both
-    bind $w <F1> {helpWindow Graphs Score}
-    bind $w <Configure> {
-      .sgraph.c itemconfigure text -width [expr {[winfo width .sgraph.c] - 20}]
-      .sgraph.c coords text [expr {[winfo width .sgraph.c] / 2}] 10
-      ::utils::graph::configure score -height [expr {[winfo height .sgraph.c] - 50}]
-      ::utils::graph::configure score -width [expr {[winfo width .sgraph.c] - 40}]
-      ::utils::graph::redraw score
-    }
-    bind $w.c <1> {::tools::graphs::score::Move %x}
-    ::setTitle $w "scidCommunity: [tr WindowsGraph]"
-    ::createToplevelFinalize $w
-    ::tools::graphs::score::ConfigMenus
-  }
-
-  $w.c itemconfigure text -width [expr {[winfo width $w.c] - 20}]
-  $w.c coords text [expr {[winfo width $w.c] / 2}] 10
-  set height [expr {[winfo height $w.c] - 50} ]
-  set width [expr {[winfo width $w.c] - 40} ]
-  set yticks 1
-  if { $::tools::graphs::score::Times } {
-      set max 0
-      # Find max Value of time, then set the tick value vor horizontal lines
-      foreach j { "w" "b"} {
-        set coords [MoveTimeList $j $::tools::graphs::score::TimeSum]
-        set coords$j $coords
-        set ncoords [expr {[llength $coords] - 1}]
-        for {set i 0} {$i < $ncoords} {incr i 2} {
-            set y [lindex $coords [expr {$i + 1}]]
-            if { $y > $max } { set max $y }
-        }
-      }
-      if {$max > 20} { set yticks 5 }
-      if {$max > 50} { set yticks 10 }
-      if {$max > 100} { set yticks 20 }
-  }
-
-  ::utils::graph::create score -width $width -height $height -xtop 25 -ytop 25 \
-      -ytick $yticks -xtick 5 -font font_Small -canvas $w.c -textcolor black \
-      -hline [list [list gray80 1 each $yticks ]] \
-      -vline {{gray80 1 each 1} {steelBlue 1 each 5}}
-
-  # Create fake dataset with bounds so we see at least -1.0 to 1.0:
-  ::utils::graph::data score bounds -points 0 -lines 0 -bars 0 -coords {1 0 1 0.9}
-
-  # Update the graph:
-  set whiteelo [sc_game tag get WhiteElo]
-  set blackelo [sc_game tag get BlackElo]
-  if {$whiteelo == 0} {set whiteelo ""} else {set whiteelo "($whiteelo)"}
-  if {$blackelo == 0} {set blackelo ""} else {set blackelo "($blackelo)"}
-  $w.c itemconfigure text -text "[sc_game info white]$whiteelo - [sc_game info black]$blackelo  [sc_game info site]  [sc_game info date]"
-  busyCursor $w
-  update
-
-  if { $::tools::graphs::score::Times } {
-      # draw move time
-      catch {::utils::graph::data score data1 -color $firstColor -points 0 -lines 1\
-          -key [sc_game info white] -linewidth $linewidth -radius $psize -outline $firstColor -coords $coordsw }
-      catch {::utils::graph::data score data2 -color $secondColor -points 0 -lines 1 \
-         -linewidth $linewidth -radius $psize -outline $secondColor -coords $coordsb}
-  }
-  if { $::tools::graphs::score::Scores } {
-      # draw score bars
-      catch {::utils::graph::data score data -color $linecolor -points 0 -lines 0 -bars 2 \
-         -linewidth $linewidth -radius $psize -outline $linecolor \
-         -coords [::tools::graphs::MoveScoreList $::tools::graphs::score::White $::tools::graphs::score::Black]}
-  }
-
-  ::utils::graph::redraw score
-  unbusyCursor $w
-  update
-}
-
-proc ::tools::graphs::score::ConfigMenus {{lang ""}} {
-  if {! [winfo exists .sgraph]} { return }
-  if {$lang == ""} { set lang $::language }
-  set m .sgraph.menu
-  foreach idx {0 1} tag {File Options} {
-    configMenuText $m $idx Graph$tag $lang
-  }
-  foreach idx {0 1 3} tag {Color Grey Close} {
-    configMenuText $m.file $idx GraphFile$tag $lang
-  }
-  foreach idx {0 1} tag {GraphOptionsWhite GraphOptionsBlack} {
-    configMenuText $m.options $idx $tag $lang
-  }
-  $m entryconfig 2 -label $::tr(Help)
-}
-
-proc ::tools::graphs::score::Move {xc} {
-  set x [expr {round([::utils::graph::xunmap score $xc] * 2 + 0.5)} ]
-  sc_move start
-  sc_move forward $x
-  updateBoard
-}
-
 
 ####################
 # Rating graph
@@ -1334,21 +1183,22 @@ proc ::tools::graphs::time::Open {} {
     return
   }
 
-  toplevel $w
-  wm title $w "scidCommunity: Time Analysis"
+  ::createToplevel $w
+  ::setTitle $w "scidCommunity: [tr WindowsGraph]"
 
-  # ---- Line graph canvas (top) ----
-  canvas $w.c -width 600 -height 280 \
-    -selectforeground [ttk::style lookup . -foreground] \
-    -background [ttk::style lookup . -background]
+  # ---- Line graph canvas (top): remaining clock time ----
+  canvas $w.c -width 600 -height 260
   $w.c create text 25 5 -tag title -justify center -width 1 \
       -font font_Regular -anchor n
 
-  # ---- Bar chart canvas (bottom) ----
-  canvas $w.c2 -width 600 -height 200 \
-    -selectforeground [ttk::style lookup . -foreground] \
-    -background [ttk::style lookup . -background]
+  # ---- Bar chart canvas (middle): time spent per move ----
+  canvas $w.c2 -width 600 -height 180
   $w.c2 create text 25 5 -tag bartitle -justify center -width 1 \
+      -font font_Regular -anchor n
+
+  # ---- Bar chart canvas (bottom): evaluation ----
+  canvas $w.c3 -width 600 -height 180
+  $w.c3 create text 25 5 -tag evaltitle -justify center -width 1 \
       -font font_Regular -anchor n
 
   # ---- Button bar ----
@@ -1360,8 +1210,8 @@ proc ::tools::graphs::time::Open {} {
   pack $w.btns.close   -side right -padx 4 -pady 2
 
   pack $w.btns -side bottom -fill x
-  pack $w.c    -side top    -expand yes -fill both
-  pack $w.c2   -side top    -fill both
+
+  ::createToplevelFinalize $w
 
   bind $w <Configure> {
     # Resize line graph (top canvas)
@@ -1373,7 +1223,7 @@ proc ::tools::graphs::time::Open {} {
           -width  [expr {[winfo width  .tgraph.c] - 60}]
       ::utils::graph::redraw tgraph
     }
-    # Resize bar chart (bottom canvas)
+    # Resize bar chart (middle canvas)
     .tgraph.c2 itemconfigure bartitle -width [expr {[winfo width .tgraph.c2] - 20}]
     .tgraph.c2 coords bartitle [expr {[winfo width .tgraph.c2] / 2}] 8
     if {[::utils::graph::isgraph tgraph2]} {
@@ -1381,6 +1231,15 @@ proc ::tools::graphs::time::Open {} {
           -height [expr {[winfo height .tgraph.c2] - 50}] \
           -width  [expr {[winfo width  .tgraph.c2] - 60}]
       ::utils::graph::redraw tgraph2
+    }
+    # Resize evaluation graph (bottom canvas)
+    .tgraph.c3 itemconfigure evaltitle -width [expr {[winfo width .tgraph.c3] - 20}]
+    .tgraph.c3 coords evaltitle [expr {[winfo width .tgraph.c3] / 2}] 8
+    if {[::utils::graph::isgraph tgraph3]} {
+      ::utils::graph::configure tgraph3 \
+          -height [expr {[winfo height .tgraph.c3] - 50}] \
+          -width  [expr {[winfo width  .tgraph.c3] - 60}]
+      ::utils::graph::redraw tgraph3
     }
   }
   bind $w <F1> {helpWindow Index}
@@ -1392,24 +1251,54 @@ proc ::tools::graphs::time::Refresh {} {
   set w .tgraph
   if {![winfo exists $w]} { return }
 
-  # Fetch remaining clock data for both colours (add=0 => remaining time)
+  # Detect which data is available in the current game.
+  # Fetch remaining clock data for both colours (add=0 => remaining time).
   set coordsW [MoveTimeList "w" 0]
   set coordsB [MoveTimeList "b" 0]
+  set haveClock [expr {[llength $coordsW] > 0 || [llength $coordsB] > 0}]
 
-  if {[llength $coordsW] == 0 && [llength $coordsB] == 0} {
-    # Clear any previous graph drawings from both canvases
+  # Fetch evaluation data (from White's perspective).
+  set scores [::tools::graphs::MoveScoreList 0 0]
+  set haveEval [expr {[llength $scores] > 0}]
+
+  if {!$haveClock && !$haveEval} {
+    # Nothing to plot: hide all panels and clear any previous drawings.
+    pack forget $w.c $w.c2 $w.c3
     $w.c  delete -withtag gtgraph
     $w.c2 delete -withtag gtgraph2
-    tk_messageBox -parent $w -icon info -title "Time Analysis" \
+    $w.c3 delete -withtag gtgraph3
+    tk_messageBox -parent $w -icon info -title [tr WindowsGraph] \
         -message [tr ErrNoClockComments]
 
     return
+  }
+
+  # Show only the panels for which data is present.
+  pack forget $w.c $w.c2 $w.c3
+  if {$haveClock && $haveEval} {
+    pack $w.c  -side top -expand yes -fill both
+    pack $w.c2 -side top -fill both
+    pack $w.c3 -side top -fill both
+  } elseif {$haveClock} {
+    pack $w.c  -side top -expand yes -fill both
+    pack $w.c2 -side top -fill both
+  } else {
+    pack $w.c3 -side top -expand yes -fill both
   }
 
   set white [sc_game info white]
   set black [sc_game info black]
   set date  [sc_game info date]
 
+  if {$haveClock} {
+    ::tools::graphs::time::DrawClock $w $coordsW $coordsB $white $black $date
+  }
+  if {$haveEval} {
+    ::tools::graphs::time::DrawEval $w $scores
+  }
+}
+
+proc ::tools::graphs::time::DrawClock {w coordsW coordsB white black date} {
   # ---- Line graph (remaining clock time) ----
 
   set maxMins 0
@@ -1519,6 +1408,52 @@ proc ::tools::graphs::time::Refresh {} {
       -text "Time Spent Per Move (minutes) — White (green)  Black (blue)"
   $w.c2 itemconfigure bartitle -width [expr {[winfo width $w.c2] - 20}]
   $w.c2 coords bartitle [expr {[winfo width $w.c2] / 2}] 8
+}
+
+proc ::tools::graphs::time::DrawEval {w scores} {
+  # Compute a symmetric y-range based on the largest |score|.
+  set maxAbs 0.0
+  foreach {xv yv} $scores {
+    set a [expr {abs($yv)}]
+    if {$a > $maxAbs} { set maxAbs $a }
+  }
+  if {$maxAbs < 1.0} { set maxAbs 1.0 }
+
+  set ymax3 [expr {ceil($maxAbs)}]
+  if {$ymax3 < 1} { set ymax3 1 }
+  if {$ymax3 > 2} { set ymax3 [expr {ceil($maxAbs / 2.0) * 2.0}] }
+  set ytick3 1
+  if {$ymax3 <= 2} { set ytick3 0.5 }
+  if {$ymax3 >= 10} { set ytick3 2 }
+
+  set height3 [expr {[winfo height $w.c3] - 50}]
+  set width3  [expr {[winfo width  $w.c3] - 60}]
+  if {$height3 < 50} { set height3 150 }
+  if {$width3  < 50} { set width3  540 }
+
+  ::utils::graph::create tgraph3 \
+      -width $width3 -height $height3 \
+      -xtop 40 -ytop 30 \
+      -font font_Small -canvas $w.c3 \
+      -textcolor black -tickcolor black \
+      -background white \
+      -xtick 1 -ytick $ytick3 \
+      -ymin [expr {-$ymax3}] -ymax $ymax3 \
+      -hline [list [list gray80 1 each $ytick3] [list black 1 at 0]] \
+      -vline {{gray80 1 each 1} {steelBlue 1 each 5}}
+
+  ::utils::graph::data tgraph3 bounds -points 0 -lines 0 -bars 0 \
+      -coords {0 0 1 0}
+
+  ::utils::graph::data tgraph3 eval \
+      -color red -outline red \
+      -points 0 -lines 0 -bars 2 \
+      -barwidth 1.0 -coords $scores
+
+  ::utils::graph::redraw tgraph3
+  $w.c3 itemconfigure evaltitle -text "Evaluation (White's perspective)"
+  $w.c3 itemconfigure evaltitle -width [expr {[winfo width $w.c3] - 20}]
+  $w.c3 coords evaltitle [expr {[winfo width $w.c3] / 2}] 8
 }
 
 ### End of file: graphs.tcl

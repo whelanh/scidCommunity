@@ -245,7 +245,7 @@ $m add checkbutton -label WindowsTree -variable treeWin -command ::tree::make -a
 $m add checkbutton -label WindowsBook -variable ::book::isOpen -command ::book::open -accelerator "F6"
 $m add checkbutton -label [tr TablebaseWindow] -variable ::tablebase::window::isOpen -command ::tablebase::window::Open -accelerator "Ctrl+="
 $m add checkbutton -label [tr Board3D] -variable ::windows::game3d::isOpen -command ::windows::game3d::toggle -accelerator "Ctrl+3"
-$m add command -label WindowsGraph -command ::tools::graphs::score::Refresh
+$m add command -label WindowsGraph -command ::tools::graphs::time::Open
 $m add separator
 $m add command -label WindowsEPD -command {::epd::newEpdWin open}
 
@@ -271,7 +271,6 @@ $m add command -label ToolsOpReport \
     -accelerator "Ctrl+Shift+O" -command ::optable::makeReportWin
 $m add command -label ToolsTracker \
     -accelerator "Ctrl+Shift+K" -command ::ptrack::make
-$m add command -label ToolsTimeAnalysis -command ::tools::graphs::time::Open
 $m add command -label ToolsBookTuning -command ::book::tuning
 $m add command -label ToolsDownloadTWIC -command "::twic::downloadWeek latest"
 menu $m.hardware
@@ -606,7 +605,6 @@ proc setLanguageMenus {} {
 
   ::optable::ConfigMenus
   ::preport::ConfigMenus
-  ::tools::graphs::score::ConfigMenus
   ::tools::graphs::rating::ConfigMenus
 
   # Check for duplicate menu underline characters in this language:
