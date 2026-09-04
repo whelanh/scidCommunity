@@ -891,7 +891,7 @@ proc ::docking::create_window {wnd} {
       "\.(fdock)?oprepWin"            { ::optable::makeReportWin }
       "\.(fdock)?plist"               { ::plist::Open }
       "\.(fdock)?tourney"             { ::tourney::Open }
-      "\.(fdock)?sgraph"              { ::tools::graphs::score::Refresh }
+      "\.(fdock)?tgraph"              { ::tools::graphs::time::Open }
       "\.(fdock)?glistWin([0-9]+)"    { ::windows::gamelist::Open }
       "\.(fdock)?treeWin([0-9]+)"     { ::tree::make [lindex $regmatch end]}
       "\.(fdock)?engineWin([0-9]+)"   { ::enginewin::Open [lindex $regmatch end]}

@@ -328,7 +328,7 @@ foreach ns {
   ::tools
   ::tools::analysis
   ::tools::graphs
-  ::tools::graphs::filter ::tools::graphs::absfilter ::tools::graphs::rating ::tools::graphs::score
+  ::tools::graphs::filter ::tools::graphs::absfilter ::tools::graphs::rating ::tools::graphs::score ::tools::graphs::time
   ::tb ::optable ::tablebase
   ::board ::move
 ::sergame ::opening ::tactics ::calvar ::uci ::fics ::reviewgame ::novag ::iccf ::lss
