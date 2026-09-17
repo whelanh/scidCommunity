@@ -62,8 +62,6 @@ menuText B EditFirst "Converte para Primeira Variante" 14 \
   {Faz com que uma variante seja a primeira da lista}
 menuText B EditMain "Converte variante para Linha Principal" 24 \
   {Faz com que uma variante se torne a Linha Principal}
-menuText B EditTrial "Experimentar variante" 0 \
-  {Inicia/Para experimentação, para testar alguma nova ideia no tabuleiro}
 menuText B EditStrip "Limpar Comentários e Variantes" 2 \
   {Limpa comentários e variantes no jogo atual}
 menuText B EditUndo "Desfazer" 0 {Desfaz última mudança no jogo}

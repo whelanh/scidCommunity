@@ -70,8 +70,6 @@ menuText N EditFirst "Maak hoofdvariant" 5 \
   {Maak deze variant de eerste in de lijst}
 menuText N EditMain "Variatie op hoofdvariant" 13 \
    {Promoveerd de variant als hoofdvariant}
-menuText N EditTrial "Probeer variatie" 0 \
-  {Start/stop probeer modus, om een idee op het bord te testen}
 menuText N EditStrip "Verwijder analyse" 2 {Verwijder commentaar of varianten uit deze partij}
 menuText N EditUndo "Ongedaan" 0 {Maak laatset verandering ongedaan}
 menuText N EditRedo "Opnieuw uitvoeren" 0 {Voer de laatste spelwijziging opnieuw uit}

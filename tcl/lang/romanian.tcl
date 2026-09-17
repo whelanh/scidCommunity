@@ -102,8 +102,6 @@ menuText L EditFirst "Faceți prima variație" 5 \
   {Promovați o variantă pentru a fi primul în listă}
 menuText L EditMain "Promovați variația la linia principală" 21 \
   {Promovați o variație pentru a fi linia principală}
-menuText L EditTrial "Încercați Variation" 0 \
-  {Pornire/oprire modul de încercare, pentru testarea unei idei pe tablă}
 menuText L EditStrip "Bandă" 3 {Eliminați comentariile sau variațiile din acest joc}
 menuText L EditUndo "Anula" 0 {Anulați ultima modificare a jocului}
 menuText L EditRedo "Reface" 0 {Reface ultima schimbare de joc}

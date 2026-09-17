@@ -65,8 +65,6 @@ menuText O EditFirst "Flytt variasjon øverst" 0 \
   {Gjør variasjonen til den øverste på listen}
 menuText O EditMain "Gjør variasjon til hovedlinje" 0 \
   {Gjør variasjon til hovedlinje}
-menuText O EditTrial "Prøv variasjon" 0 \
-  {Start/avslutt prøvemodus, for å teste ut en ide på brettet}
 menuText O EditStrip "Fjern" 0 {Fjern kommentarer eller variasjoner fra partiet}
 menuText O EditUndo "Angre" 0 {Angre siste spillendring}
 menuText O EditRedo "Gjenta" 0 {Gjenta siste spillendring}

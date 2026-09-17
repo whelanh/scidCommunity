@@ -270,7 +270,6 @@ set helpText(A,Index) {<h1>scidコミュニティ ヘルプ トピック イン�
   <li><a FICS Training>研修：FICS講義</a></li>
   <li><a Tree>ツリーウィンドウ</a></li>
   <li><a TreeMasks>木用マスク</a></li>
-  <li><a Moves Trial>トライアルモード</a></li>
   <li><a Maintenance Twins>ツイン (重複) ゲーム</a></li>
   </ul>
   

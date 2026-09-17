@@ -63,8 +63,6 @@ menuText H EditFirst "Elsõ változattá tesz" 0 \
   {Elsõ helyre teszi a változatot a listán.}
 menuText H EditMain "Fõváltozattá tesz" 0 \
   {A változatot fõváltozattá lépteti elõ.}
-menuText H EditTrial "Változat kipróbálása" 0 \
-  {Elindítja/megállítja a próbaüzemmódot, amellyel egy elgondolást lehet a táblán kipróbálni.}
 menuText H EditStrip "Lecsupaszít" 2 {Eltávolítja a megjegyzéseket vagy a változatokat ebbõl a játszmából.}
 menuText H EditUndo "Visszavonás" 0 {Az utolsó játékmódosítás visszavonása}
 menuText H EditRedo "Újra" 0 {Hajtsa végre a legutóbbi játékmódosítást}

@@ -263,7 +263,6 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   <li><a FICS Training>Training: FICS lectures</a></li>
   <li><a Tree>Tree window</a></li>
   <li><a TreeMasks>Masks for Trees</a></li>
-  <li><a Moves Trial>Trial mode</a></li>
   <li><a Maintenance Twins>Twin (duplicate) games</a></li>
   </ul>
   
@@ -890,15 +889,7 @@ set helpText(Moves) {<h1>Entering chess moves</h1>
   button in a red arrow.
   </p>
   
-  <h4><name Trial>Trial mode</name></h4>
-  <p>
-  If you are studying a game and reach a position where you want to try
-  an alternative variation on the board without altering the game, select
-  <b>Try variation</b> from the <menu>Edit</menu> menu to enter trial
-  mode. In this mode, you can make temporary moves and changes to the
-  game, then return to the original position when you exit trial mode.
-  </p>
-  
+ 
   <h3><name Mistakes>Correcting mistakes</name></h3>
   <p>
   If you are entering a game and suddenly see an incorrect move several

@@ -65,8 +65,6 @@ menuText T EditFirst "İlk Değişikliği Yap" 5 \
   {Listede ilk sırada yer almak için bir varyasyonu tanıtın}
 menuText T EditMain "Ana Hatta Varyasyonu Tanıtın" 21 \
   {Ana hat olacak bir varyasyonu tanıtın}
-menuText T EditTrial "Varyasyonu Deneyin" 0 \
-  {Bir fikri tahtada test etmek için deneme modunu başlat/durdur}
 menuText T EditStrip "Şerit" 3 {Bu oyundaki yorumları veya varyasyonları kaldırın}
 menuText T EditUndo "Geri al" 0 {Son oyun değişikliğini geri al}
 menuText T EditRedo "Yinele" 0 {Son oyun değişikliğini yeniden yap}

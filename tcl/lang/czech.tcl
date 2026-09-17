@@ -63,8 +63,6 @@ menuText C EditFirst "Zaadit jako prvn variantu" 0 \
   {Zaadit variantu na prvn msto v seznamu variant}
 menuText C EditMain "Povit stvajc variantu na hlavn" 30 \
   {Povit stvajc variantu na hlavn variantu}
-menuText C EditTrial "Zkusit variantu" 1 \
-    {Spustit/Ukonit zkuebn md pro testovn mylenky na achovnici}
 menuText C EditStrip "Odstranit" 0 {Odstranit komente nebo varianty z tto partie}
 menuText C EditUndo "Vzt zpt" 0 {Vzt zpt posledn zmnu v partii}
 menuText C EditRedo "Pedlat" 0 {Opakujte posledn zmnu hry}

@@ -69,8 +69,6 @@ menuText S EditFirst "Convertir en primera variación" 0 \
   {Hace que una variación sea la primera en la lista}
 menuText S EditMain "Variación a línea principal" 0 \
    {Promover una variación para que sea la línea principal}
-menuText S EditTrial "Probar variación" 1 \
-  {Inicia/para el modo de prueba, para ensayar una idea en el tablero}
 menuText S EditStrip "Eliminar" 2 \
   {Elimina comentarios o variaciones de esta partida}
 menuText S EditUndo "Deshacer" 0 {Deshace el último cambio en la partida}

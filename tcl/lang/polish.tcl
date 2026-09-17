@@ -46,7 +46,6 @@ menuText P EditAdd {Dodaj wariant} 0 {Dodaj wariant przy tym posunięciu w parti
 menuText P EditDelete {Usuń wariant} 0 {Usuń wariant dla tego posunięcia}
 menuText P EditFirst {Ustaw jako pierwszy wariant} 0 {Przenieś wariant na pierwsze miejsce listy}
 menuText P EditMain {Promuj wariant do linii głównej} 0 {Promuj wariant do linii głównej}
-menuText P EditTrial {Wypróbuj wariant} 0 {Włącz/wyłącz tryb próbny do testowania pomysłu na szachownicy}
 menuText P EditStrip {Usuń} 0 {Usuń komentarze lub warianty z tej partii}
 menuText P EditUndo {Cofnij} 0 {Cofnij ostatnią zmianę w partii}
 menuText P EditRedo {Ponów} 0 {Ponów ostatnią zmianę w partii}
