@@ -313,6 +313,7 @@ menu $m.export
   $m.export add command -label "PGN file text" -underline 0 -command "setExportText PGN"
   $m.export add command -label "HTML file text" -underline 0 -command "setExportText HTML"
 $m add cascade -label OptionsExport -menu $m.export
+$m add command -label OptionsBoardNames -command editMyPlayerNames
 $m add separator
 $m add checkbutton -label FullScreen -variable optionFullScreen \
   -command { wm attributes . -fullscreen [expr ![wm attributes . -fullscreen]] }
