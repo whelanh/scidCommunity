@@ -650,24 +650,26 @@ proc editMyPlayerNames {} {
   }
   ::win::createDialog $w
   wm title $w "[tr OptionsBoardNames]"
+  wm minsize $w 400 260
 
   set desc [string trim $::tr(MyPlayerNamesDescription)]
-  ttk::label $w.desc -text $desc -wraplength 420 -justify left
-  pack $w.desc -side top -fill x -padx 4 -pady 4
+  ttk::label $w.desc -text $desc -wraplength 520 -justify left
+  pack $w.desc -side top -fill x -padx 6 -pady 6
 
-  text $w.text -width 50 -height 10 -wrap none -highlightthickness 0
+  autoscrollText both $w.txtframe $w.txtframe.text Treeview
+  $w.txtframe.text configure -height 12 -width 60 -wrap none -setgrid 1 -state normal
   foreach name $myPlayerNames {
-    $w.text insert end "$name\n"
+    $w.txtframe.text insert end "$name\n"
   }
-  pack $w.text -side top -fill both -expand yes
+  pack $w.txtframe -side top -fill both -expand yes -padx 6 -pady 6
 
   ttk::frame $w.b
   pack $w.b -side bottom -fill x
   dialogbutton $w.b.white -text $::tr(White) -command {
-    .editMyPlayerNames.text insert end "[sc_game info white]\n"
+    .editMyPlayerNames.txtframe.text insert end "[sc_game info white]\n"
   }
   dialogbutton $w.b.black -text $::tr(Black) -command {
-    .editMyPlayerNames.text insert end "[sc_game info black]\n"
+    .editMyPlayerNames.txtframe.text insert end "[sc_game info black]\n"
   }
   dialogbutton $w.b.help -text $::tr(Help) \
       -command {helpWindow Options MyPlayerNames}
@@ -677,13 +679,19 @@ proc editMyPlayerNames {} {
   packbuttons left $w.b.white $w.b.black $w.b.help
 
   bind $w <Escape> "destroy $w"
+  update idletasks
+  set gw [winfo reqwidth $w]
+  set gh [winfo reqheight $w]
+  if {$gw < 560} { set gw 560 }
+  if {$gh < 300} { set gh 300 }
+  wm geometry $w ${gw}x${gh}
   ::win::makeVisible $w
 }
 
 proc editMyPlayerNamesOK {} {
   global myPlayerNames
   set w .editMyPlayerNames
-  set text [string trim [$w.text get 1.0 end]]
+  set text [string trim [$w.txtframe.text get 1.0 end]]
   set myPlayerNames {}
   foreach name [split $text "\n"] {
     set name [string trim $name]
@@ -696,6 +704,7 @@ proc editMyPlayerNamesOK {} {
 }
 
 set ::flippedForPlayer 0
+set ::playerNamePrevOrient -1
 
 #   Check if either player in the current game has a name that matches
 #   a pattern in the specified list and if so, flip the board if
@@ -709,22 +718,29 @@ proc flipBoardForPlayerNames {} {
   set black [sc_game info black]
   foreach pattern $myPlayerNames {
     if {[string match $pattern $white]} {
+      if {!$::flippedForPlayer} {
+        set ::playerNamePrevOrient [::board::isFlipped $board]
+      }
       ::board::flip $board 0
-      set ::flippedForPlayer 0
+      set ::flippedForPlayer 1
       return
     }
     if {[string match $pattern $black]} {
+      if {!$::flippedForPlayer} {
+        set ::playerNamePrevOrient [::board::isFlipped $board]
+      }
       ::board::flip $board 1
       set ::flippedForPlayer 1
       return
     }
   }
-  # This is a little tricky... but not too important
-  # If previously we flipped, revert back
-  if {$::flippedForPlayer} {
-    ::board::flip $board 0
+  # No player-name pattern matched: restore the orientation that was
+  # active before the override, then clear the temporary state.
+  if {$::flippedForPlayer && $::playerNamePrevOrient >= 0} {
+    ::board::flip $board $::playerNamePrevOrient
   }
   set ::flippedForPlayer 0
+  set ::playerNamePrevOrient -1
 }
 
 

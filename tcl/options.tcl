@@ -614,7 +614,7 @@ if {[file exists $optionsFile] && [catch {safeLoadConfig $optionsFile}]} {
 #   List of player name patterns for which the chessboard should be
 #   flipped each time a game is loaded, to show the board from that
 #   player's perspective.
-options.store myPlayerNames {}
+options.store ::myPlayerNames {}
 
 # Migrate the single-book setting without overwriting a newer slot-1 choice.
 if {[info exists ::book::lastBook] && $::book::lastBook ne "" && $::book::lastBook1 eq ""} {
