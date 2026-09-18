@@ -653,11 +653,11 @@ proc editMyPlayerNames {} {
   wm minsize $w 400 260
 
   set desc [string trim $::tr(MyPlayerNamesDescription)]
-  ttk::label $w.desc -text $desc -wraplength 520 -justify left
+  ttk::label $w.desc -text $desc -wraplength 500 -justify left
   pack $w.desc -side top -fill x -padx 6 -pady 6
 
   autoscrollText both $w.txtframe $w.txtframe.text Treeview
-  $w.txtframe.text configure -height 12 -width 60 -wrap none -setgrid 1 -state normal
+  $w.txtframe.text configure -height 10 -width 60 -wrap none -state normal
   foreach name $myPlayerNames {
     $w.txtframe.text insert end "$name\n"
   }
@@ -679,12 +679,20 @@ proc editMyPlayerNames {} {
   packbuttons left $w.b.white $w.b.black $w.b.help
 
   bind $w <Escape> "destroy $w"
-  update idletasks
-  set gw [winfo reqwidth $w]
-  set gh [winfo reqheight $w]
-  if {$gw < 560} { set gw 560 }
-  if {$gh < 300} { set gh 300 }
-  wm geometry $w ${gw}x${gh}
+
+  # Use a fixed, modest size and center it on the screen. Hyprland/XWayland
+  # neither honors the requested geometry nor centers floating dialogs, so
+  # both the size and the position are set explicitly. The position is
+  # re-applied on a short timer so it wins over the after-idle re-centering
+  # done by centerWindowHyprland.
+  set gw 560
+  set gh 440
+  set x [expr {([winfo screenwidth $w] - $gw) / 2}]
+  set y [expr {([winfo screenheight $w] - $gh) / 2}]
+  if {$x < 0} { set x 0 }
+  if {$y < 0} { set y 0 }
+  wm geometry $w ${gw}x${gh}+${x}+${y}
+  after 1 [list wm geometry $w +$x+$y]
   ::win::makeVisible $w
 }
 
