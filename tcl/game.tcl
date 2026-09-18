@@ -317,6 +317,8 @@ proc ::game::Load { selection {ply ""} } {
   if {![info exists flipB]} { set flipB -1 }
   ::board::flipAuto .main.board $flipB
 
+  flipBoardForPlayerNames
+
   ::notify::GameChanged 2
 }
 

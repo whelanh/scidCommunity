@@ -314,6 +314,7 @@ proc ::file::SwitchToBase {{b} {saveHistory 1}} {
     set err 0
     set ::curr_db $res
   }
+  flipBoardForPlayerNames
   ::notify::GameChanged
   ::notify::DatabaseChanged
   return $err

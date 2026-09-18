@@ -64,6 +64,7 @@ proc importPgnGame {} {
     .importWin.pane.err.text insert end $result
     .importWin.pane.err.text configure -state disabled
     if {! $err} {
+      flipBoardForPlayerNames
       ::notify::GameChanged
     }
   }
