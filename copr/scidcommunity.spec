@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.4.15
+Version:        5.1.4.17
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit e526c4680f20f79e4f7f36e84bac50017bf2c796  
+%global commit b5cadd0a5f2195849317c5c3d848de316626e757  
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Sat Sep 19, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.4-17
+- "Adopt Player Name setup from Scid vs. PC"
 * Thu Sep 10, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.4-15
 - "Add a strip comments, not annotations option to right-click menu in the Game List Window"
 * Wed Sep 09, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.4-14
