@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+ <release version="5.1.4.18" date="2026-09-22">
+      <description>
+        <p>Fix training move feature in the Tree View</p>
+      </description>
+    </release>
  <release version="5.1.4.17" date="2026-09-19">
       <description>
         <p>Adopt Player Name setup from Scid vs PC</p>
