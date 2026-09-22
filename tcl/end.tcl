@@ -944,8 +944,6 @@ proc gsave { gnum } {
 
   set date [format "%s.%s.%s" $year $month $day]
   set edate [format "%s.%s.%s" $eyear $emonth $eday]
-  ::game::updateFlipTag
-  set extraTags [sc_game tag get Extra]
   set extraTagsList [split $extraTags "\n"]
   sc_game tags set -event $event -site $site -date $date -round $round \
       -white $white -black $black -result $resultVal \

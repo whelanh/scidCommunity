@@ -67,6 +67,8 @@ menuText R EditFirst "Сделать вариант первым" 0 \
   {Продвинуть вариант на первое место в списке}
 menuText R EditMain "Заменить главный план вариантом" 0 \
   {Сделать вариант основным планом партии}
+menuText R EditTrial "Попробуйте вариант" 0 \
+  {Пробный режим запуска/остановки для проверки идеи на доске.}
 menuText R EditStrip "Убрать" 1 {Убрать комментарии или варианты из партии}
 menuText R EditUndo "Отменить" 0 {Отменить изменения в последней партии}
 menuText R EditRedo "Вернуть" 0 {Вернуть изменения в последней партии}
@@ -1112,6 +1114,21 @@ translate R NewSubmenu "Новое вложенное меню"
 # Comment editor:
 translate R AnnotationSymbols  {Символы аннотации:}
 translate R Comment {Комментарии:}
+translate R Format {Формат}
+translate R Bold {Смелый}
+translate R Italic {Курсив}
+translate R Underline {Подчеркнуть}
+translate R TextColor {Цвет текста...}
+translate R CommentFont {Шрифт...}
+translate R RemoveFormatting {Удалить форматирование}
+translate R Family {Семья}
+translate R Size {Размер}
+translate R FontSizeWarning {Размер шрифта должен быть положительным целым числом.}
+translate R Green {Зеленый}
+translate R Blue {Синий}
+translate R Red {Красный}
+translate R Brown {Коричневый}
+translate R CustomColor {Пользовательский цвет...}
 translate R InsertMark {Вставить закладку}
 translate R InsertMarkHelp {
 Вставить/удалить метку: Выбор цвета, типа, поля.

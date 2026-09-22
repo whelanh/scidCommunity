@@ -63,6 +63,8 @@ menuText C EditFirst "Zaadit jako prvn variantu" 0 \
   {Zaadit variantu na prvn msto v seznamu variant}
 menuText C EditMain "Povit stvajc variantu na hlavn" 30 \
   {Povit stvajc variantu na hlavn variantu}
+menuText C EditTrial "Zkuste Variaci" 0 \
+  {Start/stop zkušební režim, pro testování nápadu na desce}
 menuText C EditStrip "Odstranit" 0 {Odstranit komente nebo varianty z tto partie}
 menuText C EditUndo "Vzt zpt" 0 {Vzt zpt posledn zmnu v partii}
 menuText C EditRedo "Pedlat" 0 {Opakujte posledn zmnu hry}
@@ -1110,6 +1112,21 @@ translate C NewSubmenu "Nov podmenu"
 # Comment editor:
 translate C AnnotationSymbols  {Anotan symboly:}
 translate C Comment {Koment:}
+translate C Format {Formát}
+translate C Bold {Tučné}
+translate C Italic {kurzíva}
+translate C Underline {Zdůraznit}
+translate C TextColor {Barva textu...}
+translate C CommentFont {Písmo...}
+translate C RemoveFormatting {Odstraňte formátování}
+translate C Family {Rodina}
+translate C Size {Velikost}
+translate C FontSizeWarning {Velikost písma musí být kladné celé číslo.}
+translate C Green {Zelený}
+translate C Blue {Modrý}
+translate C Red {Červený}
+translate C Brown {Hnědý}
+translate C CustomColor {Vlastní barva...}
 translate C InsertMark {Vloit znaku}
 translate C InsertMarkHelp {
 Vloit/odstranit znaky: Vyberte barvu, typ, pole.

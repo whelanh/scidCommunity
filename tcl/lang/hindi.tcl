@@ -1102,6 +1102,21 @@ translate h NewSubmenu "नया सबमेनू"
 # Comment editor:
 translate h AnnotationSymbols  {एनोटेशन प्रतीक:}
 translate h Comment {टिप्पणी:}
+translate h Format {प्रारूप}
+translate h Bold {बोल्ड}
+translate h Italic {तिरछा}
+translate h Underline {रेखांकन}
+translate h TextColor {पाठ का रंग...}
+translate h CommentFont {फ़ॉन्ट...}
+translate h RemoveFormatting {फ़ॉर्मेटिंग हटाएँ}
+translate h Family {परिवार}
+translate h Size {आकार}
+translate h FontSizeWarning {फ़ॉन्ट का आकार एक धनात्मक पूर्णांक होना चाहिए.}
+translate h Green {हरा}
+translate h Blue {नीला}
+translate h Red {लाल}
+translate h Brown {भूरा}
+translate h CustomColor {कस्टम रंग...}
 translate h InsertMark {निशान डालें}
 translate h InsertMarkHelp {चिह्न डालें/हटाएँ: रंग, प्रकार, वर्ग चुनें।
 तीर डालें/निकालें: दो वर्गों पर राइट-क्लिक करें।}

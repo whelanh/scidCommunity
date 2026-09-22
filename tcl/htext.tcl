@@ -292,6 +292,74 @@ proc ::htext::extractSectionName {tagName} {
 
 set ::htext::interrupt 0
 set ::htext::baseId ""
+set ::htext::spanCounter 0
+set ::htext::spanFontCounter 0
+array set ::htext::spanFontCache {}
+
+# Parse a "<span style=\"...\">" formatting tag (produced by the comment
+# editor) and return a uniquely-named tag configured with its color, font
+# weight/style and/or font family/size. Used by ::htext::display to render
+# formatted comments in the PGN window.
+proc ::htext::spanTagFor {w tagName} {
+  set color ""
+  set family ""
+  set size ""
+  set bold 0
+  set italic 0
+  set underline 0
+  if {[regexp {style="([^"]*)"} $tagName -> attrs]} {
+    foreach pair [split $attrs ";"] {
+      set pair [string trim $pair]
+      if {$pair eq ""} { continue }
+      set c [string first ":" $pair]
+      if {$c < 0} { continue }
+      set k [string trim [string range $pair 0 [expr {$c - 1}]]]
+      set v [string trim [string range $pair [expr {$c + 1}] end]]
+      switch -exact -- $k {
+        color       { set color $v }
+        font-family { set family $v }
+        font-size   {
+          if {[regexp {^([0-9.]+)(pt)?$} $v -> sz]} { set size $sz }
+        }
+        font-weight { if {$v eq "bold"} { set bold 1 } }
+        font-style  { if {$v eq "italic"} { set italic 1 } }
+        text-decoration { if {$v eq "underline"} { set underline 1 } }
+      }
+    }
+  }
+  set spanTag "span_[incr ::htext::spanCounter]"
+  set opts {}
+  if {$color ne ""} { lappend opts -foreground $color }
+  if {$bold || $italic || $family ne "" || $size ne ""} {
+    if {$family eq ""} { set family [font actual font_Regular -family] }
+    if {$size eq ""} { set size [font actual font_Regular -size] }
+    set weight normal
+    if {$bold} { set weight bold }
+    set slant roman
+    if {$italic} { set slant italic }
+    set fkey "$family\x1F$size\x1F$weight\x1F$slant"
+    if {![info exists ::htext::spanFontCache($fkey)]} {
+      set fname "htextspanfont_[incr ::htext::spanFontCounter]"
+      catch {font create $fname -family $family -size $size -weight $weight -slant $slant}
+      set ::htext::spanFontCache($fkey) $fname
+    }
+    lappend opts -font $::htext::spanFontCache($fkey)
+  }
+  if {$underline} { lappend opts -underline 1 }
+  if {[llength $opts] > 0} {
+    $w tag configure $spanTag {*}$opts
+  }
+  return $spanTag
+}
+
+# Drop any span tags left over from a previous display so they do not
+# accumulate across refreshes.
+proc ::htext::resetSpanTags {w} {
+  foreach tag [$w tag names] {
+    if {[string match "span_*" $tag]} { $w tag delete $tag }
+  }
+  set ::htext::spanCounter 0
+}
 
 proc ::htext::display {w helptext {section ""} {fixed 1} {showDiagramm 0} {m_callback "mTagProcess"} {c_callback "cTagProcess"}} {
   global helpWin
@@ -301,6 +369,7 @@ set ::htext::interrupt 0
 set ::htext::baseId ""
   $w mark set insert 0.0
   $w configure -state normal
+  ::htext::resetSpanTags $w
   set linkName ""
   
   set count 0
@@ -457,6 +526,10 @@ set ::htext::baseId ""
           $w tag bind $commentTag <Any-Leave> "$w tag configure $commentTag -underline 0
         $w configure -cursor {}"
         }
+      } elseif {[strIsPrefix "span " $tagName]} {
+        # Check if it is a comment formatting span tag:
+        set spanTag [::htext::spanTagFor $w $tagName]
+        set tagName "span"
       }
       
       if {$tagName == "h1"} {$w insert end "\n"}
@@ -495,6 +568,7 @@ set ::htext::baseId ""
           url {$w tag add $urlTag $startIndex($tagName) [$w index insert]}
           run {$w tag add $runTag $startIndex($tagName) [$w index insert]}
           go {$w tag add $goTag $startIndex($tagName) [$w index insert]}
+          span {$w tag add $spanTag $startIndex($tagName) [$w index insert]}
           default {$w tag add $tagName $startIndex($tagName) [$w index insert]}
         }
         unset startIndex($tagName)

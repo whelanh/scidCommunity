@@ -65,6 +65,8 @@ menuText F EditFirst "Déplacer en tête" 0 \
   {Déplacer cette variante en tête de liste}
 menuText F EditMain "Variante vers ligne principale" 13 \
    {Promouvoir une variante en ligne principale}
+menuText F EditTrial "Essayez la variante" 0 \
+  {Mode essai démarrer/arrêter, pour tester une idée sur le tableau}
 menuText F EditStrip "Épurer" 2 {Épurer les commentaires ou les variantes de cette partie}
 menuText F EditUndo "Annuler" 0 {Annuler la dernière modification de cette partie}
 menuText F EditRedo "Rétablir" 0 {Refaire la dernière modification de cette partie}
@@ -1118,6 +1120,21 @@ translate F NewSubmenu "Nouveau sous-menu"
 # Comment editor:
 translate F AnnotationSymbols {Symboles d'annotation:}
 translate F Comment {Commentaire:}
+translate F Format {Format}
+translate F Bold {Audacieux}
+translate F Italic {Italique}
+translate F Underline {Souligner}
+translate F TextColor {Couleur du texte...}
+translate F CommentFont {Fonte...}
+translate F RemoveFormatting {Supprimer le formatage}
+translate F Family {Famille}
+translate F Size {Taille}
+translate F FontSizeWarning {La taille de la police doit être un entier positif.}
+translate F Green {Vert}
+translate F Blue {Bleu}
+translate F Red {Rouge}
+translate F Brown {Brun}
+translate F CustomColor {Couleur personnalisée...}
 translate F InsertMark {Insère une marque}
 translate F InsertMarkHelp {
 Insérer/enlever marque: Sélectionner la couleur, le type et la case.

@@ -67,6 +67,9 @@ menuText Y EditFirst "Postavi prvu varijantu" 5 \
   {Postavi varijantu kao prvu u listi}
 menuText Y EditMain "Postavi varijantu na glavnu liniju" 21 \
   {Postavi varijantu na glavnu liniju}
+# ====== TODO To be translated ======
+menuText Y EditTrial "Try Variation" 0 \
+  {Start/stop trial mode, for testing an idea on the board}
 menuText Y EditStrip "Ukloni" 2 {Ukloni komentare ili varijante iz ove partije}
 # ====== TODO To be translated ======
 menuText Y EditUndo "Undo" 0 {Undo last game change}
@@ -1830,6 +1833,36 @@ translate Y NewSubmenu "New submenu"
 translate Y AnnotationSymbols  {Annotation Symbols:}
 # ====== TODO To be translated ======
 translate Y Comment {Comment:}
+# ====== TODO To be translated ======
+translate Y Format {Format}
+# ====== TODO To be translated ======
+translate Y Bold {Bold}
+# ====== TODO To be translated ======
+translate Y Italic {Italic}
+# ====== TODO To be translated ======
+translate Y Underline {Underline}
+# ====== TODO To be translated ======
+translate Y TextColor {Text color...}
+# ====== TODO To be translated ======
+translate Y CommentFont {Font...}
+# ====== TODO To be translated ======
+translate Y RemoveFormatting {Remove formatting}
+# ====== TODO To be translated ======
+translate Y Family {Family}
+# ====== TODO To be translated ======
+translate Y Size {Size}
+# ====== TODO To be translated ======
+translate Y FontSizeWarning {Font size must be a positive integer.}
+# ====== TODO To be translated ======
+translate Y Green {Green}
+# ====== TODO To be translated ======
+translate Y Blue {Blue}
+# ====== TODO To be translated ======
+translate Y Red {Red}
+# ====== TODO To be translated ======
+translate Y Brown {Brown}
+# ====== TODO To be translated ======
+translate Y CustomColor {Custom color...}
 # ====== TODO To be translated ======
 translate Y InsertMark {Insert mark}
 # ====== TODO To be translated ======

@@ -1103,6 +1103,21 @@ translate V NewSubmenu "תפריט משנה חדש"
 # Comment editor:
 translate V AnnotationSymbols  {סמלי הערות:}
 translate V Comment {הֶעָרָה:}
+translate V Format {פוּרמָט}
+translate V Bold {נוֹעָז}
+translate V Italic {נטוי}
+translate V Underline {לָשִׂים דָגֵשׁ}
+translate V TextColor {צבע טקסט...}
+translate V CommentFont {גוֹפָן...}
+translate V RemoveFormatting {הסר את העיצוב}
+translate V Family {מִשׁפָּחָה}
+translate V Size {גוֹדֶל}
+translate V FontSizeWarning {גודל הגופן חייב להיות מספר שלם חיובי.}
+translate V Green {יָרוֹק}
+translate V Blue {כְּחוֹל}
+translate V Red {אָדוֹם}
+translate V Brown {חוּם}
+translate V CustomColor {צבע מותאם אישית...}
 translate V InsertMark {הכנס סימן}
 translate V InsertMarkHelp {הכנס/הסר סימן: בחר צבע, סוג, ריבוע.
 חץ הוספה/הסר: לחץ לחיצה ימנית על שני ריבועים.}

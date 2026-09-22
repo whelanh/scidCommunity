@@ -81,6 +81,8 @@ menuText D EditFirst "Als erste Variante setzen" 4 \
   {Variante an erste Stelle in der Liste setzten}
 menuText D EditMain "Variante als Partiefortsetzung" 13 \
   {Variante zur Partiefolge machen (und umgekehrt)}
+menuText D EditTrial "Versuchen Sie es mit Variation" 0 \
+  {Testmodus starten/stoppen, um eine Idee auf der Tafel zu testen}
 menuText D EditStrip "Entfernen" 1 \
    {Kommentare oder Varianten aus der Partie entfernen}
 menuText D EditUndo "Rückgängig" 0 {Macht die letzte Änderung rückgängig}
@@ -1151,6 +1153,21 @@ translate D NewSubmenu "Neues Untermenü"
 # Comment editor:
 translate D AnnotationSymbols  {Kommentarzeichen:}
 translate D Comment {Kommentar:}
+translate D Format {Format}
+translate D Bold {Deutlich}
+translate D Italic {Kursiv}
+translate D Underline {Unterstreichen}
+translate D TextColor {Textfarbe...}
+translate D CommentFont {Schriftart...}
+translate D RemoveFormatting {Formatierung entfernen}
+translate D Family {Familie}
+translate D Size {Größe}
+translate D FontSizeWarning {Die Schriftgröße muss eine positive ganze Zahl sein.}
+translate D Green {Grün}
+translate D Blue {Blau}
+translate D Red {Rot}
+translate D Brown {Braun}
+translate D CustomColor {Benutzerdefinierte Farbe...}
 translate D InsertMark {Markierung einfügen}
 translate D InsertMarkHelp {
 Markierung einfügen/löschen: Farbe, Typ, Feld wählen.

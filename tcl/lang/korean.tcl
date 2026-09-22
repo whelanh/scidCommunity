@@ -1143,6 +1143,21 @@ translate k NewSubmenu "새 하위 메뉴"
 # Comment editor:
 translate k AnnotationSymbols  {기호:}
 translate k Comment {평:}
+translate k Format {체재}
+translate k Bold {용감한}
+translate k Italic {이탤릭체}
+translate k Underline {밑줄}
+translate k TextColor {텍스트 색상...}
+translate k CommentFont {세례반...}
+translate k RemoveFormatting {서식 제거}
+translate k Family {가족}
+translate k Size {크기}
+translate k FontSizeWarning {글꼴 크기는 양의 정수여야 합니다.}
+translate k Green {녹색}
+translate k Blue {파란색}
+translate k Red {빨간색}
+translate k Brown {갈색}
+translate k CustomColor {맞춤 색상...}
 translate k InsertMark {삽입 마크}
 translate k InsertMarkHelp {표시 삽입/제거: 색상, 표시, 사각형을 선택합니다.
 삽입/제거 화살표: 두 개의 사각형을 마우스 오른쪽 버튼으로 클릭했습니다.}

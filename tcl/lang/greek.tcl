@@ -92,6 +92,8 @@ menuText G EditFirst "Πρώτη βαριάντα" 5 \
   {Προαγωγή μιας βαριάντας στην πρώτη θέση της λίστας}
 menuText G EditMain "Προαγωγή βαριάντας σε κύρια γραμμή" 21 \
   {Προαγωγή μιας βαριάντας ως κύρια γραμμή}
+menuText G EditTrial "Δοκιμάστε το Variation" 0 \
+  {Δοκιμαστική λειτουργία έναρξης/διακοπής, για δοκιμή μιας ιδέας στον πίνακα}
 menuText G EditStrip "Απομάκρυνση" 2 {Απομακρύνετε τα σχόλια ή τις βαριάντες από αυτή τη παρτίδα}
 menuText G EditUndo "Επαναφορά" 0 {Επαναφέρετε την τελευταία αλλαγή στην παρτίδα}
 menuText G EditRedo "Ξανακάνω" 0 {Επαναλάβετε την τελευταία αλλαγή παιχνιδιού}
@@ -1137,6 +1139,21 @@ translate G NewSubmenu "Νέο υπομενού"
 # Comment editor:
 translate G AnnotationSymbols  {Σύμβολα υπομνηματισμούς:}
 translate G Comment {Σχόλιο:}
+translate G Format {Σχήμα και διάταξις βιβλίου}
+translate G Bold {Τολμηρός}
+translate G Italic {Πλάγια}
+translate G Underline {Υπογραμμίζω}
+translate G TextColor {Χρώμα κειμένου...}
+translate G CommentFont {Γραμματοσειρά...}
+translate G RemoveFormatting {Κατάργηση μορφοποίησης}
+translate G Family {Οικογένεια}
+translate G Size {Μέγεθος}
+translate G FontSizeWarning {Το μέγεθος της γραμματοσειράς πρέπει να είναι θετικός ακέραιος.}
+translate G Green {Πράσινος}
+translate G Blue {Μπλε}
+translate G Red {Κόκκινος}
+translate G Brown {Καστανός}
+translate G CustomColor {Προσαρμοσμένο χρώμα...}
 translate G InsertMark {Εισαγωγή σημαδιού}
 translate G InsertMarkHelp {
 Εισαγωγή/απομάκρυνμση σημαδιού: Επιλέξτε χρώμα, είδος, τετράγωνο.

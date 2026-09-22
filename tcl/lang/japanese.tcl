@@ -102,6 +102,8 @@ menuText A EditFirst "最初のバリエーションを作る" 5 \
   {バリエーションをリストの先頭に昇格させる}
 menuText A EditMain "メインラインへのバリエーション推進" 21 \
   {バリエーションをメインラインとして推進する}
+menuText A EditTrial "バリエーションを試す" 0 \
+  {ボード上のアイデアをテストするためのトライアルモードの開始/停止}
 menuText A EditStrip "ストリップ" 3 {このゲームからコメントやバリエーションを削除する}
 menuText A EditUndo "元に戻す" 0 {最後のゲーム変更を元に戻す}
 menuText A EditRedo "やり直し" 0 {最後のゲーム変更をやり直す}
@@ -1141,6 +1143,21 @@ translate A NewSubmenu "新しいサブメニュー"
 # Comment editor:
 translate A AnnotationSymbols  {注釈記号:}
 translate A Comment {コメント：}
+translate A Format {形式}
+translate A Bold {大胆な}
+translate A Italic {イタリック}
+translate A Underline {下線}
+translate A TextColor {文字の色...}
+translate A CommentFont {フォント...}
+translate A RemoveFormatting {書式設定を削除する}
+translate A Family {家族}
+translate A Size {サイズ}
+translate A FontSizeWarning {フォント サイズは正の整数である必要があります。}
+translate A Green {緑}
+translate A Blue {青}
+translate A Red {赤}
+translate A Brown {茶色}
+translate A CustomColor {カスタムカラー...}
 translate A InsertMark {挿入マーク}
 translate A InsertMarkHelp {マークの挿入/削除：色、種類、四角形を選択します。
 矢印の挿入/削除: 2 つの四角形を右クリックします。}

@@ -99,6 +99,8 @@ menuText U EditFirst "Ensimmäiseksi" 0 \
   {Ylennä muunnelma ensimmäiseksi sivumuunnelmaksi}
 menuText U EditMain "Päälinjaksi" 1 \
   {Ylennä muuunnelma päälinjaksi}
+menuText U EditTrial "Kokeile Variaatiota" 0 \
+  {Aloita/pysäytä kokeilutila idean testaamiseen laudalla}
 menuText U EditStrip "Poista" 2 {Poista siirtoja, kommentteja tai muunnelmia}
 menuText U EditUndo "Kumoa" 1 {Peruuta viimeisin muutos}
 menuText U EditRedo "Tee uudelleen" 0 {Tee uudelleen viimeisin muutos}
@@ -1144,6 +1146,21 @@ translate U NewSubmenu "Uusi alivalikko"
 # Comment editor:
 translate U AnnotationSymbols  {Annotaatiosymbolit:}
 translate U Comment {Kommentti:}
+translate U Format {Muoto}
+translate U Bold {Lihavoitu}
+translate U Italic {Kursiivi}
+translate U Underline {Korostaa}
+translate U TextColor {Tekstin väri...}
+translate U CommentFont {Fontti...}
+translate U RemoveFormatting {Poista muotoilu}
+translate U Family {Perhe}
+translate U Size {Koko}
+translate U FontSizeWarning {Fonttikoon on oltava positiivinen kokonaisluku.}
+translate U Green {Vihreä}
+translate U Blue {Sininen}
+translate U Red {Punainen}
+translate U Brown {Ruskea}
+translate U CustomColor {Mukautettu väri...}
 translate U InsertMark {Lisää merkintä}
 translate U InsertMarkHelp {
 Lisää/poista merkintä: Valitse väri, tyyppi, ruutu.

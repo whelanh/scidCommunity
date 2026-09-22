@@ -1102,6 +1102,21 @@ translate b NewSubmenu "নতুন সাবমেনু"
 # Comment editor:
 translate b AnnotationSymbols  {টীকা চিহ্ন:}
 translate b Comment {মন্তব্য:}
+translate b Format {বিন্যাস}
+translate b Bold {সাহসী}
+translate b Italic {তির্যক}
+translate b Underline {আন্ডারলাইন করুন}
+translate b TextColor {পাঠ্যের রঙ...}
+translate b CommentFont {হরফ...}
+translate b RemoveFormatting {বিন্যাস সরান}
+translate b Family {পরিবার}
+translate b Size {আকার}
+translate b FontSizeWarning {হরফের আকার অবশ্যই একটি ধনাত্মক পূর্ণসংখ্যা হতে হবে।}
+translate b Green {সবুজ}
+translate b Blue {নীল}
+translate b Red {লাল}
+translate b Brown {বাদামী}
+translate b CustomColor {কাস্টম রঙ...}
 translate b InsertMark {চিহ্ন ঢোকান}
 translate b InsertMarkHelp {চিহ্ন সন্নিবেশ/মুছে ফেলুন: রঙ, প্রকার, বর্গ নির্বাচন করুন।
 তীর ঢোকান/সরান: দুটি বর্গক্ষেত্রে ডান-ক্লিক করুন।}

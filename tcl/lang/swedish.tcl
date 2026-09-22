@@ -65,6 +65,8 @@ menuText W EditFirst "Skapa huvudvariant" 6 \
   {Gör en av varianterna till huvudvariant}
 menuText W EditMain "Skapa nytt textdrag" 11 \
   {Gör en av varianterna till partifortsättning}
+menuText W EditTrial "Prova Variation" 0 \
+  {Start/stopp testläge, för att testa en idé på tavlan}
 menuText W EditStrip "Ta bort" 3 {Avlägsna kommentarer eller varianter från partiet}
 menuText W EditUndo "Ångra" 0 {Ångra senaste ändring i parti}
 menuText W EditRedo "Göra om" 0 {Gör om senaste spelbyte}
@@ -1116,6 +1118,21 @@ translate W NewSubmenu "Ny undermeny"
 # Comment editor:
 translate W AnnotationSymbols  {Symboler:}
 translate W Comment {Kommentar:}
+translate W Format {Formatera}
+translate W Bold {Djärv}
+translate W Italic {Kursiv}
+translate W Underline {Betona}
+translate W TextColor {Textfärg...}
+translate W CommentFont {Font...}
+translate W RemoveFormatting {Ta bort formatering}
+translate W Family {Familj}
+translate W Size {Storlek}
+translate W FontSizeWarning {Teckenstorleken måste vara ett positivt heltal.}
+translate W Green {Grön}
+translate W Blue {Blå}
+translate W Red {Röd}
+translate W Brown {Brun}
+translate W CustomColor {Anpassad färg...}
 translate W InsertMark {Infoga symbol} 
 translate W InsertMarkHelp {
 Infoga/ta bort markering: Välj färg, typ av markering samt ruta.

@@ -1078,6 +1078,21 @@ translate M NewSubmenu "新子菜单"
 # Comment editor:
 translate M AnnotationSymbols  {注释符号：}
 translate M Comment {注释}
+translate M Format {格式}
+translate M Bold {大胆的}
+translate M Italic {斜体}
+translate M Underline {强调}
+translate M TextColor {文字颜色...}
+translate M CommentFont {字体...}
+translate M RemoveFormatting {删除格式}
+translate M Family {家庭}
+translate M Size {尺寸}
+translate M FontSizeWarning {字体大小必须是正整数。}
+translate M Green {绿色的}
+translate M Blue {蓝色的}
+translate M Red {红色的}
+translate M Brown {棕色的}
+translate M CustomColor {定制颜色...}
 translate M InsertMark {插入标记}
 translate M InsertMarkHelp {插入/删除标记：选择颜色、类型、正方形。
 插入/删除箭头：右键单击两个方块。}
