@@ -1980,7 +1980,7 @@ static std::string flattenComment(const char* s) {
           flush();
           stack.push_back(cur);
           cur.underline = true;
-        } else if (tag.rfind("span", 0) == 0) {
+        } else if (tag == "span" || tag.rfind("span ", 0) == 0) {
           flush();
           stack.push_back(cur);
           applySpanStyle(cur, tag);
@@ -1994,6 +1994,11 @@ static std::string flattenComment(const char* s) {
         continue;
       }
       buf += "<lt>";
+      s++;
+      continue;
+    }
+    if (*s == '>') {
+      buf += "<gt>";
       s++;
       continue;
     }
@@ -2014,7 +2019,7 @@ static std::string stripComment(const char* s) {
         std::string tag(s + 1, gt);
         if (tag == "b" || tag == "/b" || tag == "i" || tag == "/i" ||
             tag == "u" || tag == "/u" || tag == "/span" ||
-            tag.rfind("span", 0) == 0) {
+            tag == "span" || tag.rfind("span ", 0) == 0) {
           s = gt + 1;
           continue;
         }

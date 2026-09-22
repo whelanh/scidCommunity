@@ -950,6 +950,7 @@ proc gsave { gnum } {
       -whiteElo $whiteElo -whiteRatingType $whiteRType \
       -blackElo $blackElo -blackRatingType $blackRType \
       -eco $eco -eventdate $edate -extra $extraTagsList
+  ::game::updateFlipTag
   if {$gnum != 0} {
     if { [catch {sc_game save $gnum}] } { return 0 }
     ::notify::DatabaseModified [sc_base current]
