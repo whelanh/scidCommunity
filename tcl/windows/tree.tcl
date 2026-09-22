@@ -5,6 +5,8 @@
 
 namespace eval ::tree {
   set trainingBase 0
+  set trainingMove 0
+  set userMovePending 0
   array set cachesize {}
   set scoreHighlight_MinGames 15
   set scoreHighlight_WhiteExpectedScoreBonus 3.8 ; # on average white achieves a score of 53.8
@@ -228,6 +230,7 @@ proc ::tree::toggleTraining { baseNumber } {
   }
 
   set ::tree::trainingBase 0
+  set ::tree::userMovePending 0
   if {$tree(training$baseNumber)} {
     set ::tree::trainingBase $baseNumber
     set ::tree::trainingColor [expr {[sc_pos side] eq "white" ? "black" : "white"}]
@@ -307,7 +310,10 @@ proc ::tree::doTraining { { n 0 } } {
       if { $san ne {[end]} } {
           incr freq_move $freq
           if {$random_move <= $freq_move } {
-              return [addSanMove $san]
+              set ::tree::trainingMove 1
+              set result [addSanMove $san]
+              set ::tree::trainingMove 0
+              return $result
           }
       }
   }
@@ -466,7 +472,10 @@ proc ::tree::dorefresh { baseNumber {filter "tree"}} {
   if {[winfo exists .treeGraph$baseNumber]} { ::tree::graph $baseNumber }
 
   if {$::tree::trainingBase != 0 && $::tree::trainingColor == [sc_pos side]} {
-    ::tree::doTraining
+    if {$::tree::userMovePending} {
+      set ::tree::userMovePending 0
+      ::tree::doTraining
+    }
   }
 }
 
