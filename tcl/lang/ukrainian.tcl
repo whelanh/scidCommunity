@@ -1103,6 +1103,21 @@ translate Q NewSubmenu "Нове підменю"
 # Comment editor:
 translate Q AnnotationSymbols  {Символи анотації:}
 translate Q Comment {коментар:}
+translate Q Format {Формат}
+translate Q Bold {жирний}
+translate Q Italic {Курсив}
+translate Q Underline {Підкреслити}
+translate Q TextColor {Колір тексту...}
+translate Q CommentFont {Шрифт...}
+translate Q RemoveFormatting {Видалити форматування}
+translate Q Family {Сім'я}
+translate Q Size {Розмір}
+translate Q FontSizeWarning {Розмір шрифту має бути додатним цілим числом.}
+translate Q Green {Зелений}
+translate Q Blue {Синій}
+translate Q Red {Червоний}
+translate Q Brown {Коричневий}
+translate Q CustomColor {Індивідуальний колір...}
 translate Q InsertMark {Вставити позначку}
 translate Q InsertMarkHelp {Вставити/видалити позначку: Виберіть колір, тип, квадрат.
 Вставити/видалити стрілку: клацніть правою кнопкою миші два квадрати.}

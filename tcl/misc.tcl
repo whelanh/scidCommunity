@@ -1020,7 +1020,7 @@ namespace eval html {
       set prevvarnumber $elt(var)
       # id = "mv1" not "id=1" now
       set nag [html_entities $elt(nag)]
-      set comment [html_entities $elt(comment)]
+      set comment [::windows::commenteditor::markupToHtml $elt(comment)]
       puts $f "<a href=\"javascript:gotoMove($elt(idx))\" id=\"mv$elt(idx)\" class=\"$class\">$elt(move)$nag</a>"
       if {$elt(diag)} {
         insertMiniDiag $elt(fen) $f

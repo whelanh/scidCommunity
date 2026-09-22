@@ -65,6 +65,8 @@ menuText O EditFirst "Flytt variasjon øverst" 0 \
   {Gjør variasjonen til den øverste på listen}
 menuText O EditMain "Gjør variasjon til hovedlinje" 0 \
   {Gjør variasjon til hovedlinje}
+menuText O EditTrial "Prøv Variasjon" 0 \
+  {Start/stopp prøvemodus, for å teste en idé på brettet}
 menuText O EditStrip "Fjern" 0 {Fjern kommentarer eller variasjoner fra partiet}
 menuText O EditUndo "Angre" 0 {Angre siste spillendring}
 menuText O EditRedo "Gjenta" 0 {Gjenta siste spillendring}
@@ -1115,6 +1117,21 @@ translate O NewSubmenu "Ny undermeny"
 # Comment editor:
 translate O AnnotationSymbols  {Notasjonssymboler:}
 translate O Comment {Kommentar:}
+translate O Format {Format}
+translate O Bold {Fet}
+translate O Italic {Kursiv}
+translate O Underline {Understrek}
+translate O TextColor {Tekstfarge...}
+translate O CommentFont {Font...}
+translate O RemoveFormatting {Fjern formatering}
+translate O Family {Familie}
+translate O Size {Størrelse}
+translate O FontSizeWarning {Skriftstørrelsen må være et positivt heltall.}
+translate O Green {Grønn}
+translate O Blue {Blå}
+translate O Red {Rød}
+translate O Brown {Brun}
+translate O CustomColor {Egendefinert farge...}
 translate O InsertMark {Insert mark} ;# ***
 translate O InsertMarkHelp {
 Insert/remove mark: Select color, type, square.

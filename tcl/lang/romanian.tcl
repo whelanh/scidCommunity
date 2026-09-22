@@ -102,6 +102,8 @@ menuText L EditFirst "Faceți prima variație" 5 \
   {Promovați o variantă pentru a fi primul în listă}
 menuText L EditMain "Promovați variația la linia principală" 21 \
   {Promovați o variație pentru a fi linia principală}
+menuText L EditTrial "Încercați Variation" 0 \
+  {Pornire/oprire modul de încercare, pentru testarea unei idei pe tablă}
 menuText L EditStrip "Bandă" 3 {Eliminați comentariile sau variațiile din acest joc}
 menuText L EditUndo "Anula" 0 {Anulați ultima modificare a jocului}
 menuText L EditRedo "Reface" 0 {Reface ultima schimbare de joc}
@@ -1141,6 +1143,21 @@ translate L NewSubmenu "Submeniu nou"
 # Comment editor:
 translate L AnnotationSymbols  {Simboluri de adnotare:}
 translate L Comment {Comentariu:}
+translate L Format {Format}
+translate L Bold {Îndrăzneţ}
+translate L Italic {Cursiv}
+translate L Underline {Subliniați}
+translate L TextColor {Culoarea textului...}
+translate L CommentFont {Font...}
+translate L RemoveFormatting {Eliminați formatarea}
+translate L Family {Familial}
+translate L Size {Dimensiune}
+translate L FontSizeWarning {Dimensiunea fontului trebuie să fie un număr întreg pozitiv.}
+translate L Green {Verde}
+translate L Blue {Albastru}
+translate L Red {Roşu}
+translate L Brown {Maro}
+translate L CustomColor {Culoare personalizata...}
 translate L InsertMark {Introduceți marcajul}
 translate L InsertMarkHelp {Inserare/eliminare marcaj: Selectați culoarea, tipul, pătratul.
 Introduceți/eliminați săgeata: faceți clic dreapta pe două pătrate.}

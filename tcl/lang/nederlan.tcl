@@ -70,6 +70,8 @@ menuText N EditFirst "Maak hoofdvariant" 5 \
   {Maak deze variant de eerste in de lijst}
 menuText N EditMain "Variatie op hoofdvariant" 13 \
    {Promoveerd de variant als hoofdvariant}
+menuText N EditTrial "Probeer variatie" 0 \
+  {Start/stop proefmodus, voor het testen van een idee op het bord}
 menuText N EditStrip "Verwijder analyse" 2 {Verwijder commentaar of varianten uit deze partij}
 menuText N EditUndo "Ongedaan" 0 {Maak laatset verandering ongedaan}
 menuText N EditRedo "Opnieuw uitvoeren" 0 {Voer de laatste spelwijziging opnieuw uit}
@@ -1135,6 +1137,21 @@ translate N NewSubmenu "Nieuw submenu"
 # Comment editor:
 translate N AnnotationSymbols  {Symbolen voor annotatie:}
 translate N Comment {Commentaar:}
+translate N Format {Formaat}
+translate N Bold {Vetgedrukt}
+translate N Italic {Cursief}
+translate N Underline {Onderstrepen}
+translate N TextColor {Tekstkleur...}
+translate N CommentFont {Lettertype...}
+translate N RemoveFormatting {Opmaak verwijderen}
+translate N Family {Familie}
+translate N Size {Maat}
+translate N FontSizeWarning {De lettergrootte moet een positief geheel getal zijn.}
+translate N Green {Groente}
+translate N Blue {Blauw}
+translate N Red {Rood}
+translate N Brown {Bruin}
+translate N CustomColor {Aangepaste kleur...}
 translate N InsertMark {Voeg markering toe} ;
 translate N InsertMarkHelp {
 Voeg toe/verwijder markering: Selecteer  kleur, type, veld.

@@ -102,6 +102,8 @@ menuText J EditFirst "Направите прву варијацију" 5 \
   {Промовишите варијацију да буде прва на листи}
 menuText J EditMain "Промовишите варијацију на главну линију" 21 \
   {Промовишите варијацију да буде главна линија}
+menuText J EditTrial "Пробајте варијацију" 0 \
+  {Старт/стоп пробни режим, за тестирање идеје на табли}
 menuText J EditStrip "Стрип" 3 {Уклоните коментаре или варијације из ове игре}
 menuText J EditUndo "Поништи" 0 {Опозови последњу промену игре}
 menuText J EditRedo "Понови" 0 {Понови последњу промену игре}
@@ -1141,6 +1143,21 @@ translate J NewSubmenu "Нови подмени"
 # Comment editor:
 translate J AnnotationSymbols  {Симболи напомена:}
 translate J Comment {коментар:}
+translate J Format {Формат}
+translate J Bold {Болд}
+translate J Italic {Курзив}
+translate J Underline {Подвуци}
+translate J TextColor {Боја текста...}
+translate J CommentFont {Фонт...}
+translate J RemoveFormatting {Уклоните форматирање}
+translate J Family {Породица}
+translate J Size {Величина}
+translate J FontSizeWarning {Величина фонта мора бити позитиван цео број.}
+translate J Green {Зелена}
+translate J Blue {Плава}
+translate J Red {Црвени}
+translate J Brown {Браон}
+translate J CustomColor {Боја по мери...}
 translate J InsertMark {Уметни ознаку}
 translate J InsertMarkHelp {Убаци/уклони ознаку: Изаберите боју, тип, квадрат.
 Убаци/уклони стрелицу: Кликните десним тастером миша на два квадрата.}

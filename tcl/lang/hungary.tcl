@@ -63,6 +63,8 @@ menuText H EditFirst "Elsõ változattá tesz" 0 \
   {Elsõ helyre teszi a változatot a listán.}
 menuText H EditMain "Fõváltozattá tesz" 0 \
   {A változatot fõváltozattá lépteti elõ.}
+menuText H EditTrial "Próbáld ki a Variációt" 0 \
+  {Próbaüzem indítása/leállítása egy ötlet teszteléséhez a fórumon}
 menuText H EditStrip "Lecsupaszít" 2 {Eltávolítja a megjegyzéseket vagy a változatokat ebbõl a játszmából.}
 menuText H EditUndo "Visszavonás" 0 {Az utolsó játékmódosítás visszavonása}
 menuText H EditRedo "Újra" 0 {Hajtsa végre a legutóbbi játékmódosítást}
@@ -1113,6 +1115,21 @@ translate H NewSubmenu "Új almenü"
 # Comment editor:
 translate H AnnotationSymbols  {Értékelõ szimbólumok:}
 translate H Comment {Megjegyzés:}
+translate H Format {Formátum}
+translate H Bold {Bátor}
+translate H Italic {Dőlt}
+translate H Underline {Aláhúzás}
+translate H TextColor {Szöveg színe...}
+translate H CommentFont {Betűtípus...}
+translate H RemoveFormatting {Távolítsa el a formázást}
+translate H Family {Család}
+translate H Size {Méret}
+translate H FontSizeWarning {A betűméretnek pozitív egész számnak kell lennie.}
+translate H Green {Zöld}
+translate H Blue {Kék}
+translate H Red {Piros}
+translate H Brown {Barna}
+translate H CustomColor {Egyedi szín...}
 translate H InsertMark {Megjelölés beszúrása}
 translate H InsertMarkHelp {
 Megjelölés beszúrása/törlése: szín, típus, mezõ kiválasztása.

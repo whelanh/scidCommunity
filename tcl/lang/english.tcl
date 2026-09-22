@@ -1146,6 +1146,21 @@ translate E NewSubmenu "New submenu"
 # Comment editor:
 translate E AnnotationSymbols  {Annotation Symbols:}
 translate E Comment {Comment:}
+translate E Format {Format}
+translate E Bold {Bold}
+translate E Italic {Italic}
+translate E Underline {Underline}
+translate E TextColor {Text color...}
+translate E CommentFont {Font...}
+translate E RemoveFormatting {Remove formatting}
+translate E Family {Family}
+translate E Size {Size}
+translate E FontSizeWarning {Font size must be a positive integer.}
+translate E Green {Green}
+translate E Blue {Blue}
+translate E Red {Red}
+translate E Brown {Brown}
+translate E CustomColor {Custom color...}
 translate E InsertMark {Insert mark}
 translate E InsertMarkHelp {
 Insert/remove mark: Select color, type, square.

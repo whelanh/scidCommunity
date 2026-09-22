@@ -62,6 +62,8 @@ menuText B EditFirst "Converte para Primeira Variante" 14 \
   {Faz com que uma variante seja a primeira da lista}
 menuText B EditMain "Converte variante para Linha Principal" 24 \
   {Faz com que uma variante se torne a Linha Principal}
+menuText B EditTrial "Experimente a variação" 0 \
+  {Modo de teste iniciar/parar, para testar uma ideia no quadro}
 menuText B EditStrip "Limpar Comentários e Variantes" 2 \
   {Limpa comentários e variantes no jogo atual}
 menuText B EditUndo "Desfazer" 0 {Desfaz última mudança no jogo}
@@ -1118,6 +1120,21 @@ translate B NewSubmenu "Novo Submenu"
 # Comment editor:
 translate B AnnotationSymbols  {Símbolos de Anotação:}
 translate B Comment {Comentário:}
+translate B Format {Formatar}
+translate B Bold {Audacioso}
+translate B Italic {itálico}
+translate B Underline {Sublinhado}
+translate B TextColor {Cor do texto...}
+translate B CommentFont {Fonte...}
+translate B RemoveFormatting {Remover formatação}
+translate B Family {Família}
+translate B Size {Tamanho}
+translate B FontSizeWarning {O tamanho da fonte deve ser um número inteiro positivo.}
+translate B Green {Verde}
+translate B Blue {Azul}
+translate B Red {Vermelho}
+translate B Brown {Marrom}
+translate B CustomColor {Cor personalizada...}
 translate B InsertMark {Inserir marca} 
 translate B InsertMarkHelp {
 Insere/remove marca: Seleciona cor, tipo, casa.

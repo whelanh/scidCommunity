@@ -1143,6 +1143,21 @@ translate g NewSubmenu "Ново подменю"
 # Comment editor:
 translate g AnnotationSymbols  {Символи за анотации:}
 translate g Comment {коментар:}
+translate g Format {Форматиране}
+translate g Bold {Удебелен}
+translate g Italic {Курсив}
+translate g Underline {Подчертайте}
+translate g TextColor {Цвят на текста...}
+translate g CommentFont {Шрифт...}
+translate g RemoveFormatting {Премахнете форматирането}
+translate g Family {семейство}
+translate g Size {Размер}
+translate g FontSizeWarning {Размерът на шрифта трябва да е положително цяло число.}
+translate g Green {Зелено}
+translate g Blue {Синьо}
+translate g Red {червено}
+translate g Brown {кафяво}
+translate g CustomColor {Персонализиран цвят...}
 translate g InsertMark {Поставете знак}
 translate g InsertMarkHelp {Вмъкване/премахване на знак: Изберете цвят, тип, квадрат.
 Вмъкване/премахване на стрелка: Щракнете с десния бутон върху два квадрата.}

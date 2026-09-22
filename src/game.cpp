@@ -1809,35 +1809,258 @@ void Game::GetNextMoveUCI(char *str) {
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // writeComment:
 //    Called by WriteMoveList to write a single comment.
+namespace {
+
+struct CommentStyle {
+  bool bold = false;
+  bool italic = false;
+  bool underline = false;
+  std::string color;
+  std::string family;
+  std::string size;
+};
+
+static void trim(std::string& s) {
+  size_t b = s.find_first_not_of(" \t");
+  if (b == std::string::npos) {
+    s.clear();
+    return;
+  }
+  size_t e = s.find_last_not_of(" \t");
+  s = s.substr(b, e - b + 1);
+}
+
+// Parse the style attribute of a "<span style=\"...\">" tag.
+static void applySpanStyle(CommentStyle& st, const std::string& tag) {
+  size_t p = tag.find("style=\"");
+  if (p == std::string::npos)
+    return;
+  p += 7;
+  std::string attrs;
+  while (p < tag.size() && tag[p] != '"')
+    attrs += tag[p++];
+  size_t pos = 0;
+  while (pos <= attrs.size()) {
+    size_t semi = attrs.find(';', pos);
+    std::string pair =
+        attrs.substr(pos, semi == std::string::npos ? std::string::npos
+                                                    : semi - pos);
+    trim(pair);
+    if (!pair.empty()) {
+      size_t colon = pair.find(':');
+      if (colon != std::string::npos) {
+        std::string k = pair.substr(0, colon);
+        std::string v = pair.substr(colon + 1);
+        trim(k);
+        trim(v);
+        if (k == "color")
+          st.color = v;
+        else if (k == "font-family")
+          st.family = v;
+        else if (k == "font-size") {
+          if (v.size() >= 2 && v.compare(v.size() - 2, 2, "pt") == 0)
+            v = v.substr(0, v.size() - 2);
+          st.size = v;
+        } else if (k == "font-weight")
+          st.bold = (v == "bold");
+        else if (k == "font-style")
+          st.italic = (v == "italic");
+        else if (k == "text-decoration")
+          st.underline = (v == "underline");
+      }
+    }
+    if (semi == std::string::npos)
+      break;
+    pos = semi + 1;
+  }
+}
+
+static bool styleEmpty(const CommentStyle& st) {
+  return !st.bold && !st.italic && !st.underline && st.color.empty() &&
+         st.family.empty() && st.size.empty();
+}
+
+// Unescape the HTML entities produced by the comment editor. In colorMode
+// "<" and ">" become the htext literal markers "<lt>" and "<gt>".
+static void appendUnescaped(std::string& out, const std::string& text,
+                            bool colorMode) {
+  const char* p = text.c_str();
+  while (*p) {
+    if (*p == '&') {
+      if (strncmp(p, "&lt;", 4) == 0) {
+        out += colorMode ? "<lt>" : "<";
+        p += 4;
+        continue;
+      }
+      if (strncmp(p, "&gt;", 4) == 0) {
+        out += colorMode ? "<gt>" : ">";
+        p += 4;
+        continue;
+      }
+      if (strncmp(p, "&amp;", 5) == 0) {
+        out += '&';
+        p += 5;
+        continue;
+      }
+      if (strncmp(p, "&quot;", 6) == 0) {
+        out += '"';
+        p += 6;
+        continue;
+      }
+    }
+    out += *p;
+    p++;
+  }
+}
+
+// Color mode: flatten the comment into a sequence of
+// <span style="...">text</span> runs that the Tcl htext renderer can display.
+static std::string flattenComment(const char* s) {
+  std::string out;
+  std::vector<CommentStyle> stack;
+  CommentStyle cur;
+  std::string buf;
+
+  auto flush = [&]() {
+    if (buf.empty())
+      return;
+    if (styleEmpty(cur)) {
+      appendUnescaped(out, buf, true);
+    } else {
+      out += "<span style=\"";
+      bool first = true;
+      auto add = [&](const char* k, const std::string& v) {
+        if (!first)
+          out += ';';
+        first = false;
+        out += k;
+        out += ':';
+        out += v;
+      };
+      if (cur.bold)
+        add("font-weight", "bold");
+      if (cur.italic)
+        add("font-style", "italic");
+      if (cur.underline)
+        add("text-decoration", "underline");
+      if (!cur.color.empty())
+        add("color", cur.color);
+      if (!cur.family.empty())
+        add("font-family", cur.family);
+      if (!cur.size.empty())
+        add("font-size", cur.size + "pt");
+      out += "\">";
+      appendUnescaped(out, buf, true);
+      out += "</span>";
+    }
+    buf.clear();
+  };
+
+  while (*s) {
+    if (*s == '<') {
+      const char* gt = strchr(s, '>');
+      if (gt != nullptr) {
+        std::string tag(s + 1, gt);
+        if (tag == "b") {
+          flush();
+          stack.push_back(cur);
+          cur.bold = true;
+        } else if (tag == "/b" || tag == "/i" || tag == "/u" ||
+                   tag == "/span") {
+          flush();
+          if (!stack.empty()) {
+            cur = stack.back();
+            stack.pop_back();
+          }
+        } else if (tag == "i") {
+          flush();
+          stack.push_back(cur);
+          cur.italic = true;
+        } else if (tag == "u") {
+          flush();
+          stack.push_back(cur);
+          cur.underline = true;
+        } else if (tag == "span" || tag.rfind("span ", 0) == 0) {
+          flush();
+          stack.push_back(cur);
+          applySpanStyle(cur, tag);
+        } else {
+          // Not a recognized tag: treat '<' literally.
+          buf += "<lt>";
+          s++;
+          continue;
+        }
+        s = gt + 1;
+        continue;
+      }
+      buf += "<lt>";
+      s++;
+      continue;
+    }
+    if (*s == '>') {
+      buf += "<gt>";
+      s++;
+      continue;
+    }
+    buf += *s;
+    s++;
+  }
+  flush();
+  return out;
+}
+
+// Plain mode: strip the formatting tags and unescape entities.
+static std::string stripComment(const char* s) {
+  std::string buf;
+  while (*s) {
+    if (*s == '<') {
+      const char* gt = strchr(s, '>');
+      if (gt != nullptr) {
+        std::string tag(s + 1, gt);
+        if (tag == "b" || tag == "/b" || tag == "i" || tag == "/i" ||
+            tag == "u" || tag == "/u" || tag == "/span" ||
+            tag == "span" || tag.rfind("span ", 0) == 0) {
+          s = gt + 1;
+          continue;
+        }
+      }
+      buf += '<';
+      s++;
+      continue;
+    }
+    buf += *s;
+    s++;
+  }
+  std::string out;
+  appendUnescaped(out, buf, false);
+  return out;
+}
+
+} // namespace
+
 void Game::WriteComment(TextBuffer *tb, const char *preStr, const char *comment,
                         const char *postStr) {
-  const char *s = comment;
-  if (s[0] != '\0') {
+  if (comment[0] == '\0')
+    return;
 
-    if (IsColorFormat()) {
-      tb->PrintString("<c_");
-      tb->PrintInt(NumMovesPrinted);
-      tb->PrintChar('>');
-    }
-
-    if (IsColorFormat()) {
-      // Translate "<", ">" in comments:
-      tb->AddTranslation('<', "<lt>");
-      tb->AddTranslation('>', "<gt>");
-      // S.A any issues ?
-      tb->NewlinesToSpaces(0);
-      tb->PrintString(s);
-      tb->ClearTranslation('<');
-      tb->ClearTranslation('>');
-    } else {
-      tb->PrintString(preStr);
-      tb->PrintString(s);
-      tb->PrintString(postStr);
-    }
-
-    if (IsColorFormat()) {
-      tb->PrintString("</c>");
-    }
+  if (IsColorFormat()) {
+    std::string transformed = flattenComment(comment);
+    tb->PrintString("<c_");
+    tb->PrintInt(NumMovesPrinted);
+    tb->PrintChar('>');
+    tb->NewlinesToSpaces(0);
+    tb->PrintString(transformed.c_str());
+    tb->PrintString("</c>");
+  } else if (IsPlainFormat()) {
+    std::string transformed = stripComment(comment);
+    tb->PrintString(preStr);
+    tb->PrintString(transformed.c_str());
+    tb->PrintString(postStr);
+  } else {
+    // HTML: the comment already contains HTML markup + entities.
+    tb->PrintString(preStr);
+    tb->PrintString(comment);
+    tb->PrintString(postStr);
   }
 }
 

@@ -944,14 +944,13 @@ proc gsave { gnum } {
 
   set date [format "%s.%s.%s" $year $month $day]
   set edate [format "%s.%s.%s" $eyear $emonth $eday]
-  ::game::updateFlipTag
-  set extraTags [sc_game tag get Extra]
   set extraTagsList [split $extraTags "\n"]
   sc_game tags set -event $event -site $site -date $date -round $round \
       -white $white -black $black -result $resultVal \
       -whiteElo $whiteElo -whiteRatingType $whiteRType \
       -blackElo $blackElo -blackRatingType $blackRType \
       -eco $eco -eventdate $edate -extra $extraTagsList
+  ::game::updateFlipTag
   if {$gnum != 0} {
     if { [catch {sc_game save $gnum}] } { return 0 }
     ::notify::DatabaseModified [sc_base current]

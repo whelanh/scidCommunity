@@ -1102,6 +1102,21 @@ translate Z NewSubmenu "Menyu ndogo mpya"
 # Comment editor:
 translate Z AnnotationSymbols  {Alama za Ufafanuzi:}
 translate Z Comment {Maoni:}
+translate Z Format {Umbizo}
+translate Z Bold {Ujasiri}
+translate Z Italic {Italiki}
+translate Z Underline {Piga mstari}
+translate Z TextColor {Rangi ya maandishi...}
+translate Z CommentFont {Fonti...}
+translate Z RemoveFormatting {Ondoa umbizo}
+translate Z Family {Familia}
+translate Z Size {Ukubwa}
+translate Z FontSizeWarning {Ukubwa wa herufi lazima uwe nambari kamili chanya.}
+translate Z Green {Kijani}
+translate Z Blue {Bluu}
+translate Z Red {Nyekundu}
+translate Z Brown {Brown}
+translate Z CustomColor {Rangi maalum...}
 translate Z InsertMark {Weka alama}
 translate Z InsertMarkHelp {Weka/ondoa alama: Chagua rangi, aina, mraba.
 Weka/ondoa kishale: Bofya kulia miraba miwili.}

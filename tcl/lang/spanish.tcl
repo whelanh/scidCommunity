@@ -69,6 +69,8 @@ menuText S EditFirst "Convertir en primera variación" 0 \
   {Hace que una variación sea la primera en la lista}
 menuText S EditMain "Variación a línea principal" 0 \
    {Promover una variación para que sea la línea principal}
+menuText S EditTrial "Pruebe la variación" 0 \
+  {Modo de inicio/parada de prueba, para probar una idea en el tablero}
 menuText S EditStrip "Eliminar" 2 \
   {Elimina comentarios o variaciones de esta partida}
 menuText S EditUndo "Deshacer" 0 {Deshace el último cambio en la partida}
@@ -1164,6 +1166,21 @@ translate S NewSubmenu "Nuevo submenu"
 # Comment editor:
 translate S AnnotationSymbols  {Símbolos de anotación:}
 translate S Comment {Comentario:}
+translate S Format {Formato}
+translate S Bold {Atrevido}
+translate S Italic {Itálico}
+translate S Underline {Subrayar}
+translate S TextColor {Color del texto...}
+translate S CommentFont {Fuente...}
+translate S RemoveFormatting {Quitar formato}
+translate S Family {Familia}
+translate S Size {Tamaño}
+translate S FontSizeWarning {El tamaño de fuente debe ser un número entero positivo.}
+translate S Green {Verde}
+translate S Blue {Azul}
+translate S Red {Rojo}
+translate S Brown {Marrón}
+translate S CustomColor {Color personalizado...}
 translate S InsertMark {Insertar marca}
 translate S InsertMarkHelp {
 Insertar/quitar marca: Selecciona color, tipo, casilla.

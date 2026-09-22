@@ -67,6 +67,8 @@ menuText I EditFirst "Variante principale" 5 \
   {Promuove a variante principale nella lista}
 menuText I EditMain "Promuove una variante a linea principale" 9 \
   {Promuove una variante a linea principale}
+menuText I EditTrial "Prova la variazione" 0 \
+  {Avvia/interrompi la modalità di prova, per testare un'idea sulla lavagna}
 menuText I EditStrip "Pulisci" 2 {Elimina commenti o varianti dalla partita corrente}
 menuText I EditUndo "Annulla" 0 {Annulla l'ultima modifica della partita}
 menuText I EditRedo "Ripeti" 0 {Ripete l'ultima modifica della partita}
@@ -1112,6 +1114,21 @@ translate I NewSubmenu "Nuovo sottomenu"
 # Comment editor:
 translate I AnnotationSymbols  {Simboli di annotazione:}
 translate I Comment {Commento:}
+translate I Format {Formato}
+translate I Bold {Grassetto}
+translate I Italic {Corsivo}
+translate I Underline {Sottolineare}
+translate I TextColor {Colore del testo...}
+translate I CommentFont {Font...}
+translate I RemoveFormatting {Rimuovi la formattazione}
+translate I Family {Famiglia}
+translate I Size {Misurare}
+translate I FontSizeWarning {La dimensione del carattere deve essere un numero intero positivo.}
+translate I Green {Verde}
+translate I Blue {Blu}
+translate I Red {Rosso}
+translate I Brown {Marrone}
+translate I CustomColor {Colore personalizzato...}
 translate I InsertMark {Inserisci marcatore}
 translate I InsertMarkHelp {
 Inserisci/togli marcatore: seleziona colore, tipo, casella.
