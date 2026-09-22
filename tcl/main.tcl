@@ -1388,6 +1388,10 @@ proc addMoveUCI {{moveUCI} {animate "-animate"}} {
     set san [sc_game info previous]
     after idle [list ::utils::sound::AnnounceNewMove $san]
 
+    if {!$::tree::trainingMove} {
+        set ::tree::userMovePending 1
+    }
+
     return 1
 }
 
