@@ -230,7 +230,7 @@ proc ::tree::toggleTraining { baseNumber } {
   set ::tree::trainingBase 0
   if {$tree(training$baseNumber)} {
     set ::tree::trainingBase $baseNumber
-    set ::tree::trainingColor [sc_pos side]
+    set ::tree::trainingColor [expr {[sc_pos side] eq "white" ? "black" : "white"}]
   }
   ::tree::refresh $baseNumber
 }
@@ -307,7 +307,7 @@ proc ::tree::doTraining { { n 0 } } {
       if { $san ne {[end]} } {
           incr freq_move $freq
           if {$random_move <= $freq_move } {
-              return [addSanMove $move]
+              return [addSanMove $san]
           }
       }
   }
