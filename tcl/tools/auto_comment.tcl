@@ -25,14 +25,23 @@ namespace eval ::auto_comment {
     
     # Log file for Windows GUI (fallback when stderr unavailable)
     variable logFile ""
+
+    # Debug logging is opt-in: release builds must not write to stderr/stdout
+    # (a stray console can break the Windows GUI build). Set the
+    # SCID_AUTOCOMMENT_DEBUG environment variable to enable it when developing.
+    variable debugEnabled [expr {[info exists ::env(SCID_AUTOCOMMENT_DEBUG)] ? 1 : 0}]
 }
 
 # ::auto_comment::logDebug
-#   Writes debug messages to stderr (Linux/macOS) or a log file (Windows GUI)
+#   Writes debug messages to stderr (Linux/macOS) or a log file (Windows GUI).
+#   Does nothing unless debug logging has been enabled (see debugEnabled).
 #
 proc ::auto_comment::logDebug {message} {
+    variable debugEnabled
     variable logFile
-    
+
+    if {![info exists debugEnabled] || !$debugEnabled} { return }
+
     # Try stderr first (works on Linux/macOS terminal)
     if {[catch {puts stderr $message}]} {
         # Fallback: write to a log file (for Windows GUI)
@@ -82,6 +91,46 @@ proc ::auto_comment::fitWindow {w {minW 0} {minH 0}} {
     wm geometry $w "${reqW}x${reqH}+${x}+${y}"
 }
 
+# ::auto_comment::modelChoices
+#   Returns the fallback list of model ids for the given provider.  These are
+#   only defaults; the "Load Models" button replaces them with the live list
+#   retrieved from the provider.
+#
+proc ::auto_comment::modelChoices {provider} {
+    if {$provider eq "deepseek"} {
+        return {deepseek-v4-pro deepseek-flash}
+    }
+    return {gemini-3.5-flash gemini-3.5-flash-lite gemini-2.5-flash gemini-2.5-flash-lite}
+}
+
+# ::auto_comment::syncModelCombo
+#   Points a model combobox at the model variable of the currently selected
+#   provider and refreshes its choices, so the user can pick the model every
+#   time the Game Comment dialog is opened.
+#
+proc ::auto_comment::syncModelCombo {combo} {
+    if {![winfo exists $combo]} { return }
+    if {$::auto_comment::provider eq "deepseek"} {
+        set var ::auto_comment::deepseekModel
+    } else {
+        set var ::auto_comment::model
+    }
+    $combo configure -textvariable $var \
+        -values [::auto_comment::modelChoices $::auto_comment::provider]
+}
+
+# ::auto_comment::openSettings
+#   Opens the settings dialog and, once it is closed, refreshes the supplied
+#   model combobox in case the provider or model was changed there.
+#
+proc ::auto_comment::openSettings {combo} {
+    ::auto_comment::configureApiKey
+    if {[winfo exists .autoCommentConfig]} {
+        bind .autoCommentConfig <Destroy> \
+            "+if {![winfo exists .autoCommentConfig]} { ::auto_comment::syncModelCombo $combo }"
+    }
+}
+
 # ::auto_comment::configureApiKey
 #   Dialog to configure LLM provider and API keys.
 #
@@ -124,7 +173,7 @@ proc ::auto_comment::configureApiKey {} {
     ttk::label $w.content.gemini.modellbl -text "Model:"
     pack $w.content.gemini.modellbl -anchor w
     ttk::combobox $w.content.gemini.model -width 30 -textvariable ::auto_comment::model \
-        -values {gemini-3.5-flash gemini-3.5-flash-lite gemini-2.5-flash gemini-2.5-flash-lite}
+        -values [::auto_comment::modelChoices gemini]
     pack $w.content.gemini.model -anchor w -pady {0 5}
 
     ttk::button $w.content.gemini.load -text "Load Models" \
@@ -148,7 +197,7 @@ proc ::auto_comment::configureApiKey {} {
     ttk::label $w.content.deepseek.modellbl -text "Model:"
     pack $w.content.deepseek.modellbl -anchor w
     ttk::combobox $w.content.deepseek.model -width 30 -textvariable ::auto_comment::deepseekModel \
-        -values {deepseek-v4-pro deepseek-v4-flash deepseek-v4-flash-vision-exp}
+        -values [::auto_comment::modelChoices deepseek]
     pack $w.content.deepseek.model -anchor w -pady {0 5}
 
     ttk::button $w.content.deepseek.load -text "Load Models" \
@@ -402,8 +451,9 @@ Write your commentary about the move just played by $whoMoved.
 
 ===== HOW TO READ THE ENGINE ANALYSIS =====
 - \"Line N\" is a candidate continuation (PV). Line 1 is ALWAYS the engine's best move; later lines are progressively worse alternatives. Each line already carries a quality label (best, equal, slightly worse, inaccuracy, mistake, blunder).
-- The played move's quality is stated in the VERDICT line. Repeat that label; do not recompute or second-guess it.
-- Numeric scores beside a line are from the SIDE TO MOVE's perspective (the evaluation block states who is to move): a positive score favors the side to move, a negative score favors the opponent. Scores labeled \"before/after\" or shown in a table marked \"White's perspective\" are from White's side. A large value (e.g. -80.00 or +50.00) means a decisive or forced win, never equality.
+- Move notation tells you WHO moved: \"13.\" is a White move, \"13...\" is a Black move. A candidate line beginning \"13...Re8\" is therefore a Black alternative. A move is good for Black when it LOWERS White's score, and good for White when it RAISES White's score.
+- The played move's quality is stated in the VERDICT line. Repeat that label; do not recompute or second-guess it. The VERDICT already accounts for which side played the move.
+- Numeric scores beside a line are from the SIDE TO MOVE's perspective (the evaluation block states who is to move): a positive score favors the side to move, a negative score favors the opponent. Scores labeled \"White's perspective\" (including all PGN/GROUND TRUTH and \"Engine score\" values) are from White's side regardless of who is to move: a positive value favors White and a negative value favors Black. A large value (e.g. -80.00 or +50.00) means a decisive or forced win, never equality.
 - Scale reference: +/- 1.00 is roughly one pawn; +/- 10.00 is winning; mate is given as \"Mate in N\".
 
 ===== STRICT RULES =====
@@ -641,7 +691,7 @@ proc ::auto_comment::queryGemini {prompt} {
     set result ""
     set ok 0
 
-    if {![catch {exec curl -s --max-time 30 \
+    if {![catch {exec curl -s --connect-timeout 15 --max-time 60 \
             -H "Content-Type: application/json" \
             -H "x-goog-api-key: $::auto_comment::apiKey" \
             -X POST \
@@ -655,7 +705,7 @@ proc ::auto_comment::queryGemini {prompt} {
     catch {file delete -force $tmpfile}
 
     if {!$ok} {
-        return ""
+        return "ERROR: Gemini request failed (network error or timeout): [string range [string trim $result] 0 300]"
     }
 
     # DEBUG: Log the raw response
@@ -684,6 +734,7 @@ proc ::auto_comment::queryGemini {prompt} {
         } $rawText]
     } else {
         ::auto_comment::logDebug "Auto Comment: Could not parse Gemini response: $result"
+        return "ERROR: Could not parse the Gemini response (it may have been blocked by safety filters)."
     }
 
     # DEBUG: Log the extracted commentary before cleanup
@@ -691,7 +742,11 @@ proc ::auto_comment::queryGemini {prompt} {
     ::auto_comment::logDebug $text
     ::auto_comment::logDebug "========================================================\n"
 
-    return [::auto_comment::cleanupText $text]
+    set text [::auto_comment::cleanupText $text]
+    if {$text eq ""} {
+        return "ERROR: Gemini returned an empty response (it may have been blocked by safety filters)."
+    }
+    return $text
 }
 
 # ::auto_comment::queryDeepSeek
@@ -720,7 +775,7 @@ proc ::auto_comment::queryDeepSeek {prompt} {
     set result ""
     set ok 0
 
-    if {![catch {exec curl -s --max-time 60 \
+    if {![catch {exec curl -s --connect-timeout 15 --max-time 180 \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer $::auto_comment::deepseekApiKey" \
             -X POST \
@@ -734,7 +789,7 @@ proc ::auto_comment::queryDeepSeek {prompt} {
     catch {file delete -force $tmpfile}
 
     if {!$ok} {
-        return ""
+        return "ERROR: DeepSeek request failed (network error or timeout): [string range [string trim $result] 0 300]"
     }
 
     # DEBUG: Log the raw response
@@ -764,6 +819,7 @@ proc ::auto_comment::queryDeepSeek {prompt} {
         } $rawText]
     } else {
         ::auto_comment::logDebug "Auto Comment: Could not parse DeepSeek response: $result"
+        return "ERROR: Could not parse the DeepSeek response."
     }
 
     # DEBUG: Log the extracted commentary before cleanup
@@ -771,7 +827,11 @@ proc ::auto_comment::queryDeepSeek {prompt} {
     ::auto_comment::logDebug $text
     ::auto_comment::logDebug "==========================================================\n"
 
-    return [::auto_comment::cleanupText $text]
+    set text [::auto_comment::cleanupText $text]
+    if {$text eq ""} {
+        return "ERROR: DeepSeek returned an empty response (the model may have hit its output limit before writing any commentary)."
+    }
+    return $text
 }
 
 # ::auto_comment::getOpeningName
