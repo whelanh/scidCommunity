@@ -255,6 +255,8 @@ menuText A ToolsExpCurrentPGN "ゲームを PGN ファイルにエクスポー�
 menuText A ToolsExpCurrentHTML "ゲームを HTML ファイルにエクスポート..." 15 \
   {現在のゲームを HTML ファイルに書き込みます}
 menuText A ToolsExpCurrentHTMLJS "ゲームを HTML および JavaScript ファイルにエクスポート..." 15 {現在のゲームを HTML および JavaScript ファイルに書き込みます}
+menuText A ToolsExpCurrentRTF "Export Game to RTF File..." 15 \
+  {Write current game to an RTF file preserving comment formatting}
 menuText A ToolsExpFilter "すべてのフィルター ゲームをエクスポート" 1 \
   {フィルタリングされたすべてのゲームをテキスト ファイルに書き込みます}
 menuText A ToolsExpFilterPGN "フィルターを PGN ファイルにエクスポート..." 17 \
@@ -262,9 +264,13 @@ menuText A ToolsExpFilterPGN "フィルターを PGN ファイルにエクスポ
 menuText A ToolsExpFilterHTML "フィルタを HTML ファイルにエクスポート..." 17 \
   {フィルタリングされたすべてのゲームを HTML ファイルに書き込みます}
 menuText A ToolsExpFilterHTMLJS "フィルターを HTML および JavaScript ファイルにエクスポート..." 17 {フィルタリングされたすべてのゲームを HTML および JavaScript ファイルに書き込みます}
+menuText A ToolsExpFilterRTF "Export Filter to RTF File..." 17 \
+  {Write all filtered games to an RTF file preserving comment formatting}
 menuText A ToolsImportOne "1 つの PGN ゲームをインポート..." 0 \
   {PGN テキストからゲームをインポートする}
 menuText A ToolsImportFile "PGN ファイルからゲームをインポート..." 7 {PGN ファイルからゲームをインポートする}
+menuText A FileImportRTF "Import RTF Game..." 0 \
+  {Import a game from an RTF file created by scidCommunity}
 menuText A ToolsStartEngine1 "エンジン1を開始" 13  {エンジン1を始動します}
 menuText A ToolsStartEngine2 "エンジン2を開始" 13  {エンジン2を始動します}
 menuText A ToolsCaptureBoard "現在のボードをキャプチャ..." 5  {現在のボードを画像として保存します。}
@@ -2040,6 +2046,15 @@ translate A LSSGameNumber {LSS}
 translate A LSSMyTime {私の時間}
 translate A LSSOppTime {作業時間}
 translate A LSSDrawOffered {抽選が行われました}
+
+# RTF Export and Import
+translate A RtfExportTitle {Export to RTF File}
+translate A RtfExportError {Error exporting to RTF}
+translate A RtfImportTitle {Import RTF File}
+translate A RtfImportError {Error importing RTF file}
+translate A RtfNotScidFile {This file was not exported by scidCommunity with comment formatting, or is corrupted.}
+translate A RtfImportSuccess {Game imported into clipboard database successfully.}
+translate A RtfImportSuccessMulti {%d games imported into clipboard database successfully.}
 }
 # end of english.tcl
 

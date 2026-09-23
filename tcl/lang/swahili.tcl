@@ -214,6 +214,8 @@ menuText Z ToolsExpCurrentPGN "Hamisha Mchezo kwa Faili ya PGN..." 15 \
 menuText Z ToolsExpCurrentHTML "Hamisha Mchezo kwa Faili ya HTML..." 15 \
   {Andika mchezo wa sasa kwenye faili ya HTML}
 menuText Z ToolsExpCurrentHTMLJS "Hamisha Mchezo kwa HTML na faili ya JavaScript..." 15 {Andika mchezo wa sasa kwa faili ya HTML na JavaScript}
+menuText Z ToolsExpCurrentRTF "Export Game to RTF File..." 15 \
+  {Write current game to an RTF file preserving comment formatting}
 menuText Z ToolsExpFilter "Hamisha Michezo Yote ya Vichujio" 1 \
   {Andika michezo yote iliyochujwa kwenye faili ya maandishi}
 menuText Z ToolsExpFilterPGN "Hamisha Kichujio hadi Faili ya PGN..." 17 \
@@ -221,9 +223,13 @@ menuText Z ToolsExpFilterPGN "Hamisha Kichujio hadi Faili ya PGN..." 17 \
 menuText Z ToolsExpFilterHTML "Hamisha Kichujio hadi Faili ya HTML..." 17 \
   {Andika michezo yote iliyochujwa kwenye faili ya HTML}
 menuText Z ToolsExpFilterHTMLJS "Hamisha Kichujio kwa HTML na Faili ya JavaScript..." 17 {Andika michezo yote iliyochujwa kwenye faili ya HTML na JavaScript}
+menuText Z ToolsExpFilterRTF "Export Filter to RTF File..." 17 \
+  {Write all filtered games to an RTF file preserving comment formatting}
 menuText Z ToolsImportOne "Ingiza Mchezo Mmoja wa PGN..." 0 \
   {Ingiza mchezo kutoka kwa maandishi ya PGN}
 menuText Z ToolsImportFile "Ingiza Michezo kutoka kwa Faili za PGN..." 7 {Ingiza michezo kutoka kwa faili za PGN}
+menuText Z FileImportRTF "Import RTF Game..." 0 \
+  {Import a game from an RTF file created by scidCommunity}
 menuText Z ToolsStartEngine1 "Anza injini 1" 13  {Anza injini 1}
 menuText Z ToolsStartEngine2 "Anza injini 2" 13  {Anza injini 2}
 menuText Z ToolsCaptureBoard "Nasa Bodi ya Sasa..." 5  {Hifadhi ubao wa sasa kama picha.}
@@ -1999,6 +2005,15 @@ translate Z LSSGameNumber {LSS}
 translate Z LSSMyTime {Wakati Wangu}
 translate Z LSSOppTime {Muda wa Opp}
 translate Z LSSDrawOffered {Droo Imetolewa}
+
+# RTF Export and Import
+translate Z RtfExportTitle {Export to RTF File}
+translate Z RtfExportError {Error exporting to RTF}
+translate Z RtfImportTitle {Import RTF File}
+translate Z RtfImportError {Error importing RTF file}
+translate Z RtfNotScidFile {This file was not exported by scidCommunity with comment formatting, or is corrupted.}
+translate Z RtfImportSuccess {Game imported into clipboard database successfully.}
+translate Z RtfImportSuccessMulti {%d games imported into clipboard database successfully.}
 }
 # end of english.tcl
 

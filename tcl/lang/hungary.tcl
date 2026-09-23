@@ -219,6 +219,8 @@ menuText H ToolsExpCurrentPGN "Exportálás PGN-fájlba..." 11 \
 menuText H ToolsExpCurrentHTML "Exportálás HTML-fájlba..." 11 \
   {HTML-fájlba írja az aktuális játszmát.}
 menuText H ToolsExpCurrentHTMLJS "Játszma exportálása HTML és JavaScript fájlba" 28 {Az aktuális játszmát HTML és JavaScript fájlba írja.}  
+menuText H ToolsExpCurrentRTF "Export Game to RTF File..." 15 \
+  {Write current game to an RTF file preserving comment formatting}
 menuText H ToolsExpFilter "Az összes szûrt játszma exportálása" 11 \
   {Szövegfájlba írja az összes szûrt játszmát.}
 menuText H ToolsExpFilterPGN "Szûrõ exportálása PGN-fájlba..." 18 \
@@ -226,10 +228,14 @@ menuText H ToolsExpFilterPGN "Szûrõ exportálása PGN-fájlba..." 18 \
 menuText H ToolsExpFilterHTML "Szûrõ exportálása HTML-fájlba..." 18 \
   {HTML-fájlba írja az összes szûrt játszmát.}
 menuText H ToolsExpFilterHTMLJS "Szûrõ exportálása HTML és JavaScript fájlba" 30 {Az összes kiszûrt játszmát HTML és JavaScript fájlba írja.}  
+menuText H ToolsExpFilterRTF "Export Filter to RTF File..." 17 \
+  {Write all filtered games to an RTF file preserving comment formatting}
 menuText H ToolsImportOne "PGN-játszma importálása..." 0 \
   {PGN-formátumú játszma importálása}
 menuText H ToolsImportFile "PGN-fájl importálása..." 2 \
   {PGN-fájl összes játszmájának importálása}
+menuText H FileImportRTF "Import RTF Game..." 0 \
+  {Import a game from an RTF file created by scidCommunity}
 menuText H ToolsStartEngine1 "Az 1. motor elindítása" 3  {Elindítja az 1. motort.}
 menuText H ToolsStartEngine2 "A 2. motor elindítása" 2  {Elindítja a 2. motort.}
 menuText H ToolsCaptureBoard "Az aktuális tábla rögzítése..." 0  {Mentse el az aktuális táblát képként.}
@@ -2022,6 +2028,15 @@ translate H LSSGameNumber {LSS}
 translate H LSSMyTime {Az én időm}
 translate H LSSOppTime {Opp idő}
 translate H LSSDrawOffered {Sorsolás Felajánlott}
+
+# RTF Export and Import
+translate H RtfExportTitle {Export to RTF File}
+translate H RtfExportError {Error exporting to RTF}
+translate H RtfImportTitle {Import RTF File}
+translate H RtfImportError {Error importing RTF file}
+translate H RtfNotScidFile {This file was not exported by scidCommunity with comment formatting, or is corrupted.}
+translate H RtfImportSuccess {Game imported into clipboard database successfully.}
+translate H RtfImportSuccessMulti {%d games imported into clipboard database successfully.}
 }
 # end of english.tcl
 

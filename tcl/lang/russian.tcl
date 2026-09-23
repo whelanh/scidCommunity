@@ -221,6 +221,8 @@ menuText R ToolsExpCurrentPGN "Экспорт партии в файл PGN..." 0
 menuText R ToolsExpCurrentHTML "Экспорт партии в файл HTML..." 0 \
   {Записать текущую партию в файл HTML}
 menuText R ToolsExpCurrentHTMLJS "Экспорт партии в HTML и JavaScript файл..." 0 {Записать текущую партию HTML и JavaScript файл}
+menuText R ToolsExpCurrentRTF "Export Game to RTF File..." 15 \
+  {Write current game to an RTF file preserving comment formatting}
 menuText R ToolsExpFilter "Экспорт всех фильтрованных партий" 11 \
   {Записать все фильтрованные партии в текстовый файл}
 menuText R ToolsExpFilterPGN "Экспорт фильтрованных партий в файл PGN..." 0 \
@@ -228,9 +230,13 @@ menuText R ToolsExpFilterPGN "Экспорт фильтрованных парт
 menuText R ToolsExpFilterHTML "Экспорт фильтрованных партий в файл HTML..." 0 \
   {Записать все фильтрованные партии в файл HTML}
 menuText R ToolsExpFilterHTMLJS "Экспорт фильтрованных партий в HTML и JavaScript файл..." 17 {Записывает все фильтрованные партии в HTML и JavaScript файл}
+menuText R ToolsExpFilterRTF "Export Filter to RTF File..." 17 \
+  {Write all filtered games to an RTF file preserving comment formatting}
 menuText R ToolsImportOne "Импорт одной партии PGN..." 0 \
   {Импорт партии из текстового файла PGN}
 menuText R ToolsImportFile "Импорт файла партий PGN..." 9 {Импорт партий из файла PGN}
+menuText R FileImportRTF "Import RTF Game..." 0 \
+  {Import a game from an RTF file created by scidCommunity}
 menuText R ToolsStartEngine1 "Запустить движок 1" 0  {Запускает движок 1}
 menuText R ToolsStartEngine2 "Запустить движок 2" 0  {Запускает движок 2}
 menuText R ToolsCaptureBoard "Фиксировать текущую позицию..." 0  {Сохранить текущую позицию как изображение.}
@@ -2023,6 +2029,15 @@ translate R LSSGameNumber {СЖО}
 translate R LSSMyTime {Мое время}
 translate R LSSOppTime {Время приема}
 translate R LSSDrawOffered {Предлагается ничья}
+
+# RTF Export and Import
+translate R RtfExportTitle {Export to RTF File}
+translate R RtfExportError {Error exporting to RTF}
+translate R RtfImportTitle {Import RTF File}
+translate R RtfImportError {Error importing RTF file}
+translate R RtfNotScidFile {This file was not exported by scidCommunity with comment formatting, or is corrupted.}
+translate R RtfImportSuccess {Game imported into clipboard database successfully.}
+translate R RtfImportSuccessMulti {%d games imported into clipboard database successfully.}
 }
 # end of english.tcl
 

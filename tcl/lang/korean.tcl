@@ -255,6 +255,8 @@ menuText k ToolsExpCurrentPGN "PGN 파일로 게임을..." 15 \
 menuText k ToolsExpCurrentHTML "게임을 HTML 파일로 사용할 수 있습니다..." 15 \
   {현재 게임을 HTML 파일에 쓰기}
 menuText k ToolsExpCurrentHTMLJS "HTML 및 JavaScript 파일로 게임할 수 있는..." 15 {현재 게임을 HTML 및 JavaScript 파일에 작성했습니다.}
+menuText k ToolsExpCurrentRTF "Export Game to RTF File..." 15 \
+  {Write current game to an RTF file preserving comment formatting}
 menuText k ToolsExpFilter "모든 것이 가능합니다." 1 \
   {모든 게임을 문자 파일에 입력했습니다.}
 menuText k ToolsExpFilterPGN "필터를 PGN 파일로 위치..." 17 \
@@ -262,9 +264,13 @@ menuText k ToolsExpFilterPGN "필터를 PGN 파일로 위치..." 17 \
 menuText k ToolsExpFilterHTML "HTML 파일로 검색..." 17 \
   {모든 게임을 HTML 파일에 작성했습니다.}
 menuText k ToolsExpFilterHTMLJS "필터링을 HTML 및 JavaScript 파일로 포함..." 17 {모든 게임을 HTML 및 JavaScript 파일에 작성했습니다.}
+menuText k ToolsExpFilterRTF "Export Filter to RTF File..." 17 \
+  {Write all filtered games to an RTF file preserving comment formatting}
 menuText k ToolsImportOne "하나의 PGN 게임 가져오기..." 0 \
   {PGN 텍스트에서 게임을 가져오기}
 menuText k ToolsImportFile "PGN 파일을 가져오려면..." 7 {PGN 파일을 가져오기}
+menuText k FileImportRTF "Import RTF Game..." 0 \
+  {Import a game from an RTF file created by scidCommunity}
 menuText k ToolsStartEngine1 "엔진 1 시동" 13  {엔진 1}
 menuText k ToolsStartEngine2 "엔진 2 시동" 13  {엔진 2}
 menuText k ToolsCaptureBoard "현재 캡처 중..." 5  {현재 보드를 이미지로 생성합니다.}
@@ -2040,6 +2046,15 @@ translate k LSSGameNumber {LSS}
 translate k LSSMyTime {나의 시간}
 translate k LSSOppTime {기회 시간}
 translate k LSSDrawOffered {추첨 제공}
+
+# RTF Export and Import
+translate k RtfExportTitle {Export to RTF File}
+translate k RtfExportError {Error exporting to RTF}
+translate k RtfImportTitle {Import RTF File}
+translate k RtfImportError {Error importing RTF file}
+translate k RtfNotScidFile {This file was not exported by scidCommunity with comment formatting, or is corrupted.}
+translate k RtfImportSuccess {Game imported into clipboard database successfully.}
+translate k RtfImportSuccessMulti {%d games imported into clipboard database successfully.}
 }
 # end of english.tcl
 

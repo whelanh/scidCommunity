@@ -215,6 +215,8 @@ menuText C ToolsExpCurrentPGN "Export partie do PGN souboru..." 17 \
 menuText C ToolsExpCurrentHTML "Export partie do HTML souboru..." 17 \
   {Zapsat aktuln partii do HTML souboru}
 menuText C ToolsExpCurrentHTMLJS "Exportovat partii do souboru HTML s JavaScriptem..." 15 {Uloit aktuln partii do souboru s HTML a JavaScriptem}  
+menuText C ToolsExpCurrentRTF "Export Game to RTF File..." 15 \
+  {Write current game to an RTF file preserving comment formatting}
 menuText C ToolsExpFilter "Export filtrovanch parti" 7 \
   {Zapsat vechny filtrovan partie do textovho souboru}
 menuText C ToolsExpFilterPGN "Export filtrovanch parti do PGN souboru..." 30 \
@@ -222,10 +224,14 @@ menuText C ToolsExpFilterPGN "Export filtrovanch parti do PGN souboru..." 30 \
 menuText C ToolsExpFilterHTML "Export filtrovanch parti do HTML souboru..." 30 \
   {Zapsat vechny filtrovan partie do HTML souboru}
 menuText C ToolsExpFilterHTMLJS "Exportovat filtr do souboru HTML s JavaScriptem..." 17 {Uloit vechny vyfiltrovan partie do souboru HTML s JavaScriptem}  
+menuText C ToolsExpFilterRTF "Export Filter to RTF File..." 17 \
+  {Write all filtered games to an RTF file preserving comment formatting}
 menuText C ToolsImportOne "Import jedn PGN partie..." 7 \
   {Importovat partii z PGN zpisu}
 menuText C ToolsImportFile "Import souboru PGN parti..." 10 \
   {Importovat partie z PGN souboru}
+menuText C FileImportRTF "Import RTF Game..." 0 \
+  {Import a game from an RTF file created by scidCommunity}
 menuText C ToolsStartEngine1 "Spustit hern program 1" 0  {Spustit hern program 1}
 menuText C ToolsStartEngine2 "Spustit hern program 2" 0  {Spustit hern program 2}
 menuText C ToolsCaptureBoard "Uloit aktuln achovnici..." 0  {Uloit aktuln achovnici jako obrzek.}
@@ -2021,6 +2027,15 @@ translate C LSSGameNumber {LSS}
 translate C LSSMyTime {Můj čas}
 translate C LSSOppTime {Opp Time}
 translate C LSSDrawOffered {Nabídka remízy}
+
+# RTF Export and Import
+translate C RtfExportTitle {Export to RTF File}
+translate C RtfExportError {Error exporting to RTF}
+translate C RtfImportTitle {Import RTF File}
+translate C RtfImportError {Error importing RTF file}
+translate C RtfNotScidFile {This file was not exported by scidCommunity with comment formatting, or is corrupted.}
+translate C RtfImportSuccess {Game imported into clipboard database successfully.}
+translate C RtfImportSuccessMulti {%d games imported into clipboard database successfully.}
 }
 # end of english.tcl
 

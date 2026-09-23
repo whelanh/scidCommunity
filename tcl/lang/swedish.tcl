@@ -222,6 +222,8 @@ menuText W ToolsExpCurrentPGN "Exportera till PGN..." 15 \
 menuText W ToolsExpCurrentHTML "Exportera till HTML..." 15 \
   {Spara aktuellt parti till en HTML-fil}
 menuText W ToolsExpCurrentHTMLJS "Exportera till HTML och JavaScript-fil..." 15 {Spara aktuellt parti till en HTML och JavaScript-fil}  
+menuText W ToolsExpCurrentRTF "Export Game to RTF File..." 15 \
+  {Write current game to an RTF file preserving comment formatting}
 menuText W ToolsExpFilter "Exportera alla filtrerade partier" 15 \
   {Spara alla filterade partier till en textfil}
 menuText W ToolsExpFilterPGN "Exportera till PGN..." 15 \
@@ -229,10 +231,14 @@ menuText W ToolsExpFilterPGN "Exportera till PGN..." 15 \
 menuText W ToolsExpFilterHTML "Exportera till HTML..." 15 \
   {Spara alla filterade partier till en HTML-fil}
 menuText W ToolsExpFilterHTMLJS "Exportera filtrerade till HTML och JavaScript-fil..." 17 {Spara alla filtrerade partier till en HTML och JavaScript-fil}  
+menuText W ToolsExpFilterRTF "Export Filter to RTF File..." 17 \
+  {Write all filtered games to an RTF file preserving comment formatting}
 menuText W ToolsImportOne "Importera ett parti i PGN-format..." 0 \
   {Importera ett parti i PGN-format}
 menuText W ToolsImportFile "Importera flera partier i PGN-format..." 16 \
   {Importera flera partier i PGN-format från en fil}
+menuText W FileImportRTF "Import RTF Game..." 0 \
+  {Import a game from an RTF file created by scidCommunity}
 menuText W ToolsStartEngine1 "Starta schackmotor 1" 0  {Starta schackmotor 1}
 menuText W ToolsStartEngine2 "Starta schackmotor 2" 0  {Starta schackmotor 2}
 menuText W ToolsCaptureBoard "Spara aktuellt schackbräde..." 0  {Spara det aktuella schackbrädet som en bild.}
@@ -2027,6 +2033,15 @@ translate W LSSGameNumber {LSS}
 translate W LSSMyTime {Min tid}
 translate W LSSOppTime {Upp tid}
 translate W LSSDrawOffered {Dragning erbjuds}
+
+# RTF Export and Import
+translate W RtfExportTitle {Export to RTF File}
+translate W RtfExportError {Error exporting to RTF}
+translate W RtfImportTitle {Import RTF File}
+translate W RtfImportError {Error importing RTF file}
+translate W RtfNotScidFile {This file was not exported by scidCommunity with comment formatting, or is corrupted.}
+translate W RtfImportSuccess {Game imported into clipboard database successfully.}
+translate W RtfImportSuccessMulti {%d games imported into clipboard database successfully.}
 }
 # end of english.tcl
 

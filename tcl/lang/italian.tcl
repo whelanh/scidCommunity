@@ -219,6 +219,8 @@ menuText I ToolsExpCurrentPGN "Esporta partita in un file PGN..." 0 \
 menuText I ToolsExpCurrentHTML "Esporta partita in un file HTML..." 1 \
   {Scrive la partita attuale in un file HTML}
 menuText I ToolsExpCurrentHTMLJS "Esporta partita in un file HTML con JavaScript..." 2 {Scrive la partita attuale in un file HTML con JavaScript}
+menuText I ToolsExpCurrentRTF "Export Game to RTF File..." 15 \
+  {Write current game to an RTF file preserving comment formatting}
 menuText I ToolsExpFilter "Esporta tutte le partite del filtro" 1 \
   {Scrive tutte le partite filtrate in un file di testo}
 menuText I ToolsExpFilterPGN "Esporta filtro in file PGN..." 0 \
@@ -226,10 +228,14 @@ menuText I ToolsExpFilterPGN "Esporta filtro in file PGN..." 0 \
 menuText I ToolsExpFilterHTML "Esporta filtro in file HTML..." 1 \
   {Scrive tutte le partite filtrate in un file HTML}
 menuText I ToolsExpFilterHTMLJS "Esporta filtro in file HTML con JavaScript..." 12 {Scrive tutte le partite filtrate in un file HTML con JavaScript}
+menuText I ToolsExpFilterRTF "Export Filter to RTF File..." 17 \
+  {Write all filtered games to an RTF file preserving comment formatting}
 menuText I ToolsImportOne "Importa una partita in formato PGN..." 0 \
   {Importa una partita da testo PGN}
 menuText I ToolsImportFile "Importa partite da files PGN..." 27 \
   {Importa le partite da uno o più file PGN}
+menuText I FileImportRTF "Import RTF Game..." 0 \
+  {Import a game from an RTF file created by scidCommunity}
 menuText I ToolsStartEngine1 "Avvia il motore 1" 16  {Avvia il primo motore per l'analisi della posizione}
 menuText I ToolsStartEngine2 "Avvia il motore 2" 16  {Avvia il secondo motore per l'analisi della posizione}
 menuText I ToolsCaptureBoard "Salva la posizione come immagine..." 13  {Salva la posizione corrente come immagine.}
@@ -2023,6 +2029,15 @@ translate I LSSGameNumber {LSS}
 translate I LSSMyTime {Il mio tempo}
 translate I LSSOppTime {Tempo op}
 translate I LSSDrawOffered {Pareggio offerto}
+
+# RTF Export and Import
+translate I RtfExportTitle {Export to RTF File}
+translate I RtfExportError {Error exporting to RTF}
+translate I RtfImportTitle {Import RTF File}
+translate I RtfImportError {Error importing RTF file}
+translate I RtfNotScidFile {This file was not exported by scidCommunity with comment formatting, or is corrupted.}
+translate I RtfImportSuccess {Game imported into clipboard database successfully.}
+translate I RtfImportSuccessMulti {%d games imported into clipboard database successfully.}
 }
 # end of english.tcl
 

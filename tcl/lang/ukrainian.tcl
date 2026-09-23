@@ -215,6 +215,8 @@ menuText Q ToolsExpCurrentPGN "Експорт гри у файл PGN..." 15 \
 menuText Q ToolsExpCurrentHTML "Експорт гри у файл HTML..." 15 \
   {Записати поточну гру у файл HTML}
 menuText Q ToolsExpCurrentHTMLJS "Експорт гри у файл HTML і JavaScript..." 15 {Записати поточну гру у файл HTML і JavaScript}
+menuText Q ToolsExpCurrentRTF "Export Game to RTF File..." 15 \
+  {Write current game to an RTF file preserving comment formatting}
 menuText Q ToolsExpFilter "Експортувати всі ігри з фільтрами" 1 \
   {Записати всі відфільтровані ігри в текстовий файл}
 menuText Q ToolsExpFilterPGN "Експортувати фільтр у файл PGN..." 17 \
@@ -222,9 +224,13 @@ menuText Q ToolsExpFilterPGN "Експортувати фільтр у файл 
 menuText Q ToolsExpFilterHTML "Експортувати фільтр у файл HTML..." 17 \
   {Записати всі відфільтровані ігри у файл HTML}
 menuText Q ToolsExpFilterHTMLJS "Експортувати фільтр у файл HTML і JavaScript..." 17 {Запишіть усі відфільтровані ігри у файл HTML і JavaScript}
+menuText Q ToolsExpFilterRTF "Export Filter to RTF File..." 17 \
+  {Write all filtered games to an RTF file preserving comment formatting}
 menuText Q ToolsImportOne "Імпортувати одну гру PGN..." 0 \
   {Імпортувати гру з тексту PGN}
 menuText Q ToolsImportFile "Імпортувати ігри з файлів PGN..." 7 {Імпортувати ігри з файлів PGN}
+menuText Q FileImportRTF "Import RTF Game..." 0 \
+  {Import a game from an RTF file created by scidCommunity}
 menuText Q ToolsStartEngine1 "Запустіть двигун 1" 13  {Запустіть двигун 1}
 menuText Q ToolsStartEngine2 "Запустіть двигун 2" 13  {Запустіть двигун 2}
 menuText Q ToolsCaptureBoard "Захопити поточну плату..." 5  {Збережіть поточну дошку як зображення.}
@@ -2000,6 +2006,15 @@ translate Q LSSGameNumber {LSS}
 translate Q LSSMyTime {Мій час}
 translate Q LSSOppTime {Час Opp}
 translate Q LSSDrawOffered {Пропонується нічия}
+
+# RTF Export and Import
+translate Q RtfExportTitle {Export to RTF File}
+translate Q RtfExportError {Error exporting to RTF}
+translate Q RtfImportTitle {Import RTF File}
+translate Q RtfImportError {Error importing RTF file}
+translate Q RtfNotScidFile {This file was not exported by scidCommunity with comment formatting, or is corrupted.}
+translate Q RtfImportSuccess {Game imported into clipboard database successfully.}
+translate Q RtfImportSuccessMulti {%d games imported into clipboard database successfully.}
 }
 # end of english.tcl
 
