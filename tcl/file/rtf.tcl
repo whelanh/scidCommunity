@@ -23,8 +23,6 @@ namespace eval ::rtf {
         5   "!?"
         6   "?!"
         10  "="
-        11  "="
-        12  "="
         13  "\u221e"
         14  "\u2a72"
         15  "\u2a71"
@@ -34,7 +32,6 @@ namespace eval ::rtf {
         19  "-+"
         20  "+--"
         21  "--+"
-        22  "N"
         32  "\u27f3"
         36  "\u2192"
         40  "\u2191"
@@ -77,6 +74,8 @@ namespace eval ::rtf {
         "(D)"    "$138"
         "\u25b3" "$140"
         "\u2313" "$142"
+        "RR"     "$145"
+        "N"      "$146"
     }
 
     # Map a "$N" or plain number string -> symbol (falls back to raw text)
@@ -100,25 +99,19 @@ namespace eval ::rtf {
         return [join $result " "]
     }
 
-    # Comparator to sort symbols by length descending
-    proc compareLenDesc_ {a b} {
-        set la [string length $a]
-        set lb [string length $b]
-        if {$la > $lb} { return -1 }
-        if {$la < $lb} { return 1 }
-        return [string compare $a $b]
-    }
-
     # Convert symbols back to standard PGN NAG codes ($N)
     proc symbolToNag {text} {
         variable symbolToNag
-        set pairs {}
-        foreach sym [lsort -command compareLenDesc_ [array names symbolToNag]] {
-            lappend pairs $sym " $symbolToNag($sym) "
+        set result {}
+        foreach word [split $text] {
+            if {$word eq ""} { continue }
+            if {[info exists symbolToNag($word)]} {
+                lappend result $symbolToNag($word)
+            } else {
+                lappend result $word
+            }
         }
-        set res [string map $pairs $text]
-        regsub -all {\s+} $res " " res
-        return [string trim $res]
+        return [join $result " "]
     }
 
     # -----------------------------------------------------------------------
@@ -260,8 +253,6 @@ namespace eval ::rtf {
 
             if {$size ne "" && [string is integer -strict $size] && $size > 0} {
                 append ctrl "\\fs[expr {$size * 2}] "
-            } else {
-                append ctrl "\\fs[expr {$defaultSizePt * 2}] "
             }
 
             if {$color ne ""} {
@@ -612,22 +603,29 @@ namespace eval ::rtf {
             if {$sz > 0} { set defaultSizePt $sz }
         }
 
-        set comments {}
-        collectComments_ comments
-
-        set fontTable  [buildFontTable  $comments]
-        set colorTable [buildColorTable $comments]
-        set gameElems  [collectGame]
+        sc_game push copy
+        try {
+            set comments {}
+            collectComments_ comments
+            set fontTable  [buildFontTable  $comments]
+            set colorTable [buildColorTable $comments]
+            set gameElems  [collectGame]
+        } finally {
+            sc_game pop
+        }
 
         set ch [open $fName w]
-        fconfigure $ch -encoding utf-8
-        puts -nonewline $ch [rtfHeader $fontTable $colorTable]
-        puts -nonewline $ch [tagsToRtf $defaultSizePt]
-        puts -nonewline $ch "\\f0\\fs[expr {$defaultSizePt*2}]\\cf1 "
-        puts -nonewline $ch "\x7b\\v \\fs[expr {$defaultSizePt*2}] SCID_MOVES_BEGIN \\v0\x7d\n"
-        puts -nonewline $ch [renderLine_ $gameElems $fontTable $colorTable $defaultSizePt 0]
-        puts            $ch "\\par\n\x7d"
-        close $ch
+        try {
+            fconfigure $ch -encoding utf-8
+            puts -nonewline $ch [rtfHeader $fontTable $colorTable]
+            puts -nonewline $ch [tagsToRtf $defaultSizePt]
+            puts -nonewline $ch "\\f0\\fs[expr {$defaultSizePt*2}]\\cf1 "
+            puts -nonewline $ch "\x7b\\v \\fs[expr {$defaultSizePt*2}] SCID_MOVES_BEGIN \\v0\x7d\n"
+            puts -nonewline $ch [renderLine_ $gameElems $fontTable $colorTable $defaultSizePt 0]
+            puts            $ch "\\par\n\x7d"
+        } finally {
+            close $ch
+        }
     }
 
     # -----------------------------------------------------------------------
@@ -665,46 +663,54 @@ namespace eval ::rtf {
             if {$sz > 0} { set defaultSizePt $sz }
         }
 
-        set db [sc_base current]
-        set gList [sc_filter list $db dbfilter]
+        set savedGameNum [sc_game number]
 
         # Pass 1: collect all comments to build unified font/colour table
         set allComments {}
-        foreach gnum $gList {
-            sc_game push copy
-            if {![catch {sc_game load $gnum}]} {
+        set gn [sc_filter first]
+        while {$gn != 0} {
+            if {![catch {sc_game load $gn}]} {
                 collectCommentsLine_ allComments
             }
-            sc_game pop
+            set gn [sc_filter next]
         }
 
         set fontTable  [buildFontTable  $allComments]
         set colorTable [buildColorTable $allComments]
 
-        set ch [open $fName w]
-        fconfigure $ch -encoding utf-8
-        puts -nonewline $ch [rtfHeader $fontTable $colorTable]
+        try {
+            set ch [open $fName w]
+            try {
+                fconfigure $ch -encoding utf-8
+                puts -nonewline $ch [rtfHeader $fontTable $colorTable]
 
-        set first 1
-        foreach gnum $gList {
-            sc_game push copy
-            if {[catch {sc_game load $gnum}]} {
-                sc_game pop
-                continue
+                set first 1
+                set gn [sc_filter first]
+                while {$gn != 0} {
+                    if {[catch {sc_game load $gn}]} {
+                        set gn [sc_filter next]
+                        continue
+                    }
+                    if {!$first} { puts $ch "\\page" }
+                    set first 0
+
+                    set gameElems [collectGame]
+                    puts -nonewline $ch [tagsToRtf $defaultSizePt]
+                    puts -nonewline $ch "\\f0\\fs[expr {$defaultSizePt*2}]\\cf1 "
+                    puts -nonewline $ch "\x7b\\v \\fs[expr {$defaultSizePt*2}] SCID_MOVES_BEGIN \\v0\x7d\n"
+                    puts -nonewline $ch [renderLine_ $gameElems $fontTable $colorTable $defaultSizePt 0]
+                    puts $ch "\\par"
+                    set gn [sc_filter next]
+                }
+                puts $ch "\x7d"
+            } finally {
+                close $ch
             }
-            if {!$first} { puts $ch "\\page" }
-            set first 0
-
-            set gameElems [collectGame]
-            puts -nonewline $ch [tagsToRtf $defaultSizePt]
-            puts -nonewline $ch "\\f0\\fs[expr {$defaultSizePt*2}]\\cf1 "
-            puts -nonewline $ch "\x7b\\v \\fs[expr {$defaultSizePt*2}] SCID_MOVES_BEGIN \\v0\x7d\n"
-            puts -nonewline $ch [renderLine_ $gameElems $fontTable $colorTable $defaultSizePt 0]
-            puts $ch "\\par"
-            sc_game pop
+        } finally {
+            if {$savedGameNum > 0} {
+                catch {sc_game load $savedGameNum}
+            }
         }
-        puts $ch "\x7d"
-        close $ch
     }
 
     # -----------------------------------------------------------------------
@@ -922,8 +928,10 @@ namespace eval ::rtf {
                     append commentRtf $ctok
                 }
                 set markup [rtfRunsToMarkup $commentRtf $fontTable $colorTable $defaultSizePt]
-                # Escape braces inside the comment for PGN embedding
-                set markup [string map [list "\x7b" "\\\x7b" "\x7d" "\\\x7d"] $markup]
+                # Replace right braces so they do not terminate the PGN comment
+                # (the PGN lexer treats the first literal right brace as the
+                # comment end and does not honour backslash escapes).
+                set markup [string map [list "\x7b" "\uff5b" "\x7d" "\uff5d"] $markup]
                 append pgn " {$markup}"
             } elseif {$plain ne "" && ![string match "*SCID_*" $plain]} {
                 set convertedTok [symbolToNag $plain]
@@ -949,6 +957,10 @@ namespace eval ::rtf {
                 incr pos
                 while {$pos < $len && $depth > 0} {
                     set c [string index $rtf $pos]
+                    if {$c eq "\\"} {
+                        incr pos 2
+                        continue
+                    }
                     if {$c eq "\x7b"} { incr depth }
                     if {$c eq "\x7d"} { incr depth -1 }
                     incr pos
@@ -959,7 +971,17 @@ namespace eval ::rtf {
                 incr pos
             } else {
                 append buf $ch
-                incr pos
+                if {$ch eq "\\"} {
+                    set next [string index $rtf [expr {$pos + 1}]]
+                    if {$next eq "\x7b" || $next eq "\x7d" || $next eq "\\"} {
+                        append buf $next
+                        incr pos 2
+                    } else {
+                        incr pos
+                    }
+                } else {
+                    incr pos
+                }
             }
         }
         if {$buf ne ""} { lappend tokens $buf }
