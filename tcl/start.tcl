@@ -1035,6 +1035,7 @@ file/bookmark.tcl
 file/recent.tcl
 file/spellchk.tcl
 file/maint.tcl
+file/rtf.tcl
 edit.tcl
 game.tcl
 windows.tcl

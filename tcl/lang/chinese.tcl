@@ -191,15 +191,21 @@ menuText M ToolsExpCurrentPGN "导出对局到PGN文件..." 15 \
 menuText M ToolsExpCurrentHTML "导出对局到HTML文件..." 15 \
   {将当前对局写入HTML文件}
 menuText M ToolsExpCurrentHTMLJS "导出对局到HTML和JavaScript文件..." 15 {将当前对局写入HTML和JavaScript文件}
+menuText M ToolsExpCurrentRTF "Export Game to RTF File..." 15 \
+  {Write current game to an RTF file preserving comment formatting}
 menuText M ToolsExpFilter "扩展过滤器" 0 {显示当前过滤器中的所有游戏}
 menuText M ToolsExpFilterPGN "导出筛选到PGN文件..." 17 \
   {将所有筛选的对局写入PGN文件}
 menuText M ToolsExpFilterHTML "导出筛选到HTML文件..." 17 \
   {将所有筛选的对局写入HTML文件}
 menuText M ToolsExpFilterHTMLJS "导出筛选到HTML和JavaScript文件..." 17 {将所有筛选的对局写入HTML和JavaScript文件}
+menuText M ToolsExpFilterRTF "Export Filter to RTF File..." 17 \
+  {Write all filtered games to an RTF file preserving comment formatting}
 menuText M ToolsImportOne "导入一个PGN对局..." 0 \
   {从PGN文本导入对局}
 menuText M ToolsImportFile "从PGN文件导入对局..." 7 {从PGN文件导入对局}
+menuText M FileImportRTF "Import RTF Game..." 0 \
+  {Import a game from an RTF file created by scidCommunity}
 menuText M ToolsStartEngine1 "启动引擎1" 13  {启动引擎1}
 menuText M ToolsStartEngine2 "启动引擎2" 13  {启动引擎2}
 menuText M ToolsCaptureBoard "捕获当前棋盘..." 5  {将当前棋盘保存为图像。}
@@ -1975,6 +1981,15 @@ translate M LSSGameNumber {LSS}
 translate M LSSMyTime {我的时间}
 translate M LSSOppTime {机会时间}
 translate M LSSDrawOffered {提供抽奖}
+
+# RTF Export and Import
+translate M RtfExportTitle {Export to RTF File}
+translate M RtfExportError {Error exporting to RTF}
+translate M RtfImportTitle {Import RTF File}
+translate M RtfImportError {Error importing RTF file}
+translate M RtfNotScidFile {This file was not exported by scidCommunity with comment formatting, or is corrupted.}
+translate M RtfImportSuccess {Game imported into clipboard database successfully.}
+translate M RtfImportSuccessMulti {%d games imported into clipboard database successfully.}
 }
 # end of english.tcl
 

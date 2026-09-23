@@ -232,6 +232,8 @@ menuText K ToolsExpCurrentPGN "Exportar la partida a un arxiu PGN..." 33 \
 menuText K ToolsExpCurrentHTML "Exportar la partida a un arxiu HTML..." 33 \
   {Escriu la partida actual a un arxiu HTML}
 menuText K ToolsExpCurrentHTMLJS "Exportar la partida a un arxiu HTML i JavaScript..." 15 {Escriu la partida actual a un arxiu HTML i JavaScript} 
+menuText K ToolsExpCurrentRTF "Export Game to RTF File..." 15 \
+  {Write current game to an RTF file preserving comment formatting}
 menuText K ToolsExpFilter "Exportar totes les partides filtrades" 1 \
   {Escriu totes les partides filtrades a un arxiu de text}
 menuText K ToolsExpFilterPGN "Exportar filtre a un arxiu PGN..." 29 \
@@ -239,10 +241,14 @@ menuText K ToolsExpFilterPGN "Exportar filtre a un arxiu PGN..." 29 \
 menuText K ToolsExpFilterHTML "Exportar filtre a un arxiu HTML..." 29 \
   {Escriu totes les partides filtrades a un arxiu HTML}
 menuText K ToolsExpFilterHTMLJS "Exportar filtre a un arxiu HTML i JavaScript..." 17 {Escriu totes les partides filtrades a un arxiu HTML i JavaScript}  
+menuText K ToolsExpFilterRTF "Export Filter to RTF File..." 17 \
+  {Write all filtered games to an RTF file preserving comment formatting}
 menuText K ToolsImportOne "Importar una partida PGN..." 0 \
   {Importa una partida de un text PGN}
 menuText K ToolsImportFile "Importar un arxiu de partides PGN..." 2 \
   {Importa partides de un arxiu PGN}
+menuText K FileImportRTF "Import RTF Game..." 0 \
+  {Import a game from an RTF file created by scidCommunity}
 menuText K ToolsStartEngine1 "Iniciar motor 1" 0  {Iniciar motor 1}
 menuText K ToolsStartEngine2 "Iniciar motor 2" 0  {Iniciar Motor 2}
 menuText K ToolsCaptureBoard "Desa posició actual" 0  {Desa la posició del tauler actual com a imatge.}
@@ -2043,6 +2049,15 @@ translate K LSSGameNumber {LSS}
 translate K LSSMyTime {El meu temps}
 translate K LSSOppTime {Temps d'Opp}
 translate K LSSDrawOffered {Sorteig ofert}
+
+# RTF Export and Import
+translate K RtfExportTitle {Export to RTF File}
+translate K RtfExportError {Error exporting to RTF}
+translate K RtfImportTitle {Import RTF File}
+translate K RtfImportError {Error importing RTF file}
+translate K RtfNotScidFile {This file was not exported by scidCommunity with comment formatting, or is corrupted.}
+translate K RtfImportSuccess {Game imported into clipboard database successfully.}
+translate K RtfImportSuccessMulti {%d games imported into clipboard database successfully.}
 }
 # end of english.tcl
 

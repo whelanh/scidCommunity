@@ -253,6 +253,8 @@ menuText U ToolsExpCurrentPGN "Vie PGN-tiedostoon" 6 \
 menuText U ToolsExpCurrentHTML "Vie HTML-tiedostoon" 4 \
   {Kirjoita nykyinen peli HTML-tiedostoon}
 menuText U ToolsExpCurrentHTMLJS "Vie HTML- ja JavaScript-tiedostoihin" 6 {Kirjoita nykyinen peli HTML- ja JavaScript-tiedostoihin}  
+menuText U ToolsExpCurrentRTF "Export Game to RTF File..." 15 \
+  {Write current game to an RTF file preserving comment formatting}
 menuText U ToolsExpFilter "Vie suodatetut pelit tekstitiedostoon" 0 \
   {Kirjoita kaikki suodatetut pelit tekstitiedostoon}
 menuText U ToolsExpFilterPGN "Vie suodatetut pelit PGN-tiedostoon" 0 \
@@ -260,9 +262,13 @@ menuText U ToolsExpFilterPGN "Vie suodatetut pelit PGN-tiedostoon" 0 \
 menuText U ToolsExpFilterHTML "Vie suodatetut pelit HTML-tiedostoon" 0 \
   {Kirjoita kaikki suodatetut pelit HTML-tiedostoon}
 menuText U ToolsExpFilterHTMLJS "Vie suodatetut pelit HTML- ja JavaScript-tiedostoihin" 0 {Kirjoita kaikki suodatetut pelit HTML- ja JavaScript-tiedostoihin}  
+menuText U ToolsExpFilterRTF "Export Filter to RTF File..." 17 \
+  {Write all filtered games to an RTF file preserving comment formatting}
 menuText U ToolsImportOne "Tuo yksi PGN-peli" 0 \
   {Tuo yksittäinen peli PGN-tekstistä}
 menuText U ToolsImportFile "Tuo PGN pelitiedosto" 0 {Tuo yksi tai useampia pelejä sisältävä PGN-tiedosto}
+menuText U FileImportRTF "Import RTF Game..." 0 \
+  {Import a game from an RTF file created by scidCommunity}
 menuText U ToolsStartEngine1 "Käynnistä moottori 1" 19  {Käynnistä moottori 1}
 menuText U ToolsStartEngine2 "Käynnistä moottori 2" 19  {Käynnistä moottori 2}
 menuText U ToolsCaptureBoard "Kuvakaappaus asemasta..." 1  {Tallenna asema kuvana.}
@@ -2052,6 +2058,15 @@ translate U LSSGameNumber {LSS}
 translate U LSSMyTime {Minun Aikani}
 translate U LSSOppTime {Opp aika}
 translate U LSSDrawOffered {Arvonta tarjotaan}
+
+# RTF Export and Import
+translate U RtfExportTitle {Export to RTF File}
+translate U RtfExportError {Error exporting to RTF}
+translate U RtfImportTitle {Import RTF File}
+translate U RtfImportError {Error importing RTF file}
+translate U RtfNotScidFile {This file was not exported by scidCommunity with comment formatting, or is corrupted.}
+translate U RtfImportSuccess {Game imported into clipboard database successfully.}
+translate U RtfImportSuccessMulti {%d games imported into clipboard database successfully.}
 }
 # end of english.tcl
 

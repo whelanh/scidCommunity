@@ -215,6 +215,8 @@ menuText V ToolsExpCurrentPGN "ייצא משחק לקובץ PGN..." 15 \
 menuText V ToolsExpCurrentHTML "ייצוא משחק לקובץ HTML..." 15 \
   {כתוב את המשחק הנוכחי לקובץ HTML}
 menuText V ToolsExpCurrentHTMLJS "ייצוא משחק לקובץ HTML ו-JavaScript..." 15 {כתוב את המשחק הנוכחי לקובץ HTML ו-JavaScript}
+menuText V ToolsExpCurrentRTF "Export Game to RTF File..." 15 \
+  {Write current game to an RTF file preserving comment formatting}
 menuText V ToolsExpFilter "ייצא את כל משחקי הסינון" 1 \
   {כתוב את כל המשחקים המסוננים לקובץ טקסט}
 menuText V ToolsExpFilterPGN "ייצא מסנן לקובץ PGN..." 17 \
@@ -222,9 +224,13 @@ menuText V ToolsExpFilterPGN "ייצא מסנן לקובץ PGN..." 17 \
 menuText V ToolsExpFilterHTML "ייצוא מסנן לקובץ HTML..." 17 \
   {כתוב את כל המשחקים המסוננים לקובץ HTML}
 menuText V ToolsExpFilterHTMLJS "ייצוא מסנן לקובץ HTML ו-JavaScript..." 17 {כתוב את כל המשחקים המסוננים לקובץ HTML ו-JavaScript}
+menuText V ToolsExpFilterRTF "Export Filter to RTF File..." 17 \
+  {Write all filtered games to an RTF file preserving comment formatting}
 menuText V ToolsImportOne "ייבוא משחק PGN אחד..." 0 \
   {ייבא משחק מטקסט PGN}
 menuText V ToolsImportFile "ייבוא משחקים מקבצי PGN..." 7 {ייבוא משחקים מקבצי PGN}
+menuText V FileImportRTF "Import RTF Game..." 0 \
+  {Import a game from an RTF file created by scidCommunity}
 menuText V ToolsStartEngine1 "הפעל מנוע 1" 13  {הפעל מנוע 1}
 menuText V ToolsStartEngine2 "הפעל מנוע 2" 13  {הפעל מנוע 2}
 menuText V ToolsCaptureBoard "לכידת לוח נוכחי..." 5  {שמור את הלוח הנוכחי כתמונה.}
@@ -2000,6 +2006,15 @@ translate V LSSGameNumber {LSS}
 translate V LSSMyTime {הזמן שלי}
 translate V LSSOppTime {Opp Time}
 translate V LSSDrawOffered {הגרלה מוצעת}
+
+# RTF Export and Import
+translate V RtfExportTitle {Export to RTF File}
+translate V RtfExportError {Error exporting to RTF}
+translate V RtfImportTitle {Import RTF File}
+translate V RtfImportError {Error importing RTF file}
+translate V RtfNotScidFile {This file was not exported by scidCommunity with comment formatting, or is corrupted.}
+translate V RtfImportSuccess {Game imported into clipboard database successfully.}
+translate V RtfImportSuccessMulti {%d games imported into clipboard database successfully.}
 }
 # end of english.tcl
 

@@ -275,6 +275,9 @@ menuText Y ToolsExpCurrentHTML "Izvezi partiju u HTML fajl..." 17 \
   {Snimi tekuu partiju u HTML fajl}
 # ====== TODO To be translated ======
 menuText Y ToolsExpCurrentHTMLJS "Export Game to HTML and JavaScript File..." 15 {Write current game to a HTML and JavaScript file}  
+# ====== TODO To be translated ======
+menuText Y ToolsExpCurrentRTF "Export Game to RTF File..." 15 \
+  {Write current game to an RTF file preserving comment formatting}
 menuText Y ToolsExpFilter "Izvezi sve filtrirane partije" 1 \
   {Snimi sve filtrirane partije u tekstualni fajl}
 menuText Y ToolsExpFilterPGN "Izvezi filtrirane partije u PGN fajl..." 28 \
@@ -283,10 +286,16 @@ menuText Y ToolsExpFilterHTML "Izvezi filtrirane partije u HTML fajl..." 28 \
   {Snimi sve filtrirane partije u HTML fajl}
 # ====== TODO To be translated ======
 menuText Y ToolsExpFilterHTMLJS "Export Filter to HTML and JavaScript File..." 17 {Write all filtered games to a HTML and JavaScript file}  
+# ====== TODO To be translated ======
+menuText Y ToolsExpFilterRTF "Export Filter to RTF File..." 17 \
+  {Write all filtered games to an RTF file preserving comment formatting}
 menuText Y ToolsImportOne "Uvezi jednu PGN partiju..." 0 \
   {Uvezi jednu partiju iz PGN fajla}
 menuText Y ToolsImportFile "Uvezi vie PGN partija..." 6 \
   {Uvezi vie partija iz PGN fajla}
+# ====== TODO To be translated ======
+menuText Y FileImportRTF "Import RTF Game..." 0 \
+  {Import a game from an RTF file created by scidCommunity}
 # ====== TODO To be translated ======
 menuText Y ToolsStartEngine1 "Start engine 1" 0  {Start engine 1}
 # ====== TODO To be translated ======
@@ -3404,4 +3413,18 @@ translate Y LSSMyTime {My Time}
 translate Y LSSOppTime {Opp Time}
 # ====== TODO To be translated ======
 translate Y LSSDrawOffered {Draw Offered}
+# ====== TODO To be translated ======
+translate Y RtfExportTitle {Export to RTF File}
+# ====== TODO To be translated ======
+translate Y RtfExportError {Error exporting to RTF}
+# ====== TODO To be translated ======
+translate Y RtfImportTitle {Import RTF File}
+# ====== TODO To be translated ======
+translate Y RtfImportError {Error importing RTF file}
+# ====== TODO To be translated ======
+translate Y RtfNotScidFile {This file was not exported by scidCommunity with comment formatting, or is corrupted.}
+# ====== TODO To be translated ======
+translate Y RtfImportSuccess {Game imported into clipboard database successfully.}
+# ====== TODO To be translated ======
+translate Y RtfImportSuccessMulti {%d games imported into clipboard database successfully.}
 

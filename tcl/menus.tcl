@@ -67,6 +67,7 @@ $m add separator
 $m add command -label FileOpenLichessTournament -command ::lichess_tournament::openTournament
 $m add command -label FileImportLichess -command ::lichess::importGames
 $m add command -label FileImportChessCom -command ::chesscom::importGames
+$m add command -label FileImportRTF -command ::rtf::importFromFile
 $m add separator
 set ::menuFileRecentIdx [expr [$m index end] +1]
 $m add command -label FileExit -accelerator "Ctrl+Q" -command ::file::Exit
@@ -107,6 +108,8 @@ menu $m.exportfilter
       -command {exportGames filter HTML}
   $m.exportfilter add command -label ToolsExpFilterHTMLJS \
       -command {::html::exportCurrentFilter}
+  $m.exportfilter add command -label ToolsExpFilterRTF \
+      -command {::rtf::exportFilterGames}
 $m add cascade -label ToolsExpFilter -menu $m.exportfilter
 menu $m.importfile
 $m add cascade -label ToolsImportFile -menu $m.importfile
@@ -178,6 +181,8 @@ menu $m.exportcurrent
       -command {exportGames current HTML}
   $m.exportcurrent add command -label ToolsExpCurrentHTMLJS \
       -command {::html::exportCurrentGame}
+  $m.exportcurrent add command -label ToolsExpCurrentRTF \
+      -command {::rtf::exportCurrentGame}
 $m add cascade -label ToolsExpCurrent -menu $m.exportcurrent
 $m add command -label GameDelete -accelerator "Ctrl+X" -command ::game::ToggleDeleteFlag
 $m add separator

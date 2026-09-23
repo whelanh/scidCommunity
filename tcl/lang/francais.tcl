@@ -228,16 +228,22 @@ menuText F ToolsExpCurrentPGN "Dans un fichier PGN..." 16 \
 menuText F ToolsExpCurrentHTML "Dans un fichier HTML..." 16 \
   {Exporter la partie en cours dans un fichier HTML}
 menuText F ToolsExpCurrentHTMLJS "Dans un fichier HTML et JavaScript..." 24 {Exporter la partie en cours dans un fichier HTML et JavaScript}
+menuText F ToolsExpCurrentRTF "Export Game to RTF File..." 15 \
+  {Write current game to an RTF file preserving comment formatting}
 menuText F ToolsExpFilter "Exporter les parties filtrées" 0
 menuText F ToolsExpFilterPGN "Dans un fichier PGN..." 16 \
   {Exporter le filtre dans un fichier PGN}
 menuText F ToolsExpFilterHTML "Dans un fichier HTML..." 16 \
   {Exporter le filtre dans un fichier HTML}
 menuText F ToolsExpFilterHTMLJS "Dans un fichier HTML et JavaScript..." 24 {Exporter le filtre dans un fichier HTML et JavaScript}
+menuText F ToolsExpFilterRTF "Export Filter to RTF File..." 17 \
+  {Write all filtered games to an RTF file preserving comment formatting}
 menuText F ToolsImportOne "Importer une partie en PGN..." 0 \
   {Importer une partie à partir d'un texte PGN}
 menuText F ToolsImportFile "Importer des fichiers PGN..." 0 \
   {Importer des parties à partir d'un ou plusieurs fichiers PGN}
+menuText F FileImportRTF "Import RTF Game..." 0 \
+  {Import a game from an RTF file created by scidCommunity}
 menuText F ToolsStartEngine1 "Démarrer moteur 1" 16  {Démarrer moteur 1}
 menuText F ToolsStartEngine2 "Démarrer moteur 2" 16  {Démarrer moteur 2}
 menuText F ToolsCaptureBoard "Capturer l'échiquier..." 0  {Enregistrer la position actuelle de l'échiquier en tant qu'image.}
@@ -2027,6 +2033,15 @@ translate F LSSGameNumber {LSS}
 translate F LSSMyTime {Mon temps}
 translate F LSSOppTime {Temps Opp}
 translate F LSSDrawOffered {Tirage offert}
+
+# RTF Export and Import
+translate F RtfExportTitle {Export to RTF File}
+translate F RtfExportError {Error exporting to RTF}
+translate F RtfImportTitle {Import RTF File}
+translate F RtfImportError {Error importing RTF file}
+translate F RtfNotScidFile {This file was not exported by scidCommunity with comment formatting, or is corrupted.}
+translate F RtfImportSuccess {Game imported into clipboard database successfully.}
+translate F RtfImportSuccessMulti {%d games imported into clipboard database successfully.}
 }
 # end of english.tcl
 

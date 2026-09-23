@@ -246,6 +246,8 @@ menuText G ToolsExpCurrentPGN "Εξαγωγή παρτίδας σε ένα αρ�
 menuText G ToolsExpCurrentHTML "Εξαγωγή παρτίδας σε αρχείο HTML..." 15 \
   {Γράψτε την τρέχουσα παρτίδα σε ένα αρχείο HTML}
 menuText G ToolsExpCurrentHTMLJS "Εξαγωγή παρτίδας σε αρχεία HTML και JavaScript..." 15 {Γράψτε την τρέχουσα παρτίδα σε αρχεία HTML και JavaScript}  
+menuText G ToolsExpCurrentRTF "Export Game to RTF File..." 15 \
+  {Write current game to an RTF file preserving comment formatting}
 menuText G ToolsExpFilter "Εξαγωγή όλων των φιλτραρισμένων παρτίδων" 1 \
   {Γράψτε όλες τις φιλτραρισμένες παρτίδες σε ένα αρχείο κειμένου}
 menuText G ToolsExpFilterPGN "Εξαγωγή φίλτρου σε αρχείο PGN..." 17 \
@@ -253,9 +255,13 @@ menuText G ToolsExpFilterPGN "Εξαγωγή φίλτρου σε αρχείο PG
 menuText G ToolsExpFilterHTML "Εξαγωγή φίλτρου σε αρχείο HTML..." 17 \
   {Γράψτε όλες τις φιλτραρισμένες παρτίδες σε ένα αρχείο HTML}
 menuText G ToolsExpFilterHTMLJS "Εξαγωγή φίλτρου σε αρχεία HTML και JavaScript..." 17 {Γράψτε όλες τις φιλτραρισμένες παρτίδες σε αρχεία HTML και JavaScript}  
+menuText G ToolsExpFilterRTF "Export Filter to RTF File..." 17 \
+  {Write all filtered games to an RTF file preserving comment formatting}
 menuText G ToolsImportOne "Εισαγωγή παρτίδας PGN..." 0 \
   {Εισάγετε μια παρτίδα από ένα κείμενο PGN}
 menuText G ToolsImportFile "Εισαγωγή αρχείου παρτίδων PGN..." 7 {Εισάγετε παρτίδες από ένα αρχείο PGN}
+menuText G FileImportRTF "Import RTF Game..." 0 \
+  {Import a game from an RTF file created by scidCommunity}
 menuText G ToolsStartEngine1 "Εκκίνηση μηχανής 1" 13  {Εκκινήστε την μηχανή 1}
 menuText G ToolsStartEngine2 "Εκκίνηση μηχανής 2" 13  {Εκκινήστε την μηχανή 2}
 menuText G ToolsCaptureBoard "Σύλληψη τρέχουσας σκακιέρας..." 5  {Αποθηκεύστε την τρέχουσα σκακιέρα ως εικόνα.}
@@ -2048,6 +2054,15 @@ translate G LSSGameNumber {LSS}
 translate G LSSMyTime {Ο χρόνος μου}
 translate G LSSOppTime {Opp Time}
 translate G LSSDrawOffered {Προσφέρεται κλήρωση}
+
+# RTF Export and Import
+translate G RtfExportTitle {Export to RTF File}
+translate G RtfExportError {Error exporting to RTF}
+translate G RtfImportTitle {Import RTF File}
+translate G RtfImportError {Error importing RTF file}
+translate G RtfNotScidFile {This file was not exported by scidCommunity with comment formatting, or is corrupted.}
+translate G RtfImportSuccess {Game imported into clipboard database successfully.}
+translate G RtfImportSuccessMulti {%d games imported into clipboard database successfully.}
 }
 # end of english.tcl
 

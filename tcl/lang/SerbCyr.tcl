@@ -255,6 +255,8 @@ menuText J ToolsExpCurrentPGN "Извези игру у ПГН датотеку.
 menuText J ToolsExpCurrentHTML "Извези игру у ХТМЛ датотеку..." 15 \
   {Напишите тренутну игру у ХТМЛ датотеку}
 menuText J ToolsExpCurrentHTMLJS "Извезите игру у ХТМЛ и ЈаваСцрипт датотеку..." 15 {Напишите тренутну игру у ХТМЛ и ЈаваСцрипт датотеку}
+menuText J ToolsExpCurrentRTF "Export Game to RTF File..." 15 \
+  {Write current game to an RTF file preserving comment formatting}
 menuText J ToolsExpFilter "Извези све игре филтера" 1 \
   {Запишите све филтриране игре у текстуалну датотеку}
 menuText J ToolsExpFilterPGN "Извези филтер у ПГН датотеку..." 17 \
@@ -262,9 +264,13 @@ menuText J ToolsExpFilterPGN "Извези филтер у ПГН датотек
 menuText J ToolsExpFilterHTML "Извези филтер у ХТМЛ датотеку..." 17 \
   {Запишите све филтриране игре у ХТМЛ датотеку}
 menuText J ToolsExpFilterHTMLJS "Извези филтер у ХТМЛ и ЈаваСцрипт датотеку..." 17 {Запишите све филтриране игре у ХТМЛ и ЈаваСцрипт датотеку}
+menuText J ToolsExpFilterRTF "Export Filter to RTF File..." 17 \
+  {Write all filtered games to an RTF file preserving comment formatting}
 menuText J ToolsImportOne "Увези једну ПГН игру..." 0 \
   {Увезите игру из ПГН текста}
 menuText J ToolsImportFile "Увезите игре из ПГН датотека..." 7 {Увезите игре из ПГН датотека}
+menuText J FileImportRTF "Import RTF Game..." 0 \
+  {Import a game from an RTF file created by scidCommunity}
 menuText J ToolsStartEngine1 "Покрените мотор 1" 13  {Покрените мотор 1}
 menuText J ToolsStartEngine2 "Покрените мотор 2" 13  {Покрените мотор 2}
 menuText J ToolsCaptureBoard "Сними тренутну таблу..." 5  {Сачувајте тренутну плочу као слику.}
@@ -2040,6 +2046,15 @@ translate J LSSGameNumber {ЛСС}
 translate J LSSMyTime {Моје време}
 translate J LSSOppTime {Опп Тиме}
 translate J LSSDrawOffered {Драв Офферед}
+
+# RTF Export and Import
+translate J RtfExportTitle {Export to RTF File}
+translate J RtfExportError {Error exporting to RTF}
+translate J RtfImportTitle {Import RTF File}
+translate J RtfImportError {Error importing RTF file}
+translate J RtfNotScidFile {This file was not exported by scidCommunity with comment formatting, or is corrupted.}
+translate J RtfImportSuccess {Game imported into clipboard database successfully.}
+translate J RtfImportSuccessMulti {%d games imported into clipboard database successfully.}
 }
 # end of english.tcl
 
