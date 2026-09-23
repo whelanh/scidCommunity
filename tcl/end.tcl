@@ -408,8 +408,8 @@ proc exportGames {selection exportType} {
   if {$exportType == "HTML"} {
     set dirtarget [file dirname $fName]
     set sourcedir $::scidShareDir
-    catch {file copy -force [file join $sourcedir bitmaps] $dirtarget}
-    catch {file copy -force [file join $::scidExeDir html scid.css] $dirtarget}
+    catch {::html::copyDirMerge [file join $sourcedir bitmaps] [file join $dirtarget bitmaps]}
+    catch {file copy -force [file join [::html::htmlSourceDir] scid.css] $dirtarget}
   }
 
   progressWindow "scidCommunity" "Exporting games..." $::tr(Cancel)

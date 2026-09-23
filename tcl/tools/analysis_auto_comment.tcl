@@ -8,27 +8,15 @@
 ############################################################
 
 namespace eval ::analysis_auto_comment {
-    variable selectedModel ""
-    variable logFile ""
+    # Debug logging is provided by ::auto_comment::logDebug (opt-in via
+    # SCID_AUTOCOMMENT_DEBUG); see the wrapper below.
 }
 
-# Helper proc to write debug logs (works on both Linux and Windows)
+# Helper proc to write debug logs. Debug logging is disabled unless the
+# SCID_AUTOCOMMENT_DEBUG environment variable is set; see ::auto_comment::logDebug.
 proc ::analysis_auto_comment::logDebug {message} {
-    variable logFile
-    
-    # Try stderr first (works on Linux/macOS terminal)
-    if {[catch {puts stderr $message}]} {
-        # Fallback: write to a log file (for Windows GUI)
-        if {$logFile eq ""} {
-            set logDir [file join [pwd] "logs"]
-            catch {file mkdir $logDir}
-            set logFile [file join $logDir "auto_comment_debug.log"]
-        }
-        set fd [open $logFile "a"]
-        puts $fd $message
-        close $fd
-    } else {
-        flush stderr
+    if {[llength [info procs ::auto_comment::logDebug]] > 0} {
+        ::auto_comment::logDebug $message
     }
 }
 
@@ -86,10 +74,25 @@ proc ::analysis_auto_comment::batch_generate {{engineId ""}} {
     pack $w.content.modellbl -anchor w
     ttk::combobox $w.content.provider -textvariable ::auto_comment::provider \
         -values {gemini deepseek} -state readonly -width 15
-    pack $w.content.provider -anchor w -pady {0 10}
+    pack $w.content.provider -anchor w -pady {0 5}
+
+    ttk::label $w.content.model2lbl -text "Model:"
+    pack $w.content.model2lbl -anchor w
+    ttk::combobox $w.content.model -width 30
+    pack $w.content.model -anchor w -pady {0 10}
+
+    # Keep the model list in step with the selected provider so the user can
+    # choose the model each time the dialog is opened.
+    bind $w.content.provider <<ComboboxSelected>> \
+        [list ::auto_comment::syncModelCombo $w.content.model]
+    ::auto_comment::syncModelCombo $w.content.model
 
     ttk::frame $w.buttons -padding {0 5}
     pack $w.buttons -fill x
+
+    ttk::button $w.buttons.settings -text "Settings..." \
+        -command [list ::auto_comment::openSettings $w.content.model]
+    pack $w.buttons.settings -side left -padx 5
 
     ttk::button $w.buttons.start -text "Start" -command {
         destroy .analysisAutoCommentDlg
@@ -101,7 +104,7 @@ proc ::analysis_auto_comment::batch_generate {{engineId ""}} {
     bind $w <Return> "$w.buttons.start invoke"
     bind $w <Escape> "destroy $w"
 
-    ::auto_comment::fitWindow $w 450 250
+    ::auto_comment::fitWindow $w 480 300
 }
 
 proc ::analysis_auto_comment::run_batch {{engineId ""}} {
@@ -193,6 +196,8 @@ proc ::analysis_auto_comment::run_batch {{engineId ""}} {
 
     $pw.content.pb configure -mode determinate -maximum $total -value 0
     set count 0
+    set generated 0
+    set lastError ""
 
     foreach item $annotatedPositions {
         incr count
@@ -244,7 +249,7 @@ proc ::analysis_auto_comment::run_batch {{engineId ""}} {
                         # White just moved
                         set winPercChange [format "%+.1f%%" $wpDiff]
                     }
-                    set engineStats "Engine score: $scoreAfter (Side-to-move Win% change: $winPercChange)."
+                    set engineStats "Engine score: $scoreAfter (from White's perspective; positive favors White. Side-to-move Win% change: $winPercChange)."
                 }
                 
                 # Special final summary stats: Full performance narrative
@@ -339,7 +344,7 @@ proc ::analysis_auto_comment::run_batch {{engineId ""}} {
                 set varLine [::lichess_eval::formatLine $prevFen $variationMoves]
                 set varScoreStr [expr {[llength $varScores] > 0 ? [lindex $varScores 0] : "unknown score"}]
                 
-                set groundTruth "\nGROUND TRUTH BEST LINE (from PGN variation, $varScoreStr): $varLine\n"
+                set groundTruth "\nGROUND TRUTH BEST LINE (from PGN variation, $varScoreStr; PGN scores are from White's perspective, positive favors White): $varLine\n"
                 append groundTruth "TRUST this variation as the absolute best recommendation. When commenting on the variation, simply refer to it as the best line.\n"
                 
                 set evalText "${evalText}${groundTruth}"
@@ -348,9 +353,11 @@ proc ::analysis_auto_comment::run_batch {{engineId ""}} {
         }
 
         if {$evalText ne "" || $isEnd} {
-            # Determine the mover (opposite of the side to move now).
+            # Determine the mover.  The board is currently on the position
+            # BEFORE the played move (we stepped back to get prevFen), so the
+            # side to move is the side that played the move being annotated.
             set side [sc_pos side]
-            set whoMoved [expr {$side eq "white" ? "Black" : "White"}]
+            set whoMoved [expr {$side eq "white" ? "White" : "Black"}]
 
             # Verdict label.
             # Prefer the game's own engine scores (White perspective) over the
@@ -385,7 +392,9 @@ proc ::analysis_auto_comment::run_batch {{engineId ""}} {
             } else {
                 append evalText "\nVERDICT: $movePlayed does NOT appear in any of the engine's top lines, suggesting it may be a poor choice."
             }
-            if {$playedMoveScore ne ""} { append evalText " The engine evaluation for the played move $movePlayed is $playedMoveScore." }
+            if {$playedMoveScore ne ""} {
+                append evalText " The engine evaluation for the played move $movePlayed (played by $whoMoved) is $playedMoveScore, given from White's perspective (positive favors White)."
+            }
             if {$engineStats ne ""} { append evalText "\n$engineStats" }
 
             # Build Prompt
@@ -425,6 +434,7 @@ proc ::analysis_auto_comment::run_batch {{engineId ""}} {
             ::analysis_auto_comment::logDebug $commentary
 
             if {$commentary ne "" && ![string match "ERROR:*" $commentary]} {
+                incr generated
                 # Go back to annotated position to append comment
                 sc_move pgn $offset
                 undoFeature save
@@ -443,7 +453,14 @@ proc ::analysis_auto_comment::run_batch {{engineId ""}} {
                     ::analysis_auto_comment::logDebug "Comment already exists in position - skipped"
                 }
             } else {
-                ::analysis_auto_comment::logDebug "No valid commentary received (empty or error)"
+                ::analysis_auto_comment::logDebug "No valid commentary received (empty or error): $commentary"
+                if {$commentary eq ""} {
+                    set lastError "The LLM returned no response (the request may have timed out)."
+                } else {
+                    set lastError $commentary
+                }
+                # Stop instead of repeating a failing request for every move.
+                break
             }
         } else {
             ::analysis_auto_comment::logDebug "Skipping move: no evalText available"
@@ -458,8 +475,15 @@ proc ::analysis_auto_comment::run_batch {{engineId ""}} {
     if {[winfo exists .commentWin]} {
         ::windows::commenteditor::Refresh
     }
-    
+
+    if {$lastError ne ""} {
+        tk_messageBox -icon warning -type ok -title "Auto Comment" \
+            -message "Batch processing stopped early after generating commentary for $generated of $total moves.\n\n$lastError" \
+            -parent .
+        return
+    }
+
     tk_messageBox -icon info -type ok -title "Auto Comment" \
-        -message "Batch processing complete. Generated commentary for $count moves." \
+        -message "Batch processing complete. Generated commentary for $generated moves." \
         -parent .
 }

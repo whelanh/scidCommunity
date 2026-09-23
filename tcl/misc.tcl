@@ -760,6 +760,39 @@ namespace eval html {
   set idx 0
 
   ################################################################################
+  # Return the directory holding the HTML export assets (bitmaps, scid.js and
+  # scid.css).  When installed these live in the shared data directory; when
+  # running from a build tree they sit next to the executable.
+  proc htmlSourceDir {} {
+    foreach base [list $::scidShareDir $::scidExeDir] {
+      set dir [file join $base html]
+      if {[file isdirectory [file join $dir bitmaps]]} {
+        return $dir
+      }
+    }
+    return [file join $::scidExeDir html]
+  }
+  ################################################################################
+  # Recursively copy the contents of $src into $dst, creating $dst if needed and
+  # overwriting existing files.  A plain "file copy" of a directory fails when
+  # the destination directory already exists, which would silently leave an
+  # exported game without its piece images if (for example) a "bitmaps"
+  # directory from a previous export is present.
+  proc copyDirMerge {src dst} {
+    if {![file isdirectory $src]} { return }
+    if {![file isdirectory $dst]} {
+      file mkdir $dst
+    }
+    foreach entry [glob -nocomplain -directory $src *] {
+      set target [file join $dst [file tail $entry]]
+      if {[file isdirectory $entry]} {
+        copyDirMerge $entry $target
+      } else {
+        catch {file copy -force -- $entry $target}
+      }
+    }
+  }
+  ################################################################################
   proc exportCurrentFilter {} {
     # Check that we have some games to export:
     if {[sc_filter count] == 0} {
@@ -779,8 +812,8 @@ namespace eval html {
     }
     set prefix [file rootname [file tail $fName] ]
     set dirtarget [file dirname $fName]
-    set sourcedir [file join $::scidExeDir html]
-    catch {file copy -force [file join $sourcedir bitmaps] $dirtarget}
+    set sourcedir [htmlSourceDir]
+    copyDirMerge [file join $sourcedir bitmaps] [file join $dirtarget bitmaps]
     catch {file copy -force [file join $sourcedir scid.js] $dirtarget}
     catch {file copy -force [file join $sourcedir scid.css] $dirtarget}
     # writeIndex "[file join $dirtarget $prefix].html" $prefix
@@ -843,8 +876,8 @@ namespace eval html {
     if {$fName == ""} { return }
     set prefix [file rootname [file tail $fName] ]
     set dirtarget [file dirname $fName]
-    set sourcedir [file join $::scidExeDir html]
-    catch { file copy -force [file join $sourcedir bitmaps] $dirtarget }
+    set sourcedir [htmlSourceDir]
+    copyDirMerge [file join $sourcedir bitmaps] [file join $dirtarget bitmaps]
     catch { file copy -force [file join $sourcedir scid.js] $dirtarget }
     catch { file copy -force [file join $sourcedir scid.css] $dirtarget }
 
