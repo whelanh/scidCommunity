@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.4.20
+Version:        5.1.4.21
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 4adc8d2aace76c2a18711e853ea4041fe14b7312  
+%global commit 6942bb8d78773569573122596dae04752680cc93  
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Wed Sep 23, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.4-21
+- "Improve Game Comment and fix html plus java export"
 * Wed Sep 23, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.4-20
 - "Add extensive formatting options to Comment Editor window; export & import to .rtf files"
 * Tue Sep 22, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.4-19
