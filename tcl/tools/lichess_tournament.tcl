@@ -24,6 +24,7 @@ namespace eval ::lichess_tournament {
   variable refreshInterval 60000
   variable autoUpdateBoard 1
   variable isPaused 0
+  variable lastHandledGameKey ""
 }
 
 # Internal helper to log when verbose is enabled
@@ -387,6 +388,42 @@ proc ::lichess_tournament::downloadTournamentGames {name url} {
   }
 }
 
+# lichess_tournament::getBroadcastGameUrl
+#   Return the Lichess broadcast game URL for the currently loaded game.
+#   Lichess broadcasts are not consistent: some store the game URL in the
+#   standard Site tag, while others store the real location there and put
+#   the Lichess URL only in the GameURL extra tag. Check both.
+#   Returns an empty string if the current game is not a Lichess broadcast.
+#
+proc ::lichess_tournament::getBroadcastGameUrl {} {
+  set gameUrl ""
+
+  # Prefer the GameURL extra tag when present.
+  if {[catch {
+    foreach line [split [sc_game tags get Extra] "\n"] {
+      if {[regexp {^GameURL\s+"(.*)"$} [string trim $line] -> url]} {
+        set gameUrl $url
+        break
+      }
+    }
+  } err]} {
+    ::lichess_tournament::vlog "Could not read extra tags: $err"
+  }
+
+  # Fall back to the Site tag.
+  if {![string match "https://lichess.org/broadcast/*" $gameUrl]} {
+    if {[catch {set gameUrl [sc_game tags get Site]} err]} {
+      ::lichess_tournament::vlog "Site tag not found or error: $err"
+      set gameUrl ""
+    }
+  }
+
+  if {[string match "https://lichess.org/broadcast/*" $gameUrl]} {
+    return $gameUrl
+  }
+  return ""
+}
+
 # lichess_tournament::onGameOpened
 #   Hook called when a game is opened in the PGN window
 #   Determines if the game is live and starts polling if needed
@@ -400,19 +437,8 @@ proc ::lichess_tournament::onGameOpened {} {
     return
   }
   
-  # Get the current game's headers
-  ::lichess_tournament::vlog "About to fetch game tags..."
-  set gameUrl ""
+  set gameUrl [::lichess_tournament::getBroadcastGameUrl]
   set result "*"
-  
-  # Try to get the game URL from the Site tag (Lichess PGN format)
-  if {[catch {
-    set gameUrl [sc_game tags get Site]
-  } err]} {
-    ::lichess_tournament::vlog "Site tag not found or error: $err"
-    set gameUrl ""
-  }
-  
   if {[catch {
     set result [sc_game tags get Result]
   } err]} {
@@ -420,41 +446,40 @@ proc ::lichess_tournament::onGameOpened {} {
     set result "*"
   }
   
-  ::lichess_tournament::vlog "Game Site/URL: $gameUrl, Result: $result"
+  ::lichess_tournament::vlog "Game URL: $gameUrl, Result: $result"
   
-  # Only monitor if this is a live game from a Lichess broadcast
-  if {$gameUrl eq "" || ![string match "https://lichess.org/broadcast/*" $gameUrl]} {
-    ::lichess_tournament::vlog "Not a Lichess broadcast URL, skipping"
+  # Only act on games from a Lichess broadcast
+  if {$gameUrl eq ""} {
+    ::lichess_tournament::vlog "Not a Lichess broadcast game, skipping"
+    # Forget the last handled game so returning to a broadcast game that was
+    # opened earlier will jump to the latest move again.
+    set ::lichess_tournament::lastHandledGameKey ""
     return
   }
   
-  # Only monitor if the game is still ongoing
-  if {$result ne "*"} {
-    ::lichess_tournament::vlog "Game is not ongoing (result=$result), skipping"
+  # onGameOpened runs on every PGN refresh (position changes, comment edits,
+  # live updates, ...). Only handle a given game once so the board does not
+  # keep jumping back to the last move while the user navigates.
+  set gameKey "$::curr_db:[sc_game number]"
+  if {$::lichess_tournament::lastHandledGameKey eq $gameKey} {
+    ::lichess_tournament::vlog "Game already handled, skipping initialization"
     return
   }
-  
-  ::lichess_tournament::vlog "Starting to monitor live game: $gameUrl"
-  
-  # Check if we are already monitoring this game to prevent infinite loops
-  # (sc_move end and sc_game save can trigger updates that call this hook again)
-  if {[dict exists $::lichess_tournament::gamePollingData gameUrl] && \
-      [dict get $::lichess_tournament::gamePollingData gameUrl] eq $gameUrl} {
-    ::lichess_tournament::vlog "Already monitoring this game, skipping initialization"
-    return
-  }
-  
-  # Stop any existing timer for this window
-  ::lichess_tournament::stopGamePolling
-  
-  ::lichess_tournament::vlog "About to call startGamePolling..."
-  # Start monitoring this game
-  ::lichess_tournament::startGamePolling $gameUrl
-  ::lichess_tournament::vlog "startGamePolling returned successfully"
+  set ::lichess_tournament::lastHandledGameKey $gameKey
   
   # Auto-jump to the end of the game
   sc_move end
   ::notify::PosChanged -pgn
+  
+  # Only ongoing games need to be polled for new moves
+  if {$result ne "*"} {
+    ::lichess_tournament::vlog "Game is not ongoing (result=$result), skipping polling"
+    return
+  }
+  
+  ::lichess_tournament::vlog "Starting to monitor live game: $gameUrl"
+  ::lichess_tournament::startGamePolling $gameUrl
+  ::lichess_tournament::vlog "startGamePolling returned successfully"
 }
 
 # lichess_tournament::getGameMoves
@@ -813,6 +838,14 @@ proc ::lichess_tournament::startGamePolling {gameUrl} {
   if {[catch {
     ::lichess_tournament::vlog "startGamePolling called with URL: $gameUrl"
     
+    # Cancel any timer left over from a previously monitored game.
+    if {[dict exists $::lichess_tournament::liveGameTimers mainGame]} {
+      set oldTimerId [dict get $::lichess_tournament::liveGameTimers mainGame]
+      catch {after cancel $oldTimerId}
+      dict unset ::lichess_tournament::liveGameTimers mainGame
+    }
+    set ::lichess_tournament::gamePollingData {}
+    
     set gameId [::lichess_tournament::extractGameId $gameUrl]
     
     # Extract study ID and chapter ID from broadcast URL
@@ -959,6 +992,7 @@ proc ::lichess_tournament::stopGamePolling {} {
     dict unset ::lichess_tournament::liveGameTimers mainGame
   }
   set ::lichess_tournament::gamePollingData {}
+  set ::lichess_tournament::lastHandledGameKey ""
   
   # Update UI button visibility
   ::lichess_tournament::updatePauseButton
@@ -1294,7 +1328,18 @@ proc ::lichess_tournament::extractMovesFromPgn {pgnFile} {
     if {[regexp {^\d+\.(.+)$} $token -> rest]} {
       set token $rest
     }
-    
+
+    # Skip standalone NAG codes such as "$4".
+    if {[regexp {^\$[0-9]+$} $token]} { continue }
+
+    # Lichess broadcast/study PGNs append annotation glyphs to SAN moves
+    # (e.g. "Bb3?!", "Be3??"). Scid records these as NAGs and reports the
+    # move without them, so strip them here to keep the move comparison in
+    # findLastCommonMove consistent. Otherwise a false "divergence" is
+    # detected on every poll and the game is truncated.
+    regsub {[!?]+$} $token "" token
+    if {$token eq ""} { continue }
+
     # Skip result markers
     if {$token eq "*" || $token eq "1-0" || $token eq "0-1" || $token eq "1/2-1/2"} { continue }
     
