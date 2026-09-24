@@ -682,15 +682,30 @@ proc ::docking::manage_rightclick_ {noteb x y localX localY} {
 }
 
 # Add a dock tab to an undocked window for right-click context menu
-proc ::docking::_addDockTab {wnd} {
-	set title [wm title $wnd]
-	if {[string equal -length 15 $title "scidCommunity: "]} {
-		set title [string range $title 15 end]
-	}
+proc ::docking::_addDockTab {wnd {deferred 0}} {
 	if {[string equal -length 6 $wnd ".fdock"]} {
 		set topwin [string replace $wnd 1 5]
 	} else {
 		set topwin $wnd
+	}
+	if {![winfo exists $topwin]} { return }
+
+	set packSlaves [pack slaves $topwin]
+	set gridSlaves [grid slaves $topwin]
+
+	# ::win::createWindow calls this before the window's own content has
+	# been created. Managing the tab now would fix the window to the pack
+	# geometry manager and break windows that lay out their content with
+	# grid (e.g. the engine window). Defer until the content exists so the
+	# tab can be inserted with the matching geometry manager.
+	if {!$deferred && [llength $packSlaves] == 0 && [llength $gridSlaves] == 0} {
+		after idle [list ::docking::_addDockTab $wnd 1]
+		return
+	}
+
+	set title [wm title $wnd]
+	if {[string equal -length 15 $title "scidCommunity: "]} {
+		set title [string range $title 15 end]
 	}
 
 	set tab ${topwin}.undocktab
@@ -698,9 +713,6 @@ proc ::docking::_addDockTab {wnd} {
 	ttk::frame $tab -relief raised -borderwidth 1
 	ttk::label $tab.label -text $title -image tb_close -compound left
 	pack $tab.label -side left -padx {5 0} -pady 1
-
-	set packSlaves [pack slaves $topwin]
-	set gridSlaves [grid slaves $topwin]
 
 	if {[llength $packSlaves] > 0} {
 		pack $tab -side top -fill x -before [lindex $packSlaves 0]

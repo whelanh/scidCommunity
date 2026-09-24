@@ -242,33 +242,50 @@ proc ::chesscom::downloadUserGames {username startYear startMonth dialogWin} {
 # ::chesscom::downloadMonth
 #   Download a single month using curl/wget/PowerShell/http fallback
 proc ::chesscom::downloadMonth {apiurl outfile} {
+  # Cloudflare (fronting api.chess.com) rejects requests that send no
+  # User-Agent with a 403 challenge page instead of PGN, so a browser-like
+  # User-Agent is required.
+  set userAgent "Mozilla/5.0 (X11; Linux x86_64; rv:130.0) Gecko/20100101 Firefox/130.0"
+
   if {[auto_execok curl] ne ""} {
-    if {[catch {exec curl -L -s -o "$outfile" "$apiurl" 2>@1} err]} {
+    if {[catch {exec curl -L -s -A $userAgent -o "$outfile" "$apiurl" 2>@1} err]} {
       error "curl download failed: $err"
     }
   } elseif {[auto_execok wget] ne ""} {
-    if {[catch {exec wget -q -O "$outfile" "$apiurl" 2>@1} err]} {
+    if {[catch {exec wget -q --user-agent=$userAgent -O "$outfile" "$apiurl" 2>@1} err]} {
       error "wget download failed: $err"
     }
   } elseif {[info exists ::windowsOS] && $::windowsOS && [auto_execok powershell] ne ""} {
     if {[catch {
       set ::env(SAFE_DL_URL) $apiurl
       set ::env(SAFE_DL_FILE) $outfile
-      exec powershell -NoLogo -NoProfile -Command {Invoke-WebRequest -Uri $env:SAFE_DL_URL -OutFile $env:SAFE_DL_FILE} 2>@1
+      set ::env(SAFE_DL_UA) $userAgent
+      exec powershell -NoLogo -NoProfile -Command {Invoke-WebRequest -Uri $env:SAFE_DL_URL -OutFile $env:SAFE_DL_FILE -UserAgent $env:SAFE_DL_UA} 2>@1
     } err]} {
       error "PowerShell download failed: $err"
     }
   } else {
-    ::chesscom::downloadWithHTTP $apiurl $outfile
+    ::chesscom::downloadWithHTTP $apiurl $outfile $userAgent
   }
 
   if {![file exists $outfile]} {
     error "Downloaded file is missing"
   }
+
+  # Reject anything that is not PGN (Cloudflare challenge HTML, JSON error
+  # bodies for an unknown user or invalid month, ...) so it is never
+  # concatenated and parsed as PGN. An empty response is valid: it means the
+  # month has no games.
+  set fd [open $outfile r]
+  set head [string trim [read $fd 512]]
+  close $fd
+  if {[string length $head] > 0 && [string index $head 0] ne "\["} {
+    error "Chess.com did not return PGN data (the API may be blocking automated downloads)."
+  }
 }
 
 # ::chesscom::downloadWithHTTP
-proc ::chesscom::downloadWithHTTP {apiurl outfile} {
+proc ::chesscom::downloadWithHTTP {apiurl outfile {userAgent "Mozilla/5.0"}} {
   package require http
   if {[catch {package require tls} tlsErr]} {
     error "Tcl TLS support is unavailable: $tlsErr. Install the tls package or use curl/wget/PowerShell to download."
@@ -277,7 +294,7 @@ proc ::chesscom::downloadWithHTTP {apiurl outfile} {
 
   if {[catch {
     set fd [open $outfile wb]
-    set token [http::geturl $apiurl -channel $fd -timeout 120000]
+    set token [http::geturl $apiurl -headers [list User-Agent $userAgent] -channel $fd -timeout 120000]
     close $fd
 
     set status [http::code $token]
