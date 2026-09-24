@@ -392,7 +392,11 @@ namespace eval ::rtf {
         set preNags    [sc_pos getNags]
         if {$preNags eq "0"} { set preNags "" }
         if {$preComment ne "" || $preNags ne ""} {
-            lappend elements [list "" [nagToSymbol $preNags] $preComment {}]
+            set preDiagramFen ""
+            if {[hasDiagramNag_ $preNags]} {
+                set preDiagramFen [lindex [split [sc_pos fen]] 0]
+            }
+            lappend elements [list "" [nagToSymbol $preNags] $preComment {} $preDiagramFen]
             set needMoveNum 1
         }
 
@@ -429,15 +433,107 @@ namespace eval ::rtf {
             set nags [sc_pos getNags]
             if {$nags eq "0"} { set nags "" }
             set nagSym [nagToSymbol $nags]
+            set diagramFen ""
+            if {[hasDiagramNag_ $nags]} {
+                set diagramFen [lindex [split [sc_pos fen]] 0]
+            }
 
             set comment [sc_pos getComment]
             if {$comment ne "" || [llength $vars] > 0} {
                 set needMoveNum 1
             }
 
-            lappend elements [list $moveLabel $nagSym $comment $vars]
+            lappend elements [list $moveLabel $nagSym $comment $vars $diagramFen]
         }
         return $elements
+    }
+
+    # -----------------------------------------------------------------------
+    # Board diagrams (rendered for the "D" / "#" annotation NAG)
+    # -----------------------------------------------------------------------
+    array set pieceImgCache_ {}
+    proc hasDiagramNag_ {nags} {
+        foreach tok [split [string trim $nags]] {
+            if {$tok eq "D" || $tok eq "#"} { return 1 }
+        }
+        return 0
+    }
+
+    proc piece2gifName_ {piece} {
+        switch -- $piece {
+            K { return wk } k { return bk }
+            Q { return wq } q { return bq }
+            R { return wr } r { return br }
+            B { return wb } b { return bb }
+            N { return wn } n { return bn }
+            P { return wp } p { return bp }
+        }
+        return sq
+    }
+
+    proc pieceImage_ {piece} {
+        variable pieceImgCache_
+        if {![info exists pieceImgCache_($piece)]} {
+            set dir [file join [::html::htmlSourceDir] bitmaps mini]
+            set fname [file join $dir "[piece2gifName_ $piece].gif"]
+            if {[file exists $fname]} {
+                set pieceImgCache_($piece) [image create photo -file $fname]
+            } else {
+                set pieceImgCache_($piece) ""
+            }
+        }
+        return $pieceImgCache_($piece)
+    }
+
+    proc fenToBoardPng_ {fen} {
+        set sq 40
+        set size [expr {$sq * 8}]
+
+        set boardPart [lindex [split $fen] 0]
+        set grid {}
+        foreach rank [split $boardPart "/"] {
+            set row {}
+            foreach ch [split $rank ""] {
+                if {[string is integer -strict $ch]} {
+                    for {set j 0} {$j < $ch} {incr j} { lappend row "" }
+                } else {
+                    lappend row $ch
+                }
+            }
+            lappend grid $row
+        }
+        if {[llength $grid] != 8} { error "invalid FEN" }
+
+        set img [image create photo -width $size -height $size]
+        for {set r 0} {$r < 8} {incr r} {
+            for {set c 0} {$c < 8} {incr c} {
+                set isDark [expr {($r + $c) % 2 == 1}]
+                set color [expr {$isDark ? "#b58863" : "#f0d9b5"}]
+                $img put $color -to [expr {$c*$sq}] [expr {$r*$sq}] \
+                    [expr {$c*$sq+$sq}] [expr {$r*$sq+$sq}]
+            }
+        }
+        for {set r 0} {$r < 8} {incr r} {
+            for {set c 0} {$c < 8} {incr c} {
+                set piece [lindex [lindex $grid $r] $c]
+                if {$piece eq ""} { continue }
+                set pimg [pieceImage_ $piece]
+                if {$pimg eq ""} { continue }
+                $img copy $pimg -zoom 2 -to [expr {$c*$sq}] [expr {$r*$sq}]
+            }
+        }
+
+        set png [$img data -format png]
+        image delete $img
+        return $png
+    }
+
+    proc diagramToRtf_ {fen} {
+        if {[catch {set png [fenToBoardPng_ $fen]}]} { return "" }
+        if {$png eq ""} { return "" }
+        set px 320
+        binary scan $png H* hex
+        return "\x7b\\pict\\pngblip\\picw${px}\\pich${px}\\picwgoal2880\\pichgoal2880 $hex\x7d"
     }
 
     # -----------------------------------------------------------------------
@@ -449,7 +545,7 @@ namespace eval ::rtf {
         set defCtrl "\\f0\\fs[expr {$defaultSizePt*2}]\\cf1\\b0\\i0\\ulnone "
 
         foreach elt $elements {
-            lassign $elt moveLabel nagSym comment vars
+            lassign $elt moveLabel nagSym comment vars diagramFen
 
             if {$moveLabel ne ""} {
                 if {$depth == 0} {
@@ -467,6 +563,13 @@ namespace eval ::rtf {
                 append out "\x7b\\v SCID_COMMENT_BEGIN\\v0\x7d"
                 append out [markupToRtf $comment $fontTable $colorTable $defaultSizePt]
                 append out "\x7b\\v SCID_COMMENT_END\\v0\x7d "
+            }
+
+            if {$diagramFen ne ""} {
+                set diagram [diagramToRtf_ $diagramFen]
+                if {$diagram ne ""} {
+                    append out "\\par\n${indent}${diagram}\\par\n"
+                }
             }
 
             foreach var $vars {
@@ -906,6 +1009,9 @@ namespace eval ::rtf {
         while {$i < $nTokens} {
             set tok [lindex $tokens $i]
             incr i
+
+            # Skip embedded pictures (board diagrams).
+            if {[string first "\\pict" $tok] == 1} { continue }
 
             set plain [string trim [rtfToPlain_ $tok]]
 
