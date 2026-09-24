@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+ <release version="5.1.4.23" date="2026-09-24">
+      <description>
+        <p>Add diagrams to rtf export and fix Lichess tournament monitoring</p>
+      </description>
+    </release>
  <release version="5.1.4.22" date="2026-09-24">
       <description>
         <p>Fix chess.com import</p>
