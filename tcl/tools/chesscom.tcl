@@ -272,13 +272,15 @@ proc ::chesscom::downloadMonth {apiurl outfile} {
     error "Downloaded file is missing"
   }
 
-  # Reject error/challenge pages so they are never concatenated and parsed
-  # as PGN (a Cloudflare page starts with "<!DOCTYPE html>").
+  # Reject anything that is not PGN (Cloudflare challenge HTML, JSON error
+  # bodies for an unknown user or invalid month, ...) so it is never
+  # concatenated and parsed as PGN. An empty response is valid: it means the
+  # month has no games.
   set fd [open $outfile r]
   set head [string trim [read $fd 512]]
   close $fd
-  if {[string match "<*" $head]} {
-    error "Chess.com returned an HTML page instead of PGN (the API may be blocking automated downloads)."
+  if {[string length $head] > 0 && [string index $head 0] ne "\["} {
+    error "Chess.com did not return PGN data (the API may be blocking automated downloads)."
   }
 }
 
