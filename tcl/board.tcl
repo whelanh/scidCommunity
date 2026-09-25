@@ -1433,17 +1433,18 @@ proc ::board::mark::DrawArrow {pathName from to color} {
   ::board::mark::DrawArrowEx [winfo parent $pathName] $from $to $color 0.1 {3.3 3.3 1.0} "mark${from}:${to}"
 }
 
-# Draw arrows to indicate multiple best moves with different colors.
+# Draw arrows to indicate multiple best moves with grey shades and widths.
 # moves_list should be a list of UCI moves (e.g., {{e2e4} {d2d4} {g1f3}})
 # If moves_list is empty, it deletes all existing best move arrows.
-# Colors: green for 1st, yellow for 2nd, red for 3rd and beyond
+# Shading/width: wide dark grey for 1st, medium grey for 2nd, thin light grey for 3rd and beyond
 proc ::board::mark::DrawMultipleBestMoves {w moves_list} {
   # Delete all existing best move arrows
   $w.bd delete bestmove1 bestmove2 bestmove3
   
-  if {! $::arrowLastMove} { return }
+  if {! $::showMainEvalBarArrow} { return }
   
-  set colors {"#00C000" "#FFD700" "#FF0000"}
+  set colors {"#555555" "#999999" "#CCCCCC"}      ;# dark, medium, light grey
+  set widths {0.10 0.065 0.045}                   ;# widest, narrower, thin
   set idx 0
   
   foreach moveUCI $moves_list {
@@ -1452,16 +1453,18 @@ proc ::board::mark::DrawMultipleBestMoves {w moves_list} {
     set from [ ::board::sq [ string range $moveUCI 0 1 ] ]
     set to [ ::board::sq [ string range $moveUCI 2 3 ] ]
     
-    # Determine color: green (1st), yellow (2nd), red (3rd+)
+    # Determine shade/width: dark & wide (1st), medium (2nd), light & thin (3rd+)
     if {$idx < 2} {
       set color [lindex $colors $idx]
+      set width [lindex $widths $idx]
       set tag "bestmove[expr {$idx + 1}]"
     } else {
       set color [lindex $colors 2]
+      set width [lindex $widths 2]
       set tag "bestmove3"
     }
     
-    ::board::mark::DrawArrowEx $w $from $to $color 0.066 {3.6 4.8 2.0} $tag
+    ::board::mark::DrawArrowEx $w $from $to $color $width {3.6 4.8 2.0} $tag
     incr idx
   }
 }
