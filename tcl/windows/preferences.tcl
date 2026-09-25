@@ -21,6 +21,67 @@ proc ::preferences::replaceConfig { nr w } {
   $w yview moveto 0
 }
 
+proc ::preferences::moves { t } {
+    global autoplayDelay tempdelay
+
+    catch {font create ::preferences::hlFont -size 14 -weight bold}
+    catch {ttk::style configure HighlightLastMove.TLabel -font ::preferences::hlFont}
+
+    set tempdelay [expr {int($autoplayDelay / 1000.0)}]
+    ttk::frame $t.ani
+    ttk::label $t.ani.al -text [tr OptionsMovesAnimate]
+    ttk::label $t.ani.ms -text "ms"
+    ttk::combobox $t.ani.animate -width 4 -textvar animateDelay -values {0 100 150 200 250 300 400 500 600 800 1000}
+    pack $t.ani.al $t.ani.animate $t.ani.ms -side left -anchor w -padx "0 5"
+    ttk::checkbutton $t.omc -variable  moveEntry(Coord) -text [tr OptionsMovesCoord]
+    ttk::checkbutton $t.omk -variable  moveEntry(AutoExpand) -text [tr OptionsMovesKey]
+    ttk::checkbutton $t.oms -variable  suggestMoves -text [tr OptionsMovesSuggest]
+    ttk::checkbutton $t.osv -variable  showVarPopup -text [tr OptionsShowVarPopup]
+    ttk::checkbutton $t.osp -variable ::pgn::moveNumberSpaces -text [tr OptionsMovesSpace]
+    ttk::checkbutton $t.lichess -variable ::lichessFormat -text [tr OptionsMovesLichess]
+    ttk::checkbutton $t.god -variable glossOfDanger -text [tr OptionsMovesGlossOfDanger] -command updateBoard
+
+    ttk::frame $t.tree
+    ttk::label $t.tree.label -text "[tr OptionsMovesTreeDepth]:"
+    ttk::spinbox $t.tree.depth -width 4 -textvariable tree(moveDepth) -from 1 -to 4 -increment 1 \
+        -validate key -validatecommand { return [string is digit %S] }
+    pack $t.tree.label $t.tree.depth -side left -padx "0 5" -anchor w
+
+    ttk::frame $t.auto
+    ttk::label $t.auto.label -text "[tr OptionsMovesDelay]\n$::tr(AnnotateTime:)"
+    ttk::spinbox $t.auto.spDelay -width 4 -textvariable tempdelay -from 1 -to 999 -increment 1 \
+        -validate all -validatecommand { ::preferences::validateautoplay }
+
+    ttk::frame $t.high -borderwidth 1 -relief groove
+    ttk::label $t.high.lbl -text [tr OptionsMovesHighlightLastMove] -style HighlightLastMove.TLabel
+    ttk::checkbutton $t.high.hlm -variable ::highlightLastMove -text [tr OptionsMovesHighlightLastMoveDisplay] -command "updateBoard"
+    ttk::checkbutton $t.high.arrow -variable ::arrowLastMove -text [tr OptionsMovesHighlightLastMoveArrow] -command "updateBoard"
+    ttk::frame $t.high.widthrow
+    ttk::label $t.high.widthrow.tl -text [tr OptionsMovesHighlightLastMoveWidth]
+    ttk::spinbox $t.high.widthrow.thick -width 2 -textvariable ::highlightLastMoveWidth -from 1 -to 5 -increment 1 \
+        -validate key -validatecommand { return [string is digit %S] } -command "updateBoard"
+    ttk::button $t.high.widthrow.color -text $::tr(ColorMarker) -command chooseHighlightColor
+    ttk::checkbutton $t.marksn -variable ::highlightLastMoveNag -text [tr OptionsMovesHighlightLastMoveNag] -command "updateBoard"
+    ttk::checkbutton $t.markev -variable ::highlightLastMoveEval -text [tr OptionsMovesHighlightLastMoveEval] -command "updateBoard"
+    ttk::frame $t.vararrows
+    ttk::checkbutton $t.vararrows.sva -variable showVarArrows -text [tr OptionsMovesShowVarArrows] -command updateBoard
+    ttk::checkbutton $t.vararrows.eva -variable showEngineVariationArrows -text [tr OptionsMovesShowEngineVariationArrows] -command updateBoard
+    pack $t.ani.al $t.ani.animate $t.ani.ms -side left -anchor w -padx "0 5"
+    pack $t.ani $t.omc $t.omk $t.oms $t.osv $t.osp $t.auto $t.lichess $t.god $t.tree -side top -anchor w
+    pack $t.auto.label $t.auto.spDelay -side left -padx "0 10" -anchor w
+    pack $t.high -side top -anchor w -fill x -pady "5 0"
+    pack $t.high.lbl -side top -anchor w
+    pack $t.high.hlm -side top -anchor w
+    pack $t.high.arrow -side top -anchor w
+    pack $t.high.widthrow -side top -anchor w
+    pack $t.high.widthrow.tl $t.high.widthrow.thick $t.high.widthrow.color -side left -padx "0 5" -anchor w
+    pack $t.marksn -side top -anchor w
+    pack $t.markev -side top -anchor w
+    pack $t.vararrows.sva -side top -anchor w
+    pack $t.vararrows.eva -side top -anchor w
+    pack $t.vararrows -side top -anchor w -pady "2 0"
+}
+
 proc ::preferences::updateScrollBar { w } {
   set l [winfo reqwidth $w.f]
   set h [winfo reqheight $w.f]
@@ -176,59 +237,6 @@ proc ::preferences::validateautoplay { } {
     }
     if {$autoplayDelay < 0.1} { set autoplayDelay 0.1 }
     return 1
-}
-
-# preferences dialog for moves
-proc ::preferences::moves { t } {
-    global autoplayDelay tempdelay
-
-    set tempdelay [expr {int($autoplayDelay / 1000.0)}]
-    ttk::frame $t.ani
-    ttk::label $t.ani.al -text [tr OptionsMovesAnimate]
-    ttk::label $t.ani.ms -text "ms"
-    ttk::combobox $t.ani.animate -width 4 -textvar animateDelay -values {0 100 150 200 250 300 400 500 600 800 1000}
-    pack $t.ani.al $t.ani.animate $t.ani.ms -side left -anchor w -padx "0 5"
-    ttk::checkbutton $t.omc -variable  moveEntry(Coord) -text [tr OptionsMovesCoord]
-    ttk::checkbutton $t.omk -variable  moveEntry(AutoExpand) -text [tr OptionsMovesKey]
-    ttk::checkbutton $t.oms -variable  suggestMoves -text [tr OptionsMovesSuggest]
-    ttk::checkbutton $t.osv -variable  showVarPopup -text [tr OptionsShowVarPopup]
-    ttk::checkbutton $t.osp -variable ::pgn::moveNumberSpaces -text [tr OptionsMovesSpace]
-    ttk::checkbutton $t.lichess -variable ::lichessFormat -text [tr OptionsMovesLichess]
-    ttk::checkbutton $t.god -variable glossOfDanger -text [tr OptionsMovesGlossOfDanger] -command updateBoard
-
-    ttk::frame $t.tree
-    ttk::label $t.tree.label -text "[tr OptionsMovesTreeDepth]:"
-    ttk::spinbox $t.tree.depth -width 4 -textvariable tree(moveDepth) -from 1 -to 4 -increment 1 \
-        -validate key -validatecommand { return [string is digit %S] }
-    pack $t.tree.label $t.tree.depth -side left -padx "0 5" -anchor w
-
-    ttk::frame $t.auto
-    ttk::label $t.auto.label -text "[tr OptionsMovesDelay]\n$::tr(AnnotateTime:)"
-    ttk::spinbox $t.auto.spDelay -width 4 -textvariable tempdelay -from 1 -to 999 -increment 1 \
-        -validate all -validatecommand { ::preferences::validateautoplay }
-    ttk::labelframe $t.high -text [tr OptionsMovesHighlightLastMove]
-    ttk::checkbutton $t.high.hlm -variable ::highlightLastMove -text [tr OptionsMovesHighlightLastMoveDisplay] -command "updateBoard"
-    ttk::checkbutton $t.high.arrow -variable ::arrowLastMove -text [tr OptionsMovesHighlightLastMoveArrow] -command "updateBoard"
-    ttk::checkbutton $t.high.sva -variable showVarArrows -text [tr OptionsMovesShowVarArrows]
-    ttk::checkbutton $t.high.eva -variable showEngineVariationArrows -text [tr OptionsMovesShowEngineVariationArrows]
-    ttk::label $t.high.tl -text [tr OptionsMovesHighlightLastMoveWidth]
-    ttk::spinbox $t.high.thick -width 2 -textvariable ::highlightLastMoveWidth -from 1 -to 5 -increment 1 \
-        -validate key -validatecommand { return [string is digit %S] } -command "updateBoard"
-    ttk::button $t.high.color -text $::tr(ColorMarker) -command chooseHighlightColor
-    ttk::checkbutton $t.high.nag -variable ::highlightLastMoveNag -text [tr OptionsMovesHighlightLastMoveNag] -command "updateBoard"
-    ttk::checkbutton $t.high.eval -variable ::highlightLastMoveEval -text [tr OptionsMovesHighlightLastMoveEval] -command "updateBoard"
-    grid $t.high.hlm -row 0 -column 0 -sticky w
-    grid $t.high.tl -row 0 -column 1 -padx "10 5"
-    grid $t.high.thick -row 0 -column 2
-    grid $t.high.color -row 1 -column 2 -pady "2 0"
-    grid $t.high.arrow -row 1 -column 0 -columnspan 2 -sticky w
-    grid $t.high.sva -row 2 -column 0 -columnspan 3 -sticky w -padx "20 0"
-    grid $t.high.eva -row 3 -column 0 -columnspan 3 -sticky w -padx "20 0"
-    grid $t.high.nag -row 4 -column 0 -sticky w
-    grid $t.high.eval -row 5 -column 0 -sticky w
-    pack $t.auto.label $t.auto.spDelay -side left -padx "0 10" -anchor w
-    pack $t.ani $t.omc $t.omk $t.oms $t.osv $t.osp $t.auto $t.lichess $t.god $t.tree -side top -anchor w
-    pack $t.high -side top -anchor w -pady "5 0"
 }
 
 proc ::preferences::numbers { w } {

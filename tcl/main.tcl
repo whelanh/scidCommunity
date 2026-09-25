@@ -376,7 +376,7 @@ proc ::updateMainEvalBar {engineID bestmove evaluation {pvlines {}}} {
     }
     if {$engineID == $::mainEvalBarEngineID_} {
         ::board::updateEvalBar .main.board $evaluation
-        if {$::showMainEvalBarArrow && $::arrowLastMove} {
+        if {$::showMainEvalBarArrow} {
             # Convert all PV moves to UCI format
             set uciMoves {}
             set lineCount 0
@@ -1729,7 +1729,6 @@ proc CreateMainBoard { {w} } {
     tk_popup \[::createMainEvalBarMenu $w.board \] %X %Y
   "
   ::options.store ::showEvalBar($w) 1
-  ::options.store ::showMainEvalBarArrow 1
   if {$::showEvalBar($w)} { ::board::toggleEvalBar $w.board }
   if {$::gameInfo(showMaterial)} { ::board::toggleMaterial $w.board }
 
