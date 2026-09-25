@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.4.23
+Version:        5.1.4.24
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 3fcc863bbc703897168a6ebe318d7426b02cd6c8   
+%global commit b0d00130e7ae38b3ea8badd39fead2faabef6c4a   
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Fri Sep 25, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.4-24
+- "Reorganize arrow preferences and colors of multi-PV engine arrows"
 * Thu Sep 24, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.4-23
 - "Add diagrams to rtf export and fix Lichess Tournament monitoring"
 * Thu Sep 24, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.4-22
