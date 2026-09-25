@@ -57,10 +57,10 @@ proc ::preferences::moves { t } {
     ttk::checkbutton $t.high.hlm -variable ::highlightLastMove -text [tr OptionsMovesHighlightLastMoveDisplay] -command "updateBoard"
     ttk::checkbutton $t.high.arrow -variable ::arrowLastMove -text [tr OptionsMovesHighlightLastMoveArrow] -command "updateBoard"
     ttk::frame $t.high.widthrow
-    ttk::label $t.high.tl -text [tr OptionsMovesHighlightLastMoveWidth]
-    ttk::spinbox $t.high.thick -width 2 -textvariable ::highlightLastMoveWidth -from 1 -to 5 -increment 1 \
+    ttk::label $t.high.widthrow.tl -text [tr OptionsMovesHighlightLastMoveWidth]
+    ttk::spinbox $t.high.widthrow.thick -width 2 -textvariable ::highlightLastMoveWidth -from 1 -to 5 -increment 1 \
         -validate key -validatecommand { return [string is digit %S] } -command "updateBoard"
-    ttk::button $t.high.color -text $::tr(ColorMarker) -command chooseHighlightColor
+    ttk::button $t.high.widthrow.color -text $::tr(ColorMarker) -command chooseHighlightColor
     ttk::checkbutton $t.marksn -variable ::highlightLastMoveNag -text [tr OptionsMovesHighlightLastMoveNag] -command "updateBoard"
     ttk::checkbutton $t.markev -variable ::highlightLastMoveEval -text [tr OptionsMovesHighlightLastMoveEval] -command "updateBoard"
     ttk::frame $t.vararrows
@@ -68,11 +68,13 @@ proc ::preferences::moves { t } {
     ttk::checkbutton $t.vararrows.eva -variable showEngineVariationArrows -text [tr OptionsMovesShowEngineVariationArrows] -command updateBoard
     pack $t.ani.al $t.ani.animate $t.ani.ms -side left -anchor w -padx "0 5"
     pack $t.ani $t.omc $t.omk $t.oms $t.osv $t.osp $t.auto $t.lichess $t.god $t.tree -side top -anchor w
+    pack $t.auto.label $t.auto.spDelay -side left -padx "0 10" -anchor w
     pack $t.high -side top -anchor w -fill x -pady "5 0"
     pack $t.high.lbl -side top -anchor w
     pack $t.high.hlm -side top -anchor w
     pack $t.high.arrow -side top -anchor w
     pack $t.high.widthrow -side top -anchor w
+    pack $t.high.widthrow.tl $t.high.widthrow.thick $t.high.widthrow.color -side left -padx "0 5" -anchor w
     pack $t.marksn -side top -anchor w
     pack $t.markev -side top -anchor w
     pack $t.vararrows.sva -side top -anchor w

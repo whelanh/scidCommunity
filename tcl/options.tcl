@@ -232,7 +232,7 @@ set suggestMoves 1
 set showVarPopup 0
 set showVarArrows 1
 set showEngineVariationArrows 1
-set showMainEvalBarArrow 1
+::options.store ::showMainEvalBarArrow 1
 
 # Keyboard Move entry options:
 set moveEntry(On) 1
