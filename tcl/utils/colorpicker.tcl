@@ -191,7 +191,8 @@ PowerShell (Windows) is available, then try again."
 
   proc _pick_kde {} {
     # KWin exposes an interactive color picker over D-Bus. It returns the
-    # color as a struct holding one ARGB uint, e.g. gdbus prints "(4294901760,)".
+    # color as a struct holding one ARGB uint. gdbus prints replies with type
+    # annotations, so this comes back as "(uint32 4294901760,)".
     # Cancelling raises org.kde.kwin.ColorPicker.Error.Cancelled.
     set out ""
     if {[catch {
@@ -202,14 +203,15 @@ PowerShell (Windows) is available, then try again."
       if {[string match -nocase {*cancel*} $err]} { return "" }
       error $err
     }
-    if {[regexp {\(\s*(-?[0-9]+)\s*,?\s*\)} $out -> argb]} {
+    if {[regexp {uint32\s+([0-9]+)} $out -> argb] \
+        || [regexp {\(\s*(-?[0-9]+)\s*,?\s*\)} $out -> argb]} {
       set argb [expr {$argb & 0xffffffff}]
       return [format "#%02x%02x%02x" \
         [expr {($argb >> 16) & 0xff}] \
         [expr {($argb >> 8) & 0xff}] \
         [expr {$argb & 0xff}]]
     }
-    return ""
+    error "Could not parse KWin color picker output: $out"
   }
 
   proc _pick_gnome {} {
@@ -232,7 +234,7 @@ PowerShell (Windows) is available, then try again."
         [expr {int($g * 255 + 0.5)}] \
         [expr {int($b * 255 + 0.5)}]]
     }
-    return ""
+    error "Could not parse GNOME color picker output: $out"
   }
 
   proc _pick_grim {} {
