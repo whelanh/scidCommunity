@@ -1492,6 +1492,7 @@ translate W CopyErrNotOpen {är ej öppen}
 # Colors:
 translate W LightSquares {Ljusa fält}
 translate W DarkSquares {Mörka fält}
+translate W PickColorFromScreen {Pick color from screen}
 translate W SelectedSquares {Valda fält}
 translate W SuggestedSquares {Föreslagna fält}
 translate W WhitePieces {Vita pjäser}

@@ -1512,6 +1512,7 @@ translate k CopyErrNotOpen {이기적이지 않아요}
 # Colors:
 translate k LightSquares {의자}
 translate k DarkSquares {어두운 의자}
+translate k PickColorFromScreen {Pick color from screen}
 translate k SelectedSquares {선택 코너}
 translate k SuggestedSquares {제안된 이동 코너}
 translate k WhitePieces {조각}

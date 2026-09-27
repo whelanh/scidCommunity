@@ -1511,6 +1511,7 @@ translate N CopyErrNotOpen {is niet geopend}
 # Colors:
 translate N LightSquares {Lichte velden}
 translate N DarkSquares {Donkere velden}
+translate N PickColorFromScreen {Pick color from screen}
 translate N SelectedSquares {Geselecteerde velden}
 translate N SuggestedSquares {Zetsuggestie velden}
 translate N WhitePieces {Witte stukken}

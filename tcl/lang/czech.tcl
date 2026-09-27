@@ -1486,6 +1486,7 @@ translate C CopyErrNotOpen {nen otevena}
 # Colors:
 translate C LightSquares {Bl pole}
 translate C DarkSquares {ern pole}
+translate C PickColorFromScreen {Pick color from screen}
 translate C SelectedSquares {Vybran pole}
 translate C SuggestedSquares {Pole navrhovanch tah}
 translate C WhitePieces {Bl figury}

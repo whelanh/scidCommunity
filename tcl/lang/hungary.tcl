@@ -1487,6 +1487,7 @@ translate H CopyErrNotOpen {nincs megnyitva.}
 # Colors:
 translate H LightSquares {Világos mezõk}
 translate H DarkSquares {Sötét mezõk}
+translate H PickColorFromScreen {Pick color from screen}
 translate H SelectedSquares {Kiválasztott mezõk}
 translate H SuggestedSquares {Javasolt lépések mezõi}
 translate H WhitePieces {Világos figurák}

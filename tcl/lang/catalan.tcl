@@ -1508,6 +1508,7 @@ translate K CopyErrNotOpen {no està oberta}
 # Colors:
 translate K LightSquares {Caselles blanques}
 translate K DarkSquares {Caselles negres}
+translate K PickColorFromScreen {Pick color from screen}
 translate K SelectedSquares {Caselles seleccionades}
 translate K SuggestedSquares {Caselles de jugada suggerida}
 translate K WhitePieces {Peces blanques}

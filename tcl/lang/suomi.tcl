@@ -1519,6 +1519,7 @@ translate U CopyErrNotOpen {ei ole auki}
 # Colors:
 translate U LightSquares {Vaaleat ruudut}
 translate U DarkSquares {Tummat ruudut}
+translate U PickColorFromScreen {Pick color from screen}
 translate U SelectedSquares {Valitut ruudut}
 translate U SuggestedSquares {Siirtoehdotusten ruudut}
 translate U WhitePieces {Valkeat nappulat}

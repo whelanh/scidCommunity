@@ -1447,6 +1447,7 @@ translate M CopyErrNotOpen {未开放}
 # Colors:
 translate M LightSquares {浅色方块}
 translate M DarkSquares {深色方块}
+translate M PickColorFromScreen {Pick color from screen}
 translate M SelectedSquares {选定的方块}
 translate M SuggestedSquares {建议的移动方块}
 translate M WhitePieces {白色碎片}

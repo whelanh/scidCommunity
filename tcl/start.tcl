@@ -1023,6 +1023,7 @@ utils/sound.tcl
 utils/string.tcl
 utils/validate.tcl
 utils/win.tcl
+utils/colorpicker.tcl
 enginecfg.tcl
 enginecomm.tcl
 chart.tcl

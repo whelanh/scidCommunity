@@ -1512,6 +1512,7 @@ translate L CopyErrNotOpen {nu este deschis}
 # Colors:
 translate L LightSquares {Pătrate ușoare}
 translate L DarkSquares {Pătrate întunecate}
+translate L PickColorFromScreen {Pick color from screen}
 translate L SelectedSquares {Pătrate selectate}
 translate L SuggestedSquares {Patratele de mutare sugerate}
 translate L WhitePieces {Bucăți albe}

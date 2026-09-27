@@ -1520,6 +1520,7 @@ translate E CopyErrNotOpen {is not open}
 # Colors:
 translate E LightSquares {Light squares}
 translate E DarkSquares {Dark squares}
+translate E PickColorFromScreen {Pick color from screen}
 translate E SelectedSquares {Selected squares}
 translate E SuggestedSquares {Suggested move squares}
 translate E WhitePieces {White pieces}

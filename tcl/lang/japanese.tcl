@@ -1512,6 +1512,7 @@ translate A CopyErrNotOpen {開いていません}
 # Colors:
 translate A LightSquares {ライトスクエア}
 translate A DarkSquares {暗い四角形}
+translate A PickColorFromScreen {Pick color from screen}
 translate A SelectedSquares {選択された正方形}
 translate A SuggestedSquares {推奨移動マス}
 translate A WhitePieces {白い部分}

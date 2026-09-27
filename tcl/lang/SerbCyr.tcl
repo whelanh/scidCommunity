@@ -1512,6 +1512,7 @@ translate J CopyErrNotOpen {није отворен}
 # Colors:
 translate J LightSquares {Светли квадрати}
 translate J DarkSquares {Тамни квадрати}
+translate J PickColorFromScreen {Pick color from screen}
 translate J SelectedSquares {Одабрани квадрати}
 translate J SuggestedSquares {Предложено померање квадрата}
 translate J WhitePieces {Бели комади}
