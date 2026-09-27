@@ -312,13 +312,16 @@ PowerShell (Windows) is available, then try again."
     if {$x eq ""} { return "" }
     set script {param([int]$x, [int]$y, [string]$out)
 $ErrorActionPreference = 'Stop'
+[System.IO.File]::WriteAllText($out, 'S1')
 Add-Type -AssemblyName System.Drawing
+[System.IO.File]::WriteAllText($out, 'S2')
 $bmp = New-Object System.Drawing.Bitmap 1, 1
 $g = [System.Drawing.Graphics]::FromImage($bmp)
 $g.CopyFromScreen($x, $y, 0, 0, (New-Object System.Drawing.Size 1, 1))
 $c = $bmp.GetPixel(0, 0)
 $g.Dispose()
 $bmp.Dispose()
+[System.IO.File]::WriteAllText($out, 'S3')
 $hex = "#{0:x2}{1:x2}{2:x2}" -f $c.R, $c.G, $c.B
 [System.IO.File]::WriteAllText($out, $hex)
 $hex
@@ -337,25 +340,58 @@ $hex
 
     set exe [auto_execok powershell]
     if {$exe eq ""} { set exe [auto_execok pwsh] }
+    set diag "exe='$exe' scriptBytes=[expr {[file exists $file] ? [file size $file] : -1}]"
+
+    set hex ""
+
+    # Attempt 1: -File <script> <x> <y> <result>.
     set out ""
     set failed [catch {
       set out [exec {*}$exe -NoLogo -NoProfile -ExecutionPolicy Bypass \
         -File $file $x $y $result 2>@1]
     } err]
-    catch { file delete $file }
-    if {$failed} { error "Windows color picker failed: $err" }
-
-    # The color is emitted on stdout, and also written to a file as a fallback.
+    append diag " || -File failed=$failed err='[string range $err 0 100]' stdout='[string range $out 0 40]'"
     set hex [_parseColor $out]
-    if {$hex eq "" && [file readable $result]} {
-      set fh [open $result r]
-      set out [read $fh]
-      close $fh
-      set hex [_parseColor $out]
+    if {$hex eq "" && [file exists $result]} {
+      set fh [open $result r]; set rt [read $fh]; close $fh
+      append diag " result='[string range $rt 0 40]'"
+      set hex [_parseColor $rt]
     }
-    catch { file delete $result }
+
+    # Attempt 2: run the same script via the call operator (in case -File is
+    # blocked/ignored on this system).
     if {$hex eq ""} {
-      error "Windows color picker did not return a color (got: '[string range [string trim $out] 0 120]')"
+      catch { file delete $result }
+      set callCmd "& '$file' $x $y '$result'"
+      set out2 ""
+      set failed2 [catch {
+        set out2 [exec {*}$exe -NoLogo -NoProfile -ExecutionPolicy Bypass \
+          -Command $callCmd 2>@1]
+      } err2]
+      append diag " || -Command failed=$failed2 err='[string range $err2 0 100]' stdout='[string range $out2 0 40]'"
+      set hex [_parseColor $out2]
+      if {$hex eq "" && [file exists $result]} {
+        set fh [open $result r]; set rt [read $fh]; close $fh
+        append diag " result='[string range $rt 0 40]'"
+        set hex [_parseColor $rt]
+      }
+    }
+
+    set log [file join [_tempDir] "scid_colorpicker_debug.txt"]
+    catch {
+      set lf [open $log w]
+      puts $lf $diag
+      if {[file exists $file]} {
+        puts $lf "--- script ---"
+        set sf [open $file r]; puts $lf [read $sf]; close $sf
+      }
+      close $lf
+    }
+    catch { file delete $file }
+    catch { file delete $result }
+
+    if {$hex eq ""} {
+      error "Windows color picker did not return a color.\n$diag\n\nDebug log: $log"
     }
     return $hex
   }
