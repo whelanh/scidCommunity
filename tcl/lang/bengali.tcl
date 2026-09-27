@@ -1471,6 +1471,7 @@ translate b CopyErrNotOpen {খোলা হয় না}
 # Colors:
 translate b LightSquares {হালকা স্কোয়ার}
 translate b DarkSquares {গাঢ় বর্গক্ষেত্র}
+translate b PickColorFromScreen {Pick color from screen}
 translate b SelectedSquares {নির্বাচিত বর্গক্ষেত্র}
 translate b SuggestedSquares {প্রস্তাবিত সরানো বর্গক্ষেত্র}
 translate b WhitePieces {সাদা টুকরা}

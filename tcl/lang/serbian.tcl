@@ -2445,6 +2445,8 @@ translate Y LightSquares {Light squares}
 # ====== TODO To be translated ======
 translate Y DarkSquares {Dark squares}
 # ====== TODO To be translated ======
+translate Y PickColorFromScreen {Pick color from screen}
+# ====== TODO To be translated ======
 translate Y SelectedSquares {Selected squares}
 # ====== TODO To be translated ======
 translate Y SuggestedSquares {Suggested move squares}

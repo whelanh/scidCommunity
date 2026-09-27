@@ -1513,6 +1513,7 @@ translate G CopyErrNotOpen {δεν είναι ανοικτή}
 # Colors:
 translate G LightSquares {Λευκά τετράγωνα}
 translate G DarkSquares {Μαύρα τετράγωνα}
+translate G PickColorFromScreen {Pick color from screen}
 translate G SelectedSquares {Επιλεγμένα τετράγωνα}
 translate G SuggestedSquares {Τετράγωνα που προτείνονται για την κίνηση}
 translate G WhitePieces {Λευκά κομμάτια}

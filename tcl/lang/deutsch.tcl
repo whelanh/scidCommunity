@@ -1534,6 +1534,7 @@ translate D CopyErrNotOpen {ist nicht geöffnet}
 # Colors:
 translate D LightSquares {Helle Felder}
 translate D DarkSquares {Dunkle Felder}
+translate D PickColorFromScreen {Pick color from screen}
 translate D SelectedSquares {Ausgewählte Felder}
 translate D SuggestedSquares {Zugvorschlagsfelder}
 translate D WhitePieces {Weiße Steine}

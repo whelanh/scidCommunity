@@ -1494,6 +1494,7 @@ translate B CopyErrNotOpen {não está aberta}
 # Colors:
 translate B LightSquares {Casas Brancas}
 translate B DarkSquares {Casas Pretas}
+translate B PickColorFromScreen {Pick color from screen}
 translate B SelectedSquares {Casas selecionadas}
 translate B SuggestedSquares {Casas Sugeridas}
 translate B WhitePieces {Peças Brancas}

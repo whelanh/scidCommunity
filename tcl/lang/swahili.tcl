@@ -1471,6 +1471,7 @@ translate Z CopyErrNotOpen {haijafunguliwa}
 # Colors:
 translate Z LightSquares {Viwanja vya mwanga}
 translate Z DarkSquares {Viwanja vya giza}
+translate Z PickColorFromScreen {Pick color from screen}
 translate Z SelectedSquares {Viwanja vilivyochaguliwa}
 translate Z SuggestedSquares {Miraba inayopendekezwa ya kusogezwa}
 translate Z WhitePieces {Vipande vyeupe}

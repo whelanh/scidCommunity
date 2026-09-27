@@ -1487,6 +1487,7 @@ translate I CopyErrNotOpen {non è aperto}
 # Colors:
 translate I LightSquares {Case chiare}
 translate I DarkSquares {Case scure}
+translate I PickColorFromScreen {Pick color from screen}
 translate I SelectedSquares {Case selezionate}
 translate I SuggestedSquares {Case delle mosse suggerite}
 translate I WhitePieces {Pezzi bianchi}

@@ -1539,6 +1539,7 @@ translate S CopyErrNotOpen {no está abierta}
 # Colors:
 translate S LightSquares {Casillas claras}
 translate S DarkSquares {Casillas oscuras}
+translate S PickColorFromScreen {Pick color from screen}
 translate S SelectedSquares {Casillas seleccionadas}
 translate S SuggestedSquares {Casillas de movimiento sugerido}
 translate S WhitePieces {Piezas blancas}

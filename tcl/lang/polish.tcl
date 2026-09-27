@@ -1419,6 +1419,7 @@ translate P CopyErrNotOpen {nie jest otwarta}
 # Colors:
 translate P LightSquares {Jasne pola}
 translate P DarkSquares {Ciemne pola}
+translate P PickColorFromScreen {Pick color from screen}
 translate P SelectedSquares {Zaznaczone pola}
 translate P SuggestedSquares {Pola sugerowanych posunięć}
 translate P WhitePieces {Białe bierki}

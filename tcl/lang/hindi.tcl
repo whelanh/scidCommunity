@@ -1471,6 +1471,7 @@ translate h CopyErrNotOpen {खुला नहीं है}
 # Colors:
 translate h LightSquares {हल्के वर्ग}
 translate h DarkSquares {अंधेरे वर्ग}
+translate h PickColorFromScreen {Pick color from screen}
 translate h SelectedSquares {चयनित वर्ग}
 translate h SuggestedSquares {सुझाए गए चाल वर्ग}
 translate h WhitePieces {सफ़ेद टुकड़े}

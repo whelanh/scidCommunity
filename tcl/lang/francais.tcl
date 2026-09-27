@@ -1494,6 +1494,7 @@ translate F CopyErrNotOpen {n'est pas ouverte}
 # Colors:
 translate F LightSquares {Cases blanches}
 translate F DarkSquares {Cases noires}
+translate F PickColorFromScreen {Pick color from screen}
 translate F SelectedSquares {Cases sélectionnées}
 translate F SuggestedSquares {Cases des coups suggérés}
 translate F WhitePieces {Pièces blanches}

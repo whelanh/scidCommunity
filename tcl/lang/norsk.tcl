@@ -1487,6 +1487,7 @@ translate O CopyErrNotOpen {er ikke åpnet}
 # Colors:
 translate O LightSquares {Lyse felt}
 translate O DarkSquares {Mørke felt}
+translate O PickColorFromScreen {Pick color from screen}
 translate O SelectedSquares {Merkede felt}
 translate O SuggestedSquares {Foreslåtte trekkfelt}
 translate O WhitePieces {Hvite brikker}

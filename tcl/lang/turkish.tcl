@@ -1475,6 +1475,7 @@ translate T CopyErrNotOpen {açık değil}
 # Colors:
 translate T LightSquares {Açık kareler}
 translate T DarkSquares {Koyu kareler}
+translate T PickColorFromScreen {Pick color from screen}
 translate T SelectedSquares {Seçilen kareler}
 translate T SuggestedSquares {Önerilen hareket kareleri}
 translate T WhitePieces {Beyaz parçalar}

@@ -1472,6 +1472,7 @@ translate Q CopyErrNotOpen {не відкрито}
 # Colors:
 translate Q LightSquares {Світлі квадрати}
 translate Q DarkSquares {Темні квадрати}
+translate Q PickColorFromScreen {Pick color from screen}
 translate Q SelectedSquares {Вибрані квадрати}
 translate Q SuggestedSquares {Запропоновані переміщення квадратів}
 translate Q WhitePieces {Білі фігури}

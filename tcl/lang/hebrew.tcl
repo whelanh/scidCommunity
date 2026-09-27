@@ -1472,6 +1472,7 @@ translate V CopyErrNotOpen {אינו פתוח}
 # Colors:
 translate V LightSquares {ריבועים בהירים}
 translate V DarkSquares {ריבועים כהים}
+translate V PickColorFromScreen {Pick color from screen}
 translate V SelectedSquares {ריבועים נבחרים}
 translate V SuggestedSquares {הצעות להזיז ריבועים}
 translate V WhitePieces {חתיכות לבנות}

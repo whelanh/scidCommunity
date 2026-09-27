@@ -1512,6 +1512,7 @@ translate g CopyErrNotOpen {не е отворено}
 # Colors:
 translate g LightSquares {Светли квадратчета}
 translate g DarkSquares {Тъмни квадратчета}
+translate g PickColorFromScreen {Pick color from screen}
 translate g SelectedSquares {Избрани квадратчета}
 translate g SuggestedSquares {Предложени квадратчета за преместване}
 translate g WhitePieces {Бели парчета}

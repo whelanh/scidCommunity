@@ -1488,6 +1488,7 @@ translate R CopyErrNotOpen {не открыта}
 # Colors:
 translate R LightSquares {Светлые поля}
 translate R DarkSquares {Тёмные поля}
+translate R PickColorFromScreen {Pick color from screen}
 translate R SelectedSquares {Выбранные поля}
 translate R SuggestedSquares {Поля подсказанных ходов}
 translate R WhitePieces {Белые фигуры}
