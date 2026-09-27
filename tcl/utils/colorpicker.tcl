@@ -304,40 +304,48 @@ PowerShell (Windows) is available, then try again."
   }
 
   proc _pick_windows {} {
-    # No Tk overlay here: a fullscreen overlay would hide the desktop, and on
-    # Windows the pixels under it may not be repainted before we capture.
-    # Instead PowerShell waits for the user's click (Escape cancels, exit 2),
-    # then reads the pixel at the cursor, so the desktop stays visible.
+    # No Tk overlay: scidCommunity is hidden, so the desktop stays visible.
+    # PowerShell waits for the user's click (Escape cancels) and writes the
+    # result to a file, because capturing PowerShell's stdout through Tcl is
+    # unreliable on Windows.
     set script {$ErrorActionPreference = 'Stop'
-Add-Type @"
+$out = $args[0]
+try {
+    Add-Type @"
 using System;
 using System.Runtime.InteropServices;
 public class ScidKeys {
     [DllImport("user32.dll")] public static extern short GetAsyncKeyState(int vKey);
 }
 "@
-Add-Type -AssemblyName System.Windows.Forms
-Add-Type -AssemblyName System.Drawing
-
-# Ignore the click that opened the picker (its button may still be held),
-# then wait for a fresh left click; Escape cancels (exit 2).
-while (([ScidKeys]::GetAsyncKeyState(0x01) -band 0x8000) -ne 0) { Start-Sleep -Milliseconds 15 }
-while ($true) {
-    if (([ScidKeys]::GetAsyncKeyState(0x1B) -band 0x8000) -ne 0) { exit 2 }
-    if (([ScidKeys]::GetAsyncKeyState(0x01) -band 0x8000) -ne 0) { break }
-    Start-Sleep -Milliseconds 15
+    Add-Type -AssemblyName System.Windows.Forms
+    Add-Type -AssemblyName System.Drawing
+    # Ignore the click that opened the picker (its button may still be held),
+    # then wait for a fresh left click; Escape cancels (exit 2).
+    while (([ScidKeys]::GetAsyncKeyState(0x01) -band 0x8000) -ne 0) { Start-Sleep -Milliseconds 15 }
+    $deadline = (Get-Date).AddSeconds(120)
+    while ($true) {
+        if (([ScidKeys]::GetAsyncKeyState(0x1B) -band 0x8000) -ne 0) { exit 2 }
+        if (([ScidKeys]::GetAsyncKeyState(0x01) -band 0x8000) -ne 0) { break }
+        if ((Get-Date) -gt $deadline) { exit 2 }
+        Start-Sleep -Milliseconds 15
+    }
+    $p = [System.Windows.Forms.Cursor]::Position
+    $bmp = New-Object System.Drawing.Bitmap 1, 1
+    $g = [System.Drawing.Graphics]::FromImage($bmp)
+    $g.CopyFromScreen($p.X, $p.Y, 0, 0, (New-Object System.Drawing.Size 1, 1))
+    $c = $bmp.GetPixel(0, 0)
+    $g.Dispose()
+    $bmp.Dispose()
+    [System.IO.File]::WriteAllText($out, "#{0:x2}{1:x2}{2:x2}" -f $c.R, $c.G, $c.B)
+} catch {
+    [System.IO.File]::WriteAllText($out, "ERR " + $_.Exception.GetType().Name + ": " + $_.Exception.Message)
+    exit 1
 }
-
-$p = [System.Windows.Forms.Cursor]::Position
-$bmp = New-Object System.Drawing.Bitmap 1, 1
-$g = [System.Drawing.Graphics]::FromImage($bmp)
-$g.CopyFromScreen($p.X, $p.Y, 0, 0, (New-Object System.Drawing.Size 1, 1))
-$c = $bmp.GetPixel(0, 0)
-$g.Dispose()
-$bmp.Dispose()
-"#{0:x2}{1:x2}{2:x2}" -f $c.R, $c.G, $c.B
 }
     set file [_tempFile ps1]
+    set result [_tempFile txt]
+    catch { file delete $result }
     if {[catch {
       set fd [open $file w]
       puts $fd $script
@@ -349,20 +357,32 @@ $bmp.Dispose()
 
     set exe [auto_execok powershell]
     if {$exe eq ""} { set exe [auto_execok pwsh] }
-    set out ""
-    if {[catch {
-      set out [exec {*}$exe -NoLogo -NoProfile \
-        -ExecutionPolicy Bypass -File $file 2>@1]
-    } err]} {
-      catch { file delete $file }
-      if {[lindex $::errorCode 0] eq "CHILDSTATUS" \
-          && [lindex $::errorCode 2] == 2} { return "" }
-      error $err
-    }
+    set err ""
+    set failed [catch {
+      exec {*}$exe -NoLogo -NoProfile -ExecutionPolicy Bypass \
+        -File $file $result 2>@1
+    } err]
+    set errCode $::errorCode
     catch { file delete $file }
-    set hex [_parseColor $out]
+
+    set body ""
+    if {[file readable $result]} {
+      set fh [open $result r]
+      set body [string trim [read $fh]]
+      close $fh
+      catch { file delete $result }
+    }
+
+    if {$failed} {
+      if {[lindex $errCode 0] eq "CHILDSTATUS" \
+          && [lindex $errCode 2] == 2} { return "" }
+      if {$body ne ""} { error "Windows color picker failed: $body" }
+      error "Windows color picker failed: $err"
+    }
+
+    set hex [_parseColor $body]
     if {$hex eq ""} {
-      error "PowerShell did not return a color (got: '[string range [string trim $out] 0 120]')"
+      error "Windows color picker returned no color (got: '$body')"
     }
     return $hex
   }
