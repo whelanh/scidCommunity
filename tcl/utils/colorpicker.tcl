@@ -12,7 +12,7 @@
 ###   KDE Plasma:                  org.kde.KWin.ColorPicker D-Bus (gdbus)
 ###   GNOME:                       org.gnome.Shell.Screenshot.PickColor (gdbus)
 ###   X11:                         ImageMagick (import/magick)
-###   Windows:                     PowerShell + GDI GetPixel
+###   Windows:                     PowerShell click-capture + GDI GetPixel
 ###   macOS:                       screencapture -R
 ###
 ### When no backend is available ::colorPicker::pick reports an error so the
@@ -304,21 +304,33 @@ PowerShell (Windows) is available, then try again."
   }
 
   proc _pick_windows {} {
-    lassign [_pickPoint] x y
-    if {$x eq ""} { return "" }
-
-    set script {param([int]$X, [int]$Y)
-Add-Type @"
+    # No Tk overlay here: a fullscreen overlay would hide the desktop, and on
+    # Windows the pixels under it may not be repainted before we capture.
+    # Instead PowerShell waits for the user's click (Escape cancels, exit 2),
+    # then reads the pixel at the cursor, so the desktop stays visible.
+    set script {Add-Type @"
 using System;
 using System.Runtime.InteropServices;
+public struct ScidPoint { public int X; public int Y; }
 public class ScidPixelPicker {
     [DllImport("user32.dll")] public static extern IntPtr GetDC(IntPtr hWnd);
     [DllImport("user32.dll")] public static extern int ReleaseDC(IntPtr hWnd, IntPtr hDC);
     [DllImport("gdi32.dll")] public static extern uint GetPixel(IntPtr hDC, int nXPos, int nYPos);
+    [DllImport("user32.dll")] public static extern short GetAsyncKeyState(int vKey);
+    [DllImport("user32.dll")] public static extern bool SetProcessDPIAware();
+    [DllImport("user32.dll")] public static extern bool GetCursorPos(out ScidPoint lpPoint);
 }
 "@
+[ScidPixelPicker]::SetProcessDPIAware() | Out-Null
+while ($true) {
+    if (([ScidPixelPicker]::GetAsyncKeyState(0x1B) -band 0x8000) -ne 0) { exit 2 }
+    if (([ScidPixelPicker]::GetAsyncKeyState(0x01) -band 0x8000) -ne 0) { break }
+    Start-Sleep -Milliseconds 15
+}
+$p = New-Object ScidPoint
+[ScidPixelPicker]::GetCursorPos([ref]$p) | Out-Null
 $hdc = [ScidPixelPicker]::GetDC([IntPtr]::Zero)
-$color = [ScidPixelPicker]::GetPixel($hdc, $X, $Y)
+$color = [ScidPixelPicker]::GetPixel($hdc, $p.X, $p.Y)
 [ScidPixelPicker]::ReleaseDC([IntPtr]::Zero, $hdc) | Out-Null
 "#{0:x2}{1:x2}{2:x2}" -f ($color -band 0xff), (($color -shr 8) -band 0xff), (($color -shr 16) -band 0xff)
 }
@@ -329,17 +341,19 @@ $color = [ScidPixelPicker]::GetPixel($hdc, $X, $Y)
       close $fd
     }]} {
       catch { file delete $file }
-      return ""
+      error "Could not write the color picker script"
     }
 
     set exe [auto_execok powershell]
     if {$exe eq ""} { set exe [auto_execok pwsh] }
     set out ""
     if {[catch {
-      set out [exec -ignorestderr {*}$exe -NoLogo -NoProfile \
-        -ExecutionPolicy Bypass -File $file $x $y]
+      set out [exec {*}$exe -NoLogo -NoProfile \
+        -ExecutionPolicy Bypass -File $file 2>@1]
     } err]} {
       catch { file delete $file }
+      if {[lindex $::errorCode 0] eq "CHILDSTATUS" \
+          && [lindex $::errorCode 2] == 2} { return "" }
       error $err
     }
     catch { file delete $file }
@@ -352,7 +366,7 @@ $color = [ScidPixelPicker]::GetPixel($hdc, $X, $Y)
   # Helpers
   #############################################################################
 
-  # Let the user click a point anywhere on the (X11/Windows/macOS) screen.
+  # Let the user click a point anywhere on the (X11/macOS) screen.
   # Returns {x y} in root coordinates, or {} when cancelled. Wayland uses the
   # dedicated pickers instead, since a Tk overlay cannot see native windows.
   proc _pickPoint {} {
@@ -376,6 +390,11 @@ $color = [ScidPixelPicker]::GetPixel($hdc, $X, $Y)
     bind $w <Escape>   { set ::colorPicker::point ""; destroy .colorPickerOverlay }
     catch { grab set $w }
     catch { focus -force $w }
+    catch { update }
+    # Make the overlay see-through so the desktop is visible. Must be set after
+    # the window is mapped (X11 ignores it otherwise) and is a no-op where alpha
+    # is unsupported, e.g. X11 without a compositor.
+    catch { wm attributes $w -alpha 0.01 }
     catch { update }
     catch { vwait ::colorPicker::point }
     catch { grab release $w }
