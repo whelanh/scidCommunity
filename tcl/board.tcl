@@ -194,12 +194,27 @@ proc updateBoardColors { w {choice -1}} {
   return
 }
 
+# applyBoardColor:
+#   Applies a color chosen for one of the board colors. Picking a light or
+#   dark square color switches the board to solid colors by removing the
+#   texture image, which would otherwise cover the fill color.
+#
+proc applyBoardColor { w c hex } {
+  global newColors
+  set newColors($c) $hex
+  if {$c eq "squareColor_lite" || $c eq "squareColor_dark"} {
+    set ::boardfile_dark emptySquare
+    set ::boardfile_lite emptySquare
+    ::SetBoardTextures
+  }
+  updateBoardColors $w
+}
+
 # chooseBoardColorFromScreen:
 #   Eyedropper helper: let the user pick a color from anywhere on the screen
 #   and apply it to one of the board colors.
 #
 proc chooseBoardColorFromScreen { w c } {
-  global newColors
   set hex ""
   if {[catch { ::colorPicker::pick $w } hex]} {
     tk_messageBox -parent [winfo toplevel $w] -title scidCommunity -icon info \
@@ -207,8 +222,7 @@ proc chooseBoardColorFromScreen { w c } {
     return
   }
   if {$hex ne ""} {
-    set newColors($c) $hex
-    updateBoardColors $w
+    applyBoardColor $w $c $hex
   }
 }
 
@@ -270,7 +284,7 @@ proc chooseBoardColors { w {choice -1}} {
   } {
     button $f.b$c -image e20 -background [set $c] -command "
     set x \[ tk_chooseColor -initialcolor \$newColors($c) -title scidCommunity \]
-    if {\$x != \"\"} { set newColors($c) \$x; updateBoardColors $w}
+    if {\$x != \"\"} { applyBoardColor $w $c \$x}
     "
     ttk::label $f.l$c -text "$::tr($n)  "
     ttk::button $f.pick$c -text "\u2316" -width 2 -takefocus 0 \
