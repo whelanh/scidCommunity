@@ -57,6 +57,15 @@ namespace eval ::colorPicker {
     return [expr {[auto_execok gdbus] ne ""}]
   }
 
+  # Return true if a session D-Bus service exports the given object path.
+  # Fails fast (a few ms) when the service is not running.
+  proc dbusAvailable { name path } {
+    if {! [hasGdbus]} { return 0 }
+    return [expr {! [catch {
+      exec gdbus introspect --session --dest $name --object-path $path 2>@1
+    }]}]
+  }
+
   # Return the ordered list of usable backends for this system.
   proc backends {} {
     set list {}
@@ -73,13 +82,16 @@ namespace eval ::colorPicker {
 
     set de [desktopEnv]
 
+    # Only offer a D-Bus backend when its service is actually running, so an
+    # absent one cannot shadow the remaining fallbacks (cancel is reported as
+    # an empty result, which stops the chain, so "available" must be checked
+    # up front rather than relying on a failed call).
+    set kdeOK   [expr {($de eq "kde"   || $de eq "") && [dbusAvailable org.kde.KWin /ColorPicker]}]
+    set gnomeOK [expr {($de eq "gnome" || $de eq "") && [dbusAvailable org.gnome.Shell.Screenshot /org/gnome/Shell/Screenshot]}]
+
     if {$de eq "hyprland"} {
       if {[auto_execok hyprpicker] ne ""} { lappend list hyprpicker }
       if {[hasGrim]} { lappend list grim }
-    } elseif {$de eq "kde"} {
-      if {[hasGdbus]} { lappend list kde }
-    } elseif {$de eq "gnome"} {
-      if {[hasGdbus]} { lappend list gnome }
     }
 
     if {[isWayland]} {
@@ -88,16 +100,11 @@ namespace eval ::colorPicker {
       if {($de eq "wlroots" || $de eq "") && [hasGrim]} { lappend list grim }
     }
 
-    # Unrecognised desktop (e.g. an Ubuntu variant with an unusual
-    # XDG_CURRENT_DESKTOP): try the KDE/GNOME D-Bus pickers. They fail fast
-    # if the service is absent, so this costs nothing when neither is running.
-    if {$de eq "" && [hasGdbus]} {
-      lappend list kde
-      lappend list gnome
-    }
+    if {$kdeOK} { lappend list kde }
+    if {$gnomeOK} { lappend list gnome }
 
     # X11 fallback (KDE/GNOME also run X11 sessions).
-    if {! [isWayland] && ($de eq "" || $de eq "kde" || $de eq "gnome")} {
+    if {! [isWayland]} {
       if {[auto_execok import] ne "" || [auto_execok magick] ne ""} {
         lappend list x11
       } elseif {[auto_execok xwd] ne "" \
@@ -110,7 +117,8 @@ namespace eval ::colorPicker {
 
   # Return a "#rrggbb" color string (lowercase), or "" if none can be found.
   proc pick { widget } {
-    if {[llength [backends]] == 0} {
+    set backendList [backends]
+    if {[llength $backendList] == 0} {
       error "Picking a color from the screen is not available on this system.\n\
 Wayland: install 'hyprpicker' (Hyprland) or 'grim' + 'slurp' (wlroots).\n\
 Other desktops: make sure 'gdbus' (KDE/GNOME), ImageMagick (X11) or\n\
@@ -132,7 +140,7 @@ PowerShell (Windows) is available, then try again."
 
     set result ""
     set lastError ""
-    foreach backend [backends] {
+    foreach backend $backendList {
       if {[catch { _pick_$backend } result]} {
         set lastError $result
         continue
