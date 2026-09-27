@@ -304,13 +304,11 @@ PowerShell (Windows) is available, then try again."
   }
 
   proc _pick_windows {} {
-    # Capture the click with the same Tk overlay as X11/macOS. The overlay is
-    # near-transparent (see _pickPoint), so the desktop stays visible; we then
-    # read the pixel at those coordinates with a one-shot PowerShell capture.
-    # (Letting PowerShell itself wait for the click proved unreliable.)
-    lassign [_pickPoint] x y
-    if {$x eq ""} { return "" }
-
+    # scidCommunity is already hidden, so the desktop is visible. PowerShell
+    # waits for the user's click, then reads the pixel under the cursor with GDI
+    # GetPixel (CopyFromScreen returned black in a VM). It is launched from a
+    # wrapper .bat with everything hard-coded, because passing arguments through
+    # Tcl's exec proved unreliable on Windows.
     set psFile  [_tempFile ps1]
     set batFile [_tempFile bat]
     set result  [_tempFile txt]
@@ -319,21 +317,41 @@ PowerShell (Windows) is available, then try again."
     catch { file delete $result }
     catch { file delete $outLog }
 
-    set script {param([int]$x, [int]$y, [string]$out)
-$ErrorActionPreference = 'Stop'
-[System.IO.File]::WriteAllText($out, 'S1')
-Add-Type -AssemblyName System.Drawing
-[System.IO.File]::WriteAllText($out, 'S2')
-$bmp = New-Object System.Drawing.Bitmap 1, 1
-$g = [System.Drawing.Graphics]::FromImage($bmp)
-$g.CopyFromScreen($x, $y, 0, 0, (New-Object System.Drawing.Size 1, 1))
-$c = $bmp.GetPixel(0, 0)
-$g.Dispose()
-$bmp.Dispose()
-[System.IO.File]::WriteAllText($out, 'S3')
-$hex = "#{0:x2}{1:x2}{2:x2}" -f $c.R, $c.G, $c.B
-[System.IO.File]::WriteAllText($out, $hex)
-$hex
+    set script {$ErrorActionPreference = 'Stop'
+$out = $args[0]
+try {
+    Add-Type @"
+using System;
+using System.Runtime.InteropServices;
+public class ScidPick {
+    [DllImport("user32.dll")] public static extern IntPtr GetDC(IntPtr hWnd);
+    [DllImport("user32.dll")] public static extern int ReleaseDC(IntPtr hWnd, IntPtr hDC);
+    [DllImport("gdi32.dll")] public static extern uint GetPixel(IntPtr hDC, int nXPos, int nYPos);
+    [DllImport("user32.dll")] public static extern short GetAsyncKeyState(int vKey);
+}
+"@
+    Add-Type -AssemblyName System.Windows.Forms
+    [System.IO.File]::WriteAllText($out, 'S1')
+    # Ignore the click that opened the picker (its button may still be held).
+    while (([ScidPick]::GetAsyncKeyState(0x01) -band 0x8000) -ne 0) { Start-Sleep -Milliseconds 15 }
+    [System.IO.File]::WriteAllText($out, 'S2')
+    $deadline = (Get-Date).AddSeconds(120)
+    while ($true) {
+        if (([ScidPick]::GetAsyncKeyState(0x1B) -band 0x8000) -ne 0) { exit 2 }
+        if (([ScidPick]::GetAsyncKeyState(0x01) -band 0x8000) -ne 0) { break }
+        if ((Get-Date) -gt $deadline) { exit 2 }
+        Start-Sleep -Milliseconds 15
+    }
+    $p = [System.Windows.Forms.Cursor]::Position
+    $hdc = [ScidPick]::GetDC([IntPtr]::Zero)
+    $c = [ScidPick]::GetPixel($hdc, $p.X, $p.Y)
+    [ScidPick]::ReleaseDC([IntPtr]::Zero, $hdc) | Out-Null
+    $hex = "#{0:x2}{1:x2}{2:x2}" -f ($c -band 0xff), (($c -shr 8) -band 0xff), (($c -shr 16) -band 0xff)
+    [System.IO.File]::WriteAllText($out, $hex)
+} catch {
+    [System.IO.File]::WriteAllText($out, "ERR " + $_.Exception.GetType().Name + ": " + $_.Exception.Message)
+    exit 1
+}
 }
     set fd [open $psFile w]; puts $fd $script; close $fd
 
@@ -341,24 +359,12 @@ $hex
     if {$psExe eq ""} { set psExe [auto_execok pwsh] }
     set psNative [file nativename $psExe]
 
-    # Put everything (including the arguments) into a wrapper .bat, so exec only
-    # has to run "cmd /c file" — passing arguments directly proved unreliable.
     set bf [open $batFile w]
     puts $bf "@echo off"
     puts $bf "\"$psNative\" -NoLogo -NoProfile -ExecutionPolicy Bypass \
-      -File \"[file nativename $psFile]\" $x $y \"[file nativename $result]\" \
+      -File \"[file nativename $psFile]\" \"[file nativename $result]\" \
       > \"[file nativename $outLog]\" 2>&1"
     close $bf
-
-    # Probe: can exec run cmd /c and have it create a file?
-    set probeFile [_tempFile txt]
-    catch { file delete $probeFile }
-    catch { exec cmd /c "echo CMD123 > \"[file nativename $probeFile]\"" }
-    set cmdProbe ""
-    if {[file exists $probeFile]} {
-      set fh [open $probeFile r]; set cmdProbe [string trim [read $fh]]; close $fh
-    }
-    catch { file delete $probeFile }
 
     set batErr ""
     set batFailed [catch { exec cmd /c [file nativename $batFile] 2>@1 } batErr]
@@ -372,7 +378,7 @@ $hex
       set fh [open $outLog r]; set psout [string trim [read $fh]]; close $fh
     }
 
-    set diag "cmdProbe='$cmdProbe' batFailed=$batFailed batErr='[string range $batErr 0 60]' result='[string range $body 0 40]' psout='[string range $psout 0 100]'"
+    set diag "batFailed=$batFailed batErr='[string range $batErr 0 60]' result='[string range $body 0 40]' psout='[string range $psout 0 100]'"
     catch {
       set lf [open $log w]
       puts $lf $diag
@@ -400,7 +406,7 @@ $hex
   # Helpers
   #############################################################################
 
-  # Let the user click a point anywhere on the (X11/Windows/macOS) screen.
+  # Let the user click a point anywhere on the (X11/macOS) screen.
   # Returns {x y} in root coordinates, or {} when cancelled. Wayland uses the
   # dedicated pickers instead, since a Tk overlay cannot see native windows.
   proc _pickPoint {} {
