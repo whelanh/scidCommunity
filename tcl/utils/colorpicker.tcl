@@ -308,31 +308,34 @@ PowerShell (Windows) is available, then try again."
     # Windows the pixels under it may not be repainted before we capture.
     # Instead PowerShell waits for the user's click (Escape cancels, exit 2),
     # then reads the pixel at the cursor, so the desktop stays visible.
-    set script {Add-Type @"
+    set script {$ErrorActionPreference = 'Stop'
+Add-Type @"
 using System;
 using System.Runtime.InteropServices;
-public struct ScidPoint { public int X; public int Y; }
-public class ScidPixelPicker {
-    [DllImport("user32.dll")] public static extern IntPtr GetDC(IntPtr hWnd);
-    [DllImport("user32.dll")] public static extern int ReleaseDC(IntPtr hWnd, IntPtr hDC);
-    [DllImport("gdi32.dll")] public static extern uint GetPixel(IntPtr hDC, int nXPos, int nYPos);
+public class ScidKeys {
     [DllImport("user32.dll")] public static extern short GetAsyncKeyState(int vKey);
-    [DllImport("user32.dll")] public static extern bool SetProcessDPIAware();
-    [DllImport("user32.dll")] public static extern bool GetCursorPos(out ScidPoint lpPoint);
 }
 "@
-[ScidPixelPicker]::SetProcessDPIAware() | Out-Null
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Drawing
+
+# Ignore the click that opened the picker (its button may still be held),
+# then wait for a fresh left click; Escape cancels (exit 2).
+while (([ScidKeys]::GetAsyncKeyState(0x01) -band 0x8000) -ne 0) { Start-Sleep -Milliseconds 15 }
 while ($true) {
-    if (([ScidPixelPicker]::GetAsyncKeyState(0x1B) -band 0x8000) -ne 0) { exit 2 }
-    if (([ScidPixelPicker]::GetAsyncKeyState(0x01) -band 0x8000) -ne 0) { break }
+    if (([ScidKeys]::GetAsyncKeyState(0x1B) -band 0x8000) -ne 0) { exit 2 }
+    if (([ScidKeys]::GetAsyncKeyState(0x01) -band 0x8000) -ne 0) { break }
     Start-Sleep -Milliseconds 15
 }
-$p = New-Object ScidPoint
-[ScidPixelPicker]::GetCursorPos([ref]$p) | Out-Null
-$hdc = [ScidPixelPicker]::GetDC([IntPtr]::Zero)
-$color = [ScidPixelPicker]::GetPixel($hdc, $p.X, $p.Y)
-[ScidPixelPicker]::ReleaseDC([IntPtr]::Zero, $hdc) | Out-Null
-"#{0:x2}{1:x2}{2:x2}" -f ($color -band 0xff), (($color -shr 8) -band 0xff), (($color -shr 16) -band 0xff)
+
+$p = [System.Windows.Forms.Cursor]::Position
+$bmp = New-Object System.Drawing.Bitmap 1, 1
+$g = [System.Drawing.Graphics]::FromImage($bmp)
+$g.CopyFromScreen($p.X, $p.Y, 0, 0, (New-Object System.Drawing.Size 1, 1))
+$c = $bmp.GetPixel(0, 0)
+$g.Dispose()
+$bmp.Dispose()
+"#{0:x2}{1:x2}{2:x2}" -f $c.R, $c.G, $c.B
 }
     set file [_tempFile ps1]
     if {[catch {
@@ -358,7 +361,9 @@ $color = [ScidPixelPicker]::GetPixel($hdc, $p.X, $p.Y)
     }
     catch { file delete $file }
     set hex [_parseColor $out]
-    if {$hex eq ""} { error "PowerShell did not return a color" }
+    if {$hex eq ""} {
+      error "PowerShell did not return a color (got: '[string range [string trim $out] 0 120]')"
+    }
     return $hex
   }
 
