@@ -338,42 +338,39 @@ $hex
       error "Could not write the color picker script"
     }
 
-    set exe [auto_execok powershell]
-    if {$exe eq ""} { set exe [auto_execok pwsh] }
-    set diag "exe='$exe' scriptBytes=[expr {[file exists $file] ? [file size $file] : -1}]"
-
+    set diag "scriptBytes=[expr {[file exists $file] ? [file size $file] : -1}]"
     set hex ""
 
-    # Attempt 1: -File <script> <x> <y> <result>.
-    set out ""
-    set failed [catch {
-      set out [exec {*}$exe -NoLogo -NoProfile -ExecutionPolicy Bypass \
-        -File $file $x $y $result 2>@1]
-    } err]
-    append diag " || -File failed=$failed err='[string range $err 0 100]' stdout='[string range $out 0 40]'"
-    set hex [_parseColor $out]
-    if {$hex eq "" && [file exists $result]} {
-      set fh [open $result r]; set rt [read $fh]; close $fh
-      append diag " result='[string range $rt 0 40]'"
-      set hex [_parseColor $rt]
-    }
+    # Use the bare command name (the pattern scidCommunity already uses for
+    # PowerShell successfully elsewhere), trying -File then -Command, and log
+    # a probe so we can tell whether arguments/output work at all.
+    foreach ps {powershell pwsh} {
+      if {$hex ne ""} break
+      if {[auto_execok $ps] eq ""} { append diag " || $ps: not found"; continue }
 
-    # Attempt 2: run the same script via the call operator (in case -File is
-    # blocked/ignored on this system).
-    if {$hex eq ""} {
-      catch { file delete $result }
-      set callCmd "& '$file' $x $y '$result'"
-      set out2 ""
-      set failed2 [catch {
-        set out2 [exec {*}$exe -NoLogo -NoProfile -ExecutionPolicy Bypass \
-          -Command $callCmd 2>@1]
-      } err2]
-      append diag " || -Command failed=$failed2 err='[string range $err2 0 100]' stdout='[string range $out2 0 40]'"
-      set hex [_parseColor $out2]
-      if {$hex eq "" && [file exists $result]} {
-        set fh [open $result r]; set rt [read $fh]; close $fh
-        append diag " result='[string range $rt 0 40]'"
-        set hex [_parseColor $rt]
+      set probe ""
+      catch { set probe [exec $ps -NoLogo -NoProfile -Command "Write-Output PROBE123" 2>@1] }
+      append diag " || $ps probe='[string range [string trim $probe] 0 20]'"
+
+      foreach mode {File Command} {
+        if {$hex ne ""} break
+        catch { file delete $result }
+        if {$mode eq "File"} {
+          set cmdargs [list -NoLogo -NoProfile -ExecutionPolicy Bypass \
+            -File $file $x $y $result]
+        } else {
+          set cmdargs [list -NoLogo -NoProfile -ExecutionPolicy Bypass \
+            -Command "& '$file' $x $y '$result'"]
+        }
+        set out ""
+        set failed [catch { set out [exec $ps {*}$cmdargs 2>@1] } err]
+        append diag " || $ps/$mode failed=$failed err='[string range $err 0 60]' stdout='[string range $out 0 30]'"
+        set hex [_parseColor $out]
+        if {$hex eq "" && [file exists $result]} {
+          set fh [open $result r]; set rt [read $fh]; close $fh
+          append diag " result='[string range $rt 0 30]'"
+          set hex [_parseColor $rt]
+        }
       }
     }
 
