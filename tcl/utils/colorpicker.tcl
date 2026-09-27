@@ -310,6 +310,15 @@ PowerShell (Windows) is available, then try again."
     # (Letting PowerShell itself wait for the click proved unreliable.)
     lassign [_pickPoint] x y
     if {$x eq ""} { return "" }
+
+    set psFile  [_tempFile ps1]
+    set batFile [_tempFile bat]
+    set result  [_tempFile txt]
+    set outLog  [_tempFile txt]
+    set log     [file join [_tempDir] "scid_colorpicker_debug.txt"]
+    catch { file delete $result }
+    catch { file delete $outLog }
+
     set script {param([int]$x, [int]$y, [string]$out)
 $ErrorActionPreference = 'Stop'
 [System.IO.File]::WriteAllText($out, 'S1')
@@ -326,67 +335,61 @@ $hex = "#{0:x2}{1:x2}{2:x2}" -f $c.R, $c.G, $c.B
 [System.IO.File]::WriteAllText($out, $hex)
 $hex
 }
-    set file [_tempFile ps1]
-    set result [_tempFile txt]
-    catch { file delete $result }
-    if {[catch {
-      set fd [open $file w]
-      puts $fd $script
-      close $fd
-    }]} {
-      catch { file delete $file }
-      error "Could not write the color picker script"
+    set fd [open $psFile w]; puts $fd $script; close $fd
+
+    set psExe [auto_execok powershell]
+    if {$psExe eq ""} { set psExe [auto_execok pwsh] }
+    set psNative [file nativename $psExe]
+
+    # Put everything (including the arguments) into a wrapper .bat, so exec only
+    # has to run "cmd /c file" — passing arguments directly proved unreliable.
+    set bf [open $batFile w]
+    puts $bf "@echo off"
+    puts $bf "\"$psNative\" -NoLogo -NoProfile -ExecutionPolicy Bypass \
+      -File \"[file nativename $psFile]\" $x $y \"[file nativename $result]\" \
+      > \"[file nativename $outLog]\" 2>&1"
+    close $bf
+
+    # Probe: can exec run cmd /c and have it create a file?
+    set probeFile [_tempFile txt]
+    catch { file delete $probeFile }
+    catch { exec cmd /c "echo CMD123 > \"[file nativename $probeFile]\"" }
+    set cmdProbe ""
+    if {[file exists $probeFile]} {
+      set fh [open $probeFile r]; set cmdProbe [string trim [read $fh]]; close $fh
+    }
+    catch { file delete $probeFile }
+
+    set batErr ""
+    set batFailed [catch { exec cmd /c [file nativename $batFile] 2>@1 } batErr]
+
+    set body ""
+    if {[file exists $result]} {
+      set fh [open $result r]; set body [string trim [read $fh]]; close $fh
+    }
+    set psout ""
+    if {[file exists $outLog]} {
+      set fh [open $outLog r]; set psout [string trim [read $fh]]; close $fh
     }
 
-    set diag "scriptBytes=[expr {[file exists $file] ? [file size $file] : -1}]"
-    set hex ""
-
-    # Use the bare command name (the pattern scidCommunity already uses for
-    # PowerShell successfully elsewhere), trying -File then -Command, and log
-    # a probe so we can tell whether arguments/output work at all.
-    foreach ps {powershell pwsh} {
-      if {$hex ne ""} break
-      if {[auto_execok $ps] eq ""} { append diag " || $ps: not found"; continue }
-
-      set probe ""
-      catch { set probe [exec $ps -NoLogo -NoProfile -Command "Write-Output PROBE123" 2>@1] }
-      append diag " || $ps probe='[string range [string trim $probe] 0 20]'"
-
-      foreach mode {File Command} {
-        if {$hex ne ""} break
-        catch { file delete $result }
-        if {$mode eq "File"} {
-          set cmdargs [list -NoLogo -NoProfile -ExecutionPolicy Bypass \
-            -File $file $x $y $result]
-        } else {
-          set cmdargs [list -NoLogo -NoProfile -ExecutionPolicy Bypass \
-            -Command "& '$file' $x $y '$result'"]
-        }
-        set out ""
-        set failed [catch { set out [exec $ps {*}$cmdargs 2>@1] } err]
-        append diag " || $ps/$mode failed=$failed err='[string range $err 0 60]' stdout='[string range $out 0 30]'"
-        set hex [_parseColor $out]
-        if {$hex eq "" && [file exists $result]} {
-          set fh [open $result r]; set rt [read $fh]; close $fh
-          append diag " result='[string range $rt 0 30]'"
-          set hex [_parseColor $rt]
-        }
-      }
-    }
-
-    set log [file join [_tempDir] "scid_colorpicker_debug.txt"]
+    set diag "cmdProbe='$cmdProbe' batFailed=$batFailed batErr='[string range $batErr 0 60]' result='[string range $body 0 40]' psout='[string range $psout 0 100]'"
     catch {
       set lf [open $log w]
       puts $lf $diag
-      if {[file exists $file]} {
-        puts $lf "--- script ---"
-        set sf [open $file r]; puts $lf [read $sf]; close $sf
-      }
+      puts $lf "ps='$psNative'"
+      puts $lf "--- bat ---"
+      set bfh [open $batFile r]; puts $lf [read $bfh]; close $bfh
+      puts $lf "--- script ---"
+      set sfh [open $psFile r]; puts $lf [read $sfh]; close $sfh
       close $lf
     }
-    catch { file delete $file }
+    catch { file delete $psFile }
+    catch { file delete $batFile }
     catch { file delete $result }
+    catch { file delete $outLog }
 
+    set hex [_parseColor $body]
+    if {$hex eq ""} { set hex [_parseColor $psout] }
     if {$hex eq ""} {
       error "Windows color picker did not return a color.\n$diag\n\nDebug log: $log"
     }
