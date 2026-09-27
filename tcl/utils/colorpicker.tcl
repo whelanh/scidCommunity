@@ -328,10 +328,22 @@ public class ScidPick {
     [DllImport("user32.dll")] public static extern IntPtr GetDC(IntPtr hWnd);
     [DllImport("user32.dll")] public static extern int ReleaseDC(IntPtr hWnd, IntPtr hDC);
     [DllImport("gdi32.dll")] public static extern uint GetPixel(IntPtr hDC, int nXPos, int nYPos);
+    [DllImport("gdi32.dll", CharSet = CharSet.Unicode)] public static extern IntPtr CreateDC(string driver, string device, string output, IntPtr initData);
+    [DllImport("gdi32.dll")] public static extern bool DeleteDC(IntPtr hDC);
     [DllImport("user32.dll")] public static extern short GetAsyncKeyState(int vKey);
+    [DllImport("user32.dll")] public static extern bool SetProcessDPIAware();
+    [DllImport("user32.dll")] public static extern bool SetProcessDpiAwarenessContext(IntPtr value);
+    public static void MakeDpiAware() {
+        try { if (SetProcessDpiAwarenessContext((IntPtr)(-4))) return; } catch {}
+        try { SetProcessDPIAware(); } catch {}
+    }
 }
 "@
+    # Per-monitor DPI awareness so cursor and monitor DC coordinates match,
+    # including across monitors with different scaling.
+    [ScidPick]::MakeDpiAware()
     Add-Type -AssemblyName System.Windows.Forms
+    Add-Type -AssemblyName System.Drawing
     [System.IO.File]::WriteAllText($out, 'S1')
     # Ignore the click that opened the picker (its button may still be held).
     while (([ScidPick]::GetAsyncKeyState(0x01) -band 0x8000) -ne 0) { Start-Sleep -Milliseconds 15 }
@@ -344,9 +356,12 @@ public class ScidPick {
         Start-Sleep -Milliseconds 15
     }
     $p = [System.Windows.Forms.Cursor]::Position
-    $hdc = [ScidPick]::GetDC([IntPtr]::Zero)
-    $c = [ScidPick]::GetPixel($hdc, $p.X, $p.Y)
-    [ScidPick]::ReleaseDC([IntPtr]::Zero, $hdc) | Out-Null
+    # Use the device context of the monitor under the cursor (GetDC(NULL) only
+    # covers the primary display), with coordinates relative to that monitor.
+    $scr = [System.Windows.Forms.Screen]::FromPoint($p)
+    $hdc = [ScidPick]::CreateDC("DISPLAY", $scr.DeviceName, $null, [IntPtr]::Zero)
+    $c = [ScidPick]::GetPixel($hdc, ($p.X - $scr.Bounds.Left), ($p.Y - $scr.Bounds.Top))
+    [ScidPick]::DeleteDC($hdc) | Out-Null
     $hex = "#{0:x2}{1:x2}{2:x2}" -f ($c -band 0xff), (($c -shr 8) -band 0xff), (($c -shr 16) -band 0xff)
     [System.IO.File]::WriteAllText($out, $hex)
 } catch {
