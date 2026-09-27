@@ -138,13 +138,19 @@ PowerShell (Windows) is available, then try again."
     catch { update }
     if {[llength $hidden]} { _sleep 80 }
 
+    # A backend returns a color on success, "" on user cancellation, and
+    # raises on tool failure. Only a normal return settles the chain ("" = the
+    # user cancelled, so do not fall through to another picker); raised errors
+    # move on to the next backend.
     set result ""
     set lastError ""
+    set settled 0
     foreach backend $backendList {
       if {[catch { _pick_$backend } result]} {
         set lastError $result
         continue
       }
+      set settled 1
       break
     }
 
@@ -155,7 +161,7 @@ PowerShell (Windows) is available, then try again."
     }
     catch { update }
 
-    if {$result eq "" && $lastError ne ""} { error $lastError }
+    if {! $settled && $lastError ne ""} { error $lastError }
     return $result
   }
 
@@ -167,8 +173,13 @@ PowerShell (Windows) is available, then try again."
     # NOTE: do not pass -q: hyprpicker prints the picked color through the
     # same logging function, and quiet mode would suppress it as well.
     # -u 20 shrinks the zoom lens circle (default radius is 100).
+    # hyprpicker exits 2 when the user cancels and 1 on failure.
     set out ""
-    catch { set out [exec -ignorestderr hyprpicker -f hex -b -u 20] }
+    if {[catch { set out [exec hyprpicker -f hex -b -u 20 2>@1] } err]} {
+      if {[lindex $::errorCode 0] eq "CHILDSTATUS" \
+          && [lindex $::errorCode 2] == 2} { return "" }
+      error $err
+    }
     foreach line [split $out "\n"] {
       set line [string trim $line]
       if {[regexp {^#?([0-9a-fA-F]{6})$} $line -> hex]} {
@@ -181,14 +192,17 @@ PowerShell (Windows) is available, then try again."
   proc _pick_kde {} {
     # KWin exposes an interactive color picker over D-Bus. It returns the
     # color as a struct holding one ARGB uint, e.g. gdbus prints "(4294901760,)".
-    # Cancelling raises org.kde.kwin.ColorPicker.Error.Cancelled -> nonzero exit.
+    # Cancelling raises org.kde.kwin.ColorPicker.Error.Cancelled.
     set out ""
     if {[catch {
-      set out [exec -ignorestderr gdbus call --session \
+      set out [exec gdbus call --session \
         --dest org.kde.KWin --object-path /ColorPicker \
-        --method org.kde.kwin.ColorPicker.pick]
-    }]} { return "" }
-    if {[regexp {(-?[0-9]+)} $out -> argb]} {
+        --method org.kde.kwin.ColorPicker.pick 2>@1]
+    } err]} {
+      if {[string match -nocase {*cancel*} $err]} { return "" }
+      error $err
+    }
+    if {[regexp {\(\s*(-?[0-9]+)\s*,?\s*\)} $out -> argb]} {
       set argb [expr {$argb & 0xffffffff}]
       return [format "#%02x%02x%02x" \
         [expr {($argb >> 16) & 0xff}] \
@@ -204,11 +218,14 @@ PowerShell (Windows) is available, then try again."
     # "({'color': <(0.2, 0.50196, 0.30196)>},)".
     set out ""
     if {[catch {
-      set out [exec -ignorestderr gdbus call --session \
+      set out [exec gdbus call --session \
         --dest org.gnome.Shell.Screenshot \
         --object-path /org/gnome/Shell/Screenshot \
-        --method org.gnome.Shell.Screenshot.PickColor]
-    }]} { return "" }
+        --method org.gnome.Shell.Screenshot.PickColor 2>@1]
+    } err]} {
+      if {[string match -nocase {*cancel*} $err]} { return "" }
+      error $err
+    }
     if {[regexp {\(([0-9.]+),\s*([0-9.]+),\s*([0-9.]+)\)} $out -> r g b]} {
       return [format "#%02x%02x%02x" \
         [expr {int($r * 255 + 0.5)}] \
@@ -219,15 +236,20 @@ PowerShell (Windows) is available, then try again."
   }
 
   proc _pick_grim {} {
+    # slurp cannot distinguish a user cancellation from a failure (both exit
+    # non-zero), so any slurp failure is treated as a cancellation. Once a
+    # point has been chosen, a grim failure is unambiguous.
     set point ""
     if {[catch { set point [exec -ignorestderr slurp -p] }]} { return "" }
     if {![regexp {(-?[0-9]+)\s*,\s*(-?[0-9]+)} $point -> x y]} { return "" }
     set file [_tempFile png]
-    if {[catch { exec -ignorestderr grim -g "$x,$y 1x1" $file }]} {
+    if {[catch { exec -ignorestderr grim -g "$x,$y 1x1" $file } err]} {
       catch { file delete $file }
-      return ""
+      error $err
     }
-    return [_hexFromFile $file]
+    set hex [_hexFromFile $file]
+    if {$hex eq ""} { error "grim produced no readable image" }
+    return $hex
   }
 
   proc _pick_x11 {} {
@@ -239,11 +261,13 @@ PowerShell (Windows) is available, then try again."
     } else {
       set cmd [list magick import -screen -crop 1x1+$x+$y +repage $file]
     }
-    if {[catch { exec -ignorestderr {*}$cmd }]} {
+    if {[catch { exec -ignorestderr {*}$cmd } err]} {
       catch { file delete $file }
-      return ""
+      error $err
     }
-    return [_hexFromFile $file]
+    set hex [_hexFromFile $file]
+    if {$hex eq ""} { error "screenshot tool produced no readable image" }
+    return $hex
   }
 
   proc _pick_x11xwd {} {
@@ -255,22 +279,26 @@ PowerShell (Windows) is available, then try again."
     } else {
       set filter [list magick xwd:- -crop 1x1+$x+$y +repage $file]
     }
-    if {[catch { exec -ignorestderr xwd -root -silent | {*}$filter }]} {
+    if {[catch { exec -ignorestderr xwd -root -silent | {*}$filter } err]} {
       catch { file delete $file }
-      return ""
+      error $err
     }
-    return [_hexFromFile $file]
+    set hex [_hexFromFile $file]
+    if {$hex eq ""} { error "xwd produced no readable image" }
+    return $hex
   }
 
   proc _pick_mac {} {
     lassign [_pickPoint] x y
     if {$x eq ""} { return "" }
     set file [_tempFile png]
-    if {[catch { exec -ignorestderr screencapture -x -R${x},${y},1,1 $file }]} {
+    if {[catch { exec -ignorestderr screencapture -x -R${x},${y},1,1 $file } err]} {
       catch { file delete $file }
-      return ""
+      error $err
     }
-    return [_hexFromFile $file]
+    set hex [_hexFromFile $file]
+    if {$hex eq ""} { error "screencapture produced no readable image" }
+    return $hex
   }
 
   proc _pick_windows {} {
@@ -305,12 +333,17 @@ $color = [ScidPixelPicker]::GetPixel($hdc, $X, $Y)
     set exe [auto_execok powershell]
     if {$exe eq ""} { set exe [auto_execok pwsh] }
     set out ""
-    catch {
+    if {[catch {
       set out [exec -ignorestderr {*}$exe -NoLogo -NoProfile \
         -ExecutionPolicy Bypass -File $file $x $y]
+    } err]} {
+      catch { file delete $file }
+      error $err
     }
     catch { file delete $file }
-    return [_parseColor $out]
+    set hex [_parseColor $out]
+    if {$hex eq ""} { error "PowerShell did not return a color" }
+    return $hex
   }
 
   #############################################################################
