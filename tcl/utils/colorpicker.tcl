@@ -306,10 +306,11 @@ PowerShell (Windows) is available, then try again."
   proc _pick_windows {} {
     # scidCommunity is already hidden, so the desktop is visible. PowerShell
     # waits for the user's click, then reads the pixel under the cursor with GDI
-    # GetPixel (CopyFromScreen returned black in a VM). It is launched from a
-    # wrapper .bat with everything hard-coded, because passing arguments through
-    # Tcl's exec proved unreliable on Windows.
+    # GetPixel (CopyFromScreen returned black in a VM). It is launched hidden
+    # through a WScript.Shell wrapper, because a bare .bat/cmd launch popped up
+    # a console window that covered the screen.
     set psFile  [_tempFile ps1]
+    set vbsFile [_tempFile vbs]
     set batFile [_tempFile bat]
     set result  [_tempFile txt]
     set outLog  [_tempFile txt]
@@ -337,9 +338,9 @@ public class ScidPick {
     [System.IO.File]::WriteAllText($out, 'S2')
     $deadline = (Get-Date).AddSeconds(120)
     while ($true) {
-        if (([ScidPick]::GetAsyncKeyState(0x1B) -band 0x8000) -ne 0) { exit 2 }
+        if (([ScidPick]::GetAsyncKeyState(0x1B) -band 0x8000) -ne 0) { [System.IO.File]::WriteAllText($out, 'CANCEL'); exit 2 }
         if (([ScidPick]::GetAsyncKeyState(0x01) -band 0x8000) -ne 0) { break }
-        if ((Get-Date) -gt $deadline) { exit 2 }
+        if ((Get-Date) -gt $deadline) { [System.IO.File]::WriteAllText($out, 'CANCEL'); exit 2 }
         Start-Sleep -Milliseconds 15
     }
     $p = [System.Windows.Forms.Cursor]::Position
@@ -358,44 +359,57 @@ public class ScidPick {
     set psExe [auto_execok powershell]
     if {$psExe eq ""} { set psExe [auto_execok pwsh] }
     set psNative [file nativename $psExe]
+    set psCmd "\"$psNative\" -NoLogo -NoProfile -ExecutionPolicy Bypass \
+      -File \"[file nativename $psFile]\" \"[file nativename $result]\""
 
-    set bf [open $batFile w]
-    puts $bf "@echo off"
-    puts $bf "\"$psNative\" -NoLogo -NoProfile -ExecutionPolicy Bypass \
-      -File \"[file nativename $psFile]\" \"[file nativename $result]\" \
-      > \"[file nativename $outLog]\" 2>&1"
-    close $bf
+    # WScript.Shell.Run with window style 0 starts PowerShell with no console
+    # window; wscript itself is a GUI app, so nothing appears on screen.
+    set vbsCmd [string map [list "\"" "\"\""] $psCmd]
+    set vf [open $vbsFile w]
+    puts $vf "Set sh = CreateObject(\"WScript.Shell\")"
+    puts $vf "sh.Run \"$vbsCmd\", 0, True"
+    close $vf
 
-    set batErr ""
-    set batFailed [catch { exec cmd /c [file nativename $batFile] 2>@1 } batErr]
+    set runErr ""
+    set runFailed [catch { exec wscript //Nologo //B [file nativename $vbsFile] 2>@1 } runErr]
 
     set body ""
     if {[file exists $result]} {
       set fh [open $result r]; set body [string trim [read $fh]]; close $fh
     }
-    set psout ""
-    if {[file exists $outLog]} {
-      set fh [open $outLog r]; set psout [string trim [read $fh]]; close $fh
+
+    # Fallback: plain cmd /c (works, but shows a console window). Only used if
+    # the hidden launch never ran the script at all.
+    if {[_parseColor $body] eq "" && ! [file exists $result]} {
+      set bf [open $batFile w]
+      puts $bf "@echo off"
+      puts $bf "$psCmd > \"[file nativename $outLog]\" 2>&1"
+      close $bf
+      catch { exec cmd /c [file nativename $batFile] 2>@1 }
+      if {[file exists $result]} {
+        set fh [open $result r]; set body [string trim [read $fh]]; close $fh
+      }
     }
 
-    set diag "batFailed=$batFailed batErr='[string range $batErr 0 60]' result='[string range $body 0 40]' psout='[string range $psout 0 100]'"
+    set diag "runFailed=$runFailed runErr='[string range $runErr 0 80]' result='[string range $body 0 40]'"
     catch {
       set lf [open $log w]
       puts $lf $diag
       puts $lf "ps='$psNative'"
-      puts $lf "--- bat ---"
-      set bfh [open $batFile r]; puts $lf [read $bfh]; close $bfh
+      puts $lf "--- vbs ---"
+      set vfh [open $vbsFile r]; puts $lf [read $vfh]; close $vfh
       puts $lf "--- script ---"
       set sfh [open $psFile r]; puts $lf [read $sfh]; close $sfh
       close $lf
     }
     catch { file delete $psFile }
+    catch { file delete $vbsFile }
     catch { file delete $batFile }
     catch { file delete $result }
     catch { file delete $outLog }
 
+    if {$body eq "CANCEL"} { return "" }
     set hex [_parseColor $body]
-    if {$hex eq ""} { set hex [_parseColor $psout] }
     if {$hex eq ""} {
       error "Windows color picker did not return a color.\n$diag\n\nDebug log: $log"
     }
