@@ -441,7 +441,7 @@ set helpText(D,Hints) {<h1>scidCommunity-Hinweise</h1>
   
   <h4>Der Baum ist bei großen Datenbanken langsam. Wie kann ich es beschleunigen?</h4>
   <p>
-  Speichern Sie den Baum-Cache häufig, um Baumergebnisse für die zukünftige Verwendung zu speichern.
+  Erhöhen Sie die Größe des In-Memory-Baum-Caches mit <menu>Datei: Cachegröße</menu> im Baumfenster.
   Weitere Informationen finden Sie im Abschnitt „Caching“ der Hilfeseite <a Tree>Tree</a>.
   </p>
   
@@ -2683,46 +2683,8 @@ set helpText(D,Tree) {<h1>Das Baumfenster</h1>
   gesucht wird, befindet sich im Cache.
   </p>
   <p>
-  Das Baumfenster verfügt über einen Dateimenübefehl namens <term>Cache speichern</term>.
-  Wenn Sie diese Option auswählen, wird der aktuelle Inhalt des Baums im Speicher zwischengespeichert
-  werden in eine Datei (mit dem Suffix <b>.stc</b>) geschrieben, um die Zukunft zu beschleunigen
-  Verwendung des Baummodus mit dieser Datenbank.
-  </p>
-  <p>
-  Der Befehl <term>Cache-Datei füllen </term> im Dateimenü der Baumstruktur
-  Fenster füllt die Cache-Datei mit Daten für viele Eröffnungspositionen.
-  Es führt eine Baumsuche nach etwa 100 der häufigsten Eröffnungspositionen durch,
-  speichert dann die Cache-Datei.
-  </p>
-  <p>
   Die maximale Anzahl der Zeilen im Cache kann per Datei / konfiguriert werden.
   Cachegröße. Der Standardwert beträgt bis zu 1000 Zeilen.
-  </p>
-  <p>
-  Alternativ kann man den Cache auch mit dem Inhalt eines füllen
-  Basis oder ein Spiel, indem Sie Datei / Cache mit Basis füllen und Datei /
-  Cache jeweils mit Spiel füllen. Der Cache wird gefüllt mit
-  deren Inhalt einschließlich aller Variationen. Das ist äußerst hilfreich
-  wenn man über eine oder mehrere Repertoirebasen verfügt, die als Input dienen können. (Siehe
-  auch <a OpeningTrainer> über diese Art von Basen.)
-  <p>
-  Die Baumaktualisierung kann erheblich verbessert werden, wenn die Datenbank sortiert ist
-  nach ECO-Code dann verdichtet (siehe <a Maintenance>Wartung</a>
-  Fenster). Sobald dies erreicht ist (der gesamte Prozess kann mehrere dauern
-  Stunden), schalten Sie die Option <term>Schnellmodus</term> ein. Die Aktualisierung von
-  Das Baumfenster ist im Durchschnitt 20-mal schneller auf Kosten von
-  Einige Ungenauigkeiten (Spiele, die nicht im aktuellen Filter enthalten sind, werden nicht berücksichtigt
-  berücksichtigen). Durch Ausschalten der Option <term>Schnellmodus</term> können Sie
-  Ich werde den Unterschied in der Anzahl der Spiele sehen, wenn alle
-  Transpositionen werden berücksichtigt.  Wenn Sie eine Vorschau erhalten möchten
-  Um dann einen präzisen Baum zu erhalten, verwenden Sie die Option <term>Fast and
-  langsamer Modus </term> 
-  </p>
-  <p>
-  Beachten Sie, dass eine Baum-Cache-Datei (.stc) vollständig redundant ist. Sie können entfernen
-  es ohne Auswirkungen auf die Datenbank, und tatsächlich wird es von scidCommunity entfernt
-  wann immer eine Aktion auftritt, die dazu führen könnte, dass es veraltet ist – zum Beispiel,
-  Ein Spiel hinzufügen oder ersetzen oder die Datenbank sortieren.
   </p>
   
   <p><footer>(Aktualisiert: scidCommunity, April 2026)</footer></p>

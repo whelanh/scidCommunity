@@ -412,7 +412,7 @@ set helpText(P,Hints) {<h1>Wskazówki ScidCommunity</h1>
   
   <h4>Drzewo wariantów działa wolno dla dużych baz danych. Jak je przyspieszyć?</h4>
   <p>
-  Często zapisuj pamięć podręczną drzewa wariantów, aby zachować wyniki wyszukiwania do późniejszego użycia.
+  Zwiększ rozmiar pamięci podręcznej drzewa w pamięci za pomocą <menu>File: Cache size</menu> w oknie drzewa.
   Szczegóły znajdziesz w sekcji o buforowaniu na stronie pomocy <a Tree>Okno drzewa wariantów</a>.
   </p>
   
@@ -2694,46 +2694,8 @@ set helpText(P,Tree) {<h1>Okno drzewa wariantów</h1>
   znajduje się w cache.
   </p>
   <p>
-  Okno drzewa wariantów ma polecenie menu pliku o nazwie <term>Save Cache</term>.
-  Gdy je wybierzesz, bieżąca zawartość cache drzewa w pamięci jest zapisywana
-  do pliku (z rozszerzeniem <b>.stc</b>), aby przyspieszyć przyszłe
-  użycie trybu drzewa z tą bazą.
-  </p>
-  <p>
-  Polecenie <term>Fill cache file</term> w menu pliku okna drzewa
-  wypełnia plik cache danymi dla wielu pozycji debiutowych.
-  Wykonuje wyszukiwanie drzewa dla około 100 najpopularniejszych pozycji debiutowych,
-  a następnie zapisuje plik cache.
-  </p>
-  <p>
   Maksymalną liczbę linii w pamięci podręcznej można skonfigurować w
   File / Cache size. Domyślnie jest to do 1000 linii.
-  </p>
-  <p>
-  Alternatywnie można wypełnić pamięć podręczną także zawartością bazy lub
-  partii, wybierając odpowiednio File / Fill Cache with base oraz File /
-  Fill Cache with game. Pamięć podręczna zostanie wypełniona zawartością
-  tych elementów, łącznie z wszystkimi wariantami. Jest to najbardziej
-  pomocne, jeśli posiada się jedną lub więcej baz repertuarowych, które
-  mogą służyć jako dane wejściowe. (Patrz także <a OpeningTrainer> na temat
-  tego typu baz.)
-  <p>
-  Odświeżanie drzewa można znacznie przyspieszyć, jeśli baza danych jest posortowana
-  według kodu ECO, a następnie uporządkowana (zobacz okno <a Maintenance>Obsługa</a>).
-  Gdy to zostanie osiągnięte (cały proces może zająć kilka godzin), włącz opcję
-  <term>Fast mode</term>. Odświeżanie okna Tree będzie średnio 20 razy szybsze
-  kosztem pewnych niedokładności (partie nieobecne w bieżącym filtrze nie będą
-  brane pod uwagę). Po wyłączeniu opcji <term>Fast mode</term> zobaczysz
-  różnicę w liczbie partii, gdy wszystkie transpozycje są uwzględnione.
-  Jeśli chcesz uzyskać podgląd statystyk, a potem dokładne drzewo, użyj opcji
-  <term>Fast and slow mode</term>
-  </p>
-  <p>
-  Uwaga: plik pamięci podręcznej drzewa (.stc) jest całkowicie zbędny;
-  można go usunąć bez wpływu na bazę danych, w rzeczywistości jest on
-  usuwany przez ScidCommunity każdym razem, gdy następuje czynność, która
-  mogłaby spowodować jego nieaktualność – na przykład dodanie lub zamiana
-  partii, lub sortowanie bazy danych.
   </p>
   
   <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>

@@ -441,7 +441,7 @@ set helpText(T,Hints) {<h1>scidTopluluk İpuçları</h1>
   
   <h4>Ağaç büyük veritabanları için yavaştır. Nasıl hızlandırabilirim?</h4>
   <p>
-  Ağaç sonuçlarını ileride kullanmak üzere kaydetmek için Ağaç önbelleğini sık sık kaydedin.
+  Ağaç penceresinde <menu>Dosya: Önbellek boyutu</menu> ile bellekteki ağaç önbelleğinin boyutunu artırın.
   Önbelleğe alma bölümüne bakın <a Tree>Ağaç</a> ayrıntılar için yardım sayfasına bakın.
   </p>
   
@@ -2690,46 +2690,8 @@ set helpText(T,Tree) {<h1>Ağaç penceresi</h1>
   aranıyor önbellekte.
   </p>
   <p>
-  Ağaç penceresinde, adında bir dosya menüsü komutu bulunur. <term>Önbelleği Kaydet</term>.
-  Bunu seçtiğinizde, bellekteki ağaç önbelleğinin geçerli içeriği
-  bir dosyaya yazılır (son ekiyle <b>.stc</b>) geleceği hızlandırmak için
-  Bu veritabanıyla Ağaç modunun kullanımı.
-  </p>
-  <p>
-   <term>Önbellek dosyasını doldur</term> ağacın dosya menüsündeki komut
-  pencere, önbellek dosyasını birçok açılış konumuna ilişkin verilerle doldurur.
-  En yaygın açılış pozisyonlarından yaklaşık 100 tanesi için bir ağaç araması yapar,
-  daha sonra önbellek dosyasını kaydeder.
-  </p>
-  <p>
   Önbellekteki maksimum satır sayısı Dosya / ile yapılandırılabilir.
   Önbellek boyutu. Varsayılan değer 1000 satıra kadardır.
-  </p>
-  <p>
-  Alternatif olarak, önbellek bir dosyanın içeriğiyle de doldurulabilir.
-  temel veya bir oyun seçerek Dosya / Önbelleği tabanla doldur ve Dosya /
-  Önbelleği sırasıyla oyunla doldurun. Önbellek şununla doldurulacak:
-  tüm varyasyonlar dahil bunların içeriği. Bu çok yararlı
-  girdi olarak hizmet edebilecek bir veya daha fazla repertuar tabanı varsa. (Bkz.
-  ayrıca <a OpeningTrainer> Bu tür bazlar hakkında.)
-  <p>
-  Veritabanı sıralanırsa ağaç yenileme önemli ölçüde geliştirilebilir
-  ECO koduna göre sıkıştırılır (bkz. <a Maintenance>Bakım</a>
-  pencere). Bu bir kez başarıldığında (tüm süreç birkaç kez sürebilir)
-  saat), seçeneği açın <term>Hızlı mod</term>. Yenilenmesi
-  Ağaç penceresi ortalama 20 kat daha hızlı olacaktır.
-  bazı yanlışlıklar (mevcut filtrede olmayan oyunlar alınmayacaktır)
-  dikkate alınarak). Kapatarak <term>Hızlı mod</term> senin seçeneğin
-  oyun sayısındaki farkı göreceksiniz
-  aktarmalar dikkate alınır.  Önizleme almak istiyorsanız
-  istatistiklerin ardından kesin bir Ağaç elde edin, seçeneği kullanın <term>Hızlı ve
-  yavaş mod</term> 
-  </p>
-  <p>
-  Bir ağaç önbelleği (.stc) dosyasının tamamen yedekli olduğunu unutmayın; kaldırabilirsin
-  veritabanını etkilemeden ve aslında scidCommunity tarafından kaldırılmıştır.
-  güncelliğini yitirmesine neden olabilecek bir eylem gerçekleştiğinde -- örneğin,
-  bir oyunu eklemek veya değiştirmek ya da veritabanını sıralamak.
   </p>
   
   <p><footer>(Güncelleme: scidCommunity, Nisan 2026)</footer></p>

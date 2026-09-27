@@ -442,7 +442,7 @@ set helpText(I,Hints) {<h1>scidCommunity Suggerimenti</h1>
   
   <h4>L'albero è lento per i database di grandi dimensioni. Come posso accelerarlo?</h4>
   <p>
-  Salva spesso la cache dell'albero, per salvare i risultati dell'albero per un uso futuro.
+  Aumenta la dimensione della cache dell'albero in memoria con <menu>File: Dimensioni della cache</menu> nella finestra dell'albero.
   Consulta la sezione relativa alla memorizzazione nella cache del file <a Tree>Albero</a> pagina di aiuto per i dettagli.
   </p>
   
@@ -2691,46 +2691,8 @@ set helpText(I,Tree) {<h1>La finestra dell'albero</h1>
   l'oggetto della ricerca è nella cache.
   </p>
   <p>
-  La finestra dell'albero ha un comando del menu file denominato <term>Salva cache</term>.
-  Quando si seleziona questa opzione, il contenuto corrente dell'albero viene memorizzato nella cache
-  vengono scritti in un file (con il suffisso <b>.stc</b>) per accelerare il futuro
-  utilizzo della modalità Albero con questo database.
-  </p>
-  <p>
-  IL <term>Riempi il file della cache</term> comando nel menu file dell'albero
-  riempie il file della cache con i dati per molte posizioni di apertura.
-  Effettua una ricerca ad albero per circa 100 delle posizioni di apertura più comuni,
-  quindi salva il file della cache.
-  </p>
-  <p>
   Il numero massimo di righe nella cache può essere configurato da File /
   Dimensioni della cache. Il valore predefinito è fino a 1000 linee.
-  </p>
-  <p>
-  In alternativa è possibile riempire la cache anche con il contenuto di a
-  base o un gioco scegliendo File / Riempi la cache con base e File /
-  Riempi la cache rispettivamente con il gioco. La cache verrà riempita
-  il contenuto di questi comprese tutte le variazioni. Questo è molto utile
-  se si dispone di una o più basi di repertorio che possono fungere da input. (Vedi
-  anche <a OpeningTrainer> su questo tipo di basi.)
-  <p>
-  L'aggiornamento dell'albero può essere notevolmente migliorato se il database è ordinato
-  tramite codice ECO poi compattato (vedi <a Maintenance>manutenzione</a>
-  finestra). Una volta raggiunto questo obiettivo (l'intero processo può durare diversi
-  ore), attivare l'opzione <term>Modalità veloce</term>. Il aggiornamento di
-  la finestra dell'albero sarà in media 20 volte più veloce al costo di
-  alcune imprecisioni (i giochi non presenti nel filtro corrente non verranno presi
-  in considerazione). Spegnendo il <term>Modalità veloce</term> opzione tu
-  vedrà la differenza nel numero di giochi quando tutto il
-  vengono prese in considerazione le trasposizioni.  Se vuoi avere un'anteprima
-  delle statistiche quindi ottieni un albero preciso, usa l'opzione <term>Veloce e
-  modalità lenta</term> 
-  </p>
-  <p>
-  Tieni presente che un file di cache dell'albero (.stc) è completamente ridondante; puoi rimuovere
-  senza intaccare il database, e infatti viene rimosso da scidCommunity
-  ogni volta che si verifica un'azione che potrebbe renderlo obsoleto, ad esempio
-  aggiungere o sostituire un gioco o ordinare il database.
   </p>
   
   <p><footer>(Aggiornato: scidCommunity, aprile 2026)</footer></p>

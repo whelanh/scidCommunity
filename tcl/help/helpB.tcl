@@ -442,7 +442,7 @@ set helpText(B,Hints) {<h1>scidDicas da comunidade</h1>
   
   <h4>A árvore é lenta para bancos de dados grandes. Como faço para acelerar isso?</h4>
   <p>
-  Salve o cache da árvore com frequência para salvar os resultados da árvore para uso futuro.
+  Aumente o tamanho do cache da árvore na memória com <menu>Arquivo: Tamanho do cache</menu> na janela da árvore.
   Veja a seção de cache do <a Tree>Árvore</a> página de ajuda para obter detalhes.
   </p>
   
@@ -2692,46 +2692,8 @@ set helpText(B,Tree) {<h1>A janela da árvore</h1>
   que está sendo pesquisado está no cache.
   </p>
   <p>
-  A janela da árvore possui um comando de menu de arquivo chamado <term>Salvar cache</term>.
-  Quando você seleciona esta opção, o conteúdo atual do cache da árvore na memória
-  são gravados em um arquivo (com o sufixo <b>.stc</b>) para acelerar o futuro
-  uso do modo Árvore com este banco de dados.
-  </p>
-  <p>
-  O <term>Preencha o arquivo de cache</term> comando no menu de arquivo da árvore
-  janela preenche o arquivo de cache com dados para muitas posições abertas.
-  Ele faz uma busca em árvore por cerca de 100 das posições de abertura mais comuns,
-  em seguida, salva o arquivo de cache.
-  </p>
-  <p>
   O número máximo de linhas no Cache pode ser configurado em Arquivo /
   Tamanho do cache. O padrão é de até 1.000 linhas.
-  </p>
-  <p>
-  Alternativamente, pode-se preencher o cache também com o conteúdo de um
-  base ou um jogo escolhendo Arquivo/Preencher Cache com base e Arquivo/
-  Preencha o cache com o jogo, respectivamente. O cache será preenchido com
-  o conteúdo destes incluindo todas as variações. Isso é muito útil
-  se tiver uma ou mais bases de repertório que possam servir de insumo. (Veja
-  também <a OpeningTrainer> sobre este tipo de bases.)
-  <p>
-  A atualização da árvore pode ser dramaticamente melhorada se o banco de dados for classificado
-  pelo código ECO e depois compactado (ver <a Maintenance>manutenção</a>
-  janela). Uma vez alcançado isto (todo o processo pode durar vários
-  horas), ative a opção <term>Modo rápido</term>. A atualização de
-  a janela da árvore será 20 vezes mais rápida em média ao custo de
-  algumas imprecisões (os jogos que não estão no filtro atual não serão levados
-  em conta). Ao desligar o <term>Modo rápido</term> opção você
-  verá a diferença no número de jogos quando todos os
-  as transposições são levadas em conta.  Se você quiser obter uma prévia
-  de estatísticas e obter uma árvore precisa, use a opção <term>Rápido e
-  modo lento</term> 
-  </p>
-  <p>
-  Observe que um arquivo de cache de árvore (.stc) é completamente redundante; você pode remover
-  sem afetar o banco de dados e, na verdade, é removido pelo scidCommunity
-  sempre que ocorrer uma ação que possa deixá-lo desatualizado - por exemplo,
-  adicionar ou substituir um jogo ou classificar o banco de dados.
   </p>
   
   <p><footer>(Atualizado: scidCommunity, abril de 2026)</footer></p>

@@ -157,26 +157,11 @@
     being searched for is in the cache.
   </p>
   <p>
-    The tree window has a file menu command named <b><i>
-        <font color="#990000">Save Cache</font>
-      </i></b>.
-    When you select this, the current contents of the tree cache in memory
-    are written to a file (with the suffix <b>.stc</b>) to speed up future
-    use of Tree mode with this database.
-  </p>
-  <p>
-    The <b><i>
-        <font color="#990000">Fill cache file</font>
-      </i></b> command in the file menu of the tree
-    window fills the cache file with data for many opening positions.
-    It does a tree search for about 100 of the most common opening positions,
-    then saves the cache file.
-  </p>
-  <p>
-    Note that a tree cache (.stc) file is completely redundant; you can remove
-    it without affecting the database, and in fact it is removed by scidCommunity
-    whenever an action occurs that could leave it out of date -- for example,
-    adding or replacing a game, or sorting the database.
+    The maximum number of lines in the cache can be configured with
+    <b><i>
+        <font color="#990000">Cache size</font>
+      </i></b>
+    in the tree window File menu. The default is up to 1000 lines.
   </p>
 
   <p>

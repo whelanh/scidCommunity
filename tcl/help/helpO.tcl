@@ -440,7 +440,7 @@ set helpText(O,Hints) {<h1>scidCommunity Hints</h1>
   
   <h4>Treet er tregt for store databaser. Hvordan øker jeg hastigheten? </h4>
   <p>
-  Lagre trebufferen ofte for å lagre treresultater for fremtidig bruk.
+  Øk størrelsen på trebufferen i minnet med <menu>Fil: Bufferstørrelse</menu> i trevinduet.
   Se caching-delen av <a Tree>Tree</a> hjelpesiden for detaljer.
   </p>
   
@@ -2681,46 +2681,8 @@ set helpText(O,Tree) {<h1>Trevinduet </h1>
   det søkes etter ligger i hurtigbufferen.
   </p>
   <p>
-  Trevinduet har en filmenykommando kalt <term>Save Cache</term>.
-  Når du velger dette, lagres gjeldende innhold i treet i minnet
-  skrives til en fil (med suffikset <b>.stc</b>) for å fremskynde fremtiden
-  bruk av tremodus med denne databasen.
-  </p>
-  <p>
-  Kommandoen <term>Fill cache file</term> i filmenyen i treet
-  vinduet fyller cache-filen med data for mange åpningsposisjoner.
-  Den gjør et tresøk etter omtrent 100 av de vanligste åpningsposisjonene,
-  lagrer deretter hurtigbufferfilen.
-  </p>
-  <p>
   Maksimalt antall linjer i hurtigbufferen kan konfigureres av Fil /
   Bufferstørrelse. Standard er opptil 1000 linjer.
-  </p>
-  <p>
-  Alternativt kan man fylle cachen også med innholdet i en
-  base eller et spill ved å velge Fil / Fyll Cache med base og Fil /
-  Fyll cachen med henholdsvis spill. Cachen vil bli fylt med
-  innholdet i disse inkludert alle varianter. Dette er mest nyttig
-  dersom man har en eller flere repertoarbaser som kan fungere som input. (Se
-  også <a OpeningTrainer> om denne typen baser.)
-  <p>
-  Treoppdatering kan forbedres dramatisk hvis databasen er sortert
-  med ECO-kode og deretter komprimert (se <a Maintenance>vedlikehold</a>
-  vindu). Når dette er oppnådd (hele prosessen kan vare flere
-  timer), slå på alternativet <term>Rask modus</term>. Oppfriskningen av
-  Trevinduet vil være 20 ganger raskere i gjennomsnitt på bekostning av
-  noen unøyaktigheter (spill som ikke er i gjeldende filter vil ikke bli tatt
-  hensyn). Ved å slå av <term>Fast mode</term> alternativet kan du
-  vil se forskjellen i antall spill når alle
-  transponeringer er tatt i betraktning.  Hvis du vil ha en forhåndsvisning
-  av statistikk så får du et presist tre, bruk alternativet <term>Rask og
-  sakte modus </term> 
-  </p>
-  <p>
-  Merk at en trebufferfil (.stc) er fullstendig overflødig; du kan fjerne
-  det uten å påvirke databasen, og faktisk fjernes det av scidCommunity
-  når det skjer en handling som kan gjøre den utdatert -- for eksempel,
-  legge til eller erstatte et spill, eller sortere databasen.
   </p>
   
   <p><footer>(Oppdatert: scidCommunity, april 2026)</footer></p>

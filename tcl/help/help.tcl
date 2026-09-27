@@ -438,7 +438,8 @@ set helpText(Hints) {<h1>scidCommunity Hints</h1>
   
   <h4>The Tree is slow for large databases. How do I speed it up?</h4>
   <p>
-  Save the Tree cache often, to save tree results for future use.
+  Increase the size of the in-memory tree cache with
+  <menu>File: Cache size</menu> in the tree window.
   See the caching section of the <a Tree>Tree</a> help page for details.
   </p>
   
@@ -2700,46 +2701,8 @@ set helpText(Tree) {<h1>The Tree window</h1>
   being searched for is in the cache.
   </p>
   <p>
-  The tree window has a file menu command named <term>Save Cache</term>.
-  When you select this, the current contents of the tree cache in memory
-  are written to a file (with the suffix <b>.stc</b>) to speed up future
-  use of Tree mode with this database.
-  </p>
-  <p>
-  The <term>Fill cache file</term> command in the file menu of the tree
-  window fills the cache file with data for many opening positions.
-  It does a tree search for about 100 of the most common opening positions,
-  then saves the cache file.
-  </p>
-  <p>
   The maximum number of lines in the Cache can be configured by File /
   Cache size. The default are up to 1000 lines.
-  </p>
-  <p>
-  Alternatively, one can fill the cache also with the content of a
-  base or a game by choosing File / Fill Cache with base and File /
-  Fill Cache with game, respectively. The cache will be filled with
-  the contents of these including all variations. This is most helpful
-  if one has one or more repertoire bases that can serve as input. (See
-  also <a OpeningTrainer> about this type of bases.)
-  <p>
-  Tree refresh can be dramatically enhanced if the database is sorted
-  by ECO code then compacted (see the <a Maintenance>maintenance</a>
-  window). Once this is achieved (the whole process can last several
-  hours), turn on the option <term>Fast mode</term>. The refresh of
-  the Tree window will be 20 times faster in average at the cost of
-  some inaccuracies (games not in current filter will not be taken
-  into account). By turning off the <term>Fast mode</term> option you
-  will see the difference in the number of games when all the
-  transpositions are taken into account.  If you want to get a preview
-  of statistics then get a precise Tree, use the option <term>Fast and
-  slow mode</term> 
-  </p>
-  <p>
-  Note that a tree cache (.stc) file is completely redundant; you can remove
-  it without affecting the database, and in fact it is removed by scidCommunity
-  whenever an action occurs that could leave it out of date -- for example,
-  adding or replacing a game, or sorting the database.
   </p>
   
   <p><footer>(Updated: scidCommunity, April 2026)</footer></p>

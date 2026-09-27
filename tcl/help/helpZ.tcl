@@ -441,7 +441,7 @@ set helpText(Z,Hints) {<h1>Vidokezo vya Jumuiya ya scid</h1>
   
   <h4>Mti ni polepole kwa hifadhidata kubwa. Je, ninaiharakishaje?</h4>
   <p>
-  Hifadhi akiba ya Mti mara nyingi, ili kuhifadhi matokeo ya mti kwa matumizi ya baadaye.
+  Ongeza ukubwa wa akiba ya mti iliyo kwenye kumbukumbu kwa <menu>Faili: Saizi ya akiba</menu> kwenye dirisha la mti.
   Tazama sehemu ya caching ya <a Tree>Mti</a> ukurasa wa msaada kwa maelezo.
   </p>
   
@@ -2690,46 +2690,8 @@ set helpText(Z,Tree) {<h1>Dirisha la Mti</h1>
   inayotafutwa iko kwenye kashe.
   </p>
   <p>
-  Dirisha la mti lina amri ya menyu ya faili inayoitwa <term>Hifadhi Cache</term>.
-  Unapochagua hii, yaliyomo sasa ya kashe ya mti kwenye kumbukumbu
-  zimeandikwa kwa faili (na kiambishi tamati <b>.stc</b>) ili kuharakisha siku zijazo
-  matumizi ya hali ya Mti na hifadhidata hii.
-  </p>
-  <p>
-  The <term>Jaza faili ya kache</term> amri kwenye menyu ya faili ya mti
-  dirisha hujaza faili ya kache na data ya nafasi nyingi za ufunguzi.
-  Hutafuta mti kwa takriban nafasi 100 za kawaida za ufunguzi,
-  kisha huhifadhi faili ya kache.
-  </p>
-  <p>
   Idadi ya juu ya mistari kwenye Cache inaweza kusanidiwa na Faili /
   Saizi ya akiba. Chaguo msingi ni hadi mistari 1000.
-  </p>
-  <p>
-  Vinginevyo, mtu anaweza kujaza kashe pia na yaliyomo kwenye a
-  msingi au mchezo kwa kuchagua Faili / Jaza Cache na msingi na Faili /
-  Jaza Cache na mchezo, mtawaliwa. Cache itajazwa
-  yaliyomo katika haya ikiwa ni pamoja na tofauti zote. Hii inasaidia zaidi
-  ikiwa moja ina besi moja au zaidi za repertoire ambazo zinaweza kutumika kama pembejeo. (Angalia
-  pia <a OpeningTrainer> kuhusu aina hii ya misingi.)
-  <p>
-  Uboreshaji wa miti unaweza kuimarishwa sana ikiwa hifadhidata itapangwa
-  na nambari ya ECO kisha kuunganishwa (tazama <a Maintenance>matengenezo</a>
-  dirisha). Mara hii inapopatikana (mchakato mzima unaweza kudumu kadhaa
-  masaa), washa chaguo <term>Njia ya haraka</term>. Kuburudishwa kwa
-  dirisha la Mti litakuwa haraka mara 20 kwa wastani kwa gharama ya
-  baadhi ya makosa (michezo isiyo katika kichujio cha sasa haitachukuliwa
-  kuzingatia). Kwa kuzima <term>Njia ya haraka</term> chaguo wewe
-  utaona tofauti katika idadi ya michezo wakati wote
-  mabadiliko yanazingatiwa.  Ikiwa unataka kupata hakikisho
-  ya takwimu kisha upate Mti sahihi, tumia chaguo <term>Haraka na
-  hali ya polepole</term> 
-  </p>
-  <p>
-  Kumbuka kwamba faili ya akiba ya mti (.stc) haina maana kabisa; unaweza kuondoa
-  bila kuathiri hifadhidata, na kwa kweli inaondolewa na scidCommunity
-  wakati wowote kitendo kinapotokea ambacho kinaweza kuiacha nzee -- kwa mfano,
-  kuongeza au kubadilisha mchezo, au kupanga hifadhidata.
   </p>
   
   <p><footer>(Ilisasishwa: scidCommunity, Aprili 2026)</footer></p>

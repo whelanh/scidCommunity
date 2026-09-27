@@ -442,7 +442,7 @@ set helpText(K,Hints) {<h1>Consells de la comunitat scid</h1>
   
   <h4>L'arbre és lent per a bases de dades grans. Com ho puc accelerar?</h4>
   <p>
-  Deseu la memòria cau de l'arbre sovint, per desar els resultats de l'arbre per a un ús futur.
+  Augmenteu la mida de la memòria cau de l'arbre en memòria amb <menu>Fitxer: Mida de la memòria cau</menu> a la finestra de l'arbre.
   Vegeu la secció de memòria cau de l' <a Tree>Arbre</a> pàgina d'ajuda per obtenir més informació.
   </p>
   
@@ -2693,46 +2693,8 @@ set helpText(K,Tree) {<h1>La finestra de l'arbre</h1>
   que s'està cercant és a la memòria cau.
   </p>
   <p>
-  La finestra de l'arbre té una comanda de menú de fitxers anomenada <term>Desa la memòria cau</term>.
-  Quan seleccioneu això, el contingut actual de la memòria cau de l'arbre a la memòria
-  s'escriuen en un fitxer (amb el sufix <b>.stc</b>) per accelerar el futur
-  ús del mode arbre amb aquesta base de dades.
-  </p>
-  <p>
-  El <term>Ompliu el fitxer de memòria cau</term> comanda al menú fitxer de l'arbre
-  La finestra omple el fitxer de memòria cau amb dades per a moltes posicions d'obertura.
-  Fa una cerca en arbre d'unes 100 de les posicions d'obertura més habituals,
-  després desa el fitxer de memòria cau.
-  </p>
-  <p>
   El nombre màxim de línies a la memòria cau es pot configurar mitjançant Fitxer /
   Mida de la memòria cau. El valor predeterminat és de fins a 1000 línies.
-  </p>
-  <p>
-  Alternativament, es pot omplir la memòria cau també amb el contingut de a
-  base o un joc escollint Fitxer / Ompliu la memòria cau amb base i Fitxer /
-  Ompliu la memòria cau amb el joc, respectivament. La memòria cau s'omplirà
-  el contingut d'aquests inclou totes les variacions. Això és molt útil
-  si es disposa d'una o més bases de repertori que poden servir d'entrada. (Veure
-  també <a OpeningTrainer> sobre aquest tipus de bases.)
-  <p>
-  L'actualització de l'arbre es pot millorar dràsticament si la base de dades està ordenada
-  per codi ECO després compactat (vegeu el <a Maintenance>manteniment</a>
-  finestra). Un cop aconseguit això (tot el procés pot durar diversos
-  hores), activeu l'opció <term>Mode ràpid</term>. El refresc de
-  la finestra de l'arbre serà 20 vegades més ràpida de mitjana a costa de
-  algunes imprecisions (no es prendran jocs que no estiguin al filtre actual).
-  en compte). En apagar el <term>Mode ràpid</term> opció tu
-  veurà la diferència en el nombre de jocs quan tots els
-  es tenen en compte les transposicions.  Si voleu obtenir una vista prèvia
-  d'estadístiques a continuació, obteniu un arbre precís, utilitzeu l'opció <term>Ràpid i
-  mode lent</term> 
-  </p>
-  <p>
-  Tingueu en compte que un fitxer de memòria cau d'arbre (.stc) és completament redundant; pots eliminar
-  sense afectar la base de dades i, de fet, scidCommunity l'elimina
-  sempre que es produeixi una acció que podria deixar-la desfasada, per exemple,
-  afegir o substituir un joc, o ordenar la base de dades.
   </p>
   
   <p><footer>(Actualitzat: scidCommunity, abril de 2026)</footer></p>

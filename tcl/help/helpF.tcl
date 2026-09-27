@@ -442,7 +442,7 @@ set helpText(F,Hints) {<h1>Conseils de la communauté scid</h1>
   
   <h4>L'arborescence est lente pour les grandes bases de données. Comment puis-je l'accélérer ?</h4>
   <p>
-  Enregistrez souvent le cache de l'arborescence pour enregistrer les résultats de l'arborescence pour une utilisation ultérieure.
+  Augmentez la taille du cache d'arborescence en mémoire avec <menu>Fichier: Taille du cache</menu> dans la fenêtre de l'arborescence.
   Voir la section de mise en cache du <a Tree>Arbre</a> page d'aide pour plus de détails.
   </p>
   
@@ -2690,46 +2690,8 @@ set helpText(F,Tree) {<h1>La fenêtre Arborescence</h1>
   recherché se trouve dans le cache.
   </p>
   <p>
-  La fenêtre arborescente comporte une commande de menu fichier nommée <term>Enregistrer le cache</term>.
-  Lorsque vous sélectionnez cette option, le contenu actuel du cache d'arborescence en mémoire
-  sont écrits dans un fichier (avec le suffixe <b>.stc</b>) pour accélérer l'avenir
-  utilisation du mode Arbre avec cette base de données.
-  </p>
-  <p>
-  Le <term>Remplir le fichier cache</term> commande dans le menu fichier de l'arborescence
-  La fenêtre remplit le fichier cache avec des données pour de nombreuses positions d'ouverture.
-  Il effectue une recherche arborescente pour environ 100 des positions d'ouverture les plus courantes,
-  puis enregistre le fichier cache.
-  </p>
-  <p>
   Le nombre maximum de lignes dans le Cache peut être configuré par Fichier /
   Taille du cache. La valeur par défaut va jusqu'à 1 000 lignes.
-  </p>
-  <p>
-  Alternativement, on peut également remplir le cache avec le contenu d'un
-  base ou un jeu en choisissant Fichier / Remplir le cache avec la base et Fichier /
-  Remplissez le cache avec le jeu, respectivement. Le cache sera rempli de
-  le contenu de ceux-ci, y compris toutes les variantes. C'est très utile
-  si l'on dispose d'une ou plusieurs bases de répertoire pouvant servir d'entrée. (Voir
-  aussi <a OpeningTrainer> à propos de ce type de bases.)
-  <p>
-  L'actualisation de l'arborescence peut être considérablement améliorée si la base de données est triée
-  par code ECO puis compacté (voir la <a Maintenance>entretien</a>
-  fenêtre). Une fois cet objectif atteint (l'ensemble du processus peut durer plusieurs
-  heures), activez l'option <term>Mode rapide</term>. Le rafraîchissement de
-  la fenêtre Arborescence sera 20 fois plus rapide en moyenne au prix de
-  quelques inexactitudes (les jeux qui ne sont pas dans le filtre actuel ne seront pas pris en compte
-  en compte). En éteignant le <term>Mode rapide</term> option vous
-  verra la différence dans le nombre de jeux quand tous les
-  les transpositions sont prises en compte.  Si vous souhaitez avoir un aperçu
-  de statistiques puis obtenez un Arbre précis, utilisez l'option <term>Rapide et
-  mode lent</term> 
-  </p>
-  <p>
-  Notez qu'un fichier de cache d'arborescence (.stc) est complètement redondant ; tu peux supprimer
-  sans affecter la base de données, et en fait il est supprimé par scidCommunity
-  chaque fois qu'une action se produit qui pourrait le rendre obsolète - par exemple,
-  ajouter ou remplacer un jeu, ou trier la base de données.
   </p>
   
   <p><footer>(Mise à jour : scidCommunity, avril 2026)</footer></p>

@@ -441,7 +441,7 @@ set helpText(C,Hints) {<h1>scidCommunity rady</h1>
   
   <h4>Strom je pomalý pro velké databáze. Jak to zrychlím?</h4>
   <p>
-  Ukládejte mezipaměť stromu často, abyste uložili výsledky stromu pro budoucí použití.
+  Zvětšete velikost mezipaměti stromu v paměti pomocí <menu>Soubor: Velikost mezipaměti</menu> v okně stromu.
   Viz část ukládání do mezipaměti <a Tree>Strom</a> stránka nápovědy pro podrobnosti.
   </p>
   
@@ -2688,46 +2688,8 @@ set helpText(C,Tree) {<h1>Okno Strom</h1>
   hledaný je v mezipaměti.
   </p>
   <p>
-  Stromové okno má příkaz nabídky souboru s názvem <term>Uložit mezipaměť</term>.
-  Když vyberete tuto možnost, aktuální obsah stromové mezipaměti v paměti
-  se zapisují do souboru (s příponou <b>.stc</b>) pro urychlení budoucnosti
-  použití stromového režimu s touto databází.
-  </p>
-  <p>
-  The <term>Vyplňte soubor mezipaměti</term> příkaz v nabídce souboru stromu
-  okno vyplní soubor mezipaměti daty pro mnoho otevíracích pozic.
-  Provádí stromové vyhledávání asi 100 nejběžnějších otevíracích pozic,
-  poté uloží soubor mezipaměti.
-  </p>
-  <p>
   Maximální počet řádků v mezipaměti lze konfigurovat pomocí Soubor /
   Velikost mezipaměti. Výchozí je až 1000 řádků.
-  </p>
-  <p>
-  Alternativně lze keš naplnit také obsahem a
-  základnu nebo hru výběrem Soubor / Naplnit mezipaměť základnou a Soubor /
-  Naplňte Cache hrou, resp. Keš bude naplněna
-  jejich obsah včetně všech variant. To je velmi užitečné
-  pokud má jeden nebo více základů repertoáru, které mohou sloužit jako vstup. (Viz
-  také <a OpeningTrainer> o tomto typu základny.)
-  <p>
-  Obnovení stromu lze výrazně zlepšit, pokud je databáze seřazena
-  pomocí ECO kódu a poté zhutněn (viz <a Maintenance>údržba</a>
-  okno). Jakmile je toho dosaženo (celý proces může trvat několik
-  hodiny), zapněte možnost <term>Rychlý režim</term>. Obnovení
-  okno Stromu bude v průměru 20krát rychlejší za cenu
-  některé nepřesnosti (hry, které nejsou v aktuálním filtru, nebudou převzaty
-  v úvahu). Vypnutím <term>Rychlý režim</term> možnost vy
-  uvidí rozdíl v počtu her, když všechny
-  transpozice jsou brány v úvahu.  Pokud chcete získat náhled
-  statistik pak získáte přesný strom, použijte volbu <term>Rychlé a
-  pomalý režim</term> 
-  </p>
-  <p>
-  Všimněte si, že soubor stromové mezipaměti (.stc) je zcela nadbytečný; můžete odstranit
-  bez ovlivnění databáze a ve skutečnosti je odstraněna scidCommunity
-  kdykoli dojde k akci, která by ji mohla vynechat zastaralou – např.
-  přidání nebo nahrazení hry nebo řazení databáze.
   </p>
   
   <p><footer>(Aktualizováno: scidCommunity, duben 2026)</footer></p>

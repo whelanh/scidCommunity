@@ -441,7 +441,7 @@ set helpText(U,Hints) {<h1>scidCommunity Hints</h1>
   
   <h4>Puu on hidas suurille tietokannoille. Kuinka nopeuttaa sitä?</h4>
   <p>
-  Tallenna puun välimuisti usein, jotta voit tallentaa puun tulokset tulevaa käyttöä varten.
+  Suurenna muistissa olevan puuvälimuistin kokoa valikon <menu>Tiedosto: Välimuistin koko</menu> avulla puuikkunassa.
   Katso välimuistiosio <a Tree>Puu</a> ohjesivulta lisätietoja.
   </p>
   
@@ -2684,46 +2684,8 @@ set helpText(U,Tree) {<h1>Puu-ikkuna </h1>
   etsittävä on välimuistissa.
   </p>
   <p>
-  Puuikkunassa on tiedostovalikon komento nimeltä <term>Tallenna välimuisti </term>.
-  Kun valitset tämän, puun välimuistin nykyinen sisältö muistissa
-  kirjoitetaan tiedostoon (päätteellä <b>.stc</b>) tulevaisuuden nopeuttamiseksi
-  Tree-tilan käyttö tämän tietokannan kanssa.
-  </p>
-  <p>
-  <term>Täytä välimuistitiedosto </term> -komento puun tiedostovalikossa
-  ikkuna täyttää välimuistitiedoston tiedoilla useista avauspaikoista.
-  Se etsii puusta noin 100 yleisintä avauspaikkaa,
-  sitten tallentaa välimuistitiedoston.
-  </p>
-  <p>
   Välimuistin rivien enimmäismäärä voidaan määrittää Tiedosto /
   Välimuistin koko. Oletusarvot ovat enintään 1000 riviä.
-  </p>
-  <p>
-  Vaihtoehtoisesti välimuisti voidaan täyttää myös a
-  perusta tai peli valitsemalla Tiedosto / Täytä välimuisti pohjalla ja Tiedosto /
-  Täytä välimuisti pelillä. Välimuisti täyttyy
-  näiden sisältö mukaan lukien kaikki muunnelmat. Tästä on eniten apua
-  jos jollakin on yksi tai useampi ohjelmistopohja, joka voi toimia syötteenä. (Katso
-  myös <a OpeningTrainer> tämäntyyppisistä alustoista.)
-  <p>
-  Puun päivitystä voidaan parantaa huomattavasti, jos tietokanta lajitellaan
-  ECO-koodilla ja tiivistetään (katso <a Maintenance>huolto </a>
-  ikkuna). Kun tämä on saavutettu (koko prosessi voi kestää useita
-  tuntia), ota käyttöön vaihtoehto <term>Fast mode </term>. Päivitys
-  Tree-ikkuna on keskimäärin 20 kertaa nopeampi hintaan
-  joitakin epätarkkuuksia (pelejä, jotka eivät ole nykyisessä suodattimessa, ei oteta
-  huomioon). Poistamalla <term>Fast mode </term> -vaihtoehdon käytöstä
-  näkee eron pelien määrässä, kun kaikki
-  säädökset otetaan huomioon.  Jos haluat saada esikatselun
-  tilastoista saat sitten tarkan puun, käytä vaihtoehtoa <term>Fast and
-  hidas tila </term> 
-  </p>
-  <p>
-  Huomaa, että puuvälimuistitiedosto (.stc) on täysin redundantti; voit poistaa
-  se vaikuttamatta tietokantaan, ja itse asiassa scidCommunity poistaa sen
-  aina kun tapahtuu toiminto, joka voi jättää sen vanhentuneeksi – esimerkiksi
-  pelin lisääminen tai korvaaminen tai tietokannan lajittelu.
   </p>
   
   <p><footer>(Päivitetty: scidCommunity, huhtikuu 2026)</footer></p>

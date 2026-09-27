@@ -442,7 +442,7 @@ set helpText(W,Hints) {<h1>scidCommunity-tips</h1>
   
   <h4>Trädet är långsamt för stora databaser. Hur snabbar jag upp det? </h4>
   <p>
-  Spara Tree-cachen ofta för att spara trädresultat för framtida användning.
+  Öka storleken på träd-cachen i minnet med <menu>File: Cachestorlek</menu> i trädfönstret.
   Se cachningsavsnittet på <a Tree>Tree</a> hjälpsidan för detaljer.
   </p>
   
@@ -2683,46 +2683,8 @@ set helpText(W,Tree) {<h1>Träfönstret </h1>
   man söker efter finns i cachen.
   </p>
   <p>
-  Trädfönstret har ett menykommando som heter <term>Save Cache</term>.
-  När du väljer detta, lagras det aktuella innehållet i trädet i minnet
-  skrivs till en fil (med suffixet <b>.stc</b>) för att påskynda framtiden
-  användning av trädläge med denna databas.
-  </p>
-  <p>
-  Kommandot <term>Fyll cachefil</term> i filmenyn i trädet
-  fönstret fyller cachefilen med data för många öppningspositioner.
-  Den gör en trädsökning efter cirka 100 av de vanligaste öppningspositionerna,
-  sparar sedan cachefilen.
-  </p>
-  <p>
   Det maximala antalet rader i cachen kan konfigureras av File /
   Cachestorlek. Standard är upp till 1000 rader.
-  </p>
-  <p>
-  Alternativt kan man fylla cachen också med innehållet i en
-  bas eller ett spel genom att välja Arkiv / Fyll cache med bas och Arkiv /
-  Fyll Cache med spel, respektive. Cachen kommer att fyllas med
-  innehållet i dessa inklusive alla varianter. Detta är mycket användbart
-  om man har en eller flera repertoarbaser som kan fungera som input. (Se
-  även <a OpeningTrainer> om denna typ av baser.)
-  <p>
-  Träduppdateringen kan förbättras dramatiskt om databasen sorteras
-  med ECO-kod och sedan komprimerad (se <a Maintenance>underhåll</a>
-  fönster). När detta är uppnått (hela processen kan ta flera
-  timmar), slå på alternativet <term> Snabbläge </term>. Uppfräschningen av
-  trädfönstret kommer att vara 20 gånger snabbare i genomsnitt till priset av
-  vissa felaktigheter (spel som inte finns i nuvarande filter kommer inte att tas
-  hänsyn). Genom att stänga av alternativet <term>Fast mode</term> kan du
-  kommer att se skillnaden i antalet spel när alla
-  införlivande beaktas.  Om du vill få en förhandsvisning
-  av statistik får sedan ett exakt träd, använd alternativet <term>Snabb och
-  långsamt läge </term> 
-  </p>
-  <p>
-  Observera att en trädcache-fil (.stc) är helt redundant; du kan ta bort
-  det utan att påverka databasen, och i själva verket tas det bort av scidCommunity
-  närhelst en åtgärd inträffar som kan göra den inaktuell -- till exempel,
-  lägga till eller ersätta ett spel, eller sortera databasen.
   </p>
   
   <p><footer>(Uppdaterad: scidCommunity, april 2026)</footer></p>

@@ -100,12 +100,6 @@ set tips(E) {
     <a Switcher>database switcher</a>.
   }
   {
-    If you have a large database you use with the <a Tree>tree</a> window
-    often, it is worth selecting <b>Fill cache file</b> from the tree
-    window File menu. This will remember tree statistics for many common
-    opening positions, making tree access faster for the database.
-  }
-  {
     The <a Tree>tree</a> window can show you all moves played from the
     current position, but if you also want to see all the move orders
     that reached this position, you can find them by generating

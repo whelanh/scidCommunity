@@ -441,7 +441,7 @@ set helpText(L,Hints) {<h1>ScidCommunity Sugestii</h1>
   
   <h4>Arborele este lent pentru bazele de date mari. Cum o accelerez?</h4>
   <p>
-  Salvați des cache-ul Tree, pentru a salva rezultatele arborelui pentru utilizare ulterioară.
+  Măriți dimensiunea memoriei cache a arborelui din memorie cu <menu>Fișier: Dimensiunea memoriei cache</menu> în fereastra arborelui.
   Consultați secțiunea de stocare în cache a <a Tree>Copac</a> pagina de ajutor pentru detalii.
   </p>
   
@@ -2691,46 +2691,8 @@ set helpText(L,Tree) {<h1>Fereastra copacului</h1>
   căutat se află în cache.
   </p>
   <p>
-  Fereastra arborelui are o comandă de meniu fișier numită <term>Salvați cache</term>.
-  Când selectați aceasta, conținutul curent al cache-ului arborelui din memorie
-  sunt scrise într-un fișier (cu sufixul <b>.stc</b>) pentru a accelera viitorul
-  utilizarea modului Tree cu această bază de date.
-  </p>
-  <p>
-  The <term>Umpleți fișierul cache</term> comanda din meniul de fișiere al arborelui
-  fereastra umple fișierul cache cu date pentru multe poziții de deschidere.
-  Face o căutare în arbore pentru aproximativ 100 dintre cele mai comune poziții de deschidere,
-  apoi salvează fișierul cache.
-  </p>
-  <p>
   Numărul maxim de linii din Cache poate fi configurat prin Fișier /
   Dimensiunea memoriei cache. Valoarea implicită este de până la 1000 de linii.
-  </p>
-  <p>
-  Alternativ, se poate umple memoria cache și cu conținutul a
-  bază sau un joc alegând Fișier / Umpleți cache cu bază și Fișier /
-  Umpleți memoria cache cu joc, respectiv. Cache-ul va fi umplut cu
-  conținutul acestora incluzând toate variațiile. Acest lucru este cel mai util
-  dacă cineva are una sau mai multe baze de repertoriu care pot servi drept input. (Vezi
-  de asemenea <a OpeningTrainer> despre acest tip de baze.)
-  <p>
-  Reîmprospătarea arborelui poate fi îmbunătățită dramatic dacă baza de date este sortată
-  prin cod ECO apoi compactat (vezi <a Maintenance>întreţinere</a>
-  fereastră). Odată ce acest lucru este realizat (întregul proces poate dura mai multe
-  ore), activați opțiunea <term>Mod rapid</term>. Reîmprospătarea
-  fereastra Tree va fi de 20 de ori mai rapidă în medie cu prețul
-  unele inexactități (jocurile care nu sunt în filtrul actual nu vor fi luate
-  în considerare). Prin oprirea <term>Mod rapid</term> opțiunea tu
-  va vedea diferența în numărul de jocuri atunci când toate
-  se iau în considerare transpunerile.  Dacă doriți să obțineți o previzualizare
-  de statistici apoi obțineți un arbore precis, utilizați opțiunea <term>Rapid și
-  modul lent</term> 
-  </p>
-  <p>
-  Rețineți că un fișier cache arbore (.stc) este complet redundant; poți elimina
-  fără a afecta baza de date și, de fapt, este eliminat de scidCommunity
-  ori de câte ori are loc o acțiune care l-ar putea lăsa neactualizată -- de exemplu,
-  adăugarea sau înlocuirea unui joc sau sortarea bazei de date.
   </p>
   
   <p><footer>(Actualizat: scidCommunity, aprilie 2026)</footer></p>

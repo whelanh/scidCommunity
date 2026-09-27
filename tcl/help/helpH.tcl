@@ -440,7 +440,7 @@ set helpText(H,Hints) {<h1>scidCommunity tippek</h1>
   
   <h4>A Fa lassú nagy adatbázisok esetén. Hogyan gyorsítsam fel?</h4>
   <p>
-  Mentse gyakran a Fa gyorsítótárat, hogy elmentse a fa eredményeit későbbi használatra.
+  Növelje a memóriabeli fa gyorsítótár méretét a <menu>Fájl: Gyorsítótár mérete</menu> menüponttal a fa ablakban.
   Lásd a gyorsítótárazás szakaszt a <a Tree>Fa</a> súgó oldalon a részletekért.
   </p>
   
@@ -2682,46 +2682,8 @@ set helpText(H,Tree) {<h1>A fa ablak </h1>
   a keresett személy a gyorsítótárban van.
   </p>
   <p>
-  A faablakban van egy fájl menüparancs, melynek neve <term>Gyorsítótár mentése</term>.
-  Ha ezt választja, a fa gyorsítótárának aktuális tartalma a memóriában
-  fájlba vannak írva (utótaggal <b>.stc</b>) a jövő felgyorsítása érdekében
-  fa mód használata ezzel az adatbázissal.
-  </p>
-  <p>
-  A <term>Fill cache file</term> parancs a fa fájl menüjében
-  ablak sok nyitási pozíció adataival tölti meg a cache fájlt.
-  Körülbelül 100 leggyakrabban előforduló nyitási pozíciót keres egy fában,
-  majd elmenti a cache fájlt.
-  </p>
-  <p>
   A gyorsítótárban lévő sorok maximális számát a Fájl /
   Gyorsítótár mérete. Az alapértelmezett érték legfeljebb 1000 sor.
-  </p>
-  <p>
-  Alternatív megoldásként a gyorsítótárat az a
-  bázis vagy játék a Fájl / Gyorsítótár kitöltése a bázissal és a Fájl / parancsokkal
-  Töltse ki a gyorsítótárat játékkal. A gyorsítótár meg lesz töltve
-  ezek tartalma, beleértve az összes változatot. Ez a leghasznosabb
-  ha van egy vagy több repertoárbázis, amely bemenetként szolgálhat. (Lásd
-  szintén <a OpeningTrainer> az ilyen típusú alapokról.)
-  <p>
-  A fa frissítése drámaian javítható, ha az adatbázis rendezve van
-  ECO kóddal, majd tömörítve (lásd a <a Maintenance> karbantartást </a>
-  ablak). Ha ezt elérte (az egész folyamat több ideig is eltarthat
-  óra), kapcsolja be az opciót <term> Gyors mód </term>. A frissítés
-  a Fa ablak átlagosan 20-szor gyorsabb lesz az árán
-  néhány pontatlanság (az aktuális szűrőben nem szereplő játékokat nem veszik figyelembe
-  figyelembe). A <term>Gyors mód</term> opció kikapcsolásával
-  látni fogja a különbséget a játékok számában, ha az összes
-  átültetéseket figyelembe veszik.  Ha előzetest szeretne kapni
-  statisztika, majd kap egy pontos Fát, használja a <term>Gyors és
-  lassú üzemmód </term> 
-  </p>
-  <p>
-  Vegye figyelembe, hogy a fa gyorsítótár (.stc) fájl teljesen redundáns; eltávolíthatod
-  anélkül, hogy az adatbázist érintené, és valójában a scidCommunity eltávolítja
-  amikor olyan művelet történik, amely elavulttá teheti – például
-  játék hozzáadása vagy cseréje, vagy az adatbázis rendezése.
   </p>
   
   <p><footer>(Frissítve: scidCommunity, 2026. április)</footer></p>

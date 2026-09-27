@@ -304,44 +304,24 @@ PowerShell (Windows) is available, then try again."
   }
 
   proc _pick_windows {} {
-    # No Tk overlay: scidCommunity is hidden, so the desktop stays visible.
-    # PowerShell waits for the user's click (Escape cancels) and writes the
-    # result to a file, because capturing PowerShell's stdout through Tcl is
-    # unreliable on Windows.
-    set script {$ErrorActionPreference = 'Stop'
-$out = $args[0]
-try {
-    Add-Type @"
-using System;
-using System.Runtime.InteropServices;
-public class ScidKeys {
-    [DllImport("user32.dll")] public static extern short GetAsyncKeyState(int vKey);
-}
-"@
-    Add-Type -AssemblyName System.Windows.Forms
-    Add-Type -AssemblyName System.Drawing
-    # Ignore the click that opened the picker (its button may still be held),
-    # then wait for a fresh left click; Escape cancels (exit 2).
-    while (([ScidKeys]::GetAsyncKeyState(0x01) -band 0x8000) -ne 0) { Start-Sleep -Milliseconds 15 }
-    $deadline = (Get-Date).AddSeconds(120)
-    while ($true) {
-        if (([ScidKeys]::GetAsyncKeyState(0x1B) -band 0x8000) -ne 0) { exit 2 }
-        if (([ScidKeys]::GetAsyncKeyState(0x01) -band 0x8000) -ne 0) { break }
-        if ((Get-Date) -gt $deadline) { exit 2 }
-        Start-Sleep -Milliseconds 15
-    }
-    $p = [System.Windows.Forms.Cursor]::Position
-    $bmp = New-Object System.Drawing.Bitmap 1, 1
-    $g = [System.Drawing.Graphics]::FromImage($bmp)
-    $g.CopyFromScreen($p.X, $p.Y, 0, 0, (New-Object System.Drawing.Size 1, 1))
-    $c = $bmp.GetPixel(0, 0)
-    $g.Dispose()
-    $bmp.Dispose()
-    [System.IO.File]::WriteAllText($out, "#{0:x2}{1:x2}{2:x2}" -f $c.R, $c.G, $c.B)
-} catch {
-    [System.IO.File]::WriteAllText($out, "ERR " + $_.Exception.GetType().Name + ": " + $_.Exception.Message)
-    exit 1
-}
+    # Capture the click with the same Tk overlay as X11/macOS. The overlay is
+    # near-transparent (see _pickPoint), so the desktop stays visible; we then
+    # read the pixel at those coordinates with a one-shot PowerShell capture.
+    # (Letting PowerShell itself wait for the click proved unreliable.)
+    lassign [_pickPoint] x y
+    if {$x eq ""} { return "" }
+    set script {param([int]$x, [int]$y, [string]$out)
+$ErrorActionPreference = 'Stop'
+Add-Type -AssemblyName System.Drawing
+$bmp = New-Object System.Drawing.Bitmap 1, 1
+$g = [System.Drawing.Graphics]::FromImage($bmp)
+$g.CopyFromScreen($x, $y, 0, 0, (New-Object System.Drawing.Size 1, 1))
+$c = $bmp.GetPixel(0, 0)
+$g.Dispose()
+$bmp.Dispose()
+$hex = "#{0:x2}{1:x2}{2:x2}" -f $c.R, $c.G, $c.B
+[System.IO.File]::WriteAllText($out, $hex)
+$hex
 }
     set file [_tempFile ps1]
     set result [_tempFile txt]
@@ -357,32 +337,25 @@ public class ScidKeys {
 
     set exe [auto_execok powershell]
     if {$exe eq ""} { set exe [auto_execok pwsh] }
-    set err ""
+    set out ""
     set failed [catch {
-      exec {*}$exe -NoLogo -NoProfile -ExecutionPolicy Bypass \
-        -File $file $result 2>@1
+      set out [exec {*}$exe -NoLogo -NoProfile -ExecutionPolicy Bypass \
+        -File $file $x $y $result 2>@1]
     } err]
-    set errCode $::errorCode
     catch { file delete $file }
+    if {$failed} { error "Windows color picker failed: $err" }
 
-    set body ""
-    if {[file readable $result]} {
+    # The color is emitted on stdout, and also written to a file as a fallback.
+    set hex [_parseColor $out]
+    if {$hex eq "" && [file readable $result]} {
       set fh [open $result r]
-      set body [string trim [read $fh]]
+      set out [read $fh]
       close $fh
-      catch { file delete $result }
+      set hex [_parseColor $out]
     }
-
-    if {$failed} {
-      if {[lindex $errCode 0] eq "CHILDSTATUS" \
-          && [lindex $errCode 2] == 2} { return "" }
-      if {$body ne ""} { error "Windows color picker failed: $body" }
-      error "Windows color picker failed: $err"
-    }
-
-    set hex [_parseColor $body]
+    catch { file delete $result }
     if {$hex eq ""} {
-      error "Windows color picker returned no color (got: '$body')"
+      error "Windows color picker did not return a color (got: '[string range [string trim $out] 0 120]')"
     }
     return $hex
   }
@@ -391,7 +364,7 @@ public class ScidKeys {
   # Helpers
   #############################################################################
 
-  # Let the user click a point anywhere on the (X11/macOS) screen.
+  # Let the user click a point anywhere on the (X11/Windows/macOS) screen.
   # Returns {x y} in root coordinates, or {} when cancelled. Wayland uses the
   # dedicated pickers instead, since a Tk overlay cannot see native windows.
   proc _pickPoint {} {

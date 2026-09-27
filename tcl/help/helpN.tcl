@@ -441,7 +441,7 @@ set helpText(N,Hints) {<h1>scidCommunity-tips</h1>
   
   <h4>De Tree is traag voor grote databases. Hoe kan ik het versnellen? </h4>
   <p>
-  Sla de Tree-cache vaak op, om boomresultaten op te slaan voor toekomstig gebruik.
+  Vergroot de grootte van de boomcache in het geheugen met <menu>Bestand: Cachegrootte</menu> in het boomvenster.
   Zie de caching-sectie van de <a Tree>Tree</a> helppagina voor details.
   </p>
   
@@ -2682,46 +2682,8 @@ set helpText(N,Tree) {<h1>Het boomvenster </h1>
   waarnaar wordt gezocht, bevindt zich in de cache.
   </p>
   <p>
-  Het boomvenster heeft een bestandsmenuopdracht met de naam <term> Cache opslaan </term>.
-  Wanneer u dit selecteert, wordt de huidige inhoud van de boom in het geheugen opgeslagen
-  worden naar een bestand geschreven (met het achtervoegsel <b>.stc</b>) om toekomstige
-  gebruik van de Boommodus met deze database.
-  </p>
-  <p>
-  De opdracht <term>Cachebestand vullen</term> in het bestandsmenu van de boomstructuur
-  venster vult het cachebestand met gegevens voor veel openingsposities.
-  Het zoekt in de boomstructuur naar ongeveer 100 van de meest voorkomende openingsposities,
-  slaat vervolgens het cachebestand op.
-  </p>
-  <p>
   Het maximale aantal regels in de cache kan worden geconfigureerd via Bestand /
   Cachegrootte. De standaardinstelling is maximaal 1000 regels.
-  </p>
-  <p>
-  Als alternatief kan men de cache ook vullen met de inhoud van een
-  basis of een spel door Bestand / Cache vullen met basis en Bestand /
-  Vul de cache respectievelijk met spel. De cache zal gevuld worden met
-  de inhoud hiervan, inclusief alle variaties. Dit is zeer nuttig
-  als men beschikt over één of meerdere repertoirebases die als input kunnen dienen. (Zie
-  ook <a OpeningTrainer> over dit type bases.)
-  <p>
-  Het vernieuwen van de structuur kan aanzienlijk worden verbeterd als de database wordt gesorteerd
-  door ECO-code en vervolgens gecomprimeerd (zie het <a Maintenance>onderhoud </a>
-  venster). Zodra dit is bereikt (het hele proces kan meerdere keren duren).
-  uur), schakel de optie <term>Snelle modus </term> in. Het vernieuwen van
-  het Tree-venster zal gemiddeld 20 keer sneller zijn, ten koste van
-  enkele onnauwkeurigheden (games die niet in het huidige filter staan, worden niet opgenomen
-  rekening gehouden). Door de optie <term>Snelle modus </term> uit te schakelen, kunt u
-  zal het verschil zien in het aantal games als alle
-  Er wordt rekening gehouden met omzettingen.  Als u een voorproefje wilt krijgen
-  van statistieken en krijg dan een precieze boom, gebruik de optie <term>Snel en
-  langzame modus </term> 
-  </p>
-  <p>
-  Houd er rekening mee dat een boomcachebestand (.stc) volledig overbodig is; je kunt verwijderen
-  zonder de database te beïnvloeden, en in feite wordt het verwijderd door scidCommunity
-  wanneer er een actie plaatsvindt waardoor deze verouderd zou kunnen zijn, bijvoorbeeld
-  een spel toevoegen of vervangen, of de database sorteren.
   </p>
   
   <p><footer>(Bijgewerkt: scidCommunity, april 2026)</footer></p>

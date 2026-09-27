@@ -442,7 +442,7 @@ set helpText(S,Hints) {<h1>scidConsejos de la comunidad</h1>
   
   <h4>El árbol es lento para bases de datos grandes. ¿Cómo lo acelero?</h4>
   <p>
-  Guarde la caché del árbol con frecuencia para guardar los resultados del árbol para uso futuro.
+  Aumente el tamaño de la caché del árbol en memoria con <menu>Archivo: Tamaño de caché</menu> en la ventana del árbol.
   Consulte la sección de almacenamiento en caché del <a Tree>Árbol</a> página de ayuda para más detalles.
   </p>
   
@@ -2693,46 +2693,8 @@ set helpText(S,Tree) {<h1>La ventana del árbol</h1>
   que se busca está en el caché.
   </p>
   <p>
-  La ventana del árbol tiene un comando de menú de archivo llamado <term>Guardar caché</term>.
-  Cuando selecciona esto, el contenido actual del caché del árbol en la memoria
-  se escriben en un archivo (con el sufijo <b>.stc</b>) para acelerar el futuro
-  uso del modo Árbol con esta base de datos.
-  </p>
-  <p>
-  El <term>Llenar el archivo de caché</term> comando en el menú archivo del árbol
-  La ventana llena el archivo de caché con datos para muchas posiciones de apertura.
-  Realiza una búsqueda en árbol de aproximadamente 100 de las posiciones de apertura más comunes,
-  luego guarda el archivo de caché.
-  </p>
-  <p>
   El número máximo de líneas en la caché se puede configurar mediante Archivo /
   Tamaño de caché. El valor predeterminado es hasta 1000 líneas.
-  </p>
-  <p>
-  Alternativamente, también se puede llenar el caché con el contenido de un
-  base o un juego eligiendo Archivo / Llenar caché con base y Archivo /
-  Llene el caché con el juego, respectivamente. El caché se llenará con
-  el contenido de estos, incluidas todas las variaciones. Esto es de gran ayuda
-  si se cuenta con una o más bases de repertorio que puedan servir como insumo. (Ver
-  también <a OpeningTrainer> sobre este tipo de bases.)
-  <p>
-  La actualización del árbol se puede mejorar drásticamente si la base de datos está ordenada
-  por código ECO luego compactado (ver la <a Maintenance>mantenimiento</a>
-  ventana). Una vez logrado esto (todo el proceso puede durar varios
-  horas), activa la opción <term>modo rápido</term>. La actualización de
-  La ventana del árbol será 20 veces más rápida en promedio a costa de
-  algunas imprecisiones (los juegos que no estén en el filtro actual no serán tomados
-  en cuenta). Al apagar el <term>modo rápido</term> opción tu
-  Verás la diferencia en el número de juegos cuando todos los
-  Se tienen en cuenta las transposiciones.  Si quieres obtener una vista previa
-  de estadísticas luego obtenga un árbol preciso, use la opción <term>Rápido y
-  modo lento</term> 
-  </p>
-  <p>
-  Tenga en cuenta que un archivo de caché de árbol (.stc) es completamente redundante; puedes eliminar
-  sin afectar la base de datos, y de hecho es eliminado por scidCommunity
-  cada vez que ocurre una acción que podría dejarlo desactualizado, por ejemplo,
-  agregar o reemplazar un juego u ordenar la base de datos.
   </p>
   
   <p><footer>(Actualizado: scidCommunity, abril de 2026)</footer></p>
