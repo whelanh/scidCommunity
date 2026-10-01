@@ -11,7 +11,7 @@
 ###   Wayland (wlroots/Hyprland):  hyprpicker, then grim + slurp
 ###   KDE Plasma:                  org.kde.KWin.ColorPicker D-Bus (gdbus)
 ###   GNOME:                       org.gnome.Shell.Screenshot.PickColor (gdbus)
-###   X11:                         ImageMagick (import/magick)
+###   X11:                         full-screen grab, then click the snapshot
 ###   Windows:                     PowerShell click-capture + GDI GetPixel
 ###   macOS:                       screencapture -R
 ###
@@ -103,13 +103,14 @@ namespace eval ::colorPicker {
     if {$kdeOK} { lappend list kde }
     if {$gnomeOK} { lappend list gnome }
 
-    # X11 fallback (KDE/GNOME also run X11 sessions).
+    # X11 fallback (KDE/GNOME also run X11 sessions). Any of these tools can
+    # grab the whole screen; the pixel is then chosen from the snapshot, so a
+    # compositor or a working `import -crop` is not required.
     if {! [isWayland]} {
-      if {[auto_execok import] ne "" || [auto_execok magick] ne ""} {
+      if {[auto_execok import] ne "" || [auto_execok magick] ne "" \
+          || ([auto_execok xwd] ne "" \
+              && ([auto_execok convert] ne "" || [auto_execok magick] ne ""))} {
         lappend list x11
-      } elseif {[auto_execok xwd] ne "" \
-                && ([auto_execok convert] ne "" || [auto_execok magick] ne "")} {
-        lappend list x11xwd
       }
     }
     return $list
@@ -254,39 +255,57 @@ PowerShell (Windows) is available, then try again."
     return $hex
   }
 
-  proc _pick_x11 {} {
-    lassign [_pickPoint] x y
-    if {$x eq ""} { return "" }
+  # Capture the whole X screen to a PNG and return its path, or "" on failure.
+  # ImageMagick's `import` is tried first because, unlike `xwd -root`, it
+  # descends into child windows and so still captures the visible windows when
+  # a compositor has redirected them.
+  proc _grabScreenFile {} {
     set file [_tempFile png]
+    set err ""
     if {[auto_execok import] ne ""} {
-      set cmd [list import -screen -crop 1x1+$x+$y +repage $file]
-    } else {
-      set cmd [list magick import -screen -crop 1x1+$x+$y +repage $file]
+      if {![catch { exec -ignorestderr import -window root -silent $file } err] \
+          && [file exists $file]} {
+        return $file
+      }
     }
-    if {[catch { exec -ignorestderr {*}$cmd } err]} {
-      catch { file delete $file }
-      error $err
+    if {[auto_execok magick] ne ""} {
+      if {![catch { exec -ignorestderr magick import -window root -silent $file } err] \
+          && [file exists $file]} {
+        return $file
+      }
     }
-    set hex [_hexFromFile $file]
-    if {$hex eq ""} { error "screenshot tool produced no readable image" }
-    return $hex
+    if {[auto_execok xwd] ne "" && [auto_execok convert] ne ""} {
+      if {![catch { exec -ignorestderr xwd -root -silent | convert xwd:- $file } err] \
+          && [file exists $file]} {
+        return $file
+      }
+    }
+    if {[auto_execok xwd] ne "" && [auto_execok magick] ne ""} {
+      if {![catch { exec -ignorestderr xwd -root -silent | magick xwd:- $file } err] \
+          && [file exists $file]} {
+        return $file
+      }
+    }
+    catch { file delete $file }
+    return ""
   }
 
-  proc _pick_x11xwd {} {
-    lassign [_pickPoint] x y
-    if {$x eq ""} { return "" }
-    set file [_tempFile png]
-    if {[auto_execok convert] ne ""} {
-      set filter [list convert xwd:- -crop 1x1+$x+$y +repage $file]
-    } else {
-      set filter [list magick xwd:- -crop 1x1+$x+$y +repage $file]
-    }
-    if {[catch { exec -ignorestderr xwd -root -silent | {*}$filter } err]} {
+  proc _pick_x11 {} {
+    # Grab the screen first, then let the user click the frozen snapshot.
+    # This deliberately avoids ImageMagick's interactive selection: `import`
+    # without a `-window` argument always grabs the pointer and waits for a
+    # click, even with `-screen`, so it used to demand a second click after the
+    # Tk overlay had already taken the first. Reading the pixel straight from
+    # the snapshot also avoids depending on `import -crop`, which is not
+    # honoured as a capture geometry.
+    set file [_grabScreenFile]
+    if {$file eq ""} { error "Could not capture the screen for color picking" }
+    set hex ""
+    if {[catch { set hex [_pickPixelFromFile $file] } err]} {
       catch { file delete $file }
       error $err
     }
-    set hex [_hexFromFile $file]
-    if {$hex eq ""} { error "xwd produced no readable image" }
+    catch { file delete $file }
     return $hex
   }
 
@@ -435,7 +454,7 @@ public class ScidPick {
   # Helpers
   #############################################################################
 
-  # Let the user click a point anywhere on the (X11/macOS) screen.
+  # Let the user click a point anywhere on the (macOS) screen.
   # Returns {x y} in root coordinates, or {} when cancelled. Wayland uses the
   # dedicated pickers instead, since a Tk overlay cannot see native windows.
   proc _pickPoint {} {
@@ -470,6 +489,48 @@ public class ScidPick {
     catch { destroy $w }
     catch { update }
     return $::colorPicker::point
+  }
+
+  # Show a grabbed screen image full-screen and return the "#rrggbb" pixel the
+  # user clicks, or "" on cancellation. Displaying the snapshot (instead of a
+  # transparent overlay over the live desktop) means this works even without a
+  # compositor, where a transparent Tk window would be drawn opaque.
+  proc _pickPixelFromFile { file } {
+    set img [image create photo -file $file]
+    set w .colorPickerSnapshot
+    catch { destroy $w }
+    toplevel $w
+    wm overrideredirect $w 1
+    catch { wm attributes $w -topmost 1 }
+    set iw [image width $img]
+    set ih [image height $img]
+    wm geometry $w ${iw}x${ih}+0+0
+    set c $w.c
+    canvas $c -width $iw -height $ih -borderwidth 0 -highlightthickness 0
+    $c create image 0 0 -image $img -anchor nw
+    pack $c -fill both -expand 1
+    catch { $c configure -cursor crosshair }
+    set ::colorPicker::pixel ""
+    bind $c <Button-1> { set ::colorPicker::pixel [list %x %y]; destroy .colorPickerSnapshot }
+    bind $c <Button-2> { set ::colorPicker::pixel ""; destroy .colorPickerSnapshot }
+    bind $c <Button-3> { set ::colorPicker::pixel ""; destroy .colorPickerSnapshot }
+    bind $w <Escape>   { set ::colorPicker::pixel ""; destroy .colorPickerSnapshot }
+    catch { grab set $w }
+    catch { focus -force $w }
+    catch { update }
+    catch { vwait ::colorPicker::pixel }
+    catch { grab release $w }
+    catch { destroy $w }
+    set hex ""
+    if {$::colorPicker::pixel ne ""} {
+      lassign $::colorPicker::pixel x y
+      if {![catch { lassign [$img get $x $y] r g b }]} {
+        set hex [format "#%02x%02x%02x" $r $g $b]
+      }
+    }
+    catch { image delete $img }
+    catch { update }
+    return $hex
   }
 
   proc _hexFromFile { file } {
