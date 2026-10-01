@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+ <release version="5.1.4.27" date="2026-10-01">
+      <description>
+        <p>KDE/X11 fix for color picker to set board square colors</p>
+      </description>
+    </release>
  <release version="5.1.4.25" date="2026-09-27">
       <description>
         <p>Add color picker to set board square colors</p>
