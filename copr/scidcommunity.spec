@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.4.27
+Version:        5.1.4.28
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit fbf25dc4ecdd436f4006e78978d47557897b7fe4   
+%global commit ccb10f5592f6573e99844a7b125d5dd52ebf5818   
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Fri Oct 2, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.4-28
+- "Fix Import my Lichess feature"
 * Thu Oct 1, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.4-27
 - "KDE/X11 fix for color picker to set board square colors"
 * Sun Sep 27, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.4-25
