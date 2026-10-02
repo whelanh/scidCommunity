@@ -18,6 +18,12 @@ namespace eval ::lichess {
   variable startMonth ""
 }
 
+# Persisted options (saved to options.dat via Options > Save Options and on exit)
+options.store ::lichess::apiToken ""
+# Remember the token loaded from options.dat so we only rewrite the options
+# file when the user actually enters a new one.
+set ::lichess::savedToken $::lichess::apiToken
+
 # lichess::importGames
 #   Main entry point: prompts for username, downloads games, opens in Games List
 #
@@ -28,6 +34,12 @@ proc ::lichess::importGames {} {
     return
   }
   
+  # Prefill the API token from the Opening Explorer token if the user has not
+  # already saved a dedicated token for game imports.
+  if {[string trim $::lichess::apiToken] eq "" && [info exists ::lichess_openex::apiToken]} {
+    set ::lichess::apiToken [string trim $::lichess_openex::apiToken]
+  }
+
   # Create dialog to get username and start date
   set w .lichessDialog
   if {[winfo exists $w]} {
@@ -48,6 +60,10 @@ proc ::lichess::importGames {} {
   ttk::entry $w.content.yearEntry -width 10 -textvariable ::lichess::startYear
   ttk::label $w.content.monthLbl -text "Start month (1-12):" -anchor w
   ttk::entry $w.content.monthEntry -width 5 -textvariable ::lichess::startMonth
+  ttk::label $w.content.tokenLbl -text "API token (optional):" -anchor w
+  ttk::entry $w.content.tokenEntry -width 30 -textvariable ::lichess::apiToken -show "*"
+  ttk::label $w.content.tokenHint -text "Get a token at lichess.org/account/oauth/token" \
+    -foreground blue -cursor hand2 -font font_Small -anchor w
   
   grid $w.content.userLbl   -row 0 -column 0 -sticky w -padx {0 8} -pady 4
   grid $w.content.userEntry -row 0 -column 1 -sticky ew -pady 4
@@ -55,6 +71,10 @@ proc ::lichess::importGames {} {
   grid $w.content.yearEntry -row 1 -column 1 -sticky w -pady 4
   grid $w.content.monthLbl  -row 2 -column 0 -sticky w -padx {0 8} -pady 4
   grid $w.content.monthEntry -row 2 -column 1 -sticky w -pady 4
+  grid $w.content.tokenLbl  -row 3 -column 0 -sticky w -padx {0 8} -pady 4
+  grid $w.content.tokenEntry -row 3 -column 1 -sticky ew -pady 4
+  grid $w.content.tokenHint  -row 4 -column 1 -sticky w -pady {0 4}
+  bind $w.content.tokenHint <ButtonRelease-1> {openURL "https://lichess.org/account/oauth/token"}
   grid columnconfigure $w.content 1 -weight 1
   pack $w.content -side top -fill both -expand 1
   
@@ -114,7 +134,14 @@ proc ::lichess::startDownload {w} {
       -message "Start month must be between 1 and 12."
     return
   }
-  
+
+  # Persist a newly entered API token to options.dat.
+  set token [string trim $::lichess::apiToken]
+  if {$token ne $::lichess::savedToken} {
+    set ::lichess::savedToken $token
+    catch {options.write}
+  }
+
   # Compute since/until epochs in milliseconds (UTC, start-of-month to now)
   set sinceStr [format "%04d-%02d-01 00:00:00 UTC" $year $month]
   if {[catch {set sinceSec [clock scan $sinceStr -timezone UTC]} scanErr]} {
@@ -179,18 +206,20 @@ proc ::lichess::startDownload {w} {
 proc ::lichess::downloadUserGames {username sinceMs untilMs} {
   set pgnfile [file join $::lichess::tempDir "lichess_games.pgn"]
 
-  # Construct the Lichess API URL. Lichess moved the user game export
-  # endpoint to /games/export/{username} (the old /api/games/user/...
-  # endpoint was removed). A browser-like User-Agent is required because
-  # Lichess blocks requests from command-line tools and crawlers.
-  set apiurl "https://lichess.org/games/export/${username}?tags=true&clocks=true&evals=true&opening=true&literate=true&since=${sinceMs}&until=${untilMs}"
+  # Use the public Lichess API export endpoint. The website endpoint
+  # /games/export/{username} requires an authenticated browser session and
+  # redirects anonymous clients to the sign-in page, which is why the import
+  # used to fail with "Lichess returned an unexpected page". The
+  # /api/games/user endpoint serves PGN to anonymous clients (rate-limited)
+  # and works even better with an API token.
+  set apiurl "https://lichess.org/api/games/user/${username}?tags=true&clocks=true&evals=true&opening=true&literate=true&since=${sinceMs}&until=${untilMs}"
   set userAgent "Mozilla/5.0 (X11; Linux x86_64; rv:130.0) Gecko/20100101 Firefox/130.0"
 
-  # Reuse a Lichess API token if the user has already configured one for the
-  # Opening Explorer. Authenticated requests get a much more generous rate
-  # limit than anonymous ones, but anonymous access still works.
-  set token ""
-  if {[info exists ::lichess_openex::apiToken]} {
+  # Prefer a token saved for game imports, falling back to one configured for
+  # the Opening Explorer. Authenticated requests get a much more generous
+  # rate limit than anonymous ones, but anonymous access still works.
+  set token [string trim $::lichess::apiToken]
+  if {$token eq "" && [info exists ::lichess_openex::apiToken]} {
     set token [string trim $::lichess_openex::apiToken]
   }
 
@@ -227,7 +256,7 @@ proc ::lichess::downloadUserGames {username sinceMs untilMs} {
     # Lichess returns a JSON error body when it throttles us.
     if {[::lichess::isThrottled $firstline]} {
       if {$attempt >= $maxAttempts} {
-        error "Lichess is limiting requests. Please wait a minute and try again, or set a Lichess API token in the Opening Explorer options."
+        error "Lichess is limiting requests. Please wait a minute and try again, or enter a Lichess API token in the import dialog."
       }
       ::lichess::sleep [expr {2000 * $attempt}]
       continue
@@ -246,9 +275,12 @@ proc ::lichess::downloadUserGames {username sinceMs untilMs} {
       error "Lichess API returned an unexpected response."
     }
 
-    # Lichess returns an HTML page for blocked requests or unknown users.
+    # Lichess returns an HTML page for blocked or sign-in-required requests.
     if {[string match "<*" $firstline]} {
-      error "Lichess returned an unexpected page. Please check the username and try again later."
+      if {$token eq ""} {
+        error "Lichess returned a web page instead of PGN. Please check the username, or enter a Lichess API token in the import dialog and try again."
+      }
+      error "Lichess returned an unexpected page. Please check the username and API token and try again later."
     }
 
     # A PGN export must start with a tag pair such as [Event "..."].
