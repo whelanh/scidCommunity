@@ -1,9 +1,9 @@
-### helpPL.tcl: Polish (P) help pages for ScidCommunity.
-### This file uses UTF-8
-### Loaded on demand by setLanguage when the user selects Polski.
-### Entries use the language-prefixed keys helpText(P,...) / helpTitle(P,...)
-### so the help viewer (htext.tcl) shows them for Polish and falls back to
-### the English pages for any topic not translated here.
+### helpPL.tcl: polskie (P) strony pomocy dla ScidCommunity.
+### Ten plik używa kodowania UTF-8.
+### Ładowany na żądanie przez setLanguage, gdy użytkownik wybierze język Polski.
+### Wpisy używają kluczy z prefiksem językowym helpText(P,...) / helpTitle(P,...),
+### dzięki czemu przeglądarka pomocy (htext.tcl) wyświetla je po polsku,
+### a dla tematów, które nie zostały przetłumaczone, korzysta z angielskich stron.
 #################################################
 
 set helpTitle(P,Contents) "Zawartość"
@@ -17,7 +17,7 @@ set helpText(P,Contents) {<h1>Zawartość pomocy ScidCommunity</h1>
   <li><a Menus><b>Menu</b> ScidCommunity</a></li>
   <li><a Moves>Wprowadzanie <b>posunięć szachowych</b></a></li>
   <li><a Searches><b>Wyszukiwanie</b> w ScidCommunity</a></li>
-  <li><a Clipbase>Korzystanie z bazy danych <b>Clipbase</b></a></li>
+  <li><a Clipbase>Korzystanie z bazy danych <b>Clipbase-schowek</b></a></li>
   <li><a Annotating><b>Komentowanie partii</b></a></li>
   </ul>
   
@@ -39,7 +39,7 @@ set helpText(P,Contents) {<h1>Zawartość pomocy ScidCommunity</h1>
   <li><a PTracker><b>Śledzenie figur</b></a></li>
   <li><a PList><b>Okno wyszukiwarki zawodników</b></a></li>
   <li><a PInfo><b>Okno informacji o zawodniku</b></a></li>
-  <li><a TacticalGame><b>Okno partii taktycznej</b></a></li>
+  <li><a PlayVsEngine><b>Graj z silnikiem</b></a></li>
   <li><a Tmt><b>Okno wyszukiwarki turniejów</b></a></li>
   <li><a Tree><b>Okno drzewa wariantów</b></a></li>
   <li><a Graphs><b>Okna wykresów</b></a></li>
@@ -76,12 +76,14 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   <ul>
   <li><a Author>Autor, Informacje kontaktowe</a></li>
   <li><a Guide>Skrócony przewodnik po ScidCommunity</a></li>
+  
   </ul>
   
   <h3>B</h3>
   <ul>
   <li><a Compact>Obsługa bazy danych</a></li>
   <li><a Maintenance>Narzędzia Obsługi bazy danych</a></li>
+  <li><a Maintenance Cleaner>Porządkowanie bazy danych</a></li>
   <li><a Formats>Formaty plików bazy danych</a></li>
   <li><a Metadata>Informacje o bazie danych (Metadane)</a></li>
   <li><a Menus Database>Menu <b>Baza danych</b></a></li>
@@ -95,6 +97,7 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   <li><a PGNChessCom>Analiza Chess.com (przycisk w oknie PGN)</a></li>
   <li><a ImportChessCom>Importowanie partii z Chess.com</a></li>
   <li><a PGNChessDB>ChessDB Engine Tree (przycisk w oknie PGN)</a></li>
+  <li><a Clipbase>Clipbase-Schowek</a></li>
   </ul>
   
   <h3>D</h3>
@@ -127,11 +130,8 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   <ul>
   <li><a FICSLogin>Logowanie do FICS</a></li>
   <li><a FICSfindOpp>Znajdź przeciwnika na FICS</a></li>
+  <li><a FICS Training>Trening: Wykłady FICS</a></li>
   <li><a FICS>Gra przez Internet (FICS)</a></li>
-  <li><a FICS Training>Wykłady FICS</a></li>
-  <li><a FICS>Gra przez Internet (FICS)</a></li>
-  <li><a FindBestMove>Trening: znajdź najlepsze posunięcie</a></li>
-  <li><a Searches Filter>Filtr</a></li>
   <li><a Export>Okno eksportu</a></li>
   <li><a Graphs Filter>Wykres filtra</a></li>
   <li><a Flags>Flagi partii</a></li>
@@ -139,9 +139,8 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   
   <h3>G</h3>
   <ul>
-  <li><a TacticalGame>Partia taktyczna</a></li>
-  <li><a SeriousGame>Partia poważna</a></li>
   <li><a Menus Play>Menu <b>Graj</b></a></li>
+  <li><a PlayVsEngine><b>Graj z silnikiem</b></a></li>
   </ul>
   
   <h3>I</h3>
@@ -153,6 +152,8 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
  <h3>K</h3>
   <ul>
   <li><a Comment>Edytor komentarzy</a></li>
+  <li><a Annotating><b>Komentowanie partii</b></a></li> 
+  <li><a GameComment>Komentowanie partii</a> (przycisk w oknie silnika)</li>
   <ul>
  
   <h3>L</h3>
@@ -223,12 +224,12 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   <ul>
   <li><a MainWindow>Główne okno ScidCommunity</a></li>
   <li><a Menus>Menu ScidCommunity</a></li>
-  <li><a Searches Filter>Filtr wyszukiwania</a></li>
+  <li><a Searches Filter>Filtry wyszukiwania</a></li>
   <li><a Menus Search>Menu <b>Szukaj</b></a></li>
   <li><a Searches>Wyszukiwanie</a></li>
   <li><a Maintenance Spellcheck>Sprawdzanie pisowni nazw</a></li>
   <li><a Engine><b>Okna silnika</b></a></li>
-  <li><a InputEngine>Sterowniki silnika wejściowego</a></li>
+  <li><a Clipbase>Clipbase-Schowek</a></li>
   </ul>
   
   <h3>T</h3>
@@ -238,8 +239,7 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   <li><a FindBestMove>Trening: znajdowanie najlepszego posunięcia</a></li>
   <li><a OpeningTrainer>Trening: Debiuty</a></li>
   <li><a TacticsTrainer>Trening: Taktyka</a></li>
-  <li><a FICS Training>Trening: Wykłady FICS</a></li>
-  <li><a Moves Trial>Tryb próbny</a></li>
+  
   </ul>
   
   <h3>W</h3>
@@ -412,9 +412,9 @@ set helpText(P,Hints) {<h1>Wskazówki ScidCommunity</h1>
   
   <h4>Drzewo wariantów działa wolno dla dużych baz danych. Jak je przyspieszyć?</h4>
   <p>
-  Zwiększ rozmiar pamięci podręcznej drzewa w pamięci za pomocą <menu>File: Cache size</menu> w oknie drzewa.
-  Szczegóły znajdziesz w sekcji o buforowaniu na stronie pomocy <a Tree>Okno drzewa wariantów</a>.
-  </p>
+  Zwiększ rozmiar pamięci podręcznej drzewa wariantów w <menu>Plik: Rozmiar pamięci podręcznej</menu> w oknie drzewa wariantów.
+Szczegóły znajdziesz w sekcji pamięci podręcznej pomocy <a Tree>Drzewa wariantów</a>.
+</p>
   
   <h4>Jak mogę bezpośrednio edytować bieżącą  partię w formacie <a PGN>PGN</a>?</h4>
   <p>
@@ -710,14 +710,14 @@ set helpText(P,Menus) {<h1>Menu ScidCommunity</h1>
   <li><menu>Drzewo wariantów</menu>: Otwiera/zamyka <a Tree>okno drzewa wariantów</a>.</li>
   <li><menu>Okno księgi debiutowej</menu>: Otwiera/zamyka <a Book>okno księgi debiutowej</a>.</li>
   <li><menu>Wykres analizy</menu>: Odświeża <a Graphs Score>wykres wyniku</a>.</li>
+  <li><menu>Okno EPD...</menu>: Otwiera okno edytora plików <a EPD>EPD</a> (pozycji).</li>
+</ul>
+  </ul>
   </ul>
 
   <h3><name Play>Graj</name></h3>
   <ul>
-  <li><menu>Paria poważna</menu>: Konfiguruje i uruchamia <a SeriousGame>poważną partię</a>
-  przeciwko silnikowi szachowemu <term>UCI</term> w warunkach turniejowych.</li>
-  <li><menu>Partia taktyczna</menu>: Konfiguruje i uruchamia <a TacticalGame>partię taktyczną</a>
-  przeciwko silnikowi szachowemu na regulowanym poziomie.</li>
+ <li><menu>Graj z silnikiem</menu>: Konfiguruje i uruchamia <a PlayVsEngine>partię przeciwko silnikowi szachowemu</a> z funkcjami trenera, kontrolą czasu, książkami debiutowymi i obsługą analizy podczas namysłu.</li> 
   <li><menu>Graj na FICS</menu>: Konfiguruje połączenie z <a FICS>Free Internet
   Chess Server</a> (FICS), aby grać przeciwko ludzkim przeciwnikom lub brać udział w sesjach treningowych.</li>
   <li><menu>Trening</menu>: Podmenu treningu.</li>
@@ -854,15 +854,6 @@ set helpText(P,Moves) {<h1>Wprowadzanie posunięć szachowych</h1>
   kliknąć z wciśniętym Ctrl na pole źródłowe i docelowe. Lewy przycisk myszy
   daje ponownie zieloną strzałkę, środkowy żółtą, a prawy
   czerwoną.
-  </p>
-  
-  <h4><name Trial>Tryb próbny</name></h4>
-  <p>
-  Jeśli studiujesz partię i dojdziesz do pozycji, w której chcesz
-  sprawdzić alternatywny wariant na szachownicy bez zmieniania partii, wybierz
-  <b>Próbuj wariantu</b> z menu <menu>Edit</menu>, aby wejść w tryb
-  próbny. W tym trybie możesz wykonywać tymczasowe posunięcia i zmiany
-  w partii, a potem wrócić do pierwotnej pozycji po wyjściu z trybu próbnego.
   </p>
   
   <h3><name Mistakes>Poprawianie błędów</name></h3>
@@ -1744,6 +1735,8 @@ set helpText(P,Import) {<h1>Okno importu</h1>
   </p>
   <p>
   Po pierwsze -  możesz zaimportować partie z pliku PGN do istniejącej bazy danych za pomocą polecenia w menu <b>Baza danych</b>  albo  <b>Przełącznik baz danych</b>  klikając prawym przyciskiem myszy nad bazą za pomocą menu <menu> Importuj partie z pliku <a PGN>PGN</a></menu>.
+  Gry, które są już obecne w bazie, są automatycznie pomijane:
+gra jest uznawana za duplikat, gdy nazwiska graczy białymi i czarnymi, dokładna data, wynik oraz identyczny przebieg posunięć są takie same jak w istniejącej partii.
   </p>
   <p>
   Po drugie - możliwe jest otwarcie pliku <a PGN>PGN</a> bezpośrednio w ScidCommunity. Jednak pliki
@@ -1905,14 +1898,9 @@ set helpText(P,ImportLichess) {<h1>Importuj moje partie z Lichess</h1>
   
   <h3>Po pobraniu</h3>
   <p>
-  Po pobraniu partie są automatycznie otwierane w oknie listy partii.
-  Następnie możesz:
-  <ul>
-  <li>przeglądać swoje partie</li>
-  <li>filtrować je według różnych kryteriów</li>
-  <li>importować wybrane partie do swojej bazy danych</li>
-  <li>analizować partie za pomocą silników szachowych</li>
-  </ul>
+  Po pobraniu należy wybrać bazę docelową (schowek lub dowolną otwartą bazę).
+
+Partie są importowane bezpośrednio do tej bazy, a partie już w niej obecne są automatycznie pomijane. Partia jest uznawana za duplikat, gdy nazwiska graczy białymi i czarnymi, dokładna data, wynik oraz identyczny przebieg posunięć są takie same jak w istniejącej partii.
   </p>
   
   <h3>Wymagania</h3>
@@ -1964,9 +1952,11 @@ set helpText(P,ImportChessCom) {<h1>Importuj moje partie z chess.com</h1>
   
   <h3>Po pobraniu</h3>
   <p>
-  Gdy pobieranie się zakończy, wszystkie partie są łączone w jeden plik
-  <a PGN>PGN</a> i automatycznie otwierane w oknie listy partii. Następnie możesz
-  filtrować, analizować albo importować partie do swojej bazy ScidCommunity.
+  Po zakończeniu pobierania wszystkie partie są łączone w jeden plik <a PGN>PGN</a>,
+  a użytkownik proszony jest o wybór bazy docelowej (bazy podręcznej/schowka lub dowolnej otwartej
+  bazy danych). Partie są importowane bezpośrednio do tej bazy, a partie, które
+  są już obecne (zgodne pod względem graczy Białych i Czarnych, Daty, Wyniku oraz dokładnej sekwencji
+  posunięć), są automatycznie pomijane.
   </p>
   
   <h3>Wymagania</h3>
@@ -2142,7 +2132,6 @@ set helpText(P,PGN) {<h1><a PGN>Okno PGN</a></h1>
   <li><a PGNChessCom>chess.com</a>: Wgrywa aktualną partię do Chess.com w celu analizy</li>
   <li><a PGNLichess>lichess.org</a>: Wgrywa aktualną partię do Lichess.org w celu analizy i udostępniania</li>
   <li><a PGNChessDB>chessdb Engine Tree</a>: Otwiera aktualną pozycję w chmurowej bazie danych ChessDB.cn</li>
-  <li><a PGNAutoComment>Auto Comment</a>: Generuje komentarz AI dla aktualnej pozycji</li>
   </ul>
   Te przyciski zapewniają natychmiastowy dostęp do zaawansowanych narzędzi online bez opuszczania ScidCommunity.
   Więcej szczegółów znajdziesz w osobnych tematach pomocy dla każdego przycisku.
@@ -2417,44 +2406,13 @@ set helpText(P,PGNChessDB) {<h1>Okno PGN: przycisk chessdb Engine Tree</h1>
 }
 
 ####################
-### Pomoc przycisku Auto Comment okna PGN:
+### Pomoc przycisku Komentarz do Partii w Oknie Silnika:
 
-set helpTitle(P,PGNAutoComment) "Przycisk Auto Comment"
-set helpText(P,PGNAutoComment) {<h1>Okno PGN: przycisk Auto Comment</h1>
+set helpTitle(P,GameComment) "Przycisk Komentarz do Partii"
+set helpText(P,GameComment) {<h1>Okno silnika: Przycisk Komentarz do Partii</h1>
   <p>
-  Przycisk <b>Auto Comment</b> w oknie <a PGN>PGN</a> używa sztucznej inteligencji
-  (Gemini lub DeepSeek), aby generować komentarz przypominający ludzki dla bieżącej pozycji.
-  </p>
-  
-  <h3>Jak używać</h3>
-  <p>
-  Kliknij przycisk <b>Auto Comment</b>, aby wygenerować komentarz do bieżącego posunięcia.
-  ScidCommunity:
-  <ul>
-  <li>pobierze ocenę bieżącej pozycji z Lichess albo ChessDB</li>
-  <li>wyśle dane pozycji i analizę silnika do wybranego modelu AI</li>
-  <li>wyświetli podgląd wygenerowanego komentarza</li>
-  <li>pozwoli Ci edytować lub dopracować komentarz przed dodaniem go do partii</li>
-  </ul>
-  </p>
-  
-  <h3>Konfiguracja</h3>
-  <p>
-  Kliknij prawym przyciskiem myszy przycisk <b>Auto Comment</b>, aby skonfigurować klucze API i wybrać
-  preferowanego dostawcę LLM (Gemini lub DeepSeek).
-  </p>
-  
-  <p><footer>(Zaktualizowano: ScidCommunity, sierpień 2024)</footer></p>
-}
-
-####################
-### Pomoc przycisku Auto Comment okna analizy:
-
-set helpTitle(P,AnalysisAutoComment) "Przycisk Auto Comment"
-set helpText(P,AnalysisAutoComment) {<h1>Okno Analizy: Przycisk Auto Comment</h1>
-  <p>
-  Przycisk <b>Auto Comment</b> w oknie <a Analysis>Silnik analizy</a> umożliwia
-  automatyczne generowanie komentarzy AI dla całej partii w trybie wsadowym.
+ Przycisk <b>Komentarz do Partii</b> w oknie <a Engine>Silnika</a> umożliwia
+  automatyczne generowanie komentarzy sztucznej inteligencji (AI) dla całej partii w trybie adnotacji zbiorczej.
   </p>
   
   <h3>Jak to działa</h3>
@@ -2476,7 +2434,7 @@ set helpText(P,AnalysisAutoComment) {<h1>Okno Analizy: Przycisk Auto Comment</h1
   są zgodne z Twoją konkretną analizą silnika.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, marzec 2026)</footer></p>
+  <p><footer>(Zaktualizowano: ScidCommunity, wrzesień 2026)</footer></p>
 }
 
 ####################
@@ -2697,7 +2655,7 @@ set helpText(P,Tree) {<h1>Okno drzewa wariantów</h1>
   Maksymalną liczbę linii w pamięci podręcznej można skonfigurować w
   File / Cache size. Domyślnie jest to do 1000 linii.
   </p>
-  
+   
   <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
 }
 
@@ -3321,9 +3279,7 @@ set helpText(P,Engine) {<h1>Okna silnika</h1>
     jako warianty.</li>
   <li><b>Konfiguracja</b> <button tb_eng_config>: Pokazuje lub ukrywa panel
     konfiguracji silnika.</li>
-  <li><b>Automatyczny komentarz</b>: Generuje komentarz dla bieżącej pozycji na podstawie
-    analizy silnika.</li>
-  <li><b>Komentarz do partii</b>: Generuje komentarze dla wszystkich pozycji w partii.</li>
+  <li><a GameComment><b>Komentarz do Partii</b></a>: Generuje komentarze dla wszystkich pozycji w partii.</li>
   </ul>
 
   <h3>Sterowanie</h3>
@@ -3423,7 +3379,7 @@ set helpText(P,EPD) {<h1>Pliki EPD</h1>
   <a PGN>PGN</a>, jest to powszechny standard informacji szachowych.
   </p>
   <p>
-  Plik EPD zawiera wiele zdefiniowanych <term>opcode’ów</term> (pól),
+  Plik EPD zawiera wiele zdefiniowanych kodów operacji <term>opcode’ów</term> (pól),
   które w pliku są oddzielane średnikami (<b>;</b>), a w oknie EPD
   ScidCommunity są pokazywane w osobnych wierszach, aby ułatwić edycję.
   Średnik wewnątrz pola EPD jest przez ScidCommunity zapisywany jako
@@ -3459,41 +3415,57 @@ set helpText(P,EPD) {<h1>Pliki EPD</h1>
   osiąga w partiach.
   </p>
   <p>
-  Można utworzyć nowy plik EPD lub otworzyć istniejący za pomocą komend
-  <menu>Nowy...</menu> i <menu>Otwórz...</menu> z menu <menu>Plik</menu> w oknie EPD. W danym
-  momencie może być otwartych maksymalnie cztery pliki EPD.
+  Możesz otworzyć istniejący plik EPD za pomocą polecenia <menu>Plik / Otwórz</menu>
+  w oknie głównym (lub przekazując go z poziomu wiersza poleceń), albo otworzyć/utworzyć plik
+  z poziomu menu <menu>Okna / Okno EPD...</menu>. W oknie EPD jego
+  własne menu <menu>Plik</menu> zawiera również polecenia <menu>Nowy</menu> oraz <menu>Otwórz</menu>.
+  W dowolnym momencie mogą być otwarte maksymalnie cztery pliki EPD.
   </p>
   
   <h3>Okna EPD</h3>
   <p>
-  Dla każdego otwartego pliku EPD zobaczysz okno pokazujące tekst dla
-  bieżącej pozycji. Nie musisz naciskać przycisku Store, aby zapisać
-  wprowadzone zmiany w tekście pozycji; tekst zostanie zapisany zawsze,
-  gdy przejdziesz do innej pozycji w partii.
+ Dla każdego otwartego pliku EPD zobaczysz okno przedstawiające tekst kody operacji (opcode)
+  dla bieżącej pozycji. Nie ma osobnego kroku „Zapisz” (Store) dla edytowanych kodów operacji:
+  tekst jest zapisywany automatycznie za każdym razem, gdy przechodzisz do innej
+  pozycji lub przesuwasz kursor myszy poza edytor tekstu. Użyj polecenia
+  <menu>Plik / Zapisz</menu> w oknie EPD (lub <b>Ctrl+S</b>), aby zapisać plik na dysku.
   </p>
   
   <h3>Nawigacja po plikach EPD</h3>
   <p>
-  Aby przeglądać pozycje w pliku EPD, użyj poleceń
-  <menu>Next position</menu> i <menu>Previous position</menu>
-  z menu <menu>Tools</menu> w oknie EPD albo skrótów klawiszowych
-  <b>Ctrl+DownArrow</b> i <b>Ctrl+UpArrow</b>.
-  Polecenia te przechodzą do następnej/poprzedniej pozycji w pliku,
-  czyszcząc bieżącą partię i ustawiając jej pozycję startową.
+  Przeglądaj pozycje, klikając je na liście po lewej stronie, lub użyj skrótów
+  <b>Ctrl+Dół</b> (następna pozycja) i <b>Ctrl+Góra</b> (poprzednia pozycja).
+  Lista wyświetla ciąg FEN składający się z czterech pól dla każdej pozycji wraz z numerem wiersza.
+  Wczytanie pozycji czyści bieżącą partię i ustawia pozycję początkową na
+  pozycję EPD.
+  </p>
+  <p>
+  Menu <menu>Narzędzia</menu> w oknie EPD zawiera również polecenia do
+  <menu>Dodaj pozycję</menu> (wstawienie bieżącej planszy), <menu>Znajdź pozycję w
+  partii</menu> (przejście do najgłębszego półposunięcia pasującego do EPD) oraz
+  <menu>Wklej analizę</menu> (skopiowanie kodów operacji z pracującego silnika do
+  bieżącego tekstu EPD).
   </p>
 
   <h3>Analizowanie</h3>
   <p>
-  Pliki EPD można automatycznie analizować, wybierając <b>Narzędzia /
-  Analizuj pozycję...</b>. Pojawiające się okno dialogowe pyta o czas,
-  który ma zostać użyty do analizy i z listy  można wybrać silnik do użycia.
-  <b>Uwaga</b>: jeśli okno analizy jest już otwarte, analiza zostanie wykonana
-  przy użyciu tego silnika bez wcześniejszego pytania użytkownika.
-  Następnie silnik jest uruchamiany, a wynik dodawany do EPD.
-  Używane tagi EPD to: acd, acn, ce i pv.
+  Pliki EPD mogą być automatycznie analizowane poprzez wybór opcji <menu>Narzędzia /
+  Analizuj pozycje...</menu>. Okno dialogowe pozwala wybrać czas przeznaczony
+  na pozycję, silnik <term>UCI</term> (z skonfigurowanej
+  <a Analysis List>listy silników</a>) oraz tryb: <b>Zliczaj najlepsze posunięcia</b>
+  (tylko zlicza, jak często silnik zgadza się z kodami operacji <b>bm</b>/<b>am</b>,
+  bez modyfikowania pliku), <b>Dodaj adnotacje</b> (dodaje kody operacji analizy
+  do każdej pozycji) lub <b>Oba</b>. scidCommunity przechodzi następnie przez każdą
+  pozycję, a dodawane kody operacji EPD to: acd, acn, ce, dm oraz pv.
   </p>
   <p>
-
+Zaznacz opcję <b>Zapisz wyniki do pliku</b>, aby zapisać wyniki dla poszczególnych pozycji w pliku
+  tekstowym. Każdy wiersz zawiera: numer pozycji, poszukiwane posunięcie z pliku EPD,
+  posunięcie znalezione przez silnik, dopasowanie PRAWDA/FAŁSZ (TRUE/FALSE), głębokość, ocenę oraz
+  ciąg FEN. Podsumowanie na końcu pliku (stopka) przedstawia łączną liczbę znalezionych najlepszych posunięć.
+    </p>
+  
+  
   <h3>Usuwanie pól EPD</h3>
   <p>
   Pliki EPD znalezione w Internecie mogą zawierać pola, które Cię nie
@@ -3502,23 +3474,27 @@ set helpText(P,EPD) {<h1>Pliki EPD</h1>
   acn, pm, pv i id, ale możesz potrzebować tylko pól ce i pv.
   </p>
   <p>
-  Można usunąć kod operacji EPD z wszystkich pozycji w pliku EPD za pomocą
-  <menu>Usuń kody operacji...</menu> z menu <menu>Narzędzia </menu> okna EPD.
+  Usuń kod operacji ze wszystkich pozycji, wybierając opcję
+  <menu>Narzędzia / Usuń kody operacji...</menu> (lub <b>Ctrl+O</b>), a następnie wprowadź
+  nazwę kodu operacji (bez spacji na końcu). Plik EPD nie zostanie zapisany na
+  dysku, dopóki nie użyjesz polecenia <menu>Plik / Zapisz</menu>.
   </p>
 
   <h3>Pasek stanu okna EPD</h3>
   <p>
-  Pasek stanu każdego okna EPD pokazuje:
+  Pasek stanu wyświetla:
   <ul>
-  <li>- status pliku (<b>--</b> oznacza bez zmian, <b>XX</b> oznacza
-  zmieniony, a <b>%%</b> oznacza tylko do odczytu); </li>
-  <li>- nazwę pliku; </li>
-  <li>- liczbę pozycji w pliku; </li>
-  <li>- dozwolone posunięcia z bieżącej pozycji prowadzące do innej pozycji
-  w tym pliku EPD.</li>
+ <li>nazwę pliku (na pasku tytułu okna);</li>
+  <li>stan pliku: <b>zmieniony</b>, jeśli plik zawiera niezapisane zmiany, lub
+  <b>tylko do odczytu</b>, jeśli nie można go zapisać;</li>
+  <li>liczbę pozycji w pliku;</li>
+  <li>listę dozwolonych posunięć z bieżącej pozycji, które prowadzą do innych
+  pozycji w tym pliku EPD (jeśli istnieją).</li>
   </ul>
+  Podczas analizy pasek stanu wyświetla zamiast tego nazwę silnika
+  oraz czas przeznaczony na pozycję.
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: ScidCommunity, lipiec 2026)</footer></p>
 }
 
 
@@ -4518,6 +4494,13 @@ set helpText(P,Book) {<h1>Okno księgi debiutowej</h1>
   Informacje o tworzeniu księgi znajdują się w dokumentacji Polyglota.
   </p>
   <p>
+  Menu <i>Księgi</i> pozwala wybrać liczbę widocznych paneli ksiąg (maksymalnie trzy).
+  Każdy widoczny panel ma własną listę rozwijaną ksiąg oraz kolumnę z listą posunięć. Wyświetlenie
+  dwóch lub trzech ksiąg umożliwia ich łatwe porównanie obok siebie.
+  Zaznaczenie opcji <i>Alfabetycznie</i> sortuje posunięcia alfabetycznie i wyrównuje identyczne
+  posunięcia w tym samym wierszu we wszystkich księgach.
+  </p>
+  <p>
   Dla każdej pozycji okno księgi debiutowej wyświetla wszystkie możliwe posunięcia,
   które zawiera, oraz ich względne wagi w procentach. Gdy zostanie wykonane posunięcie,
   okno księgi debiutowej jest aktualizowane. Kliknięcie posunięcia w oknie księgi
@@ -4536,50 +4519,61 @@ set helpText(P,Book) {<h1>Okno księgi debiutowej</h1>
   <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
 }
 
-# Pomoc: okno gry taktycznej
-
-set helpTitle(P,TacticalGame) "Okno partii taktycznej"
-set helpText(P,TacticalGame) {<h1>Okno partii taktycznej</h1>
+# Pomoc dla okna Graj z silnikiem
+set helpTitle(P,PlayVsEngine) "Okno Graj z silnikiem"
+set helpText(P,PlayVsEngine) {<h1>Okno Graj przeciwko Silnikowi</h1>
   <p>
-  Rozgrywaj partię taktyczną przeciwko silnikowi symulującemu przeciwnika
-  o zadanym rankingu Elo. Przeciwnik jest prowadzony przez Phalanx, a trener
-  przez dowolny silnik UCI skonfigurowany przez użytkownika. Odpowiednie silniki
-  są wybierane automatycznie na podstawie nazw i powinny być poprawnie skonfigurowane
-  (jest to ustawienie domyślne po instalacji ScidCommunity).
+  Graj przeciwko silnikowi szachowemu <term>UCI</term> z opcjonalną trenerską asystą,
+  kontrolą czasu, księgami debiutowymi oraz obsługą namysłu podczas posunięcia przeciwnika (ponder).
   </p>
   <p>
-  <b>Uwaga</b>: wymagana jest specjalna wersja silnika Phalanx.
-  Ta specjalna wersja jest dołączona do pakietu ScidCommunity.
+  Drugi silnik, pełniący rolę „trenera” (coach), może pracować w tle, aby wykrywać
+  poważne błędy (blunder) popełniane przez gracza i automatycznie dodawać do nich adnotacje.
+  Trener może również obserwować posunięcia gracza i oferować cofnięcie posunięcia (takeback),
+  gdy wykryje słabe lub błędne posunięcie.
   </p>
   <p>
-  Należy skonfigurować następujące parametry:
+  Okno konfiguracji oferuje następujące opcje:
   <ul>
-  <li><term>Stały poziom</term>: ustawia stały ranking Elo dla przeciwnika</li>
-  <li><term>Losowy poziom</term>: wybiera losowy poziom pomiędzy
-  minimalnym a maksymalnym poziomem określonym odpowiednio przez lewy i prawy suwak.
-  </li>
-  <li><term>Debiut:</term>
+  <li><term>Silnik:</term> wybierz silnik z listy
+  skonfigurowanych silników UCI. Przycisk <term>Konfiguruj silnik </term> otwiera
+  okno dialogowe ustawień specyficznych dla silnika, w którym można ograniczyć siłę
+  rankingową Elo silnika, dostosować rozmiar tablicy haszującej itp.</li>
+  <li><term>Trener:</term> wybór drugiego silnika do analizy partii w
+  tle. Opcjonalne funkcje obejmują: <term>Trener obserwuje</term> (oferuje
+  cofnięcie posunięcia przy słabych ruchach gracza), <term>Dodaj ocenę do adnotacji</term> oraz
+  <term>ogranicz czas analizy silnika</term>, aby zmniejszyć obciążenie procesora.</li>
+  <li><term>Tryb czasu:</term></li>
   <ul>
-     <li><term>Rozpocznij nową partię</term>: rozpoczyna nową partię, wybierając
-     losowy debiut.</li>
-     <li><term>Zacznij od bieżącej pozycji</term>: pozwala rozpocząć partię
-     od bieżącej pozycji na szachownicy.</li>
-     <li><term>Konkretny debiut</term>: przeciwnik zagra
-     konkretny debiut, który można wybrać z poniższej listy. Jest to
-     przydatne do treningu debiutów.</li>
+  
+  <li><term>Użyj zegara szachowego:</term> gdy opcja jest zaznaczona, stosowane są standardowe
+      ustawienia kontroli czasu (Czas+Bonus, Stała głębokość, Węzły, Sekundy na posunięcie), a
+      zegary odliczają czas w dół. Gdy opcja jest odznaczona, zegary liczą czas w górę bez
+      presji czasu, a silnik używa stałego czasu na posunięcie.</li>
+      <li><term>Czas + bonus:</term> zegar Fischera z osobnymi ustawieniami czasu i
+      przyrostu (dodatku) dla Białych i Czarnych.</li>
+      <li><term>Stała głębokość:</term> silnik prowadzi przeszukiwanie do stałej głębokości (półposunięć).</li>
+      <li><term>Węzły:</term> silnik przeszukuje stałą liczbę węzłów.</li>
+      <li><term>Sekund na posunięcie:</term> silnik otrzymuje stały czas na posunięcie.</li>
+   </ul></li>
+  <li><term>Użyj księgi:</term> silnik będzie wykonywał posunięcia z wybranej
+  księgi debiutowej Polyglot (.bin). </li>
+  <li><term>Stałe myślenie:</term> silnik analizuje pozycję w czasie
+  namysłu gracza.</li>
+  <li><term>Zacznij od bieżącej pozycji:</term> rozpoczyna partię od
+  aktualnej pozycji na planszy.</li>
+  <li><term>Konkretny debiut :</term> silnik gra wg debiutu  wybranego z poniższej listy.</li>
+  
   </ul>
-  <li><term>Ogranicz czas analizy silnika</term> pozwala ograniczyć czas wykorzystywany przez
-  trenera na sprawdzanie błędów w posunięciach gracza. Jeśli czas ten nie jest
-  ograniczony, trener może myśleć w tle.</li>
-  </ul>
-  <p>Wskazówka: Jeśli włączysz <a Graphs>wykres oceny</a>, możesz zobaczyć wykorzystanie czasu i ocenę pozycji podczas partii.</p>
-  <p>Aby rozpocząć grę taktyczną, naciśnij <term>Graj</term></p> 
-
-  <p><b>Uwaga</b>: podobną funkcję można uzyskać, grając
-  <a SeriousGame>partię poważną</a> przeciwko dowolnemu silnikowi UCI, który pozwala
-  ograniczyć swoją siłę gry.
+  Okno gry wyświetla zegary (w trybie z użyciem zegara szachowego), panel
+  wykrywania poważnych błędów (pokazujący, czy silnik popełnił poważny błąd,
+  wartość błędu w pionach oraz bieżącą ocenę pozycji) oraz suwak progu błędu
+  do regulacji czułości.
   </p>
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p>Wskazówka: Jeśli włączysz <a Graphs>Wykres analizy</a>, będziesz mógł obserwować
+  wykorzystanie czasu oraz ocenę pozycji w trakcie partii.</p>
+  
+  <p><footer>(Zaktualizowano: ScidCommunity, lipiec 2026)</footer></p>
 }
 
 # Pomoc: okno trenera debiutów
@@ -4709,104 +4703,8 @@ set helpText(P,OpeningTrainer) {<h1>Trener debiutów</h1>
 }
 
 
-# Pomoc dla okna partii poważnej
-set helpTitle(P,SeriousGame) "Okno Partii Poważnej"
-set helpText(P,SeriousGame) {<h1>Okno partii poważnej</h1>
-  <p>
-  Partie poważne można rozgrywać przeciwko dowolnemu silnikowi <term>UCI</term> skonfigurowanemu
-  do użytku ze ScidCommunity. Lista wszystkich możliwych przeciwników jest
-  podana u góry okna <term>Konfiguracja partii</term>. Przycisk
-  <term>Konfiguruj silnik UCI</term> dodatkowo daje dostęp
-  do parametrów silnika. Domyślnie są one ustawione tak, jak w
-  <a Analysis List>konfiguracji silnika</a>.
-  </p>
-  <p>
-  Następnie można wybrać księgę, która ma zostać użyta, spośród ksiąg
-  debiutowych dostępnych dla ScidCommunity. Odznaczenie pola <term>Użyj księgi</term>
-  wyłączy korzystanie z księgi debiutowej i silnik zacznie
-  obliczać posunięcia od samego początku.
-  </p>
-  <p>
-  Sekcja <term>Tryb czasu</term> pozwala ustawić sposób mierzenia czasu dla
-  silnika. Możliwe są tu różne ustawienia:
-  <ul>
-     <li><term>Czas + premia</term> określa czas na całą
-     partię oraz ewentualny przyrost czasu na posunięcie (zegar Fischera).
-     Wartość domyślna to 5 minut na partię i 10 sekund przyrostu na
-     posunięcie, co jest typowym ustawieniem dla partii błyskawicznych. Należy zauważyć, że
-     czasy dla czarnych i białych można ustawiać niezależnie. Pozwala to
-     ustawić krótki czas dla silnika, a dłuższy
-     czas do namysłu dla gracza, wzmacniając tym samym
-     możliwości analityczne gracza przy jednoczesnym osłabieniu
-     możliwości silnika, jeśli wyłączona jest opcja <term>Stałe myślenie</term> (patrz
-     niżej).
-     </li>
+# Now part of Play versus Engine (see above)
 
-     <li><term>Stała głębokość</term> nie ustawia czasu na partię, lecz
-     głębokość, na jaką silnik będzie obliczał, w półposunięciach. Ponieważ
-     wyłącza to możliwość obliczania głębiej w razie potrzeby, komputer nie
-     dostrzeże pewnych matów i kombinacji, silnik
-     może grać słabiej i tym samym stanowić lepszego partnera do
-     celów treningowych.
-     <p>
-     <b>Uwaga</b>: niektóre, zwłaszcza komercyjne, silniki oferują również
-     osłabianie siły w jednostkach Elo. Najprawdopodobniej zaoferuje to
-     bardziej odpowiedni algorytm niż ograniczanie głębokości przeszukiwania. W ScidCommunity
-     takie partie są również oferowane jako <a TacticalGame>Partia taktyczna</a>
-     przeciwko darmowemu silnikowi Phalanx.
-     </p>
-     </li>
-
-     <li><term>Węzły</term> jest podobne do ograniczania głębokości przeszukiwania,
-     ale tutaj silnik musi wykonać posunięcie po ocenie określonej
-     liczby pozycji. (Wartość domyślna to 10 000.)
-     </li>
-
-     <li><term>Sekundy na posunięcie</term> pozwala silnikowi przeznaczyć
-     maksymalnie określony czas dla danej pozycji. Niektóre
-     silniki wykonają posunięcie szybciej w pewnych okolicznościach, ale nie
-     przekroczą ustawionego tutaj limitu czasu. Podobnie jak <term>Stała głębokość</term>
-     i <term>Węzły</term>, ogranicza to także siłę gry
-     silnika, ale daje dość responsywną rozgrywkę.
-     </li>
-  </ul>
-  </p>
-  <p>
-  Partie poważne mogą rozpoczynać się od bieżącej pozycji na szachownicy, jeśli zaznaczone jest pole
-  <term>Zacznij od bieżącej pozycji</term>. Pozwala to
-  np. rozegrać określone pozycje środkowej fazy gry wynikające z danego
-  debiutu.
-  </p>
-  <p>
-  <term>Stałe myślenie</term> (czasami nazywane też ponderowaniem)
-  pozwala silnikowi obliczać podczas czasu gracza. Jeśli opcja jest odznaczona,
-  silnik przerwie analizowanie pozycji, gdy ruch należy do gracza.
-  Jeśli partia ma ustawiony stały czas na posunięcie, osłabi to
-  silnik. Z drugiej strony silnik może wykonać posunięcie natychmiast, jeśli
-  gracz wykona posunięcie, które silnik analizował w czasie gracza.
-  </p>
-  <p>
-  <term>Trener obserwuje</term> otworzy okno dialogowe oferujące cofnięcie
-  posunięcia, jeśli gracz popełnił błąd (na podstawie
-  oceny silnika dla jego ostatniego posunięcia).
-  </p>
-  <p>
-  Do treningu debiutów można zaznaczyć opcję <term>Konkretny debiut</term>.
-  Na poniższej liście można wybrać debiut do rozegrania. Gracz
-  powinien wówczas trzymać się wybranej linii, w przeciwnym razie ScidCommunity zapyta,
-  czy posunięcie należy cofnąć.
-  </p>
-
-  <p>
-  Po ustawieniu wszystkich parametrów partii i naciśnięciu przycisku Graj,
-  ScidCommunity skonfiguruje silnik przeciwnika, wyświetli zegary i
-  rozpocznie partię. Gracz nie może wykonać posunięcia, dopóki zegary się
-  nie pojawią. Należy zauważyć, że uruchomienie i prawidłowa inicjalizacja silnika szachowego
-  może zająć trochę czasu.
-  </p>
-
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
-}
 
 # Trener taktyki
 set helpTitle(P,TacticsTrainer) "Trening: Taktyka"
