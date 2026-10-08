@@ -1378,7 +1378,7 @@ set helpText(L,Comment) {<h1>Fereastra Editor de comentarii</h1>
   numele de culoare recunoscut (cum ar fi roșu, albastru4, verde închis, albastru deschis, etc.)
   sau cod RGB (a <b>#</b> urmat de șase cifre hexazecimale, cum ar fi #a0b0c8).
   Dacă culoarea este omisă, aceasta este implicită <red>roşu</red>.
-  <b>marker</b< may be full,circle,disk,x,+,-,?,!,= or the numbers
+  <b>marker</b> may be full,square,circle,disk,x,+,-,?,!,= or the numbers
   1..9.
   </p>
   <p>

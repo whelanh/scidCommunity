@@ -1376,7 +1376,7 @@ set helpText(C,Comment) {<h1>Okno Editor komentářů</h1>
   rozpoznaný název barvy (jako je červená, modrá4, tmavě zelená, světlá ocelová modrá atd.)
   nebo RGB kód (a <b>#</b> následovaných šesti hexadecimálními číslicemi, například #a0b0c8).
   Pokud je barva vynechána, je výchozí <red>červený</red>.
-  <b>značka</b< may be full,circle,disk,x,+,-,?,!,= or the numbers
+  <b>značka</b> may be full,square,circle,disk,x,+,-,?,!,= or the numbers
   1..9.
   </p>
   <p>

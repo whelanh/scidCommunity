@@ -1250,13 +1250,15 @@ proc ::board::mark::getEmbeddedCmds {comment} {
     } elseif {$cmd in [list $::board::mark::CBSquare $::board::mark::CBarrow]} {
       if {[regexp $::board::mark::regex($cmd) $args]} {
         # Convert the string to a list of embedded commands.
-        # e.g. Rd4,Gc3e4,Ya2 -> {"" d4 "" R} {"" c3 e4 G} {"" a2 "" Y}
+        # %csl marks a square, %cal draws an arrow.
+        # e.g. Rd4,Gc3e4,Ya2 -> {square d4 "" R} {"" c3 e4 G} {"" a2 "" Y}
+        set ctype [expr {$cmd eq $::board::mark::CBSquare ? "square" : ""}]
         foreach {mark} [split $args ","] {
           set mark [string trim $mark]
           set color [string index $mark 0]
           set sq1 [string range $mark 1 2]
           set sq2 [string range $mark 3 end]
-          lappend result [list "" $sq1 $sq2 $color]
+          lappend result [list $ctype $sq1 $sq2 $color]
         }
       }
     }
@@ -1391,6 +1393,46 @@ proc ::board::mark::DrawDisk {pathName square color} {
       {create oval [lrange $box 0 3]} \
       -fill $color \
       {-tag [list mark disk mark$square p$square]}
+}
+
+# ::board::mark::DrawSquare --
+#
+#	A rounded-corner square outline, the shape ChessBase uses for its
+#	colored-square markers. It is left empty so that it rings the piece
+#	instead of covering it.
+#
+proc ::board::mark::DrawSquare {pathName square color} {
+  # Inner (enclosing) box size within the square and outline width.
+  set size  0.86 ;# 0.0 < $size < 1.0
+  set width 0.06 ;# outline thickness, 0.0 < $width < 1.0
+
+  set box [GetBox $pathName $square $size]
+  lassign $box x0 y0 x1 y1 len
+  set width [expr {max(2, int($width * $len / $size))}]
+  set r [expr {0.25 * $len}] ;# corner radius
+  set d [expr {2 * $r}]
+
+  set tag [list mark square mark$square p$square]
+
+  # Straight edges...
+  $pathName create line [expr {$x0 + $r}] $y0 [expr {$x1 - $r}] $y0 \
+      -fill $color -width $width -capstyle round -tag $tag
+  $pathName create line [expr {$x0 + $r}] $y1 [expr {$x1 - $r}] $y1 \
+      -fill $color -width $width -capstyle round -tag $tag
+  $pathName create line $x0 [expr {$y0 + $r}] $x0 [expr {$y1 - $r}] \
+      -fill $color -width $width -capstyle round -tag $tag
+  $pathName create line $x1 [expr {$y0 + $r}] $x1 [expr {$y1 - $r}] \
+      -fill $color -width $width -capstyle round -tag $tag
+
+  # ... and rounded corners.
+  $pathName create arc [expr {$x1 - $d}] $y0 $x1 [expr {$y0 + $d}] \
+      -start 0 -extent 90 -style arc -outline $color -width $width -tag $tag
+  $pathName create arc $x0 $y0 [expr {$x0 + $d}] [expr {$y0 + $d}] \
+      -start 90 -extent 90 -style arc -outline $color -width $width -tag $tag
+  $pathName create arc $x0 [expr {$y1 - $d}] [expr {$x0 + $d}] $y1 \
+      -start 180 -extent 90 -style arc -outline $color -width $width -tag $tag
+  $pathName create arc [expr {$x1 - $d}] [expr {$y1 - $d}] $x1 $y1 \
+      -start 270 -extent 90 -style arc -outline $color -width $width -tag $tag
 }
 
 # ::board::mark::DrawText --

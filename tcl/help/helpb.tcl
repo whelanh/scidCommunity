@@ -1374,7 +1374,7 @@ set helpText(b,Comment) {<h1>মন্তব্য সম্পাদক উই�
   স্বীকৃত রঙের নাম (যেমন লাল, নীল 4, গাঢ় সবুজ, হালকা স্টিলব্লু, ইত্যাদি)
   বা RGB কোড (a <b>#</b> ছয়টি হেক্সাডেসিমেল সংখ্যার পরে, যেমন #a0b0c8)।
   রঙ বাদ দেওয়া হলে, এটি ডিফল্ট <red>লাল</red>.
-  <b>চিহ্নিতকারী</b< may be full,circle,disk,x,+,-,?,!,= or the numbers
+  <b>চিহ্নিতকারী</b> may be full,square,circle,disk,x,+,-,?,!,= or the numbers
   1..9.
   </p>
   <p>

@@ -1374,7 +1374,7 @@ set helpText(T,Comment) {<h1>Yorum Düzenleyici penceresi</h1>
   tanınan renk adı (kırmızı, mavi4, koyuYeşil, açıkÇelikMavi vb. gibi)
   veya RGB kodu (bir <b>#</b> ardından #a0b0c8 gibi altı onaltılık rakam gelir).
   Renk atlanırsa varsayılan olarak <red>kırmızı</red>.
-  <b>işaretleyici</b< may be full,circle,disk,x,+,-,?,!,= or the numbers
+  <b>işaretleyici</b> may be full,square,circle,disk,x,+,-,?,!,= or the numbers
   1..9.
   </p>
   <p>

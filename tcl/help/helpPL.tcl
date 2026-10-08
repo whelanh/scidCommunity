@@ -1338,7 +1338,7 @@ set helpText(P,Comment) {<h1>Okno edytora komentarzy</h1>
   rozpoznana nazwa koloru (taka jak red, blue4, darkGreen, lightSteelBlue itd.)
   lub kod RGB (znak <b>#</b> a po nim sześć cyfr szesnastkowych, np. #a0b0c8).
   Jeśli kolor zostanie pominięty, domyślnie ustawiany jest <red>czerwony</red>.
-  <b>znacznik</b< może mieć wartość full, circle, disk, x, +, -, ?, !, = lub liczby
+  <b>znacznik</b> może mieć wartość full, circle, disk, x, +, -, ?, !, = lub liczby
   1..9.
   </p>
   <p>

@@ -1379,7 +1379,7 @@ set helpText(Comment) {<h1>The Comment Editor window</h1>
   recognized color name (such as red, blue4, darkGreen, lightSteelBlue, etc)
   or RGB code (a <b>#</b> followed by six hexadecimal digits, such as #a0b0c8).
   If the color is omitted, it defaults to <red>red</red>.
-  <b>marker</b< may be full,circle,disk,x,+,-,?,!,= or the numbers
+  <b>marker</b> may be full,square,circle,disk,x,+,-,?,!,= or the numbers
   1..9.
   </p>
   <p>

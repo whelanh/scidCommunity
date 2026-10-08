@@ -1378,7 +1378,7 @@ set helpText(M,Comment) {<h1>评论编辑器窗口</h1>
   识别的颜色名称（例如 red、blue4、darkGreen、lightSteelBlue 等）
   或 RGB 代码（a <b>#</b> 后跟六个十六进制数字，例如#a0b0c8）。
   如果省略颜色，则默认为 <red>红色的</red>。
-  <b>标记</b< may be full,circle,disk,x,+,-,?,!,= or the numbers
+  <b>标记</b> may be full,square,circle,disk,x,+,-,?,!,= or the numbers
   1..9.
   </p>
   <p>

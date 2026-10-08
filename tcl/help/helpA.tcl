@@ -1373,7 +1373,7 @@ set helpText(A,Comment) {<h1>コメントエディタウィンドウ</h1>
   認識された色の名前 (red、blue4、darkGreen、lightSteelBlue など)
   または RGB コード ( <b>#</b> その後に 6 桁の 16 進数が続きます (#a0b0c8 など)。
   色を省略した場合はデフォルトで <red>赤</red>。
-  <b>マーカー</b< may be full,circle,disk,x,+,-,?,!,= or the numbers
+  <b>マーカー</b> may be full,square,circle,disk,x,+,-,?,!,= or the numbers
   1..9.
   </p>
   <p>

@@ -1374,7 +1374,7 @@ set helpText(W,Comment) {<h1>Fönstret Kommentarredigerare</h1>
   igenkänt färgnamn (som röd, blå4, mörkgrön, ljusstålblå, etc)
   eller RGB-kod (a <b>#</b> följt av sex hexadecimala siffror, till exempel #a0b0c8).
   Om färgen utelämnas är den som standard <red>röd</red>.
-  <b>markör</b< may be full,circle,disk,x,+,-,?,!,= or the numbers
+  <b>markör</b> may be full,square,circle,disk,x,+,-,?,!,= or the numbers
   1..9.
   </p>
   <p>

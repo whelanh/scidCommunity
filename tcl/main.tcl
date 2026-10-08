@@ -1593,7 +1593,7 @@ proc selectMarker {} {
     ttk::frame $w_.markers
     set i 0
     set lmark {
-        full █
+        square ▢
         circle ◯
         disk ⬤
         + +
@@ -1619,7 +1619,7 @@ proc selectMarker {} {
         8 8
         9 9
     }
-    if { $::lichessFormat } { set lmark { circle ◯ } }
+    if { $::lichessFormat } { set lmark { square ▢ } }
     foreach {marker lbl} $lmark {
         radiobutton $w_.markers.mark_$marker \
             -indicatoron "false" \
