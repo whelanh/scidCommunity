@@ -1378,7 +1378,7 @@ set helpText(F,Comment) {<h1>La fenêtre de l'éditeur de commentaires</h1>
   nom de couleur reconnu (tel que rouge, bleu4, vert foncé, bleu clair, etc.)
   ou code RVB (un <b>#</b> suivi de six chiffres hexadécimaux, tels que #a0b0c8).
   Si la couleur est omise, elle est par défaut <red>rouge</red>.
-  <b>marqueur</b< may be full,circle,disk,x,+,-,?,!,= or the numbers
+  <b>marqueur</b< may be full,square,circle,disk,x,+,-,?,!,= or the numbers
   1..9.
   </p>
   <p>

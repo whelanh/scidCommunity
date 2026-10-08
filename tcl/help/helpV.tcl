@@ -1379,7 +1379,7 @@ set helpText(V,Comment) {<h1>חלון עורך ההערות</h1>
   שם צבע מוכר (כגון אדום, כחול4, ירוק כהה, כחול פלדה בהיר וכו')
   או קוד RGB (א <b>#</b> ואחריו שש ספרות הקסדצימליות, כגון #a0b0c8).
   אם הצבע מושמט, הוא כברירת מחדל <red>אָדוֹם</red>.
-  <b>סַמָן</b< may be full,circle,disk,x,+,-,?,!,= or the numbers
+  <b>סַמָן</b< may be full,square,circle,disk,x,+,-,?,!,= or the numbers
   1..9.
   </p>
   <p>

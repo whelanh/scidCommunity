@@ -1374,7 +1374,7 @@ set helpText(D,Comment) {<h1>Das Fenster „Kommentareditor“.</h1>
   erkannter Farbname (z. B. Rot, Blau4, DunkelGrün, HellSteelBlau usw.)
   oder RGB-Code (a <b>#</b> gefolgt von sechs hexadezimalen Ziffern, z. B. #a0b0c8).
   Wenn die Farbe weggelassen wird, wird sie standardmäßig verwendet <red>Rot</red>.
-  <b>Marker</b< may be full,circle,disk,x,+,-,?,!,= or the numbers
+  <b>Marker</b< may be full,square,circle,disk,x,+,-,?,!,= or the numbers
   1..9.
   </p>
   <p>

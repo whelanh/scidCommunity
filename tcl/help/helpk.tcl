@@ -1374,7 +1374,7 @@ set helpText(k,Comment) {<h1>댓글 편집기 창</h1>
   인식된 색상 이름(예: red, blue4, darkGreen, lightSteelBlue 등)
   또는 RGB 코드( <b>#</b> 그 뒤에 6개의 16진수 숫자가 옵니다(예: #a0b0c8).
   색상이 생략되면 기본값은 <red>빨간색</red>.
-  <b>채점자</b< may be full,circle,disk,x,+,-,?,!,= or the numbers
+  <b>채점자</b< may be full,square,circle,disk,x,+,-,?,!,= or the numbers
   1..9.
   </p>
   <p>

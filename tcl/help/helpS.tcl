@@ -1379,7 +1379,7 @@ set helpText(S,Comment) {<h1>La ventana del editor de comentarios</h1>
   nombre de color reconocido (como rojo, azul4, verde oscuro, azul acero claro, etc.)
   o código RGB (un <b>#</b> seguido de seis dígitos hexadecimales, como #a0b0c8).
   Si se omite el color, el valor predeterminado es <red>rojo</red>.
-  <b>marcador</b< may be full,circle,disk,x,+,-,?,!,= or the numbers
+  <b>marcador</b< may be full,square,circle,disk,x,+,-,?,!,= or the numbers
   1..9.
   </p>
   <p>

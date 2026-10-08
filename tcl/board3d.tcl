@@ -690,6 +690,20 @@ proc ::board3d::_drawMarks {w projCorners projCenters drawOrder} {
       lassign $corners x0 y0 x1 y1 x2 y2 x3 y3
       $bd create polygon $x0 $y0 $x1 $y1 $x2 $y2 $x3 $y3 \
           -fill $color -stipple "" -outline "" -tag board3d
+    } elseif {$type eq "square"} {
+      set corners [lindex $projCorners $sq1]
+      lassign [lindex $projCenters $sq1] cx cy
+      if {[lindex $corners 0] < -10000 || $cx < -10000} { continue }
+      lassign $corners x0 y0 x1 y1 x2 y2 x3 y3
+      # Inset the projected square towards its centre so the marker rings
+      # the piece instead of covering it.
+      set f 0.2
+      $bd create polygon \
+          [expr {$x0 + $f * ($cx - $x0)}] [expr {$y0 + $f * ($cy - $y0)}] \
+          [expr {$x1 + $f * ($cx - $x1)}] [expr {$y1 + $f * ($cy - $y1)}] \
+          [expr {$x2 + $f * ($cx - $x2)}] [expr {$y2 + $f * ($cy - $y2)}] \
+          [expr {$x3 + $f * ($cx - $x3)}] [expr {$y3 + $f * ($cy - $y3)}] \
+          -fill "" -outline $color -width 3 -tag board3d
     } elseif {$type eq "circle"} {
       lassign [lindex $projCenters $sq1] cx cy
       if {$cx < -10000} { continue }

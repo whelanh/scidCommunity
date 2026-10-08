@@ -1379,7 +1379,7 @@ set helpText(K,Comment) {<h1>La finestra Editor de comentaris</h1>
   nom de color reconegut (com ara vermell, blau4, verd fosc, blau d'acer clar, etc.)
   o codi RGB (a <b>#</b> seguit de sis dígits hexadecimals, com ara #a0b0c8).
   Si s'omet el color, el valor predeterminat és <red>vermell</red>.
-  <b>marcador</b< may be full,circle,disk,x,+,-,?,!,= or the numbers
+  <b>marcador</b< may be full,square,circle,disk,x,+,-,?,!,= or the numbers
   1..9.
   </p>
   <p>
