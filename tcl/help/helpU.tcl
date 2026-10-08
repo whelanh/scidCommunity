@@ -1375,7 +1375,7 @@ set helpText(U,Comment) {<h1>Kommenttieditori-ikkuna</h1>
   tunnistettu värin nimi (kuten punainen, sininen4, tummanvihreä, vaaleateräksensininen jne.)
   tai RGB-koodi (a <b>#</b> jota seuraa kuusi heksadesimaalilukua, kuten #a0b0c8).
   Jos väri jätetään pois, se on oletuksena <red>punainen</red>.
-  <b>merkki</b< may be full,square,circle,disk,x,+,-,?,!,= or the numbers
+  <b>merkki</b> may be full,square,circle,disk,x,+,-,?,!,= or the numbers
   1..9.
   </p>
   <p>

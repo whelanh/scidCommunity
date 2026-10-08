@@ -1373,7 +1373,7 @@ set helpText(H,Comment) {<h1>A Megjegyzésszerkesztő ablak</h1>
   felismert színnév (például piros, kék4, sötétzöld, világosAcélkék stb.)
   vagy RGB kód (a <b>#</b> hat hexadecimális számjegy követi, például #a0b0c8).
   Ha a színt kihagyjuk, akkor az alapértelmezett lesz <red>piros</red>.
-  <b>jelző</b< may be full,square,circle,disk,x,+,-,?,!,= or the numbers
+  <b>jelző</b> may be full,square,circle,disk,x,+,-,?,!,= or the numbers
   1..9.
   </p>
   <p>

@@ -693,7 +693,15 @@ proc ::board3d::_drawMarks {w projCorners projCenters drawOrder} {
     } elseif {$type eq "square"} {
       set corners [lindex $projCorners $sq1]
       lassign [lindex $projCenters $sq1] cx cy
-      if {[lindex $corners 0] < -10000 || $cx < -10000} { continue }
+      # Skip if the square is (partly) behind the camera: _project returns
+      # the {-10000 -10000} sentinel for any off-screen point. Check every
+      # projected corner (and the centre) so the polygon cannot span the
+      # canvas.
+      set visible 1
+      foreach c [concat $corners [list $cx]] {
+        if {$c <= -10000} { set visible 0 ; break }
+      }
+      if {!$visible} { continue }
       lassign $corners x0 y0 x1 y1 x2 y2 x3 y3
       # Inset the projected square towards its centre so the marker rings
       # the piece instead of covering it.

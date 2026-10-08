@@ -1373,7 +1373,7 @@ set helpText(N,Comment) {<h1>Het venster Commentaareditor</h1>
   erkende kleurnaam (zoals rood, blauw4, donkergroen, lichtstaalblauw, enz.)
   of RGB-code (a <b>#</b> gevolgd door zes hexadecimale cijfers, zoals #a0b0c8).
   Als de kleur wordt weggelaten, wordt deze standaard ingesteld <red>rood</red>.
-  <b>markering</b< may be full,square,circle,disk,x,+,-,?,!,= or the numbers
+  <b>markering</b> may be full,square,circle,disk,x,+,-,?,!,= or the numbers
   1..9.
   </p>
   <p>

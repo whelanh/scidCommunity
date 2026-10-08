@@ -1372,7 +1372,7 @@ set helpText(O,Comment) {<h1>Kommentarredigeringsvinduet</h1>
   gjenkjent fargenavn (som rød, blå4, mørkgrønn, lysstålblå, etc)
   eller RGB-kode (a <b>#</b> etterfulgt av seks heksadesimale sifre, for eksempel #a0b0c8).
   Hvis fargen utelates, er den som standard <red>rød</red>.
-  <b>markør</b< may be full,square,circle,disk,x,+,-,?,!,= or the numbers
+  <b>markør</b> may be full,square,circle,disk,x,+,-,?,!,= or the numbers
   1..9.
   </p>
   <p>

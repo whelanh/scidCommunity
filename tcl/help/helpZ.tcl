@@ -1376,7 +1376,7 @@ set helpText(Z,Comment) {<h1>Dirisha la Kihariri Maoni</h1>
   jina la rangi inayotambulika (kama vile nyekundu, blue4, darkGreen, lightSteelBlue, nk)
   au msimbo wa RGB (a <b>#</b> ikifuatiwa na tarakimu sita za heksadesimali, kama vile #a0b0c8).
   Ikiwa rangi imeachwa, itabadilika kuwa <red>nyekundu</red>.
-  <b>alama</b< may be full,square,circle,disk,x,+,-,?,!,= or the numbers
+  <b>alama</b> may be full,square,circle,disk,x,+,-,?,!,= or the numbers
   1..9.
   </p>
   <p>
