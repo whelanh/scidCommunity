@@ -1,10 +1,10 @@
 Name:           scidcommunity
-Version:        5.1.4.29
+Version:        5.1.4.30
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
 # Commit hash from github branch
-%global commit 0a627fff392e496bdc12932a4c0b36c52ba95b52   
+%global commit 622f6f120be619a6c273ff76ec9637d526357f0d   
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 License:        GPL-2.0-or-later
@@ -62,6 +62,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Fri Oct 9, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.4-30
+- "Adopt Lichess style hot keys for square and arrow colors"
 * Thu Oct 8, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.4-29
 - "Adopt hollow square outline as default chessboard marker"
 * Fri Oct 2, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.4-28
