@@ -881,14 +881,19 @@ set helpText(Moves) {<h1>Entering chess moves</h1>
   <h4>Marking fields and directions</h4>
   <p>
   colored squares and arrows can be entered directly on the board
-  without the use of the <a Comment>Comment editor</a> by using the mouse
-  buttons. For colored squares one can Shift-click on the square in
-  question. Shift-Left button marks the square in green, the middle
-  button in yellow, the right button in red. To draw arrows one can
-  Ctrl-click on the source and target squares. The left mouse button
-  again results in a green, the middle in a yellow and the right mouse
-  button in a red arrow.
+  without the use of the <a Comment>Comment editor</a>.
+  Right-click a square to mark it, or right-click and drag from one
+  square to another to draw an arrow. The color is taken from the
+  marker palette; alternatively hold a modifier key while right-clicking:
   </p>
+  <ul>
+  <li>Right-click: the palette color (green by default)</li>
+  <li>Ctrl + right-click: red</li>
+  <li>Shift + right-click: yellow</li>
+  <li>Alt + right-click: blue</li>
+  <li>Ctrl + Alt + right-click: cyan</li>
+  <li>Shift + Alt + right-click: orange</li>
+  </ul>
   
  
   <h3><name Mistakes>Correcting mistakes</name></h3>
@@ -1424,14 +1429,19 @@ set helpText(Comment) {<h1>The Comment Editor window</h1>
   <p>
   <b>Note</b>
   Colored squares and arrows can be entered directly on the board
-  without the use of the Comment editor by using the mouse
-  buttons. For colored squares one can Shift-click on the square in
-  question. Shift-Left button marks the square in green, the middle
-  button in yellow, the right button in red. To draw arrows one can
-  Ctrl-click on the source and target squares. The left mouse button
-  again results in a green, the middle in a yellow and the right mouse
-  button in a red arrow.
+  without the use of the Comment editor. Right-click a square to mark it,
+  or right-click and drag from one square to another to draw an arrow.
+  The color is taken from the marker palette; alternatively hold a
+  modifier key while right-clicking:
   </p>
+  <ul>
+  <li>Right-click: the palette color (green by default)</li>
+  <li>Ctrl + right-click: red</li>
+  <li>Shift + right-click: yellow</li>
+  <li>Alt + right-click: blue</li>
+  <li>Ctrl + Alt + right-click: cyan</li>
+  <li>Shift + Alt + right-click: orange</li>
+  </ul>
   
   <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
