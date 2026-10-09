@@ -1517,21 +1517,28 @@ proc releaseSquare { w x y } {
 # addMarker:
 #   add/delete square markers and arrows to the current position
 #
-proc addMarker {w x y} {
+# An optional color (passed by the modifier-key mouse shortcuts) overrides
+# the color currently selected in the marker palette.
+proc addMarker {w x y {color ""}} {
     set sq [::board::getSquare $w $x $y]
     if {! [info exists ::markStartSq]} {
+        # Button press: remember the square and the color to use on release,
+        # so the modifier keys are evaluated when the gesture is started.
         set ::markStartSq [::board::san $sq]
+        set ::markStartColor [expr {$color eq "" ? $::markColor : $color}]
         return
     }
 
     set from $::markStartSq
     unset ::markStartSq
+    set color $::markStartColor
+    unset ::markStartColor
     set to [::board::san $sq]
     if {$from == "" || $to == ""} { return }
 
     set oldComment [sc_pos getComment]
     if { $::lichessFormat } {
-        set col [string toupper [string index $::markColor 0 ]]
+        set col [string toupper [string index $color 0 ]]
         if {$from == $to } {
             set cmd "%csl $col$to"
             set cmd_erase "%csl \[BGRYOC\]$to*"
@@ -1546,10 +1553,10 @@ proc addMarker {w x y} {
         }
     } else {
         if {$from == $to } {
-            set cmd "$::markType,$to,$::markColor"
+            set cmd "$::markType,$to,$color"
             set cmd_erase "\[a-z\]*,$to,\[a-z\]*"
         } else {
-            set cmd "arrow,$from,$to,$::markColor"
+            set cmd "arrow,$from,$to,$color"
             set cmd_erase "arrow,$from,$to,\[a-z\]*"
         }
         regsub -all " *\\\[%draw $cmd\\\]" $oldComment "" newComment
@@ -1756,14 +1763,32 @@ proc CreateMainBoard { {w} } {
 
   InitToolbar .main.tb
 
+  # Keyboard shortcuts for the right-click annotation gesture, matching
+  # Lichess/ChessBase: the modifier keys select the color. An unmodified
+  # right-click uses the color selected in the marker palette (green by
+  # default), so existing behaviour is preserved. The same shortcuts work
+  # when dragging to draw an arrow.
+  set markerColorShortcuts {
+    ""             ""
+    "Control-"     red
+    "Alt-"         blue
+    "Alt-Control-" cyan
+    "Shift-"       yellow
+    "Alt-Shift-"   orange
+  }
+
   for {set i 0} { $i < 64 } { incr i } {
     ::board::bind $w.board $i <Enter> "enterSquare $i"
     ::board::bind $w.board $i <Leave> "leaveSquare $i"
     ::board::bind $w.board $i <ButtonPress-1> "pressSquare $i"
     ::board::bind $w.board $i <Control-ButtonPress-1> "addMarker $w.board %X %Y"
     ::board::bind $w.board $i <Control-ButtonRelease-1> "addMarker $w.board %X %Y"
-    ::board::bind $w.board $i <ButtonPress-$::MB3> "addMarker $w.board %X %Y"
-    ::board::bind $w.board $i <ButtonRelease-$::MB3> "addMarker $w.board %X %Y"
+    foreach {mods color} $markerColorShortcuts {
+      set action "addMarker $w.board %X %Y"
+      if {$color ne ""} { append action " $color" }
+      ::board::bind $w.board $i "<${mods}ButtonPress-$::MB3>"   $action
+      ::board::bind $w.board $i "<${mods}ButtonRelease-$::MB3>" $action
+    }
     ::board::bind $w.board $i <B1-Motion> "::board::dragPiece $w.board %X %Y"
     ::board::bind $w.board $i <ButtonRelease-1> "releaseSquare $w.board %X %Y"
   }
