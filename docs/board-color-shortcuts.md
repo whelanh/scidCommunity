@@ -28,7 +28,7 @@ Mouse shortcuts for coloring board squares and drawing arrows, comparing
 | ------------------------------- | ------------- | ------- | --------- | --------- |
 | Alt + left-click                | Green         | —       | —         | Green     |
 | Ctrl + Alt + left-click         | Yellow        | —       | —         | Yellow    |
-| Shift + Ctrl + Alt + left-click | Red           | —       | —         | Red       |
+| Shift + Alt + left-click        | Red           | —       | —         | —         |
 
 ## Notes
 
@@ -39,3 +39,5 @@ Mouse shortcuts for coloring board squares and drawing arrows, comparing
   a less specific binding (producing yellow and orange respectively), so both
   combinations are explicitly bound to a no-op.
 - The **scidCommunity** left-click shortcuts are ChessBase-style additions.
+  ChessBase assigns red to `Shift + Ctrl + Alt + left-click`; **scidCommunity**
+  uses `Shift + Alt + left-click` instead.

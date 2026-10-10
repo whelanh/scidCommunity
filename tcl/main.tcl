@@ -1917,7 +1917,7 @@ proc CreateMainBoard { {w} } {
   set markerLeftClickShortcuts {
     "Alt-"                green
     "Control-Alt-"        yellow
-    "Shift-Control-Alt-"  red
+    "Shift-Alt-"          red
   }
 
   for {set i 0} { $i < 64 } { incr i } {
