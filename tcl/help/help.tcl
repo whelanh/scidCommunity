@@ -884,16 +884,23 @@ set helpText(Moves) {<h1>Entering chess moves</h1>
   without the use of the <a Comment>Comment editor</a>.
   Right-click a square to mark it, or right-click and drag from one
   square to another to draw an arrow. The color is taken from the
-  marker palette; alternatively hold a modifier key while right-clicking:
+  marker palette; alternatively hold a modifier key while clicking:
   </p>
   <ul>
   <li>Right-click: the palette color (green by default)</li>
   <li>Ctrl + right-click: red</li>
   <li>Shift + right-click: yellow</li>
   <li>Alt + right-click: blue</li>
-  <li>Ctrl + Alt + right-click: cyan</li>
-  <li>Shift + Alt + right-click: orange</li>
+  <li>Ctrl + Alt + right-click: orange</li>
+  <li>Shift + Alt + right-click: cyan</li>
+  <li>Alt + left-click: green</li>
+  <li>Ctrl + Alt + left-click: yellow</li>
+  <li>Shift + Ctrl + Alt + left-click: red</li>
   </ul>
+  <p>
+  Right-click combined with Ctrl+Shift or Ctrl+Shift+Alt is intentionally
+  unassigned.
+  </p>
   
  
   <h3><name Mistakes>Correcting mistakes</name></h3>
@@ -1432,16 +1439,23 @@ set helpText(Comment) {<h1>The Comment Editor window</h1>
   without the use of the Comment editor. Right-click a square to mark it,
   or right-click and drag from one square to another to draw an arrow.
   The color is taken from the marker palette; alternatively hold a
-  modifier key while right-clicking:
+  modifier key while clicking:
   </p>
   <ul>
   <li>Right-click: the palette color (green by default)</li>
   <li>Ctrl + right-click: red</li>
   <li>Shift + right-click: yellow</li>
   <li>Alt + right-click: blue</li>
-  <li>Ctrl + Alt + right-click: cyan</li>
-  <li>Shift + Alt + right-click: orange</li>
+  <li>Ctrl + Alt + right-click: orange</li>
+  <li>Shift + Alt + right-click: cyan</li>
+  <li>Alt + left-click: green</li>
+  <li>Ctrl + Alt + left-click: yellow</li>
+  <li>Shift + Ctrl + Alt + left-click: red</li>
   </ul>
+  <p>
+  Right-click combined with Ctrl+Shift or Ctrl+Shift+Alt is intentionally
+  unassigned.
+  </p>
   
   <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }

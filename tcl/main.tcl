@@ -1763,18 +1763,32 @@ proc CreateMainBoard { {w} } {
 
   InitToolbar .main.tb
 
-  # Keyboard shortcuts for the right-click annotation gesture, matching
-  # Lichess/ChessBase: the modifier keys select the color. An unmodified
-  # right-click uses the color selected in the marker palette (green by
-  # default), so existing behaviour is preserved. The same shortcuts work
-  # when dragging to draw an arrow.
+  # Keyboard shortcuts for the annotation gestures, matching Lichess/ChessBase
+  # (see the color chart). An unmodified right-click uses the color selected in
+  # the marker palette (green by default), so existing behaviour is preserved.
+  # The same shortcuts work when dragging to draw an arrow.
+  #
+  # Right-click: the modifier keys select the color.
   set markerColorShortcuts {
-    ""             ""
-    "Control-"     red
-    "Alt-"         blue
-    "Alt-Control-" cyan
-    "Shift-"       yellow
-    "Alt-Shift-"   orange
+    ""              ""
+    "Alt-"          blue
+    "Control-"      red
+    "Shift-"        yellow
+    "Control-Alt-"  orange
+    "Shift-Alt-"    cyan
+  }
+  # These combinations are intentionally left unassigned. They must be bound
+  # explicitly, otherwise Tk falls back to a less specific binding (e.g.
+  # Control+Shift to Shift) and produces an unwanted color.
+  set markerColorDisabled {
+    "Control-Shift-"
+    "Control-Shift-Alt-"
+  }
+  # Left-click: ChessBase-style color shortcuts.
+  set markerLeftClickShortcuts {
+    "Alt-"                green
+    "Control-Alt-"        yellow
+    "Shift-Control-Alt-"  red
   }
 
   for {set i 0} { $i < 64 } { incr i } {
@@ -1788,6 +1802,15 @@ proc CreateMainBoard { {w} } {
       if {$color ne ""} { append action " $color" }
       ::board::bind $w.board $i "<${mods}ButtonPress-$::MB3>"   $action
       ::board::bind $w.board $i "<${mods}ButtonRelease-$::MB3>" $action
+    }
+    foreach mods $markerColorDisabled {
+      ::board::bind $w.board $i "<${mods}ButtonPress-$::MB3>"   break
+      ::board::bind $w.board $i "<${mods}ButtonRelease-$::MB3>" break
+    }
+    foreach {mods color} $markerLeftClickShortcuts {
+      set action "addMarker $w.board %X %Y $color"
+      ::board::bind $w.board $i "<${mods}ButtonPress-1>"   $action
+      ::board::bind $w.board $i "<${mods}ButtonRelease-1>" $action
     }
     ::board::bind $w.board $i <B1-Motion> "::board::dragPiece $w.board %X %Y"
     ::board::bind $w.board $i <ButtonRelease-1> "releaseSquare $w.board %X %Y"
