@@ -136,20 +136,39 @@ proc excludeTextWidget {w} {
 
 # spaceTriggersEngineMove:
 #   Returns true when a <space> keypress in widget $w should trigger the
-#   "play the engine's best move" action. Widgets that use the spacebar
-#   themselves (buttons, menus and single-line editable fields) keep their
-#   normal behaviour. Text widgets are treated as display areas (the engine
-#   and analysis windows only use them to show read-only information).
+#   "play the engine's best move" action. Controls where <space> has its own
+#   meaning keep it: check/radio buttons toggle, menu buttons open their menu,
+#   and single-line editable fields insert a space. Text widgets are treated
+#   as display areas (the engine and analysis windows only show read-only
+#   information there).
+#   Plain push buttons are deliberately NOT excluded: if the engine Start/Stop
+#   button (or a toolbar button) still has the keyboard focus, <space> must
+#   still play the move instead of toggling the engine.
 proc spaceTriggersEngineMove {w} {
 	set cls [winfo class $w]
-	# Buttons, menus and editable fields handle <space> themselves.
-	# Use -nocase so Checkbutton/Radiobutton/Menubutton (whose class names end
-	# in a lower-case "button") are matched too.
-	if {[regexp -nocase {Button$|Entry$|Combobox$|Spinbox$} $cls] || $cls eq "Menu"} {
+	# Use -nocase so the lower-case class names (Checkbutton, TMenubutton...)
+	# are matched as well.
+	if {[regexp -nocase {Checkbutton$|Radiobutton$|Menubutton$|Entry$|Combobox$|Spinbox$} $cls] || $cls eq "Menu"} {
 		return 0
 	}
 	return 1
 }
+
+# Global fallback for the Lichess-style spacebar shortcut. The window-specific
+# bind tags only fire when the keyboard focus happens to be on one of their
+# widgets; right after opening a window (or when the focus is empty) the event
+# reaches the toplevel instead. This plays the move of the board / engine
+# window / analysis window the mouse pointer is over.
+bind all <space> { if {[::spacePlayGlobal]} { break } }
+
+# Editable fields keep the spacebar for typing, EXCEPT when the mouse pointer
+# is over the board / an engine window / an analysis window, in which case
+# <space> plays that engine's move. These specific bindings replace the
+# generic <Key> class binding for <space>; the "break" prevents a space from
+# also being inserted when a move was played.
+bind TEntry <space> { if {[::spacePlayPointer]} { break } else { ttk::entry::Insert %W " "; break } }
+bind Entry  <space> { if {[::spacePlayPointer]} { break } else { tk::EntryInsert %W " "; break } }
+bind Text   <space> { if {[::spacePlayPointer]} { break } else { tk::TextInsert %W " "; break } }
 
 # addBindtagToTree:
 #   Add $tag to the bind tags of $w and every descendant widget.

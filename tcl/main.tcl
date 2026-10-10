@@ -422,9 +422,81 @@ proc ::mainBoardSpaceKey {widget} {
     return true
 }
 
+# Return true if <space> over/at widget $w should play an engine move.
+# Editable fields and controls that use the spacebar themselves keep it.
+proc ::spaceIsPlayArea {w} {
+    set cls [winfo class $w]
+    if {[regexp -nocase {Checkbutton$|Radiobutton$|Menubutton$|Entry$|Combobox$|Spinbox$} $cls] || $cls eq "Menu"} {
+        return false
+    }
+    # Editable text (e.g. the PGN window) keeps the spacebar; the engine and
+    # analysis displays are read-only, so they are play areas.
+    if {$cls eq "Text"} {
+        if {[catch {$w cget -state} state] == 0 && $state eq "normal"} { return false }
+    }
+    return true
+}
+
+# Dispatch <space> to the board / engine window / analysis window that owns
+# widget $w. Return true if it was handled.
+proc ::spacePlayWidget {w} {
+    # If the pointer is over a notebook (e.g. its tab header), use the
+    # currently selected tab so the shortcut also works there.
+    if {[winfo class $w] eq "TNotebook"} {
+        set sel [$w select]
+        if {$sel ne ""} { set w $sel }
+    }
+    if {[regexp {\.engineWin([0-9]+)(\.|$)} $w -> id]} {
+        return [::enginewin::spaceKey $id $w]
+    }
+    if {$w eq ".main" || [string match ".main.*" $w]} {
+        return [::mainBoardSpaceKey $w]
+    }
+    if {[regexp {^\.analysisWin([0-9]+)(\.|$)} $w -> n]} {
+        return [analysisSpaceKey $n $w]
+    }
+    return false
+}
+
+# Play the move of the window currently under the mouse pointer, if any.
+# This is what makes the shortcut independent of where the keyboard focus was
+# left (it is regularly left on a search field in another window).
+# Return true if the key was handled.
+proc ::spacePlayPointer {} {
+    set w ""
+    catch { set w [winfo containing [winfo pointerx .] [winfo pointery .]] }
+    if {$w eq "" || ![::spaceIsPlayArea $w]} { return false }
+    return [::spacePlayWidget $w]
+}
+
+# Global handler for the Lichess-style spacebar shortcut.
+# It plays the move of the window under the mouse pointer, or otherwise the
+# engine driving the board. It does not depend on where the keyboard focus
+# happens to be.
+# Return true if the key was handled.
+proc ::spacePlayGlobal {} {
+    # 1. Window under the mouse pointer. Preferring this over the keyboard
+    #    focus means it still works when the focus was left, for example, on a
+    #    search field in a different window.
+    if {[::spacePlayPointer]} { return true }
+    # 2. Otherwise play the engine driving the board, unless the focus is an
+    #    editable field that needs the spacebar itself.
+    set fw [focus]
+    if {$fw ne "" && ![::spaceIsPlayArea $fw]} { return false }
+    # Complete an in-progress keyboard move entry first.
+    if {$::moveEntry(Text) ne ""} {
+        moveEntry_Complete
+        return true
+    }
+    return [::playMainEngineBestMove]
+}
+
 # Play the current best move of an Engine window in the game.
 # Return true if the engine has a move and it was added successfully.
 proc ::addEngineBestMove {id} {
+    # Ignore engines whose best move is no longer being updated.
+    if {![info exists ::enginewin::engState($id)]} { return false }
+    if {![::enginewin::stateFollow $id] && ![::enginewin::stateLocked $id]} { return false }
     if {![info exists ::enginewin::pvBestMove($id,1)]} { return false }
     set move $::enginewin::pvBestMove($id,1)
     if {$move eq ""} { return false }

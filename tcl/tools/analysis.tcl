@@ -1132,9 +1132,10 @@ proc addAllVariations {{n 1}} {
 # Return true if the key was consumed (the caller then stops the binding chain).
 proc analysisSpaceKey {n widget} {
     if {![spaceTriggersEngineMove $widget]} { return false }
-    # The Add move button is disabled while the engine is locked to a fixed
-    # position: do not play the locked position's move in that case either.
-    if {$::analysis(lockEngine$n)} { return true }
+    # Only act while the engine is analyzing the current position. The engine
+    # may be stopped or locked to a fixed position, in which case the stored
+    # move is stale and must not be played.
+    if {!$::analysis(analyzeMode$n) || $::analysis(lockEngine$n)} { return true }
     makeAnalysisMove $n
     return true
 }

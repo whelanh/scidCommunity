@@ -1019,8 +1019,15 @@ proc ::enginewin::exportMoves {w index} {
     if {[catch {::enginewin::getMoves $w $index} line]} {
         return false
     }
+    set before [list [sc_pos location] [sc_game info previous]]
     ::undoFeature save
     catch {sc_game import $line}
+    # sc_game import reports errors in its result instead of raising, so check
+    # whether the position actually changed. If nothing was imported, do not
+    # touch the board or notify the engines.
+    if {[list [sc_pos location] [sc_game info previous]] eq $before} {
+        return false
+    }
     ::notify::PosChanged -pgn
     return true
 }
@@ -1043,7 +1050,19 @@ proc ::enginewin::playBestMove {id} {
         set w .pv$::enginewin::pgnviewer($id).engineWin$id
     }
     if {![winfo exists $w]} { return false }
-    # exportMoves returns false when no PV line is available yet.
+    # Only act while the engine is actually analyzing a position. Otherwise
+    # the stored best move / display may be stale (e.g. after the engine was
+    # stopped), and playing it would disturb the board or restart the engine.
+    if {![info exists ::enginewin::engState($id)]} { return false }
+    if {![::enginewin::stateFollow $id] && ![::enginewin::stateLocked $id]} { return false }
+    # Prefer the raw UCI best move: it is independent of the display notation
+    # and of non-move prefixes in the PV text.
+    if {[info exists ::enginewin::pvBestMove($id,1)] && $::enginewin::pvBestMove($id,1) ne ""} {
+        if {[catch {::addMoveUCI $::enginewin::pvBestMove($id,1)} ok] == 0 && $ok} {
+            return true
+        }
+    }
+    # Fall back to the first move shown in the PV display.
     return [::enginewin::exportMoves $w.display.pv_lines 1.0]
 }
 
