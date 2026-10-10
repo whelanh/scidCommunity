@@ -12,7 +12,7 @@ While it maintains compatibility with the original Scid database formats, **scid
 
 *Most recent changes:*
 
-1. Lichess-style hot keys have been implemented that allow users to quickly change arrow colors and square marker colors on the chessboard. This was an excellent user suggestion. [See Discussions](https://github.com/whelanh/scidCommunity/discussions/312)
+1. Lichess-style hot keys have been implemented that allow users to quickly change arrow colors and square marker colors on the chessboard. This was an excellent user suggestion. [See Discussions](https://github.com/whelanh/scidCommunity/discussions/312) In the same spirit, pressing the **spacebar** now plays the engine's best move (the first line when MultiPV is active) in the **Engine** and **Analysis** windows, and on the main board when an engine is running.
 2. "Color picker" buttons have been added to **Options/Preferences/Chessboard** Light and Dark Squares so users can easily replicate chessboard colors they find on-line or in other programs. This user-requested feature is described in  [Discussions/Announcements](https://github.com/whelanh/scidCommunity/discussions/304)
 3. A [user requested](https://github.com/whelanh/scidCommunity/discussions/283) the ability to change comment colors, font, size etc. This is now possible with a new *Format* button in the **Comment Editor** window. Along with that, users can now export formatted PGNs to .rtf files (and import them as well).
 4. Based on a [user requst](https://github.com/whelanh/scidCommunity/discussions/282), the **Player Name** setup from Scid vs. PC has been adopted and is available under the **Options** menu.

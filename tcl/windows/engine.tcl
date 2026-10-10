@@ -277,6 +277,15 @@ proc ::enginewin::Open { {id ""} {enginename ""} {pgnviewer 0} } {
 
     bind $w <<NotifyNewGame>> "::enginewin::onNewGame $id"
 
+    # Play the engine's best move with the spacebar (Lichess-style shortcut).
+    # A custom bind tag is used because $w is a plain frame that can be docked
+    # inside a notebook, in which case a binding on $w would not reach the
+    # widgets inside the window.
+    set ::enginewin::spaceTag($id) "EnginewinSpace$id"
+    bind $::enginewin::spaceTag($id) <space> \
+        "if {\[::enginewin::spaceKey $id %W\]} { break }"
+    ::addBindtagToTree $w $::enginewin::spaceTag($id)
+
     # The engine should be closed before the debug .text is destroyed
     bind $w.config <Destroy> [list apply {{id w} {
         if {![info exists ::enginewin::engState($id)]} { return }
@@ -287,6 +296,7 @@ proc ::enginewin::Open { {id ""} {enginename ""} {pgnviewer 0} } {
         array unset ::enginewin::m_ *,$id
         array unset ::enginewin::pv_ *,$id
         catch { unset ::enginecfg::engConfig_$id }
+        catch { unset ::enginewin::spaceTag($id) }
         unset ::enginewin::pgnviewer($id)
         ::notify::EngineBestMove $id {} {} {}
     }} $id $w]
@@ -1013,6 +1023,28 @@ proc ::enginewin::exportMoves {w index} {
     catch {sc_game import $line}
     ::notify::PosChanged -pgn
     return true
+}
+
+# Handle a <space> keypress in an engine window.
+# Return true if the key was consumed (the caller then stops the binding chain).
+proc ::enginewin::spaceKey {id widget} {
+    if {![spaceTriggersEngineMove $widget]} { return false }
+    ::enginewin::playBestMove $id
+    return true
+}
+
+# Play the engine's best move (the first move of the first PV line) in the
+# current game. This is the action bound to the spacebar in engine windows,
+# and matches Lichess' behaviour. In multiPV mode only the best line is used.
+# Return true if the move was successfully added.
+proc ::enginewin::playBestMove {id} {
+    set w .engineWin$id
+    if {[info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id)} {
+        set w .pv$::enginewin::pgnviewer($id).engineWin$id
+    }
+    if {![winfo exists $w]} { return false }
+    # exportMoves returns false when no PV line is available yet.
+    return [::enginewin::exportMoves $w.display.pv_lines 1.0]
 }
 
 # Add all the move lines to the current game.

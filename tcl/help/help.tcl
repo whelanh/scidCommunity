@@ -933,6 +933,13 @@ set helpText(Moves) {<h1>Entering chess moves</h1>
   To delete a character, press [Backspace] or [Delete].
   </p>
   <p>
+  If no move is currently being typed, pressing the [space] bar plays the
+  best move of the engine currently shown on the board: the engine linked to
+  the main evaluation bar, or otherwise the Analysis engine (Lichess-style).
+  With MultiPV, the first line is played. The same shortcut works in the
+  <a Analysis>Analysis</a> and <a Engine>Engine</a> windows.
+  </p>
+  <p>
   <b>Note</b> that a lower-case letter matches to a pawn first, so a
   [b] can match to a pawn or Bishop, but if there is a conflict
   you must use a capital [B] for the Bishop move.
@@ -3271,7 +3278,9 @@ set helpText(Analysis) {<h1>The Analysis window</h1>
   <li><b>Lock</b> <button tb_lockengine>: Locks the engine to a fixed position.
     When locked, the engine continues analyzing that position even when you navigate
     to different moves in the game. Click again to unlock.</li>
-  <li><b>Add move</b> <button tb_addmove>: Adds the engine's best move to the game.</li>
+  <li><b>Add move</b> <button tb_addmove>: Adds the engine's best move to the game.
+    You can also press the <b>spacebar</b> to play the engine's best move
+    (with MultiPV, the first line is played).</li>
   <li><b>Add variation</b> <button tb_addvar>: Adds the engine's best line as
     a variation to the current game.</li>
   <li><b>Add all variations</b> <button tb_addallvars>: Adds all MultiPV lines as
@@ -3359,7 +3368,9 @@ set helpText(Engine) {<h1>The Engine windows</h1>
   <li><b>Lock</b> <button tb_eng_lock>: Locks the engine to the current position.
     When locked, the engine analyzes only that position, even when you navigate
     to different moves. Click again to unlock and follow the current position.</li>
-  <li><b>Add best move</b> <button tb_eng_addbestmove>: Adds the engine's best move to the game.</li>
+  <li><b>Add best move</b> <button tb_eng_addbestmove>: Adds the engine's best move to the game.
+    You can also press the <b>spacebar</b> to play the engine's best move
+    (with MultiPV, the first line is played).</li>
   <li><b>Add all lines</b> <button tb_eng_addlines>: Adds all MultiPV lines as
     variations.</li>
   <li><b>Config</b> <button tb_eng_config>: Shows or hides the engine configuration
