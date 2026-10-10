@@ -143,7 +143,9 @@ proc excludeTextWidget {w} {
 proc spaceTriggersEngineMove {w} {
 	set cls [winfo class $w]
 	# Buttons, menus and editable fields handle <space> themselves.
-	if {[regexp {Button$|Entry$|Combobox$|Spinbox$} $cls] || $cls eq "Menu"} {
+	# Use -nocase so Checkbutton/Radiobutton/Menubutton (whose class names end
+	# in a lower-case "button") are matched too.
+	if {[regexp -nocase {Button$|Entry$|Combobox$|Spinbox$} $cls] || $cls eq "Menu"} {
 		return 0
 	}
 	return 1
