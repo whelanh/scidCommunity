@@ -408,6 +408,58 @@ proc ::updateMainEvalBar {engineID bestmove evaluation {pvlines {}}} {
     }
 }
 
+# Handle a <space> keypress inside the main board window.
+# Completes an in-progress keyboard move entry, otherwise plays the best move
+# of the engine currently driving the board.
+# Return true if the key was consumed (the caller then stops the binding chain).
+proc ::mainBoardSpaceKey {widget} {
+    if {![spaceTriggersEngineMove $widget]} { return false }
+    if {$::moveEntry(Text) ne ""} {
+        moveEntry_Complete
+    } else {
+        ::playMainEngineBestMove
+    }
+    return true
+}
+
+# Play the current best move of an Engine window in the game.
+# Return true if the engine has a move and it was added successfully.
+proc ::addEngineBestMove {id} {
+    if {![info exists ::enginewin::pvBestMove($id,1)]} { return false }
+    set move $::enginewin::pvBestMove($id,1)
+    if {$move eq ""} { return false }
+    if {[catch {::addMoveUCI $move} ok]} { return false }
+    return $ok
+}
+
+# Play the best move of the engine currently driving the main board.
+# Lichess-style spacebar shortcut, usable when the main board has the focus.
+# The priority follows what the board displays:
+#   1. the engine associated with the main evaluation bar (the one the user
+#      sees, and can select from the eval bar's right-click menu);
+#   2. otherwise a running Analysis engine (engine 1 has priority, engine 2
+#      is used only when engine 1 is not analyzing);
+#   3. otherwise any running Engine window with a current best move.
+# Return true if a move was successfully added.
+proc ::playMainEngineBestMove {} {
+    # 1. The engine shown in the main evaluation bar.
+    if {[info exists ::mainEvalBarEngineID_] && \
+        [::addEngineBestMove $::mainEvalBarEngineID_]} {
+        return 1
+    }
+    # 2. Analysis engines: engine 1 owns the display unless it is not analyzing.
+    foreach n {1 2} {
+        if {![winfo exists .analysisWin$n] || !$::analysis(analyzeMode$n)} { continue }
+        if {$n != 1 && [winfo exists .analysisWin1] && $::analysis(analyzeMode1)} { continue }
+        return [makeAnalysisMove $n]
+    }
+    # 3. Any running Engine window with a current best move.
+    foreach id [lsort -integer [array names ::enginewin::engState]] {
+        if {[::addEngineBestMove $id]} { return 1 }
+    }
+    return 0
+}
+
 # Create a menu containing:
 # - the engine currently associated with the evaluation bar
 # - engines open in enginewin windows
@@ -1824,7 +1876,13 @@ proc CreateMainBoard { {w} } {
   }
   bind $w <BackSpace> moveEntry_Backspace
   bind $w <Delete> moveEntry_Backspace
-  bind $w <space> moveEntry_Complete
+  # Space completes an in-progress keyboard move entry; when nothing is being
+  # typed it plays the best move of the engine currently driving the board
+  # (Lichess-style shortcut). A custom bind tag is used because the board
+  # window is a frame that can be docked inside a notebook, where a binding on
+  # $w alone would not reach the widgets inside it.
+  bind MainBoardKeys <space> "if {\[::mainBoardSpaceKey %W\]} { break }"
+  ::addBindtagToTree $w MainBoardKeys
   bind $w <ButtonRelease> "focus $w"
   bind $w <Configure> {+::resizeMainBoard }
 

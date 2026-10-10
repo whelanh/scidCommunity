@@ -1128,6 +1128,14 @@ proc addAllVariations {{n 1}} {
 ################################################################################
 #
 ################################################################################
+# Handle a <space> keypress in an analysis window.
+# Return true if the key was consumed (the caller then stops the binding chain).
+proc analysisSpaceKey {n widget} {
+    if {![spaceTriggersEngineMove $widget]} { return false }
+    makeAnalysisMove $n
+    return true
+}
+
 proc makeAnalysisMove {{n 1} {comment ""}} {
     regexp {[^[:alpha:]]*(.*?)( .*|$)} $::analysis(moves$n) -> move
     if {![info exists move]} { return 0 }
@@ -1473,6 +1481,11 @@ proc makeAnalysisWin { {n 1} {index -1} {autostart 1}} {
     bind $w <Destroy> "if {\[string equal $w %W\]} { destroyAnalysisWin $n }"
     bind $w <Escape> "focus .; destroy $w"
     bind $w <Key-a> "$w.b1.bStartStop invoke"
+    # Play the engine's best move with the spacebar (Lichess-style shortcut).
+    # The custom bind tag is placed before the widget/class bind tags so the
+    # key is consumed before e.g. the Text class inserts a space.
+    bind "AnalysisSpace$n" <space> "if {\[analysisSpaceKey $n %W\]} { break }"
+    ::addBindtagToTree $w "AnalysisSpace$n"
     wm minsize $w 25 0
     ::createToplevelFinalize $w
 

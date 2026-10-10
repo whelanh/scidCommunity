@@ -133,3 +133,42 @@ proc excludeTextWidget {w} {
 		}
 	}
 }
+
+# spaceTriggersEngineMove:
+#   Returns true when a <space> keypress in widget $w should trigger the
+#   "play the engine's best move" action. Widgets that use the spacebar
+#   themselves (buttons, menus and single-line editable fields) keep their
+#   normal behaviour. Text widgets are treated as display areas (the engine
+#   and analysis windows only use them to show read-only information).
+proc spaceTriggersEngineMove {w} {
+	set cls [winfo class $w]
+	# Buttons, menus and editable fields handle <space> themselves.
+	if {[regexp {Button$|Entry$|Combobox$|Spinbox$} $cls] || $cls eq "Menu"} {
+		return 0
+	}
+	return 1
+}
+
+# addBindtagToTree:
+#   Add $tag to the bind tags of $w and every descendant widget.
+#   A window created with ::win::createWindow is a plain frame, which can be
+#   docked inside a notebook. In that case the widgets inside it do not have
+#   the window itself in their bind tags, so a binding on the window widget
+#   would not fire for its children. Adding an explicit tag to the whole tree
+#   makes keyboard bindings work whether the window is docked or not.
+proc addBindtagToTree {w tag} {
+	set stack [list $w]
+	while {[llength $stack]} {
+		set cur [lindex $stack 0]
+		set stack [lrange $stack 1 end]
+		set tags [bindtags $cur]
+		# bindtags may be empty for widgets using the default dynamic tags.
+		if {[llength $tags] == 0} {
+			set tags [list $cur [winfo class $cur] [winfo toplevel $cur] all]
+		}
+		if {$tag ni $tags} {
+			bindtags $cur [linsert $tags 0 $tag]
+		}
+		set stack [concat $stack [winfo children $cur]]
+	}
+}
