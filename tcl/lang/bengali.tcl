@@ -287,6 +287,7 @@ menuText b OptionsMovesShowVarArrows "বৈচিত্র্যের জন�
 menuText b OptionsMovesShowEngineVariationArrows "ইঞ্জিন বৈচিত্র্যের জন্য তীর দেখান" 0 {মাল্টিপিভি মোডে ইঞ্জিনের বৈচিত্র্যের লাইন দেখানো তীরগুলি চালু/বন্ধ করুন}
 menuText b OptionsMovesGlossOfDanger "কালার কোডেড গ্লস অফ ডেঞ্জার" 0 {বিপদের রঙিন কোডেড গ্লস চালু/বন্ধ করুন}
 translate b OptionsMovesTreeDepth {ডিফল্ট ট্রি উইন্ডো সরানোর গভীরতা}
+translate b OptionsMovesEnginePvLength {ইঞ্জিন পিভি প্রদর্শনের দৈর্ঘ্য}
 menuText b OptionsNumbers "নম্বর বিন্যাস" 0 {নম্বর বিন্যাস নির্বাচন করুন}
 menuText b OptionsTheme "থিম" 0 {ইন্টারফেসের চেহারা পরিবর্তন করুন}
 menuText b OptionsWindows "উইন্ডোজ" 0 {উইন্ডো বিকল্প}

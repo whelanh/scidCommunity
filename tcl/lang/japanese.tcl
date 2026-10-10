@@ -328,6 +328,7 @@ menuText A OptionsMovesShowVarArrows "バリエーションの矢印を表示" 0
 menuText A OptionsMovesShowEngineVariationArrows "エンジンのバリエーションを矢印で表示" 0 {マルチPVモードでエンジン変動ラインを表示する矢印をオン/オフにします}
 menuText A OptionsMovesGlossOfDanger "色分けされた危険の光沢" 0 {色分けされた危険の光沢をオン/オフにする}
 translate A OptionsMovesTreeDepth {デフォルトのツリーウィンドウの移動深さ}
+translate A OptionsMovesEnginePvLength {エンジンPV表示長}
 menuText A OptionsNumbers "数値の形式" 0 {数値形式を選択します}
 menuText A OptionsTheme "テーマ" 0 {インターフェースの外観を変更する}
 menuText A OptionsWindows "窓" 0 {ウィンドウのオプション}

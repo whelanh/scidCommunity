@@ -288,6 +288,7 @@ menuText Q OptionsMovesShowVarArrows "Показати стрілки для в�
 menuText Q OptionsMovesShowEngineVariationArrows "Показати стрілки для варіантів двигуна" 0 {Увімкнути/вимкнути стрілки, які показують лінії варіації двигуна в режимі multiPV}
 menuText Q OptionsMovesGlossOfDanger "Кольоровий блиск небезпеки" 0 {Увімкніть/вимкніть кольоровий блиск небезпеки}
 translate Q OptionsMovesTreeDepth {Глибина переміщення вікна дерева за замовчуванням}
+translate Q OptionsMovesEnginePvLength {Довжина PV дисплея двигуна}
 menuText Q OptionsNumbers "Формат числа" 0 {Виберіть формат числа}
 menuText Q OptionsTheme "Тема" 0 {Змінити вигляд інтерфейсу}
 menuText Q OptionsWindows "вікна" 0 {Параметри вікна}

@@ -819,6 +819,11 @@ if {[array exists ::enginewin::pvBestMove]} {
     set scoreside $::enginewin::m_(scoreside,$id)
 
     set pvDisplay $pv
+    # Limit the length of each PV line according to the user preference
+    # (the preference is expressed in moves; 1 move = 2 plies).
+    if {[info exists ::enginePvDisplayLength] && $::enginePvDisplayLength > 0} {
+        set pvDisplay [lrange $pvDisplay 0 [expr {$::enginePvDisplayLength * 2 - 1}]]
+    }
     if {[catch {
         lassign [::enginewin::formatPV $notation $::enginewin::pv_(pos,$id) $pvDisplay] pvDisplay translated
     }]} {

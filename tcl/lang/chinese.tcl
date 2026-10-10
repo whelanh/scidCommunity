@@ -263,6 +263,7 @@ menuText M OptionsMovesShowVarArrows "显示变化箭头" 0 {开启/关闭显示
 menuText M OptionsMovesShowEngineVariationArrows "显示引擎变化箭头" 0 {开启/关闭在多PV模式下显示引擎变化线的箭头}
 menuText M OptionsMovesGlossOfDanger "危险等级颜色编码" 0 {开启/关闭危险等级颜色编码}
 translate M OptionsMovesTreeDepth {默认树窗口移动深度}
+translate M OptionsMovesEnginePvLength {发动机PV显示长度}
 menuText M OptionsNumbers "数字格式" 0 {选择数字格式}
 menuText M OptionsTheme "主题" 0 {更改界面外观}
 menuText M OptionsWindows "窗口" 0 {窗口选项}

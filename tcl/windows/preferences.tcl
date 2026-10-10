@@ -47,6 +47,13 @@ proc ::preferences::moves { t } {
         -validate key -validatecommand { return [string is digit %S] }
     pack $t.tree.label $t.tree.depth -side left -padx "0 5" -anchor w
 
+    ttk::frame $t.pvlen
+    ttk::label $t.pvlen.label -text "[tr OptionsMovesEnginePvLength]:"
+    ttk::spinbox $t.pvlen.sp -width 4 -textvariable ::enginePvDisplayLength -from 1 -to 50 -increment 1 \
+        -validate all -validatecommand { regexp {^(?:[1-9]|[1-4][0-9]|50)$} %P }
+    ttk::label $t.pvlen.moves -text [tr moves]
+    pack $t.pvlen.label $t.pvlen.sp $t.pvlen.moves -side left -padx "0 5" -anchor w
+
     ttk::frame $t.auto
     ttk::label $t.auto.label -text "[tr OptionsMovesDelay]\n$::tr(AnnotateTime:)"
     ttk::spinbox $t.auto.spDelay -width 4 -textvariable tempdelay -from 1 -to 999 -increment 1 \
@@ -80,6 +87,7 @@ proc ::preferences::moves { t } {
     pack $t.vararrows.sva -side top -anchor w
     pack $t.vararrows.eva -side top -anchor w
     pack $t.vararrows -side top -anchor w -pady "2 0"
+    pack $t.pvlen -side top -anchor w -pady "2 0"
 }
 
 proc ::preferences::updateScrollBar { w } {

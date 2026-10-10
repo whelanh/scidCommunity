@@ -372,6 +372,8 @@ menuText Y OptionsMovesShowEngineVariationArrows "Show Arrows for Engine Variati
 menuText Y OptionsMovesGlossOfDanger "Color Coded Gloss of Danger" 0 {Turn on/off color coded gloss of danger}
 # ====== TODO To be translated ======
 translate Y OptionsMovesTreeDepth {Default Tree Window Move Depth}
+# ====== TODO To be translated ======
+translate Y OptionsMovesEnginePvLength {Engine PV display length}
 menuText Y OptionsNumbers "Format brojeva" 0 {Izaberi format brojeva}
 # ====== TODO To be translated ======
 menuText Y OptionsTheme "Theme" 0 {Change look of interface}

@@ -2405,10 +2405,24 @@ proc updateAnalysisText {{n 1}} {
         return
     }
     
+    # Limit the length of the displayed PV lines according to the user
+    # preference (expressed in moves; 1 move = 2 plies). The full PV is kept
+    # for mate detection, only the moves actually shown are truncated.
+    set maxPvPlies 0
+    if {[info exists ::enginePvDisplayLength] && $::enginePvDisplayLength > 0} {
+        set maxPvPlies [expr {$::enginePvDisplayLength * 2}]
+    }
     if { $analysis(uci$n) } {
         set moves [ lindex [ lindex $analysis(multiPV$n) 0 ] 2 ]
     } else  {
         set moves $analysis(moves$n)
+        # Non-UCI engines return a move string that includes move numbers.
+        # Normalise it the same way the annotate feature does, then apply the
+        # display length limit. The full string is still used for the board.
+        if {$maxPvPlies > 0} {
+            set moves [regsub -all {\. *} $moves {.}]
+            set moves [lrange $moves 0 [expr {$maxPvPlies - 1}]]
+        }
     }
     
     $h configure -state normal
@@ -2422,7 +2436,9 @@ proc updateAnalysisText {{n 1}} {
     if { $analysis(uci$n) } {
         if {$cleared} { set analysis(multiPV$n) {} ; set analysis(multiPVraw$n) {} }
         if {$analysis(multiPVCount$n) == 1} {
-            set newhst [format "%2d %s %s" $analysis(depth$n) [scoreToMate $score $moves $n] [addMoveNumbers $n [::trans $moves]]]
+            set displayMoves $moves
+            if {$maxPvPlies > 0} { set displayMoves [lrange $displayMoves 0 [expr {$maxPvPlies - 1}]] }
+            set newhst [format "%2d %s %s" $analysis(depth$n) [scoreToMate $score $moves $n] [addMoveNumbers $n [::trans $displayMoves]]]
             if {$newhst != $analysis(lastHistory$n) && $moves != ""} {
                 $h insert end [format "%s (%.2f)\n" $newhst $analysis(time$n)] indent
                 $h see end-1c
@@ -2459,18 +2475,22 @@ proc updateAnalysisText {{n 1}} {
                 }
 
                 # First line
+                set pvMoves [lindex $pv 2]
+                if {$maxPvPlies > 0} { set pvMoves [lrange $pvMoves 0 [expr {$maxPvPlies - 1}]] }
                 catch { set newStr [format "%2d %s " [lindex $pv 0] [scoreToMate [lindex $pv 1] [lindex $pv 2] $n] ] }
             
                 $h insert end "1 " gray
-                append newStr "[addMoveNumbers $n [::trans [lindex $pv 2]]] [format (%.2f)\n [lindex $pv 4]]"
+                append newStr "[addMoveNumbers $n [::trans $pvMoves]] [format (%.2f)\n [lindex $pv 4]]"
                 $h insert end $newStr blue
             
                 set lineNumber 1
                 foreach pv $analysis(multiPV$n) {
                     if {$lineNumber == 1} { incr lineNumber ; continue }
+                    set pvMoves [lindex $pv 2]
+                    if {$maxPvPlies > 0} { set pvMoves [lrange $pvMoves 0 [expr {$maxPvPlies - 1}]] }
                     $h insert end "$lineNumber " gray
                     set score [scoreToMate [lindex $pv 1] [lindex $pv 2] $n]
-                    $h insert end [format "%2d %s %s (%.2f)\n" [lindex $pv 0] $score [addMoveNumbers $n [::trans [lindex $pv 2]]] [lindex $pv 4]] indent
+                    $h insert end [format "%2d %s %s (%.2f)\n" [lindex $pv 0] $score [addMoveNumbers $n [::trans $pvMoves]] [lindex $pv 4]] indent
                     incr lineNumber
                 }
                 set analysis(blockLineCount$n) [llength $analysis(multiPV$n)]

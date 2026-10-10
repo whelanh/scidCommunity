@@ -294,6 +294,7 @@ menuText B OptionsMovesShowVarArrows "Mostrar Setas para variantes" 0 {Liga/Desl
 menuText B OptionsMovesShowEngineVariationArrows "Mostrar setas para variantes do motor" 0 {Setas liga/desliga mostrando linhas de variação do motor no modo multiPV}
 menuText B OptionsMovesGlossOfDanger "Códigos de Cor para Perigo" 0 {Liga/Desliga os códigos de cor para perigo}
 translate B OptionsMovesTreeDepth {Profundidade de movimentação da janela de árvore padrão}
+translate B OptionsMovesEnginePvLength {Comprimento do display PV do motor}
 menuText B OptionsNumbers "Formato de Números" 0 {Selecione o formato usado para números}
 menuText B OptionsTheme "Tema" 0 {Muda a aparência da interface}
 menuText B OptionsWindows "Janelas" 0 {Opções para Janelas}

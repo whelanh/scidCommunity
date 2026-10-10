@@ -296,6 +296,7 @@ menuText W OptionsMovesShowVarArrows "Visa pilar för variationer" 0 {Växlar p�
 menuText W OptionsMovesShowEngineVariationArrows "Visa pilar för motorvariationer" 0 {Slå på/av-pilar som visar motorvariationslinjer i multiPV-läge}
 menuText W OptionsMovesGlossOfDanger "Färgkodad Gloss of Danger" 0 {Slå på/av färgkodad glans av fara}
 translate W OptionsMovesTreeDepth {Standard trädfönster Flytta djup}
+translate W OptionsMovesEnginePvLength {Motorns PV-displaylängd}
 menuText W OptionsNumbers "Talformat" 3 {Välj hur tal visas}
 menuText W OptionsTheme "Tema" 0 {Ändra utseende på gränssnitt}
 menuText W OptionsWindows "Fönster" 1 {Fönsteralternativ}

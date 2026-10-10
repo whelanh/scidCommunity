@@ -317,6 +317,7 @@ menuText S OptionsMovesShowVarArrows "Mostrar flechas para las variaciones" 0 \
 menuText S OptionsMovesShowEngineVariationArrows "Mostrar Flechas para Variantes del Motor" 0 {Activar/desactivar flechas que muestran líneas de variación del motor en modo multiPV}
 menuText S OptionsMovesGlossOfDanger "Brillo de peligro codificado por colores" 0 {Activar/desactivar el brillo de peligro codificado por colores}
 translate S OptionsMovesTreeDepth {Profundidad de movimiento de ventana de árbol predeterminada}
+translate S OptionsMovesEnginePvLength {Longitud de visualización del PV del motor}
 menuText S OptionsNumbers "Formato de números" 11 \
   {Selecciona el formato de números}
 menuText S OptionsTheme "Tema" 0 {Cambia el aspecto del interfaz}

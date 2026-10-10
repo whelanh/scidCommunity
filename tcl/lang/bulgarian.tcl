@@ -328,6 +328,7 @@ menuText g OptionsMovesShowVarArrows "Показване на стрелки з�
 menuText g OptionsMovesShowEngineVariationArrows "Показване на стрелки за вариации на двигателя" 0 {Включете/изключете стрелките, показващи линии за вариация на двигателя в режим multiPV}
 menuText g OptionsMovesGlossOfDanger "Цветно кодиран блясък на опасност" 0 {Включете/изключете цветно кодирания блясък на опасност}
 translate g OptionsMovesTreeDepth {Дълбочина на движение на прозореца на дървото по подразбиране}
+translate g OptionsMovesEnginePvLength {Дължина на PV дисплея на двигателя}
 menuText g OptionsNumbers "Числов формат" 0 {Изберете числовия формат}
 menuText g OptionsTheme "Тема" 0 {Промяна на външния вид на интерфейса}
 menuText g OptionsWindows "Windows" 0 {Опции за прозорци}

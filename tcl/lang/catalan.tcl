@@ -306,6 +306,7 @@ menuText K OptionsMovesShowVarArrows "Mostra fletxes per a les variants" 0 {Acti
 menuText K OptionsMovesShowEngineVariationArrows "Mostra les fletxes per a les variacions del motor" 0 {Activar/desactivar les fletxes que mostren les línies de variació del motor en mode multiPV}
 menuText K OptionsMovesGlossOfDanger "Marques de perill de colors" 0 {Activa o desactiva les marques de perill de colors}
 translate K OptionsMovesTreeDepth {Profunditat de moviment de la finestra de l'arbre per defecte}
+translate K OptionsMovesEnginePvLength {Longitud de visualització del motor PV}
 menuText K OptionsNumbers "Format de números" 11 {Selecciona el format de números}
 menuText K OptionsTheme "Tema" 0 {Canviar l'aspecte del programari}
 menuText K OptionsWindows "Finestres" 0 {Opcions de finestra}

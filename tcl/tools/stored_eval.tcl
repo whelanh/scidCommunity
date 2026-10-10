@@ -223,6 +223,11 @@ proc ::stored_eval::formatForDisplay {storedData fen} {
         set sanMoves ""
         if {[catch {
             set moveList [split $pv_uci " "]
+            # Limit the displayed length according to the user preference
+            # (expressed in moves; 1 move = 2 plies).
+            if {[info exists ::enginePvDisplayLength] && $::enginePvDisplayLength > 0} {
+                set moveList [lrange $moveList 0 [expr {$::enginePvDisplayLength * 2 - 1}]]
+            }
             set sanMoves [::uci::formatPv $moveList $fen]
         }]} {
             set sanMoves $pv_uci

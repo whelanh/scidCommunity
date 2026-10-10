@@ -312,6 +312,7 @@ menuText N OptionsMovesShowVarArrows "Toon Pijlen voor Varianten" 0 {Zet aan/af 
 menuText N OptionsMovesShowEngineVariationArrows "Toon pijlen voor motorvariaties" 0 {Aan/uit-pijlen die de motorvariatielijnen weergeven in de multiPV-modus}
 menuText N OptionsMovesGlossOfDanger "Kleurgecodeerde glans van gevaar" 0 {Schakel de kleurgecodeerde glans van gevaar in/uit}
 translate N OptionsMovesTreeDepth {Standaard boomvenster Verplaatsingsdiepte}
+translate N OptionsMovesEnginePvLength {Motor-PV-weergavelengte}
 menuText N OptionsNumbers "Getalformaat" 5 \
   {Kies de manier waarop getallen te zien zijn}
 menuText N OptionsTheme "Theme" 0 {Verander het uitzicht van de interface}

@@ -327,6 +327,7 @@ menuText E OptionsMovesShowVarArrows "Show Arrows for Game Variations" 0 {Turn o
 menuText E OptionsMovesShowEngineVariationArrows "Show multi-PV Engine Arrows" 0 {Turn on/off arrows showing engine PV lines in multiPV mode}
 menuText E OptionsMovesGlossOfDanger "Color Coded Gloss of Danger" 0 {Turn on/off color coded gloss of danger}
 translate E OptionsMovesTreeDepth {Default Tree Window Plies}
+translate E OptionsMovesEnginePvLength {Engine PV display length}
 menuText E OptionsNumbers "Number Format" 0 {Select the number format}
 menuText E OptionsTheme "Theme" 0 {Change look of interface}
 menuText E OptionsWindows "Windows" 0 {Window options}

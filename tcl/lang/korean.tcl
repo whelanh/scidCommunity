@@ -328,6 +328,7 @@ menuText k OptionsMovesShowVarArrows "변형에 대한 화살표 표시" 0 {변�
 menuText k OptionsMovesShowEngineVariationArrows "엔진 변형에 대한 화살표 표시" 0 {다중 PV 모드에서 엔진 변형 라인을 표시하는 화살기/끄기}
 menuText k OptionsMovesGlossOfDanger "색상으로 구분된 위험의 점" 0 {색상으로 구분된 위험 조명기/끄기}
 translate k OptionsMovesTreeDepth {기본적으로 트리 창 이동 범위}
+translate k OptionsMovesEnginePvLength {엔진 PV 표시 길이}
 menuText k OptionsNumbers "숫자 형식" 0 {숫자 형식 선택}
 menuText k OptionsTheme "주제" 0 {인터페이스 변경 모양}
 menuText k OptionsWindows "다루다" 0 {창옵션}

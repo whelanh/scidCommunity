@@ -319,6 +319,7 @@ menuText D OptionsMovesShowVarArrows "Pfeile für Varianten anzeigen" 0 {Zeige P
 menuText D OptionsMovesShowEngineVariationArrows "Engine-Varianten-Pfeile" 0 {Schaltet die mehrfarbigen drei Variantenpfeile im multiPV Modus aus}
 menuText D OptionsMovesGlossOfDanger "Bedrohte Figuren einfärben" 0 {Markieren von gefärdeten Figuren ein/ausschalten}
 translate D OptionsMovesTreeDepth {Standardmäßige Verschiebetiefe des Baumfensters}
+translate D OptionsMovesEnginePvLength {Länge der Motor-PV-Anzeige}
 menuText D OptionsNumbers "Zahlenformat" 5 {Zahlenformat wählen}
 menuText D OptionsTheme "Design" 0 {Verändert das Aussehen der Oberfläche}
 menuText D OptionsWindows "Fenster" 6 {Fenster-Optionen}

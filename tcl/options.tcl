@@ -232,6 +232,9 @@ set suggestMoves 1
 set showVarPopup 0
 set showVarArrows 1
 set showEngineVariationArrows 1
+# Number of moves (2 plies each) of each engine PV line to display in the
+# Engine windows (F2/F3) and in the Analysis Engine window.
+set ::enginePvDisplayLength 6
 ::options.store ::showMainEvalBarArrow 1
 
 # Keyboard Move entry options:
@@ -671,6 +674,7 @@ proc options.write {} {
           ::pgn::symbolicNags ::pgn::moveNumberSpaces ::pgn::columnFormat \
           tree(order) tree(moveDepth) optionsAutoSave ::tree::mask::recentMask \
           ecoFile suggestMoves showVarPopup showVarArrows showEngineVariationArrows \
+          enginePvDisplayLength \
           blunderThreshold autoplayDelay animateDelay boardCoords \
           moveEntry(AutoExpand) moveEntry(Coord) \
           translatePieces lichessFormat arrowLastMove highlightLastMove highlightLastMoveWidth \

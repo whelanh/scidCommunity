@@ -287,6 +287,7 @@ menuText Z OptionsMovesShowVarArrows "Onyesha Vishale kwa Tofauti" 0 {Washa/zima
 menuText Z OptionsMovesShowEngineVariationArrows "Onyesha Vishale kwa Tofauti za Injini" 0 {Washa/zima vishale vinavyoonyesha njia tofauti za injini katika hali ya multiPV}
 menuText Z OptionsMovesGlossOfDanger "Mwangaza wa Hatari Wenye Msimbo wa Rangi" 0 {Washa/zima gloss yenye msimbo wa rangi ya hatari}
 translate Z OptionsMovesTreeDepth {Dirisha Chaguomsingi la Kusogeza kwa Miti}
+translate Z OptionsMovesEnginePvLength {Urefu wa onyesho la PV ya injini}
 menuText Z OptionsNumbers "Muundo wa Nambari" 0 {Chagua muundo wa nambari}
 menuText Z OptionsTheme "Mandhari" 0 {Badilisha mwonekano wa kiolesura}
 menuText Z OptionsWindows "Windows" 0 {Chaguzi za dirisha}

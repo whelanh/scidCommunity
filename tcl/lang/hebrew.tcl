@@ -288,6 +288,7 @@ menuText V OptionsMovesShowVarArrows "הצג חצים לווריאציות" 0 {�
 menuText V OptionsMovesShowEngineVariationArrows "הצג חצים עבור וריאציות מנוע" 0 {הפעל/כיבוי חצים המציגים קווי וריאציה של המנוע במצב multiPV}
 menuText V OptionsMovesGlossOfDanger "מבריק של סכנה בקוד צבע" 0 {הפעל/כבה את מבריק סכנה עם קוד צבע}
 translate V OptionsMovesTreeDepth {עומק הזזת חלון עץ ברירת מחדל}
+translate V OptionsMovesEnginePvLength {אורך תצוגת PV מנוע}
 menuText V OptionsNumbers "פורמט מספר" 0 {בחר את תבנית המספר}
 menuText V OptionsTheme "נוֹשֵׂא" 0 {שנה את מראה הממשק}
 menuText V OptionsWindows "חלונות" 0 {אפשרויות חלון}
