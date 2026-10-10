@@ -1132,18 +1132,22 @@ proc addAllVariations {{n 1}} {
 # Return true if the key was consumed (the caller then stops the binding chain).
 proc analysisSpaceKey {n widget} {
     if {![spaceTriggersEngineMove $widget]} { return false }
+    # The Add move button is disabled while the engine is locked to a fixed
+    # position: do not play the locked position's move in that case either.
+    if {$::analysis(lockEngine$n)} { return true }
     makeAnalysisMove $n
     return true
 }
 
 proc makeAnalysisMove {{n 1} {comment ""}} {
     regexp {[^[:alpha:]]*(.*?)( .*|$)} $::analysis(moves$n) -> move
-    if {![info exists move]} { return 0 }
+    # No move available (or an empty PV): nothing to add.
+    if {![info exists move] || $move eq ""} { return 0 }
 
     if { $::analysis(uci$n) } {
-        ::addMoveUCI $move
+        if {[catch {::addMoveUCI $move} ok] || !$ok} { return 0 }
     } else  {
-        ::addSanMove $move
+        if {[catch {::addSanMove $move} ok] || !$ok} { return 0 }
     }
 
     if {$comment != ""} {

@@ -450,8 +450,13 @@ proc ::playMainEngineBestMove {} {
     # 2. Analysis engines: engine 1 owns the display unless it is not analyzing.
     foreach n {1 2} {
         if {![winfo exists .analysisWin$n] || !$::analysis(analyzeMode$n)} { continue }
+        # A locked engine analyzes a fixed position; playing its move in the
+        # current position would be wrong (the Add move button is disabled).
+        if {$::analysis(lockEngine$n)} { continue }
         if {$n != 1 && [winfo exists .analysisWin1] && $::analysis(analyzeMode1)} { continue }
-        return [makeAnalysisMove $n]
+        # Only stop here if the move was actually added; otherwise keep looking
+        # for a fallback (e.g. an Engine window with a valid move).
+        if {[makeAnalysisMove $n]} { return 1 }
     }
     # 3. Any running Engine window with a current best move.
     foreach id [lsort -integer [array names ::enginewin::engState]] {
