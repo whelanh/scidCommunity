@@ -319,7 +319,7 @@ menuText G OptionsMovesShowVarArrows "Εμφάνιση βέλους για βα�
 menuText G OptionsMovesShowEngineVariationArrows "Εμφάνιση βελών για παραλλαγές κινητήρα" 0 {Ενεργοποιήστε/απενεργοποιήστε τα βέλη που δείχνουν γραμμές μεταβολής κινητήρα σε λειτουργία πολλαπλών φωτοβολταϊκών}
 menuText G OptionsMovesGlossOfDanger "Χρωματική κωδικοποίηση Gloss of Danger" 0 {Ενεργοποιήστε/απενεργοποιήστε τη χρωματική κωδικοποίηση gloss of risk}
 translate G OptionsMovesTreeDepth {Προεπιλεγμένο Βάθος μετακίνησης παραθύρου δέντρου}
-translate G OptionsMovesEnginePvLength {Μήκος οθόνης Φ/Β κινητήρα}
+translate G OptionsMovesEnginePvLength {Μήκος εμφάνισης κύριας βαριάντας μηχανής}
 menuText G OptionsNumbers "Μορφή αριθμών" 0 {Επιλέξτε τη μορφή των αριθμών}
 menuText G OptionsTheme "Θέμα" 0 {Αλλάξτε την όψη του προγράμματος}
 menuText G OptionsWindows "Παράθυρα" 0 {Επιλογές παραθύρων}
