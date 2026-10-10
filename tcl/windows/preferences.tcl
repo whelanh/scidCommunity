@@ -50,7 +50,7 @@ proc ::preferences::moves { t } {
     ttk::frame $t.pvlen
     ttk::label $t.pvlen.label -text "[tr OptionsMovesEnginePvLength]:"
     ttk::spinbox $t.pvlen.sp -width 4 -textvariable ::enginePvDisplayLength -from 1 -to 50 -increment 1 \
-        -validate all -validatecommand { regexp {^[0-9]+$} %P }
+        -validate all -validatecommand { regexp {^(?:[1-9]|[1-4][0-9]|50)$} %P }
     ttk::label $t.pvlen.moves -text [tr moves]
     pack $t.pvlen.label $t.pvlen.sp $t.pvlen.moves -side left -padx "0 5" -anchor w
 

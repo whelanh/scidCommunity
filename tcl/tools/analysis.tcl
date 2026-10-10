@@ -2416,6 +2416,13 @@ proc updateAnalysisText {{n 1}} {
         set moves [ lindex [ lindex $analysis(multiPV$n) 0 ] 2 ]
     } else  {
         set moves $analysis(moves$n)
+        # Non-UCI engines return a move string that includes move numbers.
+        # Normalise it the same way the annotate feature does, then apply the
+        # display length limit. The full string is still used for the board.
+        if {$maxPvPlies > 0} {
+            set moves [regsub -all {\. *} $moves {.}]
+            set moves [lrange $moves 0 [expr {$maxPvPlies - 1}]]
+        }
     }
     
     $h configure -state normal
