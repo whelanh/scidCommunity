@@ -12,7 +12,7 @@ namespace eval ::auto_comment {
 
     # Gemini settings
     options.store ::auto_comment::apiKey ""
-    options.store ::auto_comment::model "gemini-3.5-flash"
+    options.store ::auto_comment::model "gemini-3.6-flash"
 
     # DeepSeek settings
     options.store ::auto_comment::deepseekApiKey ""
@@ -100,7 +100,7 @@ proc ::auto_comment::modelChoices {provider} {
     if {$provider eq "deepseek"} {
         return {deepseek-v4-pro deepseek-flash}
     }
-    return {gemini-3.5-flash gemini-3.5-flash-lite gemini-2.5-flash gemini-2.5-flash-lite}
+    return {gemini-3.6-flash gemini-3.5-flash-lite gemini-2.5-flash gemini-2.5-flash-lite}
 }
 
 # ::auto_comment::syncModelCombo
