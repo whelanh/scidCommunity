@@ -294,6 +294,7 @@ menuText R OptionsMovesShowVarArrows "Показывать стрелки в в�
 menuText R OptionsMovesShowEngineVariationArrows "Показывать направление для вариантов двигателя" 0 {Стрелки включения/выключения, показывающие линии изменения двигателя в режиме multiPV}
 menuText R OptionsMovesGlossOfDanger "Подсветка угроз" 0 {Вкл./выкл. подсветку угроз}
 translate R OptionsMovesTreeDepth {Глубина перемещения окна дерева по умолчанию}
+translate R OptionsMovesEnginePvLength {Длина дисплея PV двигателя}
 menuText R OptionsNumbers "Числовой формат" 0 {Выбрать числовой формат}
 menuText R OptionsTheme "Темы" 0 {Смена внешнего вида интерфейса}
 menuText R OptionsWindows "Окна" 0 {Установки окон}

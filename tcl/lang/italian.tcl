@@ -293,6 +293,7 @@ menuText I OptionsMovesShowVarArrows "Mostra frecce per le varianti" 4 {Attiva/d
 menuText I OptionsMovesShowEngineVariationArrows "Mostra Frecce per Varianti del Motore" 0 {Attiva/disattiva frecce che mostrano linee di variazione del motore in modalità multiPV}
 menuText I OptionsMovesGlossOfDanger "Codici di pericolo a colori" 1 {Attiva/disattiva i codici di pericolo a colori}
 translate I OptionsMovesTreeDepth {Profondità di spostamento della finestra dell'albero predefinita}
+translate I OptionsMovesEnginePvLength {Lunghezza visualizzazione PV motore}
 menuText I OptionsNumbers "Formato dei numeri" 13 {Seglie il formato dei numeri}
 menuText I OptionsTheme "Tema" 0 {Cambia l'aspetto dell'interfaccia}
 menuText I OptionsWindows "Finestre" 2 {Opzioni di finestra}

@@ -326,6 +326,7 @@ menuText U OptionsMovesShowVarArrows "Muunnelmat nuolin" 0 {Näytä/älä näyt�
 menuText U OptionsMovesShowEngineVariationArrows "Näytä nuolet moottorin muunnelmia varten" 0 {Kytke päälle/pois nuolet, jotka näyttävät moottorin vaihteluviivoja moniPV-tilassa}
 menuText U OptionsMovesGlossOfDanger "Värikoodattu Gloss of Danger" 0 {Kytke päälle/pois päältä värikoodattu vaaran kiilto}
 translate U OptionsMovesTreeDepth {Oletuspuuikkunan siirtosyvyys}
+translate U OptionsMovesEnginePvLength {Moottorin PV näytön pituus}
 menuText U OptionsNumbers "Numerointi" 0 {Numeroformaatit, 1-3 desimaalipisteellä, 4-6 -pilkulla}
 menuText U OptionsTheme "Teema" 0 {Valitse käyttöliittymän teema}
 menuText U OptionsWindows "Ikkunat" 0 {Ikkunoiden asetukset}

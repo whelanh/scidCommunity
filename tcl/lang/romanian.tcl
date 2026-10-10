@@ -328,6 +328,7 @@ menuText L OptionsMovesShowVarArrows "Afișați săgețile pentru variații" 0 {
 menuText L OptionsMovesShowEngineVariationArrows "Afișați săgețile pentru variațiile de motor" 0 {Porniți/opriți săgețile care arată liniile de variație ale motorului în modul multiPV}
 menuText L OptionsMovesGlossOfDanger "Luciu de pericol cu ​​coduri de culoare" 0 {Activați/dezactivați luciul de pericol cu ​​coduri de culoare}
 translate L OptionsMovesTreeDepth {Adâncimea de mutare a ferestrei arborelui implicit}
+translate L OptionsMovesEnginePvLength {Lungimea afișajului motorului PV}
 menuText L OptionsNumbers "Format de număr" 0 {Selectați formatul numărului}
 menuText L OptionsTheme "Temă" 0 {Schimbați aspectul interfeței}
 menuText L OptionsWindows "Windows" 0 {Opțiuni de fereastră}

@@ -292,6 +292,7 @@ menuText P OptionsMovesShowVarArrows "Pokaż strzałki dla wariantów" 0 {Włąc
 menuText P OptionsMovesShowEngineVariationArrows "Pokaż strzałki dla wariantów silnika" 0 {Włącz/wyłącz strzałki pokazujące linie wariantów silnika w trybie multiPV}
 menuText P OptionsMovesGlossOfDanger "Kolorowe oznaczenie zagrożeń" 0 {Włącz/wyłącz kolorowe oznaczenie stopnia zagrożenia}
 translate P OptionsMovesTreeDepth {Domyślna liczba półposunięć w oknie drzewa wariantów}
+translate P OptionsMovesEnginePvLength {Długość wyświetlacza PV silnika}
 menuText P OptionsNumbers "Format liczb" 0 {Wybierz format liczb}
 menuText P OptionsTheme "Motyw" 0 {Zmień wygląd interfejsu}
 menuText P OptionsWindows "Okna" 0 {Opcje okien}
@@ -559,6 +560,7 @@ translate P DndOwnerDidntRespond {Upuszczenie nie powiodło się: właściciel w
 
 
 
+
 # Game information:
 translate P twin {duplikat}
 translate P deleted {usunięta}
@@ -647,8 +649,8 @@ translate P TreeBest {Najlepsze}
 translate P TreeBestGames {Najlepsze partie z drzewa wariantów}
 translate P TreeFindAnyAnn {dowolna adnotacja}
 translate P TreeFindStalePos {Bieżąca pozycja nie odpowiada pozycji w drzewie wariantów, dla której zapisano adnotację.\nWróć do tej pozycji i spróbuj ponownie.}
-# Uwaga: następny wpis to nagłówek okna drzewa. Po jego edycji sprawdź okno drzewa,
-# aby upewnić się, że tekst jest poprawnie wyrównany względem kolumn.
+# Note: the next message is the tree window title row. After editing it,
+# check the tree window to make sure it lines up with the actual columns.
 translate P TreeTitleRow \
   {    Posunięcia                ECO       Częstość     Wynik ŚrElo  Perf  śrDł ŚrRok  %Remisów  %Wygr.}
 translate P TreeTotal {RAZEM}
@@ -2034,9 +2036,7 @@ translate P RtfNotScidFile {Ten plik nie został wyeksportowany przez scidCommun
 translate P RtfImportSuccess {Partia została pomyślnie zaimportowana do bazy schowka.}
 translate P RtfImportSuccessMulti {%d partii zostało pomyślnie zaimportowanych do bazy schowka.}
 }
-# end of polish.tcl
-
-
+# end of english.tcl
 
 
 ############################################################

@@ -293,6 +293,7 @@ menuText H OptionsMovesShowVarArrows "Nyilak megjelenítése a variációkhoz" 0
 menuText H OptionsMovesShowEngineVariationArrows "Nyilak megjelenítése a motorváltozatokhoz" 0 {Kapcsolja be/ki a nyilakat, amelyek a motor változási vonalait mutatják többPV módban}
 menuText H OptionsMovesGlossOfDanger "Színkódolt Gloss of Danger" 0 {Kapcsolja be/ki a veszély színkódolt fényét}
 translate H OptionsMovesTreeDepth {Alapértelmezett fa ablak mozgási mélység}
+translate H OptionsMovesEnginePvLength {Motor PV kijelző hossza}
 menuText H OptionsNumbers "Számformátum" 1 {Számformátum kiválasztása}
 menuText H OptionsTheme "Téma" 0 {A program megjelenésének megváltoztatása}
 menuText H OptionsWindows "Ablakok" 0 {Ablakbeállítások}

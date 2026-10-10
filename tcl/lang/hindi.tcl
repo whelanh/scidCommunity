@@ -287,6 +287,7 @@ menuText h OptionsMovesShowVarArrows "विविधताओं के लि�
 menuText h OptionsMovesShowEngineVariationArrows "इंजन विविधताओं के लिए तीर दिखाएँ" 0 {मल्टीपीवी मोड में इंजन वेरिएशन लाइनें दिखाने वाले तीरों को चालू/बंद करें}
 menuText h OptionsMovesGlossOfDanger "रंग कोडित खतरे की चमक" 0 {खतरे के रंग कोडित चमक को चालू/बंद करें}
 translate h OptionsMovesTreeDepth {डिफ़ॉल्ट ट्री विंडो चाल गहराई}
+translate h OptionsMovesEnginePvLength {इंजन पीवी डिस्प्ले लंबाई}
 menuText h OptionsNumbers "संख्या स्वरूप" 0 {संख्या प्रारूप का चयन करें}
 menuText h OptionsTheme "विषय" 0 {इंटरफ़ेस का स्वरूप बदलें}
 menuText h OptionsWindows "खिड़कियाँ" 0 {विंडो विकल्प}

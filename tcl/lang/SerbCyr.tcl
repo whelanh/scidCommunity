@@ -328,6 +328,7 @@ menuText J OptionsMovesShowVarArrows "Прикажи стрелице за ва�
 menuText J OptionsMovesShowEngineVariationArrows "Прикажи стрелице за варијације мотора" 0 {Укључите/искључите стрелице које показују линије варијације мотора у мултиПВ режиму}
 menuText J OptionsMovesGlossOfDanger "Сјај опасности у боји" 0 {Укључите/искључите сјај опасности у боји}
 translate J OptionsMovesTreeDepth {Подразумевана дубина померања прозора стабла}
+translate J OptionsMovesEnginePvLength {Дужина приказа ПВ мотора}
 menuText J OptionsNumbers "Формат броја" 0 {Изаберите формат броја}
 menuText J OptionsTheme "Тема" 0 {Промените изглед интерфејса}
 menuText J OptionsWindows "Виндовс" 0 {Опције прозора}

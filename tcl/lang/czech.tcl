@@ -289,6 +289,7 @@ menuText C OptionsMovesShowVarArrows "Zobrazit ipky pro varianty" 0 {Zapnout/vyp
 menuText C OptionsMovesShowEngineVariationArrows "Zobrazit ipky pro varianty motoru" 0 {Zapnte/vypnte ipky ukazujc ry variace motoru v reimu multiPV}
 menuText C OptionsMovesGlossOfDanger "Barevn kdovan lesk nebezpe" 0 {Zapnout/vypnout barevn oznaen lesk nebezpe}
 translate C OptionsMovesTreeDepth {Vchoz Hloubka pohybu okna stromu}
+translate C OptionsMovesEnginePvLength {Délka zobrazení PV motoru}
 menuText C OptionsNumbers "Formt sel" 0 {Zvolit formt sel}
 menuText C OptionsTheme "Tma" 0 {Zmnit vzhled uivatelskho rozhran}
 menuText C OptionsWindows "Okna" 0 {Volby oken}
