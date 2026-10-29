@@ -406,6 +406,75 @@ proc ::reviewdriver::sides {map} {
     return $sides
 }
 
+# One move's verdict, as a dict: `label`, `eval_cp`, the two figures the label
+# ladder used (`before` = the best line's score at the position before the move,
+# `after` = what the ladder compared it with), and `isBest`.
+#
+# Returned as a dict rather than the {label eval_cp} pair ::reviewdriver::verdicts
+# publishes because annotate mode needs the pair the ladder measured - the NAG
+# and difficulty comments are written from the same drop the label came from -
+# and recomputing it elsewhere would be a second, drifting copy of this
+# reasoning. `before`/`after` are centipawns from the mover's point of view.
+proc ::reviewdriver::judge {map results sides ply} {
+    set before [expr {$ply - 1}]
+    if {![dict exists $results $before]} { return "" }
+    set lines [dict get $results $before]
+    if {![dict exists $lines 1]} { return "" }
+    set best [dict get $lines 1]
+    set cp1 [::reviewdriver::lineScore $best]
+    if {$cp1 eq ""} { return "" }
+    set pv1 [lindex $best 3]
+    set played [::review::playedMove $map $ply]
+    # No move, no verdict: a null move is a header, not a move to label, and
+    # writing a comment and variations into it would corrupt the game.
+    if {$played eq ""} { return "" }
+    set isBest [expr {[string equal [lindex $pv1 0] $played]}]
+    # The line the move owns at this root, when the engine ranked it: one
+    # search for both figures, so the drop it measures is not search noise.
+    set ranked ""
+    foreach idx [lsort -integer [dict keys $lines]] {
+        set line [dict get $lines $idx]
+        if {[string equal [lindex [lindex $line 3] 0] $played]} {
+            set ranked [::reviewdriver::lineScore $line]
+            break
+        }
+    }
+    # The searched successor is the engine's own evaluation of the position
+    # the move reaches, from the opponent's point of view; negate it to the
+    # mover's. This is the figure the comment's [%eval] carries, whatever the
+    # move's rank at the root: the unranked case already had to use it, and
+    # one source for the token beats two.
+    set successor ""
+    if {[dict exists $results $ply] && [dict exists [dict get $results $ply] 1]} {
+        set successor [::reviewdriver::lineScore [dict get [dict get $results $ply] 1]]
+        if {$successor ne ""} { set successor [expr {-$successor}] }
+    }
+    set after $ranked
+    if {$after eq ""} { set after $successor }
+    # The ladder needs a pair of evaluations. A move the engine measured -
+    # the best line, or the line the move owns, or the searched successor -
+    # has one; a move it never measured does not, and "no drop measured" is
+    # not the same as "excellent". Only the engine's own move is judged
+    # without a successor (it is `best` by definition); anything else is
+    # left unlabelled rather than given a verdict nothing supports.
+    if {$after eq "" && !$isBest} { return "" }
+    set judged $after
+    if {$judged eq ""} { set judged $cp1 }
+    # [%eval] is White's point of view. The figure is the mover's, and the
+    # mover is whoever is to move in the position before the move - read from
+    # the snapshot, not from ply parity.
+    set shown $successor
+    if {$shown eq ""} { set shown $ranked }
+    set eval_cp ""
+    if {$shown ne ""} {
+        set mover ""
+        catch { set mover [dict get $sides $before] }
+        set eval_cp [expr {$mover eq "b" ? -$shown : $shown}]
+    }
+    return [dict create label [::movelabels::label $cp1 $judged $isBest] \
+        eval_cp $eval_cp before $cp1 after $judged isBest $isBest]
+}
+
 # ply -> {label eval_cp} for every move the pass can judge, from the results of
 # the positions it searched.
 #
@@ -427,62 +496,9 @@ proc ::reviewdriver::verdicts {map results} {
     set plies 0
     catch { set plies [dict get $map plies] }
     for {set ply 1} {$ply <= $plies} {incr ply} {
-        set before [expr {$ply - 1}]
-        if {![dict exists $results $before]} { continue }
-        set lines [dict get $results $before]
-        if {![dict exists $lines 1]} { continue }
-        set best [dict get $lines 1]
-        set cp1 [::reviewdriver::lineScore $best]
-        if {$cp1 eq ""} { continue }
-        set pv1 [lindex $best 3]
-        set played [::review::playedMove $map $ply]
-        # No move, no verdict: a null move is a header, not a move to label, and
-        # writing a comment and variations into it would corrupt the game.
-        if {$played eq ""} { continue }
-        set isBest [expr {[string equal [lindex $pv1 0] $played]}]
-        # The line the move owns at this root, when the engine ranked it: one
-        # search for both figures, so the drop it measures is not search noise.
-        set ranked ""
-        foreach idx [lsort -integer [dict keys $lines]] {
-            set line [dict get $lines $idx]
-            if {[string equal [lindex [lindex $line 3] 0] $played]} {
-                set ranked [::reviewdriver::lineScore $line]
-                break
-            }
-        }
-        # The searched successor is the engine's own evaluation of the position
-        # the move reaches, from the opponent's point of view; negate it to the
-        # mover's. This is the figure the comment's [%eval] carries, whatever the
-        # move's rank at the root: the unranked case already had to use it, and
-        # one source for the token beats two.
-        set successor ""
-        if {[dict exists $results $ply] && [dict exists [dict get $results $ply] 1]} {
-            set successor [::reviewdriver::lineScore [dict get [dict get $results $ply] 1]]
-            if {$successor ne ""} { set successor [expr {-$successor}] }
-        }
-        set after $ranked
-        if {$after eq ""} { set after $successor }
-        # The ladder needs a pair of evaluations. A move the engine measured -
-        # the best line, or the line the move owns, or the searched successor -
-        # has one; a move it never measured does not, and "no drop measured" is
-        # not the same as "excellent". Only the engine's own move is judged
-        # without a successor (it is `best` by definition); anything else is
-        # left unlabelled rather than given a verdict nothing supports.
-        if {$after eq "" && !$isBest} { continue }
-        set judged $after
-        if {$judged eq ""} { set judged $cp1 }
-        # [%eval] is White's point of view. The figure is the mover's, and the
-        # mover is whoever is to move in the position before the move - read from
-        # the snapshot, not from ply parity.
-        set shown $successor
-        if {$shown eq ""} { set shown $ranked }
-        set eval_cp ""
-        if {$shown ne ""} {
-            set mover ""
-            catch { set mover [dict get $sides $before] }
-            set eval_cp [expr {$mover eq "b" ? -$shown : $shown}]
-        }
-        dict set out $ply [list [::movelabels::label $cp1 $judged $isBest] $eval_cp]
+        set v [::reviewdriver::judge $map $results $sides $ply]
+        if {$v eq ""} { continue }
+        dict set out $ply [list [dict get $v label] [dict get $v eval_cp]]
     }
     return $out
 }
@@ -524,6 +540,12 @@ proc ::reviewdriver::run {engine args} {
     set want ""
     set progress ""
     set notify 0
+    # The write phase, and the one place a caller can change it: annotate mode
+    # (tcl/tools/review_annotate.tcl) writes the classic annotator's marks beside
+    # the label, and it must not carry a second copy of the plan ::review::plan
+    # already decided. Same contract as writeResults: called as
+    # {*}$writer <pass> <results>, returning {written failed errors}.
+    set writer ::reviewdriver::writeResults
     for {set i 0} {$i < [llength $args]} {incr i} {
         set opt [lindex $args $i]
         switch -- $opt {
@@ -532,6 +554,7 @@ proc ::reviewdriver::run {engine args} {
             -depth    { incr i ; set want [lindex $args $i] }
             -progress { incr i ; set progress [lindex $args $i] }
             -notify   { incr i ; set notify [lindex $args $i] }
+            -writer   { incr i ; set writer [lindex $args $i] }
             default   { return "unknown option: $opt" }
         }
     }
@@ -609,9 +632,12 @@ proc ::reviewdriver::run {engine args} {
         return $err
     }
     set state $starting
-    set pass [dict create token $token map $map plan $plan mpv $mpv \
+    # `plan` is the moves this run judges (all of them, or -plies); `plies` and
+    # `bookEnd` are kept for a writer that derives its own plan (annotate mode).
+    set pass [dict create token $token map $map plan $plan \
+        plies [dict get $map plies] bookEnd $bookEnd mpv $mpv \
         positions $positions cursor $cursor \
-        progress $progress notify $notify]
+        progress $progress notify $notify writer $writer]
     return ""
 }
 
@@ -652,7 +678,22 @@ proc ::reviewdriver::runDone {results} {
         return
     }
     dict set state state writing
-    ::reviewdriver::writeResults $p $results
+    set counts ""
+    if {[catch { set counts [{*}[dict get $p writer] $p $results] } err]} {
+        # A writer that blew up wrote part of a review: report it rather than
+        # calling the pass clean, and still put the cursor back.
+        dict incr state failed
+        dict lappend state errors "write phase: $err"
+    } else {
+        foreach key {written failed} {
+            if {[dict exists $counts $key]} {
+                dict set state $key [dict get $counts $key]
+            }
+        }
+        if {[dict exists $counts errors]} {
+            dict set state errors [dict get $counts errors]
+        }
+    }
     dict set state state done
     ::reviewdriver::endRun $p
 }
@@ -662,9 +703,11 @@ proc ::reviewdriver::runDone {results} {
 # leaves the game where it found it on every path, so one refusal cannot corrupt
 # the rest.
 proc ::reviewdriver::writeResults {p results} {
-    variable state
     set map [dict get $p map]
     set mpv [dict get $p mpv]
+    set written 0
+    set failed 0
+    set errors {}
     set verdicts [::reviewdriver::verdicts $map $results]
     foreach ply [dict get $p plan] {
         if {![dict exists $verdicts $ply]} { continue }
@@ -672,12 +715,15 @@ proc ::reviewdriver::writeResults {p results} {
         set err [::review::writeMove $ply $label $eval_cp \
             [::reviewdriver::lines $results [expr {$ply - 1}] $mpv]]
         if {$err eq ""} {
-            dict incr state written
+            incr written
         } else {
-            dict incr state failed
-            dict lappend state errors $err
+            incr failed
+            lappend errors $err
         }
     }
+    # The counts, not the state: runDone owns the status dict, so a -writer that
+    # is not this proc reports in the same vocabulary.
+    return [dict create written $written failed $failed errors $errors]
 }
 
 # Put the cursor back and say whether it landed exactly. Never raises: a restore
