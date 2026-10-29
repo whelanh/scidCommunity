@@ -60,6 +60,13 @@ proc ::engine::close {id} {
     lappend ::closed $id
 }
 
+# The board notification the write phase ends with. What it is called with decides
+# whether the game text is regenerated (the review changed comments all through
+# the game) or only the current move is refreshed.
+namespace eval ::notify {}
+set ::notified {}
+proc ::notify::PosChanged {arg} { lappend ::notified $arg }
+
 proc feed {msgType msgData} {
     {*}$::engine_callback [list $msgType $msgData]
 }
@@ -805,7 +812,8 @@ checkEq "the labels the first review gave" [list \
 # The same game, different answers.
 set ::events {}
 set ::runProgress {}
-checkEq "the second review starts" [::reviewdriver::run $runcfg] ""
+set ::notified {}
+checkEq "the second review starts" [::reviewdriver::run $runcfg -notify 1] ""
 feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
 feedEvent InfoPV {1 20 22 900 300 0 0 120 10 cp 0 e2e4 d7d5}
 feedEvent InfoPV {2 20 22 900 300 0 0 120 5 cp 0 d2d4}
@@ -829,7 +837,9 @@ checkEq "one verdict and one score per move" \
     [regexp -all {\[%eval [^\]]*\]} [dict get $::fakeComments 1]] 1
 checkEq "the user's note and the new verdict, in that order" \
     [dict get $::fakeComments 2] {A fine move. [best] [%eval +0.06]}
-checkEq "and the NAG survived both runs" [dict get $::fakeNags 2] "?!"
+checkEq "and the NAG survived both runs" [dict get $::fakeNags 2] "?!" 
+checkEq "a finished review regenerates the game text" \
+    [lindex $::notified end] -pgn
 checkEq "a verdict from the first run is replaced, not appended" \
     [dict get $::fakeComments 3] {[best] [%eval -0.04]}
 checkEq "and so is the last one" [dict get $::fakeComments 4] {[best] [%eval +0.03]}
