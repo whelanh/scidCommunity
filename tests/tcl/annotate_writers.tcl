@@ -227,5 +227,61 @@ checkEq "tier 1 asks nobody" [::reviewannotate::proseText 5 blunder] ""
 checkEq "tier 1 writes no prose" [::reviewannotate::prose 5 "White is winning."] ""
 checkEq "and the comment stays empty" [sc_pos getComment] ""
 
+### 8. The classic's blunders-only filter ######################################
+#
+# The filter is not "drop > threshold": the classic also leaves a decided
+# position alone, marks a mate-range position even for a small drop (its 327
+# clause), and offers a "?" move to markExercise exactly like a "??" one. The
+# review has to agree, or retiring the classic changes which moves a game gets
+# marked on.
+
+proc annotateSettings {} {
+    set ::annotateBlunders blundersonly
+    set ::blunderThreshold 1.0
+    set ::markTacticalExercises 0
+    set ::analysis(uci1) 0
+    set ::useAnalysisBook 0
+    ::review::reset
+    return
+}
+
+# A one-move game, annotated by the review's write phase from one position pair
+# in centipawns from White's point of view.
+proc annotateOne {before after} {
+    ::gamestub::reset [list {e4 e2e4} {e5 e7e5}]
+    set map [::review::mainLineMap [sc_game UCI_mainLine]]
+    set results [dict create \
+        0 [dict create 1 [list 18 $before cp {e2e4}]] \
+        1 [dict create 1 [list 18 [expr {-$after}] cp {e7e5}]]]
+    set p [dict create map $map plies [dict get $map plies] bookEnd 0 mpv 3]
+    return [::reviewannotate::writeResults $p $results]
+}
+
+annotateSettings
+annotateOne -550 -750
+checkEq "a blunder in a decided game is not marked" [::gamestub::nagsByPly] ""
+
+annotateSettings
+annotateOne 99700 99600
+set nags ""
+catch { set nags [dict get [::gamestub::nagsByPly] 1] }
+check "a mate-range position is marked for a small drop" \
+    [expr {[string first "?" $nags] >= 0}]
+
+annotateSettings
+rename ::reviewannotate::markExercise ::reviewannotate::markExerciseSaved
+set ::offered {}
+proc ::reviewannotate::markExercise {before after nag lines} {
+    lappend ::offered [sc_pos location]
+    return 0
+}
+# A 1.3-pawn drop is over the blunder threshold, so the move is annotated, but
+# it is a "?" on the Informant ladder (0.8 < 1.3 < 1.5) - and the classic offers
+# that to markExercise as well.
+annotateOne 130 0
+checkEq "a ? move is offered to the exercise gate like the classic" $::offered {1}
+rename ::reviewannotate::markExercise {}
+rename ::reviewannotate::markExerciseSaved ::reviewannotate::markExercise
+
 puts "checks $checks fails $fails"
 exit [expr {$fails ? 1 : 0}]

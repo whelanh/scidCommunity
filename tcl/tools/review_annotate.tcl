@@ -529,10 +529,26 @@ proc ::reviewannotate::writeResults {p results} {
             set afterWhite $afterMover
         }
         set drop [expr {($beforeMover - $afterMover) / 100.0}]
-        # The classic's filter is signed: only a move that LOST ground is
-        # annotated in blunders-only mode, and a move that gained it takes the
-        # "!?" branch below instead.
-        if {!$blundersOnly || $drop > $threshold} {
+        # The classic's blunders-only filter has three states and one exemption:
+        # a move over the threshold (2), a move that lost anything (1), one that
+        # did not (0), and a position already decided - which is not annotated
+        # unless every move loses anyway and the mark explains why (the classic's
+        # abs(score) >= 327 clause, the mate range).
+        set isBlunder [expr {$drop > $threshold ? 2 : ($drop > 0 ? 1 : 0)}]
+        # The Informant thresholds, and the classic's 327 clause, are in pawns;
+        # the figures here are centipawns.
+        set beforePawns [expr {$beforeWhite / 100.0}]
+        set afterPawns [expr {$afterWhite / 100.0}]
+        set gameIsLost 0
+        if {$mover eq "b"} {
+            set gameIsLost [expr {$beforePawns > $::informant(+--)}]
+        } else {
+            set gameIsLost [expr {$beforePawns < -$::informant(+--)}]
+        }
+        set annotate [expr {!$blundersOnly || \
+            (($isBlunder > 1 || ($isBlunder > 0 && abs($afterPawns) >= 327.0)) \
+                && !$gameIsLost)}]
+        if {$annotate} {
             set nag [::reviewannotate::nagForDrop $beforeMover $afterMover]
             if {[catch {
                 sc_move ply $ply
@@ -540,15 +556,19 @@ proc ::reviewannotate::writeResults {p results} {
                 # The position assessment the classic put beside the verdict
                 # (analysis.tcl:852-854), from White's score.
                 catch { sc_pos addNag [::reviewannotate::scoreToNag [expr {$afterWhite / 100.0}]] }
-                if {$nag eq "??"} {
+                # The classic offers both of these to markExercise: it writes
+                # the ?? or ? itself, then the gates decide whether the move is
+                # a puzzle. The nag is already on the move here, so the caller's
+                # copy is empty and nothing is written twice.
+                if {$nag eq "??" || $nag eq "?"} {
                     set afterLines [::reviewdriver::lines $results $ply $mpv]
-                    ::reviewannotate::markExercise $beforeWhite $afterWhite $nag $afterLines
+                    ::reviewannotate::markExercise $beforeWhite $afterWhite "" $afterLines
                 }
             }]} {
                 lappend errors "ply $ply: $::errorInfo"
             }
             if {$blundersOnly} { catch { ::reviewannotate::markDiagram $ply 1 } }
-        } elseif {$drop < 0 && abs($drop) > $::informant(!?)} {
+        } elseif {$isBlunder == 0 && abs($drop) > $::informant(!?)} {
             # A move better than the engine's line: the one mark the classic
             # writes outside the annotated moves (analysis.tcl:898-901).
             catch { sc_move ply $ply ; sc_pos addNag "!?" }

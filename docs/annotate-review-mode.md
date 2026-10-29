@@ -1,16 +1,17 @@
 # Annotate as a review mode
 
-The annotate menu used to run the classic autoplay annotator
+The annotate menu runs the classic autoplay annotator
 (`tcl/tools/analysis.tcl`: `configAnnotation`, `annotateMode`, `addAnnotation`,
-`markExercise`, `bookAnnotation`). It now has a review mode behind it:
+`markExercise`, `bookAnnotation`). A review mode now exists beside it:
 `::reviewannotate` (`tcl/tools/review_annotate.tcl`) runs the same engine pass
 the engine window's **Game Review** runs — `::reviewdriver` — and writes its
 result into the game with the review's writer instead of the classic loop's.
 
-The classic pipeline is still shipped and still reachable through the annotate
-dialog. It is retired only after the parity gate below passes, which is a
-separate change and needs the maintainer's approval for any artefact that
-differs.
+Nothing calls it yet: the annotate dialog still starts the classic autoplay, and
+pointing its OK button at `::reviewannotate::start` is a separate change (see
+"Not in this change"). The classic pipeline is still shipped and still reachable
+too; it is retired only after the parity gate below passes, which is a separate
+change and needs the maintainer's approval for any artefact that differs.
 
 ## Two tiers, one difference
 
@@ -63,9 +64,13 @@ part that other tools read, so they are written here too:
 The review labels every judged move; the classic marks follow the annotate
 dialog's mode, the same filter `analysis.tcl:826` applies:
 
-- **all moves** — every judged move gets the NAG, the assessment, and (in
-  blunders-only mode it is not) the diagram;
-- **blunders only** — only the moves whose drop is over `blunderThreshold` do.
+- **all moves** — every judged move gets the NAG and the assessment; no diagram
+  (that is a blunders-only mark);
+- **blunders only** — only the moves whose drop is over `blunderThreshold`, plus
+  the classic's two exemptions: a position that is already decided is left
+  alone, and a mate-range position is marked even for a small drop (the classic's
+  `abs(score) >= 327` clause). The `??` and `?` moves are both offered to the
+  exercise gate; `?!` is only a mark.
 
 A move that is not annotated in blunders-only mode can still carry `!?` when it
 was better than the engine's line, as the classic branch did.
@@ -97,8 +102,9 @@ tclsh tests/tcl/annotate_writers.tcl
 ```
 
 The writer tests are the per-writer red-first tests: NAG from a label, the
-diagram in blunders-only mode, the T flag and the difficulty comment, and the
-book's two comments.
+diagram in blunders-only mode, the T flag and the difficulty comment, the book's
+two comments, and the blunders-only filter (a decided position is left alone, a
+mate-range position is marked, and a `?` move is offered to the exercise gate).
 
 ## Not in this change
 
