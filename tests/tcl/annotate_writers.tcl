@@ -131,6 +131,14 @@ checkEq "the comment carries the difficulty and both scores" \
     [sc_pos getComment] "****D3 0.5->-1.2 12:+0.50"
 checkEq "the move keeps its ??" [dict get [::gamestub::nagsByPly] 5] "??"
 
+# A second run replaces the prefix it wrote, rather than stacking a second one.
+fixture
+sc_move ply 5
+::reviewannotate::exercise 5 "??" 3 0.5 -1.2
+::reviewannotate::exercise 5 "??" 3 0.5 -1.2
+checkEq "a second exercise replaces the prefix, not stacks it" \
+    [sc_pos getComment] "****D3 0.5->-1.2"
+
 # The difficulty is the classic timing ladder: the shortest budget at which the
 # engine still finds the move, plus one. The stub answers e2e4 while it has it
 # and d2d4 after, so the break is at index 4 and the difficulty is 6.
@@ -167,6 +175,21 @@ set ::gamestub::book {0 {d4}}
 set r [::reviewannotate::bookPass "/books/x.bin" 1]
 checkEq "a first move out of book still says it" \
     [dict get [::gamestub::commentsByPly] 1] "Out of book d4"
+
+# A book that never had a move for the game has nothing to say - and an empty
+# book move list must not match the empty played move and claim "last book move".
+fixture
+set ::gamestub::book {}
+set r [::reviewannotate::bookPass "/books/x.bin" 1]
+checkEq "a book with no move writes no comment" [dict get $r kind] ""
+checkEq "and the game's comments are untouched" [dict get [::gamestub::commentsByPly]] {}
+
+# A book move is a move, not a substring: "a6" is not "Ba6".
+::gamestub::reset [list {a6 a7a6}]
+set ::gamestub::book {0 {Ba6}}
+set r [::reviewannotate::bookPass "/books/x.bin" 1]
+checkEq "a book offering Ba6 does not claim a6 came from it" \
+    [dict get [::gamestub::commentsByPly] 1] "Out of book Ba6"
 
 ### 5. Batch games and the opening-errors tag ##################################
 

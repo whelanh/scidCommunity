@@ -154,6 +154,9 @@ proc ::reviewannotate::exercise {ply nag difficulty prevscore score} {
         }
         set prefix [format "****D%d %.1f->%.1f" $difficulty $prevscore $score]
         set existing [sc_pos getComment]
+        # A previous run's exercise prefix is replaced, not stacked: re-running
+        # the annotator must not grow the comment.
+        regsub {^\*{4}D[0-9]+ [-0-9.]+->[-0-9.]+ ?} $existing {} existing
         if {$existing eq ""} {
             sc_pos setComment $prefix
         } else {
@@ -281,14 +284,19 @@ proc ::reviewannotate::bookPass {bookFile slot} {
         }
         sc_book close $slot
         set ply [sc_pos location]
+        # No book move at all: the book never had anything to say about this
+        # game, so there is no comment to write (and an empty `prev` would
+        # otherwise match the empty played move and claim "last book move").
+        if {$prev eq ""} {
+            return [list ply $ply kind "" comment ""]
+        }
         # Is the move played here one the book offered from the previous
-        # position? Then the game never actually left the book.
+        # position? Then the game never actually left the book. Exact, because
+        # a substring match calls "a6" a book move when the book offered "Ba6".
         set played [sc_game info previousMoveNT]
-        if {[string match -nocase "*$played*" $prev] != 1} {
+        if {$played eq "" || [lsearch -nocase -exact $prev $played] < 0} {
             set kind out
-            if {$prev ne ""} {
-                set comment "[::trans $prev]"
-            }
+            set comment "[::trans $prev]"
         } else {
             set kind last
         }
