@@ -314,6 +314,16 @@ checkEq "an empty plan asks for no position" [::reviewdriver::positions $map 0 0
 checkEq "a book that covers the game asks for none either" \
     [::reviewdriver::positions $map 4 5] {}
 
+# A caller that judges only some moves still needs each one's successor: the
+# engine may not rank the move played, and the successor is then the only score
+# the verdict can compare against.
+checkEq "each selected move brings its own successor" \
+    [::reviewdriver::planPositions $map {1 3}] [list \
+        [list 0 "position startpos moves"] \
+        [list 1 "position startpos moves e2e4"] \
+        [list 2 "position startpos moves e2e4 e7e5"] \
+        [list 3 "position startpos moves e2e4 e7e5 g1f3"]]
+
 puts "the lines a pass keeps"
 
 # MultiPV index order, never sorted by score: the third slot here is the worst
@@ -1018,6 +1028,15 @@ set ::fakeLen 4
 checkEq "the new game stops the pass" [dict get [::reviewdriver::status] state] cancelled
 checkEq "and the old cursor is not put back into it" $::fakeLoc 0
 checkEq "and the window is handed back" $::enginewin::reviewowner ""
+pump
+
+# A pass started outside a window (annotate mode calls the same driver) is not a
+# window's to cancel: closing an engine window must not stop it.
+checkEq "a script-started pass begins" [::reviewdriver::run $::runcfg] ""
+::enginewin::reviewCancel 1
+checkEq "closing a window does not cancel it" \
+    [dict get [::reviewdriver::status] state] searching
+::reviewdriver::cancel
 pump
 
 puts "\n$checks checks, $fails failures"

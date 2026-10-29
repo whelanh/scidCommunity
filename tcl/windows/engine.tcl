@@ -958,7 +958,10 @@ proc ::enginewin::reviewMove {id} {
 # a reason to throw away a review another window is running.
 proc ::enginewin::reviewCancel {id} {
     variable reviewowner
-    if {$reviewowner ne "" && $reviewowner ne $id} { return }
+    # Only the window that started the pass may stop it. A run started outside
+    # the window - annotate mode calls the same driver - belongs to no window,
+    # and closing one must not cancel it.
+    if {$reviewowner ne $id} { return }
     catch { ::reviewdriver::cancel }
     set reviewowner ""
     if {[info exists ::enginewin::reviewstatus($id)]} {

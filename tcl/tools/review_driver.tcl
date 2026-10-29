@@ -295,8 +295,9 @@ proc ::reviewdriver::positions {map plies bookEnd} {
 }
 
 # The positions a list of moves needs searched: the reference position before
-# each move it judges, plus the position after the last one so that move can
-# still be judged when the engine did not rank the move played.
+# each move it judges, plus the position after each one, so the move can still be
+# judged when the engine did not rank the move played (judge falls back to the
+# searched successor).
 #
 # The plan is the caller's: ::review::plan is the whole line, but a single move
 # has to be reviewable on its own (Move Comment writes one move and no others),
@@ -306,8 +307,7 @@ proc ::reviewdriver::positions {map plies bookEnd} {
 proc ::reviewdriver::planPositions {map plan} {
     if {![llength $plan]} { return {} }
     set want {}
-    foreach ply $plan { lappend want [expr {$ply - 1}] }
-    lappend want [lindex $plan end]
+    foreach ply $plan { lappend want [expr {$ply - 1}] $ply }
     set out {}
     foreach ply [lsort -unique -integer $want] {
         if {$ply < 0} { continue }
