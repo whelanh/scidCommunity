@@ -281,11 +281,11 @@ proc annotateSettings {} {
 
 # A one-move game, annotated by the review's write phase from one position pair
 # in centipawns from White's point of view.
-proc annotateOne {before after} {
+proc annotateOne {before after {pvMove d2d4}} {
     ::gamestub::reset [list {e4 e2e4} {e5 e7e5}]
     set map [::review::mainLineMap [sc_game UCI_mainLine]]
     set results [dict create \
-        0 [dict create 1 [list 18 $before cp {e2e4}]] \
+        0 [dict create 1 [list 18 $before cp [list $pvMove e7e5]]] \
         1 [dict create 1 [list 18 [expr {-$after}] cp {e7e5}]]]
     set p [dict create map $map plies [dict get $map plies] bookEnd 0 mpv 3]
     return [::reviewannotate::writeResults $p $results]
@@ -294,6 +294,10 @@ proc annotateOne {before after} {
 annotateSettings
 annotateOne -550 -750
 checkEq "a blunder in a decided game is not marked" [::gamestub::nagsByPly] ""
+
+annotateSettings
+annotateOne 200 60 e2e4
+checkEq "a best move is not marked for search drift" [::gamestub::nagsByPly] ""
 
 annotateSettings
 annotateOne 99700 99600

@@ -267,10 +267,14 @@ checkHasNot "the classic wrote neither" [dict get $classicComments 4] "\[MoveLab
 
 set ::MOVES {{e4 e2e4} {e5 e7e5} {Nf3 g1f3} {Nc6 b8c6}}
 set ::CPS {20 30 20 220 215}
+# The engine's choice at each position, and the same figure the classic side
+# gets from classicLines. The played move at ply 3 is not it: a move can be
+# better than the engine's line without being the engine's move, and that is the
+# branch this fixture tests.
 set ::BEST [dict create \
     0 {e2e4 e7e5} \
     1 {e7e5 g1f3} \
-    2 {g1f3 b8c6} \
+    2 {e2e4 e7e5} \
     3 {d7d5 e4d5} \
     4 {a7a6}]
 

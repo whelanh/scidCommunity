@@ -552,6 +552,11 @@ proc ::reviewannotate::writeResults {p results} {
             set afterMover [dict get $verdict eval_cp]
             if {$mover eq "b"} { set afterMover [expr {-$afterMover}] }
         }
+        # The classic measures the engine's own move as no drop at all: it sets
+        # prevscore to the position-after score before computing the delta, so a
+        # little search drift between the two roots never marks the move the
+        # engine chose.
+        if {[dict get $verdict isBest]} { set beforeMover $afterMover }
         if {$mover eq "b"} {
             set beforeWhite [expr {-$beforeMover}]
             set afterWhite [expr {-$afterMover}]
