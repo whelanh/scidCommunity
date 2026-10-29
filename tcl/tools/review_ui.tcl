@@ -14,37 +14,49 @@
 
 namespace eval ::reviewui {}
 
-# The positions a pass searches, as the {ply positionSpec} pairs
-# ::reviewdriver::start takes.
+# What a press of Game Review or Move Comment asks the engine pass to do.
 #
-# The arithmetic - which positions, and the one after the last move - belongs to
-# ::review::searchPlies; the main line, with its null-move headers, belongs to
-# ::review::mainLineMap. This only reads the map, so the board never moves to
-# build a position. A position the map cannot name is dropped: an empty spec is
-# a Go with no position in it.
+# The driver's entry point and every argument it is given, decided here so a
+# tclsh test can reach it. Which position each move is searched at belongs to
+# ::reviewdriver::planPositions, and which moves are judged belongs to
+# ::review::plan; this only decides the call.
 #
-# ::reviewdriver::positions has this exact contract and belongs to the driver
-# card (kanban t_41770d0a); when that lands it is used instead of this copy.
-proc ::reviewui::positions {map plies bookEnd} {
-    if {[llength [info commands ::reviewdriver::positions]]} {
-        return [::reviewdriver::positions $map $plies $bookEnd]
+#   game     plies in the open main line (0: no game, or an empty one)
+#   engine   the preset ::enginecfg::get answered ({} when none is selected)
+#   driver   1 when ::reviewdriver::run is loaded
+#   bookEnd  where the opening book ends (0: search from the first move)
+#   plies    the moves to judge ({}: every move the plan covers)
+#   depth    the depth to search ({}: the pass decides, from ::review::effective)
+#   progress the command the driver calls as {*}$progress <done> <total>
+#   notify   1 to refresh the board once the write phase ends
+#
+# Answers {entry <command> args <argv> reason <why entry is empty>}. A missing
+# key is that key's default, so a window caught mid-teardown is refused rather
+# than raising inside a button callback.
+proc ::reviewui::runCall {state} {
+    set out [dict create entry "" args {} reason ""]
+    set game [expr {[dict exists $state game] ? [dict get $state game] : 0}]
+    set engine [expr {[dict exists $state engine] ? [dict get $state engine] : {}}]
+    set driver [expr {[dict exists $state driver] ? [dict get $state driver] : 0}]
+    set bookEnd [expr {[dict exists $state bookEnd] ? [dict get $state bookEnd] : 0}]
+    set plies [expr {[dict exists $state plies] ? [dict get $state plies] : {}}]
+    set depth [expr {[dict exists $state depth] ? [dict get $state depth] : ""}]
+    set progress [expr {[dict exists $state progress] ? [dict get $state progress] : ""}]
+    set notify [expr {[dict exists $state notify] ? [dict get $state notify] : 0}]
+    if {![string is integer -strict $game] || $game < 1} {
+        return [dict replace $out reason {no game}]
     }
-    return [::reviewui::specs $map [::review::searchPlies $plies $bookEnd]]
-}
-
-# The same mapping for a list of positions the caller already has: Move Comment
-# searches the position before a move and the one after it, which is not a plan
-# ::review::searchPlies produces.
-proc ::reviewui::specs {map indexes} {
-    set out {}
-    foreach ply $indexes {
-        if {[catch { set spec [dict get [dict get $map positions] $ply] }]} {
-            continue
-        }
-        if {[string trim $spec] eq ""} { continue }
-        lappend out [list $ply $spec]
+    if {![llength $engine]} {
+        return [dict replace $out reason {no engine}]
     }
-    return $out
+    if {!$driver} {
+        return [dict replace $out reason {no review driver}]
+    }
+    set args [list $engine -bookEnd $bookEnd]
+    if {[llength $plies]} { lappend args -plies $plies }
+    if {$depth ne ""} { lappend args -depth $depth }
+    lappend args -progress $progress -notify $notify
+    return [dict create entry ::reviewdriver::run args $args reason ""]
 }
 
 # Which of the window's three review controls are live, from the state the
@@ -195,18 +207,54 @@ proc ::reviewui::moveCommentStatus {depth_now {target ""}} {
     return [dict create action wait depth $plan]
 }
 
-# The status line for that decision: "" once the comment can be written.
-proc ::reviewui::moveCommentMessage {depth_now {target ""}} {
-    set st [::reviewui::moveCommentStatus $depth_now $target]
-    if {[dict get $st action] eq "now"} { return "" }
-    return [format [::reviewui::tr ReviewWaitForDepth] [dict get $st depth]]
-}
-
 # The status line while a pass runs. "" when there is nothing to report, so the
 # window can clear the label rather than show "position 0 of 0".
 proc ::reviewui::progressText {done total} {
     if {![string is integer -strict $total] || $total < 1} { return "" }
     return [format [::reviewui::tr ReviewProgress] $done $total]
+}
+
+# The status line the driver's state maps to, so the window holds no state of
+# its own about a pass: it asks ::reviewdriver::status and this says what to show.
+#
+# "" when there is nothing to say - idle before a press, the write phase (the
+# search is over and nothing is being counted), a run that finished (the labels
+# in the game are the report) and a cancelled one (it wrote nothing). A run that
+# did not finish, or finished with moves the game refused, says why in the
+# driver's or the board's own words.
+proc ::reviewui::statusText {st} {
+    set state idle
+    catch { set state [dict get $st state] }
+    switch -- $state {
+        searching {
+            set done 0
+            catch { set done [dict get $st searched] }
+            set total 0
+            catch { set total [dict get $st total] }
+            return [::reviewui::progressText $done $total]
+        }
+        failed {
+            set reason ""
+            catch { set reason [dict get $st reason] }
+            if {$reason eq ""} {
+                # A pass that lost its engine says so in its own words; one whose
+                # writes the game refused has the refusal instead.
+                catch { set reason [lindex [dict get $st errors] 0] }
+            }
+            return [::reviewui::failedText $reason]
+        }
+        done {
+            set failed 0
+            catch { set failed [dict get $st failed] }
+            if {$failed > 0} {
+                set reason ""
+                catch { set reason [lindex [dict get $st errors] 0] }
+                return [::reviewui::failedText $reason]
+            }
+            return ""
+        }
+    }
+    return ""
 }
 
 # And the status line when it ends badly: the reason is the driver's or the
@@ -215,21 +263,6 @@ proc ::reviewui::progressText {done total} {
 proc ::reviewui::failedText {reason} {
     if {$reason eq ""} { return "" }
     return [format [::reviewui::tr ReviewFailed] $reason]
-}
-
-# Why a pass that came back with fewer positions than it asked for is not a
-# finished review. "" when every position answered.
-#
-# The driver reports an engine that died mid-pass through the same callback it
-# uses for success, with the positions that did finish: without this, the status
-# line simply disappears and an incomplete set of results looks like a review.
-# The results are dropped by the caller - a half-searched game is not something
-# to write labels from - so the message is the only thing the user gets.
-proc ::reviewui::interruptedText {done total} {
-    if {![string is integer -strict $total] || $total < 1} { return "" }
-    if {[string is integer -strict $done] && $done >= $total} { return "" }
-    return [::reviewui::failedText \
-        "the engine stopped after $done of $total positions"]
 }
 
 # The depth a one-move comment searches at, and whether anything has to wait.

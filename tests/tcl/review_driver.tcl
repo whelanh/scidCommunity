@@ -314,6 +314,16 @@ checkEq "an empty plan asks for no position" [::reviewdriver::positions $map 0 0
 checkEq "a book that covers the game asks for none either" \
     [::reviewdriver::positions $map 4 5] {}
 
+# A caller that judges only some moves still needs each one's successor: the
+# engine may not rank the move played, and the successor is then the only score
+# the verdict can compare against.
+checkEq "each selected move brings its own successor" \
+    [::reviewdriver::planPositions $map {1 3}] [list \
+        [list 0 "position startpos moves"] \
+        [list 1 "position startpos moves e2e4"] \
+        [list 2 "position startpos moves e2e4 e7e5"] \
+        [list 3 "position startpos moves e2e4 e7e5 g1f3"]]
+
 puts "the lines a pass keeps"
 
 # MultiPV index order, never sorted by score: the third slot here is the worst
@@ -430,15 +440,43 @@ set ::fakeLevel 0
 set ::fakeNums {}
 set ::fakeExit {}
 set ::fakeVars {}
+set ::fakeVarAt ""
+set ::fakeVarFirst ""
+set ::fakeComments {}
 set ::fakeComment ""
+set ::fakeNags {}
 proc sc_pos {args} {
-    switch -- [lindex $args 0] {
+    set what [lindex $args 0]
+    # Recorded so a test can see every board command the pass reaches for: a NAG
+    # is invisible to a caller that never asks for it.
+    lappend ::events [list pos $what]
+    switch -- $what {
         location { return $::fakeLoc }
         fen { return "$::fakeLoc/$::fakeLevel" }
-        getComment { return $::fakeComment }
+        getComment {
+            if {[dict exists $::fakeComments $::fakeLoc]} {
+                return [dict get $::fakeComments $::fakeLoc]
+            }
+            return $::fakeComment
+        }
         setComment {
             lappend ::events [list setComment [lindex $args 1]]
-            set ::fakeComment [lindex $args 1]
+            dict set ::fakeComments $::fakeLoc [lindex $args 1]
+            return ""
+        }
+        getNags {
+            if {[dict exists $::fakeNags $::fakeLoc]} {
+                return [dict get $::fakeNags $::fakeLoc]
+            }
+            return ""
+        }
+        addNag {
+            set nags ""
+            if {[dict exists $::fakeNags $::fakeLoc]} {
+                set nags [dict get $::fakeNags $::fakeLoc]
+            }
+            lappend nags [lindex $args 1]
+            dict set ::fakeNags $::fakeLoc $nags
             return ""
         }
     }
@@ -469,7 +507,12 @@ proc sc_var {args} {
         level  { return $::fakeLevel }
         number { return [lindex $::fakeNums end] }
         count  { return 0 }
-        list   { return $::fakeVars }
+        list   {
+            if {[dict exists $::fakeVars $::fakeLoc]} {
+                return [dict get $::fakeVars $::fakeLoc]
+            }
+            return {}
+        }
         enter {
             lappend ::fakeExit $::fakeLoc
             lappend ::fakeNums [lindex $args 1]
@@ -479,6 +522,12 @@ proc sc_var {args} {
         }
         exit {
             if {$::fakeLevel == 0} { error "No such variation!" }
+            # A variation that was inserted whole is one the game now holds: its
+            # first move is what a second review has to find and not repeat.
+            if {$::fakeVarFirst ne "" && $::fakeVarAt ne ""} {
+                dict lappend ::fakeVars $::fakeVarAt $::fakeVarFirst
+            }
+            set ::fakeVarFirst ""
             set ::fakeLoc [lindex $::fakeExit end]
             set ::fakeExit [lrange $::fakeExit 0 end-1]
             set ::fakeNums [lrange $::fakeNums 0 end-1]
@@ -487,6 +536,8 @@ proc sc_var {args} {
         }
         create {
             lappend ::events {var create}
+            set ::fakeVarAt $::fakeLoc
+            set ::fakeVarFirst ""
             lappend ::fakeExit $::fakeLoc
             lappend ::fakeNums 0
             incr ::fakeLevel
@@ -499,10 +550,25 @@ proc sc_game {args} {
     if {[lindex $args 0] eq "UCI_mainLine"} { return $::fakeMainLine }
     return ""
 }
-namespace eval ::uci { proc sc_move_add {moves} { return 0 } }
+namespace eval ::uci {
+    proc sc_move_add {moves} {
+        if {!$::fakeLevel} { return 0 }
+        if {$::fakeVarFirst eq ""} { set ::fakeVarFirst $moves }
+        return 0
+    }
+}
 
 # Every engine message and every write lands in one log, so the order they
 # happened in is a fact about the run rather than an assumption.
+proc writesSoFar {} {
+    set out {}
+    foreach e $::events {
+        if {[lindex $e 0] eq "setComment" || [string equal $e {var create}]} {
+            lappend out $e
+        }
+    }
+    return $out
+}
 proc feedEvent {msgType msgData} {
     lappend ::events [list msg $msgType]
     {*}$::engine_callback [list $msgType $msgData]
@@ -526,7 +592,7 @@ checkEq "a pass over the whole line starts" \
 checkEq "and reports that it is searching" [dict get [::reviewdriver::status] state] searching
 checkEq "with every position of the line to search" \
     [dict get [::reviewdriver::status] total] 5
-checkEq "nothing is written before the engine has answered" $::events {}
+checkEq "nothing is written before the engine has answered" [writesSoFar] {}
 
 feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
 checkEq "the first position searched is the start of the line" \
@@ -623,6 +689,164 @@ checkEq "and their reasons are kept" [dict get $st errors] \
     {{ply 3 is not in this game} {ply 4 is not in this game}}
 set ::fakeLen 4
 
+puts "one move at a time: -plies"
+
+# Move Comment is a review of one move: the same pass, told which moves to
+# judge. Without that a comment would write the rest of the game as well.
+::review::reset
+::review::setValue var_lines 0
+set ::fakeLoc 2
+set ::fakeLevel 0
+set ::fakeNums {}
+set ::fakeExit {}
+set ::fakeVars {}
+set ::fakeComments {}
+set ::fakeComment ""
+set ::events {}
+set ::runProgress {}
+set ::fakeLen 4
+set ::sent {}
+checkEq "a single move starts" [::reviewdriver::run $runcfg -plies {3}] ""
+checkEq "and only the two positions that judge it" \
+    [dict get [::reviewdriver::status] total] 2
+feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
+checkEq "the first Go is the position before the move" [lindex $::sent end] \
+    {send 20 Go {{position startpos moves e2e4 e7e5} {depth 18}}}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 50 cp 0 d2d4}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 20 cp 0 b8c6}
+feedEvent InfoBestMove {}
+pump
+set st [::reviewdriver::status]
+set comments {}
+foreach e $::events {
+    if {[lindex $e 0] eq "setComment"} { lappend comments [lindex $e 1] }
+}
+checkEq "the pass finished" [dict get $st state] done
+checkEq "only the move asked for was written" [llength $comments] 1
+check "and its comment carries the score the pass measured" \
+    [expr {[string first {%eval -0.20} [lindex $comments 0]] >= 0}]
+
+# The depth is the caller's answer too: a comment has to be the one a review
+# would have written, so the window searches at the review's depth, and a
+# shallow window analysis is not that depth.
+::review::reset
+set ::events {}
+set ::sent {}
+checkEq "a caller's depth starts" [::reviewdriver::run $runcfg -depth 8 -plies {1}] ""
+feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
+checkEq "and the Go carries it, not the setting's 18" [lindex $::sent end] \
+    {send 20 Go {{position startpos moves} {depth 8}}}
+::reviewdriver::cancel
+pump
+set ::sent {}
+checkEq "a list of moves is what -plies takes" \
+    [::reviewdriver::run $runcfg -plies {1 two}] {-plies must be a list of move numbers}
+checkEq "nothing was opened for it" $::sent {}
+checkEq "a depth must be a whole number" \
+    [::reviewdriver::run $runcfg -depth deep] {-depth must be a whole number}
+checkEq "and neither was that" $::sent {}
+
+puts "a second review replaces the first"
+
+# The point of writing into the open game: the user presses Game Review twice,
+# and the second run replaces its labels, its [%eval]s and its variations instead
+# of stacking a second copy of each. ::review::writeMove strips the old verdict
+# and dedupes variations by first move; this proves it through the whole pass,
+# on a board that remembers what was written.
+::review::reset
+::review::setValue var_lines 1
+set ::fakeMainLine [list {position startpos moves} e2e4 e7e5 g1f3 b8c6]
+set ::fakeLen 4
+set ::fakeLoc 2
+set ::fakeLevel 0
+set ::fakeNums {}
+set ::fakeExit {}
+set ::fakeVars {}
+set ::fakeComments {}
+set ::fakeComment ""
+set ::fakeNags {}
+set ::events {}
+set ::runProgress {}
+# The move at ply 2 already carries the user's own note and a NAG; the pass must
+# add its verdict to the comment and leave the NAG alone, and the second pass
+# must replace only the verdict.
+dict set ::fakeComments 2 "A fine move."
+dict set ::fakeNags 2 "?!"
+
+checkEq "the first review starts" [::reviewdriver::run $runcfg] ""
+feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 30 cp 0 e2e4 e7e5}
+feedEvent InfoPV {2 20 22 900 300 0 0 120 20 cp 0 d2d4 d7d5}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 40 cp 0 c7c5}
+feedEvent InfoPV {2 20 22 900 300 0 0 120 25 cp 0 e7e5 g1f3}
+feedEvent InfoPV {3 20 22 900 300 0 0 120 10 cp 0 d7d5}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 50 cp 0 d2d4}
+feedEvent InfoPV {2 20 22 900 300 0 0 120 40 cp 0 b1c3}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 -120 cp 0 e7e6}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 800 cp 0 g8f6}
+feedEvent InfoBestMove {}
+pump
+checkEq "the first review wrote every move" \
+    [dict get [::reviewdriver::status] written] 4
+checkEq "and left the user's own note in front of its verdict" \
+    [dict get $::fakeComments 2] {A fine move. [excellent] [%eval +0.50]}
+checkEq "and its NAG alone" [dict get $::fakeNags 2] "?!"
+checkEq "the first review's variations are in the game" \
+    $::fakeVars {0 d2d4 1 c7c5 2 d2d4 3 e7e6}
+checkEq "the labels the first review gave" [list \
+    [dict get $::fakeComments 1] [dict get $::fakeComments 3] [dict get $::fakeComments 4]] \
+    [list {[best] [%eval -0.40]} {[excellent] [%eval +1.20]} {[blunder] [%eval +8.00]}]
+
+# The same game, different answers.
+set ::events {}
+set ::runProgress {}
+checkEq "the second review starts" [::reviewdriver::run $runcfg] ""
+feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 10 cp 0 e2e4 d7d5}
+feedEvent InfoPV {2 20 22 900 300 0 0 120 5 cp 0 d2d4}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 8 cp 0 e7e5 g1f3}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 6 cp 0 g1f3 b8c6}
+feedEvent InfoPV {2 20 22 900 300 0 0 120 4 cp 0 d2d4}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 4 cp 0 b8c6 g1f3}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 3 cp 0 g1f3}
+feedEvent InfoBestMove {}
+pump
+set st [::reviewdriver::status]
+checkEq "the second review finished" [dict get $st state] done
+checkEq "writing into the game it found" [dict get $st written] 4
+checkEq "the old verdict is gone, not stacked" \
+    [dict get $::fakeComments 1] {[best] [%eval -0.08]}
+checkEq "one verdict and one score per move" \
+    [regexp -all {\[%eval [^\]]*\]} [dict get $::fakeComments 1]] 1
+checkEq "the user's note and the new verdict, in that order" \
+    [dict get $::fakeComments 2] {A fine move. [best] [%eval +0.06]}
+checkEq "and the NAG survived both runs" [dict get $::fakeNags 2] "?!"
+checkEq "a verdict from the first run is replaced, not appended" \
+    [dict get $::fakeComments 3] {[best] [%eval -0.04]}
+checkEq "and so is the last one" [dict get $::fakeComments 4] {[best] [%eval +0.03]}
+checkEq "the variations were not inserted a second time" \
+    $::fakeVars {0 d2d4 1 c7c5 2 d2d4 3 e7e6}
+checkEq "so no variation was created at all" [lsearch -all $::events {var create}] {}
+# A NAG is not the pass's to touch: it writes comments and moves the cursor, and
+# asks the board for nothing else. A NAG already on the move cannot be eaten.
+set asked {}
+foreach e $::events {
+    if {[lindex $e 0] eq "pos"} { lappend asked [lindex $e 1] }
+}
+checkEq "the board calls are reads, the comment, and the cursor" \
+    [lsort -unique $asked] {fen getComment location setComment}
+checkEq "the board ends where the user left it" [list $::fakeLoc $::fakeLevel] {2 0}
+checkEq "and the driver says the restore was exact" [dict get $st restored] 1
+
 puts "refusing to start"
 
 set ::sent {}
@@ -674,7 +898,7 @@ feedEvent InfoBestMove {}
 set ::events {}
 checkEq "cancelling the run stops it" [::reviewdriver::cancel] 1
 checkEq "the pass is cancelled" [dict get [::reviewdriver::status] state] cancelled
-checkEq "nothing is written" $::events {}
+checkEq "nothing is written" [writesSoFar] {}
 checkEq "and the reader is left where the pass found them" \
     [list $::fakeLoc $::fakeLevel] {2 0}
 pump
@@ -687,6 +911,133 @@ set exact [dict create cursor [dict create loc 2 base 2 path {} fen {2/0}]]
 checkEq "the same position is an exact restore" [::reviewdriver::restoreRun $exact] 1
 set moved [dict create cursor [dict create loc 2 base 2 path {} fen {9/0}]]
 checkEq "a different position at the same ply is not" [::reviewdriver::restoreRun $moved] 0
+
+puts "\nthe engine window's hand-off to the driver (tcl/windows/engine.tcl)"
+
+# The window's widgets cannot be exercised from tclsh, but who owns a run is not a
+# widget: it is what happens when a second engine window presses Game Review while
+# the first one's pass is still in flight. One pass exists at a time, so the
+# refused press must leave the window that started it with its Cancel button and
+# its status line. The file is loaded here on top of the fake board and the stub
+# engine, with the widget commands it reaches for stubbed out. This is the last
+# section in the file because those stubs are global.
+set ::scidTclDir [file join $root tcl]
+set ::scidShareDir [file join $root share]
+set ::scidVersion test
+set ::scidName Scid
+set ::language english
+set ::initialdir $root
+set ::windowsOS 0
+set ::macOS 0
+set ::unixOS 1
+set ::showGameInfo 0
+# The status line's words, as a tclsh test has no language files: an untranslated
+# key is what Scid itself shows, but a label with an argument needs its template.
+array set ::EN {
+    ReviewProgress {Reviewing position %s of %s}
+    ReviewFailed   {Review failed: %s}
+}
+proc ::tr {key args} {
+    if {![info exists ::EN($key)]} { return $key }
+    if {[llength $args] == 0} { return $::EN($key) }
+    return [eval [list format $::EN($key)] $args]
+}
+namespace eval ::utils {}
+namespace eval ::utils::tooltip {}
+proc ::utils::tooltip::Set {args} {}
+proc button_image {args} { return "" }
+proc addBindtagToTree {args} {}
+proc collapseMenubuttons {args} {}
+namespace eval ::win {}
+proc ::win::add {args} {}
+namespace eval ::pgn {}
+proc ::pgn::Refresh {args} {}
+namespace eval ::board {}
+proc ::board::update {args} {}
+proc ::board::setmarks {args} {}
+namespace eval ::chart {}
+proc ::chart::clear {args} {}
+# Every widget is there: ::enginewin::reviewStart's first guard is that its button
+# exists, and a harness that has no window should still reach the hand-off.
+proc winfo {args} { return 1 }
+proc unknown {args} { return "" }
+
+source [file join $root tcl misc.tcl]
+source [file join $root tcl tools review_ui.tcl]
+if {[catch { source [file join $root tcl windows engine.tcl] } err]} {
+    puts "LOAD ERROR: $err"
+}
+
+# Two engine windows on the same fake board, both analysing with the stub engine's
+# preset. ::enginecfg::get reads ::engines(list), which an earlier section emptied.
+set ::engines(list) [list \
+    [list Stockfish /usr/bin/stockfish {} {} 0 0 {} 1 {} {}]]
+set ::enginewin::engState(1) 1
+set ::enginewin::engState(2) 1
+set ::enginewin_lastengine(1) Stockfish
+set ::enginewin_lastengine(2) Stockfish
+set ::enginewin::reviewstatus(1) ""
+set ::enginewin::reviewstatus(2) ""
+set ::fakeLoc 2
+set ::fakeLevel 0
+set ::events {}
+
+checkEq "the first window's press starts the pass" \
+    [::enginewin::reviewStart 1 [::enginewin::reviewRunState 1]] 1
+checkEq "and the window owns it" $::enginewin::reviewowner 1
+checkEq "so its Cancel is live" [::enginewin::reviewPass 1] searching
+checkEq "and its status line is the driver's" \
+    [regexp {^Reviewing position 0 of [0-9]+$} $::enginewin::reviewstatus(1)] 1
+
+# The second window presses Game Review while that pass is still searching. The
+# driver refuses it, and the refusal is the second window's business only.
+checkEq "a second window's press starts nothing" \
+    [::enginewin::reviewStart 2 [::enginewin::reviewRunState 2]] ""
+checkEq "the second window is told why" \
+    [regexp {already running a pass} $::enginewin::reviewstatus(2)] 1
+checkEq "the window that started the pass still owns it" $::enginewin::reviewowner 1
+checkEq "so its Cancel is still live" [::enginewin::reviewPass 1] searching
+checkEq "and the second window cannot cancel another window's pass" \
+    [dict get [::reviewui::buttons [dict create game 4 engine $::enginecfg \
+        move e2e4 pass [::enginewin::reviewPass 2]]] cancel] disabled
+
+# The pass is still searching: its progress still reaches the window that owns it,
+# and stopping it from there still stops it. One position of the five is searched.
+feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 30 cp 0 e2e4 e7e5}
+feedEvent InfoBestMove {}
+checkEq "the owning window's status line still follows the pass" \
+    $::enginewin::reviewstatus(1) {Reviewing position 1 of 5}
+checkEq "the refusing window's line is not overwritten by it" \
+    [regexp {already running a pass} $::enginewin::reviewstatus(2)] 1
+::enginewin::reviewCancel 1
+checkEq "Cancel still stops the pass" [dict get [::reviewdriver::status] state] cancelled
+checkEq "and nothing was written" [writesSoFar] {}
+checkEq "the window is handed back" $::enginewin::reviewowner ""
+pump
+
+# A new game is a new board: the pass's saved cursor belongs to the game that
+# is going away, and putting it back would move the new game to that ply.
+set ::fakeLoc 2
+set ::fakeLevel 0
+checkEq "a second press starts a pass again" \
+    [::enginewin::reviewStart 1 [::enginewin::reviewRunState 1]] 1
+set ::fakeLoc 0
+set ::fakeLen 4
+::enginewin::reviewStopAll
+checkEq "the new game stops the pass" [dict get [::reviewdriver::status] state] cancelled
+checkEq "and the old cursor is not put back into it" $::fakeLoc 0
+checkEq "and the window is handed back" $::enginewin::reviewowner ""
+pump
+
+# A pass started outside a window (annotate mode calls the same driver) is not a
+# window's to cancel: closing an engine window must not stop it.
+checkEq "a script-started pass begins" [::reviewdriver::run $::runcfg] ""
+::enginewin::reviewCancel 1
+checkEq "closing a window does not cancel it" \
+    [dict get [::reviewdriver::status] state] searching
+::reviewdriver::cancel
+pump
 
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

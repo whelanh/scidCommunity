@@ -67,75 +67,6 @@ set ::NEWKEYS {
     ReviewFailed
 }
 
-puts "the positions a pass searches"
-
-# ::review::searchPlies owns the arithmetic (which positions, and the one after
-# the last move); the UI's job is only to turn those indexes into the position
-# strings the driver sends. Both are pinned here because a bug in this mapping
-# is a pass that searches the wrong position - silent, and expensive.
-set ml [list {position startpos moves} e2e4 e7e5 g1f3 b8c6]
-set map [::review::mainLineMap $ml]
-set pairs [::reviewui::positions $map 4 0]
-checkEq "one position per move, plus the one after the last" [llength $pairs] 5
-checkEq "the first pair is the start position" \
-    [lindex $pairs 0] {0 {position startpos moves}}
-checkEq "the second is after move 1" \
-    [lindex $pairs 1] {1 {position startpos moves e2e4}}
-checkEq "and the last is after move 4" \
-    [lindex $pairs 4] {4 {position startpos moves e2e4 e7e5 g1f3 b8c6}}
-
-# Book skipping starts the plan later; the positions follow the plan, they are
-# not derived a second time.
-checkEq "bookEnd shortens the plan" \
-    [llength [::reviewui::positions $map 4 3]] 3
-checkEq "and the pass starts at the position before the first planned move" \
-    [lindex [::reviewui::positions $map 4 3] 0] {2 {position startpos moves e2e4 e7e5}}
-
-checkEq "no moves is no positions" [::reviewui::positions $map 0 0] {}
-checkEq "a map with no positions at all is no positions" \
-    [::reviewui::positions [::review::mainLineMap {}] 0 0] {}
-
-# A null move is a fresh header in the middle of the list, and the positions
-# after it start from that header rather than from the moves before it.
-set fen "position fen 8/8/8/8/8/8/8/K6k b - - 0 1 moves"
-set nullmap [::review::mainLineMap [list {position startpos moves} a1a2 $fen h1h2]]
-set npairs [::reviewui::positions $nullmap 3 0]
-checkEq "the null move does not shift the indexes" [llength $npairs] 4
-checkEq "the ply before the null move is an ordinary position" \
-    [lindex $npairs 1] [list 1 {position startpos moves a1a2}]
-checkEq "the position after the null move is the header itself" \
-    [lindex $npairs 2] [list 2 $fen]
-checkEq "and the ply after it builds on that header" \
-    [lindex $npairs 3] [list 3 "$fen h1h2"]
-
-# A position the map cannot name is left out rather than searched as the empty
-# string, which is a Go with no position in it.
-set shortmap [dict create plies 2 moves {1 e2e4 2 e7e5} \
-    positions [list 0 {position startpos moves} 1 {position startpos moves e2e4}]]
-checkEq "an unnameable position is dropped" \
-    [::reviewui::positions $shortmap 2 0] \
-    [list [list 0 {position startpos moves}] [list 1 {position startpos moves e2e4}]]
-
-# Move Comment searches two positions - the one before the move and the one
-# after it - which is not a plan ::review::searchPlies produces: it is the same
-# mapping applied to a list the caller already has.
-checkEq "a list of positions can be named directly" \
-    [::reviewui::specs $map [list 2 3]] \
-    [list [list 2 {position startpos moves e2e4 e7e5}] \
-          [list 3 {position startpos moves e2e4 e7e5 g1f3}]]
-checkEq "and an index the map does not have is dropped" \
-    [::reviewui::specs $map [list 3 9]] \
-    [list [list 3 {position startpos moves e2e4 e7e5 g1f3}]]
-checkEq "no indexes, no pairs" [::reviewui::specs $map {}] {}
-
-# The driver card (kanban t_41770d0a) adds ::reviewdriver::positions with this
-# same contract. When it is there, use it: one implementation.
-namespace eval ::reviewdriver {}
-proc ::reviewdriver::positions {map plies bookEnd} { return "driver-owned" }
-checkEq "the driver's mapping is used when it exists" \
-    [::reviewui::positions $map 4 0] driver-owned
-rename ::reviewdriver::positions {}
-
 puts "which button is live"
 
 # One dict in, one dict out: the window asks this before it draws the bar and
@@ -189,6 +120,95 @@ checkEq "Cancel stays live while the pass writes" \
 checkEq "an empty state is a disabled pair, not an error" \
     [dict get [::reviewui::buttons {}] review] disabled
 checkEq "and its Cancel is disabled" [dict get [::reviewui::buttons {}] cancel] disabled
+
+puts "what a press of Game Review asks the driver to do"
+
+# The whole decision a press makes - which entry point the window calls and with
+# which arguments - in one pure function, so it is asserted here instead of being
+# read off a widget callback. A pass that searches and writes nothing is exactly
+# the failure this phase is about, so the arguments are asserted one by one.
+::review::reset
+set preset {Stockfish /usr/bin/stockfish {} {} 0 0 {} 1 {{Threads 8}}}
+set base [dict create game 20 engine $preset driver 1 bookEnd 0 plies {} depth {} \
+    progress {::enginewin::reviewProgress 1} notify 1]
+set call [::reviewui::runCall $base]
+checkEq "a review calls the driver's run, not the raw pass" \
+    [dict get $call entry] ::reviewdriver::run
+checkEq "on this engine, from the first move, refreshing the board at the end" \
+    [dict get $call args] \
+    [list $preset -bookEnd 0 -progress {::enginewin::reviewProgress 1} -notify 1]
+checkEq "and there is nothing to explain" [dict get $call reason] ""
+checkEq "the whole line means no -plies" \
+    [expr {[lsearch -exact [dict get $call args] -plies] < 0}] 1
+checkEq "and the pass's own depth means no -depth" \
+    [expr {[lsearch -exact [dict get $call args] -depth] < 0}] 1
+
+# The book's end is the caller's answer, not a constant in the window.
+checkEq "a book end goes through as -bookEnd" \
+    [lindex [dict get [::reviewui::runCall [dict replace $base bookEnd 7]] args] 2] 7
+
+# Move Comment is one move, and a move it already has a depth for is searched at
+# that depth: the two facts that make it a comment rather than a review.
+set one [::reviewui::runCall [dict replace $base plies 3 depth 20]]
+set args [dict get $one args]
+checkEq "Move Comment still calls run" [dict get $one entry] ::reviewdriver::run
+checkEq "with the one move to judge, at the depth it has" \
+    [lrange $args [lsearch -exact $args -plies] end-4] {-plies 3 -depth 20}
+checkEq "and the same engine" [lindex $args 0] $preset
+
+# A press with nothing to review is refused here, before anything is opened:
+# ::reviewdriver::run would open an engine and only then refuse.
+foreach {label state want} {
+    {no game}        {game 0}                  {no game}
+    {no engine}      {engine {}}               {no engine}
+    {no driver}      {driver 0}                {no review driver}
+} {
+    set s [dict replace $base {*}$state]
+    set c [::reviewui::runCall $s]
+    checkEq "$label: nothing is called" [dict get $c entry] ""
+    checkEq "$label: and nothing is passed" [dict get $c args] {}
+    checkEq "$label: but the reason is the one the window shows" [dict get $c reason] $want
+}
+checkEq "an empty state is a refusal, not an error" \
+    [dict get [::reviewui::runCall {}] reason] {no game}
+
+puts "the status line the driver's state maps to"
+
+# The window no longer tracks its own token: the line is the driver's state,
+# translated into the words the user reads. A run that finished says nothing -
+# the labels in the game are the report - and a run that did not says why.
+proc passState {state args} {
+    set d [dict create state $state searched 0 total 0 written 0 failed 0 \
+        errors {} reason "" restored 0]
+    return [dict merge $d $args]
+}
+checkEq "nothing running says nothing" [::reviewui::statusText [passState idle]] ""
+checkEq "a search says where it has got to" \
+    [::reviewui::statusText [passState searching searched 2 total 7]] \
+    {Reviewing position 2 of 7}
+checkEq "before the first answer it still says how many there are" \
+    [::reviewui::statusText [passState searching total 7]] \
+    {Reviewing position 0 of 7}
+checkEq "the write phase has nothing left to count" \
+    [::reviewui::statusText [passState writing searched 7 total 7]] ""
+checkEq "a finished run leaves the game to speak for it" \
+    [::reviewui::statusText [passState done searched 7 total 7 written 7]] ""
+checkEq "a cancelled run wrote nothing and says nothing" \
+    [::reviewui::statusText [passState cancelled searched 3 total 7]] ""
+checkEq "a run that could not start is reported" \
+    [::reviewui::statusText [passState failed reason {engine 20 is already running a pass}]] \
+    {Review failed: engine 20 is already running a pass}
+checkEq "a run that lost its engine is reported in the driver's words" \
+    [::reviewui::statusText [passState failed reason {the engine stopped after 3 of 7 positions}]] \
+    {Review failed: the engine stopped after 3 of 7 positions}
+# A finished pass can still have refused a move: writeMove leaves the game where
+# it found it, so the rest of the review landed and the refusal is the only thing
+# the user has to be told.
+checkEq "a move the game refused is reported, not swallowed" \
+    [::reviewui::statusText [passState done written 3 failed 1 \
+        errors {{ply 4 is not in this game}}]] \
+    {Review failed: ply 4 is not in this game}
+checkEq "an empty state is idle" [::reviewui::statusText {}] ""
 
 puts "what the settings dialog holds"
 
@@ -281,10 +301,8 @@ checkEq "with the wait turned off, write whatever the engine has" \
 checkEq "the depth it waits for is the review's own" \
     [dict get [::reviewui::moveCommentStatus 20] depth] 24
 
-# The status line: one string, empty when there is nothing to say.
-checkEq "waiting says what it waits for" \
-    [::reviewui::moveCommentMessage 12] {Waiting for depth 24}
-checkEq "and says nothing once it can write" [::reviewui::moveCommentMessage 30] ""
+# The status line is the driver's state, not a sentence about waiting: see
+# statusText below, which is where every press's line comes from.
 
 puts "the progress line"
 
@@ -409,23 +427,9 @@ checkEq "and an analysis at 20 is not deep enough for it" [dict get $d wait] 1
 set d [::reviewui::moveCommentDepth 30 30]
 checkEq "at the preset's depth the comment can be written" [dict get $d depth] 30
 checkEq "and nothing waits" [dict get $d wait] 0
-checkEq "the status line waits for the preset's depth too" \
-    [::reviewui::moveCommentMessage 20 30] \
-    [format [::reviewui::tr ReviewWaitForDepth] 30]
 checkEq "an empty target still means the review's own depth" \
     [dict get [::reviewui::moveCommentDepth 12] depth] 18
 
-# A pass that lost its engine comes back through the same callback as a finished
-# one, with the positions that answered. The short set is a failure, not a
-# review, and the user is told why instead of watching the status line vanish.
-checkEq "a full set is a finished review" [::reviewui::interruptedText 10 10] ""
-checkEq "more than asked for is finished too" [::reviewui::interruptedText 12 10] ""
-checkEq "a short set says how far it got" [::reviewui::interruptedText 3 10] \
-    "Review failed: the engine stopped after 3 of 10 positions"
-checkEq "nothing answered is still a failure" [::reviewui::interruptedText 0 1] \
-    "Review failed: the engine stopped after 0 of 1 positions"
-checkEq "no total to compare with says nothing" [::reviewui::interruptedText 3 ""] ""
-checkEq "and neither does an empty pass" [::reviewui::interruptedText 0 0] ""
 ::review::setValue move_comment_wait 0
 checkEq "with the wait off, a shallow analysis is still enough" \
     [dict get [::reviewui::moveCommentDepth 4] depth] 4
@@ -483,10 +487,20 @@ check "and a viewer's window neither" \
     [regexp {while \{\[info exists ::enginewin::pgnviewer\(\$id\)\] \|\| \[::enginewin::idReserved \$id\]\}} $engineSrc]
 check "closing a window stops its pass" \
     [regexp {catch \{ ::enginewin::reviewCancel \$id \}} $engineSrc]
-check "and drops the results the pass was writing" \
-    [regexp {unset -nocomplain ::enginewin::reviewresults\(\$id\)} $engineSrc]
-check "a pass that lost its engine is reported, not stored" \
-    [regexp {::reviewui::interruptedText \[dict size \$results\] \$total} $engineSrc]
+check "and a new game stops any pass, whichever window started it" \
+    [regexp {catch \{ ::enginewin::reviewStopAll \}} $engineSrc]
+# The window no longer keeps the pass's results: ::reviewdriver::run writes them
+# into the game, and ::reviewdriver::status is the only copy of the run's state.
+check "the window asks what to call instead of calling the raw pass" \
+    [regexp {::reviewui::runCall \$state} $engineSrc]
+check "a finished run is announced by the driver's board refresh" \
+    [regexp -- {progress \[list ::enginewin::reviewProgress \$id\] notify 1} $engineSrc]
+check "and gives the window back when it does" \
+    [regexp {::enginewin::reviewRefreshAll} $engineSrc]
+check "the status line is the driver's state, not a token" \
+    [regexp {::reviewui::statusText \[::reviewdriver::status\]} $engineSrc]
+check "Cancel asks the driver, not a token it tracked" \
+    [regexp {::reviewdriver::cancel} $engineSrc]
 check "the settings dialog asks about the mpv being edited" \
     [regexp {::reviewui::settingRange var_lines \$mpv} $engineSrc]
 

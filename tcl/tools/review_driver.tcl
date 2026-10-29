@@ -83,7 +83,9 @@ proc ::reviewdriver::busy {id} {
 }
 
 # Stop a pass: no further positions are started and the engine is closed.
-proc ::reviewdriver::stop {token} {
+# `restore` is 0 when the game the pass was reading has gone (a new game was
+# loaded): putting the old cursor back would move the board in the new game.
+proc ::reviewdriver::stop {token {restore 1}} {
     variable job
     variable pass
     variable state
@@ -101,7 +103,7 @@ proc ::reviewdriver::stop {token} {
         set p $pass
         set pass {}
         dict set state state cancelled
-        ::reviewdriver::restoreRun $p
+        if {$restore} { ::reviewdriver::restoreRun $p }
     }
     return 1
 }
@@ -289,8 +291,26 @@ proc ::reviewdriver::lost {token} {
 # A position the map cannot name, and an empty spec, are dropped: an empty
 # positional argument is a Go with no position in it.
 proc ::reviewdriver::positions {map plies bookEnd} {
+    return [::reviewdriver::planPositions $map [::review::plan $plies $bookEnd]]
+}
+
+# The positions a list of moves needs searched: the reference position before
+# each move it judges, plus the position after each one, so the move can still be
+# judged when the engine did not rank the move played (judge falls back to the
+# searched successor).
+#
+# The plan is the caller's: ::review::plan is the whole line, but a single move
+# has to be reviewable on its own (Move Comment writes one move and no others),
+# and the positions follow from the moves rather than being worked out again.
+# A position the map cannot name, and an empty spec, are dropped: an empty
+# positional argument is a Go with no position in it.
+proc ::reviewdriver::planPositions {map plan} {
+    if {![llength $plan]} { return {} }
+    set want {}
+    foreach ply $plan { lappend want [expr {$ply - 1}] $ply }
     set out {}
-    foreach ply [::review::searchPlies $plies $bookEnd] {
+    foreach ply [lsort -unique -integer $want] {
+        if {$ply < 0} { continue }
         set spec ""
         if {[catch { set spec [dict get [dict get $map positions] $ply] }]} {
             continue
@@ -508,12 +528,18 @@ proc ::reviewdriver::status {} {
 # and nothing was written.
 #
 #   -bookEnd N      where the opening book ends (default 0)
+#   -plies {list}   the moves to judge (default: every move the plan covers), so
+#                   that Move Comment can review one move and no others
+#   -depth N        the depth to search (default: ::review::effective's, which is
+#                   the review's own floor over the preset's)
 #   -progress cmd   called as {*}$cmd <done> <total> as positions finish
 #   -notify 0|1     refresh the board when the write phase ends (default 0)
 proc ::reviewdriver::run {engine args} {
     variable pass
     variable state
     set bookEnd 0
+    set plies ""
+    set want ""
     set progress ""
     set notify 0
     # The write phase, and the one place a caller can change it: annotate mode
@@ -526,6 +552,8 @@ proc ::reviewdriver::run {engine args} {
         set opt [lindex $args $i]
         switch -- $opt {
             -bookEnd  { incr i ; set bookEnd [lindex $args $i] }
+            -plies    { incr i ; set plies [lindex $args $i] }
+            -depth    { incr i ; set want [lindex $args $i] }
             -progress { incr i ; set progress [lindex $args $i] }
             -notify   { incr i ; set notify [lindex $args $i] }
             -writer   { incr i ; set writer [lindex $args $i] }
@@ -533,6 +561,17 @@ proc ::reviewdriver::run {engine args} {
         }
     }
     if {![string is integer -strict $bookEnd]} { return "-bookEnd must be a whole number" }
+    if {[llength $plies]} {
+        foreach ply $plies {
+            if {![string is integer -strict $ply] || $ply < 1} {
+                return "-plies must be a list of move numbers"
+            }
+        }
+        set plies [lsort -unique -integer $plies]
+    }
+    if {$want ne "" && (![string is integer -strict $want] || $want < 1)} {
+        return "-depth must be a whole number"
+    }
     if {[llength $engine] == 0} { return "no engine selected" }
     # The pass pins the protocol to uci: an XBoard preset would never answer the
     # handshake, and the run would sit in `searching` until the user cancelled.
@@ -550,6 +589,9 @@ proc ::reviewdriver::run {engine args} {
     set eff [::review::effective $engine]
     set mpv [dict get $eff mpv]
     set depth [dict get $eff depth]
+    # A caller that knows the depth (Move Comment: the window's analysis, or the
+    # review's own when the setting says to wait for it) is the depth searched.
+    if {$want ne ""} { set depth $want }
     # MultiPV is asked for on the pass's own connection and an engine that does
     # not offer it ignores the option, so a preset that never overrode it is not
     # evidence of anything: ::enginecfg::save drops options sitting at their
@@ -559,7 +601,9 @@ proc ::reviewdriver::run {engine args} {
     if {[catch { set map [::review::mainLineMap [sc_game UCI_mainLine]] } err]} {
         return $err
     }
-    set positions [::reviewdriver::positions $map [dict get $map plies] $bookEnd]
+    set plan $plies
+    if {![llength $plan]} { set plan [::review::plan [dict get $map plies] $bookEnd] }
+    set positions [::reviewdriver::planPositions $map $plan]
     if {![llength $positions]} {
         # Nothing to search is a pass that finished, not a failure: the book
         # covered the game.
@@ -590,18 +634,21 @@ proc ::reviewdriver::run {engine args} {
         return $err
     }
     set state $starting
-    set pass [dict create token $token map $map plies [dict get $map plies] \
-        bookEnd $bookEnd mpv $mpv positions $positions cursor $cursor \
+    # `plan` is the moves this run judges (all of them, or -plies); `plies` and
+    # `bookEnd` are kept for a writer that derives its own plan (annotate mode).
+    set pass [dict create token $token map $map plan $plan \
+        plies [dict get $map plies] bookEnd $bookEnd mpv $mpv \
+        positions $positions cursor $cursor \
         progress $progress notify $notify writer $writer]
     return ""
 }
 
 # Stop the run ::reviewdriver::run started. Nothing is written: the write phase
 # only ever runs once the search has finished.
-proc ::reviewdriver::cancel {} {
+proc ::reviewdriver::cancel {{restore 1}} {
     variable pass
     if {![dict size $pass]} { return 0 }
-    return [::reviewdriver::stop [dict get $pass token]]
+    return [::reviewdriver::stop [dict get $pass token] $restore]
 }
 
 # Between searches a run reports progress only, and the caller's command hears
@@ -664,7 +711,7 @@ proc ::reviewdriver::writeResults {p results} {
     set failed 0
     set errors {}
     set verdicts [::reviewdriver::verdicts $map $results]
-    foreach ply [::review::plan [dict get $p plies] [dict get $p bookEnd]] {
+    foreach ply [dict get $p plan] {
         if {![dict exists $verdicts $ply]} { continue }
         lassign [dict get $verdicts $ply] label eval_cp
         set err [::review::writeMove $ply $label $eval_cp \
