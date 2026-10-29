@@ -31,7 +31,11 @@ proc checkEq {name got want} {
 set root [file normalize [file join [file dirname [info script]] .. ..]]
 source [file join $root tests tcl game_stub.tcl]
 source [file join $root tcl tools move_labels.tcl]
+source [file join $root tcl tools score_seed.tcl]
+source [file join $root tcl enginecfg.tcl]
+source [file join $root tcl tools engine_limits.tcl]
 source [file join $root tcl tools game_review.tcl]
+source [file join $root tcl tools review_driver.tcl]
 
 # The classic annotator's thresholds. They are options in the real session
 # (tcl/options.tcl informantDefaults), so the tests set the same values here.
@@ -190,6 +194,23 @@ proc ::auto_comment::providerReady {} { return 0 }
 checkEq "no provider is tier 1" [::reviewannotate::tier] 1
 proc ::auto_comment::providerReady {} { return 1 }
 checkEq "a configured provider is tier 2" [::reviewannotate::tier] 2
+
+### 6b. Where the book ends, and the review-mode entry point #####################
+
+# The pass has to know where to stop skipping the opening before it starts, and
+# the walk that finds it must not leave the board somewhere else.
+fixture
+set ::gamestub::book {0 {e4} 1 {e5} 2 {Nf3} 3 {Nc6}}
+sc_move ply 2
+checkEq "the pass is told where the book ends" [::reviewannotate::findBookEnd "/books/x.bin" 1] 4
+checkEq "and the board is put back" $::gamestub::cursor 2
+
+# The annotate mode is the driver's pass with this file's writer: with no engine
+# there is nothing to start, and the refusal is the driver's own - which also
+# proves -writer is an option the driver knows.
+fixture
+checkEq "annotate mode refuses without an engine" [::reviewannotate::start ""] "no engine selected"
+checkEq "and the board never moved" $::gamestub::cursor 0
 
 ### 7. Prose goes into the comment, and only in tier 2 #########################
 proc ::auto_comment::query {prompt {maxTokens 300}} { return "White is winning." }
