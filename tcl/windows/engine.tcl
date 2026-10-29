@@ -172,10 +172,10 @@ proc ::enginewin::onNewGame {id} {
     set ::enginewin::m_(newgame,$id) true
     ::stored_eval::clear $id
     ::rapid_annotate::onNewGame
-    # A new game is a new main line: stop a pass over the old one and drop its
-    # results, which are keyed by ply and must never be written into this game.
-    catch { ::enginewin::reviewCancel $id }
-    unset -nocomplain ::enginewin::reviewresults($id)
+    # A new game is a new main line: stop a pass over the old one, whichever
+    # window started it. Its verdicts were being written into the game that is
+    # going away.
+    catch { ::enginewin::reviewStopAll }
     catch { ::enginewin::reviewRefresh $id }
     set w .engineWin$id
     if { [info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id) } {
@@ -221,6 +221,13 @@ proc ::enginewin::onPosChanged { {ids ""}} {
         if {[winfo exists $w.stored_eval]} {
             ::enginewin::updateStoredEvalDisplay $id
         }
+    }
+    # A review's write phase ends with this notification: ::reviewdriver::run is
+    # told -notify 1 by the window that started it, so the game has just been
+    # written into and that window has to be given back (its status line and its
+    # buttons). Guarded by the owner so every other position change is free.
+    if {$::enginewin::reviewowner ne ""} {
+        catch { ::enginewin::reviewRefreshAll }
     }
 }
 
@@ -423,7 +430,6 @@ proc ::enginewin::Open { {id ""} {enginename ""} {pgnviewer 0} } {
         # otherwise leave it searching a game nothing shows any more - and
         # ::reviewdriver::busy would keep every other window from starting one.
         catch { ::enginewin::reviewCancel $id }
-        unset -nocomplain ::enginewin::reviewresults($id)
         ::stored_eval::cancelQuery $id
         ::stored_eval::clear $id
         unset ::enginewin::engState($id)
@@ -735,11 +741,12 @@ proc ::enginewin::createButtonsBar {id btn display} {
 ### Game Review and Move Comment
 ###
 ### Two buttons over one engine pass. The pass (::reviewdriver) runs on its own
-### connection, so neither button disturbs the analysis the user is watching, and
-### neither touches the board: the positions come from ::review's own snapshot of
-### the main line. What a finished pass does to the game - labels, [%eval] and
-### variations - belongs to the writeback slice; this window starts the pass,
-### shows where it has got to with a Cancel beside it, and keeps the results.
+### connection, so neither button disturbs the analysis the user is watching.
+### ::reviewdriver::run is the whole of it: it snapshots the main line, searches
+### the positions, turns the replies into verdicts and writes them into the game
+### with ::review::writeMove - labels, [%eval] and variations - and puts the board
+### back where the reader left it. This window decides nothing about that; it asks
+### ::reviewui::runCall what to call, calls it, and shows ::reviewdriver::status.
 ###
 ### Everything decided here is decided in tcl/tools/review_ui.tcl, where a tclsh
 ### test can reach it. The glue below is guarded: no widget, no engine, no
@@ -748,6 +755,10 @@ proc ::enginewin::createButtonsBar {id btn display} {
 
 array set ::enginewin::reviewstatus {}
 array set ::enginewin::reviewsetting {}
+# The window that started the pass in flight. One run exists at a time (the
+# driver refuses a second), so the Cancel button and the status line belong to
+# whoever started it, and to no other engine window.
+set ::enginewin::reviewowner ""
 
 # The toplevel of this engine's window: an embedded PGN viewer's engine window
 # lives under the viewer, not at .engineWin.
@@ -757,6 +768,19 @@ proc ::enginewin::reviewWindow {id} {
     }
     return .engineWin$id
 }
+
+# The pass state this window is in, as ::reviewui::buttons wants it: "" unless
+# this window started the run that is in flight.
+proc ::enginewin::reviewPass {id} {
+    variable reviewowner
+    if {$reviewowner ne $id} { return "" }
+    if {[llength [info commands ::reviewdriver::status]] == 0} { return "" }
+    set state ""
+    catch { set state [dict get [::reviewdriver::status] state] }
+    if {$state eq "searching" || $state eq "writing"} { return $state }
+    return ""
+}
+
 
 # The facts ::reviewui::buttons needs, read from the window and the board.
 proc ::enginewin::reviewState {id} {
@@ -773,9 +797,7 @@ proc ::enginewin::reviewState {id} {
     set name ""
     catch { set name $::enginewin_lastengine($id) }
     if {$name ne ""} { dict set state engine $name }
-    if {[info exists ::enginewin::reviewpass($id)]} {
-        dict set state pass [dict get $::enginewin::reviewpass($id) state]
-    }
+    dict set state pass [::enginewin::reviewPass $id]
     if {[catch { set map [::review::mainLineMap [sc_game UCI_mainLine]] }]} {
         return $state
     }
@@ -804,42 +826,78 @@ proc ::enginewin::reviewRefresh {id} {
     catch { $w.btn.reviewcancel configure -state [dict get $b cancel] }
 }
 
-# Start the pass over `positions` ({ply spec} pairs) at `depth`. "" when it did
-# not start, which is not an error: the window has already said why.
-proc ::enginewin::reviewStart {id positions depth} {
-    set w [::enginewin::reviewWindow $id]
-    if {![winfo exists $w.btn.gamereview]} { return "" }
-    if {[llength [info commands ::reviewdriver::start]] == 0} { return "" }
-    if {[llength $positions] == 0} {
-        set ::enginewin::reviewstatus($id) [::reviewui::progressText 0 0]
-        ::enginewin::reviewRefresh $id
-        return ""
-    }
+# The state ::reviewui::runCall decides from: the open game, the preset this
+# window analyses with, and what this build's driver offers.
+#
+# `plies` is the moves to judge ("" for the whole planned line) and `depth` the
+# depth to search ("" to let the pass take the review's own).
+proc ::enginewin::reviewRunState {id {plies ""} {depth ""}} {
+    set state [dict create game 0 engine "" driver 0 bookEnd 0 plies $plies depth $depth \
+        progress [list ::enginewin::reviewProgress $id] notify 1]
+    if {[llength [info commands ::reviewdriver::run]]} { dict set state driver 1 }
     set name ""
     catch { set name $::enginewin_lastengine($id) }
-    if {$name eq ""} { return "" }
-    set enginecfg [::enginecfg::get $name]
-    set eff [::review::effective $enginecfg]
-    set token ""
-    # A new pass replaces the old results; if it is cancelled, the window must
-    # not be left holding a previous game's (or previous run's) lines.
-    unset -nocomplain ::enginewin::reviewresults($id)
-    set ::enginewin::reviewpass($id) [dict create \
-        state searching token "" total [llength $positions]]
-    if {[catch {
-        set token [::reviewdriver::start $enginecfg $positions [dict get $eff mpv] $depth \
-            [list ::enginewin::reviewProgress $id] [list ::enginewin::reviewDone $id]]
-    } err]} {
-        # A refused start is a message, not a broken button: the driver says id
-        # 20 is already running a pass, or the engine could not be opened.
-        unset -nocomplain ::enginewin::reviewpass($id)
-        set ::enginewin::reviewstatus($id) [::reviewui::failedText $err]
+    if {$name ne ""} {
+        catch { dict set state engine [::enginecfg::get $name] }
+    }
+    catch {
+        dict set state game [dict get [::review::mainLineMap [sc_game UCI_mainLine]] plies]
+    }
+    return $state
+}
+
+# Show what the driver's state says, for the window that started the pass.
+# Never raises: it is called from a progress callback and from the notification
+# that ends the write phase.
+proc ::enginewin::reviewStatus {id} {
+    variable reviewowner
+    if {$reviewowner ne $id} { return }
+    if {[llength [info commands ::reviewdriver::status]] == 0} { return }
+    set text ""
+    catch { set text [::reviewui::statusText [::reviewdriver::status]] }
+    if {![info exists ::enginewin::reviewstatus($id)]} {
+        set ::enginewin::reviewstatus($id) ""
+    }
+    set ::enginewin::reviewstatus($id) $text
+    # A run that is over hands the window back: another press must be able to
+    # start one, and another window may start its own.
+    if {[::enginewin::reviewPass $id] eq ""} { set reviewowner "" }
+}
+
+# Start the run the decision names. "" when nothing started, which is not an
+# error: the status line has already said why.
+proc ::enginewin::reviewStart {id state} {
+    variable reviewowner
+    set w [::enginewin::reviewWindow $id]
+    if {![winfo exists $w.btn.gamereview]} { return "" }
+    set call [::reviewui::runCall $state]
+    if {[dict get $call entry] eq ""} {
+        set ::enginewin::reviewstatus($id) \
+            [::reviewui::failedText [dict get $call reason]]
         ::enginewin::reviewRefresh $id
         return ""
     }
-    dict set ::enginewin::reviewpass($id) token $token
+    # The window owns the pass from here: a refused start must not take a run
+    # that is already in flight away from the window that started it.
+    set reviewowner $id
+    set entry [dict get $call entry]
+    set err [catch { $entry {*}[dict get $call args] } why]
+    if {$err} {
+        set why "the review could not start: $why"
+    }
+    if {$why ne ""} {
+        # ::reviewdriver::run answers a refusal in words instead of raising: no
+        # engine, an engine that cannot be opened, a pass already running.
+        set reviewowner ""
+        set ::enginewin::reviewstatus($id) [::reviewui::failedText $why]
+        ::enginewin::reviewRefresh $id
+        return ""
+    }
+    # Nothing to search is a run that finished (a book cover, an empty plan):
+    # the driver says so, and there is nothing left to show.
+    ::enginewin::reviewStatus $id
     ::enginewin::reviewRefresh $id
-    return $token
+    return 1
 }
 
 # Game Review: the whole main line, from where the plan says to start.
@@ -851,22 +909,16 @@ proc ::enginewin::reviewGame {id} {
     set w [::enginewin::reviewWindow $id]
     if {![winfo exists $w.btn.gamereview]} { return }
     if {[catch { set map [::review::mainLineMap [sc_game UCI_mainLine]] }]} { return }
-    set positions [::reviewui::positions $map [dict get $map plies] 0]
-    set name ""
-    catch { set name $::enginewin_lastengine($id) }
-    if {$name eq ""} { return }
-    set depth [dict get [::review::effective [::enginecfg::get $name]] depth]
-    set ::enginewin::reviewstatus($id) [::reviewui::progressText 0 [llength $positions]]
-    ::enginewin::reviewStart $id $positions $depth
+    ::enginewin::reviewStart $id [::enginewin::reviewRunState $id]
 }
 
 # Move Comment: the move played from here, and only that move.
 #
 # Two positions, the one before the move and the one after it, because a verdict
 # needs both scores: what the move was worth and what it brought. The depth comes
-# from moveCommentPlan - if the window's own analysis has already reached the
+# from moveCommentDepth - if the window's own analysis has already reached the
 # review's depth, comment from that and wait for nothing; otherwise search at the
-# review's depth and say so.
+# review's depth.
 proc ::enginewin::reviewMove {id} {
     set w [::enginewin::reviewWindow $id]
     if {![winfo exists $w.btn.movecomment]} { return }
@@ -891,51 +943,57 @@ proc ::enginewin::reviewMove {id} {
         catch { set target [dict get [::review::effective [::enginecfg::get $name]] depth] }
     }
     set plan [::reviewui::moveCommentDepth $depth_now $target]
-    set positions [::reviewui::specs $map [list $here [expr {$here + 1}]]]
-    set msg [::reviewui::moveCommentMessage $depth_now $target]
-    if {$msg eq ""} { set msg [::reviewui::progressText 0 [llength $positions]] }
-    set ::enginewin::reviewstatus($id) $msg
-    ::enginewin::reviewStart $id $positions [dict get $plan depth]
+    ::enginewin::reviewStart $id [::enginewin::reviewRunState $id \
+        [list [expr {$here + 1}]] [dict get $plan depth]]
 }
 
-# Cancel: no further positions, nothing written.
+# Cancel: the pass stops where it is, and the write phase never runs - the driver
+# writes only once the whole search has finished - so nothing is written.
+#
+# Only the window that started the pass stops it: an engine window closing is not
+# a reason to throw away a review another window is running.
 proc ::enginewin::reviewCancel {id} {
-    if {[info exists ::enginewin::reviewpass($id)]} {
-        set token [dict get $::enginewin::reviewpass($id) token]
-        catch { ::reviewdriver::stop $token }
-        unset -nocomplain ::enginewin::reviewpass($id)
+    variable reviewowner
+    if {$reviewowner ne "" && $reviewowner ne $id} { return }
+    catch { ::reviewdriver::cancel }
+    set reviewowner ""
+    if {[info exists ::enginewin::reviewstatus($id)]} {
+        set ::enginewin::reviewstatus($id) ""
     }
-    set ::enginewin::reviewstatus($id) ""
-    ::enginewin::reviewRefresh $id
+    catch { ::enginewin::reviewRefresh $id }
 }
 
-# The driver's callbacks. They take the id first because the driver calls a
-# command with plain arguments: [list ::enginewin::reviewProgress $id].
-proc ::enginewin::reviewProgress {id done total ply lines} {
-    set ::enginewin::reviewstatus($id) [::reviewui::progressText $done $total]
+# The game changed under the board. A pass reads a snapshot of it, so whatever was
+# running is writing into a game that is gone: stop it, whichever window started
+# it, and take every window's status line back with it.
+proc ::enginewin::reviewStopAll {} {
+    variable reviewowner
+    catch { ::reviewdriver::cancel }
+    set reviewowner ""
+    foreach id [array names ::enginewin::engState] {
+        if {[info exists ::enginewin::reviewstatus($id)]} {
+            set ::enginewin::reviewstatus($id) ""
+        }
+        catch { ::enginewin::reviewRefresh $id }
+    }
 }
 
-proc ::enginewin::reviewDone {id results} {
-    # A pass that lost its engine reports the positions that answered through
-    # the same callback as a finished one. Fewer results than positions is a
-    # review that did not happen: say so, and keep nothing to write from.
-    set total 0
-    catch { set total [dict get $::enginewin::reviewpass($id) total] }
-    set why [::reviewui::interruptedText [dict size $results] $total]
-    if {$why ne ""} {
-        unset -nocomplain ::enginewin::reviewresults($id)
-        unset -nocomplain ::enginewin::reviewpass($id)
-        set ::enginewin::reviewstatus($id) $why
-        ::enginewin::reviewRefresh $id
-        return
+# The driver's progress callback: {*}[list ::enginewin::reviewProgress $id] <done>
+# <total>. The counts are already in ::reviewdriver::status, so all this does is
+# put them on the status line.
+proc ::enginewin::reviewProgress {id done total} {
+    ::enginewin::reviewStatus $id
+    catch { ::enginewin::reviewRefresh $id }
+}
+
+# The board changed under every window, which is how a finished review announces
+# itself: the driver asks for this notification (-notify 1) once the write phase
+# has ended, and the window that started the pass has to be given back.
+proc ::enginewin::reviewRefreshAll {} {
+    foreach id [array names ::enginewin::engState] {
+        catch { ::enginewin::reviewStatus $id }
+        catch { ::enginewin::reviewRefresh $id }
     }
-    # The results stay here, keyed by ply, for the writeback slice: this window
-    # starts the pass and reports it, and writing labels, [%eval] and variations
-    # into the game is what the next pass of this work does.
-    set ::enginewin::reviewresults($id) $results
-    unset -nocomplain ::enginewin::reviewpass($id)
-    set ::enginewin::reviewstatus($id) ""
-    ::enginewin::reviewRefresh $id
 }
 
 # The settings dialog: the five settings the pass's own decisions read.

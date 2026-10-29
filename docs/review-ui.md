@@ -4,8 +4,9 @@ The engine window used to carry one **Game Comment** button that opened the
 batch annotator. It now carries two buttons over one engine pass, plus a small
 settings dialog. The pass itself is `::reviewdriver` (`tcl/tools/review_driver.tcl`),
 the decisions behind the buttons are `::reviewui` (`tcl/tools/review_ui.tcl`),
-and what a finished pass writes into the game is the writeback slice that
-follows — the buttons here start the pass and report it, they do not annotate.
+and a review writes into the open game: `::reviewdriver::run` searches the
+positions, turns the replies into verdicts and calls `::review::writeMove`, so the
+moves come back labelled with `[%eval]` and variations.
 
 ```
 [Game Review]  [Move Comment]  [Review Settings]  [Cancel]   Reviewing position 3 of 42
@@ -18,7 +19,13 @@ disabled while a pass runs, which is what Cancel is for.
 ## Game Review — the whole main line
 
 Press **Game Review** and the pass searches every position of the main line at
-the review's depth, showing `Reviewing position n of m` in the button bar.
+the review's depth, showing `Reviewing position n of m` in the button bar, and
+then writes the verdicts into the game: a label and a `[%eval]` on each move's
+comment, and the engine's alternatives as variations where `var_lines` asks for
+them. Running it again replaces the previous verdicts — `writeMove` strips what
+the last review wrote and dedupes variations by their first move — and a NAG or a
+comment of the user's own is left alone. The board is back where the user left it
+when the pass ends.
 
 The positions come from `::review::searchPlies` over the snapshot
 `::review::mainLineMap` takes of the line, so:
@@ -58,13 +65,13 @@ When it may start is `::review::moveCommentPlan`:
 
 - with `move_comment_wait` on (the default) the comment has to be the one a
   review would have written, so a shallower analysis is not good enough: the pass
-  searches at the review's depth, and the bar says `Waiting for depth 18` until
-  it gets there. That depth is the *effective* one (`::review::effective`): an
-  engine preset with its own deeper limit raises it, so a review and a one-move
-  comment of the same position cannot disagree at two depths;
+  searches at the review's depth instead. That depth is the *effective* one
+  (`::review::effective`): an engine preset with its own deeper limit raises it, so
+  a review and a one-move comment of the same position cannot disagree at two
+  depths;
 - with `move_comment_wait` off, whatever the window's own analysis has already
-  reached is good enough, and nothing waits — the depth shown in the bar's depth
-  box is the depth used.
+  reached is good enough and is the depth searched — the depth shown in the bar's
+  depth box is the depth used.
 
 The current analysis depth is read from the window's depth map, the one the
 Autorun pass fills in. A position that has not been analysed yet has no entry,
@@ -110,38 +117,42 @@ means two ~107 GB searches, the kernel swaps for its life, and systemd-oomd kill
 the whole application when the second engine's table fills in. A batch of
 short, fixed-depth searches cannot use a table that size anyway.
 
-## What the buttons do not do
+## How a review is written, and what Cancel does
 
-They do not write anything into the game. A finished pass leaves its results in
-`::enginewin::reviewresults($id)`, keyed by ply, in the driver's shape:
+`::reviewdriver::run` is plan → search → verdicts → write, and the write phase
+runs only after the whole search has finished: `::review::writeMove` is called per
+move with the label, the `[%eval]` and the engine's lines, and the game's own move
+is never inserted as a variation of itself. The status line is `::reviewdriver`'s
+own state read through `::reviewui::statusText` — the window keeps no token of its
+own.
 
-```
-dict ply -> dict multipv -> {depth score score_type pv}
-```
-
-Turning those into move labels, `[%eval]` tokens and gated variations is
-`::review::writeMove` (already merged) driven by the writeback slice. Keeping the
-search and the write apart is deliberate: writing mid-pass re-enters the engine
-window from an open engine, which makes the main-line snapshot non-authoritative.
+**Cancel** stops the pass before the write phase, so nothing is written at all.
+That keeps the search and the write apart for the reason they always were:
+writing mid-pass re-enters the engine window from an open engine, which makes the
+main-line snapshot non-authoritative.
 
 ## Files
 
 | File | What is there |
 | --- | --- |
 | `tcl/tools/game_review.tcl` | `::review` settings, `plan`, `searchPlies`, `mainLineMap`, `playedMove`, `moveCommentPlan`, `writeMove`, `selectLines` |
-| `tcl/tools/review_driver.tcl` | `::reviewdriver` — the engine pass on connection 20 |
-| `tcl/tools/review_ui.tcl` | `::reviewui` — button state, plan→spec mapping, dialog values, status lines |
+| `tcl/tools/review_driver.tcl` | `::reviewdriver` — the engine pass on connection 20, `run` (plan → verdicts → write), `status`, `cancel` |
+| `tcl/tools/review_ui.tcl` | `::reviewui` — button state, the call a press makes, dialog values, the status line |
 | `tcl/windows/engine.tcl` | the two buttons, the status line, the settings dialog (guarded glue) |
-| `tests/tcl/review_ui.tcl` | 153 checks: the mapping, the button states, the dialog round trip, the move-comment depth, the key set |
+| `tests/tcl/review_ui.tcl` | 183 checks: the call a press makes, the status line, the button states, the dialog round trip, the move-comment depth, the key set |
+| `tests/tcl/review_driver.tcl` | 148 checks: the pass against a stub engine, including two reviews of the same game in a row |
 
 ## Tests
 
 `tclsh tests/tcl/review_ui.tcl` (also run by the Tcl Tests workflow) pins what a
 widget would otherwise have to decide:
 
-- **the plan → spec mapping** against `::review::searchPlies` and
-  `::review::mainLineMap`, including a null move in the middle of the line, a
-  shortened plan, and a position the map cannot name;
+- **the call a press makes** — `::reviewdriver::run`, with `-bookEnd`, the one move
+  and depth for Move Comment, and a refusal (not an engine opening) when there is
+  no game, no engine or no driver;
+- **the status line** the driver's own state maps to: a search's count, silence
+  for the write phase, a finished run and a cancelled one, and the reason a run
+  that failed or was partly refused gives;
 - **button state** for every combination the window can be in — no game, no
   engine, last position, a pass running, and a state dict with a key missing;
 - **the dialog round trip**: read, change, refuse one field, and check the four

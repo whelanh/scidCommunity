@@ -14,7 +14,7 @@ diffed when it changes, rather than edited in a comment fifteen screens down.
 | **A0** | A complete engine preset: binary, args, working directory, the full UCI option set and a `Limits` dict in `engines.dat`; the engine window reads and writes them; Duplicate copies a whole spec, and a rename cannot take another preset's name | merged — `#382`, `#387`, `#390` |
 | **A** | `::reviewdriver`: a MultiPV pass on its own engine connection; `Game Review` and `Move Comment` in the engine window; the review settings dialog; `::review::writeMove`; the chart's stored-`[%eval]` seeding | merged — `#385`, `#386`, `#389` |
 | **A2** | The pass a caller owns: plan → verdicts → write, so `writeMove` has a caller | merged — `#388` |
-| **A3** | The engine window calls `::reviewdriver::run` instead of `start`, so a review's verdicts reach the game | **next** |
+| **A3** | The engine window calls `::reviewdriver::run` instead of `start`, so a review's verdicts reach the game | merged — this PR |
 | **B0** | The three trainers (`reviewgame`, `tactics`, `calvar`) leave `::uci`/`::analysis(...)` for `::engine` | after A3 |
 | **B1** | `::enginewin::widget {parent id}`; the analysis group becomes a container of 1–4 panes, each detachable | after B0 |
 | **B2** | Per-pane mode (Analyze / Train / Review) and a single driving owner | after B1 |
@@ -36,8 +36,8 @@ what runs today; `—` means nothing does, which is the argument for the manual 
 | Depth / movetime | `::enginewin::applyLimits` → the preset's `Limits` | unchanged (preset-owned) | `engine_limits.tcl` |
 | Autorun cadence | `::enginewin_autorun($id)` + `::enginewin::analyzeMainLine` | the widget | `—` |
 | Score chart and stored-`[%eval]` seeding | `::enginewin::updateChart`, `seedChart`, `seedLabel` | the widget | `engine_seed.tcl` 55 — seeded markers, the Autorun skip, a manual search at a seeded ply, the nested-variation restore; the `connectEngine`/`sendPosition` resets are structural. `score_seed.tcl` 35 |
-| Game Review / Move Comment | `tools/review_ui.tcl` + `tools/review_driver.tcl` | the widget, mode Review | `review_ui.tcl` 177, `review_driver.tcl` 118 — the logic; Tk glue structural |
-| **Review verdicts → the game** | `::reviewdriver::run` (merged in #388) calls `::review::writeMove`; the engine window still calls `start`, so nothing is written from the UI | mode Review, after A3 | `game_review.tcl` 157 covers `writeMove`, `review_driver.tcl` 118 covers `run`; the window has no caller yet |
+| Game Review / Move Comment | `tools/review_ui.tcl` + `tools/review_driver.tcl` | the widget, mode Review | `review_ui.tcl` 183, `review_driver.tcl` 148 — the logic; Tk glue structural |
+| **Review verdicts → the game** | `::reviewdriver::run` (merged in #388) calls `::review::writeMove`, and the engine window calls `run` (A3) | mode Review | `game_review.tcl` 157 covers `writeMove`, `review_driver.tcl` 148 covers `run` end to end — two reviews in a row, the variations not duplicated, a NAG and a user comment kept; `review_ui.tcl` covers the window's decision |
 | Embedded PGN viewer instance | `::enginewin` `pgnviewer($id)` branch; seeding skips it | the widget keeps the flag | `—` |
 | 1–4 panes, one engine each | `tools/analysis.tcl` `.analysisWin1..4`, `analysis(uci$n)` | the analysis group; panes detachable | `—` |
 | Per-pane lock | `toggleLockEngine` | the pane | `—` |
@@ -147,10 +147,18 @@ consumer of the window B1 changes, not a control for the classic pipeline.
 | 13 | Autorun the main line, reload the game | chart fills; stored `[%eval]`s seed; seeded plies are skipped |
 | 14 | Embedded PGN viewer engine window | its own game and chart; seeding stays off |
 | 15 | AI commentary: batch + summary | prose written as before |
+| 16 | Game Review on a normal game | labels, `[%eval]` and variations written into the game; the board ends where the user left it |
+| 17 | Game Review a second time on the same game | the labels and `[%eval]`s are replaced, not stacked; no variation is duplicated |
+| 18 | A move that already carries a NAG and a user comment, then Game Review | the NAG and the user's text survive; the verdict is added |
+| 19 | Cancel a review mid-search | nothing is written; the board is where the user left it |
 
-Review rows (Game Review / Move Comment writing labels and `[%eval]` into the game) **cannot be
-exercised yet**: `::reviewdriver::run` exists (#388) but the window still calls `start`, so a
-review in the UI writes nothing. They join this matrix with A3.
+Rows 16–18 are no longer only manual: `tests/tcl/review_driver.tcl` drives
+`::reviewdriver::run` to completion against a stub engine and a board that
+remembers what was written, and asserts the comment, the `[%eval]`, the
+variation set and the cursor after a second run. What remains manual is the
+window itself — the button, the status line and the board repaint — which has
+no Tk harness. Row 19 is the driver's own guarantee (`::reviewdriver::cancel`
+before the write phase) rather than a window behaviour.
 
 **Where a row can stop being manual, it should.** `tests/tcl/auto_comment_dialogs.tcl` runs a real
 `wish` under `xvfb-run` in CI; the same pattern reaches the pgnviewer/seeding branch, autorun and
