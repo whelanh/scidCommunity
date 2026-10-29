@@ -258,5 +258,36 @@ checkHas "the review writes its label" [dict get $reviewComments 4] "\[MoveLabel
 checkHas "the review writes the percent-eval token" [dict get $reviewComments 4] "\[%eval +2.20\]"
 checkHasNot "the classic wrote neither" [dict get $classicComments 4] "\[MoveLabel"
 
+########################################################################
+### The other branch: a move better than the engine's line
+###
+### The one mark the classic writes outside the moves it annotates. A gain of
+### two pawns is not a blunder, so nothing gets the assessment or the diagram -
+### only "!?" - and the two pipelines have to agree about that too.
+
+set ::MOVES {{e4 e2e4} {e5 e7e5} {Nf3 g1f3} {Nc6 b8c6}}
+set ::CPS {20 30 20 220 215}
+set ::BEST [dict create \
+    0 {e2e4 e7e5} \
+    1 {e7e5 g1f3} \
+    2 {g1f3 b8c6} \
+    3 {d7d5 e4d5} \
+    4 {a7a6}]
+
+::gamestub::reset $::MOVES
+queueAnalyze
+classicAnnotate
+set classic [artefact]
+
+::gamestub::reset $::MOVES
+queueAnalyze
+set counts [reviewAnnotate]
+set review [artefact]
+
+checkEq "the gain is marked !? by the classic" [lindex [dict get $classic nags] 2] "!?"
+checkEq "the review marks it the same way" [dict get $review nags] [dict get $classic nags]
+checkEq "and no diagram is drawn for a gain" [dict get $review diagrams] ""
+checkEq "neither pipeline calls it an exercise" [dict get $review flags] ""
+
 puts "checks $checks fails $fails"
 exit [expr {$fails ? 1 : 0}]

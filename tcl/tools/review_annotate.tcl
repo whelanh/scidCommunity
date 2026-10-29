@@ -509,7 +509,18 @@ proc ::reviewannotate::writeResults {p results} {
         set mover w
         catch { set mover [dict get $sides [expr {$ply - 1}]] }
         set beforeMover [dict get $verdict before]
+        # The classic measured the change between two POSITIONS - the score
+        # before the move and the score after it - not the move's cost against
+        # the engine's best line. ::reviewdriver::judge gives both, and eval_cp
+        # (White's point of view after the move) is the position one: a move the
+        # engine expected can still move the evaluation, which is what "!?"
+        # means. When no successor was measured there is no position figure, and
+        # the ladder's own pair is all there is.
         set afterMover [dict get $verdict after]
+        if {[dict get $verdict eval_cp] ne ""} {
+            set afterMover [dict get $verdict eval_cp]
+            if {$mover eq "b"} { set afterMover [expr {-$afterMover}] }
+        }
         if {$mover eq "b"} {
             set beforeWhite [expr {-$beforeMover}]
             set afterWhite [expr {-$afterMover}]
@@ -518,7 +529,10 @@ proc ::reviewannotate::writeResults {p results} {
             set afterWhite $afterMover
         }
         set drop [expr {($beforeMover - $afterMover) / 100.0}]
-        if {!$blundersOnly || abs($drop) > $threshold} {
+        # The classic's filter is signed: only a move that LOST ground is
+        # annotated in blunders-only mode, and a move that gained it takes the
+        # "!?" branch below instead.
+        if {!$blundersOnly || $drop > $threshold} {
             set nag [::reviewannotate::nagForDrop $beforeMover $afterMover]
             if {[catch {
                 sc_move ply $ply
