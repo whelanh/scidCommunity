@@ -580,6 +580,9 @@ proc ::reviewannotate::writeResults {p results} {
 # The T-flag filter: the games in a range that carry the exercise flag. This is
 # what "show me the exercises" reads, and what the classic annotator's
 # sc_base gameflag ... set T is for.
+#
+# It is a scan, not a load: the current game is left on the last one it looked
+# at, and a caller that cares saves and restores it.
 proc ::reviewannotate::exerciseGames {from to} {
     set out {}
     for {set g $from} {$g <= $to} {incr g} {
