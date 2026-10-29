@@ -434,6 +434,7 @@ set ::fakeVarAt ""
 set ::fakeVarFirst ""
 set ::fakeComments {}
 set ::fakeComment ""
+set ::fakeNags {}
 proc sc_pos {args} {
     set what [lindex $args 0]
     # Recorded so a test can see every board command the pass reaches for: a NAG
@@ -451,6 +452,21 @@ proc sc_pos {args} {
         setComment {
             lappend ::events [list setComment [lindex $args 1]]
             dict set ::fakeComments $::fakeLoc [lindex $args 1]
+            return ""
+        }
+        getNags {
+            if {[dict exists $::fakeNags $::fakeLoc]} {
+                return [dict get $::fakeNags $::fakeLoc]
+            }
+            return ""
+        }
+        addNag {
+            set nags ""
+            if {[dict exists $::fakeNags $::fakeLoc]} {
+                set nags [dict get $::fakeNags $::fakeLoc]
+            }
+            lappend nags [lindex $args 1]
+            dict set ::fakeNags $::fakeLoc $nags
             return ""
         }
     }
@@ -739,11 +755,14 @@ set ::fakeExit {}
 set ::fakeVars {}
 set ::fakeComments {}
 set ::fakeComment ""
+set ::fakeNags {}
 set ::events {}
 set ::runProgress {}
-# The move at ply 2 already carries the user's own note; the pass must add its
-# verdict to it, and the second pass must replace only the verdict.
+# The move at ply 2 already carries the user's own note and a NAG; the pass must
+# add its verdict to the comment and leave the NAG alone, and the second pass
+# must replace only the verdict.
 dict set ::fakeComments 2 "A fine move."
+dict set ::fakeNags 2 "?!"
 
 checkEq "the first review starts" [::reviewdriver::run $runcfg] ""
 feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
@@ -766,6 +785,7 @@ checkEq "the first review wrote every move" \
     [dict get [::reviewdriver::status] written] 4
 checkEq "and left the user's own note in front of its verdict" \
     [dict get $::fakeComments 2] {A fine move. [excellent] [%eval +0.50]}
+checkEq "and its NAG alone" [dict get $::fakeNags 2] "?!"
 checkEq "the first review's variations are in the game" \
     $::fakeVars {0 d2d4 1 c7c5 2 d2d4 3 e7e6}
 checkEq "the labels the first review gave" [list \
@@ -799,6 +819,7 @@ checkEq "one verdict and one score per move" \
     [regexp -all {\[%eval [^\]]*\]} [dict get $::fakeComments 1]] 1
 checkEq "the user's note and the new verdict, in that order" \
     [dict get $::fakeComments 2] {A fine move. [best] [%eval +0.06]}
+checkEq "and the NAG survived both runs" [dict get $::fakeNags 2] "?!"
 checkEq "a verdict from the first run is replaced, not appended" \
     [dict get $::fakeComments 3] {[best] [%eval -0.04]}
 checkEq "and so is the last one" [dict get $::fakeComments 4] {[best] [%eval +0.03]}
@@ -983,6 +1004,20 @@ checkEq "the refusing window's line is not overwritten by it" \
 checkEq "Cancel still stops the pass" [dict get [::reviewdriver::status] state] cancelled
 checkEq "and nothing was written" [writesSoFar] {}
 checkEq "the window is handed back" $::enginewin::reviewowner ""
+pump
+
+# A new game is a new board: the pass's saved cursor belongs to the game that
+# is going away, and putting it back would move the new game to that ply.
+set ::fakeLoc 2
+set ::fakeLevel 0
+checkEq "a second press starts a pass again" \
+    [::enginewin::reviewStart 1 [::enginewin::reviewRunState 1]] 1
+set ::fakeLoc 0
+set ::fakeLen 4
+::enginewin::reviewStopAll
+checkEq "the new game stops the pass" [dict get [::reviewdriver::status] state] cancelled
+checkEq "and the old cursor is not put back into it" $::fakeLoc 0
+checkEq "and the window is handed back" $::enginewin::reviewowner ""
 pump
 
 puts "\n$checks checks, $fails failures"

@@ -972,7 +972,9 @@ proc ::enginewin::reviewCancel {id} {
 # it, and take every window's status line back with it.
 proc ::enginewin::reviewStopAll {} {
     variable reviewowner
-    catch { ::reviewdriver::cancel }
+    # The cursor the pass saved belongs to the game that is going away: restoring
+    # it would move the board to that ply in the new game.
+    catch { ::reviewdriver::cancel 0 }
     set reviewowner ""
     foreach id [array names ::enginewin::engState] {
         if {[info exists ::enginewin::reviewstatus($id)]} {

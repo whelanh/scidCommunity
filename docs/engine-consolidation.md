@@ -14,7 +14,7 @@ diffed when it changes, rather than edited in a comment fifteen screens down.
 | **A0** | A complete engine preset: binary, args, working directory, the full UCI option set and a `Limits` dict in `engines.dat`; the engine window reads and writes them; Duplicate copies a whole spec, and a rename cannot take another preset's name | merged — `#382`, `#387`, `#390` |
 | **A** | `::reviewdriver`: a MultiPV pass on its own engine connection; `Game Review` and `Move Comment` in the engine window; the review settings dialog; `::review::writeMove`; the chart's stored-`[%eval]` seeding | merged — `#385`, `#386`, `#389` |
 | **A2** | The pass a caller owns: plan → verdicts → write, so `writeMove` has a caller | merged — `#388` |
-| **A3** | The engine window calls `::reviewdriver::run` instead of `start`, so a review's verdicts reach the game | merged — this PR |
+| **A3** | The engine window calls `::reviewdriver::run` instead of `start`, so a review's verdicts reach the game | merged — `#393` |
 | **B0** | The three trainers (`reviewgame`, `tactics`, `calvar`) leave `::uci`/`::analysis(...)` for `::engine` | after A3 |
 | **B1** | `::enginewin::widget {parent id}`; the analysis group becomes a container of 1–4 panes, each detachable | after B0 |
 | **B2** | Per-pane mode (Analyze / Train / Review) and a single driving owner | after B1 |
@@ -37,7 +37,7 @@ what runs today; `—` means nothing does, which is the argument for the manual 
 | Autorun cadence | `::enginewin_autorun($id)` + `::enginewin::analyzeMainLine` | the widget | `—` |
 | Score chart and stored-`[%eval]` seeding | `::enginewin::updateChart`, `seedChart`, `seedLabel` | the widget | `engine_seed.tcl` 55 — seeded markers, the Autorun skip, a manual search at a seeded ply, the nested-variation restore; the `connectEngine`/`sendPosition` resets are structural. `score_seed.tcl` 35 |
 | Game Review / Move Comment | `tools/review_ui.tcl` + `tools/review_driver.tcl` | the widget, mode Review | `review_ui.tcl` 184, `review_driver.tcl` 162 — the logic; Tk glue structural except the run's ownership, driven over a stub window |
-| **Review verdicts → the game** | `::reviewdriver::run` (merged in #388) calls `::review::writeMove`, and the engine window calls `run` (A3) | mode Review | `game_review.tcl` 157 covers `writeMove`, `review_driver.tcl` 162 covers `run` end to end — two reviews in a row, the variations not duplicated, a NAG and a user comment kept, and the window's hand-off to `run` from two engine windows; `review_ui.tcl` covers the window's decision |
+| **Review verdicts → the game** | `::reviewdriver::run` (merged in #388) calls `::review::writeMove`, and the engine window calls `run` (A3) | mode Review | `game_review.tcl` 157 covers `writeMove`, `review_driver.tcl` 168 covers `run` end to end — two reviews in a row, the variations not duplicated, a NAG and a user comment kept, and the window's hand-off to `run` from two engine windows; `review_ui.tcl` covers the window's decision |
 | Embedded PGN viewer instance | `::enginewin` `pgnviewer($id)` branch; seeding skips it | the widget keeps the flag | `—` |
 | 1–4 panes, one engine each | `tools/analysis.tcl` `.analysisWin1..4`, `analysis(uci$n)` | the analysis group; panes detachable | `—` |
 | Per-pane lock | `toggleLockEngine` | the pane | `—` |

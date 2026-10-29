@@ -83,7 +83,9 @@ proc ::reviewdriver::busy {id} {
 }
 
 # Stop a pass: no further positions are started and the engine is closed.
-proc ::reviewdriver::stop {token} {
+# `restore` is 0 when the game the pass was reading has gone (a new game was
+# loaded): putting the old cursor back would move the board in the new game.
+proc ::reviewdriver::stop {token {restore 1}} {
     variable job
     variable pass
     variable state
@@ -101,7 +103,7 @@ proc ::reviewdriver::stop {token} {
         set p $pass
         set pass {}
         dict set state state cancelled
-        ::reviewdriver::restoreRun $p
+        if {$restore} { ::reviewdriver::restoreRun $p }
     }
     return 1
 }
@@ -643,10 +645,10 @@ proc ::reviewdriver::run {engine args} {
 
 # Stop the run ::reviewdriver::run started. Nothing is written: the write phase
 # only ever runs once the search has finished.
-proc ::reviewdriver::cancel {} {
+proc ::reviewdriver::cancel {{restore 1}} {
     variable pass
     if {![dict size $pass]} { return 0 }
-    return [::reviewdriver::stop [dict get $pass token]]
+    return [::reviewdriver::stop [dict get $pass token] $restore]
 }
 
 # Between searches a run reports progress only, and the caller's command hears
