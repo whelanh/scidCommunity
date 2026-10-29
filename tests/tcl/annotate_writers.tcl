@@ -80,6 +80,18 @@ checkEq "giving a pawn back is !?" [::reviewannotate::nagForDrop 70 120] "!?"
 checkEq "a black move drops in the other direction" [::reviewannotate::nagForDrop -20 -120] "?"
 checkEq "an unmeasured move writes nothing" [::reviewannotate::nagForDrop "" ""] ""
 
+# The classic pipeline keeps every figure it writes in White's perspective; the
+# review's lines are the engine's own (side to move), so the comparison with a
+# White-POV score has to flip them, exactly as the classic's UCI parser did.
+set haveWhite [expr {[llength [info commands ::reviewannotate::whiteScore]] > 0}]
+check "a side-to-move score can be turned into White's" $haveWhite
+if {$haveWhite} {
+    checkEq "a side-to-move score on White's move is White's" \
+        [::reviewannotate::whiteScore 120 white] 120
+    checkEq "and flips on Black's" [::reviewannotate::whiteScore 120 black] -120
+    checkEq "an empty score stays empty" [::reviewannotate::whiteScore "" black] ""
+}
+
 ### 2. The diagram tag, in blunders-only mode ##################################
 #
 # The RTF exporter draws a diagram where "D" sits (tcl/file/rtf.tcl hasDiagramNag_),
@@ -205,6 +217,15 @@ sc_move ply 2
 checkEq "the pass is told where the book ends" [::reviewannotate::findBookEnd "/books/x.bin" 1] 4
 checkEq "and the board is put back" $::gamestub::cursor 2
 
+# The walk is over the game's opening, not from the cursor: a mid-game cursor
+# outside the book must not report its own ply as the end.
+fixture
+set ::gamestub::book {0 {e4}}
+sc_move ply 3
+checkEq "the book end comes from the start, not the cursor" \
+    [::reviewannotate::findBookEnd "/books/x.bin" 1] 1
+checkEq "and the board comes back" $::gamestub::cursor 3
+
 # The annotate mode is the driver's pass with this file's writer: with no engine
 # there is nothing to start, and the refusal is the driver's own - which also
 # proves -writer is an option the driver knows.
@@ -282,6 +303,17 @@ annotateOne 130 0
 checkEq "a ? move is offered to the exercise gate like the classic" $::offered {1}
 rename ::reviewannotate::markExercise {}
 rename ::reviewannotate::markExerciseSaved ::reviewannotate::markExercise
+
+# A mark that fails is a failed move, not a written one: the label landed, the
+# exercise did not, and the counts have to say so.
+annotateSettings
+rename ::reviewannotate::markExercise ::reviewannotate::markExerciseSaved
+proc ::reviewannotate::markExercise {args} { error "no exercise here" }
+set r [annotateOne 130 0]
+rename ::reviewannotate::markExercise {}
+rename ::reviewannotate::markExerciseSaved ::reviewannotate::markExercise
+checkEq "a mark that fails is counted as failed" [dict get $r failed] 1
+checkEq "and its reason is kept" [expr {[llength [dict get $r errors]] > 0}] 1
 
 puts "checks $checks fails $fails"
 exit [expr {$fails ? 1 : 0}]

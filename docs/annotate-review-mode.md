@@ -106,6 +106,14 @@ diagram in blunders-only mode, the T flag and the difficulty comment, the book's
 two comments, and the blunders-only filter (a decided position is left alone, a
 mate-range position is marked, and a `?` move is offered to the exercise gate).
 
+### Tier 2 is synchronous
+
+`::auto_comment::query` runs `exec curl` on the calling thread, and the write
+phase runs on the Tk event loop: one request per judged move, each blocking for
+the provider's own timeout. Tier 2 is not wired to the dialog yet, and wiring it
+needs batching (or a background worker and a progress dialog) before it is
+offered — otherwise a slow provider freezes the window for the whole run.
+
 ## Not in this change
 
 - **The annotate dialog still starts the classic autoplay.** Pointing its OK

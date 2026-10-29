@@ -35,6 +35,17 @@ namespace eval ::reviewannotate {}
 ###     callers that only have a label (Move Comment, a report, a future
 ###     single-move annotate) and no evaluation pair to measure.
 
+# A centipawn figure from the side to move's point of view, as White's. The
+# classic pipeline kept every figure it wrote in White's perspective (the UCI
+# parser flips the engine's score before storing multiPV); the review's lines
+# are the engine's own, so the places that compare them with a White-POV number
+# have to flip them the same way.
+proc ::reviewannotate::whiteScore {cp side} {
+    if {$cp eq ""} { return "" }
+    if {$side eq "black"} { return [expr {-$cp}] }
+    return $cp
+}
+
 # The mark a label implies. best/good/excellent are unmarked: the absence of a
 # mark is the classic way of saying "nothing went wrong here", and ?? on every
 # third move is noise.
@@ -215,7 +226,7 @@ proc ::reviewannotate::markExercise {before after nag lines} {
     if {[llength $lines] < 2} { return 0 }
     set sc2 [lindex [lindex $lines 1] 0]
     if {$sc2 eq ""} { return 0 }
-    set sc2 [expr {$sc2 / 100.0}]
+    set sc2 [expr {[::reviewannotate::whiteScore $sc2 [sc_pos side]] / 100.0}]
     if {[expr abs($score - $sc2)] < 1.5} { return 0 }
     # ... and there has to be only one winning move.
     if {[expr {$score * $sc2}] > 0.0 && [expr abs($score)] > $::informant(+-) &&
@@ -308,6 +319,11 @@ proc ::reviewannotate::bookPass {bookFile slot} {
 proc ::reviewannotate::findBookEnd {bookFile slot} {
     set end 0
     set cursor [::review::cursorSave]
+    # The walk is over the game's opening, not over what is left of it from
+    # wherever the cursor happens to be: a mid-game cursor outside the book
+    # would otherwise report its own ply as the book end and the pass would skip
+    # every move before it.
+    catch { sc_move ply 0 }
     if {[catch {
         sc_book load $bookFile $slot
         set bookmoves ""
@@ -412,6 +428,11 @@ proc ::reviewannotate::tier {} {
 # Ask the provider for one sentence about the move at `ply`. "" in tier 1, when
 # nothing is configured, or when the request fails - prose is an extra, and an
 # annotate run must not fail because a model is unreachable.
+#
+# One request per judged move, and ::auto_comment::query blocks: it runs curl on
+# the calling thread. In the write phase that thread is the Tk event loop, so
+# tier 2 freezes the window for the length of the run. It is not wired to the
+# dialog yet; wiring it needs batching, or a worker and a progress dialog.
 proc ::reviewannotate::proseText {ply label} {
     if {[::reviewannotate::tier] < 2} { return "" }
     set san ""
@@ -548,6 +569,7 @@ proc ::reviewannotate::writeResults {p results} {
         set annotate [expr {!$blundersOnly || \
             (($isBlunder > 1 || ($isBlunder > 0 && abs($afterPawns) >= 327.0)) \
                 && !$gameIsLost)}]
+        set markFailed 0
         if {$annotate} {
             set nag [::reviewannotate::nagForDrop $beforeMover $afterMover]
             if {[catch {
@@ -565,6 +587,7 @@ proc ::reviewannotate::writeResults {p results} {
                     ::reviewannotate::markExercise $beforeWhite $afterWhite "" $afterLines
                 }
             }]} {
+                set markFailed 1
                 lappend errors "ply $ply: $::errorInfo"
             }
             if {$blundersOnly} { catch { ::reviewannotate::markDiagram $ply 1 } }
@@ -579,7 +602,7 @@ proc ::reviewannotate::writeResults {p results} {
                 if {$text ne ""} { ::reviewannotate::prose $ply $text }
             }
         }
-        incr written
+        if {$markFailed} { incr failed } else { incr written }
     }
     # The book comments: the walk needs the cursor at the start of the game, so
     # it happens once, after the moves are written, and puts it back.
