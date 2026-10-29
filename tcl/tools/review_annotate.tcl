@@ -333,7 +333,13 @@ proc ::reviewannotate::findBookEnd {bookFile slot} {
             lassign [sc_book moves $slot] bookmoves
         }
         sc_book close $slot
-        set end [sc_pos location]
+        if {[string length $bookmoves] == 0} {
+            set end [sc_pos location]
+        } else {
+            # The game ran out before the book did: it never left the opening,
+            # so there is nothing to skip and the pass searches the whole line.
+            set end 0
+        }
     }]} {
         catch { sc_book close $slot }
         set end 0
@@ -403,11 +409,11 @@ proc ::reviewannotate::appendAnnotator {text} {
     if {$seen == 0} {
         lappend nExtra "Annotator \"$text\"\n"
     }
-    # The tag text, not a Tcl list of it: the classic hands scid the braced list
-    # (one element, so the value round-trips as one word and a second annotator
-    # cannot find the tag it should append to), and joining flattens it into the
-    # lines scid reads back as words.
-    catch { sc_game tags set -extra [join $nExtra ""] }
+    # A Tcl list of two-element entries: scid clears the extra tags and parses
+    # each element as {name value} (src/tkscid.cpp, sc_game_tags_set -extra).
+    # Joining the lines into one string leaves every entry a single word, so the
+    # list would parse to nothing and the game would lose its extra tags.
+    catch { sc_game tags set -extra $nExtra }
     return 1
 }
 
@@ -440,7 +446,11 @@ proc ::reviewannotate::proseText {ply label} {
     set prompt "You are annotating a chess game. The move $san is a $label. In one sentence, explain what is wrong or right with it, in the voice of a coach. Plain text, no markdown."
     set reply ""
     if {[catch { set reply [::auto_comment::query $prompt 200] }]} { return "" }
-    return [string trim $reply]
+    set reply [string trim $reply]
+    # ::auto_comment::query reports a failed request as an "ERROR: ..." string
+    # rather than an exception; that is not a sentence to paste into a game.
+    if {[string match "ERROR:*" $reply]} { return "" }
+    return $reply
 }
 
 # Put prose on the move's comment. The label and the [%eval] are already there

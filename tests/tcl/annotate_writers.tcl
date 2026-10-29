@@ -226,6 +226,13 @@ checkEq "the book end comes from the start, not the cursor" \
     [::reviewannotate::findBookEnd "/books/x.bin" 1] 1
 checkEq "and the board comes back" $::gamestub::cursor 3
 
+# A game that never leaves the book has no book end to speak of: returning the
+# final ply would make the pass skip every move before it.
+::gamestub::reset [list {e4 e2e4} {e5 e7e5}]
+set ::gamestub::book {0 {e4} 1 {e5} 2 {Nf3}}
+checkEq "a game that ends in book has no book end" \
+    [::reviewannotate::findBookEnd "/books/x.bin" 1] 0
+
 # The annotate mode is the driver's pass with this file's writer: with no engine
 # there is nothing to start, and the refusal is the driver's own - which also
 # proves -writer is an option the driver knows.
@@ -247,6 +254,12 @@ proc ::auto_comment::providerReady {} { return 0 }
 checkEq "tier 1 asks nobody" [::reviewannotate::proseText 5 blunder] ""
 checkEq "tier 1 writes no prose" [::reviewannotate::prose 5 "White is winning."] ""
 checkEq "and the comment stays empty" [sc_pos getComment] ""
+
+# ::auto_comment::query reports a failed request as an "ERROR: ..." string, not
+# as an exception; that is not a sentence to write into a game.
+proc ::auto_comment::providerReady {} { return 1 }
+proc ::auto_comment::query {prompt {maxTokens 300}} { return "ERROR: no model selected" }
+checkEq "a provider error is not prose" [::reviewannotate::proseText 5 blunder] ""
 
 ### 8. The classic's blunders-only filter ######################################
 #

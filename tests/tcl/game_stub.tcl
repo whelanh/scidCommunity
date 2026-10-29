@@ -289,14 +289,31 @@ proc sc_game {sub args} {
         pop     { return "" }
         tags    {
             set op [lindex $args 0]
-            if {$op eq "get"} { return $::gamestub::tags }
+            if {$op eq "get"} {
+                # scid returns the extra tags as one string of lines, which is
+                # also what the callers iterate over.
+                set out ""
+                foreach pair $::gamestub::tags {
+                    lassign $pair name value
+                    append out "$name \"$value\"\n"
+                }
+                return $out
+            }
             if {$op eq "set"} {
-                # scid stores the argument it was given and hands it back as a
-                # list when it is read: the extra tags are one string of lines.
                 set value [lindex [lrange $args 2 end] 0]
-                set ::gamestub::tags $value
                 if {[lindex $args 1] eq "-extra"} {
-                    set ::gamestub::annotator $value
+                    # scid clears the extra tags and parses each element as a
+                    # {name value} pair; anything that is not a pair is dropped.
+                    set kept {}
+                    foreach elem $value {
+                        if {[llength $elem] == 2} { lappend kept $elem }
+                    }
+                    set ::gamestub::tags $kept
+                    set ::gamestub::annotator ""
+                    foreach pair $kept {
+                        lassign $pair name value
+                        append ::gamestub::annotator "$name \"$value\"\n"
+                    }
                 }
             }
             return ""
