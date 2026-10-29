@@ -42,6 +42,14 @@ jobs:
       - name: Review driver
         run: tclsh tests/tcl/review_driver.tcl
 
+      - name: Annotate writers
+        run: tclsh tests/tcl/annotate_writers.tcl
+
+      # The gate for issue #380 phase C: the classic annotator and the review
+      # write the same export artefacts into the same game.
+      - name: Annotate parity
+        run: tclsh tests/tcl/annotate_parity.tcl
+
       - name: Review UI
         run: tclsh tests/tcl/review_ui.tcl
 
