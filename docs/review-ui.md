@@ -139,8 +139,8 @@ main-line snapshot non-authoritative.
 | `tcl/tools/review_driver.tcl` | `::reviewdriver` — the engine pass on connection 20, `run` (plan → verdicts → write), `status`, `cancel` |
 | `tcl/tools/review_ui.tcl` | `::reviewui` — button state, the call a press makes, dialog values, the status line |
 | `tcl/windows/engine.tcl` | the two buttons, the status line, the settings dialog (guarded glue) |
-| `tests/tcl/review_ui.tcl` | 183 checks: the call a press makes, the status line, the button states, the dialog round trip, the move-comment depth, the key set |
-| `tests/tcl/review_driver.tcl` | 148 checks: the pass against a stub engine, including two reviews of the same game in a row |
+| `tests/tcl/review_ui.tcl` | 184 checks: the call a press makes, the status line, the button states, the dialog round trip, the move-comment depth, the key set |
+| `tests/tcl/review_driver.tcl` | 162 checks: the pass against a stub engine, including two reviews of the same game in a row and the engine window's hand-off to it |
 
 ## Tests
 
@@ -166,9 +166,18 @@ widget would otherwise have to decide:
   file fails loudly, and the English text is the text the labels are asserted
   against.
 
-The Tk glue in `tcl/windows/engine.tcl` is guarded rather than tested: a missing
-widget, a missing engine or a driver that refuses to start is a no-op with a
-message, never an exception in the middle of a game.
+The Tk glue in `tcl/windows/engine.tcl` is guarded rather than tested for its
+widgets: a missing widget, a missing engine or a driver that refuses to start is a
+no-op with a message, never an exception in the middle of a game.
+
+One part of it is not a widget and is tested: **who owns a run**. One pass exists
+at a time, so a second engine window pressing Game Review while a review is
+searching is refused by the driver, and that refusal must not disturb the window
+that started the pass. `tests/tcl/review_driver.tcl` loads `engine.tcl` over its
+fake board with the widget commands stubbed, presses from two windows, and checks
+that the refused press leaves the first window's Cancel live and its status line
+following the pass. A window claims a run only once `::reviewdriver::run` has
+actually started it.
 
 ## Related
 

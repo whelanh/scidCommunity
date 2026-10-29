@@ -881,5 +881,109 @@ checkEq "the same position is an exact restore" [::reviewdriver::restoreRun $exa
 set moved [dict create cursor [dict create loc 2 base 2 path {} fen {9/0}]]
 checkEq "a different position at the same ply is not" [::reviewdriver::restoreRun $moved] 0
 
+puts "\nthe engine window's hand-off to the driver (tcl/windows/engine.tcl)"
+
+# The window's widgets cannot be exercised from tclsh, but who owns a run is not a
+# widget: it is what happens when a second engine window presses Game Review while
+# the first one's pass is still in flight. One pass exists at a time, so the
+# refused press must leave the window that started it with its Cancel button and
+# its status line. The file is loaded here on top of the fake board and the stub
+# engine, with the widget commands it reaches for stubbed out. This is the last
+# section in the file because those stubs are global.
+set ::scidTclDir [file join $root tcl]
+set ::scidShareDir [file join $root share]
+set ::scidVersion test
+set ::scidName Scid
+set ::language english
+set ::initialdir $root
+set ::windowsOS 0
+set ::macOS 0
+set ::unixOS 1
+set ::showGameInfo 0
+# The status line's words, as a tclsh test has no language files: an untranslated
+# key is what Scid itself shows, but a label with an argument needs its template.
+array set ::EN {
+    ReviewProgress {Reviewing position %s of %s}
+    ReviewFailed   {Review failed: %s}
+}
+proc ::tr {key args} {
+    if {![info exists ::EN($key)]} { return $key }
+    if {[llength $args] == 0} { return $::EN($key) }
+    return [eval [list format $::EN($key)] $args]
+}
+namespace eval ::utils {}
+namespace eval ::utils::tooltip {}
+proc ::utils::tooltip::Set {args} {}
+proc button_image {args} { return "" }
+proc addBindtagToTree {args} {}
+proc collapseMenubuttons {args} {}
+namespace eval ::win {}
+proc ::win::add {args} {}
+namespace eval ::pgn {}
+proc ::pgn::Refresh {args} {}
+namespace eval ::board {}
+proc ::board::update {args} {}
+proc ::board::setmarks {args} {}
+namespace eval ::chart {}
+proc ::chart::clear {args} {}
+# Every widget is there: ::enginewin::reviewStart's first guard is that its button
+# exists, and a harness that has no window should still reach the hand-off.
+proc winfo {args} { return 1 }
+proc unknown {args} { return "" }
+
+source [file join $root tcl misc.tcl]
+source [file join $root tcl tools review_ui.tcl]
+if {[catch { source [file join $root tcl windows engine.tcl] } err]} {
+    puts "LOAD ERROR: $err"
+}
+
+# Two engine windows on the same fake board, both analysing with the stub engine's
+# preset. ::enginecfg::get reads ::engines(list), which an earlier section emptied.
+set ::engines(list) [list \
+    [list Stockfish /usr/bin/stockfish {} {} 0 0 {} 1 {} {}]]
+set ::enginewin::engState(1) 1
+set ::enginewin::engState(2) 1
+set ::enginewin_lastengine(1) Stockfish
+set ::enginewin_lastengine(2) Stockfish
+set ::enginewin::reviewstatus(1) ""
+set ::enginewin::reviewstatus(2) ""
+set ::fakeLoc 2
+set ::fakeLevel 0
+set ::events {}
+
+checkEq "the first window's press starts the pass" \
+    [::enginewin::reviewStart 1 [::enginewin::reviewRunState 1]] 1
+checkEq "and the window owns it" $::enginewin::reviewowner 1
+checkEq "so its Cancel is live" [::enginewin::reviewPass 1] searching
+checkEq "and its status line is the driver's" \
+    [regexp {^Reviewing position 0 of [0-9]+$} $::enginewin::reviewstatus(1)] 1
+
+# The second window presses Game Review while that pass is still searching. The
+# driver refuses it, and the refusal is the second window's business only.
+checkEq "a second window's press starts nothing" \
+    [::enginewin::reviewStart 2 [::enginewin::reviewRunState 2]] ""
+checkEq "the second window is told why" \
+    [regexp {already running a pass} $::enginewin::reviewstatus(2)] 1
+checkEq "the window that started the pass still owns it" $::enginewin::reviewowner 1
+checkEq "so its Cancel is still live" [::enginewin::reviewPass 1] searching
+checkEq "and the second window cannot cancel another window's pass" \
+    [dict get [::reviewui::buttons [dict create game 4 engine $::enginecfg \
+        move e2e4 pass [::enginewin::reviewPass 2]]] cancel] disabled
+
+# The pass is still searching: its progress still reaches the window that owns it,
+# and stopping it from there still stops it. One position of the five is searched.
+feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 30 cp 0 e2e4 e7e5}
+feedEvent InfoBestMove {}
+checkEq "the owning window's status line still follows the pass" \
+    $::enginewin::reviewstatus(1) {Reviewing position 1 of 5}
+checkEq "the refusing window's line is not overwritten by it" \
+    [regexp {already running a pass} $::enginewin::reviewstatus(2)] 1
+::enginewin::reviewCancel 1
+checkEq "Cancel still stops the pass" [dict get [::reviewdriver::status] state] cancelled
+checkEq "and nothing was written" [writesSoFar] {}
+checkEq "the window is handed back" $::enginewin::reviewowner ""
+pump
+
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

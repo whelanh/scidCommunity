@@ -877,9 +877,10 @@ proc ::enginewin::reviewStart {id state} {
         ::enginewin::reviewRefresh $id
         return ""
     }
-    # The window owns the pass from here: a refused start must not take a run
-    # that is already in flight away from the window that started it.
-    set reviewowner $id
+    # The window owns the pass only from the moment it has one: a refused start
+    # must not take a run that is already in flight away from the window that
+    # started it, and the driver's refusals include exactly that case (a second
+    # press while a pass is searching).
     set entry [dict get $call entry]
     set err [catch { $entry {*}[dict get $call args] } why]
     if {$err} {
@@ -887,12 +888,15 @@ proc ::enginewin::reviewStart {id state} {
     }
     if {$why ne ""} {
         # ::reviewdriver::run answers a refusal in words instead of raising: no
-        # engine, an engine that cannot be opened, a pass already running.
-        set reviewowner ""
+        # engine, an engine that cannot be opened, a pass already running. The
+        # last is another window's run, so nothing here is claimed and nothing
+        # there is given up - only the refusing window says why.
         set ::enginewin::reviewstatus($id) [::reviewui::failedText $why]
         ::enginewin::reviewRefresh $id
         return ""
     }
+    # The run is in flight and this window started it.
+    set reviewowner $id
     # Nothing to search is a run that finished (a book cover, an empty plan):
     # the driver says so, and there is nothing left to show.
     ::enginewin::reviewStatus $id
