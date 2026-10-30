@@ -1086,7 +1086,7 @@ rename ::review::writeMove ::review::writeMoveSaved
 proc ::review::writeMove {ply label eval_cp lines} {
     sc_move ply $ply
     sc_pos setComment "\[$label\] \[%eval 0.00\]"
-    return "the variation move d2d4 was rejected"
+    return [list "the variation move d2d4 was rejected"]
 }
 set ::fakeMainLine [list {position startpos moves} e2e4 e7e5]
 set ::fakeLen 2

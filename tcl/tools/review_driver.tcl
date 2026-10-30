@@ -781,7 +781,10 @@ proc ::reviewdriver::writeResults {p results} {
         # writeMove writes the comment before it tries the variations. A refused
         # variation returns an error but leaves the verdict comment behind, and
         # that comment must still get the marks it promises.
-        set commentLanded [expr {$err eq "" || [string match {the variation*} $err]}]
+        # writeMove accumulates variation failures in a list, so the message can
+        # arrive braced ({the variation move x was rejected}); look for the text
+        # rather than matching the first word.
+        set commentLanded [expr {$err eq "" || [string first "the variation" $err] >= 0}]
         if {$commentLanded} {
             # The mark beside the word, and a diagram where the mistake was
             # played. writeMove leaves the cursor where it found it, which is
