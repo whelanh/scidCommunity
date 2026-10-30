@@ -163,7 +163,7 @@ main-line snapshot non-authoritative.
 | `tcl/tools/review_driver.tcl` | `::reviewdriver` — the engine pass on connection 20, `run` (plan → verdicts → write), `status`, `cancel` |
 | `tcl/tools/review_ui.tcl` | `::reviewui` — button state, the call a press makes, dialog values, the status line |
 | `tcl/windows/engine.tcl` | the two buttons, the status line, the settings dialog (guarded glue) |
-| `tests/tcl/review_settings_dialog.tcl` | 19 checks under Tk: the dialog builds, has OK/Cancel, stores what is typed, refuses a bad value, and the variation box follows `mpv` |
+| `tests/tcl/review_settings_dialog.tcl` | 22 checks under Tk: the dialog builds, has OK/Cancel, stores what is typed, refuses a bad value, the variation box follows `mpv`, and the trace that does it is removed when the dialog closes |
 | `tests/tcl/review_ui.tcl` | 188 checks: the call a press makes, the status line, the button states, the dialog round trip, the move-comment depth, the key set |
 | `tests/tcl/review_driver.tcl` | 222 checks: the pass against a stub engine, including two reviews of the same game in a row and the engine window's hand-off to it |
 

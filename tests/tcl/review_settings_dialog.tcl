@@ -103,6 +103,10 @@ set ::enginewin::reviewsetting(1,var_lines) 2
 set ::enginewin::reviewsetting(1,var_cp) 40
 $w.b.ok invoke
 checkEq "the dialog is gone" [winfo exists $w] 0
+# trace add returns nothing, so a prefix kept as its return value is "", the
+# removal fails silently, and every reopen leaves another trace behind.
+checkEq "and its mpv trace went with it" \
+    [llength [trace info variable ::enginewin::reviewsetting(1,mpv)]] 0
 checkEq "var_lines is stored" $::reviewopt(var_lines) 2
 checkEq "and so is var_cp" $::reviewopt(var_cp) 40
 # A fresh start reads the saved option, which is what the next session sees.
@@ -123,9 +127,13 @@ destroy $w2
 # The var_lines spinbox follows mpv while the dialog is open.
 puts "\nthe variation box follows the lines box"
 set w3 [::enginewin::reviewSettings 1]
+checkEq "reopening installs one trace, not a second" \
+    [llength [trace info variable ::enginewin::reviewsetting(1,mpv)]] 1
 set ::enginewin::reviewsetting(1,mpv) 5
 checkEq "its ceiling follows mpv" [$w3.f.vvar_lines cget -to] 5
 destroy $w3
+checkEq "and closing removes it again" \
+    [llength [trace info variable ::enginewin::reviewsetting(1,mpv)]] 0
 catch { unset ::enginewin::reviewtraceptr(1) }
 
 puts "\n$checks checks, $fails failures"
