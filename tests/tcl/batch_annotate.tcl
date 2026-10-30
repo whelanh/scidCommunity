@@ -66,5 +66,75 @@ checkEq "a mate keeps its distance and type" [dict get $l 1] \
 set l [line {info depth 10 multipv}]
 checkEq "a malformed line changes nothing" $l {}
 
+# The Go the batch sends is the pass's: the review's depth and, when Review
+# Settings sets one, its time ceiling. The engine is stubbed - the transport's
+# open/gets/eof answer the handshake from a queue and hand back a channel - so
+# the test reads back what ::batch_annotate::feed_move actually wrote.
+puts "\nthe batch sends the pass's two bounds"
+
+source [file join $root tcl tools engine_limits.tcl]
+source [file join $root tcl tools game_review.tcl]
+
+set ::windowsOS 0
+namespace eval ::enginecfg {}
+proc ::enginecfg::get {name} {
+    return [list $name tclsh {} {} 0 1800 {} 1 {} {} {}]
+}
+
+namespace eval ::batch_annotate_test {
+    variable chan ""
+    variable replies {}
+}
+rename open ::testopen
+rename gets ::testgets
+rename eof ::testeof
+proc open {args} { return $::batch_annotate_test::chan }
+proc gets {chan args} {
+    if {$chan eq $::batch_annotate_test::chan} {
+        if {![llength $::batch_annotate_test::replies]} { return -1 }
+        set line [lindex $::batch_annotate_test::replies 0]
+        set ::batch_annotate_test::replies [lrange $::batch_annotate_test::replies 1 end]
+        if {[llength $args]} {
+            upvar 1 [lindex $args 0] linevar
+            set linevar $line
+            return [string length $line]
+        }
+        return $line
+    }
+    return [::testgets $chan {*}$args]
+}
+proc eof {chan} {
+    if {$chan eq $::batch_annotate_test::chan} { return 0 }
+    return [::testeof $chan]
+}
+
+proc ::batch_annotate_test::go {movetime} {
+    ::review::reset
+    if {$movetime ne ""} { ::review::setValue movetime $movetime }
+    set path [file tempfile]
+    set chan [::testopen $path w+]
+    fconfigure $chan -buffering line
+    set ::batch_annotate_test::chan $chan
+    set ::batch_annotate_test::replies {uciok readyok}
+    set ::batch_annotate::engine_name Stub
+    ::batch_annotate::start_engines 1
+    set ::batch_annotate::pipe_moves($chan) [list [list 1 "position startpos"]]
+    ::batch_annotate::feed_move $chan
+    seek $chan 0
+    set written [read $chan]
+    close $chan
+    file delete $path
+    set go ""
+    foreach line [split $written "\n"] {
+        if {[string match "go *" $line]} { set go $line }
+    }
+    return $go
+}
+
+checkEq "no cap in Review Settings, no time in the Go" \
+    [::batch_annotate_test::go ""] "go depth 18"
+checkEq "a cap in Review Settings reaches the pipe" \
+    [::batch_annotate_test::go 400] "go depth 18 movetime 400"
+
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

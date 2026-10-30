@@ -14,6 +14,7 @@ namespace eval ::batch_annotate {
     variable engine_lines ;# pipe -> the MultiPV lines of the position in flight
     variable mpv 3
     variable depth 18
+    variable movetime ""
     variable games_completed 0
     variable total_games 0
 }
@@ -123,10 +124,13 @@ proc ::batch_annotate::start_engines {num_instances} {
     if {!$uci} { error "Batch annotate needs a UCI engine" }
 
     # The figures a Game Review pass would use: the review's depth floor over
-    # the preset's, MultiPV at least two, and the pass budget for Threads/Hash.
+    # the preset's, the review's time ceiling when it has one, MultiPV at least
+    # two, and the pass budget for Threads/Hash. ::review::effective is the only
+    # place either figure is decided, so the batch cannot invent a third rule.
     set eff [::review::effective $cfg]
     set ::batch_annotate::mpv [dict get $eff mpv]
     set ::batch_annotate::depth [dict get $eff depth]
+    set ::batch_annotate::movetime [dict get $eff movetime]
     set threads [dict get $eff threads]
     set hash [dict get $eff hash]
 
@@ -311,9 +315,14 @@ proc ::batch_annotate::feed_move {pipe} {
     set ::batch_annotate::engine_lines($pipe) [dict create]
 
     puts $pipe $position
-    # Depth, not time: the review depth from Review Settings, with the preset's
-    # floor, is what Game Review would have searched.
-    puts $pipe "go depth $::batch_annotate::depth"
+    # Both bounds in one Go, built by ::enginelimits::goLimits from the figures
+    # ::review::effective computed: the review's depth floor and (when Review
+    # Settings sets one) its time ceiling. The engine stops at whichever comes
+    # first. The pipe is a text channel, so the list is joined rather than
+    # handed to ::engine::send, which takes a list message.
+    set limits [::enginelimits::goLimits [dict create \
+        depth $::batch_annotate::depth movetime $::batch_annotate::movetime]]
+    puts $pipe "go [join $limits]"
 }
 
 # Add one UCI "info" line to a position's MultiPV lines, in the review's
