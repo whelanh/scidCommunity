@@ -719,16 +719,41 @@ proc ::reviewdriver::runDone {results} {
 # A writeMove refusal is collected and the next move is still written: writeMove
 # leaves the game where it found it on every path, so one refusal cannot corrupt
 # the rest.
+# Take off what the previous review wrote on the move at `ply` beside the
+# comment tokens: the NAG its label implies, and the diagram it put on the move
+# before. A mark the user put there is kept unless it is the same symbol this
+# review wrote - the label token is what says the mark was ours.
+proc ::reviewdriver::clearMarks {ply} {
+    set old ""
+    catch { sc_move ply $ply }
+    catch { set old [::review::labelOfComment [sc_pos getComment]] }
+    if {$old eq ""} { return }
+    set nag [::review::nagForLabel $old]
+    if {$nag ne ""} { catch { ::review::dropNag $nag } }
+    if {$old eq "mistake" || $old eq "blunder"} {
+        catch { ::review::setDiagram $ply 0 }
+    }
+    return
+}
+
 proc ::reviewdriver::writeResults {p results} {
     set map [dict get $p map]
     set mpv [dict get $p mpv]
     set bookEnd 0
     catch { set bookEnd [dict get $p bookEnd] }
+    set diagram 0
+    catch { set diagram [::review::get diagram] }
     set written 0
     set failed 0
     set errors {}
     set verdicts [::reviewdriver::verdicts $map $results]
     foreach ply [dict get $p plan] {
+        # The previous verdict's marks are ours to replace; the comment tokens
+        # go with writeMove below.
+        ::reviewdriver::clearMarks $ply
+        # clearMarks may have moved to the move before this one to take off a
+        # diagram; put the cursor back so the write and its marks land here.
+        catch { sc_move ply $ply }
         if {$ply <= $bookEnd} {
             # In the book: theory, not a verdict. No [%eval] and no variation,
             # because there was no search behind either.
@@ -747,6 +772,14 @@ proc ::reviewdriver::writeResults {p results} {
             [::reviewdriver::lines $results [expr {$ply - 1}] $mpv]]
         if {$err eq ""} {
             incr written
+            # The mark beside the word, and a diagram where the mistake was
+            # played. writeMove leaves the cursor where it found it, which is
+            # this move.
+            set nag [::review::nagForLabel $label]
+            if {$nag ne ""} { catch { ::review::addNagIfAbsent $nag } }
+            if {$diagram && ($label eq "mistake" || $label eq "blunder")} {
+                catch { ::review::setDiagram $ply 1 }
+            }
         } else {
             incr failed
             lappend errors $err

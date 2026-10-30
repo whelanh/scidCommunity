@@ -2630,7 +2630,7 @@ set helpTitle(P,ReviewSettings) "Ustawienia przeglądu"
 set helpText(P,ReviewSettings) {<h1>Okno silnika: Ustawienia przeglądu</h1>
   <p>
   <b>Ustawienia przeglądu</b> w oknie <a Engine>Silnika</a> zawierają wybory
-  czytane przez przegląd. Pięć liczb i jedna reguła:
+  czytane przez przegląd. Sześć wartości:
   </p>
   <ul>
   <li><b>Linie</b>: ile linii silnika zachowuje każda pozycja (MultiPV), od 1
@@ -2647,6 +2647,9 @@ set helpText(P,ReviewSettings) {<h1>Okno silnika: Ustawienia przeglądu</h1>
   <li><b>Czekaj na głębokość przeglądu</b>: czy komentarz do posunięcia czeka na
     głębokość przeglądu, zamiast korzystać z analizy już widocznej na ekranie -
     patrz <a ReviewMoveButton>Komentarz do ruchu</a>.</li>
+  <li><b>Diagram</b>: 1 wstawia znacznik diagramu (<b>D</b>) przed każdym
+    błędem i poważnym błędem, żeby wydruk lub HTML pokazał pozycję, w której
+    popełniono błąd; 0 nie wstawia żadnego.</li>
   </ul>
 
   <h3>Czego tu nie ma</h3>

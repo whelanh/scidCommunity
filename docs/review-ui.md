@@ -21,11 +21,14 @@ disabled while a pass runs, which is what Cancel is for.
 Press **Game Review** and the pass searches every position of the main line at
 the review's depth, showing `Reviewing position n of m` in the button bar, and
 then writes the verdicts into the game: a label and a `[%eval]` on each move's
-comment, and the engine's alternatives as variations where `var_lines` asks for
-them. Running it again replaces the previous verdicts — `writeMove` strips what
-the last review wrote and dedupes variations by their first move — and a NAG or a
-comment of the user's own is left alone. The board is back where the user left it
-when the pass ends.
+comment, the NAG the label implies (`??`, `?`, `?!`, `!`, `!!`, or none for
+best/excellent/good/book), a `D` diagram marker on the move before each mistake
+and blunder when the Diagram setting is on, and the engine's alternatives as
+variations where `var_lines` asks for them. Running it again replaces the
+review's own marks — `writeMove` strips its comment tokens, and the NAG matching
+the previous label and its diagram are replaced — while the user's prose and any
+other NAG are left alone. The board is back where the user left it when the pass
+ends.
 
 The positions come from `::reviewdriver::planPositions` over the snapshot
 `::review::mainLineMap` takes of the line, so:
@@ -85,7 +88,7 @@ and that is "nothing yet", not "depth 0".
 
 ## Review Settings
 
-**Review Settings** opens five rows:
+**Review Settings** opens six rows:
 
 | Row | Setting | Range |
 | --- | --- | --- |
@@ -94,6 +97,7 @@ and that is "nothing yet", not "depth 0".
 | Variations to write | `var_lines` | 0–`mpv` |
 | Variation margin (cp) | `var_cp` | 0–500 |
 | Wait for the review depth | `move_comment_wait` | 0–1 |
+| Diagram | `diagram` | 0–1 |
 
 Every row is stored through `::review::setValue`, which owns the rules. A value
 it refuses is reported in the dialog and the dialog stays open, so the rest of
@@ -101,7 +105,7 @@ the edit is not lost; nothing is clamped behind the user's back. `var_lines` is
 capped by `mpv`, so its box follows `mpv` rather than offering a number the
 setter would reject.
 
-The five rows are ordinary options (`::reviewopt(mpv)` and so on, registered
+The six rows are ordinary options (`::reviewopt(mpv)` and so on, registered
 with `options.store`), so they are written to the options file with the rest of
 the user's preferences and read back at the next start. A value in a hand-edited
 options file is clamped to the same range before it is used: the file must not be
@@ -110,7 +114,7 @@ able to decide that a pass searches at depth 0.
 **Threads and Hash are not in this dialog.** They are properties of the engine
 preset — the whole point of the preset work in #382 — and are set from the
 window's own controls. The dialog shows what the pass will take from them,
-read-only, under the five rows, as `Threads 8, Hash 256 MB (from engine preset)`.
+read-only, under the six rows, as `Threads 8, Hash 256 MB (from engine preset)`.
 A second place to set them is a second place to get them wrong, and the window's
 own controls already write the preset.
 
@@ -145,8 +149,8 @@ main-line snapshot non-authoritative.
 | `tcl/tools/review_driver.tcl` | `::reviewdriver` — the engine pass on connection 20, `run` (plan → verdicts → write), `status`, `cancel` |
 | `tcl/tools/review_ui.tcl` | `::reviewui` — button state, the call a press makes, dialog values, the status line |
 | `tcl/windows/engine.tcl` | the two buttons, the status line, the settings dialog (guarded glue) |
-| `tests/tcl/review_ui.tcl` | 184 checks: the call a press makes, the status line, the button states, the dialog round trip, the move-comment depth, the key set |
-| `tests/tcl/review_driver.tcl` | 182 checks: the pass against a stub engine, including two reviews of the same game in a row and the engine window's hand-off to it |
+| `tests/tcl/review_ui.tcl` | 188 checks: the call a press makes, the status line, the button states, the dialog round trip, the move-comment depth, the key set |
+| `tests/tcl/review_driver.tcl` | 193 checks: the pass against a stub engine, including two reviews of the same game in a row and the engine window's hand-off to it |
 
 ## Tests
 

@@ -452,6 +452,10 @@ set ::fakeVarFirst ""
 set ::fakeComments {}
 set ::fakeComment ""
 set ::fakeNags {}
+proc nagsAt {ply} {
+    if {[dict exists $::fakeNags $ply]} { return [dict get $::fakeNags $ply] }
+    return ""
+}
 proc sc_pos {args} {
     set what [lindex $args 0]
     # Recorded so a test can see every board command the pass reaches for: a NAG
@@ -484,6 +488,10 @@ proc sc_pos {args} {
             }
             lappend nags [lindex $args 1]
             dict set ::fakeNags $::fakeLoc $nags
+            return ""
+        }
+        clearNags {
+            dict set ::fakeNags $::fakeLoc {}
             return ""
         }
     }
@@ -802,12 +810,14 @@ checkEq "the first review wrote every move" \
     [dict get [::reviewdriver::status] written] 4
 checkEq "and left the user's own note in front of its verdict" \
     [dict get $::fakeComments 2] {A fine move. [excellent] [%eval +0.50]}
-checkEq "and its NAG alone" [dict get $::fakeNags 2] "?!"
+checkEq "and its NAG alone" [nagsAt 2] "?!"
 checkEq "the first review's variations are in the game" \
     $::fakeVars {0 d2d4 1 c7c5 2 d2d4 3 e7e6}
 checkEq "the labels the first review gave" [list \
     [dict get $::fakeComments 1] [dict get $::fakeComments 3] [dict get $::fakeComments 4]] \
     [list {[best] [%eval -0.40]} {[excellent] [%eval +1.20]} {[blunder] [%eval +8.00]}]
+checkEq "the blunder carries the mark its label implies" [nagsAt 4] "??"
+checkEq "and a diagram sits on the move before it" [nagsAt 3] "D"
 
 # The same game, different answers.
 set ::events {}
@@ -837,7 +847,7 @@ checkEq "one verdict and one score per move" \
     [regexp -all {\[%eval [^\]]*\]} [dict get $::fakeComments 1]] 1
 checkEq "the user's note and the new verdict, in that order" \
     [dict get $::fakeComments 2] {A fine move. [best] [%eval +0.06]}
-checkEq "and the NAG survived both runs" [dict get $::fakeNags 2] "?!" 
+checkEq "and the NAG survived both runs" [nagsAt 2] "?!" 
 checkEq "a finished review regenerates the game text" \
     [lindex $::notified end] -pgn
 checkEq "a verdict from the first run is replaced, not appended" \
@@ -852,10 +862,95 @@ set asked {}
 foreach e $::events {
     if {[lindex $e 0] eq "pos"} { lappend asked [lindex $e 1] }
 }
-checkEq "the board calls are reads, the comment, and the cursor" \
-    [lsort -unique $asked] {fen getComment location setComment}
+checkEq "the board calls are reads, the comment, the marks and the cursor" \
+    [lsort -unique $asked] {clearNags fen getComment getNags location setComment}
+# The second run's verdicts are all best: the blunder's mark and its diagram
+# were taken off rather than left beside a new verdict.
+set leftover ""
+catch { set leftover [dict get $::fakeNags 4] }
+checkEq "a mark a later verdict does not imply is gone" $leftover ""
+set diag ""
+catch { set diag [dict get $::fakeNags 3] }
+checkEq "and so is its diagram" $diag ""
 checkEq "the board ends where the user left it" [list $::fakeLoc $::fakeLevel] {2 0}
 checkEq "and the driver says the restore was exact" [dict get $st restored] 1
+
+puts "a mark is replaced on the move it belongs to"
+
+# The move was a blunder last time (?? and a diagram on the move before). It is
+# a mistake now: the old marks go, and the ? lands on the move itself, not on
+# the move the diagram was taken off.
+::review::reset
+set ::fakeMainLine [list {position startpos moves} e2e4 e7e5 g1f3 b8c6]
+set ::fakeLen 4
+set ::fakeLoc 2
+set ::fakeLevel 0
+set ::fakeNums {}
+set ::fakeExit {}
+set ::fakeVars {}
+set ::fakeComments {}
+set ::fakeNags {}
+set ::events {}
+set ::runProgress {}
+dict set ::fakeComments 4 {[Blunder] [%eval +8.00]}
+dict set ::fakeNags 4 "??"
+dict set ::fakeNags 3 "D"
+checkEq "the pass starts over a previous verdict" [::reviewdriver::run $runcfg] ""
+feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 30 cp 0 e2e4 e7e5}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 20 cp 0 d2d4}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 100 cp 0 c2c4}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 -120 cp 0 e7e6}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 290 cp 0 g8f6}
+feedEvent InfoBestMove {}
+pump
+checkEq "the old blunder mark is replaced by the mistake's" [nagsAt 4] "?"
+checkEq "and the diagram has not moved" [nagsAt 3] "D"
+::review::reset
+
+puts "the diagram switch"
+
+# The mark is the label's, always; the diagram is a choice. With it off the
+# blunder still says ??, and nothing lands on the move before.
+::review::reset
+::review::setValue diagram 0
+set ::fakeMainLine [list {position startpos moves} e2e4 e7e5 g1f3 b8c6]
+set ::fakeLen 4
+set ::fakeLoc 2
+set ::fakeLevel 0
+set ::fakeNums {}
+set ::fakeExit {}
+set ::fakeVars {}
+set ::fakeComments {}
+set ::fakeNags {}
+set ::events {}
+set ::runProgress {}
+checkEq "the pass starts with diagrams off" [::reviewdriver::run $runcfg] ""
+feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 30 cp 0 e2e4 e7e5}
+feedEvent InfoPV {2 20 22 900 300 0 0 120 20 cp 0 d2d4 d7d5}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 40 cp 0 c7c5}
+feedEvent InfoPV {2 20 22 900 300 0 0 120 25 cp 0 e7e5 g1f3}
+feedEvent InfoPV {3 20 22 900 300 0 0 120 10 cp 0 d7d5}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 50 cp 0 d2d4}
+feedEvent InfoPV {2 20 22 900 300 0 0 120 40 cp 0 b1c3}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 -120 cp 0 e7e6}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 800 cp 0 g8f6}
+feedEvent InfoBestMove {}
+pump
+checkEq "the blunder still carries its mark" [nagsAt 4] "??"
+set diag ""
+catch { set diag [dict get $::fakeNags 3] }
+checkEq "and no diagram was written" $diag ""
+::review::reset
 
 puts "the opening book is labelled, not judged"
 
