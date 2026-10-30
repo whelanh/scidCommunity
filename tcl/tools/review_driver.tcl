@@ -752,6 +752,10 @@ proc ::reviewdriver::endRun {p} {
     set pass {}
     ::reviewdriver::restoreRun $p
     if {[dict get $p notify] && [llength [info commands ::notify::PosChanged]]} {
-        catch { ::notify::PosChanged "" }
+        # -pgn, not "": the write phase changed comments and variations across
+        # the whole game, so the game text has to be regenerated. An empty
+        # argument only refreshes the current move, which left the review
+        # invisible in the PGN pane until something else redrew it.
+        catch { ::notify::PosChanged -pgn }
     }
 }
