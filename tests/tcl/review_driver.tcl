@@ -996,6 +996,36 @@ checkEq "and so is its mark" [nagsAt 4] "??"
 checkEq "and the diagram before it" [nagsAt 3] "D"
 ::review::reset
 
+puts "a first-move blunder has no diagram to place"
+
+# The diagram goes on the move before the error; the first move has no such
+# move, so the absence of a D is not a full move - it must not be reported as a
+# failed write.
+::review::reset
+set ::fakeMainLine [list {position startpos moves} e2e4 e7e5]
+set ::fakeLen 2
+set ::fakeLoc 1
+set ::fakeLevel 0
+set ::fakeNums {}
+set ::fakeExit {}
+set ::fakeVars {}
+set ::fakeComments {}
+set ::fakeNags {}
+set ::events {}
+set ::runProgress {}
+checkEq "the first-move pass starts" [::reviewdriver::run $runcfg -plies {1}] ""
+feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 0 cp 0 d2d4 e7e5}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 800 cp 0 e7e5}
+feedEvent InfoBestMove {}
+pump
+set st [::reviewdriver::status]
+checkEq "the move is written" [dict get $st written] 1
+checkEq "and not reported as a failed diagram" [dict get $st failed] 0
+checkEq "the mark is on the first move" [nagsAt 1] "??"
+::review::reset
+
 puts "a full move cannot take the mark, and says so"
 
 # AddNag has fixed capacity (MAX_NAGS 8) and sc_pos ignores its refusal. A move

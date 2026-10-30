@@ -791,7 +791,10 @@ proc ::reviewdriver::writeResults {p results} {
                     set markErr "ply $ply: no room for the $nag mark"
                 }
             }
-            if {$diagram && ($label eq "mistake" || $label eq "blunder")} {
+            # A first move has no predecessor to hang D on (::review::setDiagram
+            # refuses ply < 2), so there is nothing to verify and nothing to
+            # report: it is not a capacity failure.
+            if {$diagram && $ply >= 2 && ($label eq "mistake" || $label eq "blunder")} {
                 catch { ::review::setDiagram $ply 1 }
                 if {[catch { sc_move ply [expr {$ply - 1}] }] ||
                     [lsearch -exact [::review::nags] D] < 0} {
