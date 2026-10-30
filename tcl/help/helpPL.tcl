@@ -2560,12 +2560,15 @@ set helpText(P,ReviewGameButton) {<h1>Okno silnika: Przycisk Przegląd partii</h
   przeglądane.
   </p>
   <p>
-  Każde ocenione posunięcie dostaje w komentarzu słowo werdyktu i <b>[%eval]</b>,
-  NAG wynikający ze słowa (<b>?!</b>, <b>?</b>, <b>??</b>, <b>!</b>, <b>!!</b>)
-  oraz <b>ocenę pozycji</b> z tego samego wyniku: <b>=</b> dla pozycji równej,
-  <b>+=</b>, <b>+/-</b>, <b>+-</b> i <b>+--</b> w miarę wzrostu przewagi białych,
-  a dla czarnych <b>=+</b>, <b>-/+</b>, <b>-+</b> i <b>--+</b>. Ocena zastępuje
-  tę, która była na posunięciu, więc zawsze zgadza się z <b>[%eval]</b> obok.
+  Każde ocenione posunięcie dostaje w komentarzu słowo werdyktu i <b>[%eval]</b>
+  oraz NAG wynikający ze słowa (<b>?!</b>, <b>?</b>, <b>??</b>, <b>!</b>,
+  <b>!!</b>). Posunięcie, które przegląd oznacza, dostaje też <b>ocenę pozycji</b>
+  z tego samego wyniku: <b>=</b> dla pozycji równej, <b>+=</b>, <b>+/-</b>,
+  <b>+-</b> i <b>+--</b> w miarę wzrostu przewagi białych, a dla czarnych
+  <b>=+</b>, <b>-/+</b>, <b>-+</b> i <b>--+</b>. Spokojne posunięcie bez
+  oznaczenia nie dostaje oceny, a ta, która była na posunięciu, jest zdejmowana,
+  więc ocena wskazuje momenty warte uwagi i zawsze zgadza się z <b>[%eval]</b>
+  obok.
   </p>
   <p>
   W czasie pracy okno pokazuje <b>Przeglądanie pozycji N z M</b> oraz przycisk

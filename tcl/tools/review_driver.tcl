@@ -812,15 +812,24 @@ proc ::reviewdriver::writeResults {p results} {
                 }
             }
             # The position assessment, from the same score the [%eval] shows.
-            # It is a NAG slot of its own, so the label's mark stays beside it.
-            # An assessment already there is replaced: it belongs to the score
-            # this verdict is replacing, whoever wrote it.
-            set assess [::review::assessmentNag $eval_cp]
+            # It belongs beside a move the review marks, not on every move: it
+            # is the second symbol that says which side stands better, and on a
+            # quiet move it is noise. An assessment already there is replaced:
+            # it belongs to the score this verdict is replacing.
+            set assess ""
+            if {$nag ne ""} { set assess [::review::assessmentNag $eval_cp] }
             if {$assess ne ""} {
                 catch { ::review::setAssessment $assess }
                 if {[lsearch -exact [::review::nags] $assess] < 0} {
                     lappend markErr "ply $ply: no room for the $assess assessment"
                 }
+            } else {
+                # A quiet verdict carries no assessment. One already on the move
+                # - a user's, or a mark whose label token has since gone - would
+                # contradict the [%eval] just written, and it would disappear on
+                # the next run when the label is there to identify it. Take it
+                # off now so the first and second run agree.
+                catch { ::review::dropAssessment }
             }
             # A first move has no predecessor to hang D on (::review::setDiagram
             # refuses ply < 2), so there is nothing to verify and nothing to
