@@ -68,19 +68,25 @@ jobs:
       - name: Options file save
         run: tclsh tests/tcl/options_write.tcl
 
-  auto-comment-dialogs:
-    name: auto_comment dialogs under Tk
+  tk-dialogs:
+    name: dialogs under Tk
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
 
-      # This one builds real widgets, so it needs Tk and a display. Xvfb
+      # These build real widgets, so they need Tk and a display. Xvfb
       # supplies the display; nothing is drawn anywhere the user can see.
       - name: Install Tcl, Tk and Xvfb
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq tcl tk xvfb
 
-      - name: Run the harness
+      - name: Auto Comment dialogs
         run: xvfb-run -a wish tests/tcl/auto_comment_dialogs.tcl
+
+      # The Review Settings dialog: the tclsh harnesses decide what it stores,
+      # but only building it shows that the proc holding the widgets compiles
+      # and that the OK button is there to press.
+      - name: Review Settings dialog
+        run: xvfb-run -a wish tests/tcl/review_settings_dialog.tcl

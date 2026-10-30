@@ -162,9 +162,11 @@ window itself — the button, the status line and the board repaint — which ha
 no Tk harness. Row 19 is the driver's own guarantee (`::reviewdriver::cancel`
 before the write phase) rather than a window behaviour.
 
-**Where a row can stop being manual, it should.** `tests/tcl/auto_comment_dialogs.tcl` runs a real
-`wish` under `xvfb-run` in CI; the same pattern reaches the pgnviewer/seeding branch, autorun and
-the annotator's NAG writers. A row that moves from manual to harness cannot rot silently. This is
+**Where a row can stop being manual, it should.** `tests/tcl/auto_comment_dialogs.tcl` and
+`tests/tcl/review_settings_dialog.tcl` run a real `wish` under `xvfb-run` in CI; the same pattern
+reaches the pgnviewer/seeding branch, autorun and the annotator's NAG writers. The Review Settings
+one exists because its proc stopped compiling part-way: the rows appeared, the OK and Cancel buttons
+never did, and nothing could be applied. A tclsh harness cannot see that; building the window can. A row that moves from manual to harness cannot rot silently. This is
 a direction, not a gate.
 
 ## What must not be lost

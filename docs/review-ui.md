@@ -106,6 +106,13 @@ and that is "nothing yet", not "depth 0".
 | Wait for the review depth | `move_comment_wait` | 0–1 |
 | Diagram | `diagram` | 0–1 |
 
+`var_cp` is a noise filter, not a quality floor: a line is written when it is
+strictly less than `var_cp` centipawns behind the best line, and **0 means no
+filter at all**. A margin of 2 therefore keeps only lines within 2 cp of the
+best — usually none, because MultiPV's alternatives are further behind than
+that. To see variations, leave the margin at 0 or set it well above the gap the
+engine reports between its lines.
+
 Every row is stored through `::review::setValue`, which owns the rules. A value
 it refuses is reported in the dialog and the dialog stays open, so the rest of
 the edit is not lost; nothing is clamped behind the user's back. `var_lines` is
@@ -156,6 +163,7 @@ main-line snapshot non-authoritative.
 | `tcl/tools/review_driver.tcl` | `::reviewdriver` — the engine pass on connection 20, `run` (plan → verdicts → write), `status`, `cancel` |
 | `tcl/tools/review_ui.tcl` | `::reviewui` — button state, the call a press makes, dialog values, the status line |
 | `tcl/windows/engine.tcl` | the two buttons, the status line, the settings dialog (guarded glue) |
+| `tests/tcl/review_settings_dialog.tcl` | 19 checks under Tk: the dialog builds, has OK/Cancel, stores what is typed, refuses a bad value, and the variation box follows `mpv` |
 | `tests/tcl/review_ui.tcl` | 188 checks: the call a press makes, the status line, the button states, the dialog round trip, the move-comment depth, the key set |
 | `tests/tcl/review_driver.tcl` | 222 checks: the pass against a stub engine, including two reviews of the same game in a row and the engine window's hand-off to it |
 

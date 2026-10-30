@@ -1086,7 +1086,7 @@ proc ::enginewin::reviewSettings {id} {
                         set ::enginewin::reviewsetting($id,var_lines) $hi
                     }
                 }
-            }} $id $w]
+            }} $id $w]]
         bind $w <Destroy> [list apply {{id w} {
             if {"%W" ne $w} { return }
             catch {

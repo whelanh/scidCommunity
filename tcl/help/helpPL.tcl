@@ -2643,7 +2643,9 @@ set helpText(P,ReviewSettings) {<h1>Okno silnika: Ustawienia przeglądu</h1>
     przekroczyć liczby linii.</li>
   <li><b>Margines wariantów (cp)</b>: jak bardzo inna linia może być słabsza od
     najlepszej, aby została zapisana; linia słabsza bardziej to szum i jest
-    odrzucana.</li>
+    odrzucana. Zero zachowuje każdą linię i to ono daje warianty: mały margines,
+    np. 2, zachowuje tylko linie w granicach 2 centypunktów od najlepszej, a
+    alternatywy silnika są zwykle słabsze bardziej niż to.</li>
   <li><b>Czekaj na głębokość przeglądu</b>: czy komentarz do posunięcia czeka na
     głębokość przeglądu, zamiast korzystać z analizy już widocznej na ekranie -
     patrz <a ReviewMoveButton>Komentarz do ruchu</a>.</li>
