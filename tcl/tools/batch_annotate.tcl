@@ -21,9 +21,14 @@ namespace eval ::batch_annotate {
     
     variable active_engines 0
     variable pipe_game ;# pipe -> game_id
-    variable pipe_moves ;# pipe -> list of {idx uci_pos}
-    variable pipe_evals ;# pipe -> array/dict of idx -> eval
-    variable pipe_book_data ;# pipe -> {ply prevbookmoves played_move} or {}
+    variable pipe_moves ;# pipe -> list of {ply position}
+    variable pipe_evals ;# pipe -> dict ply -> {rank {depth score type pv}}
+    variable pipe_map ;# pipe -> the game's main-line map
+    variable pipe_plan ;# pipe -> every move, for the writer
+    variable pipe_book ;# pipe -> where the opening book ends
+    variable engine_lines ;# pipe -> the MultiPV lines of the position in flight
+    variable mpv 3
+    variable depth 18
     variable games_completed 0
     variable total_games 0
 }
@@ -48,135 +53,59 @@ namespace eval ::batch_annotate {
 proc ::batch_annotate::config {db games_list} {
     variable base
     variable games
-    variable instances
-    variable movetime
-    variable blunders_only
-    variable blunder_threshold
-    variable engine_index
-    
+
     set base $db
     set games $games_list
-    
+
     set w .batchAnnotateConfig
     if {[winfo exists $w]} {
         raise $w
         focus $w
         return
     }
-    
+
     win::createDialog $w
     ::setTitle $w $::tr(BatchAnnotate)
-    
+
     ttk::frame $w.f
     pack $w.f -padx 10 -pady 10 -fill both -expand 1
-    
-    # Engine Selection
+
     ttk::labelframe $w.f.engine -text $::tr(BatchEngineSelection)
     ttk::label $w.f.engine.lEngine -text $::tr(BatchChessEngine)
     set engine_names {}
-    if {[info exists ::engines(list)]} {
-        foreach e $::engines(list) { lappend engine_names [lindex $e 0] }
-    }
+    catch { set engine_names [::enginecfg::names] }
     if {[llength $engine_names] == 0} {
         tk_messageBox -message "No engines configured!"
         destroy $w
         return
     }
+    if {[lsearch -exact $engine_names $::batch_annotate::engine_name] < 0} {
+        set ::batch_annotate::engine_name [lindex $engine_names 0]
+    }
     ttk::combobox $w.f.engine.cbEngine -values $engine_names -state readonly \
         -textvariable ::batch_annotate::engine_name
-    # Restore the previously saved engine selection by name
-    set saved_idx [lsearch -exact $engine_names $::batch_annotate::engine_name]
-    if {$saved_idx >= 0} {
-        $w.f.engine.cbEngine current $saved_idx
-    } else {
-        $w.f.engine.cbEngine current 0
-    }
     ttk::label $w.f.engine.lInstances -text $::tr(BatchNumberOfInstances)
-    ttk::spinbox $w.f.engine.sbInstances -textvariable ::batch_annotate::instances -from 1 -to 16 -width 5
-    
+    ttk::spinbox $w.f.engine.sbInstances -textvariable ::batch_annotate::instances \
+        -from 1 -to 16 -width 5
+
     grid $w.f.engine.lEngine $w.f.engine.cbEngine -sticky w -pady 2 -padx 5
     grid $w.f.engine.lInstances $w.f.engine.sbInstances -sticky w -pady 2 -padx 5
-    
-    # Analysis Options
-    ttk::labelframe $w.f.analyse -text $::tr(BatchGameReview)
-    ttk::label $w.f.analyse.lTime -text $::tr(BatchTimePerMove)
-    ttk::spinbox $w.f.analyse.sbTime -textvariable ::batch_annotate::movetime -from 0.1 -to 60.0 -increment 0.1 -width 5
-    ttk::radiobutton $w.f.analyse.allmoves -text $::tr(AnnotateAllMoves) -variable ::batch_annotate::annotate_mode -value "allmoves"
-    ttk::radiobutton $w.f.analyse.blundersonly -text $::tr(BatchAnnotateBlunders) -variable ::batch_annotate::annotate_mode -value "blundersonly"
-    ttk::frame $w.f.analyse.blunderbox
-    ttk::label $w.f.analyse.blunderbox.label -text $::tr(BatchBlunderThreshold)
-    ttk::spinbox $w.f.analyse.blunderbox.spBlunder -width 5 -textvariable ::batch_annotate::blunder_threshold -from 0.1 -to 5.0 -increment 0.1 -justify right
-    pack $w.f.analyse.blunderbox.label $w.f.analyse.blunderbox.spBlunder -side left
-    
-    grid $w.f.analyse.lTime $w.f.analyse.sbTime -sticky w -pady 2 -padx 5
-    grid $w.f.analyse.blundersonly -columnspan 2 -sticky w -pady 2 -padx 5
-    grid $w.f.analyse.blunderbox -columnspan 2 -sticky w -pady 2 -padx 20
-    grid $w.f.analyse.allmoves -columnspan 2 -sticky w -pady 2 -padx 5
-    
-    # Annotate Which
-    ttk::labelframe $w.f.av -text $::tr(AnnotateWhich)
-    ttk::checkbutton $w.f.av.white -text $::tr(AnnotateWhite) -variable ::batch_annotate::annotate_white
-    ttk::checkbutton $w.f.av.black -text $::tr(AnnotateBlack) -variable ::batch_annotate::annotate_black
-    ttk::frame $w.f.av.varlength
-    ttk::label $w.f.av.varlength.label -text $::tr(BatchVariationLength)
-    ttk::spinbox $w.f.av.varlength.spVar -width 5 -textvariable ::batch_annotate::var_length -from 1 -to 50 -increment 1
-    pack $w.f.av.varlength.label $w.f.av.varlength.spVar -side left
-    pack $w.f.av.white $w.f.av.black -side top -fill x -anchor w -padx 5
-    pack $w.f.av.varlength -side top -fill x -anchor w -pady 4 -padx 5
-    
-    # Opening Book
-    ttk::labelframe $w.f.book -text $::tr(BatchOpeningBook)
-    ttk::checkbutton $w.f.book.cbBook -text $::tr(BatchUseBook) -variable ::batch_annotate::use_book
-    set bookPath $::scidBooksDir
-    set bookList [lsort -dictionary [glob -nocomplain -directory $bookPath *.bin]]
-    set tmp {}
-    foreach file $bookList { lappend tmp [file tail $file] }
-    if {[llength $tmp] == 0} {
-        set ::batch_annotate::use_book 0
-        $w.f.book.cbBook configure -state disabled
-        ttk::combobox $w.f.book.comboBooks -values {"No books found"} -state disabled
-        $w.f.book.comboBooks current 0
-    } else {
-        ttk::combobox $w.f.book.comboBooks -values $tmp -state readonly -textvariable ::batch_annotate::book_name
-        if {$::batch_annotate::book_name eq ""} { $w.f.book.comboBooks current 0 }
-    }
-    pack $w.f.book.comboBooks -side bottom -anchor w -padx 5 -pady 5
-    pack $w.f.book.cbBook -side bottom -anchor w -padx 5 -pady 2
-    
-    # Comments
-    ttk::labelframe $w.f.comment -text $::tr(Comments)
-    ttk::checkbutton $w.f.comment.cbAnnotateVar -text $::tr(BatchAnnotateVariations) -variable ::batch_annotate::add_variation
-    ttk::checkbutton $w.f.comment.cbShortAnnotation -text $::tr(BatchShortAnnotations) -variable ::batch_annotate::short_annotation
-    ttk::checkbutton $w.f.comment.cbAddScore -text $::tr(BatchAddScoreToShort) -variable ::batch_annotate::add_score_to_short
-    ttk::checkbutton $w.f.comment.scoreAll -text $::tr(ScoreAllMoves) -variable ::batch_annotate::score_all
-    ttk::checkbutton $w.f.comment.cbClearOld -text $::tr(BatchClearOld) -variable ::batch_annotate::clear_old
-    pack $w.f.comment.cbClearOld $w.f.comment.scoreAll $w.f.comment.cbAnnotateVar $w.f.comment.cbShortAnnotation $w.f.comment.cbAddScore -fill x -anchor w -padx 5
-    
-    grid $w.f.engine -row 0 -column 0 -pady 5 -padx 5 -sticky nswe
-    grid $w.f.analyse -row 0 -column 1 -pady 5 -padx 5 -sticky nswe
-    grid $w.f.av -row 1 -column 0 -pady 5 -padx 5 -sticky nswe
-    grid $w.f.comment -row 1 -column 1 -pady 5 -padx 5 -sticky nswe
-    grid $w.f.book -row 2 -column 0 -columnspan 2 -pady 5 -padx 5 -sticky nswe
-    
+    grid $w.f.engine -sticky nswe
+
     ttk::frame $w.buttons
     pack $w.buttons -fill x -padx 10 -pady 10
-    
-    ttk::button $w.buttons.ok -text $::tr(BatchStart) -command [list ::batch_annotate::start $w]
+    ttk::button $w.buttons.ok -text $::tr(BatchStart) \
+        -command [list ::batch_annotate::start $w]
     ttk::button $w.buttons.cancel -text $::tr(BatchCancel) -command [list destroy $w]
-    
     pack $w.buttons.cancel $w.buttons.ok -side right -padx 5
 }
 
 proc ::batch_annotate::start {w} {
-    variable engine_index
     variable instances
     variable games
-    variable game_queue
-    
-    set engine_index [$w.f.engine.cbEngine current]
+
     destroy $w
-    
-    # Build queue of game indices
+
     set ::batch_annotate::game_queue {}
     foreach s $games {
         lassign [split [string trim $s] "_"] idx ply
@@ -187,14 +116,11 @@ proc ::batch_annotate::start {w} {
     set num_games [llength $::batch_annotate::game_queue]
     set ::batch_annotate::total_games $num_games
     set ::batch_annotate::games_completed 0
-    
-    # Don't start more engines than we have games
+
     set num_engines $instances
-    if {$num_engines > $num_games} {
-        set num_engines $num_games
-    }
-    
-    # Open UI Progress Window
+    if {$num_engines > $num_games} { set num_engines $num_games }
+    if {$num_engines < 1} { return }
+
     set pw .batchAnnotateProgress
     if {[winfo exists $pw]} { destroy $pw }
     win::createDialog $pw
@@ -203,37 +129,40 @@ proc ::batch_annotate::start {w} {
     ttk::button $pw.b -text $::tr(BatchCancel) -command ::batch_annotate::cancel
     pack $pw.l -padx 10 -pady 10
     pack $pw.b -pady 10
-    
+
     if {[catch {::batch_annotate::start_engines $num_engines} err]} {
         tk_messageBox -message "Error starting engines: $err"
         destroy $pw
         return
     }
-    
-    # Start analysis on all pipes
+
     foreach pipe $::batch_annotate::pipes {
         ::batch_annotate::assign_game $pipe
     }
 }
 
-proc ::batch_annotate::start_engines {{num_instances ""}} {
-    variable instances
-    variable engine_index
+proc ::batch_annotate::start_engines {num_instances} {
     variable pipes
-    
-    if {$num_instances eq ""} { set num_instances $instances }
-    
+    variable engine_name
+
+    set cfg [::enginecfg::get $engine_name]
+    if {![llength $cfg]} { error "No engine selected" }
+    lassign $cfg ename cmd args wdir elo time url uci options limits
+    if {!$uci} { error "Batch annotate needs a UCI engine" }
+
+    # The figures a Game Review pass would use: the review's depth floor over
+    # the preset's, MultiPV at least two, and the pass budget for Threads/Hash.
+    set eff [::review::effective $cfg]
+    set ::batch_annotate::mpv [dict get $eff mpv]
+    set ::batch_annotate::depth [dict get $eff depth]
+    set threads [dict get $eff threads]
+    set hash [dict get $eff hash]
+
     set pipes {}
-    set e [lindex $::engines(list) $engine_index]
-    set cmd [lindex $e 1]
-    set args [lindex $e 2]
-    set dir [lindex $e 3]
-    
     set pwd [pwd]
-    if {$dir ne "" && $dir ne "."} {
-        catch {cd $dir}
+    if {$wdir ne "" && $wdir ne "."} {
+        catch {cd $wdir}
     }
-    
     if {[catch {
         for {set i 0} {$i < $num_instances} {incr i} {
             if {$::windowsOS} {
@@ -243,15 +172,11 @@ proc ::batch_annotate::start_engines {{num_instances ""}} {
             }
             lappend pipes $pipe
             fconfigure $pipe -buffering line -blocking 0
-            
-            # Initialize custom engine state
             set ::batch_annotate::engine_state($pipe) "idle"
-            set ::batch_annotate::engine_eval($pipe) {}
-            
-            # Init UCI
+
             puts $pipe "uci"
             set uciok 0
-            set timeout 50 ;# 50 * 100ms = 5 seconds
+            set timeout 50
             while {$timeout > 0} {
                 update
                 if {[eof $pipe]} { break }
@@ -262,7 +187,10 @@ proc ::batch_annotate::start_engines {{num_instances ""}} {
                 incr timeout -1
             }
             if {!$uciok} { error "Engine handshake timeout: uciok not received" }
-            
+
+            puts $pipe "setoption name MultiPV value $::batch_annotate::mpv"
+            if {$threads ne ""} { puts $pipe "setoption name Threads value $threads" }
+            if {$hash ne ""} { puts $pipe "setoption name Hash value $hash" }
             puts $pipe "isready"
             set readyok 0
             set timeout 50
@@ -276,7 +204,7 @@ proc ::batch_annotate::start_engines {{num_instances ""}} {
                 incr timeout -1
             }
             if {!$readyok} { error "Engine handshake timeout: readyok not received" }
-            
+
             fileevent $pipe readable [list ::batch_annotate::read_engine $pipe]
         }
     } err]} {
@@ -285,7 +213,6 @@ proc ::batch_annotate::start_engines {{num_instances ""}} {
         catch {cd $pwd}
         error $err
     }
-    
     catch {cd $pwd}
 }
 
@@ -308,10 +235,10 @@ proc ::batch_annotate::assign_game {pipe} {
     variable pipe_game
     variable pipe_moves
     variable pipe_evals
-    variable pipes
-    variable total_games
-    variable games_completed
-    
+    variable pipe_map
+    variable pipe_plan
+    variable pipe_book
+
     set game_id ""
     while {1} {
         if {[llength $::batch_annotate::game_queue] == 0} {
@@ -319,35 +246,29 @@ proc ::batch_annotate::assign_game {pipe} {
             ::batch_annotate::check_completion
             return
         }
-        
+
         set game_id [lindex $::batch_annotate::game_queue 0]
         set ::batch_annotate::game_queue [lrange $::batch_annotate::game_queue 1 end]
-        
+
         if {$game_id eq "" || ![string is integer -strict $game_id] || $game_id <= 0} {
             continue
         }
-        
-        # Final safety check: is the game number valid for the current base?
         if {[catch {sc_base numGames $::batch_annotate::base} max_games]} {
             continue
         }
-        if {$game_id > $max_games} {
-            continue
-        }
-        
-        # Found a valid game
+        if {$game_id > $max_games} { continue }
         break
     }
-    
+
     set pipe_game($pipe) $game_id
     set pipe_evals($pipe) {}
-    
+
     if {[winfo exists .batchAnnotateProgress]} {
         .batchAnnotateProgress.l configure -text "$::tr(BatchAnalyzingGames)"
     }
-    
+
     set prev_base [sc_base current]
-    if {$prev_base != $::batch_annotate::base} { 
+    if {$prev_base != $::batch_annotate::base} {
         if {[catch {sc_base switch $::batch_annotate::base}]} {
             set ::batch_annotate::engine_state($pipe) "done"
             ::batch_annotate::check_completion
@@ -356,45 +277,31 @@ proc ::batch_annotate::assign_game {pipe} {
     }
     sc_game push copy
     sc_game load $game_id
-    
-    set moves {}
-    sc_move start
-    set ply_count 0
-    
-    variable use_book
-    variable book_name
-    set prevbookmoves ""
-    if {$use_book && $book_name ne ""} {
-        set bn [file join $::scidBooksDir $book_name]
-        sc_book load $bn 2
-        lassign [sc_book moves 2] bookmoves
-        while {[string length $bookmoves] != 0 && ![sc_pos isAt end]} {
-            set prevbookmoves $bookmoves
-            sc_move forward
-            incr ply_count
-            lassign [sc_book moves 2] bookmoves
+
+    # The same snapshot a Game Review pass takes: the main line, where the book
+    # ends, every move for the writer, and the positions it has to search.
+    set map [::review::mainLineMap [sc_game UCI_mainLine]]
+    set plies [dict get $map plies]
+    set bookEnd 0
+    set skip 1
+    catch { set skip [::review::get skip_book] }
+    if {$skip} {
+        set book [::enginewin::reviewBook]
+        if {$book ne ""} {
+            catch { set bookEnd [::review::bookEnd $book 5 1] }
         }
-        sc_book close 2
     }
-    
-    # Capture book data for out-of-book comment
-    if {$use_book && $book_name ne "" && $ply_count > 0} {
-        set played_move [sc_game info previousMoveNT]
-        set ::batch_annotate::pipe_book_data($pipe) [list $ply_count $prevbookmoves $played_move]
-    } else {
-        set ::batch_annotate::pipe_book_data($pipe) {}
+    set plan [::review::plan $plies 0]
+    set search {}
+    foreach ply $plan {
+        if {$bookEnd == 0 || $ply >= $bookEnd} { lappend search $ply }
     }
-    
-    set idx $ply_count
-    while {1} {
-        lappend moves [list $idx [sc_pos fen] [sc_game UCI_currentPos]]
-        if {[sc_pos isAt end]} { break }
-        sc_move forward
-        incr idx
-    }
+    set pipe_map($pipe) $map
+    set pipe_plan($pipe) $plan
+    set pipe_book($pipe) $bookEnd
+    set pipe_moves($pipe) [::reviewdriver::planPositions $map $search]
+
     sc_game pop
-    
-    set pipe_moves($pipe) $moves
     puts $pipe "ucinewgame"
     ::batch_annotate::feed_move $pipe
 }
@@ -418,37 +325,60 @@ proc ::batch_annotate::check_completion {} {
 
 proc ::batch_annotate::feed_move {pipe} {
     variable pipe_moves
-    variable movetime
-    
+
     if {[llength $pipe_moves($pipe)] == 0} {
         ::batch_annotate::finalize_game $pipe
         return
     }
-    
+
     set move_data [lindex $pipe_moves($pipe) 0]
     set pipe_moves($pipe) [lrange $pipe_moves($pipe) 1 end]
-    
-    lassign $move_data idx fen uci_pos
-    set ::batch_annotate::engine_state($pipe) [list $idx $fen]
-    
-    dict set ::batch_annotate::engine_eval($pipe) "score" ""
-    dict set ::batch_annotate::engine_eval($pipe) "score_fmt" ""
-    dict set ::batch_annotate::engine_eval($pipe) "pv" ""
-    dict set ::batch_annotate::engine_eval($pipe) "score_fmt_depth" ""
-    
-    puts $pipe $uci_pos
-    puts $pipe "go movetime [expr {int($movetime * 1000)}]"
+
+    lassign $move_data ply position
+    set ::batch_annotate::engine_state($pipe) [list $ply $position]
+    set ::batch_annotate::engine_lines($pipe) [dict create]
+
+    puts $pipe $position
+    # Depth, not time: the review depth from Review Settings, with the preset's
+    # floor, is what Game Review would have searched.
+    puts $pipe "go depth $::batch_annotate::depth"
+}
+
+# Add one UCI "info" line to a position's MultiPV lines, in the review's
+# {depth score score-type pv} shape. The deepest line for a rank wins; bounds
+# and lines without a PV are not a verdict and are left out.
+proc ::batch_annotate::collect {line lines} {
+    # A bound is not a verdict: the review's lineScore would not use it either.
+    if {[string match "*lowerbound*" $line] || [string match "*upperbound*" $line]} {
+        return $lines
+    }
+    set multipv 1
+    set depth ""
+    set score ""
+    set score_type ""
+    set pv ""
+    regexp {multipv (\d+)} $line -> multipv
+    regexp { depth (\d+)} $line -> depth
+    regexp {score (cp|mate) (-?\d+)} $line -> score_type score
+    regexp { pv (.+)$} $line -> pv
+    if {$score_type ne "" && $score ne "" && $depth ne "" && $pv ne ""} {
+        if {[dict exists $lines $multipv] &&
+            [lindex [dict get $lines $multipv] 0] >= $depth} {
+            return $lines
+        }
+        dict set lines $multipv [list $depth $score $score_type $pv]
+    }
+    return $lines
 }
 
 proc ::batch_annotate::read_engine {pipe} {
     variable game_queue
     variable pipe_game
-    
+
     if {[gets $pipe line] < 0} {
         if {[eof $pipe]} {
             set state $::batch_annotate::engine_state($pipe)
             if {$state ne "idle" && $state ne "done"} {
-                # Engine crashed! Re-queue the current game.
                 if {[info exists pipe_game($pipe)]} {
                     lappend game_queue $pipe_game($pipe)
                 }
@@ -460,43 +390,17 @@ proc ::batch_annotate::read_engine {pipe} {
         return
     }
     if {$line eq ""} { return }
-    
+
     set state $::batch_annotate::engine_state($pipe)
     if {$state eq "idle" || $state eq "done"} { return }
-    
-    lassign $state idx fen
-    
+    lassign $state ply position
+
     if {[string match "info *" $line]} {
-        if {![string match "*lowerbound*" $line] && ![string match "*upperbound*" $line]} {
-            if {[regexp {score (cp|mate) ([\-\d]+)} $line -> type val]} {
-                set side [lindex [split $fen " "] 1]
-                if {$side eq "b"} { set val [expr {-$val}] }
-                
-                if {$type eq "mate"} {
-                    set score_fmt [expr {$val > 0 ? "M$val" : "-M[expr {-$val}]"}]
-                    set score_val [expr {$val > 0 ? 300.0 : -300.0}]
-                } else {
-                    set score_val [expr {$val / 100.0}]
-                    set score_fmt [format "%+.2f" $score_val]
-                }
-                dict set ::batch_annotate::engine_eval($pipe) "score" $score_val
-                dict set ::batch_annotate::engine_eval($pipe) "score_fmt" $score_fmt
-            }
-            if {[regexp {depth (\d+)} $line -> depth]} {
-                dict set ::batch_annotate::engine_eval($pipe) "depth" $depth
-                set s_fmt ""
-                catch { set s_fmt [dict get [set ::batch_annotate::engine_eval($pipe)] "score_fmt"] }
-                if {$s_fmt ne ""} {
-                    dict set ::batch_annotate::engine_eval($pipe) "score_fmt_depth" "$depth:$s_fmt"
-                }
-            }
-            if {[regexp { pv (.+)$} $line -> pv]} {
-                dict set ::batch_annotate::engine_eval($pipe) "pv" $pv
-            }
-        }
+        set ::batch_annotate::engine_lines($pipe) \
+            [::batch_annotate::collect $line $::batch_annotate::engine_lines($pipe)]
     } elseif {[string match "bestmove *" $line]} {
-        # Store eval for this move
-        dict set ::batch_annotate::pipe_evals($pipe) $idx $::batch_annotate::engine_eval($pipe)
+        dict set ::batch_annotate::pipe_evals($pipe) $ply \
+            $::batch_annotate::engine_lines($pipe)
         ::batch_annotate::feed_move $pipe
     }
 }
@@ -504,55 +408,35 @@ proc ::batch_annotate::read_engine {pipe} {
 proc ::batch_annotate::finalize_game {pipe} {
     variable pipe_game
     variable pipe_evals
-    variable pipe_book_data
+    variable pipe_map
+    variable pipe_plan
+    variable pipe_book
     variable base
     variable games_completed
-    
+
     incr games_completed
     set game_id $pipe_game($pipe)
     set evals $pipe_evals($pipe)
-    set book_data {}
-    if {[info exists pipe_book_data($pipe)]} {
-        set book_data $pipe_book_data($pipe)
-    }
-    
-    # Start the engine on the next game immediately to maximize parallelism
+    set map $pipe_map($pipe)
+    set plan $pipe_plan($pipe)
+    set bookEnd $pipe_book($pipe)
+
+    # Start the next game immediately to keep the engine busy; the write is the
+    # slow part.
     ::batch_annotate::assign_game $pipe
-    
-    # Now perform the (slower) database writing for the finished game
+
     set prev_base [sc_base current]
     if {$prev_base != $base} { sc_base switch $base }
-    
+
     sc_game push copy
     sc_game load $game_id
-    
-    # Clear old if requested
-    variable clear_old
-    if {$clear_old} {
-        catch { sc_game strip comments }
-        catch { sc_game strip variations }
-    }
-    
-    # Add out-of-book comment if book was used
-    if {[llength $book_data] == 3} {
-        lassign $book_data book_ply prevbookmoves played_move
-        sc_move start
-        sc_move forward $book_ply
-        if {[string match -nocase "*$played_move*" $prevbookmoves] != 1} {
-            # The played move was not in the book
-            if {$prevbookmoves ne ""} {
-                sc_pos setComment "[sc_pos getComment] $::tr(MoveOutOfBook) [::trans $prevbookmoves]"
-            } else {
-                sc_pos setComment "[sc_pos getComment] $::tr(MoveOutOfBook)"
-            }
-        } else {
-            # The played move was the last book move
-            sc_pos setComment "[sc_pos getComment] $::tr(LastBookMove)"
-        }
-    }
-    
-    ::batch_annotate::annotate_logic $evals
-    
+
+    # Exactly the Game Review writer: label, [%eval], the label's NAG, the
+    # assessment and the diagram, with variations from Review Settings.
+    set p [dict create map $map plan $plan plies [dict get $map plies] \
+        bookEnd $bookEnd mpv $::batch_annotate::mpv]
+    catch { ::reviewdriver::writeResults $p $evals }
+
     sc_game save $game_id
     sc_game pop
     ::notify::DatabaseModified [sc_base current]

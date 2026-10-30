@@ -37,6 +37,9 @@ jobs:
       - name: Game review settings
         run: tclsh tests/tcl/game_review.tcl
 
+      - name: Batch annotate
+        run: tclsh tests/tcl/batch_annotate.tcl
+
       - name: Finish game
         run: tclsh tests/tcl/finish_game.tcl
       - name: Engine preset limits
