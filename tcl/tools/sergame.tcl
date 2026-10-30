@@ -883,7 +883,7 @@ namespace eval sergame {
     set wasTakeback 0
     set playerDidMove $::sergame::playerMoved
     set ::sergame::playerMoved 0
-    if { $playerDidMove && $::uci::uciInfo(prevscore$n) != "" } {
+    if { $::sergame::coachIsWatching && $playerDidMove && $::uci::uciInfo(prevscore$n) != "" } {
       set blunder 0
       set delta [expr {$::uci::uciInfo(score$n) - $::uci::uciInfo(prevscore$n)}]
       if {$delta > $::informant(?!) && $::sergame::engineColor == "white" ||
