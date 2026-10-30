@@ -40,7 +40,10 @@ part that other tools read, so they are written here too:
   from a verdict word, for callers that have no evaluation pair.
 - **The position assessment** — `::reviewannotate::scoreToNag` writes `=`,
   `+/-`, `+-` … beside the verdict, as `analysis.tcl:942` did, including the
-  classic's `+-`/`+/-` quirk at the crushing threshold.
+  classic's `+-`/`+/-` quirk at the crushing threshold. It now delegates to
+  `::review::scoreToNag`, because the engine window's Game Review writes the
+  same assessment from its `[%eval]` (`game_review.tcl`); one table, so the two
+  cannot disagree.
 - **The diagram tag** — `D`, in blunders-only mode, on the move *before* the
   annotated one (`::reviewannotate::markDiagram`). The RTF exporter renders the
   position after the NAG's own move (`tcl/file/rtf.tcl`, `collectLine_`), so

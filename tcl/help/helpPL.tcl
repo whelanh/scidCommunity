@@ -2560,6 +2560,14 @@ set helpText(P,ReviewGameButton) {<h1>Okno silnika: Przycisk Przegląd partii</h
   przeglądane.
   </p>
   <p>
+  Każde ocenione posunięcie dostaje w komentarzu słowo werdyktu i <b>[%eval]</b>,
+  NAG wynikający ze słowa (<b>?!</b>, <b>?</b>, <b>??</b>, <b>!</b>, <b>!!</b>)
+  oraz <b>ocenę pozycji</b> z tego samego wyniku: <b>=</b> dla pozycji równej,
+  <b>+=</b>, <b>+/-</b>, <b>+-</b> i <b>+--</b> w miarę wzrostu przewagi białych,
+  a dla czarnych <b>=+</b>, <b>-/+</b>, <b>-+</b> i <b>--+</b>. Ocena zastępuje
+  tę, która była na posunięciu, więc zawsze zgadza się z <b>[%eval]</b> obok.
+  </p>
+  <p>
   W czasie pracy okno pokazuje <b>Przeglądanie pozycji N z M</b> oraz przycisk
   <b>Anuluj</b>. Anulowanie zatrzymuje przegląd i nic nie zapisuje. Przycisk jest
   aktywny, gdy partia jest otwarta i wybrany jest silnik; w trakcie przeglądu oba

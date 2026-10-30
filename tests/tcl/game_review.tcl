@@ -146,6 +146,25 @@ foreach label {best excellent good inaccuracy forced book brilliant great} {
     check "a $label does not" [expr {![::review::variationWanted $label]}]
 }
 
+puts "the position assessment"
+
+# The Informant table, in pawns from White's point of view. The thresholds are
+# strict: 0.5 exactly is already "+=".
+checkEq "a level position is =" [::review::scoreToNag 0.0] "="
+checkEq "a small White plus is +=" [::review::scoreToNag 0.6] "+="
+checkEq "a clear White plus is +/-" [::review::scoreToNag 1.6] "+/-"
+checkEq "a winning White plus is +-" [::review::scoreToNag 2.6] "+-"
+checkEq "a crushing White plus is +--" [::review::scoreToNag 4.5] "+--"
+checkEq "the Black half mirrors it" [::review::scoreToNag -0.6] "=+"
+checkEq "and a crushing Black plus is --+" [::review::scoreToNag -4.5] "--+"
+checkEq "a negative level position is = too" [::review::scoreToNag -0.4] "="
+checkEq "the threshold is strict" [::review::scoreToNag 0.5] "+="
+checkEq "no score means no assessment" [::review::assessmentNag ""] ""
+checkEq "centipawns become pawns" [::review::assessmentNag 160] "+/-"
+set ::informant(+=) 1.0
+checkEq "the thresholds are the user's" [::review::scoreToNag 0.8] "="
+unset -nocomplain ::informant(+=)
+
 puts "which lines become variations"
 
 ::review::reset

@@ -734,6 +734,8 @@ proc ::reviewdriver::clearMarks {ply} {
     if {$old eq ""} { return }
     set nag [::review::nagForLabel $old]
     if {$nag ne ""} { catch { ::review::dropNag $nag } }
+    # The assessment was the old score's; the new verdict replaces it.
+    catch { ::review::dropAssessment }
     if {$old eq "mistake" || $old eq "blunder"} {
         catch { ::review::setDiagram $ply 0 }
     }
@@ -807,6 +809,17 @@ proc ::reviewdriver::writeResults {p results} {
                 catch { ::review::addNagIfAbsent $nag }
                 if {[lsearch -exact [::review::nags] $nag] < 0} {
                     lappend markErr "ply $ply: no room for the $nag mark"
+                }
+            }
+            # The position assessment, from the same score the [%eval] shows.
+            # It is a NAG slot of its own, so the label's mark stays beside it.
+            # An assessment already there is replaced: it belongs to the score
+            # this verdict is replacing, whoever wrote it.
+            set assess [::review::assessmentNag $eval_cp]
+            if {$assess ne ""} {
+                catch { ::review::setAssessment $assess }
+                if {[lsearch -exact [::review::nags] $assess] < 0} {
+                    lappend markErr "ply $ply: no room for the $assess assessment"
                 }
             }
             # A first move has no predecessor to hang D on (::review::setDiagram

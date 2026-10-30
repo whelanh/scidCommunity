@@ -523,6 +523,95 @@ proc ::review::nagForLabel {label} {
     return ""
 }
 
+# The position-assessment marks: "=" for a level position, "+="/"+/-" for a
+# small and a clear White advantage, "+-"/"+--" for a winning one, and the
+# mirrored half for Black. They are NAGs 10-21, a different slot from the six
+# move marks, so a move can carry both. The Informant thresholds are the ones in
+# options.tcl; the fallbacks keep this callable in a tclsh that has not loaded
+# them.
+variable ::review::ASSESSMENT_KEYS {+= +/- +- +--}
+variable ::review::ASSESSMENT_DEFAULTS {0.5 1.5 2.5 4.0}
+variable ::review::ASSESSMENT_TABLE {= += +/- +- +-- = =+ -/+ -+ --+}
+
+# The assessment for one score in pawns from White's point of view - the same
+# figure [%eval] shows. The comparison is strict, as in the classic annotator:
+# 0.5 exactly is already "+=".
+proc ::review::scoreToNag {score} {
+    variable ASSESSMENT_KEYS
+    variable ASSESSMENT_DEFAULTS
+    variable ASSESSMENT_TABLE
+    if {![string is double -strict $score]} { return "" }
+    set tmp [expr {abs($score)}]
+    set i 0
+    foreach key $ASSESSMENT_KEYS fallback $ASSESSMENT_DEFAULTS {
+        set limit $fallback
+        if {[info exists ::informant($key)]} { set limit $::informant($key) }
+        if {$tmp < $limit} { break }
+        incr i
+    }
+    if {$score < 0.0} { set i [expr {$i + 5}] }
+    return [lindex $ASSESSMENT_TABLE $i]
+}
+
+# The assessment a verdict carries, from the position's [%eval]: "" when the
+# pass had no score to show, so the mark can never disagree with the number in
+# the comment.
+proc ::review::assessmentNag {eval_cp} {
+    if {$eval_cp eq "" || ![string is double -strict $eval_cp]} { return "" }
+    return [::review::scoreToNag [expr {$eval_cp / 100.0}]]
+}
+
+# The symbols an assessment can be, for taking one off the move.
+proc ::review::assessmentNags {} {
+    return {= += +/- +- +-- =+ -/+ -+ --+}
+}
+
+# Put `nag` on the move as its one assessment, keeping every other NAG. AddNag
+# replaces the first position NAG and appends when there is none, so any second
+# one is cleared first: a move is not meant to carry two assessments.
+proc ::review::setAssessment {nag} {
+    if {$nag eq ""} { return 0 }
+    set marks [::review::assessmentNags]
+    set keep {}
+    set replacing 0
+    foreach n [::review::nags] {
+        if {[lsearch -exact $marks $n] >= 0} {
+            set replacing 1
+        } else {
+            lappend keep $n
+        }
+    }
+    # With nothing in the assessment slot AddNag appends and leaves the other
+    # marks alone; only a second assessment has to be cleared first.
+    if {!$replacing} {
+        sc_pos addNag $nag
+        return 1
+    }
+    sc_pos clearNags
+    foreach n $keep { sc_pos addNag $n }
+    sc_pos addNag $nag
+    return 1
+}
+
+# Take every assessment off the move and keep the rest. A review replaces its
+# own verdict with this before writing the new score's assessment.
+proc ::review::dropAssessment {} {
+    set marks [::review::assessmentNags]
+    set keep {}
+    set dropped 0
+    foreach n [::review::nags] {
+        if {[lsearch -exact $marks $n] >= 0} {
+            set dropped 1
+        } else {
+            lappend keep $n
+        }
+    }
+    if {!$dropped} { return 0 }
+    sc_pos clearNags
+    foreach n $keep { sc_pos addNag $n }
+    return 1
+}
+
 # The label a comment already carries, in the current language or in English, or
 # "" when it carries none. Used to replace the previous review's mark rather
 # than stack a second one.
