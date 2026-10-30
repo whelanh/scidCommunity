@@ -3601,6 +3601,10 @@ set helpText(P,Engine) {<h1>Okna silnika</h1>
     (przy włączonej funkcji MultiPV wykonywane jest posunięcie z pierwszego wariantu).</li>
   <li><b>Dodaj wszystkie warianty</b> <button tb_eng_addlines>: Dodaje wszystkie linie MultiPV
     jako warianty.</li>
+  <li><b>Zakończ partię</b> <button tb_finish_off>: Dogrywa resztę partii silnikami
+    wybranymi dla każdej strony w oknie dialogowym, każda strona z własnymi
+    sekundami i głębokością. Ten sam przycisk zatrzymuje przebieg. Posunięcia są
+    grane bez adnotacji; do tego służy Przegląd partii.</li>
   <li><b>Konfiguracja</b> <button tb_eng_config>: Pokazuje lub ukrywa panel
     konfiguracji silnika.</li>
   <li><a ReviewGameButton><b>Przegląd partii</b></a>: Przegląda główną linię
