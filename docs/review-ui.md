@@ -108,8 +108,8 @@ and that is "nothing yet", not "depth 0".
 
 `var_cp` is a noise filter, not a quality floor: a line is written when it is
 strictly less than `var_cp` centipawns behind the best line, and **0 means no
-filter at all**. A margin of 2 therefore keeps only lines within 2 cp of the
-best — usually none, because MultiPV's alternatives are further behind than
+filter at all**. A margin of 2 therefore keeps only lines less than 2 cp behind
+the best — usually none, because MultiPV's alternatives are further behind than
 that. To see variations, leave the margin at 0 or set it well above the gap the
 engine reports between its lines.
 
