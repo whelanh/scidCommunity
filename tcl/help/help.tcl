@@ -2631,7 +2631,10 @@ set helpText(ReviewSettings) {<h1>Engine Window: Review Settings</h1>
     in the game for each move. Zero writes none, and the number cannot exceed
     Lines.</li>
   <li><b>Variation margin (cp)</b>: how far behind the best line another line may
-    be and still be written; a line further behind is noise and is dropped.</li>
+    be and still be written; a line further behind is noise and is dropped. Zero
+    keeps every line, which is how to get variations at all: a small margin such
+    as 2 keeps only lines less than 2 centipawns behind the best, and the
+    engine's alternatives are usually further behind than that.</li>
   <li><b>Wait for the review depth</b>: whether a move comment waits for the
     review's depth instead of using the analysis already on screen - see
     <a ReviewMoveButton>Move Comment</a>.</li>

@@ -1074,19 +1074,22 @@ proc ::enginewin::reviewSettings {id} {
     # lines without closing the dialog. The range comes from ::reviewui, which
     # also lowers a var_lines the new mpv no longer allows.
     if {[winfo exists $w.f.vmpv] && [winfo exists $w.f.vvar_lines]} {
-        set ::enginewin::reviewtraceptr($id) [trace add variable \
-            ::enginewin::reviewsetting($id,mpv) write \
-            [list apply {{id w args} {
-                set mpv $::enginewin::reviewsetting($id,mpv)
-                if {![string is integer -strict $mpv]} { return }
-                set hi [lindex [::reviewui::settingRange var_lines $mpv] 1]
-                catch { $w.f.vvar_lines configure -to $hi }
-                catch {
-                    if {$::enginewin::reviewsetting($id,var_lines) > $hi} {
-                        set ::enginewin::reviewsetting($id,var_lines) $hi
-                    }
+        # trace add returns nothing, so the prefix itself is what has to be
+        # kept: trace remove needs the same command it was given, or the trace
+        # stays behind on a closed dialog and every reopen adds another.
+        set ::enginewin::reviewtraceptr($id) [list apply {{id w args} {
+            set mpv $::enginewin::reviewsetting($id,mpv)
+            if {![string is integer -strict $mpv]} { return }
+            set hi [lindex [::reviewui::settingRange var_lines $mpv] 1]
+            catch { $w.f.vvar_lines configure -to $hi }
+            catch {
+                if {$::enginewin::reviewsetting($id,var_lines) > $hi} {
+                    set ::enginewin::reviewsetting($id,var_lines) $hi
                 }
-            }} $id $w]
+            }
+        }} $id $w]
+        trace add variable ::enginewin::reviewsetting($id,mpv) write \
+            $::enginewin::reviewtraceptr($id)
         bind $w <Destroy> [list apply {{id w} {
             if {"%W" ne $w} { return }
             catch {
