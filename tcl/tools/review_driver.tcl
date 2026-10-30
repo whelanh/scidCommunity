@@ -775,19 +775,34 @@ proc ::reviewdriver::writeResults {p results} {
         set err [::review::writeMove $ply $label $eval_cp \
             [::reviewdriver::lines $results [expr {$ply - 1}] $mpv]]
         if {$err eq ""} {
-            incr written
             # The mark beside the word, and a diagram where the mistake was
             # played. writeMove leaves the cursor where it found it, which is
-            # this move.
+            # this move. AddNag has a fixed capacity and sc_pos ignores its
+            # refusal, so the mark is read back: a comment without the mark it
+            # promises is a partial write, not a clean one.
+            set markErr ""
             # A move mark the user put there is theirs: AddNag would replace
             # it in place, so only write ours when the move has none (the one a
             # previous review wrote has just been taken off by clearMarks).
             set nag [::review::nagForLabel $label]
             if {$nag ne "" && ![::review::hasMoveNag]} {
                 catch { ::review::addNagIfAbsent $nag }
+                if {[lsearch -exact [::review::nags] $nag] < 0} {
+                    set markErr "ply $ply: no room for the $nag mark"
+                }
             }
             if {$diagram && ($label eq "mistake" || $label eq "blunder")} {
                 catch { ::review::setDiagram $ply 1 }
+                if {[catch { sc_move ply [expr {$ply - 1}] }] ||
+                    [lsearch -exact [::review::nags] D] < 0} {
+                    set markErr "ply $ply: no room for the diagram mark"
+                }
+            }
+            if {$markErr ne ""} {
+                incr failed
+                lappend errors $markErr
+            } else {
+                incr written
             }
         } else {
             incr failed

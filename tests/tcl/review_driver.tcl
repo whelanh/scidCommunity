@@ -498,6 +498,8 @@ proc sc_pos {args} {
                     incr i
                 }
             }
+            # MAX_NAGS is 8 and AddNag refuses once seven are there.
+            if {[llength $nags] + 1 >= 8} { return "" }
             lappend nags $nag
             dict set ::fakeNags $::fakeLoc $nags
             return ""
@@ -992,6 +994,40 @@ checkEq "its comment is untouched" \
     [dict get $::fakeComments 4] {[Blunder] [%eval +8.00]}
 checkEq "and so is its mark" [nagsAt 4] "??"
 checkEq "and the diagram before it" [nagsAt 3] "D"
+::review::reset
+
+puts "a full move cannot take the mark, and says so"
+
+# AddNag has fixed capacity (MAX_NAGS 8) and sc_pos ignores its refusal. A move
+# already carrying seven NAGs gets the comment but not the mark; that is a
+# partial write and has to be reported, not counted as clean.
+::review::reset
+set ::fakeMainLine [list {position startpos moves} e2e4 e7e5 g1f3 b8c6]
+set ::fakeLen 4
+set ::fakeLoc 2
+set ::fakeLevel 0
+set ::fakeNums {}
+set ::fakeExit {}
+set ::fakeVars {}
+set ::fakeComments {}
+set ::fakeNags {}
+set ::events {}
+set ::runProgress {}
+dict set ::fakeNags 4 {D = +- +/- += =+ -/+ -+}
+checkEq "the single-move pass starts" [::reviewdriver::run $runcfg -plies {4}] ""
+feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 -120 cp 0 e7e6}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 800 cp 0 g8f6}
+feedEvent InfoBestMove {}
+pump
+set st [::reviewdriver::status]
+checkEq "the mark that did not fit is a failed move" [dict get $st failed] 1
+checkEq "and nothing is counted as written" [dict get $st written] 0
+check "the reason names the mark" \
+    [expr {[string first {no room for the ?? mark} [dict get $st errors]] >= 0}]
+check "the comment still landed" \
+    [expr {[string first {[blunder]} [dict get $::fakeComments 4]] >= 0}]
 ::review::reset
 
 puts "the diagram switch"
