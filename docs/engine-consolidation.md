@@ -23,8 +23,10 @@ diffed when it changes, rather than edited in a comment fifteen screens down.
 
 ## Capability matrix
 
-Today's owner and the check counts are read from `github` after `#390` (`960e0cbf`). "Test" is
-what runs today; `—` means nothing does, which is the argument for the manual matrix further down.
+Today's owner and the check counts are read from `github` as it stands now, including the counts
+this branch updates. The counts move whenever a PR adds tests, so they are a snapshot, not a fixed
+baseline. "Test" is what runs today; `—` means nothing does, which is the argument for the manual
+matrix further down.
 
 | Feature | Today's owner | After B1/B2 | Test today |
 |---|---|---|---|
