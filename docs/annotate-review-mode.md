@@ -69,9 +69,15 @@ part that other tools read, so they are written here too:
   finished game, so it writes the engine-window review's annotations with Review
   Settings — label, `[%eval]`, the label's NAG, the position assessment on marked
   moves, `D` and variations — and deliberately not the classic `T`/`****D`, book
-  or Annotator marks. `::batch_annotate::annotate_logic` remains for **Rapid
-  annotate** (Ctrl+Shift+A), which still writes the classic marks from scores the
-  engine windows have already collected.
+  or Annotator marks.
+
+  **Rapid annotate** (Ctrl+Shift+A) is a consumer too: it converts the scores the
+  engine windows have already collected into the same results shape and calls
+  `::reviewdriver::writeResults`. The graph keeps only the best line and only the
+  positions it reached, so this is a quick pass rather than an exact copy of a
+  depth-limited Game Review — labels and marks speak the same language, but there
+  is at most one variation and no second-best comparison. `::batch_annotate::annotate_logic`
+  is gone; the classic marks now live only in `analysis.tcl`/`reviewannotate`.
 
 ## Which moves get the marks
 

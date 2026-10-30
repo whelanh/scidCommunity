@@ -10,10 +10,11 @@
 ### (Ctrl+Shift+A), turns them into PGN data for the current game:
 ###   * an [%eval ...] comment for every evaluated position, so the PGN
 ###     viewer redraws the same graph when the game is loaded again;
-###   * the annotations that ::batch_annotate::annotate_logic derives from
-###     the same evaluations (move-quality NAGs, position NAGs, score
-###     comments and best-line variations), using the settings saved in
-###     options.dat.
+###   * the annotations Game Review writes from the same evaluations: label,
+###     [%eval], the label's NAG, the position assessment on marked moves, D and
+###     variations, with the depth, MultiPV, variation and diagram settings in
+###     Review Settings. The graph only keeps the best line, so this is a quick
+###     pass rather than an exact copy of a depth-limited Game Review.
 ###
 ### The time per move is deliberately NOT the Batch Annotate setting: the
 ### scores being annotated are the ones the score graph has already
@@ -128,8 +129,9 @@ proc ::rapid_annotate::mainLinePositions {} {
     return $positions
 }
 
-# Return the collected evaluations of a game in the format expected by
-# ::batch_annotate::annotate_logic.
+# Return the collected evaluations of a game, one entry per collected ply, in
+# the intermediate form ::rapid_annotate::reviewResults converts for the review
+# writer.
 proc ::rapid_annotate::evals {{key ""}} {
     variable scores
     if {$key eq ""} { set key [::rapid_annotate::key] }
@@ -160,23 +162,33 @@ proc ::rapid_annotate::pending {} {
     return [dict size [::rapid_annotate::evals]]
 }
 
-# Write the collected evaluations as [%eval ...] comments: the token the PGN
-# viewer reads back to draw its own score graph. A position that the
-# annotation pass has already annotated with the same score is left alone, so
-# the comment does not repeat the number.
-proc ::rapid_annotate::writeScores {evals} {
-    foreach ply [lsort -integer [dict keys $evals]] {
-        if {$ply < 1} { continue }
-        # sc_move ply is 0-based: ply N is N half-moves played.
-        if {[catch { sc_move ply $ply }]} { continue }
-        # MoveToPly stops at the end of the game: a stored ply that no longer
-        # exists (the game was truncated) must not touch the last comment.
-        if {[sc_pos location] != $ply} { break }
-        if {[string first [dict get $evals $ply score_fmt] [sc_pos getComment]] >= 0} {
-            continue
+# The collected evaluations in the review writer's results shape:
+#   ply -> {1 {depth score score-type pv}}
+# The graph records only the best line, so there is one entry per position. A
+# 100 ms line is as valid an input as a depth-18 one; the writer only annotates
+# what the evaluation says, and cannot know how it was obtained.
+proc ::rapid_annotate::reviewResults {evals map} {
+    set sides [::reviewdriver::sides $map]
+    set results [dict create]
+    dict for {ply entry} $evals {
+        if {![dict exists $sides $ply]} { continue }
+        set stm [dict get $sides $ply]
+        set depth [dict get $entry depth]
+        set pv [dict get $entry pv]
+        set fmt [dict get $entry score_fmt]
+        if {[regexp {^(-?)M(\d+)$} $fmt -> neg dist]} {
+            # score_fmt is White's point of view; the line must be the side to
+            # move's, as the engine would have sent it.
+            set wdist [expr {$neg eq "-" ? -$dist : $dist}]
+            set raw [expr {$stm eq "w" ? $wdist : -$wdist}]
+            dict set results $ply 1 [list $depth $raw mate $pv]
+        } else {
+            set raw [expr {round([dict get $entry score] * 100.0)}]
+            if {$stm eq "b"} { set raw [expr {-$raw}] }
+            dict set results $ply 1 [list $depth $raw cp $pv]
         }
-        storeEvalComment [dict get $evals $ply eval]
     }
+    return $results
 }
 
 # Write the collected evaluations and the annotations they imply into the
@@ -211,16 +223,15 @@ proc ::rapid_annotate::commit {} {
     set ply [sc_pos location]
     undoFeature save
 
-    # Same order as ::batch_annotate::finalize_game: optionally drop the old
-    # annotations, then add the new ones. The plain scores go in last, so they
-    # only fill the positions the annotation pass left without a score.
+    # The Game Review writer, from the scores the graph already collected: the
+    # same labels, marks, assessment, D and variations a review would write.
     if {[catch {
-        if {$::batch_annotate::clear_old} {
-            catch { sc_game strip comments }
-            catch { sc_game strip variations }
-        }
-        ::batch_annotate::annotate_logic $evals
-        ::rapid_annotate::writeScores $evals
+        set map [::review::mainLineMap [sc_game UCI_mainLine]]
+        set plies [dict get $map plies]
+        set p [dict create map $map plan [::review::plan $plies 0] \
+            plies $plies bookEnd 0 mpv [::review::get mpv]]
+        ::reviewdriver::writeResults $p \
+            [::rapid_annotate::reviewResults $evals $map]
         sc_move ply $ply
     } err]} {
         undoFeature undo

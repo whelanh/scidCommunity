@@ -40,6 +40,9 @@ jobs:
       - name: Batch annotate
         run: tclsh tests/tcl/batch_annotate.tcl
 
+      - name: Rapid annotate
+        run: tclsh tests/tcl/rapid_annotate.tcl
+
       - name: Finish game
         run: tclsh tests/tcl/finish_game.tcl
       - name: Engine preset limits

@@ -181,9 +181,10 @@ purpose (`analysis.tcl:864`, `batch_annotate.tcl:740`); the opening trainer read
 
 **Tactical exercises are NAG- and flag-based.** `markExercise` writes `??`/`?` and the
 `****D<difficulty>` comment, and the classic annotator sets the game's `T` flag (`analysis.tcl:603`) so those
-games can be filtered and trained on. **Batch annotate no longer produces them**: it is a consumer of the
-review writer, so its games carry labels, `[%eval]`, the label's NAG, the assessment, `D` and variations
-only. Exercises and book comments remain the classic Annotate dialog's until C2.
+games can be filtered and trained on. **Neither batch annotate nor Rapid annotate produces them now**: both
+are consumers of the review writer, so their games carry labels, `[%eval]`, the label's NAG, the assessment,
+`D` and variations only (Rapid from the score graph's single best line). Exercises and book comments remain
+the classic Annotate dialog's until C2.
 
 **Book annotation** writes the last-book-move / out-of-book comments from a Scid `.bin` book
 (`bookAnnotation`).

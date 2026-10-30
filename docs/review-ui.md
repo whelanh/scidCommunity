@@ -21,7 +21,8 @@ disabled while a pass runs, which is what Cancel is for.
 The Game List's **Batch annotate** uses this same writer over its parallel
 engine pool, with these settings, so a batch of games gets what pressing Game
 Review on each would have written. Its dialog only chooses the engine and the
-number of instances.
+number of instances. **Rapid annotate** (Ctrl+Shift+A) uses the writer too, from
+the best line the score graph has already collected.
 
 Press **Game Review** and the pass searches every position of the main line at
 the review's depth, showing `Reviewing position n of m` in the button bar, and
