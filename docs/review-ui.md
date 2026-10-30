@@ -27,8 +27,9 @@ and blunder when the Diagram setting is on, and the engine's alternatives as
 variations where `var_lines` asks for them. Running it again replaces the
 review's own marks — `writeMove` strips its comment tokens, and the NAG matching
 the previous label and its diagram are replaced — while the user's prose and any
-other NAG are left alone. The board is back where the user left it when the pass
-ends.
+mark the user put there are left alone (Scid keeps one move mark per move, so a
+move that already carries one keeps it and the review's label goes without).
+The board is back where the user left it when the pass ends.
 
 The positions come from `::reviewdriver::planPositions` over the snapshot
 `::review::mainLineMap` takes of the line, so:
@@ -150,7 +151,7 @@ main-line snapshot non-authoritative.
 | `tcl/tools/review_ui.tcl` | `::reviewui` — button state, the call a press makes, dialog values, the status line |
 | `tcl/windows/engine.tcl` | the two buttons, the status line, the settings dialog (guarded glue) |
 | `tests/tcl/review_ui.tcl` | 188 checks: the call a press makes, the status line, the button states, the dialog round trip, the move-comment depth, the key set |
-| `tests/tcl/review_driver.tcl` | 193 checks: the pass against a stub engine, including two reviews of the same game in a row and the engine window's hand-off to it |
+| `tests/tcl/review_driver.tcl` | 196 checks: the pass against a stub engine, including two reviews of the same game in a row and the engine window's hand-off to it |
 
 ## Tests
 

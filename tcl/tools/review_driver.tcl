@@ -775,8 +775,13 @@ proc ::reviewdriver::writeResults {p results} {
             # The mark beside the word, and a diagram where the mistake was
             # played. writeMove leaves the cursor where it found it, which is
             # this move.
+            # A move mark the user put there is theirs: AddNag would replace
+            # it in place, so only write ours when the move has none (the one a
+            # previous review wrote has just been taken off by clearMarks).
             set nag [::review::nagForLabel $label]
-            if {$nag ne ""} { catch { ::review::addNagIfAbsent $nag } }
+            if {$nag ne "" && ![::review::hasMoveNag]} {
+                catch { ::review::addNagIfAbsent $nag }
+            }
             if {$diagram && ($label eq "mistake" || $label eq "blunder")} {
                 catch { ::review::setDiagram $ply 1 }
             }

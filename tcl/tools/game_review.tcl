@@ -544,6 +544,28 @@ proc ::review::nags {} {
     return $nags
 }
 
+# True when the move already carries one of the six move marks. Scid's AddNag
+# REPLACES the first move mark rather than appending, so the review must not
+# write its own over one the user put there; only the mark the previous review
+# wrote (which clearMarks takes off) is replaced.
+proc ::review::hasMoveNag {} {
+    foreach n {! ? !! ?? !? ?!} {
+        if {[lsearch -exact [::review::nags] $n] >= 0} { return 1 }
+    }
+    return 0
+}
+
+# True when the move already carries one of the six move marks. Scid's AddNag
+# REPLACES the first move mark rather than appending, so the review must not
+# write its own over one the user put there; only the mark the previous review
+# wrote (which clearMarks takes off) is replaced.
+proc ::review::hasMoveNag {} {
+    foreach n {! ? !! ?? !? ?!} {
+        if {[lsearch -exact [::review::nags] $n] >= 0} { return 1 }
+    }
+    return 0
+}
+
 proc ::review::addNagIfAbsent {nag} {
     if {$nag eq ""} { return 0 }
     if {[lsearch -exact [::review::nags] $nag] >= 0} { return 0 }
@@ -565,8 +587,9 @@ proc ::review::dropNag {nag} {
 
 # The diagram tag D sits on the move BEFORE `ply`: the NAGs of a position belong
 # to the move that led to it, and the exporter draws the position after that
-# move - which is where the mistake was played. Only the review's own D is
-# removed, because the caller removes it only when it replaces a mistake/blunder.
+# move - which is where the mistake was played. A D on the move before a move the
+# last review labelled mistake/blunder is treated as the review's and replaced;
+# one anywhere else is left alone.
 proc ::review::setDiagram {ply on} {
     if {![string is integer -strict $ply] || $ply < 2} { return 0 }
     catch { sc_move ply [expr {$ply - 1}] }

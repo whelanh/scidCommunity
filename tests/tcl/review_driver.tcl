@@ -482,11 +482,23 @@ proc sc_pos {args} {
             return ""
         }
         addNag {
-            set nags ""
-            if {[dict exists $::fakeNags $::fakeLoc]} {
-                set nags [dict get $::fakeNags $::fakeLoc]
+            set nag [lindex $args 1]
+            set nags [nagsAt $::fakeLoc]
+            # Scid replaces the first move mark instead of appending a second,
+            # which is why a review must not write over a user's mark.
+            set six {! ? !! ?? !? ?!}
+            if {[lsearch -exact $six $nag] >= 0} {
+                set i 0
+                foreach n $nags {
+                    if {[lsearch -exact $six $n] >= 0} {
+                        set nags [lreplace $nags $i $i $nag]
+                        dict set ::fakeNags $::fakeLoc $nags
+                        return ""
+                    }
+                    incr i
+                }
             }
-            lappend nags [lindex $args 1]
+            lappend nags $nag
             dict set ::fakeNags $::fakeLoc $nags
             return ""
         }
@@ -910,6 +922,42 @@ feedEvent InfoBestMove {}
 pump
 checkEq "the old blunder mark is replaced by the mistake's" [nagsAt 4] "?"
 checkEq "and the diagram has not moved" [nagsAt 3] "D"
+::review::reset
+
+puts "a user's own move mark is not replaced"
+
+# Scid's AddNag replaces the first move mark, so the review must not write its
+# own over one the user put there. The label still lands; the mark stays the
+# user's.
+::review::reset
+set ::fakeMainLine [list {position startpos moves} e2e4 e7e5 g1f3 b8c6]
+set ::fakeLen 4
+set ::fakeLoc 2
+set ::fakeLevel 0
+set ::fakeNums {}
+set ::fakeExit {}
+set ::fakeVars {}
+set ::fakeComments {}
+set ::fakeNags {}
+set ::events {}
+set ::runProgress {}
+dict set ::fakeNags 4 "!?"
+checkEq "the pass runs over the user's mark" [::reviewdriver::run $runcfg] ""
+feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 30 cp 0 e2e4 e7e5}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 20 cp 0 d2d4}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 100 cp 0 c2c4}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 -120 cp 0 e7e6}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 800 cp 0 g8f6}
+feedEvent InfoBestMove {}
+pump
+checkEq "the user's mark is untouched" [nagsAt 4] "!?"
+check "and the review's label still landed" \
+    [expr {[string first {[blunder]} [dict get $::fakeComments 4]] >= 0}]
 ::review::reset
 
 puts "the diagram switch"
