@@ -960,6 +960,40 @@ check "and the review's label still landed" \
     [expr {[string first {[blunder]} [dict get $::fakeComments 4]] >= 0}]
 ::review::reset
 
+puts "an unmeasured move keeps what the last review wrote"
+
+# The engine can answer a position without a usable score (a bound, no PV). The
+# move then has no verdict; the last review's comment and marks must be left
+# alone rather than half-cleared.
+::review::reset
+set ::fakeMainLine [list {position startpos moves} e2e4 e7e5 g1f3 b8c6]
+set ::fakeLen 4
+set ::fakeLoc 2
+set ::fakeLevel 0
+set ::fakeNums {}
+set ::fakeExit {}
+set ::fakeVars {}
+set ::fakeComments {}
+set ::fakeNags {}
+set ::events {}
+set ::runProgress {}
+dict set ::fakeComments 4 {[Blunder] [%eval +8.00]}
+dict set ::fakeNags 4 "??"
+dict set ::fakeNags 3 "D"
+checkEq "a single-move pass starts" [::reviewdriver::run $runcfg -plies {4}] ""
+feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 30 lowerbound 0 e7e6}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 800 cp 0 g8f6}
+feedEvent InfoBestMove {}
+pump
+checkEq "the unmeasured move was not written"     [dict get [::reviewdriver::status] written] 0
+checkEq "its comment is untouched" \
+    [dict get $::fakeComments 4] {[Blunder] [%eval +8.00]}
+checkEq "and so is its mark" [nagsAt 4] "??"
+checkEq "and the diagram before it" [nagsAt 3] "D"
+::review::reset
+
 puts "the diagram switch"
 
 # The mark is the label's, always; the diagram is a choice. With it off the

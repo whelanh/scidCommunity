@@ -547,18 +547,9 @@ proc ::review::nags {} {
 # True when the move already carries one of the six move marks. Scid's AddNag
 # REPLACES the first move mark rather than appending, so the review must not
 # write its own over one the user put there; only the mark the previous review
-# wrote (which clearMarks takes off) is replaced.
-proc ::review::hasMoveNag {} {
-    foreach n {! ? !! ?? !? ?!} {
-        if {[lsearch -exact [::review::nags] $n] >= 0} { return 1 }
-    }
-    return 0
-}
-
-# True when the move already carries one of the six move marks. Scid's AddNag
-# REPLACES the first move mark rather than appending, so the review must not
-# write its own over one the user put there; only the mark the previous review
-# wrote (which clearMarks takes off) is replaced.
+# wrote (which clearMarks takes off) is replaced. A user mark that is the same
+# symbol the label implies cannot be told from ours: it is kept on the first run
+# and replaced by a later one.
 proc ::review::hasMoveNag {} {
     foreach n {! ? !! ?? !? ?!} {
         if {[lsearch -exact [::review::nags] $n] >= 0} { return 1 }

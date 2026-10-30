@@ -748,15 +748,11 @@ proc ::reviewdriver::writeResults {p results} {
     set errors {}
     set verdicts [::reviewdriver::verdicts $map $results]
     foreach ply [dict get $p plan] {
-        # The previous verdict's marks are ours to replace; the comment tokens
-        # go with writeMove below.
-        ::reviewdriver::clearMarks $ply
-        # clearMarks may have moved to the move before this one to take off a
-        # diagram; put the cursor back so the write and its marks land here.
-        catch { sc_move ply $ply }
         if {$ply <= $bookEnd} {
             # In the book: theory, not a verdict. No [%eval] and no variation,
             # because there was no search behind either.
+            ::reviewdriver::clearMarks $ply
+            catch { sc_move ply $ply }
             set err [::review::writeMove $ply book "" {}]
             if {$err eq ""} {
                 incr written
@@ -766,7 +762,15 @@ proc ::reviewdriver::writeResults {p results} {
             }
             continue
         }
+        # A ply with no verdict was not measured: leave the previous review's
+        # comment and marks exactly as they were rather than half-clearing it.
         if {![dict exists $verdicts $ply]} { continue }
+        # The previous verdict's marks are ours to replace; the comment tokens
+        # go with writeMove below.
+        ::reviewdriver::clearMarks $ply
+        # clearMarks may have moved to the move before this one to take off a
+        # diagram; put the cursor back so the write and its marks land here.
+        catch { sc_move ply $ply }
         lassign [dict get $verdicts $ply] label eval_cp
         set err [::review::writeMove $ply $label $eval_cp \
             [::reviewdriver::lines $results [expr {$ply - 1}] $mpv]]
