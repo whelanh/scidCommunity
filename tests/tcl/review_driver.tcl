@@ -1060,6 +1060,22 @@ check "the comment still landed" \
     [expr {[string first {[blunder]} [dict get $::fakeComments 4]] >= 0}]
 ::review::reset
 
+puts "a plan past a shortened game does not touch another move"
+
+# sc_move answers OK even when the ply is past the end, leaving the board on the
+# last move; clearing marks for that ply must not take them off that move.
+set ::fakeMainLine [list {position startpos moves} e2e4 e7e5 g1f3 b8c6]
+set ::fakeLen 3
+set ::fakeLoc 3
+set ::fakeLevel 0
+set ::fakeComments [dict create 3 {[Blunder] [%eval +8.00]}]
+set ::fakeNags [dict create 3 "??" 2 "D"]
+::reviewdriver::clearMarks 4
+checkEq "the comment on the last move is untouched" \
+    [dict get $::fakeComments 3] {[Blunder] [%eval +8.00]}
+checkEq "and its mark" [nagsAt 3] "??"
+checkEq "and the diagram before it" [nagsAt 2] "D"
+
 puts "the diagram switch"
 
 # The mark is the label's, always; the diagram is a choice. With it off the

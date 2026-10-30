@@ -725,7 +725,11 @@ proc ::reviewdriver::runDone {results} {
 # review wrote - the label token is what says the mark was ours.
 proc ::reviewdriver::clearMarks {ply} {
     set old ""
+    # sc_move answers OK even when the ply is past the end (MoveToPly stops at
+    # the last move), so the location has to be checked: a plan made before the
+    # game was shortened must not clear marks off a different move.
     if {[catch { sc_move ply $ply }]} { return }
+    if {[catch { sc_pos location } loc] || $loc != $ply} { return }
     catch { set old [::review::labelOfComment [sc_pos getComment]] }
     if {$old eq ""} { return }
     set nag [::review::nagForLabel $old]
