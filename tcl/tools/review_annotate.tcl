@@ -325,35 +325,11 @@ proc ::reviewannotate::bookPass {bookFile slot} {
 # book cannot be read - the pass then searches the whole line, which is the
 # review's own default.
 proc ::reviewannotate::findBookEnd {bookFile slot} {
-    set end 0
-    set cursor [::review::cursorSave]
-    # The walk is over the game's opening, not over what is left of it from
-    # wherever the cursor happens to be: a mid-game cursor outside the book
-    # would otherwise report its own ply as the book end and the pass would skip
-    # every move before it.
-    catch { sc_move ply 0 }
-    if {[catch {
-        sc_book load $bookFile $slot
-        set bookmoves ""
-        lassign [sc_book moves $slot] bookmoves
-        while {[string length $bookmoves] != 0 && ![sc_pos isAt vend]} {
-            ::move::Forward
-            lassign [sc_book moves $slot] bookmoves
-        }
-        sc_book close $slot
-        if {[string length $bookmoves] == 0} {
-            set end [sc_pos location]
-        } else {
-            # The game ran out before the book did: it never left the opening,
-            # so there is nothing to skip and the pass searches the whole line.
-            set end 0
-        }
-    }]} {
-        catch { sc_book close $slot }
-        set end 0
-    }
-    catch { ::review::cursorRestore $cursor }
-    return $end
+    # The walk itself lives in ::review::bookEnd, so the annotator and the
+    # engine window's review cannot disagree about where the book ends. The
+    # annotator's answer for a game that ends in book is 0: there is nothing to
+    # skip, and it searches the whole line.
+    return [::review::bookEnd $bookFile $slot 0]
 }
 
 ########################################################################

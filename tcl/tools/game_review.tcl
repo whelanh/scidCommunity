@@ -270,6 +270,44 @@ proc ::review::startPly {bookEnd} {
 
 # The plies to search: every move from `startPly` to the end of the line.
 # `plies` is the number of moves in the main line.
+# How many plies of the open game follow `bookFile` from the first move: the
+# moves that are in the book. `allBook` decides a game that never leaves the
+# book: 1 answers the whole line (every move is a book move), 0 answers 0 (the
+# classic annotator's "there is nothing to skip").
+#
+# The walk uses a book slot of its own so the Book window's and the annotator's
+# books are not disturbed, and puts the board back where it found it.
+proc ::review::bookEnd {bookFile {slot 5} {allBook 0}} {
+    set end 0
+    set plies 0
+    catch { set plies [dict get [mainLineMap [sc_game UCI_mainLine]] plies] }
+    set cursor [cursorSave]
+    # The opening starts at the first move, not wherever the cursor is.
+    catch { sc_move ply 0 }
+    if {[catch {
+        sc_book load $bookFile $slot
+        set bookmoves ""
+        lassign [sc_book moves $slot] bookmoves
+        while {[string length $bookmoves] && ![sc_pos isAt vend]} {
+            ::move::Forward
+            lassign [sc_book moves $slot] bookmoves
+        }
+        sc_book close $slot
+        if {![string length $bookmoves]} {
+            # The book had no move at this position: the game left it here.
+            set end [sc_pos location]
+        } elseif {$allBook} {
+            # Still in book at the end of the game.
+            set end $plies
+        }
+    }]} {
+        catch { sc_book close $slot }
+        set end 0
+    }
+    catch { cursorRestore $cursor }
+    return $end
+}
+
 proc ::review::plan {plies bookEnd} {
     set out {}
     set start [startPly $bookEnd]

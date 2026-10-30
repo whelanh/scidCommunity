@@ -568,6 +568,9 @@ proc ::reviewdriver::run {engine args} {
             }
         }
         set plies [lsort -unique -integer $plies]
+        # A caller that names the moves is asking for those moves, whatever the
+        # book says: Move Comment on a book move still gets its comment.
+        set bookEnd 0
     }
     if {$want ne "" && (![string is integer -strict $want] || $want < 1)} {
         return "-depth must be a whole number"
@@ -602,8 +605,20 @@ proc ::reviewdriver::run {engine args} {
         return $err
     }
     set plan $plies
-    if {![llength $plan]} { set plan [::review::plan [dict get $map plies] $bookEnd] }
-    set positions [::reviewdriver::planPositions $map $plan]
+    # The whole line, not the plan minus the book: the book moves are written
+    # (as [Book]) rather than searched, and the writer needs them in the plan.
+    if {![llength $plan]} { set plan [::review::plan [dict get $map plies] 0] }
+    # The positions to search: from the last book move on, so the move that
+    # leaves the book has its reference position, and the early opening is not
+    # searched for moves that are only going to be labelled Book.
+    set search $plan
+    if {$bookEnd > 0} {
+        set search {}
+        foreach ply $plan {
+            if {$ply >= $bookEnd} { lappend search $ply }
+        }
+    }
+    set positions [::reviewdriver::planPositions $map $search]
     if {![llength $positions]} {
         # Nothing to search is a pass that finished, not a failure: the book
         # covered the game.
@@ -707,11 +722,25 @@ proc ::reviewdriver::runDone {results} {
 proc ::reviewdriver::writeResults {p results} {
     set map [dict get $p map]
     set mpv [dict get $p mpv]
+    set bookEnd 0
+    catch { set bookEnd [dict get $p bookEnd] }
     set written 0
     set failed 0
     set errors {}
     set verdicts [::reviewdriver::verdicts $map $results]
     foreach ply [dict get $p plan] {
+        if {$ply <= $bookEnd} {
+            # In the book: theory, not a verdict. No [%eval] and no variation,
+            # because there was no search behind either.
+            set err [::review::writeMove $ply book "" {}]
+            if {$err eq ""} {
+                incr written
+            } else {
+                incr failed
+                lappend errors $err
+            }
+            continue
+        }
         if {![dict exists $verdicts $ply]} { continue }
         lassign [dict get $verdicts $ply] label eval_cp
         set err [::review::writeMove $ply $label $eval_cp \

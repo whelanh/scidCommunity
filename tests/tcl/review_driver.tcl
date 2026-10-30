@@ -857,6 +857,49 @@ checkEq "the board calls are reads, the comment, and the cursor" \
 checkEq "the board ends where the user left it" [list $::fakeLoc $::fakeLevel] {2 0}
 checkEq "and the driver says the restore was exact" [dict get $st restored] 1
 
+puts "the opening book is labelled, not judged"
+
+# The window tells the pass where the book ends. Book moves are written [Book]
+# with no [%eval] and no variation; the move that leaves the book is judged
+# normally. The early book positions are not even searched.
+::review::reset
+::review::setValue var_lines 1
+set ::fakeMainLine [list {position startpos moves} e2e4 e7e5 g1f3 b8c6]
+set ::fakeLen 4
+set ::fakeLoc 2
+set ::fakeLevel 0
+set ::fakeNums {}
+set ::fakeExit {}
+set ::fakeVars {}
+set ::fakeComments {}
+set ::fakeNags {}
+set ::events {}
+set ::runProgress {}
+checkEq "a pass with a book end starts" [::reviewdriver::run $runcfg -bookEnd 2] ""
+feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
+checkEq "the early book positions are not searched" \
+    [lindex $::sent end] {send 20 Go {{position startpos moves e2e4} {depth 18}}}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 30 cp 0 e2e4 e7e5}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 20 cp 0 d2d4 d7d5}
+feedEvent InfoPV {2 20 22 900 300 0 0 120 10 cp 0 c2c4}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 -120 cp 0 e7e6}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 800 cp 0 g8f6}
+feedEvent InfoBestMove {}
+pump
+set st [::reviewdriver::status]
+checkEq "every move was written" [dict get $st written] 4
+checkEq "the two book moves are labelled as book" \
+    [list [dict get $::fakeComments 1] [dict get $::fakeComments 2]] \
+    [list {[book]} {[book]}]
+check "and carry no evaluation" \
+    [expr {[string first {[%eval} [dict get $::fakeComments 1]] < 0}]
+check "the move that leaves the book is judged" \
+    [regexp {\[(best|excellent|good|inaccuracy|mistake|blunder)\]} \
+        [dict get $::fakeComments 3]]
+
 puts "refusing to start"
 
 set ::sent {}
@@ -1039,6 +1082,28 @@ checkEq "the new game stops the pass" [dict get [::reviewdriver::status] state] 
 checkEq "and the old cursor is not put back into it" $::fakeLoc 0
 checkEq "and the window is handed back" $::enginewin::reviewowner ""
 pump
+
+# Game Review asks the first book where the opening ends; Move Comment names its
+# move and is not skipped by the book.
+namespace eval ::book {}
+set ::book::lastBook1 testbook.bin
+set ::scidBooksDir /books
+checkEq "the window's book is the first one in the Book window" \
+    [::enginewin::reviewBook] /books/testbook.bin
+rename ::review::bookEnd ::review::bookEndSaved
+proc ::review::bookEnd {file args} { return 2 }
+set reviewState [::enginewin::reviewRunState 1]
+checkEq "Game Review asks the book where the opening ends" \
+    [dict get $reviewState bookEnd] 2
+set call [::reviewui::runCall $reviewState]
+set at [lsearch -exact [dict get $call args] -bookEnd]
+checkEq "and tells the driver" [lindex [dict get $call args] [expr {$at + 1}]] 2
+checkEq "Move Comment judges the move it names" \
+    [dict get [::enginewin::reviewRunState 1 {2}] bookEnd] 0
+rename ::review::bookEnd {}
+rename ::review::bookEndSaved ::review::bookEnd
+unset ::book::lastBook1
+unset ::scidBooksDir
 
 # A pass started outside a window (annotate mode calls the same driver) is not a
 # window's to cancel: closing an engine window must not stop it.

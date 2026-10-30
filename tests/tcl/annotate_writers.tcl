@@ -184,6 +184,29 @@ set r [::reviewannotate::bookPass "/books/x.bin" 1]
 checkEq "a book with no move writes no comment" [dict get $r kind] ""
 checkEq "and the game's comments are untouched" [dict get [::gamestub::commentsByPly]] {}
 
+# ::review::bookEnd counts the plies that follow the book, and answers 0 for a
+# game that never leaves it unless the caller asks for the whole line. The
+# engine window uses that "all book" answer; the classic annotator does not.
+set haveBookEnd [expr {[llength [info commands ::review::bookEnd]] > 0}]
+check "the review can measure a book end" $haveBookEnd
+if {$haveBookEnd} {
+fixture
+set ::gamestub::book {0 {e4} 1 {e5} 2 {Nf3}}
+checkEq "the book end is the number of moves followed" \
+    [::review::bookEnd "/books/x.bin" 5] 3
+checkEq "the same book, a game that ends in it" \
+    [::review::bookEnd "/books/x.bin" 5 1] 3
+fixture
+set ::gamestub::book {0 {e4} 1 {e5} 2 {Nf3} 3 {Nc6} 4 {Bb5} 5 {a6} 6 {d4}}
+checkEq "a game still in book at the end is all book" \
+    [::review::bookEnd "/books/x.bin" 5 1] 6
+checkEq "but the annotator is told there is nothing to skip" \
+    [::review::bookEnd "/books/x.bin" 5 0] 0
+fixture
+set ::gamestub::book {}
+checkEq "a book with no move has no end" [::review::bookEnd "/books/x.bin" 5] 0
+}
+
 # A book move is a move, not a substring: "a6" is not "Ba6".
 ::gamestub::reset [list {a6 a7a6}]
 set ::gamestub::book {0 {Ba6}}

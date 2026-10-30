@@ -826,6 +826,24 @@ proc ::enginewin::reviewRefresh {id} {
     catch { $w.btn.reviewcancel configure -state [dict get $b cancel] }
 }
 
+# The book Game Review reads: the one loaded in the Book window's first slot,
+# else the book configured as #1. "" when there is neither.
+proc ::enginewin::reviewBook {} {
+    set name ""
+    if {[info exists ::book::currentBook1] && $::book::currentBook1 ne ""} {
+        set name $::book::currentBook1
+    } elseif {[info exists ::book::lastBook1]} {
+        set name $::book::lastBook1
+    }
+    if {$name eq ""} { return "" }
+    set dir ""
+    catch { set dir $::scidBooksDir }
+    if {$dir ne "" && [file dirname $name] eq "."} {
+        set name [file join $dir $name]
+    }
+    return $name
+}
+
 # The state ::reviewui::runCall decides from: the open game, the preset this
 # window analyses with, and what this build's driver offers.
 #
@@ -842,6 +860,21 @@ proc ::enginewin::reviewRunState {id {plies ""} {depth ""}} {
     }
     catch {
         dict set state game [dict get [::review::mainLineMap [sc_game UCI_mainLine]] plies]
+    }
+    # Game Review leaves the opening to the book: the moves up to the book end
+    # are written as [Book], not judged. Move Comment names the move it wants,
+    # so it asks for nothing here.
+    if {![llength $plies]} {
+        set skip 1
+        catch { set skip [::review::get skip_book] }
+        if {$skip} {
+            set book [::enginewin::reviewBook]
+            if {$book ne ""} {
+                set end 0
+                catch { set end [::review::bookEnd $book] }
+                if {$end > 0} { dict set state bookEnd $end }
+            }
+        }
     }
     return $state
 }
