@@ -778,12 +778,17 @@ proc ::reviewdriver::writeResults {p results} {
         lassign [dict get $verdicts $ply] label eval_cp
         set err [::review::writeMove $ply $label $eval_cp \
             [::reviewdriver::lines $results [expr {$ply - 1}] $mpv]]
-        if {$err eq ""} {
+        # writeMove writes the comment before it tries the variations. A refused
+        # variation returns an error but leaves the verdict comment behind, and
+        # that comment must still get the marks it promises.
+        set commentLanded [expr {$err eq "" || [string match {the variation*} $err]}]
+        if {$commentLanded} {
             # The mark beside the word, and a diagram where the mistake was
             # played. writeMove leaves the cursor where it found it, which is
             # this move. AddNag has a fixed capacity and sc_pos ignores its
             # refusal, so the mark is read back: a comment without the mark it
             # promises is a partial write, not a clean one.
+            catch { sc_move ply $ply }
             set markErr ""
             # A move mark the user put there is theirs: AddNag would replace
             # it in place, so only write ours when the move has none (the one a
@@ -805,9 +810,10 @@ proc ::reviewdriver::writeResults {p results} {
                     set markErr "ply $ply: no room for the diagram mark"
                 }
             }
-            if {$markErr ne ""} {
+            if {$markErr ne ""} { lappend errors $markErr }
+            if {$err ne ""} { lappend errors $err }
+            if {$markErr ne "" || $err ne ""} {
                 incr failed
-                lappend errors $markErr
             } else {
                 incr written
             }

@@ -527,9 +527,17 @@ proc ::review::nagForLabel {label} {
 # "" when it carries none. Used to replace the previous review's mark rather
 # than stack a second one.
 proc ::review::labelOfComment {comment} {
+    # Our token is at the end of the comment - [Label] or [Label] [%eval ...] -
+    # because writeMove appends it to whatever was there. A label word in the
+    # middle of the user's prose must not be mistaken for a previous verdict.
+    set tail [string trim $comment]
+    regsub {\s*\[%eval [^\]]*\]\s*$} $tail {} tail
     foreach label {best excellent good inaccuracy mistake blunder brilliant great miss forced book} {
         foreach word [list [::movelabels::text $label] [string totitle $label]] {
-            if {$word ne "" && [string first "\[$word\]" $comment] >= 0} {
+            set token "\[$word\]"
+            set n [string length $token]
+            if {$word ne "" && [string length $tail] >= $n &&
+                [string equal [string range $tail end-[expr {$n - 1}] end] $token]} {
                 return $label
             }
         }

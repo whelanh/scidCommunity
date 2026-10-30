@@ -1060,6 +1060,58 @@ check "the comment still landed" \
     [expr {[string first {[blunder]} [dict get $::fakeComments 4]] >= 0}]
 ::review::reset
 
+puts "a label word in the user's prose is not a verdict"
+
+# Only a trailing [Label] (or [Label] [%eval ...]) is ours. Users write
+# "[Blunder]" in prose too, and their marks must survive.
+set ::fakeMainLine [list {position startpos moves} e2e4 e7e5 g1f3 b8c6]
+set ::fakeLen 4
+set ::fakeLoc 4
+set ::fakeLevel 0
+set ::fakeComments [dict create 4 {My [Blunder] note.}]
+set ::fakeNags [dict create 4 "??" 3 "D"]
+checkEq "the prose label is not read as a verdict" \
+    [::review::labelOfComment {My [Blunder] note.}] ""
+::reviewdriver::clearMarks 4
+checkEq "so the mark stays" [nagsAt 4] "??"
+checkEq "and the diagram stays" [nagsAt 3] "D"
+checkEq "a trailing label is read" \
+    [::review::labelOfComment {A fine move. [Blunder] [%eval +8.00]}] blunder
+
+puts "a refused variation still leaves a marked comment"
+
+# writeMove writes the comment first and can then fail on a variation. The
+# comment is in the game and must not be left promising a mark it did not get.
+rename ::review::writeMove ::review::writeMoveSaved
+proc ::review::writeMove {ply label eval_cp lines} {
+    sc_move ply $ply
+    sc_pos setComment "\[$label\] \[%eval 0.00\]"
+    return "the variation move d2d4 was rejected"
+}
+set ::fakeMainLine [list {position startpos moves} e2e4 e7e5]
+set ::fakeLen 2
+set ::fakeLoc 1
+set ::fakeLevel 0
+set ::fakeComments {}
+set ::fakeNags {}
+set ::events {}
+set ::runProgress {}
+checkEq "the single-move pass starts" [::reviewdriver::run $runcfg -plies {1}] ""
+feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 0 cp 0 d2d4 e7e5}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 800 cp 0 e7e5}
+feedEvent InfoBestMove {}
+pump
+set st [::reviewdriver::status]
+checkEq "the variation failure is reported" [dict get $st failed] 1
+checkEq "the comment is marked all the same" [nagsAt 1] "??"
+check "and its comment is the verdict" \
+    [expr {[string first {[blunder]} [dict get $::fakeComments 1]] >= 0}]
+rename ::review::writeMove {}
+rename ::review::writeMoveSaved ::review::writeMove
+::review::reset
+
 puts "a plan past a shortened game does not touch another move"
 
 # sc_move answers OK even when the ply is past the end, leaving the board on the
