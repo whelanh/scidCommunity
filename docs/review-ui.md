@@ -24,8 +24,10 @@ then writes the verdicts into the game: a label and a `[%eval]` on each move's
 comment, the NAG the label implies (`??`, `?`, `?!`, `!`, `!!`, or none for
 best/excellent/good/book), a `D` diagram marker on the move before each mistake
 and blunder when the Diagram setting is on (a verdict on the first move has no
-move before it, so no diagram), and the engine's alternatives as
-variations where `var_lines` asks for them. Running it again replaces the
+move before it, so no diagram), and at each mistake, blunder and missed win the
+engine's preferred move as a variation, up to `var_lines` of them. A best,
+excellent or good move gets no variation: the only line left to show would be
+the second-best move, which is not an improvement. Running it again replaces the
 review's own marks — `writeMove` strips its comment tokens, and the NAG matching
 the previous label and its diagram are replaced — while the user's prose and any
 mark the user put there are left alone (Scid keeps one move mark per move, so a
@@ -101,10 +103,22 @@ and that is "nothing yet", not "depth 0".
 | --- | --- | --- |
 | Lines | `mpv` | 1–5 |
 | Depth | `depth` | 6–60 |
-| Variations to write | `var_lines` | 0–`mpv` |
+| Variations to write | `var_lines` | 0–`mpv` (default 1) |
 | Variation margin (cp) | `var_cp` | 0–500 |
 | Wait for the review depth | `move_comment_wait` | 0–1 |
 | Diagram | `diagram` | 0–1 |
+
+A variation is written only where the verdict says a better move existed —
+`mistake`, `blunder` and `miss` — so the default of 1 gives a game a handful of
+lines at exactly the moves the review complains about, not one after every move.
+An inaccuracy is deliberately excluded: the gain is small and the lines would
+outnumber the interesting ones. The variation is the engine's best line, so it
+is the move that should have been played.
+
+A variation already in the game is never removed by a later pass: it cannot be
+told from one the user inserted, so the write phase dedupes by first move and
+adds what its current verdict wants. A move that was a mistake last run and is
+best now therefore keeps the line it had.
 
 `var_cp` is a noise filter, not a quality floor: a line is written when it is
 strictly less than `var_cp` centipawns behind the best line, and **0 means no

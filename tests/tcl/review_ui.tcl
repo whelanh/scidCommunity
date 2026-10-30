@@ -247,7 +247,7 @@ set why [::reviewui::applySettings \
     [dict create mpv 2 depth 18 var_lines 5 var_cp 0 move_comment_wait 1]]
 checkEq "lowering mpv and leaving var_lines high is refused once" [llength $why] 1
 checkEq "with the mpv it was lowered to" [lindex $why 0] {var_lines cannot exceed mpv (2)}
-checkEq "so var_lines is what mpv allows" [dict get [::reviewui::settings] var_lines] 0
+checkEq "so var_lines keeps the value it had" [dict get [::reviewui::settings] var_lines] 1
 
 # A field the dialog does not have is ignored rather than stored.
 checkEq "an unknown field is not a setting" \

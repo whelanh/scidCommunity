@@ -95,7 +95,7 @@ foreach key {mpv depth var_lines var_cp move_comment_wait diagram} {
 }
 checkEq "it opens on the stored values" \
     [list $::enginewin::reviewsetting(1,var_lines) \
-          $::enginewin::reviewsetting(1,var_cp)] {0 0}
+          $::enginewin::reviewsetting(1,var_cp)] {1 0}
 
 # What the user does: type the numbers, press OK.
 puts "\ntyping a value and pressing OK"

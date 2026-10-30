@@ -484,7 +484,8 @@ proc ::reviewannotate::book {} {
 # ::reviewdriver::writeResults - the pass dict and the results dict - and the
 # same {written failed errors} answer, plus the marks this file owns.
 #
-# Every judged move gets the review's own write (label, [%eval], variations).
+# Every judged move gets the review's own write (label, [%eval], and - where the
+# label says a better move existed - the engine's line).
 # The classic annotator's marks go on the moves the annotate dialog's mode
 # covers: all of them in all-moves mode, only the ones over the blunder
 # threshold in blunders-only mode - the same filter analysis.tcl:826-829 applies.
@@ -505,8 +506,14 @@ proc ::reviewannotate::writeResults {p results} {
         if {$verdict eq ""} { continue }
         set label [dict get $verdict label]
         set eval_cp [dict get $verdict eval_cp]
-        set lines [::reviewdriver::lines $results [expr {$ply - 1}] $mpv]
-        # The label, the [%eval] and the variations: the review's own write.
+        # Same gate as ::reviewdriver::writeResults: a variation is the move
+        # that should have been played, so it belongs on a mistake, blunder or
+        # missed win and nowhere else.
+        set lines {}
+        if {[::review::variationWanted $label]} {
+            set lines [::reviewdriver::lines $results [expr {$ply - 1}] $mpv]
+        }
+        # The label, the [%eval] and the variation: the review's own write.
         set err [::review::writeMove $ply $label $eval_cp $lines]
         if {$err ne ""} {
             incr failed

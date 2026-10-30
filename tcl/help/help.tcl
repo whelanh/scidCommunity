@@ -2628,8 +2628,10 @@ set helpText(ReviewSettings) {<h1>Engine Window: Review Settings</h1>
     <a ReviewMoveButton>Move Comment</a> waits for when
     <b>Wait for the review depth</b> is on.</li>
   <li><b>Variations to write</b>: how many of the engine's lines become variations
-    in the game for each move. Zero writes none, and the number cannot exceed
-    Lines.</li>
+    at each mistake, blunder and missed win, so the game shows what should have
+    been played. Zero writes none, and the number cannot exceed Lines. Only the
+    moves the review faults get one: a best, excellent or good move has no
+    better move to show, and an inaccuracy's gain is small enough to leave out.</li>
   <li><b>Variation margin (cp)</b>: how far behind the best line another line may
     be and still be written; a line further behind is noise and is dropped. Zero
     keeps every line, which is how to get variations at all: a small margin such

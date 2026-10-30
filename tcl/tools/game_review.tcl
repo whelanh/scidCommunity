@@ -25,7 +25,7 @@ namespace eval ::review {
     variable DEFAULTS {
         mpv 3
         depth 18
-        var_lines 0
+        var_lines 1
         var_cp 0
         move_comment_wait 1
         diagram 1
@@ -738,6 +738,16 @@ proc ::review::writeMove {ply label eval_cp lines} {
     # placed at all does the start of the line become the safe choice.
     if {$restore < 0} { catch { sc_move ply 0 } }
     return $out
+}
+
+# Whether a verdict should carry a variation at all. A variation is the move
+# that should have been played, so it belongs where the label says one existed:
+# a mistake, a blunder, or a missed win. Best, excellent and good moves have no
+# better move to show, and the next-best line at one of those would be noise;
+# an inaccuracy is deliberately left out too, because the gain is small and the
+# variations would outnumber the interesting ones.
+proc ::review::variationWanted {label} {
+    return [expr {[lsearch -exact {mistake blunder miss} $label] >= 0}]
 }
 
 # Which of the engine's lines become variations.
