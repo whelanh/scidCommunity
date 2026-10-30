@@ -583,6 +583,12 @@ proc ::reviewannotate::writeResults {p results} {
             # writes outside the annotated moves (analysis.tcl:898-901).
             catch { sc_move ply $ply ; sc_pos addNag "!?" }
         }
+        # Not annotated: an assessment left by an earlier run (Game Review now
+        # writes one on every judged move) would sit beside the [%eval] this
+        # pass has just written, describing a verdict the mode does not make.
+        if {!$annotate} {
+            catch { sc_move ply $ply ; ::review::dropAssessment }
+        }
         if {$tier >= 2} {
             catch {
                 set text [::reviewannotate::proseText $ply $label]
