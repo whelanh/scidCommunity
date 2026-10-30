@@ -47,7 +47,7 @@ matrix further down.
 | Analysis board | `toggleAnalysisBoard` | the pane | `—` |
 | Engine info | `toggleEngineInfo` | the pane | `—` |
 | Per-pane priority | `setAnalysisPriority` | the pane | `—` |
-| Finish Game | `toggleFinishGame`, `autoplayFinishGame` | the pane, mode Train | `—` |
+| Finish Game | `toggleFinishGame`, `autoplayFinishGame`; the engine windows' own pass in `tools/finish_game.tcl` (its own connections, engine selection and seconds/depth, no annotation) | the pane, mode Train | `finish_game.tcl` 39 — the two-engine loop against a stub engine and board; `finish_game_dialog.tcl` 18 under Tk — the dialog, its defaults and OK |
 | Training / autoplay, move time | `toggleAutomove`, `automove`, `setAutomoveTime` | the pane, mode Train, one owner | `—`; `toggleAutomove` writes `.analysisWin1`'s button for every pane |
 | The opening trainer's engine reply | `windows/tree.tcl` `::tree::doTraining` tests `.analysisWin1`/`.analysisWin2` and `analysis(automove1`/`automove2)`; panes 3 and 4 are never consulted | the owner registry | `—` |
 | Classic annotator: all moves / blunders only, White/Black, variations, short annotations, add score, annotator tag, score all moves, mark tactical exercises (writes `??`/`?`, sets the `T` flag, `****D<difficulty>`), batch games, find opening errors | `tools/analysis.tcl` `configAnnotation` + `annotateMode`; `tools/batch_annotate.tcl` | stays until C's parity gate | `—` |

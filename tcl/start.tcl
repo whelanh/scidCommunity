@@ -1165,6 +1165,7 @@ tools/game_review.tcl
 tools/review_driver.tcl
 tools/review_annotate.tcl
 tools/review_ui.tcl
+tools/finish_game.tcl
 tools/comment_facts.tcl
 tools/inputengine.tcl
 tools/novag.tcl

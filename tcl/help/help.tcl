@@ -3588,6 +3588,10 @@ set helpText(Engine) {<h1>The Engine windows</h1>
     (with MultiPV, the first line is played).</li>
   <li><b>Add all lines</b> <button tb_eng_addlines>: Adds all MultiPV lines as
     variations.</li>
+  <li><b>Finish Game</b> <button tb_finish_off>: Plays the rest of the game out
+    with the engine chosen for each side in its dialog, each side with its own
+    seconds and depth. The same button stops the pass. The moves are played
+    without annotation; use Game Review for that.</li>
   <li><b>Config</b> <button tb_eng_config>: Shows or hides the engine configuration
     panel.</li>
   <li><a ReviewGameButton><b>Game Review</b></a>: Reviews the main line of the

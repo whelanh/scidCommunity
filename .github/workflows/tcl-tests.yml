@@ -36,6 +36,9 @@ jobs:
 
       - name: Game review settings
         run: tclsh tests/tcl/game_review.tcl
+
+      - name: Finish game
+        run: tclsh tests/tcl/finish_game.tcl
       - name: Engine preset limits
         run: tclsh tests/tcl/engine_limits.tcl
 
@@ -90,3 +93,6 @@ jobs:
       # and that the OK button is there to press.
       - name: Review Settings dialog
         run: xvfb-run -a wish tests/tcl/review_settings_dialog.tcl
+
+      - name: Finish Game dialog
+        run: xvfb-run -a wish tests/tcl/finish_game_dialog.tcl
