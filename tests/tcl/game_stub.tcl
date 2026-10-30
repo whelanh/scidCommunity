@@ -187,6 +187,10 @@ proc sc_pos {sub args} {
             if {![llength $nags]} { return 0 }
             return [join $nags " "]
         }
+        clearNags   {
+            ::gamestub::setField nags {}
+            return ""
+        }
         side        {
             return [expr {$::gamestub::cursor % 2 == 0 ? "white" : "black"}]
         }

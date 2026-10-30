@@ -353,6 +353,28 @@ annotateSettings
 annotateOne -550 -750
 checkEq "a blunder in a decided game is not marked" [::gamestub::nagsByPly] ""
 
+# Game Review writes a position assessment on every judged move. A blunders-only
+# pass that does not annotate this move must not leave that assessment beside
+# the [%eval] it does write, or the two describe different verdicts.
+annotateSettings
+::gamestub::reset [list {e4 e2e4} {e5 e7e5}]
+sc_move ply 1
+sc_pos addNag "+="
+set map [::review::mainLineMap [sc_game UCI_mainLine]]
+set results [dict create \
+    0 [dict create 1 [list 18 -550 cp {d2d4 e7e5}]] \
+    1 [dict create 1 [list 18 750 cp {e7e5}]]]
+set p [dict create map $map plies [dict get $map plies] bookEnd 0 mpv 3]
+::reviewannotate::writeResults $p $results
+set nags ""
+catch { set nags [dict get [::gamestub::nagsByPly] 1] }
+check "an unannotated move keeps no stale assessment" \
+    [expr {[string first "+=" $nags] < 0}]
+set comment ""
+catch { set comment [dict get [::gamestub::commentsByPly] 1] }
+check "but its evaluation was still written" \
+    [expr {[string first "\[%eval" $comment] >= 0}]
+
 annotateSettings
 annotateOne 200 60 e2e4
 checkEq "a best move is not marked for search drift" [::gamestub::nagsByPly] ""

@@ -84,23 +84,10 @@ proc ::reviewannotate::nagForDrop {before after} {
 # (analysis.tcl:942-956): "=" for a level position, "+/-" for a clear advantage,
 # and so on. `score` is in pawns from White's point of view - the same figure
 # that went into the classic comment.
-namespace eval ::reviewannotate {
-    # The classic maps (analysis.tcl:936-938): four thresholds, then the negative
-    # half of the table. The order is the table's, not a ladder to tune.
-    variable INF_LIST {0 "+=" 1 "+/-" 2 "+-" 3 "+--"}
-    variable NAG_LIST {0 "=" 1 "+=" 2 "+/-" 3 "+-" 4 "+--" 5 "=" 6 "=+" 7 "-/+" 8 "-+" 9 "--+"}
-}
-
 proc ::reviewannotate::scoreToNag {score} {
-    variable INF_LIST
-    variable NAG_LIST
-    set tmp [expr {abs($score)}]
-    set i 0
-    for {set i 0} {$i < 4} {incr i} {
-        if {$tmp < $::informant([dict get $INF_LIST $i])} { break }
-    }
-    if {$score < 0.0} { set i [expr {$i + 5}] }
-    return [dict get $NAG_LIST $i]
+    # One assessment table, in ::review: the engine window's review writes the
+    # same marks, and the two must agree.
+    return [::review::scoreToNag $score]
 }
 
 ########################################################################
@@ -595,6 +582,12 @@ proc ::reviewannotate::writeResults {p results} {
             # A move better than the engine's line: the one mark the classic
             # writes outside the annotated moves (analysis.tcl:898-901).
             catch { sc_move ply $ply ; sc_pos addNag "!?" }
+        }
+        # Not annotated: an assessment left by an earlier run (Game Review now
+        # writes one on every judged move) would sit beside the [%eval] this
+        # pass has just written, describing a verdict the mode does not make.
+        if {!$annotate} {
+            catch { sc_move ply $ply ; ::review::dropAssessment }
         }
         if {$tier >= 2} {
             catch {

@@ -824,7 +824,7 @@ checkEq "the first review wrote every move" \
     [dict get [::reviewdriver::status] written] 4
 checkEq "and left the user's own note in front of its verdict" \
     [dict get $::fakeComments 2] {A fine move. [excellent] [%eval +0.50]}
-checkEq "and its NAG alone" [nagsAt 2] "?!"
+checkEq "and its mark with the score's assessment" [nagsAt 2] "?! +="
 # Only the blunder (ply 4) gets a variation: the best and excellent moves have
 # no better move to show, so their next-best line is not inserted.
 checkEq "only the blunder's better move is in the game" \
@@ -832,8 +832,9 @@ checkEq "only the blunder's better move is in the game" \
 checkEq "the labels the first review gave" [list \
     [dict get $::fakeComments 1] [dict get $::fakeComments 3] [dict get $::fakeComments 4]] \
     [list {[best] [%eval -0.40]} {[excellent] [%eval +1.20]} {[blunder] [%eval +8.00]}]
-checkEq "the blunder carries the mark its label implies" [nagsAt 4] "??"
-checkEq "and a diagram sits on the move before it" [nagsAt 3] "D"
+checkEq "the blunder carries the mark its label implies" [nagsAt 4] "?? +--"
+checkEq "and the move before it has its assessment and the diagram" \
+    [nagsAt 3] "+= D"
 
 # The same game, different answers.
 set ::events {}
@@ -863,7 +864,8 @@ checkEq "one verdict and one score per move" \
     [regexp -all {\[%eval [^\]]*\]} [dict get $::fakeComments 1]] 1
 checkEq "the user's note and the new verdict, in that order" \
     [dict get $::fakeComments 2] {A fine move. [best] [%eval +0.06]}
-checkEq "and the NAG survived both runs" [nagsAt 2] "?!" 
+checkEq "the user's mark survived both runs, with the new assessment" \
+    [nagsAt 2] "?! =" 
 checkEq "a finished review regenerates the game text" \
     [lindex $::notified end] -pgn
 checkEq "a verdict from the first run is replaced, not appended" \
@@ -879,15 +881,16 @@ foreach e $::events {
     if {[lindex $e 0] eq "pos"} { lappend asked [lindex $e 1] }
 }
 checkEq "the board calls are reads, the comment, the marks and the cursor" \
-    [lsort -unique $asked] {clearNags fen getComment getNags location setComment}
+    [lsort -unique $asked] {addNag clearNags fen getComment getNags location setComment}
 # The second run's verdicts are all best: the blunder's mark and its diagram
 # were taken off rather than left beside a new verdict.
 set leftover ""
 catch { set leftover [dict get $::fakeNags 4] }
-checkEq "a mark a later verdict does not imply is gone" $leftover ""
+checkEq "the old blunder mark is replaced by the new score's assessment" \
+    $leftover "="
 set diag ""
 catch { set diag [dict get $::fakeNags 3] }
-checkEq "and so is its diagram" $diag ""
+checkEq "and its diagram is gone, the new assessment alone" $diag "="
 checkEq "the board ends where the user left it" [list $::fakeLoc $::fakeLevel] {2 0}
 checkEq "and the driver says the restore was exact" [dict get $st restored] 1
 
@@ -924,8 +927,8 @@ feedEvent InfoBestMove {}
 feedEvent InfoPV {1 20 22 900 300 0 0 120 290 cp 0 g8f6}
 feedEvent InfoBestMove {}
 pump
-checkEq "the old blunder mark is replaced by the mistake's" [nagsAt 4] "?"
-checkEq "and the diagram has not moved" [nagsAt 3] "D"
+checkEq "the old blunder mark is replaced by the mistake's" [nagsAt 4] "? +-"
+checkEq "and the diagram has not moved" [nagsAt 3] "+= D"
 ::review::reset
 
 puts "a user's own move mark is not replaced"
@@ -959,7 +962,7 @@ feedEvent InfoBestMove {}
 feedEvent InfoPV {1 20 22 900 300 0 0 120 800 cp 0 g8f6}
 feedEvent InfoBestMove {}
 pump
-checkEq "the user's mark is untouched" [nagsAt 4] "!?"
+checkEq "the user's mark is untouched" [nagsAt 4] "!? +--"
 check "and the review's label still landed" \
     [expr {[string first {[blunder]} [dict get $::fakeComments 4]] >= 0}]
 ::review::reset
@@ -1025,7 +1028,7 @@ pump
 set st [::reviewdriver::status]
 checkEq "the move is written" [dict get $st written] 1
 checkEq "and not reported as a failed diagram" [dict get $st failed] 0
-checkEq "the mark is on the first move" [nagsAt 1] "??"
+checkEq "the mark is on the first move" [nagsAt 1] "?? --+"
 ::review::reset
 
 puts "a full move cannot take the mark, and says so"
@@ -1110,7 +1113,7 @@ feedEvent InfoBestMove {}
 pump
 set st [::reviewdriver::status]
 checkEq "the variation failure is reported" [dict get $st failed] 1
-checkEq "the comment is marked all the same" [nagsAt 1] "??"
+checkEq "the comment is marked all the same" [nagsAt 1] "?? --+"
 check "and its comment is the verdict" \
     [expr {[string first {[blunder]} [dict get $::fakeComments 1]] >= 0}]
 rename ::review::writeMove {}
@@ -1167,10 +1170,10 @@ feedEvent InfoBestMove {}
 feedEvent InfoPV {1 20 22 900 300 0 0 120 800 cp 0 g8f6}
 feedEvent InfoBestMove {}
 pump
-checkEq "the blunder still carries its mark" [nagsAt 4] "??"
+checkEq "the blunder still carries its mark" [nagsAt 4] "?? +--"
 set diag ""
 catch { set diag [dict get $::fakeNags 3] }
-checkEq "and no diagram was written" $diag ""
+checkEq "and no diagram was written, only the assessment" $diag "+="
 ::review::reset
 
 puts "the opening book is labelled, not judged"

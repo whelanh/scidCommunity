@@ -2550,6 +2550,15 @@ set helpText(ReviewGameButton) {<h1>Engine Window: Game Review Button</h1>
   main line.
   </p>
   <p>
+  Each judged move gets its verdict word and <b>[%eval]</b> in the comment, the
+  NAG the word implies (<b>?!</b>, <b>?</b>, <b>??</b>, <b>!</b>, <b>!!</b>), and a
+  <b>position assessment</b> from the same score: <b>=</b> for a level position,
+  <b>+=</b>, <b>+/-</b>, <b>+-</b> and <b>+--</b> as White's advantage grows, and
+  the mirrored <b>=+</b>, <b>-/+</b>, <b>-+</b> and <b>--+</b> for Black's. The
+  assessment replaces any already on the move, so it always agrees with the
+  <b>[%eval]</b> beside it.
+  </p>
+  <p>
   While it runs, the window shows <b>Reviewing position N of M</b> with a
   <b>Cancel</b> button beside it. Cancel stops the pass and writes nothing. The
   button is live when a game is open and an engine is selected; while a pass
