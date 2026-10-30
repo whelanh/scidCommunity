@@ -1044,6 +1044,7 @@ set ::fakeNags {}
 set ::events {}
 set ::runProgress {}
 dict set ::fakeNags 4 {D = +- +/- += =+ -/+ -+}
+dict set ::fakeNags 3 {= +- +/- += =+ -/+ -+}
 checkEq "the single-move pass starts" [::reviewdriver::run $runcfg -plies {4}] ""
 feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
 feedEvent InfoPV {1 20 22 900 300 0 0 120 -120 cp 0 e7e6}
@@ -1056,6 +1057,8 @@ checkEq "the mark that did not fit is a failed move" [dict get $st failed] 1
 checkEq "and nothing is counted as written" [dict get $st written] 0
 check "the reason names the mark" \
     [expr {[string first {no room for the ?? mark} [dict get $st errors]] >= 0}]
+check "and the diagram's own failure is kept too" \
+    [expr {[string first {no room for the diagram mark} [dict get $st errors]] >= 0}]
 check "the comment still landed" \
     [expr {[string first {[blunder]} [dict get $::fakeComments 4]] >= 0}]
 ::review::reset

@@ -157,7 +157,7 @@ main-line snapshot non-authoritative.
 | `tcl/tools/review_ui.tcl` | `::reviewui` — button state, the call a press makes, dialog values, the status line |
 | `tcl/windows/engine.tcl` | the two buttons, the status line, the settings dialog (guarded glue) |
 | `tests/tcl/review_ui.tcl` | 188 checks: the call a press makes, the status line, the button states, the dialog round trip, the move-comment depth, the key set |
-| `tests/tcl/review_driver.tcl` | 221 checks: the pass against a stub engine, including two reviews of the same game in a row and the engine window's hand-off to it |
+| `tests/tcl/review_driver.tcl` | 222 checks: the pass against a stub engine, including two reviews of the same game in a row and the engine window's hand-off to it |
 
 ## Tests
 

@@ -792,7 +792,7 @@ proc ::reviewdriver::writeResults {p results} {
             # refusal, so the mark is read back: a comment without the mark it
             # promises is a partial write, not a clean one.
             catch { sc_move ply $ply }
-            set markErr ""
+            set markErr {}
             # A move mark the user put there is theirs: AddNag would replace
             # it in place, so only write ours when the move has none (the one a
             # previous review wrote has just been taken off by clearMarks).
@@ -800,7 +800,7 @@ proc ::reviewdriver::writeResults {p results} {
             if {$nag ne "" && ![::review::hasMoveNag]} {
                 catch { ::review::addNagIfAbsent $nag }
                 if {[lsearch -exact [::review::nags] $nag] < 0} {
-                    set markErr "ply $ply: no room for the $nag mark"
+                    lappend markErr "ply $ply: no room for the $nag mark"
                 }
             }
             # A first move has no predecessor to hang D on (::review::setDiagram
@@ -810,12 +810,12 @@ proc ::reviewdriver::writeResults {p results} {
                 catch { ::review::setDiagram $ply 1 }
                 if {[catch { sc_move ply [expr {$ply - 1}] }] ||
                     [lsearch -exact [::review::nags] D] < 0} {
-                    set markErr "ply $ply: no room for the diagram mark"
+                    lappend markErr "ply $ply: no room for the diagram mark"
                 }
             }
-            if {$markErr ne ""} { lappend errors $markErr }
+            foreach e $markErr { lappend errors $e }
             if {$err ne ""} { lappend errors $err }
-            if {$markErr ne "" || $err ne ""} {
+            if {[llength $markErr] || $err ne ""} {
                 incr failed
             } else {
                 incr written
