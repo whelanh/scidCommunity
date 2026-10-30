@@ -270,6 +270,52 @@ proc ::review::startPly {bookEnd} {
 
 # The plies to search: every move from `startPly` to the end of the line.
 # `plies` is the number of moves in the main line.
+# How many plies of the open game follow `bookFile` from the first move: the
+# moves that are in the book. `allBook` decides a game that never leaves the
+# book: 1 answers the whole line (every move is a book move), 0 answers 0 (the
+# classic annotator's "there is nothing to skip").
+#
+# The walk uses a book slot of its own so the Book window's and the annotator's
+# books are not disturbed, and puts the board back where it found it.
+proc ::review::bookEnd {bookFile {slot 5} {allBook 0}} {
+    set end 0
+    set plies 0
+    catch { set plies [dict get [mainLineMap [sc_game UCI_mainLine]] plies] }
+    set cursor [cursorSave]
+    # The opening starts at the first move, not wherever the cursor is.
+    catch { sc_move ply 0 }
+    if {[catch {
+        sc_book load $bookFile $slot
+        set end 0
+        # Step only while the move the game played is one the book offers from
+        # this position. Merely asking whether the book has any move here would
+        # step past a deviation: a game that plays 1.a3 against a book offering
+        # 1.e4 would count the a3 itself as a book move and never judge it.
+        while {![sc_pos isAt vend]} {
+            lassign [sc_book moves $slot] bookmoves
+            if {![string length $bookmoves]} { break }
+            ::move::Forward
+            set played [sc_game info previousMoveNT]
+            if {[lsearch -nocase -exact $bookmoves $played] < 0} {
+                # The game left the book here: the move is not a book ply.
+                catch { sc_move back 1 }
+                break
+            }
+            incr end
+        }
+        sc_book close $slot
+        if {$end >= $plies && !$allBook} {
+            # The game never leaves the book: the annotator has nothing to skip.
+            set end 0
+        }
+    }]} {
+        catch { sc_book close $slot }
+        set end 0
+    }
+    catch { cursorRestore $cursor }
+    return $end
+}
+
 proc ::review::plan {plies bookEnd} {
     set out {}
     set start [startPly $bookEnd]

@@ -27,22 +27,28 @@ the last review wrote and dedupes variations by their first move — and a NAG o
 comment of the user's own is left alone. The board is back where the user left it
 when the pass ends.
 
-The positions come from `::review::searchPlies` over the snapshot
+The positions come from `::reviewdriver::planPositions` over the snapshot
 `::review::mainLineMap` takes of the line, so:
 
 - the board is never moved to build a position, and the pass is unaffected by
   where the user has scrolled to;
-- the reference position for each planned move is searched, plus the position
-  after the last move, so the last move can still be judged when it is not one
-  of the engine's lines;
+- the reference position for each judged move is searched, plus the position
+  after it, so a move can still be judged when it is not one of the engine's
+  lines;
 - a null move appears as a fresh `position … moves` header in that snapshot and
-  does not shift the plies after it.
+  does not shift the plies after it;
+- a position the snapshot cannot name is dropped rather than sent as an empty
+  `position`.
 
-Which plies are planned is `::review::plan`: with book skipping on it starts one
-position before the game leaves the book, so the move that leaves it has the
-reference position it needs. This window passes `bookEnd 0` — the whole line —
-because asking a book where the game leaves it would be a search of its own
-before the first one.
+**The opening book.** Game Review reads book #1 — the book loaded in the Book
+window's first slot, or the book configured as #1 when none is open — and asks
+`::review::bookEnd` how many moves of the game followed it. Those moves are
+written `[Book]`, with no `[%eval]` and no variation, because there was no search
+behind either; the early book positions are not searched either. The move that
+leaves the book and everything after it is judged normally.
+`::review::skip_book` (default on) turns this off; it has no row in Review
+Settings yet. Move Comment ignores the book: it judges the move it was asked
+about, whichever opening it belongs to.
 
 Depth and MultiPV are **not** settings of the review dialog: they come from
 `::review::effective`, where the engine preset wins `Threads`, `Hash` and a
@@ -140,7 +146,7 @@ main-line snapshot non-authoritative.
 | `tcl/tools/review_ui.tcl` | `::reviewui` — button state, the call a press makes, dialog values, the status line |
 | `tcl/windows/engine.tcl` | the two buttons, the status line, the settings dialog (guarded glue) |
 | `tests/tcl/review_ui.tcl` | 184 checks: the call a press makes, the status line, the button states, the dialog round trip, the move-comment depth, the key set |
-| `tests/tcl/review_driver.tcl` | 171 checks: the pass against a stub engine, including two reviews of the same game in a row and the engine window's hand-off to it |
+| `tests/tcl/review_driver.tcl` | 182 checks: the pass against a stub engine, including two reviews of the same game in a row and the engine window's hand-off to it |
 
 ## Tests
 
