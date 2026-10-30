@@ -802,6 +802,9 @@ set ::runProgress {}
 # must replace only the verdict.
 dict set ::fakeComments 2 "A fine move."
 dict set ::fakeNags 2 "?!"
+# A hand-made assessment on a move with no review label. The best verdict has
+# no mark, so it must not keep an assessment the [%eval] does not support.
+dict set ::fakeNags 1 "+-"
 
 checkEq "the first review starts" [::reviewdriver::run $runcfg] ""
 feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
@@ -824,7 +827,10 @@ checkEq "the first review wrote every move" \
     [dict get [::reviewdriver::status] written] 4
 checkEq "and left the user's own note in front of its verdict" \
     [dict get $::fakeComments 2] {A fine move. [excellent] [%eval +0.50]}
-checkEq "and its mark with the score's assessment" [nagsAt 2] "?! +="
+checkEq "an unmarked move keeps the user's mark and gets no assessment" \
+    [nagsAt 2] "?!"
+checkEq "a quiet verdict takes off an assessment it cannot support" \
+    [nagsAt 1] ""
 # Only the blunder (ply 4) gets a variation: the best and excellent moves have
 # no better move to show, so their next-best line is not inserted.
 checkEq "only the blunder's better move is in the game" \
@@ -833,8 +839,7 @@ checkEq "the labels the first review gave" [list \
     [dict get $::fakeComments 1] [dict get $::fakeComments 3] [dict get $::fakeComments 4]] \
     [list {[best] [%eval -0.40]} {[excellent] [%eval +1.20]} {[blunder] [%eval +8.00]}]
 checkEq "the blunder carries the mark its label implies" [nagsAt 4] "?? +--"
-checkEq "and the move before it has its assessment and the diagram" \
-    [nagsAt 3] "+= D"
+checkEq "and the move before it has only the diagram" [nagsAt 3] "D"
 
 # The same game, different answers.
 set ::events {}
@@ -864,8 +869,7 @@ checkEq "one verdict and one score per move" \
     [regexp -all {\[%eval [^\]]*\]} [dict get $::fakeComments 1]] 1
 checkEq "the user's note and the new verdict, in that order" \
     [dict get $::fakeComments 2] {A fine move. [best] [%eval +0.06]}
-checkEq "the user's mark survived both runs, with the new assessment" \
-    [nagsAt 2] "?! =" 
+checkEq "the user's mark survived both runs" [nagsAt 2] "?!" 
 checkEq "a finished review regenerates the game text" \
     [lindex $::notified end] -pgn
 checkEq "a verdict from the first run is replaced, not appended" \
@@ -886,11 +890,10 @@ checkEq "the board calls are reads, the comment, the marks and the cursor" \
 # were taken off rather than left beside a new verdict.
 set leftover ""
 catch { set leftover [dict get $::fakeNags 4] }
-checkEq "the old blunder mark is replaced by the new score's assessment" \
-    $leftover "="
+checkEq "the old blunder mark and its assessment are gone" $leftover ""
 set diag ""
 catch { set diag [dict get $::fakeNags 3] }
-checkEq "and its diagram is gone, the new assessment alone" $diag "="
+checkEq "and its diagram is gone" $diag ""
 checkEq "the board ends where the user left it" [list $::fakeLoc $::fakeLevel] {2 0}
 checkEq "and the driver says the restore was exact" [dict get $st restored] 1
 
@@ -928,7 +931,7 @@ feedEvent InfoPV {1 20 22 900 300 0 0 120 290 cp 0 g8f6}
 feedEvent InfoBestMove {}
 pump
 checkEq "the old blunder mark is replaced by the mistake's" [nagsAt 4] "? +-"
-checkEq "and the diagram has not moved" [nagsAt 3] "+= D"
+checkEq "and the diagram has not moved" [nagsAt 3] "D"
 ::review::reset
 
 puts "a user's own move mark is not replaced"
@@ -1173,7 +1176,7 @@ pump
 checkEq "the blunder still carries its mark" [nagsAt 4] "?? +--"
 set diag ""
 catch { set diag [dict get $::fakeNags 3] }
-checkEq "and no diagram was written, only the assessment" $diag "+="
+checkEq "and no diagram or assessment was written" $diag ""
 ::review::reset
 
 puts "the opening book is labelled, not judged"

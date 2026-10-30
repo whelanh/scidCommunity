@@ -22,11 +22,11 @@ Press **Game Review** and the pass searches every position of the main line at
 the review's depth, showing `Reviewing position n of m` in the button bar, and
 then writes the verdicts into the game: a label and a `[%eval]` on each move's
 comment, the NAG the label implies (`??`, `?`, `?!`, `!`, `!!`, or none for
-best/excellent/good/book), a position assessment from the same score (`=`,
-`+=`, `+/-`, `+-`, `+--` and the Black half `=+`, `-/+`, `-+`, `--+`), a `D`
-diagram marker on the move before each mistake and blunder when the Diagram
-setting is on (a verdict on the first move has no move before it, so no diagram),
-and at each mistake, blunder and missed win the
+best/excellent/good/book), a position assessment from the same score on the
+moves the review marks (`=`, `+=`, `+/-`, `+-`, `+--` and the Black half `=+`,
+`-/+`, `-+`, `--+`), a `D` diagram marker on the move before each mistake and
+blunder when the Diagram setting is on (a verdict on the first move has no move
+before it, so no diagram), and at each mistake, blunder and missed win the
 engine's preferred move as a variation, up to `var_lines` of them. A best,
 excellent or good move gets no variation: the only line left to show would be
 the second-best move, which is not an improvement. Running it again replaces the
@@ -37,9 +37,12 @@ move that already carries one keeps it and the review's label goes without). The
 one case that cannot be told apart is a user mark that is the *same symbol* the
 label implies - `??` on a move the review also calls a blunder. It is then
 treated as the review's mark and replaced on a later run. The position
-assessment is the review's own slot: a judged move's assessment is replaced by
-the one its current score implies, including one the classic annotator or the
-user put there, because it has to agree with the `[%eval]` beside it. The same holds for a
+assessment is the review's own slot and comes only with a mark: on a move the
+review marks, its assessment is replaced by the one the current score implies,
+including one the classic annotator or the user put there, because it has to
+agree with the `[%eval]` beside it. A quiet move gets no assessment, and any
+assessment already on it is taken off, so a first and a second pass agree and the
+symbols point at the moves worth looking at. The same holds for a
 `D` on the move before a mistake or blunder: it is treated as the review's
 whether or not the review wrote it, because a NAG carries no owner.
 The board is back where the user left it when the pass ends.

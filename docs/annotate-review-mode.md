@@ -43,7 +43,9 @@ part that other tools read, so they are written here too:
   classic's `+-`/`+/-` quirk at the crushing threshold. It now delegates to
   `::review::scoreToNag`, because the engine window's Game Review writes the
   same assessment from its `[%eval]` (`game_review.tcl`); one table, so the two
-  cannot disagree.
+  cannot disagree. The annotate writer follows the classic mode (all moves or
+  blunders only); the engine window's review puts an assessment only on the
+  moves it marks.
 - **The diagram tag** — `D`, in blunders-only mode, on the move *before* the
   annotated one (`::reviewannotate::markDiagram`). The RTF exporter renders the
   position after the NAG's own move (`tcl/file/rtf.tcl`, `collectLine_`), so
