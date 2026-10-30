@@ -725,7 +725,7 @@ proc ::reviewdriver::runDone {results} {
 # review wrote - the label token is what says the mark was ours.
 proc ::reviewdriver::clearMarks {ply} {
     set old ""
-    catch { sc_move ply $ply }
+    if {[catch { sc_move ply $ply }]} { return }
     catch { set old [::review::labelOfComment [sc_pos getComment]] }
     if {$old eq ""} { return }
     set nag [::review::nagForLabel $old]

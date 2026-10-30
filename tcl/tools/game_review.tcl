@@ -592,7 +592,7 @@ proc ::review::dropNag {nag} {
 # one anywhere else is left alone.
 proc ::review::setDiagram {ply on} {
     if {![string is integer -strict $ply] || $ply < 2} { return 0 }
-    catch { sc_move ply [expr {$ply - 1}] }
+    if {[catch { sc_move ply [expr {$ply - 1}] }]} { return 0 }
     if {$on} {
         return [::review::addNagIfAbsent D]
     }
