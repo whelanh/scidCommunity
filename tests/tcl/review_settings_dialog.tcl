@@ -43,6 +43,13 @@ proc tr {tag args} {
     return $tag
 }
 proc ::button_image {args} { return "" }
+# The real helper is in tcl/start.tcl: paint a classic widget with the theme's
+# background, and repaint it when the theme changes.
+proc ::applyThemeColor_background {widget} {
+    set bg [ttk::style lookup . -background "" #d9d9d9]
+    $widget configure -background $bg
+    bind $widget <<ThemeChanged>> [list ::applyThemeColor_background $widget]
+}
 namespace eval ::utils::tooltip {}
 proc ::utils::tooltip::Set {args} {}
 namespace eval ::board {}
@@ -135,6 +142,24 @@ destroy $w3
 checkEq "and closing removes it again" \
     [llength [trace info variable ::enginewin::reviewsetting(1,mpv)]] 0
 catch { unset ::enginewin::reviewtraceptr(1) }
+
+# A toplevel is a classic Tk widget and keeps Tk's grey; the ttk rows inside
+# follow the theme, so the strip beside OK/Cancel is the only place the old
+# colour showed through.
+puts "\nthe window follows the theme"
+
+ttk::style theme create reviewdark -parent classic -settings {
+    ttk::style configure . -background #1e1e2e -foreground #cdd6f4
+    ttk::style configure TFrame -background #1e1e2e
+    ttk::style configure TLabel -background #1e1e2e -foreground #cdd6f4
+}
+ttk::style theme use reviewdark
+set w4 [::enginewin::reviewSettings 1]
+checkEq "the dialog is painted with the theme's background" \
+    [$w4 cget -background] #1e1e2e
+check "and not Tk's classic grey" \
+    [expr {[$w4 cget -background] ne "#d9d9d9"}]
+destroy $w4
 
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

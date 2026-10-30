@@ -1054,6 +1054,11 @@ proc ::enginewin::reviewSettings {id} {
     set name ""
     catch { set name $::enginewin_lastengine($id) }
     toplevel $w
+    # The ttk widgets inside follow the theme, but a toplevel keeps Tk's
+    # classic background, and the button row does not cover the window's width:
+    # the strip beside OK/Cancel stayed light grey on every dark theme. Paint
+    # the window itself with the theme's colour and follow a theme change.
+    catch { ::applyThemeColor_background $w }
     wm title $w [::reviewui::label ReviewSettings]
     catch { wm transient $w [::enginewin::reviewWindow $id] }
     ttk::frame $w.f -padding 10
