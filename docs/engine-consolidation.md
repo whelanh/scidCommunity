@@ -50,7 +50,8 @@ matrix further down.
 | Finish Game | `toggleFinishGame`, `autoplayFinishGame`; the engine windows' own pass in `tools/finish_game.tcl` (its own connections, engine selection and seconds/depth, no annotation) | the pane, mode Train | `finish_game.tcl` 39 — the two-engine loop against a stub engine and board; `finish_game_dialog.tcl` 18 under Tk — the dialog, its defaults and OK |
 | Training / autoplay, move time | `toggleAutomove`, `automove`, `setAutomoveTime` | the pane, mode Train, one owner | `—`; `toggleAutomove` writes `.analysisWin1`'s button for every pane |
 | The opening trainer's engine reply | `windows/tree.tcl` `::tree::doTraining` tests `.analysisWin1`/`.analysisWin2` and `analysis(automove1`/`automove2)`; panes 3 and 4 are never consulted | the owner registry | `—` |
-| Classic annotator: all moves / blunders only, White/Black, variations, short annotations, add score, annotator tag, score all moves, mark tactical exercises (writes `??`/`?`, sets the `T` flag, `****D<difficulty>`), batch games, find opening errors | `tools/analysis.tcl` `configAnnotation` + `annotateMode`; `tools/batch_annotate.tcl` | stays until C's parity gate | `—` |
+| Classic annotator: all moves / blunders only, White/Black, variations, short annotations, add score, annotator tag, score all moves, mark tactical exercises (writes `??`/`?`, sets the `T` flag, `****D<difficulty>`), find opening errors | `tools/analysis.tcl` `configAnnotation` + `annotateMode` | stays until C's parity gate | `—` |
+| Batch annotate (Game List) | `tools/batch_annotate.tcl` — the parallel pipe pool searches snapshotted games; each finished game is written by `::reviewdriver::writeResults` with Review Settings (depth, MultiPV, variations, margin, diagram, book) | the review writer; no `T`/`****D`, book or Annotator output | `batch_annotate.tcl` 9 — the MultiPV parser; the loop is manual |
 | Book annotation: last book move / out of book | `bookAnnotation` + a `.bin` book | stays until C | `—` |
 | `D` diagram NAG on blunders | `analysis.tcl:864`, `batch_annotate.tcl:740`; read by `src/game.cpp` (`NAG_Diagram`, `PGN_STYLE_DIAGRAM`) and `tcl/file/rtf.tcl` (`hasDiagramNag_`) | unchanged through B0–B2; C reproduces it | `—` |
 | Review Game / Tactics / Calvar trainers | `reviewgame.tcl`, `tactics.tcl`, `calvar.tcl` on `::uci` | **B0** | `—` |
@@ -145,7 +146,8 @@ consumer of the window B1 changes, not a control for the classic pipeline.
 | 9 | Annotate: all moves, variations, short annotations, add score | NAGs and comments unchanged |
 | 10 | Annotate: blunders only | a `D` NAG at each blunder, `T` flag and `****D<n>` for tactical marking |
 | 11 | Annotate with `UseBook` and a `.bin` book | last-book-move / out-of-book comments written |
-| 12 | Batch annotate and find opening errors | same games selected, same annotations |
+| 12 | Batch annotate | same games selected; the annotations Game Review writes (label, `[%eval]`, label NAG, assessment, `D`, variations); no `T`/`****D` or book comments |
+| 12b | Find opening errors | classic behaviour unchanged |
 | 13 | Autorun the main line, reload the game | chart fills; stored `[%eval]`s seed; seeded plies are skipped |
 | 14 | Embedded PGN viewer engine window | its own game and chart; seeding stays off |
 | 15 | AI commentary: batch + summary | prose written as before |
@@ -178,8 +180,10 @@ purpose (`analysis.tcl:864`, `batch_annotate.tcl:740`); the opening trainer read
 (`opening.tcl`).
 
 **Tactical exercises are NAG- and flag-based.** `markExercise` writes `??`/`?` and the
-`****D<difficulty>` comment, and the batch sets the game's `T` flag (`analysis.tcl:603`) so those
-games can be filtered and trained on.
+`****D<difficulty>` comment, and the classic annotator sets the game's `T` flag (`analysis.tcl:603`) so those
+games can be filtered and trained on. **Batch annotate no longer produces them**: it is a consumer of the
+review writer, so its games carry labels, `[%eval]`, the label's NAG, the assessment, `D` and variations
+only. Exercises and book comments remain the classic Annotate dialog's until C2.
 
 **Book annotation** writes the last-book-move / out-of-book comments from a Scid `.bin` book
 (`bookAnnotation`).

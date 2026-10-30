@@ -64,6 +64,15 @@ part that other tools read, so they are written here too:
   `::reviewannotate::openingTag`/`appendAnnotator` write the `opBlunder` entry
   into the Annotator tag.
 
+  The Game List's **Batch annotate** does not use that iterator or this writer:
+  it keeps its parallel pipe search and calls `::reviewdriver::writeResults` per
+  finished game, so it writes the engine-window review's annotations with Review
+  Settings — label, `[%eval]`, the label's NAG, the position assessment on marked
+  moves, `D` and variations — and deliberately not the classic `T`/`****D`, book
+  or Annotator marks. `::batch_annotate::annotate_logic` remains for **Rapid
+  annotate** (Ctrl+Shift+A), which still writes the classic marks from scores the
+  engine windows have already collected.
+
 ## Which moves get the marks
 
 The review labels every judged move; the classic marks follow the annotate

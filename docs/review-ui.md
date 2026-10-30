@@ -18,6 +18,11 @@ disabled while a pass runs, which is what Cancel is for.
 
 ## Game Review — the whole main line
 
+The Game List's **Batch annotate** uses this same writer over its parallel
+engine pool, with these settings, so a batch of games gets what pressing Game
+Review on each would have written. Its dialog only chooses the engine and the
+number of instances.
+
 Press **Game Review** and the pass searches every position of the main line at
 the review's depth, showing `Reviewing position n of m` in the button bar, and
 then writes the verdicts into the game: a label and a `[%eval]` on each move's
