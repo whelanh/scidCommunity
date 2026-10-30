@@ -1091,10 +1091,13 @@ set ::scidBooksDir /books
 checkEq "the window's book is the first one in the Book window" \
     [::enginewin::reviewBook] /books/testbook.bin
 rename ::review::bookEnd ::review::bookEndSaved
-proc ::review::bookEnd {file args} { return 2 }
+set ::bookArgs {}
+proc ::review::bookEnd {file args} { set ::bookArgs [list $file {*}$args] ; return 2 }
 set reviewState [::enginewin::reviewRunState 1]
 checkEq "Game Review asks the book where the opening ends" \
     [dict get $reviewState bookEnd] 2
+checkEq "in its own slot, and asks for the whole line when all book" \
+    [list [lindex $::bookArgs 1] [lindex $::bookArgs 2]] [list 5 1]
 set call [::reviewui::runCall $reviewState]
 set at [lsearch -exact [dict get $call args] -bookEnd]
 checkEq "and tells the driver" [lindex [dict get $call args] [expr {$at + 1}]] 2

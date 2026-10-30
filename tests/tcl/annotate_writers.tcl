@@ -205,6 +205,18 @@ checkEq "but the annotator is told there is nothing to skip" \
 fixture
 set ::gamestub::book {}
 checkEq "a book with no move has no end" [::review::bookEnd "/books/x.bin" 5] 0
+
+# The book end counts the moves the game actually played from the book. A game
+# that deviates at the first move has no book plies at all, and one that follows
+# a book move and then deviates counts only the move it followed.
+::gamestub::reset [list {a3 a7a3}]
+set ::gamestub::book {0 {e4}}
+checkEq "a first-move deviation is not a book move" \
+    [::review::bookEnd "/books/x.bin" 5 1] 0
+::gamestub::reset [list {e4 e2e4} {a6 a7a6}]
+set ::gamestub::book {0 {e4} 1 {d4}}
+checkEq "the move that leaves the book is not counted" \
+    [::review::bookEnd "/books/x.bin" 5 1] 1
 }
 
 # A book move is a move, not a substring: "a6" is not "Ba6".

@@ -286,19 +286,27 @@ proc ::review::bookEnd {bookFile {slot 5} {allBook 0}} {
     catch { sc_move ply 0 }
     if {[catch {
         sc_book load $bookFile $slot
-        set bookmoves ""
-        lassign [sc_book moves $slot] bookmoves
-        while {[string length $bookmoves] && ![sc_pos isAt vend]} {
-            ::move::Forward
+        set end 0
+        # Step only while the move the game played is one the book offers from
+        # this position. Merely asking whether the book has any move here would
+        # step past a deviation: a game that plays 1.a3 against a book offering
+        # 1.e4 would count the a3 itself as a book move and never judge it.
+        while {![sc_pos isAt vend]} {
             lassign [sc_book moves $slot] bookmoves
+            if {![string length $bookmoves]} { break }
+            ::move::Forward
+            set played [sc_game info previousMoveNT]
+            if {[lsearch -nocase -exact $bookmoves $played] < 0} {
+                # The game left the book here: the move is not a book ply.
+                catch { sc_move back 1 }
+                break
+            }
+            incr end
         }
         sc_book close $slot
-        if {![string length $bookmoves]} {
-            # The book had no move at this position: the game left it here.
-            set end [sc_pos location]
-        } elseif {$allBook} {
-            # Still in book at the end of the game.
-            set end $plies
+        if {$end >= $plies && !$allBook} {
+            # The game never leaves the book: the annotator has nothing to skip.
+            set end 0
         }
     }]} {
         catch { sc_book close $slot }

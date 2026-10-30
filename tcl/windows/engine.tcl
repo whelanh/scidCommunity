@@ -871,7 +871,9 @@ proc ::enginewin::reviewRunState {id {plies ""} {depth ""}} {
             set book [::enginewin::reviewBook]
             if {$book ne ""} {
                 set end 0
-                catch { set end [::review::bookEnd $book] }
+                # allBook 1: a game that stays in the book is all book, and
+                # every move of it is labelled rather than judged.
+                catch { set end [::review::bookEnd $book 5 1] }
                 if {$end > 0} { dict set state bookEnd $end }
             }
         }
