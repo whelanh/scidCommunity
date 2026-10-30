@@ -843,6 +843,7 @@ translate Q ReviewSettings {Налаштування огляду}
 translate Q ReviewVarLines {Варіанти для запису}
 translate Q ReviewVarCp {Поріг варіантів (cp)}
 translate Q ReviewMoveWait {Чекати глибину огляду}
+translate Q ReviewMovetime {Обмеження часу (ms)}
 translate Q ReviewFromPreset {%s (з профілю двигуна)}
 translate Q ReviewProgress {Огляд позиції %s з %s}
 translate Q ReviewWaitForDepth {Очікування глибини %s}

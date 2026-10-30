@@ -899,6 +899,7 @@ translate S ReviewSettings {Ajustes de la revisión}
 translate S ReviewVarLines {Variantes que escribir}
 translate S ReviewVarCp {Margen de variantes (cp)}
 translate S ReviewMoveWait {Esperar la profundidad de la revisión}
+translate S ReviewMovetime {Límite de tiempo (ms)}
 translate S ReviewFromPreset {%s (del perfil del motor)}
 translate S ReviewProgress {Revisando la posición %s de %s}
 translate S ReviewWaitForDepth {Esperando la profundidad %s}

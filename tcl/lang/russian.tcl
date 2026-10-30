@@ -849,6 +849,7 @@ translate R ReviewSettings {Настройки разбора}
 translate R ReviewVarLines {Варианты для записи}
 translate R ReviewVarCp {Порог вариантов (cp)}
 translate R ReviewMoveWait {Ждать глубину разбора}
+translate R ReviewMovetime {Ограничение времени (ms)}
 translate R ReviewFromPreset {%s (из профиля движка)}
 translate R ReviewProgress {Разбор позиции %s из %s}
 translate R ReviewWaitForDepth {Ожидание глубины %s}

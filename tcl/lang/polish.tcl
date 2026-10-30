@@ -882,6 +882,7 @@ translate P ReviewSettings {Ustawienia przeglądu}
 translate P ReviewVarLines {Warianty do zapisania}
 translate P ReviewVarCp {Margines wariantów (cp)}
 translate P ReviewMoveWait {Czekaj na głębokość przeglądu}
+translate P ReviewMovetime {Limit czasu (ms)}
 translate P ReviewFromPreset {%s (z profilu silnika)}
 translate P ReviewProgress {Przeglądanie pozycji %s z %s}
 translate P ReviewWaitForDepth {Oczekiwanie na głębokość %s}

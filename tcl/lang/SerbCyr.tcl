@@ -883,6 +883,7 @@ translate J ReviewSettings {Подешавања прегледа}
 translate J ReviewVarLines {Варијанте за упис}
 translate J ReviewVarCp {Граница варијанти (cp)}
 translate J ReviewMoveWait {Чекај дубину прегледа}
+translate J ReviewMovetime {Временско ограничење (ms)}
 translate J ReviewFromPreset {%s (из профила мотора)}
 translate J ReviewProgress {Преглед позиције %s од %s}
 translate J ReviewWaitForDepth {Чекање на дубину %s}

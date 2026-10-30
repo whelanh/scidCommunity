@@ -853,6 +853,7 @@ translate I ReviewSettings {Impostazioni della revisione}
 translate I ReviewVarLines {Varianti da scrivere}
 translate I ReviewVarCp {Soglia delle varianti (cp)}
 translate I ReviewMoveWait {Attendi la profondità della revisione}
+translate I ReviewMovetime {Limite di tempo (ms)}
 translate I ReviewFromPreset {%s (dal profilo del motore)}
 translate I ReviewProgress {Revisione della posizione %s di %s}
 translate I ReviewWaitForDepth {In attesa della profondità %s}

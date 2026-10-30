@@ -818,6 +818,7 @@ translate M ReviewSettings {复盘设置}
 translate M ReviewVarLines {要写入的变化}
 translate M ReviewVarCp {变化差距 (cp)}
 translate M ReviewMoveWait {等待复盘深度}
+translate M ReviewMovetime {时间上限 (ms)}
 translate M ReviewFromPreset {%s（来自引擎预设）}
 translate M ReviewProgress {正在复盘第 %s / %s 个局面}
 translate M ReviewWaitForDepth {正在等待深度 %s}

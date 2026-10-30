@@ -30,6 +30,8 @@ set root [file normalize [file join [file dirname [info script]] .. ..]]
 source [file join $root tcl tools accuracy.tcl]
 source [file join $root tcl tools move_labels.tcl]
 source [file join $root tcl tools score_seed.tcl]
+source [file join $root tcl enginecfg.tcl]
+source [file join $root tcl tools engine_limits.tcl]
 source [file join $root tcl tools game_review.tcl]
 source [file join $root tcl tools review_ui.tcl]
 
@@ -47,6 +49,7 @@ array set ::EN {
     ReviewVarLines          {Variations to write}
     ReviewVarCp             {Variation margin (cp)}
     ReviewMoveWait          {Wait for the review depth}
+    ReviewMovetime          {Time cap (ms)}
     ReviewFromPreset        {%s (from engine preset)}
     ReviewProgress          {Reviewing position %s of %s}
     ReviewWaitForDepth      {Waiting for depth %s}
@@ -58,13 +61,13 @@ proc tr {tag} {
     if {[info exists ::EN($tag)]} { return $::EN($tag) }
     return $tag
 }
-# The keys that must be in every language file: the fourteen above are Scid's
-# already, and the twelve new ones are the assertion at the end of this file.
+# The keys that must be in every language file: the fifteen above are Scid's
+# already, and the thirteen new ones are the assertion at the end of this file.
 set ::NEWKEYS {
     ReviewGameButton ReviewGameButtonTooltip ReviewMoveButton
     ReviewMoveButtonTooltip ReviewSettings ReviewVarLines ReviewVarCp
-    ReviewMoveWait ReviewFromPreset ReviewProgress ReviewWaitForDepth
-    ReviewFailed
+    ReviewMoveWait ReviewMovetime ReviewFromPreset ReviewProgress
+    ReviewWaitForDepth ReviewFailed
 }
 
 puts "which button is live"
@@ -212,18 +215,30 @@ checkEq "an empty state is idle" [::reviewui::statusText {}] ""
 
 puts "what the settings dialog holds"
 
-# The dialog owns six settings. Threads and Hash are not among them: they belong
+# The dialog owns seven settings. Threads and Hash are not among them: they belong
 # to the engine preset (#382), and a second place to set them is a second place
 # to get them wrong. The dialog shows them, read-only, from the preset.
 ::review::reset
 set s [::reviewui::settings]
-checkEq "six rows, no threads, no hash" [dict keys $s] {mpv depth var_lines var_cp move_comment_wait diagram}
+checkEq "seven rows, no threads, no hash" [dict keys $s] \
+    {mpv depth movetime var_lines var_cp move_comment_wait diagram}
 checkEq "at their defaults" [dict get $s depth] 18
+checkEq "with no time cap of its own" [dict get $s movetime] 0
 checkEq "and mpv with them" [dict get $s mpv] 3
 
-set good [dict create mpv 4 depth 24 var_lines 2 var_cp 40 move_comment_wait 0 diagram 1]
+set good [dict create mpv 4 depth 24 movetime 1500 var_lines 2 var_cp 40 \
+    move_comment_wait 0 diagram 1]
 checkEq "a valid dialog is stored without complaint" [::reviewui::applySettings $good] {}
 checkEq "and reads straight back" [::reviewui::settings] $good
+checkEq "the cap is stored as the review's own option" $::reviewopt(movetime) 1500
+# 0 is a value, not a blank: it takes the cap back off, which is how a user who
+# set one returns to the preset's.
+checkEq "clearing the cap is applied like any other value" \
+    [::reviewui::applySettings [dict create movetime 0]] {}
+checkEq "and is remembered" [::review::get movetime] 0
+# Back to the full edit, which the next block starts from.
+checkEq "the whole dialog applies again" [::reviewui::applySettings $good] {}
+checkEq "with its cap" [::review::get movetime] 1500
 
 # One refused field must not lose the four that were fine: the user pressed OK
 # once, and a dialog that silently drops the whole edit is worse than a refusal.
@@ -252,6 +267,33 @@ checkEq "so var_lines keeps the value it had" [dict get [::reviewui::settings] v
 # A field the dialog does not have is ignored rather than stored.
 checkEq "an unknown field is not a setting" \
     [::reviewui::applySettings [dict create threads 8]] {}
+
+puts "the cap's note: where an unset cap comes from"
+
+# The row's own number, or the preset's. A review value of 0 hands the cap to the
+# engine preset, and the row has to say so: a box showing 0 with no note reads as
+# "no time limit" even when the preset imposes one. The note is
+# ::review::effective's answer, so the dialog cannot promise a cap the pass would
+# not use.
+set ::engines(list) [list \
+    [list Stockfish /usr/bin/stockfish {} {} 0 0 {} 1 {} [dict create movetime 900]] \
+    [list Uncapped /x {} {} 0 0 {} 1 {} {}]]
+set cappedCfg [::enginecfg::get Stockfish]
+set plainCfg [::enginecfg::get Uncapped]
+::review::reset
+checkEq "an unset cap takes the preset's" \
+    [::reviewui::movetimeFromPreset 0 $cappedCfg] 900
+checkEq "and the row says where it comes from" \
+    [::reviewui::movetimeNote 0 $cappedCfg] {900 ms (from engine preset)}
+checkEq "a cap of the review's own needs no note" \
+    [::reviewui::movetimeNote 1500 $cappedCfg] ""
+checkEq "neither side sets one: no note" \
+    [::reviewui::movetimeNote 0 $plainCfg] ""
+::review::setValue movetime 2000
+checkEq "and a review cap silences the note straight away" \
+    [::reviewui::movetimeNote [::review::get movetime] $cappedCfg] ""
+::review::reset
+set ::engines(list) {}
 
 puts "the preset's read-only line"
 
@@ -325,7 +367,7 @@ checkEq "its tooltip" [::reviewui::label ReviewGameButtonTooltip] \
     {Review every move of the main line and label it}
 checkEq "the Move Comment button's text" [::reviewui::label ReviewMoveButton] {Move Comment}
 checkEq "the settings dialog's title" [::reviewui::label ReviewSettings] {Review Settings}
-foreach key {mpv depth var_lines var_cp move_comment_wait diagram} {
+foreach key {mpv depth movetime var_lines var_cp move_comment_wait diagram} {
     check "the $key row has a label" \
         [expr {[::reviewui::settingLabel $key] ne "" && [::reviewui::settingLabel $key] ne $key}]
 }
@@ -377,7 +419,7 @@ foreach file [lsort [dict keys $langCodes]] {
             lappend missing $key
         }
     }
-    check "$file carries the twelve review keys" [expr {![llength $missing]}] \
+    check "$file carries the thirteen review keys" [expr {![llength $missing]}] \
         "missing: $missing"
     if {[llength $missing]} { lappend missingAll $file }
 }
@@ -447,7 +489,7 @@ puts "the dialog's spin boxes"
 # A spinbox needs bounds, and they have to agree with what ::review::setValue
 # accepts: a box that offers a value the setter refuses is a dialog that cannot
 # be completed.
-foreach key {mpv depth var_lines var_cp move_comment_wait diagram} {
+foreach key {mpv depth movetime var_lines var_cp move_comment_wait diagram} {
     set range [::reviewui::settingRange $key]
     check "$key has a range" [expr {[llength $range] == 2}]
     lassign $range lo hi

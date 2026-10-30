@@ -35,6 +35,13 @@ Limits belong to the preset, not to the window and not to Scid globally, so the
 same engine can be browsed at `movetime 100` under one preset and searched to
 `depth 66` under another.
 
+A **review pass** reads the same two numbers, and reads them the other way round:
+the preset may only *deepen* a pass (the review's `depth` is a floor a shallower
+preset cannot lower), while its `movetime` is a *ceiling* that applies only when
+`::review::movetime` is unset (0). Setting a time cap in Review Settings replaces
+the preset's rather than being combined with it. `::review::passLimits` owns that
+table for every caller, so a pass cannot run on a bound the dialog never showed.
+
 The engine window's depth and time entries read and write the limits of the
 preset it is showing. Editing them saves `engines.dat` immediately; there is no
 separate "Save Options" step for them. Only the keys a preset actually sets are

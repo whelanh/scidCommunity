@@ -883,6 +883,7 @@ translate L ReviewSettings {Setările analizei}
 translate L ReviewVarLines {Variante de scris}
 translate L ReviewVarCp {Marja variantelor (cp)}
 translate L ReviewMoveWait {Așteaptă adâncimea analizei}
+translate L ReviewMovetime {Limită de timp (ms)}
 translate L ReviewFromPreset {%s (din profilul motorului)}
 translate L ReviewProgress {Se analizează poziția %s din %s}
 translate L ReviewWaitForDepth {Se așteaptă adâncimea %s}

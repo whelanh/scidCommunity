@@ -842,6 +842,7 @@ translate b ReviewSettings {পর্যালোচনার সেটিংস
 translate b ReviewVarLines {যে ভ্যারিয়েশনগুলো লিখতে হবে}
 translate b ReviewVarCp {ভ্যারিয়েশনের ব্যবধান (cp)}
 translate b ReviewMoveWait {পর্যালোচনার গভীরতার জন্য অপেক্ষা করুন}
+translate b ReviewMovetime {সময়সীমা (ms)}
 translate b ReviewFromPreset {%s (ইঞ্জিন প্রিসেট থেকে)}
 translate b ReviewProgress {অবস্থান %s / %s পর্যালোচনা করা হচ্ছে}
 translate b ReviewWaitForDepth {গভীরতা %s-এর জন্য অপেক্ষা}

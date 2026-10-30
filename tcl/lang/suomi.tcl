@@ -881,6 +881,7 @@ translate U ReviewSettings {Tarkastuksen asetukset}
 translate U ReviewVarLines {Kirjoitettavat muunnelmat}
 translate U ReviewVarCp {Muunnelman raja (cp)}
 translate U ReviewMoveWait {Odota tarkastuksen syvyyttä}
+translate U ReviewMovetime {Aikaraja (ms)}
 translate U ReviewFromPreset {%s (moottorin asetuksista)}
 translate U ReviewProgress {Tarkastetaan asemaa %s / %s}
 translate U ReviewWaitForDepth {Odotetaan syvyyttä %s}

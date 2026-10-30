@@ -882,6 +882,7 @@ translate D ReviewSettings {Einstellungen der Prüfung}
 translate D ReviewVarLines {Zu schreibende Varianten}
 translate D ReviewVarCp {Variantenabstand (cp)}
 translate D ReviewMoveWait {Auf die Prüfungstiefe warten}
+translate D ReviewMovetime {Zeitlimit (ms)}
 translate D ReviewFromPreset {%s (aus dem Motorprofil)}
 translate D ReviewProgress {Position %s von %s wird geprüft}
 translate D ReviewWaitForDepth {Warte auf Tiefe %s}

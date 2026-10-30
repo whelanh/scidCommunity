@@ -853,6 +853,7 @@ translate W ReviewSettings {Inställningar för granskning}
 translate W ReviewVarLines {Varianter att skriva}
 translate W ReviewVarCp {Variantmarginal (cp)}
 translate W ReviewMoveWait {Vänta på granskningsdjupet}
+translate W ReviewMovetime {Tidsgräns (ms)}
 translate W ReviewFromPreset {%s (från motorprofilen)}
 translate W ReviewProgress {Granskar ställning %s av %s}
 translate W ReviewWaitForDepth {Väntar på djup %s}

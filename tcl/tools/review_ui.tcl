@@ -107,13 +107,14 @@ proc ::reviewui::buttons {state} {
 # also wrote them would be a second place to get them wrong. The order matters
 # because ::review::setValue has cross-field rules - mpv caps var_lines - so a
 # single edit that lowers both must apply mpv first.
-variable ::reviewui::SETTING_KEYS {mpv depth var_lines var_cp move_comment_wait diagram}
+variable ::reviewui::SETTING_KEYS {mpv depth movetime var_lines var_cp move_comment_wait diagram}
 
 # The review setting a dialog row edits, and the label it shows. `Lines` and
 # `Depth` are the keys the engine window already uses for the same two numbers.
 variable ::reviewui::SETTING_LABELS {
     mpv               Lines
     depth             Depth
+    movetime          ReviewMovetime
     var_lines         ReviewVarLines
     var_cp            ReviewVarCp
     move_comment_wait ReviewMoveWait
@@ -176,6 +177,28 @@ proc ::reviewui::presetNote {enginecfg} {
     set limits [::reviewui::presetLimits $enginecfg]
     if {$limits eq ""} { return "" }
     return [format [::reviewui::tr ReviewFromPreset] $limits]
+}
+
+# The time cap a row with no cap of its own runs on: the engine preset's
+# Limits.movetime, or "" when neither side sets one. "" also when the review has
+# a cap of its own, because then the number in the box is the answer and a note
+# beside it would be noise.
+#
+# This reads ::review::effective, the same answer the pass searches with, so the
+# dialog cannot show a bound the review would not honour, and the pass cannot run
+# on one the dialog never showed.
+proc ::reviewui::movetimeFromPreset {value enginecfg} {
+    if {[string is integer -strict $value] && $value > 0} { return "" }
+    set eff [::review::effective $enginecfg]
+    return [dict get $eff movetime]
+}
+
+# The note itself, beside the time box: "900 ms (from engine preset)". "" when
+# there is nothing to say.
+proc ::reviewui::movetimeNote {value enginecfg} {
+    set ms [::reviewui::movetimeFromPreset $value $enginecfg]
+    if {$ms eq ""} { return "" }
+    return [format [::reviewui::tr ReviewFromPreset] "$ms ms"]
 }
 
 # The translation table, or the key itself when there is none: a tclsh test has
@@ -296,6 +319,7 @@ proc ::reviewui::moveCommentDepth {depth_now {target ""}} {
 variable ::reviewui::SETTING_RANGES {
     mpv               {1 5}
     depth             {6 60}
+    movetime          {0 3600000}
     var_lines         {0 5}
     var_cp            {0 500}
     move_comment_wait {0 1}
