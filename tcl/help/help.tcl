@@ -2619,7 +2619,7 @@ set helpTitle(ReviewSettings) "Review Settings"
 set helpText(ReviewSettings) {<h1>Engine Window: Review Settings</h1>
   <p>
   <b>Review Settings</b> in the <a Engine>Engine</a> window holds the choices a
-  review pass reads. Five numbers and one rule:
+  review pass reads. Six values:
   </p>
   <ul>
   <li><b>Lines</b>: how many of the engine's lines each position keeps (MultiPV),
@@ -2635,6 +2635,9 @@ set helpText(ReviewSettings) {<h1>Engine Window: Review Settings</h1>
   <li><b>Wait for the review depth</b>: whether a move comment waits for the
     review's depth instead of using the analysis already on screen - see
     <a ReviewMoveButton>Move Comment</a>.</li>
+  <li><b>Diagram</b>: 1 puts a diagram marker (<b>D</b>) on the move before each
+    mistake and blunder, so a printed or HTML game shows the position the error
+    was played in; 0 writes none.</li>
   </ul>
 
   <h3>What is not in this dialog</h3>

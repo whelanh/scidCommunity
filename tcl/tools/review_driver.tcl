@@ -719,11 +719,34 @@ proc ::reviewdriver::runDone {results} {
 # A writeMove refusal is collected and the next move is still written: writeMove
 # leaves the game where it found it on every path, so one refusal cannot corrupt
 # the rest.
+# Take off what the previous review wrote on the move at `ply` beside the
+# comment tokens: the NAG its label implies, and the diagram it put on the move
+# before. A mark the user put there is kept unless it is the same symbol this
+# review wrote - the label token is what says the mark was ours.
+proc ::reviewdriver::clearMarks {ply} {
+    set old ""
+    # sc_move answers OK even when the ply is past the end (MoveToPly stops at
+    # the last move), so the location has to be checked: a plan made before the
+    # game was shortened must not clear marks off a different move.
+    if {[catch { sc_move ply $ply }]} { return }
+    if {[catch { sc_pos location } loc] || $loc != $ply} { return }
+    catch { set old [::review::labelOfComment [sc_pos getComment]] }
+    if {$old eq ""} { return }
+    set nag [::review::nagForLabel $old]
+    if {$nag ne ""} { catch { ::review::dropNag $nag } }
+    if {$old eq "mistake" || $old eq "blunder"} {
+        catch { ::review::setDiagram $ply 0 }
+    }
+    return
+}
+
 proc ::reviewdriver::writeResults {p results} {
     set map [dict get $p map]
     set mpv [dict get $p mpv]
     set bookEnd 0
     catch { set bookEnd [dict get $p bookEnd] }
+    set diagram 0
+    catch { set diagram [::review::get diagram] }
     set written 0
     set failed 0
     set errors {}
@@ -732,6 +755,8 @@ proc ::reviewdriver::writeResults {p results} {
         if {$ply <= $bookEnd} {
             # In the book: theory, not a verdict. No [%eval] and no variation,
             # because there was no search behind either.
+            ::reviewdriver::clearMarks $ply
+            catch { sc_move ply $ply }
             set err [::review::writeMove $ply book "" {}]
             if {$err eq ""} {
                 incr written
@@ -741,12 +766,60 @@ proc ::reviewdriver::writeResults {p results} {
             }
             continue
         }
+        # A ply with no verdict was not measured: leave the previous review's
+        # comment and marks exactly as they were rather than half-clearing it.
         if {![dict exists $verdicts $ply]} { continue }
+        # The previous verdict's marks are ours to replace; the comment tokens
+        # go with writeMove below.
+        ::reviewdriver::clearMarks $ply
+        # clearMarks may have moved to the move before this one to take off a
+        # diagram; put the cursor back so the write and its marks land here.
+        catch { sc_move ply $ply }
         lassign [dict get $verdicts $ply] label eval_cp
         set err [::review::writeMove $ply $label $eval_cp \
             [::reviewdriver::lines $results [expr {$ply - 1}] $mpv]]
-        if {$err eq ""} {
-            incr written
+        # writeMove writes the comment before it tries the variations. A refused
+        # variation returns an error but leaves the verdict comment behind, and
+        # that comment must still get the marks it promises.
+        # writeMove accumulates variation failures in a list, so the message can
+        # arrive braced ({the variation move x was rejected}); look for the text
+        # rather than matching the first word.
+        set commentLanded [expr {$err eq "" || [string first "the variation" $err] >= 0}]
+        if {$commentLanded} {
+            # The mark beside the word, and a diagram where the mistake was
+            # played. writeMove leaves the cursor where it found it, which is
+            # this move. AddNag has a fixed capacity and sc_pos ignores its
+            # refusal, so the mark is read back: a comment without the mark it
+            # promises is a partial write, not a clean one.
+            catch { sc_move ply $ply }
+            set markErr {}
+            # A move mark the user put there is theirs: AddNag would replace
+            # it in place, so only write ours when the move has none (the one a
+            # previous review wrote has just been taken off by clearMarks).
+            set nag [::review::nagForLabel $label]
+            if {$nag ne "" && ![::review::hasMoveNag]} {
+                catch { ::review::addNagIfAbsent $nag }
+                if {[lsearch -exact [::review::nags] $nag] < 0} {
+                    lappend markErr "ply $ply: no room for the $nag mark"
+                }
+            }
+            # A first move has no predecessor to hang D on (::review::setDiagram
+            # refuses ply < 2), so there is nothing to verify and nothing to
+            # report: it is not a capacity failure.
+            if {$diagram && $ply >= 2 && ($label eq "mistake" || $label eq "blunder")} {
+                catch { ::review::setDiagram $ply 1 }
+                if {[catch { sc_move ply [expr {$ply - 1}] }] ||
+                    [lsearch -exact [::review::nags] D] < 0} {
+                    lappend markErr "ply $ply: no room for the diagram mark"
+                }
+            }
+            foreach e $markErr { lappend errors $e }
+            if {$err ne ""} { lappend errors $err }
+            if {[llength $markErr] || $err ne ""} {
+                incr failed
+            } else {
+                incr written
+            }
         } else {
             incr failed
             lappend errors $err

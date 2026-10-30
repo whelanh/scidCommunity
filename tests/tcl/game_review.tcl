@@ -31,6 +31,8 @@ puts "settings"
 ::review::reset
 checkEq "mpv defaults to 3" [::review::get mpv] 3
 checkEq "depth defaults to 18" [::review::get depth] 18
+checkEq "a diagram is written at mistakes and blunders by default" \
+    [::review::get diagram] 1
 checkEq "variations are off by default" [::review::get var_lines] 0
 checkEq "no threshold by default" [::review::get var_cp] 0
 
@@ -603,13 +605,17 @@ set ::reviewopt(depth) "deep"
 set ::review::S [dict create]
 checkEq "a value that is not a number is ignored" [::review::get depth] 18
 set ::reviewopt(move_comment_wait) 2
+set ::reviewopt(diagram) 3
 set ::review::S [dict create]
 checkEq "a flag saved above 1 is on, not invalid" [::review::get move_comment_wait] 1
+checkEq "and the diagram switch is normalised too" [::review::get diagram] 1
 checkEq "and the setter accepts what was loaded" \
     [::review::setValue move_comment_wait [::review::get move_comment_wait]] ""
 set ::reviewopt(skip_book) -4
 set ::review::S [dict create]
 checkEq "a negative flag is on as well" [::review::get skip_book] 1
+checkEq "the diagram switch refuses anything but 0 or 1" \
+    [::review::setValue diagram 2] "diagram is 0 or 1"
 array unset ::reviewopt
 ::review::reset
 

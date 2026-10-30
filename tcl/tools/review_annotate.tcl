@@ -50,15 +50,9 @@ proc ::reviewannotate::whiteScore {cp side} {
 # mark is the classic way of saying "nothing went wrong here", and ?? on every
 # third move is noise.
 proc ::reviewannotate::nagForLabel {label} {
-    switch -- $label {
-        blunder    { return "??" }
-        mistake    { return "?" }
-        miss       { return "?" }
-        inaccuracy { return "?!" }
-        brilliant  { return "!!" }
-        great      { return "!" }
-    }
-    return ""
+    # One mapping, in ::review: the engine window's review and the annotator have
+    # to agree about which mark a verdict word implies.
+    return [::review::nagForLabel $label]
 }
 
 # The classic drop ladder (analysis.tcl:833-841, 899-901) for one move, from the

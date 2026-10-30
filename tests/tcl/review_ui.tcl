@@ -212,16 +212,16 @@ checkEq "an empty state is idle" [::reviewui::statusText {}] ""
 
 puts "what the settings dialog holds"
 
-# The dialog owns five settings. Threads and Hash are not among them: they belong
+# The dialog owns six settings. Threads and Hash are not among them: they belong
 # to the engine preset (#382), and a second place to set them is a second place
 # to get them wrong. The dialog shows them, read-only, from the preset.
 ::review::reset
 set s [::reviewui::settings]
-checkEq "five rows, no threads, no hash" [dict keys $s] {mpv depth var_lines var_cp move_comment_wait}
+checkEq "six rows, no threads, no hash" [dict keys $s] {mpv depth var_lines var_cp move_comment_wait diagram}
 checkEq "at their defaults" [dict get $s depth] 18
 checkEq "and mpv with them" [dict get $s mpv] 3
 
-set good [dict create mpv 4 depth 24 var_lines 2 var_cp 40 move_comment_wait 0]
+set good [dict create mpv 4 depth 24 var_lines 2 var_cp 40 move_comment_wait 0 diagram 1]
 checkEq "a valid dialog is stored without complaint" [::reviewui::applySettings $good] {}
 checkEq "and reads straight back" [::reviewui::settings] $good
 
@@ -325,7 +325,7 @@ checkEq "its tooltip" [::reviewui::label ReviewGameButtonTooltip] \
     {Review every move of the main line and label it}
 checkEq "the Move Comment button's text" [::reviewui::label ReviewMoveButton] {Move Comment}
 checkEq "the settings dialog's title" [::reviewui::label ReviewSettings] {Review Settings}
-foreach key {mpv depth var_lines var_cp move_comment_wait} {
+foreach key {mpv depth var_lines var_cp move_comment_wait diagram} {
     check "the $key row has a label" \
         [expr {[::reviewui::settingLabel $key] ne "" && [::reviewui::settingLabel $key] ne $key}]
 }
@@ -447,7 +447,7 @@ puts "the dialog's spin boxes"
 # A spinbox needs bounds, and they have to agree with what ::review::setValue
 # accepts: a box that offers a value the setter refuses is a dialog that cannot
 # be completed.
-foreach key {mpv depth var_lines var_cp move_comment_wait} {
+foreach key {mpv depth var_lines var_cp move_comment_wait diagram} {
     set range [::reviewui::settingRange $key]
     check "$key has a range" [expr {[llength $range] == 2}]
     lassign $range lo hi

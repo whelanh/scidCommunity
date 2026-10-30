@@ -28,6 +28,7 @@ namespace eval ::review {
         var_lines 0
         var_cp 0
         move_comment_wait 1
+        diagram 1
         threads 0
         hash_mb 128
         skip_book 1
@@ -93,7 +94,7 @@ proc ::review::saved {} {
     if {[dict get $S var_cp] < 0} { dict set S var_cp 0 }
     # The flags are on or off, and setValue takes only 0 or 1: a file that says 2
     # must not open the dialog on a value pressing OK would refuse.
-    foreach flag {move_comment_wait skip_book} {
+    foreach flag {move_comment_wait skip_book diagram} {
         if {[dict get $S $flag] != 0} { dict set S $flag 1 }
     }
     return $S
@@ -152,6 +153,9 @@ proc ::review::setValue {key value} {
         }
         move_comment_wait {
             if {$value < 0 || $value > 1} { return "move_comment_wait is 0 or 1" }
+        }
+        diagram {
+            if {$value < 0 || $value > 1} { return "diagram is 0 or 1" }
         }
         threads {
             if {$value < 0} { return "threads cannot be negative" }
@@ -503,6 +507,96 @@ proc ::review::moveCommentPlan {depth_now {depth ""}} {
         return now
     }
     return $target
+}
+
+# The NAG that stands beside a label, if any. A label is the review's word; a
+# NAG is the mark a PGN reader and the board's annotation display show, so the
+# two have to agree. best/excellent/good are unmarked, as in the classic ladder.
+proc ::review::nagForLabel {label} {
+    switch -- $label {
+        blunder    { return "??" }
+        mistake - miss { return "?" }
+        inaccuracy { return "?!" }
+        brilliant  { return "!!" }
+        great      { return "!" }
+    }
+    return ""
+}
+
+# The label a comment already carries, in the current language or in English, or
+# "" when it carries none. Used to replace the previous review's mark rather
+# than stack a second one.
+proc ::review::labelOfComment {comment} {
+    # Our token is at the end of the comment - [Label] or [Label] [%eval ...] -
+    # because writeMove appends it to whatever was there. A label word in the
+    # middle of the user's prose must not be mistaken for a previous verdict.
+    set tail [string trim $comment]
+    regsub {\s*\[%eval [^\]]*\]\s*$} $tail {} tail
+    foreach label {best excellent good inaccuracy mistake blunder brilliant great miss forced book} {
+        foreach word [list [::movelabels::text $label] [string totitle $label]] {
+            set token "\[$word\]"
+            set n [string length $token]
+            if {$word ne "" && [string length $tail] >= $n &&
+                [string equal [string range $tail end-[expr {$n - 1}] end] $token]} {
+                return $label
+            }
+        }
+    }
+    return ""
+}
+
+# The move's NAGs as a list; "0" is what sc_pos reports for none.
+proc ::review::nags {} {
+    set nags [sc_pos getNags]
+    if {$nags eq "0"} { return {} }
+    return $nags
+}
+
+# True when the move already carries one of the six move marks. Scid's AddNag
+# REPLACES the first move mark rather than appending, so the review must not
+# write its own over one the user put there; only the mark the previous review
+# wrote (which clearMarks takes off) is replaced. A user mark that is the same
+# symbol the label implies cannot be told from ours: it is kept on the first run
+# and replaced by a later one.
+proc ::review::hasMoveNag {} {
+    foreach n {! ? !! ?? !? ?!} {
+        if {[lsearch -exact [::review::nags] $n] >= 0} { return 1 }
+    }
+    return 0
+}
+
+proc ::review::addNagIfAbsent {nag} {
+    if {$nag eq ""} { return 0 }
+    if {[lsearch -exact [::review::nags] $nag] >= 0} { return 0 }
+    sc_pos addNag $nag
+    return 1
+}
+
+# Remove one NAG and keep the rest. There is no remove-Nag command; clear and
+# re-add the ones that stay. A NAG the user put on the move is kept unless it is
+# the same symbol the review wrote.
+proc ::review::dropNag {nag} {
+    set nags [::review::nags]
+    if {[lsearch -exact $nags $nag] < 0} { return 0 }
+    set keep [lsearch -all -inline -not -exact $nags $nag]
+    sc_pos clearNags
+    foreach n $keep { sc_pos addNag $n }
+    return 1
+}
+
+# The diagram tag D sits on the move BEFORE `ply`: the NAGs of a position belong
+# to the move that led to it, and the exporter draws the position after that
+# move - which is where the mistake was played. A D on the move before a move the
+# last review labelled mistake/blunder is treated as the review's and replaced;
+# one anywhere else is left alone.
+proc ::review::setDiagram {ply on} {
+    if {![string is integer -strict $ply] || $ply < 2} { return 0 }
+    if {[catch { sc_move ply [expr {$ply - 1}] }]} { return 0 }
+    if {[catch { sc_pos location } loc] || $loc != [expr {$ply - 1}]} { return 0 }
+    if {$on} {
+        return [::review::addNagIfAbsent D]
+    }
+    return [::review::dropNag D]
 }
 
 # The comment a move carries: our label, then the evaluation as [%eval] so the
