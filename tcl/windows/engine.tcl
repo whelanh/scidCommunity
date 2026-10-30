@@ -643,6 +643,12 @@ proc ::enginewin::createButtonsBar {id btn display} {
         -command "::enginewin::exportLines $pv_lines"
     ::utils::tooltip::Set $btn.addlines [tr AddAllVariations]
 
+    # Plays the rest of the game out with the engines chosen in its dialog. The
+    # pass runs on its own connections, so it never takes this window's engine.
+    ttk::button $btn.finish -image [::button_image tb_finish_off] -style Toolbutton \
+        -command [list ::enginewin::finishGame $id]
+    ::utils::tooltip::Set $btn.finish [tr FinishGame]
+
     ttk::spinbox $btn.multipv -increment 1 -width 4 -state disabled \
         -validate key -validatecommand [list ::validate::integer %P 0] \
         -command "after idle \[bind $btn.multipv <FocusOut>\]"
@@ -724,12 +730,12 @@ proc ::enginewin::createButtonsBar {id btn display} {
     ttk::label $btn.reviewstatus -textvariable ::enginewin::reviewstatus($id) \
         -anchor w
 
-    grid $btn.startStop $btn.lock $btn.addbestmove $btn.addlines \
+    grid $btn.startStop $btn.lock $btn.addbestmove $btn.addlines $btn.finish \
          $btn.multipv $btn.depth_label $btn.depth $btn.movetime_label $btn.movetime \
          $btn.autorun $btn.threads $btn.hash \
          $btn.overflow x $btn.gamereview $btn.movecomment $btn.reviewsettings \
          $btn.reviewcancel $btn.reviewstatus $btn.config -sticky ew
-    grid columnconfigure $btn 12 -weight 1
+    grid columnconfigure $btn 13 -weight 1
     grid remove $btn.overflow
 
     set collapsible [dict create autorun "Autoscan" threads "CPUs" hash "Hash"]
@@ -944,6 +950,18 @@ proc ::enginewin::reviewStart {id state} {
 # bookEnd is 0: the pass starts at the first move. Asking a book where the game
 # leaves it would be a second search before the first, and ::review::startPly
 # already knows what to do with the answer once something supplies it.
+# Finish Game: play the rest of the game out. The dialog and the pass live in
+# tools/finish_game.tcl; while a pass is running the same button cancels it.
+proc ::enginewin::finishGame {id} {
+    if {[llength [info commands ::finishgame::dialog]] == 0} { return }
+    if {$::finishgame::active} {
+        ::finishgame::stop
+        return
+    }
+    ::finishgame::dialog $id
+    return
+}
+
 proc ::enginewin::reviewGame {id} {
     set w [::enginewin::reviewWindow $id]
     if {![winfo exists $w.btn.gamereview]} { return }
