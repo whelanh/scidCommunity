@@ -776,8 +776,14 @@ proc ::reviewdriver::writeResults {p results} {
         # diagram; put the cursor back so the write and its marks land here.
         catch { sc_move ply $ply }
         lassign [dict get $verdicts $ply] label eval_cp
-        set err [::review::writeMove $ply $label $eval_cp \
-            [::reviewdriver::lines $results [expr {$ply - 1}] $mpv]]
+        # Only a move the label says could have been better carries a line: a
+        # best/excellent/good move's "variation" would be the next-best line,
+        # which is not an improvement and only fills the game.
+        set lines {}
+        if {[::review::variationWanted $label]} {
+            set lines [::reviewdriver::lines $results [expr {$ply - 1}] $mpv]
+        }
+        set err [::review::writeMove $ply $label $eval_cp $lines]
         # writeMove writes the comment before it tries the variations. A refused
         # variation returns an error but leaves the verdict comment behind, and
         # that comment must still get the marks it promises.

@@ -33,7 +33,7 @@ checkEq "mpv defaults to 3" [::review::get mpv] 3
 checkEq "depth defaults to 18" [::review::get depth] 18
 checkEq "a diagram is written at mistakes and blunders by default" \
     [::review::get diagram] 1
-checkEq "variations are off by default" [::review::get var_lines] 0
+checkEq "a variation shows the better move by default" [::review::get var_lines] 1
 checkEq "no threshold by default" [::review::get var_cp] 0
 
 checkEq "mpv can be raised" [::review::setValue mpv 4] ""
@@ -135,11 +135,23 @@ checkEq "the header is the position after it" [dict get $positions 2] $fen
 checkEq "and the moves after it build on that header" [dict get $positions 3] \
     "$fen e7e5"
 
+puts "which verdicts carry a variation"
+
+# A variation is the move that should have been played, so it belongs on the
+# moves the label says could have been better.
+foreach label {mistake blunder miss} {
+    check "a $label carries a variation" [::review::variationWanted $label]
+}
+foreach label {best excellent good inaccuracy forced book brilliant great} {
+    check "a $label does not" [expr {![::review::variationWanted $label]}]
+}
+
 puts "which lines become variations"
 
 ::review::reset
 set lines {{20 pvA} {10 pvB} {-30 pvC}}
-checkEq "no variations by default" [::review::selectLines $lines pvA] {}
+::review::setValue var_lines 0
+checkEq "var_lines 0 writes no variation" [::review::selectLines $lines pvA] {}
 ::review::setValue var_lines 2
 checkEq "two alternates, best first" [::review::selectLines $lines pvA] {pvB pvC}
 checkEq "one alternate" [::review::selectLines [list {20 pvA} {10 pvB}] pvA] {pvB}

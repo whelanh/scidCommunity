@@ -825,8 +825,10 @@ checkEq "the first review wrote every move" \
 checkEq "and left the user's own note in front of its verdict" \
     [dict get $::fakeComments 2] {A fine move. [excellent] [%eval +0.50]}
 checkEq "and its NAG alone" [nagsAt 2] "?!"
-checkEq "the first review's variations are in the game" \
-    $::fakeVars {0 d2d4 1 c7c5 2 d2d4 3 e7e6}
+# Only the blunder (ply 4) gets a variation: the best and excellent moves have
+# no better move to show, so their next-best line is not inserted.
+checkEq "only the blunder's better move is in the game" \
+    $::fakeVars {3 e7e6}
 checkEq "the labels the first review gave" [list \
     [dict get $::fakeComments 1] [dict get $::fakeComments 3] [dict get $::fakeComments 4]] \
     [list {[best] [%eval -0.40]} {[excellent] [%eval +1.20]} {[blunder] [%eval +8.00]}]
@@ -868,7 +870,7 @@ checkEq "a verdict from the first run is replaced, not appended" \
     [dict get $::fakeComments 3] {[best] [%eval -0.04]}
 checkEq "and so is the last one" [dict get $::fakeComments 4] {[best] [%eval +0.03]}
 checkEq "the variations were not inserted a second time" \
-    $::fakeVars {0 d2d4 1 c7c5 2 d2d4 3 e7e6}
+    $::fakeVars {3 e7e6}
 checkEq "so no variation was created at all" [lsearch -all $::events {var create}] {}
 # A NAG is not the pass's to touch: it writes comments and moves the cursor, and
 # asks the board for nothing else. A NAG already on the move cannot be eaten.

@@ -2639,8 +2639,11 @@ set helpText(P,ReviewSettings) {<h1>Okno silnika: Ustawienia przeglądu</h1>
     głębokość, na którą czeka <a ReviewMoveButton>Komentarz do ruchu</a>, gdy
     włączona jest opcja <b>Czekaj na głębokość przeglądu</b>.</li>
   <li><b>Warianty do zapisania</b>: ile linii silnika trafia do partii jako
-    warianty przy każdym posunięciu. Zero nie zapisuje nic, a liczba nie może
-    przekroczyć liczby linii.</li>
+    warianty przy każdym błędzie, poważnym błędzie i przegapionej wygranej, żeby
+    pokazać, co należało zagrać. Zero nie zapisuje nic, a liczba nie może
+    przekroczyć liczby linii. Wariant dostają tylko posunięcia, które przegląd
+    krytykuje: najlepsze, doskonałe i dobre nie mają lepszego posunięcia do
+    pokazania, a zysk z niedokładności jest zbyt mały, żeby go zapisywać.</li>
   <li><b>Margines wariantów (cp)</b>: jak bardzo inna linia może być słabsza od
     najlepszej, aby została zapisana; linia słabsza bardziej to szum i jest
     odrzucana. Zero zachowuje każdą linię i to ono daje warianty: mały margines,
