@@ -74,7 +74,8 @@ part that other tools read, so they are written here too:
   A batch position can end its search with no scored line at all, which under a
   time cap is the likeliest way a move goes unjudged. Such a ply is written with
   no verdict and the game still counts as completed, so
-  `::batch_annotate::note_position` counts it and the completion dialog reports
+  `::batch_annotate::unjudgedCount` counts it, per move and with the book range
+  excluded, and the completion dialog reports
   `plies with no verdict: N` beside the game count; the games figure alone would
   say the batch finished cleanly.
 

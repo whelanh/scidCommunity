@@ -54,6 +54,18 @@ set l [::batch_annotate::collect \
     {info depth 9 seldepth 12 multipv 1 score cp 90 nodes 10 pv e2e4 e7e5} $l]
 checkEq "a shallower line does not" [dict get $l 1] [dict get $before 1]
 
+# UCI does not require a depth, and the engine may repeat a depth while finishing
+# the iteration. Both must keep a usable line here, exactly as in the review
+# driver's collector, or a move the pass could judge is reported as unjudged.
+puts "\na line without a depth, and an equal-depth reading"
+set l [line {info multipv 1 score cp 20 pv e2e4 e7e5}]
+checkEq "a line without a depth is kept" [dict get $l 1] {0 20 cp {e2e4 e7e5}}
+set l [line {info depth 10 multipv 1 score cp 20 pv e2e4 e7e5}]
+set l [::batch_annotate::collect \
+    {info depth 10 multipv 1 score cp 30 pv d2d4 d7d5} $l]
+checkEq "an equal-depth line is the fresher reading" [dict get $l 1] \
+    {10 30 cp {d2d4 d7d5}}
+
 puts "\nwhat the writer cannot use is left out"
 
 set l [line {info depth 10 multipv 1 score cp 10 lowerbound nodes 1 pv e2e4}]
@@ -111,7 +123,12 @@ proc eof {chan} {
 proc ::batch_annotate_test::go {movetime} {
     ::review::reset
     if {$movetime ne ""} { ::review::setValue movetime $movetime }
-    set path [file tempfile]
+    # file tempfile answers the open channel and names the path in its variable
+    # argument. Using the channel as a path wrote a cwd file called "fileN" and
+    # left the real temp file behind.
+    set path ""
+    set tf [file tempfile path]
+    close $tf
     set chan [::testopen $path w+]
     fconfigure $chan -buffering line
     set ::batch_annotate_test::chan $chan
@@ -183,6 +200,18 @@ set evals2 [dict create \
     4 [dict create 2 {20 5 cp {a7a6}}]]
 checkEq "a move with no line of its own and no successor line is counted" \
     [::batch_annotate::unjudgedCount $bmap $evals2 $bplan] 1
+
+# A game that opens in the book: those plies are written as [Book], not left
+# unjudged, so they must not inflate the count. The first two plies are book and
+# were never searched; the last two have usable lines.
+set bookEvals [dict create \
+    2 [dict create 1 {20 20 cp {g1f3 b8c6}}] \
+    3 [dict create 1 {20 15 cp {b8c6 g1f3}}] \
+    4 [dict create 1 {20 10 cp {a7a6}}]]
+checkEq "without the book range, book plies look unjudged" \
+    [::batch_annotate::unjudgedCount $bmap $bookEvals $bplan] 2
+checkEq "book plies are not counted as unjudged" \
+    [::batch_annotate::unjudgedCount $bmap $bookEvals $bplan 2] 0
 
 set ::batch_annotate::unscored_plies 1
 set ::batch_annotate::games_completed 3

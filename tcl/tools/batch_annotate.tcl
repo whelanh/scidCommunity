@@ -363,9 +363,15 @@ proc ::batch_annotate::collect {line lines} {
     regexp { depth (\d+)} $line -> depth
     regexp {score (cp|mate) (-?\d+)} $line -> score_type score
     regexp { pv (.+)$} $line -> pv
-    if {$score_type ne "" && $score ne "" && $depth ne "" && $pv ne ""} {
+    # UCI does not require `depth`, and an engine that omits it still has a
+    # usable line. The review driver's collector keeps those; this one must too,
+    # or a move the pass could judge is counted as unjudged here.
+    if {![string is integer -strict $depth]} { set depth 0 }
+    if {$score_type ne "" && $score ne "" && $pv ne ""} {
+        # Equal depth: the later line is the fresher reading, as in the review
+        # driver's collector. A deeper line still wins.
         if {[dict exists $lines $multipv] &&
-            [lindex [dict get $lines $multipv] 0] >= $depth} {
+            [lindex [dict get $lines $multipv] 0] > $depth} {
             return $lines
         }
         dict set lines $multipv [list $depth $score $score_type $pv]
@@ -419,11 +425,14 @@ proc ::batch_annotate::read_engine {pipe} {
 #
 # A null move is a header in place of a ply, not a move to label, so it is not
 # counted either - judge refuses it for the same reason.
-proc ::batch_annotate::unjudgedCount {map evals plan} {
+proc ::batch_annotate::unjudgedCount {map evals plan {bookEnd 0}} {
     set sides [::reviewdriver::sides $map]
     set n 0
     foreach ply $plan {
         if {[::review::playedMove $map $ply] eq ""} { continue }
+        # The writer labels the book as theory, not as a move it failed to
+        # judge; counting those plies would report every book line as unjudged.
+        if {$bookEnd > 0 && $ply <= $bookEnd} { continue }
         if {[::reviewdriver::judge $map $evals $sides $ply] eq ""} { incr n }
     }
     return $n
@@ -450,7 +459,7 @@ proc ::batch_annotate::finalize_game {pipe} {
     # per move (see unjudgedCount) because a searched position is not a move:
     # the count is what the completion dialog reports, so it has to be the
     # number the writer actually left unjudged.
-    incr unscored_plies [::batch_annotate::unjudgedCount $map $evals $plan]
+    incr unscored_plies [::batch_annotate::unjudgedCount $map $evals $plan $bookEnd]
 
     # Start the next game immediately to keep the engine busy; the write is the
     # slow part.
