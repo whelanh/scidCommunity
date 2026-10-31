@@ -555,7 +555,7 @@ proc ::reviewdriver::verdicts {map results} {
 # review, because the comments landed.
 proc ::reviewdriver::blankState {{state idle}} {
     return [dict create state $state searched 0 total 0 written 0 failed 0 \
-        errors {} reason "" restored 0]
+        coachDone 0 coachTotal 0 errors {} reason "" restored 0]
 }
 
 proc ::reviewdriver::status {} {
@@ -640,6 +640,15 @@ proc ::reviewdriver::run {engine args} {
     set eff [::review::effective $engine]
     set mpv [dict get $eff mpv]
     set lim [dict create depth [dict get $eff depth] movetime [dict get $eff movetime]]
+    # The verifier is a second opinion, so it must be a different engine; ""
+    # means off. It runs under the pass's own limits, not a deeper search: the
+    # time cap bounds every search a review starts.
+    set verifier ""
+    catch { set verifier [::review::get verifier] }
+    if {$verifier ne "" && [lindex $engine 0] eq $verifier} { set verifier "" }
+    set coach 0
+    catch { set coach [::review::get coach] }
+    if {[llength $plies]} { set coach 0 }
     # A caller that knows the depth (Move Comment: the window's analysis, or the
     # review's own when the setting says to wait for it) is the depth searched.
     # The time cap is not the caller's: it bounds the pass, and a caller lowering
@@ -704,7 +713,9 @@ proc ::reviewdriver::run {engine args} {
     set pass [dict create token $token map $map plan $plan \
         plies [dict get $map plies] bookEnd $bookEnd mpv $mpv \
         positions $positions cursor $cursor \
-        progress $progress notify $notify writer $writer]
+        progress $progress notify $notify writer $writer \
+        verifier $verifier limits $lim coach $coach \
+        report [expr {[llength $plies] ? 0 : 1}]]
     return ""
 }
 
@@ -713,6 +724,7 @@ proc ::reviewdriver::run {engine args} {
 proc ::reviewdriver::cancel {{restore 1}} {
     variable pass
     if {![dict size $pass]} { return 0 }
+    catch { ::reviewverify::stop }
     return [::reviewdriver::stop [dict get $pass token] $restore]
 }
 
@@ -725,6 +737,20 @@ proc ::reviewdriver::runProgress {done total ply lines} {
     dict set state searched $done
     set cmd [dict get $pass progress]
     if {$cmd ne ""} { catch { {*}$cmd $done $total } }
+}
+
+# The coach's progress, in the caller's own vocabulary: {*}$cmd <done> <total>.
+# The window's status line reads the counts through ::reviewdriver::status, so a
+# review that is waiting for a model says so instead of going quiet.
+proc ::reviewdriver::proseProgress {done total args} {
+    variable pass
+    variable state
+    if {![dict size $pass]} { return }
+    dict set state coachDone $done
+    dict set state coachTotal $total
+    set cmd [dict get $pass progress]
+    if {$cmd ne ""} { catch { {*}$cmd $done $total } }
+    return
 }
 
 # The runner finished: now, and only now, the game is written.
@@ -745,6 +771,52 @@ proc ::reviewdriver::runDone {results} {
         return
     }
     dict set state state writing
+    # The verifier, when one is configured, gets the last word on Brilliant and
+    # Great before anything is written. It is a second engine and a second
+    # search, so it runs here - after the pass, before the game changes.
+    set verifier [dict get $p verifier]
+    if {$verifier ne "" && [llength [info commands ::reviewverify::start]]} {
+        dict set pass results $results
+        set labels [dict create]
+        set verdicts [::reviewdriver::verdicts [dict get $p map] $results]
+        dict for {ply v} $verdicts { dict set labels $ply [lindex $v 0] }
+        set cfg ""
+        catch { set cfg [::enginecfg::get $verifier] }
+        set started 0
+        if {[llength $cfg]} {
+            catch {
+                set started [::reviewverify::start $cfg [dict get $p map] \
+                    $results $labels [dict get $p limits] \
+                    [list ::reviewdriver::verified [dict get $p token]]]
+            }
+        }
+        if {$started} { return }
+    }
+    ::reviewdriver::writeRun $p $results [dict create]
+}
+
+# The verifier finished: write the corrections and the review together.
+proc ::reviewdriver::verified {token corrections} {
+    variable pass
+    variable state
+    if {![dict size $pass] || [dict get $pass token] ne $token} { return }
+    set p $pass
+    set results [dict get $p results]
+    dict set state state writing
+    ::reviewdriver::writeRun $p $results $corrections
+}
+
+# The one write phase, after the search (and its verification).
+proc ::reviewdriver::writeRun {p results corrections} {
+    variable state
+    set p [dict merge $p [dict create corrections $corrections]]
+    # A full review owns the coach blocks on its moves: clear the previous run's
+    # prose first, whether or not this run has a provider.
+    set report 0
+    catch { set report [dict get $p report] }
+    if {$report && [llength [info commands ::reviewcoach::clear]]} {
+        catch { ::reviewcoach::clear $p $results }
+    }
     set counts ""
     if {[catch { set counts [{*}[dict get $p writer] $p $results] } err]} {
         # A writer that blew up wrote part of a review: report it rather than
@@ -761,8 +833,43 @@ proc ::reviewdriver::runDone {results} {
             dict set state errors [dict get $counts errors]
         }
     }
+    # The labels and the report are in the game now. Put the reader back and
+    # redraw before the coach starts: prose can take minutes, and a review the
+    # user cannot see reads as one that never ran at all.
+    ::reviewdriver::restoreRun $p
+    ::reviewdriver::notifyBoard $p
+    # The coach is the last layer: it reads the written game and says nothing
+    # about where the moves are. A provider that is not configured is a no-op,
+    # not an error.
+    set coach 0
+    catch { set coach [dict get $p coach] }
+    if {$coach && [llength [info commands ::reviewcoach::start]]} {
+        variable proseJob
+        set proseJob [dict create token [dict get $p token] p $p]
+        set started 0
+        catch {
+            set started [::reviewcoach::start $p $results \
+                [list ::reviewdriver::proseDone [dict get $p token]] \
+                ::reviewdriver::proseProgress]
+        }
+        if {$started} { return }
+        set proseJob {}
+    }
     dict set state state done
-    ::reviewdriver::endRun $p
+    ::reviewdriver::endRun $p 0
+}
+
+# Prose finished (or was cancelled): put it in the game and close the pass.
+proc ::reviewdriver::proseDone {token} {
+    variable pass
+    variable state
+    variable proseJob
+    if {![dict size $pass] || [dict get $pass token] ne $token} { return }
+    set p ""
+    catch { set p [dict get $proseJob p] }
+    set proseJob {}
+    dict set state state done
+    if {$p ne ""} { ::reviewdriver::endRun $p 0 }
 }
 
 # Write one move at a time, ascending, from the verdicts the search produced.
@@ -803,6 +910,8 @@ proc ::reviewdriver::writeResults {p results} {
     set failed 0
     set errors {}
     set verdicts [::reviewdriver::verdicts $map $results]
+    set corrections {}
+    catch { set corrections [dict get $p corrections] }
     foreach ply [dict get $p plan] {
         if {$ply <= $bookEnd} {
             # In the book: theory, not a verdict. No [%eval] and no variation,
@@ -828,6 +937,9 @@ proc ::reviewdriver::writeResults {p results} {
         # diagram; put the cursor back so the write and its marks land here.
         catch { sc_move ply $ply }
         lassign [dict get $verdicts $ply] label eval_cp
+        if {[dict exists $corrections $ply]} {
+            set label [dict get $corrections $ply]
+        }
         # Only a move the label says could have been better carries a line: a
         # best/excellent/good move's "variation" would be the next-best line,
         # which is not an improvement and only fills the game.
@@ -903,6 +1015,11 @@ proc ::reviewdriver::writeResults {p results} {
             lappend errors $err
         }
     }
+    # The deterministic report belongs to the pass, not to a caller: it is
+    # written once, from the same results, after the moves are in the game.
+    if {[llength [info commands ::reviewreport::write]]} {
+        catch { ::reviewreport::write $p $results }
+    }
     # The counts, not the state: runDone owns the status dict, so a -writer that
     # is not this proc reports in the same vocabulary.
     return [dict create written $written failed $failed errors $errors]
@@ -925,17 +1042,27 @@ proc ::reviewdriver::restoreRun {p} {
     return $restored
 }
 
-# The end of a run: the cursor goes back exactly once, and the board is told the
-# game changed when the caller asked for it. The driver itself has no Tk.
-proc ::reviewdriver::endRun {p} {
-    variable pass
-    set pass {}
-    ::reviewdriver::restoreRun $p
-    if {[dict get $p notify] && [llength [info commands ::notify::PosChanged]]} {
+# Tell the board the game text changed, when the caller asked for it. The driver
+# itself has no Tk, so a missing notification is a no-op.
+proc ::reviewdriver::notifyBoard {p} {
+    if {[dict exists $p notify] && [dict get $p notify] \
+            && [llength [info commands ::notify::PosChanged]]} {
         # -pgn, not "": the write phase changed comments and variations across
         # the whole game, so the game text has to be regenerated. An empty
-        # argument only refreshes the current move, which left the review
-        # invisible in the PGN pane until something else redrew it.
+        # argument only refreshes the current move, which leaves the review
+        # invisible in the PGN pane until something else redraws it.
         catch { ::notify::PosChanged -pgn }
     }
+    return
+}
+
+# The end of a run: the cursor goes back, and the board is told the game changed
+# when the caller asked for it. `restore 0` is for the coach's ending: the write
+# phase already put the reader back before prose started, and moving them again
+# would drag a board they have since browsed back to where the pass began.
+proc ::reviewdriver::endRun {p {restore 1}} {
+    variable pass
+    set pass {}
+    if {$restore} { ::reviewdriver::restoreRun $p }
+    ::reviewdriver::notifyBoard $p
 }

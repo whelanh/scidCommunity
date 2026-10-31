@@ -33,6 +33,8 @@ checkEq "mpv defaults to 3" [::review::get mpv] 3
 checkEq "depth defaults to 18" [::review::get depth] 18
 checkEq "a diagram is written at mistakes and blunders by default" \
     [::review::get diagram] 1
+checkEq "no verifier engine by default" [::review::get verifier] ""
+checkEq "coach prose is off by default" [::review::get coach] 0
 checkEq "a variation shows the better move by default" [::review::get var_lines] 1
 checkEq "no threshold by default" [::review::get var_cp] 0
 
@@ -716,6 +718,16 @@ set ::review::S [dict create]
 checkEq "a negative flag is on as well" [::review::get skip_book] 1
 checkEq "the diagram switch refuses anything but 0 or 1" \
     [::review::setValue diagram 2] "diagram is 0 or 1"
+
+# The verifier is a preset name, with Off as the empty value.
+namespace eval ::enginecfg {}
+proc ::enginecfg::names {} { return [list "Engine A" "Engine B"] }
+checkEq "Off clears the verifier" [::review::setValue verifier Off] ""
+checkEq "and stores nothing" [::review::get verifier] ""
+checkEq "a preset name is accepted" [::review::setValue verifier {Engine B}] ""
+checkEq "and remembered" [::review::get verifier] {Engine B}
+checkEq "an unknown name is refused" \
+    [::review::setValue verifier {No Such Engine}] "unknown engine: No Such Engine"
 array unset ::reviewopt
 ::review::reset
 

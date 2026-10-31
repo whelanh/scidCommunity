@@ -138,7 +138,7 @@ the cap bit — instead of waiting for a depth the cap will never allow.
 
 ## Review Settings
 
-**Review Settings** opens seven rows:
+**Review Settings** opens nine rows:
 
 | Row | Setting | Range |
 | --- | --- | --- |
@@ -147,8 +147,10 @@ the cap bit — instead of waiting for a depth the cap will never allow.
 | Time cap (ms) | `movetime` | 0–3600000 (0 = no cap of the review's own) |
 | Variations to write | `var_lines` | 0–`mpv` (default 1) |
 | Variation margin (cp) | `var_cp` | 0–500 |
-| Wait for the review depth | `move_comment_wait` | 0–1 |
-| Diagram | `diagram` | 0–1 |
+| Wait for the review depth | `move_comment_wait` | checkbox |
+| Diagram | `diagram` | checkbox |
+| Verifier engine | `verifier` | Off or an engine preset |
+| Coach prose | `coach` | checkbox |
 
 The time cap sits beside Depth because it bounds the same thing. A value of 0
 means the review sets no cap of its own, and the row then shows the preset's, as
@@ -181,18 +183,72 @@ Every row is stored through `::review::setValue`, which owns the rules. A value
 it refuses is reported in the dialog and the dialog stays open, so the rest of
 the edit is not lost; nothing is clamped behind the user's back. `var_lines` is
 capped by `mpv`, so its box follows `mpv` rather than offering a number the
-setter would reject.
+setter would reject. The verifier row is a preset chooser: `Off` is the empty
+value, and a named preset must be a different engine from the review's own.
 
-The seven rows are ordinary options (`::reviewopt(mpv)` and so on, registered
+The nine settings are ordinary options (`::reviewopt(mpv)` and so on, registered
 with `options.store`), so they are written to the options file with the rest of
 the user's preferences and read back at the next start. A value in a hand-edited
 options file is clamped to the same range before it is used: the file must not be
 able to decide that a pass searches at depth 0, or never gets a search at all.
 
+**The verifier** re-searches only the positions whose move was labelled
+Brilliant or Great, with the chosen preset and under the pass's own limits: the
+same depth floor and time cap, so a capped review stays capped in its second
+opinion. If it disagrees
+about the best move, or a Great move does not have a 200 cp gap to the second
+line, the move is written as Best. It is off by default and never uses the
+review's own engine; a missing or broken verifier leaves the labels as the
+review found them.
+
+**Coach prose** runs the configured model (the **Coach settings...** button
+beside the switch opens the provider, key and model dialog) over the review’s own
+facts: a closing note in the header (`Summary`, `Level`, `Opening`), one
+paragraph per phase at the end of that phase, carrying its own move range, accuracy
+and ACPL, and a note on the key moments and mistakes. The model is a narrator:
+it may name only what the facts list, never a label, a score or a number. It
+never changes a label or a score; a failed request is dropped, and a phase whose
+prose fails keeps its figures. It is off by default, no request is made when no
+provider is configured, and turning it off removes the prose a previous run
+wrote.
+
+The labels, the header and the variations are written and redrawn as soon as the
+search ends, whether or not the coach is on. Prose is the only part that arrives
+later, and the status line counts it (`Coach prose: 3 of 9`) while the pass holds
+the window: a review waiting on a model must not look like a review that did
+nothing.
+
+The pass also shows a small progress window over the engine window: the same
+count with a bar (`Reviewing position 12 of 38`, then `Coach prose: 3 of 9`),
+and a Cancel button. It is not modal, it stays up until the whole pass is
+finished - including the coach - and closing it only hides it; the pass carries
+on and the bar in the engine window still reports.
+
+## What's the threat?
+
+**What's the threat?** is a button in the engine window beside
+<a ReviewMoveButton>Move Comment</a>, and the same command is in
+<menu>Tools</menu>. The button uses that window's engine preset; the menu entry
+uses the first open engine window's preset, or the first configured preset when
+no window is open - so the probe works without an engine window as long as an
+engine is configured. It asks for the strongest move in the position on the
+board and describes it in words. The side to move is the side whose threat it
+is: ask after your own move and the answer is the opponent's threat. The probe
+is a short search at depth 14 under the review's effective time cap
+(`::review::effective`), on a connection of its own - never the review pass and
+never the window's analysis - so it does not disturb either.
+
+It reads the same deterministic facts as a move comment: the move in words, the
+rule state, what the move wins or threatens, and what it achieves. With a coach
+model configured it shows one sentence of prose over those facts; without one,
+the deterministic sentence is the answer. **Nothing is written into the game**;
+it is a question, not an annotation. The menu item uses the preset of the first
+open engine window, or the first configured preset when no window is open.
+
 **Threads and Hash are not in this dialog.** They are properties of the engine
 preset — the whole point of the preset work in #382 — and are set from the
 window's own controls. The dialog shows what the pass will take from them,
-read-only, under the six rows, as `Threads 8, Hash 256 MB (from engine preset)`.
+read-only, under the nine rows, as `Threads 8, Hash 256 MB (from engine preset)`.
 A second place to set them is a second place to get them wrong, and the window's
 own controls already write the preset.
 
@@ -226,10 +282,19 @@ main-line snapshot non-authoritative.
 | `tcl/tools/game_review.tcl` | `::review` settings, `passLimits`, `plan`, `searchPlies`, `mainLineMap`, `playedMove`, `moveCommentPlan`, `writeMove`, `selectLines`, `scoreToNag`, `variationWanted` |
 | `tcl/tools/review_driver.tcl` | `::reviewdriver` — the engine pass on connection 20, `run` (plan → verdicts → write), `status`, `cancel` |
 | `tcl/tools/review_ui.tcl` | `::reviewui` — button state, the call a press makes, dialog values, the time cap's note, the status line |
+| `tcl/tools/review_report.tcl` | the deterministic report: CAPS accuracy, ACPL, estimated Elo, key moments, phase split and the `[Game review]` header |
+| `tcl/tools/review_coach.tcl` | the facts a coach may use, the summary/phase/move prompts, and where the prose lands |
+| `tcl/tools/review_prose.tcl` | the one-request-at-a-time prose queue: progress, cancel, cache, failed-request dropping |
+| `tcl/tools/review_verify.tcl` | the second engine for Brilliant and Great, under the pass's own depth and time cap |
+| `tcl/tools/review_threat.tcl` | the "What's the threat?" probe: one short search, facts in words and an optional coach sentence |
 | `tcl/windows/engine.tcl` | the two buttons, the status line, the settings dialog (guarded glue) |
 | `tests/tcl/review_settings_dialog.tcl` | under Tk: the dialog builds, has OK/Cancel, stores what is typed, refuses a bad value, the variation box follows `mpv`, the time cap's row shows the preset's cap and drops the note, and both traces are removed when the dialog closes |
-| `tests/tcl/review_ui.tcl` | 204 checks: the call a press makes, the status line, the button states, the dialog round trip, the precedence table through the dialog, the time cap's note, the move-comment depth, the key set |
-| `tests/tcl/review_driver.tcl` | 237 checks: the pass against a stub engine, the four Go shapes the precedence table produces, a capped run, two reviews of the same game in a row and the engine window's hand-off to it |
+| `tests/tcl/review_ui.tcl` | 213 checks: the call a press makes, the status line, the button states, the dialog round trip, the precedence table through the dialog, the time cap's note, the move-comment depth, the key set |
+| `tests/tcl/review_driver.tcl` | 249 checks: the pass against a stub engine, the four Go shapes the precedence table produces, a capped run, two reviews of the same game in a row and the engine window's hand-off to it |
+
+The coach layer adapts Patzer (MIT) and David Crandall's game-review plugin
+(GPL-2.0-or-later); the file-by-file record is in
+[`docs/third-party-notices.md`](third-party-notices.md).
 
 ## Tests
 
@@ -239,9 +304,9 @@ widget would otherwise have to decide:
 - **the call a press makes** — `::reviewdriver::run`, with `-bookEnd`, the one move
   and depth for Move Comment, and a refusal (not an engine opening) when there is
   no game, no engine or no driver;
-- **the status line** the driver's own state maps to: a search's count, silence
-  for the write phase, a finished run and a cancelled one, and the reason a run
-  that failed or was partly refused gives;
+- **the status line** the driver's own state maps to: a search's count, the
+  write phase, the coach's answer count, a finished run and a cancelled one, and
+  the reason a run that failed or was partly refused gives;
 - **button state** for every combination the window can be in — no game, no
   engine, last position, a pass running, and a state dict with a key missing;
 - **the dialog round trip**: read, change, refuse one field, and check the four

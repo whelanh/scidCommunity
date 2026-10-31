@@ -459,10 +459,19 @@ proc ::engine::done_ {id} {
 }
 
 # Sends a reply to the local callback and all the remote clients.
+#
+# The callback may close this engine - a one-shot probe or a verifier does
+# exactly that when its last answer arrives - and closeEngine_ unsets both the
+# callback and the client list. Read them first, and a closed channel is not an
+# error: the reply has already been handled locally.
 proc ::engine::reply {id msg} {
-    {*}$::engconn(callback_$id) $msg
-    foreach netchannel $::engconn(netclients_$id) {
-        chan puts [lindex $netchannel 0] $msg
+    set callback ""
+    catch { set callback $::engconn(callback_$id) }
+    set clients {}
+    catch { set clients $::engconn(netclients_$id) }
+    if {$callback ne ""} { {*}$callback $msg }
+    foreach netchannel $clients {
+        catch { chan puts [lindex $netchannel 0] $msg }
     }
 }
 

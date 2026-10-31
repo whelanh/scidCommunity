@@ -721,6 +721,10 @@ proc ::enginewin::createButtonsBar {id btn display} {
         -command [list ::enginewin::reviewMove $id]
     ::utils::tooltip::Set $btn.movecomment [::reviewui::label ReviewMoveButtonTooltip]
 
+    ttk::button $btn.threat -text [::reviewui::label ToolsWhatThreat] \
+        -command [list ::enginewin::threat $id]
+    ::utils::tooltip::Set $btn.threat [::reviewui::label ToolsWhatThreatTooltip]
+
     ttk::button $btn.reviewsettings -text [::reviewui::label ReviewSettings] \
         -command [list ::enginewin::reviewSettings $id]
     ::utils::tooltip::Set $btn.reviewsettings [::reviewui::label ReviewSettings]
@@ -736,8 +740,9 @@ proc ::enginewin::createButtonsBar {id btn display} {
     grid $btn.startStop $btn.lock $btn.addbestmove $btn.addlines $btn.finish \
          $btn.multipv $btn.depth_label $btn.depth $btn.movetime_label $btn.movetime \
          $btn.autorun $btn.threads $btn.hash \
-         $btn.overflow x $btn.gamereview $btn.movecomment $btn.reviewsettings \
-         $btn.reviewcancel $btn.reviewstatus $btn.config -sticky ew
+         $btn.overflow x $btn.gamereview $btn.movecomment $btn.threat \
+         $btn.reviewsettings $btn.reviewcancel $btn.reviewstatus $btn.config \
+         -sticky ew
     grid columnconfigure $btn 13 -weight 1
     grid remove $btn.overflow
 
@@ -764,6 +769,10 @@ proc ::enginewin::createButtonsBar {id btn display} {
 
 array set ::enginewin::reviewstatus {}
 array set ::enginewin::reviewsetting {}
+# The pass's own progress window, and whether the user closed it: a window they
+# dismissed must not reappear on the next count.
+array set ::enginewin::reviewprogress {}
+array set ::enginewin::reviewhidden {}
 # The window that started the pass in flight. One run exists at a time (the
 # driver refuses a second), so the Cancel button and the status line belong to
 # whoever started it, and to no other engine window.
@@ -890,6 +899,85 @@ proc ::enginewin::reviewRunState {id {plies ""} {depth ""}} {
     return $state
 }
 
+# The pass's progress window. It is not a dialog: no grab, and the user may
+# keep working. It stays until the pass is over - the labels are written and
+# the coach is still writing - and Cancel is the same command as the bar's.
+proc ::enginewin::reviewProgressWindow {id} {
+    return [::enginewin::reviewWindow $id].reviewProgress
+}
+
+# Put the driver's numbers on the bar. Text comes from the same status line the
+# bar in the engine window shows, so the two cannot disagree.
+proc ::enginewin::reviewPaintProgress {id} {
+    variable reviewprogress
+    if {![info exists ::enginewin::reviewprogress($id)]} {
+        set ::enginewin::reviewprogress($id) ""
+    }
+    set w [::enginewin::reviewProgressWindow $id]
+    if {![winfo exists $w]} { return }
+    set st ""
+    catch { set st [::reviewdriver::status] }
+    set text ""
+    catch { set text [::reviewui::statusText $st] }
+    if {$text ne ""} { set ::enginewin::reviewprogress($id) $text }
+    set frac 0.0
+    catch { set frac [::reviewui::passFraction $st] }
+    if {$frac < 0} { set frac 0.0 }
+    if {$frac > 1} { set frac 1.0 }
+    catch { $w.bar configure -value $frac }
+}
+
+proc ::enginewin::reviewOpenProgress {id} {
+    variable reviewhidden
+    if {[info exists ::enginewin::reviewhidden($id)] && $::enginewin::reviewhidden($id)} {
+        return ""
+    }
+    set w [::enginewin::reviewProgressWindow $id]
+    if {[winfo exists $w]} { return $w }
+    set owner [::enginewin::reviewWindow $id]
+    if {![winfo exists $owner]} { return "" }
+    toplevel $w
+    # A toplevel keeps Tk's classic grey whatever the ttk theme is, so paint it
+    # like the rest of our dialogs and follow a theme change.
+    catch { ::applyThemeColor_background $w }
+    wm title $w [::reviewui::label ReviewGameButton]
+    wm transient $w $owner
+    wm resizable $w 0 0
+    wm protocol $w WM_DELETE_WINDOW [list ::enginewin::reviewHideProgress $id]
+    if {![info exists ::enginewin::reviewprogress($id)]} {
+        set ::enginewin::reviewprogress($id) ""
+    }
+    ttk::label $w.what -textvariable ::enginewin::reviewprogress($id) -anchor w         -wraplength 340
+    ttk::progressbar $w.bar -mode determinate -maximum 1.0 -value 0 -length 340
+    ttk::button $w.cancel -text [tr Cancel] -command [list ::enginewin::reviewCancel $id]
+    grid $w.what -sticky ew -padx 16 -pady {14 8}
+    grid $w.bar -sticky ew -padx 16
+    grid $w.cancel -pady 12
+    ::enginewin::reviewPaintProgress $id
+    # Over the window that started it, not wherever the window manager likes.
+    update idletasks
+    set x [expr {[winfo rootx $owner] + ([winfo width $owner] - [winfo reqwidth $w]) / 2}]
+    set y [expr {[winfo rooty $owner] + ([winfo height $owner] - [winfo reqheight $w]) / 2}]
+    if {$x < 0} { set x 0 }
+    if {$y < 0} { set y 0 }
+    wm geometry $w "+$x+$y"
+    raise $w
+    return $w
+}
+
+# The user closed it: the pass keeps running, and the bar in the engine window
+# still says where it is. A new pass starts with it shown again.
+proc ::enginewin::reviewHideProgress {id} {
+    set ::enginewin::reviewhidden($id) 1
+    catch { destroy [::enginewin::reviewProgressWindow $id] }
+}
+
+proc ::enginewin::reviewCloseProgress {id} {
+    unset -nocomplain ::enginewin::reviewhidden($id)
+    unset -nocomplain ::enginewin::reviewprogress($id)
+    catch { destroy [::enginewin::reviewProgressWindow $id] }
+}
+
 # Show what the driver's state says, for the window that started the pass.
 # Never raises: it is called from a progress callback and from the notification
 # that ends the write phase.
@@ -903,6 +991,14 @@ proc ::enginewin::reviewStatus {id} {
         set ::enginewin::reviewstatus($id) ""
     }
     set ::enginewin::reviewstatus($id) $text
+    # The progress window lives exactly as long as the pass does, so it stays up
+    # through the coach's wait and goes away when the prose is written.
+    if {[::enginewin::reviewPass $id] ne ""} {
+        ::enginewin::reviewOpenProgress $id
+        ::enginewin::reviewPaintProgress $id
+    } else {
+        ::enginewin::reviewCloseProgress $id
+    }
     # A run that is over hands the window back: another press must be able to
     # start one, and another window may start its own.
     if {[::enginewin::reviewPass $id] eq ""} { set reviewowner "" }
@@ -977,6 +1073,17 @@ proc ::enginewin::reviewGame {id} {
     ::enginewin::reviewStart $id [::enginewin::reviewRunState $id]
 }
 
+# What's the threat? uses this window's preset, so the answer comes from the
+# engine the user is looking at. With no engine selected, the probe falls back
+# to the first configured preset and says what it needs.
+proc ::enginewin::threat {id} {
+    set name ""
+    catch { set name $::enginewin_lastengine($id) }
+    set cfg ""
+    if {$name ne ""} { catch { set cfg [::enginecfg::get $name] } }
+    ::reviewthreat::ask $cfg
+}
+
 # Move Comment: the move played from here, and only that move.
 #
 # Two positions, the one before the move and the one after it, because a verdict
@@ -1028,6 +1135,7 @@ proc ::enginewin::reviewCancel {id} {
     if {[info exists ::enginewin::reviewstatus($id)]} {
         set ::enginewin::reviewstatus($id) ""
     }
+    ::enginewin::reviewCloseProgress $id
     catch { ::enginewin::reviewRefresh $id }
 }
 
@@ -1044,6 +1152,7 @@ proc ::enginewin::reviewStopAll {} {
         if {[info exists ::enginewin::reviewstatus($id)]} {
             set ::enginewin::reviewstatus($id) ""
         }
+        ::enginewin::reviewCloseProgress $id
         catch { ::enginewin::reviewRefresh $id }
     }
 }
@@ -1066,7 +1175,8 @@ proc ::enginewin::reviewRefreshAll {} {
     }
 }
 
-# The settings dialog: the five settings the pass's own decisions read.
+# The settings dialog: the settings the pass's own decisions read, with the
+# verifier engine as a preset chooser rather than a number.
 #
 # Threads and Hash are deliberately not here. They belong to the engine preset
 # (#382) and are set from the window's own controls; the dialog shows what the
@@ -1095,11 +1205,29 @@ proc ::enginewin::reviewSettings {id} {
     grid $w.f -sticky news
     set row 0
     foreach key [::reviewui::settingKeys] {
-        lassign [::reviewui::settingRange $key] lo hi
-        set ::enginewin::reviewsetting($id,$key) [::review::get $key]
-        ttk::label $w.f.l$key -text "[::reviewui::settingLabel $key]:" -anchor w
-        ttk::spinbox $w.f.v$key -from $lo -to $hi -increment 1 -width 6 \
-            -textvariable ::enginewin::reviewsetting($id,$key)
+        set value [::review::get $key]
+        if {$key eq "verifier"} {
+            # A preset name, not a number: Off plus every configured engine.
+            set vals [list Off]
+            catch { set vals [concat $vals [::enginecfg::names]] }
+            if {$value eq ""} { set value Off }
+            set ::enginewin::reviewsetting($id,$key) $value
+            ttk::label $w.f.l$key -text "[::reviewui::settingLabel $key] (verifier):" -anchor w
+            ttk::combobox $w.f.v$key -values $vals -state readonly -width 22 \
+                -textvariable ::enginewin::reviewsetting($id,$key)
+        } elseif {[lsearch -exact {move_comment_wait diagram coach} $key] >= 0} {
+            # On/off settings are a checkbox, not a number box holding 0 or 1.
+            set ::enginewin::reviewsetting($id,$key) $value
+            ttk::label $w.f.l$key -text "[::reviewui::settingLabel $key]:" -anchor w
+            ttk::checkbutton $w.f.v$key -onvalue 1 -offvalue 0 \
+                -variable ::enginewin::reviewsetting($id,$key)
+        } else {
+            lassign [::reviewui::settingRange $key] lo hi
+            set ::enginewin::reviewsetting($id,$key) $value
+            ttk::label $w.f.l$key -text "[::reviewui::settingLabel $key]:" -anchor w
+            ttk::spinbox $w.f.v$key -from $lo -to $hi -increment 1 -width 6 \
+                -textvariable ::enginewin::reviewsetting($id,$key)
+        }
         grid $w.f.l$key -row $row -column 0 -sticky w -pady 2
         grid $w.f.v$key -row $row -column 1 -sticky w -padx {10 0} -pady 2
         # Kept per key so a row can be revisited: the time cap's note is a third
@@ -1107,6 +1235,17 @@ proc ::enginewin::reviewSettings {id} {
         set rowOf($key) $row
         incr row
     }
+    # The coach's provider, key and model live in the Auto Comment settings;
+    # put the way there beside the coach switch instead of leaving it behind
+    # Tools -> Game Comment.
+    if {[llength [info commands ::auto_comment::openSettings]]} {
+        ttk::button $w.f.coachsettings -text "Coach settings..." \
+            -command {::auto_comment::openSettings {}}
+        grid $w.f.coachsettings -row $row -column 0 -columnspan 2 \
+            -sticky w -pady {6 0}
+        incr row
+    }
+
     # var_lines is capped by mpv, so its box follows the mpv box while the user
     # edits: opening with MultiPV 3 and raising it to 5 has to offer 4 and 5
     # lines without closing the dialog. The range comes from ::reviewui, which
@@ -1203,7 +1342,9 @@ proc ::enginewin::reviewSettings {id} {
         -command [list ::enginewin::reviewSettingsApply $id $w]
     ttk::button $w.b.cancel -text [tr Cancel] -command [list destroy $w]
     grid $w.b.ok $w.b.cancel -padx 4
-    catch { grab $w }
+    # No grab. This dialog opens another one - Coach settings - and a grab here
+    # swallows every event meant for it: the coach dialog came up and nothing in
+    # it could be clicked, the provider and model lists included.
     return $w
 }
 

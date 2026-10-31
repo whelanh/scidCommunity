@@ -6,7 +6,7 @@
 
 **scidCommunity** is a powerful chess analysis and database program. Originally derived from `Scid` (Shane's Chess Information Database), it has evolved into a distinct tool with numerous enhancements and a growing community of over 4,400 users around the world.
 
-While it maintains compatibility with the original Scid database formats, **scidCommunity** focuses on modern features like integrations with Lichess and Chess.com, user-requested improvements, and a streamlined experience for analysis and database management. **scidCommunity** is free software and is released under the GPL licence.
+While it maintains compatibility with the original Scid database formats, **scidCommunity** focuses on modern features like integrations with Lichess and Chess.com, user-requested improvements, and a streamlined experience for analysis and database management. **scidCommunity** is free software and is released under the GPL licence. Third-party notices are in [`docs/third-party-notices.md`](docs/third-party-notices.md).
 
 ### Key Enhancements & Features
 

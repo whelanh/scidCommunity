@@ -2641,7 +2641,7 @@ set helpTitle(P,ReviewSettings) "Ustawienia przeglądu"
 set helpText(P,ReviewSettings) {<h1>Okno silnika: Ustawienia przeglądu</h1>
   <p>
   <b>Ustawienia przeglądu</b> w oknie <a Engine>Silnika</a> zawierają wybory
-  czytane przez przegląd. Sześć wartości:
+  czytane przez przegląd. Dziewięć wartości:
   </p>
   <ul>
   <li><b>Linie</b>: ile linii silnika zachowuje każda pozycja (MultiPV), od 1
@@ -2649,6 +2649,10 @@ set helpText(P,ReviewSettings) {<h1>Okno silnika: Ustawienia przeglądu</h1>
   <li><b>Głębokość</b>: jak głęboko przeszukiwana jest każda pozycja. To także
     głębokość, na którą czeka <a ReviewMoveButton>Komentarz do ruchu</a>, gdy
     włączona jest opcja <b>Czekaj na głębokość przeglądu</b>.</li>
+  <li><b>Limit czasu (ms)</b>: górny limit czasu na jedną pozycję; 0 oznacza,
+    że przegląd nie ustawia własnego limitu i obowiązuje limit z profilu
+    silnika. Silnik zatrzymuje się na tym, co nastąpi pierwsze, więc
+    przeszukiwanie może zakończyć się płycej niż podana głębokość.</li>
   <li><b>Warianty do zapisania</b>: ile linii silnika trafia do partii jako
     warianty przy każdym błędzie, poważnym błędzie i przegapionej wygranej, żeby
     pokazać, co należało zagrać. Zero nie zapisuje nic, a liczba nie może
@@ -2663,10 +2667,30 @@ set helpText(P,ReviewSettings) {<h1>Okno silnika: Ustawienia przeglądu</h1>
   <li><b>Czekaj na głębokość przeglądu</b>: czy komentarz do posunięcia czeka na
     głębokość przeglądu, zamiast korzystać z analizy już widocznej na ekranie -
     patrz <a ReviewMoveButton>Komentarz do ruchu</a>.</li>
-  <li><b>Diagram</b>: 1 wstawia znacznik diagramu (<b>D</b>) przed każdym
-    błędem i poważnym błędem, żeby wydruk lub HTML pokazał pozycję, w której
-    popełniono błąd; 0 nie wstawia żadnego.</li>
+  <li><b>Diagram</b>: zaznaczony wstawia znacznik diagramu (<b>D</b>) przed
+    każdym błędem i poważnym błędem, żeby wydruk lub HTML pokazał pozycję, w
+    której popełniono błąd; odznaczony nie wstawia żadnego.</li>
+  <li><b>Silnik (weryfikator)</b>: drugi profil silnika, który przeszukuje
+    ponownie tylko posunięcia oznaczone jako genialne lub świetne, z tym samym
+    limitem głębokości i czasu co sam przegląd. Jeśli nie zgadza się co do
+    najlepszego posunięcia (lub
+    świetne posunięcie nie ma wystarczającej przewagi nad drugą linią), etykieta
+    wraca do najlepszego. <b>Wyłączony</b> oznacza brak weryfikacji; silnik musi
+    być inny niż ten, którym przegląd szuka.</li>
+  <li><b>Tekst trenera</b>: zaznaczony prosi skonfigurowany model o
+    podsumowanie, jeden akapit na fazę i notkę o kluczowych momentach oraz
+    błędach. Przycisk <b>Ustawienia trenera...</b> obok przełącznika otwiera
+    okno dostawcy, klucza i modelu. Model tylko opisuje fakty obliczone przez przegląd; nigdy nie
+    zmienia etykiety. Odznaczony pozostawia przegląd deterministyczny.</li>
   </ul>
+  <p>
+  Przegląd pokazuje postęp w małym oknie nad oknem silnika: liczbę
+  pozycji podczas przeszukiwania, a potem <b>Tekst trenera: 3 z 9</b>, gdy model
+  pisze. Etykiety i nagłówek są zapisywane od razu po zakończeniu
+  przeszukiwania, więc tylko tekst trenera przychodzi później. Okno zamyka
+  się po zakończeniu przeglądu; przycisk <b>Anuluj</b> zatrzymuje przegląd,
+  a zamknięcie okna tylko je ukrywa.
+  </p>
 
   <h3>Czego tu nie ma</h3>
   <p>
@@ -2690,18 +2714,24 @@ set helpText(P,ReviewSettings) {<h1>Okno silnika: Ustawienia przeglądu</h1>
 ####################
 ### Pomoc komentarzy AI w trybie zbiorczym:
 ###
-### Przycisk Komentarz do Partii zniknął z okna silnika, a tryb zbiorczy nadal da
-### się wywołać po nazwie (::analysis_auto_comment::batch_generate).
+### Przycisk Komentarz do Partii i jego pozycja w menu Narzędzia zniknęły:
+### przegląd partii i tekst trenera przejęły tę ścieżkę. Tryb zbiorczy nadal da
+### się wywołać po nazwie (::analysis_auto_comment::batch_generate) ze skryptu;
+### ta strona dokumentuje tę starszą ścieżkę.
 
 set helpTitle(P,BatchAnnotate) "Komentowanie partii w trybie zbiorczym"
 set helpText(P,BatchAnnotate) {<h1>Komentowanie partii w trybie zbiorczym</h1>
   <p>
-  ScidCommunity potrafi wygenerować komentarze AI dla całej partii naraz, w
-  trybie zbiorczym. Dawniej służył do tego przycisk <b>Komentarz do Partii</b> w
-  oknie silnika. Tego przycisku już nie ma; użyj <menu>Narzędzia</menu> >
-  <menu>Komentarz do Partii</menu> (albo wywołaj
-  <b>::analysis_auto_comment::batch_generate</b> ze skryptu). Otwiera on to samo
-  okno co dawniej, a jego działanie się nie zmieniło.
+  Przycisk <b>Komentarz do Partii</b> i jego pozycja w menu <menu>Narzędzia</menu>
+  zniknęły. <a ReviewGameButton><b>Przegląd partii</b></a> przejął ścieżkę
+  przeglądu i komentarzy, a jego ustawienie <b>Tekst trenera</b> zapisuje
+  podsumowanie i notki przy posunięciach.
+  </p>
+  <p>
+  Starszy tryb zbiorczy nadal można wywołać po nazwie ze skryptu
+  (<b>::analysis_auto_comment::batch_generate</b>). Otwiera to samo okno co
+  dawniej, ale nie jest już oferowane w menu; ta strona dokumentuje tę
+  starszą ścieżkę.
   </p>
   <p>
   Okno zbiorcze przeszukuje partię w poszukiwaniu posunięć z symbolem adnotacji
@@ -2728,9 +2758,10 @@ set helpText(P,BatchAnnotate) {<h1>Komentowanie partii w trybie zbiorczym</h1>
 
   <h3>Zastosowania</h3>
   <p>
-  To najszybszy sposób dodania notatek edukacyjnych do partii, którą już
-  przeanalizowałeś silnikiem. Funkcja szanuje Twoje lokalne warianty, dzięki
-  czemu wyjaśnienia AI są zgodne z Twoją analizą.
+  Wspieraną ścieżką są <a ReviewSettings><b>Ustawienia przeglądu</b></a>:
+  zaznacz <b>Tekst trenera</b>, a Przegląd partii zapisze notkę końcową,
+  akapity faz i notki kluczowych momentów. Tryb zbiorczy pozostaje dla
+  skryptów, które potrzebują starszego opisu przy każdym posunięciu.
   </p>
 
   <p><footer>(Zaktualizowano: ScidCommunity, październik 2026)</footer></p>

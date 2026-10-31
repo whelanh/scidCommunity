@@ -2629,7 +2629,7 @@ set helpTitle(ReviewSettings) "Review Settings"
 set helpText(ReviewSettings) {<h1>Engine Window: Review Settings</h1>
   <p>
   <b>Review Settings</b> in the <a Engine>Engine</a> window holds the choices a
-  review pass reads. Six values:
+  review pass reads. Nine values:
   </p>
   <ul>
   <li><b>Lines</b>: how many of the engine's lines each position keeps (MultiPV),
@@ -2637,6 +2637,10 @@ set helpText(ReviewSettings) {<h1>Engine Window: Review Settings</h1>
   <li><b>Depth</b>: how deep each position is searched. This is also the depth
     <a ReviewMoveButton>Move Comment</a> waits for when
     <b>Wait for the review depth</b> is on.</li>
+  <li><b>Time cap (ms)</b>: a ceiling on one position's search; 0 means the
+    review sets no cap of its own and the engine preset's <b>Limits.movetime</b>
+    applies. The engine stops at whichever comes first, so a capped search can
+    finish shallower than <b>Depth</b>.</li>
   <li><b>Variations to write</b>: how many of the engine's lines become variations
     at each mistake, blunder and missed win, so the game shows what should have
     been played. Zero writes none, and the number cannot exceed Lines. Only the
@@ -2650,10 +2654,30 @@ set helpText(ReviewSettings) {<h1>Engine Window: Review Settings</h1>
   <li><b>Wait for the review depth</b>: whether a move comment waits for the
     review's depth instead of using the analysis already on screen - see
     <a ReviewMoveButton>Move Comment</a>.</li>
-  <li><b>Diagram</b>: 1 puts a diagram marker (<b>D</b>) on the move before each
-    mistake and blunder, so a printed or HTML game shows the position the error
-    was played in; 0 writes none.</li>
+  <li><b>Diagram</b>: ticked, puts a diagram marker (<b>D</b>) on the move before
+    each mistake and blunder, so a printed or HTML game shows the position the
+    error was played in; unticked writes none.</li>
+  <li><b>Engine (verifier)</b>: a second engine preset that re-searches only the
+    moves labelled Brilliant or Great, under the same depth and time cap as the
+    review itself. If it disagrees about
+    the best move (or a Great move's gap to the next line is not there), the
+    move falls back to Best. <b>Off</b> disables it, and it must be a different
+    engine from the one the review searches with.</li>
+  <li><b>Coach prose</b>: ticked, asks the configured model for a summary, one
+    paragraph per phase, and a note on the key moments and mistakes. The
+    <b>Coach settings...</b> button beside the switch opens the provider, key
+    and model dialog.
+    The model only narrates facts the review computed; it never changes a label.
+    Unticked leaves the review deterministic.</li>
   </ul>
+  <p>
+  A pass shows its progress in a small window over the engine window: the
+  position count while it searches, then <b>Coach prose: 3 of 9</b> while the
+  model writes. The labels and the header are written as soon as the search
+  ends, so the prose is the only part that arrives later. The window closes when
+  the pass finishes; its <b>Cancel</b> button stops the pass, and closing the
+  window only hides it.
+  </p>
 
   <h3>What is not in this dialog</h3>
   <p>
@@ -2677,19 +2701,23 @@ set helpText(ReviewSettings) {<h1>Engine Window: Review Settings</h1>
 ####################
 ### Batch AI annotation help:
 ###
-### The engine window's Game Comment button is gone, and the batch pass is still
-### here to be called by name (::analysis_auto_comment::batch_generate). The page
-### stays where it documented that pass, and says how to reach the dialog now.
+### The Game Comment button and its Tools entry are gone: Game Review and its
+### Coach prose own the review/comment path. The batch pass is still callable by
+### name (::analysis_auto_comment::batch_generate) for scripts; this page is the
+### legacy documentation for it.
 
 set helpTitle(BatchAnnotate) "Annotating a game in batch"
 set helpText(BatchAnnotate) {<h1>Annotating a game in batch</h1>
   <p>
-  scidCommunity can generate AI commentary for a whole game at once, in batch
-  mode. The engine window used to carry a <b>Game Comment</b> button for it.
-  That button is gone; use <menu>Tools</menu> > <menu>Game Comment</menu>
-  instead (or call <b>::analysis_auto_comment::batch_generate</b> from a
-  script). It opens the same dialog it always did, and what the dialog does is
-  unchanged.
+  The <b>Game Comment</b> button and its <menu>Tools</menu> entry are gone.
+  <a ReviewGameButton><b>Game Review</b></a> owns the review/comment path now,
+  and its <b>Coach prose</b> setting writes the summary and per-move notes.
+  </p>
+  <p>
+  The older batch pass is still callable by name from a script
+  (<b>::analysis_auto_comment::batch_generate</b>). It opens the same dialog it
+  always did, but it is no longer offered in the menu; this page documents that
+  legacy path.
   </p>
   <p>
   The dialog scans the game for moves carrying an annotation symbol (a NAG
@@ -2715,9 +2743,10 @@ set helpText(BatchAnnotate) {<h1>Annotating a game in batch</h1>
 
   <h3>Usage</h3>
   <p>
-  This is the quickest way to add educational notes to a game you have already
-  analysed with an engine. It respects your local variations, so the AI's
-  explanations line up with your own analysis.
+  The supported path is <a ReviewSettings><b>Review Settings</b></a>: tick
+  <b>Coach prose</b> and Game Review writes the closing note, the phase
+  paragraphs and the key-moment notes into the game. The batch pass remains for
+  scripts that need the older per-move prompt.
   </p>
 
   <p><footer>(Updated: scidCommunity, October 2026)</footer></p>

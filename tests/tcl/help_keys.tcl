@@ -142,7 +142,7 @@ foreach spec $HELP_FILES {
 # engine.tcl creates, so a page added for a button that is not built fails here.
 puts "\nengine window (tcl/windows/engine.tcl)"
 set engineSrc [readText [file join $root tcl windows engine.tcl]]
-foreach b {gamereview movecomment reviewsettings} {
+foreach b {gamereview movecomment threat reviewsettings} {
     check "engine.tcl builds \$btn.$b" [regexp -- "\\\$btn\\.$b\\M" $engineSrc]
 }
 check "engine.tcl builds no \$btn.gamecomment" \

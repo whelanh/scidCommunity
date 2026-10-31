@@ -107,7 +107,7 @@ proc ::reviewui::buttons {state} {
 # also wrote them would be a second place to get them wrong. The order matters
 # because ::review::setValue has cross-field rules - mpv caps var_lines - so a
 # single edit that lowers both must apply mpv first.
-variable ::reviewui::SETTING_KEYS {mpv depth movetime var_lines var_cp move_comment_wait diagram}
+variable ::reviewui::SETTING_KEYS {mpv depth movetime var_lines var_cp move_comment_wait diagram verifier coach}
 
 # The review setting a dialog row edits, and the label it shows. `Lines` and
 # `Depth` are the keys the engine window already uses for the same two numbers.
@@ -119,6 +119,8 @@ variable ::reviewui::SETTING_LABELS {
     var_cp            ReviewVarCp
     move_comment_wait ReviewMoveWait
     diagram           Diagram
+    verifier          Engine
+    coach             ReviewCoach
 }
 
 proc ::reviewui::settingKeys {} {
@@ -150,7 +152,9 @@ proc ::reviewui::applySettings {values} {
     set why {}
     foreach key [::reviewui::settingKeys] {
         if {![dict exists $values $key]} { continue }
-        set reason [::review::setValue $key [dict get $values $key]]
+        set value [dict get $values $key]
+        if {$key eq "verifier" && $value eq "Off"} { set value "" }
+        set reason [::review::setValue $key $value]
         if {$reason ne ""} { lappend why $reason }
     }
     return $why
@@ -249,11 +253,11 @@ proc ::reviewui::progressText {done total} {
 # The status line the driver's state maps to, so the window holds no state of
 # its own about a pass: it asks ::reviewdriver::status and this says what to show.
 #
-# "" when there is nothing to say - idle before a press, the write phase (the
-# search is over and nothing is being counted), a run that finished (the labels
-# in the game are the report) and a cancelled one (it wrote nothing). A run that
-# did not finish, or finished with moves the game refused, says why in the
-# driver's or the board's own words.
+# "" when there is nothing to say - idle before a press, a run that finished
+# (the labels in the game are the report) and a cancelled one (it wrote
+# nothing). The write phase says it is writing, and while the coach is waiting
+# on a model it counts the answers. A run that did not finish, or finished with
+# moves the game refused, says why in the driver's or the board's own words.
 proc ::reviewui::statusText {st} {
     set state idle
     catch { set state [dict get $st state] }
@@ -264,6 +268,18 @@ proc ::reviewui::statusText {st} {
             set total 0
             catch { set total [dict get $st total] }
             return [::reviewui::progressText $done $total]
+        }
+        writing {
+            # The deterministic write is over; the coach may still be waiting on
+            # a model. Say so, or a pass that is doing useful work looks stuck.
+            set total 0
+            catch { set total [dict get $st coachTotal] }
+            if {[string is integer -strict $total] && $total > 0} {
+                set done 0
+                catch { set done [dict get $st coachDone] }
+                return [format [::reviewui::tr ReviewCoachProgress] $done $total]
+            }
+            return [::reviewui::tr ReviewWriting]
         }
         failed {
             set reason ""
@@ -287,6 +303,35 @@ proc ::reviewui::statusText {st} {
         }
     }
     return ""
+}
+
+# How far the pass has got, 0 to 1, for a progress bar. A pass that is writing
+# has nothing to count unless the coach is counting model answers; it is shown
+# as full because the search - the part with a length - is over.
+proc ::reviewui::passFraction {st} {
+    set state idle
+    catch { set state [dict get $st state] }
+    switch -- $state {
+        searching {
+            set done 0
+            catch { set done [dict get $st searched] }
+            set total 0
+            catch { set total [dict get $st total] }
+            if {![string is integer -strict $total] || $total < 1} { return 0.0 }
+            return [expr {double($done) / double($total)}]
+        }
+        writing {
+            set total 0
+            catch { set total [dict get $st coachTotal] }
+            if {[string is integer -strict $total] && $total > 0} {
+                set done 0
+                catch { set done [dict get $st coachDone] }
+                return [expr {double($done) / double($total)}]
+            }
+            return 1.0
+        }
+    }
+    return 0.0
 }
 
 # And the status line when it ends badly: the reason is the driver's or the
@@ -332,6 +377,7 @@ variable ::reviewui::SETTING_RANGES {
     var_cp            {0 500}
     move_comment_wait {0 1}
     diagram           {0 1}
+    coach             {0 1}
 }
 
 proc ::reviewui::settingRange {key {mpv ""}} {
