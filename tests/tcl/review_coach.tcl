@@ -136,7 +136,7 @@ namespace eval ::review {}
 proc ::review::cursorSave {} { return [list $::loc 0] }
 proc ::review::cursorRestore {c} { set ::loc [lindex $c 0] ; return 1 }
 
-dict set ::comments 0 "\[Game review\]\n  White: 90% CAPS accuracy\n\nSummary: old story\nLevel: old level\nOpening: old name"
+dict set ::comments 0 "\[Game review\]\n  White: 90% accuracy\n\nSummary: old story\nLevel: old level\nOpening: old name"
 ::reviewcoach::stripHeaderAtStart
 check "the header summary comes off" \
     [expr {[string first "old story" [dict get $::comments 0]] < 0 \

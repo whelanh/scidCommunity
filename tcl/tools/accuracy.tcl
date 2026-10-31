@@ -39,8 +39,18 @@ namespace eval ::accuracy {
     # Calculate Game Accuracy for White and Black
     # centipawns: list of scores from White's perspective, starting from ply 0.
     proc calculate {centipawns} {
+        return [calculateFrom $centipawns white]
+    }
+
+    # The same arithmetic for a series that does not open on White's move: a
+    # report's phase can start on Black's, and index 0 would then be read as
+    # White's move and the two sides swapped. `firstSide` is the side that made
+    # the move between index 0 and index 1 - "white" by default, which is what
+    # calculate has always assumed.
+    proc calculateFrom {centipawns {firstSide white}} {
         set n [llength $centipawns]
         if {$n < 2} { return {0.0 0.0} }
+        set whiteFirst [expr {$firstSide eq "black" || $firstSide eq "b" ? 0 : 1}]
 
         set winPercents {}
         foreach cp $centipawns {
@@ -85,7 +95,7 @@ namespace eval ::accuracy {
             set next [lindex $winPercents [expr {$i + 1}]]
             set w [lindex $weights $i]
             
-            if {$i % 2 == 0} {
+            if {($i % 2 == 0) == $whiteFirst} {
                 # White's move
                 set acc [moveAccuracy $prev $next]
                 lappend whiteAccs [list $acc $w]

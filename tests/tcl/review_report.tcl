@@ -24,6 +24,8 @@ proc checkEq {label got want} {
     check $label [expr {$got eq $want}] "got '$got' want '$want'"
 }
 proc near {a b {tol 0.05}} { expr {abs($a - $b) <= $tol} }
+# One decimal, or empty when the number is not there yet.
+proc r1 {x} { if {$x eq ""} { return "" } ; return [expr {round($x * 10) / 10.0}] }
 
 set root [file normalize [file join [file dirname [info script]] .. ..]]
 source [file join $root tcl tools accuracy.tcl]
@@ -35,15 +37,108 @@ checkEq "its b is black" [::reviewreport::sideWord b] black
 
 puts "\naccuracy"
 
-set pts {}
-for {set i 0} {$i < 20} {incr i} { lappend pts [list 100 50 0] }
-checkEq "a perfect game is 100" [expr {round([::reviewreport::gameAccuracy $pts])}] 100
-set pts {}
-for {set i 0} {$i < 20} {incr i} { lappend pts [list 50 50 0] }
-set acc [::reviewreport::gameAccuracy $pts]
-check "a flat 50-point game is a little above 50" [near $acc 51.41 0.1] "got $acc"
-set pts [list [list 100 50 0] [list 100 50 1] [list 100 50 1]]
-checkEq "book moves are dropped" [expr {round([::reviewreport::gameAccuracy $pts])}] 100
+# The report's figure is the app's own: ::accuracy::calculate, the number the
+# engine window's chart and the PGN viewer's chart show for the same game. It
+# used to be a CAPS-style blend of its own, which put two accuracy numbers on
+# one game and borrowed a name for an algorithm nobody has published.
+
+# A run of White-perspective scores, one before each move and one after the
+# last - the series a chart holds. Blunder-heavy, where the two methods are
+# furthest apart.
+set cps {30 25 20 -40 -60 -55 -120 -180 -150 -160 -300 -280 -260 -220 -210 \
+         -250 -190 -170 -150 -140 -130}
+proc curveMoves {cps {firstPly 1}} {
+    set out {}
+    set ply [expr {$firstPly - 1}]
+    foreach cp [lrange $cps 0 end-1] {
+        incr ply
+        lappend out [dict create ply $ply side [expr {$ply % 2 ? "white" : "black"}] \
+            fen_after "" classification good cp_loss 0 eval_before_white $cp \
+            eval_after_white [lindex $cps [expr {$ply - $firstPly + 1}]]]
+    }
+    return $out
+}
+set curve [curveMoves $cps]
+
+set gotW ""
+set gotB ""
+catch {
+    set accs [::reviewreport::accuracyOf $curve]
+    set gotW [dict get $accs white]
+    set gotB [dict get $accs black]
+}
+check "the report's figure is the app's accuracy" \
+    [expr {$gotW ne "" && $gotW eq [lindex [::accuracy::calculate $cps] 0] \
+        && $gotB eq [lindex [::accuracy::calculate $cps] 1]}] \
+    "got '$gotW' / '$gotB', want '[lindex [::accuracy::calculate $cps] 0]' / '[lindex [::accuracy::calculate $cps] 1]'"
+
+set shown ""
+catch { set shown [dict get [::reviewreport::sideSummary $curve white] accuracy] }
+checkEq "the header prints that number to one decimal" $shown \
+    [expr {round([lindex [::accuracy::calculate $cps] 0] * 10) / 10.0}]
+
+check "the CAPS-style variant is gone" \
+    [expr {[llength [info commands ::reviewreport::gameAccuracy]] == 0 \
+        && [llength [info commands ::reviewreport::stdev]] == 0}]
+
+puts "\nparity"
+
+# ::accuracy::calculate reads index 0 as the position before White's move, so a
+# phase that opens on Black's move would be scored with the sides swapped.
+# calculateFrom takes the side that moved first; calculate delegates to it.
+set series {0 50 100 60 40 -20 -40 -80 -60 -30 10 20 40 60 80 70 50 30 10 -10 -30}
+set delegated ""
+catch { set delegated [::accuracy::calculateFrom $series white] }
+checkEq "calculate is calculateFrom with White first" \
+    $delegated [::accuracy::calculate $series]
+
+set swapped ""
+catch { set swapped [::accuracy::calculateFrom $series black] }
+# One side plays perfectly, the other loses material on every move. Read from
+# Black's move, the flawless number is Black's; calculate() on the same list
+# hands it to White, which is the swap calculateFrom exists to prevent.
+set lopsided {0 0 -250 -250 -500 -500 -800 -800 -1000 -1000 -1000}
+set lopsidedFrom [::accuracy::calculateFrom $lopsided black]
+set lopsidedNaive [::accuracy::calculate $lopsided]
+check "read from Black's move, the flawless side is Black" \
+    [expr {[lindex $lopsidedFrom 1] > 99 && [lindex $lopsidedFrom 0] < [lindex $lopsidedFrom 1] - 10}] \
+    "got '$lopsidedFrom'"
+check "and a naive call hands it to White" \
+    [expr {[lindex $lopsidedNaive 0] > 99 && [lindex $lopsidedNaive 0] != [lindex $lopsidedFrom 0]}] \
+    "got '$lopsidedNaive'"
+
+# A phase that begins on Black's move: plies 2..20 of the same game.
+set ph ""
+catch { set ph [::reviewreport::phaseStats $curve 2 20] }
+set sliceCps [lrange $cps 1 end]
+set sliceW ""
+set sliceB ""
+catch { lassign [::accuracy::calculateFrom $sliceCps black] sliceW sliceB }
+set phW ""
+set phB ""
+catch {
+    set phW [dict get $ph accW]
+    set phB [dict get $ph accB]
+}
+checkEq "a phase that starts on Black's move is not reversed" \
+    [list $phW $phB] [list [r1 $sliceW] [r1 $sliceB]]
+
+lassign [::accuracy::calculate $sliceCps] naiveW naiveB
+check "a naive call would have swapped the sides" \
+    [expr {$sliceW ne "" && $naiveW ne $sliceW && abs($naiveW - $sliceW) > 0.5}] \
+    "naive White $naiveW, sliced White '$sliceW'"
+
+# Padded to White-first with one position in front, the slice is a series
+# calculate() can read: at twenty moves the window is two either way, so every
+# weight lands on the same move and Black - the side that opened the phase -
+# scores exactly the same.
+set padded [linsert $sliceCps 0 [lindex $sliceCps 0]]
+set padB ""
+set sliceBB ""
+catch { set sliceBB [lindex [::accuracy::calculateFrom $sliceCps black] 1] }
+catch { set padB [lindex [::accuracy::calculate $padded] 1] }
+checkEq "padded to White-first, the first mover keeps its number" \
+    $padB $sliceBB
 
 puts "\nElo"
 
@@ -216,8 +311,54 @@ check "and the phases" [expr {[string first "Phases:" $text] >= 0}]
 # "1-26", or the reader is given a number no PGN uses.
 check "the phase boundaries are in moves" \
     [expr {[string first "opening moves 1-" $text] >= 0}]
+check "the figure is called accuracy, and no vendor's name" \
+    [expr {[string first "% accuracy" $text] >= 0 && [string first "CAPS" $text] < 0}]
 checkEq "a second run strips the old block" \
     [::reviewreport::stripHeader "A note. $text"] "A note."
+
+puts "\nthe block removal"
+
+# The block is the marker line and the indented lines under it, and nothing
+# else. It used to be "the marker to the next [ or the end of the comment",
+# which ate whatever the player had typed below the block - and the writer
+# appends the block last, so a note typed under it sat behind the marker.
+checkEq "a note above the block survives" \
+    [::reviewreport::stripHeader "My note.\n$text"] "My note."
+checkEq "a note below the block survives" \
+    [::reviewreport::stripHeader "$text\nA note typed below."] "A note typed below."
+
+# Two writes through the writer itself, with the pass's own collection stubbed
+# out: the note under the block has to be there after the second review.
+set ::loc 0
+set ::comments [dict create]
+proc sc_move {what {n 0}} {
+    if {$what eq "ply"} { set ::loc $n }
+    return ""
+}
+proc sc_pos {what args} {
+    switch -- $what {
+        location { return $::loc }
+        getComment { return [expr {[dict exists $::comments $::loc] ? [dict get $::comments $::loc] : ""}] }
+        setComment { dict set ::comments $::loc [lindex $args 0] ; return "" }
+    }
+    return ""
+}
+namespace eval ::review {}
+proc ::review::cursorSave {} { return [list $::loc 0] }
+proc ::review::cursorRestore {c} { set ::loc [lindex $c 0] ; return 1 }
+set ::stubMoves $moves
+proc ::reviewreport::collect {p results} { return $::stubMoves }
+set ::pass [dict create report 1]
+dict set ::comments 0 "Opening idea: Nf3 first.\n\n$text\nRemember to check c5."
+::reviewreport::write $::pass {}
+::reviewreport::write $::pass {}
+set comment [dict get $::comments 0]
+check "a note below the block survives the next review" \
+    [expr {[string first "Remember to check c5." $comment] >= 0}] \
+    "got [string map {\n {\\n}} $comment]"
+check "and the note above it" \
+    [expr {[string first "Opening idea: Nf3 first." $comment] >= 0}]
+checkEq "the block is written once" [regexp -all {\[Game review\]} $comment] 1
 
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

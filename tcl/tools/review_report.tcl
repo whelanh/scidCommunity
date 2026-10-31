@@ -13,6 +13,10 @@
 # which carries the same attribution for the label ladder. The file-by-file
 # record is docs/third-party-notices.md.
 #
+# One figure is not this file's to define: the accuracy is the application's own
+# ::accuracy::calculate (accuracy.tcl), the same call the engine window's chart
+# and the PGN viewer's chart make, so a game has one accuracy here and not two.
+#
 # mixedness and its scoring table are ported verbatim from the same plugin
 # (plugins/game-review/11_cr_classify.tcl, ::crclass::mixedness and
 # ::crclass::_mixedScore, GPL-2.0-or-later): it is the licence-compatible
@@ -55,60 +59,46 @@ proc ::reviewreport::winPct {cp} {
     return [::accuracy::winPercent $cp]
 }
 
-# CAPS-style game accuracy: volatility-weighted mean blended with a harmonic
-# mean, then a small upward shift. `points` are {accuracy winPct isBook}.
-proc ::reviewreport::stdev {xs} {
-    set n [llength $xs]
-    if {$n == 0} { return 0.0 }
-    set sum 0.0
-    foreach x $xs { set sum [expr {$sum + $x}] }
-    set mean [expr {$sum / $n}]
-    set var 0.0
-    foreach x $xs { set var [expr {$var + ($x - $mean) * ($x - $mean)}] }
-    return [expr {sqrt($var / $n)}]
+# The report's accuracy is the app's own: ::accuracy::calculate, the figure the
+# engine window's chart and the PGN viewer's chart show for the same game. The
+# report used to blend one of its own (volatility-weighted and harmonic means
+# with a low-end floor and a shift) and call the result a CAPS accuracy, so the
+# same game carried two numbers, and the name was a vendor's for an algorithm
+# that is not published - a local variant cannot borrow it.
+#
+# calculate() reads index 0 as the position before White's move. A phase slice
+# can open on Black's move, so the series carries the side that moved first and
+# goes through calculateFrom; the arithmetic stays in accuracy.tcl.
+proc ::reviewreport::evalSeries {moves} {
+    set cps {}
+    set firstSide ""
+    foreach m $moves {
+        # Book plies and moves the pass has no verdict for carry no evaluation.
+        # A gap joins the two ends of the run it cuts, which is what the old
+        # per-move figures did one move at a time.
+        if {[dict get $m eval_before_white] eq ""} { continue }
+        if {![llength $cps]} {
+            set firstSide [dict get $m side]
+            lappend cps [dict get $m eval_before_white]
+        }
+        lappend cps [dict get $m eval_after_white]
+    }
+    return [list $cps $firstSide]
 }
 
-proc ::reviewreport::gameAccuracy {points} {
-    set accs {}
-    set wins {}
-    foreach p $points {
-        lassign $p acc win isBook
-        if {$isBook} { continue }
-        lappend accs [expr {max(0.0, min(100.0, $acc))}]
-        lappend wins $win
+# {white <accuracy> black <accuracy>} over these moves, unrounded.
+proc ::reviewreport::accuracyOf {moves} {
+    lassign [evalSeries $moves] cps firstSide
+    if {[llength $cps] < 2 || $firstSide eq ""} {
+        return [dict create white 0.0 black 0.0]
     }
-    set n [llength $accs]
-    if {$n == 0} { return 0.0 }
+    lassign [::accuracy::calculateFrom $cps $firstSide] w b
+    return [dict create white $w black $b]
+}
 
-    set windowSize [expr {int(max(2, min(8, ceil($n / 10.0))))}]
-    set half [expr {$windowSize / 2}]
-    set weights {}
-    for {set i 0} {$i < $n} {incr i} {
-        set start [expr {max(0, $i - $half)}]
-        set end [expr {min($n, $start + $windowSize)}]
-        lappend weights [expr {max(0.5, min(4.0, [stdev [lrange $wins $start [expr {$end - 1}]]]))}]
-    }
-    set wSum 0.0
-    foreach w $weights { set wSum [expr {$wSum + $w}] }
-    if {$wSum == 0.0} { set wSum 1.0 }
-    set accSum 0.0
-    for {set i 0} {$i < $n} {incr i} {
-        set accSum [expr {$accSum + [lindex $weights $i] * [lindex $accs $i]}]
-    }
-    set volMean [expr {$accSum / $wSum}]
-
-    set sorted [lsort -real $accs]
-    set floor 0.0
-    if {$n >= 5} { set floor [lindex $sorted 2] }
-    set inv 0.0
-    foreach a $accs {
-        set v [expr {max(1.0, max($a, $floor))}]
-        set inv [expr {$inv + 1.0 / $v}]
-    }
-    set harmonic [expr {$n / $inv}]
-    set blend [expr {0.6 * $volMean + 0.4 * $harmonic}]
-    set shifted [expr {$blend + max(0.0, 4.0 * pow(1.0 - $blend / 100.0, 1.5))}]
-    return [expr {max(0.0, min(100.0, $shifted))}]
+# The report prints one decimal.
+proc ::reviewreport::round1 {x} {
+    return [expr {round($x * 10) / 10.0}]
 }
 
 proc ::reviewreport::eloFromAcpl {acpl} {
@@ -393,7 +383,7 @@ proc ::reviewreport::phaseStats {moves from to} {
         if {$ply >= $from && $ply <= $to} { lappend slice $m }
     }
     if {[llength $slice] < 4} { return "" }
-    set wPts {} ; set bPts {} ; set wCp {} ; set bCp {}
+    set wCp {} ; set bCp {}
     foreach m $slice {
         if {[dict get $m eval_before_white] eq ""} { continue }
         set cls [dict get $m classification]
@@ -401,21 +391,18 @@ proc ::reviewreport::phaseStats {moves from to} {
         set side [dict get $m side]
         set before [expr {$side eq "white" ? [dict get $m eval_before_white] : -[dict get $m eval_before_white]}]
         set after [expr {$side eq "white" ? [dict get $m eval_after_white] : -[dict get $m eval_after_white]}]
-        set acc [::accuracy::moveAccuracy [winPct $before] [winPct $after]]
         set cpl [expr {min(300, max(0, $before - $after))}]
-        if {$side eq "white"} {
-            lappend wPts [list $acc [winPct $before] $isBook]
-            if {!$isBook} { lappend wCp $cpl }
-        } else {
-            lappend bPts [list $acc [expr {100 - [winPct $before]}] $isBook]
-            if {!$isBook} { lappend bCp $cpl }
-        }
+        if {$isBook} { continue }
+        if {$side eq "white"} { lappend wCp $cpl } else { lappend bCp $cpl }
     }
     set sumW 0.0 ; foreach x $wCp { set sumW [expr {$sumW + $x}] }
     set sumB 0.0 ; foreach x $bCp { set sumB [expr {$sumB + $x}] }
+    # The phase's own series: it may open on Black's move, and accuracyOf
+    # reads the side that moved first from the slice.
+    set acc [accuracyOf $slice]
     return [dict create from $from to $to plies [llength $slice] \
-        accW [expr {round([gameAccuracy $wPts] * 10) / 10.0}] \
-        accB [expr {round([gameAccuracy $bPts] * 10) / 10.0}] \
+        accW [round1 [dict get $acc white]] \
+        accB [round1 [dict get $acc black]] \
         acplW [expr {[llength $wCp] ? round($sumW / [llength $wCp]) : 0}] \
         acplB [expr {[llength $bCp] ? round($sumB / [llength $bCp]) : 0}]]
 }
@@ -538,7 +525,6 @@ proc ::reviewreport::collect {p results} {
 # ── the report ──────────────────────────────────────────────────────────────
 
 proc ::reviewreport::sideSummary {moves side} {
-    set points {}
     set cps {}
     set tally {}
     foreach m $moves {
@@ -548,12 +534,13 @@ proc ::reviewreport::sideSummary {moves side} {
             set before [expr {$side eq "white" ? [dict get $m eval_before_white] : -[dict get $m eval_before_white]}]
             set after [expr {$side eq "white" ? [dict get $m eval_after_white] : -[dict get $m eval_after_white]}]
             set isBook [expr {[lsearch -exact {book forced} $cls] >= 0}]
-            lappend points [list [::accuracy::moveAccuracy [winPct $before] [winPct $after]] [winPct $before] $isBook]
             if {!$isBook} { lappend cps [expr {min(300, max(0, $before - $after))}] }
         }
         if {$cls ne ""} { dict incr tally $cls }
     }
-    set acc [expr {round([gameAccuracy $points] * 10) / 10.0}]
+    # The game's own figure, not this side's moves on their own: the chart
+    # beside the report reads the whole game's series, so the report does too.
+    set acc [round1 [dict get [accuracyOf $moves] $side]]
     set acpl 0
     if {[llength $cps]} {
         set sum 0 ; foreach x $cps { set sum [expr {$sum + $x}] }
@@ -572,8 +559,8 @@ proc ::reviewreport::headerText {moves} {
     set w [sideSummary $moves white]
     set b [sideSummary $moves black]
     set out "\[Game review\]"
-    append out "\n  White: [dict get $w accuracy]% CAPS accuracy, ACPL [dict get $w acpl], estimated Elo [dict get $w elo]"
-    append out "\n  Black: [dict get $b accuracy]% CAPS accuracy, ACPL [dict get $b acpl], estimated Elo [dict get $b elo]"
+    append out "\n  White: [dict get $w accuracy]% accuracy, ACPL [dict get $w acpl], estimated Elo [dict get $w elo]"
+    append out "\n  Black: [dict get $b accuracy]% accuracy, ACPL [dict get $b acpl], estimated Elo [dict get $b elo]"
     foreach {side label} [list White $w Black $b] {
         set parts {}
         foreach cls {brilliant great best excellent good book forced inaccuracy mistake miss blunder} {
@@ -606,7 +593,12 @@ proc ::reviewreport::headerText {moves} {
 }
 
 proc ::reviewreport::stripHeader {comment} {
-    regsub -all {\[Game review\][^\[]*} $comment "" comment
+    # The block is the marker line and the indented lines under it, and nothing
+    # else. It used to be "the marker to the next [ or the end of the comment",
+    # which ate a note the player typed below the block - and the block is
+    # written last, so a note added under it sat behind the marker. A line that
+    # is not indented ends the block, so anything after it survives.
+    regsub -all {\[Game review\][^\n]*(?:\n[ \t]+[^\n]*)*} $comment "" comment
     return [string trim $comment]
 }
 
