@@ -681,6 +681,11 @@ proc ::reviewannotate::writeResults {p results {tier ""} {opts ""}} {
             # below is the classic's one write outside the annotated moves.
             catch { ::reviewannotate::dropLabel $ply }
             catch { sc_move ply $ply ; ::review::dropAssessment }
+            # The diagram tag is not one of ::review::assessmentNags, so dropping
+            # the assessment keeps it. A blunders-only rerun that stops annotating
+            # this move would leave the exporter drawing a board for a verdict this
+            # pass does not make, so the mark goes with it.
+            catch { ::review::setDiagram $ply 0 }
             if {$isBlunder == 0 && abs($drop) > $::informant(!?)} {
                 catch { sc_move ply $ply ; sc_pos addNag "!?" }
             }
@@ -738,8 +743,10 @@ proc ::reviewannotate::writeResults {p results {tier ""} {opts ""}} {
     }
     # The Annotator tag, when the dialog asked for it, and the opening-errors
     # entry the batch opening finder leaves on a game whose opening went wrong.
-    # Both are the tags a later pass appends to rather than replaces.
-    catch { ::reviewannotate::tagGame }
+    # Both are the tags a later pass appends to rather than replaces, and both
+    # read the pass being written - the tag names the engine that wrote it - so
+    # the pass goes with the call.
+    catch { ::reviewannotate::tagGame $p }
     return [dict create written $written skipped $skipped failed $failed errors $errors]
 }
 
@@ -1183,6 +1190,9 @@ proc ::reviewannotate::paintStatus {} {
 # The classic annotator wrote "<engine> (<delay> sec)" - it had a per-move delay
 # to report. A review pass has none: its cost is the review's depth or time cap,
 # both of which the Review Settings show, so the tag says which pass wrote it.
+#
+# `p` is the pass the write phase was handed; its `engine` entry is the preset
+# the pass search on, and the first element of it is the engine's name.
 proc ::reviewannotate::tagGame {p} {
     set cursor [::review::cursorSave]
     if {[info exists ::isBatchOpening] && $::isBatchOpening} {

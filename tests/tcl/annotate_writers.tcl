@@ -28,6 +28,15 @@ proc checkEq {name got want} {
     }
 }
 
+proc checkHas {name haystack needle} {
+    global fails checks
+    incr checks
+    if {[string first $needle $haystack] < 0} {
+        incr fails
+        puts "FAIL $name -- '$needle' is not in '$haystack'"
+    }
+}
+
 set root [file normalize [file join [file dirname [info script]] .. ..]]
 source [file join $root tests tcl game_stub.tcl]
 source [file join $root tcl tools move_labels.tcl]
@@ -377,6 +386,54 @@ set comment ""
 catch { set comment [dict get [::gamestub::commentsByPly] 1] }
 check "and no stale evaluation is written either" \
     [expr {[string first "\[%eval" $comment] < 0}]
+
+# The diagram mark is not one of ::review::assessmentNags, so dropping the
+# assessment keeps it: a blunders-only rerun that stops annotating the move
+# would leave the exporter drawing a board for a verdict this pass no longer
+# makes. markDiagram hung it on the move BEFORE the verdict (analysis.tcl:859-865),
+# so that is the move the sparse pass has to take it off.
+annotateSettings
+::gamestub::reset [list {e4 e2e4} {e5 e7e5}]
+sc_move ply 1
+sc_pos addNag "D"
+sc_pos addNag "!?"
+set map [::review::mainLineMap [sc_game UCI_mainLine]]
+set results [dict create \
+    0 [dict create 1 [list 18 -550 cp {d2d4 e7e5}]] \
+    1 [dict create 1 [list 18 750 cp {e7e5}]]]
+set p [dict create map $map plies [dict get $map plies] bookEnd 0 mpv 3]
+set counts [::reviewannotate::writeResults $p $results]
+checkEq "a sparse rerun annotates neither move" [dict get $counts skipped] 2
+set nags ""
+catch { set nags [dict get [::gamestub::nagsByPly] 1] }
+check "a dropped verdict takes its diagram mark with it" \
+    [expr {[lsearch -exact $nags D] < 0}]
+check "and leaves the move's other marks alone" \
+    [expr {[lsearch -exact $nags "!?"] >= 0}]
+
+# The write phase's last step is the game's own tags: the opening-errors entry
+# the finder leaves ("opBlunder <move> (<side>)", analysis.tcl:740-742) and the
+# Annotator tag the dialog's checkbox asks for (analysis.tcl:743-745). Both read
+# the pass being written - the tag names the engine that wrote it - so the writer
+# has to hand the pass on; a call that forgets it raises `wrong # args` inside the
+# catch and neither tag is ever written.
+annotateSettings
+fixture
+set tagMap [::review::mainLineMap [sc_game UCI_mainLine]]
+set tagResults [dict create \
+    0 [dict create 1 [list 18 20 cp {e2e4 e7e5}]] \
+    1 [dict create 1 [list 18 -30 cp {e7e5 g1f3}]]]
+set tagPass [dict create map $tagMap plies [dict get $tagMap plies] \
+    bookEnd 0 mpv 3 engine {Stockfish /usr/bin/stockfish}]
+set ::addAnnotatorTag 1
+set ::isBatchOpening 1
+set ::isBatchOpeningMoves 12
+::reviewannotate::writeResults $tagPass $tagResults
+checkHas "the pass writes the opening-errors entry" \
+    $::gamestub::annotator "opBlunder 1 (white)"
+checkHas "and the Annotator tag, named for the pass's engine" \
+    $::gamestub::annotator "Stockfish (review)"
+annotateSettings
 
 annotateSettings
 annotateOne 200 60 e2e4
