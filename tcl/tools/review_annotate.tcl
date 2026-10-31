@@ -1029,10 +1029,14 @@ proc ::reviewannotate::nextGame {} {
             # range whose input is already broken. Stop the way a cancelled pass
             # stops, and say what went wrong.
             if {$pushed} { catch { sc_game pop } }
+            if {[dict get $run index] > 0} {
+                dict lappend run problems "game $game could not be read: $err"
+            }
             ::reviewannotate::finish
             return "game $game could not be read: $err"
         }
         dict set run borrowed 1
+        dict set run game $game
     }
     # The book is walked for the game in flight, not for the caller's: in a batch
     # the game has just been loaded, and a single game is the one on the board.
@@ -1064,9 +1068,19 @@ proc ::reviewannotate::nextGame {} {
     if {$err ne ""} {
         # A refusal leaves the run's counts alone; what it must not leave behind
         # is a borrowed game.
+        if {[dict get $run index] > 0} { dict lappend run problems $err }
         ::reviewannotate::returnGame
         ::reviewannotate::finish
         return $err
+    }
+    # The driver can finish synchronously when there is nothing to search: a
+    # game with no main-line moves, or one the book covers, sets state done and
+    # no done hook will fire. Without this the run would wait for a pass that
+    # does not exist, and a borrowed game would stay on the board.
+    set now ""
+    catch { set now [::reviewdriver::status] }
+    if {[dict size $now] && [dict get $now state] eq "done"} {
+        return [::reviewannotate::done $now]
     }
     # What the pass is about to do, so the progress line reads "0 of N" rather
     # than "0 of 0" until the first position finishes.
@@ -1084,7 +1098,15 @@ proc ::reviewannotate::returnGame {} {
     variable run
     if {![dict size $run]} { return }
     if {[dict exists $run borrowed] && [dict get $run borrowed]} {
-        catch { sc_game pop }
+        # Give the borrowed game back only while it is still the one on the
+        # board. If the user opened another game, popping would replace that
+        # game with the pre-batch copy and undo their navigation.
+        set current ""
+        catch { set current [sc_game number] }
+        if {$current eq "" || ![dict exists $run game] ||
+            $current eq [dict get $run game]} {
+            catch { sc_game pop }
+        }
         dict unset run borrowed
     }
 }
@@ -1099,16 +1121,42 @@ proc ::reviewannotate::returnGame {} {
 proc ::reviewannotate::done {state} {
     variable run
     if {![dict size $run]} { return }
+    set stateName ""
+    catch { set stateName [dict get $state state] }
     # ::reviewdriver::stop sets state=cancelled; a pass that searched to the end
-    # ends on done and one whose engine gave up on failed, so neither of those
-    # can leave the batch by this branch.
-    if {[dict size $state] && [dict get $state state] eq "cancelled"} {
+    # ends on done, and one whose engine gave up on failed.
+    if {$stateName eq "cancelled"} {
         ::reviewannotate::returnGame
         return [::reviewannotate::finish]
+    }
+    if {$stateName eq "failed"} {
+        set reason ""
+        catch { set reason [dict get $state reason] }
+        if {$reason eq ""} { set reason "the review pass failed" }
+        dict lappend run problems $reason
+        ::reviewannotate::returnGame
+        return [::reviewannotate::finish]
+    }
+    set failed 0
+    catch { set failed [dict get $state failed] }
+    if {$failed > 0} {
+        set msg "$failed move(s) could not be written"
+        set errors {}
+        catch { set errors [dict get $state errors] }
+        if {[llength $errors]} { append msg ": [lindex $errors 0]" }
+        dict lappend run problems $msg
     }
     set games [dict get $run games]
     if {[llength $games] > 1} {
         set game [lindex $games [dict get $run index]]
+        set current ""
+        catch { set current [sc_game number] }
+        if {$current ne "" && $current ne $game} {
+            dict lappend run problems \
+                "the game changed while it was being annotated; it was not saved"
+            ::reviewannotate::returnGame
+            return [::reviewannotate::finish]
+        }
         catch { sc_game save $game }
         catch { ::notify::DatabaseModified [sc_base current] }
     }
@@ -1127,6 +1175,8 @@ proc ::reviewannotate::done {state} {
 # across the whole line, so the PGN pane has to be regenerated.
 proc ::reviewannotate::finish {} {
     variable run
+    set problems {}
+    if {[dict size $run]} { catch { set problems [dict get $run problems] } }
     set run {}
     set ::reviewannotate::progressText ""
     # The annotate button was the Cancel for this run: put it back where the
@@ -1139,6 +1189,12 @@ proc ::reviewannotate::finish {} {
         }
     }
     if {[llength [info commands updateStatusBar]]} { catch { updateStatusBar } }
+    if {[llength $problems]} {
+        catch {
+            tk_messageBox -icon warning -title "scidCommunity: [::tr Annotate]" \
+                -message [join [lrange $problems 0 5] "\n"]
+        }
+    }
     return ""
 }
 
@@ -1200,7 +1256,7 @@ proc ::reviewannotate::paintStatus {} {
     if {[llength [info commands ::board::setInfoAlert]] == 0} { return }
     catch {
         ::board::setInfoAlert .main.board "Annotate:" \
-            [::reviewannotate::statusText] red ::reviewannotate::cancelAction
+            $text red ::reviewannotate::cancelAction
     }
     return
 }

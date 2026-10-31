@@ -344,12 +344,16 @@ proc configAnnotation {{n 1}} {
     global analysis
 
     set w .configAnnotation
-    # Do not do anything if the window exists
-    #
+    # The dialog belongs to the pane whose Annotate button opened it. Asking
+    # from another pane while it is up rebuilds it for that pane instead of
+    # raising a dialog whose OK would start the first pane's engine.
     if { [winfo exists $w] } {
-        raise $w
-        focus $w
-        return
+        if {![info exists ::annotatePane] || $::annotatePane == $n} {
+            raise $w
+            focus $w
+            return
+        }
+        destroy $w
     }
 
     # If the annotation button is pressed while annotation is
@@ -361,6 +365,13 @@ proc configAnnotation {{n 1}} {
     # A review pass in flight: the button is its Cancel, with the driver's own
     # escalation - a batch asks for the current game to be finished first.
     if {[llength [info commands ::reviewannotate::running]] && [::reviewannotate::running]} {
+        # The running pass belongs to one pane; another pane's button must not
+        # cancel it. Only the owner's pressed button is the Cancel.
+        if {[info exists ::annotatePane] && $::annotatePane ne $n} {
+            tk_messageBox -icon info -parent . -title "scidCommunity: $::tr(Annotate)" \
+                -message "Another analysis pane is annotating. Wait for it to finish, or cancel it from that pane."
+            return
+        }
         ::reviewannotate::cancelAction
         return
     }
@@ -471,7 +482,8 @@ proc configAnnotation {{n 1}} {
     # The exercise probe drives scid's own analyser, which is the pane's engine
     # only when that engine is UCI: the same gate as the classic, on this pane.
     if {! $analysis(uci$n)} {
-        set ::markTacticalExercises 0
+        # Only disable the control here. Clearing the shared preference would
+        # make a later run on a UCI pane skip exercises the user had asked for.
         $f.comment.cbMarkTactics configure -state disabled
     }
     

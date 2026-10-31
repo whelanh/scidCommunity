@@ -45,6 +45,13 @@ proc checkEq {label got want} {
     check $label [expr {$got eq $want}] "got '$got' want '$want'"
 }
 
+proc ::tr {tag} { return $tag }
+set ::messages {}
+proc tk_messageBox {args} {
+    lappend ::messages [dict get $args -message]
+    return ok
+}
+
 set root [file normalize [file join [file dirname [info script]] .. ..]]
 source [file join $root tcl tools review_driver.tcl]
 source [file join $root tcl tools review_annotate.tcl]
@@ -58,6 +65,7 @@ set ::pops 0
 set ::pushes 0
 set ::nextGames 0
 set ::sent {}
+set ::currentGame 3
 
 # sc_game save is the one this test is about, so it is a counter rather than a
 # no-op: a saved game is recorded by number, and the numbers say which game the
@@ -65,7 +73,8 @@ set ::sent {}
 proc sc_game {sub args} {
     switch -- $sub {
         save { lappend ::saves [lindex $args 0] ; return "" }
-        load { lappend ::loads [lindex $args 0] ; return "" }
+        load { lappend ::loads [lindex $args 0] ; set ::currentGame [lindex $args 0] ; return "" }
+        number { return $::currentGame }
         push { incr ::pushes ; return "" }
         pop  { incr ::pops ; return "" }
     }
@@ -109,6 +118,7 @@ proc resetAll {} {
     set ::reviewannotate::progressText ""
     set ::reviewdriver::state {}
     set ::reviewdriver::pass {}
+    set ::currentGame 3
     catch { unset ::reviewdriver::job }
     return
 }
@@ -123,7 +133,7 @@ proc startBatch {} {
         engine {Stockfish /usr/bin/stockfish {} {} 0 0 {} 1 {} {}} \
         tier label bookEnd 0 white 1 black 1 varPlies 0]
     set ::reviewannotate::run [dict create \
-        plan $plan games {3 4} index 0 stopAfter 0 last {0 3} borrowed 1]
+        plan $plan games {3 4} index 0 stopAfter 0 last {0 3} borrowed 1 game 3]
     return
 }
 
@@ -170,6 +180,40 @@ checkEq "the batch does not advance" $::nextGames 0
 checkEq "no other game is loaded" $::loads {}
 checkEq "the run is emptied" $::reviewannotate::run {}
 checkEq "the borrowed game is given back, once" $::pops 1
+checkEq "and nothing is left running" [::reviewannotate::running] 0
+
+########################################################################
+### Opening another game must not hand the batch's copy back over it
+
+puts "\nwhen the board moved on, the batch does not pop over it"
+
+resetAll
+startBatch
+set ::currentGame 9
+set ::nextGames 0
+checkEq "Cancel stops the pass" [cancelPass] 1
+checkEq "nothing is saved" $::saves {}
+checkEq "the user's game is not replaced" $::pops 0
+checkEq "the batch does not advance" $::nextGames 0
+checkEq "the run is emptied" $::reviewannotate::run {}
+
+########################################################################
+### A failed pass is reported, not saved as a completed game
+
+puts "\na failed pass is not saved and does not advance"
+
+resetAll
+startBatch
+set ::reviewdriver::state [dict merge [::reviewdriver::blankState failed] \
+    [dict create reason {the engine stopped after 1 of 3 positions} failed 1]]
+set ::reviewdriver::pass {}
+checkEq "the failed pass gives the game back" \
+    [::reviewdriver::endRun [dict create token 20 done ::reviewannotate::done \
+        notify 0 cursor {}]] ""
+checkEq "nothing is saved" $::saves {}
+check "the failure is reported" \
+    [expr {[string first "engine stopped" [lindex $::messages end]] >= 0}]
+checkEq "the batch does not advance" $::nextGames 0
 checkEq "and nothing is left running" [::reviewannotate::running] 0
 
 ########################################################################

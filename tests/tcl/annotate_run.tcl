@@ -465,5 +465,27 @@ checkEq "and both sides are annotated" [wroteLabel 4] "mistake"
 rename ::review::writeMove {}
 rename ::review::writeMoveSaved ::review::writeMove
 
+########################################################################
+### A pass with nothing to search finishes, rather than waiting for a hook
+###
+### A game with no main-line moves, or one the book covers, makes the driver
+### return without opening a pass: it sets state done and never fires -done.
+### The run has to read that as a finished game, not leave the batch active.
+
+rename ::reviewdriver::run ::reviewdriver::runSaved
+proc ::reviewdriver::run {args} {
+    set ::reviewdriver::state [::reviewdriver::blankState done]
+    return ""
+}
+set emptyPlan [dict create refuse "" from 3 to 3 game 3 batch 0 batchEnd 3 \
+    bookEnd 0 engine {Stockfish /usr/bin/stockfish {} {} 0 0 {} 1 {} {}} \
+    tier label white 1 black 1 varPlies 0]
+checkEq "a pass with nothing to search starts and finishes" \
+    [::reviewannotate::run $emptyPlan] ""
+checkEq "the run is over" [::reviewannotate::running] 0
+check "and nothing is left borrowed" [expr {[dict size $::reviewannotate::run] == 0}]
+rename ::reviewdriver::run {}
+rename ::reviewdriver::runSaved ::reviewdriver::run
+
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]
