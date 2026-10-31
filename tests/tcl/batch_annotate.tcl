@@ -77,6 +77,8 @@ checkEq "a mate keeps its distance and type" [dict get $l 1] \
     {10 3 mate {e2e4 e7e5}}
 set l [line {info depth 10 multipv}]
 checkEq "a malformed line changes nothing" $l {}
+set l [line {info string score cp 20 pv e2e4 e7e5}]
+checkEq "an info string is not an analysis line" $l {}
 
 # The Go the batch sends is the pass's: the review's depth and, when Review
 # Settings sets one, its time ceiling. The engine is stubbed - the transport's

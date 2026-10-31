@@ -350,6 +350,12 @@ proc ::batch_annotate::feed_move {pipe} {
 # {depth score score-type pv} shape. The deepest line for a rank wins; bounds
 # and lines without a PV are not a verdict and are left out.
 proc ::batch_annotate::collect {line lines} {
+    # `info string` is free text, not an analysis line. It can contain the words
+    # "score cp 20 pv ..." in a diagnostic, and since a line no longer needs a
+    # depth it would otherwise become a verdict.
+    if {[string match "info string *" $line]} {
+        return $lines
+    }
     # A bound is not a verdict: the review's lineScore would not use it either.
     if {[string match "*lowerbound*" $line] || [string match "*upperbound*" $line]} {
         return $lines
