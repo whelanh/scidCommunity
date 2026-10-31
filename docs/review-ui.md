@@ -226,6 +226,55 @@ That keeps the search and the write apart for the reason they always were:
 writing mid-pass re-enters the engine window from an open engine, which makes the
 main-line snapshot non-authoritative.
 
+## The review report
+
+`tcl/tools/review_report.tcl` turns a finished pass into the figures a reader
+wants first: accuracy per side, ACPL, an estimated Elo, the label tally, the
+key moments, and the opening / middlegame / endgame split. The accuracy is the
+app's own figure — `::accuracy::calculate`, the same call the engine window's
+chart and the PGN viewer's chart make — so one game has one accuracy in this
+application instead of two. It is arithmetic over
+the pass's own results — no second search and no model — and it writes one block
+into the game's header comment, marked `[Game review]` so a second run replaces
+the block instead of stacking another under it. It removes only its own lines —
+the marker and the indented lines under it — so a note typed below the block
+survives the next review. In this slice the module is not
+wired to the pass yet: its figures and its boundary rule are tested without a
+board or an engine.
+
+**Where the opening ends.** Three signals, and the opening ends at the first one
+to fire:
+
+- **Smyrnov's test** — both sides have developed every minor piece (no bishop or
+  knight left on c1/f1/b1/g1 or c8/f8/b8/g8; a captured one is not on its square,
+  so it counts as developed) *and* both sides' rooks are connected. Connected
+  means two rooks sharing a rank or a file with every square strictly between
+  them empty, wherever they stand: the back rank is the usual case, not the
+  definition. A side with fewer than two rooks has no pair to connect and passes
+  that half — otherwise a rook-less game would sit in the opening for ever.
+- **mixedness above 150** — how far the two armies have grown into each other
+  (ported verbatim from David Crandall's game-review plugin, see
+  [`third-party-notices.md`](third-party-notices.md)). It closes a sharp, tangled
+  opening early, so a hypermodern line is not held to Smyrnov's strictness.
+- **ten or fewer majors-and-minors** — four of the initial fourteen (`n b r q`
+  across *both* sides, never per side) have left the board. This is the safety
+  net for a game that trades material fast; it fires early, which is why it is
+  not the primary signal.
+
+The consequences are deliberate:
+
+- openings now end **later** — typically around moves 12–20, when the back rank
+  is resolved — instead of at a fixed ply;
+- there is **no ply floor**: a line that is out of the opening on move 5 is out
+  on move 4;
+- a game that ends before any of the three fires has **no middlegame bucket** and
+  gets no middlegame prose. The report does not invent a phase, and it does not
+  lend the opening's figures to one that never happened.
+
+The endgame is unchanged: non-pawn material 26 or fewer with the queens off, or
+six majors-and-minors in total. A bucket of fewer than four plies is still
+suppressed — three plies of "phase" is a rounding artefact, not a phase.
+
 ## Files
 
 | File | What is there |
@@ -234,6 +283,8 @@ main-line snapshot non-authoritative.
 | `tcl/tools/review_driver.tcl` | `::reviewdriver` — the engine pass on connection 20, `run` (plan → verdicts → write), the `-done` completion hook, `status`, `cancel` |
 | `tcl/tools/review_annotate.tcl` | `::reviewannotate` — the annotate dialog's decision, the run (single game and batch chain), Cancel, the progress line, the classic marks |
 | `tcl/tools/review_ui.tcl` | `::reviewui` — button state, the call a press makes, dialog values, the time cap's note, the status line |
+| `tcl/tools/review_report.tcl` | the deterministic report: accuracy, ACPL, estimated Elo, key moments, and the phase split with the three-signal opening boundary |
+| `tcl/tools/review_coach.tcl` | `::reviewcoach` — the facts a coach may use: the game-level facts, the turning move and what punished it, the phase facts, and the header-block text helpers. No model, no network |
 | `tcl/windows/engine.tcl` | the two buttons, the status line, the settings dialog (guarded glue) |
 | `tcl/tools/analysis.tcl` | the Analysis window's annotate dialog, its OK (`configAnnotateOK`) and the button on every pane |
 | `tests/tcl/review_settings_dialog.tcl` | under Tk: the dialog builds, has OK/Cancel, stores what is typed, refuses a bad value, the variation box follows `mpv`, the time cap's row shows the preset's cap and drops the note, and both traces are removed when the dialog closes |
@@ -241,6 +292,8 @@ main-line snapshot non-authoritative.
 | `tests/tcl/review_driver.tcl` | 252 checks: the pass against a stub engine, the four Go shapes the precedence table produces, a capped run, two reviews of the same game in a row, the engine window's hand-off to it, and the completion hook |
 | `tests/tcl/annotate_dialog.tcl` | 56 checks: the dialog's decision (pane preset, book end, tier, the non-UCI refusal), the blunders-only filter, and the Cancel label rule |
 | `tests/tcl/annotate_run.tcl` | 39 checks: the plan run against a stub engine, the write, the batch chain, the Cancel escalation and a cancelled run writing nothing |
+| `tests/tcl/review_report.tcl` | 79 checks: accuracy as the app's own figure and the parity a phase starting on Black's move needs, Elo, key moments, the endgame rule, the opening boundary — Smyrnov met and half met, rook-less and file/rank connectivity, mixedness at 150 and 161, the material net at ten and eleven, the first-firing signal at 17/21/25, no ply floor — and the block removal, two writes deep |
+| `tests/tcl/review_coach.tcl` | 20 checks: the move facts, the game-level facts, the turning move, the phase facts, the prose markers, and that the header block comes off without taking the report's header with it |
 
 ## Tests
 

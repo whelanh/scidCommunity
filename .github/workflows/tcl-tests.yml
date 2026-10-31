@@ -37,6 +37,12 @@ jobs:
       - name: Game review settings
         run: tclsh tests/tcl/game_review.tcl
 
+      - name: Review report
+        run: tclsh tests/tcl/review_report.tcl
+
+      - name: Review coach facts
+        run: tclsh tests/tcl/review_coach.tcl
+
       - name: Batch annotate
         run: tclsh tests/tcl/batch_annotate.tcl
 
