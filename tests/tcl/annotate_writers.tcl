@@ -391,9 +391,14 @@ check "and no stale evaluation is written either" \
 # assessment keeps it: a blunders-only rerun that stops annotating the move
 # would leave the exporter drawing a board for a verdict this pass no longer
 # makes. markDiagram hung it on the move BEFORE the verdict (analysis.tcl:859-865),
-# so that is the move the sparse pass has to take it off.
+# so that is the move the sparse pass has to take it off - and only when it was
+# that verdict that put it there, which is what the label on the verdict's own
+# move says.
 annotateSettings
 ::gamestub::reset [list {e4 e2e4} {e5 e7e5}]
+sc_move ply 2
+# Exactly what a previous all-moves pass writes: the label token and [%eval].
+sc_pos setComment [::review::commentText blunder -550]
 sc_move ply 1
 sc_pos addNag "D"
 sc_pos addNag "!?"
@@ -410,6 +415,33 @@ check "a dropped verdict takes its diagram mark with it" \
     [expr {[lsearch -exact $nags D] < 0}]
 check "and leaves the move's other marks alone" \
     [expr {[lsearch -exact $nags "!?"] >= 0}]
+set comment ""
+catch { set comment [dict get [::gamestub::commentsByPly] 2] }
+checkEq "the dropped verdict's label goes too" \
+    [::review::labelOfComment $comment] ""
+check "and its evaluation with it" \
+    [expr {[string first "\[%eval" $comment] < 0}]
+
+# The same D with no review label behind it is the user's. A blunders-only pass
+# that skips this move makes no verdict to take back, and deleting the user's own
+# board diagram would be a write the review never asks for. (Finding from the
+# 2026-10-31 review of PR #406: the mark came off unconditionally, because
+# dropLabel had already removed the label the guard would have read.)
+annotateSettings
+::gamestub::reset [list {e4 e2e4} {e5 e7e5}]
+sc_move ply 1
+sc_pos addNag "D"
+set map [::review::mainLineMap [sc_game UCI_mainLine]]
+set results [dict create \
+    0 [dict create 1 [list 18 -550 cp {d2d4 e7e5}]] \
+    1 [dict create 1 [list 18 750 cp {e7e5}]]]
+set p [dict create map $map plies [dict get $map plies] bookEnd 0 mpv 3]
+set counts [::reviewannotate::writeResults $p $results]
+checkEq "the unlabelled move is skipped the same way" [dict get $counts skipped] 2
+set nags ""
+catch { set nags [dict get [::gamestub::nagsByPly] 1] }
+check "a user's own diagram before a skipped move is kept" \
+    [expr {[lsearch -exact $nags D] >= 0}]
 
 # The write phase's last step is the game's own tags: the opening-errors entry
 # the finder leaves ("opBlunder <move> (<side>)", analysis.tcl:740-742) and the
@@ -460,6 +492,42 @@ annotateOne 130 0
 checkEq "a ? move is offered to the exercise gate like the classic" $::offered {1}
 rename ::reviewannotate::markExercise {}
 rename ::reviewannotate::markExerciseSaved ::reviewannotate::markExercise
+
+# A mark the user put on the move is not the engine's to replace. Scid's AddNag
+# replaces the move's first mark rather than adding beside it (the reason
+# ::review::hasMoveNag exists), so an unguarded write here turns the user's "?!"
+# into the engine's "?". The driver's write phase already refuses to overwrite a
+# mark it did not write; the annotate writer has to draw the same line.
+proc annotateOneMarked {before after marks} {
+    ::gamestub::reset [list {e4 e2e4} {e5 e7e5}]
+    sc_move ply 1
+    foreach m $marks { sc_pos addNag $m }
+    set map [::review::mainLineMap [sc_game UCI_mainLine]]
+    set results [dict create \
+        0 [dict create 1 [list 18 $before cp {d2d4 e7e5}]] \
+        1 [dict create 1 [list 18 [expr {-$after}] cp {e7e5}]]]
+    set p [dict create map $map plies [dict get $map plies] bookEnd 0 mpv 3]
+    return [::reviewannotate::writeResults $p $results]
+}
+
+annotateSettings
+set r [annotateOneMarked 130 0 {?!}]
+checkEq "a marked move is still annotated" [dict get $r written] 1
+set nags ""
+catch { set nags [dict get [::gamestub::nagsByPly] 1] }
+check "a user's ?! survives the engine's ?" \
+    [expr {[lsearch -exact $nags "?!"] >= 0}]
+check "and the engine's ? is not written over it" \
+    [expr {[lsearch -exact $nags "?"] < 0}]
+
+# With no mark of the user's on the move, the engine's still goes on: the guard
+# is about whose mark it is, not about writing nothing.
+annotateSettings
+set r [annotateOneMarked 130 0 {}]
+set nags ""
+catch { set nags [dict get [::gamestub::nagsByPly] 1] }
+check "an unmarked move takes the engine's ?" \
+    [expr {[lsearch -exact $nags "?"] >= 0}]
 
 # A mark that fails is a failed move, not a written one: the label landed, the
 # exercise did not, and the counts have to say so.

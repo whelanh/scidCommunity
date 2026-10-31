@@ -679,13 +679,29 @@ proc ::reviewannotate::writeResults {p results {tier ""} {opts ""}} {
             # mark a previous all-moves pass wrote here is taken off rather than
             # left describing a verdict this pass does not make. The gain mark
             # below is the classic's one write outside the annotated moves.
+            # Which verdict the previous review left here is read BEFORE the
+            # label goes, because only that verdict's diagram is ours to take
+            # back. markDiagram hung the D on the move before the one it judged,
+            # so a D sitting there with no label behind it is the user's own and
+            # stays - ::reviewdriver::clearMarks draws the same line by bailing
+            # when the comment carries no label at all.
+            set oldLabel ""
+            catch {
+                sc_move ply $ply
+                if {[sc_pos location] == $ply} {
+                    set oldLabel [::review::labelOfComment [sc_pos getComment]]
+                }
+            }
             catch { ::reviewannotate::dropLabel $ply }
             catch { sc_move ply $ply ; ::review::dropAssessment }
             # The diagram tag is not one of ::review::assessmentNags, so dropping
             # the assessment keeps it. A blunders-only rerun that stops annotating
             # this move would leave the exporter drawing a board for a verdict this
-            # pass does not make, so the mark goes with it.
-            catch { ::review::setDiagram $ply 0 }
+            # pass does not make, so the mark goes with it - but only when that
+            # verdict was the mistake or blunder that put it there.
+            if {$oldLabel eq "mistake" || $oldLabel eq "blunder"} {
+                catch { ::review::setDiagram $ply 0 }
+            }
             if {$isBlunder == 0 && abs($drop) > $::informant(!?)} {
                 catch { sc_move ply $ply ; sc_pos addNag "!?" }
             }
@@ -703,7 +719,14 @@ proc ::reviewannotate::writeResults {p results {tier ""} {opts ""}} {
         set nag [::reviewannotate::nagForDrop $beforeMover $afterMover]
         if {[catch {
             sc_move ply $ply
-            if {$nag ne ""} { sc_pos addNag $nag }
+            # Scid's AddNag REPLACES the move's first mark instead of adding
+            # beside it, so a bare addNag here overwrites the !?/?! a user put on
+            # the move. ::review::hasMoveNag is the same line the driver's write
+            # phase draws: only a move carrying no mark of its own gets the
+            # engine's.
+            if {$nag ne "" && ![::review::hasMoveNag]} {
+                catch { ::review::addNagIfAbsent $nag }
+            }
             # The position assessment the classic put beside the verdict
             # (analysis.tcl:852-854), from White's score.
             catch { sc_pos addNag [::reviewannotate::scoreToNag [expr {$afterWhite / 100.0}]] }
