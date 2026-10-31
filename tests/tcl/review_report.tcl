@@ -300,6 +300,40 @@ checkEq "the endgame starts where it is reached" [dict get $ph endgame from] 13
 check "the opening has both sides' accuracy" \
     [expr {[dict exists [dict get $ph opening] accW] && [dict exists [dict get $ph opening] accB]}]
 
+# A collected list can have holes. ::reviewreport::collect drops a ply it cannot
+# judge (no sc_move target, no verdict, or judge returns ""), so a 20-ply game
+# reaches the split as 19 entries whose last ply is still 20. The phase
+# boundaries therefore have to be plies, not a count of the list: taking
+# [llength $moves] as the last ply leaves the tail outside every range, and the
+# report's phase figures then describe less than the game.
+set holed [phaseMoves $openingFen 20 [list [list 15 $endFen]]]
+set holed [lmap m $holed {
+    if {[dict get $m ply] == 11} { continue } else { set m }
+}]
+checkEq "the synthetic list has the hole" [llength $holed] 19
+checkEq "and still ends on ply 20" [dict get [lindex $holed end] ply] 20
+
+set ph [::reviewreport::phaseSplit $holed]
+set ranges {}
+foreach phase {opening middlegame endgame} {
+    set d [dict get $ph $phase]
+    if {$d ne ""} { lappend ranges [list $phase [dict get $d from] [dict get $d to]] }
+}
+set loose {}
+foreach m $holed {
+    set ply [dict get $m ply]
+    set hits 0
+    foreach r $ranges {
+        lassign $r name from to
+        if {$ply >= $from && $ply <= $to} { incr hits }
+    }
+    if {$hits != 1} { lappend loose "$ply in $hits" }
+}
+check "every collected ply is in exactly one phase" \
+    [expr {[llength $loose] == 0}] "off: [join $loose {, }] -- ranges: $ranges"
+checkEq "the last phase reaches the last collected ply" \
+    [lindex [lindex $ranges end] 2] 20
+
 puts "\nthe header"
 
 set text [::reviewreport::headerText $moves]

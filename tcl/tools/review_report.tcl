@@ -411,7 +411,10 @@ proc ::reviewreport::phaseStats {moves from to} {
 # the ply before it: the position after ply N is the one the move at N reached,
 # so the opening ends where the position last was still an opening.
 proc ::reviewreport::phaseSplit {moves} {
-    set total [llength $moves]
+    # The collected list can have holes: collect drops a ply it cannot judge, so
+    # a 20-ply game can arrive as 19 entries. The bound is therefore the last
+    # collected ply, not a count of entries; with no holes the two are equal.
+    set total [expr {[llength $moves] ? [dict get [lindex $moves end] ply] : 0}]
     if {$total == 0} { return {} }
     set openingTo $total
     foreach m $moves {
