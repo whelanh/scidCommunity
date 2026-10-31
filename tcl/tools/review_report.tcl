@@ -215,14 +215,19 @@ proc ::reviewreport::majorsMinors {fen} {
     return $n
 }
 
-proc ::reviewreport::pointsWithPawns {fen} {
+# Material in pieces, not pawns: the endgame test is about the non-pawn
+# material left on the board. Counting the pawns as well kept a position with
+# two pawns and 25 points of pieces in the middlegame.
+proc ::reviewreport::pointsWithoutPawns {fen} {
     variable PIECE_VALUE
     set pos [boardOf $fen]
     if {$pos eq ""} { return 99 }
     set points 0
     foreach p [dict get $pos board] {
         if {$p eq ""} { continue }
-        incr points $PIECE_VALUE([string tolower $p])
+        set kind [string tolower $p]
+        if {$kind eq "p"} { continue }
+        incr points $PIECE_VALUE($kind)
     }
     return $points
 }
@@ -370,7 +375,7 @@ proc ::reviewreport::openingOver {fen} {
 }
 
 proc ::reviewreport::endgameNow {fen} {
-    return [expr {([pointsWithPawns $fen] <= 26 && [queensOff $fen]) ||
+    return [expr {([pointsWithoutPawns $fen] <= 26 && [queensOff $fen]) ||
                   [majorsMinors $fen] <= 6}]
 }
 
@@ -382,6 +387,10 @@ proc ::reviewreport::phaseStats {moves from to} {
         if {$ply >= $from && $ply <= $to} { lappend slice $m }
     }
     if {[llength $slice] < 4} { return "" }
+    # A phase that is entirely book (or entirely unjudged) has no measured move
+    # to report. Returning 0.0 for both sides printed a 0% phase and made it the
+    # coach's "weakest phase"; no figures is the honest answer.
+    if {![llength [evalSeries $slice]]} { return "" }
     set wCp {} ; set bCp {}
     foreach m $slice {
         if {[dict get $m eval_before_white] eq ""} { continue }

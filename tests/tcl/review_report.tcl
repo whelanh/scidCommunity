@@ -272,6 +272,16 @@ check "the back-rank count is not a trigger any more" \
 check "a queen and king is an endgame" [::reviewreport::endgameNow $endFen]
 check "the opening material is not" [expr {![::reviewreport::endgameNow $openingFen]}]
 
+# Pawns are not the material the endgame test is about. This position has 25
+# points of pieces (seven majors-and-minors, so the six-piece safety net does
+# not fire) and sixteen pawns: 41 points including pawns, 25 without them.
+set pawnyEndFen "rnb1k3/pppppppp/8/8/8/8/PPPPPPPP/RNBNK3 w - - 0 1"
+checkEq "the pawn-inclusive count is 41" \
+    [expr {[::reviewreport::pointsWithoutPawns $pawnyEndFen] + 16}] 41
+checkEq "the non-pawn count is 25" [::reviewreport::pointsWithoutPawns $pawnyEndFen] 25
+checkEq "and seven majors-and-minors" [::reviewreport::majorsMinors $pawnyEndFen] 7
+check "so the position is an endgame" [::reviewreport::endgameNow $pawnyEndFen]
+
 # The initial position is an opening on every count.
 checkEq "the initial position has fourteen majors-and-minors" \
     [::reviewreport::majorsMinors $openingFen] 14
@@ -359,6 +369,18 @@ set ph [::reviewreport::phaseSplit $moves]
 checkEq "the endgame starts where it is reached" [dict get $ph endgame from] 13
 check "the opening has both sides' accuracy" \
     [expr {[dict exists [dict get $ph opening] accW] && [dict exists [dict get $ph opening] accB]}]
+
+# A phase that is all book has no measured move. It must not be reported as
+# 0.0% accuracy, nor chosen as the weakest phase.
+set bookMoves {}
+for {set ply 1} {$ply <= 6} {incr ply} {
+    lappend bookMoves [dict create ply $ply side [expr {$ply % 2 ? "white" : "black"}] \
+        classification book eval_before_white "" eval_after_white "" cp_loss 0 \
+        fen_after $openingFen]
+}
+set ph [::reviewreport::phaseSplit $bookMoves]
+check "an all-book phase has no figures" \
+    [expr {[dict get $ph opening] eq ""}]
 
 # A collected list can have holes. ::reviewreport::collect drops a ply it cannot
 # judge (no sc_move target, no verdict, or judge returns ""), so a 20-ply game
