@@ -856,6 +856,8 @@ translate F ReviewVarLines {Variantes à écrire}
 translate F ReviewVarCp {Écart des variantes (cp)}
 translate F ReviewMoveWait {Attendre la profondeur d'analyse}
 translate F ReviewMovetime {Plafond de temps (ms)}
+translate F StopNow {Stop now}
+translate F StopAfterThisGame {Stop after this game}
 translate F ReviewFromPreset {%s (profil du moteur)}
 translate F ReviewProgress {Analyse de la position %s sur %s}
 translate F ReviewWaitForDepth {En attente de la profondeur %s}

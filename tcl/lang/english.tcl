@@ -883,6 +883,8 @@ translate E ReviewVarLines {Variations to write}
 translate E ReviewVarCp {Variation margin (cp)}
 translate E ReviewMoveWait {Wait for the review depth}
 translate E ReviewMovetime {Time cap (ms)}
+translate E StopNow {Stop now}
+translate E StopAfterThisGame {Stop after this game}
 translate E ReviewFromPreset {%s (from engine preset)}
 translate E ReviewProgress {Reviewing position %s of %s}
 translate E ReviewWaitForDepth {Waiting for depth %s}

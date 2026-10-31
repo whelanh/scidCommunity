@@ -854,6 +854,8 @@ translate I ReviewVarLines {Varianti da scrivere}
 translate I ReviewVarCp {Soglia delle varianti (cp)}
 translate I ReviewMoveWait {Attendi la profondità della revisione}
 translate I ReviewMovetime {Limite di tempo (ms)}
+translate I StopNow {Stop now}
+translate I StopAfterThisGame {Stop after this game}
 translate I ReviewFromPreset {%s (dal profilo del motore)}
 translate I ReviewProgress {Revisione della posizione %s di %s}
 translate I ReviewWaitForDepth {In attesa della profondità %s}

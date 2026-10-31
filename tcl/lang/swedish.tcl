@@ -854,6 +854,8 @@ translate W ReviewVarLines {Varianter att skriva}
 translate W ReviewVarCp {Variantmarginal (cp)}
 translate W ReviewMoveWait {Vänta på granskningsdjupet}
 translate W ReviewMovetime {Tidsgräns (ms)}
+translate W StopNow {Stop now}
+translate W StopAfterThisGame {Stop after this game}
 translate W ReviewFromPreset {%s (från motorprofilen)}
 translate W ReviewProgress {Granskar ställning %s av %s}
 translate W ReviewWaitForDepth {Väntar på djup %s}

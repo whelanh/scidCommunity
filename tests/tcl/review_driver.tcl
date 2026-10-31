@@ -1632,5 +1632,47 @@ checkEq "closing a window does not cancel it" \
 ::reviewdriver::cancel
 pump
 
+# The caller's completion hook: annotate mode chains one pass per game on it, so
+# it has to fire exactly once per pass - when the pass finishes, and when it is
+# cancelled. A cancelled pass that never called it would leave a batch waiting
+# for a game that is never written.
+puts "\nthe caller's completion hook"
+set ::hookCalls {}
+proc onRunDone {state} { lappend ::hookCalls [dict get $state state] }
+set ::sent {}
+set ::events {}
+checkEq "a pass with a hook starts" \
+    [::reviewdriver::run $::runcfg -plies {1} -done ::onRunDone] ""
+feedEvent InfoConfig {}
+feedEvent InfoPV {1 18 18 900 300 0 0 120 20 cp 0 e2e4 e7e5}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 18 18 900 300 0 0 120 -20 cp 0 e7e5 g1f3}
+feedEvent InfoBestMove {}
+pump
+checkEq "the hook fires once when the pass finishes" $::hookCalls {done}
+
+set ::hookCalls {}
+set ::sent {}
+set ::events {}
+set ::fakeLoc 2
+checkEq "a second pass with a hook starts" \
+    [::reviewdriver::run $::runcfg -plies {1} -done ::onRunDone] ""
+feedEvent InfoConfig {}
+::reviewdriver::cancel
+pump
+checkEq "and it fires once when the pass is cancelled" $::hookCalls cancelled
+
+# A caller that gives no hook is unaffected: the driver does not invent one.
+set ::sent {}
+::reviewdriver::run $::runcfg -plies {1}
+feedEvent InfoConfig {}
+feedEvent InfoPV {1 18 18 900 300 0 0 120 20 cp 0 e2e4 e7e5}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 18 18 900 300 0 0 120 -20 cp 0 e7e5 g1f3}
+feedEvent InfoBestMove {}
+pump
+checkEq "a pass without a hook still finishes" \
+    [dict get [::reviewdriver::status] state] done
+
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

@@ -843,6 +843,8 @@ translate Z ReviewVarLines {Mibadala ya kuandika}
 translate Z ReviewVarCp {Tofauti ya mibadala (cp)}
 translate Z ReviewMoveWait {Subiri kina cha mapitio}
 translate Z ReviewMovetime {Kikomo cha muda (ms)}
+translate Z StopNow {Stop now}
+translate Z StopAfterThisGame {Stop after this game}
 translate Z ReviewFromPreset {%s (kutoka wasifu wa injini)}
 translate Z ReviewProgress {Inapitia nafasi %s kati ya %s}
 translate Z ReviewWaitForDepth {Inasubiri kina %s}

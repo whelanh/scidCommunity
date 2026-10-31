@@ -851,6 +851,8 @@ translate H ReviewVarLines {Kiírandó változatok}
 translate H ReviewVarCp {Változat-küszöb (cp)}
 translate H ReviewMoveWait {Várás az áttekintés mélységére}
 translate H ReviewMovetime {Időkorlát (ms)}
+translate H StopNow {Stop now}
+translate H StopAfterThisGame {Stop after this game}
 translate H ReviewFromPreset {%s (a motorprofilból)}
 translate H ReviewProgress {Áttekintés: %s. pozíció / %s}
 translate H ReviewWaitForDepth {Várakozás %s mélységre}

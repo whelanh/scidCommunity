@@ -104,8 +104,21 @@ proc ::reviewdriver::stop {token {restore 1}} {
         set pass {}
         dict set state state cancelled
         if {$restore} { ::reviewdriver::restoreRun $p }
+        ::reviewdriver::runDoneHook $p
     }
     return 1
+}
+
+# The caller's completion hook, if it gave one: called exactly once per pass,
+# with the run's status. `stop` calls it for a cancelled run and `endRun` for one
+# that finished or failed, so a caller that chains passes (annotate mode's batch)
+# has one place to advance from and a cancel is not a pass it waits forever for.
+proc ::reviewdriver::runDoneHook {p} {
+    set done ""
+    catch { set done [dict get $p done] }
+    if {$done eq ""} { return }
+    catch { {*}$done [::reviewdriver::status] }
+    return
 }
 
 # Nothing may close a connection from inside an engine reply. ::engine::close runs
@@ -590,6 +603,9 @@ proc ::reviewdriver::run {engine args} {
     set want ""
     set progress ""
     set notify 0
+    # The caller's completion hook: annotate mode chains one pass per game, so
+    # the chain lives in the pass dict rather than in a module variable.
+    set done ""
     # The write phase, and the one place a caller can change it: annotate mode
     # (tcl/tools/review_annotate.tcl) writes the classic annotator's marks beside
     # the label, and it must not carry a second copy of the plan ::review::plan
@@ -604,6 +620,7 @@ proc ::reviewdriver::run {engine args} {
             -depth    { incr i ; set want [lindex $args $i] }
             -progress { incr i ; set progress [lindex $args $i] }
             -notify   { incr i ; set notify [lindex $args $i] }
+            -done     { incr i ; set done [lindex $args $i] }
             -writer   { incr i ; set writer [lindex $args $i] }
             default   { return "unknown option: $opt" }
         }
@@ -703,7 +720,7 @@ proc ::reviewdriver::run {engine args} {
     # `bookEnd` are kept for a writer that derives its own plan (annotate mode).
     set pass [dict create token $token map $map plan $plan \
         plies [dict get $map plies] bookEnd $bookEnd mpv $mpv \
-        positions $positions cursor $cursor \
+        positions $positions cursor $cursor engine $engine done $done \
         progress $progress notify $notify writer $writer]
     return ""
 }
@@ -927,6 +944,10 @@ proc ::reviewdriver::restoreRun {p} {
 
 # The end of a run: the cursor goes back exactly once, and the board is told the
 # game changed when the caller asked for it. The driver itself has no Tk.
+#
+# The caller's completion hook fires last, with the run's status: it is the only
+# point at which a chained run (annotate mode's batch) knows the game it just
+# searched has been written.
 proc ::reviewdriver::endRun {p} {
     variable pass
     set pass {}
@@ -938,4 +959,5 @@ proc ::reviewdriver::endRun {p} {
         # invisible in the PGN pane until something else redrew it.
         catch { ::notify::PosChanged -pgn }
     }
+    ::reviewdriver::runDoneHook $p
 }

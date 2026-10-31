@@ -354,8 +354,10 @@ annotateOne -550 -750
 checkEq "a blunder in a decided game is not marked" [::gamestub::nagsByPly] ""
 
 # Game Review writes a position assessment on every judged move. A blunders-only
-# pass that does not annotate this move must not leave that assessment beside
-# the [%eval] it does write, or the two describe different verdicts.
+# pass that does not annotate this move leaves nothing of the review's on it: the
+# assessment, the label and the [%eval] all describe a verdict the mode does not
+# make, so the sparse mode filters the whole write and not only the marks (the
+# sparse case is gated in tests/tcl/annotate_dialog.tcl).
 annotateSettings
 ::gamestub::reset [list {e4 e2e4} {e5 e7e5}]
 sc_move ply 1
@@ -365,15 +367,16 @@ set results [dict create \
     0 [dict create 1 [list 18 -550 cp {d2d4 e7e5}]] \
     1 [dict create 1 [list 18 750 cp {e7e5}]]]
 set p [dict create map $map plies [dict get $map plies] bookEnd 0 mpv 3]
-::reviewannotate::writeResults $p $results
+set counts [::reviewannotate::writeResults $p $results]
+checkEq "an unannotated move is counted as skipped" [dict get $counts skipped] 2
 set nags ""
 catch { set nags [dict get [::gamestub::nagsByPly] 1] }
 check "an unannotated move keeps no stale assessment" \
     [expr {[string first "+=" $nags] < 0}]
 set comment ""
 catch { set comment [dict get [::gamestub::commentsByPly] 1] }
-check "but its evaluation was still written" \
-    [expr {[string first "\[%eval" $comment] >= 0}]
+check "and no stale evaluation is written either" \
+    [expr {[string first "\[%eval" $comment] < 0}]
 
 annotateSettings
 annotateOne 200 60 e2e4

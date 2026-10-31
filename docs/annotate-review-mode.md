@@ -7,11 +7,56 @@ The annotate menu runs the classic autoplay annotator
 the engine window's **Game Review** runs — `::reviewdriver` — and writes its
 result into the game with the review's writer instead of the classic loop's.
 
-Nothing calls it yet: the annotate dialog still starts the classic autoplay, and
-pointing its OK button at `::reviewannotate::start` is a separate change (see
-"Not in this change"). The classic pipeline is still shipped and still reachable
-too; it is retired only after the parity gate below passes, which is a separate
-change and needs the maintainer's approval for any artefact that differs.
+The annotate dialog's OK button now starts that pass (`::reviewannotate::run`),
+so the review writer is reachable for one game, a range of games, and the opening
+errors finder. The classic pipeline is still shipped and still in `analysis.tcl`;
+it is retired only after the parity gate below passes, which is a separate change
+and needs the maintainer's approval for any artefact that differs. Since this
+wiring, nothing in the UI starts the classic loop.
+
+## The dialog is the entry point
+
+`configAnnotation {n}` is opened by pane `n`'s annotate button (the button is on
+every pane, not only the first), and its OK turns the dialog's state into a run
+with one pure decision:
+
+    ::reviewannotate::dialogPlan <pane> <preset name> <is UCI> <settings>
+
+That proc answers which engine, which `-bookEnd`, the batch range, the tier, and
+the refusal when the pane cannot run a review. It is pure, so it is gated by
+`tests/tcl/annotate_dialog.tcl` rather than by clicking a dialog.
+
+- **The engine is the invoking pane's own preset** — `::enginecfg::get
+  $::analysis(name$n)`, the entry the user chose when opening that pane. There is
+  no picker and no second engine setting.
+- **A non-UCI pane is refused before anything starts**, with the driver's own
+  sentence (*the review needs a UCI engine*), and OK is disabled the way a
+  non-UCI pane's tactical checkbox is.
+- **The time spinner is `::review::movetime`**, shown in seconds: the same
+  setting Review Settings shows, so the dialog and the settings cannot disagree
+  about the pass's time cap. 0 means no cap of the review's own.
+- **Tier 1 only.** The dialog pins the run's tier: with a provider configured,
+  tier 2 (one sentence of prose per judged move) is still a separate change.
+- **Every option the dialog had is kept**: all moves / blunders only, the
+  blunder threshold, the book, mark tactical exercises, the Annotator tag, the
+  batch range, and find opening errors. They reach the writer through the globals
+  the classic loop read; nothing was dropped with the classic pipeline.
+
+The batch is a chain of passes, one per game: the driver runs one pass at a time,
+so `::reviewannotate::done` is the driver's completion hook (`-done`) and starts
+the next game. Each game is borrowed with the shipped idiom (`sc_game push copy`
+→ `load` → write → `save` → `pop`), so the base comes back where it was.
+
+**Cancel is one button with a context label.** The status line shows the pass's
+progress and one stop control: *Stop now* for a single game, *Stop after this
+game* in a batch — flipping to *Stop now* once pressed. The annotate toolbar
+button is that control while a pass is running. Stopping now writes nothing (the
+driver's write phase only runs on the last reply).
+
+**Progress has no window of its own.** The pass reports `done/total` (and the
+game number in a batch) on the board's status line. A read-only progress board
+that walks the positions in its own window is a separate change (the review
+progress board card); nothing here depends on a window being open.
 
 ## Two tiers, one difference
 
@@ -92,13 +137,18 @@ part that other tools read, so they are written here too:
 The review labels every judged move; the classic marks follow the annotate
 dialog's mode, the same filter `analysis.tcl:826` applies:
 
-- **all moves** — every judged move gets the NAG and the assessment; no diagram
-  (that is a blunders-only mark);
+- **all moves** — every judged move gets the label, its `[%eval]`, the NAG and
+  the assessment; no diagram (that is a blunders-only mark);
 - **blunders only** — only the moves whose drop is over `blunderThreshold`, plus
   the classic's two exemptions: a position that is already decided is left
   alone, and a mate-range position is marked even for a small drop (the classic's
   `abs(score) >= 327` clause). The `??` and `?` moves are both offered to the
   exercise gate; `?!` is only a mark.
+
+In blunders-only mode the filter decides the **whole** write, not only the
+marks: a move the mode does not annotate gets no label and no `[%eval]` either,
+and one a previous all-moves pass left there is taken off. A sparse annotation
+that still carried a verdict word on every move would not be sparse.
 
 A move that is not annotated in blunders-only mode can still carry `!?` when it
 was better than the engine's line, as the classic branch did.
@@ -127,12 +177,17 @@ Run it with:
 ```
 tclsh tests/tcl/annotate_parity.tcl
 tclsh tests/tcl/annotate_writers.tcl
+tclsh tests/tcl/annotate_dialog.tcl
+tclsh tests/tcl/annotate_run.tcl
 ```
 
 The writer tests are the per-writer red-first tests: NAG from a label, the
 diagram in blunders-only mode, the T flag and the difficulty comment, the book's
 two comments, and the blunders-only filter (a decided position is left alone, a
 mate-range position is marked, and a `?` move is offered to the exercise gate).
+`annotate_dialog.tcl` gates the dialog's decision and the sparse filter's effect
+on the label, and `annotate_run.tcl` drives the whole run — plan, pass, write,
+batch chain, Cancel — against a stub engine.
 
 ### Tier 2 is synchronous
 
@@ -144,20 +199,30 @@ offered — otherwise a slow provider freezes the window for the whole run.
 
 ## Not in this change
 
-- **The annotate dialog still starts the classic autoplay.** Pointing its OK
-  button at `::reviewannotate::start` needs a decision the code cannot make: the
-  dialog collects a per-move delay, an all-moves/blunders-only mode, a variation
-  length and a book, and a review pass has no per-move delay. Which of those the
-  dialog keeps, and which engine preset the pass uses, is the maintainer's call.
 - **The classic pipeline is not deleted.** It goes only after the gate above
-  passes on the merged tree, with any remaining difference approved.
+  passes on the merged tree, with any remaining difference approved. Since the
+  dialog's OK was rewired, nothing in the UI reaches it.
 - **Variations are not compared by the gate.** The fixture's two runs write no
   variations (the classic side has white/black annotations off, the review side
   has `var_lines 0`), because the artefacts the gate names — the diagram, the
   NAGs, the exercise — do not include them; variation insertion is covered by
   `tests/tcl/game_review.tcl`.
-- **No new translatable strings.** The two comments the book writes reuse
-  `MoveOutOfBook` and `LastBookMove`, which every language file already carries;
-  the rest of what this writes is a mark or a token (`??`, `D`, `****D<n>`,
+- **The progress board is a separate change.** The annotate run reports on the
+  status line; a read-only board window that walks the pass's positions in its
+  own window belongs to the review progress board card, and the run does not
+  depend on it.
+- **Tier 2 (AI prose) is a separate change.** The dialog pins tier 1, so a
+  configured provider cannot put prose into a game from this button until the
+  batching/worker problem in "Tier 2 is synchronous" is solved.
+- **The dialog's White/Black filter and short-annotation options are kept but do
+  nothing new.** `::review::writeMove` writes the verdict word and the token
+  whatever the side; the classic's own side filter never suppressed its comment
+  either (it only skipped the variation), and the review writes variations from
+  `::review::variationWanted`. Anything that has to change there is a separate
+  change to `::review`, not to this wiring.
+- **No new translatable strings beyond the two Cancel labels.** `StopNow` and
+  `StopAfterThisGame` are in all 29 language files; the non-English files carry
+  the English text, because a mistranslated button is worse than an untranslated
+  one. The rest of what this writes is a mark or a token (`??`, `D`, `****D<n>`,
   `[%eval]`), not prose. The AI prompt is English by design — it is sent to a
   model, not shown to a reader.

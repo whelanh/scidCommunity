@@ -95,6 +95,13 @@ comes first, so a capped pass can finish shallower than `::review::depth`, and a
 verdict then rests on a shallower search than the setting promised. That is the
 trade the cap asks for, and it is why the cap is off by default.
 
+**One setting, two surfaces.** The Analysis window's annotate dialog shows the
+same `::review::movetime` as a time-per-move spinner, in seconds, labelled with
+the Review Settings row it writes. Editing either surface changes the other, and
+a cap typed there reaches every pass this session runs — the annotate pass, Game
+Review and Move Comment — because `::review::passLimits` is the only place the
+number is read.
+
 **A bound never displaces a verdict.** A capped search can report a MultiPV slot
 as `lowerbound`/`upperbound` at the depth it had reached and only then finish the
 line. `::reviewdriver::collect` keeps one line per slot by ranking a `cp`/`mate`
@@ -224,12 +231,16 @@ main-line snapshot non-authoritative.
 | File | What is there |
 | --- | --- |
 | `tcl/tools/game_review.tcl` | `::review` settings, `passLimits`, `plan`, `searchPlies`, `mainLineMap`, `playedMove`, `moveCommentPlan`, `writeMove`, `selectLines`, `scoreToNag`, `variationWanted` |
-| `tcl/tools/review_driver.tcl` | `::reviewdriver` — the engine pass on connection 20, `run` (plan → verdicts → write), `status`, `cancel` |
+| `tcl/tools/review_driver.tcl` | `::reviewdriver` — the engine pass on connection 20, `run` (plan → verdicts → write), the `-done` completion hook, `status`, `cancel` |
+| `tcl/tools/review_annotate.tcl` | `::reviewannotate` — the annotate dialog's decision, the run (single game and batch chain), Cancel, the progress line, the classic marks |
 | `tcl/tools/review_ui.tcl` | `::reviewui` — button state, the call a press makes, dialog values, the time cap's note, the status line |
 | `tcl/windows/engine.tcl` | the two buttons, the status line, the settings dialog (guarded glue) |
+| `tcl/tools/analysis.tcl` | the Analysis window's annotate dialog, its OK (`configAnnotateOK`) and the button on every pane |
 | `tests/tcl/review_settings_dialog.tcl` | under Tk: the dialog builds, has OK/Cancel, stores what is typed, refuses a bad value, the variation box follows `mpv`, the time cap's row shows the preset's cap and drops the note, and both traces are removed when the dialog closes |
-| `tests/tcl/review_ui.tcl` | 204 checks: the call a press makes, the status line, the button states, the dialog round trip, the precedence table through the dialog, the time cap's note, the move-comment depth, the key set |
-| `tests/tcl/review_driver.tcl` | 237 checks: the pass against a stub engine, the four Go shapes the precedence table produces, a capped run, two reviews of the same game in a row and the engine window's hand-off to it |
+| `tests/tcl/review_ui.tcl` | 207 checks: the call a press makes, the status line, the button states, the dialog round trip, the precedence table through the dialog, the time cap's note, the move-comment depth, the key set |
+| `tests/tcl/review_driver.tcl` | 252 checks: the pass against a stub engine, the four Go shapes the precedence table produces, a capped run, two reviews of the same game in a row, the engine window's hand-off to it, and the completion hook |
+| `tests/tcl/annotate_dialog.tcl` | 56 checks: the dialog's decision (pane preset, book end, tier, the non-UCI refusal), the blunders-only filter, and the Cancel label rule |
+| `tests/tcl/annotate_run.tcl` | 39 checks: the plan run against a stub engine, the write, the batch chain, the Cancel escalation and a cancelled run writing nothing |
 
 ## Tests
 

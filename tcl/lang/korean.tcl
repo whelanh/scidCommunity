@@ -884,6 +884,8 @@ translate k ReviewVarLines {기록할 변화}
 translate k ReviewVarCp {변화 폭 (cp)}
 translate k ReviewMoveWait {검토 깊이를 기다림}
 translate k ReviewMovetime {시간 한도 (ms)}
+translate k StopNow {Stop now}
+translate k StopAfterThisGame {Stop after this game}
 translate k ReviewFromPreset {%s (엔진 프리셋에서)}
 translate k ReviewProgress {국면 %s / %s 검토 중}
 translate k ReviewWaitForDepth {깊이 %s 대기 중}

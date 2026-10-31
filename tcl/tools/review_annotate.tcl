@@ -451,6 +451,28 @@ proc ::reviewannotate::blundersOnly {} {
     return 0
 }
 
+# The classic blunders-only filter (analysis.tcl:826-829), as a decision:
+#
+#   (blundersonly && (isBlunder > 1 || (isBlunder > 0 && abs(score) >= 327.0))
+#       && !gameIsLost)
+#   || allmoves
+#
+# `isBlunder` is the classic's three-state measure of the drop (2 over the
+# blunder threshold, 1 over nothing, 0 a move that did not lose ground),
+# `gameIsLost` says the position was already decided, and `afterPawns` is the
+# move's own evaluation in pawns - the classic tests it for the mate range, so
+# a losing move in a won game is still marked.
+#
+# In blunders-only mode this decides the whole write, the label included: a
+# sparse pass is sparse in every artefact, not only in the NAGs.
+proc ::reviewannotate::annotates {blundersOnly isBlunder gameIsLost afterPawns} {
+    if {!$blundersOnly} { return 1 }
+    if {$gameIsLost} { return 0 }
+    if {$isBlunder > 1} { return 1 }
+    if {$isBlunder > 0 && abs($afterPawns) >= 327.0} { return 1 }
+    return 0
+}
+
 # The book the annotate dialog selected, as {file slot}, or "" when the user
 # turned the book off or none is installed.
 proc ::reviewannotate::book {} {
@@ -467,25 +489,59 @@ proc ::reviewannotate::book {} {
     return [list $file $slot]
 }
 
+# Take off what a previous pass wrote beside the label on a move this mode does
+# not annotate: the label, the [%eval] beside it, and the mark the label implied.
+# The user's own prose and their own tokens are kept - ::review::stripReviewTokens
+# removes only the review's vocabulary.
+#
+# Returns 1 when something was taken off, 0 when there was nothing of ours there.
+proc ::reviewannotate::dropLabel {ply} {
+    set changed 0
+    if {[catch {
+        sc_move ply $ply
+        if {[sc_pos location] != $ply} { return 0 }
+        set comment [sc_pos getComment]
+        set old [::review::labelOfComment $comment]
+        if {$old ne ""} {
+            set nag [::review::nagForLabel $old]
+            if {$nag ne ""} { catch { ::review::dropNag $nag } }
+        }
+        set stripped [::review::stripReviewTokens $comment]
+        if {$stripped ne $comment} {
+            sc_pos setComment $stripped
+            set changed 1
+        }
+    }]} {
+        return 0
+    }
+    return $changed
+}
+
 # Write one finished pass into the game. Same contract as
 # ::reviewdriver::writeResults - the pass dict and the results dict - and the
 # same {written failed errors} answer, plus the marks this file owns.
 #
-# Every judged move gets the review's own write (label, [%eval], and - where the
-# label says a better move existed - the engine's line).
-# The classic annotator's marks go on the moves the annotate dialog's mode
-# covers: all of them in all-moves mode, only the ones over the blunder
-# threshold in blunders-only mode - the same filter analysis.tcl:826-829 applies.
-proc ::reviewannotate::writeResults {p results} {
+# `tier` is the tier this run may write at. The dialog pins it to 1 (tier 2 -
+# AI prose - is a separate change), and a caller that does not name one gets
+# whatever this session is configured for.
+#
+# In all-moves mode every judged move gets the review's own write (label,
+# [%eval], and - where the label says a better move existed - the engine's
+# line). In blunders-only mode the classic annotator's filter decides the whole
+# write: the moves it does not cover keep nothing of the review's, including the
+# label a previous all-moves pass wrote there.
+proc ::reviewannotate::writeResults {p results {tier ""}} {
     set map [dict get $p map]
     set bookEnd [dict get $p bookEnd]
     set mpv [dict get $p mpv]
     set sides [::reviewdriver::sides $map]
     set blundersOnly [::reviewannotate::blundersOnly]
-    set tier [::reviewannotate::tier]
+    if {![string is integer -strict $tier]} { set tier [::reviewannotate::tier] }
+    if {$tier > 1} { set tier 1 }
     set threshold 1.0
     catch { set threshold $::blunderThreshold }
     set written 0
+    set skipped 0
     set failed 0
     set errors {}
     foreach ply [::review::plan [dict get $p plies] $bookEnd] {
@@ -499,13 +555,6 @@ proc ::reviewannotate::writeResults {p results} {
         set lines {}
         if {[::review::variationWanted $label]} {
             set lines [::reviewdriver::lines $results [expr {$ply - 1}] $mpv]
-        }
-        # The label, the [%eval] and the variation: the review's own write.
-        set err [::review::writeMove $ply $label $eval_cp $lines]
-        if {$err ne ""} {
-            incr failed
-            lappend errors $err
-            continue
         }
         # The verdict's own figures are the mover's; everything the classic
         # annotator wrote down was from White's point of view.
@@ -553,42 +602,48 @@ proc ::reviewannotate::writeResults {p results} {
         } else {
             set gameIsLost [expr {$beforePawns < -$::informant(+--)}]
         }
-        set annotate [expr {!$blundersOnly || \
-            (($isBlunder > 1 || ($isBlunder > 0 && abs($afterPawns) >= 327.0)) \
-                && !$gameIsLost)}]
-        set markFailed 0
-        if {$annotate} {
-            set nag [::reviewannotate::nagForDrop $beforeMover $afterMover]
-            if {[catch {
-                sc_move ply $ply
-                if {$nag ne ""} { sc_pos addNag $nag }
-                # The position assessment the classic put beside the verdict
-                # (analysis.tcl:852-854), from White's score.
-                catch { sc_pos addNag [::reviewannotate::scoreToNag [expr {$afterWhite / 100.0}]] }
-                # The classic offers both of these to markExercise: it writes
-                # the ?? or ? itself, then the gates decide whether the move is
-                # a puzzle. The nag is already on the move here, so the caller's
-                # copy is empty and nothing is written twice.
-                if {$nag eq "??" || $nag eq "?"} {
-                    set afterLines [::reviewdriver::lines $results $ply $mpv]
-                    ::reviewannotate::markExercise $beforeWhite $afterWhite "" $afterLines
-                }
-            }]} {
-                set markFailed 1
-                lappend errors "ply $ply: $::errorInfo"
-            }
-            if {$blundersOnly} { catch { ::reviewannotate::markDiagram $ply 1 } }
-        } elseif {$isBlunder == 0 && abs($drop) > $::informant(!?)} {
-            # A move better than the engine's line: the one mark the classic
-            # writes outside the annotated moves (analysis.tcl:898-901).
-            catch { sc_move ply $ply ; sc_pos addNag "!?" }
-        }
-        # Not annotated: an assessment left by an earlier run (Game Review now
-        # writes one on every judged move) would sit beside the [%eval] this
-        # pass has just written, describing a verdict the mode does not make.
+        set annotate [::reviewannotate::annotates $blundersOnly $isBlunder $gameIsLost $afterPawns]
         if {!$annotate} {
+            # A sparse mode is sparse in every artefact: a label, a [%eval] or a
+            # mark a previous all-moves pass wrote here is taken off rather than
+            # left describing a verdict this pass does not make. The gain mark
+            # below is the classic's one write outside the annotated moves.
+            catch { ::reviewannotate::dropLabel $ply }
             catch { sc_move ply $ply ; ::review::dropAssessment }
+            if {$isBlunder == 0 && abs($drop) > $::informant(!?)} {
+                catch { sc_move ply $ply ; sc_pos addNag "!?" }
+            }
+            incr skipped
+            continue
         }
+        # The label, the [%eval] and the variation: the review's own write.
+        set err [::review::writeMove $ply $label $eval_cp $lines]
+        if {$err ne ""} {
+            incr failed
+            lappend errors $err
+            continue
+        }
+        set markFailed 0
+        set nag [::reviewannotate::nagForDrop $beforeMover $afterMover]
+        if {[catch {
+            sc_move ply $ply
+            if {$nag ne ""} { sc_pos addNag $nag }
+            # The position assessment the classic put beside the verdict
+            # (analysis.tcl:852-854), from White's score.
+            catch { sc_pos addNag [::reviewannotate::scoreToNag [expr {$afterWhite / 100.0}]] }
+            # The classic offers both of these to markExercise: it writes
+            # the ?? or ? itself, then the gates decide whether the move is
+            # a puzzle. The nag is already on the move here, so the caller's
+            # copy is empty and nothing is written twice.
+            if {$nag eq "??" || $nag eq "?"} {
+                set afterLines [::reviewdriver::lines $results $ply $mpv]
+                ::reviewannotate::markExercise $beforeWhite $afterWhite "" $afterLines
+            }
+        }]} {
+            set markFailed 1
+            lappend errors "ply $ply: $::errorInfo"
+        }
+        if {$blundersOnly} { catch { ::reviewannotate::markDiagram $ply 1 } }
         if {$tier >= 2} {
             catch {
                 set text [::reviewannotate::proseText $ply $label]
@@ -610,7 +665,11 @@ proc ::reviewannotate::writeResults {p results} {
         }
         catch { ::review::cursorRestore $cursor }
     }
-    return [dict create written $written failed $failed errors $errors]
+    # The Annotator tag, when the dialog asked for it, and the opening-errors
+    # entry the batch opening finder leaves on a game whose opening went wrong.
+    # Both are the tags a later pass appends to rather than replaces.
+    catch { ::reviewannotate::tagGame }
+    return [dict create written $written skipped $skipped failed $failed errors $errors]
 }
 
 # The T-flag filter: the games in a range that carry the exercise flag. This is
@@ -635,16 +694,21 @@ proc ::reviewannotate::exerciseGames {from to} {
 
 # Annotate the current game: a review pass whose write phase is this file's.
 # `engine` is the preset, as ::reviewdriver::run takes it; the rest of the
-# arguments go through unchanged (-bookEnd, -progress, -notify).
+# arguments go through unchanged (-bookEnd, -progress, -done, -notify).
 #
 # The opening book's end is decided here, before the pass, when the annotate
 # dialog has a book selected: skipping the opening is the review's own
 # ::review::skip_book setting, and it needs the number, not the book.
+#
+# `-tier` is the tier the write phase may reach; the dialog pins it to 1, and a
+# caller that does not name one gets this session's own answer.
 proc ::reviewannotate::start {engine args} {
     set opts {}
     set haveBook 0
+    set tier [::reviewannotate::tier]
     foreach {key value} $args {
         if {$key eq "-bookEnd"} { set haveBook 1 }
+        if {$key eq "-tier"} { set tier $value ; continue }
         lappend opts $key $value
     }
     if {!$haveBook} {
@@ -656,6 +720,352 @@ proc ::reviewannotate::start {engine args} {
             }
         }
     }
-    lappend opts -writer ::reviewannotate::writeResults
+    # The writer is a command prefix, so the tier travels with the run rather
+    # than in a module variable a second pass could overwrite.
+    lappend opts -writer [list ::reviewannotate::writeResultsAtTier $tier]
     return [::reviewdriver::run $engine {*}$opts]
+}
+
+# The driver calls the writer as {*}$writer <pass> <results>; this puts the
+# run's tier in front of the two arguments writeResults takes.
+proc ::reviewannotate::writeResultsAtTier {tier p results} {
+    return [::reviewannotate::writeResults $p $results $tier]
+}
+
+########################################################################
+### The dialog's decision
+###
+### The OK button asks this what to start. It is a pure proc on purpose: the
+### dialog's only unique job is this decision, and a decision that needs Tk to
+### be tested is a decision that is not tested.
+###
+### `settings` carries the dialog's own state:
+###
+###   game          the current game number (where a batch starts)
+###   blunders      allmoves | blundersonly
+###   batch         0 | 1
+###   batchEnd      the last game of a batch
+###   opening       0 | 1   (the opening-errors finder)
+###   openingMoves  the move window the finder scans
+###   bookEnd       the ply the caller's book walk ended at (0: no book)
+###
+### The engine is never one of them: it is the invoking pane's own preset, the
+### entry the user chose when opening that pane. There is no picker and no
+### second engine setting.
+
+proc ::reviewannotate::dialogPlan {n name uci settings} {
+    set game 1
+    if {[dict exists $settings game]} { set game [dict get $settings game] }
+    if {![string is integer -strict $game] || $game < 1} { set game 1 }
+    set blunders allmoves
+    if {[dict exists $settings blunders] && [dict get $settings blunders] eq "blundersonly"} {
+        set blunders blundersonly
+    }
+    set batch 0
+    if {[dict exists $settings batch] && [dict get $settings batch]} { set batch 1 }
+    set to $game
+    if {$batch && [dict exists $settings batchEnd]} {
+        set end [dict get $settings batchEnd]
+        # A range that ends before the game it starts from is one game: a loop
+        # with no iterations would report a batch that annotated nothing.
+        if {[string is integer -strict $end] && $end > $game} { set to $end }
+    }
+    set opening 0
+    if {[dict exists $settings opening] && [dict get $settings opening]} { set opening 1 }
+    set openingMoves 12
+    if {[dict exists $settings openingMoves] &&
+        [string is integer -strict [dict get $settings openingMoves]] &&
+        [dict get $settings openingMoves] > 0} {
+        set openingMoves [dict get $settings openingMoves]
+    }
+    set bookEnd 0
+    if {[dict exists $settings bookEnd] &&
+        [string is integer -strict [dict get $settings bookEnd]] &&
+        [dict get $settings bookEnd] > 0} {
+        set bookEnd [dict get $settings bookEnd]
+    }
+    # Tier 2 (AI prose) is a separate change: this dialog ships tier 1, whatever
+    # a configured provider would answer at run time.
+    set out [dict create \
+        pane $n engine "" engineName $name uci [expr {$uci ? 1 : 0}] \
+        bookEnd $bookEnd tier 1 blunders $blunders batch $batch \
+        from $game to $to opening $opening openingMoves $openingMoves refuse ""]
+    set engine ""
+    if {$name ne "" && [llength [info commands ::enginecfg::get]]} {
+        catch { set engine [::enginecfg::get $name] }
+    }
+    # The refusals are the driver's own sentences: a second phrasing for the
+    # same refusal is a second thing to keep in step.
+    if {[llength $engine] == 0} {
+        dict set out refuse "no engine selected"
+        dict set out bookEnd 0
+        return $out
+    }
+    if {!$uci} {
+        dict set out refuse "the review needs a UCI engine"
+        dict set out bookEnd 0
+        return $out
+    }
+    dict set out engine $engine
+    return $out
+}
+
+########################################################################
+### The run: one game, or a batch of them
+###
+### The driver runs one pass at a time and writes on completion. A batch is
+### therefore a chain of passes, one per game, and the chain is this file's:
+### load the game, pass it to the driver, and on the driver's completion hook
+### save it and start the next one.
+###
+### The state a run needs lives in ::reviewannotate::run, so the progress line,
+### the Cancel button and the hook all read the same thing. Nothing here depends
+### on a window being open: the pass is a job, and the progress line is
+### decoration over it.
+
+namespace eval ::reviewannotate {
+    variable run {}
+    variable progressText ""
+}
+
+proc ::reviewannotate::running {} {
+    variable run
+    return [expr {[dict size $run] > 0}]
+}
+
+# Is there a game after the one in flight? This is the whole of the Cancel
+# button's context: a single game stops now, a batch stops after this one.
+proc ::reviewannotate::moreGames {} {
+    variable run
+    if {![dict size $run]} { return 0 }
+    return [expr {[llength [dict get $run games]] > [dict get $run index] + 1}]
+}
+
+# The one Cancel button's label. "Stop after this game" iff more games follow -
+# until it has been pressed, when it is already stopping now and says so.
+proc ::reviewannotate::stopLabel {more {pressed 0}} {
+    if {$pressed} { return [::tr StopNow] }
+    if {$more} { return [::tr StopAfterThisGame] }
+    return [::tr StopNow]
+}
+
+# Start the run `dialogPlan` decided. Returns "" when it started, otherwise the
+# reason it did not - in which case nothing was loaded, searched or written.
+proc ::reviewannotate::run {plan} {
+    variable run
+    if {[dict size $run]} { return "a pass is already running" }
+    set refuse [dict get $plan refuse]
+    if {$refuse ne ""} { return $refuse }
+    set games {}
+    for {set g [dict get $plan from]} {$g <= [dict get $plan to]} {incr g} {
+        lappend games $g
+    }
+    set run [dict create plan $plan games $games index -1 stopAfter 0 last {0 0}]
+    return [::reviewannotate::nextGame]
+}
+
+# Start the pass for the next game of the run. A batch borrows the base: the
+# user's game is pushed, the game to annotate is loaded, and the pair is put
+# back when that game's pass has finished - so the board comes back to where the
+# user left it however the run ends.
+proc ::reviewannotate::nextGame {} {
+    variable run
+    dict incr run index
+    set games [dict get $run games]
+    if {[dict get $run index] >= [llength $games]} {
+        return [::reviewannotate::finish]
+    }
+    set plan [dict get $run plan]
+    set game [lindex $games [dict get $run index]]
+    set batch [expr {[llength $games] > 1}]
+    if {$batch} {
+        if {[catch {
+            sc_game push copy
+            sc_game load $game
+        }]} {
+            # The game cannot be read: count it and go on, the way the classic
+            # autoplay skipped a game it could not load.
+            dict lappend run skippedGames $game
+            return [::reviewannotate::done {}]
+        }
+        dict set run borrowed 1
+    }
+    set bookEnd [dict get $plan bookEnd]
+    if {!$batch} {
+        # The book walk needs the game it is about, and in a batch the game has
+        # just been loaded. A single game is the one on the board.
+        set book [::reviewannotate::book]
+        if {$book ne ""} {
+            set bookEnd 0
+            catch { set bookEnd [::reviewannotate::findBookEnd [lindex $book 0] [lindex $book 1]] }
+            if {$bookEnd < 0} { set bookEnd 0 }
+        }
+    }
+    dict set run last {0 0}
+    set err [::reviewannotate::start [dict get $plan engine] \
+        -bookEnd $bookEnd \
+        -progress ::reviewannotate::progress \
+        -done ::reviewannotate::done \
+        -notify 1 \
+        -tier [dict get $plan tier]]
+    if {$err ne ""} {
+        # A refusal leaves the run's counts alone; what it must not leave behind
+        # is a borrowed game.
+        ::reviewannotate::returnGame
+        ::reviewannotate::finish
+        return $err
+    }
+    # What the pass is about to do, so the progress line reads "0 of N" rather
+    # than "0 of 0" until the first position finishes.
+    set total 0
+    catch { set total [dict get [::reviewdriver::status] total] }
+    dict set run last [list 0 $total]
+    ::reviewannotate::paintStatus
+    return ""
+}
+
+# Give the borrowed game back, if there is one. Nothing is saved here: a pass
+# that did not finish wrote nothing (the driver's write phase runs once, on the
+# last reply), and Cancel is defined as writing nothing.
+proc ::reviewannotate::returnGame {} {
+    variable run
+    if {![dict size $run]} { return }
+    if {[dict exists $run borrowed] && [dict get $run borrowed]} {
+        catch { sc_game pop }
+        dict unset run borrowed
+    }
+}
+
+# The driver's completion hook: called once per pass, with the status dict.
+# A cancelled pass has already emptied the run (cancelAction does it before the
+# driver is stopped), so this only ever advances a running one.
+proc ::reviewannotate::done {state} {
+    variable run
+    if {![dict size $run]} { return }
+    set games [dict get $run games]
+    if {[llength $games] > 1} {
+        set game [lindex $games [dict get $run index]]
+        catch { sc_game save $game }
+        catch { ::notify::DatabaseModified [sc_base current] }
+    }
+    ::reviewannotate::returnGame
+    if {[dict get $run stopAfter]} {
+        return [::reviewannotate::finish]
+    }
+    if {[llength $games] > [dict get $run index] + 1} {
+        return [::reviewannotate::nextGame]
+    }
+    return [::reviewannotate::finish]
+}
+
+# The run is over, however it ended. The progress line goes back to whatever the
+# board was saying, and the board is told the game changed - the comments land
+# across the whole line, so the PGN pane has to be regenerated.
+proc ::reviewannotate::finish {} {
+    variable run
+    set run {}
+    set ::reviewannotate::progressText ""
+    # The annotate button was the Cancel for this run: put it back where the
+    # dialog found it, on the pane the run was started from.
+    catch {
+        set n 1
+        catch { set n $::annotatePane }
+        if {[winfo exists .analysisWin$n.b1.annotate]} {
+            .analysisWin$n.b1.annotate state !pressed
+        }
+    }
+    if {[llength [info commands updateStatusBar]]} { catch { updateStatusBar } }
+    return ""
+}
+
+# The one Cancel button. In a batch the first press asks for the current game to
+# finish and the rest to be dropped; the second, or a press on a single game,
+# stops now. Stopping now writes nothing.
+proc ::reviewannotate::cancelAction {} {
+    variable run
+    if {![dict size $run]} { return 0 }
+    if {[::reviewannotate::moreGames] && ![dict get $run stopAfter]} {
+        dict set run stopAfter 1
+        ::reviewannotate::paintStatus
+        return 1
+    }
+    # Empty the run first: the driver's stop runs the completion hook, and a hook
+    # that still saw a run would start the next game of a batch being cancelled.
+    set r $run
+    set run {}
+    catch { ::reviewdriver::cancel 1 }
+    if {[dict exists $r borrowed] && [dict get $r borrowed]} {
+        catch { sc_game pop }
+    }
+    ::reviewannotate::finish
+    return 1
+}
+
+# The progress line: where the pass has got to, and the Cancel button's label
+# beside it. A covered or absent window changes nothing here - the text is the
+# run's state, and painting it is decoration.
+proc ::reviewannotate::progress {done total} {
+    variable run
+    if {![dict size $run]} { return }
+    dict set run last [list $done $total]
+    ::reviewannotate::paintStatus
+    return
+}
+
+proc ::reviewannotate::statusText {} {
+    variable run
+    if {![dict size $run]} { return "" }
+    lassign [dict get $run last] done total
+    set text "$done/$total"
+    set games [dict get $run games]
+    if {[llength $games] > 1} {
+        append text " game [expr {[dict get $run index] + 1}]/[llength $games]"
+    }
+    return $text
+}
+
+proc ::reviewannotate::paintStatus {} {
+    variable run
+    if {![dict size $run]} { return }
+    set text [::reviewannotate::statusText]
+    append text " " [::reviewannotate::stopLabel \
+        [::reviewannotate::moreGames] [dict get $run stopAfter]]
+    set ::reviewannotate::progressText $text
+    # The board's info line is the status line. It is decoration: a session with
+    # no board (a headless run, a test) paints nothing and the pass is unaffected.
+    if {[llength [info commands ::board::setInfoAlert]] == 0} { return }
+    catch {
+        ::board::setInfoAlert .main.board "Annotate:" \
+            [::reviewannotate::statusText] red ::reviewannotate::cancelAction
+    }
+    return
+}
+
+# The game's own tags, after a pass: the opening-errors entry the batch opening
+# finder leaves on a game whose opening went wrong, and the Annotator tag the
+# dialog asks for. Both are tags a second pass appends to rather than replaces,
+# which is what appendAnnotator is for.
+#
+# The classic annotator wrote "<engine> (<delay> sec)" - it had a per-move delay
+# to report. A review pass has none: its cost is the review's depth or time cap,
+# both of which the Review Settings show, so the tag says which pass wrote it.
+proc ::reviewannotate::tagGame {p} {
+    set cursor [::review::cursorSave]
+    if {[info exists ::isBatchOpening] && $::isBatchOpening} {
+        set window 12
+        catch { set window $::isBatchOpeningMoves }
+        catch {
+            sc_move ply 0
+            set tag [::reviewannotate::openingTag [sc_pos moveNumber] [sc_pos side] $window]
+            if {$tag ne ""} { ::reviewannotate::appendAnnotator $tag }
+        }
+    }
+    if {[info exists ::addAnnotatorTag] && $::addAnnotatorTag} {
+        set name ""
+        catch { set name [lindex [dict get $p engine] 0] }
+        if {$name eq ""} { set name review }
+        catch { ::reviewannotate::appendAnnotator "$name (review)" }
+    }
+    catch { ::review::cursorRestore $cursor }
+    return
 }

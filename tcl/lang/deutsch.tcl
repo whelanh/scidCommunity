@@ -883,6 +883,8 @@ translate D ReviewVarLines {Zu schreibende Varianten}
 translate D ReviewVarCp {Variantenabstand (cp)}
 translate D ReviewMoveWait {Auf die Prüfungstiefe warten}
 translate D ReviewMovetime {Zeitlimit (ms)}
+translate D StopNow {Stop now}
+translate D StopAfterThisGame {Stop after this game}
 translate D ReviewFromPreset {%s (aus dem Motorprofil)}
 translate D ReviewProgress {Position %s von %s wird geprüft}
 translate D ReviewWaitForDepth {Warte auf Tiefe %s}
