@@ -226,12 +226,17 @@ on and the bar in the engine window still reports.
 
 ## What's the threat?
 
-**Tools → What's the threat?** asks the engine for the strongest move in the
-position on the board and describes it in words. The side to move is the side
-whose threat it is: ask after your own move and the answer is the opponent's
-threat. The probe is a short search at depth 14 under the review's effective
-time cap (`::review::effective`), on a connection of its own - never the review
-pass and never the window's analysis - so it does not disturb either.
+**What's the threat?** is a button in the engine window beside
+<a ReviewMoveButton>Move Comment</a>, and the same command is in
+<menu>Tools</menu>. The button uses that window's engine preset; the menu entry
+uses the first open engine window's preset, or the first configured preset when
+no window is open - so the probe works without an engine window as long as an
+engine is configured. It asks for the strongest move in the position on the
+board and describes it in words. The side to move is the side whose threat it
+is: ask after your own move and the answer is the opponent's threat. The probe
+is a short search at depth 14 under the review's effective time cap
+(`::review::effective`), on a connection of its own - never the review pass and
+never the window's analysis - so it does not disturb either.
 
 It reads the same deterministic facts as a move comment: the move in words, the
 rule state, what the move wins or threatens, and what it achieves. With a coach

@@ -721,6 +721,10 @@ proc ::enginewin::createButtonsBar {id btn display} {
         -command [list ::enginewin::reviewMove $id]
     ::utils::tooltip::Set $btn.movecomment [::reviewui::label ReviewMoveButtonTooltip]
 
+    ttk::button $btn.threat -text [::reviewui::label ToolsWhatThreat] \
+        -command [list ::enginewin::threat $id]
+    ::utils::tooltip::Set $btn.threat [::reviewui::label ToolsWhatThreatTooltip]
+
     ttk::button $btn.reviewsettings -text [::reviewui::label ReviewSettings] \
         -command [list ::enginewin::reviewSettings $id]
     ::utils::tooltip::Set $btn.reviewsettings [::reviewui::label ReviewSettings]
@@ -736,8 +740,9 @@ proc ::enginewin::createButtonsBar {id btn display} {
     grid $btn.startStop $btn.lock $btn.addbestmove $btn.addlines $btn.finish \
          $btn.multipv $btn.depth_label $btn.depth $btn.movetime_label $btn.movetime \
          $btn.autorun $btn.threads $btn.hash \
-         $btn.overflow x $btn.gamereview $btn.movecomment $btn.reviewsettings \
-         $btn.reviewcancel $btn.reviewstatus $btn.config -sticky ew
+         $btn.overflow x $btn.gamereview $btn.movecomment $btn.threat \
+         $btn.reviewsettings $btn.reviewcancel $btn.reviewstatus $btn.config \
+         -sticky ew
     grid columnconfigure $btn 13 -weight 1
     grid remove $btn.overflow
 
@@ -1066,6 +1071,17 @@ proc ::enginewin::reviewGame {id} {
     if {![winfo exists $w.btn.gamereview]} { return }
     if {[catch { set map [::review::mainLineMap [sc_game UCI_mainLine]] }]} { return }
     ::enginewin::reviewStart $id [::enginewin::reviewRunState $id]
+}
+
+# What's the threat? uses this window's preset, so the answer comes from the
+# engine the user is looking at. With no engine selected, the probe falls back
+# to the first configured preset and says what it needs.
+proc ::enginewin::threat {id} {
+    set name ""
+    catch { set name $::enginewin_lastengine($id) }
+    set cfg ""
+    if {$name ne ""} { catch { set cfg [::enginecfg::get $name] } }
+    ::reviewthreat::ask $cfg
 }
 
 # Move Comment: the move played from here, and only that move.

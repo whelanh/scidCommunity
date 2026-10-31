@@ -2701,19 +2701,23 @@ set helpText(ReviewSettings) {<h1>Engine Window: Review Settings</h1>
 ####################
 ### Batch AI annotation help:
 ###
-### The engine window's Game Comment button is gone, and the batch pass is still
-### here to be called by name (::analysis_auto_comment::batch_generate). The page
-### stays where it documented that pass, and says how to reach the dialog now.
+### The Game Comment button and its Tools entry are gone: Game Review and its
+### Coach prose own the review/comment path. The batch pass is still callable by
+### name (::analysis_auto_comment::batch_generate) for scripts; this page is the
+### legacy documentation for it.
 
 set helpTitle(BatchAnnotate) "Annotating a game in batch"
 set helpText(BatchAnnotate) {<h1>Annotating a game in batch</h1>
   <p>
-  scidCommunity can generate AI commentary for a whole game at once, in batch
-  mode. The engine window used to carry a <b>Game Comment</b> button for it.
-  That button is gone; use <menu>Tools</menu> > <menu>Game Comment</menu>
-  instead (or call <b>::analysis_auto_comment::batch_generate</b> from a
-  script). It opens the same dialog it always did, and what the dialog does is
-  unchanged.
+  The <b>Game Comment</b> button and its <menu>Tools</menu> entry are gone.
+  <a ReviewGameButton><b>Game Review</b></a> owns the review/comment path now,
+  and its <b>Coach prose</b> setting writes the summary and per-move notes.
+  </p>
+  <p>
+  The older batch pass is still callable by name from a script
+  (<b>::analysis_auto_comment::batch_generate</b>). It opens the same dialog it
+  always did, but it is no longer offered in the menu; this page documents that
+  legacy path.
   </p>
   <p>
   The dialog scans the game for moves carrying an annotation symbol (a NAG
@@ -2739,9 +2743,10 @@ set helpText(BatchAnnotate) {<h1>Annotating a game in batch</h1>
 
   <h3>Usage</h3>
   <p>
-  This is the quickest way to add educational notes to a game you have already
-  analysed with an engine. It respects your local variations, so the AI's
-  explanations line up with your own analysis.
+  The supported path is <a ReviewSettings><b>Review Settings</b></a>: tick
+  <b>Coach prose</b> and Game Review writes the closing note, the phase
+  paragraphs and the key-moment notes into the game. The batch pass remains for
+  scripts that need the older per-move prompt.
   </p>
 
   <p><footer>(Updated: scidCommunity, October 2026)</footer></p>

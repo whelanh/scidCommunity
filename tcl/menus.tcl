@@ -274,11 +274,8 @@ $m  add command -label ToolsStartEngine2 \
 $m  add command -label ToolsAnalysis -command "::enginelist::choose"
 $m  add command -label ToolsRapidAnnotate \
     -accelerator "Ctrl+Shift+A" -command ::rapid_annotate::commit
-# The engine window no longer carries the batch annotator; it is still a tool.
-# The label is the key, not its text: the menu re-reads every label through tr()
-# when the language changes (menus.tcl translateMenuLabels/setLanguageMenus), so
-# an entry built from an already-translated string would stay in that language.
-$m  add command -label GameComment -command ::analysis_auto_comment::batch_generate
+# Game Comment is no longer a Tools entry: Game Review owns the review/comment
+# path now. The batch command remains callable by name for scripts.
 $m  add command -label ToolsWhatThreat -command ::reviewthreat::ask
 $m add separator
 $m add checkbutton -label ToolsFilterGraph \

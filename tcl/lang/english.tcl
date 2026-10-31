@@ -875,6 +875,7 @@ translate E MoveLabelBook {Book}
 translate E GameComment {Game Comment}
 translate E GameCommentTooltip {Scan game for annotated moves and generate AI summary}
 translate E ToolsWhatThreat {What's the threat?}
+translate E ToolsWhatThreatTooltip {Ask the engine what the side to move is threatening}
 translate E ReviewGameButton {Game Review}
 translate E ReviewGameButtonTooltip {Review every move of the main line and label it}
 translate E ReviewMoveButton {Move Comment}

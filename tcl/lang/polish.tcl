@@ -875,6 +875,7 @@ translate P MoveLabelBook {Teoria}
 translate P GameComment {Komentarz do partii}
 translate P GameCommentTooltip {Przeskanuj partię pod kątem opisanych posunięć i wygeneruj podsumowanie AI}
 translate P ToolsWhatThreat {Co grozi?}
+translate P ToolsWhatThreatTooltip {Zapytaj silnik, co grozi stronie na posunięciu}
 translate P ReviewGameButton {Przegląd partii}
 translate P ReviewGameButtonTooltip {Przejrzyj każdy ruch głównego wariantu i go oceń}
 translate P ReviewMoveButton {Komentarz do ruchu}

@@ -2714,18 +2714,24 @@ set helpText(P,ReviewSettings) {<h1>Okno silnika: Ustawienia przeglądu</h1>
 ####################
 ### Pomoc komentarzy AI w trybie zbiorczym:
 ###
-### Przycisk Komentarz do Partii zniknął z okna silnika, a tryb zbiorczy nadal da
-### się wywołać po nazwie (::analysis_auto_comment::batch_generate).
+### Przycisk Komentarz do Partii i jego pozycja w menu Narzędzia zniknęły:
+### przegląd partii i tekst trenera przejęły tę ścieżkę. Tryb zbiorczy nadal da
+### się wywołać po nazwie (::analysis_auto_comment::batch_generate) ze skryptu;
+### ta strona dokumentuje tę starszą ścieżkę.
 
 set helpTitle(P,BatchAnnotate) "Komentowanie partii w trybie zbiorczym"
 set helpText(P,BatchAnnotate) {<h1>Komentowanie partii w trybie zbiorczym</h1>
   <p>
-  ScidCommunity potrafi wygenerować komentarze AI dla całej partii naraz, w
-  trybie zbiorczym. Dawniej służył do tego przycisk <b>Komentarz do Partii</b> w
-  oknie silnika. Tego przycisku już nie ma; użyj <menu>Narzędzia</menu> >
-  <menu>Komentarz do Partii</menu> (albo wywołaj
-  <b>::analysis_auto_comment::batch_generate</b> ze skryptu). Otwiera on to samo
-  okno co dawniej, a jego działanie się nie zmieniło.
+  Przycisk <b>Komentarz do Partii</b> i jego pozycja w menu <menu>Narzędzia</menu>
+  zniknęły. <a ReviewGameButton><b>Przegląd partii</b></a> przejął ścieżkę
+  przeglądu i komentarzy, a jego ustawienie <b>Tekst trenera</b> zapisuje
+  podsumowanie i notki przy posunięciach.
+  </p>
+  <p>
+  Starszy tryb zbiorczy nadal można wywołać po nazwie ze skryptu
+  (<b>::analysis_auto_comment::batch_generate</b>). Otwiera to samo okno co
+  dawniej, ale nie jest już oferowane w menu; ta strona dokumentuje tę
+  starszą ścieżkę.
   </p>
   <p>
   Okno zbiorcze przeszukuje partię w poszukiwaniu posunięć z symbolem adnotacji
@@ -2752,9 +2758,10 @@ set helpText(P,BatchAnnotate) {<h1>Komentowanie partii w trybie zbiorczym</h1>
 
   <h3>Zastosowania</h3>
   <p>
-  To najszybszy sposób dodania notatek edukacyjnych do partii, którą już
-  przeanalizowałeś silnikiem. Funkcja szanuje Twoje lokalne warianty, dzięki
-  czemu wyjaśnienia AI są zgodne z Twoją analizą.
+  Wspieraną ścieżką są <a ReviewSettings><b>Ustawienia przeglądu</b></a>:
+  zaznacz <b>Tekst trenera</b>, a Przegląd partii zapisze notkę końcową,
+  akapity faz i notki kluczowych momentów. Tryb zbiorczy pozostaje dla
+  skryptów, które potrzebują starszego opisu przy każdym posunięciu.
   </p>
 
   <p><footer>(Zaktualizowano: ScidCommunity, październik 2026)</footer></p>

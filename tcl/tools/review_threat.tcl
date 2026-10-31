@@ -349,14 +349,17 @@ proc ::reviewthreat::ready {fen rep move err} {
     return
 }
 
-# The menu entry: probe the board's position and answer in one sentence.
-proc ::reviewthreat::ask {} {
+# The menu entry and the engine window's button: probe the board's position and
+# answer in one sentence. `enginecfg` is the window's preset when a button has
+# one; empty means "find the first engine window or the first preset".
+proc ::reviewthreat::ask {{enginecfg ""}} {
     variable job
     if {[dict size $job]} {
         ::reviewthreat::show "A threat probe is already running."
         return
     }
-    set cfg [::reviewthreat::defaultEngine]
+    set cfg $enginecfg
+    if {![llength $cfg]} { set cfg [::reviewthreat::defaultEngine] }
     if {![llength $cfg]} {
         ::reviewthreat::show "No engine is configured. Choose one in Tools -> Engine List, or open an engine window first."
         return
