@@ -843,6 +843,8 @@ translate h ReviewVarLines {लिखने के लिए वेरिएश�
 translate h ReviewVarCp {वेरिएशन अंतर (cp)}
 translate h ReviewMoveWait {समीक्षा गहराई की प्रतीक्षा करें}
 translate h ReviewMovetime {समय सीमा (ms)}
+translate h StopNow {Stop now}
+translate h StopAfterThisGame {Stop after this game}
 translate h ReviewFromPreset {%s (इंजन प्रीसेट से)}
 translate h ReviewProgress {स्थिति %s / %s की समीक्षा हो रही है}
 translate h ReviewWaitForDepth {गहराई %s की प्रतीक्षा}
@@ -1708,6 +1710,7 @@ translate h Hash {हैश मेमोरी}
 translate h OwnBook {इंजन बुक का प्रयोग करें}
 translate h BookFile {किताब खोलना}
 translate h AnnotateVariations {विविधताओं पर टिप्पणी करें}
+translate h AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate h ShortAnnotations {लघु टिप्पणियाँ}
 translate h addAnnotatorTag {एनोटेटर टैग जोड़ें}
 translate h AddScoreToShortAnnotations {एनोटेशन में स्कोर जोड़ें}

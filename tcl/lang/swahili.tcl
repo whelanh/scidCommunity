@@ -843,6 +843,8 @@ translate Z ReviewVarLines {Mibadala ya kuandika}
 translate Z ReviewVarCp {Tofauti ya mibadala (cp)}
 translate Z ReviewMoveWait {Subiri kina cha mapitio}
 translate Z ReviewMovetime {Kikomo cha muda (ms)}
+translate Z StopNow {Stop now}
+translate Z StopAfterThisGame {Stop after this game}
 translate Z ReviewFromPreset {%s (kutoka wasifu wa injini)}
 translate Z ReviewProgress {Inapitia nafasi %s kati ya %s}
 translate Z ReviewWaitForDepth {Inasubiri kina %s}
@@ -1708,6 +1710,7 @@ translate Z Hash {Kumbukumbu ya hash}
 translate Z OwnBook {Tumia kitabu cha injini}
 translate Z BookFile {Kitabu cha ufunguzi}
 translate Z AnnotateVariations {Fafanua tofauti}
+translate Z AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate Z ShortAnnotations {Maelezo mafupi}
 translate Z addAnnotatorTag {Ongeza lebo ya kichambuzi}
 translate Z AddScoreToShortAnnotations {Ongeza alama kwa vidokezo}

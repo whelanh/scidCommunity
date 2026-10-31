@@ -869,6 +869,8 @@ translate K ReviewVarLines {Variants a escriure}
 translate K ReviewVarCp {Marge de variants (cp)}
 translate K ReviewMoveWait {Espera la profunditat de la revisió}
 translate K ReviewMovetime {Límit de temps (ms)}
+translate K StopNow {Stop now}
+translate K StopAfterThisGame {Stop after this game}
 translate K ReviewFromPreset {%s (del perfil del motor)}
 translate K ReviewProgress {S'està revisant la posició %s de %s}
 translate K ReviewWaitForDepth {S'està esperant la profunditat %s}
@@ -1752,6 +1754,7 @@ translate K Hash {Memòria Hash}
 translate K OwnBook {Utilitzar el llibre del motor}
 translate K BookFile {Llibre d'obertures}
 translate K AnnotateVariations {Anotar variants}
+translate K AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate K ShortAnnotations {Anotacions curtes}
 translate K addAnnotatorTag {Afegir etiqueta d'anotador}
 translate K AddScoreToShortAnnotations {Afegir puntuació per anotaciones curtes}

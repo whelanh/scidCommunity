@@ -850,6 +850,8 @@ translate R ReviewVarLines {Варианты для записи}
 translate R ReviewVarCp {Порог вариантов (cp)}
 translate R ReviewMoveWait {Ждать глубину разбора}
 translate R ReviewMovetime {Ограничение времени (ms)}
+translate R StopNow {Stop now}
+translate R StopAfterThisGame {Stop after this game}
 translate R ReviewFromPreset {%s (из профиля движка)}
 translate R ReviewProgress {Разбор позиции %s из %s}
 translate R ReviewWaitForDepth {Ожидание глубины %s}
@@ -1732,6 +1734,7 @@ translate R Hash {Хешировать память}
 translate R OwnBook {Использовать книгу движка}
 translate R BookFile {Открытые книги}
 translate R AnnotateVariations {Комментировать варианты}
+translate R AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate R ShortAnnotations {Показать комментарии}
 translate R addAnnotatorTag {Добавить тег аннотирующего}
 translate R AddScoreToShortAnnotations {Добавить счёт в короткие аннотации}

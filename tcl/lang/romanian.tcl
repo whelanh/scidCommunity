@@ -884,6 +884,8 @@ translate L ReviewVarLines {Variante de scris}
 translate L ReviewVarCp {Marja variantelor (cp)}
 translate L ReviewMoveWait {Așteaptă adâncimea analizei}
 translate L ReviewMovetime {Limită de timp (ms)}
+translate L StopNow {Stop now}
+translate L StopAfterThisGame {Stop after this game}
 translate L ReviewFromPreset {%s (din profilul motorului)}
 translate L ReviewProgress {Se analizează poziția %s din %s}
 translate L ReviewWaitForDepth {Se așteaptă adâncimea %s}
@@ -1749,6 +1751,7 @@ translate L Hash {Memoria hash}
 translate L OwnBook {Folosește cartea motorului}
 translate L BookFile {Cartea de deschidere}
 translate L AnnotateVariations {Adnotați variațiile}
+translate L AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate L ShortAnnotations {Adnotări scurte}
 translate L addAnnotatorTag {Adăugați etichetă de adnotator}
 translate L AddScoreToShortAnnotations {Adăugați scor la adnotări}

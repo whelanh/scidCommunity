@@ -844,6 +844,8 @@ translate V ReviewVarLines {וריאציות לכתיבה}
 translate V ReviewVarCp {מרווח וריאציות (cp)}
 translate V ReviewMoveWait {המתן לעומק הסקירה}
 translate V ReviewMovetime {מגבלת זמן (ms)}
+translate V StopNow {Stop now}
+translate V StopAfterThisGame {Stop after this game}
 translate V ReviewFromPreset {%s (מהגדרות המנוע)}
 translate V ReviewProgress {סוקר עמדה %s מתוך %s}
 translate V ReviewWaitForDepth {ממתין לעומק %s}
@@ -1709,6 +1711,7 @@ translate V Hash {זיכרון חשיש}
 translate V OwnBook {השתמש בספר מנוע}
 translate V BookFile {ספר פתיחה}
 translate V AnnotateVariations {הערה וריאציות}
+translate V AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate V ShortAnnotations {הערות קצרות}
 translate V addAnnotatorTag {הוסף תג יוצר}
 translate V AddScoreToShortAnnotations {הוסף ניקוד להערות}

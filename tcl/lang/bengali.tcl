@@ -843,6 +843,8 @@ translate b ReviewVarLines {যে ভ্যারিয়েশনগুলো
 translate b ReviewVarCp {ভ্যারিয়েশনের ব্যবধান (cp)}
 translate b ReviewMoveWait {পর্যালোচনার গভীরতার জন্য অপেক্ষা করুন}
 translate b ReviewMovetime {সময়সীমা (ms)}
+translate b StopNow {Stop now}
+translate b StopAfterThisGame {Stop after this game}
 translate b ReviewFromPreset {%s (ইঞ্জিন প্রিসেট থেকে)}
 translate b ReviewProgress {অবস্থান %s / %s পর্যালোচনা করা হচ্ছে}
 translate b ReviewWaitForDepth {গভীরতা %s-এর জন্য অপেক্ষা}
@@ -1708,6 +1710,7 @@ translate b Hash {হ্যাশ মেমরি}
 translate b OwnBook {ইঞ্জিন বই ব্যবহার করুন}
 translate b BookFile {খোলা বই}
 translate b AnnotateVariations {বৈচিত্র টীকা}
+translate b AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate b ShortAnnotations {সংক্ষিপ্ত টীকা}
 translate b addAnnotatorTag {টীকা ট্যাগ যোগ করুন}
 translate b AddScoreToShortAnnotations {টীকাগুলিতে স্কোর যোগ করুন}

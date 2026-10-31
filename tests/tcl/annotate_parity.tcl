@@ -58,6 +58,14 @@ proc checkHasNot {name haystack needle} {
     }
 }
 
+# The comment at `ply`, or "" when the move carries none: a comment that held
+# nothing but the review's tokens is gone once they are taken off, and the stub
+# game then reports no comment at all.
+proc commentAt {comments ply} {
+    if {![dict exists $comments $ply]} { return "" }
+    return [dict get $comments $ply]
+}
+
 set root [file normalize [file join [file dirname [info script]] .. ..]]
 source [file join $root tests tcl game_stub.tcl]
 source [file join $root tcl tools move_labels.tcl]
@@ -173,8 +181,9 @@ proc classicAnnotate {} {
 # Run the review's write phase over the same game, from the same evaluations:
 # the results dict is what ::reviewdriver collects from the engine, with each
 # position's lines from the point of view of the side to move.
-proc reviewAnnotate {} {
+proc reviewAnnotate {{blunders blundersonly}} {
     settings
+    set ::annotateBlunders $blunders
     set map [::review::mainLineMap [sc_game UCI_mainLine]]
     set results {}
     set i 0
@@ -228,8 +237,9 @@ set counts [reviewAnnotate]
 set review [artefact]
 set reviewComments [::gamestub::commentsByPly]
 
-checkEq "every move was written by the review" [dict get $counts written] 6
-checkEq "and none was refused" [dict get $counts errors] ""
+checkEq "only the blunder carries the review's write" [dict get $counts written] 1
+checkEq "and the moves the mode leaves alone are counted" [dict get $counts skipped] 5
+checkEq "none was refused" [dict get $counts errors] ""
 
 # 1. The diagram. The RTF exporter draws a board wherever the "D" NAG sits, and
 #    the classic puts it on the move BEFORE the blunder so the diagram shows the
@@ -257,6 +267,35 @@ checkHas "the difficulty came from the timing ladder" \
 checkHas "the review writes its label" [dict get $reviewComments 4] "\[MoveLabelMistake\]"
 checkHas "the review writes the percent-eval token" [dict get $reviewComments 4] "\[%eval +2.20\]"
 checkHasNot "the classic wrote neither" [dict get $classicComments 4] "\[MoveLabel"
+
+########################################################################
+### The mode is a filter, and it filters the whole write
+###
+### The gate above runs in blunders-only mode, on the six-move fixture. Two
+### things have to hold: the moves the classic does not mark carry nothing of the
+### review's either - a label or a [%eval] left on a quiet move would make a
+### sparse annotation look like an all-moves one - and all-moves mode still labels
+### every judged move. Both are asserted here so a later change to the filter
+### fails this gate, not only the writer's own tests.
+
+foreach ply {1 2 3 5 6} {
+    checkHasNot "blunders-only leaves move $ply unlabelled" \
+        [commentAt $reviewComments $ply] "\[MoveLabel"
+    checkHasNot "and without an evaluation token" \
+        [commentAt $reviewComments $ply] "\[%eval"
+}
+checkHas "the blunder is still labelled" [commentAt $reviewComments 4] "\[MoveLabelMistake\]"
+
+::gamestub::reset $::MOVES
+queueAnalyze
+set counts [reviewAnnotate allmoves]
+set everyMove [::gamestub::commentsByPly]
+checkEq "all-moves writes every judged move" [dict get $counts written] 6
+checkEq "and skips none" [dict get $counts skipped] 0
+for {set ply 1} {$ply <= 6} {incr ply} {
+    checkHas "all-moves labels move $ply" [commentAt $everyMove $ply] "\[MoveLabel"
+    checkHas "with an evaluation token" [commentAt $everyMove $ply] "\[%eval"
+}
 
 ########################################################################
 ### The other branch: a move better than the engine's line

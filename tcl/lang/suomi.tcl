@@ -882,6 +882,8 @@ translate U ReviewVarLines {Kirjoitettavat muunnelmat}
 translate U ReviewVarCp {Muunnelman raja (cp)}
 translate U ReviewMoveWait {Odota tarkastuksen syvyyttä}
 translate U ReviewMovetime {Aikaraja (ms)}
+translate U StopNow {Stop now}
+translate U StopAfterThisGame {Stop after this game}
 translate U ReviewFromPreset {%s (moottorin asetuksista)}
 translate U ReviewProgress {Tarkastetaan asemaa %s / %s}
 translate U ReviewWaitForDepth {Odotetaan syvyyttä %s}
@@ -1761,6 +1763,7 @@ translate U Hash {Välimuisti}
 translate U OwnBook {Käytä moottorin avauskirjaa}
 translate U BookFile {Avauskirja}
 translate U AnnotateVariations {Annotoi muunnelmat}
+translate U AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate U ShortAnnotations {Lyhyet annotaatiot}
 translate U addAnnotatorTag {Lisää merkintä annotaattorista}
 translate U AddScoreToShortAnnotations {Lisää tulos annotaatioihin}

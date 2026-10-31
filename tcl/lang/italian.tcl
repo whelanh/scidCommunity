@@ -854,6 +854,8 @@ translate I ReviewVarLines {Varianti da scrivere}
 translate I ReviewVarCp {Soglia delle varianti (cp)}
 translate I ReviewMoveWait {Attendi la profondità della revisione}
 translate I ReviewMovetime {Limite di tempo (ms)}
+translate I StopNow {Stop now}
+translate I StopAfterThisGame {Stop after this game}
 translate I ReviewFromPreset {%s (dal profilo del motore)}
 translate I ReviewProgress {Revisione della posizione %s di %s}
 translate I ReviewWaitForDepth {In attesa della profondità %s}
@@ -1732,6 +1734,7 @@ translate I Hash {Memoria hash}
 translate I OwnBook {Use il libro del motore}
 translate I BookFile {Libro di aperture}
 translate I AnnotateVariations {Annota le varianti}
+translate I AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate I ShortAnnotations {Annotazione breve}
 translate I addAnnotatorTag {Aggiungi il tag dell'annotazione}
 translate I AddScoreToShortAnnotations {Aggiungi il punteggio alle annotazioni brevi}

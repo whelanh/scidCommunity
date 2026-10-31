@@ -884,6 +884,8 @@ translate g ReviewVarLines {Варианти за запис}
 translate g ReviewVarCp {Граница на вариантите (cp)}
 translate g ReviewMoveWait {Изчакай дълбочината на прегледа}
 translate g ReviewMovetime {Ограничение на времето (ms)}
+translate g StopNow {Stop now}
+translate g StopAfterThisGame {Stop after this game}
 translate g ReviewFromPreset {%s (от профила на машината)}
 translate g ReviewProgress {Преглед на позиция %s от %s}
 translate g ReviewWaitForDepth {Изчакване на дълбочина %s}
@@ -1749,6 +1751,7 @@ translate g Hash {Хеш памет}
 translate g OwnBook {Използвайте книгата на двигателя}
 translate g BookFile {Отваряща се книга}
 translate g AnnotateVariations {Анотирайте вариации}
+translate g AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate g ShortAnnotations {Кратки анотации}
 translate g addAnnotatorTag {Добавете етикет за анотатор}
 translate g AddScoreToShortAnnotations {Добавете резултат към анотациите}

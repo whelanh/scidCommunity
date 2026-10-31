@@ -875,6 +875,8 @@ translate G ReviewVarLines {Παραλλαγές προς εγγραφή}
 translate G ReviewVarCp {Περιθώριο παραλλαγών (cp)}
 translate G ReviewMoveWait {Αναμονή για το βάθος ελέγχου}
 translate G ReviewMovetime {Όριο χρόνου (ms)}
+translate G StopNow {Stop now}
+translate G StopAfterThisGame {Stop after this game}
 translate G ReviewFromPreset {%s (από το προφίλ μηχανής)}
 translate G ReviewProgress {Έλεγχος θέσης %s από %s}
 translate G ReviewWaitForDepth {Αναμονή για βάθος %s}
@@ -1757,6 +1759,7 @@ translate G Hash {Μνήμη κατατεμαχισμού (hash)}
 translate G OwnBook {Χρήση του βιβλίου της μηχανής}
 translate G BookFile {Βιβλίο ανοιγμάτων}
 translate G AnnotateVariations {Υπομνηματισμός βαριαντών}
+translate G AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate G ShortAnnotations {Σύντομος υπομνηματισμός}
 translate G addAnnotatorTag {Προσθήκη εκτικέτας του υπομνηματιστή}
 translate G AddScoreToShortAnnotations {Προσθήκη σκορ στους υπομνηματισμούς}

@@ -883,6 +883,8 @@ translate P ReviewVarLines {Warianty do zapisania}
 translate P ReviewVarCp {Margines wariantów (cp)}
 translate P ReviewMoveWait {Czekaj na głębokość przeglądu}
 translate P ReviewMovetime {Limit czasu (ms)}
+translate P StopNow {Stop now}
+translate P StopAfterThisGame {Stop after this game}
 translate P ReviewFromPreset {%s (z profilu silnika)}
 translate P ReviewProgress {Przeglądanie pozycji %s z %s}
 translate P ReviewWaitForDepth {Oczekiwanie na głębokość %s}
@@ -1762,6 +1764,7 @@ translate P Hash {Pamięć hash}
 translate P OwnBook {Użyj księgi silnika}
 translate P BookFile {Księga debiutowa}
 translate P AnnotateVariations {Komentuj warianty}
+translate P AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate P ShortAnnotations {Krótkie adnotacje}
 translate P addAnnotatorTag {Dodaj znacznik komentatora}
 translate P AddScoreToShortAnnotations {Dodaj ocenę do adnotacji}

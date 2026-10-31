@@ -24,6 +24,10 @@ namespace eval ::gamestub {
     variable tags {}
     variable inVar 0        ;# writing inside a variation (the classic closing line)
     variable varNodes {}
+    variable failLoad {}    ;# game numbers sc_game load refuses
+    variable saves {}       ;# game numbers sc_game save wrote into
+    variable pushes 0       ;# sc_game push count (the game stack)
+    variable pops 0         ;# sc_game pop count
 }
 
 # `pairs` is a list of {SAN UCI}: the same game in the two notations the two
@@ -48,6 +52,10 @@ proc ::gamestub::reset {pairs} {
     set ::gamestub::games 1
     set ::gamestub::inVar 0
     set ::gamestub::varNodes {}
+    set ::gamestub::failLoad {}
+    set ::gamestub::saves {}
+    set ::gamestub::pushes 0
+    set ::gamestub::pops 0
     return
 }
 
@@ -285,12 +293,25 @@ proc sc_game {sub args} {
         }
         number  { return $::gamestub::number }
         load    {
-            set ::gamestub::number [lindex $args 0]
+            set g [lindex $args 0]
+            if {[lsearch -exact $::gamestub::failLoad $g] >= 0} {
+                # A game scid cannot decode: the board is left where it was, the
+                # way a failed sc_game load leaves it.
+                error "cannot read game $g"
+            }
+            set ::gamestub::number $g
             set ::gamestub::cursor 0
             return ""
         }
-        push    { return "" }
-        pop     { return "" }
+        save    {
+            # Saving writes the game that is on the board now into that slot; the
+            # number recorded is the slot, so a test can see which game the write
+            # landed in.
+            lappend ::gamestub::saves [lindex $args 0]
+            return ""
+        }
+        push    { incr ::gamestub::pushes ; return "" }
+        pop     { incr ::gamestub::pops ; return "" }
         tags    {
             set op [lindex $args 0]
             if {$op eq "get"} {
