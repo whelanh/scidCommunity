@@ -71,6 +71,14 @@ part that other tools read, so they are written here too:
   moves, `D` and variations — and deliberately not the classic `T`/`****D`, book
   or Annotator marks.
 
+  A batch position can end its search with no scored line at all, which under a
+  time cap is the likeliest way a move goes unjudged. Such a ply is written with
+  no verdict and the game still counts as completed, so
+  `::batch_annotate::unjudgedCount` counts it, per move and with the book range
+  excluded, and the completion dialog reports
+  `plies with no verdict: N` beside the game count; the games figure alone would
+  say the batch finished cleanly.
+
   **Rapid annotate** (Ctrl+Shift+A) is a consumer too: it converts the scores the
   engine windows have already collected into the same results shape and calls
   `::reviewdriver::writeResults`. The graph keeps only the best line and only the

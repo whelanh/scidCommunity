@@ -850,6 +850,7 @@ translate H ReviewSettings {Áttekintés beállításai}
 translate H ReviewVarLines {Kiírandó változatok}
 translate H ReviewVarCp {Változat-küszöb (cp)}
 translate H ReviewMoveWait {Várás az áttekintés mélységére}
+translate H ReviewMovetime {Időkorlát (ms)}
 translate H ReviewFromPreset {%s (a motorprofilból)}
 translate H ReviewProgress {Áttekintés: %s. pozíció / %s}
 translate H ReviewWaitForDepth {Várakozás %s mélységre}
@@ -1991,6 +1992,7 @@ translate H BatchCancel {Mégsem}
 translate H BatchCompleted {elkészült}
 translate H BatchGames {játékok}
 translate H BatchProcessed {feldolgozott}
+translate H BatchUnscoredPlies {félmozdulások ítélet nélkül: %s}
 translate H TablebaseWindow {Táblázatbázis ablak}
 translate H TBWinMoves {--- Nyerő lépések ---}
 translate H TBDrawMoves {--- Rajzmozgások ---}

@@ -847,6 +847,7 @@ translate C ReviewSettings {Nastavení prohlídky}
 translate C ReviewVarLines {Varianty k zápisu}
 translate C ReviewVarCp {Mez variant (cp)}
 translate C ReviewMoveWait {Čekat na hloubku prohlídky}
+translate C ReviewMovetime {Časový limit (ms)}
 translate C ReviewFromPreset {%s (z předvolby motoru)}
 translate C ReviewProgress {Prohlíží se pozice %s z %s}
 translate C ReviewWaitForDepth {Čeká se na hloubku %s}
@@ -1990,6 +1991,7 @@ translate C BatchCancel {Zru¹it}
 translate C BatchCompleted {dokonèeno}
 translate C BatchGames {hry}
 translate C BatchProcessed {zpracováno}
+translate C BatchUnscoredPlies {poltahy bez verdiktu: %s}
 translate C TablebaseWindow {Okno tabulky}
 translate C TBWinMoves {--- Vítězné tahy ---}
 translate C TBDrawMoves {--- Kreslící pohyby ---}

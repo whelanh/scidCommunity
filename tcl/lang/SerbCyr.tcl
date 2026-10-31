@@ -883,6 +883,7 @@ translate J ReviewSettings {Подешавања прегледа}
 translate J ReviewVarLines {Варијанте за упис}
 translate J ReviewVarCp {Граница варијанти (cp)}
 translate J ReviewMoveWait {Чекај дубину прегледа}
+translate J ReviewMovetime {Временско ограничење (ms)}
 translate J ReviewFromPreset {%s (из профила мотора)}
 translate J ReviewProgress {Преглед позиције %s од %s}
 translate J ReviewWaitForDepth {Чекање на дубину %s}
@@ -2009,6 +2010,7 @@ translate J BatchCancel {Откажи}
 translate J BatchCompleted {завршено}
 translate J BatchGames {игрице}
 translate J BatchProcessed {обрађене}
+translate J BatchUnscoredPlies {полупотеза без оцене: %s}
 translate J TablebaseWindow {Таблебасе Виндов}
 translate J TBWinMoves {--- Победнички потези ---}
 translate J TBDrawMoves {--- Покрети цртања ---}

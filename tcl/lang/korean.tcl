@@ -883,6 +883,7 @@ translate k ReviewSettings {검토 설정}
 translate k ReviewVarLines {기록할 변화}
 translate k ReviewVarCp {변화 폭 (cp)}
 translate k ReviewMoveWait {검토 깊이를 기다림}
+translate k ReviewMovetime {시간 한도 (ms)}
 translate k ReviewFromPreset {%s (엔진 프리셋에서)}
 translate k ReviewProgress {국면 %s / %s 검토 중}
 translate k ReviewWaitForDepth {깊이 %s 대기 중}
@@ -2009,6 +2010,7 @@ translate k BatchCancel {취소}
 translate k BatchCompleted {완전한}
 translate k BatchGames {계략}
 translate k BatchProcessed {처리됨}
+translate k BatchUnscoredPlies {판정 없는 반수: %s}
 translate k TablebaseWindow {테이블베이스 창}
 translate k TBWinMoves {--- 승리 동작 ---}
 translate k TBDrawMoves {--- 그리기 동작 ---}

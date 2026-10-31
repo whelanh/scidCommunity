@@ -842,6 +842,7 @@ translate b ReviewSettings {পর্যালোচনার সেটিংস
 translate b ReviewVarLines {যে ভ্যারিয়েশনগুলো লিখতে হবে}
 translate b ReviewVarCp {ভ্যারিয়েশনের ব্যবধান (cp)}
 translate b ReviewMoveWait {পর্যালোচনার গভীরতার জন্য অপেক্ষা করুন}
+translate b ReviewMovetime {সময়সীমা (ms)}
 translate b ReviewFromPreset {%s (ইঞ্জিন প্রিসেট থেকে)}
 translate b ReviewProgress {অবস্থান %s / %s পর্যালোচনা করা হচ্ছে}
 translate b ReviewWaitForDepth {গভীরতা %s-এর জন্য অপেক্ষা}
@@ -1968,6 +1969,7 @@ translate b BatchCancel {বাতিল করুন}
 translate b BatchCompleted {সম্পন্ন}
 translate b BatchGames {গেম}
 translate b BatchProcessed {প্রক্রিয়া করা}
+translate b BatchUnscoredPlies {রায় ছাড়া অর্ধচাল: %s}
 translate b TablebaseWindow {টেবিলবেস উইন্ডো}
 translate b TBWinMoves {--- উইনিং মুভ ---}
 translate b TBDrawMoves {--- অঙ্কন চালনা ---}

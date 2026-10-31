@@ -849,6 +849,7 @@ translate R ReviewSettings {Настройки разбора}
 translate R ReviewVarLines {Варианты для записи}
 translate R ReviewVarCp {Порог вариантов (cp)}
 translate R ReviewMoveWait {Ждать глубину разбора}
+translate R ReviewMovetime {Ограничение времени (ms)}
 translate R ReviewFromPreset {%s (из профиля движка)}
 translate R ReviewProgress {Разбор позиции %s из %s}
 translate R ReviewWaitForDepth {Ожидание глубины %s}
@@ -1992,6 +1993,7 @@ translate R BatchCancel {Отмена}
 translate R BatchCompleted {завершенный}
 translate R BatchGames {игры}
 translate R BatchProcessed {обработано}
+translate R BatchUnscoredPlies {полуходы без оценки: %s}
 translate R TablebaseWindow {Окно таблицы}
 translate R TBWinMoves {--- Выигрышные ходы ---}
 translate R TBDrawMoves {--- Рисование движений ---}

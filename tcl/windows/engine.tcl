@@ -1079,6 +1079,10 @@ proc ::enginewin::reviewSettings {id} {
     }
     set name ""
     catch { set name $::enginewin_lastengine($id) }
+    # What the rows' notes read: the preset this window has open. A window with no
+    # engine yet has no preset, and a note then stays empty rather than guessing.
+    set ::enginewin::reviewsetcfg($id) {}
+    catch { set ::enginewin::reviewsetcfg($id) [::enginecfg::get $name] }
     toplevel $w
     # The ttk widgets inside follow the theme, but a toplevel keeps Tk's
     # classic background, and the button row does not cover the window's width:
@@ -1098,6 +1102,9 @@ proc ::enginewin::reviewSettings {id} {
             -textvariable ::enginewin::reviewsetting($id,$key)
         grid $w.f.l$key -row $row -column 0 -sticky w -pady 2
         grid $w.f.v$key -row $row -column 1 -sticky w -padx {10 0} -pady 2
+        # Kept per key so a row can be revisited: the time cap's note is a third
+        # column of the row the setting is on.
+        set rowOf($key) $row
         incr row
     }
     # var_lines is capped by mpv, so its box follows the mpv box while the user
@@ -1128,6 +1135,49 @@ proc ::enginewin::reviewSettings {id} {
                     $::enginewin::reviewtraceptr($id)
             }
             unset -nocomplain ::enginewin::reviewtraceptr($id)
+        }} $id $w]
+    }
+
+    # The time cap's note, on its own row: a review value of 0 means "no cap of my
+    # own", and the pass then runs on the engine preset's Limits.movetime. The
+    # note follows the box while the user types, exactly as the variation box
+    # follows mpv, so the dialog never claims a bound the pass would not use - and
+    # never leaves a box reading 0 while the preset imposes a cap.
+    if {[winfo exists $w.f.vmovetime]} {
+        set ::enginewin::reviewsettingnote($id) ""
+        ttk::label $w.f.nmovetime -textvariable ::enginewin::reviewsettingnote($id) \
+            -anchor w
+        grid $w.f.nmovetime -row $rowOf(movetime) -column 2 -sticky w -padx {10 0} -pady 2
+        # The prefix, not its return value (trace add answers nothing), so the
+        # trace can be removed by the same command that installed it. `args`
+        # swallows the three arguments a variable trace appends (name, element,
+        # op) - a lambda that does not take them fails at the first edit.
+        set ::enginewin::reviewnotetr($id) [list apply {{id args} {
+            set note ""
+            catch {
+                set note [::reviewui::movetimeNote \
+                    $::enginewin::reviewsetting($id,movetime) \
+                    $::enginewin::reviewsetcfg($id)]
+            }
+            set ::enginewin::reviewsettingnote($id) $note
+        }} $id]
+        trace add variable ::enginewin::reviewsetting($id,movetime) write \
+            $::enginewin::reviewnotetr($id)
+        # And once for the state the dialog opens in.
+        {*}$::enginewin::reviewnotetr($id)
+        # Appended, not replaced: the mpv row above already bound <Destroy> on
+        # this same toplevel, and Tcl's `bind` REPLACES a binding unless the
+        # script starts with "+". Replacing it left the mpv trace installed for
+        # good, and every reopen stacked another one on a dialog already gone.
+        bind $w <Destroy> +[list apply {{id w} {
+            if {"%W" ne $w} { return }
+            catch {
+                trace remove variable ::enginewin::reviewsetting($id,movetime) write \
+                    $::enginewin::reviewnotetr($id)
+            }
+            unset -nocomplain ::enginewin::reviewnotetr($id)
+            unset -nocomplain ::enginewin::reviewsettingnote($id)
+            unset -nocomplain ::enginewin::reviewsetcfg($id)
         }} $id $w]
     }
 

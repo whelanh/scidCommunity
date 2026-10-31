@@ -855,6 +855,7 @@ translate B ReviewSettings {Configurações da análise}
 translate B ReviewVarLines {Variantes a escrever}
 translate B ReviewVarCp {Margem das variantes (cp)}
 translate B ReviewMoveWait {Aguardar a profundidade da análise}
+translate B ReviewMovetime {Limite de tempo (ms)}
 translate B ReviewFromPreset {%s (do perfil do motor)}
 translate B ReviewProgress {Analisando posição %s de %s}
 translate B ReviewWaitForDepth {Aguardando profundidade %s}
@@ -1998,6 +1999,7 @@ translate B BatchCancel {Cancelar}
 translate B BatchCompleted {concluído}
 translate B BatchGames {jogos}
 translate B BatchProcessed {processado}
+translate B BatchUnscoredPlies {meios-lances sem veredito: %s}
 translate B TablebaseWindow {Janela Base de Tabela}
 translate B TBWinMoves {--- Movimentos vencedores ---}
 translate B TBDrawMoves {--- Movimentos de desenho ---}

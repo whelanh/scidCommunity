@@ -843,6 +843,7 @@ translate V ReviewSettings {הגדרות הסקירה}
 translate V ReviewVarLines {וריאציות לכתיבה}
 translate V ReviewVarCp {מרווח וריאציות (cp)}
 translate V ReviewMoveWait {המתן לעומק הסקירה}
+translate V ReviewMovetime {מגבלת זמן (ms)}
 translate V ReviewFromPreset {%s (מהגדרות המנוע)}
 translate V ReviewProgress {סוקר עמדה %s מתוך %s}
 translate V ReviewWaitForDepth {ממתין לעומק %s}
@@ -1969,6 +1970,7 @@ translate V BatchCancel {לְבַטֵל}
 translate V BatchCompleted {הושלם}
 translate V BatchGames {משחקים}
 translate V BatchProcessed {מְעוּבָּד}
+translate V BatchUnscoredPlies {חצאי מהלכים ללא הכרעה: %s}
 translate V TablebaseWindow {חלון בסיס שולחן}
 translate V TBWinMoves {--- מהלכים מנצחים ---}
 translate V TBDrawMoves {--- ציור מהלכים ---}

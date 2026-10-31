@@ -874,6 +874,7 @@ translate G ReviewSettings {Ρυθμίσεις ελέγχου}
 translate G ReviewVarLines {Παραλλαγές προς εγγραφή}
 translate G ReviewVarCp {Περιθώριο παραλλαγών (cp)}
 translate G ReviewMoveWait {Αναμονή για το βάθος ελέγχου}
+translate G ReviewMovetime {Όριο χρόνου (ms)}
 translate G ReviewFromPreset {%s (από το προφίλ μηχανής)}
 translate G ReviewProgress {Έλεγχος θέσης %s από %s}
 translate G ReviewWaitForDepth {Αναμονή για βάθος %s}
@@ -2017,6 +2018,7 @@ translate G BatchCancel {Ματαίωση}
 translate G BatchCompleted {ολοκληρώθηκε το}
 translate G BatchGames {παιχνίδια}
 translate G BatchProcessed {επεξεργασμένα}
+translate G BatchUnscoredPlies {ημικινήσεις χωρίς ετυμηγορία: %s}
 translate G TablebaseWindow {Παράθυρο βάσης πίνακα}
 translate G TBWinMoves {--- Κινήσεις που κερδίζουν ---}
 translate G TBDrawMoves {--- Κινήσεις σχεδίασης ---}

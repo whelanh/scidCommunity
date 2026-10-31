@@ -882,6 +882,7 @@ translate D ReviewSettings {Einstellungen der Prüfung}
 translate D ReviewVarLines {Zu schreibende Varianten}
 translate D ReviewVarCp {Variantenabstand (cp)}
 translate D ReviewMoveWait {Auf die Prüfungstiefe warten}
+translate D ReviewMovetime {Zeitlimit (ms)}
 translate D ReviewFromPreset {%s (aus dem Motorprofil)}
 translate D ReviewProgress {Position %s von %s wird geprüft}
 translate D ReviewWaitForDepth {Warte auf Tiefe %s}
@@ -2040,6 +2041,7 @@ translate D BatchCancel {Stornieren}
 translate D BatchCompleted {vollendet}
 translate D BatchGames {Spiele}
 translate D BatchProcessed {verarbeitet}
+translate D BatchUnscoredPlies {Halbzüge ohne Urteil: %s}
 translate D TablebaseWindow {Tablebase-Fenster}
 translate D TBWinMoves {--- Gewinnzüge ---}
 translate D TBDrawMoves {--- Zeichenbewegungen ---}

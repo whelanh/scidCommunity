@@ -846,6 +846,7 @@ translate T ReviewSettings {İnceleme ayarları}
 translate T ReviewVarLines {Yazılacak varyantlar}
 translate T ReviewVarCp {Varyant aralığı (cp)}
 translate T ReviewMoveWait {İnceleme derinliğini bekle}
+translate T ReviewMovetime {Süre sınırı (ms)}
 translate T ReviewFromPreset {%s (motor profilinden)}
 translate T ReviewProgress {%s / %s konumu inceleniyor}
 translate T ReviewWaitForDepth {%s derinliği bekleniyor}
@@ -1972,6 +1973,7 @@ translate T BatchCancel {İptal etmek}
 translate T BatchCompleted {tamamlanmış}
 translate T BatchGames {oyunlar}
 translate T BatchProcessed {işlenmiş}
+translate T BatchUnscoredPlies {hükümsüz yarım hamleler: %s}
 translate T TablebaseWindow {Tablo Tabanı Penceresi}
 translate T TBWinMoves {--- Kazandıran Hareketler ---}
 translate T TBDrawMoves {--- Çizim Hareketleri ---}

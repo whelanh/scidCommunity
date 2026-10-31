@@ -843,6 +843,7 @@ translate Q ReviewSettings {Налаштування огляду}
 translate Q ReviewVarLines {Варіанти для запису}
 translate Q ReviewVarCp {Поріг варіантів (cp)}
 translate Q ReviewMoveWait {Чекати глибину огляду}
+translate Q ReviewMovetime {Обмеження часу (ms)}
 translate Q ReviewFromPreset {%s (з профілю двигуна)}
 translate Q ReviewProgress {Огляд позиції %s з %s}
 translate Q ReviewWaitForDepth {Очікування глибини %s}
@@ -1969,6 +1970,7 @@ translate Q BatchCancel {Скасувати}
 translate Q BatchCompleted {завершено}
 translate Q BatchGames {ігри}
 translate Q BatchProcessed {оброблені}
+translate Q BatchUnscoredPlies {півходи без оцінки: %s}
 translate Q TablebaseWindow {Вікно бази даних}
 translate Q TBWinMoves {--- Переможні ходи ---}
 translate Q TBDrawMoves {--- Малювання рухів ---}

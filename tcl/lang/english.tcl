@@ -882,6 +882,7 @@ translate E ReviewSettings {Review Settings}
 translate E ReviewVarLines {Variations to write}
 translate E ReviewVarCp {Variation margin (cp)}
 translate E ReviewMoveWait {Wait for the review depth}
+translate E ReviewMovetime {Time cap (ms)}
 translate E ReviewFromPreset {%s (from engine preset)}
 translate E ReviewProgress {Reviewing position %s of %s}
 translate E ReviewWaitForDepth {Waiting for depth %s}
@@ -2022,6 +2023,7 @@ translate E BatchCancel {Cancel}
 translate E BatchCompleted {completed}
 translate E BatchGames {games}
 translate E BatchProcessed {processed}
+translate E BatchUnscoredPlies {plies with no verdict: %s}
 translate E TablebaseWindow {Tablebase Window}
 translate E TBWinMoves {--- Winning Moves ---}
 translate E TBDrawMoves {--- Drawing Moves ---}

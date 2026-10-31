@@ -818,6 +818,7 @@ translate M ReviewSettings {复盘设置}
 translate M ReviewVarLines {要写入的变化}
 translate M ReviewVarCp {变化差距 (cp)}
 translate M ReviewMoveWait {等待复盘深度}
+translate M ReviewMovetime {时间上限 (ms)}
 translate M ReviewFromPreset {%s（来自引擎预设）}
 translate M ReviewProgress {正在复盘第 %s / %s 个局面}
 translate M ReviewWaitForDepth {正在等待深度 %s}
@@ -1944,6 +1945,7 @@ translate M BatchCancel {取消}
 translate M BatchCompleted {完全的}
 translate M BatchGames {游戏}
 translate M BatchProcessed {加工过的}
+translate M BatchUnscoredPlies {无评定的半步: %s}
 translate M TablebaseWindow {表库窗口}
 translate M TBWinMoves {--- 制胜之举 ---}
 translate M TBDrawMoves {--- 绘图动作 ---}

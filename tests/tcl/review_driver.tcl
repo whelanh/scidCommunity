@@ -128,7 +128,7 @@ checkEq "and one below both keeps its hash" \
 puts "where the depth comes from"
 set ::engines(list) [list \
     [list Plain /x {} {} 0 0 {} 1 {} {}] \
-    [list Deep /x {} {} 0 0 {} 1 {} [dict create depth 30]] \
+    [list Deep /x {} {} 0 0 {} 1 {} [dict create depth 30 movetime 900]] \
     [list Shallow /x {} {} 0 0 {} 1 {} [dict create depth 12]]]
 ::review::reset
 checkEq "a preset with no limits leaves the review depth alone" \
@@ -137,6 +137,21 @@ checkEq "a deeper preset raises it" \
     [dict get [::review::effective [::enginecfg::get Deep]] depth] 30
 checkEq "a shallower preset does not lower it" \
     [dict get [::review::effective [::enginecfg::get Shallow]] depth] 18
+# And the time cap comes from the same place, in the other direction: a preset
+# with no cap leaves the pass uncapped, a preset with one caps it, and the
+# review's own value replaces the preset's rather than being combined with it.
+checkEq "a preset with no cap leaves the pass uncapped" \
+    [dict get [::review::effective [::enginecfg::get Plain]] movetime] ""
+checkEq "the preset's cap reaches the pass" \
+    [dict get [::review::effective [::enginecfg::get Deep]] movetime] 900
+::review::setValue movetime 2000
+checkEq "the review's own cap replaces the preset's" \
+    [dict get [::review::effective [::enginecfg::get Deep]] movetime] 2000
+checkEq "and the preset's depth is still a floor under it" \
+    [dict get [::review::effective [::enginecfg::get Deep]] depth] 30
+::review::reset
+checkEq "clearing the cap puts the preset's back" \
+    [dict get [::review::effective [::enginecfg::get Deep]] movetime] 900
 
 puts "a pass over three positions"
 set ::progress {}
@@ -144,7 +159,7 @@ set ::done ""
 proc onProgress {n total ply lines} { lappend ::progress [list $n $total $ply] }
 proc onDone {results} { set ::done $results }
 set positions {{4 {fen A}} {5 {fen B}} {6 {fen C}}}
-set token [::reviewdriver::start $enginecfg $positions 3 18 ::onProgress ::onDone]
+set token [::reviewdriver::start $enginecfg $positions 3 [dict create depth 18] ::onProgress ::onDone]
 checkEq "the engine was opened on the pass's own id" [lindex $::sent 0] {connect 20 /usr/bin/stockfish {} uci}
 checkEq "with uci as the protocol, never as the engine's argument" \
     [lindex $::argv_seen 0] {/usr/bin/stockfish}
@@ -162,7 +177,7 @@ feed InfoConfig {Threads 8 Hash 256 MultiPV 3}
 set opt [lsearch -inline $::sent {send 20 SetOptions*}]
 check "the pass asks for its own MultiPV" [string match {*MultiPV 3*} $opt]
 check "and passes the engine's threads" [string match {*Threads 8*} $opt]
-checkEq "the first position is searched at the review depth" [lindex $::sent end] {send 20 Go {{fen A} {depth 18}}}
+checkEq "the first position is searched at the review depth" [lindex $::sent end] {send 20 Go {{fen A} {{depth 18}}}}
 
 feed InfoPV {1 10 12 500 200 0 0 90 cp 0 e2e4 e7e5}
 feed InfoPV {1 12 15 900 300 0 0 120 cp 0 d2d4 d7d5}
@@ -172,7 +187,7 @@ feed InfoPV {1 9 9 100 50 0 0 30 cp 0 d2d4 d7d5}
 feed InfoPV {2 8 9 300 100 0 0 60 cp 0 c2c4 c7c5}
 feed InfoBestMove {}
 checkEq "progress reports the position just finished" [lindex $::progress 0] {1 3 4}
-checkEq "the next position is searched" [lindex $::sent end] {send 20 Go {{fen B} {depth 18}}}
+checkEq "the next position is searched" [lindex $::sent end] {send 20 Go {{fen B} {{depth 18}}}}
 
 feed InfoPV {1 9 10 400 100 0 0 70 cp 0 g1f3 g8f6}
 feed InfoBestMove {}
@@ -188,6 +203,37 @@ checkEq "the deepest line is kept, not the last" [lindex [dict get $first 1] 0] 
 checkEq "and the second MultiPV slot too" [lindex [dict get $first 2] 0] 8
 checkEq "positions after the first are recorded" [lindex [dict get [dict get $::done 6] 1] 0] 11
 
+# The four shapes the precedence table can produce, as Go messages: the driver
+# hands ::enginelimits::goLimits the dict ::review::passLimits built, so neither
+# the pass nor a caller string-builds "go depth N movetime M".
+puts "the go command a capped pass sends"
+checkEq "no cap either side: depth alone" \
+    [::enginelimits::goLimits [::review::passLimits {depth 18 movetime 0} {depth {} movetime {}}]] \
+    {{depth 18}}
+checkEq "the preset's cap only" \
+    [::enginelimits::goLimits [::review::passLimits {depth 18 movetime 0} {depth {} movetime 900}]] \
+    {{depth 18} {movetime 900}}
+checkEq "the review's cap only" \
+    [::enginelimits::goLimits [::review::passLimits {depth 18 movetime 2000} {depth {} movetime {}}]] \
+    {{depth 18} {movetime 2000}}
+checkEq "both: the review's cap and the preset's deeper floor" \
+    [::enginelimits::goLimits [::review::passLimits {depth 18 movetime 2000} {depth 30 movetime 900}]] \
+    {{depth 30} {movetime 2000}}
+
+set ::sent {}
+set cappedcfg {Stockfish /usr/bin/stockfish {} {} 0 0 {} 1 {}}
+set ::engines(list) [list \
+    [list Stockfish /usr/bin/stockfish {} {} 0 0 {} 1 {} [dict create movetime 900]]]
+::review::reset
+set token [::reviewdriver::start $cappedcfg {{4 {fen A}}} 3 \
+    [dict create depth 18 movetime 900] ::onProgress ::onDone]
+feed InfoConfig {}
+checkEq "the engine is sent both bounds in one Go" [lindex $::sent end] \
+    {send 20 Go {{fen A} {{depth 18} {movetime 900}}}}
+feed InfoBestMove {}
+pump
+set ::engines(list) {}
+
 # The preset's reservation is not allocated a second time: a pass asks for the
 # bounded values ::review::effective returns, which is what keeps a 110 GB preset
 # from doubling the machine's memory use.
@@ -196,7 +242,7 @@ set ::sent {}
 ::reviewdriver::stop $token
 pump
 set huge {Stockfish /usr/bin/stockfish {} {} 0 0 {} 1 {{Threads 64} {Hash 110000}}}
-set token [::reviewdriver::start $huge {{4 {fen A}}} 3 18 ::onProgress ::onDone]
+set token [::reviewdriver::start $huge {{4 {fen A}}} 3 [dict create depth 18] ::onProgress ::onDone]
 feed InfoConfig {}
 set opt [lsearch -inline $::sent {send 20 SetOptions*}]
 check "the pass takes only its share of the threads" [string match {*Threads 8*} $opt]
@@ -209,7 +255,7 @@ pump
 puts "stopping a pass"
 set ::sent {}
 set ::done ""
-set token [::reviewdriver::start $enginecfg {{4 {fen A}} {5 {fen B}}} 3 18 ::onProgress ::onDone]
+set token [::reviewdriver::start $enginecfg {{4 {fen A}} {5 {fen B}}} 3 [dict create depth 18] ::onProgress ::onDone]
 feed InfoConfig {}
 feed InfoPV {1 10 10 0 0 0 0 10 cp 0 e2e4}
 set searches [lsearch -all -inline -glob $::sent {send 20 Go*}]
@@ -224,7 +270,7 @@ set ::sent {}
 set ::argv_seen {}
 set ::closed {}
 set withargs {Stockfish /usr/bin/stockfish {-t 4 --no-smp} {} 0 0 {} 1 {}}
-set code [catch { ::reviewdriver::start $withargs {{4 {fen A}}} 2 18 {} {} } token]
+set code [catch { ::reviewdriver::start $withargs {{4 {fen A}}} 2 [dict create depth 18] {} {} } token]
 checkEq "the preset's arguments do not overflow the connect call" $code 0
 if {$code == 0} {
     checkEq "the preset's arguments reach the engine" \
@@ -244,7 +290,7 @@ proc onProgressStop {n total ply lines} {
         set ::stopped [::reviewdriver::stop $::stopToken]
     }
 }
-set ::stopToken [::reviewdriver::start $enginecfg {{4 {fen A}} {5 {fen B}}} 2 18 ::onProgressStop ::onDone]
+set ::stopToken [::reviewdriver::start $enginecfg {{4 {fen A}} {5 {fen B}}} 2 [dict create depth 18] ::onProgressStop ::onDone]
 feed InfoConfig {}
 feed InfoBestMove {}
 checkEq "the handler stopped the pass" $::stopped 1
@@ -258,7 +304,7 @@ set ::sent {}
 set ::closed {}
 set ::done {}
 set ::progress {}
-set token [::reviewdriver::start $enginecfg {{4 {fen A}} {5 {fen B}} {6 {fen C}}} 3 18 ::onProgress ::onDone]
+set token [::reviewdriver::start $enginecfg {{4 {fen A}} {5 {fen B}} {6 {fen C}}} 3 [dict create depth 18] ::onProgress ::onDone]
 feed InfoConfig {}
 feed InfoPV {1 10 11 0 0 0 0 10 cp 0 e2e4}
 feed InfoBestMove {}
@@ -267,18 +313,18 @@ feed InfoDisconnected {}
 checkEq "the pass still completes, with what it had" [dict keys $::done] {4}
 checkEq "no position after the loss is started" \
     [lsearch -all -inline -glob $::sent {send 20 Go*}] \
-    [list {send 20 Go {{fen A} {depth 18}}} {send 20 Go {{fen B} {depth 18}}}]
+    [list {send 20 Go {{fen A} {{depth 18}}}} {send 20 Go {{fen B} {{depth 18}}}}]
 checkEq "nothing is closed: the connection is already gone" $::closed {}
 checkEq "and the dead pass is forgotten" [::reviewdriver::stop $token] 0
 
 puts "a close queued by one pass does not close the next"
 set ::sent {}
 set ::closed {}
-set first [::reviewdriver::start $enginecfg {{4 {fen A}}} 2 18 ::onProgress ::onDone]
+set first [::reviewdriver::start $enginecfg {{4 {fen A}}} 2 [dict create depth 18] ::onProgress ::onDone]
 feed InfoConfig {}
 feed InfoBestMove {}
 checkEq "the id is free the moment the last reply is in" [::reviewdriver::busy 20] 0
-set second [::reviewdriver::start $enginecfg {{4 {fen A}}} 2 18 ::onProgress ::onDone]
+set second [::reviewdriver::start $enginecfg {{4 {fen A}}} 2 [dict create depth 18] ::onProgress ::onDone]
 pump
 checkEq "the queued close leaves the new connection alone" $::closed {}
 feed InfoConfig {}
@@ -365,6 +411,38 @@ checkEq "a bound, an empty pv and an empty score are not lines" \
 set mate [dict create 0 [dict create 1 {20 3 mate {e2e4 e7e5}}]]
 checkEq "a mate becomes the encoding the labels and the graph share" \
     [::reviewdriver::lines $mate 0 1] [list [list 99700 {e2e4 e7e5}]]
+
+# Some engines omit `depth` on the lines they report, and ::uci::parseline leaves
+# the depth slot empty when they do. Dropping those lines recorded the ply as
+# unjudged even though the engine had scored it; the collector before the ranking
+# was written kept the first one.
+puts "a line with no depth is still a line"
+
+set ::reviewdriver::job(collectTest) [dict create lines {}]
+::reviewdriver::collect collectTest {1 {} 22 900 300 0 0 120 34 cp 0 {e2e4 e7e5}}
+checkEq "a depth-less line fills an empty slot" \
+    [dict get $::reviewdriver::job(collectTest) lines] \
+    [dict create 1 {0 34 cp {e2e4 e7e5}}]
+::reviewdriver::collect collectTest {1 18 22 900 300 0 0 120 40 cp 0 {e2e4 c7c5}}
+checkEq "a measured line outranks it" \
+    [dict get $::reviewdriver::job(collectTest) lines] \
+    [dict create 1 {18 40 cp {e2e4 c7c5}}]
+
+# Two exact lines at the same depth are the engine finishing an iteration (or
+# repeating itself): the later one is the fresher reading, so it takes the slot
+# instead of a stale first one being kept for the rest of the search.
+puts "an equal-depth line replaces the one in the slot"
+
+::reviewdriver::collect collectTest {1 18 22 900 300 0 0 120 10 cp 0 {d2d4 d7d5}}
+::reviewdriver::collect collectTest {1 18 22 900 300 0 0 120 25 cp 0 {d2d4 c7c5}}
+checkEq "the later line at the same depth is kept" \
+    [dict get $::reviewdriver::job(collectTest) lines] \
+    [dict create 1 {18 25 cp {d2d4 c7c5}}]
+::reviewdriver::collect collectTest {1 17 22 900 300 0 0 120 99 cp 0 {c2c4}}
+checkEq "and a shallower one still is not" \
+    [dict get $::reviewdriver::job(collectTest) lines] \
+    [dict create 1 {18 25 cp {d2d4 c7c5}}]
+unset ::reviewdriver::job(collectTest)
 
 puts "what the engine's lines say about each move"
 
@@ -625,7 +703,7 @@ checkEq "nothing is written before the engine has answered" [writesSoFar] {}
 
 feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
 checkEq "the first position searched is the start of the line" \
-    [lindex $::sent end] {send 20 Go {{position startpos moves} {depth 18}}}
+    [lindex $::sent end] {send 20 Go {{position startpos moves} {{depth 18}}}}
 
 feedEvent InfoPV {1 20 22 900 300 0 0 120 30 cp 0 e2e4 e7e5}
 feedEvent InfoPV {2 20 22 900 300 0 0 120 20 cp 0 d2d4 d7d5}
@@ -740,7 +818,7 @@ checkEq "and only the two positions that judge it" \
     [dict get [::reviewdriver::status] total] 2
 feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
 checkEq "the first Go is the position before the move" [lindex $::sent end] \
-    {send 20 Go {{position startpos moves e2e4 e7e5} {depth 18}}}
+    {send 20 Go {{position startpos moves e2e4 e7e5} {{depth 18}}}}
 feedEvent InfoPV {1 20 22 900 300 0 0 120 50 cp 0 d2d4}
 feedEvent InfoBestMove {}
 feedEvent InfoPV {1 20 22 900 300 0 0 120 20 cp 0 b8c6}
@@ -765,7 +843,7 @@ set ::sent {}
 checkEq "a caller's depth starts" [::reviewdriver::run $runcfg -depth 8 -plies {1}] ""
 feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
 checkEq "and the Go carries it, not the setting's 18" [lindex $::sent end] \
-    {send 20 Go {{position startpos moves} {depth 8}}}
+    {send 20 Go {{position startpos moves} {{depth 8}}}}
 ::reviewdriver::cancel
 pump
 set ::sent {}
@@ -775,6 +853,35 @@ checkEq "nothing was opened for it" $::sent {}
 checkEq "a depth must be a whole number" \
     [::reviewdriver::run $runcfg -depth deep] {-depth must be a whole number}
 checkEq "and neither was that" $::sent {}
+
+# The cap is read from ::review::effective, exactly as the depth is, so a run
+# cannot pick a different cap from the one Review Settings shows. The Go carries
+# both when both are set: the engine stops at whichever comes first.
+puts "a capped run"
+set ::engines(list) [list \
+    [list Stockfish /usr/bin/stockfish {} {} 0 0 {} 1 {} [dict create movetime 900]]]
+::review::reset
+::review::setValue movetime 1500
+set ::events {}
+set ::sent {}
+checkEq "a capped run starts" [::reviewdriver::run $runcfg -plies {1}] ""
+feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
+checkEq "and its Go carries the review's cap, not the preset's" [lindex $::sent end] \
+    {send 20 Go {{position startpos moves} {{depth 18} {movetime 1500}}}}
+::reviewdriver::cancel
+pump
+# With no cap of its own the pass runs on the preset's.
+::review::setValue movetime 0
+set ::events {}
+set ::sent {}
+checkEq "an uncapped run starts" [::reviewdriver::run $runcfg -plies {1}] ""
+feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
+checkEq "and its Go carries the preset's cap" [lindex $::sent end] \
+    {send 20 Go {{position startpos moves} {{depth 18} {movetime 900}}}}
+::reviewdriver::cancel
+pump
+set ::engines(list) {}
+::review::reset
 
 puts "a second review replaces the first"
 
@@ -1004,6 +1111,92 @@ checkEq "and so is its mark" [nagsAt 4] "??"
 checkEq "and the diagram before it" [nagsAt 3] "D"
 ::review::reset
 
+puts "a verdict outranks a bound in the same slot"
+
+# A capped search stops mid-line: the engine reports a slot as a bound, then
+# finishes the exact score. Keeping the deepest line per slot and nothing else
+# dropped the exact one - at the same depth it was "not deeper" - and a deeper
+# bound overwrote an exact line already in hand. ::reviewdriver::lineScore refuses
+# a bound, so either way the ply was written with no verdict at all.
+proc fakeBoard {} {
+    set ::fakeMainLine [list {position startpos moves} e2e4 e7e5 g1f3 b8c6]
+    set ::fakeLen 4
+    set ::fakeLoc 2
+    set ::fakeLevel 0
+    set ::fakeNums {}
+    set ::fakeExit {}
+    set ::fakeVars {}
+    set ::fakeComments {}
+    set ::fakeNags {}
+    set ::events {}
+    set ::runProgress {}
+}
+
+::review::reset
+fakeBoard
+checkEq "the pass starts on a position answered by a bound first" \
+    [::reviewdriver::run $runcfg] ""
+feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 30 lowerbound 0 e2e4}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 10 cp 0 e2e4 d7d5}
+feedEvent InfoPV {2 20 22 900 300 0 0 120 5 cp 0 d2d4}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 8 cp 0 e7e5 g1f3}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 6 cp 0 g1f3 b8c6}
+feedEvent InfoPV {2 20 22 900 300 0 0 120 4 cp 0 d2d4}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 4 cp 0 b8c6 g1f3}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 3 cp 0 g1f3}
+feedEvent InfoBestMove {}
+pump
+checkEq "the exact line at the same depth took the slot" \
+    [dict get [::reviewdriver::status] written] 4
+
+# The other order: the slot already holds a verdict and a deeper bound arrives
+# after it. Depth alone would have replaced it.
+::review::reset
+fakeBoard
+checkEq "a pass where the bound comes last starts" \
+    [::reviewdriver::run $runcfg] ""
+feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
+feedEvent InfoPV {1 18 22 900 300 0 0 120 10 cp 0 e2e4 d7d5}
+feedEvent InfoPV {1 22 22 900 300 0 0 120 30 lowerbound 0 e2e4}
+feedEvent InfoPV {2 20 22 900 300 0 0 120 5 cp 0 d2d4}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 8 cp 0 e7e5 g1f3}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 6 cp 0 g1f3 b8c6}
+feedEvent InfoPV {2 20 22 900 300 0 0 120 4 cp 0 d2d4}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 4 cp 0 b8c6 g1f3}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 3 cp 0 g1f3}
+feedEvent InfoBestMove {}
+pump
+checkEq "a deeper bound does not overwrite a verdict" \
+    [dict get [::reviewdriver::status] written] 4
+::review::reset
+
+# Some engines omit `depth`, and ::uci::parseline leaves the slot empty when they
+# do. The collector dropped every such line, so a capped pass recorded the ply as
+# unjudged and wrote nothing for the move even though the engine had scored it.
+puts "a pass whose engine reports no depth still judges the move"
+
+::review::reset
+fakeBoard
+checkEq "the depth-less pass starts" [::reviewdriver::run $runcfg -plies {1}] ""
+feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
+feedEvent InfoPV {1 {} 22 900 300 0 0 120 30 cp 0 {e2e4 e7e5}}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 12 cp 0 {e7e5 g1f3}}
+feedEvent InfoBestMove {}
+pump
+checkEq "the move is judged from the line with no depth" \
+    [dict get [::reviewdriver::status] written] 1
+::review::reset
+
 puts "a first-move blunder has no diagram to place"
 
 # The diagram goes on the move before the error; the first move has no such
@@ -1200,7 +1393,7 @@ set ::runProgress {}
 checkEq "a pass with a book end starts" [::reviewdriver::run $runcfg -bookEnd 2] ""
 feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
 checkEq "the early book positions are not searched" \
-    [lindex $::sent end] {send 20 Go {{position startpos moves e2e4} {depth 18}}}
+    [lindex $::sent end] {send 20 Go {{position startpos moves e2e4} {{depth 18}}}}
 feedEvent InfoPV {1 20 22 900 300 0 0 120 30 cp 0 e2e4 e7e5}
 feedEvent InfoBestMove {}
 feedEvent InfoPV {1 20 22 900 300 0 0 120 20 cp 0 d2d4 d7d5}

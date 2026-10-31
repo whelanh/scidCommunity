@@ -40,7 +40,7 @@ proc ::reviewdriver::reservedId {id} {
     return [expr {[string equal $id $::reviewdriver::ENGINE_ID]}]
 }
 
-proc ::reviewdriver::start {enginecfg positions mpv depth onprogress ondone} {
+proc ::reviewdriver::start {enginecfg positions mpv lim onprogress ondone} {
     variable job
     variable seq
     set id $::reviewdriver::ENGINE_ID
@@ -51,7 +51,7 @@ proc ::reviewdriver::start {enginecfg positions mpv depth onprogress ondone} {
     set token "pass$seq"
     set job($token) [dict create \
         id $id enginecfg $enginecfg positions $positions index -1 \
-        mpv $mpv depth $depth results {} lines {} configured 0 \
+        mpv $mpv limits $lim results {} lines {} configured 0 \
         stopped 0 onprogress $onprogress ondone $ondone]
     set exe [lindex $enginecfg 1]
     set args [lindex $enginecfg 2]
@@ -181,7 +181,35 @@ proc ::reviewdriver::configure {token} {
     ::engine::send $id SetOptions $opts
 }
 
-# Keep the deepest line seen for each MultiPV slot of the current position.
+# Whether a line's score is something ::reviewdriver::lineScore would use.
+# `cp` and `mate` are measurements; `lowerbound`/`upperbound` are how far a search
+# had got when it stopped, which is not a verdict - so a bound must never take a
+# MultiPV slot from a line that can be judged, however deep it got.
+proc ::reviewdriver::exactScore {score_type} {
+    return [expr {$score_type eq "cp" || $score_type eq "mate"}]
+}
+
+# Keep the best line seen for each MultiPV slot of the current position: a
+# verdict first, then the deepest one, and the later line when two are equally
+# good.
+#
+# The order matters only since a pass can be cut off by time. A capped search
+# reports a slot as a bound at the depth it had reached, then finishes the line;
+# ranking by depth alone let the bound hold the slot - the exact line at the same
+# depth was "not deeper" and was dropped, and a deeper bound overwrote an exact
+# line already in hand. Either way ::reviewdriver::lineScore refuses what was
+# kept and the ply gets no verdict at all.
+#
+# Two lines at the same depth and the same kind are the engine repeating itself,
+# or finishing an iteration: the later one is the fresher reading of the same
+# search, so it takes the slot rather than leaving a stale line in hand.
+#
+# A line with no depth at all is still a line: an engine may omit `depth`, and
+# ::uci::parseline leaves the slot empty when it does. Dropping those recorded
+# every such ply as unjudged. With no depth the line ranks below any measured
+# one - zero against the -1 "nothing yet" sentinel - so it fills an empty slot
+# and loses to a real depth, which is what the collector did before this ranking
+# was written.
 proc ::reviewdriver::collect {token msgData} {
     variable job
     lassign $msgData multipv depth seldepth nodes nps hashfull tbhits time \
@@ -189,8 +217,21 @@ proc ::reviewdriver::collect {token msgData} {
     if {$multipv eq "" || $score eq ""} {
         return
     }
+    if {![string is integer -strict $depth]} {
+        set depth 0
+    }
     set lines [dict get $job($token) lines]
-    if {[dict exists $lines $multipv] && [lindex [dict get $lines $multipv] 0] >= $depth} {
+    set oldDepth -1
+    set oldExact 0
+    if {[dict exists $lines $multipv]} {
+        lassign [dict get $lines $multipv] oldDepth oldScore oldType oldPv
+        set oldExact [::reviewdriver::exactScore $oldType]
+    }
+    set exact [::reviewdriver::exactScore $score_type]
+    if {$exact < $oldExact} {
+        return
+    }
+    if {$exact == $oldExact && $depth < $oldDepth} {
         return
     }
     dict set lines $multipv [list $depth $score $score_type $pv]
@@ -231,7 +272,10 @@ proc ::reviewdriver::next {token} {
     dict set job($token) lines {}
     lassign [lindex $positions $index] ply spec
     set id [dict get $j id]
-    ::engine::send $id Go [list $spec [list depth [dict get $j depth]]]
+    # Both bounds in one Go, built by ::enginelimits::goLimits from the dict
+    # ::review::passLimits decided: a depth floor and (when one is set) a time
+    # ceiling. The engine stops at whichever comes first.
+    ::engine::send $id Go [list $spec [::enginelimits::goLimits [dict get $j limits]]]
 }
 
 proc ::reviewdriver::finish {token} {
@@ -534,6 +578,10 @@ proc ::reviewdriver::status {} {
 #                   the review's own floor over the preset's)
 #   -progress cmd   called as {*}$cmd <done> <total> as positions finish
 #   -notify 0|1     refresh the board when the write phase ends (default 0)
+#
+# There is no -movetime: the time cap is ::review::movetime or the preset's
+# Limits.movetime (::review::passLimits), so the pass and the settings dialog
+# cannot disagree about it.
 proc ::reviewdriver::run {engine args} {
     variable pass
     variable state
@@ -587,14 +635,16 @@ proc ::reviewdriver::run {engine args} {
         return "engine 20 is already running a pass"
     }
     # What the pass may spend is ::review::effective's answer, not a second set of
-    # defaults here: the preset wins Threads/Hash, MultiPV is at least two, and the
-    # depth is the review's own floor.
+    # defaults here: the preset wins Threads/Hash, MultiPV is at least two, and
+    # ::review::passLimits owns the depth floor and the time ceiling.
     set eff [::review::effective $engine]
     set mpv [dict get $eff mpv]
-    set depth [dict get $eff depth]
+    set lim [dict create depth [dict get $eff depth] movetime [dict get $eff movetime]]
     # A caller that knows the depth (Move Comment: the window's analysis, or the
     # review's own when the setting says to wait for it) is the depth searched.
-    if {$want ne ""} { set depth $want }
+    # The time cap is not the caller's: it bounds the pass, and a caller lowering
+    # the depth is asking for a shallower search anyway.
+    if {$want ne ""} { dict set lim depth $want }
     # MultiPV is asked for on the pass's own connection and an engine that does
     # not offer it ignores the option, so a preset that never overrode it is not
     # evidence of anything: ::enginecfg::save drops options sitting at their
@@ -635,7 +685,7 @@ proc ::reviewdriver::run {engine args} {
         [dict create total [llength $positions]]]
     set token ""
     if {[catch {
-        set token [::reviewdriver::start $engine $positions $mpv $depth \
+        set token [::reviewdriver::start $engine $positions $mpv $lim \
             ::reviewdriver::runProgress ::reviewdriver::runDone]
     } err]} {
         # id 20 is already running a pass, or the engine could not be opened. A

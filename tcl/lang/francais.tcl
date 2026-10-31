@@ -855,6 +855,7 @@ translate F ReviewSettings {Réglages de l'analyse}
 translate F ReviewVarLines {Variantes à écrire}
 translate F ReviewVarCp {Écart des variantes (cp)}
 translate F ReviewMoveWait {Attendre la profondeur d'analyse}
+translate F ReviewMovetime {Plafond de temps (ms)}
 translate F ReviewFromPreset {%s (profil du moteur)}
 translate F ReviewProgress {Analyse de la position %s sur %s}
 translate F ReviewWaitForDepth {En attente de la profondeur %s}
@@ -1996,6 +1997,7 @@ translate F BatchCancel {Annuler}
 translate F BatchCompleted {complété}
 translate F BatchGames {jeux}
 translate F BatchProcessed {traité}
+translate F BatchUnscoredPlies {demi-coups sans verdict: %s}
 translate F TablebaseWindow {Fenêtre de la base de table}
 translate F TBWinMoves {--- Mouvements gagnants ---}
 translate F TBDrawMoves {--- Mouvements de dessin ---}

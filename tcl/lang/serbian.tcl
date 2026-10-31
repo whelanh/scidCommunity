@@ -1329,6 +1329,7 @@ translate Y ReviewSettings {Podešavanja pregleda}
 translate Y ReviewVarLines {Varijante za upis}
 translate Y ReviewVarCp {Granica varijanti (cp)}
 translate Y ReviewMoveWait {Čekaj dubinu pregleda}
+translate Y ReviewMovetime {Vremensko ograničenje (ms)}
 translate Y ReviewFromPreset {%s (iz profila motora)}
 translate Y ReviewProgress {Pregled pozicije %s od %s}
 translate Y ReviewWaitForDepth {Čekanje na dubinu %s}
@@ -3329,6 +3330,7 @@ translate Y BatchCompleted {completed}
 translate Y BatchGames {games}
 # ====== TODO To be translated ======
 translate Y BatchProcessed {processed}
+translate Y BatchUnscoredPlies {polupotezi bez ocene: %s}
 # ====== TODO To be translated ======
 translate Y TablebaseWindow {Tablebase Window}
 # ====== TODO To be translated ======

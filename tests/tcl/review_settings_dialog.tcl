@@ -39,8 +39,14 @@ proc options.write {} { return 1 }
 proc openURL {url} {}
 proc tk_messageBox {args} { return ok }
 proc tr {tag args} {
+    # The format strings the labels are built from, as english.tcl carries them.
+    if {[info exists ::TR($tag)]} { return $::TR($tag) }
     if {[llength $args]} { return [lindex $args 0] }
     return $tag
+}
+array set ::TR {
+    ReviewFromPreset {%s (from engine preset)}
+    ReviewMovetime    {Time cap (ms)}
 }
 proc ::button_image {args} { return "" }
 # The real helper is in tcl/start.tcl: paint a classic widget with the theme's
@@ -60,7 +66,11 @@ proc ::pgn::Refresh {args} {}
 namespace eval ::win {}
 proc ::win::add {args} {}
 namespace eval ::enginecfg {}
-proc ::enginecfg::get {name} { return {} }
+# What the window's preset lookup answers. "" is a window with no engine open yet;
+# a ten-element entry is a preset that carries Limits, which is what the time
+# cap's note reads.
+set ::engineCfgAnswer {}
+proc ::enginecfg::get {name} { return $::engineCfgAnswer }
 set ::language E
 set ::translatePieces 0
 
@@ -76,6 +86,7 @@ set ::initialdir $root
 
 source [file join $root tcl tools score_seed.tcl]
 source [file join $root tcl tools move_labels.tcl]
+source [file join $root tcl tools engine_limits.tcl]
 source [file join $root tcl tools game_review.tcl]
 source [file join $root tcl tools review_ui.tcl]
 source [file join $root tcl windows engine.tcl]
@@ -97,7 +108,7 @@ checkEq "and it is the window the button names" $w .engineWin1.reviewSettings
 # the buttons were not, because the body stopped compiling mid-proc.
 check "the OK button exists" [winfo exists $w.b.ok]
 check "the Cancel button exists" [winfo exists $w.b.cancel]
-foreach key {mpv depth var_lines var_cp move_comment_wait diagram} {
+foreach key {mpv depth movetime var_lines var_cp move_comment_wait diagram} {
     check "the $key row is there" [winfo exists $w.f.v$key]
 }
 checkEq "it opens on the stored values" \
@@ -142,6 +153,38 @@ destroy $w3
 checkEq "and closing removes it again" \
     [llength [trace info variable ::enginewin::reviewsetting(1,mpv)]] 0
 catch { unset ::enginewin::reviewtraceptr(1) }
+
+# The time cap: one setting, two surfaces. Its row sits beside Depth, and a review
+# value of 0 means "no cap of my own" - the pass then runs on the preset's
+# Limits.movetime, so the row shows that cap rather than a bare 0 that would read
+# as "no limit at all".
+puts "\nthe time cap row"
+set ::engineCfgAnswer {Stockfish /usr/bin/stockfish {} {} 0 0 {} 1 {} {movetime 900}}
+set w5 [::enginewin::reviewSettings 1]
+check "the movetime row is there" [winfo exists $w5.f.vmovetime]
+checkEq "with its own label" [$w5.f.lmovetime cget -text] {Time cap (ms):}
+checkEq "the box opens on the stored cap" $::enginewin::reviewsetting(1,movetime) 0
+checkEq "and the row says where an unset cap comes from" \
+    $::enginewin::reviewsettingnote(1) {900 ms (from engine preset)}
+set ::enginewin::reviewsetting(1,movetime) 2000
+checkEq "typing a cap of its own clears the note" \
+    $::enginewin::reviewsettingnote(1) ""
+set ::enginewin::reviewsetting(1,movetime) 0
+checkEq "going back to 0 brings the preset's cap back" \
+    $::enginewin::reviewsettingnote(1) {900 ms (from engine preset)}
+set ::enginewin::reviewsetting(1,movetime) 2000
+$w5.b.ok invoke
+checkEq "OK stores the cap" $::reviewopt(movetime) 2000
+checkEq "the dialog is gone" [winfo exists $w5] 0
+checkEq "and the note's trace went with it" \
+    [llength [trace info variable ::enginewin::reviewsetting(1,movetime)]] 0
+# The mpv row above bound <Destroy> on this same toplevel, and Tk's bind replaces a
+# binding unless the script starts with "+": replacing it left this trace behind
+# on every close, one more per reopen. Closing the dialog must leave neither.
+checkEq "and the mpv trace the other row installed" \
+    [llength [trace info variable ::enginewin::reviewsetting(1,mpv)]] 0
+::review::setValue movetime 0
+set ::engineCfgAnswer {}
 
 # A toplevel is a classic Tk widget and keeps Tk's grey; the ttk rows inside
 # follow the theme, so the strip beside OK/Cancel is the only place the old

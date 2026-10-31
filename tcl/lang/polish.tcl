@@ -882,6 +882,7 @@ translate P ReviewSettings {Ustawienia przeglądu}
 translate P ReviewVarLines {Warianty do zapisania}
 translate P ReviewVarCp {Margines wariantów (cp)}
 translate P ReviewMoveWait {Czekaj na głębokość przeglądu}
+translate P ReviewMovetime {Limit czasu (ms)}
 translate P ReviewFromPreset {%s (z profilu silnika)}
 translate P ReviewProgress {Przeglądanie pozycji %s z %s}
 translate P ReviewWaitForDepth {Oczekiwanie na głębokość %s}
@@ -2022,6 +2023,7 @@ translate P BatchCancel {Anuluj}
 translate P BatchCompleted {zakończono}
 translate P BatchGames {partii}
 translate P BatchProcessed {przetworzono}
+translate P BatchUnscoredPlies {posunięcia bez oceny: %s}
 translate P TablebaseWindow {Okno tablic końcówek}
 translate P TBWinMoves {--- Posunięcia wygrywające ---}
 translate P TBDrawMoves {--- Posunięcia remisujące ---}

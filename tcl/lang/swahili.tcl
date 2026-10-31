@@ -842,6 +842,7 @@ translate Z ReviewSettings {Mipangilio ya mapitio}
 translate Z ReviewVarLines {Mibadala ya kuandika}
 translate Z ReviewVarCp {Tofauti ya mibadala (cp)}
 translate Z ReviewMoveWait {Subiri kina cha mapitio}
+translate Z ReviewMovetime {Kikomo cha muda (ms)}
 translate Z ReviewFromPreset {%s (kutoka wasifu wa injini)}
 translate Z ReviewProgress {Inapitia nafasi %s kati ya %s}
 translate Z ReviewWaitForDepth {Inasubiri kina %s}
@@ -1968,6 +1969,7 @@ translate Z BatchCancel {Ghairi}
 translate Z BatchCompleted {imekamilika}
 translate Z BatchGames {michezo}
 translate Z BatchProcessed {imechakatwa}
+translate Z BatchUnscoredPlies {nusu-hatua bila uamuzi: %s}
 translate Z TablebaseWindow {Dirisha la Meza}
 translate Z TBWinMoves {--- Hatua za Ushindi ---}
 translate Z TBDrawMoves {--- Hatua za Kuchora ---}

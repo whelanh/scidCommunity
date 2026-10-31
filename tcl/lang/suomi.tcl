@@ -881,6 +881,7 @@ translate U ReviewSettings {Tarkastuksen asetukset}
 translate U ReviewVarLines {Kirjoitettavat muunnelmat}
 translate U ReviewVarCp {Muunnelman raja (cp)}
 translate U ReviewMoveWait {Odota tarkastuksen syvyyttä}
+translate U ReviewMovetime {Aikaraja (ms)}
 translate U ReviewFromPreset {%s (moottorin asetuksista)}
 translate U ReviewProgress {Tarkastetaan asemaa %s / %s}
 translate U ReviewWaitForDepth {Odotetaan syvyyttä %s}
@@ -2021,6 +2022,7 @@ translate U BatchCancel {Peruuta}
 translate U BatchCompleted {valmiiksi}
 translate U BatchGames {pelejä}
 translate U BatchProcessed {käsitelty}
+translate U BatchUnscoredPlies {puolisiirrot ilman arviota: %s}
 translate U TablebaseWindow {Taulukkopohja-ikkuna}
 translate U TBWinMoves {--- Voittoliikkeet ---}
 translate U TBDrawMoves {--- Piirustusliikkeet ---}

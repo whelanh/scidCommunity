@@ -842,6 +842,7 @@ translate h ReviewSettings {समीक्षा सेटिंग्स}
 translate h ReviewVarLines {लिखने के लिए वेरिएशन}
 translate h ReviewVarCp {वेरिएशन अंतर (cp)}
 translate h ReviewMoveWait {समीक्षा गहराई की प्रतीक्षा करें}
+translate h ReviewMovetime {समय सीमा (ms)}
 translate h ReviewFromPreset {%s (इंजन प्रीसेट से)}
 translate h ReviewProgress {स्थिति %s / %s की समीक्षा हो रही है}
 translate h ReviewWaitForDepth {गहराई %s की प्रतीक्षा}
@@ -1968,6 +1969,7 @@ translate h BatchCancel {रद्द करना}
 translate h BatchCompleted {पुरा होना}
 translate h BatchGames {खेल}
 translate h BatchProcessed {प्रसंस्कृत}
+translate h BatchUnscoredPlies {बिना निर्णय वाले अर्धचाल: %s}
 translate h TablebaseWindow {टेबलबेस विंडो}
 translate h TBWinMoves {---जीतने की चालें ---}
 translate h TBDrawMoves {--- ड्राइंग चालें ---}

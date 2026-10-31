@@ -62,6 +62,65 @@ checkEq "var_lines 1 is refused while mpv is 1" \
     [::review::setValue var_lines 1] {var_lines needs mpv of at least 2}
 checkEq "and problems agrees with the setter" [::review::problems] {}
 
+# movetime is the pass's own ceiling on one position, in milliseconds. 0 means
+# the review has no cap of its own - the preset's Limits.movetime, or no bound at
+# all, decides (::review::passLimits) - so it is a value the setter takes rather
+# than a blank field.
+checkEq "the review sets no time cap of its own by default" [::review::get movetime] 0
+checkEq "a cap can be set" [::review::setValue movetime 1500] ""
+checkEq "and is remembered" [::review::get movetime] 1500
+checkEq "a negative cap is refused" [::review::setValue movetime -1] {movetime must be 0..3600000}
+checkEq "a cap beyond the preset layer's ceiling is refused" \
+    [::review::setValue movetime 3600001] {movetime must be 0..3600000}
+checkEq "and the old value is kept" [::review::get movetime] 1500
+checkEq "a non-number is refused" [::review::setValue movetime soon] {movetime must be a whole number}
+checkEq "0 is the way back to no cap" [::review::setValue movetime 0] ""
+# A hand-edited options file must not decide that a pass never gets a search.
+set ::reviewopt(movetime) -5
+set ::review::S [dict create]
+checkEq "a negative value in the options file reads as no cap" [::review::get movetime] 0
+unset ::reviewopt(movetime)
+::review::reset
+checkEq "and the default is back with the working copy" [::review::get movetime] 0
+
+puts "the limits a pass searches under"
+
+# Depth is a floor and time is a ceiling. The preset may only deepen a pass, and
+# a time cap only ever shortens one. The cap has one owner at a time: the
+# review's own value when it has one, otherwise the preset's, otherwise none -
+# never the smaller of the two, which would search shallower than either setting
+# asked for. ::review::passLimits is that table, so every caller (Game Review,
+# Move Comment, the batch, annotate) reads the same answer.
+::review::reset
+set noPreset [dict create depth {} movetime {}]
+set presetOnly [dict create depth 30 movetime 900]
+set shallowPreset [dict create depth 12 movetime {}]
+
+checkEq "neither side caps: the review's depth alone" \
+    [::review::passLimits [::review::all] $noPreset] {depth 18 movetime {}}
+checkEq "the preset's cap applies when the review sets none" \
+    [::review::passLimits [::review::all] $presetOnly] {depth 30 movetime 900}
+checkEq "the preset's depth is still a floor under that cap" \
+    [dict get [::review::passLimits [::review::all] $presetOnly] depth] 30
+
+::review::setValue movetime 2000
+checkEq "the review's own cap wins over the preset's" \
+    [::review::passLimits [::review::all] $presetOnly] {depth 30 movetime 2000}
+checkEq "and is not the lesser of the two" \
+    [dict get [::review::passLimits [::review::all] $presetOnly] movetime] 2000
+checkEq "the review's cap with no preset cap" \
+    [::review::passLimits [::review::all] $noPreset] {depth 18 movetime 2000}
+checkEq "a shallower preset lowers neither the depth nor the cap" \
+    [::review::passLimits [::review::all] $shallowPreset] {depth 18 movetime 2000}
+checkEq "an empty preset leaves both as the review has them" \
+    [::review::passLimits [::review::all] {}] {depth 18 movetime 2000}
+::review::setValue movetime 0
+checkEq "clearing the cap falls back to the preset's" \
+    [::review::passLimits [::review::all] $presetOnly] {depth 30 movetime 900}
+checkEq "and to none when the preset has none" \
+    [::review::passLimits [::review::all] $noPreset] {depth 18 movetime {}}
+::review::reset
+
 puts "where the pass starts"
 
 ::review::reset
@@ -224,6 +283,16 @@ checkEq "an empty target is the setting" [::review::moveCommentPlan 12 ""] 18
 ::review::setValue move_comment_wait 0
 checkEq "immediate mode writes whatever the engine has" [::review::moveCommentPlan 4] now
 checkEq "and writes even with nothing to report" [::review::moveCommentPlan ""] now
+# A time cap bounds the pass, not the wait. The wait is the review's depth: a
+# capped pass may stop shallower than ::review::depth, and Move Comment then
+# writes that shallower verdict rather than waiting for a depth the cap will
+# never reach.
+::review::reset
+::review::setValue movetime 1000
+checkEq "a time cap does not lower the depth the wait asks for" \
+    [::review::moveCommentPlan 12] 18
+checkEq "and a deep enough analysis still writes" [::review::moveCommentPlan 18] now
+::review::reset
 
 puts "the comment a move carries"
 

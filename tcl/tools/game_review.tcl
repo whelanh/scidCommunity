@@ -25,6 +25,7 @@ namespace eval ::review {
     variable DEFAULTS {
         mpv 3
         depth 18
+        movetime 0
         var_lines 1
         var_cp 0
         move_comment_wait 1
@@ -37,6 +38,13 @@ namespace eval ::review {
     variable MAX_MPV 5
     variable MIN_DEPTH 6
     variable MAX_DEPTH 60
+    # A pass's time ceiling is milliseconds per position, and 0 is the review
+    # saying "no ceiling of my own" - ::review::passLimits then takes the
+    # preset's. The upper bound is ::enginelimits' own ceiling for a preset's
+    # movetime, so a value the engine-layer spinbox could store is a value this
+    # one can, and neither layer can hand the pass a number the other refuses.
+    variable MIN_MOVETIME 0
+    variable MAX_MOVETIME 3600000
     # The pass is a second engine process, so every resource it is given is
     # allocated again beside the window's own engine. A preset sized for a long
     # interactive search - Threads 64 and Hash 110000 MB on a 128 GB machine -
@@ -74,6 +82,8 @@ proc ::review::saved {} {
     variable MAX_MPV
     variable MIN_DEPTH
     variable MAX_DEPTH
+    variable MIN_MOVETIME
+    variable MAX_MOVETIME
     set S $DEFAULTS
     foreach key [dict keys $DEFAULTS] {
         if {[info exists ::reviewopt($key)] &&
@@ -85,6 +95,8 @@ proc ::review::saved {} {
     if {[dict get $S mpv] > $MAX_MPV} { dict set S mpv $MAX_MPV }
     if {[dict get $S depth] < $MIN_DEPTH} { dict set S depth $MIN_DEPTH }
     if {[dict get $S depth] > $MAX_DEPTH} { dict set S depth $MAX_DEPTH }
+    if {[dict get $S movetime] < $MIN_MOVETIME} { dict set S movetime $MIN_MOVETIME }
+    if {[dict get $S movetime] > $MAX_MOVETIME} { dict set S movetime $MAX_MOVETIME }
     if {[dict get $S var_lines] < 0} { dict set S var_lines 0 }
     if {[dict get $S mpv] < 2} {
         dict set S var_lines 0
@@ -128,6 +140,8 @@ proc ::review::setValue {key value} {
     variable MAX_MPV
     variable MIN_DEPTH
     variable MAX_DEPTH
+    variable MIN_MOVETIME
+    variable MAX_MOVETIME
     if {![dict size $S]} { reset }
     if {![dict exists $S $key]} { return "unknown setting: $key" }
     if {![string is integer -strict $value]} { return "$key must be a whole number" }
@@ -140,6 +154,11 @@ proc ::review::setValue {key value} {
         depth {
             if {$value < $MIN_DEPTH || $value > $MAX_DEPTH} {
                 return "depth must be $MIN_DEPTH..$MAX_DEPTH"
+            }
+        }
+        movetime {
+            if {$value < $MIN_MOVETIME || $value > $MAX_MOVETIME} {
+                return "movetime must be $MIN_MOVETIME..$MAX_MOVETIME"
             }
         }
         var_lines {
@@ -202,6 +221,42 @@ proc ::review::engineDefaults {enginecfg} {
     return $out
 }
 
+# The limits one position of a pass is searched under, from the review's own
+# settings and from the engine preset's Limits.
+#
+# Depth and time point in opposite directions on purpose. The preset may only
+# DEEPEN a pass: a preset set up to browse at depth 12 must not shallow out a
+# verdict, so the deeper of the two wins. The time cap is a CEILING with one
+# owner: the review's value when it has one, otherwise the preset's, otherwise
+# none - never the smaller of the two, which would search shallower than either
+# setting asked for.
+#
+# `review` and `preset` are dicts carrying `depth` and `movetime`; "" is "not
+# set", and a review movetime of 0 says the same. Answers {depth N movetime M},
+# which is the shape ::enginelimits::goLimits turns into a Go message, so the
+# precedence is decided once instead of in each caller.
+proc ::review::passLimits {review preset} {
+    set depth [dict get $review depth]
+    if {[dict exists $preset depth]} {
+        set presetDepth [dict get $preset depth]
+        if {[string is integer -strict $presetDepth] && $presetDepth > $depth} {
+            set depth $presetDepth
+        }
+    }
+    set movetime 0
+    if {[dict exists $review movetime]} { set movetime [dict get $review movetime] }
+    if {![string is integer -strict $movetime] || $movetime <= 0} {
+        set movetime ""
+        if {[dict exists $preset movetime]} {
+            set presetTime [dict get $preset movetime]
+            if {[string is integer -strict $presetTime] && $presetTime > 0} {
+                set movetime $presetTime
+            }
+        }
+    }
+    return [dict create depth $depth movetime $movetime]
+}
+
 # The settings a pass actually runs with. Threads and Hash are the engine's: the
 # preset wins whenever it advertises them, and a second place to set them is a
 # second place to get them wrong - the window's controls already write the preset.
@@ -229,19 +284,18 @@ proc ::review::effective {enginecfg} {
     if {$mpv < 2} {
         set mpv 2
     }
-    # The preset's own search limits apply here too, but the review's depth is a
-    # floor rather than a default: a preset set up to browse at depth 12 must not
-    # shallow out a verdict. A preset that has no Limits element falls back to
-    # the review's values, which is what an engines.dat from an older version is.
-    set depth [get depth]
+    # The preset's own search limits apply here too, and ::review::passLimits is
+    # the whole precedence: the depth is a floor, the time cap a ceiling with one
+    # owner. A preset that has no Limits element falls back to the review's
+    # values, which is what an engines.dat from an older version is.
+    set preset [dict create depth {} movetime {}]
     if {[llength $enginecfg] >= 1 && [info exists ::engines(list)] &&
         [info commands ::enginelimits::forName] ne ""} {
         set preset [::enginelimits::forName [lindex $enginecfg 0]]
-        if {[dict get $preset depth] ne "" && [dict get $preset depth] > $depth} {
-            set depth [dict get $preset depth]
-        }
     }
-    return [dict create threads $threads hash $hash mpv $mpv depth $depth]
+    set lim [::review::passLimits [all] $preset]
+    return [dict create threads $threads hash $hash mpv $mpv \
+        depth [dict get $lim depth] movetime [dict get $lim movetime]]
 }
 
 # Cross-field problems, for a dialog that wants to show them all at once.

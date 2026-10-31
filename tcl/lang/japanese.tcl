@@ -883,6 +883,7 @@ translate A ReviewSettings {検討の設定}
 translate A ReviewVarLines {書き込む変化}
 translate A ReviewVarCp {変化のしきい値 (cp)}
 translate A ReviewMoveWait {検討の深さを待つ}
+translate A ReviewMovetime {時間制限 (ms)}
 translate A ReviewFromPreset {%s（エンジンのプリセット）}
 translate A ReviewProgress {局面 %s / %s を検討中}
 translate A ReviewWaitForDepth {深さ %s を待機中}
@@ -2009,6 +2010,7 @@ translate A BatchCancel {キャンセル}
 translate A BatchCompleted {完了しました}
 translate A BatchGames {ゲーム}
 translate A BatchProcessed {処理された}
+translate A BatchUnscoredPlies {判定なしの半手: %s}
 translate A TablebaseWindow {テーブルベースウィンドウ}
 translate A TBWinMoves {--- 必勝技 ---}
 translate A TBDrawMoves {--- 描画動作 ---}

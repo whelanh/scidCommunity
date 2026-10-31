@@ -81,6 +81,28 @@ Depth and MultiPV are **not** settings of the review dialog: they come from
 higher `MultiPV`, and the review's own depth is a floor a shallower preset cannot
 lower.
 
+**The time cap** is the other way round. `::review::movetime` (milliseconds, 0 =
+none) is a ceiling on one position's search, and `::review::passLimits` decides
+which cap a pass runs under: the review's own value when it has one, otherwise
+the preset's `Limits.movetime`, otherwise none — never the smaller of the two.
+So a preset's cap reaches every pass, and setting one in Review Settings replaces
+it rather than tightening or loosening it by arithmetic nobody can predict. Both
+numbers go to the engine in one `go depth N movetime M` built by
+`::enginelimits::goLimits`, the same helper the engine window's own search uses.
+
+**Under a time cap the depth is not a floor.** The engine stops at whichever
+comes first, so a capped pass can finish shallower than `::review::depth`, and a
+verdict then rests on a shallower search than the setting promised. That is the
+trade the cap asks for, and it is why the cap is off by default.
+
+**A bound never displaces a verdict.** A capped search can report a MultiPV slot
+as `lowerbound`/`upperbound` at the depth it had reached and only then finish the
+line. `::reviewdriver::collect` keeps one line per slot by ranking a `cp`/`mate`
+score above a bound before depth, because `::reviewdriver::lineScore` refuses a
+bound: the deepest-line rule would have let the bound hold the slot (the exact line
+at the same depth is "not deeper") or overwrite an exact line already in hand, and
+the ply would have been written with no verdict at all.
+
 The pass runs on its own engine connection (id 20), so it never restarts the
 search the user is watching in the analysis pane.
 
@@ -109,18 +131,32 @@ The current analysis depth is read from the window's depth map, the one the
 Autorun pass fills in. A position that has not been analysed yet has no entry,
 and that is "nothing yet", not "depth 0".
 
+The wait is **depth-based even when the pass is capped**: `movetime` bounds the
+pass, not what a comment has to reach. A capped comment therefore writes the
+verdict the capped search actually produced — shallower than `::review::depth` if
+the cap bit — instead of waiting for a depth the cap will never allow.
+
 ## Review Settings
 
-**Review Settings** opens six rows:
+**Review Settings** opens seven rows:
 
 | Row | Setting | Range |
 | --- | --- | --- |
 | Lines | `mpv` | 1–5 |
 | Depth | `depth` | 6–60 |
+| Time cap (ms) | `movetime` | 0–3600000 (0 = no cap of the review's own) |
 | Variations to write | `var_lines` | 0–`mpv` (default 1) |
 | Variation margin (cp) | `var_cp` | 0–500 |
 | Wait for the review depth | `move_comment_wait` | 0–1 |
 | Diagram | `diagram` | 0–1 |
+
+The time cap sits beside Depth because it bounds the same thing. A value of 0
+means the review sets no cap of its own, and the row then shows the preset's, as
+`1500 ms (from engine preset)`. The note reads the preset's own
+`Limits.movetime` — never `::review::effective`, which keeps a review cap that is
+still saved: with 200 ms saved beside a preset's 900, a box at 0 is the edit that
+clears the saved cap, so the note says 900. The note disappears the moment a value
+of its own is typed.
 
 A variation is written only where the verdict says a better move existed —
 `mistake`, `blunder` and `miss` — so the default of 1 gives a game a handful of
@@ -147,11 +183,11 @@ the edit is not lost; nothing is clamped behind the user's back. `var_lines` is
 capped by `mpv`, so its box follows `mpv` rather than offering a number the
 setter would reject.
 
-The six rows are ordinary options (`::reviewopt(mpv)` and so on, registered
+The seven rows are ordinary options (`::reviewopt(mpv)` and so on, registered
 with `options.store`), so they are written to the options file with the rest of
 the user's preferences and read back at the next start. A value in a hand-edited
 options file is clamped to the same range before it is used: the file must not be
-able to decide that a pass searches at depth 0.
+able to decide that a pass searches at depth 0, or never gets a search at all.
 
 **Threads and Hash are not in this dialog.** They are properties of the engine
 preset — the whole point of the preset work in #382 — and are set from the
@@ -187,13 +223,13 @@ main-line snapshot non-authoritative.
 
 | File | What is there |
 | --- | --- |
-| `tcl/tools/game_review.tcl` | `::review` settings, `plan`, `searchPlies`, `mainLineMap`, `playedMove`, `moveCommentPlan`, `writeMove`, `selectLines`, `scoreToNag`, `variationWanted` |
+| `tcl/tools/game_review.tcl` | `::review` settings, `passLimits`, `plan`, `searchPlies`, `mainLineMap`, `playedMove`, `moveCommentPlan`, `writeMove`, `selectLines`, `scoreToNag`, `variationWanted` |
 | `tcl/tools/review_driver.tcl` | `::reviewdriver` — the engine pass on connection 20, `run` (plan → verdicts → write), `status`, `cancel` |
-| `tcl/tools/review_ui.tcl` | `::reviewui` — button state, the call a press makes, dialog values, the status line |
+| `tcl/tools/review_ui.tcl` | `::reviewui` — button state, the call a press makes, dialog values, the time cap's note, the status line |
 | `tcl/windows/engine.tcl` | the two buttons, the status line, the settings dialog (guarded glue) |
-| `tests/tcl/review_settings_dialog.tcl` | 22 checks under Tk: the dialog builds, has OK/Cancel, stores what is typed, refuses a bad value, the variation box follows `mpv`, and the trace that does it is removed when the dialog closes |
-| `tests/tcl/review_ui.tcl` | 188 checks: the call a press makes, the status line, the button states, the dialog round trip, the move-comment depth, the key set |
-| `tests/tcl/review_driver.tcl` | 222 checks: the pass against a stub engine, including two reviews of the same game in a row and the engine window's hand-off to it |
+| `tests/tcl/review_settings_dialog.tcl` | under Tk: the dialog builds, has OK/Cancel, stores what is typed, refuses a bad value, the variation box follows `mpv`, the time cap's row shows the preset's cap and drops the note, and both traces are removed when the dialog closes |
+| `tests/tcl/review_ui.tcl` | 204 checks: the call a press makes, the status line, the button states, the dialog round trip, the precedence table through the dialog, the time cap's note, the move-comment depth, the key set |
+| `tests/tcl/review_driver.tcl` | 237 checks: the pass against a stub engine, the four Go shapes the precedence table produces, a capped run, two reviews of the same game in a row and the engine window's hand-off to it |
 
 ## Tests
 
@@ -214,7 +250,7 @@ widget would otherwise have to decide:
 - **the one-move depth**, from `moveCommentPlan`, for a deep analysis, a shallow
   one, nothing analysed, the wait turned off, and a preset that raises the depth
   the review would use;
-- **the key set**: the twelve new strings are present in all 29
+- **the key set**: the thirteen new strings are present in all 29
   `tcl/lang/*.tcl` files, the file list is read from the tree so a new language
   file fails loudly, and the English text is the text the labels are asserted
   against.
