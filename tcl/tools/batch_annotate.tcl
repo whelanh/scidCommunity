@@ -17,10 +17,12 @@ namespace eval ::batch_annotate {
     variable movetime ""
     variable games_completed 0
     variable total_games 0
-    # Plies whose search ended with no scored line at all: a time cap can stop a
-    # position before the engine reports one, and such a ply is written with no
-    # verdict. Counted so the completion dialog can say so - the games counter
-    # alone reports a game as done whether or not every move in it got judged.
+    # Moves whose search ended with no verdict: a time cap can stop a position
+    # before the engine reports a single scored line, and such a move is written
+    # with no verdict. Counted per move, not per searched position, so the
+    # completion dialog can say how far the batch fell short of judging every
+    # move - the games counter alone reports a game as done whether or not every
+    # move in it got judged.
     variable unscored_plies 0
 }
 
@@ -401,21 +403,30 @@ proc ::batch_annotate::read_engine {pipe} {
     } elseif {[string match "bestmove *" $line]} {
         dict set ::batch_annotate::pipe_evals($pipe) $ply \
             $::batch_annotate::engine_lines($pipe)
-        ::batch_annotate::note_position $pipe
         ::batch_annotate::feed_move $pipe
     }
 }
 
-# Count a position whose search produced nothing the writer can use. Under a time
-# cap the engine can be stopped before it reports a single scored line, and
-# collect drops bounds and PV-less lines, so an empty dict here means this ply gets
-# no verdict - the game still finishes and still counts as completed, which is why
-# the count is kept.
-proc ::batch_annotate::note_position {pipe} {
-    variable unscored_plies
-    if {[dict size $::batch_annotate::engine_lines($pipe)] == 0} {
-        incr unscored_plies
+# How many of the moves this game set out to judge will be written with no
+# verdict: the writer's own decision (::reviewdriver::judge), counted per move,
+# not per searched position.
+#
+# Counting empty position results overstated it. ::reviewdriver::planPositions
+# searches the position BEFORE each move and the position AFTER it, so one empty
+# search could be charged to two moves, and the successor of the last planned
+# ply is not a move at all - no move is judged from it. A move is judged from the
+# position before it, with the successor only supplying the figure after it.
+#
+# A null move is a header in place of a ply, not a move to label, so it is not
+# counted either - judge refuses it for the same reason.
+proc ::batch_annotate::unjudgedCount {map evals plan} {
+    set sides [::reviewdriver::sides $map]
+    set n 0
+    foreach ply $plan {
+        if {[::review::playedMove $map $ply] eq ""} { continue }
+        if {[::reviewdriver::judge $map $evals $sides $ply] eq ""} { incr n }
     }
+    return $n
 }
 
 proc ::batch_annotate::finalize_game {pipe} {
@@ -426,6 +437,7 @@ proc ::batch_annotate::finalize_game {pipe} {
     variable pipe_book
     variable base
     variable games_completed
+    variable unscored_plies
 
     incr games_completed
     set game_id $pipe_game($pipe)
@@ -433,6 +445,12 @@ proc ::batch_annotate::finalize_game {pipe} {
     set map $pipe_map($pipe)
     set plan $pipe_plan($pipe)
     set bookEnd $pipe_book($pipe)
+
+    # Moves this game set out to judge, and how many will get no verdict. Kept
+    # per move (see unjudgedCount) because a searched position is not a move:
+    # the count is what the completion dialog reports, so it has to be the
+    # number the writer actually left unjudged.
+    incr unscored_plies [::batch_annotate::unjudgedCount $map $evals $plan]
 
     # Start the next game immediately to keep the engine busy; the write is the
     # slow part.

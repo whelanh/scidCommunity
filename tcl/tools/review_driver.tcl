@@ -190,7 +190,8 @@ proc ::reviewdriver::exactScore {score_type} {
 }
 
 # Keep the best line seen for each MultiPV slot of the current position: a
-# verdict first, then the deepest one.
+# verdict first, then the deepest one, and the later line when two are equally
+# good.
 #
 # The order matters only since a pass can be cut off by time. A capped search
 # reports a slot as a bound at the depth it had reached, then finishes the line;
@@ -198,6 +199,17 @@ proc ::reviewdriver::exactScore {score_type} {
 # depth was "not deeper" and was dropped, and a deeper bound overwrote an exact
 # line already in hand. Either way ::reviewdriver::lineScore refuses what was
 # kept and the ply gets no verdict at all.
+#
+# Two lines at the same depth and the same kind are the engine repeating itself,
+# or finishing an iteration: the later one is the fresher reading of the same
+# search, so it takes the slot rather than leaving a stale line in hand.
+#
+# A line with no depth at all is still a line: an engine may omit `depth`, and
+# ::uci::parseline leaves the slot empty when it does. Dropping those recorded
+# every such ply as unjudged. With no depth the line ranks below any measured
+# one - zero against the -1 "nothing yet" sentinel - so it fills an empty slot
+# and loses to a real depth, which is what the collector did before this ranking
+# was written.
 proc ::reviewdriver::collect {token msgData} {
     variable job
     lassign $msgData multipv depth seldepth nodes nps hashfull tbhits time \
@@ -206,7 +218,7 @@ proc ::reviewdriver::collect {token msgData} {
         return
     }
     if {![string is integer -strict $depth]} {
-        return
+        set depth 0
     }
     set lines [dict get $job($token) lines]
     set oldDepth -1
@@ -219,7 +231,7 @@ proc ::reviewdriver::collect {token msgData} {
     if {$exact < $oldExact} {
         return
     }
-    if {$exact == $oldExact && $depth <= $oldDepth} {
+    if {$exact == $oldExact && $depth < $oldDepth} {
         return
     }
     dict set lines $multipv [list $depth $score $score_type $pv]

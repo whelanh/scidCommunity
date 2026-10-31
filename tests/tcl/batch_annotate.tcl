@@ -136,11 +136,17 @@ checkEq "no cap in Review Settings, no time in the Go" \
 checkEq "a cap in Review Settings reaches the pipe" \
     [::batch_annotate_test::go 400] "go depth 18 movetime 400"
 
-# A short cap can end a position before the engine reports a single scored line.
-# collect keeps nothing for it, the ply is written with no verdict, and the game
+# A short cap can end a search before the engine reports a single scored line.
+# collect keeps nothing for it, the move is written with no verdict, and the game
 # still counts as completed: the count is the only place the user learns the batch
 # fell short of judging every move, so it has to reach the completion dialog.
-puts "\nplies the search left unjudged are counted"
+#
+# It is a count of MOVES. planPositions searches the position before each move and
+# the position after it, so counting empty position results charged one empty
+# search to the moves on both sides of it, and counted the successor of the last
+# planned ply - a position no move is judged from. It also missed the move the
+# engine never ranked when its successor came back with no usable line.
+puts "\nunjudged moves are counted, not unjudged positions"
 
 array set ::tr {
     BatchComplete      {Batch Annotation Complete!}
@@ -149,20 +155,40 @@ array set ::tr {
     BatchUnscoredPlies {plies with no verdict: %s}
 }
 
-set ::batch_annotate::unscored_plies 0
-set ::batch_annotate::engine_lines(stub) [dict create]
-::batch_annotate::note_position stub
-checkEq "a position with no usable line is counted" \
-    $::batch_annotate::unscored_plies 1
-set ::batch_annotate::engine_lines(stub) [dict create 1 {10 34 cp {e2e4}}]
-::batch_annotate::note_position stub
-checkEq "a position the writer can use is not" \
-    $::batch_annotate::unscored_plies 1
+# judge labels what it measures, so the label ladder has to be here too.
+source [file join $root tcl tools move_labels.tcl]
+source [file join $root tcl tools review_driver.tcl]
+
+set bmap [::review::mainLineMap [list {position startpos moves} e2e4 e7e5 g1f3 b8c6]]
+set bplan [::review::plan [dict get $bmap plies] 0]
+
+# Every move judged from the position before it; only the successor of the last
+# move - the end of the game, not a move - came back empty.
+set evals [dict create \
+    0 [dict create 1 {20 30 cp {e2e4 e7e5}}] \
+    1 [dict create 1 {20 25 cp {e7e5 g1f3}}] \
+    2 [dict create 1 {20 20 cp {g1f3 b8c6}}] \
+    3 [dict create 1 {20 10 cp {b8c6 g1f3}}]]
+checkEq "an empty successor of the last move is not a ply with no verdict" \
+    [::batch_annotate::unjudgedCount $bmap $evals $bplan] 0
+
+# The engine never ranked the last move at its root, and the successor search came
+# back with no line the writer can use: no verdict for that move, and nothing on
+# the successor position to notice.
+set evals2 [dict create \
+    0 [dict create 1 {20 30 cp {e2e4 e7e5}}] \
+    1 [dict create 1 {20 25 cp {e7e5 g1f3}}] \
+    2 [dict create 1 {20 20 cp {g1f3 b8c6}}] \
+    3 [dict create 1 {20 10 cp {d2d4 d7d5}}] \
+    4 [dict create 2 {20 5 cp {a7a6}}]]
+checkEq "a move with no line of its own and no successor line is counted" \
+    [::batch_annotate::unjudgedCount $bmap $evals2 $bplan] 1
+
+set ::batch_annotate::unscored_plies 1
 set ::batch_annotate::games_completed 3
 checkEq "the completion dialog reports games and unjudged plies" \
     [::batch_annotate::completionMessage] \
     {Batch Annotation Complete! 3 games processed, plies with no verdict: 1.}
-unset ::batch_annotate::engine_lines(stub)
 
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

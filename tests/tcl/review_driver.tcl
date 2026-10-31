@@ -412,6 +412,38 @@ set mate [dict create 0 [dict create 1 {20 3 mate {e2e4 e7e5}}]]
 checkEq "a mate becomes the encoding the labels and the graph share" \
     [::reviewdriver::lines $mate 0 1] [list [list 99700 {e2e4 e7e5}]]
 
+# Some engines omit `depth` on the lines they report, and ::uci::parseline leaves
+# the depth slot empty when they do. Dropping those lines recorded the ply as
+# unjudged even though the engine had scored it; the collector before the ranking
+# was written kept the first one.
+puts "a line with no depth is still a line"
+
+set ::reviewdriver::job(collectTest) [dict create lines {}]
+::reviewdriver::collect collectTest {1 {} 22 900 300 0 0 120 34 cp 0 {e2e4 e7e5}}
+checkEq "a depth-less line fills an empty slot" \
+    [dict get $::reviewdriver::job(collectTest) lines] \
+    [dict create 1 {0 34 cp {e2e4 e7e5}}]
+::reviewdriver::collect collectTest {1 18 22 900 300 0 0 120 40 cp 0 {e2e4 c7c5}}
+checkEq "a measured line outranks it" \
+    [dict get $::reviewdriver::job(collectTest) lines] \
+    [dict create 1 {18 40 cp {e2e4 c7c5}}]
+
+# Two exact lines at the same depth are the engine finishing an iteration (or
+# repeating itself): the later one is the fresher reading, so it takes the slot
+# instead of a stale first one being kept for the rest of the search.
+puts "an equal-depth line replaces the one in the slot"
+
+::reviewdriver::collect collectTest {1 18 22 900 300 0 0 120 10 cp 0 {d2d4 d7d5}}
+::reviewdriver::collect collectTest {1 18 22 900 300 0 0 120 25 cp 0 {d2d4 c7c5}}
+checkEq "the later line at the same depth is kept" \
+    [dict get $::reviewdriver::job(collectTest) lines] \
+    [dict create 1 {18 25 cp {d2d4 c7c5}}]
+::reviewdriver::collect collectTest {1 17 22 900 300 0 0 120 99 cp 0 {c2c4}}
+checkEq "and a shallower one still is not" \
+    [dict get $::reviewdriver::job(collectTest) lines] \
+    [dict create 1 {18 25 cp {d2d4 c7c5}}]
+unset ::reviewdriver::job(collectTest)
+
 puts "what the engine's lines say about each move"
 
 set vmap [::review::mainLineMap [list {position startpos moves} e2e4 e7e5 g1f3 b8c6]]
@@ -1145,6 +1177,24 @@ feedEvent InfoBestMove {}
 pump
 checkEq "a deeper bound does not overwrite a verdict" \
     [dict get [::reviewdriver::status] written] 4
+::review::reset
+
+# Some engines omit `depth`, and ::uci::parseline leaves the slot empty when they
+# do. The collector dropped every such line, so a capped pass recorded the ply as
+# unjudged and wrote nothing for the move even though the engine had scored it.
+puts "a pass whose engine reports no depth still judges the move"
+
+::review::reset
+fakeBoard
+checkEq "the depth-less pass starts" [::reviewdriver::run $runcfg -plies {1}] ""
+feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
+feedEvent InfoPV {1 {} 22 900 300 0 0 120 30 cp 0 {e2e4 e7e5}}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 12 cp 0 {e7e5 g1f3}}
+feedEvent InfoBestMove {}
+pump
+checkEq "the move is judged from the line with no depth" \
+    [dict get [::reviewdriver::status] written] 1
 ::review::reset
 
 puts "a first-move blunder has no diagram to place"
