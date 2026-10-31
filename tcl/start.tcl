@@ -1171,6 +1171,7 @@ tools/finish_game.tcl
 tools/comment_facts.tcl
 tools/review_coach.tcl
 tools/review_prose.tcl
+tools/review_threat.tcl
 tools/inputengine.tcl
 tools/novag.tcl
 tools/tablebase.tcl

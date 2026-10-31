@@ -224,6 +224,22 @@ and a Cancel button. It is not modal, it stays up until the whole pass is
 finished - including the coach - and closing it only hides it; the pass carries
 on and the bar in the engine window still reports.
 
+## What's the threat?
+
+**Tools → What's the threat?** asks the engine for the strongest move in the
+position on the board and describes it in words. The side to move is the side
+whose threat it is: ask after your own move and the answer is the opponent's
+threat. The probe is a short search at depth 14 under the review's effective
+time cap (`::review::effective`), on a connection of its own - never the review
+pass and never the window's analysis - so it does not disturb either.
+
+It reads the same deterministic facts as a move comment: the move in words, the
+rule state, what the move wins or threatens, and what it achieves. With a coach
+model configured it shows one sentence of prose over those facts; without one,
+the deterministic sentence is the answer. **Nothing is written into the game**;
+it is a question, not an annotation. The menu item uses the preset of the first
+open engine window, or the first configured preset when no window is open.
+
 **Threads and Hash are not in this dialog.** They are properties of the engine
 preset — the whole point of the preset work in #382 — and are set from the
 window's own controls. The dialog shows what the pass will take from them,
@@ -265,10 +281,15 @@ main-line snapshot non-authoritative.
 | `tcl/tools/review_coach.tcl` | the facts a coach may use, the summary/phase/move prompts, and where the prose lands |
 | `tcl/tools/review_prose.tcl` | the one-request-at-a-time prose queue: progress, cancel, cache, failed-request dropping |
 | `tcl/tools/review_verify.tcl` | the second engine for Brilliant and Great, under the pass's own depth and time cap |
+| `tcl/tools/review_threat.tcl` | the "What's the threat?" probe: one short search, facts in words and an optional coach sentence |
 | `tcl/windows/engine.tcl` | the two buttons, the status line, the settings dialog (guarded glue) |
 | `tests/tcl/review_settings_dialog.tcl` | under Tk: the dialog builds, has OK/Cancel, stores what is typed, refuses a bad value, the variation box follows `mpv`, the time cap's row shows the preset's cap and drops the note, and both traces are removed when the dialog closes |
 | `tests/tcl/review_ui.tcl` | 213 checks: the call a press makes, the status line, the button states, the dialog round trip, the precedence table through the dialog, the time cap's note, the move-comment depth, the key set |
 | `tests/tcl/review_driver.tcl` | 249 checks: the pass against a stub engine, the four Go shapes the precedence table produces, a capped run, two reviews of the same game in a row and the engine window's hand-off to it |
+
+The coach layer adapts Patzer (MIT) and David Crandall's game-review plugin
+(GPL-2.0-or-later); the file-by-file record is in
+[`docs/third-party-notices.md`](third-party-notices.md).
 
 ## Tests
 

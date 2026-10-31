@@ -63,6 +63,9 @@ proc verifyRun {top label} {
     ::reviewverify::start $::cfg $::map $::results $labels $::lim \
         [list apply {{corr} {set ::corr $corr ; set ::done 1}}]
     if {!$::done} { vwait ::done }
+    # The engine is closed on the next event turn, so the message loop that
+    # delivered the last answer is done with it first.
+    update
     return $::corr
 }
 

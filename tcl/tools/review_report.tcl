@@ -10,7 +10,8 @@
 # The formulas follow David Crandall's game-review plugin (and Patzer's
 # classifier.ts / accuracy.ts / keyMoments.ts, MIT, (c) Arsen Apostolov and
 # contributors); the licence notice for the ported parts is in move_labels.tcl,
-# which carries the same attribution for the label ladder.
+# which carries the same attribution for the label ladder. The file-by-file
+# record is docs/third-party-notices.md.
 #
 # The report is written as a block in the game's header comment, marked with
 # [Game review] so a second pass replaces it rather than stacking another one.

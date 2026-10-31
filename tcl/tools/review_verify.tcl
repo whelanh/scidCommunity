@@ -122,7 +122,9 @@ proc ::reviewverify::next {} {
         set cb [dict get $job onDone]
         catch { after cancel [dict get $job watch] }
         set job {}
-        catch { ::engineNoWin::closeEngine $id }
+        # Not inside the engine's message loop: onMessages_ still owns the line
+        # it just replied to. One event turn later the reply is complete.
+        after 0 [list ::engineNoWin::closeEngine $id]
         {*}$cb $out
         return
     }

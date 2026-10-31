@@ -15,7 +15,8 @@
 #
 # The summary and phase facts, and the prompt texts, are adapted from David
 # Crandall's "game-review" plugin (15_cr_llm.tcl and 17_cr_facts.tcl), which is
-# the reference for this layer rather than a runtime dependency. The move facts
+# GPL-2.0-or-later like this project and the reference for this layer rather
+# than a runtime dependency. The move facts
 # themselves are comment_facts.tcl, itself derived from Patzer's comment_facts
 # and carrying its MIT notice. Our phase boundaries stay our own: the plugin's
 # `majorsMinors <= 10` test fires at the initial position, so it would close the

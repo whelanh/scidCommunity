@@ -874,6 +874,7 @@ translate E MoveLabelForced {Forced}
 translate E MoveLabelBook {Book}
 translate E GameComment {Game Comment}
 translate E GameCommentTooltip {Scan game for annotated moves and generate AI summary}
+translate E ToolsWhatThreat {What's the threat?}
 translate E ReviewGameButton {Game Review}
 translate E ReviewGameButtonTooltip {Review every move of the main line and label it}
 translate E ReviewMoveButton {Move Comment}
