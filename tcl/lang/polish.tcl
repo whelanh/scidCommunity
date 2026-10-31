@@ -883,8 +883,11 @@ translate P ReviewVarLines {Warianty do zapisania}
 translate P ReviewVarCp {Margines wariantów (cp)}
 translate P ReviewMoveWait {Czekaj na głębokość przeglądu}
 translate P ReviewMovetime {Limit czasu (ms)}
+translate P ReviewCoach {Tekst trenera}
 translate P ReviewFromPreset {%s (z profilu silnika)}
 translate P ReviewProgress {Przeglądanie pozycji %s z %s}
+translate P ReviewCoachProgress {Tekst trenera: %s z %s}
+translate P ReviewWriting {Zapisywanie przeglądu...}
 translate P ReviewWaitForDepth {Oczekiwanie na głębokość %s}
 translate P ReviewFailed {Przegląd nie powiódł się: %s}
 translate P TimeMs {Czas (ms)}

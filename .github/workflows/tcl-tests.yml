@@ -37,6 +37,21 @@ jobs:
       - name: Game review settings
         run: tclsh tests/tcl/game_review.tcl
 
+      - name: Review report
+        run: tclsh tests/tcl/review_report.tcl
+
+      - name: Review verifier
+        run: tclsh tests/tcl/review_verify.tcl
+
+      - name: Review verifier engine
+        run: tclsh tests/tcl/review_verify_engine.tcl
+
+      - name: Review coach
+        run: tclsh tests/tcl/review_coach.tcl
+
+      - name: Review prose
+        run: tclsh tests/tcl/review_prose.tcl
+
       - name: Batch annotate
         run: tclsh tests/tcl/batch_annotate.tcl
 
@@ -99,6 +114,11 @@ jobs:
       # and that the OK button is there to press.
       - name: Review Settings dialog
         run: xvfb-run -a wish tests/tcl/review_settings_dialog.tcl
+
+      # The pass's progress window: it must stay up through the coach's wait and
+      # go away when the pass does, which no tclsh harness can see.
+      - name: Review progress dialog
+        run: xvfb-run -a wish tests/tcl/review_progress_dialog.tcl
 
       - name: Finish Game dialog
         run: xvfb-run -a wish tests/tcl/finish_game_dialog.tcl

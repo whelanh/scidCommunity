@@ -52,6 +52,8 @@ array set ::EN {
     ReviewMovetime          {Time cap (ms)}
     ReviewFromPreset        {%s (from engine preset)}
     ReviewProgress          {Reviewing position %s of %s}
+    ReviewCoachProgress     {Coach prose: %s of %s}
+    ReviewWriting           {Writing the review...}
     ReviewWaitForDepth      {Waiting for depth %s}
     ReviewFailed            {Review failed: %s}
     Lines                   {Lines}
@@ -192,8 +194,14 @@ checkEq "a search says where it has got to" \
 checkEq "before the first answer it still says how many there are" \
     [::reviewui::statusText [passState searching total 7]] \
     {Reviewing position 0 of 7}
-checkEq "the write phase has nothing left to count" \
-    [::reviewui::statusText [passState writing searched 7 total 7]] ""
+checkEq "the write phase says what it is doing" \
+    [::reviewui::statusText [passState writing searched 7 total 7]] \
+    {Writing the review...}
+# The labels are in the game before the coach runs. The pass is still in flight
+# until the prose lands, so the line says what it is waiting for.
+checkEq "a review waiting on the model says so" \
+    [::reviewui::statusText [passState writing coachDone 2 coachTotal 5]] \
+    {Coach prose: 2 of 5}
 checkEq "a finished run leaves the game to speak for it" \
     [::reviewui::statusText [passState done searched 7 total 7 written 7]] ""
 checkEq "a cancelled run wrote nothing and says nothing" \
@@ -213,21 +221,30 @@ checkEq "a move the game refused is reported, not swallowed" \
     {Review failed: ply 4 is not in this game}
 checkEq "an empty state is idle" [::reviewui::statusText {}] ""
 
+# The progress bar's fraction is the same state read a second way.
+proc fraction {state args} { return [::reviewui::passFraction [passState $state {*}$args]] }
+checkEq "an idle pass is empty" [fraction idle] 0.0
+checkEq "the search fills as positions finish" [fraction searching searched 2 total 8] 0.25
+checkEq "the coach fills as answers arrive" [fraction writing coachDone 3 coachTotal 6] 0.5
+checkEq "writing with nothing to count is full" [fraction writing] 1.0
+checkEq "a search with no total is empty, not a division by zero" \
+    [fraction searching] 0.0
+
 puts "what the settings dialog holds"
 
-# The dialog owns seven settings. Threads and Hash are not among them: they belong
+# The dialog owns nine settings. Threads and Hash are not among them: they belong
 # to the engine preset (#382), and a second place to set them is a second place
 # to get them wrong. The dialog shows them, read-only, from the preset.
 ::review::reset
 set s [::reviewui::settings]
-checkEq "seven rows, no threads, no hash" [dict keys $s] \
-    {mpv depth movetime var_lines var_cp move_comment_wait diagram}
+checkEq "nine rows, no threads, no hash" [dict keys $s] \
+    {mpv depth movetime var_lines var_cp move_comment_wait diagram verifier coach}
 checkEq "at their defaults" [dict get $s depth] 18
 checkEq "with no time cap of its own" [dict get $s movetime] 0
 checkEq "and mpv with them" [dict get $s mpv] 3
 
 set good [dict create mpv 4 depth 24 movetime 1500 var_lines 2 var_cp 40 \
-    move_comment_wait 0 diagram 1]
+    move_comment_wait 0 diagram 1 verifier {} coach 0]
 checkEq "a valid dialog is stored without complaint" [::reviewui::applySettings $good] {}
 checkEq "and reads straight back" [::reviewui::settings] $good
 checkEq "the cap is stored as the review's own option" $::reviewopt(movetime) 1500

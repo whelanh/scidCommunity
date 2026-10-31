@@ -883,8 +883,11 @@ translate E ReviewVarLines {Variations to write}
 translate E ReviewVarCp {Variation margin (cp)}
 translate E ReviewMoveWait {Wait for the review depth}
 translate E ReviewMovetime {Time cap (ms)}
+translate E ReviewCoach {Coach prose}
 translate E ReviewFromPreset {%s (from engine preset)}
 translate E ReviewProgress {Reviewing position %s of %s}
+translate E ReviewCoachProgress {Coach prose: %s of %s}
+translate E ReviewWriting {Writing the review...}
 translate E ReviewWaitForDepth {Waiting for depth %s}
 translate E ReviewFailed {Review failed: %s}
 translate E TimeMs {Time(ms)}

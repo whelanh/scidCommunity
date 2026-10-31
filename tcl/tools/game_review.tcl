@@ -30,6 +30,8 @@ namespace eval ::review {
         var_cp 0
         move_comment_wait 1
         diagram 1
+        verifier ""
+        coach 0
         threads 0
         hash_mb 128
         skip_book 1
@@ -86,6 +88,12 @@ proc ::review::saved {} {
     variable MAX_MOVETIME
     set S $DEFAULTS
     foreach key [dict keys $DEFAULTS] {
+        if {$key eq "verifier"} {
+            if {[info exists ::reviewopt($key)]} {
+                dict set S verifier [string trim $::reviewopt($key)]
+            }
+            continue
+        }
         if {[info exists ::reviewopt($key)] &&
             [string is integer -strict $::reviewopt($key)]} {
             dict set S $key $::reviewopt($key)
@@ -106,7 +114,7 @@ proc ::review::saved {} {
     if {[dict get $S var_cp] < 0} { dict set S var_cp 0 }
     # The flags are on or off, and setValue takes only 0 or 1: a file that says 2
     # must not open the dialog on a value pressing OK would refuse.
-    foreach flag {move_comment_wait skip_book diagram} {
+    foreach flag {move_comment_wait skip_book diagram coach} {
         if {[dict get $S $flag] != 0} { dict set S $flag 1 }
     }
     return $S
@@ -144,6 +152,18 @@ proc ::review::setValue {key value} {
     variable MAX_MOVETIME
     if {![dict size $S]} { reset }
     if {![dict exists $S $key]} { return "unknown setting: $key" }
+    # The verifier is an engine preset name ("" is off), not a number.
+    if {$key eq "verifier"} {
+        set value [string trim $value]
+        if {$value eq "Off"} { set value "" }
+        if {$value ne "" && [llength [info commands ::enginecfg::names]] &&
+            [lsearch -exact [::enginecfg::names] $value] < 0} {
+            return "unknown engine: $value"
+        }
+        dict set S verifier $value
+        save
+        return ""
+    }
     if {![string is integer -strict $value]} { return "$key must be a whole number" }
     set previous [dict get $S $key]
     set value [expr {$value}]
@@ -175,6 +195,9 @@ proc ::review::setValue {key value} {
         }
         diagram {
             if {$value < 0 || $value > 1} { return "diagram is 0 or 1" }
+        }
+        coach {
+            if {$value < 0 || $value > 1} { return "coach is 0 or 1" }
         }
         threads {
             if {$value < 0} { return "threads cannot be negative" }

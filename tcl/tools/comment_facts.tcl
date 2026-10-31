@@ -349,15 +349,18 @@ proc ::facts::epLine {fen} {
 }
 
 # Always stated, with the remainder, so the model can tell how far away it is.
+# The halfmove clock counts plies; a scoresheet counts moves. One move is two
+# plies, so an odd clock is half a move in progress and rounds up: the pawn move
+# was made in this move.
 proc ::facts::clockLine {fen} {
     set half [lindex [split $fen] 4]
     if {![string is integer -strict $half]} { set half 0 }
-    set left [expr {100 - $half}]
-    if {$left <= 0} {
-        return "fifty-move rule: the hundred-ply count is complete, either side may claim a draw"
+    if {$half >= 100} {
+        return "fifty-move rule: fifty moves have passed since the last capture or pawn move, either side may claim a draw"
     }
-    set leftWord [expr {$left == 1 ? "ply" : "plies"}]
-    return "fifty-move rule: $half plies since the last capture or pawn move; $left more $leftWord would allow a draw claim"
+    set moves [expr {$half / 2}]
+    set left [expr {50 - $moves}]
+    return "fifty-move rule: $moves of 50 moves have passed since the last capture or pawn move; $left more would allow a draw claim"
 }
 
 proc ::facts::repetitionLine {count} {
@@ -1018,10 +1021,48 @@ proc ::facts::phaseMoveLine {m {opts ""}} {
         }
         set pv [expr {[dict exists $m best_pv] ? [dict get $m best_pv] : {}}]
         if {[llength $pv] >= 2} {
-            append line ". The engine's line: [join [lrange $pv 0 4] { }]"
+            append line ". The engine's line: [lineText [dict get $m fen_before] [lrange $pv 0 4] $ply]"
         }
     }
     return $line
+}
+
+# Engine lines arrive as UCI. The facts are read by a model told to narrate in
+# words and by a human reading the scoresheet, so the line is converted to SAN
+# when scid can do it. A tclsh test has no sc_pos: the UCI list is returned
+# rather than an empty line.
+proc ::facts::sanLine {fen moves} {
+    if {![llength $moves]} { return {} }
+    set out {}
+    if {[llength [info commands sc_pos]]} {
+        catch { set out [sc_pos coordToSAN $fen $moves] }
+        if {[llength $out] == [llength $moves]} { return $out }
+    }
+    return $moves
+}
+
+# A line as a scoresheet writes it: "12... Nxd6 13. Nxd6 Qa5". With no ply to
+# start from, the moves are still SAN but unnumbered.
+proc ::facts::numberedLine {startPly moves} {
+    if {![string is integer -strict $startPly] || $startPly < 1} {
+        return [join $moves { }]
+    }
+    set out {}
+    set ply $startPly
+    foreach one $moves {
+        if {$ply % 2 == 1} {
+            lappend out "[expr {($ply + 1) / 2}]."
+        } else {
+            lappend out "[expr {$ply / 2}]..."
+        }
+        lappend out $one
+        incr ply
+    }
+    return [join $out { }]
+}
+
+proc ::facts::lineText {fen moves {startPly 0}} {
+    return [numberedLine $startPly [sanLine $fen $moves]]
 }
 
 # Build the FACTS block for one flagged move.
@@ -1062,6 +1103,13 @@ proc ::facts::forMove {m} {
     # IS the explanation, so it is always included.
     set line [expr {[dict exists $m best_pv_long] ? [dict get $m best_pv_long]
         : ([dict exists $m best_pv] ? [dict get $m best_pv] : {})}]
+    # The move played is ply; the continuation starts on the next one. Without a
+    # ply the line is still SAN, just not numbered.
+    set ply 0
+    if {[dict exists $m ply] && [string is integer -strict [dict get $m ply]]} {
+        set ply [dict get $m ply]
+    }
+    set nextPly [expr {$ply > 0 ? $ply + 1 : 0}]
     if {$best ne "" && $best ne $played} {
         set b [describeMove $fb $best]
         # Name the side that makes the alternative. "the pawn taking the knight
@@ -1106,10 +1154,15 @@ proc ::facts::forMove {m} {
             lappend lines "better was $bwhat$tail"
         }
         if {[llength $line] > 1} {
-            lappend lines "the line after that better move runs [join [lrange $line 1 end] { }]"
+            # Convert the whole line from the position before the move: the
+            # second move is only legal after the first, so slicing first would
+            # ask for SAN of a move that is not on this board.
+            set sans [sanLine $fb $line]
+            lappend lines "the line after that better move runs [numberedLine $nextPly [lrange $sans 1 end]]"
         }
     } elseif {[llength $line] > 1} {
-        lappend lines "the line after the move played runs [join [lrange $line 1 end] { }]"
+        set sans [sanLine $fb $line]
+        lappend lines "the line after the move played runs [numberedLine $nextPly [lrange $sans 1 end]]"
     }
 
     # The punishment: what the opponent forces after the move played. It comes
@@ -1119,10 +1172,11 @@ proc ::facts::forMove {m} {
     if {$best ne "" && $best ne $played && [dict exists $m punish_pv]} {
         set ppv [dict get $m punish_pv]
         if {[llength $ppv]} {
-            if {[string match {*#} [string trim [lindex $ppv end]]]} {
-                lappend lines "the line after the move played runs [join $ppv { }] and it ends in checkmate"
+            set pline [lineText $fa $ppv $nextPly]
+            if {[string match {*#} [string trim [lindex $pline end]]]} {
+                lappend lines "the line after the move played runs $pline and it ends in checkmate"
             } else {
-                lappend lines "the line after the move played runs [join $ppv { }]"
+                lappend lines "the line after the move played runs $pline"
             }
         }
     }

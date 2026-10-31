@@ -918,6 +918,17 @@ check "the generic model list refuses it too" \
     [expr {[lsearch -exact $::lastArgv --proto-redir] >= 0}] $::lastArgv
 
 
+# The native API replies, parsed without a network.
+set geminiReply {{"candidates":[{"content":{"parts":[{"text":"A good move."}]}}]}}
+checkEq "Gemini text is extracted" [::auto_comment::geminiText $geminiReply] {A good move.}
+set geminiError {{"error":{"code":400,"message":"bad key"}}}
+checkEq "Gemini errors are named" [::auto_comment::geminiText $geminiError] "ERROR: bad key"
+set deepseekReply {{"choices":[{"message":{"content":"The threat is Qh5."}}]}}
+checkEq "DeepSeek text is extracted" \
+    [::auto_comment::deepseekText $deepseekReply] {The threat is Qh5.}
+checkEq "DeepSeek errors are named" \
+    [::auto_comment::deepseekText {{"error":{"message":"bad key"}}}] "ERROR: bad key"
+
 # ------------------------------------------------------------------- cleanup --
 file delete -force $tmproot
 

@@ -2629,7 +2629,7 @@ set helpTitle(ReviewSettings) "Review Settings"
 set helpText(ReviewSettings) {<h1>Engine Window: Review Settings</h1>
   <p>
   <b>Review Settings</b> in the <a Engine>Engine</a> window holds the choices a
-  review pass reads. Six values:
+  review pass reads. Nine values:
   </p>
   <ul>
   <li><b>Lines</b>: how many of the engine's lines each position keeps (MultiPV),
@@ -2637,6 +2637,10 @@ set helpText(ReviewSettings) {<h1>Engine Window: Review Settings</h1>
   <li><b>Depth</b>: how deep each position is searched. This is also the depth
     <a ReviewMoveButton>Move Comment</a> waits for when
     <b>Wait for the review depth</b> is on.</li>
+  <li><b>Time cap (ms)</b>: a ceiling on one position's search; 0 means the
+    review sets no cap of its own and the engine preset's <b>Limits.movetime</b>
+    applies. The engine stops at whichever comes first, so a capped search can
+    finish shallower than <b>Depth</b>.</li>
   <li><b>Variations to write</b>: how many of the engine's lines become variations
     at each mistake, blunder and missed win, so the game shows what should have
     been played. Zero writes none, and the number cannot exceed Lines. Only the
@@ -2650,10 +2654,30 @@ set helpText(ReviewSettings) {<h1>Engine Window: Review Settings</h1>
   <li><b>Wait for the review depth</b>: whether a move comment waits for the
     review's depth instead of using the analysis already on screen - see
     <a ReviewMoveButton>Move Comment</a>.</li>
-  <li><b>Diagram</b>: 1 puts a diagram marker (<b>D</b>) on the move before each
-    mistake and blunder, so a printed or HTML game shows the position the error
-    was played in; 0 writes none.</li>
+  <li><b>Diagram</b>: ticked, puts a diagram marker (<b>D</b>) on the move before
+    each mistake and blunder, so a printed or HTML game shows the position the
+    error was played in; unticked writes none.</li>
+  <li><b>Engine (verifier)</b>: a second engine preset that re-searches only the
+    moves labelled Brilliant or Great, under the same depth and time cap as the
+    review itself. If it disagrees about
+    the best move (or a Great move's gap to the next line is not there), the
+    move falls back to Best. <b>Off</b> disables it, and it must be a different
+    engine from the one the review searches with.</li>
+  <li><b>Coach prose</b>: ticked, asks the configured model for a summary, one
+    paragraph per phase, and a note on the key moments and mistakes. The
+    <b>Coach settings...</b> button beside the switch opens the provider, key
+    and model dialog.
+    The model only narrates facts the review computed; it never changes a label.
+    Unticked leaves the review deterministic.</li>
   </ul>
+  <p>
+  A pass shows its progress in a small window over the engine window: the
+  position count while it searches, then <b>Coach prose: 3 of 9</b> while the
+  model writes. The labels and the header are written as soon as the search
+  ends, so the prose is the only part that arrives later. The window closes when
+  the pass finishes; its <b>Cancel</b> button stops the pass, and closing the
+  window only hides it.
+  </p>
 
   <h3>What is not in this dialog</h3>
   <p>
