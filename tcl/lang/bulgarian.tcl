@@ -1751,6 +1751,7 @@ translate g Hash {Хеш памет}
 translate g OwnBook {Използвайте книгата на двигателя}
 translate g BookFile {Отваряща се книга}
 translate g AnnotateVariations {Анотирайте вариации}
+translate g AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate g ShortAnnotations {Кратки анотации}
 translate g addAnnotatorTag {Добавете етикет за анотатор}
 translate g AddScoreToShortAnnotations {Добавете резултат към анотациите}

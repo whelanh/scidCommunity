@@ -1710,6 +1710,7 @@ translate b Hash {হ্যাশ মেমরি}
 translate b OwnBook {ইঞ্জিন বই ব্যবহার করুন}
 translate b BookFile {খোলা বই}
 translate b AnnotateVariations {বৈচিত্র টীকা}
+translate b AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate b ShortAnnotations {সংক্ষিপ্ত টীকা}
 translate b addAnnotatorTag {টীকা ট্যাগ যোগ করুন}
 translate b AddScoreToShortAnnotations {টীকাগুলিতে স্কোর যোগ করুন}

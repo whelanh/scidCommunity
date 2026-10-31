@@ -1714,6 +1714,7 @@ translate T Hash {Karma bellek}
 translate T OwnBook {Motor kitabını kullan}
 translate T BookFile {Açılış kitabı}
 translate T AnnotateVariations {Varyasyonlara açıklama ekleyin}
+translate T AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate T ShortAnnotations {Kısa açıklamalar}
 translate T addAnnotatorTag {Ek açıklama etiketi ekle}
 translate T AddScoreToShortAnnotations {Ek açıklamalara puan ekleyin}

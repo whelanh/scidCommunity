@@ -455,6 +455,13 @@ proc configAnnotation {{n 1}} {
 
     ttk::labelframe   $f.comment -text $::tr(Comments)
     ttk::checkbutton  $f.comment.cbAnnotateVar      -text $::tr(AnnotateVariations)         -variable ::isAnnotateVar
+    # The review pass walks the main line: entering a variation and annotating the
+    # moves inside it is not in the review layer yet, so the classic's "Annotate
+    # variations" switch is shown disabled with the reason, rather than offered and
+    # ignored. Variations ARE written (the engine's line, on a mistake); that is
+    # ::review::variationWanted's job and it has no switch here.
+    $f.comment.cbAnnotateVar configure -state disabled
+    ttk::label $f.comment.lAnnotateVar -text $::tr(AnnotateVariationsMainLineOnly) -foreground gray
     ttk::checkbutton  $f.comment.cbShortAnnotation  -text $::tr(ShortAnnotations)           -variable ::isShortAnnotation
     ttk::checkbutton  $f.comment.cbAddScore         -text $::tr(AddScoreToShortAnnotations) -variable ::addScoreToShortAnnotations
     ttk::checkbutton  $f.comment.cbAddAnnotatorTag  -text $::tr(addAnnotatorTag)            -variable ::addAnnotatorTag
@@ -468,7 +475,8 @@ proc configAnnotation {{n 1}} {
         $f.comment.cbMarkTactics configure -state disabled
     }
     
-    pack $f.comment.scoreAll $f.comment.cbAnnotateVar $f.comment.cbShortAnnotation $f.comment.cbAddScore \
+    pack $f.comment.scoreAll $f.comment.cbAnnotateVar $f.comment.lAnnotateVar \
+        $f.comment.cbShortAnnotation $f.comment.cbAddScore \
 	$f.comment.cbAddAnnotatorTag $f.comment.cbMarkTactics -fill x -anchor w
     # batch annotation of consecutive games, and optional opening errors finder
     ttk::frame $f.batch
@@ -523,6 +531,17 @@ proc configAnnotateOK {w n} {
     set ::useAnalysisBookName [$w.f.analyse.comboBooks get]
     set ::book::lastBook1 $::useAnalysisBookName
 
+    # The dialog's own variation controls (analysis.tcl:445-452): the White/Black
+    # side filter and the "Variation length (moves)" spinner, both of which the
+    # classic annotator read. They are defaults-safe, because a session that has
+    # never opened Preferences does not define them.
+    set white 1
+    catch { set white $::annotateWhiteMoves }
+    set black 1
+    catch { set black $::annotateBlackMoves }
+    set varLength 0
+    catch { set varLength $::annotationVariationLength }
+
     # The opening book's end, walked here because it needs the book and the game
     # rather than a decision: the pass only needs the number.
     set bookEnd 0
@@ -538,6 +557,9 @@ proc configAnnotateOK {w n} {
         batchEnd $::batchEnd \
         opening $::isBatchOpening \
         openingMoves $::isBatchOpeningMoves \
+        white $white \
+        black $black \
+        varLength $varLength \
         bookEnd $bookEnd]
     set plan [::reviewannotate::dialogPlan $n $analysis(name$n) $analysis(uci$n) $settings]
     if {[dict get $plan refuse] ne ""} {

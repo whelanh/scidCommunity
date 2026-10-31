@@ -2861,6 +2861,7 @@ translate Y OwnBook {Use engine book}
 translate Y BookFile {Opening book}
 # ====== TODO To be translated ======
 translate Y AnnotateVariations {Annotate variations}
+translate Y AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 # ====== TODO To be translated ======
 translate Y ShortAnnotations {Short annotations}
 # ====== TODO To be translated ======

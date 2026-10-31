@@ -1751,6 +1751,7 @@ translate A Hash {ハッシュメモリ}
 translate A OwnBook {エンジンブックを使用する}
 translate A BookFile {オープニングブック}
 translate A AnnotateVariations {バリエーションに注釈を付ける}
+translate A AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate A ShortAnnotations {短い注釈}
 translate A addAnnotatorTag {アノテータータグを追加する}
 translate A AddScoreToShortAnnotations {注釈にスコアを追加する}

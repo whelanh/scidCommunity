@@ -239,5 +239,86 @@ checkEq "the run ended there" [::reviewannotate::running] 0
 checkEq "and no further game was loaded" $::gamestub::number 3
 check "no further pass was opened" [expr {$::opened == $openedBefore + 1}]
 
+########################################################################
+### The dialog's variation controls reach the writer
+###
+### The dialog renders a White/Black side filter and a "Variation length (moves)"
+### spinner, and the classic annotator read both: the toggles decided whether a
+### move got the engine's line at all, the spinner clipped it to
+### annotationVariationLength*2-1 plies. The plan carries them; this section runs
+### the real pass and reads what the writer was handed, so a plan key that is
+### computed and then dropped on the way fails here rather than in a game.
+
+# The writer's own arguments, recorded instead of written: the variation is what
+# this section is about, and the stub game drops variations anyway.
+rename ::review::writeMove ::review::writeMoveSaved
+proc ::review::writeMove {ply label eval_cp lines} {
+    lappend ::wrote [list $ply $label $lines]
+    return ""
+}
+
+proc wroteLines {ply} {
+    foreach rec $::wrote {
+        if {[lindex $rec 0] == $ply} { return [lindex $rec 2] }
+    }
+    return ""
+}
+
+proc wroteLabel {ply} {
+    foreach rec $::wrote {
+        if {[lindex $rec 0] == $ply} { return [lindex $rec 1] }
+    }
+    return ""
+}
+
+# The six-move fixture, driven the way the driver asks: one answer per position,
+# in order, from the side to move. Black's 4...Nc6 is the blunder, and the engine's
+# line at the position before it is four plies long - longer than the two-move
+# (three-ply) clip this section asks the dialog for.
+set ::PVS [list \
+    {e2e4 e7e5} {e7e5 g1f3} {g1f3 b8c6} \
+    {d7d5 e4d5 c6d5 g1f3} {d2d4 e7e5} {f1b5 a7a6} {a7a6}]
+
+proc driveAnnotate {settings} {
+    annotateSettings
+    ::gamestub::reset [list \
+        {e4 e2e4} {e5 e7e5} {Nf3 g1f3} {Nc6 b8c6} {Bb5 f1b5} {a6 a7a6}]
+    set ::wrote {}
+    set plan [::reviewannotate::dialogPlan 1 Stockfish 1 $settings]
+    set err [::reviewannotate::run $plan]
+    if {$err ne ""} { return $err }
+    feed InfoConfig {}
+    set i 0
+    foreach cp {20 -30 25 -30 220 -215 210} {
+        answer $cp [lindex $::PVS $i]
+        incr i
+    }
+    pump
+    return ""
+}
+
+checkEq "the White-only pass runs" [driveAnnotate [dict create \
+    game 3 blunders allmoves batch 0 batchEnd 3 bookEnd 0 \
+    white 1 black 0 varLength 4]] ""
+checkEq "White-only draws no variation on Black's move" [wroteLines 4] ""
+checkEq "but the move is still labelled" [wroteLabel 4] "mistake"
+
+checkEq "the Black-only pass runs" [driveAnnotate [dict create \
+    game 3 blunders allmoves batch 0 batchEnd 3 bookEnd 0 \
+    white 0 black 1 varLength 2]] ""
+checkEq "the engine's line was four plies long" [llength [lindex $::PVS 3]] 4
+checkEq "Black-only draws it, clipped to the spinner's moves" \
+    [lindex [wroteLines 4] 0 1] {d7d5 e4d5 c6d5}
+checkEq "and only one line came back" [llength [wroteLines 4]] 1
+
+checkEq "the defaults pass runs" [driveAnnotate [dict create \
+    game 3 blunders allmoves batch 0 batchEnd 3 bookEnd 0]] ""
+checkEq "with no length set the whole line is kept" \
+    [lindex [wroteLines 4] 0 1] {d7d5 e4d5 c6d5 g1f3}
+checkEq "and both sides are annotated" [wroteLabel 4] "mistake"
+
+rename ::review::writeMove {}
+rename ::review::writeMoveSaved ::review::writeMove
+
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

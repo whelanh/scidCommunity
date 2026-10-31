@@ -517,6 +517,34 @@ proc ::reviewannotate::dropLabel {ply} {
     return $changed
 }
 
+# The annotate dialog's two variation controls, as decisions.
+#
+# `variationWanted` is the review's own rule (a mistake, a blunder, a missed
+# win); the dialog's White/Black toggles are in front of it, the way they were in
+# front of the classic annotator (analysis.tcl:867-877): a variation is the move
+# that should have been played, so it belongs to the side that moved. Selecting
+# one side suppresses the lines on the other side's moves and nothing else - the
+# label and the marks are the review's and are written either way.
+proc ::reviewannotate::variationAllowed {label white black mover} {
+    if {![::review::variationWanted $label]} { return 0 }
+    if {$mover eq "w"} { return [expr {$white ? 1 : 0}] }
+    if {$mover eq "b"} { return [expr {$black ? 1 : 0}] }
+    return 0
+}
+
+# The same lines clipped to the dialog's "Variation length (moves)". The classic
+# kept `annotationVariationLength * 2 - 1` plies of every line (analysis.tcl:763),
+# and `plies` here is already that figure. 0 is no length set: leave the line
+# whole rather than empty.
+proc ::reviewannotate::clipLines {lines plies} {
+    if {![string is integer -strict $plies] || $plies < 1} { return $lines }
+    set out {}
+    foreach entry $lines {
+        lappend out [list [lindex $entry 0] [lrange [lindex $entry 1] 0 [expr {$plies - 1}]]]
+    }
+    return $out
+}
+
 # Write one finished pass into the game. Same contract as
 # ::reviewdriver::writeResults - the pass dict and the results dict - and the
 # same {written failed errors} answer, plus the marks this file owns.
@@ -530,12 +558,24 @@ proc ::reviewannotate::dropLabel {ply} {
 # line). In blunders-only mode the classic annotator's filter decides the whole
 # write: the moves it does not cover keep nothing of the review's, including the
 # label a previous all-moves pass wrote there.
-proc ::reviewannotate::writeResults {p results {tier ""}} {
+proc ::reviewannotate::writeResults {p results {tier ""} {opts ""}} {
     set map [dict get $p map]
     set bookEnd [dict get $p bookEnd]
     set mpv [dict get $p mpv]
     set sides [::reviewdriver::sides $map]
     set blundersOnly [::reviewannotate::blundersOnly]
+    # The dialog's variation controls, as `dialogPlan` decided them: which sides
+    # get the engine's line, and how many plies of it. A caller that names none -
+    # a test, another writer's caller - gets both sides and no clip, which is
+    # what the review wrote before the dialog had them.
+    set white 1
+    set black 1
+    set varPlies 0
+    if {[dict size $opts]} {
+        if {[dict exists $opts white]} { set white [dict get $opts white] }
+        if {[dict exists $opts black]} { set black [dict get $opts black] }
+        if {[dict exists $opts varPlies]} { set varPlies [dict get $opts varPlies] }
+    }
     if {![string is integer -strict $tier]} { set tier [::reviewannotate::tier] }
     if {$tier > 1} { set tier 1 }
     set threshold 1.0
@@ -549,17 +589,19 @@ proc ::reviewannotate::writeResults {p results {tier ""}} {
         if {$verdict eq ""} { continue }
         set label [dict get $verdict label]
         set eval_cp [dict get $verdict eval_cp]
-        # Same gate as ::reviewdriver::writeResults: a variation is the move
-        # that should have been played, so it belongs on a mistake, blunder or
-        # missed win and nowhere else.
-        set lines {}
-        if {[::review::variationWanted $label]} {
-            set lines [::reviewdriver::lines $results [expr {$ply - 1}] $mpv]
-        }
         # The verdict's own figures are the mover's; everything the classic
         # annotator wrote down was from White's point of view.
         set mover w
         catch { set mover [dict get $sides [expr {$ply - 1}]] }
+        # Same gate as ::reviewdriver::writeResults: a variation is the move
+        # that should have been played, so it belongs on a mistake, blunder or
+        # missed win and nowhere else - and, since the dialog has the classic's
+        # side filter, on the side whose toggle is on.
+        set lines {}
+        if {[::reviewannotate::variationAllowed $label $white $black $mover]} {
+            set lines [::reviewannotate::clipLines \
+                [::reviewdriver::lines $results [expr {$ply - 1}] $mpv] $varPlies]
+        }
         set beforeMover [dict get $verdict before]
         # The classic measured the change between two POSITIONS - the score
         # before the move and the score after it - not the move's cost against
@@ -706,9 +748,14 @@ proc ::reviewannotate::start {engine args} {
     set opts {}
     set haveBook 0
     set tier [::reviewannotate::tier]
+    # The dialog's variation controls travel to the writer with the run, the way
+    # the tier does; a caller that names none gets the both-sides, no-clip default
+    # writeResults applies.
+    set wopts {white 1 black 1 varPlies 0}
     foreach {key value} $args {
         if {$key eq "-bookEnd"} { set haveBook 1 }
         if {$key eq "-tier"} { set tier $value ; continue }
+        if {$key eq "-write"} { set wopts $value ; continue }
         lappend opts $key $value
     }
     if {!$haveBook} {
@@ -722,14 +769,15 @@ proc ::reviewannotate::start {engine args} {
     }
     # The writer is a command prefix, so the tier travels with the run rather
     # than in a module variable a second pass could overwrite.
-    lappend opts -writer [list ::reviewannotate::writeResultsAtTier $tier]
+    lappend opts -writer [list ::reviewannotate::writeResultsAtTier $tier $wopts]
     return [::reviewdriver::run $engine {*}$opts]
 }
 
-# The driver calls the writer as {*}$writer <pass> <results>; this puts the
-# run's tier in front of the two arguments writeResults takes.
-proc ::reviewannotate::writeResultsAtTier {tier p results} {
-    return [::reviewannotate::writeResults $p $results $tier]
+# The driver calls the writer as {*}$writer <pass> <results>; this puts the run's
+# tier, and the dialog's variation controls, in front of the two arguments
+# writeResults takes.
+proc ::reviewannotate::writeResultsAtTier {tier wopts p results} {
+    return [::reviewannotate::writeResults $p $results $tier $wopts]
 }
 
 ########################################################################
@@ -752,6 +800,16 @@ proc ::reviewannotate::writeResultsAtTier {tier p results} {
 ### The engine is never one of them: it is the invoking pane's own preset, the
 ### entry the user chose when opening that pane. There is no picker and no
 ### second engine setting.
+
+# A dialog setting that is a checkbox: 1 or 0, from whatever the widget left in
+# the dict (Tk booleans are 0/1, but a hand-built dict may say "true" or omit it).
+proc ::reviewannotate::settingFlag {settings key {default 1}} {
+    if {![dict exists $settings $key]} { return $default }
+    set raw [dict get $settings $key]
+    if {[string is boolean -strict $raw]} { return [expr {$raw ? 1 : 0}] }
+    if {[string is integer -strict $raw]} { return [expr {$raw != 0}] }
+    return $default
+}
 
 proc ::reviewannotate::dialogPlan {n name uci settings} {
     set game 1
@@ -784,12 +842,29 @@ proc ::reviewannotate::dialogPlan {n name uci settings} {
         [dict get $settings bookEnd] > 0} {
         set bookEnd [dict get $settings bookEnd]
     }
+    # The dialog's White/Black toggles and its "Variation length (moves)" spinner
+    # (analysis.tcl:445-452). Both were the classic annotator's own options: the
+    # toggles decided whether a move got the engine's line as a variation at all,
+    # and the spinner clipped every line to annotationVariationLength*2-1 plies.
+    # A caller that names neither gets the classic's defaults - both sides on,
+    # no length set.
+    set white [::reviewannotate::settingFlag $settings white 1]
+    set black [::reviewannotate::settingFlag $settings black 1]
+    set varPlies 0
+    if {[dict exists $settings varLength] &&
+        [string is integer -strict [dict get $settings varLength]] &&
+        [dict get $settings varLength] > 0} {
+        # The dialog speaks in moves and the game in plies; this is the classic's
+        # own conversion (analysis.tcl:763).
+        set varPlies [expr {[dict get $settings varLength] * 2 - 1}]
+    }
     # Tier 2 (AI prose) is a separate change: this dialog ships tier 1, whatever
     # a configured provider would answer at run time.
     set out [dict create \
         pane $n engine "" engineName $name uci [expr {$uci ? 1 : 0}] \
         bookEnd $bookEnd tier 1 blunders $blunders batch $batch \
-        from $game to $to opening $opening openingMoves $openingMoves refuse ""]
+        from $game to $to opening $opening openingMoves $openingMoves \
+        white $white black $black varPlies $varPlies refuse ""]
     set engine ""
     if {$name ne "" && [llength [info commands ::enginecfg::get]]} {
         catch { set engine [::enginecfg::get $name] }
@@ -902,11 +977,18 @@ proc ::reviewannotate::nextGame {} {
         }
     }
     dict set run last {0 0}
+    # The dialog's variation controls, when the plan carries them - a plan built by
+    # an older caller keeps the writer's own defaults.
+    set wopts {white 1 black 1 varPlies 0}
+    foreach key {white black varPlies} {
+        if {[dict exists $plan $key]} { dict set wopts $key [dict get $plan $key] }
+    }
     set err [::reviewannotate::start [dict get $plan engine] \
         -bookEnd $bookEnd \
         -progress ::reviewannotate::progress \
         -done ::reviewannotate::done \
         -notify 1 \
+        -write $wopts \
         -tier [dict get $plan tier]]
     if {$err ne ""} {
         # A refusal leaves the run's counts alone; what it must not leave behind

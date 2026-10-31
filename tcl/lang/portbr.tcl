@@ -1740,6 +1740,7 @@ translate B Hash {Varrer memória}
 translate B OwnBook {Usar livro do engine}
 translate B BookFile {Livro de aberturas}
 translate B AnnotateVariations {Anotar variantes}
+translate B AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate B ShortAnnotations {Anotações curtas}
 translate B addAnnotatorTag {Adicionar tag do anotador}
 translate B AddScoreToShortAnnotations {Adicionar o score às anotações curtas}

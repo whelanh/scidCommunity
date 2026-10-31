@@ -1711,6 +1711,7 @@ translate V Hash {זיכרון חשיש}
 translate V OwnBook {השתמש בספר מנוע}
 translate V BookFile {ספר פתיחה}
 translate V AnnotateVariations {הערה וריאציות}
+translate V AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate V ShortAnnotations {הערות קצרות}
 translate V addAnnotatorTag {הוסף תג יוצר}
 translate V AddScoreToShortAnnotations {הוסף ניקוד להערות}

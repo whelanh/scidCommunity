@@ -1711,6 +1711,7 @@ translate Q Hash {Хеш-пам'ять}
 translate Q OwnBook {Використовуйте книгу двигуна}
 translate Q BookFile {Відкриття книги}
 translate Q AnnotateVariations {Примітки до варіацій}
+translate Q AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate Q ShortAnnotations {Короткі анотації}
 translate Q addAnnotatorTag {Додайте тег анотатора}
 translate Q AddScoreToShortAnnotations {Додайте оцінку до анотацій}

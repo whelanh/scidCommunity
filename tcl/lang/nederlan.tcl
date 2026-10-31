@@ -1757,6 +1757,7 @@ translate N Hash {Hash Geheugentabel}
 translate N OwnBook {Gebruik engine boek}
 translate N BookFile {Opening boek}
 translate N AnnotateVariations {Becommentarieer varianten}
+translate N AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate N ShortAnnotations {Korte commentaren}
 translate N addAnnotatorTag {Voeg een commentaar label toe}
 translate N AddScoreToShortAnnotations {Voeg de score toe aan de korte commentaren}

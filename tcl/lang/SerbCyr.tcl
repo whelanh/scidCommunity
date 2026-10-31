@@ -1751,6 +1751,7 @@ translate J Hash {Хеш меморија}
 translate J OwnBook {Користите књигу мотора}
 translate J BookFile {Отварање књиге}
 translate J AnnotateVariations {Означите варијације}
+translate J AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate J ShortAnnotations {Кратке напомене}
 translate J addAnnotatorTag {Додајте ознаку анотатора}
 translate J AddScoreToShortAnnotations {Додајте резултат напоменама}

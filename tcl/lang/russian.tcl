@@ -1734,6 +1734,7 @@ translate R Hash {Хешировать память}
 translate R OwnBook {Использовать книгу движка}
 translate R BookFile {Открытые книги}
 translate R AnnotateVariations {Комментировать варианты}
+translate R AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate R ShortAnnotations {Показать комментарии}
 translate R addAnnotatorTag {Добавить тег аннотирующего}
 translate R AddScoreToShortAnnotations {Добавить счёт в короткие аннотации}

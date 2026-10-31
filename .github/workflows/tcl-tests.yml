@@ -59,6 +59,18 @@ jobs:
       - name: Annotate parity
         run: tclsh tests/tcl/annotate_parity.tcl
 
+      # The dialog's decision (a pure proc), the run it starts, and a
+      # no-display syntax check of the two Tk procs it calls - the dialog itself
+      # is in the Tk job below.
+      - name: Annotate dialog
+        run: tclsh tests/tcl/annotate_dialog.tcl
+
+      - name: Annotate run
+        run: tclsh tests/tcl/annotate_run.tcl
+
+      - name: Annotate dialog syntax
+        run: tclsh tests/tcl/annotate_dialog_syntax.tcl
+
       - name: Review UI
         run: tclsh tests/tcl/review_ui.tcl
 

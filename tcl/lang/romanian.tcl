@@ -1751,6 +1751,7 @@ translate L Hash {Memoria hash}
 translate L OwnBook {Folosește cartea motorului}
 translate L BookFile {Cartea de deschidere}
 translate L AnnotateVariations {Adnotați variațiile}
+translate L AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate L ShortAnnotations {Adnotări scurte}
 translate L addAnnotatorTag {Adăugați etichetă de adnotator}
 translate L AddScoreToShortAnnotations {Adăugați scor la adnotări}

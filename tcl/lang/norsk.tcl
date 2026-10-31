@@ -1732,6 +1732,7 @@ translate O Hash {Hash-minne}
 translate O OwnBook {Bruk motorbok}
 translate O BookFile {Åpningsbok}
 translate O AnnotateVariations {Kommenter varianter}
+translate O AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate O ShortAnnotations {Korte merknader}
 translate O addAnnotatorTag {Legg til annotator-tag}
 translate O AddScoreToShortAnnotations {Legg poengsum til korte merknader}

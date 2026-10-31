@@ -1733,6 +1733,7 @@ translate H Hash {Hesmemória}
 translate H OwnBook {A motor megnyitástárának használata}
 translate H BookFile {Megnyitástár}
 translate H AnnotateVariations {Változatok kommentálása}
+translate H AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate H ShortAnnotations {Rövid kommentár}
 translate H addAnnotatorTag {Értékelõ jel hozzáadása}
 translate H AddScoreToShortAnnotations {Rövid kommentár kiegészítése értékeléssel}

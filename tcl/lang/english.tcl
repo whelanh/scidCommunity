@@ -1764,6 +1764,7 @@ translate E Hash {Hash memory}
 translate E OwnBook {Use engine book}
 translate E BookFile {Opening book}
 translate E AnnotateVariations {Annotate variations}
+translate E AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate E ShortAnnotations {Short annotations}
 translate E addAnnotatorTag {Add annotator tag}
 translate E AddScoreToShortAnnotations {Add score to annotations}

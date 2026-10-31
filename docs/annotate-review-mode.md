@@ -41,6 +41,21 @@ the refusal when the pane cannot run a review. It is pure, so it is gated by
   blunder threshold, the book, mark tactical exercises, the Annotator tag, the
   batch range, and find opening errors. They reach the writer through the globals
   the classic loop read; nothing was dropped with the classic pipeline.
+- **The White/Black filter and the variation length are read again**, the way the
+  classic read them: the toggles decide which side's moves carry the engine's
+  line as a variation (`::reviewannotate::variationAllowed`, on the mover's side),
+  and *Variation length (moves)* clips every line to `moves * 2 - 1` plies
+  (`::reviewannotate::clipLines`), the classic's own conversion. They ride in the
+  plan (`white`, `black`, `varPlies`) and reach the writer with the run, so a
+  second pass cannot overwrite them. What they do **not** do is suppress the
+  label or the marks — the classic's side filter never did either.
+- **"Annotate variations" is shown disabled**, with the reason on the dialog
+  (*Variations: main line only (review mode)*). The review pass walks
+  `sc_game UCI_mainLine`; entering a variation and annotating the moves inside it
+  is not in the review layer, and a switch that silently did nothing would be
+  worse than a switch that says why. Writing variations (the engine's line on a
+  mistake, blunder or missed win) is `::review::variationWanted`'s job and has no
+  switch here.
 
 The batch is a chain of passes, one per game: the driver runs one pass at a time,
 so `::reviewannotate::done` is the driver's completion hook (`-done`) and starts
@@ -204,9 +219,11 @@ offered — otherwise a slow provider freezes the window for the whole run.
   dialog's OK was rewired, nothing in the UI reaches it.
 - **Variations are not compared by the gate.** The fixture's two runs write no
   variations (the classic side has white/black annotations off, the review side
-  has `var_lines 0`), because the artefacts the gate names — the diagram, the
-  NAGs, the exercise — do not include them; variation insertion is covered by
-  `tests/tcl/game_review.tcl`.
+  has no blunder worth a line in the artefact the gate reads), because the
+  artefacts the gate names — the diagram, the NAGs, the exercise — do not include
+  them; variation insertion is covered by `tests/tcl/game_review.tcl`, and the
+  dialog's side filter and length by `tests/tcl/annotate_run.tcl` (what the
+  writer is handed, through the real plan and pass).
 - **The progress board is a separate change.** The annotate run reports on the
   status line; a read-only board window that walks the pass's positions in its
   own window belongs to the review progress board card, and the run does not
@@ -214,15 +231,18 @@ offered — otherwise a slow provider freezes the window for the whole run.
 - **Tier 2 (AI prose) is a separate change.** The dialog pins tier 1, so a
   configured provider cannot put prose into a game from this button until the
   batching/worker problem in "Tier 2 is synchronous" is solved.
-- **The dialog's White/Black filter and short-annotation options are kept but do
-  nothing new.** `::review::writeMove` writes the verdict word and the token
-  whatever the side; the classic's own side filter never suppressed its comment
-  either (it only skipped the variation), and the review writes variations from
-  `::review::variationWanted`. Anything that has to change there is a separate
-  change to `::review`, not to this wiring.
-- **No new translatable strings beyond the two Cancel labels.** `StopNow` and
-  `StopAfterThisGame` are in all 29 language files; the non-English files carry
-  the English text, because a mistranslated button is worse than an untranslated
-  one. The rest of what this writes is a mark or a token (`??`, `D`, `****D<n>`,
-  `[%eval]`), not prose. The AI prompt is English by design — it is sent to a
-  model, not shown to a reader.
+- **The dialog's short-annotation options are kept but do nothing new.**
+  `::review::writeMove` writes the verdict word and the token whatever the
+  side; the review's own write is the token, so "short annotations" and "add
+  score" describe a classic comment format the review does not produce. Anything
+  that has to change there is a separate change to `::review`, not to this
+  wiring.
+- **The White/Black filter and the variation length are wired** (above), so the
+  only dialog control that is not is the disabled "Annotate variations" switch.
+- **No new translatable strings beyond the two Cancel labels and the disabled
+  switch's note.** `StopNow`, `StopAfterThisGame` and
+  `AnnotateVariationsMainLineOnly` are in all 29 language files; the non-English
+  files carry the English text, because a mistranslated label is worse than an
+  untranslated one. The rest of what this writes is a mark or a token (`??`, `D`,
+  `****D<n>`, `[%eval]`), not prose. The AI prompt is English by design — it is
+  sent to a model, not shown to a reader.

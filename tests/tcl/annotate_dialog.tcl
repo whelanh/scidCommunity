@@ -98,7 +98,8 @@ set ::engines(list) [list \
     [list OldEngine /usr/bin/oldengine {} {} 0 0 {} 0 {} {}]]
 
 foreach wantProc {::reviewannotate::dialogPlan ::reviewannotate::annotates \
-        ::reviewannotate::stopLabel} {
+        ::reviewannotate::stopLabel ::reviewannotate::variationAllowed \
+        ::reviewannotate::clipLines} {
     incr checks
     if {[llength [info commands $wantProc]] == 0} {
         incr fails
@@ -281,6 +282,76 @@ close [lindex [file channels] end]
 checkHas "the English StopNow string exists" $english "translate E StopNow {Stop now}"
 checkHas "the English StopAfterThisGame string exists" $english \
     "translate E StopAfterThisGame {Stop after this game}"
+
+########################################################################
+### 5. The dialog's two variation controls: the side filter and the length
+###
+### The classic annotator read both (analysis.tcl:763-774 and :867-877 at
+### c082e4b7): the White/Black toggles decided whether a move got the engine's
+### line as a variation at all, and the spinner clipped every line to
+### annotationVariationLength*2-1 plies. This dialog still renders both, so the
+### review has to read both - an enabled control that decides nothing is the
+### quiet difference the card's risk clause forbids.
+
+set vsettings [dict replace $settings white 1 black 0 varLength 4]
+set plan [::reviewannotate::dialogPlan 1 Stockfish 1 $vsettings]
+checkEq "the White toggle travels with the plan" [dict get $plan white] 1
+checkEq "so does the Black one" [dict get $plan black] 0
+checkEq "the spinner's moves become the classic's plies" [dict get $plan varPlies] 7
+
+# A caller that does not name them gets the classic's own defaults
+# (tcl/options.tcl:140-141): both sides, and a length the dialog supplies.
+set plan [::reviewannotate::dialogPlan 1 Stockfish 1 $settings]
+checkEq "both sides are annotated by default" \
+    [list [dict get $plan white] [dict get $plan black]] {1 1}
+checkEq "and the length is unset until the dialog names it" [dict get $plan varPlies] 0
+
+# A length the spinner cannot hold is not a clip to nothing: the classic's
+# spinbox is 1..50, and 0 or a word would otherwise cut the line away entirely.
+foreach {raw want} {0 0 abc 0 -3 0 1 1 50 99} {
+    set plan [::reviewannotate::dialogPlan 1 Stockfish 1 \
+        [dict replace $vsettings varLength $raw]]
+    checkEq "a variation length of '$raw' becomes $want plies" [dict get $plan varPlies] $want
+}
+
+### The gate the writer applies: the label's own reason, then the mover's side.
+### ::annotateWhiteMoves is about the move White played, so it is the mover's
+### side - the side to move at the position before the move.
+
+checkEq "a Tk checkbox that says 0 is off" \
+    [::reviewannotate::settingFlag [dict create white 0] white] 0
+checkEq "a widget that left a boolean is read as one" \
+    [::reviewannotate::settingFlag [dict create white true] white] 1
+
+checkEq "a White move's variation needs the White toggle" \
+    [::reviewannotate::variationAllowed blunder 1 0 w] 1
+checkEq "and the Black toggle does not give it to White" \
+    [::reviewannotate::variationAllowed blunder 0 1 w] 0
+checkEq "a Black move's variation needs the Black toggle" \
+    [::reviewannotate::variationAllowed blunder 0 1 b] 1
+checkEq "both toggles annotate both sides" \
+    [list [::reviewannotate::variationAllowed blunder 1 1 w] \
+          [::reviewannotate::variationAllowed blunder 1 1 b]] {1 1}
+checkEq "a best move has no better line to show, side or no side" \
+    [::reviewannotate::variationAllowed best 1 1 w] 0
+
+### The clip, on the writer's own {cp pv} shape.
+
+checkEq "a line inside the length is left whole" \
+    [::reviewannotate::clipLines {{20 {e2e4 e7e5}}} 5] {{20 {e2e4 e7e5}}}
+checkEq "a longer one is cut to the length" \
+    [::reviewannotate::clipLines {{20 {a b c d e}}} 3] {{20 {a b c}}}
+checkEq "every line is cut, not only the first" \
+    [::reviewannotate::clipLines {{20 {a b c d}} {5 {x y z w}}} 2] {{20 {a b}} {5 {x y}}}
+checkEq "no length is no clip" \
+    [::reviewannotate::clipLines {{20 {a b c d}}} 0] {{20 {a b c d}}}
+
+# The one new string this section needs: the review pass annotates the main line
+# only, so "Annotate variations" is shown disabled rather than left inert.
+set english [read [open [file join $root tcl lang english.tcl] r]]
+close [lindex [file channels] end]
+checkHas "there is a string for the disabled variation control" $english \
+    "translate E AnnotateVariationsMainLineOnly"
 
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

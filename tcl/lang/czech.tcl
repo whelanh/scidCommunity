@@ -1732,6 +1732,7 @@ translate C Hash {Hashovac pam}
 translate C OwnBook {Pout knihovnu zahjen hernho programu}
 translate C BookFile {Knihovna zahjen}
 translate C AnnotateVariations {Anotovat varianty}
+translate C AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate C ShortAnnotations {Krtk anotace}
 translate C addAnnotatorTag {Pidat znaku anottora}
 translate C AddScoreToShortAnnotations {Pidat skre ke krtkm anotacm}

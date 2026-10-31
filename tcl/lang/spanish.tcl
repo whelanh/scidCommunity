@@ -1785,6 +1785,7 @@ translate S Hash {Memoria Hash}
 translate S OwnBook {Usar libro (book) del motor}
 translate S BookFile {Libro de aperturas}
 translate S AnnotateVariations {Anotar variantes}
+translate S AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate S ShortAnnotations {Anotaciones cortas}
 translate S addAnnotatorTag {Añadir etiqueta de anotador}
 translate S AddScoreToShortAnnotations {Añadir puntuación para anotaciones cortas}

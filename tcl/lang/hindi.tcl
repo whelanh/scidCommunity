@@ -1710,6 +1710,7 @@ translate h Hash {हैश मेमोरी}
 translate h OwnBook {इंजन बुक का प्रयोग करें}
 translate h BookFile {किताब खोलना}
 translate h AnnotateVariations {विविधताओं पर टिप्पणी करें}
+translate h AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate h ShortAnnotations {लघु टिप्पणियाँ}
 translate h addAnnotatorTag {एनोटेटर टैग जोड़ें}
 translate h AddScoreToShortAnnotations {एनोटेशन में स्कोर जोड़ें}

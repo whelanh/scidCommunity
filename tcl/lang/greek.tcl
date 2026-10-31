@@ -1759,6 +1759,7 @@ translate G Hash {Μνήμη κατατεμαχισμού (hash)}
 translate G OwnBook {Χρήση του βιβλίου της μηχανής}
 translate G BookFile {Βιβλίο ανοιγμάτων}
 translate G AnnotateVariations {Υπομνηματισμός βαριαντών}
+translate G AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate G ShortAnnotations {Σύντομος υπομνηματισμός}
 translate G addAnnotatorTag {Προσθήκη εκτικέτας του υπομνηματιστή}
 translate G AddScoreToShortAnnotations {Προσθήκη σκορ στους υπομνηματισμούς}

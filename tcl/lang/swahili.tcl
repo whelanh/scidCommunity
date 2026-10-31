@@ -1710,6 +1710,7 @@ translate Z Hash {Kumbukumbu ya hash}
 translate Z OwnBook {Tumia kitabu cha injini}
 translate Z BookFile {Kitabu cha ufunguzi}
 translate Z AnnotateVariations {Fafanua tofauti}
+translate Z AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate Z ShortAnnotations {Maelezo mafupi}
 translate Z addAnnotatorTag {Ongeza lebo ya kichambuzi}
 translate Z AddScoreToShortAnnotations {Ongeza alama kwa vidokezo}

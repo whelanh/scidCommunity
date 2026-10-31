@@ -1764,6 +1764,7 @@ translate P Hash {Pamięć hash}
 translate P OwnBook {Użyj księgi silnika}
 translate P BookFile {Księga debiutowa}
 translate P AnnotateVariations {Komentuj warianty}
+translate P AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate P ShortAnnotations {Krótkie adnotacje}
 translate P addAnnotatorTag {Dodaj znacznik komentatora}
 translate P AddScoreToShortAnnotations {Dodaj ocenę do adnotacji}

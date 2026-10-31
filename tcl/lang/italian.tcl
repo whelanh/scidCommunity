@@ -1734,6 +1734,7 @@ translate I Hash {Memoria hash}
 translate I OwnBook {Use il libro del motore}
 translate I BookFile {Libro di aperture}
 translate I AnnotateVariations {Annota le varianti}
+translate I AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate I ShortAnnotations {Annotazione breve}
 translate I addAnnotatorTag {Aggiungi il tag dell'annotazione}
 translate I AddScoreToShortAnnotations {Aggiungi il punteggio alle annotazioni brevi}

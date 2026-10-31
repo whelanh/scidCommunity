@@ -1686,6 +1686,7 @@ translate M Hash {哈希内存}
 translate M OwnBook {使用引擎书}
 translate M BookFile {开本}
 translate M AnnotateVariations {注释变化}
+translate M AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate M ShortAnnotations {简短的注释}
 translate M addAnnotatorTag {添加注释器标签}
 translate M AddScoreToShortAnnotations {为注释添加分数}

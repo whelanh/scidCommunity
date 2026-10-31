@@ -1738,6 +1738,7 @@ translate F Hash {Mémoire}
 translate F OwnBook {Utiliser bibliothèque propre}
 translate F BookFile {Bibliothèque d'ouverture}
 translate F AnnotateVariations {Annoter les variantes}
+translate F AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate F ShortAnnotations {Annotations courtes}
 translate F addAnnotatorTag {Ajouter Annotateur}
 translate F AddScoreToShortAnnotations {Ajouter score aux annotations courtes}

@@ -1754,6 +1754,7 @@ translate K Hash {Memòria Hash}
 translate K OwnBook {Utilitzar el llibre del motor}
 translate K BookFile {Llibre d'obertures}
 translate K AnnotateVariations {Anotar variants}
+translate K AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate K ShortAnnotations {Anotacions curtes}
 translate K addAnnotatorTag {Afegir etiqueta d'anotador}
 translate K AddScoreToShortAnnotations {Afegir puntuació per anotaciones curtes}

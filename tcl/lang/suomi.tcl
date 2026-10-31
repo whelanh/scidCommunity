@@ -1763,6 +1763,7 @@ translate U Hash {Välimuisti}
 translate U OwnBook {Käytä moottorin avauskirjaa}
 translate U BookFile {Avauskirja}
 translate U AnnotateVariations {Annotoi muunnelmat}
+translate U AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate U ShortAnnotations {Lyhyet annotaatiot}
 translate U addAnnotatorTag {Lisää merkintä annotaattorista}
 translate U AddScoreToShortAnnotations {Lisää tulos annotaatioihin}
