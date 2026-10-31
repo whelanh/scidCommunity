@@ -13,6 +13,13 @@
 # which carries the same attribution for the label ladder. The file-by-file
 # record is docs/third-party-notices.md.
 #
+# mixedness and its scoring table are ported verbatim from the same plugin
+# (plugins/game-review/11_cr_classify.tcl, ::crclass::mixedness and
+# ::crclass::_mixedScore, GPL-2.0-or-later): it is the licence-compatible
+# reference for the signal, and this project uses it unchanged so that a
+# position scores the same here as it does there. Which signals close the
+# opening, and in what order, is this file's own rule.
+#
 # The report is written as a block in the game's header comment, marked with
 # [Game review] so a second pass replaces it rather than stacking another one.
 
@@ -182,9 +189,26 @@ proc ::reviewreport::keyMoments {moves {max 5}} {
 }
 
 # ── phases ──────────────────────────────────────────────────────────────────
-# Opening ends on development (fewer than four back-rank pieces) or when the
-# majors-and-minors count is down to ten; endgame starts at non-pawn material
-# 26 or fewer with the queens off, or six majors-and-minors total.
+# The opening ends on the first position where any of three signals fires:
+#
+#   * Smyrnov's test: both sides have developed every minor piece and connected
+#     their rooks (smyrnovOver);
+#   * mixedness above 150: how far the two armies have grown into each other,
+#     which closes a sharp, tangled opening early so that a hypermodern line is
+#     not held to Smyrnov's strictness (mixedness);
+#   * ten or fewer majors-and-minors on the board: four of the initial fourteen
+#     n/b/r/q are gone. The count is both sides together, never per side (per
+#     side the initial count is seven), so `<= 10` is the safety net for a game
+#     that trades material fast -- it fires early, which is why it is not the
+#     primary signal, only the floor under the other two.
+#
+# There is no ply floor: a line that finishes developing on move 5 is out of the
+# opening on move 4, and the report says so.
+#
+# The endgame begins at non-pawn material 26 or fewer with the queens off, or
+# six majors-and-minors total. The middlegame is whatever is between the two: a
+# game that ends before the opening has ended has no middlegame bucket and gets
+# no middlegame prose, which is the truth about it.
 
 proc ::reviewreport::boardOf {fen} {
     set pos ""
@@ -223,21 +247,137 @@ proc ::reviewreport::queensOff {fen} {
     return 1
 }
 
-proc ::reviewreport::backrankSparse {fen} {
+# A minor piece still on the square it started on has not been developed. The
+# home squares are c1/f1/b1/g1 and c8/f8/b8/g8; a captured minor cannot be on
+# its square, so the square being empty satisfies the test and the game has
+# moved on.
+proc ::reviewreport::minorsDeveloped {board color} {
+    set home [expr {$color eq "w" ? {1 2 5 6} : {57 58 61 62}}]
+    foreach sq $home {
+        set p [lindex $board $sq]
+        if {$p ne "" && [::chessboard::colorOf $p] eq $color \
+            && [string tolower $p] in {n b}} { return 0 }
+    }
+    return 1
+}
+
+# Two rooks are connected when they share a rank or a file with every square
+# strictly between them empty -- on the back rank, on the second rank, on a
+# file, anywhere. Fewer than two rooks makes the question moot: the back rank
+# has stopped being the open question, and demanding a pair that no longer
+# exists would leave such a game in the opening for ever.
+proc ::reviewreport::rooksConnected {board color} {
+    set rooks {}
+    for {set sq 0} {$sq < 64} {incr sq} {
+        set p [lindex $board $sq]
+        if {$p ne "" && [::chessboard::colorOf $p] eq $color \
+            && [string tolower $p] eq "r"} { lappend rooks $sq }
+    }
+    if {[llength $rooks] < 2} { return 1 }
+    lassign $rooks r1 r2
+    if {[expr {$r1 / 8}] == [expr {$r2 / 8}]} {
+        for {set sq [expr {$r1 + 1}]} {$sq < $r2} {incr sq} {
+            if {[lindex $board $sq] ne ""} { return 0 }
+        }
+        return 1
+    }
+    if {[expr {$r1 % 8}] == [expr {$r2 % 8}]} {
+        for {set sq [expr {$r1 + 8}]} {$sq < $r2} {incr sq 8} {
+            if {[lindex $board $sq] ne ""} { return 0 }
+        }
+        return 1
+    }
+    return 0
+}
+
+# Smyrnov's test: a side is out of the opening when every minor piece has left
+# its original square and its rooks are connected. Both sides have to pass.
+proc ::reviewreport::smyrnovOver {fen} {
     set pos [boardOf $fen]
     if {$pos eq ""} { return 0 }
     set board [dict get $pos board]
-    set white 0
-    set black 0
-    for {set i 0} {$i < 8} {incr i} {
-        if {[lindex $board $i] ne ""} { incr white }
-        if {[lindex $board [expr {56 + $i}]] ne ""} { incr black }
+    foreach color {w b} {
+        if {![minorsDeveloped $board $color]} { return 0 }
+        if {![rooksConnected $board $color]} { return 0 }
     }
-    return [expr {$white < 4 || $black < 4}]
+    return 1
 }
 
+# lichess mixedness: every 2x2 window of files a-g and ranks 1-7 is scored for
+# pieces of the two colours standing in each other's space. Ported verbatim from
+# David Crandall's game-review plugin (plugins/game-review/11_cr_classify.tcl,
+# ::crclass::_mixedScore and ::crclass::mixedness), which is GPL-2.0-or-later
+# like this project; the board reads are this file's own. The threshold the
+# plugin uses to say a position is no longer an opening is 150.
+proc ::reviewreport::_mixedScore {y white black} {
+    switch -- $white {
+        0 {
+            switch -- $black {
+                1 { return [expr {1 + $y}] }
+                2 { return [expr {$y < 6 ? 2 + (6 - $y) : 0}] }
+                3 - 4 { return [expr {$y < 7 ? 3 + (7 - $y) : 0}] }
+            }
+            return 0
+        }
+        1 {
+            switch -- $black {
+                0 { return [expr {1 + (8 - $y)}] }
+                1 { return [expr {5 + abs(4 - $y)}] }
+                2 { return [expr {4 + (7 - $y)}] }
+                3 { return [expr {5 + (7 - $y)}] }
+            }
+            return 0
+        }
+        2 {
+            switch -- $black {
+                0 { return [expr {$y > 2 ? 2 + ($y - 2) : 0}] }
+                1 { return [expr {4 + ($y - 1)}] }
+                2 { return 7 }
+            }
+            return 0
+        }
+        3 {
+            switch -- $black {
+                0 { return [expr {$y > 1 ? 3 + ($y - 1) : 0}] }
+                1 { return [expr {5 + ($y - 1)}] }
+            }
+            return 0
+        }
+        4 {
+            switch -- $black {
+                0 { return [expr {$y > 1 ? 3 + ($y - 1) : 0}] }
+            }
+            return 0
+        }
+    }
+    return 0
+}
+
+proc ::reviewreport::mixedness {fen} {
+    set pos [boardOf $fen]
+    if {$pos eq ""} { return 0 }
+    set board [dict get $pos board]
+    set acc 0
+    for {set ry 0} {$ry <= 6} {incr ry} {
+        for {set fx 0} {$fx <= 6} {incr fx} {
+            set w 0 ; set b 0
+            foreach sq [list [expr {$ry*8 + $fx}] [expr {$ry*8 + $fx + 1}] \
+                             [expr {($ry+1)*8 + $fx}] [expr {($ry+1)*8 + $fx + 1}]] {
+                set p [lindex $board $sq]
+                if {$p eq ""} continue
+                if {[::chessboard::colorOf $p] eq "w"} { incr w } else { incr b }
+            }
+            incr acc [_mixedScore [expr {$ry + 1}] $w $b]
+        }
+    }
+    return $acc
+}
+
+# The opening is over on the first of the three signals to fire.
 proc ::reviewreport::openingOver {fen} {
-    return [expr {[majorsMinors $fen] <= 10 || [backrankSparse $fen]}]
+    return [expr {[majorsMinors $fen] <= 10 ||
+                  [smyrnovOver $fen] ||
+                  [mixedness $fen] > 150}]
 }
 
 proc ::reviewreport::endgameNow {fen} {
@@ -280,21 +420,17 @@ proc ::reviewreport::phaseStats {moves from to} {
         acplB [expr {[llength $bCp] ? round($sumB / [llength $bCp]) : 0}]]
 }
 
-# The opening ends on development (a side with fewer than four back-rank
-# pieces), but never before twelve plies: a line that develops on move 2 is
-# still an opening, and the floor also keeps a short game from being all
-# "opening" with no room for the phases. The plugin's `majorsMinors <= 10`
-# signal is not used: at the initial position it is already eight, so it
-# would close the opening on ply 1.
+# The opening ends at the first ply whose position is over, and `openingTo` is
+# the ply before it: the position after ply N is the one the move at N reached,
+# so the opening ends where the position last was still an opening.
 proc ::reviewreport::phaseSplit {moves} {
     set total [llength $moves]
     if {$total == 0} { return {} }
     set openingTo $total
     foreach m $moves {
         set ply [dict get $m ply]
-        if {$ply < 12} { continue }
         set fen [dict get $m fen_after]
-        if {$fen ne "" && [backrankSparse $fen]} {
+        if {$fen ne "" && [openingOver $fen]} {
             set openingTo [expr {$ply - 1}]
             break
         }
