@@ -95,6 +95,14 @@ comes first, so a capped pass can finish shallower than `::review::depth`, and a
 verdict then rests on a shallower search than the setting promised. That is the
 trade the cap asks for, and it is why the cap is off by default.
 
+**A bound never displaces a verdict.** A capped search can report a MultiPV slot
+as `lowerbound`/`upperbound` at the depth it had reached and only then finish the
+line. `::reviewdriver::collect` keeps one line per slot by ranking a `cp`/`mate`
+score above a bound before depth, because `::reviewdriver::lineScore` refuses a
+bound: the deepest-line rule would have let the bound hold the slot (the exact line
+at the same depth is "not deeper") or overwrite an exact line already in hand, and
+the ply would have been written with no verdict at all.
+
 The pass runs on its own engine connection (id 20), so it never restarts the
 search the user is watching in the analysis pane.
 
@@ -144,9 +152,11 @@ the cap bit — instead of waiting for a depth the cap will never allow.
 
 The time cap sits beside Depth because it bounds the same thing. A value of 0
 means the review sets no cap of its own, and the row then shows the preset's, as
-`1500 ms (from engine preset)` — the same number the pass will search under, read
-through `::review::effective` so the dialog cannot promise a bound the review
-would not use. The note disappears the moment a value of its own is typed.
+`1500 ms (from engine preset)`. The note reads the preset's own
+`Limits.movetime` — never `::review::effective`, which keeps a review cap that is
+still saved: with 200 ms saved beside a preset's 900, a box at 0 is the edit that
+clears the saved cap, so the note says 900. The note disappears the moment a value
+of its own is typed.
 
 A variation is written only where the verdict says a better move existed —
 `mistake`, `blunder` and `miss` — so the default of 1 gives a game a handful of

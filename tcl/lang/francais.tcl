@@ -1997,6 +1997,7 @@ translate F BatchCancel {Annuler}
 translate F BatchCompleted {complété}
 translate F BatchGames {jeux}
 translate F BatchProcessed {traité}
+translate F BatchUnscoredPlies {demi-coups sans verdict: %s}
 translate F TablebaseWindow {Fenêtre de la base de table}
 translate F TBWinMoves {--- Mouvements gagnants ---}
 translate F TBDrawMoves {--- Mouvements de dessin ---}

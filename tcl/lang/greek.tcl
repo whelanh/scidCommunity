@@ -2018,6 +2018,7 @@ translate G BatchCancel {Ματαίωση}
 translate G BatchCompleted {ολοκληρώθηκε το}
 translate G BatchGames {παιχνίδια}
 translate G BatchProcessed {επεξεργασμένα}
+translate G BatchUnscoredPlies {ημικινήσεις χωρίς ετυμηγορία: %s}
 translate G TablebaseWindow {Παράθυρο βάσης πίνακα}
 translate G TBWinMoves {--- Κινήσεις που κερδίζουν ---}
 translate G TBDrawMoves {--- Κινήσεις σχεδίασης ---}

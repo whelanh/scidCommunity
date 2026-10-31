@@ -2016,6 +2016,7 @@ translate N BatchCancel {Annuleren}
 translate N BatchCompleted {voltooid}
 translate N BatchGames {spellen}
 translate N BatchProcessed {verwerkt}
+translate N BatchUnscoredPlies {halfzetten zonder oordeel: %s}
 translate N TablebaseWindow {Tablebase-venster}
 translate N TBWinMoves {--- Winnende zetten ---}
 translate N TBDrawMoves {--- Tekenbewegingen ---}

@@ -3330,6 +3330,7 @@ translate Y BatchCompleted {completed}
 translate Y BatchGames {games}
 # ====== TODO To be translated ======
 translate Y BatchProcessed {processed}
+translate Y BatchUnscoredPlies {polupotezi bez ocene: %s}
 # ====== TODO To be translated ======
 translate Y TablebaseWindow {Tablebase Window}
 # ====== TODO To be translated ======

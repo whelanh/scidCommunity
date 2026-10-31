@@ -1970,6 +1970,7 @@ translate Q BatchCancel {Скасувати}
 translate Q BatchCompleted {завершено}
 translate Q BatchGames {ігри}
 translate Q BatchProcessed {оброблені}
+translate Q BatchUnscoredPlies {півходи без оцінки: %s}
 translate Q TablebaseWindow {Вікно бази даних}
 translate Q TBWinMoves {--- Переможні ходи ---}
 translate Q TBDrawMoves {--- Малювання рухів ---}

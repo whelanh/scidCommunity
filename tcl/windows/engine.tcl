@@ -1165,7 +1165,11 @@ proc ::enginewin::reviewSettings {id} {
             $::enginewin::reviewnotetr($id)
         # And once for the state the dialog opens in.
         {*}$::enginewin::reviewnotetr($id)
-        bind $w <Destroy> [list apply {{id w} {
+        # Appended, not replaced: the mpv row above already bound <Destroy> on
+        # this same toplevel, and Tcl's `bind` REPLACES a binding unless the
+        # script starts with "+". Replacing it left the mpv trace installed for
+        # good, and every reopen stacked another one on a dialog already gone.
+        bind $w <Destroy> +[list apply {{id w} {
             if {"%W" ne $w} { return }
             catch {
                 trace remove variable ::enginewin::reviewsetting($id,movetime) write \

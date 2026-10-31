@@ -2010,6 +2010,7 @@ translate k BatchCancel {취소}
 translate k BatchCompleted {완전한}
 translate k BatchGames {계략}
 translate k BatchProcessed {처리됨}
+translate k BatchUnscoredPlies {판정 없는 반수: %s}
 translate k TablebaseWindow {테이블베이스 창}
 translate k TBWinMoves {--- 승리 동작 ---}
 translate k TBDrawMoves {--- 그리기 동작 ---}

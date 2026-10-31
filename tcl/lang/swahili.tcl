@@ -1969,6 +1969,7 @@ translate Z BatchCancel {Ghairi}
 translate Z BatchCompleted {imekamilika}
 translate Z BatchGames {michezo}
 translate Z BatchProcessed {imechakatwa}
+translate Z BatchUnscoredPlies {nusu-hatua bila uamuzi: %s}
 translate Z TablebaseWindow {Dirisha la Meza}
 translate Z TBWinMoves {--- Hatua za Ushindi ---}
 translate Z TBDrawMoves {--- Hatua za Kuchora ---}

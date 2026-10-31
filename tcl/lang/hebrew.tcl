@@ -1970,6 +1970,7 @@ translate V BatchCancel {לְבַטֵל}
 translate V BatchCompleted {הושלם}
 translate V BatchGames {משחקים}
 translate V BatchProcessed {מְעוּבָּד}
+translate V BatchUnscoredPlies {חצאי מהלכים ללא הכרעה: %s}
 translate V TablebaseWindow {חלון בסיס שולחן}
 translate V TBWinMoves {--- מהלכים מנצחים ---}
 translate V TBDrawMoves {--- ציור מהלכים ---}

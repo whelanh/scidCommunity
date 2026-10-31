@@ -1945,6 +1945,7 @@ translate M BatchCancel {取消}
 translate M BatchCompleted {完全的}
 translate M BatchGames {游戏}
 translate M BatchProcessed {加工过的}
+translate M BatchUnscoredPlies {无评定的半步: %s}
 translate M TablebaseWindow {表库窗口}
 translate M TBWinMoves {--- 制胜之举 ---}
 translate M TBDrawMoves {--- 绘图动作 ---}

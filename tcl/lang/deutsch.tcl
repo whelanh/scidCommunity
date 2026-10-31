@@ -2041,6 +2041,7 @@ translate D BatchCancel {Stornieren}
 translate D BatchCompleted {vollendet}
 translate D BatchGames {Spiele}
 translate D BatchProcessed {verarbeitet}
+translate D BatchUnscoredPlies {Halbzüge ohne Urteil: %s}
 translate D TablebaseWindow {Tablebase-Fenster}
 translate D TBWinMoves {--- Gewinnzüge ---}
 translate D TBDrawMoves {--- Zeichenbewegungen ---}

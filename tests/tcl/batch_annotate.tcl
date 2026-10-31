@@ -136,5 +136,33 @@ checkEq "no cap in Review Settings, no time in the Go" \
 checkEq "a cap in Review Settings reaches the pipe" \
     [::batch_annotate_test::go 400] "go depth 18 movetime 400"
 
+# A short cap can end a position before the engine reports a single scored line.
+# collect keeps nothing for it, the ply is written with no verdict, and the game
+# still counts as completed: the count is the only place the user learns the batch
+# fell short of judging every move, so it has to reach the completion dialog.
+puts "\nplies the search left unjudged are counted"
+
+array set ::tr {
+    BatchComplete      {Batch Annotation Complete!}
+    BatchGames         {games}
+    BatchProcessed     {processed}
+    BatchUnscoredPlies {plies with no verdict: %s}
+}
+
+set ::batch_annotate::unscored_plies 0
+set ::batch_annotate::engine_lines(stub) [dict create]
+::batch_annotate::note_position stub
+checkEq "a position with no usable line is counted" \
+    $::batch_annotate::unscored_plies 1
+set ::batch_annotate::engine_lines(stub) [dict create 1 {10 34 cp {e2e4}}]
+::batch_annotate::note_position stub
+checkEq "a position the writer can use is not" \
+    $::batch_annotate::unscored_plies 1
+set ::batch_annotate::games_completed 3
+checkEq "the completion dialog reports games and unjudged plies" \
+    [::batch_annotate::completionMessage] \
+    {Batch Annotation Complete! 3 games processed, plies with no verdict: 1.}
+unset ::batch_annotate::engine_lines(stub)
+
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

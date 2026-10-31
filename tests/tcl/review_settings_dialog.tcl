@@ -178,6 +178,11 @@ checkEq "OK stores the cap" $::reviewopt(movetime) 2000
 checkEq "the dialog is gone" [winfo exists $w5] 0
 checkEq "and the note's trace went with it" \
     [llength [trace info variable ::enginewin::reviewsetting(1,movetime)]] 0
+# The mpv row above bound <Destroy> on this same toplevel, and Tk's bind replaces a
+# binding unless the script starts with "+": replacing it left this trace behind
+# on every close, one more per reopen. Closing the dialog must leave neither.
+checkEq "and the mpv trace the other row installed" \
+    [llength [trace info variable ::enginewin::reviewsetting(1,mpv)]] 0
 ::review::setValue movetime 0
 set ::engineCfgAnswer {}
 

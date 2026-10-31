@@ -2010,6 +2010,7 @@ translate J BatchCancel {Откажи}
 translate J BatchCompleted {завршено}
 translate J BatchGames {игрице}
 translate J BatchProcessed {обрађене}
+translate J BatchUnscoredPlies {полупотеза без оцене: %s}
 translate J TablebaseWindow {Таблебасе Виндов}
 translate J TBWinMoves {--- Победнички потези ---}
 translate J TBDrawMoves {--- Покрети цртања ---}

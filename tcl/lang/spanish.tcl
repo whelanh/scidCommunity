@@ -2044,6 +2044,7 @@ translate S BatchCancel {Cancelar}
 translate S BatchCompleted {terminado}
 translate S BatchGames {juegos}
 translate S BatchProcessed {procesado}
+translate S BatchUnscoredPlies {medias jugadas sin veredicto: %s}
 translate S TablebaseWindow {Ventana de base de tabla}
 translate S TBWinMoves {--- Movimientos ganadores ---}
 translate S TBDrawMoves {--- Movimientos de dibujo ---}

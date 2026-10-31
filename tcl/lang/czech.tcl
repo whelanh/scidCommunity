@@ -1991,6 +1991,7 @@ translate C BatchCancel {Zru¹it}
 translate C BatchCompleted {dokonèeno}
 translate C BatchGames {hry}
 translate C BatchProcessed {zpracováno}
+translate C BatchUnscoredPlies {poltahy bez verdiktu: %s}
 translate C TablebaseWindow {Okno tabulky}
 translate C TBWinMoves {--- Vítězné tahy ---}
 translate C TBDrawMoves {--- Kreslící pohyby ---}

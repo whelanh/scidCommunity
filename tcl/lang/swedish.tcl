@@ -1997,6 +1997,7 @@ translate W BatchCancel {Avboka}
 translate W BatchCompleted {avslutad}
 translate W BatchGames {spel}
 translate W BatchProcessed {bearbetas}
+translate W BatchUnscoredPlies {halvdrag utan omdöme: %s}
 translate W TablebaseWindow {Tabellbasfönster}
 translate W TBWinMoves {--- Vinnande drag ---}
 translate W TBDrawMoves {--- Rita rörelser ---}

@@ -2023,6 +2023,7 @@ translate P BatchCancel {Anuluj}
 translate P BatchCompleted {zakończono}
 translate P BatchGames {partii}
 translate P BatchProcessed {przetworzono}
+translate P BatchUnscoredPlies {posunięcia bez oceny: %s}
 translate P TablebaseWindow {Okno tablic końcówek}
 translate P TBWinMoves {--- Posunięcia wygrywające ---}
 translate P TBDrawMoves {--- Posunięcia remisujące ---}

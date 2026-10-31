@@ -1969,6 +1969,7 @@ translate b BatchCancel {বাতিল করুন}
 translate b BatchCompleted {সম্পন্ন}
 translate b BatchGames {গেম}
 translate b BatchProcessed {প্রক্রিয়া করা}
+translate b BatchUnscoredPlies {রায় ছাড়া অর্ধচাল: %s}
 translate b TablebaseWindow {টেবিলবেস উইন্ডো}
 translate b TBWinMoves {--- উইনিং মুভ ---}
 translate b TBDrawMoves {--- অঙ্কন চালনা ---}

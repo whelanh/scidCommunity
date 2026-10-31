@@ -1993,6 +1993,7 @@ translate I BatchCancel {Cancellare}
 translate I BatchCompleted {completato}
 translate I BatchGames {giochi}
 translate I BatchProcessed {elaborato}
+translate I BatchUnscoredPlies {semimosse senza verdetto: %s}
 translate I TablebaseWindow {Finestra della base tabella}
 translate I TBWinMoves {--- Mosse vincenti ---}
 translate I TBDrawMoves {--- Mosse di disegno ---}

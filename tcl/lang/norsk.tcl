@@ -1991,6 +1991,7 @@ translate O BatchCancel {Kansellere}
 translate O BatchCompleted {fullført}
 translate O BatchGames {spill}
 translate O BatchProcessed {behandlet}
+translate O BatchUnscoredPlies {halvtrekk uten dom: %s}
 translate O TablebaseWindow {Tablebase-vindu}
 translate O TBWinMoves {--- Vinnende trekk ---}
 translate O TBDrawMoves {--- Tegning Moves ---}

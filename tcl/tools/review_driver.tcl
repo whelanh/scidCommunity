@@ -181,7 +181,23 @@ proc ::reviewdriver::configure {token} {
     ::engine::send $id SetOptions $opts
 }
 
-# Keep the deepest line seen for each MultiPV slot of the current position.
+# Whether a line's score is something ::reviewdriver::lineScore would use.
+# `cp` and `mate` are measurements; `lowerbound`/`upperbound` are how far a search
+# had got when it stopped, which is not a verdict - so a bound must never take a
+# MultiPV slot from a line that can be judged, however deep it got.
+proc ::reviewdriver::exactScore {score_type} {
+    return [expr {$score_type eq "cp" || $score_type eq "mate"}]
+}
+
+# Keep the best line seen for each MultiPV slot of the current position: a
+# verdict first, then the deepest one.
+#
+# The order matters only since a pass can be cut off by time. A capped search
+# reports a slot as a bound at the depth it had reached, then finishes the line;
+# ranking by depth alone let the bound hold the slot - the exact line at the same
+# depth was "not deeper" and was dropped, and a deeper bound overwrote an exact
+# line already in hand. Either way ::reviewdriver::lineScore refuses what was
+# kept and the ply gets no verdict at all.
 proc ::reviewdriver::collect {token msgData} {
     variable job
     lassign $msgData multipv depth seldepth nodes nps hashfull tbhits time \
@@ -189,8 +205,21 @@ proc ::reviewdriver::collect {token msgData} {
     if {$multipv eq "" || $score eq ""} {
         return
     }
+    if {![string is integer -strict $depth]} {
+        return
+    }
     set lines [dict get $job($token) lines]
-    if {[dict exists $lines $multipv] && [lindex [dict get $lines $multipv] 0] >= $depth} {
+    set oldDepth -1
+    set oldExact 0
+    if {[dict exists $lines $multipv]} {
+        lassign [dict get $lines $multipv] oldDepth oldScore oldType oldPv
+        set oldExact [::reviewdriver::exactScore $oldType]
+    }
+    set exact [::reviewdriver::exactScore $score_type]
+    if {$exact < $oldExact} {
+        return
+    }
+    if {$exact == $oldExact && $depth <= $oldDepth} {
         return
     }
     dict set lines $multipv [list $depth $score $score_type $pv]

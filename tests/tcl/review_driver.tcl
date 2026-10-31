@@ -1079,6 +1079,74 @@ checkEq "and so is its mark" [nagsAt 4] "??"
 checkEq "and the diagram before it" [nagsAt 3] "D"
 ::review::reset
 
+puts "a verdict outranks a bound in the same slot"
+
+# A capped search stops mid-line: the engine reports a slot as a bound, then
+# finishes the exact score. Keeping the deepest line per slot and nothing else
+# dropped the exact one - at the same depth it was "not deeper" - and a deeper
+# bound overwrote an exact line already in hand. ::reviewdriver::lineScore refuses
+# a bound, so either way the ply was written with no verdict at all.
+proc fakeBoard {} {
+    set ::fakeMainLine [list {position startpos moves} e2e4 e7e5 g1f3 b8c6]
+    set ::fakeLen 4
+    set ::fakeLoc 2
+    set ::fakeLevel 0
+    set ::fakeNums {}
+    set ::fakeExit {}
+    set ::fakeVars {}
+    set ::fakeComments {}
+    set ::fakeNags {}
+    set ::events {}
+    set ::runProgress {}
+}
+
+::review::reset
+fakeBoard
+checkEq "the pass starts on a position answered by a bound first" \
+    [::reviewdriver::run $runcfg] ""
+feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 30 lowerbound 0 e2e4}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 10 cp 0 e2e4 d7d5}
+feedEvent InfoPV {2 20 22 900 300 0 0 120 5 cp 0 d2d4}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 8 cp 0 e7e5 g1f3}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 6 cp 0 g1f3 b8c6}
+feedEvent InfoPV {2 20 22 900 300 0 0 120 4 cp 0 d2d4}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 4 cp 0 b8c6 g1f3}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 3 cp 0 g1f3}
+feedEvent InfoBestMove {}
+pump
+checkEq "the exact line at the same depth took the slot" \
+    [dict get [::reviewdriver::status] written] 4
+
+# The other order: the slot already holds a verdict and a deeper bound arrives
+# after it. Depth alone would have replaced it.
+::review::reset
+fakeBoard
+checkEq "a pass where the bound comes last starts" \
+    [::reviewdriver::run $runcfg] ""
+feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
+feedEvent InfoPV {1 18 22 900 300 0 0 120 10 cp 0 e2e4 d7d5}
+feedEvent InfoPV {1 22 22 900 300 0 0 120 30 lowerbound 0 e2e4}
+feedEvent InfoPV {2 20 22 900 300 0 0 120 5 cp 0 d2d4}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 8 cp 0 e7e5 g1f3}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 6 cp 0 g1f3 b8c6}
+feedEvent InfoPV {2 20 22 900 300 0 0 120 4 cp 0 d2d4}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 4 cp 0 b8c6 g1f3}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 3 cp 0 g1f3}
+feedEvent InfoBestMove {}
+pump
+checkEq "a deeper bound does not overwrite a verdict" \
+    [dict get [::reviewdriver::status] written] 4
+::review::reset
+
 puts "a first-move blunder has no diagram to place"
 
 # The diagram goes on the move before the error; the first move has no such

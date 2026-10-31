@@ -292,6 +292,18 @@ checkEq "neither side sets one: no note" \
 ::review::setValue movetime 2000
 checkEq "and a review cap silences the note straight away" \
     [::reviewui::movetimeNote [::review::get movetime] $cappedCfg] ""
+# A cap the review still has SAVED is not the preset's, and a box reading 0 is the
+# edit that clears it. Reading ::review::effective folded the saved 200 ms into the
+# note, which then credited the preset with a number the preset never gave while
+# applying the same edit would have run at the preset's 900.
+::review::reset
+::review::setValue movetime 200
+checkEq "a saved cap does not answer for the preset" \
+    [::reviewui::movetimeFromPreset 0 $cappedCfg] 900
+checkEq "so the note still names the preset's own number" \
+    [::reviewui::movetimeNote 0 $cappedCfg] {900 ms (from engine preset)}
+checkEq "and a box with a cap of its own still needs no note" \
+    [::reviewui::movetimeNote 200 $cappedCfg] ""
 ::review::reset
 set ::engines(list) {}
 

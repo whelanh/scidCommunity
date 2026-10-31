@@ -2022,6 +2022,7 @@ translate U BatchCancel {Peruuta}
 translate U BatchCompleted {valmiiksi}
 translate U BatchGames {pelejä}
 translate U BatchProcessed {käsitelty}
+translate U BatchUnscoredPlies {puolisiirrot ilman arviota: %s}
 translate U TablebaseWindow {Taulukkopohja-ikkuna}
 translate U TBWinMoves {--- Voittoliikkeet ---}
 translate U TBDrawMoves {--- Piirustusliikkeet ---}

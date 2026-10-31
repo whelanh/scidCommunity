@@ -184,13 +184,21 @@ proc ::reviewui::presetNote {enginecfg} {
 # a cap of its own, because then the number in the box is the answer and a note
 # beside it would be noise.
 #
-# This reads ::review::effective, the same answer the pass searches with, so the
-# dialog cannot show a bound the review would not honour, and the pass cannot run
-# on one the dialog never showed.
+# The preset's OWN limit, never ::review::effective's answer: `effective` keeps a
+# review cap that is still SAVED, and a box reading 0 is the edit that clears it.
+# With 200 ms saved beside a preset's 900 the note read "200 ms (from engine
+# preset)" - the wrong number and the wrong side - while applying the edit ran at
+# 900. `::enginelimits::forName` is the same lookup the pass makes, so the note
+# still reads what the pass would run under, just without the saved cap in it.
 proc ::reviewui::movetimeFromPreset {value enginecfg} {
     if {[string is integer -strict $value] && $value > 0} { return "" }
-    set eff [::review::effective $enginecfg]
-    return [dict get $eff movetime]
+    if {[llength $enginecfg] < 1} { return "" }
+    set preset [dict create depth "" movetime ""]
+    if {[info commands ::enginelimits::forName] ne ""} {
+        set preset [::enginelimits::forName [lindex $enginecfg 0]]
+    }
+    set lim [::review::passLimits [dict create depth 0 movetime 0] $preset]
+    return [dict get $lim movetime]
 }
 
 # The note itself, beside the time box: "900 ms (from engine preset)". "" when

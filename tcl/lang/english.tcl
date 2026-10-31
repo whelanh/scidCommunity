@@ -2023,6 +2023,7 @@ translate E BatchCancel {Cancel}
 translate E BatchCompleted {completed}
 translate E BatchGames {games}
 translate E BatchProcessed {processed}
+translate E BatchUnscoredPlies {plies with no verdict: %s}
 translate E TablebaseWindow {Tablebase Window}
 translate E TBWinMoves {--- Winning Moves ---}
 translate E TBDrawMoves {--- Drawing Moves ---}

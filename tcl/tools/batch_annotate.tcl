@@ -17,6 +17,11 @@ namespace eval ::batch_annotate {
     variable movetime ""
     variable games_completed 0
     variable total_games 0
+    # Plies whose search ended with no scored line at all: a time cap can stop a
+    # position before the engine reports one, and such a ply is written with no
+    # verdict. Counted so the completion dialog can say so - the games counter
+    # alone reports a game as done whether or not every move in it got judged.
+    variable unscored_plies 0
 }
 
 # Register user-configurable preferences for saving via Options > Save Options
@@ -89,6 +94,7 @@ proc ::batch_annotate::start {w} {
     set num_games [llength $::batch_annotate::game_queue]
     set ::batch_annotate::total_games $num_games
     set ::batch_annotate::games_completed 0
+    set ::batch_annotate::unscored_plies 0
 
     set num_engines $instances
     if {$num_engines > $num_games} { set num_engines $num_games }
@@ -295,8 +301,21 @@ proc ::batch_annotate::check_completion {} {
         foreach p $pipes { catch { puts $p "quit"; close $p } }
         set pipes {}
         if {[winfo exists .batchAnnotateProgress]} { destroy .batchAnnotateProgress }
-        tk_messageBox -message "$::tr(BatchComplete) $games_completed $::tr(BatchGames) $::tr(BatchProcessed)."
+        tk_messageBox -message [::batch_annotate::completionMessage]
     }
+}
+
+# What the completion dialog says: the games it finished, and how many plies in
+# them ended with no verdict. The two are different questions - a game counts as
+# done as soon as its write lands - and under a time cap an empty search result is
+# the likeliest way for a move to go unjudged, so the count is the only place a
+# user learns the batch fell short of judging every move.
+proc ::batch_annotate::completionMessage {} {
+    variable games_completed
+    variable unscored_plies
+    set games "$games_completed $::tr(BatchGames) $::tr(BatchProcessed)"
+    set unjudged [format $::tr(BatchUnscoredPlies) $unscored_plies]
+    return "$::tr(BatchComplete) $games, $unjudged."
 }
 
 proc ::batch_annotate::feed_move {pipe} {
@@ -382,7 +401,20 @@ proc ::batch_annotate::read_engine {pipe} {
     } elseif {[string match "bestmove *" $line]} {
         dict set ::batch_annotate::pipe_evals($pipe) $ply \
             $::batch_annotate::engine_lines($pipe)
+        ::batch_annotate::note_position $pipe
         ::batch_annotate::feed_move $pipe
+    }
+}
+
+# Count a position whose search produced nothing the writer can use. Under a time
+# cap the engine can be stopped before it reports a single scored line, and
+# collect drops bounds and PV-less lines, so an empty dict here means this ply gets
+# no verdict - the game still finishes and still counts as completed, which is why
+# the count is kept.
+proc ::batch_annotate::note_position {pipe} {
+    variable unscored_plies
+    if {[dict size $::batch_annotate::engine_lines($pipe)] == 0} {
+        incr unscored_plies
     }
 }
 

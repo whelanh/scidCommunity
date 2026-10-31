@@ -1999,6 +1999,7 @@ translate B BatchCancel {Cancelar}
 translate B BatchCompleted {concluído}
 translate B BatchGames {jogos}
 translate B BatchProcessed {processado}
+translate B BatchUnscoredPlies {meios-lances sem veredito: %s}
 translate B TablebaseWindow {Janela Base de Tabela}
 translate B TBWinMoves {--- Movimentos vencedores ---}
 translate B TBDrawMoves {--- Movimentos de desenho ---}

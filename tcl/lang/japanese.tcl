@@ -2010,6 +2010,7 @@ translate A BatchCancel {キャンセル}
 translate A BatchCompleted {完了しました}
 translate A BatchGames {ゲーム}
 translate A BatchProcessed {処理された}
+translate A BatchUnscoredPlies {判定なしの半手: %s}
 translate A TablebaseWindow {テーブルベースウィンドウ}
 translate A TBWinMoves {--- 必勝技 ---}
 translate A TBDrawMoves {--- 描画動作 ---}

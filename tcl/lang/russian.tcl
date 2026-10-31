@@ -1993,6 +1993,7 @@ translate R BatchCancel {Отмена}
 translate R BatchCompleted {завершенный}
 translate R BatchGames {игры}
 translate R BatchProcessed {обработано}
+translate R BatchUnscoredPlies {полуходы без оценки: %s}
 translate R TablebaseWindow {Окно таблицы}
 translate R TBWinMoves {--- Выигрышные ходы ---}
 translate R TBDrawMoves {--- Рисование движений ---}

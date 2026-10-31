@@ -2013,6 +2013,7 @@ translate K BatchCancel {Cancel·la}
 translate K BatchCompleted {completat}
 translate K BatchGames {jocs}
 translate K BatchProcessed {processats}
+translate K BatchUnscoredPlies {migs moviments sense veredicte: %s}
 translate K TablebaseWindow {Finestra Tablebase}
 translate K TBWinMoves {--- Moviments guanyadors ---}
 translate K TBDrawMoves {--- Dibuix moviments ---}

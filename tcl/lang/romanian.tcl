@@ -2010,6 +2010,7 @@ translate L BatchCancel {Anula}
 translate L BatchCompleted {completat}
 translate L BatchGames {jocuri}
 translate L BatchProcessed {prelucrate}
+translate L BatchUnscoredPlies {semimutări fără verdict: %s}
 translate L TablebaseWindow {Fereastra Tablebase}
 translate L TBWinMoves {--- Mișcări câștigătoare ---}
 translate L TBDrawMoves {--- Mișcări de desen ---}

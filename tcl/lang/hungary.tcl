@@ -1992,6 +1992,7 @@ translate H BatchCancel {Mégsem}
 translate H BatchCompleted {elkészült}
 translate H BatchGames {játékok}
 translate H BatchProcessed {feldolgozott}
+translate H BatchUnscoredPlies {félmozdulások ítélet nélkül: %s}
 translate H TablebaseWindow {Táblázatbázis ablak}
 translate H TBWinMoves {--- Nyerő lépések ---}
 translate H TBDrawMoves {--- Rajzmozgások ---}

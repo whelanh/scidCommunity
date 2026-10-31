@@ -2010,6 +2010,7 @@ translate g BatchCancel {Отказ}
 translate g BatchCompleted {завършен}
 translate g BatchGames {игри}
 translate g BatchProcessed {обработени}
+translate g BatchUnscoredPlies {полуходове без присъда: %s}
 translate g TablebaseWindow {Прозорец на таблична база}
 translate g TBWinMoves {--- Печеливши движения ---}
 translate g TBDrawMoves {--- Движения за рисуване ---}

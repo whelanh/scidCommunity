@@ -1969,6 +1969,7 @@ translate h BatchCancel {रद्द करना}
 translate h BatchCompleted {पुरा होना}
 translate h BatchGames {खेल}
 translate h BatchProcessed {प्रसंस्कृत}
+translate h BatchUnscoredPlies {बिना निर्णय वाले अर्धचाल: %s}
 translate h TablebaseWindow {टेबलबेस विंडो}
 translate h TBWinMoves {---जीतने की चालें ---}
 translate h TBDrawMoves {--- ड्राइंग चालें ---}
