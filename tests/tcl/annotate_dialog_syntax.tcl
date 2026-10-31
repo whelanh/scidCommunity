@@ -8,8 +8,12 @@
 # one is a bug that shows up as a missing widget rather than a load error - and
 # that the new translated string exists for the label the dialog now shows.
 #
-# This is a syntax gate, not an acceptance test: the dialog's behaviour is gated
-# by tests/tcl/annotate_dialog.tcl (the decision) and CI's Tk job (the widgets).
+# This is a syntax gate, not an acceptance test. It is itself one of the 21 tclsh
+# steps of the tcl-harnesses job, as is tests/tcl/annotate_dialog.tcl (the
+# decision). No CI job builds the dialog's widgets: the tk-dialogs job runs only
+# the three xvfb-run wish harnesses - auto_comment_dialogs,
+# review_settings_dialog, finish_game_dialog - and none of them builds
+# ::configAnnotation.
 set fails 0
 set checks 0
 set root [file normalize [file join [file dirname [info script]] .. ..]]
