@@ -173,6 +173,35 @@ proc ::reviewannotate::difficulty {bm0} {
     return [expr {$t + 2}]
 }
 
+# Is `pane`'s engine UCI? "" when the pane was never created. The value is the
+# flag itself, normalised: a session that never opened Preferences can leave the
+# entry as a Tk boolean string.
+proc ::reviewannotate::paneUci {pane} {
+    if {![info exists ::analysis(uci$pane)]} { return "" }
+    set raw $::analysis(uci$pane)
+    if {[string is boolean -strict $raw]} { return [expr {$raw ? 1 : 0}] }
+    if {[string is integer -strict $raw]} { return [expr {$raw != 0}] }
+    return 0
+}
+
+# The exercise probe drives scid's own analyser, which is the UCI engine only in
+# this build - the classic's gate, read from the pane whose preset is running the
+# pass. The dialog records that pane when it opens (::annotatePane,
+# analysis.tcl:368), and its tactical checkbox is disabled on the same pane's
+# engine, so the two cannot disagree. Pane 1 is only the fallback for a session
+# that never opened the dialog: the classic annotator had one pane.
+proc ::reviewannotate::exercisePaneUci {} {
+    set pane 1
+    catch { set pane $::annotatePane }
+    if {[string is integer -strict $pane]} {
+        set uci [::reviewannotate::paneUci $pane]
+        if {$uci ne ""} { return $uci }
+    }
+    set uci [::reviewannotate::paneUci 1]
+    if {$uci eq ""} { return 0 }
+    return $uci
+}
+
 # Port of markExercise (analysis.tcl:536-608): mark the game as an exercise when
 # the position was a puzzle rather than a position that was already decided.
 #
@@ -195,8 +224,8 @@ proc ::reviewannotate::markExercise {before after nag lines} {
 
     if {!$::markTacticalExercises} { return 0 }
     # The difficulty probe drives scid's own analyser, which is the UCI engine
-    # only in this build: same gate as the classic.
-    if {![info exists ::analysis(uci1)] || !$::analysis(uci1)} { return 0 }
+    # only in this build: the classic's gate, on the pane that opened the dialog.
+    if {![::reviewannotate::exercisePaneUci]} { return 0 }
 
     set deltamove [expr {$score - $prevscore}]
     if {[expr abs($deltamove)] < $::informant(+/-)} { return 0 }
@@ -954,27 +983,39 @@ proc ::reviewannotate::nextGame {} {
     set game [lindex $games [dict get $run index]]
     set batch [expr {[llength $games] > 1}]
     if {$batch} {
+        # The push is undone below when the load fails: a copy left on the game
+        # stack is one the user's own `sc_game pop` would find later, and the
+        # base has to come back exactly as it was.
+        set pushed 0
         if {[catch {
             sc_game push copy
+            set pushed 1
             sc_game load $game
-        }]} {
-            # The game cannot be read: count it and go on, the way the classic
-            # autoplay skipped a game it could not load.
-            dict lappend run skippedGames $game
-            return [::reviewannotate::done {}]
+        } err]} {
+            # The game cannot be read. Neither half of the finished-game step can
+            # run here: the board still holds the base - the load never happened,
+            # and the push above is undone - so saving would write the user's own
+            # game into this game's slot, and advancing would start a pass on a
+            # range whose input is already broken. Stop the way a cancelled pass
+            # stops, and say what went wrong.
+            if {$pushed} { catch { sc_game pop } }
+            ::reviewannotate::finish
+            return "game $game could not be read: $err"
         }
         dict set run borrowed 1
     }
+    # The book is walked for the game in flight, not for the caller's: in a batch
+    # the game has just been loaded, and a single game is the one on the board.
+    # The plan's number is only the fallback for a caller that walked it itself
+    # (no book selected here) - it was measured on whatever game the dialog was
+    # opened over, and applying it to a later game of the range would skip that
+    # game's own opening, or annotate it as a mistake.
     set bookEnd [dict get $plan bookEnd]
-    if {!$batch} {
-        # The book walk needs the game it is about, and in a batch the game has
-        # just been loaded. A single game is the one on the board.
-        set book [::reviewannotate::book]
-        if {$book ne ""} {
-            set bookEnd 0
-            catch { set bookEnd [::reviewannotate::findBookEnd [lindex $book 0] [lindex $book 1]] }
-            if {$bookEnd < 0} { set bookEnd 0 }
-        }
+    set book [::reviewannotate::book]
+    if {$book ne ""} {
+        set bookEnd 0
+        catch { set bookEnd [::reviewannotate::findBookEnd [lindex $book 0] [lindex $book 1]] }
+        if {$bookEnd < 0} { set bookEnd 0 }
     }
     dict set run last {0 0}
     # The dialog's variation controls, when the plan carries them - a plan built by
@@ -1019,11 +1060,22 @@ proc ::reviewannotate::returnGame {} {
 }
 
 # The driver's completion hook: called once per pass, with the status dict.
-# A cancelled pass has already emptied the run (cancelAction does it before the
-# driver is stopped), so this only ever advances a running one.
+# A cancelled pass is one the driver stopped, not one that finished, and it ends
+# the run where it is. Cancel on the button empties the run before stopping the
+# driver, so this mostly only sees a running one - but opening another game stops
+# every pass too (::enginewin::reviewStopAll), and then the game on the board is
+# not the one the pass was reading: saving it would write the newly opened game
+# into this run's slot, and advancing would annotate games nobody asked for.
 proc ::reviewannotate::done {state} {
     variable run
     if {![dict size $run]} { return }
+    # ::reviewdriver::stop sets state=cancelled; a pass that searched to the end
+    # ends on done and one whose engine gave up on failed, so neither of those
+    # can leave the batch by this branch.
+    if {[dict size $state] && [dict get $state state] eq "cancelled"} {
+        ::reviewannotate::returnGame
+        return [::reviewannotate::finish]
+    }
     set games [dict get $run games]
     if {[llength $games] > 1} {
         set game [lindex $games [dict get $run index]]

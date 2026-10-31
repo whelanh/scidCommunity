@@ -66,7 +66,9 @@ the next game. Each game is borrowed with the shipped idiom (`sc_game push copy`
 progress and one stop control: *Stop now* for a single game, *Stop after this
 game* in a batch — flipping to *Stop now* once pressed. The annotate toolbar
 button is that control while a pass is running. Stopping now writes nothing (the
-driver's write phase only runs on the last reply).
+driver's write phase only runs on the last reply). A pass also stops when another
+game is opened, and a batch stopped that way saves nothing for the game it was
+reading, leaves the base on the game that was opened and does not advance.
 
 **Progress has no window of its own.** The pass reports `done/total` (and the
 game number in a batch) on the board's status line. A read-only progress board

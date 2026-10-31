@@ -240,6 +240,151 @@ checkEq "and no further game was loaded" $::gamestub::number 3
 check "no further pass was opened" [expr {$::opened == $openedBefore + 1}]
 
 ########################################################################
+### A game that cannot be read stops the batch: nothing is saved, no pass runs
+###
+### ::reviewannotate::nextGame pushes a copy of the base and loads the game to
+### annotate. When the load fails there is no game of this run on the board - the
+### base is - so the two things the finished-game step does must not happen: a save
+### would write the user's own game into the unreadable game's slot, and advancing
+### would start a pass on a range whose input is broken. The push has to be undone
+### too, or a copy sits on the game stack for the user's own `sc_game pop` to find.
+
+annotateSettings
+::gamestub::reset [list {e4 e2e4} {e5 e7e5}]
+set ::gamestub::number 3
+set ::gamestub::failLoad {4}
+set plan [::reviewannotate::dialogPlan 1 Stockfish 1 \
+    [dict create game 3 blunders allmoves batch 1 batchEnd 4 bookEnd 0]]
+set openedBefore $::opened
+checkEq "a two-game batch runs its first game" [::reviewannotate::run $plan] ""
+feed InfoConfig {}
+answer 20 {e2e4 e7e5}
+answer -20 {e7e5 g1f3}
+answer 20 {g1f3 b8c6}
+pump
+checkEq "the game that was read is saved, once" $::gamestub::saves {3}
+checkEq "the unreadable game is not written into" [llength $::gamestub::saves] 1
+checkEq "the board is still on the base game" $::gamestub::number 3
+checkEq "the push of the unreadable game is undone" \
+    [list $::gamestub::pushes $::gamestub::pops] {2 2}
+checkEq "the run stops there" [::reviewannotate::running] 0
+checkEq "and nothing is left running" [::reviewannotate::running] 0
+checkEq "no pass is opened for the unreadable game" $::opened [expr {$openedBefore + 1}]
+checkEq "the progress line is handed back" $::reviewannotate::progressText ""
+
+# The same failure at the head of a run is the message the dialog shows: the run
+# never starts, and the base is left where it was.
+set ::reviewannotate::run [dict create plan $plan games {4 5} index -1 stopAfter 0 last {0 0}]
+set err [::reviewannotate::nextGame]
+checkHas "an unreadable game is reported" $err "game 4 could not be read"
+checkEq "the base is still the game on the board" $::gamestub::number 3
+checkEq "the copy of the unreadable game is not left on the stack" \
+    [list $::gamestub::pushes $::gamestub::pops] {3 3}
+checkEq "and the run never started" [::reviewannotate::running] 0
+
+########################################################################
+### The book end belongs to each game of a batch, not to the first one
+###
+### configAnnotateOK walks the book on the game the dialog was opened over, so the
+### plan's number is that game's. A batch loads the others one by one; each pass
+### needs its own book end, or the second game's opening is skipped (or annotated)
+### according to the first game's book walk.
+
+annotateSettings
+::gamestub::reset [list {e4 e2e4} {e5 e7e5}]
+set ::gamestub::number 3
+set ::useAnalysisBook 1
+set ::useAnalysisBookName testbook.bin
+set ::bookWalks {}
+rename ::reviewannotate::findBookEnd ::reviewannotate::findBookEndSaved
+proc ::reviewannotate::findBookEnd {bookFile slot} {
+    lappend ::bookWalks [sc_game number]
+    return [expr {[sc_game number] == 3 ? 0 : 2}]
+}
+
+# What the pass in flight was handed, or "none" while there is no pass at all.
+proc passBookEnd {} {
+    if {![dict size $::reviewdriver::pass]} { return "none" }
+    if {![dict exists $::reviewdriver::pass bookEnd]} { return "none" }
+    return [dict get $::reviewdriver::pass bookEnd]
+}
+
+set plan [::reviewannotate::dialogPlan 1 Stockfish 1 \
+    [dict create game 3 blunders allmoves batch 1 batchEnd 4 bookEnd 5]]
+checkEq "the batch starts" [::reviewannotate::run $plan] ""
+checkEq "the book is walked for the game in flight" $::bookWalks {3}
+checkEq "and its pass carries that game's book end" [passBookEnd] 0
+feed InfoConfig {}
+answer 20 {e2e4 e7e5}
+answer -20 {e7e5 g1f3}
+answer 20 {g1f3 b8c6}
+pump
+checkEq "the second game's book is walked too" $::bookWalks {3 4}
+checkEq "and its pass carries its own book end, not the plan's" [passBookEnd] 2
+# The pass for the second game is left searching; stopping it is the Cancel path
+# the cancel section above already covers.
+catch { ::reviewdriver::cancel 1 }
+rename ::reviewannotate::findBookEnd {}
+rename ::reviewannotate::findBookEndSaved ::reviewannotate::findBookEnd
+
+########################################################################
+### The tactical-exercises gate is the pane that opened the dialog
+###
+### The exercise probe drives scid's own analyser, which is the UCI engine only in
+### this build, and the dialog's tactical checkbox is disabled on the invoking
+### pane's engine (analysis.tcl:473). Gating the probe on pane 1's engine instead
+### silently drops every exercise of a run started from a UCI pane 2 in a session
+### whose pane 1 is not UCI.
+
+proc probeSettings {} {
+    annotateSettings
+    set ::markTacticalExercises 1
+    # The blunder a puzzle is made of: 1.0 pawns lost from a level position, and one
+    # move that keeps it (the second line is the alternative, not a book line).
+    return
+}
+
+# The argument set that carries ::reviewannotate::markExercise past its own gates
+# and into the analyser: only the pane gate can stop it short. The lines are in the
+# writer's shape (::reviewdriver::lines: `{{cp pv} ...}`, White's point of view, best
+# line first, second best far enough behind to be the only winning move).
+set ::probeBefore -100
+set ::probeAfter 100
+set ::probeLines {{100 {d2d4 e7e5}} {-150 {g1f3 d7d5}}}
+
+probeSettings
+::gamestub::reset [list {e4 e2e4} {e5 e7e5}]
+set ::analysis(uci1) 0
+set ::analysis(uci2) 1
+set ::annotatePane 2
+set ::gamestub::analyzeCalls {}
+set marked [::reviewannotate::markExercise $::probeBefore $::probeAfter "" $::probeLines]
+checkEq "a run from a UCI pane 2 marks its exercise" $marked 1
+check "and the analyser was asked" [expr {[llength $::gamestub::analyzeCalls] > 0}]
+checkEq "the mark is on the game" [lsearch -exact $::gamestub::flags T] 0
+
+probeSettings
+::gamestub::reset [list {e4 e2e4} {e5 e7e5}]
+set ::analysis(uci1) 0
+set ::analysis(uci2) 0
+set ::annotatePane 2
+set ::gamestub::analyzeCalls {}
+set marked [::reviewannotate::markExercise $::probeBefore $::probeAfter "" $::probeLines]
+checkEq "a non-UCI pane marks nothing" $marked 0
+checkEq "and never probes the analyser" $::gamestub::analyzeCalls {}
+
+# No dialog yet: the classic single pane is pane 1, and that is the gate.
+probeSettings
+::gamestub::reset [list {e4 e2e4} {e5 e7e5}]
+unset ::annotatePane
+set ::analysis(uci1) 1
+set ::analysis(uci2) 0
+set ::gamestub::analyzeCalls {}
+set marked [::reviewannotate::markExercise $::probeBefore $::probeAfter "" $::probeLines]
+checkEq "without a dialog the gate is pane 1's engine" $marked 1
+check "and the analyser was asked" [expr {[llength $::gamestub::analyzeCalls] > 0}]
+
+########################################################################
 ### The dialog's variation controls reach the writer
 ###
 ### The dialog renders a White/Black side filter and a "Variation length (moves)"
