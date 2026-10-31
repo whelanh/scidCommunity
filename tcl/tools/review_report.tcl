@@ -66,33 +66,32 @@ proc ::reviewreport::winPct {cp} {
 # same game carried two numbers, and the name was a vendor's for an algorithm
 # that is not published - a local variant cannot borrow it.
 #
-# calculate() reads index 0 as the position before White's move. A phase slice
-# can open on Black's move, so the series carries the side that moved first and
-# goes through calculateFrom; the arithmetic stays in accuracy.tcl.
+# calculate() reads index 0 as the position before White's move. The report
+# hands accuracy.tcl the moves themselves - {side before after}, the same
+# arithmetic in its pair form - because a phase slice can open on Black's move,
+# and because the collected list can have holes: a book ply carries no
+# evaluation, and a ply the pass has no verdict for is not in the list at all.
+# Each pair carries the side that made the move, not the position it happens to
+# hold; read by position, a hole hands every move after it to the other player.
 proc ::reviewreport::evalSeries {moves} {
-    set cps {}
-    set firstSide ""
+    set pairs {}
     foreach m $moves {
+        set before [dict get $m eval_before_white]
+        set after [dict get $m eval_after_white]
         # Book plies and moves the pass has no verdict for carry no evaluation.
-        # A gap joins the two ends of the run it cuts, which is what the old
-        # per-move figures did one move at a time.
-        if {[dict get $m eval_before_white] eq ""} { continue }
-        if {![llength $cps]} {
-            set firstSide [dict get $m side]
-            lappend cps [dict get $m eval_before_white]
-        }
-        lappend cps [dict get $m eval_after_white]
+        if {$before eq "" || $after eq ""} { continue }
+        lappend pairs [list [dict get $m side] $before $after]
     }
-    return [list $cps $firstSide]
+    return $pairs
 }
 
 # {white <accuracy> black <accuracy>} over these moves, unrounded.
 proc ::reviewreport::accuracyOf {moves} {
-    lassign [evalSeries $moves] cps firstSide
-    if {[llength $cps] < 2 || $firstSide eq ""} {
+    set pairs [evalSeries $moves]
+    if {![llength $pairs]} {
         return [dict create white 0.0 black 0.0]
     }
-    lassign [::accuracy::calculateFrom $cps $firstSide] w b
+    lassign [::accuracy::calculatePairs $pairs] w b
     return [dict create white $w black $b]
 }
 

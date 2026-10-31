@@ -140,6 +140,66 @@ catch { set padB [lindex [::accuracy::calculate $padded] 1] }
 checkEq "padded to White-first, the first mover keeps its number" \
     $padB $sliceBB
 
+puts "\ngaps"
+
+# The collected list can have holes: a book ply carries no evaluation, and a
+# ply the pass has no verdict for is not collected at all. The side of a move
+# belongs to the move, not to its position in the series, so a hole must not
+# hand the moves after it to the other side - and the gap's own score change is
+# not a move, so it is scored for nobody.
+
+# White opens the balance and then gives up 500cp twice; Black only maintains.
+# Ply 2 - Black's first - goes unjudged. Read by position, the first pair after
+# the hole spans the gap and White's blunders land on Black, where a score that
+# rises is a move that gained: both sides read 100.
+set holeCps {0 0 0 -500 -500 -1000 -1000}
+proc holeMoves {hole} {
+    set out {}
+    for {set ply 1} {$ply <= 6} {incr ply} {
+        set before [lindex $::holeCps [expr {$ply - 1}]]
+        set after [lindex $::holeCps $ply]
+        set eb $before
+        set ea $after
+        if {$hole && $ply == 2} { set eb "" ; set ea "" }
+        lappend out [dict create ply $ply side [expr {$ply % 2 ? "white" : "black"}] \
+            classification good eval_before_white $eb eval_after_white $ea \
+            cp_loss 0 san "m$ply"]
+    }
+    return $out
+}
+
+# The series carries the side, so a hole cannot shift it.
+checkEq "the series says who made each move" \
+    [::reviewreport::evalSeries [holeMoves 1]] \
+    {{white 0 0} {white 0 -500} {black -500 -500} {white -500 -1000} {black -1000 -1000}}
+
+set holed [holeMoves 1]
+set holedAcc [::reviewreport::accuracyOf $holed]
+check "White's blunders are still White's" \
+    [expr {[dict get $holedAcc white] < 90}] \
+    "white '[dict get $holedAcc white]'"
+check "and the side that only maintained is untouched" \
+    [near [dict get $holedAcc black] 100.0 0.001] \
+    "black '[dict get $holedAcc black]'"
+
+# The gap's own jump is not a move: a ply that was never collected and a
+# collected ply with no evaluation have to score the same.
+set absent {}
+foreach m $holed { if {[dict get $m ply] != 2} { lappend absent $m } }
+set absentAcc [::reviewreport::accuracyOf $absent]
+check "a hole scores as the ply that is not there" \
+    [expr {abs([dict get $holedAcc white] - [dict get $absentAcc white]) < 1e-9 \
+        && abs([dict get $holedAcc black] - [dict get $absentAcc black]) < 1e-9}] \
+    "holed '[list [dict get $holedAcc white] [dict get $holedAcc black]]' \
+        absent '[list [dict get $absentAcc white] [dict get $absentAcc black]]'"
+
+# A phase holds one side's moves only sometimes; a slice that opens on Black's
+# move still scores the same way it always did.
+set slice2 [::reviewreport::evalSeries [lrange [holeMoves 0] 1 4]]
+checkEq "a contiguous run is the same side-by-side it always was" \
+    [::accuracy::calculatePairs $slice2] \
+    [::accuracy::calculateFrom {0 0 -500 -500 -1000} black]
+
 puts "\nElo"
 
 checkEq "0 ACPL is the top of the fit" [::reviewreport::eloFromAcpl 0] 2900
