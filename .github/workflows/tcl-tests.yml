@@ -153,6 +153,11 @@ jobs:
           sudo apt-get install -y -qq --no-install-recommends tcl8.6-dev tk8.6-dev xvfb
 
       - name: Build and install
+        # A release build always sets this (release.yml does). Without it the
+        # shallow checkout has no tags, so CMake's `git describe` stamps the
+        # commit hash, and start.tcl's "5.1" version check cannot parse it.
+        env:
+          SCIDCOMMUNITY_VERSION: 5.1.4.0
         run: |
           cmake -S . -B build \
                 -DCMAKE_BUILD_TYPE=Release \
