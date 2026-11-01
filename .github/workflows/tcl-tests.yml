@@ -129,3 +129,31 @@ jobs:
 
       - name: Finish Game dialog
         run: xvfb-run -a wish tests/tcl/finish_game_dialog.tcl
+
+  startup-smoke:
+    name: startup with a clean profile
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      # The app itself, not a harness: a clean profile has no options.dat, so
+      # the built-in layout is restored and it docks .engineWin1. v5.1.4.50
+      # sourced end.tcl before the modules that window calls, and every such
+      # start died before the event loop. Nothing Tcl-level can see that; only
+      # booting the binary can.
+      - name: Install Tcl, Tk, CMake and Xvfb
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq cmake build-essential tcl8.6-dev tk8.6-dev xvfb
+
+      - name: Build and install
+        run: |
+          cmake -S . -B build \
+                -DCMAKE_BUILD_TYPE=Release \
+                -DCMAKE_INSTALL_PREFIX=/usr
+          cmake --build build -j"$(nproc)"
+          DESTDIR="$PWD/AppDir" cmake --install build
+
+      - name: Start with a clean profile
+        run: xvfb-run -a tests/startup_smoke.sh "$PWD/AppDir/usr/bin/scidCommunity"
