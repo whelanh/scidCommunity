@@ -133,6 +133,9 @@ jobs:
   startup-smoke:
     name: startup with a clean profile
     runs-on: ubuntu-latest
+    # apt on a hosted runner occasionally stalls on a mirror; a stuck install
+    # should fail here rather than sit until the six-hour job limit.
+    timeout-minutes: 20
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
@@ -142,10 +145,12 @@ jobs:
       # sourced end.tcl before the modules that window calls, and every such
       # start died before the event loop. Nothing Tcl-level can see that; only
       # booting the binary can.
-      - name: Install Tcl, Tk, CMake and Xvfb
+      # cmake, make and g++ are in the runner image; only the Tcl/Tk headers
+      # and Xvfb are missing.
+      - name: Install Tk headers and Xvfb
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y -qq cmake build-essential tcl8.6-dev tk8.6-dev xvfb
+          sudo apt-get install -y -qq --no-install-recommends tcl8.6-dev tk8.6-dev xvfb
 
       - name: Build and install
         run: |
@@ -156,4 +161,6 @@ jobs:
           DESTDIR="$PWD/AppDir" cmake --install build
 
       - name: Start with a clean profile
+        env:
+          STARTUP_SMOKE_SECONDS: 10
         run: xvfb-run -a tests/startup_smoke.sh "$PWD/AppDir/usr/bin/scidCommunity"
