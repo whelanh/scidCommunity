@@ -1,24 +1,30 @@
 # Copyright (C) 2026 Hugh Whelan
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
-# review_coach.tcl -- the facts a coach may use, without a model.
+# review_coach.tcl -- the facts a coach may use, and the prompts built from them.
 #
-# The deterministic half of the coach layer: every claim it makes about a
-# position comes from ::facts::forMove (comment_facts.tcl), and every claim
-# about the game as a whole comes from the deterministic report
-# (review_report.tcl). Nothing here calls a model, a network or the engine, so
-# all of it is testable in tclsh.
+# The deterministic half: every claim it makes about a position comes from
+# ::facts::forMove (comment_facts.tcl), and every claim about the game as a
+# whole comes from the deterministic report (review_report.tcl). Nothing here
+# calls a model, a network or the engine, so all of it is testable in tclsh.
 #
-# The prompt texts and the queue that sends them are the next slice, not this
-# file: this half exists to be checked on its own first.
+# The prompt texts turn those facts into a request. The model never analyses: a
+# prompt carries the fact block for its subject and asks for prose about that
+# block only, so a reply that names a move, a number or a phase that is not in
+# the block is a failed request, not text to fix up. The shape is a short task,
+# hard rules ("use only FACTS; never name what is not there"), and the FACTS
+# block last. The model is a narrator, not a judge.
 #
-# The summary and phase facts are adapted from David Crandall's "game-review"
-# plugin (15_cr_llm.tcl and 17_cr_facts.tcl), which is GPL-2.0-or-later like this
-# project and the reference for this layer rather than a runtime dependency. The
-# move facts themselves are comment_facts.tcl, itself derived from Patzer's
-# comment_facts and carrying its MIT notice. The file-by-file record is
-# docs/third-party-notices.md.
-
+# The queue that sends the prompts, and the prose that comes back, are the next
+# slice, not this file.
+#
+# The summary and phase facts, and the prompt texts, are adapted from David
+# Crandall's "game-review" plugin (15_cr_llm.tcl and 17_cr_facts.tcl), which is
+# GPL-2.0-or-later like this project and the reference for this layer rather
+# than a runtime dependency. The move facts themselves are comment_facts.tcl,
+# itself derived from Patzer's comment_facts and carrying its MIT notice. The
+# file-by-file record is docs/third-party-notices.md.
+#
 namespace eval ::reviewcoach {}
 
 proc ::reviewcoach::gameNumber {} {
@@ -448,6 +454,168 @@ proc ::reviewcoach::phaseFacts {moves phase} {
         lappend lines "moves you may name in this phase: none"
     }
     return [join $lines "\n"]
+}
+
+proc ::reviewcoach::banWords {label} {
+    set out {}
+    foreach w {inaccuracy mistake blunder miss} {
+        if {$w ne $label} { lappend out "\"$w\"" }
+    }
+    return [join $out {, }]
+}
+
+proc ::reviewcoach::movePrompt {m} {
+    set facts [moveFacts $m]
+    set label [dict get $m classification]
+    return "You are a chess coach writing one annotation for a scoresheet.
+Explain in plain English WHY this move is judged a $label: what it fails to do, what it allows, and what the better move achieves. Write for a club player reading the game later.
+Rules:
+- Use only the FACTS below. Never name a piece, square or move that is not in FACTS.
+- FACTS lists every piece on the board: a piece it does not list is not there, so do not mention it.
+- Do not describe what a line shows beyond the moves printed in it, and do not claim a move left something untouched or unprotected unless FACTS says so.
+- Never mention castling, en passant, repetition or the fifty-move rule beyond what the corresponding FACTS lines say.
+- FACTS includes the engine's line; you may refer to moves in that line (and only those) to show what the better move achieves.
+- If FACTS says it gives no reason for the engine's preference, or that the move played achieves the same thing, do not supply a reason of your own: say only that the engine preferred the better move.
+- Do NOT mention centipawns, evaluations, win percentages, accuracy, or any number at all. The reader already sees the score next to the move.
+- Do not repeat the move number and do not use the words [banWords $label].
+- No lists, no headings, no preamble. At most two sentences, plain prose.
+FACTS:
+$facts"
+}
+
+proc ::reviewcoach::momentPrompt {m} {
+    return [movePrompt $m]
+}
+
+proc ::reviewcoach::phasePrompt {phase facts} {
+    return "You are a chess coach writing one paragraph about the $phase of a game, for the scoresheet.
+Write about both sides by colour - \"White\" and \"Black\". Never address anyone as \"you\".
+
+Rules:
+- Use only the FACTS below. Never name a piece, square or move that is not in FACTS.
+- Open with one sentence on the state of this phase: who stood better when it began and whether that changed by its end.
+- Then say what changed it, as consequences: one clause per turning event, giving what the move allowed or prevented and what followed from it. Never go through the moves in game order and never chain clauses with then, next or after that.
+- Name a move only where it is the subject of a consequence you are stating. Never tell the reader that a move was played.
+- Describe a move only with what FACTS says it did (moved from x to y, took the piece on z, checks). Never characterise it with a word FACTS does not use - retreat, develop, passive, active, natural, aggressive - and never call a move a retreat because it went backwards.
+- Keep to the balance: if one side was already completely winning in this phase, say what the losing side was playing for rather than listing small errors.
+- Never quote the accuracy, centipawn or ply figures from FACTS, and give no percentages. The reader sees those already.
+- Never compare the two sides' accuracy, even in words: saying one side was more accurate is still a number in disguise.
+- Never narrate the move sequence. The scoresheet already lists every move, so naming them one after another adds nothing.
+- If FACTS says there are no moves you may name, write only about the phase as a whole and name no move at all.
+- Keep both sides distinct: never credit one side with the other's move.
+- No lists, no headings, no preamble. Two to four sentences of plain prose.
+- End with one concrete thing the side that struggled should have done differently in this phase.
+FACTS:
+$facts"
+}
+
+proc ::reviewcoach::summaryPrompt {facts} {
+    return "You are a chess coach writing the closing note of a game review, for the scoresheet.
+Write about both sides by colour - \"White\" and \"Black\". Never address anyone as \"you\".
+
+Rules:
+- Use only the FACTS below. Never name a piece, square or move that is not in FACTS.
+- Never quote accuracy, Elo, centipawn or percentage figures, and never list move tallies. The reader sees those beside the moves.
+- Never call a move great, brilliant, best, an inaccuracy, a mistake or a blunder: the scoresheet already labels it. Say what the move did or allowed.
+- Never name a better move without saying what it would have achieved: when FACTS says what the better move achieves, or gives the engine line, use it. If FACTS says it gives no reason for the engine's preference, or that the move played achieves the same thing, do not supply a reason of your own - say only that the engine preferred it.
+- Never invent an opening name, never quote an ECO code, and never remark that a name is missing: the header already carries the code.
+- The game turned on the move in FACTS marked \"the game turned here\". Name it in your first sentence and do not say that any other move turned the game.
+- Do not describe what a line or variation shows beyond the moves in it. If FACTS does not say what a move achieved, say less rather than guessing.
+- Prefer the consequence over the sequence: Black taking on e4 and losing the queen to a rook is a summary; naming each move in order is not. If FACTS gives the net exchange, put it in the first sentence.
+- If FACTS gives the net material after the punishment, that is what the error cost: state it in outcome terms (the exchange, a piece, a rook, a queen), not as what the immediate reply captured. If FACTS says the punishment was a fork, the fork is the mechanism and the net material is the price.
+- FACTS says when the game was decided, with a move number. If you mention it, use that move number exactly. Mistakes made after that point did not change the result: mention them only as loose play in a lost position, never as being as important as the move that decided the game.
+- No lists, no headings, no preamble, no markdown.
+- Answer in exactly three labelled lines, each starting at the beginning of a line:
+SUMMARY: at most three sentences, sixty words total, and preferably two. The FIRST sentence must name the move the game turned on AND its consequence in outcome terms - what it cost on the board, such as a queen for a rook or a lost piece - in that same sentence. Never spend a sentence on the mechanism; the reader has the scoresheet. Shape: the game turned on move 9, when Black's queen took the pawn on e4 and was won for a rook. Do not mention an error that did not change the result.
+LEVEL: one sentence on the strength of play this game shows. Start from FACTS marked \"measured level\", naming each side's level in words; then name the single thing that would most have improved the weaker side's play in THIS game, stated concretely (for example, checking that a piece is defended before committing it). One game cannot show a habit or a pattern, so never use those words and never describe one. Do not retell the game and do not repeat the turning point.
+OPENING: at most two sentences on the opening. If FACTS gives no opening name, write exactly NONE and say nothing else about it.
+FACTS:
+$facts"
+}
+
+proc ::reviewcoach::parseSummary {text} {
+    set out [dict create summary "" level "" opening ""]
+    foreach line [split $text "\n"] {
+        set t [string trim $line]
+        foreach {tag key} {SUMMARY summary LEVEL level OPENING opening} {
+            if {[string match -nocase "${tag}:*" $t]} {
+                dict set out $key [string trim [string range $t [expr {[string length $tag] + 1}] end]]
+            }
+        }
+    }
+    if {[dict get $out summary] eq ""} {
+        # no labels at all: the whole answer is the summary
+        dict set out summary [string trim $text]
+    }
+    # "NONE" is the answer the prompt asks for when there is no opening name.
+    if {[string match -nocase {none*} [dict get $out opening]]} {
+        dict set out opening ""
+    }
+    return $out
+}
+
+# ── prompts for a whole review ──────────────────────────────────────────────
+
+proc ::reviewcoach::gameMeta {} {
+    set game [dict create result "" opening ""]
+    catch { dict set game result [string trim [sc_game tags get Result]] }
+    catch { dict set game opening [string trim [sc_game tags get Opening]] }
+    # A header with only an ECO code still has a name in the opening table;
+    # the prose must not say the name is missing when it can be derived.
+    if {[dict get $game opening] eq ""} {
+        set eco ""
+        catch { set eco [string trim [sc_game tags get ECO]] }
+        if {$eco ne "" && [llength [info commands ::auto_comment::getOpeningName]]} {
+            set name ""
+            catch { set name [::auto_comment::getOpeningName $eco] }
+            if {$name ne "" && $name ne $eco} { dict set game opening $name }
+        }
+    }
+    return $game
+}
+
+# The prompts a review asks for: the summary, one per phase with figures, and
+# one for each key moment plus every mistake/blunder, capped at ten moves.
+proc ::reviewcoach::buildPrompts {moves game} {
+    set prompts {}
+    set gf [gameFacts $moves $game]
+    if {$gf ne ""} {
+        lappend prompts [dict create kind summary key 0 prompt [summaryPrompt $gf] max 800]
+    }
+    foreach ph {opening middlegame endgame} {
+        set pf [phaseFacts $moves $ph]
+        if {$pf eq ""} { continue }
+        lappend prompts [dict create kind phase key $ph prompt [phasePrompt $ph $pf] max 500]
+    }
+
+    set plies {}
+    foreach k [::reviewreport::keyMoments $moves 5] { lappend plies [dict get $k ply] }
+    foreach m $moves {
+        if {[lsearch -exact {mistake miss blunder} [dict get $m classification]] >= 0} {
+            lappend plies [dict get $m ply]
+        }
+    }
+    set n 0
+    foreach ply [lsort -integer -unique $plies] {
+        if {[incr n] > 10} { break }
+        set m ""
+        foreach cand $moves { if {[dict get $cand ply] == $ply} { set m $cand ; break } }
+        if {$m eq ""} { continue }
+        # The reply that punished this move is the next analysed position: its
+        # line starts from the board after the move, so it is the refutation.
+        # Without it the move facts cannot say what the move allowed.
+        foreach cand $moves {
+            if {[dict get $cand ply] == [expr {$ply + 1}]} {
+                if {[dict exists $cand best_pv] && [llength [dict get $cand best_pv]]} {
+                    dict set m punish_pv [dict get $cand best_pv]
+                }
+                break
+            }
+        }
+        lappend prompts [dict create kind moment key $ply \
+            prompt [momentPrompt $m] max 320]
+    }
+    return $prompts
 }
 
 # Remove the prose this layer wrote, keeping the review's own label, eval and
