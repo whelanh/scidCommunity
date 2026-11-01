@@ -880,6 +880,7 @@ translate J ReviewGameButtonTooltip {Прегледај сваки потез г
 translate J ReviewMoveButton {Коментар потеза}
 translate J ReviewMoveButtonTooltip {Означи одиграни потез одавде и упиши га}
 translate J ReviewSettings {Подешавања прегледа}
+translate J ReviewSettingsTooltip {Configure the review settings}
 translate J ReviewVarLines {Варијанте за упис}
 translate J ReviewVarCp {Граница варијанти (cp)}
 translate J ReviewMoveWait {Чекај дубину прегледа}

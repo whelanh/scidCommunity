@@ -880,6 +880,7 @@ translate L ReviewGameButtonTooltip {Analizează fiecare mutare a liniei princip
 translate L ReviewMoveButton {Comentariu la mutare}
 translate L ReviewMoveButtonTooltip {Etichetează mutarea jucată de aici și scrie-o}
 translate L ReviewSettings {Setările analizei}
+translate L ReviewSettingsTooltip {Configure the review settings}
 translate L ReviewVarLines {Variante de scris}
 translate L ReviewVarCp {Marja variantelor (cp)}
 translate L ReviewMoveWait {Așteaptă adâncimea analizei}

@@ -869,6 +869,7 @@ translate N ReviewGameButtonTooltip {Beoordeel elke zet van de hoofdlijn en geef
 translate N ReviewMoveButton {Zetcommentaar}
 translate N ReviewMoveButtonTooltip {Beoordeel de gespeelde zet vanaf hier en schrijf die in}
 translate N ReviewSettings {Instellingen voor beoordeling}
+translate N ReviewSettingsTooltip {Configure the review settings}
 translate N ReviewVarLines {Varianten om te schrijven}
 translate N ReviewVarCp {Variantmarge (cp)}
 translate N ReviewMoveWait {Wacht op de beoordelingsdiepte}

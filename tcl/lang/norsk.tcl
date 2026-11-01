@@ -849,6 +849,7 @@ translate O ReviewGameButtonTooltip {Vurder hvert trekk i hovedlinjen og sett en
 translate O ReviewMoveButton {Trekkkommentar}
 translate O ReviewMoveButtonTooltip {Vurder trekket som ble spilt herfra og skriv det inn}
 translate O ReviewSettings {Innstillinger for vurdering}
+translate O ReviewSettingsTooltip {Configure the review settings}
 translate O ReviewVarLines {Varianter som skal skrives}
 translate O ReviewVarCp {Variantmargin (cp)}
 translate O ReviewMoveWait {Vent på vurderingsdybden}

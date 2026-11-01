@@ -878,6 +878,7 @@ translate U ReviewGameButtonTooltip {Tarkasta päälinjan jokainen siirto ja mer
 translate U ReviewMoveButton {Siirron kommentti}
 translate U ReviewMoveButtonTooltip {Merkitse tästä pelattu siirto ja kirjoita se}
 translate U ReviewSettings {Tarkastuksen asetukset}
+translate U ReviewSettingsTooltip {Configure the review settings}
 translate U ReviewVarLines {Kirjoitettavat muunnelmat}
 translate U ReviewVarCp {Muunnelman raja (cp)}
 translate U ReviewMoveWait {Odota tarkastuksen syvyyttä}

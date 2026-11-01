@@ -2580,9 +2580,9 @@ set helpText(ReviewGameButton) {<h1>Engine Window: Game Review Button</h1>
 
   <h3>One move instead of the whole game</h3>
   <p>
-  <a ReviewMoveButton><b>Move Comment</b></a> describes the single move played
-  from the position on the board, which is the cheaper way to have one move
-  explained.
+  <a ReviewMoveButton><b>Move Comment</b></a> describes the move you are on -
+  the move highlighted in the game, not the next one - which is the cheaper way
+  to have one move explained.
   </p>
 
   <p><footer>(Updated: scidCommunity, October 2026)</footer></p>
@@ -2595,17 +2595,19 @@ set helpTitle(ReviewMoveButton) "Move Comment Button"
 set helpText(ReviewMoveButton) {<h1>Engine Window: Move Comment Button</h1>
   <p>
   The <b>Move Comment</b> button in the <a Engine>Engine</a> window comments one
-  move: the move played from the position on the board. The engine searches the
-  position before the move and the one after it, because a verdict on a move
-  needs both scores - what the move was worth and what it brought.
+  move: the move you are on - the one that led to the position on the board, not
+  the next move. The engine searches the position before the move and the one
+  after it, because a verdict on a move needs both scores - what the move was
+  worth and what it brought. The label and [%eval] are written after the move; a
+  diagram, when the move earns one, appears before it.
   </p>
 
   <h3>When the button is live</h3>
   <p>
-  Move Comment needs a game, a selected engine, and a move after the current
-  position. There is nothing to comment on the last position of the game, and
-  inside a variation the move numbering means something else: the pass covers
-  the main line, so the button is disabled there.
+  Move Comment needs a game, a selected engine, and a move on the board: the
+  start of the line has nothing to comment, while the last move can be
+  commented. Inside a variation the move numbering means something else: the
+  pass covers the main line, so the button is disabled there.
   </p>
 
   <h3>Waiting for the review depth</h3>
@@ -3596,8 +3598,8 @@ set helpText(Engine) {<h1>The Engine windows</h1>
     panel.</li>
   <li><a ReviewGameButton><b>Game Review</b></a>: Reviews the main line of the
     game, searching every position of it.</li>
-  <li><a ReviewMoveButton><b>Move Comment</b></a>: Describes the move played
-    from the current position, and nothing else.</li>
+  <li><a ReviewMoveButton><b>Move Comment</b></a>: Describes the move you are
+    on, and nothing else.</li>
   <li><a ReviewSettings><b>Review Settings</b></a>: Depth, lines, variations
     and the review depth a move comment waits for.</li>
   </ul>
