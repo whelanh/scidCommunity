@@ -896,6 +896,7 @@ translate S ReviewGameButtonTooltip {Revisa cada jugada de la línea principal y
 translate S ReviewMoveButton {Comentario de la jugada}
 translate S ReviewMoveButtonTooltip {Etiqueta la jugada realizada desde aquí y escríbela}
 translate S ReviewSettings {Ajustes de la revisión}
+translate S ReviewSettingsTooltip {Configure the review settings}
 translate S ReviewVarLines {Variantes que escribir}
 translate S ReviewVarCp {Margen de variantes (cp)}
 translate S ReviewMoveWait {Esperar la profundidad de la revisión}

@@ -723,7 +723,7 @@ proc ::enginewin::createButtonsBar {id btn display} {
 
     ttk::button $btn.reviewsettings -text [::reviewui::label ReviewSettings] \
         -command [list ::enginewin::reviewSettings $id]
-    ::utils::tooltip::Set $btn.reviewsettings [::reviewui::label ReviewSettings]
+    ::utils::tooltip::Set $btn.reviewsettings [::reviewui::label ReviewSettingsTooltip]
 
     # Live only while a pass runs: a pass has its own engine connection and the
     # only thing the user can do with it is stop it.

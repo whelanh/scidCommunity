@@ -839,6 +839,7 @@ translate h ReviewGameButtonTooltip {मुख्य लाइन के हर 
 translate h ReviewMoveButton {चाल टिप्पणी}
 translate h ReviewMoveButtonTooltip {यहाँ से खेली गई चाल को वर्ग दें और लिखें}
 translate h ReviewSettings {समीक्षा सेटिंग्स}
+translate h ReviewSettingsTooltip {Configure the review settings}
 translate h ReviewVarLines {लिखने के लिए वेरिएशन}
 translate h ReviewVarCp {वेरिएशन अंतर (cp)}
 translate h ReviewMoveWait {समीक्षा गहराई की प्रतीक्षा करें}

@@ -46,6 +46,7 @@ array set ::EN {
     ReviewMoveButton        {Move Comment}
     ReviewMoveButtonTooltip {Label the highlighted move and write it in}
     ReviewSettings          {Review Settings}
+    ReviewSettingsTooltip   {Configure the review settings}
     ReviewVarLines          {Variations to write}
     ReviewVarCp             {Variation margin (cp)}
     ReviewMoveWait          {Wait for the review depth}
@@ -62,10 +63,11 @@ proc tr {tag} {
     return $tag
 }
 # The keys that must be in every language file: the fifteen above are Scid's
-# already, and the thirteen new ones are the assertion at the end of this file.
+# already, and the fourteen new ones are the assertion at the end of this file.
 set ::NEWKEYS {
     ReviewGameButton ReviewGameButtonTooltip ReviewMoveButton
-    ReviewMoveButtonTooltip ReviewSettings ReviewVarLines ReviewVarCp
+    ReviewMoveButtonTooltip ReviewSettings ReviewSettingsTooltip
+    ReviewVarLines ReviewVarCp
     ReviewMoveWait ReviewMovetime ReviewFromPreset ReviewProgress
     ReviewWaitForDepth ReviewFailed
 }

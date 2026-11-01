@@ -879,6 +879,7 @@ translate E ReviewGameButtonTooltip {Review every move of the main line and labe
 translate E ReviewMoveButton {Move Comment}
 translate E ReviewMoveButtonTooltip {Label the highlighted move and write it in}
 translate E ReviewSettings {Review Settings}
+translate E ReviewSettingsTooltip {Configure the review settings}
 translate E ReviewVarLines {Variations to write}
 translate E ReviewVarCp {Variation margin (cp)}
 translate E ReviewMoveWait {Wait for the review depth}
