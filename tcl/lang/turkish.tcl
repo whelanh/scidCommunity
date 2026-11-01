@@ -847,6 +847,8 @@ translate T ReviewVarLines {Yazılacak varyantlar}
 translate T ReviewVarCp {Varyant aralığı (cp)}
 translate T ReviewMoveWait {İnceleme derinliğini bekle}
 translate T ReviewMovetime {Süre sınırı (ms)}
+translate T StopNow {Stop now}
+translate T StopAfterThisGame {Stop after this game}
 translate T ReviewFromPreset {%s (motor profilinden)}
 translate T ReviewProgress {%s / %s konumu inceleniyor}
 translate T ReviewWaitForDepth {%s derinliği bekleniyor}
@@ -1712,6 +1714,7 @@ translate T Hash {Karma bellek}
 translate T OwnBook {Motor kitabını kullan}
 translate T BookFile {Açılış kitabı}
 translate T AnnotateVariations {Varyasyonlara açıklama ekleyin}
+translate T AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate T ShortAnnotations {Kısa açıklamalar}
 translate T addAnnotatorTag {Ek açıklama etiketi ekle}
 translate T AddScoreToShortAnnotations {Ek açıklamalara puan ekleyin}

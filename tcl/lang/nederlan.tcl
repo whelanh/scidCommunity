@@ -873,6 +873,8 @@ translate N ReviewVarLines {Varianten om te schrijven}
 translate N ReviewVarCp {Variantmarge (cp)}
 translate N ReviewMoveWait {Wacht op de beoordelingsdiepte}
 translate N ReviewMovetime {Tijdslimiet (ms)}
+translate N StopNow {Stop now}
+translate N StopAfterThisGame {Stop after this game}
 translate N ReviewFromPreset {%s (uit het engineprofiel)}
 translate N ReviewProgress {Positie %s van %s wordt beoordeeld}
 translate N ReviewWaitForDepth {Wachten op diepte %s}
@@ -1755,6 +1757,7 @@ translate N Hash {Hash Geheugentabel}
 translate N OwnBook {Gebruik engine boek}
 translate N BookFile {Opening boek}
 translate N AnnotateVariations {Becommentarieer varianten}
+translate N AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate N ShortAnnotations {Korte commentaren}
 translate N addAnnotatorTag {Voeg een commentaar label toe}
 translate N AddScoreToShortAnnotations {Voeg de score toe aan de korte commentaren}

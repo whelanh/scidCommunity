@@ -886,6 +886,8 @@ translate E ReviewVarCp {Variation margin (cp)}
 translate E ReviewMoveWait {Wait for the review depth}
 translate E ReviewMovetime {Time cap (ms)}
 translate E ReviewCoach {Coach prose}
+translate E StopNow {Stop now}
+translate E StopAfterThisGame {Stop after this game}
 translate E ReviewFromPreset {%s (from engine preset)}
 translate E ReviewProgress {Reviewing position %s of %s}
 translate E ReviewCoachProgress {Coach prose: %s of %s}
@@ -1767,6 +1769,7 @@ translate E Hash {Hash memory}
 translate E OwnBook {Use engine book}
 translate E BookFile {Opening book}
 translate E AnnotateVariations {Annotate variations}
+translate E AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate E ShortAnnotations {Short annotations}
 translate E addAnnotatorTag {Add annotator tag}
 translate E AddScoreToShortAnnotations {Add score to annotations}

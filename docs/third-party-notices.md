@@ -29,19 +29,28 @@ code is included; only the published formula is implemented.
 
 ## David Crandall's game-review plugin — GPL-2.0-or-later
 
-The Game Review coach layer is adapted from David Crandall's `game-review`
-plugin for scid, which is GPL-2.0-or-later like this project:
+The Game Review report and the facts and prompts the coach layer uses are
+adapted from David Crandall's `game-review` plugin for scid, which is
+GPL-2.0-or-later like this project:
 
 | File | Adapted from |
 | --- | --- |
+| `tcl/tools/review_report.tcl` | the report figures and the phase split; **`mixedness` and `_mixedScore` are ported verbatim** from `11_cr_classify.tcl` |
 | `tcl/tools/review_coach.tcl` | `15_cr_llm.tcl` (summary/phase/moment prompts and facts), `17_cr_facts.tcl` (move facts) |
 | `tcl/tools/review_threat.tcl` | `15_cr_llm.tcl` (the "What's the threat?" probe) |
-| `tcl/tools/review_report.tcl` | the report figures and phase split |
 | `tcl/tools/comment_facts.tcl` | `17_cr_facts.tcl` |
 
+`mixedness` is the one verbatim copy: `::reviewreport::mixedness` and
+`::reviewreport::_mixedScore` reproduce `::crclass::mixedness` and
+`::crclass::_mixedScore` from `plugins/game-review/11_cr_classify.tcl` line for
+line, so that a position scores the same here as it does there. The board is
+read through this project's own `chessboard.tcl`, and the file header of
+`review_report.tcl` says so.
+
 The plugin is the reference for the facts-first design, not a runtime
-dependency. The phase-boundary rule is deliberately this project's own; see the
-note in `review_coach.tcl` about the plugin's initial-position case.
+dependency. The phase rule is deliberately this project's own: the plugin's
+back-rank count and its material cut are not how this report decides that an
+opening has ended. See `docs/review-ui.md`.
 
 ## Other references
 

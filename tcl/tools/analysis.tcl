@@ -113,6 +113,9 @@ proc resetEngine {n} {
 resetEngine 1
 resetEngine 2
 set annotateMode 0
+# The analysis pane whose annotate dialog / pass is in flight. The button exists
+# on every pane, and a run started from pane 2 must put pane 2's button back.
+set annotatePane 1
 
 ################################################################################
 # calculateNodes
@@ -310,9 +313,13 @@ proc startAutoplay { } {
 proc cancelAutoplay {} {
     set ::autoplayMode 0
     set ::annotateMode 0
-    #TODO: improve this, do not hardcode the button name
-    if {[winfo exists .analysisWin1.b1.annotate]} {
-        .analysisWin1.b1.annotate state !pressed
+    # The annotate button belongs to the pane the dialog was opened from, not to
+    # the first one: a review run started from pane 2 leaves pane 2's button
+    # pressed.
+    set n 1
+    catch { set n $::annotatePane }
+    if {[winfo exists .analysisWin$n.b1.annotate]} {
+        .analysisWin$n.b1.annotate state !pressed
     }
     after cancel autoplay
 
@@ -321,29 +328,76 @@ proc cancelAutoplay {} {
 }
 
 
-proc configAnnotation {} {
+# The annotate dialog, opened from pane `n`'s annotate button.
+#
+# The engine is the invoking pane's own preset - the entry the user chose when
+# opening that pane - and there is no picker and no second engine setting. A pane
+# whose engine is not UCI cannot run a review pass, and the dialog says so in the
+# driver's own words and disables OK rather than starting something that would
+# sit in `searching` forever.
+#
+# The OK button starts ::reviewannotate's pass, not the classic autoplay: the
+# classic pipeline is still in this file and still reachable from nothing in the
+# UI until the parity gate retires it.
+proc configAnnotation {{n 1}} {
     global autoplayDelay tempdelay blunderThreshold
-    
+    global analysis
+
     set w .configAnnotation
-    # Do not do anything if the window exists
-    #
+    # The dialog belongs to the pane whose Annotate button opened it. Asking
+    # from another pane while it is up rebuilds it for that pane instead of
+    # raising a dialog whose OK would start the first pane's engine.
     if { [winfo exists $w] } {
-        raise $w
-        focus $w
-        return
+        if {![info exists ::annotatePane] || $::annotatePane == $n} {
+            raise $w
+            focus $w
+            return
+        }
+        destroy $w
     }
-    
+
     # If the annotation button is pressed while annotation is
     # running, stop the annotation
     if {$::autoplayMode} {
         cancelAutoplay
         return
     }
+    # A review pass in flight: the button is its Cancel, with the driver's own
+    # escalation - a batch asks for the current game to be finished first.
+    if {[llength [info commands ::reviewannotate::running]] && [::reviewannotate::running]} {
+        # The running pass belongs to one pane; another pane's button must not
+        # cancel it. Only the owner's pressed button is the Cancel.
+        if {[info exists ::annotatePane] && $::annotatePane ne $n} {
+            tk_messageBox -icon info -parent . -title "scidCommunity: $::tr(Annotate)" \
+                -message "Another analysis pane is annotating. Wait for it to finish, or cancel it from that pane."
+            return
+        }
+        ::reviewannotate::cancelAction
+        return
+    }
+
+    set ::annotatePane $n
+
+    # What the pane can run, before the dialog is built: the plan's refusal is
+    # the sentence the dialog shows and the reason OK is disabled. A pane that has
+    # no engine at all is one of the refusals.
+    set engineName ""
+    catch { set engineName $analysis(name$n) }
+    set paneUci 0
+    catch { set paneUci $analysis(uci$n) }
+    set probe [::reviewannotate::dialogPlan $n $engineName $paneUci \
+        [dict create game 1]]
+    set refuse [dict get $probe refuse]
 
     trace add variable blunderThreshold write {::utils::validate::Regexp {^[0-9]*\.?[0-9]*$}}
     trace add variable tempdelay write {::utils::validate::Regexp {^[0-9]*\.?[0-9]*$}}
-    
-    set tempdelay [expr {$autoplayDelay / 1000.0}]
+
+    # The dialog's time spinner is ::review::movetime - the same setting Review
+    # Settings shows - in seconds. One setting, two surfaces: they cannot
+    # disagree about the pass's time cap.
+    set movetime 0
+    catch { set movetime [::review::get movetime] }
+    set tempdelay [format %g [expr {$movetime / 1000.0}]]
     win::createDialog $w
     ::setTitle $w "scidCommunity: $::tr(Annotate)"
     wm resizable $w 0 0
@@ -352,8 +406,9 @@ proc configAnnotation {} {
 
     ttk::labelframe $f.analyse -text $::tr(GameReview)
     ttk::label $f.analyse.label -text $::tr(AnnotateTime)
-    ttk::spinbox $f.analyse.spDelay -width 5 -textvariable tempdelay -from 0.1 -to 999 \
+    ttk::spinbox $f.analyse.spDelay -width 5 -textvariable tempdelay -from 0 -to 999 \
         -validate key -justify right
+    ttk::label $f.analyse.capNote -text "$::tr(ReviewSettings): $::tr(ReviewMovetime)"
     ttk::radiobutton  $f.analyse.allmoves     -text $::tr(AnnotateAllMoves)     -variable annotateBlunders -value allmoves
     ttk::radiobutton  $f.analyse.blundersonly -text $::tr(AnnotateBlundersOnly) -variable annotateBlunders -value blundersonly
     ttk::frame $f.analyse.blunderbox
@@ -393,6 +448,7 @@ proc configAnnotation {} {
     pack $f.analyse.allmoves  -side bottom -anchor w
     pack $f.analyse.label -side left -anchor w
     pack $f.analyse.spDelay -side right -anchor e
+    pack $f.analyse.capNote -side right -anchor e -padx { 0 10 }
     bind $w <Escape> { .configAnnotation.f.buttons.cancel invoke }
     bind $w <Return> { .configAnnotation.f.buttons.ok invoke }
 
@@ -410,18 +466,29 @@ proc configAnnotation {} {
 
     ttk::labelframe   $f.comment -text $::tr(Comments)
     ttk::checkbutton  $f.comment.cbAnnotateVar      -text $::tr(AnnotateVariations)         -variable ::isAnnotateVar
+    # The review pass walks the main line: entering a variation and annotating the
+    # moves inside it is not in the review layer yet, so the classic's "Annotate
+    # variations" switch is shown disabled with the reason, rather than offered and
+    # ignored. Variations ARE written (the engine's line, on a mistake); that is
+    # ::review::variationWanted's job and it has no switch here.
+    $f.comment.cbAnnotateVar configure -state disabled
+    ttk::label $f.comment.lAnnotateVar -text $::tr(AnnotateVariationsMainLineOnly) -foreground gray
     ttk::checkbutton  $f.comment.cbShortAnnotation  -text $::tr(ShortAnnotations)           -variable ::isShortAnnotation
     ttk::checkbutton  $f.comment.cbAddScore         -text $::tr(AddScoreToShortAnnotations) -variable ::addScoreToShortAnnotations
     ttk::checkbutton  $f.comment.cbAddAnnotatorTag  -text $::tr(addAnnotatorTag)            -variable ::addAnnotatorTag
     # Checkmark to enable all-move-scoring
     ttk::checkbutton  $f.comment.scoreAll -text $::tr(ScoreAllMoves) -variable scoreAllMoves
     ttk::checkbutton  $f.comment.cbMarkTactics -text $::tr(MarkTacticalExercises) -variable ::markTacticalExercises
-    if {! $::analysis(uci1)} {
-        set ::markTacticalExercises 0
+    # The exercise probe drives scid's own analyser, which is the pane's engine
+    # only when that engine is UCI: the same gate as the classic, on this pane.
+    if {! $analysis(uci$n)} {
+        # Only disable the control here. Clearing the shared preference would
+        # make a later run on a UCI pane skip exercises the user had asked for.
         $f.comment.cbMarkTactics configure -state disabled
     }
     
-    pack $f.comment.scoreAll $f.comment.cbAnnotateVar $f.comment.cbShortAnnotation $f.comment.cbAddScore \
+    pack $f.comment.scoreAll $f.comment.cbAnnotateVar $f.comment.lAnnotateVar \
+        $f.comment.cbShortAnnotation $f.comment.cbAddScore \
 	$f.comment.cbAddAnnotatorTag $f.comment.cbMarkTactics -fill x -anchor w
     # batch annotation of consecutive games, and optional opening errors finder
     ttk::frame $f.batch
@@ -451,33 +518,96 @@ proc configAnnotation {} {
     ttk::button $f.buttons.cancel -text $::tr(Cancel) -command {
         destroy .configAnnotation
     }
-    ttk::button $f.buttons.ok -text "OK" -command {
-        set ::useAnalysisBookName [.configAnnotation.f.analyse.comboBooks get]
-        set ::book::lastBook1 $::useAnalysisBookName
-        
-        # tactical positions is selected, must be in multipv mode
-        if {$::markTacticalExercises} {
-            if { $::analysis(multiPVCount1) < 2} {
-                # TODO: Why not put it at the (apparent) minimum of 2?
-                #
-                set ::analysis(multiPVCount1) 4
-                changePVSize 1
-            }
-        }
-        
-        if {$tempdelay < 0.1} { set tempdelay 0.1 }
-        set autoplayDelay [expr {int($tempdelay * 1000)}]
-        destroy .configAnnotation
-        .analysisWin1.b1.annotate state pressed
-        # Tell the analysis mode that we want an initial assessment of the
-        # position. So: no comments yet, please!
-        set ::initialAnalysis 1
-        # And start the time slicer
-        startAutoplay
-    }
+    ttk::button $f.buttons.ok -text "OK" -command [list configAnnotateOK $w $n]
     pack $f.buttons.cancel $f.buttons.ok -side right -padx 5 -pady 5
+    # A pane that cannot run the review says why, in the driver's words, and its
+    # OK is disabled the way a non-UCI pane's tactical checkbox is.
+    if {$refuse ne ""} {
+        ttk::label $f.buttons.refusal -text $refuse -foreground red
+        pack $f.buttons.refusal -side left -padx 5 -pady 5
+        $f.buttons.ok configure -state disabled
+    }
     focus $f.analyse.spDelay
     bind $w <Destroy> { focus . }
+}
+
+# What the annotate dialog's OK does, and the only place the dialog's state turns
+# into a run. The decision itself is ::reviewannotate::dialogPlan's (a pure proc,
+# gated by tests/tcl/annotate_dialog.tcl); this collects the dialog's state, sets
+# the one time cap, and starts the pass.
+#
+# Returns "" when the run started, otherwise the reason it did not - the dialog
+# stays open and says so.
+proc configAnnotateOK {w n} {
+    global analysis tempdelay autoplayDelay
+    set ::useAnalysisBookName [$w.f.analyse.comboBooks get]
+    set ::book::lastBook1 $::useAnalysisBookName
+
+    # The dialog's own variation controls (analysis.tcl:445-452): the White/Black
+    # side filter and the "Variation length (moves)" spinner, both of which the
+    # classic annotator read. They are defaults-safe, because a session that has
+    # never opened Preferences does not define them.
+    set white 1
+    catch { set white $::annotateWhiteMoves }
+    set black 1
+    catch { set black $::annotateBlackMoves }
+    set varLength 0
+    catch { set varLength $::annotationVariationLength }
+
+    # The opening book's end, walked here because it needs the book and the game
+    # rather than a decision: the pass only needs the number.
+    set bookEnd 0
+    set book [::reviewannotate::book]
+    if {$book ne ""} {
+        catch { set bookEnd [::reviewannotate::findBookEnd [lindex $book 0] [lindex $book 1]] }
+        if {$bookEnd < 0} { set bookEnd 0 }
+    }
+    set settings [dict create \
+        game [sc_game number] \
+        blunders $::annotateBlunders \
+        batch $::isBatch \
+        batchEnd $::batchEnd \
+        opening $::isBatchOpening \
+        openingMoves $::isBatchOpeningMoves \
+        white $white \
+        black $black \
+        varLength $varLength \
+        bookEnd $bookEnd]
+    set plan [::reviewannotate::dialogPlan $n $analysis(name$n) $analysis(uci$n) $settings]
+    if {[dict get $plan refuse] ne ""} {
+        tk_messageBox -parent $w -title "scidCommunity: $::tr(Annotate)" \
+            -icon warning -type ok -message [dict get $plan refuse]
+        return [dict get $plan refuse]
+    }
+    # The tactical exercises need a second line to tell a puzzle from the only
+    # move; the pass asks its own engine for at least two, so the classic's bump
+    # of the window's MultiPV to 4 is not needed here.
+    # One bound, two surfaces: the spinner writes ::review::movetime, and Review
+    # Settings shows the same number.
+    set seconds 0
+    catch { set seconds $tempdelay }
+    if {![string is double -strict $seconds] || $seconds < 0} { set seconds 0 }
+    set movetime [expr {int(round($seconds * 1000))}]
+    set refused [::review::setValue movetime $movetime]
+    if {$refused ne ""} {
+        tk_messageBox -parent $w -title "scidCommunity: $::tr(Annotate)" \
+            -icon warning -type ok -message $refused
+        return $refused
+    }
+    # The classic loop's own delay is kept in step for the classic path, which is
+    # still shipped; a review pass does not use it.
+    set autoplayDelay [expr {int($seconds * 1000)}]
+    destroy $w
+    .analysisWin$n.b1.annotate state pressed
+    # No ::initialAnalysis: the classic assessment step belongs to the autoplay
+    # loop, and the pass has its own reference position for every move.
+    set err [::reviewannotate::run $plan]
+    if {$err ne ""} {
+        catch { .analysisWin$n.b1.annotate state !pressed }
+        tk_messageBox -parent . -title "scidCommunity: $::tr(Annotate)" \
+            -icon warning -type ok -message $err
+    }
+    return $err
 }
 ################################################################################
 # Part of annotation process : will check the moves if they are in te book, and add a comment
@@ -1436,11 +1566,9 @@ proc makeAnalysisWin { {n 1} {index -1} {autostart 1}} {
     ttk::button $w.b1.showinfo -image [::button_image tb_engineinfo] -command "toggleEngineInfo $n"
     ::utils::tooltip::Set $w.b1.showinfo $::tr(ShowInfo)
     
-    if {$n == 1} {
-        ttk::button $w.b1.annotate -command "configAnnotation" \
-            -image [list tb_annotate pressed tb_annotate_on]
-        ::utils::tooltip::Set $w.b1.annotate $::tr(Annotate...)
-    }
+    ttk::button $w.b1.annotate -command [list configAnnotation $n] \
+        -image [list tb_annotate pressed tb_annotate_on]
+    ::utils::tooltip::Set $w.b1.annotate $::tr(Annotate...)
     ttk::button $w.b1.priority -image [::button_image tb_cpu_hi] -command "setAnalysisPriority $w $n"
     ::utils::tooltip::Set $w.b1.priority $::tr(LowPriority)
     
@@ -1457,7 +1585,7 @@ proc makeAnalysisWin { {n 1} {index -1} {autostart 1}} {
     if {$n == 1} {
         pack $w.b1.multipv $w.b1.annotate $w.b1.automove $w.b1.bFinishGame -side left
     } else  {
-        pack $w.b1.multipv $w.b1.automove -side left
+        pack $w.b1.multipv $w.b1.annotate $w.b1.automove -side left
     }
     pack $w.b1.help $w.b1.priority $w.b1.showboard -side right
     if {! $analysis(uci$n)} {
@@ -2292,8 +2420,8 @@ proc toggleLockEngine {n} {
     }
     $w.b1.alllines configure -state $state
     $w.b1.automove configure -state $state
+    $w.b1.annotate configure -state $state
     if { $n == 1 } {
-        $w.b1.annotate configure -state $state
         $w.b1.bFinishGame configure -state $state
     }
     updateAnalysis $n

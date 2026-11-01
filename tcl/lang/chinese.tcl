@@ -819,6 +819,8 @@ translate M ReviewVarLines {要写入的变化}
 translate M ReviewVarCp {变化差距 (cp)}
 translate M ReviewMoveWait {等待复盘深度}
 translate M ReviewMovetime {时间上限 (ms)}
+translate M StopNow {Stop now}
+translate M StopAfterThisGame {Stop after this game}
 translate M ReviewFromPreset {%s（来自引擎预设）}
 translate M ReviewProgress {正在复盘第 %s / %s 个局面}
 translate M ReviewWaitForDepth {正在等待深度 %s}
@@ -1684,6 +1686,7 @@ translate M Hash {哈希内存}
 translate M OwnBook {使用引擎书}
 translate M BookFile {开本}
 translate M AnnotateVariations {注释变化}
+translate M AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate M ShortAnnotations {简短的注释}
 translate M addAnnotatorTag {添加注释器标签}
 translate M AddScoreToShortAnnotations {为注释添加分数}

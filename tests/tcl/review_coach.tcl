@@ -229,6 +229,12 @@ check "the header summary comes off" \
 check "and the report header stays" \
     [expr {[string first "\[Game review\]" [dict get $::comments 0]] >= 0}]
 
+# The report's own lines are indented under [Game review] and say "White:" and
+# "Phases:", so a label at the start of a line is the coach's and nobody else's.
+checkEq "an indented report line is not a header block" \
+    [::reviewcoach::stripHeader "\[Game review\]\n  White: 90%\n  Phases: opening"] \
+    "\[Game review\]\n  White: 90%\n  Phases: opening"
+
 # Prose arrives asynchronously. If the user moved to another game while the
 # model was writing, it must not be written into that game.
 proc sc_game {what args} {

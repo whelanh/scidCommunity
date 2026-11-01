@@ -884,6 +884,8 @@ translate k ReviewVarLines {기록할 변화}
 translate k ReviewVarCp {변화 폭 (cp)}
 translate k ReviewMoveWait {검토 깊이를 기다림}
 translate k ReviewMovetime {시간 한도 (ms)}
+translate k StopNow {Stop now}
+translate k StopAfterThisGame {Stop after this game}
 translate k ReviewFromPreset {%s (엔진 프리셋에서)}
 translate k ReviewProgress {국면 %s / %s 검토 중}
 translate k ReviewWaitForDepth {깊이 %s 대기 중}
@@ -1749,6 +1751,7 @@ translate k Hash {임시 메모리}
 translate k OwnBook {엔진북 사용}
 translate k BookFile {복구북}
 translate k AnnotateVariations {변형에 달기}
+translate k AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate k ShortAnnotations {지하철}
 translate k addAnnotatorTag {자 태그 표시}
 translate k AddScoreToShortAnnotations {추가 점수를 찾았습니다}

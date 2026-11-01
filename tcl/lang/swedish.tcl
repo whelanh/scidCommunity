@@ -854,6 +854,8 @@ translate W ReviewVarLines {Varianter att skriva}
 translate W ReviewVarCp {Variantmarginal (cp)}
 translate W ReviewMoveWait {Vänta på granskningsdjupet}
 translate W ReviewMovetime {Tidsgräns (ms)}
+translate W StopNow {Stop now}
+translate W StopAfterThisGame {Stop after this game}
 translate W ReviewFromPreset {%s (från motorprofilen)}
 translate W ReviewProgress {Granskar ställning %s av %s}
 translate W ReviewWaitForDepth {Väntar på djup %s}
@@ -1736,6 +1738,7 @@ translate W Hash {Hashminne}
 translate W OwnBook {Använd schackmotorbok}
 translate W BookFile {Öppningsbok}
 translate W AnnotateVariations {Kommentera variationer}
+translate W AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate W ShortAnnotations {Korta kommentarer}
 translate W addAnnotatorTag {Lägg till kommentator-tagg}
 translate W AddScoreToShortAnnotations {Lägg till värdering till korta kommentarer}

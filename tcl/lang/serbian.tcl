@@ -1330,6 +1330,8 @@ translate Y ReviewVarLines {Varijante za upis}
 translate Y ReviewVarCp {Granica varijanti (cp)}
 translate Y ReviewMoveWait {Čekaj dubinu pregleda}
 translate Y ReviewMovetime {Vremensko ograničenje (ms)}
+translate Y StopNow {Stop now}
+translate Y StopAfterThisGame {Stop after this game}
 translate Y ReviewFromPreset {%s (iz profila motora)}
 translate Y ReviewProgress {Pregled pozicije %s od %s}
 translate Y ReviewWaitForDepth {Čekanje na dubinu %s}
@@ -2859,6 +2861,7 @@ translate Y OwnBook {Use engine book}
 translate Y BookFile {Opening book}
 # ====== TODO To be translated ======
 translate Y AnnotateVariations {Annotate variations}
+translate Y AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 # ====== TODO To be translated ======
 translate Y ShortAnnotations {Short annotations}
 # ====== TODO To be translated ======

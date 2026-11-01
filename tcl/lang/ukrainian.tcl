@@ -844,6 +844,8 @@ translate Q ReviewVarLines {Варіанти для запису}
 translate Q ReviewVarCp {Поріг варіантів (cp)}
 translate Q ReviewMoveWait {Чекати глибину огляду}
 translate Q ReviewMovetime {Обмеження часу (ms)}
+translate Q StopNow {Stop now}
+translate Q StopAfterThisGame {Stop after this game}
 translate Q ReviewFromPreset {%s (з профілю двигуна)}
 translate Q ReviewProgress {Огляд позиції %s з %s}
 translate Q ReviewWaitForDepth {Очікування глибини %s}
@@ -1709,6 +1711,7 @@ translate Q Hash {Хеш-пам'ять}
 translate Q OwnBook {Використовуйте книгу двигуна}
 translate Q BookFile {Відкриття книги}
 translate Q AnnotateVariations {Примітки до варіацій}
+translate Q AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate Q ShortAnnotations {Короткі анотації}
 translate Q addAnnotatorTag {Додайте тег анотатора}
 translate Q AddScoreToShortAnnotations {Додайте оцінку до анотацій}

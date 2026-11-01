@@ -884,6 +884,8 @@ translate J ReviewVarLines {Варијанте за упис}
 translate J ReviewVarCp {Граница варијанти (cp)}
 translate J ReviewMoveWait {Чекај дубину прегледа}
 translate J ReviewMovetime {Временско ограничење (ms)}
+translate J StopNow {Stop now}
+translate J StopAfterThisGame {Stop after this game}
 translate J ReviewFromPreset {%s (из профила мотора)}
 translate J ReviewProgress {Преглед позиције %s од %s}
 translate J ReviewWaitForDepth {Чекање на дубину %s}
@@ -1749,6 +1751,7 @@ translate J Hash {Хеш меморија}
 translate J OwnBook {Користите књигу мотора}
 translate J BookFile {Отварање књиге}
 translate J AnnotateVariations {Означите варијације}
+translate J AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate J ShortAnnotations {Кратке напомене}
 translate J addAnnotatorTag {Додајте ознаку анотатора}
 translate J AddScoreToShortAnnotations {Додајте резултат напоменама}

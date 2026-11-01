@@ -883,6 +883,8 @@ translate D ReviewVarLines {Zu schreibende Varianten}
 translate D ReviewVarCp {Variantenabstand (cp)}
 translate D ReviewMoveWait {Auf die Prüfungstiefe warten}
 translate D ReviewMovetime {Zeitlimit (ms)}
+translate D StopNow {Stop now}
+translate D StopAfterThisGame {Stop after this game}
 translate D ReviewFromPreset {%s (aus dem Motorprofil)}
 translate D ReviewProgress {Position %s von %s wird geprüft}
 translate D ReviewWaitForDepth {Warte auf Tiefe %s}
@@ -1780,6 +1782,7 @@ translate D Hash {Hash Speicher}
 translate D OwnBook {Engine Buch verwenden}
 translate D BookFile {Eröffnungsbuch}
 translate D AnnotateVariations {Varianten kommentieren}
+translate D AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
 translate D ShortAnnotations {Kurze Kommentare}
 translate D addAnnotatorTag {Kommentar Tag hinzufügen}
 translate D AddScoreToShortAnnotations {Bewertung hinzufügen}
