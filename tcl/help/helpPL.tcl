@@ -2591,9 +2591,9 @@ set helpText(P,ReviewGameButton) {<h1>Okno silnika: Przycisk Przegląd partii</h
 
   <h3>Jedno posunięcie zamiast całej partii</h3>
   <p>
-  <a ReviewMoveButton><b>Komentarz do ruchu</b></a> opisuje tylko posunięcie
-  zagrane z bieżącej pozycji - to tańszy sposób, gdy wyjaśnienia wymaga jedno
-  posunięcie.
+  <a ReviewMoveButton><b>Komentarz do ruchu</b></a> opisuje posunięcie, na którym
+  się znajdujesz - to zaznaczone w partii, a nie następne - co jest tańszym
+  sposobem, gdy wyjaśnienia wymaga jedno posunięcie.
   </p>
 
   <p><footer>(Zaktualizowano: ScidCommunity, październik 2026)</footer></p>
@@ -2607,17 +2607,19 @@ set helpTitle(P,ReviewMoveButton) "Przycisk Komentarz do ruchu"
 set helpText(P,ReviewMoveButton) {<h1>Okno silnika: Przycisk Komentarz do ruchu</h1>
   <p>
   Przycisk <b>Komentarz do ruchu</b> w oknie <a Engine>Silnika</a> opisuje jedno
-  posunięcie: to zagrane z pozycji na szachownicy. Silnik przeszukuje pozycję
-  przed posunięciem i pozycję po nim, bo ocena posunięcia potrzebuje obu liczb -
-  ile było warte i co przyniosło.
+  posunięcie: to, na którym się znajdujesz - prowadzące do pozycji na
+  szachownicy, a nie następne. Silnik przeszukuje pozycję przed posunięciem i
+  pozycję po nim, bo ocena posunięcia potrzebuje obu liczb - ile było warte i co
+  przyniosło. Etykieta i [%eval] trafiają za posunięcie; diagram, gdy posunięcie
+  na niego zasługuje, pojawia się przed nim.
   </p>
 
   <h3>Kiedy przycisk jest aktywny</h3>
   <p>
-  Potrzebna jest partia, wybrany silnik i posunięcie po bieżącej pozycji. Na
-  ostatniej pozycji partii nie ma czego opisywać, a w wariancie numeracja
-  posunięć znaczy co innego: przegląd obejmuje główną linię, więc tam przycisk
-  jest wyłączony.
+  Potrzebna jest partia, wybrany silnik i posunięcie na szachownicy: na początku
+  linii nie ma czego opisywać, a ostatnie posunięcie można opisać. W wariancie
+  numeracja posunięć znaczy co innego: przegląd obejmuje główną linię, więc tam
+  przycisk jest wyłączony.
   </p>
 
   <h3>Czekanie na głębokość przeglądu</h3>

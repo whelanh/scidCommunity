@@ -66,7 +66,8 @@ proc ::reviewui::runCall {state} {
 #   game   plies in the open game (0: no game, or an empty one)
 #   engine the analysis engine's name ("" when none is selected)
 #   pass   "" , or the pass state: searching, writing
-#   move   the UCI move played from the current position ("" at the end)
+#   move   the UCI move the reader is on - the one that led to this position
+#          ("" at the start of the line)
 #
 # A pass owns its own engine connection, but it owns the window's buttons too:
 # starting a second pass over a running one is a Go with no engine behind it.
@@ -94,7 +95,7 @@ proc ::reviewui::buttons {state} {
         return $out
     }
     dict set out review normal
-    # No move after the current position is nothing for Move Comment to label.
+    # No move under the cursor is nothing for Move Comment to label.
     # It is not a reason against the review, which covers the whole line.
     if {$move ne ""} { dict set out movecomment normal }
     return $out
@@ -299,6 +300,10 @@ proc ::reviewui::failedText {reason} {
 
 # The depth a one-move comment searches at, and whether anything has to wait.
 #
+# `depth_now` is the window's analysis depth for the position BEFORE the
+# commented move: the pass searches that position first, so its depth is what
+# says whether the comment can be written from the analysis already on screen.
+#
 # With move_comment_wait on (the default) the comment has to be the one a review
 # would have written, so a shallow analysis is not good enough and the pass
 # searches at the review's depth. With it off the window's own analysis is the
@@ -317,6 +322,20 @@ proc ::reviewui::moveCommentDepth {depth_now {target ""}} {
         return [dict create depth $depth wait 0]
     }
     return [dict create depth $target wait 1]
+}
+
+# The move Move Comment judges: the one the reader is on, which is the move that
+# produced the current position (ply `here`, where `here` is sc_pos location),
+# not the move played from it. "" when there is no such move: the start of the
+# line, a null move (a `position ...` header), or a ply the main line does not
+# have.
+#
+# The pass searches `here - 1` and `here`, the positions before and after the
+# move; the depth already reached is the window's entry for `here - 1`.
+proc ::reviewui::moveCommentPly {map here} {
+    if {![string is integer -strict $here] || $here < 1} { return "" }
+    if {[::review::playedMove $map $here] eq ""} { return "" }
+    return $here
 }
 
 # The bounds a dialog spin box offers. They agree with ::review::setValue, which

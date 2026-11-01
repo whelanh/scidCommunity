@@ -877,7 +877,7 @@ translate E GameCommentTooltip {Scan game for annotated moves and generate AI su
 translate E ReviewGameButton {Game Review}
 translate E ReviewGameButtonTooltip {Review every move of the main line and label it}
 translate E ReviewMoveButton {Move Comment}
-translate E ReviewMoveButtonTooltip {Label the move played from here and write it in}
+translate E ReviewMoveButtonTooltip {Label the highlighted move and write it in}
 translate E ReviewSettings {Review Settings}
 translate E ReviewVarLines {Variations to write}
 translate E ReviewVarCp {Variation margin (cp)}

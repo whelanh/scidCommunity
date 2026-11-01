@@ -44,7 +44,7 @@ array set ::EN {
     ReviewGameButton        {Game Review}
     ReviewGameButtonTooltip {Review every move of the main line and label it}
     ReviewMoveButton        {Move Comment}
-    ReviewMoveButtonTooltip {Label the move played from here and write it in}
+    ReviewMoveButtonTooltip {Label the highlighted move and write it in}
     ReviewSettings          {Review Settings}
     ReviewVarLines          {Variations to write}
     ReviewVarCp             {Variation margin (cp)}
@@ -97,15 +97,40 @@ checkEq "no engine: the reason says so" \
 checkEq "no engine: Move Comment is disabled" \
     [dict get [::reviewui::buttons $noengine] movecomment] disabled
 
-# The last position of the game has no move after it, so there is nothing for
+# The start of the line has no move under the cursor, so there is nothing for
 # Move Comment to label; the whole line can still be reviewed.
-set atEnd [dict replace $live move {}]
-checkEq "last position: nothing to comment" \
-    [dict get [::reviewui::buttons $atEnd] movecomment] disabled
-checkEq "last position: the game can still be reviewed" \
-    [dict get [::reviewui::buttons $atEnd] review] normal
-checkEq "last position: no reason against the review" \
-    [dict get [::reviewui::buttons $atEnd] reason] ""
+set atStart [dict replace $live move {}]
+checkEq "start position: nothing to comment" \
+    [dict get [::reviewui::buttons $atStart] movecomment] disabled
+checkEq "start position: the game can still be reviewed" \
+    [dict get [::reviewui::buttons $atStart] review] normal
+checkEq "start position: no reason against the review" \
+    [dict get [::reviewui::buttons $atStart] reason] ""
+
+# At the end of the game the reader is on the last move, which is exactly the
+# move Move Comment is for: it stays live there.
+set atLast [dict replace $live move g1f3 game 3]
+checkEq "the last move can be commented" \
+    [dict get [::reviewui::buttons $atLast] movecomment] normal
+
+puts "which move Move Comment judges"
+
+# sc_pos location is the ply the board is on, so the move under the cursor is
+# the one that produced that position: ply `here`, not `here + 1`. The pass
+# searches here-1 and here, and the window's depth map is read at here-1.
+set map [::review::mainLineMap [list {position startpos moves} e2e4 e7e5 g1f3]]
+checkEq "the start of the line has no move to comment" \
+    [::reviewui::moveCommentPly $map 0] ""
+checkEq "the first move is judged at ply 1" \
+    [::reviewui::moveCommentPly $map 1] 1
+checkEq "the highlighted move, not the one after it" \
+    [::reviewui::moveCommentPly $map 2] 2
+checkEq "the last move is judged at its own ply" \
+    [::reviewui::moveCommentPly $map 3] 3
+checkEq "a ply past the line has no move" \
+    [::reviewui::moveCommentPly $map 4] ""
+checkEq "a non-numeric location has no move" \
+    [::reviewui::moveCommentPly $map ""] ""
 
 # A pass owns the engine it runs on, and the window's buttons must not start a
 # second one over it. Cancel is the way out, so it is live in every pass state.
