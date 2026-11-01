@@ -67,6 +67,17 @@ apps:
       TCL8_6_TM_PATH: $SNAP/usr/share/tcltk/tcl8/8.6:$SNAP/usr/share/tcltk/tcl8/8.5
       TCLLIBPATH: $SNAP/usr/share/tcltk/tcl8.6/tcl8 $SNAP/usr/share/tcltk $SNAP/usr/share/tcltk/tcl8/8.6 $SNAP/usr/share/tcltk/tcl8/8.5
       LD_LIBRARY_PATH: $SNAP/usr/lib/x86_64-linux-gnu/pulseaudio:$SNAP/usr/lib/x86_64-linux-gnu:$SNAP/usr/lib:$LD_LIBRARY_PATH
+      # Tk translates key presses through Xlib's locale/input-method layer
+      # (XLookupString/XIM). Xlib hard-codes /usr/share/X11/locale, which in a
+      # snap is the base snap's filesystem, not our staged libx11-data. Point
+      # it at the data we ship, otherwise non-ASCII input produces no character
+      # (typing é/è/ê fails while paste still works).
+      XLOCALEDIR: $SNAP/usr/share/X11/locale
+      # The core24 base does not ship the host's locale, so glibc otherwise
+      # falls back to C/POSIX. Xlib cannot translate non-ASCII keys in that
+      # locale. C.UTF-8 is built into glibc >= 2.35 and is always available.
+      LANG: C.UTF-8
+      LC_ALL: C.UTF-8
 
 parts:
   scidcommunity:
@@ -94,6 +105,7 @@ parts:
       - ca-certificates
       - unzip
       - libx11-6
+      - libx11-data
       - libxft2
       - libxss1
       - libfontconfig1
