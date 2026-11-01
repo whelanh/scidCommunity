@@ -953,6 +953,12 @@ set ::events {}
 set ::runProgress {}
 set ::notified {}
 checkEq "the second review starts" [::reviewdriver::run $runcfg -notify 1] ""
+# The coach reports through the same status dict, so a pass waiting on a model
+# can say so instead of looking stuck.
+::reviewdriver::proseProgress 2 5 summary 0 {two lines} {}
+set mid [::reviewdriver::status]
+checkEq "the coach's progress is in the pass state" \
+    [list [dict get $mid coachDone] [dict get $mid coachTotal]] {2 5}
 feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
 feedEvent InfoPV {1 20 22 900 300 0 0 120 10 cp 0 e2e4 d7d5}
 feedEvent InfoPV {2 20 22 900 300 0 0 120 5 cp 0 d2d4}
@@ -979,6 +985,10 @@ checkEq "the user's note and the new verdict, in that order" \
 checkEq "the user's mark survived both runs" [nagsAt 2] "?!" 
 checkEq "a finished review regenerates the game text" \
     [lindex $::notified end] -pgn
+# Once when the labels are written, once when the coach has finished: the review
+# must be visible while the model is still writing, not only at the end.
+checkEq "the write phase redraws before the coach starts" \
+    [llength [lsearch -all $::notified -pgn]] 2
 checkEq "a verdict from the first run is replaced, not appended" \
     [dict get $::fakeComments 3] {[best] [%eval -0.04]}
 checkEq "and so is the last one" [dict get $::fakeComments 4] {[best] [%eval +0.03]}

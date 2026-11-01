@@ -71,6 +71,13 @@ namespace eval ::enginecfg {}
 # cap's note reads.
 set ::engineCfgAnswer {}
 proc ::enginecfg::get {name} { return $::engineCfgAnswer }
+namespace eval ::auto_comment {}
+set ::autoOpened 0
+proc ::auto_comment::openSettings {args} {
+    incr ::autoOpened
+    toplevel .autoCommentConfig
+}
+proc ::enginecfg::names {} { return {Engine A Engine B} }
 set ::language E
 set ::translatePieces 0
 
@@ -108,12 +115,27 @@ checkEq "and it is the window the button names" $w .engineWin1.reviewSettings
 # the buttons were not, because the body stopped compiling mid-proc.
 check "the OK button exists" [winfo exists $w.b.ok]
 check "the Cancel button exists" [winfo exists $w.b.cancel]
-foreach key {mpv depth movetime var_lines var_cp move_comment_wait diagram} {
+foreach key {mpv depth movetime var_lines var_cp move_comment_wait diagram verifier coach} {
     check "the $key row is there" [winfo exists $w.f.v$key]
 }
+foreach key {move_comment_wait diagram coach} {
+    checkEq "the $key row is a checkbox" [winfo class $w.f.v$key] TCheckbutton
+}
+checkEq "the verifier row is a chooser" [winfo class $w.f.vverifier] TCombobox
+check "the coach settings button is there" [winfo exists $w.f.coachsettings]
+# Review Settings opens Coach settings, which is a dialog of its own. A grab on
+# this window would swallow every event meant for the child: the coach dialog
+# appeared and nothing in it could be clicked, dropdowns included.
+checkEq "Review Settings holds no grab over its child dialog" [grab current] ""
+$w.f.coachsettings invoke
+checkEq "Coach settings opens from Review Settings" $::autoOpened 1
+check "in a window of its own" [winfo exists .autoCommentConfig]
+destroy .autoCommentConfig
 checkEq "it opens on the stored values" \
     [list $::enginewin::reviewsetting(1,var_lines) \
           $::enginewin::reviewsetting(1,var_cp)] {1 0}
+checkEq "the verifier row opens on Off" \
+    $::enginewin::reviewsetting(1,verifier) Off
 
 # What the user does: type the numbers, press OK.
 puts "\ntyping a value and pressing OK"

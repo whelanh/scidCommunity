@@ -874,6 +874,8 @@ translate E MoveLabelForced {Forced}
 translate E MoveLabelBook {Book}
 translate E GameComment {Game Comment}
 translate E GameCommentTooltip {Scan game for annotated moves and generate AI summary}
+translate E ToolsWhatThreat {What's the threat?}
+translate E ToolsWhatThreatTooltip {Ask the engine what the side to move is threatening}
 translate E ReviewGameButton {Game Review}
 translate E ReviewGameButtonTooltip {Review every move of the main line and label it}
 translate E ReviewMoveButton {Move Comment}
@@ -884,10 +886,13 @@ translate E ReviewVarLines {Variations to write}
 translate E ReviewVarCp {Variation margin (cp)}
 translate E ReviewMoveWait {Wait for the review depth}
 translate E ReviewMovetime {Time cap (ms)}
+translate E ReviewCoach {Coach prose}
 translate E StopNow {Stop now}
 translate E StopAfterThisGame {Stop after this game}
 translate E ReviewFromPreset {%s (from engine preset)}
 translate E ReviewProgress {Reviewing position %s of %s}
+translate E ReviewCoachProgress {Coach prose: %s of %s}
+translate E ReviewWriting {Writing the review...}
 translate E ReviewWaitForDepth {Waiting for depth %s}
 translate E ReviewFailed {Review failed: %s}
 translate E TimeMs {Time(ms)}

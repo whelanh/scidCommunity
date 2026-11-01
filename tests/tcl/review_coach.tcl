@@ -1,13 +1,12 @@
 # Copyright (C) 2026 Hugh Whelan
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
-# review_coach.tcl -- the coach's facts, without a model.
+# review_coach.tcl -- the coach's facts and prompts, without a model.
 #
 #   tclsh tests/tcl/review_coach.tcl
 #
-# Every line the coach is allowed to say comes from these functions, so they are
-# checked on their own: no model, no network, no board. A prompt built on the
-# wrong facts is worse than no prompt, because the reader cannot tell.
+# A prompt is only as good as its FACTS: the model may name nothing that is not
+# there, so these checks pin the facts, the report figures and the hard rules.
 
 set fails 0
 set checks 0
@@ -108,16 +107,62 @@ check "and the state at its ends" \
     [expr {[string first "state at the start of this phase:" $pf] >= 0 \
         && [string first "state at the end of this phase:" $pf] >= 0}]
 
-puts "\nthe prose markers"
+puts "\nthe prompts"
 
+set mp [::reviewcoach::movePrompt $m]
+check "the move prompt ends with its facts" \
+    [expr {[string first "FACTS:" $mp] > 0 && [string first $facts $mp] > 0}]
+check "and bans the labels it is not" \
+    [expr {[string first {"inaccuracy"} $mp] >= 0}]
+set mmp [::reviewcoach::momentPrompt $m]
+check "the moment prompt is the move prompt with facts" \
+    [expr {[string first "FACTS:" $mmp] > 0 && [string first "judged a good" $mmp] > 0}]
+set pp [::reviewcoach::phasePrompt opening $pf]
+check "the phase prompt carries the facts" \
+    [expr {[string first $pf $pp] > 0 && [string first "Never name a piece" $pp] > 0}]
+set sp [::reviewcoach::summaryPrompt $gf]
+check "the summary prompt carries the facts" \
+    [expr {[string first $gf $sp] > 0 && [string first "at most three sentences" $sp] > 0}]
+
+# The reply that punished a move is attached from the next analysed position,
+# so the move's facts can say what the move allowed.
+set p0 [mv 1 white e2e4 blunder 20 -300]
+dict set p0 best_pv [list d2d4 e7e5]
+set p1 [mv 2 black e7e5 good -300 -300]
+dict set p1 best_pv [list g1f3 b8c6 d2d4]
+set punished [list $p0 $p1]
+set mprompts [::reviewcoach::buildPrompts $punished {}]
+set mprompt ""
+foreach item $mprompts {
+    if {[dict get $item kind] eq "moment" && [dict get $item key] == 1} {
+        set mprompt [dict get $item prompt]
+    }
+}
+check "the punishment line reaches the move prompt" \
+    [expr {[string first "the line after the move played runs" $mprompt] >= 0}]
+
+set sm [::reviewcoach::parseSummary "summary: one line.\nLevel: club.\nOPENING: NONE"]
+checkEq "the summary tags are read whatever their case" [dict get $sm summary] "one line."
+checkEq "and the level" [dict get $sm level] "club."
+checkEq "and NONE is no opening" [dict get $sm opening] ""
+
+puts "\nwhat a review asks for"
+
+set prompts [::reviewcoach::buildPrompts $moves [dict create result 1-0 opening "Test Opening"]]
+set kinds [dict create]
+foreach item $prompts { dict incr kinds [dict get $item kind] }
+check "there is one summary" [expr {[dict get $kinds summary] == 1}]
+check "and one prompt for each phase with figures" [expr {[dict get $kinds phase] >= 1}]
+check "and the blunder is a moment" [expr {[dict get $kinds moment] >= 1}]
+check "all of them carry facts" \
+    [expr {[string first "FACTS:" [dict get [lindex $prompts 0] prompt]] >= 0}]
 checkEq "the prose markers come off together" \
     [::reviewcoach::strip "\[Best\] \[%eval +0.20\] \[Phase opening\] figs \[Coach\] words"] \
     "\[Best\] \[%eval +0.20\]"
 
-# The header block is the coach's too: turning the coach off has to take it
-# away, and the report's own header must survive.
-puts "\nthe header block"
+puts "\nplacement and replacement"
 
+# A tiny board for ::reviewcoach::place: comments keyed by ply, and a cursor.
 set ::loc 0
 set ::comments [dict create]
 proc sc_move {what {n 0}} {
@@ -136,7 +181,46 @@ namespace eval ::review {}
 proc ::review::cursorSave {} { return [list $::loc 0] }
 proc ::review::cursorRestore {c} { set ::loc [lindex $c 0] ; return 1 }
 
-dict set ::comments 0 "\[Game review\]\n  White: 90% accuracy\n\nSummary: old story\nLevel: old level\nOpening: old name"
+set phases [::reviewreport::phaseSplit $moves]
+set anchor [dict get $phases opening to]
+set items [list \
+    [dict create kind summary key 0 prompt "S"] \
+    [dict create kind phase key opening prompt "P"] \
+    [dict create kind moment key 9 prompt "M"]]
+set res [dict create \
+    [list summary 0 "S"] "the story" \
+    [list phase opening "P"] "the opening paragraph" \
+    [list moment 9 "M"] "the move note"]
+::reviewcoach::place {} $moves $items $res
+check "the summary lands in the header" \
+    [expr {[string first "Summary: the story" [dict get $::comments 0]] >= 0}]
+check "the phase lands at its end" \
+    [expr {[string first "\[Phase opening\] moves" [dict get $::comments $anchor]] >= 0 \
+        && [string first "the opening paragraph" [dict get $::comments $anchor]] >= 0}]
+check "the move note lands on the move" \
+    [expr {[string first "\[Coach\] the move note" [dict get $::comments 9]] >= 0}]
+
+# The summary answer is three labelled lines; each lands on its own line.
+::reviewcoach::place {} $moves $items [dict create \
+    [list summary 0 "S"] "SUMMARY: the story\nLEVEL: club player\nOPENING: the Italian"]
+set header [dict get $::comments 0]
+check "the level is a line of the header" \
+    [expr {[string first "Level: club player" $header] >= 0}]
+check "and so is the opening" \
+    [expr {[string first "Opening: the Italian" $header] >= 0}]
+::reviewcoach::place {} $moves $items [dict create \
+    [list summary 0 "S"] "SUMMARY: the story\nOPENING: NONE"]
+check "NONE writes no opening line" \
+    [expr {[string first "Opening:" [dict get $::comments 0]] < 0}]
+::reviewcoach::place {} $moves $items [dict create]
+check "a second run takes the phase prose off" \
+    [expr {[string first "the opening paragraph" [dict get $::comments $anchor]] < 0}]
+check "and the coach note too" \
+    [expr {[string first "\[Coach\]" [dict get $::comments 9]] < 0}]
+
+# The header block is the coach's too: turning the coach off has to take it
+# away, and the report's own header must survive.
+dict set ::comments 0 "\[Game review\]\n  White: 90% CAPS accuracy\n\nSummary: old story\nLevel: old level\nOpening: old name"
 ::reviewcoach::stripHeaderAtStart
 check "the header summary comes off" \
     [expr {[string first "old story" [dict get $::comments 0]] < 0 \
@@ -151,11 +235,26 @@ checkEq "an indented report line is not a header block" \
     [::reviewcoach::stripHeader "\[Game review\]\n  White: 90%\n  Phases: opening"] \
     "\[Game review\]\n  White: 90%\n  Phases: opening"
 
-puts "\nthe same input gives the same facts"
+# Prose arrives asynchronously. If the user moved to another game while the
+# model was writing, it must not be written into that game.
+proc sc_game {what args} {
+    if {$what eq "number"} { return $::scidGameNumber }
+    return ""
+}
+set ::scidGameNumber 2
+set ::reviewcoach::game 1
+checkEq "prose written while another game is open is dropped" \
+    [::reviewcoach::place {} $moves $items [dict create \
+        [list summary 0 "S"] "late story"]] 0
+check "so the header is unchanged" \
+    [expr {[string first "late story" [dict get $::comments 0]] < 0}]
+
+puts "\nthe same input gives the same prompt"
 
 checkEq "move facts are deterministic" [::reviewcoach::moveFacts $m] $facts
 checkEq "game facts are deterministic" \
     [::reviewcoach::gameFacts $moves [dict create result 1-0 opening "Test Opening"]] $gf
+checkEq "so is the move prompt" [::reviewcoach::movePrompt $m] $mp
 
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

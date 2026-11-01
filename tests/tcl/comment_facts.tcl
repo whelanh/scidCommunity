@@ -108,7 +108,7 @@ White has rook on a1, king on g1, and 3 pawns
 Black has king on g8, and 3 pawns
 castling: White has no castling rights; Black has no castling rights
 en passant: none available
-fifty-move rule: 0 plies since the last capture or pawn move; 100 more plies would allow a draw claim
+fifty-move rule: 0 of 50 moves have passed since the last capture or pawn move; 50 more would allow a draw claim
 repetition: not available for this position
 material: White is 5 points up, and Black is missing a rook}
 
@@ -121,12 +121,13 @@ foreach prefix {castling: en\ passant: fifty-move\ rule: material} {
 }
 check "no castling rights is said, not implied" \
     [string match {*White has no castling rights; Black has no castling rights*} $bare]
-check "the remaining fifty-move plies are counted" \
-    [string match {*1 more ply would allow a draw claim*} $bare]
+check "the remaining fifty-move moves are counted" \
+    [expr {[string match {*49 of 50 moves have passed*} $bare] \
+        && [string match {*1 more would allow a draw claim*} $bare]}]
 
 set complete [::facts::forMove [moveDict {4k3/8/8/8/8/8/8/4K3 w - - 100 80} e1d2]]
-check "a complete hundred-ply count is a claim" \
-    [string match {*fifty-move rule: the hundred-ply count is complete*} $complete]
+check "a complete fifty-move count is a claim" \
+    [string match {*fifty-move rule: fifty moves have passed*} $complete]
 
 set rep3 [::facts::forMove [moveDict {4k3/8/8/8/8/8/8/4K3 w - - 0 80} e1d2 rep_count 3]]
 check "the caller's repetition count is used verbatim" \
@@ -311,9 +312,37 @@ check "the move played is credited with what it achieved" \
 check "the engine's alternative names the mover and the difference" \
     [string match {*better was Nc3 - White's knight on b1 moves to c3: it also*} $alt]
 check "the engine's line is included, starting after the better move" \
-    [string match {*the line after that better move runs e7e5 g1f3*} $alt]
+    [string match {*the line after that better move runs 7... e7e5 8. g1f3*} $alt]
 check "the better move is not repeated in its own continuation" \
     [expr {![string match {*runs b1c3*} $alt]}]
+
+puts "\nengine lines in scoresheet notation"
+
+checkEq "a line with no ply is unnumbered" \
+    [::facts::numberedLine 0 {Nf3 Nc6}] {Nf3 Nc6}
+checkEq "a line is numbered from the ply it starts on" \
+    [::facts::numberedLine 14 {Nxd6 Qa5}] {7... Nxd6 8. Qa5}
+checkEq "without sc_pos the engine's own notation is kept" \
+    [::facts::sanLine {8/8/8/8/8/8/8/K6k w - - 0 1} {a1a2 h1h2}] {a1a2 h1h2}
+proc sc_pos {what args} {
+    if {$what eq "coordToSAN"} { return {Nf3 Nc6} }
+    return ""
+}
+checkEq "with sc_pos the line is SAN" \
+    [::facts::sanLine {8/8/8/8/8/8/8/K6k w - - 0 1} {g1f3 b8c6}] {Nf3 Nc6}
+# The whole line is converted from the position before the move, then the move
+# it replaced is dropped: converting the tail on its own would ask for SAN of a
+# move that is not legal on that board.
+proc sc_pos {what args} {
+    if {$what eq "coordToSAN"} { return {Bc4 Nf6 O-O} }
+    return ""
+}
+set sanAlt [::facts::forMove [moveDict \
+    {rnbqkb1r/ppp2ppp/5n2/3pp3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 5} e4d5 \
+    best_uci b1c3 best_san Bc4 best_pv {b1c3 e7e5 g1f3}]]
+check "a SAN line starts after the move it replaced" \
+    [string match {*7... Nf6 8. O-O*} $sanAlt]
+rename sc_pos {}
 
 set dis [::facts::forMove [moveDict \
     {r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/2N2N2/PPPP1PPP/R1BQK2R w KQkq - 6 5} f3e5 \

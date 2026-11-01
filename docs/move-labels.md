@@ -134,3 +134,7 @@ be replayed, an early novelty marked out of book) as well as on fixed contexts;
   state, from `tcl/tools/comment_facts.tcl`.
 - `docs/review-ui.md` — the engine window's Game Review and Move Comment
   buttons, which is what turns these labels into a game's comments.
+
+## Licence
+
+Patzer is MIT-licensed, © Arsen Apostolov and contributors; the full notice is in `tcl/tools/comment_facts.tcl` and `tcl/tools/move_labels.tcl`. See [`docs/third-party-notices.md`](third-party-notices.md).

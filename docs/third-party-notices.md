@@ -1,8 +1,9 @@
 # Third-party notices
 
 scidCommunity is free software under the GNU General Public License, version 2
-or later (`COPYING`). Parts of the Game Review layer are adapted from other
-free-software projects; this page records which parts and under which licence.
+or later (`COPYING`). Parts of the Game Review/coach layer are adapted from
+other free-software projects; this page records which parts and under which
+licence.
 
 ## Patzer — MIT
 
@@ -28,14 +29,15 @@ code is included; only the published formula is implemented.
 
 ## David Crandall's game-review plugin — GPL-2.0-or-later
 
-The Game Review report and the facts the coach layer uses are adapted from David
-Crandall's `game-review` plugin for scid, which is GPL-2.0-or-later like this
-project:
+The Game Review report and the facts and prompts the coach layer uses are
+adapted from David Crandall's `game-review` plugin for scid, which is
+GPL-2.0-or-later like this project:
 
 | File | Adapted from |
 | --- | --- |
 | `tcl/tools/review_report.tcl` | the report figures and the phase split; **`mixedness` and `_mixedScore` are ported verbatim** from `11_cr_classify.tcl` |
-| `tcl/tools/review_coach.tcl` | `15_cr_llm.tcl` and `17_cr_facts.tcl` (the game-level facts and the phase facts) |
+| `tcl/tools/review_coach.tcl` | `15_cr_llm.tcl` (summary/phase/moment prompts and facts), `17_cr_facts.tcl` (move facts) |
+| `tcl/tools/review_threat.tcl` | `15_cr_llm.tcl` (the "What's the threat?" probe) |
 | `tcl/tools/comment_facts.tcl` | `17_cr_facts.tcl` |
 
 `mixedness` is the one verbatim copy: `::reviewreport::mixedness` and

@@ -91,3 +91,7 @@ negatively, and the en passant capture square.
 ## Related
 
 - `docs/move-labels.md` — the label ladder, from `tcl/tools/move_labels.tcl`.
+
+## Licence
+
+Patzer is MIT-licensed, © Arsen Apostolov and contributors; the full notice is in `tcl/tools/comment_facts.tcl` and `tcl/tools/move_labels.tcl`. See [`docs/third-party-notices.md`](third-party-notices.md).
