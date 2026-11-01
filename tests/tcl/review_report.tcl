@@ -327,15 +327,42 @@ checkEq "with seven majors-and-minors" [::reviewreport::majorsMinors $unevenFen]
 check "and the uneven endgame is an endgame" \
     [::reviewreport::endgameNow $unevenFen]
 
-# The safety net is unchanged: six majors-and-minors is an endgame however much
-# material stands around them. Six pieces and sixteen pawns is 38 points on the
-# board, so the total does not decide this one.
+# The six-majors net is deleted, not kept. Six majors-and-minors can hold far
+# more than 26 points -- 38 here, with all sixteen pawns still on the board --
+# so the net fired in exactly the positions the material rule calls a
+# middlegame, and a count that ignores material must not override the one that
+# counts it. lichess's Divider.scala used majorsAndMinors <= 6 *instead of*
+# material; we count material, so the cruder test is gone from the endgame rule.
+# The helper stays: the opening still uses the piece count (openingOver, and the
+# ten- and eleven-majors checks below).
 set sixPiecesFen "rnb1k3/pppppppp/8/8/8/8/PPPPPPPP/RNB1K3 w - - 0 1"
 set got ""
 catch { set got [::reviewreport::pointsOnBoard $sixPiecesFen] }
 checkEq "six pieces and sixteen pawns is 38 points" $got 38
 checkEq "and six majors-and-minors" [::reviewreport::majorsMinors $sixPiecesFen] 6
-check "so the net still fires" [::reviewreport::endgameNow $sixPiecesFen]
+check "so the net no longer fires" \
+    [expr {![::reviewreport::endgameNow $sixPiecesFen]}]
+
+# Two queens and four rooks is the heaviest six-piece position there is: 38
+# points on the board, no pawns at all, and a queen-and-two-rooks-each
+# middlegame by every material count. The net called it an endgame.
+set sixHeavyFen "qr2k1r1/8/8/8/8/8/8/KQR4R w - - 0 1"
+set got ""
+catch { set got [::reviewreport::pointsOnBoard $sixHeavyFen] }
+checkEq "two queens and four rooks is 38 points" $got 38
+checkEq "on six majors-and-minors" [::reviewreport::majorsMinors $sixHeavyFen] 6
+check "so it is not an endgame" [expr {![::reviewreport::endgameNow $sixHeavyFen]}]
+
+# Six minors is the lightest six-piece position: 18 points, and 34 with all
+# sixteen pawns still on the board. That is the same pawn-blindness the points
+# rule was just cured of -- the net kept it alive in the second alternative.
+set sixMinorsFen "1nb1k1n1/pppppppp/8/8/8/8/PPPPPPPP/1NB1K1N1 w - - 0 1"
+set got ""
+catch { set got [::reviewreport::pointsOnBoard $sixMinorsFen] }
+checkEq "six minors and sixteen pawns is 34 points" $got 34
+checkEq "on six majors-and-minors" [::reviewreport::majorsMinors $sixMinorsFen] 6
+check "so it is not an endgame either" \
+    [expr {![::reviewreport::endgameNow $sixMinorsFen]}]
 
 # The initial position is an opening on every count.
 checkEq "the initial position has fourteen majors-and-minors" \

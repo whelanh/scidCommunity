@@ -271,18 +271,25 @@ The consequences are deliberate:
   gets no middlegame prose. The report does not invent a phase, and it does not
   lend the opening's figures to one that never happened.
 
-The endgame begins when the material on the board is gone: **26 points or fewer
-in total, or six majors-and-minors**. The count is the whole board with both
-sides summed and a pawn counted as 1 — Speelman's thirteen points a side is 26
-total, and counting the pawns is what makes "thirteen a side" mean material
-rather than pieces. Flear's "at most one piece besides kings and pawns" (eight
-pawns and a minor is 11, plus a rook 13) and Minev's board count are the same
-figure, and because it is one total an uneven endgame (20 points against 5)
-reads as an endgame instead of failing a per-side test. There is **no
-queens-off test**: Fine's case — queens off, the king activates — is the usual
-way to reach the total, not a condition on it, so a queen endgame inside 26
-points is an endgame. A bucket of fewer than four plies is still suppressed —
-three plies of "phase" is a rounding artefact, not a phase.
+The endgame is **one test: 26 points or fewer on the whole board**, and nothing
+else. The count is the whole board with both sides summed and a pawn counted as
+1 — Speelman's thirteen points a side is 26 total, and counting the pawns is
+what makes "thirteen a side" mean material rather than pieces. Flear's "at most
+one piece besides kings and pawns" (eight pawns and a minor is 11, plus a rook
+13) and Minev's board count are the same figure, and because it is one total an
+uneven endgame (20 points against 5) reads as an endgame instead of failing a
+per-side test. There is **no queens-off test**: Fine's case — queens off, the
+king activates — is the usual way to reach the total, not a condition on it, so
+a queen endgame inside 26 points is an endgame. There is also **no six-piece
+net**: lichess's `Divider.scala` ends the game on `majorsAndMinors <= 6`, and it
+was considered and rejected here, because six majors-and-minors can hold **38
+points** — two queens and four rooks, no pawns at all — and six minors with all
+sixteen pawns still on the board is 34. The total calls both of those
+middlegames, and the net called them endgames: a piece count that ignores
+material must not override the count that does not. The piece count is still
+what the **opening** uses (ten or fewer majors-and-minors, below, alongside
+Smyrnov's test and mixedness). A bucket of fewer than four plies is still
+suppressed — three plies of "phase" is a rounding artefact, not a phase.
 
 ## Files
 
@@ -301,7 +308,7 @@ three plies of "phase" is a rounding artefact, not a phase.
 | `tests/tcl/review_driver.tcl` | 252 checks: the pass against a stub engine, the four Go shapes the precedence table produces, a capped run, two reviews of the same game in a row, the engine window's hand-off to it, and the completion hook |
 | `tests/tcl/annotate_dialog.tcl` | 56 checks: the dialog's decision (pane preset, book end, tier, the non-UCI refusal), the blunders-only filter, and the Cancel label rule |
 | `tests/tcl/annotate_run.tcl` | 39 checks: the plan run against a stub engine, the write, the batch chain, the Cancel escalation and a cancelled run writing nothing |
-| `tests/tcl/review_report.tcl` | 79 checks: accuracy as the app's own figure and the parity a phase starting on Black's move needs, Elo, key moments, the endgame rule, the opening boundary — Smyrnov met and half met, rook-less and file/rank connectivity, mixedness at 150 and 161, the material net at ten and eleven, the first-firing signal at 17/21/25, no ply floor — and the block removal, two writes deep |
+| `tests/tcl/review_report.tcl` | 105 checks: accuracy as the app's own figure and the parity a phase starting on Black's move needs, Elo, key moments, the endgame rule — one material total, with the six-piece net rejected at 38 points — the opening boundary — Smyrnov met and half met, rook-less and file/rank connectivity, mixedness at 150 and 161, the material net at ten and eleven, the first-firing signal at 17/21/25, no ply floor — and the block removal, two writes deep |
 | `tests/tcl/review_coach.tcl` | 20 checks: the move facts, the game-level facts, the turning move, the phase facts, the prose markers, and that the header block comes off without taking the report's header with it |
 
 ## Tests

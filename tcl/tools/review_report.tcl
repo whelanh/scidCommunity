@@ -195,7 +195,7 @@ proc ::reviewreport::keyMoments {moves {max 5}} {
 # opening on move 4, and the report says so.
 #
 # The endgame begins when the material on the board is gone: 26 points in total,
-# or six majors-and-minors. The middlegame is whatever is between the two: a
+# pawns counted. The middlegame is whatever is between the two: a
 # game that ends before the opening has ended has no middlegame bucket and gets
 # no middlegame prose, which is the truth about it.
 
@@ -369,10 +369,15 @@ proc ::reviewreport::openingOver {fen} {
 # piece besides kings and pawns" and Minev's board count are the same figure; the
 # total is both sides summed, so an uneven endgame is not split. Queens off is
 # the usual way to reach the total (Fine: the king activates), not a condition on
-# it — a queen endgame inside 26 points is an endgame. The six majors-and-minors
-# net is the safety valve for a game that trades pieces fast.
+# it — a queen endgame inside 26 points is an endgame. It is one test: lichess's
+# six-piece net (majorsAndMinors <= 6) was considered and rejected, because six
+# majors-and-minors can hold 38 points — two queens and four rooks with no pawns
+# at all, or six minors with all sixteen pawns still on the board — so the net
+# fires in exactly the positions the total calls a middlegame. It counted pieces
+# *instead of* material; the opening still counts pieces (openingOver), and
+# majorsMinors stays for it.
 proc ::reviewreport::endgameNow {fen} {
-    return [expr {[pointsOnBoard $fen] <= 26 || [majorsMinors $fen] <= 6}]
+    return [expr {[pointsOnBoard $fen] <= 26}]
 }
 
 proc ::reviewreport::phaseStats {moves from to} {
