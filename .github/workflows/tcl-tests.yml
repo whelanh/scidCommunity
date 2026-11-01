@@ -129,3 +129,43 @@ jobs:
 
       - name: Finish Game dialog
         run: xvfb-run -a wish tests/tcl/finish_game_dialog.tcl
+
+  startup-smoke:
+    name: startup with a clean profile
+    runs-on: ubuntu-latest
+    # apt on a hosted runner occasionally stalls on a mirror; a stuck install
+    # should fail here rather than sit until the six-hour job limit.
+    timeout-minutes: 20
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      # The app itself, not a harness: a clean profile has no options.dat, so
+      # the built-in layout is restored and it docks .engineWin1. v5.1.4.50
+      # sourced end.tcl before the modules that window calls, and every such
+      # start died before the event loop. Nothing Tcl-level can see that; only
+      # booting the binary can.
+      # cmake, make and g++ are in the runner image; only the Tcl/Tk headers
+      # and Xvfb are missing.
+      - name: Install Tk headers and Xvfb
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq --no-install-recommends tcl8.6-dev tk8.6-dev xvfb
+
+      - name: Build and install
+        # A release build always sets this (release.yml does). Without it the
+        # shallow checkout has no tags, so CMake's `git describe` stamps the
+        # commit hash, and start.tcl's "5.1" version check cannot parse it.
+        env:
+          SCIDCOMMUNITY_VERSION: 5.1.4.0
+        run: |
+          cmake -S . -B build \
+                -DCMAKE_BUILD_TYPE=Release \
+                -DCMAKE_INSTALL_PREFIX=/usr
+          cmake --build build -j"$(nproc)"
+          DESTDIR="$PWD/AppDir" cmake --install build
+
+      - name: Start with a clean profile
+        env:
+          STARTUP_SMOKE_SECONDS: 10
+        run: xvfb-run -a tests/startup_smoke.sh "$PWD/AppDir/usr/bin/scidCommunity"
