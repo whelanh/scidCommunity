@@ -1062,6 +1062,10 @@ sc_base switch $::clipbase_db
 set ::curr_db [sc_base current]
 
 
+# end.tcl runs the startup sequence: it creates the menus, restores the layout
+# and opens the default windows, so it must come after every file whose
+# commands it can call. It used to sit among the tool modules and worked only
+# because none of them was reachable from startup; the review modules are.
 set tcl_files {
 dnd/tkdnd.tcl
 dnd/tkdnd_unix.tcl
@@ -1149,7 +1153,6 @@ tools/lichess_openex.tcl
 tools/auto_comment.tcl
 tools/analysis_auto_comment.tcl
 tools/multicomp.tcl
-end.tcl
 tools/sergame.tcl
 tools/calvar.tcl
 tools/fics.tcl
@@ -1172,6 +1175,7 @@ tools/novag.tcl
 tools/tablebase.tcl
 tools/batch_annotate.tcl
 tools/rapid_annotate.tcl
+end.tcl
 }
 
 if {$macOS} {

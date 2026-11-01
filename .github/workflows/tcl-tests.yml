@@ -25,6 +25,9 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq tcl
 
+      - name: Startup source order
+        run: tclsh tests/tcl/startup_order.tcl
+
       - name: Comment facts
         run: tclsh tests/tcl/comment_facts.tcl
 
