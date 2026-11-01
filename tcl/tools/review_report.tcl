@@ -194,8 +194,8 @@ proc ::reviewreport::keyMoments {moves {max 5}} {
 # There is no ply floor: a line that finishes developing on move 5 is out of the
 # opening on move 4, and the report says so.
 #
-# The endgame begins at non-pawn material 26 or fewer with the queens off, or
-# six majors-and-minors total. The middlegame is whatever is between the two: a
+# The endgame begins when the material on the board is gone: 26 points in total,
+# or six majors-and-minors. The middlegame is whatever is between the two: a
 # game that ends before the opening has ended has no middlegame bucket and gets
 # no middlegame prose, which is the truth about it.
 
@@ -215,30 +215,20 @@ proc ::reviewreport::majorsMinors {fen} {
     return $n
 }
 
-# Material in pieces, not pawns: the endgame test is about the non-pawn
-# material left on the board. Counting the pawns as well kept a position with
-# two pawns and 25 points of pieces in the middlegame.
-proc ::reviewreport::pointsWithoutPawns {fen} {
+# Every piece on the board, both sides summed. The endgame boundary is a total
+# on the board and not a share of it, so an uneven endgame (20 points against 5)
+# is still an endgame; pawns count 1, which is what makes Speelman's "thirteen
+# points a side" a material figure rather than a pieces-only one.
+proc ::reviewreport::pointsOnBoard {fen} {
     variable PIECE_VALUE
     set pos [boardOf $fen]
     if {$pos eq ""} { return 99 }
     set points 0
     foreach p [dict get $pos board] {
         if {$p eq ""} { continue }
-        set kind [string tolower $p]
-        if {$kind eq "p"} { continue }
-        incr points $PIECE_VALUE($kind)
+        incr points $PIECE_VALUE([string tolower $p])
     }
     return $points
-}
-
-proc ::reviewreport::queensOff {fen} {
-    set pos [boardOf $fen]
-    if {$pos eq ""} { return 0 }
-    foreach p [dict get $pos board] {
-        if {[string tolower $p] eq "q"} { return 0 }
-    }
-    return 1
 }
 
 # A minor piece still on the square it started on has not been developed. The
@@ -374,9 +364,15 @@ proc ::reviewreport::openingOver {fen} {
                   [mixedness $fen] > 150}]
 }
 
+# The endgame test, in the terms of the sources it comes from. Speelman's
+# thirteen points a side is 26 on the board (pawns at 1); Flear's "at most one
+# piece besides kings and pawns" and Minev's board count are the same figure; the
+# total is both sides summed, so an uneven endgame is not split. Queens off is
+# the usual way to reach the total (Fine: the king activates), not a condition on
+# it — a queen endgame inside 26 points is an endgame. The six majors-and-minors
+# net is the safety valve for a game that trades pieces fast.
 proc ::reviewreport::endgameNow {fen} {
-    return [expr {([pointsWithoutPawns $fen] <= 26 && [queensOff $fen]) ||
-                  [majorsMinors $fen] <= 6}]
+    return [expr {[pointsOnBoard $fen] <= 26 || [majorsMinors $fen] <= 6}]
 }
 
 proc ::reviewreport::phaseStats {moves from to} {

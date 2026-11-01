@@ -271,9 +271,18 @@ The consequences are deliberate:
   gets no middlegame prose. The report does not invent a phase, and it does not
   lend the opening's figures to one that never happened.
 
-The endgame is unchanged: non-pawn material 26 or fewer with the queens off, or
-six majors-and-minors in total. A bucket of fewer than four plies is still
-suppressed — three plies of "phase" is a rounding artefact, not a phase.
+The endgame begins when the material on the board is gone: **26 points or fewer
+in total, or six majors-and-minors**. The count is the whole board with both
+sides summed and a pawn counted as 1 — Speelman's thirteen points a side is 26
+total, and counting the pawns is what makes "thirteen a side" mean material
+rather than pieces. Flear's "at most one piece besides kings and pawns" (eight
+pawns and a minor is 11, plus a rook 13) and Minev's board count are the same
+figure, and because it is one total an uneven endgame (20 points against 5)
+reads as an endgame instead of failing a per-side test. There is **no
+queens-off test**: Fine's case — queens off, the king activates — is the usual
+way to reach the total, not a condition on it, so a queen endgame inside 26
+points is an endgame. A bucket of fewer than four plies is still suppressed —
+three plies of "phase" is a rounding artefact, not a phase.
 
 ## Files
 

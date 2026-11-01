@@ -272,15 +272,70 @@ check "the back-rank count is not a trigger any more" \
 check "a queen and king is an endgame" [::reviewreport::endgameNow $endFen]
 check "the opening material is not" [expr {![::reviewreport::endgameNow $openingFen]}]
 
-# Pawns are not the material the endgame test is about. This position has 25
-# points of pieces (seven majors-and-minors, so the six-piece safety net does
-# not fire) and sixteen pawns: 41 points including pawns, 25 without them.
+# The endgame boundary is the whole board, both sides summed, with a pawn
+# counted as 1. This position has 25 points of pieces and sixteen pawns: 41
+# points on the board and seven majors-and-minors, so the six-piece safety net
+# does not fire either. It is a middlegame, and the pawn-blind count that made
+# it an endgame is gone with the queens-off gate.
 set pawnyEndFen "rnb1k3/pppppppp/8/8/8/8/PPPPPPPP/RNBNK3 w - - 0 1"
-checkEq "the pawn-inclusive count is 41" \
-    [expr {[::reviewreport::pointsWithoutPawns $pawnyEndFen] + 16}] 41
-checkEq "the non-pawn count is 25" [::reviewreport::pointsWithoutPawns $pawnyEndFen] 25
+set got ""
+catch { set got [::reviewreport::pointsOnBoard $pawnyEndFen] }
+checkEq "the board total is 41 points" $got 41
 checkEq "and seven majors-and-minors" [::reviewreport::majorsMinors $pawnyEndFen] 7
-check "so the position is an endgame" [::reviewreport::endgameNow $pawnyEndFen]
+check "so sixteen pawns keep it a middlegame" \
+    [expr {![::reviewreport::endgameNow $pawnyEndFen]}]
+check "the pawn-blind count is gone" \
+    [expr {[llength [info commands ::reviewreport::pointsWithoutPawns]] == 0}]
+check "and the queens-off gate with it" \
+    [expr {[llength [info commands ::reviewreport::queensOff]] == 0}]
+
+# Speelman's boundary, both directions: thirteen points a side is 26 on the
+# board. Both positions carry seven majors-and-minors, so the safety net does
+# not fire and the total alone decides.
+set twentySixFen   "2nbk3/8/5nb1/8/8/8/PPP5/RNB1K3 w - - 0 1"
+set twentySevenFen "2nbk3/8/5nb1/8/8/8/PPPP4/RNB1K3 w - - 0 1"
+set got ""
+catch { set got [::reviewreport::pointsOnBoard $twentySixFen] }
+checkEq "thirteen a side is 26 on the board" $got 26
+set got ""
+catch { set got [::reviewreport::pointsOnBoard $twentySevenFen] }
+checkEq "one more pawn makes 27" $got 27
+checkEq "and the net is seven pieces away at 26" \
+    [::reviewreport::majorsMinors $twentySixFen] 7
+checkEq "and at 27" [::reviewreport::majorsMinors $twentySevenFen] 7
+check "26 is inside the boundary" [::reviewreport::endgameNow $twentySixFen]
+check "27 is outside it" [expr {![::reviewreport::endgameNow $twentySevenFen]}]
+
+# A queen endgame is not excluded: both queens on and 24 points in total. (With
+# a queen on the board, seven majors-and-minors is already 27 points, so the old
+# gate never bit on this branch; the rule no longer asks the question at all.)
+set queenEndFen "1n1qk3/8/8/8/8/8/8/1N1QK3 w - - 0 1"
+set got ""
+catch { set got [::reviewreport::pointsOnBoard $queenEndFen] }
+checkEq "queen, knight and king a side is 24" $got 24
+check "so both queens on is still an endgame" \
+    [::reviewreport::endgameNow $queenEndFen]
+
+# The count is the board, not a side: 20 points of White's against Black's 5 is
+# 25 in total, and a per-side test (Speelman's thirteen) would fail White's half
+# of it.
+set unevenFen "r3k3/8/8/8/8/N6B/P6P/1NB1KBN1 w - - 0 1"
+set got ""
+catch { set got [::reviewreport::pointsOnBoard $unevenFen] }
+checkEq "twenty points against five is 25 on the board" $got 25
+checkEq "with seven majors-and-minors" [::reviewreport::majorsMinors $unevenFen] 7
+check "and the uneven endgame is an endgame" \
+    [::reviewreport::endgameNow $unevenFen]
+
+# The safety net is unchanged: six majors-and-minors is an endgame however much
+# material stands around them. Six pieces and sixteen pawns is 38 points on the
+# board, so the total does not decide this one.
+set sixPiecesFen "rnb1k3/pppppppp/8/8/8/8/PPPPPPPP/RNB1K3 w - - 0 1"
+set got ""
+catch { set got [::reviewreport::pointsOnBoard $sixPiecesFen] }
+checkEq "six pieces and sixteen pawns is 38 points" $got 38
+checkEq "and six majors-and-minors" [::reviewreport::majorsMinors $sixPiecesFen] 6
+check "so the net still fires" [::reviewreport::endgameNow $sixPiecesFen]
 
 # The initial position is an opening on every count.
 checkEq "the initial position has fourteen majors-and-minors" \
@@ -289,6 +344,11 @@ checkEq "and no mixedness" [::reviewreport::mixedness $openingFen] 0
 check "it is not over on Smyrnov" [expr {![::reviewreport::smyrnovOver $openingFen]}]
 check "so the initial position is still the opening" \
     [expr {![::reviewreport::openingOver $openingFen]}]
+set got ""
+catch { set got [::reviewreport::pointsOnBoard $openingFen] }
+checkEq "and 78 points on the board" $got 78
+check "the initial position is not an endgame" \
+    [expr {![::reviewreport::endgameNow $openingFen]}]
 
 # Smyrnov's test, side by side.
 check "both sides developed and connected is over" \
@@ -369,6 +429,22 @@ set ph [::reviewreport::phaseSplit $moves]
 checkEq "the endgame starts where it is reached" [dict get $ph endgame from] 13
 check "the opening has both sides' accuracy" \
     [expr {[dict exists [dict get $ph opening] accW] && [dict exists [dict get $ph opening] accB]}]
+
+# The same boundary end to end, on the material total alone. The position is 25
+# points of pieces and sixteen pawns (41 on the board, seven majors-and-minors)
+# from ply 15 and drops to 26 at ply 22: the endgame starts at 22, not at 15,
+# because the board total is what crosses. Nothing here asks for the queens off.
+set boundaryMoves [phaseMoves $openingFen 30 \
+    [list [list 15 $pawnyEndFen] [list 22 $twentySixFen]]]
+set phb [::reviewreport::phaseSplit $boundaryMoves]
+set midTo ""
+catch { set midTo [dict get $phb middlegame to] }
+set endFrom ""
+catch { set endFrom [dict get $phb endgame from] }
+checkEq "the opening ends where the material net fires" \
+    [dict get $phb opening to] 14
+checkEq "the middlegame runs to the ply before the total crosses" $midTo 21
+checkEq "and the endgame starts where the board total crosses 26" $endFrom 22
 
 # A phase that is all book has no measured move. It must not be reported as
 # 0.0% accuracy, nor chosen as the weakest phase.
