@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+ <release version="5.1.4.52" date="2026-11-01">
+      <description>
+        <p>Fix focus of Move Comment button to highlighted move</p>
+      </description>
+    </release>
  <release version="5.1.4.50" date="2026-10-31">
       <description>
         <p>No take-back if Coach not watching in Play vs. Engine</p>
