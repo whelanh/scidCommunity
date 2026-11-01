@@ -1,10 +1,10 @@
 # Commit hash from github branch
 # (the macros must be defined before Release uses shortcommit)
-%global commit c082e4b7addc5fb5dfacfa42b006a1b981df4805   
+%global commit 93f097ede733e4a8072ba3569061a5ce17edbafb   
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           scidcommunity
-Version:        5.1.4.50
+Version:        5.1.4.52
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
@@ -68,11 +68,13 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
-* Sat Oct 31, 2025 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-50
+* Sun Nov 1, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-52
+- "Fix focus of Move Comment button to highlighted move"
+* Sat Oct 31, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-50
 - "No take-back if Coach not watching in Play vs. Engine"
-* Tue Oct 27, 2025 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-49
+* Tue Oct 27, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-49
 - "Improved database lock; Fresca pieces added; Paste Fen button fix"
-* Sun Oct 25, 2025 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-48
+* Sun Oct 25, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-48
 - "Update translations"
 * Sat Oct 24, 2026 Hugh Whelan <brickhousedevelopers@gmail.com> - 5.1.4-47
 - "Enable saving multiple custom board color sets; enhance training in Tree View"
