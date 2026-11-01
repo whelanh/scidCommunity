@@ -871,6 +871,7 @@ translate G ReviewGameButtonTooltip {Έλεγξε κάθε κίνηση της �
 translate G ReviewMoveButton {Σχόλιο κίνησης}
 translate G ReviewMoveButtonTooltip {Χαρακτήρισε την κίνηση από εδώ και γράψε την}
 translate G ReviewSettings {Ρυθμίσεις ελέγχου}
+translate G ReviewSettingsTooltip {Configure the review settings}
 translate G ReviewVarLines {Παραλλαγές προς εγγραφή}
 translate G ReviewVarCp {Περιθώριο παραλλαγών (cp)}
 translate G ReviewMoveWait {Αναμονή για το βάθος ελέγχου}

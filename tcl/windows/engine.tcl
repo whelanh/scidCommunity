@@ -727,7 +727,7 @@ proc ::enginewin::createButtonsBar {id btn display} {
 
     ttk::button $btn.reviewsettings -text [::reviewui::label ReviewSettings] \
         -command [list ::enginewin::reviewSettings $id]
-    ::utils::tooltip::Set $btn.reviewsettings [::reviewui::label ReviewSettings]
+    ::utils::tooltip::Set $btn.reviewsettings [::reviewui::label ReviewSettingsTooltip]
 
     # Live only while a pass runs: a pass has its own engine connection and the
     # only thing the user can do with it is stop it.
@@ -820,12 +820,18 @@ proc ::enginewin::reviewState {id} {
         return $state
     }
     dict set state game [dict get $map plies]
-    # Move Comment labels the move played FROM here, so the last position of the
-    # game has nothing to offer, and inside a variation the move indexes mean
-    # something else: the pass covers the main line.
+    # Move Comment labels the move the reader is on - the one that produced this
+    # position - so the start of the line has nothing to offer while the last
+    # move does. Inside a variation the move indexes mean something else: the
+    # pass covers the main line, so the button is disabled there.
     if {[llength [info commands sc_var]] && [sc_var level] == 0} {
         if {![catch { set here [sc_pos location] }]} {
-            catch { dict set state move [::review::playedMove $map [expr {$here + 1}]] }
+            catch {
+                set ply [::reviewui::moveCommentPly $map $here]
+                if {$ply ne ""} {
+                    dict set state move [::review::playedMove $map $ply]
+                }
+            }
         }
     }
     return $state
@@ -1084,7 +1090,7 @@ proc ::enginewin::threat {id} {
     ::reviewthreat::ask $cfg
 }
 
-# Move Comment: the move played from here, and only that move.
+# Move Comment: the move the reader is on, and only that move.
 #
 # Two positions, the one before the move and the one after it, because a verdict
 # needs both scores: what the move was worth and what it brought. The depth comes
@@ -1097,13 +1103,18 @@ proc ::enginewin::reviewMove {id} {
     if {[catch { set map [::review::mainLineMap [sc_game UCI_mainLine]] }]} { return }
     if {[catch { set here [sc_pos location] }]} { return }
     if {[llength [info commands sc_var]] && [sc_var level] != 0} { return }
-    if {[::review::playedMove $map [expr {$here + 1}]] eq ""} { return }
-    # What the window has already reached for the position before the move: the
-    # depth map the Autorun pass fills in. A missing entry is "nothing yet".
+    set ply [::reviewui::moveCommentPly $map $here]
+    if {$ply eq ""} { return }
+    # The position BEFORE the commented move: the pass searches it first, and the
+    # window's depth map is keyed by it. Writing at `ply` puts the label and
+    # [%eval] after the move, and a diagram before it.
+    set from [expr {$ply - 1}]
+    # What the window has already reached for that position: the depth map the
+    # Autorun pass fills in. A missing entry is "nothing yet".
     set depth_now ""
     if {[info exists ::enginewin::pv_(depths,$id)]} {
         set depths $::enginewin::pv_(depths,$id)
-        if {[dict exists $depths $here]} { set depth_now [dict get $depths $here] }
+        if {[dict exists $depths $from]} { set depth_now [dict get $depths $from] }
     }
     # The depth the review would search at, which is the preset's own floor when
     # that is deeper than the setting: a comment has to agree with a review, or
@@ -1116,7 +1127,7 @@ proc ::enginewin::reviewMove {id} {
     }
     set plan [::reviewui::moveCommentDepth $depth_now $target]
     ::enginewin::reviewStart $id [::enginewin::reviewRunState $id \
-        [list [expr {$here + 1}]] [dict get $plan depth]]
+        [list $ply] [dict get $plan depth]]
 }
 
 # Cancel: the pass stops where it is, and the write phase never runs - the driver

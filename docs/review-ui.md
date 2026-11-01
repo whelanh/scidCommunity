@@ -13,8 +13,9 @@ moves come back labelled with `[%eval]` and variations.
 ```
 
 Both buttons are disabled unless there is a game with moves and an engine; Move
-Comment additionally needs a move after the current position, and both are
-disabled while a pass runs, which is what Cancel is for.
+Comment additionally needs a move under the cursor (the start position has none,
+the last move does), and both are disabled while a pass runs, which is what
+Cancel is for.
 
 ## Game Review — the whole main line
 
@@ -116,11 +117,14 @@ search the user is watching in the analysis pane.
 **Cancel** stops the pass: no further position is started, the engine is closed
 and nothing is written.
 
-## Move Comment — the current move only
+## Move Comment — the move you are on
 
-Press **Move Comment** to judge the move played from the current position. It
-searches two positions, the one before the move and the one after it, because a
-verdict needs both scores: what the move was worth, and what it brought.
+Press **Move Comment** to judge the move highlighted in the game: the one that
+led to the position on the board, not the next move. The label and `[%eval]` are
+written after that move; a diagram (`D`), when the move earns one, is placed
+before it. It searches two positions, the one before the move and the one after
+it, because a verdict needs both scores: what the move was worth, and what it
+brought.
 
 When it may start is `::review::moveCommentPlan`:
 
@@ -134,9 +138,10 @@ When it may start is `::review::moveCommentPlan`:
   reached is good enough and is the depth searched — the depth shown in the bar's
   depth box is the depth used.
 
-The current analysis depth is read from the window's depth map, the one the
-Autorun pass fills in. A position that has not been analysed yet has no entry,
-and that is "nothing yet", not "depth 0".
+The analysis depth is read for the position before the move — ply `here - 1` in
+the window's depth map, the one the Autorun pass fills in — because that is the
+position the pass searches first. A position that has not been analysed yet has
+no entry, and that is "nothing yet", not "depth 0".
 
 The wait is **depth-based even when the pass is capped**: `movetime` bounds the
 pass, not what a comment has to reach. A capped comment therefore writes the
@@ -347,7 +352,7 @@ suppressed — three plies of "phase" is a rounding artefact, not a phase.
 | `tcl/windows/engine.tcl` | the two buttons, the status line, the settings dialog (guarded glue) |
 | `tcl/tools/analysis.tcl` | the Analysis window's annotate dialog, its OK (`configAnnotateOK`) and the button on every pane |
 | `tests/tcl/review_settings_dialog.tcl` | under Tk: the dialog builds, has OK/Cancel, stores what is typed, refuses a bad value, the variation box follows `mpv`, the time cap's row shows the preset's cap and drops the note, and both traces are removed when the dialog closes |
-| `tests/tcl/review_ui.tcl` | 213 checks: the call a press makes, the status line, the button states, the dialog round trip, the precedence table through the dialog, the time cap's note, the move-comment depth, the key set |
+| `tests/tcl/review_ui.tcl` | 221 checks: the call a press makes, the status line, the button states, the dialog round trip, the precedence table through the dialog, the time cap's note, which move a comment judges, the move-comment depth, the key set |
 | `tests/tcl/review_driver.tcl` | 254 checks: the pass against a stub engine, the four Go shapes the precedence table produces, a capped run, two reviews of the same game in a row, the engine window's hand-off to it, and the completion hook |
 | `tests/tcl/review_coach.tcl` | 44 checks: the move facts, the game-level facts, the turning move, the phase facts, the prompts and their hard rules, where the prose lands, and that the header block comes off without taking the report's header with it |
 | `tests/tcl/review_prose.tcl` | 17 checks: the one-request-at-a-time queue, its progress, cancel, cache and a failed request being dropped |

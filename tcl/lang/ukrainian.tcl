@@ -840,6 +840,7 @@ translate Q ReviewGameButtonTooltip {Оглянь кожен хід головн
 translate Q ReviewMoveButton {Коментар до ходу}
 translate Q ReviewMoveButtonTooltip {Оціни зроблений хід і запиши його}
 translate Q ReviewSettings {Налаштування огляду}
+translate Q ReviewSettingsTooltip {Configure the review settings}
 translate Q ReviewVarLines {Варіанти для запису}
 translate Q ReviewVarCp {Поріг варіантів (cp)}
 translate Q ReviewMoveWait {Чекати глибину огляду}

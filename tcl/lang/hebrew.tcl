@@ -840,6 +840,7 @@ translate V ReviewGameButtonTooltip {סקור כל מסע בקו הראשי ות
 translate V ReviewMoveButton {הערת מסע}
 translate V ReviewMoveButtonTooltip {תן תווית למסע ששוחק מכאן וכתוב אותו}
 translate V ReviewSettings {הגדרות הסקירה}
+translate V ReviewSettingsTooltip {Configure the review settings}
 translate V ReviewVarLines {וריאציות לכתיבה}
 translate V ReviewVarCp {מרווח וריאציות (cp)}
 translate V ReviewMoveWait {המתן לעומק הסקירה}

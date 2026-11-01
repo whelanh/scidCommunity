@@ -852,6 +852,7 @@ translate B ReviewGameButtonTooltip {Analise cada lance da linha principal e cla
 translate B ReviewMoveButton {Comentário do lance}
 translate B ReviewMoveButtonTooltip {Classifique o lance jogado daqui e escreva-o}
 translate B ReviewSettings {Configurações da análise}
+translate B ReviewSettingsTooltip {Configure the review settings}
 translate B ReviewVarLines {Variantes a escrever}
 translate B ReviewVarCp {Margem das variantes (cp)}
 translate B ReviewMoveWait {Aguardar a profundidade da análise}

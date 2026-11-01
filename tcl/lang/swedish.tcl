@@ -850,6 +850,7 @@ translate W ReviewGameButtonTooltip {Granska varje drag i huvudlinjen och ge det
 translate W ReviewMoveButton {Dragkommentar}
 translate W ReviewMoveButtonTooltip {Etikettera draget som spelades härifrån och skriv in det}
 translate W ReviewSettings {Inställningar för granskning}
+translate W ReviewSettingsTooltip {Configure the review settings}
 translate W ReviewVarLines {Varianter att skriva}
 translate W ReviewVarCp {Variantmarginal (cp)}
 translate W ReviewMoveWait {Vänta på granskningsdjupet}

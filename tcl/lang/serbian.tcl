@@ -1326,6 +1326,7 @@ translate Y ReviewGameButtonTooltip {Pregledaj svaki potez glavne linije i ozna�
 translate Y ReviewMoveButton {Komentar poteza}
 translate Y ReviewMoveButtonTooltip {Označi odigrani potez odavde i upiši ga}
 translate Y ReviewSettings {Podešavanja pregleda}
+translate Y ReviewSettingsTooltip {Configure the review settings}
 translate Y ReviewVarLines {Varijante za upis}
 translate Y ReviewVarCp {Granica varijanti (cp)}
 translate Y ReviewMoveWait {Čekaj dubinu pregleda}

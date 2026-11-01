@@ -881,6 +881,7 @@ translate P ReviewGameButtonTooltip {Przejrzyj każdy ruch głównego wariantu i
 translate P ReviewMoveButton {Komentarz do ruchu}
 translate P ReviewMoveButtonTooltip {Oceń zagrany ruch i zapisz go}
 translate P ReviewSettings {Ustawienia przeglądu}
+translate P ReviewSettingsTooltip {Configure the review settings}
 translate P ReviewVarLines {Warianty do zapisania}
 translate P ReviewVarCp {Margines wariantów (cp)}
 translate P ReviewMoveWait {Czekaj na głębokość przeglądu}

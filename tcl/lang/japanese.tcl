@@ -880,6 +880,7 @@ translate A ReviewGameButtonTooltip {本手順のすべての指し手を検討�
 translate A ReviewMoveButton {指し手のコメント}
 translate A ReviewMoveButtonTooltip {ここで指した手を評価して書き込む}
 translate A ReviewSettings {検討の設定}
+translate A ReviewSettingsTooltip {Configure the review settings}
 translate A ReviewVarLines {書き込む変化}
 translate A ReviewVarCp {変化のしきい値 (cp)}
 translate A ReviewMoveWait {検討の深さを待つ}

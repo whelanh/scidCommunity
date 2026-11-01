@@ -875,10 +875,11 @@ translate D MoveLabelBook {Theorie}
 translate D GameComment {Partie Kritik}
 translate D GameCommentTooltip {Durchsuchen Sie das Spiel nach kommentierten Zügen und erstellen Sie eine KI-Zusammenfassung}
 translate D ReviewGameButton {Partie prüfen}
-translate D ReviewGameButtonTooltip {Alle Züge der Hauptvariante prüfen und bewerten}
+translate D ReviewGameButtonTooltip {Züge der Hauptvariante bewerten und eintragen}
 translate D ReviewMoveButton {Zugkommentar}
-translate D ReviewMoveButtonTooltip {Den gespielten Zug bewerten und eintragen}
+translate D ReviewMoveButtonTooltip {Aktuellen Zug bewerten und eintragen}
 translate D ReviewSettings {Einstellungen der Prüfung}
+translate D ReviewSettingsTooltip {Bewertungsvorgaben konfigurieren}
 translate D ReviewVarLines {Zu schreibende Varianten}
 translate D ReviewVarCp {Variantenabstand (cp)}
 translate D ReviewMoveWait {Auf die Prüfungstiefe warten}
