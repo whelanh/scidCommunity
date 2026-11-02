@@ -713,30 +713,30 @@ proc ::enginewin::createButtonsBar {id btn display} {
         -command "::enginewin::toggleConfigPane $id"
     $btn.config state pressed
 
-    ttk::button $btn.gamereview -image [::button_image tb_review_game] -style Toolbutton \
+    ttk::button $btn.gamereview -image ::icon::tb_review_game -style Toolbutton \
         -command [list ::enginewin::reviewGame $id]
     ::utils::tooltip::Set $btn.gamereview [::reviewui::label ReviewGameButtonTooltip]
 
-    ttk::button $btn.movecomment -image [::button_image tb_review_move] -style Toolbutton \
+    ttk::button $btn.movecomment -image ::icon::tb_review_move -style Toolbutton \
         -command [list ::enginewin::reviewMove $id]
     ::utils::tooltip::Set $btn.movecomment [::reviewui::label ReviewMoveButtonTooltip]
 
     # What's the Threat? is a later slice: the button exists only when its
     # command does. The icon is already in img/buttons for the day it lands.
     if {[llength [info commands ::enginewin::threat]]} {
-        ttk::button $btn.threat -image [::button_image tb_review_threat] -style Toolbutton \
+        ttk::button $btn.threat -image ::icon::tb_review_threat -style Toolbutton \
             -command [list ::enginewin::threat $id]
         ::utils::tooltip::Set $btn.threat [::reviewui::label ToolsWhatThreatTooltip]
     }
 
-    ttk::button $btn.reviewsettings -image [::button_image tb_review_settings] -style Toolbutton \
+    ttk::button $btn.reviewsettings -image ::icon::tb_review_settings -style Toolbutton \
         -command [list ::enginewin::reviewSettings $id]
     ::utils::tooltip::Set $btn.reviewsettings [::reviewui::label ReviewSettingsTooltip]
 
     # Live only while a pass runs: a pass has its own engine connection and the
     # only thing the user can do with it is stop it. reviewRefresh hides the
     # icon when there is no pass, so it costs no width when idle.
-    ttk::button $btn.reviewcancel -image [::button_image tb_review_stop] -style Toolbutton \
+    ttk::button $btn.reviewcancel -image ::icon::tb_review_stop -style Toolbutton \
         -command [list ::enginewin::reviewCancel $id]
     ::utils::tooltip::Set $btn.reviewcancel [tr Cancel]
     set ::enginewin::reviewstatus($id) ""
@@ -746,15 +746,17 @@ proc ::enginewin::createButtonsBar {id btn display} {
     set reviewButtons [list $btn.gamereview $btn.movecomment]
     if {[winfo exists $btn.threat]} { lappend reviewButtons $btn.threat }
     lappend reviewButtons $btn.reviewsettings $btn.reviewcancel $btn.reviewstatus
-    # A fixed gap, not weight: the review controls and the engine Config button
-    # are different jobs, and without it the two gears/settings icons sit flush.
-    ttk::frame $btn.reviewgap -width 10
+    # A visible divider, not weighted space: the review controls and the engine
+    # Config button are different jobs, and without it the two settings icons
+    # sit flush.
+    ttk::separator $btn.reviewgap -orient vertical
     lappend reviewButtons $btn.reviewgap
 
     grid $btn.startStop $btn.lock $btn.addbestmove $btn.addlines $btn.finish \
          $btn.multipv $btn.depth_label $btn.depth $btn.movetime_label $btn.movetime \
          $btn.autorun $btn.threads $btn.hash \
          $btn.overflow x {*}$reviewButtons $btn.config -sticky ew
+    grid configure $btn.reviewgap -padx 9 -sticky ns
     grid columnconfigure $btn 13 -weight 1
     grid remove $btn.overflow
 

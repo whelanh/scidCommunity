@@ -164,15 +164,10 @@ WHITE = (245, 245, 245, 255)
 
 def main():
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    buttons = os.path.join(root, "img", "buttons")
+    # The buttons reference ::icon::tb_review_* like the PGN window's toolbar;
+    # configure_style recreates these images on a theme change, so an open
+    # window changes with the theme.
     for name, draw in ICONS.items():
-        for suffix, color in (("", DARK), ("_white", WHITE)):
-            path = os.path.join(buttons, "tb_review_%s%s.png" % (name, suffix))
-            draw(color).resize((24, 24), Image.LANCZOS).save(path)
-            print(path)
-        # ::button_image maps a toolbar icon to its _white variant only when the
-        # base name exists in icons_light/icons_dark; without these two files the
-        # dark theme keeps the black img/buttons image.
         for folder, color in (("icons_light", DARK), ("icons_dark", WHITE)):
             path = os.path.join(root, "img", folder, "tb_review_%s.png" % name)
             draw(color).resize((24, 24), Image.LANCZOS).save(path)

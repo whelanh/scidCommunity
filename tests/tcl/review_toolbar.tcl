@@ -55,24 +55,12 @@ set icons {
 
 foreach {key label} $icons {
     set name "tb_review_$key"
-    check "$label: engine.tcl uses $name" \
-        [expr {[string first "-image \[::button_image $name\]" $engineSrc] >= 0}]
+    check "$label: engine.tcl uses ::icon::$name" \
+        [expr {[string first "-image ::icon::$name" $engineSrc] >= 0}]
 
-    foreach suffix {"" "_white"} {
-        set path [file join $root img buttons "$name$suffix.png"]
-        check "$label: $name$suffix.png exists" [file exists $path]
-        if {![file exists $path]} { continue }
-        set f [open $path rb]
-        fconfigure $f -translation binary
-        set head [read $f 24]
-        close $f
-        binary scan $head @16II width height
-        checkEq "$label: $name$suffix.png is 24x24" [list $width $height] {24 24}
-    }
-
-    # ::button_image only maps a toolbar icon to its _white variant when the
-    # base name exists in the theme's icon directory. Without these two files
-    # the dark theme falls back to the black img/buttons image.
+    # The PGN window's toolbar uses ::icon:: images; configure_style recreates
+    # them from these two directories on a theme change, so an open window
+    # changes with the theme. img/buttons names are fixed at creation time.
     foreach dir {icons_light icons_dark} {
         set path [file join $root img $dir "$name.png"]
         check "$label: $dir/$name.png exists" [file exists $path]
@@ -120,8 +108,9 @@ check "and puts it back when a pass starts" \
 check "the review bar is built from the live set, threat optional" \
     [expr {[string first {set reviewButtons [list $btn.gamereview $btn.movecomment]} $engineSrc] >= 0 \
         && [string first {if {[winfo exists $btn.threat]} { lappend reviewButtons $btn.threat }} $engineSrc] >= 0}]
-check "a fixed gap separates the review settings icon from Config" \
-    [expr {[string first {ttk::frame $btn.reviewgap -width 10} $engineSrc] >= 0 \
+check "a visible divider separates the review settings icon from Config" \
+    [expr {[string first {ttk::separator $btn.reviewgap -orient vertical} $engineSrc] >= 0 \
+        && [string first {grid configure $btn.reviewgap -padx 9 -sticky ns} $engineSrc] >= 0 \
         && [string first {lappend reviewButtons $btn.reviewgap} $engineSrc] >= 0}]
 
 puts "\nthe dark-theme icon cache"
