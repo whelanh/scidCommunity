@@ -124,6 +124,16 @@ check "a fixed gap separates the review settings icon from Config" \
     [expr {[string first {ttk::frame $btn.reviewgap -width 10} $engineSrc] >= 0 \
         && [string first {lappend reviewButtons $btn.reviewgap} $engineSrc] >= 0}]
 
+puts "\nthe dark-theme icon cache"
+
+# image names are ::icon::name. The cache builder used to match "icon::*", so it
+# found nothing and every toolbar icon stayed black in a dark theme.
+set startSrc [readText [file join $root tcl start.tcl]]
+check "the cache builder matches absolute icon names" \
+    [expr {[string first {dict keys $allNames "*icon::*"} $startSrc] >= 0}]
+check "and strips the whole ::icon:: prefix" \
+    [expr {[string first {string range $iname 8 end} $startSrc] >= 0}]
+
 puts "\nthe threat button waits for its command"
 
 check "the threat button is guarded by its command" \
