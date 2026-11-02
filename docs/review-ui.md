@@ -365,8 +365,12 @@ the `[%eval]`s, the marks and the report are written **first**, the reader is pu
 back and the board is redrawn, and only then is the model asked. The run is not
 over until every answer has landed or failed: its state stays `writing`,
 `Cancel` is live, and the status line counts the answers
-(`annotating 31 of 31 · prose 7 of 9`). The game is already saved when the first
-question goes out, so Cancel keeps what it wrote.
+(`annotating 31 of 31 · prose 7 of 9`). Nothing is saved before the coach runs:
+the Annotate dialog's batch writes each game to the database (`sc_game save`, in
+`::reviewannotate::done`, and only when the batch has more than one game) when
+the run ends, and in the coach path the run ends through `proseDone` — after the
+last answer has landed or failed. The engine-window Game Review saves nothing at
+all. `Cancel` drops the queue and leaves the prose already written in the game.
 
 Placement, each block on a line of its own:
 
