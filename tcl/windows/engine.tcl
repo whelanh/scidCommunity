@@ -713,31 +713,44 @@ proc ::enginewin::createButtonsBar {id btn display} {
         -command "::enginewin::toggleConfigPane $id"
     $btn.config state pressed
 
-    ttk::button $btn.gamereview -text [::reviewui::label ReviewGameButton] \
+    ttk::button $btn.gamereview -image [::button_image tb_review_game] -style Toolbutton \
         -command [list ::enginewin::reviewGame $id]
     ::utils::tooltip::Set $btn.gamereview [::reviewui::label ReviewGameButtonTooltip]
 
-    ttk::button $btn.movecomment -text [::reviewui::label ReviewMoveButton] \
+    ttk::button $btn.movecomment -image [::button_image tb_review_move] -style Toolbutton \
         -command [list ::enginewin::reviewMove $id]
     ::utils::tooltip::Set $btn.movecomment [::reviewui::label ReviewMoveButtonTooltip]
 
-    ttk::button $btn.reviewsettings -text [::reviewui::label ReviewSettings] \
+    # What's the Threat? is a later slice: the button exists only when its
+    # command does. The icon is already in img/buttons for the day it lands.
+    if {[llength [info commands ::enginewin::threat]]} {
+        ttk::button $btn.threat -image [::button_image tb_review_threat] -style Toolbutton \
+            -command [list ::enginewin::threat $id]
+        ::utils::tooltip::Set $btn.threat [::reviewui::label ToolsWhatThreatTooltip]
+    }
+
+    ttk::button $btn.reviewsettings -image [::button_image tb_review_settings] -style Toolbutton \
         -command [list ::enginewin::reviewSettings $id]
     ::utils::tooltip::Set $btn.reviewsettings [::reviewui::label ReviewSettingsTooltip]
 
     # Live only while a pass runs: a pass has its own engine connection and the
-    # only thing the user can do with it is stop it.
-    ttk::button $btn.reviewcancel -text [tr Cancel] \
+    # only thing the user can do with it is stop it. reviewRefresh hides the
+    # icon when there is no pass, so it costs no width when idle.
+    ttk::button $btn.reviewcancel -image [::button_image tb_review_stop] -style Toolbutton \
         -command [list ::enginewin::reviewCancel $id]
+    ::utils::tooltip::Set $btn.reviewcancel [tr Cancel]
     set ::enginewin::reviewstatus($id) ""
     ttk::label $btn.reviewstatus -textvariable ::enginewin::reviewstatus($id) \
         -anchor w
 
+    set reviewButtons [list $btn.gamereview $btn.movecomment]
+    if {[winfo exists $btn.threat]} { lappend reviewButtons $btn.threat }
+    lappend reviewButtons $btn.reviewsettings $btn.reviewcancel $btn.reviewstatus
+
     grid $btn.startStop $btn.lock $btn.addbestmove $btn.addlines $btn.finish \
          $btn.multipv $btn.depth_label $btn.depth $btn.movetime_label $btn.movetime \
          $btn.autorun $btn.threads $btn.hash \
-         $btn.overflow x $btn.gamereview $btn.movecomment $btn.reviewsettings \
-         $btn.reviewcancel $btn.reviewstatus $btn.config -sticky ew
+         $btn.overflow x {*}$reviewButtons $btn.config -sticky ew
     grid columnconfigure $btn 13 -weight 1
     grid remove $btn.overflow
 
@@ -839,6 +852,15 @@ proc ::enginewin::reviewRefresh {id} {
     catch { $w.btn.gamereview configure -state [dict get $b review] }
     catch { $w.btn.movecomment configure -state [dict get $b movecomment] }
     catch { $w.btn.reviewcancel configure -state [dict get $b cancel] }
+    # The stop icon is only there while a pass is: an idle disabled button would
+    # be width the toolbar does not need.
+    if {[winfo exists $w.btn.reviewcancel]} {
+        if {[dict get $b cancel] eq "normal"} {
+            grid $w.btn.reviewcancel
+        } else {
+            grid remove $w.btn.reviewcancel
+        }
+    }
 }
 
 # The book Game Review reads: the one loaded in the Book window's first slot,
