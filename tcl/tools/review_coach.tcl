@@ -535,15 +535,22 @@ $facts"
 
 proc ::reviewcoach::parseSummary {text} {
     set out [dict create summary "" level "" opening ""]
+    set seen 0
     foreach line [split $text "\n"] {
         set t [string trim $line]
         foreach {tag key} {SUMMARY summary LEVEL level OPENING opening} {
             if {[string match -nocase "${tag}:*" $t]} {
-                dict set out $key [string trim [string range $t [expr {[string length $tag] + 1}] end]]
+                set seen 1
+                set value [string trim [string range $t [expr {[string length $tag] + 1}] end]]
+                # An empty labelled line is not a value: it must not wipe the
+                # block a previous line filled, nor be mistaken for no labels.
+                if {$value ne ""} {
+                    dict set out $key $value
+                }
             }
         }
     }
-    if {[dict get $out summary] eq ""} {
+    if {!$seen} {
         # no labels at all: the whole answer is the summary
         dict set out summary [string trim $text]
     }

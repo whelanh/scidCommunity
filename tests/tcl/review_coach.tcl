@@ -312,6 +312,16 @@ checkEq "a block the prompt never asked for is not invented" \
     [lsort [dict keys $extra]] {level opening summary}
 checkEq "and the blocks that were asked for still land" [dict get $extra opening] "the Italian"
 
+# An empty labelled line carries no value: it must neither wipe a block that a
+# previous line filled, nor pass for a reply with no labels at all (which would
+# dump the whole labelled text into the summary and print SUMMARY:/LEVEL: onto
+# the scoresheet).
+set wiped [::reviewcoach::parseSummary "SUMMARY: a story.\nSUMMARY:"]
+checkEq "an empty labelled line does not wipe the block above it" [dict get $wiped summary] "a story."
+set emptyLabel [::reviewcoach::parseSummary "SUMMARY:\nLEVEL: club"]
+checkEq "and an empty labelled line is not read as the whole reply" \
+    [dict get $emptyLabel summary] ""
+
 # No labels at all: the prompt asks for three labelled lines, and a reply that
 # ignores the shape is still read, as one summary.
 set plain [::reviewcoach::parseSummary "A single line of prose."]
