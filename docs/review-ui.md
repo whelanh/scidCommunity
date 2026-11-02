@@ -331,10 +331,11 @@ prose that reaches past it is prose the reader cannot check against the
 scoresheet.
 
 `buildPrompts` decides which prompts exist, in order: the summary first, then
-one for each phase that has moves, then one for each key moment and each
-mistake, miss or blunder, in ply order and capped at ten. A move with no verdict
-of its own gets no prompt. The same results set gives the same prompts byte for
-byte — nothing in the layer reads a clock or a random number.
+one for each phase that has moves, then one for each mistake, miss or blunder,
+in ply order and capped at ten. A key moment that is a good move gets no
+prompt: the move prompt asks what the move failed to do, which is the wrong
+question there, and tier 2 is mistakes only. The same results set gives the same
+prompts byte for byte — nothing in the layer reads a clock or a random number.
 
 The queue that sends these prompts, the prose that comes back and the settings
 that switch the coach on are the next slice, not this one.
@@ -349,7 +350,7 @@ that switch the coach on are the next slice, not this one.
 | `tcl/tools/review_ui.tcl` | `::reviewui` — button state, the call a press makes, dialog values, the time cap's note, the status line |
 | `tcl/tools/review_report.tcl` | the deterministic report: accuracy, ACPL, estimated Elo, key moments, and the phase split with the three-signal opening boundary |
 | `tcl/tools/review_coach.tcl` | `::reviewcoach` — the facts a coach may use and the prompts built from them: the game-level facts, the turning move and what punished it, the phase facts, the header-block text helpers, the four prompt texts, `buildPrompts` and `parseSummary`. No model, no network |
-| `tcl/windows/engine.tcl` | the two buttons, the status line, the settings dialog (guarded glue) |
+| `tcl/windows/engine.tcl` | the review icons, the status line, the settings dialog (guarded glue) |
 | `tcl/tools/analysis.tcl` | the Analysis window's annotate dialog, its OK (`configAnnotateOK`) and the button on every pane |
 | `tests/tcl/review_settings_dialog.tcl` | under Tk: the dialog builds, has OK/Cancel, stores what is typed, refuses a bad value, the variation box follows `mpv`, the time cap's row shows the preset's cap and drops the note, and both traces are removed when the dialog closes |
 | `tests/tcl/review_ui.tcl` | 215 checks: the call a press makes, the status line, the button states, the dialog round trip, the precedence table through the dialog, the time cap's note, which move a comment judges, the move-comment depth, the key set |
@@ -357,7 +358,7 @@ that switch the coach on are the next slice, not this one.
 | `tests/tcl/annotate_dialog.tcl` | 56 checks: the dialog's decision (pane preset, book end, tier, the non-UCI refusal), the blunders-only filter, and the Cancel label rule |
 | `tests/tcl/annotate_run.tcl` | 39 checks: the plan run against a stub engine, the write, the batch chain, the Cancel escalation and a cancelled run writing nothing |
 | `tests/tcl/review_report.tcl` | 105 checks: accuracy as the app's own figure and the parity a phase starting on Black's move needs, Elo, key moments, the endgame rule — one material total, with the six-piece net rejected at 38 points — the opening boundary — Smyrnov met and half met, rook-less and file/rank connectivity, mixedness at 150 and 161, the material net at ten and eleven, the first-firing signal at 17/21/25, no ply floor — and the block removal, two writes deep |
-| `tests/tcl/review_coach.tcl` | 71 checks: the move facts, the game-level facts, the turning move, the phase facts, the prose markers, that the header block comes off without taking the report's header with it, what a prompt may name and what it may not, which prompts a results set has and in what order, that the same set gives the same prompts, the summary reply, and the game's identifying facts |
+| `tests/tcl/review_coach.tcl` | 74 checks: the move facts, the game-level facts, the turning move, the phase facts, the prose markers, that the header block comes off without taking the report's header with it, what a prompt may name and what it may not, which prompts a results set has and in what order, that a brilliant key moment gets no prompt, that the same set gives the same prompts, the summary reply, and the game's identifying facts |
 
 ## Tests
 

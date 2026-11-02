@@ -214,6 +214,18 @@ checkEq "and every prompt carries its own facts" $nofacts 0
 check "a move with no verdict gets no prompt" \
     [expr {[lsearch -exact $keys 7] < 0 && [lsearch -exact $keys 12] < 0}]
 
+# Tier 2 is mistake, miss or blunder. The report's key moments also include
+# brilliant, great and inaccuracy moves; keyMoments returns those by design, but
+# a prompt built for a mistake asks what the move failed to do, which is the
+# wrong question for a good move. Such a key moment gets no prompt.
+set bright [mvAt 5 white e2e4 brilliant 20 20 $::afterFen]
+set bprompts [::reviewcoach::buildPrompts [list $bright] {}]
+set bmoments 0
+foreach item $bprompts {
+    if {[dict get $item kind] eq "moment"} { incr bmoments }
+}
+checkEq "a brilliant key moment gets no prompt" $bmoments 0
+
 # The reply that punished a move is attached from the next analysed position, so
 # the move's facts can say what the move allowed.
 set p0 [mv 1 white e2e4 blunder 20 -300]

@@ -582,7 +582,9 @@ proc ::reviewcoach::gameMeta {} {
 }
 
 # The prompts a review asks for: the summary, one per phase with figures, and
-# one for each key moment plus every mistake/blunder, capped at ten moves.
+# one for each mistake, miss or blunder, capped at ten moves. A key moment that
+# is a good move gets no prompt: the move prompt asks what the move failed to
+# do, which is the wrong question there, and tier 2 is mistakes only.
 proc ::reviewcoach::buildPrompts {moves game} {
     set prompts {}
     set gf [gameFacts $moves $game]
@@ -596,7 +598,6 @@ proc ::reviewcoach::buildPrompts {moves game} {
     }
 
     set plies {}
-    foreach k [::reviewreport::keyMoments $moves 5] { lappend plies [dict get $k ply] }
     foreach m $moves {
         if {[lsearch -exact {mistake miss blunder} [dict get $m classification]] >= 0} {
             lappend plies [dict get $m ply]
