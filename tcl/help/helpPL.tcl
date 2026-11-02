@@ -1,4 +1,4 @@
-### helpPL.tcl: polskie (P) strony pomocy dla ScidCommunity v5.1.4.49 by Szustan
+### helpPL.tcl: polskie (P) strony pomocy dla ScidCommunity v5.1.4.52 by Szustan
 ### Ten plik używa kodowania UTF-8.
 ### Ładowany na żądanie przez setLanguage, gdy użytkownik wybierze język Polski.
 ### Wpisy używają kluczy z prefiksem językowym helpText(P,...) / helpTitle(P,...),
@@ -77,6 +77,8 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   <ul>
   <li><a Author>Autor, Informacje kontaktowe</a></li>
   <li><a Analysis>Okno <b>analizy</b></a></li>
+  <li><a ReviewGameButton><b>Analiza partii</b></a> (przycisk w oknie silnika)</li>
+  <li><a ReviewSettings><b>Ustawienia analizy</b></a> (przycisk w oknie silnika)</li>
   </ul>
   
   <h3>B</h3>
@@ -152,9 +154,8 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   <ul>
   <li><a Comment>Edytor komentarzy</a></li>
   <li><a Annotating><b>Komentowanie partii</b></a></li> 
-  <li><a Annotating><b>Komentowanie partii</b></a></li> 
-  <li><a BatchAnnotate>Komentowanie partii w trybie zbiorczym</a> (komentarze AI)</li>
-  <li><a ReviewMoveButton><b>Komentarz do ruchu</b></a> (przycisk w oknie silnika)</li>
+  <li><a ReviewMoveButton><b>Komentarz do posunięcia</b></a> (przycisk w oknie silnika)</li>
+  <li><a BatchAnnotate>Komentarz do partii -AI</a> (komentarze AI)</li>
   <li><a Searches CommentsSearch>Wyszukiwanie w komentarzach</a></li>
   </ul>
   
@@ -210,7 +211,6 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   <h3>P</h3>
   <ul>
   <li><a PGN>Okno PGN</a></li>
-  <li><a ReviewGameButton><b>Przegląd partii</b></a> (przycisk w oknie silnika)</li>
   <li><a PGNTablebase>Okno PGN: przycisk Table Base</a></li>
   <li><a PGNChessCom>Okno PGN: przycisk chess.com</a></li>
   <li><a PGNLichess>Okno PGN: przycisk lichess.org</a></li>
@@ -238,7 +238,6 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   <li><a Reports Opening>Okno Raportu debiutowego</a></li>
   <li><a Reports Player>Okno raportu o zawodniku</a></li>
   <li><a Graphs Rating>Wykres rankingu</a></li>
-  <li><a ReviewSettings><b>Ustawienia przeglądu</b></a> (okno silnika)</li>
   </ul>
   
   <h3>S</h3>
@@ -265,11 +264,6 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   <li><a OpeningTrainer>Trening: Debiuty</a></li>
   <li><a TacticsTrainer>Trening: Taktyka</a></li>
   <li><a Crosstable><b>Okno tabeli turnieju</b></a></li>
-  </ul>
-  
-  <h3>U</h3>
-  <ul>
-  <li><a ReviewSettings><b>Ustawienia przeglądu</b></a> (okno silnika)</li>
   </ul>
   
   <h3>W</h3>
@@ -2541,201 +2535,198 @@ set helpText(P,PGNChessDB) {<h1>Okno PGN: przycisk chessdb Engine Tree</h1>
 }
 
 ####################
-### Pomoc przycisku Przegląd partii w Oknie Silnika:
+### Engine Window Game Review button help:
 
-set helpTitle(P,ReviewGameButton) "Przycisk Przegląd partii"
-set helpText(P,ReviewGameButton) {<h1>Okno silnika: Przycisk Przegląd partii</h1>
+set helpTitle(P,ReviewGameButton) "Przycisk Analiza partii"
+set helpText(P,ReviewGameButton) {<h1>Okno silnika: przycisk Analiza partii</h1>
   <p>
-  Przycisk <b>Przegląd partii</b> w oknie <a Engine>Silnika</a> przegląda główną
-  linię otwartej partii: silnik przeszukuje kolejno wszystkie pozycje tej linii,
-  a przegląd zachowuje wynik dla każdej z nich.
+  Przycisk <b>Analiza partii</b> w oknie <a Engine>Silnik</a> służy do analizy
+  głównego wariantu otwartej partii. Silnik analizuje kolejno każdą pozycję
+  w tym wariancie, a wyniki analizy są zapisywane dla każdej z nich.
   </p>
-
+  
   <h3>Jak to działa</h3>
   <p>
-  Przegląd korzysta z własnego połączenia z silnikiem, więc nie zakłóca analizy,
-  którą widzisz w oknie. Szachownica też się nie przesuwa: pozycje pochodzą z
-  głównej linii w chwili naciśnięcia przycisku, możesz więc pracować dalej.
-  Przegląd obejmuje tylko główną linię - posunięcia w wariantach nie są
-  przeglądane.
+  Analiza odbywa się za pomocą osobnego połączenia z silnikiem, więc nie
+  zakłóca obserwowanej analizy. Pozycja na szachownicy również się nie zmienia:
+  analizowane są pozycje z głównego wariantu zapisane w chwili naciśnięcia
+  przycisku. Możesz więc kontynuować pracę podczas analizy. Warianty poboczne
+  nie są analizowane — analiza obejmuje tylko główny wariant.
   </p>
   <p>
-  Każde ocenione posunięcie dostaje w komentarzu słowo werdyktu i <b>[%eval]</b>
-  oraz NAG wynikający ze słowa (<b>?!</b>, <b>?</b>, <b>??</b>, <b>!</b>,
-  <b>!!</b>). Posunięcie, które przegląd oznacza, dostaje też <b>ocenę pozycji</b>
-  z tego samego wyniku: <b>=</b> dla pozycji równej, <b>+=</b>, <b>+/-</b>,
-  <b>+-</b> i <b>+--</b> w miarę wzrostu przewagi białych, a dla czarnych
-  <b>=+</b>, <b>-/+</b>, <b>-+</b> i <b>--+</b>. Spokojne posunięcie bez
-  oznaczenia nie dostaje oceny, a ta, która była na posunięciu, jest zdejmowana,
-  więc ocena wskazuje momenty warte uwagi i zawsze zgadza się z <b>[%eval]</b>
-  obok.
+  Każde ocenione posunięcie otrzymuje słowną ocenę i komentarz <b>[%eval]</b>, a także odpowiedni
+  kod NAG (<b>?!</b>, <b>?</b>, <b>??</b>, <b>!</b>, <b>!!</b>). Posunięcia oznaczone przez
+  analizę otrzymują również <b>ocenę pozycji</b> na podstawie tej samej wartości: <b>=</b>
+  dla pozycji równej, <b>+=</b>, <b>+/-</b>, <b>+-</b> i <b>+--</b> w miarę wzrostu przewagi
+  białych oraz odpowiadające im oznaczenia <b>=+</b>, <b>-/+</b>, <b>-+</b> i <b>--+</b> dla
+  przewagi czarnych. Spokojne posunięcie, które nie otrzymało oznaczenia, nie dostaje oceny
+  pozycji, a ewentualna wcześniejsza ocena zostaje usunięta. Dzięki temu oceny wskazują
+  najważniejsze momenty partii i są zawsze  zgodne z sąsiadującym komentarzem <b>[%eval]</b>.
   </p>
   <p>
-  W czasie pracy okno pokazuje <b>Przeglądanie pozycji N z M</b> oraz przycisk
-  <b>Anuluj</b>. Anulowanie zatrzymuje przegląd i nic nie zapisuje. Przycisk jest
-  aktywny, gdy partia jest otwarta i wybrany jest silnik; w trakcie przeglądu oba
-  przyciski przeglądu są wyłączone, więc nie można rozpocząć drugiego przeglądu
-  ponad pierwszym.
+  Podczas analizy okno wyświetla komunikat <b>Analiza pozycji N z M</b>
+  oraz znajdujący się obok przycisk <b>Anuluj</b>. Anulowanie przerywa analizę
+  i nie zapisuje żadnych wyników. Przycisk jest aktywny, gdy partia jest otwarta
+  i wybrano silnik. Podczas analizy oba przyciski analizy są nieaktywne, aby
+  nie można było rozpocząć kolejnej analizy przed zakończeniem bieżącej.
   </p>
-
+  
   <h3>Ustawienia</h3>
   <p>
-  Głębokość przeszukiwania, liczbę linii i to, które z nich trafiają do partii
-  jako warianty, ustawia się w <a ReviewSettings><b>Ustawieniach przeglądu</b></a>.
-  Liczby Threads i Hash należą do profilu silnika i są tam pokazywane tylko do
-  odczytu. Przegląd działa na własnym, drugim silniku, więc bierze z profilu
-  najwyżej 8 wątków i 512 MB tablicy transpozycji: profil ustawiony pod długą
-  analizę byłby inaczej przydzielony drugi raz, a dwa przeszukiwania tej wielkości
-  nie mieszczą się w pamięci.
+  Głębokość analizy, liczbę zapisywanych wariantów oraz to, które z nich zostaną
+  dodane do partii, określa się w oknie <a ReviewSettings><b>Ustawienia analizy</b></a>.
+  Liczba wątków (Threads) i pamięć Hash używane przez silnik pochodzą z jego własnego profilu 
+  ustawień i są tam wyświetlane bez możliwości zmiany. Analiza odbywa się na drugim, osobnym 
+  silniku, który wykorzystuje z profilu ustawień najwyżej 8 wątków i 512 MB pamięci Hash.
+  W przeciwnym razie silnik musiałby przydzielić pamięć ponownie, a dwa tak duże zadania analizy nie
+  zmieściłyby się w pamięci.
   </p>
-
+  
   <h3>Jedno posunięcie zamiast całej partii</h3>
   <p>
-  <a ReviewMoveButton><b>Komentarz do ruchu</b></a> opisuje posunięcie, na którym
-  się znajdujesz - to zaznaczone w partii, a nie następne - co jest tańszym
-  sposobem, gdy wyjaśnienia wymaga jedno posunięcie.
+  <a ReviewMoveButton><b>Komentarz do posunięcia</b></a> opisuje posunięcie,
+  na którym aktualnie jesteś — podświetlone w partii, a nie następne.
+  To prostszy sposób na uzyskanie objaśnienia jednego posunięcia.
   </p>
-
-  <p><footer>(Zaktualizowano: ScidCommunity, październik 2026)</footer></p>
-}
-
-
-####################
-### Pomoc przycisku Komentarz do ruchu w Oknie Silnika:
-
-set helpTitle(P,ReviewMoveButton) "Przycisk Komentarz do ruchu"
-set helpText(P,ReviewMoveButton) {<h1>Okno silnika: Przycisk Komentarz do ruchu</h1>
+  
+  <p><footer>(Updated: scidCommunity, October 2026)</footer></p>
+  }
+  
+######################
+### Engine Window Move Comment button help:
+  
+  set helpTitle(P,ReviewMoveButton) "Przycisk Komentarz do posunięcia"
+  set helpText(P,ReviewMoveButton) {<h1>Okno silnika: przycisk Komentarz do posunięcia</h1>
   <p>
-  Przycisk <b>Komentarz do ruchu</b> w oknie <a Engine>Silnika</a> opisuje jedno
-  posunięcie: to, na którym się znajdujesz - prowadzące do pozycji na
-  szachownicy, a nie następne. Silnik przeszukuje pozycję przed posunięciem i
-  pozycję po nim, bo ocena posunięcia potrzebuje obu liczb - ile było warte i co
-  przyniosło. Etykieta i [%eval] trafiają za posunięcie; diagram, gdy posunięcie
+  Przycisk <b>Komentarz do posunięcia</b> w oknie <a Engine>Silnik</a> służy do komentowania jednego posunięcia
+  — tego, na którym aktualnie jesteś, czyli posunięcia, które doprowadziło do pozycji widocznej na szachownicy,
+  a nie następnego. Silnik analizuje pozycję przed posunięciem i po nim, ponieważ jego ocena wymaga porównania obu wyników
+  — wartości pozycji przed posunięciem i tego, co przyniosło jego wykonanie. Ocena słowna i komentarz <b>[%eval]</b>
+  są zapisywane po posunięciu, a diagram, jeśli posunięcie
   na niego zasługuje, pojawia się przed nim.
   </p>
-
+  
   <h3>Kiedy przycisk jest aktywny</h3>
   <p>
-  Potrzebna jest partia, wybrany silnik i posunięcie na szachownicy: na początku
-  linii nie ma czego opisywać, a ostatnie posunięcie można opisać. W wariancie
-  numeracja posunięć znaczy co innego: przegląd obejmuje główną linię, więc tam
-  przycisk jest wyłączony.
+  Funkcja komentowania posunięcia wymaga otwartej partii, wybranego silnika i posunięcia na szachownicy.
+  Na początku wariantu nie ma jeszcze posunięcia do skomentowania, natomiast ostatnie posunięcie można już
+  komentować.  Wewnątrz wariantu numeracja posunięć jest inna — analiza obejmuje główny wariant, dlatego 
+  przycisk jest tam nieaktywny.
   </p>
-
-  <h3>Czekanie na głębokość przeglądu</h3>
+  
+  <h3>Oczekiwanie na głębokość analizy</h3>
   <p>
-  Gdy opcja <b>Czekaj na głębokość przeglądu</b> jest włączona (domyślnie, w
-  <a ReviewSettings>Ustawieniach przeglądu</a>), komentarz ma być tym, który
-  napisałby pełny przegląd, więc płytka analiza nie wystarcza: przeszukiwanie
-  idzie na głębokości przeglądu, a wiersz stanu mówi, na jaką głębokość czeka. Po
-  wyłączeniu tej opcji używana jest analiza z okna, o ile tylko ma jakąś liczbę -
-  to znaczy "zapisz to, co silnik ma teraz", bez przeszukiwania tej samej
-  pozycji dwa razy.
+  Gdy opcja <b>Czekaj na osiągnięcie zadanej głębokości analizy</b> jest włączona — domyślnie,
+  zgodnie z ustawieniem w oknie <a ReviewSettings>Ustawienia analizy</a> — komentarz musi 
+  odpowiadać temu, który zostałby utworzony podczas pełnej analizy partii. Płytsza analiza nie wystarczy,
+  dlatego silnik analizuje pozycję na ustawionej głębokości. Pasek stanu informuje, na jaką głębokość
+  czeka. Po wyłączeniu tej opcji wykorzystywany jest wynik analizy z okna silnika, jeśli jest dostępny.
+  Oznacza to komentowanie na podstawie tego, co silnik już przeanalizował, bez ponownego analizowania
+  tej samej pozycji.
   </p>
-
-  <p><footer>(Zaktualizowano: ScidCommunity, październik 2026)</footer></p>
+  
+  <p><footer>(Updated: scidCommunity, October 2026)</footer></p>
 }
 
 ####################
-### Pomoc Ustawień przeglądu w Oknie Silnika:
+### Engine Window Review Settings help:
 
-set helpTitle(P,ReviewSettings) "Ustawienia przeglądu"
-set helpText(P,ReviewSettings) {<h1>Okno silnika: Ustawienia przeglądu</h1>
+set helpTitle(P,ReviewSettings) "Ustawienia analizy"
+set helpText(P,ReviewSettings) {<h1>Okno silnika: Ustawienia analizy</h1>
   <p>
-  <b>Ustawienia przeglądu</b> w oknie <a Engine>Silnika</a> zawierają wybory
-  czytane przez przegląd. Sześć wartości:
+  Okno <b>Ustawienia analizy</b> w oknie <a Engine>Silnik</a> zawiera
+  parametry używane podczas analizy partii. Dostępnych jest sześć ustawień:
   </p>
   <ul>
-  <li><b>Linie</b>: ile linii silnika zachowuje każda pozycja (MultiPV), od 1
-    do 5.</li>
-  <li><b>Głębokość</b>: jak głęboko przeszukiwana jest każda pozycja. To także
-    głębokość, na którą czeka <a ReviewMoveButton>Komentarz do ruchu</a>, gdy
-    włączona jest opcja <b>Czekaj na głębokość przeglądu</b>.</li>
-  <li><b>Warianty do zapisania</b>: ile linii silnika trafia do partii jako
-    warianty przy każdym błędzie, poważnym błędzie i przegapionej wygranej, żeby
-    pokazać, co należało zagrać. Zero nie zapisuje nic, a liczba nie może
-    przekroczyć liczby linii. Wariant dostają tylko posunięcia, które przegląd
-    krytykuje: najlepsze, doskonałe i dobre nie mają lepszego posunięcia do
-    pokazania, a zysk z niedokładności jest zbyt mały, żeby go zapisywać.</li>
-  <li><b>Margines wariantów (cp)</b>: jak bardzo inna linia może być słabsza od
-    najlepszej, aby została zapisana; linia słabsza bardziej to szum i jest
-    odrzucana. Zero zachowuje każdą linię i to ono daje warianty: mały margines,
-    np. 2, zachowuje tylko linie słabsze od najlepszej o mniej niż 2 centypunkty,
-    a alternatywy silnika są zwykle słabsze bardziej niż to.</li>
-  <li><b>Czekaj na głębokość przeglądu</b>: czy komentarz do posunięcia czeka na
-    głębokość przeglądu, zamiast korzystać z analizy już widocznej na ekranie -
-    patrz <a ReviewMoveButton>Komentarz do ruchu</a>.</li>
-  <li><b>Diagram</b>: 1 wstawia znacznik diagramu (<b>D</b>) przed każdym
-    błędem i poważnym błędem, żeby wydruk lub HTML pokazał pozycję, w której
-    popełniono błąd; 0 nie wstawia żadnego.</li>
+  <li><b>Warianty</b>: liczba wariantów silnika zapisywanych dla każdej pozycji
+    (MultiPV), od 1 do 5.</li>
+  <li><b>Głębokość</b>: głębokość analizy każdej pozycji. Jest to również
+    głębokość, na którą czeka funkcja <a ReviewMoveButton>Komentarz do posunięcia</a>,
+    gdy włączona jest opcja <b>Czekaj na osiągnięcie zadanej głębokości analizy</b>.</li>
+  <li><b>Liczba wariantów do zapisania</b>: liczba wariantów silnika dodawanych  przy każdym błędzie, poważnym  błędzie
+    i przeoczonej wygranej. Dzięki temu partia pokazuje, jakie posunięcie należało wykonać. Wartość zero oznacza, że żadne
+    warianty nie będą zapisywane. Liczba ta nie może być większa niż liczba wariantów silnika.Warianty są dodawane tylko
+	przy posunięciach ocenionych jako błędy, poważne błędy lub przeoczone wygrane.Przy posunięciu najlepszym, znakomitym lub
+	dobrym nie ma lepszego posunięcia do pokazania, a strata wynikająca	z niedokładności jest na tyle mała, że można ją pominąć.</li>
+  <li><b>Różnica ocen wariantów (cp)</b>: maksymalna różnica między oceną najlepszego wariantu a oceną kolejnego wariantu,
+    przy której zostanie on zapisany. Warianty z większą różnicą są pomijane.Wartość zero oznacza zapisywanie wszystkich 
+	wariantów — tylko wtedy warianty będą dodawane. Nawet niewielka różnica, np. 2 centypiony, spowoduje zapisanie tylko
+	tych wariantów, których ocena jest oddalona od najlepszego o mniej niż 2 centypiony.
+    Alternatywne warianty silnika zwykle mają większą różnicę.</li>
+  <li><b>Czekaj na osiągnięcie zadanej głębokości analizy</b>: określa, czy komentarz do posunięcia ma czekać na
+    osiągnięcie głębokości ustawionej dla analizy partii, zamiast korzystać z wyniku analizy widocznego już
+    w oknie — zobacz <a ReviewMoveButton>Komentarz do posunięcia</a>.</li>
+  <li><b>Diagram</b>: wartość 1 dodaje znacznik diagramu (<b>D</b>) przy posunięciu poprzedzającym każdy błąd i
+    poważny błąd. Dzięki temu w wydruku lub wersji HTML partii zostanie pokazana pozycja, w której popełniono błąd.
+    Wartość 0 oznacza brak znaczników.</li>
   </ul>
-
-  <h3>Czego tu nie ma</h3>
+  
+  <h3>Ustawienia spoza tego okna</h3>
   <p>
-  Threads i Hash należą do profilu silnika, nie do przeglądu: ustawia się je
-  przyciskami okna silnika i zapisuje razem z silnikiem. Okno pokazuje, ile
-  przegląd z nich weźmie - najwyżej 8 wątków i 512 MB tablicy transpozycji -
-  ponieważ przegląd to drugi silnik obok silnika okna.
+  Liczba wątków (Threads) i pamięć Hash należą do profilu silnika, a nie do ustawień analizy. Ustawia się je za
+  pomocą elementów sterujących w oknie silnika i zapisuje razem z silnikiem. Okno pokazuje, jakie wartości
+  zostaną wykorzystane podczas analizy — maksymalnie 8 wątków i 512 MB pamięci Hash — ponieważ analiza odbywa się
+  na drugim silniku, działającym równolegle z silnikiem używanym w oknie.
   </p>
-
-  <h3>Odrzucona wartość</h3>
+  
+  <h3>Nieprawidłowa wartość</h3>
   <p>
-  Wartość, której przegląd nie może przyjąć - liczba spoza zakresu pola albo
-  więcej wariantów niż linii - jest odrzucana, a powód pojawia się pod polami.
-  Okno zostaje otwarte na odrzuconej wartości, więc można ją poprawić bez utraty
-  reszty zmian.
+  Wartość, której nie można zastosować — liczba spoza zakresu dostępnego dla danego pola lub liczba wariantów
+  większa niż liczba analizowanych linii — zostaje odrzucona, a przyczyna jest wyświetlana pod polami.
+  Okno pozostaje otwarte z zaznaczoną nieprawidłową wartością, dzięki czemu można ją poprawić
+  bez utraty pozostałych zmian.
   </p>
-
-  <p><footer>(Zaktualizowano: ScidCommunity, październik 2026)</footer></p>
+  
+  <p><footer>(Updated: scidCommunity, October 2026)</footer></p>
 }
 
 ####################
-### Pomoc komentarzy AI w trybie zbiorczym:
+### Batch AI annotation help:
 ###
-### Przycisk Komentarz do Partii zniknął z okna silnika, a tryb zbiorczy nadal da
-### się wywołać po nazwie (::analysis_auto_comment::batch_generate).
-
-set helpTitle(P,BatchAnnotate) "Komentowanie partii w trybie zbiorczym"
-set helpText(P,BatchAnnotate) {<h1>Komentowanie partii w trybie zbiorczym</h1>
+### Przycisk Game Comment w oknie silnika został usunięty. Analiza zbiorcza nadal jest dostępna i można ją uruchomić
+### bezpośrednio, wywołując polecenie ::analysis_auto_comment::batch_generate. Opis tej funkcji pozostaje na
+### dotychczasowej stronie, która zawiera teraz również informację, jak otworzyć jej okno dialogowe.
+  
+set helpTitle(P,BatchAnnotate) "Komentarz do partii - AI"
+set helpText(P,BatchAnnotate) {<h1>Komentarz do partii - AI</h1>
   <p>
-  ScidCommunity potrafi wygenerować komentarze AI dla całej partii naraz, w
-  trybie zbiorczym. Dawniej służył do tego przycisk <b>Komentarz do Partii</b> w
-  oknie silnika. Tego przycisku już nie ma; użyj <menu>Narzędzia</menu> >
-  <menu>Komentarz do Partii</menu> (albo wywołaj
-  <b>::analysis_auto_comment::batch_generate</b> ze skryptu). Otwiera on to samo
-  okno co dawniej, a jego działanie się nie zmieniło.
+  scidCommunity może automatycznie wygenerować komentarze AI do całej partii
+  w jednym przebiegu. Wcześniej służył do tego przycisk <b>Komentarz do partii</b>
+  w oknie silnika. Został on usunięty. Teraz należy wybrać
+  <menu>Narzędzia</menu> > <menu>Komentarz do partii - AI</menu> lub wywołać polecenie
+  <b>::analysis_auto_comment::batch_generate</b> ze skryptu. Otwiera ono
+  to samo okno dialogowe co wcześniej, a jego działanie nie uległo zmianie.
   </p>
   <p>
-  Okno zbiorcze przeszukuje partię w poszukiwaniu posunięć z symbolem adnotacji
-  (NAG innym niż znacznik diagramu) i zawsze dodaje ostatnią pozycję partii, żeby
-  ją podsumować. Dla każdego z nich pobiera oceny z chmury jako kontekst, używa
-  istniejących wariantów PGN jako „ground truth” linii silnika, pyta AI,
-  dlaczego rekomendowana linia jest najlepsza albo dlaczego zagrane posunięcie
-  było błędem, i dopisuje wygenerowany komentarz do istniejącego komentarza przy
-  posunięciu. Jego jedynym argumentem jest identyfikator silnika, który
-  przekazywał przycisk; można go pominąć.
+  Okno dialogowe przeszukuje partię w poszukiwaniu posunięć oznaczonych symbolami NAG (z wyjątkiem znacznika
+  diagramu), a na końcu zawsze dodaje ostatnią pozycję partii, aby wygenerować podsumowanie.
+  Dla każdego z tych  posunięć pobiera oceny z serwera, wykorzystuje istniejące warianty PGN jako
+  wzorcowe linie silnika i pyta AI, dlaczego zalecany wariant jest najlepszy lub dlaczego wykonane posunięcie
+  było błędem. Wygenerowany komentarz jest dopisywany do istniejącego komentarza przy danym posunięciu. Jedynym
+  argumentem polecenia jest identyfikator silnika, który wcześniej przekazywał
+  przycisk. Można go pominąć.
   </p>
-
+  
   <h3>Wybór dostawcy i modelu</h3>
   <p>
-  Komentowanie zbiorcze potrzebuje dostawcy AI i modelu, zanim cokolwiek
-  zapisze. Naciśnij raz <b>Settings...</b> w oknie, wybierz dostawcę - Google
-  Gemini, DeepSeek, OpenCode Console, punkt końcowy zgodny z OpenAI (np. bramkę
-  lub vLLM) albo serwer lokalny, taki jak Ollama lub LM Studio - a następnie
-  model. Gdy nic nie jest ustawione, okno proponuje otwarcie tych ustawień; żadne
-  zapytanie do AI nie zostanie wysłane, dopóki dostawca i model nie są wybrane.
-  <b>Load Models</b> pyta dostawcę o dostępne modele. Wybór zapisuje się po
-  naciśnięciu OK.
+  Funkcja komentowania partii wymaga dostawcy AI i modelu. W oknie komentowania
+  partii kliknij <b>Settings...</b>, wybierz dostawcę — Google Gemini, DeepSeek,
+  OpenCode Console, usługę zgodną z API OpenAI, np. bramkę lub vLLM, albo lokalny
+  serwer, np. Ollama lub LM Studio — a następnie wybierz model. Jeśli nie
+  skonfigurowano tych ustawień, program zaproponuje ich otwarcie. Wysłanie
+  zapytania o komentarz nastąpi dopiero po wybraniu dostawcy i modelu.
+  Przycisk <b>Load Models</b> pobiera listę modeli oferowanych przez dostawcę.
+  Wybór zostanie zapisany po kliknięciu OK.
   </p>
-
-  <h3>Zastosowania</h3>
+  
+  <h3>Użycie</h3>
   <p>
-  To najszybszy sposób dodania notatek edukacyjnych do partii, którą już
-  przeanalizowałeś silnikiem. Funkcja szanuje Twoje lokalne warianty, dzięki
-  czemu wyjaśnienia AI są zgodne z Twoją analizą.
+  To najszybszy sposób na dodanie objaśnień do partii przeanalizowanej już
+  za pomocą silnika. Funkcja uwzględnia zapisane warianty, dzięki czemu
+  wyjaśnienia AI są zgodne z Twoją analizą.
   </p>
-
-  <p><footer>(Zaktualizowano: ScidCommunity, październik 2026)</footer></p>
+  
+  <p><footer>(Updated: scidCommunity, October 2026)</footer></p>
 }
 
 
@@ -3603,18 +3594,18 @@ set helpText(P,Engine) {<h1>Okna silnika</h1>
     (przy włączonej funkcji MultiPV wykonywane jest posunięcie z pierwszego wariantu).</li>
   <li><b>Dodaj wszystkie warianty</b> <button tb_eng_addlines>: Dodaje wszystkie linie MultiPV
     jako warianty.</li>
-  <li><b>Zakończ partię</b> <button tb_finish_off>: Dogrywa resztę partii silnikami
-    wybranymi dla każdej strony w oknie dialogowym, każda strona z własnymi
-    sekundami i głębokością. Ten sam przycisk zatrzymuje przebieg. Posunięcia są
-    grane bez adnotacji; do tego służy Przegląd partii.</li>
+  <li><b>Dokończ partię</b> <button tb_finish_off>: Rozgrywa pozostałą część partii silnikami wybranymi
+    dla obu stron w oknie dialogowym. Każdy silnik ma własny limit czasu i głębokość analizy.
+	Ten sam przycisk zatrzymuje rozgrywanie. Posunięcia są wykonywane bez komentarzy — do tego służy
+    funkcja Analiza partii.</li>
   <li><b>Konfiguracja</b> <button tb_eng_config>: Pokazuje lub ukrywa panel
     konfiguracji silnika.</li>
-  <li><a ReviewGameButton><b>Przegląd partii</b></a>: Przegląda główną linię
-    partii, przeszukując każdą jej pozycję.</li>
-  <li><a ReviewMoveButton><b>Komentarz do ruchu</b></a>: Opisuje posunięcie
-    zagrane z bieżącej pozycji i nic więcej.</li>
-  <li><a ReviewSettings><b>Ustawienia przeglądu</b></a>: Głębokość, linie,
-    warianty i głębokość, na którą czeka komentarz do ruchu.</li>
+  <li><a ReviewGameButton><b>Analiza partii</b></a>: Analizuje główny wariant
+    partii, sprawdzając każdą pozycję.</li>
+  <li><a ReviewMoveButton><b>Komentarz do posunięcia</b></a>: Opisuje aktualnie
+    wybrane posunięcie i nic więcej.</li>
+  <li><a ReviewSettings><b>Ustawienia analizy</b></a>: Głębokość analizy,
+    liczba wariantów oraz głębokość, na którą czeka komentarz do posunięcia.</li>
   </ul>
 
   <h3>Sterowanie</h3>
