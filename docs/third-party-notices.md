@@ -35,7 +35,7 @@ project:
 | File | Adapted from |
 | --- | --- |
 | `tcl/tools/review_report.tcl` | the report figures and the phase split; **`mixedness` and `_mixedScore` are ported verbatim** from `11_cr_classify.tcl` |
-| `tcl/tools/review_coach.tcl` | `15_cr_llm.tcl` and `17_cr_facts.tcl` (the game-level facts and the phase facts) |
+| `tcl/tools/review_coach.tcl` | `15_cr_llm.tcl` and `17_cr_facts.tcl` (the game-level facts, the phase facts and the prompt texts) |
 | `tcl/tools/comment_facts.tcl` | `17_cr_facts.tcl` |
 
 `mixedness` is the one verbatim copy: `::reviewreport::mixedness` and
