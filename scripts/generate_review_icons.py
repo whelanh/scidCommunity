@@ -105,15 +105,15 @@ def game_review(color):
 
 
 def move_comment(color):
+    # A solid pawn, so the icon carries the same weight as the board and the
+    # sliders even at 24 px; the bubble stays an outline so the dots read.
     im = canvas()
     d = ImageDraw.Draw(im)
-    # pawn
-    ellipse(d, (4.0, 3.0, 10.0, 9.0), color, 1.8)
-    polygon(d, [(5.0, 9.0), (9.0, 9.0), (10.0, 16.5), (4.0, 16.5)], color, 1.8)
-    line(d, [(3.2, 19.0), (10.8, 19.0)], color, 2.2)
-    # speech bubble
-    rounded(d, (12.0, 3.0, 23.0, 11.5), color, 1.6, 1.6)
-    polygon(d, [(14.0, 11.0), (18.0, 11.0), (15.0, 14.5)], color, 1.6)
+    ellipse(d, (4.0, 3.0, 10.0, 9.0), color, 1.8, fill=color)
+    polygon(d, [(5.0, 9.0), (9.0, 9.0), (10.0, 16.5), (4.0, 16.5)], color, 1.8, fill=color)
+    line(d, [(3.2, 19.0), (10.8, 19.0)], color, 2.4)
+    rounded(d, (12.0, 3.0, 23.0, 11.5), color, 2.2, 1.6)
+    polygon(d, [(14.0, 11.0), (18.0, 11.0), (15.0, 14.5)], color, 2.2)
     for cx in (15.4, 17.6, 19.8):
         d.ellipse(sc(cx - 0.8, 6.8, cx + 0.8, 8.4), fill=color)
     return im
@@ -164,10 +164,17 @@ WHITE = (245, 245, 245, 255)
 
 def main():
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    out = os.path.join(root, "img", "buttons")
+    buttons = os.path.join(root, "img", "buttons")
     for name, draw in ICONS.items():
         for suffix, color in (("", DARK), ("_white", WHITE)):
-            path = os.path.join(out, "tb_review_%s%s.png" % (name, suffix))
+            path = os.path.join(buttons, "tb_review_%s%s.png" % (name, suffix))
+            draw(color).resize((24, 24), Image.LANCZOS).save(path)
+            print(path)
+        # ::button_image maps a toolbar icon to its _white variant only when the
+        # base name exists in icons_light/icons_dark; without these two files the
+        # dark theme keeps the black img/buttons image.
+        for folder, color in (("icons_light", DARK), ("icons_dark", WHITE)):
+            path = os.path.join(root, "img", folder, "tb_review_%s.png" % name)
             draw(color).resize((24, 24), Image.LANCZOS).save(path)
             print(path)
 

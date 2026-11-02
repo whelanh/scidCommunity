@@ -746,6 +746,10 @@ proc ::enginewin::createButtonsBar {id btn display} {
     set reviewButtons [list $btn.gamereview $btn.movecomment]
     if {[winfo exists $btn.threat]} { lappend reviewButtons $btn.threat }
     lappend reviewButtons $btn.reviewsettings $btn.reviewcancel $btn.reviewstatus
+    # A fixed gap, not weight: the review controls and the engine Config button
+    # are different jobs, and without it the two gears/settings icons sit flush.
+    ttk::frame $btn.reviewgap -width 10
+    lappend reviewButtons $btn.reviewgap
 
     grid $btn.startStop $btn.lock $btn.addbestmove $btn.addlines $btn.finish \
          $btn.multipv $btn.depth_label $btn.depth $btn.movetime_label $btn.movetime \
