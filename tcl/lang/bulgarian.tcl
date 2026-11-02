@@ -891,6 +891,13 @@ translate g ReviewFromPreset {%s (от профила на машината)}
 translate g ReviewProgress {Преглед на позиция %s от %s}
 translate g ReviewWaitForDepth {Изчакване на дълбочина %s}
 translate g ReviewFailed {Прегледът е неуспешен: %s}
+translate g ReviewCoach {Текст на треньора}
+translate g ReviewCoachProgress {отбелязване %s от %s · текст %s от %s}
+translate g ReviewWriting {Записване на прегледа...}
+translate g ReviewCoachSettings {Настройки на треньора...}
+translate g ReviewCoachNoModel {Текстът на треньора е включен, но няма настроен модел. Отворете настройките на прегледа и натиснете Настройки на треньора..., за да изберете доставчик и модел.}
+translate g ReviewCoachKept {Прегледът е отменен: запазени са %s от %s бележки на треньора.}
+translate g ReviewCoachDiscarded {Прегледът е готов, но текстът на треньора бе изхвърлен: друга партия бе отворена, докато моделът пишеше.}
 translate g TimeMs {Време (ms)}
 
 

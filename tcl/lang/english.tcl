@@ -890,6 +890,13 @@ translate E ReviewFromPreset {%s (from engine preset)}
 translate E ReviewProgress {Reviewing position %s of %s}
 translate E ReviewWaitForDepth {Waiting for depth %s}
 translate E ReviewFailed {Review failed: %s}
+translate E ReviewCoach {Coach prose}
+translate E ReviewCoachProgress {annotating %s of %s · prose %s of %s}
+translate E ReviewWriting {Writing the review...}
+translate E ReviewCoachSettings {Coach settings...}
+translate E ReviewCoachNoModel {Coach prose is on, but no model is configured. Press Coach settings... in Review Settings to choose a provider and model.}
+translate E ReviewCoachKept {Review cancelled: %s of %s coach notes were kept.}
+translate E ReviewCoachDiscarded {The review is complete, but the coach prose was discarded: another game was opened while the model was writing.}
 translate E TimeMs {Time(ms)}
 
 

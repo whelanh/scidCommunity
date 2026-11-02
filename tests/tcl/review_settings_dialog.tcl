@@ -47,6 +47,7 @@ proc tr {tag args} {
 array set ::TR {
     ReviewFromPreset {%s (from engine preset)}
     ReviewMovetime    {Time cap (ms)}
+    ReviewCoachSettings {Coach settings...}
 }
 proc ::button_image {args} { return "" }
 # The real helper is in tcl/start.tcl: paint a classic widget with the theme's
@@ -71,6 +72,14 @@ namespace eval ::enginecfg {}
 # cap's note reads.
 set ::engineCfgAnswer {}
 proc ::enginecfg::get {name} { return $::engineCfgAnswer }
+# Coach settings are the Game Comment settings dialog. It is a dialog of its own,
+# and building one is all this harness needs from it.
+namespace eval ::auto_comment {}
+set ::autoOpened 0
+proc ::auto_comment::openSettings {args} {
+    incr ::autoOpened
+    toplevel .autoCommentConfig
+}
 set ::language E
 set ::translatePieces 0
 
@@ -108,9 +117,33 @@ checkEq "and it is the window the button names" $w .engineWin1.reviewSettings
 # the buttons were not, because the body stopped compiling mid-proc.
 check "the OK button exists" [winfo exists $w.b.ok]
 check "the Cancel button exists" [winfo exists $w.b.cancel]
-foreach key {mpv depth movetime var_lines var_cp move_comment_wait diagram} {
+foreach key {mpv depth movetime var_lines var_cp move_comment_wait diagram coach} {
     check "the $key row is there" [winfo exists $w.f.v$key]
 }
+# An on/off setting is a checkbox, not a number box that holds 0 or 1: the value
+# a user edits here is a switch, and a spinbox beside "Coach prose" offers "2".
+foreach key {move_comment_wait diagram coach} {
+    checkEq "the $key row is a checkbox" [winfo class $w.f.v$key] TCheckbutton
+}
+checkEq "a number row is still a number box" [winfo class $w.f.vdepth] TSpinbox
+checkEq "the coach row opens on the stored switch" \
+    $::enginewin::reviewsetting(1,coach) 0
+
+# The coach's provider, key and model are the Game Comment settings dialog; the
+# way there belongs beside the switch rather than behind a menu the user has to
+# find. The nested dialog is a real dialog, so this window must not hold a grab:
+# a grab here swallows every event meant for its child, and the child - dropdowns
+# included - comes up and cannot be clicked. The stub's ::auto_comment::openSettings
+# builds a window of its own, as the real one does.
+puts "\nthe coach settings button and the nested dialog"
+check "the coach settings button is there" [winfo exists $w.f.coachsettings]
+checkEq "and it is the window's own label" [$w.f.coachsettings cget -text] {Coach settings...}
+checkEq "Review Settings holds no grab over its child dialog" [grab current] ""
+$w.f.coachsettings invoke
+checkEq "Coach settings opens from Review Settings" $::autoOpened 1
+check "in a window of its own" [winfo exists .autoCommentConfig]
+checkEq "and pressing it did not close Review Settings" [winfo exists $w] 1
+destroy .autoCommentConfig
 checkEq "it opens on the stored values" \
     [list $::enginewin::reviewsetting(1,var_lines) \
           $::enginewin::reviewsetting(1,var_cp)] {1 0}
@@ -185,6 +218,19 @@ checkEq "and the mpv trace the other row installed" \
     [llength [trace info variable ::enginewin::reviewsetting(1,mpv)]] 0
 ::review::setValue movetime 0
 set ::engineCfgAnswer {}
+
+# The coach row opens on what was stored, and turning it on is stored by OK like
+# any other setting on this dialog.
+puts "\nthe coach switch is stored"
+set w6 [::enginewin::reviewSettings 1]
+checkEq "it opens off" $::enginewin::reviewsetting(1,coach) 0
+set ::enginewin::reviewsetting(1,coach) 1
+$w6.b.ok invoke
+checkEq "the dialog is gone" [winfo exists $w6] 0
+checkEq "OK stores the coach switch" $::reviewopt(coach) 1
+set ::review::S [dict create]
+checkEq "and a fresh start reads it back" [::review::get coach] 1
+::review::setValue coach 0
 
 # A toplevel is a classic Tk widget and keeps Tk's grey; the ttk rows inside
 # follow the theme, so the strip beside OK/Cancel is the only place the old

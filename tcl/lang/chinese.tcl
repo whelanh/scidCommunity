@@ -826,6 +826,13 @@ translate M ReviewFromPreset {%s（来自引擎预设）}
 translate M ReviewProgress {正在复盘第 %s / %s 个局面}
 translate M ReviewWaitForDepth {正在等待深度 %s}
 translate M ReviewFailed {复盘失败：%s}
+translate M ReviewCoach {教练点评}
+translate M ReviewCoachProgress {标注 %s / %s · 点评 %s / %s}
+translate M ReviewWriting {正在写入分析…}
+translate M ReviewCoachSettings {教练设置…}
+translate M ReviewCoachNoModel {教练点评已开启，但尚未配置模型。请打开分析设置，点击“教练设置…”选择服务商和模型。}
+translate M ReviewCoachKept {分析已取消：保留了 %s / %s 条教练点评。}
+translate M ReviewCoachDiscarded {分析已完成，但教练点评被丢弃：模型写作期间打开了另一盘棋。}
 translate M TimeMs {时间（毫秒）}
 
 

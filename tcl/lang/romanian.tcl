@@ -891,6 +891,13 @@ translate L ReviewFromPreset {%s (din profilul motorului)}
 translate L ReviewProgress {Se analizează poziția %s din %s}
 translate L ReviewWaitForDepth {Se așteaptă adâncimea %s}
 translate L ReviewFailed {Analiza a eșuat: %s}
+translate L ReviewCoach {Textul antrenorului}
+translate L ReviewCoachProgress {adnotare %s din %s · text %s din %s}
+translate L ReviewWriting {Se scrie analiza...}
+translate L ReviewCoachSettings {Setările antrenorului...}
+translate L ReviewCoachNoModel {Textul antrenorului este activat, dar nu este configurat niciun model. Deschideți setările analizei și apăsați Setările antrenorului... pentru a alege un furnizor și un model.}
+translate L ReviewCoachKept {Analiză anulată: s-au păstrat %s din %s note ale antrenorului.}
+translate L ReviewCoachDiscarded {Analiza este completă, dar textul antrenorului a fost eliminat: s-a deschis o altă partidă în timp ce modelul scria.}
 translate L TimeMs {Timp (ms)}
 
 

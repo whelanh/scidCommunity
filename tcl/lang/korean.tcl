@@ -891,6 +891,13 @@ translate k ReviewFromPreset {%s (엔진 프리셋에서)}
 translate k ReviewProgress {국면 %s / %s 검토 중}
 translate k ReviewWaitForDepth {깊이 %s 대기 중}
 translate k ReviewFailed {검토 실패: %s}
+translate k ReviewCoach {코치 해설}
+translate k ReviewCoachProgress {%s / %s 표시 · 해설 %s / %s}
+translate k ReviewWriting {리뷰를 쓰는 중...}
+translate k ReviewCoachSettings {코치 설정...}
+translate k ReviewCoachNoModel {코치 해설이 켜져 있지만 모델이 설정되지 않았습니다. 리뷰 설정을 열고 코치 설정...을 눌러 공급자와 모델을 선택하십시오.}
+translate k ReviewCoachKept {리뷰가 취소되었습니다: 코치 해설 %s / %s개를 유지했습니다.}
+translate k ReviewCoachDiscarded {리뷰가 완료되었지만 코치 해설은 버려졌습니다: 모델이 쓰는 동안 다른 게임이 열렸습니다.}
 translate k TimeMs {시간(ms)}
 
 

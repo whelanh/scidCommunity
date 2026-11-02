@@ -49,6 +49,14 @@ jobs:
       - name: Review coach facts
         run: tclsh tests/tcl/review_coach.tcl
 
+      # The queue and its transport without a board or a model: the stub curl on
+      # PATH sleeps, so the async caller's timing is measured rather than assumed.
+      - name: Review prose queue
+        run: tclsh tests/tcl/review_prose.tcl
+
+      - name: Review transport
+        run: tclsh tests/tcl/review_transport.tcl
+
       - name: Batch annotate
         run: tclsh tests/tcl/batch_annotate.tcl
 

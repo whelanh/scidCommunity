@@ -108,7 +108,7 @@ proc ::reviewui::buttons {state} {
 # also wrote them would be a second place to get them wrong. The order matters
 # because ::review::setValue has cross-field rules - mpv caps var_lines - so a
 # single edit that lowers both must apply mpv first.
-variable ::reviewui::SETTING_KEYS {mpv depth movetime var_lines var_cp move_comment_wait diagram}
+variable ::reviewui::SETTING_KEYS {mpv depth movetime var_lines var_cp move_comment_wait diagram coach}
 
 # The review setting a dialog row edits, and the label it shows. `Lines` and
 # `Depth` are the keys the engine window already uses for the same two numbers.
@@ -120,6 +120,7 @@ variable ::reviewui::SETTING_LABELS {
     var_cp            ReviewVarCp
     move_comment_wait ReviewMoveWait
     diagram           Diagram
+    coach             ReviewCoach
 }
 
 proc ::reviewui::settingKeys {} {
@@ -250,11 +251,11 @@ proc ::reviewui::progressText {done total} {
 # The status line the driver's state maps to, so the window holds no state of
 # its own about a pass: it asks ::reviewdriver::status and this says what to show.
 #
-# "" when there is nothing to say - idle before a press, the write phase (the
-# search is over and nothing is being counted), a run that finished (the labels
-# in the game are the report) and a cancelled one (it wrote nothing). A run that
-# did not finish, or finished with moves the game refused, says why in the
-# driver's or the board's own words.
+# "" when there is nothing to say - idle before a press, a run that finished
+# (the labels in the game are the report) and a cancelled one (it wrote
+# nothing). The write phase says it is writing, and while the coach is waiting
+# on a model it counts the answers. A run that did not finish, or finished with
+# moves the game refused, says why in the driver's or the board's own words.
 proc ::reviewui::statusText {st} {
     set state idle
     catch { set state [dict get $st state] }
@@ -265,6 +266,25 @@ proc ::reviewui::statusText {st} {
             set total 0
             catch { set total [dict get $st total] }
             return [::reviewui::progressText $done $total]
+        }
+        writing {
+            # The pass itself is over: the labels and the report are in the game.
+            # The coach may still be waiting on a model, and a pass that is doing
+            # useful work must say so instead of going quiet. While it counts
+            # answers the line carries both figures - the search is done and the
+            # reader can see how much prose is still to come.
+            set ctotal 0
+            catch { set ctotal [dict get $st coachTotal] }
+            if {[string is integer -strict $ctotal] && $ctotal > 0} {
+                set cdone 0
+                catch { set cdone [dict get $st coachDone] }
+                set total 0
+                catch { set total [dict get $st total] }
+                set done 0
+                catch { set done [dict get $st searched] }
+                return [format [::reviewui::tr ReviewCoachProgress] $done $total $cdone $ctotal]
+            }
+            return [::reviewui::tr ReviewWriting]
         }
         failed {
             set reason ""
@@ -351,6 +371,7 @@ variable ::reviewui::SETTING_RANGES {
     var_cp            {0 500}
     move_comment_wait {0 1}
     diagram           {0 1}
+    coach             {0 1}
 }
 
 proc ::reviewui::settingRange {key {mpv ""}} {

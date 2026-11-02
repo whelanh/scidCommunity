@@ -1134,16 +1134,35 @@ proc ::enginewin::reviewSettings {id} {
     grid $w.f -sticky news
     set row 0
     foreach key [::reviewui::settingKeys] {
-        lassign [::reviewui::settingRange $key] lo hi
-        set ::enginewin::reviewsetting($id,$key) [::review::get $key]
-        ttk::label $w.f.l$key -text "[::reviewui::settingLabel $key]:" -anchor w
-        ttk::spinbox $w.f.v$key -from $lo -to $hi -increment 1 -width 6 \
-            -textvariable ::enginewin::reviewsetting($id,$key)
+        set value [::review::get $key]
+        if {[lsearch -exact {move_comment_wait diagram coach} $key] >= 0} {
+            # On/off settings are a checkbox, not a number box holding 0 or 1: a
+            # spinbox beside "Coach prose" offers "2", which the setter refuses.
+            set ::enginewin::reviewsetting($id,$key) $value
+            ttk::label $w.f.l$key -text "[::reviewui::settingLabel $key]:" -anchor w
+            ttk::checkbutton $w.f.v$key -onvalue 1 -offvalue 0 \
+                -variable ::enginewin::reviewsetting($id,$key)
+        } else {
+            lassign [::reviewui::settingRange $key] lo hi
+            set ::enginewin::reviewsetting($id,$key) $value
+            ttk::label $w.f.l$key -text "[::reviewui::settingLabel $key]:" -anchor w
+            ttk::spinbox $w.f.v$key -from $lo -to $hi -increment 1 -width 6 \
+                -textvariable ::enginewin::reviewsetting($id,$key)
+        }
         grid $w.f.l$key -row $row -column 0 -sticky w -pady 2
         grid $w.f.v$key -row $row -column 1 -sticky w -padx {10 0} -pady 2
         # Kept per key so a row can be revisited: the time cap's note is a third
         # column of the row the setting is on.
         set rowOf($key) $row
+        incr row
+    }
+    # The coach's provider, key and model live in the Game Comment settings; put
+    # the way there beside the coach switch instead of leaving it behind a menu.
+    if {[llength [info commands ::auto_comment::openSettings]]} {
+        ttk::button $w.f.coachsettings -text [::reviewui::label ReviewCoachSettings] \
+            -command {::auto_comment::openSettings {}}
+        grid $w.f.coachsettings -row $row -column 0 -columnspan 2 \
+            -sticky w -pady {6 0}
         incr row
     }
     # var_lines is capped by mpv, so its box follows the mpv box while the user
@@ -1242,7 +1261,9 @@ proc ::enginewin::reviewSettings {id} {
         -command [list ::enginewin::reviewSettingsApply $id $w]
     ttk::button $w.b.cancel -text [tr Cancel] -command [list destroy $w]
     grid $w.b.ok $w.b.cancel -padx 4
-    catch { grab $w }
+    # No grab. This dialog opens another one - Coach settings - and a grab here
+    # swallows every event meant for it: the child came up and nothing in it
+    # could be clicked, the provider and model lists included.
     return $w
 }
 

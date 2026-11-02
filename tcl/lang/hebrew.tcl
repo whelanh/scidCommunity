@@ -851,6 +851,13 @@ translate V ReviewFromPreset {%s (מהגדרות המנוע)}
 translate V ReviewProgress {סוקר עמדה %s מתוך %s}
 translate V ReviewWaitForDepth {ממתין לעומק %s}
 translate V ReviewFailed {הסקירה נכשלה: %s}
+translate V ReviewCoach {טקסט המאמן}
+translate V ReviewCoachProgress {מסמן %s מתוך %s · טקסט %s מתוך %s}
+translate V ReviewWriting {כותב את הסקירה...}
+translate V ReviewCoachSettings {הגדרות המאמן...}
+translate V ReviewCoachNoModel {טקסט המאמן מופעל, אך לא הוגדר מודל. פתח את הגדרות הסקירה ולחץ על הגדרות המאמן... כדי לבחור ספק ומודל.}
+translate V ReviewCoachKept {הסקירה בוטלה: נשמרו %s מתוך %s הערות מאמן.}
+translate V ReviewCoachDiscarded {הסקירה הושלמה, אך טקסט המאמן נמחק: משחק אחר נפתח בזמן שהמודל כתב.}
 translate V TimeMs {זמן (ms)}
 
 

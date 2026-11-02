@@ -33,6 +33,9 @@ checkEq "mpv defaults to 3" [::review::get mpv] 3
 checkEq "depth defaults to 18" [::review::get depth] 18
 checkEq "a diagram is written at mistakes and blunders by default" \
     [::review::get diagram] 1
+# The coach is an extra layer over a review that works without it, so a fresh
+# install must not spend a user's requests without being asked.
+checkEq "coach prose is off by default" [::review::get coach] 0
 checkEq "a variation shows the better move by default" [::review::get var_lines] 1
 checkEq "no threshold by default" [::review::get var_cp] 0
 
@@ -716,6 +719,17 @@ set ::review::S [dict create]
 checkEq "a negative flag is on as well" [::review::get skip_book] 1
 checkEq "the diagram switch refuses anything but 0 or 1" \
     [::review::setValue diagram 2] "diagram is 0 or 1"
+# The coach switch is a flag like the other two, and one a user may turn on.
+checkEq "the coach can be turned on" [::review::setValue coach 1] ""
+checkEq "and is remembered" [::review::get coach] 1
+checkEq "the coach switch refuses anything but 0 or 1" \
+    [::review::setValue coach 2] "coach is 0 or 1"
+checkEq "and keeps the value it had" [::review::get coach] 1
+checkEq "the coach can be turned off again" [::review::setValue coach 0] ""
+set ::reviewopt(coach) 3
+set ::review::S [dict create]
+checkEq "a coach flag saved above 1 is on, not invalid" [::review::get coach] 1
+set ::review::S [dict create]
 array unset ::reviewopt
 ::review::reset
 

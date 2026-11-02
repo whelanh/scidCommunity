@@ -854,6 +854,13 @@ translate T ReviewFromPreset {%s (motor profilinden)}
 translate T ReviewProgress {%s / %s konumu inceleniyor}
 translate T ReviewWaitForDepth {%s derinliği bekleniyor}
 translate T ReviewFailed {İnceleme başarısız: %s}
+translate T ReviewCoach {Antrenör metni}
+translate T ReviewCoachProgress {%s / %s işaretlendi · metin %s / %s}
+translate T ReviewWriting {İnceleme yazılıyor...}
+translate T ReviewCoachSettings {Antrenör ayarları...}
+translate T ReviewCoachNoModel {Antrenör metni açık, ancak model yapılandırılmamış. İnceleme ayarlarını açın ve sağlayıcı ile modeli seçmek için Antrenör ayarları... düğmesine basın.}
+translate T ReviewCoachKept {İnceleme iptal edildi: %s / %s antrenör notu korundu.}
+translate T ReviewCoachDiscarded {İnceleme tamamlandı, ancak antrenör metni atıldı: model yazarken başka bir oyun açıldı.}
 translate T TimeMs {Zaman(ms)}
 
 

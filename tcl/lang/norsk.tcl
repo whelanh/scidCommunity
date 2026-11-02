@@ -860,6 +860,13 @@ translate O ReviewFromPreset {%s (fra motorprofilen)}
 translate O ReviewProgress {Vurderer stilling %s av %s}
 translate O ReviewWaitForDepth {Venter på dybde %s}
 translate O ReviewFailed {Vurderingen mislyktes: %s}
+translate O ReviewCoach {Trenertekst}
+translate O ReviewCoachProgress {merker %s av %s · tekst %s av %s}
+translate O ReviewWriting {Skriver gjennomgangen...}
+translate O ReviewCoachSettings {Trenerinnstillinger...}
+translate O ReviewCoachNoModel {Trenertekst er på, men ingen modell er satt opp. Åpne innstillingene for gjennomgangen og trykk Trenerinnstillinger... for å velge leverandør og modell.}
+translate O ReviewCoachKept {Gjennomgang avbrutt: %s av %s trenernotater ble beholdt.}
+translate O ReviewCoachDiscarded {Gjennomgangen er ferdig, men trenerteksten ble forkastet: et annet parti ble åpnet mens modellen skrev.}
 translate O TimeMs {Tid (ms)}
 
 

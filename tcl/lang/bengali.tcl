@@ -850,6 +850,13 @@ translate b ReviewFromPreset {%s (ইঞ্জিন প্রিসেট থ�
 translate b ReviewProgress {অবস্থান %s / %s পর্যালোচনা করা হচ্ছে}
 translate b ReviewWaitForDepth {গভীরতা %s-এর জন্য অপেক্ষা}
 translate b ReviewFailed {পর্যালোচনা ব্যর্থ: %s}
+translate b ReviewCoach {কোচের লেখা}
+translate b ReviewCoachProgress {%s / %s চিহ্নিত · লেখা %s / %s}
+translate b ReviewWriting {পর্যালোচনা লেখা হচ্ছে...}
+translate b ReviewCoachSettings {কোচ সেটিংস...}
+translate b ReviewCoachNoModel {কোচের লেখা চালু আছে, কিন্তু কোনো মডেল কনফিগার করা হয়নি। পর্যালোচনা সেটিংস খুলুন এবং সরবরাহকারী ও মডেল বেছে নিতে কোচ সেটিংস... চাপুন।}
+translate b ReviewCoachKept {পর্যালোচনা বাতিল: %s / %s কোচের নোট রাখা হয়েছে।}
+translate b ReviewCoachDiscarded {পর্যালোচনা সম্পন্ন, কিন্তু কোচের লেখা বাদ দেওয়া হয়েছে: মডেল লেখার সময় অন্য একটি খেলা খোলা হয়েছিল।}
 translate b TimeMs {সময়(ms)}
 
 

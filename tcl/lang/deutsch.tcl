@@ -890,6 +890,13 @@ translate D ReviewFromPreset {%s (aus dem Motorprofil)}
 translate D ReviewProgress {Position %s von %s wird geprüft}
 translate D ReviewWaitForDepth {Warte auf Tiefe %s}
 translate D ReviewFailed {Prüfung fehlgeschlagen: %s}
+translate D ReviewCoach {Trainertext}
+translate D ReviewCoachProgress {Annotierung %s von %s · Text %s von %s}
+translate D ReviewWriting {Bericht wird geschrieben...}
+translate D ReviewCoachSettings {Trainer-Einstellungen...}
+translate D ReviewCoachNoModel {Trainertext ist eingeschaltet, aber kein Modell eingerichtet. Öffnen Sie die Bericht-Einstellungen und drücken Sie Trainer-Einstellungen..., um Anbieter und Modell zu wählen.}
+translate D ReviewCoachKept {Bericht abgebrochen: %s von %s Trainer-Notizen wurden behalten.}
+translate D ReviewCoachDiscarded {Der Bericht ist fertig, aber der Trainertext wurde verworfen: Während das Modell schrieb, wurde eine andere Partie geöffnet.}
 translate D TimeMs {Zeit (ms)}
 
 

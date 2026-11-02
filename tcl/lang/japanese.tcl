@@ -891,6 +891,13 @@ translate A ReviewFromPreset {%s（エンジンのプリセット）}
 translate A ReviewProgress {局面 %s / %s を検討中}
 translate A ReviewWaitForDepth {深さ %s を待機中}
 translate A ReviewFailed {検討に失敗しました: %s}
+translate A ReviewCoach {コーチの解説}
+translate A ReviewCoachProgress {%s / %s を注記 · 解説 %s / %s}
+translate A ReviewWriting {レビューを書き込み中...}
+translate A ReviewCoachSettings {コーチ設定...}
+translate A ReviewCoachNoModel {コーチの解説は有効ですが、モデルが設定されていません。レビュー設定を開き、「コーチ設定...」を押してプロバイダーとモデルを選んでください。}
+translate A ReviewCoachKept {レビューは中止されました: コーチの解説 %s / %s 件を保持しました。}
+translate A ReviewCoachDiscarded {レビューは完了しましたが、コーチの解説は破棄されました: モデルが書いている間に別の対局が開かれました。}
 translate A TimeMs {時間(ミリ秒)}
 
 

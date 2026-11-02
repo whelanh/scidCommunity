@@ -851,6 +851,13 @@ translate Q ReviewFromPreset {%s (з профілю двигуна)}
 translate Q ReviewProgress {Огляд позиції %s з %s}
 translate Q ReviewWaitForDepth {Очікування глибини %s}
 translate Q ReviewFailed {Огляд не вдався: %s}
+translate Q ReviewCoach {Текст тренера}
+translate Q ReviewCoachProgress {розмітка %s з %s · текст %s з %s}
+translate Q ReviewWriting {Запис огляду...}
+translate Q ReviewCoachSettings {Налаштування тренера...}
+translate Q ReviewCoachNoModel {Текст тренера ввімкнено, але модель не налаштована. Відкрийте налаштування огляду й натисніть Налаштування тренера..., щоб вибрати постачальника та модель.}
+translate Q ReviewCoachKept {Огляд скасовано: збережено %s з %s нотаток тренера.}
+translate Q ReviewCoachDiscarded {Огляд завершено, але текст тренера відкинуто: під час роботи моделі відкрито іншу партію.}
 translate Q TimeMs {Час (мс)}
 
 

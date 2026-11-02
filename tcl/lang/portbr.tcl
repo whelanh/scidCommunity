@@ -863,6 +863,13 @@ translate B ReviewFromPreset {%s (do perfil do motor)}
 translate B ReviewProgress {Analisando posição %s de %s}
 translate B ReviewWaitForDepth {Aguardando profundidade %s}
 translate B ReviewFailed {A análise falhou: %s}
+translate B ReviewCoach {Texto do treinador}
+translate B ReviewCoachProgress {anotando %s de %s · texto %s de %s}
+translate B ReviewWriting {Escrevendo a análise...}
+translate B ReviewCoachSettings {Configurações do treinador...}
+translate B ReviewCoachNoModel {O texto do treinador está ativo, mas nenhum modelo está configurado. Abra as configurações da análise e pressione Configurações do treinador... para escolher um provedor e um modelo.}
+translate B ReviewCoachKept {Análise cancelada: %s de %s notas do treinador foram mantidas.}
+translate B ReviewCoachDiscarded {A análise está completa, mas o texto do treinador foi descartado: outra partida foi aberta enquanto o modelo escrevia.}
 translate B TimeMs {Tempo (ms)}
 
 

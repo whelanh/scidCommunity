@@ -850,6 +850,13 @@ translate Z ReviewFromPreset {%s (kutoka wasifu wa injini)}
 translate Z ReviewProgress {Inapitia nafasi %s kati ya %s}
 translate Z ReviewWaitForDepth {Inasubiri kina %s}
 translate Z ReviewFailed {Mapitio yameshindikana: %s}
+translate Z ReviewCoach {Maandishi ya kocha}
+translate Z ReviewCoachProgress {inaandika %s kati ya %s · maandishi %s kati ya %s}
+translate Z ReviewWriting {Inaandika ukaguzi...}
+translate Z ReviewCoachSettings {Mipangilio ya kocha...}
+translate Z ReviewCoachNoModel {Maandishi ya kocha yamewashwa, lakini hakuna modeli iliyowekwa. Fungua mipangilio ya ukaguzi na bonyeza Mipangilio ya kocha... kuchagua mtoa huduma na modeli.}
+translate Z ReviewCoachKept {Ukaguzi umeghairiwa: %s kati ya %s maelezo ya kocha yamehifadhiwa.}
+translate Z ReviewCoachDiscarded {Ukaguzi umekamilika, lakini maandishi ya kocha yametupwa: mchezo mwingine ulifunguliwa wakati modeli ilikuwa inaandika.}
 translate Z TimeMs {Saa(ms)}
 
 

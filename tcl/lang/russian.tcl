@@ -857,6 +857,13 @@ translate R ReviewFromPreset {%s (из профиля движка)}
 translate R ReviewProgress {Разбор позиции %s из %s}
 translate R ReviewWaitForDepth {Ожидание глубины %s}
 translate R ReviewFailed {Разбор не удался: %s}
+translate R ReviewCoach {Текст тренера}
+translate R ReviewCoachProgress {разметка %s из %s · текст %s из %s}
+translate R ReviewWriting {Запись обзора...}
+translate R ReviewCoachSettings {Настройки тренера...}
+translate R ReviewCoachNoModel {Текст тренера включён, но модель не настроена. Откройте настройки обзора и нажмите Настройки тренера..., чтобы выбрать провайдера и модель.}
+translate R ReviewCoachKept {Обзор отменён: сохранено %s из %s заметок тренера.}
+translate R ReviewCoachDiscarded {Обзор завершён, но текст тренера отброшен: во время работы модели была открыта другая партия.}
 translate R TimeMs {Время (мс)}
 
 

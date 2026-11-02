@@ -850,6 +850,13 @@ translate h ReviewFromPreset {%s (इंजन प्रीसेट से)}
 translate h ReviewProgress {स्थिति %s / %s की समीक्षा हो रही है}
 translate h ReviewWaitForDepth {गहराई %s की प्रतीक्षा}
 translate h ReviewFailed {समीक्षा विफल: %s}
+translate h ReviewCoach {कोच की टिप्पणी}
+translate h ReviewCoachProgress {%s में से %s पर टिप्पणी · पाठ %s में से %s}
+translate h ReviewWriting {समीक्षा लिखी जा रही है...}
+translate h ReviewCoachSettings {कोच सेटिंग्स...}
+translate h ReviewCoachNoModel {कोच की टिप्पणी चालू है, लेकिन कोई मॉडल कॉन्फ़िगर नहीं है। समीक्षा सेटिंग्स खोलें और प्रदाता तथा मॉडल चुनने के लिए कोच सेटिंग्स... दबाएँ।}
+translate h ReviewCoachKept {समीक्षा रद्द: %s में से %s कोच टिप्पणियाँ रखी गईं।}
+translate h ReviewCoachDiscarded {समीक्षा पूरी हुई, लेकिन कोच की टिप्पणी हटा दी गई: मॉडल के लिखते समय दूसरा खेल खोला गया।}
 translate h TimeMs {समय(एमएस)}
 
 

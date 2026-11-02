@@ -891,6 +891,13 @@ translate J ReviewFromPreset {%s (из профила мотора)}
 translate J ReviewProgress {Преглед позиције %s од %s}
 translate J ReviewWaitForDepth {Чекање на дубину %s}
 translate J ReviewFailed {Преглед није успео: %s}
+translate J ReviewCoach {Текст тренера}
+translate J ReviewCoachProgress {обележавање %s од %s · текст %s од %s}
+translate J ReviewWriting {Упис прегледа...}
+translate J ReviewCoachSettings {Подешавања тренера...}
+translate J ReviewCoachNoModel {Текст тренера је укључен, али модел није подешен. Отворите подешавања прегледа и притисните Подешавања тренера... да изаберете добављача и модел.}
+translate J ReviewCoachKept {Преглед отказан: сачувано је %s од %s тренерских напомена.}
+translate J ReviewCoachDiscarded {Преглед је завршен, али је текст тренера одбачен: друга партија је отворена док је модел писао.}
 translate J TimeMs {време(мс)}
 
 

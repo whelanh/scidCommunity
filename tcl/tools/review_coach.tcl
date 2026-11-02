@@ -627,10 +627,17 @@ proc ::reviewcoach::buildPrompts {moves game} {
 }
 
 # Remove the prose this layer wrote, keeping the review's own label, eval and
-# marks. A phase block or a coach note is marked, so a re-run replaces it.
+# marks. A phase block or a coach note is marked AND is one line: the block ends
+# at the end of its line, so a note the user wrote below it is not taken with it.
+# (The previous rule ran to the next "[" or the end of the comment, which ate
+# everything the reader had added underneath.)
 proc ::reviewcoach::strip {comment} {
-    regsub -all {\[Phase (?:opening|middlegame|endgame)\][^\[]*} $comment "" comment
-    regsub -all {\[Coach\][^\[]*} $comment "" comment
+    regsub -all {\[Phase (?:opening|middlegame|endgame)\][^\n]*} $comment "" comment
+    regsub -all {\[Coach\][^\n]*} $comment "" comment
+    # The removed line leaves its separator behind; a block at the end leaves one
+    # trailing blank. Neither is prose, so neither is kept.
+    regsub -all {[ \t]+\n} $comment "\n" comment
+    regsub -all {\n\n\n+} $comment "\n\n" comment
     return [string trim $comment]
 }
 
@@ -650,4 +657,181 @@ proc ::reviewcoach::stripHeaderAtStart {} {
     set new [stripHeader $old]
     if {$new ne [string trim $old]} { sc_pos setComment $new }
     return
+}
+
+# ── the prose layer: where the answers land, and how a re-run replaces them ──
+
+# A user-visible string this module owns. A tclsh test has no language files, so
+# a missing ::tr leaves the key - which is what Scid does for an untranslated
+# string anyway.
+proc ::reviewcoach::tr {key} {
+    if {[llength [info commands ::tr]] == 0} { return $key }
+    # No `return` inside the catch body: Tcl turns it into TCL_RETURN and catch
+    # reports a failure, which would silently throw the translation away.
+    set out $key
+    catch { set out [::tr $key] }
+    return $out
+}
+
+proc ::reviewcoach::say {key args} {
+    if {[llength [info commands tk_messageBox]] == 0} { return }
+    catch {
+        tk_messageBox -icon info -title "scidCommunity" \
+            -message [format [::reviewcoach::tr $key] {*}$args]
+    }
+    return
+}
+
+# Put the answers where they belong, then hand control back to the driver.
+#
+#   summary  the three labelled lines at the start of the game's comment (ply 0)
+#   phase    a line at the phase's last move: its figures, then the prose
+#   moment   "[Coach] ..." at the move the prompt was about
+#
+# Every block is written on one line. That is what makes the strip in
+# ::reviewcoach::strip possible: the next run takes off the whole line and
+# nothing else, so a note the reader wrote underneath survives.
+#
+# The previous run's blocks are taken off first - even where this run has no new
+# text - so a phase whose answer failed cannot leave its old paragraph beside the
+# new figures.
+proc ::reviewcoach::place {p moves prompts results} {
+    variable game
+    if {$game ne "" && [gameNumber] ne $game} { return 0 }
+    set phases {}
+    catch { set phases [::reviewreport::phaseSplit $moves] }
+    set cursor ""
+    catch { set cursor [::review::cursorSave] }
+    stripHeaderAtStart
+    foreach m $moves {
+        set ply [dict get $m ply]
+        if {[catch { sc_move ply $ply }] || [sc_pos location] != $ply} { continue }
+        set old [sc_pos getComment]
+        set new [::reviewcoach::strip $old]
+        if {$new ne [string trim $old]} { sc_pos setComment $new }
+    }
+    foreach item $prompts {
+        set kind [dict get $item kind]
+        set key [dict get $item key]
+        set prompt [dict get $item prompt]
+        set text ""
+        catch { set text [dict get $results [list $kind $key $prompt]] }
+        # A phase whose prose never arrived still gets its figures: the phase
+        # happened, and an absent block reads as a bug in the review.
+        if {$text eq "" && $kind ne "phase"} { continue }
+        if {$kind eq "summary"} {
+            if {[catch { sc_move ply 0 }] || [sc_pos location] != 0} { continue }
+            set sm [::reviewcoach::parseSummary $text]
+            set block ""
+            if {[dict get $sm summary] ne ""} {
+                append block "Summary: [dict get $sm summary]"
+            }
+            if {[dict get $sm level] ne ""} {
+                append block "\nLevel: [dict get $sm level]"
+            }
+            set opening [dict get $sm opening]
+            if {$opening ne ""} {
+                append block "\nOpening: $opening"
+            }
+            if {$block eq ""} { continue }
+            set old [::reviewcoach::strip [sc_pos getComment]]
+            sc_pos setComment [string trim "$old\n\n$block"]
+            continue
+        }
+        if {$kind eq "phase"} {
+            set st ""
+            catch { set st [dict get $phases $key] }
+            if {$st eq ""} { continue }
+            set anchor [dict get $st to]
+            if {[catch { sc_move ply $anchor }] || [sc_pos location] != $anchor} { continue }
+            set fromMove [expr {([dict get $st from] + 1) / 2}]
+            set toMove [expr {([dict get $st to] + 1) / 2}]
+            set block [format "\[Phase %s\] moves %d-%d - accuracy W %.1f%% B %.1f%%, ACPL W %d B %d." \
+                $key $fromMove $toMove \
+                [dict get $st accW] [dict get $st accB] \
+                [dict get $st acplW] [dict get $st acplB]]
+            if {$text ne ""} {
+                append block " " [string trim [regsub -all {\s+} $text " "]]
+            }
+            set old [::reviewcoach::strip [sc_pos getComment]]
+            sc_pos setComment [string trim "$old\n\n$block"]
+            continue
+        }
+        if {$kind eq "moment"} {
+            if {[catch { sc_move ply $key }] || [sc_pos location] != $key} { continue }
+            set old [::reviewcoach::strip [sc_pos getComment]]
+            sc_pos setComment [string trim "$old\n\n\[Coach\] [string trim [regsub -all {\s+} $text " "]]"]
+        }
+    }
+    catch { if {$cursor ne ""} { ::review::cursorRestore $cursor } }
+    return 1
+}
+
+# The answers have landed (or the queue was cancelled): write what arrived, then
+# tell the driver the run is over.
+proc ::reviewcoach::finish {p moves prompts cb results errors cancelled} {
+    variable game
+    set placed 1
+    catch { set placed [::reviewcoach::place $p $moves $prompts $results] }
+    if {!$placed && $game ne "" && [gameNumber] ne $game} {
+        # place already refused; say so once rather than finishing a review that
+        # looks like the coach simply had nothing to add.
+        ::reviewcoach::say ReviewCoachDiscarded
+    }
+    # Cancel keeps the prose that had already been written - it is part of a game
+    # that was written - so say what that was.
+    set kept [dict size $results]
+    if {$cancelled && $kept > 0} {
+        ::reviewcoach::say ReviewCoachKept $kept [llength $prompts]
+    }
+    set game ""
+    if {$cb ne ""} { catch { {*}$cb } }
+    return
+}
+
+# Take every coach block out of the game, on every planned move. Called before
+# the writer, so a review run with the coach off does not leave the last run's
+# prose behind, and before placement, so a new answer replaces the old one.
+proc ::reviewcoach::clear {p results} {
+    set moves {}
+    catch { set moves [::reviewreport::collect $p $results] }
+    set cursor ""
+    catch { set cursor [::review::cursorSave] }
+    stripHeaderAtStart
+    foreach m $moves {
+        set ply [dict get $m ply]
+        if {[catch { sc_move ply $ply }] || [sc_pos location] != $ply} { continue }
+        set old [sc_pos getComment]
+        set new [::reviewcoach::strip $old]
+        if {$new ne [string trim $old]} { sc_pos setComment $new }
+    }
+    catch { if {$cursor ne ""} { ::review::cursorRestore $cursor } }
+    return
+}
+
+# Collect the facts, run the prompts and place the prose. Returns 1 when the
+# queue started, 0 when there is nothing to ask (no provider, no moves).
+proc ::reviewcoach::start {p results cb {onProgress ""}} {
+    if {[llength [info commands ::reviewprose::run]] == 0} { return 0 }
+    if {[llength [info commands ::auto_comment::providerReady]] == 0} { return 0 }
+    set why ""
+    catch { set why [::auto_comment::providerReady] }
+    if {$why ne ""} {
+        # The switch alone is not a provider. Say so once rather than finishing a
+        # review that looks like it silently ignored the setting.
+        ::reviewcoach::say ReviewCoachNoModel
+        return 0
+    }
+    set moves {}
+    catch { set moves [::reviewreport::collect $p $results] }
+    if {![llength $moves]} { return 0 }
+    set ::reviewcoach::game [gameNumber]
+    set prompts [buildPrompts $moves [gameMeta]]
+    if {![llength $prompts]} {
+        set ::reviewcoach::game ""
+        return 0
+    }
+    ::reviewprose::run $prompts $onProgress \
+        [list ::reviewcoach::finish $p $moves $prompts $cb]
+    return 1
 }

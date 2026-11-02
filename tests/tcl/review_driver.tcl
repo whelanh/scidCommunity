@@ -1674,5 +1674,143 @@ pump
 checkEq "a pass without a hook still finishes" \
     [dict get [::reviewdriver::status] state] done
 
+# ── the coach: prose is the last layer, and the run is not over until it lands ──
+#
+# A full review writes the labels, the report and the marks, and only then asks
+# the model for prose. The pass stays open - and the game is already written -
+# while the answers arrive, so a Cancel during that wait still ends the run.
+puts "\nthe coach runs after the write, and holds the run open"
+
+namespace eval ::reviewcoach {}
+namespace eval ::reviewprose {}
+set ::coachStarts {}
+set ::coachClears {}
+set ::proseCancels 0
+proc ::reviewcoach::start {p results cb {onProgress ""}} {
+    lappend ::coachStarts [dict create p $p cb $cb onProgress $onProgress]
+    return 1
+}
+proc ::reviewcoach::clear {p results} { lappend ::coachClears [dict get $p token] }
+proc ::reviewprose::cancel {} {
+    incr ::proseCancels
+    # The real queue finishes its job and calls the coach's callback, which is
+    # what closes the run: a cancelled queue still reports what it kept.
+    if {[llength $::coachStarts]} {
+        {*}[dict get [lindex $::coachStarts end] cb]
+    }
+}
+proc ::reviewprose::status {} { return [dict create active 1 done 0 total 0 cancelled 0] }
+
+proc feedFullReview {} {
+    feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
+    feedEvent InfoPV {1 20 22 900 300 0 0 120 30 cp 0 e2e4 e7e5}
+    feedEvent InfoPV {2 20 22 900 300 0 0 120 20 cp 0 d2d4 d7d5}
+    feedEvent InfoBestMove {}
+    feedEvent InfoPV {1 20 22 900 300 0 0 120 40 cp 0 c7c5}
+    feedEvent InfoPV {2 20 22 900 300 0 0 120 25 cp 0 e7e5 g1f3}
+    feedEvent InfoPV {3 20 22 900 300 0 0 120 10 cp 0 d7d5}
+    feedEvent InfoBestMove {}
+    feedEvent InfoPV {1 20 22 900 300 0 0 120 50 cp 0 d2d4}
+    feedEvent InfoPV {2 20 22 900 300 0 0 120 40 cp 0 b1c3}
+    feedEvent InfoBestMove {}
+    feedEvent InfoPV {1 20 22 900 300 0 0 120 -120 cp 0 e7e6}
+    feedEvent InfoBestMove {}
+    feedEvent InfoPV {1 20 22 900 300 0 0 120 800 cp 0 g8f6}
+    feedEvent InfoBestMove {}
+    pump
+}
+
+::review::reset
+::review::setValue coach 1
+set ::sent {}
+set ::events {}
+set ::fakeComments {}
+set ::fakeNags {}
+set ::fakeVars {}
+set ::fakeLoc 0
+set ::hookCalls {}
+checkEq "a full review with the coach on starts" \
+    [::reviewdriver::run $::runcfg -done ::onRunDone] ""
+feedFullReview
+checkEq "the labels were written before the model was asked" \
+    [dict get [::reviewdriver::status] written] 4
+checkEq "the coach was started once" [llength $::coachStarts] 1
+checkEq "the previous run's prose is taken off before the writer" \
+    [llength $::coachClears] 1
+checkEq "the pass is not over while the model is writing" \
+    [dict get [::reviewdriver::status] state] writing
+checkEq "and the caller's hook has not fired" $::hookCalls {}
+set entry [lindex $::coachStarts 0]
+checkEq "the coach is told how far it has got, in the caller's vocabulary" \
+    [dict get $entry onProgress] ::reviewdriver::proseProgress
+::reviewdriver::proseProgress 3 7
+checkEq "the status line counts the answers" \
+    [list [dict get [::reviewdriver::status] coachDone] \
+          [dict get [::reviewdriver::status] coachTotal]] {3 7}
+# The answers have landed: now, and only now, does the run end.
+{*}[dict get $entry cb]
+pump
+checkEq "the run ends when the prose lands" \
+    [dict get [::reviewdriver::status] state] done
+checkEq "and the hook fires, once" $::hookCalls done
+
+puts "\na run with the coach off does not wait for prose"
+::review::setValue coach 0
+set ::coachStarts {}
+set ::coachClears {}
+set ::hookCalls {}
+checkEq "the review starts" [::reviewdriver::run $::runcfg -done ::onRunDone] ""
+feedFullReview
+checkEq "no coach was asked" [llength $::coachStarts] 0
+checkEq "but the previous prose is still taken off" [llength $::coachClears] 1
+checkEq "the run is over at once" [dict get [::reviewdriver::status] state] done
+checkEq "and the hook still fired" $::hookCalls done
+
+puts "\na single-move pass never runs the coach"
+::review::setValue coach 1
+set ::coachStarts {}
+set ::coachClears {}
+set ::fakeLoc 2
+checkEq "Move Comment starts" [::reviewdriver::run $::runcfg -plies {1}] ""
+feedEvent InfoConfig {}
+feedEvent InfoPV {1 18 18 900 300 0 0 120 20 cp 0 e2e4 e7e5}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 18 18 900 300 0 0 120 -20 cp 0 e7e5 g1f3}
+feedEvent InfoBestMove {}
+pump
+checkEq "one move is not a review the coach writes for" [llength $::coachStarts] 0
+# And it is not a full review, so it must not take the prose off either.
+checkEq "and nothing is cleared" [llength $::coachClears] 0
+checkEq "the pass finished" [dict get [::reviewdriver::status] state] done
+
+puts "\na coach that cannot start does not hold the run open"
+::review::setValue coach 1
+set ::fakeLoc 0
+proc ::reviewcoach::start {p results cb {onProgress ""}} { return 0 }
+checkEq "the review starts" [::reviewdriver::run $::runcfg -done ::onRunDone] ""
+set ::hookCalls {}
+feedFullReview
+checkEq "with no provider the run is simply over" \
+    [dict get [::reviewdriver::status] state] done
+checkEq "and the review still completed" [dict get [::reviewdriver::status] written] 4
+
+puts "\nCancel while the model is writing ends the run and keeps the prose"
+set ::proseCancels 0
+set ::hookCalls {}
+proc ::reviewcoach::start {p results cb {onProgress ""}} {
+    lappend ::coachStarts [dict create p $p cb $cb onProgress $onProgress]
+    return 1
+}
+checkEq "the review starts" [::reviewdriver::run $::runcfg -done ::onRunDone] ""
+feedFullReview
+checkEq "the pass is open" [dict get [::reviewdriver::status] state] writing
+checkEq "Cancel reports that it cancelled something" [::reviewdriver::cancel] 1
+pump
+checkEq "the queue is dropped" $::proseCancels 1
+checkEq "the run is over" [dict get [::reviewdriver::status] state] done
+checkEq "and the chain is released" $::hookCalls done
+::review::setValue coach 0
+::review::reset
+
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]
