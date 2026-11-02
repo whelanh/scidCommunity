@@ -296,6 +296,49 @@ what the **opening** uses (ten or fewer majors-and-minors, below, alongside
 Smyrnov's test and mixedness). A bucket of fewer than four plies is still
 suppressed — three plies of "phase" is a rounding artefact, not a phase.
 
+## The coach's prompts — the facts, and nothing but
+
+`tcl/tools/review_coach.tcl` also builds the requests a model would answer:
+`gameMeta` reads the game's identifying facts, `buildPrompts` decides which
+prompts a results set has, and `summaryPrompt`, `phasePrompt`, `movePrompt` and
+`momentPrompt` write the text. Nothing here calls a model, opens a socket or
+touches the board, so the whole layer is checked in tclsh.
+
+**What a prompt is allowed to contain.** A prompt is a short task, the hard
+rules, and the FACTS block last. The block is the subject's own facts and only
+its own — the game-level facts for the summary, the phase facts for a phase, the
+move facts for a move. Every move, square, number and phase boundary the model
+may name is in that block, and the rules say so: a piece the block does not list
+is not on the board, a line shows only the moves printed in it, and the verdict
+words the scoresheet already uses are named only to be forbidden.
+
+Two places in the text name something outside the block, and both are
+deliberate. The summary prompt carries two worked examples — "the game turned on
+move 9, when Black's queen took the pawn on e4 and was won for a rook" — that
+show the shape of the answer rather than making a claim about the game. And the
+ban list names the labels the move is *not*: a blunder's prompt bans
+"inaccuracy", "mistake" and "miss", never "blunder", which is the word it uses
+itself. Both are instructions to the model, not text it should echo.
+
+**A reply is validated against the facts.** `parseSummary` reads the model's
+answer back into the three blocks the writer places — `summary`, `level` and
+`opening` — and nothing else. A block the prompt never asked for is not invented
+as one; a block that is missing comes back empty, so the writer writes no line
+for it; `NONE` is the answer the prompt asks for when there is no opening name.
+A reply that names a move, a number or a phase that is not in its block is a
+failed request, not text to fix up: the block is what the model was given, and
+prose that reaches past it is prose the reader cannot check against the
+scoresheet.
+
+`buildPrompts` decides which prompts exist, in order: the summary first, then
+one for each phase that has moves, then one for each key moment and each
+mistake, miss or blunder, in ply order and capped at ten. A move with no verdict
+of its own gets no prompt. The same results set gives the same prompts byte for
+byte — nothing in the layer reads a clock or a random number.
+
+The queue that sends these prompts, the prose that comes back and the settings
+that switch the coach on are the next slice, not this one.
+
 ## Files
 
 | File | What is there |
@@ -305,7 +348,7 @@ suppressed — three plies of "phase" is a rounding artefact, not a phase.
 | `tcl/tools/review_annotate.tcl` | `::reviewannotate` — the annotate dialog's decision, the run (single game and batch chain), Cancel, the progress line, the classic marks |
 | `tcl/tools/review_ui.tcl` | `::reviewui` — button state, the call a press makes, dialog values, the time cap's note, the status line |
 | `tcl/tools/review_report.tcl` | the deterministic report: accuracy, ACPL, estimated Elo, key moments, and the phase split with the three-signal opening boundary |
-| `tcl/tools/review_coach.tcl` | `::reviewcoach` — the facts a coach may use: the game-level facts, the turning move and what punished it, the phase facts, and the header-block text helpers. No model, no network |
+| `tcl/tools/review_coach.tcl` | `::reviewcoach` — the facts a coach may use and the prompts built from them: the game-level facts, the turning move and what punished it, the phase facts, the header-block text helpers, the four prompt texts, `buildPrompts` and `parseSummary`. No model, no network |
 | `tcl/windows/engine.tcl` | the two buttons, the status line, the settings dialog (guarded glue) |
 | `tcl/tools/analysis.tcl` | the Analysis window's annotate dialog, its OK (`configAnnotateOK`) and the button on every pane |
 | `tests/tcl/review_settings_dialog.tcl` | under Tk: the dialog builds, has OK/Cancel, stores what is typed, refuses a bad value, the variation box follows `mpv`, the time cap's row shows the preset's cap and drops the note, and both traces are removed when the dialog closes |
@@ -314,7 +357,7 @@ suppressed — three plies of "phase" is a rounding artefact, not a phase.
 | `tests/tcl/annotate_dialog.tcl` | 56 checks: the dialog's decision (pane preset, book end, tier, the non-UCI refusal), the blunders-only filter, and the Cancel label rule |
 | `tests/tcl/annotate_run.tcl` | 39 checks: the plan run against a stub engine, the write, the batch chain, the Cancel escalation and a cancelled run writing nothing |
 | `tests/tcl/review_report.tcl` | 105 checks: accuracy as the app's own figure and the parity a phase starting on Black's move needs, Elo, key moments, the endgame rule — one material total, with the six-piece net rejected at 38 points — the opening boundary — Smyrnov met and half met, rook-less and file/rank connectivity, mixedness at 150 and 161, the material net at ten and eleven, the first-firing signal at 17/21/25, no ply floor — and the block removal, two writes deep |
-| `tests/tcl/review_coach.tcl` | 20 checks: the move facts, the game-level facts, the turning move, the phase facts, the prose markers, and that the header block comes off without taking the report's header with it |
+| `tests/tcl/review_coach.tcl` | 71 checks: the move facts, the game-level facts, the turning move, the phase facts, the prose markers, that the header block comes off without taking the report's header with it, what a prompt may name and what it may not, which prompts a results set has and in what order, that the same set gives the same prompts, the summary reply, and the game's identifying facts |
 
 ## Tests
 
