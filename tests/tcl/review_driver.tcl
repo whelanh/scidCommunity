@@ -1801,14 +1801,37 @@ proc ::reviewcoach::start {p results cb {onProgress ""}} {
     lappend ::coachStarts [dict create p $p cb $cb onProgress $onProgress]
     return 1
 }
+# What the real chain does on a cancel: ::reviewprose::cancel finishes the job and
+# ::reviewcoach::finish passes the queue's `cancelled` on to the driver's callback.
+proc ::reviewprose::cancel {} {
+    incr ::proseCancels
+    if {[llength $::coachStarts]} {
+        {*}[dict get [lindex $::coachStarts end] cb] 1
+    }
+}
 checkEq "the review starts" [::reviewdriver::run $::runcfg -done ::onRunDone] ""
 feedFullReview
 checkEq "the pass is open" [dict get [::reviewdriver::status] state] writing
 checkEq "Cancel reports that it cancelled something" [::reviewdriver::cancel] 1
 pump
 checkEq "the queue is dropped" $::proseCancels 1
-checkEq "the run is over" [dict get [::reviewdriver::status] state] done
-checkEq "and the chain is released" $::hookCalls done
+checkEq "the run is over" [dict get [::reviewdriver::status] state] cancelled
+checkEq "and it says it was cancelled, not that it finished" $::hookCalls cancelled
+
+puts "\na reply that arrives after the cancel does not reopen the run"
+
+# The kill is best-effort, so the transport can still deliver the answer it was
+# waiting for - after the run closed as cancelled. A second delivery of the same
+# completion must change nothing: the pass is gone, the hook has already fired,
+# and no state a caller reads may flip back to done.
+set ::lateCb [dict get [lindex $::coachStarts end] cb]
+set raised [catch { {*}$::lateCb 0 } why]
+check "the late completion raises nothing" [expr {$raised == 0}]
+pump
+checkEq "the run stays cancelled" [dict get [::reviewdriver::status] state] cancelled
+checkEq "and the hook does not fire again" $::hookCalls cancelled
+checkEq "a stale completion cannot close a run that is not there" \
+    [::reviewdriver::proseActive [dict get [lindex $::coachStarts end] p token]] 0
 ::review::setValue coach 0
 ::review::reset
 

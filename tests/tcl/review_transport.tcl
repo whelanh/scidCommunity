@@ -195,6 +195,102 @@ after 1600 {set ::got "__waited__"}
 vwait ::got
 checkEq "and no callback runs afterwards" $::got "__waited__"
 
+puts "\na readable event already queued for a cancelled request is discarded"
+
+# The socket had data and the click that cancels ran first: Tk still dispatches
+# the handler it had already queued, on a request that is no longer in flight.
+# That delivery must discard. Not read, not parse, not call back.
+unset -nocomplain ::got
+set token [::auto_comment::queryAsync "slow" 50 {apply {{text} {set ::got $text}}}]
+::auto_comment::cancelAsync $token
+set raised [catch { ::auto_comment::asyncRead $token } why]
+check "the late delivery is not an error" [expr {$raised == 0}] $why
+after 300 {set ::got "__waited__"}
+vwait ::got
+checkEq "and it hands nothing to the callback" $::got "__waited__"
+
+puts "\non the platform that has kill(1), that is the whole story"
+
+# Recording exec that really runs: the POSIX path must not have changed. Every
+# attempt is kept, so a taskkill that was never needed would be visible here.
+set ::execCalls {}
+rename exec ::realExec
+proc exec {args} {
+    lappend ::execCalls $args
+    return [::realExec {*}$args]
+}
+
+unset -nocomplain ::got
+set token [::auto_comment::queryAsync "slow" 50 {apply {{text} {set ::got $text}}}]
+set chan [dict get $::auto_comment::async($token) chan]
+set childPid [pid $chan]
+set raised [catch { ::auto_comment::cancelAsync $token } why]
+check "cancel does not raise where kill(1) exists" [expr {$raised == 0}] $why
+checkEq "it asks kill(1) for the child" $::execCalls [list [list kill $childPid]]
+check "the pipe is closed, not left half-read" [expr {[catch {eof $chan}]}]
+check "the token is gone" [expr {![info exists ::auto_comment::async($token)]}]
+after 1600 {set ::got "__waited__"}
+vwait ::got
+checkEq "and the child never answers" $::got "__waited__"
+
+puts "\nwhere kill(1) does not exist, taskkill takes the process tree"
+
+# exec as native Windows has it: kill(1) is simply not there. taskkill.exe is,
+# and it is what reaps the tree - the stub takes the pid down the way Windows
+# does, so the child this leaves behind is not a test artefact but the thing
+# the fallback is for.
+proc exec {args} {
+    lappend ::execCalls $args
+    set first [lindex $args 0]
+    if {$first eq "kill"} {
+        return -code error "couldn't execute \"kill\": no such file or directory"
+    }
+    if {$first eq "taskkill.exe"} {
+        set at [lsearch -exact $args /PID]
+        if {$at >= 0} { catch { ::realExec kill [lindex $args [expr {$at + 1}]] } }
+        return ""
+    }
+    return [::realExec {*}$args]
+}
+
+set ::execCalls {}
+unset -nocomplain ::got
+set token [::auto_comment::queryAsync "slow" 50 {apply {{text} {set ::got $text}}}]
+set chan [dict get $::auto_comment::async($token) chan]
+set childPid [pid $chan]
+set raised [catch { ::auto_comment::cancelAsync $token } why]
+check "cancel does not raise when kill(1) is missing" [expr {$raised == 0}] $why
+checkEq "kill(1) is tried first" [lindex $::execCalls 0] [list kill $childPid]
+checkEq "and taskkill takes the tree when kill is not there" \
+    [lindex $::execCalls 1] [list taskkill.exe /PID $childPid /T /F]
+checkEq "two attempts, no more" [llength $::execCalls] 2
+check "the pipe is closed" [expr {[catch {eof $chan}]}]
+check "the token is gone" [expr {![info exists ::auto_comment::async($token)]}]
+checkEq "no request, reply or error file survives it" \
+    [glob -nocomplain -directory $tmproot auto_comment_*] ""
+after 1600 {set ::got "__waited__"}
+vwait ::got
+checkEq "and the reply the child would have written never lands" $::got "__waited__"
+
+puts "\nthe edges of cancel are silent"
+
+# Nothing to kill is not a failure: the caller cannot know whether a request
+# got as far as a process.
+set ::execCalls {}
+set raised [catch { ::auto_comment::cancelChild "" "" } why]
+check "an empty pid raises nothing" [expr {$raised == 0}] $why
+checkEq "and executes nothing" $::execCalls {}
+
+# A token that has already answered is not an error either - the caller's own
+# bookkeeping may lag the callback by a turn, and Cancel must not complain.
+unset -nocomplain ::got
+set token [::auto_comment::queryAsync "one prompt" 50 {apply {{text} {set ::got $text}}}]
+checkEq "the request answers first" [waitFor ::got 8000] "stub says hi"
+set ::execCalls {}
+set raised [catch { ::auto_comment::cancelAsync $token } why]
+check "cancelling a finished request raises nothing" [expr {$raised == 0}] $why
+checkEq "and does not go looking for a child" $::execCalls {}
+
 puts "\nnothing is left behind in the temp directory"
 
 # The request file, the reply file and the auth file are the transport's own

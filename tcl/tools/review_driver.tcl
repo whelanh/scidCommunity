@@ -872,7 +872,13 @@ proc ::reviewdriver::proseActive {token} {
 # pass can close. `restore 0` because the write phase already put the reader
 # back before the coach started, and moving them again would drag a board they
 # have since browsed back to where the pass began.
-proc ::reviewdriver::proseDone {token} {
+#
+# `cancelled` is the queue's own report of how it ended (::reviewcoach::finish
+# passes it through from ::reviewprose::finish), and it is what the state says.
+# A stopped review closed as `done` is a lie a caller cannot see through: the
+# window, the annotate batch and any hook all read this one word, and Cancel
+# emptied the run before the driver here, so nothing else would correct it.
+proc ::reviewdriver::proseDone {token {cancelled 0}} {
     variable pass
     variable state
     variable proseJob
@@ -880,7 +886,7 @@ proc ::reviewdriver::proseDone {token} {
     set p ""
     catch { set p [dict get $proseJob p] }
     set proseJob {}
-    dict set state state done
+    dict set state state [expr {$cancelled ? "cancelled" : "done"}]
     if {$p ne ""} { ::reviewdriver::endRun $p 0 }
 }
 

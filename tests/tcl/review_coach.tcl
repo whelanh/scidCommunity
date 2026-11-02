@@ -582,6 +582,16 @@ set ::reviewcoach::game 7
 ::reviewcoach::finish {} {} {} "" {} {} 0
 check "an ordinary finish says nothing" [expr {[llength $::boxes] == 0}]
 
+# The callback that closes the run is told which of the two endings it got:
+# a cancelled queue is not a finished one, and the driver states it as such.
+set ::endArgs {}
+set ::boxes {}
+::reviewcoach::finish {} {} {} [list apply {{args} {set ::endArgs $args}}] {} {} 1
+checkEq "a cancelled finish tells its callback so" $::endArgs 1
+set ::endArgs {}
+::reviewcoach::finish {} {} {} [list apply {{args} {set ::endArgs $args}}] {} {} 0
+checkEq "and a finished one says it finished" $::endArgs 0
+
 puts "\nstarting the queue"
 
 namespace eval ::reviewprose {}

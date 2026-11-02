@@ -785,7 +785,11 @@ proc ::reviewcoach::finish {p moves prompts cb results errors cancelled} {
         ::reviewcoach::say ReviewCoachKept $kept [llength $prompts]
     }
     set game ""
-    if {$cb ne ""} { catch { {*}$cb } }
+    # The run's own end is the callback's business, and a cancelled queue is not
+    # a finished one: pass on which of the two closed it. The driver turns that
+    # into the state a caller reads, so a review the user stopped is never
+    # reported as a review that ran to the end.
+    if {$cb ne ""} { catch { {*}$cb $cancelled } }
     return
 }
 

@@ -217,6 +217,29 @@ checkEq "its own answer is recorded" \
     [dict get $::results [list move 7 "second run"]] "fresh"
 checkEq "and the run finished" $::done 1
 
+puts "\na reply delivered after the cancel is refused, not written"
+
+# The kill is best-effort: on Windows the fallback can leave a curl running, and
+# the reply it eventually writes is still delivered to the callback the transport
+# was given. That delivery must not become prose, and it must not reopen the run
+# that Cancel closed.
+::reviewprose::clearCache
+set ::asked {}
+runIt [list [item move 10 "slow"] [item move 11 "never"]]
+set late [lindex $::asks 0 2]
+set ::asks [lrange $::asks 1 end]
+::reviewprose::cancel
+settle
+set progressBefore [llength $::progress]
+set resultsBefore [dict size $::results]
+set raised [catch { {*}$late "prose nobody asked for" } why]
+check "the late reply raises nothing" [expr {$raised == 0}] $why
+settle
+checkEq "it is not recorded" [dict size $::results] $resultsBefore
+checkEq "the run does not advance" [llength $::progress] $progressBefore
+checkEq "and it stays cancelled" $::wasCancelled 1
+checkEq "with nothing queued behind it" [llength $::asked] 1
+
 puts "\nthe prose the model writes"
 
 # The summary answers in three labelled lines. Cleaning must not fold them

@@ -113,6 +113,11 @@ proc ::reviewprose::reply {id item args} {
     variable job
     if {![dict size $job] || ![dict get $job active]} { return }
     if {[dict get $job id] ne $id} { return }
+    # A cancelled run discards what the model says next, whatever the channel
+    # does: killing the child is best-effort on both platforms, and on Windows a
+    # curl the fallback cannot reach still answers. The reply is refused here, at
+    # the point where it would become prose, not merely ignored one layer down.
+    if {[dict get $job cancelled]} { return }
     set text [join $args " "]
     if {[string match "ERROR:*" $text]} {
         ::reviewprose::record $id $item "" [string range $text 6 end]
@@ -127,6 +132,7 @@ proc ::reviewprose::record {id item text err} {
     variable cache
     if {![dict size $job] || ![dict get $job active]} { return }
     if {[dict get $job id] ne $id} { return }
+    if {[dict get $job cancelled]} { return }
     # Only the question that is outstanding can be answered. An out-of-order or
     # repeated reply must not advance the queue: one question, one answer.
     set i [dict get $job index]
