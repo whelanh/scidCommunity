@@ -611,6 +611,12 @@ check "the queue was given prompts" \
 check "and a callback for when it finishes" \
     [expr {[lindex [lindex $::proseRun 0] 2] ne ""}]
 checkEq "the game the review belongs to is remembered" $::reviewcoach::game 7
+# A queue that refuses to start (one is already running) must not leave this run
+# waiting for a callback that will never come: the run ends instead.
+proc ::reviewprose::run {prompts onProgress onDone} { return 0 }
+checkEq "a refused queue makes the coach say it did not start" \
+    [::reviewcoach::start {} {} ""] 0
+checkEq "and the game it was writing for is forgotten" $::reviewcoach::game ""
 
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

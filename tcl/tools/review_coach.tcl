@@ -831,7 +831,11 @@ proc ::reviewcoach::start {p results cb {onProgress ""}} {
         set ::reviewcoach::game ""
         return 0
     }
-    ::reviewprose::run $prompts $onProgress \
-        [list ::reviewcoach::finish $p $moves $prompts $cb]
-    return 1
+    # The queue's own answer, not 1: a queue that refuses to start (one is
+    # already running) must not leave this run waiting for a callback that will
+    # never come.
+    set started [::reviewprose::run $prompts $onProgress \
+        [list ::reviewcoach::finish $p $moves $prompts $cb]]
+    if {!$started} { set ::reviewcoach::game "" }
+    return $started
 }
