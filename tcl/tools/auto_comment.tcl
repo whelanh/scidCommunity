@@ -816,6 +816,24 @@ proc ::auto_comment::asyncRead {token} {
     return
 }
 
+# ::auto_comment::cancelChild
+#   Terminate the curl child of an in-flight request on any platform.
+#
+#   POSIX has kill(1); native Windows does not, and `catch {exec kill}` there
+#   silently leaves the child running until --max-time reaps it — a cancelled
+#   request that keeps going, whose reply could still land after the user
+#   cancelled. taskkill /T takes the process tree instead.
+#
+#   Best-effort by nature: a child that has already exited is not an error,
+#   and cancellation must never raise.
+proc ::auto_comment::cancelChild {chan pid} {
+    if {$pid eq ""} { return }
+    if {[catch { exec kill $pid }]} {
+        catch { exec taskkill.exe /PID $pid /T /F }
+    }
+    return
+}
+
 # ::auto_comment::cancelAsync
 #   Stop a request that is still running: kill the child, drop the channel and
 #   forget the token, so the callback never fires. A token that has already
@@ -826,7 +844,7 @@ proc ::auto_comment::cancelAsync {token} {
     set chan [dict get $st chan]
     set pid ""
     catch { set pid [pid $chan] }
-    if {$pid ne ""} { catch { exec kill $pid } }
+    ::auto_comment::cancelChild $chan $pid
     fileevent $chan readable {}
     catch { close $chan }
     set spec [dict get $st spec]
