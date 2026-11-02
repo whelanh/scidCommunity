@@ -912,8 +912,19 @@ proc configure_style {} {
       # _white variants are loaded from img/buttons/ as global names (no icon:: prefix)
       set allNames [dict create]
       foreach n [image names] { dict set allNames $n 1 }
-      foreach iname [dict keys $allNames "icon::*"] {
-        set base [string range $iname 6 end]
+      # image names are absolute (::icon::name). The old "icon::*" pattern
+      # matched none of them, so the cache stayed empty and every toolbar icon
+      # fell back to its black img/buttons image in a dark theme. Accept both
+      # spellings: Tk names the images ::icon::..., and a Tk that ever returns
+      # them without the leading :: still works.
+      foreach iname [dict keys $allNames "*icon::*"] {
+        if {[string match "::icon::*" $iname]} {
+          set base [string range $iname 8 end]
+        } elseif {[string match "icon::*" $iname]} {
+          set base [string range $iname 6 end]
+        } else {
+          continue
+        }
         if {[string match "*_white" $base]} continue
         set whiteName "${base}_white"
         if {[dict exists $allNames $whiteName]} {
