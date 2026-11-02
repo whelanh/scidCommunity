@@ -1557,7 +1557,7 @@ proc makeAnalysisWin { {n 1} {index -1} {autostart 1}} {
 
     if {$n == 1} {
         set ::finishGameMode 0
-        ttk::button $w.b1.bFinishGame -image [::button_image tb_finish_off] -command "toggleFinishGame $n"
+        ttk::button $w.b1.bFinishGame -image ::icon::tb_finish_off -command "toggleFinishGame $n"
         ::utils::tooltip::Set $w.b1.bFinishGame $::tr(FinishGame)
     }
     ttk::button $w.b1.showboard -image [::button_image tb_coords] -command "toggleAnalysisBoard $n"
@@ -1995,11 +1995,11 @@ proc toggleFinishGame { { n 1 } } {
 
 		if {!$::finishGameMode} {
 			set ::finishGameMode 1
-			$b configure -image [::button_image tb_finish_on]
+			$b configure -image ::icon::tb_finish_on
 			after $::autoplayDelay autoplayFinishGame
 		} else {
 			set ::finishGameMode 0
-			$b configure -image [::button_image tb_finish_off]
+			$b configure -image ::icon::tb_finish_off
 			after cancel autoplayFinishGame
 		}
 		return
@@ -2033,7 +2033,7 @@ proc toggleFinishGame { { n 1 } } {
 		sendToEngine 2 "stop"
 		set analysis(waitForReadyOk2) 0
 		set analysis(waitForBestMove2) 0
-		$b configure -image [::button_image tb_finish_off]
+		$b configure -image ::icon::tb_finish_off
 		grab release .analysisWin$n
 		.analysisWin$n.b1.bStartStop configure -state normal
 		.analysisWin$n.b1.move configure -state normal
@@ -2152,7 +2152,7 @@ proc toggleFinishGame { { n 1 } } {
 
 	stopEngineAnalysis 1
 	stopEngineAnalysis 2
-	$b configure -image [::button_image tb_finish_on]
+	$b configure -image ::icon::tb_finish_on
 	.analysisWin$n.b1.bStartStop configure -state disabled
 	.analysisWin$n.b1.move configure -state disabled
 	.analysisWin$n.b1.line configure -state disabled

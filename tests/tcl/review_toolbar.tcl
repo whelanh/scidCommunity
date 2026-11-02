@@ -74,6 +74,9 @@ foreach {key label} $icons {
     }
 }
 
+check "the whole engine toolbar uses ::icon:: images" \
+    [expr {[string first {::button_image} $engineSrc] < 0}]
+
 puts "\nlabels are tooltips, not text"
 
 foreach {button key} {
