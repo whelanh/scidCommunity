@@ -2,7 +2,7 @@
 ### Polskie menu i komunikaty dla ScidCommunity.
 
 # Contributed by Michal Rudolf and Adam Umiastowski.(Scid)
-# Aktualizacja ScidCommunity v5.1.4.49  by Szustan 
+# Aktualizacja ScidCommunity v5.1.4.52  by Szustan 
 
 # addLanguage P Polish 0 utf-8
 # Tekst nazw menu i komunikatów pomocy na pasku stanu w języku polskim.
@@ -317,7 +317,7 @@ menuText P OptionsMovesHighlightLastMoveArrow "Pokaż strzałkę" 0 {Pokaż strz
 menuText P OptionsMovesHighlightLastMoveNag "Pokaż symbole adnotacji" 0
 menuText P OptionsMovesHighlightLastMoveEval "Pokaż symbole oceny" 0
 menuText P OptionsMoves "Posunięcia" 0 {Opcje wprowadzania posunięć}
-menuText E OptionsGamelist "Lista partii" 0 {Opcje listy partii}
+menuText P OptionsGamelist "Lista partii" 0 {Opcje listy partii}
 menuText P OptionsMovesAnimate "Czas animacji" 1 \
   {Ustaw czas trwania animacji posunięć}
 menuText P OptionsMovesDelay "Opóźnienie automatycznego odtwarzania..." 1 \
@@ -867,29 +867,29 @@ translate P MoveLabelGood {Dobre}
 translate P MoveLabelInaccuracy {Niedokładność}
 translate P MoveLabelMistake {Błąd}
 translate P MoveLabelBlunder {Poważny błąd}
-translate P MoveLabelBrilliant {Genialny}
-translate P MoveLabelGreat {Świetny}
-translate P MoveLabelMiss {Przegapiona szansa}
-translate P MoveLabelForced {Wymuszony}
-translate P MoveLabelBook {Teoria}
-translate P GameComment {Komentarz do partii}
+translate P MoveLabelBrilliant {Błyskotliwe}
+translate P MoveLabelGreat {Świetne}
+translate P MoveLabelMiss {Przeoczona szansa}
+translate P MoveLabelForced {Wymuszone}
+translate P MoveLabelBook {Teoria debiutowa}
+translate P GameComment {Komentarz do partii - AI}
 translate P GameCommentTooltip {Przeskanuj partię pod kątem opisanych posunięć i wygeneruj podsumowanie AI}
-translate P ReviewGameButton {Przegląd partii}
-translate P ReviewGameButtonTooltip {Przejrzyj każdy ruch głównego wariantu i go oceń}
-translate P ReviewMoveButton {Komentarz do ruchu}
-translate P ReviewMoveButtonTooltip {Oceń zagrany ruch i zapisz go}
-translate P ReviewSettings {Ustawienia przeglądu}
-translate P ReviewSettingsTooltip {Configure the review settings}
-translate P ReviewVarLines {Warianty do zapisania}
-translate P ReviewVarCp {Margines wariantów (cp)}
-translate P ReviewMoveWait {Czekaj na głębokość przeglądu}
+translate P ReviewGameButton {Analiza partii}
+translate P ReviewGameButtonTooltip {Przeanalizuj każde posunięcie w głównym wariancie i oceń je}
+translate P ReviewMoveButton {Komentarz do posunięcia}
+translate P ReviewMoveButtonTooltip {Oceń podświetlone posunięcie i zapisz w partii}
+translate P ReviewSettings {Ustawienia analizy}
+translate P ReviewSettingsTooltip {Ustaw parametry analizy}
+translate P ReviewVarLines {Liczba wariantów do zapisania}
+translate P ReviewVarCp {Różnica ocen wariantów (cp)}
+translate P ReviewMoveWait {Czekaj na osiągnięcie zadanej głębokości analizy}
 translate P ReviewMovetime {Limit czasu (ms)}
-translate P StopNow {Stop now}
-translate P StopAfterThisGame {Stop after this game}
-translate P ReviewFromPreset {%s (z profilu silnika)}
-translate P ReviewProgress {Przeglądanie pozycji %s z %s}
-translate P ReviewWaitForDepth {Oczekiwanie na głębokość %s}
-translate P ReviewFailed {Przegląd nie powiódł się: %s}
+translate P StopNow {Zatrzymaj teraz}
+translate P StopAfterThisGame {Zatrzymaj po tej partii}
+translate P ReviewFromPreset {%s (z ustawień silnika)}
+translate P ReviewProgress {Analiza pozycji %s z %s}
+translate P ReviewWaitForDepth {Oczekiwanie na głębokość analizy %s}
+translate P ReviewFailed {Analiza nie powiodła się: %s}
 translate P TimeMs {Czas (ms)}
 
 
@@ -911,7 +911,7 @@ translate P EngineTime {Data}
 translate P EngineNew {Nowy}
 translate P EngineEdit {Edytuj}
 translate P EngineRequired {Pola pogrubione są wymagane; pozostałe są opcjonalne}
-translate P EngineNameInUse {Silnik o nazwie %s już istnieje. Zapisać ten jako %s?}
+translate P EngineNameInUse {Silnik o nazwie %s już istnieje. Czy zapisać ten silnik pod nazwą %s?}
 translate P EngineProtocol {Protokół komunikacji}
 translate P EngineNotation {Notacja posunięć}
 translate P EngineFlipEvaluation {Odwróć perspektywę oceny}
@@ -1765,7 +1765,7 @@ translate P Hash {Pamięć hash}
 translate P OwnBook {Użyj księgi silnika}
 translate P BookFile {Księga debiutowa}
 translate P AnnotateVariations {Komentuj warianty}
-translate P AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
+translate P AnnotateVariationsMainLineOnly {Warianty: tylko wariant główny (tryb analizy)}
 translate P ShortAnnotations {Krótkie adnotacje}
 translate P addAnnotatorTag {Dodaj znacznik komentatora}
 translate P AddScoreToShortAnnotations {Dodaj ocenę do adnotacji}
@@ -2027,7 +2027,7 @@ translate P BatchCancel {Anuluj}
 translate P BatchCompleted {zakończono}
 translate P BatchGames {partii}
 translate P BatchProcessed {przetworzono}
-translate P BatchUnscoredPlies {posunięcia bez oceny: %s}
+translate P BatchUnscoredPlies {półposunięcia bez oceny: %s}
 translate P TablebaseWindow {Okno tablic końcówek}
 translate P TBWinMoves {--- Posunięcia wygrywające ---}
 translate P TBDrawMoves {--- Posunięcia remisujące ---}

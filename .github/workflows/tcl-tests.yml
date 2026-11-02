@@ -28,6 +28,9 @@ jobs:
       - name: Startup source order
         run: tclsh tests/tcl/startup_order.tcl
 
+      - name: Review toolbar icons
+        run: tclsh tests/tcl/review_toolbar.tcl
+
       - name: Comment facts
         run: tclsh tests/tcl/comment_facts.tcl
 

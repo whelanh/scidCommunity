@@ -120,7 +120,7 @@ proc ::finishgame::start {ownerId white black} {
         catch { ::engine::send $id NewGame [list analysis post_pv post_wdl $variant] }
     }
     catch { grab $owner }
-    catch { $owner.btn.finish configure -image [::button_image tb_finish_on] }
+    catch { $owner.btn.finish configure -image ::icon::tb_finish_on }
     update idletasks
     ::finishgame::play
     return
@@ -234,7 +234,7 @@ proc ::finishgame::done {reason} {
     ::finishgame::closeEngines
     catch { set ::finishGameMode $::finishgame::oldMode }
     catch { grab release $owner }
-    catch { $owner.btn.finish configure -image [::button_image tb_finish_off] }
+    catch { $owner.btn.finish configure -image ::icon::tb_finish_off }
     set ::finishgame::owner ""
     set ::finishgame::waitId ""
     if {[lsearch -exact {end mate stalemate cancel repetition tablebase} $reason] < 0} {
