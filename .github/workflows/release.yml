@@ -687,6 +687,11 @@ jobs:
       - name: Upload macOS asset to release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
         run: |
+          # No checkout here (to keep this job lightweight), so pass the repo
+          # explicitly: otherwise `gh` runs `git` to detect it and fails with
+          # "not a git repository".
           gh release upload "${{ steps.tag.outputs.tag_name }}" \
-            artifacts/scidCommunity-macos/*.zip --clobber
+            artifacts/scidCommunity-macos/*.zip \
+            --repo "${{ github.repository }}" --clobber
