@@ -682,6 +682,17 @@ proc feedEvent {msgType msgData} {
 }
 proc onRunProgress {done total} { lappend ::runProgress [list $done $total] }
 
+# The deterministic report is part of the pass: the default writer must ask for
+# it, once, from the same results, with the pass's own `report` flag. Recorded
+# here rather than written, because the report's module has its own test; the
+# flag is what decides whether a whole game or a single move gets one.
+namespace eval ::reviewreport {}
+set ::reportCalls {}
+proc ::reviewreport::write {p results} {
+    lappend ::reportCalls [dict create report [dict get $p report] \
+        results [llength $results]]
+}
+
 ::review::reset
 ::review::setValue var_lines 1
 set runcfg {Stockfish /usr/bin/stockfish {} {} 0 0 {} 1 {
@@ -730,6 +741,15 @@ checkEq "the cursor was verified back where the pass found it" [dict get $st res
 checkEq "which is where the reader left it" [list $::fakeLoc $::fakeLevel] {2 0}
 checkEq "progress reports each finished position" [lindex $::runProgress 0] {1 5}
 checkEq "all of them" [llength $::runProgress] 5
+
+# The pass writes the game's report as well as its moves: the header block in the
+# game comment is the only place the accuracy, the tally and the key moments
+# reach the user, and it comes from these same results.
+checkEq "the default writer asks for the game report" [llength $::reportCalls] 1
+checkEq "with the whole-game flag" \
+    [dict get [lindex $::reportCalls 0] report] 1
+check "and the results it just wrote" \
+    [expr {[dict get [lindex $::reportCalls 0] results] > 0}]
 
 # The write phase may only begin once the engine is done with the game: a write
 # moves the board, and the position strings came from a snapshot of it.
@@ -810,6 +830,7 @@ set ::fakeVars {}
 set ::fakeComments {}
 set ::fakeComment ""
 set ::events {}
+set ::reportCalls {}
 set ::runProgress {}
 set ::fakeLen 4
 set ::sent {}
@@ -833,6 +854,8 @@ checkEq "the pass finished" [dict get $st state] done
 checkEq "only the move asked for was written" [llength $comments] 1
 check "and its comment carries the score the pass measured" \
     [expr {[string first {%eval -0.20} [lindex $comments 0]] >= 0}]
+checkEq "and the pass asks for no game report" \
+    [dict get [lindex $::reportCalls 0] report] 0
 
 # The depth is the caller's answer too: a comment has to be the one a review
 # would have written, so the window searches at the review's depth, and a

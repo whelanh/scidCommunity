@@ -1037,6 +1037,13 @@ proc ::reviewdriver::writeResults {p results} {
             lappend errors $err
         }
     }
+    # The deterministic report belongs to the pass, not to a caller: it is
+    # written once, from the same results, after the moves are in the game.
+    # ::reviewreport::write returns at once for a pass that asked for no report
+    # (Move Comment names one ply), so this is the whole-game switch.
+    if {[llength [info commands ::reviewreport::write]]} {
+        catch { ::reviewreport::write $p $results }
+    }
     # The counts, not the state: runDone owns the status dict, so a -writer that
     # is not this proc reports in the same vocabulary.
     return [dict create written $written failed $failed errors $errors]

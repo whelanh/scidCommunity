@@ -245,9 +245,9 @@ the pass's own results — no second search and no model — and it writes one b
 into the game's header comment, marked `[Game review]` so a second run replaces
 the block instead of stacking another under it. It removes only its own lines —
 the marker and the indented lines under it — so a note typed below the block
-survives the next review. In this slice the module is not
-wired to the pass yet: its figures and its boundary rule are tested without a
-board or an engine.
+survives the next review. The default writer of a whole-game pass calls it once
+the moves are in the game, so the header is part of a review rather than a
+separate command; a Move Comment pass names its plies and writes no report.
 
 **Where the opening ends.** Three signals, and the opening ends at the first one
 to fire:
