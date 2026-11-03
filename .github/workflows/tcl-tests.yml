@@ -108,6 +108,10 @@ jobs:
       - name: Review progress dialog
         run: tclsh tests/tcl/review_progress_dialog.tcl
 
+      # The notices this repository claims are the notices it keeps (#422).
+      - name: Licensing
+        run: tclsh tests/tcl/licensing.tcl
+
       - name: Engine preset duplicate
         run: tclsh tests/tcl/engine_duplicate.tcl
 
