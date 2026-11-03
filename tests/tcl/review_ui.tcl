@@ -55,6 +55,13 @@ array set ::EN {
     ReviewProgress          {Reviewing position %s of %s}
     ReviewWaitForDepth      {Waiting for depth %s}
     ReviewFailed            {Review failed: %s}
+    ReviewCoach             {Coach prose}
+    ReviewCoachProgress     {annotating %s of %s · prose %s of %s}
+    ReviewWriting           {Writing the review...}
+    ReviewCoachSettings     {Coach settings...}
+    ReviewCoachNoModel      {Coach prose is on, but no model is configured. Press Coach settings... in Review Settings to choose a provider and model.}
+    ReviewCoachKept         {Review cancelled: %s of %s coach notes were kept.}
+    ReviewCoachDiscarded    {The review is complete, but the coach prose was discarded: another game was opened while the model was writing.}
     Lines                   {Lines}
     Depth                   {Depth}
 }
@@ -63,13 +70,15 @@ proc tr {tag} {
     return $tag
 }
 # The keys that must be in every language file: the fifteen above are Scid's
-# already, and the fourteen new ones are the assertion at the end of this file.
+# already, and the rest are the assertion at the end of this file.
 set ::NEWKEYS {
     ReviewGameButton ReviewGameButtonTooltip ReviewMoveButton
     ReviewMoveButtonTooltip ReviewSettings ReviewSettingsTooltip
     ReviewVarLines ReviewVarCp
     ReviewMoveWait ReviewMovetime ReviewFromPreset ReviewProgress
     ReviewWaitForDepth ReviewFailed
+    ReviewCoach ReviewCoachProgress ReviewWriting ReviewCoachSettings
+    ReviewCoachNoModel ReviewCoachKept ReviewCoachDiscarded
 }
 
 puts "which button is live"
@@ -219,8 +228,21 @@ checkEq "a search says where it has got to" \
 checkEq "before the first answer it still says how many there are" \
     [::reviewui::statusText [passState searching total 7]] \
     {Reviewing position 0 of 7}
-checkEq "the write phase has nothing left to count" \
-    [::reviewui::statusText [passState writing searched 7 total 7]] ""
+# The engine pass is over when the write phase starts; the coach may still be
+# waiting on a model. A pass that is doing useful work must say so rather than
+# showing an empty line, and while the coach counts answers the line carries
+# both counts - the search is over, and the reader can see how much prose is
+# still to come.
+checkEq "the write phase says it is writing" \
+    [::reviewui::statusText [passState writing searched 7 total 7]] \
+    {Writing the review...}
+checkEq "and while the coach is waiting it counts both" \
+    [::reviewui::statusText [passState writing searched 31 total 31 \
+        coachDone 7 coachTotal 9]] \
+    {annotating 31 of 31 · prose 7 of 9}
+checkEq "a coach count with nothing to annotate still reads" \
+    [::reviewui::statusText [passState writing coachDone 0 coachTotal 2]] \
+    {annotating 0 of 0 · prose 0 of 2}
 checkEq "a finished run leaves the game to speak for it" \
     [::reviewui::statusText [passState done searched 7 total 7 written 7]] ""
 checkEq "a cancelled run wrote nothing and says nothing" \
@@ -242,19 +264,20 @@ checkEq "an empty state is idle" [::reviewui::statusText {}] ""
 
 puts "what the settings dialog holds"
 
-# The dialog owns seven settings. Threads and Hash are not among them: they belong
-# to the engine preset (#382), and a second place to set them is a second place
-# to get them wrong. The dialog shows them, read-only, from the preset.
+# The dialog owns eight settings. Threads and Hash are not among them: they
+# belong to the engine preset (#382), and a second place to set them is a second
+# place to get them wrong. The dialog shows them, read-only, from the preset.
 ::review::reset
 set s [::reviewui::settings]
-checkEq "seven rows, no threads, no hash" [dict keys $s] \
-    {mpv depth movetime var_lines var_cp move_comment_wait diagram}
+checkEq "eight rows, no threads, no hash" [dict keys $s] \
+    {mpv depth movetime var_lines var_cp move_comment_wait diagram coach}
 checkEq "at their defaults" [dict get $s depth] 18
 checkEq "with no time cap of its own" [dict get $s movetime] 0
 checkEq "and mpv with them" [dict get $s mpv] 3
+checkEq "the coach off unless it is asked for" [dict get $s coach] 0
 
 set good [dict create mpv 4 depth 24 movetime 1500 var_lines 2 var_cp 40 \
-    move_comment_wait 0 diagram 1]
+    move_comment_wait 0 diagram 1 coach 1]
 checkEq "a valid dialog is stored without complaint" [::reviewui::applySettings $good] {}
 checkEq "and reads straight back" [::reviewui::settings] $good
 checkEq "the cap is stored as the review's own option" $::reviewopt(movetime) 1500
@@ -406,7 +429,7 @@ checkEq "its tooltip" [::reviewui::label ReviewGameButtonTooltip] \
     {Review every move of the main line and label it}
 checkEq "the Move Comment button's text" [::reviewui::label ReviewMoveButton] {Move Comment}
 checkEq "the settings dialog's title" [::reviewui::label ReviewSettings] {Review Settings}
-foreach key {mpv depth movetime var_lines var_cp move_comment_wait diagram} {
+foreach key {mpv depth movetime var_lines var_cp move_comment_wait diagram coach} {
     check "the $key row has a label" \
         [expr {[::reviewui::settingLabel $key] ne "" && [::reviewui::settingLabel $key] ne $key}]
 }
@@ -458,7 +481,7 @@ foreach file [lsort [dict keys $langCodes]] {
             lappend missing $key
         }
     }
-    check "$file carries the thirteen review keys" [expr {![llength $missing]}] \
+    check "$file carries every review key ([llength $::NEWKEYS])" [expr {![llength $missing]}] \
         "missing: $missing"
     if {[llength $missing]} { lappend missingAll $file }
 }
@@ -528,7 +551,7 @@ puts "the dialog's spin boxes"
 # A spinbox needs bounds, and they have to agree with what ::review::setValue
 # accepts: a box that offers a value the setter refuses is a dialog that cannot
 # be completed.
-foreach key {mpv depth movetime var_lines var_cp move_comment_wait diagram} {
+foreach key {mpv depth movetime var_lines var_cp move_comment_wait diagram coach} {
     set range [::reviewui::settingRange $key]
     check "$key has a range" [expr {[llength $range] == 2}]
     lassign $range lo hi

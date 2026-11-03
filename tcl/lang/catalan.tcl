@@ -876,6 +876,13 @@ translate K ReviewFromPreset {%s (del perfil del motor)}
 translate K ReviewProgress {S'està revisant la posició %s de %s}
 translate K ReviewWaitForDepth {S'està esperant la profunditat %s}
 translate K ReviewFailed {La revisió ha fallat: %s}
+translate K ReviewCoach {Text de l'entrenador}
+translate K ReviewCoachProgress {anotació %s de %s · text %s de %s}
+translate K ReviewWriting {S'està escrivint l'anàlisi...}
+translate K ReviewCoachSettings {Configuració de l'entrenador...}
+translate K ReviewCoachNoModel {El text de l'entrenador està activat, però no hi ha cap model configurat. Obriu la configuració de l'anàlisi i premeu Configuració de l'entrenador... per triar un proveïdor i un model.}
+translate K ReviewCoachKept {Anàlisi cancel·lada: s'han conservat %s de %s notes de l'entrenador.}
+translate K ReviewCoachDiscarded {L'anàlisi està completa, però el text de l'entrenador s'ha descartat: s'ha obert una altra partida mentre el model escrivia.}
 translate K TimeMs {Temps (ms)}
 
 

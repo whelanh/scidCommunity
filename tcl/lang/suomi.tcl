@@ -889,6 +889,13 @@ translate U ReviewFromPreset {%s (moottorin asetuksista)}
 translate U ReviewProgress {Tarkastetaan asemaa %s / %s}
 translate U ReviewWaitForDepth {Odotetaan syvyyttä %s}
 translate U ReviewFailed {Tarkastus epäonnistui: %s}
+translate U ReviewCoach {Valmentajan teksti}
+translate U ReviewCoachProgress {merkintä %s / %s · teksti %s / %s}
+translate U ReviewWriting {Kirjoitetaan analyysia...}
+translate U ReviewCoachSettings {Valmentajan asetukset...}
+translate U ReviewCoachNoModel {Valmentajan teksti on päällä, mutta mallia ei ole määritetty. Avaa analyysin asetukset ja paina Valmentajan asetukset... valitaksesi palveluntarjoajan ja mallin.}
+translate U ReviewCoachKept {Analyysi peruutettu: %s / %s valmentajan merkintää säilytettiin.}
+translate U ReviewCoachDiscarded {Analyysi on valmis, mutta valmentajan teksti hylättiin: toinen peli avattiin mallin kirjoittaessa.}
 translate U TimeMs {Aika (ms)}
 
 

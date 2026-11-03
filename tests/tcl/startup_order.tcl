@@ -82,6 +82,9 @@ foreach f {
     tools/review_driver.tcl
     tools/review_annotate.tcl
     tools/review_ui.tcl
+    tools/review_report.tcl
+    tools/review_coach.tcl
+    tools/review_prose.tcl
     tools/engine_limits.tcl
     tools/finish_game.tcl
     tools/comment_facts.tcl

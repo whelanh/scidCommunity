@@ -882,6 +882,13 @@ translate G ReviewFromPreset {%s (από το προφίλ μηχανής)}
 translate G ReviewProgress {Έλεγχος θέσης %s από %s}
 translate G ReviewWaitForDepth {Αναμονή για βάθος %s}
 translate G ReviewFailed {Ο έλεγχος απέτυχε: %s}
+translate G ReviewCoach {Κείμενο προπονητή}
+translate G ReviewCoachProgress {σχολιασμός %s από %s · κείμενο %s από %s}
+translate G ReviewWriting {Σύνταξη ανάλυσης...}
+translate G ReviewCoachSettings {Ρυθμίσεις προπονητή...}
+translate G ReviewCoachNoModel {Το κείμενο προπονητή είναι ενεργό, αλλά δεν έχει ρυθμιστεί μοντέλο. Ανοίξτε τις ρυθμίσεις ανάλυσης και πατήστε Ρυθμίσεις προπονητή... για να επιλέξετε πάροχο και μοντέλο.}
+translate G ReviewCoachKept {Η ανάλυση ακυρώθηκε: κρατήθηκαν %s από %s σημειώσεις προπονητή.}
+translate G ReviewCoachDiscarded {Η ανάλυση ολοκληρώθηκε, αλλά το κείμενο προπονητή απορρίφθηκε: άνοιξε άλλη παρτίδα όσο έγραφε το μοντέλο.}
 translate G TimeMs {Χρόνος(ms)}
 
 

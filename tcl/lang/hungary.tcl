@@ -858,6 +858,13 @@ translate H ReviewFromPreset {%s (a motorprofilból)}
 translate H ReviewProgress {Áttekintés: %s. pozíció / %s}
 translate H ReviewWaitForDepth {Várakozás %s mélységre}
 translate H ReviewFailed {Az áttekintés nem sikerült: %s}
+translate H ReviewCoach {Edzőszöveg}
+translate H ReviewCoachProgress {jelölés %s / %s · szöveg %s / %s}
+translate H ReviewWriting {A jelentés írása...}
+translate H ReviewCoachSettings {Edző beállításai...}
+translate H ReviewCoachNoModel {Az edzőszöveg be van kapcsolva, de nincs modell beállítva. Nyissa meg a jelentés beállításait, és nyomja meg az Edző beállításai... gombot a szolgáltató és a modell kiválasztásához.}
+translate H ReviewCoachKept {Jelentés megszakítva: %s / %s edzőmegjegyzés megmaradt.}
+translate H ReviewCoachDiscarded {A jelentés elkészült, de az edzőszöveg elveszett: a modell írása közben másik játszmát nyitott meg.}
 translate H TimeMs {Idõ (ms)}
 
 

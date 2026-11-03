@@ -890,6 +890,13 @@ translate P ReviewFromPreset {%s (z ustawień silnika)}
 translate P ReviewProgress {Analiza pozycji %s z %s}
 translate P ReviewWaitForDepth {Oczekiwanie na głębokość analizy %s}
 translate P ReviewFailed {Analiza nie powiodła się: %s}
+translate P ReviewCoach {Tekst trenera}
+translate P ReviewCoachProgress {adnotacja %s z %s · tekst %s z %s}
+translate P ReviewWriting {Zapisywanie przeglądu...}
+translate P ReviewCoachSettings {Ustawienia trenera...}
+translate P ReviewCoachNoModel {Tekst trenera jest włączony, ale nie wybrano modelu. Otwórz ustawienia przeglądu i naciśnij Ustawienia trenera..., aby wybrać dostawcę i model.}
+translate P ReviewCoachKept {Przegląd anulowany: zachowano %s z %s notatek trenera.}
+translate P ReviewCoachDiscarded {Przegląd jest gotowy, ale tekst trenera został odrzucony: podczas pisania modelu otwarto inną partię.}
 translate P TimeMs {Czas (ms)}
 
 

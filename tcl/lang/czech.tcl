@@ -855,6 +855,13 @@ translate C ReviewFromPreset {%s (z předvolby motoru)}
 translate C ReviewProgress {Prohlíží se pozice %s z %s}
 translate C ReviewWaitForDepth {Čeká se na hloubku %s}
 translate C ReviewFailed {Prohlídka selhala: %s}
+translate C ReviewCoach {Text trenéra}
+translate C ReviewCoachProgress {anotace %s z %s · text %s z %s}
+translate C ReviewWriting {Zapisuji přehled...}
+translate C ReviewCoachSettings {Nastavení trenéra...}
+translate C ReviewCoachNoModel {Text trenéra je zapnutý, ale není nastaven žádný model. V nastavení přehledu stiskněte Nastavení trenéra... a vyberte poskytovatele a model.}
+translate C ReviewCoachKept {Přehled zrušen: zachováno %s z %s poznámek trenéra.}
+translate C ReviewCoachDiscarded {Přehled je hotový, ale text trenéra byl zahozen: během psaní modelu byla otevřena jiná partie.}
 translate C TimeMs {as (ms)}
 
 

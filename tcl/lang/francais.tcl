@@ -863,6 +863,13 @@ translate F ReviewFromPreset {%s (profil du moteur)}
 translate F ReviewProgress {Analyse de la position %s sur %s}
 translate F ReviewWaitForDepth {En attente de la profondeur %s}
 translate F ReviewFailed {Échec de l'analyse : %s}
+translate F ReviewCoach {Texte du coach}
+translate F ReviewCoachProgress {annotation %s sur %s · texte %s sur %s}
+translate F ReviewWriting {Rédaction de l'analyse...}
+translate F ReviewCoachSettings {Réglages du coach...}
+translate F ReviewCoachNoModel {Le texte du coach est activé, mais aucun modèle n'est configuré. Ouvrez les réglages de l'analyse et appuyez sur Réglages du coach... pour choisir un fournisseur et un modèle.}
+translate F ReviewCoachKept {Analyse annulée : %s notes du coach sur %s ont été conservées.}
+translate F ReviewCoachDiscarded {L'analyse est terminée, mais le texte du coach a été abandonné : une autre partie a été ouverte pendant que le modèle écrivait.}
 translate F TimeMs {Temps (ms)}
 
 

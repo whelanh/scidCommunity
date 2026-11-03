@@ -861,6 +861,13 @@ translate W ReviewFromPreset {%s (från motorprofilen)}
 translate W ReviewProgress {Granskar ställning %s av %s}
 translate W ReviewWaitForDepth {Väntar på djup %s}
 translate W ReviewFailed {Granskningen misslyckades: %s}
+translate W ReviewCoach {Tränartext}
+translate W ReviewCoachProgress {annoterar %s av %s · text %s av %s}
+translate W ReviewWriting {Skriver granskningen...}
+translate W ReviewCoachSettings {Tränarinställningar...}
+translate W ReviewCoachNoModel {Tränartexten är på, men ingen modell är konfigurerad. Öppna granskningsinställningarna och tryck på Tränarinställningar... för att välja leverantör och modell.}
+translate W ReviewCoachKept {Granskning avbruten: %s av %s tränarnoter behölls.}
+translate W ReviewCoachDiscarded {Granskningen är klar, men tränartexten kasserades: ett annat parti öppnades medan modellen skrev.}
 translate W TimeMs {Tid(ms)}
 
 

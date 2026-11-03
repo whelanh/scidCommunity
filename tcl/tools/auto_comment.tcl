@@ -581,25 +581,25 @@ proc ::auto_comment::post303Flag {} {
     return $::auto_comment::post303
 }
 
-# ::auto_comment::queryChat
-#   The transport for both generic providers: one request shape per provider,
-#   written to a temp file and handed to curl, exactly like the native DeepSeek
-#   path so Windows (curl.exe) and Unix behave the same.
-proc ::auto_comment::queryChat {prompt {maxTokens 300}} {
+# ::auto_comment::chatSpec
+#   The request one generic chat call needs: the curl argv, the three files and
+#   the auth file. Shared by the blocking and the asynchronous transports so the
+#   two cannot drift in their endpoints, headers or redirect rules.
+proc ::auto_comment::chatSpec {prompt {maxTokens 300}} {
     set reason [::auto_comment::providerReady]
-    if {$reason ne ""} { return "ERROR: $reason" }
+    if {$reason ne ""} { return [dict create error "ERROR: $reason"] }
     # Only the OpenAI-compatible channel sends a user key to a user-typed URL.
     # Gating on the provider keeps unrelated saved settings from rejecting a
     # local request the user never pointed at that endpoint.
     if {$::auto_comment::provider eq "openai"} {
         set refuse [::auto_comment::cleartextKeyError $::auto_comment::openaiUrl $::auto_comment::openaiKey]
-        if {$refuse ne ""} { return "ERROR: $refuse" }
+        if {$refuse ne ""} { return [dict create error "ERROR: $refuse"] }
     }
     set url [::auto_comment::chatEndpoint]
     set body [::auto_comment::chatBody $prompt $maxTokens]
 
     if {[catch {set tmpfile [::auto_comment::writeRequestFile $body chat]} err]} {
-        return "ERROR: cannot write the request: $err"
+        return [dict create error "ERROR: cannot write the request: $err"]
     }
     # The reply goes to its own file, so curl's stdout carries nothing but the
     # status code. Without it a 301 from "http://host/v1" arrived as an empty
@@ -607,7 +607,7 @@ proc ::auto_comment::queryChat {prompt {maxTokens 300}} {
     # name)" - the model name had nothing to do with it.
     if {[catch {set replyfile [::auto_comment::writeRequestFile "" reply]} err]} {
         catch {file delete -force $tmpfile}
-        return "ERROR: cannot write the request: $err"
+        return [dict create error "ERROR: cannot write the request: $err"]
     }
 
     # -L follows a redirect and --post30x keeps the POST body across it: a base
@@ -633,7 +633,7 @@ proc ::auto_comment::queryChat {prompt {maxTokens 300}} {
         if {[catch {set authfile [::auto_comment::writeCurlConfig $auth]} err]} {
             catch {file delete -force $tmpfile}
             catch {file delete -force $replyfile}
-            return "ERROR: cannot write the request: $err"
+            return [dict create error "ERROR: cannot write the request: $err"]
         }
         lappend args --config $authfile
     }
@@ -643,14 +643,37 @@ proc ::auto_comment::queryChat {prompt {maxTokens 300}} {
         catch {file delete -force $replyfile}
         # the auth file holds the key: a failure here must not leave it behind
         if {$authfile ne ""} { catch {file delete -force $authfile} }
-        return "ERROR: cannot write the request: $err"
+        return [dict create error "ERROR: cannot write the request: $err"]
     }
+    return [dict create args $args tmpfile $tmpfile replyfile $replyfile \
+        errfile $errfile authfile $authfile]
+}
+
+# The two files a request leaves behind that are not read afterwards: the request
+# body and the auth header. The reply and error files are read (and deleted) by
+# the caller, so they must survive this.
+proc ::auto_comment::chatCleanup {spec} {
+    catch { file delete -force [dict get $spec tmpfile] }
+    catch { file delete -force [dict get $spec authfile] }
+    return
+}
+
+# ::auto_comment::queryChat
+#   The transport for both generic providers: one request shape per provider,
+#   written to a temp file and handed to curl, exactly like the native DeepSeek
+#   path so Windows (curl.exe) and Unix behave the same. Blocking: see
+#   ::auto_comment::queryAsync for the same request on the event loop.
+proc ::auto_comment::queryChat {prompt {maxTokens 300}} {
+    set spec [::auto_comment::chatSpec $prompt $maxTokens]
+    if {[dict exists $spec error]} { return [dict get $spec error] }
+    set args [dict get $spec args]
+    set replyfile [dict get $spec replyfile]
+    set errfile [dict get $spec errfile]
 
     set result ""
     set ok 0
     if {![catch {exec {*}$args 2> $errfile} result]} { set ok 1 }
-    catch { file delete -force $tmpfile }
-    if {$authfile ne ""} { catch {file delete -force $authfile} }
+    ::auto_comment::chatCleanup $spec
 
     set raw [::auto_comment::readAndDelete $replyfile]
     set reason [string trim [::auto_comment::readAndDelete $errfile]]
@@ -662,12 +685,12 @@ proc ::auto_comment::queryChat {prompt {maxTokens 300}} {
     if {!$ok} {
         # A redirect loop is an exit code, not an empty body: name it as the
         # redirect it is before falling back to curl's own words.
-        set failure [::auto_comment::replyFailure $status $raw [expr {$auth ne ""}]]
+        set failure [::auto_comment::replyFailure $status $raw [expr {[dict get $spec authfile] ne ""}]]
         if {$failure ne ""} { return $failure }
         if {$reason eq ""} { set reason "curl exited without a message" }
         return "ERROR: request failed: $reason"
     }
-    set failure [::auto_comment::replyFailure $status $raw [expr {$auth ne ""}]]
+    set failure [::auto_comment::replyFailure $status $raw [expr {[dict get $spec authfile] ne ""}]]
     if {$failure ne ""} { return $failure }
     set text [::auto_comment::finishReply $raw]
     if {$text eq ""} {
@@ -683,6 +706,153 @@ proc ::auto_comment::queryChat {prompt {maxTokens 300}} {
 #   the PGN.
 proc ::auto_comment::finishReply {raw} {
     return [string trim [::auto_comment::cleanupText [::auto_comment::replyText $raw]]]
+}
+
+# ::auto_comment::queryAsync
+#   The same request as queryChat, without blocking the Tk event loop. The reply
+#   is read from the curl pipe by fileevent and handed to callback as `text` (or
+#   an "ERROR: ..." string); the callback runs on the event loop, never inside
+#   this call, so a caller can set its state up after asking. Returns the token
+#   ::auto_comment::cancelAsync takes, or "" when nothing was started.
+#
+#   The review is the reason this exists: a coach run asks up to fourteen
+#   questions, and a request that blocks the thread freezes the board, the
+#   status line and Cancel for as long as the model takes. --max-time still
+#   bounds a hung endpoint: curl exits and the callback reports it.
+proc ::auto_comment::queryAsync {prompt {maxTokens 300} callback} {
+    set why ""
+    catch { set why [::auto_comment::providerReady] }
+    if {$why ne ""} {
+        after 0 [list {*}$callback "ERROR: $why"]
+        return ""
+    }
+    set parser ""
+    switch -- $::auto_comment::provider {
+        gemini {
+            set spec [::auto_comment::geminiSpec $prompt]
+            set parser ::auto_comment::geminiText
+        }
+        deepseek {
+            set spec [::auto_comment::deepseekSpec $prompt]
+            set parser ::auto_comment::deepseekText
+        }
+        default {
+            set spec [::auto_comment::chatSpec $prompt $maxTokens]
+        }
+    }
+    if {[dict exists $spec error]} {
+        after 0 [list {*}$callback [dict get $spec error]]
+        return ""
+    }
+    set args [dict get $spec args]
+    if {[catch {set chan [open [list | {*}$args] r]} err]} {
+        ::auto_comment::chatCleanup $spec
+        catch { file delete -force [dict get $spec replyfile] }
+        catch { file delete -force [dict get $spec errfile] }
+        after 0 [list {*}$callback "ERROR: $err"]
+        return ""
+    }
+    fconfigure $chan -blocking 0 -buffering none
+    if {![info exists ::auto_comment::asyncSeq]} { set ::auto_comment::asyncSeq 0 }
+    incr ::auto_comment::asyncSeq
+    set token "async$::auto_comment::asyncSeq"
+    # Kept per token, not in one job variable: two requests may be in flight -
+    # the review asks the next question only after an answer, but nothing in the
+    # transport enforces that.
+    set ::auto_comment::async($token) [dict create chan $chan spec $spec out "" \
+        callback $callback parser $parser]
+    fileevent $chan readable [list ::auto_comment::asyncRead $token]
+    return $token
+}
+
+# The child's stdout (the status code, or the whole body for a native provider)
+# is read as it arrives; EOF is the end of the request.
+proc ::auto_comment::asyncRead {token} {
+    if {![info exists ::auto_comment::async($token)]} { return }
+    set st $::auto_comment::async($token)
+    set chan [dict get $st chan]
+    if {![eof $chan]} {
+        dict append st out [read $chan]
+        set ::auto_comment::async($token) $st
+        return
+    }
+    dict append st out [read $chan]
+    fileevent $chan readable {}
+    catch { close $chan }
+    set spec [dict get $st spec]
+    ::auto_comment::chatCleanup $spec
+    set cb [dict get $st callback]
+    set parser [dict get $st parser]
+    set raw [expr {[dict exists $spec replyfile] ? [::auto_comment::readAndDelete [dict get $spec replyfile]] : [dict get $st out]}]
+    set reason ""
+    catch { set reason [string trim [::auto_comment::readAndDelete [dict get $spec errfile]]] }
+    set status ""
+    if {[dict exists $spec replyfile]} {
+        regexp {^([0-9]{3})} [string trim [dict get $st out]] -> status
+    }
+    set auth [expr {[dict get $spec authfile] ne ""}]
+    unset ::auto_comment::async($token)
+
+    if {$parser ne ""} {
+        {*}$cb [{*}$parser $raw]
+        return
+    }
+    set failure [::auto_comment::replyFailure $status $raw $auth]
+    if {$failure ne ""} {
+        {*}$cb $failure
+        return
+    }
+    # A transfer that never completed reports 000 on stdout and explains itself
+    # on stderr; without this it reads as an empty body from a working endpoint.
+    if {$reason ne "" && $status eq "000"} {
+        {*}$cb "ERROR: request failed: $reason"
+        return
+    }
+    set text [::auto_comment::finishReply $raw]
+    if {$text eq ""} {
+        set text "ERROR: [::auto_comment::emptyReplyError $status $raw]"
+    }
+    {*}$cb $text
+    return
+}
+
+# ::auto_comment::cancelChild
+#   Terminate the curl child of an in-flight request on any platform.
+#
+#   POSIX has kill(1); native Windows does not, and `catch {exec kill}` there
+#   silently leaves the child running until --max-time reaps it — a cancelled
+#   request that keeps going, whose reply could still land after the user
+#   cancelled. taskkill /T takes the process tree instead.
+#
+#   Best-effort by nature: a child that has already exited is not an error,
+#   and cancellation must never raise.
+proc ::auto_comment::cancelChild {chan pid} {
+    if {$pid eq ""} { return }
+    if {[catch { exec kill $pid }]} {
+        catch { exec taskkill.exe /PID $pid /T /F }
+    }
+    return
+}
+
+# ::auto_comment::cancelAsync
+#   Stop a request that is still running: kill the child, drop the channel and
+#   forget the token, so the callback never fires. A token that has already
+#   answered is not an error.
+proc ::auto_comment::cancelAsync {token} {
+    if {$token eq "" || ![info exists ::auto_comment::async($token)]} { return }
+    set st $::auto_comment::async($token)
+    set chan [dict get $st chan]
+    set pid ""
+    catch { set pid [pid $chan] }
+    ::auto_comment::cancelChild $chan $pid
+    fileevent $chan readable {}
+    catch { close $chan }
+    set spec [dict get $st spec]
+    ::auto_comment::chatCleanup $spec
+    catch { file delete -force [dict get $spec replyfile] }
+    catch { file delete -force [dict get $spec errfile] }
+    unset ::auto_comment::async($token)
+    return
 }
 
 # ::auto_comment::modelChoices
@@ -1815,6 +1985,86 @@ proc ::auto_comment::loadModels {combo provider} {
         raise $owner
         focus -force $owner
     }
+}
+
+# Native Gemini and DeepSeek request specs and reply parsers, for the
+# asynchronous entry point. The blocking procs below keep their own transports,
+# debug logging included; these carry only what a second entry point needs, so
+# the async path cannot fall back to exec on the Tk thread for either provider.
+proc ::auto_comment::geminiSpec {prompt} {
+    set model $::auto_comment::model
+    set url "$::auto_comment::geminiApiBase/$model:generateContent"
+    set body "{\"contents\":\[{\"parts\":\[{\"text\":\"[::auto_comment::escapeJson $prompt]\"}\]}\]}"
+    if {[catch {set tmpfile [::auto_comment::writeRequestFile $body req]} err]} {
+        return [dict create error "ERROR: cannot write the request: $err"]
+    }
+    if {[catch {set replyfile [::auto_comment::writeRequestFile "" reply]} err]} {
+        catch {file delete -force $tmpfile}
+        return [dict create error "ERROR: cannot write the request: $err"]
+    }
+    set args [list curl -s --connect-timeout 15 --max-time 60 \
+        -H {Content-Type: application/json} \
+        -H "x-goog-api-key: $::auto_comment::apiKey" \
+        -o $replyfile -w {%{http_code}} -X POST -d @$tmpfile $url]
+    return [dict create args $args tmpfile $tmpfile replyfile $replyfile authfile ""]
+}
+
+proc ::auto_comment::deepseekSpec {prompt} {
+    set model $::auto_comment::deepseekModel
+    set url "$::auto_comment::deepseekApiBase/chat/completions"
+    set body "{\"model\":\"$model\",\"messages\":\[{\"role\":\"user\",\"content\":\"[::auto_comment::escapeJson $prompt]\"}\],\"stream\":false,\"temperature\":1.0}"
+    if {[catch {set tmpfile [::auto_comment::writeRequestFile $body req]} err]} {
+        return [dict create error "ERROR: cannot write the request: $err"]
+    }
+    set authfile ""
+    if {[catch {set authfile [::auto_comment::writeCurlConfig \
+            "Authorization: Bearer $::auto_comment::deepseekApiKey"]} err]} {
+        catch {file delete -force $tmpfile}
+        return [dict create error "ERROR: cannot write the request: $err"]
+    }
+    if {[catch {set replyfile [::auto_comment::writeRequestFile "" reply]} err]} {
+        catch {file delete -force $tmpfile}
+        catch {file delete -force $authfile}
+        return [dict create error "ERROR: cannot write the request: $err"]
+    }
+    set args [list curl -s --connect-timeout 15 --max-time 180 \
+        -H {Content-Type: application/json} --config $authfile \
+        -o $replyfile -w {%{http_code}} -X POST --data-binary @$tmpfile $url]
+    return [dict create args $args tmpfile $tmpfile replyfile $replyfile authfile $authfile]
+}
+
+proc ::auto_comment::geminiText {raw} {
+    if {[regexp {"error"\s*:\s*\{} $raw]} {
+        set errMsg ""
+        regexp {"message"\s*:\s*"([^"]*)"} $raw -> errMsg
+        return "ERROR: $errMsg"
+    }
+    if {![regexp {"text"\s*:\s*"((?:[^"\\]|\\.)*)"} $raw -> rawText]} {
+        return "ERROR: Could not parse the Gemini response (it may have been blocked by safety filters)."
+    }
+    set text [string map {"\\n" "\n" "\\r" "" "\\t" " " "\\\"" "\"" "\\\\" "\\"} $rawText]
+    set text [::auto_comment::cleanupText $text]
+    if {$text eq ""} {
+        return "ERROR: Gemini returned an empty response (it may have been blocked by safety filters)."
+    }
+    return $text
+}
+
+proc ::auto_comment::deepseekText {raw} {
+    if {[regexp {"error"\s*:\s*\{} $raw]} {
+        set errMsg ""
+        regexp {"message"\s*:\s*"([^"]*)"} $raw -> errMsg
+        return "ERROR: $errMsg"
+    }
+    if {![regexp {"content"\s*:\s*"((?:[^"\\]|\\.)*)"} $raw -> rawText]} {
+        return "ERROR: Could not parse the DeepSeek response."
+    }
+    set text [string map {"\\n" "\n" "\\r" "" "\\t" " " "\\\"" "\"" "\\\\" "\\"} $rawText]
+    set text [::auto_comment::cleanupText $text]
+    if {$text eq ""} {
+        return "ERROR: DeepSeek returned an empty response."
+    }
+    return $text
 }
 
 # ::auto_comment::queryGemini

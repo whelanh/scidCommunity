@@ -880,6 +880,13 @@ translate N ReviewFromPreset {%s (uit het engineprofiel)}
 translate N ReviewProgress {Positie %s van %s wordt beoordeeld}
 translate N ReviewWaitForDepth {Wachten op diepte %s}
 translate N ReviewFailed {Beoordeling mislukt: %s}
+translate N ReviewCoach {Coachtekst}
+translate N ReviewCoachProgress {annoteren %s van %s · tekst %s van %s}
+translate N ReviewWriting {Bezig het verslag te schrijven...}
+translate N ReviewCoachSettings {Coachinstellingen...}
+translate N ReviewCoachNoModel {Coachtekst staat aan, maar er is geen model ingesteld. Open de verslaginstellingen en druk op Coachinstellingen... om een provider en model te kiezen.}
+translate N ReviewCoachKept {Verslag geannuleerd: %s van %s coachnotities zijn bewaard.}
+translate N ReviewCoachDiscarded {Het verslag is klaar, maar de coachtekst is weggegooid: er is een andere partij geopend terwijl het model schreef.}
 translate N TimeMs {Tijd (ms)}
 
 

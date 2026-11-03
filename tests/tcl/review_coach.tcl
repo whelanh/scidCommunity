@@ -392,5 +392,241 @@ checkEq "game facts are deterministic" \
     [::reviewcoach::gameFacts $moves [dict create result 1-0 opening "Test Opening"]] $gf
 checkEq "so is the move prompt" [::reviewcoach::movePrompt $m] $mp
 
+# ── the prose layer: where the text lands and what replaces it ────────────────
+#
+# A review is a scoresheet the reader comes back to, so the coach's text has to
+# sit beside the labels without burying them, and a second review has to replace
+# it rather than stack a second copy. The board is stubbed: what is under test is
+# which comment gets which block, and what a strip takes off.
+puts "\nthe prose block comes off and nothing else does"
+
+checkEq "a coach note goes, the label and the score stay" \
+    [::reviewcoach::strip "\[Best\] \[%eval +0.20\]\n\n\[Coach\] The knight came out."] \
+    "\[Best\] \[%eval +0.20\]"
+checkEq "a phase block goes the same way" \
+    [::reviewcoach::strip "\[Mistake\] \[%eval -1.00\]\n\n\[Phase opening\] moves 1-8 - accuracy W 80.0% B 70.0%, ACPL W 30 B 40."] \
+    "\[Mistake\] \[%eval -1.00\]"
+# The defect this replaces: a block rule that ran to the next "[" took the
+# reader's own note with it. A note UNDER the block is theirs and stays.
+checkEq "a note the reader wrote under the block survives" \
+    [::reviewcoach::strip "\[Best\]\n\[Coach\] A note.\n\nMy own thought."] \
+    "\[Best\]\n\nMy own thought."
+checkEq "and so does one above it" \
+    [::reviewcoach::strip "My own thought.\n\n\[Coach\] A note."] \
+    "My own thought."
+checkEq "a comment with no coach block is untouched" \
+    [::reviewcoach::strip "\[Best\] \[%eval +0.10\]"] "\[Best\] \[%eval +0.10\]"
+checkEq "an empty comment stays empty" [::reviewcoach::strip ""] ""
+
+puts "\nwhere each answer lands"
+
+# The board: a comment per ply, addressed the way scid addresses it.
+set ::fakeLen 8
+set ::fakeLoc 0
+set ::fakeComments {}
+set ::fakeTags {Result 1-0 Opening {Test Opening} ECO B20}
+proc sc_move {what n} {
+    if {$what eq "ply" && $n <= $::fakeLen} { set ::fakeLoc $n }
+    return
+}
+proc sc_pos {args} {
+    switch -- [lindex $args 0] {
+        location { return $::fakeLoc }
+        getComment {
+            if {[dict exists $::fakeComments $::fakeLoc]} {
+                return [dict get $::fakeComments $::fakeLoc]
+            }
+            return ""
+        }
+        setComment { dict set ::fakeComments $::fakeLoc [lindex $args 1] ; return "" }
+    }
+    return ""
+}
+proc sc_game {what args} {
+    if {$what eq "number"} { return 7 }
+    if {$what eq "tags"} {
+        if {[dict exists $::fakeTags [lindex $args 1]]} {
+            return " [dict get $::fakeTags [lindex $args 1]] "
+        }
+    }
+    return ""
+}
+# The report's own half, stubbed: placement must not depend on how the report
+# collects or where it splits the phases.
+proc ::reviewreport::collect {p results} {
+    set out {}
+    for {set ply 1} {$ply <= 8} {incr ply} {
+        lappend out [dict create ply $ply]
+    }
+    return $out
+}
+proc ::reviewreport::phaseSplit {moves} {
+    return [dict create \
+        opening [dict create from 1 to 4 accW 83.2 accB 79.1 acplW 34 acplB 41] \
+        middlegame [dict create from 5 to 8 accW 71.0 accB 66.5 acplW 55 acplB 62]]
+}
+
+set ::fakeComments [dict create 5 "\[Mistake\] \[%eval -2.10\]"]
+set prompts {}
+foreach {kind key prompt} {
+    summary 0 "the summary prompt"
+    phase opening "the opening prompt"
+    phase middlegame "the middlegame prompt"
+    moment 5 "the moment prompt"
+    moment 6 "a moment that never answered"
+} {
+    lappend prompts [dict create kind $kind key $key prompt $prompt]
+}
+set results {}
+dict set results [list summary 0 "the summary prompt"] \
+    "SUMMARY: The game turned on move 3.\nLEVEL: Club level.\nOPENING: Test Opening."
+dict set results [list phase opening "the opening prompt"] "Both sides developed."
+dict set results [list phase middlegame "the middlegame prompt"] "Black lost the thread."
+dict set results [list moment 5 "the moment prompt"] "The bishop was never developed."
+# The moment at ply 6 failed: no text at all for it.
+
+set ::reviewcoach::game 7
+::reviewcoach::place {} {} $prompts $results
+check "the summary block is at the start of the game" \
+    [expr {[dict get $::fakeComments 0] eq "Summary: The game turned on move 3.\nLevel: Club level.\nOpening: Test Opening."}] \
+    [dict get $::fakeComments 0]
+checkEq "the opening phase block sits at the phase's last move" \
+    [string map {"\n" " | "} [dict get $::fakeComments 4]] \
+    {[Phase opening] moves 1-2 - accuracy W 83.2% B 79.1%, ACPL W 34 B 41. Both sides developed.}
+checkEq "the middlegame fits on one line at its own last move" \
+    [string map {"\n" " | "} [dict get $::fakeComments 8]] \
+    {[Phase middlegame] moves 3-4 - accuracy W 71.0% B 66.5%, ACPL W 55 B 62. Black lost the thread.}
+checkEq "the coach note lands on the move it is about, after the label" \
+    [string map {"\n" " | "} [dict get $::fakeComments 5]] \
+    {[Mistake] [%eval -2.10] |  | [Coach] The bishop was never developed.}
+# A failed request is a missing sentence, not a missing review.
+check "a move whose answer failed gets no coach block" \
+    [expr {![dict exists $::fakeComments 6]}]
+
+puts "\na second review replaces the first, it does not stack"
+
+set results2 {}
+dict set results2 [list summary 0 "the summary prompt"] "SUMMARY: Replaced.\nLEVEL: New level."
+dict set results2 [list moment 5 "the moment prompt"] "A new note."
+set ::reviewcoach::game 7
+::reviewcoach::place {} {} $prompts $results2
+checkEq "one coach note on the move, not two" \
+    [string map {"\n" " | "} [dict get $::fakeComments 5]] \
+    {[Mistake] [%eval -2.10] |  | [Coach] A new note.}
+checkEq "one summary block, with the new text" [dict get $::fakeComments 0] \
+    "Summary: Replaced.\nLevel: New level."
+check "the old opening sentence is gone" \
+    [expr {[string first "Both sides developed" [dict get $::fakeComments 4]] < 0}]
+# And the phase that answered nothing this time still shows its figures.
+checkEq "a phase with no new prose keeps its figures only" \
+    [string map {"\n" " | "} [dict get $::fakeComments 4]] \
+    {[Phase opening] moves 1-2 - accuracy W 83.2% B 79.1%, ACPL W 34 B 41.}
+check "the middlegame's old sentence went with the old run" \
+    [expr {[string first "Black lost the thread" [dict get $::fakeComments 8]] < 0}]
+
+puts "\na reader's note under a block is theirs"
+
+set ::fakeComments [dict create 5 "\[Mistake\] \[%eval -2.10\]\n\n\[Coach\] Old note.\n\nI looked this up: the bishop should have gone to b5."]
+set ::reviewcoach::game 7
+::reviewcoach::place {} {} [list [dict create kind moment key 5 prompt "the moment prompt"]] \
+    [dict create [list moment 5 "the moment prompt"] "A new note."]
+set c [dict get $::fakeComments 5]
+check "the old note is gone" [expr {[string first "Old note" $c] < 0}] $c
+check "the new note is in" [expr {[string first "\[Coach\] A new note." $c] >= 0}] $c
+check "and the reader's own line survived" \
+    [expr {[string first "I looked this up" $c] >= 0}] $c
+
+puts "\nwith the coach off the tool's prose goes and nothing else does"
+
+set ::fakeComments [dict create \
+    0 "\[Game review\]\n  White: A\n  Black: B\n  Phases: 2\n\nSummary: Old summary.\nLevel: Old level.\nOpening: Old opening." \
+    4 "\[Best\] \[%eval +0.40\]\n\n\[Phase opening\] moves 1-2 - accuracy W 80.0% B 70.0%, ACPL W 30 B 40.\n\nMy note." \
+    5 "\[Mistake\] \[%eval -2.10\]\n\n\[Coach\] Old note."]
+set ::reviewcoach::game 7
+::reviewcoach::clear {} {}
+checkEq "the header block is gone, the report's header is not" \
+    [dict get $::fakeComments 0] \
+    "\[Game review\]\n  White: A\n  Black: B\n  Phases: 2"
+checkEq "the phase block is gone and the reader's line under it stays" \
+    [dict get $::fakeComments 4] "\[Best\] \[%eval +0.40\]\n\nMy note."
+checkEq "the coach note is gone, the label and the score stay" \
+    [dict get $::fakeComments 5] "\[Mistake\] \[%eval -2.10\]"
+
+puts "\ncancelling says what was kept"
+
+# The module asks ::tr for its strings; a tclsh test has no language files, so
+# these are the English text the languages carry.
+proc tr {tag} {
+    switch -- $tag {
+        ReviewCoachKept { return "Review cancelled: %s of %s coach notes were kept." }
+        ReviewCoachNoModel { return "Coach prose is on, but no model is configured." }
+        ReviewCoachDiscarded { return "The review is complete, but the coach prose was discarded." }
+    }
+    return $tag
+}
+proc tk_messageBox {args} { lappend ::boxes $args ; return ok }
+set ::boxes {}
+set ::reviewcoach::game 7
+::reviewcoach::finish {} {} [list [dict create kind moment key 5 prompt p]] "" \
+    [dict create "moment 5 p" "kept"] {} 1
+check "a cancelled run reports what it kept" [expr {[llength $::boxes] == 1}]
+check "in a sentence naming both counts" \
+    [expr {[string first "1 of 1" [lindex [lindex $::boxes 0] end]] >= 0}] $::boxes
+set ::boxes {}
+set ::reviewcoach::game 99
+::reviewcoach::finish {} {} {} "" {} {} 0
+check "a game that changed under the model is reported, not silent" \
+    [expr {[llength $::boxes] == 1}]
+set ::boxes {}
+set ::reviewcoach::game 7
+::reviewcoach::finish {} {} {} "" {} {} 0
+check "an ordinary finish says nothing" [expr {[llength $::boxes] == 0}]
+
+# The callback that closes the run is told which of the two endings it got:
+# a cancelled queue is not a finished one, and the driver states it as such.
+set ::endArgs {}
+set ::boxes {}
+::reviewcoach::finish {} {} {} [list apply {{args} {set ::endArgs $args}}] {} {} 1
+checkEq "a cancelled finish tells its callback so" $::endArgs 1
+set ::endArgs {}
+::reviewcoach::finish {} {} {} [list apply {{args} {set ::endArgs $args}}] {} {} 0
+checkEq "and a finished one says it finished" $::endArgs 0
+
+puts "\nstarting the queue"
+
+namespace eval ::reviewprose {}
+namespace eval ::auto_comment {}
+set ::proseRun {}
+proc ::reviewprose::run {prompts onProgress onDone} {
+    lappend ::proseRun [list $prompts $onProgress $onDone]
+    return 1
+}
+proc ::auto_comment::providerReady {} { return $::providerWhy }
+# What the prompts would be: the wire from the queue to the model is what this
+# section checks, not the prompt texts (they are checked above).
+proc ::reviewcoach::buildPrompts {moves game} {
+    return [list [dict create kind moment key 5 prompt "a prompt" max 320]]
+}
+set ::providerWhy "no model selected"
+set ::boxes {}
+set ::reviewcoach::game 7
+checkEq "with no provider the coach does not start" \
+    [::reviewcoach::start {} {} ""] 0
+check "and says why, once" [expr {[llength $::boxes] == 1}]
+checkEq "nothing was asked of the model" $::proseRun {}
+set ::providerWhy ""
+checkEq "with a provider the queue starts" [::reviewcoach::start {} {} ""] 1
+check "the queue was given prompts" \
+    [expr {[llength [lindex [lindex $::proseRun 0] 0]] > 0}]
+check "and a callback for when it finishes" \
+    [expr {[lindex [lindex $::proseRun 0] 2] ne ""}]
+checkEq "the game the review belongs to is remembered" $::reviewcoach::game 7
+# A queue that refuses to start (one is already running) must not leave this run
+# waiting for a callback that will never come: the run ends instead.
+proc ::reviewprose::run {prompts onProgress onDone} { return 0 }
+checkEq "a refused queue makes the coach say it did not start" \
+    [::reviewcoach::start {} {} ""] 0
+checkEq "and the game it was writing for is forgotten" $::reviewcoach::game ""
+
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

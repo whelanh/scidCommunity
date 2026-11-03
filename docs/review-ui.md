@@ -322,15 +322,24 @@ ban list names the labels the move is *not*: a blunder's prompt bans
 "inaccuracy", "mistake" and "miss", never "blunder", which is the word it uses
 itself. Both are instructions to the model, not text it should echo.
 
-**A reply is validated against the facts.** `parseSummary` reads the model's
-answer back into the three blocks the writer places — `summary`, `level` and
-`opening` — and nothing else. A block the prompt never asked for is not invented
-as one; a block that is missing comes back empty, so the writer writes no line
-for it; `NONE` is the answer the prompt asks for when there is no opening name.
-A reply that names a move, a number or a phase that is not in its block is a
-failed request, not text to fix up: the block is what the model was given, and
-prose that reaches past it is prose the reader cannot check against the
-scoresheet.
+**A reply is read, not trusted.** `parseSummary` reads the model's answer back
+into the three blocks the writer places — `summary`, `level` and `opening` — and
+nothing else. A block the prompt never asked for is not invented as one; a block
+that is missing comes back empty, so the writer writes no line for it; `NONE` is
+the answer the prompt asks for when there is no opening name. The reply is also
+cleaned before it is stored (`::reviewprose::clean`): typographic dashes and
+quotes become ASCII, because scid reads comments in the host codepage and a
+UTF-8 em dash arrives as mojibake; square brackets are removed, so a model cannot
+close the block it is writing in or open a token of its own; the text is trimmed
+and cut at 600 characters.
+
+There is no per-sentence check against the FACTS block. A reply that names a
+move, a number or a phase outside its block is placed as written — the facts
+were the model's to use, and the review has no way to tell a claim from a
+paraphrase of one. What keeps the prose honest is the prompt, the ban list the
+model is given, and the reader's own scoresheet beside it. A request that fails
+is dropped: the move keeps its label, `[%eval]` and marks and simply has no
+prose.
 
 `buildPrompts` decides which prompts exist, in order: the summary first, then
 one for each phase that has moves, then one for each mistake, miss or blunder,
@@ -339,29 +348,87 @@ prompt: the move prompt asks what the move failed to do, which is the wrong
 question there, and tier 2 is mistakes only. The same results set gives the same
 prompts byte for byte — nothing in the layer reads a clock or a random number.
 
-The queue that sends these prompts, the prose that comes back and the settings
-that switch the coach on are the next slice, not this one.
+## The coach's prose — where it lands, and what replaces it
+
+`tcl/tools/review_prose.tcl` is the queue: one request at a time, in order,
+cache-keyed by `{kind key prompt}`, with `run`, `next`, `reply`, `record`,
+`finish`, `cancel`, `status` and `clearCache`. It sends through
+`::auto_comment::queryAsync`, so the request never blocks the event loop, and a
+model that answers out of turn, twice, or after its run was cancelled cannot
+record an answer against the wrong question: every reply carries the run and the
+item it was asked for.
+
+`start`, `place`, `finish` and `clear` in `tcl/tools/review_coach.tcl` are the
+orchestration. A **whole-game** review asks for prose when the coach is on — a
+Move Comment pass over named moves is not a review and writes none. The labels,
+the `[%eval]`s, the marks and the report are written **first**, the reader is put
+back and the board is redrawn, and only then is the model asked. The run is not
+over until every answer has landed or failed: its state stays `writing`,
+`Cancel` is live, and the status line counts the answers
+(`annotating 31 of 31 · prose 7 of 9`). Nothing is saved before the coach runs:
+the Annotate dialog's batch writes each game to the database (`sc_game save`, in
+`::reviewannotate::done`, and only when the batch has more than one game) when
+the run ends, and in the coach path the run ends through `proseDone` — after the
+last answer has landed or failed. The engine-window Game Review saves nothing at
+all. `Cancel` drops the queue and leaves the prose already written in the game.
+
+Placement, each block on a line of its own:
+
+| Answer | Where it goes |
+| --- | --- |
+| `summary` | the three labelled lines at the start of the game's comment (ply 0): `Summary:`, `Level:`, `Opening:` |
+| `phase` | a line at the phase's last move: `[Phase opening] moves 1-10 - accuracy W 84.0% B 79.1%, ACPL W 34 B 41.` and then the prose |
+| `moment` | `[Coach] …` at the move the prompt was about, after the label and the score |
+
+**Replacement, not stacking.** Before the writer runs, a whole-game review takes
+the previous run's blocks off every planned move — with the coach off as well, so
+turning the switch off removes the prose and nothing else. Placement then strips
+again and writes the new answer. A phase whose answer failed still gets its
+figures and no sentence; a moment whose answer failed simply has no `[Coach]`
+line. Because each block is one line, the strip takes the whole line and nothing
+else: a note the reader wrote **under** a block survives, and so does one above
+it. Text appended to the end of a coach line is that line's and goes with it.
+
+The coach's endpoint and model are the Game Comment provider settings; Review
+Settings carries the switch (`Coach prose`) and a `Coach settings…` button that
+opens them. Review Settings no longer holds a Tk grab, because that grab
+swallowed every event meant for the dialog it opens.
+
+### What a failure looks like
+
+| Failure | What the user sees |
+| --- | --- |
+| no provider configured, coach on | one message when the review ends; the review itself is complete |
+| a request fails (`ERROR: …`) | that move or phase has no prose; the labels, `[%eval]`s and marks are untouched |
+| the endpoint hangs | `curl --max-time` ends it; the same as a failed request |
+| Cancel while waiting | the queue is dropped, the prose already written stays, and one message says how many notes were kept |
+| another game opened while the model wrote | the prose is discarded and one message says so; the review stays written |
+| a second review, coach on | the previous prose is replaced, not stacked |
+| a second review, coach off | the previous prose is removed; the review's own comments are untouched |
 
 ## Files
 
 | File | What is there |
 | --- | --- |
 | `tcl/tools/game_review.tcl` | `::review` settings, `passLimits`, `plan`, `searchPlies`, `mainLineMap`, `playedMove`, `moveCommentPlan`, `writeMove`, `selectLines`, `scoreToNag`, `variationWanted` |
-| `tcl/tools/review_driver.tcl` | `::reviewdriver` — the engine pass on connection 20, `run` (plan → verdicts → write), the `-done` completion hook, `status`, `cancel` |
+| `tcl/tools/review_driver.tcl` | `::reviewdriver` — the engine pass on connection 20, `run` (plan → verdicts → write), the `-done` completion hook, the `-coach` override, coach-block ownership for the default writer only, `status`, `cancel` |
 | `tcl/tools/review_annotate.tcl` | `::reviewannotate` — the annotate dialog's decision, the run (single game and batch chain), Cancel, the progress line, the classic marks |
 | `tcl/tools/review_ui.tcl` | `::reviewui` — button state, the call a press makes, dialog values, the time cap's note, the status line |
 | `tcl/tools/review_report.tcl` | the deterministic report: accuracy, ACPL, estimated Elo, key moments, and the phase split with the three-signal opening boundary |
-| `tcl/tools/review_coach.tcl` | `::reviewcoach` — the facts a coach may use and the prompts built from them: the game-level facts, the turning move and what punished it, the phase facts, the header-block text helpers, the four prompt texts, `buildPrompts` and `parseSummary`. No model, no network |
+| `tcl/tools/review_coach.tcl` | `::reviewcoach` — the facts a coach may use, the prompts built from them, and the prose layer: `start`, `place`, `finish`, `clear`, `strip`, `stripHeader`. No model, no network |
+| `tcl/tools/review_prose.tcl` | `::reviewprose` — the queue: one request at a time through `::auto_comment::queryAsync`, cache-keyed, with progress, cancel and a failed request dropped |
 | `tcl/windows/engine.tcl` | the review icons, the status line, the settings dialog (guarded glue) |
 | `tcl/tools/analysis.tcl` | the Analysis window's annotate dialog, its OK (`configAnnotateOK`) and the button on every pane |
-| `tests/tcl/review_settings_dialog.tcl` | under Tk: the dialog builds, has OK/Cancel, stores what is typed, refuses a bad value, the variation box follows `mpv`, the time cap's row shows the preset's cap and drops the note, and both traces are removed when the dialog closes |
-| `tests/tcl/review_ui.tcl` | 215 checks: the call a press makes, the status line, the button states, the dialog round trip, the precedence table through the dialog, the time cap's note, which move a comment judges, the move-comment depth, the key set |
+| `tests/tcl/review_settings_dialog.tcl` | 51 checks: under Tk: the dialog builds, has OK/Cancel, stores what is typed, refuses a bad value, the variation box follows `mpv`, the time cap's row shows the preset's cap and drops the note, the on/off rows are checkboxes, `Coach settings…` opens a window of its own from a dialog that holds no grab, and both traces are removed when the dialog closes |
+| `tests/tcl/review_ui.tcl` | 229 checks: the call a press makes, the status line (including the coach's counts), the button states, the dialog round trip, the precedence table through the dialog, the time cap's note, which move a comment judges, the move-comment depth, the key set |
 | `tests/tcl/review_toolbar.tcl` | 42 checks: the five review icons use `::icon::` names and exist in icons_light and icons_dark at 24×24, the whole engine toolbar uses `::icon::` images, the labels are tooltips rather than text, the stop icon is gridded only while a pass runs, a visible divider separates the review group from Config, the dark-theme cache matches `::icon::` names, and the threat button exists only when its command does |
-| `tests/tcl/review_driver.tcl` | 252 checks: the pass against a stub engine, the four Go shapes the precedence table produces, a capped run, two reviews of the same game in a row, the engine window's hand-off to it, and the completion hook |
+| `tests/tcl/review_driver.tcl` | 294 checks: the pass against a stub engine, the four Go shapes the precedence table produces, a capped run, two reviews of the same game in a row, the engine window's hand-off to it, the completion hook, and the coach: started after the write, the run held open until the answers land, not started for a single move or an annotate pass, an annotate pass leaving the coach blocks alone, not holding a run open when it cannot start, and Cancel while the model is writing |
 | `tests/tcl/annotate_dialog.tcl` | 56 checks: the dialog's decision (pane preset, book end, tier, the non-UCI refusal), the blunders-only filter, and the Cancel label rule |
-| `tests/tcl/annotate_run.tcl` | 39 checks: the plan run against a stub engine, the write, the batch chain, the Cancel escalation and a cancelled run writing nothing |
+| `tests/tcl/annotate_run.tcl` | 78 checks: the plan run against a stub engine, the write, the batch chain, the Cancel escalation and a cancelled run writing nothing |
 | `tests/tcl/review_report.tcl` | 105 checks: accuracy as the app's own figure and the parity a phase starting on Black's move needs, Elo, key moments, the endgame rule — one material total, with the six-piece net rejected at 38 points — the opening boundary — Smyrnov met and half met, rook-less and file/rank connectivity, mixedness at 150 and 161, the material net at ten and eleven, the first-firing signal at 17/21/25, no ply floor — and the block removal, two writes deep |
-| `tests/tcl/review_coach.tcl` | 74 checks: the move facts, the game-level facts, the turning move, the phase facts, the prose markers, that the header block comes off without taking the report's header with it, what a prompt may name and what it may not, which prompts a results set has and in what order, that a brilliant key moment gets no prompt, that the same set gives the same prompts, the summary reply, and the game's identifying facts |
+| `tests/tcl/review_coach.tcl` | 111 checks: the move facts, the game-level facts, the turning move, the phase facts, the prose markers, that the header block comes off without taking the report's header with it, what a prompt may name and what it may not, which prompts a results set has and in what order, that a brilliant key moment gets no prompt, that the same set gives the same prompts, the summary reply, the game's identifying facts, and the prose layer: what a strip takes off and what a reader's own note keeps, where each answer lands, a second review replacing the first, a failed answer leaving no block, the coach off taking only its own prose, what a cancelled run reports, and the queue being wired to the prompts (including a queue that refuses to start) |
+| `tests/tcl/review_prose.tcl` | 52 checks: one prompt at a time in order, each item's own token budget, the cache answering a second run, a failed request dropped without failing the run, a reply for a question that is no longer outstanding ignored, a cancelled run's answer never landing in the next run, the cleaning of what a model writes, and the status a caller asks for |
+| `tests/tcl/review_transport.tcl` | 37 checks: a stub `curl` on PATH sleeps for a second, `queryAsync` returns in under 500 ms and its callback then arrives with the text, the blocking path holds the caller for the whole sleep (the control), two requests in flight do not cross, a refused provider starts no process, a failed request is an `ERROR:` string, Cancel kills the child and drops its reply (with the Windows `taskkill` fallback pinned), and no request or reply file is left behind |
 
 ## Tests
 
@@ -382,7 +449,7 @@ widget would otherwise have to decide:
 - **the one-move depth**, from `moveCommentPlan`, for a deep analysis, a shallow
   one, nothing analysed, the wait turned off, and a preset that raises the depth
   the review would use;
-- **the key set**: the thirteen new strings are present in all 29
+- **the key set**: the twenty-one review strings are present in all 29
   `tcl/lang/*.tcl` files, the file list is read from the tree so a new language
   file fails loudly, and the English text is the text the labels are asserted
   against.

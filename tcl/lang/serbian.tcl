@@ -1337,6 +1337,13 @@ translate Y ReviewFromPreset {%s (iz profila motora)}
 translate Y ReviewProgress {Pregled pozicije %s od %s}
 translate Y ReviewWaitForDepth {Čekanje na dubinu %s}
 translate Y ReviewFailed {Pregled nije uspeo: %s}
+translate Y ReviewCoach {Tekst trenera}
+translate Y ReviewCoachProgress {obeležavanje %s od %s · tekst %s od %s}
+translate Y ReviewWriting {Upis pregleda...}
+translate Y ReviewCoachSettings {Podešavanja trenera...}
+translate Y ReviewCoachNoModel {Tekst trenera je uključen, ali model nije podešen. Otvorite podešavanja pregleda i pritisnite Podešavanja trenera... da izaberete dobavljača i model.}
+translate Y ReviewCoachKept {Pregled otkazan: sačuvano je %s od %s trenerskih napomena.}
+translate Y ReviewCoachDiscarded {Pregled je završen, ali je tekst trenera odbačen: druga partija je otvorena dok je model pisao.}
 # ====== TODO To be translated ======
 translate Y TimeMs {Time(ms)}
 # ====== TODO To be translated ======

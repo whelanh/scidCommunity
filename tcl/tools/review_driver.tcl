@@ -27,6 +27,10 @@ variable seq 0
 namespace eval ::reviewdriver {
     variable pass {}
     variable state {}
+    # The coach's queue, while a run is waiting on it: the answers are the last
+    # thing a review writes, so this is the one part of a run that outlives the
+    # engine.
+    variable proseJob {}
 }
 
 set ::reviewdriver::ENGINE_ID 20
@@ -568,7 +572,7 @@ proc ::reviewdriver::verdicts {map results} {
 # review, because the comments landed.
 proc ::reviewdriver::blankState {{state idle}} {
     return [dict create state $state searched 0 total 0 written 0 failed 0 \
-        errors {} reason "" restored 0]
+        coachDone 0 coachTotal 0 errors {} reason "" restored 0]
 }
 
 proc ::reviewdriver::status {} {
@@ -591,6 +595,8 @@ proc ::reviewdriver::status {} {
 #                   the review's own floor over the preset's)
 #   -progress cmd   called as {*}$cmd <done> <total> as positions finish
 #   -notify 0|1     refresh the board when the write phase ends (default 0)
+#   -coach 0|1      override the ::review::coach setting for this pass; annotate
+#                   mode passes 0 because its dialog ships tier 1 without prose
 #
 # There is no -movetime: the time cap is ::review::movetime or the preset's
 # Limits.movetime (::review::passLimits), so the pass and the settings dialog
@@ -603,6 +609,7 @@ proc ::reviewdriver::run {engine args} {
     set want ""
     set progress ""
     set notify 0
+    set coachOpt ""
     # The caller's completion hook: annotate mode chains one pass per game, so
     # the chain lives in the pass dict rather than in a module variable.
     set done ""
@@ -622,6 +629,7 @@ proc ::reviewdriver::run {engine args} {
             -notify   { incr i ; set notify [lindex $args $i] }
             -done     { incr i ; set done [lindex $args $i] }
             -writer   { incr i ; set writer [lindex $args $i] }
+            -coach    { incr i ; set coachOpt [lindex $args $i] }
             default   { return "unknown option: $opt" }
         }
     }
@@ -639,6 +647,9 @@ proc ::reviewdriver::run {engine args} {
     }
     if {$want ne "" && (![string is integer -strict $want] || $want < 1)} {
         return "-depth must be a whole number"
+    }
+    if {$coachOpt ne "" && $coachOpt ni {0 1}} {
+        return "-coach must be 0 or 1"
     }
     if {[llength $engine] == 0} { return "no engine selected" }
     # The pass pins the protocol to uci: an XBoard preset would never answer the
@@ -718,19 +729,52 @@ proc ::reviewdriver::run {engine args} {
     set state $starting
     # `plan` is the moves this run judges (all of them, or -plies); `plies` and
     # `bookEnd` are kept for a writer that derives its own plan (annotate mode).
+    #
+    # `report` is 1 for a whole-game pass with the default writer (Game Review):
+    # it owns the prose on its moves, so a run with the coach off still takes the
+    # last run's blocks off. An annotate pass uses its own writer and leaves the
+    # coach's blocks alone; a pass over named moves (Move Comment) is not a
+    # review. `coach` is the setting read once, here, so a mid-run edit cannot
+    # split one run in two.
+    set coach 0
+    catch { set coach [::review::get coach] }
+    if {$coachOpt ne ""} { set coach $coachOpt }
+    if {[llength $plies]} { set coach 0 }
     set pass [dict create token $token map $map plan $plan \
         plies [dict get $map plies] bookEnd $bookEnd mpv $mpv \
         positions $positions cursor $cursor engine $engine done $done \
-        progress $progress notify $notify writer $writer]
+        progress $progress notify $notify writer $writer \
+        coach $coach report [expr {[llength $plies] ? 0 : [string equal $writer ::reviewdriver::writeResults]}]]
     return ""
 }
 
-# Stop the run ::reviewdriver::run started. Nothing is written: the write phase
-# only ever runs once the search has finished.
+# Stop the run ::reviewdriver::run started. The search writes nothing when it is
+# cancelled - the write phase only ever runs once the search has finished - and
+# the prose phase has already written the game, so cancelling it keeps what the
+# model had answered and drops the rest.
 proc ::reviewdriver::cancel {{restore 1}} {
     variable pass
     if {![dict size $pass]} { return 0 }
-    return [::reviewdriver::stop [dict get $pass token] $restore]
+    set token [dict get $pass token]
+    if {[::reviewdriver::proseActive $token]} {
+        catch { ::reviewprose::cancel }
+        return 1
+    }
+    return [::reviewdriver::stop $token $restore]
+}
+
+# The coach's progress, in the caller's own vocabulary: {*}$cmd <done> <total>.
+# The window's status line reads the counts through ::reviewdriver::status, so a
+# review that is waiting for a model says so instead of going quiet.
+proc ::reviewdriver::proseProgress {done total args} {
+    variable pass
+    variable state
+    if {![dict size $pass]} { return }
+    dict set state coachDone $done
+    dict set state coachTotal $total
+    set cmd [dict get $pass progress]
+    if {$cmd ne ""} { catch { {*}$cmd $done $total } }
+    return
 }
 
 # Between searches a run reports progress only, and the caller's command hears
@@ -762,6 +806,22 @@ proc ::reviewdriver::runDone {results} {
         return
     }
     dict set state state writing
+    ::reviewdriver::writeRun $p $results
+}
+
+# The one write phase, after the search. The coach is started from here, after
+# the labels are in the game: prose is the last layer, and it must not be written
+# into a game the writer is still changing.
+proc ::reviewdriver::writeRun {p results} {
+    variable pass
+    variable state
+    # A full review owns the coach blocks on its moves: take the previous run's
+    # prose off first, whether or not this run has a provider.
+    set report 0
+    catch { set report [dict get $p report] }
+    if {$report && [llength [info commands ::reviewcoach::clear]]} {
+        catch { ::reviewcoach::clear $p $results }
+    }
     set counts ""
     if {[catch { set counts [{*}[dict get $p writer] $p $results] } err]} {
         # A writer that blew up wrote part of a review: report it rather than
@@ -778,8 +838,65 @@ proc ::reviewdriver::runDone {results} {
             dict set state errors [dict get $counts errors]
         }
     }
+    # The labels and the report are in the game now. Put the reader back and
+    # redraw before the coach starts: prose can take minutes, and a review the
+    # user cannot see reads as one that never ran at all.
+    ::reviewdriver::restoreRun $p
+    ::reviewdriver::notifyBoard $p
+    # The coach is the last layer: it reads the written game and says nothing
+    # about where the moves are. A switch with no provider behind it is a no-op,
+    # not an error, and a queue that cannot start must not hold the run open.
+    set coach 0
+    catch { set coach [dict get $p coach] }
+    if {$coach && [llength [info commands ::reviewcoach::start]]} {
+        variable proseJob
+        set proseJob [dict create token [dict get $p token] p $p]
+        set started 0
+        catch {
+            set started [::reviewcoach::start $p $results \
+                [list ::reviewdriver::proseDone [dict get $p token]] \
+                ::reviewdriver::proseProgress]
+        }
+        if {$started} { return }
+        set proseJob {}
+    }
     dict set state state done
-    ::reviewdriver::endRun $p
+    ::reviewdriver::endRun $p 0
+}
+
+# The queue is live for the pass `token`: what Cancel has to drop, and what keeps
+# the run open.
+proc ::reviewdriver::proseActive {token} {
+    variable proseJob
+    if {![dict size $proseJob]} { return 0 }
+    if {[dict get $proseJob token] ne $token} { return 0 }
+    if {[llength [info commands ::reviewprose::status]] == 0} { return 0 }
+    set st [dict create active 0]
+    catch { set st [::reviewprose::status] }
+    if {[dict get $st active]} { return 1 }
+    return 0
+}
+
+# Prose finished, failed or was cancelled: the answers are in the game and the
+# pass can close. `restore 0` because the write phase already put the reader
+# back before the coach started, and moving them again would drag a board they
+# have since browsed back to where the pass began.
+#
+# `cancelled` is the queue's own report of how it ended (::reviewcoach::finish
+# passes it through from ::reviewprose::finish), and it is what the state says.
+# A stopped review closed as `done` is a lie a caller cannot see through: the
+# window, the annotate batch and any hook all read this one word, and Cancel
+# emptied the run before the driver here, so nothing else would correct it.
+proc ::reviewdriver::proseDone {token {cancelled 0}} {
+    variable pass
+    variable state
+    variable proseJob
+    if {![dict size $pass] || [dict get $pass token] ne $token} { return }
+    set p ""
+    catch { set p [dict get $proseJob p] }
+    set proseJob {}
+    dict set state state [expr {$cancelled ? "cancelled" : "done"}]
+    if {$p ne ""} { ::reviewdriver::endRun $p 0 }
 }
 
 # Write one move at a time, ascending, from the verdicts the search produced.
@@ -942,16 +1059,9 @@ proc ::reviewdriver::restoreRun {p} {
     return $restored
 }
 
-# The end of a run: the cursor goes back exactly once, and the board is told the
-# game changed when the caller asked for it. The driver itself has no Tk.
-#
-# The caller's completion hook fires last, with the run's status: it is the only
-# point at which a chained run (annotate mode's batch) knows the game it just
-# searched has been written.
-proc ::reviewdriver::endRun {p} {
-    variable pass
-    set pass {}
-    ::reviewdriver::restoreRun $p
+# Tell the board the game text changed, when the caller asked for it. The driver
+# itself has no Tk, so a missing notification is a no-op.
+proc ::reviewdriver::notifyBoard {p} {
     if {[dict get $p notify] && [llength [info commands ::notify::PosChanged]]} {
         # -pgn, not "": the write phase changed comments and variations across
         # the whole game, so the game text has to be regenerated. An empty
@@ -959,5 +1069,22 @@ proc ::reviewdriver::endRun {p} {
         # invisible in the PGN pane until something else redrew it.
         catch { ::notify::PosChanged -pgn }
     }
+    return
+}
+
+# The end of a run: the cursor goes back once, unless the caller says the game
+# has gone, and the board is told the game changed when the caller asked for it.
+# `restore 0` is for a run that already put the reader back before the coach
+# started: moving them again would drag a board they have since browsed back to
+# where the pass began.
+#
+# The caller's completion hook fires last, with the run's status: it is the only
+# point at which a chained run (annotate mode's batch) knows the game it just
+# searched has been written.
+proc ::reviewdriver::endRun {p {restore 1}} {
+    variable pass
+    set pass {}
+    if {$restore} { ::reviewdriver::restoreRun $p }
+    ::reviewdriver::notifyBoard $p
     ::reviewdriver::runDoneHook $p
 }
