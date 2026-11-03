@@ -1993,15 +1993,21 @@ proc toggleFinishGame { { n 1 } } {
 	if { ! $analysis(uci$n) } {
 		if { !$analysis(analyzeMode$n) || ! [sc_pos isAt vend] } { return }
 
-		if {!$::finishGameMode} {
-			set ::finishGameMode 1
-			$b configure -image ::icon::tb_finish_on
-			after $::autoplayDelay autoplayFinishGame
-		} else {
-			set ::finishGameMode 0
-			$b configure -image ::icon::tb_finish_off
-			after cancel autoplayFinishGame
+	if {!$::finishGameMode} {
+		set ::finishGameMode 1
+		$b configure -image ::icon::tb_finish_on
+		# The classic pane runs the same collect-then-commit pass as the engine
+		# window: nothing is written until the continuation is complete, and a
+		# cancel writes nothing at all. addMoveUCI - cursor-following and
+		# animating - is no longer on this path.
+		if {[llength [info commands ::finishgame::startPane]]} {
+			::finishgame::startPane $n
 		}
+	} else {
+		set ::finishGameMode 0
+		$b configure -image ::icon::tb_finish_off
+		catch { ::finishgame::stop }
+	}
 		return
 	}
 
@@ -2237,27 +2243,13 @@ proc toggleFinishGame { { n 1 } } {
 #
 ################################################################################
 proc autoplayFinishGame { {n 1} } {
+    # Kept as the name the pane's older callers use; the pass itself is
+    # ::finishgame::startPane, which collects on pure positions and commits once.
     if {!$::finishGameMode || ![winfo exists .analysisWin$n]} {return}
-    
-    # Check if game has already ended in checkmate
-    if { [string index [sc_game info previousMove] end] == "#"} {
-        toggleFinishGame $n
-        return
+    if {[llength [info commands ::finishgame::startPane]]} {
+        ::finishgame::startPane $n
     }
-
-    # Check for 3-fold repetition
-    if {[::pgn::getRepetitionCount] >= 3} {
-        sc_game tags set -result "1/2-1/2"
-        updateBoard -pgn
-        toggleFinishGame $n
-        return
-    }
-    
-    # Make the engine move
-    .analysisWin$n.b1.move invoke
-    
-    # Schedule a callback to check piece count after the board settles
-    after $::autoplayDelay "::autoplayFinishGameCheck $n"
+    return
 }
 
 proc ::autoplayFinishGameCheck { {n 1} } {

@@ -52,11 +52,18 @@ proc ::reviewprogress::ui::build {} {
     grid $win.board.bd -row 0 -column 0 -sticky news
 
     ttk::label $win.progress -text {} -anchor w -font font_Small
-    grid $win.progress -row 2 -column 0 -sticky we -padx 8 -pady {6 8}
+    grid $win.progress -row 2 -column 0 -sticky we -padx 8 -pady {6 0}
+
+    # The determinate bar (#422 item 3). Its value is ::reviewui::passFraction
+    # of the driver's own counts and nothing else, so the bar and the status
+    # line cannot disagree; "" (no total) leaves the bar at zero rather than
+    # inventing a percentage.
+    ttk::progressbar $win.bar -mode determinate -maximum 1 -value 0
+    grid $win.bar -row 3 -column 0 -sticky we -padx 8 -pady {2 8}
 
     ttk::button $win.cancel -text [tr Cancel] \
         -command ::reviewprogress::ui::cancel
-    grid $win.cancel -row 3 -column 0 -sticky e -padx 8 -pady {0 8}
+    grid $win.cancel -row 4 -column 0 -sticky e -padx 8 -pady {0 8}
 
     # Closing the window cancels nothing: the board is decoration over a run,
     # and the run's own Cancel is the only thing that stops it.
@@ -77,13 +84,23 @@ proc ::reviewprogress::ui::exists {} {
 # Show the window, building it if this is the first run of the session. With no
 # run in flight it shows the position on the main board, which is what a reader
 # who opened it to see "where is it now" is asking for.
-proc ::reviewprogress::ui::show {} {
+#
+# `parent` is the engine window that asked: the popup sits over it, the way a
+# progress dialog belongs to the work it describes. A toplevel rather than a
+# transient, because a transient dies with its master and this window is built
+# once and reused for the whole session.
+proc ::reviewprogress::ui::show {{parent ""}} {
     variable win
     variable board
     if {![::reviewprogress::ui::exists]} { ::reviewprogress::ui::build }
     set job [::reviewprogress::job]
     if {![dict size $job]} {
         catch { ::reviewprogress::ui::idle }
+    }
+    catch {
+        if {$parent ne "" && [winfo exists $parent]} {
+            ::tk::PlaceWindow $win widget $parent
+        }
     }
     catch { wm deiconify $win }
     catch { raise $win }
@@ -129,6 +146,16 @@ proc ::reviewprogress::ui::draw {job} {
     catch { set header [dict get $job header] }
     catch { $win.header configure -text $header }
     catch { $win.progress configure -text [::reviewprogress::progressText $job] }
+    # The bar reads the same counts as the line, through the one progress source
+    # (#422): ::reviewui::passFraction. A job with no total leaves it at zero.
+    set done ""
+    set total ""
+    catch { set done [dict get $job done] }
+    catch { set total [dict get $job total] }
+    set fraction ""
+    catch { set fraction [::reviewui::passFraction $done $total] }
+    if {$fraction eq ""} { set fraction 0 }
+    catch { $win.bar configure -value $fraction }
     set boardString ""
     catch { set boardString [dict get $job board] }
     if {$boardString ne ""} {

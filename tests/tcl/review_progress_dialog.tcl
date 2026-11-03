@@ -158,6 +158,26 @@ checkEq "a refused position leaves the last board in place" \
 ::reviewprogress::finish $token
 checkEq "no job once the run has ended" [::reviewprogress::job] {}
 
+puts "== the progress bar's fraction comes from the driver's counts =="
+
+# ::reviewui::passFraction is the one progress source (#422): the dialog draws a
+# determinate bar from the driver's done/total, and nothing else invents a
+# percentage. "" is the repo's honest no-op for a count that cannot be trusted -
+# a pass that has not searched yet has no fraction, not zero.
+source [file join $root tcl tools review_ui.tcl]
+
+checkEq "a pass half way through" [::reviewui::passFraction 20 40] {0.5000}
+checkEq "a pass that has not started" [::reviewui::passFraction 0 40] {0.0000}
+checkEq "a pass that has finished" [::reviewui::passFraction 40 40] {1.0000}
+checkEq "a count past the total cannot overflow the bar" \
+    [::reviewui::passFraction 45 40] {1.0000}
+checkEq "no total is no fraction" [::reviewui::passFraction 3 0] {}
+checkEq "a total that is not a number is no fraction" \
+    [::reviewui::passFraction 3 abc] {}
+checkEq "an empty total is no fraction" [::reviewui::passFraction 3 ""] {}
+checkEq "a done that is not a number is no fraction" \
+    [::reviewui::passFraction abc 40] {}
+
 puts "== a borrowed game is written without a frame being painted =="
 
 # The borrow idiom (tcl/game.tcl:65) is what lets a run write a game the reader

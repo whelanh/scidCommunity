@@ -742,6 +742,14 @@ proc ::enginewin::createButtonsBar {id btn display} {
     set ::enginewin::reviewstatus($id) ""
     ttk::label $btn.reviewstatus -textvariable ::enginewin::reviewstatus($id) \
         -anchor w
+    # The way back to the progress popup after the reader hides it: the status
+    # line is the review control that says a run is going, so it is the one that
+    # opens the window onto it. No new toolbar icon.
+    catch {
+        ::utils::tooltip::Set $btn.reviewstatus [::reviewui::label ReviewProgressTitle]
+        bind $btn.reviewstatus <Button-1> \
+            [list ::reviewprogress::ui::show [::enginewin::reviewWindow $id]]
+    }
 
     set reviewButtons [list $btn.gamereview $btn.movecomment]
     if {[winfo exists $btn.threat]} { lappend reviewButtons $btn.threat }
@@ -892,7 +900,7 @@ proc ::enginewin::reviewBook {} {
 #
 # `plies` is the moves to judge ("" for the whole planned line) and `depth` the
 # depth to search ("" to let the pass take the review's own).
-proc ::enginewin::reviewRunState {id {plies ""} {depth ""}} {
+proc ::enginewin::reviewRunState {id {plies ""} {depth ""} {source review}} {
     set state [dict create game 0 engine "" driver 0 bookEnd 0 plies $plies depth $depth \
         progress [list ::enginewin::reviewProgress $id] notify 1]
     if {[llength [info commands ::reviewdriver::run]]} { dict set state driver 1 }
@@ -900,6 +908,12 @@ proc ::enginewin::reviewRunState {id {plies ""} {depth ""}} {
     catch { set name $::enginewin_lastengine($id) }
     if {$name ne ""} {
         catch { dict set state engine [::enginecfg::get $name] }
+        # The header's fields, composed here while the window still knows which
+        # engine it is pointed at. The driver turns them into the one string the
+        # popup draws, so a header can never name an engine the reader has since
+        # switched the window to.
+        dict set state header [dict create source $source engine $name \
+            origin [list enginewin [string trimleft $id .engineWin]]]
     }
     catch {
         dict set state game [dict get [::review::mainLineMap [sc_game UCI_mainLine]] plies]
@@ -978,6 +992,9 @@ proc ::enginewin::reviewStart {id state} {
     # Nothing to search is a run that finished (a book cover, an empty plan):
     # the driver says so, and there is nothing left to show.
     ::enginewin::reviewStatus $id
+    # The progress popup is the window onto a run (#422 item 3). It opens over
+    # the window that started it; closing it hides it and the pass goes on.
+    catch { ::reviewprogress::ui::show $w }
     ::enginewin::reviewRefresh $id
     return 1
 }
@@ -1048,7 +1065,7 @@ proc ::enginewin::reviewMove {id} {
     }
     set plan [::reviewui::moveCommentDepth $depth_now $target]
     ::enginewin::reviewStart $id [::enginewin::reviewRunState $id \
-        [list $ply] [dict get $plan depth]]
+        [list $ply] [dict get $plan depth] movecomment]
 }
 
 # Cancel: the pass stops where it is, and the write phase never runs - the driver

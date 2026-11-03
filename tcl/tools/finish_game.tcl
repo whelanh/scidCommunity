@@ -29,6 +29,10 @@ namespace eval ::finishgame {
     variable blackSeconds 10
     variable blackDepth 30
     variable oldMode 0
+    # The classic Analysis window's index when the pass was started there, ""
+    # for an engine window. Both are the same pass; only the button that shows
+    # it is different.
+    variable pane ""
 }
 
 ::options.store ::finishgame::whiteEngine ""
@@ -129,6 +133,55 @@ proc ::finishgame::start {ownerId white black} {
     }
     catch { grab $owner }
     catch { $owner.btn.finish configure -image ::icon::tb_finish_on }
+    update idletasks
+    ::finishgame::play
+    return
+}
+
+# The classic Analysis window's Finish Game: the same collect and the same one
+# commit, driven from the pane's own engine preset.
+#
+# It exists as its own entry point rather than as a second implementation: the
+# pane is a window with its own engine, not an engine window, so it cannot call
+# ::finishgame::start. Everything below ::finishgame::play is shared, which is
+# what makes the two surfaces behave identically - the collect touches no game,
+# the commit happens once, and a cancel writes nothing.
+proc ::finishgame::startPane {n} {
+    variable active
+    if {$active} { return }
+    set name ""
+    catch { set name $::analysis(name$n) }
+    if {$name eq ""} { return }
+    if {[catch {
+        ::engineNoWin::initEngine $::finishgame::WhiteId $name \
+            [list ::finishgame::message $::finishgame::WhiteId]
+        ::engineNoWin::initEngine $::finishgame::BlackId $name \
+            [list ::finishgame::message $::finishgame::BlackId]
+    } err]} {
+        ::finishgame::closeEngines
+        catch {
+            tk_messageBox -title "scidCommunity: [tr FinishGame]" -type ok \
+                -icon warning -message $err
+        }
+        return
+    }
+    set ::finishgame::active 1
+    set ::finishgame::cancel 0
+    set ::finishgame::owner ""
+    set ::finishgame::pane $n
+    set ::finishgame::best ""
+    set ::finishgame::signal ""
+    set ::finishgame::waitId ""
+    set ::finishgame::token [::reviewprogress::begin [dict create \
+        source finish engine $name origin [list analysispane $n]]]
+    set ::finishgame::oldMode 0
+    catch { set ::finishgame::oldMode [expr {$::finishGameMode ? 1 : 0}] }
+    set ::finishGameMode 1
+    set variant 0
+    catch { set variant [sc_game variant] }
+    foreach id [list $::finishgame::WhiteId $::finishgame::BlackId] {
+        catch { ::engine::send $id NewGame [list analysis post_pv post_wdl $variant] }
+    }
     update idletasks
     ::finishgame::play
     return
@@ -309,6 +362,15 @@ proc ::finishgame::done {reason} {
     catch { set ::finishGameMode $::finishgame::oldMode }
     catch { grab release $owner }
     catch { $owner.btn.finish configure -image ::icon::tb_finish_off }
+    # The classic pane's own toggle: the same pass has to put back the button it
+    # turned on, whether it ran there or in an engine window.
+    if {$::finishgame::pane ne ""} {
+        catch {
+            .analysisWin$::finishgame::pane.b1.bFinishGame \
+                configure -image ::icon::tb_finish_off
+        }
+    }
+    set ::finishgame::pane ""
     set ::finishgame::owner ""
     set ::finishgame::waitId ""
     if {[lsearch -exact {end mate stalemate cancel repetition tablebase} $reason] < 0} {
