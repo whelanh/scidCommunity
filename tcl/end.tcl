@@ -485,6 +485,45 @@ proc clearMatchList { tw } {
   $tw configure -state disabled
 }
 
+# matchSelectKey:
+#   Handler for the "Ctrl+1..9 selects a match" shortcut. It is bound to
+#   <Control-KeyPress> on the name entry widgets rather than to
+#   <Control-Key-1>..<Control-Key-9>, so the shortcut follows the physical
+#   digit-row keys instead of the keysyms those keys produce.
+#
+#   A keysym binding is keyboard-layout dependent: on a French AZERTY layout
+#   the key labelled "1" produces keysym "ampersand" unless Shift is held, so
+#   <Control-Key-1> never matches and users had to press Ctrl+Shift+1. On X11
+#   the digit row is always keycodes 10..18 (digits 1..9) regardless of layout,
+#   so we read %k there; on Windows/macOS we fall back to the keysym, which is
+#   already the digit on those platforms.
+proc ::matchSelectKey {keycode keysym var} {
+  global nameMatches nameMatchCount
+  set digit 0
+  if {[tk windowingsystem] eq "x11"} {
+    if {$keycode >= 10 && $keycode <= 18} { set digit [expr {$keycode - 9}] }
+  }
+  if {$digit == 0 && $keysym in {1 2 3 4 5 6 7 8 9}} {
+    set digit $keysym
+  }
+  if {$digit >= 1 && $digit <= 9} {
+    if {$nameMatchCount >= $digit} {
+      uplevel #0 [list set $var $nameMatches($digit)]
+    }
+    return -code break
+  }
+  return
+}
+
+# bindMatchSelect:
+#   Install the Ctrl+<digit> match-selection shortcut on each name entry.
+#   The list alternates widget paths and the global variable each is bound to.
+proc bindMatchSelect { entries } {
+  foreach {w var} $entries {
+    bind $w <Control-KeyPress> [list ::matchSelectKey %k %K $var]
+  }
+}
+
 # Traces to update the match list as names are typed in:
 
 trace add variable event write { updateMatchList .save.g.list e 9 }
@@ -642,13 +681,7 @@ proc nameEditor {} {
 
   updateMatchList $w.g.list "" 9 editName "" w
 
-  foreach {i j} {.nedit.g.fromE "editName"  .nedit.g.toE "editNameNew" } {
-    for {set z 1} {$z <= 9} {incr z} {
-      bind $i [format "<Control-Key-%d>" $z] \
-          [format "eval {if {\$nameMatchCount >= %d} { \
-              set %s \$nameMatches(%d)}}; break" $z $j $z ]
-    }
-  }
+  bindMatchSelect { .nedit.g.fromE editName  .nedit.g.toE editNameNew }
 
   ttk::frame $w.buttons
   ttk::button $w.buttons.replace -textvar ::tr(NameEditReplace) -command {
@@ -890,16 +923,8 @@ proc gameSave { gnum } {
   # Bindings so Ctrl-1 to Ctrl-9 select a matching name in the player,
   # site, event and round entryboxes:
 
-  set j 0
-  foreach {i j} {entryevent "event" entrysite "site"
-    entrywhite "white" entryblack "black"
-    entryround "round" } {
-    for {set z 1} {$z <= 9} {incr z} {
-      bind $f.$i [format "<Control-Key-%d>" $z] \
-          [format "eval {if {\$nameMatchCount >= %d} \
-            {set %s \$nameMatches(%d)}}" $z $j $z ]
-    }
-  }
+  bindMatchSelect [list $f.entryevent event  $f.entrysite site \
+      $f.entrywhite white  $f.entryblack black  $f.entryround round]
 
   ttk::frame .save.buttons
   if {$gnum == 0} {
