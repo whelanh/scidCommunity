@@ -870,7 +870,7 @@ translate V ReviewReportPhases {שלבים: %s}
 translate V ReviewReportPhase {%s מהלכים %d-%d (%s %.1f / %s %.1f)}
 translate V ReviewReportOpening {פְּתִיחָה}
 translate V ReviewReportMiddlegame {משחק אמצעי}
-translate V ReviewReportEndgame {endgame}
+translate V ReviewReportEndgame {סוף המשחק}
 translate V TimeMs {זמן (ms)}
 
 

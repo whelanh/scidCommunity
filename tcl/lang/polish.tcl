@@ -695,8 +695,8 @@ translate P TreeBest {Najlepsze}
 translate P TreeBestGames {Najlepsze partie z drzewa wariantów}
 translate P TreeFindAnyAnn {dowolna adnotacja}
 translate P TreeFindStalePos {Bieżąca pozycja nie odpowiada pozycji w drzewie wariantów.\nWróć do tej pozycji i spróbuj ponownie.}
-# Note: the next message is the tree window title row. After editing it,
-# check the tree window to make sure it lines up with the actual columns.
+# Uwaga: następny wpis to nagłówek okna drzewa. Po jego edycji sprawdź okno drzewa,
+# aby upewnić się, że tekst jest poprawnie wyrównany względem kolumn.
 translate P TreeTitleRow \
   {    Posunięcia                ECO       Częstość     Wynik ŚrElo  Perf  śrDł ŚrRok  %Remisów  %Wygr.}
 translate P TreeTotal {RAZEM}
@@ -899,15 +899,15 @@ translate P ReviewCoachKept {Przegląd anulowany: zachowano %s z %s notatek tren
 translate P ReviewCoachDiscarded {Przegląd jest gotowy, ale tekst trenera został odrzucony: podczas pisania modelu otwarto inną partię.}
 translate P ReviewCoachSummaryLabel {Streszczenie}
 translate P ReviewCoachLevelLabel {Poziom}
-translate P ReviewCoachOpeningLabel {Otwór}
+translate P ReviewCoachOpeningLabel {Debiut}
 translate P ReviewCoachPhase {ruchy %d-%d - celność W %.1f%% B %.1f%%, ACPL W %d B %d.}
 translate P ReviewReportMarker {Recenzja gry}
 translate P ReviewReportSide {%s: dokładność %s%%, ACPL %d, szacunkowe Elo %d}
-translate P ReviewReportLabels {%s etykiety: %s}
+translate P ReviewReportLabels {%s: %s}
 translate P ReviewReportKeyMoments {Kluczowe momenty: %s}
 translate P ReviewReportPhases {Fazy: %s}
-translate P ReviewReportPhase {%s porusza się %d-%d (%s %.1f / %s %.1f)}
-translate P ReviewReportOpening {otwór}
+translate P ReviewReportPhase {%s: ruchy %d-%d (%s %.1f / %s %.1f)}
+translate P ReviewReportOpening {debiut}
 translate P ReviewReportMiddlegame {gra środkowa}
 translate P ReviewReportEndgame {etap końcowy}
 translate P TimeMs {Czas (ms)}

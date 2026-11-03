@@ -898,15 +898,15 @@ translate U ReviewCoachKept {Analyysi peruutettu: %s / %s valmentajan merkintä�
 translate U ReviewCoachDiscarded {Analyysi on valmis, mutta valmentajan teksti hylättiin: toinen peli avattiin mallin kirjoittaessa.}
 translate U ReviewCoachSummaryLabel {Yhteenveto}
 translate U ReviewCoachLevelLabel {Taso}
-translate U ReviewCoachOpeningLabel {Avaaminen}
-translate U ReviewCoachPhase {liikkuu %d-%d - tarkkuus W %.1f%% B %.1f%%, ACPL W %d B %d.}
-translate U ReviewReportMarker {Game review}
-translate U ReviewReportSide {%s: %s%% accuracy, ACPL %d, estimated Elo %d}
-translate U ReviewReportLabels {%s tunnisteet: %s}
+translate U ReviewCoachOpeningLabel {Avaus}
+translate U ReviewCoachPhase {siirrot %d-%d - tarkkuus W %.1f%% B %.1f%%, ACPL W %d B %d.}
+translate U ReviewReportMarker {Pelin tarkastus}
+translate U ReviewReportSide {%s: tarkkuus %s%%, ACPL %d, arvioitu Elo %d}
+translate U ReviewReportLabels {%s: tunnisteet %s}
 translate U ReviewReportKeyMoments {Tärkeimmät hetket: %s}
 translate U ReviewReportPhases {Vaiheet: %s}
-translate U ReviewReportPhase {%s siirtyy %d-%d (%s %.1f / %s %.1f)}
-translate U ReviewReportOpening {avaaminen}
+translate U ReviewReportPhase {%s: siirrot %d-%d (%s %.1f / %s %.1f)}
+translate U ReviewReportOpening {avaus}
 translate U ReviewReportMiddlegame {keskipeli}
 translate U ReviewReportEndgame {loppupeli}
 translate U TimeMs {Aika (ms)}
