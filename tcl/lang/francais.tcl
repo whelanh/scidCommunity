@@ -1472,7 +1472,7 @@ translate F NameEditType {Taper le nom à éditer}
 translate F NameEditSelect {Parties à éditer}
 translate F NameEditReplace {Remplacer}
 translate F NameEditWith {avec}
-translate F NameEditMatches {Correspondances: Presser Alt+1 à Alt+9 pour sélectionner}
+translate F NameEditMatches {Correspondances: Presser Ctrl+1 à Ctrl+9 pour sélectionner}
 
 # Check games window:
 translate F CheckGames {Vérifier les jeux}
