@@ -233,6 +233,43 @@ That keeps the search and the write apart for the reason they always were:
 writing mid-pass re-enters the engine window from an open engine, which makes the
 main-line snapshot non-authoritative.
 
+## The progress popup
+
+A review runs on its own engine connection and never takes the board. The popup
+is the window onto that work (#422 item 3): the header names the run's source and
+the engine it was started with, a read-only board shows the position being
+searched, a determinate bar shows how far the pass has got, and the button stops
+it.
+
+- **One window.** Built on first use and withdrawn, never destroyed, so a session
+  has one popup however many runs it starts. It opens over the engine window that
+  started the run; the status line in the review toolbar opens it again after it
+  has been closed.
+- **Fed a FEN and nothing else.** `::reviewprogress::positionToBoard` turns the
+  engine's own FEN into the string `::board::update` draws, on a board that has
+  no game, no cursor and no clock. A run therefore cannot move the reader's board
+  or fight it for control, and a click on the progress board does nothing: the
+  canvas carries no square bindings and is out of the focus order.
+- **The header is a field.** Source, engine name and origin are composed once
+  when the run starts and carried in the job, so a run that outlives its window's
+  engine choice still says what it was asked to do.
+- **The bar has one source.** `::reviewui::passFraction` of the driver's own
+  counts; an empty total is no fraction rather than zero.
+- **Covered is not paused.** The job is published whether or not the window is
+  mapped, and `<Map>` redraws from the current position, so a reader who comes
+  back sees where the run is now.
+- **Closing cancels nothing.** The run's own Cancel is the only thing that stops
+  it; the popup is decoration over a job.
+
+Finish Game uses the same board. It collects the continuation on pure
+`::chessboard` positions — each move from the previous one — and writes once at
+the end, with the cursor saved and restored the way `::review::writeMove` does
+it. `::addMoveUCI`, which follows the cursor and animates, is off the path, so the
+reader's board stays where they left it for the whole pass. A cancel writes
+nothing because the collect phase touched nothing. The engine window's Finish
+Game and the classic Analysis window's both run this one pass
+(`::finishgame::start` and `::finishgame::startPane`).
+
 ## The review report
 
 `tcl/tools/review_report.tcl` turns a finished pass into the figures a reader
