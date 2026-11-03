@@ -260,6 +260,16 @@ it.
   back sees where the run is now.
 - **Closing cancels nothing.** The run's own Cancel is the only thing that stops
   it; the popup is decoration over a job.
+- **Every run gets it, not only the engine window's** (G5=b). Game Review and
+  Move Comment begin the job in `::reviewui::runCall`; annotate composes its
+  header in `::reviewannotate::headerFields`; rapid annotate owns a job of its
+  own and leaves one another run holds alone; the batch starts one job for the
+  whole run. A batch's header carries the game in flight (`· game 4 of 4`),
+  recomposed from the fields the run began with as each game is assigned, so it
+  is still a stored field rather than a lookup at draw time. The board always
+  shows the position the engine is searching — the driver's own `position`
+  string replayed on a pure `::chessboard`, never the reader's game — so none of
+  these runs can walk the main board.
 
 Finish Game uses the same board. It collects the continuation on pure
 `::chessboard` positions — each move from the previous one — and writes once at
