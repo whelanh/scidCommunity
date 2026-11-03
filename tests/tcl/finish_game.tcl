@@ -317,5 +317,24 @@ checkEq "the engines were closed" [llength $::closed] 2
 checkEq "and the pass is over" $::finishgame::active 0
 check "the failure was reported" [expr {[llength $::boxes] == 1}]
 
+puts "\nthe progress job names the engine window, not its widget path"
+
+# The window knows its own number; the job takes that, not the widget path the
+# classic code carried around. A header reading "Engine window .engineWin3" is
+# an implementation detail the reader should never see. Run last: a second pass
+# here would disturb the state the checks above depend on.
+set ::jobs {}
+::reviewprogress::setPainter {apply {{job} {lappend ::jobs $job}}}
+resetGame
+::finishgame::start 3 "White Engine" "Black Engine"
+set first [lindex $::jobs 0]
+check "the progress job was begun" [expr {[dict size $first] > 0}]
+checkEq "the job carries the window's number as its origin" \
+    [dict get $first fields] \
+    {source finish engine {White Engine / Black Engine} origin {enginewin 3}}
+check "no widget path reaches the header" \
+    [expr {[string first .engineWin [dict get $first header]] < 0}]
+::reviewprogress::setPainter {}
+
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]
