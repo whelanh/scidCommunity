@@ -522,7 +522,7 @@ proc ::reviewcoach::languageDirective {} {
 proc ::reviewcoach::summaryLanguageDirective {} {
     set name [answerLanguage]
     if {$name eq ""} { return "" }
-    return "- Write the text of each line in $name, but keep the labels SUMMARY:, LEVEL: and OPENING: exactly as written.\n"
+    return "- Write the text of each line in $name, but keep the labels SUMMARY:, LEVEL: and OPENING: exactly as written, and write NONE exactly as written when FACTS gives no opening name.\n"
 }
 
 proc ::reviewcoach::banWords {label} {

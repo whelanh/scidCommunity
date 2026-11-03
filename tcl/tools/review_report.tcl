@@ -657,8 +657,11 @@ proc ::reviewreport::stripHeader {comment} {
     # is stripped, not just the current one, so a game reviewed before the
     # language changed does not end up carrying two blocks.
     foreach marker [markers] {
-        set re "\\\[[escape $marker]\\]\[^\\n\]*(?:\\n\[ \t\]+\[^\\n\]*)*"
-        regsub -all $re $comment "" comment
+        # Anchored to the start of a line: the block is always written on its
+        # own line, and a sentence that mentions [Game review] in passing is
+        # not a block.
+        set re "^\\\[[escape $marker]\\]\[^\\n\]*(?:\\n\[ \t\]+\[^\\n\]*)*"
+        regsub -all -lineanchor $re $comment "" comment
     }
     return [string trim $comment]
 }
