@@ -561,6 +561,10 @@ proc tr {tag} {
         ReviewCoachKept { return "Review cancelled: %s of %s coach notes were kept." }
         ReviewCoachNoModel { return "Coach prose is on, but no model is configured." }
         ReviewCoachDiscarded { return "The review is complete, but the coach prose was discarded." }
+        ReviewCoachSummaryLabel { return "Resumen" }
+        ReviewCoachLevelLabel { return "Nivel" }
+        ReviewCoachOpeningLabel { return "Apertura" }
+        ReviewReportOpening { return "apertura" }
     }
     return $tag
 }
@@ -627,6 +631,31 @@ proc ::reviewprose::run {prompts onProgress onDone} { return 0 }
 checkEq "a refused queue makes the coach say it did not start" \
     [::reviewcoach::start {} {} ""] 0
 checkEq "and the game it was writing for is forgotten" $::reviewcoach::game ""
+
+puts "\nthe language the window shows"
+
+# The prose lands in a game comment, so it is written in the language the window
+# shows. English is the prompts' own language and needs no directive.
+set ::language E
+checkEq "English adds no directive" [::reviewcoach::languageDirective] ""
+set ::language S
+check "Spanish is named in the directive" \
+    [expr {[string first "Spanish" [::reviewcoach::languageDirective]] >= 0}]
+check "the move prompt carries it" \
+    [expr {[string first "Spanish" [::reviewcoach::movePrompt $m]] >= 0}]
+check "the phase prompt too" \
+    [expr {[string first "Spanish" [::reviewcoach::phasePrompt opening $pf]] >= 0}]
+set ssp [::reviewcoach::summaryPrompt $gf]
+check "and the summary names it while keeping its three labels" \
+    [expr {[string first "Spanish" $ssp] >= 0 && [string first "SUMMARY:" $ssp] >= 0 \
+        && [string first "LEVEL:" $ssp] >= 0 && [string first "OPENING:" $ssp] >= 0}]
+# A game reviewed before the language changed keeps no stale header: the English
+# labels are stripped as well as the translated ones.
+checkEq "the header block is stripped in the window's language" \
+    [::reviewcoach::stripHeader "Resumen: una historia.\nNivel: club.\nApertura: la italiana"] ""
+checkEq "and the English one still is" \
+    [::reviewcoach::stripHeader "Summary: a story.\nLevel: club.\nOpening: the Italian"] ""
+unset -nocomplain ::language
 
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

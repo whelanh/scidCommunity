@@ -862,6 +862,19 @@ translate C ReviewCoachSettings {Nastavení trenéra...}
 translate C ReviewCoachNoModel {Text trenéra je zapnutý, ale není nastaven žádný model. V nastavení přehledu stiskněte Nastavení trenéra... a vyberte poskytovatele a model.}
 translate C ReviewCoachKept {Přehled zrušen: zachováno %s z %s poznámek trenéra.}
 translate C ReviewCoachDiscarded {Přehled je hotový, ale text trenéra byl zahozen: během psaní modelu byla otevřena jiná partie.}
+translate C ReviewCoachSummaryLabel {Shrnutí}
+translate C ReviewCoachLevelLabel {Úroveň}
+translate C ReviewCoachOpeningLabel {Otevírací}
+translate C ReviewCoachPhase {pohyby %d-%d - přesnost W %.1f%% B %.1f%%, ACPL W %d B %d.}
+translate C ReviewReportMarker {Recenze hry}
+translate C ReviewReportSide {%s: %s%% přesnost, ACPL %d, odhad Elo %d}
+translate C ReviewReportLabels {%s štítky: %s}
+translate C ReviewReportKeyMoments {Klíčové momenty: %s}
+translate C ReviewReportPhases {Fáze: %s}
+translate C ReviewReportPhase {%s pohyby %d-%d (%s %.1f / %s %.1f)}
+translate C ReviewReportOpening {otevírací}
+translate C ReviewReportMiddlegame {střední hra}
+translate C ReviewReportEndgame {koncovka}
 translate C TimeMs {as (ms)}
 
 

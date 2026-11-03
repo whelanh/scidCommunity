@@ -861,6 +861,19 @@ translate T ReviewCoachSettings {Antrenör ayarları...}
 translate T ReviewCoachNoModel {Antrenör metni açık, ancak model yapılandırılmamış. İnceleme ayarlarını açın ve sağlayıcı ile modeli seçmek için Antrenör ayarları... düğmesine basın.}
 translate T ReviewCoachKept {İnceleme iptal edildi: %s / %s antrenör notu korundu.}
 translate T ReviewCoachDiscarded {İnceleme tamamlandı, ancak antrenör metni atıldı: model yazarken başka bir oyun açıldı.}
+translate T ReviewCoachSummaryLabel {Özet}
+translate T ReviewCoachLevelLabel {Seviye}
+translate T ReviewCoachOpeningLabel {Açılış}
+translate T ReviewCoachPhase {%d-%d hareket eder - doğruluk W %.1f%% B %.1f%%, ACPL W %d B %d.}
+translate T ReviewReportMarker {Oyun incelemesi}
+translate T ReviewReportSide {%s: %s%% doğruluk, ACPL %d, tahmini Elo %d}
+translate T ReviewReportLabels {%s etiketleri: %s}
+translate T ReviewReportKeyMoments {Önemli anlar: %s}
+translate T ReviewReportPhases {Aşamalar: %s}
+translate T ReviewReportPhase {%s %d-%d hareket eder (%s %.1f / %s %.1f)}
+translate T ReviewReportOpening {açılış}
+translate T ReviewReportMiddlegame {oyun ortası}
+translate T ReviewReportEndgame {oyun sonu}
 translate T TimeMs {Zaman(ms)}
 
 

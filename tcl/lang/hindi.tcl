@@ -857,6 +857,19 @@ translate h ReviewCoachSettings {कोच सेटिंग्स...}
 translate h ReviewCoachNoModel {कोच की टिप्पणी चालू है, लेकिन कोई मॉडल कॉन्फ़िगर नहीं है। समीक्षा सेटिंग्स खोलें और प्रदाता तथा मॉडल चुनने के लिए कोच सेटिंग्स... दबाएँ।}
 translate h ReviewCoachKept {समीक्षा रद्द: %2$s में से %1$s कोच टिप्पणियाँ रखी गईं।}
 translate h ReviewCoachDiscarded {समीक्षा पूरी हुई, लेकिन कोच की टिप्पणी हटा दी गई: मॉडल के लिखते समय दूसरा खेल खोला गया।}
+translate h ReviewCoachSummaryLabel {सारांश}
+translate h ReviewCoachLevelLabel {स्तर}
+translate h ReviewCoachOpeningLabel {प्रारंभिक}
+translate h ReviewCoachPhase {चाल %d-%d - सटीकता W %.1f%% B %.1f%%, ACPL W %d B %d।}
+translate h ReviewReportMarker {खेल समीक्षा}
+translate h ReviewReportSide {%s: %s%% सटीकता, ACPL %d, अनुमानित Elo %d}
+translate h ReviewReportLabels {%s लेबल: %s}
+translate h ReviewReportKeyMoments {मुख्य क्षण: %s}
+translate h ReviewReportPhases {चरण: %s}
+translate h ReviewReportPhase {%s चलता है %d-%d (%s %.1f / %s %.1f)}
+translate h ReviewReportOpening {उद्घाटन}
+translate h ReviewReportMiddlegame {बीच का खेल}
+translate h ReviewReportEndgame {एंडगेम}
 translate h TimeMs {समय(एमएस)}
 
 

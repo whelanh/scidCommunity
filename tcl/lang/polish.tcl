@@ -897,6 +897,19 @@ translate P ReviewCoachSettings {Ustawienia trenera...}
 translate P ReviewCoachNoModel {Tekst trenera jest włączony, ale nie wybrano modelu. Otwórz ustawienia przeglądu i naciśnij Ustawienia trenera..., aby wybrać dostawcę i model.}
 translate P ReviewCoachKept {Przegląd anulowany: zachowano %s z %s notatek trenera.}
 translate P ReviewCoachDiscarded {Przegląd jest gotowy, ale tekst trenera został odrzucony: podczas pisania modelu otwarto inną partię.}
+translate P ReviewCoachSummaryLabel {Streszczenie}
+translate P ReviewCoachLevelLabel {Poziom}
+translate P ReviewCoachOpeningLabel {Debiut}
+translate P ReviewCoachPhase {ruchy %d-%d - celność W %.1f%% B %.1f%%, ACPL W %d B %d.}
+translate P ReviewReportMarker {Recenzja gry}
+translate P ReviewReportSide {%s: dokładność %s%%, ACPL %d, szacunkowe Elo %d}
+translate P ReviewReportLabels {%s: %s}
+translate P ReviewReportKeyMoments {Kluczowe momenty: %s}
+translate P ReviewReportPhases {Fazy: %s}
+translate P ReviewReportPhase {%s: ruchy %d-%d (%s %.1f / %s %.1f)}
+translate P ReviewReportOpening {debiut}
+translate P ReviewReportMiddlegame {gra środkowa}
+translate P ReviewReportEndgame {etap końcowy}
 translate P TimeMs {Czas (ms)}
 
 
@@ -2134,7 +2147,7 @@ translate P RtfNotScidFile {Ten plik nie został wyeksportowany przez ScidCommun
 translate P RtfImportSuccess {Partia została pomyślnie zaimportowana do bazy schowka.}
 translate P RtfImportSuccessMulti {%d partii zostało pomyślnie zaimportowanych do bazy schowka.}
 }
-# end of polish.tcl
+# end of english.tcl
 
 
 ############################################################
@@ -2358,4 +2371,3 @@ set tips(P) {
     klikając prawym przyciskiem myszy na widżecie zakładek.
   }
 }
-########################################

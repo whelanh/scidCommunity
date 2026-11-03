@@ -864,6 +864,19 @@ translate R ReviewCoachSettings {Настройки тренера...}
 translate R ReviewCoachNoModel {Текст тренера включён, но модель не настроена. Откройте настройки обзора и нажмите Настройки тренера..., чтобы выбрать провайдера и модель.}
 translate R ReviewCoachKept {Обзор отменён: сохранено %s из %s заметок тренера.}
 translate R ReviewCoachDiscarded {Обзор завершён, но текст тренера отброшен: во время работы модели была открыта другая партия.}
+translate R ReviewCoachSummaryLabel {Краткое содержание}
+translate R ReviewCoachLevelLabel {Уровень}
+translate R ReviewCoachOpeningLabel {Открытие}
+translate R ReviewCoachPhase {ходы %d-%d - точность W %.1f%% B %.1f%%, ACPL W %d B %d.}
+translate R ReviewReportMarker {Обзор игры}
+translate R ReviewReportSide {%s: точность %s%%, ACPL %d, расчетное Эло %d}
+translate R ReviewReportLabels {Ярлыки %s: %s}
+translate R ReviewReportKeyMoments {Ключевые моменты: %s}
+translate R ReviewReportPhases {Фазы: %s}
+translate R ReviewReportPhase {%s перемещает %d-%d (%s %.1f / %s %.1f)}
+translate R ReviewReportOpening {открытие}
+translate R ReviewReportMiddlegame {миттельшпиль}
+translate R ReviewReportEndgame {эндшпиль}
 translate R TimeMs {Время (мс)}
 
 

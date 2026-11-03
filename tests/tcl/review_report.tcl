@@ -533,7 +533,12 @@ check "the phase boundaries are in moves" \
 check "the figure is called accuracy, and no vendor's name" \
     [expr {[string first "% accuracy" $text] >= 0 && [string first "CAPS" $text] < 0}]
 checkEq "a second run strips the old block" \
-    [::reviewreport::stripHeader "A note. $text"] "A note."
+    [::reviewreport::stripHeader "A note.\n$text"] "A note."
+# The block is written on a line of its own; a sentence that mentions the
+# marker in passing is the reader's and stays whole.
+checkEq "a passing mention is not a block" \
+    [::reviewreport::stripHeader "See \[Game review\] notes below."] \
+    "See \[Game review\] notes below."
 
 puts "\nthe block removal"
 
@@ -578,6 +583,45 @@ check "a note below the block survives the next review" \
 check "and the note above it" \
     [expr {[string first "Opening idea: Nf3 first." $comment] >= 0}]
 checkEq "the block is written once" [regexp -all {\[Game review\]} $comment] 1
+
+puts "\nthe window's language"
+
+# The block is written into the game, so its words are the reader's words. The
+# English text above is the default; here a language file is simulated, the way
+# the Spanish one carries these keys.
+namespace eval ::movelabels {}
+proc ::movelabels::text {label} { return [::tr "MoveLabel[string totitle $label]"] }
+proc ::tr {tag} {
+    switch -- $tag {
+        White                  { return "Blancas" }
+        Black                  { return "Negras" }
+        ReviewReportMarker     { return "Revisión de la partida" }
+        ReviewReportSide       { return "%s: %s%% de precisión, ACPL %d, Elo estimado %d" }
+        ReviewReportLabels     { return "Etiquetas de %s: %s" }
+        ReviewReportKeyMoments { return "Momentos clave: %s" }
+        ReviewReportPhases     { return "Fases: %s" }
+        ReviewReportPhase      { return "%s: jugadas %d-%d (%s %.1f / %s %.1f)" }
+        ReviewReportOpening    { return "apertura" }
+        ReviewReportMiddlegame { return "medio juego" }
+        ReviewReportEndgame    { return "final" }
+        MoveLabelGood          { return "Buena" }
+        MoveLabelBlunder       { return "Error grave" }
+    }
+    return $tag
+}
+set spanish [::reviewreport::headerText $moves]
+check "the marker follows the language" \
+    [expr {[string first "\[Revisión de la partida\]" $spanish] == 0}]
+check "the tally uses the label words the scoresheet uses" \
+    [expr {[string first "Buena" $spanish] >= 0 \
+        && [string first "Error grave" $spanish] >= 0}]
+check "and the key moments and phases are translated" \
+    [expr {[string first "Momentos clave" $spanish] >= 0 \
+        && [string first "apertura: jugadas" $spanish] >= 0}]
+checkEq "a block written before the language changed is still stripped" \
+    [::reviewreport::stripHeader "A note.\n$text"] "A note."
+checkEq "and one written in the new language" \
+    [::reviewreport::stripHeader "A note.\n$spanish"] "A note."
 
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

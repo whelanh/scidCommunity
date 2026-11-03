@@ -857,6 +857,19 @@ translate Z ReviewCoachSettings {Mipangilio ya kocha...}
 translate Z ReviewCoachNoModel {Maandishi ya kocha yamewashwa, lakini hakuna modeli iliyowekwa. Fungua mipangilio ya ukaguzi na bonyeza Mipangilio ya kocha... kuchagua mtoa huduma na modeli.}
 translate Z ReviewCoachKept {Ukaguzi umeghairiwa: %s kati ya %s maelezo ya kocha yamehifadhiwa.}
 translate Z ReviewCoachDiscarded {Ukaguzi umekamilika, lakini maandishi ya kocha yametupwa: mchezo mwingine ulifunguliwa wakati modeli ilikuwa inaandika.}
+translate Z ReviewCoachSummaryLabel {Muhtasari}
+translate Z ReviewCoachLevelLabel {Kiwango}
+translate Z ReviewCoachOpeningLabel {Ufunguzi}
+translate Z ReviewCoachPhase {husogeza %d-%d - usahihi W %.1f%% B %.1f%%, ACPL W %d B %d.}
+translate Z ReviewReportMarker {Tathmini ya mchezo}
+translate Z ReviewReportSide {%s: %s%% usahihi, ACPL %d, inakadiriwa Elo %d}
+translate Z ReviewReportLabels {%s lebo: %s}
+translate Z ReviewReportKeyMoments {Matukio muhimu: %s}
+translate Z ReviewReportPhases {Awamu: %s}
+translate Z ReviewReportPhase {%s husogeza %d-%d (%s %.1f / %s %.1f)}
+translate Z ReviewReportOpening {ufunguzi}
+translate Z ReviewReportMiddlegame {mchezo wa kati}
+translate Z ReviewReportEndgame {mwisho wa mchezo}
 translate Z TimeMs {Saa(ms)}
 
 

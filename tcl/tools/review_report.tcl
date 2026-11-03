@@ -567,28 +567,66 @@ proc ::reviewreport::moveNumber {ply} {
     return "[expr {$ply / 2}]..."
 }
 
+# A word the report owns, in the window's language. The English text is both the
+# default and the fallback: a tclsh test has no language files, and a language
+# that has not translated a key reads in English rather than showing the key.
+proc ::reviewreport::phrase {key english} {
+    set out $english
+    if {[llength [info commands ::tr]]} {
+        set text ""
+        catch { set text [::tr $key] }
+        if {$text ne "" && $text ne $key} { set out $text }
+    }
+    return $out
+}
+
+# A move label in the window's language, through the same table the scoresheet
+# uses, so the tally names a move exactly as its own comment does.
+proc ::reviewreport::labelWord {label} {
+    if {[llength [info commands ::movelabels::text]]} {
+        return [::movelabels::text $label]
+    }
+    return $label
+}
+
+# Text as a regular-expression literal: a marker is matched as text, and a
+# translated one may carry a character a regex would read as syntax.
+proc ::reviewreport::escape {text} {
+    regsub -all {([][(){}*+?.^$|\\])} $text {\\\1} text
+    return $text
+}
+
 proc ::reviewreport::headerText {moves} {
     set w [sideSummary $moves white]
     set b [sideSummary $moves black]
-    set out "\[Game review\]"
-    append out "\n  White: [dict get $w accuracy]% accuracy, ACPL [dict get $w acpl], estimated Elo [dict get $w elo]"
-    append out "\n  Black: [dict get $b accuracy]% accuracy, ACPL [dict get $b acpl], estimated Elo [dict get $b elo]"
-    foreach {side label} [list White $w Black $b] {
+    set white [phrase White White]
+    set black [phrase Black Black]
+    set sideFmt [phrase ReviewReportSide {%s: %s%% accuracy, ACPL %d, estimated Elo %d}]
+    set out "\[[phrase ReviewReportMarker {Game review}]\]"
+    append out "\n  " [format $sideFmt $white \
+        [dict get $w accuracy] [dict get $w acpl] [dict get $w elo]]
+    append out "\n  " [format $sideFmt $black \
+        [dict get $b accuracy] [dict get $b acpl] [dict get $b elo]]
+    set labelsFmt [phrase ReviewReportLabels {%s labels: %s}]
+    foreach {side tally} [list $white $w $black $b] {
         set parts {}
         foreach cls {brilliant great best excellent good book forced inaccuracy mistake miss blunder} {
             set n 0
-            catch { set n [dict get [dict get $label tally] $cls] }
-            if {$n > 0} { lappend parts "$n $cls" }
+            catch { set n [dict get [dict get $tally tally] $cls] }
+            if {$n > 0} { lappend parts "$n [labelWord $cls]" }
         }
-        if {[llength $parts]} { append out "\n  $side labels: [join $parts {, }]" }
+        if {[llength $parts]} {
+            append out "\n  " [format $labelsFmt $side [join $parts {, }]]
+        }
     }
     set keys [keyMoments $moves 5]
     if {[llength $keys]} {
         set parts {}
         foreach k $keys {
-            lappend parts "[moveNumber [dict get $k ply]][dict get $k san] ([dict get $k classification])"
+            lappend parts "[moveNumber [dict get $k ply]][dict get $k san] ([labelWord [dict get $k classification]])"
         }
-        append out "\n  Key moments: [join $parts {; }]"
+        append out "\n  " [format [phrase ReviewReportKeyMoments {Key moments: %s}] \
+            [join $parts {; }]]
     }
     set phases [phaseSplit $moves]
     set pp {}
@@ -598,9 +636,13 @@ proc ::reviewreport::headerText {moves} {
         if {$ph eq ""} { continue }
         set fromMove [expr {([dict get $ph from] + 1) / 2}]
         set toMove [expr {([dict get $ph to] + 1) / 2}]
-        lappend pp "$name moves $fromMove-$toMove (W [dict get $ph accW] / B [dict get $ph accB])"
+        lappend pp [format [phrase ReviewReportPhase {%s moves %d-%d (%s %.1f / %s %.1f)}] \
+            [phrase ReviewReport[string totitle $name] $name] $fromMove $toMove \
+            $white [dict get $ph accW] $black [dict get $ph accB]]
     }
-    if {[llength $pp]} { append out "\n  Phases: [join $pp {; }]" }
+    if {[llength $pp]} {
+        append out "\n  " [format [phrase ReviewReportPhases {Phases: %s}] [join $pp {; }]]
+    }
     return $out
 }
 
@@ -610,8 +652,35 @@ proc ::reviewreport::stripHeader {comment} {
     # which ate a note the player typed below the block - and the block is
     # written last, so a note added under it sat behind the marker. A line that
     # is not indented ends the block, so anything after it survives.
-    regsub -all {\[Game review\][^\n]*(?:\n[ \t]+[^\n]*)*} $comment "" comment
+    #
+    # The marker is written in the window's language. Every language's own marker
+    # is stripped, not just the current one, so a game reviewed before the
+    # language changed does not end up carrying two blocks.
+    foreach marker [markers] {
+        # Anchored to the start of a line: the block is always written on its
+        # own line, and a sentence that mentions [Game review] in passing is
+        # not a block.
+        set re "^\\\[[escape $marker]\\]\[^\\n\]*(?:\\n\[ \t\]+\[^\\n\]*)*"
+        regsub -all -lineanchor $re $comment "" comment
+    }
     return [string trim $comment]
+}
+
+# The English marker, the current language's, and every other language's: the
+# table holds one entry per language that has translated the key.
+proc ::reviewreport::markers {} {
+    set out [list {Game review}]
+    set current [phrase ReviewReportMarker {Game review}]
+    if {$current ne "" && $current ni $out} { lappend out $current }
+    if {[info exists ::languages] && [info exists ::translations]} {
+        foreach lang $::languages {
+            if {[info exists ::translations($lang,ReviewReportMarker)]} {
+                set marker $::translations($lang,ReviewReportMarker)
+                if {$marker ne "" && $marker ni $out} { lappend out $marker }
+            }
+        }
+    }
+    return $out
 }
 
 # Add the report to the game's header comment. Called after the write phase,

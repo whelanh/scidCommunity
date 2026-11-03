@@ -898,6 +898,19 @@ translate A ReviewCoachSettings {コーチ設定...}
 translate A ReviewCoachNoModel {コーチの解説は有効ですが、モデルが設定されていません。レビュー設定を開き、「コーチ設定...」を押してプロバイダーとモデルを選んでください。}
 translate A ReviewCoachKept {レビューは中止されました: コーチの解説 %s / %s 件を保持しました。}
 translate A ReviewCoachDiscarded {レビューは完了しましたが、コーチの解説は破棄されました: モデルが書いている間に別の対局が開かれました。}
+translate A ReviewCoachSummaryLabel {まとめ}
+translate A ReviewCoachLevelLabel {レベル}
+translate A ReviewCoachOpeningLabel {オープニング}
+translate A ReviewCoachPhase {移動 %d-%d - 精度 W %.1f%% B %.1f%%、ACPL W %d B %d。}
+translate A ReviewReportMarker {ゲームレビュー}
+translate A ReviewReportSide {%s: %s%% 精度、ACPL %d、推定 Elo %d}
+translate A ReviewReportLabels {%s ラベル: %s}
+translate A ReviewReportKeyMoments {重要な瞬間: %s}
+translate A ReviewReportPhases {フェーズ: %s}
+translate A ReviewReportPhase {%s は %d-%d を移動します (%s %.1f / %s %.1f)}
+translate A ReviewReportOpening {オープニング}
+translate A ReviewReportMiddlegame {中盤}
+translate A ReviewReportEndgame {終盤}
 translate A TimeMs {時間(ミリ秒)}
 
 

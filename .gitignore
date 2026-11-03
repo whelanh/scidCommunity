@@ -58,3 +58,7 @@ lucaschess/
 # writing, and it is deliberately left behind when the database is closed (see
 # src/filelock.h). Tests that open their fixtures for writing create them too.
 *.lock
+
+# Python bytecode left by the translation helpers in tcl/lang/.
+__pycache__/
+*.pyc

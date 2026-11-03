@@ -868,6 +868,19 @@ translate W ReviewCoachSettings {Tränarinställningar...}
 translate W ReviewCoachNoModel {Tränartexten är på, men ingen modell är konfigurerad. Öppna granskningsinställningarna och tryck på Tränarinställningar... för att välja leverantör och modell.}
 translate W ReviewCoachKept {Granskning avbruten: %s av %s tränarnoter behölls.}
 translate W ReviewCoachDiscarded {Granskningen är klar, men tränartexten kasserades: ett annat parti öppnades medan modellen skrev.}
+translate W ReviewCoachSummaryLabel {Sammanfattning}
+translate W ReviewCoachLevelLabel {Nivå}
+translate W ReviewCoachOpeningLabel {Öppning}
+translate W ReviewCoachPhase {flyttar %d-%d - noggrannhet W %.1f%% B %.1f%%, ACPL W %d B %d.}
+translate W ReviewReportMarker {Spelrecension}
+translate W ReviewReportSide {%s: %s%% noggrannhet, ACPL %d, uppskattad Elo %d}
+translate W ReviewReportLabels {%s etiketter: %s}
+translate W ReviewReportKeyMoments {Viktiga ögonblick: %s}
+translate W ReviewReportPhases {Faser: %s}
+translate W ReviewReportPhase {%s flyttar %d-%d (%s %.1f / %s %.1f)}
+translate W ReviewReportOpening {öppning}
+translate W ReviewReportMiddlegame {mellanspel}
+translate W ReviewReportEndgame {slutspel}
 translate W TimeMs {Tid(ms)}
 
 
