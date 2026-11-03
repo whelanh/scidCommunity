@@ -1766,6 +1766,40 @@ checkEq "but the previous prose is still taken off" [llength $::coachClears] 1
 checkEq "the run is over at once" [dict get [::reviewdriver::status] state] done
 checkEq "and the hook still fired" $::hookCalls done
 
+puts "\nthe annotate path turns the coach off explicitly"
+# Annotate ships tier 1 without AI prose. Even with the Game Review coach
+# setting on, the pass must not queue a model request or wait for it.
+::review::setValue coach 1
+set ::coachStarts {}
+set ::coachClears {}
+set ::hookCalls {}
+set ::fakeLoc 0
+checkEq "a pass with -coach 0 starts" \
+    [::reviewdriver::run $::runcfg -coach 0 -done ::onRunDone] ""
+feedFullReview
+checkEq "the setting really is on" [::review::get coach] 1
+checkEq "no coach was asked" [llength $::coachStarts] 0
+checkEq "but the previous prose is still taken off" [llength $::coachClears] 1
+checkEq "the run is over at once" [dict get [::reviewdriver::status] state] done
+checkEq "and the hook fired" $::hookCalls done
+
+puts "\nan annotate pass leaves the coach's blocks alone"
+# An annotate pass has its own writer, so it is not the Game Review that owns
+# the coach blocks: with -coach 0 it must neither ask the model nor strip the
+# prose a previous review wrote.
+::review::setValue coach 1
+set ::coachStarts {}
+set ::coachClears {}
+set ::hookCalls {}
+set ::fakeLoc 0
+proc ::annotateWriter {p results} { return [dict create written 0 failed 0 errors {}] }
+checkEq "a custom-writer pass starts" \
+    [::reviewdriver::run $::runcfg -coach 0 -writer ::annotateWriter] ""
+feedFullReview
+checkEq "no coach was asked" [llength $::coachStarts] 0
+checkEq "and the coach's prose was not taken off" [llength $::coachClears] 0
+checkEq "the pass is over" [dict get [::reviewdriver::status] state] done
+
 puts "\na single-move pass never runs the coach"
 ::review::setValue coach 1
 set ::coachStarts {}

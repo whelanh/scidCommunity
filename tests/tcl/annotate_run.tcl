@@ -474,6 +474,7 @@ rename ::review::writeMoveSaved ::review::writeMove
 
 rename ::reviewdriver::run ::reviewdriver::runSaved
 proc ::reviewdriver::run {args} {
+    set ::annotateRunArgs $args
     set ::reviewdriver::state [::reviewdriver::blankState done]
     return ""
 }
@@ -484,6 +485,9 @@ checkEq "a pass with nothing to search starts and finishes" \
     [::reviewannotate::run $emptyPlan] ""
 checkEq "the run is over" [::reviewannotate::running] 0
 check "and nothing is left borrowed" [expr {[dict size $::reviewannotate::run] == 0}]
+set coachAt [lsearch -exact $::annotateRunArgs -coach]
+check "annotate passes -coach 0" \
+    [expr {$coachAt >= 0 && [lindex $::annotateRunArgs [expr {$coachAt + 1}]] eq "0"}]
 rename ::reviewdriver::run {}
 rename ::reviewdriver::runSaved ::reviewdriver::run
 

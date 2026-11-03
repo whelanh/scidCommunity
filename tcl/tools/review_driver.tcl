@@ -595,6 +595,8 @@ proc ::reviewdriver::status {} {
 #                   the review's own floor over the preset's)
 #   -progress cmd   called as {*}$cmd <done> <total> as positions finish
 #   -notify 0|1     refresh the board when the write phase ends (default 0)
+#   -coach 0|1      override the ::review::coach setting for this pass; annotate
+#                   mode passes 0 because its dialog ships tier 1 without prose
 #
 # There is no -movetime: the time cap is ::review::movetime or the preset's
 # Limits.movetime (::review::passLimits), so the pass and the settings dialog
@@ -607,6 +609,7 @@ proc ::reviewdriver::run {engine args} {
     set want ""
     set progress ""
     set notify 0
+    set coachOpt ""
     # The caller's completion hook: annotate mode chains one pass per game, so
     # the chain lives in the pass dict rather than in a module variable.
     set done ""
@@ -626,6 +629,7 @@ proc ::reviewdriver::run {engine args} {
             -notify   { incr i ; set notify [lindex $args $i] }
             -done     { incr i ; set done [lindex $args $i] }
             -writer   { incr i ; set writer [lindex $args $i] }
+            -coach    { incr i ; set coachOpt [lindex $args $i] }
             default   { return "unknown option: $opt" }
         }
     }
@@ -643,6 +647,9 @@ proc ::reviewdriver::run {engine args} {
     }
     if {$want ne "" && (![string is integer -strict $want] || $want < 1)} {
         return "-depth must be a whole number"
+    }
+    if {$coachOpt ne "" && $coachOpt ni {0 1}} {
+        return "-coach must be 0 or 1"
     }
     if {[llength $engine] == 0} { return "no engine selected" }
     # The pass pins the protocol to uci: an XBoard preset would never answer the
@@ -723,19 +730,21 @@ proc ::reviewdriver::run {engine args} {
     # `plan` is the moves this run judges (all of them, or -plies); `plies` and
     # `bookEnd` are kept for a writer that derives its own plan (annotate mode).
     #
-    # `report` is 1 for a whole-game review: it owns the prose on its moves, so a
-    # run with the coach off still takes the last run's blocks off. `coach` is
-    # the setting read once, here, so a mid-run edit cannot split one run in two.
-    # A pass over named moves (Move Comment) is not a review and writes no
-    # prose.
+    # `report` is 1 for a whole-game pass with the default writer (Game Review):
+    # it owns the prose on its moves, so a run with the coach off still takes the
+    # last run's blocks off. An annotate pass uses its own writer and leaves the
+    # coach's blocks alone; a pass over named moves (Move Comment) is not a
+    # review. `coach` is the setting read once, here, so a mid-run edit cannot
+    # split one run in two.
     set coach 0
     catch { set coach [::review::get coach] }
+    if {$coachOpt ne ""} { set coach $coachOpt }
     if {[llength $plies]} { set coach 0 }
     set pass [dict create token $token map $map plan $plan \
         plies [dict get $map plies] bookEnd $bookEnd mpv $mpv \
         positions $positions cursor $cursor engine $engine done $done \
         progress $progress notify $notify writer $writer \
-        coach $coach report [expr {[llength $plies] ? 0 : 1}]]
+        coach $coach report [expr {[llength $plies] ? 0 : [string equal $writer ::reviewdriver::writeResults]}]]
     return ""
 }
 

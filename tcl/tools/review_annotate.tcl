@@ -826,6 +826,10 @@ proc ::reviewannotate::start {engine args} {
             }
         }
     }
+    # The dialog ships tier 1 without AI prose. Keep the coach setting - which
+    # belongs to Game Review - from adding a model request to an annotate pass,
+    # and from making the batch wait on answers it will not use.
+    lappend opts -coach 0
     # The writer is a command prefix, so the tier travels with the run rather
     # than in a module variable a second pass could overwrite.
     lappend opts -writer [list ::reviewannotate::writeResultsAtTier $tier $wopts]
