@@ -1,10 +1,10 @@
 # Commit hash from github branch
 # (the macros must be defined before Release uses shortcommit)
-%global commit 93f097ede733e4a8072ba3569061a5ce17edbafb   
+%global commit 234d626ec1a8878b021a97bd73b77e3e9d60c11d   
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           scidcommunity
-Version:        5.1.4.52
+Version:        5.1.4.53
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
@@ -68,6 +68,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Tue Nov 3, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-53
+- "Hot-key fix for non-US keyboards"
 * Sun Nov 1, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-52
 - "Fix focus of Move Comment button to highlighted move"
 * Sat Oct 31, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-50

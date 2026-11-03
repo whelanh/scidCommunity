@@ -603,7 +603,12 @@ jobs:
           path: scidCommunity-*.AppImage
 
   create-release:
-    needs: [build-windows, build-linux-deb, build-linux-rpm, build-linux-appimage, build-macos-app]
+    # Deliberately does NOT depend on build-macos-app: the macOS pool is
+    # frequently starved (see the build-macos-app comment), and we don't want
+    # a queued macOS job to block shipping Windows/Linux. The macOS zip is
+    # attached afterwards by the separate attach-macos job, which can complete
+    # in a later run without holding up this release.
+    needs: [build-windows, build-linux-deb, build-linux-rpm, build-linux-appimage]
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/') || (github.event_name == 'workflow_dispatch' && inputs.create_release)
     permissions:
@@ -640,8 +645,41 @@ jobs:
             artifacts/scidCommunity-ubuntu-deb/*.deb
             artifacts/scidCommunity-linux-rpm/*.rpm
             artifacts/scidCommunity-linux-appimage/*.AppImage
-            artifacts/scidCommunity-macos/*.zip
           draft: false
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  attach-macos:
+    # Attaches the macOS zip to the release once the macOS build actually
+    # finishes. This job waits on both create-release (so the release exists)
+    # and build-macos-app (so the artifact exists). If the macOS pool is
+    # starved, this job simply stays queued and the release is already live;
+    # the asset lands whenever a runner picks it up, or on a later tag release.
+    needs: [create-release, build-macos-app]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/') || (github.event_name == 'workflow_dispatch' && inputs.create_release)
+    permissions:
+      contents: write
+    steps:
+      - name: Set tag name
+        id: tag
+        run: |
+          if [[ -n "${{ inputs.version }}" ]]; then
+            echo "tag_name=v${{ inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "tag_name=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Download macOS artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: scidCommunity-macos
+          path: artifacts/scidCommunity-macos
+
+      - name: Upload macOS asset to release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload "${{ steps.tag.outputs.tag_name }}" \
+            artifacts/scidCommunity-macos/*.zip --clobber
