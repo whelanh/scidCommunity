@@ -1,3 +1,6 @@
+# Copyright (C) 2026 David Crandall
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
 namespace eval ::batch_annotate {
     variable base ""
     variable games {}
@@ -6,6 +9,7 @@ namespace eval ::batch_annotate {
     variable instances
     
     variable pipe_game ;# pipe -> game_id
+    variable pipe_seq ;# pipe -> the game's place in the run
     variable pipe_moves ;# pipe -> list of {ply position}
     variable pipe_evals ;# pipe -> dict ply -> {rank {depth score type pv}}
     variable pipe_map ;# pipe -> the game's main-line map
@@ -101,6 +105,16 @@ proc ::batch_annotate::start {w} {
     set num_engines $instances
     if {$num_engines > $num_games} { set num_engines $num_games }
     if {$num_engines < 1} { return }
+
+    # The progress board's job for the whole batch: one board, showing whichever
+    # game is in flight, and a header whose game number moves with the run. The
+    # header is a field from here on - the engine name is read once, here, and
+    # never looked up again at draw time.
+    catch {
+        set ::batch_annotate::token [::reviewprogress::begin [dict create \
+            source annotate engine $::batch_annotate::engine_name \
+            total $num_games]]
+    }
 
     set pw .batchAnnotateProgress
     if {[winfo exists $pw]} { destroy $pw }
@@ -207,6 +221,14 @@ proc ::batch_annotate::cancel {} {
         catch { close $pipe }
     }
     set pipes {}
+    # The board is decoration over the run: a cancelled batch ends the job and
+    # writes nothing. It is not a second cancel path.
+    catch {
+        if {[info exists ::batch_annotate::token]} {
+            ::reviewprogress::finish $::batch_annotate::token
+            unset ::batch_annotate::token
+        }
+    }
     if {[winfo exists .batchAnnotateProgress]} {
         destroy .batchAnnotateProgress
     }
@@ -245,6 +267,12 @@ proc ::batch_annotate::assign_game {pipe} {
     }
 
     set pipe_game($pipe) $game_id
+    # The game's place in the run, for the header. The queue has already given
+    # this game up, so what it still holds is the number of games to assign:
+    # total minus that is this one's place, fixed for the life of the pipe even
+    # while other pipes run ahead of it.
+    set pipe_seq($pipe) [expr {$::batch_annotate::total_games \
+        - [llength $::batch_annotate::game_queue] + 1}]
     set pipe_evals($pipe) {}
 
     if {[winfo exists .batchAnnotateProgress]} {
@@ -302,6 +330,12 @@ proc ::batch_annotate::check_completion {} {
     if {$all_done} {
         foreach p $pipes { catch { puts $p "quit"; close $p } }
         set pipes {}
+        catch {
+            if {[info exists ::batch_annotate::token]} {
+                ::reviewprogress::finish $::batch_annotate::token
+                unset ::batch_annotate::token
+            }
+        }
         if {[winfo exists .batchAnnotateProgress]} { destroy .batchAnnotateProgress }
         tk_messageBox -message [::batch_annotate::completionMessage]
     }
@@ -334,6 +368,21 @@ proc ::batch_annotate::feed_move {pipe} {
     lassign $move_data ply position
     set ::batch_annotate::engine_state($pipe) [list $ply $position]
     set ::batch_annotate::engine_lines($pipe) [dict create]
+
+    # The board shows the position this pipe is searching now, and the header
+    # says which game of the run it belongs to. The spec is the driver's own
+    # `position fen ... moves ...` shape, replayed on a pure board, so this
+    # cannot touch the game - the batch's borrows are push/load/save/pop and are
+    # never current across an event loop turn.
+    catch {
+        if {[info exists ::batch_annotate::token]} {
+            set game ""
+            catch { set game $::batch_annotate::pipe_seq($pipe) }
+            set done $::batch_annotate::games_completed
+            ::reviewprogress::setSpec $::batch_annotate::token $position \
+                $done $::batch_annotate::total_games $game
+        }
+    }
 
     puts $pipe $position
     # Both bounds in one Go, built by ::enginelimits::goLimits from the figures

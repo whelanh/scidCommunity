@@ -134,6 +134,16 @@ set ::gamestub::number 3
 set plan [::reviewannotate::dialogPlan 1 Stockfish 1 \
     [dict create game 3 blunders allmoves batch 0 batchEnd 3 bookEnd 0]]
 checkEq "the plan is ready to run" [dict get $plan refuse] ""
+
+# The header the run hands the progress board is composed here, while the run
+# still knows which preset and which pane it is - never looked up later at draw
+# time, when the reader may have switched either.
+set headerFields [::reviewannotate::headerFields $plan]
+checkEq "the header names the annotate source" [dict get $headerFields source] annotate
+checkEq "the header names the pane's preset" [dict get $headerFields engine] Stockfish
+checkEq "the header names the analysis pane" [dict get $headerFields origin] {analysispane 1}
+check "a single-game plan carries no game number" \
+    [expr {![dict exists $headerFields game]}]
 checkEq "running it starts a pass" [::reviewannotate::run $plan] ""
 check "the run is in flight" [::reviewannotate::running]
 

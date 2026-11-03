@@ -103,6 +103,51 @@ proc ::rapid_annotate::record {id plies depth score score_type pv} {
         dict set game $ply $entry
     }
     set scores($key) $game
+    # The progress board's view of this run. Rapid annotate is the engine
+    # window's own Autoscan pass, not a ::reviewdriver pass, so this file owns
+    # the job: it begins one for the window the first time a line is recorded
+    # and publishes the position being searched with it. A job another run owns
+    # is left alone - a review in flight already has the board.
+    catch { ::rapid_annotate::publishProgress $id }
+    return
+}
+
+# The position the engine is on, for the progress board. `sc_pos fen` is that
+# position: the graph records a line for the board the engine is analysing.
+# `done` is the positions collected so far, `total` the main line's length.
+proc ::rapid_annotate::publishProgress {id} {
+    set job [::reviewprogress::job]
+    set token ""
+    if {[dict size $job]} {
+        if {[dict get $job source] ne "rapid"} { return }
+        set token [dict get $job token]
+    } else {
+        set engine ""
+        catch { set engine $::enginewin_lastengine($id) }
+        set win ""
+        catch { set win [string trimleft $id .engineWin] }
+        set token [::reviewprogress::begin [dict create source rapid \
+            engine $engine origin [list enginewin $win]]]
+    }
+    set fen ""
+    catch { set fen [sc_pos fen] }
+    if {$fen eq ""} { return }
+    set total 0
+    catch { set total [dict size [::rapid_annotate::mainLinePositions]] }
+    set done [::rapid_annotate::pending]
+    ::reviewprogress::setPosition $token $fen $done $total
+    return
+}
+
+# The run is over when the scores it was collected from are: a new game, or the
+# commit that writes them. Nothing is cancelled by this - the board is
+# decoration over the analysis, not a party to it.
+proc ::rapid_annotate::progressDone {} {
+    set job [::reviewprogress::job]
+    if {![dict size $job]} { return }
+    if {[dict get $job source] ne "rapid"} { return }
+    catch { ::reviewprogress::finish [dict get $job token] }
+    return
 }
 
 # Called when a new game is loaded, and when the current game is reloaded,
@@ -112,6 +157,7 @@ proc ::rapid_annotate::record {id plies depth score score_type pv} {
 # position check in ::rapid_annotate::evals.
 proc ::rapid_annotate::onNewGame {} {
     variable scores
+    catch { ::rapid_annotate::progressDone }
     array unset scores
 }
 

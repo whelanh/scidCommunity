@@ -221,5 +221,48 @@ checkEq "the completion dialog reports games and unjudged plies" \
     [::batch_annotate::completionMessage] \
     {Batch Annotation Complete! 3 games processed, plies with no verdict: 1.}
 
+puts "\nthe batch publishes the game in flight"
+
+# One board for the whole batch, showing whichever game is in flight. The spec
+# is the driver's own `position ...` string replayed on the pure board, so the
+# publish cannot touch the game the batch has borrowed; the header carries the
+# game's place in the run, which is the only field that moves between games.
+proc ::tr {tag args} {
+    switch -- $tag {
+        ReviewProgressAnalysisPane { return {Analysis pane %s} }
+        ReviewProgressGameOf { return {game %s of %s} }
+        ReviewProgressIdle { return {No review is running} }
+        ReviewProgress { return {%s of %s} }
+        default { return $tag }
+    }
+}
+proc ::enginelimits::goLimits {cfg} { return {depth 10} }
+source [file join $root tcl utils chessboard.tcl]
+source [file join $root tcl tools review_progress.tcl]
+
+set ::batch_annotate::depth 10
+set ::batch_annotate::movetime 0
+set ::batch_annotate::total_games 4
+set ::batch_annotate::games_completed 3
+set token [::reviewprogress::begin [dict create source annotate engine Stockfish \
+    origin [list analysispane 1] total 4]]
+set ::batch_annotate::token $token
+set pipe [::testopen [file join $root tests tcl .batch-pipe-stub] w]
+set ::batch_annotate::pipe_game($pipe) 47
+set ::batch_annotate::pipe_seq($pipe) 4
+set ::batch_annotate::pipe_moves($pipe) [list [list 5 \
+    {position fen rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1}]]
+::batch_annotate::feed_move $pipe
+set job [::reviewprogress::job]
+checkEq "the board is the position this pipe searches" [dict get $job board] \
+    [::reviewprogress::positionToBoard \
+        {rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1}]
+checkEq "the header carries the game in flight and the run's size" \
+    [dict get $job header] {Annotate — Stockfish (Analysis pane 1) · game 4 of 4}
+checkEq "and the progress is the batch's own count" [dict get $job done] 3
+checkEq "out of the games this run was asked for" [dict get $job total] 4
+close $pipe
+file delete [file join $root tests tcl .batch-pipe-stub]
+
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]
