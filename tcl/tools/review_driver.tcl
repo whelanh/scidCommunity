@@ -610,6 +610,10 @@ proc ::reviewdriver::run {engine args} {
     set progress ""
     set notify 0
     set coachOpt ""
+    # The progress board's header fields, composed by the caller: the source,
+    # the engine name and where the run came from. The driver begins the job
+    # and feeds it the position it is on; it never composes the header itself.
+    set header ""
     # The caller's completion hook: annotate mode chains one pass per game, so
     # the chain lives in the pass dict rather than in a module variable.
     set done ""
@@ -630,6 +634,7 @@ proc ::reviewdriver::run {engine args} {
             -done     { incr i ; set done [lindex $args $i] }
             -writer   { incr i ; set writer [lindex $args $i] }
             -coach    { incr i ; set coachOpt [lindex $args $i] }
+            -header   { incr i ; set header [lindex $args $i] }
             default   { return "unknown option: $opt" }
         }
     }
@@ -745,6 +750,11 @@ proc ::reviewdriver::run {engine args} {
         positions $positions cursor $cursor engine $engine done $done \
         progress $progress notify $notify writer $writer \
         coach $coach report [expr {[llength $plies] ? 0 : [string equal $writer ::reviewdriver::writeResults]}]]
+    # The board is decoration over this run: it starts when the run does, and it
+    # is told nothing the pass has not already decided.
+    if {$header ne "" && [llength [info commands ::reviewprogress::begin]]} {
+        catch { dict set pass progressToken [::reviewprogress::begin $header] }
+    }
     return ""
 }
 
@@ -784,6 +794,23 @@ proc ::reviewdriver::runProgress {done total ply lines} {
     variable state
     if {![dict size $pass]} { return }
     dict set state searched $done
+    # The progress board follows the search: the position the pass is on now,
+    # replayed from the spec the driver queued, never from the game.
+    if {[dict exists $pass progressToken]} {
+        set spec ""
+        catch {
+            set at [lsearch -index 0 [dict get $pass positions] $ply]
+            if {$at >= 0} {
+                set spec [lindex [lindex [dict get $pass positions] $at] 1]
+            }
+        }
+        if {$spec ne ""} {
+            catch {
+                ::reviewprogress::setSpec [dict get $pass progressToken] $spec \
+                    $done $total
+            }
+        }
+    }
     set cmd [dict get $pass progress]
     if {$cmd ne ""} { catch { {*}$cmd $done $total } }
 }

@@ -6,10 +6,15 @@
 #   tclsh tests/tcl/finish_game.tcl
 #
 # The pass alternates two engines and plays their best moves into the game. The
-# engine layer and the board are stubbed: what is checked here is
-# which engine is asked for which side, with which limits, that the moves land
-# in order, and that a cancel or a lost engine ends the pass and closes both
-# connections.
+# engine layer and the board are stubbed: what is checked here is which engine
+# is asked for which side, with which limits, that the moves land in one commit
+# at the end and in order, and that a cancel or a lost engine ends the pass and
+# closes both connections.
+#
+# Since the progress board card, the loop collects before it writes: every move
+# is played on a pure ::chessboard position, the game is not touched until the
+# last move is in, and addMoveUCI - the cursor-following, animating, FICS-aware
+# entry point that used to move the reader's board - is not called at all.
 
 set fails 0
 set checks 0
@@ -37,9 +42,12 @@ proc grab {args} {}
 proc updateBoard {args} {}
 proc tk_messageBox {args} { lappend ::boxes $args ; return ok }
 namespace eval ::pgn {}
-proc ::pgn::getRepetitionCount {} { return 0 }
+set ::reps 0
+proc ::pgn::getRepetitionCount {} { return $::reps }
 
 set root [file normalize [file join [file dirname [info script]] .. ..]]
+source [file join $root tcl utils chessboard.tcl]
+source [file join $root tcl tools review_progress.tcl]
 source [file join $root tcl tools engine_limits.tcl]
 source [file join $root tcl tools finish_game.tcl]
 
@@ -56,6 +64,13 @@ proc ::engineNoWin::closeEngine {id} { lappend ::closed $id }
 namespace eval ::engine {}
 set ::sent {}
 proc ::engine::send {id msg {data ""}} {
+    if {$msg eq "Go"} {
+        incr ::gos
+        if {$::stopAtGo > 0 && $::gos >= $::stopAtGo} {
+            after 0 [list ::finishgame::stop]
+            return
+        }
+    }
     lappend ::sent [list $id $msg $data]
     if {$msg eq "Go"} {
         if {$::reply eq "hold"} {
@@ -65,7 +80,8 @@ proc ::engine::send {id msg {data ""}} {
         } elseif {$::reply eq "none"} {
             after 0 [list ::finishgame::message $id [list InfoBestMove [list "(none)"]]]
         } else {
-            set move [lindex $::moves $::idx]
+            set move [lindex $::moves $::replyIdx]
+            incr ::replyIdx
             after 0 [list ::finishgame::message $id [list InfoBestMove [list $move]]]
         }
     }
@@ -78,42 +94,64 @@ set ::tb ""
 proc ::tablebase::countPieces {fen} { return $::pieces }
 proc ::tablebase::queryTablebaseResult {fen} { return $::tb }
 
-# A one-line game the loop will walk.
-set ::moves {e2e4 e7e5 g1f3 b8c6}
+# A real, short game the loop will walk: Fool's mate ends in a position with no
+# legal move, so the pass ends on the game rather than asking for a fifth move.
+set ::moves {f2f3 e7e5 g2g4 d8h4}
+set ::fens {
+    {rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1}
+    {rnbqkbnr/pppppppp/8/8/8/5P2/PPPPP1PP/RNBQKBNR b KQkq - 0 1}
+    {rnbqkbnr/pppp1ppp/8/4p3/8/5P2/PPPPP1PP/RNBQKBNR w KQkq e6 0 2}
+    {rnbqkbnr/pppp1ppp/8/4p3/6P1/5P2/PPPPP2P/RNBQKBNR b KQkq g3 0 2}
+    {rnb1kbnr/pppp1ppp/8/4p3/6Pq/5P2/PPPPP2P/RNBQKBNR w KQkq - 1 3}
+}
 set ::idx 0
+set ::replyIdx 0
 set ::played {}
 set ::reply move
-# The real cursor sits on the last move as soon as one is added, which is what
-# sc_pos isAt vend answers. The loop must not mistake that for "the game is
-# over": it has to keep playing.
+set ::calls {}
+set ::comments {}
+set ::results {}
+
+# The game the reader is looking at. `::idx` counts the moves actually written
+# into it, so a position read mid-pass is the position the pass found.
 proc sc_pos {args} {
     switch -- [lindex $args 0] {
-        isAt   { return [expr {$::idx > 0}] }
-        isCheck { return $::inCheck }
-        side   { return [expr {$::idx % 2 == 0 ? "white" : "black"}] }
-        fen    { return "FEN$::idx" }
+        fen        { return [lindex $::fens $::idx] }
         getComment { return "" }
         setComment { lappend ::comments [lindex $args 1] ; return "" }
+        side       { return white }
+        isCheck    { return $::inCheck }
+        isAt       { return [expr {$::idx > 0}] }
     }
     return ""
 }
-# The last scripted move mates, so the pass ends with the game rather than
-# asking for a fifth move that does not exist.
 proc sc_game {args} {
     switch -- [lindex $args 0] {
-        UCI_currentPos { return "position startpos moves [join $::played]" }
-        variant        { return 0 }
-        info {
-            if {[lindex $args 1] eq "previousMove" && $::idx >= [llength $::moves]} {
-                return "Qh7#"
-            }
-            return ""
-        }
-        tags { lappend ::results [lindex $args 3] ; return "" }
+        variant { return 0 }
+        tags    { lappend ::results [lindex $args 3] ; return "" }
+        info    { return "" }
     }
     return ""
 }
+proc sc_move {args} { lappend ::calls "move $args" ; return "" }
+proc undoFeature {args} { return }
+namespace eval ::uci {}
+proc ::uci::sc_move_add {uci} {
+    lappend ::calls "add $uci"
+    lappend ::played $uci
+    incr ::idx
+    return 0
+}
+namespace eval ::review {}
+proc ::review::cursorSave {} { lappend ::calls cursorsave ; return {loc 0 base 0 path {} fen {}} }
+proc ::review::cursorRestore {state} { lappend ::calls cursorrestore ; return 1 }
+proc ::review::mergeComment {existing new} { return [string trim "$existing $new"] }
+
+# The entry point this card removed from the path. It is a tripwire: a pass that
+# still plays moves as it searches moves the reader's board, whatever else it
+# does right.
 proc ::addMoveUCI {move} {
+    lappend ::calls "ADDMOVEUCI $move"
     lappend ::played $move
     incr ::idx
     if {[info exists ::onMove]} { uplevel #0 $::onMove }
@@ -122,24 +160,44 @@ proc ::addMoveUCI {move} {
 
 proc resetGame {} {
     set ::idx 0
+    set ::gos 0
+    set ::stopAtGo 0
     set ::played {}
     set ::sent {}
     set ::inited {}
     set ::closed {}
+    set ::calls {}
     set ::reply move
     set ::boxes {}
     set ::results {}
     set ::comments {}
     set ::inCheck 0
     set ::pieces 99
+    set ::reps 0
     set ::tb ""
     set ::finishGameMode 0
     catch { unset ::onMove }
     set ::finishgame::active 0
+    set ::finishgame::collected {}
+    set ::finishgame::note ""
     set ::finishgame::whiteSeconds 5
     set ::finishgame::whiteDepth 20
     set ::finishgame::blackSeconds 7
     set ::finishgame::blackDepth 25
+}
+
+proc firstIndex {list pattern} {
+    for {set i 0} {$i < [llength $list]} {incr i} {
+        if {[string match $pattern [lindex $list $i]]} { return $i }
+    }
+    return -1
+}
+proc lastIndex {list pattern} {
+    set at -1
+    for {set i 0} {$i < [llength $list]} {incr i} {
+        if {[string match $pattern [lindex $list $i]]} { set at $i }
+    }
+    return $at
 }
 
 # ------------------------------------------------------------------- the pass --
@@ -176,21 +234,38 @@ checkEq "with White's seconds and depth" [lindex $gos 0 2 1] \
     [list [list depth 20] [list movetime 5000]]
 checkEq "and Black's" [lindex $gos 1 2 1] \
     [list [list depth 25] [list movetime 7000]]
-checkEq "the position sent is the game so far" \
-    [lindex $gos 2 2 0] "position startpos moves e2e4 e7e5"
+checkEq "the third search is two moves on, from the engine's own FEN" \
+    [lindex $gos 2 2 0] "position fen [lindex $::fens 2]"
 checkEq "nothing was reported as a failure" $::boxes {}
+
+# The whole point of this card: the reader's board never moves while the pass is
+# running, and the only thing that touches the game is the one commit.
+checkEq "addMoveUCI is not on the path at all" \
+    [lsearch -all -inline $::calls {ADDMOVEUCI *}] {}
+
+set firstAdd [firstIndex $::calls {add *}]
+set lastGo [lastIndex $::calls {Go}]
+check "every move is written after every search" \
+    [expr {$firstAdd >= 0 && ($lastGo < 0 || $firstAdd > $lastGo)}]
+checkEq "the commit appends at the end of the line before the first move" \
+    [lindex $::calls [expr {$firstAdd - 1}]] {move end}
+check "the commit is one contiguous block of writes" \
+    [expr {[lindex $::calls [expr {$firstAdd + 3}]] eq "add d8h4"}]
+checkEq "the cursor is put back after the commit" \
+    [lindex $::calls [expr {$firstAdd + 4}]] cursorrestore
 
 puts "\nthe button cancels between moves"
 
 resetGame
-set ::onMove {::finishgame::stop}
+set ::stopAtGo 1
 ::finishgame::start 1 "W" "B"
-checkEq "only the move in flight was played" $::played {e2e4}
-checkEq "the engines were closed" [llength $::closed] 2
+checkEq "nothing was written to the game" $::played {}
+checkEq "the engines was closed" [llength $::closed] 2
 checkEq "and the pass is over" $::finishgame::active 0
 checkEq "the search was stopped" \
     [lindex [lindex $::sent end] 1] StopGo
 checkEq "a cancel is not an error" $::boxes {}
+checkEq "a cancel writes nothing" [lsearch -all -inline $::calls {add *}] {}
 
 puts "\na tablebase position is settled without a search"
 
@@ -201,6 +276,7 @@ set ::tb "Draw"
 checkEq "no engine was asked" [llength [lsearch -all -index 1 $::sent Go]] 0
 checkEq "the result was written as a comment" \
     [string match "*Tablebase: Draw*" [lindex $::comments 0]] 1
+checkEq "and no move was played" $::played {}
 checkEq "the engines were closed" [llength $::closed] 2
 checkEq "and the pass is over" $::finishgame::active 0
 
@@ -218,6 +294,7 @@ checkEq "the engines were closed" [llength $::closed] 2
 checkEq "the pass is over" $::finishgame::active 0
 checkEq "the search was stopped" [lindex [lindex $::sent end] 1] StopGo
 checkEq "a cancel is not an error" $::boxes {}
+checkEq "a cancel during a search writes nothing" [lsearch -all -inline $::calls {add *}] {}
 
 puts "\na terminal position is a draw, not an error"
 

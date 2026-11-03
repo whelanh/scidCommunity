@@ -1180,6 +1180,8 @@ tools/review_report.tcl
 tools/review_driver.tcl
 tools/review_annotate.tcl
 tools/review_ui.tcl
+tools/review_progress.tcl
+tools/review_progress_ui.tcl
 tools/finish_game.tcl
 tools/comment_facts.tcl
 tools/review_coach.tcl
