@@ -839,7 +839,7 @@ translate M ReviewCoachOpeningLabel {开幕}
 translate M ReviewCoachPhase {移动 %d-%d - 精度 W %.1f%% B %.1f%%，ACPL W %d B %d。}
 translate M ReviewReportMarker {游戏回顾}
 translate M ReviewReportSide {%s：%s%% 准确度，ACPL %d，估计 Elo %d}
-translate M ReviewReportLabels {%s 个标签：%s}
+translate M ReviewReportLabels {%s 标签：%s}
 translate M ReviewReportKeyMoments {关键时刻：%s}
 translate M ReviewReportPhases {阶段：%s}
 translate M ReviewReportPhase {%s 移动 %d-%d (%s %.1f / %s %.1f)}

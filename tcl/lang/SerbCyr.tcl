@@ -901,13 +901,13 @@ translate J ReviewCoachDiscarded {Преглед је завршен, али ј�
 translate J ReviewCoachSummaryLabel {Резиме}
 translate J ReviewCoachLevelLabel {Ниво}
 translate J ReviewCoachOpeningLabel {Отварање}
-translate J ReviewCoachPhase {потези %д-%д - тачност В %.1ф%% Б %.1ф%%, АЦПЛ В %д Б %д.}
+translate J ReviewCoachPhase {потези %d-%d - тачност В %.1f%% Б %.1f%%, АЦПЛ В %d Б %d.}
 translate J ReviewReportMarker {Преглед игре}
-translate J ReviewReportSide {%с: %с%% тачност, АЦПЛ %д, процењено Ело %д}
-translate J ReviewReportLabels {%с ознаке: %с}
-translate J ReviewReportKeyMoments {Кључни моменти: %с}
-translate J ReviewReportPhases {Фазе: %с}
-translate J ReviewReportPhase {%с се помера %д-%д (%с %.1ф / %с %.1ф)}
+translate J ReviewReportSide {%s: %s%% тачност, АЦПЛ %d, процењено Ело %d}
+translate J ReviewReportLabels {%s ознаке: %s}
+translate J ReviewReportKeyMoments {Кључни моменти: %s}
+translate J ReviewReportPhases {Фазе: %s}
+translate J ReviewReportPhase {%s се помера %d-%d (%s %.1f / %s %.1f)}
 translate J ReviewReportOpening {отварање}
 translate J ReviewReportMiddlegame {средња игра}
 translate J ReviewReportEndgame {ендгаме}
