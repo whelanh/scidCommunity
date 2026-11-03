@@ -2245,3 +2245,11 @@ set tips(C) {
     Windows lze ukotvit zaškrtnutím příslušné položky v nabídce možností. Karty lze přetahovat a pouštět z jednoho poznámkového bloku do druhého a rozkládat kliknutím pravým tlačítkem na widget karet.
   }
 }
+
+# Review progress popup (#422 item 3).
+translate C ReviewProgressTitle {Review progress}
+translate C ReviewProgressIdle {No review is running}
+translate C ReviewProgressGameOf {game %s of %s}
+translate C ReviewProgressEngineWindow {Engine window %s}
+translate C ReviewProgressAnalysisPane {Analysis pane %s}
+translate C ReviewProgressRapid {Rapid annotate}

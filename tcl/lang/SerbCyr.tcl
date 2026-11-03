@@ -2264,3 +2264,11 @@ set tips(J) {
     Виндовс се може усидрити тако што ћете проверити одговарајући унос у менију опција. Картице се могу превући и спустити из једне бележнице у другу и распоредити десним кликом на виџет картице.
   }
 }
+
+# Review progress popup (#422 item 3).
+translate J ReviewProgressTitle {Review progress}
+translate J ReviewProgressIdle {No review is running}
+translate J ReviewProgressGameOf {game %s of %s}
+translate J ReviewProgressEngineWindow {Engine window %s}
+translate J ReviewProgressAnalysisPane {Analysis pane %s}
+translate J ReviewProgressRapid {Rapid annotate}

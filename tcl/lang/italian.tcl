@@ -2247,3 +2247,11 @@ set tips(I) {
     È possibile agganciare Windows controllando la voce pertinente nel menu delle opzioni. Le schede possono essere trascinate e rilasciate da un taccuino all'altro e disposte facendo clic con il pulsante destro del mouse sul widget della scheda.
   }
 }
+
+# Review progress popup (#422 item 3).
+translate I ReviewProgressTitle {Review progress}
+translate I ReviewProgressIdle {No review is running}
+translate I ReviewProgressGameOf {game %s of %s}
+translate I ReviewProgressEngineWindow {Engine window %s}
+translate I ReviewProgressAnalysisPane {Analysis pane %s}
+translate I ReviewProgressRapid {Rapid annotate}

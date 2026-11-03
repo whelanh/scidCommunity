@@ -2270,3 +2270,11 @@ set tips(N) {
     Windows kan worden gedockt door het relevante item in het optiemenu aan te vinken. Tabbladen kunnen van het ene notitieboekje naar het andere worden gesleept en neergezet en worden opgemaakt door met de rechtermuisknop op de tabbladwidget te klikken.
   }
 }
+
+# Review progress popup (#422 item 3).
+translate N ReviewProgressTitle {Review progress}
+translate N ReviewProgressIdle {No review is running}
+translate N ReviewProgressGameOf {game %s of %s}
+translate N ReviewProgressEngineWindow {Engine window %s}
+translate N ReviewProgressAnalysisPane {Analysis pane %s}
+translate N ReviewProgressRapid {Rapid annotate}

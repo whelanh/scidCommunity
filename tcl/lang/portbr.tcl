@@ -2253,3 +2253,11 @@ set tips(B) {
     O Windows pode ser encaixado marcando a entrada relevante no menu de opções. As guias podem ser arrastadas e soltas de um bloco de notas para outro e dispostas clicando com o botão direito no widget da guia.
   }
 }
+
+# Review progress popup (#422 item 3).
+translate B ReviewProgressTitle {Review progress}
+translate B ReviewProgressIdle {No review is running}
+translate B ReviewProgressGameOf {game %s of %s}
+translate B ReviewProgressEngineWindow {Engine window %s}
+translate B ReviewProgressAnalysisPane {Analysis pane %s}
+translate B ReviewProgressRapid {Rapid annotate}

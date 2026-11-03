@@ -17,8 +17,9 @@
 
 namespace eval ::reviewprogress::ui {
     variable win .reviewProgress
-    # The board widget, named once so a redraw cannot pick up the wrong one.
-    variable board $win.board.bd
+    # The board's base path, which is what ::board::new and ::board::update
+    # take; its canvas is $board.bd.
+    variable board $win.board
     variable psize 40
 }
 
@@ -44,12 +45,13 @@ proc ::reviewprogress::ui::build {} {
     grid $win.board -row 1 -column 0 -sticky news -padx 8
     # An explicit psize, never a measured width: a canvas built while the window
     # is withdrawn has no geometry to measure, and the board would come out at
-    # zero and stay there.
-    ::board::new $win.board.bd $psize
+    # zero and stay there. ::board::new builds $frame.bd, so it is given the
+    # frame it fills.
+    ::board::new $win.board $psize
     # Read-only by construction: no square bindings are installed by
     # ::board::new, and the canvas is neither focusable nor a drop target.
-    catch { $win.board.bd.bd configure -takefocus 0 -cursor "" }
-    grid $win.board.bd -row 0 -column 0 -sticky news
+    catch { $board.bd configure -takefocus 0 -cursor "" }
+    grid $board.bd -row 0 -column 0 -sticky news
 
     ttk::label $win.progress -text {} -anchor w -font font_Small
     grid $win.progress -row 2 -column 0 -sticky we -padx 8 -pady {6 0}

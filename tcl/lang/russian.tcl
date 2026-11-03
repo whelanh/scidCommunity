@@ -2247,3 +2247,11 @@ set tips(R) {
     Windows можно закрепить, отметив соответствующий пункт в меню параметров. Вкладки можно перетаскивать из одного блокнота в другой и размещать их, щелкнув правой кнопкой мыши виджет вкладок.
   }
 }
+
+# Review progress popup (#422 item 3).
+translate R ReviewProgressTitle {Review progress}
+translate R ReviewProgressIdle {No review is running}
+translate R ReviewProgressGameOf {game %s of %s}
+translate R ReviewProgressEngineWindow {Engine window %s}
+translate R ReviewProgressAnalysisPane {Analysis pane %s}
+translate R ReviewProgressRapid {Rapid annotate}

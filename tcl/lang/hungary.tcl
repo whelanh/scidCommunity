@@ -2246,3 +2246,11 @@ set tips(H) {
     A Windows az opciómenü megfelelő bejegyzésének ellenőrzésével dokkolható. A lapok áthúzhatók egyik jegyzetfüzetből a másikba, és a fül widgetre való jobb kattintással elhelyezhetők.
   }
 }
+
+# Review progress popup (#422 item 3).
+translate H ReviewProgressTitle {Review progress}
+translate H ReviewProgressIdle {No review is running}
+translate H ReviewProgressGameOf {game %s of %s}
+translate H ReviewProgressEngineWindow {Engine window %s}
+translate H ReviewProgressAnalysisPane {Analysis pane %s}
+translate H ReviewProgressRapid {Rapid annotate}

@@ -2251,3 +2251,11 @@ set tips(F) {
     Windows peut être ancré en cochant l'entrée correspondante dans le menu d'options. Les onglets peuvent être glissés et déposés d'un bloc-notes à un autre et disposés en cliquant avec le bouton droit sur le widget d'onglets.
   }
 }
+
+# Review progress popup (#422 item 3).
+translate F ReviewProgressTitle {Review progress}
+translate F ReviewProgressIdle {No review is running}
+translate F ReviewProgressGameOf {game %s of %s}
+translate F ReviewProgressEngineWindow {Engine window %s}
+translate F ReviewProgressAnalysisPane {Analysis pane %s}
+translate F ReviewProgressRapid {Rapid annotate}

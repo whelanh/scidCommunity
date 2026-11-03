@@ -2272,3 +2272,11 @@ set tips(G) {
     Τα Windows μπορούν να συνδεθούν ελέγχοντας τη σχετική καταχώρηση στο μενού επιλογών. Μπορείτε να σύρετε και να αποθέσετε τις καρτέλες από το ένα σημειωματάριο στο άλλο και να τις τοποθετήσετε κάνοντας δεξί κλικ στο γραφικό στοιχείο της καρτέλας.
   }
 }
+
+# Review progress popup (#422 item 3).
+translate G ReviewProgressTitle {Review progress}
+translate G ReviewProgressIdle {No review is running}
+translate G ReviewProgressGameOf {game %s of %s}
+translate G ReviewProgressEngineWindow {Engine window %s}
+translate G ReviewProgressAnalysisPane {Analysis pane %s}
+translate G ReviewProgressRapid {Rapid annotate}

@@ -2276,3 +2276,11 @@ set tips(U) {
     Windows voidaan telakoida tarkistamalla vastaava merkintä asetusvalikosta. Välilehtiä voidaan vetää ja pudottaa yhdestä muistikirjasta toiseen ja asetella napsauttamalla hiiren kakkospainikkeella välilehtiwidgetiä.
   }
 }
+
+# Review progress popup (#422 item 3).
+translate U ReviewProgressTitle {Review progress}
+translate U ReviewProgressIdle {No review is running}
+translate U ReviewProgressGameOf {game %s of %s}
+translate U ReviewProgressEngineWindow {Engine window %s}
+translate U ReviewProgressAnalysisPane {Analysis pane %s}
+translate U ReviewProgressRapid {Rapid annotate}

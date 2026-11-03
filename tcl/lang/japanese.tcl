@@ -2264,3 +2264,11 @@ set tips(A) {
     オプション メニューの該当するエントリをチェックすると、Windows をドッキングできます。タブは、あるノートブックから別のノートブックにドラッグ アンド ドロップでき、タブ ウィジェットを右クリックしてレイアウトできます。
   }
 }
+
+# Review progress popup (#422 item 3).
+translate A ReviewProgressTitle {Review progress}
+translate A ReviewProgressIdle {No review is running}
+translate A ReviewProgressGameOf {game %s of %s}
+translate A ReviewProgressEngineWindow {Engine window %s}
+translate A ReviewProgressAnalysisPane {Analysis pane %s}
+translate A ReviewProgressRapid {Rapid annotate}

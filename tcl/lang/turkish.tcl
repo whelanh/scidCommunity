@@ -2227,3 +2227,11 @@ set tips(T) {
     Seçenek menüsündeki ilgili giriş kontrol edilerek Windows yerleştirilebilir. Sekmeler bir not defterinden diğerine sürüklenip bırakılabilir ve sekme widget'ına sağ tıklanarak düzenlenebilir.
   }
 }
+
+# Review progress popup (#422 item 3).
+translate T ReviewProgressTitle {Review progress}
+translate T ReviewProgressIdle {No review is running}
+translate T ReviewProgressGameOf {game %s of %s}
+translate T ReviewProgressEngineWindow {Engine window %s}
+translate T ReviewProgressAnalysisPane {Analysis pane %s}
+translate T ReviewProgressRapid {Rapid annotate}

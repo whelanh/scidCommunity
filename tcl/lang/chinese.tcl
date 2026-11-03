@@ -2199,3 +2199,11 @@ set tips(M) {
     通过检查选项菜单中的相关条目可以停靠 Windows。可以将选项卡从一个笔记本拖放到另一个笔记本上，并通过右键单击选项卡小部件来布局。
   }
 }
+
+# Review progress popup (#422 item 3).
+translate M ReviewProgressTitle {Review progress}
+translate M ReviewProgressIdle {No review is running}
+translate M ReviewProgressGameOf {game %s of %s}
+translate M ReviewProgressEngineWindow {Engine window %s}
+translate M ReviewProgressAnalysisPane {Analysis pane %s}
+translate M ReviewProgressRapid {Rapid annotate}

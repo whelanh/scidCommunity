@@ -2267,3 +2267,11 @@ set tips(K) {
     Windows es pot acoblar marcant l'entrada corresponent al menú d'opcions. Les pestanyes es poden arrossegar i deixar anar d'un quadern a un altre i disposar-les fent clic amb el botó dret al giny de la pestanya.
   }
 }
+
+# Review progress popup (#422 item 3).
+translate K ReviewProgressTitle {Review progress}
+translate K ReviewProgressIdle {No review is running}
+translate K ReviewProgressGameOf {game %s of %s}
+translate K ReviewProgressEngineWindow {Engine window %s}
+translate K ReviewProgressAnalysisPane {Analysis pane %s}
+translate K ReviewProgressRapid {Rapid annotate}

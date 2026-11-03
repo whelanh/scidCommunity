@@ -2298,3 +2298,11 @@ set tips(S) {
     Windows se puede acoplar marcando la entrada correspondiente en el menú de opciones. Las pestañas se pueden arrastrar y soltar de un cuaderno a otro y diseñar haciendo clic derecho en el widget de pestaña.
   }
 }
+
+# Review progress popup (#422 item 3).
+translate S ReviewProgressTitle {Review progress}
+translate S ReviewProgressIdle {No review is running}
+translate S ReviewProgressGameOf {game %s of %s}
+translate S ReviewProgressEngineWindow {Engine window %s}
+translate S ReviewProgressAnalysisPane {Analysis pane %s}
+translate S ReviewProgressRapid {Rapid annotate}

@@ -3499,3 +3499,11 @@ translate Y RtfImportSuccessMulti {%d games imported into clipboard database suc
 }
 # end of serbian.tcl
 
+
+# Review progress popup (#422 item 3).
+translate Y ReviewProgressTitle {Review progress}
+translate Y ReviewProgressIdle {No review is running}
+translate Y ReviewProgressGameOf {game %s of %s}
+translate Y ReviewProgressEngineWindow {Engine window %s}
+translate Y ReviewProgressAnalysisPane {Analysis pane %s}
+translate Y ReviewProgressRapid {Rapid annotate}

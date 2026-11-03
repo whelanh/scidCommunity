@@ -2264,3 +2264,11 @@ set tips(L) {
     Windows poate fi andocat prin verificarea intrării relevante din meniul de opțiuni. Filele pot fi trase și plasate dintr-un blocnotes în altul și așezate făcând clic dreapta pe widgetul file.
   }
 }
+
+# Review progress popup (#422 item 3).
+translate L ReviewProgressTitle {Review progress}
+translate L ReviewProgressIdle {No review is running}
+translate L ReviewProgressGameOf {game %s of %s}
+translate L ReviewProgressEngineWindow {Engine window %s}
+translate L ReviewProgressAnalysisPane {Analysis pane %s}
+translate L ReviewProgressRapid {Rapid annotate}

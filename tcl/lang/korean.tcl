@@ -2264,3 +2264,11 @@ set tips(k) {
     옵션 메뉴에서 해당 항목을 확인하여 Windows를 도킹할 수 있습니다. 탭은 한 노트북에서 다른 노트북으로 끌어서 놓을 수 있으며 탭 위젯을 마우스 오른쪽 버튼으로 클릭하여 배치할 수 있습니다.
   }
 }
+
+# Review progress popup (#422 item 3).
+translate k ReviewProgressTitle {Review progress}
+translate k ReviewProgressIdle {No review is running}
+translate k ReviewProgressGameOf {game %s of %s}
+translate k ReviewProgressEngineWindow {Engine window %s}
+translate k ReviewProgressAnalysisPane {Analysis pane %s}
+translate k ReviewProgressRapid {Rapid annotate}

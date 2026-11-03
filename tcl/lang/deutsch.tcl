@@ -2295,3 +2295,11 @@ set tips(D) {
     Fenster können angedockt werden, indem der entsprechende Eintrag im Optionsmenü aktiviert wird. Registerkarten können per Drag-and-Drop von einem Notizbuch in ein anderes gezogen und durch Klicken mit der rechten Maustaste auf das Registerkarten-Widget angeordnet werden.
   }
 }
+
+# Review progress popup (#422 item 3).
+translate D ReviewProgressTitle {Review progress}
+translate D ReviewProgressIdle {No review is running}
+translate D ReviewProgressGameOf {game %s of %s}
+translate D ReviewProgressEngineWindow {Engine window %s}
+translate D ReviewProgressAnalysisPane {Analysis pane %s}
+translate D ReviewProgressRapid {Rapid annotate}

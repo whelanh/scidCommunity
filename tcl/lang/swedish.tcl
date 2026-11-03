@@ -2251,3 +2251,11 @@ set tips(W) {
     Windows kan dockas genom att markera relevant post i alternativmenyn. Flikar kan dras och släppas från en anteckningsbok till en annan och läggas ut genom att högerklicka på flikwidgeten.
   }
 }
+
+# Review progress popup (#422 item 3).
+translate W ReviewProgressTitle {Review progress}
+translate W ReviewProgressIdle {No review is running}
+translate W ReviewProgressGameOf {game %s of %s}
+translate W ReviewProgressEngineWindow {Engine window %s}
+translate W ReviewProgressAnalysisPane {Analysis pane %s}
+translate W ReviewProgressRapid {Rapid annotate}

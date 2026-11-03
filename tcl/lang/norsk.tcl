@@ -2245,3 +2245,11 @@ set tips(O) {
     Windows kan dokkes ved å sjekke den aktuelle oppføringen i alternativmenyen. Faner kan dras og slippes fra en notatbok til en annen og legges ut ved å høyreklikke på fanemodulen.
   }
 }
+
+# Review progress popup (#422 item 3).
+translate O ReviewProgressTitle {Review progress}
+translate O ReviewProgressIdle {No review is running}
+translate O ReviewProgressGameOf {game %s of %s}
+translate O ReviewProgressEngineWindow {Engine window %s}
+translate O ReviewProgressAnalysisPane {Analysis pane %s}
+translate O ReviewProgressRapid {Rapid annotate}

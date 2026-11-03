@@ -2223,3 +2223,11 @@ set tips(b) {
     বিকল্প মেনুতে প্রাসঙ্গিক এন্ট্রি চেক করে উইন্ডোজ ডক করা যেতে পারে। ট্যাবগুলিকে একটি নোটবুক থেকে অন্য নোটবুকে টেনে এনে ফেলে দেওয়া যেতে পারে এবং ট্যাব উইজেটে ডান ক্লিক করে বিন্যস্ত করা যেতে পারে।
   }
 }
+
+# Review progress popup (#422 item 3).
+translate b ReviewProgressTitle {Review progress}
+translate b ReviewProgressIdle {No review is running}
+translate b ReviewProgressGameOf {game %s of %s}
+translate b ReviewProgressEngineWindow {Engine window %s}
+translate b ReviewProgressAnalysisPane {Analysis pane %s}
+translate b ReviewProgressRapid {Rapid annotate}

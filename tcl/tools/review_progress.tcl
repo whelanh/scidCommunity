@@ -148,7 +148,9 @@ proc ::reviewprogress::setPainter {cmd} {
 proc ::reviewprogress::paint {} {
     variable job
     variable painter
-    if {$painter eq "" || ![dict size $job]} { return }
+    if {$painter eq ""} { return }
+    # An empty job is painted too: the window has to hear that a run ended and
+    # fall back to saying so, rather than freezing on the last position.
     # A painter that raises must not take the run down with it: the board is
     # decoration over a job, not a party to it.
     catch { {*}$painter $job }

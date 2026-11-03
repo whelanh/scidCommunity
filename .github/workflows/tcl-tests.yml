@@ -103,6 +103,11 @@ jobs:
       - name: Review UI
         run: tclsh tests/tcl/review_ui.tcl
 
+      # The progress popup (#422 item 3): the feed, the header for every source,
+      # and the bar's fraction from ::reviewui::passFraction.
+      - name: Review progress dialog
+        run: tclsh tests/tcl/review_progress_dialog.tcl
+
       - name: Engine preset duplicate
         run: tclsh tests/tcl/engine_duplicate.tcl
 
@@ -143,6 +148,12 @@ jobs:
 
       - name: Finish Game dialog
         run: xvfb-run -a wish tests/tcl/finish_game_dialog.tcl
+
+      # The progress popup's widgets (#422 item 3): one window reused, an
+      # explicit psize, no bindings, and a covered popup that draws the current
+      # position when it comes back.
+      - name: Review progress popup
+        run: xvfb-run -a wish tests/tcl/review_progress_dialog_tk.tcl
 
   startup-smoke:
     name: startup with a clean profile

@@ -2371,3 +2371,11 @@ set tips(P) {
     klikając prawym przyciskiem myszy na widżecie zakładek.
   }
 }
+
+# Review progress popup (#422 item 3).
+translate P ReviewProgressTitle {Review progress}
+translate P ReviewProgressIdle {No review is running}
+translate P ReviewProgressGameOf {game %s of %s}
+translate P ReviewProgressEngineWindow {Engine window %s}
+translate P ReviewProgressAnalysisPane {Analysis pane %s}
+translate P ReviewProgressRapid {Rapid annotate}
