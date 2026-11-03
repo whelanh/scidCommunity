@@ -887,6 +887,19 @@ translate N ReviewCoachSettings {Coachinstellingen...}
 translate N ReviewCoachNoModel {Coachtekst staat aan, maar er is geen model ingesteld. Open de verslaginstellingen en druk op Coachinstellingen... om een provider en model te kiezen.}
 translate N ReviewCoachKept {Verslag geannuleerd: %s van %s coachnotities zijn bewaard.}
 translate N ReviewCoachDiscarded {Het verslag is klaar, maar de coachtekst is weggegooid: er is een andere partij geopend terwijl het model schreef.}
+translate N ReviewCoachSummaryLabel {Samenvatting}
+translate N ReviewCoachLevelLabel {Niveau}
+translate N ReviewCoachOpeningLabel {Opening}
+translate N ReviewCoachPhase {beweegt %d-%d - nauwkeurigheid W %.1f%% B %.1f%%, ACPL W %d B %d.}
+translate N ReviewReportMarker {Spelrecensie}
+translate N ReviewReportSide {%s: %s%% nauwkeurigheid, ACPL %d, geschatte Elo %d}
+translate N ReviewReportLabels {%s labels: %s}
+translate N ReviewReportKeyMoments {Belangrijke momenten: %s}
+translate N ReviewReportPhases {Fasen: %s}
+translate N ReviewReportPhase {%s beweegt %d-%d (%s %.1f / %s %.1f)}
+translate N ReviewReportOpening {opening}
+translate N ReviewReportMiddlegame {middenspel}
+translate N ReviewReportEndgame {eindspel}
 translate N TimeMs {Tijd (ms)}
 
 

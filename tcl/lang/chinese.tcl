@@ -833,6 +833,19 @@ translate M ReviewCoachSettings {教练设置…}
 translate M ReviewCoachNoModel {教练点评已开启，但尚未配置模型。请打开分析设置，点击“教练设置…”选择服务商和模型。}
 translate M ReviewCoachKept {分析已取消：保留了 %s / %s 条教练点评。}
 translate M ReviewCoachDiscarded {分析已完成，但教练点评被丢弃：模型写作期间打开了另一盘棋。}
+translate M ReviewCoachSummaryLabel {概括}
+translate M ReviewCoachLevelLabel {等级}
+translate M ReviewCoachOpeningLabel {开幕}
+translate M ReviewCoachPhase {移动 %d-%d - 精度 W %.1f%% B %.1f%%，ACPL W %d B %d。}
+translate M ReviewReportMarker {游戏回顾}
+translate M ReviewReportSide {%s：%s%% 准确度，ACPL %d，估计 Elo %d}
+translate M ReviewReportLabels {%s 个标签：%s}
+translate M ReviewReportKeyMoments {关键时刻：%s}
+translate M ReviewReportPhases {阶段：%s}
+translate M ReviewReportPhase {%s 移动 %d-%d (%s %.1f / %s %.1f)}
+translate M ReviewReportOpening {开幕}
+translate M ReviewReportMiddlegame {中局}
+translate M ReviewReportEndgame {残局}
 translate M TimeMs {时间（毫秒）}
 
 

@@ -870,6 +870,19 @@ translate F ReviewCoachSettings {Réglages du coach...}
 translate F ReviewCoachNoModel {Le texte du coach est activé, mais aucun modèle n'est configuré. Ouvrez les réglages de l'analyse et appuyez sur Réglages du coach... pour choisir un fournisseur et un modèle.}
 translate F ReviewCoachKept {Analyse annulée : %s notes du coach sur %s ont été conservées.}
 translate F ReviewCoachDiscarded {L'analyse est terminée, mais le texte du coach a été abandonné : une autre partie a été ouverte pendant que le modèle écrivait.}
+translate F ReviewCoachSummaryLabel {Résumé}
+translate F ReviewCoachLevelLabel {Niveau}
+translate F ReviewCoachOpeningLabel {Ouverture}
+translate F ReviewCoachPhase {mouvements %d-%d - précision W %.1f%% B %.1f%%, ACPL W %d B %d.}
+translate F ReviewReportMarker {Revue du jeu}
+translate F ReviewReportSide {%s : précision %s%%, ACPL %d, Elo estimé %d}
+translate F ReviewReportLabels {%s étiquettes : %s}
+translate F ReviewReportKeyMoments {Moments clés : %s}
+translate F ReviewReportPhases {Phases : %s}
+translate F ReviewReportPhase {%s se déplace de %d à %d (%s %.1f / %s %.1f)}
+translate F ReviewReportOpening {ouverture}
+translate F ReviewReportMiddlegame {milieu de jeu}
+translate F ReviewReportEndgame {fin de partie}
 translate F TimeMs {Temps (ms)}
 
 

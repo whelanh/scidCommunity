@@ -889,6 +889,19 @@ translate G ReviewCoachSettings {Ρυθμίσεις προπονητή...}
 translate G ReviewCoachNoModel {Το κείμενο προπονητή είναι ενεργό, αλλά δεν έχει ρυθμιστεί μοντέλο. Ανοίξτε τις ρυθμίσεις ανάλυσης και πατήστε Ρυθμίσεις προπονητή... για να επιλέξετε πάροχο και μοντέλο.}
 translate G ReviewCoachKept {Η ανάλυση ακυρώθηκε: κρατήθηκαν %s από %s σημειώσεις προπονητή.}
 translate G ReviewCoachDiscarded {Η ανάλυση ολοκληρώθηκε, αλλά το κείμενο προπονητή απορρίφθηκε: άνοιξε άλλη παρτίδα όσο έγραφε το μοντέλο.}
+translate G ReviewCoachSummaryLabel {Περίληψη}
+translate G ReviewCoachLevelLabel {Επίπεδο}
+translate G ReviewCoachOpeningLabel {Ανοιγμα}
+translate G ReviewCoachPhase {μετακινείται %d-%d - ακρίβεια W %.1f%% B %.1f%%, ACPL W %d B %d.}
+translate G ReviewReportMarker {Κριτική παιχνιδιού}
+translate G ReviewReportSide {%s: %s%% ακρίβεια, ACPL %d, εκτιμώμενο Elo %d}
+translate G ReviewReportLabels {%s ετικέτες: %s}
+translate G ReviewReportKeyMoments {Βασικές στιγμές: %s}
+translate G ReviewReportPhases {Φάσεις: %s}
+translate G ReviewReportPhase {Το %s μετακινεί %d-%d (%s %.1f / %s %.1f)}
+translate G ReviewReportOpening {άνοιγμα}
+translate G ReviewReportMiddlegame {μεσαίο παιχνίδι}
+translate G ReviewReportEndgame {τελικό παιχνίδι}
 translate G TimeMs {Χρόνος(ms)}
 
 

@@ -883,6 +883,19 @@ translate K ReviewCoachSettings {Configuració de l'entrenador...}
 translate K ReviewCoachNoModel {El text de l'entrenador està activat, però no hi ha cap model configurat. Obriu la configuració de l'anàlisi i premeu Configuració de l'entrenador... per triar un proveïdor i un model.}
 translate K ReviewCoachKept {Anàlisi cancel·lada: s'han conservat %s de %s notes de l'entrenador.}
 translate K ReviewCoachDiscarded {L'anàlisi està completa, però el text de l'entrenador s'ha descartat: s'ha obert una altra partida mentre el model escrivia.}
+translate K ReviewCoachSummaryLabel {Resum}
+translate K ReviewCoachLevelLabel {Nivell}
+translate K ReviewCoachOpeningLabel {Obertura}
+translate K ReviewCoachPhase {moviments %d-%d - precisió W %.1f%% B %.1f%%, ACPL W %d B %d.}
+translate K ReviewReportMarker {Revisió del joc}
+translate K ReviewReportSide {%s: %s%% de precisió, ACPL %d, Elo estimat %d}
+translate K ReviewReportLabels {%s etiquetes: %s}
+translate K ReviewReportKeyMoments {Moments clau: %s}
+translate K ReviewReportPhases {Fases: %s}
+translate K ReviewReportPhase {%s mou %d-%d (%s %.1f / %s %.1f)}
+translate K ReviewReportOpening {obertura}
+translate K ReviewReportMiddlegame {joc mitjà}
+translate K ReviewReportEndgame {final del joc}
 translate K TimeMs {Temps (ms)}
 
 

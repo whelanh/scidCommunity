@@ -868,6 +868,19 @@ translate I ReviewCoachSettings {Impostazioni del coach...}
 translate I ReviewCoachNoModel {Il testo del coach è attivo, ma nessun modello è configurato. Apri le impostazioni dell'analisi e premi Impostazioni del coach... per scegliere provider e modello.}
 translate I ReviewCoachKept {Analisi annullata: sono state conservate %s note del coach su %s.}
 translate I ReviewCoachDiscarded {L'analisi è completa, ma il testo del coach è stato scartato: è stata aperta un'altra partita mentre il modello scriveva.}
+translate I ReviewCoachSummaryLabel {Riepilogo}
+translate I ReviewCoachLevelLabel {Livello}
+translate I ReviewCoachOpeningLabel {Apertura}
+translate I ReviewCoachPhase {movimenti %d-%d - precisione W %.1f%% B %.1f%%, ACPL W %d B %d.}
+translate I ReviewReportMarker {Game review}
+translate I ReviewReportSide {%s: precisione %s%%, ACPL %d, Elo stimato %d}
+translate I ReviewReportLabels {Etichette %s: %s}
+translate I ReviewReportKeyMoments {Momenti chiave: %s}
+translate I ReviewReportPhases {Fasi: %s}
+translate I ReviewReportPhase {%s sposta %d-%d (%s %.1f / %s %.1f)}
+translate I ReviewReportOpening {apertura}
+translate I ReviewReportMiddlegame {mediogioco}
+translate I ReviewReportEndgame {fine partita}
 translate I TimeMs {Tempo (ms)}
 
 

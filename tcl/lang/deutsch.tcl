@@ -897,6 +897,19 @@ translate D ReviewCoachSettings {Trainer-Einstellungen...}
 translate D ReviewCoachNoModel {Trainertext ist eingeschaltet, aber kein Modell eingerichtet. Öffnen Sie die Bericht-Einstellungen und drücken Sie Trainer-Einstellungen..., um Anbieter und Modell zu wählen.}
 translate D ReviewCoachKept {Bericht abgebrochen: %s von %s Trainer-Notizen wurden behalten.}
 translate D ReviewCoachDiscarded {Der Bericht ist fertig, aber der Trainertext wurde verworfen: Während das Modell schrieb, wurde eine andere Partie geöffnet.}
+translate D ReviewCoachSummaryLabel {Zusammenfassung}
+translate D ReviewCoachLevelLabel {Ebene}
+translate D ReviewCoachOpeningLabel {Öffnung}
+translate D ReviewCoachPhase {bewegt sich %d-%d - Genauigkeit W %.1f%% B %.1f%%, ACPL W %d B %d.}
+translate D ReviewReportMarker {Spielrezension}
+translate D ReviewReportSide {%s: %s%% Genauigkeit, ACPL %d, geschätzte Elo %d}
+translate D ReviewReportLabels {%s Labels: %s}
+translate D ReviewReportKeyMoments {Schlüsselmomente: %s}
+translate D ReviewReportPhases {Phasen: %s}
+translate D ReviewReportPhase {%s bewegt sich %d-%d (%s %.1f / %s %.1f)}
+translate D ReviewReportOpening {Öffnung}
+translate D ReviewReportMiddlegame {Mittelspiel}
+translate D ReviewReportEndgame {Endspiel}
 translate D TimeMs {Zeit (ms)}
 
 

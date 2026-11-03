@@ -249,6 +249,16 @@ survives the next review. The default writer of a whole-game pass calls it once
 the moves are in the game, so the header is part of a review rather than a
 separate command; a Move Comment pass names its plies and writes no report.
 
+**It reads in the window's language.** The marker, the side names, the figures,
+the phase names and every move label in the tally and the key moments go through
+`::tr`, so a Spanish window writes `[Revisión de la partida]` and
+`5 Teoría, 2 Error grave` — the same words the scoresheet's own comments use.
+Labels come from `::movelabels::text`, the table the annotations use, so the
+report and the moves cannot disagree. A language that has not translated a key
+falls back to the English text, and `stripHeader` matches the English marker as
+well as the translated one, so a game reviewed before the language changed does
+not stack two blocks.
+
 **Where the opening ends.** Three signals, and the opening ends at the first one
 to fire:
 
@@ -314,6 +324,17 @@ may name is in that block, and the rules say so: a piece the block does not list
 is not on the board, a line shows only the moves printed in it, and the verdict
 words the scoresheet already uses are named only to be forbidden.
 
+**The answer's language.** The prose lands in a game comment beside the move
+labels, so it is written in the language `Options → Language` shows. Each prompt
+ends with one directive naming that language (`- Write the answer in Spanish.`)
+and keeps SAN notation as FACTS writes it; the summary prompt keeps the three
+labels `SUMMARY:`, `LEVEL:` and `OPENING:` because `parseSummary` reads them
+back, and translates only their text. English adds no directive — the prompt is
+already English — and a language with no name in the table gets none rather than
+a wrong one. The banned label words are also named in the chosen language
+(`::movelabels::text`), so a model is not told to avoid "mistake" and then free
+to write "error".
+
 Two places in the text name something outside the block, and both are
 deliberate. The summary prompt carries two worked examples — "the game turned on
 move 9, when Black's queen took the pawn on e4 and was won for a rook" — that
@@ -376,8 +397,8 @@ Placement, each block on a line of its own:
 
 | Answer | Where it goes |
 | --- | --- |
-| `summary` | the three labelled lines at the start of the game's comment (ply 0): `Summary:`, `Level:`, `Opening:` |
-| `phase` | a line at the phase's last move: `[Phase opening] moves 1-10 - accuracy W 84.0% B 79.1%, ACPL W 34 B 41.` and then the prose |
+| `summary` | the three labelled lines at the start of the game's comment (ply 0): `Summary:`, `Level:`, `Opening:` — the labels are written in the window's language, English shown here |
+| `phase` | a line at the phase's last move: `[Phase opening] moves 1-10 - accuracy W 84.0% B 79.1%, ACPL W 34 B 41.` and then the prose. The `[Phase …]` tag stays English as a marker; the phase word and the figures follow the language |
 | `moment` | `[Coach] …` at the move the prompt was about, after the label and the score |
 
 **Replacement, not stacking.** Before the writer runs, a whole-game review takes
@@ -422,11 +443,11 @@ swallowed every event meant for the dialog it opens.
 | `tests/tcl/review_settings_dialog.tcl` | 51 checks: under Tk: the dialog builds, has OK/Cancel, stores what is typed, refuses a bad value, the variation box follows `mpv`, the time cap's row shows the preset's cap and drops the note, the on/off rows are checkboxes, `Coach settings…` opens a window of its own from a dialog that holds no grab, and both traces are removed when the dialog closes |
 | `tests/tcl/review_ui.tcl` | 229 checks: the call a press makes, the status line (including the coach's counts), the button states, the dialog round trip, the precedence table through the dialog, the time cap's note, which move a comment judges, the move-comment depth, the key set |
 | `tests/tcl/review_toolbar.tcl` | 42 checks: the five review icons use `::icon::` names and exist in icons_light and icons_dark at 24×24, the whole engine toolbar uses `::icon::` images, the labels are tooltips rather than text, the stop icon is gridded only while a pass runs, a visible divider separates the review group from Config, the dark-theme cache matches `::icon::` names, and the threat button exists only when its command does |
-| `tests/tcl/review_driver.tcl` | 294 checks: the pass against a stub engine, the four Go shapes the precedence table produces, a capped run, two reviews of the same game in a row, the engine window's hand-off to it, the completion hook, and the coach: started after the write, the run held open until the answers land, not started for a single move or an annotate pass, an annotate pass leaving the coach blocks alone, not holding a run open when it cannot start, and Cancel while the model is writing |
+| `tests/tcl/review_driver.tcl` | 298 checks: the pass against a stub engine, the four Go shapes the precedence table produces, a capped run, two reviews of the same game in a row, the engine window's hand-off to it, the completion hook, and the coach: started after the write, the run held open until the answers land, not started for a single move or an annotate pass, an annotate pass leaving the coach blocks alone, not holding a run open when it cannot start, and Cancel while the model is writing |
 | `tests/tcl/annotate_dialog.tcl` | 56 checks: the dialog's decision (pane preset, book end, tier, the non-UCI refusal), the blunders-only filter, and the Cancel label rule |
 | `tests/tcl/annotate_run.tcl` | 78 checks: the plan run against a stub engine, the write, the batch chain, the Cancel escalation and a cancelled run writing nothing |
-| `tests/tcl/review_report.tcl` | 105 checks: accuracy as the app's own figure and the parity a phase starting on Black's move needs, Elo, key moments, the endgame rule — one material total, with the six-piece net rejected at 38 points — the opening boundary — Smyrnov met and half met, rook-less and file/rank connectivity, mixedness at 150 and 161, the material net at ten and eleven, the first-firing signal at 17/21/25, no ply floor — and the block removal, two writes deep |
-| `tests/tcl/review_coach.tcl` | 111 checks: the move facts, the game-level facts, the turning move, the phase facts, the prose markers, that the header block comes off without taking the report's header with it, what a prompt may name and what it may not, which prompts a results set has and in what order, that a brilliant key moment gets no prompt, that the same set gives the same prompts, the summary reply, the game's identifying facts, and the prose layer: what a strip takes off and what a reader's own note keeps, where each answer lands, a second review replacing the first, a failed answer leaving no block, the coach off taking only its own prose, what a cancelled run reports, and the queue being wired to the prompts (including a queue that refuses to start) |
+| `tests/tcl/review_report.tcl` | 110 checks: accuracy as the app's own figure and the parity a phase starting on Black's move needs, Elo, key moments, the endgame rule — one material total, with the six-piece net rejected at 38 points — the opening boundary — Smyrnov met and half met, rook-less and file/rank connectivity, mixedness at 150 and 161, the material net at ten and eleven, the first-firing signal at 17/21/25, no ply floor — and the block removal, two writes deep |
+| `tests/tcl/review_coach.tcl` | 118 checks: the move facts, the game-level facts, the turning move, the phase facts, the prose markers, that the header block comes off without taking the report's header with it, what a prompt may name and what it may not, which prompts a results set has and in what order, that a brilliant key moment gets no prompt, that the same set gives the same prompts, the summary reply, the game's identifying facts, and the prose layer: what a strip takes off and what a reader's own note keeps, where each answer lands, a second review replacing the first, a failed answer leaving no block, the coach off taking only its own prose, what a cancelled run reports, and the queue being wired to the prompts (including a queue that refuses to start) |
 | `tests/tcl/review_prose.tcl` | 52 checks: one prompt at a time in order, each item's own token budget, the cache answering a second run, a failed request dropped without failing the run, a reply for a question that is no longer outstanding ignored, a cancelled run's answer never landing in the next run, the cleaning of what a model writes, and the status a caller asks for |
 | `tests/tcl/review_transport.tcl` | 37 checks: a stub `curl` on PATH sleeps for a second, `queryAsync` returns in under 500 ms and its callback then arrives with the text, the blocking path holds the caller for the whole sleep (the control), two requests in flight do not cross, a refused provider starts no process, a failed request is an `ERROR:` string, Cancel kills the child and drops its reply (with the Windows `taskkill` fallback pinned), and no request or reply file is left behind |
 

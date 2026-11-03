@@ -898,6 +898,19 @@ translate g ReviewCoachSettings {Настройки на треньора...}
 translate g ReviewCoachNoModel {Текстът на треньора е включен, но няма настроен модел. Отворете настройките на прегледа и натиснете Настройки на треньора..., за да изберете доставчик и модел.}
 translate g ReviewCoachKept {Прегледът е отменен: запазени са %s от %s бележки на треньора.}
 translate g ReviewCoachDiscarded {Прегледът е готов, но текстът на треньора бе изхвърлен: друга партия бе отворена, докато моделът пишеше.}
+translate g ReviewCoachSummaryLabel {Резюме}
+translate g ReviewCoachLevelLabel {Ниво}
+translate g ReviewCoachOpeningLabel {Отваряне}
+translate g ReviewCoachPhase {движи %d-%d - точност W %.1f%% B %.1f%%, ACPL W %d B %d.}
+translate g ReviewReportMarker {Преглед на играта}
+translate g ReviewReportSide {%s: %s%% точност, ACPL %d, прогнозно Elo %d}
+translate g ReviewReportLabels {%s етикети: %s}
+translate g ReviewReportKeyMoments {Ключови моменти: %s}
+translate g ReviewReportPhases {Фази: %s}
+translate g ReviewReportPhase {%s ходове %d-%d (%s %.1f / %s %.1f)}
+translate g ReviewReportOpening {отваряне}
+translate g ReviewReportMiddlegame {мителшпил}
+translate g ReviewReportEndgame {край на играта}
 translate g TimeMs {Време (ms)}
 
 

@@ -857,6 +857,19 @@ translate b ReviewCoachSettings {কোচ সেটিংস...}
 translate b ReviewCoachNoModel {কোচের লেখা চালু আছে, কিন্তু কোনো মডেল কনফিগার করা হয়নি। পর্যালোচনা সেটিংস খুলুন এবং সরবরাহকারী ও মডেল বেছে নিতে কোচ সেটিংস... চাপুন।}
 translate b ReviewCoachKept {পর্যালোচনা বাতিল: %s / %s কোচের নোট রাখা হয়েছে।}
 translate b ReviewCoachDiscarded {পর্যালোচনা সম্পন্ন, কিন্তু কোচের লেখা বাদ দেওয়া হয়েছে: মডেল লেখার সময় অন্য একটি খেলা খোলা হয়েছিল।}
+translate b ReviewCoachSummaryLabel {সারাংশ}
+translate b ReviewCoachLevelLabel {স্তর}
+translate b ReviewCoachOpeningLabel {খোলা হচ্ছে}
+translate b ReviewCoachPhase {মুভ %d-%d - সঠিকতা W %.1f%% B %.1f%%, ACPL W %d B %d।}
+translate b ReviewReportMarker {খেলা পর্যালোচনা}
+translate b ReviewReportSide {%s: %s%% নির্ভুলতা, ACPL %d, আনুমানিক Elo %d}
+translate b ReviewReportLabels {%s লেবেল: %s}
+translate b ReviewReportKeyMoments {গুরুত্বপূর্ণ মুহূর্ত: %s}
+translate b ReviewReportPhases {পর্যায়: %s}
+translate b ReviewReportPhase {%s সরানো %d-%d (%s %.1f / %s %.1f)}
+translate b ReviewReportOpening {খোলা}
+translate b ReviewReportMiddlegame {মধ্য খেলা}
+translate b ReviewReportEndgame {শেষ খেলা}
 translate b TimeMs {সময়(ms)}
 
 

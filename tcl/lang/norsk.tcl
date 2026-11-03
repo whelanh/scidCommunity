@@ -867,6 +867,19 @@ translate O ReviewCoachSettings {Trenerinnstillinger...}
 translate O ReviewCoachNoModel {Trenertekst er på, men ingen modell er satt opp. Åpne innstillingene for gjennomgangen og trykk Trenerinnstillinger... for å velge leverandør og modell.}
 translate O ReviewCoachKept {Gjennomgang avbrutt: %s av %s trenernotater ble beholdt.}
 translate O ReviewCoachDiscarded {Gjennomgangen er ferdig, men trenerteksten ble forkastet: et annet parti ble åpnet mens modellen skrev.}
+translate O ReviewCoachSummaryLabel {Sammendrag}
+translate O ReviewCoachLevelLabel {Nivå}
+translate O ReviewCoachOpeningLabel {Åpning}
+translate O ReviewCoachPhase {beveger seg %d-%d - nøyaktighet W %.1f%% B %.1f%%, ACPL W %d B %d.}
+translate O ReviewReportMarker {Spillanmeldelse}
+translate O ReviewReportSide {%s: %s%% nøyaktighet, ACPL %d, estimert Elo %d}
+translate O ReviewReportLabels {%s etiketter: %s}
+translate O ReviewReportKeyMoments {Viktige øyeblikk: %s}
+translate O ReviewReportPhases {Faser: %s}
+translate O ReviewReportPhase {%s flytter %d-%d (%s %.1f / %s %.1f)}
+translate O ReviewReportOpening {åpning}
+translate O ReviewReportMiddlegame {mellomspill}
+translate O ReviewReportEndgame {sluttspill}
 translate O TimeMs {Tid (ms)}
 
 

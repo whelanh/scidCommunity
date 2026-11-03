@@ -897,6 +897,19 @@ translate E ReviewCoachSettings {Coach settings...}
 translate E ReviewCoachNoModel {Coach prose is on, but no model is configured. Press Coach settings... in Review Settings to choose a provider and model.}
 translate E ReviewCoachKept {Review cancelled: %s of %s coach notes were kept.}
 translate E ReviewCoachDiscarded {The review is complete, but the coach prose was discarded: another game was opened while the model was writing.}
+translate E ReviewCoachSummaryLabel {Summary}
+translate E ReviewCoachLevelLabel {Level}
+translate E ReviewCoachOpeningLabel {Opening}
+translate E ReviewCoachPhase {moves %d-%d - accuracy W %.1f%% B %.1f%%, ACPL W %d B %d.}
+translate E ReviewReportMarker {Game review}
+translate E ReviewReportSide {%s: %s%% accuracy, ACPL %d, estimated Elo %d}
+translate E ReviewReportLabels {%s labels: %s}
+translate E ReviewReportKeyMoments {Key moments: %s}
+translate E ReviewReportPhases {Phases: %s}
+translate E ReviewReportPhase {%s moves %d-%d (%s %.1f / %s %.1f)}
+translate E ReviewReportOpening {opening}
+translate E ReviewReportMiddlegame {middlegame}
+translate E ReviewReportEndgame {endgame}
 translate E TimeMs {Time(ms)}
 
 

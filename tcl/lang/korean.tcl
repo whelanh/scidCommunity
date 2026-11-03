@@ -898,6 +898,19 @@ translate k ReviewCoachSettings {코치 설정...}
 translate k ReviewCoachNoModel {코치 해설이 켜져 있지만 모델이 설정되지 않았습니다. 리뷰 설정을 열고 코치 설정...을 눌러 공급자와 모델을 선택하십시오.}
 translate k ReviewCoachKept {리뷰가 취소되었습니다: 코치 해설 %s / %s개를 유지했습니다.}
 translate k ReviewCoachDiscarded {리뷰가 완료되었지만 코치 해설은 버려졌습니다: 모델이 쓰는 동안 다른 게임이 열렸습니다.}
+translate k ReviewCoachSummaryLabel {요약}
+translate k ReviewCoachLevelLabel {수준}
+translate k ReviewCoachOpeningLabel {열기}
+translate k ReviewCoachPhase {%d-%d 이동 - 정확도 W %.1f%% B %.1f%%, ACPL W %d B %d.}
+translate k ReviewReportMarker {게임 리뷰}
+translate k ReviewReportSide {%s: %s%% 정확도, ACPL %d, 예상 Elo %d}
+translate k ReviewReportLabels {%s 레이블: %s}
+translate k ReviewReportKeyMoments {주요 순간: %s}
+translate k ReviewReportPhases {단계: %s}
+translate k ReviewReportPhase {%s 이동 %d-%d(%s %.1f / %s %.1f)}
+translate k ReviewReportOpening {열기}
+translate k ReviewReportMiddlegame {중간 게임}
+translate k ReviewReportEndgame {최종회}
 translate k TimeMs {시간(ms)}
 
 

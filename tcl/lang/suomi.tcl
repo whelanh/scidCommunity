@@ -896,6 +896,19 @@ translate U ReviewCoachSettings {Valmentajan asetukset...}
 translate U ReviewCoachNoModel {Valmentajan teksti on päällä, mutta mallia ei ole määritetty. Avaa analyysin asetukset ja paina Valmentajan asetukset... valitaksesi palveluntarjoajan ja mallin.}
 translate U ReviewCoachKept {Analyysi peruutettu: %s / %s valmentajan merkintää säilytettiin.}
 translate U ReviewCoachDiscarded {Analyysi on valmis, mutta valmentajan teksti hylättiin: toinen peli avattiin mallin kirjoittaessa.}
+translate U ReviewCoachSummaryLabel {Yhteenveto}
+translate U ReviewCoachLevelLabel {Taso}
+translate U ReviewCoachOpeningLabel {Avaaminen}
+translate U ReviewCoachPhase {liikkuu %d-%d - tarkkuus W %.1f%% B %.1f%%, ACPL W %d B %d.}
+translate U ReviewReportMarker {Game review}
+translate U ReviewReportSide {%s: %s%% accuracy, ACPL %d, estimated Elo %d}
+translate U ReviewReportLabels {%s tunnisteet: %s}
+translate U ReviewReportKeyMoments {Tärkeimmät hetket: %s}
+translate U ReviewReportPhases {Vaiheet: %s}
+translate U ReviewReportPhase {%s siirtyy %d-%d (%s %.1f / %s %.1f)}
+translate U ReviewReportOpening {avaaminen}
+translate U ReviewReportMiddlegame {keskipeli}
+translate U ReviewReportEndgame {loppupeli}
 translate U TimeMs {Aika (ms)}
 
 

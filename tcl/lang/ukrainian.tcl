@@ -858,6 +858,19 @@ translate Q ReviewCoachSettings {Налаштування тренера...}
 translate Q ReviewCoachNoModel {Текст тренера ввімкнено, але модель не налаштована. Відкрийте налаштування огляду й натисніть Налаштування тренера..., щоб вибрати постачальника та модель.}
 translate Q ReviewCoachKept {Огляд скасовано: збережено %s з %s нотаток тренера.}
 translate Q ReviewCoachDiscarded {Огляд завершено, але текст тренера відкинуто: під час роботи моделі відкрито іншу партію.}
+translate Q ReviewCoachSummaryLabel {Резюме}
+translate Q ReviewCoachLevelLabel {Рівень}
+translate Q ReviewCoachOpeningLabel {відкриття}
+translate Q ReviewCoachPhase {рухи %d-%d - точність W %.1f%% B %.1f%%, ACPL W %d B %d.}
+translate Q ReviewReportMarker {Огляд гри}
+translate Q ReviewReportSide {%s: точність %s%%, ACPL %d, приблизне Elo %d}
+translate Q ReviewReportLabels {%s міток: %s}
+translate Q ReviewReportKeyMoments {Ключові моменти: %s}
+translate Q ReviewReportPhases {Фази: %s}
+translate Q ReviewReportPhase {%s ходить %d-%d (%s %.1f / %s %.1f)}
+translate Q ReviewReportOpening {відкриття}
+translate Q ReviewReportMiddlegame {мітельшпіль}
+translate Q ReviewReportEndgame {ендшпіль}
 translate Q TimeMs {Час (мс)}
 
 

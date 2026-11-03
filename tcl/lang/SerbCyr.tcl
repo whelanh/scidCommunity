@@ -898,6 +898,19 @@ translate J ReviewCoachSettings {Подешавања тренера...}
 translate J ReviewCoachNoModel {Текст тренера је укључен, али модел није подешен. Отворите подешавања прегледа и притисните Подешавања тренера... да изаберете добављача и модел.}
 translate J ReviewCoachKept {Преглед отказан: сачувано је %s од %s тренерских напомена.}
 translate J ReviewCoachDiscarded {Преглед је завршен, али је текст тренера одбачен: друга партија је отворена док је модел писао.}
+translate J ReviewCoachSummaryLabel {Резиме}
+translate J ReviewCoachLevelLabel {Ниво}
+translate J ReviewCoachOpeningLabel {Отварање}
+translate J ReviewCoachPhase {потези %д-%д - тачност В %.1ф%% Б %.1ф%%, АЦПЛ В %д Б %д.}
+translate J ReviewReportMarker {Преглед игре}
+translate J ReviewReportSide {%с: %с%% тачност, АЦПЛ %д, процењено Ело %д}
+translate J ReviewReportLabels {%с ознаке: %с}
+translate J ReviewReportKeyMoments {Кључни моменти: %с}
+translate J ReviewReportPhases {Фазе: %с}
+translate J ReviewReportPhase {%с се помера %д-%д (%с %.1ф / %с %.1ф)}
+translate J ReviewReportOpening {отварање}
+translate J ReviewReportMiddlegame {средња игра}
+translate J ReviewReportEndgame {ендгаме}
 translate J TimeMs {време(мс)}
 
 

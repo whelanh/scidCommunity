@@ -865,6 +865,19 @@ translate H ReviewCoachSettings {Edző beállításai...}
 translate H ReviewCoachNoModel {Az edzőszöveg be van kapcsolva, de nincs modell beállítva. Nyissa meg a jelentés beállításait, és nyomja meg az Edző beállításai... gombot a szolgáltató és a modell kiválasztásához.}
 translate H ReviewCoachKept {Jelentés megszakítva: %s / %s edzőmegjegyzés megmaradt.}
 translate H ReviewCoachDiscarded {A jelentés elkészült, de az edzőszöveg elveszett: a modell írása közben másik játszmát nyitott meg.}
+translate H ReviewCoachSummaryLabel {Összegzés}
+translate H ReviewCoachLevelLabel {Szint}
+translate H ReviewCoachOpeningLabel {Nyílás}
+translate H ReviewCoachPhase {mozog %d-%d - pontosság W %.1f%% B %.1f%%, ACPL W %d B %d.}
+translate H ReviewReportMarker {Játék ismertető}
+translate H ReviewReportSide {%s: %s%% pontosság, ACPL %d, becsült elo %d}
+translate H ReviewReportLabels {%s címkék: %s}
+translate H ReviewReportKeyMoments {Legfontosabb pillanatok: %s}
+translate H ReviewReportPhases {Fázisok: %s}
+translate H ReviewReportPhase {%s lépés: %d-%d (%s %.1f / %s %.1f)}
+translate H ReviewReportOpening {nyílás}
+translate H ReviewReportMiddlegame {középjáték}
+translate H ReviewReportEndgame {végjáték}
 translate H TimeMs {Idõ (ms)}
 
 

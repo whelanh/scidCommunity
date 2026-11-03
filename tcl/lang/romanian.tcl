@@ -898,6 +898,19 @@ translate L ReviewCoachSettings {Setările antrenorului...}
 translate L ReviewCoachNoModel {Textul antrenorului este activat, dar nu este configurat niciun model. Deschideți setările analizei și apăsați Setările antrenorului... pentru a alege un furnizor și un model.}
 translate L ReviewCoachKept {Analiză anulată: s-au păstrat %s din %s note ale antrenorului.}
 translate L ReviewCoachDiscarded {Analiza este completă, dar textul antrenorului a fost eliminat: s-a deschis o altă partidă în timp ce modelul scria.}
+translate L ReviewCoachSummaryLabel {Rezumat}
+translate L ReviewCoachLevelLabel {Nivel}
+translate L ReviewCoachOpeningLabel {Deschidere}
+translate L ReviewCoachPhase {se mișcă %d-%d - precizie W %.1f%% B %.1f%%, ACPL W %d B %d.}
+translate L ReviewReportMarker {Revizuirea jocului}
+translate L ReviewReportSide {%s: precizie %s%%, ACPL %d, Elo estimat %d}
+translate L ReviewReportLabels {%s etichete: %s}
+translate L ReviewReportKeyMoments {Momente cheie: %s}
+translate L ReviewReportPhases {Faze: %s}
+translate L ReviewReportPhase {%s mută %d-%d (%s %.1f / %s %.1f)}
+translate L ReviewReportOpening {deschidere}
+translate L ReviewReportMiddlegame {jocul de mijloc}
+translate L ReviewReportEndgame {finalul jocului}
 translate L TimeMs {Timp (ms)}
 
 

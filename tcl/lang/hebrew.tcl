@@ -858,6 +858,19 @@ translate V ReviewCoachSettings {הגדרות המאמן...}
 translate V ReviewCoachNoModel {טקסט המאמן מופעל, אך לא הוגדר מודל. פתח את הגדרות הסקירה ולחץ על הגדרות המאמן... כדי לבחור ספק ומודל.}
 translate V ReviewCoachKept {הסקירה בוטלה: נשמרו %s מתוך %s הערות מאמן.}
 translate V ReviewCoachDiscarded {הסקירה הושלמה, אך טקסט המאמן נמחק: משחק אחר נפתח בזמן שהמודל כתב.}
+translate V ReviewCoachSummaryLabel {תַקצִיר}
+translate V ReviewCoachLevelLabel {רָמָה}
+translate V ReviewCoachOpeningLabel {פְּתִיחָה}
+translate V ReviewCoachPhase {מהלכים %d-%d - דיוק W %.1f%% B %.1f%%, ACPL W %d B %d.}
+translate V ReviewReportMarker {סקירת משחק}
+translate V ReviewReportSide {%s: דיוק %s%%, ACPL %d, מוערך Elo %d}
+translate V ReviewReportLabels {%s תוויות: %s}
+translate V ReviewReportKeyMoments {רגעי מפתח: %s}
+translate V ReviewReportPhases {שלבים: %s}
+translate V ReviewReportPhase {%s מהלכים %d-%d (%s %.1f / %s %.1f)}
+translate V ReviewReportOpening {פְּתִיחָה}
+translate V ReviewReportMiddlegame {משחק אמצעי}
+translate V ReviewReportEndgame {endgame}
 translate V TimeMs {זמן (ms)}
 
 

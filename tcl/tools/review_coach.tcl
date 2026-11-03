@@ -456,10 +456,85 @@ proc ::reviewcoach::phaseFacts {moves phase} {
     return [join $lines "\n"]
 }
 
+# A string this layer writes into the game, in the window's language. The
+# English text is the default and the fallback: a tclsh test has no language
+# files, and an untranslated key reads in English rather than as its key name.
+proc ::reviewcoach::phrase {key english} {
+    set out $english
+    if {[llength [info commands ::tr]]} {
+        set text ""
+        catch { set text [::tr $key] }
+        if {$text ne "" && $text ne $key} { set out $text }
+    }
+    return $out
+}
+
+# Text as a regular-expression literal, for the labels a comment is stripped by.
+proc ::reviewcoach::escape {text} {
+    regsub -all {([][(){}*+?.^$|\\])} $text {\\\1} text
+    return $text
+}
+
+# The phase word the scoresheet uses, from the report's own names.
+proc ::reviewcoach::phaseWord {name} {
+    return [phrase "ReviewReport[string totitle $name]" $name]
+}
+
+# A move label in the window's language, through the same table the scoresheet
+# uses: a banned word has to be banned in the language the answer is written in.
+proc ::reviewcoach::labelWord {label} {
+    if {[llength [info commands ::movelabels::text]]} {
+        return [::movelabels::text $label]
+    }
+    return $label
+}
+
+# The language the coach writes in: the one the window is showing, named the way
+# a model recognises it. English is the prompts' own language and needs no
+# directive; an unknown letter gets none rather than a wrong one.
+proc ::reviewcoach::answerLanguage {} {
+    set lang ""
+    catch { set lang $::language }
+    set names {
+        K Catalan   C Czech      D German     F French     G Greek
+        H Hungarian I Italian    N Dutch      O Norwegian  P Polish
+        B Portuguese R Russian   Y Serbian    S Spanish    U Finnish
+        W Swedish   M Chinese    T Turkish    J Serbian    A Japanese
+        L Romanian  V Hebrew     Z Swahili    h Hindi      Q Ukrainian
+        b Bengali   k Korean     g Bulgarian
+    }
+    if {[dict exists $names $lang]} { return [dict get $names $lang] }
+    return ""
+}
+
+# One line, appended to a prompt: the answer is prose, and it is prose in the
+# language the reader chose. Empty for English, which the prompt already uses,
+# so an English prompt is byte-identical to what it was before the languages
+# existed. The trailing newline is part of the line.
+proc ::reviewcoach::languageDirective {} {
+    set name [answerLanguage]
+    if {$name eq ""} { return "" }
+    return "- Write the answer in $name. Keep SAN moves exactly as FACTS writes them; every other word belongs to that language.\n"
+}
+
+# The summary's shape is three English labels the parser reads back, so only the
+# text after them is translated.
+proc ::reviewcoach::summaryLanguageDirective {} {
+    set name [answerLanguage]
+    if {$name eq ""} { return "" }
+    return "- Write the text of each line in $name, but keep the labels SUMMARY:, LEVEL: and OPENING: exactly as written.\n"
+}
+
 proc ::reviewcoach::banWords {label} {
     set out {}
     foreach w {inaccuracy mistake blunder miss} {
-        if {$w ne $label} { lappend out "\"$w\"" }
+        if {$w ne $label} {
+            lappend out "\"$w\""
+            # The same ban in the language the answer is written in: telling a
+            # model not to use "mistake" does not stop it using "error".
+            set word [labelWord $w]
+            if {$word ne $w} { lappend out "\"$word\"" }
+        }
     }
     return [join $out {, }]
 }
@@ -479,7 +554,7 @@ Rules:
 - Do NOT mention centipawns, evaluations, win percentages, accuracy, or any number at all. The reader already sees the score next to the move.
 - Do not repeat the move number and do not use the words [banWords $label].
 - No lists, no headings, no preamble. At most two sentences, plain prose.
-FACTS:
+[languageDirective]FACTS:
 $facts"
 }
 
@@ -505,7 +580,7 @@ Rules:
 - Keep both sides distinct: never credit one side with the other's move.
 - No lists, no headings, no preamble. Two to four sentences of plain prose.
 - End with one concrete thing the side that struggled should have done differently in this phase.
-FACTS:
+[languageDirective]FACTS:
 $facts"
 }
 
@@ -525,7 +600,7 @@ Rules:
 - If FACTS gives the net material after the punishment, that is what the error cost: state it in outcome terms (the exchange, a piece, a rook, a queen), not as what the immediate reply captured. If FACTS says the punishment was a fork, the fork is the mechanism and the net material is the price.
 - FACTS says when the game was decided, with a move number. If you mention it, use that move number exactly. Mistakes made after that point did not change the result: mention them only as loose play in a lost position, never as being as important as the move that decided the game.
 - No lists, no headings, no preamble, no markdown.
-- Answer in exactly three labelled lines, each starting at the beginning of a line:
+[summaryLanguageDirective]- Answer in exactly three labelled lines, each starting at the beginning of a line:
 SUMMARY: at most three sentences, sixty words total, and preferably two. The FIRST sentence must name the move the game turned on AND its consequence in outcome terms - what it cost on the board, such as a queen for a rook or a lost piece - in that same sentence. Never spend a sentence on the mechanism; the reader has the scoresheet. Shape: the game turned on move 9, when Black's queen took the pawn on e4 and was won for a rook. Do not mention an error that did not change the result.
 LEVEL: one sentence on the strength of play this game shows. Start from FACTS marked \"measured level\", naming each side's level in words; then name the single thing that would most have improved the weaker side's play in THIS game, stated concretely (for example, checking that a piece is defended before committing it). One game cannot show a habit or a pattern, so never use those words and never describe one. Do not retell the game and do not repeat the turning point.
 OPENING: at most two sentences on the opening. If FACTS gives no opening name, write exactly NONE and say nothing else about it.
@@ -632,7 +707,9 @@ proc ::reviewcoach::buildPrompts {moves game} {
 # (The previous rule ran to the next "[" or the end of the comment, which ate
 # everything the reader had added underneath.)
 proc ::reviewcoach::strip {comment} {
-    regsub -all {\[Phase (?:opening|middlegame|endgame)\][^\n]*} $comment "" comment
+    # The phase word is in the window's language; the tag in front of it is not,
+    # so the line is matched by the tag and taken whole.
+    regsub -all {\[Phase [^\]]*\][^\n]*} $comment "" comment
     regsub -all {\[Coach\][^\n]*} $comment "" comment
     # The removed line leaves its separator behind; a block at the end leaves one
     # trailing blank. Neither is prose, so neither is kept.
@@ -645,9 +722,37 @@ proc ::reviewcoach::strip {comment} {
 # indented under [Game review] and say "White:", "Black:" and "Phases:", so a
 # label at the start of a line is this layer's and nobody else's.
 proc ::reviewcoach::stripHeader {comment} {
-    set out [regsub -line -all {^(Summary|Level|Opening):.*$} $comment ""]
+    # The three labels are written in the window's language; every language's
+    # own labels are stripped as well, so a game written before the language
+    # changed does not keep its old header beside the new one.
+    set alts {}
+    foreach word [headerLabels] { lappend alts [escape $word] }
+    set out [regsub -line -all "^([join $alts |]):.*$" $comment ""]
     regsub -all {\n\n\n+} $out "\n\n" out
     return [string trim $out]
+}
+
+# The English labels, the current language's, and every other language's: the
+# table holds one entry per language that has translated the key.
+proc ::reviewcoach::headerLabels {} {
+    set out {Summary Level Opening}
+    foreach pair {{ReviewCoachSummaryLabel Summary} \
+                  {ReviewCoachLevelLabel Level} \
+                  {ReviewCoachOpeningLabel Opening}} {
+        set word [phrase [lindex $pair 0] [lindex $pair 1]]
+        if {$word ne "" && $word ni $out} { lappend out $word }
+    }
+    if {[info exists ::languages] && [info exists ::translations]} {
+        foreach lang $::languages {
+            foreach key {ReviewCoachSummaryLabel ReviewCoachLevelLabel ReviewCoachOpeningLabel} {
+                if {[info exists ::translations($lang,$key)]} {
+                    set word $::translations($lang,$key)
+                    if {$word ne "" && $word ni $out} { lappend out $word }
+                }
+            }
+        }
+    }
+    return $out
 }
 
 # Take the coach's header block off, if this game has one.
@@ -724,14 +829,14 @@ proc ::reviewcoach::place {p moves prompts results} {
             set sm [::reviewcoach::parseSummary $text]
             set block ""
             if {[dict get $sm summary] ne ""} {
-                append block "Summary: [dict get $sm summary]"
+                append block "[phrase ReviewCoachSummaryLabel Summary]: [dict get $sm summary]"
             }
             if {[dict get $sm level] ne ""} {
-                append block "\nLevel: [dict get $sm level]"
+                append block "\n[phrase ReviewCoachLevelLabel Level]: [dict get $sm level]"
             }
             set opening [dict get $sm opening]
             if {$opening ne ""} {
-                append block "\nOpening: $opening"
+                append block "\n[phrase ReviewCoachOpeningLabel Opening]: $opening"
             }
             if {$block eq ""} { continue }
             set old [::reviewcoach::strip [sc_pos getComment]]
@@ -746,10 +851,14 @@ proc ::reviewcoach::place {p moves prompts results} {
             if {[catch { sc_move ply $anchor }] || [sc_pos location] != $anchor} { continue }
             set fromMove [expr {([dict get $st from] + 1) / 2}]
             set toMove [expr {([dict get $st to] + 1) / 2}]
-            set block [format "\[Phase %s\] moves %d-%d - accuracy W %.1f%% B %.1f%%, ACPL W %d B %d." \
-                $key $fromMove $toMove \
+            # The tag is a machine marker and stays English, like [Coach]; the
+            # phase word and the figures follow the window's language.
+            set figures [format [phrase ReviewCoachPhase \
+                    {moves %d-%d - accuracy W %.1f%% B %.1f%%, ACPL W %d B %d.}] \
+                $fromMove $toMove \
                 [dict get $st accW] [dict get $st accB] \
                 [dict get $st acplW] [dict get $st acplB]]
+            set block "\[Phase [phaseWord $key]\] $figures"
             if {$text ne ""} {
                 append block " " [string trim [regsub -all {\s+} $text " "]]
             }

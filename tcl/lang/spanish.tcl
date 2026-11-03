@@ -914,6 +914,19 @@ translate S ReviewCoachSettings {Ajustes del entrenador...}
 translate S ReviewCoachNoModel {El texto del entrenador está activado, pero no hay ningún modelo configurado. Abra los ajustes del análisis y pulse Ajustes del entrenador... para elegir un proveedor y un modelo.}
 translate S ReviewCoachKept {Análisis cancelado: se conservaron %s de %s notas del entrenador.}
 translate S ReviewCoachDiscarded {El análisis está completo, pero el texto del entrenador se descartó: se abrió otra partida mientras el modelo escribía.}
+translate S ReviewCoachSummaryLabel {Resumen}
+translate S ReviewCoachLevelLabel {Nivel}
+translate S ReviewCoachOpeningLabel {Apertura}
+translate S ReviewCoachPhase {jugadas %d-%d - precisión B %.1f%% N %.1f%%, ACPL B %d N %d.}
+translate S ReviewReportMarker {Revisión de la partida}
+translate S ReviewReportSide {%s: %s%% de precisión, ACPL %d, Elo estimado %d}
+translate S ReviewReportLabels {%s: %s}
+translate S ReviewReportKeyMoments {Momentos clave: %s}
+translate S ReviewReportPhases {Fases: %s}
+translate S ReviewReportPhase {%s: jugadas %d-%d (%s %.1f / %s %.1f)}
+translate S ReviewReportOpening {apertura}
+translate S ReviewReportMiddlegame {medio juego}
+translate S ReviewReportEndgame {final}
 translate S TimeMs {Tiempo (ms)}
 
 
