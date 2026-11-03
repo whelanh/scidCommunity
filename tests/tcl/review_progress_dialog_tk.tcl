@@ -58,19 +58,32 @@ proc ::utils::tooltip::Set args {}
 proc ::setTitle {w text} { wm title $w $text }
 foreach f {font_Small font_SmallBold} { set ::$f TkDefaultFont }
 proc ::tk::PlaceWindow {w args} { return }
-# The board the popup draws on: ::board::new builds $w.bd, as tcl/board.tcl does,
-# and records what it was asked to draw.
+# The pane's current position, for the "no run in flight" path.
+proc sc_pos {args} { return {rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1} }
+# ::board::new, reproduced from tcl/board.tcl:662 as it actually is: a path that
+# already exists is refused outright, and both the frame and the canvas inside
+# it are created here. The stub this replaced omitted the guard AND the frame,
+# which is the only reason the popup's build bug passed 17 green checks. The
+# guard is the contract, and a check below asserts the path handed in was new.
 proc ::board::new {w {psize 40}} {
+    lappend ::board::newCalls $w
+    set ::board::preExisted($w) [winfo exists $w]
+    if {[winfo exists $w]} { return }
+    ttk::frame $w -class Board
     canvas $w.bd -width [expr {8 * $psize}] -height [expr {8 * $psize}] \
         -highlightthickness 0
+    grid $w.bd -row 6 -column 3
     set ::board::size($w) $psize
     return $w
 }
 proc ::board::update {w board {animate 0}} {
+    lappend ::board::updates [list $w $board $animate]
     set ::board::drawn($w.bd) $board
     set ::board::animate($w.bd) $animate
     return
 }
+set ::board::newCalls {}
+set ::board::updates {}
 
 source [file join $root tcl utils chessboard.tcl]
 source [file join $root tcl tools review_progress.tcl]
@@ -81,6 +94,21 @@ proc ::reviewui::passFraction {done total} { return 0 }
 proc ::reviewdriver::cancel {} { set ::cancelled 1 }
 
 proc settle {} { update idletasks ; update }
+
+puts "== a failing build is reported, not swallowed =="
+
+# The bug that kept this window invisible for two rounds was a silent catch
+# around build: the run went on painting into a window that did not exist and
+# nobody was told. A build that raises must reach the caller of show().
+rename ::reviewprogress::ui::build ::reviewprogress::ui::build_real
+proc ::reviewprogress::ui::build {} { error "forced build failure" }
+set buildRc [catch { ::reviewprogress::ui::show } buildErr]
+check "a failing build is reported, not swallowed" [expr {$buildRc == 1}] \
+    "show returned instead of raising"
+check "and it says why" [expr {[string match {*forced build failure*} $buildErr]}] \
+    "got '$buildErr'"
+rename ::reviewprogress::ui::build {}
+rename ::reviewprogress::ui::build_real ::reviewprogress::ui::build
 
 puts "== one window, built on first use and reused =="
 
@@ -97,6 +125,14 @@ checkEq "showing again reuses the same toplevel" $again $first
 check "exactly one popup exists" [expr {[llength [winfo children .]] >= 1}]
 
 puts "== the board is sized without a measured width, and is read-only =="
+
+# ::board::new refuses a path that already exists. The popup handed it a frame
+# it had made itself, so the board was never built and the window never appeared.
+check "the path handed to ::board::new did not exist yet" \
+    [expr {[info exists ::board::preExisted($win.board)] \
+        && !$::board::preExisted($win.board)}]
+check "::board::new made the Board frame, not a plain one" \
+    [expr {[winfo exists $win.board] && [winfo class $win.board] eq "Board"}]
 
 set canvas $win.board.bd
 check "the canvas exists" [winfo exists $canvas]
@@ -160,6 +196,23 @@ check "Cancel asks the run to stop" [expr {$::cancelled == 1}]
 settle
 checkEq "a finished run leaves the popup idle" \
     [$win.progress cget -text] {No review is running}
+
+puts "== with no run in flight the board shows the pane's position =="
+
+# The idle path calls ::board::update as (w, board, animate). It used to pass
+# (w, 0, <board string>), so the string landed in the animate slot and the board
+# never drew at all. The spy records the arguments, so the order is the assertion.
+set ::board::updates {}
+::reviewprogress::ui::show
+settle
+set last [lindex $::board::updates end]
+check "the idle path drew a board" [expr {[llength $last] == 3}] "no call recorded"
+checkEq "the board string is the second argument, not the animate slot" \
+    [lindex $last 1] [::reviewprogress::positionToBoard \
+        {rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1}]
+check "the idle draw is not animated" [expr {[lindex $last 2] == 0}] \
+    "got '[lindex $last 2]'"
+checkEq "the idle path draws the popup's own board" [lindex $last 0] $win.board
 
 puts ""
 puts "$checks checks, $fails failures"

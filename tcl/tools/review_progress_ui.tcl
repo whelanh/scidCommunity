@@ -41,17 +41,18 @@ proc ::reviewprogress::ui::build {} {
     ttk::label $win.header -text {} -anchor w -font font_SmallBold
     grid $win.header -row 0 -column 0 -sticky we -padx 8 -pady {8 4}
 
-    ttk::frame $win.board -padding 0
-    grid $win.board -row 1 -column 0 -sticky news -padx 8
-    # An explicit psize, never a measured width: a canvas built while the window
-    # is withdrawn has no geometry to measure, and the board would come out at
-    # zero and stay there. ::board::new builds $frame.bd, so it is given the
-    # frame it fills.
-    ::board::new $win.board $psize
+    # ::board::new takes a path that does NOT exist yet: it refuses a widget that
+    # already exists, creates the frame itself with -class Board (which is where
+    # the board styling comes from), creates the canvas $w.bd inside it and grids
+    # that canvas. Handing it a frame this proc had already made was the bug that
+    # kept this window invisible: the guard returned, $w.bd was never created and
+    # the grid below raised into a caller's catch. The path and the contract are
+    # both the ones main.tcl and analysis.tcl use.
+    ::board::new $board $psize
+    grid $board -row 1 -column 0 -sticky news -padx 8
     # Read-only by construction: no square bindings are installed by
     # ::board::new, and the canvas is neither focusable nor a drop target.
     catch { $board.bd configure -takefocus 0 -cursor "" }
-    grid $board.bd -row 0 -column 0 -sticky news
 
     ttk::label $win.progress -text {} -anchor w -font font_Small
     grid $win.progress -row 2 -column 0 -sticky we -padx 8 -pady {6 0}
@@ -127,7 +128,10 @@ proc ::reviewprogress::ui::idle {} {
     set boardString ""
     catch { set boardString [::reviewprogress::positionToBoard [sc_pos fen]] }
     if {$boardString ne ""} {
-        catch { ::board::update $board 0 $boardString }
+        # (w, board, animate): the board string is the second argument, not the
+        # first. Passing it third put it in the animate slot and the idle board
+        # never drew at all.
+        catch { ::board::update $board $boardString 0 }
     }
     return
 }
@@ -142,7 +146,14 @@ proc ::reviewprogress::ui::draw {job} {
         # A run started with the window closed still gets a window: the board is
         # what the reader asked for, and opening it later must not be needed to
         # have it up to date.
-        catch { ::reviewprogress::ui::build }
+        #
+        # A build that fails is reported rather than swallowed. The window that
+        # never appeared because this catch hid a bad board path is why: a run
+        # keeps painting without it, and the reader is only told on stderr.
+        if {[catch { ::reviewprogress::ui::build } err]} {
+            puts stderr "scidCommunity: the review progress window could not be built: $err"
+            return
+        }
     }
     set header ""
     catch { set header [dict get $job header] }

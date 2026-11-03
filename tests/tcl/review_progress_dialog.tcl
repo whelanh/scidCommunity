@@ -107,6 +107,25 @@ checkEq "a single-game pass carries no game number" \
         origin [list analysispane 1] game 47]] \
     {Annotate — Stockfish Deep (Analysis pane 1)}
 
+# A batch's game number changes with the game in flight. The header is still a
+# field - it is recomposed from the job's own fields when the game moves, and the
+# painter reads the field rather than looking anything up, so a covered window
+# redrawn later cannot name a different engine or pane than the run began with.
+set batchToken [::reviewprogress::begin [dict create \
+    source annotate engine {Stockfish Deep} origin [list analysispane 1] total 200]]
+checkEq "a batch starts without a game in flight" \
+    [dict get [::reviewprogress::job] header] \
+    {Annotate — Stockfish Deep (Analysis pane 1)}
+::reviewprogress::setSpec $batchToken \
+    {position fen rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1 moves e7e5} \
+    1 200 47
+checkEq "the batch header follows the game in flight" \
+    [dict get [::reviewprogress::job] header] \
+    {Annotate — Stockfish Deep (Analysis pane 1) · game 47 of 200}
+checkEq "and it is still made of the fields the run began with" \
+    [dict get [::reviewprogress::job] source] annotate
+::reviewprogress::finish $batchToken
+
 checkEq "Finish Game names its source" \
     [::reviewprogress::header [dict create \
         source finish engine {Stockfish Deep} origin [list enginewin 1]]] \
@@ -152,6 +171,22 @@ check "the painter was called with the job" [expr {[llength $::painted] == 2}]
 checkEq "a refused position leaves the last board in place" \
     [dict get [::reviewprogress::job] board] \
     {RNBQKBNRPPPPPPPP................................pppppppprnbqkbnr}
+
+# The job's `fen` field must be a FEN, not field 3 of the spec. A UCI FEN is six
+# space-separated words, so `lindex ... 3` read the side to move; this pins the
+# whole field, and the moves must differ from the FEN or the test proves nothing.
+set spec {position fen rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1 moves e7e5}
+::reviewprogress::setSpec $token $spec 4 40
+checkEq "the job's fen is the spec's fen, verbatim" \
+    [dict get [::reviewprogress::job] fen] \
+    {rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1}
+checkEq "the board is the position after the spec's moves" \
+    [dict get [::reviewprogress::job] board] \
+    {RNBQKBNRPPPP.PPP............P.......p...........pppp.ppprnbqkbnr}
+checkEq "a bare FEN is its own fen" \
+    [::reviewprogress::specFen {rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1}] \
+    {rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1}
+checkEq "startpos has no fen" [::reviewprogress::specFen {position startpos moves e2e4}] {}
 
 # The window is decoration: a run that ends leaves no job, and the next one
 # starts from the same slot rather than from a stale header.

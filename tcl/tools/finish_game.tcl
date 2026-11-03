@@ -112,13 +112,13 @@ proc ::finishgame::start {ownerId white black} {
     set ::finishgame::signal ""
     set ::finishgame::waitId ""
     # The progress board is fed a FEN and nothing else: it cannot move the
-    # reader's board because it has no game to move.
-    set ownerLabel ""
-    catch { set ownerLabel $::finishgame::owner }
+    # reader's board because it has no game to move. The origin is the window's
+    # number, not its widget path: a header reading "Engine window .engineWin1"
+    # is an implementation detail the reader should never see.
     set engineName $white
     if {$black ne $white} { set engineName "$white / $black" }
     set ::finishgame::token [::reviewprogress::begin [dict create \
-        source finish engine $engineName origin [list enginewin $ownerLabel]]]
+        source finish engine $engineName origin [list enginewin $ownerId]]]
     # The old pass's flag: it suppresses the repetition notices addMoveUCI
     # would otherwise pop up, and marks the game as being played by an engine.
     set ::finishgame::oldMode 0

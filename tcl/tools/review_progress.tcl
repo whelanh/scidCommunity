@@ -43,6 +43,29 @@ proc ::reviewprogress::positionToBoard {fen} {
     return $out
 }
 
+# The FEN a driver spec searches FROM: everything after `fen` up to `moves`, or
+# the whole string when it is a bare FEN. `position startpos` has no FEN and
+# answers "".
+#
+# This exists because the FEN is a multi-word field: `lindex ... 3` reads the
+# side to move, not the FEN, and a job whose `fen` field is not a FEN is a trap
+# for the next reader of the job dict.
+proc ::reviewprogress::specFen {spec} {
+    set words [regexp -all -inline {\S+} [string trim $spec]]
+    set at [lsearch -exact $words fen]
+    # A bare FEN is the whole spec: no `fen` keyword to find, and treating it as
+    # "no fen" would empty the field for exactly the callers that pass one.
+    # `position startpos ...` really has no FEN, and answers "".
+    if {$at < 0} {
+        if {[lindex $words 0] eq "position"} { return "" }
+        return [string trim $spec]
+    }
+    set rest [lrange $words [expr {$at + 1}] end]
+    set m [lsearch -exact $rest moves]
+    if {$m >= 0} { set rest [lrange $rest 0 [expr {$m - 1}]] }
+    return [join $rest " "]
+}
+
 # A position a pass searches, as ::reviewdriver hands it to the engine:
 # "position fen <fen> moves <m1> <m2> ...", or a bare FEN. The FEN alone is the
 # position before the moves, so the moves are replayed on the pure board rather
@@ -172,6 +195,7 @@ proc ::reviewprogress::begin {fields} {
     set job [dict create token $token \
         header [::reviewprogress::header $fields] \
         source [expr {[dict exists $fields source] ? [dict get $fields source] : ""}] \
+        fields $fields \
         board "" fen "" ply "" done "" total "" game $game totalGames $total]
     ::reviewprogress::paint
     return $token
@@ -179,6 +203,21 @@ proc ::reviewprogress::begin {fields} {
 
 proc ::reviewprogress::job {} {
     variable job
+    return $job
+}
+
+# The header is a field, but a batch's game number is part of it and the game
+# changes. Recomposing it from the fields the run began with keeps the promise
+# the design makes: the header never looks anything up at draw time, so a
+# covered window redrawn later still names the engine and pane the run started
+# with, while the number follows the game in flight.
+proc ::reviewprogress::rehead {job} {
+    if {![dict exists $job fields]} { return $job }
+    set fields [dict get $job fields]
+    dict set fields game [dict get $job game]
+    dict set fields total [dict get $job total]
+    dict set job fields $fields
+    dict set job header [::reviewprogress::header $fields]
     return $job
 }
 
@@ -198,6 +237,7 @@ proc ::reviewprogress::setPosition {token fen {done ""} {total ""} {game ""}} {
     if {$done ne ""} { dict set job done $done }
     if {$total ne ""} { dict set job total $total }
     if {$game ne ""} { dict set job game $game }
+    set job [::reviewprogress::rehead $job]
     ::reviewprogress::paint
     return 1
 }
@@ -210,12 +250,13 @@ proc ::reviewprogress::setSpec {token spec {done ""} {total ""} {game ""}} {
     if {![dict size $job] || [dict get $job token] ne $token} { return 0 }
     set board [::reviewprogress::specToBoard $spec]
     if {$board eq ""} { return 0 }
-    dict set job fen [lindex [regexp -all -inline {\S+} $spec] 3]
+    dict set job fen [::reviewprogress::specFen $spec]
     dict set job board $board
     catch { dict set job spec $spec }
     if {$done ne ""} { dict set job done $done }
     if {$total ne ""} { dict set job total $total }
     if {$game ne ""} { dict set job game $game }
+    set job [::reviewprogress::rehead $job]
     ::reviewprogress::paint
     return 1
 }
