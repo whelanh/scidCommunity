@@ -2137,12 +2137,12 @@ translate J RtfImportSuccessMulti {%д игре су успешно увезен
 # end of english.tcl
 
 # Review progress pane (#422 item 3).
-translate J ReviewProgressTitle {Review progress}
-translate J ReviewProgressIdle {No review is running}
-translate J ReviewProgressGameOf {game %s of %s}
-translate J ReviewProgressEngineWindow {Engine window %s}
-translate J ReviewProgressAnalysisPane {Analysis pane %s}
-translate J ReviewProgressRapid {Rapid annotate}
+translate J ReviewProgressTitle {Прегледајте напредак}
+translate J ReviewProgressIdle {Нема прегледа}
+translate J ReviewProgressGameOf {игра %с од %с %s %s}
+translate J ReviewProgressEngineWindow {Прозори мотора %s}
+translate J ReviewProgressAnalysisPane {Панели за анализу %s}
+translate J ReviewProgressRapid {Рапид аннотате}
 translate J FinishGameGameChanged {игра се променила док је Финисх Гаме била покренута; ништа није написано}
 translate J FinishGameAtEnd {Финисх Гаме почиње са краја главне линије; прво идите до краја игре}
 

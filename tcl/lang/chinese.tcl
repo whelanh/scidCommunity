@@ -2072,12 +2072,12 @@ translate M RtfImportSuccessMulti {%d 个游戏已成功导入剪贴板数据库
 # end of english.tcl
 
 # Review progress pane (#422 item 3).
-translate M ReviewProgressTitle {Review progress}
-translate M ReviewProgressIdle {No review is running}
-translate M ReviewProgressGameOf {game %s of %s}
-translate M ReviewProgressEngineWindow {Engine window %s}
-translate M ReviewProgressAnalysisPane {Analysis pane %s}
-translate M ReviewProgressRapid {Rapid annotate}
+translate M ReviewProgressTitle {审查进度}
+translate M ReviewProgressIdle {没有审核正在运行}
+translate M ReviewProgressGameOf {%s 的游戏 %s}
+translate M ReviewProgressEngineWindow {发动机窗 %s}
+translate M ReviewProgressAnalysisPane {分析面板 %s}
+translate M ReviewProgressRapid {快速注释}
 translate M FinishGameGameChanged {Finish Game 运行时游戏发生了变化；什么也没写}
 translate M FinishGameAtEnd {Finish Game从主线末端开始；先到游戏结束}
 

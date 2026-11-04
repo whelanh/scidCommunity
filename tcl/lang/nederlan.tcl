@@ -2143,12 +2143,12 @@ translate N RtfImportSuccessMulti {%d games zijn succesvol geïmporteerd in de k
 # end of english.tcl
 
 # Review progress pane (#422 item 3).
-translate N ReviewProgressTitle {Review progress}
-translate N ReviewProgressIdle {No review is running}
-translate N ReviewProgressGameOf {game %s of %s}
-translate N ReviewProgressEngineWindow {Engine window %s}
-translate N ReviewProgressAnalysisPane {Analysis pane %s}
-translate N ReviewProgressRapid {Rapid annotate}
+translate N ReviewProgressTitle {Beoordeel de voortgang}
+translate N ReviewProgressIdle {Er is geen beoordeling actief}
+translate N ReviewProgressGameOf {spel %s van %s}
+translate N ReviewProgressEngineWindow {Motorruiten %s}
+translate N ReviewProgressAnalysisPane {Analysepanelen %s}
+translate N ReviewProgressRapid {Snel annoteren}
 translate N FinishGameGameChanged {het spel veranderde terwijl Finish Game actief was; er werd niets geschreven}
 translate N FinishGameAtEnd {Finish Game begint vanaf het einde van de hoofdlijn; ga eerst naar het einde van het spel}
 

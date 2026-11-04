@@ -2119,12 +2119,12 @@ translate H RtfImportSuccessMulti {%d játék sikeresen importálva a vágólap 
 # end of english.tcl
 
 # Review progress pane (#422 item 3).
-translate H ReviewProgressTitle {Review progress}
-translate H ReviewProgressIdle {No review is running}
-translate H ReviewProgressGameOf {game %s of %s}
-translate H ReviewProgressEngineWindow {Engine window %s}
-translate H ReviewProgressAnalysisPane {Analysis pane %s}
-translate H ReviewProgressRapid {Rapid annotate}
+translate H ReviewProgressTitle {Tekintse át a haladást}
+translate H ReviewProgressIdle {Egyetlen felülvizsgálat sem fut}
+translate H ReviewProgressGameOf {%s játék: %s}
+translate H ReviewProgressEngineWindow {Motor ablakok %s}
+translate H ReviewProgressAnalysisPane {Elemző panelek %s}
+translate H ReviewProgressRapid {Gyors annotáció}
 translate H FinishGameGameChanged {a játék megváltozott, miközben a Finish Game futott; nem volt írva semmi}
 translate H FinishGameAtEnd {Befejezés A játék a fővonal végétől kezdődik; először menj a játék végére}
 

@@ -2124,12 +2124,12 @@ translate W RtfImportSuccessMulti {%d spel har importerats till urklippsdatabase
 # end of english.tcl
 
 # Review progress pane (#422 item 3).
-translate W ReviewProgressTitle {Review progress}
-translate W ReviewProgressIdle {No review is running}
-translate W ReviewProgressGameOf {game %s of %s}
-translate W ReviewProgressEngineWindow {Engine window %s}
-translate W ReviewProgressAnalysisPane {Analysis pane %s}
-translate W ReviewProgressRapid {Rapid annotate}
+translate W ReviewProgressTitle {Granska framstegen}
+translate W ReviewProgressIdle {Ingen recension körs}
+translate W ReviewProgressGameOf {spel %s av %s}
+translate W ReviewProgressEngineWindow {Motorfönster %s}
+translate W ReviewProgressAnalysisPane {Analyspaneler %s}
+translate W ReviewProgressRapid {Snabbkommentar}
 translate W FinishGameGameChanged {spelet ändrades medan Finish Game kördes; ingenting skrevs}
 translate W FinishGameAtEnd {Avsluta Spelet börjar från slutet av huvudlinjen; gå till slutet av spelet först}
 

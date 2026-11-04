@@ -2118,12 +2118,12 @@ translate C RtfImportSuccessMulti {%d her bylo úspěšně importováno do datab
 # end of english.tcl
 
 # Review progress pane (#422 item 3).
-translate C ReviewProgressTitle {Review progress}
-translate C ReviewProgressIdle {No review is running}
-translate C ReviewProgressGameOf {game %s of %s}
-translate C ReviewProgressEngineWindow {Engine window %s}
-translate C ReviewProgressAnalysisPane {Analysis pane %s}
-translate C ReviewProgressRapid {Rapid annotate}
+translate C ReviewProgressTitle {Zkontrolujte pokrok}
+translate C ReviewProgressIdle {Neprobíhá žádná recenze}
+translate C ReviewProgressGameOf {hra %s z %s}
+translate C ReviewProgressEngineWindow {Okna motoru %s}
+translate C ReviewProgressAnalysisPane {Analytické panely %s}
+translate C ReviewProgressRapid {Rychlá poznámka}
 translate C FinishGameGameChanged {během běhu Finish Game se hra změnila; nic nebylo napsáno}
 translate C FinishGameAtEnd {Finish Game začíná od konce hlavní řady; jděte nejprve na konec hry}
 

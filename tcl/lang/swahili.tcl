@@ -2096,12 +2096,12 @@ translate Z RtfImportSuccessMulti {Michezo %d imeingizwa kwenye hifadhidata ya u
 # end of english.tcl
 
 # Review progress pane (#422 item 3).
-translate Z ReviewProgressTitle {Review progress}
-translate Z ReviewProgressIdle {No review is running}
-translate Z ReviewProgressGameOf {game %s of %s}
-translate Z ReviewProgressEngineWindow {Engine window %s}
-translate Z ReviewProgressAnalysisPane {Analysis pane %s}
-translate Z ReviewProgressRapid {Rapid annotate}
+translate Z ReviewProgressTitle {Kagua maendeleo}
+translate Z ReviewProgressIdle {Hakuna ukaguzi unaoendeshwa}
+translate Z ReviewProgressGameOf {mchezo %s kati ya %s}
+translate Z ReviewProgressEngineWindow {Dirisha la injini %s}
+translate Z ReviewProgressAnalysisPane {Paneli za uchambuzi %s}
+translate Z ReviewProgressRapid {Maelezo ya haraka}
 translate Z FinishGameGameChanged {mchezo ulibadilika wakati Finish Game ikiendelea; hakuna kilichoandikwa}
 translate Z FinishGameAtEnd {Kumaliza Mchezo huanza kutoka mwisho wa mstari kuu; kwenda mwisho wa mchezo kwanza}
 

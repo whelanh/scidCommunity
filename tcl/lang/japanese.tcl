@@ -2137,12 +2137,12 @@ translate A RtfImportSuccessMulti {%d ゲームがクリップボード デー�
 # end of english.tcl
 
 # Review progress pane (#422 item 3).
-translate A ReviewProgressTitle {Review progress}
-translate A ReviewProgressIdle {No review is running}
-translate A ReviewProgressGameOf {game %s of %s}
-translate A ReviewProgressEngineWindow {Engine window %s}
-translate A ReviewProgressAnalysisPane {Analysis pane %s}
-translate A ReviewProgressRapid {Rapid annotate}
+translate A ReviewProgressTitle {進捗状況のレビュー}
+translate A ReviewProgressIdle {実行中のレビューはありません}
+translate A ReviewProgressGameOf {ゲーム %s/%s}
+translate A ReviewProgressEngineWindow {エンジンの窓 %s}
+translate A ReviewProgressAnalysisPane {分析パネル %s}
+translate A ReviewProgressRapid {迅速な注釈付け}
 translate A FinishGameGameChanged {終了ゲームの実行中にゲームが変更されました。何も書かれていなかった}
 translate A FinishGameAtEnd {フィニッシュゲームはメインラインの最後尾から始まります。まずはゲームの最後まで行く}
 

@@ -2137,12 +2137,12 @@ translate g RtfImportSuccessMulti {%d игри са импортирани ус�
 # end of english.tcl
 
 # Review progress pane (#422 item 3).
-translate g ReviewProgressTitle {Review progress}
-translate g ReviewProgressIdle {No review is running}
-translate g ReviewProgressGameOf {game %s of %s}
-translate g ReviewProgressEngineWindow {Engine window %s}
-translate g ReviewProgressAnalysisPane {Analysis pane %s}
-translate g ReviewProgressRapid {Rapid annotate}
+translate g ReviewProgressTitle {Преглед на напредъка}
+translate g ReviewProgressIdle {Не се провежда преглед}
+translate g ReviewProgressGameOf {игра %s от %s}
+translate g ReviewProgressEngineWindow {Стъкла на двигателя %s}
+translate g ReviewProgressAnalysisPane {Панели за анализ %s}
+translate g ReviewProgressRapid {Бързо анотиране}
 translate g FinishGameGameChanged {играта се промени, докато завърши играта; нищо не беше написано}
 translate g FinishGameAtEnd {Играта Finish започва от края на основната линия; първо отидете до края на играта}
 
