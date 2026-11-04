@@ -312,7 +312,7 @@ check "the move played is credited with what it achieved" \
 check "the engine's alternative names the mover and the difference" \
     [string match {*better was Nc3 - White's knight on b1 moves to c3: it also*} $alt]
 check "the engine's line is included, starting after the better move" \
-    [string match {*the line after that better move runs 7... e7e5 8. g1f3*} $alt]
+    [string match {*the line after that better move runs 5... e7e5 6. g1f3*} $alt]
 check "the better move is not repeated in its own continuation" \
     [expr {![string match {*runs b1c3*} $alt]}]
 
@@ -414,7 +414,7 @@ checkEqCall "without a converter the line keeps the engine's notation" \
 
 # A conversion that loses or invents a move is not a conversion of this line.
 proc sc_pos {what args} {
-    if {$what eq "coordToSAN"} { return {Nf3} }
+    if {$what eq "coordToSAN"} { return {1.Nf3} }
     return ""
 }
 checkEqCall "a conversion that drops a move falls back to the engine's line" \
@@ -426,7 +426,7 @@ set ::sanCalls {}
 proc sc_pos {what args} {
     if {$what eq "coordToSAN"} {
         lappend ::sanCalls $args
-        return {Nf3 Nc6}
+        return {1.Nf3 Nc6}
     }
     return ""
 }
@@ -452,19 +452,28 @@ checkEqCall "the numbering is the review's, not a restart at 1" \
 checkEqCall "a line becomes the one string a fact carries" \
     {::facts::lineText {8/8/8/8/8/8/8/K6k w - - 0 1} {g1f3 b8c6} 1} {1. Nf3 1... Nc6}
 
+# The number comes from the FEN, so a game set up at move 30 is not told it is
+# move 1, and a line that starts on Black's seventh move carries the ellipsis.
+checkEqCall "a set-up game keeps its own move number" \
+    {::facts::lineText {8/8/8/8/8/8/8/K6k w - - 0 30} {g1f3 b8c6}} {30. Nf3 30... Nc6}
+checkEqCall "a line that begins on Black's move uses the ellipsis" \
+    {::facts::lineText {8/8/8/8/8/8/8/K6k b - - 4 7} {g1f3 b8c6}} {7... Nf3 8. Nc6}
+checkEqCall "with no fullmove and no ply the line is SAN but unnumbered" \
+    {::facts::lineText {not a fen} {g1f3 b8c6} 0} {Nf3 Nc6}
+
 # lineText carries the whole line it is given: how much of it a fact prints is
 # the fact's decision, not the flattener's.
-proc sc_pos {what args} { return {Nd5 e5 Nf3 Nc6 Bb5 d6 O-O} }
+proc sc_pos {what args} { return {5.Nd5 e5 6.Nf3 Nc6 7.Bb5 d6 8.O-O} }
 checkEqCall "lineText does not clip; the caller decides" \
     {::facts::lineText {r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/2N2N2/PPPP1PPP/R1BQK2R w KQkq - 6 5} \
         {c3d5 e7e5 g1f3 b8c6 f1b5 d7d6 e1g1} 13} \
-    {7. Nd5 7... e5 8. Nf3 8... Nc6 9. Bb5 9... d6 10. O-O}
+    {5. Nd5 5... e5 6. Nf3 6... Nc6 7. Bb5 7... d6 8. O-O}
 
 # A mate score is the '#' SAN carries, and it has to survive the flattening: a
 # line that ends in mate is the reason a blunder's label exists.
-proc sc_pos {what args} { return {Ra8#} }
+proc sc_pos {what args} { return {1.Ra8#} }
 checkEqCall "a mate score survives the flattening" \
-    {::facts::lineText {6k1/5ppp/8/8/8/8/5PPP/R5K1 w - - 0 1} {a1a8} 13} {7. Ra8#}
+    {::facts::lineText {6k1/5ppp/8/8/8/8/5PPP/R5K1 w - - 0 1} {a1a8} 13} {1. Ra8#}
 
 # The block a user and a model actually see. The stub converts the moves these
 # cases use, so what is asserted below is the block, not the helper.
@@ -476,9 +485,22 @@ set ::SANMAP {
 proc sc_pos {what args} {
     if {$what ne "coordToSAN"} { return "" }
     lassign $args fen moves
+    set parts [split $fen]
+    set side [lindex $parts 1]
+    set number [lindex $parts 5]
+    if {![string is integer -strict $number] || $number < 1} { set number 1 }
+    set white [expr {$side eq "w"}]
     set out {}
     foreach m $moves {
-        if {[dict exists $::SANMAP $m]} { lappend out [dict get $::SANMAP $m] } else { lappend out $m }
+        set san [expr {[dict exists $::SANMAP $m] ? [dict get $::SANMAP $m] : $m}]
+        if {$white} {
+            lappend out "$number.$san"
+            set white 0
+        } else {
+            lappend out "$number...$san"
+            set white 1
+            incr number
+        }
     }
     return $out
 }
@@ -486,23 +508,23 @@ proc sc_pos {what args} {
 set sanAlt [::facts::forMove [moveDict \
     {rnbqkb1r/ppp2ppp/5n2/3pp3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 5} e4d5 \
     best_uci b1c3 best_san Nc3 best_pv {b1c3 e7e5 g1f3}]]
-check "the better move's line is SAN, numbered from the ply after the move played" \
-    [string match {*the line after that better move runs 7... e5 8. Nf3*} $sanAlt] $sanAlt
+check "the better move's line is SAN, numbered from the position after it" \
+    [string match {*the line after that better move runs 5... e5 6. Nf3*} $sanAlt] $sanAlt
 check "and it does not open by repeating the better move" \
     [expr {![string match {*runs 7. Nc3*} $sanAlt]}]
 checkCall "no fact line carries a bare engine move once a converter exists" \
     {expr {[regexp -all -- {\m[a-h][1-8][a-h][1-8][qrbn]?\M} $sanAlt] == 0}}
 
-# The engine's line in a phase fact keeps its five-move clip, and the clip is
-# counted in moves, not in tokens: a numbered move is two tokens.
+# The engine's line in a phase fact keeps its five-ply clip (two and a half
+# moves); a numbered move is two tokens.
 set clipLine [::facts::phaseMoveLine [dict create \
     fen_before {r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/2N2N2/PPPP1PPP/R1BQK2R w KQkq - 6 5} \
     played f3e5 side white ply 13 classification blunder \
     best_uci c3d5 best_san Nd5 \
     best_pv {c3d5 e7e5 g1f3 b8c6 f1b5 d7d6 e1g1}]]
 check "the engine's line in a phase fact is SAN and numbered" \
-    [string match {*The engine's line: 7. Nd5 7... e5 8. Nf3 8... Nc6 9. Bb5} $clipLine] $clipLine
-check "the five-move clip still clips" \
+    [string match {*The engine's line: 5. Nd5 5... e5 6. Nf3 6... Nc6 7. Bb5} $clipLine] $clipLine
+check "the five-ply clip still clips" \
     [expr {[string first "O-O" $clipLine] < 0}] $clipLine
 
 # A punishment that ends in mate is the reason the blunder is a blunder, and
@@ -514,7 +536,7 @@ set matePunish [::facts::forMove [moveDict \
     {k7/8/8/8/4n3/8/P5PP/6RK w - - 0 1} a2a3 \
     best_uci a2a4 best_san a4 best_pv {a2a4} punish_pv {e4f2}]]
 check "the punishing line is SAN, numbered, and says it is mate" \
-    [string match {*the line after the move played runs 7... Nf2# and it ends in checkmate*} $matePunish] $matePunish
+    [string match {*the line after the move played runs 1... Nf2# and it ends in checkmate*} $matePunish] $matePunish
 # The same line without the mate still says what it runs.
 set quietPunish [::facts::forMove [moveDict \
     {k7/8/8/8/4n3/8/P5PP/6RK w - - 0 1} a2a3 \

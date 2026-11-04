@@ -68,19 +68,23 @@ An engine line arrives as UCI (`e7e5 g1f3`). The block is read by a model told
 to narrate in words and by a human reading the scoresheet beside the game, so a
 line in it is SAN and numbered. `::facts::sanLine` converts the line with
 `sc_pos coordToSAN` — one call, made from the position the line starts in,
-because the second move is only legal after the first — and
-`::facts::numberedLine` gives every move the number of the ply it is played on,
-from the review's own ply rather than a count that restarts at 1 for each line:
-`7... e5 8. Nf3`. `::facts::lineText` is the two together as one string, with
-`startPly` optional: with no ply the moves are still SAN but unnumbered, because
-a wrong number is worse than none.
+because the second move is only legal after the first — and strips the numbers
+the converter puts on its tokens, since the caller owns the number.
+`::facts::numberedFor` numbers every move from the position it is played from,
+using the FEN's fullmove number and side to move, so a game set up at move 30
+starts at 30 and a line that starts on Black's seventh move reads
+`7... e5 8. Nf3`. `::facts::numberedLine` remains the ply-based fallback for a
+FEN with no usable fullmove. `::facts::lineText` is the two together as one
+string; `startPly` is only the fallback, and with neither a fullmove nor a ply
+the moves are still SAN but unnumbered, because a wrong number is worse than
+none.
 
 `lineText` does not clip. How much of a line a fact prints is that fact's
-decision — the phase fact keeps five moves, which is five moves and not five
-tokens. A mate score is the `#` the SAN carries, and it survives the flattening.
-The mate claim on a punishment line is read off the board
-(`::facts::mateAtEnd`), not off the notation, because a UCI line has no `#`; the
-old test for one could never fire.
+decision — the phase fact keeps five plies (two and a half moves), which is not
+the same as five tokens. A mate score is the `#` the SAN carries, and it
+survives the flattening. The mate claim on a punishment line is read off the
+board (`::facts::mateAtEnd`), not off the notation, because a UCI line has no
+`#`; the old test for one could never fire.
 
 Only what is printed changes. Positions, captures, hanging pieces, exchanges and
 counts are all still computed from UCI.
@@ -120,10 +124,10 @@ start position, Kiwipete and position 3.
 `tclsh tests/tcl/comment_facts.tcl` (also run by the Tcl Tests workflow): 104
 checks, including exact expected blocks, each rule line stated positively and
 negatively, the en passant capture square, the fifty-move clock in moves, and
-the engine's line as SAN numbered from the review's ply — the conversion asked
-for once per line, the five-move clip, a mate score surviving it, the "no bare
-UCI" and "one number per move" invariants, and a punishment line that ends in
-mate.
+the engine's line as SAN numbered from the position's own fullmove — the
+conversion asked for once per line, the five-ply clip, a mate score surviving
+it, the "no bare UCI" and "one number per move" invariants, and a punishment
+line that ends in mate.
 
 ## Related
 

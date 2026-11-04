@@ -992,7 +992,18 @@ proc ::facts::sanLine {fen moves} {
     if {[llength [info commands sc_pos]]} {
         set out {}
         catch { set out [sc_pos coordToSAN $fen $moves] }
-        if {[llength $out] == [llength $moves]} { return $out }
+        if {[llength $out] == [llength $moves]} {
+            # sc_pos coordToSAN writes the scoresheet's numbering with each move
+            # ("1.Nf3", "1...e5"). sanLine is the bare move: the caller owns the
+            # number, and a setup position's fullmove is not the converter's
+            # count from the game's first move.
+            set bare {}
+            foreach token $out {
+                regsub {^[0-9]+\.+} $token "" token
+                lappend bare $token
+            }
+            return $bare
+        }
     }
     return $moves
 }
@@ -1020,11 +1031,59 @@ proc ::facts::numberedLine {startPly moves} {
     return [join $out { }]
 }
 
+# The number and side a FEN starts on. A game set up at move 30 carries its own
+# fullmove number; a count from the game's first ply would call its first move
+# 1. {} when the FEN has no usable fullmove.
+proc ::facts::fenStart {fen} {
+    set parts [split [string trim $fen]]
+    set side [lindex $parts 1]
+    set number 0
+    catch { set number [lindex $parts 5] }
+    if {![string is integer -strict $number] || $number < 1} { return {} }
+    if {$side ne "w" && $side ne "b"} { set side w }
+    return [list $number $side]
+}
+
+# Number moves from the position they are played from: "30. Nf3 30... Nc6"
+# for a set-up game, not a restart at 1. `startPly` is only the fallback for a
+# FEN that has no fullmove number.
+proc ::facts::numberedFor {fen moves {startPly 0}} {
+    set start [::facts::fenStart $fen]
+    if {![llength $start]} { return [::facts::numberedLine $startPly $moves] }
+    lassign $start number side
+    set out {}
+    set white [expr {$side eq "w"}]
+    foreach one $moves {
+        if {$white} {
+            lappend out "$number."
+            set white 0
+        } else {
+            lappend out "$number..."
+            set white 1
+            incr number
+        }
+        lappend out $one
+    }
+    return [join $out { }]
+}
+
+# The FEN after `move` is played from `fen`, or "" when the move is not on that
+# board. A line's second move is numbered from this position, not from the game.
+proc ::facts::afterMoveFen {fen move} {
+    if {$move eq ""} { return "" }
+    set out ""
+    catch {
+        set pos [::chessboard::fromFen $fen]
+        set out [::chessboard::toFen [::chessboard::makeMove $pos $move]]
+    }
+    return $out
+}
+
 # A line as one fact-friendly string. It carries the whole line it is given: how
 # much of it a fact prints is that fact's decision. A mate score is the '#' SAN
 # carries, so it survives the flattening.
 proc ::facts::lineText {fen moves {startPly 0}} {
-    return [numberedLine $startPly [sanLine $fen $moves]]
+    return [numberedFor $fen [sanLine $fen $moves] $startPly]
 }
 
 # True when a line, played from the position it starts in, ends in mate. The
@@ -1186,11 +1245,25 @@ proc ::facts::forMove {m} {
             # second move is only legal after the first, so slicing first would
             # ask for SAN of a move that is not on this board.
             set sans [sanLine $fb $line]
-            lappend lines "the line after that better move runs [numberedLine $nextPly [lrange $sans 1 end]]"
+            set rest [lrange $sans 1 end]
+            set after [afterMoveFen $fb [lindex $line 0]]
+            if {$after ne ""} {
+                set restText [numberedFor $after $rest $nextPly]
+            } else {
+                set restText [numberedLine $nextPly $rest]
+            }
+            lappend lines "the line after that better move runs $restText"
         }
     } elseif {[llength $line] > 1} {
         set sans [sanLine $fb $line]
-        lappend lines "the line after the move played runs [numberedLine $nextPly [lrange $sans 1 end]]"
+        set rest [lrange $sans 1 end]
+        set after [afterMoveFen $fb [lindex $line 0]]
+        if {$after ne ""} {
+            set restText [numberedFor $after $rest $nextPly]
+        } else {
+            set restText [numberedLine $nextPly $rest]
+        }
+        lappend lines "the line after the move played runs $restText"
     }
 
     # The punishment: what the opponent forces after the move played. It comes
