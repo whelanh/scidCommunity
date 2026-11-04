@@ -461,6 +461,14 @@ proc ::engine::done_ {id} {
 # Sends a reply to the local callback and all the remote clients.
 proc ::engine::reply {id msg} {
     {*}$::engconn(callback_$id) $msg
+    # The callback is user code and a one-shot connection (the threat probe, the
+    # verifier) closes its engine when the answer it was waiting for arrives.
+    # destroy_ has then unset the channel and the client list, so there is
+    # nothing to echo to and reading the list would raise -- after the message
+    # was delivered, which is why the failure surfaced as a background error.
+    if {![info exists ::engconn(channel_$id)]} {
+        return
+    }
     foreach netchannel $::engconn(netclients_$id) {
         chan puts [lindex $netchannel 0] $msg
     }

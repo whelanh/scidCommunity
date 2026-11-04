@@ -68,6 +68,9 @@ jobs:
       - name: Engine preset limits
         run: tclsh tests/tcl/engine_limits.tcl
 
+      - name: Engine reply
+        run: tclsh tests/tcl/engine_reply.tcl
+
       - name: Review driver
         run: tclsh tests/tcl/review_driver.tcl
 
