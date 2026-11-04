@@ -39,12 +39,20 @@ source [file join $root tcl tools move_labels.tcl]
 source [file join $root tcl tools score_seed.tcl]
 source [file join $root tcl enginecfg.tcl]
 source [file join $root tcl tools engine_limits.tcl]
+# The review writer wraps its comment through the colour layer (#432), so the
+# harness has to load it before the driver, exactly as review_driver.tcl does.
+source [file join $root tcl tools comment_colors.tcl]
 source [file join $root tcl tools game_review.tcl]
 source [file join $root tcl tools review_driver.tcl]
 source [file join $root tcl tools review_verify.tcl]
 source [file join $root tcl tools review_annotate.tcl]
 source [file join $root tcl tools batch_annotate.tcl]
 source [file join $root tcl tools rapid_annotate.tcl]
+# The progress board: the writers end their run through it now -- rapid
+# annotate's progressDone reads ::reviewprogress::job, and the batch's
+# completion ends the pane's job. Every upstream harness that drives a writer
+# sources it (rapid_annotate.tcl:90, batch_annotate.tcl:241, finish_game.tcl:53).
+source [file join $root tcl tools review_progress.tcl]
 source [file join $root tests tcl game_stub.tcl]
 
 # The application the batch and rapid writers report to. The game itself is the
@@ -247,6 +255,13 @@ proc ::reviewdriver::verified {results corrections} {
 proc resetCalls {} { set ::verifyCalls 0 }
 proc labelWord {label} { return [::movelabels::text $label] }
 
+# The writer stores its label inside the review's colour span (#432). Every
+# "what landed" check below asks whether the label the seam answered is in the
+# comment, so compare the text and not the markup that carries its colour.
+proc unwrapped {text} {
+    return [regsub -all {<span[^>]*>|</span>} $text ""]
+}
+
 # A correction to a label below Best, so the write it causes is visible: the
 # verifier's own rule only ever answers Best, which a Best move already is.
 set visible [dict create 2 good]
@@ -263,19 +278,24 @@ set p [dict create map $map plan {1 2 3 4} plies 4 bookEnd 0 mpv 3 \
 ::reviewdriver::writeRun $p [::fx::results] $visible
 checkEq "the pass consults the transform once" $::verifyCalls 1
 checkEq "and writes the label it answered" \
-    [dict get [::gamestub::commentsByPly] 2] $want
+    [unwrapped [dict get [::gamestub::commentsByPly] 2]] $want
 
 puts "\n  the batch annotator"
 
 ::fx::reset
 resetCalls
 set ::batch_annotate::base 0
+# Production reaches writeGame only after start_engines has opened the run's
+# pipes, and the write now ends with check_completion, which reads them. Seed
+# the run the way production leaves it: one live pipe, still working.
+set ::batch_annotate::pipes {pipe0}
+set ::batch_annotate::engine_state(pipe0) idle
 set bres [::fx::results]
 set bp [dict create map $map plan {1 2 3 4} plies 4 bookEnd 0 mpv 3]
 ::batch_annotate::writeGame pipe0 1 $map {1 2 3 4} 0 $bp $bres $visible
 checkEq "the batch consults the transform once" $::verifyCalls 1
 checkEq "and writes the label it answered" \
-    [dict get [::gamestub::commentsByPly] 2] $want
+    [unwrapped [dict get [::gamestub::commentsByPly] 2]] $want
 
 puts "\n  rapid annotate"
 
@@ -286,7 +306,7 @@ set rp [dict create map $map plan {1 2 3 4} plies 4 bookEnd 0 mpv 3]
 ::rapid_annotate::writeCommit $rp 1 0 0 $rres $visible
 checkEq "rapid annotate consults the transform once" $::verifyCalls 1
 checkEq "and writes the label it answered" \
-    [dict get [::gamestub::commentsByPly] 2] $want
+    [unwrapped [dict get [::gamestub::commentsByPly] 2]] $want
 
 puts "\n  and the writer's own output, not the raw results"
 
@@ -296,7 +316,7 @@ puts "\n  and the writer's own output, not the raw results"
 resetCalls
 ::reviewdriver::writeRun $p [::fx::results] ""
 checkEq "without corrections the label is the search's own" \
-    [dict get [::gamestub::commentsByPly] 2] [::review::commentText best 25]
+    [unwrapped [dict get [::gamestub::commentsByPly] 2]] [::review::commentText best 25]
 checkEq "and the transform still saw it" $::verifyCalls 1
 
 puts "\n  the verifier's searches fail: nothing changes"
@@ -310,7 +330,7 @@ set flat [::reviewverify::corrections $brilliantJob {}]
 ::reviewdriver::writeRun $p [::fx::results] $flat
 checkEq "a verifier that answered nothing corrects nothing" $flat {}
 checkEq "and the write is the unverified one" \
-    [dict get [::gamestub::commentsByPly] 2] [::review::commentText best 25]
+    [unwrapped [dict get [::gamestub::commentsByPly] 2]] [::review::commentText best 25]
 
 ##############################################################################
 puts "\nthe three callers reach the seam"
@@ -350,7 +370,7 @@ set ::reviewdriver::state {}
 checkEq "the pass's completion reaches the seam" [llength $::seamCalls] 1
 checkEq "with the pass it was given" [dict get [lindex $::seamCalls 0] p] $p
 checkEq "and the pass writes the label the seam answered" \
-    [dict get [::gamestub::commentsByPly] 2] $want
+    [unwrapped [dict get [::gamestub::commentsByPly] 2]] $want
 checkEq "the pass is over once it has written" $::reviewdriver::pass {}
 
 puts "\n  the batch annotator"
@@ -378,7 +398,7 @@ checkEq "carrying the verifier Review Settings names" \
     [dict get [lindex $::seamCalls 0] p verifier] Komodo
 checkEq "and the pass's depth" [dict get [lindex $::seamCalls 0] p limits depth] 18
 checkEq "the batch writes the label the seam answered" \
-    [dict get [::gamestub::commentsByPly] 2] $want
+    [unwrapped [dict get [::gamestub::commentsByPly] 2]] $want
 
 puts "\n  rapid annotate"
 
@@ -404,7 +424,7 @@ checkEq "and the write it asked for is committed" $ok 1
 # The rapid path's own score is the graph's, so the label is what is compared:
 # the seam's correction is the thing this test is about.
 checkEq "rapid annotate writes the label the seam answered" \
-    [lindex [split [dict get [::gamestub::commentsByPly] 2]] 0] \
+    [lindex [split [unwrapped [dict get [::gamestub::commentsByPly] 2]]] 0] \
     [lindex [split $want] 0]
 
 # Everything the stubs took is put back: the harness leaves the tree it loaded
