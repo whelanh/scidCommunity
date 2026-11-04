@@ -695,8 +695,8 @@ translate P TreeBest {Najlepsze}
 translate P TreeBestGames {Najlepsze partie z drzewa wariantów}
 translate P TreeFindAnyAnn {dowolna adnotacja}
 translate P TreeFindStalePos {Bieżąca pozycja nie odpowiada pozycji w drzewie wariantów.\nWróć do tej pozycji i spróbuj ponownie.}
-# Uwaga: następny wpis to nagłówek okna drzewa. Po jego edycji sprawdź okno drzewa,
-# aby upewnić się, że tekst jest poprawnie wyrównany względem kolumn.
+# Note: the next message is the tree window title row. After editing it,
+# check the tree window to make sure it lines up with the actual columns.
 translate P TreeTitleRow \
   {    Posunięcia                ECO       Częstość     Wynik ŚrElo  Perf  śrDł ŚrRok  %Remisów  %Wygr.}
 translate P TreeTotal {RAZEM}
@@ -2148,6 +2148,16 @@ translate P RtfImportSuccess {Partia została pomyślnie zaimportowana do bazy s
 translate P RtfImportSuccessMulti {%d partii zostało pomyślnie zaimportowanych do bazy schowka.}
 }
 # end of english.tcl
+
+# Review progress pane (#422 item 3).
+translate P ReviewProgressTitle {Przejrzyj postęp}
+translate P ReviewProgressIdle {Nie trwa żadna recenzja}
+translate P ReviewProgressGameOf {gra %s z %s}
+translate P ReviewProgressEngineWindow {Szyby silnika %s}
+translate P ReviewProgressAnalysisPane {Panele analityczne %s}
+translate P ReviewProgressRapid {Szybka adnotacja}
+translate P FinishGameGameChanged {gra uległa zmianie, gdy gra Finish Game była uruchomiona; nic nie zostało napisane}
+translate P FinishGameAtEnd {Zakończenie Gra rozpoczyna się od końca głównej linii; najpierw dojdź do końca gry}
 
 
 ############################################################

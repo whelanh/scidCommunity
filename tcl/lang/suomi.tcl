@@ -2148,6 +2148,16 @@ translate U RtfImportSuccessMulti {%d peliä tuotu leikepöydälle onnistuneesti
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate U ReviewProgressTitle {Tarkista edistyminen}
+translate U ReviewProgressIdle {Mikään tarkistus ei ole käynnissä}
+translate U ReviewProgressGameOf {peli %s / %s}
+translate U ReviewProgressEngineWindow {Moottorin ikkunat %s}
+translate U ReviewProgressAnalysisPane {Analyysipaneelit %s}
+translate U ReviewProgressRapid {Nopea huomautus}
+translate U FinishGameGameChanged {peli muuttui Finish Gamen ollessa käynnissä; mitään ei kirjoitettu}
+translate U FinishGameAtEnd {Finish Peli alkaa päälinjan lopusta; mene ensin pelin loppuun}
+
 
 ############################################################
 #

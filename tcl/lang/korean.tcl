@@ -2136,6 +2136,16 @@ translate k RtfImportSuccessMulti {%d개의 게임을 클립보드 데이터베�
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate k ReviewProgressTitle {진행상황 검토}
+translate k ReviewProgressIdle {실행 중인 검토가 없습니다.}
+translate k ReviewProgressGameOf {게임 %s/%s}
+translate k ReviewProgressEngineWindow {엔진 창 %s}
+translate k ReviewProgressAnalysisPane {분석 패널 %s}
+translate k ReviewProgressRapid {신속한 주석 달기}
+translate k FinishGameGameChanged {Finish Game이 실행되는 동안 게임이 변경되었습니다. 아무것도 쓰여있지 않았어}
+translate k FinishGameAtEnd {마무리 게임은 메인 라인 끝에서 시작됩니다. 먼저 게임 끝으로 가세요}
+
 
 ############################################################
 #

@@ -15,6 +15,7 @@ diffed when it changes, rather than edited in a comment fifteen screens down.
 | **A** | `::reviewdriver`: a MultiPV pass on its own engine connection; `Game Review` and `Move Comment` in the engine window; the review settings dialog; `::review::writeMove`; the chart's stored-`[%eval]` seeding | merged — `#385`, `#386`, `#389` |
 | **A2** | The pass a caller owns: plan → verdicts → write, so `writeMove` has a caller | merged — `#388` |
 | **A3** | The engine window calls `::reviewdriver::run` instead of `start`, so a review's verdicts reach the game | merged — `#393` |
+| **A4** | The review progress pane: a docked pane of the app (not a window) fed a FEN and nothing else, a header composed once per run, a determinate bar from `::reviewui::passFraction`, and Finish Game collecting on a pure board then committing once. Runs that publish into it: Game Review, Move Comment, annotate (single and batch), rapid annotate, Finish Game | this change — `#422` item 3 |
 | **B0** | The three trainers (`reviewgame`, `tactics`, `calvar`) leave `::uci`/`::analysis(...)` for `::engine` | after A3 |
 | **B1** | `::enginewin::widget {parent id}`; the analysis group becomes a container of 1–4 panes, each detachable | after B0 |
 | **B2** | Per-pane mode (Analyze / Train / Review) and a single driving owner | after B1 |

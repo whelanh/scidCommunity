@@ -2144,6 +2144,16 @@ translate G RtfImportSuccessMulti {%d παιχνίδια εισήχθησαν μ
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate G ReviewProgressTitle {Ελέγξτε την πρόοδο}
+translate G ReviewProgressIdle {Δεν εκτελείται έλεγχος}
+translate G ReviewProgressGameOf {παιχνίδι %s από %s}
+translate G ReviewProgressEngineWindow {Παράθυρα κινητήρα %s}
+translate G ReviewProgressAnalysisPane {Πίνακες ανάλυσης %s}
+translate G ReviewProgressRapid {Γρήγορος σχολιασμός}
+translate G FinishGameGameChanged {το παιχνίδι άλλαξε όσο εκτελούσε το Finish Game. δεν γράφτηκε τίποτα}
+translate G FinishGameAtEnd {Το Finish Game ξεκινά από το τέλος της κύριας γραμμής. πηγαίνετε πρώτα στο τέλος του παιχνιδιού}
+
 
 ############################################################
 #

@@ -742,6 +742,14 @@ proc ::enginewin::createButtonsBar {id btn display} {
     set ::enginewin::reviewstatus($id) ""
     ttk::label $btn.reviewstatus -textvariable ::enginewin::reviewstatus($id) \
         -anchor w
+    # The way to the progress pane: the status line is the review control that
+    # says a run is going, so it is the one that opens the pane onto it. No new
+    # toolbar icon.
+    catch {
+        ::utils::tooltip::Set $btn.reviewstatus [::reviewui::label ReviewProgressTitle]
+        bind $btn.reviewstatus <Button-1> \
+            [list ::reviewprogress::ui::open]
+    }
 
     set reviewButtons [list $btn.gamereview $btn.movecomment]
     if {[winfo exists $btn.threat]} { lappend reviewButtons $btn.threat }
@@ -892,7 +900,7 @@ proc ::enginewin::reviewBook {} {
 #
 # `plies` is the moves to judge ("" for the whole planned line) and `depth` the
 # depth to search ("" to let the pass take the review's own).
-proc ::enginewin::reviewRunState {id {plies ""} {depth ""}} {
+proc ::enginewin::reviewRunState {id {plies ""} {depth ""} {source review}} {
     set state [dict create game 0 engine "" driver 0 bookEnd 0 plies $plies depth $depth \
         progress [list ::enginewin::reviewProgress $id] notify 1]
     if {[llength [info commands ::reviewdriver::run]]} { dict set state driver 1 }
@@ -900,6 +908,13 @@ proc ::enginewin::reviewRunState {id {plies ""} {depth ""}} {
     catch { set name $::enginewin_lastengine($id) }
     if {$name ne ""} {
         catch { dict set state engine [::enginecfg::get $name] }
+        # The header's fields, composed here while the window still knows which
+        # engine it is pointed at. The driver turns them into the one string the
+        # popup draws, so a header can never name an engine the reader has since
+        # switched the window to.
+        dict set state header [dict create source $source engine $name \
+            origin [list enginewin [string trimleft $id .engineWin]] \
+            cancel ::reviewdriver::cancel]
     }
     catch {
         dict set state game [dict get [::review::mainLineMap [sc_game UCI_mainLine]] plies]
@@ -978,6 +993,10 @@ proc ::enginewin::reviewStart {id state} {
     # Nothing to search is a run that finished (a book cover, an empty plan):
     # the driver says so, and there is nothing left to show.
     ::enginewin::reviewStatus $id
+    # The progress pane is a pane of the app, not a window this one owns: the
+    # run publishes into the job and the pane reads it whenever the reader has
+    # it open. Starting a run does not create or select a tab: the docked layout
+    # is the reader's, and the status line below is the way to the pane.
     ::enginewin::reviewRefresh $id
     return 1
 }
@@ -1008,7 +1027,11 @@ proc ::enginewin::reviewGame {id} {
     set w [::enginewin::reviewWindow $id]
     if {![winfo exists $w.btn.gamereview]} { return }
     if {[catch { set map [::review::mainLineMap [sc_game UCI_mainLine]] }]} { return }
-    ::enginewin::reviewStart $id [::enginewin::reviewRunState $id]
+    # A review is long enough that its progress belongs on screen without the
+    # reader hunting for a menu. Open the pane on a successful start; a refused
+    # start (no engine, no game) leaves the layout alone.
+    set started [::enginewin::reviewStart $id [::enginewin::reviewRunState $id]]
+    if {$started} { catch { ::reviewprogress::ui::open } }
 }
 
 # Move Comment: the move the reader is on, and only that move.
@@ -1048,7 +1071,7 @@ proc ::enginewin::reviewMove {id} {
     }
     set plan [::reviewui::moveCommentDepth $depth_now $target]
     ::enginewin::reviewStart $id [::enginewin::reviewRunState $id \
-        [list $ply] [dict get $plan depth]]
+        [list $ply] [dict get $plan depth] movecomment]
 }
 
 # Cancel: the pass stops where it is, and the write phase never runs - the driver
@@ -2098,6 +2121,11 @@ proc ::enginewin::callback {id msg} {
                 ::enginewin::changeState $id *.done
             }
             if {![::enginewin::analyzeMainLine $id]} {
+                # The Autoscan pass is over: the pane's rapid job ends with the
+                # last answer rather than staying live until a new game.
+                if {[llength [info commands ::rapid_annotate::progressDone]]} {
+                    catch { ::rapid_annotate::progressDone $id }
+                }
                 ::enginewin::changeState $id *.*
                 if {$pv_(postponed,$id) ne ""} {
                     ::enginewin::sendPosition $id $::enginewin::m_(position,$id) $pv_(postponed,$id)

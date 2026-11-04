@@ -2095,6 +2095,16 @@ translate b RtfImportSuccessMulti {%d গেম সফলভাবে ক্ল�
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate b ReviewProgressTitle {অগ্রগতি পর্যালোচনা করুন}
+translate b ReviewProgressIdle {কোনো পর্যালোচনা চলছে না}
+translate b ReviewProgressGameOf {খেলা %s এর %s}
+translate b ReviewProgressEngineWindow {ইঞ্জিনের জানালা %s}
+translate b ReviewProgressAnalysisPane {বিশ্লেষণ প্যানেল %s}
+translate b ReviewProgressRapid {দ্রুত টীকা}
+translate b FinishGameGameChanged {ফিনিশ গেম চলাকালীন গেমটি পরিবর্তিত হয়েছে; কিছুই লেখা ছিল না}
+translate b FinishGameAtEnd {ফিনিশ গেমটি মূল লাইনের শেষ থেকে শুরু হয়; প্রথমে খেলার শেষে যান}
+
 
 ############################################################
 #

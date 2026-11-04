@@ -2096,6 +2096,16 @@ translate V RtfImportSuccessMulti {%d משחקים יובאו למסד הנתו�
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate V ReviewProgressTitle {סקור את ההתקדמות}
+translate V ReviewProgressIdle {שום ביקורת לא פועלת}
+translate V ReviewProgressGameOf {משחק %s מתוך %s}
+translate V ReviewProgressEngineWindow {חלונות מנוע %s}
+translate V ReviewProgressAnalysisPane {לוחות ניתוח %s}
+translate V ReviewProgressRapid {הערה מהירה}
+translate V FinishGameGameChanged {המשחק השתנה בזמן שמשחק סיום רץ; שום דבר לא נכתב}
+translate V FinishGameAtEnd {משחק סיום מתחיל מסוף הקו הראשי; ללכת קודם לסוף המשחק}
+
 
 ############################################################
 #

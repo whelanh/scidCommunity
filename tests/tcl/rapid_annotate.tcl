@@ -69,5 +69,89 @@ set results [::rapid_annotate::reviewResults [dict create \
     9 [entry 10 0.10 +0.10 {a2a3}]] $map]
 checkEq "a ply past the game is dropped" $results {}
 
+puts "\nthe rapid pass feeds the progress board"
+
+# Rapid annotate is the engine window's own Autoscan pass, not a reviewdriver
+# pass, so this file owns the job: it begins one for the window on the first
+# line it records and publishes the position the engine is on. The window is
+# stubbed here because the job, not the widget, is what this gates.
+proc ::tr {tag args} {
+    switch -- $tag {
+        ReviewProgressRapid { return {Rapid annotate} }
+        ReviewProgressEngineWindow { return {Engine window %s} }
+        ReviewProgressAnalysisPane { return {Analysis pane %s} }
+        ReviewProgressIdle { return {No review is running} }
+        ReviewProgress { return {%s of %s} }
+        ReviewProgressGameOf { return {game %s of %s} }
+        default { return $tag }
+    }
+}
+source [file join $root tcl utils chessboard.tcl]
+source [file join $root tcl tools review_progress.tcl]
+proc ::enginewin_lastengine {id} { return {Stockfish Deep} }
+# ::enginewin_lastengine is an array in the app, not a proc: the popup reads
+# `$::enginewin_lastengine($id)`.
+unset -nocomplain ::enginewin_lastengine
+set ::enginewin_lastengine(1) {Stockfish Deep}
+set ::sc_fen {rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1}
+proc sc_pos {args} { return $::sc_fen }
+proc ::rapid_annotate::mainLinePositions {} { return {1 a 2 b 3 c 4 d} }
+proc ::rapid_annotate::pending {} { return 2 }
+
+::rapid_annotate::publishProgress 1
+set job [::reviewprogress::job]
+checkEq "a recorded line begins a rapid job" [dict get $job source] rapid
+checkEq "the header names the engine and its window" [dict get $job header] \
+    {Rapid annotate — Stockfish Deep (Engine window 1)}
+checkEq "the board is the position the engine is on" [dict get $job board] \
+    [::reviewprogress::positionToBoard $::sc_fen]
+checkEq "progress counts the positions collected" [dict get $job done] 2
+checkEq "out of the main line's length" [dict get $job total] 4
+
+# The engine seeded the search from a main-line position; the pane shows that
+# position, not whatever the reader's cursor happens to be.
+namespace eval ::enginewin {}
+set ::enginewin::pv_(pos,1) {position startpos moves e2e4 e7e5}
+::rapid_annotate::publishProgress 1
+checkEq "the board is the position the engine searched" \
+    [dict get [::reviewprogress::job] board] \
+    {RNBQKBNRPPPP.PPP............P.......p...........pppp.ppprnbqkbnr}
+unset ::enginewin::pv_(pos,1)
+
+# Ordinary analysis reaches record too; with Autoscan off it must not take the
+# pane. The job is finished first, so an empty job is the whole assertion.
+::reviewprogress::finish [dict get [::reviewprogress::job] token]
+set ::enginewin_autorun(1) {}
+::rapid_annotate::publishProgress 1
+checkEq "ordinary analysis does not own the board" [::reviewprogress::job] {}
+set ::enginewin_autorun(1) {movetime 50}
+
+# A review in flight already owns the board: the rapid pass records its scores
+# and leaves the job alone rather than taking the window from the run.
+set reviewToken [::reviewprogress::begin [dict create \
+    source review engine Stockfish origin [list enginewin 9]]]
+set before [::reviewprogress::job]
+::rapid_annotate::publishProgress 1
+checkEq "a review in flight keeps the board" [::reviewprogress::job] $before
+::reviewprogress::finish $reviewToken
+
+# Two engine windows can both Autoscan. The second must not relabel the first
+# window's job or leave its Cancel pointing at the wrong engine.
+set rapidToken [::reviewprogress::begin [dict create source rapid \
+    engine {Stockfish Deep} origin {enginewin 1} cancel {::enginewin::stop 1}]]
+set before [::reviewprogress::job]
+::rapid_annotate::publishProgress 2
+checkEq "another window's Autoscan leaves the job alone" \
+    [::reviewprogress::job] $before
+::reviewprogress::finish $rapidToken
+
+::rapid_annotate::publishProgress 1
+set rapidToken [dict get [::reviewprogress::job] token]
+checkEq "the rapid run owns it again" [dict get [::reviewprogress::job] source] rapid
+::rapid_annotate::progressDone
+checkEq "the end of the pass ends the job" [::reviewprogress::job] {}
+checkEq "and leaves no progress line behind" \
+    [::reviewprogress::progressText [::reviewprogress::job]] {No review is running}
+
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

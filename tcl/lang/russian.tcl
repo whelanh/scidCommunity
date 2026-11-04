@@ -2119,6 +2119,16 @@ translate R RtfImportSuccessMulti {%d игр успешно импортиров
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate R ReviewProgressTitle {Обзор прогресса}
+translate R ReviewProgressIdle {Ни одна проверка не активна}
+translate R ReviewProgressGameOf {игра %s из %s}
+translate R ReviewProgressEngineWindow {Окна двигателя %s}
+translate R ReviewProgressAnalysisPane {Панели анализа %s}
+translate R ReviewProgressRapid {Быстрое аннотирование}
+translate R FinishGameGameChanged {игра менялась во время работы «Завершить игру»; ничего не было написано}
+translate R FinishGameAtEnd {Финиш Игра начинается с конца основной линии; сначала зайди в конец игры}
+
 
 ############################################################
 #

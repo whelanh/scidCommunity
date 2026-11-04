@@ -233,6 +233,88 @@ That keeps the search and the write apart for the reason they always were:
 writing mid-pass re-enters the engine window from an open engine, which makes the
 main-line snapshot non-authoritative.
 
+## The progress pane
+
+A review runs on its own engine connection and never takes the board. The
+progress pane is the surface onto that work (#422 item 3): the header names the
+run's source and the engine it was started with, a read-only board shows the
+position being searched, a determinate bar shows how far the pass has got, and
+the button stops it.
+
+- **A docked pane, not a window.** It is registered with the app's docking layer
+  (`::docking::create_window` in `tcl/utils/win.tcl`) and built into the frame
+  the dock creates, the way `.commentWin` is; it appears in a notebook tab and
+  joins the saved layouts. There is no `toplevel`, no `wm` call and no transient:
+  the dock owns its visibility, its position and its lifetime.
+- **Opened by Game Review, available to every run.** Windows → Review progress
+  opens it, the review status line in the engine window's toolbar opens it, and
+  a Game Review that starts successfully opens it if it is not already open — a
+  long pass should not need the reader to hunt for a menu. The other runs
+  publish into it without selecting the tab; the docked layout still belongs to
+  the reader. With no run in flight the pane shows the current position of the
+  game on the main board.
+- **Fed a FEN and nothing else.** `::reviewprogress::positionToBoard` turns the
+  engine's own FEN into the string `::board::update` draws, and
+  `::reviewprogress::specToBoard` handles both spec shapes the driver queues:
+  `position fen …` and the standard game's `position startpos moves …`. The
+  board has no game, no cursor and no clock. A run therefore cannot move the reader's board
+  or fight it for control, and a click on the progress board does nothing: the
+  canvas carries no square bindings and is out of the focus order.
+- **The header is a field.** Source, engine name and origin are composed once
+  when the run starts and carried in the job, so a run that outlives its window's
+  engine choice still says what it was asked to do.
+- **Two bars, one source each.** The search bar is `::reviewui::passFraction` of
+  the driver's own counts; an empty total is no fraction rather than zero. When
+  the coach starts, `::reviewprogress::setProse` publishes its queue, and the
+  second bar and its line (`annotating 31 of 31 · prose 3 of 9`) say that the
+  model, not the search, is what is still running. The coach row is hidden for a
+  run with no model behind it. Autoscan's rapid job ends with its last answer or
+  its commit, not at the next game.
+- **Hidden is not paused.** The job is published whether or not the tab is
+  selected, and `<Map>` redraws from the current position, so a reader who comes
+  back sees where the run is now. The board is built at an explicit `psize`,
+  because a canvas in an unselected tab has no measured width to ask for.
+- **Closing cancels nothing; Cancel stops the run on screen.** The job carries
+  its owner's stop command (`::reviewdriver::cancel` for review, Move Comment and
+  annotate, `::batch_annotate::cancel`, `::enginewin::stop` for rapid annotate,
+  `::finishgame::stop`), and the pane's button invokes that command — never the
+  review driver for a batch or Finish Game. Closing the tab leaves the run
+  alone; a run that outlives a closed pane keeps publishing, and reopening the
+  pane reads the job and draws the run as it stands.
+- **Every run publishes into it, not only the engine window's** (G5=b). Game
+  Review and Move Comment begin the job in `::reviewui::runCall`; annotate
+  composes its header in `::reviewannotate::headerFields`; rapid annotate owns a
+  job of its own and leaves one another run holds alone; the batch starts one job
+  for the whole run. A batch's header carries the game in flight
+  (`· game 4 of 4`), recomposed from the fields the run began with as each game is
+  assigned, so it is still a stored field rather than a lookup at draw time;
+  `pipe_seq` counts the games actually handed to a pipe, so a skipped selection
+  cannot shift the numbers, and a game requeued after an engine died keeps the
+  number it already had. The
+  board always shows the position the engine is searching — the driver's own
+  `position` string replayed on a pure `::chessboard`, never the reader's game —
+  so none of these runs can walk the main board.
+
+Finish Game uses the same board. It collects the continuation on pure
+`::chessboard` positions — each move from the previous one — and writes once at
+the end, with the cursor saved and restored the way `::review::writeMove` does
+it. `::addMoveUCI`, which follows the cursor and animates, is off the path, so the
+reader's board stays where they left it for the whole pass. A cancel writes
+nothing because the collect phase touched nothing. The engine window's Finish
+Game and the classic Analysis window's both run this one pass
+(`::finishgame::start` and `::finishgame::startPane`).
+
+The pass also keeps the old Finish Game's rules. It counts repetitions on the
+pure board, seeded from the game's own history, and stops when a position occurs
+for the third time; the result is written as a draw after the commit. It starts
+only at the end of the main line - a midgame cursor or a variation is refused,
+because the commit appends there - and applies Chess960 castling on the pure
+board. It records the game it started on — base, number and final position — and refuses to write
+when the reader has opened or edited a different game meanwhile, rather than
+appending the continuation to whatever is current. And the classic pane's toggle
+is left Off when the pass ends, including a pass whose engines could not start,
+so the next press starts rather than only clearing a stale flag.
+
 ## The review report
 
 `tcl/tools/review_report.tcl` turns a finished pass into the figures a reader

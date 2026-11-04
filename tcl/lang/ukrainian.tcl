@@ -2096,6 +2096,16 @@ translate Q RtfImportSuccessMulti {%d ігор успішно імпортова
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate Q ReviewProgressTitle {Перегляньте прогрес}
+translate Q ReviewProgressIdle {Перегляд не виконується}
+translate Q ReviewProgressGameOf {гра %s з %s}
+translate Q ReviewProgressEngineWindow {Склопідйомники двигуна %s}
+translate Q ReviewProgressAnalysisPane {Панелі аналізу %s}
+translate Q ReviewProgressRapid {Швидке анотування}
+translate Q FinishGameGameChanged {гра змінилася під час роботи Finish Game; нічого не писали}
+translate Q FinishGameAtEnd {Фініш Гра починається з кінця основної лінії; йти до кінця гри першим}
+
 
 ############################################################
 #

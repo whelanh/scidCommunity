@@ -2136,6 +2136,16 @@ translate L RtfImportSuccessMulti {%d jocuri importate în baza de date clipboar
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate L ReviewProgressTitle {Examinați progresul}
+translate L ReviewProgressIdle {Nu rulează nicio recenzie}
+translate L ReviewProgressGameOf {jocul %s din %s}
+translate L ReviewProgressEngineWindow {Geamuri motor %s}
+translate L ReviewProgressAnalysisPane {Panouri de analiză %s}
+translate L ReviewProgressRapid {Adnotare rapidă}
+translate L FinishGameGameChanged {jocul s-a schimbat în timp ce rula Finish Game; nu s-a scris nimic}
+translate L FinishGameAtEnd {Finish Game începe de la sfârșitul liniei principale; mergi mai întâi la sfârșitul jocului}
+
 
 ############################################################
 #

@@ -1002,6 +1002,29 @@ proc ::reviewannotate::run {plan} {
     return [::reviewannotate::nextGame]
 }
 
+# The progress board's header fields for the game in flight, composed while the
+# run still knows which preset and which pane it is: the header is a field from
+# here on, never a lookup at draw time. A batch carries the game's place in the
+# range, which is the only part that changes between games.
+proc ::reviewannotate::headerFields {plan} {
+    variable run
+    set engine ""
+    catch { set engine [lindex [dict get $plan engine] 0] }
+    set pane 1
+    catch { set pane $::annotatePane }
+    catch { if {[dict exists $plan pane]} { set pane [dict get $plan pane] } }
+    set fields [dict create source annotate engine $engine \
+        origin [list analysispane $pane] cancel ::reviewannotate::cancelAction]
+    if {[dict size $run]} {
+        set games [dict get $run games]
+        if {[llength $games] > 1} {
+            dict set fields game [expr {[dict get $run index] + 1}]
+            dict set fields total [llength $games]
+        }
+    }
+    return $fields
+}
+
 # Start the pass for the next game of the run. A batch borrows the base: the
 # user's game is pushed, the game to annotate is loaded, and the pair is put
 # back when that game's pass has finished - so the board comes back to where the
@@ -1068,6 +1091,7 @@ proc ::reviewannotate::nextGame {} {
         -done ::reviewannotate::done \
         -notify 1 \
         -write $wopts \
+        -header [::reviewannotate::headerFields $plan] \
         -tier [dict get $plan tier]]
     if {$err ne ""} {
         # A refusal leaves the run's counts alone; what it must not leave behind

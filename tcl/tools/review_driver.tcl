@@ -1,3 +1,6 @@
+# Copyright (C) 2026 David Crandall
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
 ########################################################################
 ### The engine pass behind Game Review and Move Comment.
 ###
@@ -107,6 +110,12 @@ proc ::reviewdriver::stop {token {restore 1}} {
         set p $pass
         set pass {}
         dict set state state cancelled
+        # A cancelled run is over too: the pane must not freeze on the last
+        # position of a pass that no longer exists.
+        if {[dict exists $p progressToken] \
+                && [llength [info commands ::reviewprogress::finish]]} {
+            catch { ::reviewprogress::finish [dict get $p progressToken] }
+        }
         if {$restore} { ::reviewdriver::restoreRun $p }
         ::reviewdriver::runDoneHook $p
     }
@@ -610,6 +619,10 @@ proc ::reviewdriver::run {engine args} {
     set progress ""
     set notify 0
     set coachOpt ""
+    # The progress board's header fields, composed by the caller: the source,
+    # the engine name and where the run came from. The driver begins the job
+    # and feeds it the position it is on; it never composes the header itself.
+    set header ""
     # The caller's completion hook: annotate mode chains one pass per game, so
     # the chain lives in the pass dict rather than in a module variable.
     set done ""
@@ -630,6 +643,7 @@ proc ::reviewdriver::run {engine args} {
             -done     { incr i ; set done [lindex $args $i] }
             -writer   { incr i ; set writer [lindex $args $i] }
             -coach    { incr i ; set coachOpt [lindex $args $i] }
+            -header   { incr i ; set header [lindex $args $i] }
             default   { return "unknown option: $opt" }
         }
     }
@@ -745,6 +759,19 @@ proc ::reviewdriver::run {engine args} {
         positions $positions cursor $cursor engine $engine done $done \
         progress $progress notify $notify writer $writer \
         coach $coach report [expr {[llength $plies] ? 0 : [string equal $writer ::reviewdriver::writeResults]}]]
+    # The board is decoration over this run: it starts when the run does, and it
+    # is told nothing the pass has not already decided.
+    if {$header ne "" && [llength [info commands ::reviewprogress::begin]]} {
+        catch { dict set pass progressToken [::reviewprogress::begin $header] }
+        # The run's first position, before the first search finishes: otherwise
+        # the pane shows no board at all until position one has been searched.
+        if {[dict exists $pass progressToken] && [llength $positions]} {
+            catch {
+                ::reviewprogress::setSpec [dict get $pass progressToken] \
+                    [lindex $positions 0 1] 0 [llength $positions]
+            }
+        }
+    }
     return ""
 }
 
@@ -772,6 +799,12 @@ proc ::reviewdriver::proseProgress {done total args} {
     if {![dict size $pass]} { return }
     dict set state coachDone $done
     dict set state coachTotal $total
+    # The pane's second measure: the search bar is full by now, and the prose
+    # bar is what says the model is still working.
+    if {[dict exists $pass progressToken] \
+            && [llength [info commands ::reviewprogress::setProse]]} {
+        catch { ::reviewprogress::setProse [dict get $pass progressToken] $done $total }
+    }
     set cmd [dict get $pass progress]
     if {$cmd ne ""} { catch { {*}$cmd $done $total } }
     return
@@ -784,6 +817,28 @@ proc ::reviewdriver::runProgress {done total ply lines} {
     variable state
     if {![dict size $pass]} { return }
     dict set state searched $done
+    # The progress board follows the search: the position the pass is on now,
+    # replayed from the spec the driver queued, never from the game.
+    if {[dict exists $pass progressToken]} {
+        set spec ""
+        catch {
+            # The position that just finished is not the one being searched
+            # now: show the next queued position, and keep the last one at the
+            # end of the run.
+            set queue [dict get $pass positions]
+            set at [lsearch -index 0 $queue $ply]
+            if {$at >= 0} {
+                if {$at + 1 < [llength $queue]} { incr at }
+                set spec [lindex [lindex $queue $at] 1]
+            }
+        }
+        if {$spec ne ""} {
+            catch {
+                ::reviewprogress::setSpec [dict get $pass progressToken] $spec \
+                    $done $total
+            }
+        }
+    }
     set cmd [dict get $pass progress]
     if {$cmd ne ""} { catch { {*}$cmd $done $total } }
 }
@@ -1091,6 +1146,12 @@ proc ::reviewdriver::notifyBoard {p} {
 proc ::reviewdriver::endRun {p {restore 1}} {
     variable pass
     set pass {}
+    # The progress pane is decoration over this run: when the run ends, the
+    # window says so and falls back to the pane's position rather than leaving
+    # the last position of a pass that is over on screen.
+    if {[dict exists $p progressToken]} {
+        catch { ::reviewprogress::finish [dict get $p progressToken] }
+    }
     if {$restore} { ::reviewdriver::restoreRun $p }
     ::reviewdriver::notifyBoard $p
     ::reviewdriver::runDoneHook $p

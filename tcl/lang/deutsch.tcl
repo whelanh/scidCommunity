@@ -2167,6 +2167,16 @@ translate D RtfImportSuccessMulti {%d Spiele wurden erfolgreich in die Zwischena
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate D ReviewProgressTitle {Überprüfen Sie den Fortschritt}
+translate D ReviewProgressIdle {Es läuft keine Rezension}
+translate D ReviewProgressGameOf {Spiel %s von %s}
+translate D ReviewProgressEngineWindow {Motorfenster %s}
+translate D ReviewProgressAnalysisPane {Analysepanels %s}
+translate D ReviewProgressRapid {Schnelles Kommentieren}
+translate D FinishGameGameChanged {das Spiel hat sich geändert, während „Spiel beenden“ lief; nichts wurde geschrieben}
+translate D FinishGameAtEnd {Das Finish-Spiel beginnt am Ende der Hauptlinie. Gehe zuerst bis zum Ende des Spiels}
+
 
 ############################################################
 #

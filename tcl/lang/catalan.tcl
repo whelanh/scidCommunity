@@ -2139,6 +2139,16 @@ translate K RtfImportSuccessMulti {%d jocs importats a la base de dades del port
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate K ReviewProgressTitle {Revisa el progrés}
+translate K ReviewProgressIdle {No s'està executant cap revisió}
+translate K ReviewProgressGameOf {joc %s de %s}
+translate K ReviewProgressEngineWindow {Finestres del motor %s}
+translate K ReviewProgressAnalysisPane {Panels d'anàlisi %s}
+translate K ReviewProgressRapid {Anotació ràpida}
+translate K FinishGameGameChanged {el joc va canviar mentre s'executava Finalitzar el joc; no s'havia escrit res}
+translate K FinishGameAtEnd {Finalitzar el joc comença des del final de la línia principal; anar primer al final del joc}
+
 
 ############################################################
 #

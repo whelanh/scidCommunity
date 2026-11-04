@@ -2099,6 +2099,16 @@ translate T RtfImportSuccessMulti {%d oyun başarıyla pano veritabanına aktar�
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate T ReviewProgressTitle {İlerlemeyi gözden geçirin}
+translate T ReviewProgressIdle {Hiçbir inceleme yürütülmüyor}
+translate T ReviewProgressGameOf {oyun %s / %s}
+translate T ReviewProgressEngineWindow {Motor camları %s}
+translate T ReviewProgressAnalysisPane {Analiz panelleri %s}
+translate T ReviewProgressRapid {Hızlı açıklama ekleme}
+translate T FinishGameGameChanged {Oyunu Bitir çalışırken oyun değişti; hiçbir şey yazılmadı}
+translate T FinishGameAtEnd {Bitiş Oyunu ana çizginin sonundan başlar; ilk önce oyunun sonuna git}
+
 
 ############################################################
 #

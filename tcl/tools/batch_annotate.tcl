@@ -1,3 +1,6 @@
+# Copyright (C) 2026 David Crandall
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
 namespace eval ::batch_annotate {
     variable base ""
     variable games {}
@@ -6,6 +9,7 @@ namespace eval ::batch_annotate {
     variable instances
     
     variable pipe_game ;# pipe -> game_id
+    variable pipe_seq ;# pipe -> the game's place in the run
     variable pipe_moves ;# pipe -> list of {ply position}
     variable pipe_evals ;# pipe -> dict ply -> {rank {depth score type pv}}
     variable pipe_map ;# pipe -> the game's main-line map
@@ -17,6 +21,12 @@ namespace eval ::batch_annotate {
     variable movetime ""
     variable games_completed 0
     variable total_games 0
+    # Games actually handed to a pipe, for the pane's "game n of total": a
+    # skipped entry is not a game of the run.
+    variable assigned 0
+    # game_id -> its place in the run. A retried game keeps its number rather
+    # than taking a new one.
+    variable seq_of
     # Moves whose search ended with no verdict: a time cap can stop a position
     # before the engine reports a single scored line, and such a move is written
     # with no verdict. Counted per move, not per searched position, so the
@@ -93,14 +103,40 @@ proc ::batch_annotate::start {w} {
             lappend ::batch_annotate::game_queue $idx
         }
     }
+    # A stale selection or a game number past the base cannot be a game of this
+    # run; dropping it here keeps both the total and the header's numbering
+    # honest instead of shifting every game after it.
+    set max_games 0
+    catch { set max_games [sc_base numGames $::batch_annotate::base] }
+    # Always filter, including an unavailable/zero count: a selection that
+    # cannot be a game now must not start engines and then find nothing.
+    set valid {}
+    foreach g $::batch_annotate::game_queue {
+        if {[string is integer -strict $g] && $g > 0 && $g <= $max_games} {
+            lappend valid $g
+        }
+    }
+    set ::batch_annotate::game_queue $valid
     set num_games [llength $::batch_annotate::game_queue]
     set ::batch_annotate::total_games $num_games
     set ::batch_annotate::games_completed 0
+    set ::batch_annotate::assigned 0
+    set ::batch_annotate::seq_of [dict create]
     set ::batch_annotate::unscored_plies 0
 
     set num_engines $instances
     if {$num_engines > $num_games} { set num_engines $num_games }
     if {$num_engines < 1} { return }
+
+    # The progress board's job for the whole batch: one board, showing whichever
+    # game is in flight, and a header whose game number moves with the run. The
+    # header is a field from here on - the engine name is read once, here, and
+    # never looked up again at draw time.
+    catch {
+        set ::batch_annotate::token [::reviewprogress::begin [dict create \
+            source annotate engine $::batch_annotate::engine_name \
+            total $num_games cancel ::batch_annotate::cancel]]
+    }
 
     set pw .batchAnnotateProgress
     if {[winfo exists $pw]} { destroy $pw }
@@ -112,6 +148,7 @@ proc ::batch_annotate::start {w} {
     pack $pw.b -pady 10
 
     if {[catch {::batch_annotate::start_engines $num_engines} err]} {
+        ::batch_annotate::endProgress
         tk_messageBox -message "Error starting engines: $err"
         destroy $pw
         return
@@ -120,6 +157,11 @@ proc ::batch_annotate::start {w} {
     foreach pipe $::batch_annotate::pipes {
         ::batch_annotate::assign_game $pipe
     }
+    # A selection that turns out to have no games (the base emptied after the
+    # dialog, stale numbers) leaves every pipe done with no finalize_game to
+    # run the completion check. End the batch here; a busy pipe makes this a
+    # no-op.
+    ::batch_annotate::check_completion
 }
 
 proc ::batch_annotate::start_engines {num_instances} {
@@ -200,6 +242,17 @@ proc ::batch_annotate::start_engines {num_instances} {
     catch {cd $pwd}
 }
 
+# End the pane's job for this batch, if one is live. The board is decoration
+# over the run: cancellation, completion and a failed start all take the same
+# path, so a dead job cannot keep another run's board suppressed.
+proc ::batch_annotate::endProgress {} {
+    if {[info exists ::batch_annotate::token]} {
+        catch { ::reviewprogress::finish $::batch_annotate::token }
+        unset ::batch_annotate::token
+    }
+    return
+}
+
 proc ::batch_annotate::cancel {} {
     variable pipes
     foreach pipe $pipes {
@@ -207,6 +260,7 @@ proc ::batch_annotate::cancel {} {
         catch { close $pipe }
     }
     set pipes {}
+    ::batch_annotate::endProgress
     if {[winfo exists .batchAnnotateProgress]} {
         destroy .batchAnnotateProgress
     }
@@ -226,8 +280,10 @@ proc ::batch_annotate::assign_game {pipe} {
     set game_id ""
     while {1} {
         if {[llength $::batch_annotate::game_queue] == 0} {
+            # The caller that is finishing a game calls check_completion after
+            # the game is written; completion before the save would report a
+            # batch that has not reached the database yet.
             set ::batch_annotate::engine_state($pipe) "done"
-            ::batch_annotate::check_completion
             return
         }
 
@@ -245,6 +301,20 @@ proc ::batch_annotate::assign_game {pipe} {
     }
 
     set pipe_game($pipe) $game_id
+    # The game's place in the run, fixed for the life of the game. Counting the
+    # games actually assigned rather than the queue's position keeps a skipped
+    # selection from shifting every later number; a game requeued after an
+    # engine died keeps the number it already had.
+    if {![info exists ::batch_annotate::seq_of]} {
+        set ::batch_annotate::seq_of [dict create]
+    }
+    if {[dict exists $::batch_annotate::seq_of $game_id]} {
+        set pipe_seq($pipe) [dict get $::batch_annotate::seq_of $game_id]
+    } else {
+        incr ::batch_annotate::assigned
+        dict set ::batch_annotate::seq_of $game_id $::batch_annotate::assigned
+        set pipe_seq($pipe) $::batch_annotate::assigned
+    }
     set pipe_evals($pipe) {}
 
     if {[winfo exists .batchAnnotateProgress]} {
@@ -302,6 +372,7 @@ proc ::batch_annotate::check_completion {} {
     if {$all_done} {
         foreach p $pipes { catch { puts $p "quit"; close $p } }
         set pipes {}
+        ::batch_annotate::endProgress
         if {[winfo exists .batchAnnotateProgress]} { destroy .batchAnnotateProgress }
         tk_messageBox -message [::batch_annotate::completionMessage]
     }
@@ -334,6 +405,21 @@ proc ::batch_annotate::feed_move {pipe} {
     lassign $move_data ply position
     set ::batch_annotate::engine_state($pipe) [list $ply $position]
     set ::batch_annotate::engine_lines($pipe) [dict create]
+
+    # The board shows the position this pipe is searching now, and the header
+    # says which game of the run it belongs to. The spec is the driver's own
+    # `position fen ... moves ...` shape, replayed on a pure board, so this
+    # cannot touch the game - the batch's borrows are push/load/save/pop and are
+    # never current across an event loop turn.
+    catch {
+        if {[info exists ::batch_annotate::token]} {
+            set game ""
+            catch { set game $::batch_annotate::pipe_seq($pipe) }
+            set done $::batch_annotate::games_completed
+            ::reviewprogress::setSpec $::batch_annotate::token $position \
+                $done $::batch_annotate::total_games $game
+        }
+    }
 
     puts $pipe $position
     # Both bounds in one Go, built by ::enginelimits::goLimits from the figures
@@ -486,4 +572,5 @@ proc ::batch_annotate::finalize_game {pipe} {
     sc_game save $game_id
     sc_game pop
     ::notify::DatabaseModified [sc_base current]
+    ::batch_annotate::check_completion
 }

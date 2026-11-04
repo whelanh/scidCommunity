@@ -43,6 +43,11 @@ proc ::reviewui::runCall {state} {
     set depth [expr {[dict exists $state depth] ? [dict get $state depth] : ""}]
     set progress [expr {[dict exists $state progress] ? [dict get $state progress] : ""}]
     set notify [expr {[dict exists $state notify] ? [dict get $state notify] : 0}]
+    # The header's fields, composed by the caller while it still knows what the
+    # run is: the source, the engine and the window it came from. The driver
+    # composes the string once and carries it in the job, so a header can never
+    # name an engine the reader has since switched the window to.
+    set header [expr {[dict exists $state header] ? [dict get $state header] : ""}]
     if {![string is integer -strict $game] || $game < 1} {
         return [dict replace $out reason {no game}]
     }
@@ -55,6 +60,7 @@ proc ::reviewui::runCall {state} {
     set args [list $engine -bookEnd $bookEnd]
     if {[llength $plies]} { lappend args -plies $plies }
     if {$depth ne ""} { lappend args -depth $depth }
+    if {$header ne ""} { lappend args -header $header }
     lappend args -progress $progress -notify $notify
     return [dict create entry ::reviewdriver::run args $args reason ""]
 }
@@ -246,6 +252,23 @@ proc ::reviewui::moveCommentStatus {depth_now {target ""}} {
 proc ::reviewui::progressText {done total} {
     if {![string is integer -strict $total] || $total < 1} { return "" }
     return [format [::reviewui::tr ReviewProgress] $done $total]
+}
+
+# The progress pane's determinate bar (#422 item 3), from the driver's own
+# counts and from nothing else: one progress source, so the bar and the status
+# line can never disagree.
+#
+# A fraction of the pass, 0.0 to 1.0, four places. "" when there is no total to
+# divide by - a pass that has not queued its positions has no fraction, and a
+# bar frozen at zero is a worse answer than an empty one. A count past the total
+# is the pass's own bookkeeping finishing early; it clamps rather than overflows
+# the bar.
+proc ::reviewui::passFraction {done total} {
+    if {![string is integer -strict $total] || $total < 1} { return "" }
+    if {![string is integer -strict $done]} { return "" }
+    if {$done < 0} { set done 0 }
+    if {$done > $total} { set done $total }
+    return [format %.4f [expr {double($done) / double($total)}]]
 }
 
 # The status line the driver's state maps to, so the window holds no state of

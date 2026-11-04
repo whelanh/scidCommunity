@@ -2148,3 +2148,13 @@ translate E RtfImportSuccess {Game imported into clipboard database successfully
 translate E RtfImportSuccessMulti {%d games imported into clipboard database successfully.}
 }
 # end of english.tcl
+
+# Review progress pane (#422 item 3).
+translate E ReviewProgressTitle {Review progress}
+translate E ReviewProgressIdle {No review is running}
+translate E ReviewProgressGameOf {game %s of %s}
+translate E ReviewProgressEngineWindow {Engine window %s}
+translate E ReviewProgressAnalysisPane {Analysis pane %s}
+translate E ReviewProgressRapid {Rapid annotate}
+translate E FinishGameGameChanged {the game changed while Finish Game was running; nothing was written}
+translate E FinishGameAtEnd {Finish Game starts from the end of the main line; go to the end of the game first}

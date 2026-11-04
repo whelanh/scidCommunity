@@ -2119,6 +2119,16 @@ translate I RtfImportSuccessMulti {%d giochi importati correttamente nel databas
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate I ReviewProgressTitle {Esaminare i progressi}
+translate I ReviewProgressIdle {Non è in corso alcuna revisione}
+translate I ReviewProgressGameOf {gioco %s di %s}
+translate I ReviewProgressEngineWindow {Finestrini del motore %s}
+translate I ReviewProgressAnalysisPane {Pannelli di analisi %s}
+translate I ReviewProgressRapid {Annotazione rapida}
+translate I FinishGameGameChanged {il gioco è cambiato mentre era in esecuzione Finish Game; non è stato scritto nulla}
+translate I FinishGameAtEnd {Fine Il gioco inizia dalla fine della linea principale; vai prima alla fine del gioco}
+
 
 ############################################################
 #
