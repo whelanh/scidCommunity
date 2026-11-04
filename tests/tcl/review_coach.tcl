@@ -242,7 +242,7 @@ foreach item $punished {
     }
 }
 check "the punishment line reaches the move prompt" \
-    [expr {[string first "the line after the move played runs b8c6 g1f3 d2d4" $mprompt] >= 0}]
+    [expr {[string first "the line after the move played runs 1... b8c6 2. g1f3 2... d2d4" $mprompt] >= 0}]
 
 puts "\nthe prose markers"
 
