@@ -882,6 +882,8 @@ translate I WhatThreatNoPosition {Non c'è nessuna posizione da guardare.}
 translate I WhatThreatNoMove {Qui non c'è nessuna mossa da commentare. Vai prima a una mossa della partita.}
 translate I WhatThreatFailed {L'analisi delle minacce non è potuta partire: %s}
 translate I WhatThreatNothingForcing {%s non ha nulla di forzante qui: nessuna mossa guadagna materiale o dà scacco.}
+translate I ReviewVerifier {Motore di verifica}
+translate I ReviewVerifierOff {Disattivato (nessuna verifica)}
 translate I ReviewVarLines {Varianti da scrivere}
 translate I ReviewVarCp {Soglia delle varianti (cp)}
 translate I ReviewMoveWait {Attendi la profondità della revisione}

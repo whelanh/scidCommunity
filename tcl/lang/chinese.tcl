@@ -847,6 +847,8 @@ translate M WhatThreatNoPosition {没有可供查看的局面。}
 translate M WhatThreatNoMove {这里没有可以评论的着法。请先走到棋局中的某一步。}
 translate M WhatThreatFailed {威胁分析无法运行：%s}
 translate M WhatThreatNothingForcing {%s 在这里没有强制手段：没有哪一步能赢得子力或将军。}
+translate M ReviewVerifier {验证引擎}
+translate M ReviewVerifierOff {关闭（不验证）}
 translate M ReviewVarLines {要写入的变化}
 translate M ReviewVarCp {变化差距 (cp)}
 translate M ReviewMoveWait {等待复盘深度}

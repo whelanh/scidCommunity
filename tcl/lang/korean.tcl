@@ -912,6 +912,8 @@ translate k WhatThreatNoPosition {볼 수 있는 국면이 없습니다.}
 translate k WhatThreatNoMove {여기에 설명할 수가 없습니다. 먼저 대국의 한 수로 이동하세요.}
 translate k WhatThreatFailed {위협 분석을 실행할 수 없습니다: %s}
 translate k WhatThreatNothingForcing {%s에게는 여기서 강제하는 수가 없습니다: 기물을 얻거나 체크를 거는 수가 없습니다.}
+translate k ReviewVerifier {검증 엔진}
+translate k ReviewVerifierOff {끄 (검증 없음)}
 translate k ReviewVarLines {기록할 변화}
 translate k ReviewVarCp {변화 폭 (cp)}
 translate k ReviewMoveWait {검토 깊이를 기다림}

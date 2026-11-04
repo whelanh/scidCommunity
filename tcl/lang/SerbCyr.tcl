@@ -912,6 +912,8 @@ translate J WhatThreatNoPosition {Нема позиције за преглед.
 translate J WhatThreatNoMove {Нема овде потеза за коментар. Прво пређите на потез у партији.}
 translate J WhatThreatFailed {Анализу претњи није било могуће покренути: %s}
 translate J WhatThreatNothingForcing {%s овде нема ништа форсирајуће: ниједан потез не добија материјал и не даје шах.}
+translate J ReviewVerifier {Мотор за проверу}
+translate J ReviewVerifierOff {Искључено (без провере)}
 translate J ReviewVarLines {Варијанте за упис}
 translate J ReviewVarCp {Граница варијанти (cp)}
 translate J ReviewMoveWait {Чекај дубину прегледа}

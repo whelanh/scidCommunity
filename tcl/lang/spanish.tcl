@@ -928,6 +928,8 @@ translate S WhatThreatNoPosition {No hay ninguna posición que mirar.}
 translate S WhatThreatNoMove {Aquí no hay ninguna jugada que comentar. Ve primero a una jugada de la partida.}
 translate S WhatThreatFailed {El análisis de amenazas no pudo ejecutarse: %s}
 translate S WhatThreatNothingForcing {%s no tiene nada forzado aquí: ninguna jugada gana material ni da jaque.}
+translate S ReviewVerifier {Motor de verificación}
+translate S ReviewVerifierOff {Desactivado (sin verificación)}
 translate S ReviewVarLines {Variantes que escribir}
 translate S ReviewVarCp {Margen de variantes (cp)}
 translate S ReviewMoveWait {Esperar la profundidad de la revisión}

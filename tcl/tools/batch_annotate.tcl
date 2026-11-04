@@ -557,17 +557,50 @@ proc ::batch_annotate::finalize_game {pipe} {
     # slow part.
     ::batch_annotate::assign_game $pipe
 
+    # Exactly the Game Review writer: label, [%eval], the label's NAG, the
+    # assessment and the diagram, with variations from Review Settings. It is
+    # reached through the driver's shared seam, so the batch gets the same
+    # Brilliant/Great verification a single game review does - the batch must not
+    # bypass it (issue #422 item 5). The verifier is its own engine; the batch's
+    # pipes are already on the next game by the time it answers.
+    set p [dict create map $map plan $plan plies [dict get $map plies] \
+        bookEnd $bookEnd mpv $::batch_annotate::mpv \
+        verifier [::batch_annotate::verifierEngine] \
+        limits [dict create depth $::batch_annotate::depth \
+            movetime $::batch_annotate::movetime]]
+    ::reviewdriver::verifyWrite $p $evals \
+        [list ::batch_annotate::writeGame $pipe $game_id $map $plan $bookEnd $p]
+}
+
+# The verifier engine Review Settings names, or "" for Off. Read per game, so a
+# setting changed while the batch runs applies to the games it has not reached:
+# the batch is one pass over many games, not one pass over one game.
+proc ::batch_annotate::verifierEngine {} {
+    set name ""
+    catch { set name [::review::verifier] }
+    return $name
+}
+
+# Write one finished game into the database. The tail of ::finalize_game: the
+# game is loaded, written with the review writer, saved and put back. Kept apart
+# because the verifier can answer after ::finalize_game returns - its search is
+# a second engine, and the batch's pipes are already busy with the next game -
+# so everything the write needs travels in the arguments rather than in the
+# per-pipe arrays, which assign_game has since overwritten.
+proc ::batch_annotate::writeGame {pipe game_id map plan bookEnd p results corrections} {
+    variable base
+    # The shared transform, immediately before the write: the label the writer
+    # puts in the game is the one the second engine agreed with.
+    set results [::reviewdriver::verified $results $corrections]
+    if {[dict size $corrections]} { dict set p corrections $corrections }
+
     set prev_base [sc_base current]
     if {$prev_base != $base} { sc_base switch $base }
 
     sc_game push copy
     sc_game load $game_id
 
-    # Exactly the Game Review writer: label, [%eval], the label's NAG, the
-    # assessment and the diagram, with variations from Review Settings.
-    set p [dict create map $map plan $plan plies [dict get $map plies] \
-        bookEnd $bookEnd mpv $::batch_annotate::mpv]
-    catch { ::reviewdriver::writeResults $p $evals }
+    catch { ::reviewdriver::writeResults $p $results }
 
     sc_game save $game_id
     sc_game pop

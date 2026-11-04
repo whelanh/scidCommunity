@@ -884,6 +884,8 @@ translate B WhatThreatNoPosition {Não há posição para olhar.}
 translate B WhatThreatNoMove {Não há nenhum lance para comentar aqui. Vá primeiro para um lance da partida.}
 translate B WhatThreatFailed {A análise de ameaças não pôde ser executada: %s}
 translate B WhatThreatNothingForcing {%s não tem nada forçado aqui: nenhum lance ganha material nem dá xeque.}
+translate B ReviewVerifier {Motor de verificação}
+translate B ReviewVerifierOff {Desativado (sem verificação)}
 translate B ReviewVarLines {Variantes a escrever}
 translate B ReviewVarCp {Margem das variantes (cp)}
 translate B ReviewMoveWait {Aguardar a profundidade da análise}

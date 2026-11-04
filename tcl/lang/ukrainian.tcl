@@ -872,6 +872,8 @@ translate Q WhatThreatNoPosition {Немає позиції для перегл�
 translate Q WhatThreatNoMove {Тут немає ходу для коментаря. Спершу перейдіть до ходу в партії.}
 translate Q WhatThreatFailed {Не вдалося запустити аналіз загроз: %s}
 translate Q WhatThreatNothingForcing {У %s немає нічого форсуючого: жоден хід не виграє матеріал і не дає шаху.}
+translate Q ReviewVerifier {Перевіряльний движок}
+translate Q ReviewVerifierOff {Вимкнено (без перевірки)}
 translate Q ReviewVarLines {Варіанти для запису}
 translate Q ReviewVarCp {Поріг варіантів (cp)}
 translate Q ReviewMoveWait {Чекати глибину огляду}

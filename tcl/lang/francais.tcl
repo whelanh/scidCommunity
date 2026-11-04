@@ -884,6 +884,8 @@ translate F WhatThreatNoPosition {Il n'y a aucune position à examiner.}
 translate F WhatThreatNoMove {Il n'y a aucun coup à commenter ici. Allez d'abord sur un coup de la partie.}
 translate F WhatThreatFailed {L'analyse des menaces n'a pas pu s'exécuter : %s}
 translate F WhatThreatNothingForcing {%s n'a rien de forcé ici : aucun coup ne gagne de matériel ni ne donne échec.}
+translate F ReviewVerifier {Moteur de vérification}
+translate F ReviewVerifierOff {Désactivé (aucune vérification)}
 translate F ReviewVarLines {Variantes à écrire}
 translate F ReviewVarCp {Écart des variantes (cp)}
 translate F ReviewMoveWait {Attendre la profondeur d'analyse}

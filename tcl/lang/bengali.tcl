@@ -871,6 +871,8 @@ translate b WhatThreatNoPosition {দেখার মতো কোনো অব�
 translate b WhatThreatNoMove {এখানে মন্তব্য করার মতো কোনো চাল নেই। আগে খেলার কোনো চালে যান।}
 translate b WhatThreatFailed {হুমকি বিশ্লেষণ চালানো যায়নি: %s}
 translate b WhatThreatNothingForcing {%s-এর এখানে বাধ্যকর কিছু নেই: কোনো চাল দ্রব্য জেতে না বা চেক দেয় না।}
+translate b ReviewVerifier {যাচাইকরণ ইঞ্জিন}
+translate b ReviewVerifierOff {বন্ধ (কোনো যাচাই নেই)}
 translate b ReviewVarLines {যে ভ্যারিয়েশনগুলো লিখতে হবে}
 translate b ReviewVarCp {ভ্যারিয়েশনের ব্যবধান (cp)}
 translate b ReviewMoveWait {পর্যালোচনার গভীরতার জন্য অপেক্ষা করুন}

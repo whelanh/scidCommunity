@@ -41,6 +41,7 @@ matrix further down.
 | Score chart and stored-`[%eval]` seeding | `::enginewin::updateChart`, `seedChart`, `seedLabel` | the widget | `engine_seed.tcl` 55 — seeded markers, the Autorun skip, a manual search at a seeded ply, the nested-variation restore; the `connectEngine`/`sendPosition` resets are structural. `score_seed.tcl` 35 |
 | Game Review / Move Comment | `tools/review_ui.tcl` + `tools/review_driver.tcl` | the widget, mode Review | `review_ui.tcl` 188, `review_driver.tcl` 222 — the logic; Tk glue structural except the run's ownership, driven over a stub window |
 | **Review verdicts → the game** | `::reviewdriver::run` (merged in #388) calls `::review::writeMove`, and the engine window calls `run` (A3); the label's NAG, the position assessment from the same score, and the diagram at mistakes/blunders are written beside it (`diagram` setting) | mode Review | `game_review.tcl` 183 covers `writeMove` and the assessment table, `review_driver.tcl` 222 covers `run` end to end — two reviews in a row, the marks replaced rather than stacked, the variations not duplicated, a NAG and a user comment kept, and the window's hand-off to `run` from two engine windows; `review_ui.tcl` 188 covers the window's decision |
+| Brilliant/Great second opinion | `::reviewverify` behind `::reviewdriver::verified`, the shared transform every writer calls before it writes; the search runs on the pass's own connection (20), and `Verifier engine` in Review Settings selects it (Off by default) | the review writer | `review_verify.tcl` 53 — the pure decision (only Brilliant/Great are jobs, the book gate, a correction only ever down to Best, fail-closed answers) and the three callers reaching the seam and writing its answer; `review_verify_engine.tcl` 41 — the search through the driver's queue, the disagreement, the silent answer, an engine lost mid-search, Cancel, and the pass's own bounds handed to the second engine |
 | Embedded PGN viewer instance | `::enginewin` `pgnviewer($id)` branch; seeding skips it | the widget keeps the flag | `—` |
 | 1–4 panes, one engine each | `tools/analysis.tcl` `.analysisWin1..4`, `analysis(uci$n)` | the analysis group; panes detachable | `—` |
 | Per-pane lock | `toggleLockEngine` | the pane | `—` |
@@ -157,6 +158,8 @@ consumer of the window B1 changes, not a control for the classic pipeline.
 | 17 | Game Review a second time on the same game | the labels and `[%eval]`s are replaced, not stacked; no variation is duplicated |
 | 18 | A move that already carries a NAG and a user comment, then Game Review | the NAG and the user's text survive; the verdict is added |
 | 19 | Cancel a review mid-search | nothing is written; the board is where the user left it |
+| 20 | Verifier engine on; review a game with a sacrifice that earns `!!` and one that does not | the first keeps Brilliant/`!!`, the second is written Best with no `!!`; the label, the NAG and the assessment agree |
+| 21 | Verifier engine on, then its preset deleted from `engines.dat` and the app restarted | the row reads Off and the labels are exactly those a review with no verifier writes |
 
 Rows 16–18 are no longer only manual: `tests/tcl/review_driver.tcl` drives
 `::reviewdriver::run` to completion against a stub engine and a board that

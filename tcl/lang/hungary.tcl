@@ -879,6 +879,8 @@ translate H WhatThreatNoPosition {Nincs mit megvizsgálni.}
 translate H WhatThreatNoMove {Itt nincs megjegyzendő lépés. Előbb lépj a játszma egyik lépésére.}
 translate H WhatThreatFailed {A fenyegetés-elemzést nem sikerült elindítani: %s}
 translate H WhatThreatNothingForcing {%s-nek itt nincs semmi kényszerítő: egy lépés sem nyer anyagot és nem ad sakkot.}
+translate H ReviewVerifier {Ellenőrző motor}
+translate H ReviewVerifierOff {Kikapcsolva (nincs ellenőrzés)}
 translate H ReviewVarLines {Kiírandó változatok}
 translate H ReviewVarCp {Változat-küszöb (cp)}
 translate H ReviewMoveWait {Várás az áttekintés mélységére}

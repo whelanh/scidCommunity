@@ -876,6 +876,8 @@ translate C WhatThreatNoPosition {Není žádná pozice k prohlédnutí.}
 translate C WhatThreatNoMove {Není zde žádný tah k okomentování. Přejdi nejprve na tah v partii.}
 translate C WhatThreatFailed {Analýzu hrozeb se nepodařilo spustit: %s}
 translate C WhatThreatNothingForcing {%s zde nemá nic vynucujícího: žádný tah nezíská materiál ani nedá šach.}
+translate C ReviewVerifier {Ověřovací engine}
+translate C ReviewVerifierOff {Vypnuto (bez ověření)}
 translate C ReviewVarLines {Varianty k zápisu}
 translate C ReviewVarCp {Mez variant (cp)}
 translate C ReviewMoveWait {Čekat na hloubku prohlídky}

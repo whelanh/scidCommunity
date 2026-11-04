@@ -543,8 +543,45 @@ proc ::reviewdriver::judge {map results sides ply} {
         catch { set mover [dict get $sides $before] }
         set eval_cp [expr {$mover eq "b" ? -$shown : $shown}]
     }
-    return [dict create label [::movelabels::label $cp1 $judged $isBest] \
+    set label [::movelabels::label $cp1 $judged $isBest]
+    # The second engine's verdict, when it withdrew this label: ::reviewdriver::
+    # verified folds the verifier's corrections into the results, so every writer
+    # that judges a move sees the same label the verifier agreed with. A
+    # correction only ever moves a label DOWN (see ::reviewdriver::labelRank):
+    # whatever a corrections dict carries, nothing here can promote a move.
+    if {[dict exists $results corrections]} {
+        set corrections [dict get $results corrections]
+        if {[dict exists $corrections $ply]} {
+            set want [dict get $corrections $ply]
+            set mine [::reviewdriver::labelRank $label]
+            set theirs [::reviewdriver::labelRank $want]
+            if {$mine ne "" && $theirs ne "" && $theirs < $mine} { set label $want }
+        }
+    }
+    return [dict create label $label \
         eval_cp $eval_cp before $cp1 after $judged isBest $isBest]
+}
+
+# Where a label sits on the ladder, higher meaning better. A label not named here
+# (book, forced - both position facts rather than judgements) has no rank and is
+# never replaced by a correction.
+#
+# This is the guard that makes a verifier safe: the second engine's answer is a
+# subtraction, so its corrections can only ever withdraw the two labels it was
+# asked about, never write a better one.
+proc ::reviewdriver::labelRank {label} {
+    switch -- $label {
+        brilliant  { return 5 }
+        great      { return 4 }
+        best       { return 3 }
+        excellent  { return 2 }
+        good       { return 1 }
+        inaccuracy { return 0 }
+        mistake    { return -1 }
+        miss       { return -1 }
+        blunder    { return -2 }
+    }
+    return ""
 }
 
 # ply -> {label eval_cp} for every move the pass can judge, from the results of
@@ -754,10 +791,16 @@ proc ::reviewdriver::run {engine args} {
     catch { set coach [::review::get coach] }
     if {$coachOpt ne ""} { set coach $coachOpt }
     if {[llength $plies]} { set coach 0 }
+    # The verifier is read once, here, like the coach: an engine picked (or
+    # cleared) mid-run must not split one run in two. "" is Off - the default -
+    # and then no second search happens and every label stays as it was.
+    set verifier ""
+    catch { set verifier [::review::verifier] }
     set pass [dict create token $token map $map plan $plan \
         plies [dict get $map plies] bookEnd $bookEnd mpv $mpv \
         positions $positions cursor $cursor engine $engine done $done \
         progress $progress notify $notify writer $writer \
+        verifier $verifier limits $lim \
         coach $coach report [expr {[llength $plies] ? 0 : [string equal $writer ::reviewdriver::writeResults]}]]
     # The board is decoration over this run: it starts when the run does, and it
     # is told nothing the pass has not already decided.
@@ -781,10 +824,27 @@ proc ::reviewdriver::run {engine args} {
 # model had answered and drops the rest.
 proc ::reviewdriver::cancel {{restore 1}} {
     variable pass
+    variable state
     if {![dict size $pass]} { return 0 }
     set token [dict get $pass token]
     if {[::reviewdriver::proseActive $token]} {
         catch { ::reviewprose::cancel }
+        return 1
+    }
+    # Waiting on a second opinion is still a run in flight, and the main pass's
+    # job is already gone - ::reviewdriver::stop would find no token to stop and
+    # leave the run open. Stop the verification instead and close the run here:
+    # nothing has been written yet, so the reader goes back where the pass found
+    # them and no label is written at all.
+    set verify ""
+    catch { set verify [dict get $pass verifyToken] }
+    if {$verify ne ""} {
+        set p $pass
+        set pass {}
+        catch { ::reviewverify::stop }
+        dict set state state cancelled
+        if {$restore} { ::reviewdriver::restoreRun $p }
+        ::reviewdriver::runDoneHook $p
         return 1
     }
     return [::reviewdriver::stop $token $restore]
@@ -843,6 +903,109 @@ proc ::reviewdriver::runProgress {done total ply lines} {
     if {$cmd ne ""} { catch { {*}$cmd $done $total } }
 }
 
+# The shared transform every writer runs before it writes: the verifier's
+# corrections folded into the results, so the label each move is written with is
+# the one the second engine agreed with.
+#
+# Pure, and the identity when there is nothing to correct - a review with the
+# verifier off (the default) gets back exactly the results the search produced.
+# `corrections` is the ply -> label map ::reviewverify::corrections answers, and
+# the writer's label comes through ::reviewdriver::judge, which reads it from the
+# results: no writer has to know the verifier exists.
+proc ::reviewdriver::verified {results corrections} {
+    if {![dict size $corrections]} { return $results }
+    return [dict set results corrections $corrections]
+}
+
+# Get the verifier's corrections for this pass, then write - or write at once
+# when there is nothing to verify.
+#
+# This is the seam #380 and #422 call ::reviewdriver::verified: the verifier feeds
+# the verdicts and does not run inside the write, so every path that writes a
+# review comes through here with its own writer - the pass, the batch annotator
+# and Rapid Annotate alike. `write` is called as `{*}$write <results>
+# <corrections>`, and the writer folds the corrections in with
+# ::reviewdriver::verified immediately before it writes.
+#
+# The search goes through ::reviewdriver::start - the pass's own connection and
+# per-position queue - and answers through the event loop: nothing here waits,
+# so a caller inside an engine reply or a button press is not blocked.
+#
+# Returns 1 when the search is in flight (the write happens in its answer), 0
+# when it has already happened.
+proc ::reviewdriver::verifyWrite {p results write} {
+    variable pass
+    variable state
+    set none [dict create]
+    set name ""
+    catch { set name [dict get $p verifier] }
+    set jobs {}
+    if {$name ne "" && [llength [info commands ::reviewverify::jobs]]} {
+        set labels [dict create]
+        # The labels the pass decided, from the same results the writer will
+        # read: Brilliant and Great are the only labels a verifier has an opinion
+        # about, and the ladder is the only place those words come from.
+        catch {
+            set verdicts [::reviewdriver::verdicts [dict get $p map] $results]
+            dict for {ply v} $verdicts { dict set labels $ply [lindex $v 0] }
+        }
+        set bookEnd 0
+        catch { set bookEnd [dict get $p bookEnd] }
+        catch {
+            set jobs [::reviewverify::jobs [dict get $p map] $results $labels $bookEnd]
+        }
+    }
+    if {![llength $jobs]} {
+        {*}$write $results $none
+        return 0
+    }
+    set cfg ""
+    catch { set cfg [::enginecfg::get $name] }
+    # Two lines whatever the pass asked for: a Great claim is the gap between the
+    # best and the second line, and one line cannot measure it.
+    set mpv 2
+    catch {
+        set passMpv [dict get $p mpv]
+        if {$passMpv > $mpv} { set mpv $passMpv }
+    }
+    set lim [dict create]
+    catch { set lim [dict get $p limits] }
+    set token ""
+    if {[llength $cfg]} {
+        catch {
+            set token [::reviewverify::start $cfg $jobs $mpv $lim \
+                [list ::reviewdriver::verifiedDone $p $write $results]]
+        }
+    }
+    if {$token eq ""} {
+        # No verifier, a preset this tree cannot open, or a connection already
+        # taken: a skipped second opinion, not a failed review. The labels are
+        # written exactly as the search produced them.
+        {*}$write $results $none
+        return 0
+    }
+    # The run stays open while it is searched: Cancel reads this.
+    if {[dict size $pass] && [dict exists $p token] &&
+        [dict get $pass token] eq [dict get $p token]} {
+        dict set pass verifyToken $token
+    }
+    return 1
+}
+
+# The verifier answered: write the review with what it agreed to.
+#
+# The second engine's answer is only ever a subtraction, so an empty corrections
+# dict - nothing verified, or nothing usable came back - writes the labels the
+# search itself produced.
+proc ::reviewdriver::verifiedDone {p write results corrections} {
+    variable pass
+    if {[dict size $pass] && [dict exists $p token] &&
+        [dict get $pass token] eq [dict get $p token]} {
+        dict set pass verifyToken ""
+    }
+    {*}$write $results $corrections
+}
+
 # The runner finished: now, and only now, the game is written.
 proc ::reviewdriver::runDone {results} {
     variable pass
@@ -861,15 +1024,27 @@ proc ::reviewdriver::runDone {results} {
         return
     }
     dict set state state writing
-    ::reviewdriver::writeRun $p $results
+    # The verifier, when Review Settings names one, gets the last word on
+    # Brilliant and Great before anything is written: it is a second engine and a
+    # second search, so it runs here - after the pass, before the game changes.
+    ::reviewdriver::verifyWrite $p $results [list ::reviewdriver::writeRun $p]
 }
 
 # The one write phase, after the search. The coach is started from here, after
 # the labels are in the game: prose is the last layer, and it must not be written
 # into a game the writer is still changing.
-proc ::reviewdriver::writeRun {p results} {
+proc ::reviewdriver::writeRun {p results {corrections ""}} {
     variable pass
     variable state
+    # The verifier's corrections travel with the pass as well as with the
+    # results: the deterministic report reads the verdicts the write was made
+    # from, and a report that tallied the labels the verifier withdrew would
+    # describe a game that is not the one in front of the reader.
+    if {[dict size $corrections]} { dict set p corrections $corrections }
+    # The shared transform, immediately before the writer: the label the game is
+    # written with is the one the second engine agreed with. Identity when there
+    # is no verifier or nothing was corrected.
+    set results [::reviewdriver::verified $results $corrections]
     # A full review owns the coach blocks on its moves: take the previous run's
     # prose off first, whether or not this run has a provider.
     set report 0

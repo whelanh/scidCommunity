@@ -897,6 +897,8 @@ translate K WhatThreatNoPosition {No hi ha cap posició per mirar.}
 translate K WhatThreatNoMove {Aquí no hi ha cap jugada per comentar. Ves primer a una jugada de la partida.}
 translate K WhatThreatFailed {L'anàlisi d'amenaces no s'ha pogut executar: %s}
 translate K WhatThreatNothingForcing {%s no té res de forçat aquí: cap jugada no guanya material ni fa escac.}
+translate K ReviewVerifier {Motor de verificació}
+translate K ReviewVerifierOff {Desactivat (sense verificació)}
 translate K ReviewVarLines {Variants a escriure}
 translate K ReviewVarCp {Marge de variants (cp)}
 translate K ReviewMoveWait {Espera la profunditat de la revisió}

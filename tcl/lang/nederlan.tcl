@@ -901,6 +901,8 @@ translate N WhatThreatNoPosition {Er is geen stelling om te bekijken.}
 translate N WhatThreatNoMove {Hier is geen zet om te becommentariëren. Ga eerst naar een zet in de partij.}
 translate N WhatThreatFailed {De dreigingsanalyse kon niet starten: %s}
 translate N WhatThreatNothingForcing {%s heeft hier niets dwingends: geen zet wint materiaal of geeft schaak.}
+translate N ReviewVerifier {Verificatie-engine}
+translate N ReviewVerifierOff {Uit (geen verificatie)}
 translate N ReviewVarLines {Varianten om te schrijven}
 translate N ReviewVarCp {Variantmarge (cp)}
 translate N ReviewMoveWait {Wacht op de beoordelingsdiepte}

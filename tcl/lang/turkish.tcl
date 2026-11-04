@@ -875,6 +875,8 @@ translate T WhatThreatNoPosition {Bakılacak bir konum yok.}
 translate T WhatThreatNoMove {Burada yorumlanacak bir hamle yok. Önce oyundaki bir hamleye gidin.}
 translate T WhatThreatFailed {Tehdit analizi çalıştırılamadı: %s}
 translate T WhatThreatNothingForcing {%s için burada zorlayıcı bir şey yok: hiçbir hamle materyal kazandırmıyor ve şah çekmiyor.}
+translate T ReviewVerifier {Doğrulama motoru}
+translate T ReviewVerifierOff {Kapalı (doğrulama yok)}
 translate T ReviewVarLines {Yazılacak varyantlar}
 translate T ReviewVarCp {Varyant aralığı (cp)}
 translate T ReviewMoveWait {İnceleme derinliğini bekle}

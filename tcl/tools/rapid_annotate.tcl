@@ -301,14 +301,47 @@ proc ::rapid_annotate::commit {} {
     undoFeature save
 
     # The Game Review writer, from the scores the graph already collected: the
-    # same labels, marks, assessment, D and variations a review would write.
+    # same labels, marks, assessment, D and variations a review would write - and
+    # through the driver's shared seam, so Rapid Annotate gets the Brilliant/Great
+    # verification a single game review does instead of bypassing it (issue #422
+    # item 5). The verification is a second engine, so the write happens in its
+    # answer; this returns 1 either way and the error handling stays where it was.
+    set p ""
     if {[catch {
         set map [::review::mainLineMap [sc_game UCI_mainLine]]
         set plies [dict get $map plies]
+        set verifier ""
+        catch { set verifier [::review::verifier] }
         set p [dict create map $map plan [::review::plan $plies 0] \
-            plies $plies bookEnd 0 mpv [::review::get mpv]]
-        ::reviewdriver::writeResults $p \
-            [::rapid_annotate::reviewResults $evals $map]
+            plies $plies bookEnd 0 mpv [::review::get mpv] \
+            verifier $verifier \
+            limits [dict create depth [::review::get depth] \
+                movetime [::review::get movetime]]]
+        ::reviewdriver::verifyWrite $p [::rapid_annotate::reviewResults $evals $map] \
+            [list ::rapid_annotate::writeCommit $p $gnum $ply $base]
+    } err]} {
+        undoFeature undo
+        set ::errorInfo $err
+        ERROR::MessageBox
+        return 0
+    }
+    return 1
+}
+
+# Write the review the graph's scores imply into the game. The tail of
+# ::rapid_annotate::commit, kept apart so it can run after a verification search:
+# the writer, the save and the redraw are one unit, and a failure has to undo the
+# whole thing exactly as it did when this ran inline.
+proc ::rapid_annotate::writeCommit {p gnum ply base results corrections} {
+    # The game may have been navigated away from, or replaced, while the second
+    # engine searched: writing then would put this game's review into another one.
+    if {[catch { set here [sc_game number] }]} { set here "" }
+    if {$here ne "" && $here ne [string trim $gnum]} { return 0 }
+    # The shared transform, immediately before the write.
+    set results [::reviewdriver::verified $results $corrections]
+    if {[dict size $corrections]} { dict set p corrections $corrections }
+    if {[catch {
+        ::reviewdriver::writeResults $p $results
         sc_move ply $ply
     } err]} {
         undoFeature undo

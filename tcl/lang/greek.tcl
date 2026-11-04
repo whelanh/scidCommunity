@@ -903,6 +903,8 @@ translate G WhatThreatNoPosition {Δεν υπάρχει θέση για εξέτ
 translate G WhatThreatNoMove {Δεν υπάρχει κίνηση για σχολιασμό εδώ. Πήγαινε πρώτα σε μια κίνηση της παρτίδας.}
 translate G WhatThreatFailed {Η ανάλυση απειλών δεν μπόρεσε να ξεκινήσει: %s}
 translate G WhatThreatNothingForcing {Το %s δεν έχει τίποτα εξαναγκαστικό εδώ: καμία κίνηση δεν κερδίζει υλικό ούτε δίνει σαχ.}
+translate G ReviewVerifier {Μηχανή επαλήθευσης}
+translate G ReviewVerifierOff {Ανενεργό (χωρίς επαλήθευση)}
 translate G ReviewVarLines {Παραλλαγές προς εγγραφή}
 translate G ReviewVarCp {Περιθώριο παραλλαγών (cp)}
 translate G ReviewMoveWait {Αναμονή για το βάθος ελέγχου}

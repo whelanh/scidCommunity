@@ -911,6 +911,8 @@ translate D WhatThreatNoPosition {Es gibt keine Stellung zum Ansehen.}
 translate D WhatThreatNoMove {Hier gibt es keinen Zug zum Kommentieren. Gehe zuerst zu einem Zug in der Partie.}
 translate D WhatThreatFailed {Die Drohungsanalyse konnte nicht laufen: %s}
 translate D WhatThreatNothingForcing {%s hat hier nichts Zwingendes: kein Zug gewinnt Material oder gibt Schach.}
+translate D ReviewVerifier {Prüf-Engine}
+translate D ReviewVerifierOff {Aus (keine Prüfung)}
 translate D ReviewVarLines {Zu schreibende Varianten}
 translate D ReviewVarCp {Variantenabstand (cp)}
 translate D ReviewMoveWait {Auf die Prüfungstiefe warten}

@@ -881,6 +881,8 @@ translate O WhatThreatNoPosition {Det er ingen stilling å se på.}
 translate O WhatThreatNoMove {Det er ikke noe trekk å kommentere her. Gå først til et trekk i partiet.}
 translate O WhatThreatFailed {Trusselanalysen kunne ikke kjøres: %s}
 translate O WhatThreatNothingForcing {%s har ingenting tvingende her: ingen trekk vinner materiale eller gir sjakk.}
+translate O ReviewVerifier {Verifiseringsmotor}
+translate O ReviewVerifierOff {Av (ingen verifisering)}
 translate O ReviewVarLines {Varianter som skal skrives}
 translate O ReviewVarCp {Variantmargin (cp)}
 translate O ReviewMoveWait {Vent på vurderingsdybden}

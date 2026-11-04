@@ -871,6 +871,8 @@ translate Z WhatThreatNoPosition {Hakuna nafasi ya kuangalia.}
 translate Z WhatThreatNoMove {Hakuna hatua ya kutoa maoni hapa. Nenda kwanza kwenye hatua katika mchezo.}
 translate Z WhatThreatFailed {Uchambuzi wa vitisho haukuweza kuendeshwa: %s}
 translate Z WhatThreatNothingForcing {%s hana kitu cha kulazimisha hapa: hakuna hatua inayoshinda nyenzo au kutoa cheki.}
+translate Z ReviewVerifier {Injini ya uthibitishaji}
+translate Z ReviewVerifierOff {Imezimwa (hakuna uthibitisho)}
 translate Z ReviewVarLines {Mibadala ya kuandika}
 translate Z ReviewVarCp {Tofauti ya mibadala (cp)}
 translate Z ReviewMoveWait {Subiri kina cha mapitio}

@@ -217,7 +217,7 @@ did not mean.
 
 ## Review Settings
 
-**Review Settings** opens seven rows:
+**Review Settings** opens nine rows:
 
 | Row | Setting | Range |
 | --- | --- | --- |
@@ -228,6 +228,8 @@ did not mean.
 | Variation margin (cp) | `var_cp` | 0–500 |
 | Wait for the review depth | `move_comment_wait` | 0–1 |
 | Diagram | `diagram` | 0–1 |
+| Coach prose | `coach` | 0–1 |
+| Verifier engine | `verifier` | `Off (no verification)`, or the name of an engine preset |
 
 The time cap sits beside Depth because it bounds the same thing. A value of 0
 means the review sets no cap of its own, and the row then shows the preset's, as
@@ -262,16 +264,51 @@ the edit is not lost; nothing is clamped behind the user's back. `var_lines` is
 capped by `mpv`, so its box follows `mpv` rather than offering a number the
 setter would reject.
 
-The seven rows are ordinary options (`::reviewopt(mpv)` and so on, registered
+The rows are ordinary options (`::reviewopt(mpv)` and so on, registered
 with `options.store`), so they are written to the options file with the rest of
 the user's preferences and read back at the next start. A value in a hand-edited
 options file is clamped to the same range before it is used: the file must not be
 able to decide that a pass searches at depth 0, or never gets a search at all.
+The verifier is the one row that is not a number: it stores an engine preset's
+name, `""` or absent meaning Off. A hand-edited options file naming a preset that
+`engines.dat` does not have reads as Off at the point of use rather than stopping
+the session, and the dialog refuses to store such a name in the first place.
+
+### Verifier engine — the second opinion on Brilliant and Great
+
+`Verifier engine` names a **second** engine, not the one the pass searched with:
+a label re-confirmed by the engine that produced it proves nothing. When it names
+one, every move the pass would label `brilliant` or `great` is re-searched on
+that engine before anything is written, under the pass's own depth and its own
+time cap — a capped review stays capped in its second opinion too. If the second
+engine prefers a different move, or a Great move's gap to its own second line is
+missing, the move is written `best` instead: the next label down, with no new
+vocabulary and no "unverified" state. Nothing else is re-searched, and a
+correction can only ever move a label **down** — the verifier cannot promote a
+move whatever it answers.
+
+It is **Off** by default, and Off is exactly the behaviour before this row
+existed. A verifier that cannot start, cannot be opened, or answers nothing
+usable leaves every label exactly as the search produced it: a skipped second
+opinion, never a failed review, and never an upgrade on absent evidence.
+
+The search runs on the driver's own connection (engine id 20) through the pass's
+per-position queue, never on an engine window's connection and never on the
+caller's thread with a `vwait`. It happens after the pass has finished and
+before the write, so **Cancel** during it still writes nothing and puts the
+reader back where the pass found them. Book still wins: a move inside the
+opening is theory and is not re-searched (a ply the reader named for Move Comment
+is, because they asked about that move).
+
+Because the seam is `::reviewdriver::verified` — one shared transform each writer
+calls immediately before it writes — the batch annotator and Rapid Annotate get
+the same second opinion from the same Review Settings as a single game review
+does; neither can bypass it.
 
 **Threads and Hash are not in this dialog.** They are properties of the engine
 preset — the whole point of the preset work in #382 — and are set from the
 window's own controls. The dialog shows what the pass will take from them,
-read-only, under the six rows, as `Threads 8, Hash 256 MB (from engine preset)`.
+read-only, under the rows, as `Threads 8, Hash 256 MB (from engine preset)`.
 A second place to set them is a second place to get them wrong, and the window's
 own controls already write the preset.
 
@@ -286,14 +323,19 @@ short, fixed-depth searches cannot use a table that size anyway.
 
 ## How a review is written, and what Cancel does
 
-`::reviewdriver::run` is plan → search → verdicts → write, and the write phase
-runs only after the whole search has finished: `::review::writeMove` is called per
-move with the label, the `[%eval]` and the engine's lines, and the game's own move
-is never inserted as a variation of itself. The status line is `::reviewdriver`'s
+`::reviewdriver::run` is plan → search → verdicts → **verify** → write, and the
+write phase runs only after the whole search has finished: `::review::writeMove` is
+called per move with the label, the `[%eval]` and the engine's lines, and the
+game's own move is never inserted as a variation of itself. The verification step
+is the pass described above, and it is the same step whether the caller is this
+pass, the batch annotator or Rapid Annotate: each writer calls
+`::reviewdriver::verified` immediately before it writes, so the label in the game
+is the label the second engine agreed with. The status line is `::reviewdriver`'s
 own state read through `::reviewui::statusText` — the window keeps no token of its
 own.
 
-**Cancel** stops the pass before the write phase, so nothing is written at all.
+**Cancel** stops the pass before the write phase, so nothing is written at all —
+including while the verifier is searching, which counts as part of the run.
 That keeps the search and the write apart for the reason they always were:
 writing mid-pass re-enters the engine window from an open engine, which makes the
 main-line snapshot non-authoritative.
@@ -621,7 +663,8 @@ plain-text form.
 | --- | --- |
 | `tcl/tools/game_review.tcl` | `::review` settings, `passLimits`, `plan`, `searchPlies`, `mainLineMap`, `playedMove`, `moveCommentPlan`, `writeMove`, `selectLines`, `scoreToNag`, `variationWanted` |
 | `tcl/tools/comment_colors.tcl` | the provenance spans: the review's green, the coach's blue, line wrapping, and the span-aware strip |
-| `tcl/tools/review_driver.tcl` | `::reviewdriver` — the engine pass on connection 20, `run` (plan → verdicts → write), the `-done` completion hook, the `-coach` override, coach-block ownership for the default writer only, `status`, `cancel` |
+| `tcl/tools/review_driver.tcl` | `::reviewdriver` — the engine pass on connection 20, `run` (plan → verdicts → verify → write), the `-done` completion hook, the `-coach` override, coach-block ownership for the default writer only, `verified`/`verifyWrite` (the shared seam and the verifier's pass), `status`, `cancel` |
+| `tcl/tools/review_verify.tcl` | `::reviewverify` — the second opinion on Brilliant and Great: which positions are re-searched (`jobs`), what a disagreement means (`corrections`, only ever down to `best`), and the search on the driver's queue (`start`, `answer`, `stop`) |
 | `tcl/tools/review_annotate.tcl` | `::reviewannotate` — the annotate dialog's decision, the run (single game and batch chain), Cancel, the progress line, the classic marks |
 | `tcl/tools/review_ui.tcl` | `::reviewui` — button state, the call a press makes, dialog values, the time cap's note, the status line |
 | `tcl/tools/review_report.tcl` | the deterministic report: accuracy, ACPL, estimated Elo, key moments, and the phase split with the three-signal opening boundary |
@@ -631,9 +674,11 @@ plain-text form.
 | `tcl/windows/engine.tcl` | the review icons, the status line, the settings dialog (guarded glue), and `::enginewin::threat` (the window's preset) |
 | `tcl/tools/analysis.tcl` | the Analysis window's annotate dialog, its OK (`configAnnotateOK`) and the button on every pane |
 | `tests/tcl/review_settings_dialog.tcl` | 51 checks: under Tk: the dialog builds, has OK/Cancel, stores what is typed, refuses a bad value, the variation box follows `mpv`, the time cap's row shows the preset's cap and drops the note, the on/off rows are checkboxes, `Coach settings…` opens a window of its own from a dialog that holds no grab, and both traces are removed when the dialog closes |
-| `tests/tcl/review_ui.tcl` | 237 checks: the call a press makes, the status line (including the coach's counts), the button states, the dialog round trip, the precedence table through the dialog, the time cap's note, which move a comment judges, the move-comment depth, the key set |
+| `tests/tcl/review_ui.tcl` | 247 checks: the call a press makes, the status line (including the coach's counts), the button states, the dialog round trip, the precedence table through the dialog, the time cap's note, the verifier row's Off word and refused preset name, which move a comment judges, the move-comment depth, the key set |
 | `tests/tcl/review_toolbar.tcl` | 43 checks: the five review icons use `::icon::` names and exist in icons_light and icons_dark at 24×24, the whole engine toolbar uses `::icon::` images, the labels are tooltips rather than text, the stop icon is gridded only while a pass runs, a visible divider separates the review group from Config, the dark-theme cache matches `::icon::` names, and the threat button exists only when its command does and not in an embedded PGN viewer |
 | `tests/tcl/review_driver.tcl` | 320 checks: the pass against a stub engine, the four Go shapes the precedence table produces, a capped run, two reviews of the same game in a row, the engine window's hand-off to it, the completion hook, the engine name on an exported variation and in the Annotator tag, and the coach: started after the write, the run held open until the answers land, not started for a single move or an annotate pass, an annotate pass leaving the coach blocks alone, not holding a run open when it cannot start, and Cancel while the model is writing |
+| `tests/tcl/review_verify.tcl` | 58 checks: only Brilliant and Great are jobs, book skips them but a named ply does not, the second engine agreeing or disagreeing about the move and about a Great move's gap, a correction only ever moving down to Best, a miss never becoming a candidate, fail-closed answers (nothing, an empty result, no second line, a bound), a mate score, and the callers that decide to write — `runDone`, `finalize_game` and `commit` — each reaching the seam with its verifier and bounds and writing its answer, with an all-flat run changing nothing |
+| `tests/tcl/review_verify_engine.tcl` | 49 checks: the verifier driven through the driver's own queue against a stub second engine at the pass's depth and cap, two lines asked for, the disagreement demoting both labels, the agreement correcting nothing, a silent answer correcting nothing, an engine lost mid-search writing as unverified, Cancel dropping the search, the engine closed after the reply rather than inside it, the seam handing the search the pass's own depth and cap, and no `vwait` anywhere in the verifier path |
 | `tests/tcl/annotate_dialog.tcl` | 56 checks: the dialog's decision (pane preset, book end, tier, the non-UCI refusal), the blunders-only filter, and the Cancel label rule |
 | `tests/tcl/annotate_run.tcl` | 82 checks: the plan run against a stub engine, the write, the batch chain, the Cancel escalation and a cancelled run writing nothing |
 | `tests/tcl/review_report.tcl` | 115 checks: accuracy as the app's own figure and the parity a phase starting on Black's move needs, Elo, key moments, the endgame rule — one material total, with the six-piece net rejected at 38 points — the opening boundary — Smyrnov met and half met, rook-less and file/rank connectivity, mixedness at 150 and 161, the material net at ten and eleven, the first-firing signal at 17/21/25, no ply floor — and the block removal, two writes deep |
@@ -664,7 +709,7 @@ widget would otherwise have to decide:
 - **the one-move depth**, from `moveCommentPlan`, for a deep analysis, a shallow
   one, nothing analysed, the wait turned off, and a preset that raises the depth
   the review would use;
-- **the key set**: the twenty-nine review strings are present in all 29
+- **the key set**: the thirty-one review strings are present in all 29
   `tcl/lang/*.tcl` files, the file list is read from the tree so a new language
   file fails loudly, and the English text is the text the labels are asserted
   against.
