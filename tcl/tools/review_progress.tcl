@@ -86,6 +86,15 @@ proc ::reviewprogress::specToBoard {spec} {
         } else {
             set fen [join $rest " "]
         }
+    } elseif {[lindex $words 0] eq "position" && [lindex $words 1] eq "startpos"} {
+        # A standard game's map carries "position startpos moves ..." rather
+        # than a FEN. It is a position like any other: start from the standard
+        # array and replay the moves. Without this the board string was empty,
+        # ::reviewprogress::setSpec returned before recording its counts, and a
+        # live review left the pane on its header with a still board and bar.
+        set fen {rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1}
+        set m [lsearch -exact $words moves]
+        if {$m >= 0} { set moves [lrange $words [expr {$m + 1}] end] }
     } else {
         set fen $spec
     }

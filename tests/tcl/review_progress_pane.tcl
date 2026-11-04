@@ -193,6 +193,25 @@ checkEq "startpos has no fen" [::reviewprogress::specFen {position startpos move
 ::reviewprogress::finish $token
 checkEq "no job once the run has ended" [::reviewprogress::job] {}
 
+# A standard game's map is `position startpos moves ...`, not a FEN. The pane
+# has to paint it and move its bar: an empty board string made setSpec return
+# before recording the counts, so a live review showed only its header.
+checkEq "startpos paints the initial array" \
+    [::reviewprogress::specToBoard {position startpos}] \
+    {RNBQKBNRPPPPPPPP................................pppppppprnbqkbnr}
+checkEq "and 1.e4 replays from it" \
+    [::reviewprogress::specToBoard {position startpos moves e2e4}] \
+    {RNBQKBNRPPPP.PPP............P...................pppppppprnbqkbnr}
+set t2 [::reviewprogress::begin [dict create source review engine E]]
+::reviewprogress::setSpec $t2 {position startpos moves e2e4 e7e5} 3 40
+checkEq "a startpos spec updates the board" \
+    [dict get [::reviewprogress::job] board] \
+    {RNBQKBNRPPPP.PPP............P.......p...........pppp.ppprnbqkbnr}
+checkEq "and the bar's counts with it" \
+    [dict get [::reviewprogress::job] total] 40
+::reviewprogress::finish $t2
+checkEq "and the startpos job ends cleanly" [::reviewprogress::job] {}
+
 puts "== the progress bar's fraction comes from the driver's counts =="
 
 # ::reviewui::passFraction is the one progress source (#422): the dialog draws a
