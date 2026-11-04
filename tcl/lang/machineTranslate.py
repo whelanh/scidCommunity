@@ -3,10 +3,12 @@ Translation Script for TODO-marked lines
 
 Format specifiers (%s, %d, %.1f, %%, and the flags/width Tcl accepts) are
 protected around the model call: a translation that loses one produces a
-format string that raises, or prints the wrong thing, at runtime. If the
-service drops or rewrites a token, the prose between the specifiers is
-translated in pieces instead, so a placeholder cannot be lost. Check the
-guard without a network request with:
+format string that raises, or prints the wrong thing, at runtime. A literal
+percent sign in prose ("% de victoire", "% games with move to square") is not
+a specifier: the space flag is not recognised, so the word after it is
+translated whole. If the service drops, reorders or rewrites a token, the
+prose between the specifiers is translated in pieces instead, so a placeholder
+cannot be lost. Check the guard without a network request with:
 
     python3 machineTranslate.py --selftest
 ...
@@ -228,9 +230,12 @@ def safe_translate(session, text, src='en', dest='es', max_retries=3):
 # Tcl format specifiers: %s, %d, %.1f, %%, %02d, %u, %b, %x, positional forms,
 # and the flags/width/precision Tcl accepts. A translation that loses one of
 # these produces a format string that raises (or silently prints the wrong
-# thing), so they are protected around the model call.
+# thing), so they are protected around the model call. The space flag is left
+# out on purpose: "% de victoire" and "% games with move to square" are prose
+# with a literal percent sign, not a specifier, and masking their "% d" or
+# "% g" would hand the translator a clipped word.
 PLACEHOLDER_RE = re.compile(
-    r'%(?:%|(?:\d+\$)?[-+ 0#]*(?:\d+|\*)?(?:\.\d+)?(?:hh|h|ll|l|L)?[bcdiouxXeEfFgGs])'
+    r'%(?:%|(?:\d+\$)?[-+0#]*(?:\d+|\*)?(?:\.\d+)?(?:hh|h|ll|l|L)?[bcdiouxXeEfFgGs])'
 )
 PLACEHOLDER_SPLIT_RE = re.compile('(' + PLACEHOLDER_RE.pattern + ')')
 PLACEHOLDER_TOKEN = '[[[PH{}]]]'
@@ -249,18 +254,32 @@ def mask_placeholders(text):
 
 
 def restore_placeholders(text, specs):
-    """Put the original specifiers back. None when a token was lost or changed."""
+    """Put the original specifiers back. None when a token was lost or changed.
+
+    Tokens have to come back in the order they were masked, unless the original
+    specifiers are positional (`%2$s`): there the digits choose the argument,
+    so a reordering is safe. A reordered non-positional token would feed format
+    the wrong argument, so it is treated as a failed translation.
+    """
     seen = {}
+    order = []
+    # Reordering is safe only when every specifier says which argument it
+    # takes; a mixed string still feeds the bare ones in order.
+    reorder_is_safe = bool(specs) and all(
+        re.search(r'\d+\$', spec) for spec in specs)
 
     def replace(match):
         index = int(match.group(1))
         if index < 0 or index >= len(specs):
             return match.group(0)
         seen[index] = seen.get(index, 0) + 1
+        order.append(index)
         return specs[index]
 
     out = PLACEHOLDER_TOKEN_RE.sub(replace, text)
     if len(seen) != len(specs) or any(count != 1 for count in seen.values()):
+        return None
+    if not reorder_is_safe and order != sorted(order):
         return None
     if PLACEHOLDER_TOKEN_RE.search(out):
         # An out-of-range token survived; do not leave the marker in the file.
@@ -272,20 +291,27 @@ def translate_segments(session, text, src, dest):
     """Translate the prose between placeholders and join the originals back in.
 
     This is the fallback when the service drops or rewrites a token. It costs
-    one request per segment, but a placeholder cannot be lost.
+    one request per segment, but a placeholder cannot be lost. The pieces keep
+    their original leading and trailing whitespace: the service returns the
+    translated core trimmed, and gluing trimmed pieces to a specifier would
+    close up the spaces around it.
     """
     parts = PLACEHOLDER_SPLIT_RE.split(text)
     out = []
     for index, part in enumerate(parts):
         if index % 2:
             out.append(part)
-        elif part:
-            translated = safe_translate(session, part, src=src, dest=dest)
-            if translated is None:
-                return None
-            out.append(translated)
-        else:
+            continue
+        core = part.strip()
+        if not core:
             out.append(part)
+            continue
+        lead = part[:len(part) - len(part.lstrip())]
+        trail = part[len(part.rstrip()):]
+        translated = safe_translate(session, core, src=src, dest=dest)
+        if translated is None:
+            return None
+        out.append(lead + translated.strip() + trail)
     return ''.join(out)
 
 
@@ -310,7 +336,7 @@ def translate_preserving(session, text, src='en', dest='es'):
 
 
 def selftest():
-    """Check the guard without a network call: identity and token-dropping."""
+    """Check the guard without a network call: identity, loss, order, spacing."""
     class Identity:
         def translate(self, text, src='auto', dest='en'):
             return text
@@ -318,6 +344,15 @@ def selftest():
     class DropsTokens(Identity):
         def translate(self, text, src='auto', dest='en'):
             return re.sub(r'\[\[\[\s*PH\s*\d+\s*\]\]\]', '', text)
+
+    class TrimsAndDrops(DropsTokens):
+        def translate(self, text, src='auto', dest='en'):
+            return super().translate(text, src=src, dest=dest).strip()
+
+    class SwapsFirstTwo(Identity):
+        def translate(self, text, src='auto', dest='en'):
+            return re.sub(r'\[\[\[PH0\]\]\](.*?)\[\[\[PH1\]\]\]',
+                          r'[[[PH1]]]\1[[[PH0]]]', text, flags=re.S)
 
     cases = [
         'Engine window %s',
@@ -328,8 +363,23 @@ def selftest():
         '%02d items',
         'no placeholders',
     ]
+    # A literal percent sign in prose is not a specifier: masking "% d" in
+    # "% de victoire" or "% g" in "% games" would translate a clipped word.
+    prose = [
+        '50% off',
+        '100% done',
+        '% de victoire',
+        '% games with move to square',
+    ]
     failures = 0
-    for session in (Identity(), DropsTokens()):
+
+    for text in prose:
+        _, specs = mask_placeholders(text)
+        if specs:
+            print(f"FAIL prose masked as specifiers: {text!r} -> {specs!r}")
+            failures += 1
+
+    for session in (Identity(), DropsTokens(), TrimsAndDrops(), SwapsFirstTwo()):
         for text in cases:
             got = translate_preserving(session, text)
             want = PLACEHOLDER_RE.findall(text)
@@ -337,10 +387,29 @@ def selftest():
             if got is None or have != want:
                 print(f"FAIL {type(session).__name__}: {text!r} -> {got!r}")
                 failures += 1
+
+    # Whitespace around a specifier, through the piecewise fallback.
+    spaced = 'game %s of %s'
+    got = translate_preserving(TrimsAndDrops(), spaced)
+    if got != spaced:
+        print(f"FAIL spacing in fallback: {spaced!r} -> {got!r}")
+        failures += 1
+
+    # A reordered non-positional token would feed format the wrong argument;
+    # the positional form is allowed to reorder.
+    got = translate_preserving(SwapsFirstTwo(), 'game %s of %s')
+    if got != 'game %s of %s':
+        print(f"FAIL reordered specifiers: 'game %s of %s' -> {got!r}")
+        failures += 1
+    got = translate_preserving(Identity(), 'game %2$s of %1$s')
+    if got != 'game %2$s of %1$s':
+        print(f"FAIL positional specifiers: 'game %2$s of %1$s' -> {got!r}")
+        failures += 1
+
     if failures:
         print(f"{failures} placeholder guard failures")
         return 1
-    print(f"placeholder guard: {len(cases) * 2} cases ok")
+    print(f"placeholder guard: {len(cases) * 4 + len(prose) + 3} cases ok")
     return 0
 
 
