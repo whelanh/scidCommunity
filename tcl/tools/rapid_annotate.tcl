@@ -124,6 +124,13 @@ proc ::rapid_annotate::publishProgress {id} {
     set token ""
     if {[dict size $job]} {
         if {[dict get $job source] ne "rapid"} { return }
+        # One board: a second engine window's Autoscan must not relabel the
+        # first window's run (or leave its Cancel pointing at the wrong one).
+        set origin {}
+        catch { set origin [dict get $job fields origin] }
+        set win [string trimleft $id .engineWin]
+        if {[llength $origin] && [lindex $origin 0] eq "enginewin" \
+                && [lindex $origin 1] ne $win} { return }
         set token [dict get $job token]
     } else {
         set engine ""

@@ -157,6 +157,11 @@ proc ::batch_annotate::start {w} {
     foreach pipe $::batch_annotate::pipes {
         ::batch_annotate::assign_game $pipe
     }
+    # A selection that turns out to have no games (the base emptied after the
+    # dialog, stale numbers) leaves every pipe done with no finalize_game to
+    # run the completion check. End the batch here; a busy pipe makes this a
+    # no-op.
+    ::batch_annotate::check_completion
 }
 
 proc ::batch_annotate::start_engines {num_instances} {

@@ -135,6 +135,16 @@ set before [::reviewprogress::job]
 checkEq "a review in flight keeps the board" [::reviewprogress::job] $before
 ::reviewprogress::finish $reviewToken
 
+# Two engine windows can both Autoscan. The second must not relabel the first
+# window's job or leave its Cancel pointing at the wrong engine.
+set rapidToken [::reviewprogress::begin [dict create source rapid \
+    engine {Stockfish Deep} origin {enginewin 1} cancel {::enginewin::stop 1}]]
+set before [::reviewprogress::job]
+::rapid_annotate::publishProgress 2
+checkEq "another window's Autoscan leaves the job alone" \
+    [::reviewprogress::job] $before
+::reviewprogress::finish $rapidToken
+
 ::rapid_annotate::publishProgress 1
 set rapidToken [dict get [::reviewprogress::job] token]
 checkEq "the rapid run owns it again" [dict get [::reviewprogress::job] source] rapid

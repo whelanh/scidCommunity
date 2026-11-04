@@ -151,6 +151,19 @@ proc ::reviewprogress::ui::idle {} {
     return
 }
 
+# Draw a position on the pane's board. Gloss of Danger is a main-board
+# overlay: it asks `sc_pos attacks`, which belongs to the reader's position, not
+# this job's. Turn it off for the duration of the draw and put it back.
+proc ::reviewprogress::ui::paintBoard {boardString} {
+    variable board
+    set gloss 0
+    catch { set gloss $::glossOfDanger }
+    if {$gloss} { catch { set ::glossOfDanger 0 } }
+    catch { ::board::update $board $boardString 0 }
+    if {$gloss} { catch { set ::glossOfDanger 1 } }
+    return
+}
+
 # The painter ::reviewprogress calls. It reads the job's fields and nothing
 # else: the header is the string the run composed at its start, so a run that
 # outlives its window's engine choice still says what it was asked to do.
@@ -216,12 +229,12 @@ proc ::reviewprogress::ui::draw {job} {
     set boardString ""
     catch { set boardString [dict get $job board] }
     if {$boardString ne ""} {
-        catch { ::board::update $board $boardString 0 }
+        ::reviewprogress::ui::paintBoard $boardString
     } elseif {[dict get $job done] eq ""} {
         # A new run has no position yet. Clear the previous run's board rather
         # than leaving it under the new header; a blank board is honest until
         # the first search arrives.
-        catch { ::board::update $board [string repeat . 64] 0 }
+        ::reviewprogress::ui::paintBoard [string repeat . 64]
     }
     return
 }
