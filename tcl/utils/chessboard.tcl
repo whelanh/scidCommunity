@@ -352,21 +352,47 @@ proc ::chessboard::makeMove {pos uci} {
         set ep [expr {($from + $to) / 2}]
     }
 
+    # Castling, including Chess960's king-to-rook encoding. The destination
+    # square decides the side; the rook is found on that side of the king, so
+    # the orthodox h1/a1 assumption is gone. In Chess960 the engine sends the
+    # king onto its own rook (e1h1), which is a capture only in the encoding.
+    set ownRook [expr {$side eq "w" ? "R" : "r"}]
+    set castled 0
+    if {$lower eq "k" && $captured eq $ownRook} {
+        set rank [expr {$from / 8}]
+        set kingside [expr {($to % 8) > ($from % 8)}]
+        set rookSq $to
+        set castled 1
+    } elseif {$lower eq "k" && abs(($to % 8) - ($from % 8)) == 2} {
+        set rank [expr {$from / 8}]
+        set kingside [expr {($to % 8) > ($from % 8)}]
+        set rookSq -1
+        set step [expr {$kingside ? 1 : -1}]
+        for {set f [expr {($from % 8) + $step}]} {$f >= 0 && $f <= 7} {incr f $step} {
+            set sq [expr {$rank * 8 + $f}]
+            if {[lindex $board $sq] eq $ownRook} { set rookSq $sq ; break }
+        }
+        if {$rookSq >= 0} { set castled 1 }
+    }
+    if {$castled} {
+        set kingTo [expr {$rank * 8 + ($kingside ? 6 : 2)}]
+        set rookTo [expr {$rank * 8 + ($kingside ? 5 : 3)}]
+        lset board $from ""
+        lset board $rookSq ""
+        lset board $kingTo $piece
+        lset board $rookTo $ownRook
+        set castle [string map [expr {$side eq "w" ? {K "" Q ""} : {k "" q ""}}] $castle]
+        set half [expr {[dict get $pos half] + 1}]
+        set full [expr {[dict get $pos full] + ($side eq "b" ? 1 : 0)}]
+        return [dict create board $board side [expr {$side eq "w" ? "b" : "w"}] \
+            castle $castle ep -1 half $half full $full]
+    }
+
     lset board $to $piece
     lset board $from ""
 
     if {$promo ne ""} {
         lset board $to [expr {$side eq "w" ? [string toupper $promo] : [string tolower $promo]}]
-    }
-
-    if {$lower eq "k" && abs($to - $from) == 2} {
-        if {$to > $from} {
-            lset board [expr {$from + 3}] ""
-            lset board [expr {$from + 1}] [expr {$side eq "w" ? "R" : "r"}]
-        } else {
-            lset board [expr {$from - 4}] ""
-            lset board [expr {$from - 1}] [expr {$side eq "w" ? "R" : "r"}]
-        }
     }
 
     # castling rights: dropped when the king or a rook leaves, or a rook is taken

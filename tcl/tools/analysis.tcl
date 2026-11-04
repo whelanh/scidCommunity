@@ -1991,9 +1991,15 @@ proc toggleFinishGame { { n 1 } } {
 	set b ".analysisWin$n.b1.bFinishGame"
 	if { $::autoplayMode } { return }
 	if { ! $analysis(uci$n) } {
+		# Stop first: moving the cursor away from the line end must not make
+		# the button unable to stop the pass it started.
+		if {$::finishGameMode} {
+			set ::finishGameMode 0
+			$b configure -image ::icon::tb_finish_off
+			catch { ::finishgame::stop }
+			return
+		}
 		if { !$analysis(analyzeMode$n) || ! [sc_pos isAt vend] } { return }
-
-	if {!$::finishGameMode} {
 		set ::finishGameMode 1
 		$b configure -image ::icon::tb_finish_on
 		# The classic pane runs the same collect-then-commit pass as the engine
@@ -2003,11 +2009,12 @@ proc toggleFinishGame { { n 1 } } {
 		if {[llength [info commands ::finishgame::startPane]]} {
 			::finishgame::startPane $n
 		}
-	} else {
-		set ::finishGameMode 0
-		$b configure -image ::icon::tb_finish_off
-		catch { ::finishgame::stop }
-	}
+		# A pass that never started (no preset, a midgame cursor) must not
+		# leave the toggle On.
+		if {![::finishgame::active]} {
+			set ::finishGameMode 0
+			catch { $b configure -image ::icon::tb_finish_off }
+		}
 		return
 	}
 

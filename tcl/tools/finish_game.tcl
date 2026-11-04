@@ -90,6 +90,18 @@ proc ::finishgame::limits {side} {
         depth $depth movetime [expr {$seconds * 1000}]]]
 }
 
+# Is the cursor on the main line at its end? The pass collects from here and
+# the commit appends at the main-line end, so a midgame cursor or a variation
+# is a different position and must be refused rather than written over.
+proc ::finishgame::atLineEnd {} {
+    set level 0
+    catch { set level [sc_var level] }
+    if {$level != 0} { return 0 }
+    set at 0
+    catch { set at [sc_pos isAt vend] }
+    return [expr {$at ? 1 : 0}]
+}
+
 # The game this pass belongs to, for the commit check. The number alone is 0
 # for a new game, so the final position is what tells two unsaved games apart;
 # for a database game the base and number are already unique. Read at the start
@@ -143,6 +155,16 @@ proc ::finishgame::gameRepetitions {} {
 proc ::finishgame::start {ownerId white black} {
     variable active
     if {$active} { return }
+    # The commit appends at the end of the main line. A pass started from a
+    # midgame cursor would search from one position and write at another, so it
+    # must start where it will write.
+    if {[::finishgame::atLineEnd] == 0} {
+        catch {
+            tk_messageBox -title "scidCommunity: [tr FinishGame]" -type ok \
+                -icon info -message [tr FinishGameAtEnd]
+        }
+        return
+    }
     set owner [::enginewin::reviewWindow $ownerId]
     if {[catch {
         ::engineNoWin::initEngine $::finishgame::WhiteId $white \
@@ -201,6 +223,15 @@ proc ::finishgame::start {ownerId white black} {
 proc ::finishgame::startPane {n} {
     variable active
     if {$active} { return }
+    if {[::finishgame::atLineEnd] == 0} {
+        catch { set ::finishGameMode 0 }
+        catch { .analysisWin$n.b1.bFinishGame configure -image ::icon::tb_finish_off }
+        catch {
+            tk_messageBox -title "scidCommunity: [tr FinishGame]" -type ok \
+                -icon info -message [tr FinishGameAtEnd]
+        }
+        return
+    }
     set name ""
     catch { set name $::analysis(name$n) }
     if {$name eq ""} { return }
@@ -377,6 +408,11 @@ proc ::finishgame::play {} {
     set wrote [::finishgame::commit $reason]
     if {$wrote ne ""} { set reason $wrote }
     ::finishgame::settle $reason
+    # The commit writes with the reader's board untouched, so the PGN view has
+    # to hear that the line changed.
+    if {[llength [info commands ::notify::PosChanged]]} {
+        catch { ::notify::PosChanged -pgn }
+    }
     ::finishgame::done $reason
     return
 }
@@ -434,6 +470,12 @@ proc ::finishgame::closeEngines {} {
 
 proc ::finishgame::done {reason} {
     set ::finishgame::active 0
+    # The pane's job is this pass's too: without this it would keep the last
+    # board and header of a run that is over.
+    if {[info exists ::finishgame::token] && $::finishgame::token ne ""} {
+        catch { ::reviewprogress::finish $::finishgame::token }
+        set ::finishgame::token ""
+    }
     set owner $::finishgame::owner
     ::finishgame::closeEngines
     catch { set ::finishGameMode $::finishgame::oldMode }

@@ -36,6 +36,9 @@ proc ::options.store {args} {}
 proc tr {tag args} { return $tag }
 namespace eval ::enginewin {}
 proc ::enginewin::reviewWindow {id} { return .engineWin$id }
+namespace eval ::notify {}
+set ::notified {}
+proc ::notify::PosChanged {arg} { lappend ::notified $arg }
 proc ::button_image {args} { return "" }
 proc update {args} {}
 proc grab {args} {}
@@ -122,12 +125,13 @@ proc sc_pos {args} {
         setComment { lappend ::comments [lindex $args 1] ; return "" }
         side       { return white }
         isCheck    { return $::inCheck }
-        isAt       { return [expr {$::idx > 0}] }
+        isAt       { return $::atEnd }
         location   { return $::cursorPly }
     }
     return ""
 }
 proc sc_base {args} { return 0 }
+proc sc_var {args} { return 0 }
 proc sc_game {args} {
     switch -- [lindex $args 0] {
         variant { return 0 }
@@ -175,9 +179,11 @@ proc resetGame {} {
     set ::calls {}
     set ::reply move
     set ::boxes {}
+    set ::notified {}
     set ::results {}
     set ::comments {}
     set ::inCheck 0
+    set ::atEnd 1
     set ::pieces 99
     set ::reps 0
     set ::tb ""
@@ -219,6 +225,9 @@ checkEq "and the black one" [lindex $::inited 1] \
     [list $::finishgame::BlackId "Black Engine"]
 checkEq "and both were closed" [llength $::closed] 2
 checkEq "the pass is over" $::finishgame::active 0
+checkEq "the progress job ends with the pass" \
+    [dict size [::reviewprogress::job]] 0
+checkEq "and the PGN view is told" [lindex $::notified 0] -pgn
 set news 0
 foreach item $::sent {
     if {[lindex $item 1] eq "NewGame"} { incr news }
@@ -360,6 +369,28 @@ check "a changed game is refused before anything is written" \
     [expr {[::finishgame::commit end] ne ""}]
 checkEq "and nothing was written" $::played {}
 set ::finishgame::identity $saved
+
+puts "\nChess960 castling is applied on the pure board"
+
+set c [::chessboard::fromFen {r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1}]
+set c [::chessboard::makeMove $c e1h1]
+checkEq "the king finishes on g1" [lindex [dict get $c board] 6] K
+checkEq "the rook finishes on f1" [lindex [dict get $c board] 5] R
+set c [::chessboard::fromFen {r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1}]
+set c [::chessboard::makeMove $c e1a1]
+checkEq "queenside: the king finishes on c1" [lindex [dict get $c board] 2] K
+checkEq "queenside: the rook finishes on d1" [lindex [dict get $c board] 3] R
+
+puts "\na midgame cursor is refused before any search"
+
+resetGame
+set ::moves {f2f3 e7e5 g2g4 d8h4}
+set ::atEnd 0
+::finishgame::start 1 "W" "B"
+checkEq "no engine was started" $::inited {}
+checkEq "nothing was written" $::played {}
+check "and the reason is shown" [expr {[llength $::boxes] == 1}]
+set ::atEnd 1
 
 puts "\nthe pane's Finish Game leaves its toggle off"
 
