@@ -217,6 +217,11 @@ proc ::reviewprogress::ui::draw {job} {
     catch { set boardString [dict get $job board] }
     if {$boardString ne ""} {
         catch { ::board::update $board $boardString 0 }
+    } elseif {[dict get $job done] eq ""} {
+        # A new run has no position yet. Clear the previous run's board rather
+        # than leaving it under the new header; a blank board is honest until
+        # the first search arrives.
+        catch { ::board::update $board [string repeat . 64] 0 }
     }
     return
 }

@@ -2121,6 +2121,11 @@ proc ::enginewin::callback {id msg} {
                 ::enginewin::changeState $id *.done
             }
             if {![::enginewin::analyzeMainLine $id]} {
+                # The Autoscan pass is over: the pane's rapid job ends with the
+                # last answer rather than staying live until a new game.
+                if {[llength [info commands ::rapid_annotate::progressDone]]} {
+                    catch { ::rapid_annotate::progressDone $id }
+                }
                 ::enginewin::changeState $id *.*
                 if {$pv_(postponed,$id) ne ""} {
                     ::enginewin::sendPosition $id $::enginewin::m_(position,$id) $pv_(postponed,$id)

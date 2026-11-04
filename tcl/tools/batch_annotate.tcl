@@ -24,6 +24,9 @@ namespace eval ::batch_annotate {
     # Games actually handed to a pipe, for the pane's "game n of total": a
     # skipped entry is not a game of the run.
     variable assigned 0
+    # game_id -> its place in the run. A retried game keeps its number rather
+    # than taking a new one.
+    variable seq_of
     # Moves whose search ended with no verdict: a time cap can stop a position
     # before the engine reports a single scored line, and such a move is written
     # with no verdict. Counted per move, not per searched position, so the
@@ -118,6 +121,7 @@ proc ::batch_annotate::start {w} {
     set ::batch_annotate::total_games $num_games
     set ::batch_annotate::games_completed 0
     set ::batch_annotate::assigned 0
+    set ::batch_annotate::seq_of [dict create]
     set ::batch_annotate::unscored_plies 0
 
     set num_engines $instances
@@ -271,8 +275,10 @@ proc ::batch_annotate::assign_game {pipe} {
     set game_id ""
     while {1} {
         if {[llength $::batch_annotate::game_queue] == 0} {
+            # The caller that is finishing a game calls check_completion after
+            # the game is written; completion before the save would report a
+            # batch that has not reached the database yet.
             set ::batch_annotate::engine_state($pipe) "done"
-            ::batch_annotate::check_completion
             return
         }
 
@@ -290,11 +296,20 @@ proc ::batch_annotate::assign_game {pipe} {
     }
 
     set pipe_game($pipe) $game_id
-    # The game's place in the run, fixed for the life of the pipe. Counting the
+    # The game's place in the run, fixed for the life of the game. Counting the
     # games actually assigned rather than the queue's position keeps a skipped
-    # selection from shifting every later number.
-    incr ::batch_annotate::assigned
-    set pipe_seq($pipe) $::batch_annotate::assigned
+    # selection from shifting every later number; a game requeued after an
+    # engine died keeps the number it already had.
+    if {![info exists ::batch_annotate::seq_of]} {
+        set ::batch_annotate::seq_of [dict create]
+    }
+    if {[dict exists $::batch_annotate::seq_of $game_id]} {
+        set pipe_seq($pipe) [dict get $::batch_annotate::seq_of $game_id]
+    } else {
+        incr ::batch_annotate::assigned
+        dict set ::batch_annotate::seq_of $game_id $::batch_annotate::assigned
+        set pipe_seq($pipe) $::batch_annotate::assigned
+    }
     set pipe_evals($pipe) {}
 
     if {[winfo exists .batchAnnotateProgress]} {
@@ -552,4 +567,5 @@ proc ::batch_annotate::finalize_game {pipe} {
     sc_game save $game_id
     sc_game pop
     ::notify::DatabaseModified [sc_base current]
+    ::batch_annotate::check_completion
 }

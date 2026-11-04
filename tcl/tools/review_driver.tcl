@@ -763,6 +763,14 @@ proc ::reviewdriver::run {engine args} {
     # is told nothing the pass has not already decided.
     if {$header ne "" && [llength [info commands ::reviewprogress::begin]]} {
         catch { dict set pass progressToken [::reviewprogress::begin $header] }
+        # The run's first position, before the first search finishes: otherwise
+        # the pane shows no board at all until position one has been searched.
+        if {[dict exists $pass progressToken] && [llength $positions]} {
+            catch {
+                ::reviewprogress::setSpec [dict get $pass progressToken] \
+                    [lindex $positions 0 1] 0 [llength $positions]
+            }
+        }
     }
     return ""
 }
@@ -814,9 +822,14 @@ proc ::reviewdriver::runProgress {done total ply lines} {
     if {[dict exists $pass progressToken]} {
         set spec ""
         catch {
-            set at [lsearch -index 0 [dict get $pass positions] $ply]
+            # The position that just finished is not the one being searched
+            # now: show the next queued position, and keep the last one at the
+            # end of the run.
+            set queue [dict get $pass positions]
+            set at [lsearch -index 0 $queue $ply]
             if {$at >= 0} {
-                set spec [lindex [lindex [dict get $pass positions] $at] 1]
+                if {$at + 1 < [llength $queue]} { incr at }
+                set spec [lindex [lindex $queue $at] 1]
             }
         }
         if {$spec ne ""} {

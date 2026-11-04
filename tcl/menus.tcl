@@ -244,7 +244,7 @@ $m add checkbutton -label WindowsComment -var ::windows::commenteditor::isOpen -
 # The review progress pane: a pane of the app, opened like any other and fed by
 # whatever run is in flight. No accelerator: it is not a workspace the reader
 # switches to constantly.
-$m add command -label [tr ReviewProgressTitle] -command ::reviewprogress::ui::open
+$m add command -label ReviewProgressTitle -command ::reviewprogress::ui::open
 $m add checkbutton -label WindowsPGN -variable pgnWin -command ::pgn::OpenClose  -accelerator "Ctrl+P"
 $m add checkbutton -label OptionsWindowsShowGameInfo -variable showGameInfo -command ::toggleGameInfo
 $m add separator

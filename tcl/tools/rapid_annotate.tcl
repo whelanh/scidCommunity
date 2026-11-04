@@ -116,6 +116,10 @@ proc ::rapid_annotate::record {id plies depth score score_type pv} {
 # position: the graph records a line for the board the engine is analysing.
 # `done` is the positions collected so far, `total` the main line's length.
 proc ::rapid_annotate::publishProgress {id} {
+    # Rapid Annotate is the engine window's Autoscan pass. An ordinary analysis
+    # also reaches record; it must not own the progress pane.
+    if {[info exists ::enginewin_autorun($id)] \
+            && [lindex $::enginewin_autorun($id) 0] eq ""} { return }
     set job [::reviewprogress::job]
     set token ""
     if {[dict size $job]} {
@@ -130,12 +134,20 @@ proc ::rapid_annotate::publishProgress {id} {
             engine $engine origin [list enginewin $win] \
             cancel [list ::enginewin::stop $id]]]
     }
-    set fen ""
-    catch { set fen [sc_pos fen] }
-    if {$fen eq ""} { return }
     set total 0
     catch { set total [dict size [::rapid_annotate::mainLinePositions]] }
     set done [::rapid_annotate::pending]
+    # The engine searched a main-line position, not necessarily the one the
+    # reader's cursor is on: use the Go position it is working from.
+    set spec ""
+    catch { set spec $::enginewin::pv_(pos,$id) }
+    if {$spec ne ""} {
+        ::reviewprogress::setSpec $token $spec $done $total
+        return
+    }
+    set fen ""
+    catch { set fen [sc_pos fen] }
+    if {$fen eq ""} { return }
     ::reviewprogress::setPosition $token $fen $done $total
     return
 }
@@ -143,10 +155,21 @@ proc ::rapid_annotate::publishProgress {id} {
 # The run is over when the scores it was collected from are: a new game, or the
 # commit that writes them. Nothing is cancelled by this - the board is
 # decoration over the analysis, not a party to it.
-proc ::rapid_annotate::progressDone {} {
+proc ::rapid_annotate::progressDone {{id ""}} {
     set job [::reviewprogress::job]
     if {![dict size $job]} { return }
     if {[dict get $job source] ne "rapid"} { return }
+    # A caller that names a window ends only that window's rapid job; another
+    # window may own the one board. The no-argument form is the game-level end
+    # (new game, commit) and ends the current rapid job.
+    if {$id ne ""} {
+        set origin {}
+        catch { set origin [dict get $job fields origin] }
+        if {[llength $origin] && [lindex $origin 0] eq "enginewin" \
+                && [lindex $origin 1] ne [string trimleft $id .engineWin]} {
+            return
+        }
+    }
     catch { ::reviewprogress::finish [dict get $job token] }
     return
 }
@@ -296,5 +319,8 @@ proc ::rapid_annotate::commit {} {
     ::notify::DatabaseModified $base
     ::notify::PosChanged -pgn
     if {[winfo exists .commentWin]} { ::windows::commenteditor::Refresh }
+    # The run is over when the scores are in the game; a new game is not needed
+    # for the pane to stop showing it.
+    ::rapid_annotate::progressDone
     return 1
 }

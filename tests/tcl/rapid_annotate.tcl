@@ -108,6 +108,24 @@ checkEq "the board is the position the engine is on" [dict get $job board] \
 checkEq "progress counts the positions collected" [dict get $job done] 2
 checkEq "out of the main line's length" [dict get $job total] 4
 
+# The engine seeded the search from a main-line position; the pane shows that
+# position, not whatever the reader's cursor happens to be.
+namespace eval ::enginewin {}
+set ::enginewin::pv_(pos,1) {position startpos moves e2e4 e7e5}
+::rapid_annotate::publishProgress 1
+checkEq "the board is the position the engine searched" \
+    [dict get [::reviewprogress::job] board] \
+    {RNBQKBNRPPPP.PPP............P.......p...........pppp.ppprnbqkbnr}
+unset ::enginewin::pv_(pos,1)
+
+# Ordinary analysis reaches record too; with Autoscan off it must not take the
+# pane. The job is finished first, so an empty job is the whole assertion.
+::reviewprogress::finish [dict get [::reviewprogress::job] token]
+set ::enginewin_autorun(1) {}
+::rapid_annotate::publishProgress 1
+checkEq "ordinary analysis does not own the board" [::reviewprogress::job] {}
+set ::enginewin_autorun(1) {movetime 50}
+
 # A review in flight already owns the board: the rapid pass records its scores
 # and leaves the job alone rather than taking the window from the run.
 set reviewToken [::reviewprogress::begin [dict create \
