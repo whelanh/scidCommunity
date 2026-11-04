@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+ <release version="5.1.4.54" date="2026-11-04">
+      <description>
+        <p>Translations added for Game Summary/Coach Comments</p>
+      </description>
+    </release>
  <release version="5.1.4.53" date="2026-11-03">
       <description>
         <p>Hotkey fix for non-US keyboards</p>
