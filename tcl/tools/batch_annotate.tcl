@@ -108,15 +108,15 @@ proc ::batch_annotate::start {w} {
     # honest instead of shifting every game after it.
     set max_games 0
     catch { set max_games [sc_base numGames $::batch_annotate::base] }
-    if {$max_games > 0} {
-        set valid {}
-        foreach g $::batch_annotate::game_queue {
-            if {[string is integer -strict $g] && $g > 0 && $g <= $max_games} {
-                lappend valid $g
-            }
+    # Always filter, including an unavailable/zero count: a selection that
+    # cannot be a game now must not start engines and then find nothing.
+    set valid {}
+    foreach g $::batch_annotate::game_queue {
+        if {[string is integer -strict $g] && $g > 0 && $g <= $max_games} {
+            lappend valid $g
         }
-        set ::batch_annotate::game_queue $valid
     }
+    set ::batch_annotate::game_queue $valid
     set num_games [llength $::batch_annotate::game_queue]
     set ::batch_annotate::total_games $num_games
     set ::batch_annotate::games_completed 0

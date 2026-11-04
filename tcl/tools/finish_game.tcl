@@ -339,7 +339,8 @@ proc ::finishgame::play {} {
         }
         # The game may already be at its third occurrence before this pass makes
         # a move; the old autoplay stopped on that and so does this one.
-        if {[dict get $reps [::finishgame::positionKey $fen]] >= 3} {
+        set key [::finishgame::positionKey $fen]
+        if {[dict exists $reps $key] && [dict get $reps $key] >= 3} {
             set reason repetition
             break
         }
