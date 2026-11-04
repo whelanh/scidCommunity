@@ -50,6 +50,12 @@ proc ::reviewprogress::ui::build {} {
     if {[winfo exists $board]} { return $win }
     if {![winfo exists $win]} { return "" }
 
+    # The ttk widgets inside follow the theme, but the frame the dock creates is
+    # a classic Tk widget and keeps Tk's grey. The pane's padding and the strip
+    # around Cancel are that frame, so on every dark theme it stayed light grey.
+    # Paint it with the theme's background and repaint it when the theme changes.
+    catch { ::applyThemeColor_background $win }
+
     # ::board::new takes a path that does NOT exist yet: it refuses a widget
     # that already exists, creates the frame itself with -class Board (which is
     # where the board styling comes from), creates the canvas $w.bd inside it

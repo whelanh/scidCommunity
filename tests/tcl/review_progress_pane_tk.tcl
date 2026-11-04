@@ -62,6 +62,13 @@ namespace eval ::icon {}
 namespace eval ::utils::tooltip {}
 namespace eval ::board {}
 namespace eval ::reviewui {}
+# The real helper is in tcl/start.tcl: paint a classic widget with the theme's
+# background, and repaint it when the theme changes.
+proc ::applyThemeColor_background {widget} {
+    set bg [ttk::style lookup . -background "" #d9d9d9]
+    $widget configure -background $bg
+    bind $widget <<ThemeChanged>> [list ::applyThemeColor_background $widget]
+}
 proc ::reviewui::passFraction {done total} {
     if {![string is integer -strict $total] || $total < 1} { return "" }
     if {![string is integer -strict $done]} { return "" }
@@ -288,9 +295,22 @@ checkEq "and the job still moves" \
 
 puts "== reopening rebuilds it and draws the run as it stands =="
 
+# The frame the dock creates is a classic Tk widget. Rebuild under a dark theme:
+# the pane has to come back in the theme's colour, not Tk's grey.
+ttk::style theme create reviewdark -parent classic -settings {
+    ttk::style configure . -background #1e1e2e -foreground #cdd6f4
+    ttk::style configure TFrame -background #1e1e2e
+    ttk::style configure TLabel -background #1e1e2e -foreground #cdd6f4
+}
+ttk::style theme use reviewdark
+
 ::reviewprogress::ui::open
 settle
 check "reopening builds the pane again" [winfo exists $win]
+checkEq "the rebuilt pane is painted with the theme's background" \
+    [$win cget -background] #1e1e2e
+check "and not Tk's classic grey" \
+    [expr {[$win cget -background] ne "#d9d9d9"}]
 checkEq "the pane is docked again" [::docking::find_tbn $win] ".pw.nb"
 checkEq "the rebuilt board is at the explicit psize" \
     $::board::size($win.board) 40
