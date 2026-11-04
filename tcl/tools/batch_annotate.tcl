@@ -21,6 +21,9 @@ namespace eval ::batch_annotate {
     variable movetime ""
     variable games_completed 0
     variable total_games 0
+    # Games actually handed to a pipe, for the pane's "game n of total": a
+    # skipped entry is not a game of the run.
+    variable assigned 0
     # Moves whose search ended with no verdict: a time cap can stop a position
     # before the engine reports a single scored line, and such a move is written
     # with no verdict. Counted per move, not per searched position, so the
@@ -97,9 +100,24 @@ proc ::batch_annotate::start {w} {
             lappend ::batch_annotate::game_queue $idx
         }
     }
+    # A stale selection or a game number past the base cannot be a game of this
+    # run; dropping it here keeps both the total and the header's numbering
+    # honest instead of shifting every game after it.
+    set max_games 0
+    catch { set max_games [sc_base numGames $::batch_annotate::base] }
+    if {$max_games > 0} {
+        set valid {}
+        foreach g $::batch_annotate::game_queue {
+            if {[string is integer -strict $g] && $g > 0 && $g <= $max_games} {
+                lappend valid $g
+            }
+        }
+        set ::batch_annotate::game_queue $valid
+    }
     set num_games [llength $::batch_annotate::game_queue]
     set ::batch_annotate::total_games $num_games
     set ::batch_annotate::games_completed 0
+    set ::batch_annotate::assigned 0
     set ::batch_annotate::unscored_plies 0
 
     set num_engines $instances
@@ -113,7 +131,7 @@ proc ::batch_annotate::start {w} {
     catch {
         set ::batch_annotate::token [::reviewprogress::begin [dict create \
             source annotate engine $::batch_annotate::engine_name \
-            total $num_games]]
+            total $num_games cancel ::batch_annotate::cancel]]
     }
 
     set pw .batchAnnotateProgress
@@ -126,6 +144,7 @@ proc ::batch_annotate::start {w} {
     pack $pw.b -pady 10
 
     if {[catch {::batch_annotate::start_engines $num_engines} err]} {
+        ::batch_annotate::endProgress
         tk_messageBox -message "Error starting engines: $err"
         destroy $pw
         return
@@ -214,6 +233,17 @@ proc ::batch_annotate::start_engines {num_instances} {
     catch {cd $pwd}
 }
 
+# End the pane's job for this batch, if one is live. The board is decoration
+# over the run: cancellation, completion and a failed start all take the same
+# path, so a dead job cannot keep another run's board suppressed.
+proc ::batch_annotate::endProgress {} {
+    if {[info exists ::batch_annotate::token]} {
+        catch { ::reviewprogress::finish $::batch_annotate::token }
+        unset ::batch_annotate::token
+    }
+    return
+}
+
 proc ::batch_annotate::cancel {} {
     variable pipes
     foreach pipe $pipes {
@@ -221,14 +251,7 @@ proc ::batch_annotate::cancel {} {
         catch { close $pipe }
     }
     set pipes {}
-    # The board is decoration over the run: a cancelled batch ends the job and
-    # writes nothing. It is not a second cancel path.
-    catch {
-        if {[info exists ::batch_annotate::token]} {
-            ::reviewprogress::finish $::batch_annotate::token
-            unset ::batch_annotate::token
-        }
-    }
+    ::batch_annotate::endProgress
     if {[winfo exists .batchAnnotateProgress]} {
         destroy .batchAnnotateProgress
     }
@@ -267,12 +290,11 @@ proc ::batch_annotate::assign_game {pipe} {
     }
 
     set pipe_game($pipe) $game_id
-    # The game's place in the run, for the header. The queue has already given
-    # this game up, so what it still holds is the number of games to assign:
-    # total minus that is this one's place, fixed for the life of the pipe even
-    # while other pipes run ahead of it.
-    set pipe_seq($pipe) [expr {$::batch_annotate::total_games \
-        - [llength $::batch_annotate::game_queue] + 1}]
+    # The game's place in the run, fixed for the life of the pipe. Counting the
+    # games actually assigned rather than the queue's position keeps a skipped
+    # selection from shifting every later number.
+    incr ::batch_annotate::assigned
+    set pipe_seq($pipe) $::batch_annotate::assigned
     set pipe_evals($pipe) {}
 
     if {[winfo exists .batchAnnotateProgress]} {
@@ -330,12 +352,7 @@ proc ::batch_annotate::check_completion {} {
     if {$all_done} {
         foreach p $pipes { catch { puts $p "quit"; close $p } }
         set pipes {}
-        catch {
-            if {[info exists ::batch_annotate::token]} {
-                ::reviewprogress::finish $::batch_annotate::token
-                unset ::batch_annotate::token
-            }
-        }
+        ::batch_annotate::endProgress
         if {[winfo exists .batchAnnotateProgress]} { destroy .batchAnnotateProgress }
         tk_messageBox -message [::batch_annotate::completionMessage]
     }
