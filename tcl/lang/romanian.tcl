@@ -2136,6 +2136,16 @@ translate L RtfImportSuccessMulti {%d jocuri importate în baza de date clipboar
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate L ReviewProgressTitle {Review progress}
+translate L ReviewProgressIdle {No review is running}
+translate L ReviewProgressGameOf {game %s of %s}
+translate L ReviewProgressEngineWindow {Engine window %s}
+translate L ReviewProgressAnalysisPane {Analysis pane %s}
+translate L ReviewProgressRapid {Rapid annotate}
+translate L FinishGameGameChanged {jocul s-a schimbat în timp ce rula Finish Game; nu s-a scris nimic}
+translate L FinishGameAtEnd {Finish Game începe de la sfârșitul liniei principale; mergi mai întâi la sfârșitul jocului}
+
 
 ############################################################
 #
@@ -2264,11 +2274,3 @@ set tips(L) {
     Windows poate fi andocat prin verificarea intrării relevante din meniul de opțiuni. Filele pot fi trase și plasate dintr-un blocnotes în altul și așezate făcând clic dreapta pe widgetul file.
   }
 }
-
-# Review progress pane (#422 item 3).
-translate L ReviewProgressTitle {Review progress}
-translate L ReviewProgressIdle {No review is running}
-translate L ReviewProgressGameOf {game %s of %s}
-translate L ReviewProgressEngineWindow {Engine window %s}
-translate L ReviewProgressAnalysisPane {Analysis pane %s}
-translate L ReviewProgressRapid {Rapid annotate}

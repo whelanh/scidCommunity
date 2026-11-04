@@ -2136,6 +2136,16 @@ translate A RtfImportSuccessMulti {%d ゲームがクリップボード デー�
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate A ReviewProgressTitle {Review progress}
+translate A ReviewProgressIdle {No review is running}
+translate A ReviewProgressGameOf {game %s of %s}
+translate A ReviewProgressEngineWindow {Engine window %s}
+translate A ReviewProgressAnalysisPane {Analysis pane %s}
+translate A ReviewProgressRapid {Rapid annotate}
+translate A FinishGameGameChanged {終了ゲームの実行中にゲームが変更されました。何も書かれていなかった}
+translate A FinishGameAtEnd {フィニッシュゲームはメインラインの最後尾から始まります。まずはゲームの最後まで行く}
+
 
 ############################################################
 #
@@ -2264,11 +2274,3 @@ set tips(A) {
     オプション メニューの該当するエントリをチェックすると、Windows をドッキングできます。タブは、あるノートブックから別のノートブックにドラッグ アンド ドロップでき、タブ ウィジェットを右クリックしてレイアウトできます。
   }
 }
-
-# Review progress pane (#422 item 3).
-translate A ReviewProgressTitle {Review progress}
-translate A ReviewProgressIdle {No review is running}
-translate A ReviewProgressGameOf {game %s of %s}
-translate A ReviewProgressEngineWindow {Engine window %s}
-translate A ReviewProgressAnalysisPane {Analysis pane %s}
-translate A ReviewProgressRapid {Rapid annotate}

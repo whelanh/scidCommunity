@@ -2148,6 +2148,16 @@ translate U RtfImportSuccessMulti {%d peliä tuotu leikepöydälle onnistuneesti
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate U ReviewProgressTitle {Review progress}
+translate U ReviewProgressIdle {No review is running}
+translate U ReviewProgressGameOf {game %s of %s}
+translate U ReviewProgressEngineWindow {Engine window %s}
+translate U ReviewProgressAnalysisPane {Analysis pane %s}
+translate U ReviewProgressRapid {Rapid annotate}
+translate U FinishGameGameChanged {peli muuttui Finish Gamen ollessa käynnissä; mitään ei kirjoitettu}
+translate U FinishGameAtEnd {Finish Peli alkaa päälinjan lopusta; mene ensin pelin loppuun}
+
 
 ############################################################
 #
@@ -2276,11 +2286,3 @@ set tips(U) {
     Windows voidaan telakoida tarkistamalla vastaava merkintä asetusvalikosta. Välilehtiä voidaan vetää ja pudottaa yhdestä muistikirjasta toiseen ja asetella napsauttamalla hiiren kakkospainikkeella välilehtiwidgetiä.
   }
 }
-
-# Review progress pane (#422 item 3).
-translate U ReviewProgressTitle {Review progress}
-translate U ReviewProgressIdle {No review is running}
-translate U ReviewProgressGameOf {game %s of %s}
-translate U ReviewProgressEngineWindow {Engine window %s}
-translate U ReviewProgressAnalysisPane {Analysis pane %s}
-translate U ReviewProgressRapid {Rapid annotate}

@@ -2096,6 +2096,16 @@ translate Q RtfImportSuccessMulti {%d ігор успішно імпортова
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate Q ReviewProgressTitle {Review progress}
+translate Q ReviewProgressIdle {No review is running}
+translate Q ReviewProgressGameOf {game %s of %s}
+translate Q ReviewProgressEngineWindow {Engine window %s}
+translate Q ReviewProgressAnalysisPane {Analysis pane %s}
+translate Q ReviewProgressRapid {Rapid annotate}
+translate Q FinishGameGameChanged {гра змінилася під час роботи Finish Game; нічого не писали}
+translate Q FinishGameAtEnd {Фініш Гра починається з кінця основної лінії; йти до кінця гри першим}
+
 
 ############################################################
 #
@@ -2224,11 +2234,3 @@ set tips(Q) {
     Windows можна пристикувати, позначивши відповідний запис у меню параметрів. Вкладки можна перетягувати з одного блокнота в інший і розміщувати, клацнувши правою кнопкою миші віджет вкладки.
   }
 }
-
-# Review progress pane (#422 item 3).
-translate Q ReviewProgressTitle {Review progress}
-translate Q ReviewProgressIdle {No review is running}
-translate Q ReviewProgressGameOf {game %s of %s}
-translate Q ReviewProgressEngineWindow {Engine window %s}
-translate Q ReviewProgressAnalysisPane {Analysis pane %s}
-translate Q ReviewProgressRapid {Rapid annotate}

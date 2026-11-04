@@ -2119,6 +2119,16 @@ translate I RtfImportSuccessMulti {%d giochi importati correttamente nel databas
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate I ReviewProgressTitle {Review progress}
+translate I ReviewProgressIdle {No review is running}
+translate I ReviewProgressGameOf {game %s of %s}
+translate I ReviewProgressEngineWindow {Engine window %s}
+translate I ReviewProgressAnalysisPane {Analysis pane %s}
+translate I ReviewProgressRapid {Rapid annotate}
+translate I FinishGameGameChanged {il gioco è cambiato mentre era in esecuzione Finish Game; non è stato scritto nulla}
+translate I FinishGameAtEnd {Fine Il gioco inizia dalla fine della linea principale; vai prima alla fine del gioco}
+
 
 ############################################################
 #
@@ -2247,11 +2257,3 @@ set tips(I) {
     È possibile agganciare Windows controllando la voce pertinente nel menu delle opzioni. Le schede possono essere trascinate e rilasciate da un taccuino all'altro e disposte facendo clic con il pulsante destro del mouse sul widget della scheda.
   }
 }
-
-# Review progress pane (#422 item 3).
-translate I ReviewProgressTitle {Review progress}
-translate I ReviewProgressIdle {No review is running}
-translate I ReviewProgressGameOf {game %s of %s}
-translate I ReviewProgressEngineWindow {Engine window %s}
-translate I ReviewProgressAnalysisPane {Analysis pane %s}
-translate I ReviewProgressRapid {Rapid annotate}

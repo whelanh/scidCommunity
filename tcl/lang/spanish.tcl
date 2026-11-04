@@ -2170,6 +2170,16 @@ translate S RtfImportSuccessMulti {%d juegos importados correctamente a la base 
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate S ReviewProgressTitle {Review progress}
+translate S ReviewProgressIdle {No review is running}
+translate S ReviewProgressGameOf {game %s of %s}
+translate S ReviewProgressEngineWindow {Engine window %s}
+translate S ReviewProgressAnalysisPane {Analysis pane %s}
+translate S ReviewProgressRapid {Rapid annotate}
+translate S FinishGameGameChanged {el juego cambió mientras se ejecutaba Finalizar juego; no se escribió nada}
+translate S FinishGameAtEnd {Finalizar el juego comienza desde el final de la línea principal; ve primero al final del juego}
+
 
 ############################################################
 #
@@ -2298,11 +2308,3 @@ set tips(S) {
     Windows se puede acoplar marcando la entrada correspondiente en el menú de opciones. Las pestañas se pueden arrastrar y soltar de un cuaderno a otro y diseñar haciendo clic derecho en el widget de pestaña.
   }
 }
-
-# Review progress pane (#422 item 3).
-translate S ReviewProgressTitle {Review progress}
-translate S ReviewProgressIdle {No review is running}
-translate S ReviewProgressGameOf {game %s of %s}
-translate S ReviewProgressEngineWindow {Engine window %s}
-translate S ReviewProgressAnalysisPane {Analysis pane %s}
-translate S ReviewProgressRapid {Rapid annotate}

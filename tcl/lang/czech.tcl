@@ -2117,6 +2117,16 @@ translate C RtfImportSuccessMulti {%d her bylo úspěšně importováno do datab
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate C ReviewProgressTitle {Review progress}
+translate C ReviewProgressIdle {No review is running}
+translate C ReviewProgressGameOf {game %s of %s}
+translate C ReviewProgressEngineWindow {Engine window %s}
+translate C ReviewProgressAnalysisPane {Analysis pane %s}
+translate C ReviewProgressRapid {Rapid annotate}
+translate C FinishGameGameChanged {během běhu Finish Game se hra změnila; nic nebylo napsáno}
+translate C FinishGameAtEnd {Finish Game začíná od konce hlavní řady; jděte nejprve na konec hry}
+
 
 ############################################################
 #
@@ -2245,11 +2255,3 @@ set tips(C) {
     Windows lze ukotvit zaškrtnutím příslušné položky v nabídce možností. Karty lze přetahovat a pouštět z jednoho poznámkového bloku do druhého a rozkládat kliknutím pravým tlačítkem na widget karet.
   }
 }
-
-# Review progress pane (#422 item 3).
-translate C ReviewProgressTitle {Review progress}
-translate C ReviewProgressIdle {No review is running}
-translate C ReviewProgressGameOf {game %s of %s}
-translate C ReviewProgressEngineWindow {Engine window %s}
-translate C ReviewProgressAnalysisPane {Analysis pane %s}
-translate C ReviewProgressRapid {Rapid annotate}

@@ -2099,6 +2099,16 @@ translate T RtfImportSuccessMulti {%d oyun başarıyla pano veritabanına aktar�
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate T ReviewProgressTitle {Review progress}
+translate T ReviewProgressIdle {No review is running}
+translate T ReviewProgressGameOf {game %s of %s}
+translate T ReviewProgressEngineWindow {Engine window %s}
+translate T ReviewProgressAnalysisPane {Analysis pane %s}
+translate T ReviewProgressRapid {Rapid annotate}
+translate T FinishGameGameChanged {Oyunu Bitir çalışırken oyun değişti; hiçbir şey yazılmadı}
+translate T FinishGameAtEnd {Bitiş Oyunu ana çizginin sonundan başlar; ilk önce oyunun sonuna git}
+
 
 ############################################################
 #
@@ -2227,11 +2237,3 @@ set tips(T) {
     Seçenek menüsündeki ilgili giriş kontrol edilerek Windows yerleştirilebilir. Sekmeler bir not defterinden diğerine sürüklenip bırakılabilir ve sekme widget'ına sağ tıklanarak düzenlenebilir.
   }
 }
-
-# Review progress pane (#422 item 3).
-translate T ReviewProgressTitle {Review progress}
-translate T ReviewProgressIdle {No review is running}
-translate T ReviewProgressGameOf {game %s of %s}
-translate T ReviewProgressEngineWindow {Engine window %s}
-translate T ReviewProgressAnalysisPane {Analysis pane %s}
-translate T ReviewProgressRapid {Rapid annotate}

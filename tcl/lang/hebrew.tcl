@@ -2096,6 +2096,16 @@ translate V RtfImportSuccessMulti {%d משחקים יובאו למסד הנתו�
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate V ReviewProgressTitle {Review progress}
+translate V ReviewProgressIdle {No review is running}
+translate V ReviewProgressGameOf {game %s of %s}
+translate V ReviewProgressEngineWindow {Engine window %s}
+translate V ReviewProgressAnalysisPane {Analysis pane %s}
+translate V ReviewProgressRapid {Rapid annotate}
+translate V FinishGameGameChanged {המשחק השתנה בזמן שמשחק סיום רץ; שום דבר לא נכתב}
+translate V FinishGameAtEnd {משחק סיום מתחיל מסוף הקו הראשי; ללכת קודם לסוף המשחק}
+
 
 ############################################################
 #
@@ -2224,11 +2234,3 @@ set tips(V) {
     ניתן לעגן את Windows על ידי סימון הערך הרלוונטי בתפריט האפשרויות. ניתן לגרור ולשחרר כרטיסיות ממחברת אחת לאחרת ולפרוס אותן על ידי לחיצה ימנית על ווידג'ט הכרטיסיות.
   }
 }
-
-# Review progress pane (#422 item 3).
-translate V ReviewProgressTitle {Review progress}
-translate V ReviewProgressIdle {No review is running}
-translate V ReviewProgressGameOf {game %s of %s}
-translate V ReviewProgressEngineWindow {Engine window %s}
-translate V ReviewProgressAnalysisPane {Analysis pane %s}
-translate V ReviewProgressRapid {Rapid annotate}

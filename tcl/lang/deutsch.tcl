@@ -2167,6 +2167,16 @@ translate D RtfImportSuccessMulti {%d Spiele wurden erfolgreich in die Zwischena
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate D ReviewProgressTitle {Review progress}
+translate D ReviewProgressIdle {No review is running}
+translate D ReviewProgressGameOf {game %s of %s}
+translate D ReviewProgressEngineWindow {Engine window %s}
+translate D ReviewProgressAnalysisPane {Analysis pane %s}
+translate D ReviewProgressRapid {Rapid annotate}
+translate D FinishGameGameChanged {das Spiel hat sich geändert, während „Spiel beenden“ lief; nichts wurde geschrieben}
+translate D FinishGameAtEnd {Das Finish-Spiel beginnt am Ende der Hauptlinie. Gehe zuerst bis zum Ende des Spiels}
+
 
 ############################################################
 #
@@ -2295,11 +2305,3 @@ set tips(D) {
     Fenster können angedockt werden, indem der entsprechende Eintrag im Optionsmenü aktiviert wird. Registerkarten können per Drag-and-Drop von einem Notizbuch in ein anderes gezogen und durch Klicken mit der rechten Maustaste auf das Registerkarten-Widget angeordnet werden.
   }
 }
-
-# Review progress pane (#422 item 3).
-translate D ReviewProgressTitle {Review progress}
-translate D ReviewProgressIdle {No review is running}
-translate D ReviewProgressGameOf {game %s of %s}
-translate D ReviewProgressEngineWindow {Engine window %s}
-translate D ReviewProgressAnalysisPane {Analysis pane %s}
-translate D ReviewProgressRapid {Rapid annotate}

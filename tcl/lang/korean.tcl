@@ -2136,6 +2136,16 @@ translate k RtfImportSuccessMulti {%d개의 게임을 클립보드 데이터베�
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate k ReviewProgressTitle {Review progress}
+translate k ReviewProgressIdle {No review is running}
+translate k ReviewProgressGameOf {game %s of %s}
+translate k ReviewProgressEngineWindow {Engine window %s}
+translate k ReviewProgressAnalysisPane {Analysis pane %s}
+translate k ReviewProgressRapid {Rapid annotate}
+translate k FinishGameGameChanged {Finish Game이 실행되는 동안 게임이 변경되었습니다. 아무것도 쓰여있지 않았어}
+translate k FinishGameAtEnd {마무리 게임은 메인 라인 끝에서 시작됩니다. 먼저 게임 끝으로 가세요}
+
 
 ############################################################
 #
@@ -2264,11 +2274,3 @@ set tips(k) {
     옵션 메뉴에서 해당 항목을 확인하여 Windows를 도킹할 수 있습니다. 탭은 한 노트북에서 다른 노트북으로 끌어서 놓을 수 있으며 탭 위젯을 마우스 오른쪽 버튼으로 클릭하여 배치할 수 있습니다.
   }
 }
-
-# Review progress pane (#422 item 3).
-translate k ReviewProgressTitle {Review progress}
-translate k ReviewProgressIdle {No review is running}
-translate k ReviewProgressGameOf {game %s of %s}
-translate k ReviewProgressEngineWindow {Engine window %s}
-translate k ReviewProgressAnalysisPane {Analysis pane %s}
-translate k ReviewProgressRapid {Rapid annotate}

@@ -2119,6 +2119,16 @@ translate R RtfImportSuccessMulti {%d игр успешно импортиров
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate R ReviewProgressTitle {Review progress}
+translate R ReviewProgressIdle {No review is running}
+translate R ReviewProgressGameOf {game %s of %s}
+translate R ReviewProgressEngineWindow {Engine window %s}
+translate R ReviewProgressAnalysisPane {Analysis pane %s}
+translate R ReviewProgressRapid {Rapid annotate}
+translate R FinishGameGameChanged {игра менялась во время работы «Завершить игру»; ничего не было написано}
+translate R FinishGameAtEnd {Финиш Игра начинается с конца основной линии; сначала зайди в конец игры}
+
 
 ############################################################
 #
@@ -2247,11 +2257,3 @@ set tips(R) {
     Windows можно закрепить, отметив соответствующий пункт в меню параметров. Вкладки можно перетаскивать из одного блокнота в другой и размещать их, щелкнув правой кнопкой мыши виджет вкладок.
   }
 }
-
-# Review progress pane (#422 item 3).
-translate R ReviewProgressTitle {Review progress}
-translate R ReviewProgressIdle {No review is running}
-translate R ReviewProgressGameOf {game %s of %s}
-translate R ReviewProgressEngineWindow {Engine window %s}
-translate R ReviewProgressAnalysisPane {Analysis pane %s}
-translate R ReviewProgressRapid {Rapid annotate}

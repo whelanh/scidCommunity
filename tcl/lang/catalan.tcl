@@ -2139,6 +2139,16 @@ translate K RtfImportSuccessMulti {%d jocs importats a la base de dades del port
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate K ReviewProgressTitle {Review progress}
+translate K ReviewProgressIdle {No review is running}
+translate K ReviewProgressGameOf {game %s of %s}
+translate K ReviewProgressEngineWindow {Engine window %s}
+translate K ReviewProgressAnalysisPane {Analysis pane %s}
+translate K ReviewProgressRapid {Rapid annotate}
+translate K FinishGameGameChanged {el joc va canviar mentre s'executava Finalitzar el joc; no s'havia escrit res}
+translate K FinishGameAtEnd {Finalitzar el joc comença des del final de la línia principal; anar primer al final del joc}
+
 
 ############################################################
 #
@@ -2267,11 +2277,3 @@ set tips(K) {
     Windows es pot acoblar marcant l'entrada corresponent al menú d'opcions. Les pestanyes es poden arrossegar i deixar anar d'un quadern a un altre i disposar-les fent clic amb el botó dret al giny de la pestanya.
   }
 }
-
-# Review progress pane (#422 item 3).
-translate K ReviewProgressTitle {Review progress}
-translate K ReviewProgressIdle {No review is running}
-translate K ReviewProgressGameOf {game %s of %s}
-translate K ReviewProgressEngineWindow {Engine window %s}
-translate K ReviewProgressAnalysisPane {Analysis pane %s}
-translate K ReviewProgressRapid {Rapid annotate}

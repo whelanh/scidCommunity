@@ -2136,6 +2136,16 @@ translate g RtfImportSuccessMulti {%d игри са импортирани ус�
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate g ReviewProgressTitle {Review progress}
+translate g ReviewProgressIdle {No review is running}
+translate g ReviewProgressGameOf {game %s of %s}
+translate g ReviewProgressEngineWindow {Engine window %s}
+translate g ReviewProgressAnalysisPane {Analysis pane %s}
+translate g ReviewProgressRapid {Rapid annotate}
+translate g FinishGameGameChanged {играта се промени, докато завърши играта; нищо не беше написано}
+translate g FinishGameAtEnd {Играта Finish започва от края на основната линия; първо отидете до края на играта}
+
 
 ############################################################
 #
@@ -2264,11 +2274,3 @@ set tips(g) {
     Windows може да бъде закачен чрез отметка на съответния запис в менюто с опции. Разделите могат да се плъзгат и пускат от един бележник в друг и да се оформят чрез щракване с десен бутон върху приспособлението за раздели.
   }
 }
-
-# Review progress pane (#422 item 3).
-translate g ReviewProgressTitle {Review progress}
-translate g ReviewProgressIdle {No review is running}
-translate g ReviewProgressGameOf {game %s of %s}
-translate g ReviewProgressEngineWindow {Engine window %s}
-translate g ReviewProgressAnalysisPane {Analysis pane %s}
-translate g ReviewProgressRapid {Rapid annotate}

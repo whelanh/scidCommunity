@@ -2123,6 +2123,16 @@ translate F RtfImportSuccessMulti {%d jeux importés avec succès dans la base d
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate F ReviewProgressTitle {Review progress}
+translate F ReviewProgressIdle {No review is running}
+translate F ReviewProgressGameOf {game %s of %s}
+translate F ReviewProgressEngineWindow {Engine window %s}
+translate F ReviewProgressAnalysisPane {Analysis pane %s}
+translate F ReviewProgressRapid {Rapid annotate}
+translate F FinishGameGameChanged {le jeu a changé pendant l'exécution de Finish Game ; rien n'a été écrit}
+translate F FinishGameAtEnd {Terminer Le jeu commence à la fin de la ligne principale ; va d'abord à la fin du jeu}
+
 
 ############################################################
 #
@@ -2251,11 +2261,3 @@ set tips(F) {
     Windows peut être ancré en cochant l'entrée correspondante dans le menu d'options. Les onglets peuvent être glissés et déposés d'un bloc-notes à un autre et disposés en cliquant avec le bouton droit sur le widget d'onglets.
   }
 }
-
-# Review progress pane (#422 item 3).
-translate F ReviewProgressTitle {Review progress}
-translate F ReviewProgressIdle {No review is running}
-translate F ReviewProgressGameOf {game %s of %s}
-translate F ReviewProgressEngineWindow {Engine window %s}
-translate F ReviewProgressAnalysisPane {Analysis pane %s}
-translate F ReviewProgressRapid {Rapid annotate}

@@ -2095,6 +2095,16 @@ translate h RtfImportSuccessMulti {%d गेम्स को क्लिपब�
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate h ReviewProgressTitle {Review progress}
+translate h ReviewProgressIdle {No review is running}
+translate h ReviewProgressGameOf {game %s of %s}
+translate h ReviewProgressEngineWindow {Engine window %s}
+translate h ReviewProgressAnalysisPane {Analysis pane %s}
+translate h ReviewProgressRapid {Rapid annotate}
+translate h FinishGameGameChanged {फ़िनिश गेम चलने के दौरान गेम बदल गया; कुछ भी नहीं लिखा गया}
+translate h FinishGameAtEnd {फ़िनिश गेम मुख्य पंक्ति के अंत से शुरू होता है; सबसे पहले खेल के अंत तक जाएँ}
+
 
 ############################################################
 #
@@ -2223,11 +2233,3 @@ set tips(h) {
     विकल्प मेनू में संबंधित प्रविष्टि की जाँच करके विंडोज़ को डॉक किया जा सकता है। टैब को एक नोटबुक से दूसरे नोटबुक में खींचा और छोड़ा जा सकता है और टैब विजेट पर राइट क्लिक करके लेआउट किया जा सकता है।
   }
 }
-
-# Review progress pane (#422 item 3).
-translate h ReviewProgressTitle {Review progress}
-translate h ReviewProgressIdle {No review is running}
-translate h ReviewProgressGameOf {game %s of %s}
-translate h ReviewProgressEngineWindow {Engine window %s}
-translate h ReviewProgressAnalysisPane {Analysis pane %s}
-translate h ReviewProgressRapid {Rapid annotate}

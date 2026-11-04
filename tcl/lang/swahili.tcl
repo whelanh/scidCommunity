@@ -2095,6 +2095,16 @@ translate Z RtfImportSuccessMulti {Michezo %d imeingizwa kwenye hifadhidata ya u
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate Z ReviewProgressTitle {Review progress}
+translate Z ReviewProgressIdle {No review is running}
+translate Z ReviewProgressGameOf {game %s of %s}
+translate Z ReviewProgressEngineWindow {Engine window %s}
+translate Z ReviewProgressAnalysisPane {Analysis pane %s}
+translate Z ReviewProgressRapid {Rapid annotate}
+translate Z FinishGameGameChanged {mchezo ulibadilika wakati Finish Game ikiendelea; hakuna kilichoandikwa}
+translate Z FinishGameAtEnd {Kumaliza Mchezo huanza kutoka mwisho wa mstari kuu; kwenda mwisho wa mchezo kwanza}
+
 
 ############################################################
 #
@@ -2223,11 +2233,3 @@ set tips(Z) {
     Windows inaweza kuunganishwa kwa kuangalia ingizo linalofaa kwenye menyu ya chaguo. Vichupo vinaweza kuburutwa na kudondoshwa kutoka daftari moja hadi nyingine na kuwekwa nje kwa kubofya kulia kwenye wijeti ya kichupo.
   }
 }
-
-# Review progress pane (#422 item 3).
-translate Z ReviewProgressTitle {Review progress}
-translate Z ReviewProgressIdle {No review is running}
-translate Z ReviewProgressGameOf {game %s of %s}
-translate Z ReviewProgressEngineWindow {Engine window %s}
-translate Z ReviewProgressAnalysisPane {Analysis pane %s}
-translate Z ReviewProgressRapid {Rapid annotate}

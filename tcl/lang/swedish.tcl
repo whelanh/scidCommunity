@@ -2123,6 +2123,16 @@ translate W RtfImportSuccessMulti {%d spel har importerats till urklippsdatabase
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate W ReviewProgressTitle {Review progress}
+translate W ReviewProgressIdle {No review is running}
+translate W ReviewProgressGameOf {game %s of %s}
+translate W ReviewProgressEngineWindow {Engine window %s}
+translate W ReviewProgressAnalysisPane {Analysis pane %s}
+translate W ReviewProgressRapid {Rapid annotate}
+translate W FinishGameGameChanged {spelet ändrades medan Finish Game kördes; ingenting skrevs}
+translate W FinishGameAtEnd {Avsluta Spelet börjar från slutet av huvudlinjen; gå till slutet av spelet först}
+
 
 ############################################################
 #
@@ -2251,11 +2261,3 @@ set tips(W) {
     Windows kan dockas genom att markera relevant post i alternativmenyn. Flikar kan dras och släppas från en anteckningsbok till en annan och läggas ut genom att högerklicka på flikwidgeten.
   }
 }
-
-# Review progress pane (#422 item 3).
-translate W ReviewProgressTitle {Review progress}
-translate W ReviewProgressIdle {No review is running}
-translate W ReviewProgressGameOf {game %s of %s}
-translate W ReviewProgressEngineWindow {Engine window %s}
-translate W ReviewProgressAnalysisPane {Analysis pane %s}
-translate W ReviewProgressRapid {Rapid annotate}

@@ -2117,6 +2117,16 @@ translate O RtfImportSuccessMulti {%d spill ble importert til utklippstavledatab
 }
 # end of english.tcl
 
+# Review progress pane (#422 item 3).
+translate O ReviewProgressTitle {Review progress}
+translate O ReviewProgressIdle {No review is running}
+translate O ReviewProgressGameOf {game %s of %s}
+translate O ReviewProgressEngineWindow {Engine window %s}
+translate O ReviewProgressAnalysisPane {Analysis pane %s}
+translate O ReviewProgressRapid {Rapid annotate}
+translate O FinishGameGameChanged {spillet endret seg mens Finish Game kjørte; ingenting ble skrevet}
+translate O FinishGameAtEnd {Fullfør Spillet starter fra slutten av hovedlinjen; gå til slutten av spillet først}
+
 
 ############################################################
 #
@@ -2245,11 +2255,3 @@ set tips(O) {
     Windows kan dokkes ved å sjekke den aktuelle oppføringen i alternativmenyen. Faner kan dras og slippes fra en notatbok til en annen og legges ut ved å høyreklikke på fanemodulen.
   }
 }
-
-# Review progress pane (#422 item 3).
-translate O ReviewProgressTitle {Review progress}
-translate O ReviewProgressIdle {No review is running}
-translate O ReviewProgressGameOf {game %s of %s}
-translate O ReviewProgressEngineWindow {Engine window %s}
-translate O ReviewProgressAnalysisPane {Analysis pane %s}
-translate O ReviewProgressRapid {Rapid annotate}
