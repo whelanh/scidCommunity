@@ -95,6 +95,7 @@ proc engine_reply_parseBest {id line} {
     return 1
 }
 proc engine_reply_noStop {id} { return }
+proc engine_reply_closeOnSend {id} { ::engine::close $id }
 
 puts "\na callback that closes the engine"
 
@@ -183,6 +184,49 @@ check "the connection is torn down" [expr {![info exists ::engconn(channel_rp6)]
 # done_ for an engine that is gone is a no-op rather than an array error.
 set rc [catch {::engine::done_ rp6} err]
 checkEq "a done_ for a closed engine is a no-op" $rc 0 $err
+
+puts "\na replacement connection is not the one the reader owns"
+
+newConn rp7 [list apply {{msg} {}}]
+set oldChan $::engconn(channel_rp7)
+lassign [socketPair] newEngine newPeer
+set ::engconn(channel_rp7) $newEngine
+checkEq "a replaced channel is not the one open under the id" \
+    [::engine::open_ rp7 $oldChan] 0
+checkEq "and the id is open on the new channel" \
+    [::engine::open_ rp7 $newEngine] 1
+
+puts "\ndone_ leaves a replacement connection's own handshake alone"
+
+set ::seen ""
+newConn rp8 [list apply {{msg} {
+    set ::seen $msg
+    ::engine::close rp8
+    # The callback reconnects the same id, as a send hook or a one-shot could.
+    lassign [socketPair] e p
+    set ::engconn(channel_rp8) $e
+    set ::engconn(waitReply_rp8) "hello"
+    set ::engconn(sendQueue_rp8) {}
+}}]
+set ::engconn(waitReply_rp8) "NewGame"
+set rc [catch {::engine::done_ rp8} err]
+checkEq "done_ does not raise when the callback reconnects" $rc 0 $err
+checkEq "and the replacement keeps its own handshake" \
+    $::engconn(waitReply_rp8) "hello"
+checkEq "and its queue is untouched" $::engconn(sendQueue_rp8) ""
+
+puts "\na send hook that closes the engine"
+
+set ::seen ""
+newConn rp9 [list apply {{msg} {set ::seen $msg}}]
+set ::engconn(StopGorp9) [list engine_reply_noStop rp9]
+set ::engconn(Gorp9) [list engine_reply_closeOnSend rp9]
+set ::engconn(sendQueue_rp9) [list [list Go {}]]
+set rc [catch {::engine::done_ rp9} err]
+checkEq "done_ does not raise when the Go send closes the engine" $rc 0 $err
+checkEq "and no InfoGo reply is attempted" $::seen ""
+set rc [catch {::engine::reply rp9 {InfoReady {}}} err]
+checkEq "a reply to a closed engine is a no-op" $rc 0 $err
 
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

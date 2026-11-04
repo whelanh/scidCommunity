@@ -430,6 +430,10 @@ proc ::engine::onMessages_ {id channel} {
 
 proc ::engine::done_ {id} {
     if {![::engine::open_ $id]} { return }
+    # The connection this timer belongs to. A callback that closes and
+    # reconnects the same id has replaced it; the replacement is a different
+    # operation, and its waitReply_/queue are not this one's to clear.
+    set channel $::engconn(channel_$id)
     after cancel [list ::engine::done_ $id]
     switch $::engconn(waitReply_$id) {
         "hello" {
@@ -442,7 +446,7 @@ proc ::engine::done_ {id} {
         "SetOptions" { ::engine::replyInfoConfig $id }
         "NewGame" { ::engine::reply $id [list InfoReady ""] }
     }
-    if {![::engine::open_ $id]} { return }
+    if {![::engine::open_ $id $channel]} { return }
     set ::engconn(waitReply_$id) ""
 
     while { [llength $::engconn(sendQueue_$id)] } {
@@ -460,7 +464,7 @@ proc ::engine::done_ {id} {
         if {$msg eq "StopGo"} {
             # The "StopGo" message was already sent in ::engine::send
             ::engine::reply $id [list InfoReady ""]
-            if {![::engine::open_ $id]} { return }
+            if {![::engine::open_ $id $channel]} { return }
             continue
         }
         set ::engconn(waitReply_$id) $msg
@@ -471,8 +475,9 @@ proc ::engine::done_ {id} {
         }
         if {$msg eq "Go"} {
             # Immediately send an InfoGo reply
+            # A send hook is arbitrary code and may have closed the engine.
             ::engine::reply $id [list InfoGo $msgData]
-            if {![::engine::open_ $id]} { return }
+            if {![::engine::open_ $id $channel]} { return }
         }
         break
     }
@@ -480,17 +485,21 @@ proc ::engine::done_ {id} {
 
 # Sends a reply to the local callback and all the remote clients.
 proc ::engine::reply {id msg} {
+    # A reply can arrive after the connection was torn down (a late timer, a
+    # send hook): there is no callback to run and nothing to echo to.
+    if {![info exists ::engconn(callback_$id)]} { return }
+    # The channel this reply belongs to. The callback is user code and a
+    # one-shot connection closes its engine when the answer arrives; a callback
+    # that closes and reconnects the same id has replaced the channel, and the
+    # replacement is a different operation which must not receive this message
+    # or be walked as if it were the old one. destroy_ unsets the channel before
+    # its local reply, so an empty capture is "closed" rather than "any".
+    set channel ""
+    catch { set channel $::engconn(channel_$id) }
     {*}$::engconn(callback_$id) $msg
-    # The callback is user code and a one-shot connection (the threat probe, the
-    # verifier) closes its engine when the answer it was waiting for arrives.
-    # destroy_ has then unset the channel and the client list, so there is
-    # nothing to echo to and reading the list would raise -- after the message
-    # was delivered, which is why the failure surfaced as a background error.
-    if {![info exists ::engconn(channel_$id)]} {
-        return
-    }
+    if {$channel eq "" || ![::engine::open_ $id $channel]} { return }
     foreach netchannel $::engconn(netclients_$id) {
-        chan puts [lindex $netchannel 0] $msg
+        catch { chan puts [lindex $netchannel 0] $msg }
     }
 }
 
