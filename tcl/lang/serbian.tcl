@@ -1327,6 +1327,13 @@ translate Y ReviewMoveButton {Komentar poteza}
 translate Y ReviewMoveButtonTooltip {Označi odigrani potez odavde i upiši ga}
 translate Y ReviewSettings {Podešavanja pregleda}
 translate Y ReviewSettingsTooltip {Configure the review settings}
+translate Y ToolsWhatThreat {Koja je pretnja?}
+translate Y ToolsWhatThreatTooltip {Pitaj motor čemu preti strana na potezu}
+translate Y WhatThreatRunning {Analiza pretnji već traje.}
+translate Y WhatThreatNoEngine {Nijedan motor nije podešen. Izaberi ga u Alatke -> Spisak motora ili prvo otvori prozor motora.}
+translate Y WhatThreatNoPosition {Nema pozicije za pregled.}
+translate Y WhatThreatFailed {Analizu pretnji nije bilo moguće pokrenuti: %s}
+translate Y WhatThreatNothingForcing {%s ovde nema ništa forsirajuće: nijedan potez ne dobija materijal i ne daje šah.}
 translate Y ReviewVarLines {Varijante za upis}
 translate Y ReviewVarCp {Granica varijanti (cp)}
 translate Y ReviewMoveWait {Čekaj dubinu pregleda}

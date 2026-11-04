@@ -889,6 +889,13 @@ translate K ReviewMoveButton {Comentari de la jugada}
 translate K ReviewMoveButtonTooltip {Etiqueta la jugada feta des d'aquí i escriu-la}
 translate K ReviewSettings {Configuració de la revisió}
 translate K ReviewSettingsTooltip {Configure the review settings}
+translate K ToolsWhatThreat {Quina amenaça hi ha?}
+translate K ToolsWhatThreatTooltip {Pregunta al motor què amenaça el bàndol que ha de jugar}
+translate K WhatThreatRunning {Ja hi ha una anàlisi d'amenaces en curs.}
+translate K WhatThreatNoEngine {No hi ha cap motor configurat. Tria'n un a Eines -> Llista de motors, o obre primer una finestra de motor.}
+translate K WhatThreatNoPosition {No hi ha cap posició per mirar.}
+translate K WhatThreatFailed {L'anàlisi d'amenaces no s'ha pogut executar: %s}
+translate K WhatThreatNothingForcing {%s no té res de forçat aquí: cap jugada no guanya material ni fa escac.}
 translate K ReviewVarLines {Variants a escriure}
 translate K ReviewVarCp {Marge de variants (cp)}
 translate K ReviewMoveWait {Espera la profunditat de la revisió}

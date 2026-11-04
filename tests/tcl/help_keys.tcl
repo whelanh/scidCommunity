@@ -67,10 +67,12 @@ proc everyPage {h} {
     }]
 }
 
-# The three controls the engine window now has, and the keys their help pages
-# are named after: the label the button shows is the key, which is what the old
-# GameComment page did too.
-set BUTTON_PAGES {ReviewGameButton ReviewMoveButton ReviewSettings}
+# The controls the engine window now has, and the keys their help pages are
+# named after: the label the button shows is the key, which is what the old
+# GameComment page did too. ToolsWhatThreat is the engine window's third review
+# control and a Tools entry, and its page is named after the label key the
+# menu and the message box title share.
+set BUTTON_PAGES {ReviewGameButton ReviewMoveButton ReviewSettings ToolsWhatThreat}
 
 # The English file has no namespace; the Polish one prefixes every key with
 # "P," so the help viewer can find it for the selected language and fall back
@@ -142,7 +144,7 @@ foreach spec $HELP_FILES {
 # engine.tcl creates, so a page added for a button that is not built fails here.
 puts "\nengine window (tcl/windows/engine.tcl)"
 set engineSrc [readText [file join $root tcl windows engine.tcl]]
-foreach b {gamereview movecomment reviewsettings} {
+foreach b {gamereview movecomment threat reviewsettings} {
     check "engine.tcl builds \$btn.$b" [regexp -- "\\\$btn\\.$b\\M" $engineSrc]
 }
 check "engine.tcl builds no \$btn.gamecomment" \

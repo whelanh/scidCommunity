@@ -863,6 +863,13 @@ translate Z ReviewMoveButton {Maoni ya hatua}
 translate Z ReviewMoveButtonTooltip {Ipe lebo hatua iliyochezwa hapa na iandike}
 translate Z ReviewSettings {Mipangilio ya mapitio}
 translate Z ReviewSettingsTooltip {Configure the review settings}
+translate Z ToolsWhatThreat {Tishio ni nini?}
+translate Z ToolsWhatThreatTooltip {Uliza injini upande unaocheza unatishia nini}
+translate Z WhatThreatRunning {Uchambuzi wa vitisho tayari unaendelea.}
+translate Z WhatThreatNoEngine {Hakuna injini iliyowekwa. Chagua moja katika Zana -> Orodha ya injini, au fungua kwanza dirisha la injini.}
+translate Z WhatThreatNoPosition {Hakuna nafasi ya kuangalia.}
+translate Z WhatThreatFailed {Uchambuzi wa vitisho haukuweza kuendeshwa: %s}
+translate Z WhatThreatNothingForcing {%s hana kitu cha kulazimisha hapa: hakuna hatua inayoshinda nyenzo au kutoa cheki.}
 translate Z ReviewVarLines {Mibadala ya kuandika}
 translate Z ReviewVarCp {Tofauti ya mibadala (cp)}
 translate Z ReviewMoveWait {Subiri kina cha mapitio}

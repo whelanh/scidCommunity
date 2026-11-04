@@ -871,6 +871,13 @@ translate H ReviewMoveButton {Lépésmegjegyzés}
 translate H ReviewMoveButtonTooltip {Az innen játszott lépés értékelése és beírása}
 translate H ReviewSettings {Áttekintés beállításai}
 translate H ReviewSettingsTooltip {Configure the review settings}
+translate H ToolsWhatThreat {Mi fenyeget?}
+translate H ToolsWhatThreatTooltip {Kérdezd meg a motort, mivel fenyeget a soron következő fél}
+translate H WhatThreatRunning {Már fut egy fenyegetés-elemzés.}
+translate H WhatThreatNoEngine {Nincs beállított motor. Válassz egyet az Eszközök -> Motorlista menüben, vagy nyiss előbb egy motorablakot.}
+translate H WhatThreatNoPosition {Nincs mit megvizsgálni.}
+translate H WhatThreatFailed {A fenyegetés-elemzést nem sikerült elindítani: %s}
+translate H WhatThreatNothingForcing {%s-nek itt nincs semmi kényszerítő: egy lépés sem nyer anyagot és nem ad sakkot.}
 translate H ReviewVarLines {Kiírandó változatok}
 translate H ReviewVarCp {Változat-küszöb (cp)}
 translate H ReviewMoveWait {Várás az áttekintés mélységére}

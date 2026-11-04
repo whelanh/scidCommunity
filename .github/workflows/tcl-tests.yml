@@ -64,6 +64,12 @@ jobs:
       - name: Review prose queue
         run: tclsh tests/tcl/review_prose.tcl
 
+      # The threat probe (#422 item 4): one short search on its own connection,
+      # closed in the reply that delivered the move, and the deterministic
+      # answer the probe gives with no model configured.
+      - name: Review threat probe
+        run: tclsh tests/tcl/review_threat.tcl
+
       - name: Review transport
         run: tclsh tests/tcl/review_transport.tcl
 

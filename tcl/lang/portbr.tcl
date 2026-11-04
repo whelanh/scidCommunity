@@ -876,6 +876,13 @@ translate B ReviewMoveButton {Comentário do lance}
 translate B ReviewMoveButtonTooltip {Classifique o lance jogado daqui e escreva-o}
 translate B ReviewSettings {Configurações da análise}
 translate B ReviewSettingsTooltip {Configure the review settings}
+translate B ToolsWhatThreat {Qual é a ameaça?}
+translate B ToolsWhatThreatTooltip {Pergunte ao engine o que o lado a jogar ameaça}
+translate B WhatThreatRunning {Já há uma análise de ameaças em andamento.}
+translate B WhatThreatNoEngine {Nenhum engine está configurado. Escolha um em Ferramentas -> Lista de engines, ou abra antes uma janela de engine.}
+translate B WhatThreatNoPosition {Não há posição para olhar.}
+translate B WhatThreatFailed {A análise de ameaças não pôde ser executada: %s}
+translate B WhatThreatNothingForcing {%s não tem nada forçado aqui: nenhum lance ganha material nem dá xeque.}
 translate B ReviewVarLines {Variantes a escrever}
 translate B ReviewVarCp {Margem das variantes (cp)}
 translate B ReviewMoveWait {Aguardar a profundidade da análise}

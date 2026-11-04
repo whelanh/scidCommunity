@@ -904,6 +904,13 @@ translate k ReviewMoveButton {수 코멘트}
 translate k ReviewMoveButtonTooltip {여기서 둔 수를 평가하고 기록하세요}
 translate k ReviewSettings {검토 설정}
 translate k ReviewSettingsTooltip {Configure the review settings}
+translate k ToolsWhatThreat {위협은 무엇입니까?}
+translate k ToolsWhatThreatTooltip {차례인 쪽이 무엇을 위협하는지 엔진에 묻습니다}
+translate k WhatThreatRunning {위협 분석이 이미 실행 중입니다.}
+translate k WhatThreatNoEngine {설정된 엔진이 없습니다. 도구 -> 엔진 목록에서 선택하거나 먼저 엔진 창을 여십시오.}
+translate k WhatThreatNoPosition {볼 수 있는 국면이 없습니다.}
+translate k WhatThreatFailed {위협 분석을 실행할 수 없습니다: %s}
+translate k WhatThreatNothingForcing {%s에게는 여기서 강제하는 수가 없습니다: 기물을 얻거나 체크를 거는 수가 없습니다.}
 translate k ReviewVarLines {기록할 변화}
 translate k ReviewVarCp {변화 폭 (cp)}
 translate k ReviewMoveWait {검토 깊이를 기다림}

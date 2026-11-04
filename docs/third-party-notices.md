@@ -37,6 +37,14 @@ project:
 | `tcl/tools/review_report.tcl` | the report figures and the phase split; **`mixedness` and `_mixedScore` are ported verbatim** from `11_cr_classify.tcl` |
 | `tcl/tools/review_coach.tcl` | `15_cr_llm.tcl` and `17_cr_facts.tcl` (the game-level facts, the phase facts and the prompt texts) |
 | `tcl/tools/comment_facts.tcl` | `17_cr_facts.tcl` |
+| `tcl/tools/review_threat.tcl` | the threat probe: `review-coach-prototype` (5556eb44), itself from `15_cr_llm.tcl` |
+
+`review_threat.tcl` is a port, not a copy: the prototype branch is a design
+reference and is not a merge candidate (#404), so the probe was re-derived
+against this tree's own `::facts` vocabulary, `::engineNoWin` and the reply
+guard from #423. The one-shot shape - open, one `Go`, close in the reply - is
+the prototype's, and the provenance is recorded here because the shape is what
+was taken.
 
 `mixedness` is the one verbatim copy: `::reviewreport::mixedness` and
 `::reviewreport::_mixedScore` reproduce `::crclass::mixedness` and

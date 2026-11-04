@@ -874,6 +874,13 @@ translate W ReviewMoveButton {Dragkommentar}
 translate W ReviewMoveButtonTooltip {Etikettera draget som spelades härifrån och skriv in det}
 translate W ReviewSettings {Inställningar för granskning}
 translate W ReviewSettingsTooltip {Configure the review settings}
+translate W ToolsWhatThreat {Vad hotar?}
+translate W ToolsWhatThreatTooltip {Fråga motorn vad sidan i draget hotar}
+translate W WhatThreatRunning {En hotanalys pågår redan.}
+translate W WhatThreatNoEngine {Ingen motor är inställd. Välj en i Verktyg -> Motorlista, eller öppna först ett motorfönster.}
+translate W WhatThreatNoPosition {Det finns ingen ställning att titta på.}
+translate W WhatThreatFailed {Hotanalysen kunde inte köras: %s}
+translate W WhatThreatNothingForcing {%s har inget tvingande här: inget drag vinner material eller ger schack.}
 translate W ReviewVarLines {Varianter att skriva}
 translate W ReviewVarCp {Variantmarginal (cp)}
 translate W ReviewMoveWait {Vänta på granskningsdjupet}

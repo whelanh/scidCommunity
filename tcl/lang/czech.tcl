@@ -868,6 +868,13 @@ translate C ReviewMoveButton {Komentář k tahu}
 translate C ReviewMoveButtonTooltip {Ohodnoť zahraný tah odsud a zapiš ho}
 translate C ReviewSettings {Nastavení prohlídky}
 translate C ReviewSettingsTooltip {Configure the review settings}
+translate C ToolsWhatThreat {Co hrozí?}
+translate C ToolsWhatThreatTooltip {Zeptej se enginu, čím hrozí strana na tahu}
+translate C WhatThreatRunning {Analýza hrozeb už běží.}
+translate C WhatThreatNoEngine {Není nastaven žádný engine. Vyberte jej v Nástroje -> Seznam enginů, nebo nejprve otevřete okno enginu.}
+translate C WhatThreatNoPosition {Není žádná pozice k prohlédnutí.}
+translate C WhatThreatFailed {Analýzu hrozeb se nepodařilo spustit: %s}
+translate C WhatThreatNothingForcing {%s zde nemá nic vynucujícího: žádný tah nezíská materiál ani nedá šach.}
 translate C ReviewVarLines {Varianty k zápisu}
 translate C ReviewVarCp {Mez variant (cp)}
 translate C ReviewMoveWait {Čekat na hloubku prohlídky}

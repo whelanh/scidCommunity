@@ -895,6 +895,13 @@ translate G ReviewMoveButton {Σχόλιο κίνησης}
 translate G ReviewMoveButtonTooltip {Χαρακτήρισε την κίνηση από εδώ και γράψε την}
 translate G ReviewSettings {Ρυθμίσεις ελέγχου}
 translate G ReviewSettingsTooltip {Configure the review settings}
+translate G ToolsWhatThreat {Ποια είναι η απειλή;}
+translate G ToolsWhatThreatTooltip {Ρώτησε τη μηχανή τι απειλεί το μέρος που παίζει}
+translate G WhatThreatRunning {Μια ανάλυση απειλών εκτελείται ήδη.}
+translate G WhatThreatNoEngine {Δεν έχει ρυθμιστεί μηχανή. Διάλεξε μία στα Εργαλεία -> Λίστα μηχανών ή άνοιξε πρώτα ένα παράθυρο μηχανής.}
+translate G WhatThreatNoPosition {Δεν υπάρχει θέση για εξέταση.}
+translate G WhatThreatFailed {Η ανάλυση απειλών δεν μπόρεσε να ξεκινήσει: %s}
+translate G WhatThreatNothingForcing {Το %s δεν έχει τίποτα εξαναγκαστικό εδώ: καμία κίνηση δεν κερδίζει υλικό ούτε δίνει σαχ.}
 translate G ReviewVarLines {Παραλλαγές προς εγγραφή}
 translate G ReviewVarCp {Περιθώριο παραλλαγών (cp)}
 translate G ReviewMoveWait {Αναμονή για το βάθος ελέγχου}

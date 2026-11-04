@@ -874,6 +874,13 @@ translate I ReviewMoveButton {Commento della mossa}
 translate I ReviewMoveButtonTooltip {Giudica la mossa giocata da qui e scrivila}
 translate I ReviewSettings {Impostazioni della revisione}
 translate I ReviewSettingsTooltip {Configure the review settings}
+translate I ToolsWhatThreat {Qual è la minaccia?}
+translate I ToolsWhatThreatTooltip {Chiedi al motore che cosa minaccia il lato al tratto}
+translate I WhatThreatRunning {Un'analisi delle minacce è già in corso.}
+translate I WhatThreatNoEngine {Nessun motore è configurato. Scegline uno in Strumenti -> Elenco motori, oppure apri prima una finestra del motore.}
+translate I WhatThreatNoPosition {Non c'è nessuna posizione da guardare.}
+translate I WhatThreatFailed {L'analisi delle minacce non è potuta partire: %s}
+translate I WhatThreatNothingForcing {%s non ha nulla di forzante qui: nessuna mossa guadagna materiale o dà scacco.}
 translate I ReviewVarLines {Varianti da scrivere}
 translate I ReviewVarCp {Soglia delle varianti (cp)}
 translate I ReviewMoveWait {Attendi la profondità della revisione}

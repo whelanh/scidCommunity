@@ -864,6 +864,13 @@ translate V ReviewMoveButton {הערת מסע}
 translate V ReviewMoveButtonTooltip {תן תווית למסע ששוחק מכאן וכתוב אותו}
 translate V ReviewSettings {הגדרות הסקירה}
 translate V ReviewSettingsTooltip {Configure the review settings}
+translate V ToolsWhatThreat {מה האיום?}
+translate V ToolsWhatThreatTooltip {שאל את המנוע ממה מאיים הצד שבתורו}
+translate V WhatThreatRunning {ניתוח איומים כבר פועל.}
+translate V WhatThreatNoEngine {לא הוגדר מנוע. בחר אחד בכלים -> רשימת מנועים, או פתח תחילה חלון מנוע.}
+translate V WhatThreatNoPosition {אין עמדה להסתכל עליה.}
+translate V WhatThreatFailed {לא ניתן היה להריץ את ניתוח האיומים: %s}
+translate V WhatThreatNothingForcing {ל%s אין כאן שום דבר מאלץ: אף מהלך לא מרוויח חומר ולא נותן שח.}
 translate V ReviewVarLines {וריאציות לכתיבה}
 translate V ReviewVarCp {מרווח וריאציות (cp)}
 translate V ReviewMoveWait {המתן לעומק הסקירה}

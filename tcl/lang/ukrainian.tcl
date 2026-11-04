@@ -864,6 +864,13 @@ translate Q ReviewMoveButton {Коментар до ходу}
 translate Q ReviewMoveButtonTooltip {Оціни зроблений хід і запиши його}
 translate Q ReviewSettings {Налаштування огляду}
 translate Q ReviewSettingsTooltip {Configure the review settings}
+translate Q ToolsWhatThreat {У чому загроза?}
+translate Q ToolsWhatThreatTooltip {Запитати двигун, чим загрожує сторона, яка робить хід}
+translate Q WhatThreatRunning {Аналіз загроз уже виконується.}
+translate Q WhatThreatNoEngine {Двигун не налаштовано. Виберіть його в Інструменти -> Список двигунів або спершу відкрийте вікно двигуна.}
+translate Q WhatThreatNoPosition {Немає позиції для перегляду.}
+translate Q WhatThreatFailed {Не вдалося запустити аналіз загроз: %s}
+translate Q WhatThreatNothingForcing {У %s немає нічого форсуючого: жоден хід не виграє матеріал і не дає шаху.}
 translate Q ReviewVarLines {Варіанти для запису}
 translate Q ReviewVarCp {Поріг варіантів (cp)}
 translate Q ReviewMoveWait {Чекати глибину огляду}

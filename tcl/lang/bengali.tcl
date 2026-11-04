@@ -863,6 +863,13 @@ translate b ReviewMoveButton {চালের মন্তব্য}
 translate b ReviewMoveButtonTooltip {এখান থেকে খেলা চালটি লেবেল করুন ও লিখুন}
 translate b ReviewSettings {পর্যালোচনার সেটিংস}
 translate b ReviewSettingsTooltip {Configure the review settings}
+translate b ToolsWhatThreat {হুমকি কী?}
+translate b ToolsWhatThreatTooltip {ইঞ্জিনকে জিজ্ঞাসা করুন চালের পালা যে পক্ষ, সে কী হুমকি দিচ্ছে}
+translate b WhatThreatRunning {হুমকি বিশ্লেষণ ইতিমধ্যে চলছে।}
+translate b WhatThreatNoEngine {কোনো ইঞ্জিন কনফিগার করা নেই। সরঞ্জাম -> ইঞ্জিন তালিকা থেকে একটি বেছে নিন, অথবা আগে একটি ইঞ্জিন উইন্ডো খুলুন।}
+translate b WhatThreatNoPosition {দেখার মতো কোনো অবস্থান নেই।}
+translate b WhatThreatFailed {হুমকি বিশ্লেষণ চালানো যায়নি: %s}
+translate b WhatThreatNothingForcing {%s-এর এখানে বাধ্যকর কিছু নেই: কোনো চাল দ্রব্য জেতে না বা চেক দেয় না।}
 translate b ReviewVarLines {যে ভ্যারিয়েশনগুলো লিখতে হবে}
 translate b ReviewVarCp {ভ্যারিয়েশনের ব্যবধান (cp)}
 translate b ReviewMoveWait {পর্যালোচনার গভীরতার জন্য অপেক্ষা করুন}

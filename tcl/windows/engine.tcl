@@ -1462,6 +1462,17 @@ proc ::enginewin::reviewGame {id} {
     if {$started} { catch { ::reviewprogress::ui::open } }
 }
 
+# What's the threat? uses this window's preset, so the answer comes from the
+# engine the reader is looking at. With no engine selected, the probe falls back
+# to the first configured preset and says what it needs.
+proc ::enginewin::threat {id} {
+    set name ""
+    catch { set name $::enginewin_lastengine($id) }
+    set cfg ""
+    if {$name ne ""} { catch { set cfg [::enginecfg::get $name] } }
+    ::reviewthreat::ask $cfg
+}
+
 # Move Comment: the move the reader is on, and only that move.
 #
 # Two positions, the one before the move and the one after it, because a verdict

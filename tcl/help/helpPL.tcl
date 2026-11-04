@@ -268,6 +268,7 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   
   <h3>W</h3>
   <ul>
+  <li><a ToolsWhatThreat><b>Co grozi?</b></a> (przycisk okna silnika i menu Narzędzia)</li>
   <li><a Cmdline>Opcje wiersza poleceń</a></li>
   <li><a Graphs>Okna wykresów</a></li>
   <li><a Graphs Filter>Wykres filtra</a></li>
@@ -2679,6 +2680,57 @@ set helpText(P,ReviewSettings) {<h1>Okno silnika: Ustawienia analizy</h1>
   
   <p><footer>(Updated: scidCommunity, October 2026)</footer></p>
 }
+####################
+### Co grozi? -- sonda silnika:
+
+set helpTitle(P,ToolsWhatThreat) "Co grozi?"
+set helpText(P,ToolsWhatThreat) {<h1>Okno silnika: Co grozi?</h1>
+  <p>
+  <b>Co grozi?</b> pyta silnik, czym grozi strona na posunięciu w pozycji na
+  szachownicy, i odpowiada w jednym komunikacie. To przycisk
+  <button tb_review_threat> w oknie <a Engine>silnika</a> oraz pozycja
+  <menu>Co grozi?</menu> w menu <a Menus Tools>Narzędzia</a>.
+  </p>
+
+  <h3>Wyszukiwanie</h3>
+  <p>
+  Sonda otwiera własne połączenie z silnikiem, prosi o najlepsze posunięcie z
+  <b>MultiPV 1</b> i zamyka połączenie, gdy tylko posunięcie przyjdzie. Nie
+  pożycza silnika okna analizy i nie przeszkadza w trwającej
+  <a ReviewGameButton>Analizie partii</a>: wyszukiwanie jest krótkie, na
+  głębokości 14, w limicie czasu analizy. Ustawienie, które nie jest silnikiem
+  UCI, jest odrzucane, bo silnik XBoard nigdy nie odpowie na uzgodnienie
+  protokołu.
+  </p>
+
+  <h3>Odpowiedź</h3>
+  <p>
+  Odpowiedź pochodzi z pozycji, nie z modelu. Posunięcie silnika jest podane
+  w notacji SAN i opisane słowami, a fakty, które je wyjaśniają - szach, mat
+  albo to, co posunięcie wygrywa lub atakuje - to te same fakty, z których
+  powstaje <a ReviewMoveButton>Komentarz do posunięcia</a>. Ciche najlepsze
+  posunięcie nie jest nazywane groźbą: odpowiedź mówi, że strona na posunięciu
+  nie ma bezpośredniej groźby, i podaje najlepsze posunięcie.
+  </p>
+  <p>
+  Gdy model jest skonfigurowany, nad tymi faktami powstaje jedno zdanie
+  komentarza trenera i jest pokazywane po nich. Fakty zostają w obu przypadkach,
+  a bez modelu są całą odpowiedzią: brak dostawcy jest obsługiwanym stanem, nie
+  błędem.
+  </p>
+
+  <h3>Czego sonda nie robi</h3>
+  <p>
+  Sonda nic nie zapisuje w partii: żadnego komentarza, żadnego NAG-a, żadnego
+  wariantu. Czyta szachownicę i pokazuje komunikat. Posunięcie, którego
+  szachownica nie przyjmuje - silnik odpowiedział ruchem nielegalnym w tej
+  pozycji - jest zgłaszane jako błąd, a nie zamieniane na fakty z pozycji, której
+  silnik nie miał na myśli.
+  </p>
+
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
+}
+
 
 ####################
 ### Batch AI annotation help:
@@ -3605,6 +3657,9 @@ set helpText(P,Engine) {<h1>Okna silnika</h1>
     wybrane posunięcie i nic więcej.</li>
   <li><a ReviewSettings><b>Ustawienia analizy</b></a>: Głębokość analizy,
     liczba wariantów oraz głębokość, na którą czeka komentarz do posunięcia.</li>
+  <li><a ToolsWhatThreat><b>Co grozi?</b></a>: Pyta silnik, czym grozi strona
+    na posunięciu. Jedno krótkie wyszukiwanie na własnym połączeniu; nic nie
+    zapisuje w partii.</li>
   </ul>
 
   <h3>Sterowanie</h3>

@@ -870,6 +870,13 @@ translate R ReviewMoveButton {Комментарий к ходу}
 translate R ReviewMoveButtonTooltip {Оцени сделанный ход и запиши его}
 translate R ReviewSettings {Настройки разбора}
 translate R ReviewSettingsTooltip {Configure the review settings}
+translate R ToolsWhatThreat {В чём угроза?}
+translate R ToolsWhatThreatTooltip {Спросить движок, чем угрожает сторона, которая делает ход}
+translate R WhatThreatRunning {Анализ угроз уже идёт.}
+translate R WhatThreatNoEngine {Движок не настроен. Выберите его в Инструменты -> Список движков или сначала откройте окно движка.}
+translate R WhatThreatNoPosition {Нет позиции для просмотра.}
+translate R WhatThreatFailed {Не удалось запустить анализ угроз: %s}
+translate R WhatThreatNothingForcing {У %s нет ничего форсирующего: ни один ход не выигрывает материал и не даёт шах.}
 translate R ReviewVarLines {Варианты для записи}
 translate R ReviewVarCp {Порог вариантов (cp)}
 translate R ReviewMoveWait {Ждать глубину разбора}
