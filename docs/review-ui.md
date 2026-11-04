@@ -268,7 +268,8 @@ the button stops it.
   the coach starts, `::reviewprogress::setProse` publishes its queue, and the
   second bar and its line (`annotating 31 of 31 · prose 3 of 9`) say that the
   model, not the search, is what is still running. The coach row is hidden for a
-  run with no model behind it.
+  run with no model behind it. Autoscan's rapid job ends with its last answer or
+  its commit, not at the next game.
 - **Hidden is not paused.** The job is published whether or not the tab is
   selected, and `<Map>` redraws from the current position, so a reader who comes
   back sees where the run is now. The board is built at an explicit `psize`,
@@ -288,7 +289,8 @@ the button stops it.
   (`· game 4 of 4`), recomposed from the fields the run began with as each game is
   assigned, so it is still a stored field rather than a lookup at draw time;
   `pipe_seq` counts the games actually handed to a pipe, so a skipped selection
-  cannot shift the numbers. The
+  cannot shift the numbers, and a game requeued after an engine died keeps the
+  number it already had. The
   board always shows the position the engine is searching — the driver's own
   `position` string replayed on a pure `::chessboard`, never the reader's game —
   so none of these runs can walk the main board.
@@ -304,8 +306,10 @@ Game and the classic Analysis window's both run this one pass
 
 The pass also keeps the old Finish Game's rules. It counts repetitions on the
 pure board, seeded from the game's own history, and stops when a position occurs
-for the third time; the result is written as a draw after the commit. It records
-the game it started on — base, number and final position — and refuses to write
+for the third time; the result is written as a draw after the commit. It starts
+only at the end of the main line - a midgame cursor or a variation is refused,
+because the commit appends there - and applies Chess960 castling on the pure
+board. It records the game it started on — base, number and final position — and refuses to write
 when the reader has opened or edited a different game meanwhile, rather than
 appending the continuation to whatever is current. And the classic pane's toggle
 is left Off when the pass ends, including a pass whose engines could not start,
