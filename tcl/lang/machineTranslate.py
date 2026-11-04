@@ -1,5 +1,14 @@
 """
 Translation Script for TODO-marked lines
+
+Format specifiers (%s, %d, %.1f, %%, and the flags/width Tcl accepts) are
+protected around the model call: a translation that loses one produces a
+format string that raises, or prints the wrong thing, at runtime. If the
+service drops or rewrites a token, the prose between the specifiers is
+translated in pieces instead, so a placeholder cannot be lost. Check the
+guard without a network request with:
+
+    python3 machineTranslate.py --selftest
 ...
 Supported Language Encodings:
 ==================================================
@@ -216,6 +225,125 @@ def safe_translate(session, text, src='en', dest='es', max_retries=3):
 
     return None
 
+# Tcl format specifiers: %s, %d, %.1f, %%, %02d, %u, %b, %x, positional forms,
+# and the flags/width/precision Tcl accepts. A translation that loses one of
+# these produces a format string that raises (or silently prints the wrong
+# thing), so they are protected around the model call.
+PLACEHOLDER_RE = re.compile(
+    r'%(?:%|(?:\d+\$)?[-+ 0#]*(?:\d+|\*)?(?:\.\d+)?(?:hh|h|ll|l|L)?[bcdiouxXeEfFgGs])'
+)
+PLACEHOLDER_SPLIT_RE = re.compile('(' + PLACEHOLDER_RE.pattern + ')')
+PLACEHOLDER_TOKEN = '[[[PH{}]]]'
+PLACEHOLDER_TOKEN_RE = re.compile(r'\[\[\[\s*PH\s*(\d+)\s*\]\]\]', re.IGNORECASE)
+
+
+def mask_placeholders(text):
+    """Return (text with placeholders replaced by tokens, original specifiers)."""
+    specs = []
+
+    def replace(match):
+        specs.append(match.group(0))
+        return PLACEHOLDER_TOKEN.format(len(specs) - 1)
+
+    return PLACEHOLDER_RE.sub(replace, text), specs
+
+
+def restore_placeholders(text, specs):
+    """Put the original specifiers back. None when a token was lost or changed."""
+    seen = {}
+
+    def replace(match):
+        index = int(match.group(1))
+        if index < 0 or index >= len(specs):
+            return match.group(0)
+        seen[index] = seen.get(index, 0) + 1
+        return specs[index]
+
+    out = PLACEHOLDER_TOKEN_RE.sub(replace, text)
+    if len(seen) != len(specs) or any(count != 1 for count in seen.values()):
+        return None
+    if PLACEHOLDER_TOKEN_RE.search(out):
+        # An out-of-range token survived; do not leave the marker in the file.
+        return None
+    return out
+
+
+def translate_segments(session, text, src, dest):
+    """Translate the prose between placeholders and join the originals back in.
+
+    This is the fallback when the service drops or rewrites a token. It costs
+    one request per segment, but a placeholder cannot be lost.
+    """
+    parts = PLACEHOLDER_SPLIT_RE.split(text)
+    out = []
+    for index, part in enumerate(parts):
+        if index % 2:
+            out.append(part)
+        elif part:
+            translated = safe_translate(session, part, src=src, dest=dest)
+            if translated is None:
+                return None
+            out.append(translated)
+        else:
+            out.append(part)
+    return ''.join(out)
+
+
+def translate_preserving(session, text, src='en', dest='es'):
+    """Translate one entry without losing its format specifiers.
+
+    The whole string is translated once with tokens in place, which keeps the
+    grammar around the placeholders. If a token does not come back exactly
+    once, the text between the placeholders is translated in pieces instead.
+    """
+    if not text or not text.strip():
+        return text
+    masked, specs = mask_placeholders(text)
+    if not specs:
+        return safe_translate(session, text, src=src, dest=dest)
+    translated = safe_translate(session, masked, src=src, dest=dest)
+    if translated is not None:
+        restored = restore_placeholders(translated, specs)
+        if restored is not None:
+            return restored
+    return translate_segments(session, text, src=src, dest=dest)
+
+
+def selftest():
+    """Check the guard without a network call: identity and token-dropping."""
+    class Identity:
+        def translate(self, text, src='auto', dest='en'):
+            return text
+
+    class DropsTokens(Identity):
+        def translate(self, text, src='auto', dest='en'):
+            return re.sub(r'\[\[\[\s*PH\s*\d+\s*\]\]\]', '', text)
+
+    cases = [
+        'Engine window %s',
+        'game %s of %s',
+        'Reviewing position %s of %s',
+        '%s: %s%% accuracy, ACPL %d, estimated Elo %d',
+        '100%% done',
+        '%02d items',
+        'no placeholders',
+    ]
+    failures = 0
+    for session in (Identity(), DropsTokens()):
+        for text in cases:
+            got = translate_preserving(session, text)
+            want = PLACEHOLDER_RE.findall(text)
+            have = PLACEHOLDER_RE.findall(got) if got else []
+            if got is None or have != want:
+                print(f"FAIL {type(session).__name__}: {text!r} -> {got!r}")
+                failures += 1
+    if failures:
+        print(f"{failures} placeholder guard failures")
+        return 1
+    print(f"placeholder guard: {len(cases) * 2} cases ok")
+    return 0
+
+
 def process_all_files(script_dir):
     """
     Process all language files in the current directory.
@@ -335,26 +463,26 @@ def process_file(input_file, target_language, encoding, return_stats=False):
 
                         if match_full:
                             print(f"Translating Line {i+2} (menuText full, {len(entry_lines)} lines)...")
-                            text1_tr = safe_translate(session, match_full.group(2), src='en', dest=target_language)
-                            text2_tr = safe_translate(session, match_full.group(4), src='en', dest=target_language)
+                            text1_tr = translate_preserving(session, match_full.group(2), src='en', dest=target_language)
+                            text2_tr = translate_preserving(session, match_full.group(4), src='en', dest=target_language)
                             if text1_tr is not None and text2_tr is not None:
                                 translated_lines = f'{match_full.group(1)}"{text1_tr}"{match_full.group(3)}{{{text2_tr}}}{match_full.group(5)}'
 
                         elif match_quotes:
                             print(f"Translating Line {i+2} (menuText quotes)...")
-                            text1_tr = safe_translate(session, match_quotes.group(2), src='en', dest=target_language)
+                            text1_tr = translate_preserving(session, match_quotes.group(2), src='en', dest=target_language)
                             if text1_tr is not None:
                                 translated_lines = f'{match_quotes.group(1)}"{text1_tr}"{match_quotes.group(3)}\n'
 
                         elif match_trans_braces:
                             print(f"Translating Line {i+2} (translate braces, {len(entry_lines)} lines)...")
-                            text_tr = safe_translate(session, match_trans_braces.group(2), src='en', dest=target_language)
+                            text_tr = translate_preserving(session, match_trans_braces.group(2), src='en', dest=target_language)
                             if text_tr is not None:
                                 translated_lines = f'{match_trans_braces.group(1)}{{{text_tr}}}{match_trans_braces.group(3)}'
 
                         elif match_trans_quotes:
                             print(f"Translating Line {i+2} (translate quotes)...")
-                            text_tr = safe_translate(session, match_trans_quotes.group(2), src='en', dest=target_language)
+                            text_tr = translate_preserving(session, match_trans_quotes.group(2), src='en', dest=target_language)
                             if text_tr is not None:
                                 translated_lines = f'{match_trans_quotes.group(1)}"{text_tr}"{match_trans_quotes.group(3)}\n'
 
@@ -414,6 +542,9 @@ Examples:
   
   Process all language files:
     python3 machineTranslate.py --all
+
+  Check the placeholder guard offline:
+    python3 machineTranslate.py --selftest
         """)
     
     parser.add_argument('filename', nargs='?', help='Input file to process (not needed with --all)')
@@ -423,8 +554,13 @@ Examples:
                        help='File encoding to force')
     parser.add_argument('--all', action='store_true',
                        help='Process all language files in the current directory')
+    parser.add_argument('--selftest', action='store_true',
+                       help='Check the placeholder guard without a network call')
 
     args = parser.parse_args()
+
+    if args.selftest:
+        sys.exit(selftest())
 
     print(f"googletrans {googletrans.__version__} - {'async' if _IS_ASYNC else 'sync'} mode")
 
