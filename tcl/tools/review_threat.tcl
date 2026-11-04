@@ -223,8 +223,25 @@ proc ::reviewthreat::stripOwn {comment} {
 # or the reason nothing was written.
 proc ::reviewthreat::write {ply fen block} {
     set cursor ""
-    catch { set cursor [::review::cursorSave] }
     set out ""
+    # Already on the move the answer is about - the press itself, in the common
+    # case: write in place. Nothing walks the game, and this is the only path
+    # that can write a move inside a variation, because `sc_move ply` walks the
+    # main line and nothing else.
+    set here ""
+    catch { set here [sc_pos location] }
+    set hereFen ""
+    catch { set hereFen [sc_pos fen] }
+    if {$here eq $ply && ($fen eq "" || $hereFen eq $fen)} {
+        if {[catch {
+            set old [::reviewthreat::stripOwn [sc_pos getComment]]
+            sc_pos setComment [string trim "$old\n\n$block"]
+        } err]} {
+            return $err
+        }
+        return ""
+    }
+    catch { set cursor [::review::cursorSave] }
     # No `return` inside the catch body: Tcl turns it into TCL_RETURN, catch
     # reports a failure, and the write that succeeded would be reported as one
     # that did not.
@@ -243,11 +260,12 @@ proc ::reviewthreat::write {ply fen block} {
     }
     # The board goes back where it was found, whatever happened above. A restore
     # checks the FEN it saved, so a move list that changed under us is refused
-    # rather than mis-restored.
+    # rather than mis-restored. 0 is "left on the base ply", a position the caller
+    # knows; -1 is the one that has to be reported.
     if {$cursor ne ""} {
         set back 1
         catch { set back [::review::cursorRestore $cursor] }
-        if {$out eq "" && !$back} {
+        if {$out eq "" && $back < 0} {
             set out "the board could not be put back where it was"
         }
     }
