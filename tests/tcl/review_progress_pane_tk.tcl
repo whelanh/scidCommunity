@@ -163,6 +163,14 @@ check "it is in the notebook's tab list" \
 check "the tab is titled from the translated key" \
     [expr {[.pw.nb tab $win -text] eq {Review progress}}]
 
+# A pane that saves but cannot be restored is a silent layout loss. The saved
+# layout is a tree of paned windows and notebooks naming their tabs; the restore
+# path rebuilds each named window through ::docking::create_window, which is the
+# arm asserted above.
+set tree [::docking::layout_save_pw .pw]
+check "the saved layout names the pane" \
+    [expr {[string first $win $tree] >= 0}] "saved '$tree'"
+
 puts "== the board is sized without a measured width, and is read-only =="
 
 check "the path handed to ::board::new did not exist yet" \
