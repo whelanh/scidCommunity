@@ -157,6 +157,12 @@ proc ::reviewdriver::closeConn {id channel} {
         return
     }
     catch { ::engine::close $id }
+    # The connection is free, and this is the one point where the old one is
+    # known to be gone: a verification queued behind it can start now. A queued
+    # search would otherwise wait for an event that has already been and gone.
+    if {[llength [info commands ::reviewverify::advance]]} {
+        catch { ::reviewverify::advance }
+    }
 }
 
 # The engine messages for a pass.

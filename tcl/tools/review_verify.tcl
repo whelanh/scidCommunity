@@ -46,6 +46,14 @@ namespace eval ::reviewverify {
     variable GAP ""
     # The search in flight: the token ::reviewdriver::start answered, or "".
     variable token ""
+    # Searches waiting for that one connection, oldest first: {cfg jobs mpv lim
+    # onDone id}. The batch annotator can finish a second game while the first
+    # game's second opinion is still running, and the driver has one connection
+    # (id 20) - so the later search waits its turn instead of being skipped, and
+    # instead of taking the connection from the search in flight.
+    variable queue {}
+    # Names for queued searches, so a caller that cancels one can name it.
+    variable seq 0
     # The token of the job being answered, so the callback that closes it can
     # clear the module's own state even though ::reviewdriver::finish has already
     # forgotten the job.
@@ -153,7 +161,8 @@ proc ::reviewverify::corrections {jobs vres} {
 # handshake) - the caller writes the review itself in that case. Never raises: a
 # verifier that cannot start is a skipped verification.
 proc ::reviewverify::start {enginecfg jobs mpv lim onDone} {
-    variable token
+    variable queue
+    variable seq
     if {![llength $jobs]} { return "" }
     if {[llength $enginecfg] < 8} { return "" }
     if {[lindex $enginecfg 0] eq ""} { return "" }
@@ -161,6 +170,25 @@ proc ::reviewverify::start {enginecfg jobs mpv lim onDone} {
     # never answer the handshake and the write would wait forever.
     if {[lindex $enginecfg 7] eq "" || [lindex $enginecfg 7] eq 0} { return "" }
     if {![string is integer -strict $mpv] || $mpv < 2} { set mpv 2 }
+    # The driver has one connection and one queue on it. A caller that arrives
+    # while it is busy waits its turn: the batch annotator finishing a second
+    # game before the first game's second opinion has answered must not take the
+    # connection from the search in flight, and must not be skipped either - the
+    # card that made this a shared seam exists because the batch has to get it.
+    if {[::reviewdriver::busy $::reviewdriver::ENGINE_ID]} {
+        incr seq
+        set id "verifyq$seq"
+        lappend queue [list $enginecfg $jobs $mpv $lim $onDone $id]
+        return $id
+    }
+    return [::reviewverify::begin $enginecfg $jobs $mpv $lim $onDone]
+}
+
+# Start one search on the driver's connection. The caller has already decided
+# that there is something to search and that the connection is free; this is the
+# part that talks to the driver, and the one place a queued search enters too.
+proc ::reviewverify::begin {enginecfg jobs mpv lim onDone} {
+    variable token
     set positions {}
     foreach job $jobs {
         lappend positions [list [lindex $job 1] [lindex $job 2]]
@@ -181,6 +209,26 @@ proc ::reviewverify::start {enginecfg jobs mpv lim onDone} {
     return $started
 }
 
+# The next queued search, once the connection is free. Queued from the answer
+# (the driver's close is already queued ahead of it, so the connection is gone by
+# the time this runs) and from a cancel.
+proc ::reviewverify::advance {} {
+    variable queue
+    variable token
+    if {![llength $queue]} { return }
+    if {$token ne ""} { return }
+    if {[::reviewdriver::busy $::reviewdriver::ENGINE_ID]} { return }
+    set item [lindex $queue 0]
+    set queue [lrange $queue 1 end]
+    lassign $item enginecfg jobs mpv lim onDone id
+    if {[::reviewverify::begin $enginecfg $jobs $mpv $lim $onDone] eq ""} {
+        # It cannot start after all. The caller's write still has to happen,
+        # with no corrections, exactly as a verifier that never opened.
+        catch { {*}$onDone [dict create] }
+    }
+    return
+}
+
 # The queue finished (or the engine was lost): work out the corrections and hand
 # them back. Runs inside the engine's reply, so nothing here closes the engine -
 # ::reviewdriver::finish has already queued that.
@@ -191,6 +239,9 @@ proc ::reviewverify::answer {jobs onDone vres} {
     set token ""
     set corrections [::reviewverify::corrections $jobs $vres]
     if {$onDone ne ""} { catch { {*}$onDone $corrections } }
+    # The next caller waiting for this one connection goes now: the driver
+    # queued the close before this callback ran, so the connection is free.
+    after idle ::reviewverify::advance
     return $corrections
 }
 
@@ -205,8 +256,24 @@ proc ::reviewverify::active {} {
 # writes nothing.
 proc ::reviewverify::stop {} {
     variable token
+    variable queue
     set was $token
+    # A queued search is cancelled by taking it out of the queue; the search in
+    # flight by stopping the driver's job. Whatever else is queued stays: it
+    # belongs to another caller's write, which would otherwise never happen.
+    if {[string match "verifyq*" $was]} {
+        set kept {}
+        set dropped 0
+        foreach item $queue {
+            if {!$dropped && [lindex $item 5] eq $was} { set dropped 1 ; continue }
+            lappend kept $item
+        }
+        set queue $kept
+        return $dropped
+    }
     set token ""
     if {$was ne ""} { catch { ::reviewdriver::stop $was 0 } }
+    # The connection is free now (or will be once the driver's close runs).
+    if {$was ne ""} { after idle ::reviewverify::advance }
     return [expr {$was ne ""}]
 }

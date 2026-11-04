@@ -293,5 +293,49 @@ checkEq "with the withdrawal handed to the writer" $::wroteCorr [dict create 2 b
 rename ::reviewdriver::verdicts {}
 rename ::reviewdriver_verdicts_real_ ::reviewdriver::verdicts
 
+##############################################################################
+puts "\ntwo callers take turns on the one connection"
+
+# The batch annotator finishes a second game while the first game's second
+# opinion is still running; both want connection 20. The later search waits its
+# turn rather than being skipped (which would write a label nobody verified) or
+# taking the connection from the search in flight.
+reset
+set ::review::S [::review::reset]
+# Nothing from the sections above is left in flight: the connection is free and
+# this module has no search and nothing queued.
+::reviewverify::stop
+set ::reviewverify::token ""
+set ::reviewverify::queue {}
+while {[::reviewdriver::busy $::reviewdriver::ENGINE_ID]} { pump }
+proc ::enginecfg::get {name} { return $::verifierCfg }
+rename ::reviewdriver::verdicts ::reviewdriver_verdicts_real_
+proc ::reviewdriver::verdicts {map results} { return [dict create 2 {brilliant 0 1}] }
+set p [dict create map $::map plan {1 2 3 4} plies 4 bookEnd 0 mpv 3 \
+    verifier Komodo limits [dict create depth 20]]
+set ::writes {}
+proc seamWrite {results corrections} { lappend ::writes $corrections }
+set first [::reviewdriver::verifyWrite $p $::results [list seamWrite]]
+checkEq "the first caller searches" $first 1
+set second [::reviewdriver::verifyWrite $p $::results [list seamWrite]]
+check "the second caller is queued, not refused" \
+    [expr {$second eq "1" && [llength $::reviewverify::queue] == 1}]
+checkEq "and has written nothing yet" $::writes {}
+feed InfoConfig {MultiPV 2}
+feed InfoPV {1 20 30 900 400 0 0 120 30 cp 0 g1f3 e7e5}
+feed InfoBestMove {}
+checkEq "the first search answers and writes once" [llength $::writes] 1
+checkEq "with its withdrawal" [lindex $::writes 0] [dict create 2 best]
+pump
+feed InfoConfig {MultiPV 2}
+checkEq "the waiting search runs on the same connection and position" \
+    [lindex $::sent end] {send 20 Go {{position startpos moves e2e4} {{depth 20}}}}
+feed InfoPV {1 20 30 900 400 0 0 120 30 cp 0 e7e5 g1f3}
+feed InfoBestMove {}
+checkEq "the second search writes its own result" [llength $::writes] 2
+checkEq "with no correction, because it agreed" [lindex $::writes 1] {}
+rename ::reviewdriver::verdicts {}
+rename ::reviewdriver_verdicts_real_ ::reviewdriver::verdicts
+
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]
