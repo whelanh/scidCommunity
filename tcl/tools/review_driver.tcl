@@ -110,6 +110,12 @@ proc ::reviewdriver::stop {token {restore 1}} {
         set p $pass
         set pass {}
         dict set state state cancelled
+        # A cancelled run is over too: the pane must not freeze on the last
+        # position of a pass that no longer exists.
+        if {[dict exists $p progressToken] \
+                && [llength [info commands ::reviewprogress::finish]]} {
+            catch { ::reviewprogress::finish [dict get $p progressToken] }
+        }
         if {$restore} { ::reviewdriver::restoreRun $p }
         ::reviewdriver::runDoneHook $p
     }
@@ -785,6 +791,12 @@ proc ::reviewdriver::proseProgress {done total args} {
     if {![dict size $pass]} { return }
     dict set state coachDone $done
     dict set state coachTotal $total
+    # The pane's second measure: the search bar is full by now, and the prose
+    # bar is what says the model is still working.
+    if {[dict exists $pass progressToken] \
+            && [llength [info commands ::reviewprogress::setProse]]} {
+        catch { ::reviewprogress::setProse [dict get $pass progressToken] $done $total }
+    }
     set cmd [dict get $pass progress]
     if {$cmd ne ""} { catch { {*}$cmd $done $total } }
     return

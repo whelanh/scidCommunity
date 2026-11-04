@@ -127,7 +127,8 @@ proc ::rapid_annotate::publishProgress {id} {
         set win ""
         catch { set win [string trimleft $id .engineWin] }
         set token [::reviewprogress::begin [dict create source rapid \
-            engine $engine origin [list enginewin $win]]]
+            engine $engine origin [list enginewin $win] \
+            cancel [list ::enginewin::stop $id]]]
     }
     set fen ""
     catch { set fen [sc_pos fen] }

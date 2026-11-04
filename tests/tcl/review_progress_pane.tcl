@@ -212,6 +212,24 @@ checkEq "and the bar's counts with it" \
 ::reviewprogress::finish $t2
 checkEq "and the startpos job ends cleanly" [::reviewprogress::job] {}
 
+puts "== the coach's queue is a second measure =="
+
+set ctoken [::reviewprogress::begin [dict create source review engine E \
+    cancel ::reviewdriver::cancel]]
+::reviewprogress::setSpec $ctoken {position startpos moves e2e4} 1 10
+checkEq "the search count is recorded" [dict get [::reviewprogress::job] done] 1
+checkEq "the run's cancel is a field" \
+    [dict get [::reviewprogress::job] cancel] ::reviewdriver::cancel
+::reviewprogress::setProse $ctoken 3 9
+set cjob [::reviewprogress::job]
+checkEq "the prose count is recorded" [dict get $cjob coachDone] 3
+checkEq "with its total" [dict get $cjob coachTotal] 9
+checkEq "and the search count is not replaced" [dict get $cjob total] 10
+checkEq "a late prose count for another run is ignored" \
+    [::reviewprogress::setProse other 1 2] 0
+::reviewprogress::finish $ctoken
+checkEq "and the run ends cleanly" [::reviewprogress::job] {}
+
 puts "== the progress bar's fraction comes from the driver's counts =="
 
 # ::reviewui::passFraction is the one progress source (#422): the dialog draws a

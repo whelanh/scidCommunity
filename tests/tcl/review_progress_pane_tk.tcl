@@ -47,6 +47,7 @@ array set ::EN {
     ReviewProgressEngineWindow {Engine window %s}
     ReviewProgressAnalysisPane {Analysis pane %s}
     ReviewProgressRapid        {Rapid annotate}
+    ReviewCoachProgress        {annotating %s of %s · prose %s of %s}
     ReviewGameButton           {Game Review}
     ReviewMoveButton           {Move Comment}
     Annotate                   {Annotate}
@@ -61,6 +62,13 @@ namespace eval ::icon {}
 namespace eval ::utils::tooltip {}
 namespace eval ::board {}
 namespace eval ::reviewui {}
+proc ::reviewui::passFraction {done total} {
+    if {![string is integer -strict $total] || $total < 1} { return "" }
+    if {![string is integer -strict $done]} { return "" }
+    if {$done < 0} { set done 0 }
+    if {$done > $total} { set done $total }
+    return [format %.4f [expr {double($done) / double($total)}]]
+}
 namespace eval ::reviewdriver {}
 proc ::utils::tooltip::Set args {}
 foreach f {font_Small font_SmallBold} { set ::$f TkDefaultFont }
@@ -99,7 +107,13 @@ source [file join $root tcl utils chessboard.tcl]
 source [file join $root tcl tools review_progress.tcl]
 source [file join $root tcl tools review_progress_ui.tcl]
 # passFraction lives with the other review UI decisions; only it is needed here.
-proc ::reviewui::passFraction {done total} { return 0 }
+proc ::reviewui::passFraction {done total} {
+    if {![string is integer -strict $total] || $total < 1} { return "" }
+    if {![string is integer -strict $done]} { return "" }
+    if {$done < 0} { set done 0 }
+    if {$done > $total} { set done $total }
+    return [format %.4f [expr {double($done) / double($total)}]]
+}
 proc ::reviewdriver::cancel {} { set ::cancelled 1 }
 
 proc settle {} { update idletasks ; update }
@@ -216,6 +230,16 @@ check "the redraw is animated off" [expr {$::board::animate($canvas) == 0}]
 checkEq "the progress line counts the position" \
     [$win.progress cget -text] {Reviewing position 12 of 40}
 
+puts "== the coach's prose is a second measure =="
+
+::reviewprogress::setProse $token 3 9
+settle
+check "the coach's line is shown" [expr {[grid info $win.coach] ne ""}]
+checkEq "it names both measures" [$win.coach cget -text] \
+    {annotating 12 of 40 · prose 3 of 9}
+check "and its own bar has its own fraction" \
+    [expr {abs([$win.coachbar cget -value] - (3.0 / 9.0)) < 0.001}]
+
 puts "== a hidden tab does not mean a paused run =="
 
 # A docked pane is hidden by not being the selected tab, not by wm withdraw.
@@ -279,11 +303,13 @@ checkEq "the rebuilt board shows the run as it stands" \
 settle
 checkEq "a finished run leaves the pane idle" \
     [$win.progress cget -text] {No review is running}
+check "and hides the coach's measure" [expr {[grid info $win.coach] eq ""}]
+check "and disables Cancel" [expr {[$win.cancel cget -state] eq "disabled"}]
 
 puts "== Cancel asks the run to stop =="
 
 ::reviewprogress::begin [dict create source review engine {Stockfish Deep} \
-    origin {enginewin 1}]
+    origin {enginewin 1} cancel ::reviewdriver::cancel]
 settle
 $win.cancel invoke
 settle

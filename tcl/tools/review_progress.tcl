@@ -201,13 +201,35 @@ proc ::reviewprogress::begin {fields} {
     set total ""
     catch { set game [dict get $fields game] }
     catch { set total [dict get $fields total] }
+    # The run's own stop, for the pane's Cancel. It is a field like the header:
+    # the pane serves every run, and only the owner of a run may stop it.
+    set cancel ""
+    catch { set cancel [dict get $fields cancel] }
     set job [dict create token $token \
         header [::reviewprogress::header $fields] \
         source [expr {[dict exists $fields source] ? [dict get $fields source] : ""}] \
-        fields $fields \
-        board "" fen "" ply "" done "" total "" game $game totalGames $total]
+        fields $fields cancel $cancel \
+        board "" fen "" ply "" done "" total "" game $game totalGames $total \
+        coachDone "" coachTotal ""]
     ::reviewprogress::paint
     return $token
+}
+
+# The coach's queue, after the search. Its counts are a second measure rather
+# than a replacement: the search bar is full by then, and the prose bar says how
+# much of the model work is left. A late reply for a run the pane has moved on
+# from is ignored, like every other feed.
+proc ::reviewprogress::setProse {token done total} {
+    variable job
+    if {![dict size $job] || [dict get $job token] ne $token} { return 0 }
+    if {![string is integer -strict $done] || ![string is integer -strict $total]} {
+        return 0
+    }
+    if {$total < 1} { return 0 }
+    dict set job coachDone $done
+    dict set job coachTotal $total
+    ::reviewprogress::paint
+    return 1
 }
 
 proc ::reviewprogress::job {} {

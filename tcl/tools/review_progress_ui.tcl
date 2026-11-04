@@ -71,14 +71,23 @@ proc ::reviewprogress::ui::build {} {
     # inventing a percentage.
     ttk::progressbar $win.bar -mode determinate -maximum 1 -value 0
 
-    ttk::button $win.cancel -text [tr Cancel] \
+    # The coach's own measure (#422). The search bar is full by the time the
+    # model starts, so prose needs a bar of its own; it is hidden until a run
+    # reports prose counts, because most runs have no model behind them.
+    ttk::label $win.coach -text "" -anchor w -font font_Small
+    ttk::progressbar $win.coachbar -mode determinate -maximum 1 -value 0
+
+    ttk::button $win.cancel -text [tr Cancel] -state disabled \
         -command ::reviewprogress::ui::cancel
 
     grid $win.header -row 0 -column 0 -sticky we -padx 8 -pady {8 4}
     grid $board -row 1 -column 0 -sticky news -padx 8
     grid $win.progress -row 2 -column 0 -sticky we -padx 8 -pady {6 0}
     grid $win.bar -row 3 -column 0 -sticky we -padx 8 -pady {2 8}
-    grid $win.cancel -row 4 -column 0 -sticky e -padx 8 -pady {0 8}
+    grid $win.coach -row 4 -column 0 -sticky we -padx 8 -pady {6 0}
+    grid $win.coachbar -row 5 -column 0 -sticky we -padx 8 -pady {2 8}
+    grid $win.cancel -row 6 -column 0 -sticky e -padx 8 -pady {0 8}
+    grid remove $win.coach $win.coachbar
     # The board takes the space: a pane that does not grow with the dock is a
     # board the reader cannot see.
     grid rowconfigure $win 1 -weight 1
@@ -126,6 +135,11 @@ proc ::reviewprogress::ui::idle {} {
     if {![::reviewprogress::ui::exists]} { return }
     catch { $win.header configure -text [tr ReviewProgressTitle] }
     catch { $win.progress configure -text [tr ReviewProgressIdle] }
+    catch { $win.bar configure -value 0 }
+    catch { $win.coach configure -text "" }
+    catch { $win.coachbar configure -value 0 }
+    catch { grid remove $win.coach $win.coachbar }
+    catch { $win.cancel configure -state disabled }
     set boardString ""
     catch { set boardString [::reviewprogress::positionToBoard [sc_pos fen]] }
     if {$boardString ne ""} {
@@ -147,6 +161,10 @@ proc ::reviewprogress::ui::draw {job} {
     variable win
     variable board
     if {![::reviewprogress::ui::exists]} { return }
+    # A finished run leaves no job. The painter is called with it, so this is
+    # where the pane falls back to saying so rather than freezing on the last
+    # position of a pass that is over.
+    if {![dict size $job]} { ::reviewprogress::ui::idle ; return }
     set header ""
     catch { set header [dict get $job header] }
     if {$header eq ""} { set header [::reviewprogress::ui::title] }
@@ -162,6 +180,39 @@ proc ::reviewprogress::ui::draw {job} {
     catch { set fraction [::reviewui::passFraction $done $total] }
     if {$fraction eq ""} { set fraction 0 }
     catch { $win.bar configure -value $fraction }
+
+    # The coach's queue, when this run has one. Its line names both measures,
+    # exactly as the engine window's status line does, so the pane and the
+    # corner cannot disagree.
+    set coachDone ""
+    set coachTotal ""
+    catch { set coachDone [dict get $job coachDone] }
+    catch { set coachTotal [dict get $job coachTotal] }
+    if {$coachDone ne "" && [string is integer -strict $coachTotal] \
+            && $coachTotal >= 1} {
+        set searchDone $done
+        if {$searchDone eq ""} { set searchDone 0 }
+        set searchTotal $total
+        if {$searchTotal eq ""} { set searchTotal 0 }
+        catch { $win.coach configure -text [format [tr ReviewCoachProgress] \
+            $searchDone $searchTotal $coachDone $coachTotal] }
+        set coachFraction ""
+        catch { set coachFraction [::reviewui::passFraction $coachDone $coachTotal] }
+        if {$coachFraction eq ""} { set coachFraction 0 }
+        catch { $win.coachbar configure -value $coachFraction }
+        catch { grid $win.coach -row 4 -column 0 -sticky we -padx 8 -pady {6 0} }
+        catch { grid $win.coachbar -row 5 -column 0 -sticky we -padx 8 -pady {2 8} }
+    } else {
+        catch { grid remove $win.coach $win.coachbar }
+    }
+
+    # The pane serves every run, so Cancel belongs to the run that owns the
+    # board, not to the review driver: a batch, Rapid Annotate or Finish Game
+    # has its own stop.
+    set cancel ""
+    catch { set cancel [dict get $job cancel] }
+    catch { $win.cancel configure -state [expr {$cancel eq "" ? "disabled" : "normal"}] }
+
     set boardString ""
     catch { set boardString [dict get $job board] }
     if {$boardString ne ""} {
@@ -186,7 +237,10 @@ proc ::reviewprogress::ui::redraw {} {
 # The run's Cancel, not the pane's. Closing the tab leaves the run alone; this
 # button is the one the reader means when they say stop.
 proc ::reviewprogress::ui::cancel {} {
-    catch { ::reviewdriver::cancel }
+    set job [::reviewprogress::job]
+    set cancel ""
+    catch { set cancel [dict get $job cancel] }
+    if {$cancel ne ""} { catch { {*}$cancel } }
     ::reviewprogress::ui::redraw
     return
 }

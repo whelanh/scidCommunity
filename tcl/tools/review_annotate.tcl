@@ -1014,7 +1014,7 @@ proc ::reviewannotate::headerFields {plan} {
     catch { set pane $::annotatePane }
     catch { if {[dict exists $plan pane]} { set pane [dict get $plan pane] } }
     set fields [dict create source annotate engine $engine \
-        origin [list analysispane $pane]]
+        origin [list analysispane $pane] cancel ::reviewdriver::cancel]
     if {[dict size $run]} {
         set games [dict get $run games]
         if {[llength $games] > 1} {

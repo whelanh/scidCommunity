@@ -913,7 +913,8 @@ proc ::enginewin::reviewRunState {id {plies ""} {depth ""} {source review}} {
         # popup draws, so a header can never name an engine the reader has since
         # switched the window to.
         dict set state header [dict create source $source engine $name \
-            origin [list enginewin [string trimleft $id .engineWin]]]
+            origin [list enginewin [string trimleft $id .engineWin]] \
+            cancel ::reviewdriver::cancel]
     }
     catch {
         dict set state game [dict get [::review::mainLineMap [sc_game UCI_mainLine]] plies]
@@ -1026,7 +1027,11 @@ proc ::enginewin::reviewGame {id} {
     set w [::enginewin::reviewWindow $id]
     if {![winfo exists $w.btn.gamereview]} { return }
     if {[catch { set map [::review::mainLineMap [sc_game UCI_mainLine]] }]} { return }
-    ::enginewin::reviewStart $id [::enginewin::reviewRunState $id]
+    # A review is long enough that its progress belongs on screen without the
+    # reader hunting for a menu. Open the pane on a successful start; a refused
+    # start (no engine, no game) leaves the layout alone.
+    set started [::enginewin::reviewStart $id [::enginewin::reviewRunState $id]]
+    if {$started} { catch { ::reviewprogress::ui::open } }
 }
 
 # Move Comment: the move the reader is on, and only that move.
