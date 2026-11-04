@@ -105,6 +105,7 @@ set ::fens {
     {rnb1kbnr/pppp1ppp/8/4p3/6Pq/5P2/PPPPP2P/RNBQKBNR w KQkq - 1 3}
 }
 set ::idx 0
+set ::cursorPly 0
 set ::replyIdx 0
 set ::played {}
 set ::reply move
@@ -122,12 +123,15 @@ proc sc_pos {args} {
         side       { return white }
         isCheck    { return $::inCheck }
         isAt       { return [expr {$::idx > 0}] }
+        location   { return $::cursorPly }
     }
     return ""
 }
+proc sc_base {args} { return 0 }
 proc sc_game {args} {
     switch -- [lindex $args 0] {
         variant { return 0 }
+        number  { return 7 }
         tags    { lappend ::results [lindex $args 3] ; return "" }
         info    { return "" }
     }
@@ -160,6 +164,8 @@ proc ::addMoveUCI {move} {
 
 proc resetGame {} {
     set ::idx 0
+    set ::cursorPly 0
+    set ::replyIdx 0
     set ::gos 0
     set ::stopAtGo 0
     set ::played {}
@@ -331,10 +337,39 @@ set first [lindex $::jobs 0]
 check "the progress job was begun" [expr {[dict size $first] > 0}]
 checkEq "the job carries the window's number as its origin" \
     [dict get $first fields] \
-    {source finish engine {White Engine / Black Engine} origin {enginewin 3}}
+    {source finish engine {White Engine / Black Engine} origin {enginewin 3} cancel ::finishgame::stop}
 check "no widget path reaches the header" \
     [expr {[string first .engineWin [dict get $first header]] < 0}]
 ::reviewprogress::setPainter {}
+
+puts "\na repetition ends the pass and is recorded as a draw"
+
+resetGame
+set ::moves {g1f3 g8f6 f3g1 f6g8 g1f3 g8f6 f3g1 f6g8}
+::finishgame::start 1 "W" "B"
+checkEq "the repeating move was still written once" [llength $::played] 8
+checkEq "the result is a draw" [lindex $::results 0] "1/2-1/2"
+checkEq "and no error was reported" $::boxes {}
+
+puts "\nthe commit belongs to the game the pass started with"
+
+resetGame
+set saved $::finishgame::identity
+set ::finishgame::identity [dict create base 0 number 99 fen X]
+check "a changed game is refused before anything is written" \
+    [expr {[::finishgame::commit end] ne ""}]
+checkEq "and nothing was written" $::played {}
+set ::finishgame::identity $saved
+
+puts "\nthe pane's Finish Game leaves its toggle off"
+
+resetGame
+set ::moves {f2f3 e7e5 g2g4 d8h4}
+set ::analysis(name1) "W"
+set ::finishGameMode 1
+::finishgame::startPane 1
+checkEq "the pane pass leaves the toggle off" $::finishGameMode 0
+checkEq "and the pass is over" $::finishgame::active 0
 
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

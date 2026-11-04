@@ -2156,3 +2156,4 @@ translate E ReviewProgressGameOf {game %s of %s}
 translate E ReviewProgressEngineWindow {Engine window %s}
 translate E ReviewProgressAnalysisPane {Analysis pane %s}
 translate E ReviewProgressRapid {Rapid annotate}
+translate E FinishGameGameChanged {the game changed while Finish Game was running; nothing was written}

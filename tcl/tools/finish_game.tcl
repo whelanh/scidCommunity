@@ -33,6 +33,9 @@ namespace eval ::finishgame {
     # for an engine window. Both are the same pass; only the button that shows
     # it is different.
     variable pane ""
+    # The game the pass belongs to, captured when it starts: a long pass must
+    # not write its continuation into a game the reader opened meanwhile.
+    variable identity ""
 }
 
 ::options.store ::finishgame::whiteEngine ""
@@ -87,6 +90,53 @@ proc ::finishgame::limits {side} {
         depth $depth movetime [expr {$seconds * 1000}]]]
 }
 
+# The game this pass belongs to, for the commit check. The number alone is 0
+# for a new game, so the final position is what tells two unsaved games apart;
+# for a database game the base and number are already unique. Read at the start
+# and again at the commit, and compare: a game opened or edited meanwhile is not
+# this pass's to write.
+proc ::finishgame::gameIdentity {} {
+    set base 0
+    set number 0
+    catch { set base [sc_base current] }
+    catch { set number [sc_game number] }
+    set fen ""
+    set cursor ""
+    catch { set cursor [::review::cursorSave] }
+    if {[catch { sc_move end ; set fen [sc_pos fen] }]} { set fen "" }
+    if {$cursor ne ""} { catch { ::review::cursorRestore $cursor } }
+    return [dict create base $base number $number fen $fen]
+}
+
+# The part of a FEN two positions must share to be the same position for the
+# repetition rule: placement, side to move, castling rights and en passant.
+proc ::finishgame::positionKey {fen} {
+    return [join [lrange [split $fen] 0 3] " "]
+}
+
+# The positions the game has already reached up to the cursor. The pass plays on
+# a pure board, but a repetition can include the history before it started, so
+# the seed comes from the game, once, and the cursor is put back.
+proc ::finishgame::gameRepetitions {} {
+    set reps [dict create]
+    set cursor ""
+    catch { set cursor [::review::cursorSave] }
+    set end 0
+    catch { set end [sc_pos location] }
+    if {[catch {
+        sc_move ply 0
+        set p 0
+        while {1} {
+            dict incr reps [::finishgame::positionKey [sc_pos fen]]
+            if {$p >= $end} { break }
+            if {[catch { sc_move forward }]} { break }
+            incr p
+        }
+    }]} {}
+    if {$cursor ne ""} { catch { ::review::cursorRestore $cursor } }
+    return $reps
+}
+
 # Open the two engines and play until the game ends or the user cancels.
 # `ownerId` is the engine window that asked, so the pass can put its button
 # back; it is not otherwise special.
@@ -118,7 +168,9 @@ proc ::finishgame::start {ownerId white black} {
     set engineName $white
     if {$black ne $white} { set engineName "$white / $black" }
     set ::finishgame::token [::reviewprogress::begin [dict create \
-        source finish engine $engineName origin [list enginewin $ownerId]]]
+        source finish engine $engineName origin [list enginewin $ownerId] \
+        cancel ::finishgame::stop]]
+    set ::finishgame::identity [::finishgame::gameIdentity]
     # The old pass's flag: it suppresses the repetition notices addMoveUCI
     # would otherwise pop up, and marks the game as being played by an engine.
     set ::finishgame::oldMode 0
@@ -159,6 +211,12 @@ proc ::finishgame::startPane {n} {
             [list ::finishgame::message $::finishgame::BlackId]
     } err]} {
         ::finishgame::closeEngines
+        # The caller has already turned the pane's toggle On; a pass that never
+        # starts has to put it back, or the button needs two presses.
+        catch { set ::finishGameMode 0 }
+        catch {
+            .analysisWin$n.b1.bFinishGame configure -image ::icon::tb_finish_off
+        }
         catch {
             tk_messageBox -title "scidCommunity: [tr FinishGame]" -type ok \
                 -icon warning -message $err
@@ -173,9 +231,13 @@ proc ::finishgame::startPane {n} {
     set ::finishgame::signal ""
     set ::finishgame::waitId ""
     set ::finishgame::token [::reviewprogress::begin [dict create \
-        source finish engine $name origin [list analysispane $n]]]
+        source finish engine $name origin [list analysispane $n] \
+        cancel ::finishgame::stop]]
+    set ::finishgame::identity [::finishgame::gameIdentity]
+    # The pane's toggle is already On when this is called, so the state to put
+    # back after the pass is Off. Reading the live flag here made done_ restore
+    # On while turning the button Off, and the next press only cleared it.
     set ::finishgame::oldMode 0
-    catch { set ::finishgame::oldMode [expr {$::finishGameMode ? 1 : 0}] }
     set ::finishGameMode 1
     set variant 0
     catch { set variant [sc_game variant] }
@@ -210,9 +272,18 @@ proc ::finishgame::play {} {
         return
     }
     set token $::finishgame::token
+    # The game's own history, then the collected moves: a repetition that
+    # includes positions from before this pass is still a repetition.
+    set reps [::finishgame::gameRepetitions]
     while {1} {
         if {!$::finishgame::active || $::finishgame::cancel} {
             set reason cancel
+            break
+        }
+        # The game may already be at its third occurrence before this pass makes
+        # a move; the old autoplay stopped on that and so does this one.
+        if {[dict get $reps [::finishgame::positionKey $fen]] >= 3} {
+            set reason repetition
             break
         }
         # The position is terminal when the side to move has no legal move. The
@@ -293,6 +364,14 @@ proc ::finishgame::play {} {
         lappend ::finishgame::collected $move
         set pos $next
         set fen [::chessboard::toFen $pos]
+        set key [::finishgame::positionKey $fen]
+        dict incr reps $key
+        if {[dict get $reps $key] >= 3} {
+            # Threefold: the old pass checked the game before every move and
+            # stopped here; the collect phase has to count the pure positions.
+            set reason repetition
+            break
+        }
     }
     # The one write of the pass, and the last thing the collect phase leads to.
     set wrote [::finishgame::commit $reason]
@@ -313,6 +392,14 @@ proc ::finishgame::commit {reason} {
     set moves $::finishgame::collected
     set note $::finishgame::note
     if {[string equal $reason cancel]} { return "" }
+    # A pass can run for hours and the reader may open another game meanwhile.
+    # The cursor save inside commitMoves describes a position, not a game, so
+    # the game's identity is checked here, before anything is written.
+    if {$::finishgame::identity ne ""} {
+        if {[::finishgame::gameIdentity] ne $::finishgame::identity} {
+            return [tr FinishGameGameChanged]
+        }
+    }
     return [::reviewprogress::commitMoves "" $moves $note]
 }
 
@@ -320,18 +407,8 @@ proc ::finishgame::commit {reason} {
 # never a claim about a game the pass did not write.
 proc ::finishgame::settle {reason} {
     switch -- $reason {
-        stalemate {
+        stalemate - repetition {
             catch { sc_game tags set -result "1/2-1/2" }
-        }
-        end - tablebase {
-            # A finish that ran into a repetition is a draw. The count is read
-            # from the written game, which is the only place it exists now that
-            # the collect phase did not play the moves.
-            set reps 0
-            catch { set reps [::pgn::getRepetitionCount] }
-            if {[string is integer -strict $reps] && $reps >= 3} {
-                catch { sc_game tags set -result "1/2-1/2" }
-            }
         }
     }
     return
@@ -373,6 +450,7 @@ proc ::finishgame::done {reason} {
     set ::finishgame::pane ""
     set ::finishgame::owner ""
     set ::finishgame::waitId ""
+    set ::finishgame::identity ""
     if {[lsearch -exact {end mate stalemate cancel repetition tablebase} $reason] < 0} {
         tk_messageBox -title "scidCommunity: [tr FinishGame]" -type ok \
             -icon warning -message "[tr FinishGame]: $reason"
