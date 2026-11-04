@@ -868,6 +868,7 @@ translate b ToolsWhatThreatTooltip {ইঞ্জিনকে জিজ্ঞা�
 translate b WhatThreatRunning {হুমকি বিশ্লেষণ ইতিমধ্যে চলছে।}
 translate b WhatThreatNoEngine {কোনো ইঞ্জিন কনফিগার করা নেই। সরঞ্জাম -> ইঞ্জিন তালিকা থেকে একটি বেছে নিন, অথবা আগে একটি ইঞ্জিন উইন্ডো খুলুন।}
 translate b WhatThreatNoPosition {দেখার মতো কোনো অবস্থান নেই।}
+translate b WhatThreatNoMove {এখানে মন্তব্য করার মতো কোনো চাল নেই। আগে খেলার কোনো চালে যান।}
 translate b WhatThreatFailed {হুমকি বিশ্লেষণ চালানো যায়নি: %s}
 translate b WhatThreatNothingForcing {%s-এর এখানে বাধ্যকর কিছু নেই: কোনো চাল দ্রব্য জেতে না বা চেক দেয় না।}
 translate b ReviewVarLines {যে ভ্যারিয়েশনগুলো লিখতে হবে}

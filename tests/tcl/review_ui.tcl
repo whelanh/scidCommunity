@@ -68,6 +68,7 @@ array set ::EN {
     WhatThreatRunning       {A threat probe is already running.}
     WhatThreatNoEngine      {No engine is configured. Choose one in Tools -> Engine List, or open an engine window first.}
     WhatThreatNoPosition    {There is no position to look at.}
+    WhatThreatNoMove        {There is no move here to comment on. Go to a move in the game first.}
     WhatThreatFailed        {The threat probe could not run: %s}
     WhatThreatNothingForcing {%s has nothing forcing here: no move wins material or gives check.}
     Lines                   {Lines}
@@ -89,6 +90,7 @@ set ::NEWKEYS {
     ReviewCoachNoModel ReviewCoachKept ReviewCoachDiscarded
     ToolsWhatThreat ToolsWhatThreatTooltip
     WhatThreatRunning WhatThreatNoEngine WhatThreatNoPosition
+    WhatThreatNoMove
     WhatThreatFailed WhatThreatNothingForcing
 }
 

@@ -908,6 +908,7 @@ translate D ToolsWhatThreatTooltip {Frage die Engine, was die Seite am Zug droht
 translate D WhatThreatRunning {Eine Drohungsanalyse läuft bereits.}
 translate D WhatThreatNoEngine {Keine Engine ist eingerichtet. Wähle eine unter Extras -> Engine-Liste oder öffne zuerst ein Engine-Fenster.}
 translate D WhatThreatNoPosition {Es gibt keine Stellung zum Ansehen.}
+translate D WhatThreatNoMove {Hier gibt es keinen Zug zum Kommentieren. Gehe zuerst zu einem Zug in der Partie.}
 translate D WhatThreatFailed {Die Drohungsanalyse konnte nicht laufen: %s}
 translate D WhatThreatNothingForcing {%s hat hier nichts Zwingendes: kein Zug gewinnt Material oder gibt Schach.}
 translate D ReviewVarLines {Zu schreibende Varianten}

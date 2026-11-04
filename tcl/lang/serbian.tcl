@@ -1332,6 +1332,7 @@ translate Y ToolsWhatThreatTooltip {Pitaj motor čemu preti strana na potezu}
 translate Y WhatThreatRunning {Analiza pretnji već traje.}
 translate Y WhatThreatNoEngine {Nijedan motor nije podešen. Izaberi ga u Alatke -> Spisak motora ili prvo otvori prozor motora.}
 translate Y WhatThreatNoPosition {Nema pozicije za pregled.}
+translate Y WhatThreatNoMove {Nema ovde poteza za komentar. Prvo pređite na potez u partiji.}
 translate Y WhatThreatFailed {Analizu pretnji nije bilo moguće pokrenuti: %s}
 translate Y WhatThreatNothingForcing {%s ovde nema ništa forsirajuće: nijedan potez ne dobija materijal i ne daje šah.}
 translate Y ReviewVarLines {Varijante za upis}

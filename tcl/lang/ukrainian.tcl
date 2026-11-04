@@ -869,6 +869,7 @@ translate Q ToolsWhatThreatTooltip {Запитати двигун, чим заг
 translate Q WhatThreatRunning {Аналіз загроз уже виконується.}
 translate Q WhatThreatNoEngine {Двигун не налаштовано. Виберіть його в Інструменти -> Список двигунів або спершу відкрийте вікно двигуна.}
 translate Q WhatThreatNoPosition {Немає позиції для перегляду.}
+translate Q WhatThreatNoMove {Тут немає ходу для коментаря. Спершу перейдіть до ходу в партії.}
 translate Q WhatThreatFailed {Не вдалося запустити аналіз загроз: %s}
 translate Q WhatThreatNothingForcing {У %s немає нічого форсуючого: жоден хід не виграє матеріал і не дає шаху.}
 translate Q ReviewVarLines {Варіанти для запису}

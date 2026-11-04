@@ -44,16 +44,38 @@ proc tr {tag} { return $tag }
 # same command). The harness answers coordToSAN from a table, so what is checked
 # is that the probe carries the SAN of the engine's move, not that SAN itself is
 # spelled correctly - that is the C command's job.
+#
+# It is also the small board the Q1 checks need: a ply the reader is on, a
+# position at each ply, and the comment each move carries.
 array set ::SAN {
     a1a8  {Ra8#}
     c4e5  {Ne5}
     e2e4  {e4}
 }
 set ::stubFen {6k1/5ppp/8/8/8/8/5PPP/R5K1 w - - 0 1}
+set ::ply 0
+array set ::fenAt {0 {rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1}}
+array set ::comment {}
+# What a write would have created outside the comment: the probe must write no
+# variation and no NAG, so anything recorded here is a failure.
+set ::variations 0
+set ::nags 0
 proc sc_pos {sub args} {
     switch -- $sub {
-        fen      { return $::stubFen }
-        location { return 0 }
+        fen      {
+            if {[info exists ::fenAt($::ply)]} { return $::fenAt($::ply) }
+            return $::stubFen
+        }
+        location { return $::ply }
+        getComment {
+            if {[info exists ::comment($::ply)]} { return $::comment($::ply) }
+            return ""
+        }
+        setComment {
+            set ::comment($::ply) [lindex $args 0]
+            return
+        }
+        addNag  { incr ::nags ; return }
         coordToSAN {
             set uci [lindex $args 1]
             if {[info exists ::SAN($uci)]} { return [list $::SAN($uci)] }
@@ -62,6 +84,28 @@ proc sc_pos {sub args} {
     }
     return ""
 }
+# sc_move ply N puts the board on the move, the way the real command walks the
+# main line; sc_var is the variation cursor and must not be reached at all.
+proc sc_move {sub args} {
+    if {$sub eq "ply"} { set ::ply [lindex $args 0] }
+    return
+}
+proc sc_var {args} { incr ::variations ; return 0 }
+# The review's cursor save/restore, FEN-checked exactly as game_review.tcl's is:
+# the harness records the position and refuses a restore into a different one.
+namespace eval ::review {}
+proc ::review::cursorSave {} {
+    return [dict create loc $::ply fen [sc_pos fen]]
+}
+proc ::review::cursorRestore {state} {
+    set fen ""
+    catch { set fen [sc_pos fen] }
+    set ::ply [dict get $state loc]
+    set back ""
+    catch { set back [sc_pos fen] }
+    if {[dict get $state fen] ne "" && $back ne [dict get $state fen]} { return 0 }
+    return 1
+}
 
 set root [file normalize [file join [file dirname [info script]] .. ..]]
 source [file join $root tcl utils chessboard.tcl]
@@ -69,6 +113,7 @@ source [file join $root tcl tools comment_facts.tcl]
 source [file join $root tcl tools engine_limits.tcl]
 source [file join $root tcl enginecomm.tcl]
 source [file join $root tcl tools enginenowin.tcl]
+source [file join $root tcl tools review_prose.tcl]
 source [file join $root tcl tools review_threat.tcl]
 
 # The search asks the review for its time cap. The stub is the shape
@@ -218,8 +263,19 @@ checkEq "and a missing preset is refused in words" \
     [::reviewthreat::search {} {8/8/8/8/8/8/8/K6k w - - 0 1} {list}] \
     "no UCI engine is configured"
 
-puts "\nthe deterministic answer is the whole answer"
+puts "\nthe answer lands in the move comment"
 
+# The marker the probe writes its line under. Every check below looks for this
+# string, so a change to the marker fails here rather than in the docs.
+set ::MARK {[Coach] Threat: }
+# Readability helpers: `string first` inside expr braces is not worth the trap.
+proc has {text needle} { return [expr {[string first $needle $text] >= 0}] }
+proc atStart {text needle} { return [expr {[string first $needle $text] == 0}] }
+proc countOf {text pattern} { return [regexp -all $pattern $text] }
+
+# A press on move 3 of a game. The search answered Ra8#, so the facts go into
+# that move's comment - and nowhere else: no variation, no NAG, and the board
+# stays on the move the reader was reading.
 set ::boxes {}
 proc tk_messageBox {args} {
     lappend ::boxes [dict get $args -message]
@@ -228,60 +284,254 @@ proc tk_messageBox {args} {
 namespace eval ::auto_comment {}
 set ::providerWhy "no model configured"
 proc ::auto_comment::providerReady {} { return $::providerWhy }
-set ::askedPrompt ""
+
+set ::fenAt(3) {6k1/5ppp/8/8/8/8/5PPP/R5K1 w - - 0 1}
+set ::comment(3) "my own note about this move"
+set ::ply 3
+::reviewthreat::ready $mateFen "" 3 a1a8 ""
+set wrote $::comment(3)
+check "the facts land in the move's comment" [has $wrote $::MARK] "got '$wrote'"
+check "and carry the answer" \
+    [has $wrote [dict get $mate text]] "got '$wrote'"
+check "and name the move in SAN" [has $wrote "Ra8#"]
+check "the reader's own note is kept, where it was" \
+    [atStart $wrote {my own note about this move}] "got '$wrote'"
+checkEq "the cursor did not move" $::ply 3
+checkEq "and nothing was shown: the comment is the answer" [llength $::boxes] 0
+checkEq "the probe's line is one line" [countOf $wrote {\[Coach\] Threat:}] 1
+checkEq "no variation was written" $::variations 0
+checkEq "and no NAG" $::nags 0
+
+# A second press replaces the probe's line: the comment must not grow a second
+# answer, and the reader's note is not taken with it.
+::reviewthreat::ready $mateFen "" 3 a1a8 ""
+set wrote $::comment(3)
+checkEq "a second press replaces the line rather than stacking it" \
+    [countOf $wrote {\[Coach\] Threat:}] 1
+checkEq "and the reader's note is still there once" \
+    [countOf $wrote {my own note about this move}] 1
+
+# The coach writes "[Coach] ..." on the same move. The probe's line is marked, so
+# taking its own line off does not take the coach's with it.
+set ::comment(3) "\[Coach\] the coach's own sentence\nmy own note about this move"
+::reviewthreat::ready $mateFen "" 3 a1a8 ""
+check "the coach's note on the same move is not deleted" \
+    [has $::comment(3) "the coach's own sentence"] "got '$::comment(3)'"
+check "and the probe's line sits beside it" \
+    [has $::comment(3) $::MARK] "got '$::comment(3)'"
+
+# The answer can arrive after the reader has moved on. It lands on the move the
+# press was made on, and the board goes back to where it was found.
+set ::fenAt(7) {4k3/8/8/8/8/8/8/4K3 w - - 0 1}
+set ::ply 7
+set ::comment(3) "my own note about this move"
+::reviewthreat::ready $mateFen "" 3 a1a8 ""
+check "an answer that arrives late lands on the move that was asked about" \
+    [has $::comment(3) "Ra8#"] "got '$::comment(3)'"
+checkEq "and the board is put back where the reader left it" $::ply 7
+
+# The game changed under the search: the ply now holds another position, so the
+# answer is refused rather than written onto a move it was never about.
+set ::ply 3
+set ::fenAt(3) {4k3/8/8/8/8/8/8/4K3 b - - 0 1}
+set before $::comment(3)
+set boxesBefore [llength $::boxes]
+::reviewthreat::ready $mateFen "" 3 a1a8 ""
+check "a game that changed under the probe is refused" \
+    [has [lindex $::boxes end] "the game changed while the probe was running"] \
+    "got '[lindex $::boxes end]'"
+checkEq "and nothing is written" $::comment(3) $before
+checkEq "one message, for the refusal" [expr {[llength $::boxes] - $boxesBefore}] 1
+set ::fenAt(3) $mateFen
+
+puts "\none sentence, through the prose queue"
+
+# The real queue, over a stub provider: what is checked is that the probe asks it
+# exactly one question, and that the answer is added to the line the facts are
+# already in - never instead of them.
+set ::askedPrompts {}
 set ::askedMax ""
+set ::acMode answer
+set ::proseDone 0
 proc ::auto_comment::queryAsync {prompt max cb} {
-    set ::askedPrompt $prompt
+    lappend ::askedPrompts $prompt
     set ::askedMax $max
-    after 0 [list apply {{callback} {
-        {*}$callback "White's rook takes the back rank and it is mate."
-        set ::proseDone 1
-    }} $cb]
-    return t1
+    switch -- $::acMode {
+        hold  { return t1 }
+        error {
+            after 0 [list apply {{callback} {
+                {*}$callback "ERROR: no model configured"
+                set ::proseDone 1
+            }} $cb]
+            return t1
+        }
+        default {
+            after 0 [list apply {{callback} {
+                {*}$callback "The rook takes the back rank and it is mate."
+                set ::proseDone 1
+            }} $cb]
+            return t1
+        }
+    }
+}
+proc ::auto_comment::cancelAsync {token} { return }
+# Let the queue's own event turns run: a reply records, asks for the next item
+# and finishes on `after 0`, so the answer is not in until they have all run.
+proc settle {} {
+    unset -nocomplain ::settled
+    after 100 {set ::settled 1}
+    vwait ::settled
 }
 
-# No provider: the box is exactly the deterministic answer, not a stub of it.
-::reviewthreat::ready $mateFen "" a1a8 ""
-checkEq "with no model the box is the deterministic answer" \
-    [lindex $::boxes end] [dict get $mate text]
-
-# With a provider the facts still lead; the prose is added after them.
+set ::ply 3
+set ::comment(3) "my own note about this move"
 set ::providerWhy ""
-set ::proseDone 0
-::reviewthreat::ready $mateFen "" a1a8 ""
+::reviewthreat::ready $mateFen "" 3 a1a8 ""
+set immediate $::comment(3)
+check "the facts are in the comment before the model is asked" \
+    [has $immediate $::MARK] "got '$immediate'"
+check "and the sentence had not arrived yet" \
+    [expr {![has $immediate "back rank"]}] "got '$immediate'"
 set watchdog [after 5000 {set ::proseDone 1}]
 if {!$::proseDone} { vwait ::proseDone }
 catch { after cancel $watchdog }
-set msg [lindex $::boxes end]
-check "with a model the facts still lead" \
-    [expr {[string first [dict get $mate text] $msg] == 0}] "got '$msg'"
-check "and the prose follows them" [expr {[string first "back rank" $msg] > 0}]
-check "the prompt asked for one sentence" [expr {[string first "ONE sentence" $::askedPrompt] >= 0}]
+settle
+set wrote $::comment(3)
+checkEq "exactly one question went to the queue" [llength $::askedPrompts] 1
+check "the question asks for one sentence" \
+    [has [lindex $::askedPrompts 0] "ONE sentence"]
 check "at a short answer length" [expr {$::askedMax > 0 && $::askedMax <= 300}]
+checkEq "the sentence is added to the probe's line" \
+    [countOf $wrote {\[Coach\] Threat:[^\n]*back rank}] 1
+check "the facts are still there, ahead of the sentence" \
+    [expr {[string first $::MARK $wrote] < [string first "back rank" $wrote]}] \
+    "got '$wrote'"
+checkEq "the probe's line is still one line" \
+    [countOf $wrote {\[Coach\] Threat:}] 1
+check "the reader's own note survived the prose" \
+    [has $wrote "my own note about this move"]
+checkEq "the queue is idle again" [dict get [::reviewprose::status] active] 0
 
-# What the box says when the search cannot answer at all.
-set before [llength $::boxes]
-::reviewthreat::ready $mateFen "" "" "the threat search timed out"
-check "a failed search says so, and what failed" \
-    [expr {[string first "the threat search timed out" [lindex $::boxes end]] >= 0}]
-::reviewthreat::ready $mateFen "" 0000 ""
-check "no move at all means nothing forcing" \
-    [expr {[string first "nothing forcing" [lindex $::boxes end]] >= 0}]
-checkEq "two more boxes, one per case" [expr {[llength $::boxes] - $before}] 2
+# No provider is a supported state: the facts line stands, the queue is not
+# asked, and nothing is shown.
+set ::providerWhy "no model configured"
+set ::askedPrompts {}
+set ::comment(3) "my own note about this move"
+set boxesBefore [llength $::boxes]
+::reviewthreat::ready $mateFen "" 3 a1a8 ""
+checkEq "with no provider the queue is not asked" [llength $::askedPrompts] 0
+check "with no provider the facts line is written" \
+    [has $::comment(3) [dict get $mate text]] "got '$::comment(3)'"
+checkEq "with no provider nothing is shown" [expr {[llength $::boxes] - $boxesBefore}] 0
+
+# A request that fails is dropped: the facts are what the reader has. The queue's
+# cache is cleared first, so what is answered here is this request and not the
+# sentence the same question was given a moment ago.
+set ::providerWhy ""
+set ::acMode error
+::reviewprose::clearCache
+set ::comment(3) "my own note about this move"
+set boxesBefore [llength $::boxes]
+::reviewthreat::ready $mateFen "" 3 a1a8 ""
+settle
+checkEq "a failed request adds no sentence" \
+    [countOf $::comment(3) {\[Coach\] Threat:[^\n]*back rank}] 0
+check "and leaves the facts line exactly as written" \
+    [has $::comment(3) [dict get $mate text]] "got '$::comment(3)'"
+checkEq "and surfaces no error" [expr {[llength $::boxes] - $boxesBefore}] 0
+checkEq "and leaves the queue idle" [dict get [::reviewprose::status] active] 0
+
+# A cancelled run is the same: what was written stays.
+set ::acMode hold
+set ::comment(3) "my own note about this move"
+set boxesBefore [llength $::boxes]
+::reviewthreat::ready $mateFen "" 3 a1a8 ""
+set factsOnly $::comment(3)
+checkEq "a press does not wait for the model" [dict get [::reviewprose::status] active] 1
+::reviewprose::cancel
+settle
+checkEq "a cancelled run leaves the facts line untouched" $::comment(3) $factsOnly
+checkEq "and surfaces no error" [expr {[llength $::boxes] - $boxesBefore}] 0
+
+# A queue that is already busy (a review is running) is not disturbed, and the
+# press does not wait for it: the facts line is the answer.
+set ::acMode hold
+::reviewprose::run [list [dict create kind review key 1 prompt "a review's own question" max 10]] "" ""
+set ::comment(3) "my own note about this move"
+::reviewthreat::ready $mateFen "" 3 a1a8 ""
+check "a busy queue still gets the facts into the comment" \
+    [has $::comment(3) "Ra8#"] "got '$::comment(3)'"
+checkEq "and the press adds no question to it" \
+    [dict get [::reviewprose::status] total] 1
+::reviewprose::cancel
+set ::acMode answer
+
+# A build without the queue writes the facts and says nothing.
+rename ::reviewprose::run ::reviewprose::run_
+set ::comment(3) "my own note about this move"
+set boxesBefore [llength $::boxes]
+::reviewthreat::ready $mateFen "" 3 a1a8 ""
+check "with no queue at all the facts line is still written" \
+    [has $::comment(3) "Ra8#"] "got '$::comment(3)'"
+checkEq "and nothing is shown" [expr {[llength $::boxes] - $boxesBefore}] 0
+rename ::reviewprose::run_ ::reviewprose::run
 
 puts "\nwhat the menu entry asks for"
 
-# ask: no engine configured, and a board with no position.
+# ask: no engine configured, a board with no position, and a board at the start
+# of the line. Each says what is wrong and writes nothing.
+set ::ply 0
+set ::comment(0) ""
 proc ::reviewthreat::defaultEngine {} { return "" }
 set before [llength $::boxes]
 ::reviewthreat::ask ""
 check "ask with no engine says what to do about it" \
-    [expr {[string first "Tools -> Engine List" [lindex $::boxes end]] >= 0}]
-set ::stubFen ""
+    [has [lindex $::boxes end] "Tools -> Engine List"]
+set ::fenAt(0) ""
 ::reviewthreat::ask [list "Engine A" /bin/true {} {} 0 0 {} 1 {} {}]
 check "ask with no position says there is nothing to look at" \
-    [expr {[string first "no position" [lindex $::boxes end]] >= 0}]
-checkEq "one box per refusal" [expr {[llength $::boxes] - $before}] 2
+    [has [lindex $::boxes end] "no position"]
+set ::fenAt(0) {rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1}
+::reviewthreat::ask [list "Engine A" /bin/true {} {} 0 0 {} 1 {} {}]
+check "ask at the start of the line says there is no move to comment on" \
+    [has [lindex $::boxes end] "no move here to comment on"]
+checkEq "and the game's own comment is untouched" $::comment(0) ""
+checkEq "one box per refusal" [expr {[llength $::boxes] - $before}] 3
+
+# A press while a probe is already running is refused before anything opens.
+set ::reviewthreat::job [dict create onDone "" watch ""]
+set before [llength $::boxes]
+::reviewthreat::ask [list "Engine A" /bin/true {} {} 0 0 {} 1 {} {}]
+check "a press while a probe runs says one is already running" \
+    [has [lindex $::boxes end] "already running"]
+checkEq "and writes nothing" $::comment(0) ""
+set ::reviewthreat::job {}
+
+# The whole press, from the menu to the comment: the engine stub answers e5, the
+# answer lands on the move that was under the cursor, and the sentence follows.
+set ::SAN(e7e5) {e5}
+set ::fenAt(4) {rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1}
+set ::comment(4) "my own note about this move"
+set ::ply 4
+set ::acMode answer
+set ::proseDone 0
+set ::askedPrompts {}
+::reviewthreat::ask [list "Engine A" /bin/true {} {} 0 0 {} 1 {} {}]
+set watchdog [after 5000 {set ::proseDone 1}]
+if {!$::proseDone} { vwait ::proseDone }
+catch { after cancel $watchdog }
+settle
+check "the menu press writes the threat line into the move's comment" \
+    [has $::comment(4) $::MARK] "got '$::comment(4)'"
+checkEq "and one line only" [countOf $::comment(4) {\[Coach\] Threat:}] 1
+check "and the answer is the position's" \
+    [has $::comment(4) "no immediate threat"] "got '$::comment(4)'"
+check "and the sentence followed it" \
+    [has $::comment(4) "back rank"] "got '$::comment(4)'"
+check "and the reader's own note is still there" \
+    [atStart $::comment(4) {my own note about this move}] "got '$::comment(4)'"
+checkEq "and the board is where it was" $::ply 4
+checkEq "and no variation was written" $::variations 0
 
 puts ""
 puts "$checks checks, $fails failures"

@@ -869,6 +869,7 @@ translate V ToolsWhatThreatTooltip {שאל את המנוע ממה מאיים ה�
 translate V WhatThreatRunning {ניתוח איומים כבר פועל.}
 translate V WhatThreatNoEngine {לא הוגדר מנוע. בחר אחד בכלים -> רשימת מנועים, או פתח תחילה חלון מנוע.}
 translate V WhatThreatNoPosition {אין עמדה להסתכל עליה.}
+translate V WhatThreatNoMove {אין כאן מהלך להעיר עליו. עברו תחילה למהלך במשחק.}
 translate V WhatThreatFailed {לא ניתן היה להריץ את ניתוח האיומים: %s}
 translate V WhatThreatNothingForcing {ל%s אין כאן שום דבר מאלץ: אף מהלך לא מרוויח חומר ולא נותן שח.}
 translate V ReviewVarLines {וריאציות לכתיבה}

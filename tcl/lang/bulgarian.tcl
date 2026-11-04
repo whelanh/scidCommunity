@@ -909,6 +909,7 @@ translate g ToolsWhatThreatTooltip {Попитай двигателя какво
 translate g WhatThreatRunning {Анализ на заплахите вече тече.}
 translate g WhatThreatNoEngine {Няма настроен двигател. Изберете такъв в Инструменти -> Списък с двигатели или първо отворете прозорец на двигател.}
 translate g WhatThreatNoPosition {Няма позиция за разглеждане.}
+translate g WhatThreatNoMove {Тук няма ход за коментиране. Първо отидете на ход в партията.}
 translate g WhatThreatFailed {Анализът на заплахите не можа да стартира: %s}
 translate g WhatThreatNothingForcing {%s няма нищо форсиращо тук: нито един ход не печели материал и не дава шах.}
 translate g ReviewVarLines {Варианти за запис}

@@ -881,6 +881,7 @@ translate B ToolsWhatThreatTooltip {Pergunte ao engine o que o lado a jogar amea
 translate B WhatThreatRunning {Já há uma análise de ameaças em andamento.}
 translate B WhatThreatNoEngine {Nenhum engine está configurado. Escolha um em Ferramentas -> Lista de engines, ou abra antes uma janela de engine.}
 translate B WhatThreatNoPosition {Não há posição para olhar.}
+translate B WhatThreatNoMove {Não há nenhum lance para comentar aqui. Vá primeiro para um lance da partida.}
 translate B WhatThreatFailed {A análise de ameaças não pôde ser executada: %s}
 translate B WhatThreatNothingForcing {%s não tem nada forçado aqui: nenhum lance ganha material nem dá xeque.}
 translate B ReviewVarLines {Variantes a escrever}

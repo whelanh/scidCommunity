@@ -868,6 +868,7 @@ translate Z ToolsWhatThreatTooltip {Uliza injini upande unaocheza unatishia nini
 translate Z WhatThreatRunning {Uchambuzi wa vitisho tayari unaendelea.}
 translate Z WhatThreatNoEngine {Hakuna injini iliyowekwa. Chagua moja katika Zana -> Orodha ya injini, au fungua kwanza dirisha la injini.}
 translate Z WhatThreatNoPosition {Hakuna nafasi ya kuangalia.}
+translate Z WhatThreatNoMove {Hakuna hatua ya kutoa maoni hapa. Nenda kwanza kwenye hatua katika mchezo.}
 translate Z WhatThreatFailed {Uchambuzi wa vitisho haukuweza kuendeshwa: %s}
 translate Z WhatThreatNothingForcing {%s hana kitu cha kulazimisha hapa: hakuna hatua inayoshinda nyenzo au kutoa cheki.}
 translate Z ReviewVarLines {Mibadala ya kuandika}

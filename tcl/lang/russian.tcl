@@ -875,6 +875,7 @@ translate R ToolsWhatThreatTooltip {Спросить движок, чем угр
 translate R WhatThreatRunning {Анализ угроз уже идёт.}
 translate R WhatThreatNoEngine {Движок не настроен. Выберите его в Инструменты -> Список движков или сначала откройте окно движка.}
 translate R WhatThreatNoPosition {Нет позиции для просмотра.}
+translate R WhatThreatNoMove {Здесь нет хода для комментария. Сначала перейдите к ходу в партии.}
 translate R WhatThreatFailed {Не удалось запустить анализ угроз: %s}
 translate R WhatThreatNothingForcing {У %s нет ничего форсирующего: ни один ход не выигрывает материал и не даёт шах.}
 translate R ReviewVarLines {Варианты для записи}

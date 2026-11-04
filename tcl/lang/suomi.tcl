@@ -907,6 +907,7 @@ translate U ToolsWhatThreatTooltip {Kysy moottorilta, mitä siirtovuorossa oleva
 translate U WhatThreatRunning {Uhkien analyysi on jo käynnissä.}
 translate U WhatThreatNoEngine {Moottoria ei ole määritetty. Valitse se kohdasta Työkalut -> Moottoriluettelo tai avaa ensin moottori-ikkuna.}
 translate U WhatThreatNoPosition {Katsottavaa asemaa ei ole.}
+translate U WhatThreatNoMove {Tässä ei ole siirtoa kommentoitavaksi. Siirry ensin johonkin pelin siirtoon.}
 translate U WhatThreatFailed {Uhka-analyysia ei voitu suorittaa: %s}
 translate U WhatThreatNothingForcing {%s:llä ei ole tässä mitään pakottavaa: mikään siirto ei voita materiaalia eikä anna shakkia.}
 translate U ReviewVarLines {Kirjoitettavat muunnelmat}

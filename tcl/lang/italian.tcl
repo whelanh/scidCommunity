@@ -879,6 +879,7 @@ translate I ToolsWhatThreatTooltip {Chiedi al motore che cosa minaccia il lato a
 translate I WhatThreatRunning {Un'analisi delle minacce è già in corso.}
 translate I WhatThreatNoEngine {Nessun motore è configurato. Scegline uno in Strumenti -> Elenco motori, oppure apri prima una finestra del motore.}
 translate I WhatThreatNoPosition {Non c'è nessuna posizione da guardare.}
+translate I WhatThreatNoMove {Qui non c'è nessuna mossa da commentare. Vai prima a una mossa della partita.}
 translate I WhatThreatFailed {L'analisi delle minacce non è potuta partire: %s}
 translate I WhatThreatNothingForcing {%s non ha nulla di forzante qui: nessuna mossa guadagna materiale o dà scacco.}
 translate I ReviewVarLines {Varianti da scrivere}

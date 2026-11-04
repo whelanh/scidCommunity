@@ -5,12 +5,24 @@
 #
 # One short search on a connection of its own, the deterministic facts that
 # describe the engine's move, and one sentence of coach prose on top of them.
-# Nothing is written into the game.
+# The answer lands in the comment of the move the reader is on; the sentence, if
+# a model answers, is added to that same line when it arrives.
 #
 # The facts are the answer. They come from the position - the move, its SAN and
 # the clauses ::facts builds for a move comment - so the probe still answers when
 # no model is configured. No provider is a supported state, not a failure: prose
-# is an enrichment that can be absent.
+# is an enrichment that can be absent, and the facts line stands without it.
+#
+# Writing: the facts line goes in under a marker of its own, "[Coach] Threat: " -
+# one line, in the shape the coach layer writes, so ::reviewcoach::strip takes it
+# whole. The marker is what lets the probe replace its own line on a re-press
+# without touching the coach's note on the same move. The press never moves the
+# board: ::reviewthreat::write puts the cursor back with ::review::cursorRestore,
+# which is FEN-checked.
+#
+# Prose goes through the review's own queue (::reviewprose::run), one sentence
+# over the FACTS block, so a press never waits for a model. Cancelled, failed or
+# absent, the facts line is exactly what was written.
 #
 # The connection is one-shot: opened for the search, closed in the reply that
 # delivered the move. ::engine::reply captures its channel before it runs a
@@ -28,6 +40,10 @@ namespace eval ::reviewthreat {
     variable id reviewThreat
     # The probe in flight: {onDone <command> watch <timer>}. Empty when idle.
     variable job {}
+    # What marks the probe's line in a move comment. English, like [Coach] and
+    # [Phase]: it is a machine marker, not prose, and it is what lets the probe
+    # replace its own line without touching the coach's on the same move.
+    variable mark {[Coach] Threat: }
 }
 
 # The side to move, the way the facts and the answers name it.
@@ -168,11 +184,74 @@ proc ::reviewthreat::title {} {
     return [::reviewthreat::phrase ToolsWhatThreat {What's the threat?}]
 }
 
-# An answer is shown, never written: one message box, the facts first.
+# A refusal or a failure is shown: the answer itself is written into the move
+# comment, so a box is only for what stopped the press.
 proc ::reviewthreat::show {msg} {
     if {[llength [info commands tk_messageBox]] == 0} { return }
     catch { tk_messageBox -icon info -title [::reviewthreat::title] -message $msg }
     return
+}
+
+# The probe's line: the facts on one line, marked and in the shape the coach
+# layer writes, so ::reviewcoach::strip takes it whole.
+proc ::reviewthreat::block {text} {
+    variable mark
+    regsub -all {\s+} $text " " text
+    return "$mark[string trim $text]"
+}
+
+# Take the probe's own line off a comment, and nothing else: the coach's note on
+# the same move is not the probe's to delete, so this removes the marked lines
+# rather than every "[Coach]" line the way ::reviewcoach::strip does. The block
+# is one line, so a note the reader wrote underneath it stays.
+proc ::reviewthreat::stripOwn {comment} {
+    variable mark
+    set keep {}
+    foreach line [split $comment "\n"] {
+        if {[string first $mark $line] == 0} { continue }
+        lappend keep $line
+    }
+    set out [regsub -all {\n\n\n+} [join $keep "\n"] "\n\n"]
+    regsub -all {[ \t]+\n} $out "\n" out
+    return [string trim $out]
+}
+
+# Put the probe's line on move `ply`, keeping whatever is already in that move's
+# comment, and leave the board where the reader had it. `fen` is the position the
+# probe searched: a game that changed while the search ran is refused rather than
+# written onto a move that is no longer the one that was asked about. Returns ""
+# or the reason nothing was written.
+proc ::reviewthreat::write {ply fen block} {
+    set cursor ""
+    catch { set cursor [::review::cursorSave] }
+    set out ""
+    # No `return` inside the catch body: Tcl turns it into TCL_RETURN, catch
+    # reports a failure, and the write that succeeded would be reported as one
+    # that did not.
+    if {[catch {
+        sc_move ply $ply
+        if {[sc_pos location] != $ply} {
+            error "the move is no longer in this game"
+        }
+        if {$fen ne "" && [sc_pos fen] ne $fen} {
+            error "the game changed while the probe was running"
+        }
+        set old [::reviewthreat::stripOwn [sc_pos getComment]]
+        sc_pos setComment [string trim "$old\n\n$block"]
+    } err]} {
+        set out $err
+    }
+    # The board goes back where it was found, whatever happened above. A restore
+    # checks the FEN it saved, so a move list that changed under us is refused
+    # rather than mis-restored.
+    if {$cursor ne ""} {
+        set back 1
+        catch { set back [::review::cursorRestore $cursor] }
+        if {$out eq "" && !$back} {
+            set out "the board could not be put back where it was"
+        }
+    }
+    return $out
 }
 
 # The engine preset the probe searches with: the one the first open engine
@@ -282,36 +361,45 @@ proc ::reviewthreat::message {msg} {
     return
 }
 
-# Clean a model answer for a message box: one paragraph, ASCII punctuation, no
-# markup. The answer is not written to the game, so only readability matters.
-proc ::reviewthreat::clean {text} {
-    if {[llength [info commands ::reviewprose::clean]]} {
-        catch { set text [::reviewprose::clean $text] }
-    }
-    regsub -all {\s+} $text " " text
-    return [string trim $text]
+# One sentence of prose, on the queue the review already runs, so the press
+# never waits for a model. The facts are in the comment before this is called:
+# what arrives is added to that same line, and a run that is cancelled, fails or
+# never had a provider leaves the facts exactly as they were written.
+proc ::reviewthreat::prose {fen rep ply move facts} {
+    if {[llength [info commands ::reviewprose::run]] == 0} { return }
+    set why ""
+    catch { set why [::auto_comment::providerReady] }
+    if {$why ne ""} { return }
+    set prompt [::reviewthreat::prompt [::reviewthreat::sideName $fen] \
+        [::reviewthreat::factsBlock $fen $move $rep]]
+    # Keyed the way the queue keys everything: {kind key prompt}. `key` is the
+    # move, so an answer can only be written back to the move it was asked about.
+    set item [dict create kind threat key $ply prompt $prompt max 160]
+    # A queue that is already busy (a review is running) returns 0 and nothing
+    # else happens: the facts line is the answer, and a press must not wait.
+    catch { ::reviewprose::run [list $item] "" \
+        [list ::reviewthreat::spoken $fen $ply $facts $prompt] }
+    return
 }
 
-# The deterministic answer comes first and stays: a model adds a sentence, it
-# does not replace the facts the board proves.
-proc ::reviewthreat::reply {facts args} {
-    set text [join $args " "]
-    if {[string match "ERROR:*" $text]} {
-        ::reviewthreat::show $facts
-        return
-    }
-    set clean [::reviewthreat::clean $text]
-    if {$clean eq ""} {
-        ::reviewthreat::show $facts
-        return
-    }
-    ::reviewthreat::show "$facts\n\n$clean"
+# The queue's answer: the facts as they were written, plus the one sentence. A
+# cancelled run, a failed request or an empty answer changes nothing.
+proc ::reviewthreat::spoken {fen ply facts prompt results errors cancelled} {
+    if {$cancelled} { return }
+    set text ""
+    catch { set text [dict get $results [list threat $ply $prompt]] }
+    if {$text eq ""} { return }
+    catch { ::reviewthreat::write $ply $fen [::reviewthreat::block "$facts $text"] }
+    return
 }
 
-# The answer, once the engine has replied: the facts always, the prose when a
-# model is configured. An error or an illegal move is reported rather than turned
-# into facts from a position the engine did not mean.
-proc ::reviewthreat::ready {fen rep move err} {
+# The answer, once the engine has replied: the facts into the comment of the move
+# the reader pressed on, then one sentence on the queue. An error or an illegal
+# move is reported rather than turned into facts from a position the engine did
+# not mean. `ply` is the move the press was made on, recorded before the search,
+# so an answer that arrives after the reader has moved on still lands where the
+# question was asked.
+proc ::reviewthreat::ready {fen rep ply move err} {
     if {$err ne ""} {
         ::reviewthreat::show [format [::reviewthreat::phrase WhatThreatFailed \
             {The threat probe could not run: %s}] $err]
@@ -333,20 +421,16 @@ proc ::reviewthreat::ready {fen rep move err} {
     }
     set a [::reviewthreat::answer $fen $move]
     set facts [dict get $a text]
-    set why ""
-    catch { set why [::auto_comment::providerReady] }
-    if {$why ne "" || [llength [info commands ::auto_comment::queryAsync]] == 0} {
-        # No model is a supported state, not an error: the deterministic
-        # sentence is still the whole answer.
-        ::reviewthreat::show $facts
+    set werr [::reviewthreat::write $ply $fen [::reviewthreat::block $facts]]
+    if {$werr ne ""} {
+        # The comment is the answer's only surface, so a write that did not land
+        # is reported instead of leaving the reader with nothing.
+        ::reviewthreat::show [format [::reviewthreat::phrase WhatThreatFailed \
+            {The threat probe could not run: %s}] $werr]
         return
     }
-    set prompt [::reviewthreat::prompt $side [::reviewthreat::factsBlock $fen $move $rep]]
-    if {[catch {
-        ::auto_comment::queryAsync $prompt 160 [list ::reviewthreat::reply $facts]
-    }]} {
-        ::reviewthreat::show $facts
-    }
+    # The facts are written; the sentence is an extra and never a wait.
+    ::reviewthreat::prose $fen $rep $ply $move $facts
     return
 }
 
@@ -374,10 +458,20 @@ proc ::reviewthreat::ask {{enginecfg ""}} {
             {There is no position to look at.}]
         return
     }
+    # The answer goes into the comment of the move under the cursor, so a board at
+    # the start of the line - where there is no move to comment on - is refused
+    # before anything is searched.
+    set ply ""
+    catch { set ply [sc_pos location] }
+    if {![string is integer -strict $ply] || $ply < 1} {
+        ::reviewthreat::show [::reviewthreat::phrase WhatThreatNoMove \
+            {There is no move here to comment on. Go to a move in the game first.}]
+        return
+    }
     set rep ""
-    catch { set rep [::facts::repFromMainline $fen [sc_pos location]] }
+    catch { set rep [::facts::repFromMainline $fen $ply] }
     set err [::reviewthreat::search $cfg $fen \
-        [list ::reviewthreat::ready $fen $rep]]
+        [list ::reviewthreat::ready $fen $rep $ply]]
     if {$err ne ""} {
         ::reviewthreat::show [format [::reviewthreat::phrase WhatThreatFailed \
             {The threat probe could not run: %s}] $err]

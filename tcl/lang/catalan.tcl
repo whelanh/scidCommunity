@@ -894,6 +894,7 @@ translate K ToolsWhatThreatTooltip {Pregunta al motor què amenaça el bàndol q
 translate K WhatThreatRunning {Ja hi ha una anàlisi d'amenaces en curs.}
 translate K WhatThreatNoEngine {No hi ha cap motor configurat. Tria'n un a Eines -> Llista de motors, o obre primer una finestra de motor.}
 translate K WhatThreatNoPosition {No hi ha cap posició per mirar.}
+translate K WhatThreatNoMove {Aquí no hi ha cap jugada per comentar. Ves primer a una jugada de la partida.}
 translate K WhatThreatFailed {L'anàlisi d'amenaces no s'ha pogut executar: %s}
 translate K WhatThreatNothingForcing {%s no té res de forçat aquí: cap jugada no guanya material ni fa escac.}
 translate K ReviewVarLines {Variants a escriure}

@@ -898,6 +898,7 @@ translate N ToolsWhatThreatTooltip {Vraag de engine wat de partij aan zet dreigt
 translate N WhatThreatRunning {Er loopt al een dreigingsanalyse.}
 translate N WhatThreatNoEngine {Er is geen engine ingesteld. Kies er een in Extra -> Enginelijst, of open eerst een enginevenster.}
 translate N WhatThreatNoPosition {Er is geen stelling om te bekijken.}
+translate N WhatThreatNoMove {Hier is geen zet om te becommentariëren. Ga eerst naar een zet in de partij.}
 translate N WhatThreatFailed {De dreigingsanalyse kon niet starten: %s}
 translate N WhatThreatNothingForcing {%s heeft hier niets dwingends: geen zet wint materiaal of geeft schaak.}
 translate N ReviewVarLines {Varianten om te schrijven}

@@ -908,6 +908,7 @@ translate P ToolsWhatThreatTooltip {Zapytaj silnik, czym grozi strona na posuni�
 translate P WhatThreatRunning {Analiza zagrożeń już trwa.}
 translate P WhatThreatNoEngine {Nie skonfigurowano silnika. Wybierz go w Narzędzia -> Lista silników albo najpierw otwórz okno silnika.}
 translate P WhatThreatNoPosition {Nie ma pozycji do obejrzenia.}
+translate P WhatThreatNoMove {Nie ma tu ruchu do skomentowania. Przejdź najpierw do ruchu w partii.}
 translate P WhatThreatFailed {Nie udało się uruchomić analizy zagrożeń: %s}
 translate P WhatThreatNothingForcing {%s nie ma tu nic forsującego: żaden ruch nie zdobywa materiału ani nie daje szacha.}
 translate P ReviewVarLines {Liczba wariantów do zapisania}

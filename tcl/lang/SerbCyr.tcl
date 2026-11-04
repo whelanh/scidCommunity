@@ -909,6 +909,7 @@ translate J ToolsWhatThreatTooltip {Питај мотор чему прети с
 translate J WhatThreatRunning {Анализа претњи већ траје.}
 translate J WhatThreatNoEngine {Није подешен ниједан мотор. Изабери га у Алатке -> Списак мотора или прво отвори прозор мотора.}
 translate J WhatThreatNoPosition {Нема позиције за преглед.}
+translate J WhatThreatNoMove {Нема овде потеза за коментар. Прво пређите на потез у партији.}
 translate J WhatThreatFailed {Анализу претњи није било могуће покренути: %s}
 translate J WhatThreatNothingForcing {%s овде нема ништа форсирајуће: ниједан потез не добија материјал и не даје шах.}
 translate J ReviewVarLines {Варијанте за упис}

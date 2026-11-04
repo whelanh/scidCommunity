@@ -909,6 +909,7 @@ translate k ToolsWhatThreatTooltip {차례인 쪽이 무엇을 위협하는지 �
 translate k WhatThreatRunning {위협 분석이 이미 실행 중입니다.}
 translate k WhatThreatNoEngine {설정된 엔진이 없습니다. 도구 -> 엔진 목록에서 선택하거나 먼저 엔진 창을 여십시오.}
 translate k WhatThreatNoPosition {볼 수 있는 국면이 없습니다.}
+translate k WhatThreatNoMove {여기에 설명할 수가 없습니다. 먼저 대국의 한 수로 이동하세요.}
 translate k WhatThreatFailed {위협 분석을 실행할 수 없습니다: %s}
 translate k WhatThreatNothingForcing {%s에게는 여기서 강제하는 수가 없습니다: 기물을 얻거나 체크를 거는 수가 없습니다.}
 translate k ReviewVarLines {기록할 변화}

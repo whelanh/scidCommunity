@@ -873,6 +873,7 @@ translate C ToolsWhatThreatTooltip {Zeptej se enginu, čím hrozí strana na tah
 translate C WhatThreatRunning {Analýza hrozeb už běží.}
 translate C WhatThreatNoEngine {Není nastaven žádný engine. Vyberte jej v Nástroje -> Seznam enginů, nebo nejprve otevřete okno enginu.}
 translate C WhatThreatNoPosition {Není žádná pozice k prohlédnutí.}
+translate C WhatThreatNoMove {Není zde žádný tah k okomentování. Přejdi nejprve na tah v partii.}
 translate C WhatThreatFailed {Analýzu hrozeb se nepodařilo spustit: %s}
 translate C WhatThreatNothingForcing {%s zde nemá nic vynucujícího: žádný tah nezíská materiál ani nedá šach.}
 translate C ReviewVarLines {Varianty k zápisu}

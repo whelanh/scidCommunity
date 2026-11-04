@@ -900,6 +900,7 @@ translate G ToolsWhatThreatTooltip {Ρώτησε τη μηχανή τι απει
 translate G WhatThreatRunning {Μια ανάλυση απειλών εκτελείται ήδη.}
 translate G WhatThreatNoEngine {Δεν έχει ρυθμιστεί μηχανή. Διάλεξε μία στα Εργαλεία -> Λίστα μηχανών ή άνοιξε πρώτα ένα παράθυρο μηχανής.}
 translate G WhatThreatNoPosition {Δεν υπάρχει θέση για εξέταση.}
+translate G WhatThreatNoMove {Δεν υπάρχει κίνηση για σχολιασμό εδώ. Πήγαινε πρώτα σε μια κίνηση της παρτίδας.}
 translate G WhatThreatFailed {Η ανάλυση απειλών δεν μπόρεσε να ξεκινήσει: %s}
 translate G WhatThreatNothingForcing {Το %s δεν έχει τίποτα εξαναγκαστικό εδώ: καμία κίνηση δεν κερδίζει υλικό ούτε δίνει σαχ.}
 translate G ReviewVarLines {Παραλλαγές προς εγγραφή}

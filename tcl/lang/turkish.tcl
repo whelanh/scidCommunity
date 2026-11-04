@@ -872,6 +872,7 @@ translate T ToolsWhatThreatTooltip {Motora, sıra kimdeyse onun neyi tehdit etti
 translate T WhatThreatRunning {Zaten bir tehdit analizi çalışıyor.}
 translate T WhatThreatNoEngine {Yapılandırılmış motor yok. Araçlar -> Motor Listesi'nden birini seçin ya da önce bir motor penceresi açın.}
 translate T WhatThreatNoPosition {Bakılacak bir konum yok.}
+translate T WhatThreatNoMove {Burada yorumlanacak bir hamle yok. Önce oyundaki bir hamleye gidin.}
 translate T WhatThreatFailed {Tehdit analizi çalıştırılamadı: %s}
 translate T WhatThreatNothingForcing {%s için burada zorlayıcı bir şey yok: hiçbir hamle materyal kazandırmıyor ve şah çekmiyor.}
 translate T ReviewVarLines {Yazılacak varyantlar}

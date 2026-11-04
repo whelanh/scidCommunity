@@ -876,6 +876,7 @@ translate H ToolsWhatThreatTooltip {Kérdezd meg a motort, mivel fenyeget a soro
 translate H WhatThreatRunning {Már fut egy fenyegetés-elemzés.}
 translate H WhatThreatNoEngine {Nincs beállított motor. Válassz egyet az Eszközök -> Motorlista menüben, vagy nyiss előbb egy motorablakot.}
 translate H WhatThreatNoPosition {Nincs mit megvizsgálni.}
+translate H WhatThreatNoMove {Itt nincs megjegyzendő lépés. Előbb lépj a játszma egyik lépésére.}
 translate H WhatThreatFailed {A fenyegetés-elemzést nem sikerült elindítani: %s}
 translate H WhatThreatNothingForcing {%s-nek itt nincs semmi kényszerítő: egy lépés sem nyer anyagot és nem ad sakkot.}
 translate H ReviewVarLines {Kiírandó változatok}

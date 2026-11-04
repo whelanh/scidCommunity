@@ -879,6 +879,7 @@ translate W ToolsWhatThreatTooltip {Fråga motorn vad sidan i draget hotar}
 translate W WhatThreatRunning {En hotanalys pågår redan.}
 translate W WhatThreatNoEngine {Ingen motor är inställd. Välj en i Verktyg -> Motorlista, eller öppna först ett motorfönster.}
 translate W WhatThreatNoPosition {Det finns ingen ställning att titta på.}
+translate W WhatThreatNoMove {Det finns inget drag att kommentera här. Gå först till ett drag i partiet.}
 translate W WhatThreatFailed {Hotanalysen kunde inte köras: %s}
 translate W WhatThreatNothingForcing {%s har inget tvingande här: inget drag vinner material eller ger schack.}
 translate W ReviewVarLines {Varianter att skriva}

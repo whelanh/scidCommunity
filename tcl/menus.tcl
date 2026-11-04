@@ -284,7 +284,8 @@ $m  add command -label ToolsRapidAnnotate \
 # an entry built from an already-translated string would stay in that language.
 $m  add command -label GameComment -command ::analysis_auto_comment::batch_generate
 # What's the threat? asks the engine about the board in front of the reader, on
-# a connection of its own, and writes nothing. The label is the key, as above.
+# a connection of its own, and writes the answer into the current move's comment.
+# The label is the key, as above.
 $m  add command -label ToolsWhatThreat -command ::reviewthreat::ask
 $m add separator
 $m add checkbutton -label ToolsFilterGraph \

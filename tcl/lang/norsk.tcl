@@ -878,6 +878,7 @@ translate O ToolsWhatThreatTooltip {Spør motoren hva siden i trekket truer}
 translate O WhatThreatRunning {En trusselanalyse pågår allerede.}
 translate O WhatThreatNoEngine {Ingen motor er satt opp. Velg en i Verktøy -> Motorliste, eller åpne først et motorvindu.}
 translate O WhatThreatNoPosition {Det er ingen stilling å se på.}
+translate O WhatThreatNoMove {Det er ikke noe trekk å kommentere her. Gå først til et trekk i partiet.}
 translate O WhatThreatFailed {Trusselanalysen kunne ikke kjøres: %s}
 translate O WhatThreatNothingForcing {%s har ingenting tvingende her: ingen trekk vinner materiale eller gir sjakk.}
 translate O ReviewVarLines {Varianter som skal skrives}
