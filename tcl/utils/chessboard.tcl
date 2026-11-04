@@ -326,6 +326,23 @@ proc ::chessboard::pseudoMoves {pos} {
 }
 
 # Apply a UCI move (e2e4 / e7e8q). Returns the new position.
+# Remove the castling right a rook on `file` carries. `upper` is the colour
+# (white rights are upper case). Scid writes Chess960 rights as rook-file
+# letters; the classic KQkq spelling is removed as well.
+proc ::chessboard::dropRookRight {castle file upper} {
+    set letter [string index "ABCDEFGH" $file]
+    if {!$upper} { set letter [string tolower $letter] }
+    set out [string map [list $letter ""] $castle]
+    if {$upper} {
+        if {$file == 7} { set out [string map {K ""} $out] }
+        if {$file == 0} { set out [string map {Q ""} $out] }
+    } else {
+        if {$file == 7} { set out [string map {k ""} $out] }
+        if {$file == 0} { set out [string map {q ""} $out] }
+    }
+    return $out
+}
+
 proc ::chessboard::makeMove {pos uci} {
     set uci [string range $uci 0 3][string tolower [string range $uci 4 end]]
     set board [dict get $pos board]
@@ -381,7 +398,13 @@ proc ::chessboard::makeMove {pos uci} {
         lset board $rookSq ""
         lset board $kingTo $piece
         lset board $rookTo $ownRook
-        set castle [string map [expr {$side eq "w" ? {K "" Q ""} : {k "" q ""}}] $castle]
+        # The king moved: both of that side's rights are gone. The field may be
+        # the classic KQkq or Scid's Chess960 rook-file letters (HAha).
+        if {$side eq "w"} {
+            set castle [regsub -all {[A-HKQ]} $castle ""]
+        } else {
+            set castle [regsub -all {[a-hkq]} $castle ""]
+        }
         set half [expr {[dict get $pos half] + 1}]
         set full [expr {[dict get $pos full] + ($side eq "b" ? 1 : 0)}]
         return [dict create board $board side [expr {$side eq "w" ? "b" : "w"}] \
@@ -395,18 +418,22 @@ proc ::chessboard::makeMove {pos uci} {
         lset board $to [expr {$side eq "w" ? [string toupper $promo] : [string tolower $promo]}]
     }
 
-    # castling rights: dropped when the king or a rook leaves, or a rook is taken
-    foreach sq {4 7 0 60 63 56} {
-        if {$from == $sq || $to == $sq} {
-            switch -- $sq {
-                4  { set castle [string map {K "" Q ""} $castle] }
-                7  { set castle [string map {K ""} $castle] }
-                0  { set castle [string map {Q ""} $castle] }
-                60 { set castle [string map {k "" q ""} $castle] }
-                63 { set castle [string map {k ""} $castle] }
-                56 { set castle [string map {q ""} $castle] }
-            }
+    # castling rights: a king move drops both of its side's rights; a rook move
+    # or a rook captured on its square drops the right for that file. The field
+    # can be KQkq or Chess960 file letters, so both spellings are removed.
+    if {$lower eq "k"} {
+        if {$side eq "w"} {
+            set castle [regsub -all {[A-HKQ]} $castle ""]
+        } else {
+            set castle [regsub -all {[a-hkq]} $castle ""]
         }
+    } elseif {$lower eq "r"} {
+        set castle [::chessboard::dropRookRight $castle [expr {$from % 8}] \
+            [expr {$piece eq "R"}]]
+    }
+    if {[string tolower $captured] eq "r"} {
+        set castle [::chessboard::dropRookRight $castle [expr {$to % 8}] \
+            [expr {$captured eq "R"}]]
     }
 
     set half [expr {($lower eq "p" || $captured ne "") ? 0 : [dict get $pos half] + 1}]

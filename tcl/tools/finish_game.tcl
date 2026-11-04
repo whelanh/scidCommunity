@@ -121,9 +121,35 @@ proc ::finishgame::gameIdentity {} {
 }
 
 # The part of a FEN two positions must share to be the same position for the
-# repetition rule: placement, side to move, castling rights and en passant.
+# repetition rule: placement, side to move, castling rights and en passant. The
+# en-passant field is removed when no pawn of the side to move can use it: a
+# double pawn push writes it even when there is no capture, and the same
+# position later would otherwise count under a different key.
 proc ::finishgame::positionKey {fen} {
-    return [join [lrange [split $fen] 0 3] " "]
+    set parts [split [string trim $fen]]
+    set placement [lindex $parts 0]
+    set side [lindex $parts 1]
+    set castle [lindex $parts 2]
+    set ep [lindex $parts 3]
+    if {$ep ne "-" && [string length $ep] == 2} {
+        set file [string first [string index $ep 0] "abcdefgh"]
+        set rank [expr {[string index $ep 1] - 1}]
+        set pawnRank [expr {$side eq "w" ? $rank - 1 : $rank + 1}]
+        set pawn [expr {$side eq "w" ? "P" : "p"}]
+        set can 0
+        catch {
+            set b [dict get [::chessboard::fromFen $fen] board]
+            foreach f [list [expr {$file - 1}] [expr {$file + 1}]] {
+                if {$f >= 0 && $f <= 7 && $pawnRank >= 0 && $pawnRank <= 7} {
+                    if {[lindex $b [expr {$pawnRank * 8 + $f}]] eq $pawn} {
+                        set can 1
+                    }
+                }
+            }
+        }
+        if {!$can} { set ep "-" }
+    }
+    return [join [list $placement $side $castle $ep] " "]
 }
 
 # The positions the game has already reached up to the cursor. The pass plays on

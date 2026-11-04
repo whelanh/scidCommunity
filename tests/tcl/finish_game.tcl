@@ -360,6 +360,17 @@ checkEq "the repeating move was still written once" [llength $::played] 8
 checkEq "the result is a draw" [lindex $::results 0] "1/2-1/2"
 checkEq "and no error was reported" $::boxes {}
 
+puts "\na repetition through a double pawn push is counted"
+
+# 1.e4 sets an en-passant square no pawn can use. The same position returns
+# after the knights cycle, without that square; the key must treat them as one.
+resetGame
+set ::moves {e2e4 g8f6 g1f3 f6g8 f3g1 g8f6 g1f3 f6g8 f3g1}
+::finishgame::start 1 "W" "B"
+checkEq "the cycle stops at the third occurrence" [llength $::played] 9
+checkEq "and is recorded as a draw" [lindex $::results 0] "1/2-1/2"
+checkEq "with no error" $::boxes {}
+
 puts "\nthe commit belongs to the game the pass started with"
 
 resetGame
@@ -380,6 +391,24 @@ set c [::chessboard::fromFen {r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1}]
 set c [::chessboard::makeMove $c e1a1]
 checkEq "queenside: the king finishes on c1" [lindex [dict get $c board] 2] K
 checkEq "queenside: the rook finishes on d1" [lindex [dict get $c board] 3] R
+set c [::chessboard::fromFen {r3k2r/8/8/8/8/8/8/R3K2R w HAha - 0 1}]
+set c [::chessboard::makeMove $c e1h1]
+checkEq "Chess960 rights: the castling side's letters are gone" \
+    [dict get $c castle] ha
+set c [::chessboard::fromFen {r3k2r/8/8/8/8/8/8/R3K2R w HAha - 0 1}]
+set c [::chessboard::makeMove $c h1h2]
+checkEq "a rook move drops only its own file's right" [dict get $c castle] Aha
+
+puts "\nthe repetition key ignores an unusable en-passant square"
+
+checkEq "a double push with no capturing pawn has no ep key" \
+    [::finishgame::positionKey \
+        {rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1}] \
+    {rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq -}
+checkEq "a pawn that can capture keeps it" \
+    [::finishgame::positionKey \
+        {rnbqkbnr/pppppppp/8/8/3pP3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1}] \
+    {rnbqkbnr/pppppppp/8/8/3pP3/8/PPPP1PPP/RNBQKBNR b KQkq e3}
 
 puts "\na midgame cursor is refused before any search"
 
