@@ -2265,7 +2265,7 @@ set tips(L) {
   }
 }
 
-# Review progress popup (#422 item 3).
+# Review progress pane (#422 item 3).
 translate L ReviewProgressTitle {Review progress}
 translate L ReviewProgressIdle {No review is running}
 translate L ReviewProgressGameOf {game %s of %s}

@@ -254,7 +254,7 @@ proc ::reviewui::progressText {done total} {
     return [format [::reviewui::tr ReviewProgress] $done $total]
 }
 
-# The progress popup's determinate bar (#422 item 3), from the driver's own
+# The progress pane's determinate bar (#422 item 3), from the driver's own
 # counts and from nothing else: one progress source, so the bar and the status
 # line can never disagree.
 #

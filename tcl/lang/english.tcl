@@ -2149,7 +2149,7 @@ translate E RtfImportSuccessMulti {%d games imported into clipboard database suc
 }
 # end of english.tcl
 
-# Review progress popup (#422 item 3).
+# Review progress pane (#422 item 3).
 translate E ReviewProgressTitle {Review progress}
 translate E ReviewProgressIdle {No review is running}
 translate E ReviewProgressGameOf {game %s of %s}

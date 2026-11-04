@@ -241,6 +241,10 @@ set m .menu.windows
 menu $m
 .menu add cascade -label Windows -menu $m
 $m add checkbutton -label WindowsComment -var ::windows::commenteditor::isOpen -command "::makeCommentWin toggle" -accelerator "Ctrl+E"
+# The review progress pane: a pane of the app, opened like any other and fed by
+# whatever run is in flight. No accelerator: it is not a workspace the reader
+# switches to constantly.
+$m add command -label [tr ReviewProgressTitle] -command ::reviewprogress::ui::open
 $m add checkbutton -label WindowsPGN -variable pgnWin -command ::pgn::OpenClose  -accelerator "Ctrl+P"
 $m add checkbutton -label OptionsWindowsShowGameInfo -variable showGameInfo -command ::toggleGameInfo
 $m add separator

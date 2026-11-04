@@ -319,6 +319,54 @@ checkEq "an empty move list is not a write at all" \
 check "an empty move list still does not touch a game" \
     [expr {[lsearch -exact $::calls "game push copy"] < 0}]
 
+puts "== the surface is a docked pane, not a window of its own =="
+
+# The pane is registered with the application's docking layer and built into
+# the frame that layer creates (tcl/utils/win.tcl). Two properties are readable
+# without Tk, and both are the difference between a pane and the rejected popup.
+set fh [open [file join $root tcl utils win.tcl] r]
+set winTcl [read $fh]
+close $fh
+check "::docking::create_window registers the progress pane" \
+    [expr {[string match {*reviewProgress*} $winTcl]}]
+check "the arm keeps the fdock prefix every other arm keeps" \
+    [regexp {\\\.\(fdock\)\?reviewProgress} $winTcl]
+
+set fh [open [file join $root tcl tools review_progress_ui.tcl] r]
+set uiTcl [read $fh]
+close $fh
+check "nothing in the pane creates a toplevel" \
+    [expr {![regexp {\n[ \t]*toplevel[ \t]} $uiTcl]}]
+check "nothing in the pane drives the window manager" \
+    [expr {![regexp {\n[ \t]*wm[ \t]+(withdraw|deiconify|resizable|protocol|title|manage|geometry|state)} $uiTcl]}]
+check "the pane's maker is a command the docking layer can call" \
+    [expr {[regexp {\nproc ::reviewprogress::ui::open[ \t]} $uiTcl]}]
+
+puts "== the job outlives every pane, and no painter can break a run =="
+
+# The docking layer can destroy and rebuild the pane at any time (tab closed,
+# undock, layout restore). The run must not notice: it publishes into the job,
+# and the pane is a reader of that job.
+::reviewprogress::setPainter {}
+set token [::reviewprogress::begin [dict create source review engine {E} \
+    origin {enginewin 1}]]
+check "a run publishes with no painter at all" \
+    [expr {[::reviewprogress::setPosition $token \
+        {rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1} 5 40] == 1}]
+checkEq "and the job still holds the position" \
+    [dict get [::reviewprogress::job] done] 5
+
+# A painter that raises is a pane that was destroyed mid-paint. It must not
+# take the run down: the board is decoration over a job, not a party to it.
+proc explodingPainter {job} { error "the pane went away" }
+::reviewprogress::setPainter explodingPainter
+set rc [catch { ::reviewprogress::setPosition $token \
+    {rnbqkbnr/pppppppp/8/8/8/8/PPPP1PPP/RNBQKBNR w KQkq - 0 1} 6 40 } err]
+check "a pane that raises cannot take the run down" [expr {$rc == 0}] $err
+checkEq "and the job moved anyway" \
+    [dict get [::reviewprogress::job] done] 6
+::reviewprogress::setPainter {}
+
 puts ""
 puts "$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

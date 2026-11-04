@@ -233,18 +233,24 @@ That keeps the search and the write apart for the reason they always were:
 writing mid-pass re-enters the engine window from an open engine, which makes the
 main-line snapshot non-authoritative.
 
-## The progress popup
+## The progress pane
 
-A review runs on its own engine connection and never takes the board. The popup
-is the window onto that work (#422 item 3): the header names the run's source and
-the engine it was started with, a read-only board shows the position being
-searched, a determinate bar shows how far the pass has got, and the button stops
-it.
+A review runs on its own engine connection and never takes the board. The
+progress pane is the surface onto that work (#422 item 3): the header names the
+run's source and the engine it was started with, a read-only board shows the
+position being searched, a determinate bar shows how far the pass has got, and
+the button stops it.
 
-- **One window.** Built on first use and withdrawn, never destroyed, so a session
-  has one popup however many runs it starts. It opens over the engine window that
-  started the run; the status line in the review toolbar opens it again after it
-  has been closed.
+- **A docked pane, not a window.** It is registered with the app's docking layer
+  (`::docking::create_window` in `tcl/utils/win.tcl`) and built into the frame
+  the dock creates, the way `.commentWin` is; it appears in a notebook tab and
+  joins the saved layouts. There is no `toplevel`, no `wm` call and no transient:
+  the dock owns its visibility, its position and its lifetime.
+- **Opened, never imposed.** Windows → Review progress opens it, and the review
+  status line in the engine window's toolbar opens it while a run is in flight.
+  Starting a run does not create or select a tab: the docked layout belongs to
+  the reader. With no run in flight the pane shows the current position of the
+  game on the main board.
 - **Fed a FEN and nothing else.** `::reviewprogress::positionToBoard` turns the
   engine's own FEN into the string `::board::update` draws, on a board that has
   no game, no cursor and no clock. A run therefore cannot move the reader's board
@@ -255,21 +261,24 @@ it.
   engine choice still says what it was asked to do.
 - **The bar has one source.** `::reviewui::passFraction` of the driver's own
   counts; an empty total is no fraction rather than zero.
-- **Covered is not paused.** The job is published whether or not the window is
-  mapped, and `<Map>` redraws from the current position, so a reader who comes
-  back sees where the run is now.
+- **Hidden is not paused.** The job is published whether or not the tab is
+  selected, and `<Map>` redraws from the current position, so a reader who comes
+  back sees where the run is now. The board is built at an explicit `psize`,
+  because a canvas in an unselected tab has no measured width to ask for.
 - **Closing cancels nothing.** The run's own Cancel is the only thing that stops
-  it; the popup is decoration over a job.
-- **Every run gets it, not only the engine window's** (G5=b). Game Review and
-  Move Comment begin the job in `::reviewui::runCall`; annotate composes its
-  header in `::reviewannotate::headerFields`; rapid annotate owns a job of its
-  own and leaves one another run holds alone; the batch starts one job for the
-  whole run. A batch's header carries the game in flight (`· game 4 of 4`),
-  recomposed from the fields the run began with as each game is assigned, so it
-  is still a stored field rather than a lookup at draw time. The board always
-  shows the position the engine is searching — the driver's own `position`
-  string replayed on a pure `::chessboard`, never the reader's game — so none of
-  these runs can walk the main board.
+  it; the pane is decoration over a job. A run that outlives a closed pane keeps
+  publishing, and reopening the pane reads the job and draws the run as it
+  stands.
+- **Every run publishes into it, not only the engine window's** (G5=b). Game
+  Review and Move Comment begin the job in `::reviewui::runCall`; annotate
+  composes its header in `::reviewannotate::headerFields`; rapid annotate owns a
+  job of its own and leaves one another run holds alone; the batch starts one job
+  for the whole run. A batch's header carries the game in flight
+  (`· game 4 of 4`), recomposed from the fields the run began with as each game is
+  assigned, so it is still a stored field rather than a lookup at draw time. The
+  board always shows the position the engine is searching — the driver's own
+  `position` string replayed on a pure `::chessboard`, never the reader's game —
+  so none of these runs can walk the main board.
 
 Finish Game uses the same board. It collects the continuation on pure
 `::chessboard` positions — each move from the previous one — and writes once at

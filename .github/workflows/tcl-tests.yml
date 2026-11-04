@@ -103,10 +103,11 @@ jobs:
       - name: Review UI
         run: tclsh tests/tcl/review_ui.tcl
 
-      # The progress popup (#422 item 3): the feed, the header for every source,
-      # and the bar's fraction from ::reviewui::passFraction.
-      - name: Review progress dialog
-        run: tclsh tests/tcl/review_progress_dialog.tcl
+      # The progress pane (#422 item 3): the feed, the header for every source,
+      # the bar's fraction from ::reviewui::passFraction, and the docking arm
+      # that makes the surface a pane of the app rather than a window of its own.
+      - name: Review progress pane
+        run: tclsh tests/tcl/review_progress_pane.tcl
 
       # The notices this repository claims are the notices it keeps (#422).
       - name: Licensing
@@ -153,11 +154,11 @@ jobs:
       - name: Finish Game dialog
         run: xvfb-run -a wish tests/tcl/finish_game_dialog.tcl
 
-      # The progress popup's widgets (#422 item 3): one window reused, an
-      # explicit psize, no bindings, and a covered popup that draws the current
-      # position when it comes back.
-      - name: Review progress popup
-        run: xvfb-run -a wish tests/tcl/review_progress_dialog_tk.tcl
+      # The progress pane's widgets (#422 item 3): built through the real
+      # docking layer, an explicit psize, no bindings, and a hidden tab that
+      # draws the current position when it comes back.
+      - name: Review progress pane
+        run: xvfb-run -a wish tests/tcl/review_progress_pane_tk.tcl
 
   startup-smoke:
     name: startup with a clean profile

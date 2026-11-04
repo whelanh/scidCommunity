@@ -742,13 +742,13 @@ proc ::enginewin::createButtonsBar {id btn display} {
     set ::enginewin::reviewstatus($id) ""
     ttk::label $btn.reviewstatus -textvariable ::enginewin::reviewstatus($id) \
         -anchor w
-    # The way back to the progress popup after the reader hides it: the status
-    # line is the review control that says a run is going, so it is the one that
-    # opens the window onto it. No new toolbar icon.
+    # The way to the progress pane: the status line is the review control that
+    # says a run is going, so it is the one that opens the pane onto it. No new
+    # toolbar icon.
     catch {
         ::utils::tooltip::Set $btn.reviewstatus [::reviewui::label ReviewProgressTitle]
         bind $btn.reviewstatus <Button-1> \
-            [list ::reviewprogress::ui::show [::enginewin::reviewWindow $id]]
+            [list ::reviewprogress::ui::open]
     }
 
     set reviewButtons [list $btn.gamereview $btn.movecomment]
@@ -992,9 +992,10 @@ proc ::enginewin::reviewStart {id state} {
     # Nothing to search is a run that finished (a book cover, an empty plan):
     # the driver says so, and there is nothing left to show.
     ::enginewin::reviewStatus $id
-    # The progress popup is the window onto a run (#422 item 3). It opens over
-    # the window that started it; closing it hides it and the pass goes on.
-    catch { ::reviewprogress::ui::show $w }
+    # The progress pane is a pane of the app, not a window this one owns: the
+    # run publishes into the job and the pane reads it whenever the reader has
+    # it open. Starting a run does not create or select a tab: the docked layout
+    # is the reader's, and the status line below is the way to the pane.
     ::enginewin::reviewRefresh $id
     return 1
 }

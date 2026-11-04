@@ -1121,7 +1121,7 @@ proc ::reviewdriver::notifyBoard {p} {
 proc ::reviewdriver::endRun {p {restore 1}} {
     variable pass
     set pass {}
-    # The progress popup is decoration over this run: when the run ends, the
+    # The progress pane is decoration over this run: when the run ends, the
     # window says so and falls back to the pane's position rather than leaving
     # the last position of a pass that is over on screen.
     if {[dict exists $p progressToken]} {

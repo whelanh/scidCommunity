@@ -904,6 +904,7 @@ proc ::docking::create_window {wnd} {
       "\.(fdock)?bookWin"             { ::book::open }
       "\.(fdock)?ecograph"            { ::windows::eco::OpenClose }
       "\.(fdock)?commentWin"          { ::makeCommentWin }
+      "\.(fdock)?reviewProgress"      { ::reviewprogress::ui::open }
       "\.(fdock)?oprepWin"            { ::optable::makeReportWin }
       "\.(fdock)?plist"               { ::plist::Open }
       "\.(fdock)?tourney"             { ::tourney::Open }
