@@ -86,6 +86,16 @@ proc clientSaw {id} {
     return [string trim [read $clientSide]]
 }
 
+# A parser that recognises one line, the way ::uci::parseline does for a
+# bestmove: it stores the move and asks ::engine::onMessages_ to finish the
+# reply. Kept as named procs because onMessages_ calls the value as a command
+# prefix.
+proc engine_reply_parseBest {id line} {
+    set ::engconn(InfoBestMove_$id) {e2e4}
+    return 1
+}
+proc engine_reply_noStop {id} { return }
+
 puts "\na callback that closes the engine"
 
 set ::seen ""
@@ -134,6 +144,45 @@ newConn rp4 [list apply {{msg} {
 set rc [catch {::engine::destroy_ rp4 {InfoDisconnected {}}} err]
 checkEq "destroy_ does not raise" $rc 0 $err
 checkEq "and the local reply reaches the callback" $::seen {InfoDisconnected {}}
+
+puts "\na callback that closes from the message loop"
+
+# The guard in reply is not enough on its own: the reader owns the line it just
+# replied to. Before this check ::engine::onMessages_ unset the Info* key
+# destroy_ had already removed and re-armed the fileevent on a closed channel.
+set ::seen ""
+newConn rp5 [list apply {{msg} {
+    set ::seen $msg
+    ::engine::close rp5
+}}]
+set ::engconn(parselinerp5) engine_reply_parseBest
+set ::engconn(logRecv_rp5) ""
+set ::engconn(waitReply_rp5) "Go"
+set ::engconn(StopGorp5) [list engine_reply_noStop rp5]
+puts $::enginePeer(rp5) "bestmove e2e4"
+flush $::enginePeer(rp5)
+after 50
+set rc [catch {::engine::onMessages_ rp5 $::engconn(channel_rp5)} err]
+checkEq "the message loop does not raise" $rc 0 $err
+checkEq "and the callback sees the message" $::seen {InfoBestMove e2e4}
+check "the connection is torn down" [expr {![info exists ::engconn(channel_rp5)]}]
+
+puts "\na callback that closes from done_'s own reply"
+
+set ::seen ""
+newConn rp6 [list apply {{msg} {
+    set ::seen $msg
+    ::engine::close rp6
+}}]
+set ::engconn(waitReply_rp6) "NewGame"
+set rc [catch {::engine::done_ rp6} err]
+checkEq "done_ does not raise" $rc 0 $err
+checkEq "and the callback sees the reply" $::seen {InfoReady {}}
+check "the connection is torn down" [expr {![info exists ::engconn(channel_rp6)]}]
+# The timer for a connection that closed is still queued in some paths; a
+# done_ for an engine that is gone is a no-op rather than an array error.
+set rc [catch {::engine::done_ rp6} err]
+checkEq "a done_ for a closed engine is a no-op" $rc 0 $err
 
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]
