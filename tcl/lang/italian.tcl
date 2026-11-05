@@ -1208,6 +1208,7 @@ translate I Bold {Grassetto}
 translate I Italic {Corsivo}
 translate I Underline {Sottolineare}
 translate I TextColor {Colore del testo...}
+translate I CommentDefaultColor {Colore commento predefinito...}
 translate I CommentFont {Font...}
 translate I RemoveFormatting {Rimuovi la formattazione}
 translate I Family {Famiglia}

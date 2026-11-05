@@ -51,6 +51,12 @@ if {[llength [info commands ::reviewreport::sideSummary]] == 0} {
         if {[file exists $f]} { catch { source -encoding utf-8 $f } ; break }
     }
 }
+if {[llength [info commands ::commentcolors::wrap]] == 0} {
+    foreach f [list [file join $::scidTclDir tools comment_colors.tcl] \
+                   [file join [file dirname [info script]] comment_colors.tcl]] {
+        if {[file exists $f]} { catch { source -encoding utf-8 $f } ; break }
+    }
+}
 
 proc ::reviewcoach::balanceWord {cpWhite} {
     set a [expr {abs($cpWhite)}]
@@ -708,9 +714,10 @@ proc ::reviewcoach::buildPrompts {moves game} {
 # everything the reader had added underneath.)
 proc ::reviewcoach::strip {comment} {
     # The phase word is in the window's language; the tag in front of it is not,
-    # so the line is matched by the tag and taken whole.
-    regsub -all {\[Phase [^\]]*\][^\n]*} $comment "" comment
-    regsub -all {\[Coach\][^\n]*} $comment "" comment
+    # so the line is matched by the tag and taken whole. The line may carry the
+    # coach's colour span; stripLine takes the wrapper with it.
+    set comment [::commentcolors::stripLine $comment {\[Phase [^\]]*\][^\n]*}]
+    set comment [::commentcolors::stripLine $comment {\[Coach\][^\n]*}]
     # The removed line leaves its separator behind; a block at the end leaves one
     # trailing blank. Neither is prose, so neither is kept.
     regsub -all {[ \t]+\n} $comment "\n" comment
@@ -727,7 +734,9 @@ proc ::reviewcoach::stripHeader {comment} {
     # changed does not keep its old header beside the new one.
     set alts {}
     foreach word [headerLabels] { lappend alts [escape $word] }
-    set out [regsub -line -all "^([join $alts |]):.*$" $comment ""]
+    # A header line may carry the coach's colour span; the wrapper is part of
+    # the line, not text before the label.
+    set out [regsub -line -all "^(?:<span\[^>\]*>)?([join $alts |]):.*$" $comment ""]
     regsub -all {\n\n\n+} $out "\n\n" out
     return [string trim $out]
 }
@@ -827,18 +836,19 @@ proc ::reviewcoach::place {p moves prompts results} {
         if {$kind eq "summary"} {
             if {[catch { sc_move ply 0 }] || [sc_pos location] != 0} { continue }
             set sm [::reviewcoach::parseSummary $text]
-            set block ""
+            set lines {}
             if {[dict get $sm summary] ne ""} {
-                append block "[phrase ReviewCoachSummaryLabel Summary]: [dict get $sm summary]"
+                lappend lines "[phrase ReviewCoachSummaryLabel Summary]: [dict get $sm summary]"
             }
             if {[dict get $sm level] ne ""} {
-                append block "\n[phrase ReviewCoachLevelLabel Level]: [dict get $sm level]"
+                lappend lines "[phrase ReviewCoachLevelLabel Level]: [dict get $sm level]"
             }
             set opening [dict get $sm opening]
             if {$opening ne ""} {
-                append block "\n[phrase ReviewCoachOpeningLabel Opening]: $opening"
+                lappend lines "[phrase ReviewCoachOpeningLabel Opening]: $opening"
             }
-            if {$block eq ""} { continue }
+            if {![llength $lines]} { continue }
+            set block [::commentcolors::wrapCoachLines [join $lines "\n"]]
             set old [::reviewcoach::strip [sc_pos getComment]]
             sc_pos setComment [string trim "$old\n\n$block"]
             continue
@@ -862,14 +872,16 @@ proc ::reviewcoach::place {p moves prompts results} {
             if {$text ne ""} {
                 append block " " [string trim [regsub -all {\s+} $text " "]]
             }
+            set block [::commentcolors::wrapCoach $block]
             set old [::reviewcoach::strip [sc_pos getComment]]
             sc_pos setComment [string trim "$old\n\n$block"]
             continue
         }
         if {$kind eq "moment"} {
             if {[catch { sc_move ply $key }] || [sc_pos location] != $key} { continue }
+            set note "\[Coach\] [string trim [regsub -all {\s+} $text " "]]"
             set old [::reviewcoach::strip [sc_pos getComment]]
-            sc_pos setComment [string trim "$old\n\n\[Coach\] [string trim [regsub -all {\s+} $text " "]]"]
+            sc_pos setComment [string trim "$old\n\n[::commentcolors::wrapCoach $note]"]
         }
     }
     catch { if {$cursor ne ""} { ::review::cursorRestore $cursor } }

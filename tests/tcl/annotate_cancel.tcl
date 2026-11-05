@@ -54,6 +54,7 @@ proc tk_messageBox {args} {
 
 set root [file normalize [file join [file dirname [info script]] .. ..]]
 source [file join $root tcl tools review_driver.tcl]
+source [file join $root tcl tools comment_colors.tcl]
 source [file join $root tcl tools review_annotate.tcl]
 
 ########################################################################

@@ -41,6 +41,7 @@ set src [file join $root tcl windows engine.tcl]
 source [file join $root tcl tools accuracy.tcl]
 source [file join $root tcl tools move_labels.tcl]
 source [file join $root tcl tools score_seed.tcl]
+source [file join $root tcl tools comment_colors.tcl]
 source [file join $root tcl tools game_review.tcl]
 
 # The namespaces the lifted procedures and the stubs live in. Creating them up

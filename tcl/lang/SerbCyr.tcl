@@ -1237,6 +1237,7 @@ translate J Bold {Болд}
 translate J Italic {Курзив}
 translate J Underline {Подвуци}
 translate J TextColor {Боја текста...}
+translate J CommentDefaultColor {Подразумевана боја коментара...}
 translate J CommentFont {Фонт...}
 translate J RemoveFormatting {Уклоните форматирање}
 translate J Family {Породица}

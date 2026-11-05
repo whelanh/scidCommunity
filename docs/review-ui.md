@@ -511,11 +511,41 @@ swallowed every event meant for the dialog it opens.
 | a second review, coach on | the previous prose is replaced, not stacked |
 | a second review, coach off | the previous prose is removed; the review's own comments are untouched |
 
+## Comment colours
+
+The comments a review writes say where they came from by their colour. It is a
+provenance colour, chosen by the writer and not by the shape of the text:
+
+| Writer | Colour | What it writes |
+| --- | --- | --- |
+| `::review` | green `#008000` | the move verdicts (`[Best] [%eval …]`, `[Book]`) and the `[Game review]` report block |
+| `::reviewcoach` | blue `#3B82F6` | the coach's `Summary:`/`Level:`/`Opening:` block, `[Phase …]` lines and `[Coach] …` moments |
+| the reader | `::pgnColor(Comment)` (default green `#008b00`) | text typed without a formatting span |
+
+`tcl/tools/comment_colors.tcl` writes the colour as the comment editor's own
+`<span style="color:…">` markup, so the comment window, the PGN window and the
+RTF export render it, and plain PGN export strips it (`src/game.cpp`). Nothing
+is written for text the reader typed, which is what lets the global comment
+colour be theirs: the Format menu's **Default comment color…** and the PGN
+window's Colors → Comment set the same `::pgnColor(Comment)`, and the comment
+window paints unspanned text with it.
+
+The blue is a compromise: no single blue reaches 4.5:1 against both white and
+the dark themes' `#1e1e2e`, and `#3B82F6` gives 4.46:1 on the darkest bundled
+background (the review's green is 3.67:1 there).
+
+Because a generated block is one span around one line, the strips that replace a
+previous run take the wrapper with the text, and `::commentcolors::stripEmpty`
+clears a wrapper left behind when only its tokens were removed. A comment
+written before the colours existed is still stripped: every strip keeps its
+plain-text form.
+
 ## Files
 
 | File | What is there |
 | --- | --- |
 | `tcl/tools/game_review.tcl` | `::review` settings, `passLimits`, `plan`, `searchPlies`, `mainLineMap`, `playedMove`, `moveCommentPlan`, `writeMove`, `selectLines`, `scoreToNag`, `variationWanted` |
+| `tcl/tools/comment_colors.tcl` | the provenance spans: the review's green, the coach's blue, line wrapping, and the span-aware strip |
 | `tcl/tools/review_driver.tcl` | `::reviewdriver` — the engine pass on connection 20, `run` (plan → verdicts → write), the `-done` completion hook, the `-coach` override, coach-block ownership for the default writer only, `status`, `cancel` |
 | `tcl/tools/review_annotate.tcl` | `::reviewannotate` — the annotate dialog's decision, the run (single game and batch chain), Cancel, the progress line, the classic marks |
 | `tcl/tools/review_ui.tcl` | `::reviewui` — button state, the call a press makes, dialog values, the time cap's note, the status line |
@@ -527,12 +557,14 @@ swallowed every event meant for the dialog it opens.
 | `tests/tcl/review_settings_dialog.tcl` | 51 checks: under Tk: the dialog builds, has OK/Cancel, stores what is typed, refuses a bad value, the variation box follows `mpv`, the time cap's row shows the preset's cap and drops the note, the on/off rows are checkboxes, `Coach settings…` opens a window of its own from a dialog that holds no grab, and both traces are removed when the dialog closes |
 | `tests/tcl/review_ui.tcl` | 229 checks: the call a press makes, the status line (including the coach's counts), the button states, the dialog round trip, the precedence table through the dialog, the time cap's note, which move a comment judges, the move-comment depth, the key set |
 | `tests/tcl/review_toolbar.tcl` | 42 checks: the five review icons use `::icon::` names and exist in icons_light and icons_dark at 24×24, the whole engine toolbar uses `::icon::` images, the labels are tooltips rather than text, the stop icon is gridded only while a pass runs, a visible divider separates the review group from Config, the dark-theme cache matches `::icon::` names, and the threat button exists only when its command does |
-| `tests/tcl/review_driver.tcl` | 298 checks: the pass against a stub engine, the four Go shapes the precedence table produces, a capped run, two reviews of the same game in a row, the engine window's hand-off to it, the completion hook, and the coach: started after the write, the run held open until the answers land, not started for a single move or an annotate pass, an annotate pass leaving the coach blocks alone, not holding a run open when it cannot start, and Cancel while the model is writing |
+| `tests/tcl/review_driver.tcl` | 300 checks: the pass against a stub engine, the four Go shapes the precedence table produces, a capped run, two reviews of the same game in a row, the engine window's hand-off to it, the completion hook, and the coach: started after the write, the run held open until the answers land, not started for a single move or an annotate pass, an annotate pass leaving the coach blocks alone, not holding a run open when it cannot start, and Cancel while the model is writing |
 | `tests/tcl/annotate_dialog.tcl` | 56 checks: the dialog's decision (pane preset, book end, tier, the non-UCI refusal), the blunders-only filter, and the Cancel label rule |
-| `tests/tcl/annotate_run.tcl` | 78 checks: the plan run against a stub engine, the write, the batch chain, the Cancel escalation and a cancelled run writing nothing |
-| `tests/tcl/review_report.tcl` | 110 checks: accuracy as the app's own figure and the parity a phase starting on Black's move needs, Elo, key moments, the endgame rule — one material total, with the six-piece net rejected at 38 points — the opening boundary — Smyrnov met and half met, rook-less and file/rank connectivity, mixedness at 150 and 161, the material net at ten and eleven, the first-firing signal at 17/21/25, no ply floor — and the block removal, two writes deep |
+| `tests/tcl/annotate_run.tcl` | 82 checks: the plan run against a stub engine, the write, the batch chain, the Cancel escalation and a cancelled run writing nothing |
+| `tests/tcl/review_report.tcl` | 115 checks: accuracy as the app's own figure and the parity a phase starting on Black's move needs, Elo, key moments, the endgame rule — one material total, with the six-piece net rejected at 38 points — the opening boundary — Smyrnov met and half met, rook-less and file/rank connectivity, mixedness at 150 and 161, the material net at ten and eleven, the first-firing signal at 17/21/25, no ply floor — and the block removal, two writes deep |
+| `tests/tcl/comment_colors.tcl` | 14 checks: the two writer colours, the wrapper's escaping and per-line form, the empty-wrapper cleanup, and a strip that takes a wrapper with its line while a reader's note beside it stays |
+| `tests/tcl/comment_default_color_tk.tcl` | 8 checks: under Tk: unspanned text takes `::pgnColor(Comment)`, the Format menu carries the entry, and choosing a colour saves it, repaints the editor and tells the PGN window |
 | `tests/tcl/comment_facts.tcl` | 107 checks: the position core against the published perft counts, the exact block for a mating move, each rule line stated positively and negatively, the fifty-move clock stated in moves, the engine's line as SAN numbered from the position's own fullmove — one conversion per line, the five-ply clip, a setup game at move 30, a line that starts on Black, a mate score surviving it, the "no bare UCI" and "one number per move" invariants — and a punishment line that ends in mate |
-| `tests/tcl/review_coach.tcl` | 118 checks: the move facts, the game-level facts, the turning move, the phase facts, the prose markers, that the header block comes off without taking the report's header with it, what a prompt may name and what it may not, which prompts a results set has and in what order, that a brilliant key moment gets no prompt, that the same set gives the same prompts, the summary reply, the game's identifying facts, and the prose layer: what a strip takes off and what a reader's own note keeps, where each answer lands, a second review replacing the first, a failed answer leaving no block, the coach off taking only its own prose, what a cancelled run reports, and the queue being wired to the prompts (including a queue that refuses to start) |
+| `tests/tcl/review_coach.tcl` | 123 checks: the move facts, the game-level facts, the turning move, the phase facts, the prose markers, that the header block comes off without taking the report's header with it, what a prompt may name and what it may not, which prompts a results set has and in what order, that a brilliant key moment gets no prompt, that the same set gives the same prompts, the summary reply, the game's identifying facts, and the prose layer: what a strip takes off and what a reader's own note keeps, where each answer lands, a second review replacing the first, a failed answer leaving no block, the coach off taking only its own prose, what a cancelled run reports, and the queue being wired to the prompts (including a queue that refuses to start) |
 | `tests/tcl/review_prose.tcl` | 52 checks: one prompt at a time in order, each item's own token budget, the cache answering a second run, a failed request dropped without failing the run, a reply for a question that is no longer outstanding ignored, a cancelled run's answer never landing in the next run, the cleaning of what a model writes, and the status a caller asks for |
 | `tests/tcl/review_transport.tcl` | 37 checks: a stub `curl` on PATH sleeps for a second, `queryAsync` returns in under 500 ms and its callback then arrives with the text, the blocking path holds the caller for the whole sleep (the control), two requests in flight do not cross, a refused provider starts no process, a failed request is an `ERROR:` string, Cancel kills the child and drops its reply (with the Windows `taskkill` fallback pinned), and no request or reply file is left behind |
 

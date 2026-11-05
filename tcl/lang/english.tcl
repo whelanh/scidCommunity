@@ -1240,6 +1240,7 @@ translate E Bold {Bold}
 translate E Italic {Italic}
 translate E Underline {Underline}
 translate E TextColor {Text color...}
+translate E CommentDefaultColor {Default comment color...}
 translate E CommentFont {Font...}
 translate E RemoveFormatting {Remove formatting}
 translate E Family {Family}

@@ -64,6 +64,7 @@ source [file join $root tcl enginecfg.tcl]
 source [file join $root tcl tools move_labels.tcl]
 source [file join $root tcl tools score_seed.tcl]
 source [file join $root tcl tools engine_limits.tcl]
+source [file join $root tcl tools comment_colors.tcl]
 source [file join $root tcl tools game_review.tcl]
 source [file join $root tcl tools review_driver.tcl]
 if {[catch {source [file join $root tcl tools review_annotate.tcl]} err]} {

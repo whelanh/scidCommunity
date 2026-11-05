@@ -24,6 +24,7 @@ set root [file normalize [file join [file dirname [info script]] .. ..]]
 source [file join $root tcl tools accuracy.tcl]
 source [file join $root tcl tools move_labels.tcl]
 source [file join $root tcl tools score_seed.tcl]
+source [file join $root tcl tools comment_colors.tcl]
 source [file join $root tcl tools game_review.tcl]
 
 puts "settings"
@@ -315,6 +316,12 @@ checkEq "an empty comment is just the new text" \
 # [%eval] the graph reads first must be the new one.
 checkEq "a previous verdict and score are removed" \
     [::review::stripReviewTokens {A fine move. [good] [%eval +0.20]}] {A fine move.}
+# The verdict is stored inside the review's colour span; stripping its tokens
+# must not leave the empty wrapper behind.
+checkEq "a wrapped verdict and score go with their span" \
+    [::review::stripReviewTokens [::commentcolors::wrapReview {[good] [%eval +0.20]}]] {}
+checkEq "a wrapped verdict leaves the reader's prose" \
+    [::review::stripReviewTokens "My note. [::commentcolors::wrapReview {[good] [%eval +0.20]}]"] "My note."
 checkEq "other tokens and the prose survive" \
     [::review::stripReviewTokens {[%clk 0:03:00] A fine move.}] {[%clk 0:03:00] A fine move.}
 # Only the ladder's own words are removed. A positional rule also deleted a
@@ -553,7 +560,12 @@ set ::calls {}
 set err [::review::writeMove 4 blunder -120 {{-120 pvBest} {-200 pvAlt}}]
 checkEq "it succeeds" $err {}
 check "the comment is written at the move" \
-    [expr {[lsearch -exact $::calls {setComment {Existing note. [blunder] [%eval -1.20]}}] >= 0}]
+    [expr {[lsearch -exact $::calls \
+        "setComment {Existing note. [::commentcolors::wrapReview {[blunder] [%eval -1.20]}]}"] >= 0}]
+set written ""
+foreach c $::calls { if {[lindex $c 0] eq "setComment"} { set written [lindex $c 1] } }
+check "and the verdict carries the review's green" \
+    [expr {[string first $::commentcolors::reviewColor $written] >= 0}] $written
 check "a variation is created" [expr {[lsearch -exact $::calls {var create}] >= 0}]
 check "with the alternate line" [expr {[lsearch -exact $::calls {add pvAlt}] >= 0}]
 check "and not with the line the game already played" \

@@ -1260,6 +1260,7 @@ translate S Bold {Atrevido}
 translate S Italic {Itálico}
 translate S Underline {Subrayar}
 translate S TextColor {Color del texto...}
+translate S CommentDefaultColor {Color de comentario predeterminado...}
 translate S CommentFont {Fuente...}
 translate S RemoveFormatting {Quitar formato}
 translate S Family {Familia}

@@ -1240,6 +1240,7 @@ translate P Bold {Pogrubienie}
 translate P Italic {Kursywa}
 translate P Underline {Podkreślenie}
 translate P TextColor {Kolor tekstu...}
+translate P CommentDefaultColor {Domyślny kolor komentarza...}
 translate P CommentFont {Czcionka...}
 translate P RemoveFormatting {Usuń formatowanie}
 translate P Family {Nazwa }

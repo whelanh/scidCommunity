@@ -1197,6 +1197,7 @@ translate Q Bold {жирний}
 translate Q Italic {Курсив}
 translate Q Underline {Підкреслити}
 translate Q TextColor {Колір тексту...}
+translate Q CommentDefaultColor {Типовий колір коментаря...}
 translate Q CommentFont {Шрифт...}
 translate Q RemoveFormatting {Видалити форматування}
 translate Q Family {Сім'я}

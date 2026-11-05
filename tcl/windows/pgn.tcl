@@ -316,6 +316,9 @@ namespace eval pgn {
   ################################################################################
   proc ResetColors {} {
     global pgnColor
+    # The comment editor paints unspanned text in the same colour, so it follows
+    # a change made here as well as one made in its own Format menu.
+    catch { ::windows::commenteditor::applyDefaultColor_ }
     if {![winfo exists .pgnWin]} { return }
     set w .pgnWin.text
     set bg $pgnColor(Current)

@@ -1197,6 +1197,7 @@ translate V Bold {נוֹעָז}
 translate V Italic {נטוי}
 translate V Underline {לָשִׂים דָגֵשׁ}
 translate V TextColor {צבע טקסט...}
+translate V CommentDefaultColor {צבע הערה ברירת מחדל...}
 translate V CommentFont {גוֹפָן...}
 translate V RemoveFormatting {הסר את העיצוב}
 translate V Family {מִשׁפָּחָה}

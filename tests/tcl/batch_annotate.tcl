@@ -87,6 +87,7 @@ checkEq "an info string is not an analysis line" $l {}
 puts "\nthe batch sends the pass's two bounds"
 
 source [file join $root tcl tools engine_limits.tcl]
+source [file join $root tcl tools comment_colors.tcl]
 source [file join $root tcl tools game_review.tcl]
 
 set ::windowsOS 0

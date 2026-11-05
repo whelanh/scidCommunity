@@ -1200,6 +1200,7 @@ translate T Bold {Gözü pek}
 translate T Italic {İtalik}
 translate T Underline {Altı çizili}
 translate T TextColor {Metin rengi...}
+translate T CommentDefaultColor {Varsayılan yorum rengi...}
 translate T CommentFont {Yazı tipi...}
 translate T RemoveFormatting {Biçimlendirmeyi kaldır}
 translate T Family {Aile}

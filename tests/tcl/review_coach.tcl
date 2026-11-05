@@ -23,12 +23,15 @@ proc check {label cond {detail ""}} {
 proc checkEq {label got want} {
     check $label [expr {$got eq $want}] "got '$got' want '$want'"
 }
+# The coach writes its blocks inside its colour span; the tests spell that out.
+proc coachSpan {text} { return [::commentcolors::wrapCoach $text] }
 
 set root [file normalize [file join [file dirname [info script]] .. ..]]
 set ::scidTclDir [file join $root tcl]
 source [file join $root tcl utils chessboard.tcl]
 source [file join $root tcl tools accuracy.tcl]
 source [file join $root tcl tools comment_facts.tcl]
+source [file join $root tcl tools comment_colors.tcl]
 source [file join $root tcl tools review_report.tcl]
 source [file join $root tcl tools review_coach.tcl]
 
@@ -417,6 +420,17 @@ checkEq "and so does one above it" \
 checkEq "a comment with no coach block is untouched" \
     [::reviewcoach::strip "\[Best\] \[%eval +0.10\]"] "\[Best\] \[%eval +0.10\]"
 checkEq "an empty comment stays empty" [::reviewcoach::strip ""] ""
+# The writer stores each block inside its colour span; the strip has to take the
+# wrapper with the text, and a wrapped header line the same way.
+checkEq "a wrapped coach note goes with its span" \
+    [::reviewcoach::strip [coachSpan {[Coach] A note.}]] ""
+checkEq "a wrapped phase block goes with its span" \
+    [::reviewcoach::strip [coachSpan {[Phase opening] moves 1-2 - accuracy W 80.0% B 70.0%, ACPL W 30 B 40.}]] ""
+checkEq "a wrapped header line is stripped" \
+    [::reviewcoach::stripHeader [coachSpan {Summary: A story.}]] ""
+checkEq "the wrapped header's neighbours survive" \
+    [::reviewcoach::stripHeader "[coachSpan {Summary: A story.}]\n[coachSpan {Level: Club.}]\nMy note."] \
+    "My note."
 
 puts "\nwhere each answer lands"
 
@@ -488,17 +502,20 @@ dict set results [list moment 5 "the moment prompt"] "The bishop was never devel
 set ::reviewcoach::game 7
 ::reviewcoach::place {} {} $prompts $results
 check "the summary block is at the start of the game" \
-    [expr {[dict get $::fakeComments 0] eq "Summary: The game turned on move 3.\nLevel: Club level.\nOpening: Test Opening."}] \
+    [expr {[dict get $::fakeComments 0] eq \
+        "[coachSpan {Summary: The game turned on move 3.}]\n[coachSpan {Level: Club level.}]\n[coachSpan {Opening: Test Opening.}]"}] \
     [dict get $::fakeComments 0]
+check "the summary block carries the coach's colour" \
+    [expr {[string first $::commentcolors::coachColor [dict get $::fakeComments 0]] >= 0}]
 checkEq "the opening phase block sits at the phase's last move" \
     [string map {"\n" " | "} [dict get $::fakeComments 4]] \
-    {[Phase opening] moves 1-2 - accuracy W 83.2% B 79.1%, ACPL W 34 B 41. Both sides developed.}
+    [coachSpan {[Phase opening] moves 1-2 - accuracy W 83.2% B 79.1%, ACPL W 34 B 41. Both sides developed.}]
 checkEq "the middlegame fits on one line at its own last move" \
     [string map {"\n" " | "} [dict get $::fakeComments 8]] \
-    {[Phase middlegame] moves 3-4 - accuracy W 71.0% B 66.5%, ACPL W 55 B 62. Black lost the thread.}
+    [coachSpan {[Phase middlegame] moves 3-4 - accuracy W 71.0% B 66.5%, ACPL W 55 B 62. Black lost the thread.}]
 checkEq "the coach note lands on the move it is about, after the label" \
     [string map {"\n" " | "} [dict get $::fakeComments 5]] \
-    {[Mistake] [%eval -2.10] |  | [Coach] The bishop was never developed.}
+    "\[Mistake\] \[%eval -2.10\] |  | [coachSpan {[Coach] The bishop was never developed.}]"
 # A failed request is a missing sentence, not a missing review.
 check "a move whose answer failed gets no coach block" \
     [expr {![dict exists $::fakeComments 6]}]
@@ -512,15 +529,15 @@ set ::reviewcoach::game 7
 ::reviewcoach::place {} {} $prompts $results2
 checkEq "one coach note on the move, not two" \
     [string map {"\n" " | "} [dict get $::fakeComments 5]] \
-    {[Mistake] [%eval -2.10] |  | [Coach] A new note.}
+    "\[Mistake\] \[%eval -2.10\] |  | [coachSpan {[Coach] A new note.}]"
 checkEq "one summary block, with the new text" [dict get $::fakeComments 0] \
-    "Summary: Replaced.\nLevel: New level."
+    "[coachSpan {Summary: Replaced.}]\n[coachSpan {Level: New level.}]"
 check "the old opening sentence is gone" \
     [expr {[string first "Both sides developed" [dict get $::fakeComments 4]] < 0}]
 # And the phase that answered nothing this time still shows its figures.
 checkEq "a phase with no new prose keeps its figures only" \
     [string map {"\n" " | "} [dict get $::fakeComments 4]] \
-    {[Phase opening] moves 1-2 - accuracy W 83.2% B 79.1%, ACPL W 34 B 41.}
+    [coachSpan {[Phase opening] moves 1-2 - accuracy W 83.2% B 79.1%, ACPL W 34 B 41.}]
 check "the middlegame's old sentence went with the old run" \
     [expr {[string first "Black lost the thread" [dict get $::fakeComments 8]] < 0}]
 

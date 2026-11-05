@@ -557,6 +557,46 @@ namespace eval ::windows::commenteditor {
 		setStyleDim_ color $color
 	}
 
+	# The colour text without a span shows in. It is the same
+	# ::pgnColor(Comment) the PGN window uses, so the two views agree, and it is
+	# the setting that is already saved in the options file. Generated comments
+	# carry their own span (::commentcolors), so this is the reader's own colour.
+	proc chooseDefaultColor_ {} {
+		variable w_
+		set init ""
+		catch { set init $::pgnColor(Comment) }
+		if {$init eq ""} { set init "#008b00" }
+		set color [tk_chooseColor -title "scidCommunity" -initialcolor $init -parent $w_]
+		if {$color eq ""} { return }
+		set ::pgnColor(Comment) $color
+		applyDefaultColor_
+		if {[llength [info commands ::pgn::ResetColors]]} { catch { ::pgn::ResetColors } }
+	}
+
+	proc applyDefaultColor_ {} {
+		variable w_
+		if {![winfo exists $w_.cf.txtframe.text]} { return }
+		set color ""
+		catch { set color $::pgnColor(Comment) }
+		if {$color eq ""} {
+			catch { set color [ttk::style lookup Treeview -foreground] }
+		}
+		catch { $w_.cf.txtframe.text configure -foreground $color }
+		# The text widget's own <<ThemeChanged>> handler (applyThemeStyle) puts
+		# the theme's foreground back. Run after it, and re-attach because that
+		# handler rebinds itself with a plain bind on every theme change.
+		set script [bind $w_.cf.txtframe.text <<ThemeChanged>>]
+		if {[string first "::windows::commenteditor::applyDefaultColor_" $script] < 0} {
+			if {$script eq ""} {
+				bind $w_.cf.txtframe.text <<ThemeChanged>> \
+					::windows::commenteditor::applyDefaultColor_
+			} else {
+				bind $w_.cf.txtframe.text <<ThemeChanged>> \
+					"$script; ::windows::commenteditor::applyDefaultColor_"
+			}
+		}
+	}
+
 	proc chooseFont_ {} {
 		variable w_
 		variable pendingStyle_
@@ -615,6 +655,7 @@ namespace eval ::windows::commenteditor {
 			$m add command -label "[tr Underline]" -accelerator "Ctrl+U" -command "::windows::commenteditor::toggleStyle_ u"
 			$m add separator
 			$m add command -label "[tr TextColor]" -accelerator "Ctrl+R" -command "::windows::commenteditor::chooseColor_"
+			$m add command -label "[tr CommentDefaultColor]" -command "::windows::commenteditor::chooseDefaultColor_"
 			$m add command -label "[tr CommentFont]" -accelerator "Ctrl+F" -command "::windows::commenteditor::chooseFont_"
 			$m add separator
 			$m add command -label "[tr RemoveFormatting]" -command "::windows::commenteditor::removeFormatting_"
@@ -782,6 +823,9 @@ proc ::windows::commenteditor::Refresh {} {
 	variable pendingStyle_
 
 	set pendingStyle_ [::windows::commenteditor::defaultStyle_]
+	# Text without a span shows in the reader's own comment colour, the same
+	# one the PGN window paints, so the two views agree.
+	::windows::commenteditor::applyDefaultColor_
 
 	set comment [sc_pos getComment]
 	if {$comment != [::windows::commenteditor::serializeComment_ $w_.cf.txtframe.text]} {

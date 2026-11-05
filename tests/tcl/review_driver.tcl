@@ -28,6 +28,10 @@ source [file join $root tcl tools move_labels.tcl]
 source [file join $root tcl tools score_seed.tcl]
 source [file join $root tcl enginecfg.tcl]
 source [file join $root tcl tools engine_limits.tcl]
+source [file join $root tcl tools comment_colors.tcl]
+
+# A verdict is stored inside the review's colour span; the tests spell that out.
+proc verdict {text} { return [::commentcolors::wrapReview $text] }
 source [file join $root tcl tools game_review.tcl]
 source [file join $root tcl tools review_driver.tcl]
 
@@ -771,10 +775,10 @@ foreach e $::events {
     if {[lindex $e 0] eq "setComment"} { lappend comments [lindex $e 1] }
 }
 checkEq "the verdicts are written once each, in ply order" $comments [list \
-    {[best] [%eval -0.40]} \
-    {[excellent] [%eval +0.50]} \
-    {[excellent] [%eval +1.20]} \
-    {[blunder] [%eval +8.00]}]
+    [verdict {[best] [%eval -0.40]}] \
+    [verdict {[excellent] [%eval +0.50]}] \
+    [verdict {[excellent] [%eval +1.20]}] \
+    [verdict {[blunder] [%eval +8.00]}]]
 checkEq {and the [%eval] token reads back as the score that was written} \
     [::seed::score [lindex $comments 2]] 120
 checkEq "a mate round-trips through the same token" \
@@ -956,7 +960,7 @@ pump
 checkEq "the first review wrote every move" \
     [dict get [::reviewdriver::status] written] 4
 checkEq "and left the user's own note in front of its verdict" \
-    [dict get $::fakeComments 2] {A fine move. [excellent] [%eval +0.50]}
+    [dict get $::fakeComments 2] "A fine move. [verdict {[excellent] [%eval +0.50]}]"
 checkEq "an unmarked move keeps the user's mark and gets no assessment" \
     [nagsAt 2] "?!"
 checkEq "a quiet verdict takes off an assessment it cannot support" \
@@ -967,7 +971,7 @@ checkEq "only the blunder's better move is in the game" \
     $::fakeVars {3 e7e6}
 checkEq "the labels the first review gave" [list \
     [dict get $::fakeComments 1] [dict get $::fakeComments 3] [dict get $::fakeComments 4]] \
-    [list {[best] [%eval -0.40]} {[excellent] [%eval +1.20]} {[blunder] [%eval +8.00]}]
+    [list [verdict {[best] [%eval -0.40]}] [verdict {[excellent] [%eval +1.20]}] [verdict {[blunder] [%eval +8.00]}]]
 checkEq "the blunder carries the mark its label implies" [nagsAt 4] "?? +--"
 checkEq "and the move before it has only the diagram" [nagsAt 3] "D"
 
@@ -994,17 +998,17 @@ set st [::reviewdriver::status]
 checkEq "the second review finished" [dict get $st state] done
 checkEq "writing into the game it found" [dict get $st written] 4
 checkEq "the old verdict is gone, not stacked" \
-    [dict get $::fakeComments 1] {[best] [%eval -0.08]}
+    [dict get $::fakeComments 1] [verdict {[best] [%eval -0.08]}]
 checkEq "one verdict and one score per move" \
     [regexp -all {\[%eval [^\]]*\]} [dict get $::fakeComments 1]] 1
 checkEq "the user's note and the new verdict, in that order" \
-    [dict get $::fakeComments 2] {A fine move. [best] [%eval +0.06]}
+    [dict get $::fakeComments 2] "A fine move. [verdict {[best] [%eval +0.06]}]"
 checkEq "the user's mark survived both runs" [nagsAt 2] "?!" 
 checkEq "a finished review regenerates the game text" \
     [lindex $::notified end] -pgn
 checkEq "a verdict from the first run is replaced, not appended" \
-    [dict get $::fakeComments 3] {[best] [%eval -0.04]}
-checkEq "and so is the last one" [dict get $::fakeComments 4] {[best] [%eval +0.03]}
+    [dict get $::fakeComments 3] [verdict {[best] [%eval -0.04]}]
+checkEq "and so is the last one" [dict get $::fakeComments 4] [verdict {[best] [%eval +0.03]}]
 checkEq "the variations were not inserted a second time" \
     $::fakeVars {3 e7e6}
 checkEq "so no variation was created at all" [lsearch -all $::events {var create}] {}
@@ -1304,6 +1308,10 @@ checkEq "so the mark stays" [nagsAt 4] "??"
 checkEq "and the diagram stays" [nagsAt 3] "D"
 checkEq "a trailing label is read" \
     [::review::labelOfComment {A fine move. [Blunder] [%eval +8.00]}] blunder
+checkEq "a wrapped trailing label is read" \
+    [::review::labelOfComment [verdict {A fine move. [Blunder] [%eval +8.00]}]] blunder
+checkEq "a wrapped prose label is still not a verdict" \
+    [::review::labelOfComment [verdict {My [Blunder] note.}]] ""
 
 puts "a refused variation still leaves a marked comment"
 
@@ -1431,7 +1439,7 @@ set st [::reviewdriver::status]
 checkEq "every move was written" [dict get $st written] 4
 checkEq "the two book moves are labelled as book" \
     [list [dict get $::fakeComments 1] [dict get $::fakeComments 2]] \
-    [list {[book]} {[book]}]
+    [list [verdict {[book]}] [verdict {[book]}]]
 check "and carry no evaluation" \
     [expr {[string first {[%eval} [dict get $::fakeComments 1]] < 0}]
 check "the move that leaves the book is judged" \

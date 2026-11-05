@@ -2895,6 +2895,56 @@ int sc_game_import(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// stripCommentMarkup:
+//    Remove the comment editor's formatting tags from a comment before the
+//    Game Info panel shows it. The panel escapes any remaining angle brackets,
+//    so a literal '<' in a comment still displays as text; only the tags this
+//    application writes are consumed.
+static void stripCommentMarkup(char *s) {
+  char *out = s;
+  while (*s != 0) {
+    if (*s == '<') {
+      char *gt = std::strchr(s, '>');
+      if (gt != nullptr) {
+        std::string tag(s + 1, gt);
+        if (tag == "b" || tag == "/b" || tag == "i" || tag == "/i" ||
+            tag == "u" || tag == "/u" || tag == "span" ||
+            tag == "/span" || tag.rfind("span ", 0) == 0) {
+          s = gt + 1;
+          continue;
+        }
+      }
+    }
+    *out++ = *s++;
+  }
+  *out = 0;
+}
+
+// The comment editor escapes the four markup characters. Undo that after the
+// tags are gone, or a comment containing '&' or '<' would show the entity.
+static void unescapeCommentEntities(char *s) {
+  char *out = s;
+  while (*s != 0) {
+    if (std::strncmp(s, "&amp;", 5) == 0) {
+      *out++ = '&';
+      s += 5;
+    } else if (std::strncmp(s, "&lt;", 4) == 0) {
+      *out++ = '<';
+      s += 4;
+    } else if (std::strncmp(s, "&gt;", 4) == 0) {
+      *out++ = '>';
+      s += 4;
+    } else if (std::strncmp(s, "&quot;", 6) == 0) {
+      *out++ = '"';
+      s += 6;
+    } else {
+      *out++ = *s++;
+    }
+  }
+  *out = 0;
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // sc_game_info:
 //    Return the Game Info string for the active game.
 //    The returned text includes color codes.
@@ -3300,6 +3350,8 @@ int sc_game_info(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
                      " <green><run makeCommentWin>", nullptr);
     char *str = strDuplicate(db->game->GetMoveComment());
     strTrimMarkCodes(str);
+    stripCommentMarkup(str);
+    unescapeCommentEntities(str);
     const char *s = str;
     uint lines = 0;
 

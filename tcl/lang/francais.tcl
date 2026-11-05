@@ -1214,6 +1214,7 @@ translate F Bold {Audacieux}
 translate F Italic {Italique}
 translate F Underline {Souligner}
 translate F TextColor {Couleur du texte...}
+translate F CommentDefaultColor {Couleur du commentaire par défaut...}
 translate F CommentFont {Fonte...}
 translate F RemoveFormatting {Supprimer le formatage}
 translate F Family {Famille}

@@ -1212,6 +1212,7 @@ translate W Bold {Djärv}
 translate W Italic {Kursiv}
 translate W Underline {Betona}
 translate W TextColor {Textfärg...}
+translate W CommentDefaultColor {Standardfärg för kommentar...}
 translate W CommentFont {Font...}
 translate W RemoveFormatting {Ta bort formatering}
 translate W Family {Familj}

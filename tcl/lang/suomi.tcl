@@ -1240,6 +1240,7 @@ translate U Bold {Lihavoitu}
 translate U Italic {Kursiivi}
 translate U Underline {Korostaa}
 translate U TextColor {Tekstin väri...}
+translate U CommentDefaultColor {Kommentin oletusväri...}
 translate U CommentFont {Fontti...}
 translate U RemoveFormatting {Poista muotoilu}
 translate U Family {Perhe}

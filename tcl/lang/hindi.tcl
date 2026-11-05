@@ -1196,6 +1196,7 @@ translate h Bold {बोल्ड}
 translate h Italic {तिरछा}
 translate h Underline {रेखांकन}
 translate h TextColor {पाठ का रंग...}
+translate h CommentDefaultColor {डिफ़ॉल्ट टिप्पणी रंग...}
 translate h CommentFont {फ़ॉन्ट...}
 translate h RemoveFormatting {फ़ॉर्मेटिंग हटाएँ}
 translate h Family {परिवार}
