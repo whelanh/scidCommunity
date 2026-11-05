@@ -1175,6 +1175,7 @@ tools/reviewgame.tcl
 tools/move_labels.tcl
 tools/score_seed.tcl
 tools/engine_limits.tcl
+tools/comment_colors.tcl
 tools/game_review.tcl
 tools/review_report.tcl
 tools/review_driver.tcl

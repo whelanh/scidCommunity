@@ -30,6 +30,7 @@ proc r1 {x} { if {$x eq ""} { return "" } ; return [expr {round($x * 10) / 10.0}
 set root [file normalize [file join [file dirname [info script]] .. ..]]
 source [file join $root tcl tools accuracy.tcl]
 source [file join $root tcl utils chessboard.tcl]
+source [file join $root tcl tools comment_colors.tcl]
 source [file join $root tcl tools review_report.tcl]
 
 checkEq "the driver's w is white" [::reviewreport::sideWord w] white
@@ -583,6 +584,19 @@ check "a note below the block survives the next review" \
 check "and the note above it" \
     [expr {[string first "Opening idea: Nf3 first." $comment] >= 0}]
 checkEq "the block is written once" [regexp -all {\[Game review\]} $comment] 1
+check "the block carries the review's green" \
+    [expr {[string first $::commentcolors::reviewColor $comment] >= 0}]
+set wrapped [::commentcolors::wrapReviewLines $text]
+checkEq "a wrapped block is stripped with its spans" \
+    [::reviewreport::stripHeader "A note.\n$wrapped"] "A note."
+checkEq "a note below a wrapped block survives" \
+    [::reviewreport::stripHeader "$wrapped\nA note typed below."] "A note typed below."
+# Each non-empty line is one span; two writes must leave the block, not stack
+# a second set of wrappers.
+set blockLines 0
+foreach line [split $text "\n"] { if {$line ne ""} { incr blockLines } }
+checkEq "two writes leave one span per block line" \
+    [regexp -all {<span style="color:#008000">} $comment] $blockLines
 
 puts "\nthe window's language"
 

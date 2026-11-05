@@ -34,6 +34,11 @@ jobs:
       - name: Comment facts
         run: tclsh tests/tcl/comment_facts.tcl
 
+      # The provenance spans: Game Review's green verdicts, the coach's blue
+      # prose, and the strip that has to take a wrapper with its text.
+      - name: Comment colours
+        run: tclsh tests/tcl/comment_colors.tcl
+
       - name: Move labels
         run: tclsh tests/tcl/move_labels.tcl
 
@@ -150,6 +155,11 @@ jobs:
       # and that the OK button is there to press.
       - name: Review Settings dialog
         run: xvfb-run -a wish tests/tcl/review_settings_dialog.tcl
+
+      # The Comment Window's own colour: the Format menu's entry, the saved
+      # ::pgnColor(Comment), and the editor following it.
+      - name: Comment default colour
+        run: xvfb-run -a wish tests/tcl/comment_default_color_tk.tcl
 
       - name: Finish Game dialog
         run: xvfb-run -a wish tests/tcl/finish_game_dialog.tcl

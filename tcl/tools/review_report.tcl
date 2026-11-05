@@ -49,6 +49,12 @@ if {[llength [info commands ::chessboard::fromFen]] == 0} {
         if {[file exists $f]} { catch { source -encoding utf-8 $f } ; break }
     }
 }
+if {[llength [info commands ::commentcolors::wrap]] == 0} {
+    foreach f [list [file join $::scidTclDir tools comment_colors.tcl] \
+                   [file join [file dirname [info script]] comment_colors.tcl]] {
+        if {[file exists $f]} { catch { source -encoding utf-8 $f } ; break }
+    }
+}
 
 # ::reviewdriver::sides answers w/b; the report speaks white/black.
 proc ::reviewreport::sideWord {side} {
@@ -659,8 +665,9 @@ proc ::reviewreport::stripHeader {comment} {
     foreach marker [markers] {
         # Anchored to the start of a line: the block is always written on its
         # own line, and a sentence that mentions [Game review] in passing is
-        # not a block.
-        set re "^\\\[[escape $marker]\\]\[^\\n\]*(?:\\n\[ \t\]+\[^\\n\]*)*"
+        # not a block. The marker may sit inside the review's colour span; the
+        # indented continuation lines keep their indent outside their own spans.
+        set re "^(?:<span\[^>\]*>)?\\\[[escape $marker]\\\]\[^\\n\]*(?:\\n\[ \t\]+\[^\\n\]*)*"
         regsub -all -lineanchor $re $comment "" comment
     }
     return [string trim $comment]
@@ -697,7 +704,7 @@ proc ::reviewreport::write {p results} {
         return
     }
     set old [stripHeader [sc_pos getComment]]
-    sc_pos setComment [string trim "$old\n$text"]
+    sc_pos setComment [string trim "$old\n[::commentcolors::wrapReviewLines $text]"]
     catch { if {$cursor ne ""} { ::review::cursorRestore $cursor } }
     return
 }

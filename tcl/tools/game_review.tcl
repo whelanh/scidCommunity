@@ -677,7 +677,9 @@ proc ::review::labelOfComment {comment} {
     # Our token is at the end of the comment - [Label] or [Label] [%eval ...] -
     # because writeMove appends it to whatever was there. A label word in the
     # middle of the user's prose must not be mistaken for a previous verdict.
-    set tail [string trim $comment]
+    # The verdict lives inside the review's colour span, so the tail is compared
+    # with the span tags removed.
+    set tail [regsub -all {</?span[^>]*>} [string trim $comment] ""]
     regsub {\s*\[%eval [^\]]*\]\s*$} $tail {} tail
     foreach label {best excellent good inaccuracy mistake blunder brilliant great miss forced book} {
         foreach word [list [::movelabels::text $label] [string totitle $label]] {
@@ -781,6 +783,9 @@ proc ::review::stripReviewTokens {comment} {
     foreach word [labelWords] {
         set out [string map [list "\[$word\]" ""] $out]
     }
+    # The verdict is written in one span. Removing its tokens can leave the
+    # wrapper behind; a second review must not stack empty spans.
+    set out [::commentcolors::stripEmpty $out]
     # Collapse the gap the tokens left, but not the line breaks of a comment
     # the user wrote themselves.
     return [string trim [regsub -all {[ \t]{2,}} $out " "]]
@@ -826,7 +831,7 @@ proc ::review::writeMove {ply label eval_cp lines} {
             catch {
                 set played [playedMove [mainLineMap [sc_game UCI_mainLine]] $ply]
             }
-            set want [commentText $label $eval_cp]
+            set want [::commentcolors::wrapReview [commentText $label $eval_cp]]
             sc_pos setComment [mergeComment \
                 [stripReviewTokens [sc_pos getComment]] $want]
             # The variations already at the position BEFORE the move, by their

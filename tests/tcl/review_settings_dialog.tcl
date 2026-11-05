@@ -96,6 +96,7 @@ set ::initialdir $root
 source [file join $root tcl tools score_seed.tcl]
 source [file join $root tcl tools move_labels.tcl]
 source [file join $root tcl tools engine_limits.tcl]
+source [file join $root tcl tools comment_colors.tcl]
 source [file join $root tcl tools game_review.tcl]
 source [file join $root tcl tools review_ui.tcl]
 source [file join $root tcl windows engine.tcl]
