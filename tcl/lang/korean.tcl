@@ -1237,6 +1237,7 @@ translate k Bold {용감한}
 translate k Italic {이탤릭체}
 translate k Underline {밑줄}
 translate k TextColor {텍스트 색상...}
+translate k CommentDefaultColor {기본 댓글 색상...}
 translate k CommentFont {세례반...}
 translate k RemoveFormatting {서식 제거}
 translate k Family {가족}

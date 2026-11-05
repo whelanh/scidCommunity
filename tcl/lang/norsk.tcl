@@ -1211,6 +1211,7 @@ translate O Bold {Fet}
 translate O Italic {Kursiv}
 translate O Underline {Understrek}
 translate O TextColor {Tekstfarge...}
+translate O CommentDefaultColor {Standard kommentarfarge...}
 translate O CommentFont {Font...}
 translate O RemoveFormatting {Fjern formatering}
 translate O Family {Familie}

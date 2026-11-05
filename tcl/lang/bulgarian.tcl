@@ -1237,6 +1237,7 @@ translate g Bold {Удебелен}
 translate g Italic {Курсив}
 translate g Underline {Подчертайте}
 translate g TextColor {Цвят на текста...}
+translate g CommentDefaultColor {Цвят на коментара по подразбиране...}
 translate g CommentFont {Шрифт...}
 translate g RemoveFormatting {Премахнете форматирането}
 translate g Family {семейство}

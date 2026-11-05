@@ -1208,6 +1208,7 @@ translate R Bold {Смелый}
 translate R Italic {Курсив}
 translate R Underline {Подчеркнуть}
 translate R TextColor {Цвет текста...}
+translate R CommentDefaultColor {Цвет комментариев по умолчанию...}
 translate R CommentFont {Шрифт...}
 translate R RemoveFormatting {Удалить форматирование}
 translate R Family {Семья}

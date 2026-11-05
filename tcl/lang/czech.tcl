@@ -1206,6 +1206,7 @@ translate C Bold {Tučné}
 translate C Italic {kurzíva}
 translate C Underline {Zdůraznit}
 translate C TextColor {Barva textu...}
+translate C CommentDefaultColor {Výchozí barva komentáře...}
 translate C CommentFont {Písmo...}
 translate C RemoveFormatting {Odstraňte formátování}
 translate C Family {Rodina}

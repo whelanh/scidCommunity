@@ -1237,6 +1237,7 @@ translate L Bold {Îndrăzneţ}
 translate L Italic {Cursiv}
 translate L Underline {Subliniați}
 translate L TextColor {Culoarea textului...}
+translate L CommentDefaultColor {Culoarea implicită a comentariilor...}
 translate L CommentFont {Font...}
 translate L RemoveFormatting {Eliminați formatarea}
 translate L Family {Familial}

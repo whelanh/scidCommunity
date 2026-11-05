@@ -1196,6 +1196,7 @@ translate Z Bold {Ujasiri}
 translate Z Italic {Italiki}
 translate Z Underline {Piga mstari}
 translate Z TextColor {Rangi ya maandishi...}
+translate Z CommentDefaultColor {Rangi ya maoni chaguomsingi...}
 translate Z CommentFont {Fonti...}
 translate Z RemoveFormatting {Ondoa umbizo}
 translate Z Family {Familia}

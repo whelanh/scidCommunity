@@ -1214,6 +1214,7 @@ translate B Bold {Audacioso}
 translate B Italic {itálico}
 translate B Underline {Sublinhado}
 translate B TextColor {Cor do texto...}
+translate B CommentDefaultColor {Cor padrão do comentário...}
 translate B CommentFont {Fonte...}
 translate B RemoveFormatting {Remover formatação}
 translate B Family {Família}

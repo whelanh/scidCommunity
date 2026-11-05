@@ -1247,6 +1247,7 @@ translate D Bold {Deutlich}
 translate D Italic {Kursiv}
 translate D Underline {Unterstreichen}
 translate D TextColor {Textfarbe...}
+translate D CommentDefaultColor {Standard-Kommentarfarbe...}
 translate D CommentFont {Schriftart...}
 translate D RemoveFormatting {Formatierung entfernen}
 translate D Family {Familie}

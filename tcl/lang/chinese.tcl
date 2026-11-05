@@ -1172,6 +1172,7 @@ translate M Bold {大胆的}
 translate M Italic {斜体}
 translate M Underline {强调}
 translate M TextColor {文字颜色...}
+translate M CommentDefaultColor {默认评论颜色...}
 translate M CommentFont {字体...}
 translate M RemoveFormatting {删除格式}
 translate M Family {家庭}

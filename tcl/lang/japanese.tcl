@@ -1237,6 +1237,7 @@ translate A Bold {大胆な}
 translate A Italic {イタリック}
 translate A Underline {下線}
 translate A TextColor {文字の色...}
+translate A CommentDefaultColor {デフォルトのコメントの色...}
 translate A CommentFont {フォント...}
 translate A RemoveFormatting {書式設定を削除する}
 translate A Family {家族}

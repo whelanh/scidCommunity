@@ -1233,6 +1233,7 @@ translate G Bold {Τολμηρός}
 translate G Italic {Πλάγια}
 translate G Underline {Υπογραμμίζω}
 translate G TextColor {Χρώμα κειμένου...}
+translate G CommentDefaultColor {Προεπιλεγμένο χρώμα σχολίου...}
 translate G CommentFont {Γραμματοσειρά...}
 translate G RemoveFormatting {Κατάργηση μορφοποίησης}
 translate G Family {Οικογένεια}

@@ -1231,6 +1231,7 @@ translate N Bold {Vetgedrukt}
 translate N Italic {Cursief}
 translate N Underline {Onderstrepen}
 translate N TextColor {Tekstkleur...}
+translate N CommentDefaultColor {Standaard commentaarkleur...}
 translate N CommentFont {Lettertype...}
 translate N RemoveFormatting {Opmaak verwijderen}
 translate N Family {Familie}

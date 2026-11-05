@@ -1209,6 +1209,7 @@ translate H Bold {Bátor}
 translate H Italic {Dőlt}
 translate H Underline {Aláhúzás}
 translate H TextColor {Szöveg színe...}
+translate H CommentDefaultColor {A megjegyzés alapértelmezett színe...}
 translate H CommentFont {Betűtípus...}
 translate H RemoveFormatting {Távolítsa el a formázást}
 translate H Family {Család}

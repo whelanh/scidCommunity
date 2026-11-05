@@ -1196,6 +1196,7 @@ translate b Bold {সাহসী}
 translate b Italic {তির্যক}
 translate b Underline {আন্ডারলাইন করুন}
 translate b TextColor {পাঠ্যের রঙ...}
+translate b CommentDefaultColor {ডিফল্ট মন্তব্য রঙ...}
 translate b CommentFont {হরফ...}
 translate b RemoveFormatting {বিন্যাস সরান}
 translate b Family {পরিবার}

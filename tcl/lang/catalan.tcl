@@ -1229,6 +1229,7 @@ translate K Bold {Atrevit}
 translate K Italic {Cursiva}
 translate K Underline {Subratlla}
 translate K TextColor {Color del text...}
+translate K CommentDefaultColor {Color de comentari predeterminat...}
 translate K CommentFont {Font...}
 translate K RemoveFormatting {Elimina el format}
 translate K Family {Família}
