@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+ <release version="5.1.4.55" date="2026-11-05">
+      <description>
+        <p>Update checker; option to strip imported game comments; multi-colored Review comments</p>
+      </description>
+    </release>
  <release version="5.1.4.54" date="2026-11-04">
       <description>
         <p>Translations added for Game Summary/Coach Comments</p>
