@@ -333,6 +333,17 @@ menuText V HelpContact "פרטי יצירת קשר" 1 {הצג את דף העזר
 menuText V HelpTip "טיפ היום" 0 {הצג טיפ שימושי של Scid}
 menuText V HelpStartup "חלון הפעלה" 0 {הצג את חלון האתחול}
 menuText V HelpAbout "אוֹדוֹת" 0 {מידע על ScidCommunity}
+menuText V UpdateCheck "בדוק אם קיימים עדכונים" 0 {בדוק אם יש גרסה חדשה של scidCommunity}
+translate V UpdateChecking "מחפש עדכונים..."
+translate V UpdateUpToDate "אתה מפעיל את הגרסה האחרונה של scidCommunity (%s)."
+translate V UpdateAvailable "גרסה חדשה של scidCommunity זמינה: %s\n\nאתה מפעיל כרגע את %s."
+translate V UpdateDownloadInstall "הורד והתקן"
+translate V UpdateViewRelease "צפה בהערות פרסום"
+translate V UpdateNotNow "לא עכשיו"
+translate V UpdateCheckFailed "scidCommunity לא הצליחה לחפש עדכונים. בדוק את חיבור האינטרנט שלך ונסה שוב."
+translate V UpdateInstallConfirm "scidCommunity %s תוריד ותותקן.\n\nscidCommunity תיסגר כשההורדה תסתיים, ולאחר מכן הפעל את תוכנית ההתקנה."
+translate V UpdateDownloading "מוריד את scidCommunity %s..."
+translate V UpdateDownloadFailed "הורדת העדכון נכשלה. אנא נסה שוב מאוחר יותר."
 
 # Toolbar tooltips:
 menuText V RotateBoard "סובב את הלוח" 0 {סובב את הלוח}

@@ -373,6 +373,17 @@ menuText J HelpContact "Контакт информације" 1 {Прикажи
 menuText J HelpTip "Савет дана" 0 {Покажите користан Сцид савет}
 menuText J HelpStartup "Прозор за покретање" 0 {Прикажи прозор за покретање}
 menuText J HelpAbout "Абоут" 0 {Информације о СцидЦоммунити}
+menuText J UpdateCheck "Проверите ажурирања" 0 {Проверите нову верзију сцидЦоммунити}
+translate J UpdateChecking "Проверавам ажурирања..."
+translate J UpdateUpToDate "Покрећете најновију верзију сцидЦоммунити (%s)."
+translate J UpdateAvailable "Доступна је нова верзија сцидЦоммунити: %s\н\нТренутно трчите %s."
+translate J UpdateDownloadInstall "Преузмите и инсталирајте"
+translate J UpdateViewRelease "Погледајте белешке о издању"
+translate J UpdateNotNow "Не сада"
+translate J UpdateCheckFailed "сцидЦоммунити није могао да провери ажурирања. Проверите интернет везу и покушајте поново."
+translate J UpdateInstallConfirm "сцидЦоммунити %s биће преузето и инсталирано.\н\нсцидЦоммунити ће се затворити када се преузимање заврши, а затим покрените инсталатер."
+translate J UpdateDownloading "Преузимање сцидЦоммунити %s..."
+translate J UpdateDownloadFailed "Преузимање ажурирања није успело. Покушајте поново касније."
 
 # Toolbar tooltips:
 menuText J RotateBoard "Ротирајте плочу" 0 {Ротирајте плочу}

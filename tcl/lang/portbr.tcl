@@ -341,6 +341,17 @@ menuText B HelpContact "Informações para contato" 0 {Mostra a página com info
 menuText B HelpTip "Dica do dia" 0 {Mostra uma dica útil do Scid}
 menuText B HelpStartup "Janela de Inicialização" 0 {Mostra a janela de inicialização}
 menuText B HelpAbout "Sobre scidCommunity" 0 {Informações sobre o scidCommunity}
+menuText B UpdateCheck "Verifique se há atualizações" 0 {Verifique se há uma nova versão do scidCommunity}
+translate B UpdateChecking "Verificando atualizações..."
+translate B UpdateUpToDate "Você está executando a versão mais recente do scidCommunity (%s)."
+translate B UpdateAvailable "Uma nova versão do scidCommunity está disponível: %s\n\nVocê está executando o %s."
+translate B UpdateDownloadInstall "Baixe e instale"
+translate B UpdateViewRelease "Ver notas de versão"
+translate B UpdateNotNow "Agora não"
+translate B UpdateCheckFailed "scidCommunity não pôde verificar atualizações. Verifique sua conexão com a Internet e tente novamente."
+translate B UpdateInstallConfirm "O scidCommunity %s será baixado e instalado.\n\nscidCommunity será fechado quando o download terminar e, em seguida, execute o instalador."
+translate B UpdateDownloading "Baixando scidCommunity %s..."
+translate B UpdateDownloadFailed "O download da atualização falhou. Por favor, tente novamente mais tarde."
 
 # Toolbar tooltips:
 menuText B RotateBoard "Girar tabuleiro" 0 {Girar tabuleiro}

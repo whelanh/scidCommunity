@@ -332,6 +332,17 @@ menuText b HelpContact "যোগাযোগের তথ্য" 1 {যোগ�
 menuText b HelpTip "দিনের টিপ" 0 {একটি দরকারী Scid টিপ দেখান}
 menuText b HelpStartup "স্টার্টআপ উইন্ডো" 0 {স্টার্টআপ উইন্ডো দেখান}
 menuText b HelpAbout "সম্পর্কে" 0 {ScidCommunity সম্পর্কে তথ্য}
+menuText b UpdateCheck "আপডেটের জন্য চেক করুন" 0 {scidCommunity-এর একটি নতুন সংস্করণের জন্য পরীক্ষা করুন}
+translate b UpdateChecking "আপডেটের জন্য পরীক্ষা করা হচ্ছে..."
+translate b UpdateUpToDate "আপনি scidCommunity (%s) এর সর্বশেষ সংস্করণ চালাচ্ছেন।"
+translate b UpdateAvailable "scidCommunity-এর একটি নতুন সংস্করণ উপলব্ধ: %s\n\nআপনি বর্তমানে %s চালাচ্ছেন৷"
+translate b UpdateDownloadInstall "ডাউনলোড এবং ইনস্টল করুন"
+translate b UpdateViewRelease "রিলিজ নোট দেখুন"
+translate b UpdateNotNow "এখন না"
+translate b UpdateCheckFailed "scidCommunity আপডেটের জন্য চেক করতে পারেনি। আপনার ইন্টারনেট সংযোগ পরীক্ষা করুন এবং আবার চেষ্টা করুন."
+translate b UpdateInstallConfirm "scidCommunity %s ডাউনলোড এবং ইনস্টল করা হবে।\n\nডাউনলোড শেষ হলে সিডকমিউনিটি বন্ধ হয়ে যাবে, তারপরে ইনস্টলার চালান।"
+translate b UpdateDownloading "ডাউনলোড হচ্ছে scidCommunity %s..."
+translate b UpdateDownloadFailed "আপডেট ডাউনলোড করা ব্যর্থ হয়েছে৷ পরে আবার চেষ্টা করুন."
 
 # Toolbar tooltips:
 menuText b RotateBoard "বোর্ড ঘোরান" 0 {বোর্ড ঘোরান}

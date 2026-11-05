@@ -372,6 +372,17 @@ menuText E HelpContact "Contact Info" 1 {Show the contact information help page}
 menuText E HelpTip "Tip of the Day" 0 {Show a useful Scid tip}
 menuText E HelpStartup "Startup Window" 0 {Show the startup window}
 menuText E HelpAbout "About" 0 {Information about ScidCommunity}
+menuText E UpdateCheck "Check for Updates" 0 {Check for a new version of scidCommunity}
+translate E UpdateChecking "Checking for updates..."
+translate E UpdateUpToDate "You are running the latest version of scidCommunity (%s)."
+translate E UpdateAvailable "A new version of scidCommunity is available: %s\n\nYou are currently running %s."
+translate E UpdateDownloadInstall "Download & Install"
+translate E UpdateViewRelease "View Release Notes"
+translate E UpdateNotNow "Not Now"
+translate E UpdateCheckFailed "scidCommunity could not check for updates. Please check your internet connection and try again."
+translate E UpdateInstallConfirm "scidCommunity %s will be downloaded and installed.\n\nscidCommunity will close when the download finishes, then run the installer."
+translate E UpdateDownloading "Downloading scidCommunity %s..."
+translate E UpdateDownloadFailed "Downloading the update failed. Please try again later."
 
 # Toolbar tooltips:
 menuText E RotateBoard "Rotate board" 0 {Rotate board}

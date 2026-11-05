@@ -340,6 +340,17 @@ menuText H HelpContact "Címek" 0 {Fontosabb internetcímek}
 menuText H HelpTip "A nap tippje" 2 {Hasznos tipp SCID használatához}
 menuText H HelpStartup "Induló ablak" 0 {A program indításakor megjelenõ ablak}
 menuText H HelpAbout "scidCommunity-rõl" 0 {Tájékoztatás scidCommunity-rõl}
+menuText H UpdateCheck "Ellenőrizze a frissítéseket" 0 {Keresse meg a scidCommunity új verzióját}
+translate H UpdateChecking "Frissítések keresése..."
+translate H UpdateUpToDate "Ön a scidCommunity legújabb verzióját (%s) futtatja."
+translate H UpdateAvailable "Elérhető a scidCommunity új verziója: %s\n\nJelenleg a következőt futtatod: %s."
+translate H UpdateDownloadInstall "Letöltés és telepítés"
+translate H UpdateViewRelease "Kiadási megjegyzések megtekintése"
+translate H UpdateNotNow "Most nem"
+translate H UpdateCheckFailed "A scidCommunity nem tudott frissítéseket keresni. Kérjük, ellenőrizze internetkapcsolatát, és próbálja újra."
+translate H UpdateInstallConfirm "A scidCommunity %s letöltésre és telepítésre kerül.\n\nA scidCommunity bezárul, amikor a letöltés befejeződik, majd futtassa a telepítőt."
+translate H UpdateDownloading "ScidCommunity %s letöltése..."
+translate H UpdateDownloadFailed "A frissítés letöltése nem sikerült. Kérjük, próbálja újra később."
 
 # Toolbar tooltips:
 menuText H RotateBoard "Forgassa a táblát" 0 {Forgassa a táblát}

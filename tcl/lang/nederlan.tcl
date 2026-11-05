@@ -361,6 +361,17 @@ menuText N HelpContact "Contact-info" 0 {Laat de contact-infopagina zien}
 menuText N HelpTip "Tip van de dag" 0 {Laat een handige Scid tip zien}
 menuText N HelpStartup "Startvenster" 5 {Laat het startvenster zien}
 menuText N HelpAbout "Over scidCommunity" 0 {Informatie over scidCommunity}
+menuText N UpdateCheck "Controleer op updates" 0 {Controleer of er een nieuwe versie van scidCommunity is}
+translate N UpdateChecking "Controleren op updates..."
+translate N UpdateUpToDate "U gebruikt de nieuwste versie van scidCommunity (%s)."
+translate N UpdateAvailable "Er is een nieuwe versie van scidCommunity beschikbaar: %s\n\nJe gebruikt momenteel %s."
+translate N UpdateDownloadInstall "Downloaden en installeren"
+translate N UpdateViewRelease "Bekijk release-opmerkingen"
+translate N UpdateNotNow "Niet nu"
+translate N UpdateCheckFailed "scidCommunity kon niet controleren op updates. Controleer uw internetverbinding en probeer het opnieuw."
+translate N UpdateInstallConfirm "scidCommunity %s wordt gedownload en geïnstalleerd.\n\nscidCommunity wordt gesloten wanneer de download is voltooid en voert vervolgens het installatieprogramma uit."
+translate N UpdateDownloading "scidCommunity %s downloaden..."
+translate N UpdateDownloadFailed "Het downloaden van de update is mislukt. Probeer het later opnieuw."
 
 # Toolbar tooltips:
 menuText N RotateBoard "Draai het bord" 0 {Draai het bord}

@@ -308,6 +308,17 @@ menuText M HelpContact "联系信息" 0 {显示联系信息帮助页面}
 menuText M HelpTip "每日提示" 0 {显示有用的Scid提示}
 menuText M HelpStartup "启动窗口" 0 {显示启动窗口}
 menuText M HelpAbout "关于scidCommunity" 0 {关于scidCommunity的信息}
+menuText M UpdateCheck "检查更新" 0 {检查 scidCommunity 的新版本}
+translate M UpdateChecking "正在检查更新..."
+translate M UpdateUpToDate "您正在运行最新版本的 scidCommunity (%s)。"
+translate M UpdateAvailable "scidCommunity 有新版本可用：%s\n\n您当前正在运行 %s。"
+translate M UpdateDownloadInstall "下载并安装"
+translate M UpdateViewRelease "查看发行说明"
+translate M UpdateNotNow "现在不要"
+translate M UpdateCheckFailed "scidCommunity 无法检查更新。请检查您的互联网连接，然后重试。"
+translate M UpdateInstallConfirm "将下载并安装 scidCommunity %s。\n\nscidCommunity 将在下载完成后关闭，然后运行安装程序。"
+translate M UpdateDownloading "正在下载 scidCommunity %s..."
+translate M UpdateDownloadFailed "下载更新失败。请稍后重试。"
 
 # Toolbar tooltips:
 menuText M RotateBoard "旋转棋盘" 0 {旋转棋盘}

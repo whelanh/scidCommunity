@@ -366,6 +366,17 @@ menuText D HelpContact "Kontaktinformation" 0 {Hilfe zur Kontaktinformation}
 menuText D HelpTip "Tagestip" 0 {Zeigt einen nützlichen Tip an}
 menuText D HelpStartup "Startfenster" 0 {Startfenster zeigen}
 menuText D HelpAbout "Über scidCommunity" 0 {Informationen zu scidCommunity}
+menuText D UpdateCheck "Suchen Sie nach Updates" 0 {Suchen Sie nach einer neuen Version von scidCommunity}
+translate D UpdateChecking "Suche nach Updates..."
+translate D UpdateUpToDate "Sie verwenden die neueste Version von scidCommunity (%s)."
+translate D UpdateAvailable "Eine neue Version von scidCommunity ist verfügbar: %s\n\nSie führen derzeit %s aus."
+translate D UpdateDownloadInstall "Herunterladen und installieren"
+translate D UpdateViewRelease "Versionshinweise anzeigen"
+translate D UpdateNotNow "Nicht jetzt"
+translate D UpdateCheckFailed "scidCommunity konnte nicht nach Updates suchen. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut."
+translate D UpdateInstallConfirm "scidCommunity %s wird heruntergeladen und installiert.\n\nscidCommunity wird geschlossen, wenn der Download abgeschlossen ist, und führt dann das Installationsprogramm aus."
+translate D UpdateDownloading "scidCommunity wird heruntergeladen %s..."
+translate D UpdateDownloadFailed "Das Herunterladen des Updates ist fehlgeschlagen. Bitte versuchen Sie es später noch einmal."
 
 # Toolbar tooltips:
 menuText D RotateBoard "Brett drehen" 0 {Brett drehen}

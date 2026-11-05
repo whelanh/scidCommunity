@@ -360,6 +360,7 @@ $m add command -label HelpContact -command {helpWindow Author}
 $m add separator
 $m add command -label HelpTip -command ::tip::show
 $m add separator
+$m add command -label UpdateCheck -command ::appupdate::check
 $m  add command -label HelpAbout -command helpAbout
 
 

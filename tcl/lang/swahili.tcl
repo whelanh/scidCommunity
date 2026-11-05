@@ -332,6 +332,17 @@ menuText Z HelpContact "Maelezo ya Mawasiliano" 1 {Onyesha ukurasa wa usaidizi w
 menuText Z HelpTip "Kidokezo cha Siku" 0 {Onyesha kidokezo muhimu cha Scid}
 menuText Z HelpStartup "Dirisha la Kuanzisha" 0 {Onyesha dirisha la kuanza}
 menuText Z HelpAbout "Kuhusu" 0 {Habari kuhusu ScidCommunity}
+menuText Z UpdateCheck "Angalia Usasisho" 0 {Angalia toleo jipya la scidCommunity}
+translate Z UpdateChecking "Inatafuta masasisho..."
+translate Z UpdateUpToDate "Unatumia toleo jipya zaidi la scidCommunity (%s)."
+translate Z UpdateAvailable "Toleo jipya la scidCommunity linapatikana: %s\n\nKwa sasa unaendesha %s."
+translate Z UpdateDownloadInstall "Pakua na Usakinishe"
+translate Z UpdateViewRelease "Tazama Vidokezo vya Kutolewa"
+translate Z UpdateNotNow "Sio Sasa"
+translate Z UpdateCheckFailed "scidCommunity haikuweza kuangalia masasisho. Tafadhali angalia muunganisho wako wa intaneti na ujaribu tena."
+translate Z UpdateInstallConfirm "Jumuiya ya scid %s itapakuliwa na kusakinishwa.\n\nscidJumuiya itafunga upakuaji utakapokamilika, kisha utekeleze kisakinishi."
+translate Z UpdateDownloading "Inapakua scidCommunity %s..."
+translate Z UpdateDownloadFailed "Imeshindwa kupakua sasisho. Tafadhali jaribu tena baadaye."
 
 # Toolbar tooltips:
 menuText Z RotateBoard "Zungusha ubao" 0 {Zungusha ubao}

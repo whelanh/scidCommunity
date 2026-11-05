@@ -332,6 +332,17 @@ menuText h HelpContact "संपर्क सूचना" 1 {संपर्�
 menuText h HelpTip "दिन की सर्वश्रेष्ठ टिप" 0 {एक उपयोगी स्किड युक्ति दिखाएँ}
 menuText h HelpStartup "स्टार्टअप विंडो" 0 {स्टार्टअप विंडो दिखाएँ}
 menuText h HelpAbout "के बारे में" 0 {स्किडकम्युनिटी के बारे में जानकारी}
+menuText h UpdateCheck "अद्यतन के लिए जाँच" 0 {स्किडकम्युनिटी के नए संस्करण की जाँच करें}
+translate h UpdateChecking "अपडेट के लिए जांच कर रहा है..."
+translate h UpdateUpToDate "आप स्किडकम्युनिटी (%s) का नवीनतम संस्करण चला रहे हैं।"
+translate h UpdateAvailable "स्किडकम्युनिटी का एक नया संस्करण उपलब्ध है: %s\n\nआप वर्तमान में %s चला रहे हैं।"
+translate h UpdateDownloadInstall "डाउनलोड करें और इंस्टॉल करें"
+translate h UpdateViewRelease "देखें निर्गमन टिप्पणी"
+translate h UpdateNotNow "अभी नहीं"
+translate h UpdateCheckFailed "स्किडकम्युनिटी अपडेट की जांच नहीं कर सका। अपने इंटरनेट कनेक्शन की जाँच करें और पुन: प्रयास करें।"
+translate h UpdateInstallConfirm "स्किडकम्युनिटी %s डाउनलोड और इंस्टॉल किया जाएगा।\n\nscidCmunity डाउनलोड खत्म होने पर बंद हो जाएगा, फिर इंस्टॉलर चलाएं।"
+translate h UpdateDownloading "स्किडकम्युनिटी डाउनलोड हो रहा है %s..."
+translate h UpdateDownloadFailed "अद्यतन डाउनलोड करना विफल रहा. कृपया बाद में पुन: प्रयास करें।"
 
 # Toolbar tooltips:
 menuText h RotateBoard "बोर्ड घुमाएँ" 0 {बोर्ड घुमाएँ}

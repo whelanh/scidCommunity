@@ -372,6 +372,17 @@ menuText P HelpContact "Dane kontaktowe" 1 {Pokaż stronę pomocy z informacjami
 menuText P HelpTip "Porada dnia" 0 {Pokaż przydatną poradę Scid}
 menuText P HelpStartup "Okno startowe" 0 {Pokaż okno startowe}
 menuText P HelpAbout "O programie" 0 {Informacje o ScidCommunity}
+menuText P UpdateCheck "Sprawdź aktualizacje" 0 {Sprawdź dostępność nowej wersji scidCommunity}
+translate P UpdateChecking "Sprawdzam dostępność aktualizacji..."
+translate P UpdateUpToDate "Używasz najnowszej wersji scidCommunity (%s)."
+translate P UpdateAvailable "Dostępna jest nowa wersja scidCommunity: %s\n\nObecnie używasz %s."
+translate P UpdateDownloadInstall "Pobierz i zainstaluj"
+translate P UpdateViewRelease "Zobacz Informacje o wersji"
+translate P UpdateNotNow "Nie teraz"
+translate P UpdateCheckFailed "scidCommunity nie może sprawdzić dostępności aktualizacji. Sprawdź swoje połączenie internetowe i spróbuj ponownie."
+translate P UpdateInstallConfirm "scidCommunity %s zostanie pobrany i zainstalowany.\n\nscidCommunity zostanie zamknięty po zakończeniu pobierania, a następnie uruchomi instalator."
+translate P UpdateDownloading "Pobieranie scidCommunity %s..."
+translate P UpdateDownloadFailed "Pobieranie aktualizacji nie powiodło się. Spróbuj ponownie później."
 
 # Toolbar tooltips:
 menuText P RotateBoard "Obróć szachownicę" 0 {Obróć szachownicę}

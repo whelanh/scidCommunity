@@ -355,6 +355,17 @@ menuText K HelpContact "Informació de contacte" 15 \
 menuText K HelpTip "Suggeriment del dia" 0 {Mostra un pràctic suggerimentent de Scid}
 menuText K HelpStartup "Finestra d'inici" 0 {Mostra la finestra d'inici}
 menuText K HelpAbout "Sobre l'scidCommunity" 8 {Informació al voltant de scidCommunity}
+menuText K UpdateCheck "Comproveu si hi ha actualitzacions" 0 {Comproveu si hi ha una nova versió de scidCommunity}
+translate K UpdateChecking "S'estan buscant actualitzacions..."
+translate K UpdateUpToDate "Esteu executant la darrera versió de scidCommunity (%s)."
+translate K UpdateAvailable "Hi ha disponible una nova versió de scidCommunity: %s\n\nEstàs executant %s."
+translate K UpdateDownloadInstall "Descarrega i instal·la"
+translate K UpdateViewRelease "Veure notes de la versió"
+translate K UpdateNotNow "Ara no"
+translate K UpdateCheckFailed "scidCommunity no ha pogut comprovar si hi ha actualitzacions. Comprova la teva connexió a Internet i torna-ho a provar."
+translate K UpdateInstallConfirm "scidCommunity %s es baixarà i s'instal·larà.\n\nscidCommunity es tancarà quan finalitzi la descàrrega i, a continuació, executeu l'instal·lador."
+translate K UpdateDownloading "S'està baixant scidCommunity %s..."
+translate K UpdateDownloadFailed "No s'ha pogut descarregar l'actualització. Si us plau, torna-ho a provar més tard."
 
 # Toolbar tooltips:
 menuText K RotateBoard "Gira el tauler" 0 {Gira el tauler}

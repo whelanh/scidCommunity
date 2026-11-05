@@ -348,6 +348,17 @@ menuText F HelpContact "Contact" 1 {Afficher les noms des contacts}
 menuText F HelpTip "Astuce du jour" 1 {Afficher une astuce Scid}
 menuText F HelpStartup "Fenêtre de démarrage" 0 {Afficher la fenêtre de démarrage}
 menuText F HelpAbout "A propos de scidCommunity" 2 {Information au sujet de scidCommunity}
+menuText F UpdateCheck "Vérifier les mises à jour" 0 {Rechercher une nouvelle version de scidCommunity}
+translate F UpdateChecking "Vérification des mises à jour..."
+translate F UpdateUpToDate "Vous utilisez la dernière version de scidCommunity (%s)."
+translate F UpdateAvailable "Une nouvelle version de scidCommunity est disponible : %s\n\nVous utilisez actuellement %s."
+translate F UpdateDownloadInstall "Télécharger et installer"
+translate F UpdateViewRelease "Afficher les notes de version"
+translate F UpdateNotNow "Pas maintenant"
+translate F UpdateCheckFailed "scidCommunity n'a pas pu vérifier les mises à jour. Veuillez vérifier votre connexion Internet et réessayer."
+translate F UpdateInstallConfirm "scidCommunity %s sera téléchargé et installé.\n\nscidCommunity se fermera une fois le téléchargement terminé, puis exécutera le programme d'installation."
+translate F UpdateDownloading "Téléchargement de scidCommunity %s..."
+translate F UpdateDownloadFailed "Le téléchargement de la mise à jour a échoué. Veuillez réessayer plus tard."
 
 # Toolbar tooltips:
 menuText F RotateBoard "Faire pivoter le tableau" 0 {Faire pivoter le tableau}
