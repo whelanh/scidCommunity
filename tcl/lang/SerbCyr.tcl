@@ -578,6 +578,7 @@ translate J readonly {само за читање}
 
 # Import games (skip duplicates):
 translate J ImportInto {Увези у:}
+translate J ImportStripComments {Уклоните коментаре из увезених игара}
 translate J Clipbase {Цлипбасе}
 translate J NoWritableDatabases {Нема отворених база података за писање. Прво отворите или креирајте базу података.}
 translate J Imported {Увезено}

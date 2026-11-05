@@ -538,6 +538,7 @@ translate V readonly {לקריאה בלבד}
 
 # Import games (skip duplicates):
 translate V ImportInto {ייבוא ​​לתוך:}
+translate V ImportStripComments {הסר הערות ממשחקים מיובאים}
 translate V Clipbase {בסיס קליפ}
 translate V NoWritableDatabases {אין מסדי נתונים פתוחים לכתיבה. אנא פתח או צור מסד נתונים תחילה.}
 translate V Imported {מְיוֹבָּא}

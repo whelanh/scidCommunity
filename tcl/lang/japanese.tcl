@@ -578,6 +578,7 @@ translate A readonly {読み取り専用}
 
 # Import games (skip duplicates):
 translate A ImportInto {インポート先:}
+translate A ImportStripComments {インポートされたゲームからコメントを削除する}
 translate A Clipbase {クリップベース}
 translate A NoWritableDatabases {開いている書き込み可能なデータベースがありません。まずデータベースを開くか作成してください。}
 translate A Imported {輸入品}

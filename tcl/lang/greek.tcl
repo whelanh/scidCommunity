@@ -569,6 +569,7 @@ translate G readonly {μόνο για ανάγνωση}
 
 # Import games (skip duplicates):
 translate G ImportInto {Εισαγωγή σε:}
+translate G ImportStripComments {Διαγραφή σχολίων από εισαγόμενα παιχνίδια}
 translate G Clipbase {Clipbase}
 translate G NoWritableDatabases {Δεν υπάρχουν ανοιχτές βάσεις δεδομένων με δυνατότητα εγγραφής. Ανοίξτε ή δημιουργήστε πρώτα μια βάση δεδομένων.}
 translate G Imported {Εισαγόμενος}

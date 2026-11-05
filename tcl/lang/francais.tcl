@@ -553,6 +553,7 @@ translate F readonly {lecture seule}
 
 # Import games (skip duplicates):
 translate F ImportInto {Importer dans :}
+translate F ImportStripComments {Supprimer les commentaires des jeux importés}
 translate F Clipbase {Base de clip}
 translate F NoWritableDatabases {Aucune base de données accessible en écriture n'est ouverte. Veuillez d'abord ouvrir ou créer une base de données.}
 translate F Imported {Importé}

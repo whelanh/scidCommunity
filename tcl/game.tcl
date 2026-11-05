@@ -33,8 +33,10 @@ proc ::game::Strip {type} {
 #
 #   Strips comments, variations or both from a list of selected games.
 #   <type> is "comments", "variations" or "all".
+#   <confirm> is 0 to skip the confirmation prompt (used when stripping is
+#   part of an already-confirmed batch operation such as an import).
 #
-proc ::game::StripSelected {db games_list type} {
+proc ::game::StripSelected {db games_list type {confirm 1}} {
   if {$db eq "" || ![sc_base inUse $db]} { return }
   set count 0
   foreach s $games_list {
@@ -48,9 +50,11 @@ proc ::game::StripSelected {db games_list type} {
       -message $::tr(ErrReadOnly)
     return
   }
-  set answer [tk_messageBox -parent . -type yesno -icon question \
-    -title "scidCommunity" -message [format $::tr(ConfirmStripGames) $count]]
-  if {$answer ne "yes"} { return }
+  if {$confirm} {
+    set answer [tk_messageBox -parent . -type yesno -icon question \
+      -title "scidCommunity" -message [format $::tr(ConfirmStripGames) $count]]
+    if {$answer ne "yes"} { return }
+  }
 
   set prev_base [sc_base current]
   if {$prev_base != $db} {

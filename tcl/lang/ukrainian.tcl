@@ -538,6 +538,7 @@ translate Q readonly {тільки для читання}
 
 # Import games (skip duplicates):
 translate Q ImportInto {Імпортувати в:}
+translate Q ImportStripComments {Видалити коментарі з імпортованих ігор}
 translate Q Clipbase {Кліпбаза}
 translate Q NoWritableDatabases {Немає відкритих баз даних для запису. Спочатку відкрийте або створіть базу даних.}
 translate Q Imported {Імпортні}

@@ -578,6 +578,7 @@ translate L readonly {numai pentru citire}
 
 # Import games (skip duplicates):
 translate L ImportInto {Import în:}
+translate L ImportStripComments {Eliminați comentariile din jocurile importate}
 translate L Clipbase {Clipbase}
 translate L NoWritableDatabases {Nu există baze de date inscriptibile deschise. Mai întâi deschideți sau creați o bază de date.}
 translate L Imported {Importat}

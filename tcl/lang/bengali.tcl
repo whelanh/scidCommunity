@@ -537,6 +537,7 @@ translate b readonly {শুধুমাত্র পড়ার জন্য}
 
 # Import games (skip duplicates):
 translate b ImportInto {এতে আমদানি করুন:}
+translate b ImportStripComments {আমদানি করা গেম থেকে মন্তব্য ফালা}
 translate b Clipbase {ক্লিপবেস}
 translate b NoWritableDatabases {কোন লিখনযোগ্য ডাটাবেস খোলা নেই. অনুগ্রহ করে প্রথমে একটি ডাটাবেস খুলুন বা তৈরি করুন।}
 translate b Imported {আমদানিকৃত}

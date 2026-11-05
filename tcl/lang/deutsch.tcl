@@ -571,6 +571,7 @@ translate D readonly {schreibgeschützt}
 
 # Import games (skip duplicates):
 translate D ImportInto {Importieren in:}
+translate D ImportStripComments {Entfernen Sie Kommentare aus importierten Spielen}
 translate D Clipbase {Clipbase}
 translate D NoWritableDatabases {Es sind keine beschreibbaren Datenbanken geöffnet. Bitte öffnen oder erstellen Sie zunächst eine Datenbank.}
 translate D Imported {Importiert}

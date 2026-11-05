@@ -17,6 +17,7 @@ namespace eval ::chesscom {
   variable username ""
   variable startYear ""
   variable startMonth ""
+  variable stripComments 0
   variable dialogWin ""
   variable progressValue 0
 }
@@ -59,6 +60,9 @@ proc ::chesscom::importGames {} {
   ttk::progressbar $w.content.progress -mode determinate -variable ::chesscom::progressValue
   grid $w.content.progressLbl -row 3 -column 0 -sticky w -padx {0 8} -pady {10 4}
   grid $w.content.progress -row 3 -column 1 -sticky ew -pady {10 4}
+  ttk::checkbutton $w.content.stripComments -text [tr ImportStripComments] \
+    -variable ::chesscom::stripComments
+  grid $w.content.stripComments -row 4 -column 0 -columnspan 2 -sticky w -pady {6 0}
   
   grid columnconfigure $w.content 1 -weight 1
   pack $w.content -side top -fill both -expand 1
@@ -326,7 +330,8 @@ proc ::chesscom::openPGN {pgnfile username startYear} {
   # cancellation). Only on success is the downloaded PGN deleted; on
   # failure/cancel it is kept so a retry does not require downloading
   # everything again.
-  if {[importPgnNoDup $pgnfile "Import My Chess.com Games"]} {
+  if {[importPgnNoDup $pgnfile "Import My Chess.com Games" \
+        [expr {$::chesscom::stripComments ? "comments" : ""}]]} {
     after 5000 [list catch [list file delete -force $::chesscom::tempDir]]
   }
 }

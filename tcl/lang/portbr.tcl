@@ -546,6 +546,7 @@ translate B readonly {apenas leitura}
 
 # Import games (skip duplicates):
 translate B ImportInto {Importar para:}
+translate B ImportStripComments {Retirar comentários de jogos importados}
 translate B Clipbase {Base de clipe}
 translate B NoWritableDatabases {Não há bancos de dados graváveis ​​abertos. Abra ou crie um banco de dados primeiro.}
 translate B Imported {Importado}

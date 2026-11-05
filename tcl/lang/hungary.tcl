@@ -545,6 +545,7 @@ translate H readonly {read-only} ;# ***
 
 # Import games (skip duplicates):
 translate H ImportInto {Importálás ide:}
+translate H ImportStripComments {Törölje le az importált játékok megjegyzéseit}
 translate H Clipbase {Klipbázis}
 translate H NoWritableDatabases {Nincsenek nyitva írható adatbázisok. Először nyissa meg vagy hozzon létre egy adatbázist.}
 translate H Imported {Importált}

@@ -577,6 +577,7 @@ translate P readonly {tylko do odczytu}
 
 # Import games (skip duplicates):
 translate P ImportInto {Importuj do:}
+translate P ImportStripComments {Usuń komentarze z importowanych gier}
 translate P Clipbase {Schowek}
 translate P NoWritableDatabases {Nie otwarto żadnej bazy do zapisu. Najpierw otwórz lub utwórz bazę danych.}
 translate P Imported {Zaimportowano}

@@ -548,6 +548,7 @@ translate W readonly {bara läsbar} ;# ***
 
 # Import games (skip duplicates):
 translate W ImportInto {Importera till:}
+translate W ImportStripComments {Ta bort kommentarer från importerade spel}
 translate W Clipbase {Clipbase}
 translate W NoWritableDatabases {Det finns inga skrivbara databaser öppna. Öppna eller skapa en databas först.}
 translate W Imported {Importerad}

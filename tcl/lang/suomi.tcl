@@ -576,6 +576,7 @@ translate U readonly {vain luku}
 
 # Import games (skip duplicates):
 translate U ImportInto {Tuo kohteeseen:}
+translate U ImportStripComments {Poista kommentit tuoduista peleistä}
 translate U Clipbase {Clipbase}
 translate U NoWritableDatabases {Kirjoitettavia tietokantoja ei ole auki. Avaa tai luo ensin tietokanta.}
 translate U Imported {Tuotu}
