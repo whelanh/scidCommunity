@@ -560,6 +560,7 @@ translate K readonly {només de lectura}
 
 # Import games (skip duplicates):
 translate K ImportInto {Importa a:}
+translate K ImportStripComments {Elimina els comentaris dels jocs importats}
 translate K Clipbase {Clipbase}
 translate K NoWritableDatabases {No hi ha bases de dades escrites obertes. Obriu o creeu una base de dades primer.}
 translate K Imported {Importat}

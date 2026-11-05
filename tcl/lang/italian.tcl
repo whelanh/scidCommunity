@@ -545,6 +545,7 @@ translate I readonly {sola lettura}
 
 # Import games (skip duplicates):
 translate I ImportInto {Importa in:}
+translate I ImportStripComments {Elimina i commenti dai giochi importati}
 translate I Clipbase {Clipbase}
 translate I NoWritableDatabases {Non ci sono database scrivibili aperti. Per prima cosa apri o crea un database.}
 translate I Imported {Importato}

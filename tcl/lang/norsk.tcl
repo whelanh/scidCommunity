@@ -547,6 +547,7 @@ translate O readonly {skrivebeskyttet}
 
 # Import games (skip duplicates):
 translate O ImportInto {Importer til:}
+translate O ImportStripComments {Fjern kommentarer fra importerte spill}
 translate O Clipbase {Klippbase}
 translate O NoWritableDatabases {Det er ingen skrivbare databaser åpne. Vennligst åpne eller opprett en database først.}
 translate O Imported {Importert}

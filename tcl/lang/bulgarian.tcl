@@ -578,6 +578,7 @@ translate g readonly {само за четене}
 
 # Import games (skip duplicates):
 translate g ImportInto {Импортиране в:}
+translate g ImportStripComments {Премахване на коментари от импортирани игри}
 translate g Clipbase {Clipbase}
 translate g NoWritableDatabases {Няма отворени бази данни с възможност за запис. Моля, първо отворете или създайте база данни.}
 translate g Imported {Внесени}

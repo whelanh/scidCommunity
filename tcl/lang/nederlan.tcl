@@ -566,6 +566,7 @@ translate N readonly {alleen-lezen}
 
 # Import games (skip duplicates):
 translate N ImportInto {Importeren in:}
+translate N ImportStripComments {Verwijder opmerkingen uit geïmporteerde games}
 translate N Clipbase {Clipbasis}
 translate N NoWritableDatabases {Er zijn geen beschrijfbare databases geopend. Open of maak eerst een database.}
 translate N Imported {Geïmporteerd}

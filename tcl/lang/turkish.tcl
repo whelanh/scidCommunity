@@ -541,6 +541,7 @@ translate T readonly {salt okunur}
 
 # Import games (skip duplicates):
 translate T ImportInto {Şuraya aktar:}
+translate T ImportStripComments {İçe aktarılan oyunlardaki yorumları kaldır}
 translate T Clipbase {Klip tabanı}
 translate T NoWritableDatabases {Açık yazılabilir veritabanları yok. Lütfen önce bir veritabanı açın veya oluşturun.}
 translate T Imported {İthal}

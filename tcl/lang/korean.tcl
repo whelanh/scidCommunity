@@ -578,6 +578,7 @@ translate k readonly {인구의 승리}
 
 # Import games (skip duplicates):
 translate k ImportInto {다음으로 가져오기:}
+translate k ImportStripComments {수입 게임에서 댓글 제거}
 translate k Clipbase {클립베이스}
 translate k NoWritableDatabases {쓰기 가능한 데이터베이스가 열려 있지 않습니다. 먼저 데이터베이스를 열거나 생성하세요.}
 translate k Imported {수입됨}

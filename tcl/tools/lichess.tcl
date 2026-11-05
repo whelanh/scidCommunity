@@ -16,6 +16,7 @@ namespace eval ::lichess {
   variable username ""
   variable startYear ""
   variable startMonth ""
+  variable stripComments 0
 }
 
 # Persisted options (saved to options.dat via Options > Save Options and on exit)
@@ -75,6 +76,9 @@ proc ::lichess::importGames {} {
   grid $w.content.tokenEntry -row 3 -column 1 -sticky ew -pady 4
   grid $w.content.tokenHint  -row 4 -column 1 -sticky w -pady {0 4}
   bind $w.content.tokenHint <ButtonRelease-1> {openURL "https://lichess.org/account/oauth/token"}
+  ttk::checkbutton $w.content.stripComments -text [tr ImportStripComments] \
+    -variable ::lichess::stripComments
+  grid $w.content.stripComments -row 5 -column 0 -columnspan 2 -sticky w -pady {8 0}
   grid columnconfigure $w.content 1 -weight 1
   pack $w.content -side top -fill both -expand 1
   
@@ -418,7 +422,8 @@ proc ::lichess::openPGN {pgnfile username} {
   # outcome (success, import error, or cancellation). Only on success is the
   # downloaded PGN deleted; on failure/cancel it is kept so a retry does not
   # require downloading everything again.
-  if {[importPgnNoDup $pgnfile "Import My Lichess Games"]} {
+  if {[importPgnNoDup $pgnfile "Import My Lichess Games" \
+        [expr {$::lichess::stripComments ? "comments" : ""}]]} {
     after 5000 [list catch [list file delete -force $::lichess::tempDir]]
   }
 }

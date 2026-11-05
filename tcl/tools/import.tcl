@@ -242,7 +242,11 @@ proc importPgnFile {{base} {fnames ""}} {
 #   Reports the outcome itself (success summary, import error, or the
 #   "no writable database" message) and returns 1 on success, 0 otherwise
 #   (cancelled, no writable database, or import failure). It never raises.
-proc importPgnNoDup {pgnfile title} {
+#
+#   If <strip> is non-empty ("comments", "commentsnonag", "variations" or
+#   "all"), the newly imported games have that content stripped as part of the
+#   import, using the same routine as the Game List batch strip feature.
+proc importPgnNoDup {pgnfile title {strip ""}} {
   set bases {}
   foreach i [sc_base list] {
     if {[sc_base isReadOnly $i]} { continue }
@@ -297,6 +301,14 @@ proc importPgnNoDup {pgnfile title} {
   if {!$::importBaseResult} { return 0 }
   set base $::importBaseChoice
 
+  # Newly imported games are appended at the end of the database, so the games
+  # to strip (if requested) are exactly the contiguous range of game numbers
+  # between the count before and after the import.
+  set numBefore 0
+  if {$strip ne ""} {
+    set numBefore [sc_base numGames $base]
+  }
+
   progressWindow "scidCommunity" "$::tr(ImportingIn) [::file::BaseName $base]..." $::tr(Cancel)
   set err [catch {sc_base import_nodup $base $pgnfile} result]
   closeProgressWindow true
@@ -308,6 +320,15 @@ proc importPgnNoDup {pgnfile title} {
   set nImported [lindex $result 0]
   set nSkipped  [lindex $result 1]
   set warnings  [lindex $result 2]
+
+  if {$strip ne "" && $nImported > 0} {
+    set numAfter [sc_base numGames $base]
+    set games {}
+    for {set g [expr {$numBefore + 1}]} {$g <= $numAfter} {incr g} {
+      lappend games "${g}_0"
+    }
+    ::game::StripSelected $base $games $strip 0
+  }
 
   after idle "::notify::DatabaseModified $base"
 

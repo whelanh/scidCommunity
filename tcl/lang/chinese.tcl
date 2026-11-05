@@ -513,6 +513,7 @@ translate M readonly {read-only}
 
 # Import games (skip duplicates):
 translate M ImportInto {导入到：}
+translate M ImportStripComments {删除导入游戏的评论}
 translate M Clipbase {剪辑库}
 translate M NoWritableDatabases {没有打开的可写数据库。请先打开或创建数据库。}
 translate M Imported {进口}

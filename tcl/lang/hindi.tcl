@@ -537,6 +537,7 @@ translate h readonly {केवल पढ़ने के लिए}
 
 # Import games (skip duplicates):
 translate h ImportInto {इसमें आयात करें:}
+translate h ImportStripComments {आयातित खेलों से टिप्पणियाँ हटाएँ}
 translate h Clipbase {क्लिपबेस}
 translate h NoWritableDatabases {कोई लिखने योग्य डेटाबेस खुला नहीं है. कृपया पहले एक डेटाबेस खोलें या बनाएं।}
 translate h Imported {आयातित}

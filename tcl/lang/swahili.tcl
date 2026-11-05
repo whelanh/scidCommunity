@@ -537,6 +537,7 @@ translate Z readonly {kusoma tu}
 
 # Import games (skip duplicates):
 translate Z ImportInto {Ingiza kwenye:}
+translate Z ImportStripComments {Ondoa maoni kutoka kwa michezo iliyoingizwa}
 translate Z Clipbase {Clipbase}
 translate Z NoWritableDatabases {Hakuna hifadhidata zinazoweza kuandikwa zilizofunguliwa. Tafadhali fungua au unda hifadhidata kwanza.}
 translate Z Imported {Imeingizwa}

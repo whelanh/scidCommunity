@@ -544,6 +544,7 @@ translate R readonly {Только для чтения}
 
 # Import games (skip duplicates):
 translate R ImportInto {Импортировать в:}
+translate R ImportStripComments {Удаление комментариев из импортированных игр}
 translate R Clipbase {База клипов}
 translate R NoWritableDatabases {Нет открытых доступных для записи баз данных. Пожалуйста, сначала откройте или создайте базу данных.}
 translate R Imported {Импортировано}
