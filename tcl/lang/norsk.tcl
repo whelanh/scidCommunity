@@ -342,6 +342,17 @@ menuText O HelpContact "Kontaktinformasjon" 0 {Vis kontaktinformasjon}
 menuText O HelpTip "Dagens tips" 0 {Vis et nyttig Scid-tips}
 menuText O HelpStartup "Oppstartsvindu" 0 {Vis oppstartsvindu}
 menuText O HelpAbout "Om scidCommunity" 0 {Informasjon om scidCommunity}
+menuText O UpdateCheck "Se etter oppdateringer" 0 {Se etter en ny versjon av scidCommunity}
+translate O UpdateChecking "Ser etter oppdateringer..."
+translate O UpdateUpToDate "Du kjører den nyeste versjonen av scidCommunity (%s)."
+translate O UpdateAvailable "En ny versjon av scidCommunity er tilgjengelig: %s\n\nDu kjører for øyeblikket %s."
+translate O UpdateDownloadInstall "Last ned og installer"
+translate O UpdateViewRelease "Se versjonsnotater"
+translate O UpdateNotNow "Ikke nå"
+translate O UpdateCheckFailed "scidCommunity kunne ikke se etter oppdateringer. Kontroller Internett-tilkoblingen din og prøv igjen."
+translate O UpdateInstallConfirm "scidCommunity %s vil bli lastet ned og installert.\n\nscidCommunity vil lukke når nedlastingen er ferdig, og deretter kjøre installasjonsprogrammet."
+translate O UpdateDownloading "Laster ned scidCommunity %s..."
+translate O UpdateDownloadFailed "Nedlasting av oppdateringen mislyktes. Vennligst prøv igjen senere."
 
 # Toolbar tooltips:
 menuText O RotateBoard "Roter brettet" 0 {Roter brettet}

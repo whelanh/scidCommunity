@@ -336,6 +336,17 @@ menuText C HelpContact "Kontakt" 0 {Zobrazit strnku npovdy s kontaktnmi informac
 menuText C HelpTip "Tip dne" 4 {Zobrazit uiten tip Scidu}
 menuText C HelpStartup "Startovac okno" 0 {Zobrazit startovac okno}
 menuText C HelpAbout "O aplikaci scidCommunity" 2 {Informace o aplikaci scidCommunity}
+menuText C UpdateCheck "Zkontrolujte aktualizace" 0 {Vyhledejte novou verzi scidCommunity}
+translate C UpdateChecking "Kontrola aktualizací..."
+translate C UpdateUpToDate "Používáte nejnovější verzi scidCommunity (%s)."
+translate C UpdateAvailable "K dispozici je nová verze scidCommunity: %s\n\nMomentálně používáte %s."
+translate C UpdateDownloadInstall "Stáhnout a nainstalovat"
+translate C UpdateViewRelease "Zobrazit poznámky k vydání"
+translate C UpdateNotNow "Teď ne"
+translate C UpdateCheckFailed "scidCommunity nemohl zkontrolovat aktualizace. Zkontrolujte prosím připojení k internetu a zkuste to znovu."
+translate C UpdateInstallConfirm "scidCommunity %s bude stažen a nainstalován.\n\nscidCommunity se po dokončení stahování zavře a poté spusťte instalační program."
+translate C UpdateDownloading "Stahování scidCommunity %s..."
+translate C UpdateDownloadFailed "Stažení aktualizace se nezdařilo. Zkuste to znovu později."
 
 # Toolbar tooltips:
 menuText C RotateBoard "Otote desku" 0 {Otote desku}

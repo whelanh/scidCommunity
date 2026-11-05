@@ -373,6 +373,17 @@ menuText k HelpContact "문의사항" 1 {고객님의 정보안내 페이지표�
 menuText k HelpTip "오늘의 팁" 0 {유용한 Scid 팁 보기}
 menuText k HelpStartup "시작 창" 0 {시작 창 표시}
 menuText k HelpAbout "에 대한" 0 {ScidCommunity에 대한 정보}
+menuText k UpdateCheck "업데이트 확인" 0 {scidCommunity의 새 버전을 확인하세요.}
+translate k UpdateChecking "업데이트 확인 중..."
+translate k UpdateUpToDate "최신 버전의 scidCommunity(%s)를 실행 중입니다."
+translate k UpdateAvailable "scidCommunity의 새 버전을 사용할 수 있습니다: %s\n\n현재 %s을(를) 실행 중입니다."
+translate k UpdateDownloadInstall "다운로드 및 설치"
+translate k UpdateViewRelease "출시 노트 보기"
+translate k UpdateNotNow "지금은 아님"
+translate k UpdateCheckFailed "scidCommunity가 업데이트를 확인할 수 없습니다. 인터넷 연결을 확인하고 다시 시도해 주세요."
+translate k UpdateInstallConfirm "scidCommunity %s가 다운로드되어 설치됩니다.\n\nscidCommunity는 다운로드가 끝나면 닫히고 설치 프로그램을 실행합니다."
+translate k UpdateDownloading "scidCommunity %s 다운로드 중..."
+translate k UpdateDownloadFailed "업데이트를 다운로드하지 못했습니다. 나중에 다시 시도해 주세요."
 
 # Toolbar tooltips:
 menuText k RotateBoard "회전하다" 0 {회전하다}

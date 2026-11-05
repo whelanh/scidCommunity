@@ -340,6 +340,17 @@ menuText I HelpContact "Informazioni di contatto" 17 {Mostra la pagina delle inf
 menuText I HelpTip "Suggerimento del giorno" 1 {Mostra utili suggerimenti riguardo Scid}
 menuText I HelpStartup "Finestra di avvio" 0 {Mostra la finestra di avvio}
 menuText I HelpAbout "Informazioni su scidCommunity" 1 {Informazioni su scidCommunity}
+menuText I UpdateCheck "Controlla gli aggiornamenti" 0 {Cerca una nuova versione di scidCommunity}
+translate I UpdateChecking "Controllo aggiornamenti..."
+translate I UpdateUpToDate "Stai utilizzando la versione più recente di scidCommunity (%s)."
+translate I UpdateAvailable "È disponibile una nuova versione di scidCommunity: %s\n\nAttualmente stai utilizzando %s."
+translate I UpdateDownloadInstall "Scarica e installa"
+translate I UpdateViewRelease "Visualizza le note sulla versione"
+translate I UpdateNotNow "Non adesso"
+translate I UpdateCheckFailed "scidCommunity non è riuscito a verificare la presenza di aggiornamenti. Controlla la connessione Internet e riprova."
+translate I UpdateInstallConfirm "scidCommunity %s verrà scaricato e installato.\n\nscidCommunity verrà chiuso al termine del download, quindi verrà eseguito il programma di installazione."
+translate I UpdateDownloading "Download di scidCommunity %s..."
+translate I UpdateDownloadFailed "Il download dell'aggiornamento non è riuscito. Per favore riprova più tardi."
 
 # Toolbar tooltips:
 menuText I RotateBoard "Ruota la scheda" 0 {Ruota la scheda}

@@ -364,6 +364,17 @@ menuText G HelpContact "Πληροφορίες επικοινωνίας" 1 {Εμ
 menuText G HelpTip "Συμβουλή της ημέρας" 0 {Εμφάνιση χρήσιμων συμβουλών για το Scid}
 menuText G HelpStartup "Παράθυρο έναρξης" 0 {Εμφανίζει το παράθυρο έναρξης}
 menuText G HelpAbout "Για το scidCommunity" 0 {Πληροφορίες για το scidCommunity}
+menuText G UpdateCheck "Ελέγξτε για Ενημερώσεις" 0 {Ελέγξτε για μια νέα έκδοση του scidCommunity}
+translate G UpdateChecking "Έλεγχος για ενημερώσεις..."
+translate G UpdateUpToDate "Εκτελείτε την πιο πρόσφατη έκδοση του scidCommunity (%s)."
+translate G UpdateAvailable "Μια νέα έκδοση του scidCommunity είναι διαθέσιμη: %s\n\nΕκτελείτε αυτήν τη στιγμή το %s."
+translate G UpdateDownloadInstall "Λήψη & Εγκατάσταση"
+translate G UpdateViewRelease "Προβολή Σημειώσεων Έκδοσης"
+translate G UpdateNotNow "Όχι τώρα"
+translate G UpdateCheckFailed "Το scidCommunity δεν μπόρεσε να ελέγξει για ενημερώσεις. Ελέγξτε τη σύνδεσή σας στο Διαδίκτυο και δοκιμάστε ξανά."
+translate G UpdateInstallConfirm "Θα γίνει λήψη και εγκατάσταση του scidCommunity %s.\n\nΤο scidCommunity θα κλείσει όταν ολοκληρωθεί η λήψη και, στη συνέχεια, εκτελέστε το πρόγραμμα εγκατάστασης."
+translate G UpdateDownloading "Λήψη του scidCommunity %s..."
+translate G UpdateDownloadFailed "Η λήψη της ενημέρωσης απέτυχε. Δοκιμάστε ξανά αργότερα."
 
 # Toolbar tooltips:
 menuText G RotateBoard "Περιστρέψτε τον πίνακα" 0 {Περιστρέψτε τον πίνακα}

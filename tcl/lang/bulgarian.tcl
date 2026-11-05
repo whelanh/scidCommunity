@@ -373,6 +373,17 @@ menuText g HelpContact "Информация за контакт" 1 {Показ�
 menuText g HelpTip "Съвет на деня" 0 {Покажете полезен съвет на Scid}
 menuText g HelpStartup "Стартов прозорец" 0 {Покажете прозореца за стартиране}
 menuText g HelpAbout "За" 0 {Информация за ScidCommunity}
+menuText g UpdateCheck "Проверете за актуализации" 0 {Проверете за нова версия на scidCommunity}
+translate g UpdateChecking "Проверка за актуализации..."
+translate g UpdateUpToDate "Вие използвате най-новата версия на scidCommunity (%s)."
+translate g UpdateAvailable "Налична е нова версия на scidCommunity: %s\n\nВ момента изпълнявате %s."
+translate g UpdateDownloadInstall "Изтеглете и инсталирайте"
+translate g UpdateViewRelease "Преглед на бележките по изданието"
+translate g UpdateNotNow "Не сега"
+translate g UpdateCheckFailed "scidCommunity не можа да провери за актуализации. Моля, проверете вашата интернет връзка и опитайте отново."
+translate g UpdateInstallConfirm "scidCommunity %s ще бъде изтеглен и инсталиран.\n\nscidCommunity ще се затвори, когато изтеглянето приключи, след което стартирайте инсталатора."
+translate g UpdateDownloading "Изтегля се scidCommunity %s..."
+translate g UpdateDownloadFailed "Изтеглянето на актуализацията не бе успешно. Моля, опитайте отново по-късно."
 
 # Toolbar tooltips:
 menuText g RotateBoard "Завъртете дъската" 0 {Завъртете дъската}

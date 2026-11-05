@@ -336,6 +336,17 @@ menuText T HelpContact "İletişim Bilgileri" 1 {İletişim bilgileri yardım sa
 menuText T HelpTip "Günün İpucu" 0 {Yararlı bir Scid ipucu göster}
 menuText T HelpStartup "Başlangıç ​​Penceresi" 0 {Başlangıç ​​penceresini göster}
 menuText T HelpAbout "Hakkında" 0 {ScidCommunity hakkında bilgiler}
+menuText T UpdateCheck "Güncellemeleri Kontrol Et" 0 {ScidCommunity'nin yeni bir sürümünü kontrol edin}
+translate T UpdateChecking "Güncellemeler kontrol ediliyor..."
+translate T UpdateUpToDate "ScidCommunity'nin (%s) en son sürümünü çalıştırıyorsunuz."
+translate T UpdateAvailable "ScidCommunity'nin yeni bir sürümü mevcut: %s\n\nŞu anda %s çalıştırıyorsunuz."
+translate T UpdateDownloadInstall "İndir ve Yükle"
+translate T UpdateViewRelease "Sürüm Notlarını Görüntüle"
+translate T UpdateNotNow "Şimdi değil"
+translate T UpdateCheckFailed "scidCommunity güncellemeleri kontrol edemedi. Lütfen internet bağlantınızı kontrol edip tekrar deneyin."
+translate T UpdateInstallConfirm "scidCommunity %s indirilecek ve kurulacak.\n\nscidCommunity, indirme işlemi tamamlandığında kapanacak, ardından yükleyiciyi çalıştıracak."
+translate T UpdateDownloading "ScidCommunity %s indiriliyor..."
+translate T UpdateDownloadFailed "Güncellemenin indirilmesi başarısız oldu. Lütfen daha sonra tekrar deneyin."
 
 # Toolbar tooltips:
 menuText T RotateBoard "Tahtayı döndür" 0 {Tahtayı döndür}

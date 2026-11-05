@@ -1191,6 +1191,7 @@ tools/novag.tcl
 tools/tablebase.tcl
 tools/batch_annotate.tcl
 tools/rapid_annotate.tcl
+updatecheck.tcl
 end.tcl
 }
 

@@ -373,6 +373,17 @@ menuText L HelpContact "Informații de contact" 1 {Afișați pagina de ajutor cu
 menuText L HelpTip "Sfatul zilei" 0 {Afișați un sfat util Scid}
 menuText L HelpStartup "Fereastra de pornire" 0 {Afișați fereastra de pornire}
 menuText L HelpAbout "Despre" 0 {Informații despre ScidCommunity}
+menuText L UpdateCheck "Verificați actualizările" 0 {Verificați o nouă versiune a scidCommunity}
+translate L UpdateChecking "Se verifică actualizări..."
+translate L UpdateUpToDate "Rulați cea mai recentă versiune a scidCommunity (%s)."
+translate L UpdateAvailable "O nouă versiune a scidCommunity este disponibilă: %s\n\nÎn prezent rulați %s."
+translate L UpdateDownloadInstall "Descărcați și instalați"
+translate L UpdateViewRelease "Vedeți notele de lansare"
+translate L UpdateNotNow "Nu acum"
+translate L UpdateCheckFailed "scidCommunity nu a putut verifica actualizările. Vă rugăm să vă verificați conexiunea la internet și să încercați din nou."
+translate L UpdateInstallConfirm "scidCommunity %s va fi descărcată și instalată.\n\nscidCommunity se va închide când descărcarea se termină, apoi rulează programul de instalare."
+translate L UpdateDownloading "Se descarcă scidCommunity %s..."
+translate L UpdateDownloadFailed "Descărcarea actualizării a eșuat. Vă rugăm să încercați din nou mai târziu."
 
 # Toolbar tooltips:
 menuText L RotateBoard "Rotiți placa" 0 {Rotiți placa}

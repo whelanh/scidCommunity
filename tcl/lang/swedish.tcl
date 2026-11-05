@@ -343,6 +343,17 @@ menuText W HelpContact "Kontaktinformation" 0 {Visa kontaktinformation}
 menuText W HelpTip "Dagens tips" 0 {Användbara Scid tips}
 menuText W HelpStartup "Startfönster" 5 {Visa startfönstret}
 menuText W HelpAbout "Om scidCommunity" 0 {Information om scidCommunity}
+menuText W UpdateCheck "Sök efter uppdateringar" 0 {Sök efter en ny version av scidCommunity}
+translate W UpdateChecking "Söker efter uppdateringar..."
+translate W UpdateUpToDate "Du kör den senaste versionen av scidCommunity (%s)."
+translate W UpdateAvailable "En ny version av scidCommunity är tillgänglig: %s\n\nDu kör för närvarande %s."
+translate W UpdateDownloadInstall "Ladda ner och installera"
+translate W UpdateViewRelease "Se versionskommentarer"
+translate W UpdateNotNow "Inte nu"
+translate W UpdateCheckFailed "scidCommunity kunde inte söka efter uppdateringar. Kontrollera din internetanslutning och försök igen."
+translate W UpdateInstallConfirm "scidCommunity %s kommer att laddas ner och installeras.\n\nscidCommunity stängs när nedladdningen är klar och kör sedan installationsprogrammet."
+translate W UpdateDownloading "Laddar ner scidCommunity %s..."
+translate W UpdateDownloadFailed "Det gick inte att ladda ner uppdateringen. Försök igen senare."
 
 # Toolbar tooltips:
 menuText W RotateBoard "Vrid brädet" 0 {Vrid brädet}

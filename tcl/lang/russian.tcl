@@ -339,6 +339,17 @@ menuText R HelpContact "Контактная информация" 0 {Показ
 menuText R HelpTip "Подсказка дня" 0 {Показать полезную подсказку}
 menuText R HelpStartup "Окно запуска" 2 {Показать окно запуска}
 menuText R HelpAbout "О scidCommunity" 2 {Информация о scidCommunity}
+menuText R UpdateCheck "Проверьте наличие обновлений" 0 {Проверьте наличие новой версии scidCommunity.}
+translate R UpdateChecking "Проверяем наличие обновлений..."
+translate R UpdateUpToDate "Вы используете последнюю версию scidCommunity (%s)."
+translate R UpdateAvailable "Доступна новая версия scidCommunity: %s\n\nВ настоящее время вы используете %s."
+translate R UpdateDownloadInstall "Скачать и установить"
+translate R UpdateViewRelease "Посмотреть примечания к выпуску"
+translate R UpdateNotNow "Не сейчас"
+translate R UpdateCheckFailed "scidCommunity не удалось проверить наличие обновлений. Пожалуйста, проверьте подключение к Интернету и повторите попытку."
+translate R UpdateInstallConfirm "scidCommunity %s будет загружен и установлен.\n\nscidCommunity закроется после завершения загрузки, а затем запустите программу установки."
+translate R UpdateDownloading "Загрузка scidCommunity %s..."
+translate R UpdateDownloadFailed "Загрузить обновление не удалось. Пожалуйста, повторите попытку позже."
 
 # Toolbar tooltips:
 menuText R RotateBoard "Поворот доски" 0 {Поворот доски}

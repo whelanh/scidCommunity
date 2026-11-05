@@ -373,6 +373,17 @@ menuText A HelpContact "連絡先情報" 1 {連絡先情報のヘルプページ
 menuText A HelpTip "今日のヒント" 0 {役立つ Scid ヒントを表示する}
 menuText A HelpStartup "起動ウィンドウ" 0 {起動ウィンドウを表示する}
 menuText A HelpAbout "について" 0 {ScidCommunityに関する情報}
+menuText A UpdateCheck "アップデートをチェックする" 0 {scidCommunity の新しいバージョンを確認する}
+translate A UpdateChecking "アップデートをチェックしています..."
+translate A UpdateUpToDate "最新バージョンの scidCommunity (%s) を実行しています。"
+translate A UpdateAvailable "scidCommunity の新しいバージョンが利用可能です: %s\n\n現在 %s を実行しています。"
+translate A UpdateDownloadInstall "ダウンロードとインストール"
+translate A UpdateViewRelease "リリースノートを見る"
+translate A UpdateNotNow "今じゃない"
+translate A UpdateCheckFailed "scidCommunity は更新をチェックできませんでした。インターネット接続を確認して、もう一度試してください。"
+translate A UpdateInstallConfirm "scidCommunity %s がダウンロードされ、インストールされます。\n\nscidCommunity はダウンロードが完了すると閉じて、インストーラを実行します。"
+translate A UpdateDownloading "scidCommunity %s をダウンロード中..."
+translate A UpdateDownloadFailed "アップデートのダウンロードに失敗しました。後でもう一度試してください。"
 
 # Toolbar tooltips:
 menuText A RotateBoard "ボードを回転する" 0 {ボードを回転する}

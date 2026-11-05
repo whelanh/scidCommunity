@@ -371,6 +371,17 @@ menuText U HelpContact "Yhteystietoja" 0 {Näytä yhteystiedot}
 menuText U HelpTip "Päivän vinkki" 1 {Näytä vihje}
 menuText U HelpStartup "Käynnistys-popup" 2 {Näytä ohjelman käynnistys-popup}
 menuText U HelpAbout "Tietoja scidCommunitysta" 8 {Tietoja ohjelmasta}
+menuText U UpdateCheck "Tarkista päivitykset" 0 {Tarkista scidCommunityn uusi versio}
+translate U UpdateChecking "Tarkistetaan päivityksiä..."
+translate U UpdateUpToDate "Käytät scidCommunityn uusinta versiota (%s)."
+translate U UpdateAvailable "ScidCommunityn uusi versio on saatavilla: %s\n\nKäytät tällä hetkellä %s."
+translate U UpdateDownloadInstall "Lataa ja asenna"
+translate U UpdateViewRelease "Näytä julkaisutiedot"
+translate U UpdateNotNow "Ei nyt"
+translate U UpdateCheckFailed "scidCommunity ei voinut tarkistaa päivityksiä. Tarkista internetyhteytesi ja yritä uudelleen."
+translate U UpdateInstallConfirm "scidCommunity %s ladataan ja asennetaan.\n\nscidCommunity sulkeutuu, kun lataus on valmis, ja käynnistä sitten asennusohjelma."
+translate U UpdateDownloading "Ladataan scidCommunitya %s..."
+translate U UpdateDownloadFailed "Päivityksen lataaminen epäonnistui. Yritä myöhemmin uudelleen."
 
 # Toolbar tooltips:
 menuText U RotateBoard "Pyöritä lautaa" 0 {Pyöritä lautaa}

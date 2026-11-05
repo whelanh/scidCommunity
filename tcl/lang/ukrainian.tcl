@@ -333,6 +333,17 @@ menuText Q HelpContact "Контактна інформація" 1 {Показа
 menuText Q HelpTip "Порада дня" 0 {Покажіть корисну пораду Scid}
 menuText Q HelpStartup "Вікно запуску" 0 {Показати вікно запуску}
 menuText Q HelpAbout "про" 0 {Інформація про ScidCommunity}
+menuText Q UpdateCheck "Перевірте наявність оновлень" 0 {Перевірте наявність нової версії scidCommunity}
+translate Q UpdateChecking "Перевірка оновлень..."
+translate Q UpdateUpToDate "Ви використовуєте останню версію scidCommunity (%s)."
+translate Q UpdateAvailable "Доступна нова версія scidCommunity: %s\n\nЗараз ви використовуєте %s."
+translate Q UpdateDownloadInstall "Завантажити та встановити"
+translate Q UpdateViewRelease "Переглянути примітки до випуску"
+translate Q UpdateNotNow "Не зараз"
+translate Q UpdateCheckFailed "scidCommunity не вдалося перевірити наявність оновлень. Перевірте підключення до Інтернету та повторіть спробу."
+translate Q UpdateInstallConfirm "scidCommunity %s буде завантажено та встановлено.\n\nscidCommunity закриється, коли завантаження завершиться, а потім запустіть інсталятор."
+translate Q UpdateDownloading "Завантаження scidCommunity %s..."
+translate Q UpdateDownloadFailed "Не вдалося завантажити оновлення. Спробуйте пізніше."
 
 # Toolbar tooltips:
 menuText Q RotateBoard "Обертати дошку" 0 {Обертати дошку}
