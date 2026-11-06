@@ -3321,7 +3321,6 @@ set helpText(C,Engine) {<h1> Okna motoru </h1>
     panel. </li>
   <li><b>Auto Comment</b>: Generuje komentář pro aktuální pozici na základě
     analýza motoru. </li>
-  <li><b>Komentář ke hře </b>: Generuje komentáře pro všechny pozice ve hře.</li>
   </ul>
 
   <h3>Ovládací prvky </h3>

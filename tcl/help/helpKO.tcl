@@ -3322,7 +3322,6 @@ set helpText(k,Engine) {<h1>The Engine windows</h1>
     panel.</li>
   <li><b>Auto Comment</b>: Generates a comment for the current position based on
     the engine analysis.</li>
-  <li><b>Game Comment</b>: Generates comments for all positions in the game.</li>
   </ul>
 
   <h3>Controls</h3>

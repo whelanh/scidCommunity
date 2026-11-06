@@ -3325,7 +3325,6 @@ set helpText(L,Engine) {<h1>Ferestrele motorului </h1>
     panou.</li>
   <li><b>Auto Comment</b>: generează un comentariu pentru poziția curentă pe baza
     analiza motorului.</li>
-  <li><b>Comentariul jocului</b>: generează comentarii pentru toate pozițiile din joc.</li>
   </ul>
 
   <h3>Comenzi </h3>

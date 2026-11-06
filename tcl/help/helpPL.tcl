@@ -2685,15 +2685,14 @@ set helpText(P,ReviewSettings) {<h1>Okno silnika: Ustawienia analizy</h1>
 ###
 ### Przycisk Game Comment w oknie silnika został usunięty. Analiza zbiorcza nadal jest dostępna i można ją uruchomić
 ### bezpośrednio, wywołując polecenie ::analysis_auto_comment::batch_generate. Opis tej funkcji pozostaje na
-### dotychczasowej stronie, która zawiera teraz również informację, jak otworzyć jej okno dialogowe.
+### dotychczasowej stronie.
   
 set helpTitle(P,BatchAnnotate) "Komentarz do partii - AI"
 set helpText(P,BatchAnnotate) {<h1>Komentarz do partii - AI</h1>
   <p>
   scidCommunity może automatycznie wygenerować komentarze AI do całej partii
   w jednym przebiegu. Wcześniej służył do tego przycisk <b>Komentarz do partii</b>
-  w oknie silnika. Został on usunięty. Teraz należy wybrać
-  <menu>Narzędzia</menu> > <menu>Komentarz do partii - AI</menu> lub wywołać polecenie
+  w oknie silnika. Został on usunięty. Teraz można wywołać polecenie
   <b>::analysis_auto_comment::batch_generate</b> ze skryptu. Otwiera ono
   to samo okno dialogowe co wcześniej, a jego działanie nie uległo zmianie.
   </p>

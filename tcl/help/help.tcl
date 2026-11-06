@@ -2681,16 +2681,15 @@ set helpText(ReviewSettings) {<h1>Engine Window: Review Settings</h1>
 ###
 ### The engine window's Game Comment button is gone, and the batch pass is still
 ### here to be called by name (::analysis_auto_comment::batch_generate). The page
-### stays where it documented that pass, and says how to reach the dialog now.
+### stays where it documented that pass.
 
 set helpTitle(BatchAnnotate) "Annotating a game in batch"
 set helpText(BatchAnnotate) {<h1>Annotating a game in batch</h1>
   <p>
   scidCommunity can generate AI commentary for a whole game at once, in batch
   mode. The engine window used to carry a <b>Game Comment</b> button for it.
-  That button is gone; use <menu>Tools</menu> > <menu>Game Comment</menu>
-  instead (or call <b>::analysis_auto_comment::batch_generate</b> from a
-  script). It opens the same dialog it always did, and what the dialog does is
+  That button is gone; call <b>::analysis_auto_comment::batch_generate</b> from a
+  script. It opens the same dialog it always did, and what the dialog does is
   unchanged.
   </p>
   <p>

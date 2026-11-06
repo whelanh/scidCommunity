@@ -3313,7 +3313,6 @@ set helpText(D,Engine) {<h1>Die Engine-Fenster</h1>
     Panel.</li>
   <li><b>Auto Comment</b>: Erzeugt einen Kommentar für die aktuelle Position basierend auf
     die Motoranalyse.</li>
-  <li><b>Spielkommentar</b>: Erzeugt Kommentare für alle Positionen im Spiel.</li>
   </ul>
 
   <h3>Steuerelemente</h3>
