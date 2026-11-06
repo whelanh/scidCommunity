@@ -76,6 +76,7 @@ array set ::enginewin::playAfter {}
 array set ::enginewin::playOwn {}
 array set ::enginewin::playBest {}
 array set ::enginewin::playSeenDepth {}
+array set ::enginewin::playStartedEngine {}
 
 # The first of the two limits reached, or false. A zero limit is no limit.
 proc ::enginewin::playLimitReached {timeMs depthLimit depth elapsed} {
@@ -148,15 +149,17 @@ proc ::enginewin::playDialog {id} {
     set f [ttk::frame $w.f -padding 10]
     pack $f -fill both -expand 1
     ttk::label $f.help -text [tr PlayFromHereHelp] -wraplength 360 -justify left
-    grid $f.help -columnspan 2 -sticky w -pady {0 8}
     ttk::label $f.tl -text "[tr Time] (s):"
     ttk::spinbox $f.time -from 0 -to 999 -increment 0.5 -width 7 \
         -textvariable ::enginewin::playDlgSeconds
     ttk::label $f.dl -text "[tr Depth]:"
     ttk::spinbox $f.depth -from 0 -to 200 -width 7 \
         -textvariable ::enginewin::playDlgDepth
-    grid $f.tl $f.time -sticky w -pady 2
-    grid $f.dl $f.depth -sticky w -pady 2
+    grid $f.help -row 0 -column 0 -columnspan 2 -sticky w -pady {0 8}
+    grid $f.tl -row 1 -column 0 -sticky w -pady 2
+    grid $f.time -row 1 -column 1 -sticky w -padx {8 0} -pady 2
+    grid $f.dl -row 2 -column 0 -sticky w -pady 2
+    grid $f.depth -row 2 -column 1 -sticky w -padx {8 0} -pady 2
 
     set b [ttk::frame $w.b]
     pack $b -fill x -padx 10 -pady {0 10}
@@ -211,7 +214,9 @@ proc ::enginewin::playToggle {id} {
     if {[info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id)} {
         return
     }
-    if {![::enginewin::stateFollow $id] || [::enginewin::stateLocked $id]} {
+    # The mode is offered only while the engine is stopped: starting it here
+    # would take the engine away from an analysis the reader is watching.
+    if {[::enginewin::stateFollow $id] || [::enginewin::stateLocked $id]} {
         return
     }
     if {[::enginewin::playBusy $id]} {
@@ -236,24 +241,45 @@ proc ::enginewin::playToggle {id} {
     set ::enginewin::playStart($id) 0
     set ::enginewin::playBest($id) ""
     set ::enginewin::playSeenDepth($id) 0
+    set ::enginewin::playOwn($id) 0
+    set ::enginewin::playStartedEngine($id) 0
     catch { set ::enginewin::playPos($id) [sc_game UCI_currentPos] }
     set w .engineWin$id
     if {[info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id)} {
         set w .pv$::enginewin::pgnviewer($id).engineWin$id
     }
+    # Start the stopped engine for this session. The first move is the position
+    # the reader is on, not the next move they make.
+    if {[catch { ::enginewin::start $id }]} {
+        ::enginewin::playStop $id
+        return
+    }
+    if {![::enginewin::stateFollow $id]} {
+        ::enginewin::playStop $id
+        return
+    }
+    set ::enginewin::playStartedEngine($id) 1
+    catch { set ::enginewin::playPos($id) [sc_game UCI_currentPos] }
+    ::enginewin::playArm $id
     catch { $w.btn.playfromhere state pressed }
 }
 
 proc ::enginewin::playStop {id} {
+    set started 0
+    catch { set started $::enginewin::playStartedEngine($id) }
     ::enginewin::playCancel $id
     set ::enginewin::playOn($id) 0
     set ::enginewin::playBest($id) ""
     set ::enginewin::playSeenDepth($id) 0
+    set ::enginewin::playStartedEngine($id) 0
     set w .engineWin$id
     if {[info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id)} {
         set w .pv$::enginewin::pgnviewer($id).engineWin$id
     }
     catch { $w.btn.playfromhere state !pressed }
+    # The mode started this engine; leaving it searching would keep the window
+    # busy after the reader stopped playing.
+    if {$started} { catch { ::enginewin::stop $id } }
 }
 
 proc ::enginewin::playCancel {id} {
@@ -647,6 +673,7 @@ proc ::enginewin::Open { {id ""} {enginename ""} {pgnviewer 0} } {
     set ::enginewin::playOwn($id) 0
     set ::enginewin::playBest($id) ""
     set ::enginewin::playSeenDepth($id) 0
+    set ::enginewin::playStartedEngine($id) 0
     if {![info exists ::enginewin::playLimits($id)]} {
         set ::enginewin::playLimits($id) [dict create time 4000 depth 0]
     }
@@ -2323,18 +2350,22 @@ proc ::enginewin::changeState {id newState} {
         }
     }
 
-    # Play from here needs the engine following the board. A paused, locked or
-    # closed engine cannot answer, so the mode stops rather than waiting on a
-    # position nobody is searching.
+    # Play from here is offered while the engine is stopped: starting it is
+    # this mode's job. While a session is active the button stays live so the
+    # same click can end it; when the engine is running for analysis it is
+    # disabled.
     if {[winfo exists $w.btn.playfromhere]} {
-        if {$closed || ![::enginewin::stateFollow $id] || [::enginewin::stateLocked $id]} {
-            $w.btn.playfromhere configure -state disabled
+        if {[::enginewin::playActive $id] &&
+            ($closed || [::enginewin::stateLocked $id] || [::enginewin::statePaused $id])} {
             ::enginewin::playStop $id
+        }
+        if {[::enginewin::playActive $id]} {
+            $w.btn.playfromhere configure -state normal
+            catch { $w.btn.playfromhere state pressed }
+        } elseif {$closed || [::enginewin::stateFollow $id] || [::enginewin::stateLocked $id]} {
+            $w.btn.playfromhere configure -state disabled
         } else {
             $w.btn.playfromhere configure -state normal
-            if {[::enginewin::playActive $id]} {
-                catch { $w.btn.playfromhere state pressed }
-            }
         }
     }
 
