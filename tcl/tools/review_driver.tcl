@@ -991,6 +991,8 @@ proc ::reviewdriver::writeResults {p results} {
     set written 0
     set failed 0
     set errors {}
+    set engineName ""
+    catch { set engineName [lindex [dict get $p engine] 0] }
     set verdicts [::reviewdriver::verdicts $map $results]
     foreach ply [dict get $p plan] {
         if {$ply <= $bookEnd} {
@@ -998,7 +1000,7 @@ proc ::reviewdriver::writeResults {p results} {
             # because there was no search behind either.
             ::reviewdriver::clearMarks $ply
             catch { sc_move ply $ply }
-            set err [::review::writeMove $ply book "" {}]
+            set err [::review::writeMove $ply book "" {} $engineName]
             if {$err eq ""} {
                 incr written
             } else {
@@ -1024,7 +1026,7 @@ proc ::reviewdriver::writeResults {p results} {
         if {[::review::variationWanted $label]} {
             set lines [::reviewdriver::lines $results [expr {$ply - 1}] $mpv]
         }
-        set err [::review::writeMove $ply $label $eval_cp $lines]
+        set err [::review::writeMove $ply $label $eval_cp $lines $engineName]
         # writeMove writes the comment before it tries the variations. A refused
         # variation returns an error but leaves the verdict comment behind, and
         # that comment must still get the marks it promises.
@@ -1091,6 +1093,18 @@ proc ::reviewdriver::writeResults {p results} {
             incr failed
             lappend errors $err
         }
+    }
+    # A whole-game review records what produced it. Move Comment names one ply
+    # (report 0) and the classic annotate pass has its own tag; both keep their
+    # hands off it. The model is part of the record when coach prose was asked
+    # for and a provider was configured, whether or not a later request failed:
+    # the tag says what was used, not what answered.
+    set isReport 0
+    catch { set isReport [dict get $p report] }
+    set coachOn 0
+    catch { set coachOn [dict get $p coach] }
+    if {$engineName ne "" && $isReport && $written > 0} {
+        catch { ::review::appendAnnotator [::review::annotatorRecord $engineName $coachOn] }
     }
     # The deterministic report belongs to the pass, not to a caller: it is
     # written once, from the same results, after the moves are in the game.

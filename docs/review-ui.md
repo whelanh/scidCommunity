@@ -233,6 +233,16 @@ That keeps the search and the write apart for the reason they always were:
 writing mid-pass re-enters the engine window from an open engine, which makes the
 main-line snapshot non-authoritative.
 
+An engine variation carries the engine's name as a plain comment on its **first
+move** (`Stockfish 16`), so a variation the reader adds later can be told from
+the engine's. The engine window's **Add all variations** does the same for every
+PV line it exports. A whole-game review also appends that name to the game's
+`Annotator` tag; when coach prose is on and a provider is configured, the tag
+names the provider and model too (`Stockfish 16; Google Gemini
+gemini-3.6-flash`). A re-review with the same record does not append it twice.
+Move Comment writes no Annotator tag, and the classic Annotate pass keeps its
+own annotator handling.
+
 ## The progress pane
 
 A review runs on its own engine connection and never takes the board. The
@@ -557,7 +567,7 @@ plain-text form.
 | `tests/tcl/review_settings_dialog.tcl` | 51 checks: under Tk: the dialog builds, has OK/Cancel, stores what is typed, refuses a bad value, the variation box follows `mpv`, the time cap's row shows the preset's cap and drops the note, the on/off rows are checkboxes, `Coach settings…` opens a window of its own from a dialog that holds no grab, and both traces are removed when the dialog closes |
 | `tests/tcl/review_ui.tcl` | 229 checks: the call a press makes, the status line (including the coach's counts), the button states, the dialog round trip, the precedence table through the dialog, the time cap's note, which move a comment judges, the move-comment depth, the key set |
 | `tests/tcl/review_toolbar.tcl` | 42 checks: the five review icons use `::icon::` names and exist in icons_light and icons_dark at 24×24, the whole engine toolbar uses `::icon::` images, the labels are tooltips rather than text, the stop icon is gridded only while a pass runs, a visible divider separates the review group from Config, the dark-theme cache matches `::icon::` names, and the threat button exists only when its command does |
-| `tests/tcl/review_driver.tcl` | 300 checks: the pass against a stub engine, the four Go shapes the precedence table produces, a capped run, two reviews of the same game in a row, the engine window's hand-off to it, the completion hook, and the coach: started after the write, the run held open until the answers land, not started for a single move or an annotate pass, an annotate pass leaving the coach blocks alone, not holding a run open when it cannot start, and Cancel while the model is writing |
+| `tests/tcl/review_driver.tcl` | 316 checks: the pass against a stub engine, the four Go shapes the precedence table produces, a capped run, two reviews of the same game in a row, the engine window's hand-off to it, the completion hook, the engine name on an exported variation and in the Annotator tag, and the coach: started after the write, the run held open until the answers land, not started for a single move or an annotate pass, an annotate pass leaving the coach blocks alone, not holding a run open when it cannot start, and Cancel while the model is writing |
 | `tests/tcl/annotate_dialog.tcl` | 56 checks: the dialog's decision (pane preset, book end, tier, the non-UCI refusal), the blunders-only filter, and the Cancel label rule |
 | `tests/tcl/annotate_run.tcl` | 82 checks: the plan run against a stub engine, the write, the batch chain, the Cancel escalation and a cancelled run writing nothing |
 | `tests/tcl/review_report.tcl` | 115 checks: accuracy as the app's own figure and the parity a phase starting on Black's move needs, Elo, key moments, the endgame rule — one material total, with the six-piece net rejected at 38 points — the opening boundary — Smyrnov met and half met, rook-less and file/rank connectivity, mixedness at 150 and 161, the material net at ten and eleven, the first-firing signal at 17/21/25, no ply floor — and the block removal, two writes deep |

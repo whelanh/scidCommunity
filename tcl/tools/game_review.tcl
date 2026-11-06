@@ -791,6 +791,62 @@ proc ::review::stripReviewTokens {comment} {
     return [string trim [regsub -all {[ \t]{2,}} $out " "]]
 }
 
+# Mark the variation the cursor is on as the engine's. The comment is plain
+# text, not a review span: it says where the line came from, and a variation the
+# reader adds later has no such comment.
+proc ::review::markVariation {engine} {
+    if {$engine eq ""} { return }
+    set old [sc_pos getComment]
+    if {[string first $engine $old] >= 0} { return }
+    sc_pos setComment [string trim "$old $engine"]
+}
+
+# What a whole-game review records: the engine, and the provider/model when the
+# coach was asked to write prose and a provider is configured. The tag says what
+# was used, not what answered.
+proc ::review::annotatorRecord {engine {coach 0}} {
+    set tag $engine
+    if {$coach && [llength [info commands ::auto_comment::activeModelLabel]]} {
+        set model ""
+        catch { set model [::auto_comment::activeModelLabel] }
+        if {$model ne ""} { append tag "; $model" }
+    }
+    return $tag
+}
+
+# Append to the game's Annotator tag, keeping whatever is there. Unlike the
+# classic annotator's helper this does not append the same text twice: a second
+# Game Review of the same game with the same engine must not grow the tag.
+proc ::review::appendAnnotator {text} {
+    if {$text eq ""} { return 0 }
+    if {[catch { set extra [sc_game tags get "Extra"] }]} { return 0 }
+    set nExtra {}
+    set seen 0
+    set other ""
+    foreach line $extra {
+        if {$seen == 1} {
+            if {[string first $text $line] < 0} {
+                lappend nExtra "Annotator \"$line, $text\"\n"
+            } else {
+                lappend nExtra "Annotator \"$line\"\n"
+            }
+            set seen 2
+        } elseif {$other ne ""} {
+            lappend nExtra "$other \"$line\"\n"
+            set other ""
+        } elseif {[string match "Annotator" $line]} {
+            set seen 1
+        } else {
+            set other $line
+        }
+    }
+    if {$seen == 0} {
+        lappend nExtra "Annotator \"$text\"\n"
+    }
+    catch { sc_game tags set -extra $nExtra }
+    return 1
+}
+
 # Add `new` to a comment unless it is already there, so a second run does not
 # stack labels.
 proc ::review::mergeComment {existing new} {
@@ -808,7 +864,7 @@ proc ::review::mergeComment {existing new} {
 # Nothing else in the game is touched: the move's own comment is merged, the
 # variations branch from the position before it, and the game is left where it
 # was found. Returns "" or the reason nothing was written.
-proc ::review::writeMove {ply label eval_cp lines} {
+proc ::review::writeMove {ply label eval_cp lines {engine ""}} {
     # No `return` inside the catch body: Tcl turns it into TCL_RETURN, the catch
     # reports a failure and the handler would undo a write that succeeded.
     set out ""
@@ -853,12 +909,20 @@ proc ::review::writeMove {ply label eval_cp lines} {
                 # refusal is reported, so the caller does not count a partial
                 # line as written.
                 set bad ""
+                set firstMove 1
                 if {[catch {
                     sc_var create
                     foreach uci $pv {
                         if {[::uci::sc_move_add $uci]} {
                             set bad "the variation move $uci was rejected"
                             break
+                        }
+                        # The engine's name belongs to the variation it opened,
+                        # not to the played move: a later variation of the
+                        # reader's own carries no such comment.
+                        if {$firstMove && $engine ne ""} {
+                            ::review::markVariation $engine
+                            set firstMove 0
                         }
                     }
                     if {$bad eq ""} {
