@@ -1,10 +1,10 @@
 # Commit hash from github branch
 # (the macros must be defined before Release uses shortcommit)
-%global commit 60c197b17c8ce827b546e3061990ed099136d8c5   
+%global commit d3986fc1d115bef89ae5e01622bea889d8d924d8   
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           scidcommunity
-Version:        5.1.4.55
+Version:        5.1.4.56
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
@@ -68,6 +68,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Fri Nov 6, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-56
+- "Play-from-here button in Engine Window; engine noted in comments/PGN header"
 * Thu Nov 5, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-55
 - "Update checker; option to strip imported comments; multi-colored Review comments"
 * Wed Nov 4, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-54
