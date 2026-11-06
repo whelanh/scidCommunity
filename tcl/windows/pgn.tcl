@@ -88,7 +88,7 @@ namespace eval pgn {
         -command "::lichess_tournament::stopGamePolling; ::win::closeWindow $w"
 
     $w.menu.opt add checkbutton -label PgnOptColor \
-        -variable ::pgn::showColor -command {updateBoard -pgn}
+        -variable ::pgn::showColor -command {::pgn::ResetColors}
     $w.menu.opt add checkbutton -label PgnOptShort \
         -variable ::pgn::shortHeader -command {::pgn::Refresh 1}
     $w.menu.opt add checkbutton -label PgnOptSymbols \
@@ -326,7 +326,7 @@ namespace eval pgn {
     if {$fg eq ""} { set fg black }
     if {[::htext::isDarkColor $w $bg]} { set fg white }
     $w tag configure Current -background $bg -foreground $fg
-    ::htext::init $w
+    ::htext::init $w $::pgn::showColor
     ::htext::updateRate $w 0
     ::pgn::Refresh 1
   }
@@ -342,11 +342,12 @@ namespace eval pgn {
 
     if {$pgnNeedsUpdate} {
       busyCursor .
-      set format plain
-      if {$::pgn::showColor} {set format color}
+      # Always use the color format: its <m_N>/<c_N> tags are what give the PGN
+      # window click-to-navigate and current-move highlighting. ::pgn::showColor
+      # only controls whether the text is painted in the user's chosen colours.
       set pgnStr [sc_game pgn -symbols $::pgn::symbolicNags \
           -indentVar $::pgn::indentVars -indentCom $::pgn::indentComments \
-          -space $::pgn::moveNumberSpaces -format $format -column $::pgn::columnFormat \
+          -space $::pgn::moveNumberSpaces -format color -column $::pgn::columnFormat \
           -short $::pgn::shortHeader -markCodes $::pgn::stripMarks -unicode $::pgn::figurine]
 
       set windowTitle [format $::tr(PgnWindowTitle) [sc_game number]]
@@ -354,11 +355,7 @@ namespace eval pgn {
       .pgnWin.text configure -state normal
       .pgnWin.text delete 1.0 end
 
-      if {$::pgn::showColor} {
-        ::htext::display .pgnWin.text $pgnStr
-      } else {
-        .pgnWin.text insert 1.0 $pgnStr
-      }
+      ::htext::display .pgnWin.text $pgnStr
 
       if {$::pgn::showPhoto} {
         updatePlayerPhotos
@@ -383,7 +380,7 @@ namespace eval pgn {
   }
 
   proc update_current_move {} {
-    if {[winfo exists .pgnWin] && $::pgn::showColor} {
+    if {[winfo exists .pgnWin]} {
       set offset [sc_pos pgnOffset]
       .pgnWin.text tag remove Current 1.0 end
       set moveRange [.pgnWin.text tag nextrange "m_$offset" 1.0]
