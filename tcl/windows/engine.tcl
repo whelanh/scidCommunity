@@ -264,7 +264,7 @@ proc ::enginewin::playToggle {id} {
     catch { $w.btn.playfromhere state pressed }
 }
 
-proc ::enginewin::playStop {id} {
+proc ::enginewin::playStop {id {stopEngine 1}} {
     set started 0
     catch { set started $::enginewin::playStartedEngine($id) }
     ::enginewin::playCancel $id
@@ -278,8 +278,9 @@ proc ::enginewin::playStop {id} {
     }
     catch { $w.btn.playfromhere state !pressed }
     # The mode started this engine; leaving it searching would keep the window
-    # busy after the reader stopped playing.
-    if {$started} { catch { ::enginewin::stop $id } }
+    # busy after the reader stopped playing. A caller already inside a state
+    # change asks for no second stop.
+    if {$started && $stopEngine} { catch { ::enginewin::stop $id } }
 }
 
 proc ::enginewin::playCancel {id} {
@@ -2374,14 +2375,15 @@ proc ::enginewin::changeState {id newState} {
     if {[winfo exists $w.btn.playfromhere]} {
         if {[::enginewin::playActive $id] &&
             ($closed || [::enginewin::stateLocked $id] || [::enginewin::statePaused $id])} {
-            ::enginewin::playStop $id
+            ::enginewin::playStop $id 0
         }
         if {[::enginewin::playActive $id]} {
             $w.btn.playfromhere configure -state normal
             catch { $w.btn.playfromhere state pressed }
-        } elseif {$closed || [::enginewin::stateFollow $id] || [::enginewin::stateLocked $id]} {
+        } elseif {[::enginewin::stateFollow $id] || [::enginewin::stateLocked $id]} {
             $w.btn.playfromhere configure -state disabled
         } else {
+            # The engine is stopped (paused.closed included): this mode starts it.
             $w.btn.playfromhere configure -state normal
         }
     }

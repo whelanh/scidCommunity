@@ -2041,6 +2041,23 @@ check "a user move arms the engine's reply" $::enginewin::playArmed(1)
 ::enginewin::playFire 1
 checkEq "the first limit that fires plays the engine's move" $::playedMove e7e5
 check "and disarms the reply" [expr {!$::enginewin::playArmed(1)}]
+
+# The engine window's own depth cap may stop the search before the requested
+# depth. Its best move is still the answer; the mode must not wait forever.
+set ::playedMove ""
+set ::enginewin::playOn(1) 1
+set ::enginewin::playArmed(1) 1
+set ::enginewin::playOwn(1) 0
+set ::enginewin::playBest(1) e7e5
+set ::enginewin::playSeenDepth(1) 8
+set ::enginewin::playLimits(1) [dict create time 0 depth 20]
+set ::enginewin::playPos(1) {position startpos moves e2e4 e7e5}
+set ::enginewin::m_(position,1) {position startpos moves e2e4 e7e5}
+set ::enginewin::engState(1) follow.done
+::enginewin::playDone 1
+::enginewin::playFire 1
+checkEq "an engine that finishes below the requested depth still answers" \
+    $::playedMove e7e5
 ::enginewin::playStop 1
 
 puts "\n$checks checks, $fails failures"
