@@ -310,7 +310,10 @@ proc ::appupdate::downloadAndInstall {url version} {
     catch { file delete -force $dest }
 
     ::appupdate::showDownloading $version
-    ::appupdate::downloadAsync $url $dest [list ::appupdate::_downloadDone $dest] .updateDl.progress
+    # _downloadPoll/_downloadSync append $dest when they invoke the callback, so
+    # do not bake it in here too (that would pass it twice and _downloadDone
+    # would reject the extra argument, leaving the installer unlaunched).
+    ::appupdate::downloadAsync $url $dest [list ::appupdate::_downloadDone] .updateDl.progress
 }
 
 proc ::appupdate::showDownloading {version} {

@@ -29,7 +29,10 @@ set root [file normalize [file join [file dirname [info script]] .. ..]]
 source [file join $root tcl updatecheck.tcl]
 
 # tclsh has no Tk; stub the widgets the downloader touches on its error path.
+# The harness runs on Linux, where the Windows-only installer path is inert.
+set ::windowsOS 0
 proc winfo {args} { return 0 }
+proc tr {args} { return [lindex $args 0] }
 
 set ::downFailed 0
 set ::callbackRan 0
@@ -78,6 +81,32 @@ set t0 [clock milliseconds]
 set elapsed [expr {[clock milliseconds] - $t0}]
 check "cancel returns promptly" [expr {$elapsed < 5000}] "$elapsed ms"
 check "cancel forgets the download" [expr {![info exists ::appupdate::dl_(3)]}]
+
+puts "\nthe install callback receives the destination once"
+# Run downloadAndInstall end-to-end with a stub downloadAsync that behaves like
+# curl + _downloadPoll: it writes the file, then appends $dest when invoking the
+# callback. If downloadAndInstall also baked $dest in, _downloadDone would get
+# two arguments and never launch.
+proc tk_messageBox {args} { return "ok" }
+proc ::appupdate::showDownloading {version} {}
+set ::dlSeen {}
+proc ::appupdate::downloadAsync {url dest callback args} {
+    set ::dlSeen [list $url $dest $callback]
+    set fh [open $dest w]; puts $fh x; close $fh
+    {*}$callback $dest
+}
+set ::launched ""
+proc ::appupdate::launchAndExit {installer} { set ::launched $installer }
+
+set setup [file join [::appupdate::tempDir] "scidCommunity-5.2.0-windows-x64-setup.exe"]
+catch { file delete -force $setup }
+set ::launched ""
+::appupdate::downloadAndInstall "http://example.invalid/setup.exe" "5.2.0"
+check "the installer is launched" [expr {$::launched eq $setup}] "launched='$::launched'"
+check "the callback prefix has no baked-in destination" \
+    [expr {[lindex $::dlSeen 2] eq "::appupdate::_downloadDone"}] \
+    "callback='[lindex $::dlSeen 2]'"
+catch { file delete -force $setup }
 
 catch { file delete -force $dest }
 puts "\n$checks checks, $fails failures"
