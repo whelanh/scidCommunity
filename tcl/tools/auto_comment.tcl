@@ -179,6 +179,13 @@ proc ::auto_comment::providerLabel {provider} {
 #   two Ollama channels was meant.
 proc ::auto_comment::activeModelLabel {} {
     if {[providerReady] ne ""} { return "" }
+    # providerReady checks the URL and the model, but a key over plain http to
+    # a remote host is refused by chatSpec before any request. Do not record a
+    # model that configuration can never call.
+    if {$::auto_comment::provider eq "openai" &&
+        [cleartextKeyError $::auto_comment::openaiUrl $::auto_comment::openaiKey] ne ""} {
+        return ""
+    }
     set model ""
     switch -- $::auto_comment::provider {
         local    { set model $::auto_comment::localModel }

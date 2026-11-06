@@ -666,7 +666,18 @@ proc sc_game {args} {
     if {[lindex $args 0] eq "tags"} {
         if {[lindex $args 1] eq "get"} { return $::fakeExtra }
         if {[lindex $args 1] eq "set"} {
-            set ::fakeExtra [join [lindex $args 3] "\n"]
+            set raw [lindex $args 3]
+            set ::fakeExtraList $raw
+            set lines {}
+            foreach entry $raw {
+                if {[llength $entry] == 2} {
+                    lassign $entry name value
+                    lappend lines "$name \"$value\""
+                } else {
+                    lappend lines $entry
+                }
+            }
+            set ::fakeExtra [join $lines "\n"]
             return ""
         }
     }
@@ -1967,6 +1978,21 @@ checkEq "a different record is appended" \
     [::review::appendAnnotator {Gemini gemini-3.6-flash}] 1
 checkEq "and the tag keeps both, comma separated" [string trim $::fakeExtra] \
     {Annotator "Stockfish 16, Gemini gemini-3.6-flash"}
+# A review that toggles coach prose must update the engine's entry, not append
+# a second copy of the engine.
+set ::fakeExtra {Annotator "John, Stockfish 16"}
+::review::appendAnnotator {Stockfish 16; Gemini gemini-3.6-flash}
+checkEq "a changed record replaces the same engine's entry" \
+    [string trim $::fakeExtra] \
+    {Annotator "John, Stockfish 16; Gemini gemini-3.6-flash"}
+# A quote used to make the entry a non-pair, which the tag setter drops and
+# which would have taken the rest of the Annotator value with it.
+set ::fakeExtra ""
+::review::appendAnnotator {Stockfish "fast"}
+checkEq "a quote in the record still leaves a pair" \
+    [llength [lindex $::fakeExtraList 0]] 2
+checkEq "and keeps the name intact" \
+    [lindex [lindex $::fakeExtraList 0] 1] {Stockfish "fast"}
 
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

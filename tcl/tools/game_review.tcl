@@ -820,19 +820,36 @@ proc ::review::annotatorRecord {engine {coach 0}} {
 proc ::review::appendAnnotator {text} {
     if {$text eq ""} { return 0 }
     if {[catch { set extra [sc_game tags get "Extra"] }]} { return 0 }
+    # The engine is the part before the model separator. Replacing an entry
+    # with the same engine rather than appending keeps a review that toggles
+    # coach prose from writing the engine twice.
+    set engine [string trim [lindex [split $text ";"] 0]]
     set nExtra {}
     set seen 0
     set other ""
     foreach line $extra {
         if {$seen == 1} {
-            if {[string first $text $line] < 0} {
-                lappend nExtra "Annotator \"$line, $text\"\n"
-            } else {
-                lappend nExtra "Annotator \"$line\"\n"
+            set entries {}
+            set replaced 0
+            foreach entry [split $line ","] {
+                set entry [string trim $entry]
+                if {$entry eq ""} { continue }
+                set entryEngine [string trim [lindex [split $entry ";"] 0]]
+                if {$entryEngine eq $engine} {
+                    lappend entries $text
+                    set replaced 1
+                } else {
+                    lappend entries $entry
+                }
             }
+            if {!$replaced} { lappend entries $text }
+            # A two-element Tcl list survives a quote or a brace in either
+            # value; building the quoted line by hand did not, and the tag
+            # setter silently drops an entry that is not a pair.
+            lappend nExtra [list Annotator [join $entries ", "]]
             set seen 2
         } elseif {$other ne ""} {
-            lappend nExtra "$other \"$line\"\n"
+            lappend nExtra [list $other $line]
             set other ""
         } elseif {[string match "Annotator" $line]} {
             set seen 1
@@ -841,9 +858,9 @@ proc ::review::appendAnnotator {text} {
         }
     }
     if {$seen == 0} {
-        lappend nExtra "Annotator \"$text\"\n"
+        lappend nExtra [list Annotator $text]
     }
-    catch { sc_game tags set -extra $nExtra }
+    if {[catch { sc_game tags set -extra $nExtra }]} { return 0 }
     return 1
 }
 

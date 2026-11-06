@@ -168,6 +168,12 @@ set ::auto_comment::openaiUrl "https://api.deepseek.com"
 set ::auto_comment::openaiModel "deepseek-v4-pro"
 checkEq "an OpenAI-compatible label is named the same way" \
     [::auto_comment::activeModelLabel] {OpenAI-compatible endpoint deepseek-v4-pro}
+set ::auto_comment::openaiUrl "http://remote.example"
+set ::auto_comment::openaiKey "k"
+checkEq "a key over cleartext http is not a usable model" \
+    [::auto_comment::activeModelLabel] ""
+set ::auto_comment::openaiUrl "https://api.deepseek.com"
+set ::auto_comment::openaiKey ""
 set ::auto_comment::provider bogus
 checkEq "an unknown provider has no label" [::auto_comment::activeModelLabel] ""
 
