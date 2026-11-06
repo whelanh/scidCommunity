@@ -123,6 +123,21 @@ proc ::enginewin::playLimitsFromInput {seconds depth} {
     return [list $ms $d]
 }
 
+# The search limits to send while Play from here is on. The engine window's
+# toolbar limits are for analysis; a play session uses the two values from its
+# own dialog so a stored depth of 66 does not outlive a requested depth of 1.
+proc ::enginewin::playSearchLimits {id} {
+    set depth ""
+    set movetime ""
+    catch { set depth $::enginewin::depth($id) }
+    catch { set movetime $::enginewin::movetime($id) }
+    if {[::enginewin::playActive $id]} {
+        catch { set depth [dict get $::enginewin::playLimits($id) depth] }
+        catch { set movetime [dict get $::enginewin::playLimits($id) time] }
+    }
+    return [list depth $depth movetime $movetime]
+}
+
 # True when the Tree Window is training on the current base. Both modes answer
 # the reader's move, so only one may be on.
 proc ::enginewin::playTreeBusy {} {
@@ -211,8 +226,8 @@ proc ::enginewin::playDialog {id} {
     return $::enginewin::playDlgOK
 }
 
-# Turn the mode on or off. Turning it on only opens the dialog: the engine
-# answers the next move the reader makes, not the position they happen to be on.
+# Turn the mode on or off. Turning it on starts the stopped engine and makes
+# the current position's move; later reader moves are answered in turn.
 proc ::enginewin::playToggle {id} {
     if {[::enginewin::playActive $id]} {
         ::enginewin::playStop $id
@@ -2380,14 +2395,19 @@ proc ::enginewin::changeState {id newState} {
     # same click can end it; when the engine is running for analysis it is
     # disabled.
     if {[winfo exists $w.btn.playfromhere]} {
-        if {[::enginewin::playActive $id] &&
-            ($closed || [::enginewin::stateLocked $id] || [::enginewin::statePaused $id])} {
+        # Decide from the state being entered, not the one being left. Starting
+        # the engine passes through paused.* -> follow.*: reading the old
+        # paused state there would cancel the play session that just started it.
+        set newFollow [string match f* $newState]
+        set newLocked [string match l* $newState]
+        set newPaused [string match p* $newState]
+        if {[::enginewin::playActive $id] && ($closed || $newLocked || $newPaused)} {
             ::enginewin::playStop $id 0
         }
         if {[::enginewin::playActive $id]} {
             $w.btn.playfromhere configure -state normal
             catch { $w.btn.playfromhere state pressed }
-        } elseif {[::enginewin::stateFollow $id] || [::enginewin::stateLocked $id]} {
+        } elseif {$closed || $newFollow || $newLocked} {
             $w.btn.playfromhere configure -state disabled
         } else {
             # The engine is stopped (paused.closed included): this mode starts it.
@@ -2561,8 +2581,7 @@ proc ::enginewin::callback {id msg} {
         }
         "InfoBestMove" {
             # The limits this search was started with
-            set expectedLimits [::enginelimits::goLimits \
-                [list depth $::enginewin::depth($id) movetime $::enginewin::movetime($id)]]
+            set expectedLimits [::enginelimits::goLimits [::enginewin::playSearchLimits $id]]
             if {$pv_(limits,$id) eq $expectedLimits
                 && $pv_(pos,$id) eq $::enginewin::m_(position,$id)} {
                 ::enginewin::saveAccumulatedPVs $id
@@ -2691,9 +2710,9 @@ proc ::enginewin::sendPosition {id position plyInMainLine} {
     if {$::enginewin::pv_(postponed,$id) eq "" || ![analyzeMainLine $id]} {
         set ::enginewin::pv_(postponed,$id) ""
         set m_(posPly,$id) $plyInMainLine
-        # Limits come from the engine preset, with the legacy globals as fallback
-        set limits [::enginelimits::goLimits \
-            [list depth $::enginewin::depth($id) movetime $::enginewin::movetime($id)]]
+        # Limits come from the engine preset, with the legacy globals as fallback;
+        # a Play-from-here session overrides both with its own dialog values.
+        set limits [::enginelimits::goLimits [::enginewin::playSearchLimits $id]]
         ::engine::send $id Go [list $position $limits]
     }
 }

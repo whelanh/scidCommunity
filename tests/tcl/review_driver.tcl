@@ -2021,6 +2021,15 @@ checkEq "a time-only entry is accepted with a blank depth" \
 checkEq "both blank is no limit" [::enginewin::playLimitsFromInput "" ""] ""
 checkEq "both zero is no limit" [::enginewin::playLimitsFromInput 0 0] ""
 checkEq "a malformed depth is refused" [::enginewin::playLimitsFromInput 4 nope] ""
+set ::enginewin::depth(1) 66
+set ::enginewin::movetime(1) 310000
+set ::enginewin::playOn(1) 1
+set ::enginewin::playLimits(1) [dict create time 4000 depth 1]
+checkEq "a play search uses the dialog limits, not the analysis toolbar" \
+    [::enginewin::playSearchLimits 1] {depth 1 movetime 4000}
+set ::enginewin::playOn(1) 0
+checkEq "and the toolbar limits return when play is off" \
+    [::enginewin::playSearchLimits 1] {depth 66 movetime 310000}
 check "the time limit can fire first" \
     [::enginewin::playLimitReached 5000 20 5 5000]
 check "the depth limit can fire first" \
