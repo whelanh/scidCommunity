@@ -2011,6 +2011,9 @@ check "navigating back is not a move" \
 check "a comment change leaves the position unchanged" \
     [expr {![::enginewin::playSuccessor \
         {position startpos moves e2e4} {position startpos moves e2e4}]}]
+checkEq "a sub-millisecond limit becomes one millisecond" \
+    [::enginewin::playTimeMs 0.0004] 1
+checkEq "zero seconds is still no time limit" [::enginewin::playTimeMs 0] 0
 check "the time limit can fire first" \
     [::enginewin::playLimitReached 5000 20 5 5000]
 check "the depth limit can fire first" \

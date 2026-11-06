@@ -235,6 +235,13 @@ proc ::tree::toggleTraining { baseNumber } {
   set ::tree::userMovePending 0
   if {$tree(training$baseNumber)} {
     set ::tree::trainingBase $baseNumber
+    # The Engine Window's Play from here also answers the reader's move. Only
+    # one of the two may be on, so switching Training on stops it.
+    if {[llength [info commands ::enginewin::playStop]]} {
+      foreach id [array names ::enginewin::engState] {
+        catch { ::enginewin::playStop $id }
+      }
+    }
   }
   ::tree::refresh $baseNumber
 }

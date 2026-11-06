@@ -94,6 +94,25 @@ proc ::enginewin::playSuccessor {before after} {
     return [expr {[lrange $b 0 end-1] eq $a}]
 }
 
+# Seconds in the dialog to the stored millisecond limit. A positive value that
+# rounds to zero is one millisecond, not "no limit".
+proc ::enginewin::playTimeMs {seconds} {
+    set ms [expr {int(round($seconds * 1000))}]
+    if {$seconds > 0 && $ms < 1} { set ms 1 }
+    return $ms
+}
+
+# True when the Tree Window is training on the current base. Both modes answer
+# the reader's move, so only one may be on.
+proc ::enginewin::playTreeBusy {} {
+    if {![info exists ::tree::trainingBase] || $::tree::trainingBase == 0} {
+        return 0
+    }
+    set base ""
+    catch { set base [sc_base current] }
+    return [expr {$base ne "" && $::tree::trainingBase == $base}]
+}
+
 # True while this window is in "Play from here".
 proc ::enginewin::playActive {id} {
     return [expr {[info exists ::enginewin::playOn($id)] && $::enginewin::playOn($id)}]
@@ -157,13 +176,13 @@ proc ::enginewin::playDialog {id} {
                 -message [tr PlayFromHereLimit]
             return
         }
-        if {$t <= 0 && $d <= 0} {
+        set ms [::enginewin::playTimeMs $t]
+        if {$ms <= 0 && $d <= 0} {
             tk_messageBox -parent $w -icon warning -type ok \
                 -message [tr PlayFromHereLimit]
             return
         }
-        set ::enginewin::playLimits($id) [dict create \
-            time [expr {int(round($t * 1000))}] depth $d]
+        set ::enginewin::playLimits($id) [dict create time $ms depth $d]
         set ::enginewin::playDlgOK 1
         catch { grab release $w }
         destroy $w
@@ -260,6 +279,10 @@ proc ::enginewin::playPosition {id position pgn} {
         ::enginewin::playCancel $id
         return
     }
+    if {[::enginewin::playTreeBusy]} {
+        ::enginewin::playStop $id
+        return
+    }
     if {[::enginewin::playSuccessor $before $position]} {
         ::enginewin::playArm $id
     } else {
@@ -306,7 +329,7 @@ proc ::enginewin::playCheck {id} {
         ::enginewin::playCancel $id
         return
     }
-    if {[::enginewin::playBusy $id]} {
+    if {[::enginewin::playBusy $id] || [::enginewin::playTreeBusy]} {
         ::enginewin::playStop $id
         return
     }
@@ -341,6 +364,10 @@ proc ::enginewin::playCheck {id} {
 # the limit firing and this callback cancels it: the position no longer matches.
 proc ::enginewin::playFire {id} {
     if {![::enginewin::playActive $id]} { return }
+    if {[::enginewin::playTreeBusy]} {
+        ::enginewin::playStop $id
+        return
+    }
     if {[info exists ::enginewin::m_(position,$id)] &&
         $::enginewin::m_(position,$id) ne $::enginewin::playPos($id)} { return }
     set best ""
