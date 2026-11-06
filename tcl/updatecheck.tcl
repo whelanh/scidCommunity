@@ -108,7 +108,12 @@ proc ::appupdate::fetchAsync {url callback} {
     set curl [::appupdate::resolve curl]
     set wget [::appupdate::resolve wget]
     if {$curl ne ""} {
-        set cmd [list | $curl -s --max-time 20 $url]
+        set args [list -s --max-time 20]
+        # Schannel (the native Windows TLS backend) can hang on a certificate
+        # revocation check; disable it on Windows.
+        if {$::windowsOS} { lappend args --ssl-no-revoke }
+        lappend args $url
+        set cmd [list | $curl {*}$args]
     } elseif {$wget ne ""} {
         set cmd [list | $wget -q -O - --timeout=20 $url]
     } else {
@@ -305,7 +310,7 @@ proc ::appupdate::downloadAndInstall {url version} {
     catch { file delete -force $dest }
 
     ::appupdate::showDownloading $version
-    ::appupdate::downloadAsync $url $dest [list ::appupdate::_downloadDone $dest]
+    ::appupdate::downloadAsync $url $dest [list ::appupdate::_downloadDone $dest] .updateDl.progress
 }
 
 proc ::appupdate::showDownloading {version} {
@@ -316,68 +321,101 @@ proc ::appupdate::showDownloading {version} {
     wm resizable $w 0 0
     ttk::label $w.l -text [format [tr UpdateDownloading] $version]
     ttk::progressbar $w.pb -mode indeterminate
+    ttk::label $w.progress -text ""
     ttk::frame $w.buttons
     dialogbutton $w.buttons.cancel -text [tr Cancel] \
         -command "::appupdate::cancelDownload"
     pack $w.l -padx 24 -pady {16 4}
-    pack $w.pb -fill x -padx 24 -pady {0 16}
+    pack $w.pb -fill x -padx 24 -pady {0 4}
+    pack $w.progress -padx 24 -pady {0 8}
     pack $w.buttons -pady {0 12}
     pack $w.buttons.cancel -padx 5
     ::win::makeVisible $w
     update idletasks
 }
 
-# Download $url to $dest asynchronously, writing bytes as they arrive; call
-# $callback with $dest when done.
-proc ::appupdate::downloadAsync {url dest callback} {
+# Download $url to $dest asynchronously. curl/wget write the file directly (-o)
+# rather than streaming bytes through a Tcl pipe: that is both simpler and more
+# robust on Windows, and it leaves the pipe free to signal completion (their
+# stdout is empty, so the channel's EOF means the client has exited).
+# $label, when given, is a widget updated with a running byte count.
+proc ::appupdate::downloadAsync {url dest callback {label ""}} {
     variable dl_
     set curl [::appupdate::resolve curl]
     set wget [::appupdate::resolve wget]
     set cmd ""
     if {$curl ne ""} {
-        set cmd [list | $curl -s -L --max-time 900 -A "scidCommunity/$::scidVersion" $url]
+        set args [list -sS -f -L --max-time 900 -A "scidCommunity/$::scidVersion"]
+        # Schannel can hang for a long time on a certificate revocation check
+        # during the TLS handshake (notably to the S3 host the release URL
+        # redirects to); disable it on Windows.
+        if {$::windowsOS} { lappend args --ssl-no-revoke }
+        lappend args -o $dest $url
+        set cmd [list | $curl {*}$args]
     } elseif {$wget ne ""} {
-        set cmd [list | $wget -q -O - --timeout=900 $url]
+        set cmd [list | $wget -q -O $dest --timeout=900 $url]
     } else {
-        # No streaming client: do a blocking download on the next loop turn.
+        # No command-line client: do a blocking download on the next loop turn.
         after 0 [list ::appupdate::_downloadSync $url $dest $callback]
         return
     }
     set token [incr ::appupdate::dlToken]
     set fd [open $cmd r]
-    fconfigure $fd -blocking 0 -translation binary
-    set fh [open $dest wb]
-    fconfigure $fh -translation binary
-    set dl_($token) [list $fd $fh $callback $dest]
-    fileevent $fd readable [list ::appupdate::_downloadRead $token]
+    fconfigure $fd -blocking 0
+    set dl_($token) [list $fd $callback $dest $label]
+    fileevent $fd readable [list ::appupdate::_downloadPoll $token]
+    set ::appupdate::dlPoll_($token) [after 400 [list ::appupdate::_downloadProgress $token]]
 }
 
-proc ::appupdate::_downloadRead {token} {
+# The download client writes the file itself, so this only has to notice when
+# it exits (EOF) and hand off to the callback.
+proc ::appupdate::_downloadPoll {token} {
     variable dl_
     if {![info exists dl_($token)]} { return }
-    lassign $dl_($token) fd fh callback dest
-    if {[catch { set chunk [read $fd 65536] } err]} {
-        catch { close $fh }; catch { close $fd }
-        catch { file delete -force $dest }
-        unset -nocomplain dl_($token)
-        ::appupdate::downloadFailed
-        return
-    }
-    if {[string length $chunk] > 0} {
-        puts -nonewline $fh $chunk
-    }
+    lassign $dl_($token) fd callback dest label
+    catch { read $fd }
     if {[eof $fd]} {
-        catch { close $fh }; catch { close $fd }
+        catch { close $fd }
+        catch { after cancel $::appupdate::dlPoll_($token) }
+        unset -nocomplain ::appupdate::dlPoll_($token)
         unset -nocomplain dl_($token)
         {*}$callback $dest
     }
 }
 
+# Update the running byte count while the download is in flight.
+proc ::appupdate::_downloadProgress {token} {
+    variable dl_
+    if {![info exists dl_($token)]} { return }
+    lassign $dl_($token) fd callback dest label
+    if {$label ne "" && [winfo exists $label]} {
+        if {[file exists $dest]} {
+            $label configure -text [format [tr UpdateDownloaded] [::appupdate::humanBytes [file size $dest]]]
+        }
+    }
+    set ::appupdate::dlPoll_($token) [after 400 [list ::appupdate::_downloadProgress $token]]
+}
+
+# "n" bytes as a short human-readable string (e.g. "12.3 MB").
+proc ::appupdate::humanBytes {n} {
+    set units {B KB MB GB}
+    set u 0
+    set v [expr {double($n)}]
+    while {$v >= 1024.0 && $u < 3} {
+        set v [expr {$v / 1024.0}]
+        incr u
+    }
+    if {$u == 0} { return "$n B" }
+    return [format "%.1f %s" $v [lindex $units $u]]
+}
+
 proc ::appupdate::cancelDownload {} {
     variable dl_
     foreach token [array names dl_] {
-        lassign $dl_($token) fd fh callback dest
-        catch { close $fh }; catch { close $fd }
+        lassign $dl_($token) fd callback dest label
+        catch { close $fd }
+        catch { after cancel $::appupdate::dlPoll_($token) }
+        catch { unset ::appupdate::dlPoll_($token) }
         catch { file delete -force $dest }
         unset dl_($token)
     }
