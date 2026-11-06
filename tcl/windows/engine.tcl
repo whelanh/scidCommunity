@@ -386,6 +386,23 @@ proc ::enginewin::playCheck {id} {
     set ::enginewin::playAfter($id) [after idle [list ::enginewin::playFire $id]]
 }
 
+# The engine finished its own search before the Play-from-here limit was
+# reached. The engine window's depth or time cap may be lower than the limit the
+# dialog asked for; its best move is still the answer, and waiting for a depth
+# the engine will never reach would leave the session armed forever.
+proc ::enginewin::playDone {id} {
+    if {![::enginewin::playActive $id]} { return }
+    if {![info exists ::enginewin::playArmed($id)] || !$::enginewin::playArmed($id)} { return }
+    if {[info exists ::enginewin::m_(position,$id)] &&
+        $::enginewin::m_(position,$id) ne $::enginewin::playPos($id)} { return }
+    set best ""
+    catch { set best $::enginewin::playBest($id) }
+    if {$best eq ""} { return }
+    ::enginewin::playCancel $id
+    set ::enginewin::playBest($id) $best
+    set ::enginewin::playAfter($id) [after idle [list ::enginewin::playFire $id]]
+}
+
 # The idle step that writes the engine's move. A move the reader made between
 # the limit firing and this callback cancels it: the position no longer matches.
 proc ::enginewin::playFire {id} {
@@ -2553,6 +2570,7 @@ proc ::enginewin::callback {id msg} {
                     ::enginewin::sendPosition $id $::enginewin::m_(position,$id) $pv_(postponed,$id)
                 }
             }
+            ::enginewin::playDone $id
         }
         "InfoReady" {
             ::enginecfg::autoSaveConfig $id $configFrame true
