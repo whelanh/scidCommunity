@@ -699,6 +699,10 @@ menuText g TreeHelpIndex "Помощен индекс" 0
 menuText g TreeFindGames "Намери партии с анотация" 0 {Създаване на списък с партиите, в които този ход е изигран с анотация}
 translate g SaveCache {Запазване на кеша}
 translate g Training {обучение}
+translate g PlayFromHere {Играйте от тук}
+translate g PlayFromHereHelp {Двигателят отговаря, когато първо се достигне ограничението за време или дълбочина. Нула означава липса на ограничение за това поле.}
+translate g PlayFromHereLimit {Задайте ограничение за време и дълбочина}
+translate g PlayFromHereBusy {Първо завършете текущия преглед или Завършете играта.}
 translate g TreeTrainingEndOfLine {Краят на реда е достигнат.}
 translate g TreeTrainingMoveNotInBase {Този ход не е в базата данни.}
 translate g LockTree {Заключване}

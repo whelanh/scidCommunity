@@ -658,6 +658,10 @@ menuText b TreeHelpIndex "সাহায্য সূচক" 0
 menuText b TreeFindGames "টীকা সহ গেম খুঁজুন" 0 {যেসব খেলায় এই চালটি টীকা সহ খেলা হয়েছিল তার তালিকা তৈরি করুন}
 translate b SaveCache {ক্যাশে সংরক্ষণ করুন}
 translate b Training {প্রশিক্ষণ}
+translate b PlayFromHere {এখান থেকে খেলুন}
+translate b PlayFromHereHelp {ইঞ্জিন উত্তর দেয় যখন হয় সময় বা গভীরতার সীমা প্রথমে পৌঁছে যায়। শূন্য মানে সেই ক্ষেত্রের সীমা নেই।}
+translate b PlayFromHereLimit {সময় এবং গভীরতা সীমা সেট করুন}
+translate b PlayFromHereBusy {বর্তমান পর্যালোচনা শেষ করুন বা প্রথমে গেমটি শেষ করুন।}
 translate b TreeTrainingEndOfLine {লাইনের শেষে পৌঁছে গেছে।}
 translate b TreeTrainingMoveNotInBase {এই পদক্ষেপটি ডাটাবেসের মধ্যে নেই।}
 translate b LockTree {তালা}

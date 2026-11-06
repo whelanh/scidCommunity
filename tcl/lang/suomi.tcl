@@ -697,6 +697,10 @@ menuText U TreeHelpIndex "Aakkosellinen ohje" 0
 menuText U TreeFindGames "Etsi kommentoidut pelit" 0 {Muodosta luettelo peleistä, joissa tämä siirto pelattiin kommentoituna}
 translate U SaveCache {Tallenna välimuisti}
 translate U Training {Valmennus}
+translate U PlayFromHere {Pelaa täältä}
+translate U PlayFromHereHelp {Moottori vastaa, kun joko aika- tai syvyysraja saavutetaan ensin. Nolla tarkoittaa, että tälle alalle ei ole rajaa.}
+translate U PlayFromHereLimit {Aseta aika- ja syvyysraja}
+translate U PlayFromHereBusy {Viimeistele nykyinen tarkistus tai Lopeta peli ensin.}
 translate U TreeTrainingEndOfLine {Linjan loppu saavutettu.}
 translate U TreeTrainingMoveNotInBase {Tämä siirto ei ole tietokannassa.}
 translate U LockTree {Lukitse}

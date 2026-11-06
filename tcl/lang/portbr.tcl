@@ -671,6 +671,10 @@ menuText B TreeHelpIndex "Índice da Ajuda" 0
 menuText B TreeFindGames "Encontrar partidas com anotação" 0 {Criar a lista de partidas onde este lance foi jogado com uma anotação}
 translate B SaveCache {Salvar Cache}
 translate B Training {Treinamento}
+translate B PlayFromHere {Jogue daqui}
+translate B PlayFromHereHelp {O motor responde quando o limite de tempo ou de profundidade é atingido primeiro. Zero significa que não há limite para esse campo.}
+translate B PlayFromHereLimit {Definir limite de tempo e profundidade}
+translate B PlayFromHereBusy {Termine a revisão atual ou termine o jogo primeiro.}
 translate B TreeTrainingEndOfLine {Fim da linha alcançado.}
 translate B TreeTrainingMoveNotInBase {Esta movimentação não está no banco de dados.}
 translate B LockTree {Travamento}

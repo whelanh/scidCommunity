@@ -684,6 +684,10 @@ menuText K TreeHelpIndex "Índex del fitxer d'ajuda" 0
 menuText K TreeFindGames "Cercar partides amb anotació" 0 {Crear la llista de partides on aquest moviment s'ha jugat amb una anotació}
 translate K SaveCache {Desar memòria cau}
 translate K Training {Entrenament}
+translate K PlayFromHere {Juga des d'aquí}
+translate K PlayFromHereHelp {El motor respon quan s'arriba primer al límit de temps o de profunditat. Zero significa cap límit per a aquest camp.}
+translate K PlayFromHereLimit {Estableix el límit de temps i profunditat}
+translate K PlayFromHereBusy {Finalitza la revisió actual o acaba el joc primer.}
 translate K TreeTrainingEndOfLine {S'ha arribat al final de la línia.}
 translate K TreeTrainingMoveNotInBase {Aquest moviment no es troba a la base de dades.}
 translate K LockTree {Bloquejar}

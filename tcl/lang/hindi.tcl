@@ -658,6 +658,10 @@ menuText h TreeHelpIndex "सहायता सूचकांक" 0
 menuText h TreeFindGames "टिप्पणी वाले खेल खोजें" 0 {उन खेलों की सूची बनाएं जहां यह चाल टिप्पणी के साथ खेली गई थी}
 translate h SaveCache {कैश सहेजें}
 translate h Training {प्रशिक्षण}
+translate h PlayFromHere {यहां से खेलें}
+translate h PlayFromHereHelp {इंजन तब प्रतिक्रिया करता है जब समय या गहराई सीमा पहले पूरी हो जाती है। शून्य का मतलब उस क्षेत्र के लिए कोई सीमा नहीं है।}
+translate h PlayFromHereLimit {समय और गहराई सीमा निर्धारित करें}
+translate h PlayFromHereBusy {पहले वर्तमान समीक्षा समाप्त करें या गेम समाप्त करें।}
 translate h TreeTrainingEndOfLine {पंक्ति के अंत तक पहुँच गया.}
 translate h TreeTrainingMoveNotInBase {यह कदम डेटाबेस में नहीं है.}
 translate h LockTree {ताला}

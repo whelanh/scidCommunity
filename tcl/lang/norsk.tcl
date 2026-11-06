@@ -668,6 +668,10 @@ menuText O TreeHelpIndex "Innholdsfortegnelse" 0
 menuText O TreeFindGames "Finn partier med kommentar" 0 {Bygg listen over partier der dette trekket ble spilt med en kommentar}
 translate O SaveCache {Lagre hurtigbuffer}
 translate O Training {Trening}
+translate O PlayFromHere {Spill herfra}
+translate O PlayFromHereHelp {Motoren svarer når enten tids- eller dybdegrensen nås først. Null betyr ingen grense for det feltet.}
+translate O PlayFromHereLimit {Still inn tids- og dybdegrense}
+translate O PlayFromHereBusy {Fullfør gjeldende anmeldelse eller Fullfør spillet først.}
 translate O TreeTrainingEndOfLine {Enden av linjen nådd.}
 translate O TreeTrainingMoveNotInBase {Dette trekket er ikke i databasen.}
 translate O LockTree {Lås}

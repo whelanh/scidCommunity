@@ -2000,5 +2000,88 @@ set ::fakeExtra {Annotator "Stockfish 16"}
 checkEq "a shorter engine name is a different record" \
     [string trim $::fakeExtra] {Annotator "Stockfish 16, Stockfish 1"}
 
+puts "\nplay from here"
+
+check "a move appended to the position is the reader's move" \
+    [::enginewin::playSuccessor {position startpos moves e2e4} \
+        {position startpos moves e2e4 e7e5}]
+check "navigating back is not a move" \
+    [expr {![::enginewin::playSuccessor \
+        {position startpos moves e2e4 e7e5} {position startpos moves e2e4}]}]
+check "a comment change leaves the position unchanged" \
+    [expr {![::enginewin::playSuccessor \
+        {position startpos moves e2e4} {position startpos moves e2e4}]}]
+checkEq "a sub-millisecond limit becomes one millisecond" \
+    [::enginewin::playTimeMs 0.0004] 1
+checkEq "zero seconds is still no time limit" [::enginewin::playTimeMs 0] 0
+checkEq "a depth-only entry is accepted with a blank time" \
+    [::enginewin::playLimitsFromInput "" 1] {0 1}
+checkEq "a time-only entry is accepted with a blank depth" \
+    [::enginewin::playLimitsFromInput 4 ""] {4000 0}
+checkEq "both blank is no limit" [::enginewin::playLimitsFromInput "" ""] ""
+checkEq "both zero is no limit" [::enginewin::playLimitsFromInput 0 0] ""
+checkEq "a malformed depth is refused" [::enginewin::playLimitsFromInput 4 nope] ""
+set ::enginewin::depth(1) 66
+set ::enginewin::movetime(1) 310000
+set ::enginewin::playOn(1) 1
+set ::enginewin::playLimits(1) [dict create time 4000 depth 1]
+checkEq "a play search uses the dialog limits, not the analysis toolbar" \
+    [::enginewin::playSearchLimits 1] {depth 1 movetime 4000}
+set ::enginewin::playOn(1) 0
+checkEq "and the toolbar limits return when play is off" \
+    [::enginewin::playSearchLimits 1] {depth 66 movetime 310000}
+set ::enginewin::playOn(1) 1
+set ::enginewin::playLimits(1) [dict create time 4000 depth 0]
+checkEq "a zero depth is no depth limit, not go depth 0" \
+    [::enginewin::playSearchLimits 1] {depth {} movetime 4000}
+set ::enginewin::playLimits(1) [dict create time 0 depth 1]
+checkEq "a zero time is no movetime limit, not go movetime 0" \
+    [::enginewin::playSearchLimits 1] {depth 1 movetime {}}
+check "the time limit can fire first" \
+    [::enginewin::playLimitReached 5000 20 5 5000]
+check "the depth limit can fire first" \
+    [::enginewin::playLimitReached 5000 20 20 100]
+check "neither limit reached yet" \
+    [expr {![::enginewin::playLimitReached 5000 20 5 100]}]
+
+# The state machine, without a window: a user move arms it, a PV for the same
+# position plays the best move when the depth limit is reached.
+set ::playedMove ""
+proc ::addMoveUCI {move {animate ""}} { set ::playedMove $move ; return 1 }
+set ::enginewin::engState(1) follow.run
+set ::enginewin::playOn(1) 1
+set ::enginewin::playOwn(1) 0
+set ::enginewin::playLimits(1) [dict create time 0 depth 1]
+set ::enginewin::playPos(1) {position startpos moves e2e4}
+set ::enginewin::m_(position,1) {position startpos moves e2e4 e7e5}
+set ::enginewin::pv_(pos,1) {position startpos moves e2e4 e7e5}
+catch { unset ::finishgame::active }
+set ::enginewin::reviewowner ""
+::enginewin::playPosition 1 {position startpos moves e2e4 e7e5} -pgn
+check "a user move arms the engine's reply" $::enginewin::playArmed(1)
+::enginewin::playInfo 1 1 {e7e5 g1f3}
+# The move is written from an idle callback, not inside the engine message.
+::enginewin::playFire 1
+checkEq "the first limit that fires plays the engine's move" $::playedMove e7e5
+check "and disarms the reply" [expr {!$::enginewin::playArmed(1)}]
+
+# The engine window's own depth cap may stop the search before the requested
+# depth. Its best move is still the answer; the mode must not wait forever.
+set ::playedMove ""
+set ::enginewin::playOn(1) 1
+set ::enginewin::playArmed(1) 1
+set ::enginewin::playOwn(1) 0
+set ::enginewin::playBest(1) e7e5
+set ::enginewin::playSeenDepth(1) 8
+set ::enginewin::playLimits(1) [dict create time 0 depth 20]
+set ::enginewin::playPos(1) {position startpos moves e2e4 e7e5}
+set ::enginewin::m_(position,1) {position startpos moves e2e4 e7e5}
+set ::enginewin::engState(1) follow.done
+::enginewin::playDone 1
+::enginewin::playFire 1
+checkEq "an engine that finishes below the requested depth still answers" \
+    $::playedMove e7e5
+::enginewin::playStop 1
+
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

@@ -489,7 +489,7 @@ namespace eval ::notify {
           event generate $wnd <<NotifyNewGame>>
         }
       }
-      ::enginewin::onPosChanged
+      ::enginewin::onPosChanged "" $pgn
 
       # TODO: Move here the function in privPosChanged that don't care about
       #       the game text and are not slow.
@@ -577,6 +577,14 @@ namespace eval ::notify {
   # If both bestmove and score are eq "" the engine was closed, disconnected or locked.
   # pvlines is an optional list of all PV moves for multi-arrow display
   proc EngineBestMove {engineID bestmove evaluation {pvlines {}}} {
+    # Play from here is the engine's turn, not a hint for the reader. Keep the
+    # evaluation bar but do not paint its best-move arrows over the board while
+    # that session is active: the reader would see the answer before moving.
+    if {[llength [info commands ::enginewin::playActive]] &&
+        [::enginewin::playActive $engineID]} {
+      ::updateMainEvalBar $engineID {} $evaluation {}
+      return
+    }
     ::updateMainEvalBar $engineID $bestmove $evaluation $pvlines
   }
 }

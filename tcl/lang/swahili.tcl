@@ -658,6 +658,10 @@ menuText Z TreeHelpIndex "Msaada Index" 0
 menuText Z TreeFindGames "Tafuta michezo yenye maelezo" 0 {Tengeneza orodha ya michezo ambapo hatua hii ilichezwa ikiwa na maelezo}
 translate Z SaveCache {Hifadhi Cache}
 translate Z Training {Mafunzo}
+translate Z PlayFromHere {Cheza kutoka hapa}
+translate Z PlayFromHereHelp {Injini hujibu wakati kikomo cha muda au kina kinapofikiwa kwanza. Sufuri inamaanisha hakuna kikomo kwa uga huo.}
+translate Z PlayFromHereLimit {Weka kikomo cha muda na kina}
+translate Z PlayFromHereBusy {Maliza ukaguzi wa sasa au Maliza Mchezo kwanza.}
 translate Z TreeTrainingEndOfLine {Mwisho wa mstari umefikiwa.}
 translate Z TreeTrainingMoveNotInBase {Hatua hii haiko kwenye hifadhidata.}
 translate Z LockTree {Funga}

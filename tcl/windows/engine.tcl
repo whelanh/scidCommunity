@@ -64,6 +64,405 @@ set ::enginewin::limits_reminder_shown false
 # ready.locked.run.idle   -> The engine is idle after changing an option.
 array set ::enginewin::engState {}
 
+# "Play from here": the engine answers the reader's moves after a time or depth
+# limit, whichever comes first. The mode is per window and writes into the game,
+# so it is off by default and refused while a review or Finish Game is writing.
+array set ::enginewin::playOn {}
+array set ::enginewin::playLimits {}
+array set ::enginewin::playArmed {}
+array set ::enginewin::playStart {}
+array set ::enginewin::playPos {}
+array set ::enginewin::playAfter {}
+array set ::enginewin::playOwn {}
+array set ::enginewin::playBest {}
+array set ::enginewin::playSeenDepth {}
+array set ::enginewin::playStartedEngine {}
+
+# The first of the two limits reached, or false. A zero limit is no limit.
+proc ::enginewin::playLimitReached {timeMs depthLimit depth elapsed} {
+    if {$timeMs > 0 && $elapsed >= $timeMs} { return 1 }
+    if {$depthLimit > 0 && $depth >= $depthLimit} { return 1 }
+    return 0
+}
+
+# True when `after` is `before` with exactly one move appended. Navigation can
+# change the position without adding a move, and a comment change notifies the
+# board without changing the position at all; neither is the reader's move.
+proc ::enginewin::playSuccessor {before after} {
+    set a [split [string trim $before]]
+    set b [split [string trim $after]]
+    if {[llength $b] != [llength $a] + 1} { return 0 }
+    return [expr {[lrange $b 0 end-1] eq $a}]
+}
+
+# Seconds in the dialog to the stored millisecond limit. A positive value that
+# rounds to zero is one millisecond, not "no limit".
+proc ::enginewin::playTimeMs {seconds} {
+    set ms [expr {int(round($seconds * 1000))}]
+    if {$seconds > 0 && $ms < 1} { set ms 1 }
+    return $ms
+}
+
+# Read the two dialog fields. A blank field is zero (no limit); a malformed
+# value is a refusal. Returns {timeMs depth} or "" when neither limit is set.
+proc ::enginewin::playLimitsFromInput {seconds depth} {
+    set t 0.0
+    set d 0
+    set rawT [string trim $seconds]
+    set rawD [string trim $depth]
+    if {$rawT ne "" && [catch { set t [expr {double($rawT)}] }]} {
+        return ""
+    }
+    if {$rawD ne ""} {
+        if {![string is integer -strict $rawD]} { return "" }
+        set d $rawD
+    }
+    if {$t < 0 || $t >= 1000 || $d < 0 || $d > 200} { return "" }
+    set ms [::enginewin::playTimeMs $t]
+    if {$ms <= 0 && $d <= 0} { return "" }
+    return [list $ms $d]
+}
+
+# The search limits to send while Play from here is on. The engine window's
+# toolbar limits are for analysis; a play session uses the two values from its
+# own dialog so a stored depth of 66 does not outlive a requested depth of 1.
+proc ::enginewin::playSearchLimits {id} {
+    set depth ""
+    set movetime ""
+    catch { set depth $::enginewin::depth($id) }
+    catch { set movetime $::enginewin::movetime($id) }
+    if {[::enginewin::playActive $id]} {
+        catch { set depth [dict get $::enginewin::playLimits($id) depth] }
+        catch { set movetime [dict get $::enginewin::playLimits($id) time] }
+    }
+    # goLimits filters empty values, not zero: a zero here means "no limit" and
+    # must not become "go depth 0" or "go movetime 0".
+    if {[string is integer -strict $depth] && $depth == 0} { set depth "" }
+    if {[string is integer -strict $movetime] && $movetime == 0} { set movetime "" }
+    return [list depth $depth movetime $movetime]
+}
+
+# True when the Tree Window is training on the current base. Both modes answer
+# the reader's move, so only one may be on.
+proc ::enginewin::playTreeBusy {} {
+    if {![info exists ::tree::trainingBase] || $::tree::trainingBase == 0} {
+        return 0
+    }
+    set base ""
+    catch { set base [sc_base current] }
+    return [expr {$base ne "" && $::tree::trainingBase == $base}]
+}
+
+# True while this window is in "Play from here".
+proc ::enginewin::playActive {id} {
+    return [expr {[info exists ::enginewin::playOn($id)] && $::enginewin::playOn($id)}]
+}
+
+# A review or Finish Game owns the game while it writes; a Play-from-here move
+# must not land in the middle of that.
+proc ::enginewin::playBusy {id} {
+    if {[info exists ::finishgame::active] && $::finishgame::active} { return 1 }
+    if {[info exists ::enginewin::reviewowner] && $::enginewin::reviewowner ne ""} {
+        return 1
+    }
+    if {[llength [info commands ::reviewdriver::busy]] && [::reviewdriver::busy $id]} {
+        return 1
+    }
+    return 0
+}
+
+# Ask for the time and depth limits. Either one ends the engine's turn; zero
+# means no limit for that one, but at least one must be set.
+proc ::enginewin::playDialog {id} {
+    set w .enginePlayDialog
+    if {[winfo exists $w]} { destroy $w }
+    set limits [dict create time 4000 depth 0]
+    catch { set limits $::enginewin::playLimits($id) }
+    set ::enginewin::playDlgSeconds [expr {[dict get $limits time] / 1000.0}]
+    set ::enginewin::playDlgDepth [dict get $limits depth]
+    set ::enginewin::playDlgOK 0
+
+    ::win::createDialog $w
+    wm title $w "scidCommunity: [tr PlayFromHere]"
+    wm resizable $w 0 0
+    set f [ttk::frame $w.f -padding 10]
+    pack $f -fill both -expand 1
+    ttk::label $f.help -text [tr PlayFromHereHelp] -wraplength 360 -justify left
+    ttk::label $f.tl -text "[tr Time] (s):"
+    ttk::spinbox $f.time -from 0 -to 999 -increment 0.5 -width 7 \
+        -textvariable ::enginewin::playDlgSeconds
+    ttk::label $f.dl -text "[tr Depth]:"
+    ttk::spinbox $f.depth -from 0 -to 200 -width 7 \
+        -textvariable ::enginewin::playDlgDepth
+    grid $f.help -row 0 -column 0 -columnspan 2 -sticky w -pady {0 8}
+    grid $f.tl -row 1 -column 0 -sticky w -pady 2
+    grid $f.time -row 1 -column 1 -sticky w -padx {8 0} -pady 2
+    grid $f.dl -row 2 -column 0 -sticky w -pady 2
+    grid $f.depth -row 2 -column 1 -sticky w -padx {8 0} -pady 2
+
+    set b [ttk::frame $w.b]
+    pack $b -fill x -padx 10 -pady {0 10}
+    ttk::button $b.ok -text [tr OK] -command [list apply {{id w} {
+        set values [::enginewin::playLimitsFromInput \
+            $::enginewin::playDlgSeconds $::enginewin::playDlgDepth]
+        if {![llength $values]} {
+            tk_messageBox -parent $w -icon warning -type ok \
+                -message [tr PlayFromHereLimit]
+            return
+        }
+        lassign $values ms d
+        set ::enginewin::playLimits($id) [dict create time $ms depth $d]
+        set ::enginewin::playDlgOK 1
+        catch { grab release $w }
+        destroy $w
+    }} $id $w]
+    ttk::button $b.cancel -text [tr Cancel] -command [list apply {{w} {
+        set ::enginewin::playDlgOK 0
+        catch { grab release $w }
+        destroy $w
+    }} $w]
+    grid $b.cancel $b.ok -sticky e -padx 4
+    bind $w <Escape> [list $b.cancel invoke]
+    bind $w <Return> [list $b.ok invoke]
+    setWinLocation $w
+    catch { grab $w }
+    tkwait window $w
+    return $::enginewin::playDlgOK
+}
+
+# Turn the mode on or off. Turning it on starts the stopped engine and makes
+# the current position's move; later reader moves are answered in turn.
+proc ::enginewin::playToggle {id} {
+    if {[::enginewin::playActive $id]} {
+        ::enginewin::playStop $id
+        return
+    }
+    if {[info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id)} {
+        return
+    }
+    # The mode is offered only while the engine is stopped: starting it here
+    # would take the engine away from an analysis the reader is watching.
+    if {[::enginewin::stateFollow $id] || [::enginewin::stateLocked $id]} {
+        return
+    }
+    if {[::enginewin::playBusy $id]} {
+        tk_messageBox -icon info -type ok -title "scidCommunity" \
+            -message [tr PlayFromHereBusy]
+        return
+    }
+    if {![::enginewin::playDialog $id]} { return }
+    if {![winfo exists .engineWin$id]} { return }
+    # One engine window owns the reader's turns. Starting a session here takes
+    # the turn from any other Play-from-here window, so two engines cannot
+    # mistake each other's moves for the reader's.
+    foreach other [array names ::enginewin::playOn] {
+        if {$other ne $id && $::enginewin::playOn($other)} {
+            ::enginewin::playStop $other
+        }
+    }
+    # The Tree Window's training also answers the reader's move. Two automatic
+    # replies would write two moves, so starting Play from here ends the
+    # statistical trainer on the current base.
+    if {[info exists ::tree::trainingBase] && $::tree::trainingBase != 0
+        && $::tree::trainingBase == [sc_base current]} {
+        set b $::tree::trainingBase
+        catch {
+            set ::tree(training$b) 0
+            ::tree::toggleTraining $b
+        }
+    }
+    set ::enginewin::playOn($id) 1
+    set ::enginewin::playArmed($id) 0
+    set ::enginewin::playStart($id) 0
+    set ::enginewin::playBest($id) ""
+    set ::enginewin::playSeenDepth($id) 0
+    set ::enginewin::playOwn($id) 0
+    set ::enginewin::playStartedEngine($id) 0
+    catch { set ::enginewin::playPos($id) [sc_game UCI_currentPos] }
+    set w .engineWin$id
+    if {[info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id)} {
+        set w .pv$::enginewin::pgnviewer($id).engineWin$id
+    }
+    # Start the stopped engine for this session. The first move is the position
+    # the reader is on, not the next move they make.
+    if {[catch { ::enginewin::start $id }]} {
+        ::enginewin::playStop $id
+        return
+    }
+    if {![::enginewin::stateFollow $id]} {
+        ::enginewin::playStop $id
+        return
+    }
+    set ::enginewin::playStartedEngine($id) 1
+    catch { set ::enginewin::playPos($id) [sc_game UCI_currentPos] }
+    ::enginewin::playArm $id
+    catch { $w.btn.playfromhere state pressed }
+}
+
+proc ::enginewin::playStop {id {stopEngine 1}} {
+    set started 0
+    catch { set started $::enginewin::playStartedEngine($id) }
+    ::enginewin::playCancel $id
+    set ::enginewin::playOn($id) 0
+    set ::enginewin::playBest($id) ""
+    set ::enginewin::playSeenDepth($id) 0
+    set ::enginewin::playStartedEngine($id) 0
+    set w .engineWin$id
+    if {[info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id)} {
+        set w .pv$::enginewin::pgnviewer($id).engineWin$id
+    }
+    catch { $w.btn.playfromhere state !pressed }
+    # The mode started this engine; leaving it searching would keep the window
+    # busy after the reader stopped playing. A caller already inside a state
+    # change asks for no second stop.
+    if {$started && $stopEngine} { catch { ::enginewin::stop $id } }
+}
+
+proc ::enginewin::playCancel {id} {
+    if {[info exists ::enginewin::playAfter($id)] && $::enginewin::playAfter($id) ne ""} {
+        catch { after cancel $::enginewin::playAfter($id) }
+    }
+    set ::enginewin::playAfter($id) ""
+    set ::enginewin::playArmed($id) 0
+    set ::enginewin::playBest($id) ""
+    set ::enginewin::playSeenDepth($id) 0
+}
+
+# A position change. The engine answers only a move the reader just made, never
+# its own move, and never a navigation or a comment edit.
+proc ::enginewin::playPosition {id position pgn} {
+    if {![::enginewin::playActive $id]} { return }
+    if {[info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id)} { return }
+    if {$pgn eq "newgame"} { ::enginewin::playStop $id ; return }
+    set before ""
+    catch { set before $::enginewin::playPos($id) }
+    set ::enginewin::playPos($id) $position
+    if {$pgn ne "-pgn" || ([info exists ::enginewin::playOwn($id)] && $::enginewin::playOwn($id))} {
+        ::enginewin::playCancel $id
+        return
+    }
+    if {[::enginewin::playTreeBusy]} {
+        ::enginewin::playStop $id
+        return
+    }
+    if {[::enginewin::playSuccessor $before $position]} {
+        ::enginewin::playArm $id
+    } else {
+        ::enginewin::playCancel $id
+    }
+}
+
+proc ::enginewin::playArm {id} {
+    ::enginewin::playCancel $id
+    set ::enginewin::playArmed($id) 1
+    set ::enginewin::playStart($id) [clock milliseconds]
+    set time 0
+    catch { set time [dict get $::enginewin::playLimits($id) time] }
+    if {$time > 0} {
+        set ::enginewin::playAfter($id) [after $time [list ::enginewin::playCheck $id]]
+    }
+}
+
+# The engine sent a PV for the current position. Record the best move and depth
+# even if the chart is hidden: Play from here must not depend on the chart.
+proc ::enginewin::playInfo {id depth pv} {
+    if {![::enginewin::playActive $id]} { return }
+    if {![info exists ::enginewin::playArmed($id)] || !$::enginewin::playArmed($id)} { return }
+    if {[info exists ::enginewin::playOwn($id)] && $::enginewin::playOwn($id)} { return }
+    if {[info exists ::enginewin::pv_(pos,$id)] && [info exists ::enginewin::m_(position,$id)] &&
+        $::enginewin::pv_(pos,$id) ne $::enginewin::m_(position,$id)} { return }
+    set best [lindex [split $pv] 0]
+    if {$best eq ""} { return }
+    set ::enginewin::playBest($id) $best
+    set ::enginewin::playSeenDepth($id) [expr {[string is integer -strict $depth] ? $depth : 0}]
+    ::enginewin::playCheck $id
+}
+
+# The engine's turn: play the best move when the first limit is reached. A time
+# that expires before any PV is retried, because the engine may still be
+# starting the new position.
+proc ::enginewin::playCheck {id} {
+    if {![::enginewin::playActive $id]} { return }
+    if {![info exists ::enginewin::playArmed($id)] || !$::enginewin::playArmed($id)} { return }
+    if {[info exists ::enginewin::playOwn($id)] && $::enginewin::playOwn($id)} { return }
+    if {[info exists ::enginewin::m_(position,$id)] &&
+        $::enginewin::m_(position,$id) ne $::enginewin::playPos($id)} { return }
+    if {![::enginewin::stateFollow $id] || [::enginewin::stateLocked $id]} {
+        ::enginewin::playCancel $id
+        return
+    }
+    if {[::enginewin::playBusy $id] || [::enginewin::playTreeBusy]} {
+        ::enginewin::playStop $id
+        return
+    }
+    set timeMs 0
+    set depthLimit 0
+    catch { set timeMs [dict get $::enginewin::playLimits($id) time] }
+    catch { set depthLimit [dict get $::enginewin::playLimits($id) depth] }
+    set elapsed [expr {[clock milliseconds] - $::enginewin::playStart($id)}]
+    set depth 0
+    catch { set depth $::enginewin::playSeenDepth($id) }
+    if {![::enginewin::playLimitReached $timeMs $depthLimit $depth $elapsed]} {
+        return
+    }
+    set best ""
+    catch { set best $::enginewin::playBest($id) }
+    if {$best eq ""} {
+        # The limit fired before the engine had a move for this position. Keep
+        # waiting for the PV the search is going to send.
+        ::enginewin::playCancel $id
+        set ::enginewin::playArmed($id) 1
+        set ::enginewin::playAfter($id) [after 100 [list ::enginewin::playCheck $id]]
+        return
+    }
+    ::enginewin::playCancel $id
+    # Do not add a move inside the engine's message callback: the move starts a
+    # new search for the next position while this message is still being read.
+    set ::enginewin::playBest($id) $best
+    set ::enginewin::playAfter($id) [after idle [list ::enginewin::playFire $id]]
+}
+
+# The engine finished its own search before the Play-from-here limit was
+# reached. The engine window's depth or time cap may be lower than the limit the
+# dialog asked for; its best move is still the answer, and waiting for a depth
+# the engine will never reach would leave the session armed forever.
+proc ::enginewin::playDone {id} {
+    if {![::enginewin::playActive $id]} { return }
+    if {![info exists ::enginewin::playArmed($id)] || !$::enginewin::playArmed($id)} { return }
+    if {[info exists ::enginewin::m_(position,$id)] &&
+        $::enginewin::m_(position,$id) ne $::enginewin::playPos($id)} { return }
+    set best ""
+    catch { set best $::enginewin::playBest($id) }
+    if {$best eq ""} { return }
+    ::enginewin::playCancel $id
+    set ::enginewin::playBest($id) $best
+    set ::enginewin::playAfter($id) [after idle [list ::enginewin::playFire $id]]
+}
+
+# The idle step that writes the engine's move. A move the reader made between
+# the limit firing and this callback cancels it: the position no longer matches.
+proc ::enginewin::playFire {id} {
+    if {![::enginewin::playActive $id]} { return }
+    if {[::enginewin::playTreeBusy] || [::enginewin::playBusy $id]} {
+        ::enginewin::playStop $id
+        return
+    }
+    if {[info exists ::enginewin::m_(position,$id)] &&
+        $::enginewin::m_(position,$id) ne $::enginewin::playPos($id)} { return }
+    set best ""
+    catch { set best $::enginewin::playBest($id) }
+    set ::enginewin::playBest($id) ""
+    if {$best eq ""} { return }
+    set ::enginewin::playOwn($id) 1
+    catch { set ::tree::trainingMove 1 }
+    set ok 0
+    if {![catch { ::addMoveUCI $best } moved] && $moved} { set ok 1 }
+    catch { set ::tree::trainingMove 0 }
+    set ::enginewin::playOwn($id) 0
+    if {!$ok} { return }
+    catch { set ::enginewin::playPos($id) [sc_game UCI_currentPos] }
+}
+
 # Return a list containing the engine's ID, engine's name and true if it is running.
 # Return only the engines available for current position analysis.
 proc ::enginewin::listEngines {} {
@@ -169,6 +568,7 @@ proc ::enginewin::seedLabel {ply score} {
 }
 
 proc ::enginewin::onNewGame {id} {
+    ::enginewin::playStop $id
     set ::enginewin::m_(newgame,$id) true
     ::stored_eval::clear $id
     ::rapid_annotate::onNewGame
@@ -191,7 +591,7 @@ proc ::enginewin::onNewGame {id} {
 }
 
 # Sends the updated position to the active engines
-proc ::enginewin::onPosChanged { {ids ""}} {
+proc ::enginewin::onPosChanged { {ids ""} {pgn ""} } {
     set position ""
     foreach {id} [array names ::enginewin::engState] {
         if {![::enginewin::stateFollow $id]} { continue }
@@ -200,6 +600,8 @@ proc ::enginewin::onPosChanged { {ids ""}} {
             lassign [::pgnviewer::getPosition $::enginewin::pgnviewer($ids)] position ply
             if {[catch { ::enginewin::sendPosition $ids $position $ply }]} {
                 ::enginewin::changeState $id paused.deceased
+            } else {
+                ::enginewin::playPosition $id $position $pgn
             }
             break
         } else {
@@ -209,6 +611,8 @@ proc ::enginewin::onPosChanged { {ids ""}} {
             }
             if {[catch { ::enginewin::sendPosition $id $position $ply }]} {
                 ::enginewin::changeState $id paused.deceased
+            } else {
+                ::enginewin::playPosition $id $position $pgn
             }
         }
     }
@@ -315,6 +719,17 @@ proc ::enginewin::Open { {id ""} {enginename ""} {pgnviewer 0} } {
     }
     set ::enginewin::pgnviewer($id) $pgnviewer
     set ::enginewin::w($id) $w
+    set ::enginewin::playOn($id) 0
+    set ::enginewin::playArmed($id) 0
+    set ::enginewin::playPos($id) ""
+    set ::enginewin::playAfter($id) ""
+    set ::enginewin::playOwn($id) 0
+    set ::enginewin::playBest($id) ""
+    set ::enginewin::playSeenDepth($id) 0
+    set ::enginewin::playStartedEngine($id) 0
+    if {![info exists ::enginewin::playLimits($id)]} {
+        set ::enginewin::playLimits($id) [dict create time 4000 depth 0]
+    }
 
     ::options.store ::enginewin_lastengine($id) ""
     ::options.store ::enginewin_autorun($id) {{movetime 50}}
@@ -425,6 +840,7 @@ proc ::enginewin::Open { {id ""} {enginename ""} {pgnviewer 0} } {
 
     # The engine should be closed before the debug .text is destroyed
     bind $w.config <Destroy> [list apply {{id w} {
+        catch { ::enginewin::playStop $id }
         if {![info exists ::enginewin::engState($id)]} { return }
         # The pass runs on its own connection, so closing the window would
         # otherwise leave it searching a game nothing shows any more - and
@@ -648,8 +1064,16 @@ proc ::enginewin::createButtonsBar {id btn display} {
     ttk::button $btn.finish -image ::icon::tb_finish_off -style Toolbutton \
         -command [list ::enginewin::finishGame $id]
     ::utils::tooltip::Set $btn.finish [tr FinishGame]
+
+    # Play from here: the engine answers the reader's moves with the limits the
+    # button asks for. It is the window's own engine, so there is no engine
+    # chooser here; the toolbar's Config still changes that engine.
+    ttk::button $btn.playfromhere -image ::icon::tb_training -style Toolbutton \
+        -command [list ::enginewin::playToggle $id]
+    ::utils::tooltip::Set $btn.playfromhere [tr PlayFromHere]
     if {[info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id)} {
         $btn.finish configure -state disabled
+        $btn.playfromhere configure -state disabled
     }
 
     ttk::spinbox $btn.multipv -increment 1 -width 4 -state disabled \
@@ -761,11 +1185,11 @@ proc ::enginewin::createButtonsBar {id btn display} {
     lappend reviewButtons $btn.reviewgap
 
     grid $btn.startStop $btn.lock $btn.addbestmove $btn.addlines $btn.finish \
-         $btn.multipv $btn.depth_label $btn.depth $btn.movetime_label $btn.movetime \
-         $btn.autorun $btn.threads $btn.hash \
+         $btn.playfromhere $btn.multipv $btn.depth_label $btn.depth \
+         $btn.movetime_label $btn.movetime $btn.autorun $btn.threads $btn.hash \
          $btn.overflow x {*}$reviewButtons $btn.config -sticky ew
     grid configure $btn.reviewgap -padx 9 -sticky ns
-    grid columnconfigure $btn 13 -weight 1
+    grid columnconfigure $btn 14 -weight 1
     grid remove $btn.overflow
 
     set collapsible [dict create autorun "Autoscan" threads "CPUs" hash "Hash"]
@@ -963,6 +1387,8 @@ proc ::enginewin::reviewStart {id state} {
     variable reviewowner
     set w [::enginewin::reviewWindow $id]
     if {![winfo exists $w.btn.gamereview]} { return "" }
+    # A review writes the game; a Play-from-here session must let go first.
+    ::enginewin::playStop $id
     set call [::reviewui::runCall $state]
     if {[dict get $call entry] eq ""} {
         set ::enginewin::reviewstatus($id) \
@@ -1010,6 +1436,8 @@ proc ::enginewin::reviewStart {id state} {
 # tools/finish_game.tcl; while a pass is running the same button cancels it.
 proc ::enginewin::finishGame {id} {
     if {[llength [info commands ::finishgame::dialog]] == 0} { return }
+    # A play session and a two-engine pass cannot both move the game.
+    ::enginewin::playStop $id
     # A PGN viewer's engine has its own game; sc_pos/sc_game are the main
     # board's, so the pass would play into the wrong game.
     if {[info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id)} {
@@ -1461,6 +1889,12 @@ proc ::enginewin::updateDebug {id widget tag prefix msg} {
 }
 
 proc ::enginewin::updateChart {id {msgData ""}} {
+    # Read the PV before the chart-height guard: Play from here works with the
+    # chart hidden, and needs the depth and best move either way.
+    lassign $msgData multipv depth seldepth nodes nps hashfull tbhits time score score_type score_wdl pv
+    if {$multipv == 1 && $pv ne ""} {
+        catch { ::enginewin::playInfo $id $depth $pv }
+    }
     if {[set ::enginewin_chartH($id)] < 10} { return }
 
     set w .engineWin$id
@@ -1468,7 +1902,6 @@ proc ::enginewin::updateChart {id {msgData ""}} {
         set w .pv$::enginewin::pgnviewer($id).engineWin$id
     }
 
-    lassign $msgData multipv depth seldepth nodes nps hashfull tbhits time score score_type score_wdl pv
     if {$multipv != 1 || $score eq ""} { return }
 
     upvar ::enginewin::pv_(depths,$id) depths
@@ -1970,6 +2403,31 @@ proc ::enginewin::changeState {id newState} {
         }
     }
 
+    # Play from here is offered while the engine is stopped: starting it is
+    # this mode's job. While a session is active the button stays live so the
+    # same click can end it; when the engine is running for analysis it is
+    # disabled.
+    if {[winfo exists $w.btn.playfromhere]} {
+        # Decide from the state being entered, not the one being left. Starting
+        # the engine passes through paused.* -> follow.*: reading the old
+        # paused state there would cancel the play session that just started it.
+        set newFollow [string match f* $newState]
+        set newLocked [string match l* $newState]
+        set newPaused [string match p* $newState]
+        if {[::enginewin::playActive $id] && ($closed || $newLocked || $newPaused)} {
+            ::enginewin::playStop $id 0
+        }
+        if {[::enginewin::playActive $id]} {
+            $w.btn.playfromhere configure -state normal
+            catch { $w.btn.playfromhere state pressed }
+        } elseif {$closed || $newFollow || $newLocked} {
+            $w.btn.playfromhere configure -state disabled
+        } else {
+            # The engine is stopped (paused.closed included): this mode starts it.
+            $w.btn.playfromhere configure -state normal
+        }
+    }
+
     if {![string match f* $newState]} {
         if {[string match p* $newState]} {
             $w.btn.lock configure -state disabled
@@ -2022,6 +2480,7 @@ proc ::enginewin::getEngineColor {id pv} {
 # If any, closes the connection with the current engine.
 # If "config" is not "" opens a connection with a new engine.
 proc ::enginewin::connectEngine {id enginename} {
+    ::enginewin::playStop $id
     ::engine::close $id
     ::stored_eval::clear $id
     ::enginewin::updateDisplay $id ""
@@ -2135,8 +2594,7 @@ proc ::enginewin::callback {id msg} {
         }
         "InfoBestMove" {
             # The limits this search was started with
-            set expectedLimits [::enginelimits::goLimits \
-                [list depth $::enginewin::depth($id) movetime $::enginewin::movetime($id)]]
+            set expectedLimits [::enginelimits::goLimits [::enginewin::playSearchLimits $id]]
             if {$pv_(limits,$id) eq $expectedLimits
                 && $pv_(pos,$id) eq $::enginewin::m_(position,$id)} {
                 ::enginewin::saveAccumulatedPVs $id
@@ -2153,6 +2611,7 @@ proc ::enginewin::callback {id msg} {
                     ::enginewin::sendPosition $id $::enginewin::m_(position,$id) $pv_(postponed,$id)
                 }
             }
+            ::enginewin::playDone $id
         }
         "InfoReady" {
             ::enginecfg::autoSaveConfig $id $configFrame true
@@ -2264,9 +2723,9 @@ proc ::enginewin::sendPosition {id position plyInMainLine} {
     if {$::enginewin::pv_(postponed,$id) eq "" || ![analyzeMainLine $id]} {
         set ::enginewin::pv_(postponed,$id) ""
         set m_(posPly,$id) $plyInMainLine
-        # Limits come from the engine preset, with the legacy globals as fallback
-        set limits [::enginelimits::goLimits \
-            [list depth $::enginewin::depth($id) movetime $::enginewin::movetime($id)]]
+        # Limits come from the engine preset, with the legacy globals as fallback;
+        # a Play-from-here session overrides both with its own dialog values.
+        set limits [::enginelimits::goLimits [::enginewin::playSearchLimits $id]]
         ::engine::send $id Go [list $position $limits]
     }
 }

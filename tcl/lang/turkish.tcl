@@ -662,6 +662,10 @@ menuText T TreeHelpIndex "Yardım Dizini" 0
 menuText T TreeFindGames "Açıklamalı oyunları bul" 0 {Bu hamlenin bir açıklama ile oynandığı oyunların listesini oluştur}
 translate T SaveCache {Önbelleği Kaydet}
 translate T Training {Eğitim}
+translate T PlayFromHere {Buradan oyna}
+translate T PlayFromHereHelp {Motor, zaman veya derinlik sınırına ilk ulaşıldığında yanıt verir. Sıfır, o alan için sınır olmadığı anlamına gelir.}
+translate T PlayFromHereLimit {Zaman ve derinlik sınırını ayarlayın}
+translate T PlayFromHereBusy {Mevcut incelemeyi bitirin veya önce Oyunu Bitirin.}
 translate T TreeTrainingEndOfLine {Hattın sonuna ulaşıldı.}
 translate T TreeTrainingMoveNotInBase {Bu hamle veritabanında yok.}
 translate T LockTree {Kilit}

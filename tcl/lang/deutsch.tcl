@@ -698,6 +698,10 @@ menuText D TreeHelpIndex "Index" 0
 menuText D TreeFindGames "Partien mit Anmerkung finden" 0 {Liste der Partien erstellen, in denen dieser Zug mit einer Anmerkung gespielt wurde}
 translate D SaveCache {Cache sichern}
 translate D Training {Training}
+translate D PlayFromHere {Spielen Sie von hier aus}
+translate D PlayFromHereHelp {Die Engine antwortet, wenn entweder das Zeit- oder Tiefenlimit zuerst erreicht wird. Null bedeutet, dass es für dieses Feld keine Begrenzung gibt.}
+translate D PlayFromHereLimit {Zeit- und Tiefenlimit festlegen}
+translate D PlayFromHereBusy {Beenden Sie zuerst die aktuelle Rezension oder beenden Sie das Spiel.}
 translate D TreeTrainingEndOfLine {Zeilenende erreicht.}
 translate D TreeTrainingMoveNotInBase {Dieser Umzug ist nicht in der Datenbank.}
 translate D LockTree {Anbinden}

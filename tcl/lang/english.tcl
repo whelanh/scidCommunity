@@ -698,6 +698,10 @@ menuText E TreeHelpIndex "Help Index" 0
 menuText E TreeFindGames "Find games with annotation" 0 {Build the list of the games where this move was played with an annotation}
 translate E SaveCache {Save Cache}
 translate E Training {Training}
+translate E PlayFromHere {Play from here}
+translate E PlayFromHereHelp {The engine replies when either the time or depth limit is reached first. Zero means no limit for that field.}
+translate E PlayFromHereLimit {Set time and depth limit}
+translate E PlayFromHereBusy {Finish the current review or Finish Game first.}
 translate E TreeTrainingEndOfLine {End of line reached.}
 translate E TreeTrainingMoveNotInBase {This move is not in the database.}
 translate E LockTree {Lock}

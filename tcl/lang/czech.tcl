@@ -663,6 +663,10 @@ menuText C TreeHelpIndex "Index npovdy" 0
 menuText C TreeFindGames "Najít partie s anotací" 0 {Vytvořit seznam partií, kde byl tento tah hrán s anotací}
 translate C SaveCache {Uloit cache}
 translate C Training {Trnink}
+translate C PlayFromHere {Hrát odtud}
+translate C PlayFromHereHelp {Motor odpoví, když je nejdříve dosaženo buď časového nebo hloubkového limitu. Nula znamená žádný limit pro toto pole.}
+translate C PlayFromHereLimit {Nastavte časový a hloubkový limit}
+translate C PlayFromHereBusy {Nejprve dokončete aktuální recenzi nebo Dokončete hru.}
 translate C TreeTrainingEndOfLine {Dosažen konec řádku.}
 translate C TreeTrainingMoveNotInBase {Tento přesun není v databázi.}
 translate C LockTree {Zamknout}

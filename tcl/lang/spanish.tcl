@@ -715,6 +715,10 @@ menuText S TreeHelpIndex "Índice de la ayuda" 0
 menuText S TreeFindGames "Buscar partidas con anotación" 0 {Crear la lista de partidas donde este movimiento se jugó con una anotación}
 translate S SaveCache {Guardar caché}
 translate S Training {Entrenamiento}
+translate S PlayFromHere {Juega desde aquí}
+translate S PlayFromHereHelp {El motor responde cuando se alcanza primero el límite de tiempo o de profundidad. Cero significa que no hay límite para ese campo.}
+translate S PlayFromHereLimit {Establecer límite de tiempo y profundidad}
+translate S PlayFromHereBusy {Termina la revisión actual o termina el juego primero.}
 translate S TreeTrainingEndOfLine {Se alcanzó el final de la línea.}
 translate S TreeTrainingMoveNotInBase {Este movimiento no está en la base de datos.}
 translate S LockTree {Bloquear}

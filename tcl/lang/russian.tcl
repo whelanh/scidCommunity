@@ -665,6 +665,10 @@ menuText R TreeHelpIndex "Индекс помощи" 0
 menuText R TreeFindGames "Найти партии с аннотацией" 0 {Составить список партий, где этот ход был сыгран с аннотацией}
 translate R SaveCache {Сохранить кеш}
 translate R Training {Тренировка}
+translate R PlayFromHere {Играй отсюда}
+translate R PlayFromHereHelp {Двигатель отвечает, когда сначала достигается предел времени или глубины. Ноль означает отсутствие ограничений для этого поля.}
+translate R PlayFromHereLimit {Установите ограничение по времени и глубине}
+translate R PlayFromHereBusy {Завершите текущий обзор или сначала завершите игру.}
 translate R TreeTrainingEndOfLine {Достигнут конец строки.}
 translate R TreeTrainingMoveNotInBase {Этого хода нет в базе данных.}
 translate R LockTree {Блокировка}

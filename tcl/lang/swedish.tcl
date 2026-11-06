@@ -669,6 +669,10 @@ menuText W TreeHelpIndex "Hjälpindex" 0
 menuText W TreeFindGames "Hitta partier med kommentar" 0 {Skapa listan över partier där detta drag spelades med en kommentar}
 translate W SaveCache {Spara cache}
 translate W Training {Träna}
+translate W PlayFromHere {Spela härifrån}
+translate W PlayFromHereHelp {Motorn svarar när antingen tids- eller djupgränsen nås först. Noll betyder ingen gräns för det fältet.}
+translate W PlayFromHereLimit {Ställ in tids- och djupgräns}
+translate W PlayFromHereBusy {Avsluta den aktuella recensionen eller Avsluta spelet först.}
 translate W TreeTrainingEndOfLine {Slutet på raden nått.}
 translate W TreeTrainingMoveNotInBase {Denna flytt finns inte i databasen.}
 translate W LockTree {Lås}
