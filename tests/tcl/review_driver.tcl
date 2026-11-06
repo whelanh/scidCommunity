@@ -1993,6 +1993,12 @@ checkEq "a quote in the record still leaves a pair" \
     [llength [lindex $::fakeExtraList 0]] 2
 checkEq "and stores a quote as an apostrophe the PGN header can carry" \
     [lindex [lindex $::fakeExtraList 0] 1] {Stockfish 'fast'}
+# The engine comparison is exact: a preset called "Stockfish 1" is not the
+# already-recorded "Stockfish 16".
+set ::fakeExtra {Annotator "Stockfish 16"}
+::review::appendAnnotator {Stockfish 1}
+checkEq "a shorter engine name is a different record" \
+    [string trim $::fakeExtra] {Annotator "Stockfish 16, Stockfish 1"}
 
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]
