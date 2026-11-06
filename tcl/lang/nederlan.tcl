@@ -371,6 +371,7 @@ translate N UpdateNotNow "Niet nu"
 translate N UpdateCheckFailed "scidCommunity kon niet controleren op updates. Controleer uw internetverbinding en probeer het opnieuw."
 translate N UpdateInstallConfirm "scidCommunity %s wordt gedownload en geïnstalleerd.\n\nscidCommunity wordt gesloten wanneer de download is voltooid en voert vervolgens het installatieprogramma uit."
 translate N UpdateDownloading "scidCommunity %s downloaden..."
+translate N UpdateDownloaded "Gedownload %s"
 translate N UpdateDownloadFailed "Het downloaden van de update is mislukt. Probeer het later opnieuw."
 
 # Toolbar tooltips:

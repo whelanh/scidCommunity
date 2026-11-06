@@ -383,6 +383,7 @@ translate g UpdateNotNow "Не сега"
 translate g UpdateCheckFailed "scidCommunity не можа да провери за актуализации. Моля, проверете вашата интернет връзка и опитайте отново."
 translate g UpdateInstallConfirm "scidCommunity %s ще бъде изтеглен и инсталиран.\n\nscidCommunity ще се затвори, когато изтеглянето приключи, след което стартирайте инсталатора."
 translate g UpdateDownloading "Изтегля се scidCommunity %s..."
+translate g UpdateDownloaded "Изтеглено %s"
 translate g UpdateDownloadFailed "Изтеглянето на актуализацията не бе успешно. Моля, опитайте отново по-късно."
 
 # Toolbar tooltips:

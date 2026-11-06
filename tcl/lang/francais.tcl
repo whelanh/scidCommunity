@@ -358,6 +358,7 @@ translate F UpdateNotNow "Pas maintenant"
 translate F UpdateCheckFailed "scidCommunity n'a pas pu vérifier les mises à jour. Veuillez vérifier votre connexion Internet et réessayer."
 translate F UpdateInstallConfirm "scidCommunity %s sera téléchargé et installé.\n\nscidCommunity se fermera une fois le téléchargement terminé, puis exécutera le programme d'installation."
 translate F UpdateDownloading "Téléchargement de scidCommunity %s..."
+translate F UpdateDownloaded "Téléchargé %s"
 translate F UpdateDownloadFailed "Le téléchargement de la mise à jour a échoué. Veuillez réessayer plus tard."
 
 # Toolbar tooltips:

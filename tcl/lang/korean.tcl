@@ -383,6 +383,7 @@ translate k UpdateNotNow "지금은 아님"
 translate k UpdateCheckFailed "scidCommunity가 업데이트를 확인할 수 없습니다. 인터넷 연결을 확인하고 다시 시도해 주세요."
 translate k UpdateInstallConfirm "scidCommunity %s가 다운로드되어 설치됩니다.\n\nscidCommunity는 다운로드가 끝나면 닫히고 설치 프로그램을 실행합니다."
 translate k UpdateDownloading "scidCommunity %s 다운로드 중..."
+translate k UpdateDownloaded "%s 다운로드됨"
 translate k UpdateDownloadFailed "업데이트를 다운로드하지 못했습니다. 나중에 다시 시도해 주세요."
 
 # Toolbar tooltips:

@@ -350,6 +350,7 @@ translate H UpdateNotNow "Most nem"
 translate H UpdateCheckFailed "A scidCommunity nem tudott frissítéseket keresni. Kérjük, ellenőrizze internetkapcsolatát, és próbálja újra."
 translate H UpdateInstallConfirm "A scidCommunity %s letöltésre és telepítésre kerül.\n\nA scidCommunity bezárul, amikor a letöltés befejeződik, majd futtassa a telepítőt."
 translate H UpdateDownloading "ScidCommunity %s letöltése..."
+translate H UpdateDownloaded "Letöltve %s"
 translate H UpdateDownloadFailed "A frissítés letöltése nem sikerült. Kérjük, próbálja újra később."
 
 # Toolbar tooltips:

@@ -383,6 +383,7 @@ translate J UpdateNotNow "Не сада"
 translate J UpdateCheckFailed "сцидЦоммунити није могао да провери ажурирања. Проверите интернет везу и покушајте поново."
 translate J UpdateInstallConfirm "сцидЦоммунити %s биће преузето и инсталирано.\н\нсцидЦоммунити ће се затворити када се преузимање заврши, а затим покрените инсталатер."
 translate J UpdateDownloading "Преузимање сцидЦоммунити %s..."
+translate J UpdateDownloaded "Преузето %s"
 translate J UpdateDownloadFailed "Преузимање ажурирања није успело. Покушајте поново касније."
 
 # Toolbar tooltips:

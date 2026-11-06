@@ -318,6 +318,7 @@ translate M UpdateNotNow "现在不要"
 translate M UpdateCheckFailed "scidCommunity 无法检查更新。请检查您的互联网连接，然后重试。"
 translate M UpdateInstallConfirm "将下载并安装 scidCommunity %s。\n\nscidCommunity 将在下载完成后关闭，然后运行安装程序。"
 translate M UpdateDownloading "正在下载 scidCommunity %s..."
+translate M UpdateDownloaded "已下载%s"
 translate M UpdateDownloadFailed "下载更新失败。请稍后重试。"
 
 # Toolbar tooltips:

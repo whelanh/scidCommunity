@@ -383,6 +383,7 @@ translate S UpdateNotNow "Ahora no"
 translate S UpdateCheckFailed "scidCommunity no pudo buscar actualizaciones. Por favor verifique su conexión a Internet e inténtelo nuevamente."
 translate S UpdateInstallConfirm "scidCommunity %s se descargará e instalará.\n\nscidCommunity se cerrará cuando finalice la descarga y luego ejecutará el instalador."
 translate S UpdateDownloading "Descargando scidCommunity %s..."
+translate S UpdateDownloaded "Descargado %s"
 translate S UpdateDownloadFailed "Error al descargar la actualización. Inténtelo de nuevo más tarde."
 
 # Toolbar tooltips:

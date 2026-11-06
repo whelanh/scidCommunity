@@ -342,6 +342,7 @@ translate h UpdateNotNow "अभी नहीं"
 translate h UpdateCheckFailed "स्किडकम्युनिटी अपडेट की जांच नहीं कर सका। अपने इंटरनेट कनेक्शन की जाँच करें और पुन: प्रयास करें।"
 translate h UpdateInstallConfirm "स्किडकम्युनिटी %s डाउनलोड और इंस्टॉल किया जाएगा।\n\nscidCmunity डाउनलोड खत्म होने पर बंद हो जाएगा, फिर इंस्टॉलर चलाएं।"
 translate h UpdateDownloading "स्किडकम्युनिटी डाउनलोड हो रहा है %s..."
+translate h UpdateDownloaded "डाउनलोड किया गया %s"
 translate h UpdateDownloadFailed "अद्यतन डाउनलोड करना विफल रहा. कृपया बाद में पुन: प्रयास करें।"
 
 # Toolbar tooltips:

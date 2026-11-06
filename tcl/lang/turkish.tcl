@@ -346,6 +346,7 @@ translate T UpdateNotNow "Şimdi değil"
 translate T UpdateCheckFailed "scidCommunity güncellemeleri kontrol edemedi. Lütfen internet bağlantınızı kontrol edip tekrar deneyin."
 translate T UpdateInstallConfirm "scidCommunity %s indirilecek ve kurulacak.\n\nscidCommunity, indirme işlemi tamamlandığında kapanacak, ardından yükleyiciyi çalıştıracak."
 translate T UpdateDownloading "ScidCommunity %s indiriliyor..."
+translate T UpdateDownloaded "İndirildi %s"
 translate T UpdateDownloadFailed "Güncellemenin indirilmesi başarısız oldu. Lütfen daha sonra tekrar deneyin."
 
 # Toolbar tooltips:

@@ -342,6 +342,7 @@ translate Z UpdateNotNow "Sio Sasa"
 translate Z UpdateCheckFailed "scidCommunity haikuweza kuangalia masasisho. Tafadhali angalia muunganisho wako wa intaneti na ujaribu tena."
 translate Z UpdateInstallConfirm "Jumuiya ya scid %s itapakuliwa na kusakinishwa.\n\nscidJumuiya itafunga upakuaji utakapokamilika, kisha utekeleze kisakinishi."
 translate Z UpdateDownloading "Inapakua scidCommunity %s..."
+translate Z UpdateDownloaded "Imepakuliwa %s"
 translate Z UpdateDownloadFailed "Imeshindwa kupakua sasisho. Tafadhali jaribu tena baadaye."
 
 # Toolbar tooltips:

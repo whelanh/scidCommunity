@@ -383,6 +383,7 @@ translate A UpdateNotNow "今じゃない"
 translate A UpdateCheckFailed "scidCommunity は更新をチェックできませんでした。インターネット接続を確認して、もう一度試してください。"
 translate A UpdateInstallConfirm "scidCommunity %s がダウンロードされ、インストールされます。\n\nscidCommunity はダウンロードが完了すると閉じて、インストーラを実行します。"
 translate A UpdateDownloading "scidCommunity %s をダウンロード中..."
+translate A UpdateDownloaded "ダウンロード済み %s"
 translate A UpdateDownloadFailed "アップデートのダウンロードに失敗しました。後でもう一度試してください。"
 
 # Toolbar tooltips:

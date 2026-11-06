@@ -352,6 +352,7 @@ translate O UpdateNotNow "Ikke nå"
 translate O UpdateCheckFailed "scidCommunity kunne ikke se etter oppdateringer. Kontroller Internett-tilkoblingen din og prøv igjen."
 translate O UpdateInstallConfirm "scidCommunity %s vil bli lastet ned og installert.\n\nscidCommunity vil lukke når nedlastingen er ferdig, og deretter kjøre installasjonsprogrammet."
 translate O UpdateDownloading "Laster ned scidCommunity %s..."
+translate O UpdateDownloaded "Lastet ned %s"
 translate O UpdateDownloadFailed "Nedlasting av oppdateringen mislyktes. Vennligst prøv igjen senere."
 
 # Toolbar tooltips:

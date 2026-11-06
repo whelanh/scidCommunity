@@ -365,6 +365,7 @@ translate K UpdateNotNow "Ara no"
 translate K UpdateCheckFailed "scidCommunity no ha pogut comprovar si hi ha actualitzacions. Comprova la teva connexió a Internet i torna-ho a provar."
 translate K UpdateInstallConfirm "scidCommunity %s es baixarà i s'instal·larà.\n\nscidCommunity es tancarà quan finalitzi la descàrrega i, a continuació, executeu l'instal·lador."
 translate K UpdateDownloading "S'està baixant scidCommunity %s..."
+translate K UpdateDownloaded "Descarregat %s"
 translate K UpdateDownloadFailed "No s'ha pogut descarregar l'actualització. Si us plau, torna-ho a provar més tard."
 
 # Toolbar tooltips:

@@ -381,6 +381,7 @@ translate U UpdateNotNow "Ei nyt"
 translate U UpdateCheckFailed "scidCommunity ei voinut tarkistaa päivityksiä. Tarkista internetyhteytesi ja yritä uudelleen."
 translate U UpdateInstallConfirm "scidCommunity %s ladataan ja asennetaan.\n\nscidCommunity sulkeutuu, kun lataus on valmis, ja käynnistä sitten asennusohjelma."
 translate U UpdateDownloading "Ladataan scidCommunitya %s..."
+translate U UpdateDownloaded "Ladattu %s"
 translate U UpdateDownloadFailed "Päivityksen lataaminen epäonnistui. Yritä myöhemmin uudelleen."
 
 # Toolbar tooltips:

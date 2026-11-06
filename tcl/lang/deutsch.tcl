@@ -376,6 +376,7 @@ translate D UpdateNotNow "Nicht jetzt"
 translate D UpdateCheckFailed "scidCommunity konnte nicht nach Updates suchen. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut."
 translate D UpdateInstallConfirm "scidCommunity %s wird heruntergeladen und installiert.\n\nscidCommunity wird geschlossen, wenn der Download abgeschlossen ist, und führt dann das Installationsprogramm aus."
 translate D UpdateDownloading "scidCommunity wird heruntergeladen %s..."
+translate D UpdateDownloaded "Heruntergeladen %s"
 translate D UpdateDownloadFailed "Das Herunterladen des Updates ist fehlgeschlagen. Bitte versuchen Sie es später noch einmal."
 
 # Toolbar tooltips:

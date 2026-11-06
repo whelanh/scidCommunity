@@ -349,6 +349,7 @@ translate R UpdateNotNow "Не сейчас"
 translate R UpdateCheckFailed "scidCommunity не удалось проверить наличие обновлений. Пожалуйста, проверьте подключение к Интернету и повторите попытку."
 translate R UpdateInstallConfirm "scidCommunity %s будет загружен и установлен.\n\nscidCommunity закроется после завершения загрузки, а затем запустите программу установки."
 translate R UpdateDownloading "Загрузка scidCommunity %s..."
+translate R UpdateDownloaded "Скачано %s"
 translate R UpdateDownloadFailed "Загрузить обновление не удалось. Пожалуйста, повторите попытку позже."
 
 # Toolbar tooltips:

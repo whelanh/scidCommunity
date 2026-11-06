@@ -382,6 +382,7 @@ translate P UpdateNotNow "Nie teraz"
 translate P UpdateCheckFailed "scidCommunity nie może sprawdzić dostępności aktualizacji. Sprawdź swoje połączenie internetowe i spróbuj ponownie."
 translate P UpdateInstallConfirm "scidCommunity %s zostanie pobrany i zainstalowany.\n\nscidCommunity zostanie zamknięty po zakończeniu pobierania, a następnie uruchomi instalator."
 translate P UpdateDownloading "Pobieranie scidCommunity %s..."
+translate P UpdateDownloaded "Pobrano %s"
 translate P UpdateDownloadFailed "Pobieranie aktualizacji nie powiodło się. Spróbuj ponownie później."
 
 # Toolbar tooltips:

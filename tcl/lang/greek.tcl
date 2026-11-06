@@ -374,6 +374,7 @@ translate G UpdateNotNow "Όχι τώρα"
 translate G UpdateCheckFailed "Το scidCommunity δεν μπόρεσε να ελέγξει για ενημερώσεις. Ελέγξτε τη σύνδεσή σας στο Διαδίκτυο και δοκιμάστε ξανά."
 translate G UpdateInstallConfirm "Θα γίνει λήψη και εγκατάσταση του scidCommunity %s.\n\nΤο scidCommunity θα κλείσει όταν ολοκληρωθεί η λήψη και, στη συνέχεια, εκτελέστε το πρόγραμμα εγκατάστασης."
 translate G UpdateDownloading "Λήψη του scidCommunity %s..."
+translate G UpdateDownloaded "Έγινε λήψη του %s"
 translate G UpdateDownloadFailed "Η λήψη της ενημέρωσης απέτυχε. Δοκιμάστε ξανά αργότερα."
 
 # Toolbar tooltips:

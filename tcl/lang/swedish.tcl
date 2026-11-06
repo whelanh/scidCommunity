@@ -353,6 +353,7 @@ translate W UpdateNotNow "Inte nu"
 translate W UpdateCheckFailed "scidCommunity kunde inte söka efter uppdateringar. Kontrollera din internetanslutning och försök igen."
 translate W UpdateInstallConfirm "scidCommunity %s kommer att laddas ner och installeras.\n\nscidCommunity stängs när nedladdningen är klar och kör sedan installationsprogrammet."
 translate W UpdateDownloading "Laddar ner scidCommunity %s..."
+translate W UpdateDownloaded "Laddade ned %s"
 translate W UpdateDownloadFailed "Det gick inte att ladda ner uppdateringen. Försök igen senare."
 
 # Toolbar tooltips:

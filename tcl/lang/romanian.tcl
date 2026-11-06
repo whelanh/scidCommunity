@@ -383,6 +383,7 @@ translate L UpdateNotNow "Nu acum"
 translate L UpdateCheckFailed "scidCommunity nu a putut verifica actualizările. Vă rugăm să vă verificați conexiunea la internet și să încercați din nou."
 translate L UpdateInstallConfirm "scidCommunity %s va fi descărcată și instalată.\n\nscidCommunity se va închide când descărcarea se termină, apoi rulează programul de instalare."
 translate L UpdateDownloading "Se descarcă scidCommunity %s..."
+translate L UpdateDownloaded "Descărcat %s"
 translate L UpdateDownloadFailed "Descărcarea actualizării a eșuat. Vă rugăm să încercați din nou mai târziu."
 
 # Toolbar tooltips:

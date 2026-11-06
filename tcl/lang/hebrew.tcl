@@ -343,6 +343,7 @@ translate V UpdateNotNow "לא עכשיו"
 translate V UpdateCheckFailed "scidCommunity לא הצליחה לחפש עדכונים. בדוק את חיבור האינטרנט שלך ונסה שוב."
 translate V UpdateInstallConfirm "scidCommunity %s תוריד ותותקן.\n\nscidCommunity תיסגר כשההורדה תסתיים, ולאחר מכן הפעל את תוכנית ההתקנה."
 translate V UpdateDownloading "מוריד את scidCommunity %s..."
+translate V UpdateDownloaded "הורדת %s"
 translate V UpdateDownloadFailed "הורדת העדכון נכשלה. אנא נסה שוב מאוחר יותר."
 
 # Toolbar tooltips:

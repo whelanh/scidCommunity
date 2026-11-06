@@ -346,6 +346,7 @@ translate C UpdateNotNow "Teď ne"
 translate C UpdateCheckFailed "scidCommunity nemohl zkontrolovat aktualizace. Zkontrolujte prosím připojení k internetu a zkuste to znovu."
 translate C UpdateInstallConfirm "scidCommunity %s bude stažen a nainstalován.\n\nscidCommunity se po dokončení stahování zavře a poté spusťte instalační program."
 translate C UpdateDownloading "Stahování scidCommunity %s..."
+translate C UpdateDownloaded "Staženo %s"
 translate C UpdateDownloadFailed "Stažení aktualizace se nezdařilo. Zkuste to znovu později."
 
 # Toolbar tooltips:

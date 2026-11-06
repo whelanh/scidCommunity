@@ -343,6 +343,7 @@ translate Q UpdateNotNow "Не зараз"
 translate Q UpdateCheckFailed "scidCommunity не вдалося перевірити наявність оновлень. Перевірте підключення до Інтернету та повторіть спробу."
 translate Q UpdateInstallConfirm "scidCommunity %s буде завантажено та встановлено.\n\nscidCommunity закриється, коли завантаження завершиться, а потім запустіть інсталятор."
 translate Q UpdateDownloading "Завантаження scidCommunity %s..."
+translate Q UpdateDownloaded "Завантажено %s"
 translate Q UpdateDownloadFailed "Не вдалося завантажити оновлення. Спробуйте пізніше."
 
 # Toolbar tooltips:

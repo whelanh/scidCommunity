@@ -342,6 +342,7 @@ translate b UpdateNotNow "এখন না"
 translate b UpdateCheckFailed "scidCommunity আপডেটের জন্য চেক করতে পারেনি। আপনার ইন্টারনেট সংযোগ পরীক্ষা করুন এবং আবার চেষ্টা করুন."
 translate b UpdateInstallConfirm "scidCommunity %s ডাউনলোড এবং ইনস্টল করা হবে।\n\nডাউনলোড শেষ হলে সিডকমিউনিটি বন্ধ হয়ে যাবে, তারপরে ইনস্টলার চালান।"
 translate b UpdateDownloading "ডাউনলোড হচ্ছে scidCommunity %s..."
+translate b UpdateDownloaded "ডাউনলোড করা হয়েছে %s"
 translate b UpdateDownloadFailed "আপডেট ডাউনলোড করা ব্যর্থ হয়েছে৷ পরে আবার চেষ্টা করুন."
 
 # Toolbar tooltips:

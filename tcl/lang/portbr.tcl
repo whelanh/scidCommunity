@@ -351,6 +351,7 @@ translate B UpdateNotNow "Agora não"
 translate B UpdateCheckFailed "scidCommunity não pôde verificar atualizações. Verifique sua conexão com a Internet e tente novamente."
 translate B UpdateInstallConfirm "O scidCommunity %s será baixado e instalado.\n\nscidCommunity será fechado quando o download terminar e, em seguida, execute o instalador."
 translate B UpdateDownloading "Baixando scidCommunity %s..."
+translate B UpdateDownloaded "Baixado %s"
 translate B UpdateDownloadFailed "O download da atualização falhou. Por favor, tente novamente mais tarde."
 
 # Toolbar tooltips:
