@@ -819,6 +819,10 @@ proc ::review::annotatorRecord {engine {coach 0}} {
 # Game Review of the same game with the same engine must not grow the tag.
 proc ::review::appendAnnotator {text} {
     if {$text eq ""} { return 0 }
+    # PGN writes an extra tag as Name "value"; a quote inside the value would
+    # close the header string and leave the tag unreadable. A name is not
+    # prose, so a straight apostrophe is a safe replacement.
+    set text [string map {"\"" "'"} $text]
     if {[catch { set extra [sc_game tags get "Extra"] }]} { return 0 }
     # The engine is the part before the model separator. Replacing an entry
     # with the same engine rather than appending keeps a review that toggles

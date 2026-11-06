@@ -1991,8 +1991,8 @@ set ::fakeExtra ""
 ::review::appendAnnotator {Stockfish "fast"}
 checkEq "a quote in the record still leaves a pair" \
     [llength [lindex $::fakeExtraList 0]] 2
-checkEq "and keeps the name intact" \
-    [lindex [lindex $::fakeExtraList 0] 1] {Stockfish "fast"}
+checkEq "and stores a quote as an apostrophe the PGN header can carry" \
+    [lindex [lindex $::fakeExtraList 0] 1] {Stockfish 'fast'}
 
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]
