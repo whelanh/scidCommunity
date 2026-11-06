@@ -103,6 +103,26 @@ proc ::enginewin::playTimeMs {seconds} {
     return $ms
 }
 
+# Read the two dialog fields. A blank field is zero (no limit); a malformed
+# value is a refusal. Returns {timeMs depth} or "" when neither limit is set.
+proc ::enginewin::playLimitsFromInput {seconds depth} {
+    set t 0.0
+    set d 0
+    set rawT [string trim $seconds]
+    set rawD [string trim $depth]
+    if {$rawT ne "" && [catch { set t [expr {double($rawT)}] }]} {
+        return ""
+    }
+    if {$rawD ne ""} {
+        if {![string is integer -strict $rawD]} { return "" }
+        set d $rawD
+    }
+    if {$t < 0 || $t >= 1000 || $d < 0 || $d > 200} { return "" }
+    set ms [::enginewin::playTimeMs $t]
+    if {$ms <= 0 && $d <= 0} { return "" }
+    return [list $ms $d]
+}
+
 # True when the Tree Window is training on the current base. Both modes answer
 # the reader's move, so only one may be on.
 proc ::enginewin::playTreeBusy {} {
@@ -164,27 +184,14 @@ proc ::enginewin::playDialog {id} {
     set b [ttk::frame $w.b]
     pack $b -fill x -padx 10 -pady {0 10}
     ttk::button $b.ok -text [tr OK] -command [list apply {{id w} {
-        set t 0.0
-        set d 0
-        if {[catch { set t [expr {double($::enginewin::playDlgSeconds)} }]} {
-            set t -1
-        }
-        if {![string is integer -strict $::enginewin::playDlgDepth]} {
-            set d -1
-        } else {
-            set d $::enginewin::playDlgDepth
-        }
-        if {$t < 0 || $t >= 1000 || $d < 0 || $d > 200} {
+        set values [::enginewin::playLimitsFromInput \
+            $::enginewin::playDlgSeconds $::enginewin::playDlgDepth]
+        if {![llength $values]} {
             tk_messageBox -parent $w -icon warning -type ok \
                 -message [tr PlayFromHereLimit]
             return
         }
-        set ms [::enginewin::playTimeMs $t]
-        if {$ms <= 0 && $d <= 0} {
-            tk_messageBox -parent $w -icon warning -type ok \
-                -message [tr PlayFromHereLimit]
-            return
-        }
+        lassign $values ms d
         set ::enginewin::playLimits($id) [dict create time $ms depth $d]
         set ::enginewin::playDlgOK 1
         catch { grab release $w }

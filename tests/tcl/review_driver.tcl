@@ -2014,6 +2014,13 @@ check "a comment change leaves the position unchanged" \
 checkEq "a sub-millisecond limit becomes one millisecond" \
     [::enginewin::playTimeMs 0.0004] 1
 checkEq "zero seconds is still no time limit" [::enginewin::playTimeMs 0] 0
+checkEq "a depth-only entry is accepted with a blank time" \
+    [::enginewin::playLimitsFromInput "" 1] {0 1}
+checkEq "a time-only entry is accepted with a blank depth" \
+    [::enginewin::playLimitsFromInput 4 ""] {4000 0}
+checkEq "both blank is no limit" [::enginewin::playLimitsFromInput "" ""] ""
+checkEq "both zero is no limit" [::enginewin::playLimitsFromInput 0 0] ""
+checkEq "a malformed depth is refused" [::enginewin::playLimitsFromInput 4 nope] ""
 check "the time limit can fire first" \
     [::enginewin::playLimitReached 5000 20 5 5000]
 check "the depth limit can fire first" \
