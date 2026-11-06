@@ -1957,6 +1957,16 @@ static std::string flattenComment(const char* s) {
   };
 
   while (*s) {
+    if (*s == '\n' || *s == '\r') {
+      // Preserve line breaks in the comment as <br> tags so the Tcl htext
+      // renderer (which otherwise flattens newlines to spaces) keeps them.
+      flush();
+      out += "<br>";
+      if (*s == '\r' && s[1] == '\n')
+        s++;
+      s++;
+      continue;
+    }
     if (*s == '<') {
       const char* gt = strchr(s, '>');
       if (gt != nullptr) {

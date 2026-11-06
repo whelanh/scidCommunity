@@ -196,7 +196,7 @@ proc ::htext::configureColors {w} {
   }
 }
 
-proc ::htext::init {w} {
+proc ::htext::init {w {colored 1}} {
   set cyan "\#007000"
   set maroon "\#990000"
   set green "green"
@@ -250,10 +250,15 @@ proc ::htext::init {w} {
   # PGN-window-specific tags:
   $w tag configure var -font font_Regular
   $w tag configure nag -font font_Regular
-  if { $::pgnColor(Var) ne "" } {
-    $w tag configure var -foreground $::pgnColor(Var)
+  if { $colored } {
+    if { $::pgnColor(Var) ne "" } {
+      $w tag configure var -foreground $::pgnColor(Var)
+    }
+    $w tag configure nag -foreground $::pgnColor(Nag)
+  } else {
+    $w tag configure var -foreground {}
+    $w tag configure nag -foreground {}
   }
-  $w tag configure nag -foreground $::pgnColor(Nag)
 
   set lmargin 0
   for {set i 1} {$i <= 19} {incr i} {
@@ -519,7 +524,12 @@ set ::htext::baseId ""
         if { $c_callback ne "cTagProcess" } {
           $c_callback $w $commentTag
         } else {
-          $w tag configure $commentTag -foreground $::pgnColor(Comment) -font font_Regular
+          $w tag configure $commentTag -font font_Regular
+          if { $::pgn::showColor } {
+            $w tag configure $commentTag -foreground $::pgnColor(Comment)
+          } else {
+            $w tag configure $commentTag -foreground {}
+          }
           $w tag bind $commentTag <ButtonRelease-1> "sc_move pgn [string range $commentTag 2 end]; updateBoard; ::pgn::CheckRepetition; ::makeCommentWin"
           $w tag bind $commentTag <Any-Enter> "$w tag configure $commentTag -underline 1
         $w configure -cursor hand2"

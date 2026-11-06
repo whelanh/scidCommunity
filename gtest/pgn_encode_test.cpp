@@ -284,3 +284,44 @@ TEST(Test_PgnEncode, encode) {
 		EXPECT_STREQ(pgn.c_str(), expected);
 	}
 }
+
+TEST(Test_PgnEncode, color_comment_line_breaks) {
+	// A comment's line breaks must survive color-format encoding as <br> tags
+	// so the Tcl htext renderer keeps them (it flattens literal newlines to
+	// spaces). See Issue #438.
+	{
+		Game game;
+		game.SetPgnFormat(PGN_FORMAT_Color);
+		simpleMoveT sm;
+		game.currentPos()->makeMove(E2, E4, EMPTY, sm);
+		game.AddMove(sm);
+		game.SetMoveComment("first line\nsecond line\n\nfourth after blank");
+		SAN_hack(game);
+
+		auto pgn = game.WriteToPGN(0, false, false);
+		std::string text(pgn.first, pgn.second);
+
+		EXPECT_NE(std::string::npos, text.find("first line<br>second line<br><br>"
+		                                       "fourth after blank"));
+
+		auto open = text.find("<c_");
+		ASSERT_NE(std::string::npos, open);
+		auto close = text.find("</c>", open);
+		ASSERT_NE(std::string::npos, close);
+		EXPECT_EQ(std::string::npos,
+		          text.substr(open, close - open).find('\n'));
+	}
+	{
+		Game game;
+		game.SetPgnFormat(PGN_FORMAT_Color);
+		simpleMoveT sm;
+		game.currentPos()->makeMove(E2, E4, EMPTY, sm);
+		game.AddMove(sm);
+		game.SetMoveComment("crlf line\r\nsecond");
+		SAN_hack(game);
+
+		auto pgn = game.WriteToPGN(0, false, false);
+		std::string text(pgn.first, pgn.second);
+		EXPECT_NE(std::string::npos, text.find("crlf line<br>second"));
+	}
+}

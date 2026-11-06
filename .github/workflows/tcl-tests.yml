@@ -133,6 +133,11 @@ jobs:
       - name: Options file save
         run: tclsh tests/tcl/options_write.tcl
 
+      # The downloader's failure and cancel paths: a failed curl/wget must not
+      # install a truncated file, and cancel must kill the child, not wait on it.
+      - name: Update download
+        run: tclsh tests/tcl/updatecheck_download.tcl
+
   tk-dialogs:
     name: dialogs under Tk
     runs-on: ubuntu-latest

@@ -382,6 +382,7 @@ translate E UpdateNotNow "Not Now"
 translate E UpdateCheckFailed "scidCommunity could not check for updates. Please check your internet connection and try again."
 translate E UpdateInstallConfirm "scidCommunity %s will be downloaded and installed.\n\nscidCommunity will close when the download finishes, then run the installer."
 translate E UpdateDownloading "Downloading scidCommunity %s..."
+translate E UpdateDownloaded "Downloaded %s"
 translate E UpdateDownloadFailed "Downloading the update failed. Please try again later."
 
 # Toolbar tooltips:
