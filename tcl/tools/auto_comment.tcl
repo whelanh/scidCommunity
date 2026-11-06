@@ -172,6 +172,34 @@ proc ::auto_comment::providerLabel {provider} {
     return $provider
 }
 
+# ::auto_comment::activeModelLabel
+#   The provider and model an answer would come from, for a record of what was
+#   used, or "" when no ready provider is configured. The provider label is the
+#   one the settings dialog shows, so "Ollama - local server" says which of the
+#   two Ollama channels was meant.
+proc ::auto_comment::activeModelLabel {} {
+    if {[providerReady] ne ""} { return "" }
+    # providerReady checks the URL and the model, but a key over plain http to
+    # a remote host is refused by chatSpec before any request. Do not record a
+    # model that configuration can never call.
+    if {$::auto_comment::provider eq "openai" &&
+        [cleartextKeyError $::auto_comment::openaiUrl $::auto_comment::openaiKey] ne ""} {
+        return ""
+    }
+    set model ""
+    switch -- $::auto_comment::provider {
+        local    { set model $::auto_comment::localModel }
+        ollama   { set model $::auto_comment::ollamaModel }
+        openai   { set model $::auto_comment::openaiModel }
+        opencode { set model $::auto_comment::opencodeModel }
+        gemini   { set model $::auto_comment::model }
+        deepseek { set model $::auto_comment::deepseekModel }
+        default  { return "" }
+    }
+    if {$model eq ""} { return "" }
+    return "[providerLabel $::auto_comment::provider] $model"
+}
+
 # ::auto_comment::providerLabels
 #   The combobox values: one label per stored id, in providerList order.
 proc ::auto_comment::providerLabels {} {

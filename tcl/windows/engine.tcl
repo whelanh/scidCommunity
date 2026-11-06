@@ -640,7 +640,7 @@ proc ::enginewin::createButtonsBar {id btn display} {
         -command "::enginewin::exportMoves $pv_lines 1.0"
     ::utils::tooltip::Set $btn.addbestmove [tr AddMove]
     ttk::button $btn.addlines -image ::icon::tb_eng_addlines -style Toolbutton \
-        -command "::enginewin::exportLines $pv_lines"
+        -command [list ::enginewin::exportLines $id $pv_lines]
     ::utils::tooltip::Set $btn.addlines [tr AddAllVariations]
 
     # Plays the rest of the game out with the engines chosen in its dialog. The
@@ -1851,17 +1851,39 @@ proc ::enginewin::playBestMove {id} {
     return [::enginewin::exportMoves $w.display.pv_lines 1.0]
 }
 
+# Put the window's engine name on a PV line as a comment after its first move.
+# The comment travels with the imported variation, so a variation the reader
+# adds later can be told from the engine's.
+proc ::enginewin::markEngineLine {line engine} {
+    if {$engine eq ""} { return $line }
+    # PGN comments are brace-delimited; a brace in a preset's name would end the
+    # comment early, so it becomes a parenthesis.
+    set name [string map {"{" "(" "}" ")"} $engine]
+    # A PV is normally "1.e4 ..." (number and move one token), but accept the
+    # spaced "1. e4 ..." form too: the comment belongs after the move, not
+    # between the number and the move.
+    if {[regexp {^(\d+\.+)(\s+)(\S+)(\s*)(.*)$} $line -> num space move space2 rest]} {
+        return "$num$space$move {${name}}$space2$rest"
+    }
+    if {[regexp {^(\S+)(\s*)(.*)$} $line -> first space rest]} {
+        return "$first {${name}}$space$rest"
+    }
+    return $line
+}
+
 # Add all the move lines to the current game.
-proc ::enginewin::exportLines {w} {
+proc ::enginewin::exportLines {id w} {
     if {[info exists ::finishgame::active] && $::finishgame::active} { return }
     set i_line 1
     set location [sc_move pgn]
+    set engine ""
+    catch { set engine $::enginewin_lastengine($id) }
     while {![catch {::enginewin::getMoves $w $i_line.end} line]} {
         # When multipv is 1, the old lines are also shown, but do not export them
         lassign [$w tag nextrange header "$i_line.end linestart"] is_latest
         if {$is_latest eq ""} { break }
         if {$i_line == 1} { ::undoFeature save }
-        catch {sc_game import $line}
+        catch {sc_game import [::enginewin::markEngineLine $line $engine]}
         sc_move pgn $location
         incr i_line
     }

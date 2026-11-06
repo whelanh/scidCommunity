@@ -153,6 +153,30 @@ checkEq "openai ready without a key" [::auto_comment::providerReady] {}
 set ::auto_comment::provider bogus
 checkEq "unknown provider is named" [::auto_comment::providerReady] "unknown provider: bogus"
 
+checkEq "no provider means no model label" [::auto_comment::activeModelLabel] ""
+set ::auto_comment::provider ollama
+set ::auto_comment::ollamaKey "k"
+set ::auto_comment::ollamaModel "deepseek-v4.1-flash:1017"
+checkEq "the label names the provider and the model" \
+    [::auto_comment::activeModelLabel] {Ollama Cloud (hosted) deepseek-v4.1-flash:1017}
+set ::auto_comment::provider local
+set ::auto_comment::localModel "qwen3:8b"
+checkEq "the local label says which Ollama it is" \
+    [::auto_comment::activeModelLabel] {Ollama - local server qwen3:8b}
+set ::auto_comment::provider openai
+set ::auto_comment::openaiUrl "https://api.deepseek.com"
+set ::auto_comment::openaiModel "deepseek-v4-pro"
+checkEq "an OpenAI-compatible label is named the same way" \
+    [::auto_comment::activeModelLabel] {OpenAI-compatible endpoint deepseek-v4-pro}
+set ::auto_comment::openaiUrl "http://remote.example"
+set ::auto_comment::openaiKey "k"
+checkEq "a key over cleartext http is not a usable model" \
+    [::auto_comment::activeModelLabel] ""
+set ::auto_comment::openaiUrl "https://api.deepseek.com"
+set ::auto_comment::openaiKey ""
+set ::auto_comment::provider bogus
+checkEq "an unknown provider has no label" [::auto_comment::activeModelLabel] ""
+
 # ------------------------------------------------------------------ endpoints --
 puts "\n== endpoint joins =="
 set ::auto_comment::provider openai

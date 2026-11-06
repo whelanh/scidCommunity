@@ -547,14 +547,18 @@ proc sc_pos {args} {
         location { return $::fakeLoc }
         fen { return "$::fakeLoc/$::fakeLevel" }
         getComment {
-            if {[dict exists $::fakeComments $::fakeLoc]} {
-                return [dict get $::fakeComments $::fakeLoc]
+            set key $::fakeLoc
+            if {$::fakeLevel > 0} { set key "var:$::fakeVarAt:$::fakeLoc" }
+            if {[dict exists $::fakeComments $key]} {
+                return [dict get $::fakeComments $key]
             }
             return $::fakeComment
         }
         setComment {
+            set key $::fakeLoc
+            if {$::fakeLevel > 0} { set key "var:$::fakeVarAt:$::fakeLoc" }
             lappend ::events [list setComment [lindex $args 1]]
-            dict set ::fakeComments $::fakeLoc [lindex $args 1]
+            dict set ::fakeComments $key [lindex $args 1]
             return ""
         }
         getNags {
@@ -659,12 +663,34 @@ proc sc_var {args} {
 }
 proc sc_game {args} {
     if {[lindex $args 0] eq "UCI_mainLine"} { return $::fakeMainLine }
+    if {[lindex $args 0] eq "tags"} {
+        if {[lindex $args 1] eq "get"} { return $::fakeExtra }
+        if {[lindex $args 1] eq "set"} {
+            set raw [lindex $args 3]
+            set ::fakeExtraList $raw
+            set lines {}
+            foreach entry $raw {
+                if {[llength $entry] == 2} {
+                    lassign $entry name value
+                    lappend lines "$name \"$value\""
+                } else {
+                    lappend lines $entry
+                }
+            }
+            set ::fakeExtra [join $lines "\n"]
+            return ""
+        }
+    }
     return ""
 }
+set ::fakeExtra ""
 namespace eval ::uci {
     proc sc_move_add {moves} {
         if {!$::fakeLevel} { return 0 }
         if {$::fakeVarFirst eq ""} { set ::fakeVarFirst $moves }
+        # The real command advances the cursor; the stubbed variation first
+        # move is where the engine-name comment lands.
+        incr ::fakeLoc
         return 0
     }
 }
@@ -771,14 +797,25 @@ check "nothing is written until the last InfoBestMove" \
     [expr {$lastBest >= 0 && $firstWrite > $lastBest}]
 
 set comments {}
+set engineMarks {}
 foreach e $::events {
-    if {[lindex $e 0] eq "setComment"} { lappend comments [lindex $e 1] }
+    if {[lindex $e 0] ne "setComment"} { continue }
+    set text [lindex $e 1]
+    if {[string first {%eval} $text] >= 0} {
+        lappend comments $text
+    } elseif {$text eq "Stockfish"} {
+        lappend engineMarks $text
+    }
 }
 checkEq "the verdicts are written once each, in ply order" $comments [list \
     [verdict {[best] [%eval -0.40]}] \
     [verdict {[excellent] [%eval +0.50]}] \
     [verdict {[excellent] [%eval +1.20]}] \
     [verdict {[blunder] [%eval +8.00]}]]
+check "the variation's first move carries the engine name" \
+    [expr {[llength $engineMarks] > 0}]
+check "the whole-game review records the engine in the Annotator tag" \
+    [expr {[string first {Annotator "Stockfish"} $::fakeExtra] >= 0}]
 checkEq {and the [%eval] token reads back as the score that was written} \
     [::seed::score [lindex $comments 2]] 120
 checkEq "a mate round-trips through the same token" \
@@ -1003,7 +1040,9 @@ checkEq "one verdict and one score per move" \
     [regexp -all {\[%eval [^\]]*\]} [dict get $::fakeComments 1]] 1
 checkEq "the user's note and the new verdict, in that order" \
     [dict get $::fakeComments 2] "A fine move. [verdict {[best] [%eval +0.06]}]"
-checkEq "the user's mark survived both runs" [nagsAt 2] "?!" 
+checkEq "the user's mark survived both runs" [nagsAt 2] "?!"
+checkEq "a second review does not stack the same Annotator entry" \
+    [regexp -all {Stockfish} $::fakeExtra] 1
 checkEq "a finished review regenerates the game text" \
     [lindex $::notified end] -pgn
 checkEq "a verdict from the first run is replaced, not appended" \
@@ -1318,7 +1357,7 @@ puts "a refused variation still leaves a marked comment"
 # writeMove writes the comment first and can then fail on a variation. The
 # comment is in the game and must not be left promising a mark it did not get.
 rename ::review::writeMove ::review::writeMoveSaved
-proc ::review::writeMove {ply label eval_cp lines} {
+proc ::review::writeMove {ply label eval_cp lines {engine ""}} {
     sc_move ply $ply
     sc_pos setComment "\[$label\] \[%eval 0.00\]"
     return [list "the variation move d2d4 was rejected"]
@@ -1899,6 +1938,67 @@ checkEq "a stale completion cannot close a run that is not there" \
     [::reviewdriver::proseActive [dict get [lindex $::coachStarts end] p token]] 0
 ::review::setValue coach 0
 ::review::reset
+
+puts "\nthe engine name on an exported variation"
+
+checkEq "the comment goes after the variation's first move" \
+    [::enginewin::markEngineLine {1.e4 e5 2.Nf3} {Stockfish 16}] \
+    {1.e4 {Stockfish 16} e5 2.Nf3}
+checkEq "a Black first move keeps its ellipsis" \
+    [::enginewin::markEngineLine {12...e5 13.Nf3} {Stockfish 16}] \
+    {12...e5 {Stockfish 16} 13.Nf3}
+checkEq "a spaced move number keeps the number with its move" \
+    [::enginewin::markEngineLine {1. e4 e5} {Stockfish 16}] \
+    {1. e4 {Stockfish 16} e5}
+checkEq "an unnamed engine leaves the line alone" \
+    [::enginewin::markEngineLine {1.e4 e5} {}] {1.e4 e5}
+checkEq "a brace in the name cannot end the comment early" \
+    [::enginewin::markEngineLine {1.e4 e5} {Stockfish {16}}] \
+    {1.e4 {Stockfish (16)} e5}
+
+puts "\nthe Annotator tag"
+
+namespace eval ::auto_comment {}
+proc ::auto_comment::activeModelLabel {} { return "Google Gemini gemini-3.6-flash" }
+checkEq "a whole-game review records the engine and the model" \
+    [::review::annotatorRecord Stockfish 1] \
+    {Stockfish; Google Gemini gemini-3.6-flash}
+checkEq "coach off records the engine alone" \
+    [::review::annotatorRecord Stockfish 0] Stockfish
+
+set ::fakeExtra ""
+checkEq "the first review creates the tag" \
+    [::review::appendAnnotator {Stockfish 16}] 1
+checkEq "with the engine's name" [string trim $::fakeExtra] \
+    {Annotator "Stockfish 16"}
+checkEq "a second review with the same engine does not duplicate it" \
+    [::review::appendAnnotator {Stockfish 16}] 1
+checkEq "still one entry" [regexp -all Stockfish $::fakeExtra] 1
+checkEq "a different record is appended" \
+    [::review::appendAnnotator {Gemini gemini-3.6-flash}] 1
+checkEq "and the tag keeps both, comma separated" [string trim $::fakeExtra] \
+    {Annotator "Stockfish 16, Gemini gemini-3.6-flash"}
+# A review that toggles coach prose must update the engine's entry, not append
+# a second copy of the engine.
+set ::fakeExtra {Annotator "John, Stockfish 16"}
+::review::appendAnnotator {Stockfish 16; Gemini gemini-3.6-flash}
+checkEq "a changed record replaces the same engine's entry" \
+    [string trim $::fakeExtra] \
+    {Annotator "John, Stockfish 16; Gemini gemini-3.6-flash"}
+# A quote used to make the entry a non-pair, which the tag setter drops and
+# which would have taken the rest of the Annotator value with it.
+set ::fakeExtra ""
+::review::appendAnnotator {Stockfish "fast"}
+checkEq "a quote in the record still leaves a pair" \
+    [llength [lindex $::fakeExtraList 0]] 2
+checkEq "and stores a quote as an apostrophe the PGN header can carry" \
+    [lindex [lindex $::fakeExtraList 0] 1] {Stockfish 'fast'}
+# The engine comparison is exact: a preset called "Stockfish 1" is not the
+# already-recorded "Stockfish 16".
+set ::fakeExtra {Annotator "Stockfish 16"}
+::review::appendAnnotator {Stockfish 1}
+checkEq "a shorter engine name is a different record" \
+    [string trim $::fakeExtra] {Annotator "Stockfish 16, Stockfish 1"}
 
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]
