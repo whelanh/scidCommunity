@@ -698,6 +698,10 @@ menuText P TreeHelpIndex "Indeks pomocy" 0
 menuText P TreeFindGames "Znajdź partie z adnotacją NAG" 0 {Utwórz listę partii, w których to posunięcie ma symbol adnotacji.}
 translate P SaveCache {Zapisz pamięć podręczną}
 translate P Training {Trening}
+translate P PlayFromHere {Zagraj stąd}
+translate P PlayFromHereHelp {Silnik odpowiada, gdy jako pierwszy zostanie osiągnięty limit czasu lub głębokości. Zero oznacza brak limitu dla tego pola.}
+translate P PlayFromHereLimit {Ustaw limit czasu i głębokości}
+translate P PlayFromHereBusy {Zakończ bieżącą recenzję lub najpierw Zakończ grę.}
 translate P TreeTrainingEndOfLine {Koniec wariantu.}
 translate P TreeTrainingMoveNotInBase {Tego posunięcia brak w bazie danych.}
 translate P LockTree {Zablokuj}

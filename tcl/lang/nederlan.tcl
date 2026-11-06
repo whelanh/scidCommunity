@@ -688,6 +688,10 @@ menuText N TreeHelpIndex "Index" 0
 menuText N TreeFindGames "Partijen met annotatie zoeken" 0 {Maak de lijst met partijen waarin deze zet met een annotatie is gespeeld}
 translate N SaveCache {Cache Bewaren}
 translate N Training {Training}
+translate N PlayFromHere {Speel vanaf hier}
+translate N PlayFromHereHelp {De motor antwoordt wanneer de tijd- of dieptelimiet als eerste wordt bereikt. Nul betekent geen limiet voor dat veld.}
+translate N PlayFromHereLimit {Stel de tijd- en dieptelimiet in}
+translate N PlayFromHereBusy {Voltooi eerst de huidige recensie of voltooi het spel.}
 translate N TreeTrainingEndOfLine {Einde van de lijn bereikt.}
 translate N TreeTrainingMoveNotInBase {Deze zet staat niet in de database.}
 translate N LockTree {Boom Vergrendelen}

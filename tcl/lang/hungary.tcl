@@ -666,6 +666,10 @@ menuText H TreeHelpIndex "Tartalom" 0
 menuText H TreeFindGames "Játszmák keresése megjegyzéssel" 0 {Azon játszmák listájának összeállítása, ahol ezt a lépést megjegyzéssel játszották}
 translate H SaveCache {Cache mentése}
 translate H Training {Edzés}
+translate H PlayFromHere {Játssz innen}
+translate H PlayFromHereHelp {A motor akkor válaszol, ha először eléri az idő- vagy mélységhatárt. A nulla azt jelenti, hogy nincs korlát erre a mezőre.}
+translate H PlayFromHereLimit {Állítsa be az idő- és mélységhatárt}
+translate H PlayFromHereBusy {Először fejezze be az aktuális áttekintést, vagy fejezze be a játékot.}
 translate H TreeTrainingEndOfLine {Elérkezett a sor vége.}
 translate H TreeTrainingMoveNotInBase {Ez a lépés nem szerepel az adatbázisban.}
 translate H LockTree {Rögzítés}

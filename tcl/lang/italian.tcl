@@ -669,6 +669,10 @@ menuText I TreeHelpIndex "Indice" 0
 menuText I TreeFindGames "Trova partite con annotazione" 0 {Crea l'elenco delle partite in cui questa mossa è stata giocata con un'annotazione}
 translate I SaveCache {Salva cache}
 translate I Training {Esercizio}
+translate I PlayFromHere {Gioca da qui}
+translate I PlayFromHereHelp {Il motore risponde quando viene raggiunto per primo il limite di tempo o di profondità. Zero significa nessun limite per quel campo.}
+translate I PlayFromHereLimit {Imposta il limite di tempo e profondità}
+translate I PlayFromHereBusy {Termina prima la revisione corrente o Termina il gioco.}
 translate I TreeTrainingEndOfLine {Fine della linea raggiunta.}
 translate I TreeTrainingMoveNotInBase {Questa mossa non è nel database.}
 translate I LockTree {Blocca}

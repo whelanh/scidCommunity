@@ -699,6 +699,10 @@ menuText k TreeHelpIndex "도움말 색인" 0
 menuText k TreeFindGames "주석이 있는 대국 찾기" 0 {이 수가 주석과 함께 두어진 대국 목록을 생성합니다}
 translate k SaveCache {쿠키 저장}
 translate k Training {훈련}
+translate k PlayFromHere {여기에서 재생}
+translate k PlayFromHereHelp {시간 또는 수심 제한에 먼저 도달하면 엔진이 응답합니다. 0은 해당 필드에 제한이 없음을 의미합니다.}
+translate k PlayFromHereLimit {시간 및 깊이 제한 설정}
+translate k PlayFromHereBusy {현재 검토를 완료하거나 먼저 게임을 완료하세요.}
 translate k TreeTrainingEndOfLine {줄의 끝에 도달했습니다.}
 translate k TreeTrainingMoveNotInBase {이 이동은 데이터베이스에 없습니다.}
 translate k LockTree {잠그다}

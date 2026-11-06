@@ -671,6 +671,10 @@ menuText F TreeHelpIndex "Index" 0
 menuText F TreeFindGames "Trouver les parties avec annotation" 0 {Construire la liste des parties où ce coup a été joué avec une annotation}
 translate F SaveCache {Enregistrer le cache}
 translate F Training {Entraînement}
+translate F PlayFromHere {Jouez à partir d'ici}
+translate F PlayFromHereHelp {Le moteur répond en premier lorsque la limite de temps ou de profondeur est atteinte. Zéro signifie aucune limite pour ce champ.}
+translate F PlayFromHereLimit {Définir la limite de temps et de profondeur}
+translate F PlayFromHereBusy {Terminez la révision en cours ou terminez le jeu en premier.}
 translate F TreeTrainingEndOfLine {Fin de ligne atteinte.}
 translate F TreeTrainingMoveNotInBase {Ce mouvement n'est pas dans la base de données.}
 translate F LockTree {Verrouiller}

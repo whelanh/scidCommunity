@@ -659,6 +659,10 @@ menuText Q TreeHelpIndex "Індекс довідки" 0
 menuText Q TreeFindGames "Знайти партії з анотацією" 0 {Скласти список партій, де цей хід було зіграно з анотацією}
 translate Q SaveCache {Зберегти кеш}
 translate Q Training {Навчання}
+translate Q PlayFromHere {Грайте звідси}
+translate Q PlayFromHereHelp {Двигун відповідає, коли спочатку досягається ліміт часу або глибини. Нуль означає відсутність обмежень для цього поля.}
+translate Q PlayFromHereLimit {Встановіть обмеження часу та глибини}
+translate Q PlayFromHereBusy {Спершу завершіть поточний огляд або завершіть гру.}
 translate Q TreeTrainingEndOfLine {Досягнуто кінця рядка.}
 translate Q TreeTrainingMoveNotInBase {Цього ходу немає в базі даних.}
 translate Q LockTree {Замок}

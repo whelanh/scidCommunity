@@ -634,6 +634,10 @@ menuText M TreeHelpIndex "Help Index" 0
 menuText M TreeFindGames "查找带评注的对局" 0 {生成该着法带有评注的对局列表}
 translate M SaveCache {Save Cache}
 translate M Training {训练}
+translate M PlayFromHere {从这里开始玩}
+translate M PlayFromHereHelp {当首先达到时间或深度限制时，引擎会做出响应。零意味着该字段没有限制。}
+translate M PlayFromHereLimit {设置时间和深度限制}
+translate M PlayFromHereBusy {先完成当前的评论或完成游戏。}
 translate M TreeTrainingEndOfLine {已到达行尾。}
 translate M TreeTrainingMoveNotInBase {此动作不在数据库中。}
 translate M LockTree {锁定}

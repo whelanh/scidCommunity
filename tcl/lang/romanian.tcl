@@ -699,6 +699,10 @@ menuText L TreeHelpIndex "Index de ajutor" 0
 menuText L TreeFindGames "Găsește partide cu adnotare" 0 {Creează lista partidelor în care această mutare a fost jucată cu o adnotare}
 translate L SaveCache {Salvați cache}
 translate L Training {Antrenamentul}
+translate L PlayFromHere {Joacă de aici}
+translate L PlayFromHereHelp {Motorul răspunde când se atinge mai întâi limita de timp sau de adâncime. Zero înseamnă că nu există limită pentru acel câmp.}
+translate L PlayFromHereLimit {Setați limita de timp și adâncime}
+translate L PlayFromHereBusy {Terminați revizuirea curentă sau Terminați mai întâi jocul.}
 translate L TreeTrainingEndOfLine {S-a ajuns la sfârșitul liniei.}
 translate L TreeTrainingMoveNotInBase {Această mutare nu se află în baza de date.}
 translate L LockTree {Blocare}

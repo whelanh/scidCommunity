@@ -659,6 +659,10 @@ menuText V TreeHelpIndex "אינדקס עזרה" 0
 menuText V TreeFindGames "מצא משחקים עם הערה" 0 {צור רשימה של המשחקים שבהם מהלך זה שוחק עם הערה}
 translate V SaveCache {שמור מטמון}
 translate V Training {הַדְרָכָה}
+translate V PlayFromHere {שחק מכאן}
+translate V PlayFromHereHelp {המנוע משיב כשמגיעים תחילה למגבלת הזמן או העומק. אפס אומר שאין הגבלה עבור השדה הזה.}
+translate V PlayFromHereLimit {הגדר מגבלת זמן ועומק}
+translate V PlayFromHereBusy {סיים קודם את הסקירה הנוכחית או סיים את המשחק.}
 translate V TreeTrainingEndOfLine {הגיע סוף השורה.}
 translate V TreeTrainingMoveNotInBase {המהלך הזה לא נמצא במסד הנתונים.}
 translate V LockTree {לִנְעוֹל}

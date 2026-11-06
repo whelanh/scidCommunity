@@ -699,6 +699,10 @@ menuText A TreeHelpIndex "ヘルプインデックス" 0
 menuText A TreeFindGames "注釈付きの対局を検索" 0 {この手が注釈付きで指された対局のリストを作成します}
 translate A SaveCache {キャッシュの保存}
 translate A Training {トレーニング}
+translate A PlayFromHere {ここからプレイ}
+translate A PlayFromHereHelp {エンジンは、時間制限または深度制限のいずれかに最初に到達すると応答します。ゼロは、そのフィールドに制限がないことを意味します。}
+translate A PlayFromHereLimit {時間と深度の制限を設定する}
+translate A PlayFromHereBusy {現在のレビューを終了するか、最初にゲームを終了してください。}
 translate A TreeTrainingEndOfLine {行末に到達しました。}
 translate A TreeTrainingMoveNotInBase {この動きはデータベースにありません。}
 translate A LockTree {ロック}

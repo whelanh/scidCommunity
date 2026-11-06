@@ -690,6 +690,10 @@ menuText G TreeHelpIndex "Κατάλογος βοήθειας" 0
 menuText G TreeFindGames "Εύρεση παρτίδων με σχολιασμό" 0 {Δημιουργία λίστας των παρτίδων όπου αυτή η κίνηση παίχτηκε με σχολιασμό}
 translate G SaveCache {Αποθήκευση προσωρινής μνήμης Cache}
 translate G Training {Προπόνηση}
+translate G PlayFromHere {Παίξτε από εδώ}
+translate G PlayFromHereHelp {Ο κινητήρας απαντά όταν επιτευχθεί πρώτα είτε ο χρόνος είτε το όριο βάθους. Το μηδέν σημαίνει ότι δεν υπάρχει όριο για αυτό το πεδίο.}
+translate G PlayFromHereLimit {Ορίστε όριο χρόνου και βάθους}
+translate G PlayFromHereBusy {Ολοκληρώστε την τρέχουσα κριτική ή Ολοκληρώστε πρώτα το παιχνίδι.}
 translate G TreeTrainingEndOfLine {Έφτασε στο τέλος της γραμμής.}
 translate G TreeTrainingMoveNotInBase {Αυτή η κίνηση δεν βρίσκεται στη βάση δεδομένων.}
 translate G LockTree {Κλείδωμα}

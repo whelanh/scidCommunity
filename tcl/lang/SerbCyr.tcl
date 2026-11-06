@@ -699,6 +699,10 @@ menuText J TreeHelpIndex "Индекс помоћи" 0
 menuText J TreeFindGames "Пронађи партије са коментаром" 0 {Направи листу партија у којима је овај потез одигран са коментаром}
 translate J SaveCache {Сачувај кеш}
 translate J Training {Обука}
+translate J PlayFromHere {Играјте одавде}
+translate J PlayFromHereHelp {Мотор одговара када се прво достигне граница времена или дубине. Нула значи да нема ограничења за то поље.}
+translate J PlayFromHereLimit {Поставите ограничење времена и дубине}
+translate J PlayFromHereBusy {Прво завршите тренутни преглед или завршите игру.}
 translate J TreeTrainingEndOfLine {Достигнут је крај реда.}
 translate J TreeTrainingMoveNotInBase {Овај потез није у бази података.}
 translate J LockTree {Закључај}
