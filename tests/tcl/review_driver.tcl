@@ -2000,5 +2000,45 @@ set ::fakeExtra {Annotator "Stockfish 16"}
 checkEq "a shorter engine name is a different record" \
     [string trim $::fakeExtra] {Annotator "Stockfish 16, Stockfish 1"}
 
+puts "\nplay from here"
+
+check "a move appended to the position is the reader's move" \
+    [::enginewin::playSuccessor {position startpos moves e2e4} \
+        {position startpos moves e2e4 e7e5}]
+check "navigating back is not a move" \
+    [expr {![::enginewin::playSuccessor \
+        {position startpos moves e2e4 e7e5} {position startpos moves e2e4}]}]
+check "a comment change leaves the position unchanged" \
+    [expr {![::enginewin::playSuccessor \
+        {position startpos moves e2e4} {position startpos moves e2e4}]}]
+check "the time limit can fire first" \
+    [::enginewin::playLimitReached 5000 20 5 5000]
+check "the depth limit can fire first" \
+    [::enginewin::playLimitReached 5000 20 20 100]
+check "neither limit reached yet" \
+    [expr {![::enginewin::playLimitReached 5000 20 5 100]}]
+
+# The state machine, without a window: a user move arms it, a PV for the same
+# position plays the best move when the depth limit is reached.
+set ::playedMove ""
+proc ::addMoveUCI {move {animate ""}} { set ::playedMove $move ; return 1 }
+set ::enginewin::engState(1) follow.run
+set ::enginewin::playOn(1) 1
+set ::enginewin::playOwn(1) 0
+set ::enginewin::playLimits(1) [dict create time 0 depth 1]
+set ::enginewin::playPos(1) {position startpos moves e2e4}
+set ::enginewin::m_(position,1) {position startpos moves e2e4 e7e5}
+set ::enginewin::pv_(pos,1) {position startpos moves e2e4 e7e5}
+catch { unset ::finishgame::active }
+set ::enginewin::reviewowner ""
+::enginewin::playPosition 1 {position startpos moves e2e4 e7e5} -pgn
+check "a user move arms the engine's reply" $::enginewin::playArmed(1)
+::enginewin::playInfo 1 1 {e7e5 g1f3}
+# The move is written from an idle callback, not inside the engine message.
+::enginewin::playFire 1
+checkEq "the first limit that fires plays the engine's move" $::playedMove e7e5
+check "and disarms the reply" [expr {!$::enginewin::playArmed(1)}]
+::enginewin::playStop 1
+
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

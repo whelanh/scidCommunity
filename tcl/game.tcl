@@ -489,7 +489,7 @@ namespace eval ::notify {
           event generate $wnd <<NotifyNewGame>>
         }
       }
-      ::enginewin::onPosChanged
+      ::enginewin::onPosChanged "" $pgn
 
       # TODO: Move here the function in privPosChanged that don't care about
       #       the game text and are not slow.

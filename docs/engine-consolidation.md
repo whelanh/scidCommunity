@@ -50,7 +50,8 @@ matrix further down.
 | Per-pane priority | `setAnalysisPriority` | the pane | `—` |
 | Finish Game | `toggleFinishGame`, `autoplayFinishGame`; the engine windows' own pass in `tools/finish_game.tcl` (its own connections, engine selection and seconds/depth, no annotation) | the pane, mode Train | `finish_game.tcl` 39 — the two-engine loop against a stub engine and board; `finish_game_dialog.tcl` 18 under Tk — the dialog, its defaults and OK |
 | Training / autoplay, move time | `toggleAutomove`, `automove`, `setAutomoveTime` | the pane, mode Train, one owner | `—`; `toggleAutomove` writes `.analysisWin1`'s button for every pane |
-| The opening trainer's engine reply | `windows/tree.tcl` `::tree::doTraining` tests `.analysisWin1`/`.analysisWin2` and `analysis(automove1`/`automove2)`; panes 3 and 4 are never consulted | the owner registry | `—` |
+| The opening trainer's reply | `windows/tree.tcl` `::tree::doTraining` uses `sc_filter treestats` only; the old Analysis Engine automove override is gone | the tree window | `—` |
+| Play from here | `::enginewin::playToggle`, `playPosition`, `playInfo`, `playCheck` — the Engine Window's own engine answers the reader's move after a time or depth limit, whichever fires first; it writes into the game and stops on lock/pause/review/Finish Game | the engine window | `review_driver.tcl` — the successor, limit and state-machine checks |
 | Classic annotator: all moves / blunders only, White/Black, variations, short annotations, add score, annotator tag, score all moves, mark tactical exercises (writes `??`/`?`, sets the `T` flag, `****D<difficulty>`), find opening errors | `tools/analysis.tcl` `configAnnotation` + `annotateMode` — the dialog's OK now starts the review annotator instead (next row); the classic loop is still in the file, reachable from nothing in the UI | retired by C's parity gate | `—` |
 | Annotate as a review pass (one game, a range, opening errors) | `tools/review_annotate.tcl` `dialogPlan`/`run`, the driver's `-done` hook, the pane's own preset, `::review::movetime` for the time cap | mode Review, the annotate pane's engine | `annotate_dialog.tcl` 56 — the decision, the sparse filter, the Cancel label; `annotate_run.tcl` 39 — plan → pass → write, the batch chain, Cancel; `annotate_parity.tcl` 45 — both pipelines against one game |
 | Batch annotate (Game List) | `tools/batch_annotate.tcl` — the parallel pipe pool searches snapshotted games; each finished game is written by `::reviewdriver::writeResults` with Review Settings (depth, MultiPV, variations, margin, diagram, book) | the review writer; no `T`/`****D`, book or Annotator output | `batch_annotate.tcl` 9 — the MultiPV parser; the loop is manual |
@@ -116,9 +117,8 @@ Invariants:
 2. `attach` on an owned pane returns false and changes nothing — it never steals.
 3. A pane whose id is not the owner greys its move-making controls (add move, add variation, add
    all, automove, finish game) and keeps the read-only ones.
-4. `::tree::doTraining` asks `::train::owner`/`ownerMode` instead of testing `.analysisWin1` and
-   `.analysisWin2` by name, and plays through the owner. The two panes it does test today are
-   also the whole of the current gap: panes 3 and 4 never answer the trainer.
+4. `::tree::doTraining` no longer consults the analysis windows: training is the tree's
+   statistical reply, and Play from here lives in the engine window that owns its engine.
 5. `toggleAutomove` toggles the button of the pane it was given, not `.analysisWin1`'s.
 
 `attach`/`detach`/`owner` are pure Tcl and must be pinned by tests before any window code uses
@@ -144,7 +144,7 @@ consumer of the window B1 changes, not a control for the classic pipeline.
 | 5 | Raise pane 3's priority | pane 3 takes the CPU share, the others still update |
 | 6 | Finish Game from a pane | both sides played to the end, result set on repetition |
 | 7 | Automove on pane 2, then on pane 4 | exactly one pane plays; the other greys its move buttons |
-| 8 | Tree training asks for an engine move, with automove on pane 3 or 4 as well | the owner answers; no second move. Only panes 1 and 2 are consulted today, so this row is what proves B2's registry |
+| 8 | Tree training asks for a move with Play from here on in an engine window | the tree's statistical move is played; the engine window does not answer |
 | 9 | Annotate: all moves, variations, short annotations, add score | NAGs and comments unchanged |
 | 10 | Annotate: blunders only | a `D` NAG at each blunder, `T` flag and `****D<n>` for tactical marking |
 | 11 | Annotate with `UseBook` and a `.bin` book | last-book-move / out-of-book comments written |

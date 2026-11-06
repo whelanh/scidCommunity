@@ -242,14 +242,9 @@ proc ::tree::toggleTraining { baseNumber } {
 ################################################################################
 proc ::tree::doTraining { { n 0 } } {
   global tree
-  if {$n != 1  &&  [winfo exists .analysisWin1]  &&  $::analysis(automove1)} {
-    automove 1
-    return 1
-  }
-  if {$n != 2  &&  [winfo exists .analysisWin2]  &&  $::analysis(automove2)} {
-    automove 2
-    return 1
-  }
+  # The reply is the tree's own: the move frequencies decide it. The old
+  # Analysis Engine automove override was removed so training no longer
+  # depends on that window.
   if {! [winfo exists .treeWin$::tree::trainingBase]} { return 1 }
   if { $::tree::trainingBase == 0 } { return 1 }
 
