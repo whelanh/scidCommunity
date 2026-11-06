@@ -2030,6 +2030,13 @@ checkEq "a play search uses the dialog limits, not the analysis toolbar" \
 set ::enginewin::playOn(1) 0
 checkEq "and the toolbar limits return when play is off" \
     [::enginewin::playSearchLimits 1] {depth 66 movetime 310000}
+set ::enginewin::playOn(1) 1
+set ::enginewin::playLimits(1) [dict create time 4000 depth 0]
+checkEq "a zero depth is no depth limit, not go depth 0" \
+    [::enginewin::playSearchLimits 1] {depth {} movetime 4000}
+set ::enginewin::playLimits(1) [dict create time 0 depth 1]
+checkEq "a zero time is no movetime limit, not go movetime 0" \
+    [::enginewin::playSearchLimits 1] {depth 1 movetime {}}
 check "the time limit can fire first" \
     [::enginewin::playLimitReached 5000 20 5 5000]
 check "the depth limit can fire first" \

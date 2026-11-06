@@ -135,6 +135,10 @@ proc ::enginewin::playSearchLimits {id} {
         catch { set depth [dict get $::enginewin::playLimits($id) depth] }
         catch { set movetime [dict get $::enginewin::playLimits($id) time] }
     }
+    # goLimits filters empty values, not zero: a zero here means "no limit" and
+    # must not become "go depth 0" or "go movetime 0".
+    if {[string is integer -strict $depth] && $depth == 0} { set depth "" }
+    if {[string is integer -strict $movetime] && $movetime == 0} { set movetime "" }
     return [list depth $depth movetime $movetime]
 }
 
@@ -247,6 +251,15 @@ proc ::enginewin::playToggle {id} {
         return
     }
     if {![::enginewin::playDialog $id]} { return }
+    if {![winfo exists .engineWin$id]} { return }
+    # One engine window owns the reader's turns. Starting a session here takes
+    # the turn from any other Play-from-here window, so two engines cannot
+    # mistake each other's moves for the reader's.
+    foreach other [array names ::enginewin::playOn] {
+        if {$other ne $id && $::enginewin::playOn($other)} {
+            ::enginewin::playStop $other
+        }
+    }
     # The Tree Window's training also answers the reader's move. Two automatic
     # replies would write two moves, so starting Play from here ends the
     # statistical trainer on the current base.
@@ -430,7 +443,7 @@ proc ::enginewin::playDone {id} {
 # the limit firing and this callback cancels it: the position no longer matches.
 proc ::enginewin::playFire {id} {
     if {![::enginewin::playActive $id]} { return }
-    if {[::enginewin::playTreeBusy]} {
+    if {[::enginewin::playTreeBusy] || [::enginewin::playBusy $id]} {
         ::enginewin::playStop $id
         return
     }
