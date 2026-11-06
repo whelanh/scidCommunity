@@ -368,18 +368,29 @@ proc ::appupdate::downloadAsync {url dest callback {label ""}} {
 }
 
 # The download client writes the file itself, so this only has to notice when
-# it exits (EOF) and hand off to the callback.
+# it exits (EOF), check its exit status, and hand off to the callback.
 proc ::appupdate::_downloadPoll {token} {
     variable dl_
     if {![info exists dl_($token)]} { return }
     lassign $dl_($token) fd callback dest label
     catch { read $fd }
     if {[eof $fd]} {
-        catch { close $fd }
+        # Closing a non-blocking pipe discards the child's exit status, so switch
+        # back to blocking first: close then errors when curl/wget exited
+        # non-zero (partial download, HTTP error, timeout). A truncated installer
+        # must never reach the callback.
+        catch { fconfigure $fd -blocking 1 }
+        set ok 0
+        if {![catch { close $fd }]} { set ok 1 }
         catch { after cancel $::appupdate::dlPoll_($token) }
         unset -nocomplain ::appupdate::dlPoll_($token)
         unset -nocomplain dl_($token)
-        {*}$callback $dest
+        if {$ok} {
+            {*}$callback $dest
+        } else {
+            catch { file delete -force $dest }
+            ::appupdate::downloadFailed
+        }
     }
 }
 
@@ -413,6 +424,16 @@ proc ::appupdate::cancelDownload {} {
     variable dl_
     foreach token [array names dl_] {
         lassign $dl_($token) fd callback dest label
+        # Kill the client before closing: curl writes to -o, not the pipe, so
+        # closing the read end does not stop it and close() would block the UI
+        # until --max-time. kill/taskkill ends it first, then close() returns.
+        set pid ""
+        catch { set pid [pid $fd] }
+        if {$pid ne ""} {
+            if {[catch { exec kill $pid }]} {
+                catch { exec taskkill.exe /PID $pid /T /F }
+            }
+        }
         catch { close $fd }
         catch { after cancel $::appupdate::dlPoll_($token) }
         catch { unset ::appupdate::dlPoll_($token) }
