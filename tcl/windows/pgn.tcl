@@ -554,6 +554,57 @@ proc ::pgn::getRepetitionCount {} {
   return $count
 }
 
+# The message shown for a repetition. The threefold text is the one the old
+# message box used, so the wording does not change with the presentation.
+proc ::pgn::repetitionMessage {count} {
+  if {$count >= 3} { return [tr RepetitionThreefold] }
+  return [tr RepetitionTwice]
+}
+
+# Show a repetition alert without stopping the reader. The notice is placed
+# inside the notation or main window, so the window manager never positions it
+# and it cannot steal focus; it disappears after four seconds, and a click on it
+# dismisses it sooner. A second notice replaces the first.
+proc ::pgn::showRepetitionNotice {msg} {
+  ::pgn::hideRepetitionNotice
+
+  # Over the notation window when it is open (that is where the reader is
+  # looking), otherwise over the main window.
+  set parent .
+  if {[winfo exists .pgnWin] && [winfo ismapped .pgnWin]} { set parent .pgnWin }
+
+  if {$parent eq "."} {
+    set w .repetitionNotice
+  } else {
+    set w $parent.repetitionNotice
+  }
+  ttk::frame $w -padding {14 9} -relief solid -borderwidth 1
+  ttk::label $w.msg -text $msg \
+      -wraplength [expr {max(180, [winfo width $parent] - 80)}]
+  pack $w.msg -side top -anchor w
+  place $w -relx 0.5 -rely 1.0 -anchor s -y -40
+  raise $w
+  # The label covers the frame, so both need the dismiss binding.
+  foreach widget [list $w $w.msg] {
+    bind $widget <Button-1> [list ::pgn::hideRepetitionNotice]
+    $widget configure -cursor hand2
+  }
+
+  set ::pgn::repNoticeWidget $w
+  set ::pgn::repNoticeAfter [after 4000 ::pgn::hideRepetitionNotice]
+}
+
+proc ::pgn::hideRepetitionNotice {} {
+  if {[info exists ::pgn::repNoticeAfter]} {
+    after cancel $::pgn::repNoticeAfter
+    unset ::pgn::repNoticeAfter
+  }
+  if {[info exists ::pgn::repNoticeWidget]} {
+    catch { destroy $::pgn::repNoticeWidget }
+    unset ::pgn::repNoticeWidget
+  }
+}
+
 proc ::pgn::CheckRepetition {} {
   if {([info exists ::finishGameMode] && $::finishGameMode) || \
       ([info exists ::autoplayMode] && $::autoplayMode) || \
@@ -562,12 +613,21 @@ proc ::pgn::CheckRepetition {} {
   }
 
   set count [::pgn::getRepetitionCount]
-  
-  if {$count == 2} {
-    tk_messageBox -message "2-fold repetition             " -title "Repetition Detection" -icon info -parent .
-  } elseif {$count >= 3} {
-    tk_messageBox -message "Draw - 3 Fold Repetition      " \
-        -title "Repetition Detection" -icon info -parent .
+
+  if {$count >= 2} {
+    set msg [::pgn::repetitionMessage $count]
+    if {![info exists ::pgn::repetitionAlert]} {
+      set ::pgn::repetitionAlert banner
+    }
+    switch -- $::pgn::repetitionAlert {
+      off { }
+      dialog {
+        tk_messageBox -message $msg -title "Repetition Detection" -icon info -parent .
+      }
+      default {
+        ::pgn::showRepetitionNotice $msg
+      }
+    }
   }
   return $count
 }

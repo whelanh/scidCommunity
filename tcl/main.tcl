@@ -245,6 +245,14 @@ proc updateStatusBar {} {
       if {$::gamePlayers(movetime) ne ""} {
         lappend statusBar "    \u23F1 $::gamePlayers(movetime)" header
       }
+      # Keep the repetition visible after the notice has faded. This uses the
+      # same count CheckRepetition uses; turning the alert off hides it too.
+      if {![info exists ::pgn::repetitionAlert] || $::pgn::repetitionAlert ne "off"} {
+        set repCount [::pgn::getRepetitionCount]
+        if {$repCount >= 2} {
+          lappend statusBar "    [::pgn::repetitionMessage $repCount]" header
+        }
+      }
       ::board::setInfo .main.board $statusBar
     } else {
       set msg "[sc_game info date] - [sc_game info event]"

@@ -282,6 +282,10 @@ set ::pgn::columnFormat 0
 set ::pgn::stripMarks 0
 set ::pgn::showPhoto 1
 set ::pgn::figurine 0
+# How a repetition is announced in the PGN window: "off", "banner" (a
+# non-blocking notice that fades by itself) or "dialog" (the modal message
+# box). Only the presentation changes; threefold detection still ends games.
+set ::pgn::repetitionAlert banner
 set pgnColor(Var) ""
 set pgnColor(Nag) {#cf6403}
 set pgnColor(Comment) {#008b00}
@@ -700,6 +704,7 @@ proc options.write {} {
           ::pgn::indentVars ::pgn::indentComments ::pgn::showPhoto \
           ::pgn::shortHeader ::pgn::boldMainLine ::pgn::stripMarks ::pgn::figurine \
           ::pgn::symbolicNags ::pgn::moveNumberSpaces ::pgn::columnFormat \
+          ::pgn::repetitionAlert \
           tree(order) tree(moveDepth) optionsAutoSave ::tree::mask::recentMask \
           ecoFile suggestMoves showVarPopup showVarArrows showEngineVariationArrows \
           enginePvDisplayLength \

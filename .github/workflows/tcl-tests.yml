@@ -42,6 +42,11 @@ jobs:
       - name: Move labels
         run: tclsh tests/tcl/move_labels.tcl
 
+      # Repetition presentation: off/banner/dialog must not change the count,
+      # and the Finish Game and autoplay passes must stay silent.
+      - name: Repetition alert
+        run: tclsh tests/tcl/repetition_alert.tcl
+
       - name: Score seed
         run: tclsh tests/tcl/score_seed.tcl
 
@@ -166,6 +171,11 @@ jobs:
       - name: Comment default colour
         run: xvfb-run -a wish tests/tcl/comment_default_color_tk.tcl
 
+      # The repetition banner must not grab or take focus, and a second one
+      # replaces the first rather than stacking.
+      - name: Repetition notice
+        run: xvfb-run -a wish tests/tcl/repetition_notice_tk.tcl
+
       - name: Finish Game dialog
         run: xvfb-run -a wish tests/tcl/finish_game_dialog.tcl
 
@@ -219,3 +229,8 @@ jobs:
       # comment text, not the comment editor's colour markup.
       - name: Game Info comment markup
         run: xvfb-run -a "$PWD/AppDir/usr/bin/scidCommunity" tests/tcl/game_info_comment.tcl
+
+      # The binary's own repetition counter driving each presentation: the
+      # count that ends a finished game must be the count the notice uses.
+      - name: Repetition detection and notice
+        run: xvfb-run -a "$PWD/AppDir/usr/bin/scidCommunity" tests/tcl/repetition_integration.tcl
