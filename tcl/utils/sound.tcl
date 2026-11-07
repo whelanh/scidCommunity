@@ -293,6 +293,53 @@ proc ::utils::sound::PlaySound {sound} {
   after idle ::utils::sound::CheckSoundQueue
 }
 
+# ::utils::sound::WavDurationMs
+#   Returns the duration of a PCM .wav file in milliseconds by walking its RIFF
+#   chunks. The Snack backend already knows when a sound ends (its -command
+#   callback), but the external players (aplay/paplay/afplay/powershell) are
+#   started in the background and need this so the next sound can be queued at
+#   the right time instead of after a fixed guess (which made longer spoken
+#   words overlap). Falls back to a conservative default if the header can't
+#   be parsed.
+proc ::utils::sound::WavDurationMs {f} {
+  set default 450
+  if {[catch {set fp [open $f rb]} e]} { return $default }
+  set result $default
+  if {![catch {
+    if {[read $fp 4] ne "RIFF"} { error "not a RIFF file" }
+    read $fp 4 ; # RIFF chunk size (unused)
+    if {[read $fp 4] ne "WAVE"} { error "not a WAVE file" }
+    set byteRate 0
+    while {![eof $fp]} {
+      set id [read $fp 4]
+      if {[string length $id] < 4} { break }
+      if {[catch {binary scan [read $fp 4] i size} e]} { break }
+      if {$size < 0} { break }
+      if {$id eq "fmt "} {
+        # fmt chunk: byte rate is at offset 8 (after format, channels, rate)
+        set fmt [read $fp $size]
+        if {[string length $fmt] >= 12} {
+          binary scan [string range $fmt 8 11] i byteRate
+        }
+      } elseif {$id eq "data"} {
+        if {$byteRate > 0} {
+          set result [expr {int(round($size * 1000.0 / $byteRate))}]
+        }
+        break
+      } else {
+        # Skip an unknown chunk (e.g. LIST); pad to an even size.
+        set skip $size
+        if {$size % 2 == 1} { incr skip }
+        seek $fp $skip current
+      }
+    }
+  } err]} {
+    # Keep the default on any parse failure.
+  }
+  close $fp
+  return $result
+}
+
 proc ::utils::sound::CheckSoundQueue {} {
   variable soundQueue
   variable isPlayingSound
@@ -331,12 +378,12 @@ proc ::utils::sound::CheckSoundQueue {} {
       after idle ::utils::sound::CheckSoundQueue
       return
     }
-    # PowerShell cold-start is slow (~400-600ms); delay accounts for startup + short sound
-    after 600 ::utils::sound::SoundFinished
+    # PowerShell cold-start is slow (~400-600ms); the delay covers that startup
+    # plus the sound's actual length, so the next sound isn't started too early.
+    after [expr {[::utils::sound::WavDurationMs $f] + 450}] ::utils::sound::SoundFinished
   } elseif {$backend == "afplay"} {
     catch { exec afplay $f & }
-    # Increase delay to account for sound length
-    after 450 ::utils::sound::SoundFinished
+    after [::utils::sound::WavDurationMs $f] ::utils::sound::SoundFinished
   } else {
     # Linux players: aplay, paplay, etc.
     # In Snap, run synchronously so we can capture errors from the live app (interfaces active).
@@ -352,7 +399,7 @@ proc ::utils::sound::CheckSoundQueue {} {
       if {[catch { exec $backend $f & } err]} {
         puts stderr "scidCommunity sound error ($backend): $err"
       }
-      after 450 ::utils::sound::SoundFinished
+      after [::utils::sound::WavDurationMs $f] ::utils::sound::SoundFinished
     }
   }
 }
