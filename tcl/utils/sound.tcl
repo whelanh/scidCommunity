@@ -405,6 +405,10 @@ proc ::utils::sound::OnThemeSelected { w } {
   } else {
     set themes [::utils::sound::ListThemes]
     ::utils::sound::ApplyTheme [lindex $themes [expr {$idx - 1}]]
+    # A Lichess-style theme is event-based, so enable "Move sound only"
+    # automatically. The user can still untick it afterwards.
+    set ::utils::sound::moveSoundOnly 1
+    ::utils::sound::UpdateOptions mso
   }
 }
 

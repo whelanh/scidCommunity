@@ -25,10 +25,14 @@ Bundled themes
 --------------
 
 The bundled themes are the Lichess sound sets, converted from the open-source
-lichess-org/lila repository (https://github.com/lichess-org/lila,
-AGPL-3.0), specifically public/sound/<theme>/:
+lichess-org/lila repository (https://github.com/lichess-org/lila), specifically
+public/sound/<theme>/:
 
     standard  piano  nes  sfx  futuristic  lisp  woodland  robot
+
+See the file "copyright" in this directory for the full attribution and the
+licence that governs these files (GNU AGPL v3, with the full text in
+LICENSE-AGPLv3.txt).
 
 Mapping from Lichess event names to scidCommunity names:
 

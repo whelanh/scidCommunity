@@ -1,0 +1,30 @@
+Lichess sound themes
+====================
+
+  Author  : the lila authors (lichess-org/lila)
+  Source  : https://github.com/lichess-org/lila/tree/master/public/sound
+  License : GNU Affero General Public License v3 (or later)
+            https://www.gnu.org/licenses/agpl-3.0.html
+
+Obtained from the Lichess source repository (lichess-org/lila), where the
+sound files are distributed under the GNU AGPL v3 (see lila's COPYING.md,
+which lists the files covered by other licences; public/sound is not among
+them, so the default AGPL applies).
+
+The original .ogg/.mp3 files were converted to mono PCM .wav (22050 Hz) and
+renamed to scidCommunity's move-sound names:
+
+    Move       -> move, move_normal, move_castling, move_promotion
+    Capture    -> move_capture
+    Check      -> move_check, Check
+    Checkmate  -> Mate
+
+These .wav files are a derivative work of the AGPL-3.0-licensed originals and
+therefore remain under the AGPL v3. A copy of that licence is provided in
+LICENSE-AGPLv3.txt in this directory.
+
+scidCommunity's own code is GPL version 2 or (at your option) any later
+version (see the COPYING file at the top of the tree). The files under
+sounds/themes/ are governed by the AGPL v3; the two licences are compatible
+for redistribution (AGPL v3 section 13 permits combining AGPL works with
+GPL v3 works, and GPL-2.0-or-later may be used as GPL v3).
