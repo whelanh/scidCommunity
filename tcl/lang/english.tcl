@@ -327,6 +327,12 @@ menuText E OptionsMovesCoord "Coordinate Move Entry" 0 \
 menuText E OptionsMovesSuggest "Show Suggested Move Squares" 0 \
    {Turn on/off highlighted squares when hovering over a piece}
 menuText E OptionsShowVarPopup "Show variations window" 0 {Turn on/off the display of a variations window}
+menuText E OptionsRepetitionAlert "Repetition alerts" 0 {How to announce a repeated position}
+menuText E OptionsRepetitionOff "Off" 0 {Do not announce repetitions}
+menuText E OptionsRepetitionBanner "Banner" 0 {Show a non-blocking banner that fades by itself}
+menuText E OptionsRepetitionDialog "Pop-up dialog" 0 {Show a modal dialog that must be dismissed}
+translate E RepetitionTwice {2-fold repetition}
+translate E RepetitionThreefold {Draw - 3 Fold Repetition}
 menuText E OptionsMovesSpace "Add spaces after move number" 0 {Add spaces after move number}
 menuText E OptionsMovesLichess "Lichess/ChessBase Format For Annotations" 0 {Use Lichess/ChessBase format for square markers and arrows}
 menuText E OptionsMovesKey "Keyboard Completion" 0 \

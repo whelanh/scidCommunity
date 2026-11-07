@@ -45,6 +45,18 @@ proc ::preferences::moves { t } {
     ttk::checkbutton $t.omk -variable  moveEntry(AutoExpand) -text [tr OptionsMovesKey]
     ttk::checkbutton $t.oms -variable  suggestMoves -text [tr OptionsMovesSuggest]
     ttk::checkbutton $t.osv -variable  showVarPopup -text [tr OptionsShowVarPopup]
+    ttk::frame $t.rep
+    ttk::label $t.rep.l -text "[tr OptionsRepetitionAlert]:"
+    ttk::frame $t.rep.choices
+    ttk::radiobutton $t.rep.choices.off -variable ::pgn::repetitionAlert -value off \
+        -text [tr OptionsRepetitionOff] \
+        -command {::pgn::hideRepetitionNotice; updateStatusBar}
+    ttk::radiobutton $t.rep.choices.banner -variable ::pgn::repetitionAlert -value banner \
+        -text [tr OptionsRepetitionBanner] \
+        -command {::pgn::hideRepetitionNotice; updateStatusBar}
+    ttk::radiobutton $t.rep.choices.dialog -variable ::pgn::repetitionAlert -value dialog \
+        -text [tr OptionsRepetitionDialog] \
+        -command {::pgn::hideRepetitionNotice; updateStatusBar}
     ttk::checkbutton $t.osp -variable ::pgn::moveNumberSpaces -text [tr OptionsMovesSpace]
     ttk::checkbutton $t.lichess -variable ::lichessFormat -text [tr OptionsMovesLichess]
     ttk::checkbutton $t.god -variable glossOfDanger -text [tr OptionsMovesGlossOfDanger] -command updateBoard
@@ -82,7 +94,11 @@ proc ::preferences::moves { t } {
     ttk::checkbutton $t.vararrows.sva -variable showVarArrows -text [tr OptionsMovesShowVarArrows] -command updateBoard
     ttk::checkbutton $t.vararrows.eva -variable showEngineVariationArrows -text [tr OptionsMovesShowEngineVariationArrows] -command updateBoard
     pack $t.ani.al $t.ani.animate $t.ani.ms -side left -anchor w -padx "0 5"
-    pack $t.ani $t.omc $t.omk $t.oms $t.osv $t.osp $t.auto $t.lichess $t.god $t.tree -side top -anchor w
+    pack $t.rep.l -side top -anchor w
+    pack $t.rep.choices.off $t.rep.choices.banner $t.rep.choices.dialog \
+        -side left -anchor w -padx "0 10"
+    pack $t.rep.choices -side top -anchor w -padx "15 0"
+    pack $t.ani $t.omc $t.omk $t.oms $t.osv $t.rep $t.osp $t.auto $t.lichess $t.god $t.tree -side top -anchor w
     pack $t.auto.label $t.auto.spDelay -side left -padx "0 10" -anchor w
     pack $t.high -side top -anchor w -fill x -pady "5 0"
     pack $t.high.lbl -side top -anchor w
