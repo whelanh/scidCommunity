@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+ <release version="5.1.4.57" date="2026-11-07">
+      <description>
+        <p>Fixes: color display; repetition notifications; Windows downloader</p>
+      </description>
+    </release>
  <release version="5.1.4.56" date="2026-11-06">
       <description>
         <p>Play-from-here button in Engine Window; engine noted in comments/PGN header</p>
