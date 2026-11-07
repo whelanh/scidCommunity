@@ -38,6 +38,11 @@ Lichess sound sets, converted from the open-source lichess-org/lila repository
 
     wood
 
+"steel", steel-drum jingles built from Kenney's "Music Jingles" pack
+(https://kenney.nl/assets/music-jingles), CC0 public domain:
+
+    steel
+
 Mapping from Lichess event names to scidCommunity names:
 
     Move       -> move, move_normal, move_castling, move_promotion
