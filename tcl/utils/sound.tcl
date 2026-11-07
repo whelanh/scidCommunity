@@ -19,11 +19,16 @@ set ::utils::sound::soundFiles [list \
     a b c d e f g h x 1 2 3 4 5 6 7 8 move alert \
     move_check move_castling move_capture move_promotion move_normal]
 
+# themeSoundNames: the only sound names a theme may override. These are the
+# move/event sounds; everything else (the spoken piece, file, rank and other
+# announcement tokens) always comes from the base sound folder, so a custom
+# theme can't accidentally replace a spoken token such as "a" or "King".
+set ::utils::sound::themeSoundNames [list \
+    move move_normal move_capture move_castling move_check move_promotion \
+    Check Mate]
+
 # soundTheme: an optional sound theme (a subdirectory name under themesDir).
-# An empty value means "use only the base sound folder". A theme overrides the
-# move/event sounds (move, move_capture, move_castling, move_check,
-# move_promotion, Check, Mate, ...) while the base folder keeps supplying the
-# spoken piece/file/rank announcement sounds.
+# An empty value means "use only the base sound folder".
 if {![info exists ::utils::sound::soundTheme]} { set ::utils::sound::soundTheme "" }
 set ::utils::sound::themesDir [file nativename [file join $::scidShareDir sounds themes]]
 
@@ -154,7 +159,8 @@ proc ::utils::sound::SoundFile {name} {
   variable soundFolder
   variable soundTheme
   variable themesDir
-  if {$soundTheme ne ""} {
+  variable themeSoundNames
+  if {$soundTheme ne "" && $name in $themeSoundNames} {
     set themed [file join $themesDir $soundTheme "$name.wav"]
     if {[file readable $themed]} {
       return $themed
