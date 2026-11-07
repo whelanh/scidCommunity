@@ -1,0 +1,21 @@
+Lichess "sfx" sound theme
+=============================
+
+  Author  : the lila authors (lichess-org/lila)
+  Source  : https://github.com/lichess-org/lila/tree/master/public/sound/sfx
+  License : GNU Affero General Public License v3 (or later)
+            https://www.gnu.org/licenses/agpl-3.0.html
+
+Obtained from the Lichess source repository (lichess-org/lila) and converted
+from the original .ogg/.mp3 files to mono PCM .wav (22050 Hz), renamed to
+scidCommunity's move-sound names:
+
+    Move       -> move, move_normal, move_castling, move_promotion
+    Capture    -> move_capture
+    Check      -> move_check, Check
+    Checkmate  -> Mate
+
+The original files are distributed under the GNU AGPL v3 (see lila's
+COPYING.md, where public/sound is not listed among the files under other
+licences). These converted .wav files are a derivative work and remain under
+the AGPL v3. A copy of that licence is in ../LICENSE-AGPLv3.txt.

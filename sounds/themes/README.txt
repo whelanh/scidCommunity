@@ -30,9 +30,9 @@ public/sound/<theme>/:
 
     standard  piano  nes  sfx  futuristic  lisp  woodland  robot
 
-See the file "copyright" in this directory for the full attribution and the
-licence that governs these files (GNU AGPL v3, with the full text in
-LICENSE-AGPLv3.txt).
+Each theme directory contains a "copyright" file with its attribution and the
+licence that governs its files (GNU AGPL v3 for the bundled Lichess themes,
+with the full text in LICENSE-AGPLv3.txt).
 
 Mapping from Lichess event names to scidCommunity names:
 
