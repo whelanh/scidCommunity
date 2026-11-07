@@ -287,6 +287,12 @@ menuText b OptionsMovesCoord "স্থানাঙ্ক সরানো এন
 menuText b OptionsMovesSuggest "প্রস্তাবিত পদক্ষেপগুলি দেখান৷" 0 \
   {সরানোর পরামর্শ চালু/বন্ধ করুন}
 menuText b OptionsShowVarPopup "বৈচিত্র্যের উইন্ডো দেখান" 0 {একটি ভিন্নতা উইন্ডোর প্রদর্শন চালু/বন্ধ করুন}
+menuText b OptionsRepetitionAlert "পুনরাবৃত্তি সতর্কতা" 0 {কিভাবে একটি বারবার অবস্থান ঘোষণা}
+menuText b OptionsRepetitionOff "বন্ধ" 0 {পুনরাবৃত্তি ঘোষণা করবেন না}
+menuText b OptionsRepetitionBanner "ব্যানার" 0 {একটি নন-ব্লকিং ব্যানার দেখান যা নিজে থেকেই বিবর্ণ হয়ে যায়}
+menuText b OptionsRepetitionDialog "পপ-আপ ডায়ালগ" 0 {একটি মডেল ডায়ালগ দেখান যা অবশ্যই খারিজ করতে হবে}
+translate b RepetitionTwice {2-গুণ পুনরাবৃত্তি}
+translate b RepetitionThreefold {আঁকা - 3 ভাঁজ পুনরাবৃত্তি}
 menuText b OptionsMovesSpace "স্থানান্তর নম্বরের পরে স্পেস যোগ করুন" 0 {স্থানান্তর নম্বরের পরে স্পেস যোগ করুন}
 menuText b OptionsMovesLichess "টীকাগুলির জন্য লিচেস/চেসবেস বিন্যাস" 0 {বর্গাকার মার্কার এবং তীরগুলির জন্য Lichess/ChessBase বিন্যাস ব্যবহার করুন}
 menuText b OptionsMovesKey "কীবোর্ড সমাপ্তি" 0 \

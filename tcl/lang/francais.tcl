@@ -301,6 +301,12 @@ menuText F OptionsMovesCoord "Saisie de coordonnées" 0 \
 menuText F OptionsMovesSuggest "Montrer les coups suggérés" 0 \
   {Activer/Désactiver le mode de suggestion de coup}
 menuText F OptionsShowVarPopup "Montrer fenêtre des variantes" 1 {Affichage automatique le sélecteur de variantes}
+menuText F OptionsRepetitionAlert "Alertes de répétition" 0 {Comment annoncer un poste répété}
+menuText F OptionsRepetitionOff "Désactivé" 0 {N'annoncez pas les répétitions}
+menuText F OptionsRepetitionBanner "Bannière" 0 {Afficher une bannière non bloquante qui s'efface d'elle-même}
+menuText F OptionsRepetitionDialog "Boîte de dialogue contextuelle" 0 {Afficher une boîte de dialogue modale qui doit être fermée}
+translate F RepetitionTwice {répétition 2 fois}
+translate F RepetitionThreefold {Dessiner - Répétition 3 fois}
 menuText F OptionsMovesSpace "Ajouter un espace après le n° du coup" 1 {Ajouter un espace après le numéro du coup}
 menuText F OptionsMovesLichess "Format Lichess/ChessBase pour les annotations" 0 {Utiliser le format Lichess/ChessBase pour les marqueurs et flèches}
 menuText F OptionsMovesKey "Auto-complétion clavier" 1 \

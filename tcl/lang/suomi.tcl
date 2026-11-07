@@ -326,6 +326,12 @@ menuText U OptionsMovesCoord "Siirrot koordinaatteina" 0 \
 menuText U OptionsMovesSuggest "Näytä suositetut siirrot" 0 \
   {Siirtosuositukset päälle/päältä}
 menuText U OptionsShowVarPopup "Näytä muunnelmaikkuna" 0 {Näytä/sulje muunnelmaikkuna}  
+menuText U OptionsRepetitionAlert "Toistohälytykset" 0 {Kuinka ilmoittaa toistuva asema}
+menuText U OptionsRepetitionOff "Pois" 0 {Älä ilmoita toistoista}
+menuText U OptionsRepetitionBanner "Banneri" 0 {Näytä estämätön banneri, joka haalistuu itsestään}
+menuText U OptionsRepetitionDialog "Ponnahdusikkuna" 0 {Näytä modaalinen valintaikkuna, joka on hylättävä}
+translate U RepetitionTwice {2-kertainen toisto}
+translate U RepetitionThreefold {Piirrä - 3-kertainen toisto}
 menuText U OptionsMovesSpace "Välilyönti siirtoihin" 0 {Lisää välilyönti siirron numeron perään}  
 menuText U OptionsMovesLichess "Lichess/ChessBase-muoto huomautuksia varten" 0 {Käytä Lichess/ChessBase-muotoa neliömerkit ja nuolet}
 menuText U OptionsMovesKey "Automaattinen täydennys" 0 \

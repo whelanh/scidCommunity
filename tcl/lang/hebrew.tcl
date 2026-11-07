@@ -288,6 +288,12 @@ menuText V OptionsMovesCoord "תיאום הזזת כניסה" 0 \
 menuText V OptionsMovesSuggest "הצג מהלכים מוצעים" 0 \
   {הפעלה/כיבוי של הצעת תנועה}
 menuText V OptionsShowVarPopup "הצג חלון וריאציות" 0 {הפעל/כבה את התצוגה של חלון וריאציות}
+menuText V OptionsRepetitionAlert "התראות חוזרות" 0 {כיצד להכריז על עמדה חוזרת}
+menuText V OptionsRepetitionOff "כבוי" 0 {אל תכריז על חזרות}
+menuText V OptionsRepetitionBanner "דֶגֶל" 0 {הצג באנר לא חוסם שנמוג מעצמו}
+menuText V OptionsRepetitionDialog "דו-שיח מוקפץ" 0 {הצג תיבת דו-שיח מודאלית שיש לסגור}
+translate V RepetitionTwice {חזרה פי 2}
+translate V RepetitionThreefold {צייר - חזרה 3 קיפולים}
 menuText V OptionsMovesSpace "הוסף רווחים לאחר מספר המהלך" 0 {הוסף רווחים לאחר מספר המהלך}
 menuText V OptionsMovesLichess "פורמט Lichess/ChessBase להערות" 0 {השתמש בפורמט Lichess/ChessBase עבור סמנים וחצים מרובעים}
 menuText V OptionsMovesKey "השלמת מקלדת" 0 \

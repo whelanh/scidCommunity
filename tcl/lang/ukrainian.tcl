@@ -288,6 +288,12 @@ menuText Q OptionsMovesCoord "Запис переміщення координа
 menuText Q OptionsMovesSuggest "Показати запропоновані рухи" 0 \
   {Увімкнути/вимкнути пропозицію переміщення}
 menuText Q OptionsShowVarPopup "Показати вікно варіантів" 0 {Увімкнення/вимкнення відображення вікна варіацій}
+menuText Q OptionsRepetitionAlert "Сповіщення про повторення" 0 {Як оголосити повторну позицію}
+menuText Q OptionsRepetitionOff "Вимкнено" 0 {Не оголошуйте повторів}
+menuText Q OptionsRepetitionBanner "банер" 0 {Показати неблокуючий банер, який зникає сам по собі}
+menuText Q OptionsRepetitionDialog "Спливаюче діалогове вікно" 0 {Показати модальне діалогове вікно, яке потрібно закрити}
+translate Q RepetitionTwice {2-кратне повторення}
+translate Q RepetitionThreefold {Жеребкування - 3-кратне повторення}
 menuText Q OptionsMovesSpace "Додайте пробіли після номера ходу" 0 {Додайте пробіли після номера ходу}
 menuText Q OptionsMovesLichess "Формат Lichess/ChessBase для анотацій" 0 {Використовуйте формат Lichess/ChessBase для квадратних маркерів і стрілок}
 menuText Q OptionsMovesKey "Завершення клавіатури" 0 \

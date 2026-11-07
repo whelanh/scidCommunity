@@ -328,6 +328,12 @@ menuText g OptionsMovesCoord "Въвеждане на координатно п�
 menuText g OptionsMovesSuggest "Показване на предложените ходове" 0 \
   {Включване/изключване на предложение за движение}
 menuText g OptionsShowVarPopup "Показване на прозореца с варианти" 0 {Включете/изключете показването на прозорец с вариации}
+menuText g OptionsRepetitionAlert "Сигнали за повторение" 0 {Как да обявим повторна позиция}
+menuText g OptionsRepetitionOff "Изкл" 0 {Не обявявайте повторения}
+menuText g OptionsRepetitionBanner "Банер" 0 {Показване на неблокиращ банер, който избледнява сам}
+menuText g OptionsRepetitionDialog "Изскачащ диалогов прозорец" 0 {Показване на модален диалогов прозорец, който трябва да бъде отхвърлен}
+translate g RepetitionTwice {2-кратно повторение}
+translate g RepetitionThreefold {Теглене - 3-кратно повторение}
 menuText g OptionsMovesSpace "Добавете интервали след номера на хода" 0 {Добавете интервали след номера на хода}
 menuText g OptionsMovesLichess "Lichess/ChessBase формат за анотации" 0 {Използвайте формат Lichess/ChessBase за квадратни маркери и стрелки}
 menuText g OptionsMovesKey "Завършване на клавиатурата" 0 \

@@ -306,6 +306,12 @@ menuText K OptionsMovesCoord "Entrada de jugades per coordenades" 0 \
 menuText K OptionsMovesSuggest "Mostrar suggeriments" 20 \
   {Activa/desactiva el suggeriment de jugades}
 menuText K OptionsShowVarPopup "Mostrar finestra de variants" 0 {Activar/Desactivar la finestra de variants}
+menuText K OptionsRepetitionAlert "Alertes de repetició" 0 {Com anunciar una posició repetida}
+menuText K OptionsRepetitionOff "Apagat" 0 {No anuncieu repeticions}
+menuText K OptionsRepetitionBanner "Bandera" 0 {Mostra un bàner sense bloqueig que s'esvaeix per si sol}
+menuText K OptionsRepetitionDialog "Diàleg emergent" 0 {Mostra un diàleg modal que s'ha de descartar}
+translate K RepetitionTwice {Repetició doble}
+translate K RepetitionThreefold {Sorteig - Repetició de 3 plecs}
 menuText K OptionsMovesSpace "Afegir espai després del número de jugada" 0 {Afegir espai després del número de jugada}  
 menuText K OptionsMovesLichess "Format Lichess/ChessBase per a anotacions" 0 {Utilitzeu el format Lichess/ChessBase per als marcadors quadrats i les fletxes}
 menuText K OptionsMovesKey "Teclat Intel·ligent" 0 \

@@ -328,6 +328,12 @@ menuText J OptionsMovesCoord "Унос померања координата" 0 
 menuText J OptionsMovesSuggest "Прикажи предложене потезе" 0 \
   {Укључите/искључите предлог за кретање}
 menuText J OptionsShowVarPopup "Прикажи прозор варијација" 0 {Укључите/искључите приказ прозора варијација}
+menuText J OptionsRepetitionAlert "Упозорења о понављању" 0 {Како објавити поновљени став}
+menuText J OptionsRepetitionOff "Офф" 0 {Не најављујте понављања}
+menuText J OptionsRepetitionBanner "Банер" 0 {Прикажите неблокирајући банер који бледи сам}
+menuText J OptionsRepetitionDialog "Искачући дијалог" 0 {Прикажи модални дијалог који се мора одбацити}
+translate J RepetitionTwice {2 пута понављање}
+translate J RepetitionThreefold {Извлачење - 3 пута понављање}
 menuText J OptionsMovesSpace "Додајте размаке после броја потеза" 0 {Додајте размаке после броја потеза}
 menuText J OptionsMovesLichess "Лицхесс/ЦхессБасе формат за напомене" 0 {Користите Лицхесс/ЦхессБасе формат за квадратне маркере и стрелице}
 menuText J OptionsMovesKey "Завршетак тастатуре" 0 \

@@ -287,6 +287,12 @@ menuText Z OptionsMovesCoord "Kuratibu Ingizo la Kusogeza" 0 \
 menuText Z OptionsMovesSuggest "Onyesha Hatua Zilizopendekezwa" 0 \
   {Washa/zima pendekezo la kusogeza}
 menuText Z OptionsShowVarPopup "Onyesha tofauti dirisha" 0 {Washa/zima onyesho la dirisha la mabadiliko}
+menuText Z OptionsRepetitionAlert "Arifa za marudio" 0 {Jinsi ya kutangaza msimamo unaorudiwa}
+menuText Z OptionsRepetitionOff "Imezimwa" 0 {Usitangaze marudio}
+menuText Z OptionsRepetitionBanner "Bango" 0 {Onyesha bango lisilozuia ambalo hufifia lenyewe}
+menuText Z OptionsRepetitionDialog "kidirisha ibukizi" 0 {Onyesha kidirisha cha modal ambacho lazima kiondolewe}
+translate Z RepetitionTwice {Kurudia mara 2}
+translate Z RepetitionThreefold {Chora - Mara 3 kurudia}
 menuText Z OptionsMovesSpace "Ongeza nafasi baada ya nambari ya kuhamisha" 0 {Ongeza nafasi baada ya nambari ya kuhamisha}
 menuText Z OptionsMovesLichess "Muundo wa Lichess/ChessBase kwa Maelezo" 0 {Tumia umbizo la Lichess/ChessBase kwa alama za mraba na mishale}
 menuText Z OptionsMovesKey "Kukamilika kwa Kibodi" 0 \

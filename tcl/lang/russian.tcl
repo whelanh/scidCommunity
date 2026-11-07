@@ -294,6 +294,12 @@ menuText R OptionsMovesCoord "Координаты ходов" 1 \
 menuText R OptionsMovesSuggest "Показать рекомендуемые ходы" 0 \
   {Включить/выключить советуемые ходы}
 menuText R OptionsShowVarPopup "Показать окно вариантов" 0 {Включает/выключает отображение окна вариантов}
+menuText R OptionsRepetitionAlert "Оповещения о повторении" 0 {Как объявить повторную позицию}
+menuText R OptionsRepetitionOff "Выключенный" 0 {Не объявляйте повторы}
+menuText R OptionsRepetitionBanner "Баннер" 0 {Покажите неблокирующий баннер, который исчезает сам по себе.}
+menuText R OptionsRepetitionDialog "Всплывающее диалоговое окно" 0 {Показать модальный диалог, который необходимо закрыть}
+translate R RepetitionTwice {2-кратное повторение}
+translate R RepetitionThreefold {Жеребьевка – 3-кратное повторение}
 menuText R OptionsMovesSpace "Добавлять пробелы после номера хода" 0 {Добавлять пробелы после номера хода}
 menuText R OptionsMovesLichess "Формат Lichess/ChessBase для аннотаций" 0 {Используйте форму Lichess/ChessBase для квадратных маркеров и стрел.}
 menuText R OptionsMovesKey "Клавиатурное завершение" 0 \

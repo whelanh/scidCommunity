@@ -319,6 +319,12 @@ menuText G OptionsMovesCoord "Εισαγωγή συντεταγμένης κίν
 menuText G OptionsMovesSuggest "Εμφάνιση προτεινόμενων κινήσεων" 0 \
   {Ενεργοποίηση/απενεργοποίηση προτεινόμενης κίνησης}
 menuText G OptionsShowVarPopup "Εμφάνιση παραθύρου βαριαντών" 0 {Ενεργοποίηση/απενεργοποίηση την εμφάνιση του παραθύρου βαριαντών}  
+menuText G OptionsRepetitionAlert "Ειδοποιήσεις επανάληψης" 0 {Πώς να ανακοινώσετε μια επαναλαμβανόμενη θέση}
+menuText G OptionsRepetitionOff "Μακριά από" 0 {Μην ανακοινώνετε επαναλήψεις}
+menuText G OptionsRepetitionBanner "Σημαία" 0 {Εμφάνιση ενός μη αποκλειστικού banner που ξεθωριάζει από μόνο του}
+menuText G OptionsRepetitionDialog "Αναδυόμενο παράθυρο διαλόγου" 0 {Εμφάνιση ενός τροπικού διαλόγου που πρέπει να παραβλεφθεί}
+translate G RepetitionTwice {2 φορές επανάληψη}
+translate G RepetitionThreefold {Σχέδιο - 3 φορές Επανάληψη}
 menuText G OptionsMovesSpace "Προσθήκη διαστημάτων μετά τον αριθμό της κίνησης" 0 {Προσθήκη διαστήματος μετά τον αριθμό της κίνησης}  
 menuText G OptionsMovesLichess "Μορφή Lichess/ChessBase για σχολιασμούς" 0 {Χρησιμοποιήστε τη μορφή Lichess/ChessBase για τετράγωνους δείκτες και βέλη}
 menuText G OptionsMovesKey "Ολοκλήρωση πληκτρολογίου" 0 \

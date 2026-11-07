@@ -293,6 +293,12 @@ menuText H OptionsMovesCoord "Lépés megadása koordinátákkal" 15 \
 menuText H OptionsMovesSuggest "Javaslat" 0 \
   {Be/kikapcsolja a lépésjavaslatot.}
 menuText H OptionsShowVarPopup "Változatok ablaka" 0 {Be- vagy kikapcsolja a változatokat megjelenítõ ablakot.}  
+menuText H OptionsRepetitionAlert "Ismétlési figyelmeztetések" 0 {Hogyan jelentsünk be ismételt pozíciót}
+menuText H OptionsRepetitionOff "Le" 0 {Ne jelentsen be ismétléseket}
+menuText H OptionsRepetitionBanner "Transzparens" 0 {Nem blokkoló szalaghirdetés megjelenítése, amely magától elhalványul}
+menuText H OptionsRepetitionDialog "Felugró párbeszédpanel" 0 {Mutasson egy modális párbeszédpanelt, amelyet el kell vetni}
+translate H RepetitionTwice {2-szeres ismétlés}
+translate H RepetitionThreefold {Döntetlen – 3-szoros ismétlés}
 menuText H OptionsMovesSpace "Szóközök a lépés sorszáma után" 0 {Szóközökkel egészíti ki a lépés sorszámát.}  
 menuText H OptionsMovesLichess "Lichess/ChessBase formátum megjegyzésekhez" 0 {Használja a Lichess/ChessBase formátumot négyzetes jelölõkhöz és nyilakhoz}
 menuText H OptionsMovesKey "Billentyû-kiegészítés" 0 \

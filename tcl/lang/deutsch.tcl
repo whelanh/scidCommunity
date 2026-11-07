@@ -319,6 +319,12 @@ menuText D OptionsMovesCoord "Tastatureingabe" 0 \
 menuText D OptionsMovesSuggest "Zugvorschlag zeigen" 0 \
   {Zugvorschlag ein-/ausschalten}
 menuText D OptionsShowVarPopup "Variantenfenster zeigen" 0 { Anzeige des Variantenauswahlfensters ein/ausschalten}  
+menuText D OptionsRepetitionAlert "Wiederholungswarnungen" 0 {So kündigen Sie eine wiederholte Position an}
+menuText D OptionsRepetitionOff "Aus" 0 {Kündigen Sie keine Wiederholungen an}
+menuText D OptionsRepetitionBanner "Banner" 0 {Zeigen Sie ein nicht blockierendes Banner an, das von selbst ausblendet}
+menuText D OptionsRepetitionDialog "Popup-Dialog" 0 {Zeigt einen modalen Dialog an, der geschlossen werden muss}
+translate D RepetitionTwice {2-fache Wiederholung}
+translate D RepetitionThreefold {Unentschieden – 3-fache Wiederholung}
 menuText D OptionsMovesSpace "Leerzeichen nach Zugnummer einfügen" 0 {Leerzeichen nach Zugnummer einfügen}  
 menuText D OptionsMovesLichess "Lichess/ChessBase-Format für Anmerkungen" 0 {Lichess/ChessBase-Format für Anmerkungen}
 menuText D OptionsMovesKey "Autom. Zugergänzung" 10 \

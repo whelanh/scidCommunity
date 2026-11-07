@@ -328,6 +328,12 @@ menuText L OptionsMovesCoord "Coordonate Mutare Intrare" 0 \
 menuText L OptionsMovesSuggest "Afișați mișcările sugerate" 0 \
   {Activați/dezactivați sugestia de mutare}
 menuText L OptionsShowVarPopup "Afișați fereastra de variante" 0 {Activați/dezactivați afișarea unei ferestre de variații}
+menuText L OptionsRepetitionAlert "Alerte de repetare" 0 {Cum se anunță o poziție repetată}
+menuText L OptionsRepetitionOff "Oprit" 0 {Nu anunța repetări}
+menuText L OptionsRepetitionBanner "Banner" 0 {Afișați un banner care nu blochează care se estompează de la sine}
+menuText L OptionsRepetitionDialog "Dialog pop-up" 0 {Afișează un dialog modal care trebuie respins}
+translate L RepetitionTwice {repetare de 2 ori}
+translate L RepetitionThreefold {Remiză - Repetiție de 3 ori}
 menuText L OptionsMovesSpace "Adăugați spații după numărul de mutare" 0 {Adăugați spații după numărul de mutare}
 menuText L OptionsMovesLichess "Format Lichess/ChessBase pentru adnotări" 0 {Utilizați formatul Lichess/ChessBase pentru marcajele pătrate și săgețile}
 menuText L OptionsMovesKey "Finalizarea tastaturii" 0 \

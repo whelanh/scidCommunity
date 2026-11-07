@@ -287,6 +287,12 @@ menuText h OptionsMovesCoord "समन्वय चाल प्रविष्
 menuText h OptionsMovesSuggest "सुझाई गई चालें दिखाएँ" 0 \
   {स्थानांतरण सुझाव चालू/बंद करें}
 menuText h OptionsShowVarPopup "विविधता विंडो दिखाएँ" 0 {विविधता विंडो का प्रदर्शन चालू/बंद करें}
+menuText h OptionsRepetitionAlert "दोहराव अलर्ट" 0 {बार-बार पद की घोषणा कैसे करें}
+menuText h OptionsRepetitionOff "बंद" 0 {दोहराव की घोषणा न करें}
+menuText h OptionsRepetitionBanner "बैनर" 0 {एक गैर-अवरोधक बैनर दिखाएँ जो अपने आप फीका पड़ जाए}
+menuText h OptionsRepetitionDialog "पॉप-अप संवाद" 0 {एक मॉडल संवाद दिखाएँ जिसे ख़ारिज किया जाना चाहिए}
+translate h RepetitionTwice {2 गुना पुनरावृत्ति}
+translate h RepetitionThreefold {ड्रा - 3 गुना दोहराव}
 menuText h OptionsMovesSpace "चाल संख्या के बाद रिक्त स्थान जोड़ें" 0 {चाल संख्या के बाद रिक्त स्थान जोड़ें}
 menuText h OptionsMovesLichess "एनोटेशन के लिए लाइकेस/चेसबेस प्रारूप" 0 {वर्गाकार मार्करों और तीरों के लिए लाइकेस/चेसबेस प्रारूप का उपयोग करें}
 menuText h OptionsMovesKey "कीबोर्ड समापन" 0 \

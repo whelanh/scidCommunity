@@ -289,6 +289,12 @@ menuText C OptionsMovesCoord "Souadnicov zadvn tah" 0 \
 menuText C OptionsMovesSuggest "Ukzat navrhovan tahy" 0 \
   {Zapnout/vypnout zobrazovn navrhovanch tah}
 menuText C OptionsShowVarPopup "Zobrazit okno variant" 0 {Zapnout/vypnout zobrazen okna variant}  
+menuText C OptionsRepetitionAlert "Upozornění na opakování" 0 {Jak oznámit opakovanou pozici}
+menuText C OptionsRepetitionOff "Vypnuto" 0 {Neoznamujte opakování}
+menuText C OptionsRepetitionBanner "Prapor" 0 {Ukažte neblokující banner, který sám zmizí}
+menuText C OptionsRepetitionDialog "Pop-up dialog" 0 {Zobrazit modální dialog, který je třeba zavřít}
+translate C RepetitionTwice {2-násobné opakování}
+translate C RepetitionThreefold {Draw - 3 Fold Opakování}
 menuText C OptionsMovesSpace "Pidat mezeru za slo tahu" 0 {Pidat mezeru za slo tahu}  
 menuText C OptionsMovesLichess "Formt Lichess/ChessBase pro poznmky" 0 {Pro tvercov znaky a ipky pouijte formt Lichess/ChessBase}
 menuText C OptionsMovesKey "Klvesnicov doplovn" 13 \

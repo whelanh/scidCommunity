@@ -315,6 +315,12 @@ menuText S OptionsMovesSuggest "Mostrar movimientos sugeridos" 20 \
   {Activa/desactiva la sugerencia de movimientos}
 menuText S OptionsShowVarPopup "Mostrar ventana de variaciones" 0 \
   {Activa/desactiva la ventana de variaciones}
+menuText S OptionsRepetitionAlert "Alertas de repetición" 0 {Cómo anunciar una posición repetida}
+menuText S OptionsRepetitionOff "Apagado" 0 {No anunciar repeticiones.}
+menuText S OptionsRepetitionBanner "Bandera" 0 {Mostrar un banner sin bloqueo que se desvanece solo}
+menuText S OptionsRepetitionDialog "Diálogo emergente" 0 {Mostrar un diálogo modal que debe descartarse}
+translate S RepetitionTwice {repetición doble}
+translate S RepetitionThreefold {Dibujar - Repetición de 3 pliegues}
 menuText S OptionsMovesSpace "Añadir espacios detrás del número de movimiento" 0 \
   {Añade espacios detrás del número de movimiento}
 menuText S OptionsMovesLichess "Formato Lichess/ChessBase para Anotaciones" 0 {Usar formato Lichess/ChessBase para marcadores de casillas y flechas}

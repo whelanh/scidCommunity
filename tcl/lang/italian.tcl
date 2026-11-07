@@ -293,6 +293,12 @@ menuText I OptionsMovesCoord "Immissione mossa per coordinate" 0 \
 menuText I OptionsMovesSuggest "Mostra le mosse suggerite" 0 \
   {Attiva/disattiva il suggerimento di mosse}
 menuText I OptionsShowVarPopup "Mostra la finestra varianti" 2 {Attiva/disattiva la visualizzazione della finestra delle varianti}
+menuText I OptionsRepetitionAlert "Avvisi di ripetizione" 0 {Come annunciare una posizione ripetuta}
+menuText I OptionsRepetitionOff "Spento" 0 {Non annunciare ripetizioni}
+menuText I OptionsRepetitionBanner "Stendardo" 0 {Mostra un banner non bloccante che si sbiadisce da solo}
+menuText I OptionsRepetitionDialog "Finestra di dialogo a comparsa" 0 {Mostra una finestra di dialogo modale che deve essere chiusa}
+translate I RepetitionTwice {Ripetizione 2 volte}
+translate I RepetitionThreefold {Disegna - Ripetizione di 3 pieghe}
 menuText I OptionsMovesSpace "Aggiungi gli spazi dopo il numero della mossa" 0 {Aggiunge uno spazio dopo il numero della mossa}
 menuText I OptionsMovesLichess "Formato Lichess/ChessBase per Annotazioni" 0 {Usa formato Lichess/ChessBase per marcatori di case e frecce}
 menuText I OptionsMovesKey "Completamento da tastiera" 1 \

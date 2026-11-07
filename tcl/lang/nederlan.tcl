@@ -312,6 +312,12 @@ menuText N OptionsMovesCoord "Zet-ingave" 0 \
 menuText N OptionsMovesSuggest "Toon hint" 0 \
   {Schakel hints aan of uit}
 menuText N OptionsShowVarPopup "Toon het varianten venster" 0 {Toon al dan niet het varianten venster} 
+menuText N OptionsRepetitionAlert "Herhalingswaarschuwingen" 0 {Een herhaalde positie aankondigen}
+menuText N OptionsRepetitionOff "Uit" 0 {Kondig geen herhalingen aan}
+menuText N OptionsRepetitionBanner "Banier" 0 {Laat een niet-blokkerende banner zien die vanzelf vervaagt}
+menuText N OptionsRepetitionDialog "Pop-updialoog" 0 {Toon een modale dialoog die moet worden afgewezen}
+translate N RepetitionTwice {2-voudige herhaling}
+translate N RepetitionThreefold {Tekenen - 3-voudige herhaling}
 menuText N OptionsMovesSpace "Voeg spaties toe na het zetnummer" 0 {Voeg spaties toe na het zetnummer}
 menuText N OptionsMovesLichess "Lichess/ChessBase-formaat voor annotaties" 0 {Gebruik het Lichess/ChessBase-formaat voor vierkante markeringen en pijlen}
 menuText N OptionsMovesKey "Auto-aanvullen" 0 \

@@ -328,6 +328,12 @@ menuText k OptionsMovesCoord "학문이동 항목" 0 \
 menuText k OptionsMovesSuggest "제안된 기능 표시" 0 \
   {이동에 포인트기/끄기}
 menuText k OptionsShowVarPopup "변형 창표시" 0 {변형 창표시기/끄기}
+menuText k OptionsRepetitionAlert "반복 알림" 0 {반복되는 입장을 발표하는 방법}
+menuText k OptionsRepetitionOff "끄다" 0 {반복해서 알리지 마세요.}
+menuText k OptionsRepetitionBanner "기치" 0 {저절로 사라지는 비차단 배너 표시}
+menuText k OptionsRepetitionDialog "팝업 대화상자" 0 {닫아야 하는 모달 대화 상자 표시}
+translate k RepetitionTwice {2겹 반복}
+translate k RepetitionThreefold {그리기 - 3겹 반복}
 menuText k OptionsMovesSpace "이동 뒤에 공백 추가" 0 {이동 뒤에 공백 추가}
 menuText k OptionsMovesLichess "Lichess/ChessBase 형식을 사용하여" 0 {마커 및 화살표에 Lichess/ChessBase 형식 사용}
 menuText k OptionsMovesKey "키보드 완성" 0 \

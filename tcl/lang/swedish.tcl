@@ -296,6 +296,12 @@ menuText W OptionsMovesCoord "Koordinater" 0 \
 menuText W OptionsMovesSuggest "Visa föreslagna drag" 0 \
   {Visa/ Dölj föreslagna drag}
 menuText W OptionsShowVarPopup "Visa Variantfönster" 0 {Starta/Avsluta visningen av ett Variantfönster}  
+menuText W OptionsRepetitionAlert "Upprepningsvarningar" 0 {Hur man tillkännager en upprepad position}
+menuText W OptionsRepetitionOff "Av" 0 {Meddela inte upprepningar}
+menuText W OptionsRepetitionBanner "Baner" 0 {Visa en icke-blockerande banner som bleknar av sig själv}
+menuText W OptionsRepetitionDialog "Popup-dialog" 0 {Visa en modal dialogruta som måste avvisas}
+translate W RepetitionTwice {2-faldig upprepning}
+translate W RepetitionThreefold {Rita - Upprepning av 3 gånger}
 menuText W OptionsMovesSpace "Lägg till mellanslag efter dragnummer" 0 {Lägg till mellanslag efter dragnummer}  
 menuText W OptionsMovesLichess "Lichess/ChessBase-format för anteckningar" 0 {Använd formatet Lichess/ChessBase för fyrkantiga markörer och pilar}
 menuText W OptionsMovesKey "Tangentkomplettering" 0 \

@@ -294,6 +294,12 @@ menuText B OptionsMovesCoord "Entrada de movimentos por coordenadas" 0 \
 menuText B OptionsMovesSuggest "Mostrar movimentos sugeridos" 0 \
   {Liga/desliga sugesto de movimentos}
 menuText B OptionsShowVarPopup "Mostrar janela de variantes" 0 {Liga/Desliga a janela de variantes}  
+menuText B OptionsRepetitionAlert "Alertas de repetição" 0 {Como anunciar uma posição repetida}
+menuText B OptionsRepetitionOff "Desligado" 0 {Não anuncie repetições}
+menuText B OptionsRepetitionBanner "Bandeira" 0 {Mostrar um banner sem bloqueio que desaparece sozinho}
+menuText B OptionsRepetitionDialog "Caixa de diálogo pop-up" 0 {Mostrar uma caixa de diálogo modal que deve ser descartada}
+translate B RepetitionTwice {Repetição de 2 vezes}
+translate B RepetitionThreefold {Empate - Repetição de 3 Dobras}
 menuText B OptionsMovesSpace "Adicionar espaços após o número do movimento" 0 {Adiciona espaços após o número do movimento}  
 menuText B OptionsMovesLichess "Formato Lichess/ChessBase para anotações" 0 {Use o formato Lichess/ChessBase para marcadores quadrados e setas}
 menuText B OptionsMovesKey "Auto completar" 0 \

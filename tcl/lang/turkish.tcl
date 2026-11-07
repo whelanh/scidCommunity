@@ -291,6 +291,12 @@ menuText T OptionsMovesCoord "Hareket Girişini Koordinat" 0 \
 menuText T OptionsMovesSuggest "Önerilen Hareketleri Göster" 0 \
   {Taşıma önerisini aç/kapat}
 menuText T OptionsShowVarPopup "Varyasyon penceresini göster" 0 {Bir varyasyon penceresinin görüntüsünü açma/kapatma}
+menuText T OptionsRepetitionAlert "Tekrarlama uyarıları" 0 {Tekrarlanan bir pozisyon nasıl duyurulur}
+menuText T OptionsRepetitionOff "Kapalı" 0 {Tekrarları duyurmayın}
+menuText T OptionsRepetitionBanner "Afiş" 0 {Kendiliğinden kaybolan, engellenmeyen bir banner göster}
+menuText T OptionsRepetitionDialog "Açılır iletişim kutusu" 0 {Kapatılması gereken kalıcı bir iletişim kutusu göster}
+translate T RepetitionTwice {2 kat tekrarlama}
+translate T RepetitionThreefold {Çekiliş - 3 Katlı Tekrar}
 menuText T OptionsMovesSpace "Hareket numarasından sonra boşluk ekleyin" 0 {Hareket numarasından sonra boşluk ekleyin}
 menuText T OptionsMovesLichess "Ek Açıklamalar İçin Lichess/ChessBase Formatı" 0 {Kare işaretleyiciler ve oklar için Lichess/ChessBase formatını kullanın}
 menuText T OptionsMovesKey "Klavye Tamamlama" 0 \

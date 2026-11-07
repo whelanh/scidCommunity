@@ -328,6 +328,12 @@ menuText A OptionsMovesCoord "座標移動エントリ" 0 \
 menuText A OptionsMovesSuggest "提案された動きを表示" 0 \
   {移動候補のオン/オフを切り替える}
 menuText A OptionsShowVarPopup "バリエーションウィンドウを表示" 0 {バリエーションウィンドウの表示をオン/オフします。}
+menuText A OptionsRepetitionAlert "繰り返しアラート" 0 {繰り返されるポジションを発表する方法}
+menuText A OptionsRepetitionOff "オフ" 0 {繰り返しを発表しない}
+menuText A OptionsRepetitionBanner "バナー" 0 {自動的にフェードインするノンブロッキング バナーを表示する}
+menuText A OptionsRepetitionDialog "ポップアップダイアログ" 0 {閉じる必要があるモーダル ダイアログを表示する}
+translate A RepetitionTwice {2回繰り返し}
+translate A RepetitionThreefold {ドロー - 3 倍の繰り返し}
 menuText A OptionsMovesSpace "移動番号の後にスペースを追加します" 0 {移動番号の後にスペースを追加します}
 menuText A OptionsMovesLichess "注釈の Lichess/ChessBase 形式" 0 {正方形のマーカーと矢印には Lichess/ChessBase 形式を使用します}
 menuText A OptionsMovesKey "キーボード補完" 0 \

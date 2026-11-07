@@ -327,6 +327,12 @@ menuText P OptionsMovesCoord "Wprowadzanie posunięć wg współrzędnych (np.g1
 menuText P OptionsMovesSuggest "Pokaż sugerowane posunięcia" 0 \
   {Włącz/wyłącz sugerowanie posunięć}
 menuText P OptionsShowVarPopup "Pokaż drzewo wariantów" 0 {Włącz/wyłącz wyświetlanie okna wariantów}
+menuText P OptionsRepetitionAlert "Powtarzające się alerty" 0 {Jak ogłosić powtarzające się stanowisko}
+menuText P OptionsRepetitionOff "Wyłączony" 0 {Nie ogłaszaj powtórzeń}
+menuText P OptionsRepetitionBanner "Transparent" 0 {Pokaż nieblokujący baner, który sam zanika}
+menuText P OptionsRepetitionDialog "Wyskakujące okno dialogowe" 0 {Pokaż modalne okno dialogowe, które należy zamknąć}
+translate P RepetitionTwice {2-krotne powtórzenie}
+translate P RepetitionThreefold {Losowanie - 3-krotne powtórzenie}
 menuText P OptionsMovesSpace "Dodaj spacje po nr posunięcia" 0 {Dodaj spacje po numerze posunięcia}
 menuText P OptionsMovesLichess "Format adnotacji Lichess/ChessBase" 0 {Użyj formatu Lichess/ChessBase dla znaczników pól i strzałek}
 menuText P OptionsMovesKey "Uzupełnianie z klawiatury" 0 \

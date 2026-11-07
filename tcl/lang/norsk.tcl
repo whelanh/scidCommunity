@@ -295,6 +295,12 @@ menuText O OptionsMovesCoord "Koordinater" 0 \
 menuText O OptionsMovesSuggest "Vis foreslåtte trekk" 0 \
   {Slå av/på forslag til trekk}
 menuText O OptionsShowVarPopup "Vis varianter-vinduet" 0 {Slå på/av visningen av et variasjonsvindu}  
+menuText O OptionsRepetitionAlert "Gjentakelsesvarsler" 0 {Hvordan kunngjøre en gjentatt posisjon}
+menuText O OptionsRepetitionOff "Av" 0 {Ikke kunngjør repetisjoner}
+menuText O OptionsRepetitionBanner "Banner" 0 {Vis et ikke-blokkerende banner som blekner av seg selv}
+menuText O OptionsRepetitionDialog "Popup-dialog" 0 {Vis en modal dialogboks som må avvises}
+translate O RepetitionTwice {2 ganger repetisjon}
+translate O RepetitionThreefold {Draw - 3-fold repetisjon}
 menuText O OptionsMovesSpace "Legg til mellomrom etter trekknummer" 0 {Legg til mellomrom etter trekknummer}  
 menuText O OptionsMovesLichess "Lichess/ChessBase-format for merknader" 0 {Bruk formatet Lichess/ChessBase for firkantede markører og piler}
 menuText O OptionsMovesKey "Autofullfør" 0 \

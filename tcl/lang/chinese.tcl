@@ -263,6 +263,12 @@ menuText M OptionsMovesCoord "坐标着法输入" 0 \
 menuText M OptionsMovesSuggest "显示建议着法" 0 \
   {开启/关闭着法建议}
 menuText M OptionsShowVarPopup "显示变化窗口" 0 {开启/关闭变化窗口的显示}
+menuText M OptionsRepetitionAlert "重复提醒" 0 {如何宣布重复职位}
+menuText M OptionsRepetitionOff "离开" 0 {不要重复宣布}
+menuText M OptionsRepetitionBanner "横幅" 0 {显示自动消失的非阻塞横幅}
+menuText M OptionsRepetitionDialog "弹出对话框" 0 {显示必须关闭的模式对话框}
+translate M RepetitionTwice {2倍重复}
+translate M RepetitionThreefold {抽奖 - 3 次重复}
 menuText M OptionsMovesSpace "在着法编号后添加空格" 0 {在着法编号后添加空格}
 menuText M OptionsMovesLichess "Lichess/ChessBase注释格式" 0 {使用Lichess/ChessBase格式的格子标记和箭头}
 menuText M OptionsMovesKey "键盘自动完成" 0 \
