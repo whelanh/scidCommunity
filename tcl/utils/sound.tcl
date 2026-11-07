@@ -19,6 +19,14 @@ set ::utils::sound::soundFiles [list \
     a b c d e f g h x 1 2 3 4 5 6 7 8 move alert \
     move_check move_castling move_capture move_promotion move_normal]
 
+# soundTheme: an optional sound theme (a subdirectory name under themesDir).
+# An empty value means "use only the base sound folder". A theme overrides the
+# move/event sounds (move, move_capture, move_castling, move_check,
+# move_promotion, Check, Mate, ...) while the base folder keeps supplying the
+# spoken piece/file/rank announcement sounds.
+if {![info exists ::utils::sound::soundTheme]} { set ::utils::sound::soundTheme "" }
+set ::utils::sound::themesDir [file nativename [file join $::scidShareDir sounds themes]]
+
 # soundMap
 #   Maps characters in a move to sounds.
 array set ::utils::sound::soundMap {
@@ -123,6 +131,42 @@ proc ::utils::sound::Setup {} {
   }
 }
 
+# ::utils::sound::ListThemes
+#   Returns the sorted list of available sound themes (subdirectory names under
+#   themesDir). Bundled Lichess themes live here, and a user can drop a folder
+#   of their own move/event sounds into the same place to add a custom theme.
+proc ::utils::sound::ListThemes {} {
+  variable themesDir
+  set themes {}
+  if {[file isdirectory $themesDir]} {
+    foreach d [lsort [glob -nocomplain -directory $themesDir -type d *]] {
+      lappend themes [file tail $d]
+    }
+  }
+  return $themes
+}
+
+# ::utils::sound::SoundFile
+#   Resolves the full path of a sound "name" (without the .wav extension),
+#   honouring the active theme. Returns "" when the file is unavailable in
+#   both the theme and the base sound folder.
+proc ::utils::sound::SoundFile {name} {
+  variable soundFolder
+  variable soundTheme
+  variable themesDir
+  if {$soundTheme ne ""} {
+    set themed [file join $themesDir $soundTheme "$name.wav"]
+    if {[file readable $themed]} {
+      return $themed
+    }
+  }
+  set base [file join $soundFolder "$name.wav"]
+  if {[file readable $base]} {
+    return $base
+  }
+  return ""
+}
+
 # ::utils::sound::ReadFolder
 #   Reads sound files from the specified directory.
 proc ::utils::sound::ReadFolder {{newFolder ""}} {
@@ -134,8 +178,8 @@ proc ::utils::sound::ReadFolder {{newFolder ""}} {
   
   set count 0
   foreach soundFile $soundFiles {
-    set f [file join $soundFolder $soundFile.wav]
-    if {[file readable $f]} {
+    set f [SoundFile $soundFile]
+    if {$f ne "" && [file readable $f]} {
       if {$backend == "snack"} {
         sound_$soundFile configure -file $f
       }
@@ -150,7 +194,6 @@ proc ::utils::sound::ReadFolder {{newFolder ""}} {
 #   sound_move_* name for moveSoundOnly mode. Priority:
 #   castling > promotion > check/mate > capture > normal
 proc ::utils::sound::GetMoveSoundFile {move} {
-  variable soundFolder
   # Castling
   if {[string range $move 0 4] == "O-O-O" || [string range $move 0 2] == "O-O"} {
     set candidate "sound_move_castling"
@@ -168,7 +211,7 @@ proc ::utils::sound::GetMoveSoundFile {move} {
   }
   # Fall back to generic move sound if specific file is missing
   set name [string range $candidate 6 end]
-  if {![file readable [file join $soundFolder $name.wav]]} {
+  if {[SoundFile $name] eq ""} {
     return "sound_move"
   }
   return $candidate
@@ -255,7 +298,6 @@ proc ::utils::sound::CheckSoundQueue {} {
   variable isPlayingSound
   variable backend
   variable pipe
-  variable soundFolder
 
   if {$isPlayingSound} { return }
   if {[llength $soundQueue] == 0} { return }
@@ -265,8 +307,8 @@ proc ::utils::sound::CheckSoundQueue {} {
   set isPlayingSound 1
   
   set name [string range $next 6 end]
-  set f [file join $soundFolder $name.wav]
-  if {! [file readable $f]} {
+  set f [SoundFile $name]
+  if {$f eq "" || ! [file readable $f]} {
     set isPlayingSound 0
     after idle ::utils::sound::CheckSoundQueue
     return
@@ -329,6 +371,43 @@ proc ::utils::sound::UpdateOptions {mode} {
   }
 }
 
+# ::utils::sound::ThemeValues
+#   Display labels for the theme dropdown: the "Default" entry first, followed
+#   by each available theme folder name.
+proc ::utils::sound::ThemeValues {} {
+  return [concat [list [tr SoundsThemeDefault]] [::utils::sound::ListThemes]]
+}
+
+# ::utils::sound::ThemeIndex
+#   Index into ThemeValues for the given theme ("" selects the default entry).
+proc ::utils::sound::ThemeIndex {theme} {
+  set themes [::utils::sound::ListThemes]
+  if {$theme eq ""} { return 0 }
+  set i [lsearch -exact $themes $theme]
+  if {$i < 0} { return 0 }
+  return [expr {$i + 1}]
+}
+
+# ::utils::sound::ApplyTheme
+#   Sets the active sound theme and re-reads the sound files so the Snack
+#   backend points at the themed files. The other backends resolve files at
+#   play time via SoundFile, so they pick up the change immediately.
+proc ::utils::sound::ApplyTheme {theme} {
+  variable soundTheme
+  set soundTheme $theme
+  catch { ::utils::sound::ReadFolder }
+}
+
+proc ::utils::sound::OnThemeSelected { w } {
+  set idx [$w current]
+  if {$idx <= 0} {
+    ::utils::sound::ApplyTheme ""
+  } else {
+    set themes [::utils::sound::ListThemes]
+    ::utils::sound::ApplyTheme [lindex $themes [expr {$idx - 1}]]
+  }
+}
+
 proc ::utils::sound::OptionsDialog { w } {
      if { ! $::utils::sound::hasSound} {
         ttk::label $w.status -text [tr SoundsSoundDisabled]
@@ -338,6 +417,15 @@ proc ::utils::sound::OptionsDialog { w } {
         ttk::label $w.backend -text "Audio Backend: $backend" -foreground gray
         pack $w.backend -side bottom -pady 5
     }
+    ttk::frame $w.themeRow
+    ttk::label $w.themeRow.l -text [tr SoundsTheme]
+    ttk::combobox $w.themeRow.c -state readonly -values [::utils::sound::ThemeValues] -width 20
+    $w.themeRow.c current [::utils::sound::ThemeIndex $::utils::sound::soundTheme]
+    bind $w.themeRow.c <<ComboboxSelected>> [list ::utils::sound::OnThemeSelected $w.themeRow.c]
+    ttk::label $w.themeHelp -text [tr SoundsThemeHelp]
+    pack $w.themeRow.l $w.themeRow.c -side left -anchor w -padx "0 5"
+    pack $w.themeRow -side top -anchor w -pady "2 0"
+    pack $w.themeHelp -side top -anchor w
     ttk::checkbutton $w.mso -variable ::utils::sound::moveSoundOnly -text [tr SoundsMoveSoundOnly] \
         -command { ::utils::sound::UpdateOptions mso }
     ttk::checkbutton $w.n -variable ::utils::sound::announceNew -text [tr SoundsAnnounceNew] \

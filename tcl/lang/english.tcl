@@ -1637,6 +1637,9 @@ translate E NoveltyHelp {Scid will find the first move of the current game that 
 # Sounds configuration:
 translate E SoundsFolder {Sound Files Folder}
 translate E SoundsFolderHelp {The folder should contain the files King.wav, a.wav, 1.wav, etc}
+translate E SoundsTheme {Sound theme}
+translate E SoundsThemeDefault {Default (Scid)}
+translate E SoundsThemeHelp {Move/event sounds come from the selected theme. To add a custom theme, copy a folder of your own sounds into the themes directory.}
 translate E SoundsAnnounceOptions {Move Announcement Options}
 translate E SoundsAnnounceNew {Announce new moves as they are made}
 translate E SoundsMoveSoundOnly {Move sound only (disable announcements)}
