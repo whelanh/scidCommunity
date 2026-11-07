@@ -421,11 +421,32 @@ proc ::utils::sound::UpdateOptions {mode} {
   }
 }
 
+# ::utils::sound::ThemeDisplayName
+#   Returns the human-readable label for a theme folder. A theme may provide a
+#   file named "name" in its directory (first non-empty line is the label);
+#   otherwise the folder name itself is used.
+proc ::utils::sound::ThemeDisplayName {folder} {
+  variable themesDir
+  set nameFile [file join $themesDir $folder name]
+  if {[file readable $nameFile]} {
+    if {![catch {set fp [open $nameFile r]} e]} {
+      set line [string trim [gets $fp]]
+      close $fp
+      if {$line ne ""} { return $line }
+    }
+  }
+  return $folder
+}
+
 # ::utils::sound::ThemeValues
 #   Display labels for the theme dropdown: the "Default" entry first, followed
-#   by each available theme folder name.
+#   by each available theme's display name (in the same order as ListThemes).
 proc ::utils::sound::ThemeValues {} {
-  return [concat [list [tr SoundsThemeDefault]] [::utils::sound::ListThemes]]
+  set vals [list [tr SoundsThemeDefault]]
+  foreach folder [::utils::sound::ListThemes] {
+    lappend vals [::utils::sound::ThemeDisplayName $folder]
+  }
+  return $vals
 }
 
 # ::utils::sound::ThemeIndex

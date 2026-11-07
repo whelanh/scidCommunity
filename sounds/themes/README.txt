@@ -62,3 +62,7 @@ Custom themes
 To add your own theme, create a folder here (e.g. sounds/themes/mine/) and put
 any of the files listed above inside it. It will appear in the Sounds
 preferences dropdown automatically.
+
+Optionally add a file named "name" in the theme directory containing the label
+to show in the dropdown (e.g. "steel drum" instead of "steel"); otherwise the
+folder name is used.
