@@ -876,10 +876,14 @@ proc ::board::addInfoBar {w varname} {
   grid columnconfigure $w.bar 0 -weight 1
 }
 
-proc ::board::addInfo {{w} {msg}} {
+proc ::board::addInfo {{w} {msg} {tag ""}} {
   if {$msg eq ""} { return }
   $w.bar.info.t configure -state normal
-  $w.bar.info.t insert end "\n$msg"
+  if {$tag eq ""} {
+    $w.bar.info.t insert end "\n$msg"
+  } else {
+    $w.bar.info.t insert end "\n$msg" $tag
+  }
   $w.bar.info.t configure -state disabled
 }
 

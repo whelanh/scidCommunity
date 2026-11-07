@@ -64,6 +64,17 @@ checkEq "it carries the threefold text" [$w.msg cget -text] T:RepetitionThreefol
 ::pgn::hideRepetitionNotice
 check "it can be dismissed" [expr {![winfo exists $w]}]
 
+puts "\n== the notice is tied to the position it describes =="
+::pgn::CheckRepetition
+set w $::pgn::repNoticeWidget
+::pgn::hideStaleRepetitionNotice
+check "a refresh at the same position keeps it" [winfo exists $w]
+sc_move back
+::pgn::hideStaleRepetitionNotice
+check "moving away dismisses it" [expr {![winfo exists $w]}]
+sc_move end
+update
+
 puts "\n== dialog mode uses the message box =="
 rename tk_messageBox ::repetitionTestMessageBox
 proc tk_messageBox {args} { set ::testDialog $args; return ok }

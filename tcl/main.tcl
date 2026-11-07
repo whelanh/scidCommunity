@@ -153,6 +153,7 @@ proc updateTitle {} {
 #
 proc updateStatusBar {} {
     if {! [winfo exists .main]} { return }
+    ::pgn::hideStaleRepetitionNotice
 
     if {$::menuHelpMessage != ""} {
         ::board::setInfoAlert .main.board "[tr Help]:" "$::menuHelpMessage" "black" ""
@@ -225,6 +226,16 @@ proc updateStatusBar {} {
     # remove technical comments, notify only human readable ones
     regsub -all {\[%.*?\]} $comment {} comment
 
+    # Keep the repetition visible after the notice has faded. This uses the
+    # same count CheckRepetition uses; turning the alert off hides it too.
+    set repMsg ""
+    if {![info exists ::pgn::repetitionAlert] || $::pgn::repetitionAlert ne "off"} {
+      set repCount [::pgn::currentRepetitionCount]
+      if {$repCount >= 2} {
+        set repMsg [::pgn::repetitionMessage $repCount]
+      }
+    }
+
     set statusBar ""
     set move [sc_game info previousMoveNT]
     if {$move != ""} {
@@ -245,13 +256,8 @@ proc updateStatusBar {} {
       if {$::gamePlayers(movetime) ne ""} {
         lappend statusBar "    \u23F1 $::gamePlayers(movetime)" header
       }
-      # Keep the repetition visible after the notice has faded. This uses the
-      # same count CheckRepetition uses; turning the alert off hides it too.
-      if {![info exists ::pgn::repetitionAlert] || $::pgn::repetitionAlert ne "off"} {
-        set repCount [::pgn::getRepetitionCount]
-        if {$repCount >= 2} {
-          lappend statusBar "    [::pgn::repetitionMessage $repCount]" header
-        }
+      if {$repMsg ne ""} {
+        lappend statusBar "    $repMsg" header
       }
       ::board::setInfo .main.board $statusBar
     } else {
@@ -268,6 +274,10 @@ proc updateStatusBar {} {
             set headermsg "[tr Comment]"
         }
         ::board::setInfoAlert .main.board $headermsg "$comment" "green" "::makeCommentWin"
+        # A non-empty header replaces the whole bar, so put the repetition back.
+        if {$headermsg ne "" && $repMsg ne ""} {
+            ::board::addInfo .main.board $repMsg header
+        }
     }
 }
 

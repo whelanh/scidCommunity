@@ -443,6 +443,7 @@ namespace eval ::notify {
   # To be called when the current game change or the Header infos (player names, site, result, etc) are modified
   proc GameChanged {{follow 0}} {
     updateMainGame
+    ::pgn::resetRepetitionCache
     ::notify::PosChanged newgame
     ::windows::gamelist::Refresh $follow
     ::maint::Refresh

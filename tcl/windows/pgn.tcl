@@ -549,9 +549,39 @@ proc ::pgn::getRepetitionCount {} {
     }
   }
   
-  # Restore position
+  # Restore position. sc_move pgn replays the flattened PGN from the start, so
+  # the round trip is exact for a variation too.
   sc_move pgn $savedLoc
   return $count
+}
+
+# The node a repetition count belongs to. pgnOffset is unique within a game,
+# and the FEN catches a position whose earlier moves have been edited.
+proc ::pgn::positionKey {} {
+  if {[llength [info commands sc_pos]] == 0} { return "" }
+  return [list [sc_base current] [sc_game number] [sc_pos pgnOffset] \
+      [lrange [split [sc_pos fen]] 0 3]]
+}
+
+# getRepetitionCount walks the game from the start. The status bar asks for it
+# on every refresh, so keep the last answer while the node is unchanged;
+# navigation moves to a new key and forces the walk again.
+proc ::pgn::currentRepetitionCount {} {
+  set key [::pgn::positionKey]
+  if {$key ne "" && [info exists ::pgn::repCountKey] &&
+      $::pgn::repCountKey eq $key} {
+    return $::pgn::repCount
+  }
+  set count [::pgn::getRepetitionCount]
+  if {$key ne ""} {
+    set ::pgn::repCount $count
+    set ::pgn::repCountKey $key
+  }
+  return $count
+}
+
+proc ::pgn::resetRepetitionCache {} {
+  unset -nocomplain ::pgn::repCount ::pgn::repCountKey
 }
 
 # The message shown for a repetition. The threefold text is the one the old
@@ -561,6 +591,25 @@ proc ::pgn::repetitionMessage {count} {
   return [tr RepetitionTwice]
 }
 
+# The window the notice should sit over. A mapped notation window can still be
+# behind the board, so follow the pointer (that is where the click or move was)
+# and then the keyboard focus.
+proc ::pgn::noticeParent {} {
+  if {![winfo exists .pgnWin] || ![winfo ismapped .pgnWin]} { return . }
+  set under [winfo containing [winfo pointerx .] [winfo pointery .]]
+  if {$under ne ""} {
+    set top [winfo toplevel $under]
+    if {$top eq ".pgnWin"} { return .pgnWin }
+    if {$top eq "."} { return . }
+  }
+  set focused [focus]
+  if {$focused ne "" && [winfo exists $focused] &&
+      [winfo toplevel $focused] eq ".pgnWin"} {
+    return .pgnWin
+  }
+  return .
+}
+
 # Show a repetition alert without stopping the reader. The notice is placed
 # inside the notation or main window, so the window manager never positions it
 # and it cannot steal focus; it disappears after four seconds, and a click on it
@@ -568,10 +617,7 @@ proc ::pgn::repetitionMessage {count} {
 proc ::pgn::showRepetitionNotice {msg} {
   ::pgn::hideRepetitionNotice
 
-  # Over the notation window when it is open (that is where the reader is
-  # looking), otherwise over the main window.
-  set parent .
-  if {[winfo exists .pgnWin] && [winfo ismapped .pgnWin]} { set parent .pgnWin }
+  set parent [::pgn::noticeParent]
 
   if {$parent eq "."} {
     set w .repetitionNotice
@@ -591,6 +637,7 @@ proc ::pgn::showRepetitionNotice {msg} {
   }
 
   set ::pgn::repNoticeWidget $w
+  set ::pgn::repNoticeKey [::pgn::positionKey]
   set ::pgn::repNoticeAfter [after 4000 ::pgn::hideRepetitionNotice]
 }
 
@@ -599,9 +646,24 @@ proc ::pgn::hideRepetitionNotice {} {
     after cancel $::pgn::repNoticeAfter
     unset ::pgn::repNoticeAfter
   }
+  if {[info exists ::pgn::repNoticeKey]} {
+    unset ::pgn::repNoticeKey
+  }
   if {[info exists ::pgn::repNoticeWidget]} {
     catch { destroy $::pgn::repNoticeWidget }
     unset ::pgn::repNoticeWidget
+  }
+}
+
+# A notice describes the position it was shown for. If the reader has moved on
+# before the timer fires, drop it rather than let it announce a position that is
+# no longer on the board.
+proc ::pgn::hideStaleRepetitionNotice {} {
+  if {![info exists ::pgn::repNoticeWidget]} { return }
+  if {![winfo exists $::pgn::repNoticeWidget] ||
+      ![info exists ::pgn::repNoticeKey] ||
+      $::pgn::repNoticeKey ne [::pgn::positionKey]} {
+    ::pgn::hideRepetitionNotice
   }
 }
 
@@ -609,10 +671,10 @@ proc ::pgn::CheckRepetition {} {
   if {([info exists ::finishGameMode] && $::finishGameMode) || \
       ([info exists ::autoplayMode] && $::autoplayMode) || \
       ([info exists ::finishgame::active] && $::finishgame::active)} {
-    return [::pgn::getRepetitionCount]
+    return [::pgn::currentRepetitionCount]
   }
 
-  set count [::pgn::getRepetitionCount]
+  set count [::pgn::currentRepetitionCount]
 
   if {$count >= 2} {
     set msg [::pgn::repetitionMessage $count]

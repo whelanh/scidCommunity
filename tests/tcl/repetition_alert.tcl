@@ -53,7 +53,8 @@ proc ::pgn::showRepetitionNotice {msg} { lappend ::notices $msg }
 proc tr {tag args} { return "T:$tag" }
 proc tk_messageBox {args} { lappend ::dialogs $args; return ok }
 
-foreach name {::pgn::repetitionMessage ::pgn::CheckRepetition} {
+foreach name {::pgn::positionKey ::pgn::currentRepetitionCount \
+              ::pgn::repetitionMessage ::pgn::CheckRepetition} {
     set text [extractProc $src $name]
     eval $text
     check "$name was extracted" [expr {[llength [info procs $name]] == 1}]
@@ -66,6 +67,7 @@ proc reset {} {
     set ::pgn::repetitionAlert banner
     set ::finishgame::active 0
     unset -nocomplain ::finishGameMode ::autoplayMode
+    unset -nocomplain ::pgn::repCount ::pgn::repCountKey
 }
 
 # ------------------------------------------------------------------- messages --

@@ -49,11 +49,14 @@ proc ::preferences::moves { t } {
     ttk::label $t.rep.l -text "[tr OptionsRepetitionAlert]:"
     ttk::frame $t.rep.choices
     ttk::radiobutton $t.rep.choices.off -variable ::pgn::repetitionAlert -value off \
-        -text [tr OptionsRepetitionOff] -command updateStatusBar
+        -text [tr OptionsRepetitionOff] \
+        -command {::pgn::hideRepetitionNotice; updateStatusBar}
     ttk::radiobutton $t.rep.choices.banner -variable ::pgn::repetitionAlert -value banner \
-        -text [tr OptionsRepetitionBanner] -command updateStatusBar
+        -text [tr OptionsRepetitionBanner] \
+        -command {::pgn::hideRepetitionNotice; updateStatusBar}
     ttk::radiobutton $t.rep.choices.dialog -variable ::pgn::repetitionAlert -value dialog \
-        -text [tr OptionsRepetitionDialog] -command updateStatusBar
+        -text [tr OptionsRepetitionDialog] \
+        -command {::pgn::hideRepetitionNotice; updateStatusBar}
     ttk::checkbutton $t.osp -variable ::pgn::moveNumberSpaces -text [tr OptionsMovesSpace]
     ttk::checkbutton $t.lichess -variable ::lichessFormat -text [tr OptionsMovesLichess]
     ttk::checkbutton $t.god -variable glossOfDanger -text [tr OptionsMovesGlossOfDanger] -command updateBoard
