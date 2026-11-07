@@ -37,6 +37,12 @@ Mapping from Lichess event names to scidCommunity names:
     Check      -> move_check, Check
     Checkmate  -> Mate
 
+Note: Lichess's "standard" set maps Check and Checkmate to silence (their
+Check.ogg/Checkmate.ogg are symlinks to Silence.ogg). Because scidCommunity's
+users expect an audible check sound, the standard theme here omits its
+check/mate files so they fall back to the base sounds/ folder (Scid's own
+Check, Mate and move_check). Its Move and Capture sounds remain Lichess's.
+
 Custom themes
 -------------
 
