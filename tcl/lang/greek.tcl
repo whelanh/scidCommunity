@@ -1632,6 +1632,9 @@ translate G NoveltyHelp {
 # Sounds configuration:
 translate G SoundsFolder {Κατάλογος αρχείων ήχου}
 translate G SoundsFolderHelp {Ο κατάλογος πρέπει να περιέχει τα αρχεία King.wav, a.wav, 1.wav, κλπ.}
+translate G SoundsTheme {Θέμα ήχου}
+translate G SoundsThemeDefault {Προεπιλογή (Scid)}
+translate G SoundsThemeHelp {Οι ήχοι κίνησης/συμβάντος προέρχονται από το επιλεγμένο θέμα. Για να προσθέσετε ένα προσαρμοσμένο θέμα, αντιγράψτε έναν φάκελο με τους δικούς σας ήχους στον κατάλογο θεμάτων.}
 translate G SoundsAnnounceOptions {Επιλογές αναγγελίας κίνησης}
 translate G SoundsAnnounceNew {Αναγγελία των νέων κινήσεων καθώς εκτελούνται}
 translate G SoundsMoveSoundOnly {Μετακίνηση μόνο ήχου (απενεργοποίηση ανακοινώσεων)}

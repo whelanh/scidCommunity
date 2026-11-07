@@ -1606,6 +1606,9 @@ SCID megkeresi az aktuális játszma elsõ olyan lépését, amely nem szerepel 
 # Sounds configuration:
 translate H SoundsFolder {Hangfájlok könyvtára}
 translate H SoundsFolderHelp {A könyvtárban a King.wav, a.wav, 1.wav, s.í.t. fájloknak kell szerepelniük.}
+translate H SoundsTheme {Hang téma}
+translate H SoundsThemeDefault {Alapértelmezett (Scid)}
+translate H SoundsThemeHelp {A mozgás/esemény hangjai a kiválasztott témából származnak. Egyéni téma hozzáadásához másolja be a saját hangjainak mappáját a témák könyvtárába.}
 translate H SoundsAnnounceOptions {Lépésbemondások beállításai}
 translate H SoundsAnnounceNew {Új lépés bemondása amint megtesszük}
 translate H SoundsMoveSoundOnly {Csak mozgatási hang (bejelentések letiltása)}

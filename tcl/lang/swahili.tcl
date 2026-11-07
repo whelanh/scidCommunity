@@ -1588,6 +1588,9 @@ translate Z NoveltyHelp {Scid itapata hatua ya kwanza ya mchezo wa sasa ambao un
 # Sounds configuration:
 translate Z SoundsFolder {Folda ya Faili za Sauti}
 translate Z SoundsFolderHelp {Folda inapaswa kuwa na faili King.wav, a.wav, 1.wav, nk}
+translate Z SoundsTheme {Mandhari ya sauti}
+translate Z SoundsThemeDefault {Chaguomsingi (Scid)}
+translate Z SoundsThemeHelp {Sauti za hoja/tukio hutoka kwa mada iliyochaguliwa. Ili kuongeza mandhari maalum, nakili folda ya sauti zako mwenyewe kwenye saraka ya mada.}
 translate Z SoundsAnnounceOptions {Hamisha Chaguo za Tangazo}
 translate Z SoundsAnnounceNew {Tangaza hatua mpya zinapofanywa}
 translate Z SoundsMoveSoundOnly {Sogeza sauti pekee (zima matangazo)}

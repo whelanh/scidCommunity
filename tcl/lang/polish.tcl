@@ -1637,6 +1637,9 @@ translate P NoveltyHelp {Scid znajdzie pierwsze posunięcie bieżącej partii pr
 # Sounds configuration:
 translate P SoundsFolder {Folder plików dźwiękowych}
 translate P SoundsFolderHelp {Folder powinien zawierać pliki King.wav, a.wav, 1.wav itd.}
+translate P SoundsTheme {Motyw dźwiękowy}
+translate P SoundsThemeDefault {Domyślny (Scid)}
+translate P SoundsThemeHelp {Dźwięki ruchu/wydarzeń pochodzą z wybranego motywu. Aby dodać niestandardowy motyw, skopiuj folder z własnymi dźwiękami do katalogu motywów.}
 translate P SoundsAnnounceOptions {Opcje zapowiadania posunięć}
 translate P SoundsAnnounceNew {Zapowiadaj nowe posunięcia podczas ich wykonywania}
 translate P SoundsMoveSoundOnly {Tylko dźwięk posunięcia (wyłącz zapowiedzi)}

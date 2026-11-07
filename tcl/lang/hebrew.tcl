@@ -1589,6 +1589,9 @@ translate V NoveltyHelp {Scid ימצא את המהלך הראשון של המש�
 # Sounds configuration:
 translate V SoundsFolder {תיקיית קבצי קול}
 translate V SoundsFolderHelp {התיקיה צריכה להכיל את הקבצים King.wav, a.wav, 1.wav וכו'}
+translate V SoundsTheme {נושא סאונד}
+translate V SoundsThemeDefault {ברירת מחדל (Scid)}
+translate V SoundsThemeHelp {צלילי תנועה/אירוע מגיעים מהנושא שנבחר. כדי להוסיף ערכת נושא מותאמת אישית, העתק תיקייה של הצלילים שלך לספריית ערכות הנושא.}
 translate V SoundsAnnounceOptions {הזז אפשרויות הודעה}
 translate V SoundsAnnounceNew {הכריזו על מהלכים חדשים תוך כדי ביצוע}
 translate V SoundsMoveSoundOnly {הזזת צליל בלבד (השבת הודעות)}

@@ -1611,6 +1611,9 @@ Scid kommer att försöka hitta det första draget som leder till en position so
 # Sounds configuration:
 translate W SoundsFolder {Ljudfilskatalog}
 translate W SoundsFolderHelp {Katalogen ska ha filerna King.wav, a.wav, 1.wav, etc}
+translate W SoundsTheme {Ljudtema}
+translate W SoundsThemeDefault {Standard (Scid)}
+translate W SoundsThemeHelp {Rörelse-/händelseljud kommer från det valda temat. För att lägga till ett anpassat tema, kopiera en mapp med dina egna ljud till temakatalogen.}
 translate W SoundsAnnounceOptions {Inställningar för Dragannonsering}
 translate W SoundsAnnounceNew {Annonsera nya drag när de görs}
 translate W SoundsMoveSoundOnly {Flytta endast ljud (avaktivera meddelanden)}

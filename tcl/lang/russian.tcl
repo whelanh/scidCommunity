@@ -1607,6 +1607,9 @@ Scid найдёт первый ход в текущей партии, котор
 # Sounds configuration:
 translate R SoundsFolder {Директория звуковых файлов}
 translate R SoundsFolderHelp {Каталог должен содержать файлы King.wav, a.wav, 1.wav и т. п.}
+translate R SoundsTheme {Звуковая тема}
+translate R SoundsThemeDefault {По умолчанию (Scid)}
+translate R SoundsThemeHelp {Звуки движения/события исходят из выбранной темы. Чтобы добавить собственную тему, скопируйте папку со своими звуками в каталог тем.}
 translate R SoundsAnnounceOptions {Опции уведомления о ходе}
 translate R SoundsAnnounceNew {Уведомлять о новых ходах, когда они сделаны}
 translate R SoundsMoveSoundOnly {Перемещать только звук (отключить объявления)}

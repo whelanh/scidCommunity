@@ -1564,6 +1564,9 @@ translate M NoveltyHelp {Scid 将找到当前游戏的第一步，该棋步到�
 # Sounds configuration:
 translate M SoundsFolder {声音文件夹}
 translate M SoundsFolderHelp {该文件夹应包含文件 King.wav、a.wav、1.wav 等}
+translate M SoundsTheme {声音主题}
+translate M SoundsThemeDefault {默认（Scid）}
+translate M SoundsThemeHelp {移动/事件声音来自选定的主题。要添加自定义主题，请将您自己的声音文件夹复制到主题目录中。}
 translate M SoundsAnnounceOptions {移动公告选项}
 translate M SoundsAnnounceNew {宣布新举措}
 translate M SoundsMoveSoundOnly {仅移动声音（禁用公告）}

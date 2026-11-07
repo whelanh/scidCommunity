@@ -1589,6 +1589,9 @@ translate Q NoveltyHelp {Скід знайде перший хід у поточ
 # Sounds configuration:
 translate Q SoundsFolder {Папка звукових файлів}
 translate Q SoundsFolderHelp {Папка повинна містити файли King.wav, a.wav, 1.wav тощо}
+translate Q SoundsTheme {Звукова тема}
+translate Q SoundsThemeDefault {За замовчуванням (Scid)}
+translate Q SoundsThemeHelp {Звуки переміщень/подій надходять із вибраної теми. Щоб додати власну тему, скопіюйте папку з вашими власними звуками в каталог тем.}
 translate Q SoundsAnnounceOptions {Перемістити параметри оголошення}
 translate Q SoundsAnnounceNew {Оголошуйте про нові кроки в міру їх виконання}
 translate Q SoundsMoveSoundOnly {Перемістити лише звук (вимкнути оголошення)}

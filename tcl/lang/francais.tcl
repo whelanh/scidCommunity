@@ -1611,6 +1611,9 @@ translate F NoveltyHelp {Scid va trouver le premier coup de la partie en cours q
 # Sounds configuration:
 translate F SoundsFolder {Répertoire des fichiers sonores}
 translate F SoundsFolderHelp {Le répertoire devrait contenir les fichiers King.wav, a.wav, 1.wav, etc}
+translate F SoundsTheme {Thème sonore}
+translate F SoundsThemeDefault {Par défaut (Scid)}
+translate F SoundsThemeHelp {Les sons de mouvement/événement proviennent du thème sélectionné. Pour ajouter un thème personnalisé, copiez un dossier de vos propres sons dans le répertoire des thèmes.}
 translate F SoundsAnnounceOptions {Options d'annonce des coups}
 translate F SoundsAnnounceNew {Annoncer les coups joués}
 translate F SoundsMoveSoundOnly {Déplacer le son uniquement (désactiver les annonces)}

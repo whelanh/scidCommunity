@@ -1613,6 +1613,9 @@ Scid buscará o primeiro movimento do jogo atual que alcança uma posição não
 # Sounds configuration:
 translate B SoundsFolder {Pasta de arquivos de som} 
 translate B SoundsFolderHelp {A pasta deve conter os arquivos King.wav, a.wav, 1.wav, etc} 
+translate B SoundsTheme {Tema de som}
+translate B SoundsThemeDefault {Padrão (Scid)}
+translate B SoundsThemeHelp {Os sons de movimento/evento vêm do tema selecionado. Para adicionar um tema personalizado, copie uma pasta com seus próprios sons no diretório de temas.}
 translate B SoundsAnnounceOptions {Opções de anúncio de movimentos} 
 translate B SoundsAnnounceNew {Anuncia novos movimentos quando eles são feitos} 
 translate B SoundsMoveSoundOnly {Mover apenas som (desativar anúncios)}

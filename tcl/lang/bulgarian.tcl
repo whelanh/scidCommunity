@@ -1629,6 +1629,9 @@ translate g NoveltyHelp {Scid ще намери първия ход от тек�
 # Sounds configuration:
 translate g SoundsFolder {Папка със звукови файлове}
 translate g SoundsFolderHelp {Папката трябва да съдържа файловете King.wav, a.wav, 1.wav и др}
+translate g SoundsTheme {Звукова тема}
+translate g SoundsThemeDefault {По подразбиране (Scid)}
+translate g SoundsThemeHelp {Звуците на движение/събитие идват от избраната тема. За да добавите персонализирана тема, копирайте папка с вашите собствени звуци в директорията с теми.}
 translate g SoundsAnnounceOptions {Опции за преместване на съобщения}
 translate g SoundsAnnounceNew {Обявете нови ходове, докато се правят}
 translate g SoundsMoveSoundOnly {Преместване само на звук (деактивиране на съобщения)}

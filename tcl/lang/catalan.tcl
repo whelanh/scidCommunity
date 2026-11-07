@@ -1627,6 +1627,9 @@ L'Scid trobarà la primera jugada de l'actual partida que representi una posici�
 # Sounds configuration:
 translate K SoundsFolder {Directori d'arxius de so}
 translate K SoundsFolderHelp {El directori ha de tenir els arxius King.wav, a.wav, 1.wav, etc}
+translate K SoundsTheme {Tema sonor}
+translate K SoundsThemeDefault {Per defecte (Scid)}
+translate K SoundsThemeHelp {Els sons de moviment/esdeveniment provenen del tema seleccionat. Per afegir un tema personalitzat, copieu una carpeta dels vostres propis sons al directori de temes.}
 translate K SoundsAnnounceOptions {Opcions d'anunci de jugades}
 translate K SoundsAnnounceNew {Anunciar noves jugades quan estiguin fetes}
 translate K SoundsMoveSoundOnly {Mou només el so (desactiva els anuncis)}

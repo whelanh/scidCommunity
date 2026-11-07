@@ -1629,6 +1629,9 @@ translate A NoveltyHelp {Scid は、選択したデータベースまたは ECO 
 # Sounds configuration:
 translate A SoundsFolder {サウンドファイルフォルダー}
 translate A SoundsFolderHelp {フォルダーには、King.wav、a.wav、1.wav などのファイルが含まれている必要があります。}
+translate A SoundsTheme {サウンドテーマ}
+translate A SoundsThemeDefault {デフォルト (SCID)}
+translate A SoundsThemeHelp {移動/イベント音は選択したテーマから発生します。カスタム テーマを追加するには、独自のサウンドのフォルダーをテーマ ディレクトリにコピーします。}
 translate A SoundsAnnounceOptions {移動アナウンスのオプション}
 translate A SoundsAnnounceNew {新しい動きが行われたときに発表する}
 translate A SoundsMoveSoundOnly {音声のみを移動（アナウンスを無効にする）}
