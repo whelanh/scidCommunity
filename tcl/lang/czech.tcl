@@ -1605,6 +1605,9 @@ Scid bude hledat prvn tah aktuln partie, kter doshne pozice, kter se nevyskytla 
 # Sounds configuration:
 translate C SoundsFolder {Adres se zvukovmi soubory}
 translate C SoundsFolderHelp {Adres by ml obsahovat soubory King.wav, a.wav, 1.wav, atd.}
+translate C SoundsTheme {Zvukové téma}
+translate C SoundsThemeDefault {Výchozí (Scid)}
+translate C SoundsThemeHelp {Zvuky pohybu/událostí vycházejí z vybraného tématu. Chcete-li přidat vlastní motiv, zkopírujte složku vlastních zvuků do adresáře témat.}
 translate C SoundsAnnounceOptions {Volby oznamovn tahu}
 translate C SoundsAnnounceNew {Oznamovat tahy pi jejich proveden}
 translate C SoundsMoveSoundOnly {Pouze zvuk pesunout (vypnout oznmen)}

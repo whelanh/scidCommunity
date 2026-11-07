@@ -1629,6 +1629,9 @@ translate J NoveltyHelp {Сцид ће пронаћи први потез тре
 # Sounds configuration:
 translate J SoundsFolder {Фасцикла са звучним датотекама}
 translate J SoundsFolderHelp {Фасцикла треба да садржи датотеке Кинг.вав, а.вав, 1.вав итд}
+translate J SoundsTheme {Звучна тема}
+translate J SoundsThemeDefault {Подразумевано (Сцид)}
+translate J SoundsThemeHelp {Звукови кретања/догађаја долазе из изабране теме. Да бисте додали прилагођену тему, копирајте фасциклу сопствених звукова у директоријум тема.}
 translate J SoundsAnnounceOptions {Премести опције најаве}
 translate J SoundsAnnounceNew {Најавите нове потезе како буду направљени}
 translate J SoundsMoveSoundOnly {Премести само звук (онемогући најаве)}

@@ -1,0 +1,30 @@
+Use these sound files with scidCommunity.
+
+Select this directory: Options -> Resources -> Sound files folder
+(Or Scid will switch to it automatically when Spanish is the active language.)
+
+Spoken Spanish move announcements, generated with the open-source Piper
+text-to-speech engine using the "es_ES-davefx-medium" voice.
+
+  Piper engine : https://github.com/rhasspy/piper  (MIT license)
+  Voice model  : https://huggingface.co/rhasspy/piper-voices  (MIT license,
+                 voice es_ES-davefx-medium)
+
+Spoken tokens (piece names, files, ranks and special announcements):
+
+    King=rey, Queen=dama, Rook=torre, Bishop=alfil, Knight=caballo
+    CastleK=enroque corto, CastleQ=enroque largo
+    Back=atrás, Mate=jaque mate, Promote=promoción, Check=jaque,
+    alert=alerta, x=por
+    files: a, be, ce, de, e, efe, ge, hache
+    ranks: uno, dos, tres, cuatro, cinco, seis, siete, ocho
+
+Spanish announcements use a longer gap (300 ms) between the spoken pieces
+than the default 150 ms, to make the short single-letter file tokens (a..h)
+easier to distinguish when spoken in sequence (e.g. the "b" and "a" in a move
+like Tba1).
+
+The move/event sounds (move.wav, move_capture.wav, move_castling.wav,
+move_check.wav, move_promotion.wav, move_normal.wav) are copied unchanged
+from the base sounds/ directory, so "Move sound only" mode still uses the
+default (non-spoken) sounds.

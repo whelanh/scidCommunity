@@ -1629,6 +1629,9 @@ translate k NoveltyHelp {Scid는 제외나 ECO 회수 원본에서 찾을 수 �
 # Sounds configuration:
 translate k SoundsFolder {문자열 파일 폴더}
 translate k SoundsFolderHelp {폴더에는 King.wav, a.wav, 1.wav 등의 파일이 포함되어야 합니다.}
+translate k SoundsTheme {사운드 테마}
+translate k SoundsThemeDefault {기본값(Scid)}
+translate k SoundsThemeHelp {이동/이벤트 사운드는 선택한 테마에서 나옵니다. 사용자 정의 테마를 추가하려면 자신의 사운드 폴더를 테마 디렉토리에 복사하세요.}
 translate k SoundsAnnounceOptions {공지사항 옵션 이동}
 translate k SoundsAnnounceNew {새로운 움직임이 만들어 발표하세요.}
 translate k SoundsMoveSoundOnly {소리만 이동(공지사항 문의)}

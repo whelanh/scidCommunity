@@ -1630,6 +1630,9 @@ Scid zal de eerste zet vinden in de huidige partij, waarna een stelling ontstaat
 # Sounds configuration:
 translate N SoundsFolder {Geluidsbestanden Map} ;
 translate N SoundsFolderHelp {De map moet de bestanden King.wav, a.wav, 1.wav, enz. bevatten} ;
+translate N SoundsTheme {Geluid thema}
+translate N SoundsThemeDefault {Standaard (Scid)}
+translate N SoundsThemeHelp {Bewegings-/gebeurtenisgeluiden komen uit het geselecteerde thema. Om een ​​aangepast thema toe te voegen, kopieert u een map met uw eigen geluiden naar de themamap.}
 translate N SoundsAnnounceOptions {Zet Aankondigingen Opties} ;
 translate N SoundsAnnounceNew {Kondig nieuwe zetten aan als ze gedaan worden} ;
 translate N SoundsMoveSoundOnly {Alleen geluid verplaatsen (aankondigingen uitschakelen)}

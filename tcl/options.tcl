@@ -562,6 +562,7 @@ set ::utils::sound::announceNew 0
 set ::utils::sound::announceForward 0
 set ::utils::sound::announceBack 0
 set ::utils::sound::moveSoundOnly 0
+set ::utils::sound::soundTheme ""
 
 # Spell-checking file: default is "spelling.ssp".
 set spellCheckFile [file join $scidShareDir "spelling.ssp"]
@@ -726,7 +727,7 @@ proc options.write {} {
           ::book::oppMovesVisible \
           ::utils::sound::soundFolder ::utils::sound::announceNew \
           ::utils::sound::announceForward ::utils::sound::announceBack \
-          ::utils::sound::moveSoundOnly \
+          ::utils::sound::moveSoundOnly ::utils::sound::soundTheme \
           ::sergame::threshold ::sergame::isLimitedAnalysisTime ::sergame::showblunder ::sergame::showblundervalue \
           ::sergame::showevaluation ::sergame::analysisTime ::sergame::useChessClock ::sergame::storeEval \
           ::sergame::storeEvalAll \

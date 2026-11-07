@@ -1592,6 +1592,9 @@ translate T NoveltyHelp {Scid, mevcut oyunda seçilen veritabanında veya ECO a�
 # Sounds configuration:
 translate T SoundsFolder {Ses Dosyaları Klasörü}
 translate T SoundsFolderHelp {Klasör King.wav, a.wav, 1.wav, vb. dosyalarını içermelidir.}
+translate T SoundsTheme {Ses teması}
+translate T SoundsThemeDefault {Varsayılan (Scid)}
+translate T SoundsThemeHelp {Hareket/olay sesleri seçilen temadan gelir. Özel bir tema eklemek için kendi seslerinizin bulunduğu bir klasörü temalar dizinine kopyalayın.}
 translate T SoundsAnnounceOptions {Duyuru Seçeneklerini Taşı}
 translate T SoundsAnnounceNew {Yeni hamleleri yapıldıkça duyurun}
 translate T SoundsMoveSoundOnly {Yalnızca sesi taşı (duyuruları devre dışı bırak)}

@@ -1588,6 +1588,9 @@ translate h NoveltyHelp {स्किड वर्तमान गेम की 
 # Sounds configuration:
 translate h SoundsFolder {ध्वनि फ़ाइलें फ़ोल्डर}
 translate h SoundsFolderHelp {फ़ोल्डर में King.wav, a.wav, 1.wav इत्यादि फ़ाइलें होनी चाहिए}
+translate h SoundsTheme {ध्वनि विषय}
+translate h SoundsThemeDefault {डिफ़ॉल्ट (स्किड)}
+translate h SoundsThemeHelp {चाल/घटना ध्वनियाँ चयनित थीम से आती हैं। एक कस्टम थीम जोड़ने के लिए, अपनी खुद की ध्वनियों के एक फ़ोल्डर को थीम निर्देशिका में कॉपी करें।}
 translate h SoundsAnnounceOptions {घोषणा विकल्प ले जाएँ}
 translate h SoundsAnnounceNew {जैसे ही नए कदम उठाए जाएं, उनकी घोषणा करें}
 translate h SoundsMoveSoundOnly {केवल ध्वनि स्थानांतरित करें (घोषणाएँ अक्षम करें)}

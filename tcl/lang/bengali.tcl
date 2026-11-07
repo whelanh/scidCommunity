@@ -1588,6 +1588,9 @@ translate b NoveltyHelp {Scid বর্তমান গেমের প্রথ
 # Sounds configuration:
 translate b SoundsFolder {সাউন্ড ফাইল ফোল্ডার}
 translate b SoundsFolderHelp {ফোল্ডারে King.wav, a.wav, 1.wav ইত্যাদি ফাইল থাকা উচিত}
+translate b SoundsTheme {সাউন্ড থিম}
+translate b SoundsThemeDefault {ডিফল্ট (Scid)}
+translate b SoundsThemeHelp {সরানো/ইভেন্টের শব্দ নির্বাচিত থিম থেকে আসে। একটি কাস্টম থিম যোগ করতে, থিম ডিরেক্টরিতে আপনার নিজস্ব শব্দের একটি ফোল্ডার অনুলিপি করুন।}
 translate b SoundsAnnounceOptions {ঘোষণার বিকল্পগুলি সরান৷}
 translate b SoundsAnnounceNew {সেগুলি তৈরি হওয়ার সাথে সাথে নতুন পদক্ষেপগুলি ঘোষণা করুন}
 translate b SoundsMoveSoundOnly {শুধুমাত্র শব্দ সরান (ঘোষণা নিষ্ক্রিয় করুন)}

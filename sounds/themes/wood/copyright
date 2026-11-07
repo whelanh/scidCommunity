@@ -1,0 +1,24 @@
+"wood" sound theme
+=================
+
+  Author  : Kenney (www.kenney.nl)
+  Source  : https://kenney.nl/assets/impact-sounds
+  License : Creative Commons Zero (CC0) 1.0
+            https://creativecommons.org/publicdomain/zero/1.0/
+
+Obtained from Kenney's "Impact Sounds" pack (CC0, public domain) and converted
+from the original .ogg files to mono PCM .wav (22050 Hz), renamed to
+scidCommunity's move-sound names:
+
+    impactWood_light_000    -> move.wav
+    impactWood_light_001    -> move_normal.wav
+    impactWood_medium_000   -> move_capture.wav
+    impactWood_medium_001   -> move_castling.wav
+    impactWood_medium_002   -> move_promotion.wav
+    impactWood_heavy_000    -> move_check.wav
+    impactWood_heavy_001    -> Check.wav
+    impactWood_heavy_002    -> Mate.wav
+
+CC0 places this work in the public domain: no attribution is required and the
+sounds may be used in personal, educational and commercial projects. Crediting
+Kenney is appreciated but not mandatory.

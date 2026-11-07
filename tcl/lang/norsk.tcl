@@ -1605,6 +1605,9 @@ Scid vil finne det første trekket i det gjeldende partiet som fører til en sti
 # Sounds configuration:
 translate O SoundsFolder {Sound Files Folder} ;# ***
 translate O SoundsFolderHelp {The folder should contain the files King.wav, a.wav, 1.wav, etc} ;# ***
+translate O SoundsTheme {Lydtema}
+translate O SoundsThemeDefault {Standard (Scid)}
+translate O SoundsThemeHelp {Bevegelses-/hendelseslyder kommer fra det valgte temaet. For å legge til et tilpasset tema, kopier en mappe med dine egne lyder til temakatalogen.}
 translate O SoundsAnnounceOptions {Move Announcement Options} ;# ***
 translate O SoundsAnnounceNew {Announce new moves as they are made} ;# ***
 translate O SoundsMoveSoundOnly {Bare flytt lyd (deaktiver kunngjøringer)}

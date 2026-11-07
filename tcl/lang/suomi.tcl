@@ -1638,6 +1638,9 @@ Scid löytää pelin ensimmäisen siirron, joka johtaa sellaiseen asemaan, jota 
 # Sounds configuration:
 translate U SoundsFolder {Äänitiedostojen hakemisto}
 translate U SoundsFolderHelp {Hakemistosta pitää löytyä tiedostot King.wav, a.wav, 1.wav, jne}
+translate U SoundsTheme {Ääniteema}
+translate U SoundsThemeDefault {Oletus (Scid)}
+translate U SoundsThemeHelp {Siirto-/tapahtumaäänet tulevat valitusta teemasta. Voit lisätä mukautetun teeman kopioimalla omia ääniäsi sisältävän kansion teemahakemistoon.}
 translate U SoundsAnnounceOptions {Siirtoilmoitusasetukset}
 translate U SoundsAnnounceNew {Ilmoita uudet siirrot}
 translate U SoundsMoveSoundOnly {Vain siirtoääni (poista ilmoitukset käytöstä)}

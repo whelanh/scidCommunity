@@ -1606,6 +1606,9 @@ Scid cercherà la prima mossa della partita corrente che raggiungerà una posizi
 # Sounds configuration:
 translate I SoundsFolder {Cartella dei file audio}
 translate I SoundsFolderHelp {La cartella deve contenere i file King.wav, a.wav, 1.wav, etc}
+translate I SoundsTheme {Tema sonoro}
+translate I SoundsThemeDefault {Predefinito (Scid)}
+translate I SoundsThemeHelp {I suoni di movimento/evento provengono dal tema selezionato. Per aggiungere un tema personalizzato, copia una cartella dei tuoi suoni nella directory dei temi.}
 translate I SoundsAnnounceOptions {Opzioni per l'annuncio delle mosse}
 translate I SoundsAnnounceNew {Annuncia l'esecuzione di una nuova mossa}
 translate I SoundsMoveSoundOnly {Sposta solo l'audio (disabilita gli annunci)}

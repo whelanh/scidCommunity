@@ -1629,6 +1629,9 @@ translate L NoveltyHelp {Scid va găsi prima mișcare a jocului curent care ajun
 # Sounds configuration:
 translate L SoundsFolder {Folder cu fișiere de sunet}
 translate L SoundsFolderHelp {Dosarul ar trebui să conțină fișierele King.wav, a.wav, 1.wav etc}
+translate L SoundsTheme {Tema sonoră}
+translate L SoundsThemeDefault {Implicit (Scid)}
+translate L SoundsThemeHelp {Sunetele de mutare/eveniment provin din tema selectată. Pentru a adăuga o temă personalizată, copiați un folder cu propriile sunete în directorul de teme.}
 translate L SoundsAnnounceOptions {Mutați opțiunile de anunț}
 translate L SoundsAnnounceNew {Anunțați mișcări noi pe măsură ce sunt făcute}
 translate L SoundsMoveSoundOnly {Mutați numai sunetul (dezactivați anunțurile)}

@@ -1651,6 +1651,9 @@ translate D NoveltyHelp {scidCommunity wird den ersten Zug aus der aktuellen Par
 # Sounds configuration:
 translate D SoundsFolder {Verzeichnis für Sprachausgabedateien}
 translate D SoundsFolderHelp {Das Verzeichnis sollte enthalten: King.wav, a.wav, 1.wav etc.}
+translate D SoundsTheme {Soundthema}
+translate D SoundsThemeDefault {Standard (Scid)}
+translate D SoundsThemeHelp {Bewegungs-/Ereignisgeräusche stammen aus dem ausgewählten Thema. Um ein benutzerdefiniertes Thema hinzuzufügen, kopieren Sie einen Ordner mit Ihren eigenen Sounds in das Themenverzeichnis.}
 translate D SoundsAnnounceOptions {Optionen für Zugankündigung}
 translate D SoundsAnnounceNew {Kündige neue Züge an, wenn sie ausgeführt werden}
 translate D SoundsMoveSoundOnly {Nur Ton bewegen (Ansagen deaktivieren)}

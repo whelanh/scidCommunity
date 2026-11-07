@@ -1,0 +1,24 @@
+"steel" sound theme (steel-drum jingles)
+========================================
+
+  Author  : Kenney (www.kenney.nl)
+  Source  : https://kenney.nl/assets/music-jingles
+  License : Creative Commons Zero (CC0) 1.0
+            https://creativecommons.org/publicdomain/zero/1.0/
+
+Obtained from Kenney's "Music Jingles" pack (CC0, public domain), specifically
+the "Steel jingles" folder, and converted from the original .ogg files to mono
+PCM .wav (22050 Hz), renamed to scidCommunity's move-sound names:
+
+    jingles_STEEL09  -> move.wav
+    jingles_STEEL08  -> move_normal.wav
+    jingles_STEEL11  -> move_capture.wav
+    jingles_STEEL04  -> move_castling.wav
+    jingles_STEEL10  -> move_promotion.wav
+    jingles_STEEL13  -> move_check.wav
+    jingles_STEEL01  -> Check.wav
+    jingles_STEEL07  -> Mate.wav
+
+CC0 places this work in the public domain: no attribution is required and the
+sounds may be used in personal, educational and commercial projects. Crediting
+Kenney is appreciated but not mandatory.

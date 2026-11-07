@@ -1658,6 +1658,9 @@ Scid encontrará el primer movimiento de la actual partida que alcanza una posic
 # Sounds configuration:
 translate S SoundsFolder {Directorio de los archivos de sonido}
 translate S SoundsFolderHelp {El directorio debe contener los archivos King.wav, a.wav, 1.wav, etc.}
+translate S SoundsTheme {tema sonoro}
+translate S SoundsThemeDefault {Predeterminado (Scid)}
+translate S SoundsThemeHelp {Los sonidos de movimiento/evento provienen del tema seleccionado. Para agregar un tema personalizado, copie una carpeta de sus propios sonidos en el directorio de temas.}
 translate S SoundsAnnounceOptions {Opciones de anunciamiento de movimientos}
 translate S SoundsAnnounceNew {Anunciar nuevos movimientos cuando sean hechos}
 translate S SoundsMoveSoundOnly {Mover solo sonido (desactivar anuncios)}
