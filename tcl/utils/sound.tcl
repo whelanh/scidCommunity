@@ -269,11 +269,8 @@ proc ::utils::sound::AnnounceBack {} {
 proc ::utils::sound::SoundFinished {} {
   after cancel ::utils::sound::CancelSounds
   set ::utils::sound::isPlayingSound 0
-  # Delay between concatenated sounds. Spanish announcements use very short
-  # single-letter tokens (a..h), so give them more separation than the default.
-  set gap 150
-  if {[info exists ::language] && $::language eq "S"} { set gap 300 }
-  after $gap ::utils::sound::CheckSoundQueue
+  # Add a small delay (150ms) between concatenated sounds
+  after 150 ::utils::sound::CheckSoundQueue
 }
 
 proc ::utils::sound::CancelSounds {} {
