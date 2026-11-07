@@ -12,14 +12,15 @@ scidCommunity's move-sound names:
 
     Move       -> move, move_normal, move_castling, move_promotion
     Capture    -> move_capture
-    Check      -> move_check, Check
-    Checkmate  -> Mate
+    Check      -> move_check, Check   (omitted, see note below)
+    Checkmate  -> Mate                (omitted, see note below)
 
 The original files are distributed under the GNU AGPL v3 (see lila's
 COPYING.md, where public/sound is not listed among the files under other
 licences). These converted .wav files are a derivative work and remain under
 the AGPL v3. A copy of that licence is in ../LICENSE-AGPLv3.txt.
 
-Note: Lichess's "standard" set maps Check and Checkmate to silence. Those
-silent files are omitted here, so scidCommunity falls back to its own (GPL)
-Check/Mate/move_check sounds from the base sounds/ folder.
+Note: Lichess's "standard" set maps Check and Checkmate to silence (their
+Check.ogg/Checkmate.ogg are symlinks to Silence.ogg). Those silent files are
+omitted from this theme, so scidCommunity falls back to its own (GPL) Check,
+Mate and move_check sounds from the base sounds/ folder.
