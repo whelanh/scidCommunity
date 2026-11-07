@@ -19,9 +19,10 @@ Spoken tokens (piece names, files, ranks and special announcements):
     files: a, be, ce, de, e, efe, ge, hache
     ranks: uno, dos, tres, cuatro, cinco, seis, siete, ocho
 
-The single-letter file sounds (a..h) are short, so ~150 ms of silence has been
-added before and after each one to make them easier to distinguish when spoken
-in sequence (e.g. the "b" and "a" in a move like Tba1).
+Spanish announcements use a longer gap (300 ms) between the spoken pieces
+than the default 150 ms, to make the short single-letter file tokens (a..h)
+easier to distinguish when spoken in sequence (e.g. the "b" and "a" in a move
+like Tba1).
 
 The move/event sounds (move.wav, move_capture.wav, move_castling.wav,
 move_check.wav, move_promotion.wav, move_normal.wav) are copied unchanged
