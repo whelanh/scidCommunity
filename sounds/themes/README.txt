@@ -24,15 +24,19 @@ theme only needs to supply the sounds it wants to change.
 Bundled themes
 --------------
 
-The bundled themes are the Lichess sound sets, converted from the open-source
-lichess-org/lila repository (https://github.com/lichess-org/lila), specifically
-public/sound/<theme>/:
+Each theme directory contains a "copyright" file with its attribution and the
+licence that governs its files.
+
+Lichess sound sets, converted from the open-source lichess-org/lila repository
+(https://github.com/lichess-org/lila), specifically public/sound/<theme>/
+(GNU AGPL v3, full text in LICENSE-AGPLv3.txt):
 
     standard  piano  nes  sfx  futuristic  lisp  woodland  robot
 
-Each theme directory contains a "copyright" file with its attribution and the
-licence that governs its files (GNU AGPL v3 for the bundled Lichess themes,
-with the full text in LICENSE-AGPLv3.txt).
+"wood", a set of wooden taps/knocks built from Kenney's "Impact Sounds" pack
+(https://kenney.nl/assets/impact-sounds), CC0 public domain:
+
+    wood
 
 Mapping from Lichess event names to scidCommunity names:
 
