@@ -164,8 +164,7 @@ proc ::search::comments::Copy {} {
     if {$iid eq ""} { return }
 
     lassign [$tv item $iid -values] game white black move
-    clipboard clear
-    clipboard append [join [list $game $white $black $move] \t]
+    ::utils::setClipboardText [join [list $game $white $black $move] \t]
     $win.status configure -text \
         "Copied Game, White, Black and Move to the clipboard."
 }

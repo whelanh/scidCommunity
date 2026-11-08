@@ -34,6 +34,35 @@ proc ::utils::getClipboardText {{varName ""}} {
   return ""
 }
 
+# isWayland:
+#   True when the app is running under a Wayland compositor. Tk itself is an
+#   X11 toolkit, so on those desktops it runs through XWayland and its
+#   "clipboard"/"selection" commands only touch the X11 selections.
+proc ::utils::isWayland {} {
+  if {[info exists ::env(XDG_SESSION_TYPE)] &&
+      $::env(XDG_SESSION_TYPE) eq "wayland"} { return 1 }
+  if {[info exists ::env(WAYLAND_DISPLAY)] && $::env(WAYLAND_DISPLAY) ne ""} {
+    return 1
+  }
+  return 0
+}
+
+# setClipboardText:
+#   Writes text to the system clipboard. On Wayland, Tk's "clipboard"
+#   command writes to the X11 CLIPBOARD selection through XWayland, and the
+#   compositor's bridge back to the Wayland clipboard is unreliable: the
+#   write can silently never arrive, so a paste shows stale contents. wl-copy
+#   (from wl-clipboard) talks to the Wayland clipboard directly and is used
+#   there when available; elsewhere the Tk command is used.
+proc ::utils::setClipboardText {text} {
+  if {[::utils::isWayland] && [auto_execok wl-copy] ne ""} {
+    if {![catch {exec wl-copy << $text}]} { return }
+    # wl-copy failed for some reason; fall through to the Tk command.
+  }
+  clipboard clear
+  clipboard append $text
+}
+
 # thousands, percentFormat:
 #   Functions to format integer numbers.
 #   thousands inserts the thousands separator (usually "," or ".") for

@@ -16,8 +16,7 @@ namespace eval ::tree {
 
 ################################################################################
 proc ::tree::menuCopyToSelection { baseNumber } {
-  clipboard clear
-  clipboard append [ .treeWin$baseNumber.f.tl get 1.0 end ]
+  ::utils::setClipboardText [.treeWin$baseNumber.f.tl get 1.0 end]
 }
 ################################################################################
 proc ::tree::make { { baseNumber -1 } {locked 0} } {

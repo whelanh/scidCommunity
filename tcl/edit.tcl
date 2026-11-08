@@ -382,8 +382,7 @@ proc copyFEN {} {
   if {! [winfo exists $w]} { text $w }
   $w delete 1.0 end
   $w insert end $fen sel
-  clipboard clear
-  clipboard append $fen
+  ::utils::setClipboardText $fen
   selection own $w
   selection get
 }

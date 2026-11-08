@@ -28,8 +28,7 @@ namespace eval pgn {
       if {! [winfo exists $wt]} { text $wt }
       $wt delete 1.0 end
       $wt insert end $pgnStr sel
-      clipboard clear
-      clipboard append $pgnStr
+      ::utils::setClipboardText $pgnStr
       selection own $wt
       selection get
   }
@@ -402,8 +401,14 @@ proc ::pgn::openInChessCom {} {
     return
   }
 
-  # Generate PGN text
-  set pgnStr [sc_game pgn -width 75 -indentComments $::pgn::indentComments \
+  # Generate PGN text for the upload only. Strip comments and annotations
+  # (NAGs and the embedded mark/arrow codes, which Game Review writes as
+  # coloured comments): chess.com passes the game through the analysis URL,
+  # so a review's per-move commentary makes the query string too long and the
+  # server answers "421 Misdirected Request". Only the uploaded copy is
+  # affected; the stored game is unchanged.
+  set pgnStr [sc_game pgn -width 75 -comments 0 \
+      -indentComments $::pgn::indentComments \
       -indentVariations $::pgn::indentVars -space $::pgn::moveNumberSpaces]
 
   # Flatten newlines for URL use
