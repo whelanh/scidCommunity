@@ -492,14 +492,14 @@ proc ::appupdate::launchAndExit {installer} {
         puts $fh "ping -n 2 127.0.0.1 >nul"
         puts $fh "tasklist /fi \"PID eq $pid\" /nh 2>nul | findstr /b \"scidCommunity.exe\" >nul"
         puts $fh "if not errorlevel 1 goto wait"
-        puts $fh "start \"scidCommunity\" \"[string map {\" \"} $installer]\""
+        puts $fh "start \"\" \"[string map {\" \"} $installer]\""
         puts $fh "del \"%~f0\""
         close $fh
-        exec cmd.exe /c start "scidCommunity" [list $helper]
+        exec cmd.exe /c start "" [list $helper]
     } err]} {
         # Helper could not be launched; fall back to launching the installer
         # directly (may fail if the running exe is still locked).
-        catch { exec cmd.exe /c start "scidCommunity" [list $installer] }
+        catch { exec cmd.exe /c start "" [list $installer] }
     }
     # Exit cleanly: prompts about unsaved games, saves options, then quits.
     ::file::Exit
