@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+ <release version="5.1.4.58" date="2026-11-08">
+      <description>
+        <p>Add additional move sound themes from Lichess, etc.</p>
+      </description>
+    </release>
  <release version="5.1.4.57" date="2026-11-07">
       <description>
         <p>Fixes: color display; repetition notifications; Windows downloader</p>

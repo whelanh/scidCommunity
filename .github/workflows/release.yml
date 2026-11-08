@@ -608,12 +608,14 @@ jobs:
           path: scidCommunity-*.AppImage
 
   create-release:
-    # Deliberately does NOT depend on build-macos-app: the macOS pool is
-    # frequently starved (see the build-macos-app comment), and we don't want
-    # a queued macOS job to block shipping Windows/Linux. The macOS zip is
-    # attached afterwards by the separate attach-macos job, which can complete
-    # in a later run without holding up this release.
-    needs: [build-windows, build-linux-deb, build-linux-rpm, build-linux-appimage]
+    # Deliberately does NOT depend on build-macos-app or build-linux-appimage:
+    # the macOS pool is frequently starved (see the build-macos-app comment),
+    # and the AppImage build has flaky tooling downloads (appimagetool), so we
+    # don't want either to block shipping Windows/Linux. The macOS zip and the
+    # AppImage are attached afterwards by the separate attach-macos and
+    # attach-appimage jobs, which can complete in a later run without holding
+    # up this release.
+    needs: [build-windows, build-linux-deb, build-linux-rpm]
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/') || (github.event_name == 'workflow_dispatch' && inputs.create_release)
     permissions:
@@ -650,7 +652,6 @@ jobs:
             artifacts/scidCommunity-windows-installer/*.exe
             artifacts/scidCommunity-ubuntu-deb/*.deb
             artifacts/scidCommunity-linux-rpm/*.rpm
-            artifacts/scidCommunity-linux-appimage/*.AppImage
           draft: false
           prerelease: false
         env:
@@ -694,4 +695,45 @@ jobs:
           # "not a git repository".
           gh release upload "${{ steps.tag.outputs.tag_name }}" \
             artifacts/scidCommunity-macos/*.zip \
+            --repo "${{ github.repository }}" --clobber
+
+  attach-appimage:
+    # Attaches the AppImage to the release once the AppImage build actually
+    # finishes. This job waits on both create-release (so the release exists)
+    # and build-linux-appimage (so the artifact exists). If the appimagetool
+    # download times out or the build fails, the release is already live with
+    # Windows/deb/rpm and only this asset is missing; the AppImage lands on a
+    # later successful run of the same tag.
+    needs: [create-release, build-linux-appimage]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/') || (github.event_name == 'workflow_dispatch' && inputs.create_release)
+    permissions:
+      contents: write
+    steps:
+      - name: Set tag name
+        id: tag
+        run: |
+          if [[ -n "${{ inputs.version }}" ]]; then
+            VER="${{ inputs.version }}"
+            echo "tag_name=v${VER#v}" >> $GITHUB_OUTPUT
+          else
+            echo "tag_name=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Download AppImage artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: scidCommunity-linux-appimage
+          path: artifacts/scidCommunity-linux-appimage
+
+      - name: Upload AppImage asset to release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          # No checkout here (to keep this job lightweight), so pass the repo
+          # explicitly: otherwise `gh` runs `git` to detect it and fails with
+          # "not a git repository".
+          gh release upload "${{ steps.tag.outputs.tag_name }}" \
+            artifacts/scidCommunity-linux-appimage/*.AppImage \
             --repo "${{ github.repository }}" --clobber
