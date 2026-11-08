@@ -491,7 +491,7 @@ jobs:
 
       - name: Download appimagetool
         run: |
-          wget -O appimagetool https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+          wget --tries=5 --waitretry=5 --retry-connrefused --retry-on-http-error=429,500,502,503,504 -O appimagetool https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
           chmod +x appimagetool
 
       - name: Build ScidCommunity
