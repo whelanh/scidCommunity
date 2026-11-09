@@ -127,7 +127,14 @@ void game_printNag(byte nag, char *str, bool asSymbol, gameFormatT format) {
     return;
   }
 
-  if (asSymbol) {
+  // Only the six suffix annotations ($1..$6) have a standard PGN text form.
+  // The remaining entries in evalNagsRegular ("+=", "--+", "D", ...) are
+  // display symbols: writing them into a plain PGN file breaks Scid's own
+  // reader and third parties such as Lichess and ChessBase, so plain output
+  // always uses "$<n>". The colour and HTML formats are display-only and keep
+  // the readable symbols.
+  bool stdSuffix = (nag >= NAG_GoodMove && nag <= NAG_DubiousMove);
+  if (asSymbol && (stdSuffix || format != PGN_FORMAT_Plain)) {
     strcpy(str, evalNagsRegular[nag]);
     if (nag == NAG_Diagram) {
       if (format == PGN_FORMAT_HTML) {
@@ -138,9 +145,9 @@ void game_printNag(byte nag, char *str, bool asSymbol, gameFormatT format) {
       }
     }
     return;
-  } else {
-    sprintf(str, "$%d", nag);
   }
+
+  sprintf(str, "$%u", nag);
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

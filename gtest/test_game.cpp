@@ -736,13 +736,21 @@ TEST(Test_Game, printNag_symbolic) {
   game_printNag(NAG_Blunder, buf, true, PGN_FORMAT_Plain);
   EXPECT_STREQ("??", buf);
 
+  // Non-standard NAGs have no PGN text form: plain output uses "$<n>".
   game_printNag(NAG_WhiteSlight, buf, true, PGN_FORMAT_Plain);
-  EXPECT_STREQ("+=", buf);
+  EXPECT_STREQ("$14", buf);
 
   game_printNag(NAG_BlackDecisive, buf, true, PGN_FORMAT_Plain);
-  EXPECT_STREQ("-+", buf);
+  EXPECT_STREQ("$19", buf);
 
   game_printNag(NAG_Diagram, buf, true, PGN_FORMAT_Plain);
+  EXPECT_STREQ("$201", buf);
+
+  // Display formats (colour, HTML) keep the readable symbols.
+  game_printNag(NAG_WhiteSlight, buf, true, PGN_FORMAT_Color);
+  EXPECT_STREQ("+=", buf);
+
+  game_printNag(NAG_Diagram, buf, true, PGN_FORMAT_Color);
   EXPECT_STREQ("D", buf);
 
   game_printNag(NAG_Diagram, buf, true, PGN_FORMAT_HTML);

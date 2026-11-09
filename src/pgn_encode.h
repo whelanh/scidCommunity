@@ -152,6 +152,52 @@ template <int hard_len = 0, typename TCont>
 	return true;
 }
 
+// Remove the comment editor's formatting markup (<span ...>, <b>, <i>, <u>
+// and their closings) and unescape the four HTML entities the editor writes,
+// so a comment is plain text when encoded to PGN. This mirrors the plain-PGN
+// export path (Game::WriteComment -> stripComment in src/game.cpp) so that
+// "Save: Replace game" and "Export to PGN" produce the same comment text.
+inline std::string strip_comment_markup(std::string_view s) {
+	std::string out;
+	out.reserve(s.size());
+	for (std::size_t i = 0; i < s.size(); ++i) {
+		char ch = s[i];
+		if (ch == '<') {
+			auto gt = s.find('>', i);
+			if (gt != std::string_view::npos) {
+				std::string_view tag = s.substr(i + 1, gt - i - 1);
+				if (tag == "b" || tag == "/b" || tag == "i" ||
+				    tag == "/i" || tag == "u" || tag == "/u" ||
+				    tag == "span" || tag == "/span" ||
+				    (tag.size() >= 5 && tag.substr(0, 5) == "span ")) {
+					i = gt;
+					continue;
+				}
+			}
+			out += '<';
+		} else if (ch == '&') {
+			if (s.compare(i, 4, "&lt;") == 0) {
+				out += '<';
+				i += 3;
+			} else if (s.compare(i, 4, "&gt;") == 0) {
+				out += '>';
+				i += 3;
+			} else if (s.compare(i, 5, "&amp;") == 0) {
+				out += '&';
+				i += 4;
+			} else if (s.compare(i, 6, "&quot;") == 0) {
+				out += '"';
+				i += 5;
+			} else {
+				out += '&';
+			}
+		} else {
+			out += ch;
+		}
+	}
+	return out;
+}
+
 // Encode a comment in one of the two kinds specified by PGN standard.
 // The kind that "starts with a left brace character and continues to the next
 // right brace character" is preferred and used if the comment do not contains
@@ -160,18 +206,23 @@ template <int hard_len = 0, typename TCont>
 // UTF-8 fullwidth curly braces.
 template <int hard_len = 0, typename TCont>
 static void encode_comment(std::string_view comment, TCont& dest) {
+	// PGN is plain text: drop the comment editor's colour/format markup and
+	// unescape its entities, matching what the plain-PGN export produces.
+	std::string plain = strip_comment_markup(comment);
+	std::string_view text(plain);
+
 	auto is_curly = [](char ch) { return ch == '{' || ch == '}'; };
-	auto it_curly = std::find_if(comment.begin(), comment.end(), is_curly);
-	if (it_curly != comment.end() &&
-	    encode_comment_rest_of_line<hard_len>(comment, dest))
+	auto it_curly = std::find_if(text.begin(), text.end(), is_curly);
+	if (it_curly != text.end() &&
+	    encode_comment_rest_of_line<hard_len>(text, dest))
 		return;
 
 	dest.push_back('{');
-	dest.insert(dest.end(), comment.begin(), comment.end());
-	if (it_curly != comment.end()) {
+	dest.insert(dest.end(), text.begin(), text.end());
+	if (it_curly != text.end()) {
 		// Replace curly braces with UTF-8 fullwidth curly braces U+FF5B
 		// (ef bd 9b) or U+FF5D (ef bd 9d).
-		auto it = dest.end() - std::distance(it_curly, comment.end());
+		auto it = dest.end() - std::distance(it_curly, text.end());
 		do {
 			auto replace_char = (*it == '{') ? u8"\uFF5B" : u8"\uFF5D";
 			static_assert(std::u8string_view(u8"\uFF5D").size() == 3);
