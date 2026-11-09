@@ -304,6 +304,9 @@ proc ::appupdate::downloadAndInstall {url version} {
         -message [format [tr UpdateInstallConfirm] $version]]
     if {$answer ne "ok"} { return }
 
+    # The update dialog has done its job; replace it with the download dialog.
+    if {[winfo exists .updateDlg]} { destroy .updateDlg }
+
     set dest [file join [::appupdate::tempDir] \
         "scidCommunity-$version-windows-x64-setup.exe"]
     # A previous partial download may be present; start fresh.
@@ -495,11 +498,15 @@ proc ::appupdate::launchAndExit {installer} {
         puts $fh "start \"\" \"[string map {\" \"} $installer]\""
         puts $fh "del \"%~f0\""
         close $fh
-        exec cmd.exe /c start "" [list $helper]
+        # Background the launch (trailing "&"): a foreground exec captures the
+        # child's stdout in a pipe that the helper inherits and keeps open, so
+        # exec blocks until the helper finishes -- but the helper waits for this
+        # very process to exit first. A classic pipe-inheritance deadlock.
+        exec cmd.exe /c start "" $helper &
     } err]} {
         # Helper could not be launched; fall back to launching the installer
         # directly (may fail if the running exe is still locked).
-        catch { exec cmd.exe /c start "" [list $installer] }
+        catch { exec cmd.exe /c start "" $installer & }
     }
     # Exit cleanly: prompts about unsaved games, saves options, then quits.
     ::file::Exit
