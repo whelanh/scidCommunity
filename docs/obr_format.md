@@ -58,7 +58,7 @@ Readers must reject files whose magic, version or record sizes differ from those
 | 36 | 4 | perf_sum | sum of performances (average = sum / games) |
 | 40 | 4 | first_move | index of this position's first record in the Moves table |
 | 44 | 2 | n_moves | number of book moves (may be 0) |
-| 46 | 1 | recommendation | book author's mark for the move that **leads to** this position: `0x80` green/normal, `0x40` red (avoid), `0x00` none, other values reserved |
+| 46 | 1 | recommendation | book author's mark for the move that **leads to** this position: `0x80` normal, `0x40` avoid, `0x00` none, other values reserved (see section 9 for the colours) |
 | 47 | 1 | flags | bit 0: black to move. Bit 1: the source book stored this position mirrored (informational). Other bits are 0. |
 
 Statistics use **absolute colours**: White wins, draws, Black wins. To score a move, read the stats of its child position. The score of the side that played the move is `(wins_of_mover + draws/2) / games`.
@@ -135,3 +135,24 @@ The CTG fields "score in tenths" (`5*(2*wins+draws)`), "total games", and the tw
 5. Apply the transform from step 2 to the moves and stats (section 5).
 
 The reference reader (`obr.py`, class `ObrBook`) is about 80 lines of standard-library Python.
+
+## 9. Move colours
+
+The file stores no colour value. A move's display colour comes from two stored fields: the `recommendation` byte of the child position, and the NAG in bits 0–4 of the move's `annotation`. To show the same colours as ChessBase for CTG-derived books:
+
+| recommendation (child) | NAG of the move | colour |
+|---|---|---|
+| `0x40` | any | **red** (avoid) |
+| `0x80` or `0xA4` | 2 `?`, 4 `??`, 5 `!?`, 6 `?!`, 9 (worst move) | **blue** |
+| `0x80` or `0xA4` | any other, including none | **green** |
+| `0x00` or other | any | no colour |
+
+How this was established. In Hiarcs 15 the `recommendation` byte only takes the values `0x80` and `0x40`. ChessBase nevertheless shows three colours. Checked by eye in ChessBase:
+- every `!?` move with `0x80` is blue (for example 1.e3, 1.g3, 1.b3 and 1.f4 in the initial position);
+- a `?` move with `0x80` is blue;
+- `!` moves and moves with no NAG are green;
+- every `0x40` move is red.
+
+jja 0.9.1 (`colored_uci` and `Nag::is_question_mark`) uses the same rule, except that it always shows `0xA4` as green. That value does not occur in Hiarcs 15, so this behaviour is unverified.
+
+Example of a reader implementation (Tcl): `colour = red if rec == 0x40; blue if rec in {0x80, 0xA4} and nag in {2,4,5,6,9}; green if rec in {0x80, 0xA4}`.
