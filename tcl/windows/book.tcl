@@ -129,7 +129,7 @@ namespace eval book {
 
     # load book names
     set ::book::bookPath $::scidBooksDir
-    set ::book::bookList [ lsort -dictionary [ glob -nocomplain -directory $::book::bookPath *.bin ] ]
+    set ::book::bookList [ lsort -dictionary [ glob -nocomplain -directory $::book::bookPath *.bin *.obr ] ]
 
     # No book found
     if { [llength $::book::bookList] == 0 } {
@@ -201,6 +201,11 @@ namespace eval book {
       ::applyThemeStyle Treeview $w.$b.booktext
       ::applyThemeStyle Treeview $w.$b.opptext
       $w.$b.booktext tag configure nextmove -background $::highcolor
+      # OpenBook Rich (.obr): red = moves the book author marks as "avoid",
+      # header line, and a details line for the hovered move
+      $w.$b.booktext tag configure obrRed -foreground red3
+      $w.$b.booktext tag configure obrHeader -foreground grey40
+      ttk::label $w.$b.info -font font_Small -anchor w -justify left
       pack $w.$b.label -side top -fill x
       pack $w.$b.booktext -expand yes -fill both
     }
@@ -291,6 +296,26 @@ namespace eval book {
     # gather entries per visible book: {move count score depth name_idx}
     for {set b 1} {$b <= $count} {incr b} {
       set slot [set ::book::bookSlot$b]
+      set isObr($b) [string match -nocase *.obr [set ::book::currentBook$b]]
+      if {$isObr($b)} {
+        # rows: {san "obr" games details}, sortable like Polyglot rows
+        set obrPos($b) {}
+        set tmplist {}
+        if {![catch {sc_book obrmoves $slot} data] && [llength $data] == 3} {
+          lassign $data transform pstats mlist
+          set obrPos($b) [list $transform $pstats]
+          foreach m $mlist {
+            lappend tmplist [list [lindex $m 0] obr [lindex $m 5] $m]
+          }
+        }
+        if {$::book::sortAlpha} {
+          set tmplist [lsort -dictionary -index 0 $tmplist]
+        } else {
+          set tmplist [lsort -integer -index 2 -decreasing $tmplist]
+        }
+        set entries($b) $tmplist
+        continue
+      }
       if {[catch {lassign [sc_book moves $slot] bookMoves engine_eval}]} {
         set bookMoves {}
         set engine_eval {}
@@ -338,7 +363,11 @@ namespace eval book {
     # render visible books
     for {set b 1} {$b <= $count} {incr b} {
       set slot [set ::book::bookSlot$b]
-      renderBook $b $rows($b) $nextmove $engine_names $slot
+      if {$isObr($b)} {
+        renderObrBook $b $rows($b) $nextmove $slot $obrPos($b)
+      } else {
+        renderBook $b $rows($b) $nextmove $engine_names $slot
+      }
     }
 
     ::book::togglePositionsDisplay
@@ -351,6 +380,9 @@ namespace eval book {
     set w .bookWin
     set txt $w.$b.booktext
     set opp $w.$b.opptext
+    catch {pack forget $w.$b.info}
+    $txt configure -width 10
+    $w.$b.label configure -text [file rootname [set ::book::currentBook$b]]
 
     foreach t [$txt tag names] {
       if { [string match "bookMove*" $t] || [string match "mv*" $t] } {
@@ -399,6 +431,129 @@ namespace eval book {
       if { [string match "bookMove*" $t] } {
         $opp tag delete $t
       }
+    }
+    set oppBookMoves {}
+    catch {set oppBookMoves [sc_book positions $slot]}
+    $opp configure -state normal
+    $opp delete 1.0 end
+    set line 0
+    foreach x $oppBookMoves {
+      incr line
+      $opp insert end [format "%5s\n" [::trans $x]]
+      $opp tag add bookMove$line $line.0 $line.end
+      $opp tag bind bookMove$line <ButtonPress-1> "::book::makeBookMove $x"
+    }
+    $opp configure -state disabled
+  }
+
+  ################################################################################
+  #   OpenBook Rich (.obr) helpers
+  ################################################################################
+  proc obrNag { nag } {
+    set names {"" "!" "?" "!!" "??" "!?" "?!" "□" "□"}
+    if {$nag >= 0 && $nag < [llength $names]} { return [lindex $names $nag] }
+    return "\$$nag"
+  }
+
+  proc obrColour { rec } {
+    switch -- $rec {
+      128 { return green }
+      64  { return red }
+      0   { return "-" }
+      default { return [format 0x%02x $rec] }
+    }
+  }
+
+  # "+w =d -b" percentages of games (white / draw / black)
+  proc obrWdl { games ww dd bw } {
+    if {$games <= 0} { return "" }
+    return [format "%2.0f/%2.0f/%2.0f" [expr {100.0*$ww/$games}] \
+              [expr {100.0*$dd/$games}] [expr {100.0*$bw/$games}]]
+  }
+
+  proc showObrInfo { b text } {
+    set w .bookWin
+    if {[winfo exists $w.$b.info]} { $w.$b.info configure -text $text }
+  }
+
+  ################################################################################
+  #   render one .obr book panel
+  #   rows: {san "obr" games details}; details from "sc_book obrmoves":
+  #   {san nag flags hasStats score games whiteWins draws blackWins elo perf rec}
+  ################################################################################
+  proc renderObrBook { b rows nextmove slot posinfo } {
+    set w .bookWin
+    set txt $w.$b.booktext
+    set opp $w.$b.opptext
+
+    foreach t [$txt tag names] {
+      if { [string match "bookMove*" $t] || [string match "mv*" $t] } {
+        $txt tag delete $t
+      }
+    }
+
+    # panel title: book name + statistics of the current position
+    set title [file rootname [set ::book::currentBook$b]]
+    if {[llength $posinfo] == 2} {
+      lassign $posinfo transform pstats
+      lassign $pstats g ww dd bw elo perf rec
+      append title [format "  %d games  W/D/B %s%%" $g [obrWdl $g $ww $dd $bw]]
+      if {$elo > 0} { append title "  Elo $elo" }
+      if {$transform != 0} { append title "  (twin position)" }
+    }
+    $w.$b.label configure -text $title
+
+    $txt configure -state normal -width 48
+    $txt delete 1.0 end
+    $txt insert end [format "%-9s %8s %6s %9s %5s %5s\n" \
+                       "Move" "Games" "Score" "W/D/B%" "Elo" "Perf"] obrHeader
+    set line 1
+    foreach row $rows {
+      incr line
+      if {[llength $row] == 0} {
+        $txt insert end "\n"
+        continue
+      }
+      lassign [lindex $row 3] san nag flags hasStats score games ww dd bw elo perf rec
+      set label "[::trans $san][obrNag $nag]"
+      if {$hasStats} {
+        set eloTxt [expr {$elo > 0 ? $elo : "-"}]
+        set perfTxt [expr {$perf > 0 ? $perf : "-"}]
+        set text [format "%-9s %8d %5.1f%% %9s %5s %5s" $label $games $score \
+                    [obrWdl $games $ww $dd $bw] $eloTxt $perfTxt]
+        set detail [format "%s  %d games: +%d =%d -%d (White/Draw/Black)  score %.1f%%  Elo %s  Perf %s  colour %s  flags 0x%02X" \
+                      $label $games $ww $dd $bw $score $eloTxt $perfTxt [obrColour $rec] $flags]
+      } else {
+        set text [format "%-9s %8s" $label "-"]
+        set detail "$label  (no statistics)"
+      }
+      set tags [list bookMove$line mv$san]
+      if {$san == $nextmove} { lappend tags nextmove }
+      if {$hasStats && $rec == 64} { lappend tags obrRed }
+      $txt insert end "$text\n" $tags
+      if {$san == $nextmove} {
+        $txt tag bind bookMove$line <ButtonPress-1> ::move::Forward
+      } else {
+        $txt tag bind bookMove$line <ButtonPress-1> [list ::book::makeBookMove $san]
+      }
+      $txt tag bind bookMove$line <Any-Enter> \
+        "[list ::book::hoverMove $san enter]; [list ::book::showObrInfo $b $detail]"
+      $txt tag bind bookMove$line <Any-Leave> \
+        "[list ::book::hoverMove $san leave]; [list ::book::showObrInfo $b {}]"
+    }
+
+    set height [expr {$line + 1}]
+    if {$height < 4} { set height 4 }
+    $txt configure -state disabled -height $height
+
+    if {[catch {pack info $w.$b.info}]} {
+      catch {pack $w.$b.info -side bottom -fill x -before $txt}
+    }
+    showObrInfo $b ""
+
+    # moves leading to positions in the book
+    foreach t [$opp tag names] {
+      if { [string match "bookMove*" $t] } { $opp tag delete $t }
     }
     set oppBookMoves {}
     catch {set oppBookMoves [sc_book positions $slot]}
