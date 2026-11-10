@@ -876,6 +876,14 @@ translate F ReviewMoveButton {Commentaire du coup}
 translate F ReviewMoveButtonTooltip {Annoter le coup joué ici et l'insérer}
 translate F ReviewSettings {Réglages de l'analyse}
 translate F ReviewSettingsTooltip {Configure the review settings}
+translate F ToolsWhatThreat {Quelle est la menace ?}
+translate F ToolsWhatThreatTooltip {Demande au moteur ce que menace le camp au trait}
+translate F WhatThreatRunning {Une analyse des menaces est déjà en cours.}
+translate F WhatThreatNoEngine {Aucun moteur n'est configuré. Choisissez-en un dans Outils -> Liste des moteurs, ou ouvrez d'abord une fenêtre de moteur.}
+translate F WhatThreatNoPosition {Il n'y a aucune position à examiner.}
+translate F WhatThreatNoMove {Il n'y a aucun coup à commenter ici. Allez d'abord sur un coup de la partie.}
+translate F WhatThreatFailed {L'analyse des menaces n'a pas pu s'exécuter : %s}
+translate F WhatThreatNothingForcing {%s n'a rien de forcé ici : aucun coup ne gagne de matériel ni ne donne échec.}
 translate F ReviewVarLines {Variantes à écrire}
 translate F ReviewVarCp {Écart des variantes (cp)}
 translate F ReviewMoveWait {Attendre la profondeur d'analyse}

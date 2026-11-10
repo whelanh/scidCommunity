@@ -904,6 +904,14 @@ translate A ReviewMoveButton {指し手のコメント}
 translate A ReviewMoveButtonTooltip {ここで指した手を評価して書き込む}
 translate A ReviewSettings {検討の設定}
 translate A ReviewSettingsTooltip {Configure the review settings}
+translate A ToolsWhatThreat {脅威は何ですか？}
+translate A ToolsWhatThreatTooltip {手番側が何を脅かしているかをエンジンに尋ねます}
+translate A WhatThreatRunning {脅威の解析はすでに実行中です。}
+translate A WhatThreatNoEngine {エンジンが設定されていません。ツール -> エンジン一覧で選ぶか、先にエンジンウィンドウを開いてください。}
+translate A WhatThreatNoPosition {表示する局面がありません。}
+translate A WhatThreatNoMove {ここにはコメントする手がありません。先に対局の手へ移動してください。}
+translate A WhatThreatFailed {脅威の解析を実行できませんでした: %s}
+translate A WhatThreatNothingForcing {%s にはここで強制する手がありません: 駒得になる手も王手をかける手もありません。}
 translate A ReviewVarLines {書き込む変化}
 translate A ReviewVarCp {変化のしきい値 (cp)}
 translate A ReviewMoveWait {検討の深さを待つ}

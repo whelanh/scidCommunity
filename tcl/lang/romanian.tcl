@@ -904,6 +904,14 @@ translate L ReviewMoveButton {Comentariu la mutare}
 translate L ReviewMoveButtonTooltip {Etichetează mutarea jucată de aici și scrie-o}
 translate L ReviewSettings {Setările analizei}
 translate L ReviewSettingsTooltip {Configure the review settings}
+translate L ToolsWhatThreat {Care este amenințarea?}
+translate L ToolsWhatThreatTooltip {Întreabă motorul ce amenință partea care urmează la mutare}
+translate L WhatThreatRunning {O analiză a amenințărilor este deja în curs.}
+translate L WhatThreatNoEngine {Nu este configurat niciun motor. Alege unul din Instrumente -> Lista de motoare sau deschide mai întâi o fereastră de motor.}
+translate L WhatThreatNoPosition {Nu există nicio poziție de privit.}
+translate L WhatThreatNoMove {Aici nu există nicio mutare de comentat. Mergi mai întâi la o mutare din partidă.}
+translate L WhatThreatFailed {Analiza amenințărilor nu a putut porni: %s}
+translate L WhatThreatNothingForcing {%s nu are nimic forțat aici: nicio mutare nu câștigă material și nu dă șah.}
 translate L ReviewVarLines {Variante de scris}
 translate L ReviewVarCp {Marja variantelor (cp)}
 translate L ReviewMoveWait {Așteaptă adâncimea analizei}

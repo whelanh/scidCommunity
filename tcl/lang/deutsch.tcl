@@ -903,6 +903,14 @@ translate D ReviewMoveButton {Zugkommentar}
 translate D ReviewMoveButtonTooltip {Aktuellen Zug bewerten und eintragen}
 translate D ReviewSettings {Einstellungen der Prüfung}
 translate D ReviewSettingsTooltip {Bewertungsvorgaben konfigurieren}
+translate D ToolsWhatThreat {Was droht?}
+translate D ToolsWhatThreatTooltip {Frage die Engine, was die Seite am Zug droht}
+translate D WhatThreatRunning {Eine Drohungsanalyse läuft bereits.}
+translate D WhatThreatNoEngine {Keine Engine ist eingerichtet. Wähle eine unter Werkzeuge -> Engine konfigurieren oder öffne zuerst ein Engine-Fenster.}
+translate D WhatThreatNoPosition {Es gibt keine Stellung zum Ansehen.}
+translate D WhatThreatNoMove {Hier gibt es keinen Zug zum Kommentieren. Gehe zuerst zu einem Zug in der Partie.}
+translate D WhatThreatFailed {Die Drohungsanalyse konnte nicht laufen: %s}
+translate D WhatThreatNothingForcing {%s hat hier nichts Zwingendes: kein Zug gewinnt Material oder gibt Schach.}
 translate D ReviewVarLines {Zu schreibende Varianten}
 translate D ReviewVarCp {Variantenabstand (cp)}
 translate D ReviewMoveWait {Auf die Prüfungstiefe warten}

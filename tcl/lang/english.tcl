@@ -903,6 +903,14 @@ translate E ReviewMoveButton {Move Comment}
 translate E ReviewMoveButtonTooltip {Label the highlighted move and write it in}
 translate E ReviewSettings {Review Settings}
 translate E ReviewSettingsTooltip {Configure the review settings}
+translate E ToolsWhatThreat {What's the threat?}
+translate E ToolsWhatThreatTooltip {Ask the engine what the side to move is threatening}
+translate E WhatThreatRunning {A threat probe is already running.}
+translate E WhatThreatNoEngine {No engine is configured. Choose one in Tools -> Configure Engines, or open an engine window first.}
+translate E WhatThreatNoPosition {There is no position to look at.}
+translate E WhatThreatNoMove {There is no move here to comment on. Go to a move in the game first.}
+translate E WhatThreatFailed {The threat probe could not run: %s}
+translate E WhatThreatNothingForcing {%s has nothing forcing here: no move wins material or gives check.}
 translate E ReviewVarLines {Variations to write}
 translate E ReviewVarCp {Variation margin (cp)}
 translate E ReviewMoveWait {Wait for the review depth}

@@ -893,6 +893,14 @@ translate N ReviewMoveButton {Zetcommentaar}
 translate N ReviewMoveButtonTooltip {Beoordeel de gespeelde zet vanaf hier en schrijf die in}
 translate N ReviewSettings {Instellingen voor beoordeling}
 translate N ReviewSettingsTooltip {Configure the review settings}
+translate N ToolsWhatThreat {Wat is de dreiging?}
+translate N ToolsWhatThreatTooltip {Vraag de engine wat de partij aan zet dreigt}
+translate N WhatThreatRunning {Er loopt al een dreigingsanalyse.}
+translate N WhatThreatNoEngine {Er is geen engine ingesteld. Kies er een in Gereedschappen -> Configureer motoren, of open eerst een enginevenster.}
+translate N WhatThreatNoPosition {Er is geen stelling om te bekijken.}
+translate N WhatThreatNoMove {Hier is geen zet om te becommentariëren. Ga eerst naar een zet in de partij.}
+translate N WhatThreatFailed {De dreigingsanalyse kon niet starten: %s}
+translate N WhatThreatNothingForcing {%s heeft hier niets dwingends: geen zet wint materiaal of geeft schaak.}
 translate N ReviewVarLines {Varianten om te schrijven}
 translate N ReviewVarCp {Variantmarge (cp)}
 translate N ReviewMoveWait {Wacht op de beoordelingsdiepte}

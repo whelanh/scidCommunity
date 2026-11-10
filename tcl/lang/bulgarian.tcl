@@ -904,6 +904,14 @@ translate g ReviewMoveButton {Коментар на хода}
 translate g ReviewMoveButtonTooltip {Оцени изиграния ход и го запиши}
 translate g ReviewSettings {Настройки на прегледа}
 translate g ReviewSettingsTooltip {Configure the review settings}
+translate g ToolsWhatThreat {Каква е заплахата?}
+translate g ToolsWhatThreatTooltip {Попитай двигателя какво заплашва страната на ход}
+translate g WhatThreatRunning {Анализ на заплахите вече тече.}
+translate g WhatThreatNoEngine {Няма настроен двигател. Изберете такъв в Инструменти -> Списък с двигатели или първо отворете прозорец на двигател.}
+translate g WhatThreatNoPosition {Няма позиция за разглеждане.}
+translate g WhatThreatNoMove {Тук няма ход за коментиране. Първо отидете на ход в партията.}
+translate g WhatThreatFailed {Анализът на заплахите не можа да стартира: %s}
+translate g WhatThreatNothingForcing {%s няма нищо форсиращо тук: нито един ход не печели материал и не дава шах.}
 translate g ReviewVarLines {Варианти за запис}
 translate g ReviewVarCp {Граница на вариантите (cp)}
 translate g ReviewMoveWait {Изчакай дълбочината на прегледа}

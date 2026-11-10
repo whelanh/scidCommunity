@@ -1147,10 +1147,14 @@ proc ::enginewin::createButtonsBar {id btn display} {
 
     # What's the Threat? is a later slice: the button exists only when its
     # command does. The icon is already in img/buttons for the day it lands.
+    # An embedded PGN viewer shows a game the main board does not hold, and the
+    # probe reads the main board's position: no button there.
     if {[llength [info commands ::enginewin::threat]]} {
-        ttk::button $btn.threat -image ::icon::tb_review_threat -style Toolbutton \
-            -command [list ::enginewin::threat $id]
-        ::utils::tooltip::Set $btn.threat [::reviewui::label ToolsWhatThreatTooltip]
+        if {![info exists ::enginewin::pgnviewer($id)] || !$::enginewin::pgnviewer($id)} {
+            ttk::button $btn.threat -image ::icon::tb_review_threat -style Toolbutton \
+                -command [list ::enginewin::threat $id]
+            ::utils::tooltip::Set $btn.threat [::reviewui::label ToolsWhatThreatTooltip]
+        }
     }
 
     ttk::button $btn.reviewsettings -image ::icon::tb_review_settings -style Toolbutton \
@@ -1460,6 +1464,23 @@ proc ::enginewin::reviewGame {id} {
     # start (no engine, no game) leaves the layout alone.
     set started [::enginewin::reviewStart $id [::enginewin::reviewRunState $id]]
     if {$started} { catch { ::reviewprogress::ui::open } }
+}
+
+# What's the threat? uses this window's preset, so the answer comes from the
+# engine the reader is looking at. With no engine selected, the probe falls back
+# to the first configured preset and says what it needs.
+proc ::enginewin::threat {id} {
+    # The probe asks the board's position. An embedded PGN viewer's game is not
+    # on the board, so the button is not built there; this guard also covers a
+    # direct call.
+    if {[info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id)} {
+        return
+    }
+    set name ""
+    catch { set name $::enginewin_lastengine($id) }
+    set cfg ""
+    if {$name ne ""} { catch { set cfg [::enginecfg::get $name] } }
+    ::reviewthreat::ask $cfg
 }
 
 # Move Comment: the move the reader is on, and only that move.

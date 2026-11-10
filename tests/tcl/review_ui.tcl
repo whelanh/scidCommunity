@@ -63,6 +63,14 @@ array set ::EN {
     ReviewCoachNoModel      {Coach prose is on, but no model is configured. Press Coach settings... in Review Settings to choose a provider and model.}
     ReviewCoachKept         {Review cancelled: %s of %s coach notes were kept.}
     ReviewCoachDiscarded    {The review is complete, but the coach prose was discarded: another game was opened while the model was writing.}
+    ToolsWhatThreat         {What's the threat?}
+    ToolsWhatThreatTooltip  {Ask the engine what the side to move is threatening}
+    WhatThreatRunning       {A threat probe is already running.}
+    WhatThreatNoEngine      {No engine is configured. Choose one in Tools -> Configure Engines, or open an engine window first.}
+    WhatThreatNoPosition    {There is no position to look at.}
+    WhatThreatNoMove        {There is no move here to comment on. Go to a move in the game first.}
+    WhatThreatFailed        {The threat probe could not run: %s}
+    WhatThreatNothingForcing {%s has nothing forcing here: no move wins material or gives check.}
     Lines                   {Lines}
     Depth                   {Depth}
 }
@@ -80,6 +88,10 @@ set ::NEWKEYS {
     ReviewWaitForDepth ReviewFailed
     ReviewCoach ReviewCoachProgress ReviewWriting ReviewCoachSettings
     ReviewCoachNoModel ReviewCoachKept ReviewCoachDiscarded
+    ToolsWhatThreat ToolsWhatThreatTooltip
+    WhatThreatRunning WhatThreatNoEngine WhatThreatNoPosition
+    WhatThreatNoMove
+    WhatThreatFailed WhatThreatNothingForcing
 }
 
 puts "which button is live"

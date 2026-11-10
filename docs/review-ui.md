@@ -150,6 +150,71 @@ pass, not what a comment has to reach. A capped comment therefore writes the
 verdict the capped search actually produced — shallower than `::review::depth` if
 the cap bit — instead of waiting for a depth the cap will never allow.
 
+## What's the threat? — the position, asked of the engine
+
+**What's the threat?** asks the engine what the side to move is threatening in
+the position on the board and writes the answer into the comment of the move the
+reader is on. It is the threat button
+beside **Move Comment** in the engine window (the window's own preset is the one
+it searches with), the **What's the threat?** entry in the **Tools** menu (that
+one takes the first engine window's preset, or the first configured preset), and
+the `<menu>What's the threat?</menu>` help page under **W**.
+
+The answer comes from the position, not from a model:
+
+- one short search on a connection of its own — `::engineNoWin` opens it, one
+  `Go` asks for `position fen …` with `MultiPV 1`, depth 14 and the review's time
+  cap as the ceiling. The connection is given the review pass's thread and hash
+  budget, not the preset's full reservation: it is a second engine process. A
+  `NewGame` carries the game's variant before the `Go`, so a Chess960 position is
+  not searched as orthodox. It does not borrow the analysis window's engine and
+  does not touch the review pass's connection: a probe and a review can be alive
+  at the same time;
+- the connection is **closed in the reply that delivered the move**, not one
+  event turn later. That is the path #422 item 1 fixed (#423): `::engine::reply`
+  captures its channel before it runs a callback and stops when the callback has
+  closed it, so a one-shot connection can close where the answer arrives. A
+  timer (30 s, or the review's time cap plus 15 s when that is longer) and a
+  disconnect close it the same way, and the job is cleared
+  before the close, so exactly one close happens;
+- the move is named in **SAN** (`sc_pos coordToSAN`, the same command
+  `::facts::mateInOne` uses) and described in words from `::facts` — the
+  vocabulary a move comment is written in. The clauses that reach the answer are
+  the ones that describe a threat: `threatens …`, `wins …`, `attacks …`, check
+  and mate. Escaping danger, protecting a piece and castling are about the
+  mover's own position and are left out;
+- a quiet best move is **not** called a threat: `::reviewthreat::forcing` decides,
+  and the answer then says the side to move has no immediate threat and gives the
+  strongest move instead. An engine that answers `0000` or `(none)` gets
+  "nothing forcing here: no move wins material or gives check";
+- the probe writes **one line into the comment of the move the reader is on** —
+  `[Coach] Threat: <facts>`, the same one-line tagged shape the coach layer
+  writes, so `::reviewcoach::strip` takes it whole. The reader's own note is kept
+  where it was: the block is appended, and a re-press **replaces** the probe's
+  line rather than stacking a second one. The marker is the probe's own, so the
+  coach's `[Coach] …` note on the same move is never deleted. The press writes no
+  NAG and no variation, and it does not move the board: the write is FEN-checked
+  against the position the search was made on, the game number is checked too, and
+  the cursor is put back with `::review::cursorRestore`. The comment and PGN
+  windows are refreshed after the write;
+- a refusal is what the message box is for: no engine configured, no position,
+  a board at the start of the line (there is no move to comment on), and a probe
+  that is already running. None of them writes anything, and neither does a game
+  that changed while the search ran — that one is reported rather than written
+  onto a move the answer was never about.
+
+Prose is an enrichment over those facts and can be absent. One sentence is asked
+of the review's own queue (`::reviewprose::run`), one item, `max` 160, keyed by
+the move, so the press returns immediately and the sentence is added to the
+facts line when it arrives. With no provider, a queue that is already busy, a
+failed request or a cancelled run the facts line is exactly what was written and
+nothing is shown. That is a supported state, not a degraded one: `tests/tcl/review_threat.tcl`
+asserts the comment after each of those.
+
+A move the board refuses (the engine named something illegal in this position)
+is reported as a failure rather than turned into facts from a position the engine
+did not mean.
+
 ## Review Settings
 
 **Review Settings** opens seven rows:
@@ -561,12 +626,13 @@ plain-text form.
 | `tcl/tools/review_ui.tcl` | `::reviewui` — button state, the call a press makes, dialog values, the time cap's note, the status line |
 | `tcl/tools/review_report.tcl` | the deterministic report: accuracy, ACPL, estimated Elo, key moments, and the phase split with the three-signal opening boundary |
 | `tcl/tools/review_coach.tcl` | `::reviewcoach` — the facts a coach may use, the prompts built from them, and the prose layer: `start`, `place`, `finish`, `clear`, `strip`, `stripHeader`. No model, no network |
-| `tcl/tools/review_prose.tcl` | `::reviewprose` — the queue: one request at a time through `::auto_comment::queryAsync`, cache-keyed, with progress, cancel and a failed request dropped |
-| `tcl/windows/engine.tcl` | the review icons, the status line, the settings dialog (guarded glue) |
+| `tcl/tools/review_prose.tcl` | `::reviewprose` — the queue: one request at a time through `::auto_comment::queryAsync`, cache-keyed, with progress, cancel and a failed request dropped. Two callers: the review's coach prompts and the threat probe's one sentence |
+| `tcl/tools/review_threat.tcl` | `::reviewthreat` — "What's the threat?": `sideName`, `san`, `threatClauses`, `forcing`, `answer`, `factsBlock`, `prompt`, `search` (one shot, connection `reviewThreat`), `block`, `stripOwn`, `write` (the move comment, cursor restored), `prose`, `spoken`, `ready`, `ask`. Writes one line into the move's comment |
+| `tcl/windows/engine.tcl` | the review icons, the status line, the settings dialog (guarded glue), and `::enginewin::threat` (the window's preset) |
 | `tcl/tools/analysis.tcl` | the Analysis window's annotate dialog, its OK (`configAnnotateOK`) and the button on every pane |
 | `tests/tcl/review_settings_dialog.tcl` | 51 checks: under Tk: the dialog builds, has OK/Cancel, stores what is typed, refuses a bad value, the variation box follows `mpv`, the time cap's row shows the preset's cap and drops the note, the on/off rows are checkboxes, `Coach settings…` opens a window of its own from a dialog that holds no grab, and both traces are removed when the dialog closes |
-| `tests/tcl/review_ui.tcl` | 229 checks: the call a press makes, the status line (including the coach's counts), the button states, the dialog round trip, the precedence table through the dialog, the time cap's note, which move a comment judges, the move-comment depth, the key set |
-| `tests/tcl/review_toolbar.tcl` | 42 checks: the five review icons use `::icon::` names and exist in icons_light and icons_dark at 24×24, the whole engine toolbar uses `::icon::` images, the labels are tooltips rather than text, the stop icon is gridded only while a pass runs, a visible divider separates the review group from Config, the dark-theme cache matches `::icon::` names, and the threat button exists only when its command does |
+| `tests/tcl/review_ui.tcl` | 237 checks: the call a press makes, the status line (including the coach's counts), the button states, the dialog round trip, the precedence table through the dialog, the time cap's note, which move a comment judges, the move-comment depth, the key set |
+| `tests/tcl/review_toolbar.tcl` | 43 checks: the five review icons use `::icon::` names and exist in icons_light and icons_dark at 24×24, the whole engine toolbar uses `::icon::` images, the labels are tooltips rather than text, the stop icon is gridded only while a pass runs, a visible divider separates the review group from Config, the dark-theme cache matches `::icon::` names, and the threat button exists only when its command does and not in an embedded PGN viewer |
 | `tests/tcl/review_driver.tcl` | 320 checks: the pass against a stub engine, the four Go shapes the precedence table produces, a capped run, two reviews of the same game in a row, the engine window's hand-off to it, the completion hook, the engine name on an exported variation and in the Annotator tag, and the coach: started after the write, the run held open until the answers land, not started for a single move or an annotate pass, an annotate pass leaving the coach blocks alone, not holding a run open when it cannot start, and Cancel while the model is writing |
 | `tests/tcl/annotate_dialog.tcl` | 56 checks: the dialog's decision (pane preset, book end, tier, the non-UCI refusal), the blunders-only filter, and the Cancel label rule |
 | `tests/tcl/annotate_run.tcl` | 82 checks: the plan run against a stub engine, the write, the batch chain, the Cancel escalation and a cancelled run writing nothing |
@@ -576,6 +642,7 @@ plain-text form.
 | `tests/tcl/comment_facts.tcl` | 107 checks: the position core against the published perft counts, the exact block for a mating move, each rule line stated positively and negatively, the fifty-move clock stated in moves, the engine's line as SAN numbered from the position's own fullmove — one conversion per line, the five-ply clip, a setup game at move 30, a line that starts on Black, a mate score surviving it, the "no bare UCI" and "one number per move" invariants — and a punishment line that ends in mate |
 | `tests/tcl/review_coach.tcl` | 123 checks: the move facts, the game-level facts, the turning move, the phase facts, the prose markers, that the header block comes off without taking the report's header with it, what a prompt may name and what it may not, which prompts a results set has and in what order, that a brilliant key moment gets no prompt, that the same set gives the same prompts, the summary reply, the game's identifying facts, and the prose layer: what a strip takes off and what a reader's own note keeps, where each answer lands, a second review replacing the first, a failed answer leaving no block, the coach off taking only its own prose, what a cancelled run reports, and the queue being wired to the prompts (including a queue that refuses to start) |
 | `tests/tcl/review_prose.tcl` | 52 checks: one prompt at a time in order, each item's own token budget, the cache answering a second run, a failed request dropped without failing the run, a reply for a question that is no longer outstanding ignored, a cancelled run's answer never landing in the next run, the cleaning of what a model writes, and the status a caller asks for |
+| `tests/tcl/review_threat.tcl` | 121 checks: the SAN and the words of a mating threat, a fork naming the piece it wins and not calling a defended piece hanging, a quiet move answered as "no immediate threat", the FACTS block and the prompt, the one short `Go` (depth 14, the review's cap, `MultiPV 1`) after a `NewGame` that carries the game's variant, the watchdog derived from that cap, the review's thread and hash budget on the probe's second process while the preset's non-resource options are kept, the connection closed exactly once in the reply and a late reply after it harmless, a non-UCI preset refused, the facts line landing in the move's comment with the reader's note and the cursor kept and a re-press replacing it, the comment window refreshed after a write, the coach's note on the same move surviving the strip, a late answer landing on the move it was asked about, a game that changed being refused, a different game at the same ply and FEN being refused, a terminal `(none)` reply, an illegal engine move and an unverifiable legal-move list each reported without a write, one sentence through the real prose queue appended to that line (and absent, failed, cancelled, busy and queue-less runs each leaving the facts line exactly as written), and the four refusals `ask` makes plus the whole press end to end |
 | `tests/tcl/review_transport.tcl` | 37 checks: a stub `curl` on PATH sleeps for a second, `queryAsync` returns in under 500 ms and its callback then arrives with the text, the blocking path holds the caller for the whole sleep (the control), two requests in flight do not cross, a refused provider starts no process, a failed request is an `ERROR:` string, Cancel kills the child and drops its reply (with the Windows `taskkill` fallback pinned), and no request or reply file is left behind |
 
 ## Tests
@@ -597,10 +664,46 @@ widget would otherwise have to decide:
 - **the one-move depth**, from `moveCommentPlan`, for a deep analysis, a shallow
   one, nothing analysed, the wait turned off, and a preset that raises the depth
   the review would use;
-- **the key set**: the twenty-one review strings are present in all 29
+- **the key set**: the twenty-nine review strings are present in all 29
   `tcl/lang/*.tcl` files, the file list is read from the tree so a new language
   file fails loudly, and the English text is the text the labels are asserted
   against.
+
+`tclsh tests/tcl/review_threat.tcl` pins the probe, which is the one part of the
+review layer that answers a question about a single position:
+
+- **the answer from the position** — a mating threat named in SAN and in words, a
+  fork naming the piece it wins while a defended piece is not called hanging, and
+  a quiet best move answered as "no immediate threat" with the strongest move,
+  never as a threat;
+- **the facts and the prompt** — the block carries the side to move, castling, en
+  passant, the fifty-move clock and the strongest move, and never the engine's
+  coordinates; the prompt names the side, carries the facts last, asks for one
+  sentence and forbids coordinates;
+- **one short search** — `::engineNoWin` opens the probe's own connection, the
+  `Go` asks for `position fen`, `MultiPV 1`, depth 14 and the review's time cap,
+  and the move comes back through `InfoBestMove`;
+- **the close** — driven over a real channel through `::engine::reply`: the
+  connection is closed exactly once, inside the reply, the connection is gone
+  afterwards, a late reply is a no-op, and the job is empty;
+- **the answer lands in the move comment** — the facts line is written where the
+  reader is, the note already there is kept, the cursor does not move, no NAG and
+  no variation are written, a second press replaces the probe's line instead of
+  stacking it, and the coach's `[Coach] …` note on the same move survives the
+  strip. An answer that arrives after the reader has moved on lands on the move
+  it was asked about and the board goes back; a game that changed under the
+  search is refused with a message and writes nothing;
+- **one sentence, on the queue** — the real `::reviewprose` is driven over a stub
+  provider: the facts are in the comment before the model is asked, exactly one
+  question goes to the queue (one sentence, `max` under 300, keyed by the move),
+  and the answer is added to that same line after the facts. No provider, a
+  failed request, a cancelled run, a queue already busy and a build without the
+  queue each leave the facts line exactly as written and show nothing;
+- **the refusals** — a non-UCI preset, a missing preset, no engine configured, no
+  position on the board, a board at the start of the line and a probe already
+  running each say what is wrong instead of searching, and none of them writes;
+- **the press end to end** — the menu entry to the engine stub to the comment,
+  with the sentence following it and the board left where it was.
 
 The Tk glue in `tcl/windows/engine.tcl` is guarded rather than tested for its
 widgets: a missing widget, a missing engine or a driver that refuses to start is a

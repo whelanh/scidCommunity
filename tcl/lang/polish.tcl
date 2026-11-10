@@ -903,6 +903,14 @@ translate P ReviewMoveButton {Komentarz do posunięcia}
 translate P ReviewMoveButtonTooltip {Oceń podświetlone posunięcie i zapisz w partii}
 translate P ReviewSettings {Ustawienia analizy}
 translate P ReviewSettingsTooltip {Ustaw parametry analizy}
+translate P ToolsWhatThreat {Co grozi?}
+translate P ToolsWhatThreatTooltip {Zapytaj silnik, czym grozi strona na posunięciu}
+translate P WhatThreatRunning {Analiza zagrożeń już trwa.}
+translate P WhatThreatNoEngine {Nie skonfigurowano silnika. Wybierz go w Narzędzia -> Konfiguruj silniki albo najpierw otwórz okno silnika.}
+translate P WhatThreatNoPosition {Nie ma pozycji do obejrzenia.}
+translate P WhatThreatNoMove {Nie ma tu ruchu do skomentowania. Przejdź najpierw do ruchu w partii.}
+translate P WhatThreatFailed {Nie udało się uruchomić analizy zagrożeń: %s}
+translate P WhatThreatNothingForcing {%s nie ma tu nic forsującego: żaden ruch nie zdobywa materiału ani nie daje szacha.}
 translate P ReviewVarLines {Liczba wariantów do zapisania}
 translate P ReviewVarCp {Różnica ocen wariantów (cp)}
 translate P ReviewMoveWait {Czekaj na osiągnięcie zadanej głębokości analizy}

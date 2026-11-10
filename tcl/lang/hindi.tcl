@@ -863,6 +863,14 @@ translate h ReviewMoveButton {चाल टिप्पणी}
 translate h ReviewMoveButtonTooltip {यहाँ से खेली गई चाल को वर्ग दें और लिखें}
 translate h ReviewSettings {समीक्षा सेटिंग्स}
 translate h ReviewSettingsTooltip {Configure the review settings}
+translate h ToolsWhatThreat {खतरा क्या है?}
+translate h ToolsWhatThreatTooltip {इंजन से पूछें कि चाल वाला पक्ष किसकी धमकी दे रहा है}
+translate h WhatThreatRunning {खतरे का विश्लेषण पहले से चल रहा है।}
+translate h WhatThreatNoEngine {कोई इंजन कॉन्फ़िगर नहीं है। उपकरण -> इंजन सूची में से एक चुनें, या पहले इंजन विंडो खोलें।}
+translate h WhatThreatNoPosition {देखने के लिए कोई स्थिति नहीं है।}
+translate h WhatThreatNoMove {यहाँ टिप्पणी करने के लिए कोई चाल नहीं है। पहले खेल की किसी चाल पर जाएँ।}
+translate h WhatThreatFailed {खतरे का विश्लेषण नहीं चल सका: %s}
+translate h WhatThreatNothingForcing {%s के पास यहाँ कुछ भी बाध्यकारी नहीं है: कोई चाल सामग्री नहीं जीतती और न ही शह देती है।}
 translate h ReviewVarLines {लिखने के लिए वेरिएशन}
 translate h ReviewVarCp {वेरिएशन अंतर (cp)}
 translate h ReviewMoveWait {समीक्षा गहराई की प्रतीक्षा करें}
