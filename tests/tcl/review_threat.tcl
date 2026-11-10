@@ -90,6 +90,16 @@ proc sc_move {sub args} {
     if {$sub eq "ply"} { set ::ply [lindex $args 0] }
     return
 }
+namespace eval ::notify {}
+set ::notifies 0
+proc ::notify::PosChanged {args} { incr ::notifies ; return }
+set ::gameNumber 1
+set ::gameVariant "chess960"
+proc sc_game {sub args} {
+    if {$sub eq "number"} { return $::gameNumber }
+    if {$sub eq "variant"} { return $::gameVariant }
+    return ""
+}
 proc sc_var {args} { incr ::variations ; return 0 }
 # The review's cursor save/restore, FEN-checked exactly as game_review.tcl's is:
 # the harness records the position and refuses a restore into a different one.
@@ -120,7 +130,7 @@ source [file join $root tcl tools review_threat.tcl]
 # ::review::effective returns; the probe must take the cap and its own depth.
 namespace eval ::review {}
 proc ::review::effective {cfg} {
-    return [dict create threads {} hash {} mpv 2 depth 18 movetime 900]
+    return [dict create threads 8 hash 512 mpv 2 depth 18 movetime 900]
 }
 
 puts "\nthe threat, from the position"
@@ -193,8 +203,10 @@ puts "\nthe engine search"
 namespace eval ::engineNoWin {}
 set ::opened {}
 set ::closes 0
-proc ::engineNoWin::initEngine {id name cb} {
+set ::lastOptions {}
+proc ::engineNoWin::initEngine {id name cb {options ""}} {
     lappend ::opened [list $id $name]
+    set ::lastOptions $options
     lassign [chan pipe] r w
     set ::fakeWrite $w
     ::engine::init_ $id $r $cb
@@ -213,7 +225,9 @@ proc ::engine::close {id} {
     uplevel 1 [list ::engine::close_ $id]
 }
 set ::lastGo {}
+set ::lastNewGame {}
 proc ::engine::send {id msg {data ""}} {
+    if {$msg eq "NewGame"} { set ::lastNewGame $data }
     if {$msg eq "Go"} {
         set ::lastGo $data
         after 0 [list ::engine::reply $id {InfoBestMove {e7e5}}]
@@ -224,7 +238,9 @@ proc ::engine::send {id msg {data ""}} {
 set ::done 0
 set ::threatMove untouched
 set ::threatErr untouched
-set err [::reviewthreat::search [list "Engine A" /bin/true {} {} 0 0 {} 1 {} {}] \
+set preset [list "Engine A" /bin/true {} {} 0 0 {} 1 \
+    [list [list Threads 64] [list Hash 110000] [list SyzygyPath /tmp]] {}]
+set err [::reviewthreat::search $preset \
     {rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1} \
     [list apply {{move e} {set ::threatMove $move ; set ::threatErr $e ; set ::done 1}}]]
 checkEq "the search starts without an error" $err ""
@@ -236,10 +252,27 @@ catch { after cancel $watchdog }
 checkEq "the engine's move comes back" $::threatMove e7e5
 checkEq "without an error" $::threatErr ""
 checkEq "the engine was opened for this probe" [lindex $::opened 0] {reviewThreat {Engine A}}
+check "the NewGame carries the variant" \
+    [expr {[string first "chess960" $::lastNewGame] >= 0}]
 check "the Go asks for position fen" [expr {[string first "position fen" $::lastGo] >= 0}]
 check "at the probe's own quick depth" [expr {[string first "depth 14" $::lastGo] >= 0}]
 check "under the review's time cap" [expr {[string first "movetime 900" $::lastGo] >= 0}]
 check "not the review's full depth" [expr {[string first "depth 18" $::lastGo] < 0}]
+checkEq "a short cap keeps the 30 s watchdog" [::reviewthreat::watchdogMs 900] 30000
+checkEq "a long cap extends the watchdog" [::reviewthreat::watchdogMs 120000] 135000
+checkEq "no cap keeps the 30 s watchdog" [::reviewthreat::watchdogMs ""] 30000
+check "the probe asks for one line" \
+    [expr {[string first "MultiPV 1" $::lastOptions] >= 0}]
+check "and uses the review's thread budget" \
+    [expr {[string first "Threads 8" $::lastOptions] >= 0}]
+check "and the review's hash budget" \
+    [expr {[string first "Hash 512" $::lastOptions] >= 0}]
+check "the preset's non-resource options are kept" \
+    [expr {[string first "SyzygyPath /tmp" $::lastOptions] >= 0}]
+check "the preset's full thread reservation is not sent" \
+    [expr {[string first "Threads 64" $::lastOptions] < 0}]
+check "the preset's full hash reservation is not sent" \
+    [expr {[string first "Hash 110000" $::lastOptions] < 0}]
 
 puts "\nthe connection closes in the reply, exactly once"
 
@@ -288,6 +321,7 @@ proc ::auto_comment::providerReady {} { return $::providerWhy }
 set ::fenAt(3) {6k1/5ppp/8/8/8/8/5PPP/R5K1 w - - 0 1}
 set ::comment(3) "my own note about this move"
 set ::ply 3
+set notifiesBefore $::notifies
 ::reviewthreat::ready $mateFen "" 3 a1a8 ""
 set wrote $::comment(3)
 check "the facts land in the move's comment" [has $wrote $::MARK] "got '$wrote'"
@@ -298,6 +332,8 @@ check "the reader's own note is kept, where it was" \
     [atStart $wrote {my own note about this move}] "got '$wrote'"
 checkEq "the cursor did not move" $::ply 3
 checkEq "and nothing was shown: the comment is the answer" [llength $::boxes] 0
+check "the comment window is told to refresh" \
+    [expr {$::notifies > $notifiesBefore}]
 checkEq "the probe's line is one line" [countOf $wrote {\[Coach\] Threat:}] 1
 checkEq "no variation was written" $::variations 0
 checkEq "and no NAG" $::nags 0
@@ -343,6 +379,69 @@ check "a game that changed under the probe is refused" \
 checkEq "and nothing is written" $::comment(3) $before
 checkEq "one message, for the refusal" [expr {[llength $::boxes] - $boxesBefore}] 1
 set ::fenAt(3) $mateFen
+
+# The same ply and FEN can exist in another game: the game number is the identity
+# the ply and FEN cannot provide. The answer is refused rather than written into
+# the game the reader has opened since.
+set ::ply 3
+set ::comment(3) "my own note about this move"
+set ::gameNumber 1
+set before $::comment(3)
+set boxesBefore [llength $::boxes]
+set ::gameNumber 2
+::reviewthreat::ready $mateFen "" 3 a1a8 "" 1
+check "a different game at the same ply and FEN is refused" \
+    [has [lindex $::boxes end] "the game changed while the probe was running"] \
+    "got '[lindex $::boxes end]'"
+checkEq "and writes nothing into the other game" $::comment(3) $before
+checkEq "one message for the other-game refusal" \
+    [expr {[llength $::boxes] - $boxesBefore}] 1
+set ::gameNumber 1
+
+# An engine with no move - a mate or stalemate - must not be fed to the facts as
+# "(none)"; it is not a move. The reply is the same "nothing forcing" answer.
+set ::ply 3
+set ::comment(3) "my own note about this move"
+set before $::comment(3)
+set boxesBefore [llength $::boxes]
+::reviewthreat::ready $mateFen "" 3 "(none)" ""
+check "a terminal engine reply is not treated as a move" \
+    [has [lindex $::boxes end] "nothing forcing"] \
+    "got '[lindex $::boxes end]'"
+checkEq "and writes nothing" $::comment(3) $before
+checkEq "one message for the terminal position" \
+    [expr {[llength $::boxes] - $boxesBefore}] 1
+
+# An engine move the board refuses is reported, never turned into facts.
+set ::ply 3
+set ::comment(3) "my own note about this move"
+set before $::comment(3)
+set boxesBefore [llength $::boxes]
+::reviewthreat::ready $mateFen "" 3 z9z9 ""
+check "an illegal engine move is reported" \
+    [has [lindex $::boxes end] "not legal"] \
+    "got '[lindex $::boxes end]'"
+checkEq "and writes nothing" $::comment(3) $before
+checkEq "one message for the illegal move" \
+    [expr {[llength $::boxes] - $boxesBefore}] 1
+
+# If the board cannot produce a legal-move list, the engine's move is not
+# accepted unchecked: empty is a refusal, not permission.
+set ::ply 3
+set ::comment(3) "my own note about this move"
+set before $::comment(3)
+set boxesBefore [llength $::boxes]
+rename ::chessboard::legalMoves ::chessboard::legalMoves_
+proc ::chessboard::legalMoves {args} { return {} }
+::reviewthreat::ready $mateFen "" 3 a1a8 ""
+rename ::chessboard::legalMoves {}
+rename ::chessboard::legalMoves_ ::chessboard::legalMoves
+check "a board that cannot list legal moves is refused" \
+    [has [lindex $::boxes end] "not legal"] \
+    "got '[lindex $::boxes end]'"
+checkEq "and writes nothing" $::comment(3) $before
+checkEq "one message for the unverifiable move" \
+    [expr {[llength $::boxes] - $boxesBefore}] 1
 
 puts "\none sentence, through the prose queue"
 
@@ -486,7 +585,7 @@ proc ::reviewthreat::defaultEngine {} { return "" }
 set before [llength $::boxes]
 ::reviewthreat::ask ""
 check "ask with no engine says what to do about it" \
-    [has [lindex $::boxes end] "Tools -> Engine List"]
+    [has [lindex $::boxes end] "Tools -> Configure Engines"]
 set ::fenAt(0) ""
 ::reviewthreat::ask [list "Engine A" /bin/true {} {} 0 0 {} 1 {} {}]
 check "ask with no position says there is nothing to look at" \

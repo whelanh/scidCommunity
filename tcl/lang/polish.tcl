@@ -906,7 +906,7 @@ translate P ReviewSettingsTooltip {Ustaw parametry analizy}
 translate P ToolsWhatThreat {Co grozi?}
 translate P ToolsWhatThreatTooltip {Zapytaj silnik, czym grozi strona na posunięciu}
 translate P WhatThreatRunning {Analiza zagrożeń już trwa.}
-translate P WhatThreatNoEngine {Nie skonfigurowano silnika. Wybierz go w Narzędzia -> Lista silników albo najpierw otwórz okno silnika.}
+translate P WhatThreatNoEngine {Nie skonfigurowano silnika. Wybierz go w Narzędzia -> Konfiguruj silniki albo najpierw otwórz okno silnika.}
 translate P WhatThreatNoPosition {Nie ma pozycji do obejrzenia.}
 translate P WhatThreatNoMove {Nie ma tu ruchu do skomentowania. Przejdź najpierw do ruchu w partii.}
 translate P WhatThreatFailed {Nie udało się uruchomić analizy zagrożeń: %s}

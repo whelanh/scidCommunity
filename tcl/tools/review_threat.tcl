@@ -1,4 +1,4 @@
-# Copyright (C) 2026 Hugh Whelan
+# Copyright (C) 2026 David Crandall
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
 # review_threat.tcl -- "What's the threat?" for the position on the board.
@@ -192,6 +192,16 @@ proc ::reviewthreat::show {msg} {
     return
 }
 
+# The comment window and the PGN window read the move comment from the game; a
+# write through sc_pos is invisible to them until the position is announced. The
+# board itself has not changed, so the pgn-only event is the whole refresh.
+proc ::reviewthreat::refresh {} {
+    if {[llength [info commands ::notify::PosChanged]]} {
+        catch { ::notify::PosChanged pgnonly }
+    }
+    return
+}
+
 # The probe's line: the facts on one line, marked and in the shape the coach
 # layer writes, so ::reviewcoach::strip takes it whole.
 proc ::reviewthreat::block {text} {
@@ -221,9 +231,19 @@ proc ::reviewthreat::stripOwn {comment} {
 # probe searched: a game that changed while the search ran is refused rather than
 # written onto a move that is no longer the one that was asked about. Returns ""
 # or the reason nothing was written.
-proc ::reviewthreat::write {ply fen block} {
+proc ::reviewthreat::write {ply fen block {game ""}} {
     set cursor ""
     set out ""
+    # The ply and FEN can be the same in two games - a shared opening puts the
+    # same position at the same ply in a great many games - so the game the
+    # press was made on is checked too. `game` is "" for a caller that has only
+    # a position (the tclsh harness), and then there is nothing to compare.
+    if {$game ne ""} {
+        set now ""
+        if {![catch { set now [sc_game number] }] && $now ne $game} {
+            return "the game changed while the probe was running"
+        }
+    }
     # Already on the move the answer is about - the press itself, in the common
     # case: write in place. Nothing walks the game, and this is the only path
     # that can write a move inside a variation, because `sc_move ply` walks the
@@ -239,6 +259,7 @@ proc ::reviewthreat::write {ply fen block} {
         } err]} {
             return $err
         }
+        ::reviewthreat::refresh
         return ""
     }
     catch { set cursor [::review::cursorSave] }
@@ -269,6 +290,7 @@ proc ::reviewthreat::write {ply fen block} {
             set out "the board could not be put back where it was"
         }
     }
+    if {$out eq ""} { ::reviewthreat::refresh }
     return $out
 }
 
@@ -296,13 +318,25 @@ proc ::reviewthreat::defaultEngine {} {
     return ""
 }
 
+# How long the probe waits for the engine. The search's own movetime is the
+# configured ceiling, so a preset with a 2-minute cap must not be killed by the
+# probe's fallback. 30 s is the floor; a startup margin sits over the cap.
+proc ::reviewthreat::watchdogMs {movetime} {
+    set wait 30000
+    if {[string is integer -strict $movetime] && $movetime > 0} {
+        set wait [expr {max($wait, $movetime + 15000)}]
+    }
+    return $wait
+}
+
 # One short search on a connection of its own. `onDone` is called once, as
-# {*}$onDone <uci move> <error>. Returns "" when the search started, or the
+# {*}$onDone <uci move> <error> ?<game>?; `game` is the game number the press was
+# made on, when the caller has one. Returns "" when the search started, or the
 # reason it could not - a refusal is reported by the caller, so a half-open
 # probe is never left behind.
 #
 # A UCI engine is required: an XBoard preset would never answer the handshake.
-proc ::reviewthreat::search {enginecfg fen onDone} {
+proc ::reviewthreat::search {enginecfg fen onDone {game ""}} {
     variable id
     variable job
     if {[dict size $job]} {
@@ -315,26 +349,61 @@ proc ::reviewthreat::search {enginecfg fen onDone} {
     # A quick probe: depth 14 is enough for a tactic, and the review's time cap
     # bounds it. The pass's depth is deliberately not used - this is one answer
     # on demand, not a review.
+    set eff ""
     set movetime ""
     catch {
         set eff [::review::effective $enginecfg]
         set movetime [dict get $eff movetime]
     }
+    # The probe is a second engine process beside the window's own. It keeps the
+    # preset's non-resource options (paths, tablebase settings, and so on), but
+    # it gets the review pass's thread/hash budget rather than the preset's full
+    # reservation: a 110 GB transposition table is no more welcome here than in
+    # Game Review.
+    set opts {}
+    set presetOpts [lindex $enginecfg 8]
+    if {[llength $presetOpts]} {
+        foreach pair $presetOpts {
+            set name [lindex $pair 0]
+            if {$name in {Threads Hash MultiPV}} { continue }
+            lappend opts $pair
+        }
+    }
+    lappend opts [list MultiPV 1]
+    if {$eff ne ""} {
+        foreach key {threads hash} {
+            set value ""
+            catch { set value [dict get $eff $key] }
+            if {$value ne ""} {
+                lappend opts [list [expr {$key eq "threads" ? "Threads" : "Hash"}] $value]
+            }
+        }
+    }
     set lim [dict create depth 14 movetime $movetime]
-    set job [dict create onDone $onDone watch ""]
-    dict set job watch [after 30000 [list ::reviewthreat::timeout]]
+    set job [dict create onDone $onDone watch "" game $game]
+    dict set job watch [after [::reviewthreat::watchdogMs $movetime] \
+        [list ::reviewthreat::timeout]]
     if {[catch {
         ::engineNoWin::initEngine $id [lindex $enginecfg 0] \
-            [list ::reviewthreat::message]
+            [list ::reviewthreat::message] $opts
     } err]} {
         catch { after cancel [dict get $job watch] }
         set job {}
         return $err
     }
     # One line is all the probe needs: a preset set up for MultiPV 3 must not
-    # make it wait for lines it will not use.
+    # make it wait for lines it will not use. The options went in with the
+    # connection above, so no preset option is sent ahead of them.
+    #
+    # The new game carries the variant, as the engine window's own NewGame does:
+    # a Chess960 position must not be searched with UCI_Chess960 left at the
+    # preset/default value, because its castling move would not be legal to the
+    # engine. `sc_game` is absent in the tclsh harness, so the variant is
+    # optional there.
+    set variant ""
+    catch { set variant [sc_game variant] }
     if {[catch {
-        ::engine::send $id SetOptions [list [list MultiPV 1]]
+        ::engine::send $id NewGame [list analysis post_pv post_wdl $variant]
         ::engine::send $id Go [list "position fen $fen" \
             [::enginelimits::goLimits $lim]]
     } err]} {
@@ -353,12 +422,27 @@ proc ::reviewthreat::finish {move err} {
     variable job
     if {![dict size $job]} { return }
     set cb [dict get $job onDone]
+    set game ""
+    catch { set game [dict get $job game] }
     catch { after cancel [dict get $job watch] }
     set job {}
     # Closed inside the reply, not one event turn later: #423 is what makes that
     # safe, and it leaves no process running behind a modal message box.
     catch { ::engineNoWin::closeEngine $id }
-    if {$cb ne ""} { catch { {*}$cb $move $err } }
+    if {$cb ne ""} {
+        # The callback is the answer's only writer. An error in it must not
+        # disappear into the closing reply: there would be no comment and no
+        # message, which looks exactly like a probe that found nothing.
+        if {$game ne ""} {
+            set code [catch { {*}$cb $move $err $game } cbErr]
+        } else {
+            set code [catch { {*}$cb $move $err } cbErr]
+        }
+        if {$code} {
+            ::reviewthreat::show [format [::reviewthreat::phrase WhatThreatFailed \
+                {The threat probe could not run: %s}] $cbErr]
+        }
+    }
     return
 }
 
@@ -383,7 +467,7 @@ proc ::reviewthreat::message {msg} {
 # never waits for a model. The facts are in the comment before this is called:
 # what arrives is added to that same line, and a run that is cancelled, fails or
 # never had a provider leaves the facts exactly as they were written.
-proc ::reviewthreat::prose {fen rep ply move facts} {
+proc ::reviewthreat::prose {fen rep ply move facts {game ""}} {
     if {[llength [info commands ::reviewprose::run]] == 0} { return }
     set why ""
     catch { set why [::auto_comment::providerReady] }
@@ -396,18 +480,18 @@ proc ::reviewthreat::prose {fen rep ply move facts} {
     # A queue that is already busy (a review is running) returns 0 and nothing
     # else happens: the facts line is the answer, and a press must not wait.
     catch { ::reviewprose::run [list $item] "" \
-        [list ::reviewthreat::spoken $fen $ply $facts $prompt] }
+        [list ::reviewthreat::spoken $fen $ply $facts $prompt $game] }
     return
 }
 
 # The queue's answer: the facts as they were written, plus the one sentence. A
 # cancelled run, a failed request or an empty answer changes nothing.
-proc ::reviewthreat::spoken {fen ply facts prompt results errors cancelled} {
+proc ::reviewthreat::spoken {fen ply facts prompt game results errors cancelled} {
     if {$cancelled} { return }
     set text ""
     catch { set text [dict get $results [list threat $ply $prompt]] }
     if {$text eq ""} { return }
-    catch { ::reviewthreat::write $ply $fen [::reviewthreat::block "$facts $text"] }
+    catch { ::reviewthreat::write $ply $fen [::reviewthreat::block "$facts $text"] $game }
     return
 }
 
@@ -417,29 +501,36 @@ proc ::reviewthreat::spoken {fen ply facts prompt results errors cancelled} {
 # not mean. `ply` is the move the press was made on, recorded before the search,
 # so an answer that arrives after the reader has moved on still lands where the
 # question was asked.
-proc ::reviewthreat::ready {fen rep ply move err} {
+proc ::reviewthreat::ready {fen rep ply move err {game ""}} {
     if {$err ne ""} {
         ::reviewthreat::show [format [::reviewthreat::phrase WhatThreatFailed \
             {The threat probe could not run: %s}] $err]
         return
     }
     set side [::reviewthreat::sideName $fen]
-    if {$move eq "" || $move eq "0000"} {
+    if {$move eq "" || $move eq "0000" || $move eq "(none)"} {
         ::reviewthreat::show [format [::reviewthreat::phrase WhatThreatNothingForcing \
             {%s has nothing forcing here: no move wins material or gives check.}] $side]
         return
     }
     set legal {}
     catch { set legal [::chessboard::legalMoves [::chessboard::fromFen $fen]] }
-    if {[llength $legal] && [lsearch -exact $legal $move] < 0} {
+    # Fail closed: an empty list is either a terminal position (handled above by
+    # "(none)"/"0000") or a board that could not give us the legal moves. In
+    # neither case is the engine's move something to turn into facts unchecked.
+    if {![llength $legal] || [lsearch -exact $legal $move] < 0} {
         set why "the engine returned a move that is not legal in this position ($move)"
         ::reviewthreat::show [format [::reviewthreat::phrase WhatThreatFailed \
             {The threat probe could not run: %s}] $why]
         return
     }
-    set a [::reviewthreat::answer $fen $move]
+    if {[catch { set a [::reviewthreat::answer $fen $move] } ansErr]} {
+        ::reviewthreat::show [format [::reviewthreat::phrase WhatThreatFailed \
+            {The threat probe could not run: %s}] $ansErr]
+        return
+    }
     set facts [dict get $a text]
-    set werr [::reviewthreat::write $ply $fen [::reviewthreat::block $facts]]
+    set werr [::reviewthreat::write $ply $fen [::reviewthreat::block $facts] $game]
     if {$werr ne ""} {
         # The comment is the answer's only surface, so a write that did not land
         # is reported instead of leaving the reader with nothing.
@@ -447,8 +538,9 @@ proc ::reviewthreat::ready {fen rep ply move err} {
             {The threat probe could not run: %s}] $werr]
         return
     }
-    # The facts are written; the sentence is an extra and never a wait.
-    ::reviewthreat::prose $fen $rep $ply $move $facts
+    # The facts are written; the sentence is an extra and never a wait. Its own
+    # failure (a FACTS block the board cannot build) must not undo the answer.
+    catch { ::reviewthreat::prose $fen $rep $ply $move $facts $game }
     return
 }
 
@@ -466,7 +558,7 @@ proc ::reviewthreat::ask {{enginecfg ""}} {
     if {![llength $cfg]} { set cfg [::reviewthreat::defaultEngine] }
     if {![llength $cfg]} {
         ::reviewthreat::show [::reviewthreat::phrase WhatThreatNoEngine \
-            {No engine is configured. Choose one in Tools -> Engine List, or open an engine window first.}]
+            {No engine is configured. Choose one in Tools -> Configure Engines, or open an engine window first.}]
         return
     }
     set fen ""
@@ -486,10 +578,12 @@ proc ::reviewthreat::ask {{enginecfg ""}} {
             {There is no move here to comment on. Go to a move in the game first.}]
         return
     }
+    set game ""
+    catch { set game [sc_game number] }
     set rep ""
     catch { set rep [::facts::repFromMainline $fen $ply] }
     set err [::reviewthreat::search $cfg $fen \
-        [list ::reviewthreat::ready $fen $rep $ply]]
+        [list ::reviewthreat::ready $fen $rep $ply] $game]
     if {$err ne ""} {
         ::reviewthreat::show [format [::reviewthreat::phrase WhatThreatFailed \
             {The threat probe could not run: %s}] $err]

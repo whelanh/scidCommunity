@@ -66,7 +66,7 @@ array set ::EN {
     ToolsWhatThreat         {What's the threat?}
     ToolsWhatThreatTooltip  {Ask the engine what the side to move is threatening}
     WhatThreatRunning       {A threat probe is already running.}
-    WhatThreatNoEngine      {No engine is configured. Choose one in Tools -> Engine List, or open an engine window first.}
+    WhatThreatNoEngine      {No engine is configured. Choose one in Tools -> Configure Engines, or open an engine window first.}
     WhatThreatNoPosition    {There is no position to look at.}
     WhatThreatNoMove        {There is no move here to comment on. Go to a move in the game first.}
     WhatThreatFailed        {The threat probe could not run: %s}

@@ -923,7 +923,7 @@ translate S ReviewSettingsTooltip {Configure the review settings}
 translate S ToolsWhatThreat {¿Cuál es la amenaza?}
 translate S ToolsWhatThreatTooltip {Pregunta al motor qué amenaza el bando que mueve}
 translate S WhatThreatRunning {Ya hay un análisis de amenazas en curso.}
-translate S WhatThreatNoEngine {No hay ningún motor configurado. Elige uno en Herramientas -> Lista de motores, o abre antes una ventana de motor.}
+translate S WhatThreatNoEngine {No hay ningún motor configurado. Elige uno en Herramientas -> Configurar motores, o abre antes una ventana de motor.}
 translate S WhatThreatNoPosition {No hay ninguna posición que mirar.}
 translate S WhatThreatNoMove {Aquí no hay ninguna jugada que comentar. Ve primero a una jugada de la partida.}
 translate S WhatThreatFailed {El análisis de amenazas no pudo ejecutarse: %s}

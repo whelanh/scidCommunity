@@ -2687,8 +2687,8 @@ set helpTitle(P,ToolsWhatThreat) "Co grozi?"
 set helpText(P,ToolsWhatThreat) {<h1>Okno silnika: Co grozi?</h1>
   <p>
   <b>Co grozi?</b> pyta silnik, czym grozi strona na posunięciu w pozycji na
-  szachownicy, i odpowiada w jednym komunikacie. To przycisk
-  <button tb_review_threat> w oknie <a Engine>silnika</a> oraz pozycja
+  szachownicy, i zapisuje odpowiedź w komentarzu do aktualnego posunięcia. To
+  przycisk <button tb_review_threat> w oknie <a Engine>silnika</a> oraz pozycja
   <menu>Co grozi?</menu> w menu <a Menus Tools>Narzędzia</a>.
   </p>
 
@@ -2713,19 +2713,30 @@ set helpText(P,ToolsWhatThreat) {<h1>Okno silnika: Co grozi?</h1>
   nie ma bezpośredniej groźby, i podaje najlepsze posunięcie.
   </p>
   <p>
+  Odpowiedź jest zapisywana jako jedna linia <b>[Coach] Threat: ...</b> w
+  komentarzu do aktualnego posunięcia. Ponowne naciśnięcie zastępuje tę linię,
+  zamiast dodawać drugą; własna notatka w komentarzu oraz notatka trenera
+  <b>[Coach] ...</b> przy tym samym posunięciu zostają zachowane.
+  </p>
+  <p>
   Gdy model jest skonfigurowany, nad tymi faktami powstaje jedno zdanie
-  komentarza trenera i jest pokazywane po nich. Fakty zostają w obu przypadkach,
+  komentarza trenera i jest dodawane po nich. Fakty zostają w obu przypadkach,
   a bez modelu są całą odpowiedzią: brak dostawcy jest obsługiwanym stanem, nie
   błędem.
   </p>
 
   <h3>Czego sonda nie robi</h3>
   <p>
-  Sonda nic nie zapisuje w partii: żadnego komentarza, żadnego NAG-a, żadnego
-  wariantu. Czyta szachownicę i pokazuje komunikat. Posunięcie, którego
-  szachownica nie przyjmuje - silnik odpowiedział ruchem nielegalnym w tej
-  pozycji - jest zgłaszane jako błąd, a nie zamieniane na fakty z pozycji, której
-  silnik nie miał na myśli.
+  Sonda nie zapisuje NAG-a, wariantu, <b>[%eval]</b> ani etykiety posunięcia.
+  Nie przesuwa szachownicy i nie zmienia analizy silnika, której słuchasz.
+  </p>
+  <p>
+  Okno komunikatu pojawia się tylko wtedy, gdy sonda nie może działać: nie
+  skonfigurowano silnika, nie ma pozycji lub posunięcia do skomentowania, sonda
+  już działa, silnik zawiódł lub się rozłączył, partia zmieniła się w czasie
+  wyszukiwania albo silnik zwrócił posunięcie, którego szachownica nie
+  przyjmuje. Odrzucone posunięcie jest zgłaszane jako błąd, a nie zamieniane na
+  fakty z pozycji, której silnik nie miał na myśli.
   </p>
 
   <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
@@ -3658,8 +3669,8 @@ set helpText(P,Engine) {<h1>Okna silnika</h1>
   <li><a ReviewSettings><b>Ustawienia analizy</b></a>: Głębokość analizy,
     liczba wariantów oraz głębokość, na którą czeka komentarz do posunięcia.</li>
   <li><a ToolsWhatThreat><b>Co grozi?</b></a>: Pyta silnik, czym grozi strona
-    na posunięciu. Jedno krótkie wyszukiwanie na własnym połączeniu; nic nie
-    zapisuje w partii.</li>
+    na posunięciu. Jedno krótkie wyszukiwanie na własnym połączeniu; zapisuje
+    odpowiedź w komentarzu do aktualnego posunięcia.</li>
   </ul>
 
   <h3>Sterowanie</h3>

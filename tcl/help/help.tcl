@@ -2685,9 +2685,10 @@ set helpTitle(ToolsWhatThreat) "What's the Threat?"
 set helpText(ToolsWhatThreat) {<h1>Engine Window: What's the Threat?</h1>
   <p>
   <b>What's the threat?</b> asks the engine what the side to move is
-  threatening in the position on the board, and answers in one message. It is
-  the <button tb_review_threat> button in the <a Engine>Engine</a> window and
-  the <menu>What's the threat?</menu> entry in the <a Menus Tools>Tools</a> menu.
+  threatening in the position on the board, and writes the answer into the
+  comment of the move you are on. It is the <button tb_review_threat> button in
+  the <a Engine>Engine</a> window and the <menu>What's the threat?</menu> entry
+  in the <a Menus Tools>Tools</a> menu.
   </p>
 
   <h3>The search</h3>
@@ -2710,16 +2711,28 @@ set helpText(ToolsWhatThreat) {<h1>Engine Window: What's the Threat?</h1>
   and gives the strongest move instead.
   </p>
   <p>
+  The answer is written as one <b>[Coach] Threat: ...</b> line in the current
+  move's comment. A re-press replaces that line rather than stacking a second
+  one; your own note in the comment, and the coach's own <b>[Coach] ...</b> note
+  on the same move, are kept.
+  </p>
+  <p>
   When a model is configured, one sentence of coach prose is written over those
-  facts and shown after them. The facts stay either way, and with no model they
+  facts and added after them. The facts stay either way, and with no model they
   are the whole answer: having no provider is a supported state, not a failure.
   </p>
 
   <h3>What it does not do</h3>
   <p>
-  The probe writes nothing into the game: no comment, no NAG, no variation. It
-  reads the board and shows a message. A move the board refuses - the engine
-  answered with something that is not legal in this position - is reported as a
+  The probe writes no NAG, no variation, no <b>[%eval]</b> and no move label. It
+  does not move the board, and it does not change the engine analysis you are
+  watching.
+  </p>
+  <p>
+  A message box appears only when the probe cannot run: no engine is configured,
+  there is no position or no move to comment on, a probe is already running, the
+  engine fails or disconnects, the game changes while the search is running, or
+  the engine returns a move the board refuses. A refused move is reported as a
   failure rather than turned into facts from a position the engine did not mean.
   </p>
 
@@ -3654,7 +3667,7 @@ set helpText(Engine) {<h1>The Engine windows</h1>
     and the review depth a move comment waits for.</li>
   <li><a ToolsWhatThreat><b>What's the threat?</b></a>: Asks the engine what
     the side to move is threatening. One short search on a connection of its
-    own; writes nothing into the game.</li>
+    own; writes the answer into the current move's comment.</li>
   </ul>
 
   <h3>Controls</h3>
