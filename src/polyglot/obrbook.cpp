@@ -49,6 +49,15 @@ bool seek64(FILE* f, uint64_t off) {
 #endif
 }
 
+uint64_t file_size(FILE* f) {
+#ifdef _WIN32
+	auto end = _fseeki64(f, 0, SEEK_END) == 0 ? _ftelli64(f) : -1;
+#else
+	auto end = fseeko(f, 0, SEEK_END) == 0 ? ftello(f) : -1;
+#endif
+	return end < 0 ? 0 : uint64_t(end); // 0 = unknown, makes obr_open fail
+}
+
 uint64_t le(const unsigned char* p, int n) {
 	uint64_t v = 0;
 	for (int i = n - 1; i >= 0; --i)
@@ -159,7 +168,7 @@ bool obr_open(const char file_name[], const int BookNumber) {
 		fclose(f);
 		return false;
 	}
-	obr_file_t& o = Obr[BookNumber];
+	obr_file_t o;
 	o.f = f;
 	o.n_pos = uint32_t(le(h + 8, 4));
 	o.n_moves = uint32_t(le(h + 12, 4));
@@ -167,7 +176,19 @@ bool obr_open(const char file_name[], const int BookNumber) {
 	o.pos_off = le(h + 24, 8);
 	o.move_off = le(h + 32, 8);
 	o.alias_off = le(h + 40, 8);
-	return o.n_pos > 0;
+	// Reject empty or truncated files: every table must lie inside the file.
+	const uint64_t size = file_size(f);
+	auto fits = [size](uint64_t off, uint64_t n, uint64_t rec) {
+		return off <= size && n * rec <= size - off;
+	};
+	if (o.n_pos == 0 || !fits(o.pos_off, o.n_pos, POS_SIZE) ||
+	    !fits(o.move_off, o.n_moves, MOVE_SIZE) ||
+	    !fits(o.alias_off, o.n_alias, ALIAS_SIZE)) {
+		fclose(f);
+		return false;
+	}
+	Obr[BookNumber] = o;
+	return true;
 }
 
 void obr_close(const int BookNumber) {
