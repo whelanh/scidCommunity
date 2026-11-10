@@ -204,6 +204,8 @@ namespace eval book {
       # OpenBook Rich (.obr): red = moves the book author marks as "avoid",
       # header line, and a details line for the hovered move
       $w.$b.booktext tag configure obrRed -foreground red3
+      $w.$b.booktext tag configure obrGreen -foreground green4
+      $w.$b.booktext tag configure obrBlue -foreground blue3
       $w.$b.booktext tag configure obrHeader -foreground grey40
       ttk::label $w.$b.info -font font_Small -anchor w -justify left
       pack $w.$b.label -side top -fill x
@@ -455,13 +457,17 @@ namespace eval book {
     return "\$$nag"
   }
 
-  proc obrColour { rec } {
-    switch -- $rec {
-      128 { return green }
-      64  { return red }
-      0   { return "-" }
-      default { return [format 0x%02x $rec] }
+  # Move colour as shown by ChessBase: red if the book marks it "avoid" (0x40);
+  # otherwise blue when the NAG contains a question mark (!? ?! ? ?? and
+  # "worst"), green for every other marked move (0x80, 0xA4).
+  proc obrColour { rec nag } {
+    if {$rec == 64} { return red }
+    if {$rec == 128 || $rec == 164} {
+      if {$nag in {2 4 5 6 9}} { return blue }
+      return green
     }
+    if {$rec == 0} { return "-" }
+    return [format 0x%02x $rec]
   }
 
   # "+w =d -b" percentages of games (white / draw / black)
@@ -522,14 +528,20 @@ namespace eval book {
         set text [format "%-9s %8d %5.1f%% %9s %5s %5s" $label $games $score \
                     [obrWdl $games $ww $dd $bw] $eloTxt $perfTxt]
         set detail [format "%s  %d games: +%d =%d -%d (White/Draw/Black)  score %.1f%%  Elo %s  Perf %s  colour %s  flags 0x%02X" \
-                      $label $games $ww $dd $bw $score $eloTxt $perfTxt [obrColour $rec] $flags]
+                      $label $games $ww $dd $bw $score $eloTxt $perfTxt [obrColour $rec $nag] $flags]
       } else {
         set text [format "%-9s %8s" $label "-"]
         set detail "$label  (no statistics)"
       }
       set tags [list bookMove$line mv$san]
       if {$san == $nextmove} { lappend tags nextmove }
-      if {$hasStats && $rec == 64} { lappend tags obrRed }
+      if {$hasStats} {
+        switch -- [obrColour $rec $nag] {
+          red   { lappend tags obrRed }
+          blue  { lappend tags obrBlue }
+          green { lappend tags obrGreen }
+        }
+      }
       $txt insert end "$text\n" $tags
       if {$san == $nextmove} {
         $txt tag bind bookMove$line <ButtonPress-1> ::move::Forward
