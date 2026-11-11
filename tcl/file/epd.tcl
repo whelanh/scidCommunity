@@ -921,6 +921,12 @@ namespace eval epd {
           }
           append text "ce $ce\n"
         }
+        set pv ""
+        catch {
+          set ew [::enginewin::reviewWindow $win]
+          set pv [::enginewin::getMoves $ew.display.pv_lines 1.0]
+        }
+        if {$pv ne ""} { append text "pv $pv\n" }
       }
       return $text
     }
