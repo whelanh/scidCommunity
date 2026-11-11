@@ -934,6 +934,7 @@ translate g ReviewVarLines {Варианти за запис}
 translate g ReviewVarCp {Граница на вариантите (cp)}
 translate g ReviewMoveWait {Изчакай дълбочината на прегледа}
 translate g ReviewMovetime {Ограничение на времето (ms)}
+translate g ReviewOpeningMoves {Начални ходове}
 translate g StopNow {Stop now}
 translate g StopAfterThisGame {Stop after this game}
 translate g ReviewFromPreset {%s (от профила на машината)}

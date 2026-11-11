@@ -903,6 +903,7 @@ translate O ReviewVarLines {Varianter som skal skrives}
 translate O ReviewVarCp {Variantmargin (cp)}
 translate O ReviewMoveWait {Vent på vurderingsdybden}
 translate O ReviewMovetime {Tidsgrense (ms)}
+translate O ReviewOpeningMoves {Åpningsbevegelser}
 translate O StopNow {Stop now}
 translate O StopAfterThisGame {Stop after this game}
 translate O ReviewFromPreset {%s (fra motorprofilen)}

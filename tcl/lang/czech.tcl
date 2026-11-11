@@ -898,6 +898,7 @@ translate C ReviewVarLines {Varianty k zápisu}
 translate C ReviewVarCp {Mez variant (cp)}
 translate C ReviewMoveWait {Čekat na hloubku prohlídky}
 translate C ReviewMovetime {Časový limit (ms)}
+translate C ReviewOpeningMoves {Otevírací pohyby}
 translate C StopNow {Stop now}
 translate C StopAfterThisGame {Stop after this game}
 translate C ReviewFromPreset {%s (z předvolby motoru)}

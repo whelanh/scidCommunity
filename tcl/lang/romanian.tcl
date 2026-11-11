@@ -934,6 +934,7 @@ translate L ReviewVarLines {Variante de scris}
 translate L ReviewVarCp {Marja variantelor (cp)}
 translate L ReviewMoveWait {Așteaptă adâncimea analizei}
 translate L ReviewMovetime {Limită de timp (ms)}
+translate L ReviewOpeningMoves {Mișcări de deschidere}
 translate L StopNow {Stop now}
 translate L StopAfterThisGame {Stop after this game}
 translate L ReviewFromPreset {%s (din profilul motorului)}

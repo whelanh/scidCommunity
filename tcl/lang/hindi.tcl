@@ -893,6 +893,7 @@ translate h ReviewVarLines {लिखने के लिए वेरिएश�
 translate h ReviewVarCp {वेरिएशन अंतर (cp)}
 translate h ReviewMoveWait {समीक्षा गहराई की प्रतीक्षा करें}
 translate h ReviewMovetime {समय सीमा (ms)}
+translate h ReviewOpeningMoves {खुलने की चाल}
 translate h StopNow {Stop now}
 translate h StopAfterThisGame {Stop after this game}
 translate h ReviewFromPreset {%s (इंजन प्रीसेट से)}

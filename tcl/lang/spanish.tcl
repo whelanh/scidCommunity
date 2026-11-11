@@ -950,6 +950,7 @@ translate S ReviewVarLines {Variantes que escribir}
 translate S ReviewVarCp {Margen de variantes (cp)}
 translate S ReviewMoveWait {Esperar la profundidad de la revisión}
 translate S ReviewMovetime {Límite de tiempo (ms)}
+translate S ReviewOpeningMoves {Movimientos de apertura}
 translate S StopNow {Stop now}
 translate S StopAfterThisGame {Stop after this game}
 translate S ReviewFromPreset {%s (del perfil del motor)}

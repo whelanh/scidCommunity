@@ -934,6 +934,7 @@ translate J ReviewVarLines {Варијанте за упис}
 translate J ReviewVarCp {Граница варијанти (cp)}
 translate J ReviewMoveWait {Чекај дубину прегледа}
 translate J ReviewMovetime {Временско ограничење (ms)}
+translate J ReviewOpeningMoves {Отварање потеза}
 translate J StopNow {Stop now}
 translate J StopAfterThisGame {Stop after this game}
 translate J ReviewFromPreset {%s (из профила мотора)}

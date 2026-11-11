@@ -925,6 +925,7 @@ translate G ReviewVarLines {Παραλλαγές προς εγγραφή}
 translate G ReviewVarCp {Περιθώριο παραλλαγών (cp)}
 translate G ReviewMoveWait {Αναμονή για το βάθος ελέγχου}
 translate G ReviewMovetime {Όριο χρόνου (ms)}
+translate G ReviewOpeningMoves {Κινήσεις ανοίγματος}
 translate G StopNow {Stop now}
 translate G StopAfterThisGame {Stop after this game}
 translate G ReviewFromPreset {%s (από το προφίλ μηχανής)}

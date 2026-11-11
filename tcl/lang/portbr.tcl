@@ -906,6 +906,7 @@ translate B ReviewVarLines {Variantes a escrever}
 translate B ReviewVarCp {Margem das variantes (cp)}
 translate B ReviewMoveWait {Aguardar a profundidade da análise}
 translate B ReviewMovetime {Limite de tempo (ms)}
+translate B ReviewOpeningMoves {Movimentos de abertura}
 translate B StopNow {Stop now}
 translate B StopAfterThisGame {Stop after this game}
 translate B ReviewFromPreset {%s (do perfil do motor)}

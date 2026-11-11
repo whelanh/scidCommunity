@@ -934,6 +934,7 @@ translate A ReviewVarLines {書き込む変化}
 translate A ReviewVarCp {変化のしきい値 (cp)}
 translate A ReviewMoveWait {検討の深さを待つ}
 translate A ReviewMovetime {時間制限 (ms)}
+translate A ReviewOpeningMoves {オープニングムーブ}
 translate A StopNow {Stop now}
 translate A StopAfterThisGame {Stop after this game}
 translate A ReviewFromPreset {%s（エンジンのプリセット）}

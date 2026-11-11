@@ -933,6 +933,7 @@ translate P ReviewVarLines {Liczba wariantów do zapisania}
 translate P ReviewVarCp {Różnica ocen wariantów (cp)}
 translate P ReviewMoveWait {Czekaj na osiągnięcie zadanej głębokości analizy}
 translate P ReviewMovetime {Limit czasu (ms)}
+translate P ReviewOpeningMoves {Ruchy otwierające}
 translate P StopNow {Zatrzymaj teraz}
 translate P StopAfterThisGame {Zatrzymaj po tej partii}
 translate P ReviewFromPreset {%s (z ustawień silnika)}

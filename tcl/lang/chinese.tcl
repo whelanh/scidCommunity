@@ -869,6 +869,7 @@ translate M ReviewVarLines {要写入的变化}
 translate M ReviewVarCp {变化差距 (cp)}
 translate M ReviewMoveWait {等待复盘深度}
 translate M ReviewMovetime {时间上限 (ms)}
+translate M ReviewOpeningMoves {开局动作}
 translate M StopNow {Stop now}
 translate M StopAfterThisGame {Stop after this game}
 translate M ReviewFromPreset {%s（来自引擎预设）}

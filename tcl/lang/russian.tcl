@@ -900,6 +900,7 @@ translate R ReviewVarLines {Варианты для записи}
 translate R ReviewVarCp {Порог вариантов (cp)}
 translate R ReviewMoveWait {Ждать глубину разбора}
 translate R ReviewMovetime {Ограничение времени (ms)}
+translate R ReviewOpeningMoves {Первые ходы}
 translate R StopNow {Stop now}
 translate R StopAfterThisGame {Stop after this game}
 translate R ReviewFromPreset {%s (из профиля движка)}

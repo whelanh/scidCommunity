@@ -894,6 +894,7 @@ translate Q ReviewVarLines {Варіанти для запису}
 translate Q ReviewVarCp {Поріг варіантів (cp)}
 translate Q ReviewMoveWait {Чекати глибину огляду}
 translate Q ReviewMovetime {Обмеження часу (ms)}
+translate Q ReviewOpeningMoves {Розкриття ходів}
 translate Q StopNow {Stop now}
 translate Q StopAfterThisGame {Stop after this game}
 translate Q ReviewFromPreset {%s (з профілю двигуна)}

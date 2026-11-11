@@ -932,6 +932,7 @@ translate U ReviewVarLines {Kirjoitettavat muunnelmat}
 translate U ReviewVarCp {Muunnelman raja (cp)}
 translate U ReviewMoveWait {Odota tarkastuksen syvyyttä}
 translate U ReviewMovetime {Aikaraja (ms)}
+translate U ReviewOpeningMoves {Avausliikkeet}
 translate U StopNow {Stop now}
 translate U StopAfterThisGame {Stop after this game}
 translate U ReviewFromPreset {%s (moottorin asetuksista)}

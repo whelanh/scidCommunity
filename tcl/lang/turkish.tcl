@@ -897,6 +897,7 @@ translate T ReviewVarLines {Yazılacak varyantlar}
 translate T ReviewVarCp {Varyant aralığı (cp)}
 translate T ReviewMoveWait {İnceleme derinliğini bekle}
 translate T ReviewMovetime {Süre sınırı (ms)}
+translate T ReviewOpeningMoves {Açılış hamleleri}
 translate T StopNow {Stop now}
 translate T StopAfterThisGame {Stop after this game}
 translate T ReviewFromPreset {%s (motor profilinden)}
