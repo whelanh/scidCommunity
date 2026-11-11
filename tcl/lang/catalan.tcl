@@ -500,6 +500,87 @@ translate K LichessPuzzlesRated {Valorat}
 translate K LichessPuzzlesGame {Joc}
 translate K LichessPuzzlesNoNew {No s'han trobat trencaclosques nous per a aquesta configuració.\n\nProva de canviar el tema, la dificultat o el color del trencaclosques.}
 
+# Lichess study publishing
+# Publish database games as chapters of a Lichess study.
+# Designed by TBergh98 (https://github.com/TBergh98).
+menuText K ToolsPublishLichessStudy "Publica el joc actual a l'estudi Lichess..." 0 \
+  {Publica el joc actual com un nou capítol d'un dels teus estudis de Lichess}
+translate K LichessStudyTitle {Publicar a l'estudi Lichess}
+translate K LichessStudyToPublish {Per publicar: %s (un capítol per joc)}
+translate K LichessStudyToken {Fitxa de Lichess:}
+translate K LichessStudyCreateToken {Crear un testimoni (estudi d'àmbits: llegir i estudiar: escriure)}
+translate K LichessStudySearch {Cerca estudi:}
+translate K LichessStudyChapterSettings {Configuració del capítol}
+translate K LichessStudyOrientation {Orientació:}
+translate K LichessStudyOrientationAuto {Automàtic}
+translate K LichessStudyAnalysisMode {Mode d'anàlisi:}
+translate K LichessStudyModeNormal {Anàlisi normal}
+translate K LichessStudyModeConceal {Amaga els propers moviments}
+translate K LichessStudyModePractice {Pràctica amb ordinador}
+translate K LichessStudyModeGamebook {Lliçó interactiva}
+translate K LichessStudyCreateNew {O crear un nou estudi}
+translate K LichessStudyName {Nom:}
+translate K LichessStudyVisibility {Visibilitat:}
+translate K LichessStudyVisPrivate {Privat}
+translate K LichessStudyVisUnlisted {No cotitzat}
+translate K LichessStudyVisPublic {Públic}
+translate K LichessStudyCreateAndPublish {Crear i publicar}
+translate K LichessStudyAddByLink {Estudi al qual contribuïu (enllaç):}
+translate K LichessStudyUnnamed {Estudiar %s}
+translate K LichessStudyAddButton {Afegeix}
+translate K LichessStudyReload {Torna a carregar la llista}
+translate K LichessStudyPublishButton {Publicar}
+translate K LichessStudyPublishGames {Publica a l'estudi Lichess (%s)...}
+translate K LichessStudyAddedByLink {afegit per enllaç}
+
+translate K LichessStudyNeedToken {Enganxeu el vostre testimoni Lichess i premeu "Desa".}
+translate K LichessStudyLoading {Carregant els teus estudis...}
+translate K LichessStudyAccountStatus {Compte %s: %s estudis. Trieu-ne un i premeu "Publicar".}
+translate K LichessStudyTokenInvalid {El testimoni conté caràcters no vàlids: torna a copiar-lo des de Lichess.}
+translate K LichessStudySaveTokenFirst {Deseu primer el vostre testimoni Lichess.}
+translate K LichessStudyChecking {Estudi de comprovació %s...}
+translate K LichessStudyPickStudy {Trieu primer un estudi de la llista.}
+translate K LichessStudyAddLinkPrompt {Enganxeu l'enllaç d'un estudi, p. https://lichess.org/study/AbCd1234}
+translate K LichessStudyNameLength {El nom de l'estudi ha de tenir entre 2 i 100 caràcters.}
+translate K LichessStudyCreating {S'està creant l'estudi "%s"...}
+translate K LichessStudyCreateFailed {No s'ha pogut crear l'estudi "%s": %s\n\nNo s'ha publicat res.}
+translate K LichessStudyDbClosed {La base de dades ja no està oberta.}
+translate K LichessStudyTooManyGames {Tu has seleccionat %s jocs, però un estudi de Lichess aguanta com a molt %s capítols.}
+translate K LichessStudyNoGame {No hi ha cap joc al tauler.\a\Per publicar jocs d'una base de dades, seleccioneu-los a la Llista de jocs i feu servir el menú del botó dret.}
+translate K LichessStudyNoUsername {No es pot llegir el nom d'usuari de la resposta de Lichess.}
+translate K LichessStudyCurlNotFound {rínxol no trobat: cal parlar amb Lichess.}
+translate K LichessStudyGameNotFound {Joc %s no trobat a la base de dades.}
+translate K LichessStudyCannotRead {No es pot llegir el joc %s: %s}
+
+translate K LichessStudyFull {l'estudi és ple: un estudi de Lichess conté com a màxim %s capítols.}
+translate K LichessStudyNoAnswer {Sense resposta de Lichess: comproveu la vostra connexió a Internet.}
+translate K LichessStudy401 {El testimoni no vàlid o ha caducat (401).}
+translate K LichessStudy403 {Permís denegat (403): el testimoni no té els àmbits study:read/study:write o no podeu escriure en aquest estudi.}
+translate K LichessStudy404 {No s'ha trobat l'estudi (404) o és privat i no en sou membre.}
+translate K LichessStudy429 {Hi ha massa sol·licituds a Lichess (429): espereu un minut i torneu-ho a provar.}
+translate K LichessStudyHttpError {Lichess (HTTP %s): %s}
+translate K LichessStudyUnexpected {Resposta inesperada de Lichess (HTTP %s). %s}
+translate K LichessStudyNetworkError {Error de xarxa: %s}
+
+translate K LichessStudyOvfFree {"%s" només té %s capítols gratuïts de %s (el límit de Lichess), però vols publicar jocs de %s.}
+translate K LichessStudyOvfFull {"%s" està ple: un estudi de Lichess conté com a màxim %s capítols.}
+translate K LichessStudyOvfQuestion {%s\in\Què vols fer?}
+translate K LichessStudyOvfFirst {Publica aquí només els primers %s jocs (%s no es publicaran)}
+translate K LichessStudyOvfSplit {Publica els primers jocs %s aquí i els altres %s en un nou estudi}
+translate K LichessStudyOvfAllNew {Publica tots els jocs %s en un estudi nou}
+translate K LichessStudyOvfName {Nom de l'estudi nou:}
+
+translate K LichessStudyCancelled {Publicació cancel·lada: no s'ha publicat res.}
+translate K LichessStudyCheckingFree {S'estan comprovant els capítols gratuïts a "%s"...}
+translate K LichessStudyPublishing {Publicació %s jocs) a "%s"...}
+translate K LichessStudyGamesNotPublished {Jocs no publicats perquè l'estudi està ple: %s.}
+translate K LichessStudyEmptyNew {El nou estudi "%s" es va crear però no inclou cap dels jocs (%s).}
+translate K LichessStudyNothingPublished {No s'ha publicat res.%s}
+translate K LichessStudyReport {Creat %s de %s capítols (%s).%s\n\nObriu l'estudi al vostre navegador?}
+translate K LichessStudyReportItem {%s en "%s"}
+translate K LichessStudyNoChapters {No s'ha creat cap capítol.%s}
+translate K LichessStudyReports {Informes de Lichess: %s}
+
 translate K About {Sobre}
 translate K Back {Enrera}
 translate K Apply {Aplicar}

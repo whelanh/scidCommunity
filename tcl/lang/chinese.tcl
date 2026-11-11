@@ -454,6 +454,87 @@ translate M LichessPuzzlesRated {额定}
 translate M LichessPuzzlesGame {游戏}
 translate M LichessPuzzlesNoNew {没有找到适合这些设置的新谜题。\n\n尝试更改主题、难度或谜题颜色。}
 
+# Lichess study publishing
+# Publish database games as chapters of a Lichess study.
+# Designed by TBergh98 (https://github.com/TBergh98).
+menuText M ToolsPublishLichessStudy "将当前游戏发布到 Lichess Study..." 0 \
+  {将当前游戏发布为巫妖研究的新章节}
+translate M LichessStudyTitle {发布到 Lichess 研究}
+translate M LichessStudyToPublish {发布：%s（每场游戏一章）}
+translate M LichessStudyToken {巫妖令牌：}
+translate M LichessStudyCreateToken {创建令牌（范围研究：读取和研究：写入）}
+translate M LichessStudySearch {搜索研究：}
+translate M LichessStudyChapterSettings {章节设置}
+translate M LichessStudyOrientation {方向：}
+translate M LichessStudyOrientationAuto {自动的}
+translate M LichessStudyAnalysisMode {分析模式：}
+translate M LichessStudyModeNormal {正常分析}
+translate M LichessStudyModeConceal {隐藏下一步行动}
+translate M LichessStudyModePractice {用电脑练习}
+translate M LichessStudyModeGamebook {互动课}
+translate M LichessStudyCreateNew {或者创建一个新的研究}
+translate M LichessStudyName {姓名：}
+translate M LichessStudyVisibility {能见度：}
+translate M LichessStudyVisPrivate {私人的}
+translate M LichessStudyVisUnlisted {未上市}
+translate M LichessStudyVisPublic {民众}
+translate M LichessStudyCreateAndPublish {创建并发布}
+translate M LichessStudyAddByLink {您参与的研究（链接）：}
+translate M LichessStudyUnnamed {研究%s}
+translate M LichessStudyAddButton {添加}
+translate M LichessStudyReload {重新加载列表}
+translate M LichessStudyPublishButton {发布}
+translate M LichessStudyPublishGames {发布到 Lichess 研究 (%s)...}
+translate M LichessStudyAddedByLink {通过链接添加}
+
+translate M LichessStudyNeedToken {粘贴您的 Lichess 令牌并按“保存”。}
+translate M LichessStudyLoading {正在加载您的研究...}
+translate M LichessStudyAccountStatus {帐户%s：%s研究。选择一个并按“发布”。}
+translate M LichessStudyTokenInvalid {令牌包含无效字符：从 Lichess 重新复制它。}
+translate M LichessStudySaveTokenFirst {首先保存你的巫妖令牌。}
+translate M LichessStudyChecking {检查研究 %s...}
+translate M LichessStudyPickStudy {首先从列表中选择一项研究。}
+translate M LichessStudyAddLinkPrompt {粘贴研究的链接，例如https://lichess.org/study/AbCd1234}
+translate M LichessStudyNameLength {研究名称的长度必须为 2 到 100 个字符。}
+translate M LichessStudyCreating {创建研究“%s”...}
+translate M LichessStudyCreateFailed {无法创建研究“%s”：%s\n\n未发布任何内容。}
+translate M LichessStudyDbClosed {数据库不再开放。}
+translate M LichessStudyTooManyGames {您选择了 %s 游戏，但 Lichess 研究最多包含 %s 章节。}
+translate M LichessStudyNoGame {棋盘上没有游戏。\in\要从数据库发布游戏，请在游戏列表中选择它们，然后使用右键单击菜单。}
+translate M LichessStudyNoUsername {无法从 Lichess 答案中读取用户名。}
+translate M LichessStudyCurlNotFound {未找到卷曲：需要与 Lichess 交谈。}
+translate M LichessStudyGameNotFound {在数据库中找不到游戏 %s。}
+translate M LichessStudyCannotRead {无法读取游戏 %s: %s}
+
+translate M LichessStudyFull {研究已满：Lichess 研究最多包含 %s 章。}
+translate M LichessStudyNoAnswer {Lichess 没有回复：检查您的互联网连接。}
+translate M LichessStudy401 {令牌无效或过期 (401)。}
+translate M LichessStudy403 {权限被拒绝 (403)：令牌缺少 Study:read/study:write 范围，或者您无法写入此研究。}
+translate M LichessStudy404 {未找到研究 (404)，或者它是私人的并且您不是会员。}
+translate M LichessStudy429 {对 Lichess 的请求过多 (429)：稍等一下，然后重试。}
+translate M LichessStudyHttpError {巫妖 (HTTP %s): %s}
+translate M LichessStudyUnexpected {来自 Lichess 的意外答复（HTTP %s）。 %s}
+translate M LichessStudyNetworkError {网络错误：%s}
+
+translate M LichessStudyOvfFree {”%s“只有 %s 免费章节 %s （巫妖限制），但你想发布 %s 游戏。}
+translate M LichessStudyOvfFull {“%s”已满：Lichess 研究最多包含 %s 章。}
+translate M LichessStudyOvfQuestion {%s\in\你想做什么？}
+translate M LichessStudyOvfFirst {此处仅发布前 %s 游戏（%s 不会发布）}
+translate M LichessStudyOvfSplit {在此处发布第一批 %s 游戏，并在新研究中发布其他 %s}
+translate M LichessStudyOvfAllNew {在新研究中发布所有 %s 游戏}
+translate M LichessStudyOvfName {新研究名称：}
+
+translate M LichessStudyCancelled {发布已取消：没有发布任何内容。}
+translate M LichessStudyCheckingFree {正在检查“%s”中的免费章节...}
+translate M LichessStudyPublishing {正在将 %s 游戏发布到“%s”...}
+translate M LichessStudyGamesNotPublished {由于研究已满，游戏未发布：%s。}
+translate M LichessStudyEmptyNew {新研究“%s”已创建，但没有包含任何游戏（%s）。}
+translate M LichessStudyNothingPublished {没有发布任何内容。%s}
+translate M LichessStudyReport {已创建 %s 的 %s 章节（%s）。%s\n\n在浏览器中打开研究？}
+translate M LichessStudyReportItem {%s 在 ”%s”}
+translate M LichessStudyNoChapters {未创建章节。%s}
+translate M LichessStudyReports {巫妖报告：%s}
+
 translate M About {关于}
 translate M Back {Back}
 translate M Apply {应用}

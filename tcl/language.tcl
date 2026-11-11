@@ -247,7 +247,7 @@ set ::englishLoaded 0
 #    Assigns a translation for future reference.
 ################################################################################
 proc translate {lang tag label} {
-  regsub {\\n} $label "\n" label
+  regsub -all {\\n} $label "\n" label
   # For RTL languages, convert Hebrew text to visual order
   if {$lang in $::rtlLanguages && [regexp {[\u0590-\u05FF]} $label]} {
     set label [bidiVisual $label]

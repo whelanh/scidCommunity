@@ -1161,6 +1161,7 @@ tools/stored_eval.tcl
 tools/lichess_eval.tcl
 tools/lichess_puzzles.tcl
 tools/lichess_openex.tcl
+tools/lichess_study.tcl
 tools/auto_comment.tcl
 tools/analysis_auto_comment.tcl
 tools/multicomp.tcl

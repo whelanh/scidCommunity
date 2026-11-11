@@ -477,6 +477,87 @@ translate Z LichessPuzzlesRated {Imekadiriwa}
 translate Z LichessPuzzlesGame {Mchezo}
 translate Z LichessPuzzlesNoNew {Hakuna mafumbo mapya yaliyopatikana kwa mipangilio hii.\n\nJaribu kubadilisha mandhari, ugumu au rangi ya mafumbo.}
 
+# Lichess study publishing
+# Publish database games as chapters of a Lichess study.
+# Designed by TBergh98 (https://github.com/TBergh98).
+menuText Z ToolsPublishLichessStudy "Publish Current Game to Lichess Study..." 0 \
+  {Publish the current game as a new chapter of one of your Lichess studies}
+translate Z LichessStudyTitle {Publish to Lichess study}
+translate Z LichessStudyToPublish {To publish: %s (one chapter per game)}
+translate Z LichessStudyToken {Lichess token:}
+translate Z LichessStudyCreateToken {Create a token (scopes study:read and study:write)}
+translate Z LichessStudySearch {Search study:}
+translate Z LichessStudyChapterSettings {Chapter settings}
+translate Z LichessStudyOrientation {Orientation:}
+translate Z LichessStudyOrientationAuto {Automatic}
+translate Z LichessStudyAnalysisMode {Analysis mode:}
+translate Z LichessStudyModeNormal {Normal analysis}
+translate Z LichessStudyModeConceal {Hide next moves}
+translate Z LichessStudyModePractice {Practice with computer}
+translate Z LichessStudyModeGamebook {Interactive lesson}
+translate Z LichessStudyCreateNew {Or create a new study}
+translate Z LichessStudyName {Name:}
+translate Z LichessStudyVisibility {Visibility:}
+translate Z LichessStudyVisPrivate {Private}
+translate Z LichessStudyVisUnlisted {Unlisted}
+translate Z LichessStudyVisPublic {Public}
+translate Z LichessStudyCreateAndPublish {Create and publish}
+translate Z LichessStudyAddByLink {Study you contribute to (link):}
+translate Z LichessStudyUnnamed {Study %s}
+translate Z LichessStudyAddButton {Add}
+translate Z LichessStudyReload {Reload list}
+translate Z LichessStudyPublishButton {Publish}
+translate Z LichessStudyPublishGames {Publish to Lichess study (%s)...}
+translate Z LichessStudyAddedByLink {added by link}
+
+translate Z LichessStudyNeedToken {Paste your Lichess token and press "Save".}
+translate Z LichessStudyLoading {Loading your studies...}
+translate Z LichessStudyAccountStatus {Account %s: %s studies. Pick one and press "Publish".}
+translate Z LichessStudyTokenInvalid {The token contains invalid characters: copy it again from Lichess.}
+translate Z LichessStudySaveTokenFirst {Save your Lichess token first.}
+translate Z LichessStudyChecking {Checking study %s...}
+translate Z LichessStudyPickStudy {Pick a study from the list first.}
+translate Z LichessStudyAddLinkPrompt {Paste the link of a study, e.g. https://lichess.org/study/AbCd1234}
+translate Z LichessStudyNameLength {The study name must be 2 to 100 characters long.}
+translate Z LichessStudyCreating {Creating study "%s"...}
+translate Z LichessStudyCreateFailed {Could not create the study "%s": %s\n\nNothing was published.}
+translate Z LichessStudyDbClosed {The database is no longer open.}
+translate Z LichessStudyTooManyGames {You selected %s games, but a Lichess study holds at most %s chapters.}
+translate Z LichessStudyNoGame {There is no game on the board.\n\nTo publish games from a database, select them in the Game List and use the right-click menu.}
+translate Z LichessStudyNoUsername {Cannot read the username from the Lichess answer.}
+translate Z LichessStudyCurlNotFound {curl not found: it is needed to talk to Lichess.}
+translate Z LichessStudyGameNotFound {Game %s not found in the database.}
+translate Z LichessStudyCannotRead {Cannot read game %s: %s}
+
+translate Z LichessStudyFull {the study is full: a Lichess study holds at most %s chapters.}
+translate Z LichessStudyNoAnswer {No answer from Lichess: check your internet connection.}
+translate Z LichessStudy401 {Invalid or expired token (401).}
+translate Z LichessStudy403 {Permission denied (403): the token lacks the study:read/study:write scopes, or you cannot write to this study.}
+translate Z LichessStudy404 {Study not found (404), or it is private and you are not a member.}
+translate Z LichessStudy429 {Too many requests to Lichess (429): wait a minute and try again.}
+translate Z LichessStudyHttpError {Lichess (HTTP %s): %s}
+translate Z LichessStudyUnexpected {Unexpected answer from Lichess (HTTP %s). %s}
+translate Z LichessStudyNetworkError {Network error: %s}
+
+translate Z LichessStudyOvfFree {"%s" has only %s free chapters out of %s (the Lichess limit), but you want to publish %s games.}
+translate Z LichessStudyOvfFull {"%s" is full: a Lichess study holds at most %s chapters.}
+translate Z LichessStudyOvfQuestion {%s\n\nWhat do you want to do?}
+translate Z LichessStudyOvfFirst {Publish only the first %s games here (%s will not be published)}
+translate Z LichessStudyOvfSplit {Publish the first %s games here and the other %s in a new study}
+translate Z LichessStudyOvfAllNew {Publish all %s games in a new study}
+translate Z LichessStudyOvfName {New study name:}
+
+translate Z LichessStudyCancelled {Publish cancelled: nothing was published.}
+translate Z LichessStudyCheckingFree {Checking free chapters in "%s"...}
+translate Z LichessStudyPublishing {Publishing %s game(s) to "%s"...}
+translate Z LichessStudyGamesNotPublished {Games not published because the study is full: %s.}
+translate Z LichessStudyEmptyNew {The new study "%s" was created but holds none of the games (%s).}
+translate Z LichessStudyNothingPublished {Nothing was published.%s}
+translate Z LichessStudyReport {Created %s of %s chapters (%s).%s\n\nOpen the study in your browser?}
+translate Z LichessStudyReportItem {%s in "%s"}
+translate Z LichessStudyNoChapters {No chapter was created.%s}
+translate Z LichessStudyReports {Lichess reports: %s}
+
 translate Z About {Kuhusu}
 translate Z Back {Nyuma}
 translate Z Apply {Tumia}

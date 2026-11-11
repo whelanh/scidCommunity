@@ -485,6 +485,87 @@ translate H LichessPuzzlesRated {Névleges}
 translate H LichessPuzzlesGame {Játék}
 translate H LichessPuzzlesNoNew {Nem találhatók új rejtvények ezekhez a beállításokhoz.\n\nMódosítsa a témát, a nehézségi fokot vagy a rejtvény színét.}
 
+# Lichess study publishing
+# Publish database games as chapters of a Lichess study.
+# Designed by TBergh98 (https://github.com/TBergh98).
+menuText H ToolsPublishLichessStudy "Az aktuális játék közzététele a Lichess Study számára..." 0 \
+  {Tedd közzé az aktuális játékot egyik Lichess-tanulmányod új fejezeteként}
+translate H LichessStudyTitle {Közzététel a Lichess-tanulmányban}
+translate H LichessStudyToPublish {Közzététel: %s (játékonként egy fejezet)}
+translate H LichessStudyToken {Lichess token:}
+translate H LichessStudyCreateToken {Hozzon létre egy tokent (hatókör tanulmányozása: olvasás és tanulmányozás: írás)}
+translate H LichessStudySearch {Tanulmány keresése:}
+translate H LichessStudyChapterSettings {Fejezet beállításai}
+translate H LichessStudyOrientation {Tájolás:}
+translate H LichessStudyOrientationAuto {Automatikus}
+translate H LichessStudyAnalysisMode {Elemzési mód:}
+translate H LichessStudyModeNormal {Normál elemzés}
+translate H LichessStudyModeConceal {A következő lépések elrejtése}
+translate H LichessStudyModePractice {Gyakorolj számítógéppel}
+translate H LichessStudyModeGamebook {Interaktív óra}
+translate H LichessStudyCreateNew {Vagy hozzon létre egy új tanulmányt}
+translate H LichessStudyName {Név:}
+translate H LichessStudyVisibility {Láthatóság:}
+translate H LichessStudyVisPrivate {Magán}
+translate H LichessStudyVisUnlisted {Nem listázott}
+translate H LichessStudyVisPublic {Nyilvános}
+translate H LichessStudyCreateAndPublish {Hozzon létre és tegye közzé}
+translate H LichessStudyAddByLink {Tanulmány, amelyhez hozzájárul (link):}
+translate H LichessStudyUnnamed {Tanulmány %s}
+translate H LichessStudyAddButton {Hozzáadás}
+translate H LichessStudyReload {Lista újratöltése}
+translate H LichessStudyPublishButton {Közzététel}
+translate H LichessStudyPublishGames {Közzététel a Lichess-tanulmányban (%s)...}
+translate H LichessStudyAddedByLink {linkkel hozzáadva}
+
+translate H LichessStudyNeedToken {Illessze be Lichess tokenjét, és nyomja meg a "Mentés" gombot.}
+translate H LichessStudyLoading {Tanulmányaid betöltése...}
+translate H LichessStudyAccountStatus {Fiók %s: %s tanulmányok. Válasszon egyet, és nyomja meg a "Közzététel" gombot.}
+translate H LichessStudyTokenInvalid {A token érvénytelen karaktereket tartalmaz: másold ki újra a Lichessből.}
+translate H LichessStudySaveTokenFirst {Először mentse el a Lichess tokenjét.}
+translate H LichessStudyChecking {A %s tanulmány ellenőrzése...}
+translate H LichessStudyPickStudy {Először válasszon egy tanulmányt a listáról.}
+translate H LichessStudyAddLinkPrompt {Illessze be egy tanulmány linkjét, pl. https://lichess.org/study/AbCd1234}
+translate H LichessStudyNameLength {A tanulmány nevének 2–100 karakter hosszúnak kell lennie.}
+translate H LichessStudyCreating {„%s” tanulmány létrehozása...}
+translate H LichessStudyCreateFailed {Nem sikerült létrehozni a „%s” tanulmányt: %s\n\nSemmit sem tettek közzé.}
+translate H LichessStudyDbClosed {Az adatbázis már nincs nyitva.}
+translate H LichessStudyTooManyGames {Kiválasztott %s játékot, de egy Lichess-tanulmány legfeljebb %s fejezetet tartalmaz.}
+translate H LichessStudyNoGame {A táblán nincs játék.\in\Játékok adatbázisból való közzétételéhez válassza ki őket a Játéklistában, és használja a jobb gombbal kattintva.}
+translate H LichessStudyNoUsername {A felhasználónév nem olvasható ki a Lichess válaszból.}
+translate H LichessStudyCurlNotFound {göndör nem található: beszélni kell Lichess-szel.}
+translate H LichessStudyGameNotFound {A %s játék nem található az adatbázisban.}
+translate H LichessStudyCannotRead {Nem olvasható a játék %s: %s}
+
+translate H LichessStudyFull {a tanulmány megtelt: egy Lichess-tanulmány legfeljebb %s fejezetet tartalmaz.}
+translate H LichessStudyNoAnswer {Nincs válasz Lichesstől: ellenőrizze az internetkapcsolatot.}
+translate H LichessStudy401 {Érvénytelen vagy lejárt token (401).}
+translate H LichessStudy403 {Engedély megtagadva (403): a tokenből hiányzik a study:read/study:write hatókör, vagy nem tud írni ebbe a tanulmányba.}
+translate H LichessStudy404 {A tanulmány nem található (404), vagy privát, és Ön nem tagja.}
+translate H LichessStudy429 {Túl sok kérés érkezett Lichesshez (429): várjon egy percet, és próbálja újra.}
+translate H LichessStudyHttpError {Lichess (HTTP %s): %s}
+translate H LichessStudyUnexpected {Váratlan válasz Lichesstől (HTTP %s). %s}
+translate H LichessStudyNetworkError {Hálózati hiba: %s}
+
+translate H LichessStudyOvfFree {A %s-nak csak %s ingyenes fejezete van a %s-ból (a Lichess-korlát), de Ön %s játékot szeretne közzétenni.}
+translate H LichessStudyOvfFull {A "%s" megtelt: egy Lichess-tanulmány legfeljebb %s fejezetet tartalmaz.}
+translate H LichessStudyOvfQuestion {%s\in\Mit akarsz csinálni?}
+translate H LichessStudyOvfFirst {Csak az első %s játékokat tedd közzé itt (%s nem kerül közzétételre)}
+translate H LichessStudyOvfSplit {Tegye közzé az első %s játékot itt, a többit pedig %s egy új tanulmányban}
+translate H LichessStudyOvfAllNew {Tegye közzé az összes %s játékot egy új tanulmányban}
+translate H LichessStudyOvfName {A tanulmány új neve:}
+
+translate H LichessStudyCancelled {Közzététel törölve: semmit sem tettek közzé.}
+translate H LichessStudyCheckingFree {Ingyenes fejezetek ellenőrzése a következőben: "%s"...}
+translate H LichessStudyPublishing {%s játék(ok) közzététele a következőben: "%s"...}
+translate H LichessStudyGamesNotPublished {A játékokat nem tették közzé, mert a tanulmány megtelt: %s.}
+translate H LichessStudyEmptyNew {Az új „%s” tanulmány elkészült, de egyik játékot sem tartalmazza (%s).}
+translate H LichessStudyNothingPublished {Semmit sem tettek közzé.%s}
+translate H LichessStudyReport {Létrehozva %s a %s fejezetek (%s).%s\n\nMegnyitja a tanulmányt a böngészőben?}
+translate H LichessStudyReportItem {%s itt: %s}
+translate H LichessStudyNoChapters {Nem készült fejezet.%s}
+translate H LichessStudyReports {Lichess jelentések: %s}
+
 translate H About {Körülbelül}
 translate H Back {Vissza}
 translate H Apply {Alkalmazni}

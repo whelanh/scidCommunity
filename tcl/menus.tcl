@@ -304,6 +304,8 @@ menu $m.pinfo
 $m add cascade -label ToolsPInfo -menu $m.pinfo
 $m add command -label ToolsPlayerReport -command ::preport::preportDlg
 $m add command -label ToolsRating -command {::tools::graphs::rating::Refresh both}
+$m add separator
+$m add command -label ToolsPublishLichessStudy -command ::lichstudy::publishCurrent
 
 
 ### Options menu:

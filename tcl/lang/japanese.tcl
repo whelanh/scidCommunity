@@ -518,6 +518,87 @@ translate A LichessPuzzlesRated {評価済み}
 translate A LichessPuzzlesGame {ゲーム}
 translate A LichessPuzzlesNoNew {これらの設定では新しいパズルが見つかりません。\n\nテーマ、難易度、またはパズルの色を変更してみてください。}
 
+# Lichess study publishing
+# Publish database games as chapters of a Lichess study.
+# Designed by TBergh98 (https://github.com/TBergh98).
+menuText A ToolsPublishLichessStudy "現在のゲームを Lichess Study に公開..." 0 \
+  {現在のゲームを Lichess 研究の 1 つの新しい章として公開します}
+translate A LichessStudyTitle {Lichess 研究に公開する}
+translate A LichessStudyToPublish {公開するには: %s (ゲームごとに 1 章)}
+translate A LichessStudyToken {リッチトークン:}
+translate A LichessStudyCreateToken {トークンを作成します (スコープ Study:read および Study:write)}
+translate A LichessStudySearch {研究を検索:}
+translate A LichessStudyChapterSettings {章の設定}
+translate A LichessStudyOrientation {向き:}
+translate A LichessStudyOrientationAuto {自動}
+translate A LichessStudyAnalysisMode {分析モード:}
+translate A LichessStudyModeNormal {通常の分析}
+translate A LichessStudyModeConceal {次の動きを隠す}
+translate A LichessStudyModePractice {パソコンを使って練習する}
+translate A LichessStudyModeGamebook {インタラクティブなレッスン}
+translate A LichessStudyCreateNew {または、新しいスタディを作成する}
+translate A LichessStudyName {名前：}
+translate A LichessStudyVisibility {可視性:}
+translate A LichessStudyVisPrivate {プライベート}
+translate A LichessStudyVisUnlisted {非上場}
+translate A LichessStudyVisPublic {公共}
+translate A LichessStudyCreateAndPublish {作成して公開する}
+translate A LichessStudyAddByLink {あなたが貢献した研究 (リンク):}
+translate A LichessStudyUnnamed {研究%s}
+translate A LichessStudyAddButton {追加}
+translate A LichessStudyReload {リストをリロードする}
+translate A LichessStudyPublishButton {公開}
+translate A LichessStudyPublishGames {Lichess スタディに公開 (%s)...}
+translate A LichessStudyAddedByLink {リンクにより追加されました}
+
+translate A LichessStudyNeedToken {Lichess トークンを貼り付けて、「保存」を押します。}
+translate A LichessStudyLoading {学習内容を読み込んでいます...}
+translate A LichessStudyAccountStatus {Account %s: %s studies. Pick one and press "Publish".}
+translate A LichessStudyTokenInvalid {トークンに無効な文字が含まれています。Lichess から再度コピーしてください。}
+translate A LichessStudySaveTokenFirst {まずLichesトークンを保存してください。}
+translate A LichessStudyChecking {調査%sをチェックしています...}
+translate A LichessStudyPickStudy {まずリストから研究を選択します。}
+translate A LichessStudyAddLinkPrompt {研究のリンクを貼り付けます。 https://lichess.org/study/AbCd1234}
+translate A LichessStudyNameLength {研究名の長さは 2 ～ 100 文字である必要があります。}
+translate A LichessStudyCreating {スタディ「%s」を作成しています...}
+translate A LichessStudyCreateFailed {スタディ「%s」を作成できませんでした: %s\n\n何も公開されませんでした。}
+translate A LichessStudyDbClosed {データベースはもう開いていません。}
+translate A LichessStudyTooManyGames {%s ゲームを選択しましたが、Lichess 研究には最大でも %s 章が含まれます。}
+translate A LichessStudyNoGame {ボード上にゲームがありません。\in\データベースからゲームを公開するには、ゲーム リストでゲームを選択し、右クリック メニューを使用します。}
+translate A LichessStudyNoUsername {Lichess の回答からユーザー名を読み取ることができません。}
+translate A LichessStudyCurlNotFound {カールが見つかりません: Lichess と話すために必要です。}
+translate A LichessStudyGameNotFound {ゲーム %s がデータベースに見つかりません。}
+translate A LichessStudyCannotRead {ゲーム %s: %s を読み取れません}
+
+translate A LichessStudyFull {研究はいっぱいです: Lichess 研究には最大で %s 章が含まれます。}
+translate A LichessStudyNoAnswer {Lichess からの応答がありません。インターネット接続を確認してください。}
+translate A LichessStudy401 {トークンが無効または期限切れです (401)。}
+translate A LichessStudy403 {許可が拒否されました (403): トークンに Study:read/study:write スコープがないか、このスタディに書き込むことができません。}
+translate A LichessStudy404 {研究が見つかりません (404)、または非公開であり、メンバーではありません。}
+translate A LichessStudy429 {Lichess (429) へのリクエストが多すぎます。少し待ってからもう一度お試しください。}
+translate A LichessStudyHttpError {リッチ (HTTP %s): %s}
+translate A LichessStudyUnexpected {Lichess からの予期しない応答 (HTTP %s)。 %s}
+translate A LichessStudyNetworkError {ネットワークエラー: %s}
+
+translate A LichessStudyOvfFree {」%s「しかない」 %s 無料のチャプター %s (Lichess 制限) ですが、公開したいと考えています %s ゲーム。}
+translate A LichessStudyOvfFull {「%s」はいっぱいです。Lichess 研究には最大で %s 章が含まれます。}
+translate A LichessStudyOvfQuestion {%s\in\何をしたいですか?}
+translate A LichessStudyOvfFirst {ここでは最初の %s ゲームのみを公開します (%s は公開されません)}
+translate A LichessStudyOvfSplit {最初の %s ゲームをここで公開し、他の %s を新しい研究で公開します}
+translate A LichessStudyOvfAllNew {すべての %s ゲームを新しい調査で公開します}
+translate A LichessStudyOvfName {新しい研究名:}
+
+translate A LichessStudyCancelled {公開がキャンセルされました: 何も公開されませんでした。}
+translate A LichessStudyCheckingFree {「%s」の無料チャプターをチェックしています...}
+translate A LichessStudyPublishing {%s ゲームを「%s」に公開しています...}
+translate A LichessStudyGamesNotPublished {研究がいっぱいであるため、ゲームは公開されませんでした: %s。}
+translate A LichessStudyEmptyNew {The new study "%s" was created but holds none of the games (%s).}
+translate A LichessStudyNothingPublished {Nothing was published.%s}
+translate A LichessStudyReport {Created %s of %s chapters (%s).%s\n\nOpen the study in your browser?}
+translate A LichessStudyReportItem {%s in "%s"}
+translate A LichessStudyNoChapters {No chapter was created.%s}
+translate A LichessStudyReports {Lichess reports: %s}
+
 translate A About {について}
 translate A Back {戻る}
 translate A Apply {適用}

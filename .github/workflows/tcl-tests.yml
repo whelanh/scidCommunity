@@ -217,6 +217,12 @@ jobs:
       - name: Review progress pane
         run: xvfb-run -a wish tests/tcl/review_progress_pane_tk.tcl
 
+      # The Lichess study feature against a fake Lichess: games into an
+      # existing or a new study, the 64-chapter limit, the "study is full"
+      # question, API errors, and how curl is called.
+      - name: Lichess study
+        run: xvfb-run -a wish tests/tcl/lichess_study_tk.tcl
+
   startup-smoke:
     name: startup with a clean profile
     runs-on: ubuntu-latest

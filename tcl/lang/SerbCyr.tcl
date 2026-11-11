@@ -518,6 +518,87 @@ translate J LichessPuzzlesRated {Оцењено}
 translate J LichessPuzzlesGame {Игра}
 translate J LichessPuzzlesNoNew {Нису пронађене нове загонетке за ова подешавања.\n\nПробајте да промените тему, тежину или боју слагалице.}
 
+# Lichess study publishing
+# Publish database games as chapters of a Lichess study.
+# Designed by TBergh98 (https://github.com/TBergh98).
+menuText J ToolsPublishLichessStudy "Објави тренутну игру у Лицхесс Студи..." 0 \
+  {Објавите тренутну игру као ново поглавље једне од ваших Лицхесс студија}
+translate J LichessStudyTitle {Објавите у Лицхесс студији}
+translate J LichessStudyToPublish {За објављивање: %s (једно поглавље по игри)}
+translate J LichessStudyToken {Лицхесс токен:}
+translate J LichessStudyCreateToken {Направите токен (обухвата проучавање: читање и проучавање: писање)}
+translate J LichessStudySearch {Претрага студија:}
+translate J LichessStudyChapterSettings {Подешавања поглавља}
+translate J LichessStudyOrientation {Оријентација:}
+translate J LichessStudyOrientationAuto {Аутоматски}
+translate J LichessStudyAnalysisMode {Режим анализе:}
+translate J LichessStudyModeNormal {Нормална анализа}
+translate J LichessStudyModeConceal {Сакриј следеће потезе}
+translate J LichessStudyModePractice {Вежбајте са рачунаром}
+translate J LichessStudyModeGamebook {Интерактивна лекција}
+translate J LichessStudyCreateNew {Или направите нову студију}
+translate J LichessStudyName {име:}
+translate J LichessStudyVisibility {Видљивост:}
+translate J LichessStudyVisPrivate {Приватно}
+translate J LichessStudyVisUnlisted {Ненаведено}
+translate J LichessStudyVisPublic {Јавно}
+translate J LichessStudyCreateAndPublish {Креирајте и објавите}
+translate J LichessStudyAddByLink {Студија којој доприносите (линк):}
+translate J LichessStudyUnnamed {Студија %s}
+translate J LichessStudyAddButton {Додај}
+translate J LichessStudyReload {Поново учитај листу}
+translate J LichessStudyPublishButton {Објавите}
+translate J LichessStudyPublishGames {Објави у Лицхесс студији (%s)...}
+translate J LichessStudyAddedByLink {додато линком}
+
+translate J LichessStudyNeedToken {Налепите свој Лицхесс токен и притисните „Сачувај“.}
+translate J LichessStudyLoading {Учитавање ваших студија...}
+translate J LichessStudyAccountStatus {Рачун %s: %s студијама. Изаберите једну и притисните "Објави".}
+translate J LichessStudyTokenInvalid {Токен садржи неважеће знакове: копирајте га поново из Лицхесс-а.}
+translate J LichessStudySaveTokenFirst {Прво сачувајте свој Лицхесс токен.}
+translate J LichessStudyChecking {Провера студија %s...}
+translate J LichessStudyPickStudy {Прво изаберите студију са листе.}
+translate J LichessStudyAddLinkPrompt {Налепите везу студије, нпр. хттпс://лицхесс.орг/студи/АбЦд1234}
+translate J LichessStudyNameLength {Назив студије мора да има 2 до 100 знакова.}
+translate J LichessStudyCreating {Прављење студије"%s„...}
+translate J LichessStudyCreateFailed {Није могуће креирати студију "%s": %s\н\нНишта није објављено.}
+translate J LichessStudyDbClosed {База података више није отворена.}
+translate J LichessStudyTooManyGames {Изабрали сте %s игре, али Лицхесс студија држи највише %s поглавља.}
+translate J LichessStudyNoGame {На табли нема игре.\ин\Да бисте објавили игре из базе података, изаберите их на листи игара и користите мени десним кликом.}
+translate J LichessStudyNoUsername {Није могуће прочитати корисничко име из Лицхесс одговора.}
+translate J LichessStudyCurlNotFound {цурл није пронађен: потребно је разговарати са Лицхесс.}
+translate J LichessStudyGameNotFound {Игра %s није пронађен у бази података.}
+translate J LichessStudyCannotRead {Не могу да прочитам игру %s: %s}
+
+translate J LichessStudyFull {студија је пуна: Лицхесс студија држи највише %s поглавља.}
+translate J LichessStudyNoAnswer {Нема одговора од Лицхесса: проверите своју интернет везу.}
+translate J LichessStudy401 {Неважећи или истекао токен (401).}
+translate J LichessStudy403 {Дозвола одбијена (403): токену недостаје опсег студија:читај/проучавај:писање или не можете писати у ову студију.}
+translate J LichessStudy404 {Студија није пронађена (404), или је приватна и нисте члан.}
+translate J LichessStudy429 {Превише захтева за Лицхесс (429): сачекајте минут и покушајте поново.}
+translate J LichessStudyHttpError {Лицхесс (ХТТП %s): %s}
+translate J LichessStudyUnexpected {Неочекивани одговор од Лицхесс-а (ХТТП %s). %s}
+translate J LichessStudyNetworkError {Мрежна грешка: %s}
+
+translate J LichessStudyOvfFree {"%s„има само %s бесплатна поглавља из %s (Лицхесс лимит), али желите да објавите %s игрице.}
+translate J LichessStudyOvfFull {"%s" је пуна: Лицхесс студија држи највише %s поглавља.}
+translate J LichessStudyOvfQuestion {%s\ин\Шта желиш да урадиш?}
+translate J LichessStudyOvfFirst {Објавите само прву %s игре овде (%s неће бити објављен)}
+translate J LichessStudyOvfSplit {Објавите прву %s игре овде и друге %s у новој студији}
+translate J LichessStudyOvfAllNew {Објави све %s игре у новој студији}
+translate J LichessStudyOvfName {Ново име студије:}
+
+translate J LichessStudyCancelled {Објављивање је отказано: ништа није објављено.}
+translate J LichessStudyCheckingFree {Провера бесплатних поглавља у "%s„...}
+translate J LichessStudyPublishing {Публисхинг %s игре) до "%s„...}
+translate J LichessStudyGamesNotPublished {Игре нису објављене јер је студија пуна: %s.}
+translate J LichessStudyEmptyNew {Нова студија"%s" је креиран, али не садржи ниједну игру (%s).}
+translate J LichessStudyNothingPublished {Ништа није објављено.%s}
+translate J LichessStudyReport {Цреатед %s оф %s поглавља (%s).%s\н\нОтворити студију у свом претраживачу?}
+translate J LichessStudyReportItem {%s у "%s"}
+translate J LichessStudyNoChapters {Није направљено ниједно поглавље.%s}
+translate J LichessStudyReports {Лицхесс извештава: %s}
+
 translate J About {Абоут}
 translate J Back {Назад}
 translate J Apply {Примени}

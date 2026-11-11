@@ -1426,6 +1426,14 @@ proc glist.popupmenu_ {{w} {x} {y} {abs_x} {abs_y} {layout}} {
         $w.game_menu add command -label $::tr(BatchAnnotate) \
            -command [list ::batch_annotate::config $::glistBase($w) $sel_literal]
       }
+      # Publish the selected games as chapters of a Lichess study.
+      set lichNums [::lichstudy::selectionNumbers $sel_literal]
+      if {[llength $lichNums]} {
+        $w.game_menu add separator
+        $w.game_menu add command \
+          -label [format [tr LichessStudyPublishGames] [llength $lichNums]] \
+          -command [list ::lichstudy::publishGames $::glistBase($w) $lichNums]
+      }
       menu $w.game_menu.strip
       $w.game_menu.strip add command -label [tr EditStripComments] \
         -command [list ::game::StripSelected $::glistBase($w) $sel_literal comments]
