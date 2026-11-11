@@ -100,6 +100,9 @@ proc ::epdanalysis::dataFromInfo {fen msgData} {
 
 # Open a UCI preset for an EPD pass. Returns "" or the reason it could not.
 proc ::epdanalysis::open {engine} {
+    if {[dict size $::epdanalysis::job]} {
+        return "a search is already running"
+    }
     ::epdanalysis::close
     set cfg ""
     catch { set cfg [::enginecfg::get $engine] }
@@ -165,7 +168,7 @@ proc ::epdanalysis::message {msg} {
         "InfoBestMove" {
             set best [lindex $data 0]
             set d [dict get $job data]
-            if {$best ne "" && [dict get $d best_uci] eq ""} {
+            if {$best ne "" && $best ne "0000" && $best ne "(none)"} {
                 dict set d best_uci $best
                 dict set d best_san [::epdanalysis::sanMove [dict get $job fen] $best]
             }

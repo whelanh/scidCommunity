@@ -82,7 +82,10 @@ set ::result ""
 set fen {6k1/5ppp/8/8/8/8/5PPP/R5K1 w - - 0 1}
 set token [::epdanalysis::ask $fen 4000 \
     [list apply {{d} { set ::result $d ; set ::done 1 }}] \
-    [list apply {{d} { incr ::infos }}]]
+    [list apply {{sought start data} {
+        incr ::infos
+        set ::infoBest [dict get $data best_san]
+    }} $fen 0]]
 check "the search has a token" [expr {$token ne ""}]
 check "the Go asks for the position and the time" \
     [expr {[lindex $::sent end 1] eq "Go" \
@@ -91,6 +94,7 @@ check "the Go asks for the position and the time" \
 
 {*}$::engineCb {InfoPV {1 20 22 1000 500 0 0 120 30 cp 0 e7e5 d7d5}}
 checkEq "onInfo sees the line" $::infos 1
+checkEq "with the result dict last, as message supplies it" $::infoBest e5
 {*}$::engineCb {InfoBestMove {e7e5}}
 checkEq "the answer is delivered once" $::done 1
 checkEq "with the best move in SAN" [dict get $::result best_san] e5

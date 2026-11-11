@@ -32,6 +32,8 @@ namespace eval epd {
   variable epdTimer
   variable epdEngineName
   variable analysisRunning 0
+  variable analysisOwner ""
+  variable analysisStopRequested 0
   variable bestMoves {}
   variable epdName
   variable saveLog 0
@@ -319,9 +321,12 @@ namespace eval epd {
       if {$::epd::answer == 0} { ::epd::saveEpdWin $id }
     }
     bind .epd$id <Destroy> ""
-    # A run owns an engine and a waiting loop; closing the window cancels both.
-    catch { ::epd::stopAnalysis $id }
-    catch { ::epdanalysis::close }
+    # A run owns an engine and a waiting loop; only its own window may stop it.
+    # Closing another EPD window leaves the active pass alone.
+    if {[info exists ::epd::analysisOwner] && $::epd::analysisOwner eq $id} {
+      catch { ::epd::stopAnalysis $id }
+      catch { ::epdanalysis::close }
+    }
     sc_epd close $id
     focus .main
     destroy .epd$id
@@ -683,6 +688,11 @@ namespace eval epd {
     variable analysisRunning
 
     set w .epd$id
+    if {$analysisRunning} {
+      $w.bottom.status configure -text "Another EPD analysis is already running."
+      set epdAnnotation 0
+      return
+    }
     set epdEngineName [string map {{ } _} $name]
 
     set err [::epdanalysis::open $name]
@@ -694,6 +704,8 @@ namespace eval epd {
 
     set epdAnnotation 1
     set analysisRunning 1
+    set analysisOwner $id
+    set analysisStopRequested 0
     catch { $w.bottom.stop configure -state normal }
     $w.bottom.status configure -text "Analyzing with $epdEngineName ($epdDelay secs/move)"
     update
@@ -731,6 +743,7 @@ namespace eval epd {
     set movetime [expr {int($epdDelay * 1000)}]
 
     for { set i 0 } { $i < $size } { incr i } {
+      if {$analysisStopRequested} { set cancelled 1 ; break }
       if {[catch {
         $w.lb selection clear 0 end
         $w.lb selection set $i
@@ -742,13 +755,14 @@ namespace eval epd {
       # Read the sought move(s) (bm/am) for THIS position before the search.
       set soughtMoves [::epd::soughtMovesFor $id]
       set fen [sc_pos fen]
+      if {$analysisStopRequested} { set cancelled 1 ; break }
       set posStartMs [clock milliseconds]
       set ::epd::analysisSolveMs ""
       set ::epd::analysisResult ""
 
       # The first info line that matches bm/am gives the time-to-solve, even
       # when the engine later changes its mind about the best move.
-      set onInfo [list apply {{data sought start} {
+      set onInfo [list apply {{sought start data} {
         if {$::epd::analysisSolveMs ne "" || $sought eq ""} { return }
         set bm [dict get $data best_san]
         if {$bm ne "" && [::epd::evalBestMove $sought $bm] eq "TRUE"} {
@@ -805,6 +819,8 @@ namespace eval epd {
 
     ::epdanalysis::close
     set analysisRunning 0
+    set analysisOwner ""
+    set analysisStopRequested 0
     catch { $w.bottom.stop configure -state disabled }
 
     if {[winfo exists $w]} {
@@ -844,7 +860,11 @@ namespace eval epd {
   # engine; this proc does not destroy the window.
   proc stopAnalysis {id} {
     variable analysisRunning
+    variable analysisOwner
+    variable analysisStopRequested
     if {![info exists analysisRunning] || !$analysisRunning} { return }
+    if {$id ne $analysisOwner} { return }
+    set analysisStopRequested 1
     set w .epd$id
     if {[winfo exists $w]} {
       $w.bottom.status configure -text "Stopping..."
@@ -979,12 +999,14 @@ namespace eval epd {
   ################################################################################
   ###  Remove the opcodes a previous paste wrote.
   ################################################################################
-  proc stripAnalysisOpcodes {textwidget} {
+  proc stripAnalysisOpcodes {textwidget {keepAcdAcn 0}} {
     set text [$textwidget get 1.0 end]
     $textwidget delete 1.0 end
     foreach line [split $text "\n"] {
       if {[string trim $line] == ""} { continue }
-      if {![regexp {^acd |^acn |^ce |^dm |^pv } $line]} {
+      if {$keepAcdAcn && [regexp {^(acd|acn) } $line]} {
+        $textwidget insert end $line\n
+      } elseif {![regexp {^acd |^acn |^ce |^dm |^pv } $line]} {
         $textwidget insert end $line\n
       }
     }
@@ -1005,18 +1027,18 @@ namespace eval epd {
     if {$depth eq ""} { set depth 0 }
     set nodes [dict get $data nodes]
     if {$nodes eq ""} { set nodes 0 }
-    set dm [dict get $data mate_stm]
+    set mate [dict get $data mate_stm]
     set score [dict get $data score_stm]
-    if {$dm eq ""} {
+    if {$mate eq ""} {
       set dm 0
       if {$score eq ""} {
         set ce 0
       } else {
-        set ce [expr {int($score * 100)}]
+        set ce [expr {round($score * 100)}]
       }
     } else {
-      set dm [expr {abs($dm)}]
-      set ce [expr {32767 - ((2 * $dm) - 1)}]
+      set dm [expr {abs($mate)}]
+      set ce [expr {$mate < 0 ? -32767 - 2 * $mate : 32767 - 2 * $mate}]
     }
     $textwidget insert insert "acd $depth\n"
     $textwidget insert insert "acn $nodes\n"
@@ -1039,7 +1061,7 @@ namespace eval epd {
     if {! [winfo exists $textwidget]} { return }
     set opcodes [::epd::buildEngineOpcodes]
     if {[string trim $opcodes] eq ""} { return }
-    stripAnalysisOpcodes $textwidget
+    stripAnalysisOpcodes $textwidget 1
     $textwidget insert insert $opcodes
     if {$epdAnnotateMode == 2 && $status ne ""} {
       set name ""
