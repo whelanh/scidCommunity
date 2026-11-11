@@ -1372,9 +1372,23 @@ proc ::reviewdriver::writeResults {p results} {
             lappend errors $err
         }
     }
+    # A whole-game pass is the only one that owns the game's tags. Move Comment
+    # names one ply (report 0), and the Game List batch hands the writer a
+    # hand-built pass without `report`, so the plan is the fallback: a plan that
+    # covers every ply is a whole-game pass.
+    set isReport 0
+    catch { set isReport [dict get $p report] }
+    set wholeGame $isReport
+    if {!$wholeGame} {
+        set mapPlies 0
+        catch { set mapPlies [dict get $map plies] }
+        set planPlies 0
+        catch { set planPlies [llength [dict get $p plan]] }
+        if {$mapPlies > 0 && $planPlies >= $mapPlies} { set wholeGame 1 }
+    }
     # The opening-errors entry is Review Settings' own: write it from the same
     # helper the annotate pass uses, at the ply the opening book ended.
-    if {[llength [info commands ::reviewannotate::openingMark]]} {
+    if {$wholeGame && [llength [info commands ::reviewannotate::openingMark]]} {
         catch { ::reviewannotate::openingMark $p }
     }
     # A whole-game review records what produced it. Move Comment names one ply
@@ -1382,8 +1396,6 @@ proc ::reviewdriver::writeResults {p results} {
     # hands off it. The model is part of the record when coach prose was asked
     # for and a provider was configured, whether or not a later request failed:
     # the tag says what was used, not what answered.
-    set isReport 0
-    catch { set isReport [dict get $p report] }
     set coachOn 0
     catch { set coachOn [dict get $p coach] }
     if {$engineName ne "" && $isReport && $written > 0} {

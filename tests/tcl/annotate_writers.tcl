@@ -590,6 +590,25 @@ checkHas "the opening finder writes its entry" $::gamestub::annotator \
     "opBlunder 1 (white)"
 ::review::reset
 
+# Move Comment names one ply and is not a whole-game pass: it must leave the
+# game-level opening entry alone.
+lassign [blunderPass] p results
+dict set p plan [lrange [dict get $p plan] 0 0]
+::review::reset
+::review::setValue opening_errors 1
+reviewDefault $p $results
+checkEq "a single-move pass writes no opening entry" $::gamestub::annotator ""
+
+# A second whole-game pass must not grow the Annotator tag with a second copy.
+lassign [blunderPass] p results
+::review::reset
+::review::setValue opening_errors 1
+reviewDefault $p $results
+reviewDefault $p $results
+checkEq "a re-run keeps one opening entry" \
+    [regexp -all {opBlunder} $::gamestub::annotator] 1
+::review::reset
+
 # The exercise: the same blunder is a puzzle when the second line is far enough
 # behind and the shallow search does not find the move.
 lassign [blunderPass] p results

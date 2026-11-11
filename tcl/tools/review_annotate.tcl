@@ -426,13 +426,24 @@ proc ::reviewannotate::openingMark {p} {
 # (analysis.tcl:960-989): a second pass appends to the same tag rather than
 # replacing what the first engine wrote.
 proc ::reviewannotate::appendAnnotator {text} {
+    if {$text eq ""} { return 0 }
     if {[catch { set extra [sc_game tags get "Extra"] }]} { return 0 }
     set nExtra {}
     set seen 0
     set other ""
     foreach line $extra {
         if {$seen == 1} {
-            lappend nExtra "Annotator \"$line, $text\"\n"
+            # A second pass appends only an entry the tag does not already carry:
+            # a re-run of Game Review or a batch must not grow the tag.
+            set present 0
+            foreach part [split $line ","] {
+                if {[string trim $part] eq $text} { set present 1 ; break }
+            }
+            if {!$present} {
+                lappend nExtra "Annotator \"$line, $text\"\n"
+            } else {
+                lappend nExtra "Annotator \"$line\"\n"
+            }
             set seen 2
         } elseif {$other ne ""} {
             lappend nExtra "$other \"$line\"\n"
