@@ -29,6 +29,12 @@ namespace eval ::reviewui {}
 #   depth    the depth to search ({}: the pass decides, from ::review::effective)
 #   progress the command the driver calls as {*}$progress <done> <total>
 #   notify   1 to refresh the board once the write phase ends
+#   line     the ::review::currentLineMap to review, when the reader is not on the
+#            main line ({} on the main line: the driver takes the game's own line)
+#   force    1 to judge every node of the line; only a caller that sets it gets it
+#            passed on (Game Review never does)
+#   refusal  why the press cannot press at all, in the words of whatever refused -
+#            a line that could not be built is the one caller today
 #
 # Answers {entry <command> args <argv> reason <why entry is empty>}. A missing
 # key is that key's default, so a window caught mid-teardown is refused rather
@@ -43,11 +49,19 @@ proc ::reviewui::runCall {state} {
     set depth [expr {[dict exists $state depth] ? [dict get $state depth] : ""}]
     set progress [expr {[dict exists $state progress] ? [dict get $state progress] : ""}]
     set notify [expr {[dict exists $state notify] ? [dict get $state notify] : 0}]
+    set line [expr {[dict exists $state line] ? [dict get $state line] : ""}]
+    set force [expr {[dict exists $state force] ? [dict get $state force] : ""}]
+    set refusal [expr {[dict exists $state refusal] ? [dict get $state refusal] : ""}]
     # The header's fields, composed by the caller while it still knows what the
     # run is: the source, the engine and the window it came from. The driver
     # composes the string once and carries it in the job, so a header can never
     # name an engine the reader has since switched the window to.
     set header [expr {[dict exists $state header] ? [dict get $state header] : ""}]
+    # A press that refused itself says so in its own words before the defaults
+    # are consulted: "no game" is a different answer from "the line is gone".
+    if {$refusal ne ""} {
+        return [dict replace $out reason $refusal]
+    }
     if {![string is integer -strict $game] || $game < 1} {
         return [dict replace $out reason {no game}]
     }
@@ -61,6 +75,10 @@ proc ::reviewui::runCall {state} {
     if {[llength $plies]} { lappend args -plies $plies }
     if {$depth ne ""} { lappend args -depth $depth }
     if {$header ne ""} { lappend args -header $header }
+    # After -header and before -progress/-notify, so the main-line list is the one
+    # it always was: both of these are absent unless the press put them there.
+    if {$line ne ""} { lappend args -line $line }
+    if {$force ne ""} { lappend args -force $force }
     lappend args -progress $progress -notify $notify
     return [dict create entry ::reviewdriver::run args $args reason ""]
 }

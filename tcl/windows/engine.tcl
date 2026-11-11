@@ -1323,11 +1323,17 @@ proc ::enginewin::reviewBook {} {
     return $name
 }
 
-# The state ::reviewui::runCall decides from: the open game, the preset this
-# window analyses with, and what this build's driver offers.
+# The state ::reviewui::runCall decides from: the open game's own line, the preset
+# this window analyses with, and what this build's driver offers.
 #
 # `plies` is the moves to judge ("" for the whole planned line) and `depth` the
 # depth to search ("" to let the pass take the review's own).
+#
+# The line is the one the reader is looking at. On the main line that is the game,
+# and this is the state it always was (D1). Inside a variation it is the line the
+# cursor stands on: ::review::currentLineMap, built here, once, and carried in the
+# state as `line`, so the press decides the line and the driver is handed what was
+# decided rather than reading the board for a map of its own.
 proc ::enginewin::reviewRunState {id {plies ""} {depth ""} {source review}} {
     set state [dict create game 0 engine "" driver 0 bookEnd 0 plies $plies depth $depth \
         progress [list ::enginewin::reviewProgress $id] notify 1]
@@ -1343,6 +1349,28 @@ proc ::enginewin::reviewRunState {id {plies ""} {depth ""} {source review}} {
         dict set state header [dict create source $source engine $name \
             origin [list enginewin [string trimleft $id .engineWin]] \
             cancel ::reviewdriver::cancel]
+    }
+    # A cursor inside a variation is reviewing that variation, not the game. One
+    # map, built once: `game` is the line's plies, so it is both the run's size and
+    # the guard `::reviewui::runCall` reads (no game, no press).
+    set level 0
+    catch { set level [sc_var level] }
+    if {$level > 0} {
+        if {[catch { set line [::review::currentLineMap] } why]} {
+            # A line that cannot be built is a refusal in the map's own words; no
+            # game is claimed for it, and ::reviewui::runCall answers it as its
+            # reason, which the window shows through the existing ReviewFailed
+            # string.
+            return [dict set state refusal $why]
+        }
+        dict set state game [dict get $line plies]
+        dict set state line $line
+        # The book is a main-line concept: a variation starts at its branch point,
+        # and a prefix node already labelled [Book] is skipped by the judged set
+        # (D7). Forcing 0 here also keeps ::review::bookEnd - a walk of the main
+        # line - out of the press entirely.
+        dict set state bookEnd 0
+        return $state
     }
     catch {
         dict set state game [dict get [::review::mainLineMap [sc_game UCI_mainLine]] plies]
@@ -1455,10 +1483,15 @@ proc ::enginewin::finishGame {id} {
     return
 }
 
+# Game Review: the current line - the whole game on the main line, the variation
+# the cursor stands on inside one.
+#
+# The state is the guard: it carries the line's plies (0 when there is no game to
+# review) and the map when the reader is in a variation, and ::reviewui::runCall
+# refuses a press with nothing to review. Nothing here builds a map of its own.
 proc ::enginewin::reviewGame {id} {
     set w [::enginewin::reviewWindow $id]
     if {![winfo exists $w.btn.gamereview]} { return }
-    if {[catch { set map [::review::mainLineMap [sc_game UCI_mainLine]] }]} { return }
     # A review is long enough that its progress belongs on screen without the
     # reader hunting for a menu. Open the pane on a successful start; a refused
     # start (no engine, no game) leaves the layout alone.

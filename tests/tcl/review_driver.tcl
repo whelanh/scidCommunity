@@ -2676,5 +2676,210 @@ checkEq "the restore falls back to the line's base ply" [dict get $st restored] 
 checkEq "which is the prefix the line shares with the game" \
     [list [sc_pos location] [sc_var level]] {3 0}
 
+puts "\nGame Review inside a variation (tcl/windows/engine.tcl, tcl/tools/review_ui.tcl)"
+
+# Spec test 18: the press decides the line. A cursor inside a variation reviews
+# that variation - one map, built once at press time and carried in the state -
+# and the main-line press is left exactly as it was (D1). The tree stub and
+# engine.tcl are both loaded by now, so this section drives the window's own
+# hand-off rather than a driver call of its own.
+
+# The map is built once per press and never on the button-refresh path, so the
+# two are counted rather than inferred from the state.
+set ::mapBuilds 0
+rename ::review::currentLineMap ::review::currentLineMapReal
+proc ::review::currentLineMap {{cursor ""}} {
+    incr ::mapBuilds
+    return [::review::currentLineMapReal $cursor]
+}
+
+# The book has to be visibly on for the game and off for the line: a stubbed book
+# that would answer 4 is asked by the first press and not by the second.
+namespace eval ::book {}
+set ::book::lastBook1 testbook.bin
+set ::scidBooksDir /books
+rename ::review::bookEnd ::review::bookEndSaved
+set ::bookArgs {}
+proc ::review::bookEnd {file args} {
+    set ::bookArgs [list $file {*}$args]
+    return 4
+}
+
+set var [lineSetup]
+set ::mapBefore [fakeWhere]
+checkEq "the fixture's cursor is inside a variation" [sc_var level] 1
+
+# The button refresh is O(1) - the card's fourth item: it must not build a map.
+set ::mapBuilds 0
+set refresh [::enginewin::reviewState 1]
+checkEq "the button refresh builds no line map" $::mapBuilds 0
+checkEq "and counts the whole game, as the buttons always have" \
+    [dict get $refresh game] 5
+checkEq "with nothing for Move Comment on the line's own move" \
+    [dict get $refresh move] ""
+
+set ::mapBuilds 0
+set varState [::enginewin::reviewRunState 1]
+checkEq "the press walks the line exactly once" $::mapBuilds 1
+checkEq "and the state carries it" [expr {[dict exists $varState line]}] 1
+set line [expr {[dict exists $varState line] ? [dict get $varState line] : {}}]
+checkEq "the state's game is the line's plies" \
+    [list [dict get $varState game] [dict get $line plies]] {6 6}
+checkEq "and it is a variation" [dict get $line lineKind] variation
+checkEq "the one the cursor is on" [dict get $line cursorRoute] {0}
+checkEq "no book end for a line, whatever the book says" [dict get $varState bookEnd] 0
+checkEq "and the book is not asked at all" $::bookArgs {}
+checkEq "nor does the press move the reader's board" [fakeWhere] $::mapBefore
+
+# The main-line press: the same state it always was (D1).
+set ::mapBuilds 0
+set ::bookArgs {}
+fakeCursorAt [fakeAtPly 2]
+set mainState [::enginewin::reviewRunState 1]
+checkEq "the main-line press builds no line map" $::mapBuilds 0
+checkEq "its state carries no line" [expr {[dict exists $mainState line]}] 0
+checkEq "the game is the open game" [dict get $mainState game] 5
+checkEq "and the book still ends the opening" [dict get $mainState bookEnd] 4
+checkEq "which is the book's own answer" [lindex $::bookArgs 1] 5
+
+# The call. The main line's argument list is the one this window made before the
+# change: same arguments, same order, and no -line and no -force in it.
+set mainCall [::reviewui::runCall $mainState]
+checkEq "the main-line call is unchanged" [dict get $mainCall args] \
+    [list [dict get $mainState engine] -bookEnd 4 \
+          -header [dict get $mainState header] \
+          -progress [list ::enginewin::reviewProgress 1] -notify 1]
+checkEq "with no -line in it" [lsearch -exact [dict get $mainCall args] -line] -1
+checkEq "and no -force" [lsearch -exact [dict get $mainCall args] -force] -1
+
+set varCall [::reviewui::runCall $varState]
+set at [lsearch -exact [dict get $varCall args] -line]
+check "the line press hands the driver the map" [expr {$at >= 0}]
+check "as the very map the state carries" \
+    [expr {[lindex [dict get $varCall args] [expr {$at + 1}]] eq [dict get $varState line]}]
+checkEq "with the book gate at 0" \
+    [lindex [dict get $varCall args] [expr {[lsearch -exact [dict get $varCall args] -bookEnd] + 1}]] 0
+checkEq "and still no -force" [lsearch -exact [dict get $varCall args] -force] -1
+checkEq "the call still ends with the progress and notify pair" \
+    [lrange [dict get $varCall args] end-3 end] \
+    [list -progress [list ::enginewin::reviewProgress 1] -notify 1]
+
+# -force is the driver/tests switch: it reaches the driver only when a caller put
+# it in the state, and Game Review never does.
+set forced [dict merge $varState [dict create force 1]]
+set forcedCall [::reviewui::runCall $forced]
+checkEq "a caller that asks for a forced pass gets -force 1" \
+    [lindex [dict get $forcedCall args] [expr {[lsearch -exact [dict get $forcedCall args] -force] + 1}]] 1
+
+# A line that cannot be built is a refusal in the map's own words, carried by the
+# state and shown through the existing ReviewFailed string: no new key.
+set var [lineSetup]
+rename ::review::currentLineMap ::review::currentLineMapCounted
+proc ::review::currentLineMap {{cursor ""}} {
+    error "the cursor could not be put back on its line"
+}
+set refused [::enginewin::reviewRunState 1]
+checkEq "a line that cannot be built is refused" \
+    [dict get $refused refusal] {the cursor could not be put back on its line}
+checkEq "with no game claimed for it" [dict get $refused game] 0
+checkEq "and the call says why" \
+    [dict get [::reviewui::runCall $refused] reason] \
+    {the cursor could not be put back on its line}
+checkEq "which is the existing failed-review line" \
+    [::reviewui::failedText {the cursor could not be put back on its line}] \
+    {Review failed: the cursor could not be put back on its line}
+rename ::review::currentLineMap {}
+rename ::review::currentLineMapCounted ::review::currentLineMap
+rename ::review::bookEnd {}
+rename ::review::bookEndSaved ::review::bookEnd
+unset ::book::lastBook1
+unset ::scidBooksDir
+
+puts "\nGame Review's progress: one job, the variation's position, a finish"
+
+# Spec test 20 (D8): a variation mini-batch is ONE job. The board it draws is
+# replayed from the spec the pass queued - never read off the game - so the pane
+# follows the line into the variation. The `· game N of M` field belongs to batch
+# runs; a Game Review does not set it.
+set ::EN(ReviewProgressGameOf) {game %s of %s}
+set ::EN(ReviewProgressIdle) {No review is running}
+source [file join $root tcl utils chessboard.tcl]
+source [file join $root tcl tools review_progress.tcl]
+namespace eval ::reviewprogress::ui {}
+set ::paneOpens 0
+proc ::reviewprogress::ui::open {} { incr ::paneOpens }
+set ::begins {}
+rename ::reviewprogress::begin ::reviewprogress::beginReal
+proc ::reviewprogress::begin {fields} {
+    lappend ::begins $fields
+    return [::reviewprogress::beginReal $fields]
+}
+# The board of a move list, on the pure board: the expectation, computed from the
+# moves rather than from the string the pane was handed.
+proc boardAfter {moves} {
+    set pos [::chessboard::fromFen \
+        {rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1}]
+    foreach m $moves { set pos [::chessboard::makeMove $pos $m] }
+    set out ""
+    foreach sq [dict get $pos board] {
+        if {$sq eq ""} { append out "." } else { append out $sq }
+    }
+    return $out
+}
+
+set var [lineSetup]
+set map [::review::currentLineMap]
+set ::sent {}
+set ::events {}
+set ::paneOpens 0
+set ::mapBuilds 0
+::enginewin::reviewGame 1
+checkEq "pressing Game Review in a variation starts the pass" \
+    [dict get [::reviewdriver::status] state] searching
+checkEq "and opens the progress pane onto it" $::paneOpens 1
+checkEq "walking the line once for the whole press" $::mapBuilds 1
+checkEq "as one job, not one per position" [llength $::begins] 1
+checkEq "whose header carries no game number" \
+    [expr {[dict exists [lindex $::begins 0] game]}] 0
+checkEq "and no total of games either" \
+    [expr {[dict exists [lindex $::begins 0] total]}] 0
+checkEq "so the job's own game field stays unset" \
+    [dict get [::reviewprogress::job] game] ""
+# A batch run's header does carry the field, which is what the check above bites
+# on: the pane's one header proc answers both.
+checkEq "the same header would say the game number for a batch" \
+    [string match {*game 3 of 7*} [::reviewprogress::header \
+        [dict create source review engine E game 3 total 7]]] 1
+
+checkEq "the pane starts on the position the first search is made from" \
+    [dict get [::reviewprogress::job] board] [boardAfter {e2e4 e7e5 g1f3}]
+feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
+checkEq "which is the line's own reference position" \
+    [lindex [goSpecs] 0] [dict get $map positions 3]
+
+# The first position answered: the pass moves on to the node the variation's move
+# made, and the pane replays that spec on the pure board.
+feedEvent InfoPV {1 20 22 900 300 0 0 120 100 cp 0 c7c5}
+feedEvent InfoBestMove {}
+checkEq "and follows the search into the variation" \
+    [dict get [::reviewprogress::job] spec] [dict get $map positions 4]
+checkEq "the board being the position the variation's move made" \
+    [dict get [::reviewprogress::job] board] [boardAfter {e2e4 e7e5 g1f3 c7c5}]
+checkEq "not the empty board a refusal would leave" \
+    [expr {[dict get [::reviewprogress::job] board] ne ""}] 1
+checkEq "and not the branch point it started from" \
+    [expr {[dict get [::reviewprogress::job] board] ne [boardAfter {e2e4 e7e5 g1f3}]}] 1
+
+# To the end: three searches, two writes, and the job cleared.
+feedEvent InfoPV {1 20 22 900 300 0 0 120 100 cp 0 b8c6}
+feedEvent InfoPV {2 20 22 900 300 0 0 120 -100 cp 0 g1f3}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 300 cp 0 a7a6}
+feedEvent InfoBestMove {}
+pump
+checkEq "the pass finished" [dict get [::reviewdriver::status] state] done
+checkEq "the run began exactly one job" [llength $::begins] 1
+checkEq "and finish cleared it" [::reviewprogress::job] ""
+
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]
