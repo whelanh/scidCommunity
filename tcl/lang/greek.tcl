@@ -509,6 +509,87 @@ translate G LichessPuzzlesRated {Βαθμολογήθηκε}
 translate G LichessPuzzlesGame {Παιχνίδι}
 translate G LichessPuzzlesNoNew {Δεν βρέθηκαν νέα παζλ για αυτές τις ρυθμίσεις.\n\nΔοκιμάστε να αλλάξετε το θέμα, τη δυσκολία ή το χρώμα του παζλ.}
 
+# Lichess study publishing
+# Publish database games as chapters of a Lichess study.
+# Designed by TBergh98 (https://github.com/TBergh98).
+menuText G ToolsPublishLichessStudy "Δημοσίευση τρέχοντος παιχνιδιού στη μελέτη Lichess..." 0 \
+  {Δημοσιεύστε το τρέχον παιχνίδι ως νέο κεφάλαιο μιας από τις σπουδές σας στο Lichess}
+translate G LichessStudyTitle {Δημοσίευση στη μελέτη Lichess}
+translate G LichessStudyToPublish {Για δημοσίευση: %s (ένα κεφάλαιο ανά παιχνίδι)}
+translate G LichessStudyToken {Token Lichess:}
+translate G LichessStudyCreateToken {Δημιουργήστε ένα διακριτικό (μελέτη πεδίου: ανάγνωση και μελέτη: εγγραφή)}
+translate G LichessStudySearch {Μελέτη αναζήτησης:}
+translate G LichessStudyChapterSettings {Ρυθμίσεις κεφαλαίου}
+translate G LichessStudyOrientation {Προσανατολισμός:}
+translate G LichessStudyOrientationAuto {Αυτόματο}
+translate G LichessStudyAnalysisMode {Λειτουργία ανάλυσης:}
+translate G LichessStudyModeNormal {Κανονική ανάλυση}
+translate G LichessStudyModeConceal {Απόκρυψη επόμενων κινήσεων}
+translate G LichessStudyModePractice {Εξάσκηση με υπολογιστή}
+translate G LichessStudyModeGamebook {Διαδραστικό μάθημα}
+translate G LichessStudyCreateNew {Ή δημιουργήστε μια νέα μελέτη}
+translate G LichessStudyName {Ονομα:}
+translate G LichessStudyVisibility {Ορατότητα:}
+translate G LichessStudyVisPrivate {Ιδιωτικός}
+translate G LichessStudyVisUnlisted {Ακαταχώριστος}
+translate G LichessStudyVisPublic {Κοινό}
+translate G LichessStudyCreateAndPublish {Δημιουργία και δημοσίευση}
+translate G LichessStudyAddByLink {Μελέτη στην οποία συνεισφέρετε (σύνδεσμος):}
+translate G LichessStudyUnnamed {Μελέτη %s}
+translate G LichessStudyAddButton {Προσθέτω}
+translate G LichessStudyReload {Επαναφόρτωση λίστας}
+translate G LichessStudyPublishButton {Δημοσιεύω}
+translate G LichessStudyPublishGames {Δημοσίευση στη μελέτη Lichess (%s)...}
+translate G LichessStudyAddedByLink {προστέθηκε μέσω συνδέσμου}
+
+translate G LichessStudyNeedToken {Επικολλήστε το διακριτικό Lichess και πατήστε "Αποθήκευση".}
+translate G LichessStudyLoading {Φόρτωση των σπουδών σας...}
+translate G LichessStudyAccountStatus {Λογαριασμός %s: %s μελέτες. Επιλέξτε ένα και πατήστε "Δημοσίευση".}
+translate G LichessStudyTokenInvalid {Το διακριτικό περιέχει μη έγκυρους χαρακτήρες: αντιγράψτε το ξανά από το Lichess.}
+translate G LichessStudySaveTokenFirst {Αποθηκεύστε πρώτα το κουπόνι Lichess σας.}
+translate G LichessStudyChecking {Έλεγχος μελέτης %s...}
+translate G LichessStudyPickStudy {Επιλέξτε πρώτα μια μελέτη από τη λίστα.}
+translate G LichessStudyAddLinkPrompt {Επικολλήστε τον σύνδεσμο μιας μελέτης, π.χ. https://lichess.org/study/AbCd1234}
+translate G LichessStudyNameLength {Το όνομα της μελέτης πρέπει να αποτελείται από 2 έως 100 χαρακτήρες.}
+translate G LichessStudyCreating {Δημιουργία μελέτης "%s"...}
+translate G LichessStudyCreateFailed {Δεν ήταν δυνατή η δημιουργία της μελέτης "%s": %s\n\nΔεν δημοσιεύτηκε τίποτα.}
+translate G LichessStudyDbClosed {Η βάση δεδομένων δεν είναι πλέον ανοιχτή.}
+translate G LichessStudyTooManyGames {Επιλέξατε %s παιχνίδια, αλλά μια μελέτη Lichess έχει το πολύ %s κεφάλαια.}
+translate G LichessStudyNoGame {Δεν υπάρχει παιχνίδι στον πίνακα.\n\nΓια να δημοσιεύσετε παιχνίδια από μια βάση δεδομένων, επιλέξτε τα στη Λίστα παιχνιδιών και χρησιμοποιήστε το μενού με το δεξί κλικ.}
+translate G LichessStudyNoUsername {Δεν μπορώ να διαβάσω το όνομα χρήστη από την απάντηση Lichess.}
+translate G LichessStudyCurlNotFound {curl δεν βρέθηκε: χρειάζεται για να μιλήσετε με τον Lichess.}
+translate G LichessStudyGameNotFound {Το παιχνίδι %s δεν βρέθηκε στη βάση δεδομένων.}
+translate G LichessStudyCannotRead {Δεν μπορώ να διαβάσω το παιχνίδι %s: %s}
+
+translate G LichessStudyFull {η μελέτη είναι πλήρης: μια μελέτη Lichess περιέχει το πολύ %s κεφάλαια.}
+translate G LichessStudyNoAnswer {Καμία απάντηση από τον Lichess: ελέγξτε τη σύνδεσή σας στο Διαδίκτυο.}
+translate G LichessStudy401 {Μη έγκυρο ή ληγμένο διακριτικό (401).}
+translate G LichessStudy403 {Δεν επιτρέπεται η άδεια (403): το διακριτικό δεν διαθέτει τα πεδία μελέτης: ανάγνωσης/μελέτης: εγγραφής ή δεν μπορείτε να γράψετε σε αυτήν τη μελέτη.}
+translate G LichessStudy404 {Η μελέτη δεν βρέθηκε (404), ή είναι ιδιωτική και δεν είστε μέλος.}
+translate G LichessStudy429 {Πάρα πολλά αιτήματα προς τον Lichess (429): περιμένετε ένα λεπτό και προσπαθήστε ξανά.}
+translate G LichessStudyHttpError {Lichess (HTTP %s): %s}
+translate G LichessStudyUnexpected {Απροσδόκητη απάντηση από το Lichess (HTTP %s). %s}
+translate G LichessStudyNetworkError {Σφάλμα δικτύου: %s}
+
+translate G LichessStudyOvfFree {Το "%s" έχει μόνο %s δωρεάν κεφάλαια από %s (το όριο Lichess), αλλά θέλετε να δημοσιεύσετε %s παιχνίδια.}
+translate G LichessStudyOvfFull {Το "%s" είναι γεμάτο: μια μελέτη Lichess περιέχει το πολύ %s κεφάλαια.}
+translate G LichessStudyOvfQuestion {%s\n\nΤι θέλετε να κάνετε;}
+translate G LichessStudyOvfFirst {Δημοσιεύστε μόνο το πρώτο %s παιχνίδια εδώ (%s δεν θα δημοσιευθεί)}
+translate G LichessStudyOvfSplit {Δημοσιεύστε το πρώτο %s παιχνίδια εδώ και τα άλλα %s σε μια νέα μελέτη}
+translate G LichessStudyOvfAllNew {Δημοσιεύστε όλα τα παιχνίδια %s σε μια νέα μελέτη}
+translate G LichessStudyOvfName {Νέο όνομα μελέτης:}
+
+translate G LichessStudyCancelled {Η δημοσίευση ακυρώθηκε: τίποτα δεν δημοσιεύτηκε.}
+translate G LichessStudyCheckingFree {Έλεγχος δωρεάν κεφαλαίων στο "%s"...}
+translate G LichessStudyPublishing {Δημοσίευση %s παιχνιδιών στο "%s"...}
+translate G LichessStudyGamesNotPublished {Τα παιχνίδια δεν δημοσιεύτηκαν επειδή η μελέτη είναι πλήρης: %s.}
+translate G LichessStudyEmptyNew {Η νέα μελέτη "%s" δημιουργήθηκε αλλά δεν περιέχει κανένα από τα παιχνίδια (%s).}
+translate G LichessStudyNothingPublished {Δεν δημοσιεύτηκε τίποτα.%s}
+translate G LichessStudyReport {Δημιουργήθηκε %s του %s κεφάλαια (%s).%s\n\nΆνοιγμα της μελέτης στο πρόγραμμα περιήγησής σας;}
+translate G LichessStudyReportItem {%s στο "%s"}
+translate G LichessStudyNoChapters {Δεν δημιουργήθηκε κανένα κεφάλαιο.%s}
+translate G LichessStudyReports {Η Lichess αναφέρει: %s}
+
 translate G About {Για}
 translate G Back {Πίσω}
 translate G Apply {Εφαρμογή}
@@ -1700,8 +1781,8 @@ translate G Selected {Επιλεγμένο}
 translate G RoundRobin {Round Robin}
 translate G Gauntlet {Γάντι}
 translate G CompGameNext {Επόμενο παιχνίδι:}
-translate G TimeperGame {Χρόνος ανά\Παιχνίδι}
-translate G TimeperMove {Χρόνος ανά\Μετακίνηση}
+translate G TimeperGame {Χρόνος ανά\nΠαιχνίδι}
+translate G TimeperMove {Χρόνος ανά\nΜετακίνηση}
 translate G compStoreTime {Ώρα καταστήματος:}
 translate G Clock {Ρολόι}
 translate G compConcurrent {Ταυτόχρονα παιχνίδια:}
@@ -1938,7 +2019,7 @@ translate G FICSRated {Βαθμολογήθηκε}
 translate G FICSUnrated {Χωρίς αξιολόγηση}
 translate G FICSRegisteredPlayer {Μόνο εγγεγραμμένος παίκτης}
 translate G FICSFreePlayer {Δωρεάν παίκτης μόνο}
-translate G FICSNetError {Σφάλμα δικτύου\Δεν είναι δυνατή η σύνδεση}
+translate G FICSNetError {Σφάλμα δικτύου\nΔεν είναι δυνατή η σύνδεση}
 translate G OptionsFICS {FICS}
 translate G FICSTerminalColor {Χρώμα τερματικού}
 translate G FICSTextColor {Χρώμα κειμένου}

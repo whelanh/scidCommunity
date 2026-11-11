@@ -477,6 +477,87 @@ translate b LichessPuzzlesRated {রেট}
 translate b LichessPuzzlesGame {খেলা}
 translate b LichessPuzzlesNoNew {এই সেটিংসের জন্য কোনো নতুন ধাঁধা পাওয়া যায়নি।\n\nথিম, অসুবিধা বা ধাঁধার রঙ পরিবর্তন করার চেষ্টা করুন।}
 
+# Lichess study publishing
+# Publish database games as chapters of a Lichess study.
+# Designed by TBergh98 (https://github.com/TBergh98).
+menuText b ToolsPublishLichessStudy "লিচেস স্টাডির জন্য বর্তমান গেম প্রকাশ করুন..." 0 \
+  {আপনার লিচেস অধ্যয়নের একটি নতুন অধ্যায় হিসাবে বর্তমান গেমটি প্রকাশ করুন}
+translate b LichessStudyTitle {Lichess অধ্যয়ন প্রকাশ করুন}
+translate b LichessStudyToPublish {প্রকাশ করার জন্য: %s (প্রতি খেলায় একটি অধ্যায়)}
+translate b LichessStudyToken {লিচেস টোকেন:}
+translate b LichessStudyCreateToken {একটি টোকেন তৈরি করুন (স্কোপের অধ্যয়ন:পড়ুন এবং অধ্যয়ন:লিখুন)}
+translate b LichessStudySearch {অনুসন্ধান অধ্যয়ন:}
+translate b LichessStudyChapterSettings {অধ্যায় সেটিংস}
+translate b LichessStudyOrientation {অভিযোজন:}
+translate b LichessStudyOrientationAuto {স্বয়ংক্রিয়}
+translate b LichessStudyAnalysisMode {বিশ্লেষণ মোড:}
+translate b LichessStudyModeNormal {স্বাভাবিক বিশ্লেষণ}
+translate b LichessStudyModeConceal {পরবর্তী পদক্ষেপগুলি লুকান}
+translate b LichessStudyModePractice {কম্পিউটারের সাথে অনুশীলন করুন}
+translate b LichessStudyModeGamebook {ইন্টারেক্টিভ পাঠ}
+translate b LichessStudyCreateNew {অথবা একটি নতুন গবেষণা তৈরি করুন}
+translate b LichessStudyName {নাম:}
+translate b LichessStudyVisibility {দৃশ্যমানতা:}
+translate b LichessStudyVisPrivate {ব্যক্তিগত}
+translate b LichessStudyVisUnlisted {তালিকাভুক্ত নয়}
+translate b LichessStudyVisPublic {পাবলিক}
+translate b LichessStudyCreateAndPublish {তৈরি করুন এবং প্রকাশ করুন}
+translate b LichessStudyAddByLink {আপনি যে অধ্যয়নে অবদান রাখেন (লিংক):}
+translate b LichessStudyUnnamed {অধ্যয়ন %s}
+translate b LichessStudyAddButton {যোগ করুন}
+translate b LichessStudyReload {তালিকা পুনরায় লোড করুন}
+translate b LichessStudyPublishButton {প্রকাশ করুন}
+translate b LichessStudyPublishGames {লিচেস স্টাডিতে প্রকাশ করুন (%s)...}
+translate b LichessStudyAddedByLink {লিঙ্ক দ্বারা যোগ করা হয়েছে}
+
+translate b LichessStudyNeedToken {আপনার লিচেস টোকেন পেস্ট করুন এবং "সংরক্ষণ করুন" টিপুন।}
+translate b LichessStudyLoading {আপনার পড়াশোনা লোড হচ্ছে...}
+translate b LichessStudyAccountStatus {অ্যাকাউন্ট %s: %s গবেষণা। একটি বেছে নিন এবং "প্রকাশ করুন" টিপুন।}
+translate b LichessStudyTokenInvalid {টোকেনে অবৈধ অক্ষর রয়েছে: Lichess থেকে আবার কপি করুন।}
+translate b LichessStudySaveTokenFirst {প্রথমে আপনার লিচেস টোকেন সংরক্ষণ করুন।}
+translate b LichessStudyChecking {অধ্যয়ন পরীক্ষা করা হচ্ছে %s...}
+translate b LichessStudyPickStudy {প্রথমে তালিকা থেকে একটি অধ্যয়ন বাছাই করুন।}
+translate b LichessStudyAddLinkPrompt {একটি অধ্যয়নের লিঙ্ক পেস্ট করুন, যেমন https://lichess.org/study/AbCd1234}
+translate b LichessStudyNameLength {অধ্যয়নের নাম অবশ্যই 2 থেকে 100 অক্ষরের হতে হবে।}
+translate b LichessStudyCreating {অধ্যয়ন তৈরি করা হচ্ছে "%s"...}
+translate b LichessStudyCreateFailed {"%s" অধ্যয়নটি তৈরি করা যায়নি: %s\n\nকিছুই প্রকাশিত হয়নি।}
+translate b LichessStudyDbClosed {ডাটাবেস আর খোলা নেই।}
+translate b LichessStudyTooManyGames {আপনি %s গেম নির্বাচন করেছেন, কিন্তু একটি Lichess গবেষণায় সর্বাধিক %s অধ্যায় রয়েছে।}
+translate b LichessStudyNoGame {বোর্ডে কোনো গেম নেই৷\n\nএকটি ডাটাবেস থেকে গেমগুলি প্রকাশ করতে, সেগুলিকে গেমের তালিকায় নির্বাচন করুন এবং ডান-ক্লিক মেনু ব্যবহার করুন৷}
+translate b LichessStudyNoUsername {Lichess উত্তর থেকে ব্যবহারকারীর নাম পড়া যাবে না.}
+translate b LichessStudyCurlNotFound {curl পাওয়া যায়নি: এটি লিচেসের সাথে কথা বলার প্রয়োজন।}
+translate b LichessStudyGameNotFound {গেমটি %s ডাটাবেসে পাওয়া যায়নি।}
+translate b LichessStudyCannotRead {খেলা পড়া যাবে না %s: %s}
+
+translate b LichessStudyFull {অধ্যয়নটি সম্পূর্ণ: একটি লিচেস গবেষণা সর্বাধিক %s অধ্যায় ধারণ করে।}
+translate b LichessStudyNoAnswer {Lichess থেকে কোন উত্তর নেই: আপনার ইন্টারনেট সংযোগ পরীক্ষা করুন.}
+translate b LichessStudy401 {অবৈধ বা মেয়াদোত্তীর্ণ টোকেন (401)।}
+translate b LichessStudy403 {অনুমতি অস্বীকৃত (403): টোকেনে অধ্যয়ন:পঠন/অধ্যয়ন:লেখার সুযোগ নেই, অথবা আপনি এই গবেষণায় লিখতে পারবেন না।}
+translate b LichessStudy404 {অধ্যয়ন পাওয়া যায়নি (404), অথবা এটি ব্যক্তিগত এবং আপনি একজন সদস্য নন।}
+translate b LichessStudy429 {Lichess (429) এর কাছে অনেক বেশি অনুরোধ: এক মিনিট অপেক্ষা করুন এবং আবার চেষ্টা করুন।}
+translate b LichessStudyHttpError {লিচেস (HTTP %s): %s}
+translate b LichessStudyUnexpected {Lichess থেকে অপ্রত্যাশিত উত্তর (HTTP %s)। %s}
+translate b LichessStudyNetworkError {নেটওয়ার্ক ত্রুটি: %s}
+
+translate b LichessStudyOvfFree {"%s"শুধু আছে %s বিনামূল্যে অধ্যায় আউট %s (লিচেস সীমা), কিন্তু আপনি প্রকাশ করতে চান %s গেম}
+translate b LichessStudyOvfFull {"%s" পূর্ণ: একটি Lichess গবেষণা সর্বাধিক %s অধ্যায় ধারণ করে।}
+translate b LichessStudyOvfQuestion {%s\n\nআপনি কি করতে চান?}
+translate b LichessStudyOvfFirst {এখানে শুধুমাত্র প্রথম %s গেমগুলি প্রকাশ করুন (%s প্রকাশ করা হবে না)}
+translate b LichessStudyOvfSplit {একটি নতুন গবেষণায় প্রথম %s গেমগুলি এখানে এবং অন্যান্য %s প্রকাশ করুন}
+translate b LichessStudyOvfAllNew {একটি নতুন গবেষণায় সমস্ত %s গেমগুলি প্রকাশ করুন৷}
+translate b LichessStudyOvfName {নতুন অধ্যয়নের নাম:}
+
+translate b LichessStudyCancelled {প্রকাশ বাতিল করা হয়েছে: কিছুই প্রকাশিত হয়নি।}
+translate b LichessStudyCheckingFree {"%s"-এ বিনামূল্যের অধ্যায় পরীক্ষা করা হচ্ছে...}
+translate b LichessStudyPublishing {প্রকাশনা %s গেম) থেকে "%s"...}
+translate b LichessStudyGamesNotPublished {গেমগুলি প্রকাশিত হয়নি কারণ গবেষণাটি পূর্ণ: %s।}
+translate b LichessStudyEmptyNew {নতুন অধ্যয়ন "%s" তৈরি করা হয়েছে কিন্তু কোনো খেলাই (%s) নেই।}
+translate b LichessStudyNothingPublished {কিছুই প্রকাশিত হয়নি।%s}
+translate b LichessStudyReport {তৈরি হয়েছে %s এর %s অধ্যায় (%s)%s\n\nআপনার ব্রাউজারে অধ্যয়নটি খুলবেন?}
+translate b LichessStudyReportItem {%s মধ্যে "%s"}
+translate b LichessStudyNoChapters {কোনো অধ্যায় তৈরি হয়নি।%s}
+translate b LichessStudyReports {লিচেস রিপোর্ট: %s}
+
 translate b About {সম্পর্কে}
 translate b Back {ফিরে}
 translate b Apply {প্রয়োগ করুন}
@@ -1889,7 +1970,7 @@ translate b FICSRated {রেট}
 translate b FICSUnrated {মূল্যহীন}
 translate b FICSRegisteredPlayer {শুধুমাত্র নিবন্ধিত খেলোয়াড়}
 translate b FICSFreePlayer {শুধুমাত্র ফ্রি প্লেয়ার}
-translate b FICSNetError {নেটওয়ার্ক ত্রুটি\কানেক্ট করা যাচ্ছে না}
+translate b FICSNetError {নেটওয়ার্ক ত্রুটি\nকানেক্ট করা যাচ্ছে না}
 translate b OptionsFICS {FICS}
 translate b FICSTerminalColor {টার্মিনাল রঙ}
 translate b FICSTextColor {পাঠ্যের রঙ}

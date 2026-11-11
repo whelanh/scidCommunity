@@ -395,12 +395,12 @@ menuText J HelpAbout "Абоут" 0 {Информације о СцидЦомм�
 menuText J UpdateCheck "Проверите ажурирања" 0 {Проверите нову верзију сцидЦоммунити}
 translate J UpdateChecking "Проверавам ажурирања..."
 translate J UpdateUpToDate "Покрећете најновију верзију сцидЦоммунити (%s)."
-translate J UpdateAvailable "Доступна је нова верзија сцидЦоммунити: %s\н\нТренутно трчите %s."
+translate J UpdateAvailable "Доступна је нова верзија сцидЦоммунити: %s\n\nТренутно трчите %s."
 translate J UpdateDownloadInstall "Преузмите и инсталирајте"
 translate J UpdateViewRelease "Погледајте белешке о издању"
 translate J UpdateNotNow "Не сада"
 translate J UpdateCheckFailed "сцидЦоммунити није могао да провери ажурирања. Проверите интернет везу и покушајте поново."
-translate J UpdateInstallConfirm "сцидЦоммунити %s биће преузето и инсталирано.\н\нсцидЦоммунити ће се затворити када се преузимање заврши, а затим покрените инсталатер."
+translate J UpdateInstallConfirm "сцидЦоммунити %s биће преузето и инсталирано.\n\nсцидЦоммунити ће се затворити када се преузимање заврши, а затим покрените инсталатер."
 translate J UpdateDownloading "Преузимање сцидЦоммунити %s..."
 translate J UpdateDownloaded "Преузето %s"
 translate J UpdateDownloadFailed "Преузимање ажурирања није успело. Покушајте поново касније."
@@ -473,16 +473,16 @@ translate J LichessColBlackRating {Б.Ратинг}
 translate J LichessColDate {Датум}
 translate J LichessLoadGameConfirm {Учитати игру %с вс %с (ИД: %с) у базу клипова?}
 translate J LichessLoadGameTitle {Лоад Гаме}
-translate J LichessFetchGameFailed {Преузимање игре %с није успело:\н%с}
+translate J LichessFetchGameFailed {Преузимање игре %с није успело:\n%с}
 translate J LichessGameNotFound {Игра %с није пронађена на Лицхесс-у.}
-translate J LichessImportFailed {Увоз игре није успео:\н%с}
+translate J LichessImportFailed {Увоз игре није успео:\n%с}
 translate J LichessGameLoaded {Игра је успешно учитана у базу клипова.}
 
 # Lichess Puzzles
 translate J LichessPuzzlesTitle {Лицхесс Пуззлес}
 translate J LichessPuzzlesDailyTitle {Даили Пуззле}
 translate J LichessPuzzlesQuerying {Испитивање Лицхесс слагалица...}
-translate J LichessPuzzlesFailed {Упит за Лицхесс загонетке није успео:\н%с}
+translate J LichessPuzzlesFailed {Упит за Лицхесс загонетке није успео:\n%с}
 translate J LichessPuzzlesParseError {Рашчлањивање података слагалице није успело}
 translate J LichessPuzzlesLoadError {Учитавање позиције слагалице није успело}
 translate J LichessPuzzlesSolve {Твој ред! Пронађите најбољи потез.}
@@ -517,6 +517,87 @@ translate J LichessPuzzlesClock {Сат}
 translate J LichessPuzzlesRated {Оцењено}
 translate J LichessPuzzlesGame {Игра}
 translate J LichessPuzzlesNoNew {Нису пронађене нове загонетке за ова подешавања.\n\nПробајте да промените тему, тежину или боју слагалице.}
+
+# Lichess study publishing
+# Publish database games as chapters of a Lichess study.
+# Designed by TBergh98 (https://github.com/TBergh98).
+menuText J ToolsPublishLichessStudy "Објави тренутну игру у Лицхесс Студи..." 0 \
+  {Објавите тренутну игру као ново поглавље једне од ваших Лицхесс студија}
+translate J LichessStudyTitle {Објавите у Лицхесс студији}
+translate J LichessStudyToPublish {За објављивање: %s (једно поглавље по игри)}
+translate J LichessStudyToken {Лицхесс токен:}
+translate J LichessStudyCreateToken {Направите токен (обухвата проучавање: читање и проучавање: писање)}
+translate J LichessStudySearch {Претрага студија:}
+translate J LichessStudyChapterSettings {Подешавања поглавља}
+translate J LichessStudyOrientation {Оријентација:}
+translate J LichessStudyOrientationAuto {Аутоматски}
+translate J LichessStudyAnalysisMode {Режим анализе:}
+translate J LichessStudyModeNormal {Нормална анализа}
+translate J LichessStudyModeConceal {Сакриј следеће потезе}
+translate J LichessStudyModePractice {Вежбајте са рачунаром}
+translate J LichessStudyModeGamebook {Интерактивна лекција}
+translate J LichessStudyCreateNew {Или направите нову студију}
+translate J LichessStudyName {име:}
+translate J LichessStudyVisibility {Видљивост:}
+translate J LichessStudyVisPrivate {Приватно}
+translate J LichessStudyVisUnlisted {Ненаведено}
+translate J LichessStudyVisPublic {Јавно}
+translate J LichessStudyCreateAndPublish {Креирајте и објавите}
+translate J LichessStudyAddByLink {Студија којој доприносите (линк):}
+translate J LichessStudyUnnamed {Студија %s}
+translate J LichessStudyAddButton {Додај}
+translate J LichessStudyReload {Поново учитај листу}
+translate J LichessStudyPublishButton {Објавите}
+translate J LichessStudyPublishGames {Објави у Лицхесс студији (%s)...}
+translate J LichessStudyAddedByLink {додато линком}
+
+translate J LichessStudyNeedToken {Налепите свој Лицхесс токен и притисните „Сачувај“.}
+translate J LichessStudyLoading {Учитавање ваших студија...}
+translate J LichessStudyAccountStatus {Рачун %s: %s студијама. Изаберите једну и притисните "Објави".}
+translate J LichessStudyTokenInvalid {Токен садржи неважеће знакове: копирајте га поново из Лицхесс-а.}
+translate J LichessStudySaveTokenFirst {Прво сачувајте свој Лицхесс токен.}
+translate J LichessStudyChecking {Провера студија %s...}
+translate J LichessStudyPickStudy {Прво изаберите студију са листе.}
+translate J LichessStudyAddLinkPrompt {Налепите везу студије, нпр. хттпс://лицхесс.орг/студи/АбЦд1234}
+translate J LichessStudyNameLength {Назив студије мора да има 2 до 100 знакова.}
+translate J LichessStudyCreating {Прављење студије"%s„...}
+translate J LichessStudyCreateFailed {Није могуће креирати студију "%s": %s\n\nНишта није објављено.}
+translate J LichessStudyDbClosed {База података више није отворена.}
+translate J LichessStudyTooManyGames {Изабрали сте %s игре, али Лицхесс студија држи највише %s поглавља.}
+translate J LichessStudyNoGame {На табли нема игре.\n\nДа бисте објавили игре из базе података, изаберите их на листи игара и користите мени десним кликом.}
+translate J LichessStudyNoUsername {Није могуће прочитати корисничко име из Лицхесс одговора.}
+translate J LichessStudyCurlNotFound {curl није пронађен: потребно је разговарати са Лицхесс.}
+translate J LichessStudyGameNotFound {Игра %s није пронађен у бази података.}
+translate J LichessStudyCannotRead {Не могу да прочитам игру %s: %s}
+
+translate J LichessStudyFull {студија је пуна: Лицхесс студија држи највише %s поглавља.}
+translate J LichessStudyNoAnswer {Нема одговора од Лицхесса: проверите своју интернет везу.}
+translate J LichessStudy401 {Неважећи или истекао токен (401).}
+translate J LichessStudy403 {Дозвола одбијена (403): токену недостаје опсег студија:читај/проучавај:писање или не можете писати у ову студију.}
+translate J LichessStudy404 {Студија није пронађена (404), или је приватна и нисте члан.}
+translate J LichessStudy429 {Превише захтева за Лицхесс (429): сачекајте минут и покушајте поново.}
+translate J LichessStudyHttpError {Лицхесс (ХТТП %s): %s}
+translate J LichessStudyUnexpected {Неочекивани одговор од Лицхесс-а (ХТТП %s). %s}
+translate J LichessStudyNetworkError {Мрежна грешка: %s}
+
+translate J LichessStudyOvfFree {"%s„има само %s бесплатна поглавља из %s (Лицхесс лимит), али желите да објавите %s игрице.}
+translate J LichessStudyOvfFull {"%s" је пуна: Лицхесс студија држи највише %s поглавља.}
+translate J LichessStudyOvfQuestion {%s\n\nШта желиш да урадиш?}
+translate J LichessStudyOvfFirst {Објавите само прву %s игре овде (%s неће бити објављен)}
+translate J LichessStudyOvfSplit {Објавите прву %s игре овде и друге %s у новој студији}
+translate J LichessStudyOvfAllNew {Објави све %s игре у новој студији}
+translate J LichessStudyOvfName {Ново име студије:}
+
+translate J LichessStudyCancelled {Објављивање је отказано: ништа није објављено.}
+translate J LichessStudyCheckingFree {Провера бесплатних поглавља у "%s„...}
+translate J LichessStudyPublishing {Публисхинг %s игре) до "%s„...}
+translate J LichessStudyGamesNotPublished {Игре нису објављене јер је студија пуна: %s.}
+translate J LichessStudyEmptyNew {Нова студија"%s" је креиран, али не садржи ниједну игру (%s).}
+translate J LichessStudyNothingPublished {Ништа није објављено.%s}
+translate J LichessStudyReport {Цреатед %s оф %s поглавља (%s).%s\n\nОтворити студију у свом претраживачу?}
+translate J LichessStudyReportItem {%s у "%s"}
+translate J LichessStudyNoChapters {Није направљено ниједно поглавље.%s}
+translate J LichessStudyReports {Лицхесс извештава: %s}
 
 translate J About {Абоут}
 translate J Back {Назад}
@@ -624,7 +705,7 @@ translate J NoPgnErrorsWarnings {без ПГН грешака или упозо�
 translate J ErrNotOpen {Ово није отворена база података.}
 translate J ErrReadOnly {Ова база података је само за читање; не може се мењати.}
 translate J ErrSearchInterrupted {Претрага је прекинута; резултати су непотпуни.}
-translate J ErrNoClockComments {У овој игри нису пронађени [%цлк] коментари на сат.\н\нДодајте време сата преко прозора за коментаре (Цтрл+Е) да бисте користили ову функцију.}
+translate J ErrNoClockComments {У овој игри нису пронађени [%цлк] коментари на сат.\n\nДодајте време сата преко прозора за коментаре (Цтрл+Е) да бисте користили ову функцију.}
 translate J ErrFileInUse {Грешка: датотека је већ у употреби. Затворите било коју другу апликацију која користи ову базу података.}
 
 # Drag and drop
@@ -1246,16 +1327,16 @@ translate J TwinChecknextPair {Следећи пар}
 translate J TwinChecker {Сцид: Твин гаме цхецкер}
 translate J TwinCheckTournament {Утакмице на турниру:}
 translate J TwinCheckNoTwin {Нема близанца}
-translate J TwinCheckNoTwinfound {За ову игру није откривен близанац.\нДа не приказујете близанце користећи овај прозор, прво морате да користите функцију „Избриши игре близанаца...“.}
+translate J TwinCheckNoTwinfound {За ову игру није откривен близанац.\nДа не приказујете близанце користећи овај прозор, прво морате да користите функцију „Избриши игре близанаца...“.}
 translate J TwinCheckTag {Делите ознаке...}
 translate J TwinCheckFound1 {Сцид је пронашао $резултат двоструке игре}
 translate J TwinCheckFound2 {и поставите њихове заставице за брисање}
 translate J TwinCheckNoDelete {У овој бази података нема игара за брисање.}
-translate J TwinCriteria1 {Ваша подешавања за проналажење игара близанаца ће вероватно\узроковати да игре које нису близанци са сличним потезима буду означене као близанци.}
-translate J TwinCriteria2 {Препоручује се да ако изаберете "Не" за "исте потезе", треба да изаберете "Да" за подешавања боја, догађаја, локације, круга, године и месеца.\нДа ли ипак желите да наставите и избришете близанце?}
-translate J TwinCriteria3 {Препоручује се да наведете „Да“ за најмање два подешавања „исте локације“, „исте рунде“ и „исте године“.\нЖелите ли ипак да наставите и избришете близанце?}
+translate J TwinCriteria1 {Ваша подешавања за проналажење игара близанаца ће вероватно\nузроковати да игре које нису близанци са сличним потезима буду означене као близанци.}
+translate J TwinCriteria2 {Препоручује се да ако изаберете "Не" за "исте потезе", треба да изаберете "Да" за подешавања боја, догађаја, локације, круга, године и месеца.\nДа ли ипак желите да наставите и избришете близанце?}
+translate J TwinCriteria3 {Препоручује се да наведете „Да“ за најмање два подешавања „исте локације“, „исте рунде“ и „исте године“.\nЖелите ли ипак да наставите и избришете близанце?}
 translate J TwinCriteriaConfirm {Сцид: Потврдите подешавања близанаца}
-translate J TwinChangeTag "Промените следеће ознаке игре:\н\н"
+translate J TwinChangeTag "Промените следеће ознаке игре:\n\n"
 translate J AllocRatingDescription "Ова команда ће користити тренутну датотеку за проверу правописа да дода Ело оцене играма у овој бази података. Где год играч нема тренутну оцену, али је његова/њена оцена у време игре наведена у датотеци за проверу правописа, та оцена ће бити додата."
 translate J RatingOverride "Замените постојеће оцене које нису нула"
 translate J AddRatings "Додајте оцене за:"
@@ -1608,7 +1689,7 @@ translate J IndentComments {Увлачење коментара}
 translate J IndentVariations {Варијације увлачења}
 translate J ExportColumnStyle {Стил колоне (један потез по реду)}
 translate J ExportSymbolStyle {Симболички стил напомене:}
-translate J ExportStripMarks {Скините квадратне ознаке\кодове са стрелицом из коментара}
+translate J ExportStripMarks {Скините квадратне ознаке\nкодове са стрелицом из коментара}
 
 # Goto game/move dialogs:
 translate J LoadGameNumber {Унесите број игре за учитавање:}
@@ -1661,7 +1742,7 @@ translate J SoundsAnnounceNew {Најавите нове потезе како �
 translate J SoundsMoveSoundOnly {Премести само звук (онемогући најаве)}
 translate J SoundsAnnounceForward {Најавите потезе када се крећете напред за један потез}
 translate J SoundsAnnounceBack {Најавите када повлачите или померате један потез уназад}
-translate J SoundsSoundDisabled {Сцид није могао да пронађе Снацк аудио пакет при покретању;\нЗвук је онемогућен.}
+translate J SoundsSoundDisabled {Сцид није могао да пронађе Снацк аудио пакет при покретању;\nЗвук је онемогућен.}
 
 # Upgrading databases:
 translate J Upgrading {Надоградња}
@@ -1693,7 +1774,7 @@ translate J RoundRobin {Роунд Робин}
 translate J Gauntlet {Гаунтлет}
 translate J CompGameNext {Следећа утакмица:}
 translate J TimeperGame {Време по игри}
-translate J TimeperMove {Време по\Мове}
+translate J TimeperMove {Време по\nМове}
 translate J compStoreTime {Време продавнице:}
 translate J Clock {Сат}
 translate J compConcurrent {Истовремене игре:}
@@ -1930,7 +2011,7 @@ translate J FICSRated {Оцењено}
 translate J FICSUnrated {Унратед}
 translate J FICSRegisteredPlayer {Само регистровани играч}
 translate J FICSFreePlayer {Само бесплатан играч}
-translate J FICSNetError {Мрежна грешка\Не могу да се повежем}
+translate J FICSNetError {Мрежна грешка\nНе могу да се повежем}
 translate J OptionsFICS {ФИЦС}
 translate J FICSTerminalColor {Боја терминала}
 translate J FICSTextColor {Боја текста}
@@ -2032,7 +2113,7 @@ translate J ImportPGN {Увезите ПГН игру}
 translate J ImportingFiles {Увоз ПГН датотека у}
 translate J ImportingFrom {Увоз из}
 translate J ImportingIn {Увезите игре у}
-translate J UseLastTag {Користите ознаке последње\нгаме}
+translate J UseLastTag {Користите ознаке последње\nгаме}
 translate J Random {Рандом}
 translate J BackToMainline {Вратите се на главну линију}
 translate J LeaveVariant {Оставите варијанту}

@@ -518,6 +518,87 @@ translate k LichessPuzzlesRated {정격}
 translate k LichessPuzzlesGame {게임}
 translate k LichessPuzzlesNoNew {이 설정에 대한 새로운 퍼즐을 찾을 수 없습니다.\n\n테마, 난이도 또는 퍼즐 색상을 변경해 보세요.}
 
+# Lichess study publishing
+# Publish database games as chapters of a Lichess study.
+# Designed by TBergh98 (https://github.com/TBergh98).
+menuText k ToolsPublishLichessStudy "Publish Current Game to Lichess Study..." 0 \
+  {Publish the current game as a new chapter of one of your Lichess studies}
+translate k LichessStudyTitle {Publish to Lichess study}
+translate k LichessStudyToPublish {To publish: %s (one chapter per game)}
+translate k LichessStudyToken {Lichess token:}
+translate k LichessStudyCreateToken {Create a token (scopes study:read and study:write)}
+translate k LichessStudySearch {Search study:}
+translate k LichessStudyChapterSettings {Chapter settings}
+translate k LichessStudyOrientation {Orientation:}
+translate k LichessStudyOrientationAuto {Automatic}
+translate k LichessStudyAnalysisMode {Analysis mode:}
+translate k LichessStudyModeNormal {Normal analysis}
+translate k LichessStudyModeConceal {Hide next moves}
+translate k LichessStudyModePractice {Practice with computer}
+translate k LichessStudyModeGamebook {Interactive lesson}
+translate k LichessStudyCreateNew {Or create a new study}
+translate k LichessStudyName {Name:}
+translate k LichessStudyVisibility {Visibility:}
+translate k LichessStudyVisPrivate {Private}
+translate k LichessStudyVisUnlisted {Unlisted}
+translate k LichessStudyVisPublic {Public}
+translate k LichessStudyCreateAndPublish {Create and publish}
+translate k LichessStudyAddByLink {Study you contribute to (link):}
+translate k LichessStudyUnnamed {Study %s}
+translate k LichessStudyAddButton {Add}
+translate k LichessStudyReload {Reload list}
+translate k LichessStudyPublishButton {Publish}
+translate k LichessStudyPublishGames {Publish to Lichess study (%s)...}
+translate k LichessStudyAddedByLink {added by link}
+
+translate k LichessStudyNeedToken {Paste your Lichess token and press "Save".}
+translate k LichessStudyLoading {Loading your studies...}
+translate k LichessStudyAccountStatus {Account %s: %s studies. Pick one and press "Publish".}
+translate k LichessStudyTokenInvalid {The token contains invalid characters: copy it again from Lichess.}
+translate k LichessStudySaveTokenFirst {Save your Lichess token first.}
+translate k LichessStudyChecking {Checking study %s...}
+translate k LichessStudyPickStudy {Pick a study from the list first.}
+translate k LichessStudyAddLinkPrompt {Paste the link of a study, e.g. https://lichess.org/study/AbCd1234}
+translate k LichessStudyNameLength {The study name must be 2 to 100 characters long.}
+translate k LichessStudyCreating {Creating study "%s"...}
+translate k LichessStudyCreateFailed {Could not create the study "%s": %s\n\nNothing was published.}
+translate k LichessStudyDbClosed {The database is no longer open.}
+translate k LichessStudyTooManyGames {You selected %s games, but a Lichess study holds at most %s chapters.}
+translate k LichessStudyNoGame {There is no game on the board.\n\nTo publish games from a database, select them in the Game List and use the right-click menu.}
+translate k LichessStudyNoUsername {Cannot read the username from the Lichess answer.}
+translate k LichessStudyCurlNotFound {curl not found: it is needed to talk to Lichess.}
+translate k LichessStudyGameNotFound {Game %s not found in the database.}
+translate k LichessStudyCannotRead {Cannot read game %s: %s}
+
+translate k LichessStudyFull {the study is full: a Lichess study holds at most %s chapters.}
+translate k LichessStudyNoAnswer {No answer from Lichess: check your internet connection.}
+translate k LichessStudy401 {Invalid or expired token (401).}
+translate k LichessStudy403 {Permission denied (403): the token lacks the study:read/study:write scopes, or you cannot write to this study.}
+translate k LichessStudy404 {Study not found (404), or it is private and you are not a member.}
+translate k LichessStudy429 {Too many requests to Lichess (429): wait a minute and try again.}
+translate k LichessStudyHttpError {Lichess (HTTP %s): %s}
+translate k LichessStudyUnexpected {Unexpected answer from Lichess (HTTP %s). %s}
+translate k LichessStudyNetworkError {Network error: %s}
+
+translate k LichessStudyOvfFree {"%s" has only %s free chapters out of %s (the Lichess limit), but you want to publish %s games.}
+translate k LichessStudyOvfFull {"%s" is full: a Lichess study holds at most %s chapters.}
+translate k LichessStudyOvfQuestion {%s\n\nWhat do you want to do?}
+translate k LichessStudyOvfFirst {Publish only the first %s games here (%s will not be published)}
+translate k LichessStudyOvfSplit {Publish the first %s games here and the other %s in a new study}
+translate k LichessStudyOvfAllNew {Publish all %s games in a new study}
+translate k LichessStudyOvfName {New study name:}
+
+translate k LichessStudyCancelled {Publish cancelled: nothing was published.}
+translate k LichessStudyCheckingFree {Checking free chapters in "%s"...}
+translate k LichessStudyPublishing {Publishing %s game(s) to "%s"...}
+translate k LichessStudyGamesNotPublished {Games not published because the study is full: %s.}
+translate k LichessStudyEmptyNew {The new study "%s" was created but holds none of the games (%s).}
+translate k LichessStudyNothingPublished {Nothing was published.%s}
+translate k LichessStudyReport {Created %s of %s chapters (%s).%s\n\nOpen the study in your browser?}
+translate k LichessStudyReportItem {%s in "%s"}
+translate k LichessStudyNoChapters {No chapter was created.%s}
+translate k LichessStudyReports {Lichess reports: %s}
+
 translate k About {에 대한}
 translate k Back {뒤로}
 translate k Apply {적용하다}
@@ -1930,7 +2011,7 @@ translate k FICSRated {등급}
 translate k FICSUnrated {등급 없음}
 translate k FICSRegisteredPlayer {등록된 플레이어만}
 translate k FICSFreePlayer {무료 플레이어만 해당}
-translate k FICSNetError {시스템 오류\연결은 불가능합니다.}
+translate k FICSNetError {시스템 오류\n연결은 불가능합니다.}
 translate k OptionsFICS {FICS}
 translate k FICSTerminalColor {단자 색상}
 translate k FICSTextColor {텍스트 색상}

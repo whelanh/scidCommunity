@@ -493,6 +493,87 @@ translate F LichessPuzzlesRated {Noté}
 translate F LichessPuzzlesGame {Jeu}
 translate F LichessPuzzlesNoNew {Aucune nouvelle énigme trouvée pour ces paramètres.\n\nEssayez de modifier le thème, la difficulté ou la couleur de l'énigme.}
 
+# Lichess study publishing
+# Publish database games as chapters of a Lichess study.
+# Designed by TBergh98 (https://github.com/TBergh98).
+menuText F ToolsPublishLichessStudy "Publier le jeu actuel sur l'étude Lichess..." 0 \
+  {Publiez le jeu en cours comme nouveau chapitre d'une de vos études Lichess}
+translate F LichessStudyTitle {Publier sur l'étude Lichess}
+translate F LichessStudyToPublish {Pour publier : %s (un chapitre par jeu)}
+translate F LichessStudyToken {Jeton Lichesse :}
+translate F LichessStudyCreateToken {Créer un jeton (portées étude : lecture et étude : écriture)}
+translate F LichessStudySearch {Étude de recherche :}
+translate F LichessStudyChapterSettings {Paramètres du chapitre}
+translate F LichessStudyOrientation {Orientation:}
+translate F LichessStudyOrientationAuto {Automatique}
+translate F LichessStudyAnalysisMode {Mode d'analyse :}
+translate F LichessStudyModeNormal {Analyse normale}
+translate F LichessStudyModeConceal {Masquer les prochains mouvements}
+translate F LichessStudyModePractice {S'entraîner avec un ordinateur}
+translate F LichessStudyModeGamebook {Leçon interactive}
+translate F LichessStudyCreateNew {Ou créez une nouvelle étude}
+translate F LichessStudyName {Nom:}
+translate F LichessStudyVisibility {Visibilité:}
+translate F LichessStudyVisPrivate {Privé}
+translate F LichessStudyVisUnlisted {Non répertorié}
+translate F LichessStudyVisPublic {Publique}
+translate F LichessStudyCreateAndPublish {Créer et publier}
+translate F LichessStudyAddByLink {Étude à laquelle vous contribuez (lien) :}
+translate F LichessStudyUnnamed {Étude %s}
+translate F LichessStudyAddButton {Ajouter}
+translate F LichessStudyReload {Recharger la liste}
+translate F LichessStudyPublishButton {Publier}
+translate F LichessStudyPublishGames {Publier dans l'étude Lichess (%s)...}
+translate F LichessStudyAddedByLink {ajouté par lien}
+
+translate F LichessStudyNeedToken {Collez votre jeton Lichess et appuyez sur "Enregistrer".}
+translate F LichessStudyLoading {Chargement de vos études...}
+translate F LichessStudyAccountStatus {Compte %s : %s études. Choisissez-en un et appuyez sur "Publier".}
+translate F LichessStudyTokenInvalid {Le token contient des caractères invalides : copiez-le à nouveau depuis Lichess.}
+translate F LichessStudySaveTokenFirst {Enregistrez d’abord votre jeton Lichess.}
+translate F LichessStudyChecking {Vérification de l'étude %s...}
+translate F LichessStudyPickStudy {Choisissez d'abord une étude dans la liste.}
+translate F LichessStudyAddLinkPrompt {Collez le lien d'une étude, par ex. https://lichess.org/study/AbCd1234}
+translate F LichessStudyNameLength {Le nom de l’étude doit comporter entre 2 et 100 caractères.}
+translate F LichessStudyCreating {Création de l'étude "%s"...}
+translate F LichessStudyCreateFailed {Impossible de créer l'étude "%s : %s\n\nRien n'a été publié.}
+translate F LichessStudyDbClosed {La base de données n'est plus ouverte.}
+translate F LichessStudyTooManyGames {Vous avez sélectionné des jeux %s, mais une étude Lichess contient au maximum %s chapitres.}
+translate F LichessStudyNoGame {Il n'y a aucun jeu sur le plateau.\n\nPour publier des jeux à partir d'une base de données, sélectionnez-les dans la liste des jeux et utilisez le menu contextuel.}
+translate F LichessStudyNoUsername {Impossible de lire le nom d'utilisateur dans la réponse Lichess.}
+translate F LichessStudyCurlNotFound {curl introuvable : il faut en parler à Lichess.}
+translate F LichessStudyGameNotFound {Jeu %s introuvable dans la base de données.}
+translate F LichessStudyCannotRead {Impossible de lire le jeu %s : %s}
+
+translate F LichessStudyFull {l'étude est complète : une étude Lichess contient au maximum %s chapitres.}
+translate F LichessStudyNoAnswer {Pas de réponse de Lichess : vérifiez votre connexion internet.}
+translate F LichessStudy401 {Jeton invalide ou expiré (401).}
+translate F LichessStudy403 {Autorisation refusée (403) : le jeton n'a pas les étendues study:read/study:write, ou vous ne pouvez pas écrire dans cette étude.}
+translate F LichessStudy404 {Étude introuvable (404), ou elle est privée et vous n'êtes pas membre.}
+translate F LichessStudy429 {Trop de requêtes à Lichess (429) : attendez une minute et réessayez.}
+translate F LichessStudyHttpError {Lichesse (HTTP %s) : %s}
+translate F LichessStudyUnexpected {Réponse inattendue de Lichess (HTTP %s). %s}
+translate F LichessStudyNetworkError {Erreur réseau : %s}
+
+translate F LichessStudyOvfFree {"%s" ne contient que %s chapitres gratuits sur %s (la limite Lichess), mais vous souhaitez publier des jeux %s.}
+translate F LichessStudyOvfFull {"%s" est complet : une étude Lichess contient au maximum %s chapitres.}
+translate F LichessStudyOvfQuestion {%s\n\nQue veux-tu faire ?}
+translate F LichessStudyOvfFirst {Publiez ici uniquement les premiers jeux %s (%s ne sera pas publié)}
+translate F LichessStudyOvfSplit {Publier les premiers jeux %s ici et les autres %s dans une nouvelle étude}
+translate F LichessStudyOvfAllNew {Publier tous les jeux %s dans une nouvelle étude}
+translate F LichessStudyOvfName {Nouveau nom de l'étude :}
+
+translate F LichessStudyCancelled {Publication annulée : rien n'a été publié.}
+translate F LichessStudyCheckingFree {Vérification des chapitres gratuits dans "%s"...}
+translate F LichessStudyPublishing {Publication de %s jeu(s) sur "%s"...}
+translate F LichessStudyGamesNotPublished {Jeux non publiés car l'étude est complète : %s.}
+translate F LichessStudyEmptyNew {La nouvelle étude "%s" a été créée mais ne contient aucun des jeux (%s).}
+translate F LichessStudyNothingPublished {Rien n'a été publié.%s}
+translate F LichessStudyReport {Vous avez créé %s de %s chapitres (%s).%s\n\nOuvrir l'étude dans votre navigateur ?}
+translate F LichessStudyReportItem {%s dans "%s"}
+translate F LichessStudyNoChapters {Aucun chapitre n'a été créé.%s}
+translate F LichessStudyReports {Rapports de lichess : %s}
+
 translate F About {À propos}
 translate F Back {Retour}
 translate F Apply {Appliquer}

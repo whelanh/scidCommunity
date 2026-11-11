@@ -477,6 +477,87 @@ translate h LichessPuzzlesRated {रेटेड}
 translate h LichessPuzzlesGame {खेल}
 translate h LichessPuzzlesNoNew {इन सेटिंग्स के लिए कोई नई पहेली नहीं मिली।\n\nथीम, कठिनाई या पहेली का रंग बदलने का प्रयास करें।}
 
+# Lichess study publishing
+# Publish database games as chapters of a Lichess study.
+# Designed by TBergh98 (https://github.com/TBergh98).
+menuText h ToolsPublishLichessStudy "लाइकेस अध्ययन के लिए वर्तमान गेम प्रकाशित करें..." 0 \
+  {वर्तमान गेम को अपने लिचेस अध्ययन के एक नए अध्याय के रूप में प्रकाशित करें}
+translate h LichessStudyTitle {लाइकेस अध्ययन पर प्रकाशित करें}
+translate h LichessStudyToPublish {प्रकाशित करने के लिए: %s (प्रति गेम एक अध्याय)}
+translate h LichessStudyToken {लाइकेस टोकन:}
+translate h LichessStudyCreateToken {एक टोकन बनाएं (स्कोप्स अध्ययन:पढ़ें और अध्ययन करें:लिखें)}
+translate h LichessStudySearch {खोज अध्ययन:}
+translate h LichessStudyChapterSettings {अध्याय सेटिंग}
+translate h LichessStudyOrientation {अभिविन्यास:}
+translate h LichessStudyOrientationAuto {स्वचालित}
+translate h LichessStudyAnalysisMode {विश्लेषण मोड:}
+translate h LichessStudyModeNormal {सामान्य विश्लेषण}
+translate h LichessStudyModeConceal {अगली चालें छिपाएँ}
+translate h LichessStudyModePractice {कंप्यूटर से अभ्यास करें}
+translate h LichessStudyModeGamebook {इंटरैक्टिव पाठ}
+translate h LichessStudyCreateNew {या एक नया अध्ययन बनाएं}
+translate h LichessStudyName {नाम:}
+translate h LichessStudyVisibility {दृश्यता:}
+translate h LichessStudyVisPrivate {निजी}
+translate h LichessStudyVisUnlisted {गैर-सूचीबद्ध}
+translate h LichessStudyVisPublic {जनता}
+translate h LichessStudyCreateAndPublish {बनाएं और प्रकाशित करें}
+translate h LichessStudyAddByLink {अध्ययन जिसमें आप योगदान करते हैं (लिंक):}
+translate h LichessStudyUnnamed {अध्ययन %s}
+translate h LichessStudyAddButton {जोड़ना}
+translate h LichessStudyReload {सूची पुनः लोड करें}
+translate h LichessStudyPublishButton {प्रकाशित करना}
+translate h LichessStudyPublishGames {लाइकेस अध्ययन पर प्रकाशित करें (%s)...}
+translate h LichessStudyAddedByLink {लिंक द्वारा जोड़ा गया}
+
+translate h LichessStudyNeedToken {अपना लाइकेस टोकन चिपकाएँ और "सहेजें" दबाएँ।}
+translate h LichessStudyLoading {आपकी पढ़ाई लोड हो रही है...}
+translate h LichessStudyAccountStatus {खाता %s: %s अध्ययन। एक चुनें और "प्रकाशित करें" दबाएँ।}
+translate h LichessStudyTokenInvalid {टोकन में अमान्य वर्ण हैं: इसे लिचेस से दोबारा कॉपी करें।}
+translate h LichessStudySaveTokenFirst {पहले अपना लिचेस टोकन सहेजें।}
+translate h LichessStudyChecking {अध्ययन की जाँच हो रही है %s...}
+translate h LichessStudyPickStudy {पहले सूची से एक अध्ययन चुनें।}
+translate h LichessStudyAddLinkPrompt {किसी अध्ययन का लिंक चिपकाएँ, उदा. https://lichess.org/study/AbCd1234}
+translate h LichessStudyNameLength {अध्ययन का नाम 2 से 100 अक्षर लंबा होना चाहिए।}
+translate h LichessStudyCreating {अध्ययन बनाया जा रहा है "%s"...}
+translate h LichessStudyCreateFailed {"%s" अध्ययन नहीं बनाया जा सका: %s\n\nकुछ भी प्रकाशित नहीं हुआ।}
+translate h LichessStudyDbClosed {डेटाबेस अब खुला नहीं है.}
+translate h LichessStudyTooManyGames {आपने %s खेलों का चयन किया, लेकिन लिचेस अध्ययन में अधिकतम %s अध्याय हैं।}
+translate h LichessStudyNoGame {बोर्ड पर कोई गेम नहीं है।\n\nडेटाबेस से गेम प्रकाशित करने के लिए, उन्हें गेम सूची में चुनें और राइट-क्लिक मेनू का उपयोग करें।}
+translate h LichessStudyNoUsername {Lichess उत्तर से उपयोगकर्ता नाम नहीं पढ़ सकता।}
+translate h LichessStudyCurlNotFound {curl नहीं मिला: लिचेस से बात करने के लिए इसकी आवश्यकता है।}
+translate h LichessStudyGameNotFound {गेम %s डेटाबेस में नहीं मिला।}
+translate h LichessStudyCannotRead {गेम नहीं पढ़ सकता %s: %s}
+
+translate h LichessStudyFull {अध्ययन पूरा हो गया है: एक लाइकेस अध्ययन में अधिकतम %s अध्याय होते हैं।}
+translate h LichessStudyNoAnswer {लिचेस की ओर से कोई उत्तर नहीं: अपना इंटरनेट कनेक्शन जांचें।}
+translate h LichessStudy401 {अमान्य या समाप्त टोकन (401)।}
+translate h LichessStudy403 {अनुमति अस्वीकृत (403): टोकन में अध्ययन:पढ़ने/अध्ययन:लिखने के दायरे का अभाव है, या आप इस अध्ययन में नहीं लिख सकते।}
+translate h LichessStudy404 {अध्ययन नहीं मिला (404), या यह निजी है और आप सदस्य नहीं हैं।}
+translate h LichessStudy429 {लिचेस (429) से बहुत अधिक अनुरोध: एक मिनट प्रतीक्षा करें और पुनः प्रयास करें।}
+translate h LichessStudyHttpError {लाइकेस (HTTP %s): %s}
+translate h LichessStudyUnexpected {लाइकेस से अप्रत्याशित उत्तर (HTTP %s)। %s}
+translate h LichessStudyNetworkError {नेटवर्क त्रुटि: %s}
+
+translate h LichessStudyOvfFree {"%s"केवल है %s निःशुल्क अध्याय से बाहर %s (लाइकेस सीमा), लेकिन आप प्रकाशित करना चाहते हैं %s खेल.}
+translate h LichessStudyOvfFull {"%s" भरा हुआ है: एक लाइकेस अध्ययन में अधिकतम %s अध्याय होते हैं।}
+translate h LichessStudyOvfQuestion {%s\n\nआप क्या करना चाहते हैं?}
+translate h LichessStudyOvfFirst {यहां केवल पहले %s गेम प्रकाशित करें (%s प्रकाशित नहीं किया जाएगा)}
+translate h LichessStudyOvfSplit {पहले %s गेम को यहां प्रकाशित करें और दूसरे %s को एक नए अध्ययन में प्रकाशित करें}
+translate h LichessStudyOvfAllNew {एक नए अध्ययन में सभी %s गेम प्रकाशित करें}
+translate h LichessStudyOvfName {नये अध्ययन का नाम:}
+
+translate h LichessStudyCancelled {प्रकाशन रद्द: कुछ भी प्रकाशित नहीं हुआ.}
+translate h LichessStudyCheckingFree {"%s" में निःशुल्क अध्यायों की जाँच की जा रही है...}
+translate h LichessStudyPublishing {%s गेम को "%s" में प्रकाशित किया जा रहा है...}
+translate h LichessStudyGamesNotPublished {गेम प्रकाशित नहीं किए गए क्योंकि अध्ययन पूरा हो गया है: %s।}
+translate h LichessStudyEmptyNew {नया अध्ययन "%s" बनाया गया था लेकिन इसमें कोई भी गेम (%s) शामिल नहीं है।}
+translate h LichessStudyNothingPublished {कुछ भी प्रकाशित नहीं हुआ।%s}
+translate h LichessStudyReport {बनाया था %s का %s अध्याय (%s).%s\n\nअध्ययन को अपने ब्राउज़र में खोलें?}
+translate h LichessStudyReportItem {%s "%s" में}
+translate h LichessStudyNoChapters {कोई अध्याय नहीं बनाया गया।%s}
+translate h LichessStudyReports {लाइकेस रिपोर्ट: %s}
+
 translate h About {के बारे में}
 translate h Back {पीछे}
 translate h Apply {लागू करें}
@@ -1889,7 +1970,7 @@ translate h FICSRated {रेटेड}
 translate h FICSUnrated {अनरेटेड}
 translate h FICSRegisteredPlayer {केवल पंजीकृत खिलाड़ी}
 translate h FICSFreePlayer {केवल निःशुल्क खिलाड़ी}
-translate h FICSNetError {नेटवर्क त्रुटि\कनेक्ट नहीं हो पा रहा है}
+translate h FICSNetError {नेटवर्क त्रुटि\nकनेक्ट नहीं हो पा रहा है}
 translate h OptionsFICS {एफआईसीएस}
 translate h FICSTerminalColor {टर्मिनल रंग}
 translate h FICSTextColor {पाठ का रंग}

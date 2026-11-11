@@ -518,6 +518,87 @@ translate g LichessPuzzlesRated {Оценен}
 translate g LichessPuzzlesGame {Игра}
 translate g LichessPuzzlesNoNew {Няма намерени нови пъзели за тези настройки.\n\nОпитайте да промените темата, трудността или цвета на пъзела.}
 
+# Lichess study publishing
+# Publish database games as chapters of a Lichess study.
+# Designed by TBergh98 (https://github.com/TBergh98).
+menuText g ToolsPublishLichessStudy "Публикувайте текущата игра в Lichess Study..." 0 \
+  {Публикувайте текущата игра като нова глава от някое от вашите проучвания Lichess}
+translate g LichessStudyTitle {Публикувайте в Lichess проучване}
+translate g LichessStudyToPublish {За публикуване: %s (по една глава на игра)}
+translate g LichessStudyToken {Знак за шах:}
+translate g LichessStudyCreateToken {Създайте токен (обхвати study:read и study:write)}
+translate g LichessStudySearch {Проучване за търсене:}
+translate g LichessStudyChapterSettings {Настройки на глава}
+translate g LichessStudyOrientation {Orientation:}
+translate g LichessStudyOrientationAuto {Автоматичен}
+translate g LichessStudyAnalysisMode {Режим на анализ:}
+translate g LichessStudyModeNormal {Нормален анализ}
+translate g LichessStudyModeConceal {Скриване на следващите ходове}
+translate g LichessStudyModePractice {Упражнявайте се с компютър}
+translate g LichessStudyModeGamebook {Интерактивен урок}
+translate g LichessStudyCreateNew {Или създайте ново проучване}
+translate g LichessStudyName {Име:}
+translate g LichessStudyVisibility {Видимост:}
+translate g LichessStudyVisPrivate {Частно}
+translate g LichessStudyVisUnlisted {Скрит}
+translate g LichessStudyVisPublic {Обществен}
+translate g LichessStudyCreateAndPublish {Създавайте и публикувайте}
+translate g LichessStudyAddByLink {Проучване, за което допринасяте (връзка):}
+translate g LichessStudyUnnamed {Проучване %s}
+translate g LichessStudyAddButton {Добавете}
+translate g LichessStudyReload {Презареди списъка}
+translate g LichessStudyPublishButton {Публикувайте}
+translate g LichessStudyPublishGames {Публикуване в Lichess проучване (%s)...}
+translate g LichessStudyAddedByLink {добавен чрез връзка}
+
+translate g LichessStudyNeedToken {Поставете вашия Lichess токен и натиснете „Запазване“.}
+translate g LichessStudyLoading {Вашите проучвания се зареждат...}
+translate g LichessStudyAccountStatus {Акаунт %s: %s проучвания. Изберете един и натиснете „Публикуване“.}
+translate g LichessStudyTokenInvalid {Токенът съдържа невалидни знаци: копирайте го отново от Lichess.}
+translate g LichessStudySaveTokenFirst {Първо запазете своя жетон Lichess.}
+translate g LichessStudyChecking {Проверка на проучването %s...}
+translate g LichessStudyPickStudy {Първо изберете изследване от списъка.}
+translate g LichessStudyAddLinkPrompt {Поставете връзката на проучване, напр. https://lichess.org/study/AbCd1234}
+translate g LichessStudyNameLength {Името на изследването трябва да е дълго от 2 до 100 знака.}
+translate g LichessStudyCreating {Създава се проучване „%s“...}
+translate g LichessStudyCreateFailed {Не можа да се създаде изследването „%s“: %s\n\nНищо не беше публикувано.}
+translate g LichessStudyDbClosed {Базата данни вече не е отворена.}
+translate g LichessStudyTooManyGames {Избрахте %s игри, но проучване Lichess съдържа най-много %s глави.}
+translate g LichessStudyNoGame {Няма игра на дъската.\n\nЗа да публикувате игри от база данни, изберете ги в списъка с игри и използвайте менюто с десен бутон.}
+translate g LichessStudyNoUsername {Не може да се прочете потребителското име от отговора на Lichess.}
+translate g LichessStudyCurlNotFound {curl не е намерен: необходим е, за да говорите с Lichess.}
+translate g LichessStudyGameNotFound {Играта %s не е намерена в базата данни.}
+translate g LichessStudyCannotRead {Не може да се прочете играта %s: %s}
+
+translate g LichessStudyFull {проучването е пълно: едно изследване на Lichess съдържа най-много %s глави.}
+translate g LichessStudyNoAnswer {Няма отговор от Lichess: проверете вашата интернет връзка.}
+translate g LichessStudy401 {Невалиден или изтекъл токен (401).}
+translate g LichessStudy403 {Разрешението е отказано (403): токенът няма обхвати за проучване:четене/проучване:запис или не можете да пишете в това проучване.}
+translate g LichessStudy404 {Проучването не е намерено (404) или е частно и вие не сте член.}
+translate g LichessStudy429 {Твърде много заявки към Lichess (429): изчакайте малко и опитайте отново.}
+translate g LichessStudyHttpError {Lichess (HTTP %s): %s}
+translate g LichessStudyUnexpected {Неочакван отговор от Lichess (HTTP %s). %s}
+translate g LichessStudyNetworkError {Мрежова грешка: %s}
+
+translate g LichessStudyOvfFree {„%s“ има само %s безплатни глави от %s (ограничението на Lichess), но вие искате да публикувате %s игри.}
+translate g LichessStudyOvfFull {„%s“ е пълен: едно проучване на Lichess съдържа най-много %s глави.}
+translate g LichessStudyOvfQuestion {%s\n\nКакво искате да направите?}
+translate g LichessStudyOvfFirst {Публикувайте само първите %s игри тук (%s няма да бъдат публикувани)}
+translate g LichessStudyOvfSplit {Публикувайте първите %s игри тук и другите %s в ново проучване}
+translate g LichessStudyOvfAllNew {Публикувайте всички %s игри в ново проучване}
+translate g LichessStudyOvfName {Име на ново изследване:}
+
+translate g LichessStudyCancelled {Публикуването е отменено: нищо не е публикувано.}
+translate g LichessStudyCheckingFree {Проверяват се безплатни глави в „%s“...}
+translate g LichessStudyPublishing {Публикуване на %s игра(и) в „%s“...}
+translate g LichessStudyGamesNotPublished {Игрите не са публикувани, защото проучването е пълно: %s.}
+translate g LichessStudyEmptyNew {Новото проучване „%s“ беше създадено, но не съдържа нито една от игрите (%s).}
+translate g LichessStudyNothingPublished {Нищо не е публикувано.%s}
+translate g LichessStudyReport {Създадени са %s от %s глави (%s).%s\n\nОтваряне на изследването в браузъра ви?}
+translate g LichessStudyReportItem {%s в „%s“}
+translate g LichessStudyNoChapters {Не е създадена глава.%s}
+translate g LichessStudyReports {Доклади за Lichess: %s}
+
 translate g About {За}
 translate g Back {Назад}
 translate g Apply {Приложи}
@@ -1251,7 +1332,7 @@ translate g TwinCheckTag {Споделяне на етикети...}
 translate g TwinCheckFound1 {Scid намери $result двойни игри}
 translate g TwinCheckFound2 {и задайте техните флагове за изтриване}
 translate g TwinCheckNoDelete {В тази база данни няма игри за изтриване.}
-translate g TwinCriteria1 {Вашите настройки за намиране на игри с близнаци е потенциално вероятно\да накарат игрите без близнаци с подобни ходове да бъдат маркирани като близнаци.}
+translate g TwinCriteria1 {Вашите настройки за намиране на игри с близнаци е потенциално вероятно\nда накарат игрите без близнаци с подобни ходове да бъдат маркирани като близнаци.}
 translate g TwinCriteria2 {Препоръчително е, ако изберете „Не“ за „едни и същи ходове“, да изберете „Да“ за настройките за цветове, събитие, сайт, кръг, година и месец.\nИскате ли да продължите и да изтриете близнаците въпреки това?}
 translate g TwinCriteria3 {Препоръчително е да посочите „Да“ за поне две от настройките „същият сайт“, „същият кръг“ и „същата година“.\nИскате ли въпреки това да продължите и да изтриете близнаци?}
 translate g TwinCriteriaConfirm {scidCommunity: Потвърдете настройките за близнаци}
@@ -1692,7 +1773,7 @@ translate g Selected {Избрано}
 translate g RoundRobin {Round Robin}
 translate g Gauntlet {Ръкавица}
 translate g CompGameNext {Следваща игра:}
-translate g TimeperGame {Време за\игра}
+translate g TimeperGame {Време за\nигра}
 translate g TimeperMove {Време на ход}
 translate g compStoreTime {Време за съхранение:}
 translate g Clock {Часовник}
@@ -1704,7 +1785,7 @@ translate g compCanceledGames {Отменени или изтекли игри:}
 translate g Replay {Повторение}
 translate g compStart {Започнете}
 translate g compSave {Запазване след всяка игра}
-translate g compStop {Спрете след края\на акта. игра}
+translate g compStop {Спрете след края\nна акта. игра}
 translate g compRunning {Турнирът е в ход}
 translate g Restart {Рестартирайте}
 translate g compFinished {Турнирът приключи}
@@ -1930,7 +2011,7 @@ translate g FICSRated {Оценен}
 translate g FICSUnrated {Без оценка}
 translate g FICSRegisteredPlayer {Само регистриран играч}
 translate g FICSFreePlayer {Само безплатен играч}
-translate g FICSNetError {Мрежова грешка\Не може да се свърже с}
+translate g FICSNetError {Мрежова грешка\nНе може да се свърже с}
 translate g OptionsFICS {FICS}
 translate g FICSTerminalColor {Цвят на терминала}
 translate g FICSTextColor {Цвят на текста}

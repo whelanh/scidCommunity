@@ -478,6 +478,87 @@ translate V LichessPuzzlesRated {מדורג}
 translate V LichessPuzzlesGame {מִשְׂחָק}
 translate V LichessPuzzlesNoNew {לא נמצאו פאזלים חדשים עבור ההגדרות האלה.\n\nנסה לשנות את הנושא, הקושי או צבע הפאזל.}
 
+# Lichess study publishing
+# Publish database games as chapters of a Lichess study.
+# Designed by TBergh98 (https://github.com/TBergh98).
+menuText V ToolsPublishLichessStudy "פרסם משחק נוכחי למחקר של Lichess..." 0 \
+  {פרסם את המשחק הנוכחי כפרק חדש באחד ממחקרי ה-Lichess שלך}
+translate V LichessStudyTitle {פרסם למחקר של Lichess}
+translate V LichessStudyToPublish {לפרסום: %s (פרק אחד לכל משחק)}
+translate V LichessStudyToken {אסימון ליצ'ס:}
+translate V LichessStudyCreateToken {צור אסימון (מחקר:קריאה ולימוד:כתיבה)}
+translate V LichessStudySearch {מחקר חיפוש:}
+translate V LichessStudyChapterSettings {הגדרות פרק}
+translate V LichessStudyOrientation {הִתמַצְאוּת:}
+translate V LichessStudyOrientationAuto {אוֹטוֹמָטִי}
+translate V LichessStudyAnalysisMode {מצב ניתוח:}
+translate V LichessStudyModeNormal {ניתוח רגיל}
+translate V LichessStudyModeConceal {הסתר את המהלכים הבאים}
+translate V LichessStudyModePractice {תרגול עם מחשב}
+translate V LichessStudyModeGamebook {שיעור אינטראקטיבי}
+translate V LichessStudyCreateNew {או ליצור מחקר חדש}
+translate V LichessStudyName {שֵׁם:}
+translate V LichessStudyVisibility {רְאוּת:}
+translate V LichessStudyVisPrivate {פְּרָטִי}
+translate V LichessStudyVisUnlisted {לא רשום}
+translate V LichessStudyVisPublic {פּוּמְבֵּי}
+translate V LichessStudyCreateAndPublish {צור ופרסם}
+translate V LichessStudyAddByLink {מחקר שאתה תורם לו (קישור):}
+translate V LichessStudyUnnamed {מחקר %s}
+translate V LichessStudyAddButton {לְהוֹסִיף}
+translate V LichessStudyReload {טען מחדש רשימה}
+translate V LichessStudyPublishButton {לְפַרְסֵם}
+translate V LichessStudyPublishGames {פרסם למחקר של Lichess (%s)...}
+translate V LichessStudyAddedByLink {נוסף על ידי קישור}
+
+translate V LichessStudyNeedToken {הדבק את אסימון ה-Lichess שלך ולחץ על "שמור".}
+translate V LichessStudyLoading {טוען את הלימודים...}
+translate V LichessStudyAccountStatus {חשבון %s: %s מחקרים. בחר אחד ולחץ על "פרסם".}
+translate V LichessStudyTokenInvalid {האסימון מכיל תווים לא חוקיים: העתק אותו שוב מ-Lichess.}
+translate V LichessStudySaveTokenFirst {שמור תחילה את אסימון ה-Lichess שלך.}
+translate V LichessStudyChecking {בודק את המחקר %s...}
+translate V LichessStudyPickStudy {בחר תחילה מחקר מהרשימה.}
+translate V LichessStudyAddLinkPrompt {הדבק את הקישור של מחקר, למשל. https://lichess.org/study/AbCd1234}
+translate V LichessStudyNameLength {שם המחקר חייב להיות באורך של 2 עד 100 תווים.}
+translate V LichessStudyCreating {יוצר מחקר "%s"...}
+translate V LichessStudyCreateFailed {לא ניתן ליצור את המחקר "%s": %s\n\nשום דבר לא פורסם.}
+translate V LichessStudyDbClosed {מסד הנתונים אינו פתוח יותר.}
+translate V LichessStudyTooManyGames {בחרת %s משחקים, אבל מחקר של ליצ'ס מכיל לכל היותר %s פרקים.}
+translate V LichessStudyNoGame {אין משחק על הלוח.\n\nכדי לפרסם משחקים ממסד נתונים, בחר אותם ברשימת המשחקים והשתמש בתפריט לחיצה ימנית.}
+translate V LichessStudyNoUsername {לא ניתן לקרוא את שם המשתמש מהתשובה של Lichess.}
+translate V LichessStudyCurlNotFound {curl לא נמצא: יש צורך לדבר עם ליצ'ס.}
+translate V LichessStudyGameNotFound {המשחק %s לא נמצא במסד הנתונים.}
+translate V LichessStudyCannotRead {לא יכול לקרוא את המשחק %s: %s}
+
+translate V LichessStudyFull {המחקר מלא: מחקר של ליצ'ס מכיל לכל היותר %s פרקים.}
+translate V LichessStudyNoAnswer {אין תשובה מליצ'ס: בדוק את חיבור האינטרנט שלך.}
+translate V LichessStudy401 {אסימון לא חוקי או שפג תוקפו (401).}
+translate V LichessStudy403 {הרשאה נדחתה (403): האסימון חסר את היקפי המחקר:קריאה/לימוד:כתיבה, או שאינך יכול לכתוב למחקר זה.}
+translate V LichessStudy404 {המחקר לא נמצא (404), או שהוא פרטי ואתה לא חבר.}
+translate V LichessStudy429 {יותר מדי בקשות ל-Lichess (429): המתן דקה ונסה שוב.}
+translate V LichessStudyHttpError {ליצ'ס (HTTP %s): %s}
+translate V LichessStudyUnexpected {תשובה לא צפויה מ-Lichess (HTTP %s). %s}
+translate V LichessStudyNetworkError {שגיאת רשת: %s}
+
+translate V LichessStudyOvfFree {"%s"יש רק %s פרקים חינם מתוך %s (המגבלה של ליצ'ס), אבל אתה רוצה לפרסם %s משחקים.}
+translate V LichessStudyOvfFull {"%s" מלא: מחקר של ליצ'ס מכיל לכל היותר %s פרקים.}
+translate V LichessStudyOvfQuestion {%s\n\nמה אתה רוצה לעשות?}
+translate V LichessStudyOvfFirst {פרסם כאן רק את המשחקים הראשונים %s (%s לא יפורסמו)}
+translate V LichessStudyOvfSplit {פרסם כאן את המשחקים הראשונים %s ואת %s האחרים במחקר חדש}
+translate V LichessStudyOvfAllNew {פרסם את כל המשחקים %s במחקר חדש}
+translate V LichessStudyOvfName {שם המחקר החדש:}
+
+translate V LichessStudyCancelled {הפרסום בוטל: שום דבר לא פורסם.}
+translate V LichessStudyCheckingFree {בודק פרקים בחינם ב"%s"...}
+translate V LichessStudyPublishing {מפרסם %s משחקים ב-"%s"...}
+translate V LichessStudyGamesNotPublished {משחקים לא פורסמו כי המחקר מלא: %s.}
+translate V LichessStudyEmptyNew {המחקר החדש "%s" נוצר אך לא מכיל אף אחד מהמשחקים (%s).}
+translate V LichessStudyNothingPublished {שום דבר לא פורסם.%s}
+translate V LichessStudyReport {יצרה %s מתוך %s פרקים (%s).%s\n\nלפתוח את המחקר בדפדפן?}
+translate V LichessStudyReportItem {%s ב-"%s"}
+translate V LichessStudyNoChapters {לא נוצר פרק.%s}
+translate V LichessStudyReports {דיווחי ליצ'ס: %s}
+
 translate V About {אוֹדוֹת}
 translate V Back {בְּחֲזָרָה}
 translate V Apply {לִפְנוֹת}
@@ -1652,7 +1733,7 @@ translate V Selected {נִבחָר}
 translate V RoundRobin {רובין עגול}
 translate V Gauntlet {כְּפָפַת שִׁריוֹן}
 translate V CompGameNext {המשחק הבא:}
-translate V TimeperGame {זמן ל\משחק}
+translate V TimeperGame {זמן ל\nמשחק}
 translate V TimeperMove {זמן לכל תנועה}
 translate V compStoreTime {זמן חנות:}
 translate V Clock {שָׁעוֹן}
@@ -1890,7 +1971,7 @@ translate V FICSRated {מדורג}
 translate V FICSUnrated {לא מדורג}
 translate V FICSRegisteredPlayer {שחקן רשום בלבד}
 translate V FICSFreePlayer {שחקן חינם בלבד}
-translate V FICSNetError {שגיאת רשת\לא ניתן להתחבר}
+translate V FICSNetError {שגיאת רשת\nלא ניתן להתחבר}
 translate V OptionsFICS {FICS}
 translate V FICSTerminalColor {צבע טרמינל}
 translate V FICSTextColor {צבע טקסט}

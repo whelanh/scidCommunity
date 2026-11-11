@@ -12,11 +12,12 @@ While it maintains compatibility with the original Scid database formats, **scid
 
 *Most recent changes:*
 
-1. Based on a [user request](https://github.com/whelanh/scidCommunity/discussions/441), users have more choices for move sounds. Sounds include those provided by Lichess.
-2. Thanks to the significant original work done by [David Crandall](https://github.com/Triquetra), scidCommunity has a new *Game Review* feature in the **Engine Window**.  The annotation and review it provides is a major improvement over the old cp-drop based approach.  Users should read the [Discussion](https://github.com/whelanh/scidCommunity/discussions/442) for detailed information.
-3. A user requested the ability to search for a specific word in any game comments in a database (including comments in variations). This has now been implemented and is available under the **Search** menu. [See Discussions](https://github.com/whelanh/scidCommunity/discussions/358)
-4. Ctrl + Shift + A from an **Engine Window** instantly adds all the scores and annotations that were already generated from the score graph to the PGN.  Ctrl + Z undoes the same action. [See Discussions](https://github.com/whelanh/scidCommunity/discussions/357)
-5. The **marker palette** colour and type are now remembered across restarts instead of reverting to green.
+1. Thanks to [TBergh98](https://github.com/TBergh98), scidCommunity can now publish games straight to a Lichess study (one chapter per game). Select one or more games in the **Game List**, right-click and choose *Publish to Lichess study*, or use **Tools/Publish Current Game to Lichess Study**. [See Discussions](https://github.com/whelanh/scidCommunity/discussions/454)
+2. Based on a [user request](https://github.com/whelanh/scidCommunity/discussions/441), users have more choices for move sounds. Sounds include those provided by Lichess.
+3. Thanks to the significant original work done by [David Crandall](https://github.com/Triquetra), scidCommunity has a new *Game Review* feature in the **Engine Window**.  The annotation and review it provides is a major improvement over the old cp-drop based approach.  Users should read the [Discussion](https://github.com/whelanh/scidCommunity/discussions/442) for detailed information.
+4. A user requested the ability to search for a specific word in any game comments in a database (including comments in variations). This has now been implemented and is available under the **Search** menu. [See Discussions](https://github.com/whelanh/scidCommunity/discussions/358)
+5. Ctrl + Shift + A from an **Engine Window** instantly adds all the scores and annotations that were already generated from the score graph to the PGN.  Ctrl + Z undoes the same action. [See Discussions](https://github.com/whelanh/scidCommunity/discussions/357)
+6. The **marker palette** colour and type are now remembered across restarts instead of reverting to green.
 
 
 <details>
@@ -151,6 +152,7 @@ sudo make install
 - **[Hugh Whelan](https://github.com/whelanh)** — maintainer
 - **[Venkat Krishnamurthy](https://github.com/kayvee42)** — focuses on the macOS version (build, packaging and platform fixes) and redesigned the PGN Window buttons
 - **[David Crandall](https://github.com/Triquetra)** — AI provider channels for Game Comment (local, OpenAI-compatible and OpenCode models) and the game review feature in progress
+- **[TBergh98](https://github.com/TBergh98)** — designed the Lichess study publishing feature
 
 
 ### Acknowledgements

@@ -481,6 +481,87 @@ translate C LichessPuzzlesRated {Hodnoceno}
 translate C LichessPuzzlesGame {Hra}
 translate C LichessPuzzlesNoNew {Pro tato nastavení nebyly nalezeny žádné nové hádanky.\n\nZkuste změnit téma, obtížnost nebo barvu hádanky.}
 
+# Lichess study publishing
+# Publish database games as chapters of a Lichess study.
+# Designed by TBergh98 (https://github.com/TBergh98).
+menuText C ToolsPublishLichessStudy "Publikovat aktuální hru ke studiu Lichess..." 0 \
+  {Publikujte aktuální hru jako novou kapitolu jedné z vašich studií Lichess}
+translate C LichessStudyTitle {Publikovat do studie Lichess}
+translate C LichessStudyToPublish {Publikování: %s (jedna kapitola na hru)}
+translate C LichessStudyToken {Lichess token:}
+translate C LichessStudyCreateToken {Vytvořte token (rozsah studie:čtení a studium:zápis)}
+translate C LichessStudySearch {Vyhledávací studie:}
+translate C LichessStudyChapterSettings {Nastavení kapitoly}
+translate C LichessStudyOrientation {Orientace:}
+translate C LichessStudyOrientationAuto {Automatický}
+translate C LichessStudyAnalysisMode {Režim analýzy:}
+translate C LichessStudyModeNormal {Normální analýza}
+translate C LichessStudyModeConceal {Skrýt další tahy}
+translate C LichessStudyModePractice {Cvičte s počítačem}
+translate C LichessStudyModeGamebook {Interaktivní lekce}
+translate C LichessStudyCreateNew {Nebo vytvořte novou studii}
+translate C LichessStudyName {Jméno:}
+translate C LichessStudyVisibility {Viditelnost:}
+translate C LichessStudyVisPrivate {Soukromé}
+translate C LichessStudyVisUnlisted {Neuvedeno}
+translate C LichessStudyVisPublic {Veřejnost}
+translate C LichessStudyCreateAndPublish {Vytvářejte a publikujte}
+translate C LichessStudyAddByLink {Studie, do které přispíváte (odkaz):}
+translate C LichessStudyUnnamed {Studie %s}
+translate C LichessStudyAddButton {Přidat}
+translate C LichessStudyReload {Znovu načíst seznam}
+translate C LichessStudyPublishButton {Publikovat}
+translate C LichessStudyPublishGames {Publikovat do studie Lichess (%s)...}
+translate C LichessStudyAddedByLink {přidáno odkazem}
+
+translate C LichessStudyNeedToken {Vložte svůj žeton Lichess a stiskněte "Uložit".}
+translate C LichessStudyLoading {Načítání studií...}
+translate C LichessStudyAccountStatus {Účet %s: %s studie. Vyberte jeden a stiskněte "Publikovat".}
+translate C LichessStudyTokenInvalid {Token obsahuje neplatné znaky: zkopírujte jej znovu z Lichess.}
+translate C LichessStudySaveTokenFirst {Nejprve si uložte svůj žeton Lichess.}
+translate C LichessStudyChecking {Kontrola studie %s...}
+translate C LichessStudyPickStudy {Nejprve vyberte studii ze seznamu.}
+translate C LichessStudyAddLinkPrompt {Vložte odkaz na studii, např. https://lichess.org/study/AbCd1234}
+translate C LichessStudyNameLength {Název studie musí mít 2 až 100 znaků.}
+translate C LichessStudyCreating {Vytváření studie „%s“...}
+translate C LichessStudyCreateFailed {Nelze vytvořit studii „%s“: %s\n\nNic nebylo publikováno.}
+translate C LichessStudyDbClosed {Databáze již není otevřená.}
+translate C LichessStudyTooManyGames {Vybrali jste %s hry, ale studie Lichess obsahuje maximálně %s kapitol.}
+translate C LichessStudyNoGame {Na herním plánu není žádná hra.\n\nChcete-li publikovat hry z databáze, vyberte je v seznamu her a použijte nabídku po kliknutí pravým tlačítkem.}
+translate C LichessStudyNoUsername {Nelze přečíst uživatelské jméno z odpovědi Lichess.}
+translate C LichessStudyCurlNotFound {curl nenalezen: je potřeba si promluvit s Lichessem.}
+translate C LichessStudyGameNotFound {Hra %s nebyla v databázi nalezena.}
+translate C LichessStudyCannotRead {Nelze číst hru %s: %s}
+
+translate C LichessStudyFull {studie je plná: studie Lichess obsahuje maximálně %s kapitol.}
+translate C LichessStudyNoAnswer {Žádná odpověď od Lichess: zkontrolujte připojení k internetu.}
+translate C LichessStudy401 {Neplatný nebo vypršelý token (401).}
+translate C LichessStudy403 {Povolení odepřeno (403): token postrádá rozsahy studie: čtení/studie: zápis nebo do této studie nemůžete zapisovat.}
+translate C LichessStudy404 {Studie nenalezena (404) nebo je soukromá a nejste členem.}
+translate C LichessStudy429 {Příliš mnoho požadavků na Lichess (429): počkejte minutu a zkuste to znovu.}
+translate C LichessStudyHttpError {Lichess (HTTP %s): %s}
+translate C LichessStudyUnexpected {Neočekávaná odpověď od Lichess (HTTP %s). %s}
+translate C LichessStudyNetworkError {Chyba sítě: %s}
+
+translate C LichessStudyOvfFree {„%s“ má pouze %s volné kapitoly z %s (limit Lichess), ale chcete publikovat %s hry.}
+translate C LichessStudyOvfFull {"%s" je plné: studie Lichess obsahuje maximálně %s kapitol.}
+translate C LichessStudyOvfQuestion {%s\n\nCo chcete dělat?}
+translate C LichessStudyOvfFirst {Zde publikujte pouze první %s hry (%s nebudou publikovány)}
+translate C LichessStudyOvfSplit {Zveřejněte první %s hry zde a další %s v nové studii}
+translate C LichessStudyOvfAllNew {Publikovat všechny %s hry v nové studii}
+translate C LichessStudyOvfName {Nový název studie:}
+
+translate C LichessStudyCancelled {Zveřejnění zrušeno: nic nebylo zveřejněno.}
+translate C LichessStudyCheckingFree {Kontrola volných kapitol v „%s“...}
+translate C LichessStudyPublishing {Publikování %s her do „%s“...}
+translate C LichessStudyGamesNotPublished {Hry nebyly publikovány, protože studie je plná: %s.}
+translate C LichessStudyEmptyNew {Byla vytvořena nová studie „%s“, ale neobsahuje žádnou z her (%s).}
+translate C LichessStudyNothingPublished {Nic nebylo zveřejněno.%s}
+translate C LichessStudyReport {Vytvořeno %s z %s kapitol (%s).%s\n\nOtevřít studii ve vašem prohlížeči?}
+translate C LichessStudyReportItem {%s v „%s“}
+translate C LichessStudyNoChapters {Nebyla vytvořena žádná kapitola.%s}
+translate C LichessStudyReports {Zprávy Lichess: %s}
+
 translate C About {O}
 translate C Back {Zpt}
 translate C Apply {Použít}

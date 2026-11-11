@@ -485,6 +485,87 @@ translate I LichessPuzzlesRated {Valutato}
 translate I LichessPuzzlesGame {Gioco}
 translate I LichessPuzzlesNoNew {Nessun nuovo puzzle trovato per queste impostazioni.\n\nProva a cambiare il tema, la difficoltà o il colore del puzzle.}
 
+# Lichess study publishing
+# Publish database games as chapters of a Lichess study.
+# Designed by TBergh98 (https://github.com/TBergh98).
+menuText I ToolsPublishLichessStudy "Pubblica il gioco corrente su Lichess Study..." 0 \
+  {Pubblica il gioco corrente come un nuovo capitolo di uno dei tuoi studi su Lichess}
+translate I LichessStudyTitle {Pubblica nello studio Lichess}
+translate I LichessStudyToPublish {Da pubblicare: %s (un capitolo per gioco)}
+translate I LichessStudyToken {Segnalino Lichess:}
+translate I LichessStudyCreateToken {Creare un token (ambito studio:lettura e studio:scrittura)}
+translate I LichessStudySearch {Ricerca studio:}
+translate I LichessStudyChapterSettings {Impostazioni del capitolo}
+translate I LichessStudyOrientation {Orientamento:}
+translate I LichessStudyOrientationAuto {Automatico}
+translate I LichessStudyAnalysisMode {Modalità di analisi:}
+translate I LichessStudyModeNormal {Analisi normale}
+translate I LichessStudyModeConceal {Nascondi le mosse successive}
+translate I LichessStudyModePractice {Esercitati con il computer}
+translate I LichessStudyModeGamebook {Lezione interattiva}
+translate I LichessStudyCreateNew {Oppure crea un nuovo studio}
+translate I LichessStudyName {Nome:}
+translate I LichessStudyVisibility {Visibilità:}
+translate I LichessStudyVisPrivate {Privato}
+translate I LichessStudyVisUnlisted {Non elencato}
+translate I LichessStudyVisPublic {Pubblico}
+translate I LichessStudyCreateAndPublish {Crea e pubblica}
+translate I LichessStudyAddByLink {Studio a cui contribuisci (link):}
+translate I LichessStudyUnnamed {Studio %s}
+translate I LichessStudyAddButton {Aggiungere}
+translate I LichessStudyReload {Ricarica l'elenco}
+translate I LichessStudyPublishButton {Pubblicare}
+translate I LichessStudyPublishGames {Pubblica nello studio Lichess (%s)...}
+translate I LichessStudyAddedByLink {aggiunto tramite collegamento}
+
+translate I LichessStudyNeedToken {Incolla il tuo token Lichess e premi "Salva".}
+translate I LichessStudyLoading {Caricamento dei tuoi studi...}
+translate I LichessStudyAccountStatus {Account %s: studi %s. Scegline uno e premi "Pubblica".}
+translate I LichessStudyTokenInvalid {Il token contiene caratteri non validi: copialo nuovamente da Lichess.}
+translate I LichessStudySaveTokenFirst {Salva prima il tuo token Lichess.}
+translate I LichessStudyChecking {Controllo dello studio %s...}
+translate I LichessStudyPickStudy {Scegli prima uno studio dall'elenco.}
+translate I LichessStudyAddLinkPrompt {Incolla il link di uno studio, ad es. https://lichess.org/study/AbCd1234}
+translate I LichessStudyNameLength {Il nome dello studio deve contenere da 2 a 100 caratteri.}
+translate I LichessStudyCreating {Creazione dello studio "%s"...}
+translate I LichessStudyCreateFailed {Impossibile creare lo studio "%s": %s\n\nNon è stato pubblicato nulla.}
+translate I LichessStudyDbClosed {Il database non è più aperto.}
+translate I LichessStudyTooManyGames {Hai selezionato %s giochi, ma uno studio di Lichess contiene al massimo %s capitoli.}
+translate I LichessStudyNoGame {Non c'è nessun gioco sul tabellone.\n\nPer pubblicare giochi da un database, selezionali nell'Elenco giochi e utilizza il menu contestuale.}
+translate I LichessStudyNoUsername {Impossibile leggere il nome utente dalla risposta di Lichess.}
+translate I LichessStudyCurlNotFound {curl non trovato: è necessario parlare con Lichess.}
+translate I LichessStudyGameNotFound {Gioco %s non trovato nel database.}
+translate I LichessStudyCannotRead {Impossibile leggere il gioco %s: %s}
+
+translate I LichessStudyFull {lo studio è pieno: uno studio Lichess contiene al massimo %s capitoli.}
+translate I LichessStudyNoAnswer {Nessuna risposta da Lichess: controlla la tua connessione internet.}
+translate I LichessStudy401 {Token non valido o scaduto (401).}
+translate I LichessStudy403 {Autorizzazione negata (403): al token mancano gli ambiti study:read/study:write oppure non è possibile scrivere a questo studio.}
+translate I LichessStudy404 {Studio non trovato (404), oppure è privato e non sei membro.}
+translate I LichessStudy429 {Troppe richieste a Lichess (429): aspetta un attimo e riprova.}
+translate I LichessStudyHttpError {Lichess (HTTP %s): %s}
+translate I LichessStudyUnexpected {Risposta inaspettata da Lichess (HTTP %s). %s}
+translate I LichessStudyNetworkError {Errore di rete: %s}
+
+translate I LichessStudyOvfFree {"%s" ha solo %s capitoli gratuiti su %s (il limite di Lichess), ma desideri pubblicare %s giochi.}
+translate I LichessStudyOvfFull {"%s" è pieno: uno studio di Lichess contiene al massimo %s capitoli.}
+translate I LichessStudyOvfQuestion {%s\n\nCosa vuoi fare?}
+translate I LichessStudyOvfFirst {Pubblica qui solo i primi %s giochi (%s non verranno pubblicati)}
+translate I LichessStudyOvfSplit {Pubblica i primi %s giochi qui e gli altri %s in un nuovo studio}
+translate I LichessStudyOvfAllNew {Pubblica tutti i %s giochi in un nuovo studio}
+translate I LichessStudyOvfName {Nuovo nome dello studio:}
+
+translate I LichessStudyCancelled {Pubblicazione annullata: non è stato pubblicato nulla.}
+translate I LichessStudyCheckingFree {Controllo dei capitoli liberi in "%s"...}
+translate I LichessStudyPublishing {Pubblicazione dei giochi %s su "%s"...}
+translate I LichessStudyGamesNotPublished {Giochi non pubblicati perché lo studio è pieno: %s.}
+translate I LichessStudyEmptyNew {Il nuovo studio "%s" è stato creato ma non contiene nessuno dei giochi (%s).}
+translate I LichessStudyNothingPublished {Non è stato pubblicato nulla.%s}
+translate I LichessStudyReport {Creato %s di %s capitoli (%s).%s\n\nAprire lo studio nel browser?}
+translate I LichessStudyReportItem {%s in "%s"}
+translate I LichessStudyNoChapters {Nessun capitolo è stato creato.%s}
+translate I LichessStudyReports {Rapporti Lichess: %s}
+
 translate I About {Di}
 translate I Back {Indietro}
 translate I Apply {Applica}
