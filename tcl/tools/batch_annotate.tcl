@@ -34,6 +34,12 @@ namespace eval ::batch_annotate {
     # move - the games counter alone reports a game as done whether or not every
     # move in it got judged.
     variable unscored_plies 0
+    # Bumped when a batch starts. A verifier callback that outlives its batch
+    # carries the id it was born with and cannot write into the next run.
+    variable run_id 0
+    # The preset the running pipes were launched with. The selector can change
+    # while the batch runs; the self-verification check needs the launched engine.
+    variable engine_cfg ""
 }
 
 # Register user-configurable preferences for saving via Options > Save Options
@@ -96,6 +102,8 @@ proc ::batch_annotate::start {w} {
 
     destroy $w
 
+    set ::batch_annotate::cancelled 0
+    incr ::batch_annotate::run_id
     set ::batch_annotate::game_queue {}
     foreach s $games {
         lassign [split [string trim $s] "_"] idx ply
@@ -169,6 +177,7 @@ proc ::batch_annotate::start_engines {num_instances} {
     variable engine_name
 
     set cfg [::enginecfg::get $engine_name]
+    set ::batch_annotate::engine_cfg $cfg
     if {![llength $cfg]} { error "No engine selected" }
     lassign $cfg ename cmd args wdir elo time url uci options limits
     if {!$uci} { error "Batch annotate needs a UCI engine" }
@@ -255,6 +264,11 @@ proc ::batch_annotate::endProgress {} {
 
 proc ::batch_annotate::cancel {} {
     variable pipes
+    set ::batch_annotate::cancelled 1
+    # A verification is a second engine on the driver's connection, not one of
+    # the batch pipes. Do not call ::reviewverify::stop without a token here: it
+    # may belong to a Game Review. The cancelled guard and the run id drop any
+    # batch answer that was already on its way.
     foreach pipe $pipes {
         catch { puts $pipe "quit" }
         catch { close $pipe }
@@ -364,6 +378,11 @@ proc ::batch_annotate::check_completion {} {
     variable pipes
     variable total_games
     variable games_completed
+    # Cancel already closed the run and showed its own message. A verifier that
+    # answers afterwards must not turn the empty pipe list into "Batch complete".
+    if {[info exists ::batch_annotate::cancelled] && $::batch_annotate::cancelled} {
+        return
+    }
     
     set all_done 1
     foreach p $pipes {
@@ -557,20 +576,72 @@ proc ::batch_annotate::finalize_game {pipe} {
     # slow part.
     ::batch_annotate::assign_game $pipe
 
+    # Exactly the Game Review writer: label, [%eval], the label's NAG, the
+    # assessment and the diagram, with variations from Review Settings. It is
+    # reached through the driver's shared seam, so the batch gets the same
+    # Brilliant/Great verification a single game review does - the batch must not
+    # bypass it (issue #422 item 5). The verifier is its own engine; the batch's
+    # pipes are already on the next game by the time it answers.
+    set engineCfg ""
+    catch { set engineCfg $::batch_annotate::engine_cfg }
+    set p [dict create map $map plan $plan plies [dict get $map plies] \
+        bookEnd $bookEnd mpv $::batch_annotate::mpv \
+        engine $engineCfg base $::batch_annotate::base \
+        runId $::batch_annotate::run_id \
+        verifier [::batch_annotate::verifierEngine] \
+        limits [dict create depth $::batch_annotate::depth \
+            movetime $::batch_annotate::movetime]]
+    ::reviewdriver::verifyWrite $p $evals \
+        [list ::batch_annotate::writeGame $pipe $game_id $map $plan $bookEnd $p]
+}
+
+# The verifier engine Review Settings names, or "" for Off. Read per game, so a
+# setting changed while the batch runs applies to the games it has not reached:
+# the batch is one pass over many games, not one pass over one game.
+proc ::batch_annotate::verifierEngine {} {
+    set name ""
+    catch { set name [::review::verifier] }
+    return $name
+}
+
+# Write one finished game into the database. The tail of ::finalize_game: the
+# game is loaded, written with the review writer, saved and put back. Kept apart
+# because the verifier can answer after ::finalize_game returns - its search is
+# a second engine, and the batch's pipes are already busy with the next game -
+# so everything the write needs travels in the arguments rather than in the
+# per-pipe arrays, which assign_game has since overwritten.
+proc ::batch_annotate::writeGame {pipe game_id map plan bookEnd p results corrections} {
+    variable base
+    # Cancel closes the batch and closes the batch's own pipes. A verification
+    # answer that was already in flight is not a reason to write one more game or
+    # to show the completion box over the cancelled run. A new batch has its own
+    # run id, so an answer from the previous run cannot write into it either.
+    set runId ""
+    catch { set runId [dict get $p runId] }
+    if {$runId ne "" && $runId ne $::batch_annotate::run_id} { return }
+    if {[info exists ::batch_annotate::cancelled] && $::batch_annotate::cancelled} {
+        return
+    }
+    # The shared transform, immediately before the write: the label the writer
+    # puts in the game is the one the second engine agreed with.
+    set results [::reviewdriver::verified $results $corrections]
+    if {[dict size $corrections]} { dict set p corrections $corrections }
+
+    # The base is the run's, not whatever ::batch_annotate::base names now: a new
+    # dialog can overwrite the namespace while this answer is still in flight.
+    set runBase ""
+    catch { set runBase [dict get $p base] }
+    if {$runBase eq ""} { set runBase $base }
     set prev_base [sc_base current]
-    if {$prev_base != $base} { sc_base switch $base }
+    if {$prev_base != $runBase} { sc_base switch $runBase }
 
     sc_game push copy
     sc_game load $game_id
 
-    # Exactly the Game Review writer: label, [%eval], the label's NAG, the
-    # assessment and the diagram, with variations from Review Settings.
-    set p [dict create map $map plan $plan plies [dict get $map plies] \
-        bookEnd $bookEnd mpv $::batch_annotate::mpv]
-    catch { ::reviewdriver::writeResults $p $evals }
+    catch { ::reviewdriver::writeResults $p $results }
 
     sc_game save $game_id
     sc_game pop
-    ::notify::DatabaseModified [sc_base current]
+    ::notify::DatabaseModified $runBase
     ::batch_annotate::check_completion
 }

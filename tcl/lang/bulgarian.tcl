@@ -912,6 +912,8 @@ translate g WhatThreatNoPosition {Няма позиция за разглежд�
 translate g WhatThreatNoMove {Тук няма ход за коментиране. Първо отидете на ход в партията.}
 translate g WhatThreatFailed {Анализът на заплахите не можа да стартира: %s}
 translate g WhatThreatNothingForcing {%s няма нищо форсиращо тук: нито един ход не печели материал и не дава шах.}
+translate g ReviewVerifier {Проверяващ двигател}
+translate g ReviewVerifierOff {Изключено (без проверка)}
 translate g ReviewVarLines {Варианти за запис}
 translate g ReviewVarCp {Граница на вариантите (cp)}
 translate g ReviewMoveWait {Изчакай дълбочината на прегледа}

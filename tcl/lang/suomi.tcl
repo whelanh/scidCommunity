@@ -910,6 +910,8 @@ translate U WhatThreatNoPosition {Katsottavaa asemaa ei ole.}
 translate U WhatThreatNoMove {Tässä ei ole siirtoa kommentoitavaksi. Siirry ensin johonkin pelin siirtoon.}
 translate U WhatThreatFailed {Uhka-analyysia ei voitu suorittaa: %s}
 translate U WhatThreatNothingForcing {%s:llä ei ole tässä mitään pakottavaa: mikään siirto ei voita materiaalia eikä anna shakkia.}
+translate U ReviewVerifier {Vahvistusmoottori}
+translate U ReviewVerifierOff {Pois (ei vahvistusta)}
 translate U ReviewVarLines {Kirjoitettavat muunnelmat}
 translate U ReviewVarCp {Muunnelman raja (cp)}
 translate U ReviewMoveWait {Odota tarkastuksen syvyyttä}

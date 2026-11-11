@@ -1335,6 +1335,8 @@ translate Y WhatThreatNoPosition {Nema pozicije za pregled.}
 translate Y WhatThreatNoMove {Nema ovde poteza za komentar. Prvo pređite na potez u partiji.}
 translate Y WhatThreatFailed {Analizu pretnji nije bilo moguće pokrenuti: %s}
 translate Y WhatThreatNothingForcing {%s ovde nema ništa forsirajuće: nijedan potez ne dobija materijal i ne daje šah.}
+translate Y ReviewVerifier {Motor za proveru}
+translate Y ReviewVerifierOff {Isključeno (bez provere)}
 translate Y ReviewVarLines {Varijante za upis}
 translate Y ReviewVarCp {Granica varijanti (cp)}
 translate Y ReviewMoveWait {Čekaj dubinu pregleda}

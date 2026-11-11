@@ -911,6 +911,8 @@ translate P WhatThreatNoPosition {Nie ma pozycji do obejrzenia.}
 translate P WhatThreatNoMove {Nie ma tu ruchu do skomentowania. Przejdź najpierw do ruchu w partii.}
 translate P WhatThreatFailed {Nie udało się uruchomić analizy zagrożeń: %s}
 translate P WhatThreatNothingForcing {%s nie ma tu nic forsującego: żaden ruch nie zdobywa materiału ani nie daje szacha.}
+translate P ReviewVerifier {Silnik weryfikujący}
+translate P ReviewVerifierOff {Wyłączony (bez weryfikacji)}
 translate P ReviewVarLines {Liczba wariantów do zapisania}
 translate P ReviewVarCp {Różnica ocen wariantów (cp)}
 translate P ReviewMoveWait {Czekaj na osiągnięcie zadanej głębokości analizy}

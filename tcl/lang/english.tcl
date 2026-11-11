@@ -911,6 +911,8 @@ translate E WhatThreatNoPosition {There is no position to look at.}
 translate E WhatThreatNoMove {There is no move here to comment on. Go to a move in the game first.}
 translate E WhatThreatFailed {The threat probe could not run: %s}
 translate E WhatThreatNothingForcing {%s has nothing forcing here: no move wins material or gives check.}
+translate E ReviewVerifier {Verifier engine}
+translate E ReviewVerifierOff {Off (no verification)}
 translate E ReviewVarLines {Variations to write}
 translate E ReviewVarCp {Variation margin (cp)}
 translate E ReviewMoveWait {Wait for the review depth}

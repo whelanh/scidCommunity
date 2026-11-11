@@ -882,6 +882,8 @@ translate W WhatThreatNoPosition {Det finns ingen ställning att titta på.}
 translate W WhatThreatNoMove {Det finns inget drag att kommentera här. Gå först till ett drag i partiet.}
 translate W WhatThreatFailed {Hotanalysen kunde inte köras: %s}
 translate W WhatThreatNothingForcing {%s har inget tvingande här: inget drag vinner material eller ger schack.}
+translate W ReviewVerifier {Verifieringsmotor}
+translate W ReviewVerifierOff {Av (ingen verifiering)}
 translate W ReviewVarLines {Varianter att skriva}
 translate W ReviewVarCp {Variantmarginal (cp)}
 translate W ReviewMoveWait {Vänta på granskningsdjupet}

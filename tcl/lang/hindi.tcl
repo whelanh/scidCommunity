@@ -871,6 +871,8 @@ translate h WhatThreatNoPosition {देखने के लिए कोई स
 translate h WhatThreatNoMove {यहाँ टिप्पणी करने के लिए कोई चाल नहीं है। पहले खेल की किसी चाल पर जाएँ।}
 translate h WhatThreatFailed {खतरे का विश्लेषण नहीं चल सका: %s}
 translate h WhatThreatNothingForcing {%s के पास यहाँ कुछ भी बाध्यकारी नहीं है: कोई चाल सामग्री नहीं जीतती और न ही शह देती है।}
+translate h ReviewVerifier {सत्यापन इंजिन}
+translate h ReviewVerifierOff {बंद (कोई सत्यापन नहीं)}
 translate h ReviewVarLines {लिखने के लिए वेरिएशन}
 translate h ReviewVarCp {वेरिएशन अंतर (cp)}
 translate h ReviewMoveWait {समीक्षा गहराई की प्रतीक्षा करें}

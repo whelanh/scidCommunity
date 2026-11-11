@@ -912,6 +912,8 @@ translate A WhatThreatNoPosition {表示する局面がありません。}
 translate A WhatThreatNoMove {ここにはコメントする手がありません。先に対局の手へ移動してください。}
 translate A WhatThreatFailed {脅威の解析を実行できませんでした: %s}
 translate A WhatThreatNothingForcing {%s にはここで強制する手がありません: 駒得になる手も王手をかける手もありません。}
+translate A ReviewVerifier {検証エンジン}
+translate A ReviewVerifierOff {オフ（検証なし）}
 translate A ReviewVarLines {書き込む変化}
 translate A ReviewVarCp {変化のしきい値 (cp)}
 translate A ReviewMoveWait {検討の深さを待つ}

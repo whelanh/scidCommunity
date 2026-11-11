@@ -90,6 +90,17 @@ jobs:
       - name: Review driver
         run: tclsh tests/tcl/review_driver.tcl
 
+      # The Brilliant/Great second opinion, without an engine: the pure decision
+      # and the three writers that call the shared transform before they write.
+      - name: Review verifier
+        run: tclsh tests/tcl/review_verify.tcl
+
+      # The verifier's search through the driver's own queue against a stub
+      # second engine: the disagreement, the silent answer, an engine lost and
+      # Cancel.
+      - name: Review verifier engine
+        run: tclsh tests/tcl/review_verify_engine.tcl
+
       - name: Annotate writers
         run: tclsh tests/tcl/annotate_writers.tcl
 

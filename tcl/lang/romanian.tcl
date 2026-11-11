@@ -912,6 +912,8 @@ translate L WhatThreatNoPosition {Nu există nicio poziție de privit.}
 translate L WhatThreatNoMove {Aici nu există nicio mutare de comentat. Mergi mai întâi la o mutare din partidă.}
 translate L WhatThreatFailed {Analiza amenințărilor nu a putut porni: %s}
 translate L WhatThreatNothingForcing {%s nu are nimic forțat aici: nicio mutare nu câștigă material și nu dă șah.}
+translate L ReviewVerifier {Motor de verificare}
+translate L ReviewVerifierOff {Oprit (fără verificare)}
 translate L ReviewVarLines {Variante de scris}
 translate L ReviewVarCp {Marja variantelor (cp)}
 translate L ReviewMoveWait {Așteaptă adâncimea analizei}

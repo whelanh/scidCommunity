@@ -34,6 +34,7 @@ namespace eval ::review {
         threads 0
         hash_mb 128
         skip_book 1
+        verifier ""
     }
     variable S [dict create]
     variable MAX_MPV 5
@@ -92,6 +93,14 @@ proc ::review::saved {} {
             dict set S $key $::reviewopt($key)
         }
     }
+    # The verifier is a preset NAME, not a number, so it is read as a string:
+    # "" is Off, the default, and anything else names the second engine. A name
+    # whose preset has since gone is Off at the point of use
+    # (::review::verifier), not an error at load - the session must still start
+    # with an engines.dat that no longer carries it.
+    set name ""
+    if {[info exists ::reviewopt(verifier)]} { set name [string trim $::reviewopt(verifier)] }
+    dict set S verifier $name
     if {[dict get $S mpv] < 1} { dict set S mpv 1 }
     if {[dict get $S mpv] > $MAX_MPV} { dict set S mpv $MAX_MPV }
     if {[dict get $S depth] < $MIN_DEPTH} { dict set S depth $MIN_DEPTH }
@@ -134,6 +143,24 @@ proc ::review::get {key} {
     return [dict get $S $key]
 }
 
+# The engine preset a review's second opinion runs on, or "" for Off.
+#
+# The setting is a preset name, so it is checked against the presets this session
+# actually has: a name whose preset was deleted, or an engines.dat that has not
+# been read yet, is Off - a review still runs, it just has no second opinion.
+# Nothing here throws: a verifier is never an error path.
+proc ::review::verifier {} {
+    variable S
+    if {![dict size $S]} { catch { set S [::review::saved] } }
+    set name ""
+    catch { set name [dict get $S verifier] }
+    if {$name eq ""} { return "" }
+    set names {}
+    catch { set names [::enginecfg::names] }
+    if {[lsearch -exact $names $name] < 0} { return "" }
+    return $name
+}
+
 # Set one setting, refusing values the pass cannot honour. Returns "" on
 # success or the reason it was refused; the old value is kept either way.
 proc ::review::setValue {key value} {
@@ -145,6 +172,23 @@ proc ::review::setValue {key value} {
     variable MAX_MOVETIME
     if {![dict size $S]} { reset }
     if {![dict exists $S $key]} { return "unknown setting: $key" }
+    # The verifier names an engine preset, so it is the one setting that is not a
+    # whole number. "" is Off. A name that is not a preset this session has is
+    # refused: the pass would open nothing and quietly skip its second opinion,
+    # which reads as "the verifier said yes" when it never ran.
+    if {$key eq "verifier"} {
+        set name [string trim $value]
+        if {$name ne ""} {
+            set names {}
+            catch { set names [::enginecfg::names] }
+            if {[llength $names] && [lsearch -exact $names $name] < 0} {
+                return "no engine preset called $name"
+            }
+        }
+        dict set S verifier $name
+        ::review::save
+        return ""
+    }
     if {![string is integer -strict $value]} { return "$key must be a whole number" }
     set previous [dict get $S $key]
     set value [expr {$value}]

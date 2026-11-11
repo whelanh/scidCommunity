@@ -1614,6 +1614,17 @@ proc ::enginewin::reviewSettings {id} {
             ttk::label $w.f.l$key -text "[::reviewui::settingLabel $key]:" -anchor w
             ttk::checkbutton $w.f.v$key -onvalue 1 -offvalue 0 \
                 -variable ::enginewin::reviewsetting($id,$key)
+        } elseif {$key eq "verifier"} {
+            # The verifier names an engine preset, so its row is a list of the
+            # presets this session has, with Off first: the second engine is the
+            # point, and Off - the default - means "write the labels the search
+            # produced and nothing else". The variable holds the label on show;
+            # ::reviewui::verifierValue turns it back into the setting's value.
+            set ::enginewin::reviewsetting($id,$key) [::reviewui::verifierLabel $value]
+            ttk::label $w.f.l$key -text "[::reviewui::settingLabel $key]:" -anchor w
+            ttk::combobox $w.f.v$key -values [::reviewui::verifierChoices] \
+                -state readonly -width 22 \
+                -textvariable ::enginewin::reviewsetting($id,$key)
         } else {
             lassign [::reviewui::settingRange $key] lo hi
             set ::enginewin::reviewsetting($id,$key) $value
