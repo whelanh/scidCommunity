@@ -223,8 +223,11 @@ proc ::reviewverify::advance {} {
     lassign $item enginecfg jobs mpv lim onDone id
     if {[::reviewverify::begin $enginecfg $jobs $mpv $lim $onDone] eq ""} {
         # It cannot start after all. The caller's write still has to happen,
-        # with no corrections, exactly as a verifier that never opened.
+        # with no corrections, exactly as a verifier that never opened. Then
+        # keep draining: no engine was started, so no close will arrive to wake
+        # the next caller waiting behind this one.
         catch { {*}$onDone [dict create] }
+        after idle ::reviewverify::advance
     }
     return
 }

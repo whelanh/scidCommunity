@@ -574,8 +574,11 @@ proc ::batch_annotate::finalize_game {pipe} {
     # Brilliant/Great verification a single game review does - the batch must not
     # bypass it (issue #422 item 5). The verifier is its own engine; the batch's
     # pipes are already on the next game by the time it answers.
+    set engineName ""
+    catch { set engineName $::batch_annotate::engine_name }
     set p [dict create map $map plan $plan plies [dict get $map plies] \
         bookEnd $bookEnd mpv $::batch_annotate::mpv \
+        engine $engineName \
         verifier [::batch_annotate::verifierEngine] \
         limits [dict create depth $::batch_annotate::depth \
             movetime $::batch_annotate::movetime]]

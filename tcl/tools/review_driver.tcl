@@ -968,6 +968,17 @@ proc ::reviewdriver::verifyWrite {p results write} {
     set none [dict create]
     set name ""
     catch { set name [dict get $p verifier] }
+    # A second opinion from the same engine is not a second opinion. The UI lists
+    # every preset; a run whose verifier names the engine that produced the labels
+    # writes them unverified rather than letting the engine confirm itself.
+    set analysis ""
+    catch {
+        set engine [dict get $p engine]
+        set analysis [expr {[llength $engine] > 1 ? [lindex $engine 0] : $engine}]
+    }
+    if {$name ne "" && $analysis ne "" && $analysis eq $name} {
+        set name ""
+    }
     set jobs {}
     if {$name ne "" && [llength [info commands ::reviewverify::jobs]]} {
         set labels [dict create]
