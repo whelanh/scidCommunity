@@ -478,19 +478,11 @@ proc configAnnotation {{n 1}} {
     ttk::checkbutton  $f.comment.cbAddAnnotatorTag  -text $::tr(addAnnotatorTag)            -variable ::addAnnotatorTag
     # Checkmark to enable all-move-scoring
     ttk::checkbutton  $f.comment.scoreAll -text $::tr(ScoreAllMoves) -variable scoreAllMoves
-    ttk::checkbutton  $f.comment.cbMarkTactics -text $::tr(MarkTacticalExercises) -variable ::markTacticalExercises
-    # The exercise probe drives scid's own analyser, which is the pane's engine
-    # only when that engine is UCI: the same gate as the classic, on this pane.
-    if {! $analysis(uci$n)} {
-        # Only disable the control here. Clearing the shared preference would
-        # make a later run on a UCI pane skip exercises the user had asked for.
-        $f.comment.cbMarkTactics configure -state disabled
-    }
     
     pack $f.comment.scoreAll $f.comment.cbAnnotateVar $f.comment.lAnnotateVar \
         $f.comment.cbShortAnnotation $f.comment.cbAddScore \
-	$f.comment.cbAddAnnotatorTag $f.comment.cbMarkTactics -fill x -anchor w
-    # batch annotation of consecutive games, and optional opening errors finder
+	$f.comment.cbAddAnnotatorTag -fill x -anchor w
+    # batch annotation of consecutive games
     ttk::frame $f.batch
     ttk::frame $f.buttons
     grid $f.analyse -row 0 -column 0 -pady { 0 10 } -sticky nswe -padx { 0 10 }
@@ -504,15 +496,8 @@ proc configAnnotation {{n 1}} {
     ttk::checkbutton $f.batch.cbBatch -text $::tr(AnnotateSeveralGames) -variable ::isBatch
     ttk::spinbox $f.batch.spBatchEnd -width 8 -textvariable ::batchEnd \
             -from 1 -to $to -increment 1 -validate all -validatecommand { regexp {^[0-9]+$} %P }
-    ttk::checkbutton $f.batch.cbBatchOpening -text $::tr(FindOpeningErrors) -variable ::isBatchOpening
-    ttk::spinbox $f.batch.spBatchOpening -width 2 -textvariable ::isBatchOpeningMoves \
-            -from 10 -to 20 -increment 1 -validate all -validatecommand { regexp {^[0-9]+$} %P }
-    ttk::label $f.batch.lBatchOpening -text $::tr(moves)
     pack $f.batch.cbBatch -side top -anchor w -pady { 0 0 }
     pack $f.batch.spBatchEnd -side top -padx 20 -anchor w
-    pack $f.batch.cbBatchOpening -side top -anchor w
-    pack $f.batch.spBatchOpening -side left -anchor w -padx { 20 4 }
-    pack $f.batch.lBatchOpening  -side left
     set ::batchEnd $to
     
     ttk::button $f.buttons.cancel -text $::tr(Cancel) -command {
@@ -521,7 +506,7 @@ proc configAnnotation {{n 1}} {
     ttk::button $f.buttons.ok -text "OK" -command [list configAnnotateOK $w $n]
     pack $f.buttons.cancel $f.buttons.ok -side right -padx 5 -pady 5
     # A pane that cannot run the review says why, in the driver's words, and its
-    # OK is disabled the way a non-UCI pane's tactical checkbox is.
+    # OK is disabled.
     if {$refuse ne ""} {
         ttk::label $f.buttons.refusal -text $refuse -foreground red
         pack $f.buttons.refusal -side left -padx 5 -pady 5
@@ -567,8 +552,6 @@ proc configAnnotateOK {w n} {
         blunders $::annotateBlunders \
         batch $::isBatch \
         batchEnd $::batchEnd \
-        opening $::isBatchOpening \
-        openingMoves $::isBatchOpeningMoves \
         white $white \
         black $black \
         varLength $varLength \

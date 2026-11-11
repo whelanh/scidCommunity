@@ -18,6 +18,7 @@ namespace eval ::gamestub {
     variable book {}        ;# cursor position -> list of continuation SANs
     variable replies {}     ;# queue of {score move} for sc_pos analyze
     variable analyzeCalls {}
+    variable sanMap        ;# UCI -> SAN, for sc_pos coordToSAN
     variable loaded {}      ;# book file name passed to sc_book load
     variable number 1
     variable games 1
@@ -211,6 +212,18 @@ proc sc_pos {sub args} {
         }
         fen         { return "FEN$::gamestub::cursor w KQkq - 0 1" }
         location    { return $::gamestub::cursor }
+        coordToSAN  {
+            lassign $args fen moves
+            set out {}
+            foreach m $moves {
+                if {[info exists ::gamestub::sanMap($m)]} {
+                    lappend out $::gamestub::sanMap($m)
+                } else {
+                    lappend out $m
+                }
+            }
+            return $out
+        }
         analyze     {
             lappend ::gamestub::analyzeCalls $args
             return [::gamestub::popReply]

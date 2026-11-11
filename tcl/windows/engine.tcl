@@ -1607,7 +1607,7 @@ proc ::enginewin::reviewSettings {id} {
     set row 0
     foreach key [::reviewui::settingKeys] {
         set value [::review::get $key]
-        if {[lsearch -exact {move_comment_wait diagram coach} $key] >= 0} {
+        if {[lsearch -exact {move_comment_wait diagram opening_errors tactical_exercises coach} $key] >= 0} {
             # On/off settings are a checkbox, not a number box holding 0 or 1: a
             # spinbox beside "Coach prose" offers "2", which the setter refuses.
             set ::enginewin::reviewsetting($id,$key) $value

@@ -107,7 +107,6 @@ set ::engines(list) [list \
 proc annotateSettings {} {
     set ::annotateBlunders allmoves
     set ::blunderThreshold 1.0
-    set ::markTacticalExercises 0
     set ::useAnalysisBook 0
     set ::addAnnotatorTag 0
     set ::isBatchOpening 0
@@ -339,61 +338,55 @@ rename ::reviewannotate::findBookEnd {}
 rename ::reviewannotate::findBookEndSaved ::reviewannotate::findBookEnd
 
 ########################################################################
-### The tactical-exercises gate is the pane that opened the dialog
+### The tactical-exercises switch is Review Settings'
 ###
-### The exercise probe drives scid's own analyser, which is the UCI engine only in
-### this build, and the dialog's tactical checkbox is disabled on the invoking
-### pane's engine (analysis.tcl:473). Gating the probe on pane 1's engine instead
-### silently drops every exercise of a run started from a UCI pane 2 in a session
-### whose pane 1 is not UCI.
+### The exercise probe drives scid's own analyser. Review Settings owns the
+### switch now, and the review pass itself is UCI by construction, so there is
+### no pane-engine gate to disagree with the saved preference.
 
 proc probeSettings {} {
     annotateSettings
-    set ::markTacticalExercises 1
+    ::review::setValue tactical_exercises 1
     # The blunder a puzzle is made of: 1.0 pawns lost from a level position, and one
     # move that keeps it (the second line is the alternative, not a book line).
     return
 }
 
 # The argument set that carries ::reviewannotate::markExercise past its own gates
-# and into the analyser: only the pane gate can stop it short. The lines are in the
-# writer's shape (::reviewdriver::lines: `{{cp pv} ...}`, White's point of view, best
-# line first, second best far enough behind to be the only winning move).
+# and into the analyser. The lines are in the writer's shape
+# (::reviewdriver::lines: `{{cp pv} ...}`, White's point of view, best line first,
+# second best far enough behind to be the only winning move).
 set ::probeBefore -100
 set ::probeAfter 100
 set ::probeLines {{100 {d2d4 e7e5}} {-150 {g1f3 d7d5}}}
 
 probeSettings
 ::gamestub::reset [list {e4 e2e4} {e5 e7e5}]
-set ::analysis(uci1) 0
-set ::analysis(uci2) 1
-set ::annotatePane 2
 set ::gamestub::analyzeCalls {}
 set marked [::reviewannotate::markExercise $::probeBefore $::probeAfter "" $::probeLines]
-checkEq "a run from a UCI pane 2 marks its exercise" $marked 1
+checkEq "the Review Settings switch marks the exercise" $marked 1
 check "and the analyser was asked" [expr {[llength $::gamestub::analyzeCalls] > 0}]
 checkEq "the mark is on the game" [lsearch -exact $::gamestub::flags T] 0
 
-probeSettings
+annotateSettings
 ::gamestub::reset [list {e4 e2e4} {e5 e7e5}]
-set ::analysis(uci1) 0
-set ::analysis(uci2) 0
-set ::annotatePane 2
 set ::gamestub::analyzeCalls {}
 set marked [::reviewannotate::markExercise $::probeBefore $::probeAfter "" $::probeLines]
-checkEq "a non-UCI pane marks nothing" $marked 0
-checkEq "and never probes the analyser" $::gamestub::analyzeCalls {}
+checkEq "with the switch off nothing is marked" $marked 0
+checkEq "and the analyser is never probed" $::gamestub::analyzeCalls {}
 
-# No dialog yet: the classic single pane is pane 1, and that is the gate.
+# The PV is UCI and sc_pos analyze answers SAN: the shallow probe has to compare
+# the same notation, or every move looks non-obvious and every exercise gets the
+# top difficulty.
 probeSettings
 ::gamestub::reset [list {e4 e2e4} {e5 e7e5}]
-unset ::annotatePane
-set ::analysis(uci1) 1
-set ::analysis(uci2) 0
+set ::gamestub::sanMap(d2d4) d4
+set ::gamestub::replies [list {0 d4} {0 d4} {0 d4}]
 set ::gamestub::analyzeCalls {}
 set marked [::reviewannotate::markExercise $::probeBefore $::probeAfter "" $::probeLines]
-checkEq "without a dialog the gate is pane 1's engine" $marked 1
-check "and the analyser was asked" [expr {[llength $::gamestub::analyzeCalls] > 0}]
+checkEq "an obvious move in SAN is not an exercise" $marked 0
+checkEq "and the shallow probe stopped after three" \
+    [llength $::gamestub::analyzeCalls] 3
 
 ########################################################################
 ### The dialog's variation controls reach the writer
