@@ -626,6 +626,26 @@ checkEq "a re-run keeps one opening entry" \
     [regexp -all {opBlunder} $::gamestub::annotator] 1
 ::review::reset
 
+# A tag setter that refuses must not be reported as a written opening entry.
+lassign [blunderPass 1] p results
+dict set p report 1
+::review::reset
+::review::setValue opening_errors 1
+rename sc_game ::gamestub_sc_game
+proc sc_game {sub args} {
+    if {$sub eq "tags" && [lindex $args 0] eq "set"} {
+        error "tag set refused"
+    }
+    return [::gamestub_sc_game $sub {*}$args]
+}
+checkEq "appendAnnotator reports a failed set" \
+    [::reviewannotate::appendAnnotator "Test (review)"] 0
+checkEq "and openingMark does not claim a write" \
+    [::reviewannotate::openingMark $p] 0
+rename sc_game {}
+rename ::gamestub_sc_game sc_game
+::review::reset
+
 # The exercise: the same blunder is a puzzle when the second line is far enough
 # behind and the shallow search does not find the move.
 lassign [blunderPass] p results

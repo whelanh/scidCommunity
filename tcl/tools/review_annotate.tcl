@@ -431,8 +431,7 @@ proc ::reviewannotate::openingMark {p} {
     if {![catch {
         sc_move ply $bookEnd
         set tag [::reviewannotate::openingTag [sc_pos moveNumber] [sc_pos side] $window]
-        if {$tag ne ""} {
-            ::reviewannotate::appendAnnotator $tag
+        if {$tag ne "" && [::reviewannotate::appendAnnotator $tag]} {
             set wrote 1
         }
     }]} {}
@@ -481,9 +480,7 @@ proc ::reviewannotate::appendAnnotator {text} {
     }
     # A Tcl list of two-element entries: scid clears the extra tags and parses
     # each element as {name value} (src/tkscid.cpp, sc_game_tags_set -extra).
-    # Joining the lines into one string leaves every entry a single word, so the
-    # list would parse to nothing and the game would lose its extra tags.
-    catch { sc_game tags set -extra $nExtra }
+    if {[catch { sc_game tags set -extra $nExtra }]} { return 0 }
     return 1
 }
 
