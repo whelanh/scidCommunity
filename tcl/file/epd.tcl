@@ -712,6 +712,17 @@ namespace eval epd {
     $w.bottom.status configure -text "Analyzing with $epdEngineName ($epdDelay secs/move)"
     update
 
+    # update pumps window events: the reader may have closed this EPD window
+    # already, in which case the handle is gone and the flag must not stay set.
+    if {![winfo exists $w]} {
+      catch { ::epdanalysis::close }
+      set analysisRunning 0
+      set analysisOwner ""
+      set analysisStopRequested 0
+      set epdAnnotation 0
+      return
+    }
+
     if {$epdAnnotateMode != 1} { clearOpcodes $id }
 
     # Open the results log file, if requested.
