@@ -303,12 +303,9 @@ namespace eval book {
       set isObr($b) [string match -nocase *.obr [set ::book::currentBook$b]]
       if {$isObr($b)} {
         # rows: {san "obr" games details}, sortable like Polyglot rows
-        set obrPos($b) {}
         set tmplist {}
         if {![catch {sc_book obrmoves $slot} data] && [llength $data] == 3} {
-          lassign $data transform pstats mlist
-          set obrPos($b) [list $transform $pstats]
-          foreach m $mlist {
+          foreach m [lindex $data 2] {
             lappend tmplist [list [lindex $m 0] obr [lindex $m 5] $m]
           }
         }
@@ -368,7 +365,7 @@ namespace eval book {
     for {set b 1} {$b <= $count} {incr b} {
       set slot [set ::book::bookSlot$b]
       if {$isObr($b)} {
-        renderObrBook $b $rows($b) $nextmove $slot $obrPos($b)
+        renderObrBook $b $rows($b) $nextmove $slot
       } else {
         renderBook $b $rows($b) $nextmove $engine_names $slot
       }
@@ -472,13 +469,6 @@ namespace eval book {
     return [format 0x%02x $rec]
   }
 
-  # "+w =d -b" percentages of games (white / draw / black)
-  proc obrWdl { games ww dd bw } {
-    if {$games <= 0} { return "" }
-    return [format "%2.0f/%2.0f/%2.0f" [expr {100.0*$ww/$games}] \
-              [expr {100.0*$dd/$games}] [expr {100.0*$bw/$games}]]
-  }
-
   # White/Draw/Black bar, $chars characters wide, to embed in text widget $txt;
   # returns the canvas. Same look as Scid's game list statistics (SourceForge
   # Scid, ::windows::gamelist::updateStats_): white / #707070 / black segments
@@ -527,7 +517,7 @@ namespace eval book {
   #   rows: {san "obr" games details}; details from "sc_book obrmoves":
   #   {san nag flags hasStats score games whiteWins draws blackWins elo perf rec}
   ################################################################################
-  proc renderObrBook { b rows nextmove slot posinfo } {
+  proc renderObrBook { b rows nextmove slot } {
     set w .bookWin
     set txt $w.$b.booktext
     set opp $w.$b.opptext
@@ -538,16 +528,7 @@ namespace eval book {
       }
     }
 
-    # panel title: book name + statistics of the current position
-    set title [file rootname [set ::book::currentBook$b]]
-    if {[llength $posinfo] == 2} {
-      lassign $posinfo transform pstats
-      lassign $pstats g ww dd bw elo perf rec
-      append title [format "  %d games  W/D/B %s%%" $g [obrWdl $g $ww $dd $bw]]
-      if {$elo > 0} { append title "  Elo $elo" }
-      if {$transform != 0} { append title "  (twin position)" }
-    }
-    $w.$b.label configure -text $title
+    $w.$b.label configure -text [file rootname [set ::book::currentBook$b]]
 
     # share of each move = its games / games of all listed moves (sums to 100%,
     # unlike the position total, which transpositions can make smaller)
