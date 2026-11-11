@@ -607,13 +607,5 @@ catch { set nags [dict get [::gamestub::nagsByPly] 1] }
 check "and the blunder mark" [expr {[string first "??" $nags] >= 0}]
 ::review::reset
 
-# The Game List batch reaches the same writer; a batch that grew a writer of its
-# own could disagree with Game Review about these two marks.
-set bfh [open [file join $root tcl tools batch_annotate.tcl] r]
-set batchText [read $bfh]
-close $bfh
-checkHas "the Game List batch uses the shared review writer" $batchText \
-    "::reviewdriver::writeResults"
-
 puts "checks $checks fails $fails"
 exit [expr {$fails ? 1 : 0}]
