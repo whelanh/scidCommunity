@@ -842,6 +842,16 @@ proc ::reviewdriver::cancel {{restore 1}} {
     # leave the run open. Stop the verification instead and close the run here:
     # nothing has been written yet, so the reader goes back where the pass found
     # them and no label is written at all.
+    set pending ""
+    catch { set pending [dict get $pass verifyPending] }
+    if {$pending ne ""} {
+        set p $pass
+        set pass {}
+        dict set state state cancelled
+        if {$restore} { ::reviewdriver::restoreRun $p }
+        ::reviewdriver::runDoneHook $p
+        return 1
+    }
     set verify ""
     catch { set verify [dict get $pass verifyToken] }
     if {$verify ne ""} {
@@ -1043,6 +1053,9 @@ proc ::reviewdriver::runDone {results} {
     set verifier ""
     catch { set verifier [dict get $p verifier] }
     if {$verifier ne ""} {
+        # The idle callback is a pending part of this run: Cancel has to see it
+        # before verifyWrite has a verifyToken to stop.
+        dict set pass verifyPending 1
         after idle [list ::reviewdriver::verifyAfterIdle $p $results]
     } else {
         ::reviewdriver::verifyWrite $p $results [list ::reviewdriver::writeRun $p]
@@ -1057,6 +1070,8 @@ proc ::reviewdriver::verifyAfterIdle {p results} {
     if {![dict size $pass] || [dict get $pass token] ne [dict get $p token]} {
         return
     }
+    if {![dict exists $pass verifyPending]} { return }
+    dict unset pass verifyPending
     ::reviewdriver::verifyWrite $p $results [list ::reviewdriver::writeRun $p]
 }
 

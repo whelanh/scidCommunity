@@ -337,10 +337,14 @@ checkEq "a preset this session has is accepted" \
     [::reviewui::applySettings [dict create verifier Komodo]] {}
 checkEq "and is stored by name" [::review::get verifier] Komodo
 checkEq "and reads back through ::review::verifier" [::review::verifier] Komodo
+# Keep the setting naming Komodo, remove the preset from the session, and the
+# accessor has to read Off rather than name an engine that cannot be opened.
+set ::engines(list) [lsearch -all -inline -not -index 0 $::engines(list) Komodo]
+checkEq "and the stored name is still there" [::review::get verifier] Komodo
+checkEq "a setting for a preset that is gone reads as Off" [::review::verifier] ""
 checkEq "Off is always accepted" \
     [::reviewui::applySettings [dict create verifier [::reviewui::verifierOff]]] {}
 checkEq "and is stored as Off" [::review::get verifier] ""
-checkEq "a setting for a preset that is gone reads as Off" [::review::verifier] ""
 unset ::engines(list)
 # The dialog the next block starts from, restored: this one reset it.
 checkEq "the whole dialog applies again after the verifier rows" \

@@ -415,6 +415,28 @@ checkEq "and the pass writes the label the seam answered" \
     [unwrapped [dict get [::gamestub::commentsByPly] 2]] $want
 checkEq "the pass is over once it has written" $::reviewdriver::pass {}
 
+puts "\n  Cancel before the idle verifier starts"
+
+# runDone schedules the verifier one turn later. There is no verifyToken yet, so
+# Cancel has to see the pending start itself; otherwise the idle callback would
+# write the review after the reader stopped it.
+::fx::reset
+set ::seamCalls {}
+set p2 [dict create map $map plan {1 2 3 4} plies 4 bookEnd 0 mpv 3 \
+    writer ::reviewdriver::writeResults verifier Komodo limits {} \
+    positions {{0 {position startpos}} {1 {position startpos moves e2e4}}} \
+    cursor [::review::cursorSave] notify 0 coach 0 report 0 token pass2]
+set ::reviewdriver::pass $p2
+set ::reviewdriver::state {}
+::reviewdriver::runDone [::fx::results]
+checkEq "Cancel sees the pending verifier before it starts" \
+    [::reviewdriver::cancel 0] 1
+checkEq "with nothing written" [llength $::seamCalls] 0
+checkEq "the run says cancelled" [dict get $::reviewdriver::state state] cancelled
+checkEq "and the pass is gone" [dict size $::reviewdriver::pass] 0
+pump
+checkEq "the idle callback does not resurrect it" [llength $::seamCalls] 0
+
 puts "\n  the batch annotator"
 
 ::fx::reset
