@@ -343,10 +343,13 @@ proc ::reviewdriver::lost {token} {
     if {$done ne ""} {
         catch { {*}$done $results }
     }
-    # A lost connection is free in the same way a closed one is: a verification
-    # waiting for it must not wait for a closeConn that will never come.
+    # A lost connection is free in the same way a closed one is, but this runs
+    # inside InfoDisconnected while ::engine::destroy_ is still tearing the old
+    # connection down. Advancing synchronously would open the replacement on the
+    # same id before destroy_ finished and then lose its callback. Wait a turn,
+    # as the close path does.
     if {[llength [info commands ::reviewverify::advance]]} {
-        catch { ::reviewverify::advance }
+        catch { after idle ::reviewverify::advance }
     }
     return $results
 }

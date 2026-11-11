@@ -34,6 +34,9 @@ namespace eval ::batch_annotate {
     # move - the games counter alone reports a game as done whether or not every
     # move in it got judged.
     variable unscored_plies 0
+    # Bumped when a batch starts. A verifier callback that outlives its batch
+    # carries the id it was born with and cannot write into the next run.
+    variable run_id 0
 }
 
 # Register user-configurable preferences for saving via Options > Save Options
@@ -97,6 +100,7 @@ proc ::batch_annotate::start {w} {
     destroy $w
 
     set ::batch_annotate::cancelled 0
+    incr ::batch_annotate::run_id
     set ::batch_annotate::game_queue {}
     foreach s $games {
         lassign [split [string trim $s] "_"] idx ply
@@ -258,9 +262,9 @@ proc ::batch_annotate::cancel {} {
     variable pipes
     set ::batch_annotate::cancelled 1
     # A verification is a second engine on the driver's connection, not one of
-    # the batch pipes: stop the search in flight as well, and let writeGame's
-    # cancelled guard drop any answer that was already on its way.
-    catch { ::reviewverify::stop }
+    # the batch pipes. Do not call ::reviewverify::stop without a token here: it
+    # may belong to a Game Review. The cancelled guard and the run id drop any
+    # batch answer that was already on its way.
     foreach pipe $pipes {
         catch { puts $pipe "quit" }
         catch { close $pipe }
@@ -578,7 +582,7 @@ proc ::batch_annotate::finalize_game {pipe} {
     catch { set engineName $::batch_annotate::engine_name }
     set p [dict create map $map plan $plan plies [dict get $map plies] \
         bookEnd $bookEnd mpv $::batch_annotate::mpv \
-        engine $engineName \
+        engine $engineName runId $::batch_annotate::run_id \
         verifier [::batch_annotate::verifierEngine] \
         limits [dict create depth $::batch_annotate::depth \
             movetime $::batch_annotate::movetime]]
@@ -605,7 +609,11 @@ proc ::batch_annotate::writeGame {pipe game_id map plan bookEnd p results correc
     variable base
     # Cancel closes the batch and closes the batch's own pipes. A verification
     # answer that was already in flight is not a reason to write one more game or
-    # to show the completion box over the cancelled run.
+    # to show the completion box over the cancelled run. A new batch has its own
+    # run id, so an answer from the previous run cannot write into it either.
+    set runId ""
+    catch { set runId [dict get $p runId] }
+    if {$runId ne "" && $runId ne $::batch_annotate::run_id} { return }
     if {[info exists ::batch_annotate::cancelled] && $::batch_annotate::cancelled} {
         return
     }

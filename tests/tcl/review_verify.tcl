@@ -319,6 +319,18 @@ checkEq "a cancelled batch writes nothing" $cancelledComment ""
 checkEq "and does not consult the transform" $::verifyCalls 0
 set ::batch_annotate::cancelled 0
 
+# A verifier answer from an older batch carries that run's id. A new batch is a
+# different run even when its cancelled flag is off; the old answer writes nothing.
+::fx::reset
+resetCalls
+set ::batch_annotate::run_id 2
+set stale [dict merge $bp [dict create runId 1]]
+::batch_annotate::writeGame pipe0 1 $map {1 2 3 4} 0 $stale $bres $visible
+set staleComment ""
+catch { set staleComment [dict get [::gamestub::commentsByPly] 2] }
+checkEq "an answer from the previous batch writes nothing" $staleComment ""
+checkEq "and does not consult the transform" $::verifyCalls 0
+
 puts "\n  rapid annotate"
 
 ::fx::reset
