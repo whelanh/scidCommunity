@@ -594,12 +594,21 @@ namespace eval book {
   ################################################################################
   proc hoverMove { move state } {
     set w .bookWin
-    set color {}
-    if {$state == "enter"} { set color grey }
     for {set b 1} {$b <= 3} {incr b} {
-      if {![winfo exists $w.$b.booktext]} { continue }
-      catch { $w.$b.booktext tag configure mv$move -background $color }
+      set txt $w.$b.booktext
+      if {![winfo exists $txt]} { continue }
+      set color {}
+      if {$state == "enter"} { set color [hoverColour $txt] }
+      catch { $txt tag configure mv$move -background $color }
     }
+  }
+
+  # a faint tint of the text colour over the background: visible, yet the
+  # (possibly coloured) move text stays readable in light and dark themes
+  proc hoverColour { txt } {
+    set bg [winfo rgb $txt [$txt cget -background]]
+    set fg [winfo rgb $txt [$txt cget -foreground]]
+    return [format "#%02x%02x%02x" {*}[lmap a $bg b $fg {expr {int(0.85 * $a + 0.15 * $b) >> 8}}]]
   }
 
   ################################################################################
