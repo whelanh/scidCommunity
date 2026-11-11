@@ -935,6 +935,15 @@ proc ::reviewdriver::runProgress {done total ply lines} {
     if {$cmd ne ""} { catch { {*}$cmd $done $total } }
 }
 
+# Whether two presets are the same engine: the same executable with the same
+# arguments. A duplicate preset has a different name but the same engine, and a
+# second opinion from it is not independent either.
+proc ::reviewdriver::sameEngine {a b} {
+    if {[llength $a] < 2 || [llength $b] < 2} { return 0 }
+    return [expr {[lindex $a 1] eq [lindex $b 1] \
+        && [lindex $a 2] eq [lindex $b 2]}]
+}
+
 # The shared transform every writer runs before it writes: the verifier's
 # corrections folded into the results, so the label each move is written with is
 # the one the second engine agreed with.
@@ -973,14 +982,15 @@ proc ::reviewdriver::verifyWrite {p results write} {
     catch { set name [dict get $p verifier] }
     # A second opinion from the same engine is not a second opinion. The UI lists
     # every preset; a run whose verifier names the engine that produced the labels
-    # writes them unverified rather than letting the engine confirm itself.
-    set analysis ""
-    catch {
-        set engine [dict get $p engine]
-        set analysis [expr {[llength $engine] > 1 ? [lindex $engine 0] : $engine}]
-    }
-    if {$name ne "" && $analysis ne "" && $analysis eq $name} {
+    # - or a duplicate preset of the same executable and arguments - writes them
+    # unverified rather than letting the engine confirm itself.
+    set analysisCfg ""
+    catch { set analysisCfg [dict get $p engine] }
+    set cfg ""
+    if {$name ne ""} { catch { set cfg [::enginecfg::get $name] } }
+    if {$name ne "" && [::reviewdriver::sameEngine $analysisCfg $cfg]} {
         set name ""
+        set cfg ""
     }
     set jobs {}
     if {$name ne "" && [llength [info commands ::reviewverify::jobs]]} {
@@ -1002,8 +1012,6 @@ proc ::reviewdriver::verifyWrite {p results write} {
         {*}$write $results $none
         return 0
     }
-    set cfg ""
-    catch { set cfg [::enginecfg::get $name] }
     # Two lines whatever the pass asked for: a Great claim is the gap between the
     # best and the second line, and one line cannot measure it.
     set mpv 2

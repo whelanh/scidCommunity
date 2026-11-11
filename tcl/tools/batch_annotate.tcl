@@ -580,9 +580,12 @@ proc ::batch_annotate::finalize_game {pipe} {
     # pipes are already on the next game by the time it answers.
     set engineName ""
     catch { set engineName $::batch_annotate::engine_name }
+    set engineCfg ""
+    if {$engineName ne ""} { catch { set engineCfg [::enginecfg::get $engineName] } }
     set p [dict create map $map plan $plan plies [dict get $map plies] \
         bookEnd $bookEnd mpv $::batch_annotate::mpv \
-        engine $engineName runId $::batch_annotate::run_id \
+        engine $engineCfg base $::batch_annotate::base \
+        runId $::batch_annotate::run_id \
         verifier [::batch_annotate::verifierEngine] \
         limits [dict create depth $::batch_annotate::depth \
             movetime $::batch_annotate::movetime]]
@@ -622,8 +625,13 @@ proc ::batch_annotate::writeGame {pipe game_id map plan bookEnd p results correc
     set results [::reviewdriver::verified $results $corrections]
     if {[dict size $corrections]} { dict set p corrections $corrections }
 
+    # The base is the run's, not whatever ::batch_annotate::base names now: a new
+    # dialog can overwrite the namespace while this answer is still in flight.
+    set runBase ""
+    catch { set runBase [dict get $p base] }
+    if {$runBase eq ""} { set runBase $base }
     set prev_base [sc_base current]
-    if {$prev_base != $base} { sc_base switch $base }
+    if {$prev_base != $runBase} { sc_base switch $runBase }
 
     sc_game push copy
     sc_game load $game_id
@@ -632,6 +640,6 @@ proc ::batch_annotate::writeGame {pipe game_id map plan bookEnd p results correc
 
     sc_game save $game_id
     sc_game pop
-    ::notify::DatabaseModified [sc_base current]
+    ::notify::DatabaseModified $runBase
     ::batch_annotate::check_completion
 }

@@ -303,10 +303,10 @@ rename ::reviewdriver::verdicts ::reviewdriver_verdicts_real_
 proc ::reviewdriver::verdicts {map results} { return [dict create 2 {brilliant 0 1}] }
 set same [dict create map $::map plan {1 2 3 4} plies 4 bookEnd 0 mpv 3 \
     engine [list Komodo /usr/bin/komodo {} {} 0 0 {} 1 {} {}] \
-    verifier Komodo limits [dict create depth 20]]
+    verifier {Komodo copy} limits [dict create depth 20]]
 set ::wroteSame 0
 proc sameWrite {results corrections} { set ::wroteSame 1 }
-checkEq "the same preset writes unverified" \
+checkEq "a duplicate preset of the same engine writes unverified" \
     [::reviewdriver::verifyWrite $same $::results [list sameWrite]] 0
 checkEq "and starts no second search" $::sent {}
 checkEq "but the write still happens" $::wroteSame 1

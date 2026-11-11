@@ -278,11 +278,12 @@ the session, and the dialog refuses to store such a name in the first place.
 
 `Verifier engine` names a **second** engine, not the one the pass searched with:
 a label re-confirmed by the engine that produced it proves nothing. If the
-selected preset is the same as the engine that produced the labels, the run
-writes them unverified rather than let that engine confirm itself. When it names
-a different engine, every move the pass would label `brilliant` or `great` is
-re-searched on that engine before anything is written, under the pass's own depth
-and its own time cap — a capped review stays capped in its second opinion too. If the second
+selected preset is the same as the engine that produced the labels - including a
+duplicate preset with the same executable and arguments - the run writes them
+unverified rather than let that engine confirm itself. When it names a different
+engine, every move the pass would label `brilliant` or `great` is re-searched on
+that engine before anything is written, under the pass's own depth and its own
+time cap — a capped review stays capped in its second opinion too. If the second
 engine prefers a different move, or a Great move's measured gap to its own
 second line is below the ladder's threshold, the move is written `best` instead:
 the next label down, with no new vocabulary and no "unverified" state. Nothing else is re-searched, and a
@@ -305,8 +306,9 @@ new connection's handshake. When two callers want that connection at
 once — the batch annotator finishing a second game while the first game's second
 opinion is still running — the later search waits its turn on it: it is neither
 skipped (which would write a label nobody verified) nor allowed to take the
-connection from the search in flight. Cancelling a batch also stops its pending
-verification; an answer that arrives late writes nothing. Book still wins: a move
+connection from the search in flight. Cancelling a batch drops its pending
+verification: the search may still finish, but an answer that arrives late is not
+written. Book still wins: a move
 inside the opening is theory and is not re-searched (a ply the reader named for
 Move Comment is, because they asked about that move).
 
