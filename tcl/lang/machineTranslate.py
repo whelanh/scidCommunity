@@ -65,68 +65,75 @@ Note: Most common codes are 2 letters, Chinese uses special codes
 
 import sys
 import argparse
-import googletrans
-from googletrans import Translator
 import re
 import time
-import asyncio
-import inspect
 import os
-
-# googletrans changed from a synchronous API (<= 3.1.0) to an asyncio-based API
-# (>= 4.0.0), where Translator.translate() became a coroutine and Translator
-# became an async context manager. Detect which flavour is installed once, so
-# the rest of this script can stay synchronous regardless of the version.
-_IS_ASYNC = inspect.iscoroutinefunction(Translator.translate)
+import json
+import shutil
+import subprocess
+import urllib.parse
 
 
-class TranslationSession:
-    """Synchronous facade over googletrans that works with both the old
-    synchronous (<= 3.1.0) and the new asyncio-based (>= 4.0.0) API.
+class CurlSession:
+    """Translate through Google's free endpoint using ``curl``.
 
-    For the async API we keep a single persistent event loop for the whole
-    run: creating a fresh loop per call (e.g. asyncio.run) would close the
-    loop that the internal httpx.AsyncClient is bound to and raise
-    "Event loop is closed" on the next translation.
+    The ``googletrans`` library talks to Google over Python's ``httpx`` stack,
+    which Google fingerprint-blocks with HTTP 429 (returning a "Sorry" page)
+    while the same request through ``curl`` still succeeds. So this transport
+    shells out to ``curl`` and parses the JSON reply directly.
+
+    It keeps the same ``translate(text, src, dest)`` interface the rest of the
+    script (``safe_translate`` / ``translate_preserving``) expects.
     """
 
+    USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
+
     def __init__(self):
-        self._loop = None
-        if _IS_ASYNC:
-            self._loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(self._loop)
-        self._translator = Translator()
+        self._exe = shutil.which('curl')
+        if not self._exe:
+            raise RuntimeError(
+                'curl not found: install curl to run the machine translation')
 
     def translate(self, text, src='auto', dest='en'):
-        if _IS_ASYNC:
-            res = self._loop.run_until_complete(
-                self._translator.translate(text, src=src, dest=dest))
-        else:
-            res = self._translator.translate(text, src=src, dest=dest)
-            # Belt-and-suspenders: handle a future version that returns an
-            # awaitable without being flagged as a coroutine function.
-            if inspect.isawaitable(res):
-                loop = self._loop or asyncio.new_event_loop()
-                res = loop.run_until_complete(res)
-        return res.text if hasattr(res, 'text') else str(res)
+        url = ('https://translate.googleapis.com/translate_a/single?'
+               + urllib.parse.urlencode({
+                   'client': 'gtx',
+                   'sl': src,
+                   'tl': dest,
+                   'dt': 't',
+                   'q': text,
+               }))
+        proc = subprocess.run(
+            [self._exe, '-s', '--max-time', '30',
+             '-A', self.USER_AGENT, url],
+            capture_output=True, text=True)
+
+        if proc.returncode != 0:
+            raise RuntimeError(
+                'curl failed: {}'.format(proc.stderr.strip()[:200]))
+
+        body = proc.stdout.strip()
+        try:
+            data = json.loads(body)
+        except json.JSONDecodeError:
+            # Google's rate-limit / bot page is HTML, not JSON.
+            raise RuntimeError(
+                'non-JSON reply (rate-limited or blocked): {}'.format(body[:120]))
+
+        if not isinstance(data, list) or not data or not isinstance(data[0], list):
+            raise RuntimeError('unexpected reply shape: {}'.format(body[:120]))
+
+        translated = ''.join(seg[0] for seg in data[0] if seg and seg[0])
+        if not translated:
+            raise RuntimeError('empty translation')
+        return translated
 
     def close(self):
-        try:
-            client = getattr(self._translator, 'client', None)
-            if _IS_ASYNC:
-                if client is not None and hasattr(client, 'aclose') and self._loop is not None:
-                    self._loop.run_until_complete(client.aclose())
-            elif client is not None and hasattr(client, 'close'):
-                client.close()
-        except Exception:
-            pass
-        finally:
-            if self._loop is not None:
-                self._loop.close()
-                self._loop = None
+        pass
 
 # Language file to language code mapping
-# We don't do    'serbian.tcl': 'sr',      # Serbian because googletrans doesn't have serbian latinate
+# 'serbian.tcl' is intentionally absent: Google Translate has no Serbian
+# written in the Latin alphabet, so it cannot be maintained here.
 LANGUAGE_FILE_MAP = {
     'catalan.tcl': 'ca',      # Catalan
     'czech.tcl': 'cs',        # Czech
@@ -287,6 +294,44 @@ def restore_placeholders(text, specs):
     return out
 
 
+# Literal technical identifiers that must survive translation verbatim: the
+# Lichess API scope names, the curl executable, and the Lichess brand. Google
+# otherwise translates these (curl -> "hair curl", Lichess -> 巫妖, study:read
+# -> the local word for "read"), which breaks the token-creation instructions
+# and the curl-not-found message.
+LITERAL_RE = re.compile(r'\b(study:read|study:write|curl|Lichess)\b')
+LITERAL_TOKEN = '[[[LT{}]]]'
+LITERAL_TOKEN_RE = re.compile(r'\[\[\[\s*LT\s*(\d+)\s*\]\]\]', re.IGNORECASE)
+
+
+def mask_literals(text):
+    """Return (text with literal identifiers replaced by tokens, originals)."""
+    terms = []
+
+    def replace(match):
+        terms.append(match.group(0))
+        return LITERAL_TOKEN.format(len(terms) - 1)
+
+    return LITERAL_RE.sub(replace, text), terms
+
+
+def restore_literals(text, terms):
+    """Put the literal identifiers back. None when one was lost or changed."""
+    seen = set()
+
+    def replace(match):
+        index = int(match.group(1))
+        if index < 0 or index >= len(terms):
+            return match.group(0)
+        seen.add(index)
+        return terms[index]
+
+    out = LITERAL_TOKEN_RE.sub(replace, text)
+    if len(seen) != len(terms) or LITERAL_TOKEN_RE.search(out):
+        return None
+    return out
+
+
 def translate_segments(session, text, src, dest):
     """Translate the prose between placeholders and join the originals back in.
 
@@ -316,22 +361,26 @@ def translate_segments(session, text, src, dest):
 
 
 def translate_preserving(session, text, src='en', dest='es'):
-    """Translate one entry without losing its format specifiers.
+    """Translate one entry without losing its format specifiers or literal terms.
 
     The whole string is translated once with tokens in place, which keeps the
-    grammar around the placeholders. If a token does not come back exactly
-    once, the text between the placeholders is translated in pieces instead.
+    grammar around the placeholders and technical identifiers. If a token does
+    not come back exactly once, the text between the placeholders is translated
+    in pieces instead.
     """
     if not text or not text.strip():
         return text
-    masked, specs = mask_placeholders(text)
-    if not specs:
+    lit_masked, terms = mask_literals(text)
+    masked, specs = mask_placeholders(lit_masked)
+    if not specs and not terms:
         return safe_translate(session, text, src=src, dest=dest)
     translated = safe_translate(session, masked, src=src, dest=dest)
     if translated is not None:
         restored = restore_placeholders(translated, specs)
         if restored is not None:
-            return restored
+            restored = restore_literals(restored, terms)
+            if restored is not None:
+                return restored
     return translate_segments(session, text, src=src, dest=dest)
 
 
@@ -406,10 +455,26 @@ def selftest():
         print(f"FAIL positional specifiers: 'game %2$s of %1$s' -> {got!r}")
         failures += 1
 
+    # Literal identifiers (curl, Lichess, study:read/write) must survive.
+    literals = [
+        'curl not found',
+        'scopes study:read and study:write',
+        'Publish to Lichess study',
+    ]
+    for text in literals:
+        got = translate_preserving(Identity(), text)
+        if got != text:
+            print(f"FAIL literal identity: {text!r} -> {got!r}")
+            failures += 1
+        masked, terms = mask_literals(text)
+        if restore_literals(masked, terms) != text:
+            print(f"FAIL literal round-trip: {text!r}")
+            failures += 1
+
     if failures:
         print(f"{failures} placeholder guard failures")
         return 1
-    print(f"placeholder guard: {len(cases) * 4 + len(prose) + 3} cases ok")
+    print(f"placeholder guard: {len(cases) * 4 + len(prose) + 3 + 2 * len(literals)} cases ok")
     return 0
 
 
@@ -475,7 +540,7 @@ def process_all_files(script_dir):
     print("="*70)
 
 def process_file(input_file, target_language, encoding, return_stats=False):
-    session = TranslationSession()
+    session = CurlSession()
     output_file = input_file + '.new'
 
     if encoding is None:
@@ -631,7 +696,7 @@ Examples:
     if args.selftest:
         sys.exit(selftest())
 
-    print(f"googletrans {googletrans.__version__} - {'async' if _IS_ASYNC else 'sync'} mode")
+    print("translation transport: curl")
 
     if args.all:
         # Process all language files
