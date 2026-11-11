@@ -660,6 +660,11 @@ namespace eval epd {
           -message {Only UCI engines supported} -parent $w
       return
     }
+    if {![string is integer -strict $::epdDelay] || $::epdDelay < 1} {
+      tk_messageBox -type ok -icon info -title "EPD analysis" -parent $w \
+          -message {The analysis time must be at least 1 second.}
+      return
+    }
     set name [$w.engine.combo get]
 
     set logfile ""
@@ -935,7 +940,7 @@ namespace eval epd {
         set pv ""
         catch {
           set ew [::enginewin::reviewWindow $win]
-          set pv [::enginewin::getMoves $ew.display.pv_lines 1.0]
+          set pv [::enginewin::getMoves $ew.display.pv_lines 1.end]
         }
         if {$pv ne ""} { append text "pv $pv\n" }
       }
