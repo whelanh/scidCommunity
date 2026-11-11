@@ -31,6 +31,7 @@ namespace eval epd {
   variable stripField {}
   variable epdTimer
   variable epdEngineName
+  variable analysisRunning 0
   variable bestMoves {}
   variable epdName
   variable saveLog 0
@@ -172,9 +173,12 @@ namespace eval epd {
     ttk::frame $w.bottom
     ttk::label $w.bottom.status -font font_Small
     ttk::entry $w.bottom.find -width 10 -font font_Small
+    ttk::button $w.bottom.stop -text [tr Stop] -state disabled \
+        -command "::epd::stopAnalysis $id"
     bind  $w.bottom.find <Return> "::epd::epdFindText $id $w.bottom.find"
     pack $w.bottom.status -side left
     pack $w.bottom.find   -side right
+    pack $w.bottom.stop   -side right -padx 4
     listbox $w.lb  -font font_Regular -width 60 -height 8 -setgrid 1 -yscrollcommand "$w.ybar2 set" \
         -xscrollcommand "$w.xbar2 set" -selectmode single -exportselection false \
         -highlightthickness 0 -relief flat
@@ -250,7 +254,6 @@ namespace eval epd {
     bind $w <Control-A> "::epd::addPosition $id"
     bind $w <Control-O> "::epd::chooseStripField $id"
     bind $w <Control-w> "::epd::closeEpdWin $id"
-    bind $w.lb <space> {toggleEngineAnalysis}
     bind $w <Control-s> "
       if {\[$w.text edit modified\]} {::epd::storeEpdText $id}
       ::epd::saveEpdWin $id"
@@ -316,6 +319,9 @@ namespace eval epd {
       if {$::epd::answer == 0} { ::epd::saveEpdWin $id }
     }
     bind .epd$id <Destroy> ""
+    # A run owns an engine and a waiting loop; closing the window cancels both.
+    catch { ::epd::stopAnalysis $id }
+    catch { ::epdanalysis::close }
     sc_epd close $id
     focus .main
     destroy .epd$id
@@ -667,43 +673,32 @@ namespace eval epd {
     ::epd::launchAnnotateEpd $id $idx $name $logfile
   }
 
-  ###  Launch the analysis engine and annotate each EPD, starting from the top.
-  ###  engineIdx is the index into $::engines(list) of the engine to use.
-  ###  Pausing the analysis engine terminates annotation.
+  ###  Launch a headless UCI engine and annotate each EPD, starting from the top.
+  ###  engineIdx is kept for the caller's shape; the preset name is what opens.
+  ###  The Stop button, or closing the EPD window, ends the pass.
   ###  If logfile is non-empty, the per-position results are written to it.
   proc launchAnnotateEpd {id engineIdx name {logfile ""}} {
     variable epdEngineName
     global epdAnnotateMode epdAnnotation epdDelay
+    variable analysisRunning
 
     set w .epd$id
     set epdEngineName [string map {{ } _} $name]
 
-    set epdAnnotation 1
-    $w.bottom.status configure -text "Analyzing with $epdEngineName ($epdDelay secs/move)"
-    update
-
-    if {$epdAnnotateMode != 1} { clearOpcodes $id }
-
-    # Open an analysis window running the chosen engine in a free slot.
-    # makeAnalysisWin expects the window slot number as its first argument
-    # and the engine index as its second.
-    set win [::enginelist::freeSlot]
-    makeAnalysisWin $win $engineIdx 1
-    if {![winfo exists .analysisWin$win]} {
-      $w.bottom.status configure -text "Failed to start analysis engine: $name"
+    set err [::epdanalysis::open $name]
+    if {$err ne ""} {
+      $w.bottom.status configure -text "Failed to start analysis engine: $err"
       set epdAnnotation 0
       return
     }
 
-    # Wait (up to ~10s) for the engine to finish its handshake and begin
-    # analysing, so the first position gets a real result and the loop's
-    # analyzeMode check below does not trip prematurely.
-    for {set waited 0} {$waited < 100} {incr waited} {
-      if {![winfo exists .analysisWin$win]} { break }
-      if {$::analysis(analyzeMode$win)} { break }
-      update
-      after 100
-    }
+    set epdAnnotation 1
+    set analysisRunning 1
+    catch { $w.bottom.stop configure -state normal }
+    $w.bottom.status configure -text "Analyzing with $epdEngineName ($epdDelay secs/move)"
+    update
+
+    if {$epdAnnotateMode != 1} { clearOpcodes $id }
 
     # Open the results log file, if requested.
     set logfp ""
@@ -727,63 +722,61 @@ namespace eval epd {
       }
     }
 
-    set size [sc_epd size $id ]
+    set size [sc_epd size $id]
     set bestMovesFound 0
     set bestMovesNoted 0
     set annErr ""
+    set cancelled 0
+    set i 0
+    set movetime [expr {int($epdDelay * 1000)}]
 
     for { set i 0 } { $i < $size } { incr i } {
-      # Navigate to and load this position (guarded).
       if {[catch {
         $w.lb selection clear 0 end
         $w.lb selection set $i
         $w.lb see $i
         update idletasks
         loadEpd $id
-        # Make sure the engine (whatever slot it is in) analyses this position.
-        updateAnalysis $win
-        set posStartMs [clock milliseconds]
       } iterErr]} { set annErr $iterErr ; break }
 
-      # Read the sought move(s) (bm/am) directly for THIS position. Do not
-      # rely on the deferred bestMoves variable: it is updated by updateEpdWin
-      # from an after-idle callback and therefore lags one position behind.
+      # Read the sought move(s) (bm/am) for THIS position before the search.
       set soughtMoves [::epd::soughtMovesFor $id]
+      set fen [sc_pos fen]
+      set posStartMs [clock milliseconds]
+      set ::epd::analysisSolveMs ""
+      set ::epd::analysisResult ""
 
-      # Track the first moment the engine's best move matches the sought
-      # move(s), so we can report the time-to-solve even if the engine later
-      # changes its mind. This is pure Tcl string work inside the event loop
-      # and does not slow the engine (which runs in its own process).
-      set solveMs ""
-      # Wait epdDelay seconds while actively pumping the event loop so the
-      # engine keeps analysing. Using an active wait (rather than
-      # after+vwait) is robust against timer starvation that occurs when a
-      # fast engine floods its output during infinite analysis.
-      set deadline [expr {[clock milliseconds] + int($epdDelay * 1000)}]
-      while {[clock milliseconds] < $deadline} {
-        if {![winfo exists .analysisWin$win]} { break }
-        if {$solveMs eq "" && $soughtMoves ne ""} {
-          set bmNow [::epd::bestMoveSAN $win]
-          if {$bmNow ne "" && [::epd::evalBestMove $soughtMoves $bmNow] eq "TRUE"} {
-            set solveMs [clock milliseconds]
-          }
+      # The first info line that matches bm/am gives the time-to-solve, even
+      # when the engine later changes its mind about the best move.
+      set onInfo [list apply {{data sought start} {
+        if {$::epd::analysisSolveMs ne "" || $sought eq ""} { return }
+        set bm [dict get $data best_san]
+        if {$bm ne "" && [::epd::evalBestMove $sought $bm] eq "TRUE"} {
+          set ::epd::analysisSolveMs [clock milliseconds]
         }
-        update
-        after 50
+      }} $soughtMoves $posStartMs]
+      set token [::epdanalysis::ask $fen $movetime \
+          [list apply {{data} { set ::epd::analysisResult $data }}] $onInfo]
+      if {$token eq "" && $::epd::analysisResult eq ""} {
+        set annErr "the engine did not start the search"
+        break
       }
+      if {$token ne ""} { vwait ::epd::analysisResult }
+      if {![winfo exists $w]} { set cancelled 1 ; break }
+      set data $::epd::analysisResult
+      if {![dict size $data]} { set annErr "the engine returned no result" ; break }
+      set reason [dict get $data error]
+      if {$reason eq "cancelled"} { set cancelled 1 ; break }
+      if {$reason ne ""} { set annErr $reason ; break }
+
       set solveTime "-"
-      if {$solveMs ne ""} {
-        set solveTime [format "%.1f" [expr {($solveMs - $posStartMs) / 1000.0}]]
+      if {$::epd::analysisSolveMs ne ""} {
+        set solveTime [format "%.1f" \
+            [expr {($::epd::analysisSolveMs - $posStartMs) / 1000.0}]]
       }
 
-      # Stop if the engine was paused or its window closed.
-      if {! [winfo exists .analysisWin$win] || !$::analysis(analyzeMode$win)} { break }
-
-      # Record and (optionally) annotate the result for this position (guarded
-      # so a single failure does not abort the run and leave the engine
-      # analysing indefinitely).
       if {[catch {
-        set foundMove [::epd::bestMoveSAN $win]
+        set foundMove [dict get $data best_san]
         set result [::epd::evalBestMove $soughtMoves $foundMove]
         set status {}
         if {$epdAnnotateMode > 0} {
@@ -799,27 +792,33 @@ namespace eval epd {
           }
         }
         if {$logfp != ""} {
-          ::epd::logAnnotateRow $logfp $win [expr {$i + 1}] $soughtMoves $foundMove $result $solveTime
+          ::epd::logAnnotateRow $logfp $data [expr {$i + 1}] \
+              $soughtMoves $foundMove $result $solveTime
         }
         if {$epdAnnotateMode != 1} {
-          pasteAnalysis $id $win $status
+          pasteAnalysisData $id $data $status
           storeEpdText $id
           updateEpdWin $id
         }
       } iterErr]} { set annErr $iterErr ; break }
     }
 
-    # Always stop the engine we started, whatever happened.
-    if {[winfo exists .analysisWin$win] && $::analysis(analyzeMode$win)} {
-      toggleEngineAnalysis $win
-    }
+    ::epdanalysis::close
+    set analysisRunning 0
+    catch { $w.bottom.stop configure -state disabled }
 
-    if {$annErr ne ""} {
-      $w.bottom.status configure -text "EPD analysis error: $annErr"
-    } elseif {$epdAnnotateMode > 0} {
-      set summary "Best moves found $bestMovesFound / $bestMovesNoted"
-      $w.bottom.status configure -text "Result $epdEngineName ($epdDelay secs/move): $summary"
-      if {$epdAnnotateMode == 2} { $w.text insert end "\n$summary" }
+    if {[winfo exists $w]} {
+      if {$annErr ne ""} {
+        $w.bottom.status configure -text "EPD analysis error: $annErr"
+      } elseif {$cancelled} {
+        $w.bottom.status configure -text "Analysis stopped."
+      } elseif {$epdAnnotateMode > 0} {
+        set summary "Best moves found $bestMovesFound / $bestMovesNoted"
+        $w.bottom.status configure -text "Result $epdEngineName ($epdDelay secs/move): $summary"
+        if {$epdAnnotateMode == 2} { $w.text insert end "\n$summary" }
+      } elseif {$i >= $size} {
+        $w.bottom.status configure -text "Analysis finished ($size positions)."
+      }
     }
 
     if {$logfp != ""} {
@@ -831,8 +830,7 @@ namespace eval epd {
     }
     set epdAnnotation 0
 
-    # Notify the user when the whole file has been processed without error.
-    if {$annErr eq "" && $i >= $size} {
+    if {[winfo exists $w] && $annErr eq "" && !$cancelled && $i >= $size} {
       set msg "Analysis finished ($size positions)."
       if {$epdAnnotateMode > 0 && $bestMovesNoted > 0} {
         append msg "\nBest moves found: $bestMovesFound / $bestMovesNoted"
@@ -841,36 +839,18 @@ namespace eval epd {
     }
   }
 
-  ###  Return the engine's principal variation (for the analysis window in the
-  ###  given slot) as a SAN string, or "" if unavailable.
-  proc pvSAN {win} {
-    set pv [string trim $::analysis(moves$win)]
-    if {$pv eq ""} { return "" }
-    # UCI engines report the PV in coordinate notation; convert to SAN so it
-    # can be compared with the SAN bm/am opcodes from the EPD file.
-    if {$::analysis(uci$win)} {
-      catch { set pv [sc_pos coordToSAN [sc_pos fen] $pv] }
+  # The EPD window's Stop button and its close path. The waiting vwait gets the
+  # cancelled result from ::epdanalysis, so the loop unwinds and closes the
+  # engine; this proc does not destroy the window.
+  proc stopAnalysis {id} {
+    variable analysisRunning
+    if {![info exists analysisRunning] || !$analysisRunning} { return }
+    set w .epd$id
+    if {[winfo exists $w]} {
+      $w.bottom.status configure -text "Stopping..."
+      catch { $w.bottom.stop configure -state disabled }
     }
-    return $pv
-  }
-
-  ###  Return the engine's current best move (first move of the PV) in SAN,
-  ###  for the analysis window in the given slot. Returns "" if unavailable.
-  proc bestMoveSAN {win} {
-    set move ""
-    regexp {[a-zA-Z][^ ]*} [::epd::pvSAN $win] move
-    return $move
-  }
-
-  ###  Return the slot number of the first open analysis engine window,
-  ###  or -1.
-  proc findAnalysisWin {} {
-    for {set n 1} {$n <= 16} {incr n} {
-      if {[winfo exists .analysisWin$n]} {
-        return $n
-      }
-    }
-    return -1
+    catch { ::epdanalysis::cancel }
   }
 
   ###  Return the slot number of the first open engineWin window, or -1.
@@ -883,32 +863,10 @@ namespace eval epd {
     return -1
   }
 
-  ###  Build EPD opcode text from a running or recently-run engine.
-  ###  Returns opcode lines (may be empty) by checking analysisWin first,
-  ###  then engineWin.
+  ###  Build EPD opcode text from a running or recently-run Engine Window.
+  ###  Returns opcode lines (may be empty) when no engine window is open.
   proc buildEngineOpcodes {} {
     set text {}
-
-    set win [::epd::findAnalysisWin]
-    if {$win != -1} {
-      set bm [::epd::bestMoveSAN $win]
-      if {$bm != ""} {
-        append text "bm $bm\n"
-      }
-      set dm [expr {abs($::analysis(scoremate$win))}]
-      if {$dm != 0} {
-        append text "dm $dm\n"
-        set pv [::epd::pvSAN $win]
-        if {$pv != ""} {
-          append text "pv $pv\n"
-        }
-      } else {
-        set ce [expr {int($::analysis(score$win) * 100)}]
-        if {[sc_pos side] == "black"} { set ce [expr {0 - $ce}] }
-        append text "ce $ce\n"
-      }
-      return $text
-    }
 
     set win [::epd::findEngineWin]
     if {$win != -1} {
@@ -986,14 +944,22 @@ namespace eval epd {
   }
 
   ###  Write one result row to the analysis log file.
-  proc logAnnotateRow {logfp win posNo soughtMoves foundMove result solveTime} {
-    set depth $::analysis(depth$win)
-    if {$::analysis(scoremate$win) != 0} {
-      set score [format "M%d" $::analysis(scoremate$win)]
+  proc logAnnotateRow {logfp data posNo soughtMoves foundMove result solveTime} {
+    set depth [dict get $data depth]
+    if {$depth eq ""} { set depth 0 }
+    set mate [dict get $data mate_white]
+    if {$mate ne "" && $mate != 0} {
+      set score [format "M%d" $mate]
     } else {
-      set score [format "%+.2f" $::analysis(score$win)]
+      set score [dict get $data score_white]
+      if {$score eq ""} {
+        set score "-"
+      } else {
+        set score [format "%+.2f" $score]
+      }
     }
-    set fen [string range [sc_pos fen] 0 end-4]
+    set fen [dict get $data fen]
+    set fen [string range $fen 0 end-4]
     if {$soughtMoves eq ""} { set soughtMoves "-" }
     if {$foundMove eq ""} { set foundMove "?" }
     puts $logfp [format "%-4d %-16s %-10s %-7s %7s %5s %8s  %s" \
@@ -1011,23 +977,9 @@ namespace eval epd {
   }
 
   ################################################################################
-  ###  Annotate a single (current) EPD line in compliance with the EPD spec.
+  ###  Remove the opcodes a previous paste wrote.
   ################################################################################
-  proc pasteAnalysis {id {win -1} {status {}}} {
-    variable epdEngineName
-    global analysis
-
-    set textwidget .epd$id.text
-    if {! [winfo exists $textwidget]} { return }
-
-    if {$win == -1} {
-      for {set i 0} {$i < [llength $::engines(list)]} {incr i} {
-        if {[winfo exists .analysisWin$i]} { set win $i ; break }
-      }
-    }
-    if {$win == -1} { return }
-
-    # Delete current opcodes "acd" "acn" "ce" "dm" "pv"
+  proc stripAnalysisOpcodes {textwidget} {
     set text [$textwidget get 1.0 end]
     $textwidget delete 1.0 end
     foreach line [split $text "\n"] {
@@ -1036,21 +988,65 @@ namespace eval epd {
         $textwidget insert end $line\n
       }
     }
+  }
 
-    $textwidget insert insert "acd $analysis(depth$win)\n"
-    $textwidget insert insert "acn $analysis(nodes$win)\n"
-    set dm [expr abs($analysis(scoremate$win))]
-    if { $dm != 0 } {
-      set ce [expr {32767 - ((2 * $dm) - 1)}]
+  ################################################################################
+  ###  Annotate a single (current) EPD line from a headless result dict.
+  ################################################################################
+  proc pasteAnalysisData {id data {status {}}} {
+    variable epdEngineName
+    global epdAnnotateMode
+
+    set textwidget .epd$id.text
+    if {! [winfo exists $textwidget]} { return }
+    stripAnalysisOpcodes $textwidget
+
+    set depth [dict get $data depth]
+    if {$depth eq ""} { set depth 0 }
+    set nodes [dict get $data nodes]
+    if {$nodes eq ""} { set nodes 0 }
+    set dm [dict get $data mate_stm]
+    set score [dict get $data score_stm]
+    if {$dm eq ""} {
+      set dm 0
+      if {$score eq ""} {
+        set ce 0
+      } else {
+        set ce [expr {int($score * 100)}]
+      }
     } else {
-      set ce [expr {int($analysis(score$win) * 100)} ]
-      if {[sc_pos side] == "black"} { set ce [expr {0 - $ce} ] }
+      set dm [expr {abs($dm)}]
+      set ce [expr {32767 - ((2 * $dm) - 1)}]
     }
+    $textwidget insert insert "acd $depth\n"
+    $textwidget insert insert "acn $nodes\n"
     $textwidget insert insert "ce $ce\n"
     $textwidget insert insert "dm $dm\n"
-    $textwidget insert insert "pv [::epd::pvSAN $win]\n"
-    if {$::epdAnnotateMode == 2 && $status != {}} {
+    $textwidget insert insert "pv [dict get $data pv_san]\n"
+    if {$epdAnnotateMode == 2 && $status ne ""} {
       $textwidget insert insert "$epdEngineName $status"
+    }
+  }
+
+  ################################################################################
+  ###  Paste the running Engine Window's analysis into the EPD line.
+  ################################################################################
+  proc pasteAnalysis {id {win -1} {status {}}} {
+    variable epdEngineName
+    global epdAnnotateMode
+
+    set textwidget .epd$id.text
+    if {! [winfo exists $textwidget]} { return }
+    set opcodes [::epd::buildEngineOpcodes]
+    if {[string trim $opcodes] eq ""} { return }
+    stripAnalysisOpcodes $textwidget
+    $textwidget insert insert $opcodes
+    if {$epdAnnotateMode == 2 && $status ne ""} {
+      set name ""
+      if {$win == -1} { set win [::epd::findEngineWin] }
+      if {$win != -1} { catch { set name $::enginewin_lastengine($win) } }
+      if {$name eq ""} { set name $epdEngineName }
+      $textwidget insert insert "$name $status"
     }
   }
 

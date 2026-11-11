@@ -73,6 +73,11 @@ jobs:
       - name: Review transport
         run: tclsh tests/tcl/review_transport.tcl
 
+      # The EPD window's headless analysis session: one connection, one
+      # position at a time, the result record the EPD writer consumes.
+      - name: EPD headless analysis
+        run: tclsh tests/tcl/epd_analysis.tcl
+
       - name: Batch annotate
         run: tclsh tests/tcl/batch_annotate.tcl
 
