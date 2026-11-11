@@ -121,6 +121,8 @@ set token [::epdanalysis::ask $fen 1000 [list apply {{d} { set ::result $d }}]]
 {*}$::engineCb {InfoBestMove {a1a8}}
 checkEq "the mate distance for the side to move" [dict get $::result mate_stm] 3
 checkEq "the mate distance for White" [dict get $::result mate_white] 3
+checkEq "a mate for the side to move encodes positive" [::epdanalysis::mateCe + 3] 32761
+checkEq "a mate against it encodes negative" [::epdanalysis::mateCe - 3] -32761
 
 puts "\nstop, disconnect and a second position"
 

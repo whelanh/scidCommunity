@@ -931,7 +931,7 @@ namespace eval epd {
         if {[regexp {^([+-]?)M(\d+)$} $scoreStr -> mateSign md]} {
           append text "dm $md\n"
           # dm is unsigned; ce carries the side-to-move direction.
-          set ce [expr {$mateSign eq "-" ? -32767 - 2 * $md : 32767 - 2 * $md}]
+          set ce [::epdanalysis::mateCe $mateSign $md]
           append text "ce $ce\n"
         } else {
           set ce [expr {int([string map {"+" ""} $scoreStr] * 100)}]
@@ -1068,7 +1068,7 @@ namespace eval epd {
       }
     } else {
       set dm [expr {abs($mate)}]
-      set ce [expr {$mate < 0 ? -32767 - 2 * $mate : 32767 - 2 * $mate}]
+      set ce [::epdanalysis::mateCe [expr {$mate < 0 ? "-" : "+"}] [expr {abs($mate)}]]
     }
     $textwidget insert insert "acd $depth\n"
     $textwidget insert insert "acn $nodes\n"

@@ -54,6 +54,14 @@ proc ::epdanalysis::sideSign {fen} {
     return [expr {[lindex [split $fen] 1] eq "b" ? -1 : 1}]
 }
 
+# The UCI/EPD ce encoding of a mate. `md` is the absolute distance; the sign is
+# the side-to-move direction. A negative mate is -32761 for -M3, not -32773:
+# the UCI parser uses -32767 - 2 * mate, and the mate itself is negative.
+proc ::epdanalysis::mateCe {sign md} {
+    if {$sign eq "-"} { return [expr {-32767 + 2 * $md}] }
+    return [expr {32767 - 2 * $md}]
+}
+
 # The result record the EPD code writes. Scores are kept in all three forms the
 # callers need: side to move (ce), White (the log and the old analysis display),
 # and a mate distance with its sign (dm/log).
