@@ -1781,8 +1781,8 @@ translate G Selected {Επιλεγμένο}
 translate G RoundRobin {Round Robin}
 translate G Gauntlet {Γάντι}
 translate G CompGameNext {Επόμενο παιχνίδι:}
-translate G TimeperGame {Χρόνος ανά\Παιχνίδι}
-translate G TimeperMove {Χρόνος ανά\Μετακίνηση}
+translate G TimeperGame {Χρόνος ανά\nΠαιχνίδι}
+translate G TimeperMove {Χρόνος ανά\nΜετακίνηση}
 translate G compStoreTime {Ώρα καταστήματος:}
 translate G Clock {Ρολόι}
 translate G compConcurrent {Ταυτόχρονα παιχνίδια:}
@@ -2019,7 +2019,7 @@ translate G FICSRated {Βαθμολογήθηκε}
 translate G FICSUnrated {Χωρίς αξιολόγηση}
 translate G FICSRegisteredPlayer {Μόνο εγγεγραμμένος παίκτης}
 translate G FICSFreePlayer {Δωρεάν παίκτης μόνο}
-translate G FICSNetError {Σφάλμα δικτύου\Δεν είναι δυνατή η σύνδεση}
+translate G FICSNetError {Σφάλμα δικτύου\nΔεν είναι δυνατή η σύνδεση}
 translate G OptionsFICS {FICS}
 translate G FICSTerminalColor {Χρώμα τερματικού}
 translate G FICSTextColor {Χρώμα κειμένου}

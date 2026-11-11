@@ -2011,7 +2011,7 @@ translate k FICSRated {등급}
 translate k FICSUnrated {등급 없음}
 translate k FICSRegisteredPlayer {등록된 플레이어만}
 translate k FICSFreePlayer {무료 플레이어만 해당}
-translate k FICSNetError {시스템 오류\연결은 불가능합니다.}
+translate k FICSNetError {시스템 오류\n연결은 불가능합니다.}
 translate k OptionsFICS {FICS}
 translate k FICSTerminalColor {단자 색상}
 translate k FICSTextColor {텍스트 색상}

@@ -1332,7 +1332,7 @@ translate g TwinCheckTag {Споделяне на етикети...}
 translate g TwinCheckFound1 {Scid намери $result двойни игри}
 translate g TwinCheckFound2 {и задайте техните флагове за изтриване}
 translate g TwinCheckNoDelete {В тази база данни няма игри за изтриване.}
-translate g TwinCriteria1 {Вашите настройки за намиране на игри с близнаци е потенциално вероятно\да накарат игрите без близнаци с подобни ходове да бъдат маркирани като близнаци.}
+translate g TwinCriteria1 {Вашите настройки за намиране на игри с близнаци е потенциално вероятно\nда накарат игрите без близнаци с подобни ходове да бъдат маркирани като близнаци.}
 translate g TwinCriteria2 {Препоръчително е, ако изберете „Не“ за „едни и същи ходове“, да изберете „Да“ за настройките за цветове, събитие, сайт, кръг, година и месец.\nИскате ли да продължите и да изтриете близнаците въпреки това?}
 translate g TwinCriteria3 {Препоръчително е да посочите „Да“ за поне две от настройките „същият сайт“, „същият кръг“ и „същата година“.\nИскате ли въпреки това да продължите и да изтриете близнаци?}
 translate g TwinCriteriaConfirm {scidCommunity: Потвърдете настройките за близнаци}
@@ -1773,7 +1773,7 @@ translate g Selected {Избрано}
 translate g RoundRobin {Round Robin}
 translate g Gauntlet {Ръкавица}
 translate g CompGameNext {Следваща игра:}
-translate g TimeperGame {Време за\игра}
+translate g TimeperGame {Време за\nигра}
 translate g TimeperMove {Време на ход}
 translate g compStoreTime {Време за съхранение:}
 translate g Clock {Часовник}
@@ -1785,7 +1785,7 @@ translate g compCanceledGames {Отменени или изтекли игри:}
 translate g Replay {Повторение}
 translate g compStart {Започнете}
 translate g compSave {Запазване след всяка игра}
-translate g compStop {Спрете след края\на акта. игра}
+translate g compStop {Спрете след края\nна акта. игра}
 translate g compRunning {Турнирът е в ход}
 translate g Restart {Рестартирайте}
 translate g compFinished {Турнирът приключи}
@@ -2011,7 +2011,7 @@ translate g FICSRated {Оценен}
 translate g FICSUnrated {Без оценка}
 translate g FICSRegisteredPlayer {Само регистриран играч}
 translate g FICSFreePlayer {Само безплатен играч}
-translate g FICSNetError {Мрежова грешка\Не може да се свърже с}
+translate g FICSNetError {Мрежова грешка\nНе може да се свърже с}
 translate g OptionsFICS {FICS}
 translate g FICSTerminalColor {Цвят на терминала}
 translate g FICSTextColor {Цвят на текста}

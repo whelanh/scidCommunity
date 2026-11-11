@@ -2011,7 +2011,7 @@ translate A FICSRated {評価済み}
 translate A FICSUnrated {未評価}
 translate A FICSRegisteredPlayer {登録プレイヤーのみ}
 translate A FICSFreePlayer {無料プレイヤーのみ}
-translate A FICSNetError {ネットワーク エラー\接続できません}
+translate A FICSNetError {ネットワーク エラー\n接続できません}
 translate A OptionsFICS {FICS}
 translate A FICSTerminalColor {端子色}
 translate A FICSTextColor {文字の色}

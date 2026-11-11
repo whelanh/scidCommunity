@@ -1733,7 +1733,7 @@ translate V Selected {נִבחָר}
 translate V RoundRobin {רובין עגול}
 translate V Gauntlet {כְּפָפַת שִׁריוֹן}
 translate V CompGameNext {המשחק הבא:}
-translate V TimeperGame {זמן ל\משחק}
+translate V TimeperGame {זמן ל\nמשחק}
 translate V TimeperMove {זמן לכל תנועה}
 translate V compStoreTime {זמן חנות:}
 translate V Clock {שָׁעוֹן}
@@ -1971,7 +1971,7 @@ translate V FICSRated {מדורג}
 translate V FICSUnrated {לא מדורג}
 translate V FICSRegisteredPlayer {שחקן רשום בלבד}
 translate V FICSFreePlayer {שחקן חינם בלבד}
-translate V FICSNetError {שגיאת רשת\לא ניתן להתחבר}
+translate V FICSNetError {שגיאת רשת\nלא ניתן להתחבר}
 translate V OptionsFICS {FICS}
 translate V FICSTerminalColor {צבע טרמינל}
 translate V FICSTextColor {צבע טקסט}

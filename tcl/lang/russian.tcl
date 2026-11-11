@@ -1756,8 +1756,8 @@ translate R Selected {Выбрано}
 translate R RoundRobin {Круговая система}
 translate R Gauntlet {Рукавица}
 translate R CompGameNext {Следующая игра:}
-translate R TimeperGame {Время за\Игру}
-translate R TimeperMove {Время за\ход}
+translate R TimeperGame {Время за\nИгру}
+translate R TimeperMove {Время за\nход}
 translate R compStoreTime {Время хранения:}
 translate R Clock {Часы}
 translate R compConcurrent {Параллельные игры:}
@@ -1994,7 +1994,7 @@ translate R FICSRated {Рейтинг}
 translate R FICSUnrated {Без рейтинга}
 translate R FICSRegisteredPlayer {Только зарегистрированный игрок}
 translate R FICSFreePlayer {Только бесплатный игрок}
-translate R FICSNetError {Ошибка сети\Невозможно подключиться к}
+translate R FICSNetError {Ошибка сети\nНевозможно подключиться к}
 translate R OptionsFICS {ФИКС}
 translate R FICSTerminalColor {Цвет терминала}
 translate R FICSTextColor {Цвет текста}

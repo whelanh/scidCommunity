@@ -1268,7 +1268,7 @@ translate M TwinCheckTag {分享标签...}
 translate M TwinCheckFound1 {Scid 发现 $result 双胞胎游戏}
 translate M TwinCheckFound2 {并设置它们的删除标志}
 translate M TwinCheckNoDelete {此数据库中没有要删除的游戏。}
-translate M TwinCriteria1 {您查找双胞胎游戏的设置可能会\导致具有相似动作的非双胞胎游戏被标记为双胞胎。}
+translate M TwinCriteria1 {您查找双胞胎游戏的设置可能会\n导致具有相似动作的非双胞胎游戏被标记为双胞胎。}
 translate M TwinCriteria2 {建议如果您为“相同动作”选择“否”，则应为颜色、事件、地点、回合、年份和月份设置选择“是”。\n是否仍要继续并删除双胞胎？}
 translate M TwinCriteria3 {建议您对“同一站点”、“同一回合”和“同一年份”设置中的至少两项指定“是”。\n是否仍要继续并删除孪生？}
 translate M TwinCriteriaConfirm {Scid：确认孪生设置}
@@ -1710,7 +1710,7 @@ translate M RoundRobin {循环赛}
 translate M Gauntlet {挑战}
 translate M CompGameNext {下一场比赛：}
 translate M TimeperGame {每场比赛时间}
-translate M TimeperMove {每次\移动时间}
+translate M TimeperMove {每次\n移动时间}
 translate M compStoreTime {储存时间：}
 translate M Clock {钟}
 translate M compConcurrent {并发游戏：}
@@ -1947,7 +1947,7 @@ translate M FICSRated {额定}
 translate M FICSUnrated {未评级}
 translate M FICSRegisteredPlayer {仅限注册玩家}
 translate M FICSFreePlayer {仅限免费玩家}
-translate M FICSNetError {网络错误\无法连接}
+translate M FICSNetError {网络错误\n无法连接}
 translate M OptionsFICS {菲克斯}
 translate M FICSTerminalColor {端子颜色}
 translate M FICSTextColor {文字颜色}

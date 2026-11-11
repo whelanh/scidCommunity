@@ -1733,8 +1733,8 @@ translate Q Selected {Вибране}
 translate Q RoundRobin {Кругова система}
 translate Q Gauntlet {рукавичка}
 translate Q CompGameNext {Наступна гра:}
-translate Q TimeperGame {Час на\Гру}
-translate Q TimeperMove {Час на\хід}
+translate Q TimeperGame {Час на\nГру}
+translate Q TimeperMove {Час на\nхід}
 translate Q compStoreTime {Час зберігання:}
 translate Q Clock {Годинник}
 translate Q compConcurrent {Одночасні ігри:}

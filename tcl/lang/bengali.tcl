@@ -1970,7 +1970,7 @@ translate b FICSRated {রেট}
 translate b FICSUnrated {মূল্যহীন}
 translate b FICSRegisteredPlayer {শুধুমাত্র নিবন্ধিত খেলোয়াড়}
 translate b FICSFreePlayer {শুধুমাত্র ফ্রি প্লেয়ার}
-translate b FICSNetError {নেটওয়ার্ক ত্রুটি\কানেক্ট করা যাচ্ছে না}
+translate b FICSNetError {নেটওয়ার্ক ত্রুটি\nকানেক্ট করা যাচ্ছে না}
 translate b OptionsFICS {FICS}
 translate b FICSTerminalColor {টার্মিনাল রঙ}
 translate b FICSTextColor {পাঠ্যের রঙ}
