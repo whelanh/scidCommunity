@@ -18,11 +18,20 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Fetch tags
-        run: git fetch --force --tags
-
       - name: Install Snapcraft
-        run: sudo snap install --classic snapcraft
+        run: |
+          for attempt in 1 2 3; do
+            if sudo snap install --classic snapcraft; then
+              break
+            fi
+
+            if [ "$attempt" -eq 3 ]; then
+              exit 1
+            fi
+
+            echo "snap install failed (attempt $attempt/3), retrying in 20s..."
+            sleep 20
+          done
 
       - name: Build snap
         id: build
