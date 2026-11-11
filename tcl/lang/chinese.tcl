@@ -929,7 +929,7 @@ translate M MoveLabelBook {定式}
 translate M GameComment {游戏评论}
 translate M GameCommentTooltip {扫描游戏中带注释的动作并生成 AI 摘要}
 translate M ReviewGameButton {对局复盘}
-translate M ReviewGameButtonTooltip {复盘主变例中的每一步并给出评语}
+translate M ReviewGameButtonTooltip {复盘当前变例中的每一步并给出评语}
 translate M ReviewMoveButton {着法评注}
 translate M ReviewMoveButtonTooltip {评注此处走出的着法并写入}
 translate M ReviewSettings {复盘设置}

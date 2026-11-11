@@ -952,7 +952,7 @@ translate Z MoveLabelBook {Nadharia}
 translate Z GameComment {Maoni ya Mchezo}
 translate Z GameCommentTooltip {Changanua mchezo kwa hatua zilizofafanuliwa na utoe muhtasari wa AI}
 translate Z ReviewGameButton {Mapitio ya mchezo}
-translate Z ReviewGameButtonTooltip {Pitia kila hatua ya mstari mkuu na ipe lebo}
+translate Z ReviewGameButtonTooltip {Pitia kila hatua ya mstari wa sasa na ipe lebo}
 translate Z ReviewMoveButton {Maoni ya hatua}
 translate Z ReviewMoveButtonTooltip {Ipe lebo hatua iliyochezwa hapa na iandike}
 translate Z ReviewSettings {Mipangilio ya mapitio}

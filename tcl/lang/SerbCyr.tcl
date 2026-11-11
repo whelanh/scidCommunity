@@ -993,7 +993,7 @@ translate J MoveLabelBook {Теорија}
 translate J GameComment {Гаме Цоммент}
 translate J GameCommentTooltip {Скенирајте игру за обележеним потезима и генеришете АИ резиме}
 translate J ReviewGameButton {Преглед партије}
-translate J ReviewGameButtonTooltip {Прегледај сваки потез главне линије и означи га}
+translate J ReviewGameButtonTooltip {Прегледај сваки потез текуће линије и означи га}
 translate J ReviewMoveButton {Коментар потеза}
 translate J ReviewMoveButtonTooltip {Означи одиграни потез одавде и упиши га}
 translate J ReviewSettings {Подешавања прегледа}

@@ -962,7 +962,7 @@ translate O MoveLabelBook {Teori}
 translate O GameComment {Spillkommentar}
 translate O GameCommentTooltip {Skann spillet for kommenterte trekk og generer AI-sammendrag}
 translate O ReviewGameButton {Vurder partiet}
-translate O ReviewGameButtonTooltip {Vurder hvert trekk i hovedlinjen og sett en merkelapp}
+translate O ReviewGameButtonTooltip {Vurder hvert trekk i gjeldende linje og sett en merkelapp}
 translate O ReviewMoveButton {Trekkkommentar}
 translate O ReviewMoveButtonTooltip {Vurder trekket som ble spilt herfra og skriv det inn}
 translate O ReviewSettings {Innstillinger for vurdering}

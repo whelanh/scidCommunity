@@ -953,7 +953,7 @@ translate V MoveLabelBook {תיאוריה}
 translate V GameComment {הערת משחק}
 translate V GameCommentTooltip {סרוק משחק לאיתור מהלכים מוערים והפק סיכום בינה מלאכותית}
 translate V ReviewGameButton {סקירת המשחק}
-translate V ReviewGameButtonTooltip {סקור כל מסע בקו הראשי ותן לו תווית}
+translate V ReviewGameButtonTooltip {סקור כל מסע בקו הנוכחי ותן לו תווית}
 translate V ReviewMoveButton {הערת מסע}
 translate V ReviewMoveButtonTooltip {תן תווית למסע ששוחק מכאן וכתוב אותו}
 translate V ReviewSettings {הגדרות הסקירה}

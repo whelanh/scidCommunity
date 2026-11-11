@@ -1318,7 +1318,7 @@ translate Y GameComment {Game Comment}
 # ====== TODO To be translated ======
 translate Y GameCommentTooltip {Scan game for annotated moves and generate AI summary}
 translate Y ReviewGameButton {Pregled partije}
-translate Y ReviewGameButtonTooltip {Pregledaj svaki potez glavne linije i označi ga}
+translate Y ReviewGameButtonTooltip {Pregledaj svaki potez tekuće linije i označi ga}
 translate Y ReviewMoveButton {Komentar poteza}
 translate Y ReviewMoveButtonTooltip {Označi odigrani potez odavde i upiši ga}
 translate Y ReviewSettings {Podešavanja pregleda}

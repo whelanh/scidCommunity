@@ -1009,7 +1009,7 @@ translate S MoveLabelBook {Teoría}
 translate S GameComment {Comentario del juego}
 translate S GameCommentTooltip {Escanee el juego en busca de movimientos anotados y genere un resumen de IA}
 translate S ReviewGameButton {Revisión de la partida}
-translate S ReviewGameButtonTooltip {Revisa cada jugada de la línea principal y etiquétala}
+translate S ReviewGameButtonTooltip {Revisa cada jugada de la línea actual y etiquétala}
 translate S ReviewMoveButton {Comentario de la jugada}
 translate S ReviewMoveButtonTooltip {Etiqueta la jugada realizada desde aquí y escríbela}
 translate S ReviewSettings {Ajustes de la revisión}

@@ -992,7 +992,7 @@ translate P MoveLabelBook {Teoria debiutowa}
 translate P GameComment {Komentarz do partii - AI}
 translate P GameCommentTooltip {Przeskanuj partię pod kątem opisanych posunięć i wygeneruj podsumowanie AI}
 translate P ReviewGameButton {Analiza partii}
-translate P ReviewGameButtonTooltip {Przeanalizuj każde posunięcie w głównym wariancie i oceń je}
+translate P ReviewGameButtonTooltip {Przeanalizuj każde posunięcie w bieżącym wariancie i oceń je}
 translate P ReviewMoveButton {Komentarz do posunięcia}
 translate P ReviewMoveButtonTooltip {Oceń podświetlone posunięcie i zapisz w partii}
 translate P ReviewSettings {Ustawienia analizy}

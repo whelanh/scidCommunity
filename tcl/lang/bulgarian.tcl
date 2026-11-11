@@ -993,7 +993,7 @@ translate g MoveLabelBook {Теория}
 translate g GameComment {Коментар на играта}
 translate g GameCommentTooltip {Сканирайте играта за анотирани ходове и генерирайте резюме на AI}
 translate g ReviewGameButton {Преглед на партията}
-translate g ReviewGameButtonTooltip {Прегледай всеки ход от главния вариант и му дай оценка}
+translate g ReviewGameButtonTooltip {Прегледай всеки ход от текущия вариант и му дай оценка}
 translate g ReviewMoveButton {Коментар на хода}
 translate g ReviewMoveButtonTooltip {Оцени изиграния ход и го запиши}
 translate g ReviewSettings {Настройки на прегледа}

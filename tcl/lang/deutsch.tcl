@@ -992,7 +992,7 @@ translate D MoveLabelBook {Theorie}
 translate D GameComment {Partie Kritik}
 translate D GameCommentTooltip {Durchsuchen Sie das Spiel nach kommentierten Zügen und erstellen Sie eine KI-Zusammenfassung}
 translate D ReviewGameButton {Partie prüfen}
-translate D ReviewGameButtonTooltip {Züge der Hauptvariante bewerten und eintragen}
+translate D ReviewGameButtonTooltip {Züge der aktuellen Variante bewerten und eintragen}
 translate D ReviewMoveButton {Zugkommentar}
 translate D ReviewMoveButtonTooltip {Aktuellen Zug bewerten und eintragen}
 translate D ReviewSettings {Einstellungen der Prüfung}

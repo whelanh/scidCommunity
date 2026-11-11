@@ -991,7 +991,7 @@ translate U MoveLabelBook {Teoria}
 translate U GameComment {Pelin kommentti}
 translate U GameCommentTooltip {Etsi pelistä selostettuja liikkeitä ja luo tekoälyn yhteenveto}
 translate U ReviewGameButton {Pelin tarkastus}
-translate U ReviewGameButtonTooltip {Tarkasta päälinjan jokainen siirto ja merkitse se}
+translate U ReviewGameButtonTooltip {Tarkasta nykyisen linjan jokainen siirto ja merkitse se}
 translate U ReviewMoveButton {Siirron kommentti}
 translate U ReviewMoveButtonTooltip {Merkitse tästä pelattu siirto ja kirjoita se}
 translate U ReviewSettings {Tarkastuksen asetukset}

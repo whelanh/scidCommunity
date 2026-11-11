@@ -993,7 +993,7 @@ translate k MoveLabelBook {정석}
 translate k GameComment {게임 코멘트}
 translate k GameCommentTooltip {이를 찾기 위해 게임을 검사하고 AI 요약을 생성합니다.}
 translate k ReviewGameButton {게임 검토}
-translate k ReviewGameButtonTooltip {주요 라인의 모든 수를 검토하고 평가하세요}
+translate k ReviewGameButtonTooltip {현재 라인의 모든 수를 검토하고 평가하세요}
 translate k ReviewMoveButton {수 코멘트}
 translate k ReviewMoveButtonTooltip {여기서 둔 수를 평가하고 기록하세요}
 translate k ReviewSettings {검토 설정}

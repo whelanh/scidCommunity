@@ -19,7 +19,7 @@ moves and an engine; Move Comment additionally needs a move under the cursor (th
 start position has none, the last move does), and both are disabled while a pass
 runs, which is what the stop icon is for.
 
-## Game Review — the whole main line
+## Game Review — the line the cursor is on
 
 The Game List's **Batch annotate** uses this same writer over its parallel
 engine pool, with these settings, so a batch of games gets what pressing Game
@@ -27,9 +27,10 @@ Review on each would have written. Its dialog only chooses the engine and the
 number of instances. **Rapid annotate** (Ctrl+Shift+A) uses the writer too, from
 the best line the score graph has already collected.
 
-Press **Game Review** and the pass searches every position of the main line at
-the review's depth, showing `Reviewing position n of m` in the button bar, and
-then writes the verdicts into the game: a label and a `[%eval]` on each move's
+Press **Game Review** and the pass searches every position of the line the
+cursor is on at the review's depth, showing `Reviewing position n of m` in the
+button bar, and then writes the verdicts into the game: a label and a `[%eval]`
+on each move's
 comment, the NAG the label implies (`??`, `?`, `?!`, `!`, `!!`, or none for
 best/excellent/good/book), a position assessment from the same score on the
 moves the review marks (`=`, `+=`, `+/-`, `+-`, `+--` and the Black half `=+`,
@@ -63,8 +64,24 @@ symbols point at the moves worth looking at. The same holds for a
 whether or not the review wrote it, because a NAG carries no owner.
 The board is back where the user left it when the pass ends.
 
-The positions come from `::reviewdriver::planPositions` over the snapshot
-`::review::mainLineMap` takes of the line, so:
+**The line the cursor is on.** On the main line the press is what it always was:
+`::review::mainLineMap` of `sc_game UCI_mainLine`, the whole game, the report,
+the Annotator tag, the opening marks and the coach as before. Inside a variation
+it reviews that line instead — `::review::currentLineMap` walks the main line to
+the branch, then the variation the cursor stands in, and any variation inside it,
+to that line's last move, and the pass is one mini-batch over that one map: one
+map, one pass, one progress job (`::reviewdriver::run -line <map>`). The judged
+set is the line's unlabelled nodes, so a partly reviewed line is finished node by
+node and a fully labelled one is reviewed again on the next press. A variation
+line writes the moves only — comment, `[%eval]`, NAG, assessment, diagram and the
+alternatives it keeps as variations. The report, the Annotator tag, the opening
+mark, the tactical-exercise flag and the coach's prose are whole-game artifacts:
+a review of a variation writes none of them, which is the `report 0` /
+`coach 0` a line pass is started with.
+
+The positions come from `::reviewdriver::planPositions` over the snapshot the map
+takes of the line — `::review::mainLineMap` on the main line,
+`::review::currentLineMap` inside a variation — so:
 
 - the board is never moved to build a position, and the pass is unaffected by
   where the user has scrolled to;
@@ -83,7 +100,10 @@ written `[Book]`, with no `[%eval]` and no variation, because there was no searc
 behind either; the early book positions are not searched either. The move that
 leaves the book and everything after it is judged normally.
 `::review::skip_book` (default on) turns this off; it has no row in Review
-Settings yet. Move Comment ignores the book: it judges the move it was asked
+Settings yet. A review of a variation line passes `bookEnd 0` and ignores
+`-bookEnd` altogether: the book is a main-line concept, so every node of the
+line is judged, and a prefix node already written `[Book]` counts as labelled.
+Move Comment ignores the book: it judges the move it was asked
 about, whichever opening it belongs to.
 
 Depth and MultiPV are **not** settings of the review dialog: they come from
@@ -431,7 +451,9 @@ the button stops it.
   number it already had. The
   board always shows the position the engine is searching — the driver's own
   `position` string replayed on a pure `::chessboard`, never the reader's game —
-  so none of these runs can walk the main board.
+  so none of these runs can walk the main board. The board follows the line being
+  searched, a variation line's own moves included, so the reader sees the
+  position the pass is on even when the cursor sits elsewhere in the game.
 
 Finish Game uses the same board. It collects the continuation on pure
 `::chessboard` positions — each move from the previous one — and writes once at
@@ -467,7 +489,9 @@ the block instead of stacking another under it. It removes only its own lines �
 the marker and the indented lines under it — so a note typed below the block
 survives the next review. The default writer of a whole-game pass calls it once
 the moves are in the game, so the header is part of a review rather than a
-separate command; a Move Comment pass names its plies and writes no report.
+separate command; a Move Comment pass names its plies and writes no report, and
+a review of a variation line writes none either: the figures describe the whole
+game, so only a review of the main line produces them.
 
 **It reads in the window's language.** The marker, the side names, the figures,
 the phase names and every move label in the tally and the key moments go through
@@ -695,10 +719,10 @@ plain-text form.
 | `tests/tcl/review_settings_dialog.tcl` | 68 checks: under Tk: the dialog builds, has OK/Cancel, stores what is typed, refuses a bad value, the variation box follows `mpv`, the time cap's row shows the preset's cap and drops the note, the on/off rows are checkboxes, the opening finder and exercise rows are saved and the opening window is refused outside 10–20, `Coach settings…` opens a window of its own from a dialog that holds no grab, and both traces are removed when the dialog closes |
 | `tests/tcl/review_ui.tcl` | 256 checks: the call a press makes, the status line (including the coach's counts), the button states, the dialog round trip, the precedence table through the dialog, the time cap's note, the verifier row's Off word and refused preset name, which move a comment judges, the move-comment depth, the key set |
 | `tests/tcl/review_toolbar.tcl` | 43 checks: the five review icons use `::icon::` names and exist in icons_light and icons_dark at 24×24, the whole engine toolbar uses `::icon::` images, the labels are tooltips rather than text, the stop icon is gridded only while a pass runs, a visible divider separates the review group from Config, the dark-theme cache matches `::icon::` names, and the threat button exists only when its command does and not in an embedded PGN viewer |
-| `tests/tcl/review_driver.tcl` | 320 checks: the pass against a stub engine, the four Go shapes the precedence table produces, a capped run, two reviews of the same game in a row, the engine window's hand-off to it, the completion hook, the engine name on an exported variation and in the Annotator tag, and the coach: started after the write, the run held open until the answers land, not started for a single move or an annotate pass, an annotate pass leaving the coach blocks alone, not holding a run open when it cannot start, and Cancel while the model is writing |
+| `tests/tcl/review_driver.tcl` | 491 checks: the pass against a stub engine, the line the cursor is on (its map, the pass over it, the node the verdict lands on, the whole-game layers staying off it, and Move Comment's index), the four Go shapes the precedence table produces, a capped run, two reviews of the same game in a row, the engine window's hand-off to it, the completion hook, the engine name on an exported variation and in the Annotator tag, and the coach: started after the write, the run held open until the answers land, not started for a single move or an annotate pass, an annotate pass leaving the coach blocks alone, not holding a run open when it cannot start, and Cancel while the model is writing |
 | `tests/tcl/review_verify.tcl` | 66 checks: only Brilliant and Great are jobs, book skips them but a named ply does not, the second engine agreeing or disagreeing about the move and about a Great move's gap, a correction only ever moving down to Best, a miss never becoming a candidate, fail-closed answers (nothing, an empty result, no second line, a bound), a mate score, and the callers that decide to write — `runDone`, `finalize_game` and `commit` — each reaching the seam with its verifier and bounds and writing its answer, with an all-flat run changing nothing, a cancelled batch not writing, a Rapid Annotate commit refusing another database, the verifier start waiting for the old connection to close, Cancel before that idle start dropping the run, that cancellation finishing the progress job, and an answer from a previous batch writing nothing |
 | `tests/tcl/review_verify_engine.tcl` | 56 checks: the verifier driven through the driver's own queue against a stub second engine at the pass's depth and cap, two lines asked for, the disagreement demoting both labels, the agreement correcting nothing, a silent answer correcting nothing, an engine lost mid-search writing as unverified, Cancel dropping the search, the engine closed after the reply rather than inside it, the seam handing the search the pass's own depth and cap, two callers taking turns on the one connection, the analysis engine refusing to verify itself, cancelling a queued token, and no `vwait` anywhere in the verifier path |
-| `tests/tcl/annotate_dialog.tcl` | 56 checks: the dialog's decision (pane preset, book end, tier, the non-UCI refusal), the blunders-only filter, and the Cancel label rule |
+| `tests/tcl/annotate_dialog.tcl` | 79 checks: the dialog's decision (pane preset, book end, tier, the non-UCI refusal), the blunders-only filter, and the Cancel label rule |
 | `tests/tcl/annotate_run.tcl` | 82 checks: the plan run against a stub engine, the write, the batch chain, the Cancel escalation and a cancelled run writing nothing |
 | `tests/tcl/review_report.tcl` | 115 checks: accuracy as the app's own figure and the parity a phase starting on Black's move needs, Elo, key moments, the endgame rule — one material total, with the six-piece net rejected at 38 points — the opening boundary — Smyrnov met and half met, rook-less and file/rank connectivity, mixedness at 150 and 161, the material net at ten and eleven, the first-firing signal at 17/21/25, no ply floor — and the block removal, two writes deep |
 | `tests/tcl/comment_colors.tcl` | 14 checks: the two writer colours, the wrapper's escaping and per-line form, the empty-wrapper cleanup, and a strip that takes a wrapper with its line while a reader's note beside it stays |
