@@ -516,10 +516,10 @@ namespace eval book {
       if {[llength $row] && [lindex $row 3 3]} { incr sumGames [lindex $row 3 5] }
     }
 
-    $txt configure -state normal -width 55
+    $txt configure -state normal -width 58
     $txt delete 1.0 end
-    $txt insert end [format "%-9s %8s %6s %6s %9s %5s %5s\n" \
-                       "Move" "Games" "Played" "Score" "W/D/B%" "Elo" "Perf"] obrHeader
+    $txt insert end [format "%-9s %8s %9s %6s %9s %5s %5s\n" \
+                       "Move" "Games" "Frequency" "Score" "W/D/B%" "Elo" "Perf"] obrHeader
     set line 1
     foreach row $rows {
       incr line
@@ -532,11 +532,11 @@ namespace eval book {
       if {$hasStats} {
         set eloTxt [expr {$elo > 0 ? $elo : "-"}]
         set perfTxt [expr {$perf > 0 ? $perf : "-"}]
-        set played [expr {$sumGames > 0 ? 100.0 * $games / $sumGames : 0}]
-        set text [format "%-9s %8d %5.1f%% %5.1f%% %9s %5s %5s" $label $games $played $score \
+        set freq [expr {$sumGames > 0 ? 100.0 * $games / $sumGames : 0}]
+        set text [format "%-9s %8d %8.1f%% %5.1f%% %9s %5s %5s" $label $games $freq $score \
                     [obrWdl $games $ww $dd $bw] $eloTxt $perfTxt]
-        set detail [format "%s  %d games (%.1f%% of moves played): +%d =%d -%d (White/Draw/Black)  score %.1f%%  Elo %s  Perf %s  colour %s  flags 0x%02X" \
-                      $label $games $played $ww $dd $bw $score $eloTxt $perfTxt [obrColour $rec $nag] $flags]
+        set detail [format "%s  %d games (frequency %.1f%%): +%d =%d -%d (White/Draw/Black)  score %.1f%%  Elo %s  Perf %s  colour %s  flags 0x%02X" \
+                      $label $games $freq $ww $dd $bw $score $eloTxt $perfTxt [obrColour $rec $nag] $flags]
       } else {
         set text [format "%-9s %8s" $label "-"]
         set detail "$label  (no statistics)"
