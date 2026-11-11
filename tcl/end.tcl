@@ -729,6 +729,31 @@ proc addGameSaveEntry { name row textname } {
   grid .save.g.entry$name -row $row -column 1 -columnspan 7 -sticky w
 }
 
+# gameSaveExtraTagsUndo:
+#   Ctrl-Z in the Extra Tags text widget. Removes the last word entered and any
+#   whitespace immediately to its left on the current line, e.g.:
+#       Annotator "Fred"   ->   Annotator   ->   (blank line)
+#   This is bound only to the Save/Replace dialog's Extra Tags panel, so that
+#   Ctrl-Z keeps its other meanings elsewhere (e.g. "undo last move").
+#
+proc gameSaveExtraTagsUndo {} {
+  set w .save.extra.text
+  set pos [$w index insert]
+  set line [lindex [split $pos "."] 0]
+  set col  [lindex [split $pos "."] 1]
+  if {$col <= 0} { return }
+  set lineStart "$line.0"
+  set prefix [$w get $lineStart $pos]
+  # "keep" is the text that remains after removing the last whitespace-
+  # delimited word (and the whitespace separating it from the text before).
+  if {[regexp {(.*?)[ \t]*[^ \t]+$} $prefix ignore keep]} {
+    $w delete $lineStart $pos
+    $w insert $lineStart $keep
+    $w mark set insert "$line.[string length $keep]"
+    $w see insert
+  }
+}
+
 # gameSave:
 #   The game save dialog. Used for adding and replacing games. If the
 #   value gnum is zero, it is to add a new game; otherwise it is to
@@ -904,6 +929,9 @@ proc gameSave { gnum } {
   pack .save.extra -in .save.extrafr -side left -fill both -expand 1
   # Override tab-binding for this text widget:
   bind .save.extra.text <Key-Tab> "[bind all <Key-Tab>]; break"
+  # Ctrl-Z removes the last word entered in this text widget (scoped here so
+  # it does not clash with Ctrl-Z elsewhere, e.g. "undo last move"):
+  bind .save.extra.text <Control-z> { gameSaveExtraTagsUndo; break }
   ttk::button .save.extrafr.last -text $::tr(UseLastTag) -command {
     set extraTags [sc_game tag get -last Extra]
     .save.extra.text delete 1.0 end
