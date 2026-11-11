@@ -686,6 +686,8 @@ namespace eval epd {
     variable epdEngineName
     global epdAnnotateMode epdAnnotation epdDelay
     variable analysisRunning
+    variable analysisOwner
+    variable analysisStopRequested
 
     set w .epd$id
     if {$analysisRunning} {
@@ -902,7 +904,10 @@ namespace eval epd {
       if {[info exists ::enginewin::scorePV1($win)]
           && $::enginewin::scorePV1($win) != ""} {
         set scoreStr $::enginewin::scorePV1($win)
-        set btm [info exists ::enginewin::pv_(btm,$win)]
+        set btm 0
+        if {[info exists ::enginewin::pv_(btm,$win)]} {
+          set btm $::enginewin::pv_(btm,$win)
+        }
         set sideEngine [expr {
           [info exists ::enginewin::m_(scoreside,$win)]
           && $::enginewin::m_(scoreside,$win) eq "engine"
