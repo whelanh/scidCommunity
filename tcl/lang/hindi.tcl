@@ -928,7 +928,7 @@ translate h Alphabetical {वर्णानुक्रम}
 translate h BookCount {किताबें}
 
 # Configure Engines dialog:
-translate h EngineList {विश्लेषण इंजन सूची}
+translate h EngineList {इंजन कॉन्फ़िगर करें}
 translate h EngineName {नाम}
 translate h EngineCmd {आज्ञा}
 translate h EngineArgs {पैरामीटर}

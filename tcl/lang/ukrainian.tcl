@@ -929,7 +929,7 @@ translate Q Alphabetical {Алфавітний}
 translate Q BookCount {Книги}
 
 # Configure Engines dialog:
-translate Q EngineList {Список механізмів аналізу}
+translate Q EngineList {Налаштувати двигуни}
 translate Q EngineName {Ім'я}
 translate Q EngineCmd {Команда}
 translate Q EngineArgs {Параметри}

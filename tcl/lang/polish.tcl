@@ -968,7 +968,7 @@ translate P Alphabetical {Alfabetycznie}
 translate P BookCount {Książki}
 
 # Configure Engines dialog:
-translate P EngineList {Lista silników }
+translate P EngineList {Konfiguruj silniki}
 translate P EngineName {Nazwa}
 translate P EngineCmd {Polecenie}
 translate P EngineArgs {Parametry}

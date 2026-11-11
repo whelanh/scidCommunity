@@ -969,7 +969,7 @@ translate L Alphabetical {Alfabetic}
 translate L BookCount {Cărți}
 
 # Configure Engines dialog:
-translate L EngineList {Lista motorului de analiză}
+translate L EngineList {Configurați motoarele}
 translate L EngineName {Nume}
 translate L EngineCmd {Comanda}
 translate L EngineArgs {Parametrii}

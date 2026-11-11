@@ -928,7 +928,7 @@ translate Z Alphabetical {Kialfabeti}
 translate Z BookCount {Vitabu}
 
 # Configure Engines dialog:
-translate Z EngineList {Orodha ya Injini ya Uchambuzi}
+translate Z EngineList {Sanidi Injini}
 translate Z EngineName {Jina}
 translate Z EngineCmd {Amri}
 translate Z EngineArgs {Vigezo}

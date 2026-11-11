@@ -985,7 +985,7 @@ translate S Alphabetical {Alfabético}
 translate S BookCount {Libros}
 
 # Configure Engines dialog:
-translate S EngineList {Lista de motores de análisis}
+translate S EngineList {Configurar motores}
 translate S EngineName {Nombre}
 translate S EngineCmd {Orden}
 translate S EngineArgs {Parámetros}

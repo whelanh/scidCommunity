@@ -935,7 +935,7 @@ translate R Alphabetical {Алфавитный}
 translate R BookCount {Книги}
 
 # Configure Engines dialog:
-translate R EngineList {Список анализирующих движков}
+translate R EngineList {Настройка движений}
 translate R EngineName {Название}
 translate R EngineCmd {Команда}
 translate R EngineArgs {Параметры}

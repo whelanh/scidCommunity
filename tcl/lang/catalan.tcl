@@ -954,7 +954,7 @@ translate K Alphabetical {Alfabètic}
 translate K BookCount {Llibres}
 
 # Configure Engines dialog:
-translate K EngineList {Llista de Motors d'Anàlisi}
+translate K EngineList {Configura motors}
 translate K EngineName {Nom}
 translate K EngineCmd {Ordre}
 translate K EngineArgs {Paràmetres}

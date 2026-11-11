@@ -958,7 +958,7 @@ translate N Alphabetical {Alfabetisch}
 translate N BookCount {Boeken}
 
 # Configure Engines dialog:
-translate N EngineList {Analyse Engine Lijst}
+translate N EngineList {Configureer motoren}
 translate N EngineName {Naam}
 translate N EngineCmd {Commando}
 translate N EngineArgs {Parameters}

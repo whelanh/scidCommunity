@@ -941,7 +941,7 @@ translate B Alphabetical {Alfabético}
 translate B BookCount {Livros}
 
 # Configure Engines dialog:
-translate B EngineList {Lista de Programas de Análise}
+translate B EngineList {Configurar Engines}
 translate B EngineName {Nome}
 translate B EngineCmd {Comando}
 translate B EngineArgs {Parâmetros}

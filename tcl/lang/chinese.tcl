@@ -905,7 +905,7 @@ translate M Alphabetical {按字母顺序}
 translate M BookCount {图书}
 
 # Configure Engines dialog:
-translate M EngineList {Configure Engines}
+translate M EngineList {配置引擎}
 translate M EngineName {名称}
 translate M EngineCmd {Command}
 translate M EngineArgs {Parameters}

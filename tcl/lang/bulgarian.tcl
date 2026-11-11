@@ -969,7 +969,7 @@ translate g Alphabetical {Азбучен ред}
 translate g BookCount {Книги}
 
 # Configure Engines dialog:
-translate g EngineList {Списък на механизмите за анализ}
+translate g EngineList {Конфигуриране на двигатели}
 translate g EngineName {Име}
 translate g EngineCmd {командване}
 translate g EngineArgs {Параметри}

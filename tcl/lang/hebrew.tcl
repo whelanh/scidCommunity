@@ -929,7 +929,7 @@ translate V Alphabetical {אָלֶף בֵּיתִי}
 translate V BookCount {ספרים}
 
 # Configure Engines dialog:
-translate V EngineList {רשימת מנועים לניתוח}
+translate V EngineList {הגדר מנועים}
 translate V EngineName {שֵׁם}
 translate V EngineCmd {פְּקוּדָה}
 translate V EngineArgs {פרמטרים}

@@ -967,7 +967,7 @@ translate U Alphabetical {Aakkosellinen}
 translate U BookCount {Kirjat}
 
 # Configure Engines dialog:
-translate U EngineList {Analyysimoottorilista}
+translate U EngineList {Konfiguroi moottorit}
 translate U EngineName {Nimi}
 translate U EngineCmd {Komento}
 translate U EngineArgs {Parametrit}

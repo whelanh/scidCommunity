@@ -960,7 +960,7 @@ translate G Alphabetical {Αλφαβητική}
 translate G BookCount {Βιβλία}
 
 # Configure Engines dialog:
-translate G EngineList {Λίστα μηχανής ανάλυσης}
+translate G EngineList {Διαμόρφωση μηχανών}
 translate G EngineName {Όνομα}
 translate G EngineCmd {Εντολή}
 translate G EngineArgs {Παράμετροι}

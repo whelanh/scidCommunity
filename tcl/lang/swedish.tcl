@@ -939,7 +939,7 @@ translate W Alphabetical {Alfabetisk}
 translate W BookCount {Böcker}
 
 # Configure Engines dialog:
-translate W EngineList {Lista över schackprogram}
+translate W EngineList {Konfigurera motorer}
 translate W EngineName {Namn}
 translate W EngineCmd {Startkommando}
 translate W EngineArgs {Parametrar} 

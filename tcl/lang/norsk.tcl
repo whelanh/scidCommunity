@@ -938,7 +938,7 @@ translate O Alphabetical {Alfabetisk}
 translate O BookCount {Bøker}
 
 # Configure Engines dialog:
-translate O EngineList {Liste over analysemotorer}
+translate O EngineList {Konfigurer motorer}
 translate O EngineName {Navn}
 translate O EngineCmd {Kommandolinje}
 translate O EngineArgs {Parametre}

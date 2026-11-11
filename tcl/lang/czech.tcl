@@ -933,7 +933,7 @@ translate C Alphabetical {Abecední}
 translate C BookCount {knihy}
 
 # Configure Engines dialog:
-translate C EngineList {Seznam hernch program pro analzu}
+translate C EngineList {Konfigurace motor}
 translate C EngineName {Jmno}
 translate C EngineCmd {Pkaz}
 translate C EngineArgs {Parametry}

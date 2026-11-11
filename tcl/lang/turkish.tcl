@@ -932,7 +932,7 @@ translate T Alphabetical {Alfabetik}
 translate T BookCount {Kitaplar}
 
 # Configure Engines dialog:
-translate T EngineList {Analiz Motoru Listesi}
+translate T EngineList {Motorları Yapılandırma}
 translate T EngineName {İsim}
 translate T EngineCmd {Emretmek}
 translate T EngineArgs {Parametreler}

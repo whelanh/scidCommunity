@@ -969,7 +969,7 @@ translate A Alphabetical {アルファベット順}
 translate A BookCount {本}
 
 # Configure Engines dialog:
-translate A EngineList {解析エンジン一覧}
+translate A EngineList {エンジンの構成}
 translate A EngineName {名前}
 translate A EngineCmd {指示}
 translate A EngineArgs {パラメータ}

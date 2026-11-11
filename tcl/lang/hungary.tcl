@@ -936,7 +936,7 @@ translate H Alphabetical {Betűrendes}
 translate H BookCount {Könyvek}
 
 # Configure Engines dialog:
-translate H EngineList {Elemzõ motorok listája}
+translate H EngineList {Motorok konfigurálása}
 translate H EngineName {Név}
 translate H EngineCmd {Parancssor}
 translate H EngineArgs {Paraméterek}

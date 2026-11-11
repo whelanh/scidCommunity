@@ -969,7 +969,7 @@ translate J Alphabetical {Абецедно}
 translate J BookCount {Књиге}
 
 # Configure Engines dialog:
-translate J EngineList {Листа механизама за анализу}
+translate J EngineList {Конфигуришите моторе}
 translate J EngineName {Име}
 translate J EngineCmd {Цомманд}
 translate J EngineArgs {Параметерс}

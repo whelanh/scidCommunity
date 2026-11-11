@@ -969,7 +969,7 @@ translate k Alphabetical {알파벳순}
 translate k BookCount {서적}
 
 # Configure Engines dialog:
-translate k EngineList {분석 엔진 목록}
+translate k EngineList {엔진 구성}
 translate k EngineName {이름}
 translate k EngineCmd {컴파운드}
 translate k EngineArgs {다양하게}

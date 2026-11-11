@@ -968,7 +968,7 @@ translate D Alphabetical {Alphabetisch}
 translate D BookCount {Bücher}
 
 # Configure Engines dialog:
-translate D EngineList {Analyse-Engines}
+translate D EngineList {Engine konfigurieren}
 translate D EngineName {Name}
 translate D EngineCmd {Befehl}
 translate D EngineArgs {Parameter}

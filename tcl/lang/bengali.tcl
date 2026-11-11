@@ -928,7 +928,7 @@ translate b Alphabetical {বর্ণানুক্রমিক}
 translate b BookCount {বই}
 
 # Configure Engines dialog:
-translate b EngineList {বিশ্লেষণ ইঞ্জিন তালিকা}
+translate b EngineList {ইঞ্জিন কনফিগার করুন}
 translate b EngineName {নাম}
 translate b EngineCmd {আদেশ}
 translate b EngineArgs {পরামিতি}
