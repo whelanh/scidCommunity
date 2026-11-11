@@ -343,6 +343,11 @@ proc ::reviewdriver::lost {token} {
     if {$done ne ""} {
         catch { {*}$done $results }
     }
+    # A lost connection is free in the same way a closed one is: a verification
+    # waiting for it must not wait for a closeConn that will never come.
+    if {[llength [info commands ::reviewverify::advance]]} {
+        catch { ::reviewverify::advance }
+    }
     return $results
 }
 
