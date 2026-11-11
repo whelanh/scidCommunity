@@ -37,6 +37,9 @@ namespace eval ::batch_annotate {
     # Bumped when a batch starts. A verifier callback that outlives its batch
     # carries the id it was born with and cannot write into the next run.
     variable run_id 0
+    # The preset the running pipes were launched with. The selector can change
+    # while the batch runs; the self-verification check needs the launched engine.
+    variable engine_cfg ""
 }
 
 # Register user-configurable preferences for saving via Options > Save Options
@@ -174,6 +177,7 @@ proc ::batch_annotate::start_engines {num_instances} {
     variable engine_name
 
     set cfg [::enginecfg::get $engine_name]
+    set ::batch_annotate::engine_cfg $cfg
     if {![llength $cfg]} { error "No engine selected" }
     lassign $cfg ename cmd args wdir elo time url uci options limits
     if {!$uci} { error "Batch annotate needs a UCI engine" }
@@ -578,10 +582,8 @@ proc ::batch_annotate::finalize_game {pipe} {
     # Brilliant/Great verification a single game review does - the batch must not
     # bypass it (issue #422 item 5). The verifier is its own engine; the batch's
     # pipes are already on the next game by the time it answers.
-    set engineName ""
-    catch { set engineName $::batch_annotate::engine_name }
     set engineCfg ""
-    if {$engineName ne ""} { catch { set engineCfg [::enginecfg::get $engineName] } }
+    catch { set engineCfg $::batch_annotate::engine_cfg }
     set p [dict create map $map plan $plan plies [dict get $map plies] \
         bookEnd $bookEnd mpv $::batch_annotate::mpv \
         engine $engineCfg base $::batch_annotate::base \
