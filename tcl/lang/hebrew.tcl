@@ -166,6 +166,22 @@ translate V EpdStripOpcodes {הסר קודים...}
 translate V EpdAnnotateTime {שניות לכל תפקיד}
 translate V EpdCountBestMoves {ספור את המהלכים הטובים ביותר}
 translate V EpdSaveLog {שמור תוצאות לקובץ}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate V EpdAnalysisTitle {ניתוח EPD}
+translate V EpdAnalysisRunning {ניתוח EPD נוסף כבר פועל.}
+translate V EpdAnalysisMinTime {זמן הניתוח חייב להיות שנייה אחת לפחות.}
+translate V EpdAnalysisStartFailed {הפעלת מנוע הניתוח נכשלה: %s}
+translate V EpdAnalysisError {שגיאת ניתוח EPD: %s}
+translate V EpdAnalysisStopped {הניתוח נעצר.}
+translate V EpdAnalysisStopping {סְתִימָה...}
+translate V EpdEngineNotStarted {המנוע לא התחיל את החיפוש}
+translate V EpdEngineNoResult {המנוע לא החזיר תוצאה}
+translate V EpdSearchAlreadyRunning {חיפוש כבר פועל}
+translate V EpdNoEngineConfigured {אין מנוע מוגדר}
+translate V EpdOnlyUci {רק מנועי UCI נתמכים}
+translate V EpdEngineDisconnected {המנוע התנתק}
+translate V EpdEngineNoAnswer {המנוע לא ענה}
 translate V EpdDontSave {אל תחסוך}
 translate V EpdReadOnly {לקריאה בלבד}
 translate V EpdAltered {השתנה}
@@ -184,6 +200,7 @@ menuText V ToolsAnalysis "מנוע ניתוח..." 0 \
   {הפעל/עצור מנוע ניתוח שחמט}
 menuText V ToolsAnalysis2 "מנוע ניתוח מס' 2..." 17 \
   {הפעל/עצור את מנוע ניתוח השחמט השני}
+menuText V ToolsEngineWindow "חלון מנוע..." 0 {פתח חלון מנוע שחמט}
 menuText V ToolsCross "שולחן הצלבה" 0 {הצג את טבלת ההצלבה של הטורניר למשחק זה}
 menuText V ToolsFilterGraph "Rel. גרף סינון" 12 {פתח/סגור את חלון גרף הסינון עבור ערכים יחסיים}
 menuText V ToolsAbsFilterGraph "Abs. גרף סינון" 7 {פתח/סגור את חלון גרף הסינון עבור ערכים מוחלטים}
@@ -864,10 +881,21 @@ translate V ReviewMoveButton {הערת מסע}
 translate V ReviewMoveButtonTooltip {תן תווית למסע ששוחק מכאן וכתוב אותו}
 translate V ReviewSettings {הגדרות הסקירה}
 translate V ReviewSettingsTooltip {Configure the review settings}
+translate V ToolsWhatThreat {מה האיום?}
+translate V ToolsWhatThreatTooltip {שאל את המנוע ממה מאיים הצד שבתורו}
+translate V WhatThreatRunning {ניתוח איומים כבר פועל.}
+translate V WhatThreatNoEngine {לא הוגדר מנוע. בחר אחד בכלים -> רשימת מנועים, או פתח תחילה חלון מנוע.}
+translate V WhatThreatNoPosition {אין עמדה להסתכל עליה.}
+translate V WhatThreatNoMove {אין כאן מהלך להעיר עליו. עברו תחילה למהלך במשחק.}
+translate V WhatThreatFailed {לא ניתן היה להריץ את ניתוח האיומים: %s}
+translate V WhatThreatNothingForcing {ל%s אין כאן שום דבר מאלץ: אף מהלך לא מרוויח חומר ולא נותן שח.}
+translate V ReviewVerifier {מנוע אימות}
+translate V ReviewVerifierOff {כבוי (ללא אימות)}
 translate V ReviewVarLines {וריאציות לכתיבה}
 translate V ReviewVarCp {מרווח וריאציות (cp)}
 translate V ReviewMoveWait {המתן לעומק הסקירה}
 translate V ReviewMovetime {מגבלת זמן (ms)}
+translate V ReviewOpeningMoves {מהלכי פתיחה}
 translate V StopNow {Stop now}
 translate V StopAfterThisGame {Stop after this game}
 translate V ReviewFromPreset {%s (מהגדרות המנוע)}
@@ -929,6 +957,7 @@ translate V EngineClone {צור עותק של המנוע הנוכחי}
 translate V EngineDuplicate {שכפל}
 translate V EngineDelete {מחק את המנוע הנוכחי}
 translate V EngineOpenAnalysis {פתח את הניתוח}
+translate V EngineOpenWindow {פתח את חלון המנוע}
 
 # PGN window menus:
 menuText V PgnFile "קוֹבֶץ" 0

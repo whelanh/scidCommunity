@@ -168,6 +168,22 @@ translate H EpdStripOpcodes {Opkódok levágása...}
 translate H EpdAnnotateTime {Másodperc pozíciónként}
 translate H EpdCountBestMoves {Számold meg a legjobb mozdulatokat}
 translate H EpdSaveLog {Az eredmények mentése fájlba}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate H EpdAnalysisTitle {EPD elemzés}
+translate H EpdAnalysisRunning {Egy másik EPD-elemzés már fut.}
+translate H EpdAnalysisMinTime {Az elemzési időnek legalább 1 másodpercnek kell lennie.}
+translate H EpdAnalysisStartFailed {Nem sikerült elindítani az elemzőmotort: ​​%s}
+translate H EpdAnalysisError {EPD elemzési hiba: %s}
+translate H EpdAnalysisStopped {Az elemzés leállt.}
+translate H EpdAnalysisStopping {Leállítás...}
+translate H EpdEngineNotStarted {a motor nem indította el a keresést}
+translate H EpdEngineNoResult {a motor nem adott eredményt}
+translate H EpdSearchAlreadyRunning {már fut a keresés}
+translate H EpdNoEngineConfigured {nincs motor konfigurálva}
+translate H EpdOnlyUci {Csak az UCI motorok támogatottak}
+translate H EpdEngineDisconnected {a motor lekapcsolt}
+translate H EpdEngineNoAnswer {a motor nem válaszolt}
 translate H EpdDontSave {Ne mentse}
 translate H EpdReadOnly {csak olvasható}
 translate H EpdAltered {megváltozott}
@@ -186,6 +202,7 @@ menuText H ToolsAnalysis "Elemzõ motor..." 0 \
   {Elindít/leállít egy sakkelemzõ programot.}
 menuText H ToolsAnalysis2 "Második elemzõ motor..." 1 \
   {Elindítja/leállítja a 2. sakkelemzõ programot.}
+menuText H ToolsEngineWindow "Motor ablak..." 0 {Nyissa ki a sakkmotor ablakát}
 menuText H ToolsCross "Versenytáblázat" 0 {Megmutatja az ehhez a játszmához tartozó verseny táblázatát.}
 menuText H ToolsFilterGraph "Szûrõgrafikon" 0 \
   {Kinyitja/becsukja a szûrõgrafikont mutató ablakot.}
@@ -871,10 +888,21 @@ translate H ReviewMoveButton {Lépésmegjegyzés}
 translate H ReviewMoveButtonTooltip {Az innen játszott lépés értékelése és beírása}
 translate H ReviewSettings {Áttekintés beállításai}
 translate H ReviewSettingsTooltip {Configure the review settings}
+translate H ToolsWhatThreat {Mi fenyeget?}
+translate H ToolsWhatThreatTooltip {Kérdezd meg a motort, mivel fenyeget a soron következő fél}
+translate H WhatThreatRunning {Már fut egy fenyegetés-elemzés.}
+translate H WhatThreatNoEngine {Nincs beállított motor. Válassz egyet az Eszközök -> Motorlista menüben, vagy nyiss előbb egy motorablakot.}
+translate H WhatThreatNoPosition {Nincs mit megvizsgálni.}
+translate H WhatThreatNoMove {Itt nincs megjegyzendő lépés. Előbb lépj a játszma egyik lépésére.}
+translate H WhatThreatFailed {A fenyegetés-elemzést nem sikerült elindítani: %s}
+translate H WhatThreatNothingForcing {%s-nek itt nincs semmi kényszerítő: egy lépés sem nyer anyagot és nem ad sakkot.}
+translate H ReviewVerifier {Ellenőrző motor}
+translate H ReviewVerifierOff {Kikapcsolva (nincs ellenőrzés)}
 translate H ReviewVarLines {Kiírandó változatok}
 translate H ReviewVarCp {Változat-küszöb (cp)}
 translate H ReviewMoveWait {Várás az áttekintés mélységére}
 translate H ReviewMovetime {Időkorlát (ms)}
+translate H ReviewOpeningMoves {Nyitási mozdulatok}
 translate H StopNow {Stop now}
 translate H StopAfterThisGame {Stop after this game}
 translate H ReviewFromPreset {%s (a motorprofilból)}
@@ -936,6 +964,7 @@ translate H EngineClone {Készítsen másolatot az aktuális motorról}
 translate H EngineDuplicate {Duplikálás}
 translate H EngineDelete {Törölje az aktuális motort}
 translate H EngineOpenAnalysis {Nyissa meg az Elemzést}
+translate H EngineOpenWindow {Nyissa meg a motor ablakot}
 
 # PGN window menus:
 menuText H PgnFile "Fájl" 0

@@ -278,6 +278,7 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   
   <h3>W</h3>
   <ul>
+  <li><a ToolsWhatThreat><b>What's the threat?</b></a> (engine window button and Tools menu)</li>
   <li><a Menus Windows>Windows menu</a></li>
   </ul>
 
@@ -787,6 +788,8 @@ set helpText(Menus) {<h1>scidCommunity menus</h1>
   <li><menu>Start Engine 1</menu>: Starts the first chess analysis engine.</li>
   <li><menu>Start Engine 2</menu>: Starts the second chess analysis engine.</li>
   <li><menu>Analysis Window</menu>: Opens the <a Analysis>analysis window</a>.</li>
+  <li><menu>What's the threat?</menu>: Asks the engine what the side to move is
+  threatening - see <a ToolsWhatThreat>What's the Threat?</a>.</li>
   <br>
   <li><menu>Filter Graph</menu>: Opens/closes the <a Graphs Filter>filter graph</a> window.</li>
   <li><menu>Absolute Filter Graph</menu>: Opens/closes the absolute filter graph window.</li>
@@ -2675,6 +2678,67 @@ set helpText(ReviewSettings) {<h1>Engine Window: Review Settings</h1>
 
   <p><footer>(Updated: scidCommunity, October 2026)</footer></p>
 }
+####################
+### What's the Threat? -- the engine probe:
+
+set helpTitle(ToolsWhatThreat) "What's the Threat?"
+set helpText(ToolsWhatThreat) {<h1>Engine Window: What's the Threat?</h1>
+  <p>
+  <b>What's the threat?</b> asks the engine what the side to move is
+  threatening in the position on the board, and writes the answer into the
+  comment of the move you are on. It is the <button tb_review_threat> button in
+  the <a Engine>Engine</a> window and the <menu>What's the threat?</menu> entry
+  in the <a Menus Tools>Tools</a> menu.
+  </p>
+
+  <h3>The search</h3>
+  <p>
+  The probe opens an engine connection of its own, asks for the strongest move
+  with <b>MultiPV 1</b>, and closes the connection as soon as the move arrives.
+  It does not borrow the analysis window's engine and does not disturb a running
+  <a ReviewGameButton>Game Review</a>: the search is short, at depth 14, under
+  the review's time cap. A preset that is not a UCI engine is refused, because
+  an XBoard engine would never answer the handshake.
+  </p>
+
+  <h3>The answer</h3>
+  <p>
+  The answer comes from the position, not from a model. The engine's move is
+  named in SAN and described in words, and the facts that explain it - check,
+  mate, or what the move wins or attacks - are the same facts a
+  <a ReviewMoveButton>Move Comment</a> is built from. A quiet best move is not
+  called a threat: the answer says that the side to move has no immediate threat
+  and gives the strongest move instead.
+  </p>
+  <p>
+  The answer is written as one <b>[Coach] Threat: ...</b> line in the current
+  move's comment. A re-press replaces that line rather than stacking a second
+  one; your own note in the comment, and the coach's own <b>[Coach] ...</b> note
+  on the same move, are kept.
+  </p>
+  <p>
+  When a model is configured, one sentence of coach prose is written over those
+  facts and added after them. The facts stay either way, and with no model they
+  are the whole answer: having no provider is a supported state, not a failure.
+  </p>
+
+  <h3>What it does not do</h3>
+  <p>
+  The probe writes no NAG, no variation, no <b>[%eval]</b> and no move label. It
+  does not move the board, and it does not change the engine analysis you are
+  watching.
+  </p>
+  <p>
+  A message box appears only when the probe cannot run: no engine is configured,
+  there is no position or no move to comment on, a probe is already running, the
+  engine fails or disconnects, the game changes while the search is running, or
+  the engine returns a move the board refuses. A refused move is reported as a
+  failure rather than turned into facts from a position the engine did not mean.
+  </p>
+
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
+}
+
 
 ####################
 ### Batch AI annotation help:
@@ -3601,6 +3665,9 @@ set helpText(Engine) {<h1>The Engine windows</h1>
     on, and nothing else.</li>
   <li><a ReviewSettings><b>Review Settings</b></a>: Depth, lines, variations
     and the review depth a move comment waits for.</li>
+  <li><a ToolsWhatThreat><b>What's the threat?</b></a>: Asks the engine what
+    the side to move is threatening. One short search on a connection of its
+    own; writes the answer into the current move's comment.</li>
   </ul>
 
   <h3>Controls</h3>
@@ -3782,7 +3849,8 @@ set helpText(EPD) {<h1>EPD files</h1>
   (only tally how often the engine agrees with the <b>bm</b>/<b>am</b>
   opcodes, without changing the file), <b>Annotate</b> (add analysis opcodes
   to each position), or <b>Both</b>. scidCommunity then steps through every
-  position, and the EPD opcodes added are: acd, acn, ce, dm and pv.
+  position, and the EPD opcodes added are: acd, acn, ce, dm and pv. The
+  <b>Stop</b> button, or closing the EPD window, ends the pass.
   </p>
   <p>
   Check <b>Save results to file</b> to write the per-position results to a

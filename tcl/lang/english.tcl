@@ -205,6 +205,22 @@ translate E EpdStripOpcodes {Strip Opcodes...}
 translate E EpdAnnotateTime {Seconds per position}
 translate E EpdCountBestMoves {Count best moves}
 translate E EpdSaveLog {Save results to file}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate E EpdAnalysisTitle {EPD analysis}
+translate E EpdAnalysisRunning {Another EPD analysis is already running.}
+translate E EpdAnalysisMinTime {The analysis time must be at least 1 second.}
+translate E EpdAnalysisStartFailed {Failed to start analysis engine: %s}
+translate E EpdAnalysisError {EPD analysis error: %s}
+translate E EpdAnalysisStopped {Analysis stopped.}
+translate E EpdAnalysisStopping {Stopping...}
+translate E EpdEngineNotStarted {the engine did not start the search}
+translate E EpdEngineNoResult {the engine returned no result}
+translate E EpdSearchAlreadyRunning {a search is already running}
+translate E EpdNoEngineConfigured {no engine is configured}
+translate E EpdOnlyUci {Only UCI engines supported}
+translate E EpdEngineDisconnected {the engine disconnected}
+translate E EpdEngineNoAnswer {the engine did not answer}
 translate E EpdDontSave {Don't Save}
 translate E EpdReadOnly {read-only}
 translate E EpdAltered {altered}
@@ -223,6 +239,7 @@ menuText E ToolsAnalysis "Analysis Engine..." 0 \
   {Start/stop a chess analysis engine}
 menuText E ToolsAnalysis2 "Analysis Engine #2..." 17 \
   {Start/stop the 2nd chess analysis engine}
+menuText E ToolsEngineWindow "Engine Window..." 0 {Open a chess engine window}
 menuText E ToolsCross "Crosstable" 0 {Show tournament crosstable for this game}
 menuText E ToolsFilterGraph "Rel. Filter Graph" 12 {Open/close the filter graph window for relative values}
 menuText E ToolsAbsFilterGraph "Abs. Filter Graph" 7 {Open/close the filter graph window for absolute values}
@@ -903,10 +920,21 @@ translate E ReviewMoveButton {Move Comment}
 translate E ReviewMoveButtonTooltip {Label the highlighted move and write it in}
 translate E ReviewSettings {Review Settings}
 translate E ReviewSettingsTooltip {Configure the review settings}
+translate E ToolsWhatThreat {What's the threat?}
+translate E ToolsWhatThreatTooltip {Ask the engine what the side to move is threatening}
+translate E WhatThreatRunning {A threat probe is already running.}
+translate E WhatThreatNoEngine {No engine is configured. Choose one in Tools -> Configure Engines, or open an engine window first.}
+translate E WhatThreatNoPosition {There is no position to look at.}
+translate E WhatThreatNoMove {There is no move here to comment on. Go to a move in the game first.}
+translate E WhatThreatFailed {The threat probe could not run: %s}
+translate E WhatThreatNothingForcing {%s has nothing forcing here: no move wins material or gives check.}
+translate E ReviewVerifier {Verifier engine}
+translate E ReviewVerifierOff {Off (no verification)}
 translate E ReviewVarLines {Variations to write}
 translate E ReviewVarCp {Variation margin (cp)}
 translate E ReviewMoveWait {Wait for the review depth}
 translate E ReviewMovetime {Time cap (ms)}
+translate E ReviewOpeningMoves {Opening moves}
 translate E StopNow {Stop now}
 translate E StopAfterThisGame {Stop after this game}
 translate E ReviewFromPreset {%s (from engine preset)}
@@ -968,6 +996,7 @@ translate E EngineClone {Create a copy of the current engine}
 translate E EngineDuplicate {Duplicate}
 translate E EngineDelete {Delete the current engine}
 translate E EngineOpenAnalysis {Open Analysis}
+translate E EngineOpenWindow {Open Engine Window}
 
 # PGN window menus:
 menuText E PgnFile "File" 0

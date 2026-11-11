@@ -340,8 +340,6 @@ checkEq "a provider error is not prose" [::reviewannotate::proseText 5 blunder] 
 proc annotateSettings {} {
     set ::annotateBlunders blundersonly
     set ::blunderThreshold 1.0
-    set ::markTacticalExercises 0
-    set ::analysis(uci1) 0
     set ::useAnalysisBook 0
     ::review::reset
     return
@@ -457,13 +455,13 @@ set tagResults [dict create \
     0 [dict create 1 [list 18 20 cp {e2e4 e7e5}]] \
     1 [dict create 1 [list 18 -30 cp {e7e5 g1f3}]]]
 set tagPass [dict create map $tagMap plies [dict get $tagMap plies] \
-    bookEnd 0 mpv 3 engine {Stockfish /usr/bin/stockfish}]
+    bookEnd 1 mpv 3 engine {Stockfish /usr/bin/stockfish}]
 set ::addAnnotatorTag 1
-set ::isBatchOpening 1
-set ::isBatchOpeningMoves 12
+::review::setValue opening_errors 1
+::review::setValue opening_window 12
 ::reviewannotate::writeResults $tagPass $tagResults
 checkHas "the pass writes the opening-errors entry" \
-    $::gamestub::annotator "opBlunder 1 (white)"
+    $::gamestub::annotator "opBlunder 1 (black)"
 checkHas "and the Annotator tag, named for the pass's engine" \
     $::gamestub::annotator "Stockfish (review)"
 annotateSettings
@@ -540,6 +538,130 @@ rename ::reviewannotate::markExercise {}
 rename ::reviewannotate::markExerciseSaved ::reviewannotate::markExercise
 checkEq "a mark that fails is counted as failed" [dict get $r failed] 1
 checkEq "and its reason is kept" [expr {[llength [dict get $r errors]] > 0}] 1
+
+########################################################################
+### The default review writer and Review Settings
+########################################################################
+#
+# Game Review and the Game List batch both call ::reviewdriver::writeResults.
+# The opening-errors entry and the tactical exercise are written there, from the
+# same ::reviewannotate helpers the annotate pass uses, and both are off until
+# Review Settings saves them on.
+
+proc reviewDefault {p results} {
+    return [::reviewdriver::writeResults $p $results]
+}
+
+# A two-ply game whose first move is a blunder: f3 instead of d4. Position 0 is
+# before the move (mover's point of view), position 1 after it (the opponent's).
+proc blunderPass {{bookEnd 0}} {
+    ::gamestub::reset [list {f3 f2f3} {e5 e7e5}]
+    set map [::review::mainLineMap [sc_game UCI_mainLine]]
+    set results [dict create \
+        0 [dict create 1 [list 18 200 cp {d2d4 e7e5}]] \
+        1 [dict create \
+            1 [list 18 100 cp {e7e5 g1f3}] \
+            2 [list 18 -150 cp {g1f3 d7d5}]]]
+    set p [dict create map $map plan [::review::plan [dict get $map plies] 0] \
+        plies [dict get $map plies] bookEnd $bookEnd mpv 2 report 0]
+    return [list $p $results]
+}
+
+lassign [blunderPass] p results
+::review::reset
+reviewDefault $p $results
+checkEq "the flags start off" \
+    [list [dict get [::review::defaults] opening_errors] \
+          [dict get [::review::defaults] tactical_exercises]] {0 0}
+checkEq "an off review writes no opening entry" $::gamestub::annotator ""
+checkEq "and flags no exercise" $::gamestub::flags {}
+sc_move ply 1
+check "and writes no difficulty comment" \
+    [expr {[string first "****D" [sc_pos getComment]] < 0}]
+
+# The opening finder: the tag goes at the ply the book ended, which is what the
+# classic annotator wrote and what the finder's move window is measured from.
+lassign [blunderPass 1] p results
+dict set p report 1
+::review::reset
+::review::setValue opening_errors 1
+::review::setValue opening_window 12
+reviewDefault $p $results
+checkHas "the opening finder writes its entry at the book end" \
+    $::gamestub::annotator "opBlunder 1 (black)"
+
+# No book, and a game that never leaves it, have no opening boundary to tag.
+lassign [blunderPass 0] p results
+dict set p report 1
+::review::reset
+::review::setValue opening_errors 1
+reviewDefault $p $results
+checkEq "no book writes no opening entry" $::gamestub::annotator ""
+
+lassign [blunderPass 2] p results
+dict set p report 1
+::review::reset
+::review::setValue opening_errors 1
+reviewDefault $p $results
+checkEq "an all-book game writes no opening entry" $::gamestub::annotator ""
+::review::reset
+
+# Move Comment names one ply and is not a whole-game pass: it must leave the
+# game-level opening entry alone.
+lassign [blunderPass] p results
+dict set p plan [lrange [dict get $p plan] 0 0]
+::review::reset
+::review::setValue opening_errors 1
+reviewDefault $p $results
+checkEq "a single-move pass writes no opening entry" $::gamestub::annotator ""
+
+# A second whole-game pass must not grow the Annotator tag with a second copy.
+lassign [blunderPass 1] p results
+dict set p report 1
+::review::reset
+::review::setValue opening_errors 1
+reviewDefault $p $results
+reviewDefault $p $results
+checkEq "a re-run keeps one opening entry" \
+    [regexp -all {opBlunder} $::gamestub::annotator] 1
+::review::reset
+
+# A tag setter that refuses must not be reported as a written opening entry.
+lassign [blunderPass 1] p results
+dict set p report 1
+::review::reset
+::review::setValue opening_errors 1
+rename sc_game ::gamestub_sc_game
+proc sc_game {sub args} {
+    if {$sub eq "tags" && [lindex $args 0] eq "set"} {
+        error "tag set refused"
+    }
+    return [::gamestub_sc_game $sub {*}$args]
+}
+checkEq "appendAnnotator reports a failed set" \
+    [::reviewannotate::appendAnnotator "Test (review)"] 0
+checkEq "and openingMark does not claim a write" \
+    [::reviewannotate::openingMark $p] 0
+rename sc_game {}
+rename ::gamestub_sc_game sc_game
+::review::reset
+
+# The exercise: the same blunder is a puzzle when the second line is far enough
+# behind and the shallow search does not find the move.
+lassign [blunderPass] p results
+::review::reset
+::review::setValue tactical_exercises 1
+reviewDefault $p $results
+checkEq "the exercise switch flags the game" $::gamestub::flags T
+sc_move ply 1
+set comment ""
+catch { set comment [sc_pos getComment] }
+check "the move carries the difficulty comment" \
+    [expr {[string first "****D" $comment] >= 0}]
+set nags ""
+catch { set nags [dict get [::gamestub::nagsByPly] 1] }
+check "and the blunder mark" [expr {[string first "??" $nags] >= 0}]
+::review::reset
 
 puts "checks $checks fails $fails"
 exit [expr {$fails ? 1 : 0}]

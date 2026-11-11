@@ -37,6 +37,14 @@ project:
 | `tcl/tools/review_report.tcl` | the report figures and the phase split; **`mixedness` and `_mixedScore` are ported verbatim** from `11_cr_classify.tcl` |
 | `tcl/tools/review_coach.tcl` | `15_cr_llm.tcl` and `17_cr_facts.tcl` (the game-level facts, the phase facts and the prompt texts) |
 | `tcl/tools/comment_facts.tcl` | `17_cr_facts.tcl` |
+| `tcl/tools/review_threat.tcl` | the threat probe: `review-coach-prototype` (5556eb44), itself from `15_cr_llm.tcl` |
+
+`review_threat.tcl` is a port, not a copy: the prototype branch is a design
+reference and is not a merge candidate (#404), so the probe was re-derived
+against this tree's own `::facts` vocabulary, `::engineNoWin` and the reply
+guard from #423. The one-shot shape - open, one `Go`, close in the reply - is
+the prototype's, and the provenance is recorded here because the shape is what
+was taken.
 
 `mixedness` is the one verbatim copy: `::reviewreport::mixedness` and
 `::reviewreport::_mixedScore` reproduce `::crclass::mixedness` and
@@ -49,6 +57,25 @@ The plugin is the reference for the facts-first design, not a runtime
 dependency. The phase rule is deliberately this project's own: the plugin's
 back-rank count and its material cut are not how this report decides that an
 opening has ended. See `docs/review-ui.md`.
+
+## `review-coach-prototype` branch — same licence (GPL-2.0-or-later)
+
+`tcl/tools/review_verify.tcl` was re-derived from the prototype on the upstream
+`review-coach-prototype` branch (`5556eb44`, tcl/tools/review_verify.tcl), which
+is part of this project and carries this project's licence — no new licence
+obligation arises, but the debt is recorded rather than left implicit:
+
+| File | Taken from the prototype |
+| --- | --- |
+| `tcl/tools/review_verify.tcl` | `::reviewverify::topMove` reproduces the prototype's function verbatim (the first move of a MultiPV line dict); `jobs`/`corrections` keep the prototype's two-step shape and its names |
+
+Everything else is this tree's own: the prototype opens a private connection
+through `::engineNoWin` and downgrades a label when the second engine answers
+nothing, while this file searches through `::reviewdriver::start` (connection 20,
+the pass's own queue), gates on the book, reads the Great gap from
+`::movelabels::GREAT_GAP` instead of a copied 200 cp, and leaves the label alone
+when the second engine has no usable answer. The prototype is a design reference
+and not a merge candidate (#404).
 
 ## Other references
 

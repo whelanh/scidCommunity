@@ -192,6 +192,22 @@ translate D EpdStripOpcodes {Opcodes entfernen...}
 translate D EpdAnnotateTime {Sekunden pro Position}
 translate D EpdCountBestMoves {Zähle die besten Züge}
 translate D EpdSaveLog {Ergebnisse in Datei speichern}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate D EpdAnalysisTitle {EPD-Analyse}
+translate D EpdAnalysisRunning {Eine weitere EPD-Analyse läuft bereits.}
+translate D EpdAnalysisMinTime {Die Analysezeit muss mindestens 1 Sekunde betragen.}
+translate D EpdAnalysisStartFailed {Analyse-Engine konnte nicht gestartet werden: %s}
+translate D EpdAnalysisError {EPD-Analysefehler: %s}
+translate D EpdAnalysisStopped {Die Analyse wurde gestoppt.}
+translate D EpdAnalysisStopping {Stoppen...}
+translate D EpdEngineNotStarted {Die Engine hat die Suche nicht gestartet}
+translate D EpdEngineNoResult {Die Engine hat kein Ergebnis zurückgegeben}
+translate D EpdSearchAlreadyRunning {eine Suche läuft bereits}
+translate D EpdNoEngineConfigured {Es ist keine Engine konfiguriert}
+translate D EpdOnlyUci {Es werden nur UCI-Engines unterstützt}
+translate D EpdEngineDisconnected {der Motor ist abgeklemmt}
+translate D EpdEngineNoAnswer {Der Motor antwortete nicht}
 translate D EpdDontSave {Nicht speichern}
 translate D EpdReadOnly {schreibgeschützt}
 translate D EpdAltered {verändert}
@@ -210,6 +226,7 @@ menuText D ToolsAnalysis "Analyse-Engine..." 0 \
   {Schachanalyse-Programm starten/beenden}
 menuText D ToolsAnalysis2 "Analyse-Engine #2..." 16 \
   {Schachanalyse-Programm Nr.2 starten/beenden}
+menuText D ToolsEngineWindow "Motorfenster..." 0 {Öffnen Sie ein Schach-Engine-Fenster}
 menuText D ToolsCross "Turniertabelle" 0 {Turniertabelle für diese Partie anzeigen}
 menuText D ToolsFilterGraph "Rel. Filtergrafik" 0 \
   {Filtergrafik mit relativen Werten öffnen/schließen}
@@ -903,10 +920,21 @@ translate D ReviewMoveButton {Zugkommentar}
 translate D ReviewMoveButtonTooltip {Aktuellen Zug bewerten und eintragen}
 translate D ReviewSettings {Einstellungen der Prüfung}
 translate D ReviewSettingsTooltip {Bewertungsvorgaben konfigurieren}
+translate D ToolsWhatThreat {Was droht?}
+translate D ToolsWhatThreatTooltip {Frage die Engine, was die Seite am Zug droht}
+translate D WhatThreatRunning {Eine Drohungsanalyse läuft bereits.}
+translate D WhatThreatNoEngine {Keine Engine ist eingerichtet. Wähle eine unter Werkzeuge -> Engine konfigurieren oder öffne zuerst ein Engine-Fenster.}
+translate D WhatThreatNoPosition {Es gibt keine Stellung zum Ansehen.}
+translate D WhatThreatNoMove {Hier gibt es keinen Zug zum Kommentieren. Gehe zuerst zu einem Zug in der Partie.}
+translate D WhatThreatFailed {Die Drohungsanalyse konnte nicht laufen: %s}
+translate D WhatThreatNothingForcing {%s hat hier nichts Zwingendes: kein Zug gewinnt Material oder gibt Schach.}
+translate D ReviewVerifier {Prüf-Engine}
+translate D ReviewVerifierOff {Aus (keine Prüfung)}
 translate D ReviewVarLines {Zu schreibende Varianten}
 translate D ReviewVarCp {Variantenabstand (cp)}
 translate D ReviewMoveWait {Auf die Prüfungstiefe warten}
 translate D ReviewMovetime {Zeitlimit (ms)}
+translate D ReviewOpeningMoves {Eröffnungszüge}
 translate D StopNow {Stop now}
 translate D StopAfterThisGame {Stop after this game}
 translate D ReviewFromPreset {%s (aus dem Motorprofil)}
@@ -968,6 +996,7 @@ translate D EngineClone {Erstellen Sie eine Kopie der aktuellen Engine}
 translate D EngineDuplicate {Duplizieren}
 translate D EngineDelete {Löschen Sie die aktuelle Engine}
 translate D EngineOpenAnalysis {Offene Analyse}
+translate D EngineOpenWindow {Öffnen Sie das Engine-Fenster}
 
 # PGN window menus:
 menuText D PgnFile "Datei" 0

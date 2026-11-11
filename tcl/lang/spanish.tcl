@@ -183,6 +183,22 @@ translate S EpdStripOpcodes {Quitar códigos de operación...}
 translate S EpdAnnotateTime {Segundos por posición}
 translate S EpdCountBestMoves {Cuente los mejores movimientos}
 translate S EpdSaveLog {Guardar resultados en un archivo}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate S EpdAnalysisTitle {Análisis DEP}
+translate S EpdAnalysisRunning {Ya se está ejecutando otro análisis de la DEP.}
+translate S EpdAnalysisMinTime {El tiempo de análisis debe ser de al menos 1 segundo.}
+translate S EpdAnalysisStartFailed {No se pudo iniciar el motor de análisis: %s}
+translate S EpdAnalysisError {Error de análisis de DEP: %s}
+translate S EpdAnalysisStopped {El análisis se detuvo.}
+translate S EpdAnalysisStopping {Parada...}
+translate S EpdEngineNotStarted {el motor no inició la búsqueda}
+translate S EpdEngineNoResult {el motor no arrojó ningún resultado}
+translate S EpdSearchAlreadyRunning {ya se está realizando una búsqueda}
+translate S EpdNoEngineConfigured {no hay motor configurado}
+translate S EpdOnlyUci {Sólo se admiten motores UCI}
+translate S EpdEngineDisconnected {el motor desconectado}
+translate S EpdEngineNoAnswer {el motor no respondió}
 translate S EpdDontSave {No guardar}
 translate S EpdReadOnly {solo lectura}
 translate S EpdAltered {alterado}
@@ -201,6 +217,7 @@ menuText S ToolsAnalysis "Motor de análisis #1..." 0 \
   {Inicia/para el análisis del motor de ajedrez #1}
 menuText S ToolsAnalysis2 "Motor de análisis #2..." 18 \
   {Inicia/para el análisis del motor de ajedrez #2}
+menuText S ToolsEngineWindow "Ventana del motor..." 0 {Abrir una ventana del motor de ajedrez}
 menuText S ToolsCross "Tabla cruzada" 0 {Muestra la tabla cruzada para esta partida}
 menuText S ToolsFilterGraph "Filtro gráfico" 7 \
   {Abre/cierra la ventana del filtro gráfico}
@@ -920,10 +937,21 @@ translate S ReviewMoveButton {Comentario de la jugada}
 translate S ReviewMoveButtonTooltip {Etiqueta la jugada realizada desde aquí y escríbela}
 translate S ReviewSettings {Ajustes de la revisión}
 translate S ReviewSettingsTooltip {Configure the review settings}
+translate S ToolsWhatThreat {¿Cuál es la amenaza?}
+translate S ToolsWhatThreatTooltip {Pregunta al motor qué amenaza el bando que mueve}
+translate S WhatThreatRunning {Ya hay un análisis de amenazas en curso.}
+translate S WhatThreatNoEngine {No hay ningún motor configurado. Elige uno en Herramientas -> Configurar motores, o abre antes una ventana de motor.}
+translate S WhatThreatNoPosition {No hay ninguna posición que mirar.}
+translate S WhatThreatNoMove {Aquí no hay ninguna jugada que comentar. Ve primero a una jugada de la partida.}
+translate S WhatThreatFailed {El análisis de amenazas no pudo ejecutarse: %s}
+translate S WhatThreatNothingForcing {%s no tiene nada forzado aquí: ninguna jugada gana material ni da jaque.}
+translate S ReviewVerifier {Motor de verificación}
+translate S ReviewVerifierOff {Desactivado (sin verificación)}
 translate S ReviewVarLines {Variantes que escribir}
 translate S ReviewVarCp {Margen de variantes (cp)}
 translate S ReviewMoveWait {Esperar la profundidad de la revisión}
 translate S ReviewMovetime {Límite de tiempo (ms)}
+translate S ReviewOpeningMoves {Movimientos de apertura}
 translate S StopNow {Stop now}
 translate S StopAfterThisGame {Stop after this game}
 translate S ReviewFromPreset {%s (del perfil del motor)}
@@ -985,6 +1013,7 @@ translate S EngineClone {Crear una copia del motor actual.}
 translate S EngineDuplicate {Duplicar}
 translate S EngineDelete {Eliminar el motor actual}
 translate S EngineOpenAnalysis {Análisis abierto}
+translate S EngineOpenWindow {Abrir ventana del motor}
 
 # PGN window menus:
 menuText S PgnFile "Archivo" 0

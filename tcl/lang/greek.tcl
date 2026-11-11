@@ -197,6 +197,22 @@ translate G EpdStripOpcodes {Αφαιρέστε τους κωδικούς λει
 translate G EpdAnnotateTime {Δευτερόλεπτα ανά θέση}
 translate G EpdCountBestMoves {Μετρήστε τις καλύτερες κινήσεις}
 translate G EpdSaveLog {Αποθηκεύστε τα αποτελέσματα στο αρχείο}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate G EpdAnalysisTitle {Ανάλυση EPD}
+translate G EpdAnalysisRunning {Μια άλλη ανάλυση EPD εκτελείται ήδη.}
+translate G EpdAnalysisMinTime {Ο χρόνος ανάλυσης πρέπει να είναι τουλάχιστον 1 δευτερόλεπτο.}
+translate G EpdAnalysisStartFailed {Αποτυχία εκκίνησης του κινητήρα ανάλυσης: %s}
+translate G EpdAnalysisError {Σφάλμα ανάλυσης EPD: %s}
+translate G EpdAnalysisStopped {Η ανάλυση σταμάτησε.}
+translate G EpdAnalysisStopping {Στάθμευση...}
+translate G EpdEngineNotStarted {ο κινητήρας δεν ξεκίνησε την αναζήτηση}
+translate G EpdEngineNoResult {ο κινητήρας δεν επέστρεψε κανένα αποτέλεσμα}
+translate G EpdSearchAlreadyRunning {εκτελείται ήδη μια αναζήτηση}
+translate G EpdNoEngineConfigured {κανένας κινητήρας δεν έχει ρυθμιστεί}
+translate G EpdOnlyUci {Υποστηρίζονται μόνο κινητήρες UCI}
+translate G EpdEngineDisconnected {ο κινητήρας αποσυνδέθηκε}
+translate G EpdEngineNoAnswer {ο κινητήρας δεν απάντησε}
 translate G EpdDontSave {Μην Αποθήκευση}
 translate G EpdReadOnly {μόνο για ανάγνωση}
 translate G EpdAltered {αλλοιώθηκε}
@@ -215,6 +231,7 @@ menuText G ToolsAnalysis "Μηχανή ανάλυσης..." 0 \
   {Εκκίνηση/διακοπή της σκακιστικής μηχανής ανάλυσης}
 menuText G ToolsAnalysis2 "Μηχανής ανάλυσης #2..." 17 \
   {Εκκίνηση/διακοπή της δεύτερης σκακιστικής μηχανής ανάλυσης}
+menuText G ToolsEngineWindow "Παράθυρο κινητήρα..." 0 {Ανοίξτε ένα παράθυρο σκακιστική μηχανή}
 menuText G ToolsCross "Συγκριτικός πίνακας" 0 {Εμφανήστε τον συγκριτικό πίνακα προκριματικών γι' αυτή τη παρτίδα}
 menuText G ToolsFilterGraph "Γράφημα σχετικού φίλτρου" 12 {Άνοιγμα/κλείσιμο του παραθύρου των φίλτρων γραφημάτων σχετικών τιμών}
 menuText G ToolsAbsFilterGraph "Γράφημα απόλυτου φίλτρου" 7 {Άνοιγμα/κλείσιμο του παραθύρου των φίλτρων γραφημάτων απολύτων τιμών}
@@ -895,10 +912,21 @@ translate G ReviewMoveButton {Σχόλιο κίνησης}
 translate G ReviewMoveButtonTooltip {Χαρακτήρισε την κίνηση από εδώ και γράψε την}
 translate G ReviewSettings {Ρυθμίσεις ελέγχου}
 translate G ReviewSettingsTooltip {Configure the review settings}
+translate G ToolsWhatThreat {Ποια είναι η απειλή;}
+translate G ToolsWhatThreatTooltip {Ρώτησε τη μηχανή τι απειλεί το μέρος που παίζει}
+translate G WhatThreatRunning {Μια ανάλυση απειλών εκτελείται ήδη.}
+translate G WhatThreatNoEngine {Δεν έχει ρυθμιστεί μηχανή. Διάλεξε μία στα Εργαλεία -> Λίστα μηχανών ή άνοιξε πρώτα ένα παράθυρο μηχανής.}
+translate G WhatThreatNoPosition {Δεν υπάρχει θέση για εξέταση.}
+translate G WhatThreatNoMove {Δεν υπάρχει κίνηση για σχολιασμό εδώ. Πήγαινε πρώτα σε μια κίνηση της παρτίδας.}
+translate G WhatThreatFailed {Η ανάλυση απειλών δεν μπόρεσε να ξεκινήσει: %s}
+translate G WhatThreatNothingForcing {Το %s δεν έχει τίποτα εξαναγκαστικό εδώ: καμία κίνηση δεν κερδίζει υλικό ούτε δίνει σαχ.}
+translate G ReviewVerifier {Μηχανή επαλήθευσης}
+translate G ReviewVerifierOff {Ανενεργό (χωρίς επαλήθευση)}
 translate G ReviewVarLines {Παραλλαγές προς εγγραφή}
 translate G ReviewVarCp {Περιθώριο παραλλαγών (cp)}
 translate G ReviewMoveWait {Αναμονή για το βάθος ελέγχου}
 translate G ReviewMovetime {Όριο χρόνου (ms)}
+translate G ReviewOpeningMoves {Κινήσεις ανοίγματος}
 translate G StopNow {Stop now}
 translate G StopAfterThisGame {Stop after this game}
 translate G ReviewFromPreset {%s (από το προφίλ μηχανής)}
@@ -960,6 +988,7 @@ translate G EngineClone {Δημιουργήστε ένα αντίγραφο το
 translate G EngineDuplicate {Αντιγραφή}
 translate G EngineDelete {Διαγράψτε τον τρέχοντα κινητήρα}
 translate G EngineOpenAnalysis {Ανοιχτή Ανάλυση}
+translate G EngineOpenWindow {Ανοίξτε το παράθυρο του κινητήρα}
 
 # PGN window menus:
 menuText G PgnFile "Αρχείο" 0

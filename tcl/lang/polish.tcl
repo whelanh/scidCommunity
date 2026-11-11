@@ -205,6 +205,22 @@ translate P EpdStripOpcodes {Usuń kody operacji...}
 translate P EpdAnnotateTime {Sekund na pozycję}
 translate P EpdCountBestMoves {Zlicz najlepsze posunięcia}
 translate P EpdSaveLog {Zapisz wyniki do pliku}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate P EpdAnalysisTitle {Analiza EPD}
+translate P EpdAnalysisRunning {Trwa już kolejna analiza EPD.}
+translate P EpdAnalysisMinTime {Czas analizy musi wynosić co najmniej 1 sekundę.}
+translate P EpdAnalysisStartFailed {Nie udało się uruchomić silnika analitycznego: %s}
+translate P EpdAnalysisError {Błąd analizy EPD: %s}
+translate P EpdAnalysisStopped {Analiza zatrzymana.}
+translate P EpdAnalysisStopping {Zatrzymanie...}
+translate P EpdEngineNotStarted {silnik nie rozpoczął wyszukiwania}
+translate P EpdEngineNoResult {silnik nie zwrócił żadnego wyniku}
+translate P EpdSearchAlreadyRunning {wyszukiwanie już trwa}
+translate P EpdNoEngineConfigured {nie skonfigurowano żadnego silnika}
+translate P EpdOnlyUci {Obsługiwane są tylko silniki UCI}
+translate P EpdEngineDisconnected {silnik odłączony}
+translate P EpdEngineNoAnswer {silnik nie odpowiedział}
 translate P EpdDontSave {Nie zapisuj}
 translate P EpdReadOnly {tylko do odczytu}
 translate P EpdAltered {zmieniony}
@@ -223,6 +239,7 @@ menuText P ToolsAnalysis "Okno analizy..." 0 \
   {Uruchom/zatrzymaj silnik analizy szachowej}
 menuText P ToolsAnalysis2 "Silnik analizy nr 2..." 17 \
   {Uruchom/zatrzymaj drugi silnik analizy szachowej}
+menuText P ToolsEngineWindow "Okno silnika..." 0 {Otwórz okno silnika szachowego}
 menuText P ToolsCross "Tabela turniejowa" 0 {Pokaż tabelę turniejową dla tej partii}
 menuText P ToolsFilterGraph "Wykres filtra (wzgl.) " 12 {Otwórz/zamknij okno wykresu dla wartości względnych}
 menuText P ToolsAbsFilterGraph "Wykres filtra (bezwzgl.)" 7 {Otwórz/zamknij okno wykresu dla wartości bezwzględnych}
@@ -903,10 +920,21 @@ translate P ReviewMoveButton {Komentarz do posunięcia}
 translate P ReviewMoveButtonTooltip {Oceń podświetlone posunięcie i zapisz w partii}
 translate P ReviewSettings {Ustawienia analizy}
 translate P ReviewSettingsTooltip {Ustaw parametry analizy}
+translate P ToolsWhatThreat {Co grozi?}
+translate P ToolsWhatThreatTooltip {Zapytaj silnik, czym grozi strona na posunięciu}
+translate P WhatThreatRunning {Analiza zagrożeń już trwa.}
+translate P WhatThreatNoEngine {Nie skonfigurowano silnika. Wybierz go w Narzędzia -> Konfiguruj silniki albo najpierw otwórz okno silnika.}
+translate P WhatThreatNoPosition {Nie ma pozycji do obejrzenia.}
+translate P WhatThreatNoMove {Nie ma tu ruchu do skomentowania. Przejdź najpierw do ruchu w partii.}
+translate P WhatThreatFailed {Nie udało się uruchomić analizy zagrożeń: %s}
+translate P WhatThreatNothingForcing {%s nie ma tu nic forsującego: żaden ruch nie zdobywa materiału ani nie daje szacha.}
+translate P ReviewVerifier {Silnik weryfikujący}
+translate P ReviewVerifierOff {Wyłączony (bez weryfikacji)}
 translate P ReviewVarLines {Liczba wariantów do zapisania}
 translate P ReviewVarCp {Różnica ocen wariantów (cp)}
 translate P ReviewMoveWait {Czekaj na osiągnięcie zadanej głębokości analizy}
 translate P ReviewMovetime {Limit czasu (ms)}
+translate P ReviewOpeningMoves {Ruchy otwierające}
 translate P StopNow {Zatrzymaj teraz}
 translate P StopAfterThisGame {Zatrzymaj po tej partii}
 translate P ReviewFromPreset {%s (z ustawień silnika)}
@@ -968,6 +996,7 @@ translate P EngineClone {Utwórz kopię bieżącego silnika}
 translate P EngineDuplicate {Duplikuj}
 translate P EngineDelete {Usuń bieżący silnik}
 translate P EngineOpenAnalysis {Otwórz analizę}
+translate P EngineOpenWindow {Otwórz okno silnika}
 
 # PGN window menus:
 menuText P PgnFile "Plik" 0

@@ -85,6 +85,8 @@ foreach f {
     tools/review_report.tcl
     tools/review_coach.tcl
     tools/review_prose.tcl
+    tools/review_threat.tcl
+    tools/epd_analysis.tcl
     tools/engine_limits.tcl
     tools/finish_game.tcl
     tools/comment_facts.tcl

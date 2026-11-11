@@ -170,6 +170,22 @@ translate O EpdStripOpcodes {Strip Opcodes...}
 translate O EpdAnnotateTime {Sekunder per stilling}
 translate O EpdCountBestMoves {Tell de beste trekkene}
 translate O EpdSaveLog {Lagre resultater til fil}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate O EpdAnalysisTitle {EPD-analyse}
+translate O EpdAnalysisRunning {En annen EPD-analyse kjører allerede.}
+translate O EpdAnalysisMinTime {Analysetiden må være minst 1 sekund.}
+translate O EpdAnalysisStartFailed {Kunne ikke starte analysemotoren: %s}
+translate O EpdAnalysisError {EPD-analysefeil: %s}
+translate O EpdAnalysisStopped {Analysen stoppet.}
+translate O EpdAnalysisStopping {Stopper...}
+translate O EpdEngineNotStarted {motoren startet ikke søket}
+translate O EpdEngineNoResult {motoren ga ikke noe resultat}
+translate O EpdSearchAlreadyRunning {et søk kjører allerede}
+translate O EpdNoEngineConfigured {ingen motor er konfigurert}
+translate O EpdOnlyUci {Kun UCI-motorer støttes}
+translate O EpdEngineDisconnected {motoren koblet fra}
+translate O EpdEngineNoAnswer {motoren svarte ikke}
 translate O EpdDontSave {Ikke lagre}
 translate O EpdReadOnly {skrivebeskyttet}
 translate O EpdAltered {endret}
@@ -188,6 +204,7 @@ menuText O ToolsAnalysis "Analysemotor..." 0 \
   {Start/stopp en sjakkanalysemotor}
 menuText O ToolsAnalysis2 "Analysemotor #2..." 0 \
   {Start/stopp enda en sjakkanalysemotor}
+menuText O ToolsEngineWindow "Motorvindu..." 0 {Åpne et sjakkmotorvindu}
 menuText O ToolsCross "Krysstabell" 0 {Vis turnerigskrystabellen for dette partiet}
 menuText O ToolsFilterGraph "Filtergraf" 7 \
   {Åpne/lukk filtergrafvinduet}
@@ -873,10 +890,21 @@ translate O ReviewMoveButton {Trekkkommentar}
 translate O ReviewMoveButtonTooltip {Vurder trekket som ble spilt herfra og skriv det inn}
 translate O ReviewSettings {Innstillinger for vurdering}
 translate O ReviewSettingsTooltip {Configure the review settings}
+translate O ToolsWhatThreat {Hva truer?}
+translate O ToolsWhatThreatTooltip {Spør motoren hva siden i trekket truer}
+translate O WhatThreatRunning {En trusselanalyse pågår allerede.}
+translate O WhatThreatNoEngine {Ingen motor er satt opp. Velg en i Verktøy -> Motorliste, eller åpne først et motorvindu.}
+translate O WhatThreatNoPosition {Det er ingen stilling å se på.}
+translate O WhatThreatNoMove {Det er ikke noe trekk å kommentere her. Gå først til et trekk i partiet.}
+translate O WhatThreatFailed {Trusselanalysen kunne ikke kjøres: %s}
+translate O WhatThreatNothingForcing {%s har ingenting tvingende her: ingen trekk vinner materiale eller gir sjakk.}
+translate O ReviewVerifier {Verifiseringsmotor}
+translate O ReviewVerifierOff {Av (ingen verifisering)}
 translate O ReviewVarLines {Varianter som skal skrives}
 translate O ReviewVarCp {Variantmargin (cp)}
 translate O ReviewMoveWait {Vent på vurderingsdybden}
 translate O ReviewMovetime {Tidsgrense (ms)}
+translate O ReviewOpeningMoves {Åpningsbevegelser}
 translate O StopNow {Stop now}
 translate O StopAfterThisGame {Stop after this game}
 translate O ReviewFromPreset {%s (fra motorprofilen)}
@@ -938,6 +966,7 @@ translate O EngineClone {Lag en kopi av gjeldende motor}
 translate O EngineDuplicate {Dupliser}
 translate O EngineDelete {Slett gjeldende motor}
 translate O EngineOpenAnalysis {Åpne Analyse}
+translate O EngineOpenWindow {Åpne motorvinduet}
 
 # PGN window menus:
 menuText O PgnFile "Fil" 0

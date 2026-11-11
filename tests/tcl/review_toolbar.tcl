@@ -128,8 +128,10 @@ check "and strips the whole ::icon:: prefix" \
 
 puts "\nthe threat button waits for its command"
 
-check "the threat button is guarded by its command" \
+check "the threat button waits for its command" \
     [expr {[string first {if {[llength [info commands ::enginewin::threat]]}} $engineSrc] >= 0}]
+check "and is not built in an embedded PGN viewer" \
+    [expr {[string first {![info exists ::enginewin::pgnviewer($id)] || !$::enginewin::pgnviewer($id)} $engineSrc] >= 0}]
 check "and its icon is the one prepared here" \
     [expr {[string first {tb_review_threat} $engineSrc] >= 0}]
 

@@ -165,6 +165,22 @@ translate b EpdStripOpcodes {স্ট্রিপ অপকোড...}
 translate b EpdAnnotateTime {অবস্থান প্রতি সেকেন্ড}
 translate b EpdCountBestMoves {সেরা চাল গণনা}
 translate b EpdSaveLog {ফাইলে ফলাফল সংরক্ষণ করুন}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate b EpdAnalysisTitle {EPD বিশ্লেষণ}
+translate b EpdAnalysisRunning {আরেকটি EPD বিশ্লেষণ ইতিমধ্যেই চলছে।}
+translate b EpdAnalysisMinTime {বিশ্লেষণের সময় কমপক্ষে 1 সেকেন্ড হতে হবে।}
+translate b EpdAnalysisStartFailed {বিশ্লেষণ ইঞ্জিন শুরু করতে ব্যর্থ হয়েছে: %s}
+translate b EpdAnalysisError {EPD বিশ্লেষণ ত্রুটি: %s}
+translate b EpdAnalysisStopped {বিশ্লেষণ বন্ধ।}
+translate b EpdAnalysisStopping {থামছে...}
+translate b EpdEngineNotStarted {ইঞ্জিন অনুসন্ধান শুরু করেনি}
+translate b EpdEngineNoResult {ইঞ্জিন কোন ফলাফল ফিরে}
+translate b EpdSearchAlreadyRunning {একটি অনুসন্ধান ইতিমধ্যেই চলছে}
+translate b EpdNoEngineConfigured {কোন ইঞ্জিন কনফিগার করা হয় না}
+translate b EpdOnlyUci {শুধুমাত্র UCI ইঞ্জিন সমর্থিত}
+translate b EpdEngineDisconnected {ইঞ্জিন সংযোগ বিচ্ছিন্ন}
+translate b EpdEngineNoAnswer {ইঞ্জিন উত্তর দেয়নি}
 translate b EpdDontSave {সংরক্ষণ করবেন না}
 translate b EpdReadOnly {শুধুমাত্র পঠনযোগ্য}
 translate b EpdAltered {পরিবর্তিত}
@@ -183,6 +199,7 @@ menuText b ToolsAnalysis "বিশ্লেষণ ইঞ্জিন..." 0 \
   {একটি দাবা বিশ্লেষণ ইঞ্জিন শুরু/বন্ধ করুন}
 menuText b ToolsAnalysis2 "বিশ্লেষণ ইঞ্জিন #2..." 17 \
   {2য় দাবা বিশ্লেষণ ইঞ্জিন শুরু/বন্ধ করুন}
+menuText b ToolsEngineWindow "ইঞ্জিন উইন্ডো..." 0 {একটি দাবা ইঞ্জিনের জানালা খুলুন}
 menuText b ToolsCross "ক্রসস্টেবল" 0 {এই গেমের জন্য টুর্নামেন্ট ক্রসটেবল দেখান}
 menuText b ToolsFilterGraph "রিল ফিল্টার গ্রাফ" 12 {আপেক্ষিক মানগুলির জন্য ফিল্টার গ্রাফ উইন্ডো খুলুন/বন্ধ করুন}
 menuText b ToolsAbsFilterGraph "অ্যাবস ফিল্টার গ্রাফ" 7 {পরম মানগুলির জন্য ফিল্টার গ্রাফ উইন্ডো খুলুন/বন্ধ করুন}
@@ -863,10 +880,21 @@ translate b ReviewMoveButton {চালের মন্তব্য}
 translate b ReviewMoveButtonTooltip {এখান থেকে খেলা চালটি লেবেল করুন ও লিখুন}
 translate b ReviewSettings {পর্যালোচনার সেটিংস}
 translate b ReviewSettingsTooltip {Configure the review settings}
+translate b ToolsWhatThreat {হুমকি কী?}
+translate b ToolsWhatThreatTooltip {ইঞ্জিনকে জিজ্ঞাসা করুন চালের পালা যে পক্ষ, সে কী হুমকি দিচ্ছে}
+translate b WhatThreatRunning {হুমকি বিশ্লেষণ ইতিমধ্যে চলছে।}
+translate b WhatThreatNoEngine {কোনো ইঞ্জিন কনফিগার করা নেই। সরঞ্জাম -> ইঞ্জিন তালিকা থেকে একটি বেছে নিন, অথবা আগে একটি ইঞ্জিন উইন্ডো খুলুন।}
+translate b WhatThreatNoPosition {দেখার মতো কোনো অবস্থান নেই।}
+translate b WhatThreatNoMove {এখানে মন্তব্য করার মতো কোনো চাল নেই। আগে খেলার কোনো চালে যান।}
+translate b WhatThreatFailed {হুমকি বিশ্লেষণ চালানো যায়নি: %s}
+translate b WhatThreatNothingForcing {%s-এর এখানে বাধ্যকর কিছু নেই: কোনো চাল দ্রব্য জেতে না বা চেক দেয় না।}
+translate b ReviewVerifier {যাচাইকরণ ইঞ্জিন}
+translate b ReviewVerifierOff {বন্ধ (কোনো যাচাই নেই)}
 translate b ReviewVarLines {যে ভ্যারিয়েশনগুলো লিখতে হবে}
 translate b ReviewVarCp {ভ্যারিয়েশনের ব্যবধান (cp)}
 translate b ReviewMoveWait {পর্যালোচনার গভীরতার জন্য অপেক্ষা করুন}
 translate b ReviewMovetime {সময়সীমা (ms)}
+translate b ReviewOpeningMoves {ওপেনিং চলন}
 translate b StopNow {Stop now}
 translate b StopAfterThisGame {Stop after this game}
 translate b ReviewFromPreset {%s (ইঞ্জিন প্রিসেট থেকে)}
@@ -928,6 +956,7 @@ translate b EngineClone {বর্তমান ইঞ্জিনের এক�
 translate b EngineDuplicate {অনুলিপি করুন}
 translate b EngineDelete {বর্তমান ইঞ্জিন মুছুন}
 translate b EngineOpenAnalysis {খোলা বিশ্লেষণ}
+translate b EngineOpenWindow {ইঞ্জিন উইন্ডো খুলুন}
 
 # PGN window menus:
 menuText b PgnFile "ফাইল" 0

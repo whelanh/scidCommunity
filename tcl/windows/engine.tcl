@@ -1147,10 +1147,14 @@ proc ::enginewin::createButtonsBar {id btn display} {
 
     # What's the Threat? is a later slice: the button exists only when its
     # command does. The icon is already in img/buttons for the day it lands.
+    # An embedded PGN viewer shows a game the main board does not hold, and the
+    # probe reads the main board's position: no button there.
     if {[llength [info commands ::enginewin::threat]]} {
-        ttk::button $btn.threat -image ::icon::tb_review_threat -style Toolbutton \
-            -command [list ::enginewin::threat $id]
-        ::utils::tooltip::Set $btn.threat [::reviewui::label ToolsWhatThreatTooltip]
+        if {![info exists ::enginewin::pgnviewer($id)] || !$::enginewin::pgnviewer($id)} {
+            ttk::button $btn.threat -image ::icon::tb_review_threat -style Toolbutton \
+                -command [list ::enginewin::threat $id]
+            ::utils::tooltip::Set $btn.threat [::reviewui::label ToolsWhatThreatTooltip]
+        }
     }
 
     ttk::button $btn.reviewsettings -image ::icon::tb_review_settings -style Toolbutton \
@@ -1462,6 +1466,23 @@ proc ::enginewin::reviewGame {id} {
     if {$started} { catch { ::reviewprogress::ui::open } }
 }
 
+# What's the threat? uses this window's preset, so the answer comes from the
+# engine the reader is looking at. With no engine selected, the probe falls back
+# to the first configured preset and says what it needs.
+proc ::enginewin::threat {id} {
+    # The probe asks the board's position. An embedded PGN viewer's game is not
+    # on the board, so the button is not built there; this guard also covers a
+    # direct call.
+    if {[info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id)} {
+        return
+    }
+    set name ""
+    catch { set name $::enginewin_lastengine($id) }
+    set cfg ""
+    if {$name ne ""} { catch { set cfg [::enginecfg::get $name] } }
+    ::reviewthreat::ask $cfg
+}
+
 # Move Comment: the move the reader is on, and only that move.
 #
 # Two positions, the one before the move and the one after it, because a verdict
@@ -1586,13 +1607,24 @@ proc ::enginewin::reviewSettings {id} {
     set row 0
     foreach key [::reviewui::settingKeys] {
         set value [::review::get $key]
-        if {[lsearch -exact {move_comment_wait diagram coach} $key] >= 0} {
+        if {[lsearch -exact {move_comment_wait diagram opening_errors tactical_exercises coach} $key] >= 0} {
             # On/off settings are a checkbox, not a number box holding 0 or 1: a
             # spinbox beside "Coach prose" offers "2", which the setter refuses.
             set ::enginewin::reviewsetting($id,$key) $value
             ttk::label $w.f.l$key -text "[::reviewui::settingLabel $key]:" -anchor w
             ttk::checkbutton $w.f.v$key -onvalue 1 -offvalue 0 \
                 -variable ::enginewin::reviewsetting($id,$key)
+        } elseif {$key eq "verifier"} {
+            # The verifier names an engine preset, so its row is a list of the
+            # presets this session has, with Off first: the second engine is the
+            # point, and Off - the default - means "write the labels the search
+            # produced and nothing else". The variable holds the label on show;
+            # ::reviewui::verifierValue turns it back into the setting's value.
+            set ::enginewin::reviewsetting($id,$key) [::reviewui::verifierLabel $value]
+            ttk::label $w.f.l$key -text "[::reviewui::settingLabel $key]:" -anchor w
+            ttk::combobox $w.f.v$key -values [::reviewui::verifierChoices] \
+                -state readonly -width 22 \
+                -textvariable ::enginewin::reviewsetting($id,$key)
         } else {
             lassign [::reviewui::settingRange $key] lo hi
             set ::enginewin::reviewsetting($id,$key) $value

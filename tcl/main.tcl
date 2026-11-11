@@ -465,16 +465,16 @@ proc ::spaceIsPlayArea {w} {
     if {[regexp -nocase {Checkbutton$|Radiobutton$|Menubutton$|Entry$|Combobox$|Spinbox$} $cls] || $cls eq "Menu"} {
         return false
     }
-    # Editable text (e.g. the PGN window) keeps the spacebar; the engine and
-    # analysis displays are read-only, so they are play areas.
+    # Editable text (e.g. the PGN window) keeps the spacebar; the engine
+    # displays are read-only, so they are play areas.
     if {$cls eq "Text"} {
         if {[catch {$w cget -state} state] == 0 && $state eq "normal"} { return false }
     }
     return true
 }
 
-# Dispatch <space> to the board / engine window / analysis window that owns
-# widget $w. Return true if it was handled.
+# Dispatch <space> to the board / engine window that owns widget $w.
+# Return true if it was handled.
 proc ::spacePlayWidget {w} {
     # If the pointer is over a notebook (e.g. its tab header), use the
     # currently selected tab so the shortcut also works there.
@@ -487,9 +487,6 @@ proc ::spacePlayWidget {w} {
     }
     if {$w eq ".main" || [string match ".main.*" $w]} {
         return [::mainBoardSpaceKey $w]
-    }
-    if {[regexp {^\.analysisWin([0-9]+)(\.|$)} $w -> n]} {
-        return [analysisSpaceKey $n $w]
     }
     return false
 }
@@ -512,8 +509,8 @@ proc ::spacePlayPointer {} {
 # Return true if the key was handled.
 proc ::spacePlayGlobal {} {
     # 1. Editable fields keep the spacebar for typing. Read-only displays count
-    #    as play areas, so the shortcut also works from the engine/analysis
-    #    output and the PGN window. Checking the focus before the pointer means
+    #    as play areas, so the shortcut also works from the engine output and
+    #    the PGN window. Checking the focus before the pointer means
     #    a field being edited is never disturbed by a stray engine move.
     set fw [focus]
     if {$fw ne "" && ![::spaceIsPlayArea $fw]} { return false }
@@ -546,9 +543,7 @@ proc ::addEngineBestMove {id} {
 # The priority follows what the board displays:
 #   1. the engine associated with the main evaluation bar (the one the user
 #      sees, and can select from the eval bar's right-click menu);
-#   2. otherwise a running Analysis engine (engine 1 has priority, engine 2
-#      is used only when engine 1 is not analyzing);
-#   3. otherwise any running Engine window with a current best move.
+#   2. otherwise any running Engine window with a current best move.
 # Return true if a move was successfully added.
 proc ::playMainEngineBestMove {} {
     # 1. The engine shown in the main evaluation bar.
@@ -556,18 +551,7 @@ proc ::playMainEngineBestMove {} {
         [::addEngineBestMove $::mainEvalBarEngineID_]} {
         return 1
     }
-    # 2. Analysis engines: engine 1 owns the display unless it is not analyzing.
-    foreach n {1 2} {
-        if {![winfo exists .analysisWin$n] || !$::analysis(analyzeMode$n)} { continue }
-        # A locked engine analyzes a fixed position; playing its move in the
-        # current position would be wrong (the Add move button is disabled).
-        if {$::analysis(lockEngine$n)} { continue }
-        if {$n != 1 && [winfo exists .analysisWin1] && $::analysis(analyzeMode1)} { continue }
-        # Only stop here if the move was actually added; otherwise keep looking
-        # for a fallback (e.g. an Engine window with a valid move).
-        if {[makeAnalysisMove $n]} { return 1 }
-    }
-    # 3. Any running Engine window with a current best move.
+    # 2. Any running Engine window with a current best move.
     foreach id [lsort -integer [array names ::enginewin::engState]] {
         if {[::addEngineBestMove $id]} { return 1 }
     }
@@ -2101,6 +2085,15 @@ proc CreateGameInfo {} {
   translateMenuLabels .main.gameInfo.menu
 }
 
+# A toolbar tooltip's help text, with English as the fallback while the
+# selected language has not translated a newly added key yet.
+proc ::toolbarHelp {key} {
+    set msg ""
+    catch { set msg $::helpMessage($::language,$key) }
+    if {$msg eq ""} { catch { set msg $::helpMessage(E,$key) } }
+    return $msg
+}
+
 # Set toolbar help status messages:
 proc setToolbarTooltips { tb } {
     foreach {b m} {
@@ -2112,8 +2105,8 @@ proc setToolbarTooltips { tb } {
 	headersearch SearchHeader materialsearch SearchMaterial
 	switcher WindowsSwitcher glist WindowsGList pgn WindowsPGN tmt WindowsTmt
 	maint WindowsMaint eco WindowsECO tree WindowsTree crosstab ToolsCross
-	engine ToolsAnalysis } {
-	catch { ::utils::tooltip::Set $tb.$b $::helpMessage($::language,$m) }
+	engine ToolsEngineWindow } {
+	catch { ::utils::tooltip::Set $tb.$b [::toolbarHelp $m] }
     }
 }
 
@@ -2225,7 +2218,7 @@ proc redrawToolbar { args } {
         headersearch SearchHeader  materialsearch SearchMaterial
         pgn WindowsPGN  tmt WindowsTmt  maint WindowsMaint
         switcher WindowsSwitcher  glist WindowsGList  eco WindowsECO
-        tree WindowsTree  crosstab ToolsCross  engine ToolsAnalysis
+        tree WindowsTree  crosstab ToolsCross  engine ToolsEngineWindow
     }
 
     if {$::windowsOS} {
@@ -2248,7 +2241,7 @@ proc redrawToolbar { args } {
             if {$::toolbar_state($i)} {
                 ttk::button .main.tb.$i -image ::icon::tb_$i -command $tbCmd($i) -padding {2 0}
                 pack .main.tb.$i -side left -padx 1 -pady 1
-                catch { ::utils::tooltip::Set .main.tb.$i $::helpMessage($::language,$tbHelp($i)) }
+                catch { ::utils::tooltip::Set .main.tb.$i [::toolbarHelp $tbHelp($i)] }
             }
         }
     } else {
@@ -2258,7 +2251,7 @@ proc redrawToolbar { args } {
                     maint switcher glist eco tree crosstab engine} {
             if {$::toolbar_state($i)} {
                 .menu add command -image ::icon::tb_$i -command $tbCmd($i)
-                catch { ::utils::tooltip::Set .menu -index $nr $::helpMessage($::language,$tbHelp($i)) }
+                catch { ::utils::tooltip::Set .menu -index $nr [::toolbarHelp $tbHelp($i)] }
                 incr nr
             }
         }

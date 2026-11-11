@@ -172,6 +172,22 @@ translate R EpdStripOpcodes {Удалить коды операций...}
 translate R EpdAnnotateTime {Секунды на позицию}
 translate R EpdCountBestMoves {Подсчитайте лучшие ходы}
 translate R EpdSaveLog {Сохранить результаты в файл}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate R EpdAnalysisTitle {ЭПД-анализ}
+translate R EpdAnalysisRunning {Другой анализ EPD уже запущен.}
+translate R EpdAnalysisMinTime {Время анализа должно составлять не менее 1 секунды.}
+translate R EpdAnalysisStartFailed {Не удалось запустить механизм анализа: %s}
+translate R EpdAnalysisError {Ошибка анализа EPD: %s}
+translate R EpdAnalysisStopped {Анализ остановился.}
+translate R EpdAnalysisStopping {Остановка...}
+translate R EpdEngineNotStarted {движок не запустил поиск}
+translate R EpdEngineNoResult {двигатель не дал результата}
+translate R EpdSearchAlreadyRunning {поиск уже запущен}
+translate R EpdNoEngineConfigured {ни один двигатель не настроен}
+translate R EpdOnlyUci {Поддерживаются только двигатели UCI.}
+translate R EpdEngineDisconnected {двигатель отключился}
+translate R EpdEngineNoAnswer {двигатель не ответил}
 translate R EpdDontSave {Не сохранять}
 translate R EpdReadOnly {только для чтения}
 translate R EpdAltered {измененный}
@@ -190,6 +206,7 @@ menuText R ToolsAnalysis "Аналитический движок №1..." 0 \
   {Запустить/остановить первый аналитический шахматный движок}
 menuText R ToolsAnalysis2 "Аналитический движок №2..." 22 \
   {Запустить/остановить второй аналитический шахматный движок}
+menuText R ToolsEngineWindow "Окно двигателя..." 0 {Откройте окно шахматного движка}
 menuText R ToolsCross "Турнирная таблица" 0 {Показать турнирную таблицу для этой партии}
 menuText R ToolsFilterGraph "Диаграмма фильтра" 0 {Открыть/закрыть окно фильтрованной диаграммы}
 menuText R ToolsAbsFilterGraph "Диаграмма фильтра абсолютных значений" 7 {Открыть/закрыть окно диаграммы фильтра абсолютных значений}
@@ -870,10 +887,21 @@ translate R ReviewMoveButton {Комментарий к ходу}
 translate R ReviewMoveButtonTooltip {Оцени сделанный ход и запиши его}
 translate R ReviewSettings {Настройки разбора}
 translate R ReviewSettingsTooltip {Configure the review settings}
+translate R ToolsWhatThreat {В чём угроза?}
+translate R ToolsWhatThreatTooltip {Спросить движок, чем угрожает сторона, которая делает ход}
+translate R WhatThreatRunning {Анализ угроз уже идёт.}
+translate R WhatThreatNoEngine {Движок не настроен. Выберите его в Инструменты -> Список движков или сначала откройте окно движка.}
+translate R WhatThreatNoPosition {Нет позиции для просмотра.}
+translate R WhatThreatNoMove {Здесь нет хода для комментария. Сначала перейдите к ходу в партии.}
+translate R WhatThreatFailed {Не удалось запустить анализ угроз: %s}
+translate R WhatThreatNothingForcing {У %s нет ничего форсирующего: ни один ход не выигрывает материал и не даёт шах.}
+translate R ReviewVerifier {Проверяющий движок}
+translate R ReviewVerifierOff {Выключено (без проверки)}
 translate R ReviewVarLines {Варианты для записи}
 translate R ReviewVarCp {Порог вариантов (cp)}
 translate R ReviewMoveWait {Ждать глубину разбора}
 translate R ReviewMovetime {Ограничение времени (ms)}
+translate R ReviewOpeningMoves {Первые ходы}
 translate R StopNow {Stop now}
 translate R StopAfterThisGame {Stop after this game}
 translate R ReviewFromPreset {%s (из профиля движка)}
@@ -935,6 +963,7 @@ translate R EngineClone {Создать действующую движку}
 translate R EngineDuplicate {Дублировать}
 translate R EngineDelete {Удалить текущий движок}
 translate R EngineOpenAnalysis {Открытый анализ}
+translate R EngineOpenWindow {Открыть окно двигателя}
 
 # PGN window menus:
 menuText R PgnFile "Файл" 0

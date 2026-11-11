@@ -114,7 +114,7 @@ proc ::reviewui::buttons {state} {
 # also wrote them would be a second place to get them wrong. The order matters
 # because ::review::setValue has cross-field rules - mpv caps var_lines - so a
 # single edit that lowers both must apply mpv first.
-variable ::reviewui::SETTING_KEYS {mpv depth movetime var_lines var_cp move_comment_wait diagram coach}
+variable ::reviewui::SETTING_KEYS {mpv depth movetime var_lines var_cp move_comment_wait diagram opening_errors opening_window tactical_exercises coach verifier}
 
 # The review setting a dialog row edits, and the label it shows. `Lines` and
 # `Depth` are the keys the engine window already uses for the same two numbers.
@@ -126,7 +126,11 @@ variable ::reviewui::SETTING_LABELS {
     var_cp            ReviewVarCp
     move_comment_wait ReviewMoveWait
     diagram           Diagram
+    opening_errors    FindOpeningErrors
+    opening_window    ReviewOpeningMoves
+    tactical_exercises MarkTacticalExercises
     coach             ReviewCoach
+    verifier          ReviewVerifier
 }
 
 proc ::reviewui::settingKeys {} {
@@ -158,10 +162,42 @@ proc ::reviewui::applySettings {values} {
     set why {}
     foreach key [::reviewui::settingKeys] {
         if {![dict exists $values $key]} { continue }
-        set reason [::review::setValue $key [dict get $values $key]]
+        if {$key eq "verifier"} {
+            set reason [::review::setValue verifier \
+                [::reviewui::verifierValue [dict get $values $key]]]
+        } else {
+            set reason [::review::setValue $key [dict get $values $key]]
+        }
         if {$reason ne ""} { lappend why $reason }
     }
     return $why
+}
+
+# The Verifier engine row's choices: Off first, then the presets this session
+# has. The combobox holds the label a reader sees, so Off is a word rather than
+# the empty string a combobox renders as a blank line;
+# ::reviewui::verifierValue turns that label back into the setting's value, and
+# the options file carries "" for Off.
+proc ::reviewui::verifierOff {} {
+    return [::reviewui::label ReviewVerifierOff]
+}
+
+proc ::reviewui::verifierChoices {} {
+    set out [list [::reviewui::verifierOff]]
+    set names {}
+    catch { set names [::enginecfg::names] }
+    foreach name $names { lappend out $name }
+    return $out
+}
+
+proc ::reviewui::verifierLabel {value} {
+    if {$value eq ""} { return [::reviewui::verifierOff] }
+    return $value
+}
+
+proc ::reviewui::verifierValue {label} {
+    if {$label eq [::reviewui::verifierOff]} { return "" }
+    return $label
 }
 
 # Threads and Hash as the preset advertises them, for the dialog's read-only
@@ -394,6 +430,9 @@ variable ::reviewui::SETTING_RANGES {
     var_cp            {0 500}
     move_comment_wait {0 1}
     diagram           {0 1}
+    opening_errors    {0 1}
+    opening_window    {10 20}
+    tactical_exercises {0 1}
     coach             {0 1}
 }
 

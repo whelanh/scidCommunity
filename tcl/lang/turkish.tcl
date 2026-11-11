@@ -169,6 +169,22 @@ translate T EpdStripOpcodes {Opcode'ları soyun...}
 translate T EpdAnnotateTime {Pozisyon başına saniye}
 translate T EpdCountBestMoves {En iyi hamleleri sayın}
 translate T EpdSaveLog {Sonuçları dosyaya kaydet}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate T EpdAnalysisTitle {EPD analizi}
+translate T EpdAnalysisRunning {Başka bir EPD analizi zaten çalışıyor.}
+translate T EpdAnalysisMinTime {Analiz süresi en az 1 saniye olmalıdır.}
+translate T EpdAnalysisStartFailed {Analiz motoru başlatılamadı: %s}
+translate T EpdAnalysisError {EPD analiz hatası: %s}
+translate T EpdAnalysisStopped {Analiz durduruldu.}
+translate T EpdAnalysisStopping {Durduruluyor...}
+translate T EpdEngineNotStarted {motor aramayı başlatmadı}
+translate T EpdEngineNoResult {motor sonuç vermedi}
+translate T EpdSearchAlreadyRunning {bir arama zaten yürütülüyor}
+translate T EpdNoEngineConfigured {hiçbir motor yapılandırılmadı}
+translate T EpdOnlyUci {Yalnızca UCI motorları desteklenir}
+translate T EpdEngineDisconnected {motor bağlantısı kesildi}
+translate T EpdEngineNoAnswer {motor cevap vermedi}
 translate T EpdDontSave {Kaydetme}
 translate T EpdReadOnly {salt okunur}
 translate T EpdAltered {değiştirilmiş}
@@ -187,6 +203,7 @@ menuText T ToolsAnalysis "Analiz Motoru..." 0 \
   {Satranç analiz motorunu başlat/durdur}
 menuText T ToolsAnalysis2 "Analiz Motoru #2..." 17 \
   {2. satranç analiz motorunu başlat/durdur}
+menuText T ToolsEngineWindow "Motor Penceresi..." 0 {Bir satranç motoru penceresi açın}
 menuText T ToolsCross "Çapraz tablo" 0 {Bu oyun için turnuva çapraz tablosunu göster}
 menuText T ToolsFilterGraph "Rel. Grafiği Filtrele" 12 {Göreceli değerler için filtre grafiği penceresini aç/kapat}
 menuText T ToolsAbsFilterGraph "Abs. Grafiği Filtrele" 7 {Mutlak değerler için filtre grafiği penceresini aç/kapat}
@@ -867,10 +884,21 @@ translate T ReviewMoveButton {Hamle yorumu}
 translate T ReviewMoveButtonTooltip {Buradan oynanan hamleyi etiketle ve yaz}
 translate T ReviewSettings {İnceleme ayarları}
 translate T ReviewSettingsTooltip {Configure the review settings}
+translate T ToolsWhatThreat {Tehdit ne?}
+translate T ToolsWhatThreatTooltip {Motora, sıra kimdeyse onun neyi tehdit ettiğini sor}
+translate T WhatThreatRunning {Zaten bir tehdit analizi çalışıyor.}
+translate T WhatThreatNoEngine {Yapılandırılmış motor yok. Araçlar -> Motor Listesi'nden birini seçin ya da önce bir motor penceresi açın.}
+translate T WhatThreatNoPosition {Bakılacak bir konum yok.}
+translate T WhatThreatNoMove {Burada yorumlanacak bir hamle yok. Önce oyundaki bir hamleye gidin.}
+translate T WhatThreatFailed {Tehdit analizi çalıştırılamadı: %s}
+translate T WhatThreatNothingForcing {%s için burada zorlayıcı bir şey yok: hiçbir hamle materyal kazandırmıyor ve şah çekmiyor.}
+translate T ReviewVerifier {Doğrulama motoru}
+translate T ReviewVerifierOff {Kapalı (doğrulama yok)}
 translate T ReviewVarLines {Yazılacak varyantlar}
 translate T ReviewVarCp {Varyant aralığı (cp)}
 translate T ReviewMoveWait {İnceleme derinliğini bekle}
 translate T ReviewMovetime {Süre sınırı (ms)}
+translate T ReviewOpeningMoves {Açılış hamleleri}
 translate T StopNow {Stop now}
 translate T StopAfterThisGame {Stop after this game}
 translate T ReviewFromPreset {%s (motor profilinden)}
@@ -932,6 +960,7 @@ translate T EngineClone {Geçerli motorun bir kopyasını oluşturun}
 translate T EngineDuplicate {Çoğalt}
 translate T EngineDelete {Mevcut motoru sil}
 translate T EngineOpenAnalysis {Açık Analiz}
+translate T EngineOpenWindow {Motor Penceresini Aç}
 
 # PGN window menus:
 menuText T PgnFile "Dosya" 0

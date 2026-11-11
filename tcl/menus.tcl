@@ -275,9 +275,12 @@ $m  add command -label ToolsStartEngine1 \
     -command "::enginewin::start 1" -accelerator "F2"
 $m  add command -label ToolsStartEngine2 \
     -command "::enginewin::start 2" -accelerator "F3"
-$m  add command -label ToolsAnalysis -command "::enginelist::choose"
 $m  add command -label ToolsRapidAnnotate \
     -accelerator "Ctrl+Shift+A" -command ::rapid_annotate::commit
+# What's the threat? asks the engine about the board in front of the reader, on
+# a connection of its own, and writes the answer into the current move's comment.
+# The label is the key, as above.
+$m  add command -label ToolsWhatThreat -command ::reviewthreat::ask
 $m add separator
 $m add checkbutton -label ToolsFilterGraph \
     -accelerator "Ctrl+Shift+G" -variable filterGraph -command tools::graphs::filter::Open

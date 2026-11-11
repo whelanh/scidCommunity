@@ -168,6 +168,22 @@ translate I EpdStripOpcodes {Elimina codici operativi...}
 translate I EpdAnnotateTime {Secondi per posizione}
 translate I EpdCountBestMoves {Conta le mosse migliori}
 translate I EpdSaveLog {Salva i risultati su file}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate I EpdAnalysisTitle {Analisi EPD}
+translate I EpdAnalysisRunning {Un'altra analisi EPD è già in corso.}
+translate I EpdAnalysisMinTime {Il tempo di analisi deve essere di almeno 1 secondo.}
+translate I EpdAnalysisStartFailed {Impossibile avviare il motore di analisi: %s}
+translate I EpdAnalysisError {Errore di analisi EPD: %s}
+translate I EpdAnalysisStopped {L'analisi si fermò.}
+translate I EpdAnalysisStopping {Arresto...}
+translate I EpdEngineNotStarted {il motore non ha avviato la ricerca}
+translate I EpdEngineNoResult {il motore non ha restituito alcun risultato}
+translate I EpdSearchAlreadyRunning {è già in corso una ricerca}
+translate I EpdNoEngineConfigured {nessun motore è configurato}
+translate I EpdOnlyUci {Sono supportati solo i motori UCI}
+translate I EpdEngineDisconnected {il motore staccato}
+translate I EpdEngineNoAnswer {il motore non rispondeva}
 translate I EpdDontSave {Non salvare}
 translate I EpdReadOnly {sola lettura}
 translate I EpdAltered {alterato}
@@ -186,6 +202,7 @@ menuText I ToolsAnalysis "Motore di analisi..." 10 \
   {Avvia/ferma il motore di analisi scacchistica}
 menuText I ToolsAnalysis2 "Motore di analisi 2..." 20 \
   {Avvia/ferma il motore di analisi scacchistica}
+menuText I ToolsEngineWindow "Finestra del motore..." 0 {Apri una finestra del motore scacchistico}
 menuText I ToolsCross "Tabellone" 0 {Mostra il tabellone del torneo per questa partita}
 menuText I ToolsFilterGraph "Grafici relativi" 3 \
   {Apre/chiude la finestra dei grafici sul filtro con valori relativi}
@@ -874,10 +891,21 @@ translate I ReviewMoveButton {Commento della mossa}
 translate I ReviewMoveButtonTooltip {Giudica la mossa giocata da qui e scrivila}
 translate I ReviewSettings {Impostazioni della revisione}
 translate I ReviewSettingsTooltip {Configure the review settings}
+translate I ToolsWhatThreat {Qual è la minaccia?}
+translate I ToolsWhatThreatTooltip {Chiedi al motore che cosa minaccia il lato al tratto}
+translate I WhatThreatRunning {Un'analisi delle minacce è già in corso.}
+translate I WhatThreatNoEngine {Nessun motore è configurato. Scegline uno in Strumenti -> Elenco motori, oppure apri prima una finestra del motore.}
+translate I WhatThreatNoPosition {Non c'è nessuna posizione da guardare.}
+translate I WhatThreatNoMove {Qui non c'è nessuna mossa da commentare. Vai prima a una mossa della partita.}
+translate I WhatThreatFailed {L'analisi delle minacce non è potuta partire: %s}
+translate I WhatThreatNothingForcing {%s non ha nulla di forzante qui: nessuna mossa guadagna materiale o dà scacco.}
+translate I ReviewVerifier {Motore di verifica}
+translate I ReviewVerifierOff {Disattivato (nessuna verifica)}
 translate I ReviewVarLines {Varianti da scrivere}
 translate I ReviewVarCp {Soglia delle varianti (cp)}
 translate I ReviewMoveWait {Attendi la profondità della revisione}
 translate I ReviewMovetime {Limite di tempo (ms)}
+translate I ReviewOpeningMoves {Movimenti di apertura}
 translate I StopNow {Stop now}
 translate I StopAfterThisGame {Stop after this game}
 translate I ReviewFromPreset {%s (dal profilo del motore)}
@@ -939,6 +967,7 @@ translate I EngineClone {Crea una copia del motore corrente}
 translate I EngineDuplicate {Duplica}
 translate I EngineDelete {Elimina il motore corrente}
 translate I EngineOpenAnalysis {Apri analisi}
+translate I EngineOpenWindow {Apri la finestra del motore}
 
 # PGN window menus:
 menuText I PgnFile "File" 0

@@ -181,6 +181,22 @@ translate K EpdStripOpcodes {Elimina els codis operatius...}
 translate K EpdAnnotateTime {Segons per posició}
 translate K EpdCountBestMoves {Compteu els millors moviments}
 translate K EpdSaveLog {Desa els resultats al fitxer}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate K EpdAnalysisTitle {Anàlisi EPD}
+translate K EpdAnalysisRunning {Una altra anàlisi EPD ja s'està executant.}
+translate K EpdAnalysisMinTime {El temps d'anàlisi ha de ser com a mínim d'1 segon.}
+translate K EpdAnalysisStartFailed {No s'ha pogut iniciar el motor d'anàlisi: %s}
+translate K EpdAnalysisError {Error d'anàlisi EPD: %s}
+translate K EpdAnalysisStopped {L'anàlisi es va aturar.}
+translate K EpdAnalysisStopping {Aturant...}
+translate K EpdEngineNotStarted {el motor no va iniciar la cerca}
+translate K EpdEngineNoResult {el motor no va donar cap resultat}
+translate K EpdSearchAlreadyRunning {una cerca ja s'està executant}
+translate K EpdNoEngineConfigured {no hi ha cap motor configurat}
+translate K EpdOnlyUci {Només s'admeten motors UCI}
+translate K EpdEngineDisconnected {el motor desconnectat}
+translate K EpdEngineNoAnswer {el motor no va respondre}
 translate K EpdDontSave {No deseu}
 translate K EpdReadOnly {només de lectura}
 translate K EpdAltered {alterat}
@@ -199,6 +215,7 @@ menuText K ToolsAnalysis "Motor d'anàlisi..." 0 \
   {Inicia/Atura un motor d'análisi d'escacs}
 menuText K ToolsAnalysis2 "Motor d'anàlisi #2..." 18 \
   {Inicia/Atura el segon motor d'análisi d'escacs}
+menuText K ToolsEngineWindow "Finestra del motor..." 0 {Obre una finestra de motor d'escacs}
 menuText K ToolsCross "Quadre" 0 {Mostra el Quadre del torneig per aquesta partida}
 menuText K ToolsFilterGraph "Filtre Gràfic Rel." 7 \
   {Obre/tanca la finestra del filtre gràfic per valors relatius}
@@ -889,10 +906,21 @@ translate K ReviewMoveButton {Comentari de la jugada}
 translate K ReviewMoveButtonTooltip {Etiqueta la jugada feta des d'aquí i escriu-la}
 translate K ReviewSettings {Configuració de la revisió}
 translate K ReviewSettingsTooltip {Configure the review settings}
+translate K ToolsWhatThreat {Quina amenaça hi ha?}
+translate K ToolsWhatThreatTooltip {Pregunta al motor què amenaça el bàndol que ha de jugar}
+translate K WhatThreatRunning {Ja hi ha una anàlisi d'amenaces en curs.}
+translate K WhatThreatNoEngine {No hi ha cap motor configurat. Tria'n un a Eines -> Llista de motors, o obre primer una finestra de motor.}
+translate K WhatThreatNoPosition {No hi ha cap posició per mirar.}
+translate K WhatThreatNoMove {Aquí no hi ha cap jugada per comentar. Ves primer a una jugada de la partida.}
+translate K WhatThreatFailed {L'anàlisi d'amenaces no s'ha pogut executar: %s}
+translate K WhatThreatNothingForcing {%s no té res de forçat aquí: cap jugada no guanya material ni fa escac.}
+translate K ReviewVerifier {Motor de verificació}
+translate K ReviewVerifierOff {Desactivat (sense verificació)}
 translate K ReviewVarLines {Variants a escriure}
 translate K ReviewVarCp {Marge de variants (cp)}
 translate K ReviewMoveWait {Espera la profunditat de la revisió}
 translate K ReviewMovetime {Límit de temps (ms)}
+translate K ReviewOpeningMoves {Moviments d'obertura}
 translate K StopNow {Stop now}
 translate K StopAfterThisGame {Stop after this game}
 translate K ReviewFromPreset {%s (del perfil del motor)}
@@ -954,6 +982,7 @@ translate K EngineClone {Crea una còpia del motor actual}
 translate K EngineDuplicate {Duplica}
 translate K EngineDelete {Esborra el motor actual}
 translate K EngineOpenAnalysis {Anàlisi oberta}
+translate K EngineOpenWindow {Obre la finestra del motor}
 
 # PGN window menus:
 menuText K PgnFile "Arxiu" 0

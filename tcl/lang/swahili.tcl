@@ -165,6 +165,22 @@ translate Z EpdStripOpcodes {Misimbo ya Ukanda...}
 translate Z EpdAnnotateTime {Sekunde kwa kila nafasi}
 translate Z EpdCountBestMoves {Hesabu hatua bora zaidi}
 translate Z EpdSaveLog {Hifadhi matokeo kwenye faili}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate Z EpdAnalysisTitle {Uchambuzi wa EPD}
+translate Z EpdAnalysisRunning {Uchambuzi mwingine wa EPD tayari unaendelea.}
+translate Z EpdAnalysisMinTime {Muda wa uchambuzi lazima uwe angalau sekunde 1.}
+translate Z EpdAnalysisStartFailed {Imeshindwa kuanzisha injini ya uchanganuzi: %s}
+translate Z EpdAnalysisError {Hitilafu ya uchanganuzi wa EPD: %s}
+translate Z EpdAnalysisStopped {Uchambuzi umesimamishwa.}
+translate Z EpdAnalysisStopping {Inasimamisha...}
+translate Z EpdEngineNotStarted {injini haikuanza utafutaji}
+translate Z EpdEngineNoResult {injini haikurudi matokeo}
+translate Z EpdSearchAlreadyRunning {utafutaji tayari unaendeshwa}
+translate Z EpdNoEngineConfigured {hakuna injini iliyosanidiwa}
+translate Z EpdOnlyUci {Injini za UCI pekee ndizo zinazotumika}
+translate Z EpdEngineDisconnected {injini imekatika}
+translate Z EpdEngineNoAnswer {injini haikujibu}
 translate Z EpdDontSave {Usihifadhi}
 translate Z EpdReadOnly {kusoma tu}
 translate Z EpdAltered {imebadilishwa}
@@ -183,6 +199,7 @@ menuText Z ToolsAnalysis "Injini ya Uchambuzi..." 0 \
   {Anzisha/simamisha injini ya uchanganuzi wa chess}
 menuText Z ToolsAnalysis2 "Injini ya Uchambuzi #2..." 17 \
   {Anzisha/simamisha injini ya 2 ya uchanganuzi wa chess}
+menuText Z ToolsEngineWindow "Dirisha la injini..." 0 {Fungua dirisha la injini ya chess}
 menuText Z ToolsCross "Inaweza kubadilika" 0 {Onyesha jedwali la mashindano kwa mchezo huu}
 menuText Z ToolsFilterGraph "Rel. Kichujio cha Grafu" 12 {Fungua/funga kidirisha cha grafu ya kichujio kwa thamani jamaa}
 menuText Z ToolsAbsFilterGraph "Abs. Kichujio cha Grafu" 7 {Fungua/funga dirisha la grafu ya kichujio kwa thamani kamili}
@@ -863,10 +880,21 @@ translate Z ReviewMoveButton {Maoni ya hatua}
 translate Z ReviewMoveButtonTooltip {Ipe lebo hatua iliyochezwa hapa na iandike}
 translate Z ReviewSettings {Mipangilio ya mapitio}
 translate Z ReviewSettingsTooltip {Configure the review settings}
+translate Z ToolsWhatThreat {Tishio ni nini?}
+translate Z ToolsWhatThreatTooltip {Uliza injini upande unaocheza unatishia nini}
+translate Z WhatThreatRunning {Uchambuzi wa vitisho tayari unaendelea.}
+translate Z WhatThreatNoEngine {Hakuna injini iliyowekwa. Chagua moja katika Zana -> Orodha ya injini, au fungua kwanza dirisha la injini.}
+translate Z WhatThreatNoPosition {Hakuna nafasi ya kuangalia.}
+translate Z WhatThreatNoMove {Hakuna hatua ya kutoa maoni hapa. Nenda kwanza kwenye hatua katika mchezo.}
+translate Z WhatThreatFailed {Uchambuzi wa vitisho haukuweza kuendeshwa: %s}
+translate Z WhatThreatNothingForcing {%s hana kitu cha kulazimisha hapa: hakuna hatua inayoshinda nyenzo au kutoa cheki.}
+translate Z ReviewVerifier {Injini ya uthibitishaji}
+translate Z ReviewVerifierOff {Imezimwa (hakuna uthibitisho)}
 translate Z ReviewVarLines {Mibadala ya kuandika}
 translate Z ReviewVarCp {Tofauti ya mibadala (cp)}
 translate Z ReviewMoveWait {Subiri kina cha mapitio}
 translate Z ReviewMovetime {Kikomo cha muda (ms)}
+translate Z ReviewOpeningMoves {Hatua za kufungua}
 translate Z StopNow {Stop now}
 translate Z StopAfterThisGame {Stop after this game}
 translate Z ReviewFromPreset {%s (kutoka wasifu wa injini)}
@@ -928,6 +956,7 @@ translate Z EngineClone {Unda nakala ya injini ya sasa}
 translate Z EngineDuplicate {Nakili}
 translate Z EngineDelete {Futa injini ya sasa}
 translate Z EngineOpenAnalysis {Fungua Uchambuzi}
+translate Z EngineOpenWindow {Fungua Dirisha la Injini}
 
 # PGN window menus:
 menuText Z PgnFile "Faili" 0

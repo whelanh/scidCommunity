@@ -165,6 +165,22 @@ translate h EpdStripOpcodes {स्ट्रिप ऑपकोड...}
 translate h EpdAnnotateTime {प्रति स्थिति सेकंड}
 translate h EpdCountBestMoves {सर्वोत्तम चालें गिनें}
 translate h EpdSaveLog {फ़ाइल में परिणाम सहेजें}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate h EpdAnalysisTitle {ईपीडी विश्लेषण}
+translate h EpdAnalysisRunning {एक अन्य ईपीडी विश्लेषण पहले से ही चल रहा है।}
+translate h EpdAnalysisMinTime {विश्लेषण का समय कम से कम 1 सेकंड होना चाहिए।}
+translate h EpdAnalysisStartFailed {विश्लेषण इंजन प्रारंभ करने में विफल: %s}
+translate h EpdAnalysisError {ईपीडी विश्लेषण त्रुटि: %s}
+translate h EpdAnalysisStopped {विश्लेषण बंद हो गया.}
+translate h EpdAnalysisStopping {रुकना...}
+translate h EpdEngineNotStarted {इंजन ने खोज शुरू नहीं की}
+translate h EpdEngineNoResult {इंजन ने कोई परिणाम नहीं दिया}
+translate h EpdSearchAlreadyRunning {एक खोज पहले से ही चल रही है}
+translate h EpdNoEngineConfigured {कोई इंजन कॉन्फ़िगर नहीं है}
+translate h EpdOnlyUci {केवल यूसीआई इंजन समर्थित हैं}
+translate h EpdEngineDisconnected {इंजन डिस्कनेक्ट हो गया}
+translate h EpdEngineNoAnswer {इंजन ने उत्तर नहीं दिया}
 translate h EpdDontSave {सहेजें मत}
 translate h EpdReadOnly {केवल पढ़ने के लिए}
 translate h EpdAltered {बदल}
@@ -183,6 +199,7 @@ menuText h ToolsAnalysis "विश्लेषण इंजन..." 0 \
   {शतरंज विश्लेषण इंजन प्रारंभ/बंद करें}
 menuText h ToolsAnalysis2 "विश्लेषण इंजन #2..." 17 \
   {दूसरा शतरंज विश्लेषण इंजन प्रारंभ/बंद करें}
+menuText h ToolsEngineWindow "इंजन विंडो..." 0 {शतरंज इंजन विंडो खोलें}
 menuText h ToolsCross "क्रॉसटेबल" 0 {इस गेम के लिए टूर्नामेंट क्रॉसटेबल दिखाएं}
 menuText h ToolsFilterGraph "रिले. फ़िल्टर ग्राफ़" 12 {सापेक्ष मानों के लिए फ़िल्टर ग्राफ़ विंडो खोलें/बंद करें}
 menuText h ToolsAbsFilterGraph "पेट. फ़िल्टर ग्राफ़" 7 {निरपेक्ष मानों के लिए फ़िल्टर ग्राफ़ विंडो खोलें/बंद करें}
@@ -863,10 +880,21 @@ translate h ReviewMoveButton {चाल टिप्पणी}
 translate h ReviewMoveButtonTooltip {यहाँ से खेली गई चाल को वर्ग दें और लिखें}
 translate h ReviewSettings {समीक्षा सेटिंग्स}
 translate h ReviewSettingsTooltip {Configure the review settings}
+translate h ToolsWhatThreat {खतरा क्या है?}
+translate h ToolsWhatThreatTooltip {इंजन से पूछें कि चाल वाला पक्ष किसकी धमकी दे रहा है}
+translate h WhatThreatRunning {खतरे का विश्लेषण पहले से चल रहा है।}
+translate h WhatThreatNoEngine {कोई इंजन कॉन्फ़िगर नहीं है। उपकरण -> इंजन सूची में से एक चुनें, या पहले इंजन विंडो खोलें।}
+translate h WhatThreatNoPosition {देखने के लिए कोई स्थिति नहीं है।}
+translate h WhatThreatNoMove {यहाँ टिप्पणी करने के लिए कोई चाल नहीं है। पहले खेल की किसी चाल पर जाएँ।}
+translate h WhatThreatFailed {खतरे का विश्लेषण नहीं चल सका: %s}
+translate h WhatThreatNothingForcing {%s के पास यहाँ कुछ भी बाध्यकारी नहीं है: कोई चाल सामग्री नहीं जीतती और न ही शह देती है।}
+translate h ReviewVerifier {सत्यापन इंजिन}
+translate h ReviewVerifierOff {बंद (कोई सत्यापन नहीं)}
 translate h ReviewVarLines {लिखने के लिए वेरिएशन}
 translate h ReviewVarCp {वेरिएशन अंतर (cp)}
 translate h ReviewMoveWait {समीक्षा गहराई की प्रतीक्षा करें}
 translate h ReviewMovetime {समय सीमा (ms)}
+translate h ReviewOpeningMoves {खुलने की चाल}
 translate h StopNow {Stop now}
 translate h StopAfterThisGame {Stop after this game}
 translate h ReviewFromPreset {%s (इंजन प्रीसेट से)}
@@ -928,6 +956,7 @@ translate h EngineClone {वर्तमान इंजन की एक प्
 translate h EngineDuplicate {प्रतिलिपि बनाएँ}
 translate h EngineDelete {वर्तमान इंजन हटाएँ}
 translate h EngineOpenAnalysis {विश्लेषण खोलें}
+translate h EngineOpenWindow {इंजन विंडो खोलें}
 
 # PGN window menus:
 menuText h PgnFile "फ़ाइल" 0

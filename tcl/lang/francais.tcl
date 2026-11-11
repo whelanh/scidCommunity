@@ -178,6 +178,22 @@ translate F EpdStripOpcodes {Supprimer les opcodes...}
 translate F EpdAnnotateTime {Secondes par position}
 translate F EpdCountBestMoves {Comptez les meilleurs coups}
 translate F EpdSaveLog {Enregistrer les résultats dans un fichier}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate F EpdAnalysisTitle {Analyse EPD}
+translate F EpdAnalysisRunning {Une autre analyse EPD est déjà en cours.}
+translate F EpdAnalysisMinTime {Le temps d'analyse doit être d'au moins 1 seconde.}
+translate F EpdAnalysisStartFailed {Échec du démarrage du moteur d'analyse : %s}
+translate F EpdAnalysisError {Erreur d'analyse EPD : %s}
+translate F EpdAnalysisStopped {L'analyse s'est arrêtée.}
+translate F EpdAnalysisStopping {Arrêt...}
+translate F EpdEngineNotStarted {le moteur n'a pas lancé la recherche}
+translate F EpdEngineNoResult {le moteur n'a donné aucun résultat}
+translate F EpdSearchAlreadyRunning {une recherche est déjà en cours}
+translate F EpdNoEngineConfigured {aucun moteur n'est configuré}
+translate F EpdOnlyUci {Seuls les moteurs UCI pris en charge}
+translate F EpdEngineDisconnected {le moteur débranché}
+translate F EpdEngineNoAnswer {le moteur n'a pas répondu}
 translate F EpdDontSave {Ne sauvegardez pas}
 translate F EpdReadOnly {en lecture seule}
 translate F EpdAltered {modifié}
@@ -196,6 +212,7 @@ menuText F ToolsAnalysis "Moteur d'analyse..." 9 \
   {Démarrer/Arrêter un moteur d'analyses}
 menuText F ToolsAnalysis2 "Moteur d'analyse #2..." 18 \
   {Démarrer/Arrêter un moteur d'analyses}
+menuText F ToolsEngineWindow "Fenêtre moteur...." 0 {Ouvrir une fenêtre de moteur d'échecs}
 menuText F ToolsCross "Classement du tournoi" 9 \
   {Montrer le classement du tournoi}
 menuText F ToolsFilterGraph "Graphique de filtre" 6 {Ouvrir/Fermer la fenêtre du graphique de filtre}
@@ -876,10 +893,21 @@ translate F ReviewMoveButton {Commentaire du coup}
 translate F ReviewMoveButtonTooltip {Annoter le coup joué ici et l'insérer}
 translate F ReviewSettings {Réglages de l'analyse}
 translate F ReviewSettingsTooltip {Configure the review settings}
+translate F ToolsWhatThreat {Quelle est la menace ?}
+translate F ToolsWhatThreatTooltip {Demande au moteur ce que menace le camp au trait}
+translate F WhatThreatRunning {Une analyse des menaces est déjà en cours.}
+translate F WhatThreatNoEngine {Aucun moteur n'est configuré. Choisissez-en un dans Outils -> Liste des moteurs, ou ouvrez d'abord une fenêtre de moteur.}
+translate F WhatThreatNoPosition {Il n'y a aucune position à examiner.}
+translate F WhatThreatNoMove {Il n'y a aucun coup à commenter ici. Allez d'abord sur un coup de la partie.}
+translate F WhatThreatFailed {L'analyse des menaces n'a pas pu s'exécuter : %s}
+translate F WhatThreatNothingForcing {%s n'a rien de forcé ici : aucun coup ne gagne de matériel ni ne donne échec.}
+translate F ReviewVerifier {Moteur de vérification}
+translate F ReviewVerifierOff {Désactivé (aucune vérification)}
 translate F ReviewVarLines {Variantes à écrire}
 translate F ReviewVarCp {Écart des variantes (cp)}
 translate F ReviewMoveWait {Attendre la profondeur d'analyse}
 translate F ReviewMovetime {Plafond de temps (ms)}
+translate F ReviewOpeningMoves {Mouvements d'ouverture}
 translate F StopNow {Stop now}
 translate F StopAfterThisGame {Stop after this game}
 translate F ReviewFromPreset {%s (profil du moteur)}
@@ -941,6 +969,7 @@ translate F EngineClone {Créer une copie du moteur actuel}
 translate F EngineDuplicate {Dupliquer}
 translate F EngineDelete {Supprimer le moteur actuel}
 translate F EngineOpenAnalysis {Open Analysis}
+translate F EngineOpenWindow {Ouvrir la fenêtre du moteur}
 
 # PGN window menus:
 menuText F PgnFile "Fichier" 0

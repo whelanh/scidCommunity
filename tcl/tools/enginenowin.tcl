@@ -9,10 +9,10 @@
 # engineNoWin will be used by annotate and finish game
 namespace eval ::engineNoWin {}
 # Open the engine and configure it
-proc ::engineNoWin::initEngine { id engine callback } {
+proc ::engineNoWin::initEngine { id engine callback {options ""} } {
     if { [info exists ::enginecfg::engConfig_$id] } { return 1 }
     set config [::enginecfg::get $engine]
-    lassign $config name cmd args wdir elo time url uci options
+    lassign $config name cmd args wdir elo time url uci presetOptions
     set ::enginecfg::engConfig_$id $config
     ::engine::setLogCmd $id {}
     if {$wdir ne "" && $wdir ne "."} {
@@ -25,7 +25,13 @@ proc ::engineNoWin::initEngine { id engine callback } {
         error $err
     }
     if {[info exists oldwdir]} { cd $oldwdir }
-    if { $options ne "" } { ::engine::send $id SetOptions $options }
+    # A caller with its own budget (the review pass's one-shot engines) supplies
+    # the options it may use. Everyone else keeps the preset's own.
+    if { $options ne "" } {
+        ::engine::send $id SetOptions $options
+    } elseif { $presetOptions ne "" } {
+        ::engine::send $id SetOptions $presetOptions
+    }
     return 1
 }
 

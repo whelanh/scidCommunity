@@ -63,6 +63,16 @@ array set ::EN {
     ReviewCoachNoModel      {Coach prose is on, but no model is configured. Press Coach settings... in Review Settings to choose a provider and model.}
     ReviewCoachKept         {Review cancelled: %s of %s coach notes were kept.}
     ReviewCoachDiscarded    {The review is complete, but the coach prose was discarded: another game was opened while the model was writing.}
+    ToolsWhatThreat         {What's the threat?}
+    ToolsWhatThreatTooltip  {Ask the engine what the side to move is threatening}
+    WhatThreatRunning       {A threat probe is already running.}
+    WhatThreatNoEngine      {No engine is configured. Choose one in Tools -> Configure Engines, or open an engine window first.}
+    WhatThreatNoPosition    {There is no position to look at.}
+    WhatThreatNoMove        {There is no move here to comment on. Go to a move in the game first.}
+    WhatThreatFailed        {The threat probe could not run: %s}
+    WhatThreatNothingForcing {%s has nothing forcing here: no move wins material or gives check.}
+    ReviewVerifier          {Verifier engine}
+    ReviewVerifierOff       {Off (no verification)}
     Lines                   {Lines}
     Depth                   {Depth}
 }
@@ -80,6 +90,11 @@ set ::NEWKEYS {
     ReviewWaitForDepth ReviewFailed
     ReviewCoach ReviewCoachProgress ReviewWriting ReviewCoachSettings
     ReviewCoachNoModel ReviewCoachKept ReviewCoachDiscarded
+    ToolsWhatThreat ToolsWhatThreatTooltip
+    WhatThreatRunning WhatThreatNoEngine WhatThreatNoPosition
+    WhatThreatNoMove
+    WhatThreatFailed WhatThreatNothingForcing
+    ReviewVerifier ReviewVerifierOff
 }
 
 puts "which button is live"
@@ -265,20 +280,24 @@ checkEq "an empty state is idle" [::reviewui::statusText {}] ""
 
 puts "what the settings dialog holds"
 
-# The dialog owns eight settings. Threads and Hash are not among them: they
+# The dialog owns twelve settings. Threads and Hash are not among them: they
 # belong to the engine preset (#382), and a second place to set them is a second
 # place to get them wrong. The dialog shows them, read-only, from the preset.
 ::review::reset
 set s [::reviewui::settings]
-checkEq "eight rows, no threads, no hash" [dict keys $s] \
-    {mpv depth movetime var_lines var_cp move_comment_wait diagram coach}
+checkEq "twelve rows, no threads, no hash" [dict keys $s] \
+    {mpv depth movetime var_lines var_cp move_comment_wait diagram opening_errors opening_window tactical_exercises coach verifier}
 checkEq "at their defaults" [dict get $s depth] 18
 checkEq "with no time cap of its own" [dict get $s movetime] 0
 checkEq "and mpv with them" [dict get $s mpv] 3
 checkEq "the coach off unless it is asked for" [dict get $s coach] 0
+# The verifier is off by default: today's behaviour exactly, and the labels are
+# written as the search produced them.
+checkEq "and no verifier engine" [dict get $s verifier] ""
 
 set good [dict create mpv 4 depth 24 movetime 1500 var_lines 2 var_cp 40 \
-    move_comment_wait 0 diagram 1 coach 1]
+    move_comment_wait 0 diagram 1 opening_errors 1 opening_window 15 \
+    tactical_exercises 1 coach 1 verifier ""]
 checkEq "a valid dialog is stored without complaint" [::reviewui::applySettings $good] {}
 checkEq "and reads straight back" [::reviewui::settings] $good
 checkEq "the cap is stored as the review's own option" $::reviewopt(movetime) 1500
@@ -290,6 +309,47 @@ checkEq "and is remembered" [::review::get movetime] 0
 # Back to the full edit, which the next block starts from.
 checkEq "the whole dialog applies again" [::reviewui::applySettings $good] {}
 checkEq "with its cap" [::review::get movetime] 1500
+
+puts "\nthe verifier engine row"
+
+# The row is a list of the presets this session has, Off first: Off is the
+# default and the second engine is the point. The combobox shows the Off word,
+# and the options file carries "" for it.
+::review::reset
+checkEq "the choices start with Off" [lindex [::reviewui::verifierChoices] 0] \
+    {Off (no verification)}
+checkEq "Off is stored as an empty setting" \
+    [::reviewui::verifierValue [::reviewui::verifierOff]] ""
+checkEq "a preset name is its own value" [::reviewui::verifierValue Komodo] Komodo
+checkEq "and reads back as the same word" [::reviewui::verifierLabel ""] \
+    [::reviewui::verifierOff]
+# The verifier names an engine preset. A name this session does not have would
+# open nothing and skip the second opinion silently, so it is refused. The
+# presets are the session's own list (::engines(list)), the same one the engine
+# window's list is drawn from.
+set ::engines(list) [list \
+    [list Komodo /usr/bin/komodo {} {} 0 0 {} 1 {} {}] \
+    [list Stockfish /usr/bin/stockfish {} {} 0 0 {} 1 {} {}]]
+set why [::reviewui::applySettings [dict create verifier "No Such Engine"]]
+check "a preset that does not exist is refused" [expr {[llength $why] == 1}]
+checkEq "naming it" [lindex $why 0] {no engine preset called No Such Engine}
+checkEq "and the setting keeps what it had" [::review::get verifier] ""
+checkEq "a preset this session has is accepted" \
+    [::reviewui::applySettings [dict create verifier Komodo]] {}
+checkEq "and is stored by name" [::review::get verifier] Komodo
+checkEq "and reads back through ::review::verifier" [::review::verifier] Komodo
+# Keep the setting naming Komodo, remove the preset from the session, and the
+# accessor has to read Off rather than name an engine that cannot be opened.
+set ::engines(list) [lsearch -all -inline -not -index 0 $::engines(list) Komodo]
+checkEq "and the stored name is still there" [::review::get verifier] Komodo
+checkEq "a setting for a preset that is gone reads as Off" [::review::verifier] ""
+checkEq "Off is always accepted" \
+    [::reviewui::applySettings [dict create verifier [::reviewui::verifierOff]]] {}
+checkEq "and is stored as Off" [::review::get verifier] ""
+unset ::engines(list)
+# The dialog the next block starts from, restored: this one reset it.
+checkEq "the whole dialog applies again after the verifier rows" \
+    [::reviewui::applySettings $good] {}
 
 # One refused field must not lose the four that were fine: the user pressed OK
 # once, and a dialog that silently drops the whole edit is worse than a refusal.
@@ -430,7 +490,7 @@ checkEq "its tooltip" [::reviewui::label ReviewGameButtonTooltip] \
     {Review every move of the main line and label it}
 checkEq "the Move Comment button's text" [::reviewui::label ReviewMoveButton] {Move Comment}
 checkEq "the settings dialog's title" [::reviewui::label ReviewSettings] {Review Settings}
-foreach key {mpv depth movetime var_lines var_cp move_comment_wait diagram coach} {
+foreach key {mpv depth movetime var_lines var_cp move_comment_wait diagram coach verifier} {
     check "the $key row has a label" \
         [expr {[::reviewui::settingLabel $key] ne "" && [::reviewui::settingLabel $key] ne $key}]
 }

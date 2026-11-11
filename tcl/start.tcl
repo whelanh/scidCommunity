@@ -1179,6 +1179,7 @@ tools/comment_colors.tcl
 tools/game_review.tcl
 tools/review_report.tcl
 tools/review_driver.tcl
+tools/review_verify.tcl
 tools/review_annotate.tcl
 tools/review_ui.tcl
 tools/review_progress.tcl
@@ -1187,6 +1188,8 @@ tools/finish_game.tcl
 tools/comment_facts.tcl
 tools/review_coach.tcl
 tools/review_prose.tcl
+tools/review_threat.tcl
+tools/epd_analysis.tcl
 tools/inputengine.tcl
 tools/novag.tcl
 tools/tablebase.tcl

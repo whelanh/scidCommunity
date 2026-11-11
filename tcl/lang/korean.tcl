@@ -206,6 +206,22 @@ translate k EpdStripOpcodes {스트립 Opcode...}
 translate k EpdAnnotateTime {위치당 초}
 translate k EpdCountBestMoves {최고의 움직임을 계산}
 translate k EpdSaveLog {결과를 파일로 저장}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate k EpdAnalysisTitle {EPD 분석}
+translate k EpdAnalysisRunning {다른 EPD 분석이 이미 실행 중입니다.}
+translate k EpdAnalysisMinTime {분석 시간은 1초 이상이어야 합니다.}
+translate k EpdAnalysisStartFailed {분석 엔진을 시작하지 못했습니다: %s}
+translate k EpdAnalysisError {EPD 분석 오류: %s}
+translate k EpdAnalysisStopped {분석이 중지되었습니다.}
+translate k EpdAnalysisStopping {멎는...}
+translate k EpdEngineNotStarted {엔진이 검색을 시작하지 않았습니다}
+translate k EpdEngineNoResult {엔진이 결과를 반환하지 않았습니다.}
+translate k EpdSearchAlreadyRunning {검색이 이미 실행 중입니다.}
+translate k EpdNoEngineConfigured {엔진이 구성되지 않았습니다}
+translate k EpdOnlyUci {UCI 엔진만 지원됨}
+translate k EpdEngineDisconnected {엔진이 끊어졌다}
+translate k EpdEngineNoAnswer {엔진이 대답하지 않았다}
 translate k EpdDontSave {저장하지 않음}
 translate k EpdReadOnly {읽기 전용}
 translate k EpdAltered {변경된}
@@ -224,6 +240,7 @@ menuText k ToolsAnalysis "분석엔진..." 0 \
   {체스 분석 엔진 시작/중지}
 menuText k ToolsAnalysis2 "분석 엔진 #2..." 17 \
   {두 번째 체스 분석 엔진 시작/중지}
+menuText k ToolsEngineWindow "엔진 창..." 0 {체스 엔진 창 열기}
 menuText k ToolsCross "크로스테이블" 0 {이 게임의 크로스테이블 표시}
 menuText k ToolsFilterGraph "반대. 파이핑 그래프" 12 {상대값에 대한 분석 그래프 창 비교/닫기}
 menuText k ToolsAbsFilterGraph "절대. 파이핑 그래프" 7 {절대값에 대한 그래프 그래프 창 비교/닫기}
@@ -904,10 +921,21 @@ translate k ReviewMoveButton {수 코멘트}
 translate k ReviewMoveButtonTooltip {여기서 둔 수를 평가하고 기록하세요}
 translate k ReviewSettings {검토 설정}
 translate k ReviewSettingsTooltip {Configure the review settings}
+translate k ToolsWhatThreat {위협은 무엇입니까?}
+translate k ToolsWhatThreatTooltip {차례인 쪽이 무엇을 위협하는지 엔진에 묻습니다}
+translate k WhatThreatRunning {위협 분석이 이미 실행 중입니다.}
+translate k WhatThreatNoEngine {설정된 엔진이 없습니다. 도구 -> 엔진 목록에서 선택하거나 먼저 엔진 창을 여십시오.}
+translate k WhatThreatNoPosition {볼 수 있는 국면이 없습니다.}
+translate k WhatThreatNoMove {여기에 설명할 수가 없습니다. 먼저 대국의 한 수로 이동하세요.}
+translate k WhatThreatFailed {위협 분석을 실행할 수 없습니다: %s}
+translate k WhatThreatNothingForcing {%s에게는 여기서 강제하는 수가 없습니다: 기물을 얻거나 체크를 거는 수가 없습니다.}
+translate k ReviewVerifier {검증 엔진}
+translate k ReviewVerifierOff {끄 (검증 없음)}
 translate k ReviewVarLines {기록할 변화}
 translate k ReviewVarCp {변화 폭 (cp)}
 translate k ReviewMoveWait {검토 깊이를 기다림}
 translate k ReviewMovetime {시간 한도 (ms)}
+translate k ReviewOpeningMoves {오프닝 동작}
 translate k StopNow {Stop now}
 translate k StopAfterThisGame {Stop after this game}
 translate k ReviewFromPreset {%s (엔진 프리셋에서)}
@@ -969,6 +997,7 @@ translate k EngineClone {현재 엔진의 활동을 참여합니다.}
 translate k EngineDuplicate {복제}
 translate k EngineDelete {현재 엔진 삭제}
 translate k EngineOpenAnalysis {공개 분석}
+translate k EngineOpenWindow {엔진 창 열기}
 
 # PGN window menus:
 menuText k PgnFile "파일" 0

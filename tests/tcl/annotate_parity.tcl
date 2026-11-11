@@ -123,6 +123,7 @@ proc settings {} {
     set ::scoreAllMoves 0
     set ::addAnnotatorTag 0
     set ::markTacticalExercises 1
+    ::review::setValue tactical_exercises 1
     set ::annotationVariationLength 4
     set ::wentOutOfBook 0
     set ::useAnalysisBook 0

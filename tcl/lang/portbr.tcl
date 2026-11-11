@@ -169,6 +169,22 @@ translate B EpdStripOpcodes {Tirar códigos de operação...}
 translate B EpdAnnotateTime {Segundos por posição}
 translate B EpdCountBestMoves {Conte os melhores movimentos}
 translate B EpdSaveLog {Salvar resultados em arquivo}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate B EpdAnalysisTitle {Análise de DEP}
+translate B EpdAnalysisRunning {Outra análise de EPD já está em execução.}
+translate B EpdAnalysisMinTime {O tempo de análise deve ser de pelo menos 1 segundo.}
+translate B EpdAnalysisStartFailed {Falha ao iniciar o mecanismo de análise: %s}
+translate B EpdAnalysisError {Erro de análise de EPD: %s}
+translate B EpdAnalysisStopped {A análise parou.}
+translate B EpdAnalysisStopping {Parando...}
+translate B EpdEngineNotStarted {o mecanismo não iniciou a pesquisa}
+translate B EpdEngineNoResult {o motor não retornou nenhum resultado}
+translate B EpdSearchAlreadyRunning {uma pesquisa já está em execução}
+translate B EpdNoEngineConfigured {nenhum mecanismo está configurado}
+translate B EpdOnlyUci {Apenas motores UCI suportados}
+translate B EpdEngineDisconnected {o motor desligado}
+translate B EpdEngineNoAnswer {o motor não respondeu}
 translate B EpdDontSave {Não salve}
 translate B EpdReadOnly {somente leitura}
 translate B EpdAltered {alterado}
@@ -187,6 +203,7 @@ menuText B ToolsAnalysis "Analisador #1..." 0 \
   {Inicia ou para o 1o. Analisador}
 menuText B ToolsAnalysis2 "Analisador #2..." 17 \
   {Inicia ou para o 2o. Analisador}
+menuText B ToolsEngineWindow "Janela do motor..." 0 {Abra uma janela do mecanismo de xadrez}
 menuText B ToolsCross "Tabela de Cruzamento" 0 {Mostra a tabela de cruzamentos do torneio para o jogo corrente}
 menuText B ToolsFilterGraph "Gráfico de Filtro Relativo" 7 \
   {Abre/Fecha a janela do gráfico de filtro} 
@@ -876,10 +893,21 @@ translate B ReviewMoveButton {Comentário do lance}
 translate B ReviewMoveButtonTooltip {Classifique o lance jogado daqui e escreva-o}
 translate B ReviewSettings {Configurações da análise}
 translate B ReviewSettingsTooltip {Configure the review settings}
+translate B ToolsWhatThreat {Qual é a ameaça?}
+translate B ToolsWhatThreatTooltip {Pergunte ao engine o que o lado a jogar ameaça}
+translate B WhatThreatRunning {Já há uma análise de ameaças em andamento.}
+translate B WhatThreatNoEngine {Nenhum engine está configurado. Escolha um em Ferramentas -> Lista de engines, ou abra antes uma janela de engine.}
+translate B WhatThreatNoPosition {Não há posição para olhar.}
+translate B WhatThreatNoMove {Não há nenhum lance para comentar aqui. Vá primeiro para um lance da partida.}
+translate B WhatThreatFailed {A análise de ameaças não pôde ser executada: %s}
+translate B WhatThreatNothingForcing {%s não tem nada forçado aqui: nenhum lance ganha material nem dá xeque.}
+translate B ReviewVerifier {Motor de verificação}
+translate B ReviewVerifierOff {Desativado (sem verificação)}
 translate B ReviewVarLines {Variantes a escrever}
 translate B ReviewVarCp {Margem das variantes (cp)}
 translate B ReviewMoveWait {Aguardar a profundidade da análise}
 translate B ReviewMovetime {Limite de tempo (ms)}
+translate B ReviewOpeningMoves {Movimentos de abertura}
 translate B StopNow {Stop now}
 translate B StopAfterThisGame {Stop after this game}
 translate B ReviewFromPreset {%s (do perfil do motor)}
@@ -941,6 +969,7 @@ translate B EngineClone {Crie uma cópia do mecanismo atual}
 translate B EngineDuplicate {Duplicar}
 translate B EngineDelete {Exclua o mecanismo atual}
 translate B EngineOpenAnalysis {Análise aberta}
+translate B EngineOpenWindow {Abrir janela do mecanismo}
 
 # PGN window menus:
 menuText B PgnFile "Arquivo" 0

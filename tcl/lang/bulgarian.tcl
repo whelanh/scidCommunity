@@ -206,6 +206,22 @@ translate g EpdStripOpcodes {Изтриване на кодове за опер�
 translate g EpdAnnotateTime {Секунди на позиция}
 translate g EpdCountBestMoves {Пребройте най-добрите ходове}
 translate g EpdSaveLog {Запазете резултатите във файл}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate g EpdAnalysisTitle {EPD анализ}
+translate g EpdAnalysisRunning {Друг EPD анализ вече се изпълнява.}
+translate g EpdAnalysisMinTime {Времето за анализ трябва да бъде поне 1 секунда.}
+translate g EpdAnalysisStartFailed {Неуспешно стартиране на машината за анализ: %s}
+translate g EpdAnalysisError {Грешка в анализа на EPD: %s}
+translate g EpdAnalysisStopped {Анализът е спрян.}
+translate g EpdAnalysisStopping {Спиране...}
+translate g EpdEngineNotStarted {двигателят не стартира търсенето}
+translate g EpdEngineNoResult {двигателят не даде резултат}
+translate g EpdSearchAlreadyRunning {вече тече търсене}
+translate g EpdNoEngineConfigured {не е конфигуриран двигател}
+translate g EpdOnlyUci {Поддържат се само UCI двигатели}
+translate g EpdEngineDisconnected {двигателят се разкачи}
+translate g EpdEngineNoAnswer {двигателят не отговори}
 translate g EpdDontSave {Не спестявайте}
 translate g EpdReadOnly {само за четене}
 translate g EpdAltered {променен}
@@ -224,6 +240,7 @@ menuText g ToolsAnalysis "Машина за анализ..." 0 \
   {Стартирайте/спирайте машина за анализ на шах}
 menuText g ToolsAnalysis2 "Машина за анализ №2..." 17 \
   {Стартиране/спиране на втория механизъм за анализ на шаха}
+menuText g ToolsEngineWindow "Прозорец на двигателя..." 0 {Отворете прозорец на шах машина}
 menuText g ToolsCross "Кръстосана маса" 0 {Показване на турнирна таблица за тази игра}
 menuText g ToolsFilterGraph "отн. Филтърна графика" 12 {Отваряне/затваряне на прозореца на графиката на филтъра за относителни стойности}
 menuText g ToolsAbsFilterGraph "Абс. Филтърна графика" 7 {Отворете/затворете прозореца на филтърната графика за абсолютни стойности}
@@ -904,10 +921,21 @@ translate g ReviewMoveButton {Коментар на хода}
 translate g ReviewMoveButtonTooltip {Оцени изиграния ход и го запиши}
 translate g ReviewSettings {Настройки на прегледа}
 translate g ReviewSettingsTooltip {Configure the review settings}
+translate g ToolsWhatThreat {Каква е заплахата?}
+translate g ToolsWhatThreatTooltip {Попитай двигателя какво заплашва страната на ход}
+translate g WhatThreatRunning {Анализ на заплахите вече тече.}
+translate g WhatThreatNoEngine {Няма настроен двигател. Изберете такъв в Инструменти -> Списък с двигатели или първо отворете прозорец на двигател.}
+translate g WhatThreatNoPosition {Няма позиция за разглеждане.}
+translate g WhatThreatNoMove {Тук няма ход за коментиране. Първо отидете на ход в партията.}
+translate g WhatThreatFailed {Анализът на заплахите не можа да стартира: %s}
+translate g WhatThreatNothingForcing {%s няма нищо форсиращо тук: нито един ход не печели материал и не дава шах.}
+translate g ReviewVerifier {Проверяващ двигател}
+translate g ReviewVerifierOff {Изключено (без проверка)}
 translate g ReviewVarLines {Варианти за запис}
 translate g ReviewVarCp {Граница на вариантите (cp)}
 translate g ReviewMoveWait {Изчакай дълбочината на прегледа}
 translate g ReviewMovetime {Ограничение на времето (ms)}
+translate g ReviewOpeningMoves {Начални ходове}
 translate g StopNow {Stop now}
 translate g StopAfterThisGame {Stop after this game}
 translate g ReviewFromPreset {%s (от профила на машината)}
@@ -969,6 +997,7 @@ translate g EngineClone {Създайте копие на текущия дви�
 translate g EngineDuplicate {Дублирай}
 translate g EngineDelete {Изтрийте текущия двигател}
 translate g EngineOpenAnalysis {Отворете Анализ}
+translate g EngineOpenWindow {Отворете прозореца на двигателя}
 
 # PGN window menus:
 menuText g PgnFile "Файл" 0

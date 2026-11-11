@@ -171,6 +171,22 @@ translate W EpdStripOpcodes {Avlägsna opkoder...}
 translate W EpdAnnotateTime {Sekunder per position}
 translate W EpdCountBestMoves {Räkna bästa drag}
 translate W EpdSaveLog {Spara resultat till fil}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate W EpdAnalysisTitle {EPD-analys}
+translate W EpdAnalysisRunning {En annan EPD-analys är redan igång.}
+translate W EpdAnalysisMinTime {Analystiden måste vara minst 1 sekund.}
+translate W EpdAnalysisStartFailed {Det gick inte att starta analysmotorn: %s}
+translate W EpdAnalysisError {EPD-analysfel: %s}
+translate W EpdAnalysisStopped {Analysen stoppades.}
+translate W EpdAnalysisStopping {Stoppar...}
+translate W EpdEngineNotStarted {motorn startade inte sökningen}
+translate W EpdEngineNoResult {motorn gav inget resultat}
+translate W EpdSearchAlreadyRunning {en sökning pågår redan}
+translate W EpdNoEngineConfigured {ingen motor är konfigurerad}
+translate W EpdOnlyUci {Endast UCI-motorer stöds}
+translate W EpdEngineDisconnected {motorn frånkopplad}
+translate W EpdEngineNoAnswer {motorn svarade inte}
 translate W EpdDontSave {Spara inte}
 translate W EpdReadOnly {skrivskyddad}
 translate W EpdAltered {ändrats}
@@ -189,6 +205,7 @@ menuText W ToolsAnalysis "Analysmotor..." 6 \
   {Starta/ stoppa en analysmotor}
 menuText W ToolsAnalysis2 "Analysmotor 2..." 12 \
   {Starta/ stoppa en andra analysmotor}
+menuText W ToolsEngineWindow "Motorfönster..." 0 {Öppna ett schackmotorfönster}
 menuText W ToolsCross "Resultattabell" 0 {Visa en resultattabell för den aktuella turneringen}
 menuText W ToolsFilterGraph "Filterdiagram" 7 \
   {Öppna/ stäng filterdiagramfönstret} 
@@ -874,10 +891,21 @@ translate W ReviewMoveButton {Dragkommentar}
 translate W ReviewMoveButtonTooltip {Etikettera draget som spelades härifrån och skriv in det}
 translate W ReviewSettings {Inställningar för granskning}
 translate W ReviewSettingsTooltip {Configure the review settings}
+translate W ToolsWhatThreat {Vad hotar?}
+translate W ToolsWhatThreatTooltip {Fråga motorn vad sidan i draget hotar}
+translate W WhatThreatRunning {En hotanalys pågår redan.}
+translate W WhatThreatNoEngine {Ingen motor är inställd. Välj en i Verktyg -> Motorlista, eller öppna först ett motorfönster.}
+translate W WhatThreatNoPosition {Det finns ingen ställning att titta på.}
+translate W WhatThreatNoMove {Det finns inget drag att kommentera här. Gå först till ett drag i partiet.}
+translate W WhatThreatFailed {Hotanalysen kunde inte köras: %s}
+translate W WhatThreatNothingForcing {%s har inget tvingande här: inget drag vinner material eller ger schack.}
+translate W ReviewVerifier {Verifieringsmotor}
+translate W ReviewVerifierOff {Av (ingen verifiering)}
 translate W ReviewVarLines {Varianter att skriva}
 translate W ReviewVarCp {Variantmarginal (cp)}
 translate W ReviewMoveWait {Vänta på granskningsdjupet}
 translate W ReviewMovetime {Tidsgräns (ms)}
+translate W ReviewOpeningMoves {Öppningsrörelser}
 translate W StopNow {Stop now}
 translate W StopAfterThisGame {Stop after this game}
 translate W ReviewFromPreset {%s (från motorprofilen)}
@@ -939,6 +967,7 @@ translate W EngineClone {Skapa en kopia av den aktuella motorn}
 translate W EngineDuplicate {Duplicera}
 translate W EngineDelete {Ta bort den aktuella motorn}
 translate W EngineOpenAnalysis {Öppna Analys}
+translate W EngineOpenWindow {Öppna motorfönstret}
 
 # PGN window menus:
 menuText W PgnFile "Fil" 0

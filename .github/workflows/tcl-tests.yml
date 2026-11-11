@@ -64,8 +64,19 @@ jobs:
       - name: Review prose queue
         run: tclsh tests/tcl/review_prose.tcl
 
+      # The threat probe (#422 item 4): one short search on its own connection,
+      # closed in the reply that delivered the move, and the deterministic
+      # answer the probe gives with no model configured.
+      - name: Review threat probe
+        run: tclsh tests/tcl/review_threat.tcl
+
       - name: Review transport
         run: tclsh tests/tcl/review_transport.tcl
+
+      # The EPD window's headless analysis session: one connection, one
+      # position at a time, the result record the EPD writer consumes.
+      - name: EPD headless analysis
+        run: tclsh tests/tcl/epd_analysis.tcl
 
       - name: Batch annotate
         run: tclsh tests/tcl/batch_annotate.tcl
@@ -83,6 +94,17 @@ jobs:
 
       - name: Review driver
         run: tclsh tests/tcl/review_driver.tcl
+
+      # The Brilliant/Great second opinion, without an engine: the pure decision
+      # and the three writers that call the shared transform before they write.
+      - name: Review verifier
+        run: tclsh tests/tcl/review_verify.tcl
+
+      # The verifier's search through the driver's own queue against a stub
+      # second engine: the disagreement, the silent answer, an engine lost and
+      # Cancel.
+      - name: Review verifier engine
+        run: tclsh tests/tcl/review_verify_engine.tcl
 
       - name: Annotate writers
         run: tclsh tests/tcl/annotate_writers.tcl
@@ -125,6 +147,11 @@ jobs:
 
       - name: Engine preset duplicate
         run: tclsh tests/tcl/engine_duplicate.tcl
+
+      # Item 3 of #436: no UI path reaches makeAnalysisWin, and the engine
+      # chooser opens an Engine Window.
+      - name: Analysis UI doors
+        run: tclsh tests/tcl/analysis_doors.tcl
 
       - name: Help keys
         run: tclsh tests/tcl/help_keys.tcl
@@ -175,6 +202,11 @@ jobs:
       # replaces the first rather than stacking.
       - name: Repetition notice
         run: xvfb-run -a wish tests/tcl/repetition_notice_tk.tcl
+
+      # An old layout naming .analysisWin1 must draw nothing now that the
+      # Analysis window has no restore door (#436 item 3).
+      - name: Window layout
+        run: xvfb-run -a wish tests/tcl/layout_windows.tcl
 
       - name: Finish Game dialog
         run: xvfb-run -a wish tests/tcl/finish_game_dialog.tcl

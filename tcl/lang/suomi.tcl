@@ -204,6 +204,22 @@ translate U EpdStripOpcodes {Poista käyttökoodit...}
 translate U EpdAnnotateTime {Sekuntia per paikka}
 translate U EpdCountBestMoves {Laske parhaat liikkeet}
 translate U EpdSaveLog {Tallenna tulokset tiedostoon}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate U EpdAnalysisTitle {EPD-analyysi}
+translate U EpdAnalysisRunning {Toinen EPD-analyysi on jo käynnissä.}
+translate U EpdAnalysisMinTime {Analyysiajan on oltava vähintään 1 sekunti.}
+translate U EpdAnalysisStartFailed {Analyysimoottorin käynnistäminen epäonnistui: %s}
+translate U EpdAnalysisError {EPD-analyysivirhe: %s}
+translate U EpdAnalysisStopped {Analyysi pysähtyi.}
+translate U EpdAnalysisStopping {Lopetetaan...}
+translate U EpdEngineNotStarted {kone ei käynnistänyt hakua}
+translate U EpdEngineNoResult {moottori ei tuottanut tulosta}
+translate U EpdSearchAlreadyRunning {haku on jo käynnissä}
+translate U EpdNoEngineConfigured {moottoria ei ole määritetty}
+translate U EpdOnlyUci {Vain UCI-moottoreita tuetaan}
+translate U EpdEngineDisconnected {moottori irti}
+translate U EpdEngineNoAnswer {moottori ei vastannut}
 translate U EpdDontSave {Älä Tallenna}
 translate U EpdReadOnly {vain luku -tilassa}
 translate U EpdAltered {muutettu}
@@ -222,6 +238,7 @@ menuText U ToolsAnalysis "Analyysimoottori #1..." 18 \
   {Käynnistä/pysäytä analyysimoottori}
 menuText U ToolsAnalysis2 "Analyysimoottori #2..." 18 \
   {Käynnistä/pysäytä toinen analyysimoottori}
+menuText U ToolsEngineWindow "Moottorin ikkuna..." 0 {Avaa shakkimoottorin ikkuna}
 menuText U ToolsCross "Ristitaulukko" 0 {Näytä turnauksen ristitaulukko tälle pelille}
 menuText U ToolsFilterGraph "Suhteellinen graafi" 13 {Avaa/sulje suodatingraafi suhteellisilla arvoilla}
 menuText U ToolsAbsFilterGraph "Absoluuttinen graafi" 17 {Avaa/sulje suodatingraafi absoluuttisilla arvoilla}
@@ -902,10 +919,21 @@ translate U ReviewMoveButton {Siirron kommentti}
 translate U ReviewMoveButtonTooltip {Merkitse tästä pelattu siirto ja kirjoita se}
 translate U ReviewSettings {Tarkastuksen asetukset}
 translate U ReviewSettingsTooltip {Configure the review settings}
+translate U ToolsWhatThreat {Mikä uhkaa?}
+translate U ToolsWhatThreatTooltip {Kysy moottorilta, mitä siirtovuorossa oleva puoli uhkaa}
+translate U WhatThreatRunning {Uhkien analyysi on jo käynnissä.}
+translate U WhatThreatNoEngine {Moottoria ei ole määritetty. Valitse se kohdasta Työkalut -> Moottoriluettelo tai avaa ensin moottori-ikkuna.}
+translate U WhatThreatNoPosition {Katsottavaa asemaa ei ole.}
+translate U WhatThreatNoMove {Tässä ei ole siirtoa kommentoitavaksi. Siirry ensin johonkin pelin siirtoon.}
+translate U WhatThreatFailed {Uhka-analyysia ei voitu suorittaa: %s}
+translate U WhatThreatNothingForcing {%s:llä ei ole tässä mitään pakottavaa: mikään siirto ei voita materiaalia eikä anna shakkia.}
+translate U ReviewVerifier {Vahvistusmoottori}
+translate U ReviewVerifierOff {Pois (ei vahvistusta)}
 translate U ReviewVarLines {Kirjoitettavat muunnelmat}
 translate U ReviewVarCp {Muunnelman raja (cp)}
 translate U ReviewMoveWait {Odota tarkastuksen syvyyttä}
 translate U ReviewMovetime {Aikaraja (ms)}
+translate U ReviewOpeningMoves {Avausliikkeet}
 translate U StopNow {Stop now}
 translate U StopAfterThisGame {Stop after this game}
 translate U ReviewFromPreset {%s (moottorin asetuksista)}
@@ -967,6 +995,7 @@ translate U EngineClone {Luo kopio nykyisestä moottorista}
 translate U EngineDuplicate {Monista}
 translate U EngineDelete {Poista nykyinen moottori}
 translate U EngineOpenAnalysis {Avaa analyysi}
+translate U EngineOpenWindow {Avaa moottorin ikkuna}
 
 # PGN window menus:
 menuText U PgnFile "Tiedosto" 0

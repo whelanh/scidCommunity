@@ -145,6 +145,22 @@ translate M EpdStripOpcodes {剥离操作码...}
 translate M EpdAnnotateTime {每个位置的秒数}
 translate M EpdCountBestMoves {计算最佳动作}
 translate M EpdSaveLog {将结果保存到文件}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate M EpdAnalysisTitle {环保署分析}
+translate M EpdAnalysisRunning {另一项 EPD 分析已经在运行。}
+translate M EpdAnalysisMinTime {分析时间必须至少为 1 秒。}
+translate M EpdAnalysisStartFailed {无法启动分析引擎：%s}
+translate M EpdAnalysisError {EPD 分析错误：%s}
+translate M EpdAnalysisStopped {分析停止了。}
+translate M EpdAnalysisStopping {停止...}
+translate M EpdEngineNotStarted {引擎没有开始搜索}
+translate M EpdEngineNoResult {引擎没有返回结果}
+translate M EpdSearchAlreadyRunning {搜索已经在运行}
+translate M EpdNoEngineConfigured {没有配置引擎}
+translate M EpdOnlyUci {仅支持 UCI 发动机}
+translate M EpdEngineDisconnected {发动机已断开}
+translate M EpdEngineNoAnswer {引擎没有应答}
 translate M EpdDontSave {不保存}
 translate M EpdReadOnly {只读}
 translate M EpdAltered {改变的}
@@ -162,6 +178,7 @@ menuText M ToolsConfigureEngines "配置引擎" 10 {管理引擎配置}
 menuText M ToolsAnalysis "分析引擎..." 0 {启动/停止国际象棋分析引擎}
 menuText M ToolsAnalysis2 "分析引擎#2..." 17 \
   {启动/停止第二个国际象棋分析引擎}
+menuText M ToolsEngineWindow "发动机窗..." 0 {打开国际象棋引擎窗口}
 menuText M ToolsCross "交叉表" 0 {显示此对局的锦标赛交叉表}
 menuText M ToolsFilterGraph "过滤器图表" 0 {打开/关闭相对值的过滤器图表窗口}
 menuText M ToolsAbsFilterGraph "绝对筛选图" 7 {打开/关闭绝对值筛选图窗口}
@@ -839,10 +856,21 @@ translate M ReviewMoveButton {着法评注}
 translate M ReviewMoveButtonTooltip {评注此处走出的着法并写入}
 translate M ReviewSettings {复盘设置}
 translate M ReviewSettingsTooltip {Configure the review settings}
+translate M ToolsWhatThreat {有什么威胁？}
+translate M ToolsWhatThreatTooltip {询问引擎轮到走棋的一方有什么威胁}
+translate M WhatThreatRunning {威胁分析已经在进行。}
+translate M WhatThreatNoEngine {未配置引擎。请在“工具 -> 引擎列表”中选择一个，或先打开一个引擎窗口。}
+translate M WhatThreatNoPosition {没有可供查看的局面。}
+translate M WhatThreatNoMove {这里没有可以评论的着法。请先走到棋局中的某一步。}
+translate M WhatThreatFailed {威胁分析无法运行：%s}
+translate M WhatThreatNothingForcing {%s 在这里没有强制手段：没有哪一步能赢得子力或将军。}
+translate M ReviewVerifier {验证引擎}
+translate M ReviewVerifierOff {关闭（不验证）}
 translate M ReviewVarLines {要写入的变化}
 translate M ReviewVarCp {变化差距 (cp)}
 translate M ReviewMoveWait {等待复盘深度}
 translate M ReviewMovetime {时间上限 (ms)}
+translate M ReviewOpeningMoves {开局动作}
 translate M StopNow {Stop now}
 translate M StopAfterThisGame {Stop after this game}
 translate M ReviewFromPreset {%s（来自引擎预设）}
@@ -904,6 +932,7 @@ translate M EngineClone {Create a copy of the current engine}
 translate M EngineDuplicate {复制}
 translate M EngineDelete {Delete the current engine}
 translate M EngineOpenAnalysis {开放分析}
+translate M EngineOpenWindow {打开发动机窗口}
 
 # PGN window menus:
 menuText M PgnFile "直线" 0

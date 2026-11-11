@@ -206,6 +206,22 @@ translate J EpdStripOpcodes {Скидање опкодова...}
 translate J EpdAnnotateTime {Секунде по позицији}
 translate J EpdCountBestMoves {Бројите најбоље потезе}
 translate J EpdSaveLog {Сачувајте резултате у датотеку}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate J EpdAnalysisTitle {ЕПД анализа}
+translate J EpdAnalysisRunning {Још једна ЕПД анализа је већ у току.}
+translate J EpdAnalysisMinTime {Време анализе мора бити најмање 1 секунда.}
+translate J EpdAnalysisStartFailed {Покретање механизма анализе није успело: %s}
+translate J EpdAnalysisError {Грешка ЕПД анализе: %s}
+translate J EpdAnalysisStopped {Анализа је заустављена.}
+translate J EpdAnalysisStopping {заустављање...}
+translate J EpdEngineNotStarted {мотор није започео претрагу}
+translate J EpdEngineNoResult {мотор није дао никакав резултат}
+translate J EpdSearchAlreadyRunning {претрага је већ у току}
+translate J EpdNoEngineConfigured {ниједан мотор није конфигурисан}
+translate J EpdOnlyUci {Подржани су само УЦИ мотори}
+translate J EpdEngineDisconnected {мотор је искључен}
+translate J EpdEngineNoAnswer {мотор није одговорио}
 translate J EpdDontSave {Не штеди}
 translate J EpdReadOnly {само за читање}
 translate J EpdAltered {измењени}
@@ -224,6 +240,7 @@ menuText J ToolsAnalysis "Машина за анализу..." 0 \
   {Покрените/зауставите машину за анализу шаха}
 menuText J ToolsAnalysis2 "Машина за анализу бр. 2..." 17 \
   {Покрените/зауставите 2. машину за анализу шаха}
+menuText J ToolsEngineWindow "Прозор мотора..." 0 {Отворите прозор шаховске машине}
 menuText J ToolsCross "Цросстабле" 0 {Прикажи унакрсну табелу турнира за ову игру}
 menuText J ToolsFilterGraph "Рел. Филтер Грапх" 12 {Отворите/затворите прозор графикона филтера за релативне вредности}
 menuText J ToolsAbsFilterGraph "Абс. Филтер Грапх" 7 {Отворите/затворите прозор графикона филтера за апсолутне вредности}
@@ -904,10 +921,21 @@ translate J ReviewMoveButton {Коментар потеза}
 translate J ReviewMoveButtonTooltip {Означи одиграни потез одавде и упиши га}
 translate J ReviewSettings {Подешавања прегледа}
 translate J ReviewSettingsTooltip {Configure the review settings}
+translate J ToolsWhatThreat {Која је претња?}
+translate J ToolsWhatThreatTooltip {Питај мотор чему прети страна на потезу}
+translate J WhatThreatRunning {Анализа претњи већ траје.}
+translate J WhatThreatNoEngine {Није подешен ниједан мотор. Изабери га у Алатке -> Списак мотора или прво отвори прозор мотора.}
+translate J WhatThreatNoPosition {Нема позиције за преглед.}
+translate J WhatThreatNoMove {Нема овде потеза за коментар. Прво пређите на потез у партији.}
+translate J WhatThreatFailed {Анализу претњи није било могуће покренути: %s}
+translate J WhatThreatNothingForcing {%s овде нема ништа форсирајуће: ниједан потез не добија материјал и не даје шах.}
+translate J ReviewVerifier {Мотор за проверу}
+translate J ReviewVerifierOff {Искључено (без провере)}
 translate J ReviewVarLines {Варијанте за упис}
 translate J ReviewVarCp {Граница варијанти (cp)}
 translate J ReviewMoveWait {Чекај дубину прегледа}
 translate J ReviewMovetime {Временско ограничење (ms)}
+translate J ReviewOpeningMoves {Отварање потеза}
 translate J StopNow {Stop now}
 translate J StopAfterThisGame {Stop after this game}
 translate J ReviewFromPreset {%s (из профила мотора)}
@@ -969,6 +997,7 @@ translate J EngineClone {Направите копију тренутног мо
 translate J EngineDuplicate {Дуплирај}
 translate J EngineDelete {Избришите тренутни мотор}
 translate J EngineOpenAnalysis {Отворена анализа}
+translate J EngineOpenWindow {Отворите прозор мотора}
 
 # PGN window menus:
 menuText J PgnFile "Филе" 0

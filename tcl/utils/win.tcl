@@ -856,6 +856,53 @@ proc ::docking::layout_save_pw {pw} {
 }
 
 ################################################################################
+# Windows a saved layout may still restore. The Analysis window has no door any
+# more (#436 item 3): a layout that names one keeps it out of the notebook, and
+# ::docking::layoutPrune drops a notebook left with no windows.
+proc ::docking::layoutRestorableWindows {wnds} {
+  set out {}
+  foreach wnd $wnds {
+    if {[regexp {\.(fdock)?analysisWin[0-9]+$} $wnd]} { continue }
+    lappend out $wnd
+  }
+  return $out
+}
+
+# Prune one saved paned window. Children that lose all their windows are
+# dropped, and the parent's sash list is trimmed to the panes that remain: a
+# sash position belongs to the boundary after a pane, and a legacy layout saved
+# one for the Analysis notebook too. Returns {data paneCount}; paneCount 0 means
+# the caller can leave the whole container out.
+proc ::docking::layoutPrune {data} {
+  lassign [lindex $data 0] pw orient sashpos
+  set children {}
+  set panes 0
+  foreach elt [lrange $data 1 end] {
+    set type [lindex $elt 0]
+    if {$type eq "TNotebook"} {
+      set wnds [::docking::layoutRestorableWindows [lindex $elt 2]]
+      if {![llength $wnds]} { continue }
+      lappend children [list TNotebook [lindex $elt 1] $wnds]
+      incr panes
+    } elseif {$type eq "TPanedwindow"} {
+      lassign [::docking::layoutPrune [lindex $elt 1]] sub subPanes
+      if {!$subPanes} { continue }
+      lappend children [list TPanedwindow $sub]
+      incr panes
+    } else {
+      lappend children $elt
+      incr panes
+    }
+  }
+  set keep [expr {$panes > 1 ? $panes - 1 : 0}]
+  if {$keep > 0} {
+    set sashpos [lrange $sashpos 0 [expr {$keep - 1}]]
+  } else {
+    set sashpos {}
+  }
+  return [list [concat [list [list $pw $orient $sashpos]] $children] $panes]
+}
+
 # restores paned windows and internal notebooks
 proc ::docking::layout_restore_pw { data } {
   foreach elt $data {
@@ -912,7 +959,6 @@ proc ::docking::create_window {wnd} {
       "\.(fdock)?glistWin([0-9]+)"    { ::windows::gamelist::Open }
       "\.(fdock)?treeWin([0-9]+)"     { ::tree::make [lindex $regmatch end]}
       "\.(fdock)?engineWin([0-9]+)"   { ::enginewin::Open [lindex $regmatch end]}
-      "\.(fdock)?analysisWin([0-9]+)" { ::makeAnalysisWin [lindex $regmatch end] [expr {[lindex $regmatch end] - 1}] 0}
       "\.(fdock)?crosstableWin"       { ::crosstab::Open }
       }
 }
@@ -941,8 +987,11 @@ proc ::docking::layout_restore { slot } {
   foreach data $::docking::layout_list($slot) {
     if {[lindex $data 0] eq "MainWindowGeometry"} {
       lappend restore_geometry [list "." [lindex $data 1] [lindex $data 2]]
-    } else {
+    } elseif {[lindex $data 0] eq "Toplevel"} {
       ::docking::layout_restore_pw $data
+    } else {
+      lassign [::docking::layoutPrune $data] pruned panes
+      if {$panes} { ::docking::layout_restore_pw $pruned }
     }
   }
 

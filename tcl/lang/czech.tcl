@@ -164,6 +164,22 @@ translate C EpdStripOpcodes {Odstraňte operační kódy...}
 translate C EpdAnnotateTime {Sekundy na pozici}
 translate C EpdCountBestMoves {Počítejte nejlepší tahy}
 translate C EpdSaveLog {Uložit výsledky do souboru}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate C EpdAnalysisTitle {EPD analýza}
+translate C EpdAnalysisRunning {Další analýza EPD již běží.}
+translate C EpdAnalysisMinTime {Doba analýzy musí být alespoň 1 sekunda.}
+translate C EpdAnalysisStartFailed {Nepodařilo se spustit analytický modul: %s}
+translate C EpdAnalysisError {Chyba analýzy EPD: %s}
+translate C EpdAnalysisStopped {Analýza se zastavila.}
+translate C EpdAnalysisStopping {Zastavení...}
+translate C EpdEngineNotStarted {motor nespustil vyhledávání}
+translate C EpdEngineNoResult {motor nevrátil žádný výsledek}
+translate C EpdSearchAlreadyRunning {vyhledávání již běží}
+translate C EpdNoEngineConfigured {není nakonfigurován žádný motor}
+translate C EpdOnlyUci {Podporovány jsou pouze motory UCI}
+translate C EpdEngineDisconnected {motor odpojený}
+translate C EpdEngineNoAnswer {motor neodpovídal}
 translate C EpdDontSave {Neukládat}
 translate C EpdReadOnly {pouze pro čtení}
 translate C EpdAltered {změněno}
@@ -182,6 +198,7 @@ menuText C ToolsAnalysis "Program pro analzu..." 0 \
   {Spustit/zastavit achov program pro analzu pozice}
 menuText C ToolsAnalysis2 "Program pro analzu #2..." 20 \
   {Spustit/zastavit druh achov program pro analzu pozice}
+menuText C ToolsEngineWindow "Okno motoru..." 0 {Otevřete okno šachového motoru}
 menuText C ToolsCross "Turnajov tabulka" 0 {Ukzat turnajovou tabulku pro tuto partii}
 menuText C ToolsFilterGraph "Graf filtru" 0 \
   {Otevt/zavt okno grafu filtru}
@@ -868,10 +885,21 @@ translate C ReviewMoveButton {Komentář k tahu}
 translate C ReviewMoveButtonTooltip {Ohodnoť zahraný tah odsud a zapiš ho}
 translate C ReviewSettings {Nastavení prohlídky}
 translate C ReviewSettingsTooltip {Configure the review settings}
+translate C ToolsWhatThreat {Co hrozí?}
+translate C ToolsWhatThreatTooltip {Zeptej se enginu, čím hrozí strana na tahu}
+translate C WhatThreatRunning {Analýza hrozeb už běží.}
+translate C WhatThreatNoEngine {Není nastaven žádný engine. Vyberte jej v Nástroje -> Seznam enginů, nebo nejprve otevřete okno enginu.}
+translate C WhatThreatNoPosition {Není žádná pozice k prohlédnutí.}
+translate C WhatThreatNoMove {Není zde žádný tah k okomentování. Přejdi nejprve na tah v partii.}
+translate C WhatThreatFailed {Analýzu hrozeb se nepodařilo spustit: %s}
+translate C WhatThreatNothingForcing {%s zde nemá nic vynucujícího: žádný tah nezíská materiál ani nedá šach.}
+translate C ReviewVerifier {Ověřovací engine}
+translate C ReviewVerifierOff {Vypnuto (bez ověření)}
 translate C ReviewVarLines {Varianty k zápisu}
 translate C ReviewVarCp {Mez variant (cp)}
 translate C ReviewMoveWait {Čekat na hloubku prohlídky}
 translate C ReviewMovetime {Časový limit (ms)}
+translate C ReviewOpeningMoves {Otevírací pohyby}
 translate C StopNow {Stop now}
 translate C StopAfterThisGame {Stop after this game}
 translate C ReviewFromPreset {%s (z předvolby motoru)}
@@ -933,6 +961,7 @@ translate C EngineClone {Vytvote kopii aktulnho motoru}
 translate C EngineDuplicate {Duplikovat}
 translate C EngineDelete {Smazat aktuln motor}
 translate C EngineOpenAnalysis {Otevřená analýza}
+translate C EngineOpenWindow {Otevřete okno motoru}
 
 # PGN window menus:
 menuText C PgnFile "Soubor" 0

@@ -166,6 +166,22 @@ translate Q EpdStripOpcodes {Видалення кодів операцій...}
 translate Q EpdAnnotateTime {Секунд на позицію}
 translate Q EpdCountBestMoves {Порахуйте найкращі ходи}
 translate Q EpdSaveLog {Зберегти результати у файл}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate Q EpdAnalysisTitle {EPD аналіз}
+translate Q EpdAnalysisRunning {Інший аналіз EPD вже виконується.}
+translate Q EpdAnalysisMinTime {Час аналізу має бути не менше 1 секунди.}
+translate Q EpdAnalysisStartFailed {Не вдалося запустити систему аналізу: %s}
+translate Q EpdAnalysisError {Помилка аналізу EPD: %s}
+translate Q EpdAnalysisStopped {Аналіз зупинено.}
+translate Q EpdAnalysisStopping {Зупинка...}
+translate Q EpdEngineNotStarted {двигун не запустив пошук}
+translate Q EpdEngineNoResult {двигун не дав результату}
+translate Q EpdSearchAlreadyRunning {пошук вже йде}
+translate Q EpdNoEngineConfigured {двигун не налаштований}
+translate Q EpdOnlyUci {Підтримуються лише двигуни UCI}
+translate Q EpdEngineDisconnected {двигун відключився}
+translate Q EpdEngineNoAnswer {двигун не відповідав}
 translate Q EpdDontSave {Не зберігайте}
 translate Q EpdReadOnly {тільки для читання}
 translate Q EpdAltered {змінено}
@@ -184,6 +200,7 @@ menuText Q ToolsAnalysis "Механізм аналізу..." 0 \
   {Запуск/зупинка механізму аналізу шахів}
 menuText Q ToolsAnalysis2 "Механізм аналізу №2..." 17 \
   {Запуск/зупинка 2-го механізму аналізу шахів}
+menuText Q ToolsEngineWindow "Вікно двигуна..." 0 {Відкрийте вікно шахової машини}
 menuText Q ToolsCross "Crosstable" 0 {Показати перехресну таблицю турніру для цієї гри}
 menuText Q ToolsFilterGraph "відн. Графік фільтра" 12 {Відкрити/закрити вікно графіка фільтра для відносних значень}
 menuText Q ToolsAbsFilterGraph "Абс. Графік фільтра" 7 {Відкрити/закрити вікно графіка фільтра для абсолютних значень}
@@ -864,10 +881,21 @@ translate Q ReviewMoveButton {Коментар до ходу}
 translate Q ReviewMoveButtonTooltip {Оціни зроблений хід і запиши його}
 translate Q ReviewSettings {Налаштування огляду}
 translate Q ReviewSettingsTooltip {Configure the review settings}
+translate Q ToolsWhatThreat {У чому загроза?}
+translate Q ToolsWhatThreatTooltip {Запитати двигун, чим загрожує сторона, яка робить хід}
+translate Q WhatThreatRunning {Аналіз загроз уже виконується.}
+translate Q WhatThreatNoEngine {Двигун не налаштовано. Виберіть його в Інструменти -> Налаштувати двигуни або спершу відкрийте вікно двигуна.}
+translate Q WhatThreatNoPosition {Немає позиції для перегляду.}
+translate Q WhatThreatNoMove {Тут немає ходу для коментаря. Спершу перейдіть до ходу в партії.}
+translate Q WhatThreatFailed {Не вдалося запустити аналіз загроз: %s}
+translate Q WhatThreatNothingForcing {У %s немає нічого форсуючого: жоден хід не виграє матеріал і не дає шаху.}
+translate Q ReviewVerifier {Перевіряльний движок}
+translate Q ReviewVerifierOff {Вимкнено (без перевірки)}
 translate Q ReviewVarLines {Варіанти для запису}
 translate Q ReviewVarCp {Поріг варіантів (cp)}
 translate Q ReviewMoveWait {Чекати глибину огляду}
 translate Q ReviewMovetime {Обмеження часу (ms)}
+translate Q ReviewOpeningMoves {Розкриття ходів}
 translate Q StopNow {Stop now}
 translate Q StopAfterThisGame {Stop after this game}
 translate Q ReviewFromPreset {%s (з профілю двигуна)}
@@ -929,6 +957,7 @@ translate Q EngineClone {Створіть копію поточного движ
 translate Q EngineDuplicate {Дублювати}
 translate Q EngineDelete {Видалити поточний механізм}
 translate Q EngineOpenAnalysis {Відкрити аналіз}
+translate Q EngineOpenWindow {Відкрийте вікно двигуна}
 
 # PGN window menus:
 menuText Q PgnFile "Файл" 0

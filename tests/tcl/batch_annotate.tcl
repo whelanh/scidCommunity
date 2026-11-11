@@ -265,5 +265,32 @@ checkEq "out of the games this run was asked for" [dict get $job total] 4
 close $pipe
 file delete [file join $root tests tcl .batch-pipe-stub]
 
+# The write phase is the shared review writer, not a batch-only copy: the marks
+# Review Settings owns (opening errors, tactical exercises) must land the same
+# way they do in a single Game Review.
+puts "\nthe batch writes through the shared review writer"
+
+proc sc_base {sub args} {
+    if {$sub eq "current"} { return 0 }
+    return ""
+}
+proc sc_game {args} { return "" }
+namespace eval ::notify {}
+proc ::notify::DatabaseModified {args} {}
+proc ::batch_annotate::check_completion {} {}
+set ::batch_annotate::cancelled 0
+set ::batch_annotate::run_id 7
+set ::batch_written {}
+rename ::reviewdriver::writeResults ::reviewdriver::writeResultsSaved
+proc ::reviewdriver::writeResults {p results} {
+    set ::batch_written [list $p $results]
+    return [dict create written 0 failed 0 errors {}]
+}
+::batch_annotate::writeGame x 47 {} {} 0     [dict create runId 7 base 0] {} {}
+check "writeGame reaches ::reviewdriver::writeResults" \
+    [expr {[llength $::batch_written] == 2}]
+rename ::reviewdriver::writeResults {}
+rename ::reviewdriver::writeResultsSaved ::reviewdriver::writeResults
+
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

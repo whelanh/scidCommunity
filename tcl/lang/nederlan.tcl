@@ -186,6 +186,22 @@ translate N EpdStripOpcodes {Strip-opcodes...}
 translate N EpdAnnotateTime {Seconden per positie}
 translate N EpdCountBestMoves {Tel de beste zetten}
 translate N EpdSaveLog {Resultaten opslaan in bestand}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate N EpdAnalysisTitle {EPD-analyse}
+translate N EpdAnalysisRunning {Er loopt al een andere EPD-analyse.}
+translate N EpdAnalysisMinTime {De analysetijd moet minimaal 1 seconde bedragen.}
+translate N EpdAnalysisStartFailed {Kan de analyse-engine niet starten: %s}
+translate N EpdAnalysisError {EPD-analysefout: %s}
+translate N EpdAnalysisStopped {De analyse is gestopt.}
+translate N EpdAnalysisStopping {Stoppen...}
+translate N EpdEngineNotStarted {de motor heeft de zoekactie niet gestart}
+translate N EpdEngineNoResult {de motor gaf geen resultaat}
+translate N EpdSearchAlreadyRunning {Er wordt al gezocht}
+translate N EpdNoEngineConfigured {er is geen motor geconfigureerd}
+translate N EpdOnlyUci {Alleen UCI-engines worden ondersteund}
+translate N EpdEngineDisconnected {de motor losgekoppeld}
+translate N EpdEngineNoAnswer {de motor antwoordde niet}
 translate N EpdDontSave {Niet opslaan}
 translate N EpdReadOnly {alleen-lezen}
 translate N EpdAltered {gewijzigd}
@@ -204,6 +220,7 @@ menuText N ToolsAnalysis "Schaakengine ..." 3 \
   {Start/stop schaak-analyse programma 1}
 menuText N ToolsAnalysis2 "Schaakengine #2..." 17 \
   {Start/stop  schaak-analyse programma 2}
+menuText N ToolsEngineWindow "Motorraam..." 0 {Open een schaakenginevenster}
 menuText N ToolsCross "Kruistabel" 0 \
   {Toon toernooi-kruistabel voor huidige partij}
 menuText N ToolsFilterGraph "Filter grafiek" 7 \
@@ -893,10 +910,21 @@ translate N ReviewMoveButton {Zetcommentaar}
 translate N ReviewMoveButtonTooltip {Beoordeel de gespeelde zet vanaf hier en schrijf die in}
 translate N ReviewSettings {Instellingen voor beoordeling}
 translate N ReviewSettingsTooltip {Configure the review settings}
+translate N ToolsWhatThreat {Wat is de dreiging?}
+translate N ToolsWhatThreatTooltip {Vraag de engine wat de partij aan zet dreigt}
+translate N WhatThreatRunning {Er loopt al een dreigingsanalyse.}
+translate N WhatThreatNoEngine {Er is geen engine ingesteld. Kies er een in Gereedschappen -> Configureer motoren, of open eerst een enginevenster.}
+translate N WhatThreatNoPosition {Er is geen stelling om te bekijken.}
+translate N WhatThreatNoMove {Hier is geen zet om te becommentariëren. Ga eerst naar een zet in de partij.}
+translate N WhatThreatFailed {De dreigingsanalyse kon niet starten: %s}
+translate N WhatThreatNothingForcing {%s heeft hier niets dwingends: geen zet wint materiaal of geeft schaak.}
+translate N ReviewVerifier {Verificatie-engine}
+translate N ReviewVerifierOff {Uit (geen verificatie)}
 translate N ReviewVarLines {Varianten om te schrijven}
 translate N ReviewVarCp {Variantmarge (cp)}
 translate N ReviewMoveWait {Wacht op de beoordelingsdiepte}
 translate N ReviewMovetime {Tijdslimiet (ms)}
+translate N ReviewOpeningMoves {Openingszetten}
 translate N StopNow {Stop now}
 translate N StopAfterThisGame {Stop after this game}
 translate N ReviewFromPreset {%s (uit het engineprofiel)}
@@ -958,6 +986,7 @@ translate N EngineClone {Maak een kopie van de huidige engine}
 translate N EngineDuplicate {Dupliceren}
 translate N EngineDelete {Verwijder de huidige engine}
 translate N EngineOpenAnalysis {Analyse openen}
+translate N EngineOpenWindow {Open het motorvenster}
 
 # PGN window menus:
 menuText N PgnFile "Bestand" 0
