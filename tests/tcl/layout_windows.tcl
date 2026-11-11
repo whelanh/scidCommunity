@@ -56,6 +56,27 @@ checkEq "a mixed notebook keeps the rest" \
     [::docking::layoutRestorableWindows {.main .analysisWin1 .engineWin2}] \
     {.main .engineWin2}
 
+# The saved paned window carries a sash position for every boundary. Dropping
+# the Analysis notebook removes a pane, so its sash entry must go too or the
+# restore applies a stale index to the rebuilt window.
+set saved [list \
+    [list .pw vertical {120}] \
+    [list TNotebook .pw.tb1 {.main}] \
+    [list TNotebook .pw.tb2 {.analysisWin1}]]
+lassign [::docking::layoutPrune $saved] pruned panes
+checkEq "one pane remains" $panes 1
+checkEq "the dropped pane's sash is gone" [lindex [lindex $pruned 0] 2] {}
+checkEq "the surviving notebook is kept" \
+    [join [lindex $pruned 1] "|"] {TNotebook|.pw.tb1|.main}
+
+set nested [list \
+    [list .pw horizontal {80}] \
+    [list TPanedwindow [list \
+        [list .pw.n vertical {40}] \
+        [list TNotebook .pw.n.tb {.analysisWin1}]]]]
+lassign [::docking::layoutPrune $nested] pruned panes
+checkEq "a nested container with no windows is dropped" $panes 0
+
 puts "\nthe Engine Window arm still works"
 
 ::docking::create_window .engineWin3

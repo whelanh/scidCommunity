@@ -80,6 +80,8 @@ check "a saved layout does not restore an Analysis window" \
     [expr {[string first "makeAnalysisWin" $win] < 0}]
 check "the restore path filters Analysis windows out" \
     [expr {[string first "layoutRestorableWindows" $win] >= 0}]
+check "and prunes emptied containers and their sash entries" \
+    [expr {[string first "layoutPrune" $win] >= 0}]
 
 set main [readText [file join $root tcl main.tcl]]
 check "the spacebar has no Analysis window branch" \
