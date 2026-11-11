@@ -692,7 +692,7 @@ namespace eval epd {
     set w .epd$id
     if {$analysisRunning} {
       $w.bottom.status configure -text "Another EPD analysis is already running."
-      set epdAnnotation 0
+      # epdAnnotation belongs to the run already in flight; do not clear it.
       return
     }
     set epdEngineName [string map {{ } _} $name]
