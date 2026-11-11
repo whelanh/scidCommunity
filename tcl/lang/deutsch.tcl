@@ -557,7 +557,7 @@ translate D LichessStudyCreating {Studie „%s“ wird erstellt...}
 translate D LichessStudyCreateFailed {Die Studie „%s“ konnte nicht erstellt werden: %s\n\nEs wurde nichts veröffentlicht.}
 translate D LichessStudyDbClosed {Die Datenbank ist nicht mehr geöffnet.}
 translate D LichessStudyTooManyGames {Sie haben %s Spiele ausgewählt, aber eine Lichess-Studie enthält höchstens %s Kapitel.}
-translate D LichessStudyNoGame {Es gibt kein Spiel auf dem Spielbrett.\in\Um Spiele aus einer Datenbank zu veröffentlichen, wählen Sie sie in der Spieleliste aus und verwenden Sie das Rechtsklick-Menü.}
+translate D LichessStudyNoGame {Es gibt kein Spiel auf dem Spielbrett.\n\nUm Spiele aus einer Datenbank zu veröffentlichen, wählen Sie sie in der Spieleliste aus und verwenden Sie das Rechtsklick-Menü.}
 translate D LichessStudyNoUsername {Der Benutzername kann aus der Lichess-Antwort nicht gelesen werden.}
 translate D LichessStudyCurlNotFound {Curl nicht gefunden: Es wird benötigt, um mit Lichess zu sprechen.}
 translate D LichessStudyGameNotFound {Spiel %s nicht in der Datenbank gefunden.}
@@ -575,7 +575,7 @@ translate D LichessStudyNetworkError {Netzwerkfehler: %s}
 
 translate D LichessStudyOvfFree {„%s“ hat nur %s kostenlose Kapitel von %s (Lichess-Limit), aber Sie möchten %s Spiele veröffentlichen.}
 translate D LichessStudyOvfFull {„%s“ ist voll: Eine Lichess-Studie enthält höchstens %s Kapitel.}
-translate D LichessStudyOvfQuestion {%s\in\Was möchten Sie tun?}
+translate D LichessStudyOvfQuestion {%s\n\nWas möchten Sie tun?}
 translate D LichessStudyOvfFirst {Veröffentlichen Sie hier nur die ersten %s Spiele (%s wird nicht veröffentlicht)}
 translate D LichessStudyOvfSplit {Veröffentlichen Sie die ersten %s Spiele hier und die anderen %s in einer neuen Studie}
 translate D LichessStudyOvfAllNew {Veröffentlichen Sie alle %s Spiele in einer neuen Studie}

@@ -564,9 +564,9 @@ translate A LichessStudyCreating {スタディ「%s」を作成しています..
 translate A LichessStudyCreateFailed {スタディ「%s」を作成できませんでした: %s\n\n何も公開されませんでした。}
 translate A LichessStudyDbClosed {データベースはもう開いていません。}
 translate A LichessStudyTooManyGames {%s ゲームを選択しましたが、Lichess 研究には最大でも %s 章が含まれます。}
-translate A LichessStudyNoGame {ボード上にゲームがありません。\in\データベースからゲームを公開するには、ゲーム リストでゲームを選択し、右クリック メニューを使用します。}
+translate A LichessStudyNoGame {ボード上にゲームがありません。\n\nデータベースからゲームを公開するには、ゲーム リストでゲームを選択し、右クリック メニューを使用します。}
 translate A LichessStudyNoUsername {Lichess の回答からユーザー名を読み取ることができません。}
-translate A LichessStudyCurlNotFound {カールが見つかりません: Lichess と話すために必要です。}
+translate A LichessStudyCurlNotFound {curlが見つかりません: Lichess と話すために必要です。}
 translate A LichessStudyGameNotFound {ゲーム %s がデータベースに見つかりません。}
 translate A LichessStudyCannotRead {ゲーム %s: %s を読み取れません}
 
@@ -582,7 +582,7 @@ translate A LichessStudyNetworkError {ネットワークエラー: %s}
 
 translate A LichessStudyOvfFree {」%s「しかない」 %s 無料のチャプター %s (Lichess 制限) ですが、公開したいと考えています %s ゲーム。}
 translate A LichessStudyOvfFull {「%s」はいっぱいです。Lichess 研究には最大で %s 章が含まれます。}
-translate A LichessStudyOvfQuestion {%s\in\何をしたいですか?}
+translate A LichessStudyOvfQuestion {%s\n\n何をしたいですか?}
 translate A LichessStudyOvfFirst {ここでは最初の %s ゲームのみを公開します (%s は公開されません)}
 translate A LichessStudyOvfSplit {最初の %s ゲームをここで公開し、他の %s を新しい研究で公開します}
 translate A LichessStudyOvfAllNew {すべての %s ゲームを新しい調査で公開します}

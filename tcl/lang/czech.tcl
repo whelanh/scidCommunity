@@ -527,7 +527,7 @@ translate C LichessStudyCreating {Vytváření studie „%s“...}
 translate C LichessStudyCreateFailed {Nelze vytvořit studii „%s“: %s\n\nNic nebylo publikováno.}
 translate C LichessStudyDbClosed {Databáze již není otevřená.}
 translate C LichessStudyTooManyGames {Vybrali jste %s hry, ale studie Lichess obsahuje maximálně %s kapitol.}
-translate C LichessStudyNoGame {Na herním plánu není žádná hra.\in\Chcete-li publikovat hry z databáze, vyberte je v seznamu her a použijte nabídku po kliknutí pravým tlačítkem.}
+translate C LichessStudyNoGame {Na herním plánu není žádná hra.\n\nChcete-li publikovat hry z databáze, vyberte je v seznamu her a použijte nabídku po kliknutí pravým tlačítkem.}
 translate C LichessStudyNoUsername {Nelze přečíst uživatelské jméno z odpovědi Lichess.}
 translate C LichessStudyCurlNotFound {curl nenalezen: je potřeba si promluvit s Lichessem.}
 translate C LichessStudyGameNotFound {Hra %s nebyla v databázi nalezena.}
@@ -545,7 +545,7 @@ translate C LichessStudyNetworkError {Chyba sítě: %s}
 
 translate C LichessStudyOvfFree {„%s“ má pouze %s volné kapitoly z %s (limit Lichess), ale chcete publikovat %s hry.}
 translate C LichessStudyOvfFull {"%s" je plné: studie Lichess obsahuje maximálně %s kapitol.}
-translate C LichessStudyOvfQuestion {%s\in\Co chcete dělat?}
+translate C LichessStudyOvfQuestion {%s\n\nCo chcete dělat?}
 translate C LichessStudyOvfFirst {Zde publikujte pouze první %s hry (%s nebudou publikovány)}
 translate C LichessStudyOvfSplit {Zveřejněte první %s hry zde a další %s v nové studii}
 translate C LichessStudyOvfAllNew {Publikovat všechny %s hry v nové studii}

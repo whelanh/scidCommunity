@@ -561,12 +561,12 @@ translate J LichessStudyPickStudy {Прво изаберите студију с
 translate J LichessStudyAddLinkPrompt {Налепите везу студије, нпр. хттпс://лицхесс.орг/студи/АбЦд1234}
 translate J LichessStudyNameLength {Назив студије мора да има 2 до 100 знакова.}
 translate J LichessStudyCreating {Прављење студије"%s„...}
-translate J LichessStudyCreateFailed {Није могуће креирати студију "%s": %s\н\нНишта није објављено.}
+translate J LichessStudyCreateFailed {Није могуће креирати студију "%s": %s\n\nНишта није објављено.}
 translate J LichessStudyDbClosed {База података више није отворена.}
 translate J LichessStudyTooManyGames {Изабрали сте %s игре, али Лицхесс студија држи највише %s поглавља.}
-translate J LichessStudyNoGame {На табли нема игре.\ин\Да бисте објавили игре из базе података, изаберите их на листи игара и користите мени десним кликом.}
+translate J LichessStudyNoGame {На табли нема игре.\n\nДа бисте објавили игре из базе података, изаберите их на листи игара и користите мени десним кликом.}
 translate J LichessStudyNoUsername {Није могуће прочитати корисничко име из Лицхесс одговора.}
-translate J LichessStudyCurlNotFound {цурл није пронађен: потребно је разговарати са Лицхесс.}
+translate J LichessStudyCurlNotFound {curl није пронађен: потребно је разговарати са Лицхесс.}
 translate J LichessStudyGameNotFound {Игра %s није пронађен у бази података.}
 translate J LichessStudyCannotRead {Не могу да прочитам игру %s: %s}
 
@@ -582,7 +582,7 @@ translate J LichessStudyNetworkError {Мрежна грешка: %s}
 
 translate J LichessStudyOvfFree {"%s„има само %s бесплатна поглавља из %s (Лицхесс лимит), али желите да објавите %s игрице.}
 translate J LichessStudyOvfFull {"%s" је пуна: Лицхесс студија држи највише %s поглавља.}
-translate J LichessStudyOvfQuestion {%s\ин\Шта желиш да урадиш?}
+translate J LichessStudyOvfQuestion {%s\n\nШта желиш да урадиш?}
 translate J LichessStudyOvfFirst {Објавите само прву %s игре овде (%s неће бити објављен)}
 translate J LichessStudyOvfSplit {Објавите прву %s игре овде и друге %s у новој студији}
 translate J LichessStudyOvfAllNew {Објави све %s игре у новој студији}
@@ -594,7 +594,7 @@ translate J LichessStudyPublishing {Публисхинг %s игре) до "%s�
 translate J LichessStudyGamesNotPublished {Игре нису објављене јер је студија пуна: %s.}
 translate J LichessStudyEmptyNew {Нова студија"%s" је креиран, али не садржи ниједну игру (%s).}
 translate J LichessStudyNothingPublished {Ништа није објављено.%s}
-translate J LichessStudyReport {Цреатед %s оф %s поглавља (%s).%s\н\нОтворити студију у свом претраживачу?}
+translate J LichessStudyReport {Цреатед %s оф %s поглавља (%s).%s\n\nОтворити студију у свом претраживачу?}
 translate J LichessStudyReportItem {%s у "%s"}
 translate J LichessStudyNoChapters {Није направљено ниједно поглавље.%s}
 translate J LichessStudyReports {Лицхесс извештава: %s}

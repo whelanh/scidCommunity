@@ -539,7 +539,7 @@ translate F LichessStudyCreating {Création de l'étude "%s"...}
 translate F LichessStudyCreateFailed {Impossible de créer l'étude "%s : %s\n\nRien n'a été publié.}
 translate F LichessStudyDbClosed {La base de données n'est plus ouverte.}
 translate F LichessStudyTooManyGames {Vous avez sélectionné des jeux %s, mais une étude Lichess contient au maximum %s chapitres.}
-translate F LichessStudyNoGame {Il n'y a aucun jeu sur le plateau.\in\Pour publier des jeux à partir d'une base de données, sélectionnez-les dans la liste des jeux et utilisez le menu contextuel.}
+translate F LichessStudyNoGame {Il n'y a aucun jeu sur le plateau.\n\nPour publier des jeux à partir d'une base de données, sélectionnez-les dans la liste des jeux et utilisez le menu contextuel.}
 translate F LichessStudyNoUsername {Impossible de lire le nom d'utilisateur dans la réponse Lichess.}
 translate F LichessStudyCurlNotFound {curl introuvable : il faut en parler à Lichess.}
 translate F LichessStudyGameNotFound {Jeu %s introuvable dans la base de données.}
@@ -557,7 +557,7 @@ translate F LichessStudyNetworkError {Erreur réseau : %s}
 
 translate F LichessStudyOvfFree {"%s" ne contient que %s chapitres gratuits sur %s (la limite Lichess), mais vous souhaitez publier des jeux %s.}
 translate F LichessStudyOvfFull {"%s" est complet : une étude Lichess contient au maximum %s chapitres.}
-translate F LichessStudyOvfQuestion {%s\in\Que veux-tu faire ?}
+translate F LichessStudyOvfQuestion {%s\n\nQue veux-tu faire ?}
 translate F LichessStudyOvfFirst {Publiez ici uniquement les premiers jeux %s (%s ne sera pas publié)}
 translate F LichessStudyOvfSplit {Publier les premiers jeux %s ici et les autres %s dans une nouvelle étude}
 translate F LichessStudyOvfAllNew {Publier tous les jeux %s dans une nouvelle étude}

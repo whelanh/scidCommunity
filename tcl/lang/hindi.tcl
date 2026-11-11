@@ -523,9 +523,9 @@ translate h LichessStudyCreating {अध्ययन बनाया जा र�
 translate h LichessStudyCreateFailed {"%s" अध्ययन नहीं बनाया जा सका: %s\n\nकुछ भी प्रकाशित नहीं हुआ।}
 translate h LichessStudyDbClosed {डेटाबेस अब खुला नहीं है.}
 translate h LichessStudyTooManyGames {आपने %s खेलों का चयन किया, लेकिन लिचेस अध्ययन में अधिकतम %s अध्याय हैं।}
-translate h LichessStudyNoGame {बोर्ड पर कोई गेम नहीं है।\in\डेटाबेस से गेम प्रकाशित करने के लिए, उन्हें गेम सूची में चुनें और राइट-क्लिक मेनू का उपयोग करें।}
+translate h LichessStudyNoGame {बोर्ड पर कोई गेम नहीं है।\n\nडेटाबेस से गेम प्रकाशित करने के लिए, उन्हें गेम सूची में चुनें और राइट-क्लिक मेनू का उपयोग करें।}
 translate h LichessStudyNoUsername {Lichess उत्तर से उपयोगकर्ता नाम नहीं पढ़ सकता।}
-translate h LichessStudyCurlNotFound {कर्ल नहीं मिला: लिचेस से बात करने के लिए इसकी आवश्यकता है।}
+translate h LichessStudyCurlNotFound {curl नहीं मिला: लिचेस से बात करने के लिए इसकी आवश्यकता है।}
 translate h LichessStudyGameNotFound {गेम %s डेटाबेस में नहीं मिला।}
 translate h LichessStudyCannotRead {गेम नहीं पढ़ सकता %s: %s}
 
@@ -541,7 +541,7 @@ translate h LichessStudyNetworkError {नेटवर्क त्रुटि: 
 
 translate h LichessStudyOvfFree {"%s"केवल है %s निःशुल्क अध्याय से बाहर %s (लाइकेस सीमा), लेकिन आप प्रकाशित करना चाहते हैं %s खेल.}
 translate h LichessStudyOvfFull {"%s" भरा हुआ है: एक लाइकेस अध्ययन में अधिकतम %s अध्याय होते हैं।}
-translate h LichessStudyOvfQuestion {%s\in\आप क्या करना चाहते हैं?}
+translate h LichessStudyOvfQuestion {%s\n\nआप क्या करना चाहते हैं?}
 translate h LichessStudyOvfFirst {यहां केवल पहले %s गेम प्रकाशित करें (%s प्रकाशित नहीं किया जाएगा)}
 translate h LichessStudyOvfSplit {पहले %s गेम को यहां प्रकाशित करें और दूसरे %s को एक नए अध्ययन में प्रकाशित करें}
 translate h LichessStudyOvfAllNew {एक नए अध्ययन में सभी %s गेम प्रकाशित करें}

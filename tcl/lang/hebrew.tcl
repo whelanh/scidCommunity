@@ -524,9 +524,9 @@ translate V LichessStudyCreating {יוצר מחקר "%s"...}
 translate V LichessStudyCreateFailed {לא ניתן ליצור את המחקר "%s": %s\n\nשום דבר לא פורסם.}
 translate V LichessStudyDbClosed {מסד הנתונים אינו פתוח יותר.}
 translate V LichessStudyTooManyGames {בחרת %s משחקים, אבל מחקר של ליצ'ס מכיל לכל היותר %s פרקים.}
-translate V LichessStudyNoGame {אין משחק על הלוח.\in\כדי לפרסם משחקים ממסד נתונים, בחר אותם ברשימת המשחקים והשתמש בתפריט לחיצה ימנית.}
+translate V LichessStudyNoGame {אין משחק על הלוח.\n\nכדי לפרסם משחקים ממסד נתונים, בחר אותם ברשימת המשחקים והשתמש בתפריט לחיצה ימנית.}
 translate V LichessStudyNoUsername {לא ניתן לקרוא את שם המשתמש מהתשובה של Lichess.}
-translate V LichessStudyCurlNotFound {תלתל לא נמצא: יש צורך לדבר עם ליצ'ס.}
+translate V LichessStudyCurlNotFound {curl לא נמצא: יש צורך לדבר עם ליצ'ס.}
 translate V LichessStudyGameNotFound {המשחק %s לא נמצא במסד הנתונים.}
 translate V LichessStudyCannotRead {לא יכול לקרוא את המשחק %s: %s}
 
@@ -542,7 +542,7 @@ translate V LichessStudyNetworkError {שגיאת רשת: %s}
 
 translate V LichessStudyOvfFree {"%s"יש רק %s פרקים חינם מתוך %s (המגבלה של ליצ'ס), אבל אתה רוצה לפרסם %s משחקים.}
 translate V LichessStudyOvfFull {"%s" מלא: מחקר של ליצ'ס מכיל לכל היותר %s פרקים.}
-translate V LichessStudyOvfQuestion {%s\in\מה אתה רוצה לעשות?}
+translate V LichessStudyOvfQuestion {%s\n\nמה אתה רוצה לעשות?}
 translate V LichessStudyOvfFirst {פרסם כאן רק את המשחקים הראשונים %s (%s לא יפורסמו)}
 translate V LichessStudyOvfSplit {פרסם כאן את המשחקים הראשונים %s ואת %s האחרים במחקר חדש}
 translate V LichessStudyOvfAllNew {פרסם את כל המשחקים %s במחקר חדש}

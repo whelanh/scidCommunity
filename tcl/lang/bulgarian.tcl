@@ -564,7 +564,7 @@ translate g LichessStudyCreating {Създава се проучване „%s�
 translate g LichessStudyCreateFailed {Не можа да се създаде изследването „%s“: %s\n\nНищо не беше публикувано.}
 translate g LichessStudyDbClosed {Базата данни вече не е отворена.}
 translate g LichessStudyTooManyGames {Избрахте %s игри, но проучване Lichess съдържа най-много %s глави.}
-translate g LichessStudyNoGame {Няма игра на дъската.\in\За да публикувате игри от база данни, изберете ги в списъка с игри и използвайте менюто с десен бутон.}
+translate g LichessStudyNoGame {Няма игра на дъската.\n\nЗа да публикувате игри от база данни, изберете ги в списъка с игри и използвайте менюто с десен бутон.}
 translate g LichessStudyNoUsername {Не може да се прочете потребителското име от отговора на Lichess.}
 translate g LichessStudyCurlNotFound {curl не е намерен: необходим е, за да говорите с Lichess.}
 translate g LichessStudyGameNotFound {Играта %s не е намерена в базата данни.}
@@ -582,7 +582,7 @@ translate g LichessStudyNetworkError {Мрежова грешка: %s}
 
 translate g LichessStudyOvfFree {„%s“ има само %s безплатни глави от %s (ограничението на Lichess), но вие искате да публикувате %s игри.}
 translate g LichessStudyOvfFull {„%s“ е пълен: едно проучване на Lichess съдържа най-много %s глави.}
-translate g LichessStudyOvfQuestion {%s\in\Какво искате да направите?}
+translate g LichessStudyOvfQuestion {%s\n\nКакво искате да направите?}
 translate g LichessStudyOvfFirst {Публикувайте само първите %s игри тук (%s няма да бъдат публикувани)}
 translate g LichessStudyOvfSplit {Публикувайте първите %s игри тук и другите %s в ново проучване}
 translate g LichessStudyOvfAllNew {Публикувайте всички %s игри в ново проучване}

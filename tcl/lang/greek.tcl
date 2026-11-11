@@ -555,9 +555,9 @@ translate G LichessStudyCreating {Δημιουργία μελέτης "%s"...}
 translate G LichessStudyCreateFailed {Δεν ήταν δυνατή η δημιουργία της μελέτης "%s": %s\n\nΔεν δημοσιεύτηκε τίποτα.}
 translate G LichessStudyDbClosed {Η βάση δεδομένων δεν είναι πλέον ανοιχτή.}
 translate G LichessStudyTooManyGames {Επιλέξατε %s παιχνίδια, αλλά μια μελέτη Lichess έχει το πολύ %s κεφάλαια.}
-translate G LichessStudyNoGame {Δεν υπάρχει παιχνίδι στον πίνακα.\in\Για να δημοσιεύσετε παιχνίδια από μια βάση δεδομένων, επιλέξτε τα στη Λίστα παιχνιδιών και χρησιμοποιήστε το μενού με το δεξί κλικ.}
+translate G LichessStudyNoGame {Δεν υπάρχει παιχνίδι στον πίνακα.\n\nΓια να δημοσιεύσετε παιχνίδια από μια βάση δεδομένων, επιλέξτε τα στη Λίστα παιχνιδιών και χρησιμοποιήστε το μενού με το δεξί κλικ.}
 translate G LichessStudyNoUsername {Δεν μπορώ να διαβάσω το όνομα χρήστη από την απάντηση Lichess.}
-translate G LichessStudyCurlNotFound {Η μπούκλα δεν βρέθηκε: χρειάζεται για να μιλήσετε με τον Lichess.}
+translate G LichessStudyCurlNotFound {curl δεν βρέθηκε: χρειάζεται για να μιλήσετε με τον Lichess.}
 translate G LichessStudyGameNotFound {Το παιχνίδι %s δεν βρέθηκε στη βάση δεδομένων.}
 translate G LichessStudyCannotRead {Δεν μπορώ να διαβάσω το παιχνίδι %s: %s}
 
@@ -573,7 +573,7 @@ translate G LichessStudyNetworkError {Σφάλμα δικτύου: %s}
 
 translate G LichessStudyOvfFree {Το "%s" έχει μόνο %s δωρεάν κεφάλαια από %s (το όριο Lichess), αλλά θέλετε να δημοσιεύσετε %s παιχνίδια.}
 translate G LichessStudyOvfFull {Το "%s" είναι γεμάτο: μια μελέτη Lichess περιέχει το πολύ %s κεφάλαια.}
-translate G LichessStudyOvfQuestion {%s\in\Τι θέλετε να κάνετε;}
+translate G LichessStudyOvfQuestion {%s\n\nΤι θέλετε να κάνετε;}
 translate G LichessStudyOvfFirst {Δημοσιεύστε μόνο το πρώτο %s παιχνίδια εδώ (%s δεν θα δημοσιευθεί)}
 translate G LichessStudyOvfSplit {Δημοσιεύστε το πρώτο %s παιχνίδια εδώ και τα άλλα %s σε μια νέα μελέτη}
 translate G LichessStudyOvfAllNew {Δημοσιεύστε όλα τα παιχνίδια %s σε μια νέα μελέτη}

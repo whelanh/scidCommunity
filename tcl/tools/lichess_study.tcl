@@ -391,7 +391,13 @@ proc ::lichstudy::saveToken {w} {
         return
     }
     set token $t
-    writeFile [file join $dir token.txt] $token
+    set path [file join $dir token.txt]
+    writeFile $path $token
+    # The token grants access to the user's Lichess account, so keep the file
+    # readable only by its owner on Unix (options.tcl does the same for
+    # options.dat). On Windows -permissions is unsupported and the catch is a
+    # no-op.
+    catch { file attributes $path -permissions 0600 }
     refresh $w
 }
 
@@ -681,6 +687,12 @@ proc ::lichstudy::askOverflow {w nm free nGames} {
 
     update
     catch {grab $d}
+    # If the dialog was destroyed while `update` drained events, ovfDone was
+    # already cleared (the <Destroy> binding) and the vwait below would wait
+    # forever. Treat a vanished dialog as "abort".
+    if {![winfo exists $d]} {
+        return {}
+    }
     while 1 {
         vwait ::lichstudy::ovfDone
         if {$ovfDone == 0} { break }

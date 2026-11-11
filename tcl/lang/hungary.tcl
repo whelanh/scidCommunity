@@ -531,9 +531,9 @@ translate H LichessStudyCreating {„%s” tanulmány létrehozása...}
 translate H LichessStudyCreateFailed {Nem sikerült létrehozni a „%s” tanulmányt: %s\n\nSemmit sem tettek közzé.}
 translate H LichessStudyDbClosed {Az adatbázis már nincs nyitva.}
 translate H LichessStudyTooManyGames {Kiválasztott %s játékot, de egy Lichess-tanulmány legfeljebb %s fejezetet tartalmaz.}
-translate H LichessStudyNoGame {A táblán nincs játék.\in\Játékok adatbázisból való közzétételéhez válassza ki őket a Játéklistában, és használja a jobb gombbal kattintva.}
+translate H LichessStudyNoGame {A táblán nincs játék.\n\nJátékok adatbázisból való közzétételéhez válassza ki őket a Játéklistában, és használja a jobb gombbal kattintva.}
 translate H LichessStudyNoUsername {A felhasználónév nem olvasható ki a Lichess válaszból.}
-translate H LichessStudyCurlNotFound {göndör nem található: beszélni kell Lichess-szel.}
+translate H LichessStudyCurlNotFound {curl nem található: beszélni kell Lichess-szel.}
 translate H LichessStudyGameNotFound {A %s játék nem található az adatbázisban.}
 translate H LichessStudyCannotRead {Nem olvasható a játék %s: %s}
 
@@ -549,7 +549,7 @@ translate H LichessStudyNetworkError {Hálózati hiba: %s}
 
 translate H LichessStudyOvfFree {A %s-nak csak %s ingyenes fejezete van a %s-ból (a Lichess-korlát), de Ön %s játékot szeretne közzétenni.}
 translate H LichessStudyOvfFull {A "%s" megtelt: egy Lichess-tanulmány legfeljebb %s fejezetet tartalmaz.}
-translate H LichessStudyOvfQuestion {%s\in\Mit akarsz csinálni?}
+translate H LichessStudyOvfQuestion {%s\n\nMit akarsz csinálni?}
 translate H LichessStudyOvfFirst {Csak az első %s játékokat tedd közzé itt (%s nem kerül közzétételre)}
 translate H LichessStudyOvfSplit {Tegye közzé az első %s játékot itt, a többit pedig %s egy új tanulmányban}
 translate H LichessStudyOvfAllNew {Tegye közzé az összes %s játékot egy új tanulmányban}

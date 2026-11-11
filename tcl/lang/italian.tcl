@@ -531,9 +531,9 @@ translate I LichessStudyCreating {Creazione dello studio "%s"...}
 translate I LichessStudyCreateFailed {Impossibile creare lo studio "%s": %s\n\nNon è stato pubblicato nulla.}
 translate I LichessStudyDbClosed {Il database non è più aperto.}
 translate I LichessStudyTooManyGames {Hai selezionato %s giochi, ma uno studio di Lichess contiene al massimo %s capitoli.}
-translate I LichessStudyNoGame {Non c'è nessun gioco sul tabellone.\in\Per pubblicare giochi da un database, selezionali nell'Elenco giochi e utilizza il menu contestuale.}
+translate I LichessStudyNoGame {Non c'è nessun gioco sul tabellone.\n\nPer pubblicare giochi da un database, selezionali nell'Elenco giochi e utilizza il menu contestuale.}
 translate I LichessStudyNoUsername {Impossibile leggere il nome utente dalla risposta di Lichess.}
-translate I LichessStudyCurlNotFound {ricciolo non trovato: è necessario parlare con Lichess.}
+translate I LichessStudyCurlNotFound {curl non trovato: è necessario parlare con Lichess.}
 translate I LichessStudyGameNotFound {Gioco %s non trovato nel database.}
 translate I LichessStudyCannotRead {Impossibile leggere il gioco %s: %s}
 
@@ -549,7 +549,7 @@ translate I LichessStudyNetworkError {Errore di rete: %s}
 
 translate I LichessStudyOvfFree {"%s" ha solo %s capitoli gratuiti su %s (il limite di Lichess), ma desideri pubblicare %s giochi.}
 translate I LichessStudyOvfFull {"%s" è pieno: uno studio di Lichess contiene al massimo %s capitoli.}
-translate I LichessStudyOvfQuestion {%s\in\Cosa vuoi fare?}
+translate I LichessStudyOvfQuestion {%s\n\nCosa vuoi fare?}
 translate I LichessStudyOvfFirst {Pubblica qui solo i primi %s giochi (%s non verranno pubblicati)}
 translate I LichessStudyOvfSplit {Pubblica i primi %s giochi qui e gli altri %s in un nuovo studio}
 translate I LichessStudyOvfAllNew {Pubblica tutti i %s giochi in un nuovo studio}

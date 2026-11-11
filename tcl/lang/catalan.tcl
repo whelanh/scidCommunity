@@ -546,9 +546,9 @@ translate K LichessStudyCreating {S'està creant l'estudi "%s"...}
 translate K LichessStudyCreateFailed {No s'ha pogut crear l'estudi "%s": %s\n\nNo s'ha publicat res.}
 translate K LichessStudyDbClosed {La base de dades ja no està oberta.}
 translate K LichessStudyTooManyGames {Tu has seleccionat %s jocs, però un estudi de Lichess aguanta com a molt %s capítols.}
-translate K LichessStudyNoGame {No hi ha cap joc al tauler.\a\Per publicar jocs d'una base de dades, seleccioneu-los a la Llista de jocs i feu servir el menú del botó dret.}
+translate K LichessStudyNoGame {No hi ha cap joc al tauler.\n\nPer publicar jocs d'una base de dades, seleccioneu-los a la Llista de jocs i feu servir el menú del botó dret.}
 translate K LichessStudyNoUsername {No es pot llegir el nom d'usuari de la resposta de Lichess.}
-translate K LichessStudyCurlNotFound {rínxol no trobat: cal parlar amb Lichess.}
+translate K LichessStudyCurlNotFound {curl no trobat: cal parlar amb Lichess.}
 translate K LichessStudyGameNotFound {Joc %s no trobat a la base de dades.}
 translate K LichessStudyCannotRead {No es pot llegir el joc %s: %s}
 
@@ -564,7 +564,7 @@ translate K LichessStudyNetworkError {Error de xarxa: %s}
 
 translate K LichessStudyOvfFree {"%s" només té %s capítols gratuïts de %s (el límit de Lichess), però vols publicar jocs de %s.}
 translate K LichessStudyOvfFull {"%s" està ple: un estudi de Lichess conté com a màxim %s capítols.}
-translate K LichessStudyOvfQuestion {%s\in\Què vols fer?}
+translate K LichessStudyOvfQuestion {%s\n\nQuè vols fer?}
 translate K LichessStudyOvfFirst {Publica aquí només els primers %s jocs (%s no es publicaran)}
 translate K LichessStudyOvfSplit {Publica els primers jocs %s aquí i els altres %s en un nou estudi}
 translate K LichessStudyOvfAllNew {Publica tots els jocs %s en un estudi nou}
