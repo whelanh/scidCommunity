@@ -192,6 +192,22 @@ translate D EpdStripOpcodes {Opcodes entfernen...}
 translate D EpdAnnotateTime {Sekunden pro Position}
 translate D EpdCountBestMoves {Zähle die besten Züge}
 translate D EpdSaveLog {Ergebnisse in Datei speichern}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate D EpdAnalysisTitle {EPD-Analyse}
+translate D EpdAnalysisRunning {Eine weitere EPD-Analyse läuft bereits.}
+translate D EpdAnalysisMinTime {Die Analysezeit muss mindestens 1 Sekunde betragen.}
+translate D EpdAnalysisStartFailed {Analyse-Engine konnte nicht gestartet werden: %s}
+translate D EpdAnalysisError {EPD-Analysefehler: %s}
+translate D EpdAnalysisStopped {Die Analyse wurde gestoppt.}
+translate D EpdAnalysisStopping {Stoppen...}
+translate D EpdEngineNotStarted {Die Engine hat die Suche nicht gestartet}
+translate D EpdEngineNoResult {Die Engine hat kein Ergebnis zurückgegeben}
+translate D EpdSearchAlreadyRunning {eine Suche läuft bereits}
+translate D EpdNoEngineConfigured {Es ist keine Engine konfiguriert}
+translate D EpdOnlyUci {Es werden nur UCI-Engines unterstützt}
+translate D EpdEngineDisconnected {der Motor ist abgeklemmt}
+translate D EpdEngineNoAnswer {Der Motor antwortete nicht}
 translate D EpdDontSave {Nicht speichern}
 translate D EpdReadOnly {schreibgeschützt}
 translate D EpdAltered {verändert}

@@ -206,6 +206,22 @@ translate A EpdStripOpcodes {オペコードを削除...}
 translate A EpdAnnotateTime {ポジションあたりの秒数}
 translate A EpdCountBestMoves {最善の手を数える}
 translate A EpdSaveLog {結果をファイルに保存}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate A EpdAnalysisTitle {EPD分析}
+translate A EpdAnalysisRunning {別の EPD 分析がすでに実行されています。}
+translate A EpdAnalysisMinTime {分析時間は少なくとも 1 秒必要です。}
+translate A EpdAnalysisStartFailed {分析エンジンの起動に失敗しました: %s}
+translate A EpdAnalysisError {EPD 分析エラー: %s}
+translate A EpdAnalysisStopped {分析が停止されました。}
+translate A EpdAnalysisStopping {停止中...}
+translate A EpdEngineNotStarted {エンジンが検索を開始しませんでした}
+translate A EpdEngineNoResult {エンジンは結果を返しませんでした}
+translate A EpdSearchAlreadyRunning {検索はすでに実行中です}
+translate A EpdNoEngineConfigured {エンジンが設定されていません}
+translate A EpdOnlyUci {UCI エンジンのみがサポートされています}
+translate A EpdEngineDisconnected {エンジンが切り離された}
+translate A EpdEngineNoAnswer {エンジンが応答しませんでした}
 translate A EpdDontSave {保存しないでください}
 translate A EpdReadOnly {読み取り専用}
 translate A EpdAltered {変更された}

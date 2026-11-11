@@ -181,6 +181,22 @@ translate K EpdStripOpcodes {Elimina els codis operatius...}
 translate K EpdAnnotateTime {Segons per posició}
 translate K EpdCountBestMoves {Compteu els millors moviments}
 translate K EpdSaveLog {Desa els resultats al fitxer}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate K EpdAnalysisTitle {Anàlisi EPD}
+translate K EpdAnalysisRunning {Una altra anàlisi EPD ja s'està executant.}
+translate K EpdAnalysisMinTime {El temps d'anàlisi ha de ser com a mínim d'1 segon.}
+translate K EpdAnalysisStartFailed {No s'ha pogut iniciar el motor d'anàlisi: %s}
+translate K EpdAnalysisError {Error d'anàlisi EPD: %s}
+translate K EpdAnalysisStopped {L'anàlisi es va aturar.}
+translate K EpdAnalysisStopping {Aturant...}
+translate K EpdEngineNotStarted {el motor no va iniciar la cerca}
+translate K EpdEngineNoResult {el motor no va donar cap resultat}
+translate K EpdSearchAlreadyRunning {una cerca ja s'està executant}
+translate K EpdNoEngineConfigured {no hi ha cap motor configurat}
+translate K EpdOnlyUci {Només s'admeten motors UCI}
+translate K EpdEngineDisconnected {el motor desconnectat}
+translate K EpdEngineNoAnswer {el motor no va respondre}
 translate K EpdDontSave {No deseu}
 translate K EpdReadOnly {només de lectura}
 translate K EpdAltered {alterat}

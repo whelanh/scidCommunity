@@ -165,6 +165,22 @@ translate h EpdStripOpcodes {स्ट्रिप ऑपकोड...}
 translate h EpdAnnotateTime {प्रति स्थिति सेकंड}
 translate h EpdCountBestMoves {सर्वोत्तम चालें गिनें}
 translate h EpdSaveLog {फ़ाइल में परिणाम सहेजें}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate h EpdAnalysisTitle {ईपीडी विश्लेषण}
+translate h EpdAnalysisRunning {एक अन्य ईपीडी विश्लेषण पहले से ही चल रहा है।}
+translate h EpdAnalysisMinTime {विश्लेषण का समय कम से कम 1 सेकंड होना चाहिए।}
+translate h EpdAnalysisStartFailed {विश्लेषण इंजन प्रारंभ करने में विफल: %s}
+translate h EpdAnalysisError {ईपीडी विश्लेषण त्रुटि: %s}
+translate h EpdAnalysisStopped {विश्लेषण बंद हो गया.}
+translate h EpdAnalysisStopping {रुकना...}
+translate h EpdEngineNotStarted {इंजन ने खोज शुरू नहीं की}
+translate h EpdEngineNoResult {इंजन ने कोई परिणाम नहीं दिया}
+translate h EpdSearchAlreadyRunning {एक खोज पहले से ही चल रही है}
+translate h EpdNoEngineConfigured {कोई इंजन कॉन्फ़िगर नहीं है}
+translate h EpdOnlyUci {केवल यूसीआई इंजन समर्थित हैं}
+translate h EpdEngineDisconnected {इंजन डिस्कनेक्ट हो गया}
+translate h EpdEngineNoAnswer {इंजन ने उत्तर नहीं दिया}
 translate h EpdDontSave {सहेजें मत}
 translate h EpdReadOnly {केवल पढ़ने के लिए}
 translate h EpdAltered {बदल}

@@ -170,6 +170,22 @@ translate O EpdStripOpcodes {Strip Opcodes...}
 translate O EpdAnnotateTime {Sekunder per stilling}
 translate O EpdCountBestMoves {Tell de beste trekkene}
 translate O EpdSaveLog {Lagre resultater til fil}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate O EpdAnalysisTitle {EPD-analyse}
+translate O EpdAnalysisRunning {En annen EPD-analyse kjører allerede.}
+translate O EpdAnalysisMinTime {Analysetiden må være minst 1 sekund.}
+translate O EpdAnalysisStartFailed {Kunne ikke starte analysemotoren: %s}
+translate O EpdAnalysisError {EPD-analysefeil: %s}
+translate O EpdAnalysisStopped {Analysen stoppet.}
+translate O EpdAnalysisStopping {Stopper...}
+translate O EpdEngineNotStarted {motoren startet ikke søket}
+translate O EpdEngineNoResult {motoren ga ikke noe resultat}
+translate O EpdSearchAlreadyRunning {et søk kjører allerede}
+translate O EpdNoEngineConfigured {ingen motor er konfigurert}
+translate O EpdOnlyUci {Kun UCI-motorer støttes}
+translate O EpdEngineDisconnected {motoren koblet fra}
+translate O EpdEngineNoAnswer {motoren svarte ikke}
 translate O EpdDontSave {Ikke lagre}
 translate O EpdReadOnly {skrivebeskyttet}
 translate O EpdAltered {endret}

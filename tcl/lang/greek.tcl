@@ -197,6 +197,22 @@ translate G EpdStripOpcodes {Αφαιρέστε τους κωδικούς λει
 translate G EpdAnnotateTime {Δευτερόλεπτα ανά θέση}
 translate G EpdCountBestMoves {Μετρήστε τις καλύτερες κινήσεις}
 translate G EpdSaveLog {Αποθηκεύστε τα αποτελέσματα στο αρχείο}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate G EpdAnalysisTitle {Ανάλυση EPD}
+translate G EpdAnalysisRunning {Μια άλλη ανάλυση EPD εκτελείται ήδη.}
+translate G EpdAnalysisMinTime {Ο χρόνος ανάλυσης πρέπει να είναι τουλάχιστον 1 δευτερόλεπτο.}
+translate G EpdAnalysisStartFailed {Αποτυχία εκκίνησης του κινητήρα ανάλυσης: %s}
+translate G EpdAnalysisError {Σφάλμα ανάλυσης EPD: %s}
+translate G EpdAnalysisStopped {Η ανάλυση σταμάτησε.}
+translate G EpdAnalysisStopping {Στάθμευση...}
+translate G EpdEngineNotStarted {ο κινητήρας δεν ξεκίνησε την αναζήτηση}
+translate G EpdEngineNoResult {ο κινητήρας δεν επέστρεψε κανένα αποτέλεσμα}
+translate G EpdSearchAlreadyRunning {εκτελείται ήδη μια αναζήτηση}
+translate G EpdNoEngineConfigured {κανένας κινητήρας δεν έχει ρυθμιστεί}
+translate G EpdOnlyUci {Υποστηρίζονται μόνο κινητήρες UCI}
+translate G EpdEngineDisconnected {ο κινητήρας αποσυνδέθηκε}
+translate G EpdEngineNoAnswer {ο κινητήρας δεν απάντησε}
 translate G EpdDontSave {Μην Αποθήκευση}
 translate G EpdReadOnly {μόνο για ανάγνωση}
 translate G EpdAltered {αλλοιώθηκε}

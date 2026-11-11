@@ -206,6 +206,22 @@ translate L EpdStripOpcodes {Eliminați codurile operaționale...}
 translate L EpdAnnotateTime {Secunde pe poziție}
 translate L EpdCountBestMoves {Numără cele mai bune mișcări}
 translate L EpdSaveLog {Salvați rezultatele în fișier}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate L EpdAnalysisTitle {Analiza EPD}
+translate L EpdAnalysisRunning {O altă analiză EPD este deja în curs de desfășurare.}
+translate L EpdAnalysisMinTime {Timpul de analiză trebuie să fie de cel puțin 1 secundă.}
+translate L EpdAnalysisStartFailed {Nu s-a pornit motorul de analiză: %s}
+translate L EpdAnalysisError {Eroare de analiză EPD: %s}
+translate L EpdAnalysisStopped {Analiza s-a oprit.}
+translate L EpdAnalysisStopping {Oprire...}
+translate L EpdEngineNotStarted {motorul nu a pornit căutarea}
+translate L EpdEngineNoResult {motorul nu a dat niciun rezultat}
+translate L EpdSearchAlreadyRunning {se execută deja o căutare}
+translate L EpdNoEngineConfigured {nici un motor nu este configurat}
+translate L EpdOnlyUci {Sunt acceptate doar motoarele UCI}
+translate L EpdEngineDisconnected {motorul deconectat}
+translate L EpdEngineNoAnswer {motorul nu a raspuns}
 translate L EpdDontSave {Nu salvați}
 translate L EpdReadOnly {numai pentru citire}
 translate L EpdAltered {alterat}

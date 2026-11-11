@@ -166,6 +166,22 @@ translate V EpdStripOpcodes {הסר קודים...}
 translate V EpdAnnotateTime {שניות לכל תפקיד}
 translate V EpdCountBestMoves {ספור את המהלכים הטובים ביותר}
 translate V EpdSaveLog {שמור תוצאות לקובץ}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate V EpdAnalysisTitle {ניתוח EPD}
+translate V EpdAnalysisRunning {ניתוח EPD נוסף כבר פועל.}
+translate V EpdAnalysisMinTime {זמן הניתוח חייב להיות שנייה אחת לפחות.}
+translate V EpdAnalysisStartFailed {הפעלת מנוע הניתוח נכשלה: %s}
+translate V EpdAnalysisError {שגיאת ניתוח EPD: %s}
+translate V EpdAnalysisStopped {הניתוח נעצר.}
+translate V EpdAnalysisStopping {סְתִימָה...}
+translate V EpdEngineNotStarted {המנוע לא התחיל את החיפוש}
+translate V EpdEngineNoResult {המנוע לא החזיר תוצאה}
+translate V EpdSearchAlreadyRunning {חיפוש כבר פועל}
+translate V EpdNoEngineConfigured {אין מנוע מוגדר}
+translate V EpdOnlyUci {רק מנועי UCI נתמכים}
+translate V EpdEngineDisconnected {המנוע התנתק}
+translate V EpdEngineNoAnswer {המנוע לא ענה}
 translate V EpdDontSave {אל תחסוך}
 translate V EpdReadOnly {לקריאה בלבד}
 translate V EpdAltered {השתנה}

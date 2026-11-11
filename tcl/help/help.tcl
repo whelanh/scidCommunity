@@ -3849,7 +3849,8 @@ set helpText(EPD) {<h1>EPD files</h1>
   (only tally how often the engine agrees with the <b>bm</b>/<b>am</b>
   opcodes, without changing the file), <b>Annotate</b> (add analysis opcodes
   to each position), or <b>Both</b>. scidCommunity then steps through every
-  position, and the EPD opcodes added are: acd, acn, ce, dm and pv.
+  position, and the EPD opcodes added are: acd, acn, ce, dm and pv. The
+  <b>Stop</b> button, or closing the EPD window, ends the pass.
   </p>
   <p>
   Check <b>Save results to file</b> to write the per-position results to a

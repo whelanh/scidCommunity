@@ -1189,6 +1189,7 @@ tools/comment_facts.tcl
 tools/review_coach.tcl
 tools/review_prose.tcl
 tools/review_threat.tcl
+tools/epd_analysis.tcl
 tools/inputengine.tcl
 tools/novag.tcl
 tools/tablebase.tcl

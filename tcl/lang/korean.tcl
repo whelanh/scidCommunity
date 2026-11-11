@@ -206,6 +206,22 @@ translate k EpdStripOpcodes {스트립 Opcode...}
 translate k EpdAnnotateTime {위치당 초}
 translate k EpdCountBestMoves {최고의 움직임을 계산}
 translate k EpdSaveLog {결과를 파일로 저장}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate k EpdAnalysisTitle {EPD 분석}
+translate k EpdAnalysisRunning {다른 EPD 분석이 이미 실행 중입니다.}
+translate k EpdAnalysisMinTime {분석 시간은 1초 이상이어야 합니다.}
+translate k EpdAnalysisStartFailed {분석 엔진을 시작하지 못했습니다: %s}
+translate k EpdAnalysisError {EPD 분석 오류: %s}
+translate k EpdAnalysisStopped {분석이 중지되었습니다.}
+translate k EpdAnalysisStopping {멎는...}
+translate k EpdEngineNotStarted {엔진이 검색을 시작하지 않았습니다}
+translate k EpdEngineNoResult {엔진이 결과를 반환하지 않았습니다.}
+translate k EpdSearchAlreadyRunning {검색이 이미 실행 중입니다.}
+translate k EpdNoEngineConfigured {엔진이 구성되지 않았습니다}
+translate k EpdOnlyUci {UCI 엔진만 지원됨}
+translate k EpdEngineDisconnected {엔진이 끊어졌다}
+translate k EpdEngineNoAnswer {엔진이 대답하지 않았다}
 translate k EpdDontSave {저장하지 않음}
 translate k EpdReadOnly {읽기 전용}
 translate k EpdAltered {변경된}

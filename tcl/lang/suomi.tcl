@@ -204,6 +204,22 @@ translate U EpdStripOpcodes {Poista käyttökoodit...}
 translate U EpdAnnotateTime {Sekuntia per paikka}
 translate U EpdCountBestMoves {Laske parhaat liikkeet}
 translate U EpdSaveLog {Tallenna tulokset tiedostoon}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate U EpdAnalysisTitle {EPD-analyysi}
+translate U EpdAnalysisRunning {Toinen EPD-analyysi on jo käynnissä.}
+translate U EpdAnalysisMinTime {Analyysiajan on oltava vähintään 1 sekunti.}
+translate U EpdAnalysisStartFailed {Analyysimoottorin käynnistäminen epäonnistui: %s}
+translate U EpdAnalysisError {EPD-analyysivirhe: %s}
+translate U EpdAnalysisStopped {Analyysi pysähtyi.}
+translate U EpdAnalysisStopping {Lopetetaan...}
+translate U EpdEngineNotStarted {kone ei käynnistänyt hakua}
+translate U EpdEngineNoResult {moottori ei tuottanut tulosta}
+translate U EpdSearchAlreadyRunning {haku on jo käynnissä}
+translate U EpdNoEngineConfigured {moottoria ei ole määritetty}
+translate U EpdOnlyUci {Vain UCI-moottoreita tuetaan}
+translate U EpdEngineDisconnected {moottori irti}
+translate U EpdEngineNoAnswer {moottori ei vastannut}
 translate U EpdDontSave {Älä Tallenna}
 translate U EpdReadOnly {vain luku -tilassa}
 translate U EpdAltered {muutettu}

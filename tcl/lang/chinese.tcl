@@ -145,6 +145,22 @@ translate M EpdStripOpcodes {剥离操作码...}
 translate M EpdAnnotateTime {每个位置的秒数}
 translate M EpdCountBestMoves {计算最佳动作}
 translate M EpdSaveLog {将结果保存到文件}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate M EpdAnalysisTitle {环保署分析}
+translate M EpdAnalysisRunning {另一项 EPD 分析已经在运行。}
+translate M EpdAnalysisMinTime {分析时间必须至少为 1 秒。}
+translate M EpdAnalysisStartFailed {无法启动分析引擎：%s}
+translate M EpdAnalysisError {EPD 分析错误：%s}
+translate M EpdAnalysisStopped {分析停止了。}
+translate M EpdAnalysisStopping {停止...}
+translate M EpdEngineNotStarted {引擎没有开始搜索}
+translate M EpdEngineNoResult {引擎没有返回结果}
+translate M EpdSearchAlreadyRunning {搜索已经在运行}
+translate M EpdNoEngineConfigured {没有配置引擎}
+translate M EpdOnlyUci {仅支持 UCI 发动机}
+translate M EpdEngineDisconnected {发动机已断开}
+translate M EpdEngineNoAnswer {引擎没有应答}
 translate M EpdDontSave {不保存}
 translate M EpdReadOnly {只读}
 translate M EpdAltered {改变的}

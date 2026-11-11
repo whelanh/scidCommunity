@@ -166,6 +166,22 @@ translate Q EpdStripOpcodes {Видалення кодів операцій...}
 translate Q EpdAnnotateTime {Секунд на позицію}
 translate Q EpdCountBestMoves {Порахуйте найкращі ходи}
 translate Q EpdSaveLog {Зберегти результати у файл}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate Q EpdAnalysisTitle {EPD аналіз}
+translate Q EpdAnalysisRunning {Інший аналіз EPD вже виконується.}
+translate Q EpdAnalysisMinTime {Час аналізу має бути не менше 1 секунди.}
+translate Q EpdAnalysisStartFailed {Не вдалося запустити систему аналізу: %s}
+translate Q EpdAnalysisError {Помилка аналізу EPD: %s}
+translate Q EpdAnalysisStopped {Аналіз зупинено.}
+translate Q EpdAnalysisStopping {Зупинка...}
+translate Q EpdEngineNotStarted {двигун не запустив пошук}
+translate Q EpdEngineNoResult {двигун не дав результату}
+translate Q EpdSearchAlreadyRunning {пошук вже йде}
+translate Q EpdNoEngineConfigured {двигун не налаштований}
+translate Q EpdOnlyUci {Підтримуються лише двигуни UCI}
+translate Q EpdEngineDisconnected {двигун відключився}
+translate Q EpdEngineNoAnswer {двигун не відповідав}
 translate Q EpdDontSave {Не зберігайте}
 translate Q EpdReadOnly {тільки для читання}
 translate Q EpdAltered {змінено}
