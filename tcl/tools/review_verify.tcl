@@ -254,26 +254,29 @@ proc ::reviewverify::active {} {
 # Drop the search. What has already been answered is not written: a cancelled
 # verification belongs to a cancelled run, and the callback it would have called
 # writes nothing.
-proc ::reviewverify::stop {} {
+proc ::reviewverify::stop {{which ""}} {
     variable token
     variable queue
-    set was $token
-    # A queued search is cancelled by taking it out of the queue; the search in
-    # flight by stopping the driver's job. Whatever else is queued stays: it
-    # belongs to another caller's write, which would otherwise never happen.
-    if {[string match "verifyq*" $was]} {
+    # No name is "whatever is in flight", for callers that own the whole module
+    # (the batch's Cancel). A name is the token verifyWrite recorded for one
+    # run: it may be the search in flight or a queue entry behind another caller,
+    # and cancelling one run must not stop the other caller's search.
+    if {$which eq ""} { set which $token }
+    if {$which eq ""} { return 0 }
+    if {[string match "verifyq*" $which]} {
         set kept {}
         set dropped 0
         foreach item $queue {
-            if {!$dropped && [lindex $item 5] eq $was} { set dropped 1 ; continue }
+            if {!$dropped && [lindex $item 5] eq $which} { set dropped 1 ; continue }
             lappend kept $item
         }
         set queue $kept
         return $dropped
     }
+    if {$which ne $token} { return 0 }
     set token ""
-    if {$was ne ""} { catch { ::reviewdriver::stop $was 0 } }
+    catch { ::reviewdriver::stop $which 0 }
     # The connection is free now (or will be once the driver's close runs).
-    if {$was ne ""} { after idle ::reviewverify::advance }
-    return [expr {$was ne ""}]
+    after idle ::reviewverify::advance
+    return 1
 }

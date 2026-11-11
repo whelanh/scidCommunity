@@ -337,5 +337,36 @@ checkEq "with no correction, because it agreed" [lindex $::writes 1] {}
 rename ::reviewdriver::verdicts {}
 rename ::reviewdriver_verdicts_real_ ::reviewdriver::verdicts
 
+puts "\ncancelling a queued token leaves the active search alone"
+
+# One run is searching, a second is queued behind it. Cancelling the second by
+# the token verifyWrite recorded must remove only that queue entry; the active
+# search has to answer and write normally.
+reset
+set ::review::S [::review::reset]
+::reviewverify::stop
+set ::reviewverify::token ""
+set ::reviewverify::queue {}
+while {[::reviewdriver::busy $::reviewdriver::ENGINE_ID]} { pump }
+proc ::enginecfg::get {name} { return $::verifierCfg }
+rename ::reviewdriver::verdicts ::reviewdriver_verdicts_real_
+proc ::reviewdriver::verdicts {map results} { return [dict create 2 {brilliant 0 1}] }
+set p [dict create map $::map plan {1 2 3 4} plies 4 bookEnd 0 mpv 3 \
+    verifier Komodo limits [dict create depth 20]]
+set ::writes {}
+proc seamWrite {results corrections} { lappend ::writes $corrections }
+::reviewdriver::verifyWrite $p $::results [list seamWrite]
+::reviewdriver::verifyWrite $p $::results [list seamWrite]
+set queued [lindex $::reviewverify::queue 0 5]
+checkEq "the queued token can be named" [::reviewverify::stop $queued] 1
+checkEq "and only it is removed" [llength $::reviewverify::queue] 0
+feed InfoConfig {MultiPV 2}
+feed InfoPV {1 20 30 900 400 0 0 120 30 cp 0 g1f3 e7e5}
+feed InfoBestMove {}
+checkEq "the active search still writes" [llength $::writes] 1
+checkEq "and the cancelled queued search writes nothing" [llength $::writes] 1
+rename ::reviewdriver::verdicts {}
+rename ::reviewdriver_verdicts_real_ ::reviewdriver::verdicts
+
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

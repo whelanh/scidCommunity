@@ -866,7 +866,7 @@ proc ::reviewdriver::cancel {{restore 1}} {
     if {$verify ne ""} {
         set p $pass
         set pass {}
-        catch { ::reviewverify::stop }
+        catch { ::reviewverify::stop $verify }
         dict set state state cancelled
         if {[dict exists $p progressToken] \
                 && [llength [info commands ::reviewprogress::finish]]} {
