@@ -928,8 +928,11 @@ namespace eval epd {
           [info exists ::enginewin::m_(scoreside,$win)]
           && $::enginewin::m_(scoreside,$win) eq "engine"
         }]
-        if {[regexp {^[+-]?M(\d+)$} $scoreStr -> dm]} {
-          append text "dm $dm\n"
+        if {[regexp {^([+-]?)M(\d+)$} $scoreStr -> mateSign md]} {
+          append text "dm $md\n"
+          # dm is unsigned; ce carries the side-to-move direction.
+          set ce [expr {$mateSign eq "-" ? -32767 - 2 * $md : 32767 - 2 * $md}]
+          append text "ce $ce\n"
         } else {
           set ce [expr {int([string map {"+" ""} $scoreStr] * 100)}]
           if {$sideEngine && $btm} {
