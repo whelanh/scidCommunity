@@ -375,6 +375,19 @@ set marked [::reviewannotate::markExercise $::probeBefore $::probeAfter "" $::pr
 checkEq "with the switch off nothing is marked" $marked 0
 checkEq "and the analyser is never probed" $::gamestub::analyzeCalls {}
 
+# The PV is UCI and sc_pos analyze answers SAN: the shallow probe has to compare
+# the same notation, or every move looks non-obvious and every exercise gets the
+# top difficulty.
+probeSettings
+::gamestub::reset [list {e4 e2e4} {e5 e7e5}]
+set ::gamestub::sanMap(d2d4) d4
+set ::gamestub::replies [list {0 d4} {0 d4} {0 d4}]
+set ::gamestub::analyzeCalls {}
+set marked [::reviewannotate::markExercise $::probeBefore $::probeAfter "" $::probeLines]
+checkEq "an obvious move in SAN is not an exercise" $marked 0
+checkEq "and the shallow probe stopped after three" \
+    [llength $::gamestub::analyzeCalls] 3
+
 ########################################################################
 ### The dialog's variation controls reach the writer
 ###

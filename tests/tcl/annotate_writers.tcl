@@ -455,13 +455,13 @@ set tagResults [dict create \
     0 [dict create 1 [list 18 20 cp {e2e4 e7e5}]] \
     1 [dict create 1 [list 18 -30 cp {e7e5 g1f3}]]]
 set tagPass [dict create map $tagMap plies [dict get $tagMap plies] \
-    bookEnd 0 mpv 3 engine {Stockfish /usr/bin/stockfish}]
+    bookEnd 1 mpv 3 engine {Stockfish /usr/bin/stockfish}]
 set ::addAnnotatorTag 1
 ::review::setValue opening_errors 1
 ::review::setValue opening_window 12
 ::reviewannotate::writeResults $tagPass $tagResults
 checkHas "the pass writes the opening-errors entry" \
-    $::gamestub::annotator "opBlunder 1 (white)"
+    $::gamestub::annotator "opBlunder 1 (black)"
 checkHas "and the Annotator tag, named for the pass's engine" \
     $::gamestub::annotator "Stockfish (review)"
 annotateSettings
@@ -554,7 +554,7 @@ proc reviewDefault {p results} {
 
 # A two-ply game whose first move is a blunder: f3 instead of d4. Position 0 is
 # before the move (mover's point of view), position 1 after it (the opponent's).
-proc blunderPass {} {
+proc blunderPass {{bookEnd 0}} {
     ::gamestub::reset [list {f3 f2f3} {e5 e7e5}]
     set map [::review::mainLineMap [sc_game UCI_mainLine]]
     set results [dict create \
@@ -563,7 +563,7 @@ proc blunderPass {} {
             1 [list 18 100 cp {e7e5 g1f3}] \
             2 [list 18 -150 cp {g1f3 d7d5}]]]
     set p [dict create map $map plan [::review::plan [dict get $map plies] 0] \
-        plies [dict get $map plies] bookEnd 0 mpv 2 report 0]
+        plies [dict get $map plies] bookEnd $bookEnd mpv 2 report 0]
     return [list $p $results]
 }
 
@@ -581,13 +581,29 @@ check "and writes no difficulty comment" \
 
 # The opening finder: the tag goes at the ply the book ended, which is what the
 # classic annotator wrote and what the finder's move window is measured from.
-lassign [blunderPass] p results
+lassign [blunderPass 1] p results
+dict set p report 1
 ::review::reset
 ::review::setValue opening_errors 1
 ::review::setValue opening_window 12
 reviewDefault $p $results
-checkHas "the opening finder writes its entry" $::gamestub::annotator \
-    "opBlunder 1 (white)"
+checkHas "the opening finder writes its entry at the book end" \
+    $::gamestub::annotator "opBlunder 1 (black)"
+
+# No book, and a game that never leaves it, have no opening boundary to tag.
+lassign [blunderPass 0] p results
+dict set p report 1
+::review::reset
+::review::setValue opening_errors 1
+reviewDefault $p $results
+checkEq "no book writes no opening entry" $::gamestub::annotator ""
+
+lassign [blunderPass 2] p results
+dict set p report 1
+::review::reset
+::review::setValue opening_errors 1
+reviewDefault $p $results
+checkEq "an all-book game writes no opening entry" $::gamestub::annotator ""
 ::review::reset
 
 # Move Comment names one ply and is not a whole-game pass: it must leave the
@@ -600,7 +616,8 @@ reviewDefault $p $results
 checkEq "a single-move pass writes no opening entry" $::gamestub::annotator ""
 
 # A second whole-game pass must not grow the Annotator tag with a second copy.
-lassign [blunderPass] p results
+lassign [blunderPass 1] p results
+dict set p report 1
 ::review::reset
 ::review::setValue opening_errors 1
 reviewDefault $p $results

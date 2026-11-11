@@ -1375,11 +1375,12 @@ proc ::reviewdriver::writeResults {p results} {
     # A whole-game pass is the only one that owns the game's tags. Move Comment
     # names one ply (report 0), and the Game List batch hands the writer a
     # hand-built pass without `report`, so the plan is the fallback: a plan that
-    # covers every ply is a whole-game pass.
+    # covers every ply is a whole-game pass. An explicit report 0 stays 0.
+    set hasReport [dict exists $p report]
     set isReport 0
-    catch { set isReport [dict get $p report] }
+    if {$hasReport} { catch { set isReport [dict get $p report] } }
     set wholeGame $isReport
-    if {!$wholeGame} {
+    if {!$hasReport} {
         set mapPlies 0
         catch { set mapPlies [dict get $map plies] }
         set planPlies 0

@@ -264,10 +264,15 @@ proc ::reviewannotate::markExercise {before after nag lines} {
     # The best move must not lose the position.
     if {[sc_pos side] eq "white" && $score < [expr {0.0 - $::informant(+/-)}]} { return 0 }
     if {[sc_pos side] eq "black" && $score > $::informant(+/-)} { return 0 }
-    # The move must not be the one any shallow search would guess.
+    # The best move is the one the shallow search must not have found. The pass
+    # supplies UCI; sc_pos analyze answers SAN, so convert before comparing.
     set pv [lindex [lindex $lines 0] 1]
     set bm0 [lindex $pv 0]
     if {$bm0 eq ""} { return 0 }
+    catch {
+        set san [sc_pos coordToSAN [sc_pos fen] [list $bm0]]
+        if {[llength $san]} { set bm0 [lindex $san 0] }
+    }
     set shallow {}
     foreach depth {1 2 3} {
         set res [sc_pos analyze -time 1000 -hashkb 32 -pawnkb 1 -searchdepth $depth]
@@ -406,7 +411,20 @@ proc ::reviewannotate::openingMark {p} {
     }
     set bookEnd 0
     catch { set bookEnd [dict get $p bookEnd] }
-    if {![string is integer -strict $bookEnd] || $bookEnd < 0} { set bookEnd 0 }
+    if {![string is integer -strict $bookEnd] || $bookEnd <= 0} {
+        # 0 is the pass's "no book / no book skipping" default, not a detected
+        # departure at the first move: without a real boundary there is no
+        # opening to tag.
+        return 0
+    }
+    set plies 0
+    catch { set plies [dict get $p plies] }
+    if {![string is integer -strict $plies] || $plies <= 0} { set plies 0 }
+    if {$plies > 0 && $bookEnd >= $plies} {
+        # The all-book answer from ::review::bookEnd ... 1: the game never left
+        # the book, so it has no opening boundary to tag.
+        return 0
+    }
     set cursor ""
     catch { set cursor [::review::cursorSave] }
     set wrote 0
@@ -427,6 +445,10 @@ proc ::reviewannotate::openingMark {p} {
 # replacing what the first engine wrote.
 proc ::reviewannotate::appendAnnotator {text} {
     if {$text eq ""} { return 0 }
+    # PGN writes an extra tag as Name "value"; a quote inside the value would
+    # close the header string. A name is not prose, so use the same replacement
+    # ::review::appendAnnotator does.
+    set text [string map {"\"" "'"} $text]
     if {[catch { set extra [sc_game tags get "Extra"] }]} { return 0 }
     set nExtra {}
     set seen 0
@@ -439,14 +461,14 @@ proc ::reviewannotate::appendAnnotator {text} {
             foreach part [split $line ","] {
                 if {[string trim $part] eq $text} { set present 1 ; break }
             }
-            if {!$present} {
-                lappend nExtra "Annotator \"$line, $text\"\n"
-            } else {
-                lappend nExtra "Annotator \"$line\"\n"
-            }
+            if {!$present} { set line "$line, $text" }
+            # A two-element Tcl list survives a quote or a brace in either
+            # value; building the quoted line by hand did not, and the tag setter
+            # silently drops an entry that is not a pair.
+            lappend nExtra [list Annotator $line]
             set seen 2
         } elseif {$other ne ""} {
-            lappend nExtra "$other \"$line\"\n"
+            lappend nExtra [list $other $line]
             set other ""
         } elseif {[string match "Annotator" $line]} {
             set seen 1
@@ -455,7 +477,7 @@ proc ::reviewannotate::appendAnnotator {text} {
         }
     }
     if {$seen == 0} {
-        lappend nExtra "Annotator \"$text\"\n"
+        lappend nExtra [list Annotator $text]
     }
     # A Tcl list of two-element entries: scid clears the extra tags and parses
     # each element as {name value} (src/tkscid.cpp, sc_game_tags_set -extra).
