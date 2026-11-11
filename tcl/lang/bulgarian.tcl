@@ -240,6 +240,7 @@ menuText g ToolsAnalysis "Машина за анализ..." 0 \
   {Стартирайте/спирайте машина за анализ на шах}
 menuText g ToolsAnalysis2 "Машина за анализ №2..." 17 \
   {Стартиране/спиране на втория механизъм за анализ на шаха}
+menuText g ToolsEngineWindow "Прозорец на двигателя..." 0 {Отворете прозорец на шах машина}
 menuText g ToolsCross "Кръстосана маса" 0 {Показване на турнирна таблица за тази игра}
 menuText g ToolsFilterGraph "отн. Филтърна графика" 12 {Отваряне/затваряне на прозореца на графиката на филтъра за относителни стойности}
 menuText g ToolsAbsFilterGraph "Абс. Филтърна графика" 7 {Отворете/затворете прозореца на филтърната графика за абсолютни стойности}
@@ -996,6 +997,7 @@ translate g EngineClone {Създайте копие на текущия дви�
 translate g EngineDuplicate {Дублирай}
 translate g EngineDelete {Изтрийте текущия двигател}
 translate g EngineOpenAnalysis {Отворете Анализ}
+translate g EngineOpenWindow {Отворете прозореца на двигателя}
 
 # PGN window menus:
 menuText g PgnFile "Файл" 0

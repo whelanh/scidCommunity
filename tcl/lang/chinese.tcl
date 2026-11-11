@@ -178,6 +178,7 @@ menuText M ToolsConfigureEngines "配置引擎" 10 {管理引擎配置}
 menuText M ToolsAnalysis "分析引擎..." 0 {启动/停止国际象棋分析引擎}
 menuText M ToolsAnalysis2 "分析引擎#2..." 17 \
   {启动/停止第二个国际象棋分析引擎}
+menuText M ToolsEngineWindow "发动机窗..." 0 {打开国际象棋引擎窗口}
 menuText M ToolsCross "交叉表" 0 {显示此对局的锦标赛交叉表}
 menuText M ToolsFilterGraph "过滤器图表" 0 {打开/关闭相对值的过滤器图表窗口}
 menuText M ToolsAbsFilterGraph "绝对筛选图" 7 {打开/关闭绝对值筛选图窗口}
@@ -931,6 +932,7 @@ translate M EngineClone {Create a copy of the current engine}
 translate M EngineDuplicate {复制}
 translate M EngineDelete {Delete the current engine}
 translate M EngineOpenAnalysis {开放分析}
+translate M EngineOpenWindow {打开发动机窗口}
 
 # PGN window menus:
 menuText M PgnFile "直线" 0

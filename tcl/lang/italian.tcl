@@ -202,6 +202,7 @@ menuText I ToolsAnalysis "Motore di analisi..." 10 \
   {Avvia/ferma il motore di analisi scacchistica}
 menuText I ToolsAnalysis2 "Motore di analisi 2..." 20 \
   {Avvia/ferma il motore di analisi scacchistica}
+menuText I ToolsEngineWindow "Finestra del motore..." 0 {Apri una finestra del motore scacchistico}
 menuText I ToolsCross "Tabellone" 0 {Mostra il tabellone del torneo per questa partita}
 menuText I ToolsFilterGraph "Grafici relativi" 3 \
   {Apre/chiude la finestra dei grafici sul filtro con valori relativi}
@@ -966,6 +967,7 @@ translate I EngineClone {Crea una copia del motore corrente}
 translate I EngineDuplicate {Duplica}
 translate I EngineDelete {Elimina il motore corrente}
 translate I EngineOpenAnalysis {Apri analisi}
+translate I EngineOpenWindow {Apri la finestra del motore}
 
 # PGN window menus:
 menuText I PgnFile "File" 0

@@ -205,6 +205,7 @@ menuText W ToolsAnalysis "Analysmotor..." 6 \
   {Starta/ stoppa en analysmotor}
 menuText W ToolsAnalysis2 "Analysmotor 2..." 12 \
   {Starta/ stoppa en andra analysmotor}
+menuText W ToolsEngineWindow "Motorfönster..." 0 {Öppna ett schackmotorfönster}
 menuText W ToolsCross "Resultattabell" 0 {Visa en resultattabell för den aktuella turneringen}
 menuText W ToolsFilterGraph "Filterdiagram" 7 \
   {Öppna/ stäng filterdiagramfönstret} 
@@ -966,6 +967,7 @@ translate W EngineClone {Skapa en kopia av den aktuella motorn}
 translate W EngineDuplicate {Duplicera}
 translate W EngineDelete {Ta bort den aktuella motorn}
 translate W EngineOpenAnalysis {Öppna Analys}
+translate W EngineOpenWindow {Öppna motorfönstret}
 
 # PGN window menus:
 menuText W PgnFile "Fil" 0

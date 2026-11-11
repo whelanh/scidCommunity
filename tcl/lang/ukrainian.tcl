@@ -200,6 +200,7 @@ menuText Q ToolsAnalysis "Механізм аналізу..." 0 \
   {Запуск/зупинка механізму аналізу шахів}
 menuText Q ToolsAnalysis2 "Механізм аналізу №2..." 17 \
   {Запуск/зупинка 2-го механізму аналізу шахів}
+menuText Q ToolsEngineWindow "Вікно двигуна..." 0 {Відкрийте вікно шахової машини}
 menuText Q ToolsCross "Crosstable" 0 {Показати перехресну таблицю турніру для цієї гри}
 menuText Q ToolsFilterGraph "відн. Графік фільтра" 12 {Відкрити/закрити вікно графіка фільтра для відносних значень}
 menuText Q ToolsAbsFilterGraph "Абс. Графік фільтра" 7 {Відкрити/закрити вікно графіка фільтра для абсолютних значень}
@@ -956,6 +957,7 @@ translate Q EngineClone {Створіть копію поточного движ
 translate Q EngineDuplicate {Дублювати}
 translate Q EngineDelete {Видалити поточний механізм}
 translate Q EngineOpenAnalysis {Відкрити аналіз}
+translate Q EngineOpenWindow {Відкрийте вікно двигуна}
 
 # PGN window menus:
 menuText Q PgnFile "Файл" 0

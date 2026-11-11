@@ -203,6 +203,7 @@ menuText T ToolsAnalysis "Analiz Motoru..." 0 \
   {Satranç analiz motorunu başlat/durdur}
 menuText T ToolsAnalysis2 "Analiz Motoru #2..." 17 \
   {2. satranç analiz motorunu başlat/durdur}
+menuText T ToolsEngineWindow "Motor Penceresi..." 0 {Bir satranç motoru penceresi açın}
 menuText T ToolsCross "Çapraz tablo" 0 {Bu oyun için turnuva çapraz tablosunu göster}
 menuText T ToolsFilterGraph "Rel. Grafiği Filtrele" 12 {Göreceli değerler için filtre grafiği penceresini aç/kapat}
 menuText T ToolsAbsFilterGraph "Abs. Grafiği Filtrele" 7 {Mutlak değerler için filtre grafiği penceresini aç/kapat}
@@ -959,6 +960,7 @@ translate T EngineClone {Geçerli motorun bir kopyasını oluşturun}
 translate T EngineDuplicate {Çoğalt}
 translate T EngineDelete {Mevcut motoru sil}
 translate T EngineOpenAnalysis {Açık Analiz}
+translate T EngineOpenWindow {Motor Penceresini Aç}
 
 # PGN window menus:
 menuText T PgnFile "Dosya" 0

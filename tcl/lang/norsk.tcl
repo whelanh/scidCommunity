@@ -204,6 +204,7 @@ menuText O ToolsAnalysis "Analysemotor..." 0 \
   {Start/stopp en sjakkanalysemotor}
 menuText O ToolsAnalysis2 "Analysemotor #2..." 0 \
   {Start/stopp enda en sjakkanalysemotor}
+menuText O ToolsEngineWindow "Motorvindu..." 0 {Åpne et sjakkmotorvindu}
 menuText O ToolsCross "Krysstabell" 0 {Vis turnerigskrystabellen for dette partiet}
 menuText O ToolsFilterGraph "Filtergraf" 7 \
   {Åpne/lukk filtergrafvinduet}
@@ -965,6 +966,7 @@ translate O EngineClone {Lag en kopi av gjeldende motor}
 translate O EngineDuplicate {Dupliser}
 translate O EngineDelete {Slett gjeldende motor}
 translate O EngineOpenAnalysis {Åpne Analyse}
+translate O EngineOpenWindow {Åpne motorvinduet}
 
 # PGN window menus:
 menuText O PgnFile "Fil" 0

@@ -240,6 +240,7 @@ menuText A ToolsAnalysis "分析エンジン..." 0 \
   {チェス分析エンジンの開始/停止}
 menuText A ToolsAnalysis2 "分析エンジン #2..." 17 \
   {2番目のチェス分析エンジンの開始/停止}
+menuText A ToolsEngineWindow "エンジンウィンドウ..." 0 {チェス エンジン ウィンドウを開く}
 menuText A ToolsCross "クロステーブル" 0 {このゲームのトーナメント クロステーブルを表示}
 menuText A ToolsFilterGraph "リリースフィルターグラフ" 12 {相対値のフィルター グラフ ウィンドウを開閉します。}
 menuText A ToolsAbsFilterGraph "腹筋フィルターグラフ" 7 {絶対値のフィルター グラフ ウィンドウを開閉します。}
@@ -996,6 +997,7 @@ translate A EngineClone {現在のエンジンのコピーを作成する}
 translate A EngineDuplicate {複製}
 translate A EngineDelete {現在のエンジンを削除します}
 translate A EngineOpenAnalysis {オープン分析}
+translate A EngineOpenWindow {エンジンウィンドウを開く}
 
 # PGN window menus:
 menuText A PgnFile "ファイル" 0

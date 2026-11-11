@@ -206,6 +206,7 @@ menuText R ToolsAnalysis "Аналитический движок №1..." 0 \
   {Запустить/остановить первый аналитический шахматный движок}
 menuText R ToolsAnalysis2 "Аналитический движок №2..." 22 \
   {Запустить/остановить второй аналитический шахматный движок}
+menuText R ToolsEngineWindow "Окно двигателя..." 0 {Откройте окно шахматного движка}
 menuText R ToolsCross "Турнирная таблица" 0 {Показать турнирную таблицу для этой партии}
 menuText R ToolsFilterGraph "Диаграмма фильтра" 0 {Открыть/закрыть окно фильтрованной диаграммы}
 menuText R ToolsAbsFilterGraph "Диаграмма фильтра абсолютных значений" 7 {Открыть/закрыть окно диаграммы фильтра абсолютных значений}
@@ -962,6 +963,7 @@ translate R EngineClone {Создать действующую движку}
 translate R EngineDuplicate {Дублировать}
 translate R EngineDelete {Удалить текущий движок}
 translate R EngineOpenAnalysis {Открытый анализ}
+translate R EngineOpenWindow {Открыть окно двигателя}
 
 # PGN window menus:
 menuText R PgnFile "Файл" 0

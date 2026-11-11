@@ -199,6 +199,7 @@ menuText b ToolsAnalysis "বিশ্লেষণ ইঞ্জিন..." 0 \
   {একটি দাবা বিশ্লেষণ ইঞ্জিন শুরু/বন্ধ করুন}
 menuText b ToolsAnalysis2 "বিশ্লেষণ ইঞ্জিন #2..." 17 \
   {2য় দাবা বিশ্লেষণ ইঞ্জিন শুরু/বন্ধ করুন}
+menuText b ToolsEngineWindow "ইঞ্জিন উইন্ডো..." 0 {একটি দাবা ইঞ্জিনের জানালা খুলুন}
 menuText b ToolsCross "ক্রসস্টেবল" 0 {এই গেমের জন্য টুর্নামেন্ট ক্রসটেবল দেখান}
 menuText b ToolsFilterGraph "রিল ফিল্টার গ্রাফ" 12 {আপেক্ষিক মানগুলির জন্য ফিল্টার গ্রাফ উইন্ডো খুলুন/বন্ধ করুন}
 menuText b ToolsAbsFilterGraph "অ্যাবস ফিল্টার গ্রাফ" 7 {পরম মানগুলির জন্য ফিল্টার গ্রাফ উইন্ডো খুলুন/বন্ধ করুন}
@@ -955,6 +956,7 @@ translate b EngineClone {বর্তমান ইঞ্জিনের এক�
 translate b EngineDuplicate {অনুলিপি করুন}
 translate b EngineDelete {বর্তমান ইঞ্জিন মুছুন}
 translate b EngineOpenAnalysis {খোলা বিশ্লেষণ}
+translate b EngineOpenWindow {ইঞ্জিন উইন্ডো খুলুন}
 
 # PGN window menus:
 menuText b PgnFile "ফাইল" 0

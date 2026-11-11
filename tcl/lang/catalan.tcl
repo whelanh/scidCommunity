@@ -215,6 +215,7 @@ menuText K ToolsAnalysis "Motor d'anàlisi..." 0 \
   {Inicia/Atura un motor d'análisi d'escacs}
 menuText K ToolsAnalysis2 "Motor d'anàlisi #2..." 18 \
   {Inicia/Atura el segon motor d'análisi d'escacs}
+menuText K ToolsEngineWindow "Finestra del motor..." 0 {Obre una finestra de motor d'escacs}
 menuText K ToolsCross "Quadre" 0 {Mostra el Quadre del torneig per aquesta partida}
 menuText K ToolsFilterGraph "Filtre Gràfic Rel." 7 \
   {Obre/tanca la finestra del filtre gràfic per valors relatius}
@@ -981,6 +982,7 @@ translate K EngineClone {Crea una còpia del motor actual}
 translate K EngineDuplicate {Duplica}
 translate K EngineDelete {Esborra el motor actual}
 translate K EngineOpenAnalysis {Anàlisi oberta}
+translate K EngineOpenWindow {Obre la finestra del motor}
 
 # PGN window menus:
 menuText K PgnFile "Arxiu" 0

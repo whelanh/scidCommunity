@@ -212,6 +212,7 @@ menuText F ToolsAnalysis "Moteur d'analyse..." 9 \
   {Démarrer/Arrêter un moteur d'analyses}
 menuText F ToolsAnalysis2 "Moteur d'analyse #2..." 18 \
   {Démarrer/Arrêter un moteur d'analyses}
+menuText F ToolsEngineWindow "Fenêtre moteur...." 0 {Ouvrir une fenêtre de moteur d'échecs}
 menuText F ToolsCross "Classement du tournoi" 9 \
   {Montrer le classement du tournoi}
 menuText F ToolsFilterGraph "Graphique de filtre" 6 {Ouvrir/Fermer la fenêtre du graphique de filtre}
@@ -968,6 +969,7 @@ translate F EngineClone {Créer une copie du moteur actuel}
 translate F EngineDuplicate {Dupliquer}
 translate F EngineDelete {Supprimer le moteur actuel}
 translate F EngineOpenAnalysis {Open Analysis}
+translate F EngineOpenWindow {Ouvrir la fenêtre du moteur}
 
 # PGN window menus:
 menuText F PgnFile "Fichier" 0

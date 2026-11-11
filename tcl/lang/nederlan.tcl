@@ -220,6 +220,7 @@ menuText N ToolsAnalysis "Schaakengine ..." 3 \
   {Start/stop schaak-analyse programma 1}
 menuText N ToolsAnalysis2 "Schaakengine #2..." 17 \
   {Start/stop  schaak-analyse programma 2}
+menuText N ToolsEngineWindow "Motorraam..." 0 {Open een schaakenginevenster}
 menuText N ToolsCross "Kruistabel" 0 \
   {Toon toernooi-kruistabel voor huidige partij}
 menuText N ToolsFilterGraph "Filter grafiek" 7 \
@@ -985,6 +986,7 @@ translate N EngineClone {Maak een kopie van de huidige engine}
 translate N EngineDuplicate {Dupliceren}
 translate N EngineDelete {Verwijder de huidige engine}
 translate N EngineOpenAnalysis {Analyse openen}
+translate N EngineOpenWindow {Open het motorvenster}
 
 # PGN window menus:
 menuText N PgnFile "Bestand" 0

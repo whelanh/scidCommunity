@@ -226,6 +226,7 @@ menuText D ToolsAnalysis "Analyse-Engine..." 0 \
   {Schachanalyse-Programm starten/beenden}
 menuText D ToolsAnalysis2 "Analyse-Engine #2..." 16 \
   {Schachanalyse-Programm Nr.2 starten/beenden}
+menuText D ToolsEngineWindow "Motorfenster..." 0 {Öffnen Sie ein Schach-Engine-Fenster}
 menuText D ToolsCross "Turniertabelle" 0 {Turniertabelle für diese Partie anzeigen}
 menuText D ToolsFilterGraph "Rel. Filtergrafik" 0 \
   {Filtergrafik mit relativen Werten öffnen/schließen}
@@ -995,6 +996,7 @@ translate D EngineClone {Erstellen Sie eine Kopie der aktuellen Engine}
 translate D EngineDuplicate {Duplizieren}
 translate D EngineDelete {Löschen Sie die aktuelle Engine}
 translate D EngineOpenAnalysis {Offene Analyse}
+translate D EngineOpenWindow {Öffnen Sie das Engine-Fenster}
 
 # PGN window menus:
 menuText D PgnFile "Datei" 0

@@ -240,6 +240,7 @@ menuText k ToolsAnalysis "분석엔진..." 0 \
   {체스 분석 엔진 시작/중지}
 menuText k ToolsAnalysis2 "분석 엔진 #2..." 17 \
   {두 번째 체스 분석 엔진 시작/중지}
+menuText k ToolsEngineWindow "엔진 창..." 0 {체스 엔진 창 열기}
 menuText k ToolsCross "크로스테이블" 0 {이 게임의 크로스테이블 표시}
 menuText k ToolsFilterGraph "반대. 파이핑 그래프" 12 {상대값에 대한 분석 그래프 창 비교/닫기}
 menuText k ToolsAbsFilterGraph "절대. 파이핑 그래프" 7 {절대값에 대한 그래프 그래프 창 비교/닫기}
@@ -996,6 +997,7 @@ translate k EngineClone {현재 엔진의 활동을 참여합니다.}
 translate k EngineDuplicate {복제}
 translate k EngineDelete {현재 엔진 삭제}
 translate k EngineOpenAnalysis {공개 분석}
+translate k EngineOpenWindow {엔진 창 열기}
 
 # PGN window menus:
 menuText k PgnFile "파일" 0

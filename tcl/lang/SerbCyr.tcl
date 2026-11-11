@@ -240,6 +240,7 @@ menuText J ToolsAnalysis "Машина за анализу..." 0 \
   {Покрените/зауставите машину за анализу шаха}
 menuText J ToolsAnalysis2 "Машина за анализу бр. 2..." 17 \
   {Покрените/зауставите 2. машину за анализу шаха}
+menuText J ToolsEngineWindow "Прозор мотора..." 0 {Отворите прозор шаховске машине}
 menuText J ToolsCross "Цросстабле" 0 {Прикажи унакрсну табелу турнира за ову игру}
 menuText J ToolsFilterGraph "Рел. Филтер Грапх" 12 {Отворите/затворите прозор графикона филтера за релативне вредности}
 menuText J ToolsAbsFilterGraph "Абс. Филтер Грапх" 7 {Отворите/затворите прозор графикона филтера за апсолутне вредности}
@@ -996,6 +997,7 @@ translate J EngineClone {Направите копију тренутног мо
 translate J EngineDuplicate {Дуплирај}
 translate J EngineDelete {Избришите тренутни мотор}
 translate J EngineOpenAnalysis {Отворена анализа}
+translate J EngineOpenWindow {Отворите прозор мотора}
 
 # PGN window menus:
 menuText J PgnFile "Филе" 0

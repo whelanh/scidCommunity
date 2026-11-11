@@ -231,6 +231,7 @@ menuText G ToolsAnalysis "Μηχανή ανάλυσης..." 0 \
   {Εκκίνηση/διακοπή της σκακιστικής μηχανής ανάλυσης}
 menuText G ToolsAnalysis2 "Μηχανής ανάλυσης #2..." 17 \
   {Εκκίνηση/διακοπή της δεύτερης σκακιστικής μηχανής ανάλυσης}
+menuText G ToolsEngineWindow "Παράθυρο κινητήρα..." 0 {Ανοίξτε ένα παράθυρο σκακιστική μηχανή}
 menuText G ToolsCross "Συγκριτικός πίνακας" 0 {Εμφανήστε τον συγκριτικό πίνακα προκριματικών γι' αυτή τη παρτίδα}
 menuText G ToolsFilterGraph "Γράφημα σχετικού φίλτρου" 12 {Άνοιγμα/κλείσιμο του παραθύρου των φίλτρων γραφημάτων σχετικών τιμών}
 menuText G ToolsAbsFilterGraph "Γράφημα απόλυτου φίλτρου" 7 {Άνοιγμα/κλείσιμο του παραθύρου των φίλτρων γραφημάτων απολύτων τιμών}
@@ -987,6 +988,7 @@ translate G EngineClone {Δημιουργήστε ένα αντίγραφο το
 translate G EngineDuplicate {Αντιγραφή}
 translate G EngineDelete {Διαγράψτε τον τρέχοντα κινητήρα}
 translate G EngineOpenAnalysis {Ανοιχτή Ανάλυση}
+translate G EngineOpenWindow {Ανοίξτε το παράθυρο του κινητήρα}
 
 # PGN window menus:
 menuText G PgnFile "Αρχείο" 0

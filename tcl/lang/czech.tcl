@@ -198,6 +198,7 @@ menuText C ToolsAnalysis "Program pro analzu..." 0 \
   {Spustit/zastavit achov program pro analzu pozice}
 menuText C ToolsAnalysis2 "Program pro analzu #2..." 20 \
   {Spustit/zastavit druh achov program pro analzu pozice}
+menuText C ToolsEngineWindow "Okno motoru..." 0 {Otevřete okno šachového motoru}
 menuText C ToolsCross "Turnajov tabulka" 0 {Ukzat turnajovou tabulku pro tuto partii}
 menuText C ToolsFilterGraph "Graf filtru" 0 \
   {Otevt/zavt okno grafu filtru}
@@ -960,6 +961,7 @@ translate C EngineClone {Vytvote kopii aktulnho motoru}
 translate C EngineDuplicate {Duplikovat}
 translate C EngineDelete {Smazat aktuln motor}
 translate C EngineOpenAnalysis {Otevřená analýza}
+translate C EngineOpenWindow {Otevřete okno motoru}
 
 # PGN window menus:
 menuText C PgnFile "Soubor" 0

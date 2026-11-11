@@ -238,6 +238,7 @@ menuText U ToolsAnalysis "Analyysimoottori #1..." 18 \
   {Käynnistä/pysäytä analyysimoottori}
 menuText U ToolsAnalysis2 "Analyysimoottori #2..." 18 \
   {Käynnistä/pysäytä toinen analyysimoottori}
+menuText U ToolsEngineWindow "Moottorin ikkuna..." 0 {Avaa shakkimoottorin ikkuna}
 menuText U ToolsCross "Ristitaulukko" 0 {Näytä turnauksen ristitaulukko tälle pelille}
 menuText U ToolsFilterGraph "Suhteellinen graafi" 13 {Avaa/sulje suodatingraafi suhteellisilla arvoilla}
 menuText U ToolsAbsFilterGraph "Absoluuttinen graafi" 17 {Avaa/sulje suodatingraafi absoluuttisilla arvoilla}
@@ -994,6 +995,7 @@ translate U EngineClone {Luo kopio nykyisestä moottorista}
 translate U EngineDuplicate {Monista}
 translate U EngineDelete {Poista nykyinen moottori}
 translate U EngineOpenAnalysis {Avaa analyysi}
+translate U EngineOpenWindow {Avaa moottorin ikkuna}
 
 # PGN window menus:
 menuText U PgnFile "Tiedosto" 0

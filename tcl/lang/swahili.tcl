@@ -199,6 +199,7 @@ menuText Z ToolsAnalysis "Injini ya Uchambuzi..." 0 \
   {Anzisha/simamisha injini ya uchanganuzi wa chess}
 menuText Z ToolsAnalysis2 "Injini ya Uchambuzi #2..." 17 \
   {Anzisha/simamisha injini ya 2 ya uchanganuzi wa chess}
+menuText Z ToolsEngineWindow "Dirisha la injini..." 0 {Fungua dirisha la injini ya chess}
 menuText Z ToolsCross "Inaweza kubadilika" 0 {Onyesha jedwali la mashindano kwa mchezo huu}
 menuText Z ToolsFilterGraph "Rel. Kichujio cha Grafu" 12 {Fungua/funga kidirisha cha grafu ya kichujio kwa thamani jamaa}
 menuText Z ToolsAbsFilterGraph "Abs. Kichujio cha Grafu" 7 {Fungua/funga dirisha la grafu ya kichujio kwa thamani kamili}
@@ -955,6 +956,7 @@ translate Z EngineClone {Unda nakala ya injini ya sasa}
 translate Z EngineDuplicate {Nakili}
 translate Z EngineDelete {Futa injini ya sasa}
 translate Z EngineOpenAnalysis {Fungua Uchambuzi}
+translate Z EngineOpenWindow {Fungua Dirisha la Injini}
 
 # PGN window menus:
 menuText Z PgnFile "Faili" 0

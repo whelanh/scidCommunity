@@ -199,6 +199,7 @@ menuText h ToolsAnalysis "विश्लेषण इंजन..." 0 \
   {शतरंज विश्लेषण इंजन प्रारंभ/बंद करें}
 menuText h ToolsAnalysis2 "विश्लेषण इंजन #2..." 17 \
   {दूसरा शतरंज विश्लेषण इंजन प्रारंभ/बंद करें}
+menuText h ToolsEngineWindow "इंजन विंडो..." 0 {शतरंज इंजन विंडो खोलें}
 menuText h ToolsCross "क्रॉसटेबल" 0 {इस गेम के लिए टूर्नामेंट क्रॉसटेबल दिखाएं}
 menuText h ToolsFilterGraph "रिले. फ़िल्टर ग्राफ़" 12 {सापेक्ष मानों के लिए फ़िल्टर ग्राफ़ विंडो खोलें/बंद करें}
 menuText h ToolsAbsFilterGraph "पेट. फ़िल्टर ग्राफ़" 7 {निरपेक्ष मानों के लिए फ़िल्टर ग्राफ़ विंडो खोलें/बंद करें}
@@ -955,6 +956,7 @@ translate h EngineClone {वर्तमान इंजन की एक प्
 translate h EngineDuplicate {प्रतिलिपि बनाएँ}
 translate h EngineDelete {वर्तमान इंजन हटाएँ}
 translate h EngineOpenAnalysis {विश्लेषण खोलें}
+translate h EngineOpenWindow {इंजन विंडो खोलें}
 
 # PGN window menus:
 menuText h PgnFile "फ़ाइल" 0

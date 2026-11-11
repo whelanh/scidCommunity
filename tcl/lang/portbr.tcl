@@ -203,6 +203,7 @@ menuText B ToolsAnalysis "Analisador #1..." 0 \
   {Inicia ou para o 1o. Analisador}
 menuText B ToolsAnalysis2 "Analisador #2..." 17 \
   {Inicia ou para o 2o. Analisador}
+menuText B ToolsEngineWindow "Janela do motor..." 0 {Abra uma janela do mecanismo de xadrez}
 menuText B ToolsCross "Tabela de Cruzamento" 0 {Mostra a tabela de cruzamentos do torneio para o jogo corrente}
 menuText B ToolsFilterGraph "Gráfico de Filtro Relativo" 7 \
   {Abre/Fecha a janela do gráfico de filtro} 
@@ -968,6 +969,7 @@ translate B EngineClone {Crie uma cópia do mecanismo atual}
 translate B EngineDuplicate {Duplicar}
 translate B EngineDelete {Exclua o mecanismo atual}
 translate B EngineOpenAnalysis {Análise aberta}
+translate B EngineOpenWindow {Abrir janela do mecanismo}
 
 # PGN window menus:
 menuText B PgnFile "Arquivo" 0

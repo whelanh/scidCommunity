@@ -239,6 +239,7 @@ menuText P ToolsAnalysis "Okno analizy..." 0 \
   {Uruchom/zatrzymaj silnik analizy szachowej}
 menuText P ToolsAnalysis2 "Silnik analizy nr 2..." 17 \
   {Uruchom/zatrzymaj drugi silnik analizy szachowej}
+menuText P ToolsEngineWindow "Okno silnika..." 0 {Otwórz okno silnika szachowego}
 menuText P ToolsCross "Tabela turniejowa" 0 {Pokaż tabelę turniejową dla tej partii}
 menuText P ToolsFilterGraph "Wykres filtra (wzgl.) " 12 {Otwórz/zamknij okno wykresu dla wartości względnych}
 menuText P ToolsAbsFilterGraph "Wykres filtra (bezwzgl.)" 7 {Otwórz/zamknij okno wykresu dla wartości bezwzględnych}
@@ -995,6 +996,7 @@ translate P EngineClone {Utwórz kopię bieżącego silnika}
 translate P EngineDuplicate {Duplikuj}
 translate P EngineDelete {Usuń bieżący silnik}
 translate P EngineOpenAnalysis {Otwórz analizę}
+translate P EngineOpenWindow {Otwórz okno silnika}
 
 # PGN window menus:
 menuText P PgnFile "Plik" 0
