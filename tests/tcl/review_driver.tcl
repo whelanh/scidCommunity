@@ -2715,8 +2715,10 @@ set refresh [::enginewin::reviewState 1]
 checkEq "the button refresh builds no line map" $::mapBuilds 0
 checkEq "and counts the whole game, as the buttons always have" \
     [dict get $refresh game] 5
-checkEq "with nothing for Move Comment on the line's own move" \
-    [dict get $refresh move] ""
+# Move Comment names the line's own move from the board's previous move - O(1),
+# no map (D10; the press is section "Move Comment inside a variation" below).
+checkEq "and names the move the reader is on, in the same O(1)" \
+    [dict get $refresh move] g1f3
 
 set ::mapBuilds 0
 set varState [::enginewin::reviewRunState 1]
@@ -2794,6 +2796,178 @@ rename ::review::bookEnd {}
 rename ::review::bookEndSaved ::review::bookEnd
 unset ::book::lastBook1
 unset ::scidBooksDir
+
+puts "\nMove Comment inside a variation (spec test 19, tcl/windows/engine.tcl)"
+
+# D10: a variation's move can be commented on the same terms as a main-line
+# move - one node, the writer this branch already has, `-plies` naming the
+# line's own index. The hazard is the same-index main-line node: a variation's
+# ply counter is not a key of its map (D3), so a press that named the move by
+# `sc_pos location` would label the game's move instead of the line's.
+#
+# The button refresh runs on every board change, so it must answer "is there a
+# move here" without building a map: `sc_game info previousMoveUCI` is O(1).
+set var [lineSetup]
+fakeCursorAt [lindex $var 1]
+set ::mapBuilds 0
+set varRefresh [::enginewin::reviewState 1]
+checkEq "the button refresh builds no line map for Move Comment" $::mapBuilds 0
+checkEq "and names the move the reader is on" [dict get $varRefresh move] g1f3
+checkEq "so Move Comment is live inside a variation" \
+    [dict get [::reviewui::buttons $varRefresh] movecomment] normal
+checkEq "and Game Review with it" \
+    [dict get [::reviewui::buttons $varRefresh] review] normal
+
+# The move the button names is the line's, not the game's: the map's cursor
+# index is the variation's second move, while the main line plays another move
+# at the same ply counter.
+set map [::review::currentLineMap]
+checkEq "which is the move at the map's own cursor index" \
+    [::review::playedMove $map [dict get $map cursorIndex]] g1f3
+checkEq "and not the move the game plays at that ply" \
+    [::review::playedMove [::review::mainLineMap [sc_game UCI_mainLine]] \
+        [sc_pos location]] f1b5
+
+# The press, with the hand-off recorded rather than run: the arguments and the
+# walk count can be read without a pass in flight.
+rename ::enginewin::reviewStart ::enginewin::reviewStartReal
+set ::presses {}
+proc ::enginewin::reviewStart {id state} { lappend ::presses [list $id $state] ; return 1 }
+
+set var [lineSetup]
+fakeCursorAt [lindex $var 0]
+set ::mapBuilds 0
+::enginewin::reviewMove 1
+checkEq "a variation press starts one pass" [llength $::presses] 1
+set pressState [lindex [lindex $::presses 0] 1]
+checkEq "walking the line exactly once" $::mapBuilds 1
+set pressLine ""
+catch { set pressLine [dict get $pressState line] }
+set pressIndex ""
+catch { set pressIndex [dict get $pressLine cursorIndex] }
+checkEq "and the state carries the map it walked" \
+    [expr {$pressLine ne "" && $pressIndex == 4}] 1
+set pressNamed ""
+catch { set pressNamed [dict get $pressState plies] }
+checkEq "the move is the map's index, not the board's ply counter" \
+    $pressNamed {4}
+
+set pressPlies ""
+catch { set pressPlies [dict get $pressLine plies] }
+set pressGame ""
+catch { set pressGame [dict get $pressState game] }
+checkEq "which is the index of the move that produced this position" \
+    $pressGame $pressPlies
+
+# A map handed to the state is not walked a second time.
+set ::mapBuilds 0
+set handed [::enginewin::reviewRunState 1 {} "" review $pressLine]
+checkEq "a handed map is not walked again" $::mapBuilds 0
+check "the state carries the map it was handed" \
+    [expr {[dict get $handed line] eq $pressLine}]
+checkEq "with the line's plies as its game" [dict get $handed game] [dict get $pressLine plies]
+
+set pressCall2 [::reviewui::runCall $pressState]
+set at [lsearch -exact [dict get $pressCall2 args] -plies]
+checkEq "the call names that one index" \
+    [lindex [dict get $pressCall2 args] [expr {$at + 1}]] {4}
+set at [lsearch -exact [dict get $pressCall2 args] -line]
+check "the call hands the driver the map" [expr {$at >= 0}]
+check "as the very map the state carries" \
+    [expr {[lindex [dict get $pressCall2 args] [expr {$at + 1}]] eq $pressLine}]
+checkEq "with the book gate at 0" \
+    [lindex [dict get $pressCall2 args] [expr {[lsearch -exact [dict get $pressCall2 args] -bookEnd] + 1}]] 0
+checkEq "and no -force" [lsearch -exact [dict get $pressCall2 args] -force] -1
+
+# The number comes from the map. A map whose cursorIndex the board does not
+# agree with is passed through as it stands: sc_pos location says where the
+# board is, and that is not what names a variation's move.
+rename ::review::currentLineMap ::review::currentLineMapCounted2
+proc ::review::currentLineMap {{cursor ""}} {
+    set m [::review::currentLineMapCounted2 $cursor]
+    dict set m cursorIndex 6
+    return $m
+}
+set ::presses {}
+::enginewin::reviewMove 1
+set doctored ""
+catch { set doctored [dict get [lindex [lindex $::presses end] 1] plies] }
+checkEq "the press takes the map's index, whatever the board says" $doctored {6}
+checkEq "while the board's ply counter says otherwise" [sc_pos location] 4
+rename ::review::currentLineMap {}
+rename ::review::currentLineMapCounted2 ::review::currentLineMap
+
+# The main line: the same call it always was - the main-line ply, and no -line.
+set ::presses {}
+fakeCursorAt [fakeAtPly 2]
+set ::mapBuilds 0
+::enginewin::reviewMove 1
+set mainPress [lindex [lindex $::presses end] 1]
+set mainPlies ""
+catch { set mainPlies [dict get $mainPress plies] }
+checkEq "a main-line press names the ply the board is on" $mainPlies {2}
+checkEq "and carries no line" [expr {[dict exists $mainPress line]}] 0
+set mainPressCall [::reviewui::runCall $mainPress]
+checkEq "so its call has no -line in it" \
+    [lsearch -exact [dict get $mainPressCall args] -line] -1
+
+# And for real: the write lands on the variation node, and the main-line node at
+# the same ply is untouched.
+rename ::enginewin::reviewStart {}
+rename ::enginewin::reviewStartReal ::enginewin::reviewStart
+
+puts "the variation's node is written, and the game's move at the same ply is not"
+
+set var [lineSetup]
+fakeCursorAt [lindex $var 0]
+set ::mapBefore [fakeWhere]
+set map [::review::currentLineMap]
+set ::sent {}
+set ::events {}
+set ::reportCalls {}
+set ::coachStarts {}
+set ::coachClears {}
+set ::openingMarks {}
+set ::tacticalCalls {}
+set ::tagWrites {}
+::enginewin::reviewMove 1
+checkEq "the press starts the pass" [dict get [::reviewdriver::status] state] searching
+checkEq "over one node, which is two positions" [dict get [::reviewdriver::status] total] 2
+checkEq "the same one the map judged" [dict get $::reviewdriver::pass plan] {4}
+checkEq "with the line on the pass" [dict get $::reviewdriver::pass lineKind] variation
+feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
+checkEq "the first search is the node's reference position" \
+    [lindex [goSpecs] 0] [dict get $map positions 3]
+feedEvent InfoPV {1 20 22 900 300 0 0 120 100 cp 0 c7c5}
+feedEvent InfoPV {2 20 22 900 300 0 0 120 -20 cp 0 d7d5}
+feedEvent InfoBestMove {}
+# The second search is the position the variation's move made - the line's, not
+# the game's move at the same ply.
+checkEq "and the second is the position the line's move made" \
+    [lindex [goSpecs] 1] [dict get $map positions 4]
+checkEq "not the position the game's move at the same ply makes" \
+    [expr {[lindex [goSpecs] 1] ne \
+        [dict get [::review::mainLineMap [sc_game UCI_mainLine]] positions 4]}] 1
+feedEvent InfoPV {1 20 22 900 300 0 0 120 100 cp 0 b8c6}
+feedEvent InfoBestMove {}
+pump
+set st [::reviewdriver::status]
+checkEq "the press finished" [dict get $st state] done
+checkEq "and wrote its one node" [dict get $st written] 1
+checkEq "nothing refused" [dict get $st failed] 0
+checkEq "the verdict lands on the variation node" \
+    [fakeGet [lindex $var 0] comment] [verdict {[best] [%eval +1.00]}]
+checkEq "the game's move at the same ply keeps its own comment" \
+    [fakeGet [fakeAtPly 4] comment] ""
+checkEq "and the write touched one node's comment, and only one" \
+    [llength [setComments]] 1
+checkEq "the cursor is back on the variation" [dict get $st restored] 1
+checkEq "which is where the reader left it" [fakeWhere] $::mapBefore
+checkEq "a one-node press writes no report" $::reportCalls {}
+checkEq "no coach prose" $::coachStarts {}
+checkEq "no opening mark" $::openingMarks {}
+checkEq "no tactical exercise" $::tacticalCalls {}
+checkEq "and no Annotator tag" $::tagWrites {}
 
 puts "\nGame Review's progress: one job, the variation's position, a finish"
 
