@@ -479,25 +479,41 @@ namespace eval book {
               [expr {100.0*$dd/$games}] [expr {100.0*$bw/$games}]]
   }
 
-  # White/Draw/Black bar (white, grey, black segments with their percentages),
-  # $chars characters wide, to embed in text widget $txt; returns the canvas
-  proc obrBar { txt name chars games ww dd bw } {
+  # White/Draw/Black bar, $chars characters wide, to embed in text widget $txt;
+  # returns the canvas. Same look as Scid's game list statistics (SourceForge
+  # Scid, ::windows::gamelist::updateStats_): white / #707070 / black segments
+  # with the percentage centred inside (game counts below 100 games).
+  proc obrBar { txt name chars ww dd bw } {
     set W [expr {$chars * [font measure font_Fixed 0]}]
-    set H [expr {[font metrics font_Fixed -linespace] - 2}]
+    set H [expr {max(round(1.1 * [font metrics font_Fixed -linespace]),
+                     [font metrics font_Small -linespace] + 4)}]
     set c [canvas $txt.$name -width $W -height $H -bd 0 -highlightthickness 0 \
              -background [$txt cget -background] -cursor top_left_arrow]
-    set x 0.0
-    foreach n [list $ww $dd $bw] fill {white grey70 black} fg {black black white} {
-      set x2 [expr {$x + $W * double($n) / $games}]
-      $c create rectangle $x 0 $x2 $H -fill $fill -width 0
-      set pct [expr {round(100.0 * $n / $games)}]
-      # only label segments wide enough to hold their number
-      if {$x2 - $x > [font measure font_Small $pct] + 2} {
-        $c create text [expr {($x + $x2) / 2}] [expr {$H / 2}] -text $pct -fill $fg -font font_Small
+    set tot [expr {$ww + $dd + $bw}]
+    if {$tot > 0} {
+      set pw [expr {round(100.0 * $ww / $tot)}]
+      set pd [expr {round(100.0 * $dd / $tot)}]
+      if {$tot > 99} {
+        set labels [list $pw% $pd% [expr {100 - $pw - $pd}]%]
+      } else {
+        set labels [list $ww $dd $bw]
       }
-      set x $x2
+      set x 0
+      set sum 0
+      foreach n [list $ww $dd $bw] label $labels fill {white #707070 black} fg {black white white} {
+        incr sum $n
+        set x2 [expr {round(double($W) * $sum / $tot)}]
+        if {$x2 > $x} {
+          $c create rectangle $x 0 $x2 $H -fill $fill -outline ""
+          # unlike Scid, skip labels wider than their segment instead of overlapping
+          if {$x2 - $x >= [font measure font_Small $label] + 2} {
+            $c create text [expr {($x + $x2) / 2}] [expr {$H / 2}] -text $label -fill $fg -font font_Small
+          }
+        }
+        set x $x2
+      }
     }
-    $c create rectangle 0 0 [expr {$W - 1}] [expr {$H - 1}] -outline grey50
+    $c create rectangle 0 0 [expr {$W - 1}] [expr {$H - 1}] -outline #808080
     return $c
   }
 
@@ -541,10 +557,10 @@ namespace eval book {
     }
 
     # deleting the text also destroys the previous W/D/B bar canvases
-    $txt configure -state normal -width 62
+    $txt configure -state normal -width 64
     $txt delete 1.0 end
-    $txt insert end [format "%-9s %8s %9s %6s  %-12s %5s %5s\n" \
-                       "Move" "Games" "Frequency" "Score" "   W/D/B%" "Elo" "Perf"] obrHeader
+    $txt insert end [format "%-9s %8s %9s %6s  %-14s %5s %5s\n" \
+                       "Move" "Games" "Frequency" "Score" "    W/D/B%" "Elo" "Perf"] obrHeader
     set line 1
     foreach row $rows {
       incr line
@@ -584,14 +600,14 @@ namespace eval book {
       set leave "[list ::book::hoverMove $san leave]; [list ::book::showObrInfo $b {}]"
       $txt insert end $text $tags
       if {$hasStats && $games > 0} {
-        set bar [obrBar $txt bar$line 12 $games $ww $dd $bw]
+        set bar [obrBar $txt bar$line 14 $ww $dd $bw]
         $txt window create end -window $bar -align center
         bind $bar <ButtonPress-1> $click
         bind $bar <Enter> $enter
         bind $bar <Leave> $leave
         $txt insert end $tail $tags
       } elseif {$hasStats} {
-        $txt insert end "[string repeat " " 12]$tail" $tags
+        $txt insert end "[string repeat " " 14]$tail" $tags
       }
       $txt insert end "\n" $tags
       $txt tag bind bookMove$line <ButtonPress-1> $click
