@@ -22,6 +22,8 @@ proc checkEq {label got want} {
 }
 
 set root [file normalize [file join [file dirname [info script]] .. ..]]
+# The module reports its reasons through tr; this harness has no language file.
+proc ::tr {tag} { return $tag }
 source [file join $root tcl tools engine_limits.tcl]
 source [file join $root tcl tools epd_analysis.tcl]
 
@@ -132,7 +134,7 @@ checkEq "Cancel answers the pending search" [dict get $::result error] cancelled
 
 set token [::epdanalysis::ask $fen 1000 [list apply {{d} { set ::result $d }}]]
 {*}$::engineCb {InfoDisconnected {}}
-checkEq "a disconnect answers it too" [dict get $::result error] "the engine disconnected"
+checkEq "a disconnect answers it too" [dict get $::result error] EpdEngineDisconnected
 
 set token [::epdanalysis::ask $fen 1000 [list apply {{d} { set ::result $d }}]]
 {*}$::engineCb {InfoPV {1 12 14 100 50 0 0 40 -20 cp 0 a1a8}}
@@ -143,6 +145,21 @@ checkEq "with its own score" [dict get $::result score_stm] -0.2
 
 ::epdanalysis::close
 checkEq "closing closes the one connection" $::closed 2
+
+puts "\nthe new EPD strings have English translations"
+set ef [open [file join $root tcl lang english.tcl] r]
+set english [read $ef]
+close $ef
+foreach key {
+    EpdAnalysisTitle EpdAnalysisRunning EpdAnalysisMinTime
+    EpdAnalysisStartFailed EpdAnalysisError EpdAnalysisStopped
+    EpdAnalysisStopping EpdEngineNotStarted EpdEngineNoResult
+    EpdSearchAlreadyRunning EpdNoEngineConfigured EpdOnlyUci
+    EpdEngineDisconnected EpdEngineNoAnswer
+} {
+    check "translate E $key exists" \
+        [expr {[string first "translate E $key " $english] >= 0}]
+}
 
 puts "\nno Analysis Engine window remains in the EPD path"
 

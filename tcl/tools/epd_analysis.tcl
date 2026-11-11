@@ -109,14 +109,14 @@ proc ::epdanalysis::dataFromInfo {fen msgData} {
 # Open a UCI preset for an EPD pass. Returns "" or the reason it could not.
 proc ::epdanalysis::open {engine} {
     if {[dict size $::epdanalysis::job]} {
-        return "a search is already running"
+        return [::tr EpdSearchAlreadyRunning]
     }
     ::epdanalysis::close
     set cfg ""
     catch { set cfg [::enginecfg::get $engine] }
-    if {![llength $cfg]} { return "no engine is configured" }
+    if {![llength $cfg]} { return [::tr EpdNoEngineConfigured] }
     if {[lindex $cfg 7] eq "" || [lindex $cfg 7] eq 0} {
-        return "Only UCI engines supported"
+        return [::tr EpdOnlyUci]
     }
     if {[catch {
         ::engineNoWin::initEngine $::epdanalysis::id $engine \
@@ -184,7 +184,7 @@ proc ::epdanalysis::message {msg} {
             ::epdanalysis::finish ""
         }
         "InfoDisconnected" {
-            ::epdanalysis::finish "the engine disconnected"
+            ::epdanalysis::finish [::tr EpdEngineDisconnected]
         }
     }
     return
@@ -193,7 +193,7 @@ proc ::epdanalysis::message {msg} {
 proc ::epdanalysis::timeout {token} {
     variable job
     if {![dict size $job] || [dict get $job token] ne $token} { return }
-    ::epdanalysis::finish "the engine did not answer"
+    ::epdanalysis::finish [::tr EpdEngineNoAnswer]
 }
 
 proc ::epdanalysis::finish {err} {

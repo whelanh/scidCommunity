@@ -205,6 +205,20 @@ translate E EpdStripOpcodes {Strip Opcodes...}
 translate E EpdAnnotateTime {Seconds per position}
 translate E EpdCountBestMoves {Count best moves}
 translate E EpdSaveLog {Save results to file}
+translate E EpdAnalysisTitle {EPD analysis}
+translate E EpdAnalysisRunning {Another EPD analysis is already running.}
+translate E EpdAnalysisMinTime {The analysis time must be at least 1 second.}
+translate E EpdAnalysisStartFailed {Failed to start analysis engine: %s}
+translate E EpdAnalysisError {EPD analysis error: %s}
+translate E EpdAnalysisStopped {Analysis stopped.}
+translate E EpdAnalysisStopping {Stopping...}
+translate E EpdEngineNotStarted {the engine did not start the search}
+translate E EpdEngineNoResult {the engine returned no result}
+translate E EpdSearchAlreadyRunning {a search is already running}
+translate E EpdNoEngineConfigured {no engine is configured}
+translate E EpdOnlyUci {Only UCI engines supported}
+translate E EpdEngineDisconnected {the engine disconnected}
+translate E EpdEngineNoAnswer {the engine did not answer}
 translate E EpdDontSave {Don't Save}
 translate E EpdReadOnly {read-only}
 translate E EpdAltered {altered}

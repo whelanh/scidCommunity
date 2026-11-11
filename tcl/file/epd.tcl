@@ -657,12 +657,12 @@ namespace eval epd {
     set isUCI [lindex [lindex $engines(list) $idx] 7]
     if {!$isUCI} {
       tk_messageBox -type ok -icon info -title Oops \
-          -message {Only UCI engines supported} -parent $w
+          -message [tr EpdOnlyUci] -parent $w
       return
     }
     if {![string is integer -strict $::epdDelay] || $::epdDelay < 1} {
-      tk_messageBox -type ok -icon info -title "EPD analysis" -parent $w \
-          -message {The analysis time must be at least 1 second.}
+      tk_messageBox -type ok -icon info -title [tr EpdAnalysisTitle] -parent $w \
+          -message [tr EpdAnalysisMinTime]
       return
     }
     set name [$w.engine.combo get]
@@ -696,7 +696,7 @@ namespace eval epd {
 
     set w .epd$id
     if {$analysisRunning} {
-      $w.bottom.status configure -text "Another EPD analysis is already running."
+      $w.bottom.status configure -text [tr EpdAnalysisRunning]
       # epdAnnotation belongs to the run already in flight; do not clear it.
       return
     }
@@ -704,7 +704,7 @@ namespace eval epd {
 
     set err [::epdanalysis::open $name]
     if {$err ne ""} {
-      $w.bottom.status configure -text "Failed to start analysis engine: $err"
+      $w.bottom.status configure -text [format [tr EpdAnalysisStartFailed] $err]
       set epdAnnotation 0
       return
     }
@@ -790,13 +790,13 @@ namespace eval epd {
       set token [::epdanalysis::ask $fen $movetime \
           [list apply {{data} { set ::epd::analysisResult $data }}] $onInfo]
       if {$token eq "" && $::epd::analysisResult eq ""} {
-        set annErr "the engine did not start the search"
+        set annErr [tr EpdEngineNotStarted]
         break
       }
       if {$token ne ""} { vwait ::epd::analysisResult }
       if {![winfo exists $w]} { set cancelled 1 ; break }
       set data $::epd::analysisResult
-      if {![dict size $data]} { set annErr "the engine returned no result" ; break }
+      if {![dict size $data]} { set annErr [tr EpdEngineNoResult] ; break }
       set reason [dict get $data error]
       if {$reason eq "cancelled"} { set cancelled 1 ; break }
       if {$reason ne ""} { set annErr $reason ; break }
@@ -843,9 +843,9 @@ namespace eval epd {
 
     if {[winfo exists $w]} {
       if {$annErr ne ""} {
-        $w.bottom.status configure -text "EPD analysis error: $annErr"
+        $w.bottom.status configure -text [format [tr EpdAnalysisError] $annErr]
       } elseif {$cancelled} {
-        $w.bottom.status configure -text "Analysis stopped."
+        $w.bottom.status configure -text [tr EpdAnalysisStopped]
       } elseif {$epdAnnotateMode > 0} {
         set summary "Best moves found $bestMovesFound / $bestMovesNoted"
         $w.bottom.status configure -text "Result $epdEngineName ($epdDelay secs/move): $summary"
@@ -869,7 +869,7 @@ namespace eval epd {
       if {$epdAnnotateMode > 0 && $bestMovesNoted > 0} {
         append msg "\nBest moves found: $bestMovesFound / $bestMovesNoted"
       }
-      tk_messageBox -type ok -icon info -title "EPD analysis" -message $msg -parent $w
+      tk_messageBox -type ok -icon info -title [tr EpdAnalysisTitle] -message $msg -parent $w
     }
   }
 
@@ -885,7 +885,7 @@ namespace eval epd {
     set analysisStopRequested 1
     set w .epd$id
     if {[winfo exists $w]} {
-      $w.bottom.status configure -text "Stopping..."
+      $w.bottom.status configure -text [tr EpdAnalysisStopping]
       catch { $w.bottom.stop configure -state disabled }
     }
     catch { ::epdanalysis::cancel }
