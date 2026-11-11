@@ -201,7 +201,7 @@ translate R EpdPasteRecord {Вставить запись}
 
 # Tools menu:
 menuText R Tools "Инструменты" 2
-menuText R ToolsConfigureEngines "Настройка движений" 10 {Управление конфигурацией механизмов}
+menuText R ToolsConfigureEngines "Настройка движков" 10 {Управление конфигурацией двигателей}
 menuText R ToolsEngineWindow "Окно двигателя..." 0 {Откройте окно шахматного движка}
 menuText R ToolsCross "Турнирная таблица" 0 {Показать турнирную таблицу для этой партии}
 menuText R ToolsFilterGraph "Диаграмма фильтра" 0 {Открыть/закрыть окно фильтрованной диаграммы}
@@ -935,7 +935,7 @@ translate R Alphabetical {Алфавитный}
 translate R BookCount {Книги}
 
 # Configure Engines dialog:
-translate R EngineList {Настройка движений}
+translate R EngineList {Настройка движков}
 translate R EngineName {Название}
 translate R EngineCmd {Команда}
 translate R EngineArgs {Параметры}
