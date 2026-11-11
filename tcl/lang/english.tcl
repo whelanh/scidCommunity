@@ -205,6 +205,8 @@ translate E EpdStripOpcodes {Strip Opcodes...}
 translate E EpdAnnotateTime {Seconds per position}
 translate E EpdCountBestMoves {Count best moves}
 translate E EpdSaveLog {Save results to file}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
 translate E EpdAnalysisTitle {EPD analysis}
 translate E EpdAnalysisRunning {Another EPD analysis is already running.}
 translate E EpdAnalysisMinTime {The analysis time must be at least 1 second.}
