@@ -168,6 +168,22 @@ translate H EpdStripOpcodes {Opkódok levágása...}
 translate H EpdAnnotateTime {Másodperc pozíciónként}
 translate H EpdCountBestMoves {Számold meg a legjobb mozdulatokat}
 translate H EpdSaveLog {Az eredmények mentése fájlba}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate H EpdAnalysisTitle {EPD elemzés}
+translate H EpdAnalysisRunning {Egy másik EPD-elemzés már fut.}
+translate H EpdAnalysisMinTime {Az elemzési időnek legalább 1 másodpercnek kell lennie.}
+translate H EpdAnalysisStartFailed {Nem sikerült elindítani az elemzőmotort: ​​%s}
+translate H EpdAnalysisError {EPD elemzési hiba: %s}
+translate H EpdAnalysisStopped {Az elemzés leállt.}
+translate H EpdAnalysisStopping {Leállítás...}
+translate H EpdEngineNotStarted {a motor nem indította el a keresést}
+translate H EpdEngineNoResult {a motor nem adott eredményt}
+translate H EpdSearchAlreadyRunning {már fut a keresés}
+translate H EpdNoEngineConfigured {nincs motor konfigurálva}
+translate H EpdOnlyUci {Csak az UCI motorok támogatottak}
+translate H EpdEngineDisconnected {a motor lekapcsolt}
+translate H EpdEngineNoAnswer {a motor nem válaszolt}
 translate H EpdDontSave {Ne mentse}
 translate H EpdReadOnly {csak olvasható}
 translate H EpdAltered {megváltozott}

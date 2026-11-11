@@ -206,6 +206,22 @@ translate J EpdStripOpcodes {Скидање опкодова...}
 translate J EpdAnnotateTime {Секунде по позицији}
 translate J EpdCountBestMoves {Бројите најбоље потезе}
 translate J EpdSaveLog {Сачувајте резултате у датотеку}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate J EpdAnalysisTitle {ЕПД анализа}
+translate J EpdAnalysisRunning {Још једна ЕПД анализа је већ у току.}
+translate J EpdAnalysisMinTime {Време анализе мора бити најмање 1 секунда.}
+translate J EpdAnalysisStartFailed {Покретање механизма анализе није успело: %s}
+translate J EpdAnalysisError {Грешка ЕПД анализе: %s}
+translate J EpdAnalysisStopped {Анализа је заустављена.}
+translate J EpdAnalysisStopping {заустављање...}
+translate J EpdEngineNotStarted {мотор није започео претрагу}
+translate J EpdEngineNoResult {мотор није дао никакав резултат}
+translate J EpdSearchAlreadyRunning {претрага је већ у току}
+translate J EpdNoEngineConfigured {ниједан мотор није конфигурисан}
+translate J EpdOnlyUci {Подржани су само УЦИ мотори}
+translate J EpdEngineDisconnected {мотор је искључен}
+translate J EpdEngineNoAnswer {мотор није одговорио}
 translate J EpdDontSave {Не штеди}
 translate J EpdReadOnly {само за читање}
 translate J EpdAltered {измењени}

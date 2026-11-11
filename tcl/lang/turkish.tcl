@@ -169,6 +169,22 @@ translate T EpdStripOpcodes {Opcode'ları soyun...}
 translate T EpdAnnotateTime {Pozisyon başına saniye}
 translate T EpdCountBestMoves {En iyi hamleleri sayın}
 translate T EpdSaveLog {Sonuçları dosyaya kaydet}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate T EpdAnalysisTitle {EPD analizi}
+translate T EpdAnalysisRunning {Başka bir EPD analizi zaten çalışıyor.}
+translate T EpdAnalysisMinTime {Analiz süresi en az 1 saniye olmalıdır.}
+translate T EpdAnalysisStartFailed {Analiz motoru başlatılamadı: %s}
+translate T EpdAnalysisError {EPD analiz hatası: %s}
+translate T EpdAnalysisStopped {Analiz durduruldu.}
+translate T EpdAnalysisStopping {Durduruluyor...}
+translate T EpdEngineNotStarted {motor aramayı başlatmadı}
+translate T EpdEngineNoResult {motor sonuç vermedi}
+translate T EpdSearchAlreadyRunning {bir arama zaten yürütülüyor}
+translate T EpdNoEngineConfigured {hiçbir motor yapılandırılmadı}
+translate T EpdOnlyUci {Yalnızca UCI motorları desteklenir}
+translate T EpdEngineDisconnected {motor bağlantısı kesildi}
+translate T EpdEngineNoAnswer {motor cevap vermedi}
 translate T EpdDontSave {Kaydetme}
 translate T EpdReadOnly {salt okunur}
 translate T EpdAltered {değiştirilmiş}

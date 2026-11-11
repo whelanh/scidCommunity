@@ -172,6 +172,22 @@ translate R EpdStripOpcodes {Удалить коды операций...}
 translate R EpdAnnotateTime {Секунды на позицию}
 translate R EpdCountBestMoves {Подсчитайте лучшие ходы}
 translate R EpdSaveLog {Сохранить результаты в файл}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate R EpdAnalysisTitle {ЭПД-анализ}
+translate R EpdAnalysisRunning {Другой анализ EPD уже запущен.}
+translate R EpdAnalysisMinTime {Время анализа должно составлять не менее 1 секунды.}
+translate R EpdAnalysisStartFailed {Не удалось запустить механизм анализа: %s}
+translate R EpdAnalysisError {Ошибка анализа EPD: %s}
+translate R EpdAnalysisStopped {Анализ остановился.}
+translate R EpdAnalysisStopping {Остановка...}
+translate R EpdEngineNotStarted {движок не запустил поиск}
+translate R EpdEngineNoResult {двигатель не дал результата}
+translate R EpdSearchAlreadyRunning {поиск уже запущен}
+translate R EpdNoEngineConfigured {ни один двигатель не настроен}
+translate R EpdOnlyUci {Поддерживаются только двигатели UCI.}
+translate R EpdEngineDisconnected {двигатель отключился}
+translate R EpdEngineNoAnswer {двигатель не ответил}
 translate R EpdDontSave {Не сохранять}
 translate R EpdReadOnly {только для чтения}
 translate R EpdAltered {измененный}

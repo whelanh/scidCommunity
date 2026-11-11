@@ -164,6 +164,22 @@ translate C EpdStripOpcodes {Odstraňte operační kódy...}
 translate C EpdAnnotateTime {Sekundy na pozici}
 translate C EpdCountBestMoves {Počítejte nejlepší tahy}
 translate C EpdSaveLog {Uložit výsledky do souboru}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate C EpdAnalysisTitle {EPD analýza}
+translate C EpdAnalysisRunning {Další analýza EPD již běží.}
+translate C EpdAnalysisMinTime {Doba analýzy musí být alespoň 1 sekunda.}
+translate C EpdAnalysisStartFailed {Nepodařilo se spustit analytický modul: %s}
+translate C EpdAnalysisError {Chyba analýzy EPD: %s}
+translate C EpdAnalysisStopped {Analýza se zastavila.}
+translate C EpdAnalysisStopping {Zastavení...}
+translate C EpdEngineNotStarted {motor nespustil vyhledávání}
+translate C EpdEngineNoResult {motor nevrátil žádný výsledek}
+translate C EpdSearchAlreadyRunning {vyhledávání již běží}
+translate C EpdNoEngineConfigured {není nakonfigurován žádný motor}
+translate C EpdOnlyUci {Podporovány jsou pouze motory UCI}
+translate C EpdEngineDisconnected {motor odpojený}
+translate C EpdEngineNoAnswer {motor neodpovídal}
 translate C EpdDontSave {Neukládat}
 translate C EpdReadOnly {pouze pro čtení}
 translate C EpdAltered {změněno}

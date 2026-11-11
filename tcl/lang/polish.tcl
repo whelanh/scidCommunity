@@ -205,6 +205,22 @@ translate P EpdStripOpcodes {Usuń kody operacji...}
 translate P EpdAnnotateTime {Sekund na pozycję}
 translate P EpdCountBestMoves {Zlicz najlepsze posunięcia}
 translate P EpdSaveLog {Zapisz wyniki do pliku}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate P EpdAnalysisTitle {Analiza EPD}
+translate P EpdAnalysisRunning {Trwa już kolejna analiza EPD.}
+translate P EpdAnalysisMinTime {Czas analizy musi wynosić co najmniej 1 sekundę.}
+translate P EpdAnalysisStartFailed {Nie udało się uruchomić silnika analitycznego: %s}
+translate P EpdAnalysisError {Błąd analizy EPD: %s}
+translate P EpdAnalysisStopped {Analiza zatrzymana.}
+translate P EpdAnalysisStopping {Zatrzymanie...}
+translate P EpdEngineNotStarted {silnik nie rozpoczął wyszukiwania}
+translate P EpdEngineNoResult {silnik nie zwrócił żadnego wyniku}
+translate P EpdSearchAlreadyRunning {wyszukiwanie już trwa}
+translate P EpdNoEngineConfigured {nie skonfigurowano żadnego silnika}
+translate P EpdOnlyUci {Obsługiwane są tylko silniki UCI}
+translate P EpdEngineDisconnected {silnik odłączony}
+translate P EpdEngineNoAnswer {silnik nie odpowiedział}
 translate P EpdDontSave {Nie zapisuj}
 translate P EpdReadOnly {tylko do odczytu}
 translate P EpdAltered {zmieniony}

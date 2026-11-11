@@ -186,6 +186,22 @@ translate N EpdStripOpcodes {Strip-opcodes...}
 translate N EpdAnnotateTime {Seconden per positie}
 translate N EpdCountBestMoves {Tel de beste zetten}
 translate N EpdSaveLog {Resultaten opslaan in bestand}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate N EpdAnalysisTitle {EPD-analyse}
+translate N EpdAnalysisRunning {Er loopt al een andere EPD-analyse.}
+translate N EpdAnalysisMinTime {De analysetijd moet minimaal 1 seconde bedragen.}
+translate N EpdAnalysisStartFailed {Kan de analyse-engine niet starten: %s}
+translate N EpdAnalysisError {EPD-analysefout: %s}
+translate N EpdAnalysisStopped {De analyse is gestopt.}
+translate N EpdAnalysisStopping {Stoppen...}
+translate N EpdEngineNotStarted {de motor heeft de zoekactie niet gestart}
+translate N EpdEngineNoResult {de motor gaf geen resultaat}
+translate N EpdSearchAlreadyRunning {Er wordt al gezocht}
+translate N EpdNoEngineConfigured {er is geen motor geconfigureerd}
+translate N EpdOnlyUci {Alleen UCI-engines worden ondersteund}
+translate N EpdEngineDisconnected {de motor losgekoppeld}
+translate N EpdEngineNoAnswer {de motor antwoordde niet}
 translate N EpdDontSave {Niet opslaan}
 translate N EpdReadOnly {alleen-lezen}
 translate N EpdAltered {gewijzigd}

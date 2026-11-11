@@ -171,6 +171,22 @@ translate W EpdStripOpcodes {Avlägsna opkoder...}
 translate W EpdAnnotateTime {Sekunder per position}
 translate W EpdCountBestMoves {Räkna bästa drag}
 translate W EpdSaveLog {Spara resultat till fil}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate W EpdAnalysisTitle {EPD-analys}
+translate W EpdAnalysisRunning {En annan EPD-analys är redan igång.}
+translate W EpdAnalysisMinTime {Analystiden måste vara minst 1 sekund.}
+translate W EpdAnalysisStartFailed {Det gick inte att starta analysmotorn: %s}
+translate W EpdAnalysisError {EPD-analysfel: %s}
+translate W EpdAnalysisStopped {Analysen stoppades.}
+translate W EpdAnalysisStopping {Stoppar...}
+translate W EpdEngineNotStarted {motorn startade inte sökningen}
+translate W EpdEngineNoResult {motorn gav inget resultat}
+translate W EpdSearchAlreadyRunning {en sökning pågår redan}
+translate W EpdNoEngineConfigured {ingen motor är konfigurerad}
+translate W EpdOnlyUci {Endast UCI-motorer stöds}
+translate W EpdEngineDisconnected {motorn frånkopplad}
+translate W EpdEngineNoAnswer {motorn svarade inte}
 translate W EpdDontSave {Spara inte}
 translate W EpdReadOnly {skrivskyddad}
 translate W EpdAltered {ändrats}

@@ -206,6 +206,22 @@ translate g EpdStripOpcodes {Изтриване на кодове за опер�
 translate g EpdAnnotateTime {Секунди на позиция}
 translate g EpdCountBestMoves {Пребройте най-добрите ходове}
 translate g EpdSaveLog {Запазете резултатите във файл}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate g EpdAnalysisTitle {EPD анализ}
+translate g EpdAnalysisRunning {Друг EPD анализ вече се изпълнява.}
+translate g EpdAnalysisMinTime {Времето за анализ трябва да бъде поне 1 секунда.}
+translate g EpdAnalysisStartFailed {Неуспешно стартиране на машината за анализ: %s}
+translate g EpdAnalysisError {Грешка в анализа на EPD: %s}
+translate g EpdAnalysisStopped {Анализът е спрян.}
+translate g EpdAnalysisStopping {Спиране...}
+translate g EpdEngineNotStarted {двигателят не стартира търсенето}
+translate g EpdEngineNoResult {двигателят не даде резултат}
+translate g EpdSearchAlreadyRunning {вече тече търсене}
+translate g EpdNoEngineConfigured {не е конфигуриран двигател}
+translate g EpdOnlyUci {Поддържат се само UCI двигатели}
+translate g EpdEngineDisconnected {двигателят се разкачи}
+translate g EpdEngineNoAnswer {двигателят не отговори}
 translate g EpdDontSave {Не спестявайте}
 translate g EpdReadOnly {само за четене}
 translate g EpdAltered {променен}

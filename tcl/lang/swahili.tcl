@@ -165,6 +165,22 @@ translate Z EpdStripOpcodes {Misimbo ya Ukanda...}
 translate Z EpdAnnotateTime {Sekunde kwa kila nafasi}
 translate Z EpdCountBestMoves {Hesabu hatua bora zaidi}
 translate Z EpdSaveLog {Hifadhi matokeo kwenye faili}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate Z EpdAnalysisTitle {Uchambuzi wa EPD}
+translate Z EpdAnalysisRunning {Uchambuzi mwingine wa EPD tayari unaendelea.}
+translate Z EpdAnalysisMinTime {Muda wa uchambuzi lazima uwe angalau sekunde 1.}
+translate Z EpdAnalysisStartFailed {Imeshindwa kuanzisha injini ya uchanganuzi: %s}
+translate Z EpdAnalysisError {Hitilafu ya uchanganuzi wa EPD: %s}
+translate Z EpdAnalysisStopped {Uchambuzi umesimamishwa.}
+translate Z EpdAnalysisStopping {Inasimamisha...}
+translate Z EpdEngineNotStarted {injini haikuanza utafutaji}
+translate Z EpdEngineNoResult {injini haikurudi matokeo}
+translate Z EpdSearchAlreadyRunning {utafutaji tayari unaendeshwa}
+translate Z EpdNoEngineConfigured {hakuna injini iliyosanidiwa}
+translate Z EpdOnlyUci {Injini za UCI pekee ndizo zinazotumika}
+translate Z EpdEngineDisconnected {injini imekatika}
+translate Z EpdEngineNoAnswer {injini haikujibu}
 translate Z EpdDontSave {Usihifadhi}
 translate Z EpdReadOnly {kusoma tu}
 translate Z EpdAltered {imebadilishwa}

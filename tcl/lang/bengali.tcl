@@ -165,6 +165,22 @@ translate b EpdStripOpcodes {স্ট্রিপ অপকোড...}
 translate b EpdAnnotateTime {অবস্থান প্রতি সেকেন্ড}
 translate b EpdCountBestMoves {সেরা চাল গণনা}
 translate b EpdSaveLog {ফাইলে ফলাফল সংরক্ষণ করুন}
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
+translate b EpdAnalysisTitle {EPD বিশ্লেষণ}
+translate b EpdAnalysisRunning {আরেকটি EPD বিশ্লেষণ ইতিমধ্যেই চলছে।}
+translate b EpdAnalysisMinTime {বিশ্লেষণের সময় কমপক্ষে 1 সেকেন্ড হতে হবে।}
+translate b EpdAnalysisStartFailed {বিশ্লেষণ ইঞ্জিন শুরু করতে ব্যর্থ হয়েছে: %s}
+translate b EpdAnalysisError {EPD বিশ্লেষণ ত্রুটি: %s}
+translate b EpdAnalysisStopped {বিশ্লেষণ বন্ধ।}
+translate b EpdAnalysisStopping {থামছে...}
+translate b EpdEngineNotStarted {ইঞ্জিন অনুসন্ধান শুরু করেনি}
+translate b EpdEngineNoResult {ইঞ্জিন কোন ফলাফল ফিরে}
+translate b EpdSearchAlreadyRunning {একটি অনুসন্ধান ইতিমধ্যেই চলছে}
+translate b EpdNoEngineConfigured {কোন ইঞ্জিন কনফিগার করা হয় না}
+translate b EpdOnlyUci {শুধুমাত্র UCI ইঞ্জিন সমর্থিত}
+translate b EpdEngineDisconnected {ইঞ্জিন সংযোগ বিচ্ছিন্ন}
+translate b EpdEngineNoAnswer {ইঞ্জিন উত্তর দেয়নি}
 translate b EpdDontSave {সংরক্ষণ করবেন না}
 translate b EpdReadOnly {শুধুমাত্র পঠনযোগ্য}
 translate b EpdAltered {পরিবর্তিত}
