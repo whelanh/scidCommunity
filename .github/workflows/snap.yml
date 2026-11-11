@@ -27,7 +27,18 @@ jobs:
       - name: Build snap
         id: build
         run: |
-          sudo snapcraft pack --destructive-mode
+          for attempt in 1 2 3; do
+            if sudo snapcraft pack --destructive-mode; then
+              break
+            fi
+
+            if [ "$attempt" -eq 3 ]; then
+              exit 1
+            fi
+
+            echo "snapcraft pack failed (attempt $attempt/3), retrying in 20s..."
+            sleep 20
+          done
           SNAP_FILE=$(ls *.snap)
           echo "snap=$SNAP_FILE" >> "$GITHUB_OUTPUT"
 
