@@ -521,83 +521,83 @@ translate S LichessPuzzlesNoNew {No se encontraron nuevos rompecabezas para esta
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
-menuText S ToolsPublishLichessStudy "Publish Current Game to Lichess Study..." 0 \
-  {Publish the current game as a new chapter of one of your Lichess studies}
-translate S LichessStudyTitle {Publish to Lichess study}
-translate S LichessStudyToPublish {To publish: %s (one chapter per game)}
+menuText S ToolsPublishLichessStudy "Publicar el juego actual en Lichess Estudio..." 0 \
+  {Publica el juego actual como un nuevo capítulo de uno de tus estudios Lichess.}
+translate S LichessStudyTitle {Publicar en el estudio Lichess}
+translate S LichessStudyToPublish {Para publicar: %s (un capítulo por juego)}
 translate S LichessStudyToken {Lichess token:}
-translate S LichessStudyCreateToken {Create a token (scopes study:read and study:write)}
-translate S LichessStudySearch {Search study:}
-translate S LichessStudyChapterSettings {Chapter settings}
-translate S LichessStudyOrientation {Orientation:}
-translate S LichessStudyOrientationAuto {Automatic}
-translate S LichessStudyAnalysisMode {Analysis mode:}
-translate S LichessStudyModeNormal {Normal analysis}
-translate S LichessStudyModeConceal {Hide next moves}
-translate S LichessStudyModePractice {Practice with computer}
-translate S LichessStudyModeGamebook {Interactive lesson}
-translate S LichessStudyCreateNew {Or create a new study}
-translate S LichessStudyName {Name:}
-translate S LichessStudyVisibility {Visibility:}
-translate S LichessStudyVisPrivate {Private}
-translate S LichessStudyVisUnlisted {Unlisted}
-translate S LichessStudyVisPublic {Public}
-translate S LichessStudyCreateAndPublish {Create and publish}
-translate S LichessStudyAddByLink {Study you contribute to (link):}
-translate S LichessStudyUnnamed {Study %s}
-translate S LichessStudyAddButton {Add}
-translate S LichessStudyReload {Reload list}
-translate S LichessStudyPublishButton {Publish}
-translate S LichessStudyPublishGames {Publish to Lichess study (%s)...}
-translate S LichessStudyAddedByLink {added by link}
+translate S LichessStudyCreateToken {Crear un token (ámbitos study:read y study:write)}
+translate S LichessStudySearch {Estudio de búsqueda:}
+translate S LichessStudyChapterSettings {Configuración del capítulo}
+translate S LichessStudyOrientation {Orientación:}
+translate S LichessStudyOrientationAuto {Automático}
+translate S LichessStudyAnalysisMode {Modo de análisis:}
+translate S LichessStudyModeNormal {análisis normal}
+translate S LichessStudyModeConceal {Ocultar próximos movimientos}
+translate S LichessStudyModePractice {Practica con la computadora}
+translate S LichessStudyModeGamebook {Lección interactiva}
+translate S LichessStudyCreateNew {O crear un nuevo estudio}
+translate S LichessStudyName {Nombre:}
+translate S LichessStudyVisibility {Visibilidad:}
+translate S LichessStudyVisPrivate {Privado}
+translate S LichessStudyVisUnlisted {No estante en la lista}
+translate S LichessStudyVisPublic {Público}
+translate S LichessStudyCreateAndPublish {Crear y publicar}
+translate S LichessStudyAddByLink {Estudio al que contribuye (enlace):}
+translate S LichessStudyUnnamed {Estudio %s}
+translate S LichessStudyAddButton {Agregar}
+translate S LichessStudyReload {recargar lista}
+translate S LichessStudyPublishButton {Publicar}
+translate S LichessStudyPublishGames {Publicar en el estudio Lichess (%s)...}
+translate S LichessStudyAddedByLink {añadido por enlace}
 
-translate S LichessStudyNeedToken {Paste your Lichess token and press "Save".}
-translate S LichessStudyLoading {Loading your studies...}
-translate S LichessStudyAccountStatus {Account %s: %s studies. Pick one and press "Publish".}
-translate S LichessStudyTokenInvalid {The token contains invalid characters: copy it again from Lichess.}
-translate S LichessStudySaveTokenFirst {Save your Lichess token first.}
-translate S LichessStudyChecking {Checking study %s...}
-translate S LichessStudyPickStudy {Pick a study from the list first.}
-translate S LichessStudyAddLinkPrompt {Paste the link of a study, e.g. https://lichess.org/study/AbCd1234}
-translate S LichessStudyNameLength {The study name must be 2 to 100 characters long.}
-translate S LichessStudyCreating {Creating study "%s"...}
-translate S LichessStudyCreateFailed {Could not create the study "%s": %s\n\nNothing was published.}
-translate S LichessStudyDbClosed {The database is no longer open.}
-translate S LichessStudyTooManyGames {You selected %s games, but a Lichess study holds at most %s chapters.}
-translate S LichessStudyNoGame {There is no game on the board.\n\nTo publish games from a database, select them in the Game List and use the right-click menu.}
-translate S LichessStudyNoUsername {Cannot read the username from the Lichess answer.}
-translate S LichessStudyCurlNotFound {curl not found: it is needed to talk to Lichess.}
-translate S LichessStudyGameNotFound {Game %s not found in the database.}
-translate S LichessStudyCannotRead {Cannot read game %s: %s}
+translate S LichessStudyNeedToken {Pega tu token Lichess y presiona "Guardar".}
+translate S LichessStudyLoading {Cargando tus estudios...}
+translate S LichessStudyAccountStatus {Cuenta %s: %s estudios. Elija uno y presione "Publicar".}
+translate S LichessStudyTokenInvalid {El token contiene caracteres no válidos: cópielo nuevamente desde Lichess.}
+translate S LichessStudySaveTokenFirst {Guarde su token Lichess primero.}
+translate S LichessStudyChecking {Comprobando estudio %s...}
+translate S LichessStudyPickStudy {Elija primero un estudio de la lista.}
+translate S LichessStudyAddLinkPrompt {Pegue el enlace de un estudio, p.e. https://lichess.org/study/AbCd1234}
+translate S LichessStudyNameLength {El nombre del estudio debe tener entre 2 y 100 caracteres.}
+translate S LichessStudyCreating {Creando estudio "%s"...}
+translate S LichessStudyCreateFailed {No se pudo crear el estudio "%s": %s\n\nNo se publicó nada.}
+translate S LichessStudyDbClosed {La base de datos ya no está abierta.}
+translate S LichessStudyTooManyGames {Seleccionaste %s juegos, pero un estudio Lichess contiene como máximo %s capítulos.}
+translate S LichessStudyNoGame {No hay ningún juego en el tablero.\n\nPara publicar juegos desde una base de datos, selecciónelos en la Lista de juegos y use el menú contextual.}
+translate S LichessStudyNoUsername {No se puede leer el nombre de usuario de la respuesta Lichess.}
+translate S LichessStudyCurlNotFound {curl no encontrado: es necesario hablar con Lichess.}
+translate S LichessStudyGameNotFound {Juego %s no encontrado en la base de datos.}
+translate S LichessStudyCannotRead {No se puede leer el juego %s: %s}
 
-translate S LichessStudyFull {the study is full: a Lichess study holds at most %s chapters.}
-translate S LichessStudyNoAnswer {No answer from Lichess: check your internet connection.}
-translate S LichessStudy401 {Invalid or expired token (401).}
-translate S LichessStudy403 {Permission denied (403): the token lacks the study:read/study:write scopes, or you cannot write to this study.}
-translate S LichessStudy404 {Study not found (404), or it is private and you are not a member.}
-translate S LichessStudy429 {Too many requests to Lichess (429): wait a minute and try again.}
+translate S LichessStudyFull {el estudio está completo: un estudio Lichess contiene como máximo %s capítulos.}
+translate S LichessStudyNoAnswer {No hay respuesta de Lichess: verifica tu conexión a Internet.}
+translate S LichessStudy401 {Token no válido o caducado (401).}
+translate S LichessStudy403 {Permiso denegado (403): el token carece de los alcances study:read/study:write o no puede escribir en este estudio.}
+translate S LichessStudy404 {Estudio no encontrado (404), o es privado y no eres miembro.}
+translate S LichessStudy429 {Demasiadas solicitudes a Lichess (429): espera un minuto y vuelve a intentarlo.}
 translate S LichessStudyHttpError {Lichess (HTTP %s): %s}
-translate S LichessStudyUnexpected {Unexpected answer from Lichess (HTTP %s). %s}
-translate S LichessStudyNetworkError {Network error: %s}
+translate S LichessStudyUnexpected {Respuesta inesperada de Lichess (HTTP %s). %s}
+translate S LichessStudyNetworkError {Error de red: %s}
 
-translate S LichessStudyOvfFree {"%s" has only %s free chapters out of %s (the Lichess limit), but you want to publish %s games.}
-translate S LichessStudyOvfFull {"%s" is full: a Lichess study holds at most %s chapters.}
-translate S LichessStudyOvfQuestion {%s\n\nWhat do you want to do?}
-translate S LichessStudyOvfFirst {Publish only the first %s games here (%s will not be published)}
-translate S LichessStudyOvfSplit {Publish the first %s games here and the other %s in a new study}
-translate S LichessStudyOvfAllNew {Publish all %s games in a new study}
-translate S LichessStudyOvfName {New study name:}
+translate S LichessStudyOvfFree {"%s" solo tiene %s capítulos gratuitos de %s (el límite Lichess), pero quieres publicar juegos %s.}
+translate S LichessStudyOvfFull {"%s" está completo: un estudio Lichess contiene como máximo %s capítulos.}
+translate S LichessStudyOvfQuestion {%s\n\n¿Qué quieres hacer?}
+translate S LichessStudyOvfFirst {Publica aquí solo los primeros juegos %s (%s no se publicará)}
+translate S LichessStudyOvfSplit {Publica los primeros juegos %s aquí y los otros %s en un nuevo estudio}
+translate S LichessStudyOvfAllNew {Publicar todos los juegos %s en un nuevo estudio}
+translate S LichessStudyOvfName {Nuevo nombre del estudio:}
 
-translate S LichessStudyCancelled {Publish cancelled: nothing was published.}
-translate S LichessStudyCheckingFree {Checking free chapters in "%s"...}
-translate S LichessStudyPublishing {Publishing %s game(s) to "%s"...}
-translate S LichessStudyGamesNotPublished {Games not published because the study is full: %s.}
-translate S LichessStudyEmptyNew {The new study "%s" was created but holds none of the games (%s).}
-translate S LichessStudyNothingPublished {Nothing was published.%s}
-translate S LichessStudyReport {Created %s of %s chapters (%s).%s\n\nOpen the study in your browser?}
-translate S LichessStudyReportItem {%s in "%s"}
-translate S LichessStudyNoChapters {No chapter was created.%s}
-translate S LichessStudyReports {Lichess reports: %s}
+translate S LichessStudyCancelled {Publicación cancelada: no se publicó nada.}
+translate S LichessStudyCheckingFree {Comprobando capítulos gratuitos en "%s"...}
+translate S LichessStudyPublishing {Publicando juegos de %s en "%s"...}
+translate S LichessStudyGamesNotPublished {Juegos no publicados porque el estudio está completo: %s.}
+translate S LichessStudyEmptyNew {El nuevo estudio "%s" fue creado pero no contiene ninguno de los juegos (%s).}
+translate S LichessStudyNothingPublished {No se publicó nada.%s}
+translate S LichessStudyReport {Creó %s de %s capítulos (%s).%s\n\n¿Abrir el estudio en su navegador?}
+translate S LichessStudyReportItem {%s en "%s"}
+translate S LichessStudyNoChapters {No se creó ningún capítulo.%s}
+translate S LichessStudyReports {Lichess informa: %s}
 
 translate S About {Acerca de}
 translate S Back {Atrás}

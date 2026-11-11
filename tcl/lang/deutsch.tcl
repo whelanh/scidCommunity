@@ -516,7 +516,7 @@ translate D LichessPuzzlesNoNew {Für diese Einstellungen wurden keine neuen Rä
 # Designed by TBergh98 (https://github.com/TBergh98).
 menuText D ToolsPublishLichessStudy "Aktuelles Spiel auf Lichess Study veröffentlichen..." 0 \
   {Veröffentlichen Sie das aktuelle Spiel als neues Kapitel einer Ihrer Lichess-Studien}
-translate D LichessStudyTitle {Publish to Lichess study}
+translate D LichessStudyTitle {In der Studie Lichess veröffentlichen}
 translate D LichessStudyToPublish {Zu veröffentlichen: %s (ein Kapitel pro Spiel)}
 translate D LichessStudyToken {Lichess-Token:}
 translate D LichessStudyCreateToken {Erstellen Sie ein Token (Bereiche „studieren:lesen“ und „studieren:schreiben“)}

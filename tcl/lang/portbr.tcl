@@ -489,83 +489,83 @@ translate B LichessPuzzlesNoNew {Não foram encontrados novos quebra-cabeças pa
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
-menuText B ToolsPublishLichessStudy "Publish Current Game to Lichess Study..." 0 \
-  {Publish the current game as a new chapter of one of your Lichess studies}
-translate B LichessStudyTitle {Publish to Lichess study}
-translate B LichessStudyToPublish {To publish: %s (one chapter per game)}
-translate B LichessStudyToken {Lichess token:}
-translate B LichessStudyCreateToken {Create a token (scopes study:read and study:write)}
-translate B LichessStudySearch {Search study:}
-translate B LichessStudyChapterSettings {Chapter settings}
-translate B LichessStudyOrientation {Orientation:}
-translate B LichessStudyOrientationAuto {Automatic}
-translate B LichessStudyAnalysisMode {Analysis mode:}
-translate B LichessStudyModeNormal {Normal analysis}
-translate B LichessStudyModeConceal {Hide next moves}
-translate B LichessStudyModePractice {Practice with computer}
-translate B LichessStudyModeGamebook {Interactive lesson}
-translate B LichessStudyCreateNew {Or create a new study}
-translate B LichessStudyName {Name:}
-translate B LichessStudyVisibility {Visibility:}
-translate B LichessStudyVisPrivate {Private}
-translate B LichessStudyVisUnlisted {Unlisted}
-translate B LichessStudyVisPublic {Public}
-translate B LichessStudyCreateAndPublish {Create and publish}
-translate B LichessStudyAddByLink {Study you contribute to (link):}
-translate B LichessStudyUnnamed {Study %s}
-translate B LichessStudyAddButton {Add}
-translate B LichessStudyReload {Reload list}
-translate B LichessStudyPublishButton {Publish}
-translate B LichessStudyPublishGames {Publish to Lichess study (%s)...}
-translate B LichessStudyAddedByLink {added by link}
+menuText B ToolsPublishLichessStudy "Publicar o jogo atual para Lichess Estudar..." 0 \
+  {Publique o jogo atual como um novo capítulo de um de seus estudos Lichess}
+translate B LichessStudyTitle {Publicar no estudo Lichess}
+translate B LichessStudyToPublish {Para publicar: %s (um capítulo por jogo)}
+translate B LichessStudyToken {Token Lichess:}
+translate B LichessStudyCreateToken {Crie um token (escopos study:read e study:write)}
+translate B LichessStudySearch {Estudo de pesquisa:}
+translate B LichessStudyChapterSettings {Configurações do capítulo}
+translate B LichessStudyOrientation {Orientação:}
+translate B LichessStudyOrientationAuto {Automático}
+translate B LichessStudyAnalysisMode {Modo de análise:}
+translate B LichessStudyModeNormal {Análise normal}
+translate B LichessStudyModeConceal {Ocultar próximos movimentos}
+translate B LichessStudyModePractice {Pratique com computador}
+translate B LichessStudyModeGamebook {Lição interativa}
+translate B LichessStudyCreateNew {Ou crie um novo estudo}
+translate B LichessStudyName {Nome:}
+translate B LichessStudyVisibility {Visibilidade:}
+translate B LichessStudyVisPrivate {Privado}
+translate B LichessStudyVisUnlisted {Não listado}
+translate B LichessStudyVisPublic {Público}
+translate B LichessStudyCreateAndPublish {Criar e publicar}
+translate B LichessStudyAddByLink {Estudo para o qual você contribui (link):}
+translate B LichessStudyUnnamed {Estude %s}
+translate B LichessStudyAddButton {Adicionar}
+translate B LichessStudyReload {Recarregar lista}
+translate B LichessStudyPublishButton {Publicar}
+translate B LichessStudyPublishGames {Publicar no estudo Lichess (%s)...}
+translate B LichessStudyAddedByLink {adicionado por link}
 
-translate B LichessStudyNeedToken {Paste your Lichess token and press "Save".}
-translate B LichessStudyLoading {Loading your studies...}
-translate B LichessStudyAccountStatus {Account %s: %s studies. Pick one and press "Publish".}
-translate B LichessStudyTokenInvalid {The token contains invalid characters: copy it again from Lichess.}
-translate B LichessStudySaveTokenFirst {Save your Lichess token first.}
-translate B LichessStudyChecking {Checking study %s...}
-translate B LichessStudyPickStudy {Pick a study from the list first.}
-translate B LichessStudyAddLinkPrompt {Paste the link of a study, e.g. https://lichess.org/study/AbCd1234}
-translate B LichessStudyNameLength {The study name must be 2 to 100 characters long.}
-translate B LichessStudyCreating {Creating study "%s"...}
-translate B LichessStudyCreateFailed {Could not create the study "%s": %s\n\nNothing was published.}
-translate B LichessStudyDbClosed {The database is no longer open.}
-translate B LichessStudyTooManyGames {You selected %s games, but a Lichess study holds at most %s chapters.}
-translate B LichessStudyNoGame {There is no game on the board.\n\nTo publish games from a database, select them in the Game List and use the right-click menu.}
-translate B LichessStudyNoUsername {Cannot read the username from the Lichess answer.}
-translate B LichessStudyCurlNotFound {curl not found: it is needed to talk to Lichess.}
-translate B LichessStudyGameNotFound {Game %s not found in the database.}
-translate B LichessStudyCannotRead {Cannot read game %s: %s}
+translate B LichessStudyNeedToken {Cole seu token Lichess e pressione "Salvar".}
+translate B LichessStudyLoading {Carregando seus estudos...}
+translate B LichessStudyAccountStatus {Conta %s: %s estudos. Escolha um e pressione “Publicar”.}
+translate B LichessStudyTokenInvalid {O token contém caracteres inválidos: copie-o novamente de Lichess.}
+translate B LichessStudySaveTokenFirst {Salve seu token Lichess primeiro.}
+translate B LichessStudyChecking {Verificando estudo %s...}
+translate B LichessStudyPickStudy {Escolha primeiro um estudo da lista.}
+translate B LichessStudyAddLinkPrompt {Cole o link de um estudo, por ex. https://lichess.org/study/AbCd1234}
+translate B LichessStudyNameLength {O nome do estudo deve ter de 2 a 100 caracteres.}
+translate B LichessStudyCreating {Criando estudo "%s"...}
+translate B LichessStudyCreateFailed {Não foi possível criar o estudo "%s": %s\n\nNada foi publicado.}
+translate B LichessStudyDbClosed {O banco de dados não está mais aberto.}
+translate B LichessStudyTooManyGames {Você selecionou %s jogos, mas um estudo Lichess contém no máximo %s capítulos.}
+translate B LichessStudyNoGame {Não há jogo no tabuleiro.\n\nPara publicar jogos de um banco de dados, selecione-os na Lista de Jogos e use o menu do botão direito.}
+translate B LichessStudyNoUsername {Não é possível ler o nome de usuário da resposta Lichess.}
+translate B LichessStudyCurlNotFound {curl não encontrado: é necessário falar com Lichess.}
+translate B LichessStudyGameNotFound {Jogo %s não encontrado no banco de dados.}
+translate B LichessStudyCannotRead {Não é possível ler o jogo %s: %s}
 
-translate B LichessStudyFull {the study is full: a Lichess study holds at most %s chapters.}
-translate B LichessStudyNoAnswer {No answer from Lichess: check your internet connection.}
-translate B LichessStudy401 {Invalid or expired token (401).}
-translate B LichessStudy403 {Permission denied (403): the token lacks the study:read/study:write scopes, or you cannot write to this study.}
-translate B LichessStudy404 {Study not found (404), or it is private and you are not a member.}
-translate B LichessStudy429 {Too many requests to Lichess (429): wait a minute and try again.}
+translate B LichessStudyFull {o estudo está completo: um estudo Lichess contém no máximo %s capítulos.}
+translate B LichessStudyNoAnswer {Nenhuma resposta de Lichess: verifique sua conexão com a internet.}
+translate B LichessStudy401 {Token inválido ou expirado (401).}
+translate B LichessStudy403 {Permissão negada (403): o token não possui os escopos study:read/study:write ou você não pode gravar neste estudo.}
+translate B LichessStudy404 {Estudo não encontrado (404), ou é privado e você não é membro.}
+translate B LichessStudy429 {Muitas solicitações para Lichess (429): espere um minuto e tente novamente.}
 translate B LichessStudyHttpError {Lichess (HTTP %s): %s}
-translate B LichessStudyUnexpected {Unexpected answer from Lichess (HTTP %s). %s}
-translate B LichessStudyNetworkError {Network error: %s}
+translate B LichessStudyUnexpected {Resposta inesperada de Lichess (HTTP %s). %s}
+translate B LichessStudyNetworkError {Erro de rede: %s}
 
-translate B LichessStudyOvfFree {"%s" has only %s free chapters out of %s (the Lichess limit), but you want to publish %s games.}
-translate B LichessStudyOvfFull {"%s" is full: a Lichess study holds at most %s chapters.}
-translate B LichessStudyOvfQuestion {%s\n\nWhat do you want to do?}
-translate B LichessStudyOvfFirst {Publish only the first %s games here (%s will not be published)}
-translate B LichessStudyOvfSplit {Publish the first %s games here and the other %s in a new study}
-translate B LichessStudyOvfAllNew {Publish all %s games in a new study}
-translate B LichessStudyOvfName {New study name:}
+translate B LichessStudyOvfFree {"%s" tem apenas %s capítulos gratuitos de %s (o limite Lichess), mas você deseja publicar jogos %s.}
+translate B LichessStudyOvfFull {"%s" está cheio: um estudo Lichess contém no máximo %s capítulos.}
+translate B LichessStudyOvfQuestion {%s\n\nO que você quer fazer?}
+translate B LichessStudyOvfFirst {Publique apenas os primeiros %s jogos aqui (%s não serão publicados)}
+translate B LichessStudyOvfSplit {Publique os primeiros jogos %s aqui e os outros %s em um novo estudo}
+translate B LichessStudyOvfAllNew {Publique todos os jogos %s em um novo estudo}
+translate B LichessStudyOvfName {Novo nome do estudo:}
 
-translate B LichessStudyCancelled {Publish cancelled: nothing was published.}
-translate B LichessStudyCheckingFree {Checking free chapters in "%s"...}
-translate B LichessStudyPublishing {Publishing %s game(s) to "%s"...}
-translate B LichessStudyGamesNotPublished {Games not published because the study is full: %s.}
-translate B LichessStudyEmptyNew {The new study "%s" was created but holds none of the games (%s).}
-translate B LichessStudyNothingPublished {Nothing was published.%s}
-translate B LichessStudyReport {Created %s of %s chapters (%s).%s\n\nOpen the study in your browser?}
-translate B LichessStudyReportItem {%s in "%s"}
-translate B LichessStudyNoChapters {No chapter was created.%s}
-translate B LichessStudyReports {Lichess reports: %s}
+translate B LichessStudyCancelled {Publicação cancelada: nada foi publicado.}
+translate B LichessStudyCheckingFree {Verificando capítulos gratuitos em "%s"...}
+translate B LichessStudyPublishing {Publicando jogo(s) %s em "%s"...}
+translate B LichessStudyGamesNotPublished {Jogos não publicados porque o estudo está completo: %s.}
+translate B LichessStudyEmptyNew {O novo estudo "%s" foi criado, mas não contém nenhum dos jogos (%s).}
+translate B LichessStudyNothingPublished {Nada foi publicado.%s}
+translate B LichessStudyReport {Criado %s de %s capítulos (%s).%s\n\nAbrir o estudo no seu navegador?}
+translate B LichessStudyReportItem {%s em "%s"}
+translate B LichessStudyNoChapters {Nenhum capítulo foi criado.%s}
+translate B LichessStudyReports {Lichess relatórios: %s}
 
 translate B About {Sobre}
 translate B Back {Voltar}

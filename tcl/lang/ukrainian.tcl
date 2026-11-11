@@ -481,83 +481,83 @@ translate Q LichessPuzzlesNoNew {Для цих налаштувань не зн�
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
-menuText Q ToolsPublishLichessStudy "Publish Current Game to Lichess Study..." 0 \
-  {Publish the current game as a new chapter of one of your Lichess studies}
-translate Q LichessStudyTitle {Publish to Lichess study}
-translate Q LichessStudyToPublish {To publish: %s (one chapter per game)}
-translate Q LichessStudyToken {Lichess token:}
-translate Q LichessStudyCreateToken {Create a token (scopes study:read and study:write)}
-translate Q LichessStudySearch {Search study:}
-translate Q LichessStudyChapterSettings {Chapter settings}
-translate Q LichessStudyOrientation {Orientation:}
-translate Q LichessStudyOrientationAuto {Automatic}
-translate Q LichessStudyAnalysisMode {Analysis mode:}
-translate Q LichessStudyModeNormal {Normal analysis}
-translate Q LichessStudyModeConceal {Hide next moves}
-translate Q LichessStudyModePractice {Practice with computer}
-translate Q LichessStudyModeGamebook {Interactive lesson}
-translate Q LichessStudyCreateNew {Or create a new study}
-translate Q LichessStudyName {Name:}
-translate Q LichessStudyVisibility {Visibility:}
-translate Q LichessStudyVisPrivate {Private}
-translate Q LichessStudyVisUnlisted {Unlisted}
-translate Q LichessStudyVisPublic {Public}
-translate Q LichessStudyCreateAndPublish {Create and publish}
-translate Q LichessStudyAddByLink {Study you contribute to (link):}
-translate Q LichessStudyUnnamed {Study %s}
-translate Q LichessStudyAddButton {Add}
-translate Q LichessStudyReload {Reload list}
-translate Q LichessStudyPublishButton {Publish}
-translate Q LichessStudyPublishGames {Publish to Lichess study (%s)...}
-translate Q LichessStudyAddedByLink {added by link}
+menuText Q ToolsPublishLichessStudy "Опублікувати поточну гру для Lichess вивчення..." 0 \
+  {Опублікуйте поточну гру як новий розділ одного з ваших Lichess досліджень}
+translate Q LichessStudyTitle {Опублікувати в дослідженні Lichess.}
+translate Q LichessStudyToPublish {Для публікації: %s (один розділ на гру)}
+translate Q LichessStudyToken {Lichess маркер:}
+translate Q LichessStudyCreateToken {Створіть маркер (області study:read і study:write)}
+translate Q LichessStudySearch {Пошукове дослідження:}
+translate Q LichessStudyChapterSettings {Параметри глави}
+translate Q LichessStudyOrientation {Орієнтація:}
+translate Q LichessStudyOrientationAuto {Автоматичний}
+translate Q LichessStudyAnalysisMode {Режим аналізу:}
+translate Q LichessStudyModeNormal {Нормальний аналіз}
+translate Q LichessStudyModeConceal {Приховати наступні ходи}
+translate Q LichessStudyModePractice {Практика з комп'ютером}
+translate Q LichessStudyModeGamebook {Інтерактивний урок}
+translate Q LichessStudyCreateNew {Або створіть нове дослідження}
+translate Q LichessStudyName {Ім'я:}
+translate Q LichessStudyVisibility {Видимість:}
+translate Q LichessStudyVisPrivate {Приватний}
+translate Q LichessStudyVisUnlisted {Не в списку}
+translate Q LichessStudyVisPublic {Громадський}
+translate Q LichessStudyCreateAndPublish {Створіть і опублікуйте}
+translate Q LichessStudyAddByLink {Дослідження, в якому ви берете участь (посилання):}
+translate Q LichessStudyUnnamed {Дослідження %s}
+translate Q LichessStudyAddButton {додати}
+translate Q LichessStudyReload {Оновити список}
+translate Q LichessStudyPublishButton {Опублікувати}
+translate Q LichessStudyPublishGames {Опублікувати в Lichess дослідженні (%s)...}
+translate Q LichessStudyAddedByLink {додано за посиланням}
 
-translate Q LichessStudyNeedToken {Paste your Lichess token and press "Save".}
-translate Q LichessStudyLoading {Loading your studies...}
-translate Q LichessStudyAccountStatus {Account %s: %s studies. Pick one and press "Publish".}
-translate Q LichessStudyTokenInvalid {The token contains invalid characters: copy it again from Lichess.}
-translate Q LichessStudySaveTokenFirst {Save your Lichess token first.}
-translate Q LichessStudyChecking {Checking study %s...}
-translate Q LichessStudyPickStudy {Pick a study from the list first.}
-translate Q LichessStudyAddLinkPrompt {Paste the link of a study, e.g. https://lichess.org/study/AbCd1234}
-translate Q LichessStudyNameLength {The study name must be 2 to 100 characters long.}
-translate Q LichessStudyCreating {Creating study "%s"...}
-translate Q LichessStudyCreateFailed {Could not create the study "%s": %s\n\nNothing was published.}
-translate Q LichessStudyDbClosed {The database is no longer open.}
-translate Q LichessStudyTooManyGames {You selected %s games, but a Lichess study holds at most %s chapters.}
-translate Q LichessStudyNoGame {There is no game on the board.\n\nTo publish games from a database, select them in the Game List and use the right-click menu.}
-translate Q LichessStudyNoUsername {Cannot read the username from the Lichess answer.}
-translate Q LichessStudyCurlNotFound {curl not found: it is needed to talk to Lichess.}
-translate Q LichessStudyGameNotFound {Game %s not found in the database.}
-translate Q LichessStudyCannotRead {Cannot read game %s: %s}
+translate Q LichessStudyNeedToken {Вставте свій маркер Lichess і натисніть «Зберегти».}
+translate Q LichessStudyLoading {Завантаження ваших досліджень...}
+translate Q LichessStudyAccountStatus {Обліковий запис %s: дослідження %s. Виберіть один і натисніть «Опублікувати».}
+translate Q LichessStudyTokenInvalid {Маркер містить недійсні символи: скопіюйте його знову з Lichess.}
+translate Q LichessStudySaveTokenFirst {Спочатку збережіть свій маркер Lichess.}
+translate Q LichessStudyChecking {Перевірка дослідження %s...}
+translate Q LichessStudyPickStudy {Спочатку виберіть дослідження зі списку.}
+translate Q LichessStudyAddLinkPrompt {Вставте посилання на дослідження, напр. https://lichess.org/study/AbCd1234}
+translate Q LichessStudyNameLength {Назва дослідження має містити від 2 до 100 символів.}
+translate Q LichessStudyCreating {Створення дослідження "%s"...}
+translate Q LichessStudyCreateFailed {Не вдалося створити дослідження "%s": %s\n\nНічого не опубліковано.}
+translate Q LichessStudyDbClosed {База даних більше не відкрита.}
+translate Q LichessStudyTooManyGames {Ви вибрали %s ігор, але Lichess дослідження містить щонайбільше %s розділів.}
+translate Q LichessStudyNoGame {На дошці немає жодної гри.\n\nЩоб опублікувати ігри з бази даних, виберіть їх у списку ігор і скористайтеся меню, що відкривається правою кнопкою миші.}
+translate Q LichessStudyNoUsername {Неможливо прочитати ім’я користувача з відповіді Lichess.}
+translate Q LichessStudyCurlNotFound {curl не знайдено: потрібно поговорити з Lichess.}
+translate Q LichessStudyGameNotFound {Гра %s не знайдена в базі даних.}
+translate Q LichessStudyCannotRead {Неможливо прочитати гру %s: %s}
 
-translate Q LichessStudyFull {the study is full: a Lichess study holds at most %s chapters.}
-translate Q LichessStudyNoAnswer {No answer from Lichess: check your internet connection.}
-translate Q LichessStudy401 {Invalid or expired token (401).}
-translate Q LichessStudy403 {Permission denied (403): the token lacks the study:read/study:write scopes, or you cannot write to this study.}
-translate Q LichessStudy404 {Study not found (404), or it is private and you are not a member.}
-translate Q LichessStudy429 {Too many requests to Lichess (429): wait a minute and try again.}
+translate Q LichessStudyFull {дослідження повне: Lichess дослідження містить щонайбільше %s розділів.}
+translate Q LichessStudyNoAnswer {Немає відповіді від Lichess: перевірте підключення до Інтернету.}
+translate Q LichessStudy401 {Недійсний або прострочений маркер (401).}
+translate Q LichessStudy403 {У дозволі відмовлено (403): токен не має областей study:read/study:write, або ви не можете писати в це дослідження.}
+translate Q LichessStudy404 {Дослідження не знайдено (404), або воно приватне, і ви не є учасником.}
+translate Q LichessStudy429 {Забагато запитів до Lichess (429): зачекайте хвилину та повторіть спробу.}
 translate Q LichessStudyHttpError {Lichess (HTTP %s): %s}
-translate Q LichessStudyUnexpected {Unexpected answer from Lichess (HTTP %s). %s}
-translate Q LichessStudyNetworkError {Network error: %s}
+translate Q LichessStudyUnexpected {Неочікувана відповідь від Lichess (HTTP %s). %s}
+translate Q LichessStudyNetworkError {Помилка мережі: %s}
 
-translate Q LichessStudyOvfFree {"%s" has only %s free chapters out of %s (the Lichess limit), but you want to publish %s games.}
-translate Q LichessStudyOvfFull {"%s" is full: a Lichess study holds at most %s chapters.}
-translate Q LichessStudyOvfQuestion {%s\n\nWhat do you want to do?}
-translate Q LichessStudyOvfFirst {Publish only the first %s games here (%s will not be published)}
-translate Q LichessStudyOvfSplit {Publish the first %s games here and the other %s in a new study}
-translate Q LichessStudyOvfAllNew {Publish all %s games in a new study}
-translate Q LichessStudyOvfName {New study name:}
+translate Q LichessStudyOvfFree {"%s" містить лише %s безкоштовних розділів із %s (ліміт Lichess), але ви хочете опублікувати %s ігри.}
+translate Q LichessStudyOvfFull {"%s" заповнено: Lichess дослідження містить щонайбільше %s розділів.}
+translate Q LichessStudyOvfQuestion {%s\n\nЩо ви хочете зробити?}
+translate Q LichessStudyOvfFirst {Опублікувати тут лише перші %s ігри (%s не буде опубліковано)}
+translate Q LichessStudyOvfSplit {Опублікуйте перші %s ігри тут та інші %s у новому дослідженні}
+translate Q LichessStudyOvfAllNew {Опублікувати всі %s ігри в новому дослідженні}
+translate Q LichessStudyOvfName {Нова назва дослідження:}
 
-translate Q LichessStudyCancelled {Publish cancelled: nothing was published.}
-translate Q LichessStudyCheckingFree {Checking free chapters in "%s"...}
-translate Q LichessStudyPublishing {Publishing %s game(s) to "%s"...}
-translate Q LichessStudyGamesNotPublished {Games not published because the study is full: %s.}
-translate Q LichessStudyEmptyNew {The new study "%s" was created but holds none of the games (%s).}
-translate Q LichessStudyNothingPublished {Nothing was published.%s}
-translate Q LichessStudyReport {Created %s of %s chapters (%s).%s\n\nOpen the study in your browser?}
-translate Q LichessStudyReportItem {%s in "%s"}
-translate Q LichessStudyNoChapters {No chapter was created.%s}
-translate Q LichessStudyReports {Lichess reports: %s}
+translate Q LichessStudyCancelled {Публікацію скасовано: нічого не опубліковано.}
+translate Q LichessStudyCheckingFree {Перевірка вільних розділів у "%s"...}
+translate Q LichessStudyPublishing {Публікація %s гри в "%s"...}
+translate Q LichessStudyGamesNotPublished {Ігри не опубліковано, оскільки дослідження заповнено: %s.}
+translate Q LichessStudyEmptyNew {Нове дослідження "%s" було створено, але не містить жодної з ігор (%s).}
+translate Q LichessStudyNothingPublished {Нічого не було опубліковано.%s}
+translate Q LichessStudyReport {Створено %s з %s розділів (%s).%s\n\nВідкрити дослідження у своєму браузері?}
+translate Q LichessStudyReportItem {%s в "%s"}
+translate Q LichessStudyNoChapters {Жоден розділ не створено.%s}
+translate Q LichessStudyReports {Lichess повідомляє: %s}
 
 translate Q About {про}
 translate Q Back {Назад}

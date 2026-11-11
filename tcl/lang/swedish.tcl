@@ -491,83 +491,83 @@ translate W LichessPuzzlesNoNew {Inga nya pussel hittades för dessa inställnin
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
-menuText W ToolsPublishLichessStudy "Publish Current Game to Lichess Study..." 0 \
-  {Publish the current game as a new chapter of one of your Lichess studies}
-translate W LichessStudyTitle {Publish to Lichess study}
-translate W LichessStudyToPublish {To publish: %s (one chapter per game)}
+menuText W ToolsPublishLichessStudy "Publicera aktuellt spel till Lichess Study..." 0 \
+  {Publicera det aktuella spelet som ett nytt kapitel i en av dina Lichess studier}
+translate W LichessStudyTitle {Publicera till Lichess studie}
+translate W LichessStudyToPublish {För att publicera: %s (ett kapitel per spel)}
 translate W LichessStudyToken {Lichess token:}
-translate W LichessStudyCreateToken {Create a token (scopes study:read and study:write)}
-translate W LichessStudySearch {Search study:}
-translate W LichessStudyChapterSettings {Chapter settings}
-translate W LichessStudyOrientation {Orientation:}
-translate W LichessStudyOrientationAuto {Automatic}
-translate W LichessStudyAnalysisMode {Analysis mode:}
-translate W LichessStudyModeNormal {Normal analysis}
-translate W LichessStudyModeConceal {Hide next moves}
-translate W LichessStudyModePractice {Practice with computer}
-translate W LichessStudyModeGamebook {Interactive lesson}
-translate W LichessStudyCreateNew {Or create a new study}
-translate W LichessStudyName {Name:}
-translate W LichessStudyVisibility {Visibility:}
-translate W LichessStudyVisPrivate {Private}
-translate W LichessStudyVisUnlisted {Unlisted}
-translate W LichessStudyVisPublic {Public}
-translate W LichessStudyCreateAndPublish {Create and publish}
-translate W LichessStudyAddByLink {Study you contribute to (link):}
-translate W LichessStudyUnnamed {Study %s}
-translate W LichessStudyAddButton {Add}
-translate W LichessStudyReload {Reload list}
-translate W LichessStudyPublishButton {Publish}
-translate W LichessStudyPublishGames {Publish to Lichess study (%s)...}
-translate W LichessStudyAddedByLink {added by link}
+translate W LichessStudyCreateToken {Skapa en token (omfång study:read och study:write)}
+translate W LichessStudySearch {Sök studie:}
+translate W LichessStudyChapterSettings {Kapitelinställningar}
+translate W LichessStudyOrientation {Orientering:}
+translate W LichessStudyOrientationAuto {Automatisk}
+translate W LichessStudyAnalysisMode {Analysläge:}
+translate W LichessStudyModeNormal {Normal analys}
+translate W LichessStudyModeConceal {Dölj nästa drag}
+translate W LichessStudyModePractice {Träna med dator}
+translate W LichessStudyModeGamebook {Interaktiv lektion}
+translate W LichessStudyCreateNew {Eller skapa en ny studie}
+translate W LichessStudyName {Namn:}
+translate W LichessStudyVisibility {Synlighet:}
+translate W LichessStudyVisPrivate {Privat}
+translate W LichessStudyVisUnlisted {Onoterat}
+translate W LichessStudyVisPublic {Offentlig}
+translate W LichessStudyCreateAndPublish {Skapa och publicera}
+translate W LichessStudyAddByLink {Studie du bidrar till (länk):}
+translate W LichessStudyUnnamed {Studera %s}
+translate W LichessStudyAddButton {Tillägga}
+translate W LichessStudyReload {Ladda om listan}
+translate W LichessStudyPublishButton {Publicera}
+translate W LichessStudyPublishGames {Publicera till Lichess studie (%s)...}
+translate W LichessStudyAddedByLink {läggs till via länk}
 
-translate W LichessStudyNeedToken {Paste your Lichess token and press "Save".}
-translate W LichessStudyLoading {Loading your studies...}
-translate W LichessStudyAccountStatus {Account %s: %s studies. Pick one and press "Publish".}
-translate W LichessStudyTokenInvalid {The token contains invalid characters: copy it again from Lichess.}
-translate W LichessStudySaveTokenFirst {Save your Lichess token first.}
-translate W LichessStudyChecking {Checking study %s...}
-translate W LichessStudyPickStudy {Pick a study from the list first.}
-translate W LichessStudyAddLinkPrompt {Paste the link of a study, e.g. https://lichess.org/study/AbCd1234}
-translate W LichessStudyNameLength {The study name must be 2 to 100 characters long.}
-translate W LichessStudyCreating {Creating study "%s"...}
-translate W LichessStudyCreateFailed {Could not create the study "%s": %s\n\nNothing was published.}
-translate W LichessStudyDbClosed {The database is no longer open.}
-translate W LichessStudyTooManyGames {You selected %s games, but a Lichess study holds at most %s chapters.}
-translate W LichessStudyNoGame {There is no game on the board.\n\nTo publish games from a database, select them in the Game List and use the right-click menu.}
-translate W LichessStudyNoUsername {Cannot read the username from the Lichess answer.}
-translate W LichessStudyCurlNotFound {curl not found: it is needed to talk to Lichess.}
-translate W LichessStudyGameNotFound {Game %s not found in the database.}
-translate W LichessStudyCannotRead {Cannot read game %s: %s}
+translate W LichessStudyNeedToken {Klistra in din Lichess token och tryck på "Spara".}
+translate W LichessStudyLoading {Laddar dina studier...}
+translate W LichessStudyAccountStatus {Konto %s: %s studier. Välj en och tryck på "Publicera".}
+translate W LichessStudyTokenInvalid {Tokenen innehåller ogiltiga tecken: kopiera den igen från Lichess.}
+translate W LichessStudySaveTokenFirst {Spara din Lichess token först.}
+translate W LichessStudyChecking {Kontrollerar studien %s...}
+translate W LichessStudyPickStudy {Välj först en studie från listan.}
+translate W LichessStudyAddLinkPrompt {Klistra in länken till en studie, t.ex. https://lichess.org/study/AbCd1234}
+translate W LichessStudyNameLength {Studiens namn måste vara 2 till 100 tecken långt.}
+translate W LichessStudyCreating {Skapar studien "%s"...}
+translate W LichessStudyCreateFailed {Det gick inte att skapa studien "%s": %s\n\nInget publicerades.}
+translate W LichessStudyDbClosed {Databasen är inte längre öppen.}
+translate W LichessStudyTooManyGames {Du valde %s spel, men en Lichess studie innehåller högst %s kapitel.}
+translate W LichessStudyNoGame {Det finns inget spel på spelplanen.\n\nFör att publicera spel från en databas, välj dem i spellistan och använd högerklicksmenyn.}
+translate W LichessStudyNoUsername {Kan inte läsa användarnamnet från Lichess svaret.}
+translate W LichessStudyCurlNotFound {curl hittades inte: det behövs för att prata med Lichess.}
+translate W LichessStudyGameNotFound {Spelet %s hittades inte i databasen.}
+translate W LichessStudyCannotRead {Kan inte läsa spelet %s: %s}
 
-translate W LichessStudyFull {the study is full: a Lichess study holds at most %s chapters.}
-translate W LichessStudyNoAnswer {No answer from Lichess: check your internet connection.}
-translate W LichessStudy401 {Invalid or expired token (401).}
-translate W LichessStudy403 {Permission denied (403): the token lacks the study:read/study:write scopes, or you cannot write to this study.}
-translate W LichessStudy404 {Study not found (404), or it is private and you are not a member.}
-translate W LichessStudy429 {Too many requests to Lichess (429): wait a minute and try again.}
+translate W LichessStudyFull {studien är full: en Lichess studie innehåller högst %s kapitel.}
+translate W LichessStudyNoAnswer {Inget svar från Lichess: kontrollera din internetanslutning.}
+translate W LichessStudy401 {Ogiltig eller utgången token (401).}
+translate W LichessStudy403 {Tillstånd nekad (403): token saknar study:read/study:write omfång, eller så kan du inte skriva till denna studie.}
+translate W LichessStudy404 {Studien hittades inte (404), eller så är den privat och du är inte medlem.}
+translate W LichessStudy429 {För många förfrågningar till Lichess (429): vänta en minut och försök igen.}
 translate W LichessStudyHttpError {Lichess (HTTP %s): %s}
-translate W LichessStudyUnexpected {Unexpected answer from Lichess (HTTP %s). %s}
-translate W LichessStudyNetworkError {Network error: %s}
+translate W LichessStudyUnexpected {Oväntat svar från Lichess (HTTP %s). %s}
+translate W LichessStudyNetworkError {Nätverksfel: %s}
 
-translate W LichessStudyOvfFree {"%s" has only %s free chapters out of %s (the Lichess limit), but you want to publish %s games.}
-translate W LichessStudyOvfFull {"%s" is full: a Lichess study holds at most %s chapters.}
-translate W LichessStudyOvfQuestion {%s\n\nWhat do you want to do?}
-translate W LichessStudyOvfFirst {Publish only the first %s games here (%s will not be published)}
-translate W LichessStudyOvfSplit {Publish the first %s games here and the other %s in a new study}
-translate W LichessStudyOvfAllNew {Publish all %s games in a new study}
-translate W LichessStudyOvfName {New study name:}
+translate W LichessStudyOvfFree {"%s" har bara %s gratis kapitel av %s (gränsen Lichess), men du vill publicera %s spel.}
+translate W LichessStudyOvfFull {"%s" är fullt: en Lichess studie innehåller högst %s kapitel.}
+translate W LichessStudyOvfQuestion {%s\n\nVad vill du göra?}
+translate W LichessStudyOvfFirst {Publicera endast den första %s spel här (%s kommer inte att publiceras)}
+translate W LichessStudyOvfSplit {Publicera de första %s spelen här och de andra %s i en ny studie}
+translate W LichessStudyOvfAllNew {Publicera alla %s spel i en ny studie}
+translate W LichessStudyOvfName {Nytt studienamn:}
 
-translate W LichessStudyCancelled {Publish cancelled: nothing was published.}
-translate W LichessStudyCheckingFree {Checking free chapters in "%s"...}
-translate W LichessStudyPublishing {Publishing %s game(s) to "%s"...}
-translate W LichessStudyGamesNotPublished {Games not published because the study is full: %s.}
-translate W LichessStudyEmptyNew {The new study "%s" was created but holds none of the games (%s).}
-translate W LichessStudyNothingPublished {Nothing was published.%s}
-translate W LichessStudyReport {Created %s of %s chapters (%s).%s\n\nOpen the study in your browser?}
-translate W LichessStudyReportItem {%s in "%s"}
-translate W LichessStudyNoChapters {No chapter was created.%s}
-translate W LichessStudyReports {Lichess reports: %s}
+translate W LichessStudyCancelled {Publiceringen avbröts: ingenting publicerades.}
+translate W LichessStudyCheckingFree {Kollar gratis kapitel i "%s"...}
+translate W LichessStudyPublishing {Publicerar %s spel till "%s"...}
+translate W LichessStudyGamesNotPublished {Spel inte publicerade eftersom studien är full: %s.}
+translate W LichessStudyEmptyNew {Den nya studien "%s" skapades men innehåller inget av spelen (%s).}
+translate W LichessStudyNothingPublished {Ingenting publicerades.%s}
+translate W LichessStudyReport {Skapat %s av %s kapitel (%s).%s\n\nÖppna studien i din webbläsare?}
+translate W LichessStudyReportItem {%s i "%s"}
+translate W LichessStudyNoChapters {Inget kapitel skapades.%s}
+translate W LichessStudyReports {Lichess rapporter: %s}
 
 translate W About {Om}
 translate W Back {Tillbaka}

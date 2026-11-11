@@ -487,83 +487,83 @@ translate R LichessPuzzlesNoNew {Для этих настроек новых г�
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
-menuText R ToolsPublishLichessStudy "Publish Current Game to Lichess Study..." 0 \
-  {Publish the current game as a new chapter of one of your Lichess studies}
-translate R LichessStudyTitle {Publish to Lichess study}
-translate R LichessStudyToPublish {To publish: %s (one chapter per game)}
-translate R LichessStudyToken {Lichess token:}
-translate R LichessStudyCreateToken {Create a token (scopes study:read and study:write)}
-translate R LichessStudySearch {Search study:}
-translate R LichessStudyChapterSettings {Chapter settings}
-translate R LichessStudyOrientation {Orientation:}
-translate R LichessStudyOrientationAuto {Automatic}
-translate R LichessStudyAnalysisMode {Analysis mode:}
-translate R LichessStudyModeNormal {Normal analysis}
-translate R LichessStudyModeConceal {Hide next moves}
-translate R LichessStudyModePractice {Practice with computer}
-translate R LichessStudyModeGamebook {Interactive lesson}
-translate R LichessStudyCreateNew {Or create a new study}
-translate R LichessStudyName {Name:}
-translate R LichessStudyVisibility {Visibility:}
-translate R LichessStudyVisPrivate {Private}
-translate R LichessStudyVisUnlisted {Unlisted}
-translate R LichessStudyVisPublic {Public}
-translate R LichessStudyCreateAndPublish {Create and publish}
-translate R LichessStudyAddByLink {Study you contribute to (link):}
-translate R LichessStudyUnnamed {Study %s}
-translate R LichessStudyAddButton {Add}
-translate R LichessStudyReload {Reload list}
-translate R LichessStudyPublishButton {Publish}
-translate R LichessStudyPublishGames {Publish to Lichess study (%s)...}
-translate R LichessStudyAddedByLink {added by link}
+menuText R ToolsPublishLichessStudy "Опубликовать текущую игру в Lichess Study..." 0 \
+  {Опубликуйте текущую игру как новую главу одного из ваших исследований Lichess}
+translate R LichessStudyTitle {Опубликовать в исследовании Lichess}
+translate R LichessStudyToPublish {Для публикации: %s (по одной главе на игру)}
+translate R LichessStudyToken {Токен Lichess:}
+translate R LichessStudyCreateToken {Создайте токен (области study:read и study:write)}
+translate R LichessStudySearch {Поисковое исследование:}
+translate R LichessStudyChapterSettings {Настройки главы}
+translate R LichessStudyOrientation {Ориентация:}
+translate R LichessStudyOrientationAuto {Автоматический}
+translate R LichessStudyAnalysisMode {Режим анализа:}
+translate R LichessStudyModeNormal {Нормальный анализ}
+translate R LichessStudyModeConceal {Скрыть следующие ходы}
+translate R LichessStudyModePractice {Практика с компьютером}
+translate R LichessStudyModeGamebook {Интерактивный урок}
+translate R LichessStudyCreateNew {Или создайте новое исследование}
+translate R LichessStudyName {Имя:}
+translate R LichessStudyVisibility {Видимость:}
+translate R LichessStudyVisPrivate {Частный}
+translate R LichessStudyVisUnlisted {Частный}
+translate R LichessStudyVisPublic {Общественный}
+translate R LichessStudyCreateAndPublish {Создать и опубликовать}
+translate R LichessStudyAddByLink {Исследование, в котором вы участвуете (ссылка):}
+translate R LichessStudyUnnamed {Исследование %s}
+translate R LichessStudyAddButton {Добавлять}
+translate R LichessStudyReload {Обновить список}
+translate R LichessStudyPublishButton {Публиковать}
+translate R LichessStudyPublishGames {Опубликовать в исследовании Lichess (%s)...}
+translate R LichessStudyAddedByLink {добавлено по ссылке}
 
-translate R LichessStudyNeedToken {Paste your Lichess token and press "Save".}
-translate R LichessStudyLoading {Loading your studies...}
-translate R LichessStudyAccountStatus {Account %s: %s studies. Pick one and press "Publish".}
-translate R LichessStudyTokenInvalid {The token contains invalid characters: copy it again from Lichess.}
-translate R LichessStudySaveTokenFirst {Save your Lichess token first.}
-translate R LichessStudyChecking {Checking study %s...}
-translate R LichessStudyPickStudy {Pick a study from the list first.}
-translate R LichessStudyAddLinkPrompt {Paste the link of a study, e.g. https://lichess.org/study/AbCd1234}
-translate R LichessStudyNameLength {The study name must be 2 to 100 characters long.}
-translate R LichessStudyCreating {Creating study "%s"...}
-translate R LichessStudyCreateFailed {Could not create the study "%s": %s\n\nNothing was published.}
-translate R LichessStudyDbClosed {The database is no longer open.}
-translate R LichessStudyTooManyGames {You selected %s games, but a Lichess study holds at most %s chapters.}
-translate R LichessStudyNoGame {There is no game on the board.\n\nTo publish games from a database, select them in the Game List and use the right-click menu.}
-translate R LichessStudyNoUsername {Cannot read the username from the Lichess answer.}
-translate R LichessStudyCurlNotFound {curl not found: it is needed to talk to Lichess.}
-translate R LichessStudyGameNotFound {Game %s not found in the database.}
-translate R LichessStudyCannotRead {Cannot read game %s: %s}
+translate R LichessStudyNeedToken {Вставьте свой токен Lichess и нажмите «Сохранить».}
+translate R LichessStudyLoading {Загрузка учебы...}
+translate R LichessStudyAccountStatus {Аккаунт %s: исследования %s. Выберите один и нажмите «Опубликовать».}
+translate R LichessStudyTokenInvalid {Токен содержит недопустимые символы: скопируйте его еще раз из Lichess.}
+translate R LichessStudySaveTokenFirst {Сначала сохраните свой токен Lichess.}
+translate R LichessStudyChecking {Проверяем исследование %s...}
+translate R LichessStudyPickStudy {Сначала выберите исследование из списка.}
+translate R LichessStudyAddLinkPrompt {Вставьте ссылку на исследование, например. https://lichess.org/study/AbCd1234}
+translate R LichessStudyNameLength {Название исследования должно содержать от 2 до 100 символов.}
+translate R LichessStudyCreating {Создание исследования "%s"...}
+translate R LichessStudyCreateFailed {Не удалось создать исследование "%s": %s\n\nНичего не опубликовано.}
+translate R LichessStudyDbClosed {База данных больше не открыта.}
+translate R LichessStudyTooManyGames {Вы выбрали %s игр, но исследование Lichess содержит не более %s глав.}
+translate R LichessStudyNoGame {На доске нет игры.\n\nЧтобы опубликовать игры из базы данных, выберите их в Списке игр и воспользуйтесь контекстным меню.}
+translate R LichessStudyNoUsername {Невозможно прочитать имя пользователя из ответа Lichess.}
+translate R LichessStudyCurlNotFound {curl не найден: необходимо поговорить с Lichess.}
+translate R LichessStudyGameNotFound {Игра %s не найдена в базе данных.}
+translate R LichessStudyCannotRead {Не могу прочитать игру %s: %s}
 
-translate R LichessStudyFull {the study is full: a Lichess study holds at most %s chapters.}
-translate R LichessStudyNoAnswer {No answer from Lichess: check your internet connection.}
-translate R LichessStudy401 {Invalid or expired token (401).}
-translate R LichessStudy403 {Permission denied (403): the token lacks the study:read/study:write scopes, or you cannot write to this study.}
-translate R LichessStudy404 {Study not found (404), or it is private and you are not a member.}
-translate R LichessStudy429 {Too many requests to Lichess (429): wait a minute and try again.}
+translate R LichessStudyFull {исследование заполнено: исследование Lichess содержит не более %s глав.}
+translate R LichessStudyNoAnswer {Нет ответа от Lichess: проверьте подключение к Интернету.}
+translate R LichessStudy401 {Недействительный или просроченный токен (401).}
+translate R LichessStudy403 {Разрешение отклонено (403): токену не хватает областей study:read/study:write или вы не можете писать в это исследование.}
+translate R LichessStudy404 {Исследование не найдено (404), или оно является частным, и вы не являетесь его участником.}
+translate R LichessStudy429 {Слишком много запросов к Lichess (429): подождите минуту и ​​повторите попытку.}
 translate R LichessStudyHttpError {Lichess (HTTP %s): %s}
-translate R LichessStudyUnexpected {Unexpected answer from Lichess (HTTP %s). %s}
-translate R LichessStudyNetworkError {Network error: %s}
+translate R LichessStudyUnexpected {Неожиданный ответ от Lichess (HTTP %s). %s}
+translate R LichessStudyNetworkError {Ошибка сети: %s}
 
-translate R LichessStudyOvfFree {"%s" has only %s free chapters out of %s (the Lichess limit), but you want to publish %s games.}
-translate R LichessStudyOvfFull {"%s" is full: a Lichess study holds at most %s chapters.}
-translate R LichessStudyOvfQuestion {%s\n\nWhat do you want to do?}
-translate R LichessStudyOvfFirst {Publish only the first %s games here (%s will not be published)}
-translate R LichessStudyOvfSplit {Publish the first %s games here and the other %s in a new study}
-translate R LichessStudyOvfAllNew {Publish all %s games in a new study}
-translate R LichessStudyOvfName {New study name:}
+translate R LichessStudyOvfFree {«%s» имеет только %s бесплатных глав из %s (лимит Lichess), но вы хотите публиковать %s игр.}
+translate R LichessStudyOvfFull {«%s» заполнено: исследование Lichess содержит не более %s глав.}
+translate R LichessStudyOvfQuestion {%s\n\nЧто ты хочешь сделать?}
+translate R LichessStudyOvfFirst {Публикуйте здесь только первые %s игры (%s публиковаться не будет)}
+translate R LichessStudyOvfSplit {Опубликуйте первые %s игры здесь, а остальные %s в новом исследовании.}
+translate R LichessStudyOvfAllNew {Опубликуйте все игры %s в новом исследовании.}
+translate R LichessStudyOvfName {Новое название исследования:}
 
-translate R LichessStudyCancelled {Publish cancelled: nothing was published.}
-translate R LichessStudyCheckingFree {Checking free chapters in "%s"...}
-translate R LichessStudyPublishing {Publishing %s game(s) to "%s"...}
-translate R LichessStudyGamesNotPublished {Games not published because the study is full: %s.}
-translate R LichessStudyEmptyNew {The new study "%s" was created but holds none of the games (%s).}
-translate R LichessStudyNothingPublished {Nothing was published.%s}
-translate R LichessStudyReport {Created %s of %s chapters (%s).%s\n\nOpen the study in your browser?}
-translate R LichessStudyReportItem {%s in "%s"}
-translate R LichessStudyNoChapters {No chapter was created.%s}
-translate R LichessStudyReports {Lichess reports: %s}
+translate R LichessStudyCancelled {Публикация отменена: ничего не было опубликовано.}
+translate R LichessStudyCheckingFree {Проверка бесплатных глав в "%s"...}
+translate R LichessStudyPublishing {Публикация %s игр на "%s"...}
+translate R LichessStudyGamesNotPublished {Игры не опубликованы, поскольку исследование заполнено: %s.}
+translate R LichessStudyEmptyNew {Новое исследование "%s" было создано, но не содержит ни одной игры (%s).}
+translate R LichessStudyNothingPublished {Ничего не было опубликовано.%s}
+translate R LichessStudyReport {Создано %s из %s глав (%s).%s\n\nОткрыть исследование в браузере?}
+translate R LichessStudyReportItem {%s в "%s"}
+translate R LichessStudyNoChapters {Глава не была создана.%s}
+translate R LichessStudyReports {Lichess сообщает: %s}
 
 translate R About {О}
 translate R Back {Назад}

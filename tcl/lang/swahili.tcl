@@ -480,83 +480,83 @@ translate Z LichessPuzzlesNoNew {Hakuna mafumbo mapya yaliyopatikana kwa mipangi
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
-menuText Z ToolsPublishLichessStudy "Publish Current Game to Lichess Study..." 0 \
-  {Publish the current game as a new chapter of one of your Lichess studies}
-translate Z LichessStudyTitle {Publish to Lichess study}
-translate Z LichessStudyToPublish {To publish: %s (one chapter per game)}
-translate Z LichessStudyToken {Lichess token:}
-translate Z LichessStudyCreateToken {Create a token (scopes study:read and study:write)}
-translate Z LichessStudySearch {Search study:}
-translate Z LichessStudyChapterSettings {Chapter settings}
-translate Z LichessStudyOrientation {Orientation:}
-translate Z LichessStudyOrientationAuto {Automatic}
-translate Z LichessStudyAnalysisMode {Analysis mode:}
-translate Z LichessStudyModeNormal {Normal analysis}
-translate Z LichessStudyModeConceal {Hide next moves}
-translate Z LichessStudyModePractice {Practice with computer}
-translate Z LichessStudyModeGamebook {Interactive lesson}
-translate Z LichessStudyCreateNew {Or create a new study}
-translate Z LichessStudyName {Name:}
-translate Z LichessStudyVisibility {Visibility:}
-translate Z LichessStudyVisPrivate {Private}
-translate Z LichessStudyVisUnlisted {Unlisted}
-translate Z LichessStudyVisPublic {Public}
-translate Z LichessStudyCreateAndPublish {Create and publish}
-translate Z LichessStudyAddByLink {Study you contribute to (link):}
-translate Z LichessStudyUnnamed {Study %s}
-translate Z LichessStudyAddButton {Add}
-translate Z LichessStudyReload {Reload list}
-translate Z LichessStudyPublishButton {Publish}
-translate Z LichessStudyPublishGames {Publish to Lichess study (%s)...}
-translate Z LichessStudyAddedByLink {added by link}
+menuText Z ToolsPublishLichessStudy "Chapisha Mchezo wa Sasa kwa Lichess Utafiti..." 0 \
+  {Chapisha mchezo wa sasa kama sura mpya ya mojawapo ya tafiti zako za Lichess}
+translate Z LichessStudyTitle {Chapisha kwa Lichess utafiti}
+translate Z LichessStudyToPublish {Ili kuchapisha: %s (sura moja kwa kila mchezo)}
+translate Z LichessStudyToken {Ishara ya Lichess:}
+translate Z LichessStudyCreateToken {Unda tokeni (somo la upeo:soma na usome:andika)}
+translate Z LichessStudySearch {Tafuta utafiti:}
+translate Z LichessStudyChapterSettings {Mipangilio ya sura}
+translate Z LichessStudyOrientation {Mwelekeo:}
+translate Z LichessStudyOrientationAuto {Otomatiki}
+translate Z LichessStudyAnalysisMode {Hali ya uchanganuzi:}
+translate Z LichessStudyModeNormal {Uchambuzi wa kawaida}
+translate Z LichessStudyModeConceal {Ficha hatua zinazofuata}
+translate Z LichessStudyModePractice {Fanya mazoezi na kompyuta}
+translate Z LichessStudyModeGamebook {Somo la mwingiliano}
+translate Z LichessStudyCreateNew {Au unda utafiti mpya}
+translate Z LichessStudyName {Jina:}
+translate Z LichessStudyVisibility {Mwonekano:}
+translate Z LichessStudyVisPrivate {Privat}
+translate Z LichessStudyVisUnlisted {Haijaorodheshwa}
+translate Z LichessStudyVisPublic {Hadharani}
+translate Z LichessStudyCreateAndPublish {Unda na uchapishe}
+translate Z LichessStudyAddByLink {Jifunze unachochangia kwa (kiungo):}
+translate Z LichessStudyUnnamed {Soma %s}
+translate Z LichessStudyAddButton {Ongeza}
+translate Z LichessStudyReload {Pakia upya orodha}
+translate Z LichessStudyPublishButton {Chapisha}
+translate Z LichessStudyPublishGames {Chapisha kwa Lichess utafiti (%s)...}
+translate Z LichessStudyAddedByLink {imeongezwa kwa kiungo}
 
-translate Z LichessStudyNeedToken {Paste your Lichess token and press "Save".}
-translate Z LichessStudyLoading {Loading your studies...}
-translate Z LichessStudyAccountStatus {Account %s: %s studies. Pick one and press "Publish".}
-translate Z LichessStudyTokenInvalid {The token contains invalid characters: copy it again from Lichess.}
-translate Z LichessStudySaveTokenFirst {Save your Lichess token first.}
-translate Z LichessStudyChecking {Checking study %s...}
-translate Z LichessStudyPickStudy {Pick a study from the list first.}
-translate Z LichessStudyAddLinkPrompt {Paste the link of a study, e.g. https://lichess.org/study/AbCd1234}
-translate Z LichessStudyNameLength {The study name must be 2 to 100 characters long.}
-translate Z LichessStudyCreating {Creating study "%s"...}
-translate Z LichessStudyCreateFailed {Could not create the study "%s": %s\n\nNothing was published.}
-translate Z LichessStudyDbClosed {The database is no longer open.}
-translate Z LichessStudyTooManyGames {You selected %s games, but a Lichess study holds at most %s chapters.}
-translate Z LichessStudyNoGame {There is no game on the board.\n\nTo publish games from a database, select them in the Game List and use the right-click menu.}
-translate Z LichessStudyNoUsername {Cannot read the username from the Lichess answer.}
-translate Z LichessStudyCurlNotFound {curl not found: it is needed to talk to Lichess.}
-translate Z LichessStudyGameNotFound {Game %s not found in the database.}
-translate Z LichessStudyCannotRead {Cannot read game %s: %s}
+translate Z LichessStudyNeedToken {Bandika tokeni yako ya Lichess na ubonyeze "Hifadhi".}
+translate Z LichessStudyLoading {Inapakia masomo yako...}
+translate Z LichessStudyAccountStatus {Akaunti %s: %s masomo. Chagua moja na ubonyeze "Chapisha".}
+translate Z LichessStudyTokenInvalid {Tokeni ina vibambo batili: nakili tena kutoka Lichess.}
+translate Z LichessStudySaveTokenFirst {Hifadhi tokeni yako ya Lichess kwanza.}
+translate Z LichessStudyChecking {Inakagua utafiti %s...}
+translate Z LichessStudyPickStudy {Chagua utafiti kutoka kwenye orodha kwanza.}
+translate Z LichessStudyAddLinkPrompt {Bandika kiungo cha utafiti, k.m. https://lichess.org/study/AbCd1234}
+translate Z LichessStudyNameLength {Jina la utafiti lazima liwe na urefu wa vibambo 2 hadi 100.}
+translate Z LichessStudyCreating {Inaunda somo "%s"...}
+translate Z LichessStudyCreateFailed {Haikuweza kuunda utafiti"%s": %s\n\nHakuna kilichochapishwa.}
+translate Z LichessStudyDbClosed {Hifadhidata haijafunguliwa tena.}
+translate Z LichessStudyTooManyGames {Umechagua michezo %s, lakini utafiti wa Lichess unachukua angalau sura %s.}
+translate Z LichessStudyNoGame {Hakuna mchezo kwenye ubao.\n\nIli kuchapisha michezo kutoka kwa hifadhidata, iteue katika Orodha ya Michezo na utumie menyu ya kubofya kulia.}
+translate Z LichessStudyNoUsername {Haiwezi kusoma jina la mtumiaji kutoka kwa jibu la Lichess.}
+translate Z LichessStudyCurlNotFound {curl haipatikani: inahitajika kuzungumza na Lichess.}
+translate Z LichessStudyGameNotFound {Mchezo %s haupatikani kwenye hifadhidata.}
+translate Z LichessStudyCannotRead {Haiwezi kusoma mchezo %s: %s}
 
-translate Z LichessStudyFull {the study is full: a Lichess study holds at most %s chapters.}
-translate Z LichessStudyNoAnswer {No answer from Lichess: check your internet connection.}
-translate Z LichessStudy401 {Invalid or expired token (401).}
-translate Z LichessStudy403 {Permission denied (403): the token lacks the study:read/study:write scopes, or you cannot write to this study.}
-translate Z LichessStudy404 {Study not found (404), or it is private and you are not a member.}
-translate Z LichessStudy429 {Too many requests to Lichess (429): wait a minute and try again.}
+translate Z LichessStudyFull {utafiti umejaa: utafiti Lichess] una angalau sura %s.}
+translate Z LichessStudyNoAnswer {Hakuna jibu kutoka kwa Lichess: angalia muunganisho wako wa intaneti.}
+translate Z LichessStudy401 {Tokeni batili au iliyoisha muda wake (401).}
+translate Z LichessStudy403 {Ruhusa imekataliwa (403): tokeni haina upeo wa study:read/study:write, au huwezi kuandika kwa utafiti huu.}
+translate Z LichessStudy404 {Utafiti haujapatikana (404), au ni wa faragha na wewe si mwanachama.}
+translate Z LichessStudy429 {Maombi mengi sana kwa Lichess (429): subiri kidogo na ujaribu tena.}
 translate Z LichessStudyHttpError {Lichess (HTTP %s): %s}
-translate Z LichessStudyUnexpected {Unexpected answer from Lichess (HTTP %s). %s}
-translate Z LichessStudyNetworkError {Network error: %s}
+translate Z LichessStudyUnexpected {Jibu lisilotarajiwa kutoka kwa Lichess (HTTP %s) %s}
+translate Z LichessStudyNetworkError {Hitilafu ya mtandao: %s}
 
-translate Z LichessStudyOvfFree {"%s" has only %s free chapters out of %s (the Lichess limit), but you want to publish %s games.}
-translate Z LichessStudyOvfFull {"%s" is full: a Lichess study holds at most %s chapters.}
-translate Z LichessStudyOvfQuestion {%s\n\nWhat do you want to do?}
-translate Z LichessStudyOvfFirst {Publish only the first %s games here (%s will not be published)}
-translate Z LichessStudyOvfSplit {Publish the first %s games here and the other %s in a new study}
-translate Z LichessStudyOvfAllNew {Publish all %s games in a new study}
-translate Z LichessStudyOvfName {New study name:}
+translate Z LichessStudyOvfFree {"%s" ina tu %s bure sura nje ya %s (kikomo cha Lichess), lakini unataka kuchapisha %s michezo.}
+translate Z LichessStudyOvfFull {"%s" imejaa: utafiti wa Lichess unashikilia zaidi %s sura.}
+translate Z LichessStudyOvfQuestion {%s\n\nUnataka kufanya nini?}
+translate Z LichessStudyOvfFirst {Chapisha michezo ya kwanza %s pekee hapa (%s haitachapishwa)}
+translate Z LichessStudyOvfSplit {Chapisha michezo ya kwanza %s hapa na mingine %s katika utafiti mpya}
+translate Z LichessStudyOvfAllNew {Chapisha michezo yote %s katika utafiti mpya}
+translate Z LichessStudyOvfName {Jina jipya la utafiti:}
 
-translate Z LichessStudyCancelled {Publish cancelled: nothing was published.}
-translate Z LichessStudyCheckingFree {Checking free chapters in "%s"...}
-translate Z LichessStudyPublishing {Publishing %s game(s) to "%s"...}
-translate Z LichessStudyGamesNotPublished {Games not published because the study is full: %s.}
-translate Z LichessStudyEmptyNew {The new study "%s" was created but holds none of the games (%s).}
-translate Z LichessStudyNothingPublished {Nothing was published.%s}
-translate Z LichessStudyReport {Created %s of %s chapters (%s).%s\n\nOpen the study in your browser?}
-translate Z LichessStudyReportItem {%s in "%s"}
-translate Z LichessStudyNoChapters {No chapter was created.%s}
-translate Z LichessStudyReports {Lichess reports: %s}
+translate Z LichessStudyCancelled {Uchapishaji umeghairiwa: hakuna kilichochapishwa.}
+translate Z LichessStudyCheckingFree {Kuangalia sura za bure katika "%s"...}
+translate Z LichessStudyPublishing {Inachapisha %s mchezo kwa "%s"...}
+translate Z LichessStudyGamesNotPublished {Michezo haijachapishwa kwa sababu utafiti umejaa: %s.}
+translate Z LichessStudyEmptyNew {Utafiti mpya "%s" uliundwa lakini hauchukui mchezo wowote (%s).}
+translate Z LichessStudyNothingPublished {Hakuna kilichochapishwa.%s}
+translate Z LichessStudyReport {Umeunda %s kati ya sura za %s (%s).%s\n\nUngependa kufungua utafiti katika kivinjari chako?}
+translate Z LichessStudyReportItem {%s katika"%s"}
+translate Z LichessStudyNoChapters {Hakuna sura iliyoundwa.%s}
+translate Z LichessStudyReports {Lichess anaripoti: %s}
 
 translate Z About {Kuhusu}
 translate Z Back {Nyuma}

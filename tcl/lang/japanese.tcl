@@ -553,7 +553,7 @@ translate A LichessStudyAddedByLink {リンクにより追加されました}
 
 translate A LichessStudyNeedToken {Lichess トークンを貼り付けて、「保存」を押します。}
 translate A LichessStudyLoading {学習内容を読み込んでいます...}
-translate A LichessStudyAccountStatus {Account %s: %s studies. Pick one and press "Publish".}
+translate A LichessStudyAccountStatus {アカウント %s: %s の研究。どれかを選択して「公開」を押します。}
 translate A LichessStudyTokenInvalid {トークンに無効な文字が含まれています。Lichess から再度コピーしてください。}
 translate A LichessStudySaveTokenFirst {まずLichesトークンを保存してください。}
 translate A LichessStudyChecking {調査%sをチェックしています...}
@@ -592,12 +592,12 @@ translate A LichessStudyCancelled {公開がキャンセルされました: 何�
 translate A LichessStudyCheckingFree {「%s」の無料チャプターをチェックしています...}
 translate A LichessStudyPublishing {%s ゲームを「%s」に公開しています...}
 translate A LichessStudyGamesNotPublished {研究がいっぱいであるため、ゲームは公開されませんでした: %s。}
-translate A LichessStudyEmptyNew {The new study "%s" was created but holds none of the games (%s).}
-translate A LichessStudyNothingPublished {Nothing was published.%s}
-translate A LichessStudyReport {Created %s of %s chapters (%s).%s\n\nOpen the study in your browser?}
-translate A LichessStudyReportItem {%s in "%s"}
-translate A LichessStudyNoChapters {No chapter was created.%s}
-translate A LichessStudyReports {Lichess reports: %s}
+translate A LichessStudyEmptyNew {新しいスタディ「%s」が作成されましたが、どのゲームも保持していません (%s)。}
+translate A LichessStudyNothingPublished {何も公開されませんでした。%s}
+translate A LichessStudyReport {作成されました %s の %s 章 (%s）。%s\n\nブラウザでスタディを開きますか?}
+translate A LichessStudyReportItem {%s、「%s」中}
+translate A LichessStudyNoChapters {章は作成されませんでした。%s}
+translate A LichessStudyReports {Lichess レポート: %s}
 
 translate A About {について}
 translate A Back {戻る}

@@ -521,83 +521,83 @@ translate L LichessPuzzlesNoNew {Nu s-au găsit puzzle-uri noi pentru aceste set
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
-menuText L ToolsPublishLichessStudy "Publish Current Game to Lichess Study..." 0 \
-  {Publish the current game as a new chapter of one of your Lichess studies}
-translate L LichessStudyTitle {Publish to Lichess study}
-translate L LichessStudyToPublish {To publish: %s (one chapter per game)}
-translate L LichessStudyToken {Lichess token:}
-translate L LichessStudyCreateToken {Create a token (scopes study:read and study:write)}
-translate L LichessStudySearch {Search study:}
-translate L LichessStudyChapterSettings {Chapter settings}
-translate L LichessStudyOrientation {Orientation:}
-translate L LichessStudyOrientationAuto {Automatic}
-translate L LichessStudyAnalysisMode {Analysis mode:}
-translate L LichessStudyModeNormal {Normal analysis}
-translate L LichessStudyModeConceal {Hide next moves}
-translate L LichessStudyModePractice {Practice with computer}
-translate L LichessStudyModeGamebook {Interactive lesson}
-translate L LichessStudyCreateNew {Or create a new study}
-translate L LichessStudyName {Name:}
-translate L LichessStudyVisibility {Visibility:}
-translate L LichessStudyVisPrivate {Private}
-translate L LichessStudyVisUnlisted {Unlisted}
+menuText L ToolsPublishLichessStudy "Publicați jocul curent în Lichess Studiați..." 0 \
+  {Publicați jocul curent ca un nou capitol al unuia dintre studiile dvs. Lichess.}
+translate L LichessStudyTitle {Publicați în Lichess studiu}
+translate L LichessStudyToPublish {Pentru a publica: %s (un capitol pe joc)}
+translate L LichessStudyToken {Jeton de lichess:}
+translate L LichessStudyCreateToken {Creați un simbol (domenii study:read și study:write)}
+translate L LichessStudySearch {Studiu de căutare:}
+translate L LichessStudyChapterSettings {Setările capitolului}
+translate L LichessStudyOrientation {Orientare:}
+translate L LichessStudyOrientationAuto {Automat}
+translate L LichessStudyAnalysisMode {Modul de analiză:}
+translate L LichessStudyModeNormal {Analiza normala}
+translate L LichessStudyModeConceal {Ascunde următoarele mișcări}
+translate L LichessStudyModePractice {Exersează cu computerul}
+translate L LichessStudyModeGamebook {Lecție interactivă}
+translate L LichessStudyCreateNew {Sau creați un nou studiu}
+translate L LichessStudyName {Nume:}
+translate L LichessStudyVisibility {Vizibilitate:}
+translate L LichessStudyVisPrivate {Privat}
+translate L LichessStudyVisUnlisted {Nelistate}
 translate L LichessStudyVisPublic {Public}
-translate L LichessStudyCreateAndPublish {Create and publish}
-translate L LichessStudyAddByLink {Study you contribute to (link):}
-translate L LichessStudyUnnamed {Study %s}
-translate L LichessStudyAddButton {Add}
-translate L LichessStudyReload {Reload list}
-translate L LichessStudyPublishButton {Publish}
-translate L LichessStudyPublishGames {Publish to Lichess study (%s)...}
-translate L LichessStudyAddedByLink {added by link}
+translate L LichessStudyCreateAndPublish {Creați și publicați}
+translate L LichessStudyAddByLink {Studiul la care contribuiți (link):}
+translate L LichessStudyUnnamed {Studiu %s}
+translate L LichessStudyAddButton {Adăuga}
+translate L LichessStudyReload {Reîncărcați lista}
+translate L LichessStudyPublishButton {Publica}
+translate L LichessStudyPublishGames {Publicați în Lichess studiu (%s)...}
+translate L LichessStudyAddedByLink {adăugat prin link}
 
-translate L LichessStudyNeedToken {Paste your Lichess token and press "Save".}
-translate L LichessStudyLoading {Loading your studies...}
-translate L LichessStudyAccountStatus {Account %s: %s studies. Pick one and press "Publish".}
-translate L LichessStudyTokenInvalid {The token contains invalid characters: copy it again from Lichess.}
-translate L LichessStudySaveTokenFirst {Save your Lichess token first.}
-translate L LichessStudyChecking {Checking study %s...}
-translate L LichessStudyPickStudy {Pick a study from the list first.}
-translate L LichessStudyAddLinkPrompt {Paste the link of a study, e.g. https://lichess.org/study/AbCd1234}
-translate L LichessStudyNameLength {The study name must be 2 to 100 characters long.}
-translate L LichessStudyCreating {Creating study "%s"...}
-translate L LichessStudyCreateFailed {Could not create the study "%s": %s\n\nNothing was published.}
-translate L LichessStudyDbClosed {The database is no longer open.}
-translate L LichessStudyTooManyGames {You selected %s games, but a Lichess study holds at most %s chapters.}
-translate L LichessStudyNoGame {There is no game on the board.\n\nTo publish games from a database, select them in the Game List and use the right-click menu.}
-translate L LichessStudyNoUsername {Cannot read the username from the Lichess answer.}
-translate L LichessStudyCurlNotFound {curl not found: it is needed to talk to Lichess.}
-translate L LichessStudyGameNotFound {Game %s not found in the database.}
-translate L LichessStudyCannotRead {Cannot read game %s: %s}
+translate L LichessStudyNeedToken {Lipiți indicativul Lichess și apăsați „Salvare”.}
+translate L LichessStudyLoading {Se încarcă studiile...}
+translate L LichessStudyAccountStatus {Cont %s: %s studii. Alegeți unul și apăsați „Publicare”.}
+translate L LichessStudyTokenInvalid {Indicatorul conține caractere nevalide: copiați-l din nou de pe Lichess.}
+translate L LichessStudySaveTokenFirst {Salvați mai întâi jetonul Lichess.}
+translate L LichessStudyChecking {Studiu de verificare %s...}
+translate L LichessStudyPickStudy {Alegeți mai întâi un studiu din listă.}
+translate L LichessStudyAddLinkPrompt {Lipiți linkul unui studiu, de ex. https://lichess.org/study/AbCd1234}
+translate L LichessStudyNameLength {Numele studiului trebuie să aibă între 2 și 100 de caractere.}
+translate L LichessStudyCreating {Se creează studiul „%s”...}
+translate L LichessStudyCreateFailed {Nu s-a putut crea studiul "%s": %s\n\nNu a fost publicat nimic.}
+translate L LichessStudyDbClosed {Baza de date nu mai este deschisă.}
+translate L LichessStudyTooManyGames {Ai ales %s jocuri, dar un studiu Lichess rezistă cel mult %s capitole.}
+translate L LichessStudyNoGame {Nu există niciun joc pe tablă.\n\nPentru a publica jocuri dintr-o bază de date, selectați-le din Lista de jocuri și folosiți meniul de clic dreapta.}
+translate L LichessStudyNoUsername {Nu se poate citi numele de utilizator din răspunsul Lichess.}
+translate L LichessStudyCurlNotFound {curl nu a fost găsit: este necesar pentru a vorbi cu Lichess.}
+translate L LichessStudyGameNotFound {Joc %s nu a fost găsit în baza de date.}
+translate L LichessStudyCannotRead {Nu se poate citi jocul %s: %s}
 
-translate L LichessStudyFull {the study is full: a Lichess study holds at most %s chapters.}
-translate L LichessStudyNoAnswer {No answer from Lichess: check your internet connection.}
-translate L LichessStudy401 {Invalid or expired token (401).}
-translate L LichessStudy403 {Permission denied (403): the token lacks the study:read/study:write scopes, or you cannot write to this study.}
-translate L LichessStudy404 {Study not found (404), or it is private and you are not a member.}
-translate L LichessStudy429 {Too many requests to Lichess (429): wait a minute and try again.}
+translate L LichessStudyFull {studiul este plin: un studiu Lichess conține cel mult %s capitole.}
+translate L LichessStudyNoAnswer {Niciun răspuns de la Lichess: verificați-vă conexiunea la internet.}
+translate L LichessStudy401 {Indicativ nevalid sau expirat (401).}
+translate L LichessStudy403 {Permisiune refuzată (403): simbolului îi lipsesc domeniul de aplicare study:read/study:write sau nu puteți scrie în acest studiu.}
+translate L LichessStudy404 {Studiul nu a fost găsit (404) sau este privat și nu sunteți membru.}
+translate L LichessStudy429 {Prea multe solicitări către Lichess (429): așteptați un minut și încercați din nou.}
 translate L LichessStudyHttpError {Lichess (HTTP %s): %s}
-translate L LichessStudyUnexpected {Unexpected answer from Lichess (HTTP %s). %s}
-translate L LichessStudyNetworkError {Network error: %s}
+translate L LichessStudyUnexpected {Răspuns neașteptat de la Lichess (HTTP %s). %s}
+translate L LichessStudyNetworkError {Eroare de rețea: %s}
 
-translate L LichessStudyOvfFree {"%s" has only %s free chapters out of %s (the Lichess limit), but you want to publish %s games.}
-translate L LichessStudyOvfFull {"%s" is full: a Lichess study holds at most %s chapters.}
-translate L LichessStudyOvfQuestion {%s\n\nWhat do you want to do?}
-translate L LichessStudyOvfFirst {Publish only the first %s games here (%s will not be published)}
-translate L LichessStudyOvfSplit {Publish the first %s games here and the other %s in a new study}
-translate L LichessStudyOvfAllNew {Publish all %s games in a new study}
-translate L LichessStudyOvfName {New study name:}
+translate L LichessStudyOvfFree {„%s” are doar %s capitole gratuite din %s (limita Lichess), dar doriți să publicați jocuri %s.}
+translate L LichessStudyOvfFull {„%s” este plin: un studiu Lichess conține cel mult %s capitole.}
+translate L LichessStudyOvfQuestion {%s\n\nCe vrei să faci?}
+translate L LichessStudyOvfFirst {Publicați aici doar primele %s jocuri (%s nu vor fi publicate)}
+translate L LichessStudyOvfSplit {Publicați primele %s jocuri aici și celelalte %s într-un nou studiu}
+translate L LichessStudyOvfAllNew {Publicați toate jocurile %s într-un studiu nou}
+translate L LichessStudyOvfName {Nou nume de studiu:}
 
-translate L LichessStudyCancelled {Publish cancelled: nothing was published.}
-translate L LichessStudyCheckingFree {Checking free chapters in "%s"...}
-translate L LichessStudyPublishing {Publishing %s game(s) to "%s"...}
-translate L LichessStudyGamesNotPublished {Games not published because the study is full: %s.}
-translate L LichessStudyEmptyNew {The new study "%s" was created but holds none of the games (%s).}
-translate L LichessStudyNothingPublished {Nothing was published.%s}
-translate L LichessStudyReport {Created %s of %s chapters (%s).%s\n\nOpen the study in your browser?}
+translate L LichessStudyCancelled {Publicare anulată: nu a fost publicat nimic.}
+translate L LichessStudyCheckingFree {Se verifică capitolele gratuite din „%s”...}
+translate L LichessStudyPublishing {Publicare %s joc(e) la "%s„...}
+translate L LichessStudyGamesNotPublished {Jocuri nu au fost publicate deoarece studiul este plin: %s.}
+translate L LichessStudyEmptyNew {Noul studiu „%s” a fost creat, dar nu conține niciunul dintre jocuri (%s).}
+translate L LichessStudyNothingPublished {Nu a fost publicat nimic.%s}
+translate L LichessStudyReport {Creat %s de %s capitole (%s).%s\n\nDeschideți studiul în browser?}
 translate L LichessStudyReportItem {%s in "%s"}
-translate L LichessStudyNoChapters {No chapter was created.%s}
-translate L LichessStudyReports {Lichess reports: %s}
+translate L LichessStudyNoChapters {Nu a fost creat niciun capitol.%s}
+translate L LichessStudyReports {Rapoarte Lichess: %s}
 
 translate L About {Despre}
 translate L Back {Înapoi}

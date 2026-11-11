@@ -529,7 +529,7 @@ translate g LichessStudyToken {Знак за шах:}
 translate g LichessStudyCreateToken {Създайте токен (обхвати study:read и study:write)}
 translate g LichessStudySearch {Проучване за търсене:}
 translate g LichessStudyChapterSettings {Настройки на глава}
-translate g LichessStudyOrientation {Orientation:}
+translate g LichessStudyOrientation {Ориентация:}
 translate g LichessStudyOrientationAuto {Автоматичен}
 translate g LichessStudyAnalysisMode {Режим на анализ:}
 translate g LichessStudyModeNormal {Нормален анализ}

@@ -521,83 +521,83 @@ translate k LichessPuzzlesNoNew {이 설정에 대한 새로운 퍼즐을 찾을
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
-menuText k ToolsPublishLichessStudy "Publish Current Game to Lichess Study..." 0 \
-  {Publish the current game as a new chapter of one of your Lichess studies}
-translate k LichessStudyTitle {Publish to Lichess study}
-translate k LichessStudyToPublish {To publish: %s (one chapter per game)}
-translate k LichessStudyToken {Lichess token:}
-translate k LichessStudyCreateToken {Create a token (scopes study:read and study:write)}
-translate k LichessStudySearch {Search study:}
-translate k LichessStudyChapterSettings {Chapter settings}
-translate k LichessStudyOrientation {Orientation:}
-translate k LichessStudyOrientationAuto {Automatic}
-translate k LichessStudyAnalysisMode {Analysis mode:}
-translate k LichessStudyModeNormal {Normal analysis}
-translate k LichessStudyModeConceal {Hide next moves}
-translate k LichessStudyModePractice {Practice with computer}
-translate k LichessStudyModeGamebook {Interactive lesson}
-translate k LichessStudyCreateNew {Or create a new study}
-translate k LichessStudyName {Name:}
-translate k LichessStudyVisibility {Visibility:}
-translate k LichessStudyVisPrivate {Private}
-translate k LichessStudyVisUnlisted {Unlisted}
-translate k LichessStudyVisPublic {Public}
-translate k LichessStudyCreateAndPublish {Create and publish}
-translate k LichessStudyAddByLink {Study you contribute to (link):}
-translate k LichessStudyUnnamed {Study %s}
-translate k LichessStudyAddButton {Add}
-translate k LichessStudyReload {Reload list}
-translate k LichessStudyPublishButton {Publish}
-translate k LichessStudyPublishGames {Publish to Lichess study (%s)...}
-translate k LichessStudyAddedByLink {added by link}
+menuText k ToolsPublishLichessStudy "현재 게임을 Lichess 연구에 게시..." 0 \
+  {현재 게임을 Lichess 연구 중 하나의 새로운 장으로 게시하세요.}
+translate k LichessStudyTitle {Lichess 연구에 게시}
+translate k LichessStudyToPublish {게시하려면: %s (게임당 하나의 챕터)}
+translate k LichessStudyToken {Lichess 토큰:}
+translate k LichessStudyCreateToken {토큰 만들기(범위 study:read 및 study:write)}
+translate k LichessStudySearch {검색 연구:}
+translate k LichessStudyChapterSettings {챕터 설정}
+translate k LichessStudyOrientation {정위:}
+translate k LichessStudyOrientationAuto {오토매틱}
+translate k LichessStudyAnalysisMode {분석 모드:}
+translate k LichessStudyModeNormal {정규분석}
+translate k LichessStudyModeConceal {다음 동작 숨기기}
+translate k LichessStudyModePractice {컴퓨터로 연습하기}
+translate k LichessStudyModeGamebook {대화형 수업}
+translate k LichessStudyCreateNew {또는 새로운 연구를 생성하세요}
+translate k LichessStudyName {이름:}
+translate k LichessStudyVisibility {시계:}
+translate k LichessStudyVisPrivate {사적인}
+translate k LichessStudyVisUnlisted {미등록}
+translate k LichessStudyVisPublic {공공의}
+translate k LichessStudyCreateAndPublish {생성 및 게시}
+translate k LichessStudyAddByLink {귀하가 기여한 연구(링크):}
+translate k LichessStudyUnnamed {연구 %s}
+translate k LichessStudyAddButton {추가하다}
+translate k LichessStudyReload {목록 새로고침}
+translate k LichessStudyPublishButton {게시}
+translate k LichessStudyPublishGames {Lichess 연구(%s)에 게시...}
+translate k LichessStudyAddedByLink {링크로 추가됨}
 
-translate k LichessStudyNeedToken {Paste your Lichess token and press "Save".}
-translate k LichessStudyLoading {Loading your studies...}
-translate k LichessStudyAccountStatus {Account %s: %s studies. Pick one and press "Publish".}
-translate k LichessStudyTokenInvalid {The token contains invalid characters: copy it again from Lichess.}
-translate k LichessStudySaveTokenFirst {Save your Lichess token first.}
-translate k LichessStudyChecking {Checking study %s...}
-translate k LichessStudyPickStudy {Pick a study from the list first.}
-translate k LichessStudyAddLinkPrompt {Paste the link of a study, e.g. https://lichess.org/study/AbCd1234}
-translate k LichessStudyNameLength {The study name must be 2 to 100 characters long.}
-translate k LichessStudyCreating {Creating study "%s"...}
-translate k LichessStudyCreateFailed {Could not create the study "%s": %s\n\nNothing was published.}
-translate k LichessStudyDbClosed {The database is no longer open.}
-translate k LichessStudyTooManyGames {You selected %s games, but a Lichess study holds at most %s chapters.}
-translate k LichessStudyNoGame {There is no game on the board.\n\nTo publish games from a database, select them in the Game List and use the right-click menu.}
-translate k LichessStudyNoUsername {Cannot read the username from the Lichess answer.}
-translate k LichessStudyCurlNotFound {curl not found: it is needed to talk to Lichess.}
-translate k LichessStudyGameNotFound {Game %s not found in the database.}
-translate k LichessStudyCannotRead {Cannot read game %s: %s}
+translate k LichessStudyNeedToken {Lichess 토큰을 붙여넣고 "저장"을 누르세요.}
+translate k LichessStudyLoading {연구 로드 중...}
+translate k LichessStudyAccountStatus {계정 %s: %s 연구. 하나를 선택하고 "게시"를 누르세요.}
+translate k LichessStudyTokenInvalid {토큰에 잘못된 문자가 포함되어 있습니다. Lichess에서 다시 복사하세요.}
+translate k LichessStudySaveTokenFirst {먼저 Lichess 토큰을 저장하세요.}
+translate k LichessStudyChecking {연구 %s 확인 중...}
+translate k LichessStudyPickStudy {먼저 목록에서 연구를 선택하세요.}
+translate k LichessStudyAddLinkPrompt {연구 링크를 붙여넣으세요. https://lichess.org/study/AbCd1234}
+translate k LichessStudyNameLength {연구 이름은 2~100자여야 합니다.}
+translate k LichessStudyCreating {연구 만들기 "%s"...}
+translate k LichessStudyCreateFailed {"%s" 연구를 만들 수 없습니다: %s\n\n아무것도 게시되지 않았습니다.}
+translate k LichessStudyDbClosed {데이터베이스가 더 이상 열려 있지 않습니다.}
+translate k LichessStudyTooManyGames {%s 게임을 선택했지만 Lichess 연구에는 최대 %s개의 챕터가 포함됩니다.}
+translate k LichessStudyNoGame {보드에 게임이 없습니다.\n\n데이터베이스에서 게임을 게시하려면 게임 목록에서 게임을 선택하고 마우스 오른쪽 버튼 클릭 메뉴를 사용하세요.}
+translate k LichessStudyNoUsername {Lichess 답변에서 사용자 이름을 읽을 수 없습니다.}
+translate k LichessStudyCurlNotFound {curl 찾을 수 없음: Lichess과(와) 대화해야 합니다.}
+translate k LichessStudyGameNotFound {데이터베이스에서 게임 %s을(를) 찾을 수 없습니다.}
+translate k LichessStudyCannotRead {게임 %s을(를) 읽을 수 없습니다: %s}
 
-translate k LichessStudyFull {the study is full: a Lichess study holds at most %s chapters.}
-translate k LichessStudyNoAnswer {No answer from Lichess: check your internet connection.}
-translate k LichessStudy401 {Invalid or expired token (401).}
-translate k LichessStudy403 {Permission denied (403): the token lacks the study:read/study:write scopes, or you cannot write to this study.}
-translate k LichessStudy404 {Study not found (404), or it is private and you are not a member.}
-translate k LichessStudy429 {Too many requests to Lichess (429): wait a minute and try again.}
+translate k LichessStudyFull {연구가 가득 찼습니다. Lichess 연구는 최대 %s 장을 보유합니다.}
+translate k LichessStudyNoAnswer {Lichess에서 응답이 없습니다. 인터넷 연결을 확인하세요.}
+translate k LichessStudy401 {토큰이 잘못되었거나 만료되었습니다(401).}
+translate k LichessStudy403 {권한 거부됨(403): 토큰에 study:read/study:write 범위가 부족하거나 이 연구에 쓸 수 없습니다.}
+translate k LichessStudy404 {연구를 찾을 수 없음(404) 또는 비공개이며 회원이 아닙니다.}
+translate k LichessStudy429 {Lichess(429)에 대한 요청이 너무 많습니다. 잠시 기다렸다가 다시 시도하세요.}
 translate k LichessStudyHttpError {Lichess (HTTP %s): %s}
-translate k LichessStudyUnexpected {Unexpected answer from Lichess (HTTP %s). %s}
-translate k LichessStudyNetworkError {Network error: %s}
+translate k LichessStudyUnexpected {Lichess (HTTP %s)에서 예상치 못한 답변이 나왔습니다. %s}
+translate k LichessStudyNetworkError {네트워크 오류: %s}
 
-translate k LichessStudyOvfFree {"%s" has only %s free chapters out of %s (the Lichess limit), but you want to publish %s games.}
-translate k LichessStudyOvfFull {"%s" is full: a Lichess study holds at most %s chapters.}
-translate k LichessStudyOvfQuestion {%s\n\nWhat do you want to do?}
-translate k LichessStudyOvfFirst {Publish only the first %s games here (%s will not be published)}
-translate k LichessStudyOvfSplit {Publish the first %s games here and the other %s in a new study}
-translate k LichessStudyOvfAllNew {Publish all %s games in a new study}
-translate k LichessStudyOvfName {New study name:}
+translate k LichessStudyOvfFree {"%s"밖에 없어요 %s 무료 챕터 %s (Lichess 제한), 하지만 게시하고 싶습니다. %s 계략.}
+translate k LichessStudyOvfFull {"%s"이(가) 꽉 찼습니다. Lichess 연구는 최대 %s개의 챕터를 보유합니다.}
+translate k LichessStudyOvfQuestion {%s\n\n무엇을 하고 싶으신가요?}
+translate k LichessStudyOvfFirst {여기에 첫 번째 %s 게임만 게시하세요. (%s은(는) 게시되지 않습니다.)}
+translate k LichessStudyOvfSplit {첫 번째 %s 게임을 여기에 게시하고 다른 %s 게임을 새 연구에 게시하세요.}
+translate k LichessStudyOvfAllNew {새로운 연구를 통해 모든 %s 게임 게시}
+translate k LichessStudyOvfName {새 연구 이름:}
 
-translate k LichessStudyCancelled {Publish cancelled: nothing was published.}
-translate k LichessStudyCheckingFree {Checking free chapters in "%s"...}
-translate k LichessStudyPublishing {Publishing %s game(s) to "%s"...}
-translate k LichessStudyGamesNotPublished {Games not published because the study is full: %s.}
-translate k LichessStudyEmptyNew {The new study "%s" was created but holds none of the games (%s).}
-translate k LichessStudyNothingPublished {Nothing was published.%s}
-translate k LichessStudyReport {Created %s of %s chapters (%s).%s\n\nOpen the study in your browser?}
-translate k LichessStudyReportItem {%s in "%s"}
-translate k LichessStudyNoChapters {No chapter was created.%s}
-translate k LichessStudyReports {Lichess reports: %s}
+translate k LichessStudyCancelled {게시 취소됨: 게시된 내용이 없습니다.}
+translate k LichessStudyCheckingFree {"%s"에서 사용 가능한 챕터를 확인하는 중...}
+translate k LichessStudyPublishing {%s 게임을 "%s"에 게시하는 중...}
+translate k LichessStudyGamesNotPublished {연구가 가득 차서 게시되지 않은 게임: %s.}
+translate k LichessStudyEmptyNew {새 연구 "%s"가 생성되었지만 게임(%s)이 포함되어 있지 않습니다.}
+translate k LichessStudyNothingPublished {게시된 내용이 없습니다.%s}
+translate k LichessStudyReport {생성됨 %s ~의 %s 장(%s).%s\n\n브라우저에서 연구를 여시겠습니까?}
+translate k LichessStudyReportItem {%s 안에 "%s"}
+translate k LichessStudyNoChapters {생성된 챕터가 없습니다.%s}
+translate k LichessStudyReports {Lichess 보고: %s}
 
 translate k About {에 대한}
 translate k Back {뒤로}

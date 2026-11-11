@@ -490,83 +490,83 @@ translate O LichessPuzzlesNoNew {Fant ingen nye oppgaver for disse innstillingen
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
-menuText O ToolsPublishLichessStudy "Publish Current Game to Lichess Study..." 0 \
-  {Publish the current game as a new chapter of one of your Lichess studies}
-translate O LichessStudyTitle {Publish to Lichess study}
-translate O LichessStudyToPublish {To publish: %s (one chapter per game)}
+menuText O ToolsPublishLichessStudy "Publiser gjeldende spill til Lichess Study..." 0 \
+  {Publiser det nåværende spillet som et nytt kapittel i en av dine Lichess studier}
+translate O LichessStudyTitle {Publiser til Lichess studie}
+translate O LichessStudyToPublish {For å publisere: %s (ett kapittel per spill)}
 translate O LichessStudyToken {Lichess token:}
-translate O LichessStudyCreateToken {Create a token (scopes study:read and study:write)}
-translate O LichessStudySearch {Search study:}
-translate O LichessStudyChapterSettings {Chapter settings}
-translate O LichessStudyOrientation {Orientation:}
-translate O LichessStudyOrientationAuto {Automatic}
-translate O LichessStudyAnalysisMode {Analysis mode:}
-translate O LichessStudyModeNormal {Normal analysis}
-translate O LichessStudyModeConceal {Hide next moves}
-translate O LichessStudyModePractice {Practice with computer}
-translate O LichessStudyModeGamebook {Interactive lesson}
-translate O LichessStudyCreateNew {Or create a new study}
-translate O LichessStudyName {Name:}
-translate O LichessStudyVisibility {Visibility:}
-translate O LichessStudyVisPrivate {Private}
-translate O LichessStudyVisUnlisted {Unlisted}
-translate O LichessStudyVisPublic {Public}
-translate O LichessStudyCreateAndPublish {Create and publish}
-translate O LichessStudyAddByLink {Study you contribute to (link):}
-translate O LichessStudyUnnamed {Study %s}
-translate O LichessStudyAddButton {Add}
-translate O LichessStudyReload {Reload list}
-translate O LichessStudyPublishButton {Publish}
-translate O LichessStudyPublishGames {Publish to Lichess study (%s)...}
-translate O LichessStudyAddedByLink {added by link}
+translate O LichessStudyCreateToken {Opprett et token (omfang study:read og study:write)}
+translate O LichessStudySearch {Søk studie:}
+translate O LichessStudyChapterSettings {Kapittelinnstillinger}
+translate O LichessStudyOrientation {Orientering:}
+translate O LichessStudyOrientationAuto {Automatisk}
+translate O LichessStudyAnalysisMode {Analysemodus:}
+translate O LichessStudyModeNormal {Normal analyse}
+translate O LichessStudyModeConceal {Skjul neste trekk}
+translate O LichessStudyModePractice {Øv med datamaskin}
+translate O LichessStudyModeGamebook {Interaktiv leksjon}
+translate O LichessStudyCreateNew {Eller opprette en ny studie}
+translate O LichessStudyName {Navn:}
+translate O LichessStudyVisibility {Synlighet:}
+translate O LichessStudyVisPrivate {Privat}
+translate O LichessStudyVisUnlisted {Unotert}
+translate O LichessStudyVisPublic {Offentlig}
+translate O LichessStudyCreateAndPublish {Opprett og publiser}
+translate O LichessStudyAddByLink {Studie du bidrar til (lenke):}
+translate O LichessStudyUnnamed {Studer %s}
+translate O LichessStudyAddButton {Legge til}
+translate O LichessStudyReload {Last inn listen på nytt}
+translate O LichessStudyPublishButton {Utgi}
+translate O LichessStudyPublishGames {Publiser til Lichess studie (%s)...}
+translate O LichessStudyAddedByLink {lagt til via lenke}
 
-translate O LichessStudyNeedToken {Paste your Lichess token and press "Save".}
-translate O LichessStudyLoading {Loading your studies...}
-translate O LichessStudyAccountStatus {Account %s: %s studies. Pick one and press "Publish".}
-translate O LichessStudyTokenInvalid {The token contains invalid characters: copy it again from Lichess.}
-translate O LichessStudySaveTokenFirst {Save your Lichess token first.}
-translate O LichessStudyChecking {Checking study %s...}
-translate O LichessStudyPickStudy {Pick a study from the list first.}
-translate O LichessStudyAddLinkPrompt {Paste the link of a study, e.g. https://lichess.org/study/AbCd1234}
-translate O LichessStudyNameLength {The study name must be 2 to 100 characters long.}
-translate O LichessStudyCreating {Creating study "%s"...}
-translate O LichessStudyCreateFailed {Could not create the study "%s": %s\n\nNothing was published.}
-translate O LichessStudyDbClosed {The database is no longer open.}
-translate O LichessStudyTooManyGames {You selected %s games, but a Lichess study holds at most %s chapters.}
-translate O LichessStudyNoGame {There is no game on the board.\n\nTo publish games from a database, select them in the Game List and use the right-click menu.}
-translate O LichessStudyNoUsername {Cannot read the username from the Lichess answer.}
-translate O LichessStudyCurlNotFound {curl not found: it is needed to talk to Lichess.}
-translate O LichessStudyGameNotFound {Game %s not found in the database.}
-translate O LichessStudyCannotRead {Cannot read game %s: %s}
+translate O LichessStudyNeedToken {Lim inn ditt Lichess token og trykk "Lagre".}
+translate O LichessStudyLoading {Laster inn studiene dine...}
+translate O LichessStudyAccountStatus {Konto %s: %s studier. Velg en og trykk "Publiser".}
+translate O LichessStudyTokenInvalid {Tokenet inneholder ugyldige tegn: kopier det igjen fra Lichess.}
+translate O LichessStudySaveTokenFirst {Lagre ditt Lichess token først.}
+translate O LichessStudyChecking {Sjekker studien %s...}
+translate O LichessStudyPickStudy {Velg en studie fra listen først.}
+translate O LichessStudyAddLinkPrompt {Lim inn lenken til en studie, f.eks. https://lichess.org/study/AbCd1234}
+translate O LichessStudyNameLength {Studienavnet må være på 2 til 100 tegn.}
+translate O LichessStudyCreating {Oppretter studien «%s»...}
+translate O LichessStudyCreateFailed {Kunne ikke opprette studien "%s": %s\n\nIngenting ble publisert.}
+translate O LichessStudyDbClosed {Databasen er ikke lenger åpen.}
+translate O LichessStudyTooManyGames {Du valgte %s spill, men en Lichess studie inneholder på det meste %s kapitler.}
+translate O LichessStudyNoGame {Det er ikke noe spill på brettet.\n\nFor å publisere spill fra en database, velg dem i spilllisten og bruk høyreklikkmenyen.}
+translate O LichessStudyNoUsername {Kan ikke lese brukernavnet fra Lichess-svaret.}
+translate O LichessStudyCurlNotFound {curl ikke funnet: det er nødvendig å snakke med Lichess.}
+translate O LichessStudyGameNotFound {Spill %s ikke funnet i databasen.}
+translate O LichessStudyCannotRead {Kan ikke lese spillet %s: %s}
 
-translate O LichessStudyFull {the study is full: a Lichess study holds at most %s chapters.}
-translate O LichessStudyNoAnswer {No answer from Lichess: check your internet connection.}
-translate O LichessStudy401 {Invalid or expired token (401).}
-translate O LichessStudy403 {Permission denied (403): the token lacks the study:read/study:write scopes, or you cannot write to this study.}
-translate O LichessStudy404 {Study not found (404), or it is private and you are not a member.}
-translate O LichessStudy429 {Too many requests to Lichess (429): wait a minute and try again.}
+translate O LichessStudyFull {studien er full: en Lichess studie inneholder på det meste %s kapitler.}
+translate O LichessStudyNoAnswer {Ikke noe svar fra Lichess: sjekk internettforbindelsen din.}
+translate O LichessStudy401 {Ugyldig eller utløpt token (401).}
+translate O LichessStudy403 {Tillatelse nektet (403): tokenet mangler study:read/study:write-omfanget, eller du kan ikke skrive til denne studien.}
+translate O LichessStudy404 {Studien ble ikke funnet (404), eller den er privat og du er ikke medlem.}
+translate O LichessStudy429 {For mange forespørsler til Lichess (429): vent et minutt og prøv igjen.}
 translate O LichessStudyHttpError {Lichess (HTTP %s): %s}
-translate O LichessStudyUnexpected {Unexpected answer from Lichess (HTTP %s). %s}
-translate O LichessStudyNetworkError {Network error: %s}
+translate O LichessStudyUnexpected {Uventet svar fra Lichess (HTTP %s). %s}
+translate O LichessStudyNetworkError {Nettverksfeil: %s}
 
-translate O LichessStudyOvfFree {"%s" has only %s free chapters out of %s (the Lichess limit), but you want to publish %s games.}
-translate O LichessStudyOvfFull {"%s" is full: a Lichess study holds at most %s chapters.}
-translate O LichessStudyOvfQuestion {%s\n\nWhat do you want to do?}
-translate O LichessStudyOvfFirst {Publish only the first %s games here (%s will not be published)}
-translate O LichessStudyOvfSplit {Publish the first %s games here and the other %s in a new study}
-translate O LichessStudyOvfAllNew {Publish all %s games in a new study}
-translate O LichessStudyOvfName {New study name:}
+translate O LichessStudyOvfFree {"%s" har bare %s gratis kapitler av %s (grensen på Lichess), men du vil publisere %s spill.}
+translate O LichessStudyOvfFull {"%s" er full: en Lichess studie inneholder på det meste %s kapitler.}
+translate O LichessStudyOvfQuestion {%s\n\nHva vil du gjøre?}
+translate O LichessStudyOvfFirst {Publiser bare de første %s spillene her (%s vil ikke bli publisert)}
+translate O LichessStudyOvfSplit {Publiser de første %s spillene her og de andre %s i en ny studie}
+translate O LichessStudyOvfAllNew {Publiser alle %s spill i en ny studie}
+translate O LichessStudyOvfName {Nytt studienavn:}
 
-translate O LichessStudyCancelled {Publish cancelled: nothing was published.}
-translate O LichessStudyCheckingFree {Checking free chapters in "%s"...}
-translate O LichessStudyPublishing {Publishing %s game(s) to "%s"...}
-translate O LichessStudyGamesNotPublished {Games not published because the study is full: %s.}
-translate O LichessStudyEmptyNew {The new study "%s" was created but holds none of the games (%s).}
-translate O LichessStudyNothingPublished {Nothing was published.%s}
-translate O LichessStudyReport {Created %s of %s chapters (%s).%s\n\nOpen the study in your browser?}
-translate O LichessStudyReportItem {%s in "%s"}
-translate O LichessStudyNoChapters {No chapter was created.%s}
-translate O LichessStudyReports {Lichess reports: %s}
+translate O LichessStudyCancelled {Publisering avbrutt: ingenting ble publisert.}
+translate O LichessStudyCheckingFree {Sjekker gratis kapitler i "%s"...}
+translate O LichessStudyPublishing {Publiserer %s spill til «%s»...}
+translate O LichessStudyGamesNotPublished {Spill ikke publisert fordi studien er full: %s.}
+translate O LichessStudyEmptyNew {Den nye studien "%s" ble opprettet, men inneholder ingen av spillene (%s).}
+translate O LichessStudyNothingPublished {Ingenting ble publisert.%s}
+translate O LichessStudyReport {Opprettet %s av %s kapitler (%s).%s\n\nÅpne studien i nettleseren din?}
+translate O LichessStudyReportItem {%s i «%s»}
+translate O LichessStudyNoChapters {Ingen kapitler ble opprettet.%s}
+translate O LichessStudyReports {Lichess rapporter: %s}
 
 translate O About {Om}
 translate O Back {Tilbake}
