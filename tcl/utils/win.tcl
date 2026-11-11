@@ -856,6 +856,18 @@ proc ::docking::layout_save_pw {pw} {
 }
 
 ################################################################################
+# Windows a saved layout may still restore. The Analysis window has no door any
+# more (#436 item 3): a layout that names one keeps it out of the notebook, and a
+# notebook left with no windows is not created at all.
+proc ::docking::layoutRestorableWindows {wnds} {
+  set out {}
+  foreach wnd $wnds {
+    if {[regexp {\.(fdock)?analysisWin[0-9]+$} $wnd]} { continue }
+    lappend out $wnd
+  }
+  return $out
+}
+
 # restores paned windows and internal notebooks
 proc ::docking::layout_restore_pw { data } {
   foreach elt $data {
@@ -867,9 +879,11 @@ proc ::docking::layout_restore_pw { data } {
       layout_restore_pw [lindex $elt 1]
 
     } elseif {$type == "TNotebook"} {
+      set wnds [::docking::layoutRestorableWindows [lindex $elt 2]]
+      if {![llength $wnds]} { continue }
       ::docking::create_notebook_ $pathName
       ::docking::insert_notebook_ $pw end $pathName
-      foreach wnd [lindex $elt 2] {
+      foreach wnd $wnds {
         lappend ::docking::restore_wnds [list $pathName $wnd]
       }
 
@@ -912,7 +926,6 @@ proc ::docking::create_window {wnd} {
       "\.(fdock)?glistWin([0-9]+)"    { ::windows::gamelist::Open }
       "\.(fdock)?treeWin([0-9]+)"     { ::tree::make [lindex $regmatch end]}
       "\.(fdock)?engineWin([0-9]+)"   { ::enginewin::Open [lindex $regmatch end]}
-      "\.(fdock)?analysisWin([0-9]+)" { ::makeAnalysisWin [lindex $regmatch end] [expr {[lindex $regmatch end] - 1}] 0}
       "\.(fdock)?crosstableWin"       { ::crosstab::Open }
       }
 }

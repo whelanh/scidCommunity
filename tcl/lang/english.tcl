@@ -239,6 +239,7 @@ menuText E ToolsAnalysis "Analysis Engine..." 0 \
   {Start/stop a chess analysis engine}
 menuText E ToolsAnalysis2 "Analysis Engine #2..." 17 \
   {Start/stop the 2nd chess analysis engine}
+menuText E ToolsEngineWindow "Engine Window..." 0 {Open a chess engine window}
 menuText E ToolsCross "Crosstable" 0 {Show tournament crosstable for this game}
 menuText E ToolsFilterGraph "Rel. Filter Graph" 12 {Open/close the filter graph window for relative values}
 menuText E ToolsAbsFilterGraph "Abs. Filter Graph" 7 {Open/close the filter graph window for absolute values}
@@ -995,6 +996,7 @@ translate E EngineClone {Create a copy of the current engine}
 translate E EngineDuplicate {Duplicate}
 translate E EngineDelete {Delete the current engine}
 translate E EngineOpenAnalysis {Open Analysis}
+translate E EngineOpenWindow {Open Engine Window}
 
 # PGN window menus:
 menuText E PgnFile "File" 0

@@ -148,6 +148,11 @@ jobs:
       - name: Engine preset duplicate
         run: tclsh tests/tcl/engine_duplicate.tcl
 
+      # Item 3 of #436: no UI path reaches makeAnalysisWin, and the engine
+      # chooser opens an Engine Window.
+      - name: Analysis UI doors
+        run: tclsh tests/tcl/analysis_doors.tcl
+
       - name: Help keys
         run: tclsh tests/tcl/help_keys.tcl
 
@@ -197,6 +202,11 @@ jobs:
       # replaces the first rather than stacking.
       - name: Repetition notice
         run: xvfb-run -a wish tests/tcl/repetition_notice_tk.tcl
+
+      # An old layout naming .analysisWin1 must draw nothing now that the
+      # Analysis window has no restore door (#436 item 3).
+      - name: Window layout
+        run: xvfb-run -a wish tests/tcl/layout_windows.tcl
 
       - name: Finish Game dialog
         run: xvfb-run -a wish tests/tcl/finish_game_dialog.tcl
