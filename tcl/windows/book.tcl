@@ -217,7 +217,9 @@ namespace eval book {
     bind $w.main.combo1 <<ComboboxSelected>> ::book::bookSelect
     bind $w.main.combo2 <<ComboboxSelected>> ::book::bookSelect
     bind $w.main.combo3 <<ComboboxSelected>> ::book::bookSelect
-    bind $w <Destroy> "::book::closeMainBook"
+    # toplevel bindings also fire for every child: the W/D/B bar canvases are
+    # destroyed on each redraw and must not close the books
+    bind $w <Destroy> "if {{%W} eq {$w}} ::book::closeMainBook"
     bind $w <Escape> "::win::closeWindow $w"
     bind $w <Left> { excludeTextWidget %W; ::move::Back }
     bind $w <Right> { excludeTextWidget %W; ::move::Forward }
