@@ -280,13 +280,13 @@ checkEq "an empty state is idle" [::reviewui::statusText {}] ""
 
 puts "what the settings dialog holds"
 
-# The dialog owns nine settings. Threads and Hash are not among them: they
+# The dialog owns twelve settings. Threads and Hash are not among them: they
 # belong to the engine preset (#382), and a second place to set them is a second
 # place to get them wrong. The dialog shows them, read-only, from the preset.
 ::review::reset
 set s [::reviewui::settings]
-checkEq "nine rows, no threads, no hash" [dict keys $s] \
-    {mpv depth movetime var_lines var_cp move_comment_wait diagram coach verifier}
+checkEq "twelve rows, no threads, no hash" [dict keys $s] \
+    {mpv depth movetime var_lines var_cp move_comment_wait diagram opening_errors opening_window tactical_exercises coach verifier}
 checkEq "at their defaults" [dict get $s depth] 18
 checkEq "with no time cap of its own" [dict get $s movetime] 0
 checkEq "and mpv with them" [dict get $s mpv] 3
@@ -296,7 +296,8 @@ checkEq "the coach off unless it is asked for" [dict get $s coach] 0
 checkEq "and no verifier engine" [dict get $s verifier] ""
 
 set good [dict create mpv 4 depth 24 movetime 1500 var_lines 2 var_cp 40 \
-    move_comment_wait 0 diagram 1 coach 1 verifier ""]
+    move_comment_wait 0 diagram 1 opening_errors 1 opening_window 15 \
+    tactical_exercises 1 coach 1 verifier ""]
 checkEq "a valid dialog is stored without complaint" [::reviewui::applySettings $good] {}
 checkEq "and reads straight back" [::reviewui::settings] $good
 checkEq "the cap is stored as the review's own option" $::reviewopt(movetime) 1500

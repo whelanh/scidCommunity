@@ -30,6 +30,9 @@ namespace eval ::review {
         var_cp 0
         move_comment_wait 1
         diagram 1
+        opening_errors 0
+        opening_window 12
+        tactical_exercises 0
         coach 0
         threads 0
         hash_mb 128
@@ -40,6 +43,10 @@ namespace eval ::review {
     variable MAX_MPV 5
     variable MIN_DEPTH 6
     variable MAX_DEPTH 60
+    # The old annotate dialog offered 10-20 moves for the opening-errors finder,
+    # and 12 by default. A hand-edited options file is held to the same range.
+    variable MIN_OPENING_WINDOW 10
+    variable MAX_OPENING_WINDOW 20
     # A pass's time ceiling is milliseconds per position, and 0 is the review
     # saying "no ceiling of my own" - ::review::passLimits then takes the
     # preset's. The upper bound is ::enginelimits' own ceiling for a preset's
@@ -86,6 +93,8 @@ proc ::review::saved {} {
     variable MAX_DEPTH
     variable MIN_MOVETIME
     variable MAX_MOVETIME
+    variable MIN_OPENING_WINDOW
+    variable MAX_OPENING_WINDOW
     set S $DEFAULTS
     foreach key [dict keys $DEFAULTS] {
         if {[info exists ::reviewopt($key)] &&
@@ -114,9 +123,15 @@ proc ::review::saved {} {
         dict set S var_lines [dict get $S mpv]
     }
     if {[dict get $S var_cp] < 0} { dict set S var_cp 0 }
+    if {[dict get $S opening_window] < $MIN_OPENING_WINDOW} {
+        dict set S opening_window $MIN_OPENING_WINDOW
+    }
+    if {[dict get $S opening_window] > $MAX_OPENING_WINDOW} {
+        dict set S opening_window $MAX_OPENING_WINDOW
+    }
     # The flags are on or off, and setValue takes only 0 or 1: a file that says 2
     # must not open the dialog on a value pressing OK would refuse.
-    foreach flag {move_comment_wait skip_book diagram coach} {
+    foreach flag {move_comment_wait skip_book diagram opening_errors tactical_exercises coach} {
         if {[dict get $S $flag] != 0} { dict set S $flag 1 }
     }
     return $S
@@ -170,6 +185,8 @@ proc ::review::setValue {key value} {
     variable MAX_DEPTH
     variable MIN_MOVETIME
     variable MAX_MOVETIME
+    variable MIN_OPENING_WINDOW
+    variable MAX_OPENING_WINDOW
     if {![dict size $S]} { reset }
     if {![dict exists $S $key]} { return "unknown setting: $key" }
     # The verifier names an engine preset, so it is the one setting that is not a
@@ -220,6 +237,17 @@ proc ::review::setValue {key value} {
         }
         diagram {
             if {$value < 0 || $value > 1} { return "diagram is 0 or 1" }
+        }
+        opening_errors {
+            if {$value < 0 || $value > 1} { return "opening_errors is 0 or 1" }
+        }
+        opening_window {
+            if {$value < $MIN_OPENING_WINDOW || $value > $MAX_OPENING_WINDOW} {
+                return "opening_window must be $MIN_OPENING_WINDOW..$MAX_OPENING_WINDOW"
+            }
+        }
+        tactical_exercises {
+            if {$value < 0 || $value > 1} { return "tactical_exercises is 0 or 1" }
         }
         coach {
             if {$value < 0 || $value > 1} { return "coach is 0 or 1" }

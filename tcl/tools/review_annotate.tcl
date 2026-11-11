@@ -46,6 +46,17 @@ proc ::reviewannotate::whiteScore {cp side} {
     return $cp
 }
 
+# A saved Review Settings switch, as 1 or 0. The review layer owns these; a
+# harness that has not loaded game_review.tcl gets the default rather than an
+# error in the middle of a write.
+proc ::reviewannotate::setting {key {default 0}} {
+    if {[llength [info commands ::review::get]] == 0} { return $default }
+    if {[catch { set value [::review::get $key] }]} { return $default }
+    if {[string is boolean -strict $value]} { return [expr {$value ? 1 : 0}] }
+    if {[string is integer -strict $value]} { return [expr {$value != 0}] }
+    return $default
+}
+
 # The mark a label implies. best/good/excellent are unmarked: the absence of a
 # mark is the classic way of saying "nothing went wrong here", and ?? on every
 # third move is noise.
@@ -173,33 +184,38 @@ proc ::reviewannotate::difficulty {bm0} {
     return [expr {$t + 2}]
 }
 
-# Is `pane`'s engine UCI? "" when the pane was never created. The value is the
-# flag itself, normalised: a session that never opened Preferences can leave the
-# entry as a Tk boolean string.
-proc ::reviewannotate::paneUci {pane} {
-    if {![info exists ::analysis(uci$pane)]} { return "" }
-    set raw $::analysis(uci$pane)
-    if {[string is boolean -strict $raw]} { return [expr {$raw ? 1 : 0}] }
-    if {[string is integer -strict $raw]} { return [expr {$raw != 0}] }
-    return 0
+# The before/after evaluations of a verdict in White's point of view, which is
+# what the classic annotator wrote and what markExercise's thresholds read.
+# `mover` is "w" or "b" - the side to move before the move - from the pass map.
+proc ::reviewannotate::whiteVerdict {verdict mover} {
+    set beforeMover [dict get $verdict before]
+    set afterMover [dict get $verdict after]
+    if {[dict get $verdict eval_cp] ne ""} {
+        set afterMover [dict get $verdict eval_cp]
+        if {$mover eq "b"} { set afterMover [expr {-$afterMover}] }
+    }
+    if {[dict get $verdict isBest]} { set beforeMover $afterMover }
+    if {$mover eq "b"} {
+        return [list [expr {-$beforeMover}] [expr {-$afterMover}]]
+    }
+    return [list $beforeMover $afterMover]
 }
 
-# The exercise probe drives scid's own analyser, which is the UCI engine only in
-# this build - the classic's gate, read from the pane whose preset is running the
-# pass. The dialog records that pane when it opens (::annotatePane,
-# analysis.tcl:368), and its tactical checkbox is disabled on the same pane's
-# engine, so the two cannot disagree. Pane 1 is only the fallback for a session
-# that never opened the dialog: the classic annotator had one pane.
-proc ::reviewannotate::exercisePaneUci {} {
-    set pane 1
-    catch { set pane $::annotatePane }
-    if {[string is integer -strict $pane]} {
-        set uci [::reviewannotate::paneUci $pane]
-        if {$uci ne ""} { return $uci }
-    }
-    set uci [::reviewannotate::paneUci 1]
-    if {$uci eq ""} { return 0 }
-    return $uci
+# The tactical-exercise marks for one judged move, from the same helpers the
+# annotate writer uses. Both writers call this, so Game Review and the Game List
+# batch cannot disagree about the flag or the difficulty comment.
+#
+# `results` is the pass's results and `mpv` its MultiPV count; the lines at `ply`
+# are the position AFTER the move, which is what markExercise reads. `nag` is
+# the move's mark when the caller already decided it (the annotate writer uses
+# its drop ladder); "" means use the label's own.
+proc ::reviewannotate::writeTactical {ply verdict mover results mpv {nag ""}} {
+    if {[llength [info commands ::review::nagForLabel]] == 0} { return 0 }
+    if {$nag eq ""} { set nag [::review::nagForLabel [dict get $verdict label]] }
+    if {$nag ne "?" && $nag ne "??"} { return 0 }
+    lassign [::reviewannotate::whiteVerdict $verdict $mover] before after
+    set lines [::reviewdriver::lines $results $ply $mpv]
+    return [::reviewannotate::markExercise $before $after "" $lines]
 }
 
 # Port of markExercise (analysis.tcl:536-608): mark the game as an exercise when
@@ -222,10 +238,9 @@ proc ::reviewannotate::markExercise {before after nag lines} {
     set prevscore [expr {$before / 100.0}]
     set score [expr {$after / 100.0}]
 
-    if {!$::markTacticalExercises} { return 0 }
-    # The difficulty probe drives scid's own analyser, which is the UCI engine
-    # only in this build: the classic's gate, on the pane that opened the dialog.
-    if {![::reviewannotate::exercisePaneUci]} { return 0 }
+    # Review Settings owns the switch. Every review pass runs a UCI engine, so
+    # the classic's "is the pane UCI?" gate is not a second condition here.
+    if {![::reviewannotate::setting tactical_exercises]} { return 0 }
 
     set deltamove [expr {$score - $prevscore}]
     if {[expr abs($deltamove)] < $::informant(+/-)} { return 0 }
@@ -377,6 +392,34 @@ proc ::reviewannotate::openingTag {moveNumber side window} {
     }
     if {$moveNumber >= $window} { return "" }
     return "opBlunder $moveNumber ($side)"
+}
+
+# Write the opening-errors entry for a pass, when Review Settings asks for it.
+# The classic tagged the game where the opening book ended, not at the first
+# move; `bookEnd` is that ply, and the finder's window is measured from there.
+# Returns 1 when the tag was written.
+proc ::reviewannotate::openingMark {p} {
+    if {![::reviewannotate::setting opening_errors]} { return 0 }
+    set window 12
+    if {[llength [info commands ::review::get]]} {
+        catch { set window [::review::get opening_window] }
+    }
+    set bookEnd 0
+    catch { set bookEnd [dict get $p bookEnd] }
+    if {![string is integer -strict $bookEnd] || $bookEnd < 0} { set bookEnd 0 }
+    set cursor ""
+    catch { set cursor [::review::cursorSave] }
+    set wrote 0
+    if {![catch {
+        sc_move ply $bookEnd
+        set tag [::reviewannotate::openingTag [sc_pos moveNumber] [sc_pos side] $window]
+        if {$tag ne ""} {
+            ::reviewannotate::appendAnnotator $tag
+            set wrote 1
+        }
+    }]} {}
+    if {$cursor ne ""} { catch { ::review::cursorRestore $cursor } }
+    return $wrote
 }
 
 # Add to the game's Annotator tag, keeping whatever is already there
@@ -735,8 +778,8 @@ proc ::reviewannotate::writeResults {p results {tier ""} {opts ""}} {
             # a puzzle. The nag is already on the move here, so the caller's
             # copy is empty and nothing is written twice.
             if {$nag eq "??" || $nag eq "?"} {
-                set afterLines [::reviewdriver::lines $results $ply $mpv]
-                ::reviewannotate::markExercise $beforeWhite $afterWhite "" $afterLines
+                ::reviewannotate::writeTactical $ply $verdict $mover \
+                    $results $mpv $nag
             }
         }]} {
             set markFailed 1
@@ -856,8 +899,6 @@ proc ::reviewannotate::writeResultsAtTier {tier wopts p results} {
 ###   blunders      allmoves | blundersonly
 ###   batch         0 | 1
 ###   batchEnd      the last game of a batch
-###   opening       0 | 1   (the opening-errors finder)
-###   openingMoves  the move window the finder scans
 ###   bookEnd       the ply the caller's book walk ended at (0: no book)
 ###
 ### The engine is never one of them: it is the invoking pane's own preset, the
@@ -891,14 +932,6 @@ proc ::reviewannotate::dialogPlan {n name uci settings} {
         # with no iterations would report a batch that annotated nothing.
         if {[string is integer -strict $end] && $end > $game} { set to $end }
     }
-    set opening 0
-    if {[dict exists $settings opening] && [dict get $settings opening]} { set opening 1 }
-    set openingMoves 12
-    if {[dict exists $settings openingMoves] &&
-        [string is integer -strict [dict get $settings openingMoves]] &&
-        [dict get $settings openingMoves] > 0} {
-        set openingMoves [dict get $settings openingMoves]
-    }
     set bookEnd 0
     if {[dict exists $settings bookEnd] &&
         [string is integer -strict [dict get $settings bookEnd]] &&
@@ -926,7 +959,7 @@ proc ::reviewannotate::dialogPlan {n name uci settings} {
     set out [dict create \
         pane $n engine "" engineName $name uci [expr {$uci ? 1 : 0}] \
         bookEnd $bookEnd tier 1 blunders $blunders batch $batch \
-        from $game to $to opening $opening openingMoves $openingMoves \
+        from $game to $to \
         white $white black $black varPlies $varPlies refuse ""]
     set engine ""
     if {$name ne "" && [llength [info commands ::enginecfg::get]]} {
@@ -1289,10 +1322,10 @@ proc ::reviewannotate::paintStatus {} {
     return
 }
 
-# The game's own tags, after a pass: the opening-errors entry the batch opening
-# finder leaves on a game whose opening went wrong, and the Annotator tag the
-# dialog asks for. Both are tags a second pass appends to rather than replaces,
-# which is what appendAnnotator is for.
+# The game's own tags, after a pass: the opening-errors entry Review Settings
+# asks for, and the Annotator tag the legacy dialog asks for. Both are tags a
+# second pass appends to rather than replaces, which is what appendAnnotator is
+# for.
 #
 # The classic annotator wrote "<engine> (<delay> sec)" - it had a per-move delay
 # to report. A review pass has none: its cost is the review's depth or time cap,
@@ -1301,22 +1334,12 @@ proc ::reviewannotate::paintStatus {} {
 # `p` is the pass the write phase was handed; its `engine` entry is the preset
 # the pass search on, and the first element of it is the engine's name.
 proc ::reviewannotate::tagGame {p} {
-    set cursor [::review::cursorSave]
-    if {[info exists ::isBatchOpening] && $::isBatchOpening} {
-        set window 12
-        catch { set window $::isBatchOpeningMoves }
-        catch {
-            sc_move ply 0
-            set tag [::reviewannotate::openingTag [sc_pos moveNumber] [sc_pos side] $window]
-            if {$tag ne ""} { ::reviewannotate::appendAnnotator $tag }
-        }
-    }
+    catch { ::reviewannotate::openingMark $p }
     if {[info exists ::addAnnotatorTag] && $::addAnnotatorTag} {
         set name ""
         catch { set name [lindex [dict get $p engine] 0] }
         if {$name eq ""} { set name review }
         catch { ::reviewannotate::appendAnnotator "$name (review)" }
     }
-    catch { ::review::cursorRestore $cursor }
     return
 }

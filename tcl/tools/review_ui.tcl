@@ -114,7 +114,7 @@ proc ::reviewui::buttons {state} {
 # also wrote them would be a second place to get them wrong. The order matters
 # because ::review::setValue has cross-field rules - mpv caps var_lines - so a
 # single edit that lowers both must apply mpv first.
-variable ::reviewui::SETTING_KEYS {mpv depth movetime var_lines var_cp move_comment_wait diagram coach verifier}
+variable ::reviewui::SETTING_KEYS {mpv depth movetime var_lines var_cp move_comment_wait diagram opening_errors opening_window tactical_exercises coach verifier}
 
 # The review setting a dialog row edits, and the label it shows. `Lines` and
 # `Depth` are the keys the engine window already uses for the same two numbers.
@@ -126,6 +126,9 @@ variable ::reviewui::SETTING_LABELS {
     var_cp            ReviewVarCp
     move_comment_wait ReviewMoveWait
     diagram           Diagram
+    opening_errors    FindOpeningErrors
+    opening_window    ReviewOpeningMoves
+    tactical_exercises MarkTacticalExercises
     coach             ReviewCoach
     verifier          ReviewVerifier
 }
@@ -427,6 +430,9 @@ variable ::reviewui::SETTING_RANGES {
     var_cp            {0 500}
     move_comment_wait {0 1}
     diagram           {0 1}
+    opening_errors    {0 1}
+    opening_window    {10 20}
+    tactical_exercises {0 1}
     coach             {0 1}
 }
 

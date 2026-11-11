@@ -36,7 +36,14 @@ moves the review marks (`=`, `+=`, `+/-`, `+-`, `+--` and the Black half `=+`,
 `-/+`, `-+`, `--+`), a `D` diagram marker on the move before each mistake and
 blunder when the Diagram setting is on (a verdict on the first move has no move
 before it, so no diagram), and at each mistake, blunder and missed win the
-engine's preferred move as a variation, up to `var_lines` of them. A best,
+engine's preferred move as a variation, up to `var_lines` of them. When **Find
+opening errors** is on, the pass also appends the `opBlunder <move> (<side>)`
+entry to the game's Annotator tag at the move where the opening book ended,
+provided that move is inside the **Opening moves** window. When **Mark tactical
+exercises** is on, it writes the classic `T` game flag and the
+`****D<difficulty> <before>-><after>` comment through
+`::reviewannotate::markExercise`. Both switches are off until Review Settings
+saves them on. A best,
 excellent or good move gets no variation: the only line left to show would be
 the second-best move, which is not an improvement. Running it again replaces the
 review's own marks — `writeMove` strips its comment tokens, and the NAG matching
@@ -217,7 +224,7 @@ did not mean.
 
 ## Review Settings
 
-**Review Settings** opens nine rows:
+**Review Settings** opens twelve rows:
 
 | Row | Setting | Range |
 | --- | --- | --- |
@@ -228,6 +235,9 @@ did not mean.
 | Variation margin (cp) | `var_cp` | 0–500 |
 | Wait for the review depth | `move_comment_wait` | 0–1 |
 | Diagram | `diagram` | 0–1 |
+| Find opening errors | `opening_errors` | 0–1 |
+| Opening moves | `opening_window` | 10–20 (default 12) |
+| Mark tactical exercises | `tactical_exercises` | 0–1 |
 | Coach prose | `coach` | 0–1 |
 | Verifier engine | `verifier` | `Off (no verification)`, or the name of an engine preset |
 
@@ -686,7 +696,7 @@ plain-text form.
 | `tcl/tools/review_threat.tcl` | `::reviewthreat` — "What's the threat?": `sideName`, `san`, `threatClauses`, `forcing`, `answer`, `factsBlock`, `prompt`, `search` (one shot, connection `reviewThreat`), `block`, `stripOwn`, `write` (the move comment, cursor restored), `prose`, `spoken`, `ready`, `ask`. Writes one line into the move's comment |
 | `tcl/windows/engine.tcl` | the review icons, the status line, the settings dialog (guarded glue), and `::enginewin::threat` (the window's preset) |
 | `tcl/tools/analysis.tcl` | the Analysis window's annotate dialog, its OK (`configAnnotateOK`) and the button on every pane |
-| `tests/tcl/review_settings_dialog.tcl` | 51 checks: under Tk: the dialog builds, has OK/Cancel, stores what is typed, refuses a bad value, the variation box follows `mpv`, the time cap's row shows the preset's cap and drops the note, the on/off rows are checkboxes, `Coach settings…` opens a window of its own from a dialog that holds no grab, and both traces are removed when the dialog closes |
+| `tests/tcl/review_settings_dialog.tcl` | 68 checks: under Tk: the dialog builds, has OK/Cancel, stores what is typed, refuses a bad value, the variation box follows `mpv`, the time cap's row shows the preset's cap and drops the note, the on/off rows are checkboxes, the opening finder and exercise rows are saved and the opening window is refused outside 10–20, `Coach settings…` opens a window of its own from a dialog that holds no grab, and both traces are removed when the dialog closes |
 | `tests/tcl/review_ui.tcl` | 256 checks: the call a press makes, the status line (including the coach's counts), the button states, the dialog round trip, the precedence table through the dialog, the time cap's note, the verifier row's Off word and refused preset name, which move a comment judges, the move-comment depth, the key set |
 | `tests/tcl/review_toolbar.tcl` | 43 checks: the five review icons use `::icon::` names and exist in icons_light and icons_dark at 24×24, the whole engine toolbar uses `::icon::` images, the labels are tooltips rather than text, the stop icon is gridded only while a pass runs, a visible divider separates the review group from Config, the dark-theme cache matches `::icon::` names, and the threat button exists only when its command does and not in an embedded PGN viewer |
 | `tests/tcl/review_driver.tcl` | 320 checks: the pass against a stub engine, the four Go shapes the precedence table produces, a capped run, two reviews of the same game in a row, the engine window's hand-off to it, the completion hook, the engine name on an exported variation and in the Annotator tag, and the coach: started after the write, the run held open until the answers land, not started for a single move or an annotate pass, an annotate pass leaving the coach blocks alone, not holding a run open when it cannot start, and Cancel while the model is writing |

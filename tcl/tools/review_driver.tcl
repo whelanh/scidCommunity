@@ -1249,6 +1249,7 @@ proc ::reviewdriver::writeResults {p results} {
     set engineName ""
     catch { set engineName [lindex [dict get $p engine] 0] }
     set verdicts [::reviewdriver::verdicts $map $results]
+    set sides [::reviewdriver::sides $map]
     foreach ply [dict get $p plan] {
         if {$ply <= $bookEnd} {
             # In the book: theory, not a verdict. No [%eval] and no variation,
@@ -1337,6 +1338,28 @@ proc ::reviewdriver::writeResults {p results} {
                     lappend markErr "ply $ply: no room for the diagram mark"
                 }
             }
+            # The tactical-exercise marks are Review Settings' own, and the same
+            # helper writes them for the annotate pass and the Game List batch.
+            # The D mark above may have left the cursor on the previous move, so
+            # put it back before the exercise reads the position. The verdict is
+            # the full judge record (verdicts keeps only the written pair), and
+            # it is needed only for a move the label already marks ? or ??.
+            if {($nag eq "?" || $nag eq "??")
+                && [llength [info commands ::reviewannotate::writeTactical]]} {
+                if {[catch {
+                    sc_move ply $ply
+                    set verdict [::reviewdriver::judge $map $results $sides $ply]
+                    if {$verdict ne ""} {
+                        set mover ""
+                        catch { set mover [dict get $sides [expr {$ply - 1}]] }
+                        if {$mover eq ""} { set mover w }
+                        ::reviewannotate::writeTactical $ply $verdict $mover \
+                            $results $mpv $nag
+                    }
+                } ex]} {
+                    lappend markErr "ply $ply: $ex"
+                }
+            }
             foreach e $markErr { lappend errors $e }
             if {$err ne ""} { lappend errors $err }
             if {[llength $markErr] || $err ne ""} {
@@ -1348,6 +1371,11 @@ proc ::reviewdriver::writeResults {p results} {
             incr failed
             lappend errors $err
         }
+    }
+    # The opening-errors entry is Review Settings' own: write it from the same
+    # helper the annotate pass uses, at the ply the opening book ended.
+    if {[llength [info commands ::reviewannotate::openingMark]]} {
+        catch { ::reviewannotate::openingMark $p }
     }
     # A whole-game review records what produced it. Move Comment names one ply
     # (report 0) and the classic annotate pass has its own tag; both keep their

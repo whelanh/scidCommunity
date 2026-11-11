@@ -118,12 +118,12 @@ checkEq "and it is the window the button names" $w .engineWin1.reviewSettings
 # the buttons were not, because the body stopped compiling mid-proc.
 check "the OK button exists" [winfo exists $w.b.ok]
 check "the Cancel button exists" [winfo exists $w.b.cancel]
-foreach key {mpv depth movetime var_lines var_cp move_comment_wait diagram coach} {
+foreach key {mpv depth movetime var_lines var_cp move_comment_wait diagram         opening_errors opening_window tactical_exercises coach} {
     check "the $key row is there" [winfo exists $w.f.v$key]
 }
 # An on/off setting is a checkbox, not a number box that holds 0 or 1: the value
 # a user edits here is a switch, and a spinbox beside "Coach prose" offers "2".
-foreach key {move_comment_wait diagram coach} {
+foreach key {move_comment_wait diagram opening_errors tactical_exercises coach} {
     checkEq "the $key row is a checkbox" [winfo class $w.f.v$key] TCheckbutton
 }
 checkEq "a number row is still a number box" [winfo class $w.f.vdepth] TSpinbox
@@ -232,6 +232,39 @@ checkEq "OK stores the coach switch" $::reviewopt(coach) 1
 set ::review::S [dict create]
 checkEq "and a fresh start reads it back" [::review::get coach] 1
 ::review::setValue coach 0
+
+# The opening-errors finder's window is the old dialog's 10-20, default 12, and
+# the two new switches are off until the user saves them on.
+puts "\nthe opening finder and the exercise switch are saved"
+set w7 [::enginewin::reviewSettings 1]
+checkEq "the opening finder opens off" \
+    $::enginewin::reviewsetting(1,opening_errors) 0
+checkEq "the exercise switch opens off" \
+    $::enginewin::reviewsetting(1,tactical_exercises) 0
+checkEq "the window opens on the old default" \
+    $::enginewin::reviewsetting(1,opening_window) 12
+set ::enginewin::reviewsetting(1,opening_errors) 1
+set ::enginewin::reviewsetting(1,tactical_exercises) 1
+set ::enginewin::reviewsetting(1,opening_window) 15
+$w7.b.ok invoke
+checkEq "OK stores the opening finder" $::reviewopt(opening_errors) 1
+checkEq "OK stores the exercise switch" $::reviewopt(tactical_exercises) 1
+checkEq "OK stores the window" $::reviewopt(opening_window) 15
+set ::review::S [dict create]
+checkEq "and a fresh start reads the finder back" [::review::get opening_errors] 1
+checkEq "the exercise switch too" [::review::get tactical_exercises] 1
+checkEq "and the window" [::review::get opening_window] 15
+
+# A hand-edited value must not open the dialog outside the range the setter
+# accepts; the setter refuses and keeps the old value.
+checkEq "a window below the old range is refused" \
+    [::review::setValue opening_window 9] {opening_window must be 10..20}
+checkEq "a window above it too" \
+    [::review::setValue opening_window 21] {opening_window must be 10..20}
+checkEq "the stored window survives the refusals" [::review::get opening_window] 15
+::review::setValue opening_errors 0
+::review::setValue tactical_exercises 0
+::review::setValue opening_window 12
 
 # A toplevel is a classic Tk widget and keeps Tk's grey; the ttk rows inside
 # follow the theme, so the strip beside OK/Cancel is the only place the old

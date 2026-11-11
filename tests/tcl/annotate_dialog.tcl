@@ -109,7 +109,7 @@ foreach wantProc {::reviewannotate::dialogPlan ::reviewannotate::annotates \
 }
 
 set settings [dict create \
-    game 7 blunders blundersonly batch 0 batchEnd 7 opening 0 openingMoves 12 bookEnd 6]
+    game 7 blunders blundersonly batch 0 batchEnd 7 bookEnd 6]
 set plan [::reviewannotate::dialogPlan 2 Stockfish 1 $settings]
 
 checkEq "the engine is the invoking pane's own preset" \
@@ -137,13 +137,11 @@ checkEq "with no engine either" [dict get $plan engine] ""
 
 # A batch: from the current game to the end the dialog names.
 set bsettings [dict create \
-    game 5 blunders allmoves batch 1 batchEnd 9 opening 1 openingMoves 15 bookEnd 0]
+    game 5 blunders allmoves batch 1 batchEnd 9 bookEnd 0]
 set plan [::reviewannotate::dialogPlan 1 Stockfish 1 $bsettings]
 checkEq "a batch starts at the current game" [dict get $plan from] 5
 checkEq "and ends where the dialog says" [dict get $plan to] 9
 checkEq "and says it is a batch" [dict get $plan batch] 1
-checkEq "the opening finder travels with it" \
-    [list [dict get $plan opening] [dict get $plan openingMoves]] {1 15}
 
 # A range that ends before the game it starts from is one game, not a loop that
 # runs backwards and annotates nothing.

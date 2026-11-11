@@ -130,8 +130,10 @@ part that other tools read, so they are written here too:
   it keeps its parallel pipe search and calls `::reviewdriver::writeResults` per
   finished game, so it writes the engine-window review's annotations with Review
   Settings — label, `[%eval]`, the label's NAG, the position assessment on marked
-  moves, `D` and variations — and deliberately not the classic `T`/`****D`, book
-  or Annotator marks.
+  moves, `D` and variations — and, when those switches are saved on, the same
+  `opBlunder` entry and `T`/`****D` exercise marks the annotate writer produces.
+  There are no separate batch checkboxes: both paths read `opening_errors`,
+  `opening_window` and `tactical_exercises` from Review Settings.
 
   A batch position can end its search with no scored line at all, which under a
   time cap is the likeliest way a move goes unjudged. Such a ply is written with
@@ -202,6 +204,10 @@ The writer tests are the per-writer red-first tests: NAG from a label, the
 diagram in blunders-only mode, the T flag and the difficulty comment, the book's
 two comments, and the blunders-only filter (a decided position is left alone, a
 mate-range position is marked, and a `?` move is offered to the exercise gate).
+The same file pins the default writer's Review Settings switches: both marks are
+absent by default, and the opening entry and exercise marks appear when the
+saved settings ask for them — the writer Game Review and the Game List batch
+share.
 `annotate_dialog.tcl` gates the dialog's decision and the sparse filter's effect
 on the label, and `annotate_run.tcl` drives the whole run — plan, pass, write,
 batch chain, Cancel — against a stub engine.
