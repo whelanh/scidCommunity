@@ -25,7 +25,7 @@ set helpText(T,Contents) {<h1>scidTopluluk Yardımı İçerikleri</h1>
   
   <h4>Diğer scidTopluluk pencereleri</h4>
   <ul>
-  <li><a Analysis><b>Analiz</b> pencere</a></li>
+  <li><a Engine><b>Analiz</b> pencere</a></li>
   <li><a Engine><b>Motor</b> pencereler</a></li>
   <li><a Book><b>Kitap</b> pencere</a></li>
   <li><a CalVar><b>Varyasyonların hesaplanması</b> pencere</a></li>
@@ -75,7 +75,7 @@ set helpText(T,Index) {<h1>scidTopluluk Yardımı Konu Dizini</h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Analysis>Analiz</a> penceresi</li>
+  <li><a Engine>Analiz</a> penceresi</li>
   <li><a Annotating>Ek açıklama ekleme oyunları</a></li>
   <li><a NAGs>Açıklama sembolleri</a></li>
   <li><a Author>Yazar, iletişim kurma</a></li>
@@ -129,7 +129,7 @@ set helpText(T,Index) {<h1>scidTopluluk Yardımı Konu Dizini</h1>
   <li><a ECO Codes>ECO kod sistemi</a></li>
   <li><a ECO>ECO açılış sınıflandırması</a></li>
   <li><a Menus Edit>Düzenleme menüsü</a></li>
-  <li><a Analysis List>Motor listesi</a></li>
+  <li><a Engine Configure>Motor listesi</a></li>
   <li><a Engine>Motor camları</a></li>
   <li><a Moves>Satranç hamlelerine girme</a></li>
   <li><a EPD>EPD dosyaları</a></li>
@@ -761,11 +761,11 @@ set helpText(T,Menus) {<h1>scidCommunity menus</h1>
   
   <h3><name Tools>Tools</name></h3>
   <ul>
-  <li><menu>Configure Engines</menu>: Opens the <a Analysis List>engine configuration</a> dialog
+  <li><menu>Configure Engines</menu>: Opens the <a Engine Configure>engine configuration</a> dialog
   to set up chess engines.</li>
   <li><menu>Start Engine 1</menu>: Starts the first chess analysis engine.</li>
   <li><menu>Start Engine 2</menu>: Starts the second chess analysis engine.</li>
-  <li><menu>Analysis Window</menu>: Opens the <a Analysis>analysis window</a>.</li>
+  <li><menu>Analysis Window</menu>: Opens the <a Engine>analysis window</a>.</li>
   <br>
   <li><menu>Filter Graph</menu>: Opens/closes the <a Graphs Filter>filter graph</a> window.</li>
   <li><menu>Absolute Filter Graph</menu>: Opens/closes the absolute filter graph window.</li>
@@ -2450,7 +2450,7 @@ set helpText(T,PGNAutoComment) {<h1>PGN Penceresi: Otomatik Yorum Düğmesi</h1>
 set helpTitle(T,AnalysisAutoComment) "Otomatik Yorum Düğmesi"
 set helpText(T,AnalysisAutoComment) {<h1>Analiz Penceresi: Otomatik Yorum Düğmesi</h1>
   <p>
-   <b>Otomatik Yorum</b> düğmesi <a Analysis>Analiz Motoru</a> pencere şunları yapmanızı sağlar
+   <b>Otomatik Yorum</b> düğmesi <a Engine>Analiz Motoru</a> pencere şunları yapmanızı sağlar
   Toplu modda oyunun tamamı için otomatik olarak yapay zeka yorumları oluşturun.
   </p>
   
@@ -3205,95 +3205,26 @@ set helpText(T,Flags) {<h1>Oyun Bayrakları</h1>
   Aşağıdaki scidCommunity işlevleri bayrakları ayarlar veya gerektirir:
   <ul>
      <li><a OpeningTrainer>Açılış Eğitmeni</a>: (B) ve (W) işaretlerini değerlendirebilir
-     <li><a Analysis Annotate>En iyi hamleyi bul</a>: (T) bayrağını değerlendirir
-     <li><a Analysis Annotate>Taktik egzersiz bul</a>: (T) bayrağını ayarlar
+     <li><a ReviewSettings>En iyi hamleyi bul</a>: (T) bayrağını değerlendirir
+     <li><a ReviewSettings>Taktik egzersiz bul</a>: (T) bayrağını ayarlar
   </ul>
   
   <p><footer>(Güncelleme: scidCommunity, Nisan 2026)</footer></p>
 }
 
 
-set helpTitle(T,Analysis) "Analiz penceresi"
-set helpText(T,Analysis) {<h1>Analiz penceresi</h1>
+set helpTitle(T,Analysis) "Analysis window (retired)"
+set helpText(T,Analysis) {<h1>The Analysis window has been retired</h1>
   <p>
-  ScidCommunity Analiz penceresi, bir satranç motoru tarafından yapılan analizi gösterir.
-  mevcut tahta konumu. Konum değiştiğinde scidCommunity yenisini gönderir
-  Motorun konumunu belirler ve değerlendirmesini görüntüler. En fazla iki Analiz penceresi
-  aynı anda açılabilir.
+  The Analysis window and its Annotate dialog are gone. Engine work runs in the
+  <a Engine>Engine windows</a>: <a ReviewGameButton>Game Review</a> and
+  <a ReviewMoveButton>Move Comment</a> write the annotation, and
+  <a ReviewSettings>Review Settings</a> holds their choices. For a selection of
+  games, use <a BatchAnnotate>Batch annotate</a>.
   </p>
 
-  <h3>Düğmeler</h3>
-  <ul>
-  <li><b>Start/Stop</b> <button tb_eng_on>: Motor analizini başlatır veya durdurur.
-    Klavye kısayolu: Pencere 1 için F4, Pencere 2 için F5.</li>
-  <li><b>Kilit</b> <button tb_lockengine>: Motoru sabit bir konuma kilitler.
-    Kilitlendiğinde motor, siz gezinirken bile o konumu analiz etmeye devam eder
-    Oyundaki farklı hamleler için. Kilidi açmak için tekrar tıklayın.</li>
-  <li><b>Hareket ekle</b> <button tb_addmove>: Motorun oyuna en iyi hamlesini ekler.</li>
-  <li><b>Varyasyon ekle</b> <button tb_addvar>: Motorun en iyi satırını şu şekilde ekler:
-    Mevcut oyunun bir varyasyonu.</li>
-  <li><b>Tüm varyasyonları ekle</b> <button tb_addallvars>: Tüm MultiPV satırlarını şu şekilde ekler:
-    varyasyonları (MultiPV'yi destekleyen motorlar için).</li>
-  </ul>
-
-  <h3>Kontroller</h3>
-  <ul>
-  <li><b>Satırlar (MultiPV)</b>: Temel varyasyonların sayısını ayarlamak için döndürme kutusu
-    görüntülemek için. Daha yüksek değerler daha fazla aday hamlesini gösterir. Mevcut seçenekler farklılık gösterir
-    motorla.</li>
-  <li><b>Annotate</b> <button tb_annotate>: Ek açıklama yapılandırmasını açar
-    Oyunlara otomatik olarak açıklama eklemek için iletişim kutusu.</li>
-  <li><b>Eğitim/Otomatik Oynat</b> <button tb_training>: İstediğiniz eğitim moduna girer.
-    motora karşı oynayın veya otomatik olarak ilerlemek için otomatik oynatma modu
-    Analizi görünen oyun.</li>
-  <li><b>Oyunu Bitir</b> <button tb_finish_off>: Oyunun tamamını oynatır
-    motoru kullanarak her iki taraf için de hareketler yapın. Bir yapılandırma iletişim kutusu açar
-    hareket başına süreyi/derinliği ayarlamak ve isteğe bağlı olarak ek açıklamalar eklemek için.</li>
-  <li><b>Panoyu göster</b> <button tb_coords>: Analiz panosunu gösterir veya gizler
-    motorun en iyi çizgisinin sonundaki konumu görüntüler.</li>
-  <li><b>Bilgileri göster</b> <button tb_engineinfo>: Ek motoru gösterir veya gizler
-    bilgiler (tablo tabanı isabetleri, düğüm/sn, karma kullanımı, CPU yükü).</li>
-  <li><b>Öncelik</b>: Motor işlem önceliğini düşük veya yüksek olarak ayarlar.</li>
-  <li><b>Güncelleme</b> <button tb_update>: Motoru analizini güncellemeye zorlar.</li>
-  </ul>
-
-  <h3>Görüntü Alanı</h3>
-  <p>
-  Ana metin alanı aşağıdakiler de dahil olmak üzere motorun mevcut değerlendirmesini gösterir:
-  </p>
-  <ul>
-  <li>Piyon birimleri cinsinden skor (negatif = Siyah daha iyi)</li>
-  <li>Arama derinliğine ulaşıldı</li>
-  <li>Temel varyasyon (PV) - en iyi hamle çizgisi</li>
-  </ul>
-  <p>
-  MultiPV > 1 olan UCI motorları için birden fazla aday satır gösterilir.
-  </p>
-
-  <h3><a Annotate>Bir oyuna açıklama ekleme</h3>
-  <p>
-  Ek açıklama yapılandırma iletişim kutusunu açmak için <b>Annotate</b> düğmesine basın:
-  </p>
-  <ul>
-  <li><b>Hareketler arası süre</b>: Motorun her konumda harcadığı saniye.</li>
-  <li><b>Tüm hareketlere açıklama ekle</b> veya <b>Yalnızca hatalar</b>: Her hamlenin
-    açıklamalı veya yalnızca kötü hamleler alır. Piyon birimlerinde bir hata eşiği belirleyin.</li>
-  <li><b>Varyasyonlar</b>: Motorun analizindeki varyasyonları içerir.</li>
-  <li><b>Kısa açıklamalar</b>: Motor adları olmayan minimum format.</li>
-  <li><b>Puan ekle</b>: Değerlendirme puanlarını piyon birimlerine dahil edin.</li>
-  <li><b>Ek açıklama etiketi ekle</b>: Hangi motorun kullanıldığını kaydeder.</li>
-  <li><b>Kitabı kullan</b>: Açılış defterindeki konumları atlar.</li>
-  <li><b>Birden fazla oyuna açıklama ekleyin</b>: Birden fazla oyuna sırayla toplu açıklama ekleyin.</li>
-  <li><b>Açılış hatalarını bul</b>: Açılış aşamasındaki hataları işaretler.</li>
-  <li><b>Taktik egzersizleri işaretleyin</b>: Eğitim pozisyonları oluşturur (yalnızca UCI motorları).</li>
-  </ul>
-  <p>
-  Açıklamaları istediğiniz zaman iptal etmek için ana pencerede Escape tuşuna basın.
-  </p>
-
-  <p><footer>(Güncelleme: scidCommunity, Nisan 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
 }
-
 
 set helpTitle(T,Engine) "Motor camları"
 set helpText(T,Engine) {<h1>Motor pencereleri</h1>
@@ -3474,7 +3405,7 @@ set helpText(T,EPD) {<h1>EPD dosyaları</h1>
   <p>
   Araçlar / seçilerek EPD dosyalarına otomatik olarak açıklama eklenebilir
   Konuma açıklama ekleyin. Yaklaşan diyalogda bunun zamanı soruluyor
-  analiz için kullanılmalıdır, ardından <a Analysis List>motor
+  analiz için kullanılmalıdır, ardından <a Engine Configure>motor
   Kullanılacak motorun seçimi için liste</a> açılır. <b>Not</b> Eğer
   analiz penceresi zaten açık, analiz bu pencere kullanılarak yapılıyor
   kullanıcıya önceden sormadan motor. Daha sonra motor
@@ -4683,7 +4614,7 @@ set helpText(T,SeriousGame) {<h1>Ciddi oyun penceresi</h1>
   <term>Oyun konfigürasyonu</term> penceresinin üstünde verilmiştir.
   düğmesi <term>UCI motorunu yapılandır</term> ayrıca erişim sağlar
   motor parametrelerine. Varsayılan olarak aşağıdaki gibi ayarlanırlar:
-  <a Analysis List>motor konfigürasyonu</a>.
+  <a Engine Configure>motor konfigürasyonu</a>.
   </p>
   <p>
   Daha sonra kullanılması gereken kitap açılanlar arasından seçilebilir.

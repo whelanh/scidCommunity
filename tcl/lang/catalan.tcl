@@ -211,10 +211,6 @@ translate K EpdPasteRecord {Enganxa el registre}
 # Tools menu:
 menuText K Tools "Eines" 0
 menuText K ToolsConfigureEngines "Configura motors" 10 {Canvia paràmetres dels diferents motors}
-menuText K ToolsAnalysis "Motor d'anàlisi..." 0 \
-  {Inicia/Atura un motor d'análisi d'escacs}
-menuText K ToolsAnalysis2 "Motor d'anàlisi #2..." 18 \
-  {Inicia/Atura el segon motor d'análisi d'escacs}
 menuText K ToolsEngineWindow "Finestra del motor..." 0 {Obre una finestra de motor d'escacs}
 menuText K ToolsCross "Quadre" 0 {Mostra el Quadre del torneig per aquesta partida}
 menuText K ToolsFilterGraph "Filtre Gràfic Rel." 7 \
@@ -957,8 +953,8 @@ translate K OtherBookMovesTooltip {Jugades a les que el contrari te una respuest
 translate K Alphabetical {Alfabètic}
 translate K BookCount {Llibres}
 
-# Analysis Engine open dialog:
-translate K EngineList {Llista de Motors d'Anàlisi}
+# Configure Engines dialog:
+translate K EngineList {Configura motors}
 translate K EngineName {Nom}
 translate K EngineCmd {Ordre}
 translate K EngineArgs {Paràmetres}
@@ -981,7 +977,6 @@ translate K EngineReload {Recarrega motor actual}
 translate K EngineClone {Crea una còpia del motor actual}
 translate K EngineDuplicate {Duplica}
 translate K EngineDelete {Esborra el motor actual}
-translate K EngineOpenAnalysis {Anàlisi oberta}
 translate K EngineOpenWindow {Obre la finestra del motor}
 
 # PGN window menus:

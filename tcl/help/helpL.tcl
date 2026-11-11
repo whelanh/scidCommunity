@@ -25,7 +25,7 @@ set helpText(L,Contents) {<h1>scidCommunity Ajutor Conținut</h1>
   
   <h4>Alte ferestre scidCommunity</h4>
   <ul>
-  <li><a Analysis><b>Fereastra de analiză</b></a></li>
+  <li><a Engine><b>Fereastra de analiză</b></a></li>
   <li><a Engine><b>Motor</b> ferestre</a></li>
   <li><a Book><b>Carte</b> fereastră</a></li>
   <li><a CalVar><b>Fereastra de calcul al variațiilor</b></a></li>
@@ -74,7 +74,7 @@ set helpText(L,Index) {<h1>scidCommunity Index subiect de ajutor</h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Analysis>Fereastra de analiză</a></li>
+  <li><a Engine>Fereastra de analiză</a></li>
   <li><a Annotating>Jocuri de adnotare</a></li>
   <li><a NAGs>Simboluri de adnotare</a></li>
   <li><a Author>Autor, contactează</a></li>
@@ -128,7 +128,7 @@ set helpText(L,Index) {<h1>scidCommunity Index subiect de ajutor</h1>
   <li><a ECO Codes>Sistem de coduri ECO</a></li>
   <li><a ECO>Clasificare ECO deschideri </a></li>
   <li><a Menus Edit>Meniu Editare</a></li>
-  <li><a Analysis List>Lista de motoare</a></li>
+  <li><a Engine Configure>Lista de motoare</a></li>
   <li><a Engine>Greamuri motor</a></li>
   <li><a Moves>Introducerea mutărilor de șah</a></li>
   <li><a EPD>Fișiere EPD</a></li>
@@ -762,11 +762,11 @@ set helpText(L,Menus) {<h1>scidCommunity menus</h1>
   
   <h3><name Tools>Tools</name></h3>
   <ul>
-  <li><menu>Configure Engines</menu>: Opens the <a Analysis List>engine configuration</a> dialog
+  <li><menu>Configure Engines</menu>: Opens the <a Engine Configure>engine configuration</a> dialog
   to set up chess engines.</li>
   <li><menu>Start Engine 1</menu>: Starts the first chess analysis engine.</li>
   <li><menu>Start Engine 2</menu>: Starts the second chess analysis engine.</li>
-  <li><menu>Analysis Window</menu>: Opens the <a Analysis>analysis window</a>.</li>
+  <li><menu>Analysis Window</menu>: Opens the <a Engine>analysis window</a>.</li>
   <br>
   <li><menu>Filter Graph</menu>: Opens/closes the <a Graphs Filter>filter graph</a> window.</li>
   <li><menu>Absolute Filter Graph</menu>: Opens/closes the absolute filter graph window.</li>
@@ -2451,7 +2451,7 @@ set helpText(L,PGNAutoComment) {<h1>Fereastra PGN: Buton pentru comentarii autom
 set helpTitle(L,AnalysisAutoComment) "Butonul de comentarii automate"
 set helpText(L,AnalysisAutoComment) {<h1>Fereastra de analiză: Buton de comentariu automat </h1>
   <p>
-  Butonul <b>Auto Comment</b> din fereastra <a Analysis>Analysis Engine</a> vă permite să
+  Butonul <b>Auto Comment</b> din fereastra <a Engine>Engine Window</a> vă permite să
   generează automat comentarii AI pentru un întreg joc în modul lot.
   </p>
   
@@ -3207,8 +3207,8 @@ set helpText(L,Flags) {<h1>Steaguri de joc</h1>
   Următoarele funcții ale scidCommunity setează sau necesită steaguri:
   <ul>
      <li><a OpeningTrainer>Trainer de deschidere</a>: poate evalua steagurile (B) și (W).
-     <li><a Analysis Annotate>Găsiți cea mai bună mișcare</a>: evaluează steagul (T).
-     <li><a Analysis Annotate>Găsiți exerciții tactice</a>: setează steagul (T).
+     <li><a ReviewSettings>Găsiți cea mai bună mișcare</a>: evaluează steagul (T).
+     <li><a ReviewSettings>Găsiți exerciții tactice</a>: setează steagul (T).
   </ul>
   
   <p><footer>(Actualizat: scidCommunity, aprilie 2026)</footer></p>
@@ -3216,87 +3216,18 @@ set helpText(L,Flags) {<h1>Steaguri de joc</h1>
 }
 
 
-set helpTitle(L,Analysis) "Fereastra de analiză"
-set helpText(L,Analysis) {<h1>Fereastra de analiză </h1>
+set helpTitle(L,Analysis) "Analysis window (retired)"
+set helpText(L,Analysis) {<h1>The Analysis window has been retired</h1>
   <p>
-  Fereastra scidCommunity Analysis arată analiza de către un motor de șah a
-  poziția actuală a consiliului. Când poziția se schimbă, scidCommunity trimite noul
-  poziţia faţă de motor şi afişează evaluarea acestuia. Până la două ferestre de analiză
-  pot fi deschise simultan.
+  The Analysis window and its Annotate dialog are gone. Engine work runs in the
+  <a Engine>Engine windows</a>: <a ReviewGameButton>Game Review</a> and
+  <a ReviewMoveButton>Move Comment</a> write the annotation, and
+  <a ReviewSettings>Review Settings</a> holds their choices. For a selection of
+  games, use <a BatchAnnotate>Batch annotate</a>.
   </p>
 
-  <h3>Butoane </h3>
-  <ul>
-  <li><b>Pornire/Oprire</b> <button tb_eng_on>: Pornește sau oprește analiza motorului.
-    Comandă rapidă de la tastatură: F4 pentru fereastra 1, F5 pentru fereastra 2. </li>
-  <li><b>Blocare</b> <button tb_lockengine>: Blocează motorul într-o poziție fixă.
-    Când este blocat, motorul continuă să analizeze acea poziție chiar și atunci când navighezi
-    la diferite mișcări din joc. Faceți clic din nou pentru a debloca.</li>
-  <li><b>Adăugați mișcare</b> <button tb_addmove>: adaugă cea mai bună mișcare a motorului în joc.</li>
-  <li><b>Adăugați o variantă</b> <button tb_addvar>: adaugă cea mai bună linie a motorului ca
-    o variație a jocului curent.</li>
-  <li><b>Adăugați toate variantele</b> <button tb_addallvars>: Adaugă toate liniile MultiPV ca
-    variații (pentru motoarele care acceptă MultiPV).</li>
-  </ul>
-
-  <h3>Comenzi </h3>
-  <ul>
-  <li><b>Linii (MultiPV)</b>: Spinbox pentru a seta numărul de variații principale
-    a afisa. Valorile mai mari arată mai multe mișcări candidate. Opțiunile disponibile variază
-    cu motor.</li>
-  <li><b>Adnotate</b> <button tb_annotate>: Deschide configurația adnotărilor
-    dialog pentru adnotarea automată a jocurilor.</li>
-  <li><b>Antrenament/Redare automată</b> <button tb_training>: Intră în modul de antrenament unde
-    juca împotriva motorului sau modul de redare automată pentru a avansa automat
-    jocul cu analiza vizibilă.</li>
-  <li><b>Finish Game </b> <button tb_finish_off>: joacă întregul joc
-    folosind motorul, făcând mișcări pentru ambele părți. Deschide un dialog de configurare
-    pentru a seta timpul/adâncimea per mișcare și, opțional, adaugă adnotări.</li>
-  <li><b>Afișează panoul </b> <button tb_coords>: Afișează sau ascunde panoul de analiză
-    afișând poziția la capătul celei mai bune linii a motorului.</li>
-  <li><b>Afișează informații</b> <button tb_engineinfo>: afișează sau ascunde motorul suplimentar
-    informații (accesări la baza de tabele, noduri/sec, utilizare hash, încărcare CPU).</li>
-  <li><b>Prioritate</b>: Setează prioritatea procesului motorului la scăzută sau ridicată.</li>
-  <li><b>Actualizare</b> <button tb_update>: Forțează motorul să-și actualizeze analiza.</li>
-  </ul>
-
-  <h3>Zona de afișare </h3>
-  <p>
-  Zona principală de text arată evaluarea curentă a motorului, inclusiv:
-  </p>
-  <ul>
-  <li>Scor în unități de pioni (negativ = negru mai bun)</li>
-  <li>Adancime de căutare atinsă </li>
-  <li>Variația principală (PV) - cea mai bună linie de mișcări </li>
-  </ul>
-  <p>
-  Pentru motoarele UCI cu MultiPV > 1, sunt afișate mai multe linii candidate.
-  </p>
-
-  <h3><a Annotate>Adnotarea unui joc</h3>
-  <p>
-  Apăsați butonul <b>Annotate</b> pentru a deschide dialogul de configurare a adnotărilor:
-  </p>
-  <ul>
-  <li><b>Timp între mișcări</b>: secunde pe care motorul le petrece pe fiecare poziție.</li>
-  <li><b>Adnotare toate mișcările</b> sau <b>Numai gafe</b>: alegeți dacă fiecare mișcare
-    este adnotat sau doar mișcări proaste. Setați un prag de gafă în unități de pioni.</li>
-  <li><b>Variații</b>: Includeți variații din analiza motorului.</li>
-  <li><b>Adnotări scurte</b>: format minim fără nume de motor.</li>
-  <li><b>Adăugați scor</b>: includeți scorurile de evaluare în unități de pioni.</li>
-  <li><b>Adăugați etichetă de adnotare</b>: înregistrează ce motor a fost folosit.</li>
-  <li><b>Utilizați cartea</b>: Omite pozițiile care se află în cartea de deschidere.</li>
-  <li><b>Adnotare mai multe jocuri</b>: Adnotare în serie a mai multor jocuri în secvență.</li>
-  <li><b>Găsiți erori de deschidere</b>: marchează gafe în faza de deschidere.</li>
-  <li><b>Marcați exercițiile tactice</b>: creează poziții de antrenament (numai motoarele UCI).</li>
-  </ul>
-  <p>
-  Apăsați Escape în fereastra principală pentru a anula adnotarea în orice moment.
-  </p>
-
-  <p><footer>(Actualizat: scidCommunity, aprilie 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
 }
-
 
 set helpTitle(L,Engine) "Geamuri motor"
 set helpText(L,Engine) {<h1>Ferestrele motorului </h1>
@@ -3476,7 +3407,7 @@ set helpText(L,EPD) {<h1>Fișiere EPD </h1>
   <p>
   Fișierele EPD pot fi adnotate automat selectând Instrumente /
   Adnotă poziția. Dialogul care urmează cere timpul în care
-  ar trebui folosit pentru analiză, apoi motorul <a Analysis List>.
+  ar trebui folosit pentru analiză, apoi motorul <a Engine Configure>.
   list</a> este deschisă pentru selectarea unui motor de utilizat. <b>Notă</b> Dacă an
   fereastra de analiză este deja deschisă, analiza se face folosind aceasta
   motor fără a întreba utilizatorul în prealabil. Atunci motorul este
@@ -4686,7 +4617,7 @@ set helpText(L,SeriousGame) {<h1>Fereastra jocului serios </h1>
   dat deasupra ferestrei <term>Configurarea jocului </term>. The
   butonul <term>Configurare motor UCI </term> oferă acces suplimentar
   la parametrii motoarelor. În mod implicit, acestea sunt setate ca în
-  <a Analysis List>configurație motor </a>.
+  <a Engine Configure>configurație motor </a>.
   </p>
   <p>
   În continuare, cartea care ar trebui folosită poate fi aleasă dintre cele de deschidere

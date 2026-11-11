@@ -271,7 +271,7 @@ proc ::enginelist::choose {} {
     ::enginelist::sort
     focus $w.list.list
     wm protocol $w WM_DELETE_WINDOW "destroy $w"
-    bind $w <F1> { helpWindow Analysis List }
+    bind $w <F1> { helpWindow Engine Configure }
     bind $w <Escape> "destroy $w"
     bind $w.list.list <Return> "$w.buttons.open invoke; break"
 }
@@ -578,7 +578,7 @@ proc ::enginelist::edit {index} {
     grid $f.cancel -row $row -column 3 -sticky we -pady { 10 0 }
 
     bind $w <Return> "$f.ok invoke"
-    bind $w <F1> { helpWindow Analysis List }
+    bind $w <F1> { helpWindow Engine Configure }
     focus $w.f.eName
     wm resizable $w 1 0
     catch {grab $w}

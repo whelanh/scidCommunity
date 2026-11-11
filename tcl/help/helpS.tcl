@@ -25,7 +25,7 @@ set helpText(S,Contents) {<h1>Contenido de la ayuda de la comunidad scid</h1>
   
   <h4>Otras ventanas de scidCommunity</h4>
   <ul>
-  <li><a Analysis><b>Análisis</b> ventana</a></li>
+  <li><a Engine><b>Análisis</b> ventana</a></li>
   <li><a Engine><b>Motor</b> ventanas</a></li>
   <li><a Book><b>Libro</b> ventana</a></li>
   <li><a CalVar><b>Cálculo de variaciones</b> ventana</a></li>
@@ -75,7 +75,7 @@ set helpText(S,Index) {<h1>scidÍndice de temas de ayuda de la comunidad</h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Analysis>Ventana de análisis</a></li>
+  <li><a Engine>Ventana de análisis</a></li>
   <li><a Annotating>Anotar juegos</a></li>
   <li><a NAGs>Símbolos de anotación</a></li>
   <li><a Author>Autor, contactando</a></li>
@@ -129,7 +129,7 @@ set helpText(S,Index) {<h1>scidÍndice de temas de ayuda de la comunidad</h1>
   <li><a ECO Codes>Sistema de código ECO</a></li>
   <li><a ECO>Clasificación de aperturas ECO</a></li>
   <li><a Menus Edit>Menú de edición</a></li>
-  <li><a Analysis List>Lista de motores</a></li>
+  <li><a Engine Configure>Lista de motores</a></li>
   <li><a Engine>Ventanas del motor</a></li>
   <li><a Moves>Introducir movimientos de ajedrez</a></li>
   <li><a EPD>Archivos EPD</a></li>
@@ -763,11 +763,11 @@ set helpText(S,Menus) {<h1>scidCommunity menus</h1>
   
   <h3><name Tools>Tools</name></h3>
   <ul>
-  <li><menu>Configure Engines</menu>: Opens the <a Analysis List>engine configuration</a> dialog
+  <li><menu>Configure Engines</menu>: Opens the <a Engine Configure>engine configuration</a> dialog
   to set up chess engines.</li>
   <li><menu>Start Engine 1</menu>: Starts the first chess analysis engine.</li>
   <li><menu>Start Engine 2</menu>: Starts the second chess analysis engine.</li>
-  <li><menu>Analysis Window</menu>: Opens the <a Analysis>analysis window</a>.</li>
+  <li><menu>Analysis Window</menu>: Opens the <a Engine>analysis window</a>.</li>
   <br>
   <li><menu>Filter Graph</menu>: Opens/closes the <a Graphs Filter>filter graph</a> window.</li>
   <li><menu>Absolute Filter Graph</menu>: Opens/closes the absolute filter graph window.</li>
@@ -2479,7 +2479,7 @@ set helpText(S,PGNAutoComment) {<h1>Ventana PGN: Botón de comentario automátic
 set helpTitle(S,AnalysisAutoComment) "Botón de comentario automático"
 set helpText(S,AnalysisAutoComment) {<h1>Ventana de análisis: Botón de comentario automático </h1>
   <p>
-  El botón <b> Comentario automático </b> en la ventana <a Analysis> Motor de análisis </a> le permite
+  El botón <b> Comentario automático </b> en la ventana <a Engine> Motor de análisis </a> le permite
   Genera automáticamente comentarios de IA para un juego completo en modo por lotes.
   </p>
   
@@ -3236,8 +3236,8 @@ set helpText(S,Flags) {<h1>Banderas de juego</h1>
   Las siguientes funciones de scidCommunity establecen o requieren indicadores:
   <ul>
      <li><a OpeningTrainer>Entrenador de apertura</a>: puede evaluar las banderas (B) y (W)
-     <li><a Analysis Annotate>Encuentra el mejor movimiento</a>: evalúa la bandera (T)
-     <li><a Analysis Annotate>Encuentra ejercicio táctico.</a>: establece la bandera (T)
+     <li><a ReviewSettings>Encuentra el mejor movimiento</a>: evalúa la bandera (T)
+     <li><a ReviewSettings>Encuentra ejercicio táctico.</a>: establece la bandera (T)
   </ul>
   
   <p><footer>(Actualizado: scidCommunity, abril de 2026)</footer></p>
@@ -3245,87 +3245,18 @@ set helpText(S,Flags) {<h1>Banderas de juego</h1>
 }
 
 
-set helpTitle(S,Analysis) "Ventana de análisis"
-set helpText(S,Analysis) {<h1>La ventana de Análisis</h1>
+set helpTitle(S,Analysis) "Analysis window (retired)"
+set helpText(S,Analysis) {<h1>The Analysis window has been retired</h1>
   <p>
-  La ventana Análisis de scidCommunity muestra el análisis realizado por un motor de ajedrez del
-  posición actual de la junta directiva. Cuando la posición cambia, scidCommunity envía la nueva
-  posición al motor y muestra su evaluación. Hasta dos ventanas de análisis
-  pueden abrirse simultáneamente.
+  The Analysis window and its Annotate dialog are gone. Engine work runs in the
+  <a Engine>Engine windows</a>: <a ReviewGameButton>Game Review</a> and
+  <a ReviewMoveButton>Move Comment</a> write the annotation, and
+  <a ReviewSettings>Review Settings</a> holds their choices. For a selection of
+  games, use <a BatchAnnotate>Batch annotate</a>.
   </p>
 
-  <h3>Botones</h3>
-  <ul>
-  <li><b>Arranque/Parada</b> <button tb_eng_on>: Inicia o detiene el análisis del motor.
-    Atajo de teclado: F4 para la ventana 1, F5 para la ventana 2.</li>
-  <li><b>Bloqueo</b> <button tb_lockengine>: Bloquea el motor en una posición fija.
-    Cuando está bloqueado, el motor sigue analizando esa posición incluso cuando navegas
-    a diferentes movimientos en el juego. Haga clic nuevamente para desbloquear.</li>
-  <li><b>Añadir movimiento</b> <button tb_addmove>: Agrega el mejor movimiento del motor al juego.</li>
-  <li><b>Agregar variación</b> <button tb_addvar>: Agrega la mejor línea del motor como
-    una variación del juego actual.</li>
-  <li><b>Agregar todas las variaciones</b> <button tb_addallvars>: Agrega todas las líneas MultiPV como
-    variaciones (para motores que admiten MultiPV).</li>
-  </ul>
-
-  <h3>Controles</h3>
-  <ul>
-  <li><b>Lines (MultiPV)</b>: Spinbox para establecer el número de variaciones principales
-    para mostrar. Los valores más altos muestran más movimientos candidatos. Las opciones disponibles varían
-    por motor.</li>
-  <li><b>Annotate</b> <button tb_annotate>: Abre la configuración de anotaciones
-    cuadro de diálogo para anotar juegos automáticamente.</li>
-  <li><b>Entrenamiento/Reproducción automática </b> <button tb_training>: ingresa al modo de entrenamiento donde
-    jugar contra el motor, o el modo de reproducción automática para avanzar automáticamente
-    el juego con análisis visible.</li>
-  <li><b>Finalizar juego</b> <button tb_finish_off>: reproduce todo el juego
-    usando el motor, haciendo movimientos para ambos lados. Abre un cuadro de diálogo de configuración.
-    para establecer el tiempo/profundidad por movimiento y, opcionalmente, agrega anotaciones. </li>
-  <li><b>Mostrar tablero</b> <button tb_coords>: Muestra u oculta el tablero de análisis
-    mostrando la posición al final de la mejor línea del motor.</li>
-  <li><b>Mostrar información</b> <button tb_engineinfo>: Muestra u oculta motor adicional
-    información (visitas a la base de tablas, nodos/seg, uso de hash, carga de CPU). </li>
-  <li><b>Prioridad</b>: establece la prioridad del proceso del motor en baja o alta.</li>
-  <li><b>Actualizar</b> <button tb_update>: Obliga al motor a actualizar su análisis.</li>
-  </ul>
-
-  <h3>Área de visualización</h3>
-  <p>
-  El área de texto principal muestra la evaluación actual del motor, que incluye:
-  </p>
-  <ul>
-  <li>Puntuación en unidades de peón (negativo = mejor para las negras)</li>
-  <li>Profundidad de búsqueda alcanzada</li>
-  <li>Variación principal (PV): la mejor línea de movimientos</li>
-  </ul>
-  <p>
-  Para motores UCI con MultiPV > 1, se muestran varias líneas candidatas.
-  </p>
-
-  <h3><a Annotate>Anotar un juego</h3>
-  <p>
-  Presione el botón <b>Anotar</b> para abrir el cuadro de diálogo de configuración de anotaciones:
-  </p>
-  <ul>
-  <li><b>Tiempo entre movimientos</b>: Segundos que el motor pasa en cada posición.</li>
-  <li><b>Anotar todos los movimientos</b> o <b>Solo errores </b>: elija si cada movimiento
-    recibe anotaciones o solo malos movimientos. Establezca un umbral de errores en las unidades de peón. </li>
-  <li><b>Variaciones</b>: Incluye variaciones del análisis del motor.</li>
-  <li><b>Anotaciones breves</b>: Formato mínimo sin nombres de motores.</li>
-  <li><b>Añadir puntuación</b>: Incluir puntuaciones de evaluación en unidades de peón.</li>
-  <li><b> Agregar etiqueta de anotador </b>: registra qué motor se utilizó. </li>
-  <li><b>Usar libro</b>: Salta posiciones que están en el libro de apertura.</li>
-  <li><b>Anotar varios juegos</b>: Anotar por lotes varios juegos en secuencia.</li>
-  <li><b>Encontrar errores de apertura</b>: Marca errores garrafales en la fase de apertura.</li>
-  <li><b>Marcar ejercicios tácticos</b>: Crea posiciones de entrenamiento (solo motores UCI).</li>
-  </ul>
-  <p>
-  Presione Escape en la ventana principal para cancelar la anotación en cualquier momento.
-  </p>
-
-  <p><footer>(Actualizado: scidCommunity, abril de 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
 }
-
 
 set helpTitle(S,Engine) "Ventanas del motor"
 set helpText(S,Engine) {<h1> Las ventanas del motor </h1>
@@ -3506,7 +3437,7 @@ set helpText(S,EPD) {<h1>Archivos EPD</h1>
   <p>
   Los archivos EPD se pueden anotar automáticamente seleccionando Herramientas /
   Anotar posición. El próximo diálogo pregunta por el tiempo que
-  debe usarse para el análisis, entonces el <a Analysis List>motor
+  debe usarse para el análisis, entonces el <a Engine Configure>motor
   lista</a> se abre para seleccionar el motor que se va a utilizar. <b>Nota</b> si un
   La ventana de análisis ya está abierta, el análisis se realiza usando este
   motor sin consultar previamente al usuario. Entonces el motor es
@@ -4719,7 +4650,7 @@ set helpText(S,SeriousGame) {<h1>Ventana de juego serio</h1>
   que se encuentra en la parte superior de la ventana <term> Configuración del juego </term>. el
   botón <term> Configurar motor UCI </term> además da acceso
   a los parámetros del motor. De forma predeterminada, están configurados como en el
-  <a Analysis List> configuración del motor </a>.
+  <a Engine Configure> configuración del motor </a>.
   </p>
   <p>
   A continuación, se puede elegir el libro que se debe utilizar entre los que se abren.

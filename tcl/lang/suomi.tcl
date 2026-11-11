@@ -234,10 +234,6 @@ translate U EpdPasteRecord {Liitä tietue}
 # Tools menu:
 menuText U Tools "Työkalut" 1
 menuText U ToolsConfigureEngines "Konfiguroi moottorit" 10 {Hallitse moottoreiden kokoonpanoa}
-menuText U ToolsAnalysis "Analyysimoottori #1..." 18 \
-  {Käynnistä/pysäytä analyysimoottori}
-menuText U ToolsAnalysis2 "Analyysimoottori #2..." 18 \
-  {Käynnistä/pysäytä toinen analyysimoottori}
 menuText U ToolsEngineWindow "Moottorin ikkuna..." 0 {Avaa shakkimoottorin ikkuna}
 menuText U ToolsCross "Ristitaulukko" 0 {Näytä turnauksen ristitaulukko tälle pelille}
 menuText U ToolsFilterGraph "Suhteellinen graafi" 13 {Avaa/sulje suodatingraafi suhteellisilla arvoilla}
@@ -970,8 +966,8 @@ translate U OtherBookMovesTooltip {Siirrot, joihin vastustajalla on vastaus}
 translate U Alphabetical {Aakkosellinen}
 translate U BookCount {Kirjat}
 
-# Analysis Engine open dialog:
-translate U EngineList {Analyysimoottorilista}
+# Configure Engines dialog:
+translate U EngineList {Konfiguroi moottorit}
 translate U EngineName {Nimi}
 translate U EngineCmd {Komento}
 translate U EngineArgs {Parametrit}
@@ -994,7 +990,6 @@ translate U EngineReload {Lataa nykyinen moottori uudelleen}
 translate U EngineClone {Luo kopio nykyisestä moottorista}
 translate U EngineDuplicate {Monista}
 translate U EngineDelete {Poista nykyinen moottori}
-translate U EngineOpenAnalysis {Avaa analyysi}
 translate U EngineOpenWindow {Avaa moottorin ikkuna}
 
 # PGN window menus:

@@ -198,10 +198,6 @@ translate I EpdPasteRecord {Incolla registrazione}
 # Tools menu:
 menuText I Tools "Strumenti" 0
 menuText I ToolsConfigureEngines "Configura i motori" 12 {Gestione delle batterie dei motori}
-menuText I ToolsAnalysis "Motore di analisi..." 10 \
-  {Avvia/ferma il motore di analisi scacchistica}
-menuText I ToolsAnalysis2 "Motore di analisi 2..." 20 \
-  {Avvia/ferma il motore di analisi scacchistica}
 menuText I ToolsEngineWindow "Finestra del motore..." 0 {Apri una finestra del motore scacchistico}
 menuText I ToolsCross "Tabellone" 0 {Mostra il tabellone del torneo per questa partita}
 menuText I ToolsFilterGraph "Grafici relativi" 3 \
@@ -942,8 +938,8 @@ translate I OtherBookMovesTooltip {Mosse alle quali l'avversario ha una risposta
 translate I Alphabetical {Alfabetico}
 translate I BookCount {Libri}
 
-# Analysis Engine open dialog:
-translate I EngineList {Lista dei motori di analisi}
+# Configure Engines dialog:
+translate I EngineList {Configura i motori}
 translate I EngineName {Nome}
 translate I EngineCmd {Comando}
 translate I EngineArgs {Parametri}
@@ -966,7 +962,6 @@ translate I EngineReload {Ricarica il motore corrente}
 translate I EngineClone {Crea una copia del motore corrente}
 translate I EngineDuplicate {Duplica}
 translate I EngineDelete {Elimina il motore corrente}
-translate I EngineOpenAnalysis {Apri analisi}
 translate I EngineOpenWindow {Apri la finestra del motore}
 
 # PGN window menus:

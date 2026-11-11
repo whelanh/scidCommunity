@@ -201,10 +201,6 @@ translate W EpdPasteRecord {Klistra in post}
 # Tools menu:
 menuText W Tools "Verktyg" 0
 menuText W ToolsConfigureEngines "Konfigurera motorer" 10 {Hantera motorernas konfiguration}
-menuText W ToolsAnalysis "Analysmotor..." 6 \
-  {Starta/ stoppa en analysmotor}
-menuText W ToolsAnalysis2 "Analysmotor 2..." 12 \
-  {Starta/ stoppa en andra analysmotor}
 menuText W ToolsEngineWindow "Motorfönster..." 0 {Öppna ett schackmotorfönster}
 menuText W ToolsCross "Resultattabell" 0 {Visa en resultattabell för den aktuella turneringen}
 menuText W ToolsFilterGraph "Filterdiagram" 7 \
@@ -942,8 +938,8 @@ translate W OtherBookMovesTooltip {Drag som motståndaren har ett svar på}
 translate W Alphabetical {Alfabetisk}
 translate W BookCount {Böcker}
 
-# Analysis Engine open dialog:
-translate W EngineList {Lista över schackprogram}
+# Configure Engines dialog:
+translate W EngineList {Konfigurera motorer}
 translate W EngineName {Namn}
 translate W EngineCmd {Startkommando}
 translate W EngineArgs {Parametrar} 
@@ -966,7 +962,6 @@ translate W EngineReload {Ladda om den nuvarande motorn}
 translate W EngineClone {Skapa en kopia av den aktuella motorn}
 translate W EngineDuplicate {Duplicera}
 translate W EngineDelete {Ta bort den aktuella motorn}
-translate W EngineOpenAnalysis {Öppna Analys}
 translate W EngineOpenWindow {Öppna motorfönstret}
 
 # PGN window menus:

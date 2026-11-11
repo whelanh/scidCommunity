@@ -222,10 +222,6 @@ translate D EpdPasteRecord {Datensatz einfügen}
 # Tools menu:
 menuText D Tools "Werkzeuge" 0
 menuText D ToolsConfigureEngines "Engine konfigurieren" 10 {Manage engines' configuration}
-menuText D ToolsAnalysis "Analyse-Engine..." 0 \
-  {Schachanalyse-Programm starten/beenden}
-menuText D ToolsAnalysis2 "Analyse-Engine #2..." 16 \
-  {Schachanalyse-Programm Nr.2 starten/beenden}
 menuText D ToolsEngineWindow "Motorfenster..." 0 {Öffnen Sie ein Schach-Engine-Fenster}
 menuText D ToolsCross "Turniertabelle" 0 {Turniertabelle für diese Partie anzeigen}
 menuText D ToolsFilterGraph "Rel. Filtergrafik" 0 \
@@ -971,8 +967,8 @@ translate D OtherBookMovesTooltip {Züge, für die der Gegner eine Antwort kennt
 translate D Alphabetical {Alphabetisch}
 translate D BookCount {Bücher}
 
-# Analysis Engine open dialog:
-translate D EngineList {Analyse-Engines}
+# Configure Engines dialog:
+translate D EngineList {Engine konfigurieren}
 translate D EngineName {Name}
 translate D EngineCmd {Befehl}
 translate D EngineArgs {Parameter}
@@ -995,7 +991,6 @@ translate D EngineReload {Laden Sie die aktuelle Engine neu}
 translate D EngineClone {Erstellen Sie eine Kopie der aktuellen Engine}
 translate D EngineDuplicate {Duplizieren}
 translate D EngineDelete {Löschen Sie die aktuelle Engine}
-translate D EngineOpenAnalysis {Offene Analyse}
 translate D EngineOpenWindow {Öffnen Sie das Engine-Fenster}
 
 # PGN window menus:

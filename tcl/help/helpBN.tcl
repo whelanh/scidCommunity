@@ -25,7 +25,7 @@ set helpText(b,Contents) {<h1>scidCommunity সাহায্য বিষয�
   
   <h4>অন্যান্য scidCommunity উইন্ডোজ</h4>
   <ul>
-  <li><a Analysis><b>বিশ্লেষণ</b> জানালা</a></li>
+  <li><a Engine><b>বিশ্লেষণ</b> জানালা</a></li>
   <li><a Engine><b>ইঞ্জিন</b> জানালা</a></li>
   <li><a Book><b>বই</b> জানালা</a></li>
   <li><a CalVar><b>বৈচিত্রের গণনা</b> জানালা</a></li>
@@ -75,7 +75,7 @@ set helpText(b,Index) {<h1>scidCommunity Help Topic Index</h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Analysis>বিশ্লেষণ</a> উইন্ডো</li>
+  <li><a Engine>বিশ্লেষণ</a> উইন্ডো</li>
   <li><a Annotating> অ্যানোটেটিং গেমস</a></li>
   <li><a NAGs> টীকা চিহ্ন</a></li>
   <li><a Author>লেখক, যোগাযোগ করছেন</a></li>
@@ -129,7 +129,7 @@ set helpText(b,Index) {<h1>scidCommunity Help Topic Index</h1>
   <li><a ECO Codes>ECO কোড সিস্টেম</a></li>
   <li><a ECO>ECO খোলার শ্রেণীবিভাগ</a></li>
   <li><a Menus Edit>সম্পাদনা মেনু</a></li>
-  <li><a Analysis List>ইঞ্জিন তালিকা</a></li>
+  <li><a Engine Configure>ইঞ্জিন তালিকা</a></li>
   <li><a Engine>ইঞ্জিন উইন্ডোজ</a></li>
   <li><a Moves> দাবা চালনায় প্রবেশ </a></li>
   <li><a EPD>EPD ফাইলগুলি</a></li>
@@ -760,11 +760,11 @@ set helpText(b,Menus) {<h1>scidCommunity menus</h1>
   
   <h3><name Tools>Tools</name></h3>
   <ul>
-  <li><menu>Configure Engines</menu>: Opens the <a Analysis List>engine configuration</a> dialog
+  <li><menu>Configure Engines</menu>: Opens the <a Engine Configure>engine configuration</a> dialog
   to set up chess engines.</li>
   <li><menu>Start Engine 1</menu>: Starts the first chess analysis engine.</li>
   <li><menu>Start Engine 2</menu>: Starts the second chess analysis engine.</li>
-  <li><menu>Analysis Window</menu>: Opens the <a Analysis>analysis window</a>.</li>
+  <li><menu>Analysis Window</menu>: Opens the <a Engine>analysis window</a>.</li>
   <br>
   <li><menu>Filter Graph</menu>: Opens/closes the <a Graphs Filter>filter graph</a> window.</li>
   <li><menu>Absolute Filter Graph</menu>: Opens/closes the absolute filter graph window.</li>
@@ -2446,7 +2446,7 @@ set helpText(b,PGNAutoComment) {<h1>PGN উইন্ডো: অটো কমে�
 set helpTitle(b,AnalysisAutoComment) "স্বয়ংক্রিয় মন্তব্য বোতাম"
 set helpText(b,AnalysisAutoComment) {<h1> বিশ্লেষণ উইন্ডো: স্বয়ংক্রিয় মন্তব্য বোতাম </h1>
   <p>
-  <b>অটো কমেন্ট </b> <a Analysis> বিশ্লেষণ ইঞ্জিন </a> উইন্ডোতে আপনাকে অনুমতি দেয়
+  <b>অটো কমেন্ট </b> <a Engine> বিশ্লেষণ ইঞ্জিন </a> উইন্ডোতে আপনাকে অনুমতি দেয়
   ব্যাচ মোডে একটি সম্পূর্ণ গেমের জন্য স্বয়ংক্রিয়ভাবে এআই ধারাভাষ্য তৈরি করে।
   </p>
   
@@ -3198,95 +3198,26 @@ set helpText(b,Flags) {<h1>গেমের পতাকা</h1>
   scidCommunity-এর নিম্নলিখিত ফাংশনগুলি পতাকা সেট বা প্রয়োজন:
   <ul>
      <li><a OpeningTrainer> ওপেনিং প্রশিক্ষক </a>: (B) এবং (W) পতাকা মূল্যায়ন করতে পারে
-     <li><a Analysis Annotate> সেরা পদক্ষেপ খুঁজুন </a>: (T) পতাকা মূল্যায়ন করে
-     <li><a Analysis Annotate>কৌশলগত অনুশীলন খুঁজুন </a>: (T) পতাকা সেট করে
+     <li><a ReviewSettings> সেরা পদক্ষেপ খুঁজুন </a>: (T) পতাকা মূল্যায়ন করে
+     <li><a ReviewSettings>কৌশলগত অনুশীলন খুঁজুন </a>: (T) পতাকা সেট করে
   </ul>
   
   <p><footer>(আপডেট করা হয়েছে: scidCommunity, এপ্রিল 2026)</footer></p>
 }
 
 
-set helpTitle(b,Analysis) "বিশ্লেষণ উইন্ডো"
-set helpText(b,Analysis) {<h1> বিশ্লেষণ উইন্ডো </h1>
+set helpTitle(b,Analysis) "Analysis window (retired)"
+set helpText(b,Analysis) {<h1>The Analysis window has been retired</h1>
   <p>
-  scidCommunity Analysis উইন্ডোটি একটি দাবা ইঞ্জিন দ্বারা বিশ্লেষণ দেখায়
-  বর্তমান বোর্ড অবস্থান। অবস্থান পরিবর্তন হলে, scidCommunity নতুন পাঠায়
-  ইঞ্জিনের অবস্থান এবং তার মূল্যায়ন প্রদর্শন করে। দুটি বিশ্লেষণ উইন্ডো পর্যন্ত
-  একই সাথে খোলা যেতে পারে।
+  The Analysis window and its Annotate dialog are gone. Engine work runs in the
+  <a Engine>Engine windows</a>: <a ReviewGameButton>Game Review</a> and
+  <a ReviewMoveButton>Move Comment</a> write the annotation, and
+  <a ReviewSettings>Review Settings</a> holds their choices. For a selection of
+  games, use <a BatchAnnotate>Batch annotate</a>.
   </p>
 
-  <h3>বোতাম </h3>
-  <ul>
-  <li><b>Start/Stop</b> <button tb_eng_on>: ইঞ্জিন বিশ্লেষণ শুরু বা বন্ধ করে।
-    কীবোর্ড শর্টকাট: উইন্ডো 1 এর জন্য F4, উইন্ডো 2 এর জন্য F5। </li>
-  <li><b>Lock</b> <button tb_lockengine>: ইঞ্জিনটিকে একটি নির্দিষ্ট অবস্থানে লক করে।
-    লক থাকা অবস্থায়, আপনি নেভিগেট করার সময়ও ইঞ্জিন সেই অবস্থানটি বিশ্লেষণ করতে থাকে
-    গেমের বিভিন্ন চালের জন্য। আনলক করতে আবার ক্লিক করুন।</li>
-  <li><b>Add move</b> <button tb_addmove>: গেমে ইঞ্জিনের সেরা পদক্ষেপ যোগ করে।</li>
-  <li><b>অ্যাড ভ্যারিয়েশন</b> <button tb_addvar>: ইঞ্জিনের সেরা লাইন হিসেবে যোগ করে
-    বর্তমান খেলার একটি ভিন্নতা।</li>
-  <li><b>সমস্ত বৈচিত্র যোগ করুন </b> <button tb_addallvars>: সমস্ত মাল্টিপিভি লাইন এই হিসাবে যোগ করে
-    ভিন্নতা (মাল্টিপিভি সমর্থন করে এমন ইঞ্জিনের জন্য)।</li>
-  </ul>
-
-  <h3>নিয়ন্ত্রণ</h3>
-  <ul>
-  <li><b>লাইনগুলি (MultiPV)</b>: প্রধান বৈচিত্রের সংখ্যা সেট করতে স্পিনবক্স
-    প্রদর্শন করতে উচ্চতর মান আরও প্রার্থীর চাল দেখায়। উপলব্ধ বিকল্প পরিবর্তিত হয়
-    ইঞ্জিন দ্বারা। </li>
-  <li><b> টীকা</b> <button tb_annotate>: টীকা কনফিগারেশন খোলে
-    স্বয়ংক্রিয়ভাবে গেম টীকা করতে ডায়ালগ। </li>
-  <li><b>ট্রেনিং/অটোপ্লে</b> <button tb_training>: আপনি যেখানে ট্রেনিং মোডে প্রবেশ করেন
-    ইঞ্জিনের বিরুদ্ধে খেলুন, বা স্বয়ংক্রিয়ভাবে এগিয়ে যাওয়ার জন্য অটোপ্লে মোড
-    বিশ্লেষণ সহ খেলা দৃশ্যমান। </li>
-  <li><b>ফিনিশ গেম</b> <button tb_finish_off>: পুরো গেম জুড়ে খেলে
-    ইঞ্জিন ব্যবহার করে, উভয় পক্ষের জন্য নড়াচড়া করা। একটি কনফিগারেশন ডায়ালগ খোলে
-    প্রতি পদক্ষেপে সময়/গভীরতা সেট করতে এবং ঐচ্ছিকভাবে টীকা যোগ করে।</li>
-  <li><b>শো বোর্ড</b> <button tb_coords>: বিশ্লেষণ বোর্ড দেখায় বা লুকিয়ে রাখে
-    ইঞ্জিনের সেরা লাইনের শেষে অবস্থান প্রদর্শন করা হচ্ছে। </li>
-  <li><b>তথ্য দেখান</b> <button tb_engineinfo>: অতিরিক্ত ইঞ্জিন দেখায় বা লুকিয়ে রাখে
-    তথ্য (টেবিলবেস হিট, নোড/সেকেন্ড, হ্যাশ ব্যবহার, CPU লোড)।</li>
-  <li><b>অগ্রাধিকার</b>: ইঞ্জিন প্রক্রিয়া অগ্রাধিকার কম বা উচ্চ সেট করে।</li>
-  <li><b>আপডেট</b> <button tb_update>: ইঞ্জিনকে তার বিশ্লেষণ আপডেট করতে বাধ্য করে।</li>
-  </ul>
-
-  <h3> প্রদর্শন এলাকা</h3>
-  <p>
-  প্রধান পাঠ্য এলাকা ইঞ্জিনের বর্তমান মূল্যায়ন দেখায়, সহ:
-  </p>
-  <ul>
-  <li> প্যান ইউনিটে স্কোর (নেতিবাচক = কালো ভালো)</li>
-  <li>অনুসন্ধানের গভীরতা পৌঁছেছে</li>
-  <li>প্রধান পরিবর্তন (PV) - চালের সর্বোত্তম লাইন </li>
-  </ul>
-  <p>
-  মাল্টিপিভি > 1 সহ UCI ইঞ্জিনের জন্য, একাধিক প্রার্থী লাইন দেখানো হয়।
-  </p>
-
-  <h3><a Annotate>একটি খেলা টীকা করা</h3>
-  <p>
-  টীকা কনফিগারেশন ডায়ালগ খুলতে <b>Annotate</b> বোতাম টিপুন:
-  </p>
-  <ul>
-  <li><b> চলার মধ্যে সময় </b>: প্রতিটি অবস্থানে ইঞ্জিন যে সেকেন্ড খরচ করে।</li>
-  <li><b>সব চাল টীকা করুন</b> বা <b>শুধুমাত্র ভুলগুলি</b>: প্রতিটি পদক্ষেপ কিনা তা বেছে নিন
-    টীকা বা শুধুমাত্র খারাপ পদক্ষেপ পায়. প্যান ইউনিটে একটি ভুল থ্রেশহোল্ড সেট করুন।</li>
-  <li><b> ভিন্নতা </b>: ইঞ্জিনের বিশ্লেষণ থেকে ভিন্নতা অন্তর্ভুক্ত করুন।</li>
-  <li><b> সংক্ষিপ্ত টীকা </b>: ইঞ্জিনের নাম ছাড়া ন্যূনতম বিন্যাস। </li>
-  <li><b>স্কোর যোগ করুন</b>: প্যান ইউনিটে মূল্যায়ন স্কোর অন্তর্ভুক্ত করুন।</li>
-  <li><b>এনোটেটর ট্যাগ যোগ করুন</b>: কোন ইঞ্জিন ব্যবহার করা হয়েছে তা রেকর্ড করে।</li>
-  <li><b>Use book</b>: ওপেনিং বুকের অবস্থানগুলি এড়িয়ে যায়।</li>
-  <li><b>অনেক গেম টীকা করুন</b>: ব্যাচ ক্রমানুসারে একাধিক গেম টীকা করুন।</li>
-  <li><b>খোলার ত্রুটিগুলি খুঁজুন</b>: শুরুর পর্বে ভুলগুলি চিহ্নিত করে৷</li>
-  <li><b>মার্ক কৌশলগত অনুশীলন </b>: প্রশিক্ষণের অবস্থান তৈরি করে (শুধুমাত্র UCI ইঞ্জিন)।</li>
-  </ul>
-  <p>
-  যেকোনো সময় টীকা বাতিল করতে প্রধান উইন্ডোতে Escape টিপুন।
-  </p>
-
-  <p><footer>(আপডেট করা হয়েছে: scidCommunity, এপ্রিল 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
 }
-
 
 set helpTitle(b,Engine) "ইঞ্জিনের জানালা"
 set helpText(b,Engine) {<h1> ইঞ্জিন উইন্ডোজ </h1>
@@ -3467,7 +3398,7 @@ set helpText(b,EPD) {<h1>EPD ফাইল </h1>
   <p>
   EPD-ফাইলগুলি টুলস / নির্বাচন করে স্বয়ংক্রিয়ভাবে টীকা করা যেতে পারে
   টীকা অবস্থান. আসন্ন সংলাপে সেই সময় চাই
-  বিশ্লেষণের জন্য ব্যবহার করা উচিত, তারপর <a Analysis List> ইঞ্জিন
+  বিশ্লেষণের জন্য ব্যবহার করা উচিত, তারপর <a Engine Configure> ইঞ্জিন
   তালিকা </a> ব্যবহার করার জন্য একটি ইঞ্জিন নির্বাচনের জন্য খোলা হয়। <b> Note</b> যদি একটি
   বিশ্লেষণ উইন্ডোটি ইতিমধ্যে খোলা হয়েছে, এটি ব্যবহার করে বিশ্লেষণ করা হয়
   ব্যবহারকারীকে আগে থেকে জিজ্ঞাসা না করেই ইঞ্জিন। তারপর ইঞ্জিন হয়
@@ -4675,7 +4606,7 @@ set helpText(b,SeriousGame) {<h1> সিরিয়াস গেম উইন�
   <term>গেম কনফিগারেশন </term> উইন্ডোর উপরে দেওয়া আছে। দ
   বোতাম <term> কনফিগার UCI ইঞ্জিন</term> অতিরিক্তভাবে অ্যাক্সেস দেয়
   ইঞ্জিনের পরামিতিগুলিতে। ডিফল্টরূপে, তারা যেমন সেট করা হয়
-  <a Analysis List> ইঞ্জিন কনফিগারেশন </a>।
+  <a Engine Configure> ইঞ্জিন কনফিগারেশন </a>।
   </p>
   <p>
   এর পরে, যে বইটি ব্যবহার করা উচিত সেগুলি খোলার থেকে বেছে নেওয়া যেতে পারে

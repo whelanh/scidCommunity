@@ -14,12 +14,11 @@ set helpText(Contents) {<h1>scidCommunity Help Contents</h1>
   <li><a Moves>Entering <b>chess moves</b></a></li>
   <li><a Searches><b>Searches</b> in scidCommunity</a></li>
   <li><a Clipbase>Using the <b>Clipbase</b> database</a></li>
-  <li><a Annotating><b>Annotating games</b></a></li>
+  <li><a Annotating><b>Annotating games</b></a> (manual notes)</li>
   </ul>
   
   <h4>Other scidCommunity windows</h4>
   <ul>
-  <li><a Analysis><b>Analysis</b> window</a></li>
   <li><a Engine><b>Engine</b> windows</a></li>
   <li><a Book><b>Book</b> window</a></li>
   <li><a CalVar><b>Calculation of variations</b> window</a></li>
@@ -71,8 +70,7 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Analysis>Analysis</a> window</li>
-  <li><a Annotating>Annotating games</a></li>
+  <li><a Annotating>Annotating games</a> (manual notes)</li>
   <li><a BatchAnnotate>Annotating in batch</a> (AI commentary)</li>
   <li><a NAGs>Annotation symbols</a></li>
   <li><a Author>Author, contacting</a></li>
@@ -127,7 +125,7 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   <li><a ECO Codes>ECO code system</a></li>
   <li><a ECO>ECO openings classification</a></li>
   <li><a Menus Edit>Edit menu</a></li>
-  <li><a Analysis List>Engines list</a></li>
+  <li><a Engine Configure>Engines list</a></li>
   <li><a Engine>Engine windows</a></li>
   <li><a Moves>Entering chess moves</a></li>
   <li><a EPD>EPD files</a></li>
@@ -783,11 +781,10 @@ set helpText(Menus) {<h1>scidCommunity menus</h1>
   
   <h3><name Tools>Tools</name></h3>
   <ul>
-  <li><menu>Configure Engines</menu>: Opens the <a Analysis List>engine configuration</a> dialog
-  to set up chess engines.</li>
-  <li><menu>Start Engine 1</menu>: Starts the first chess analysis engine.</li>
-  <li><menu>Start Engine 2</menu>: Starts the second chess analysis engine.</li>
-  <li><menu>Analysis Window</menu>: Opens the <a Analysis>analysis window</a>.</li>
+  <li><menu>Configure Engines</menu>: Opens the <a Engine Configure>engine configuration</a>
+  dialog to set up chess engines and open an Engine Window for the selected preset.</li>
+  <li><menu>Start Engine 1</menu>: Opens the first Engine Window.</li>
+  <li><menu>Start Engine 2</menu>: Opens the second Engine Window.</li>
   <li><menu>What's the threat?</menu>: Asks the engine what the side to move is
   threatening - see <a ToolsWhatThreat>What's the Threat?</a>.</li>
   <br>
@@ -959,9 +956,9 @@ set helpText(Moves) {<h1>Entering chess moves</h1>
   <p>
   If no move is currently being typed, pressing the [space] bar plays the
   best move of the engine currently shown on the board: the engine linked to
-  the main evaluation bar, or otherwise the Analysis engine (Lichess-style).
+  the main evaluation bar, or otherwise a running Engine window (Lichess-style).
   With MultiPV, the first line is played. The same shortcut works in the
-  <a Analysis>Analysis</a> and <a Engine>Engine</a> windows.
+  <a Engine>Engine</a> windows.
   </p>
   <p>
   <b>Note</b> that a lower-case letter matches to a pawn first, so a
@@ -1280,8 +1277,11 @@ set helpText(Annotating) {<h1>Annotating games</h1>
   <p>
   scidCommunity lets you add notes to games. There are three types of
   annotation you can add after a move: symbols, a comment, and
-  variations. This section describes manual annotations, see the <a
-  Analysis Annotating>Analysis</a> for engine supported analysis.
+  variations. This section describes manual annotations. For engine-supported
+  annotation, use <a ReviewGameButton>Game Review</a> (one game) or
+  <a BatchAnnotate>Batch annotate</a> (a selection); their options are in
+  <a ReviewSettings>Review Settings</a>. The legacy Annotate dialog has been
+  retired.
   </p>
   
   <h3>Symbols and comments</h3>
@@ -2634,7 +2634,7 @@ set helpTitle(ReviewSettings) "Review Settings"
 set helpText(ReviewSettings) {<h1>Engine Window: Review Settings</h1>
   <p>
   <b>Review Settings</b> in the <a Engine>Engine</a> window holds the choices a
-  review pass reads. Six values:
+  review pass reads:
   </p>
   <ul>
   <li><b>Lines</b>: how many of the engine's lines each position keeps (MultiPV),
@@ -2642,6 +2642,8 @@ set helpText(ReviewSettings) {<h1>Engine Window: Review Settings</h1>
   <li><b>Depth</b>: how deep each position is searched. This is also the depth
     <a ReviewMoveButton>Move Comment</a> waits for when
     <b>Wait for the review depth</b> is on.</li>
+  <li><b>Time cap (ms)</b>: a ceiling for each position. Zero means no cap of
+    the review's own, and the engine preset's own limit then applies.</li>
   <li><b>Variations to write</b>: how many of the engine's lines become variations
     at each mistake, blunder and missed win, so the game shows what should have
     been played. Zero writes none, and the number cannot exceed Lines. Only the
@@ -2658,6 +2660,20 @@ set helpText(ReviewSettings) {<h1>Engine Window: Review Settings</h1>
   <li><b>Diagram</b>: 1 puts a diagram marker (<b>D</b>) on the move before each
     mistake and blunder, so a printed or HTML game shows the position the error
     was played in; 0 writes none.</li>
+  <li><b>Find opening errors</b>: when on, the pass appends the
+    <b>opBlunder &lt;move&gt; (&lt;side&gt;)</b> entry to the game's Annotator
+    tag at the move where the opening book ended, if that move is inside
+    <b>Opening moves</b>.</li>
+  <li><b>Opening moves</b>: the window the opening finder measures, 10 to 20
+    moves from the book end; 12 by default.</li>
+  <li><b>Mark tactical exercises</b>: when on, a move the review marks as a
+    mistake or blunder can also flag the game <b>T</b> and write the
+    <b>****D&lt;difficulty&gt; &lt;before&gt;-&gt;&lt;after&gt;</b> comment.
+    Off by default.</li>
+  <li><b>Coach prose</b>: asks the configured model for a sentence on each
+    judged move.</li>
+  <li><b>Verifier engine</b>: Off, or a second preset that reviews the
+    Brilliant and Great labels.</li>
   </ul>
 
   <h3>What is not in this dialog</h3>
@@ -3532,8 +3548,8 @@ set helpText(Flags) {<h1>Game Flags</h1>
   The following functions of scidCommunity set or require flags:
   <ul>
      <li><a OpeningTrainer>Opening Trainer</a>: can evaluate the (B) and (W) flags
-     <li><a Analysis Annotate>Find best move</a>: evaluates the (T) flag
-     <li><a Analysis Annotate>Find tactical exercise</a>: sets the (T) flag
+     <li><a FindBestMove>Find best move</a>: evaluates the (T) flag
+     <li><a ReviewSettings>Mark tactical exercises</a>: sets the (T) flag
   </ul>
   
   <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
@@ -3542,87 +3558,17 @@ set helpText(Flags) {<h1>Game Flags</h1>
 ####################
 ### Analysis window help:
 
-set helpTitle(Analysis) "Analysis window"
-set helpText(Analysis) {<h1>The Analysis window</h1>
+set helpTitle(Analysis) "Analysis window (retired)"
+set helpText(Analysis) {<h1>The Analysis window has been retired</h1>
   <p>
-  The scidCommunity Analysis window shows analysis by a chess engine of the
-  current board position. When the position changes, scidCommunity sends the new
-  position to the engine and displays its assessment. Up to two Analysis windows
-  can be open simultaneously.
+  The Analysis window and its Annotate dialog are gone. Engine work runs in the
+  <a Engine>Engine windows</a>: <a ReviewGameButton>Game Review</a> and
+  <a ReviewMoveButton>Move Comment</a> write the annotation, and
+  <a ReviewSettings>Review Settings</a> holds their choices. For a selection of
+  games, use <a BatchAnnotate>Batch annotate</a>.
   </p>
 
-  <h3>Buttons</h3>
-  <ul>
-  <li><b>Start/Stop</b> <button tb_eng_on>: Starts or stops the engine analysis.
-    Keyboard shortcut: F4 for window 1, F5 for window 2.</li>
-  <li><b>Lock</b> <button tb_lockengine>: Locks the engine to a fixed position.
-    When locked, the engine continues analyzing that position even when you navigate
-    to different moves in the game. Click again to unlock.</li>
-  <li><b>Add move</b> <button tb_addmove>: Adds the engine's best move to the game.
-    You can also press the <b>spacebar</b> to play the engine's best move
-    (with MultiPV, the first line is played).</li>
-  <li><b>Add variation</b> <button tb_addvar>: Adds the engine's best line as
-    a variation to the current game.</li>
-  <li><b>Add all variations</b> <button tb_addallvars>: Adds all MultiPV lines as
-    variations (for engines that support MultiPV).</li>
-  </ul>
-
-  <h3>Controls</h3>
-  <ul>
-  <li><b>Lines (MultiPV)</b>: Spinbox to set the number of principal variations
-    to display. Higher values show more candidate moves. Available options vary
-    by engine.</li>
-  <li><b>Annotate</b> <button tb_annotate>: Opens the annotation configuration
-    dialog to automatically annotate games.</li>
-  <li><b>Training/Autoplay</b> <button tb_training>: Enters training mode where you
-    play against the engine, or autoplay mode to automatically advance through
-    the game with analysis visible.</li>
-  <li><b>Finish Game</b> <button tb_finish_off>: Plays through the entire game
-    using the engine, making moves for both sides. Opens a configuration dialog
-    to set time/depth per move and optionally adds annotations.</li>
-  <li><b>Show board</b> <button tb_coords>: Shows or hides the analysis board
-    displaying the position at the end of the engine's best line.</li>
-  <li><b>Show info</b> <button tb_engineinfo>: Shows or hides additional engine
-    information (tablebase hits, nodes/sec, hash usage, CPU load).</li>
-  <li><b>Priority</b>: Sets the engine process priority to low or high.</li>
-  <li><b>Update</b> <button tb_update>: Forces the engine to update its analysis.</li>
-  </ul>
-
-  <h3>Display Area</h3>
-  <p>
-  The main text area shows the engine's current evaluation, including:
-  </p>
-  <ul>
-  <li>Score in pawn units (negative = Black better)</li>
-  <li>Search depth reached</li>
-  <li>Principal variation (PV) - the best line of moves</li>
-  </ul>
-  <p>
-  For UCI engines with MultiPV &gt; 1, multiple candidate lines are shown.
-  </p>
-
-  <h3><a Annotate>Annotating a game</h3>
-  <p>
-  Press the <b>Annotate</b> button to open the annotation configuration dialog:
-  </p>
-  <ul>
-  <li><b>Time between moves</b>: Seconds the engine spends on each position.</li>
-  <li><b>Annotate all moves</b> or <b>Blunders only</b>: Choose whether every move
-    gets annotated or only bad moves. Set a blunder threshold in pawn units.</li>
-  <li><b>Variations</b>: Include variations from the engine's analysis.</li>
-  <li><b>Short annotations</b>: Minimal format without engine names.</li>
-  <li><b>Add score</b>: Include evaluation scores in pawn units.</li>
-  <li><b>Add annotator tag</b>: Records which engine was used.</li>
-  <li><b>Use book</b>: Skips positions that are in the opening book.</li>
-  <li><b>Annotate several games</b>: Batch annotate multiple games in sequence.</li>
-  <li><b>Find opening errors</b>: Marks blunders in the opening phase.</li>
-  <li><b>Mark tactical exercises</b>: Creates training positions (UCI engines only).</li>
-  </ul>
-  <p>
-  Press Escape in the main window to cancel annotation at any time.
-  </p>
-
-  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
 }
 
 ####################
@@ -3631,14 +3577,22 @@ set helpText(Analysis) {<h1>The Analysis window</h1>
 set helpTitle(Engine) "Engine windows"
 set helpText(Engine) {<h1>The Engine windows</h1>
   <p>
-  The Engine windows provide real-time analysis from chess engines. They 
-  differ from the Analysis window by including evaluation charts, stored 
-  cloud evaluations, and engine configuration panels. Up to two engine 
-  windows can run simultaneously.
+  The Engine windows provide real-time analysis from chess engines, with
+  evaluation charts, stored cloud evaluations, and engine configuration panels.
+  They are the only engine surface now; the old Analysis window has been
+  retired.
   </p>
   <p>
-  Open with <b>F2</b> (first window) or <b>F3</b> (second window).
-  Close with <b>Escape</b>.
+  Open with <b>F2</b> (first window) or <b>F3</b> (second window), or from
+  <menu>Tools → Configure Engines</menu>. Close with <b>Escape</b>.
+  </p>
+
+  <h3><name Configure>Configure Engines</name></h3>
+  <p>
+  The engine list shows the presets this session has. Select one and press
+  <b>Open Engine Window</b> (or double-click it, or press Return) to open an
+  Engine Window for that preset. <b>Add</b>, <b>Edit</b>, <b>Duplicate</b> and
+  <b>Delete</b> manage the presets; F2 and F3 remain the direct routes.
   </p>
 
   <h3>Buttons</h3>
@@ -3710,10 +3664,10 @@ set helpText(Engine) {<h1>The Engine windows</h1>
   current game. Press <b>Ctrl+Shift+A</b> to write them into the game:
   every evaluated position receives a <b>[%eval ...]</b> comment, and the
   annotations the evaluation implies (move-quality NAGs, score comments and
-  best-line variations) are generated with the settings saved in the Batch
-  annotate window. The time per move is not taken from those settings: the
-  scores are the ones the graph has already collected with the time chosen in
-  the engine window's Autorun control.
+  best-line variations) are generated with the settings saved in Review
+  Settings. The time per move is not taken from those settings: the scores are
+  the ones the graph has already collected with the time chosen in the engine
+  window's Autorun control.
   </p>
   <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
@@ -3790,9 +3744,8 @@ set helpText(EPD) {<h1>EPD files</h1>
   <li> <b>acs</b> Analysis count: search time in seconds.</li>
   <li> <b>bm</b> Best moves: move(s) judged best for some reason.</li>
   <li> <b>ce</b> Centipawn evaluation: evaluation in hundredths of a
-  pawn from the perspective of the <b>side to move</b> -- note this
-  differs from the Analysis window which shows evaluations in pawns from
-  Whites perspective. </li>
+  pawn from the perspective of the <b>side to move</b>. A review's
+  <b>[%eval]</b> is in pawns from White's perspective instead. </li>
   <li> <b>cX</b> Comment (where <b>X</b> is a digit, 0-9).</li>
   <li> <b>eco</b> <a ECO>ECO</a> system opening code.</li>
   <li> <b>id</b> Unique Identification for this position.</li>
@@ -3845,7 +3798,7 @@ set helpText(EPD) {<h1>EPD files</h1>
   EPD files can be automatically annotated by selecting <menu>Tools /
   Analyze Positions...</menu>. The dialog lets you choose the time to spend
   per position, a <term>UCI</term> engine (from your configured
-  <a Analysis List>engine list</a>), and a mode: <b>Count best moves</b>
+  <a Engine Configure>engine list</a>), and a mode: <b>Count best moves</b>
   (only tally how often the engine agrees with the <b>bm</b>/<b>am</b>
   opcodes, without changing the file), <b>Annotate</b> (add analysis opcodes
   to each position), or <b>Both</b>. scidCommunity then steps through every
@@ -5167,8 +5120,8 @@ set helpText(FindBestMove) {<h1>Training: Find best move</h1>
   <p>
   When annotating games with a chess engine, the engine can search for
   tactical opportunities within a game. This can be achieve by setting
-  <term>Mark Tactical Exercise</term> in the <a
-  Analysis>Annotation</a> window accessible from analysis. In case a
+  <term>Mark tactical exercises</term> in
+  <a ReviewSettings>Review Settings</a>. In case a
   tactical opportunity is found, scidCommunity will then flag the game with the
   <term>T</term> flag (Tactics) and add a special comment that is
   evaluated in this exercise.
@@ -5578,8 +5531,8 @@ set helpText(HardwareConfig) {<h1>Connecting External Hardware</h1>
   <ul>
      <li><term>Engine command</term>: The name of the program that is
      to be used as a driver engine. A fully qualified name may be
-     required, like in the configuration of a <name Analysis
-     List>chess engine</a>. (E.g. the DGT driver engine on a Linux
+     required, like in the Configure Engines dialog. (E.g. the DGT driver
+     engine on a Linux
      system is usually called <term>dgtdrv2.i686</term>.)
      </li>
      <li><term>Engine parameter</term>: The text given in this field

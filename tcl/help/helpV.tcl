@@ -25,7 +25,7 @@ set helpText(V,Contents) {<h1>תוכן עזרה של scidCommunity</h1>
   
   <h4>חלונות אחרים של scidCommunity</h4>
   <ul>
-  <li><a Analysis><b>אָנָלִיזָה</b> חַלוֹן</a></li>
+  <li><a Engine><b>אָנָלִיזָה</b> חַלוֹן</a></li>
   <li><a Engine><b>מָנוֹעַ</b> חלונות</a></li>
   <li><a Book><b>סֵפֶר</b> חַלוֹן</a></li>
   <li><a CalVar><b>חישוב וריאציות</b> חַלוֹן</a></li>
@@ -75,7 +75,7 @@ set helpText(V,Index) {<h1> אינדקס נושא העזרה של scidCommunity<
   
   <h3>A</h3>
   <ul>
-  <li><a Analysis>חלון ניתוח</a></li>
+  <li><a Engine>חלון ניתוח</a></li>
   <li><a Annotating>משחקי הערות</a></li>
   <li><a NAGs>סמלי הערות</a></li>
   <li><a Author>מחבר, יצירת קשר</a></li>
@@ -129,7 +129,7 @@ set helpText(V,Index) {<h1> אינדקס נושא העזרה של scidCommunity<
   <li><a ECO Codes>מערכת קוד ECO</a></li>
   <li><a ECO>סיווג פתחי ECO</a></li>
   <li><a Menus Edit>תפריט עריכה</a></li>
-  <li><a Analysis List>רשימת מנועים</a></li>
+  <li><a Engine Configure>רשימת מנועים</a></li>
   <li><a Engine>חלונות מנוע</a></li>
   <li><a Moves>הזנת מהלכי שחמט</a></li>
   <li><a EPD>קבצי EPD</a></li>
@@ -763,11 +763,11 @@ set helpText(V,Menus) {<h1>scidCommunity menus</h1>
   
   <h3><name Tools>Tools</name></h3>
   <ul>
-  <li><menu>Configure Engines</menu>: Opens the <a Analysis List>engine configuration</a> dialog
+  <li><menu>Configure Engines</menu>: Opens the <a Engine Configure>engine configuration</a> dialog
   to set up chess engines.</li>
   <li><menu>Start Engine 1</menu>: Starts the first chess analysis engine.</li>
   <li><menu>Start Engine 2</menu>: Starts the second chess analysis engine.</li>
-  <li><menu>Analysis Window</menu>: Opens the <a Analysis>analysis window</a>.</li>
+  <li><menu>Analysis Window</menu>: Opens the <a Engine>analysis window</a>.</li>
   <br>
   <li><menu>Filter Graph</menu>: Opens/closes the <a Graphs Filter>filter graph</a> window.</li>
   <li><menu>Absolute Filter Graph</menu>: Opens/closes the absolute filter graph window.</li>
@@ -2452,7 +2452,7 @@ set helpText(V,PGNAutoComment) {<h1> חלון PGN: לחצן הערה אוטומ�
 set helpTitle(V,AnalysisAutoComment) "לחצן הערה אוטומטית"
 set helpText(V,AnalysisAutoComment) {<h1>חלון ניתוח: לחצן הערה אוטומטית </h1>
   <p>
-  הלחצן <b>Auto Comment</b> בחלון <a Analysis>Analysis Engine</a> מאפשר לך
+  הלחצן <b>Auto Comment</b> בחלון <a Engine>Engine Window</a> מאפשר לך
   יצירת פרשנות בינה מלאכותית אוטומטית עבור משחק שלם במצב אצווה.
   </p>
   
@@ -3207,8 +3207,8 @@ set helpText(V,Flags) {<h1>דגלים למשחק</h1>
   הפונקציות הבאות של scidCommunity קובעות או דורשות דגלים:
   <ul>
      <li><a OpeningTrainer>מאמן פתיחה</a>: יכול להעריך את הדגלים (B) ו-(W).
-     <li><a Analysis Annotate>מצא את המהלך הטוב ביותר</a>: מעריך את הדגל (T).
-     <li><a Analysis Annotate>מצא תרגיל טקטי</a>: מגדיר את הדגל (T).
+     <li><a ReviewSettings>מצא את המהלך הטוב ביותר</a>: מעריך את הדגל (T).
+     <li><a ReviewSettings>מצא תרגיל טקטי</a>: מגדיר את הדגל (T).
   </ul>
   
   <p><footer>(עודכן: scidCommunity, אפריל 2026)</footer></p>
@@ -3216,87 +3216,18 @@ set helpText(V,Flags) {<h1>דגלים למשחק</h1>
 }
 
 
-set helpTitle(V,Analysis) "חלון ניתוח"
-set helpText(V,Analysis) {<h1>חלון הניתוח </h1>
+set helpTitle(V,Analysis) "Analysis window (retired)"
+set helpText(V,Analysis) {<h1>The Analysis window has been retired</h1>
   <p>
-  חלון scidCommunity Analysis מציג ניתוח על ידי מנוע שחמט של
-  תפקיד הדירקטוריון הנוכחי. כאשר המיקום משתנה, scidCommunity שולח את החדש
-  מיקום למנוע ומציג את הערכתו. עד שני חלונות ניתוח
-  יכול להיות פתוח בו זמנית.
+  The Analysis window and its Annotate dialog are gone. Engine work runs in the
+  <a Engine>Engine windows</a>: <a ReviewGameButton>Game Review</a> and
+  <a ReviewMoveButton>Move Comment</a> write the annotation, and
+  <a ReviewSettings>Review Settings</a> holds their choices. For a selection of
+  games, use <a BatchAnnotate>Batch annotate</a>.
   </p>
 
-  <h3>לחצנים</h3>
-  <ul>
-  <li><b>Start/Stop</b> <button tb_eng_on>: מתחיל או מפסיק את ניתוח המנוע.
-    קיצור מקשים: F4 עבור חלון 1, F5 עבור חלון 2. </li>
-  <li><b>נעילת</b> <button tb_lockengine>: נועל את המנוע למצב קבוע.
-    כאשר הוא נעול, המנוע ממשיך לנתח את המיקום הזה גם כשאתה מנווט
-    למהלכים שונים במשחק. לחץ שוב כדי לבטל את הנעילה.</li>
-  <li><b>הוסף מהלך</b> <button tb_addmove>: מוסיף את המהלך הטוב ביותר של המנוע למשחק.</li>
-  <li><b>הוסף וריאציה</b> <button tb_addvar>: מוסיף את הקו הטוב ביותר של המנוע בתור
-    וריאציה למשחק הנוכחי.</li>
-  <li><b> הוסף את כל הווריאציות </b> <button tb_addallvars>: מוסיף את כל שורות MultiPV כ
-    וריאציות (עבור מנועים התומכים ב-MultiPV).</li>
-  </ul>
-
-  <h3>Controls</h3>
-  <ul>
-  <li><b>Lines (MultiPV)</b>: Spinbox להגדרת מספר הווריאציות העיקריות
-    להציג. ערכים גבוהים יותר מראים יותר מהלכי מועמדים. האפשרויות הזמינות משתנות
-    לפי מנוע.</li>
-  <li><b>הערה</b> <button tb_annotate>: פותח את תצורת ההערות
-    תיבת דו-שיח להוספת הערות אוטומטית למשחקים.</li>
-  <li><b>אימון/הפעלה אוטומטית</b> <button tb_training>: נכנסת למצב אימון שבו אתה
-    לשחק נגד המנוע, או מצב הפעלה אוטומטית כדי להתקדם באופן אוטומטי
-    המשחק עם ניתוח גלוי.</li>
-  <li><b> סיום המשחק </b> <button tb_finish_off>: משחק לאורך כל המשחק
-    באמצעות המנוע, ביצוע מהלכים לשני הצדדים. פותח תיבת דו-שיח של תצורה
-    כדי להגדיר זמן/עומק לכל מהלך ובאופן אופציונלי להוסיף הערות.</li>
-  <li><b>הצג לוח</b> <button tb_coords>: מציג או מסתיר את לוח הניתוח
-    מציג את המיקום בקצה הקו הטוב ביותר של המנוע.</li>
-  <li><b>הצג מידע</b> <button tb_engineinfo>: מציג או מסתיר מנוע נוסף
-    מידע (התאמות של בסיס הטבלה, צמתים/שנייה, שימוש ב-hash, עומס מעבד).</li>
-  <li><b>עדיפות</b>: מגדיר את עדיפות תהליך המנוע לנמוכה או גבוהה.</li>
-  <li><b>עדכון</b> <button tb_update>: מאלץ את המנוע לעדכן את הניתוח שלו.</li>
-  </ul>
-
-  <h3>אזור תצוגה </h3>
-  <p>
-  אזור הטקסט הראשי מציג את ההערכה הנוכחית של המנוע, כולל:
-  </p>
-  <ul>
-  <li>ציון ביחידות חייל (שלילי = שחור טוב יותר)</li>
-  <li>הגיע לעומק החיפוש </li>
-  <li>וריאציה עיקרית (PV) - קו המהלכים הטוב ביותר </li>
-  </ul>
-  <p>
-  עבור מנועי UCI עם MultiPV > 1, מוצגות שורות מועמדות מרובות.
-  </p>
-
-  <h3><a Annotate>הערות למשחק</h3>
-  <p>
-  לחץ על הלחצן <b>Annotate</b> כדי לפתוח את תיבת הדו-שיח של תצורת ההערות:
-  </p>
-  <ul>
-  <li><b>זמן בין מהלכים</b>: שניות שהמנוע מבלה על כל עמדה.</li>
-  <li><b> הערות לכל המהלכים</b> או <b>שטויות בלבד</b>: בחר אם כל מהלך
-    מקבל הערות או רק מהלכים גרועים. הגדר סף טעות ביחידות חייל.</li>
-  <li><b>ווריאציות</b>: כלול וריאציות מניתוח המנוע.</li>
-  <li><b>הערות קצרות</b>: פורמט מינימלי ללא שמות מנועים.</li>
-  <li><b>הוסף ניקוד</b>: כלול ציוני הערכה ביחידות חייל.</li>
-  <li><b>הוסף תג מציין</b>: מתעד באיזה מנוע נעשה שימוש.</li>
-  <li><b>השתמש בספר</b>: דילוג על עמדות שנמצאות בספר הפתיחה.</li>
-  <li><b> הערות למספר משחקים </b>: הערות אצווה למספר משחקים ברצף.</li>
-  <li><b>מצא שגיאות פתיחה</b>: מסמן טעויות בשלב הפתיחה.</li>
-  <li><b>סמן תרגילים טקטיים</b>: יוצר עמדות אימון (מנועי UCI בלבד).</li>
-  </ul>
-  <p>
-  לחץ על Escape בחלון הראשי כדי לבטל את ההערה בכל עת.
-  </p>
-
-  <p><footer>(עודכן: scidCommunity, אפריל 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
 }
-
 
 set helpTitle(V,Engine) "חלונות מנוע"
 set helpText(V,Engine) {<h1>חלונות המנוע</h1>
@@ -3477,7 +3408,7 @@ set helpText(V,EPD) {<h1>קבצי EPD</h1>
   <p>
   ניתן להוסיף הערות אוטומטית לקבצי EPD על ידי בחירה בכלים /
   הערה עמדה. הדיאלוג הקרוב מבקש את הזמן הזה
-  צריך לשמש לניתוח, ואז את <a Analysis List>מנוע
+  צריך לשמש לניתוח, ואז את <a Engine Configure>מנוע
   רשימה</a> נפתח לבחירת מנוע לשימוש. <b>פֶּתֶק</b> אם א
   חלון הניתוח כבר נפתח, הניתוח נעשה באמצעות זה
   מנוע מבלי לשאול את המשתמש מראש. אז המנוע הוא
@@ -4688,7 +4619,7 @@ set helpText(V,SeriousGame) {<h1>חלון משחק רציני</h1>
   ניתן על גבי חלון <term>תצורת המשחק</term>. ה
   לחצן <term> הגדר את מנוע UCI </term> נותן בנוסף גישה
   לפרמטרים של המנועים. כברירת מחדל, הם מוגדרים כמו ב-
-  <a Analysis List> תצורת מנוע </a>.
+  <a Engine Configure> תצורת מנוע </a>.
   </p>
   <p>
   לאחר מכן, ניתן לבחור את הספר שבו יש להשתמש מתוך הפותחות

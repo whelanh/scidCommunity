@@ -25,7 +25,7 @@ set helpText(D,Contents) {<h1>scidCommunity-Hilfeinhalte</h1>
   
   <h4>Andere scidCommunity-Fenster</h4>
   <ul>
-  <li><a Analysis><b>Analysefenster </b></a></li>
+  <li><a Engine><b>Analysefenster </b></a></li>
   <li><a Engine><b>Motor</b> Fenster</a></li>
   <li><a Book><b>Buch</b> Fenster</a></li>
   <li><a CalVar><b>Variationsberechnung</b> Fenster</a></li>
@@ -74,7 +74,7 @@ set helpText(D,Index) {<h1>scidCommunity-Hilfethemenindex</h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Analysis>Analyse</a>-Fenster</li>
+  <li><a Engine>Analyse</a>-Fenster</li>
   <li><a Annotating>Spiele kommentieren</a></li>
   <li><a NAGs>Anmerkungssymbole</a></li>
   <li><a Author>Autor, Kontaktaufnahme</a></li>
@@ -128,7 +128,7 @@ set helpText(D,Index) {<h1>scidCommunity-Hilfethemenindex</h1>
   <li><a ECO Codes>ECO-Codesystem</a></li>
   <li><a ECO>ECO-Öffnungsklassifizierung</a></li>
   <li><a Menus Edit>Menü „Bearbeiten“</a></li>
-  <li><a Analysis List>Motorenliste</a></li>
+  <li><a Engine Configure>Motorenliste</a></li>
   <li><a Engine>Motorfenster</a></li>
   <li><a Moves>Schachzüge eingeben</a></li>
   <li><a EPD>EPD-Dateien</a></li>
@@ -760,11 +760,11 @@ set helpText(D,Menus) {<h1>scidCommunity menus</h1>
   
   <h3><name Tools>Tools</name></h3>
   <ul>
-  <li><menu>Configure Engines</menu>: Opens the <a Analysis List>engine configuration</a> dialog
+  <li><menu>Configure Engines</menu>: Opens the <a Engine Configure>engine configuration</a> dialog
   to set up chess engines.</li>
   <li><menu>Start Engine 1</menu>: Starts the first chess analysis engine.</li>
   <li><menu>Start Engine 2</menu>: Starts the second chess analysis engine.</li>
-  <li><menu>Analysis Window</menu>: Opens the <a Analysis>analysis window</a>.</li>
+  <li><menu>Analysis Window</menu>: Opens the <a Engine>analysis window</a>.</li>
   <br>
   <li><menu>Filter Graph</menu>: Opens/closes the <a Graphs Filter>filter graph</a> window.</li>
   <li><menu>Absolute Filter Graph</menu>: Opens/closes the absolute filter graph window.</li>
@@ -2444,7 +2444,7 @@ set helpText(D,PGNAutoComment) {<h1>PGN-Fenster: Schaltfläche „Automatischer 
 set helpTitle(D,AnalysisAutoComment) "Schaltfläche „Automatischer Kommentar“."
 set helpText(D,AnalysisAutoComment) {<h1>Analysefenster: Schaltfläche „Automatischer Kommentar“</h1>
   <p>
-  Mit der Schaltfläche <b>Automatischer Kommentar </b> im Fenster <a Analysis>Analyse-Engine </a> können Sie dies tun
+  Mit der Schaltfläche <b>Automatischer Kommentar </b> im Fenster <a Engine>Analyse-Engine </a> können Sie dies tun
   Generieren Sie automatisch KI-Kommentare für ein gesamtes Spiel im Batch-Modus.
   </p>
   
@@ -3196,95 +3196,26 @@ set helpText(D,Flags) {<h1>Spielflaggen</h1>
   Die folgenden Funktionen von scidCommunity setzen oder erfordern Flags:
   <ul>
      <li><a OpeningTrainer>Eröffnungstrainer</a>: kann die Flaggen (B) und (W) bewerten
-     <li><a Analysis Annotate>Besten Zug finden</a>: wertet das (T)-Flag aus
-     <li><a Analysis Annotate>Taktische Übung finden </a>: Setzt die (T)-Flagge
+     <li><a ReviewSettings>Besten Zug finden</a>: wertet das (T)-Flag aus
+     <li><a ReviewSettings>Taktische Übung finden </a>: Setzt die (T)-Flagge
   </ul>
   
   <p><footer>(Aktualisiert: scidCommunity, April 2026)</footer></p>
 }
 
 
-set helpTitle(D,Analysis) "Analysefenster"
-set helpText(D,Analysis) {<h1>Das Analysefenster</h1>
+set helpTitle(D,Analysis) "Analysis window (retired)"
+set helpText(D,Analysis) {<h1>The Analysis window has been retired</h1>
   <p>
-  Das scidCommunity-Analysefenster zeigt die Analyse einer Schach-Engine
-  aktuelle Vorstandsposition. Wenn sich die Position ändert, sendet scidCommunity die neue
-  Position zum Motor und zeigt dessen Bewertung an. Bis zu zwei Analysefenster
-  können gleichzeitig geöffnet sein.
+  The Analysis window and its Annotate dialog are gone. Engine work runs in the
+  <a Engine>Engine windows</a>: <a ReviewGameButton>Game Review</a> and
+  <a ReviewMoveButton>Move Comment</a> write the annotation, and
+  <a ReviewSettings>Review Settings</a> holds their choices. For a selection of
+  games, use <a BatchAnnotate>Batch annotate</a>.
   </p>
 
-  <h3>Tasten</h3>
-  <ul>
-  <li><b>Start/Stop</b> <button tb_eng_on>: Startet oder stoppt die Motoranalyse.
-    Tastenkombination: F4 für Fenster 1, F5 für Fenster 2.</li>
-  <li><b>Sperre</b> <button tb_lockengine>: Sperrt den Motor in einer festen Position.
-    Im gesperrten Zustand analysiert die Engine diese Position auch während der Navigation weiter
-    zu verschiedenen Spielzügen. Zum Entsperren erneut klicken.</li>
-  <li><b>Zug hinzufügen</b> <button tb_addmove>: Fügt dem Spiel den besten Zug der Engine hinzu.</li>
-  <li><b>Variante hinzufügen</b> <button tb_addvar>: Fügt die beste Linie der Engine hinzu als
-    eine Variation zum aktuellen Spiel.</li>
-  <li><b>Alle Variationen hinzufügen</b> <button tb_addallvars>: Fügt alle MultiPV-Linien hinzu als
-    Variationen (für Motoren, die MultiPV unterstützen).</li>
-  </ul>
-
-  <h3>Steuerelemente</h3>
-  <ul>
-  <li><b>Linien (MultiPV)</b>: Spinbox zum Festlegen der Anzahl der Hauptvarianten
-    anzuzeigen. Höhere Werte zeigen mehr Kandidatenzüge an. Die verfügbaren Optionen variieren
-    nach Motor.</li>
-  <li><b>Annotate</b> <button tb_annotate>: Öffnet die Anmerkungskonfiguration
-    Dialog zum automatischen Kommentieren von Spielen.</li>
-  <li><b>Training/Autoplay</b> <button tb_training>: Wechselt in den Trainingsmodus, in dem Sie
-    Spielen Sie gegen die Engine oder im Autoplay-Modus, um automatisch weiterzukommen
-    das Spiel mit sichtbarer Analyse.</li>
-  <li><b>Spiel beenden</b> <button tb_finish_off>: Spielt das gesamte Spiel durch
-    Mit dem Motor Bewegungen für beide Seiten ausführen. Öffnet einen Konfigurationsdialog
-    um Zeit/Tiefe pro Zug festzulegen und fügt optional Anmerkungen hinzu.</li>
-  <li><b>Board anzeigen</b> <button tb_coords>: Zeigt das Analyseboard an oder blendet es aus
-    Anzeige der Position am Ende der besten Linie der Engine.</li>
-  <li><b>Info anzeigen</b> <button tb_engineinfo>: Zeigt oder verbirgt zusätzliche Engine
-    Informationen (Tablebase-Treffer, Knoten/Sek., Hash-Nutzung, CPU-Auslastung).</li>
-  <li><b>Priorität</b>: Setzt die Engine-Prozesspriorität auf niedrig oder hoch.</li>
-  <li><b>Update</b> <button tb_update>: Zwingt die Engine, ihre Analyse zu aktualisieren.</li>
-  </ul>
-
-  <h3>Anzeigebereich</h3>
-  <p>
-  Im Haupttextbereich wird die aktuelle Bewertung der Engine angezeigt, einschließlich:
-  </p>
-  <ul>
-  <li>Punktzahl in Bauerneinheiten (negativ = Schwarz besser)</li>
-  <li>Suchtiefe erreicht</li>
-  <li>Hauptvariante (PV) – die beste Zugvariante </li>
-  </ul>
-  <p>
-  Für UCI-Engines mit MultiPV > 1 werden mehrere Kandidatenzeilen angezeigt.
-  </p>
-
-  <h3><a Annotate>Ein Spiel kommentieren</h3>
-  <p>
-  Klicken Sie auf die Schaltfläche <b>Annotate</b>, um den Anmerkungskonfigurationsdialog zu öffnen:
-  </p>
-  <ul>
-  <li><b>Zeit zwischen Zügen</b>: Sekunden, die die Engine an jeder Position verbringt.</li>
-  <li><b>Alle Züge kommentieren </b> oder <b>Nur Fehler </b>: Wählen Sie, ob jeder Zug
-    wird mit Anmerkungen versehen oder es werden nur schlechte Züge angezeigt. Legen Sie einen Fehlerschwellenwert in Bauerneinheiten fest.</li>
-  <li><b>Variationen</b>: Variationen aus der Engine-Analyse einbeziehen.</li>
-  <li><b>Kurze Anmerkungen</b>: Minimales Format ohne Engine-Namen.</li>
-  <li><b>Punktzahl hinzufügen</b>: Bewertungspunkte in Bauerneinheiten einbeziehen.</li>
-  <li><b>Annotator-Tag hinzufügen</b>: Zeichnet auf, welche Engine verwendet wurde.</li>
-  <li><b>Buch verwenden</b>: Überspringt Positionen, die sich im Eröffnungsbuch befinden.</li>
-  <li><b>Mehrere Spiele mit Anmerkungen versehen </b>: Mehrere Spiele nacheinander stapelweise mit Anmerkungen versehen.</li>
-  <li><b>Eröffnungsfehler finden </b>: Markiert Fehler in der Eröffnungsphase.</li>
-  <li><b>Taktische Übungen markieren</b>: Erstellt Trainingspositionen (nur UCI-Engines).</li>
-  </ul>
-  <p>
-  Drücken Sie im Hauptfenster die Esc-Taste, um die Anmerkung jederzeit abzubrechen.
-  </p>
-
-  <p><footer>(Aktualisiert: scidCommunity, April 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
 }
-
 
 set helpTitle(D,Engine) "Motorfenster"
 set helpText(D,Engine) {<h1>Die Engine-Fenster</h1>
@@ -3464,7 +3395,7 @@ set helpText(D,EPD) {<h1>EPD-Dateien</h1>
   <p>
   EPD-Dateien können automatisch mit Anmerkungen versehen werden, indem Sie Extras /
   Position kommentieren. Der kommende Dialog fragt nach der Zeit dafür
-  für die Analyse verwendet werden soll, dann die <a Analysis List>Motor
+  für die Analyse verwendet werden soll, dann die <a Engine Configure>Motor
   Liste</a> wird zur Auswahl einer zu verwendenden Engine geöffnet. <b>Notiz</b> Wenn ein
   Wenn das Analysefenster bereits geöffnet ist, erfolgt die Analyse hierüber
   ohne vorher den Benutzer zu fragen. Dann ist der Motor
@@ -4671,7 +4602,7 @@ set helpText(D,SeriousGame) {<h1>Serious-Game-Fenster</h1>
   Wird oben im Fenster „<term>Spielkonfiguration</term>“ angezeigt. Die
   Die Schaltfläche <term> UCI-Engine konfigurieren </term> ermöglicht zusätzlich den Zugriff
   zu den Motorparametern. Standardmäßig sind sie wie in eingestellt
-  <a Analysis List>Motorkonfiguration</a>.
+  <a Engine Configure>Motorkonfiguration</a>.
   </p>
   <p>
   Als nächstes kann aus diesen Eröffnungen das Buch ausgewählt werden, das verwendet werden soll

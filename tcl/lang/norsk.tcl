@@ -200,10 +200,6 @@ translate O EpdPasteRecord {Lim inn post}
 # Tools menu:
 menuText O Tools "Verktøy" 0
 menuText O ToolsConfigureEngines "Konfigurer motorer" 10 {Administrer motorens konfigurasjon}
-menuText O ToolsAnalysis "Analysemotor..." 0 \
-  {Start/stopp en sjakkanalysemotor}
-menuText O ToolsAnalysis2 "Analysemotor #2..." 0 \
-  {Start/stopp enda en sjakkanalysemotor}
 menuText O ToolsEngineWindow "Motorvindu..." 0 {Åpne et sjakkmotorvindu}
 menuText O ToolsCross "Krysstabell" 0 {Vis turnerigskrystabellen for dette partiet}
 menuText O ToolsFilterGraph "Filtergraf" 7 \
@@ -941,8 +937,8 @@ translate O OtherBookMovesTooltip {Trekk som motstanderen har et svar på}
 translate O Alphabetical {Alfabetisk}
 translate O BookCount {Bøker}
 
-# Analysis Engine open dialog:
-translate O EngineList {Liste over analysemotorer}
+# Configure Engines dialog:
+translate O EngineList {Konfigurer motorer}
 translate O EngineName {Navn}
 translate O EngineCmd {Kommandolinje}
 translate O EngineArgs {Parametre}
@@ -965,7 +961,6 @@ translate O EngineReload {Last inn gjeldende motor på nytt}
 translate O EngineClone {Lag en kopi av gjeldende motor}
 translate O EngineDuplicate {Dupliser}
 translate O EngineDelete {Slett gjeldende motor}
-translate O EngineOpenAnalysis {Åpne Analyse}
 translate O EngineOpenWindow {Åpne motorvinduet}
 
 # PGN window menus:

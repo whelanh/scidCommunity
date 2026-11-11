@@ -1,20 +1,40 @@
 # Annotate as a review mode
 
-The annotate menu runs the classic autoplay annotator
+> **Status (November 2026).** #436 item 3 removed the Analysis window and its
+> Annotate dialog, so nothing in the UI opens `configAnnotation` any more.
+> **Game Review** and the Game List's **Batch annotate** are the live annotation
+> paths. **Review Settings** holds their options, including **Find opening
+> errors** and **Mark tactical exercises** (#436 item 2). The dialog sections
+> below are kept as the history of the review-annotate pipeline until #437
+> deletes its dead code.
+
+## Current entry points
+
+- **Game Review** — the Engine Window button. It searches every position of the
+  main line and writes the labels, `[%eval]` tokens, NAGs, assessments, diagrams
+  and variations described in `docs/review-ui.md`.
+- **Batch annotate** — the Game List's selection path. It reads the same Review
+  Settings and writes each finished game through `::reviewdriver::writeResults`,
+  so opening and tactical marks match a single review.
+- **Review Settings** — the Engine Window's settings dialog: lines, depth, time
+  cap, variations, diagram, opening errors and their move window, tactical
+  exercises, coach prose and the verifier engine.
+
+Before #436, the annotate menu ran the classic autoplay annotator
 (`tcl/tools/analysis.tcl`: `configAnnotation`, `annotateMode`, `addAnnotation`,
-`markExercise`, `bookAnnotation`). A review mode now exists beside it:
-`::reviewannotate` (`tcl/tools/review_annotate.tcl`) runs the same engine pass
-the engine window's **Game Review** runs — `::reviewdriver` — and writes its
+`markExercise`, `bookAnnotation`). A review mode existed beside it:
+`::reviewannotate` (`tcl/tools/review_annotate.tcl`) ran the same engine pass
+the engine window's **Game Review** runs — `::reviewdriver` — and wrote its
 result into the game with the review's writer instead of the classic loop's.
 
-The annotate dialog's OK button now starts that pass (`::reviewannotate::run`),
-so the review writer is reachable for one game, a range of games, and the opening
+The annotate dialog's OK button started that pass (`::reviewannotate::run`), so
+the review writer was reachable for one game, a range of games, and the opening
 errors finder. The classic pipeline is still shipped and still in `analysis.tcl`;
 it is retired only after the parity gate below passes, which is a separate change
-and needs the maintainer's approval for any artefact that differs. Since this
-wiring, nothing in the UI starts the classic loop.
+and needs the maintainer's approval for any artefact that differs. Since #436
+item 3, nothing in the UI starts either loop.
 
-## The dialog is the entry point
+## The retired dialog (history)
 
 `configAnnotation {n}` is opened by pane `n`'s annotate button (the button is on
 every pane, not only the first), and its OK turns the dialog's state into a run

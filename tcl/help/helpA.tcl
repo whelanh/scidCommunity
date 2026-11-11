@@ -25,7 +25,7 @@ set helpText(A,Contents) {<h1>scidコミュニティのヘルプコンテンツ<
   
   <h4>その他の scidCommunity ウィンドウ</h4>
   <ul>
-  <li><a Analysis><b>分析</b> ウィンドウ</a></li>
+  <li><a Engine><b>分析</b> ウィンドウ</a></li>
   <li><a Engine><b>エンジン</b> 窓</a></li>
   <li><a Book><b>本</b> ウィンドウ</a></li>
   <li><a CalVar><b>変動の計算</b> ウィンドウ</a></li>
@@ -75,7 +75,7 @@ set helpText(A,Index) {<h1>scidコミュニティ ヘルプ トピック イン�
   
   <h3>A</h3>
   <ul>
-  <li><a Analysis>解析</a>ウィンドウ</li>
+  <li><a Engine>解析</a>ウィンドウ</li>
   <li><a Annotating>ゲームに注釈を付ける</a></li>
   <li><a NAGs>注釈記号</a></li>
   <li><a Author>作成者、連絡中</a></li>
@@ -129,7 +129,7 @@ set helpText(A,Index) {<h1>scidコミュニティ ヘルプ トピック イン�
   <li><a ECO Codes>ECOコード体系</a></li>
   <li><a ECO>ECO開口部分類</a></li>
   <li><a Menus Edit>編集メニュー</a></li>
-  <li><a Analysis List>エンジンリスト</a></li>
+  <li><a Engine Configure>エンジンリスト</a></li>
   <li><a Engine>エンジンウィンドウ</a></li>
   <li><a Moves>チェスの動きの入力</a></li>
   <li><a EPD>EPDファイル</a></li>
@@ -760,11 +760,11 @@ set helpText(A,Menus) {<h1>scidCommunity menus</h1>
   
   <h3><name Tools>Tools</name></h3>
   <ul>
-  <li><menu>Configure Engines</menu>: Opens the <a Analysis List>engine configuration</a> dialog
+  <li><menu>Configure Engines</menu>: Opens the <a Engine Configure>engine configuration</a> dialog
   to set up chess engines.</li>
   <li><menu>Start Engine 1</menu>: Starts the first chess analysis engine.</li>
   <li><menu>Start Engine 2</menu>: Starts the second chess analysis engine.</li>
-  <li><menu>Analysis Window</menu>: Opens the <a Analysis>analysis window</a>.</li>
+  <li><menu>Analysis Window</menu>: Opens the <a Engine>analysis window</a>.</li>
   <br>
   <li><menu>Filter Graph</menu>: Opens/closes the <a Graphs Filter>filter graph</a> window.</li>
   <li><menu>Absolute Filter Graph</menu>: Opens/closes the absolute filter graph window.</li>
@@ -2449,7 +2449,7 @@ set helpText(A,PGNAutoComment) {<h1>PGN ウィンドウ: 自動コメント ボ�
 set helpTitle(A,AnalysisAutoComment) "自動コメントボタン"
 set helpText(A,AnalysisAutoComment) {<h1>分析ウィンドウ：自動コメントボタン</h1>
   <p>
-  の <b>自動コメント</b> のボタン <a Analysis>分析エンジン</a> ウィンドウを使用すると、
+  の <b>自動コメント</b> のボタン <a Engine>分析エンジン</a> ウィンドウを使用すると、
   ゲーム全体の AI コメントをバッチ モードで自動的に生成します。
   </p>
   
@@ -3203,95 +3203,26 @@ set helpText(A,Flags) {<h1>ゲームフラグ</h1>
   scidCommunity の次の関数は、フラグを設定または要求します。
   <ul>
      <li><a OpeningTrainer>オープニング トレーナー</a>: (B) および (W) フラグを評価できます
-     <li><a Analysis Annotate>最善手を見つける</a>: (T) フラグを評価します
-     <li><a Analysis Annotate>戦術演習の検索</a>: (T) フラグを設定します。
+     <li><a ReviewSettings>最善手を見つける</a>: (T) フラグを評価します
+     <li><a ReviewSettings>戦術演習の検索</a>: (T) フラグを設定します。
   </ul>
   
   <p><footer>(更新日: scidCommunity、2026 年 4 月)</footer></p>
 }
 
 
-set helpTitle(A,Analysis) "分析ウィンドウ"
-set helpText(A,Analysis) {<h1>分析ウィンドウ</h1>
+set helpTitle(A,Analysis) "Analysis window (retired)"
+set helpText(A,Analysis) {<h1>The Analysis window has been retired</h1>
   <p>
-  scidCommunity 分析ウィンドウには、チェス エンジンによる分析が表示されます。
-  現在のボードの位置。位置が変更されると、scidCommunity は新しい
-  エンジンに対する位置を測定し、その評価を表示します。最大 2 つの分析ウィンドウ
-  同時に開くことも可能です。
+  The Analysis window and its Annotate dialog are gone. Engine work runs in the
+  <a Engine>Engine windows</a>: <a ReviewGameButton>Game Review</a> and
+  <a ReviewMoveButton>Move Comment</a> write the annotation, and
+  <a ReviewSettings>Review Settings</a> holds their choices. For a selection of
+  games, use <a BatchAnnotate>Batch annotate</a>.
   </p>
 
-  <h3>ボタン</h3>
-  <ul>
-  <li><b>Start/Stop</b> <button tb_eng_on>: エンジン解析を開始または停止します。
-    キーボード ショートカット: ウィンドウ 1 の場合は F4、ウィンドウ 2 の場合は F5。</li>
-  <li><b>ロック</b><button tb_lockengine>: エンジンを固定位置にロックします。
-    ロックされている場合、ナビゲート中でもエンジンはその位置を分析し続けます。
-    ゲーム内のさまざまな動きに。もう一度クリックするとロックが解除されます。</li>
-  <li><b> 動きの追加</b> <button tb_addmove>: エンジンの最善の動きをゲームに追加します。</li>
-  <li><b>バリエーション追加</b><button tb_addvar>：エンジンのベストラインを追加
-    現在のゲームのバリエーションです。</li>
-  <li><b>すべてのバリエーションを追加</b> <button tb_addallvars>: すべての MultiPV 回線を次のように追加します。
-    バリエーション (MultiPV をサポートするエンジン用)。</li>
-  </ul>
-
-  <h3>コントロール</h3>
-  <ul>
-  <li><b>Lines (MultiPV)</b>: 主要なバリエーションの数を設定するスピンボックス
-    表示します。値が大きいほど、より多くの候補手が表示されます。利用可能なオプションは異なります
-    エンジン搭載</li>
-  <li><b>Annotate</b> <button tb_annotate>: 注釈設定を開きます
-    ゲームに自動的に注釈を付けるためのダイアログ。</li>
-  <li><b>トレーニング/自動再生</b> <button tb_training>: トレーニング モードに入ります。
-    エンジンと対戦するか、自動プレイモードで自動的に進みます。
-    分析が表示されたゲーム。</li>
-  <li><b>ゲーム終了</b><button tb_finish_off>: ゲーム全体をプレイします。
-    エンジンを使用して、双方の動きを作ります。設定ダイアログを開きます
-    移動ごとの時間/深さを設定し、オプションで注釈を追加します。</li>
-  <li><b>ボードの表示</b> <button tb_coords>: 分析ボードの表示/非表示を切り替えます。
-    エンジンのベストラインの終点での位置を表示します。</li>
-  <li><b>情報を表示</b> <button tb_engineinfo>: 追加のエンジンを表示または非表示にします
-    情報 (テーブルベースのヒット数、ノード/秒、ハッシュ使用量、CPU 負荷)。</li>
-  <li><b>Priority</b>: エンジンプロセスの優先度を低または高に設定します。</li>
-  <li><b>Update</b> <button tb_update>: エンジンに解析を強制的に更新します。</li>
-  </ul>
-
-  <h3>表示エリア</h3>
-  <p>
-  メイン テキスト領域には、次のようなエンジンの現在の評価が表示されます。
-  </p>
-  <ul>
-  <li>ポーン単位でのスコア (マイナス = 黒の方が良い)</li>
-  <li>検索深度に達しました</li>
-  <li>プリンシパルバリエーション(PV) - ベストライン</li>
-  </ul>
-  <p>
-  MultiPV > 1 の UCI エンジンの場合、複数の候補行が表示されます。
-  </p>
-
-  <h3><a Annotate>ゲームに注釈を付ける</h3>
-  <p>
-  <b>注釈付け</b>ボタンを押して、注釈設定ダイアログを開きます。
-  </p>
-  <ul>
-  <li><b>移動間の時間</b>: エンジンが各位置に費やす秒数。</li>
-  <li><b>すべての動きに注釈を付ける</b> または <b>失敗のみ</b>: すべての動きに注釈を付けるかどうかを選択します
-    注釈が付けられるか、悪い動きだけが表示されます。失敗のしきい値をポーン単位で設定します。</li>
-  <li><b>バリエーション</b>: エンジンの解析からのバリエーションを含みます。</li>
-  <li><b>短い注釈</b>: エンジン名のない最小限の形式。</li>
-  <li><b>スコアの追加</b>: ポーンユニットの評価スコアを含めます。</li>
-  <li><b>アノテータータグの追加</b>: どのエンジンが使用されたかを記録します。</li>
-  <li><b>ブックを使用</b>: オープニングブックにあるポジションをスキップします。</li>
-  <li><b>複数のゲームに注釈を付ける</b>: 複数のゲームに順番にバッチで注釈を付けます。</li>
-  <li><b>オープニングエラーの検索</b>: オープニングフェーズでの失敗をマークします。</li>
-  <li><b>戦術演習をマーク</b>: トレーニング ポジションを作成します (UCI エンジンのみ)。</li>
-  </ul>
-  <p>
-  メイン ウィンドウで Esc キーを押すと、いつでも注釈をキャンセルできます。
-  </p>
-
-  <p><footer>(更新日: scidCommunity、2026 年 4 月)</footer></p>
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
 }
-
 
 set helpTitle(A,Engine) "エンジンの窓"
 set helpText(A,Engine) {<h1>エンジンウィンドウ</h1>
@@ -3472,7 +3403,7 @@ set helpText(A,EPD) {<h1>EPDファイル</h1>
   <p>
   [ツール] / [ツール] を選択すると、EPD ファイルに自動的に注釈を付けることができます。
   位置に注釈を付けます。今後の対話では、次の時間が求められます。
-  解析には <a Analysis List> エンジンを使用する必要があります。
+  解析には <a Engine Configure> エンジンを使用する必要があります。
   使用するエンジンを選択するためにリスト</a>が開きます。 <b>注</b>
   分析ウィンドウがすでに開いているため、分析はこれを使用して行われます
   ユーザーに事前に確認せずにエンジンを停止する可能性があります。するとエンジンは
@@ -4681,7 +4612,7 @@ set helpText(A,SeriousGame) {<h1>本格的なゲームウィンドウ</h1>
   の上に与えられる <term>ゲーム構成</term> ウィンドウ。の
   ボタン <term>UCIエンジンの設定</term> さらにアクセスを許可します
   エンジンパラメータに。デフォルトでは、次のように設定されています。
-  <a Analysis List>エンジン構成</a>。
+  <a Engine Configure>エンジン構成</a>。
   </p>
   <p>
   次に、開いた本の中から使用する本を選択します

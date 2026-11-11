@@ -105,12 +105,10 @@ comes first, so a capped pass can finish shallower than `::review::depth`, and a
 verdict then rests on a shallower search than the setting promised. That is the
 trade the cap asks for, and it is why the cap is off by default.
 
-**One setting, two surfaces.** The Analysis window's annotate dialog shows the
-same `::review::movetime` as a time-per-move spinner, in seconds, labelled with
-the Review Settings row it writes. Editing either surface changes the other, and
-a cap typed there reaches every pass this session runs — the annotate pass, Game
-Review and Move Comment — because `::review::passLimits` is the only place the
-number is read.
+**One setting, one surface.** The time cap is set in Review Settings; the old
+annotate dialog that showed it beside a seconds spinner is gone with the
+Analysis window. Every pass reads `::review::passLimits`, so a cap set here
+reaches Game Review, Move Comment and Batch annotate.
 
 **A bound never displaces a verdict.** A capped search can report a MultiPV slot
 as `lowerbound`/`upperbound` at the depth it had reached and only then finish the
@@ -441,8 +439,8 @@ the end, with the cursor saved and restored the way `::review::writeMove` does
 it. `::addMoveUCI`, which follows the cursor and animates, is off the path, so the
 reader's board stays where they left it for the whole pass. A cancel writes
 nothing because the collect phase touched nothing. The engine window's Finish
-Game and the classic Analysis window's both run this one pass
-(`::finishgame::start` and `::finishgame::startPane`).
+Game runs this one pass (`::finishgame::start`); the old Analysis pane's
+`::finishgame::startPane` path is retired with the window.
 
 The pass also keeps the old Finish Game's rules. It counts repetitions on the
 pure board, seeded from the game's own history, and stops when a position occurs
@@ -611,11 +609,9 @@ back and the board is redrawn, and only then is the model asked. The run is not
 over until every answer has landed or failed: its state stays `writing`,
 `Cancel` is live, and the status line counts the answers
 (`annotating 31 of 31 · prose 7 of 9`). Nothing is saved before the coach runs:
-the Annotate dialog's batch writes each game to the database (`sc_game save`, in
-`::reviewannotate::done`, and only when the batch has more than one game) when
-the run ends, and in the coach path the run ends through `proseDone` — after the
-last answer has landed or failed. The engine-window Game Review saves nothing at
-all. `Cancel` drops the queue and leaves the prose already written in the game.
+Game Review saves nothing at all, and the run ends through `proseDone` — after
+the last answer has landed or failed. `Cancel` drops the queue and leaves the
+prose already written in the game.
 
 Placement, each block on a line of its own:
 
@@ -695,7 +691,7 @@ plain-text form.
 | `tcl/tools/review_prose.tcl` | `::reviewprose` — the queue: one request at a time through `::auto_comment::queryAsync`, cache-keyed, with progress, cancel and a failed request dropped. Two callers: the review's coach prompts and the threat probe's one sentence |
 | `tcl/tools/review_threat.tcl` | `::reviewthreat` — "What's the threat?": `sideName`, `san`, `threatClauses`, `forcing`, `answer`, `factsBlock`, `prompt`, `search` (one shot, connection `reviewThreat`), `block`, `stripOwn`, `write` (the move comment, cursor restored), `prose`, `spoken`, `ready`, `ask`. Writes one line into the move's comment |
 | `tcl/windows/engine.tcl` | the review icons, the status line, the settings dialog (guarded glue), and `::enginewin::threat` (the window's preset) |
-| `tcl/tools/analysis.tcl` | the Analysis window's annotate dialog, its OK (`configAnnotateOK`) and the button on every pane |
+| `tcl/tools/analysis.tcl` | the retired Analysis window's annotate dialog and its OK (`configAnnotateOK`), kept until #437 deletes the file |
 | `tests/tcl/review_settings_dialog.tcl` | 68 checks: under Tk: the dialog builds, has OK/Cancel, stores what is typed, refuses a bad value, the variation box follows `mpv`, the time cap's row shows the preset's cap and drops the note, the on/off rows are checkboxes, the opening finder and exercise rows are saved and the opening window is refused outside 10–20, `Coach settings…` opens a window of its own from a dialog that holds no grab, and both traces are removed when the dialog closes |
 | `tests/tcl/review_ui.tcl` | 256 checks: the call a press makes, the status line (including the coach's counts), the button states, the dialog round trip, the precedence table through the dialog, the time cap's note, the verifier row's Off word and refused preset name, which move a comment judges, the move-comment depth, the key set |
 | `tests/tcl/review_toolbar.tcl` | 43 checks: the five review icons use `::icon::` names and exist in icons_light and icons_dark at 24×24, the whole engine toolbar uses `::icon::` images, the labels are tooltips rather than text, the stop icon is gridded only while a pass runs, a visible divider separates the review group from Config, the dark-theme cache matches `::icon::` names, and the threat button exists only when its command does and not in an embedded PGN viewer |

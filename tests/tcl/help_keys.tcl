@@ -137,6 +137,77 @@ foreach spec $HELP_FILES {
     }
     checkEq "$label: every page and title pair up" $orphans {}
 
+    # The Analysis window and its Annotate dialog are retired (#436). The page
+    # remains only as a redirect, and nothing may link to it as a live window.
+    check "$label: Analysis is a retirement page" \
+        [expr {[hasPage $h ${prefix}Analysis] && \
+            [string first "<a Engine>" [pageText $h ${prefix}Analysis]] >= 0}]
+    check "$label: no page links to Analysis" \
+        [expr {[string first "<a Analysis>" $all] < 0}]
+    check "$label: no page links to Analysis List" \
+        [expr {[string first "<a Analysis List>" $all] < 0}]
+    check "$label: Annotating points at the review" \
+        [expr {[string first "<a ReviewGameButton>" \
+            [pageText $h ${prefix}Annotating]] >= 0}]
+    check "$label: Engine defines the Configure Engines target" \
+        [expr {[string first "<name Configure>" \
+            [pageText $h ${prefix}Engine]] >= 0}]
+
+    if {$prefix eq ""} {
+        check "English: no Analysis Engine text" \
+            [expr {[string first "Analysis Engine" $all] < 0}]
+        check "English: Engine no longer compares with the Analysis window" \
+            [expr {[string first "differ from the Analysis window" \
+                [pageText $h Engine]] < 0}]
+        check "English: EPD no longer compares with the Analysis window" \
+            [expr {[string first "differs from the Analysis window" \
+                [pageText $h EPD]] < 0}]
+        check "English: Review Settings lists the opening finder" \
+            [expr {[string first "Find opening errors" \
+                [pageText $h ReviewSettings]] >= 0}]
+        check "English: Review Settings lists tactical exercises" \
+            [expr {[string first "Mark tactical exercises" \
+                [pageText $h ReviewSettings]] >= 0}]
+    }
+
+    interp delete $h
+}
+
+# Every translated help file is still Tcl data with matched pages, and none of
+# them may keep the retired Analysis window as a live target. The English and
+# Polish files above get the detailed button checks; this is the structural
+# check for the rest.
+puts "\nevery translated help file"
+foreach path [lsort [glob [file join $root tcl help help*.tcl]]] {
+    set label [file tail $path]
+    lassign [loadHelp $path] h err
+    check "$label: sources without error" [expr {$h ne ""}] $err
+    if {$h eq ""} { continue }
+    set orphans {}
+    foreach k [$h eval {array names helpText}] {
+        if {![$h eval [list info exists helpTitle($k)]]} {
+            lappend orphans "text-only:$k"
+        }
+    }
+    foreach k [$h eval {array names helpTitle}] {
+        if {![$h eval [list info exists helpText($k)]]} {
+            lappend orphans "title-only:$k"
+        }
+    }
+    checkEq "$label: every page and title pair up" $orphans {}
+    set all [everyPage $h]
+    check "$label: no page links to Analysis" \
+        [expr {[string first "<a Analysis" $all] < 0}]
+    set analysisPage ""
+    foreach k [$h eval {array names helpText}] {
+        if {[string match "*,Analysis" $k] || $k eq "Analysis"} {
+            set analysisPage [$h eval [list set helpText($k)]]
+            break
+        }
+    }
+    check "$label: Analysis is a retirement page" \
+        [expr {$analysisPage ne "" && \
+            [string first "<a Engine>" $analysisPage] >= 0}]
     interp delete $h
 }
 

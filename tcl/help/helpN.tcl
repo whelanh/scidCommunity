@@ -25,7 +25,7 @@ set helpText(N,Contents) {<h1>scidCommunity Help-inhoud</h1>
   
   <h4>Andere scidCommunity-vensters</h4>
   <ul>
-  <li><a Analysis><b>Analyse</b> venster</a></li>
+  <li><a Engine><b>Analyse</b> venster</a></li>
   <li><a Engine><b>Motor</b> ruiten</a></li>
   <li><a Book><b>Boek</b> venster</a></li>
   <li><a CalVar><b>Berekening van variaties</b> venster</a></li>
@@ -74,7 +74,7 @@ set helpText(N,Index) {<h1>scidCommunity Help-onderwerpenindex</h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Analysis>Analyse</a> venster</li>
+  <li><a Engine>Analyse</a> venster</li>
   <li><a Annotating>Annoteren van spellen</a></li>
   <li><a NAGs>Annotatiesymbolen</a></li>
   <li><a Author>Auteur, contact opnemen met</a></li>
@@ -128,7 +128,7 @@ set helpText(N,Index) {<h1>scidCommunity Help-onderwerpenindex</h1>
   <li><a ECO Codes>ECO-codesysteem</a></li>
   <li><a ECO>ECO-openingenclassificatie</a></li>
   <li><a Menus Edit>Menu bewerken</a></li>
-  <li><a Analysis List>Motorenlijst</a></li>
+  <li><a Engine Configure>Motorenlijst</a></li>
   <li><a Engine>Motorruiten</a></li>
   <li><a Moves>Schaakzetten invoeren</a></li>
   <li><a EPD>EPD-bestanden </a></li>
@@ -760,11 +760,11 @@ set helpText(N,Menus) {<h1>scidCommunity menus</h1>
   
   <h3><name Tools>Tools</name></h3>
   <ul>
-  <li><menu>Configure Engines</menu>: Opens the <a Analysis List>engine configuration</a> dialog
+  <li><menu>Configure Engines</menu>: Opens the <a Engine Configure>engine configuration</a> dialog
   to set up chess engines.</li>
   <li><menu>Start Engine 1</menu>: Starts the first chess analysis engine.</li>
   <li><menu>Start Engine 2</menu>: Starts the second chess analysis engine.</li>
-  <li><menu>Analysis Window</menu>: Opens the <a Analysis>analysis window</a>.</li>
+  <li><menu>Analysis Window</menu>: Opens the <a Engine>analysis window</a>.</li>
   <br>
   <li><menu>Filter Graph</menu>: Opens/closes the <a Graphs Filter>filter graph</a> window.</li>
   <li><menu>Absolute Filter Graph</menu>: Opens/closes the absolute filter graph window.</li>
@@ -2443,7 +2443,7 @@ set helpText(N,PGNAutoComment) {<h1>PGN-venster: Knop voor automatisch commentaa
 set helpTitle(N,AnalysisAutoComment) "Knop voor automatisch commentaar"
 set helpText(N,AnalysisAutoComment) {<h1>Analysevenster: knop Automatisch commentaar</h1>
   <p>
-  Met de knop <b>Automatisch commentaar</b> in het venster <a Analysis>Analysis Engine</a> kunt u
+  Met de knop <b>Automatisch commentaar</b> in het venster <a Engine>Engine Window</a> kunt u
   Genereer automatisch AI-commentaar voor een hele game in batchmodus.
   </p>
   
@@ -3195,95 +3195,26 @@ set helpText(N,Flags) {<h1>Spelvlaggen</h1>
   De volgende functies van scidCommunity stellen vlaggen in of vereisen deze:
   <ul>
      <li><a OpeningTrainer>Opening Trainer</a>: kan de vlaggen (B) en (W) evalueren
-     <li><a Analysis Annotate>Vind de beste zet </a>: evalueert de (T)-vlag
-     <li><a Analysis Annotate>Zoek tactische oefening </a>: zet de (T) vlag
+     <li><a ReviewSettings>Vind de beste zet </a>: evalueert de (T)-vlag
+     <li><a ReviewSettings>Zoek tactische oefening </a>: zet de (T) vlag
   </ul>
   
   <p><footer>(Bijgewerkt: scidCommunity, april 2026)</footer></p>
 }
 
 
-set helpTitle(N,Analysis) "Analysevenster"
-set helpText(N,Analysis) {<h1>Het analysevenster </h1>
+set helpTitle(N,Analysis) "Analysis window (retired)"
+set helpText(N,Analysis) {<h1>The Analysis window has been retired</h1>
   <p>
-  Het scidCommunity Analysis-venster toont de analyse door een schaakengine van de
-  huidige bestuursfunctie. Wanneer de positie verandert, verzendt scidCommunity het nieuwe
-  positie ten opzichte van de motor en geeft de beoordeling ervan weer. Maximaal twee analysevensters
-  tegelijk open kunnen zijn.
+  The Analysis window and its Annotate dialog are gone. Engine work runs in the
+  <a Engine>Engine windows</a>: <a ReviewGameButton>Game Review</a> and
+  <a ReviewMoveButton>Move Comment</a> write the annotation, and
+  <a ReviewSettings>Review Settings</a> holds their choices. For a selection of
+  games, use <a BatchAnnotate>Batch annotate</a>.
   </p>
 
-  <h3>Knoppen</h3>
-  <ul>
-  <li><b>Start/Stop</b> <button tb_eng_on>: Start of stopt de motoranalyse.
-    Sneltoets: F4 voor venster 1, F5 voor venster 2.</li>
-  <li><b>Vergrendeling</b> <button tb_lockengine>: Vergrendelt de motor in een vaste positie.
-    Wanneer deze is vergrendeld, blijft de motor die positie analyseren, zelfs als u navigeert
-    naar verschillende bewegingen in het spel. Klik nogmaals om te ontgrendelen.</li>
-  <li><b> Zet toevoegen </b> <button tb_addmove>: Voegt de beste zet van de engine toe aan het spel. </li>
-  <li><b> Variatie toevoegen </b> <button tb_addvar>: Voegt de beste lijn van de motor toe als
-    een variatie op het huidige spel. </li>
-  <li><b>Voeg alle varianten toe </b> <button tb_addallvars>: Voegt alle MultiPV-lijnen toe als
-    variaties (voor motoren die MultiPV ondersteunen).</li>
-  </ul>
-
-  <h3>Besturingen</h3>
-  <ul>
-  <li><b>Lijnen (MultiPV)</b>: Spinbox om het aantal hoofdvariaties in te stellen
-    weergeven. Hogere waarden tonen meer kandidaatzetten. Beschikbare opties variëren
-    per motor.</li>
-  <li><b>Annoteren</b> <button tb_annotate>: Opent de annotatieconfiguratie
-    dialoogvenster om partijen automatisch te annoteren.</li>
-  <li><b>Training/Autoplay</b> <button tb_training>: Opent de trainingsmodus waarin u
-    speel tegen de engine, of autoplay-modus om automatisch verder te gaan
-    het spel met zichtbare analyse.</li>
-  <li><b>Finish Game</b> <button tb_finish_off>: Speelt het hele spel af
-    gebruik de motor en maak bewegingen voor beide kanten. Opent een configuratiedialoogvenster
-    om tijd/diepte per zet in te stellen en eventueel annotaties toe te voegen.</li>
-  <li><b> Bord tonen </b> <button tb_coords>: Toont of verbergt het analysebord
-    weergave van de positie aan het einde van de beste lijn van de motor. </li>
-  <li><b>Toon info</b> <button tb_engineinfo>: Toont of verbergt extra engine
-    informatie (tablebase-hits, knooppunten/sec, hashgebruik, CPU-belasting). </li>
-  <li><b>Prioriteit</b>: Stelt de prioriteit van het motorproces in op laag of hoog.</li>
-  <li><b>Update</b> <button tb_update>: Dwingt de engine om zijn analyse bij te werken.</li>
-  </ul>
-
-  <h3>Weergavegebied </h3>
-  <p>
-  Het hoofdtekstgebied toont de huidige evaluatie van de engine, inclusief:
-  </p>
-  <ul>
-  <li>Score in pionneneenheden (negatief = zwart beter)</li>
-  <li>Zoekdiepte bereikt</li>
-  <li> Belangrijkste variatie (PV) - de beste reeks zetten </li>
-  </ul>
-  <p>
-  Voor UCI-motoren met MultiPV > 1 worden meerdere kandidaatlijnen weergegeven.
-  </p>
-
-  <h3><a Annotate>Een spel annoteren</h3>
-  <p>
-  Druk op de knop <b>Annoteren</b> om het dialoogvenster voor het configureren van annotaties te openen:
-  </p>
-  <ul>
-  <li><b>Tijd tussen zetten </b>: seconden die de engine aan elke positie besteedt. </li>
-  <li><b>Annoteer alle zetten </b> of <b>Alleen blunders </b>: Kies of elke zet
-    wordt geannoteerd of alleen slechte zetten. Stel een blunderdrempel in in pioneenheden.</li>
-  <li><b>Variaties</b>: Inclusief variaties op de analyse van de motor.</li>
-  <li><b>Korte annotaties </b>: Minimaal formaat zonder enginenamen.</li>
-  <li><b>Score toevoegen</b>: Evaluatiescores opnemen in pioneenheden.</li>
-  <li><b>Annotatortag toevoegen</b>: Registreert welke engine is gebruikt.</li>
-  <li><b>Gebruik boek</b>: Slaat posities over die in het openingsboek staan.</li>
-  <li><b>Annoteer meerdere games</b>: Annoteer meerdere games in batch in volgorde.</li>
-  <li><b>Openingsfouten vinden</b>: Markeert blunders in de openingsfase.</li>
-  <li><b>Tactische oefeningen markeren </b>: Creëert trainingsposities (alleen UCI-motoren).</li>
-  </ul>
-  <p>
-  Druk op Escape in het hoofdvenster om de annotatie op elk gewenst moment te annuleren.
-  </p>
-
-  <p><footer>(Bijgewerkt: scidCommunity, april 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
 }
-
 
 set helpTitle(N,Engine) "Motorruiten"
 set helpText(N,Engine) {<h1>De motorvensters </h1>
@@ -3464,7 +3395,7 @@ set helpText(N,EPD) {<h1>EPD-bestanden </h1>
   <p>
   EPD-bestanden kunnen automatisch worden geannoteerd door Extra /
   Annoteer positie. De komende dialoog vraagt om de tijd daarvoor
-  moet worden gebruikt voor de analyse, dan de <a Analysis List>motor
+  moet worden gebruikt voor de analyse, dan de <a Engine Configure>motor
   list</a> wordt geopend voor selectie van een te gebruiken engine. <b>Opmerking</b> Als een
   analysevenster al geopend is, wordt de analyse hiermee uitgevoerd
   engine zonder de gebruiker vooraf te vragen. Dan is het de motor
@@ -4670,7 +4601,7 @@ set helpText(N,SeriousGame) {<h1> Serious game-venster </h1>
   gegeven bovenaan het venster <term>Spelconfiguratie </term>. De
   knop <term>Configureer UCI-engine </term> geeft bovendien toegang
   aan de motorparameters. Standaard zijn ze ingesteld zoals in de
-  <a Analysis List>motorconfiguratie </a>.
+  <a Engine Configure>motorconfiguratie </a>.
   </p>
   <p>
   Vervolgens kan uit de openingen het boek worden gekozen dat moet worden gebruikt

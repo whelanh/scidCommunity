@@ -25,7 +25,7 @@ set helpText(M,Contents) {<h1>scid社区帮助内容</h1>
   
   <h4>其他 scidCommunity windows</h4>
   <ul>
-  <li><a Analysis><b>分析</b>窗口</a></li>
+  <li><a Engine><b>分析</b>窗口</a></li>
   <li><a Engine><b>发动机</b>车窗</a></li>
   <li><a Book><b>书籍</b>窗口</a></li>
   <li><a CalVar><b>偏差计算</b>窗口</a></li>
@@ -74,7 +74,7 @@ set helpText(M,Index) {<h1>scid社区帮助主题索引</h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Analysis>分析</a>窗口</li>
+  <li><a Engine>分析</a>窗口</li>
   <li><a Annotating>注释游戏</a></li>
   <li><a NAGs>注释符号</a></li>
   <li><a Author>作者，联系方式</a></li>
@@ -128,7 +128,7 @@ set helpText(M,Index) {<h1>scid社区帮助主题索引</h1>
   <li><a ECO Codes>ECO代码系统</a></li>
   <li><a ECO>ECO开口分类</a></li>
   <li><a Menus Edit>编辑菜单</a></li>
-  <li><a Analysis List>发动机列表</a></li>
+  <li><a Engine Configure>发动机列表</a></li>
   <li><a Engine>发动机窗</a></li>
   <li><a Moves>输入棋步</a></li>
   <li><a EPD>EPD文件</a></li>
@@ -762,11 +762,11 @@ set helpText(M,Menus) {<h1>scidCommunity menus</h1>
   
   <h3><name Tools>Tools</name></h3>
   <ul>
-  <li><menu>Configure Engines</menu>: Opens the <a Analysis List>engine configuration</a> dialog
+  <li><menu>Configure Engines</menu>: Opens the <a Engine Configure>engine configuration</a> dialog
   to set up chess engines.</li>
   <li><menu>Start Engine 1</menu>: Starts the first chess analysis engine.</li>
   <li><menu>Start Engine 2</menu>: Starts the second chess analysis engine.</li>
-  <li><menu>Analysis Window</menu>: Opens the <a Analysis>analysis window</a>.</li>
+  <li><menu>Analysis Window</menu>: Opens the <a Engine>analysis window</a>.</li>
   <br>
   <li><menu>Filter Graph</menu>: Opens/closes the <a Graphs Filter>filter graph</a> window.</li>
   <li><menu>Absolute Filter Graph</menu>: Opens/closes the absolute filter graph window.</li>
@@ -2463,7 +2463,7 @@ set helpText(M,PGNAutoComment) {<h1>PGN 窗口：自动注释按钮</h1>
 set helpTitle(M,AnalysisAutoComment) "自动评论按钮"
 set helpText(M,AnalysisAutoComment) {<h1>分析窗口：自动注释按钮</h1>
   <p>
-  这 <b>自动评论</b> 按钮在 <a Analysis>分析引擎</a> 窗口允许您
+  这 <b>自动评论</b> 按钮在 <a Engine>分析引擎</a> 窗口允许您
   以批处理模式自动生成整个游戏的人工智能解说。
   </p>
   
@@ -3221,8 +3221,8 @@ set helpText(M,Flags) {<h1>游戏旗帜</h1>
   scidCommunity 的以下函数设置或需要标志：
   <ul>
      <li><a OpeningTrainer>开场训练师</a>：可以评估 (B) 和 (W) 标志
-     <li><a Analysis Annotate>寻找最佳动作</a>：评估 (T) 标志
-     <li><a Analysis Annotate>寻找战术练习</a>：设置（T）标志
+     <li><a ReviewSettings>寻找最佳动作</a>：评估 (T) 标志
+     <li><a ReviewSettings>寻找战术练习</a>：设置（T）标志
   </ul>
   
   <p><footer>（更新：scidCommunity，2026 年 4 月）</footer></p>
@@ -3230,88 +3230,18 @@ set helpText(M,Flags) {<h1>游戏旗帜</h1>
 }
 
 
-set helpTitle(M,Analysis) "分析窗口"
-set helpText(M,Analysis) {<h1>分析窗口</h1>
+set helpTitle(M,Analysis) "Analysis window (retired)"
+set helpText(M,Analysis) {<h1>The Analysis window has been retired</h1>
   <p>
-  scidCommunity 分析窗口显示了国际象棋引擎的分析
-  当前董事会位置。当位置发生变化时，scidCommunity 会发送新的
-  发动机的位置并显示其评估。最多两个分析窗口
-  可以同时打开。
+  The Analysis window and its Annotate dialog are gone. Engine work runs in the
+  <a Engine>Engine windows</a>: <a ReviewGameButton>Game Review</a> and
+  <a ReviewMoveButton>Move Comment</a> write the annotation, and
+  <a ReviewSettings>Review Settings</a> holds their choices. For a selection of
+  games, use <a BatchAnnotate>Batch annotate</a>.
   </p>
 
-  <h3>按钮</h3>
-  <ul>
-  <li><b>开始/停止</b> <button tb_eng_on>：开始或停止引擎分析。
-    键盘快捷键：F4 用于窗口 1，F5 用于窗口 2。</li>
-  <li><b>锁</b> <button tb_lockengine>：将发动机锁定到固定位置。
-    锁定后，即使您导航，引擎也会继续分析该位置
-    到游戏中的不同动作。再次点击即可解锁。</li>
-  <li><b>添加动作</b> <button tb_addmove>：将引擎的最佳动作添加到游戏中。</li>
-  <li><b>添加变化</b> <button tb_addvar>：将引擎的最佳线路添加为
-    当前游戏的变体。</li>
-  <li><b>添加所有变体</b> <button tb_addallvars>：将所有 MultiPV 线路添加为
-    变体（适用于支持 MultiPV 的引擎）。</li>
-  </ul>
-
-  <h3>控制</h3>
-  <ul>
-  <li><b>线路（多光伏）</b>：旋转框设置主要变体的数量
-    显示。值越高表示候选移动越多。可用选项各不相同
-    通过发动机。</li>
-  <li><b>注释</b> <button tb_annotate>：打开注释配置
-    自动注释游戏的对话框。</li>
-  <li><b>训练/自动播放</b> <button tb_training>：进入训练模式，您可以在其中
-    与引擎对战，或自动游戏模式自动前进
-    游戏分析可见。</li>
-  <li><b>完成游戏</b> <button tb_finish_off>: 贯穿整个游戏
-    使用引擎，为双方做出动作。打开配置对话框
-    设置每次移动的时间/深度，并可选择添加注释。</li>
-  <li><b>Show board</b> <button tb_coords>：显示或隐藏分析板
-    显示引擎最佳线末端的位置。</li>
-  <li><b>显示信息</b> <button tb_engineinfo>：显示或隐藏附加引擎
-    信息（表库命中、节点/秒、哈希使用情况、CPU 负载）。</li>
-  <li><b>优先事项</b>：将引擎进程优先级设置为低或高。</li>
-  <li><b>更新</b> <button tb_update>：强制引擎更新其分析。</li>
-  </ul>
-
-  <h3>展示区</h3>
-  <p>
-  主文本区域显示引擎当前的评估，包括：
-  </p>
-  <ul>
-  <li>以兵单位计分（负=黑方更好）</li>
-  <li>已达到搜索深度</li>
-  <li>主变分 (PV) - 最佳移动线</li>
-  </ul>
-  <p>
-  对于 MultiPV > 1 的 UCI 发动机，会显示多个候选线。
-  </p>
-
-  <h3><a Annotate>注释游戏</h3>
-  <p>
-  按 <b>注释</b> 按钮打开注释配置对话框：
-  </p>
-  <ul>
-  <li><b>动作之间的时间</b>：引擎在每个位置花费的秒数。</li>
-  <li><b>注释所有动作</b> 或者 <b>仅犯错误</b>：选择是否每一个动作
-    被注释或者只有糟糕的动作。以典当单位设置错误阈值。</li>
-  <li><b>变化</b>：包括发动机分析的变化。</li>
-  <li><b>简短的注释</b>：没有引擎名称的最小格式。</li>
-  <li><b>添加分数</b>：包括以典当为单位的评估分数。</li>
-  <li><b>添加注释器标签</b>：记录使用的引擎。</li>
-  <li><b>使用书本</b>：跳过开卷中的位置。</li>
-  <li><b>注释几个游戏</b>：按顺序批量标注多个游戏。</li>
-  <li><b>查找打开错误</b>： 标记在开局阶段出现失误。</li>
-  <li><b>标记战术练习</b>：创建培训职位（仅限 UCI 引擎）。</li>
-  </ul>
-  <p>
-  在主窗口中按 Esc 键可随时取消注释。
-  </p>
-
-  <p><footer>（更新：scidCommunity，2026 年 4 月）</footer></p>
-
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
 }
-
 
 set helpTitle(M,Engine) "发动机窗"
 set helpText(M,Engine) {<h1>发动机窗口</h1>
@@ -3493,7 +3423,7 @@ set helpText(M,EPD) {<h1>环保署文件</h1>
   <p>
   EPD 文件可以通过选择“工具”/“自动注释”
   注释位置。即将到来的对话询问时间
-  应该用于分析，那么 <a Analysis List>发动机
+  应该用于分析，那么 <a Engine Configure>发动机
   列表</a> 打开以选择要使用的引擎。 <b>笔记</b> 如果一个
   分析窗口已经打开，分析是用这个完成的
   引擎，无需事先询问用户。那么发动机是
@@ -4710,7 +4640,7 @@ set helpText(M,SeriousGame) {<h1>严肃的游戏窗口</h1>
   上面给出的 <term>游戏配置</term> 窗户。的
   按钮 <term>配置UCI引擎</term> 另外还提供访问权限
   到发动机参数。默认情况下，它们的设置如下
-  <a Analysis List>发动机配置</a>。
+  <a Engine Configure>发动机配置</a>。
   </p>
   <p>
   接下来，可以从那些打开的书中选择应该使用的书

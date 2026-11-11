@@ -216,10 +216,6 @@ translate N EpdPasteRecord {Plak record}
 # Tools menu:
 menuText N Tools "Gereedschappen" 0
 menuText N ToolsConfigureEngines "Configureer motoren" 10 {Beheer de configuratie van motoren}
-menuText N ToolsAnalysis "Schaakengine ..." 3 \
-  {Start/stop schaak-analyse programma 1}
-menuText N ToolsAnalysis2 "Schaakengine #2..." 17 \
-  {Start/stop  schaak-analyse programma 2}
 menuText N ToolsEngineWindow "Motorraam..." 0 {Open een schaakenginevenster}
 menuText N ToolsCross "Kruistabel" 0 \
   {Toon toernooi-kruistabel voor huidige partij}
@@ -961,8 +957,8 @@ translate N OtherBookMovesTooltip {Zetten waarvoor de tegenspeler een antwoord h
 translate N Alphabetical {Alfabetisch}
 translate N BookCount {Boeken}
 
-# Analysis Engine open dialog:
-translate N EngineList {Analyse Engine Lijst}
+# Configure Engines dialog:
+translate N EngineList {Configureer motoren}
 translate N EngineName {Naam}
 translate N EngineCmd {Commando}
 translate N EngineArgs {Parameters}
@@ -985,7 +981,6 @@ translate N EngineReload {Herlaad de huidige engine}
 translate N EngineClone {Maak een kopie van de huidige engine}
 translate N EngineDuplicate {Dupliceren}
 translate N EngineDelete {Verwijder de huidige engine}
-translate N EngineOpenAnalysis {Analyse openen}
 translate N EngineOpenWindow {Open het motorvenster}
 
 # PGN window menus:

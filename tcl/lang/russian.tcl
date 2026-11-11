@@ -201,11 +201,7 @@ translate R EpdPasteRecord {Вставить запись}
 
 # Tools menu:
 menuText R Tools "Инструменты" 2
-menuText R ToolsConfigureEngines "Настройка движений" 10 {Управление конфигурацией механизмов}
-menuText R ToolsAnalysis "Аналитический движок №1..." 0 \
-  {Запустить/остановить первый аналитический шахматный движок}
-menuText R ToolsAnalysis2 "Аналитический движок №2..." 22 \
-  {Запустить/остановить второй аналитический шахматный движок}
+menuText R ToolsConfigureEngines "Настройка движков" 10 {Управление конфигурацией двигателей}
 menuText R ToolsEngineWindow "Окно двигателя..." 0 {Откройте окно шахматного движка}
 menuText R ToolsCross "Турнирная таблица" 0 {Показать турнирную таблицу для этой партии}
 menuText R ToolsFilterGraph "Диаграмма фильтра" 0 {Открыть/закрыть окно фильтрованной диаграммы}
@@ -938,8 +934,8 @@ translate R OtherBookMovesTooltip {Ходы, к которым противни�
 translate R Alphabetical {Алфавитный}
 translate R BookCount {Книги}
 
-# Analysis Engine open dialog:
-translate R EngineList {Список анализирующих движков}
+# Configure Engines dialog:
+translate R EngineList {Настройка движков}
 translate R EngineName {Название}
 translate R EngineCmd {Команда}
 translate R EngineArgs {Параметры}
@@ -962,7 +958,6 @@ translate R EngineReload {Перезагрузить текущий движок
 translate R EngineClone {Создать действующую движку}
 translate R EngineDuplicate {Дублировать}
 translate R EngineDelete {Удалить текущий движок}
-translate R EngineOpenAnalysis {Открытый анализ}
 translate R EngineOpenWindow {Открыть окно двигателя}
 
 # PGN window menus:

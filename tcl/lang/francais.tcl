@@ -208,10 +208,6 @@ translate F EpdPasteRecord {Coller l'enregistrement}
 # Tools menu:
 menuText F Tools "Outils" 2
 menuText F ToolsConfigureEngines "Configurer les moteurs" 10 {Gérer la configuration des moteurs}
-menuText F ToolsAnalysis "Moteur d'analyse..." 9 \
-  {Démarrer/Arrêter un moteur d'analyses}
-menuText F ToolsAnalysis2 "Moteur d'analyse #2..." 18 \
-  {Démarrer/Arrêter un moteur d'analyses}
 menuText F ToolsEngineWindow "Fenêtre moteur...." 0 {Ouvrir une fenêtre de moteur d'échecs}
 menuText F ToolsCross "Classement du tournoi" 9 \
   {Montrer le classement du tournoi}
@@ -944,8 +940,8 @@ translate F OtherBookMovesTooltip {Coups pour lesquels l'adversaire a une répon
 translate F Alphabetical {Alphabétique}
 translate F BookCount {Livres}
 
-# Analysis Engine open dialog:
-translate F EngineList {Liste des moteurs d'analyse}
+# Configure Engines dialog:
+translate F EngineList {Configurer les moteurs}
 translate F EngineName {Nom}
 translate F EngineCmd {Commande}
 translate F EngineArgs {Paramètres}
@@ -968,7 +964,6 @@ translate F EngineReload {Recharger le moteur actuel}
 translate F EngineClone {Créer une copie du moteur actuel}
 translate F EngineDuplicate {Dupliquer}
 translate F EngineDelete {Supprimer le moteur actuel}
-translate F EngineOpenAnalysis {Open Analysis}
 translate F EngineOpenWindow {Ouvrir la fenêtre du moteur}
 
 # PGN window menus:
