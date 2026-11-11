@@ -4,6 +4,14 @@
 ###
 ######################################################################
 ### add UCI engine support
+###
+### FROZEN (2026-11-11). This file is being retired by issue #437: it is the
+### old pipe-based engine mode (startEngine/sendToEngine/closeUCIengine and the
+### ::analysis(...) array behind it), not the UCI parser — that lives in
+### enginecomm.tcl and stays. Do not add a caller. The three formatting helpers
+### at the bottom (sc_move_add, formatPv, formatPvAfterMoves) are load-bearing
+### for retained features and move out to uci_format.tcl before this file goes.
+### Inventory and the per-symbol decision table: docs/analysis-engine-inventory.md
 
 namespace eval uci {
     # will contain the UCI engine options saved
