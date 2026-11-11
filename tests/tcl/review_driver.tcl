@@ -2083,5 +2083,598 @@ checkEq "an engine that finishes below the requested depth still answers" \
     $::playedMove e7e5
 ::enginewin::playStop 1
 
+puts "\nthe line a variation pass reviews (::reviewdriver::run -line, writeLine)"
+
+# ── the tree board ──────────────────────────────────────────────────────────
+#
+# The board stubbed above counts plies: every node is on one line. A line map is
+# addressed by ROUTE - the main-line prefix to the branch, then the variation
+# number entered at each level - and keyed by line-local index, so this section
+# swaps in the node tree ::review::currentLineMap and ::review::writeNode were
+# written against, the same stub tests/tcl/game_review.tcl keeps beside its own
+# checks. It replaces the flat stub globally, which is why it is last.
+set ::fakeNodes [dict create]
+set ::fakeNextId 0
+set ::fakeCur 0
+set ::calls {}
+set ::listAt {}
+
+proc fakeNew {} {
+    incr ::fakeNextId
+    set id $::fakeNextId
+    dict set ::fakeNodes $id [dict create uci "" san "" comment "" nags {} \
+        prev "" next "" vars {} ply 0]
+    return $id
+}
+proc fakeGet {id key} {
+    if {![dict exists $::fakeNodes $id]} { return "" }
+    return [dict get [dict get $::fakeNodes $id] $key]
+}
+proc fakeSet {id key value} {
+    set n [dict get $::fakeNodes $id]
+    dict set n $key $value
+    dict set ::fakeNodes $id $n
+}
+proc fakeBoard {moves} {
+    set ::fakeNodes [dict create]
+    set ::fakeNextId 0
+    dict set ::fakeNodes 0 [dict create uci "" san "" comment "" nags {} \
+        prev "" next "" vars {} ply 0]
+    set prev 0
+    foreach m $moves {
+        set id [fakeNew]
+        fakeSet $id uci $m
+        fakeSet $id san "SAN_$m"
+        fakeSet $id prev $prev
+        fakeSet $id ply [expr {[fakeGet $prev ply] + 1}]
+        fakeSet $prev next $id
+        set prev $id
+    }
+    set ::fakeCur $prev
+    set ::calls {}
+    set ::listAt {}
+    set ::fakeGone {}
+    return $prev
+}
+# The main-line node at `ply` (0 is the root), or the last one before it.
+proc fakeAtPly {ply} {
+    set id 0
+    for {set i 0} {$i < $ply} {incr i} {
+        set nxt [fakeGet $id next]
+        if {$nxt eq ""} { break }
+        set id $nxt
+    }
+    return $id
+}
+# A variation branching from the position after node `branch`, inserted at
+# `index` among its siblings ("" appends). Returns its nodes, first move first.
+proc fakeVariation {branch moves {index ""}} {
+    set ids {}
+    set prev $branch
+    foreach m $moves {
+        set id [fakeNew]
+        fakeSet $id uci $m
+        fakeSet $id san "SAN_$m"
+        fakeSet $id prev $prev
+        fakeSet $id ply [expr {[fakeGet $prev ply] + 1}]
+        if {$prev ne $branch} { fakeSet $prev next $id }
+        lappend ids $id
+        set prev $id
+    }
+    set vars [fakeGet $branch vars]
+    if {$index eq ""} {
+        lappend vars [lindex $ids 0]
+    } else {
+        set vars [linsert $vars $index [lindex $ids 0]]
+    }
+    fakeSet $branch vars $vars
+    return $ids
+}
+proc fakeCursorAt {id} {
+    set ::fakeCur $id
+    set ::calls {}
+    set ::listAt {}
+    return $id
+}
+# The variation numbers entered to reach `id`, outermost first - read off the
+# tree, so a renumbering is visible without being told.
+proc fakeRoute {id} {
+    set route {}
+    set cur $id
+    while {$cur ne "" && $cur != 0} {
+        set n [lsearch -exact [fakeGet [fakeGet $cur prev] vars] $cur]
+        if {$n >= 0} { set route [linsert $route 0 $n] }
+        set cur [fakeGet $cur prev]
+    }
+    return $route
+}
+proc fakeVarRoot {id} {
+    set cur $id
+    while {$cur ne "" && $cur != 0} {
+        if {[lsearch -exact [fakeGet [fakeGet $cur prev] vars] $cur] >= 0} { return $cur }
+        set cur [fakeGet $cur prev]
+    }
+    return ""
+}
+proc fakeCurrentPos {{id ""}} {
+    if {$id eq ""} { set id $::fakeCur }
+    set path {}
+    set cur $id
+    while {$cur != 0} {
+        if {[fakeGet $cur uci] eq ""} {
+            set s "position fen FEN$cur moves"
+            foreach m $path { append s " " $m }
+            return $s
+        }
+        set path [linsert $path 0 [fakeGet $cur uci]]
+        set cur [fakeGet $cur prev]
+    }
+    set s "position startpos moves"
+    foreach m $path { append s " " $m }
+    return $s
+}
+proc fakeAddMove {m} {
+    set id $::fakeCur
+    if {[fakeGet $id uci] eq ""} {
+        fakeSet $id uci $m
+        fakeSet $id san "SAN_$m"
+        fakeSet $id ply [expr {[fakeGet [fakeGet $id prev] ply] + 1}]
+        return
+    }
+    set new [fakeNew]
+    fakeSet $new uci $m
+    fakeSet $new san "SAN_$m"
+    fakeSet $new prev $id
+    fakeSet $new ply [expr {[fakeGet $id ply] + 1}]
+    fakeSet $id next $new
+    set ::fakeCur $new
+}
+proc fakeWhere {} {
+    return [list [sc_pos fen] [sc_pos location] [sc_var level] [sc_var number]]
+}
+
+proc sc_pos {args} {
+    switch -- [lindex $args 0] {
+        location { return [fakeGet $::fakeCur ply] }
+        fen { return "FEN$::fakeCur" }
+        getComment { return [fakeGet $::fakeCur comment] }
+        setComment {
+            lappend ::calls [list setComment [lindex $args 1]]
+            fakeSet $::fakeCur comment [lindex $args 1]
+            return ""
+        }
+        getNags {
+            set nags [fakeGet $::fakeCur nags]
+            if {![llength $nags]} { return 0 }
+            return $nags
+        }
+        addNag {
+            set nag [lindex $args 1]
+            lappend ::calls [list nag add $nag]
+            set nags [fakeGet $::fakeCur nags]
+            if {[lsearch -exact $nags $nag] < 0} { lappend nags $nag }
+            fakeSet $::fakeCur nags $nags
+            return ""
+        }
+        clearNags { fakeSet $::fakeCur nags {} ; return "" }
+    }
+    return ""
+}
+proc sc_move {args} {
+    set what [lindex $args 0]
+    set n [lindex $args 1]
+    switch -- $what {
+        ply {
+            set ::fakeCur [fakeAtPly $n]
+            lappend ::calls [list move ply $n]
+            return ""
+        }
+        forward {
+            set count 1
+            if {$n ne ""} { set count $n }
+            set made 0
+            for {set i 0} {$i < $count} {incr i} {
+                set nxt [fakeGet $::fakeCur next]
+                if {$nxt eq ""} { break }
+                set ::fakeCur $nxt
+                incr made
+            }
+            lappend ::calls [list move forward $n]
+            return $made
+        }
+        back {
+            set count 1
+            if {$n ne ""} { set count $n }
+            set made 0
+            for {set i 0} {$i < $count} {incr i} {
+                set prev [fakeGet $::fakeCur prev]
+                if {$prev eq ""} { break }
+                if {[lsearch -exact [fakeGet $prev vars] $::fakeCur] >= 0} { break }
+                set ::fakeCur $prev
+                incr made
+            }
+            lappend ::calls [list move back $n]
+            return $made
+        }
+        end {
+            set ::fakeCur [fakeAtPly 1000000]
+            lappend ::calls [list move end $n]
+            return ""
+        }
+        endVar {
+            while {[fakeGet $::fakeCur next] ne ""} { set ::fakeCur [fakeGet $::fakeCur next] }
+            lappend ::calls [list move endVar $n]
+            return ""
+        }
+    }
+    lappend ::calls [list move $what $n]
+    return ""
+}
+proc sc_var {args} {
+    lappend ::calls [list var [lindex $args 0]]
+    switch -- [lindex $args 0] {
+        count { return [llength [fakeGet $::fakeCur vars]] }
+        list {
+            lappend ::listAt [fakeGet $::fakeCur ply]
+            set out {}
+            foreach v [fakeGet $::fakeCur vars] { lappend out [fakeGet $v uci] }
+            return $out
+        }
+        level { return [llength [fakeRoute $::fakeCur]] }
+        number {
+            set route [fakeRoute $::fakeCur]
+            if {![llength $route]} { return 0 }
+            return [lindex $route end]
+        }
+        enter {
+            set n [lindex $args 1]
+            set vars [fakeGet $::fakeCur vars]
+            if {$n >= [llength $vars]} { error "No such variation!" }
+            if {[lsearch -exact $::fakeGone $n] >= 0} { error "No such variation!" }
+            lset ::calls end [list var enter $n]
+            set ::fakeCur [lindex $vars $n]
+            return ""
+        }
+        exit {
+            set root [fakeVarRoot $::fakeCur]
+            if {$root eq ""} { error "No such variation!" }
+            set ::fakeCur [fakeGet $root prev]
+            return ""
+        }
+        create {
+            set id [fakeNew]
+            fakeSet $id prev $::fakeCur
+            fakeSet $id ply [expr {[fakeGet $::fakeCur ply] + 1}]
+            set vars [fakeGet $::fakeCur vars]
+            lappend vars $id
+            fakeSet $::fakeCur vars $vars
+            set ::fakeCur $id
+            return ""
+        }
+        delete {
+            set root [fakeVarRoot $::fakeCur]
+            if {$root eq ""} { error "No such variation!" }
+            lappend ::calls {var delete}
+            set parent [fakeGet $root prev]
+            fakeSet $parent vars [lsearch -all -inline -not -exact [fakeGet $parent vars] $root]
+            set ::fakeCur $parent
+            return ""
+        }
+    }
+    return ""
+}
+proc sc_game {args} {
+    set what [lindex $args 0]
+    if {$what eq "UCI_mainLine"} {
+        set out {"position startpos moves"}
+        set id 0
+        while {[set nxt [fakeGet $id next]] ne ""} {
+            set id $nxt
+            if {[fakeGet $id uci] eq ""} {
+                lappend out "position fen FEN$id moves"
+            } else {
+                lappend out [fakeGet $id uci]
+            }
+        }
+        return $out
+    }
+    if {$what eq "UCI_currentPos"} { return [fakeCurrentPos] }
+    if {$what eq "info"} {
+        switch -- [lindex $args 1] {
+            previousMoveUCI {
+                if {$::fakeCur == 0} { return "" }
+                if {[fakeGet $::fakeCur uci] eq ""} { return 0000 }
+                return [fakeGet $::fakeCur uci]
+            }
+            previousMove { return [fakeGet $::fakeCur san] }
+        }
+    }
+    # The Annotator tag is a whole-game record: it is recorded rather than
+    # written, so a line pass that reached it is visible as a call.
+    if {$what eq "tags"} {
+        if {[lindex $args 1] eq "get"} { return $::fakeExtra }
+        if {[lindex $args 1] eq "set"} {
+            lappend ::tagWrites [lindex $args 3]
+            set ::fakeExtra [lindex $args 3]
+            return ""
+        }
+    }
+    return ""
+}
+namespace eval ::uci {
+    proc sc_move_add {moves} {
+        lappend ::calls [list add $moves]
+        fakeAddMove $moves
+        return 0
+    }
+}
+
+set ::fakeExtra ""
+set ::tagWrites {}
+
+# The label words in the language the test reads comments in. tclsh has no
+# language file, and ::tr answers an unknown key with the key itself: without
+# these a verdict would be written as [MoveLabelBest] and would not read back as
+# one, so hasVerdict and the fixture's own labels would disagree.
+set ::EN(MoveLabelBest) best
+set ::EN(MoveLabelExcellent) excellent
+set ::EN(MoveLabelGood) good
+set ::EN(MoveLabelMistake) mistake
+
+# The whole-game layers a line pass must not reach. They are recorders, not
+# absent commands: a missing command is skipped by [info commands], and a skip is
+# not evidence that the writer never asked.
+namespace eval ::reviewannotate {}
+set ::tacticalCalls {}
+set ::openingMarks {}
+proc ::reviewannotate::writeTactical {args} { lappend ::tacticalCalls $args ; return "" }
+proc ::reviewannotate::openingMark {p} { lappend ::openingMarks [dict get $p token] }
+
+# ── the fixture ────────────────────────────────────────────────────────────
+#
+# A five-move main line (indexes 1-5), a three-move variation at index 3
+# (indexes 4-6, the cursor two moves in), and a verdict already on indexes 1, 2,
+# 3 and 6. The judged set is therefore the variation's two middle nodes: the
+# partial review D6 completes node by node.
+set ::lineGame {e2e4 e7e5 g1f3 b8c6 f1b5}
+proc lineSetup {} {
+    fakeBoard $::lineGame
+    set var [fakeVariation [fakeAtPly 3] {c7c5 g1f3 d7d6}]
+    fakeCursorAt [lindex $var 1]
+    fakeSet [fakeAtPly 1] comment [verdict {[best] [%eval +0.30]}]
+    fakeSet [fakeAtPly 2] comment [verdict {[excellent] [%eval +0.10]}]
+    fakeSet [fakeAtPly 3] comment [verdict {[best] [%eval +0.20]}]
+    fakeSet [lindex $var 2] comment [verdict {[good] [%eval +0.05]}]
+    return $var
+}
+# The Go position of every search the pass sent, in the order it sent them.
+proc goSpecs {} {
+    set out {}
+    foreach s $::sent {
+        if {[lindex $s 0] eq "send" && [lindex $s 2] eq "Go"} {
+            lappend out [lindex [lindex $s 3] 0]
+        }
+    }
+    return $out
+}
+proc setComments {} {
+    set out {}
+    foreach c $::calls {
+        if {[lindex $c 0] eq "setComment"} { lappend out [lindex $c 1] }
+    }
+    return $out
+}
+
+::review::reset
+::review::setValue var_lines 0
+::review::setValue coach 1
+
+set var [lineSetup]
+set ::mapBefore [fakeWhere]
+set map [::review::currentLineMap]
+checkEq "the fixture is a variation line" [dict get $map lineKind] variation
+checkEq "whose judged set is the unlabelled variation nodes" [dict get $map judged] {4 5}
+checkEq "and whose labelled prefix is context" [dict get $map context] {1 2 3 6}
+
+puts "a line pass searches only what it judges"
+
+set ::sent {}
+set ::events {}
+set ::reportCalls {}
+set ::coachStarts {}
+set ::coachClears {}
+set ::hookCalls {}
+checkEq "a line pass starts" \
+    [::reviewdriver::run $runcfg -line $map -bookEnd 4] ""
+checkEq "with the judged nodes' positions, and no others" [dict get [::reviewdriver::status] total] 3
+checkEq "the reference and successor of each, in index order" \
+    [dict get $::reviewdriver::pass positions] [list \
+        [list 3 [dict get $map positions 3]] \
+        [list 4 [dict get $map positions 4]] \
+        [list 5 [dict get $map positions 5]]]
+# -bookEnd is a main-line concept: the line starts at its own first move, so a
+# prefix node already labelled [Book] is skipped by the judged set and never by
+# the book gate.
+checkEq "and -bookEnd 4 did not gate the line" [dict get $::reviewdriver::pass bookEnd] 0
+checkEq "the plan is the map's judged set" [dict get $::reviewdriver::pass plan] {4 5}
+checkEq "and the pass carries the line it was given" \
+    [list [dict get $::reviewdriver::pass lineKind] \
+          [dict get $::reviewdriver::pass lineRoute] \
+          [dict get $::reviewdriver::pass lineAnchors]] [list variation {0} {c7c5}]
+checkEq "a line pass turns the whole-game layers off" \
+    [list [dict get $::reviewdriver::pass report] [dict get $::reviewdriver::pass coach]] {0 0}
+
+puts "the write is node-local, and the whole-game layers are not reached"
+
+feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
+checkEq "the first search is the first judged node's reference position" \
+    [lindex [goSpecs] 0] [dict get $map positions 3]
+# Index 3: the engine's best line is the move the line plays there, so index 4
+# is best.
+feedEvent InfoPV {1 20 22 900 300 0 0 120 100 cp 0 c7c5}
+feedEvent InfoPV {2 20 22 900 300 0 0 120 -20 cp 0 d7d5}
+feedEvent InfoBestMove {}
+# Index 4: the played move is ranked second and throws the position away, so
+# index 5 is a mistake - a mark, an assessment and a diagram.
+feedEvent InfoPV {1 20 22 900 300 0 0 120 100 cp 0 b8c6}
+feedEvent InfoPV {2 20 22 900 300 0 0 120 -100 cp 0 g1f3}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 300 cp 0 a7a6}
+feedEvent InfoBestMove {}
+pump
+
+set st [::reviewdriver::status]
+checkEq "the line pass finished" [dict get $st state] done
+checkEq "both judged nodes were written" [dict get $st written] 2
+checkEq "none was refused" [dict get $st failed] 0
+checkEq "and the cursor is back on the variation" [dict get $st restored] 1
+checkEq "which is where the reader left it" [fakeWhere] $::mapBefore
+# The node at that index, not the main-line move at the same ply.
+checkEq "the verdict lands on the variation node" \
+    [fakeGet [lindex $var 0] comment] [verdict {[best] [%eval +1.00]}]
+checkEq "and on the next one" \
+    [fakeGet [lindex $var 1] comment] [verdict {[mistake] [%eval -3.00]}]
+checkEq "the main-line node at the same ply is untouched" \
+    [fakeGet [fakeAtPly 4] comment] ""
+checkEq "the label's mark is on the variation node" \
+    [expr {[lsearch -exact [fakeGet [lindex $var 1] nags] ?] >= 0}] 1
+check "and the assessment beside it" \
+    [expr {[lsearch -exact [fakeGet [lindex $var 1] nags] \
+        [::review::assessmentNag -300]] >= 0}]
+check "and the diagram on the move before it" \
+    [expr {[lsearch -exact [fakeGet [lindex $var 0] nags] D] >= 0}]
+# Every whole-game layer: off, and never asked for.
+checkEq "no deterministic report" $::reportCalls {}
+checkEq "no coach prose asked for" $::coachStarts {}
+checkEq "and none taken off" $::coachClears {}
+checkEq "no opening mark" $::openingMarks {}
+checkEq "no tactical exercise" $::tacticalCalls {}
+checkEq "no Annotator tag" $::tagWrites {}
+
+# The delegation itself: with a variation pass, writeResults answers in
+# writeLine's vocabulary. Called without the branch, the main-line body would
+# reach ::reviewreport::write - which is why the empty report list above is
+# evidence about which writer ran.
+set bare [dict create map $map plan {} mpv 3 engine $runcfg lineKind variation]
+checkEq "writeResults hands a line pass to writeLine" [dict get [::reviewdriver::writeResults $bare {}] written] 0
+checkEq "and still asks for no report" $::reportCalls {}
+
+puts "a forced line pass judges every node"
+
+set ::sent {}
+set var [lineSetup]
+set map [::review::currentLineMap]
+checkEq "a forced line pass starts" [::reviewdriver::run $runcfg -line $map -force 1] ""
+checkEq "and searches the whole line" [dict get [::reviewdriver::status] total] 7
+checkEq "every index, not just the judged ones" [dict get $::reviewdriver::pass plan] {1 2 3 4 5 6}
+checkEq "which is one position per node" \
+    [llength [dict get $::reviewdriver::pass positions]] 7
+checkEq "Cancel stops it" [::reviewdriver::cancel] 1
+pump
+
+puts "a line map is refused when it is not one"
+
+set ::sent {}
+checkEq "a map without its tables is refused" \
+    [::reviewdriver::run $runcfg -line [dict remove $map nodes]] "the line map has no nodes"
+checkEq "and nothing was opened" $::sent {}
+checkEq "a force that is not 0 or 1 is refused" \
+    [::reviewdriver::run $runcfg -force 2] "-force must be 0 or 1"
+checkEq "the main-line pass gains no line keys" [dict exists $::reviewdriver::pass lineKind] 0
+
+puts "the verifier is still on for a line pass"
+
+if {[llength [info commands ::reviewverify::jobs]] == 0} {
+    source [file join $root tcl tools review_verify.tcl]
+}
+set ::engines(list) [list \
+    [list Stockfish /usr/bin/stockfish {} {} 0 0 {} 1 {} {}] \
+    [list Verifier /usr/bin/verifier {} {} 0 0 {} 1 {} {}]]
+set jobs [::reviewverify::jobs $map [dict create \
+    3 [dict create 1 {20 100 cp {c7c5}}] \
+    4 [dict create 1 {20 100 cp {b8c6}}]] {4 great} 0]
+checkEq "a Great claim on a line index is a job on the line's own position" \
+    [lindex $jobs 0] [list 4 3 [dict get $map positions 3] c7c5 great]
+checkEq "and an index the line does not have is no job" \
+    [::reviewverify::jobs $map {} {9 great} 0] {}
+
+# The driver's half: a line pass queues the second opinion, and the write waits
+# for it. jobs and start are recorded here; the index keying was proved above.
+rename ::reviewverify::jobs ::reviewverify::jobsReal
+set ::verifyJobs {}
+set ::verifyStarts {}
+set ::verifyWrites {}
+proc ::reviewverify::jobs {map results labels bookEnd} {
+    lappend ::verifyJobs [dict create labels [dict keys $labels] \
+        results [dict keys $results] bookEnd $bookEnd]
+    return [list [list 4 3 [dict get $map positions 3] c7c5 great]]
+}
+proc ::reviewverify::start {enginecfg jobs mpv lim onDone} {
+    lappend ::verifyStarts [list $jobs $mpv]
+    return vtok
+}
+proc verifyWriter {results corrections} { lappend ::verifyWrites $corrections }
+set vp [dict create map $map engine $runcfg verifier Verifier mpv 3 \
+    limits [dict create depth 18] bookEnd 0 token t9]
+set vres [dict create 3 [dict create 1 {20 100 cp {c7c5}}] \
+    4 [dict create 1 {20 100 cp {b8c6}}]]
+checkEq "a line pass still takes a second opinion" \
+    [::reviewdriver::verifyWrite $vp $vres ::verifyWriter] 1
+checkEq "on labels keyed by the line's index" [dict get [lindex $::verifyJobs 0] labels] {4}
+checkEq "from the results keyed the same way" \
+    [dict get [lindex $::verifyJobs 0] results] {3 4}
+checkEq "with the book gate off" [dict get [lindex $::verifyJobs 0] bookEnd] 0
+checkEq "and the second engine is asked for them" [llength $::verifyStarts] 1
+checkEq "the writer waits: nothing is written yet" $::verifyWrites {}
+::reviewdriver::verifiedDone $vp ::verifyWriter $vres {4 inaccuracy}
+checkEq "the corrections reach the writer" [lindex $::verifyWrites 0] {4 inaccuracy}
+rename ::reviewverify::jobs {}
+rename ::reviewverify::jobsReal ::reviewverify::jobs
+
+puts "Cancel before the write writes nothing"
+
+set var [lineSetup]
+set ::mapBefore [fakeWhere]
+set map [::review::currentLineMap]
+set ::sent {}
+set ::events {}
+checkEq "a line pass starts" [::reviewdriver::run $runcfg -line $map] ""
+feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 100 cp 0 c7c5}
+feedEvent InfoBestMove {}
+checkEq "the first position answered" [dict get [::reviewdriver::status] searched] 1
+checkEq "Cancel stops it" [::reviewdriver::cancel] 1
+checkEq "nothing is written" [setComments] {}
+checkEq "and the cursor is back on the variation" [fakeWhere] $::mapBefore
+pump
+
+puts "an anchor that has been renumbered stops the write"
+
+set var [lineSetup]
+set map [::review::currentLineMap]
+set ::sent {}
+set ::events {}
+checkEq "a line pass starts" [::reviewdriver::run $runcfg -line $map] ""
+feedEvent InfoConfig {Threads 8 Hash 256 MultiPV 3}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 100 cp 0 c7c5}
+feedEvent InfoPV {2 20 22 900 300 0 0 120 -20 cp 0 d7d5}
+feedEvent InfoBestMove {}
+feedEvent InfoPV {1 20 22 900 300 0 0 120 100 cp 0 b8c6}
+feedEvent InfoPV {2 20 22 900 300 0 0 120 -100 cp 0 g1f3}
+feedEvent InfoBestMove {}
+# The reader inserts a variation ahead of the one the map was built from while
+# the search runs: number 0 is no longer the line whose anchor the map recorded.
+fakeVariation [fakeAtPly 3] {b7b6 g1f3} 0
+feedEvent InfoPV {1 20 22 900 300 0 0 120 300 cp 0 a7a6}
+feedEvent InfoBestMove {}
+pump
+set st [::reviewdriver::status]
+checkEq "the write stops at the node that is no longer there" [dict get $st failed] 1
+checkEq "and says which line it was" [dict get $st errors] [list {index 4 is not on this line}]
+checkEq "nothing further is written" [setComments] {}
+checkEq "the restore falls back to the line's base ply" [dict get $st restored] 0
+checkEq "which is the prefix the line shares with the game" \
+    [list [sc_pos location] [sc_var level]] {3 0}
+
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]
