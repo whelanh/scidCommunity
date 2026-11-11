@@ -236,10 +236,6 @@ translate k EpdPasteRecord {기록 붙여넣기}
 # Tools menu:
 menuText k Tools "도구" 0
 menuText k ToolsConfigureEngines "엔진 구성" 10 {엔진 구성 관리}
-menuText k ToolsAnalysis "분석엔진..." 0 \
-  {체스 분석 엔진 시작/중지}
-menuText k ToolsAnalysis2 "분석 엔진 #2..." 17 \
-  {두 번째 체스 분석 엔진 시작/중지}
 menuText k ToolsEngineWindow "엔진 창..." 0 {체스 엔진 창 열기}
 menuText k ToolsCross "크로스테이블" 0 {이 게임의 크로스테이블 표시}
 menuText k ToolsFilterGraph "반대. 파이핑 그래프" 12 {상대값에 대한 분석 그래프 창 비교/닫기}
@@ -972,7 +968,7 @@ translate k OtherBookMovesTooltip {상대방이 대답장을 한 동작}
 translate k Alphabetical {알파벳순}
 translate k BookCount {서적}
 
-# Analysis Engine open dialog:
+# Configure Engines dialog:
 translate k EngineList {분석 엔진 목록}
 translate k EngineName {이름}
 translate k EngineCmd {컴파운드}
@@ -996,7 +992,6 @@ translate k EngineReload {현재 엔진을 다시 로드합니다.}
 translate k EngineClone {현재 엔진의 활동을 참여합니다.}
 translate k EngineDuplicate {복제}
 translate k EngineDelete {현재 엔진 삭제}
-translate k EngineOpenAnalysis {공개 분석}
 translate k EngineOpenWindow {엔진 창 열기}
 
 # PGN window menus:

@@ -175,9 +175,6 @@ translate M EpdPasteRecord {粘贴记录}
 # Tools menu:
 menuText M Tools "工具" 0
 menuText M ToolsConfigureEngines "配置引擎" 10 {管理引擎配置}
-menuText M ToolsAnalysis "分析引擎..." 0 {启动/停止国际象棋分析引擎}
-menuText M ToolsAnalysis2 "分析引擎#2..." 17 \
-  {启动/停止第二个国际象棋分析引擎}
 menuText M ToolsEngineWindow "发动机窗..." 0 {打开国际象棋引擎窗口}
 menuText M ToolsCross "交叉表" 0 {显示此对局的锦标赛交叉表}
 menuText M ToolsFilterGraph "过滤器图表" 0 {打开/关闭相对值的过滤器图表窗口}
@@ -907,8 +904,8 @@ translate M OtherBookMovesTooltip {Moves to which the opponent has a reply}
 translate M Alphabetical {按字母顺序}
 translate M BookCount {图书}
 
-# Analysis Engine open dialog:
-translate M EngineList {Analysis Engine List}
+# Configure Engines dialog:
+translate M EngineList {Configure Engines}
 translate M EngineName {名称}
 translate M EngineCmd {Command}
 translate M EngineArgs {Parameters}
@@ -931,7 +928,6 @@ translate M EngineReload {Reload the current engine}
 translate M EngineClone {Create a copy of the current engine}
 translate M EngineDuplicate {复制}
 translate M EngineDelete {Delete the current engine}
-translate M EngineOpenAnalysis {开放分析}
 translate M EngineOpenWindow {打开发动机窗口}
 
 # PGN window menus:

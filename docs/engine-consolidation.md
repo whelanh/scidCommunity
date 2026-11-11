@@ -4,7 +4,16 @@ The plan agreed in [whelanh/scidCommunity#380](https://github.com/whelanh/scidCo
 one engine-window widget, one review driver, and one engine preset that carries everything an
 engine needs.
 
-This document is the artifact B1 and B2 are reviewed against. It lives in the tree so a row can be
+> **Status (November 2026).** [#436](https://github.com/whelanh/scidCommunity/issues/436)
+> retired the Analysis window instead of building the B1/B2 analysis-group
+> widget, and [#437](https://github.com/whelanh/scidCommunity/issues/437)
+> deletes the dead `::uci`/`::analysis` code. A0–A4 remain history. B0, B1 and
+> B2 are superseded.
+> The capability matrix below is the pre-retirement snapshot; rows naming
+> `.analysisWin`, per-pane analysis or the classic Annotate dialog describe the
+> state before #436 and are kept only as history.
+
+This document is the artifact B1 and B2 were reviewed against. It lives in the tree so a row can be
 diffed when it changes, rather than edited in a comment fifteen screens down.
 
 ## Phases
@@ -16,11 +25,11 @@ diffed when it changes, rather than edited in a comment fifteen screens down.
 | **A2** | The pass a caller owns: plan → verdicts → write, so `writeMove` has a caller | merged — `#388` |
 | **A3** | The engine window calls `::reviewdriver::run` instead of `start`, so a review's verdicts reach the game | merged — `#393` |
 | **A4** | The review progress pane: a docked pane of the app (not a window) fed a FEN and nothing else, a header composed once per run, a determinate bar from `::reviewui::passFraction`, and Finish Game collecting on a pure board then committing once. Runs that publish into it: Game Review, Move Comment, annotate (single and batch), rapid annotate, Finish Game | this change — `#422` item 3 |
-| **B0** | The three trainers (`reviewgame`, `tactics`, `calvar`) leave `::uci`/`::analysis(...)` for `::engine` | after A3 |
-| **B1** | `::enginewin::widget {parent id}`; the analysis group becomes a container of 1–4 panes, each detachable | after B0 |
-| **B2** | Per-pane mode (Analyze / Train / Review) and a single driving owner | after B1 |
-| **C** | Annotate becomes a review mode: NAG, `T`-flag and `.bin`-book writers | after A3, and after the parity fixture |
-| **C2** | Retire the classic annotator — its own change, after the parity fixture passes | last |
+| **B0** | The three trainers (`reviewgame`, `tactics`, `calvar`) leave `::uci`/`::analysis(...)` for `::engine` | superseded — #437 |
+| **B1** | `::enginewin::widget {parent id}`; the analysis group becomes a container of 1–4 panes, each detachable | superseded — #436 retired the Analysis window |
+| **B2** | Per-pane mode (Analyze / Train / Review) and a single driving owner | superseded — #436/#437 |
+| **C** | Annotate becomes a review mode: NAG, `T`-flag and `.bin`-book writers | merged; its options live in Review Settings — #436 item 2 |
+| **C2** | Retire the classic annotator — its own change, after the parity fixture passes | superseded — #437 |
 
 ## Capability matrix
 
@@ -43,7 +52,7 @@ matrix further down.
 | **Review verdicts → the game** | `::reviewdriver::run` (merged in #388) calls `::review::writeMove`, and the engine window calls `run` (A3); the label's NAG, the position assessment from the same score, and the diagram at mistakes/blunders are written beside it (`diagram` setting) | mode Review | `game_review.tcl` 183 covers `writeMove` and the assessment table, `review_driver.tcl` 222 covers `run` end to end — two reviews in a row, the marks replaced rather than stacked, the variations not duplicated, a NAG and a user comment kept, and the window's hand-off to `run` from two engine windows; `review_ui.tcl` 188 covers the window's decision |
 | Brilliant/Great second opinion | `::reviewverify` behind `::reviewdriver::verified`, the shared transform every writer calls before it writes; the search runs on the pass's own connection (20), and `Verifier engine` in Review Settings selects it (Off by default) | the review writer | `review_verify.tcl` 66 — the pure decision (only Brilliant/Great are jobs, the book gate, a correction only ever down to Best, fail-closed answers) and the three callers reaching the seam and writing its answer; `review_verify_engine.tcl` 56 — the search through the driver's queue, the disagreement, the silent answer, an engine lost mid-search, Cancel, the pass's own bounds handed to the second engine, and two callers queued on the one connection |
 | Embedded PGN viewer instance | `::enginewin` `pgnviewer($id)` branch; seeding skips it | the widget keeps the flag | `—` |
-| 1–4 panes, one engine each | `tools/analysis.tcl` `.analysisWin1..4`, `analysis(uci$n)` | the analysis group; panes detachable | `—` |
+| 1–4 panes, one engine each | retired with the Analysis window (#436) | — | `—` |
 | Per-pane lock | `toggleLockEngine` | the pane | `—` |
 | Add move / add variation / add all variations | `makeAnalysisMove`, `addAnalysisVariation`, `addAllVariations` | the pane | `—` |
 | Analysis board | `toggleAnalysisBoard` | the pane | `—` |
@@ -53,9 +62,9 @@ matrix further down.
 | Training / autoplay, move time | `toggleAutomove`, `automove`, `setAutomoveTime` | the pane, mode Train, one owner | `—`; `toggleAutomove` writes `.analysisWin1`'s button for every pane |
 | The opening trainer's reply | `windows/tree.tcl` `::tree::doTraining` uses `sc_filter treestats` only; the old Analysis Engine automove override is gone | the tree window | `—` |
 | Play from here | `::enginewin::playToggle`, `playPosition`, `playInfo`, `playCheck` — the Engine Window's own engine answers the reader's move after a time or depth limit, whichever fires first; it writes into the game and stops on lock/pause/review/Finish Game | the engine window | `review_driver.tcl` — the successor, limit and state-machine checks |
-| Classic annotator: all moves / blunders only, White/Black, variations, short annotations, add score, annotator tag, score all moves, mark tactical exercises (writes `??`/`?`, sets the `T` flag, `****D<difficulty>`), find opening errors | `tools/analysis.tcl` `configAnnotation` + `annotateMode` — the dialog's OK now starts the review annotator instead (next row); the classic loop is still in the file, reachable from nothing in the UI | retired by C's parity gate | `—` |
-| Annotate as a review pass (one game, a range, opening errors) | `tools/review_annotate.tcl` `dialogPlan`/`run`, the driver's `-done` hook, the pane's own preset, `::review::movetime` for the time cap | mode Review, the annotate pane's engine | `annotate_dialog.tcl` 56 — the decision, the sparse filter, the Cancel label; `annotate_run.tcl` 39 — plan → pass → write, the batch chain, Cancel; `annotate_parity.tcl` 45 — both pipelines against one game |
-| Batch annotate (Game List) | `tools/batch_annotate.tcl` — the parallel pipe pool searches snapshotted games; each finished game is written by `::reviewdriver::writeResults` with Review Settings (depth, MultiPV, variations, margin, diagram, book) | the review writer; no `T`/`****D`, book or Annotator output | `batch_annotate.tcl` 9 — the MultiPV parser; the loop is manual |
+| Classic annotator: all moves / blunders only, White/Black, variations, short annotations, add score, annotator tag, score all moves, mark tactical exercises, find opening errors | retired; the Analysis dialog that opened it is gone (#436) | its opening-errors and tactical-exercise marks moved to Review Settings (#436 item 2) | `—` |
+| Annotate as a review pass (one game, a range, opening errors) | retired with the Analysis window (#436 item 3); the writer remains until #437 | Game Review and Batch annotate are the live paths | `annotate_dialog.tcl` 56 — the decision, the sparse filter, the Cancel label; `annotate_run.tcl` 80 — plan → pass → write, the batch chain, Cancel; `annotate_parity.tcl` 45 — both pipelines against one game |
+| Batch annotate (Game List) | `tools/batch_annotate.tcl` — the parallel pipe pool searches snapshotted games; each finished game is written by `::reviewdriver::writeResults` with Review Settings (depth, MultiPV, variations, margin, diagram, book, opening errors, tactical exercises) | the review writer; opening and exercise marks match Game Review | `batch_annotate.tcl` 24 — the MultiPV parser and the shared-writer call; the loop is manual |
 | Book annotation: last book move / out of book | `bookAnnotation` + a `.bin` book | stays until C | `—` |
 | `D` diagram NAG on blunders | `analysis.tcl:864`, `batch_annotate.tcl:740`; read by `src/game.cpp` (`NAG_Diagram`, `PGN_STYLE_DIAGRAM`) and `tcl/file/rtf.tcl` (`hasDiagramNag_`) | unchanged through B0–B2; C reproduces it | `—` |
 | Review Game / Tactics / Calvar trainers | `reviewgame.tcl`, `tactics.tcl`, `calvar.tcl` on `::uci` | **B0** | `—` |

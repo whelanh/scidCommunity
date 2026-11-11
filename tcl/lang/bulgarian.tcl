@@ -236,10 +236,6 @@ translate g EpdPasteRecord {Поставяне на запис}
 # Tools menu:
 menuText g Tools "Инструменти" 0
 menuText g ToolsConfigureEngines "Конфигуриране на двигатели" 10 {Управлявайте конфигурацията на двигателите}
-menuText g ToolsAnalysis "Машина за анализ..." 0 \
-  {Стартирайте/спирайте машина за анализ на шах}
-menuText g ToolsAnalysis2 "Машина за анализ №2..." 17 \
-  {Стартиране/спиране на втория механизъм за анализ на шаха}
 menuText g ToolsEngineWindow "Прозорец на двигателя..." 0 {Отворете прозорец на шах машина}
 menuText g ToolsCross "Кръстосана маса" 0 {Показване на турнирна таблица за тази игра}
 menuText g ToolsFilterGraph "отн. Филтърна графика" 12 {Отваряне/затваряне на прозореца на графиката на филтъра за относителни стойности}
@@ -972,7 +968,7 @@ translate g OtherBookMovesTooltip {Ходове, на които противн�
 translate g Alphabetical {Азбучен ред}
 translate g BookCount {Книги}
 
-# Analysis Engine open dialog:
+# Configure Engines dialog:
 translate g EngineList {Списък на механизмите за анализ}
 translate g EngineName {Име}
 translate g EngineCmd {командване}
@@ -996,7 +992,6 @@ translate g EngineReload {Презаредете текущия двигател
 translate g EngineClone {Създайте копие на текущия двигател}
 translate g EngineDuplicate {Дублирай}
 translate g EngineDelete {Изтрийте текущия двигател}
-translate g EngineOpenAnalysis {Отворете Анализ}
 translate g EngineOpenWindow {Отворете прозореца на двигателя}
 
 # PGN window menus:

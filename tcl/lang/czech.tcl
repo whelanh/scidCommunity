@@ -194,10 +194,6 @@ translate C EpdPasteRecord {Vložit záznam}
 # Tools menu:
 menuText C Tools "Nstroje" 3
 menuText C ToolsConfigureEngines "Konfigurace motor" 10 {Sprva konfigurace motor}
-menuText C ToolsAnalysis "Program pro analzu..." 0 \
-  {Spustit/zastavit achov program pro analzu pozice}
-menuText C ToolsAnalysis2 "Program pro analzu #2..." 20 \
-  {Spustit/zastavit druh achov program pro analzu pozice}
 menuText C ToolsEngineWindow "Okno motoru..." 0 {Otevřete okno šachového motoru}
 menuText C ToolsCross "Turnajov tabulka" 0 {Ukzat turnajovou tabulku pro tuto partii}
 menuText C ToolsFilterGraph "Graf filtru" 0 \
@@ -936,7 +932,7 @@ translate C OtherBookMovesTooltip {Tahy, na kter m soupe odpov}
 translate C Alphabetical {Abecední}
 translate C BookCount {knihy}
 
-# Analysis Engine open dialog:
+# Configure Engines dialog:
 translate C EngineList {Seznam hernch program pro analzu}
 translate C EngineName {Jmno}
 translate C EngineCmd {Pkaz}
@@ -960,7 +956,6 @@ translate C EngineReload {Znovu natte aktuln motor}
 translate C EngineClone {Vytvote kopii aktulnho motoru}
 translate C EngineDuplicate {Duplikovat}
 translate C EngineDelete {Smazat aktuln motor}
-translate C EngineOpenAnalysis {Otevřená analýza}
 translate C EngineOpenWindow {Otevřete okno motoru}
 
 # PGN window menus:

@@ -18,12 +18,11 @@ set helpText(P,Contents) {<h1>Zawartość pomocy ScidCommunity</h1>
   <li><a Moves>Wprowadzanie <b>posunięć szachowych</b></a></li>
   <li><a Searches><b>Wyszukiwanie</b> w ScidCommunity</a></li>
   <li><a Clipbase>Korzystanie z bazy danych <b>Clipbase-schowek</b></a></li>
-  <li><a Annotating><b>Komentowanie partii</b></a></li>
+  <li><a Annotating><b>Komentowanie partii</b></a> (notatki ręczne)</li>
   </ul>
   
   <h4>Inne okna ScidCommunity</h4>
   <ul>
-  <li><a Analysis><b>Okno analizy</b></a></li>
   <li><a Engine><b>Okna silnika</b></a></li>
   <li><a Book><b>Okno księgi debiutowej</b></a></li>
   <li><a CalVar><b>Okno obliczania wariantów</b></a></li>
@@ -76,7 +75,6 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   <h3>A</h3>
   <ul>
   <li><a Author>Autor, Informacje kontaktowe</a></li>
-  <li><a Analysis>Okno <b>analizy</b></a></li>
   <li><a ReviewGameButton><b>Analiza partii</b></a> (przycisk w oknie silnika)</li>
   <li><a ReviewSettings><b>Ustawienia analizy</b></a> (przycisk w oknie silnika)</li>
   </ul>
@@ -205,7 +203,6 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   <li><a Options>Menu <b>Opcje</b></a></li>
   <li><a GameList>Okno lista partii</a></li>
   <li><a Tree><b>Okno drzewa wariantów</b></a></li>
-  <li><a Analysis>Okno <b>analizy</b></a></li>
   </ul> 
   
   <h3>P</h3>
@@ -787,11 +784,11 @@ set helpText(P,Menus) {<h1>Menu ScidCommunity</h1>
   
   <h3><name Tools>Narzędzia</name></h3>
   <ul>
-  <li><menu>Konfiguruj silniki</menu>: Otwiera okno dialogowe
-  konfiguracji <a Analysis List>silników szachowych</a>.</li>
-  <li><menu>Uruchom silnik 1</menu>: Uruchamia pierwszy silnik analizy szachowej.</li>
-  <li><menu>Uruchom silnik 2</menu>: Uruchamia drugi silnik analizy szachowej.</li>
-  <li><menu>Okno analizy</menu>: Otwiera <a Analysis>okno analizy</a>.</li>
+  <li><menu>Konfiguruj silniki</menu>: Otwiera okno
+  <a Engine Configure>konfiguracji silników</a>, w którym można też otworzyć
+  okno silnika dla wybranego presetu.</li>
+  <li><menu>Uruchom silnik 1</menu>: Otwiera pierwsze okno silnika.</li>
+  <li><menu>Uruchom silnik 2</menu>: Otwiera drugie okno silnika.</li>
   <br>
   <li><menu>Względny wykres filtra</menu>: Otwiera/zamyka okno <a Graphs Filter>wykresu filtra</a>.</li>
   <li><menu>Bezwzględny wykres filtra</menu>: Otwiera/zamyka okno bezwzględnego wykresu filtra.</li>
@@ -960,10 +957,9 @@ set helpText(P,Moves) {<h1>Wprowadzanie posunięć szachowych</h1>
   </p>
   <p>
   Jeśli nie jest aktualnie wpisywane żadne posunięcie, naciśnięcie klawisza [spacja] wykonuje
-  najlepsze posunięcie silnika widocznego na szachownicy: silnika powiązanego z głównym paskiem oceny lub, 
-  jeśli go nie ma, silnika analizy (w stylu Lichess). Przy włączonej funkcji MultiPV wykonywane jest 
-  posunięcie z pierwszego wariantu. Ten sam skrót działa w oknach <a Analysis>Okno analizy</a> i
-  <a Engine>Okno silnika</a>.
+  najlepsze posunięcie silnika widocznego na szachownicy: silnika powiązanego z głównym paskiem oceny lub,
+  jeśli go nie ma, działającego okna silnika (w stylu Lichess). Przy włączonej funkcji MultiPV wykonywane jest
+  posunięcie z pierwszego wariantu. Ten sam skrót działa w oknach <a Engine>Okno silnika</a>.
   </p>
   <p>
   <b>Uwaga</b>: mała litera dopasowuje się najpierw do pionka, więc
@@ -1282,8 +1278,11 @@ set helpText(P,Annotating) {<h1>Komentowanie partii</h1>
   <p>
   ScidCommunity pozwala dodawać notatki do partii. Istnieją trzy typy
   adnotacji, które można dodać po posunięciu: symbole, komentarz i
-  warianty. Ta sekcja opisuje adnotacje ręczne; zobacz <a
-  Analysis Annotating>Analizę</a> dla analizy wspieranej przez silnik.
+  warianty. Ta sekcja opisuje adnotacje ręczne. Do adnotacji wspieranej przez
+  silnik użyj <a ReviewGameButton>Game Review</a> (jedna partia) albo
+  <a BatchAnnotate>Batch annotate</a> (wybór partii); ich ustawienia są w
+  <a ReviewSettings>Review Settings</a>. Stare okno dialogowe Annotate zostało
+  wycofane.
   </p>
   
   <h3>Symbole i komentarze</h3>
@@ -2636,7 +2635,7 @@ set helpTitle(P,ReviewSettings) "Ustawienia analizy"
 set helpText(P,ReviewSettings) {<h1>Okno silnika: Ustawienia analizy</h1>
   <p>
   Okno <b>Ustawienia analizy</b> w oknie <a Engine>Silnik</a> zawiera
-  parametry używane podczas analizy partii. Dostępnych jest sześć ustawień:
+  parametry używane podczas analizy partii:
   </p>
   <ul>
   <li><b>Warianty</b>: liczba wariantów silnika zapisywanych dla każdej pozycji
@@ -2660,6 +2659,13 @@ set helpText(P,ReviewSettings) {<h1>Okno silnika: Ustawienia analizy</h1>
   <li><b>Diagram</b>: wartość 1 dodaje znacznik diagramu (<b>D</b>) przy posunięciu poprzedzającym każdy błąd i
     poważny błąd. Dzięki temu w wydruku lub wersji HTML partii zostanie pokazana pozycja, w której popełniono błąd.
     Wartość 0 oznacza brak znaczników.</li>
+  <li><b>Znajdź błędy debiutowe</b>: dodaje wpis <b>opBlunder</b> do tagu
+    Annotator na posunięciu, na którym skończyła się księga debiutowa.</li>
+  <li><b>Posunięcia debiutowe</b>: okno 10–20 posunięć dla wyszukiwania błędów
+    debiutowych; domyślnie 12.</li>
+  <li><b>Oznacz ćwiczenia taktyczne</b>: oznacza partię flagą <b>T</b> i dodaje
+    komentarz <b>****D</b> przy błędach i poważnych błędach. Domyślnie
+    wyłączone.</li>
   </ul>
   
   <h3>Ustawienia spoza tego okna</h3>
@@ -3535,8 +3541,8 @@ set helpText(P,Flags) {<h1>Flagi partii</h1>
   Następujące funkcje ScidCommunity ustawiają lub wymagają flag:
   <ul>
      <li><a OpeningTrainer>Trener debiutów </a>: może oceniać flagi (B) i (W)</li>
-     <li><a Analysis Annotate>Znajdź najlepsze posunięcie</a>: ocenia flagę (T)</li>
-     <li><a Analysis Annotate>Znajdź zadanie taktyczne</a>: ustawia flagę (T)</li>
+     <li><a FindBestMove>Znajdź najlepsze posunięcie</a>: ocenia flagę (T)</li>
+     <li><a ReviewSettings>Oznacz ćwiczenia taktyczne</a>: ustawia flagę (T)</li>
   </ul>
   </p>
   <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
@@ -3545,87 +3551,18 @@ set helpText(P,Flags) {<h1>Flagi partii</h1>
 ####################
 ### Okno analizy:
 
-set helpTitle(P,Analysis) "Okno analizy"
-set helpText(P,Analysis) {<h1>Okno analizy</h1>
+set helpTitle(P,Analysis) "Okno analizy (wycofane)"
+set helpText(P,Analysis) {<h1>Okno analizy zostało wycofane</h1>
   <p>
-  Okno analizy ScidCommunity pokazuje analizę bieżącej pozycji szachownicy
-  przez silnik szachowy. Gdy pozycja się zmienia, ScidCommunity wysyła nową
-  pozycję do silnika i wyświetla jego ocenę. Jednocześnie mogą być otwarte
-  maksymalnie dwa okna analizy.
+  Okno analizy i jego okno dialogowe Annotate zostały usunięte. Praca z
+  silnikiem odbywa się w <a Engine>oknach silnika</a>:
+  <a ReviewGameButton>Game Review</a> i
+  <a ReviewMoveButton>Move Comment</a> zapisują adnotacje, a
+  <a ReviewSettings>Review Settings</a> przechowuje ich ustawienia. Dla wyboru
+  partii użyj <a BatchAnnotate>Batch annotate</a>.
   </p>
 
-  <h3>Przyciski</h3>
-  <ul>
-  <li><b>Start/Stop</b> <button tb_eng_on>: Uruchamia lub zatrzymuje analizę silnika.
-    Skrót klawiszowy: F4 dla okna 1, F5 dla okna 2.</li>
-  <li><b>Zablokuj silnik</b> <button tb_lockengine>: Blokuje silnik na bieżącej pozycji.
-    Po zablokowaniu silnik nadal analizuje tę pozycję, nawet gdy przechodzisz
-    do innych posunięć w partii. Kliknij ponownie, aby odblokować.</li>
-  <li><b>Dodaj posunięcie</b> <button tb_addmove>: Dodaje do partii najlepsze posunięcie silnika.
-    Można też nacisnąć klawisz <b>spacji</b>, aby wykonać najlepsze posunięcie silnika 
-    (przy włączonej funkcji MultiPV wykonywane jest   posunięcie z pierwszego wariantu).</li>
-  <li><b>Dodaj wariant</b> <button tb_addvar>: Dodaje najlepszą linię silnika jako
-    wariant do bieżącej partii.</li>
-  <li><b>Dodaj wszystkie warianty</b> <button tb_addallvars>: Dodaje wszystkie linie MultiPV jako
-    warianty (dla silników obsługujących MultiPV).</li>
-  </ul>
-
-  <h3>Sterowanie</h3>
-  <ul>
-  <li><b>Linie (MultiPV)</b>: Pole numeryczne do ustawiania liczby wariantów
-    głównych linii do wyświetlenia. Większe wartości pokazują więcej posunięć.
-    Dostępne opcje zależą od silnika.</li>
-  <li><b>Adnotacje</b> <button tb_annotate>: Otwiera okno dialogowe konfiguracji adnotacji,
-    aby automatycznie komentować partie.</li>
-  <li><b>Trening/Autoplay</b> <button tb_training>: Wchodzi w tryb treningu, w którym
-    grasz przeciwko silnikowi, albo w tryb autoplay, aby automatycznie przechodzić
-    przez partię z widoczną analizą.</li>
-  <li><b>Dokończ partię</b> <button tb_finish_off>: Przeprowadza całą partię
-    z pomocą silnika, wykonując posunięcia za obie strony. Otwiera okno konfiguracji,
-    aby ustawić czas/głębokość na posunięcie i opcjonalnie dodać adnotacje.</li>
-  <li><b>Pokaż szachownicę</b> <button tb_coords>: Pokazuje lub ukrywa szachownicę analizy
-    wyświetlającą pozycję na końcu najlepszej linii silnika.</li>
-  <li><b>Informacje silnika</b> <button tb_engineinfo>: Pokazuje lub ukrywa dodatkowe informacje
-    silnika (trafienia tablebase, węzły/s, użycie hash, obciążenie CPU).</li>
-  <li><b>Priorytety</b>: Ustawia priorytet procesu silnika na niski lub wysoki.</li>
-  <li><b>Update</b> <button tb_update>: Wymusza aktualizację analizy przez silnik.</li>
-  </ul>
-
-  <h3>Obszar wyświetlania</h3>
-  <p>
-  Główny obszar tekstowy pokazuje bieżącą ocenę silnika, w tym:
-  </p>
-  <ul>
-  <li>Wynik w pionach (ujemny = lepiej dla czarnych)</li>
-  <li>Osiągniętą głębokość analizy</li>
-  <li>Najlepsze posunięcia (PV) - najlepszą linię posunięć</li>
-  </ul>
-  <p>
-  Dla silników UCI z MultiPV &gt; 1 wyświetlane są wielokrotne linie posunięć.
-  </p>
-
-  <h3><a Annotate>Adnotowanie partii</h3>
-  <p>
-  Naciśnij przycisk <b>Dodaj adnotacje...</b>, aby otworzyć okno konfiguracji adnotacji:
-  </p>
-  <ul>
-  <li><b>Czas na posunięcie</b>: Sekundy, jakie silnik spędza na każdej pozycji.</li>
-  <li><b>Dla wszystkich posunięć</b> lub <b>Tylko błędnych</b>: Wybierz, czy każde posunięcie
-    ma zostać skomentowane, czy tylko złe posunięcia.</li>
-  <li><b>Warianty</b>: Uwzględnia warianty z analizy silnika.</li>
-  <li><b>Komentarze</b>: Minimalny format bez nazw silników.</li>
-  <li><b>Oceny</b>: Dołącza oceny w pionach.</li>
-  <li><b>Tagi</b>: Zapisuje, który silnik został użyty.</li>
-  <li><b>Księga debiutów</b>: Pomija pozycje znajdujące się w książce debiutowej.</li>
-  <li><b>Oznacz kilka partii</b>: Adnotuje wsadowo kilka partii po kolei.</li>
-  <li><b>Znajdż błędy debiutowe</b>: Oznacza błędy w fazie otwarcia.</li>
-  <li><b>Zadania taktyczne</b>: Tworzy pozycje treningowe (tylko silniki UCI).</li>
-  </ul>
-  <p>
-  Naciśnij <b>Esc</b> w głównym oknie, aby w dowolnym momencie przerwać adnotację.
-  </p>
-
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: ScidCommunity, listopad 2026)</footer></p>
 }
 
 ####################
@@ -3634,14 +3571,24 @@ set helpText(P,Analysis) {<h1>Okno analizy</h1>
 set helpTitle(P,Engine) "Okna silnika"
 set helpText(P,Engine) {<h1>Okna silnika</h1>
   <p>
-  Okna silnika zapewniają analizę w czasie rzeczywistym z silnikiem szachowym.
-  Różnią się od okna analizy tym, że zawierają wykresy oceny, zapisane
-  oceny chmurowe i panele konfiguracji silnika. Jednocześnie mogą działać
-  maksymalnie dwa okna silnika.
+  Okna silnika zapewniają analizę w czasie rzeczywistym z silnikiem szachowym,
+  z wykresami oceny, zapisanymi ocenami chmurowymi i panelami konfiguracji
+  silnika. To jedyna powierzchnia silnika; stare okno analizy zostało
+  wycofane.
   </p>
   <p>
-  Otwiera się je klawiszem <b>F2</b> (pierwsze okno) albo <b>F3</b> (drugie okno).
-  Zamyka klawiszem <b>Esc</b>.
+  Otwiera się je klawiszem <b>F2</b> (pierwsze okno) albo <b>F3</b> (drugie
+  okno), a także przez <menu>Narzędzia → Konfiguruj silniki</menu>. Zamyka
+  klawiszem <b>Esc</b>.
+  </p>
+
+  <h3><name Configure>Konfiguracja silników</name></h3>
+  <p>
+  Lista silników pokazuje presety dostępne w tej sesji. Wybierz preset i
+  naciśnij <b>Open Engine Window</b> (albo kliknij dwukrotnie lub naciśnij
+  Return), aby otworzyć okno silnika dla tego presetu. <b>Add</b>, <b>Edit</b>,
+  <b>Duplicate</b> i <b>Delete</b> zarządzają presetami; F2 i F3 pozostają
+  bezpośrednimi skrótami.
   </p>
 
   <h3>Przyciski</h3>
@@ -3792,10 +3739,9 @@ set helpText(P,EPD) {<h1>Pliki EPD</h1>
   <li><b>acn</b> — Liczba przeanalizowanych węzłów.</li>
   <li><b>acs</b> — Czas analizy w sekundach.</li>
   <li><b>bm</b>  — Najlepsze posunięcie.</li>
-  <li><b>ce</b>  — Ocena pozycji przez silnik wyrażona w setnych częściach piona. 
-              Wartość +100 oznacza przewagę jednego piona dla białych – zwróć uwagę,
-              że różni się to od <b>okna Analizy</b>, które pokazuje oceny w pionkach 
-              z perspektywy białych.</li>
+  <li><b>ce</b>  — Ocena pozycji w setnych częściach piona z perspektywy
+              strony, która ma posunięcie. Wartość <b>[%eval]</b> w recenzji
+              jest podawana w pionkach z perspektywy białych.</li>
   <li><b>cx</b>  — Komentarz wyjaśniający zadanie.</li>
   <li><b>eco</b> - Kod debiutowy systemu <a ECO>ECO</a>.</li>
   <li><b>id</b>  - Unikalny identyfikator pozycji.</li>
@@ -3848,7 +3794,7 @@ set helpText(P,EPD) {<h1>Pliki EPD</h1>
   Pliki EPD mogą być automatycznie analizowane poprzez wybór opcji <menu>Narzędzia /
   Analizuj pozycje...</menu>. Okno dialogowe pozwala wybrać czas przeznaczony
   na pozycję, silnik <term>UCI</term> (z skonfigurowanej
-  <a Analysis List>listy silników</a>) oraz tryb: <b>Zlicz najlepsze posunięcia</b>
+  <a Engine Configure>listy silników</a>) oraz tryb: <b>Zlicz najlepsze posunięcia</b>
   (tylko zlicza, jak często silnik zgadza się z kodami operacji <b>bm</b>/<b>am</b>,
   bez modyfikowania pliku), <b>Dodaj adnotacje</b> (dodaje kody operacji analizy
   do każdej pozycji) lub <b>Oba</b>. ScidCommunity przechodzi następnie przez każdą
@@ -5169,8 +5115,8 @@ set helpText(P,FindBestMove) {<h1>Trening: Znajdź najlepsze posunięcie</h1>
   <p>
   Podczas adnotowania partii komentarzami za pomocą silnika szachowego, silnik może wyszukiwać
   okazje taktyczne w obrębie partii. Można to osiągnąć, zaznaczając
-  <term>Oznacz ćwiczenie taktyczne</term> w oknie <a
-  Analysis>Adnotacji</a> dostępnym z poziomu analizy. Jeśli
+  <term>Oznacz ćwiczenia taktyczne</term> w
+  <a ReviewSettings>Review Settings</a>. Jeśli
   zostanie znaleziona okazja taktyczna, ScidCommunity oznaczy partię flagą
   <term>T</term> (Taktyka) i doda specjalny komentarz, który jest
   oceniany w tym ćwiczeniu.
@@ -5580,8 +5526,8 @@ set helpText(P,HardwareConfig) {<h1>Podłączanie sprzętu zewnętrznego</h1>
   <ul>
      <li><term>Polecenie silnika</term>: nazwa programu, który ma
      zostać użyty jako silnik sterujący. Może być wymagana w pełni
-     kwalifikowana nazwa, podobnie jak w konfiguracji <a Analysis
-     List>silnika szachowego</a>. (Np. silnik sterownika DGT w systemie
+     kwalifikowana nazwa, podobnie jak w oknie Konfiguruj silniki. (Np. silnik
+     sterownika DGT w systemie
      Linux zwykle nazywa się <term>dgtdrv2.i686</term>.)
      </li>
      <li><term>Parametr silnika</term>: tekst podany w tym polu

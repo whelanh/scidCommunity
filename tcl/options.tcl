@@ -235,7 +235,7 @@ set showVarPopup 0
 set showVarArrows 1
 set showEngineVariationArrows 1
 # Number of moves (2 plies each) of each engine PV line to display in the
-# Engine windows (F2/F3) and in the Analysis Engine window.
+# Engine windows (F2/F3).
 set ::enginePvDisplayLength 6
 ::options.store ::showMainEvalBarArrow 1
 

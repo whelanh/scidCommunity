@@ -25,7 +25,7 @@ set helpText(Z,Contents) {<h1>scidCommunity Help Contents</h1>
   
   <h4>Dirisha zingine za scidJumuiya</h4>
   <ul>
-  <li><a Analysis><b>Uchambuzi</b> dirisha</a></li>
+  <li><a Engine><b>Uchambuzi</b> dirisha</a></li>
   <li><a Engine><b>Injini</b> madirisha</a></li>
   <li><a Book><b>Kitabu</b> dirisha</a></li>
   <li><a CalVar><b>Ukokotoaji wa tofauti</b> dirisha</a></li>
@@ -74,7 +74,7 @@ set helpText(Z,Index) {<h1>scidMada ya Msaada wa Jamii</h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Analysis>Uchambuzi</a> dirisha</li>
+  <li><a Engine>Uchambuzi</a> dirisha</li>
   <li><a Annotating>Michezo ya maelezo</a></li>
   <li><a NAGs>Alama za ufafanuzi</a></li>
   <li><a Author>Mwandishi, anayewasiliana</a></li>
@@ -128,7 +128,7 @@ set helpText(Z,Index) {<h1>scidMada ya Msaada wa Jamii</h1>
   <li><a ECO Codes>Mfumo wa msimbo wa ECO</a></li>
   <li><a ECO>Uainishaji wa fursa za ECO</a></li>
   <li><a Menus Edit>Menyu ya kuhariri</a></li>
-  <li><a Analysis List>Orodha ya injini</a></li>
+  <li><a Engine Configure>Orodha ya injini</a></li>
   <li><a Engine>Dirisha la injini</a></li>
   <li><a Moves>Kuingia kwenye miondoko ya chess</a></li>
   <li><a EPD>Faili za EPD</a></li>
@@ -762,11 +762,11 @@ set helpText(Z,Menus) {<h1>scidCommunity menus</h1>
   
   <h3><name Tools>Tools</name></h3>
   <ul>
-  <li><menu>Configure Engines</menu>: Opens the <a Analysis List>engine configuration</a> dialog
+  <li><menu>Configure Engines</menu>: Opens the <a Engine Configure>engine configuration</a> dialog
   to set up chess engines.</li>
   <li><menu>Start Engine 1</menu>: Starts the first chess analysis engine.</li>
   <li><menu>Start Engine 2</menu>: Starts the second chess analysis engine.</li>
-  <li><menu>Analysis Window</menu>: Opens the <a Analysis>analysis window</a>.</li>
+  <li><menu>Analysis Window</menu>: Opens the <a Engine>analysis window</a>.</li>
   <br>
   <li><menu>Filter Graph</menu>: Opens/closes the <a Graphs Filter>filter graph</a> window.</li>
   <li><menu>Absolute Filter Graph</menu>: Opens/closes the absolute filter graph window.</li>
@@ -2451,7 +2451,7 @@ set helpText(Z,PGNAutoComment) {<h1>Dirisha la PGN: Kitufe cha Maoni Kiotomatiki
 set helpTitle(Z,AnalysisAutoComment) "Kitufe cha Maoni Otomatiki"
 set helpText(Z,AnalysisAutoComment) {<h1>Dirisha la Uchambuzi: Kitufe cha Maoni Kiotomatiki</h1>
   <p>
-  Kitufe cha <b>Maoni Kiotomatiki</b> katika dirisha la <a Analysis>Injini ya Uchambuzi</a> hukuruhusu kufanya hivyo.
+  Kitufe cha <b>Maoni Kiotomatiki</b> katika dirisha la <a Engine>Injini ya Uchambuzi</a> hukuruhusu kufanya hivyo.
   toa maoni ya AI kiotomatiki kwa mchezo mzima katika hali ya kundi.
   </p>
   
@@ -3205,8 +3205,8 @@ set helpText(Z,Flags) {<h1>Mchezo Bendera</h1>
   Kazi zifuatazo za scidCommunity zimewekwa au zinahitaji bendera:
   <ul>
      <li><a OpeningTrainer>Mkufunzi wa Ufunguzi</a>: inaweza kutathmini bendera za (B) na (W).
-     <li><a Analysis Annotate>Tafuta hoja bora zaidi</a>: hutathmini bendera ya (T).
-     <li><a Analysis Annotate>Tafuta mazoezi ya busara</a>: huweka bendera ya (T).
+     <li><a ReviewSettings>Tafuta hoja bora zaidi</a>: hutathmini bendera ya (T).
+     <li><a ReviewSettings>Tafuta mazoezi ya busara</a>: huweka bendera ya (T).
   </ul>
   
   <p><footer>(Ilisasishwa: scidCommunity, Aprili 2026)</footer></p>
@@ -3214,87 +3214,18 @@ set helpText(Z,Flags) {<h1>Mchezo Bendera</h1>
 }
 
 
-set helpTitle(Z,Analysis) "Dirisha la uchambuzi"
-set helpText(Z,Analysis) {<h1>Dirisha la Uchambuzi</h1>
+set helpTitle(Z,Analysis) "Analysis window (retired)"
+set helpText(Z,Analysis) {<h1>The Analysis window has been retired</h1>
   <p>
-  Dirisha la Uchambuzi wa Jumuiya ya scid linaonyesha uchanganuzi wa injini ya chess ya
-  nafasi ya sasa ya bodi. Wakati nafasi inabadilika, scidCommunity hutuma mpya
-  nafasi ya injini na kuonyesha tathmini yake. Hadi madirisha mawili ya Uchambuzi
-  inaweza kufunguliwa kwa wakati mmoja.
+  The Analysis window and its Annotate dialog are gone. Engine work runs in the
+  <a Engine>Engine windows</a>: <a ReviewGameButton>Game Review</a> and
+  <a ReviewMoveButton>Move Comment</a> write the annotation, and
+  <a ReviewSettings>Review Settings</a> holds their choices. For a selection of
+  games, use <a BatchAnnotate>Batch annotate</a>.
   </p>
 
-  <h3>Vifungo</h3>
-  <ul>
-  <li><b>Anza/Simamisha</b> <button tb_eng_on>: Huanzisha au kusimamisha uchanganuzi wa injini.
-    Njia ya mkato ya kibodi: F4 kwa dirisha 1, F5 kwa dirisha 2.</li>
-  <li><b>Fuli</b> <button tb_lockengine>: Hufunga injini kwa nafasi isiyobadilika.
-    Ikifungwa, injini inaendelea kuchanganua nafasi hiyo hata unaposogeza
-    kwa hatua tofauti katika mchezo. Bofya tena ili kufungua.</li>
-  <li><b>Ongeza hoja</b> <button tb_addmove>: Huongeza mwendo bora wa injini kwenye mchezo.</li>
-  <li><b>Ongeza tofauti</b> <button tb_addvar>: Huongeza laini bora ya injini kama
-    tofauti kwa mchezo wa sasa. </li>
-  <li><b>Ongeza tofauti zote</b> <button tb_addallvars>: Huongeza laini zote za MultiPV kama
-    tofauti (kwa injini zinazotumia MultiPV).</li>
-  </ul>
-
-  <h3>Vidhibiti</h3>
-  <ul>
-  <li><b>Mistari (MultiPV)</b>: Spinbox ili kuweka idadi ya tofauti kuu
-    kuonyesha. Nambari za juu zinaonyesha hoja zaidi za mgombea. Chaguzi zinazopatikana zinatofautiana
-    kwa injini.</li>
-  <li><b>Fafanua</b> <button tb_annotate>: Hufungua usanidi wa maelezo
-    kidirisha cha kufafanua kiotomatiki michezo.</li>
-  <li><b>Mafunzo/Kucheza Kiotomatiki</b> <button tb_training>: Inaingia katika hali ya mafunzo unapo
-    cheza dhidi ya injini, au modi ya kucheza kiotomatiki ili kusonga mbele kiotomatiki
-    mchezo na uchambuzi unaoonekana. </li>
-  <li><b>Maliza Mchezo</b> <button tb_finish_off>: Hucheza katika mchezo mzima
-    kutumia injini, kufanya hatua kwa pande zote mbili. Hufungua kidirisha cha usanidi
-    kuweka muda/kina kwa kila hoja na kwa hiari kuongeza maelezo.</li>
-  <li><b>Ubao wa onyesho</b> <button tb_coords>: Huonyesha au kuficha ubao wa uchanganuzi
-    kuonyesha nafasi mwishoni mwa laini bora ya injini.</li>
-  <li><b>Onyesha maelezo</b> <button tb_engineinfo>: Inaonyesha au kuficha injini ya ziada
-    habari (vipigo vya msingi wa meza, nodi/sekunde, matumizi ya heshi, mzigo wa CPU).</li>
-  <li><b>Kipaumbele</b>: Huweka kipaumbele cha mchakato wa injini kuwa chini au juu.</li>
-  <li><b>Sasisho</b> <button tb_update>: Hulazimisha injini kusasisha uchanganuzi wake.</li>
-  </ul>
-
-  <h3>Eneo la Maonyesho</h3>
-  <p>
-  Sehemu kuu ya maandishi inaonyesha tathmini ya sasa ya injini, pamoja na:
-  </p>
-  <ul>
-  <li>Alama katika vitenge (hasi = Nyeusi bora)</li>
-  <li>Kina cha utafutaji kimefikiwa</li>
-  <li>Tofauti kuu (PV) - mstari bora wa hatua</li>
-  </ul>
-  <p>
-  Kwa injini za UCI zilizo na MultiPV > 1, mistari mingi ya wagombea huonyeshwa.
-  </p>
-
-  <h3><a Annotate>Ufafanuzi wa mchezo</h3>
-  <p>
-  Bonyeza kitufe cha <b>Annotate</b> ili kufungua kidirisha cha usanidi wa ufafanuzi:
-  </p>
-  <ul>
-  <li><b>Muda kati ya hatua</b>: Sekunde ambazo injini hutumia kwenye kila nafasi.</li>
-  <li><b>Fafanua mienendo yote</b> au <b>Blunders pekee</b>: Chagua ikiwa kila hatua
-    hupata maelezo au hatua mbaya tu. Weka kizingiti cha makosa katika vitengo vya pawn.</li>
-  <li><b>Tofauti</b>: Jumuisha tofauti kutoka kwa uchanganuzi wa injini.</li>
-  <li><b>Ufafanuzi mfupi</b>: Umbizo ndogo bila majina ya injini.</li>
-  <li><b>Ongeza alama</b>: Jumuisha alama za tathmini katika vitengo vya pawn.</li>
-  <li><b>Ongeza lebo ya kichambuzi</b>: Rekodi ni injini gani ilitumika.</li>
-  <li><b>Tumia kitabu</b>: Huruka nafasi zilizo katika kitabu cha ufunguzi.</li>
-  <li><b>Fafanua michezo kadhaa</b>: Kundi linaelezea michezo mingi kwa mfuatano.</li>
-  <li><b>Tafuta makosa ya ufunguzi</b>: Huashiria makosa katika awamu ya ufunguzi.</li>
-  <li><b>Weka mazoezi ya mbinu</b>: Huunda nafasi za mafunzo (injini za UCI pekee).</li>
-  </ul>
-  <p>
-  Bonyeza Escape katika dirisha kuu ili kughairi ufafanuzi wakati wowote.
-  </p>
-
-  <p><footer>(Ilisasishwa: Jumuiya ya scid, Aprili 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
 }
-
 
 set helpTitle(Z,Engine) "Dirisha la injini"
 set helpText(Z,Engine) {<h1>Madirisha ya Injini</h1>
@@ -3475,7 +3406,7 @@ set helpText(Z,EPD) {<h1>Faili za EPD</h1>
   <p>
   Faili za EPD zinaweza kufafanuliwa kiatomati kwa kuchagua Zana /
   Fafanua nafasi. Mazungumzo yajayo yanauliza wakati huo
-  inapaswa kutumika kwa uchambuzi, kisha <a Analysis List>injini
+  inapaswa kutumika kwa uchambuzi, kisha <a Engine Configure>injini
   orodha</a> inafunguliwa kwa uteuzi wa injini ya kutumika. <b>Kumbuka</b> Ikiwa ni
   dirisha la uchambuzi tayari limefunguliwa, uchambuzi unafanywa kwa kutumia hii
   injini bila kuuliza mtumiaji kabla. Kisha injini ni
@@ -4685,7 +4616,7 @@ set helpText(Z,SeriousGame) {<h1>Dirisha la mchezo mzito</h1>
   iliyotolewa juu ya dirisha la <term>Usanidi wa Mchezo</term>. The
   kitufe <term>Sanidi injini ya UCI</term> pia inatoa ufikiaji
   kwa vigezo vya injini. Kwa chaguo-msingi, zimewekwa kama vile katika
-  <a Analysis List>usanidi wa injini</a>.
+  <a Engine Configure>usanidi wa injini</a>.
   </p>
   <p>
   Kisha, kitabu kinachopaswa kutumiwa kinaweza kuchaguliwa kutoka kwa wale wanaofungua

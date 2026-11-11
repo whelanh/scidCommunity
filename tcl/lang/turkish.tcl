@@ -199,10 +199,6 @@ translate T EpdPasteRecord {Kaydı Yapıştır}
 # Tools menu:
 menuText T Tools "Aletler" 0
 menuText T ToolsConfigureEngines "Motorları Yapılandırma" 10 {Motorların yapılandırmasını yönetin}
-menuText T ToolsAnalysis "Analiz Motoru..." 0 \
-  {Satranç analiz motorunu başlat/durdur}
-menuText T ToolsAnalysis2 "Analiz Motoru #2..." 17 \
-  {2. satranç analiz motorunu başlat/durdur}
 menuText T ToolsEngineWindow "Motor Penceresi..." 0 {Bir satranç motoru penceresi açın}
 menuText T ToolsCross "Çapraz tablo" 0 {Bu oyun için turnuva çapraz tablosunu göster}
 menuText T ToolsFilterGraph "Rel. Grafiği Filtrele" 12 {Göreceli değerler için filtre grafiği penceresini aç/kapat}
@@ -935,7 +931,7 @@ translate T OtherBookMovesTooltip {Rakibin cevap vereceği hamleler}
 translate T Alphabetical {Alfabetik}
 translate T BookCount {Kitaplar}
 
-# Analysis Engine open dialog:
+# Configure Engines dialog:
 translate T EngineList {Analiz Motoru Listesi}
 translate T EngineName {İsim}
 translate T EngineCmd {Emretmek}
@@ -959,7 +955,6 @@ translate T EngineReload {Mevcut motoru yeniden yükleyin}
 translate T EngineClone {Geçerli motorun bir kopyasını oluşturun}
 translate T EngineDuplicate {Çoğalt}
 translate T EngineDelete {Mevcut motoru sil}
-translate T EngineOpenAnalysis {Açık Analiz}
 translate T EngineOpenWindow {Motor Penceresini Aç}
 
 # PGN window menus:

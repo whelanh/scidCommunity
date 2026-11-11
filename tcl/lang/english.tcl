@@ -235,10 +235,6 @@ translate E EpdPasteRecord {Paste Record}
 # Tools menu:
 menuText E Tools "Tools" 0
 menuText E ToolsConfigureEngines "Configure Engines" 10 {Manage engines' configuration}
-menuText E ToolsAnalysis "Analysis Engine..." 0 \
-  {Start/stop a chess analysis engine}
-menuText E ToolsAnalysis2 "Analysis Engine #2..." 17 \
-  {Start/stop the 2nd chess analysis engine}
 menuText E ToolsEngineWindow "Engine Window..." 0 {Open a chess engine window}
 menuText E ToolsCross "Crosstable" 0 {Show tournament crosstable for this game}
 menuText E ToolsFilterGraph "Rel. Filter Graph" 12 {Open/close the filter graph window for relative values}
@@ -971,8 +967,8 @@ translate E OtherBookMovesTooltip {Moves to which the opponent has a reply}
 translate E Alphabetical {Alphabetical}
 translate E BookCount {Books}
 
-# Analysis Engine open dialog:
-translate E EngineList {Analysis Engine List}
+# Configure Engines dialog:
+translate E EngineList {Configure Engines}
 translate E EngineName {Name}
 translate E EngineCmd {Command}
 translate E EngineArgs {Parameters}
@@ -995,7 +991,6 @@ translate E EngineReload {Reload the current engine}
 translate E EngineClone {Create a copy of the current engine}
 translate E EngineDuplicate {Duplicate}
 translate E EngineDelete {Delete the current engine}
-translate E EngineOpenAnalysis {Open Analysis}
 translate E EngineOpenWindow {Open Engine Window}
 
 # PGN window menus:

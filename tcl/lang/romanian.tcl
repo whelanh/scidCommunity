@@ -236,10 +236,6 @@ translate L EpdPasteRecord {Lipiți înregistrarea}
 # Tools menu:
 menuText L Tools "Instrumente" 0
 menuText L ToolsConfigureEngines "Configurați motoarele" 10 {Gestionați configurația motoarelor}
-menuText L ToolsAnalysis "Motor de analiză..." 0 \
-  {Porniți/opriți un motor de analiză a șahului}
-menuText L ToolsAnalysis2 "Motorul de analiză #2..." 17 \
-  {Porniți/opriți al 2-lea motor de analiză a șahului}
 menuText L ToolsEngineWindow "Geam motor..." 0 {Deschide o fereastră de motor de șah}
 menuText L ToolsCross "Tabel încrucișat" 0 {Arată tabelul încrucișat al turneului pentru acest joc}
 menuText L ToolsFilterGraph "rel. Filtru grafic" 12 {Deschideți/închideți fereastra graficului de filtrare pentru valori relative}
@@ -972,7 +968,7 @@ translate L OtherBookMovesTooltip {Mișcări la care adversarul are răspuns}
 translate L Alphabetical {Alfabetic}
 translate L BookCount {Cărți}
 
-# Analysis Engine open dialog:
+# Configure Engines dialog:
 translate L EngineList {Lista motorului de analiză}
 translate L EngineName {Nume}
 translate L EngineCmd {Comanda}
@@ -996,7 +992,6 @@ translate L EngineReload {Reîncărcați motorul actual}
 translate L EngineClone {Creați o copie a motorului curent}
 translate L EngineDuplicate {Duplicare}
 translate L EngineDelete {Ștergeți motorul actual}
-translate L EngineOpenAnalysis {Analiză deschisă}
 translate L EngineOpenWindow {Deschideți fereastra motorului}
 
 # PGN window menus:

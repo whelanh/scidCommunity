@@ -214,10 +214,6 @@ translate Y EpdPasteRecord {Paste Record}
 menuText Y Tools "Alati" 0
 # ====== TODO To be translated ======
 menuText Y ToolsConfigureEngines "Configure Engines" 10 {Manage engines' configuration}
-menuText Y ToolsAnalysis "Program za analizu..." 0 \
-  {Pokreni/zaustavi ahovski program za analizu}
-menuText Y ToolsAnalysis2 "Program za analizu #2..." 17 \
-  {Pokreni/zaustavi drugi ahovski program za analizu}
 menuText Y ToolsCross "Tabela turnira" 0 {Pokai tabelu turnira za ovu partiju}
 menuText Y ToolsFilterGraph "Filter graph" 7 \
   {Open/close the filter graph window} ;# ***
@@ -1367,7 +1363,7 @@ translate Y Alphabetical {Azbučno}
 # ====== TODO To be translated ======
 translate Y BookCount {Knjige}
 # ====== TODO To be translated ======
-translate Y EngineList {Analysis Engine List}
+translate Y EngineList {Configure Engines}
 # ====== TODO To be translated ======
 translate Y EngineName {Name}
 # ====== TODO To be translated ======
@@ -1411,7 +1407,6 @@ translate Y EngineDuplicate {Dupliraj}
 # ====== TODO To be translated ======
 translate Y EngineDelete {Delete the current engine}
 # ====== TODO To be translated ======
-translate Y EngineOpenAnalysis {Open Analysis}
 # ====== TODO To be translated ======
 menuText Y PgnFile "File" 0
 # ====== TODO To be translated ======

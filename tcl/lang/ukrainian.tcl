@@ -196,10 +196,6 @@ translate Q EpdPasteRecord {Вставити запис}
 # Tools menu:
 menuText Q Tools "Інструменти" 0
 menuText Q ToolsConfigureEngines "Налаштувати двигуни" 10 {Керуйте конфігурацією двигунів}
-menuText Q ToolsAnalysis "Механізм аналізу..." 0 \
-  {Запуск/зупинка механізму аналізу шахів}
-menuText Q ToolsAnalysis2 "Механізм аналізу №2..." 17 \
-  {Запуск/зупинка 2-го механізму аналізу шахів}
 menuText Q ToolsEngineWindow "Вікно двигуна..." 0 {Відкрийте вікно шахової машини}
 menuText Q ToolsCross "Crosstable" 0 {Показати перехресну таблицю турніру для цієї гри}
 menuText Q ToolsFilterGraph "відн. Графік фільтра" 12 {Відкрити/закрити вікно графіка фільтра для відносних значень}
@@ -932,7 +928,7 @@ translate Q OtherBookMovesTooltip {Ходи, на які противник ма
 translate Q Alphabetical {Алфавітний}
 translate Q BookCount {Книги}
 
-# Analysis Engine open dialog:
+# Configure Engines dialog:
 translate Q EngineList {Список механізмів аналізу}
 translate Q EngineName {Ім'я}
 translate Q EngineCmd {Команда}
@@ -956,7 +952,6 @@ translate Q EngineReload {Перезавантажте поточний двиг
 translate Q EngineClone {Створіть копію поточного движка}
 translate Q EngineDuplicate {Дублювати}
 translate Q EngineDelete {Видалити поточний механізм}
-translate Q EngineOpenAnalysis {Відкрити аналіз}
 translate Q EngineOpenWindow {Відкрийте вікно двигуна}
 
 # PGN window menus:

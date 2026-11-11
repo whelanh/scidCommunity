@@ -199,10 +199,6 @@ translate B EpdPasteRecord {Colar registro}
 # Tools menu:
 menuText B Tools "Ferramentas" 0
 menuText B ToolsConfigureEngines "Configurar Engines" 10 {Gerencia configuração dos engines}
-menuText B ToolsAnalysis "Analisador #1..." 0 \
-  {Inicia ou para o 1o. Analisador}
-menuText B ToolsAnalysis2 "Analisador #2..." 17 \
-  {Inicia ou para o 2o. Analisador}
 menuText B ToolsEngineWindow "Janela do motor..." 0 {Abra uma janela do mecanismo de xadrez}
 menuText B ToolsCross "Tabela de Cruzamento" 0 {Mostra a tabela de cruzamentos do torneio para o jogo corrente}
 menuText B ToolsFilterGraph "Gráfico de Filtro Relativo" 7 \
@@ -944,7 +940,7 @@ translate B OtherBookMovesTooltip {Movimentos para os quais o oponente tem respo
 translate B Alphabetical {Alfabético}
 translate B BookCount {Livros}
 
-# Analysis Engine open dialog:
+# Configure Engines dialog:
 translate B EngineList {Lista de Programas de Análise}
 translate B EngineName {Nome}
 translate B EngineCmd {Comando}
@@ -968,7 +964,6 @@ translate B EngineReload {Recarregue o mecanismo atual}
 translate B EngineClone {Crie uma cópia do mecanismo atual}
 translate B EngineDuplicate {Duplicar}
 translate B EngineDelete {Exclua o mecanismo atual}
-translate B EngineOpenAnalysis {Análise aberta}
 translate B EngineOpenWindow {Abrir janela do mecanismo}
 
 # PGN window menus:

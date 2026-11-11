@@ -195,10 +195,6 @@ translate Z EpdPasteRecord {Bandika Rekodi}
 # Tools menu:
 menuText Z Tools "Zana" 0
 menuText Z ToolsConfigureEngines "Sanidi Injini" 10 {Dhibiti usanidi wa injini}
-menuText Z ToolsAnalysis "Injini ya Uchambuzi..." 0 \
-  {Anzisha/simamisha injini ya uchanganuzi wa chess}
-menuText Z ToolsAnalysis2 "Injini ya Uchambuzi #2..." 17 \
-  {Anzisha/simamisha injini ya 2 ya uchanganuzi wa chess}
 menuText Z ToolsEngineWindow "Dirisha la injini..." 0 {Fungua dirisha la injini ya chess}
 menuText Z ToolsCross "Inaweza kubadilika" 0 {Onyesha jedwali la mashindano kwa mchezo huu}
 menuText Z ToolsFilterGraph "Rel. Kichujio cha Grafu" 12 {Fungua/funga kidirisha cha grafu ya kichujio kwa thamani jamaa}
@@ -931,7 +927,7 @@ translate Z OtherBookMovesTooltip {Hatua ambazo mpinzani ana jibu}
 translate Z Alphabetical {Kialfabeti}
 translate Z BookCount {Vitabu}
 
-# Analysis Engine open dialog:
+# Configure Engines dialog:
 translate Z EngineList {Orodha ya Injini ya Uchambuzi}
 translate Z EngineName {Jina}
 translate Z EngineCmd {Amri}
@@ -955,7 +951,6 @@ translate Z EngineReload {Pakia tena injini ya sasa}
 translate Z EngineClone {Unda nakala ya injini ya sasa}
 translate Z EngineDuplicate {Nakili}
 translate Z EngineDelete {Futa injini ya sasa}
-translate Z EngineOpenAnalysis {Fungua Uchambuzi}
 translate Z EngineOpenWindow {Fungua Dirisha la Injini}
 
 # PGN window menus:

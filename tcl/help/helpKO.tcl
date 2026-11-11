@@ -25,7 +25,7 @@ set helpText(k,Contents) {<h1>scid커뮤니티 도움말 목차</h1>
   
   <h4>기타 scid커뮤니티 창</h4>
   <ul>
-  <li><a Analysis><b>분석</b> 창문</a></li>
+  <li><a Engine><b>분석</b> 창문</a></li>
   <li><a Engine><b>엔진</b> 창문들</a></li>
   <li><a Book><b>책</b> 창문</a></li>
   <li><a CalVar><b>변형 계산</b> 창문</a></li>
@@ -75,7 +75,7 @@ set helpText(k,Index) {<h1>scid커뮤니티 도움말 항목 색인</h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Analysis>분석</a> 창</li>
+  <li><a Engine>분석</a> 창</li>
   <li><a Annotating>게임에 주석 달기</a></li>
   <li><a NAGs>주석 기호</a></li>
   <li><a Author>저자, 연락중</a></li>
@@ -129,7 +129,7 @@ set helpText(k,Index) {<h1>scid커뮤니티 도움말 항목 색인</h1>
   <li><a ECO Codes>ECO 코드 시스템</a></li>
   <li><a ECO>ECO 개구부 분류</a></li>
   <li><a Menus Edit>편집 메뉴</a></li>
-  <li><a Analysis List>엔진 목록</a></li>
+  <li><a Engine Configure>엔진 목록</a></li>
   <li><a Engine>엔진 윈도우</a></li>
   <li><a Moves>체스 입력</a></li>
   <li><a EPD>EPD 파일</a></li>
@@ -761,11 +761,11 @@ set helpText(k,Menus) {<h1>scidCommunity menus</h1>
   
   <h3><name Tools>Tools</name></h3>
   <ul>
-  <li><menu>Configure Engines</menu>: Opens the <a Analysis List>engine configuration</a> dialog
+  <li><menu>Configure Engines</menu>: Opens the <a Engine Configure>engine configuration</a> dialog
   to set up chess engines.</li>
   <li><menu>Start Engine 1</menu>: Starts the first chess analysis engine.</li>
   <li><menu>Start Engine 2</menu>: Starts the second chess analysis engine.</li>
-  <li><menu>Analysis Window</menu>: Opens the <a Analysis>analysis window</a>.</li>
+  <li><menu>Analysis Window</menu>: Opens the <a Engine>analysis window</a>.</li>
   <br>
   <li><menu>Filter Graph</menu>: Opens/closes the <a Graphs Filter>filter graph</a> window.</li>
   <li><menu>Absolute Filter Graph</menu>: Opens/closes the absolute filter graph window.</li>
@@ -2452,7 +2452,7 @@ set helpText(k,PGNAutoComment) {<h1>PGN 창: 자동 댓글 버튼</h1>
 set helpTitle(k,AnalysisAutoComment) "Auto Comment Button"
 set helpText(k,AnalysisAutoComment) {<h1>분석 창: 자동 댓글 버튼</h1>
   <p>
-  그만큼 <b>자동 댓글</b> 버튼을 <a Analysis>분석 엔진</a> 창을 사용하면 다음을 수행할 수 있습니다.
+  그만큼 <b>자동 댓글</b> 버튼을 <a Engine>분석 엔진</a> 창을 사용하면 다음을 수행할 수 있습니다.
   배치 모드에서 전체 게임에 대한 AI 해설을 자동으로 생성합니다.
   </p>
   
@@ -3205,95 +3205,26 @@ set helpText(k,Flags) {<h1>Game Flags</h1>
   The following functions of scidCommunity set or require flags:
   <ul>
      <li><a OpeningTrainer>Opening Trainer</a>: can evaluate the (B) and (W) flags
-     <li><a Analysis Annotate>Find best move</a>: evaluates the (T) flag
-     <li><a Analysis Annotate>Find tactical exercise</a>: sets the (T) flag
+     <li><a ReviewSettings>Find best move</a>: evaluates the (T) flag
+     <li><a ReviewSettings>Find tactical exercise</a>: sets the (T) flag
   </ul>
   
   <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
 
-set helpTitle(k,Analysis) "Analysis window"
-set helpText(k,Analysis) {<h1>The Analysis window</h1>
+set helpTitle(k,Analysis) "Analysis window (retired)"
+set helpText(k,Analysis) {<h1>The Analysis window has been retired</h1>
   <p>
-  The scidCommunity Analysis window shows analysis by a chess engine of the
-  current board position. When the position changes, scidCommunity sends the new
-  position to the engine and displays its assessment. Up to two Analysis windows
-  can be open simultaneously.
+  The Analysis window and its Annotate dialog are gone. Engine work runs in the
+  <a Engine>Engine windows</a>: <a ReviewGameButton>Game Review</a> and
+  <a ReviewMoveButton>Move Comment</a> write the annotation, and
+  <a ReviewSettings>Review Settings</a> holds their choices. For a selection of
+  games, use <a BatchAnnotate>Batch annotate</a>.
   </p>
 
-  <h3>Buttons</h3>
-  <ul>
-  <li><b>Start/Stop</b> <button tb_eng_on>: Starts or stops the engine analysis.
-    Keyboard shortcut: F4 for window 1, F5 for window 2.</li>
-  <li><b>Lock</b> <button tb_lockengine>: Locks the engine to a fixed position.
-    When locked, the engine continues analyzing that position even when you navigate
-    to different moves in the game. Click again to unlock.</li>
-  <li><b>Add move</b> <button tb_addmove>: Adds the engine's best move to the game.</li>
-  <li><b>Add variation</b> <button tb_addvar>: Adds the engine's best line as
-    a variation to the current game.</li>
-  <li><b>Add all variations</b> <button tb_addallvars>: Adds all MultiPV lines as
-    variations (for engines that support MultiPV).</li>
-  </ul>
-
-  <h3>Controls</h3>
-  <ul>
-  <li><b>Lines (MultiPV)</b>: Spinbox to set the number of principal variations
-    to display. Higher values show more candidate moves. Available options vary
-    by engine.</li>
-  <li><b>Annotate</b> <button tb_annotate>: Opens the annotation configuration
-    dialog to automatically annotate games.</li>
-  <li><b>Training/Autoplay</b> <button tb_training>: Enters training mode where you
-    play against the engine, or autoplay mode to automatically advance through
-    the game with analysis visible.</li>
-  <li><b>Finish Game</b> <button tb_finish_off>: Plays through the entire game
-    using the engine, making moves for both sides. Opens a configuration dialog
-    to set time/depth per move and optionally adds annotations.</li>
-  <li><b>Show board</b> <button tb_coords>: Shows or hides the analysis board
-    displaying the position at the end of the engine's best line.</li>
-  <li><b>Show info</b> <button tb_engineinfo>: Shows or hides additional engine
-    information (tablebase hits, nodes/sec, hash usage, CPU load).</li>
-  <li><b>Priority</b>: Sets the engine process priority to low or high.</li>
-  <li><b>Update</b> <button tb_update>: Forces the engine to update its analysis.</li>
-  </ul>
-
-  <h3>Display Area</h3>
-  <p>
-  The main text area shows the engine's current evaluation, including:
-  </p>
-  <ul>
-  <li>Score in pawn units (negative = Black better)</li>
-  <li>Search depth reached</li>
-  <li>Principal variation (PV) - the best line of moves</li>
-  </ul>
-  <p>
-  For UCI engines with MultiPV > 1, multiple candidate lines are shown.
-  </p>
-
-  <h3><a Annotate>Annotating a game</h3>
-  <p>
-  Press the <b>Annotate</b> button to open the annotation configuration dialog:
-  </p>
-  <ul>
-  <li><b>Time between moves</b>: Seconds the engine spends on each position.</li>
-  <li><b>Annotate all moves</b> or <b>Blunders only</b>: Choose whether every move
-    gets annotated or only bad moves. Set a blunder threshold in pawn units.</li>
-  <li><b>Variations</b>: Include variations from the engine's analysis.</li>
-  <li><b>Short annotations</b>: Minimal format without engine names.</li>
-  <li><b>Add score</b>: Include evaluation scores in pawn units.</li>
-  <li><b>Add annotator tag</b>: Records which engine was used.</li>
-  <li><b>Use book</b>: Skips positions that are in the opening book.</li>
-  <li><b>Annotate several games</b>: Batch annotate multiple games in sequence.</li>
-  <li><b>Find opening errors</b>: Marks blunders in the opening phase.</li>
-  <li><b>Mark tactical exercises</b>: Creates training positions (UCI engines only).</li>
-  </ul>
-  <p>
-  Press Escape in the main window to cancel annotation at any time.
-  </p>
-
-  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
 }
-
 
 set helpTitle(k,Engine) "Engine windows"
 set helpText(k,Engine) {<h1>The Engine windows</h1>
@@ -3473,7 +3404,7 @@ set helpText(k,EPD) {<h1>EPD files</h1>
   <p>
   EPD-files can be automatically annotated by selecting Tools /
   Annotate position. The upcoming dialogue asks for the time that
-  should be used for the analysis, then the <a Analysis List>engine
+  should be used for the analysis, then the <a Engine Configure>engine
   list</a> is opened for selection of an engine to be used. <b>Note</b> If an
   analysis window is already opened, the analysis is done using this
   engine without asking the user beforehand. Then the engine is
@@ -4681,7 +4612,7 @@ set helpText(k,SeriousGame) {<h1>심각한 게임 창</h1>
   <term>게임 구성</term> 창 상단에 제공됩니다. 는
   버튼<term>UCI 엔진 구성</term>을 통해 추가로 액세스 권한 제공
   엔진 매개변수에. 기본적으로 다음과 같이 설정됩니다.
-  <a Analysis List>엔진 구성</a>.
+  <a Engine Configure>엔진 구성</a>.
   </p>
   <p>
   다음으로, 사용해야 할 책은 그 개봉기 중에서 선택할 수 있습니다

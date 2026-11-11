@@ -25,7 +25,7 @@ set helpText(W,Contents) {<h1>scidCommunity hjälpinnehåll</h1>
   
   <h4>Andra scidCommunity-fönster</h4>
   <ul>
-  <li><a Analysis><b>Analys</b> fönster</a></li>
+  <li><a Engine><b>Analys</b> fönster</a></li>
   <li><a Engine><b>Motor</b> fönster</a></li>
   <li><a Book><b>Boka</b> fönster</a></li>
   <li><a CalVar><b>Beräkning av variationer</b> fönster</a></li>
@@ -75,7 +75,7 @@ set helpText(W,Index) {<h1>scidCommunity Hjälpämnesindex</h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Analysis> Analys</a> fönster</li>
+  <li><a Engine> Analys</a> fönster</li>
   <li><a Annotating>Kommenterande spel</a></li>
   <li><a NAGs>Anteckningssymboler</a></li>
   <li><a Author>Författare, kontaktar</a></li>
@@ -129,7 +129,7 @@ set helpText(W,Index) {<h1>scidCommunity Hjälpämnesindex</h1>
   <li><a ECO Codes>ECO-kodsystem</a></li>
   <li><a ECO>ECO-öppningsklassificering</a></li>
   <li><a Menus Edit>Redigeringsmeny</a></li>
-  <li><a Analysis List>Motorlista</a></li>
+  <li><a Engine Configure>Motorlista</a></li>
   <li><a Engine>Motorfönster</a></li>
   <li><a Moves>Gå in i schackdrag</a></li>
   <li><a EPD>EPD-filer</a></li>
@@ -761,11 +761,11 @@ set helpText(W,Menus) {<h1>scidCommunity menus</h1>
   
   <h3><name Tools>Tools</name></h3>
   <ul>
-  <li><menu>Configure Engines</menu>: Opens the <a Analysis List>engine configuration</a> dialog
+  <li><menu>Configure Engines</menu>: Opens the <a Engine Configure>engine configuration</a> dialog
   to set up chess engines.</li>
   <li><menu>Start Engine 1</menu>: Starts the first chess analysis engine.</li>
   <li><menu>Start Engine 2</menu>: Starts the second chess analysis engine.</li>
-  <li><menu>Analysis Window</menu>: Opens the <a Analysis>analysis window</a>.</li>
+  <li><menu>Analysis Window</menu>: Opens the <a Engine>analysis window</a>.</li>
   <br>
   <li><menu>Filter Graph</menu>: Opens/closes the <a Graphs Filter>filter graph</a> window.</li>
   <li><menu>Absolute Filter Graph</menu>: Opens/closes the absolute filter graph window.</li>
@@ -2444,7 +2444,7 @@ set helpText(W,PGNAutoComment) {<h1>PGN-fönster: Autokommentarknapp </h1>
 set helpTitle(W,AnalysisAutoComment) "Knapp för automatisk kommentar"
 set helpText(W,AnalysisAutoComment) {<h1>Analysfönster: Autokommentarknapp </h1>
   <p>
-  Knappen <b>Auto Comment</b> i fönstret <a Analysis>Analysis Engine</a> låter dig
+  Knappen <b>Auto Comment</b> i fönstret <a Engine>Engine Window</a> låter dig
   generera automatiskt AI-kommentarer för ett helt spel i batch-läge.
   </p>
   
@@ -3195,95 +3195,26 @@ set helpText(W,Flags) {<h1>Spelflaggor</h1>
   Följande funktioner i scidCommunity ställer in eller kräver flaggor:
   <ul>
      <li><a OpeningTrainer>Öppningstränare</a>: kan utvärdera (B) och (W) flaggorna
-     <li><a Analysis Annotate>Hitta bästa drag</a>: utvärderar (T)-flaggan
-     <li><a Analysis Annotate>Hitta taktisk övning</a>: ställer in (T)-flaggan
+     <li><a ReviewSettings>Hitta bästa drag</a>: utvärderar (T)-flaggan
+     <li><a ReviewSettings>Hitta taktisk övning</a>: ställer in (T)-flaggan
   </ul>
   
   <p><footer>(Uppdaterad: scidCommunity, april 2026)</footer></p>
 }
 
 
-set helpTitle(W,Analysis) "Analysfönster"
-set helpText(W,Analysis) {<h1> Analysfönstret </h1>
+set helpTitle(W,Analysis) "Analysis window (retired)"
+set helpText(W,Analysis) {<h1>The Analysis window has been retired</h1>
   <p>
-  Fönstret scidCommunity Analysis visar analys av en schackmotor av
-  nuvarande styrelseuppdrag. När positionen ändras skickar scidCommunity den nya
-  position till motorn och visar dess bedömning. Upp till två analysfönster
-  kan vara öppen samtidigt.
+  The Analysis window and its Annotate dialog are gone. Engine work runs in the
+  <a Engine>Engine windows</a>: <a ReviewGameButton>Game Review</a> and
+  <a ReviewMoveButton>Move Comment</a> write the annotation, and
+  <a ReviewSettings>Review Settings</a> holds their choices. For a selection of
+  games, use <a BatchAnnotate>Batch annotate</a>.
   </p>
 
-  <h3>Knappar</h3>
-  <ul>
-  <li><b>Start/Stopp</b> <button tb_eng_on>: Startar eller stoppar motoranalysen.
-    Kortkommando: F4 för fönster 1, F5 för fönster 2.</li>
-  <li><b>Lås</b> <button tb_lockengine>: Låser motorn till ett fast läge.
-    När den är låst fortsätter motorn att analysera den positionen även när du navigerar
-    till olika rörelser i spelet. Klicka igen för att låsa upp.</li>
-  <li><b>Lägg till drag</b> <button tb_addmove>: Lägger till motorns bästa drag till spelet.</li>
-  <li><b>Lägg till variation</b> <button tb_addvar>: Lägger till motorns bästa linje som
-    en variant av det aktuella spelet.</li>
-  <li><b>Lägg till alla varianter</b> <button tb_addallvars>: Lägger till alla MultiPV-linjer som
-    varianter (för motorer som stöder MultiPV).</li>
-  </ul>
-
-  <h3>Kontroller</h3>
-  <ul>
-  <li><b>Liner (MultiPV)</b>: Spinbox för att ställa in antalet huvudsakliga variationer
-    att visa. Högre värden visar fler kandidatdrag. Tillgängliga alternativ varierar
-    med motor.</li>
-  <li><b>Annotera</b> <button tb_annotate>: Öppnar anteckningskonfigurationen
-    dialogruta för att automatiskt kommentera spel.</li>
-  <li><b>Träning/Autoplay</b> <button tb_training>: Går in i träningsläge där du
-    spela mot motorn, eller autoplay-läge för att automatiskt gå vidare
-    spelet med analys synlig.</li>
-  <li><b>Slutför spelet</b> <button tb_finish_off>: Spelar igenom hela spelet
-    använder motorn, gör rörelser för båda sidor. Öppnar en konfigurationsdialogruta
-    för att ställa in tid/djup per drag och eventuellt lägga till kommentarer.</li>
-  <li><b>Visa kort</b> <button tb_coords>: Visar eller döljer analyskortet
-    visar positionen i slutet av motorns bästa linje.</li>
-  <li><b>Visa info</b> <button tb_engineinfo>: Visar eller döljer ytterligare motor
-    information (tabellbasträffar, noder/sek, hashaanvändning, CPU-belastning).</li>
-  <li><b>Prioritet</b>: Ställer in motorprocessens prioritet till låg eller hög.</li>
-  <li><b>Update</b> <button tb_update>: Tvingar motorn att uppdatera sin analys.</li>
-  </ul>
-
-  <h3>Visningsområde </h3>
-  <p>
-  Huvudtextområdet visar motorns aktuella utvärdering, inklusive:
-  </p>
-  <ul>
-  <li>Poäng i bondenheter (negativt = Svart bättre)</li>
-  <li>Sökdjup nått</li>
-  <li>Principal variation (PV) - den bästa raden av drag</li>
-  </ul>
-  <p>
-  För UCI-motorer med MultiPV > 1 visas flera kandidatlinjer.
-  </p>
-
-  <h3><a Annotate>Kommentera ett spel</h3>
-  <p>
-  Tryck på knappen <b>Annotate</b> för att öppna dialogrutan för anteckningskonfiguration:
-  </p>
-  <ul>
-  <li><b>Tid mellan drag</b>: Sekunder som motorn spenderar på varje position.</li>
-  <li><b>Kommentera alla drag</b> eller <b>Endast misstag</b>: Välj om varje drag
-    blir kommenterade eller bara dåliga drag. Ställ in en blundertröskel i bondenheter.</li>
-  <li><b>Variationer</b>: Inkludera variationer från motorns analys.</li>
-  <li><b>Korta kommentarer</b>: Minimalt format utan motornamn.</li>
-  <li><b>Lägg till poäng</b>: Inkludera utvärderingspoäng i bondenheter.</li>
-  <li><b>Lägg till annotatortagg</b>: Registrerar vilken motor som användes.</li>
-  <li><b>Använd bok</b>: Hoppa över positioner som finns i öppningsboken.</li>
-  <li><b>Kommentera flera spel</b>: Gruppkommentarer flera spel i följd.</li>
-  <li><b>Hitta öppningsfel</b>: Markerar misstag i öppningsfasen.</li>
-  <li><b>Markera taktiska övningar</b>: Skapar träningspositioner (endast UCI-motorer).</li>
-  </ul>
-  <p>
-  Tryck på Escape i huvudfönstret för att avbryta anteckningen när som helst.
-  </p>
-
-  <p><footer>(Uppdaterad: scidCommunity, april 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
 }
-
 
 set helpTitle(W,Engine) "Motorfönster"
 set helpText(W,Engine) {<h1>Motorfönstren</h1>
@@ -3464,7 +3395,7 @@ set helpText(W,EPD) {<h1>EPD-filer</h1>
   <p>
   EPD-filer kan annoteras automatiskt genom att välja Verktyg /
   Anteckna position. Den kommande dialogen frågar efter den tid som
-  ska användas för analysen, sedan <a Analysis List>motorn
+  ska användas för analysen, sedan <a Engine Configure>motorn
   list</a> öppnas för val av en motor som ska användas. <b>Obs</b> Om en
   analysfönstret är redan öppet, analysen görs med detta
   motor utan att fråga användaren i förväg. Då är motorn
@@ -4670,7 +4601,7 @@ set helpText(W,SeriousGame) {<h1>Seriöst spelfönster</h1>
   ges ovanpå fönstret <term>Spelkonfiguration</term>. Den
   knapp <term>Konfigurera UCI-motor</term> ger dessutom åtkomst
   till motorns parametrar. Som standard är de inställda som i
-  <a Analysis List>motorkonfiguration</a>.
+  <a Engine Configure>motorkonfiguration</a>.
   </p>
   <p>
   Därefter kan den bok som ska användas väljas från inledningen

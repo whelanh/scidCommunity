@@ -25,7 +25,7 @@ set helpText(C,Contents) {<h1>scidObsah nápovědy komunity </h1>
   
   <h4>Další okna scidCommunity</h4>
   <ul>
-  <li><a Analysis><b>Analýza</b> okno </a></li>
+  <li><a Engine><b>Analýza</b> okno </a></li>
   <li><a Engine><b>Motor</b> windows</a></li>
   <li><a Book><b>Kniha</b> okno </a></li>
   <li><a CalVar><b>Výpočet variací</b> okno</a></li>
@@ -74,7 +74,7 @@ set helpText(C,Index) {<h1>scidCommunity Rejstřík témat nápovědy </h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Analysis>Analýza</a> okno </li>
+  <li><a Engine>Analýza</a> okno </li>
   <li><a Annotating>Anotování her </a></li>
   <li><a NAGs>Anotační symboly</a></li>
   <li><a Author>Autor, kontaktuji</a></li>
@@ -128,7 +128,7 @@ set helpText(C,Index) {<h1>scidCommunity Rejstřík témat nápovědy </h1>
   <li><a ECO Codes>ECO kódový systém </a></li>
   <li><a ECO>Klasifikace otvorů ECO </a></li>
   <li><a Menus Edit>Nabídka úprav </a></li>
-  <li><a Analysis List>Seznam motorů </a></li>
+  <li><a Engine Configure>Seznam motorů </a></li>
   <li> <a Engine> Okna motoru </a> </li>
   <li><a Moves>Zadávání šachových tahů</a></li>
   <li><a EPD>EPD soubory </a></li>
@@ -762,11 +762,11 @@ set helpText(C,Menus) {<h1>scidCommunity menus</h1>
   
   <h3><name Tools>Tools</name></h3>
   <ul>
-  <li><menu>Configure Engines</menu>: Opens the <a Analysis List>engine configuration</a> dialog
+  <li><menu>Configure Engines</menu>: Opens the <a Engine Configure>engine configuration</a> dialog
   to set up chess engines.</li>
   <li><menu>Start Engine 1</menu>: Starts the first chess analysis engine.</li>
   <li><menu>Start Engine 2</menu>: Starts the second chess analysis engine.</li>
-  <li><menu>Analysis Window</menu>: Opens the <a Analysis>analysis window</a>.</li>
+  <li><menu>Analysis Window</menu>: Opens the <a Engine>analysis window</a>.</li>
   <br>
   <li><menu>Filter Graph</menu>: Opens/closes the <a Graphs Filter>filter graph</a> window.</li>
   <li><menu>Absolute Filter Graph</menu>: Opens/closes the absolute filter graph window.</li>
@@ -2448,7 +2448,7 @@ set helpText(C,PGNAutoComment) {<h1> Okno PGN: Tlačítko automatického koment�
 set helpTitle(C,AnalysisAutoComment) "Tlačítko automatického komentáře"
 set helpText(C,AnalysisAutoComment) {<h1> Okno analýzy: Tlačítko automatického komentáře </h1>
   <p>
-  Tlačítko <b>Auto Comment</b> v okně <a Analysis>Analysis Engine</a> vám umožňuje
+  Tlačítko <b>Auto Comment</b> v okně <a Engine>Engine Window</a> vám umožňuje
   automaticky generovat AI komentář pro celou hru v dávkovém režimu.
   </p>
   
@@ -3203,8 +3203,8 @@ set helpText(C,Flags) {<h1>Vlajky hry</h1>
   Následující funkce scidCommunity nastavují nebo vyžadují příznaky:
   <ul>
      <li><a OpeningTrainer>Úvodní trenér</a>: může vyhodnotit příznaky (B) a (W).
-     <li><a Analysis Annotate>Najděte nejlepší tah</a>: vyhodnotí příznak (T).
-     <li><a Analysis Annotate>Najděte si taktické cvičení</a>: nastaví příznak (T).
+     <li><a ReviewSettings>Najděte nejlepší tah</a>: vyhodnotí příznak (T).
+     <li><a ReviewSettings>Najděte si taktické cvičení</a>: nastaví příznak (T).
   </ul>
   
   <p><footer>(Aktualizováno: scidCommunity, duben 2026)</footer></p>
@@ -3212,87 +3212,18 @@ set helpText(C,Flags) {<h1>Vlajky hry</h1>
 }
 
 
-set helpTitle(C,Analysis) "Analytické okno"
-set helpText(C,Analysis) {<h1> Okno analýzy </h1>
+set helpTitle(C,Analysis) "Analysis window (retired)"
+set helpText(C,Analysis) {<h1>The Analysis window has been retired</h1>
   <p>
-  Okno scidCommunity Analysis ukazuje analýzu pomocí šachového motoru
-  aktuální pozice na desce. Když se pozice změní, scidCommunity odešle novou
-  polohu k motoru a zobrazí jeho vyhodnocení. Až dvě okna analýzy
-  lze otevřít současně.
+  The Analysis window and its Annotate dialog are gone. Engine work runs in the
+  <a Engine>Engine windows</a>: <a ReviewGameButton>Game Review</a> and
+  <a ReviewMoveButton>Move Comment</a> write the annotation, and
+  <a ReviewSettings>Review Settings</a> holds their choices. For a selection of
+  games, use <a BatchAnnotate>Batch annotate</a>.
   </p>
 
-  <h3> Tlačítka </h3>
-  <ul>
-  <li><b>Start/Stop</b> <button tb_eng_on>: Spouští nebo zastavuje analýzu motoru.
-    Klávesová zkratka: F4 pro okno 1, F5 pro okno 2. </li>
-  <li><b>Lock</b> <button tb_lockengine>: Uzamyká motor do pevné polohy.
-    Když je uzamčen, motor pokračuje v analýze této polohy, i když navigujete
-    na různé tahy ve hře. Opětovným kliknutím odemknete. </li>
-  <li><b>Přidat tah</b> <button tb_addmove>: Přidá do hry nejlepší tah motoru.</li>
-  <li><b>Přidat variaci</b> <button tb_addvar>: Přidá nejlepší řadu motoru jako
-    variace na aktuální hru. </li>
-  <li><b>Přidat všechny varianty</b> <button tb_addallvars>: Přidá všechny řady MultiPV jako
-    varianty (pro motory, které podporují MultiPV).</li>
-  </ul>
-
-  <h3>Ovládací prvky </h3>
-  <ul>
-  <li><b>Lines (MultiPV)</b>: Spinbox pro nastavení počtu hlavních variací
-    zobrazit. Vyšší hodnoty ukazují více kandidátských tahů. Dostupné možnosti se liší
-    podle motoru. </li>
-  <li><b>Anotovat</b> <button tb_annotate>: Otevře konfiguraci anotace
-    dialog pro automatické přidávání poznámek ke hrám. </li>
-  <li><b>Trénink/Automatické přehrávání </b> <button tb_training>: Vstoupí do tréninkového režimu, kde
-    hrát proti enginu nebo režim automatického přehrávání pro automatický postup
-    hra s viditelnou analýzou. </li>
-  <li><b>Dokončit hru </b> <button tb_finish_off>: Přehraje celou hru
-    pomocí motoru, dělat pohyby pro obě strany. Otevře konfigurační dialog
-    nastavit čas/hloubku na tah a volitelně přidat anotace.</li>
-  <li><b>Zobrazit panel </b> <button tb_coords>: Zobrazí nebo skryje panel analýzy
-    zobrazení pozice na konci nejlepšího řádku motoru. </li>
-  <li><b>Zobrazit informace</b> <button tb_engineinfo>: Zobrazí nebo skryje další motor
-    informace (zásahy do tabulky, uzly/s, využití hash, zatížení CPU).</li>
-  <li><b>Priorita</b>: Nastaví prioritu procesu motoru na nízkou nebo vysokou. </li>
-  <li><b>Aktualizovat</b> <button tb_update>: Přinutí motor aktualizovat svou analýzu.</li>
-  </ul>
-
-  <h3> Oblast zobrazení </h3>
-  <p>
-  Hlavní textová oblast zobrazuje aktuální hodnocení motoru, včetně:
-  </p>
-  <ul>
-  <li>Skóre v jednotkách pěšce (záporné = lepší černý) </li>
-  <li> Dosažená hloubka vyhledávání </li>
-  <li> Hlavní variace (PV) - nejlepší řada tahů </li>
-  </ul>
-  <p>
-  Pro motory UCI s MultiPV > 1 je zobrazeno několik kandidátních řad.
-  </p>
-
-  <h3><a Annotate>Přidání poznámek ke hře </h3>
-  <p>
-  Stisknutím tlačítka <b>Anotate</b> otevřete dialogové okno konfigurace anotace:
-  </p>
-  <ul>
-  <li><b>Čas mezi pohyby </b>: Sekundy, které motor stráví na každé pozici. </li>
-  <li><b>Anotovat všechny tahy </b> nebo <b>Pouze hrubé chyby </b>: Zvolte, zda každý tah
-    dostane anotaci nebo jen špatné pohyby. Nastavte práh chyby v jednotkách pěšce. </li>
-  <li><b>Varianty</b>: Zahrnuje variace z analýzy motoru.</li>
-  <li><b>Krátké anotace </b>: Minimální formát bez názvů enginu.</li>
-  <li><b>Přidat skóre </b>: Zahrnout hodnocení hodnocení v jednotkách pěšce.</li>
-  <li><b>Přidat značku anotátoru </b>: Zaznamenává, který motor byl použit.</li>
-  <li><b>Use book </b>: Přeskočí pozice, které jsou v úvodní knize.</li>
-  <li><b>Anotovat několik her </b>: Dávkové anotování více her za sebou.</li>
-  <li><b>Najít chyby při otevírání </b>: Označuje chyby ve fázi otevírání.</li>
-  <li><b>Označit taktická cvičení</b>: Vytváří tréninkové pozice (pouze motory UCI).</li>
-  </ul>
-  <p>
-  Chcete-li anotaci kdykoli zrušit, stiskněte Escape v hlavním okně.
-  </p>
-
-  <p><footer>(Aktualizováno: scidCommunity, duben 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
 }
-
 
 set helpTitle(C,Engine) "Okna motoru"
 set helpText(C,Engine) {<h1> Okna motoru </h1>
@@ -3472,7 +3403,7 @@ set helpText(C,EPD) {<h1> soubory EPD </h1>
   <p>
   Soubory EPD mohou být automaticky anotovány výběrem Nástroje /
   Označte pozici. Nadcházející dialog si to vyžádá
-  by měl být pro analýzu použit, pak motor <a Analysis List>.
+  by měl být pro analýzu použit, pak motor <a Engine Configure>.
   seznam </a> se otevře pro výběr motoru, který se má použít. <b>Poznámka </b> Pokud ano
   okno analýzy je již otevřeno, analýza se provádí pomocí tohoto
   motoru, aniž byste se předem zeptali uživatele. Pak je motor
@@ -4679,7 +4610,7 @@ set helpText(C,SeriousGame) {<h1> Okno vážné hry </h1>
   uvedené v horní části okna <term>Game configuration </term>. The
   tlačítko <term>Configure UCI engine </term> navíc umožňuje přístup
   na parametry motoru. Ve výchozím nastavení jsou nastaveny jako v
-  <a Analysis List> konfigurace motoru </a>.
+  <a Engine Configure> konfigurace motoru </a>.
   </p>
   <p>
   Dále je možné z těch otevření vybrat knihu, která by měla být použita

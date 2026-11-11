@@ -25,7 +25,7 @@ set helpText(Q,Contents) {<h1>ScidCommunity Help Contents</h1>
   
   <h4>Інші вікна спільноти scid</h4>
   <ul>
-  <li><a Analysis><b>Вікно аналізу</b></a></li>
+  <li><a Engine><b>Вікно аналізу</b></a></li>
   <li><a Engine><b>Двигун</b> windows</a></li>
   <li><a Book><b>Книга</b> вікно</a></li>
   <li><a CalVar><b> Розрахунок варіацій </b> вікно </a> </li>
@@ -74,7 +74,7 @@ set helpText(Q,Index) {<h1>scidCommunity Help Topic Index</h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Analysis>Вікно аналізу</a></li>
+  <li><a Engine>Вікно аналізу</a></li>
   <li><a Annotating>Коментування ігор</a></li>
   <li><a NAGs>Символи анотації</a></li>
   <li><a Author>Автор, контакт </a></li>
@@ -128,7 +128,7 @@ set helpText(Q,Index) {<h1>scidCommunity Help Topic Index</h1>
   <li><a ECO Codes>Система коду ECO</a></li>
   <li><a ECO>Класифікація отворів ECO</a></li>
   <li><a Menus Edit>Редагувати меню</a></li>
-  <li><a Analysis List>Список двигунів</a></li>
+  <li><a Engine Configure>Список двигунів</a></li>
   <li><a Engine>Вікна двигуна</a></li>
   <li><a Moves>Введення шахових ходів</a></li>
   <li><a EPD>Файли EPD</a></li>
@@ -760,11 +760,11 @@ set helpText(Q,Menus) {<h1>scidCommunity menus</h1>
   
   <h3><name Tools>Tools</name></h3>
   <ul>
-  <li><menu>Configure Engines</menu>: Opens the <a Analysis List>engine configuration</a> dialog
+  <li><menu>Configure Engines</menu>: Opens the <a Engine Configure>engine configuration</a> dialog
   to set up chess engines.</li>
   <li><menu>Start Engine 1</menu>: Starts the first chess analysis engine.</li>
   <li><menu>Start Engine 2</menu>: Starts the second chess analysis engine.</li>
-  <li><menu>Analysis Window</menu>: Opens the <a Analysis>analysis window</a>.</li>
+  <li><menu>Analysis Window</menu>: Opens the <a Engine>analysis window</a>.</li>
   <br>
   <li><menu>Filter Graph</menu>: Opens/closes the <a Graphs Filter>filter graph</a> window.</li>
   <li><menu>Absolute Filter Graph</menu>: Opens/closes the absolute filter graph window.</li>
@@ -2445,7 +2445,7 @@ set helpText(Q,PGNAutoComment) {<h1> Вікно PGN: кнопка автомат
 set helpTitle(Q,AnalysisAutoComment) "Кнопка автоматичного коментаря"
 set helpText(Q,AnalysisAutoComment) {<h1> Вікно аналізу: кнопка автоматичного коментаря </h1>
   <p>
-  Кнопка <b>Auto Comment</b> у вікні <a Analysis>Analysis Engine</a> дозволяє вам
+  Кнопка <b>Auto Comment</b> у вікні <a Engine>Engine Window</a> дозволяє вам
   автоматично створювати коментарі AI для всієї гри в пакетному режимі.
   </p>
   
@@ -3198,8 +3198,8 @@ set helpText(Q,Flags) {<h1>Ігрові прапори</h1>
   Наступні функції scidCommunity встановлюють або вимагають прапорів:
   <ul>
      <li><a OpeningTrainer>Трейнер відкриття</a>: може оцінювати прапори (B) і (W).
-     <li><a Analysis Annotate>Знайдіть найкращий хід</a>: оцінює прапор (T).
-     <li><a Analysis Annotate>Знайдіть тактичну вправу</a>: встановлює прапор (T).
+     <li><a ReviewSettings>Знайдіть найкращий хід</a>: оцінює прапор (T).
+     <li><a ReviewSettings>Знайдіть тактичну вправу</a>: встановлює прапор (T).
   </ul>
   
   <p><footer>(Оновлено: scidCommunity, квітень 2026 р.)</footer></p>
@@ -3207,88 +3207,18 @@ set helpText(Q,Flags) {<h1>Ігрові прапори</h1>
 }
 
 
-set helpTitle(Q,Analysis) "Вікно аналізу"
-set helpText(Q,Analysis) {<h1>Вікно аналізу</h1>
+set helpTitle(Q,Analysis) "Analysis window (retired)"
+set helpText(Q,Analysis) {<h1>The Analysis window has been retired</h1>
   <p>
-  Вікно аналізу scidCommunity показує аналіз шахового механізму
-  поточна позиція ради. Коли позиція змінюється, scidCommunity надсилає нову
-  положення до двигуна та відображає його оцінку. До двох вікон аналізу
-  можуть бути відкриті одночасно.
+  The Analysis window and its Annotate dialog are gone. Engine work runs in the
+  <a Engine>Engine windows</a>: <a ReviewGameButton>Game Review</a> and
+  <a ReviewMoveButton>Move Comment</a> write the annotation, and
+  <a ReviewSettings>Review Settings</a> holds their choices. For a selection of
+  games, use <a BatchAnnotate>Batch annotate</a>.
   </p>
 
-  <h3>кнопки</h3>
-  <ul>
-  <li><b>Пуск/Стоп</b> <button tb_eng_on>: Запуск або зупинка аналізу двигуна.
-    Комбінація клавіш: F4 для вікна 1, F5 для вікна 2.</li>
-  <li><b>Замок</b> <button tb_lockengine>: Фіксує двигун у фіксованому положенні.
-    Коли заблоковано, двигун продовжує аналізувати цю позицію навіть під час навігації
-    на різні рухи в грі. Натисніть ще раз, щоб розблокувати.</li>
-  <li><b>Додати хід</b> <button tb_addmove>: додає в гру найкращий хід двигуна.</li>
-  <li><b>Додайте варіацію</b> <button tb_addvar>: додає найкращу лінію двигуна як
-    варіація поточної гри.</li>
-  <li><b>Додайте всі варіації</b> <button tb_addallvars>: Додає всі лінії MultiPV як
-    варіації (для двигунів, які підтримують MultiPV).</li>
-  </ul>
-
-  <h3>Елементи керування</h3>
-  <ul>
-  <li><b>Лінії (MultiPV)</b>: Spinbox для встановлення кількості основних варіацій
-    для відображення. Вищі значення показують більше ходів кандидатів. Доступні варіанти відрізняються
-    двигуном.</li>
-  <li><b>Анотуйте</b> <button tb_annotate>: відкриває конфігурацію анотації
-    діалогове вікно для автоматичного коментування ігор.</li>
-  <li><b>Навчання/Автовідтворення</b> <button tb_training>: перехід у режим навчання, де ви
-    грати проти двигуна або режим автовідтворення для автоматичного переходу
-    гра з аналізом видно.</li>
-  <li><b>Завершити гру</b> <button tb_finish_off>: грає протягом усієї гри
-    використовуючи двигун, роблячи рухи обома сторонами. Відкриває діалогове вікно налаштування
-    для встановлення часу/глибини на хід і за бажанням додає анотації.</li>
-  <li><b>Показати дошку</b> <button tb_coords>: показує або приховує панель аналізу
-    відображення позиції в кінці найкращої лінії двигуна.</li>
-  <li><b>Показати інформацію</b> <button tb_engineinfo>: Показує або приховує додатковий механізм
-    інформація (звернення до бази даних, вузли/с, використання хешу, навантаження ЦП).</li>
-  <li><b>Пріоритет</b>: встановлює низький або високий пріоритет процесу двигуна.</li>
-  <li><b>оновлення</b> <button tb_update>: змушує механізм оновити свій аналіз.</li>
-  </ul>
-
-  <h3>Область відображення</h3>
-  <p>
-  Основна текстова область показує поточну оцінку двигуна, включаючи:
-  </p>
-  <ul>
-  <li>Оцінка в пішаках (негативний = чорні краще)</li>
-  <li>Досягнута глибина пошуку</li>
-  <li>Основна варіація (PV) - найкраща лінія ходів</li>
-  </ul>
-  <p>
-  Для двигунів UCI з MultiPV > 1 показано декілька рядків кандидатів.
-  </p>
-
-  <h3><a Annotate>Коментування гри</h3>
-  <p>
-  Натисніть <b>Анотуйте</b> кнопка, щоб відкрити діалогове вікно налаштування анотації:
-  </p>
-  <ul>
-  <li><b>Час між ходами</b>: секунди, які двигун витрачає на кожну позицію.</li>
-  <li><b>Коментуйте всі рухи</b> або <b>Тільки ляпи</b>: Виберіть, чи кожен рух
-    отримує коментарі або лише погані рухи. Встановити поріг помилок у пішаках.</li>
-  <li><b>Варіації</b>: Включіть варіації з аналізу двигуна.</li>
-  <li><b>Короткі анотації</b>: Мінімальний формат без назв механізмів.</li>
-  <li><b>Додайте оцінку</b>: Включайте оціночні бали в пішаки.</li>
-  <li><b>Додайте тег анотатора</b>: Записує, який двигун використовувався.</li>
-  <li><b>Використовуйте книгу</b>: пропускає позиції у початковій книзі.</li>
-  <li><b>Прокоментуйте кілька ігор</b>: групове коментування кількох ігор поспіль.</li>
-  <li><b>Знайдіть помилки відкриття</b>: Позначає грубі помилки у початковій фазі.</li>
-  <li><b>Відзначити тактичні заняття</b>: Створює навчальні позиції (тільки для двигунів UCI).</li>
-  </ul>
-  <p>
-  Натисніть Escape у головному вікні, щоб будь-коли скасувати анотацію.
-  </p>
-
-  <p><footer>(Оновлено: scidCommunity, квітень 2026 р.)</footer></p>
-
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
 }
-
 
 set helpTitle(Q,Engine) "Склопідйомники двигуна"
 set helpText(Q,Engine) {<h1>Вікна двигуна </h1>
@@ -3469,7 +3399,7 @@ set helpText(Q,EPD) {<h1>Файли EPD </h1>
   <p>
   EPD-файли можна автоматично анотувати, вибравши Інструменти /
   Анотація позиції. Майбутній діалог вимагає часу, який
-  слід використовувати для аналізу, тоді двигун <a Analysis List>.
+  слід використовувати для аналізу, тоді двигун <a Engine Configure>.
   list</a> відкривається для вибору двигуна для використання. <b>Примітка</b> Якщо ан
   вікно аналізу вже відкрито, аналіз виконується за допомогою цього
   двигун, не запитуючи користувача заздалегідь. Потім двигун є
@@ -4675,7 +4605,7 @@ set helpText(Q,SeriousGame) {<h1>Вікно серйозної гри </h1>
   наведено у верхній частині вікна <term>Конфігурація гри </term>. The
   кнопка <term> Налаштувати механізм UCI </term> додатково надає доступ
   до параметрів двигунів. За замовчуванням вони встановлені як у
-  <a Analysis List> конфігурація двигуна </a>.
+  <a Engine Configure> конфігурація двигуна </a>.
   </p>
   <p>
   Далі з тих, що відкриваються, можна вибрати книгу, якою слід скористатися

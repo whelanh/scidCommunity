@@ -25,7 +25,7 @@ set helpText(K,Contents) {<h1>Continguts d'ajuda de scidCommunity</h1>
   
   <h4>Altres finestres de scidCommunity</h4>
   <ul>
-  <li><a Analysis><b>Anàlisi</b> finestra</a></li>
+  <li><a Engine><b>Anàlisi</b> finestra</a></li>
   <li><a Engine><b>Motor</b> finestres</a></li>
   <li><a Book><b>Llibre</b> finestra</a></li>
   <li><a CalVar><b>Càlcul de variacions</b> finestra</a></li>
@@ -75,7 +75,7 @@ set helpText(K,Index) {<h1>Índex de temes d'ajuda de scidCommunity</h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Analysis>Finestra d'anàlisi </a> </li>
+  <li><a Engine>Finestra d'anàlisi </a> </li>
   <li><a Annotating>Jocs d'anotació</a></li>
   <li><a NAGs>Símbols d'anotació</a></li>
   <li><a Author>Autor, contacte </a></li>
@@ -129,7 +129,7 @@ set helpText(K,Index) {<h1>Índex de temes d'ajuda de scidCommunity</h1>
   <li><a ECO Codes>Sistema de codi ECO</a></li>
   <li><a ECO>Classificació d'obertures ECO</a></li>
   <li><a Menus Edit>Menú d'edició </a></li>
-  <li><a Analysis List>Llista de motors </a></li>
+  <li><a Engine Configure>Llista de motors </a></li>
   <li><a Engine>Finestres del motor </a></li>
   <li><a Moves>Introducció de moviments d'escacs </a></li>
   <li><a EPD>Fitxers EPD </a></li>
@@ -763,11 +763,11 @@ set helpText(K,Menus) {<h1>scidCommunity menus</h1>
   
   <h3><name Tools>Tools</name></h3>
   <ul>
-  <li><menu>Configure Engines</menu>: Opens the <a Analysis List>engine configuration</a> dialog
+  <li><menu>Configure Engines</menu>: Opens the <a Engine Configure>engine configuration</a> dialog
   to set up chess engines.</li>
   <li><menu>Start Engine 1</menu>: Starts the first chess analysis engine.</li>
   <li><menu>Start Engine 2</menu>: Starts the second chess analysis engine.</li>
-  <li><menu>Analysis Window</menu>: Opens the <a Analysis>analysis window</a>.</li>
+  <li><menu>Analysis Window</menu>: Opens the <a Engine>analysis window</a>.</li>
   <br>
   <li><menu>Filter Graph</menu>: Opens/closes the <a Graphs Filter>filter graph</a> window.</li>
   <li><menu>Absolute Filter Graph</menu>: Opens/closes the absolute filter graph window.</li>
@@ -2453,7 +2453,7 @@ set helpText(K,PGNAutoComment) {<h1>Finestra PGN: botó de comentari automàtic 
 set helpTitle(K,AnalysisAutoComment) "Botó de comentari automàtic"
 set helpText(K,AnalysisAutoComment) {<h1>Finestra d'anàlisi: botó de comentari automàtic </h1>
   <p>
-  El botó <b>Auto Comentari </b> a la finestra <a Analysis>Analysis Engine </a> us permet
+  El botó <b>Auto Comentari </b> a la finestra <a Engine>Engine Window </a> us permet
   genera automàticament comentaris d'IA per a un joc sencer en mode per lots.
   </p>
   
@@ -3209,8 +3209,8 @@ set helpText(K,Flags) {<h1>Banderes del joc</h1>
   Les funcions següents de scidCommunity estableixen o requereixen senyals:
   <ul>
      <li><a OpeningTrainer>Formador d'obertura</a>: pot avaluar les banderes (B) i (W).
-     <li><a Analysis Annotate>Troba el millor moviment</a>: avalua la bandera (T).
-     <li><a Analysis Annotate>Troba exercici tàctic</a>: estableix la bandera (T).
+     <li><a ReviewSettings>Troba el millor moviment</a>: avalua la bandera (T).
+     <li><a ReviewSettings>Troba exercici tàctic</a>: estableix la bandera (T).
   </ul>
   
   <p><footer>(Actualitzat: scidCommunity, abril de 2026)</footer></p>
@@ -3218,87 +3218,18 @@ set helpText(K,Flags) {<h1>Banderes del joc</h1>
 }
 
 
-set helpTitle(K,Analysis) "Finestra d'anàlisi"
-set helpText(K,Analysis) {<h1>La finestra d'anàlisi </h1>
+set helpTitle(K,Analysis) "Analysis window (retired)"
+set helpText(K,Analysis) {<h1>The Analysis window has been retired</h1>
   <p>
-  La finestra d'anàlisi scidCommunity mostra l'anàlisi per un motor d'escacs de la
-  posició actual de la junta. Quan la posició canvia, scidCommunity envia el nou
-  posició al motor i mostra la seva valoració. Fins a dues finestres d'anàlisi
-  es pot obrir simultàniament.
+  The Analysis window and its Annotate dialog are gone. Engine work runs in the
+  <a Engine>Engine windows</a>: <a ReviewGameButton>Game Review</a> and
+  <a ReviewMoveButton>Move Comment</a> write the annotation, and
+  <a ReviewSettings>Review Settings</a> holds their choices. For a selection of
+  games, use <a BatchAnnotate>Batch annotate</a>.
   </p>
 
-  <h3>Botons </h3>
-  <ul>
-  <li><b>Start/Stop</b> <button tb_eng_on>: inicia o atura l'anàlisi del motor.
-    Drecera de teclat: F4 per a la finestra 1, F5 per a la finestra 2. </li>
-  <li><b>Bloqueig</b> <button tb_lockengine>: bloqueja el motor en una posició fixa.
-    Quan està bloquejat, el motor continua analitzant aquesta posició fins i tot quan navegueu
-    als diferents moviments del joc. Feu clic de nou per desbloquejar. </li>
-  <li><b>Afegeix moviment</b> <button tb_addmove>: afegeix el millor moviment del motor al joc.</li>
-  <li><b>Afegeix una variació </b> <button tb_addvar>: afegeix la millor línia del motor com
-    una variació del joc actual. </li>
-  <li><b>Afegeix totes les variacions</b> <button tb_addallvars>: afegeix totes les línies MultiPV com a
-    variacions (per a motors compatibles amb MultiPV).</li>
-  </ul>
-
-  <h3>Controls </h3>
-  <ul>
-  <li><b>Línies (MultiPV)</b>: Spinbox per definir el nombre de variacions principals
-    per mostrar. Els valors més alts mostren més moviments candidats. Les opcions disponibles varien
-    per motor. </li>
-  <li><b>Anotar</b> <button tb_annotate>: obre la configuració de l'anotació
-    diàleg per anotar els jocs automàticament. </li>
-  <li><b>Entrament/Reproducció automàtica</b> <button tb_training>: entra al mode d'entrenament on
-    jugar contra el motor o el mode de reproducció automàtica per avançar automàticament
-    el joc amb anàlisi visible.</li>
-  <li><b>Finalitza el joc </b> <button tb_finish_off>: juga durant tot el joc
-    utilitzant el motor, fent moviments per ambdós costats. Obre un diàleg de configuració
-    per establir el temps/profunditat per moviment i, opcionalment, afegeix anotacions. </li>
-  <li><b>Mostra el tauler </b> <button tb_coords>: mostra o amaga el tauler d'anàlisi
-    mostrant la posició al final de la millor línia del motor. </li>
-  <li><b>Mostra informació </b> <button tb_engineinfo>: mostra o amaga el motor addicional
-    informació (accets a la base de taula, nodes/s, ús de hash, càrrega de CPU).</li>
-  <li><b>Prioritat</b>: estableix la prioritat del procés del motor en baixa o alta.</li>
-  <li><b>Actualització</b> <button tb_update>: obliga el motor a actualitzar la seva anàlisi.</li>
-  </ul>
-
-  <h3>Àrea de visualització </h3>
-  <p>
-  L'àrea de text principal mostra l'avaluació actual del motor, que inclou:
-  </p>
-  <ul>
-  <li>Puntuació en unitats de peó (negatiu = millor negre)</li>
-  <li>S'ha arribat a la profunditat de la cerca </li>
-  <li>Variació principal (PV) - la millor línia de moviments </li>
-  </ul>
-  <p>
-  Per als motors UCI amb MultiPV > 1, es mostren diverses línies candidates.
-  </p>
-
-  <h3><a Annotate>Anotar un joc</h3>
-  <p>
-  Premeu el botó <b>Anota </b> per obrir el diàleg de configuració de l'anotació:
-  </p>
-  <ul>
-  <li><b>Temps entre moviments </b>: segons que el motor passa en cada posició. </li>
-  <li><b>Anoteu tots els moviments </b> o <b>Només errors </b>: trieu si cada moviment
-    s'anota o només passa mals moviments. Estableix un llindar d'error en unitats de peons. </li>
-  <li><b>Variacions </b>: inclou les variacions de l'anàlisi del motor. </li>
-  <li><b>Anotacions breus</b>: format mínim sense noms de motor.</li>
-  <li><b>Afegir puntuació </b>: Inclou puntuacions d'avaluació en unitats de peons.</li>
-  <li><b>Afegeix una etiqueta d'anotador </b>: registra quin motor s'ha utilitzat. </li>
-  <li><b>Utilitza el llibre </b>: omet les posicions que es troben al llibre d'obertura.</li>
-  <li><b>Anotar diversos jocs</b>: anoteu per lots diversos jocs en seqüència.</li>
-  <li><b>Trobar errors d'obertura </b>: marca errors en la fase d'obertura.</li>
-  <li><b>Marca exercicis tàctics </b>: crea posicions d'entrenament (només motors UCI).</li>
-  </ul>
-  <p>
-  Premeu Esc a la finestra principal per cancel·lar l'anotació en qualsevol moment.
-  </p>
-
-  <p><footer>(Actualitzat: scidCommunity, abril de 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
 }
-
 
 set helpTitle(K,Engine) "Finestres del motor"
 set helpText(K,Engine) {<h1>Les finestres del motor </h1>
@@ -3479,7 +3410,7 @@ set helpText(K,EPD) {<h1>Fitxers EPD </h1>
   <p>
   Els fitxers EPD es poden anotar automàticament seleccionant Eines /
   Anotar la posició. El proper diàleg demana el temps que
-  s'ha d'utilitzar per a l'anàlisi, després el motor <a Analysis List>.
+  s'ha d'utilitzar per a l'anàlisi, després el motor <a Engine Configure>.
   list</a> s'obre per seleccionar un motor que s'utilitzarà. <b>Nota </b> Si un
   La finestra d'anàlisi ja està oberta, l'anàlisi es fa amb això
   motor sense preguntar prèviament a l'usuari. Llavors el motor està
@@ -4691,7 +4622,7 @@ set helpText(K,SeriousGame) {<h1>Finestra de joc seriós </h1>
   es mostra a la part superior de la finestra <term>Configuració del joc </term>. El
   El botó <term> Configura el motor UCI </term> també dóna accés
   als paràmetres del motor. De manera predeterminada, s'estableixen com a
-  <a Analysis List>configuració del motor </a>.
+  <a Engine Configure>configuració del motor </a>.
   </p>
   <p>
   A continuació, es pot triar entre els que s'obren el llibre que s'ha d'utilitzar

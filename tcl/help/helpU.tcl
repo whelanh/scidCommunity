@@ -25,7 +25,7 @@ set helpText(U,Contents) {<h1>scidCommunity Ohjeen sisältö</h1>
   
   <h4>Muut scidCommunity-ikkunat</h4>
   <ul>
-  <li><a Analysis><b>Analyysi</b> ikkuna</a></li>
+  <li><a Engine><b>Analyysi</b> ikkuna</a></li>
   <li><a Engine><b>Moottori</b> ikkunat</a></li>
   <li><a Book><b>Kirja</b> ikkuna</a></li>
   <li><a CalVar><b>Variaatioiden laskeminen</b> ikkuna</a></li>
@@ -75,7 +75,7 @@ set helpText(U,Index) {<h1>scidCommunity Ohjeaihehakemisto</h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Analysis> Analyysi </a> -ikkuna </li>
+  <li><a Engine> Analyysi </a> -ikkuna </li>
   <li><a Annotating>Pelien merkitseminen </a></li>
   <li><a NAGs> Huomautussymbolit </a></li>
   <li><a Author>Tekijä, ottaa yhteyttä </a></li>
@@ -129,7 +129,7 @@ set helpText(U,Index) {<h1>scidCommunity Ohjeaihehakemisto</h1>
   <li><a ECO Codes>ECO-koodijärjestelmä </a> </li>
   <li><a ECO>ECO-aukkojen luokitus </a> </li>
   <li><a Menus Edit>Muokkaa-valikko </a></li>
-  <li><a Analysis List>Moottoreiden luettelo</a></li>
+  <li><a Engine Configure>Moottoreiden luettelo</a></li>
   <li><a Engine>Moottorin ikkunat </a> </li>
   <li><a Moves>Shakkiliikkeiden kirjoittaminen </a></li>
   <li><a EPD>EPD-tiedostot</a></li>
@@ -761,11 +761,11 @@ set helpText(U,Menus) {<h1>scidCommunity menus</h1>
   
   <h3><name Tools>Tools</name></h3>
   <ul>
-  <li><menu>Configure Engines</menu>: Opens the <a Analysis List>engine configuration</a> dialog
+  <li><menu>Configure Engines</menu>: Opens the <a Engine Configure>engine configuration</a> dialog
   to set up chess engines.</li>
   <li><menu>Start Engine 1</menu>: Starts the first chess analysis engine.</li>
   <li><menu>Start Engine 2</menu>: Starts the second chess analysis engine.</li>
-  <li><menu>Analysis Window</menu>: Opens the <a Analysis>analysis window</a>.</li>
+  <li><menu>Analysis Window</menu>: Opens the <a Engine>analysis window</a>.</li>
   <br>
   <li><menu>Filter Graph</menu>: Opens/closes the <a Graphs Filter>filter graph</a> window.</li>
   <li><menu>Absolute Filter Graph</menu>: Opens/closes the absolute filter graph window.</li>
@@ -2445,7 +2445,7 @@ set helpText(U,PGNAutoComment) {<h1>PGN-ikkuna: Automaattinen kommenttipainike <
 set helpTitle(U,AnalysisAutoComment) "Automaattinen kommenttipainike"
 set helpText(U,AnalysisAutoComment) {<h1> Analyysiikkuna: Automaattinen kommenttipainike </h1>
   <p>
-  <b>Auto Comment</b> -painike <a Analysis>Analysis Engine</a> -ikkunassa mahdollistaa
+  <b>Auto Comment</b> -painike <a Engine>Engine Window</a> -ikkunassa mahdollistaa
   luo automaattisesti tekoälykommentteja koko pelille erätilassa.
   </p>
   
@@ -3196,95 +3196,26 @@ set helpText(U,Flags) {<h1> Peliliput </h1>
   Seuraavat scidCommunityn toiminnot asettavat tai vaativat lippuja:
   <ul>
      <li><a OpeningTrainer> Avauskouluttaja </a>: osaa arvioida (B) ja (W) -liput
-     <li><a Analysis Annotate>Etsi paras liike </a>: arvioi (T)-lipun
-     <li><a Analysis Annotate>Etsi taktinen harjoitus</a>: asettaa (T)-lipun
+     <li><a ReviewSettings>Etsi paras liike </a>: arvioi (T)-lipun
+     <li><a ReviewSettings>Etsi taktinen harjoitus</a>: asettaa (T)-lipun
   </ul>
   
   <p><footer>(Päivitetty: scidCommunity, huhtikuu 2026)</footer></p>
 }
 
 
-set helpTitle(U,Analysis) "Analyysi-ikkuna"
-set helpText(U,Analysis) {<h1> Analyysiikkuna </h1>
+set helpTitle(U,Analysis) "Analysis window (retired)"
+set helpText(U,Analysis) {<h1>The Analysis window has been retired</h1>
   <p>
-  ScidCommunity Analysis -ikkuna näyttää shakkimoottorin tekemän analyysin
-  nykyinen hallituksen asema. Kun sijainti muuttuu, scidCommunity lähettää uuden
-  asento moottoriin ja näyttää sen arvion. Jopa kaksi analyysiikkunaa
-  voi olla auki samanaikaisesti.
+  The Analysis window and its Annotate dialog are gone. Engine work runs in the
+  <a Engine>Engine windows</a>: <a ReviewGameButton>Game Review</a> and
+  <a ReviewMoveButton>Move Comment</a> write the annotation, and
+  <a ReviewSettings>Review Settings</a> holds their choices. For a selection of
+  games, use <a BatchAnnotate>Batch annotate</a>.
   </p>
 
-  <h3> Painikkeet </h3>
-  <ul>
-  <li><b>Käynnistys/Pysäytys</b> <button tb_eng_on>: Käynnistää tai pysäyttää moottorianalyysin.
-    Pikanäppäin: F4 ikkunalle 1, F5 ikkunalle 2. </li>
-  <li><b>Lukko</b> <button tb_lockengine>: Lukitsee moottorin kiinteään asentoon.
-    Kun se on lukittu, moottori jatkaa kyseisen asennon analysointia, vaikka navigoit
-    eri liikkeisiin pelissä. Avaa lukitus napsauttamalla uudelleen. </li>
-  <li><b>Lisää liike </b> <button tb_addmove>: Lisää moottorin parhaan liikkeen peliin.</li>
-  <li><b>Lisää muunnelma </b> <button tb_addvar>: Lisää moottorin parhaan rivin
-    muunnelma nykyiseen peliin. </li>
-  <li><b>Lisää kaikki muunnelmat </b> <button tb_addallvars>: Lisää kaikki MultiPV-rivit
-    muunnelmia (moottoreille, jotka tukevat MultiPV:tä).</li>
-  </ul>
-
-  <h3> Ohjaimet </h3>
-  <ul>
-  <li><b>Lines (MultiPV)</b>: Spinbox määrittää päämuunnelmien määrän
-    näytettäväksi. Suuremmat arvot osoittavat enemmän ehdokkaiden liikkeitä. Saatavilla olevat vaihtoehdot vaihtelevat
-    moottorilla. </li>
-  <li><b>Annotate</b> <button tb_annotate>: Avaa merkintämääritykset
-    valintaikkuna pelien automaattiseen merkintään. </li>
-  <li><b>Treening/Autoplay</b> <button tb_training>: Siirtyy harjoitustilaan, jossa
-    pelata moottoria vastaan tai automaattinen toistotila siirtyäksesi automaattisesti eteenpäin
-    peli, jossa analyysi näkyy. </li>
-  <li><b> Päätä peli </b> <button tb_finish_off>: Toistaa koko pelin
-    käyttää moottoria ja tehdä liikkeitä molemmille puolille. Avaa asetusikkunan
-    asettaaksesi ajan/syvyyden liikettä kohti ja lisää valinnaisesti huomautuksia.</li>
-  <li><b>Näytä taulu</b> <button tb_coords>: Näyttää tai piilottaa analyysitaulun
-    näyttää sijainnin moottorin parhaan rivin lopussa. </li>
-  <li><b>Näytä tiedot</b> <button tb_engineinfo>: Näyttää tai piilottaa lisämoottorin
-    tiedot (taulukkopohjan osumat, solmut/s, hash-käyttö, suorittimen kuormitus).</li>
-  <li><b>Priority</b>: Asettaa moottorin prosessin prioriteetin alhaiseksi tai korkeaksi.</li>
-  <li><b>Päivitä</b> <button tb_update>: Pakottaa moottorin päivittämään analyysinsä.</li>
-  </ul>
-
-  <h3> Näyttöalue </h3>
-  <p>
-  Päätekstialue näyttää moottorin nykyisen arvion, mukaan lukien:
-  </p>
-  <ul>
-  <li>Pistemäärä sotilasyksiköissä (negatiivinen = musta parempi)</li>
-  <li>Hakusyvyys saavutettu </li>
-  <li> Pääasiallinen muunnelma (PV) - paras liikesarja </li>
-  </ul>
-  <p>
-  UCI-moottoreille, joiden MultiPV > 1, näytetään useita ehdokasrivejä.
-  </p>
-
-  <h3><a Annotate>Peliin merkitseminen </h3>
-  <p>
-  Paina <b>Annotate</b> -painiketta avataksesi huomautuksen määritysikkunan:
-  </p>
-  <ul>
-  <li><b> Liikkojen välinen aika </b>: Sekunteja, jotka moottori käyttää kussakin asennossa.</li>
-  <li><b> Merkitse kaikki liikkeet </b> tai <b>Vain kömpelöt </b>: Valitse, onko jokainen liike
-    saa huomautuksia tai vain huonoja liikkeitä. Aseta sotilasyksiköissä virhekynnys.</li>
-  <li><b> Muunnelmat </b>: Sisällytä muunnelmat moottorin analyysistä.</li>
-  <li><b> Lyhyet huomautukset </b>: Minimimuoto ilman moottorin nimiä.</li>
-  <li><b>Lisää pisteet</b>: Sisällytä arviointipisteet sotilasyksiköihin.</li>
-  <li><b>Lisää merkintätunniste </b>: Kirjaa, mitä moottoria käytettiin.</li>
-  <li><b>Käytä kirjaa</b>: Ohittaa paikat, jotka ovat avauskirjassa.</li>
-  <li><b> Merkitse useita pelejä </b>: Merkitse useita pelejä peräkkäin.</li>
-  <li><b>Etsi avausvirheet </b>: Merkitsee virheitä avausvaiheessa.</li>
-  <li><b> Merkitse taktiset harjoitukset</b>: Luo harjoitusasemia (vain UCI-moottorit).</li>
-  </ul>
-  <p>
-  Voit peruuttaa huomautuksen milloin tahansa painamalla Esc-näppäintä pääikkunassa.
-  </p>
-
-  <p><footer>(Päivitetty: scidCommunity, huhtikuu 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
 }
-
 
 set helpTitle(U,Engine) "Moottorin ikkunat"
 set helpText(U,Engine) {<h1> Moottorin ikkunat </h1>
@@ -3465,7 +3396,7 @@ set helpText(U,EPD) {<h1>EPD-tiedostot </h1>
   <p>
   EPD-tiedostot voidaan merkitä automaattisesti valitsemalla Työkalut /
   Merkitse sijainti. Tuleva dialogi pyytää aikaa siihen
-  tulee käyttää analyysiin, sitten <a Analysis List>moottoria
+  tulee käyttää analyysiin, sitten <a Engine Configure>moottoria
   lista </a> avautuu käytettävän moottorin valintaa varten. <b>Huomautus</b> Jos an
   analyysi-ikkuna on jo avattu, analyysi tehdään tämän avulla
   moottoria kysymättä käyttäjältä etukäteen. Sitten moottori on
@@ -4672,7 +4603,7 @@ set helpText(U,SeriousGame) {<h1>Vakava peliikkuna </h1>
   annettu <term>Game configuration </term> -ikkunan yläosassa. The
   painike <term> Konfiguroi UCI-moottori </term> antaa lisäksi pääsyn
   moottorin parametreihin. Oletusarvoisesti ne on asetettu kuten
-  <a Analysis List>moottorikokoonpano </a>.
+  <a Engine Configure>moottorikokoonpano </a>.
   </p>
   <p>
   Seuraavaksi avauksista voidaan valita käytettävä kirja

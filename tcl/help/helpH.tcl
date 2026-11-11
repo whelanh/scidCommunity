@@ -25,7 +25,7 @@ set helpText(H,Contents) {<h1>scidCommunity súgótartalma </h1>
   
   <h4> Egyéb scidCommunity ablakok </h4>
   <ul>
-  <li> <a Analysis> <b> Elemzés </b> ablak </a> </li>
+  <li> <a Engine> <b> Elemzés </b> ablak </a> </li>
   <li> <a Engine> <b> Motor </b> ablakok </a> </li>
   <li><a Book><b>Könyv</b> ablak</a></li>
   <li><a CalVar><b> Változások számítása</b> ablak</a></li>
@@ -74,7 +74,7 @@ set helpText(H,Index) {<h1>scidCommunity súgótéma index </h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Analysis> Elemzés </a> ablak </li>
+  <li><a Engine> Elemzés </a> ablak </li>
   <li><a Annotating>Játékok megjegyzései </a> </li>
   <li><a NAGs> Annotációs szimbólumok </a> </li>
   <li><a Author> Szerző, kapcsolatfelvétel </a> </li>
@@ -128,7 +128,7 @@ set helpText(H,Index) {<h1>scidCommunity súgótéma index </h1>
   <li><a ECO Codes>ECO kódrendszer </a> </li>
   <li><a ECO> ECO nyílások besorolása </a> </li>
   <li><a Menus Edit>Szerkesztés menü</a></li>
-  <li><a Analysis List> Motorlista </a> </li>
+  <li><a Engine Configure> Motorlista </a> </li>
   <li><a Engine> Motorablakok </a> </li>
   <li><a Moves> Sakklépések bevitele </a> </li>
   <li><a EPD>EPD-fájlok </a></li>
@@ -760,11 +760,11 @@ set helpText(H,Menus) {<h1>scidCommunity menus</h1>
   
   <h3><name Tools>Tools</name></h3>
   <ul>
-  <li><menu>Configure Engines</menu>: Opens the <a Analysis List>engine configuration</a> dialog
+  <li><menu>Configure Engines</menu>: Opens the <a Engine Configure>engine configuration</a> dialog
   to set up chess engines.</li>
   <li><menu>Start Engine 1</menu>: Starts the first chess analysis engine.</li>
   <li><menu>Start Engine 2</menu>: Starts the second chess analysis engine.</li>
-  <li><menu>Analysis Window</menu>: Opens the <a Analysis>analysis window</a>.</li>
+  <li><menu>Analysis Window</menu>: Opens the <a Engine>analysis window</a>.</li>
   <br>
   <li><menu>Filter Graph</menu>: Opens/closes the <a Graphs Filter>filter graph</a> window.</li>
   <li><menu>Absolute Filter Graph</menu>: Opens/closes the absolute filter graph window.</li>
@@ -2443,7 +2443,7 @@ set helpText(H,PGNAutoComment) {<h1>PGN ablak: Automatikus megjegyzés gomb </h1
 set helpTitle(H,AnalysisAutoComment) "Automatikus megjegyzés gomb"
 set helpText(H,AnalysisAutoComment) {<h1> Elemző ablak: Automatikus megjegyzés gomb </h1>
   <p>
-  A <b>Auto Comment</b> gomb a <a Analysis>Analysis Engine</a> ablakban lehetővé teszi, hogy
+  A <b>Auto Comment</b> gomb a <a Engine>Engine Window</a> ablakban lehetővé teszi, hogy
   automatikusan generál AI kommentárt egy teljes játékhoz kötegelt módban.
   </p>
   
@@ -3194,95 +3194,26 @@ set helpText(H,Flags) {<h1> Játék zászlók </h1>
   A scidCommunity következő funkciói állítanak be vagy igényelnek jelzőket:
   <ul>
      <li><a OpeningTrainer> Nyitásképző </a>: kiértékeli a (B) és (W) jelzőket
-     <li><a Analysis Annotate> Keresse meg a legjobb lépést </a>: kiértékeli a (T) jelzőt
-     <li><a Analysis Annotate> Taktikai gyakorlat keresése </a>: beállítja a (T) zászlót
+     <li><a ReviewSettings> Keresse meg a legjobb lépést </a>: kiértékeli a (T) jelzőt
+     <li><a ReviewSettings> Taktikai gyakorlat keresése </a>: beállítja a (T) zászlót
   </ul>
   
   <p><footer>(Frissítve: scidCommunity, 2026. április)</footer></p>
 }
 
 
-set helpTitle(H,Analysis) "Elemző ablak"
-set helpText(H,Analysis) {<h1>Az elemzési ablak </h1>
+set helpTitle(H,Analysis) "Analysis window (retired)"
+set helpText(H,Analysis) {<h1>The Analysis window has been retired</h1>
   <p>
-  A scidCommunity Analysis ablakban a sakkmotor által végzett elemzés látható
-  jelenlegi igazgatósági pozíció. Amikor a pozíció megváltozik, a scidCommunity elküldi az újat
-  helyzetét a motorhoz, és megjeleníti annak értékelését. Akár két elemzési ablak
-  egyszerre nyitható.
+  The Analysis window and its Annotate dialog are gone. Engine work runs in the
+  <a Engine>Engine windows</a>: <a ReviewGameButton>Game Review</a> and
+  <a ReviewMoveButton>Move Comment</a> write the annotation, and
+  <a ReviewSettings>Review Settings</a> holds their choices. For a selection of
+  games, use <a BatchAnnotate>Batch annotate</a>.
   </p>
 
-  <h3> Gombok </h3>
-  <ul>
-  <li><b>Start/Stop</b> <button tb_eng_on>: Elindítja vagy leállítja a motorelemzést.
-    Billentyűparancs: F4 az 1. ablakhoz, F5 a 2. ablakhoz. </li>
-  <li><b>Zár</b> <button tb_lockengine>: Rögzíti a motort egy rögzített helyzetbe.
-    Zárt állapotban a motor továbbra is elemzi az adott pozíciót, még akkor is, amikor Ön navigál
-    különböző lépésekre a játékban. Kattintson újra a feloldáshoz. </li>
-  <li><b> Lépés hozzáadása </b> <button tb_addmove>: A motor legjobb mozdulatát adja a játékhoz.</li>
-  <li><b> Változat hozzáadása </b> <button tb_addvar>: hozzáadja a motor legjobb vonalát
-    variáció az aktuális játékhoz. </li>
-  <li><b> Összes változat hozzáadása </b> <button tb_addallvars>: Hozzáadja az összes MultiPV sort mint
-    változatok (a MultiPV-t támogató motorokhoz).</li>
-  </ul>
-
-  <h3> Vezérlőelemek </h3>
-  <ul>
-  <li><b>Lines (MultiPV)</b>: Spinbox a fő változatok számának beállításához
-    megjeleníteni. A magasabb értékek több jelölt lépést jeleznek. Az elérhető opciók eltérőek
-    motor szerint. </li>
-  <li><b>Annotate</b> <button tb_annotate>: Megnyitja a megjegyzés konfigurációt
-    párbeszédpanel a játékok automatikus kommentálásához. </li>
-  <li><b> Edzés/Automatikus lejátszás </b> <button tb_training>: Belép az edzési módba, ahol
-    játszani a motor ellen, vagy az automatikus lejátszás módban, hogy automatikusan továbbléphessen
-    a játék látható elemzéssel. </li>
-  <li><b> Játék befejezése </b> <button tb_finish_off>: végigjátssza a teljes játékot
-    a motor használata, mindkét oldal mozgása. Megnyit egy konfigurációs párbeszédpanelt
-    a lépésenkénti idő/mélység beállításához és opcionálisan megjegyzések hozzáadásához.</li>
-  <li><b> Mutatja a táblát </b> <button tb_coords>: Megjeleníti vagy elrejti az elemző táblát
-    a pozíció megjelenítése a motor legjobb sorának végén. </li>
-  <li><b>Információ megjelenítése</b> <button tb_engineinfo>: További motorok megjelenítése vagy elrejtése
-    információk (táblabázis találatai, csomópontok/sec, hash-használat, CPU terhelés).</li>
-  <li><b>Prioritás</b>: A motorfolyamat prioritását alacsonyra vagy magasra állítja.</li>
-  <li><b>Frissítés</b> <button tb_update>: Kényszeríti a motort az elemzés frissítésére.</li>
-  </ul>
-
-  <h3> Kijelző terület </h3>
-  <p>
-  A fő szövegterület a motor aktuális értékelését mutatja, beleértve:
-  </p>
-  <ul>
-  <li> Pontszám gyalogegységben (negatív = jobb a fekete) </li>
-  <li> Elérte a keresési mélységet </li>
-  <li> Fő variáció (PV) – a legjobb lépéssor </li>
-  </ul>
-  <p>
-  A MultiPV > 1 UCI-motoroknál több jelöltsor is látható.
-  </p>
-
-  <h3><a Annotate>Játékok megjegyzése </h3>
-  <p>
-  Nyomja meg a <b>Annotate</b> gombot a megjegyzés konfigurációs párbeszédablak megnyitásához:
-  </p>
-  <ul>
-  <li><b> A mozgások közötti idő </b>: másodpercek, amelyeket a motor az egyes pozíciókban tölt. </li>
-  <li><b> Minden lépés megjegyzése </b> vagy <b> Csak baklövések </b>: Válassza ki, hogy minden mozdulat
-    megjegyzéseket kap, vagy csak rossz mozdulatokat tesz. Állítson be egy baklövési küszöböt a gyalogegységekben. </li>
-  <li><b> Változatok </b>: A motor elemzéséből származó eltérések szerepeltetése.</li>
-  <li><b>Rövid megjegyzések </b>: Minimális formátum motornevek nélkül.</li>
-  <li><b> Pontszám hozzáadása </b>: Az értékelési pontszámokat gyalog egységekben adja meg.</li>
-  <li><b> Annotátor címke hozzáadása </b>: rögzíti a használt motort.</li>
-  <li><b>Könyv használata </b>: Kihagyja azokat a pozíciókat, amelyek a nyitókönyvben vannak.</li>
-  <li><b> Több játék megjegyzése </b>: Több játék kötegelt annotációja egymás után.</li>
-  <li><b> Nyitási hibák keresése </b>: A nyitási fázisban előforduló hibákat jelzi.</li>
-  <li><b> Taktikai gyakorlatok megjelölése </b>: Képzési pozíciókat hoz létre (csak UCI motoroknál).</li>
-  </ul>
-  <p>
-  A főablakban nyomja meg az Escape billentyűt a kommentár visszavonásához.
-  </p>
-
-  <p><footer>(Frissítve: scidCommunity, 2026. április)</footer></p>
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
 }
-
 
 set helpTitle(H,Engine) "Motor ablakok"
 set helpText(H,Engine) {<h1> A motorablakok </h1>
@@ -3463,7 +3394,7 @@ set helpText(H,EPD) {<h1>EPD fájlok </h1>
   <p>
   Az EPD-fájlok automatikusan annotálhatók az Eszközök /
   Pozíció megjegyzése. A soron következő párbeszéd arra kéri az időt
-  kell használni az elemzéshez, majd a <a Analysis List>motort
+  kell használni az elemzéshez, majd a <a Engine Configure>motort
   A lista</a> megnyílik a használni kívánt motor kiválasztásához. <b>Megjegyzés</b> Ha egy
   Az elemzési ablak már meg van nyitva, az elemzés ennek segítségével történik
   a felhasználó előzetes megkérdezése nélkül. Akkor a motor
@@ -4669,7 +4600,7 @@ set helpText(H,SeriousGame) {<h1> Komoly játékablak </h1>
   a <term>Game configuration</term> ablak tetején található. A
   gomb <term> Az UCI motor konfigurálása </term> emellett hozzáférést biztosít
   a motor paramétereihez. Alapértelmezés szerint úgy vannak beállítva, mint a
-  <a Analysis List>motor konfiguráció </a>.
+  <a Engine Configure>motor konfiguráció </a>.
   </p>
   <p>
   Ezután a nyitók közül választhatjuk ki a használni kívánt könyvet

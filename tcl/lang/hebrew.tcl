@@ -196,10 +196,6 @@ translate V EpdPasteRecord {הדבק רשומה}
 # Tools menu:
 menuText V Tools "כְּלֵי עֲבוֹדָה" 0
 menuText V ToolsConfigureEngines "הגדר מנועים" 10 {נהל את תצורת המנועים}
-menuText V ToolsAnalysis "מנוע ניתוח..." 0 \
-  {הפעל/עצור מנוע ניתוח שחמט}
-menuText V ToolsAnalysis2 "מנוע ניתוח מס' 2..." 17 \
-  {הפעל/עצור את מנוע ניתוח השחמט השני}
 menuText V ToolsEngineWindow "חלון מנוע..." 0 {פתח חלון מנוע שחמט}
 menuText V ToolsCross "שולחן הצלבה" 0 {הצג את טבלת ההצלבה של הטורניר למשחק זה}
 menuText V ToolsFilterGraph "Rel. גרף סינון" 12 {פתח/סגור את חלון גרף הסינון עבור ערכים יחסיים}
@@ -932,7 +928,7 @@ translate V OtherBookMovesTooltip {מהלכים שאליהם יש ליריב ת�
 translate V Alphabetical {אָלֶף בֵּיתִי}
 translate V BookCount {ספרים}
 
-# Analysis Engine open dialog:
+# Configure Engines dialog:
 translate V EngineList {רשימת מנועים לניתוח}
 translate V EngineName {שֵׁם}
 translate V EngineCmd {פְּקוּדָה}
@@ -956,7 +952,6 @@ translate V EngineReload {טען מחדש את המנוע הנוכחי}
 translate V EngineClone {צור עותק של המנוע הנוכחי}
 translate V EngineDuplicate {שכפל}
 translate V EngineDelete {מחק את המנוע הנוכחי}
-translate V EngineOpenAnalysis {פתח את הניתוח}
 translate V EngineOpenWindow {פתח את חלון המנוע}
 
 # PGN window menus:

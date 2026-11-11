@@ -236,10 +236,6 @@ translate J EpdPasteRecord {Налепи запис}
 # Tools menu:
 menuText J Tools "Алати" 0
 menuText J ToolsConfigureEngines "Конфигуришите моторе" 10 {Управљајте конфигурацијом мотора}
-menuText J ToolsAnalysis "Машина за анализу..." 0 \
-  {Покрените/зауставите машину за анализу шаха}
-menuText J ToolsAnalysis2 "Машина за анализу бр. 2..." 17 \
-  {Покрените/зауставите 2. машину за анализу шаха}
 menuText J ToolsEngineWindow "Прозор мотора..." 0 {Отворите прозор шаховске машине}
 menuText J ToolsCross "Цросстабле" 0 {Прикажи унакрсну табелу турнира за ову игру}
 menuText J ToolsFilterGraph "Рел. Филтер Грапх" 12 {Отворите/затворите прозор графикона филтера за релативне вредности}
@@ -972,7 +968,7 @@ translate J OtherBookMovesTooltip {Потези на које противник
 translate J Alphabetical {Абецедно}
 translate J BookCount {Књиге}
 
-# Analysis Engine open dialog:
+# Configure Engines dialog:
 translate J EngineList {Листа механизама за анализу}
 translate J EngineName {Име}
 translate J EngineCmd {Цомманд}
@@ -996,7 +992,6 @@ translate J EngineReload {Поново учитајте тренутни мот�
 translate J EngineClone {Направите копију тренутног мотора}
 translate J EngineDuplicate {Дуплирај}
 translate J EngineDelete {Избришите тренутни мотор}
-translate J EngineOpenAnalysis {Отворена анализа}
 translate J EngineOpenWindow {Отворите прозор мотора}
 
 # PGN window menus:

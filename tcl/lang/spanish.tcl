@@ -213,10 +213,6 @@ translate S EpdPasteRecord {Pegar registro}
 # Tools menu:
 menuText S Tools "Herramientas" 0
 menuText S ToolsConfigureEngines "Configurar motores" 10 {Administrar la configuración de los motores}
-menuText S ToolsAnalysis "Motor de análisis #1..." 0 \
-  {Inicia/para el análisis del motor de ajedrez #1}
-menuText S ToolsAnalysis2 "Motor de análisis #2..." 18 \
-  {Inicia/para el análisis del motor de ajedrez #2}
 menuText S ToolsEngineWindow "Ventana del motor..." 0 {Abrir una ventana del motor de ajedrez}
 menuText S ToolsCross "Tabla cruzada" 0 {Muestra la tabla cruzada para esta partida}
 menuText S ToolsFilterGraph "Filtro gráfico" 7 \
@@ -988,7 +984,7 @@ translate S OtherBookMovesTooltip {Movimientos para los que el oponente tiene un
 translate S Alphabetical {Alfabético}
 translate S BookCount {Libros}
 
-# Analysis Engine open dialog:
+# Configure Engines dialog:
 translate S EngineList {Lista de motores de análisis}
 translate S EngineName {Nombre}
 translate S EngineCmd {Orden}
@@ -1012,7 +1008,6 @@ translate S EngineReload {Recargar el motor actual}
 translate S EngineClone {Crear una copia del motor actual.}
 translate S EngineDuplicate {Duplicar}
 translate S EngineDelete {Eliminar el motor actual}
-translate S EngineOpenAnalysis {Análisis abierto}
 translate S EngineOpenWindow {Abrir ventana del motor}
 
 # PGN window menus:

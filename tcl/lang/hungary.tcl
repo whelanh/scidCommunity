@@ -198,10 +198,6 @@ translate H EpdPasteRecord {Rekord beillesztése}
 # Tools menu:
 menuText H Tools "Eszközök" 0
 menuText H ToolsConfigureEngines "Motorok konfigurálása" 10 {A motorok konfigurációjának kezelése}
-menuText H ToolsAnalysis "Elemzõ motor..." 0 \
-  {Elindít/leállít egy sakkelemzõ programot.}
-menuText H ToolsAnalysis2 "Második elemzõ motor..." 1 \
-  {Elindítja/leállítja a 2. sakkelemzõ programot.}
 menuText H ToolsEngineWindow "Motor ablak..." 0 {Nyissa ki a sakkmotor ablakát}
 menuText H ToolsCross "Versenytáblázat" 0 {Megmutatja az ehhez a játszmához tartozó verseny táblázatát.}
 menuText H ToolsFilterGraph "Szûrõgrafikon" 0 \
@@ -939,7 +935,7 @@ translate H OtherBookMovesTooltip {Azok a lépések, amelyekre az ellenfélnek v
 translate H Alphabetical {Betűrendes}
 translate H BookCount {Könyvek}
 
-# Analysis Engine open dialog:
+# Configure Engines dialog:
 translate H EngineList {Elemzõ motorok listája}
 translate H EngineName {Név}
 translate H EngineCmd {Parancssor}
@@ -963,7 +959,6 @@ translate H EngineReload {Töltse be újra az aktuális motort}
 translate H EngineClone {Készítsen másolatot az aktuális motorról}
 translate H EngineDuplicate {Duplikálás}
 translate H EngineDelete {Törölje az aktuális motort}
-translate H EngineOpenAnalysis {Nyissa meg az Elemzést}
 translate H EngineOpenWindow {Nyissa meg a motor ablakot}
 
 # PGN window menus:

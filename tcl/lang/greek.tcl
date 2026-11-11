@@ -227,10 +227,6 @@ translate G EpdPasteRecord {Επικόλληση εγγραφής}
 # Tools menu:
 menuText G Tools "Εργαλεία" 0
 menuText G ToolsConfigureEngines "Διαμόρφωση μηχανών" 10 {Διαχειριστείτε τη διαμόρφωση των κινητήρων}
-menuText G ToolsAnalysis "Μηχανή ανάλυσης..." 0 \
-  {Εκκίνηση/διακοπή της σκακιστικής μηχανής ανάλυσης}
-menuText G ToolsAnalysis2 "Μηχανής ανάλυσης #2..." 17 \
-  {Εκκίνηση/διακοπή της δεύτερης σκακιστικής μηχανής ανάλυσης}
 menuText G ToolsEngineWindow "Παράθυρο κινητήρα..." 0 {Ανοίξτε ένα παράθυρο σκακιστική μηχανή}
 menuText G ToolsCross "Συγκριτικός πίνακας" 0 {Εμφανήστε τον συγκριτικό πίνακα προκριματικών γι' αυτή τη παρτίδα}
 menuText G ToolsFilterGraph "Γράφημα σχετικού φίλτρου" 12 {Άνοιγμα/κλείσιμο του παραθύρου των φίλτρων γραφημάτων σχετικών τιμών}
@@ -963,7 +959,7 @@ translate G OtherBookMovesTooltip {Κινήσεις για τις οποίες �
 translate G Alphabetical {Αλφαβητική}
 translate G BookCount {Βιβλία}
 
-# Analysis Engine open dialog:
+# Configure Engines dialog:
 translate G EngineList {Λίστα μηχανής ανάλυσης}
 translate G EngineName {Όνομα}
 translate G EngineCmd {Εντολή}
@@ -987,7 +983,6 @@ translate G EngineReload {Φορτώστε ξανά τον τρέχοντα κι
 translate G EngineClone {Δημιουργήστε ένα αντίγραφο του τρέχοντος κινητήρα}
 translate G EngineDuplicate {Αντιγραφή}
 translate G EngineDelete {Διαγράψτε τον τρέχοντα κινητήρα}
-translate G EngineOpenAnalysis {Ανοιχτή Ανάλυση}
 translate G EngineOpenWindow {Ανοίξτε το παράθυρο του κινητήρα}
 
 # PGN window menus:
