@@ -192,28 +192,21 @@ proc engine.singleclick_ {{w} {x} {y}} {
         ::enginelist::sort [$w column $col -id]
     }
 }
-# ::enginelist::freeSlot
-#   Returns the lowest analysis-window slot number (>= 1) that is not
-#   currently in use, so that multiple analysis windows can coexist.
-#
-proc ::enginelist::freeSlot {} {
-    set n 1
-    while {[winfo exists ".analysisWin$n"]} { incr n }
-    return $n
-}
-
 # ::enginelist::openSelected
-#   Opens an analysis window for the engine currently selected in the
-#   engine list, using the lowest free slot. If closeList is true the
-#   engine list dialog is closed afterwards (OK / Return); otherwise it
-#   stays open so several engines can be launched (double-click).
+#   Opens an Engine Window for the preset currently selected in the engine
+#   list. If closeList is true the engine list dialog is closed afterwards
+#   (Open / Return); otherwise it stays open so several engines can be
+#   launched (double-click).
 #
 proc ::enginelist::openSelected {{closeList 1}} {
+    global engines
     set sel [lindex [.enginelist.list.list selection] 0]
     if {$sel eq "" || $sel < 0} { return }
     catch { ::enginelist::setTime $sel }
+    set name [lindex $engines(list) $sel 0]
+    if {$name eq ""} { return }
     if {$closeList} { destroy .enginelist }
-    ::makeAnalysisWin [::enginelist::freeSlot] $sel
+    ::enginewin::start "" $name
 }
 
 proc ::enginelist::choose {} {
@@ -223,7 +216,7 @@ proc ::enginelist::choose {} {
         raise .enginelist
         return }
     win::createDialog $w
-    ::setTitle $w "scidCommunity: [tr ToolsAnalysis]"
+    ::setTitle $w "scidCommunity: [tr ToolsConfigureEngines]"
     ttk::frame $w.buttons
     ttk::frame $w.list
     # Set up enginelist
@@ -263,7 +256,7 @@ proc ::enginelist::choose {} {
         ::utils::tooltip::Set $f.lucaschess [tr LucasChessNoMacOS]
     }
     ttk::label $f.sep -text "   "
-    dialogbutton $f.open -text [tr EngineOpenAnalysis] -command {
+    dialogbutton $f.open -text [tr EngineOpenWindow] -command {
         ::enginelist::openSelected 1
     }
     dialogbutton $f.ok -text "OK" -command {
@@ -477,10 +470,10 @@ proc ::enginelist::edit {index} {
                         {"All files" {"*"} }
                     }
                     set fName [tk_getOpenFile -initialdir $engines(newDir) \
-                        -title "scidCommunity: [tr ToolsAnalysis]" -filetypes $ftype]
+                        -title "scidCommunity: [tr ToolsConfigureEngines]" -filetypes $ftype]
                 } else {
                     set fName [tk_getOpenFile -initialdir $engines(newDir) \
-                        -title "scidCommunity: [tr ToolsAnalysis]"]
+                        -title "scidCommunity: [tr ToolsConfigureEngines]"]
                 }
                 if {$fName != ""} {
                     set engines(newCmd) $fName
