@@ -848,6 +848,10 @@ proc ::reviewdriver::cancel {{restore 1}} {
         set p $pass
         set pass {}
         dict set state state cancelled
+        if {[dict exists $p progressToken] \
+                && [llength [info commands ::reviewprogress::finish]]} {
+            catch { ::reviewprogress::finish [dict get $p progressToken] }
+        }
         if {$restore} { ::reviewdriver::restoreRun $p }
         ::reviewdriver::runDoneHook $p
         return 1
@@ -859,6 +863,10 @@ proc ::reviewdriver::cancel {{restore 1}} {
         set pass {}
         catch { ::reviewverify::stop }
         dict set state state cancelled
+        if {[dict exists $p progressToken] \
+                && [llength [info commands ::reviewprogress::finish]]} {
+            catch { ::reviewprogress::finish [dict get $p progressToken] }
+        }
         if {$restore} { ::reviewdriver::restoreRun $p }
         ::reviewdriver::runDoneHook $p
         return 1

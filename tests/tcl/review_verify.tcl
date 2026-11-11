@@ -422,10 +422,14 @@ puts "\n  Cancel before the idle verifier starts"
 # write the review after the reader stopped it.
 ::fx::reset
 set ::seamCalls {}
+rename ::reviewprogress::finish ::reviewprogress_finish_real_
+set ::finishedTokens {}
+proc ::reviewprogress::finish {token} { lappend ::finishedTokens $token }
 set p2 [dict create map $map plan {1 2 3 4} plies 4 bookEnd 0 mpv 3 \
     writer ::reviewdriver::writeResults verifier Komodo limits {} \
     positions {{0 {position startpos}} {1 {position startpos moves e2e4}}} \
-    cursor [::review::cursorSave] notify 0 coach 0 report 0 token pass2]
+    cursor [::review::cursorSave] notify 0 coach 0 report 0 token pass2 \
+    progressToken reviewProgress1]
 set ::reviewdriver::pass $p2
 set ::reviewdriver::state {}
 ::reviewdriver::runDone [::fx::results]
@@ -434,8 +438,11 @@ checkEq "Cancel sees the pending verifier before it starts" \
 checkEq "with nothing written" [llength $::seamCalls] 0
 checkEq "the run says cancelled" [dict get $::reviewdriver::state state] cancelled
 checkEq "and the pass is gone" [dict size $::reviewdriver::pass] 0
+checkEq "and the progress job is finished" $::finishedTokens reviewProgress1
 pump
 checkEq "the idle callback does not resurrect it" [llength $::seamCalls] 0
+rename ::reviewprogress::finish {}
+rename ::reviewprogress_finish_real_ ::reviewprogress::finish
 
 puts "\n  the batch annotator"
 
