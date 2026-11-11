@@ -19,7 +19,8 @@
 #     path included.
 #
 # Nothing here searches: the caller supplies the results and does the sc_* work.
-# Nothing here writes either, beyond one move's comment and variations.
+# Nothing here writes either, beyond one move's comment, its variations and the
+# marks that go beside them.
 
 namespace eval ::review {
     variable DEFAULTS {
@@ -1416,6 +1417,236 @@ proc ::review::writeMove {ply label eval_cp lines {engine ""}} {
     # placed at all does the start of the line become the safe choice.
     if {$restore < 0} { catch { sc_move ply 0 } }
     return $out
+}
+
+# ── the node writer ─────────────────────────────────────────────────────────
+#
+# ::review::writeMove writes the move at a main-line ply: it finds that ply with
+# `sc_move ply`, which walks the game's own line and leaves every variation. A
+# line map is a different address space - its indexes are line-local, and the
+# same index is a different move on every line through the position. writeNode is
+# writeMove addressed by index, standing on the node with ::review::visitLine,
+# and it writes the same three things: the comment, the alternatives branching
+# from the position before the move, and the marks that go beside them.
+#
+# The move played at the index is the map's own `uci`. Asking the game for it -
+# `playedMove [mainLineMap [sc_game UCI_mainLine]] $index` - is the hazard this
+# writer exists to close: at the same index the main line plays something else,
+# and the played move's own line would then be inserted as an alternative.
+
+# Write one node of a line map.
+#
+#   map      a ::review::currentLineMap dict
+#   index    the line-local index of the move to write (1..plies)
+#   label    the ladder's label for the move
+#   eval_cp  the position's score in centipawns, from the mover's view, or ""
+#   lines    the engine's lines for the position BEFORE the move, as writeMove
+#            takes them, best first
+#   engine   the engine's name for the alternatives' own comment
+#
+# Nothing is cleared and nothing is decided here that belongs to the caller: the
+# previous verdict's marks are ::review::clearMarksAt's, and whether a variation
+# is wanted at all is ::review::variationWanted's.
+#
+# The cursor is left where it was found on every path, refusals included, and the
+# game is never pushed or copied. Returns "" or the reasons nothing, or not
+# everything, was written - a refused alternative is a reason, not a failure of
+# the verdict, exactly as writeMove reports it.
+proc ::review::writeNode {map index label eval_cp lines {engine ""}} {
+    variable nodeReasons
+    set nodeReasons {}
+    set out ""
+    if {![string is integer -strict $index] || $index < 1} {
+        return "index $index is not a move on this line"
+    }
+    set node ""
+    catch { set node [dict get [dict get $map nodes] $index] }
+    if {$node eq ""} {
+        return "index $index is not on this line"
+    }
+    # The move the game played here, as the map records it.
+    set played ""
+    catch { set played [dict get $node uci] }
+    # 1. The node: the verdict comment and the marks that go beside it. Each
+    # phase below stands on the board through visitLine, which saves the cursor
+    # once, walks, and restores it: this proc takes no save of its own, because
+    # cursorSave leaves the board on the base ply and a save taken here would be
+    # the wrong position for the walk to put back.
+    set r {}
+    set exact 1
+    if {[catch {
+        set r [visitLine $map [list $index] \
+            [list ::review::writeNodeVerdict $label $eval_cp]]
+    } err]} {
+        lappend out "index $index: $err"
+        set exact 0
+    } elseif {![dict exists $r restored] || [dict get $r restored] != 1} {
+        lappend out "index $index is not on this line"
+        set exact 0
+    }
+    # 2. The diagram on the move before, where the mistake was played. 0 is also
+    # what setDiagramAt answers for a diagram that is already there, so its
+    # answer cannot tell a refusal from a mark that was ours already: it is not
+    # read as one.
+    set diagram 0
+    catch { set diagram [::review::get diagram] }
+    if {$exact && $diagram && $index >= 2 &&
+            ($label eq "mistake" || $label eq "blunder")} {
+        catch { setDiagramAt $map $index 1 }
+    }
+    # 3. The alternatives, from the position before the move. Last, because an
+    # insertion renumbers the siblings at that branch point and every walk to the
+    # node above has already been made.
+    if {$exact && [llength $lines]} {
+        if {[writeNodeAlternatives $map $index $engine $lines $played] != 1} {
+            lappend nodeReasons "index $index: the alternatives could not be written"
+        }
+    }
+    foreach why $nodeReasons { lappend out $why }
+    # Nothing else puts the board back: the walks do it themselves, and a walk
+    # that stopped because the line is not what the map described leaves it on
+    # the base ply - a known position, which is the same fallback ::review::cursorRestore
+    # takes when the line it recorded is gone.
+    return $out
+}
+
+# The body writeNode's first walk runs with the cursor on the node: the comment
+# the main-line writer writes, then the marks the driver keeps beside it. A
+# refusal is a reason in ::review::nodeReasons, never an exception - an
+# exception aborts the walk.
+proc ::review::writeNodeVerdict {label eval_cp node} {
+    variable nodeReasons
+    # stripReviewTokens is the review's own strip: it takes our label, in the
+    # language it was written in, and the [%eval] beside it, and keeps the
+    # reader's prose - a [Coach] line among it. ::reviewcoach::strip is the
+    # coach's own strip and would take that line with ours, so it is not used
+    # here.
+    sc_pos setComment [mergeComment \
+        [stripReviewTokens [sc_pos getComment]] \
+        [::commentcolors::wrapReview [commentText $label $eval_cp]]]
+    set i [dict get $node index]
+    # A move mark the user put there is theirs: AddNag replaces it in place, so
+    # ours is written only when the move has none. AddNag has a fixed capacity
+    # and sc_pos ignores its refusal, so the mark is read back.
+    set nag [nagForLabel $label]
+    if {$nag ne "" && ![hasMoveNag]} {
+        addNagIfAbsent $nag
+        if {[lsearch -exact [nags] $nag] < 0} {
+            lappend nodeReasons "index $i: no room for the $nag mark"
+        }
+    }
+    # The position assessment, from the same score the [%eval] shows. A quiet
+    # verdict carries none, and one already on the move would contradict the
+    # score just written.
+    set assess ""
+    if {$nag ne ""} { set assess [assessmentNag $eval_cp] }
+    if {$assess ne ""} {
+        setAssessment $assess
+        if {[lsearch -exact [nags] $assess] < 0} {
+            lappend nodeReasons "index $i: no room for the $assess assessment"
+        }
+    } else {
+        dropAssessment
+    }
+    return
+}
+
+# The alternatives for the node at `index`, from the position before it. Returns
+# the walk's own report, as visitLine does: 1 the cursor is back exactly, 0 the
+# line is not what the map described, -1 the cursor could not be read.
+proc ::review::writeNodeAlternatives {map index engine lines played} {
+    variable nodeReasons
+    if {$index >= 2} {
+        set r {}
+        if {[catch {
+            set r [visitLine $map [list [expr {$index - 1}]] \
+                [list ::review::writeNodeBranch $index $engine $lines $played]]
+        } err]} {
+            lappend nodeReasons \
+                "index $index: the alternatives could not be inserted: $err"
+            return -1
+        }
+        if {[dict exists $r restored]} { return [dict get $r restored] }
+        return -1
+    }
+    # index 1: the position before the first move is the start of the line. The
+    # map records it as node 0, but visitLine's walk begins at the first move and
+    # never visits it - `sc_move ply 0` is where that walk starts, and it is the
+    # same position however deep the line's branch is.
+    set cursor ""
+    if {[catch { set cursor [cursorSave] }]} { return -1 }
+    set exact 1
+    if {[catch {
+        sc_move ply 0
+        writeNodeBranch $index $engine $lines $played \
+            [dict create index 0 ply 0 route {}]
+    } err]} {
+        lappend nodeReasons "index 1: the alternatives could not be inserted: $err"
+        set exact 0
+    }
+    if {[cursorRestore $cursor] != 1} { set exact 0 }
+    return $exact
+}
+
+# The body the alternatives walk runs with the cursor on the position the
+# variations branch from: the move at `index` has been played, so this is the
+# position before it and `sc_var create` adds a sibling of the line the reader is
+# on rather than a variation of the move itself.
+proc ::review::writeNodeBranch {index engine lines played node} {
+    variable nodeReasons
+    # The variations already here, by their first move: a second review must not
+    # duplicate one, and var_lines > 1 must still add each distinct line. The list
+    # is read before the first create, and again from the map each time a line is
+    # added, so a line is never inserted twice by one write.
+    set existing {}
+    catch { set existing [sc_var list UCI] }
+    foreach pv [selectLines $lines $played] {
+        set first [lindex $pv 0]
+        if {$first eq "" || [lsearch -exact $existing $first] >= 0} { continue }
+        # A variation the game refuses part-way is not a variation: the engine's
+        # line is inserted whole or dropped whole, and a half-written one is
+        # deleted rather than left behind.
+        set bad ""
+        set firstMove 1
+        if {[catch {
+            sc_var create
+            foreach uci $pv {
+                if {[::uci::sc_move_add $uci]} {
+                    set bad "the variation move $uci was rejected"
+                    break
+                }
+                # The engine's name belongs to the variation it opened, not to
+                # the line beside it.
+                if {$firstMove && $engine ne ""} {
+                    markVariation $engine
+                    set firstMove 0
+                }
+            }
+            if {$bad eq ""} {
+                sc_var exit
+            } else {
+                catch { sc_var delete }
+            }
+        } err]} {
+            catch { sc_var delete }
+            catch { sc_var exit }
+            if {$bad eq ""} { set bad "the variation could not be inserted: $err" }
+        }
+        if {$bad ne ""} {
+            lappend nodeReasons "index $index: $bad"
+            # A body that lost the board cannot write the next line: another
+            # create here would branch from the wrong position.
+            set here ""
+            catch { set here [sc_pos location] }
+            if {$here ne "" && [dict exists $node ply] &&
+                    $here != [dict get $node ply]} {
+                return
+            }
+            continue
+        }
+        lappend existing $first
+    }
+    return
 }
 
 # Whether a verdict should carry a variation at all. A variation is the move

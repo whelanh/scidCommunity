@@ -1215,6 +1215,195 @@ checkEq "and the user's own note is not a verdict to clear" \
     [::review::clearMarksAt $map 4] 0
 checkEq "the user's note is still there" [fakeGet [lindex $var 0] comment] "A note of the user's."
 
+puts "writing one node"
+
+# The writer addressed by index. It writes what ::review::writeMove writes for a
+# main-line ply - the comment, the variations - plus the marks the driver keeps
+# beside them, on the node the map names. The move played at the index is the
+# map's own `uci`: reading it off the game's main line would answer about
+# another line at the same ply, which is the bug the card exists for.
+
+::review::reset
+::review::setValue var_lines 1
+
+# A verdict on a variation node, and the main-line move at the same ply left
+# byte-identical.
+fakeBoard {e2e4 e7e5 g1f3 b8c6 f1b5 a7a6}
+set var [fakeVariation [fakeAtPly 3] {c7c5 g1f3 d7d6}]
+fakeCursorAt [lindex $var 1]
+set map [::review::currentLineMap]
+checkEq "the node at index 5 is the variation's second move" [dict get $map moves 5] g1f3
+set mainComment [fakeGet [fakeAtPly 5] comment]
+set before [fakeWhere]
+checkEq "a verdict on a node succeeds" [::review::writeNode $map 5 blunder -120 {}] {}
+check "and lands on the variation node" \
+    [string match {*\[blunder\]*} [fakeGet [lindex $var 1] comment]]
+check "with the evaluation beside it" \
+    [string match {*\[%eval -1.20\]*} [fakeGet [lindex $var 1] comment]]
+checkEq "the main-line move at the same ply keeps its comment" \
+    [fakeGet [fakeAtPly 5] comment] $mainComment
+checkEq "and the cursor is where it was found" [fakeWhere] $before
+
+# A re-run replaces in place: one verdict, one [%eval], one colour span. The
+# reader's prose and a [Coach] line survive - the review's own strip keeps them,
+# and ::reviewcoach::strip is not the strip a verdict replacement uses.
+set node [lindex $var 1]
+set old [::commentcolors::wrapReview {[blunder] [%eval -1.20]}]
+fakeSet $node comment "My note. \[Coach\] This keeps the tension. $old"
+checkEq "a re-run at the same node succeeds" [::review::writeNode $map 5 mistake -60 {}] {}
+set c [fakeGet $node comment]
+checkEq "one verdict" \
+    [llength [regexp -all -inline {\[(?:best|excellent|good|inaccuracy|mistake|blunder|brilliant|great|miss)\]} $c]] 1
+checkEq "one evaluation" [llength [regexp -all -inline {\[%eval [^\]]*\]} $c]] 1
+checkEq "one colour span" [llength [regexp -all -inline {<span style=} $c]] 1
+check "the new verdict is the one in the comment" [string match {*\[mistake\]*} $c]
+check "the reader's prose survives" [string match {*My note.*} $c]
+check "and the coach line" [string match {*\[Coach\] This keeps the tension.*} $c]
+checkEq "the cursor is where it was found" [fakeWhere] $before
+
+# The alternatives branch from the position BEFORE the node - index-1 - never
+# from the main line at the same ply. The played move's own line and a first
+# move already there are not inserted; the line that is left is marked with the
+# engine's name on its own first move.
+fakeBoard {e2e4 e7e5 g1f3 b8c6 f1b5 a7a6}
+::review::setValue var_lines 2
+set var [fakeVariation [fakeAtPly 3] {c7c5 g1f3 d7d6}]
+fakeVariation [lindex $var 1] {b7b6 g8f6}
+fakeCursorAt [lindex $var 2]
+set map [::review::currentLineMap]
+set before [fakeWhere]
+set ::calls {}
+checkEq "a node with alternatives is written" \
+    [::review::writeNode $map 6 blunder -120 {{-120 d7d6} {-200 b7b6} {-260 d7d5}} Stockfish] {}
+check "the played move's own line is not inserted" \
+    [expr {[lsearch -exact $::calls {add d7d6}] < 0}] $::calls
+check "a first move already there is not inserted again" \
+    [expr {[lsearch -exact $::calls {add b7b6}] < 0}] $::calls
+check "the line that is left is inserted" \
+    [expr {[lsearch -exact $::calls {add d7d5}] >= 0}] $::calls
+checkEq "one variation is created" [llength [lsearch -all $::calls {var create}]] 1
+set vars [fakeGet [lindex $var 1] vars]
+set firsts {}
+foreach v $vars { lappend firsts [fakeGet $v uci] }
+checkEq "at index-1, beside the line the reader is in" $firsts {b7b6 d7d5}
+checkEq "and not at the branch point on the main line" \
+    [llength [fakeGet [fakeAtPly 3] vars]] 1
+set newVar [lindex $vars 1]
+checkEq "the new variation is marked with the engine" \
+    [fakeGet $newVar comment] Stockfish
+checkEq "the cursor is where it was found" [fakeWhere] $before
+
+# A line the game refuses part-way is not a variation: it is deleted whole, so
+# nothing is left behind, and the refusal is reported.
+fakeBoard {e2e4 e7e5 g1f3 b8c6 f1b5 a7a6}
+set var [fakeVariation [fakeAtPly 3] {c7c5 g1f3 d7d6}]
+fakeCursorAt [lindex $var 2]
+set map [::review::currentLineMap]
+namespace eval ::uci {
+    proc sc_move_add {moves} {
+        lappend ::calls [list add $moves]
+        fakeAddMove $moves
+        if {$moves eq "d7d5"} { return 1 }
+        return 0
+    }
+}
+set ::calls {}
+set why [::review::writeNode $map 6 blunder -120 {{-260 d7d5}} Stockfish]
+check "a refused line is reported" [expr {$why ne ""}]
+check "and names the move that was rejected" [string match {*d7d5*} $why]
+check "the half-written variation is deleted, not left behind" \
+    [expr {[lsearch -exact $::calls {var delete}] >= 0}] $::calls
+checkEq "nothing is left at index-1" [fakeGet [lindex $var 1] vars] {}
+check "the verdict comment still landed" \
+    [string match {*\[blunder\]*} [fakeGet [lindex $var 2] comment]]
+namespace eval ::uci {
+    proc sc_move_add {moves} {
+        lappend ::calls [list add $moves]
+        fakeAddMove $moves
+        return 0
+    }
+}
+
+# The first move has no predecessor to hang D on: the mark is written on the
+# node and nowhere else.
+::review::reset
+fakeBoard {e2e4 e7e5 g1f3}
+set var [fakeVariation [fakeAtPly 2] {c7c5}]
+fakeCursorAt [lindex $var 0]
+set map [::review::currentLineMap]
+checkEq "a first move is written" [::review::writeNode $map 1 blunder -120 {}] {}
+checkEq "and carries its label's NAG" [fakeGet [fakeAtPly 1] nags] {?? =+}
+checkEq "with no diagram on the start position" [fakeGet [fakeAtPly 0] nags] {}
+
+# The marks on a node: the NAG the label implies, the assessment from the same
+# score, and the diagram on the move BEFORE - where the mistake was played -
+# never on the main-line move of the same ply.
+::review::reset
+fakeBoard {e2e4 e7e5 g1f3 b8c6 f1b5 a7a6}
+set var [fakeVariation [fakeAtPly 3] {c7c5 g1f3 d7d6}]
+fakeCursorAt [lindex $var 2]
+set map [::review::currentLineMap]
+set before [fakeWhere]
+checkEq "a labelled node is written" [::review::writeNode $map 6 blunder -120 {}] {}
+checkEq "the label's NAG is on the node" [fakeGet [lindex $var 2] nags] {?? =+}
+checkEq "the diagram is on the move before" [fakeGet [lindex $var 1] nags] {D}
+checkEq "not on the main-line move of the same ply" [fakeGet [fakeAtPly 5] nags] {}
+checkEq "and the cursor is where it was found" [fakeWhere] $before
+# A move that already carries a mark of its own keeps it: AddNag would replace
+# it in place, and the assessment goes beside it.
+fakeSet [lindex $var 0] nags {!}
+set map [::review::currentLineMap]
+::review::writeNode $map 4 great 20 {}
+checkEq "a user's own mark is not overwritten" [fakeGet [lindex $var 0] nags] {! =}
+# With the diagram switch off the verdict is written without a diagram: the mark
+# belongs to the whole-game layer that ::reviewdriver gates, not to the verdict.
+::review::setValue diagram 0
+set map [::review::currentLineMap]
+::review::writeNode $map 5 mistake -60 {}
+checkEq "the diagram switch off writes no diagram" \
+    [lsearch -exact [fakeGet [lindex $var 0] nags] D] -1
+::review::setValue diagram 1
+
+# A variation of the game's first move: the position before index 1 is the root,
+# which no index of the map addresses and the walk never visits.
+::review::reset
+::review::setValue var_lines 1
+fakeBoard {e2e4 e7e5}
+set var [fakeVariation [fakeAtPly 0] {d2d4 d7d5}]
+fakeCursorAt [lindex $var 0]
+set map [::review::currentLineMap]
+checkEq "a root variation line" [list [dict get $map plies] [dict get $map anchors]] {2 d2d4}
+set ::calls {}
+checkEq "its first node is written" [::review::writeNode $map 1 blunder -120 {{-120 c2c4}} Stockfish] {}
+check "the alternative is inserted at the root" \
+    [expr {[lsearch -exact $::calls {add c2c4}] >= 0}] $::calls
+checkEq "beside the line the reader is in" [llength [fakeGet [fakeAtPly 0] vars]] 2
+
+# An index that is not on the line is refused, and nothing is written.
+fakeBoard $game
+set var [fakeVariation [fakeAtPly 3] {c7c5 g1f3 d7d6}]
+fakeCursorAt [lindex $var 1]
+set map [::review::currentLineMap]
+set before [fakeWhere]
+checkEq "an index past the line is refused" \
+    [::review::writeNode $map 9 blunder -120 {}] {index 9 is not on this line}
+checkEq "leaving the cursor where it was" [fakeWhere] $before
+
+# A line that no longer matches the map - a sibling inserted at the branch
+# renumbers the variation the map was built from - is refused before anything is
+# written on the wrong node.
+fakeBoard $game
+set first [fakeVariation [fakeAtPly 3] {c7c5 g1f3 d7d6}]
+fakeCursorAt [lindex $first 1]
+set map [::review::currentLineMap]
+fakeVariation [fakeAtPly 3] {b7b6 g1f3} 0
+set why [::review::writeNode $map 5 blunder -120 {}]
+check "a renumbered line is refused" [expr {$why ne ""}]
+checkEq "and nothing is written on the variation it left" \
+    [fakeGet [lindex $first 1] comment] {}
+checkEq "nor on the main-line move of the same ply" [fakeGet [fakeAtPly 5] nags] {}
+checkEq "the board is left on the base ply" [list [sc_pos location] [sc_var level]] {3 0}
+
 puts "\nsaved settings"
 # Review Settings is an ordinary preference: the values are option variables, and
 # the working copy starts from them. This is what a restart looks like.
