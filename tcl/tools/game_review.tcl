@@ -621,6 +621,375 @@ proc ::review::cursorRestore {state} {
     return $exact
 }
 
+# ── the line the cursor stands on ───────────────────────────────────────────
+#
+# Game Review judges the line the user is looking at. A line is addressed by
+# ROUTE - the main-line prefix up to the branch, then the variation number
+# entered at each level, outermost first - and keyed by line-local index, the
+# shape mainLineMap already has: index 0 is the start position and 1..N are the
+# moves. The plan, the searched positions and the verdict layer therefore read
+# either map without changing.
+#
+# `ply` - the absolute sc_pos location - is carried per node for diagnostics and
+# for the diagram check. It is never a key: the same ply is on every line that
+# passes through it.
+
+# The move that led to the position the board is on, as UCI; "" at the start of
+# the game and at a null move. A null move is spelled 0000 in UCI and stands in
+# for its own ply with a position header, so it is recorded as no move - the
+# same thing mainLineMap does with the header it sees there.
+proc ::review::nodeMove {} {
+    set move ""
+    catch { set move [sc_game info previousMoveUCI] }
+    if {$move eq "0000"} { set move "" }
+    return $move
+}
+
+# And its SAN, for the node's readable name.
+proc ::review::nodeSan {} {
+    set san ""
+    catch { set san [sc_game info previousMove] }
+    return $san
+}
+
+# Everything the map and the writer need about the position the board is on.
+# `move` is passed in when the caller already knows it - the anchor that
+# sc_var enter played - so the node and the anchor cannot disagree.
+proc ::review::lineNode {index route {move ""}} {
+    set ply 0
+    catch { set ply [sc_pos location] }
+    set fen ""
+    catch { set fen [sc_pos fen] }
+    set comment ""
+    catch { set comment [sc_pos getComment] }
+    if {$move eq ""} { set move [nodeMove] }
+    return [dict create index $index route $route ply $ply fen $fen \
+        uci $move san [nodeSan] comment $comment \
+        hasVerdict [expr {[labelOfComment $comment] ne ""}]]
+}
+
+# The line the cursor is on, as a route-addressed map.
+#
+#   cursor   a ::review::cursorSave dict, or one taken now
+#
+# Returns a dict:
+#   plies       N, moves on the line
+#   moves       index -> UCI played there ("" for a null move)
+#   positions   index -> "position ..." spec of the position AFTER that index
+#   nodes       index -> {index route ply fen uci san comment hasVerdict}
+#   judged      indices to search and write (see below)
+#   context     the indices left alone because they already carry a verdict
+#   cursor      the captured cursor
+#   cursorRoute variation numbers of the cursor, outermost first
+#   cursorIndex base + sum of the route's depths: the move under the cursor
+#   anchors     the first move of each route level, outermost first
+#   lineKind    "main" | "variation"
+#
+# A variation line is the main-line prefix 1..base, then each route level's
+# moves up to the next branch, then the innermost variation to its leaf. Either
+# way the line runs to its end, not to the point the cursor stands on: on the
+# main line that makes the map exactly mainLineMap's, inside a variation it makes
+# the map the whole of that variation.
+#
+# The anchors exist because cursorSave records numbers and depths but not
+# first moves, and `sc_var enter` both moves into a variation and plays its
+# first move: the first move of each level has to be read before entering, or a
+# sibling renumbered by an insertion would send the walk into another line.
+#
+# `judged` is the moves whose comment carries no verdict, so a review completes
+# a partly labelled line node by node. A line whose every move is already
+# labelled is judged whole rather than silently writing nothing - the main line
+# already behaves so - and `context` is then empty.
+#
+# The board is left exactly where the cursor was; a restore that is not exact
+# aborts the map with an error, so a caller that cannot trust the board never
+# gets a map to write from.
+proc ::review::currentLineMap {{cursor ""}} {
+    if {$cursor eq ""} { set cursor [cursorSave] }
+    # A map is only worth building from a cursor it can describe: a caller that
+    # hands over something else would otherwise get a one-node map that looks
+    # like the start of the game.
+    set base 0
+    set path {}
+    if {[catch {
+        set base [dict get $cursor base]
+        set path [dict get $cursor path]
+    }]} {
+        error "the cursor is not a cursorSave dict"
+    }
+    set cursorRoute {}
+    foreach step $path { lappend cursorRoute [lindex $step 0] }
+    set nodes [dict create]
+    set moves [dict create]
+    set positions [dict create]
+    set anchors {}
+    set plies 0
+    set why ""
+    if {[catch {
+        # cursorSave walked out of every variation to the main-line base ply.
+        # The walk starts at the root and reads every position off the board
+        # itself, so a line map and a game map cannot disagree about where a
+        # move leaves the position.
+        sc_move ply 0
+        dict set positions 0 [sc_game UCI_currentPos]
+        dict set nodes 0 [lineNode 0 {} ""]
+        for {set i 1} {$i <= $base} {incr i} {
+            if {[sc_move forward 1] < 1} {
+                error "the main line is shorter than the cursor's base ply"
+            }
+            set plies $i
+            set node [lineNode $i {}]
+            dict set nodes $i $node
+            dict set moves $i [dict get $node uci]
+            dict set positions $i [sc_game UCI_currentPos]
+        }
+        # One level at a time: read the anchors at the branch point, enter,
+        # then walk the moves the cursor had played inside that variation.
+        set level 0
+        set extend 1
+        foreach step $path {
+            lassign $step number depth
+            # `moves 0` in cursorSave can only be an empty variation: there is no
+            # move to record and nothing to descend into, so the line ends at
+            # the branch point and the level contributes no node and no anchor.
+            if {$depth < 1} {
+                set extend 0
+                break
+            }
+            set sibs {}
+            catch { set sibs [sc_var list UCI] }
+            set anchor [lindex $sibs $number]
+            if {$anchor eq ""} {
+                error "variation $number is not on this line"
+            }
+            lappend anchors $anchor
+            sc_var enter $number
+            incr plies
+            set route [lrange $cursorRoute 0 $level]
+            set node [lineNode $plies $route $anchor]
+            dict set nodes $plies $node
+            dict set moves $plies $anchor
+            dict set positions $plies [sc_game UCI_currentPos]
+            for {set k 1} {$k < $depth} {incr k} {
+                if {[sc_move forward 1] < 1} {
+                    error "the variation is shorter than the cursor"
+                }
+                incr plies
+                set node [lineNode $plies $route]
+                dict set nodes $plies $node
+                dict set moves $plies [dict get $node uci]
+                dict set positions $plies [sc_game UCI_currentPos]
+            }
+            incr level
+        }
+        # To the leaf: the line is reviewed to its end, not to the point the
+        # cursor happens to stand on. On the main line that is the whole game, so
+        # a main-line map is mainLineMap's; inside a variation it is that
+        # variation's leaf. `sc_move forward` answers 0 at the end of the line,
+        # which is the loop `sc_move endVar` runs - kept explicit because every
+        # position on the way is a node of the map.
+        if {$extend} {
+            set route $cursorRoute
+            while {[sc_move forward 1] > 0} {
+                incr plies
+                set node [lineNode $plies $route]
+                dict set nodes $plies $node
+                dict set moves $plies [dict get $node uci]
+                dict set positions $plies [sc_game UCI_currentPos]
+            }
+        }
+    } err]} {
+        set why $err
+    }
+    # The board goes back before anything else is decided: a map that moves the
+    # cursor is a map the caller cannot trust to have changed nothing.
+    if {[cursorRestore $cursor] != 1 && $why eq ""} {
+        set why "the cursor could not be put back on its line"
+    }
+    if {$why ne ""} { error $why }
+    set unlabelled {}
+    set labelled {}
+    for {set i 1} {$i <= $plies} {incr i} {
+        if {[dict get $nodes $i hasVerdict]} {
+            lappend labelled $i
+        } else {
+            lappend unlabelled $i
+        }
+    }
+    if {[llength $unlabelled]} {
+        set judged $unlabelled
+        set context $labelled
+    } else {
+        set judged $labelled
+        set context {}
+    }
+    set lastRoute {}
+    if {$plies > 0} { set lastRoute [dict get $nodes $plies route] }
+    set cursorIndex $base
+    foreach step $path { incr cursorIndex [lindex $step 1] }
+    return [dict create plies $plies moves $moves positions $positions \
+        nodes $nodes judged $judged context $context cursor $cursor \
+        cursorRoute $cursorRoute cursorIndex $cursorIndex anchors $anchors \
+        lineKind [expr {[llength $lastRoute] ? "variation" : "main"}]]
+}
+
+# Walk the line once with the cursor, running `body` at each named index.
+#
+# This is the only proc that moves the board imperatively for a line: one
+# cursorSave, one root-to-leaf walk, one cursorRestore. `indices` are line
+# indexes (1..plies); `body` is called as `{*}$body <node>` with the cursor on
+# that node and receives the node's dict from the map.
+#
+# The descent uses the primitives cursorRestore uses - `sc_move ply` for the
+# prefix, `sc_move forward` inside a line, `sc_var enter` at a branch - plus the
+# anchor: the variation number alone cannot say which branch is meant, because
+# an insertion renumbers the siblings. The first move is therefore confirmed
+# before every enter, and a mismatch aborts to the base ply - a known position -
+# rather than entering the wrong branch.
+#
+# Returns {restored <1|0|-1>}: 1 the walk ran and the cursor is back exactly,
+# 0 the line was not what the map described and the board is on the base ply,
+# -1 the cursor could not even be read.
+proc ::review::visitLine {map indices body} {
+    set nodes [dict create]
+    catch { set nodes [dict get $map nodes] }
+    set plies 0
+    catch { set plies [dict get $map plies] }
+    set want {}
+    foreach i $indices {
+        if {[string is integer -strict $i] && $i >= 1 && $i <= $plies} { lappend want $i }
+    }
+    set want [lsort -unique -integer $want]
+    # The prefix's last index: where an abort leaves the board.
+    set base 0
+    for {set i 1} {$i <= $plies} {incr i} {
+        if {![llength [dict get $nodes $i route]]} { set base $i }
+    }
+    set cursor ""
+    if {[catch { set cursor [cursorSave] }]} { return [list restored -1] }
+    set stopped 0
+    set failed ""
+    set failedInfo ""
+    if {[catch {
+        sc_move ply 0
+        set prev {}
+        for {set i 1} {$i <= $plies} {incr i} {
+            set node [dict get $nodes $i]
+            set route [dict get $node route]
+            if {[llength $route] > [llength $prev]} {
+                set number [lindex $route end]
+                set anchor [dict get $node uci]
+                set sibs {}
+                catch { set sibs [sc_var list UCI] }
+                if {$number >= [llength $sibs] || [lindex $sibs $number] ne $anchor} {
+                    set stopped 1
+                    break
+                }
+                sc_var enter $number
+            } elseif {[sc_move forward 1] < 1} {
+                set stopped 1
+                break
+            }
+            if {[sc_pos location] != [dict get $node ply]} { set stopped 1 ; break }
+            if {[lsearch -exact $want $i] >= 0} { {*}$body $node }
+            set prev $route
+        }
+    } err]} {
+        set failed $err
+        set failedInfo $::errorInfo
+    }
+    if {$failed ne ""} {
+        # The body failed part-way: put the cursor back and let the caller see
+        # why, with the body's own trace. The walk decides nothing else.
+        catch { cursorRestore $cursor }
+        error $failed $failedInfo
+    }
+    if {$stopped} {
+        catch { sc_move ply $base }
+        return [list restored 0]
+    }
+    return [list restored [cursorRestore $cursor]]
+}
+
+# The diagram tag D on the move BEFORE `index`: the NAGs of a position belong to
+# the move that led to it, and the exporter draws the position after that move -
+# which is where the mistake was played. Node-local ::review::setDiagram: the
+# cursor is placed by route, not by ply, and the main-line original is
+# untouched. Returns 1 when the mark was set or cleared, 0 when it was not.
+proc ::review::setDiagramAt {map index on} {
+    if {![string is integer -strict $index] || $index < 2} { return 0 }
+    variable atResult
+    set atResult 0
+    set r {}
+    catch {
+        set r [visitLine $map [list [expr {$index - 1}]] [list ::review::diagramNode $on]]
+    }
+    if {![dict exists $r restored] || [dict get $r restored] != 1} { return 0 }
+    return $atResult
+}
+
+# The node the diagram mark goes on. The cursor is on it, so the check
+# setDiagram makes - is this the position the mark names - is the node's own
+# ply.
+proc ::review::diagramNode {on node} {
+    variable atResult
+    set atResult 0
+    if {[catch { sc_pos location } loc] || $loc != [dict get $node ply]} { return }
+    if {$on} {
+        set atResult [addNagIfAbsent D]
+    } else {
+        set atResult [dropNag D]
+    }
+    return
+}
+
+# Node-local ::reviewdriver::clearMarks: take off what a previous verdict wrote
+# on the move at `index` - the NAG its label implies, the assessment, and the
+# diagram it put on the move before. The label is read from the map, so the
+# caller does not have to walk the line to find out what was there. Returns 1
+# when a mark of a previous verdict was actually removed, 0 when there was none
+# or the line could not be walked.
+proc ::review::clearMarksAt {map index} {
+    if {![string is integer -strict $index] || $index < 1} { return 0 }
+    set node ""
+    catch { set node [dict get [dict get $map nodes] $index] }
+    if {$node eq ""} { return 0 }
+    set old [labelOfComment [dict get $node comment]]
+    if {$old eq ""} { return 0 }
+    # D sits on the move before, so one walk covers both nodes.
+    set want [list $index]
+    set at 0
+    if {($old eq "mistake" || $old eq "blunder") && $index >= 2} {
+        set at [expr {$index - 1}]
+        lappend want $at
+    }
+    variable atResult
+    set atResult 0
+    set r {}
+    catch { set r [visitLine $map $want [list ::review::marksNode $index $at]] }
+    if {![dict exists $r restored] || [dict get $r restored] != 1} { return 0 }
+    return $atResult
+}
+
+# The body clearMarksAt walks with: the verdict's own marks off the move, and
+# the diagram off the move before it. `index` and `at` are the two nodes, passed
+# in rather than remembered: the body runs with the cursor on one node at a time
+# and the line's own index says which.
+proc ::review::marksNode {index at node} {
+    variable atResult
+    set i [dict get $node index]
+    if {$i == $index} {
+        set old [labelOfComment [dict get $node comment]]
+        if {$old eq ""} { return }
+        set nag [nagForLabel $old]
+        if {$nag ne "" && [dropNag $nag]} { set atResult 1 }
+        if {[dropAssessment]} { set atResult 1 }
+    } elseif {$at != 0 && $i == $at} {
+        if {[dropNag D]} { set atResult 1 }
+    }
+    return
+}
+
 # When the Move Comment button may write.
 #
 # The current analysis may be shallower than a review, and a comment written

@@ -1,7 +1,8 @@
 # Copyright (C) 2026 David Crandall
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
-# game_review.tcl -- the review pass's settings and its two decisions.
+# game_review.tcl -- the review pass: its settings, its two decisions, and the
+# line map the pass walks.
 #
 #   tclsh tests/tcl/game_review.tcl
 
@@ -339,210 +340,466 @@ checkEq "a re-review leaves one verdict and one score" \
         [::review::commentText blunder -120]] \
     {A fine move. [blunder] [%eval -1.20]}
 
-puts "writing one move"
+puts "the stub board"
 
 # The sc_* layer is stubbed: the point of these checks is which calls are made,
-# not what scid does with them.
+# not what scid does with them. The review navigates by route, so the stub is a
+# movelist rather than a ply counter. A node is one position and the move that
+# led to it:
+#
+#   uci san     the move into it ("" at the root and at a null move)
+#   comment     its comment;  nags  its NAGs
+#   prev next   the move before and after it in its own line ("" at the ends)
+#   vars        the variations branching from the position AFTER it, the first
+#               move of each in order - what sc_var count/list/enter read, and
+#               what renumbering a sibling changes
+#   ply         the absolute sc_pos location
+#
+# sc_var level and number are read off the tree, never remembered: a sibling
+# inserted before the cursor's own variation has to show up as a renumber.
+set ::fakeNodes [dict create]
+set ::fakeNextId 0
+set ::fakeCur 0
 set ::calls {}
-# The stub board is a ply counter plus the variation path walked to reach it:
-# `level` is how many sc_var exits reach the main line, `nums` the variation
-# number at each level, `exits` the ply counter of the position each level
-# branched from. That is exactly what ::review::cursorSave has to read, and it
-# is enough to put the board back.
-set ::fakeLevel 0
-set ::fakeNums {}
-set ::fakeExit {}
-# How many variations exist at a given "<ply>,<level>" branch point.
-set ::fakeVarCounts [dict create]
-proc sc_pos {args} {
-    switch -- [lindex $args 0] {
-        location { return $::fakeLoc }
-        # The position identity the restore compares: the same ply in a
-        # renumbered sibling is a different line, which the fake FEN shows.
-        # The line tag changes when a renumbered sibling takes the number the
-        # saved cursor names; ply and level alone cannot see that.
-        fen { return "$::fakeLoc/$::fakeLevel/$::fakeLine" }
-        getComment { return $::fakeComment }
-        setComment { lappend ::calls [list setComment [lindex $args 1]] ; set ::fakeComment [lindex $args 1] ; return "" }
+set ::listAt {}
+
+proc fakeNew {} {
+    incr ::fakeNextId
+    set id $::fakeNextId
+    dict set ::fakeNodes $id [dict create uci "" san "" comment "" nags {} \
+        prev "" next "" vars {} ply 0]
+    return $id
+}
+proc fakeGet {id key} {
+    if {![dict exists $::fakeNodes $id]} { return "" }
+    return [dict get [dict get $::fakeNodes $id] $key]
+}
+proc fakeSet {id key value} {
+    set n [dict get $::fakeNodes $id]
+    dict set n $key $value
+    dict set ::fakeNodes $id $n
+}
+# A game: the root, then the main line. A "" move is a null move - a ply with
+# no move, which UCI_mainLine reports as a fresh position header.
+proc fakeBoard {moves} {
+    set ::fakeNodes [dict create]
+    set ::fakeNextId 0
+    dict set ::fakeNodes 0 [dict create uci "" san "" comment "" nags {} \
+        prev "" next "" vars {} ply 0]
+    set prev 0
+    foreach m $moves {
+        set id [fakeNew]
+        fakeSet $id uci $m
+        fakeSet $id san "SAN_$m"
+        fakeSet $id prev $prev
+        fakeSet $id ply [expr {[fakeGet $prev ply] + 1}]
+        fakeSet $prev next $id
+        set prev $id
+    }
+    set ::fakeCur $prev
+    set ::calls {}
+    set ::listAt {}
+    set ::fakeGone {}
+    return $prev
+}
+# The main-line node at `ply` (0 is the root), or the last one before it.
+proc fakeAtPly {ply} {
+    set id 0
+    for {set i 0} {$i < $ply} {incr i} {
+        set nxt [fakeGet $id next]
+        if {$nxt eq ""} { break }
+        set id $nxt
+    }
+    return $id
+}
+# Put the cursor on the main line at `ply`.
+proc fakeGoto {ply} {
+    set ::fakeCur [fakeAtPly $ply]
+    set ::calls {}
+    set ::listAt {}
+    return $::fakeCur
+}
+# A variation branching from the position after node `branch`, inserted at
+# `index` among its siblings ("" appends). Returns its nodes, first move first.
+# No moves is an empty variation: one that has been opened and not filled - the
+# only state in which cursorSave reports 0 moves inside a level.
+proc fakeVariation {branch moves {index ""}} {
+    set ids {}
+    set prev $branch
+    if {![llength $moves]} {
+        set id [fakeNew]
+        fakeSet $id prev $branch
+        # A variation that has been opened and not filled is the branch position
+        # itself: no move has been played, so the location counter has not
+        # advanced past the branch. That is the state cursorSave reports as
+        # 0 moves inside a level.
+        fakeSet $id ply [fakeGet $branch ply]
+        lappend ids $id
+    } else {
+        foreach m $moves {
+            set id [fakeNew]
+            fakeSet $id uci $m
+            fakeSet $id san "SAN_$m"
+            fakeSet $id prev $prev
+            fakeSet $id ply [expr {[fakeGet $prev ply] + 1}]
+            if {$prev ne $branch} { fakeSet $prev next $id }
+            lappend ids $id
+            set prev $id
+        }
+    }
+    set vars [fakeGet $branch vars]
+    if {$index eq ""} {
+        lappend vars [lindex $ids 0]
+    } else {
+        set vars [linsert $vars $index [lindex $ids 0]]
+    }
+    fakeSet $branch vars $vars
+    return $ids
+}
+# Put the cursor on node `id`. The variation stack is not remembered anywhere:
+# it is read off the tree, so a renumbering is visible without being told.
+proc fakeCursorAt {id} {
+    set ::fakeCur $id
+    set ::calls {}
+    set ::listAt {}
+    return $id
+}
+# The variation numbers entered to reach `id`, outermost first.
+proc fakeRoute {id} {
+    set route {}
+    set cur $id
+    while {$cur ne "" && $cur != 0} {
+        set n [lsearch -exact [fakeGet [fakeGet $cur prev] vars] $cur]
+        if {$n >= 0} { set route [linsert $route 0 $n] }
+        set cur [fakeGet $cur prev]
+    }
+    return $route
+}
+# The first move of the innermost variation on the path to `id`.
+proc fakeVarRoot {id} {
+    set cur $id
+    while {$cur ne "" && $cur != 0} {
+        if {[lsearch -exact [fakeGet [fakeGet $cur prev] vars] $cur] >= 0} { return $cur }
+        set cur [fakeGet $cur prev]
     }
     return ""
 }
+# `position ... moves ...` for the cursor's position, path-addressed: the moves
+# since the root, or since the last null move.
+proc fakeCurrentPos {{id ""}} {
+    if {$id eq ""} { set id $::fakeCur }
+    set path {}
+    set cur $id
+    while {$cur != 0} {
+        if {[fakeGet $cur uci] eq ""} {
+            set s "position fen FEN$cur moves"
+            foreach m $path { append s " " $m }
+            return $s
+        }
+        set path [linsert $path 0 [fakeGet $cur uci]]
+        set cur [fakeGet $cur prev]
+    }
+    set s "position startpos moves"
+    foreach m $path { append s " " $m }
+    return $s
+}
+# A move added by ::uci::sc_move_add: the fresh variation node becomes it and
+# the cursor moves onto it, so every later move is the next in that variation.
+proc fakeAddMove {m} {
+    set id $::fakeCur
+    if {[fakeGet $id uci] eq ""} {
+        fakeSet $id uci $m
+        fakeSet $id san "SAN_$m"
+        fakeSet $id ply [expr {[fakeGet [fakeGet $id prev] ply] + 1}]
+        return
+    }
+    set new [fakeNew]
+    fakeSet $new uci $m
+    fakeSet $new san "SAN_$m"
+    fakeSet $new prev $id
+    fakeSet $new ply [expr {[fakeGet $id ply] + 1}]
+    fakeSet $id next $new
+    set ::fakeCur $new
+}
+# Where the board is, in the terms a restore is judged by.
+proc fakeWhere {} {
+    return [list [sc_pos fen] [sc_pos location] [sc_var level] [sc_var number]]
+}
+
+# The board's own view of a position: a ply counter, a fen, and the comment and
+# NAGs of the move that led to it. The fen is the node's identity - two nodes are
+# the same position only if they are the same node - which is what a restore
+# compares.
+# (Comments cannot live inside a braced switch body: it is a list, so a `#` there
+# is a pattern, not a comment.)
+proc sc_pos {args} {
+    switch -- [lindex $args 0] {
+        location { return [fakeGet $::fakeCur ply] }
+        fen { return "FEN$::fakeCur" }
+        getComment { return [fakeGet $::fakeCur comment] }
+        setComment {
+            lappend ::calls [list setComment [lindex $args 1]]
+            fakeSet $::fakeCur comment [lindex $args 1]
+            return ""
+        }
+        getNags {
+            set nags [fakeGet $::fakeCur nags]
+            if {![llength $nags]} { return 0 }
+            return $nags
+        }
+        addNag {
+            set nag [lindex $args 1]
+            lappend ::calls [list nag add $nag]
+            set nags [fakeGet $::fakeCur nags]
+            if {[lsearch -exact $nags $nag] < 0} { lappend nags $nag }
+            fakeSet $::fakeCur nags $nags
+            return ""
+        }
+        clearNags { fakeSet $::fakeCur nags {} ; return "" }
+    }
+    return ""
+}
+# Navigation. `sc_move ply N` is the MAIN line - MoveToStart then N MoveForward -
+# so it leaves every variation; past the last move it stops there, as MoveToPly
+# does. `forward` answers how many moves were actually made, 0 at the leaf, so a
+# caller can find the end of a line without an error.
 proc sc_move {args} {
     set what [lindex $args 0]
     set n [lindex $args 1]
-    # sc_move ply N is the MAIN line - MoveToStart then N MoveForward - so it
-    # leaves every variation. Asking for a ply beyond it leaves the game where it
-    # was, which is what the real command does here.
     switch -- $what {
         ply {
-            if {$n <= $::fakeLen} {
-                set ::fakeLoc $n
-                set ::fakeLevel 0
-                set ::fakeNums {}
-                set ::fakeExit {}
-            }
+            set ::fakeCur [fakeAtPly $n]
+            lappend ::calls [list move ply $n]
+            return ""
         }
         forward {
-            if {$n eq ""} { set n 1 }
-            incr ::fakeLoc $n
+            set count 1
+            if {$n ne ""} { set count $n }
+            set made 0
+            for {set i 0} {$i < $count} {incr i} {
+                set nxt [fakeGet $::fakeCur next]
+                if {$nxt eq ""} { break }
+                set ::fakeCur $nxt
+                incr made
+            }
+            lappend ::calls [list move forward $n]
+            return $made
         }
-        back { incr ::fakeLoc -1 }
+        back {
+            set count 1
+            if {$n ne ""} { set count $n }
+            set made 0
+            for {set i 0} {$i < $count} {incr i} {
+                set prev [fakeGet $::fakeCur prev]
+                if {$prev eq ""} { break }
+                # MoveBackup refuses at a variation's first move: the way out of
+                # a variation is sc_var exit, not back.
+                if {[lsearch -exact [fakeGet $prev vars] $::fakeCur] >= 0} { break }
+                set ::fakeCur $prev
+                incr made
+            }
+            lappend ::calls [list move back $n]
+            return $made
+        }
+        end {
+            set ::fakeCur [fakeAtPly 1000000]
+            lappend ::calls [list move end $n]
+            return ""
+        }
+        endVar {
+            while {[fakeGet $::fakeCur next] ne ""} { set ::fakeCur [fakeGet $::fakeCur next] }
+            lappend ::calls [list move endVar $n]
+            return ""
+        }
     }
     lappend ::calls [list move $what $n]
     return ""
 }
-proc fakeVarCount {} {
-    set key "$::fakeLoc,$::fakeLevel"
-    if {[dict exists $::fakeVarCounts $key]} {
-        return [dict get $::fakeVarCounts $key]
-    }
-    return 0
-}
+# The variations at the current position. `list` answers the first move of every
+# sibling, as the real command reports it: the only name a variation has that
+# survives an insertion. `level` and `number` are read off the tree, so a
+# renumbering is visible without being told.
 proc sc_var {args} {
     lappend ::calls [list var [lindex $args 0]]
     switch -- [lindex $args 0] {
-        count { return [fakeVarCount] }
-        list  { lappend ::listAt $::fakeLoc ; return $::fakeVars }
-        level { return $::fakeLevel }
+        count { return [llength [fakeGet $::fakeCur vars]] }
+        list {
+            lappend ::listAt [fakeGet $::fakeCur ply]
+            set out {}
+            foreach v [fakeGet $::fakeCur vars] { lappend out [fakeGet $v uci] }
+            return $out
+        }
+        level { return [llength [fakeRoute $::fakeCur]] }
         number {
-            if {!$::fakeLevel} { return 0 }
-            return [lindex $::fakeNums end]
+            set route [fakeRoute $::fakeCur]
+            if {![llength $route]} { return 0 }
+            return [lindex $route end]
         }
         enter {
             set n [lindex $args 1]
-            if {$n >= [fakeVarCount]} { error "No such variation!" }
-            # The number matters: entering two different siblings has to be
-            # distinguishable in the recorded calls.
+            set vars [fakeGet $::fakeCur vars]
+            if {$n >= [llength $vars]} { error "No such variation!" }
+            # A variation deleted between the save and the restore: the number
+            # the cursor was saved with no longer names a line.
+            if {[lsearch -exact $::fakeGone $n] >= 0} { error "No such variation!" }
             lset ::calls end [list var enter $n]
             # MoveIntoVariation and then MoveForward: entering plays the
-            # variation's first move, so the ply counter advances by one.
-            lappend ::fakeExit $::fakeLoc
-            lappend ::fakeNums $n
-            incr ::fakeLevel
-            incr ::fakeLoc
+            # variation's first move, so the cursor lands on that move.
+            set ::fakeCur [lindex $vars $n]
             return ""
         }
         exit {
-            if {$::fakeLevel == 0} { error "No such variation!" }
-            set ::fakeLoc [lindex $::fakeExit end]
-            set ::fakeExit [lrange $::fakeExit 0 end-1]
-            set ::fakeNums [lrange $::fakeNums 0 end-1]
-            incr ::fakeLevel -1
+            set root [fakeVarRoot $::fakeCur]
+            if {$root eq ""} { error "No such variation!" }
+            set ::fakeCur [fakeGet $root prev]
             return ""
         }
         create {
-            # A new variation is opened to be filled; the caller exits it.
-            lappend ::fakeExit $::fakeLoc
-            lappend ::fakeNums 0
-            incr ::fakeLevel
+            set id [fakeNew]
+            fakeSet $id prev $::fakeCur
+            fakeSet $id ply [expr {[fakeGet $::fakeCur ply] + 1}]
+            set vars [fakeGet $::fakeCur vars]
+            lappend vars $id
+            fakeSet $::fakeCur vars $vars
+            set ::fakeCur $id
             return ""
         }
         delete {
-            if {$::fakeLevel == 0} { error "No such variation!" }
+            set root [fakeVarRoot $::fakeCur]
+            if {$root eq ""} { error "No such variation!" }
             lappend ::calls {var delete}
-            set ::fakeLoc [lindex $::fakeExit end]
-            set ::fakeExit [lrange $::fakeExit 0 end-1]
-            set ::fakeNums [lrange $::fakeNums 0 end-1]
-            incr ::fakeLevel -1
+            set parent [fakeGet $root prev]
+            fakeSet $parent vars [lsearch -all -inline -not -exact [fakeGet $parent vars] $root]
+            set ::fakeCur $parent
             return ""
         }
     }
     return ""
 }
-# Put the board at `loc`, inside the variations named by `nums`, whose branch
-# positions are `exits` (outermost first), in a game of `len` main-line moves.
-proc fakeCursor {loc nums exits {len 40}} {
-    set ::fakeLen $len
-    set ::fakeLoc $loc
-    set ::fakeNums $nums
-    set ::fakeExit $exits
-    set ::fakeLevel [llength $nums]
-    set ::fakeVarCounts [dict create]
-    set ::fakeLine L
-    set ::fakeVars {}
-    set ::listAt {}
-    set ::calls {}
-}
-set ::fakeVars {}
-set ::listAt {}
 # UCI_mainLine is the setup followed by the moves, as the real command returns
-# it, so element $ply is the move played at ply $ply.
+# it, so element $ply is the move played at ply $ply; a null move stands in for
+# its own ply as a fresh position header.
 proc sc_game {args} {
-    if {[lindex $args 0] eq "UCI_mainLine"} { return $::fakeMainLine }
+    set what [lindex $args 0]
+    if {$what eq "UCI_mainLine"} {
+        set out {"position startpos moves"}
+        set id 0
+        while {[set nxt [fakeGet $id next]] ne ""} {
+            set id $nxt
+            if {[fakeGet $id uci] eq ""} {
+                lappend out "position fen FEN$id moves"
+            } else {
+                lappend out [fakeGet $id uci]
+            }
+        }
+        return $out
+    }
+    if {$what eq "UCI_currentPos"} { return [fakeCurrentPos] }
+    if {$what eq "info"} {
+        switch -- [lindex $args 1] {
+            previousMoveUCI {
+                # A null move is spelled 0000 in UCI, as the real command does.
+                if {$::fakeCur == 0} { return "" }
+                if {[fakeGet $::fakeCur uci] eq ""} { return 0000 }
+                return [fakeGet $::fakeCur uci]
+            }
+            previousMove { return [fakeGet $::fakeCur san] }
+        }
+    }
     return ""
 }
-namespace eval ::uci { proc sc_move_add {moves} { lappend ::calls [list add $moves] ; return 0 } }
+namespace eval ::uci {
+    proc sc_move_add {moves} {
+        lappend ::calls [list add $moves]
+        fakeAddMove $moves
+        return 0
+    }
+}
+
+# The moves of a full game, long enough for every cursor below.
+set game {e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 d7d6 e4e5 a7a6}
 
 puts "where the board was"
 
 # On the main line there is nothing to walk back into: the ply counter is the
 # whole position.
-fakeCursor 5 {} {}
+fakeBoard $game
+fakeGoto 5
 set state [::review::cursorSave]
 checkEq "a main-line cursor is a ply" [dict get $state loc] 5
 checkEq "whose base is itself" [dict get $state base] 5
 checkEq "with an empty path" [dict get $state path] {}
 checkEq "and it restores exactly" [::review::cursorRestore $state] 1
-checkEq "leaving the board where it was" [list $::fakeLoc $::fakeLevel] {5 0}
+checkEq "leaving the board where it was" [list [sc_pos location] [sc_var level]] {5 0}
 
 # One variation, branched from ply 3, cursor two moves inside it.
-fakeCursor 5 {0} {3}
+set var [fakeVariation [fakeAtPly 3] {c7c5 g1f3 d7d6}]
+fakeCursorAt [lindex $var 1]
 set state [::review::cursorSave]
 checkEq "one variation: the captured ply" [dict get $state loc] 5
 checkEq "one variation: the main-line base" [dict get $state base] 3
 checkEq "one variation: which one and how far in" [dict get $state path] {{0 2}}
-checkEq "saving leaves the board on the base ply" [list $::fakeLoc $::fakeLevel] {3 0}
-set ::fakeVarCounts [dict create "3,0" 2]
+checkEq "saving leaves the board on the base ply" [list [sc_pos location] [sc_var level]] {3 0}
 set ::calls {}
 checkEq "it restores exactly" [::review::cursorRestore $state] 1
-checkEq "on the captured ply, in the variation" \
-    [list $::fakeLoc $::fakeLevel [lindex $::fakeNums end]] {5 1 0}
 checkEq "by walking the path" $::calls \
     {{move ply 3} {var enter 0} {move forward 1} {var level}}
+checkEq "on the captured ply, in the variation" \
+    [list [sc_pos location] [sc_var level] [sc_var number]] {5 1 0}
 
 # A variation inside a variation: the path is outermost first, because that is
 # the order a restore has to enter.
-fakeCursor 8 {1 0} {3 6}
+fakeBoard $game
+fakeVariation [fakeAtPly 3] {a7a6 b5a4}
+set outer [fakeVariation [fakeAtPly 3] {c7c5 g1f3 d7d6}]
+set inner [fakeVariation [lindex $outer 2] {b7b6 b5c6}]
+fakeCursorAt [lindex $inner 1]
 set state [::review::cursorSave]
-checkEq "nested: the outer path is innermost-first when captured, outer first when read" \
+checkEq "nested: the path is innermost-first when captured, outer first when read" \
     [dict get $state path] {{1 3} {0 2}}
 checkEq "nested: the base is the main-line ply" [dict get $state base] 3
-set ::fakeVarCounts [dict create "3,0" 2 "6,1" 1]
 set ::calls {}
 checkEq "nested: it restores exactly" [::review::cursorRestore $state] 1
-checkEq "nested: on the captured ply, both levels deep" \
-    [list $::fakeLoc $::fakeLevel $::fakeNums] {8 2 {1 0}}
 checkEq "nested: entering each level and walking the rest of it" $::calls \
     {{move ply 3} {var enter 1} {move forward 2} {var enter 0} {move forward 1} {var level}}
+checkEq "nested: on the captured ply, both levels deep" \
+    [list [sc_pos location] [sc_var level] [fakeRoute $::fakeCur]] {8 2 {1 0}}
 
-# A cursor at the variation's own start, before its first move. Entering plays
-# that move, so the restore has to step back out of it.
-fakeCursor 3 {0} {3}
+# A cursor inside a variation that has been opened and never filled: entering
+# it plays nothing, so the restore has to step back out of a move that was not
+# played.
+fakeBoard $game
+set empty [fakeVariation [fakeAtPly 3] {}]
+fakeCursorAt [lindex $empty 0]
 set state [::review::cursorSave]
-checkEq "a cursor before the variation's first move" [dict get $state path] {{0 0}}
-set ::fakeVarCounts [dict create "3,0" 1]
+checkEq "a cursor in an empty variation" [dict get $state path] {{0 0}}
 set ::calls {}
 checkEq "it restores exactly too" [::review::cursorRestore $state] 1
-checkEq "one move back out of the auto-played first move" $::calls \
+checkEq "with nothing to walk inside it" $::calls \
     {{move ply 3} {var enter 0} {move back {}} {var level}}
-checkEq "and is still inside the variation" [list $::fakeLoc $::fakeLevel] {3 1}
+checkEq "and is still inside the variation" [list [sc_pos location] [sc_var level]] {3 1}
 
 # An insertion at the same branch point renumbers the siblings - writeMove does
 # exactly that - so the captured number may no longer name the same line. The
 # restore must say so and retreat to the base ply, never land inside the wrong
 # variation.
-fakeCursor 5 {1} {3}
+fakeBoard $game
+set first [fakeVariation [fakeAtPly 3] {c7c5 g1f3 d7d6}]
+fakeVariation [fakeAtPly 3] {d7d5 e4d5 e5d4}
+fakeCursorAt [lindex $first 1]
 set state [::review::cursorSave]
-checkEq "the second variation, two moves in" [dict get $state path] {{1 2}}
-set ::fakeVarCounts [dict create "3,0" 2]
-# Variation 1 now exists with the same move count, so the ply and level checks
-# alone would accept it; it is a different line, which the position shows.
-set ::fakeLine other
+checkEq "the first variation, two moves in" [dict get $state path] {{0 2}}
+# A new variation before it: variation 0 is now a different line with the same
+# move count, so the ply and level checks alone would accept it.
+fakeVariation [fakeAtPly 3] {b7b6 g1f3} 0
 checkEq "a renumbered sibling is not the same position" [::review::cursorRestore $state] 0
 checkEq "and the board is on the base ply, not in some other line" \
-    [list $::fakeLoc $::fakeLevel] {3 0}
-set ::fakeVarCounts [dict create "3,0" 1]
-checkEq "a variation that is gone falls back" [::review::cursorRestore $state] 0
+    [list [sc_pos location] [sc_var level]] {3 0}
+# A variation that is gone is the same fallback.
+checkEq "a path into a variation that is gone falls back" \
+    [::review::cursorRestore [list loc 5 base 3 path {{5 2}} fen nowhere]] 0
+checkEq "and leaves the board on the base ply" \
+    [list [sc_pos location] [sc_var level]] {3 0}
 
 # A state that cannot be read is a fallback, not an exception.
 checkEq "an unreadable cursor does not raise" \
@@ -552,10 +809,10 @@ puts "writing one move"
 
 ::review::reset
 ::review::setValue var_lines 1
-fakeCursor 5 {} {} 10
-set ::fakeComment "Existing note."
 # The engine's best line is the move played at ply 4, so it is not a variation.
-set ::fakeMainLine [list {position startpos moves} m1 m2 m3 pvBest m5]
+fakeBoard {m1 m2 m3 pvBest m5 m6 m7 m8 m9 m10}
+fakeGoto 5
+fakeSet [fakeAtPly 4] comment "Existing note."
 set ::calls {}
 set err [::review::writeMove 4 blunder -120 {{-120 pvBest} {-200 pvAlt}}]
 checkEq "it succeeds" $err {}
@@ -570,10 +827,11 @@ check "a variation is created" [expr {[lsearch -exact $::calls {var create}] >= 
 check "with the alternate line" [expr {[lsearch -exact $::calls {add pvAlt}] >= 0}]
 check "and not with the line the game already played" \
     [expr {[lsearch -exact $::calls {add pvBest}] < 0}]
-check "and the game is left where it was" [expr {$::fakeLoc == 5}]
+check "and the game is left where it was" [expr {[sc_pos location] == 5}]
 
 # A blunder: the best line is not the move played, so it is the variation.
-set ::fakeMainLine [list {position startpos moves} m1 m2 m3 m5 m6]
+fakeBoard {m1 m2 m3 m5 m6}
+fakeGoto 5
 set ::calls {}
 ::review::writeMove 4 blunder -120 {{-120 pvBest} {-200 pvAlt}}
 check "the best line is inserted" [expr {[lsearch -exact $::calls {add pvBest}] >= 0}]
@@ -585,19 +843,20 @@ set ::calls {}
 ::review::writeMove 4 good 20 {{20 pvBest} {10 pvAlt}}
 check "no variation with var_lines 0" [expr {[lsearch -exact $::calls {var create}] < 0}]
 
-fakeCursor 2 {} {} 3
+fakeBoard {m1 m2 m3}
+fakeGoto 2
 checkEq "a ply that is not in the game is refused" \
     [::review::writeMove 4 good 20 {}] {ply 4 is not in this game}
 check "and the game is left where it was, not moved to the start" \
-    [expr {$::fakeLoc == 2}]
+    [expr {[sc_pos location] == 2}]
 
 # var_lines > 1 inserts every distinct alternative, and a variation a previous
 # review already wrote is not duplicated.
 ::review::reset
 ::review::setValue var_lines 2
-fakeCursor 5 {} {} 10
-set ::fakeComment "Existing note."
-set ::fakeMainLine [list {position startpos moves} m1 m2 m3 pvBest m5]
+fakeBoard {m1 m2 m3 pvBest m5}
+fakeGoto 5
+fakeSet [fakeAtPly 4] comment "Existing note."
 ::review::writeMove 4 blunder -120 {{-120 pvBest} {-200 pvAlt} {-250 pvThird}}
 check "both alternates are inserted" \
     [expr {[lsearch -exact $::calls {add pvAlt}] >= 0 \
@@ -606,7 +865,12 @@ check "two variations are created" \
     [expr {[llength [lsearch -all $::calls {var create}]] == 2}] $::calls
 checkEq "the variation list is read before the move, not after it" \
     [lindex $::listAt 0] 3
-set ::fakeVars {pvAlt}
+
+# A variation a previous review already wrote is not duplicated, and a new line
+# is still added: the same tree, written twice.
+fakeBoard {m1 m2 m3 pvBest m5}
+fakeGoto 5
+fakeVariation [fakeAtPly 3] {pvAlt q1 q2}
 set ::calls {}
 ::review::writeMove 4 blunder -120 {{-120 pvBest} {-200 pvAlt} {-250 pvThird}}
 check "an existing variation is not duplicated" \
@@ -620,44 +884,44 @@ puts "writing a move inside a variation"
 # leave it there, path and all.
 ::review::reset
 ::review::setValue var_lines 1
-set ::fakeComment ""
-set ::fakeMainLine [list {position startpos moves} m1 m2 m3 pvBest m5]
-fakeCursor 5 {0} {3} 10
-set ::fakeVarCounts [dict create "3,0" 2]
+fakeBoard {m1 m2 m3 pvBest m5}
+set var [fakeVariation [fakeAtPly 3] {v1 v2}]
+fakeCursorAt [lindex $var 1]
 checkEq "a write inside a variation succeeds" \
     [::review::writeMove 4 blunder -120 {{-120 pvBest} {-200 pvAlt}}] {}
-checkEq "and the variation path is restored" [list $::fakeLoc $::fakeLevel] {5 1}
-checkEq "in the same variation" [lindex $::fakeNums end] 0
+checkEq "and the variation path is restored" [list [sc_pos location] [sc_var level]] {5 1}
+checkEq "in the same variation" [sc_var number] 0
 
 # The refusal path restores it too - and a refusal is not a reason to move the
 # board to the start of the line.
-fakeCursor 5 {0} {3} 3
-set ::fakeVarCounts [dict create "3,0" 2]
+fakeBoard {m1 m2 m3}
+set var [fakeVariation [fakeAtPly 3] {v1 v2}]
+fakeCursorAt [lindex $var 1]
 checkEq "a refused ply still says so" \
     [::review::writeMove 4 good 20 {}] {ply 4 is not in this game}
-checkEq "and the variation path is restored" [list $::fakeLoc $::fakeLevel] {5 1}
+checkEq "and the variation path is restored" [list [sc_pos location] [sc_var level]] {5 1}
 check "the board did not end up at the start of the line" \
-    [expr {$::fakeLoc != 0}]
+    [expr {[sc_pos location] != 0}]
 
-# If the line cannot be found again the board goes to the start of the line, and
-# that is still a write, not a refusal: the comment landed.
-fakeCursor 5 {1} {3} 10
-set ::fakeVarCounts [dict create "3,0" 1]
+# The line the cursor stood in is gone by the time the write puts the cursor
+# back - the hazard the map's anchors exist for. The comment landed, so the
+# write counts as written, and the base ply it falls back to is a known
+# position: keep it rather than jumping to the start of the game.
+fakeBoard {m1 m2 m3 pvBest m5}
+set var [fakeVariation [fakeAtPly 3] {v1 v2}]
+fakeCursorAt [lindex $var 1]
+set ::fakeGone {0}
 checkEq "a write whose line is gone still counts as written" \
     [::review::writeMove 4 blunder -120 {{-120 pvBest} {-200 pvAlt}}] {}
-# The base ply the restore reached is a known position: keep it rather than
-# jumping to the start of the game.
 checkEq "and the board is left on the base ply" \
-    [list $::fakeLoc $::fakeLevel] {3 0}
+    [list [sc_pos location] [sc_var level]] {3 0}
 
 # A null move at the ply being written: there is no move to drop from the
 # engine's lines, so the best line is inserted rather than discarded on a guess.
 ::review::reset
 ::review::setValue var_lines 1
-set ::fakeComment ""
-set ::fakeMainLine [list {position startpos moves} m1 m2 m3 \
-    "position fen 8/8/8/8/8/8/8/K6k w - - 0 1 moves" m6]
-fakeCursor 5 {} {} 10
+fakeBoard {m1 m2 m3 {} m6 m7 m8 m9 m10}
+fakeGoto 5
 ::review::writeMove 4 blunder -120 {{-120 pvBest} {-200 pvAlt}}
 check "with a null move nothing is dropped" \
     [expr {[lsearch -exact $::calls {add pvBest}] >= 0}] $::calls
@@ -669,13 +933,12 @@ puts "a rejected variation move is a refusal"
 # counts successful writes does not count a partial one.
 ::review::reset
 ::review::setValue var_lines 1
-set ::fakeComment ""
-set ::fakeMainLine [list {position startpos moves} m1 m2 m3 pvBest m5]
-set ::fakeVars {}
-fakeCursor 5 {} {} 10
+fakeBoard {m1 m2 m3 pvBest m5}
+fakeGoto 5
 namespace eval ::uci {
     proc sc_move_add {moves} {
         lappend ::calls [list add $moves]
+        fakeAddMove $moves
         if {$moves eq "pvAlt"} { return 1 }
         return 0
     }
@@ -685,8 +948,272 @@ check "a variation the game refuses is reported" [expr {$why ne ""}]
 check "and names the move that was rejected" [string match {*pvAlt*} $why]
 check "the half-written variation is deleted, not left behind" \
     [expr {[lsearch -exact $::calls {var delete}] >= 0}] $::calls
-check {the comment still landed with its [%eval]} \
-    [string match {*%eval*} $::fakeComment]
+check "the comment still landed with its \[%eval\]" \
+    [string match {*%eval*} [fakeGet [fakeAtPly 4] comment]]
+namespace eval ::uci {
+    proc sc_move_add {moves} {
+        lappend ::calls [list add $moves]
+        fakeAddMove $moves
+        return 0
+    }
+}
+
+puts "the line the cursor is on"
+
+# The line the review walks is the line the user is looking at: the main-line
+# prefix to the branch, then the variation - and any variation inside it - to
+# its leaf. It is addressed by route and keyed by line-local index, the shape
+# mainLineMap already has, so the plan and the verdicts need nothing new.
+
+# A cursor on the main line: the map is that line and nothing else.
+fakeBoard {e2e4 e7e5 g1f3 b8c6 f1b5}
+fakeGoto 5
+set before [fakeWhere]
+set map [::review::currentLineMap]
+set ref [::review::mainLineMap [sc_game UCI_mainLine]]
+checkEq "the main line: the same plies as mainLineMap" \
+    [dict get $map plies] [dict get $ref plies]
+checkEq "the main line: the same indexes" \
+    [lsort -integer [dict keys [dict get $map moves]]] \
+    [lsort -integer [dict keys [dict get $ref moves]]]
+set bad {}
+foreach k [dict keys [dict get $ref moves]] {
+    if {[dict get $map moves $k] ne [dict get $ref moves $k]} { lappend bad move $k }
+    if {[dict get $map positions $k] ne [dict get $ref positions $k]} { lappend bad position $k }
+}
+checkEq "the main line: the same move and position at every index" $bad {}
+checkEq "the main line: the root position too" \
+    [dict get $map positions 0] [dict get $ref positions 0]
+checkEq "the main line: the node table is every index, the root included" \
+    [lsort -integer [dict keys [dict get $map nodes]]] {0 1 2 3 4 5}
+checkEq "the main line: nothing on it is a variation" \
+    [dict get [dict get $map nodes] 3 route] {}
+checkEq "the main line: the line kind" [dict get $map lineKind] main
+checkEq "the main line: no route and no anchors" \
+    [list [dict get $map cursorRoute] [dict get $map anchors]] {{} {}}
+checkEq "the main line: the cursor index is the move under the cursor" \
+    [dict get $map cursorIndex] 5
+checkEq "the main line: every unlabelled move is judged" [dict get $map judged] {1 2 3 4 5}
+checkEq "the main line: none of them is context" [dict get $map context] {}
+checkEq "the main line: the cursor is untouched" [fakeWhere] $before
+
+# A null move stands in for its own ply with a position header. The map records
+# it as no move and takes the position from the header, exactly as mainLineMap
+# reads the same game - the two must not disagree about a game with a null move
+# in it, because the plan and the verdict layer read either map.
+fakeBoard {e2e4 e7e5 {} f1b5}
+fakeGoto 3
+set map [::review::currentLineMap]
+set ref [::review::mainLineMap [sc_game UCI_mainLine]]
+set bad {}
+foreach k [dict keys [dict get $ref moves]] {
+    if {[dict get $map moves $k] ne [dict get $ref moves $k]} { lappend bad move $k }
+    if {[dict get $map positions $k] ne [dict get $ref positions $k]} { lappend bad position $k }
+}
+checkEq "a null move: the same moves and positions as mainLineMap" $bad {}
+checkEq "a null move: the ply carries no move" [dict get [dict get $map nodes] 3 uci] {}
+
+# A map is built from a cursor, never guessed: a caller that hands over
+# something else is told so rather than given the start of the game.
+checkEq "a cursor that is not a cursorSave dict is refused" \
+    [catch { ::review::currentLineMap [list loc 3] } err] 1
+checkEq "and says what it wanted" $err "the cursor is not a cursorSave dict"
+
+# A cursor in a variation: the prefix to the branch, then the variation to its
+# leaf - the cursor standing two moves in does not shorten the line.
+fakeBoard $game
+set var [fakeVariation [fakeAtPly 3] {c7c5 g1f3 d7d6}]
+fakeCursorAt [lindex $var 1]
+set before [fakeWhere]
+set map [::review::currentLineMap]
+checkEq "a variation: the prefix, then the variation to its leaf" [dict get $map plies] 6
+checkEq "a variation: the moves" \
+    [list [dict get $map moves 3] [dict get $map moves 4] \
+        [dict get $map moves 5] [dict get $map moves 6]] {g1f3 c7c5 g1f3 d7d6}
+checkEq "a variation: the position at the leaf" [dict get $map positions 6] \
+    "position startpos moves e2e4 e7e5 g1f3 c7c5 g1f3 d7d6"
+checkEq "a variation: every node past the branch is on the variation" \
+    [list [llength [dict get [dict get $map nodes] 4 route]] \
+        [llength [dict get [dict get $map nodes] 6 route]]] {1 1}
+checkEq "a variation: the line kind" [dict get $map lineKind] variation
+checkEq "a variation: the anchor is the variation's first move" [dict get $map anchors] {c7c5}
+checkEq "a variation: the cursor's route" [dict get $map cursorRoute] {0}
+checkEq "a variation: the cursor's index" [dict get $map cursorIndex] 5
+checkEq "a variation: the ply is diagnostic, and the node carries it" \
+    [dict get [dict get $map nodes] 5 ply] 5
+checkEq "a variation: the cursor is untouched" [fakeWhere] $before
+
+# A variation inside a variation: the route is outermost first and reaches
+# through both levels to the innermost leaf.
+fakeBoard $game
+fakeVariation [fakeAtPly 3] {a7a6 b5a4}
+set outer [fakeVariation [fakeAtPly 3] {c7c5 g1f3 d7d6}]
+set inner [fakeVariation [lindex $outer 2] {b7b6 b5c6}]
+fakeCursorAt [lindex $inner 1]
+set map [::review::currentLineMap]
+checkEq "nested: both levels to the innermost leaf" [dict get $map plies] 8
+checkEq "nested: the cursor is in both" [dict get $map cursorRoute] {1 0}
+checkEq "nested: its index" [dict get $map cursorIndex] 8
+checkEq "nested: both anchors, outermost first" [dict get $map anchors] {c7c5 b7b6}
+checkEq "nested: the nested nodes carry both levels" \
+    [list [dict get [dict get $map nodes] 7 route] \
+        [dict get [dict get $map nodes] 8 route]] {{1 0} {1 0}}
+checkEq "nested: the outer nodes carry one" [dict get [dict get $map nodes] 5 route] {1}
+checkEq "nested: the moves" \
+    [list [dict get $map moves 4] [dict get $map moves 7] [dict get $map moves 8]] \
+    {c7c5 b7b6 b5c6}
+
+# Each level's anchor is the variation's first move, and the walk refuses a
+# sibling that has taken its number: entering on the number alone would label
+# another line's move.
+fakeBoard $game
+set first [fakeVariation [fakeAtPly 3] {c7c5 g1f3 d7d6}]
+fakeVariation [fakeAtPly 3] {d7d5 e4d5 e5d4}
+fakeCursorAt [lindex $first 1]
+set map [::review::currentLineMap]
+checkEq "the anchor is read at the branch, before entering" [dict get $map anchors] {c7c5}
+fakeVariation [fakeAtPly 3] {b7b6 g1f3} 0
+set ::calls {}
+set ::seen {}
+set r [::review::visitLine $map {4 5 6} \
+    {apply {{node} { lappend ::seen [dict get $node index] }}}]
+checkEq "a renumbered sibling is refused, not entered" [dict get $r restored] 0
+checkEq "and the body never runs on the wrong line" $::seen {}
+checkEq "and the board is left on the base ply" \
+    [list [sc_pos location] [sc_var level]] {3 0}
+
+# The walk itself: one root-to-leaf pass, the body at each named node with the
+# cursor on it, and the cursor back exactly. Every node's position is the map's
+# own - the string the engine will be given.
+fakeBoard $game
+set outer [fakeVariation [fakeAtPly 3] {c7c5 g1f3 d7d6}]
+set inner [fakeVariation [lindex $outer 2] {b7b6 b5c6}]
+fakeCursorAt [lindex $inner 0]
+set map [::review::currentLineMap]
+set before [fakeWhere]
+set ::seen {}
+set ::agree 1
+# The body needs the map to compare positions against, and apply's body has no
+# access to the harness's variables, so the map is passed in beside the node:
+# visitLine appends the node to whatever command prefix it is given.
+set mark [list apply {{map node} {
+    set i [dict get $node index]
+    lappend ::seen $i
+    if {[sc_pos location] != [dict get $node ply]} { set ::agree 0 }
+    if {[sc_pos fen] ne [dict get $node fen]} { set ::agree 0 }
+    if {[sc_game UCI_currentPos] ne [dict get $map positions $i]} { set ::agree 0 }
+}} $map]
+set r [::review::visitLine $map {1 2 3 4 5 6 7 8} $mark]
+checkEq "the walk visits every node in order" $::seen {1 2 3 4 5 6 7 8}
+check "the cursor is on each node as the body runs" $::agree
+checkEq "the walk puts the cursor back exactly" [dict get $r restored] 1
+checkEq "and leaves it where the map found it" [fakeWhere] $before
+# A subset of the line is walked without stopping short of it: the descent still
+# goes to the leaf, only the body is selective.
+set ::seen {}
+set r [::review::visitLine $map {5} {apply {{node} { lappend ::seen [dict get $node index] }}}]
+checkEq "a partial walk still reaches the node" $::seen {5}
+checkEq "and restores the cursor" [dict get $r restored] 1
+
+# What counts as reviewed: a verdict is the review's own label at the tail of
+# the comment. A bare [%eval], the user's prose, a user NAG and a [Coach] line
+# are notes, not verdicts, so the move is still judged.
+fakeBoard $game
+set var [fakeVariation [fakeAtPly 3] {c7c5 g1f3 d7d6}]
+fakeSet [lindex $var 0] comment {[%eval +0.30]}
+fakeSet [lindex $var 1] comment {A quiet developing move.}
+fakeSet [lindex $var 2] comment {[Coach] This keeps the tension.}
+fakeSet [lindex $var 2] nags {?!}
+fakeCursorAt [lindex $var 2]
+set map [::review::currentLineMap]
+checkEq "a bare \[%eval\] is not a verdict" \
+    [dict get [dict get $map nodes] 4 hasVerdict] 0
+checkEq "the user's prose is not a verdict" \
+    [dict get [dict get $map nodes] 5 hasVerdict] 0
+checkEq "a \[Coach\] line is not a verdict" \
+    [dict get [dict get $map nodes] 6 hasVerdict] 0
+# The NAG is on the node - the stub is asked, not the map, because the map's
+# nodes carry what a writer needs to read, not the whole position.
+checkEq "the user's NAG is really on the node" [fakeGet [lindex $var 2] nags] {?!}
+checkEq "a user NAG alone is not a verdict" \
+    [dict get [dict get $map nodes] 6 hasVerdict] 0
+checkEq "so the whole unlabelled line is judged" [dict get $map judged] {1 2 3 4 5 6}
+checkEq "and there is no context to leave alone" [dict get $map context] {}
+# A partial review: the labelled moves are context, the rest is the work.
+fakeSet [fakeAtPly 1] comment "A good start. \[good\] \[%eval +0.00\]"
+set map [::review::currentLineMap]
+checkEq "a partly reviewed line judges only the gaps" [dict get $map judged] {2 3 4 5 6}
+checkEq "and leaves the labelled move as context" [dict get $map context] {1}
+# Every move labelled: the line is reviewed again rather than silently skipped.
+foreach id [concat [list [fakeAtPly 1] [fakeAtPly 2] [fakeAtPly 3]] $var] {
+    fakeSet $id comment {[good] [%eval +0.00]}
+}
+set map [::review::currentLineMap]
+checkEq "a fully labelled line is judged whole, not silently skipped" \
+    [dict get $map judged] {1 2 3 4 5 6}
+checkEq "and has nothing left as context" [dict get $map context] {}
+
+# The map is a read: the cursor is bit-identical after every build.
+fakeBoard $game
+set var [fakeVariation [fakeAtPly 3] {c7c5 g1f3 d7d6}]
+set inner [fakeVariation [lindex $var 2] {b7b6 b5c6}]
+set exact 1
+foreach id [list [fakeAtPly 0] [fakeAtPly 5] [lindex $var 0] [lindex $var 2] [lindex $inner 1]] {
+    fakeCursorAt $id
+    set before [fakeWhere]
+    set map [::review::currentLineMap]
+    if {[fakeWhere] ne $before} { set exact 0 }
+    if {![dict exists $map cursorIndex]} { set exact 0 }
+}
+check "the cursor is bit-identical after every build" $exact
+
+# A variation opened and never filled contributes no move, so it contributes no
+# node: the line is the prefix, and the cursor is still inside it.
+fakeBoard $game
+set empty [fakeVariation [fakeAtPly 3] {}]
+fakeCursorAt [lindex $empty 0]
+set before [fakeWhere]
+set map [::review::currentLineMap]
+checkEq "an empty variation contributes no node" [dict get $map plies] 3
+checkEq "and no anchor" [dict get $map anchors] {}
+checkEq "and no variation route on the last node" \
+    [dict get [dict get $map nodes] 3 route] {}
+checkEq "the line is the prefix" [dict get $map lineKind] main
+checkEq "and the cursor is still in the empty variation" [fakeWhere] $before
+
+# The node-local marks: D on the move before the node, and the previous
+# verdict's marks off the node itself - both placed by route, so a variation
+# node is written and its same-ply main-line move is not.
+fakeBoard $game
+set var [fakeVariation [fakeAtPly 3] {c7c5 g1f3 d7d6}]
+fakeCursorAt [lindex $var 2]
+set map [::review::currentLineMap]
+set before [fakeWhere]
+checkEq "a diagram is marked on the move before the node" [::review::setDiagramAt $map 6 1] 1
+checkEq "the diagram is on the variation's node" [fakeGet [lindex $var 1] nags] {D}
+checkEq "and not on the main-line move of the same ply" [fakeGet [fakeAtPly 5] nags] {}
+checkEq "with the cursor left where it was" [fakeWhere] $before
+checkEq "index 1 has no move before it" [::review::setDiagramAt $map 1 1] 0
+checkEq "and the diagram can be taken off again" [::review::setDiagramAt $map 6 0] 1
+checkEq "leaving nothing" [fakeGet [lindex $var 1] nags] {}
+
+# clearMarksAt takes off what a previous verdict wrote on that node and nothing
+# else: the NAG its label implies, the assessment, and the diagram before it -
+# the same boundary ::reviewdriver::clearMarks keeps on the main line.
+fakeSet [lindex $var 1] comment "Keep this \[blunder\] \[%eval -1.20\]"
+fakeSet [lindex $var 1] nags {??}
+fakeSet [lindex $var 2] nags {D}
+fakeSet [lindex $var 0] nags {D}
+fakeSet [lindex $var 0] comment "A note of the user's."
+set map [::review::currentLineMap]
+checkEq "the previous verdict's marks are cleared" [::review::clearMarksAt $map 5] 1
+checkEq "the NAG the label implies is gone" [fakeGet [lindex $var 1] nags] {}
+checkEq "the diagram on the move before is gone" [fakeGet [lindex $var 0] nags] {}
+checkEq "a diagram that marks the move after it is left alone" \
+    [fakeGet [lindex $var 2] nags] {D}
+checkEq "and the user's own note is not a verdict to clear" \
+    [::review::clearMarksAt $map 4] 0
+checkEq "the user's note is still there" [fakeGet [lindex $var 0] comment] "A note of the user's."
 
 puts "\nsaved settings"
 # Review Settings is an ordinary preference: the values are option variables, and
