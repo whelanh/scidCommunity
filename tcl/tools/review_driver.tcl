@@ -1033,6 +1033,30 @@ proc ::reviewdriver::runDone {results} {
     # The verifier, when Review Settings names one, gets the last word on
     # Brilliant and Great before anything is written: it is a second engine and a
     # second search, so it runs here - after the pass, before the game changes.
+    #
+    # Start it one event turn later. runDone is called inside the main engine's
+    # reply, and ::reviewverify::start opens a new connection on the same id; the
+    # old connection's close is already queued, and starting a replacement before
+    # that close has run would let the old reader walk the new connection's
+    # handshake. The batch and Rapid Annotate are not inside a reply and call
+    # verifyWrite directly.
+    set verifier ""
+    catch { set verifier [dict get $p verifier] }
+    if {$verifier ne ""} {
+        after idle [list ::reviewdriver::verifyAfterIdle $p $results]
+    } else {
+        ::reviewdriver::verifyWrite $p $results [list ::reviewdriver::writeRun $p]
+    }
+}
+
+# The verifier start, one event turn after the main pass answered. The pass may
+# have been cancelled or replaced while that turn waited; then there is nothing
+# to verify and nothing to write.
+proc ::reviewdriver::verifyAfterIdle {p results} {
+    variable pass
+    if {![dict size $pass] || [dict get $pass token] ne [dict get $p token]} {
+        return
+    }
     ::reviewdriver::verifyWrite $p $results [list ::reviewdriver::writeRun $p]
 }
 

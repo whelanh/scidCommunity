@@ -66,6 +66,14 @@ proc undoFeature {args} {}
 # No Tk in a tclsh harness: a window that is not there is not refreshed.
 proc winfo {args} { return 0 }
 
+# Run the after-idle work ::reviewdriver::runDone schedules for the verifier.
+proc pump {} {
+    unset -nocomplain ::pumped
+    after idle {set ::pumped 1}
+    vwait ::pumped
+    unset -nocomplain ::pumped
+}
+
 # The board the write half drives: four moves, every one the engine's own choice
 # at its reference position, so the ladder calls each of them Best and a
 # correction is the only thing that can move one.
@@ -297,6 +305,20 @@ checkEq "the batch consults the transform once" $::verifyCalls 1
 checkEq "and writes the label it answered" \
     [unwrapped [dict get [::gamestub::commentsByPly] 2]] $want
 
+# Cancel closes the batch and shows its own message. A verifier answer that was
+# already in flight must not write one more game.
+::fx::reset
+resetCalls
+set ::batch_annotate::pipes {pipe0}
+set ::batch_annotate::engine_state(pipe0) idle
+set ::batch_annotate::cancelled 1
+::batch_annotate::writeGame pipe0 1 $map {1 2 3 4} 0 $bp $bres $visible
+set cancelledComment ""
+catch { set cancelledComment [dict get [::gamestub::commentsByPly] 2] }
+checkEq "a cancelled batch writes nothing" $cancelledComment ""
+checkEq "and does not consult the transform" $::verifyCalls 0
+set ::batch_annotate::cancelled 0
+
 puts "\n  rapid annotate"
 
 ::fx::reset
@@ -307,6 +329,23 @@ set rp [dict create map $map plan {1 2 3 4} plies 4 bookEnd 0 mpv 3]
 checkEq "rapid annotate consults the transform once" $::verifyCalls 1
 checkEq "and writes the label it answered" \
     [unwrapped [dict get [::gamestub::commentsByPly] 2]] $want
+
+# The game number is not identity across databases: a commit captured on base 0
+# must not write into a game of the same number on base 1.
+::fx::reset
+resetCalls
+rename sc_base ::rapid_base_real_
+proc sc_base {sub args} {
+    if {$sub eq "current"} { return 1 }
+    return [::rapid_base_real_ $sub {*}$args]
+}
+::rapid_annotate::writeCommit $rp 1 0 0 $rres $visible
+set otherBaseComment ""
+catch { set otherBaseComment [dict get [::gamestub::commentsByPly] 2] }
+checkEq "rapid annotate refuses another database" $otherBaseComment ""
+checkEq "and does not consult the transform" $::verifyCalls 0
+rename sc_base {}
+rename ::rapid_base_real_ sc_base
 
 puts "\n  and the writer's own output, not the raw results"
 
@@ -367,6 +406,9 @@ set p [dict create map $map plan {1 2 3 4} plies 4 bookEnd 0 mpv 3 \
 set ::reviewdriver::pass $p
 set ::reviewdriver::state {}
 ::reviewdriver::runDone [::fx::results]
+checkEq "the verifier start waits for the old connection to close" \
+    [llength $::seamCalls] 0
+pump
 checkEq "the pass's completion reaches the seam" [llength $::seamCalls] 1
 checkEq "with the pass it was given" [dict get [lindex $::seamCalls 0] p] $p
 checkEq "and the pass writes the label the seam answered" \

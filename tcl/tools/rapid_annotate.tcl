@@ -335,8 +335,12 @@ proc ::rapid_annotate::commit {} {
 proc ::rapid_annotate::writeCommit {p gnum ply base results corrections} {
     # The game may have been navigated away from, or replaced, while the second
     # engine searched: writing then would put this game's review into another one.
+    # The game number alone is not identity across databases, so the base is
+    # checked too - `base` is the one this commit captured before the search.
     if {[catch { set here [sc_game number] }]} { set here "" }
     if {$here ne "" && $here ne [string trim $gnum]} { return 0 }
+    if {[catch { set hereBase [sc_base current] }]} { set hereBase "" }
+    if {$hereBase ne "" && $hereBase ne [string trim $base]} { return 0 }
     # The shared transform, immediately before the write.
     set results [::reviewdriver::verified $results $corrections]
     if {[dict size $corrections]} { dict set p corrections $corrections }

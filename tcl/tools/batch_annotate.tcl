@@ -96,6 +96,7 @@ proc ::batch_annotate::start {w} {
 
     destroy $w
 
+    set ::batch_annotate::cancelled 0
     set ::batch_annotate::game_queue {}
     foreach s $games {
         lassign [split [string trim $s] "_"] idx ply
@@ -255,6 +256,11 @@ proc ::batch_annotate::endProgress {} {
 
 proc ::batch_annotate::cancel {} {
     variable pipes
+    set ::batch_annotate::cancelled 1
+    # A verification is a second engine on the driver's connection, not one of
+    # the batch pipes: stop the search in flight as well, and let writeGame's
+    # cancelled guard drop any answer that was already on its way.
+    catch { ::reviewverify::stop }
     foreach pipe $pipes {
         catch { puts $pipe "quit" }
         catch { close $pipe }
@@ -364,6 +370,11 @@ proc ::batch_annotate::check_completion {} {
     variable pipes
     variable total_games
     variable games_completed
+    # Cancel already closed the run and showed its own message. A verifier that
+    # answers afterwards must not turn the empty pipe list into "Batch complete".
+    if {[info exists ::batch_annotate::cancelled] && $::batch_annotate::cancelled} {
+        return
+    }
     
     set all_done 1
     foreach p $pipes {
@@ -589,6 +600,12 @@ proc ::batch_annotate::verifierEngine {} {
 # per-pipe arrays, which assign_game has since overwritten.
 proc ::batch_annotate::writeGame {pipe game_id map plan bookEnd p results corrections} {
     variable base
+    # Cancel closes the batch and closes the batch's own pipes. A verification
+    # answer that was already in flight is not a reason to write one more game or
+    # to show the completion box over the cancelled run.
+    if {[info exists ::batch_annotate::cancelled] && $::batch_annotate::cancelled} {
+        return
+    }
     # The shared transform, immediately before the write: the label the writer
     # puts in the game is the one the second engine agreed with.
     set results [::reviewdriver::verified $results $corrections]

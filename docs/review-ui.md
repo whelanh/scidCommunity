@@ -296,13 +296,17 @@ The search runs on the driver's own connection (engine id 20) through the pass's
 per-position queue, never on an engine window's connection and never on the
 caller's thread with a `vwait`. It happens after the pass has finished and
 before the write, so **Cancel** during it still writes nothing and puts the
-reader back where the pass found them. When two callers want that connection at
+reader back where the pass found them. The verifier starts one event turn after
+the pass's reply, once that pass's connection has been closed: reopening the same
+engine id while the old reply is still on the stack would hand the old reader the
+new connection's handshake. When two callers want that connection at
 once — the batch annotator finishing a second game while the first game's second
 opinion is still running — the later search waits its turn on it: it is neither
 skipped (which would write a label nobody verified) nor allowed to take the
-connection from the search in flight. Book still wins: a move inside the
-opening is theory and is not re-searched (a ply the reader named for Move Comment
-is, because they asked about that move).
+connection from the search in flight. Cancelling a batch also stops its pending
+verification; an answer that arrives late writes nothing. Book still wins: a move
+inside the opening is theory and is not re-searched (a ply the reader named for
+Move Comment is, because they asked about that move).
 
 Because the seam is `::reviewdriver::verified` — one shared transform each writer
 calls immediately before it writes — the batch annotator and Rapid Annotate get
@@ -681,7 +685,7 @@ plain-text form.
 | `tests/tcl/review_ui.tcl` | 247 checks: the call a press makes, the status line (including the coach's counts), the button states, the dialog round trip, the precedence table through the dialog, the time cap's note, the verifier row's Off word and refused preset name, which move a comment judges, the move-comment depth, the key set |
 | `tests/tcl/review_toolbar.tcl` | 43 checks: the five review icons use `::icon::` names and exist in icons_light and icons_dark at 24×24, the whole engine toolbar uses `::icon::` images, the labels are tooltips rather than text, the stop icon is gridded only while a pass runs, a visible divider separates the review group from Config, the dark-theme cache matches `::icon::` names, and the threat button exists only when its command does and not in an embedded PGN viewer |
 | `tests/tcl/review_driver.tcl` | 320 checks: the pass against a stub engine, the four Go shapes the precedence table produces, a capped run, two reviews of the same game in a row, the engine window's hand-off to it, the completion hook, the engine name on an exported variation and in the Annotator tag, and the coach: started after the write, the run held open until the answers land, not started for a single move or an annotate pass, an annotate pass leaving the coach blocks alone, not holding a run open when it cannot start, and Cancel while the model is writing |
-| `tests/tcl/review_verify.tcl` | 58 checks: only Brilliant and Great are jobs, book skips them but a named ply does not, the second engine agreeing or disagreeing about the move and about a Great move's gap, a correction only ever moving down to Best, a miss never becoming a candidate, fail-closed answers (nothing, an empty result, no second line, a bound), a mate score, and the callers that decide to write — `runDone`, `finalize_game` and `commit` — each reaching the seam with its verifier and bounds and writing its answer, with an all-flat run changing nothing |
+| `tests/tcl/review_verify.tcl` | 58 checks: only Brilliant and Great are jobs, book skips them but a named ply does not, the second engine agreeing or disagreeing about the move and about a Great move's gap, a correction only ever moving down to Best, a miss never becoming a candidate, fail-closed answers (nothing, an empty result, no second line, a bound), a mate score, and the callers that decide to write — `runDone`, `finalize_game` and `commit` — each reaching the seam with its verifier and bounds and writing its answer, with an all-flat run changing nothing, a cancelled batch not writing, a Rapid Annotate commit refusing another database, and the verifier start waiting for the old connection to close |
 | `tests/tcl/review_verify_engine.tcl` | 49 checks: the verifier driven through the driver's own queue against a stub second engine at the pass's depth and cap, two lines asked for, the disagreement demoting both labels, the agreement correcting nothing, a silent answer correcting nothing, an engine lost mid-search writing as unverified, Cancel dropping the search, the engine closed after the reply rather than inside it, the seam handing the search the pass's own depth and cap, two callers taking turns on the one connection, and no `vwait` anywhere in the verifier path |
 | `tests/tcl/annotate_dialog.tcl` | 56 checks: the dialog's decision (pane preset, book end, tier, the non-UCI refusal), the blunders-only filter, and the Cancel label rule |
 | `tests/tcl/annotate_run.tcl` | 82 checks: the plan run against a stub engine, the write, the batch chain, the Cancel escalation and a cancelled run writing nothing |
