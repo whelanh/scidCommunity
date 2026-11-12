@@ -116,6 +116,35 @@ checkEq "the score from the side to move" [dict get $::result score_stm] 0.3
 checkEq "the score from White" [dict get $::result score_white] 0.3
 checkEq "and no error" [dict get $::result error] ""
 
+puts "\na late shallower line keeps the deeper result"
+
+set ::late 0
+set ::lateBest ""
+set token [::epdanalysis::ask $fen 4000 \
+    [list apply {{d} { set ::result $d }}] \
+    [list apply {{sought start data} {
+        incr ::late
+        set ::lateBest [dict get $data best_san]
+    }} $fen 0]]
+{*}$::engineCb {InfoPV {1 20 22 2000 500 0 0 140 20 cp 0 e7e5 d7d5}}
+{*}$::engineCb {InfoPV {1 18 20 1500 500 0 0 120 15 cp 0 g1f3 g8f6}}
+# The bestmove belongs to the shallower re-search; the deeper line is the
+# record, so the shallower search must not rewrite its move.
+{*}$::engineCb {InfoBestMove {g1f3}}
+checkEq "the deeper depth is kept" [dict get $::result depth] 20
+checkEq "with its PV" [dict get $::result pv_san] {e5 d5}
+checkEq "and its score" [dict get $::result score_stm] 0.2
+checkEq "the deeper line's move is the answer" [dict get $::result best_san] e5
+checkEq "the shallower line still reached the solve timer" $::late 2
+checkEq "with its own move" $::lateBest Nf3
+
+puts "\na bestmove with no line is still the answer"
+
+set token [::epdanalysis::ask $fen 1000 [list apply {{d} { set ::result $d }}]]
+{*}$::engineCb {InfoBestMove {e7e5}}
+checkEq "the move" [dict get $::result best_san] e5
+checkEq "with no depth" [dict get $::result depth] ""
+
 puts "\na Black-to-move score is turned for White"
 
 set fen2 {4k3/8/8/8/8/8/8/4K2R b - - 0 1}
