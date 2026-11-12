@@ -939,10 +939,10 @@ namespace eval book {
   #  Convert a ChessBase CTG book (.ctg + .cto + .ctb) to OpenBook Rich (.obr)
   ################################################################################
   proc convertCtg {} {
-    set ctg [tk_getOpenFile -parent . -title $::tr(CtgConvertTitle) \
+    set ctg [tk_getOpenFile -parent . -title $::tr(CtgChooseSource) \
         -filetypes {{"ChessBase CTG" {.ctg .CTG}}}]
     if {$ctg eq ""} { return }
-    set obr [tk_getSaveFile -parent . -title $::tr(CtgConvertTitle) \
+    set obr [tk_getSaveFile -parent . -title $::tr(CtgChooseDest) \
         -initialdir $::scidBooksDir -initialfile "[file rootname [file tail $ctg]].obr" \
         -defaultextension .obr -filetypes {{"OpenBook Rich" {.obr}}}]
     if {$obr eq ""} { return }
