@@ -186,6 +186,19 @@ proc ::epdanalysis::ask {fen movetime onDone {onInfo ""}} {
     return $token
 }
 
+# True when a new InfoPV line is below the depth of the result already held.
+# Engines can re-search a line at a shallower depth before the bestmove (a line
+# that was not finished when the deeper one was reported); that line must not
+# replace the deeper depth, score and PV in the record the report and the pv
+# opcode use. Equal and deeper lines replace, as does an unparsable depth.
+proc ::epdanalysis::shallower {depth old} {
+    if {![string is integer -strict $depth] \
+            || ![string is integer -strict $old]} {
+        return 0
+    }
+    return [expr {$depth < $old}]
+}
+
 proc ::epdanalysis::message {msg} {
     variable job
     if {![dict size $job]} { return }
@@ -194,14 +207,28 @@ proc ::epdanalysis::message {msg} {
         "InfoPV" {
             set d [::epdanalysis::dataFromInfo [dict get $job fen] $data]
             if {$d eq ""} { return }
-            dict set job data $d
             set cb [dict get $job onInfo]
+            if {[::epdanalysis::shallower [dict get $d depth] \
+                    [dict get $job data depth]]} {
+                # The result already held is deeper. The line can still be the
+                # first one that matches the sought move, so the solve timer
+                # sees it, but the result record keeps the deeper line.
+                if {$cb ne ""} { catch { {*}$cb $d } }
+                return
+            }
+            dict set job data $d
             if {$cb ne ""} { catch { {*}$cb $d } }
         }
         "InfoBestMove" {
             set best [lindex $data 0]
             set d [dict get $job data]
-            if {$best ne "" && $best ne "0000" && $best ne "(none)"} {
+            # The record is the deepest completed line. A bestmove that comes
+            # after a shallower re-search belongs to that search, and rewriting
+            # the move alone would pair it with the deeper depth, score and PV;
+            # the report and the pv opcode would then disagree. Use the
+            # bestmove only when no line was seen at all.
+            if {$best ne "" && $best ne "0000" && $best ne "(none)" \
+                    && [dict get $d best_uci] eq ""} {
                 dict set d best_uci $best
                 dict set d best_san [::epdanalysis::sanMove [dict get $job fen] $best]
             }
