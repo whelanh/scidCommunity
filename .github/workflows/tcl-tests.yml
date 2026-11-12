@@ -226,11 +226,10 @@ jobs:
       - name: Engine PV display
         run: xvfb-run -a wish tests/tcl/engine_display_tk.tcl
 
-
-      # The repeat the tclsh Training-menu harness cannot make: the Tactics
-      # trainer's own loop, on a window built the way the menu builds it -
-      # start against a preset, one puzzle, a right and a wrong answer, the
-      # analysis timer expiring, and stop (#437 §3a).
+      # The tclsh Training-menu harness checks the menu statically; it cannot
+      # run the Tactics trainer's own loop. This does, on a window built the
+      # way the menu builds it - start against a preset, one puzzle, a right
+      # and a wrong answer, the analysis timer expiring, and stop (#437 §3a).
       - name: Tactics trainer
         run: xvfb-run -a wish tests/tcl/tactics_trainer.tcl
 
