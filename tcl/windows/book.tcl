@@ -23,6 +23,9 @@ namespace eval book {
   set bookSlot2 3
   set bookSlot3 4
   set bookTuningSlot 2
+  # .obr panel sort column (games, score, wdb, elo or perf) chosen by clicking the header
+  set obrSortKey games
+  set obrSortDesc 1
 
   ### Book slots must be unique to avoid conflicts. Other book slots in use are:
   #   analysisBookSlot 1 (analysis.tcl)
@@ -207,6 +210,9 @@ namespace eval book {
       $w.$b.booktext tag configure obrGreen -foreground green4
       $w.$b.booktext tag configure obrBlue -foreground blue3
       $w.$b.booktext tag configure obrHeader -foreground grey40
+      foreach key {games freq score wdb elo perf} {
+        $w.$b.booktext tag bind obrSort$key <ButtonPress-1> [list ::book::obrSortBy $key]
+      }
       ttk::label $w.$b.info -font font_Small -anchor w -justify left
       pack $w.$b.label -side top -fill x
       pack $w.$b.booktext -expand yes -fill both
@@ -311,8 +317,20 @@ namespace eval book {
         }
         if {$::book::sortAlpha} {
           set tmplist [lsort -dictionary -index 0 $tmplist]
+        } elseif {$::book::obrSortKey eq "wdb"} {
+          # high-to-low: best White win % first; reversed: best Black win % first
+          set col [expr {$::book::obrSortDesc ? 6 : 8}]
+          set keyed [lmap r $tmplist {
+            lassign [lindex $r 3] - - - - - - ww dd bw
+            set tot [expr {$ww + $dd + $bw}]
+            list [expr {$tot > 0 ? double([lindex $r 3 $col]) / $tot : -1}] $r
+          }]
+          set tmplist [lmap k [lsort -real -decreasing -index 0 $keyed] {lindex $k 1}]
         } else {
-          set tmplist [lsort -integer -index 2 -decreasing $tmplist]
+          # sort column's position in the details list (row index 3)
+          set idx [list 3 [dict get {games 5 score 4 elo 9 perf 10} $::book::obrSortKey]]
+          set dir [expr {$::book::obrSortDesc ? "-decreasing" : "-increasing"}]
+          set tmplist [lsort -real -index $idx $dir $tmplist]
         }
         set entries($b) $tmplist
         continue
@@ -507,6 +525,20 @@ namespace eval book {
     return $c
   }
 
+  # header click: same column flips the direction, a new one starts high-to-low
+  proc obrSortBy { key } {
+    # frequency is games as a share: same order, so the arrow stays on Games
+    if {$key eq "freq"} { set key games }
+    if {!$::book::sortAlpha && $key eq $::book::obrSortKey} {
+      set ::book::obrSortDesc [expr {!$::book::obrSortDesc}]
+    } else {
+      set ::book::obrSortKey $key
+      set ::book::obrSortDesc 1
+    }
+    set ::book::sortAlpha 0
+    refresh
+  }
+
   proc showObrInfo { b text } {
     set w .bookWin
     if {[winfo exists $w.$b.info]} { $w.$b.info configure -text $text }
@@ -540,8 +572,16 @@ namespace eval book {
     # deleting the text also destroys the previous W/D/B bar canvases
     $txt configure -state normal -width 64
     $txt delete 1.0 end
-    $txt insert end [format "%-9s %8s %9s %6s  %-14s %5s %5s\n" \
-                       "Move" "Games" "Frequency" "Score" "    W/D/B%" "Elo" "Perf"] obrHeader
+    # clickable sort headers; the arrow takes a padding space, keeping columns aligned
+    $txt insert end [format "%-9s" "Move"] obrHeader
+    foreach {key fmt label} {games %9s Games freq %10s Frequency score %7s Score
+                             wdb "  %10s    " W/D/B% elo " %5s" Elo perf " %5s" Perf} {
+      if {!$::book::sortAlpha && $key eq $::book::obrSortKey} {
+        set label "[expr {$::book::obrSortDesc ? "▼" : "▲"}]$label"
+      }
+      $txt insert end [format $fmt $label] [list obrHeader obrSort$key]
+    }
+    $txt insert end "\n" obrHeader
     set line 1
     foreach row $rows {
       incr line
