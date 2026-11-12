@@ -776,7 +776,6 @@ set helpText(P,Menus) {<h1>Menu ScidCommunity</h1>
   <ul>
   <li><menu>Debiuty</menu>: Konfiguruje <a OpeningTrainer>trening debiutów</a>.</li>
   <li><menu>Taktyka</menu>: Konfiguruje <a TacticsTrainer>trening taktyki</a>.</li>
-  <li><menu>Przegląd partii</menu>: Uruchamia tryb przeglądu partii.</li>
   </ul>
   </ul>
   

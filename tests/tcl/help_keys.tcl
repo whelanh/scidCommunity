@@ -67,6 +67,25 @@ proc everyPage {h} {
     }]
 }
 
+# The Training submenu is the <ul> that follows the Training header. Its two
+# surviving entries are Openings and Tactics; the retired Review game bullet
+# carried no <a> link, so a link search cannot see it. Count the <menu> labels
+# in the submenu instead: helpPL.tcl translates its labels ("Trening",
+# "Przeglad partii"), so a literal "<menu>Review Game</menu>" search would miss
+# it. Returns -1 when the submenu cannot be located.
+proc trainingBullets {text} {
+    foreach hdr {Training Trening} {
+        set i [string first "<menu>$hdr</menu>" $text]
+        if {$i < 0} { continue }
+        set ul [string first "<ul>" $text $i]
+        if {$ul < 0} { return -1 }
+        set close [string first "</ul>" $text [expr {$ul + 4}]]
+        if {$close < 0} { return -1 }
+        return [regexp -all "<menu>" [string range $text [expr {$ul + 4}] $close]]
+    }
+    return -1
+}
+
 # The controls the engine window now has, and the keys their help pages are
 # named after: the label the button shows is the key, which is what the old
 # GameComment page did too. ToolsWhatThreat is the engine window's third review
@@ -237,6 +256,9 @@ foreach path [lsort [glob [file join $root tcl help help*.tcl]]] {
         [expr {[string first "<a CalVar>" $all] < 0}]
     check "$label: no page links to ReviewGame" \
         [expr {[string first "<a ReviewGame>" $all] < 0}]
+    set trBullets [trainingBullets $all]
+    check "$label: Training submenu keeps only Openings and Tactics" \
+        [expr {$trBullets == 2}] "found $trBullets bullets"
     interp delete $h
 }
 

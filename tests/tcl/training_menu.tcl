@@ -43,6 +43,23 @@ proc readText {path} {
     return $text
 }
 
+# The Training submenu is the <ul> after the Training header; its survivors are
+# exactly Openings and Tactics. The retired Review game bullet had no <a> link,
+# and helpPL.tcl translates its labels, so neither a link search nor a literal
+# "<menu>Review Game</menu>" search sees it. Count the <menu> labels instead.
+proc trainingBullets {text} {
+    foreach hdr {Training Trening} {
+        set i [string first "<menu>$hdr</menu>" $text]
+        if {$i < 0} { continue }
+        set ul [string first "<ul>" $text $i]
+        if {$ul < 0} { return -1 }
+        set close [string first "</ul>" $text [expr {$ul + 4}]]
+        if {$close < 0} { return -1 }
+        return [regexp -all "<menu>" [string range $text [expr {$ul + 4}] $close]]
+    }
+    return -1
+}
+
 # Every .tcl under a directory, recursively: the retirement is only complete if
 # no file anywhere in the tree still calls into the two modules.
 proc tclFiles {dir} {
@@ -185,8 +202,9 @@ foreach rel {tcl/help/help.tcl tcl/help/helpPL.tcl} {
         [expr {[string first "<a TacticsTrainer>" $text] >= 0}]
     check "$rel has no CalVar link" [expr {[string first "<a CalVar>" $text] < 0}]
     check "$rel has no ReviewGame link" [expr {[string first "<a ReviewGame>" $text] < 0}]
-    check "$rel has no Review game menu bullet" \
-        [expr {[string first "<menu>Review Game</menu>" $text] < 0}]
+    set trBullets [trainingBullets $text]
+    check "$rel Training submenu keeps only Openings and Tactics" \
+        [expr {$trBullets == 2}] "found $trBullets bullets"
 }
 
 puts "\n$checks checks, $fails failures"
