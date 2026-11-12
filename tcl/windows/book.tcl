@@ -23,6 +23,9 @@ namespace eval book {
   set bookSlot2 3
   set bookSlot3 4
   set bookTuningSlot 2
+  # .obr panel sort column (games, score, wdb, elo or perf) chosen by clicking the header
+  set obrSortKey games
+  set obrSortDesc 1
 
   ### Book slots must be unique to avoid conflicts. Other book slots in use are:
   #   analysisBookSlot 1 (analysis.tcl)
@@ -129,7 +132,7 @@ namespace eval book {
 
     # load book names
     set ::book::bookPath $::scidBooksDir
-    set ::book::bookList [ lsort -dictionary [ glob -nocomplain -directory $::book::bookPath *.bin ] ]
+    set ::book::bookList [ lsort -dictionary [ glob -nocomplain -directory $::book::bookPath *.bin *.obr ] ]
 
     # No book found
     if { [llength $::book::bookList] == 0 } {
@@ -201,6 +204,16 @@ namespace eval book {
       ::applyThemeStyle Treeview $w.$b.booktext
       ::applyThemeStyle Treeview $w.$b.opptext
       $w.$b.booktext tag configure nextmove -background $::highcolor
+      # OpenBook Rich (.obr): red = moves the book author marks as "avoid",
+      # header line, and a details line for the hovered move
+      $w.$b.booktext tag configure obrRed -foreground red3
+      $w.$b.booktext tag configure obrGreen -foreground green4
+      $w.$b.booktext tag configure obrBlue -foreground blue3
+      $w.$b.booktext tag configure obrHeader -foreground grey40
+      foreach key {games freq score wdb elo perf} {
+        $w.$b.booktext tag bind obrSort$key <ButtonPress-1> [list ::book::obrSortBy $key]
+      }
+      ttk::label $w.$b.info -font font_Small -anchor w -justify left
       pack $w.$b.label -side top -fill x
       pack $w.$b.booktext -expand yes -fill both
     }
@@ -210,7 +223,9 @@ namespace eval book {
     bind $w.main.combo1 <<ComboboxSelected>> ::book::bookSelect
     bind $w.main.combo2 <<ComboboxSelected>> ::book::bookSelect
     bind $w.main.combo3 <<ComboboxSelected>> ::book::bookSelect
-    bind $w <Destroy> "::book::closeMainBook"
+    # toplevel bindings also fire for every child: the W/D/B bar canvases are
+    # destroyed on each redraw and must not close the books
+    bind $w <Destroy> "if {{%W} eq {$w}} ::book::closeMainBook"
     bind $w <Escape> "::win::closeWindow $w"
     bind $w <Left> { excludeTextWidget %W; ::move::Back }
     bind $w <Right> { excludeTextWidget %W; ::move::Forward }
@@ -291,6 +306,35 @@ namespace eval book {
     # gather entries per visible book: {move count score depth name_idx}
     for {set b 1} {$b <= $count} {incr b} {
       set slot [set ::book::bookSlot$b]
+      set isObr($b) [string match -nocase *.obr [set ::book::currentBook$b]]
+      if {$isObr($b)} {
+        # rows: {san "obr" games details}, sortable like Polyglot rows
+        set tmplist {}
+        if {![catch {sc_book obrmoves $slot} data] && [llength $data] == 3} {
+          foreach m [lindex $data 2] {
+            lappend tmplist [list [lindex $m 0] obr [lindex $m 5] $m]
+          }
+        }
+        if {$::book::sortAlpha} {
+          set tmplist [lsort -dictionary -index 0 $tmplist]
+        } elseif {$::book::obrSortKey eq "wdb"} {
+          # high-to-low: best White win % first; reversed: best Black win % first
+          set col [expr {$::book::obrSortDesc ? 6 : 8}]
+          set keyed [lmap r $tmplist {
+            lassign [lindex $r 3] - - - - - - ww dd bw
+            set tot [expr {$ww + $dd + $bw}]
+            list [expr {$tot > 0 ? double([lindex $r 3 $col]) / $tot : -1}] $r
+          }]
+          set tmplist [lmap k [lsort -real -decreasing -index 0 $keyed] {lindex $k 1}]
+        } else {
+          # sort column's position in the details list (row index 3)
+          set idx [list 3 [dict get {games 5 score 4 elo 9 perf 10} $::book::obrSortKey]]
+          set dir [expr {$::book::obrSortDesc ? "-decreasing" : "-increasing"}]
+          set tmplist [lsort -real -index $idx $dir $tmplist]
+        }
+        set entries($b) $tmplist
+        continue
+      }
       if {[catch {lassign [sc_book moves $slot] bookMoves engine_eval}]} {
         set bookMoves {}
         set engine_eval {}
@@ -338,7 +382,11 @@ namespace eval book {
     # render visible books
     for {set b 1} {$b <= $count} {incr b} {
       set slot [set ::book::bookSlot$b]
-      renderBook $b $rows($b) $nextmove $engine_names $slot
+      if {$isObr($b)} {
+        renderObrBook $b $rows($b) $nextmove $slot
+      } else {
+        renderBook $b $rows($b) $nextmove $engine_names $slot
+      }
     }
 
     ::book::togglePositionsDisplay
@@ -351,6 +399,9 @@ namespace eval book {
     set w .bookWin
     set txt $w.$b.booktext
     set opp $w.$b.opptext
+    catch {pack forget $w.$b.info}
+    $txt configure -width 10
+    $w.$b.label configure -text [file rootname [set ::book::currentBook$b]]
 
     foreach t [$txt tag names] {
       if { [string match "bookMove*" $t] || [string match "mv*" $t] } {
@@ -415,16 +466,240 @@ namespace eval book {
   }
 
   ################################################################################
+  #   OpenBook Rich (.obr) helpers
+  ################################################################################
+  proc obrNag { nag } {
+    set names {"" "!" "?" "!!" "??" "!?" "?!" "□" "□"}
+    if {$nag >= 0 && $nag < [llength $names]} { return [lindex $names $nag] }
+    return "\$$nag"
+  }
+
+  # Move colour as shown by ChessBase: red if the book marks it "avoid" (0x40);
+  # otherwise blue when the NAG contains a question mark (!? ?! ? ?? and
+  # "worst"), green for every other marked move (0x80, 0xA4).
+  proc obrColour { rec nag } {
+    if {$rec == 64} { return red }
+    if {$rec == 128 || $rec == 164} {
+      if {$nag in {2 4 5 6 9}} { return blue }
+      return green
+    }
+    if {$rec == 0} { return "-" }
+    return [format 0x%02x $rec]
+  }
+
+  # Translated display name for an obrColour key ("-" and "0xNN" pass through).
+  proc obrColourText { colour } {
+    switch -- $colour {
+      red   { return [tr ObrColourRed] }
+      blue  { return [tr ObrColourBlue] }
+      green { return [tr ObrColourGreen] }
+    }
+    return $colour
+  }
+
+  # White/Draw/Black bar, $chars characters wide, to embed in text widget $txt;
+  # returns the canvas. Same look as Scid's game list statistics (SourceForge
+  # Scid, ::windows::gamelist::updateStats_): white / #707070 / black segments
+  # with the percentage centred inside (game counts below 100 games).
+  proc obrBar { txt name chars ww dd bw } {
+    set W [expr {$chars * [font measure font_Fixed 0]}]
+    set H [expr {max(round(1.1 * [font metrics font_Fixed -linespace]),
+                     [font metrics font_Small -linespace] + 4)}]
+    set c [canvas $txt.$name -width $W -height $H -bd 0 -highlightthickness 0 \
+             -background [$txt cget -background] -cursor top_left_arrow]
+    set tot [expr {$ww + $dd + $bw}]
+    if {$tot > 0} {
+      set pw [expr {round(100.0 * $ww / $tot)}]
+      set pd [expr {round(100.0 * $dd / $tot)}]
+      if {$tot > 99} {
+        set labels [list $pw% $pd% [expr {100 - $pw - $pd}]%]
+      } else {
+        set labels [list $ww $dd $bw]
+      }
+      set x 0
+      set sum 0
+      foreach n [list $ww $dd $bw] label $labels fill {white #707070 black} fg {black white white} {
+        incr sum $n
+        set x2 [expr {round(double($W) * $sum / $tot)}]
+        if {$x2 > $x} {
+          $c create rectangle $x 0 $x2 $H -fill $fill -outline ""
+          # unlike Scid, skip labels wider than their segment instead of overlapping
+          if {$x2 - $x >= [font measure font_Small $label] + 2} {
+            $c create text [expr {($x + $x2) / 2}] [expr {$H / 2}] -text $label -fill $fg -font font_Small
+          }
+        }
+        set x $x2
+      }
+    }
+    $c create rectangle 0 0 [expr {$W - 1}] [expr {$H - 1}] -outline #808080
+    return $c
+  }
+
+  # header click: same column flips the direction, a new one starts high-to-low
+  proc obrSortBy { key } {
+    # frequency is games as a share: same order, so the arrow stays on Games
+    if {$key eq "freq"} { set key games }
+    if {!$::book::sortAlpha && $key eq $::book::obrSortKey} {
+      set ::book::obrSortDesc [expr {!$::book::obrSortDesc}]
+    } else {
+      set ::book::obrSortKey $key
+      set ::book::obrSortDesc 1
+    }
+    set ::book::sortAlpha 0
+    refresh
+  }
+
+  proc showObrInfo { b text } {
+    set w .bookWin
+    if {[winfo exists $w.$b.info]} { $w.$b.info configure -text $text }
+  }
+
+  ################################################################################
+  #   render one .obr book panel
+  #   rows: {san "obr" games details}; details from "sc_book obrmoves":
+  #   {san nag flags hasStats score games whiteWins draws blackWins elo perf rec}
+  ################################################################################
+  proc renderObrBook { b rows nextmove slot } {
+    set w .bookWin
+    set txt $w.$b.booktext
+    set opp $w.$b.opptext
+
+    foreach t [$txt tag names] {
+      if { [string match "bookMove*" $t] || [string match "mv*" $t] } {
+        $txt tag delete $t
+      }
+    }
+
+    $w.$b.label configure -text [file rootname [set ::book::currentBook$b]]
+
+    # share of each move = its games / games of all listed moves (sums to 100%,
+    # unlike the position total, which transpositions can make smaller)
+    set sumGames 0
+    foreach row $rows {
+      if {[llength $row] && [lindex $row 3 3]} { incr sumGames [lindex $row 3 5] }
+    }
+
+    # deleting the text also destroys the previous W/D/B bar canvases
+    $txt configure -state normal -width 64
+    $txt delete 1.0 end
+    # clickable sort headers; the arrow takes a padding space, keeping columns aligned
+    $txt insert end [format "%-9s" [tr ObrBookMove]] obrHeader
+    foreach {key fmt label} [list \
+        games %9s [tr ObrBookGames] \
+        freq %10s [tr ObrBookFrequency] \
+        score %7s [tr ObrBookScore] \
+        wdb "  %10s    " [tr ObrBookWDB] \
+        elo " %5s" [tr ObrBookElo] \
+        perf " %5s" [tr ObrBookPerf]] {
+      if {!$::book::sortAlpha && $key eq $::book::obrSortKey} {
+        set label "[expr {$::book::obrSortDesc ? "▼" : "▲"}]$label"
+      }
+      $txt insert end [format $fmt $label] [list obrHeader obrSort$key]
+    }
+    $txt insert end "\n" obrHeader
+    set line 1
+    foreach row $rows {
+      incr line
+      if {[llength $row] == 0} {
+        $txt insert end "\n"
+        continue
+      }
+      lassign [lindex $row 3] san nag flags hasStats score games ww dd bw elo perf rec
+      set label "[::trans $san][obrNag $nag]"
+      if {$hasStats} {
+        set eloTxt [expr {$elo > 0 ? $elo : "-"}]
+        set perfTxt [expr {$perf > 0 ? $perf : "-"}]
+        set freq [expr {$sumGames > 0 ? 100.0 * $games / $sumGames : 0}]
+        set colourKey [obrColour $rec $nag]
+        set text [format "%-9s %8d %8.1f%% %5.1f%%  " $label $games $freq $score]
+        set tail [format " %5s %5s" $eloTxt $perfTxt]
+        set detail [format [tr ObrBookDetail] \
+                      $label $games $freq $ww $dd $bw $score $eloTxt $perfTxt \
+                      [obrColourText $colourKey] $flags]
+      } else {
+        set text [format "%-9s %8s" $label "-"]
+        set detail "$label  [tr ObrBookNoStats]"
+      }
+      set tags [list bookMove$line mv$san]
+      if {$san == $nextmove} { lappend tags nextmove }
+      if {$hasStats} {
+        switch -- $colourKey {
+          red   { lappend tags obrRed }
+          blue  { lappend tags obrBlue }
+          green { lappend tags obrGreen }
+        }
+      }
+      if {$san == $nextmove} {
+        set click ::move::Forward
+      } else {
+        set click [list ::book::makeBookMove $san]
+      }
+      set enter "[list ::book::hoverMove $san enter]; [list ::book::showObrInfo $b $detail]"
+      set leave "[list ::book::hoverMove $san leave]; [list ::book::showObrInfo $b {}]"
+      $txt insert end $text $tags
+      if {$hasStats && $games > 0} {
+        set bar [obrBar $txt bar$line 14 $ww $dd $bw]
+        $txt window create end -window $bar -align center
+        bind $bar <ButtonPress-1> $click
+        bind $bar <Enter> $enter
+        bind $bar <Leave> $leave
+        $txt insert end $tail $tags
+      } elseif {$hasStats} {
+        $txt insert end "[string repeat " " 14]$tail" $tags
+      }
+      $txt insert end "\n" $tags
+      $txt tag bind bookMove$line <ButtonPress-1> $click
+      $txt tag bind bookMove$line <Any-Enter> $enter
+      $txt tag bind bookMove$line <Any-Leave> $leave
+    }
+
+    set height [expr {$line + 1}]
+    if {$height < 4} { set height 4 }
+    $txt configure -state disabled -height $height
+
+    if {[catch {pack info $w.$b.info}]} {
+      catch {pack $w.$b.info -side bottom -fill x -before $txt}
+    }
+    showObrInfo $b ""
+
+    # moves leading to positions in the book
+    foreach t [$opp tag names] {
+      if { [string match "bookMove*" $t] } { $opp tag delete $t }
+    }
+    set oppBookMoves {}
+    catch {set oppBookMoves [sc_book positions $slot]}
+    $opp configure -state normal
+    $opp delete 1.0 end
+    set line 0
+    foreach x $oppBookMoves {
+      incr line
+      $opp insert end [format "%5s\n" [::trans $x]]
+      $opp tag add bookMove$line $line.0 $line.end
+      $opp tag bind bookMove$line <ButtonPress-1> "::book::makeBookMove $x"
+    }
+    $opp configure -state disabled
+  }
+
+  ################################################################################
   #   highlight the same move in every book panel while hovering
   ################################################################################
   proc hoverMove { move state } {
     set w .bookWin
-    set color {}
-    if {$state == "enter"} { set color grey }
     for {set b 1} {$b <= 3} {incr b} {
-      if {![winfo exists $w.$b.booktext]} { continue }
-      catch { $w.$b.booktext tag configure mv$move -background $color }
+      set txt $w.$b.booktext
+      if {![winfo exists $txt]} { continue }
+      set color {}
+      if {$state == "enter"} { set color [hoverColour $txt] }
+      catch { $txt tag configure mv$move -background $color }
     }
+  }
+
+  # a faint tint of the text colour over the background: visible, yet the
+  # (possibly coloured) move text stays readable in light and dark themes
+  proc hoverColour { txt } {
+    set bg [winfo rgb $txt [$txt cget -background]]
+    set fg [winfo rgb $txt [$txt cget -foreground]]
+    return [format "#%02x%02x%02x" {*}[lmap a $bg b $fg {expr {int(0.85 * $a + 0.15 * $b) >> 8}}]]
   }
 
   ################################################################################

@@ -9865,8 +9865,8 @@ int sc_var_enter(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
 ///  BOOK functions
 
 int sc_book(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
-  static const char *options[] = {"load",        "close",  "moves", "positions",
-                                  "movesupdate", "update", nullptr};
+  static const char *options[] = {"load",        "close",  "moves",    "positions",
+                                  "movesupdate", "update", "obrmoves", nullptr};
   enum {
     BOOK_LOAD,
     BOOK_CLOSE,
@@ -9874,6 +9874,7 @@ int sc_book(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
     BOOK_POSITIONS,
     BOOK_MOVES_UPDATE,
     BOOK_UPDATE,
+    BOOK_OBRMOVES,
   };
   int index = -1;
 
@@ -9899,6 +9900,9 @@ int sc_book(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
 
   case BOOK_MOVES_UPDATE:
     return sc_book_movesupdate(cd, ti, argc, argv);
+
+  case BOOK_OBRMOVES:
+    return sc_book_obrmoves(cd, ti, argc, argv);
 
   default:
     return InvalidCommand(ti, "sc_book", options);
@@ -9997,6 +10001,9 @@ int sc_book_update(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     return errorResult(ti, "Usage: sc_book update <probs> slot");
   }
   uint slot = strGetUnsigned(argv[3]);
+  if (polyglot_is_obr(slot)) {
+    return errorResult(ti, "OpenBook Rich books are read-only");
+  }
   scid_book_update((char *)argv[2], slot);
   return TCL_OK;
 }
@@ -10010,9 +10017,66 @@ int sc_book_movesupdate(ClientData, Tcl_Interp *ti, int argc,
         ti, "Usage: sc_book movesupdate <moves> <probs> slot tempfile");
   }
   uint slot = strGetUnsigned(argv[4]);
+  if (polyglot_is_obr(slot)) {
+    return errorResult(ti, "OpenBook Rich books are read-only");
+  }
   scid_book_movesupdate((char *)argv[2], (char *)argv[3], slot,
                         (char *)argv[5]);
   return TCL_OK;
+}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// sc_book_obrmoves:
+//    Statistics of the current position in an OpenBook Rich (.obr) book.
+//    Returns {} if the slot is not an .obr book or the position is not in it,
+//    otherwise {transform posStats moves} where
+//      posStats = {games whiteWins draws blackWins avgElo perf recommendation}
+//      moves    = list of {san nag flags hasStats score games whiteWins draws
+//                          blackWins avgElo perf recommendation}
+//    score is the percentage scored by the side that plays the move.
+int sc_book_obrmoves(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
+  if (argc != 3) {
+    return errorResult(ti, "Usage: sc_book obrmoves slot");
+  }
+  uint slot = strGetUnsigned(argv[2]);
+  char boardStr[100];
+  db->game->GetCurrentPos()->PrintFEN(boardStr);
+  PolyglotObrPos pos;
+  std::vector<PolyglotObrMove> moves;
+  if (!polyglot_obr_moves(boardStr, slot, pos, moves)) {
+    return TCL_OK;
+  }
+  UI_List pstats(7);
+  pstats.push_back(static_cast<int>(pos.stats.games));
+  pstats.push_back(static_cast<int>(pos.stats.white_wins));
+  pstats.push_back(static_cast<int>(pos.stats.draws));
+  pstats.push_back(static_cast<int>(pos.stats.black_wins));
+  pstats.push_back(pos.stats.avg_rating);
+  pstats.push_back(pos.stats.performance);
+  pstats.push_back(pos.stats.recommendation);
+  UI_List mlist(moves.size());
+  for (const auto &m : moves) {
+    UI_List e(13);
+    e.push_back(m.san.c_str());
+    e.push_back(m.nag);
+    e.push_back(m.flags);
+    e.push_back(m.has_stats ? 1 : 0);
+    char sc[32];
+    std::snprintf(sc, sizeof sc, "%.1f", m.score);
+    e.push_back(static_cast<const char *>(sc));
+    e.push_back(static_cast<int>(m.stats.games));
+    e.push_back(static_cast<int>(m.stats.white_wins));
+    e.push_back(static_cast<int>(m.stats.draws));
+    e.push_back(static_cast<int>(m.stats.black_wins));
+    e.push_back(m.stats.avg_rating);
+    e.push_back(m.stats.performance);
+    e.push_back(m.stats.recommendation);
+    mlist.push_back(e);
+  }
+  UI_List res(3);
+  res.push_back(pos.transform);
+  res.push_back(pstats);
+  res.push_back(mlist);
+  return UI_Result(ti, OK, res);
 }
 //////////////////////////////////////////////////////////////////////
 /// END of tkscid.cpp
