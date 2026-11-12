@@ -28,7 +28,6 @@ set helpText(M,Contents) {<h1>scid社区帮助内容</h1>
   <li><a Engine><b>分析</b>窗口</a></li>
   <li><a Engine><b>发动机</b>车窗</a></li>
   <li><a Book><b>书籍</b>窗口</a></li>
-  <li><a CalVar><b>偏差计算</b>窗口</a></li>
   <li><a Comment><b>评论编辑器</b>窗口</a></li>
   <li><a Crosstable><b>十字桌</b>窗</a></li>
   <li><a Switcher><b>数据库切换器</b>窗口</a></li>
@@ -755,8 +754,6 @@ set helpText(M,Menus) {<h1>scidCommunity menus</h1>
   <ul>
   <li><menu>Openings Training</menu>: Configures <a OpeningTrainer>openings training</a>.</li>
   <li><menu>Tactics Training</menu>: Configures <a TacticsTrainer>tactics training</a>.</li>
-  <li><menu>Review Game</menu>: Starts game review mode.</li>
-  <li><menu>Calvar Training</menu>: Configures <a CalVar>calculation of variations</a> training.</li>
   </ul>
   </ul>
   
@@ -3312,48 +3309,6 @@ set helpText(M,Engine) {<h1>发动机窗口</h1>
 }
 
 
-set helpTitle(M,CalVar) "变异的计算"
-set helpText(M,CalVar) {<h1>变异窗口的计算</h1>
-  <p>
-   This training exercise is also known as the Stoyko exercise.  其
-   purpose is to analyse a complex position and evaluate as many sound
-   lines as possible, and give a correct evaluation for each of them.
-  </p> 
-  <h3>配置</h3></p>
-  <p>
-  设置三个参数：
-  <ul>
-     <li>The UCI engine that will analyse various lines</li>
-     <li>The time, in seconds, the engine will use to analyse the position</li>
-     <li>The time, in seconds, the engine will use to analyse each line entered by the user</li>
-  </ul>
-  </p>
-
-  <h3>输入线</h3></p>
-  <p>
-  Moves are entered as usual with mouse clicks on the board but they
-  将不会显示。在一行的末尾，用户需要提供
-  an evaluation by clicking on one of the buttons with NAG codes.
-  </p>
-
-  <h3>评估验证</h3>
-  <p>
-  Each time an evaluation is given to a line the engine calculates its
-  value and append the line and score just below the user ones.
-  </p>
-
-  <h3>位置完成</h3>
-  <p>
-   When  the user thinks he found all best lines, pressing <term>Done with
-   position</term> will append to the game (with the comment <term>Missed
-   line</term>), the lines that have a score higher than the best line
-   由用户输入。
-  </p>
-
-  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
-}
-
-
 set helpTitle(M,EPD) "环保署文件"
 set helpText(M,EPD) {<h1>环保署文件</h1>
   <p>
@@ -5426,49 +5381,6 @@ set helpText(M,InputEngine) {<h1>输入引擎驱动控制台</h1>
    </p>
 
 
-  <p><footer>（更新：scidCommunity，2026 年 4 月）</footer></p>
-
-}
-
-
-set helpTitle(M,ReviewGame) "游戏评论"
-set helpText(M,ReviewGame) {<h1>评论游戏</h1>
-   <p>
-	此功能旨在研究游戏，这意味着您应该
-	尝试猜测比赛中的动作。所以你首先打开一个
-	从任何 scidCommunity 的基地进行游戏，然后使用以下命令进入此功能
-	<b>回顾比赛</b> 在 <b>玩</b> 菜单。  和往常一样，去玩
-	黑棋，先翻板（你总是从底下开始下棋）
-	董事会）。
-   </p>
-	<p>
-	为了进行有效的训练，应进行以下设置
-	禁用：
-	<ul>
-		<li>显示最后一步（选项/动作/突出显示最后一步）</li>
-		<li>显示下一步（选项/游戏信息/隐藏下一步）</li>
-		<li>PGN窗口</li>
-	</p>
-流程如下：
-<ul>
-<li>- 引擎思考游戏过程中的移动</li>
-<li>- 引擎思考位置并找到最佳移动</li>
-<li>- 然后允许用户输入他的动作</li>
-<li>- 引擎思考用户的移动</li>
-</ul>
-如果用户下的棋子是实际下的棋子
-在游戏过程中或引擎选择的动作或得分的动作
-接近引擎找到的最佳移动（使用边际误差
-由用户定义），那么这一举动就被认为是一个好的举动。如果
-用户不同意他可以使用的引擎 <b>延长时间</b>
-按钮以获得引擎分析的确认。
-<p>
-<b>笔记：</b> 
-<ul>
-<li>- 比赛回顾前必须选择球队 </li>
-<li>- 用户总是从棋盘的底部开始玩</li>
-</ul>
-</p>
   <p><footer>（更新：scidCommunity，2026 年 4 月）</footer></p>
 
 }

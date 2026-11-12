@@ -247,9 +247,7 @@ menuText A ToolsTracker "ピーストラッカー"  6 {ピーストラッカー�
 menuText A ToolsTraining "トレーニング"  0 {トレーニングツール (戦術、オープニングなど)}
 menuText A ToolsPlayVsEngine "プレイ対エンジン"  0 {チェスエンジンと対戦する}
 menuText A ToolsTrainOpenings "開口部"  0 {レパートリーを持ってトレーニングする}
-menuText A ToolsTrainReviewGame "ゲームのレビュー"  0 {ゲームでの動きを推測する}
 menuText A ToolsTrainTactics "戦術"  0 {戦術を解決する}
-menuText A ToolsTrainCalvar "変動の計算"  0 {バリエーション計算トレーニング}
 menuText A ToolsTrainFindBestMove "最善の手を見つける"  0 {最善の手を見つける}
 menuText A ToolsTrainFics "FICS でプレイする"  0 {freechess.org でプレイする}
 menuText A ToolsEngineTournament "エンジントーナメント"  0 {チェス エンジン間でトーナメントを開始する}
@@ -1690,6 +1688,17 @@ translate A IndentVariations {インデントのバリエーション}
 translate A ExportColumnStyle {列スタイル (1 行に 1 回の移動)}
 translate A ExportSymbolStyle {記号的な注釈スタイル:}
 translate A ExportStripMarks {コメントから四角形/矢印マーク\nコードを削除します}
+translate A OptionsExportEol {行末:}
+translate A OptionsExportEolNative {ネイティブ}
+translate A OptionsPGNExport {PGN エクスポート}
+translate A OptionsTagOrderIntro {ゲームを作成する際の残りの PGN タグの順序。 PGN 標準に従って、Seven Tag Roster は常に最初に書き込まれます。}
+translate A OptionsTagOrderStr {7 つのタグ名簿 (固定): イベント、サイト、日付、ラウンド、白、黒、結果}
+translate A OptionsTagOrderWhite {ホワイト評価}
+translate A OptionsTagOrderBlack {黒の評価}
+translate A OptionsTagOrderOthers {その他のタグ}
+translate A OptionsTagOrderSort {他のタグをアルファベット順に並べ替えます (それ以外の場合は元の順序)}
+translate A Up {上}
+translate A Down {下}
 
 # Goto game/move dialogs:
 translate A LoadGameNumber {ロードするゲーム番号を入力してください:}
@@ -1911,8 +1920,6 @@ translate A AddScoreToShortAnnotations {注釈にスコアを追加する}
 translate A AddScoreToAllMoves {すべての動きにスコアを追加します}
 translate A Export {輸出}
 translate A BookPartiallyLoaded {本が部分的に読み込まれています}
-translate A Calvar {変動の計算}
-translate A ConfigureCalvar {構成}
 # Opening names used in tacgame.tcl
 translate A Reti {レティ}
 translate A English {英語}
@@ -2018,24 +2025,6 @@ translate A FICSTextColor {文字の色}
 
 # Game review
 translate A GameReview {ゲームレビュー}
-translate A GameReviewTimeExtended {時間延長}
-translate A GameReviewMargin {誤差範囲}
-translate A GameReviewAutoContinue {移動が正しい場合は自動続行}
-translate A GameReviewReCalculate {延長時間を利用する}
-translate A GameReviewAnalyzingMovePlayedDuringTheGame {試合中に出た手を分析する}
-translate A GameReviewAnalyzingThePosition {ポジションを分析する}
-translate A GameReviewEnterYourMove {動きを入力してください}
-translate A GameReviewCheckingYourMove {自分の動きを確認する}
-translate A GameReviewYourMoveWasAnalyzed {あなたの動きが分析されました}
-translate A GameReviewYouPlayedSameMove {試合中と同じ動きをしました}
-translate A GameReviewScoreOfYourMove {あなたの動きのスコア}
-translate A GameReviewGameMoveScore {ゲームの動きのスコア}
-translate A GameReviewEngineScore {エンジンのスコア}
-translate A GameReviewYouPlayedLikeTheEngine {あなたはエンジンと同じくらい良いプレーをしました}
-translate A GameReviewNotEngineMoveButGoodMove {エンジンの動きではありませんが、これも良い動きです}
-translate A GameReviewMoveNotGood {この動きは良くありません、スコアは}
-translate A GameReviewMovesPlayedLike {動きは次のようにプレイされます}
-translate A GameReviewMovesPlayedEngine {エンジンのように動きを再生}
 
 # Correspondence Chess Dialogs:
 translate A CCDlgCGeneraloptions {一般的なオプション}
@@ -2061,9 +2050,6 @@ translate A IESending {送信された移動}
 translate A IESynchronise {同期する}
 translate A IERotate  {回転}
 translate A IEUnableToStart {入力エンジンを開始できません:}
-
-# Calculation of Variations
-translate A DoneWithPosition {ポジションを完了しました}
 
 translate A Board {ボード}
 translate A showGameInfo {ゲーム情報を表示}
@@ -2145,7 +2131,6 @@ translate A BatchAnnotate {バッチ注釈付け}
 translate A BatchEngineSelection {エンジンの選択}
 translate A BatchChessEngine {チェスエンジン:}
 translate A BatchNumberOfInstances {インスタンスの数:}
-translate A BatchGameReview {ゲームレビュー}
 translate A BatchTimePerMove {移動あたりの時間 (秒):}
 translate A BatchAnnotateBlunders {間違いのみに注釈を付ける}
 translate A BatchBlunderThreshold {失策の閾値:}

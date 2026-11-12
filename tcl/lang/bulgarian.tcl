@@ -247,9 +247,7 @@ menuText g ToolsTracker "Проследяване на парчета"  6 {От�
 menuText g ToolsTraining "обучение"  0 {Инструменти за обучение (тактики, отваряния,...)}
 menuText g ToolsPlayVsEngine "Играйте срещу двигател"  0 {Играйте игра срещу шах двигател}
 menuText g ToolsTrainOpenings "Отвори"  0 {Тренирайте с репертоар}
-menuText g ToolsTrainReviewGame "Преглед на играта"  0 {Познайте ходове, изиграни в игра}
 menuText g ToolsTrainTactics "Тактика"  0 {Решете тактика}
-menuText g ToolsTrainCalvar "Изчисляване на вариации"  0 {Изчисляване на вариативно обучение}
 menuText g ToolsTrainFindBestMove "Намерете най-добрия ход"  0 {Намерете най-добрия ход}
 menuText g ToolsTrainFics "Играйте на FICS"  0 {Играйте на freechess.org}
 menuText g ToolsEngineTournament "Турнир по двигателя"  0 {Стартирайте турнир между шахматни машини}
@@ -1690,6 +1688,17 @@ translate g IndentVariations {Вариации на отстъпа}
 translate g ExportColumnStyle {Стил на колона (едно движение на ред)}
 translate g ExportSymbolStyle {Стил на символични пояснения:}
 translate g ExportStripMarks {Премахване на \nкодовете на квадрат/стрелка от коментарите}
+translate g OptionsExportEol {Краища на редове:}
+translate g OptionsExportEolNative {Роден}
+translate g OptionsPGNExport {Експортиране на PGN}
+translate g OptionsTagOrderIntro {Ред на останалите PGN тагове при писане на игра. Списъкът със седем етикета винаги се записва първи, според стандарта PGN.}
+translate g OptionsTagOrderStr {Списък със седем маркера (фиксиран): събитие, сайт, дата, кръг, бяло, черно, резултат}
+translate g OptionsTagOrderWhite {Бял рейтинг}
+translate g OptionsTagOrderBlack {Черен рейтинг}
+translate g OptionsTagOrderOthers {Други тагове}
+translate g OptionsTagOrderSort {Сортирайте другите тагове по азбучен ред (в противен случай оригиналният ред)}
+translate g Up {нагоре}
+translate g Down {Надолу}
 
 # Goto game/move dialogs:
 translate g LoadGameNumber {Въведете номера на играта за зареждане:}
@@ -1911,8 +1920,6 @@ translate g AddScoreToShortAnnotations {Добавете резултат към
 translate g AddScoreToAllMoves {Добавете резултат към всички ходове}
 translate g Export {Експортиране}
 translate g BookPartiallyLoaded {Книгата е частично заредена}
-translate g Calvar {Изчисляване на вариации}
-translate g ConfigureCalvar {Конфигурация}
 # Opening names used in tacgame.tcl
 translate g Reti {Рети}
 translate g English {английски}
@@ -2018,24 +2025,6 @@ translate g FICSTextColor {Цвят на текста}
 
 # Game review
 translate g GameReview {Преглед на играта}
-translate g GameReviewTimeExtended {Времето е удължено}
-translate g GameReviewMargin {Допустима грешка}
-translate g GameReviewAutoContinue {Автоматично продължаване, когато движението е правилно}
-translate g GameReviewReCalculate {Използвайте удължено време}
-translate g GameReviewAnalyzingMovePlayedDuringTheGame {Анализиране на изиграния ход по време на играта}
-translate g GameReviewAnalyzingThePosition {Анализ на позицията}
-translate g GameReviewEnterYourMove {Въведете своя ход}
-translate g GameReviewCheckingYourMove {Проверявам хода ви}
-translate g GameReviewYourMoveWasAnalyzed {Вашият ход беше анализиран}
-translate g GameReviewYouPlayedSameMove {Изиграхте същия ход като в мача}
-translate g GameReviewScoreOfYourMove {Резултат от вашия ход}
-translate g GameReviewGameMoveScore {Резултатът от хода на играта}
-translate g GameReviewEngineScore {Резултатът на двигателя}
-translate g GameReviewYouPlayedLikeTheEngine {Играхте толкова добре, колкото двигателят}
-translate g GameReviewNotEngineMoveButGoodMove {Не движението на двигателя, но също е добър ход}
-translate g GameReviewMoveNotGood {Този ход не е добър, резултатът е}
-translate g GameReviewMovesPlayedLike {Изиграни ходове като}
-translate g GameReviewMovesPlayedEngine {Движенията се играха като двигател}
 
 # Correspondence Chess Dialogs:
 translate g CCDlgCGeneraloptions {Общи опции}
@@ -2061,9 +2050,6 @@ translate g IESending {Изпратени ходове}
 translate g IESynchronise {Синхронизирайте}
 translate g IERotate  {Завъртете}
 translate g IEUnableToStart {Не може да се стартира Input Engine:}
-
-# Calculation of Variations
-translate g DoneWithPosition {Готово с позицията}
 
 translate g Board {дъска}
 translate g showGameInfo {Показване на информация за играта}
@@ -2145,7 +2131,6 @@ translate g BatchAnnotate {Партидно анотиране}
 translate g BatchEngineSelection {Избор на двигател}
 translate g BatchChessEngine {Шах двигател:}
 translate g BatchNumberOfInstances {Брой инстанции:}
-translate g BatchGameReview {Преглед на играта}
 translate g BatchTimePerMove {Време на движение (сек):}
 translate g BatchAnnotateBlunders {Коментирайте само гафове}
 translate g BatchBlunderThreshold {Праг на грешка:}

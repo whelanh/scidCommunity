@@ -208,12 +208,14 @@ proc ::lichstudy::errorText {code body} {
 
 # Standard PGN for Lichess: NAGs as $n (Lichess shows them as !, ?!, +- ...),
 # no column or indentation layout, and [%csl]/[%cal] marks kept so coloured
-# squares and arrows appear in the study. -base/-gameNumber must come before
-# these options, because sc_game pgn applies them to the game it selected.
+# squares and arrows appear in the study. -english forces standard (English)
+# piece letters, since Lichess does not understand localised SAN (e.g. the
+# German S/L/T/D). -base/-gameNumber must come before these options, because
+# sc_game pgn applies them to the game it selected.
 proc ::lichstudy::pgnOptions {} {
     return {-width 80 -tags 1 -comments 1 -variations 1 -symbols 0
             -indentVariations 0 -indentComments 0 -space 0 -column 0
-            -markCodes 0 -unicode 0 -format plain}
+            -markCodes 0 -unicode 0 -format plain -english 1}
 }
 
 # Lichess splits a multi-game PGN at a blank line followed by "[", so the

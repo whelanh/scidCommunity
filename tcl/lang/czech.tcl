@@ -207,9 +207,7 @@ menuText C ToolsTracker "Stopa figur"  0 {Otevt okno stopae figur}
 menuText C ToolsTraining "Trnink"  0 {Trninkov nstroje (taktika, zahjen,...) }
 menuText C ToolsPlayVsEngine "Play versus Engine"  0 {Zahrajte si hru proti šachovému motoru}
 menuText C ToolsTrainOpenings "Zahjen"  0 {Trnovat s repertorem zahjen}
-menuText C ToolsTrainReviewGame "Projt partii"  0 {Hdat tahy sehran v partii}
 menuText C ToolsTrainTactics "Taktika"  0 {eit taktick koly}
-menuText C ToolsTrainCalvar "Propoet variant"  0 {Trnink propotu variant}
 menuText C ToolsTrainFindBestMove "Nalzt nejlep tah"  0 {Nalzt nejlep tah}
 menuText C ToolsTrainFics "Hrt na internetu"  0 {Hrt na freechess.org}
 menuText C ToolsEngineTournament "Motorov turnaj"  0 {Zante turnaj mezi achovmi motory}
@@ -1662,6 +1660,17 @@ translate C IndentVariations {Odsazovat varianty?}
 translate C ExportColumnStyle {Sloupcov styl (jeden tah na dek)?}
 translate C ExportSymbolStyle {Styl pro symbolick anotace:}
 translate C ExportStripMarks {Odstranit kdov znaky pol/ipek z koment?}
+translate C OptionsExportEol {Konce řádků:}
+translate C OptionsExportEolNative {Rodák}
+translate C OptionsPGNExport {Export PGN}
+translate C OptionsTagOrderIntro {Pořadí zbývajících značek PGN při psaní hry. Seven Tag Roster je vždy napsán jako první podle standardu PGN.}
+translate C OptionsTagOrderStr {Seznam sedmi značek (pevný): Událost, Místo, Datum, Kolo, Bílá, Černá, Výsledek}
+translate C OptionsTagOrderWhite {Bílé hodnocení}
+translate C OptionsTagOrderBlack {Černé hodnocení}
+translate C OptionsTagOrderOthers {Další značky}
+translate C OptionsTagOrderSort {Seřadit ostatní štítky podle abecedy (jinak původní pořadí)}
+translate C Up {Nahoru}
+translate C Down {Dolů}
 
 # Goto game/move dialogs:
 translate C LoadGameNumber {Vlote slo partie:}
@@ -1892,8 +1901,6 @@ translate C AddScoreToShortAnnotations {Pidat skre ke krtkm anotacm}
 translate C AddScoreToAllMoves {Přidejte skóre ke všem tahům}
 translate C Export {Export}
 translate C BookPartiallyLoaded {Knihovna zahjen sten nataena}
-translate C Calvar {Propoet variant}
-translate C ConfigureCalvar {Konfigurace}
 # Opening names used in tacgame.tcl
 translate C Reti {Rtiho}
 translate C English {Anglick}
@@ -1999,24 +2006,6 @@ translate C FICSTextColor {Barva textu}
 
 # Game review
 translate C GameReview {Prohlen partie}
-translate C GameReviewTimeExtended {as prodlouen}
-translate C GameReviewMargin {Okraj chyby}
-translate C GameReviewAutoContinue {Automaticky pokraovat, je-li tah sprvn}
-translate C GameReviewReCalculate {Pouijte del dobu}
-translate C GameReviewAnalyzingMovePlayedDuringTheGame {Analyzuji tahy sehran v partii}
-translate C GameReviewAnalyzingThePosition {Analyzuji pozici}
-translate C GameReviewEnterYourMove {Zadejte v tah}
-translate C GameReviewCheckingYourMove {Kontroluji v tah}
-translate C GameReviewYourMoveWasAnalyzed {V tah by zanalyzovn}
-translate C GameReviewYouPlayedSameMove {Hrl jste ten sam tah jako v partii}
-translate C GameReviewScoreOfYourMove {Skre vaho tahu}
-translate C GameReviewGameMoveScore {Skre tahu v partii}
-translate C GameReviewEngineScore {Skre hernho programu}
-translate C GameReviewYouPlayedLikeTheEngine {Hrl jste jako hern program}
-translate C GameReviewNotEngineMoveButGoodMove {Nen to tah hernho programu, ale je to tak dobr tah}
-translate C GameReviewMoveNotGood {Tento tah nen dobr, skre je}
-translate C GameReviewMovesPlayedLike {Tahy hran jako}
-translate C GameReviewMovesPlayedEngine {Tahy hran jako hernm programem}
 
 # Correspondence Chess Dialogs:
 translate C CCDlgCGeneraloptions {Obecn nastaven}
@@ -2042,9 +2031,6 @@ translate C IESending {Tahy odeslan pro}
 translate C IESynchronise {Synchronizovat}
 translate C IERotate  {Otoit}
 translate C IEUnableToStart {Nemohu spustit vstupn pstroj:}
-
-# Calculation of Variations
-translate C DoneWithPosition {Hotovo s pozic}
 
 translate C Board {achovnice}
 translate C showGameInfo {Ukzat informace o partii}
@@ -2126,7 +2112,6 @@ translate C BatchAnnotate {Dávková poznámka}
 translate C BatchEngineSelection {Výbìr motoru}
 translate C BatchChessEngine {©achový motor:}
 translate C BatchNumberOfInstances {Poèet instancí:}
-translate C BatchGameReview {Recenze hry}
 translate C BatchTimePerMove {Èas na tah (s):}
 translate C BatchAnnotateBlunders {Anotujte pouze chyby}
 translate C BatchBlunderThreshold {Práh chyby:}

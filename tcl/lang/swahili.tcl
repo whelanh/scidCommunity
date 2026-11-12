@@ -206,9 +206,7 @@ menuText Z ToolsTracker "Kifuatilia Kipande"  6 {Fungua dirisha la Tracker ya ki
 menuText Z ToolsTraining "Mafunzo"  0 {Vyombo vya mafunzo (mbinu, fursa, ...)}
 menuText Z ToolsPlayVsEngine "Cheza dhidi ya Injini"  0 {Cheza mchezo dhidi ya injini ya chess}
 menuText Z ToolsTrainOpenings "Ufunguzi"  0 {Treni na repertoire}
-menuText Z ToolsTrainReviewGame "Kagua mchezo"  0 {Nadhani hatua zinazochezwa katika mchezo}
 menuText Z ToolsTrainTactics "Mbinu"  0 {Tatua mbinu}
-menuText Z ToolsTrainCalvar "Uhesabuji wa tofauti"  0 {Uhesabuji wa mafunzo ya tofauti}
 menuText Z ToolsTrainFindBestMove "Tafuta hoja bora zaidi"  0 {Tafuta hoja bora zaidi}
 menuText Z ToolsTrainFics "Cheza kwenye FICS"  0 {Cheza kwenye freechess.org}
 menuText Z ToolsEngineTournament "Mashindano ya injini"  0 {Anzisha mashindano kati ya injini za chess}
@@ -1649,6 +1647,17 @@ translate Z IndentVariations {Tofauti za ndani}
 translate Z ExportColumnStyle {Mtindo wa safu wima (sogea moja kwa kila mstari)}
 translate Z ExportSymbolStyle {Mtindo wa ufafanuzi wa ishara:}
 translate Z ExportStripMarks {Ondoa alama ya mraba/mshale\misimbo kutoka kwa maoni}
+translate Z OptionsExportEol {Mwisho wa mstari:}
+translate Z OptionsExportEolNative {Asili}
+translate Z OptionsPGNExport {Usafirishaji wa PGN}
+translate Z OptionsTagOrderIntro {Agizo la lebo zilizosalia za PGN wakati wa kuandika mchezo. Orodha ya Lebo Saba huandikwa kila mara kwanza, kulingana na kiwango cha PGN.}
+translate Z OptionsTagOrderStr {Orodha Saba za Lebo (zisizohamishika): Tukio, Tovuti, Tarehe, Mzunguko, Nyeupe, Nyeusi, Matokeo}
+translate Z OptionsTagOrderWhite {Ukadiriaji mweupe}
+translate Z OptionsTagOrderBlack {Ukadiriaji mweusi}
+translate Z OptionsTagOrderOthers {Lebo zingine}
+translate Z OptionsTagOrderSort {Panga vitambulisho vingine kwa alfabeti (vinginevyo mpangilio halisi)}
+translate Z Up {Juu}
+translate Z Down {Chini}
 
 # Goto game/move dialogs:
 translate Z LoadGameNumber {Weka nambari ya mchezo ili kupakia:}
@@ -1870,8 +1879,6 @@ translate Z AddScoreToShortAnnotations {Ongeza alama kwa vidokezo}
 translate Z AddScoreToAllMoves {Ongeza alama kwa hatua zote}
 translate Z Export {Hamisha}
 translate Z BookPartiallyLoaded {Kitabu kimejaa kiasi}
-translate Z Calvar {Uhesabuji wa tofauti}
-translate Z ConfigureCalvar {Usanidi}
 # Opening names used in tacgame.tcl
 translate Z Reti {Reti}
 translate Z English {Kiingereza}
@@ -1977,24 +1984,6 @@ translate Z FICSTextColor {Rangi ya maandishi}
 
 # Game review
 translate Z GameReview {Tathmini ya mchezo}
-translate Z GameReviewTimeExtended {Muda umeongezwa}
-translate Z GameReviewMargin {Ukingo wa hitilafu}
-translate Z GameReviewAutoContinue {Endelea kiotomatiki wakati hoja ni sahihi}
-translate Z GameReviewReCalculate {Tumia muda ulioongezwa}
-translate Z GameReviewAnalyzingMovePlayedDuringTheGame {Kuchambua hatua iliyochezwa wakati wa mchezo}
-translate Z GameReviewAnalyzingThePosition {Kuchambua msimamo}
-translate Z GameReviewEnterYourMove {Weka hoja yako}
-translate Z GameReviewCheckingYourMove {Kukagua hoja yako}
-translate Z GameReviewYourMoveWasAnalyzed {Hoja yako ilichanganuliwa}
-translate Z GameReviewYouPlayedSameMove {Ulicheza hatua sawa na katika mechi}
-translate Z GameReviewScoreOfYourMove {Alama ya hoja yako}
-translate Z GameReviewGameMoveScore {Alama ya mchezo}
-translate Z GameReviewEngineScore {Alama ya injini}
-translate Z GameReviewYouPlayedLikeTheEngine {Ulicheza vizuri kama injini}
-translate Z GameReviewNotEngineMoveButGoodMove {Sio hoja ya injini, lakini pia ni hoja nzuri}
-translate Z GameReviewMoveNotGood {Hatua hii sio nzuri, alama ni}
-translate Z GameReviewMovesPlayedLike {Vitendo vilicheza kama}
-translate Z GameReviewMovesPlayedEngine {Vitendo vilicheza kama injini}
 
 # Correspondence Chess Dialogs:
 translate Z CCDlgCGeneraloptions {Chaguzi za Jumla}
@@ -2020,9 +2009,6 @@ translate Z IESending {Hatua zimetumwa}
 translate Z IESynchronise {Sawazisha}
 translate Z IERotate  {Zungusha}
 translate Z IEUnableToStart {Imeshindwa kuanzisha Injini ya Kuingiza Data:}
-
-# Calculation of Variations
-translate Z DoneWithPosition {Imekamilika kwa msimamo}
 
 translate Z Board {Bodi}
 translate Z showGameInfo {Onyesha habari za mchezo}
@@ -2104,7 +2090,6 @@ translate Z BatchAnnotate {Dokezo la Kundi}
 translate Z BatchEngineSelection {Uchaguzi wa injini}
 translate Z BatchChessEngine {Injini ya Chess:}
 translate Z BatchNumberOfInstances {Idadi ya Matukio:}
-translate Z BatchGameReview {Tathmini ya Mchezo}
 translate Z BatchTimePerMove {Muda kwa kila hoja (sekunde):}
 translate Z BatchAnnotateBlunders {Dondosha makosa pekee}
 translate Z BatchBlunderThreshold {Kizingiti cha Blunder:}

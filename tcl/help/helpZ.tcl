@@ -28,7 +28,6 @@ set helpText(Z,Contents) {<h1>scidCommunity Help Contents</h1>
   <li><a Engine><b>Uchambuzi</b> dirisha</a></li>
   <li><a Engine><b>Injini</b> madirisha</a></li>
   <li><a Book><b>Kitabu</b> dirisha</a></li>
-  <li><a CalVar><b>Ukokotoaji wa tofauti</b> dirisha</a></li>
   <li><a Comment><b>Mhariri wa maoni</b> dirisha</a></li>
   <li><a Crosstable><b>Crosstable</b> dirisha</a></li>
   <li><a Switcher><b>Kibadilisha Database</b> dirisha</a></li>
@@ -755,8 +754,6 @@ set helpText(Z,Menus) {<h1>scidCommunity menus</h1>
   <ul>
   <li><menu>Openings Training</menu>: Configures <a OpeningTrainer>openings training</a>.</li>
   <li><menu>Tactics Training</menu>: Configures <a TacticsTrainer>tactics training</a>.</li>
-  <li><menu>Review Game</menu>: Starts game review mode.</li>
-  <li><menu>Calvar Training</menu>: Configures <a CalVar>calculation of variations</a> training.</li>
   </ul>
   </ul>
   
@@ -3295,48 +3292,6 @@ set helpText(Z,Engine) {<h1>Madirisha ya Injini</h1>
 }
 
 
-set helpTitle(Z,CalVar) "Uhesabuji wa tofauti"
-set helpText(Z,CalVar) {<h1>Hesabu ya dirisha la mabadiliko</h1>
-  <p>
-   Zoezi hili la mafunzo pia linajulikana kama zoezi la Stoyko.  Yake
-   Kusudi ni kuchanganua nafasi changamano na kutathmini sauti nyingi
-   mistari iwezekanavyo, na toa tathmini sahihi kwa kila moja yao.
-  </p> 
-  <h3>Usanidi</h3></p>
-  <p>
-  Vigezo vitatu vimewekwa:
-  <ul>
-     <li>Injini ya UCI ambayo itachambua mistari mbalimbali</li>
-     <li>Muda, kwa sekunde, injini itatumia kuchanganua nafasi</li>
-     <li>Muda, kwa sekunde, injini itatumia kuchanganua kila laini iliyowekwa na mtumiaji</li>
-  </ul>
-  </p>
-
-  <h3>Mistari ya kuingia</h3></p>
-  <p>
-  Hatua huingizwa kama kawaida na mibofyo ya kipanya kwenye ubao lakini wao
-  haitaonyeshwa. Mwishoni mwa mstari mtumiaji anahitaji kutoa
-  tathmini kwa kubofya kwenye moja ya vitufe vilivyo na misimbo ya NAG.
-  </p>
-
-  <h3>Uthibitishaji wa tathmini</h3>
-  <p>
-  Kila wakati tathmini inatolewa kwa mstari injini huhesabu yake
-  thamani na uongeze mstari na alama chini ya zile za mtumiaji.
-  </p>
-
-  <h3>Nimemaliza kwa nafasi</h3>
-  <p>
-   Wakati mtumiaji anafikiri amepata mistari bora zaidi, akibofya <term>Nimemaliza
-   position</term> itaambatanishwa na mchezo (na maoni <term>Imekosa
-   line</term>), mistari ambayo ina alama ya juu kuliko mstari bora zaidi
-   iliyoingizwa na mtumiaji.
-  </p>
-
-  <p><footer>(Ilisasishwa: Jumuiya ya scid, Aprili 2026)</footer></p>
-}
-
-
 set helpTitle(Z,EPD) "Faili za EPD"
 set helpText(Z,EPD) {<h1>Faili za EPD</h1>
   <p>
@@ -5396,49 +5351,6 @@ set helpText(Z,InputEngine) {<h1>Dashibodi ya kiendeshi cha Injini ya Kuingiza</
 
 
   <p><footer>(Ilisasishwa: Jumuiya ya scid, Aprili 2026)</footer></p>
-}
-
-
-set helpTitle(Z,ReviewGame) "Tathmini ya Mchezo"
-set helpText(Z,ReviewGame) {<h1>Kukagua mchezo</h1>
-   <p>
-	Kipengele hiki kimeundwa kusoma mchezo, ambayo inamaanisha unapaswa
-	jaribu kukisia hatua zilizochezwa wakati wa mechi. Kwa hivyo unafungua kwanza a
-	mchezo kutoka kwa msingi wowote wa scidCommunity, na uweke chaguo hili la kukokotoa kwa amri
-	<b>Kagua mchezo</b> katika <b>Cheza</b> menyu.  Kama kawaida, kucheza
-	na Nyeusi, ubao mgeuzo kwanza (kila mara unacheza kutoka chini ya
-	bodi).
-   </p>
-	<p>
-	Kwa mafunzo ya ufanisi mipangilio ifuatayo inapaswa kuwa
-	imezimwa:
-	<ul>
-		<li>Onyesha hatua ya mwisho (Chaguo / Hamisha / Angazia hatua ya mwisho)</li>
-		<li>Onyesha hatua inayofuata (Chaguo / Maelezo ya mchezo / Ficha hatua inayofuata)</li>
-		<li>Dirisha la PGN</li>
-	</p>
-Mchakato ni huu ufuatao:
-<ul>
-<li>- injini hutafakari juu ya hoja iliyochezwa wakati wa mchezo</li>
-<li>- injini inatafakari juu ya msimamo na hupata hoja bora zaidi</li>
-<li>- mtumiaji basi anaruhusiwa kuingia hoja yake</li>
-<li>- injini inatafakari juu ya hatua inayochezwa na mtumiaji</li>
-</ul>
-Ikiwa hatua iliyochezwa na mtumiaji labda ni hoja iliyochezwa
-wakati wa mchezo au hoja iliyochaguliwa na injini au hoja ambayo alama zake
-iko karibu na hoja bora inayopatikana na injini (kwa kutumia kosa la ukingo
-inavyofafanuliwa na mtumiaji), basi hoja hiyo inachukuliwa kuwa nzuri. Kama
-mtumiaji hakubaliani na injini anayoweza kutumia <b>muda ulioongezwa</b>
-kitufe ili kupata uthibitisho wa uchambuzi wa injini.
-<p>
-<b>Vidokezo:</b> 
-<ul>
-<li>- Upande lazima uchaguliwe kabla ya kukagua mchezo </li>
-<li>- Mtumiaji hucheza kila wakati kutoka chini ya ubao</li>
-</ul>
-</p>
-  <p><footer>(Ilisasishwa: scidCommunity, Aprili 2026)</footer></p>
-
 }
 
 

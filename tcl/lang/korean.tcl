@@ -247,9 +247,7 @@ menuText k ToolsTracker "조각 추적기"  6 {조각 추적기 창구}
 menuText k ToolsTraining "훈련"  0 {훈련도구(전술, 부활,...)}
 menuText k ToolsPlayVsEngine "플레이 대 엔진"  0 {체스 엔진과 게임을 해보세요}
 menuText k ToolsTrainOpenings "재개"  0 {레퍼토리로 훈련하기}
-menuText k ToolsTrainReviewGame "게임평론"  0 {게임에서 동작하는 동작을 취하기}
 menuText k ToolsTrainTactics "전술"  0 {문제 해결 전술}
-menuText k ToolsTrainCalvar "변형작업"  0 {변형훈련}
 menuText k ToolsTrainFindBestMove "최선의 운동 찾기"  0 {최선의 운동 찾기}
 menuText k ToolsTrainFics "FICS에서 플레이"  0 {freechess.org에서 플레이하세요}
 menuText k ToolsEngineTournament "엔진으로"  0 {체스 엔진 간 토너먼트 시작}
@@ -1690,6 +1688,17 @@ translate k IndentVariations {성형 변형}
 translate k ExportColumnStyle {열 스타일(한 라인에 한 쪽으로 이동)}
 translate k ExportSymbolStyle {스타일 설명:}
 translate k ExportStripMarks {댓글에서 코너/화살표\n코드 제거}
+translate k OptionsExportEol {줄 끝:}
+translate k OptionsExportEolNative {토종의}
+translate k OptionsPGNExport {PGN 내보내기}
+translate k OptionsTagOrderIntro {게임 작성 시 나머지 PGN 태그 순서입니다. Seven Tag Roster는 항상 PGN 표준에 따라 먼저 작성됩니다.}
+translate k OptionsTagOrderStr {7개의 태그 명단(고정): 이벤트, 사이트, 날짜, 라운드, 흰색, 검정색, 결과}
+translate k OptionsTagOrderWhite {화이트 등급}
+translate k OptionsTagOrderBlack {블랙 등급}
+translate k OptionsTagOrderOthers {기타 태그}
+translate k OptionsTagOrderSort {다른 태그를 알파벳순으로 정렬(그렇지 않으면 원래 순서)}
+translate k Up {위로}
+translate k Down {아래에}
 
 # Goto game/move dialogs:
 translate k LoadGameNumber {게임번호를 입력하세요:}
@@ -1911,8 +1920,6 @@ translate k AddScoreToShortAnnotations {추가 점수를 찾았습니다}
 translate k AddScoreToAllMoves {모든 동작에 점수 추가}
 translate k Export {다}
 translate k BookPartiallyLoaded {책이 부분적으로 읽혔어요}
-translate k Calvar {변형작업}
-translate k ConfigureCalvar {구성}
 # Opening names used in tacgame.tcl
 translate k Reti {레티}
 translate k English {한국어}
@@ -2018,24 +2025,6 @@ translate k FICSTextColor {텍스트 색상}
 
 # Game review
 translate k GameReview {게임평론}
-translate k GameReviewTimeExtended {시간 연장}
-translate k GameReviewMargin {범위범위}
-translate k GameReviewAutoContinue {이동이 하면 자동으로 진행됩니다}
-translate k GameReviewReCalculate {연장된 시간을 활용하라}
-translate k GameReviewAnalyzingMovePlayedDuringTheGame {동작 중 동작에 대한 분석}
-translate k GameReviewAnalyzingThePosition {위치 분석}
-translate k GameReviewEnterYourMove {당신을 입력하세요}
-translate k GameReviewCheckingYourMove {이동 확인 중}
-translate k GameReviewYourMoveWasAnalyzed {당신의 움직임이 분석되었습니다}
-translate k GameReviewYouPlayedSameMove {이와 동일한 동작을 수행했습니다.}
-translate k GameReviewScoreOfYourMove {당신의 움직임의 점수}
-translate k GameReviewGameMoveScore {게임이동점수}
-translate k GameReviewEngineScore {엔진 점수}
-translate k GameReviewYouPlayedLikeTheEngine {당신은 엔진만큼 잘 놀았어요}
-translate k GameReviewNotEngineMoveButGoodMove {엔진 작동은 좋은 움직임입니다.}
-translate k GameReviewMoveNotGood {이번 조치는 좋지 않아 점수가}
-translate k GameReviewMovesPlayedLike {다음과 같은 동작}
-translate k GameReviewMovesPlayedEngine {엔진처럼 움직이는 움직임}
 
 # Correspondence Chess Dialogs:
 translate k CCDlgCGeneraloptions {일반 옵션}
@@ -2061,9 +2050,6 @@ translate k IESending {이동 전송 대상}
 translate k IESynchronise {키}
 translate k IERotate  {회전}
 translate k IEUnableToStart {엔진을 입력할 수 없습니다.}
-
-# Calculation of Variations
-translate k DoneWithPosition {위치 확인하기}
 
 translate k Board {판자}
 translate k showGameInfo {게임 정보 표시}
@@ -2145,7 +2131,6 @@ translate k BatchAnnotate {알아요 달기}
 translate k BatchEngineSelection {엔진 선택}
 translate k BatchChessEngine {체스 엔진:}
 translate k BatchNumberOfInstances {대응할 수 있음:}
-translate k BatchGameReview {게임평론}
 translate k BatchTimePerMove {이동당 시간(초):}
 translate k BatchAnnotateBlunders {길만으로 달기}
 translate k BatchBlunderThreshold {적용 기준:}

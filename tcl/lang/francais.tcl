@@ -220,9 +220,7 @@ menuText F ToolsTracker "Suivi de pièce"  3 {Ouvrir la fenêtre de suivi de pi�
 menuText F ToolsTraining "Entraînement"  0 {Entraînement (tactique, ouvertures, ...) }
 menuText F ToolsPlayVsEngine "Jouer contre Engine"  0 {Jouez à une partie contre un moteur d'échecs}
 menuText F ToolsTrainOpenings "Ouvertures"  0 {Entraînement avec un répertoire d'ouvertures}
-menuText F ToolsTrainReviewGame "Reviser la partie"  0 {Étudier la partie en devinant les coups joués}
 menuText F ToolsTrainTactics "Exercices tactiques"  0 {Résoudre des problèmes tactiques}
-menuText F ToolsTrainCalvar "Calcul de variantes"  0 {Entraînement au calcul de variantes}
 menuText F ToolsTrainFindBestMove "Trouver le meilleur coup"  0 {Trouver le meilleur coup}
 menuText F ToolsTrainFics "Jouer sur internet"  10 {Jouer sur freechess.org}
 menuText F ToolsEngineTournament "Tournoi de moteurs"  0 {Démarrer un tournoi entre moteurs d'échecs}
@@ -1670,6 +1668,17 @@ translate F IndentVariations {Indenter les variantes?}
 translate F ExportColumnStyle {Style en colonne (un coup par ligne)?}
 translate F ExportSymbolStyle {Style d'annotation symbolique:}
 translate F ExportStripMarks {Enlever les codes de marquages de flèches et de coloration de cases des commentaires?}
+translate F OptionsExportEol {Fins de lignes :}
+translate F OptionsExportEolNative {Indigène}
+translate F OptionsPGNExport {Exportation PGN}
+translate F OptionsTagOrderIntro {Ordre des balises PGN restantes lors de l’écriture d’un jeu. La liste des sept balises est toujours écrite en premier, conformément à la norme PGN.}
+translate F OptionsTagOrderStr {Liste de sept tags (fixe) : événement, site, date, tour, blanc, noir, résultat}
+translate F OptionsTagOrderWhite {Note blanche}
+translate F OptionsTagOrderBlack {Note noire}
+translate F OptionsTagOrderOthers {Autres balises}
+translate F OptionsTagOrderSort {Trier les autres balises par ordre alphabétique (sinon dans l'ordre d'origine)}
+translate F Up {En haut}
+translate F Down {Vers le bas}
 
 # Goto game/move dialogs:
 translate F LoadGameNumber {Entrer le numéro de la partie à charger:}
@@ -1898,8 +1907,6 @@ translate F AddScoreToShortAnnotations {Ajouter score aux annotations courtes}
 translate F AddScoreToAllMoves {Ajouter un score à tous les mouvements}
 translate F Export {Exporter}
 translate F BookPartiallyLoaded {Bibliothèque chargée en partie}
-translate F Calvar {Calcul de variantes}
-translate F ConfigureCalvar {Configuration}
 # Opening names used in tacgame.tcl
 translate F Reti {Reti}
 translate F English {Anglaise}
@@ -2005,24 +2012,6 @@ translate F FICSTextColor {Couleur du texte}
 
 # Game review
 translate F GameReview {Revue de partie}
-translate F GameReviewTimeExtended {Temps étendu}
-translate F GameReviewMargin {Marge d'erreur}
-translate F GameReviewAutoContinue {Continuer quand le coup est correct}
-translate F GameReviewReCalculate {Utiliser le temps étendu}
-translate F GameReviewAnalyzingMovePlayedDuringTheGame {Analyse du coup joué pendant la partie}
-translate F GameReviewAnalyzingThePosition {Analyse de la position}
-translate F GameReviewEnterYourMove {Jouez votre coup}
-translate F GameReviewCheckingYourMove {Vérification de votre coup}
-translate F GameReviewYourMoveWasAnalyzed {Votre coup a été analysé}
-translate F GameReviewYouPlayedSameMove {Vous avez joué le même coup que dans la partie}
-translate F GameReviewScoreOfYourMove {Score de votre coup}
-translate F GameReviewGameMoveScore {Score du coup de la partie}
-translate F GameReviewEngineScore {Score du moteur}
-translate F GameReviewYouPlayedLikeTheEngine {Vous avez joué un coup aussi bon que le moteur}
-translate F GameReviewNotEngineMoveButGoodMove {Pas le coup du moteur, mais un coup jouable}
-translate F GameReviewMoveNotGood {Ce coup n'est pas bon, le score est}
-translate F GameReviewMovesPlayedLike {Coups joués comme}
-translate F GameReviewMovesPlayedEngine {coups joués comme le moteur}
 
 # Correspondence Chess Dialogs:
 translate F CCDlgCGeneraloptions {Options générales}
@@ -2048,9 +2037,6 @@ translate F IESending {Coups envoyés pour}
 translate F IESynchronise {Synchronizer}
 translate F IERotate  {Tourner}
 translate F IEUnableToStart {Impossible de démarrer le protocole Input Engine :}
-
-# Calculation of Variations
-translate F DoneWithPosition {Fin de l'analyse de position}
 
 translate F Board {Échiquier}
 translate F showGameInfo {Montrer le panneau d'info}
@@ -2132,7 +2118,6 @@ translate F BatchAnnotate {Annoter par lots}
 translate F BatchEngineSelection {Sélection du moteur}
 translate F BatchChessEngine {Moteur d'échecs :}
 translate F BatchNumberOfInstances {Nombre d'instances :}
-translate F BatchGameReview {Revue du jeu}
 translate F BatchTimePerMove {Temps par mouvement (sec) :}
 translate F BatchAnnotateBlunders {Annoter uniquement les erreurs}
 translate F BatchBlunderThreshold {Seuil d'erreur :}

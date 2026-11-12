@@ -329,10 +329,60 @@ int sc_base_inUse(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
   return UI_Result(ti, OK, basePtr->inUse);
 }
 
+// PGN line-ending preference for export: platform native, CRLF or LF.
+enum PgnEol { PGN_EOL_NATIVE = 0, PGN_EOL_CRLF = 1, PGN_EOL_LF = 2 };
+
+// Whether a given EOL mode should be written as CRLF. Non-plain formats keep
+// the historical text-mode behavior (platform native).
+static inline bool eolIsCrlf(int eol, gameFormatT format) {
+  if (format != PGN_FORMAT_Plain) {
+#ifdef _WIN32
+    return true;
+#else
+    return false;
+#endif
+  }
+  if (eol == PGN_EOL_CRLF)
+    return true;
+  if (eol == PGN_EOL_LF)
+    return false;
+#ifdef _WIN32
+  return true; // native on Windows
+#else
+  return false; // native elsewhere
+#endif
+}
+
+// Write `n` bytes from `s`, translating "\n" to "\r\n" when crlf is set.
+static void fwriteEol(FILE *f, const char *s, size_t n, bool crlf) {
+  if (!crlf) {
+    fwrite(s, 1, n, f);
+    return;
+  }
+  const char *p = s;
+  const char *end = s + n;
+  while (p < end) {
+    const char *nl = static_cast<const char *>(memchr(p, '\n', end - p));
+    if (nl == nullptr) {
+      fwrite(p, 1, end - p, f);
+      return;
+    }
+    fwrite(p, 1, nl - p, f);
+    fwrite("\r\n", 1, 2, f);
+    p = nl + 1;
+  }
+}
+
+// fputs() variant honoring the requested line ending.
+static void fputsEol(FILE *f, const char *s, bool crlf) {
+  fwriteEol(f, s, std::strlen(s), crlf);
+}
+
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //  exportGame:
 //    Called by sc_base_export() to export a single game.
-void exportGame(Game *g, FILE *exportFile, gameFormatT format, uint pgnStyle) {
+void exportGame(Game *g, FILE *exportFile, gameFormatT format, uint pgnStyle,
+                bool crlf) {
   char old_language = language;
 
   g->ResetPgnStyle(pgnStyle);
@@ -347,10 +397,7 @@ void exportGame(Game *g, FILE *exportFile, gameFormatT format, uint pgnStyle) {
 
   g->SetHtmlStyle(htmlDiagStyle);
   std::pair<const char *, unsigned> pgn = g->WriteToPGN(75, true, true);
-  // size_t nWrited =
-  fwrite(pgn.first, 1, pgn.second, exportFile);
-  // TODO:
-  // if (nWrited != db->tbuf->GetByteCount()) error
+  fwriteEol(exportFile, pgn.first, pgn.second, crlf);
   language = old_language;
 }
 
@@ -367,12 +414,13 @@ int sc_base_export(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
   const char *usage = "Usage: sc_base export current|filter PGN|HTML "
                       "<pgn_filename> options...";
   uint pgnStyle = PGN_STYLE_TAGS;
+  int eolMode = PGN_EOL_NATIVE;
 
   const char *options[] = {"-append",   "-starttext",      "-endtext",
                            "-comments", "-variations",     "-spaces",
                            "-symbols",  "-indentComments", "-indentVariations",
                            "-column",   "-noMarkCodes",    "-convertNullMoves",
-                           nullptr};
+                           "-eol",      nullptr};
   enum {
     OPT_APPEND,
     OPT_STARTTEXT,
@@ -385,7 +433,8 @@ int sc_base_export(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     OPT_INDENTV,
     OPT_COLUMN,
     OPT_NOMARKS,
-    OPT_CONVERTNULL
+    OPT_CONVERTNULL,
+    OPT_EOL
   };
 
   if (argc < 5) {
@@ -486,15 +535,26 @@ int sc_base_export(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
       }
       break;
 
+    case OPT_EOL:
+      if (strIsCasePrefix(value, "crlf")) {
+        eolMode = PGN_EOL_CRLF;
+      } else if (strIsCasePrefix(value, "lf")) {
+        eolMode = PGN_EOL_LF;
+      } else {
+        eolMode = PGN_EOL_NATIVE;
+      }
+      break;
+
     default:
       return InvalidCommand(ti, "sc_base export", options);
     }
   }
 
-  auto exportFile = fopenUtf8(argv[4], (appendToFile ? "r+" : "w"));
+  auto exportFile = fopenUtf8(argv[4], (appendToFile ? "r+b" : "wb"));
   if (exportFile == nullptr) {
     return errorResult(ti, "Error opening file for exporting games.");
   }
+  const bool crlf = eolIsCrlf(eolMode, outputFormat);
   // Write start text or find the place in the file to append games:
   if (appendToFile) {
     if (outputFormat == PGN_FORMAT_Plain) {
@@ -521,11 +581,11 @@ int sc_base_export(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
       fseek(exportFile, pos, SEEK_SET);
     }
   } else {
-    fputs(startText, exportFile);
+    fputsEol(exportFile, startText, crlf);
   }
 
   if (!exportFilter) {
-    exportGame(db->game, exportFile, outputFormat, pgnStyle);
+    exportGame(db->game, exportFile, outputFormat, pgnStyle, crlf);
   } else { // TODO: remove this (duplicate of sc_filter export)
     Progress progress = UI_CreateProgress(ti);
     uint numSeen = 0;
@@ -546,12 +606,12 @@ int sc_base_export(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
         if (db->getGame(*ie, *g) != OK) {
           continue;
         }
-        exportGame(g, exportFile, outputFormat, pgnStyle);
+        exportGame(g, exportFile, outputFormat, pgnStyle, crlf);
       }
     }
     progress.report(1, 1);
   }
-  fputs(endText, exportFile);
+  fputsEol(exportFile, endText, crlf);
   fclose(exportFile);
   return TCL_OK;
 }
@@ -2122,8 +2182,8 @@ int sc_game(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
       "load",           "merge",        "moves",      "new",
       "novelty",        "number",       "pgn",        "pop",
       "push",           "SANtoUCI",     "save",       "startBoard",
-      "strip",          "tags",         "truncate",   "variant",
-      "UCI_currentPos", "UCI_mainLine", "undo",       "undoAll",
+      "strip",          "tags",         "tagorder",   "truncate",
+      "variant",        "UCI_currentPos", "UCI_mainLine", "undo", "undoAll",
       "undoPoint",      "redo",         nullptr};
   enum {
     GAME_ALTERED,
@@ -2148,6 +2208,7 @@ int sc_game(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
     GAME_STARTBOARD,
     GAME_STRIP,
     GAME_TAGS,
+    GAME_TAGORDER,
     GAME_TRUNCATE,
     GAME_VARIANT,
     GAME_UCI_CURRENTPOS,
@@ -2243,6 +2304,14 @@ int sc_game(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
 
   case GAME_TAGS:
     return sc_game_tags(cd, ti, argc, argv);
+
+  case GAME_TAGORDER:
+    if (argc == 4) {
+      Game::SetTagOrder(argv[2]);
+      Game::SetSortOtherTags(strGetBoolean(argv[3]));
+      return TCL_OK;
+    }
+    return errorResult(ti, "Usage: sc_game tagorder <order> <sortOtherTags>");
 
   case GAME_TRUNCATE:
     old_language = language;
@@ -3824,7 +3893,7 @@ int sc_game_pgn(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
       "-format",  "-shortHeader", "-indentComments", "-indentVariations",
       "-symbols", "-tags",        "-variations",     "-width",
       "-space",   "-markCodes",   "-unicode",        "-showDiagram",
-      nullptr};
+      "-english", nullptr};
   enum {
     OPT_COLUMN,
     OPT_COMMENTS,
@@ -3842,11 +3911,13 @@ int sc_game_pgn(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     OPT_NOMARKS,
     OPT_UNICODE,
     OPT_SHOWDIAGRAM,
+    OPT_ENGLISH,
   };
 
   const scidBaseT *base = db;
   Game *g = db->game;
   uint lineWidth = 99999;
+  bool english = false;
   g->ResetPgnStyle();
   g->SetPgnFormat(PGN_FORMAT_Plain);
   g->AddPgnStyle(PGN_STYLE_TAGS | PGN_STYLE_COMMENTS | PGN_STYLE_VARS);
@@ -3907,6 +3978,11 @@ int sc_game_pgn(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
         return errorResult(ti, "Invalid -format option.");
       }
 
+    } else if (index == OPT_ENGLISH) {
+      // Force standard (English) piece letters regardless of the UI language,
+      // as the PGN export commands do.
+      english = value;
+
     } else {
       // The option is a boolean affecting pgn style:
       uint bitmask = 0;
@@ -3961,7 +4037,11 @@ int sc_game_pgn(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     thisArg += 2;
   }
 
+  char old_language = language;
+  if (english)
+    language = 0;
   std::pair<const char *, unsigned> pgnBuf = g->WriteToPGN(lineWidth);
+  language = old_language;
   Tcl_AppendResult(ti, pgnBuf.first, nullptr);
   return TCL_OK;
 }

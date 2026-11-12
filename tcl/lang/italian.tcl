@@ -211,9 +211,7 @@ menuText I ToolsTracker "Dislocazione dei pezzi"  0 {Apre/chiude la finestra con
 menuText I ToolsTraining "Allenamento"  0 {Strumenti per l'allenamento (tattica, aperture,...) }
 menuText I ToolsPlayVsEngine "Gioca contro Engine"  0 {Gioca una partita contro un motore di scacchi}
 menuText I ToolsTrainOpenings "Aperture"  0 {Allenati con un repertorio}
-menuText I ToolsTrainReviewGame "Rivedi partita"  0 {Indovina le mosse giocate in partita}
 menuText I ToolsTrainTactics "Tattica"  0 {Risolvi problemi tattici}
-menuText I ToolsTrainCalvar "Calcolo delle varianti"  0 {Allenati sul calcolo delle varianti}
 menuText I ToolsTrainFindBestMove "Trova la mossa migliore"  2 {Trova la mossa migliore}
 menuText I ToolsTrainFics "Gioca su internet"  0 {Gioca su freechess.org}
 menuText I ToolsEngineTournament "Torneo fra motori"  0 {Inizia un torneo fra motori scacchistici}
@@ -1663,6 +1661,17 @@ translate I IndentVariations {Indenta le varianti?}
 translate I ExportColumnStyle {Stile colonna (una mossa per riga)?}
 translate I ExportSymbolStyle {Stile annotazione simbolica:}
 translate I ExportStripMarks {Togliere i codici di casella/freccia dai commenti?}
+translate I OptionsExportEol {Terminazioni di riga:}
+translate I OptionsExportEolNative {Nativo}
+translate I OptionsPGNExport {Esportazione PGN}
+translate I OptionsTagOrderIntro {Ordine dei rimanenti tag PGN durante la scrittura di un gioco. The Seven Tag Roster is always written first, per the PGN standard.}
+translate I OptionsTagOrderStr {Elenco dei sette tag (fisso): evento, sito, data, round, bianco, nero, risultato}
+translate I OptionsTagOrderWhite {Voto bianco}
+translate I OptionsTagOrderBlack {Valutazione nera}
+translate I OptionsTagOrderOthers {Altri tag}
+translate I OptionsTagOrderSort {Ordina gli altri tag in ordine alfabetico (altrimenti nell'ordine originale)}
+translate I Up {Su}
+translate I Down {Giù}
 
 # Goto game/move dialogs:
 translate I LoadGameNumber {Inserire il numero della partita da caricare:}
@@ -1894,8 +1903,6 @@ translate I AddScoreToShortAnnotations {Aggiungi il punteggio alle annotazioni b
 translate I AddScoreToAllMoves {Aggiungi punteggio a tutte le mosse}
 translate I Export {Esporta}
 translate I BookPartiallyLoaded {Libro caricato parzialmente}
-translate I Calvar {Calcolo delle varianti}
-translate I ConfigureCalvar {Configurazione}
 # Opening names used in tacgame.tcl
 translate I Reti {Reti}
 translate I English {Inglese}
@@ -2001,24 +2008,6 @@ translate I FICSTextColor {Colore del testo}
 
 # Game review
 translate I GameReview {Rivedi partita}
-translate I GameReviewTimeExtended {Tempo esteso}
-translate I GameReviewMargin {Margine di errore}
-translate I GameReviewAutoContinue {Continua quando la mossa è corretta}
-translate I GameReviewReCalculate {Usa tempo esteso}
-translate I GameReviewAnalyzingMovePlayedDuringTheGame {Analisi della mossa giocata durante la partita}
-translate I GameReviewAnalyzingThePosition {Analisi della posizione}
-translate I GameReviewEnterYourMove {Immetti la tua mossa}
-translate I GameReviewCheckingYourMove {Controlla la tua mossa}
-translate I GameReviewYourMoveWasAnalyzed {La tua mossa è stata analizzata}
-translate I GameReviewYouPlayedSameMove {Hai giocato la stessa mossa della partita}
-translate I GameReviewScoreOfYourMove {Punteggio della tua mossa}
-translate I GameReviewGameMoveScore {Punteggio della mossa della partita}
-translate I GameReviewEngineScore {Punteggio del motore}
-translate I GameReviewYouPlayedLikeTheEngine {Hai giocato come il motore}
-translate I GameReviewNotEngineMoveButGoodMove {Non è la mossa del motore ma è comunque buona}
-translate I GameReviewMoveNotGood {Questa mossa è debole, il punteggio è}
-translate I GameReviewMovesPlayedLike {Mosse giocate come}
-translate I GameReviewMovesPlayedEngine {Mosse giocate come il motore}
 
 # Correspondence Chess Dialogs:
 translate I CCDlgCGeneraloptions {Opzioni generali}
@@ -2044,9 +2033,6 @@ translate I IESending {Mosse inviate per}
 translate I IESynchronise {Sincronizza}
 translate I IERotate  {Ruota}
 translate I IEUnableToStart {Impossibile avviare il motore di input:}
-
-# Calculation of Variations
-translate I DoneWithPosition {Posizione conclusa}
 
 translate I Board {Scacchiera}
 translate I showGameInfo {Mostra informazioni partita}
@@ -2128,7 +2114,6 @@ translate I BatchAnnotate {Annotazione batch}
 translate I BatchEngineSelection {Selezione del motore}
 translate I BatchChessEngine {Motore di scacchi:}
 translate I BatchNumberOfInstances {Numero di istanze:}
-translate I BatchGameReview {Recensione del gioco}
 translate I BatchTimePerMove {Tempo per mossa (sec):}
 translate I BatchAnnotateBlunders {Annotare solo gli errori}
 translate I BatchBlunderThreshold {Soglia di errore:}

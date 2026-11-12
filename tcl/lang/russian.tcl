@@ -213,9 +213,7 @@ menuText R ToolsTracker "Положение фигуры"  4 {Открыть о�
 menuText R ToolsTraining "Обучение"  0 {Обучающие инструменты (тактика, дебюты, ...)}
 menuText R ToolsPlayVsEngine "Игра против движка"  0 {Сыграйте в игру против шахматного движка}
 menuText R ToolsTrainOpenings "Дебюты"  0 {Тренировки с репертуаром}
-menuText R ToolsTrainReviewGame "Обзор партии"  0 {Обдумывание сделанных ходов}
 menuText R ToolsTrainTactics "Тактика"  0 {Решать тактические задачи}
-menuText R ToolsTrainCalvar "Расчёт вариантов"  0 {Тренировка расчёта вариантов}
 menuText R ToolsTrainFindBestMove "Поиск лучшего хода"  0 {Искать лучший ход}
 menuText R ToolsTrainFics "Играть на FICS"  0 {Игра на сервере freechess.org}
 menuText R ToolsEngineTournament "Турнир движков"  0 {Начать турнир между шахматными движками}
@@ -1664,6 +1662,17 @@ translate R IndentVariations {Варианты с отступом?}
 translate R ExportColumnStyle {В колонку (один ход на строку)?}
 translate R ExportSymbolStyle {Стиль символьной аннотации:}
 translate R ExportStripMarks {Удалить маркированные коды полей/стрелок из комментариев?}
+translate R OptionsExportEol {Окончания строк:}
+translate R OptionsExportEolNative {Родной}
+translate R OptionsPGNExport {Экспорт PGN}
+translate R OptionsTagOrderIntro {Порядок остальных тегов PGN при написании игры. Список семи тегов всегда пишется первым в соответствии со стандартом PGN.}
+translate R OptionsTagOrderStr {Список из семи тегов (фиксированный): событие, место, дата, раунд, белый, черный, результат.}
+translate R OptionsTagOrderWhite {Белый рейтинг}
+translate R OptionsTagOrderBlack {Черный рейтинг}
+translate R OptionsTagOrderOthers {Другие теги}
+translate R OptionsTagOrderSort {Сортировать другие теги по алфавиту (в противном случае исходный порядок)}
+translate R Up {Вверх}
+translate R Down {Вниз}
 
 # Goto game/move dialogs:
 translate R LoadGameNumber {Введите номер партии для загрузки:}
@@ -1894,8 +1903,6 @@ translate R AddScoreToShortAnnotations {Добавить счёт в корот�
 translate R AddScoreToAllMoves {Добавляйте очки ко всем ходам}
 translate R Export {Экспорт}
 translate R BookPartiallyLoaded {Книга частично загружена}
-translate R Calvar {Расчёт вариантов}
-translate R ConfigureCalvar {Настройки}
 # Opening names used in tacgame.tcl
 translate R Reti {Дебют Рети}
 translate R English {Английское начало}
@@ -2001,24 +2008,6 @@ translate R FICSTextColor {Цвет текста}
 
 # Game review
 translate R GameReview {Обзор партии}
-translate R GameReviewTimeExtended {Продлённое время}
-translate R GameReviewMargin {Поле ошибок}
-translate R GameReviewAutoContinue {Автоматически продолжать, когда ход корректный}
-translate R GameReviewReCalculate {Использовать расширенное время}
-translate R GameReviewAnalyzingMovePlayedDuringTheGame {Анализ сделанных во время партии ходов}
-translate R GameReviewAnalyzingThePosition {Анализ позиции}
-translate R GameReviewEnterYourMove {Введите ваш ход}
-translate R GameReviewCheckingYourMove {Проверка вашего хода}
-translate R GameReviewYourMoveWasAnalyzed {Ваш ход проанализирован}
-translate R GameReviewYouPlayedSameMove {Этот ход вы уже совершали в матче}
-translate R GameReviewScoreOfYourMove {Счёт вашего хода}
-translate R GameReviewGameMoveScore {Счёт хода игры}
-translate R GameReviewEngineScore {Счёт движка}
-translate R GameReviewYouPlayedLikeTheEngine {Вы сыграли как и движок}
-translate R GameReviewNotEngineMoveButGoodMove {Ход не как у движка, но всё равно хороший}
-translate R GameReviewMoveNotGood {Предупреждаю, этот ход не хороший}
-translate R GameReviewMovesPlayedLike {Ходы сделаны как}
-translate R GameReviewMovesPlayedEngine {Ходы сделаны как у движка}
 
 # Correspondence Chess Dialogs:
 translate R CCDlgCGeneraloptions {Основные настройки}
@@ -2044,9 +2033,6 @@ translate R IESending {Послать ходы в}
 translate R IESynchronise {Синхронизировать}
 translate R IERotate  {Вращать}
 translate R IEUnableToStart {Невозможно запустить входной движок:}
-
-# Calculation of Variations
-translate R DoneWithPosition {Закончено с позицией}
 
 translate R Board {Доска}
 translate R showGameInfo {Показать информацию о партии}
@@ -2128,7 +2114,6 @@ translate R BatchAnnotate {Пакетное аннотирование}
 translate R BatchEngineSelection {Выбор двигателя}
 translate R BatchChessEngine {Шахматный движок:}
 translate R BatchNumberOfInstances {Количество экземпляров:}
-translate R BatchGameReview {Обзор игры}
 translate R BatchTimePerMove {Время на ход (сек):}
 translate R BatchAnnotateBlunders {Комментируйте только ошибки}
 translate R BatchBlunderThreshold {Порог ошибки:}

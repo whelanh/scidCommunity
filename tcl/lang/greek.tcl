@@ -238,9 +238,7 @@ menuText G ToolsTracker "Ανιχνευτής κομματιού"  6 {Ανοίξ
 menuText G ToolsTraining "Προπόνηση"  0 {Προπονητικά εργαλεία (τακτικές, ανοίγματα...)}
 menuText G ToolsPlayVsEngine "Παίξτε εναντίον του κινητήρα"  0 {Παίξτε ένα παιχνίδι ενάντια σε μια μηχανή σκακιού}
 menuText G ToolsTrainOpenings "Ανοίγματα"  0 {Προπονηθείτε με ένα ρεπερτόριο}
-menuText G ToolsTrainReviewGame "Επισκόπηση παρτίδας"  0 {Μαντέψτε τις κινήσεις που έγιναν σε μια παρτίδα}
 menuText G ToolsTrainTactics "Τακτικές"  0 {Επιλύστε τακτικές}
-menuText G ToolsTrainCalvar "Υπολογισμός βαριαντών"  0 {Προπόνηση στον υπολογισμό βαριαντών}
 menuText G ToolsTrainFindBestMove "Εύρεση καλύτερης κίνησης"  0 {Βρείτε την καλύτερη κίνηση}
 menuText G ToolsTrainFics "Παιχνίδι στον FICS"  0 {Παίξτε στο freechess.org}
 menuText G ToolsEngineTournament "Τουρνουά μηχανών"  0 {Ξεκινήστε ένα τουρνουά ανάμεσα σε μηχανές σκακιού}
@@ -1689,6 +1687,17 @@ translate G IndentVariations {Να έχουν εσοχές οι βαριάντε
 translate G ExportColumnStyle {Είδος στήλης (μια κίνηση ανά γραμμή);}
 translate G ExportSymbolStyle {Είδος συμβολικού υπομνηματισμού:}
 translate G ExportStripMarks {Να απομακρυνθούν τα σημάδια τετραγώνου/βέλους από τα σχόλια;}
+translate G OptionsExportEol {Καταλήξεις γραμμών:}
+translate G OptionsExportEolNative {Ντόπιος}
+translate G OptionsPGNExport {Εξαγωγή PGN}
+translate G OptionsTagOrderIntro {Σειρά των υπόλοιπων ετικετών PGN κατά τη σύνταξη ενός παιχνιδιού. Το Seven Tag Roster γράφεται πάντα πρώτο, σύμφωνα με το πρότυπο PGN.}
+translate G OptionsTagOrderStr {Κατάλογος επτά ετικετών (διορθώθηκε): Εκδήλωση, Ιστότοπος, Ημερομηνία, Στρογγυλό, Λευκό, Μαύρο, Αποτέλεσμα}
+translate G OptionsTagOrderWhite {Λευκή βαθμολογία}
+translate G OptionsTagOrderBlack {Μαύρη βαθμολογία}
+translate G OptionsTagOrderOthers {Άλλες ετικέτες}
+translate G OptionsTagOrderSort {Ταξινόμηση άλλων ετικετών αλφαβητικά (αλλιώς αρχική σειρά)}
+translate G Up {Επάνω}
+translate G Down {Κάτω}
 
 # Goto game/move dialogs:
 translate G LoadGameNumber {Εισάγετε τον αριθμό παρτίδας για φόρτωση:}
@@ -1919,8 +1928,6 @@ translate G AddScoreToShortAnnotations {Προσθήκη σκορ στους υ�
 translate G AddScoreToAllMoves {Προσθέστε σκορ σε όλες τις κινήσεις}
 translate G Export {Εξαγωγή}
 translate G BookPartiallyLoaded {Το βιβλίο φορτώθηκε μερικώς}
-translate G Calvar {Υπολογισμο βαριαντών}
-translate G ConfigureCalvar {Προσαρμογή}
 # Opening names used in tacgame.tcl
 translate G Reti {Reti}
 translate G English {Αγγλική}
@@ -2026,24 +2033,6 @@ translate G FICSTextColor {Χρώμα κειμένου}
 
 # Game review
 translate G GameReview {Επισκόπηση παρτίδας}
-translate G GameReviewTimeExtended {Ο χρόνος επεκτάθηκε}
-translate G GameReviewMargin {Περιθώριο λάθους}
-translate G GameReviewAutoContinue {Αυτόματη συνέχιση όταν η κίνηση είναι σωστή}
-translate G GameReviewReCalculate {Χρήση εκτεταμένου χρόνου}
-translate G GameReviewAnalyzingMovePlayedDuringTheGame {Γίνεται ανάλυση της κίνησης που παίχτηκε κατά την διάρκεια της παρτίδας}
-translate G GameReviewAnalyzingThePosition {Γίνεται ανάλυση της θέσης}
-translate G GameReviewEnterYourMove {Εισάγετε την κίνησή σας}
-translate G GameReviewCheckingYourMove {Ελέγχεται η κίνησή σας}
-translate G GameReviewYourMoveWasAnalyzed {Η κίνησή σας αναλύθηκε}
-translate G GameReviewYouPlayedSameMove {Παίξατε την ίδια κίνηση όπως και στο ματς}
-translate G GameReviewScoreOfYourMove {Το σκορ της κίνησής σας}
-translate G GameReviewGameMoveScore {Το σκορ κίνησης της παρτίδας}
-translate G GameReviewEngineScore {Το σκορ της μηχανής}
-translate G GameReviewYouPlayedLikeTheEngine {Παίξατε το ίδιο καλά με την μηχανή}
-translate G GameReviewNotEngineMoveButGoodMove {Η κίνηση δεν είναι της μηχανής, αλλά είναι μια καλή κίνηση}
-translate G GameReviewMoveNotGood {Η κίνηση αυτή δεν είναι καλή, το σκορ είναι}
-translate G GameReviewMovesPlayedLike {Κινήσεις που παίχτηκαν σαν}
-translate G GameReviewMovesPlayedEngine {Κινήσεις που παίχτηκαν σαν της μηχανής}
 
 # Correspondence Chess Dialogs:
 translate G CCDlgCGeneraloptions {Γενκές επιλογές}
@@ -2069,9 +2058,6 @@ translate G IESending {Κινήσεις που εστάλησαν για}
 translate G IESynchronise {Συγχρονισμός}
 translate G IERotate  {Περιστροφή}
 translate G IEUnableToStart {Αδυναμία εκκίνησης της μηχανής εισόδου:}
-
-# Calculation of Variations
-translate G DoneWithPosition {Ολοκλήρωση της θέσης}
 
 translate G Board {Σκακιέρα}
 translate G showGameInfo {Εμφάνιση πληροφοριών παρτίδας}
@@ -2153,7 +2139,6 @@ translate G BatchAnnotate {Σχόλιο παρτίδας}
 translate G BatchEngineSelection {Επιλογή κινητήρα}
 translate G BatchChessEngine {Μηχανή σκακιού:}
 translate G BatchNumberOfInstances {Αριθμός περιπτώσεων:}
-translate G BatchGameReview {Κριτική παιχνιδιού}
 translate G BatchTimePerMove {Χρόνος ανά κίνηση (δευτ.):}
 translate G BatchAnnotateBlunders {Σημειώστε μόνο γκάφες}
 translate G BatchBlunderThreshold {Όριο σφαλμάτων:}

@@ -237,9 +237,7 @@ menuText D ToolsTracker "Figurenverteilung"  7 \
 menuText D ToolsTraining "Training"  0 {Trainingswerkzeuge (Taktik, Eröffnungen,...) }
 menuText D ToolsPlayVsEngine "Spielen gegen Engine"  0 {Spielen Sie eine Partie gegen eine Schachmaschine}
 menuText D ToolsTrainOpenings "Eröffnungen"  0 {Eröffnungsrepertoire trainieren}
-menuText D ToolsTrainReviewGame "Partie nachspielen"  0 {Finden von Zügen wie in vorgegebener Partie}
 menuText D ToolsTrainTactics "Taktik"  0 {Taktische Stellungen lösen}
-menuText D ToolsTrainCalvar "Varianten berechnen"  0 {Training zum Berechnen von Varianten}
 menuText D ToolsTrainFindBestMove "Besten Zug finden"  0 {Find best move}
 menuText D ToolsTrainFics "Internetpartie (FICS)"  0 {Internetpartie auf freechess.org}
 menuText D ToolsEngineTournament "Engine Turnier"  0 {Start a tournament between chess engines}
@@ -1709,6 +1707,17 @@ translate D ExportColumnStyle {Tabellarisch: ein Zug pro Zeile}
 translate D ExportSymbolStyle {Symbolische Notation }
 translate D ExportStripMarks \
   {Felder-/Pfeilemarkierzeichen\naus den Kommentaren entfernen}
+translate D OptionsExportEol {Zeilenenden:}
+translate D OptionsExportEolNative {Einheimisch}
+translate D OptionsPGNExport {PGN-Export}
+translate D OptionsTagOrderIntro {Reihenfolge der verbleibenden PGN-Tags beim Schreiben eines Spiels. Der Seven Tag Roster wird gemäß dem PGN-Standard immer zuerst geschrieben.}
+translate D OptionsTagOrderStr {Sieben-Tag-Liste (fest): Ereignis, Ort, Datum, Runde, Weiß, Schwarz, Ergebnis}
+translate D OptionsTagOrderWhite {Weiße Bewertung}
+translate D OptionsTagOrderBlack {Schwarze Bewertung}
+translate D OptionsTagOrderOthers {Andere Tags}
+translate D OptionsTagOrderSort {Andere Tags alphabetisch sortieren (ansonsten ursprüngliche Reihenfolge)}
+translate D Up {Hoch}
+translate D Down {Runter}
 
 # Goto game/move dialogs:
 translate D LoadGameNumber {Geben Sie die zu ladende Spielnr. ein:}
@@ -1942,8 +1951,6 @@ translate D AddScoreToShortAnnotations {Bewertung hinzufügen}
 translate D AddScoreToAllMoves {Fügen Sie allen Zügen Punkte hinzu}
 translate D Export {Export}
 translate D BookPartiallyLoaded {Buch teilweise geladen}
-translate D Calvar {Training: Variantenberechnung}
-translate D ConfigureCalvar {Konfiguration}
 # Opening names used in tacgame.tcl
 translate D Reti {Reti}
 translate D English {Englische Eröffnung}
@@ -2049,24 +2056,6 @@ translate D FICSTextColor {Textfarbe}
 
 # Game review
 translate D GameReview {Partieanalyse}
-translate D GameReviewTimeExtended {Lange Bedenkzeit}
-translate D GameReviewMargin {Fehlergrenze}
-translate D GameReviewAutoContinue {Bei korrektem Zug automatisch weiter}
-translate D GameReviewReCalculate {Verwende lange Bedenkzeit}
-translate D GameReviewAnalyzingMovePlayedDuringTheGame {Analysiere den Partiezug}
-translate D GameReviewAnalyzingThePosition {Analysiere Stellung}
-translate D GameReviewEnterYourMove {Zug eingeben}
-translate D GameReviewCheckingYourMove {Überprüfe Antwort}
-translate D GameReviewYourMoveWasAnalyzed {Antwort wurde analysiert}
-translate D GameReviewYouPlayedSameMove {Gleicher Zug wie in der Partie}
-translate D GameReviewScoreOfYourMove {BeWertung des Antwortzuges}
-translate D GameReviewGameMoveScore {Bewertung des Partiezuges}
-translate D GameReviewEngineScore {Bewertung der Engine}
-translate D GameReviewYouPlayedLikeTheEngine {Gleicher Zug wie die Engine}
-translate D GameReviewNotEngineMoveButGoodMove {Auch ein guter Zug}
-translate D GameReviewMoveNotGood {Der Zug ist nicht gut}
-translate D GameReviewMovesPlayedLike {Züge gespielt wie}
-translate D GameReviewMovesPlayedEngine {Züge gespielt wie die Engine}
 
 # Correspondence Chess Dialogs:
 translate D CCDlgCGeneraloptions {Allgemeine Einstellungen}
@@ -2092,9 +2081,6 @@ translate D IESending {Sende Züge für}
 translate D IESynchronise {Synchronisieren}
 translate D IERotate  {Brett drehen}
 translate D IEUnableToStart {Input Engine konnte nicht gestartet werden:}
-
-# Calculation of Variations
-translate D DoneWithPosition {Positionsbearbeitung beendet}
 
 translate D Board {Brett}
 translate D showGameInfo {Partieinformation anzeigen}
@@ -2176,7 +2162,6 @@ translate D BatchAnnotate {Batch-Anmerkung}
 translate D BatchEngineSelection {Motorauswahl}
 translate D BatchChessEngine {Schach-Engine:}
 translate D BatchNumberOfInstances {Anzahl der Instanzen:}
-translate D BatchGameReview {Spielrezension}
 translate D BatchTimePerMove {Zeit pro Zug (Sek.):}
 translate D BatchAnnotateBlunders {Kommentieren Sie nur Fehler}
 translate D BatchBlunderThreshold {Fehlerschwelle:}

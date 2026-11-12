@@ -28,7 +28,6 @@ set helpText(B,Contents) {<h1>Conteúdo de ajuda da comunidade scid</h1>
   <li><a Engine><b>Análise</b> janela</a></li>
   <li><a Engine><b>Motor</b> Windows</a></li>
   <li><a Book><b>Livro</b> janela</a></li>
-  <li><a CalVar><b>Cálculo de variações</b> janela</a></li>
   <li><a Comment><b>Editor de comentários</b> janela</a></li>
   <li><a Crosstable><b>Mesa cruzada</b> janela</a></li>
   <li><a Switcher><b>Alternador de banco de dados</b> janela</a></li>
@@ -756,8 +755,6 @@ set helpText(B,Menus) {<h1>scidCommunity menus</h1>
   <ul>
   <li><menu>Openings Training</menu>: Configures <a OpeningTrainer>openings training</a>.</li>
   <li><menu>Tactics Training</menu>: Configures <a TacticsTrainer>tactics training</a>.</li>
-  <li><menu>Review Game</menu>: Starts game review mode.</li>
-  <li><menu>Calvar Training</menu>: Configures <a CalVar>calculation of variations</a> training.</li>
   </ul>
   </ul>
   
@@ -3298,48 +3295,6 @@ set helpText(B,Engine) {<h1>As janelas do mecanismo</h1>
 }
 
 
-set helpTitle(B,CalVar) "Cálculo da variação"
-set helpText(B,CalVar) {<h1>O cálculo da janela de variação</h1>
-  <p>
-   Este exercício de treinamento também é conhecido como exercício Stoyko.  É
-   objetivo é analisar uma posição complexa e avaliar o maior número possível de
-   linhas possíveis e dê uma avaliação correta para cada uma delas.
-  </p> 
-  <h3>Configuração</h3></p>
-  <p>
-  Três parâmetros são definidos:
-  <ul>
-     <li>O motor UCI que irá analisar várias linhas</li>
-     <li>Tempo, em segundos, que o motor utilizará para analisar a posição</li>
-     <li>O tempo, em segundos, que o mecanismo utilizará para analisar cada linha inserida pelo usuário</li>
-  </ul>
-  </p>
-
-  <h3>Inserindo linhas</h3></p>
-  <p>
-  Os movimentos são inseridos normalmente com cliques do mouse no tabuleiro, mas eles
-  não será exibido. No final de uma linha o usuário precisa fornecer
-  uma avaliação clicando em um dos botões com códigos NAG.
-  </p>
-
-  <h3>Verificação de avaliação</h3>
-  <p>
-  Cada vez que uma avaliação é dada a uma linha, o mecanismo calcula seu
-  valor e anexe a linha e a pontuação logo abaixo das do usuário.
-  </p>
-
-  <h3>Concluído com posição</h3>
-  <p>
-   Quando o usuário achar que encontrou todas as melhores falas, pressione <term>Concluído com
-   position</term> será anexado ao jogo (com o comentário <term>Perdido
-   line</term>), as linhas que possuem pontuação superior à melhor linha
-   inserido pelo usuário.
-  </p>
-
-  <p><footer>(Atualizado: scidCommunity, abril de 2026)</footer></p>
-}
-
-
 set helpTitle(B,EPD) "Arquivos EPD"
 set helpText(B,EPD) {<h1>Arquivos EPD</h1>
   <p>
@@ -5401,48 +5356,6 @@ set helpText(B,InputEngine) {<h1>Console do driver do mecanismo de entrada</h1>
 
   <p><footer>(Atualizado: scidCommunity, abril de 2026)</footer></p>
 
-}
-
-
-set helpTitle(B,ReviewGame) "Revisão do jogo"
-set helpText(B,ReviewGame) {<h1>Revisando um jogo</h1>
-   <p>
-	Este recurso foi projetado para estudar um jogo, o que significa que você deve
-	tente adivinhar os movimentos realizados durante a partida. Então você primeiro abre um
-	jogo de qualquer base do scidCommunity e entre nesta função com o comando
-	<b>Revisar jogo</b> no menu <b>Jogar</b>.  Como de costume, para jogar
-	com as Pretas, vire o tabuleiro primeiro (você sempre joga de baixo para cima
-	o tabuleiro).
-   </p>
-	<p>
-	Para um treinamento eficaz, as seguintes configurações devem ser
-	desativado:
-	<ul>
-		<li>Mostrar último movimento (Opções / Movimentos / Destacar último movimento)</li>
-		<li>Mostrar próximo movimento (Opções / Informações do jogo / Ocultar próximo movimento)</li>
-		<li>Janela PGN</li>
-	</p>
-O processo é o seguinte:
-<ul>
-<li>- os motores ponderam sobre o movimento realizado durante o jogo </li>
-<li>- motor pondera sobre a posição e encontra o melhor movimento </li>
-<li> - o usuário pode então inserir seu movimento </li>
-<li>- engine pondera sobre a jogada executada pelo usuário</li>
-</ul>
-Se a jogada executada pelo usuário for a jogada realmente executada
-durante o jogo ou a jogada escolhida pelo motor ou uma jogada cuja pontuação
-está próximo do melhor movimento encontrado pelo motor (usando o erro de margem
-definido pelo usuário), então a mudança é considerada boa. Se
-o usuário discorda do motor ele pode usar o <b>tempo estendido</b>
-botão para obter uma confirmação da análise do motor.
-<p>
-<b>Notas:</b> 
-<ul>
-<li>- O lado deve ser escolhido antes da revisão do jogo </li>
-<li>- O usuário sempre joga de baixo do tabuleiro</li>
-</ul>
-</p>
-  <p><footer>(Atualizado: scidCommunity, abril de 2026)</footer></p>
 }
 
 

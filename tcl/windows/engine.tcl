@@ -2081,6 +2081,12 @@ proc ::enginewin::chartCallback {id uci_pos depth seldepth ply value} {
 # the engine reports its other lines for that depth; older blocks stay as the
 # history of the search.
 #
+# The block is keyed by the best line's depth and written from the latest line
+# seen for each multipv index, not from the lines of that depth alone. Engines
+# report the indices one at a time, and an index can still carry the depth
+# before the best line's depth; keeping the last line per index is what makes
+# every block show the configured number of lines, as the Analysis window did.
+#
 # Obsolete blocks lose the "header" tag when a new block starts. That tag marks
 # the lines a review may export, so "Add move" and "Add all variations" keep
 # taking the newest block and nothing else (see ::enginewin::firstPvLine).
@@ -2096,9 +2102,11 @@ proc ::enginewin::pvNewBlock {w} {
     return [lindex [split [$w index "end-1 lines"] .] 0]
 }
 
-# Write the current block again, from its stored chunks. Re-rendering the whole
-# block, rather than patching one line, keeps the lines in order when the
-# engine reports multipv 2 before 1 and makes the refresh of a line exact.
+# Write the current block again, from the latest line of each multipv index.
+# Re-rendering the whole block, rather than patching one line, keeps the lines
+# in order when the engine reports multipv 2 before 1 and makes the refresh of
+# a line exact. A line whose index has not been reported for this depth yet
+# keeps the previous depth's text, which is what the Analysis window showed.
 proc ::enginewin::pvRenderBlock {id w start} {
     variable m_
     # Delete the block but keep the newline that ends the line above it: an
@@ -2106,11 +2114,11 @@ proc ::enginewin::pvRenderBlock {id w start} {
     if {[$w compare "$start.0" < end]} {
         $w delete "$start.0" "end-1 chars"
     }
-    foreach i [lsort -integer [dict keys $m_(pvBlock,$id)]] {
+    foreach i [lsort -integer [dict keys $m_(pvList,$id)]] {
         # The best line of each block is the blue one; the others keep the
         # widget's normal colour.
         set lineTags [expr {$i == 1 ? [list blue] : {}}]
-        foreach chunk [dict get $m_(pvBlock,$id) $i] {
+        foreach chunk [dict get $m_(pvList,$id) $i] {
             lassign $chunk text tags
             set tags [concat $tags $lineTags]
             if {[llength $tags]} {
@@ -2124,31 +2132,68 @@ proc ::enginewin::pvRenderBlock {id w start} {
     $w see end
 }
 
-# The current block's line for `multipv`, starting a new block when the engine
-# reports a different depth.
-proc ::enginewin::pvBlockLine {id w multipv depth chunks} {
+# True when `depth` restarts the search shallower than `old`: a new search at
+# the same position (Autorun, Stop then Start) begins at depth 1, and the old
+# Analysis window dropped its history there instead of appending the new depths
+# below the old ones.
+proc ::enginewin::pvDepthWentBack {depth old} {
+    if {![string is integer -strict $depth] \
+            || ![string is integer -strict $old]} {
+        return 0
+    }
+    return [expr {$depth < $old}]
+}
+
+# Record a line and write the current block. Only the best line (multipv 1)
+# starts a new block: the other indices arrive one at a time for the same
+# depth, and a late one may still carry the previous depth. Keying the block on
+# the best line's depth, as the Analysis window did, keeps the blocks in order.
+proc ::enginewin::pvBlockUpdate {id w multipv depth chunks} {
     variable m_
 
     if {![info exists m_(pvBlockDepth,$id)]} {
         # The first multi-line message. The engine sends multipv 1 before 2, 3,
-        # ..., so the line already on screen is this depth's best line and
-        # becomes line 1 of the block.
-        set m_(pvBlockDepth,$id) $depth
+        # ..., so the line already on screen is the best line and becomes index
+        # 1 of the first block.
         if {[$w index end-1c] ne "1.0" && [info exists m_(pvLastDepth,$id)] \
-                && $m_(pvLastDepth,$id) eq $depth && [info exists m_(pvLastChunks,$id)]} {
+                && [info exists m_(pvLastChunks,$id)]} {
             set m_(pvBlockStart,$id) 1
-            set m_(pvBlock,$id) [dict create 1 $m_(pvLastChunks,$id)]
+            set m_(pvBlockDepth,$id) $m_(pvLastDepth,$id)
+            set m_(pvBestDepth,$id) $m_(pvLastDepth,$id)
+            set m_(pvList,$id) [dict create 1 $m_(pvLastChunks,$id)]
         } else {
-            set m_(pvBlockStart,$id) [::enginewin::pvNewBlock $w]
-            set m_(pvBlock,$id) [dict create]
+            set m_(pvBlockStart,$id) 1
+            set m_(pvBlockDepth,$id) ""
+            set m_(pvList,$id) [dict create]
         }
-    } elseif {$m_(pvBlockDepth,$id) ne $depth} {
-        set m_(pvBlockStart,$id) [::enginewin::pvNewBlock $w]
-        set m_(pvBlock,$id) [dict create]
+    }
+
+    if {$multipv == 1} {
+        if {![info exists m_(pvBestDepth,$id)]} {
+            # The first best line names the block. It may arrive after a
+            # secondary line from another depth; that line is kept, not treated
+            # as a search that ran backwards.
+            set m_(pvBestDepth,$id) $depth
+            set m_(pvBlockDepth,$id) $depth
+        } elseif {$m_(pvBestDepth,$id) ne $depth} {
+            if {[::enginewin::pvDepthWentBack $depth $m_(pvBestDepth,$id)]} {
+                # A new, shallower search: start the history again.
+                $w delete 1.0 end
+                set m_(pvBlockStart,$id) 1
+                set m_(pvList,$id) [dict create]
+            } elseif {[$w index end-1c] ne "1.0"} {
+                set m_(pvBlockStart,$id) [::enginewin::pvNewBlock $w]
+            }
+            set m_(pvBestDepth,$id) $depth
+            set m_(pvBlockDepth,$id) $depth
+        }
+    } elseif {$m_(pvBlockDepth,$id) eq ""} {
+        # No best line yet (an engine that reports multipv 2 first); give the
+        # block a home and let the best line fill index 1 when it arrives.
         set m_(pvBlockDepth,$id) $depth
     }
 
-    dict set m_(pvBlock,$id) $multipv $chunks
+    dict set m_(pvList,$id) $multipv $chunks
     ::enginewin::pvRenderBlock $id $w $m_(pvBlockStart,$id)
 }
 
@@ -2191,8 +2236,9 @@ proc ::enginewin::updateDisplay {id msgData} {
         $pv_lines delete 1.0 end
         $pv_lines configure -state disabled
         unset -nocomplain ::enginewin::m_(pvBlockDepth,$id) \
-            ::enginewin::m_(pvBlockStart,$id) ::enginewin::m_(pvBlock,$id) \
-            ::enginewin::m_(pvLastDepth,$id) ::enginewin::m_(pvLastChunks,$id)
+            ::enginewin::m_(pvBlockStart,$id) ::enginewin::m_(pvBestDepth,$id) \
+            ::enginewin::m_(pvList,$id) ::enginewin::m_(pvLastDepth,$id) \
+            ::enginewin::m_(pvLastChunks,$id)
         # Clear stored PV lines for multi-arrow display
         set ::enginewin::m_(pvlines,$id) {}
 if {[array exists ::enginewin::pvBestMove]} {
@@ -2276,7 +2322,7 @@ if {[array exists ::enginewin::pvBestMove]} {
     set line $multipv
     if {$multipv > 1 || [info exists ::enginewin::m_(pvBlockDepth,$id)]} {
         # MultiPV: the newest block, refreshed in place; line 1 of it is blue.
-        ::enginewin::pvBlockLine $id $pv_lines $multipv $depth $chunks
+        ::enginewin::pvBlockUpdate $id $pv_lines $multipv $depth $chunks
     } else {
         # One line: the newest PV replaces line 1, the preceding ones stay
         # below it as history.

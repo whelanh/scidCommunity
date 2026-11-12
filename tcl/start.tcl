@@ -383,7 +383,7 @@ foreach ns {
   ::tools::graphs::filter ::tools::graphs::absfilter ::tools::graphs::rating ::tools::graphs::score ::tools::graphs::time
   ::tb ::optable ::tablebase
   ::board ::move
-::sergame ::opening ::tactics ::calvar ::uci ::fics ::reviewgame ::novag ::iccf ::lss
+::sergame ::opening ::tactics ::uci ::fics ::novag ::iccf ::lss
   ::config ::docking
   ::pinfo
   ::unsafe
@@ -1166,13 +1166,11 @@ tools/auto_comment.tcl
 tools/analysis_auto_comment.tcl
 tools/multicomp.tcl
 tools/sergame.tcl
-tools/calvar.tcl
 tools/fics.tcl
 tools/iccf.tcl
 tools/lss.tcl
 tools/opening.tcl
 tools/tactics.tcl
-tools/reviewgame.tcl
 tools/move_labels.tcl
 tools/score_seed.tcl
 tools/engine_limits.tcl

@@ -207,9 +207,7 @@ menuText Q ToolsTracker "Відстеження фрагментів"  6 {Від
 menuText Q ToolsTraining "Навчання"  0 {Інструменти навчання (тактика, відкриття,...)}
 menuText Q ToolsPlayVsEngine "Грайте проти двигуна"  0 {Зіграйте проти шахової машини}
 menuText Q ToolsTrainOpenings "Отвори"  0 {Тренуватися з репертуаром}
-menuText Q ToolsTrainReviewGame "Оглядова гра"  0 {Вгадай ходи в грі}
 menuText Q ToolsTrainTactics "Тактика"  0 {Вирішіть тактику}
-menuText Q ToolsTrainCalvar "Розрахунок варіацій"  0 {Розрахунок варіаційної підготовки}
 menuText Q ToolsTrainFindBestMove "Знайдіть найкращий хід"  0 {Знайдіть найкращий хід}
 menuText Q ToolsTrainFics "Грайте на FICS"  0 {Грайте на freechess.org}
 menuText Q ToolsEngineTournament "Турнір двигунів"  0 {Розпочніть турнір між шаховими двигунами}
@@ -1650,6 +1648,17 @@ translate Q IndentVariations {Варіації відступів}
 translate Q ExportColumnStyle {Стиль стовпця (один хід на рядок)}
 translate Q ExportSymbolStyle {Символічний стиль анотації:}
 translate Q ExportStripMarks {Видаляйте з коментарів коди \nпозначок квадрата/стрілки}
+translate Q OptionsExportEol {Закінчення рядків:}
+translate Q OptionsExportEolNative {Рідна}
+translate Q OptionsPGNExport {Експорт PGN}
+translate Q OptionsTagOrderIntro {Порядок решти тегів PGN під час написання гри. Список семи тегів завжди пишеться першим відповідно до стандарту PGN.}
+translate Q OptionsTagOrderStr {Список із семи тегів (виправлено): подія, сайт, дата, раунд, білий, чорний, результат}
+translate Q OptionsTagOrderWhite {Білий рейтинг}
+translate Q OptionsTagOrderBlack {Чорний рейтинг}
+translate Q OptionsTagOrderOthers {Інші теги}
+translate Q OptionsTagOrderSort {Сортувати інші теги за алфавітом (в іншому випадку вихідний порядок)}
+translate Q Up {вгору}
+translate Q Down {вниз}
 
 # Goto game/move dialogs:
 translate Q LoadGameNumber {Введіть номер гри для завантаження:}
@@ -1871,8 +1880,6 @@ translate Q AddScoreToShortAnnotations {Додайте оцінку до ано�
 translate Q AddScoreToAllMoves {Додати оцінку до всіх ходів}
 translate Q Export {Експорт}
 translate Q BookPartiallyLoaded {Книга завантажена частково}
-translate Q Calvar {Розрахунок варіацій}
-translate Q ConfigureCalvar {Конфігурація}
 # Opening names used in tacgame.tcl
 translate Q Reti {Reti}
 translate Q English {англійська}
@@ -1978,24 +1985,6 @@ translate Q FICSTextColor {Колір тексту}
 
 # Game review
 translate Q GameReview {Огляд гри}
-translate Q GameReviewTimeExtended {Час подовжено}
-translate Q GameReviewMargin {Похибка}
-translate Q GameReviewAutoContinue {Автоматичне продовження, коли рух правильний}
-translate Q GameReviewReCalculate {Використовуйте продовжений час}
-translate Q GameReviewAnalyzingMovePlayedDuringTheGame {Аналіз ходу, зіграного під час партії}
-translate Q GameReviewAnalyzingThePosition {Аналіз позиції}
-translate Q GameReviewEnterYourMove {Введіть свій хід}
-translate Q GameReviewCheckingYourMove {Перевірка вашого ходу}
-translate Q GameReviewYourMoveWasAnalyzed {Ваш хід проаналізовано}
-translate Q GameReviewYouPlayedSameMove {Ви зробили той самий хід, що й у матчі}
-translate Q GameReviewScoreOfYourMove {Оцінка вашого ходу}
-translate Q GameReviewGameMoveScore {Рахунок ігрового ходу}
-translate Q GameReviewEngineScore {Оцінка двигуна}
-translate Q GameReviewYouPlayedLikeTheEngine {Ви грали так само добре, як двигун}
-translate Q GameReviewNotEngineMoveButGoodMove {Не хід двигуна, але теж хороший хід}
-translate Q GameReviewMoveNotGood {Цей хід поганий, рахунок є}
-translate Q GameReviewMovesPlayedLike {Ходи зіграні як}
-translate Q GameReviewMovesPlayedEngine {Ходи зіграні як двигун}
 
 # Correspondence Chess Dialogs:
 translate Q CCDlgCGeneraloptions {Загальні параметри}
@@ -2021,9 +2010,6 @@ translate Q IESending {Ходи надіслані}
 translate Q IESynchronise {Синхронізувати}
 translate Q IERotate  {Обертати}
 translate Q IEUnableToStart {Неможливо запустити Input Engine:}
-
-# Calculation of Variations
-translate Q DoneWithPosition {Завершено з позицією}
 
 translate Q Board {дошка}
 translate Q showGameInfo {Показати інформацію про гру}
@@ -2105,7 +2091,6 @@ translate Q BatchAnnotate {Пакетна анотація}
 translate Q BatchEngineSelection {Вибір двигуна}
 translate Q BatchChessEngine {Шаховий двигун:}
 translate Q BatchNumberOfInstances {Кількість екземплярів:}
-translate Q BatchGameReview {Огляд гри}
 translate Q BatchTimePerMove {Час на хід (сек):}
 translate Q BatchAnnotateBlunders {Коментуйте лише грубі помилки}
 translate Q BatchBlunderThreshold {Поріг помилки:}

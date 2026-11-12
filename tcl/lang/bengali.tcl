@@ -206,9 +206,7 @@ menuText b ToolsTracker "পিস ট্র্যাকার"  6 {পিস �
 menuText b ToolsTraining "প্রশিক্ষণ"  0 {প্রশিক্ষণের সরঞ্জাম (কৌশল, খোলা,...)}
 menuText b ToolsPlayVsEngine "খেলা বনাম ইঞ্জিন"  0 {একটি দাবা ইঞ্জিনের বিরুদ্ধে একটি খেলা খেলুন}
 menuText b ToolsTrainOpenings "খোলা"  0 {একটি সংগ্রহশালা সঙ্গে ট্রেন}
-menuText b ToolsTrainReviewGame "খেলা পর্যালোচনা"  0 {একটি খেলায় খেলা অনুমান চাল}
 menuText b ToolsTrainTactics "কৌশল"  0 {কৌশল সমাধান করুন}
-menuText b ToolsTrainCalvar "বৈচিত্র্যের গণনা"  0 {বৈচিত্র্য প্রশিক্ষণের গণনা}
 menuText b ToolsTrainFindBestMove "সেরা পদক্ষেপ খুঁজুন"  0 {সেরা পদক্ষেপ খুঁজুন}
 menuText b ToolsTrainFics "FICS এ খেলুন"  0 {freechess.org এ খেলুন}
 menuText b ToolsEngineTournament "ইঞ্জিন টুর্নামেন্ট"  0 {দাবা ইঞ্জিনের মধ্যে একটি টুর্নামেন্ট শুরু করুন}
@@ -1649,6 +1647,17 @@ translate b IndentVariations {ইন্ডেন্ট বৈচিত্র}
 translate b ExportColumnStyle {কলাম শৈলী (প্রতি লাইনে এক মুভ)}
 translate b ExportSymbolStyle {প্রতীকী টীকা শৈলী:}
 translate b ExportStripMarks {স্ট্রিপ বর্গ/তীর চিহ্ন\nমন্তব্য থেকে কোড}
+translate b OptionsExportEol {লাইন শেষ:}
+translate b OptionsExportEolNative {নেটিভ}
+translate b OptionsPGNExport {পিজিএন এক্সপোর্ট}
+translate b OptionsTagOrderIntro {একটি গেম লেখার সময় অবশিষ্ট PGN ট্যাগের ক্রম। PGN মান অনুযায়ী সেভেন ট্যাগ রোস্টার সর্বদা প্রথমে লেখা হয়।}
+translate b OptionsTagOrderStr {সেভেন ট্যাগ রোস্টার (নির্দিষ্ট): ইভেন্ট, সাইট, তারিখ, গোলাকার, সাদা, কালো, ফলাফল}
+translate b OptionsTagOrderWhite {সাদা রেটিং}
+translate b OptionsTagOrderBlack {কালো রেটিং}
+translate b OptionsTagOrderOthers {অন্যান্য ট্যাগ}
+translate b OptionsTagOrderSort {অন্যান্য ট্যাগগুলিকে বর্ণানুক্রমিকভাবে সাজান (অন্যথায় মূল ক্রম)}
+translate b Up {উপরে}
+translate b Down {নিচে}
 
 # Goto game/move dialogs:
 translate b LoadGameNumber {লোড করতে গেম নম্বর লিখুন:}
@@ -1870,8 +1879,6 @@ translate b AddScoreToShortAnnotations {টীকাগুলিতে স্ক
 translate b AddScoreToAllMoves {সমস্ত চালে স্কোর যোগ করুন}
 translate b Export {রপ্তানি}
 translate b BookPartiallyLoaded {বই আংশিক লোড}
-translate b Calvar {বৈচিত্র্যের গণনা}
-translate b ConfigureCalvar {কনফিগারেশন}
 # Opening names used in tacgame.tcl
 translate b Reti {রেটি}
 translate b English {ইংরেজি}
@@ -1977,24 +1984,6 @@ translate b FICSTextColor {পাঠ্যের রঙ}
 
 # Game review
 translate b GameReview {খেলা পর্যালোচনা}
-translate b GameReviewTimeExtended {সময় বাড়ানো হয়েছে}
-translate b GameReviewMargin {ত্রুটি মার্জিন}
-translate b GameReviewAutoContinue {সরানো সঠিক হলে অটো চালিয়ে যান}
-translate b GameReviewReCalculate {বর্ধিত সময় ব্যবহার করুন}
-translate b GameReviewAnalyzingMovePlayedDuringTheGame {খেলা চলাকালীন খেলা বিশ্লেষণ}
-translate b GameReviewAnalyzingThePosition {অবস্থান বিশ্লেষণ}
-translate b GameReviewEnterYourMove {আপনার পদক্ষেপ লিখুন}
-translate b GameReviewCheckingYourMove {আপনার পদক্ষেপ পরীক্ষা করা হচ্ছে}
-translate b GameReviewYourMoveWasAnalyzed {আপনার পদক্ষেপ বিশ্লেষণ করা হয়েছে}
-translate b GameReviewYouPlayedSameMove {আপনি ম্যাচের মতো একই চাল খেলেছেন}
-translate b GameReviewScoreOfYourMove {আপনার পদক্ষেপের স্কোর}
-translate b GameReviewGameMoveScore {গেম মুভ এর স্কোর}
-translate b GameReviewEngineScore {ইঞ্জিনের স্কোর}
-translate b GameReviewYouPlayedLikeTheEngine {আপনি ইঞ্জিনের মতোই ভাল খেলেছেন}
-translate b GameReviewNotEngineMoveButGoodMove {ইঞ্জিন সরানো নয়, তবে এটি একটি ভাল পদক্ষেপ}
-translate b GameReviewMoveNotGood {এই পদক্ষেপ ভাল না, স্কোর হয়}
-translate b GameReviewMovesPlayedLike {চালনা মত খেলা}
-translate b GameReviewMovesPlayedEngine {চালগুলি ইঞ্জিনের মতো খেলা হয়}
 
 # Correspondence Chess Dialogs:
 translate b CCDlgCGeneraloptions {সাধারণ বিকল্প}
@@ -2020,9 +2009,6 @@ translate b IESending {জন্য পাঠানো হয়েছে}
 translate b IESynchronise {সিঙ্ক্রোনাইজ করুন}
 translate b IERotate  {ঘোরান}
 translate b IEUnableToStart {ইনপুট ইঞ্জিন শুরু করতে অক্ষম:}
-
-# Calculation of Variations
-translate b DoneWithPosition {অবস্থানের সঙ্গে সম্পন্ন}
 
 translate b Board {বোর্ড}
 translate b showGameInfo {খেলার তথ্য দেখান}
@@ -2104,7 +2090,6 @@ translate b BatchAnnotate {ব্যাচ টীকা}
 translate b BatchEngineSelection {ইঞ্জিন নির্বাচন}
 translate b BatchChessEngine {দাবা ইঞ্জিন:}
 translate b BatchNumberOfInstances {দৃষ্টান্তের সংখ্যা:}
-translate b BatchGameReview {গেম রিভিউ}
 translate b BatchTimePerMove {প্রতি মুভ করার সময় (সেকেন্ড):}
 translate b BatchAnnotateBlunders {শুধুমাত্র ভুলগুলো টীকা করুন}
 translate b BatchBlunderThreshold {ভুল থ্রেশহোল্ড:}

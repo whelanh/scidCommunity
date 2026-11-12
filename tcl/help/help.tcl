@@ -21,7 +21,6 @@ set helpText(Contents) {<h1>scidCommunity Help Contents</h1>
   <ul>
   <li><a Engine><b>Engine</b> windows</a></li>
   <li><a Book><b>Book</b> window</a></li>
-  <li><a CalVar><b>Calculation of variations</b> window</a></li>
   <li><a Comment><b>Comment editor</b> window</a></li>
   <li><a Crosstable><b>Crosstable</b> window</a></li>
   <li><a Switcher><b>Database Switcher</b> window</a></li>
@@ -774,8 +773,6 @@ set helpText(Menus) {<h1>scidCommunity menus</h1>
   <ul>
   <li><menu>Openings Training</menu>: Configures <a OpeningTrainer>openings training</a>.</li>
   <li><menu>Tactics Training</menu>: Configures <a TacticsTrainer>tactics training</a>.</li>
-  <li><menu>Review Game</menu>: Starts game review mode.</li>
-  <li><menu>Calvar Training</menu>: Configures <a CalVar>calculation of variations</a> training.</li>
   </ul>
   </ul>
   
@@ -3685,49 +3682,6 @@ set helpText(Engine) {<h1>The Engine windows</h1>
   <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 
-####################
-### Calvar window help:
-
-set helpTitle(CalVar) "Calculation of variation"
-set helpText(CalVar) {<h1>The calculation of variation window</h1>
-  <p>
-   This training exercise is also known as the Stoyko exercise.  Its
-   purpose is to analyse a complex position and evaluate as many sound
-   lines as possible, and give a correct evaluation for each of them.
-  </p> 
-  <h3>Configuration</h3></p>
-  <p>
-  Three parameters are set :
-  <ul>
-     <li>The UCI engine that will analyse various lines</li>
-     <li>The time, in seconds, the engine will use to analyse the position</li>
-     <li>The time, in seconds, the engine will use to analyse each line entered by the user</li>
-  </ul>
-  </p>
-
-  <h3>Entering lines</h3></p>
-  <p>
-  Moves are entered as usual with mouse clicks on the board but they
-  will not be displayed. At the end of a line the user needs to provide
-  an evaluation by clicking on one of the buttons with NAG codes.
-  </p>
-
-  <h3>Evaluation verification</h3>
-  <p>
-  Each time an evaluation is given to a line the engine calculates its
-  value and append the line and score just below the user ones.
-  </p>
-
-  <h3>Done with position</h3>
-  <p>
-   When  the user thinks he found all best lines, pressing <term>Done with
-   position</term> will append to the game (with the comment <term>Missed
-   line</term>), the lines that have a score higher than the best line
-   entered by the user.
-  </p>
-
-  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
-}
 
 
 ####################
@@ -5743,47 +5697,6 @@ set helpText(InputEngine) {<h1>Input Engine driver console</h1>
    </p>
 
 
-  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
-}
-
-set helpTitle(ReviewGame) "Game Review"
-set helpText(ReviewGame) {<h1>Reviewing a game</h1>
-   <p>
-	This feature is designed to study a game, which means you should
-	try to guess the moves played during the match. So you first open a
-	game from any scidCommunity's base, and enter this function with the command
-	<b>Review game</b> in the <b>Play</b> menu.  As usually, to play
-	with Black, flip board first (you always play from the bottom of
-	the board).
-   </p>
-	<p>
-	For an effective training the following settings should be
-	disabled:
-	<ul>
-		<li>Show last move (Options / Moves / Highlight last move)</li>
-		<li>Show next move (Options / Game information / Hide next move)</li>
-		<li>PGN window</li>
-	</p>
-The process is the following :
-<ul>
-<li>- engines ponders on the move played during the game</li>
-<li>- engine ponders on the position and finds the best move</li>
-<li>- user is then allowed to enter his move</li>
-<li>- engine ponders on the move played by the user</li>
-</ul>
-If the move played by the user is either the move actually played
-during the game or the move chosen by the engine or a move whose score
-is close to the best move found by the engine (using the margin error
-defined by the user), then the move is considered as a good one. If
-the user disagrees with the engine he can use the <b>extended time</b>
-button to get a confirmation of engine's analysis.
-<p>
-<b>Notes:</b> 
-<ul>
-<li>- The side must be chosen before game reviewing </li>
-<li>- The user always plays from the bottom of the board</li>
-</ul>
-</p>
   <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
 }
 

@@ -224,9 +224,7 @@ menuText K ToolsTracker "Rastrejador de peces"  14 {Obre la finestra del rastrej
 menuText K ToolsTraining "Entrenament"  0 {Entrenament (tàctica, obertures,...}
 menuText K ToolsPlayVsEngine "Juga contra el motor"  0 {Juga una partida contra un motor d'escacs}
 menuText K ToolsTrainOpenings "Obertures"  0 {Entrenament amb un repertori}
-menuText K ToolsTrainReviewGame "Revisar partida"  0 {Endevina les jugades realitzades en una partida}
 menuText K ToolsTrainTactics "Tàctica"  0 {Resoldre problemes de tàctica}
-menuText K ToolsTrainCalvar "Càlcul de variants"  0 {Càlcul de variants}
 menuText K ToolsTrainFindBestMove "Trobar la millor jugada"  0 {Cerca la millor jugada}
 menuText K ToolsTrainFics "Jugar a Internet"  0 {Jugar a freechess.org}
 menuText K ToolsEngineTournament "Torneig de motors"  0 {Comença un torneig entre motors}
@@ -1685,6 +1683,17 @@ translate K IndentVariations {Sangrar variants?}
 translate K ExportColumnStyle {Estil de columna (una jugada per línia)?}
 translate K ExportSymbolStyle {Estil d'anotació simbólica:}
 translate K ExportStripMarks {Treure marca de codis de cassella/fletxa dels comentaris?}
+translate K OptionsExportEol {Finals de línia:}
+translate K OptionsExportEolNative {Nadiu}
+translate K OptionsPGNExport {Exportació PGN}
+translate K OptionsTagOrderIntro {Ordre de les etiquetes PGN restants en escriure un joc. La llista de set etiquetes sempre s'escriu primer, segons l'estàndard PGN.}
+translate K OptionsTagOrderStr {Llista de set etiquetes (fixada): Esdeveniment, Lloc, Data, Ronda, Blanc, Negre, Resultat}
+translate K OptionsTagOrderWhite {Classificació blanca}
+translate K OptionsTagOrderBlack {Classificació negra}
+translate K OptionsTagOrderOthers {Altres etiquetes}
+translate K OptionsTagOrderSort {Ordena altres etiquetes alfabèticament (en cas contrari, ordre original)}
+translate K Up {Amunt}
+translate K Down {Avall}
 
 # Goto game/move dialogs:
 translate K LoadGameNumber {Entra el número de la partida a carregar:}
@@ -1914,8 +1923,6 @@ translate K AddScoreToShortAnnotations {Afegir puntuació per anotaciones curtes
 translate K AddScoreToAllMoves {Afegiu puntuació a tots els moviments}
 translate K Export {Exportar}
 translate K BookPartiallyLoaded {Llibre carregat parcialment}
-translate K Calvar {Càlcul de variants}
-translate K ConfigureCalvar {Configuració}
 # Opening names used in tacgame.tcl
 translate K Reti {Obertura Reti}
 translate K English {Obertura Anglesa}
@@ -2021,24 +2028,6 @@ translate K FICSTextColor {Color del text}
 
 # Game review
 translate K GameReview {Revisió de la partida}
-translate K GameReviewTimeExtended {Temps incrementat}
-translate K GameReviewMargin {Marge d'error}
-translate K GameReviewAutoContinue {Continua automàticament quan la jugada sigui correcta}
-translate K GameReviewReCalculate {Fes servir temps addicional}
-translate K GameReviewAnalyzingMovePlayedDuringTheGame {Analitzant jugada feta a la partida}
-translate K GameReviewAnalyzingThePosition {Analitzant la posició}
-translate K GameReviewEnterYourMove {Introdueix la teva jugada}
-translate K GameReviewCheckingYourMove {Analitzant la teva jugada}
-translate K GameReviewYourMoveWasAnalyzed {La teva jugada ha estat analitzada}
-translate K GameReviewYouPlayedSameMove {Has jugat la mateixa jugada que la partida}
-translate K GameReviewScoreOfYourMove {Valoració de la teva jugada}
-translate K GameReviewGameMoveScore {Valoració de la jugada de la partida}
-translate K GameReviewEngineScore {Valoració del motor}
-translate K GameReviewYouPlayedLikeTheEngine {Has jugat com el motor}
-translate K GameReviewNotEngineMoveButGoodMove {No és la jugada del motor, però també és bona}
-translate K GameReviewMoveNotGood {Aquesta jugada no és bona, però la valoració si}
-translate K GameReviewMovesPlayedLike {Jugades com}
-translate K GameReviewMovesPlayedEngine {Jugades del motor}
 
 # Correspondence Chess Dialogs:
 translate K CCDlgCGeneraloptions {Opcions Generals}
@@ -2064,9 +2053,6 @@ translate K IESending {Jugades enviades per}
 translate K IESynchronise {Sincronitzar}
 translate K IERotate  {Rotar}
 translate K IEUnableToStart {Impossible començar amb el motor d'entrada:}
-
-# Calculation of Variations
-translate K DoneWithPosition {Fet amb la posició}
 
 translate K Board {Escaquer}
 translate K showGameInfo {Mostrar informació de la partida}
@@ -2148,7 +2134,6 @@ translate K BatchAnnotate {Anotació per lots}
 translate K BatchEngineSelection {Selecció del motor}
 translate K BatchChessEngine {Motor d'escacs:}
 translate K BatchNumberOfInstances {Nombre d'instàncies:}
-translate K BatchGameReview {Revisió del joc}
 translate K BatchTimePerMove {Temps per moviment (s):}
 translate K BatchAnnotateBlunders {Anoteu només errors}
 translate K BatchBlunderThreshold {Llindar d'error:}

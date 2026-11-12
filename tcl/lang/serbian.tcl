@@ -237,11 +237,7 @@ menuText Y ToolsSeriousGame "Serious game"  0 {Play a serious game}
 # ====== TODO To be translated ======
 menuText Y ToolsTrainOpenings "Openings"  0 {Train with a repertoire}
 # ====== TODO To be translated ======
-menuText Y ToolsTrainReviewGame "Review game"  0 {Guess moves played in a game}
-# ====== TODO To be translated ======
 menuText Y ToolsTrainTactics "Tactics"  0 {Solve tactics}
-# ====== TODO To be translated ======
-menuText Y ToolsTrainCalvar "Calculation of variations"  0 {Calculation of variations training}
 # ====== TODO To be translated ======
 menuText Y ToolsTrainFindBestMove "Find best move"  0 {Find best move}
 # ====== TODO To be translated ======
@@ -2887,10 +2883,6 @@ translate Y Export {Export}
 # ====== TODO To be translated ======
 translate Y BookPartiallyLoaded {Book partially loaded}
 # ====== TODO To be translated ======
-translate Y Calvar {Calculation of variations}
-# ====== TODO To be translated ======
-translate Y ConfigureCalvar {Configuration}
-# ====== TODO To be translated ======
 translate Y Reti {Reti}
 # ====== TODO To be translated ======
 translate Y English {English}
@@ -3091,42 +3083,6 @@ translate Y FICSTextColor {Text color}
 # ====== TODO To be translated ======
 translate Y GameReview {Game review}
 # ====== TODO To be translated ======
-translate Y GameReviewTimeExtended {Time extended}
-# ====== TODO To be translated ======
-translate Y GameReviewMargin {Error margin}
-# ====== TODO To be translated ======
-translate Y GameReviewAutoContinue {Auto continue when move is correct}
-# ====== TODO To be translated ======
-translate Y GameReviewReCalculate {Use extended time}
-# ====== TODO To be translated ======
-translate Y GameReviewAnalyzingMovePlayedDuringTheGame {Analyzing move played during the game}
-# ====== TODO To be translated ======
-translate Y GameReviewAnalyzingThePosition {Analyzing the position}
-# ====== TODO To be translated ======
-translate Y GameReviewEnterYourMove {Enter your move}
-# ====== TODO To be translated ======
-translate Y GameReviewCheckingYourMove {Checking your move}
-# ====== TODO To be translated ======
-translate Y GameReviewYourMoveWasAnalyzed {Your move was analyzed}
-# ====== TODO To be translated ======
-translate Y GameReviewYouPlayedSameMove {You played the same move as in match}
-# ====== TODO To be translated ======
-translate Y GameReviewScoreOfYourMove {Score of your move}
-# ====== TODO To be translated ======
-translate Y GameReviewGameMoveScore {Game move's score}
-# ====== TODO To be translated ======
-translate Y GameReviewEngineScore {Engine's score}
-# ====== TODO To be translated ======
-translate Y GameReviewYouPlayedLikeTheEngine {You played as good as engine's}
-# ====== TODO To be translated ======
-translate Y GameReviewNotEngineMoveButGoodMove {Not the engine move, but is also a good move}
-# ====== TODO To be translated ======
-translate Y GameReviewMoveNotGood {This move is not good, score is}
-# ====== TODO To be translated ======
-translate Y GameReviewMovesPlayedLike {Moves played like}
-# ====== TODO To be translated ======
-translate Y GameReviewMovesPlayedEngine {Moves played like engine}
-# ====== TODO To be translated ======
 translate Y CCDlgCGeneraloptions {General Options}
 # ====== TODO To be translated ======
 translate Y CCDlgLoginName  {Login Name:}
@@ -3164,8 +3120,6 @@ translate Y IESynchronise {Synchronise}
 translate Y IERotate  {Rotate}
 # ====== TODO To be translated ======
 translate Y IEUnableToStart {Unable to start Input Engine:}
-# ====== TODO To be translated ======
-translate Y DoneWithPosition {Done with position}
 # ====== TODO To be translated ======
 translate Y Board {Board}
 # ====== TODO To be translated ======
@@ -3304,8 +3258,6 @@ translate Y BatchEngineSelection {Engine Selection}
 translate Y BatchChessEngine {Chess Engine:}
 # ====== TODO To be translated ======
 translate Y BatchNumberOfInstances {Number of Instances:}
-# ====== TODO To be translated ======
-translate Y BatchGameReview {Game Review}
 # ====== TODO To be translated ======
 translate Y BatchTimePerMove {Time per move (sec):}
 # ====== TODO To be translated ======

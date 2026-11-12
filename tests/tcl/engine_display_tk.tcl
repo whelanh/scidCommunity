@@ -10,8 +10,10 @@
 # depth. It now keeps one block per depth, separated by a dashed rule, the best
 # line of each block in blue and the other lines in the normal colour; the
 # newest block is refreshed in place as the engine reports its remaining lines.
-# A single-PV run keeps its own display: the newest line at the top, the
-# preceding iterations below it, no rule and no blue.
+# Each block shows the latest line of every multipv slot, so a new depth keeps
+# the earlier slots' lines until the engine updates them, as the Analysis
+# window did. A single-PV run keeps its own display: the newest line at the
+# top, the preceding iterations below it, no rule and no blue.
 #
 # The window's engine, board and chart are not part of this: the harness feeds
 # the InfoPV messages the UCI reader would, into the real ::enginewin::updateDisplay
@@ -156,6 +158,62 @@ checkEq "the newest block starts at its best line" [::enginewin::firstPvLine $t]
 checkEq "the header tag is only on the newest block" [headerLines] {5 6 7}
 checkEq "the obsolete block's best line lost it" \
     [expr {[lsearch -exact [headerLines] 1] < 0}] 1
+
+puts "\na new block keeps the configured number of lines"
+
+::enginewin::updateDisplay 1 ""
+feed 1 20  30 {e2e4 e7e5}
+feed 2 20  20 {d2d4 d7d5}
+feed 3 20  10 {g1f3 g8f6}
+feed 1 21  35 {e2e4 c7c5}
+checkEq "the new block is already three lines" [lineCount] 7
+check "its best line is the new depth" \
+    [string match "21/20*+0.35*e2e4 c7c5*" [lineText 5]] [lineText 5]
+check "the second line is still the previous depth's" \
+    [string match "20/20*+0.20*d2d4*" [lineText 6]] [lineText 6]
+check "the third line too" \
+    [string match "20/20*+0.10*g1f3*" [lineText 7]] [lineText 7]
+checkEq "still one rule" [llength [ruleLines]] 1
+
+feed 2 21  25 {d2d4 g8f6}
+feed 3 21  15 {g1f3 d7d5}
+check "the second line catches up" \
+    [string match "21/20*+0.25*d2d4 g8f6*" [lineText 6]] [lineText 6]
+check "the third line catches up" \
+    [string match "21/20*+0.15*g1f3 d7d5*" [lineText 7]] [lineText 7]
+
+puts "\na late line from an older depth fills its slot; it adds no block"
+
+feed 2 20  22 {c2c4 e7e5}
+checkEq "no block is added" [lineCount] 7
+checkEq "no rule is added" [llength [ruleLines]] 1
+check "the late line took the second slot of the newest block" \
+    [string match "20/20*+0.22*c2c4*" [lineText 6]] [lineText 6]
+check "the best line did not move" \
+    [string match "21/20*+0.35*e2e4 c7c5*" [lineText 5]] [lineText 5]
+
+puts "\na shallower best line starts the history again"
+
+feed 1 5  5 {e2e4}
+checkEq "the old blocks are gone" [lineCount] 1
+checkEq "there is no rule" [llength [ruleLines]] 0
+check "the new search is on screen" \
+    [string match "5/20*+0.05*e2e4*" [lineText 1]] [lineText 1]
+feed 2 5  1 {d2d4}
+checkEq "and its other line joins the block" [lineCount] 2
+check "on the next line" [string match "5/20*+0.01*d2d4*" [lineText 2]] [lineText 2]
+
+puts "\nthe first best line may arrive after a secondary line"
+
+::enginewin::updateDisplay 1 ""
+feed 2 8  20 {d2d4 d7d5}
+feed 1 7  30 {e2e4 e7e5}
+checkEq "the secondary line is kept" [lineCount] 2
+check "the best line takes the first slot" \
+    [string match "7/20*+0.30*e2e4*" [lineText 1]] [lineText 1]
+check "the line that arrived first keeps the second" \
+    [string match "8/20*+0.20*d2d4*" [lineText 2]] [lineText 2]
+checkEq "the block is keyed by the best line" $::enginewin::m_(pvBestDepth,1) 7
 
 puts "\na single PV keeps the Engine Window's own display"
 

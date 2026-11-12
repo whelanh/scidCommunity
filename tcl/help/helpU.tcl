@@ -28,7 +28,6 @@ set helpText(U,Contents) {<h1>scidCommunity Ohjeen sisältö</h1>
   <li><a Engine><b>Analyysi</b> ikkuna</a></li>
   <li><a Engine><b>Moottori</b> ikkunat</a></li>
   <li><a Book><b>Kirja</b> ikkuna</a></li>
-  <li><a CalVar><b>Variaatioiden laskeminen</b> ikkuna</a></li>
   <li><a Comment><b>Kommenttieditori</b> ikkuna</a></li>
   <li><a Crosstable><b>Crosstable</b> ikkuna</a></li>
   <li><a Switcher><b>Tietokannan vaihtaja</b> ikkuna</a></li>
@@ -754,8 +753,6 @@ set helpText(U,Menus) {<h1>scidCommunity menus</h1>
   <ul>
   <li><menu>Openings Training</menu>: Configures <a OpeningTrainer>openings training</a>.</li>
   <li><menu>Tactics Training</menu>: Configures <a TacticsTrainer>tactics training</a>.</li>
-  <li><menu>Review Game</menu>: Starts game review mode.</li>
-  <li><menu>Calvar Training</menu>: Configures <a CalVar>calculation of variations</a> training.</li>
   </ul>
   </ul>
   
@@ -3285,48 +3282,6 @@ set helpText(U,Engine) {<h1> Moottorin ikkunat </h1>
 }
 
 
-set helpTitle(U,CalVar) "Vaihtelun laskeminen"
-set helpText(U,CalVar) {<h1>Variaatioikkunan laskenta </h1>
-  <p>
-   Tämä harjoitusharjoitus tunnetaan myös nimellä Stoyko-harjoitus.  Sen
-   Tarkoituksena on analysoida monimutkainen sijainti ja arvioida mahdollisimman monta ääntä
-   rivejä mahdollisimman paljon ja anna oikea arvio jokaisesta niistä.
-  </p> 
-  <h3> Kokoonpano </h3> </p>
-  <p>
-  Kolme parametria on asetettu:
-  <ul>
-     <li>UCI-moottori, joka analysoi eri linjoja </li>
-     <li> Aika sekunteina, jonka moottori käyttää paikan analysointiin </li>
-     <li> Aika sekunteina, jonka moottori käyttää jokaisen käyttäjän kirjoittaman rivin analysointiin </li>
-  </ul>
-  </p>
-
-  <h3> Rivien syöttäminen </h3> </p>
-  <p>
-  Liikkeet syötetään tavalliseen tapaan hiiren napsautuksella laudalla, mutta ne
-  ei näytetä. Rivin lopussa käyttäjän on annettava
-  arvioinnin napsauttamalla yhtä NAG-koodien painikkeista.
-  </p>
-
-  <h3> Arvioinnin vahvistus </h3>
-  <p>
-  Joka kerta kun riville annetaan arvio, moottori laskee sen
-  arvo ja liitä rivi ja pisteet juuri käyttäjän alapuolelle.
-  </p>
-
-  <h3> Tehty asemaan </h3>
-  <p>
-   Kun käyttäjä luulee löytäneensä kaikki parhaat linjat, paina <term>Valmis
-   sijainti</term> liitetään peliin (kommentilla <term>Missed
-   rivi</term>), rivit, joiden pistemäärä on korkeampi kuin paras rivi
-   käyttäjän syöttämä.
-  </p>
-
-  <p><footer>(Päivitetty: scidCommunity, huhtikuu 2026)</footer></p>
-}
-
-
 set helpTitle(U,EPD) "EPD-tiedostot"
 set helpText(U,EPD) {<h1>EPD-tiedostot </h1>
   <p>
@@ -5380,48 +5335,6 @@ set helpText(U,InputEngine) {<h1> Input Moottorin ajurikonsoli </h1>
    </p>
 
 
-  <p><footer>(Päivitetty: scidCommunity, huhtikuu 2026)</footer></p>
-}
-
-
-set helpTitle(U,ReviewGame) "Pelin arvostelu"
-set helpText(U,ReviewGame) {<h1> Pelin arvosteleminen </h1>
-   <p>
-	Tämä ominaisuus on suunniteltu pelin tutkimiseen, mikä tarkoittaa, että sinun pitäisi
-	yritä arvata ottelun aikana pelatut liikkeet. Joten avaat ensin a
-	peli mistä tahansa scidCommunityn tukikohdasta ja syötä tämä toiminto komennolla
-	<b>Tarkista peli </b> <b>Play</b> -valikossa.  Kuten yleensä, pelaamaan
-	Mustalla, käännä lauta ensin (pelaat aina alareunasta
-	lauta).
-   </p>
-	<p>
-	Tehokas harjoittelu edellyttää seuraavia asetuksia
-	pois käytöstä:
-	<ul>
-		<li>Näytä viimeinen liike (Asetukset / Liikkeet / Korosta viimeinen liike) </li>
-		<li>Näytä seuraava siirto (Asetukset / Pelitiedot / Piilota seuraava siirto)</li>
-		<li>PGN-ikkuna </li>
-	</p>
-Prosessi on seuraava:
-<ul>
-<li> - moottorit pohtivat pelin aikana pelattua liikettä </li>
-<li> - moottori pohtii sijaintia ja löytää parhaan liikkeen </li>
-<li> - käyttäjä saa sitten tehdä siirtonsa </li>
-<li> - moottori pohtii käyttäjän pelaamaa liikkeellä </li>
-</ul>
-Jos käyttäjän tekemä siirto on joko todellisuudessa pelattu siirto
-pelin aikana tai moottorin valitseman liikkeen tai liikkeen, jonka tulos on
-on lähellä parasta moottorin löytämää liikettä (käyttäen marginaalivirhettä
-käyttäjän määrittelemä), siirtoa pidetään hyvänä. Jos
-käyttäjä on eri mieltä moottorin kanssa, hän voi käyttää <b>pidennettyä aikaa </b>
--painiketta saadaksesi vahvistuksen moottorin analyysistä.
-<p>
-<b>Huomioitavaa:</b> 
-<ul>
-<li>- Puoli on valittava ennen pelin tarkistamista </li>
-<li> - Käyttäjä pelaa aina laudan alaosasta </li>
-</ul>
-</p>
   <p><footer>(Päivitetty: scidCommunity, huhtikuu 2026)</footer></p>
 }
 

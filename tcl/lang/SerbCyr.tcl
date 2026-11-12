@@ -247,9 +247,7 @@ menuText J ToolsTracker "Пиеце Трацкер"  6 {Отворите про�
 menuText J ToolsTraining "Обука"  0 {Алати за обуку (тактике, отвори,...)}
 menuText J ToolsPlayVsEngine "Играј против мотора"  0 {Играјте игру против шаховске машине}
 menuText J ToolsTrainOpenings "Отвори"  0 {Тренирајте са репертоаром}
-menuText J ToolsTrainReviewGame "Преглед игре"  0 {Погодите потезе одигране у игри}
 menuText J ToolsTrainTactics "Тактика"  0 {Решите тактику}
-menuText J ToolsTrainCalvar "Прорачун варијација"  0 {Прорачун варијације тренинга}
 menuText J ToolsTrainFindBestMove "Пронађите најбољи потез"  0 {Пронађите најбољи потез}
 menuText J ToolsTrainFics "Играјте на ФИЦС-у"  0 {Играјте на фреецхесс.орг}
 menuText J ToolsEngineTournament "Турнир мотора"  0 {Започните турнир између шаховских машина}
@@ -1690,6 +1688,17 @@ translate J IndentVariations {Варијације увлачења}
 translate J ExportColumnStyle {Стил колоне (један потез по реду)}
 translate J ExportSymbolStyle {Симболички стил напомене:}
 translate J ExportStripMarks {Скините квадратне ознаке\nкодове са стрелицом из коментара}
+translate J OptionsExportEol {Крајеви редова:}
+translate J OptionsExportEolNative {Нативе}
+translate J OptionsPGNExport {ПГН Екпорт}
+translate J OptionsTagOrderIntro {Редослед преосталих ПГН ознака приликом писања игре. Списак седам ознака је увек написан први, према ПГН стандарду.}
+translate J OptionsTagOrderStr {Списак седам ознака (фиксно): догађај, локација, датум, коло, бела, црна, резултат}
+translate J OptionsTagOrderWhite {Бела оцена}
+translate J OptionsTagOrderBlack {Црни рејтинг}
+translate J OptionsTagOrderOthers {Друге ознаке}
+translate J OptionsTagOrderSort {Сортирај остале ознаке по абецедном реду (иначе оригинални редослед)}
+translate J Up {Горе}
+translate J Down {Доле}
 
 # Goto game/move dialogs:
 translate J LoadGameNumber {Унесите број игре за учитавање:}
@@ -1911,8 +1920,6 @@ translate J AddScoreToShortAnnotations {Додајте резултат напо
 translate J AddScoreToAllMoves {Додајте резултат свим потезима}
 translate J Export {Извоз}
 translate J BookPartiallyLoaded {Књига је делимично учитана}
-translate J Calvar {Прорачун варијација}
-translate J ConfigureCalvar {Конфигурација}
 # Opening names used in tacgame.tcl
 translate J Reti {Рети}
 translate J English {енглески}
@@ -2018,24 +2025,6 @@ translate J FICSTextColor {Боја текста}
 
 # Game review
 translate J GameReview {Преглед игре}
-translate J GameReviewTimeExtended {Време продужено}
-translate J GameReviewMargin {Маргина грешке}
-translate J GameReviewAutoContinue {Аутоматски настави када је померање исправно}
-translate J GameReviewReCalculate {Користите продужено време}
-translate J GameReviewAnalyzingMovePlayedDuringTheGame {Анализа потеза одиграних током игре}
-translate J GameReviewAnalyzingThePosition {Анализирајући позицију}
-translate J GameReviewEnterYourMove {Унесите свој потез}
-translate J GameReviewCheckingYourMove {Проверавам ваш потез}
-translate J GameReviewYourMoveWasAnalyzed {Ваш потез је анализиран}
-translate J GameReviewYouPlayedSameMove {Одиграли сте исти потез као у мечу}
-translate J GameReviewScoreOfYourMove {Резултат вашег потеза}
-translate J GameReviewGameMoveScore {Резултат потеза игре}
-translate J GameReviewEngineScore {Резултат мотора}
-translate J GameReviewYouPlayedLikeTheEngine {Играо си добро као мотор}
-translate J GameReviewNotEngineMoveButGoodMove {Није покрет мотора, али је такође добар потез}
-translate J GameReviewMoveNotGood {Овај потез није добар, резултат јесте}
-translate J GameReviewMovesPlayedLike {Покрети одиграни као}
-translate J GameReviewMovesPlayedEngine {Покрети су играни као мотор}
 
 # Correspondence Chess Dialogs:
 translate J CCDlgCGeneraloptions {Опште опције}
@@ -2061,9 +2050,6 @@ translate J IESending {Покрети послати}
 translate J IESynchronise {Синхронизујте}
 translate J IERotate  {Ротирај}
 translate J IEUnableToStart {Није могуће покренути Инпут Енгине:}
-
-# Calculation of Variations
-translate J DoneWithPosition {Готово са положајем}
 
 translate J Board {одбора}
 translate J showGameInfo {Прикажи информације о игри}
@@ -2145,7 +2131,6 @@ translate J BatchAnnotate {Батцх Аннотате}
 translate J BatchEngineSelection {Избор мотора}
 translate J BatchChessEngine {Шаховска машина:}
 translate J BatchNumberOfInstances {Број инстанци:}
-translate J BatchGameReview {Преглед игре}
 translate J BatchTimePerMove {Време по потезу (сек):}
 translate J BatchAnnotateBlunders {Бележите само грешке}
 translate J BatchBlunderThreshold {Праг грешке:}

@@ -226,9 +226,7 @@ menuText S ToolsTracker "Rastreador de piezas"  14 {Abre la ventana del rastread
 menuText S ToolsTraining "Entrenamiento"  0 {Entrenamiento (táctica, aperturas,...)}
 menuText S ToolsPlayVsEngine "Juego versus motor"  0 {Juega una partida contra un motor de ajedrez}
 menuText S ToolsTrainOpenings "Entrenamiento de aperturas"  0 {Entrenamiento con un repertorio}
-menuText S ToolsTrainReviewGame "Revisar partida"  0 {Adivina movimientos jugados en una partida}
 menuText S ToolsTrainTactics "Táctica (problemas)"  0 {Resuelve problemas de táctica}
-menuText S ToolsTrainCalvar "Cálculo de variaciones"  0 {Cálculo de variaciones}
 menuText S ToolsTrainFindBestMove "Encontrar la mejor jugada"  0 {Busca el movimiento mejor}
 menuText S ToolsTrainFics "Jugar en internet..."  0 {Conecta a freechess.org}
 menuText S ToolsEngineTournament "Torneo de motores"  0 {Iniciar un torneo entre motores de ajedrez}
@@ -1716,6 +1714,17 @@ translate S IndentVariations {¿Sangrar variaciones?}
 translate S ExportColumnStyle {¿Estilo de columna (un movimiento por línea)?}
 translate S ExportSymbolStyle {Estilo de anotación simbólico:}
 translate S ExportStripMarks {¿Quitar marca de códigos de casilla/flecha de los comentarios?}
+translate S OptionsExportEol {Finales de línea:}
+translate S OptionsExportEolNative {Nativo}
+translate S OptionsPGNExport {Exportación PGN}
+translate S OptionsTagOrderIntro {Orden de las etiquetas PGN restantes al escribir un juego. La lista de siete etiquetas siempre se escribe primero, según el estándar PGN.}
+translate S OptionsTagOrderStr {Lista de siete etiquetas (fija): evento, sitio, fecha, ronda, blanco, negro, resultado}
+translate S OptionsTagOrderWhite {Calificación blanca}
+translate S OptionsTagOrderBlack {Calificación negra}
+translate S OptionsTagOrderOthers {Otras etiquetas}
+translate S OptionsTagOrderSort {Ordene otras etiquetas alfabéticamente (de lo contrario, orden original)}
+translate S Up {Arriba}
+translate S Down {Abajo}
 
 # Goto game/move dialogs:
 translate S LoadGameNumber {Escribe el número de la partida a cargar:}
@@ -1945,8 +1954,6 @@ translate S AddScoreToShortAnnotations {Añadir puntuación para anotaciones cor
 translate S AddScoreToAllMoves {Añade puntuación a todos los movimientos.}
 translate S Export {Exportar}
 translate S BookPartiallyLoaded {Libro parcialmente cargado}
-translate S Calvar {Cálculo de variantes}
-translate S ConfigureCalvar {Configuración}
 # Opening names used in tacgame.tcl
 translate S Reti {Apertura Reti}
 translate S English {Apertura inglesa}
@@ -2052,24 +2059,6 @@ translate S FICSTextColor {Color del texto}
 
 # Game review
 translate S GameReview {Revisión de partida}
-translate S GameReviewTimeExtended {Tiempo extendido}
-translate S GameReviewMargin {Margen de error}
-translate S GameReviewAutoContinue {Autocontinuar cuando el movimiento es correcto}
-translate S GameReviewReCalculate {Usar tiempo extendido}
-translate S GameReviewAnalyzingMovePlayedDuringTheGame {Analizando movimiento jugado durante la partida}
-translate S GameReviewAnalyzingThePosition {Analizando la posición}
-translate S GameReviewEnterYourMove {Introduce tu movimiento}
-translate S GameReviewCheckingYourMove {Comprobando tu movimiento}
-translate S GameReviewYourMoveWasAnalyzed {Tu movimiento fue analizado}
-translate S GameReviewYouPlayedSameMove {Jugaste el mismo movimiento que en la partida}
-translate S GameReviewScoreOfYourMove {Puntuación de tu movimiento}
-translate S GameReviewGameMoveScore {Puntuación del movimiento de la partida}
-translate S GameReviewEngineScore {Puntuación del motor}
-translate S GameReviewYouPlayedLikeTheEngine {Tú jugaste como el motor}
-translate S GameReviewNotEngineMoveButGoodMove {No es el movimiento del motor, pero es también un buen movimiento}
-translate S GameReviewMoveNotGood {Este movimiento no es bueno, la puntuación es }
-translate S GameReviewMovesPlayedLike {Movimientos jugados como}
-translate S GameReviewMovesPlayedEngine {Movimientos jugados como motor}
 
 # Correspondence Chess Dialogs:
 translate S CCDlgCGeneraloptions {Opciones generales}
@@ -2095,9 +2084,6 @@ translate S IESending {Movimientos enviados por}
 translate S IESynchronise {Sincronizar}
 translate S IERotate  {Rotar}
 translate S IEUnableToStart {Imposible empezar con el motor de entrada:}
-
-# Calculation of Variations
-translate S DoneWithPosition {Terminado con la posición}
 
 translate S Board {Tablero}
 translate S showGameInfo {Mostrar información de la partida}
@@ -2179,7 +2165,6 @@ translate S BatchAnnotate {Anotar por lotes}
 translate S BatchEngineSelection {Selección de motor}
 translate S BatchChessEngine {Motor de ajedrez:}
 translate S BatchNumberOfInstances {Número de instancias:}
-translate S BatchGameReview {Revisión del juego}
 translate S BatchTimePerMove {Tiempo por movimiento (seg):}
 translate S BatchAnnotateBlunders {Anotar sólo errores}
 translate S BatchBlunderThreshold {Umbral de error:}
