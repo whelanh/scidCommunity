@@ -252,6 +252,7 @@ menuText E ToolsTrainFics "Play on FICS"  0 {Play on freechess.org}
 menuText E ToolsEngineTournament "Engine tournament"  0 {Start a tournament between chess engines}
 menuText E ToolsTimeAnalysis "Time Analysis" 0 {Show clock time graph for the current game}
 menuText E ToolsBookTuning "Book tuning" 0 {Book tuning}
+menuText E ToolsCtgConvert "Convert CTG book..." 0 {Convert a ChessBase CTG book to an OpenBook Rich (.obr) book}
 menuText E ToolsRapidAnnotate "Annotate from score graph" 0 {Write the engine score graph's evaluations and annotations into the current game (Ctrl+Shift+A)}
 menuText E ToolsDownloadTWIC "Download TWIC Games" 0 {Download the latest The Week In Chess (TWIC) games}
 menuText E ToolsConnectHardware "Connect Hardware" 8 {Connect external hardware}
@@ -1059,6 +1060,10 @@ translate E ObrBookDetail {%s  %d games (frequency %.1f%%): +%d =%d -%d (White/D
 translate E ObrColourRed {red}
 translate E ObrColourBlue {blue}
 translate E ObrColourGreen {green}
+# Tools > Convert CTG book: ChessBase CTG book to OpenBook Rich (.obr)
+translate E CtgConvertTitle {Convert a ChessBase CTG book to OpenBook Rich (.obr)}
+translate E CtgConverting {Converting}
+translate E CtgConvertDone {Book saved:}
 
 # Configure Engines dialog:
 translate E EngineList {Configure Engines}

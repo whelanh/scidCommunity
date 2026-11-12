@@ -289,6 +289,7 @@ $m add command -label ToolsOpReport \
 $m add command -label ToolsTracker \
     -accelerator "Ctrl+Shift+K" -command ::ptrack::make
 $m add command -label ToolsBookTuning -command ::book::tuning
+$m add command -label ToolsCtgConvert -command ::book::convertCtg
 $m add command -label ToolsDownloadTWIC -command "::twic::downloadWeek latest"
 menu $m.hardware
   $m.hardware add command -label ToolsConnectHardwareConfigure -command ::ExtHardware::config
