@@ -920,6 +920,29 @@ proc ::review::visitLine {map indices body} {
             set liveFen ""
             catch { set liveFen [sc_pos fen] }
             if {$wantFen ne "" && $liveFen ne $wantFen} { set stopped 1 ; break }
+            # A branch is identified by its first move, and Scid allows two
+            # sibling variations to start with the same move. The duplicate's
+            # first position is identical, so confirm the next node on the same
+            # route before the writer runs on the first one.
+            if {[llength $route] > [llength $prev] && $i < $plies} {
+                set nextNode [dict get $nodes [expr {$i + 1}]]
+                if {[llength [dict get $nextNode route]] == [llength $route]} {
+                    if {[catch { sc_move forward 1 } made] || $made < 1} {
+                        set stopped 1
+                        break
+                    }
+                    set nextFen ""
+                    catch { set nextFen [sc_pos fen] }
+                    if {$nextFen ne [dict get $nextNode fen]} {
+                        set stopped 1
+                        break
+                    }
+                    if {[catch { sc_move back 1 } made] || $made < 1} {
+                        set stopped 1
+                        break
+                    }
+                }
+            }
             if {[lsearch -exact $want $i] >= 0} { {*}$body $node }
             set prev $route
         }

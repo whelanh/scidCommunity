@@ -1103,6 +1103,25 @@ checkEq "and the body never runs on the replacement" $::seen {}
 checkEq "and the board falls back to the base ply" \
     [list [sc_pos location] [sc_var level]] {3 0}
 
+# Scid allows two sibling variations with the same first move. The first
+# position and FEN are identical, so the next node is the first place the
+# branch can be told apart; the walk must stop before the writer runs on the
+# duplicate's first move.
+fakeBoard $game
+set first [fakeVariation [fakeAtPly 3] {c7c5 g1f3 d7d6}]
+fakeSet [lindex $first 0] fen "SAME-BRANCH"
+fakeCursorAt [lindex $first 1]
+set map [::review::currentLineMap]
+set dup [fakeVariation [fakeAtPly 3] {c7c5 b7b6} 0]
+fakeSet [lindex $dup 0] fen "SAME-BRANCH"
+set ::seen {}
+set r [::review::visitLine $map {4} \
+    {apply {{node} { lappend ::seen [dict get $node index] }}}]
+checkEq "a duplicate first move is not entered blindly" [dict get $r restored] 0
+checkEq "and the first node is not written" $::seen {}
+checkEq "and the board falls back to the base ply" \
+    [list [sc_pos location] [sc_var level]] {3 0}
+
 # The walk itself: one root-to-leaf pass, the body at each named node with the
 # cursor on it, and the cursor back exactly. Every node's position is the map's
 # own - the string the engine will be given.
