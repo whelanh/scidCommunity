@@ -3824,7 +3824,7 @@ int sc_game_pgn(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
       "-format",  "-shortHeader", "-indentComments", "-indentVariations",
       "-symbols", "-tags",        "-variations",     "-width",
       "-space",   "-markCodes",   "-unicode",        "-showDiagram",
-      nullptr};
+      "-english", nullptr};
   enum {
     OPT_COLUMN,
     OPT_COMMENTS,
@@ -3842,11 +3842,13 @@ int sc_game_pgn(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     OPT_NOMARKS,
     OPT_UNICODE,
     OPT_SHOWDIAGRAM,
+    OPT_ENGLISH,
   };
 
   const scidBaseT *base = db;
   Game *g = db->game;
   uint lineWidth = 99999;
+  bool english = false;
   g->ResetPgnStyle();
   g->SetPgnFormat(PGN_FORMAT_Plain);
   g->AddPgnStyle(PGN_STYLE_TAGS | PGN_STYLE_COMMENTS | PGN_STYLE_VARS);
@@ -3907,6 +3909,11 @@ int sc_game_pgn(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
         return errorResult(ti, "Invalid -format option.");
       }
 
+    } else if (index == OPT_ENGLISH) {
+      // Force standard (English) piece letters regardless of the UI language,
+      // as the PGN export commands do.
+      english = value;
+
     } else {
       // The option is a boolean affecting pgn style:
       uint bitmask = 0;
@@ -3961,7 +3968,11 @@ int sc_game_pgn(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     thisArg += 2;
   }
 
+  char old_language = language;
+  if (english)
+    language = 0;
   std::pair<const char *, unsigned> pgnBuf = g->WriteToPGN(lineWidth);
+  language = old_language;
   Tcl_AppendResult(ti, pgnBuf.first, nullptr);
   return TCL_OK;
 }
