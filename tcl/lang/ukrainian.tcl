@@ -1648,6 +1648,17 @@ translate Q IndentVariations {Варіації відступів}
 translate Q ExportColumnStyle {Стиль стовпця (один хід на рядок)}
 translate Q ExportSymbolStyle {Символічний стиль анотації:}
 translate Q ExportStripMarks {Видаляйте з коментарів коди \nпозначок квадрата/стрілки}
+translate Q OptionsExportEol {Закінчення рядків:}
+translate Q OptionsExportEolNative {Рідна}
+translate Q OptionsPGNExport {Експорт PGN}
+translate Q OptionsTagOrderIntro {Порядок решти тегів PGN під час написання гри. Список семи тегів завжди пишеться першим відповідно до стандарту PGN.}
+translate Q OptionsTagOrderStr {Список із семи тегів (виправлено): подія, сайт, дата, раунд, білий, чорний, результат}
+translate Q OptionsTagOrderWhite {Білий рейтинг}
+translate Q OptionsTagOrderBlack {Чорний рейтинг}
+translate Q OptionsTagOrderOthers {Інші теги}
+translate Q OptionsTagOrderSort {Сортувати інші теги за алфавітом (в іншому випадку вихідний порядок)}
+translate Q Up {вгору}
+translate Q Down {вниз}
 
 # Goto game/move dialogs:
 translate Q LoadGameNumber {Введіть номер гри для завантаження:}
@@ -1999,8 +2010,6 @@ translate Q IESending {Ходи надіслані}
 translate Q IESynchronise {Синхронізувати}
 translate Q IERotate  {Обертати}
 translate Q IEUnableToStart {Неможливо запустити Input Engine:}
-
-# Calculation of Variations
 
 translate Q Board {дошка}
 translate Q showGameInfo {Показати інформацію про гру}

@@ -2557,6 +2557,35 @@ errorT Game::WriteMoveList(TextBuffer *tb, moveT *oldCurrentMove,
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Global PGN tag-order preference shared by every Game instance (see
+// Game::WritePGN). The default order matches Scid's historical output:
+// the known non-STR tags, then all other tags.
+//
+std::vector<std::string> Game::tagOrder_ = {"WhiteElo", "BlackElo", "ECO",
+                                            "EventDate", "ScidFlags", "Others"};
+bool Game::sortOtherTags_ = false;
+
+void Game::SetTagOrder(const char *order) {
+  tagOrder_.clear();
+  if (order == nullptr)
+    return;
+  const char *p = order;
+  while (*p != '\0') {
+    while (*p == ' ' || *p == '\t' || *p == '\n' || *p == '\r')
+      p++;
+    if (*p == '\0')
+      break;
+    const char *q = p;
+    while (*q != '\0' && *q != ' ' && *q != '\t' && *q != '\n' && *q != '\r')
+      q++;
+    tagOrder_.emplace_back(p, q - p);
+    p = q;
+  }
+}
+
+void Game::SetSortOtherTags(bool sort) { sortOtherTags_ = sort; }
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Game::WritePGN():
 //      Write a game in PGN to a textbuffer.
 //
@@ -2726,43 +2755,79 @@ errorT Game::WritePGN(TextBuffer *tb) {
                   RESULT_LONGSTR[Result], newline);
     tb->PrintString(temp);
 
-    // Print all tags, not just the standard seven, if applicable:
+    // Print all tags, not just the standard seven, if applicable. The Seven
+    // Tag Roster above is fixed per the PGN spec; the remaining tags are
+    // emitted in the user-configured order (tagOrder_), where the special key
+    // "Others" stands for every non-standard tag.
     if (PgnStyle & PGN_STYLE_TAGS) {
-      if (WhiteElo > 0) {
-        std::snprintf(temp, sizeof(temp), "[White%s \"%u\"]%s",
-                      ratingTypeNames[WhiteRatingType], WhiteElo, newline);
-        tb->PrintString(temp);
+      bool othersDone = false;
+      for (const auto &key : tagOrder_) {
+        if (key == "WhiteElo") {
+          if (WhiteElo > 0) {
+            std::snprintf(temp, sizeof(temp), "[White%s \"%u\"]%s",
+                          ratingTypeNames[WhiteRatingType], WhiteElo, newline);
+            tb->PrintString(temp);
+          }
+        } else if (key == "BlackElo") {
+          if (BlackElo > 0) {
+            std::snprintf(temp, sizeof(temp), "[Black%s \"%u\"]%s",
+                          ratingTypeNames[BlackRatingType], BlackElo, newline);
+            tb->PrintString(temp);
+          }
+        } else if (key == "ECO") {
+          if (EcoCode != 0) {
+            ecoStringT ecoStr;
+            eco_ToExtendedString(EcoCode, ecoStr);
+            std::snprintf(temp, sizeof(temp), "[ECO \"%s\"]%s", ecoStr,
+                          newline);
+            tb->PrintString(temp);
+          }
+        } else if (key == "EventDate") {
+          if (EventDate != ZERO_DATE) {
+            char edateStr[20];
+            date_DecodeToString(EventDate, edateStr);
+            std::snprintf(temp, sizeof(temp), "[EventDate \"%s\"]%s", edateStr,
+                          newline);
+            tb->PrintString(temp);
+          }
+        } else if (key == "ScidFlags") {
+          if (PgnStyle & PGN_STYLE_SCIDFLAGS && *ScidFlags != 0) {
+            std::snprintf(temp, sizeof(temp), "[ScidFlags \"%s\"]%s", ScidFlags,
+                          newline);
+            tb->PrintString(temp);
+          }
+        } else if (key == "Others") {
+          othersDone = true;
+          auto printOther = [&](const auto &e) {
+            std::snprintf(temp, sizeof(temp), "[%s \"%s\"]%s", e.first.c_str(),
+                          e.second.c_str(), newline);
+            tb->PrintString(temp);
+          };
+          if (sortOtherTags_) {
+            std::vector<std::pair<std::string, std::string>> sorted(
+                extraTags_.begin(), extraTags_.end());
+            std::sort(sorted.begin(), sorted.end(),
+                      [](const auto &a, const auto &b) {
+                        return strCaseCompare(a.first.c_str(),
+                                              b.first.c_str()) < 0;
+                      });
+            for (const auto &e : sorted)
+              printOther(e);
+          } else {
+            for (const auto &e : extraTags_)
+              printOther(e);
+          }
+        }
+        // Unknown keys are ignored.
       }
-      if (BlackElo > 0) {
-        std::snprintf(temp, sizeof(temp), "[Black%s \"%u\"]%s",
-                      ratingTypeNames[BlackRatingType], BlackElo, newline);
-        tb->PrintString(temp);
-      }
-      if (EcoCode != 0) {
-        ecoStringT ecoStr;
-        eco_ToExtendedString(EcoCode, ecoStr);
-        std::snprintf(temp, sizeof(temp), "[ECO \"%s\"]%s", ecoStr, newline);
-        tb->PrintString(temp);
-      }
-      if (EventDate != ZERO_DATE) {
-        char edateStr[20];
-        date_DecodeToString(EventDate, edateStr);
-        std::snprintf(temp, sizeof(temp), "[EventDate \"%s\"]%s", edateStr,
-                      newline);
-        tb->PrintString(temp);
-      }
-
-      if (PgnStyle & PGN_STYLE_SCIDFLAGS && *ScidFlags != 0) {
-        std::snprintf(temp, sizeof(temp), "[ScidFlags \"%s\"]%s", ScidFlags,
-                      newline);
-        tb->PrintString(temp);
-      }
-
-      // Now print other tags
-      for (auto &e : extraTags_) {
-        std::snprintf(temp, sizeof(temp), "[%s \"%s\"]%s", e.first.c_str(),
-                      e.second.c_str(), newline);
-        tb->PrintString(temp);
+      // Safety net: if the configured order omits "Others", still emit the
+      // non-standard tags at the end rather than dropping them.
+      if (!othersDone && !extraTags_.empty()) {
+        for (const auto &e : extraTags_) {
+          std::snprintf(temp, sizeof(temp), "[%s \"%s\"]%s", e.first.c_str(),
+                        e.second.c_str(), newline);
+          tb->PrintString(temp);
+        }
       }
     }
     // Finally, write the FEN tag if necessary:

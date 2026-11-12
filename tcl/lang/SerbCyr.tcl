@@ -1688,6 +1688,17 @@ translate J IndentVariations {Варијације увлачења}
 translate J ExportColumnStyle {Стил колоне (један потез по реду)}
 translate J ExportSymbolStyle {Симболички стил напомене:}
 translate J ExportStripMarks {Скините квадратне ознаке\nкодове са стрелицом из коментара}
+translate J OptionsExportEol {Крајеви редова:}
+translate J OptionsExportEolNative {Нативе}
+translate J OptionsPGNExport {ПГН Екпорт}
+translate J OptionsTagOrderIntro {Редослед преосталих ПГН ознака приликом писања игре. Списак седам ознака је увек написан први, према ПГН стандарду.}
+translate J OptionsTagOrderStr {Списак седам ознака (фиксно): догађај, локација, датум, коло, бела, црна, резултат}
+translate J OptionsTagOrderWhite {Бела оцена}
+translate J OptionsTagOrderBlack {Црни рејтинг}
+translate J OptionsTagOrderOthers {Друге ознаке}
+translate J OptionsTagOrderSort {Сортирај остале ознаке по абецедном реду (иначе оригинални редослед)}
+translate J Up {Горе}
+translate J Down {Доле}
 
 # Goto game/move dialogs:
 translate J LoadGameNumber {Унесите број игре за учитавање:}
@@ -2039,8 +2050,6 @@ translate J IESending {Покрети послати}
 translate J IESynchronise {Синхронизујте}
 translate J IERotate  {Ротирај}
 translate J IEUnableToStart {Није могуће покренути Инпут Енгине:}
-
-# Calculation of Variations
 
 translate J Board {одбора}
 translate J showGameInfo {Прикажи информације о игри}

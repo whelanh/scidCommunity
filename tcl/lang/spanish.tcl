@@ -1714,6 +1714,17 @@ translate S IndentVariations {¿Sangrar variaciones?}
 translate S ExportColumnStyle {¿Estilo de columna (un movimiento por línea)?}
 translate S ExportSymbolStyle {Estilo de anotación simbólico:}
 translate S ExportStripMarks {¿Quitar marca de códigos de casilla/flecha de los comentarios?}
+translate S OptionsExportEol {Finales de línea:}
+translate S OptionsExportEolNative {Nativo}
+translate S OptionsPGNExport {Exportación PGN}
+translate S OptionsTagOrderIntro {Orden de las etiquetas PGN restantes al escribir un juego. La lista de siete etiquetas siempre se escribe primero, según el estándar PGN.}
+translate S OptionsTagOrderStr {Lista de siete etiquetas (fija): evento, sitio, fecha, ronda, blanco, negro, resultado}
+translate S OptionsTagOrderWhite {Calificación blanca}
+translate S OptionsTagOrderBlack {Calificación negra}
+translate S OptionsTagOrderOthers {Otras etiquetas}
+translate S OptionsTagOrderSort {Ordene otras etiquetas alfabéticamente (de lo contrario, orden original)}
+translate S Up {Arriba}
+translate S Down {Abajo}
 
 # Goto game/move dialogs:
 translate S LoadGameNumber {Escribe el número de la partida a cargar:}
@@ -2073,8 +2084,6 @@ translate S IESending {Movimientos enviados por}
 translate S IESynchronise {Sincronizar}
 translate S IERotate  {Rotar}
 translate S IEUnableToStart {Imposible empezar con el motor de entrada:}
-
-# Calculation of Variations
 
 translate S Board {Tablero}
 translate S showGameInfo {Mostrar información de la partida}

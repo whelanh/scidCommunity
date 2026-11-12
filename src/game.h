@@ -161,6 +161,10 @@ class Game {
   resultT Result;
   char ScidFlags[22];
 
+  // Global PGN tag-order preference (set by SetTagOrder/SetSortOtherTags).
+  static std::vector<std::string> tagOrder_;
+  static bool sortOtherTags_;
+
   // Position and moves
   byte moveChunkUsed_;
   std::forward_list<std::unique_ptr<moveT[]>> moveChunks_;
@@ -495,6 +499,12 @@ public:
   }
   void AddPgnStyle(uint mask) { PgnStyle |= mask; }
   void RemovePgnStyle(uint mask) { PgnStyle &= ~mask; }
+
+  // Global PGN tag-order preference (see WritePGN). A whitespace-separated
+  // list of canonical keys, where "Others" stands for every non-standard tag.
+  // It is shared by all game instances and set once from the preferences.
+  static void SetTagOrder(const char *order);
+  static void SetSortOtherTags(bool sort);
 
   void SetPgnFormat(gameFormatT gf) { PgnFormat = gf; }
   bool SetPgnFormatFromString(const char *str);

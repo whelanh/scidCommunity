@@ -1647,6 +1647,17 @@ translate b IndentVariations {ইন্ডেন্ট বৈচিত্র}
 translate b ExportColumnStyle {কলাম শৈলী (প্রতি লাইনে এক মুভ)}
 translate b ExportSymbolStyle {প্রতীকী টীকা শৈলী:}
 translate b ExportStripMarks {স্ট্রিপ বর্গ/তীর চিহ্ন\nমন্তব্য থেকে কোড}
+translate b OptionsExportEol {লাইন শেষ:}
+translate b OptionsExportEolNative {নেটিভ}
+translate b OptionsPGNExport {পিজিএন এক্সপোর্ট}
+translate b OptionsTagOrderIntro {একটি গেম লেখার সময় অবশিষ্ট PGN ট্যাগের ক্রম। PGN মান অনুযায়ী সেভেন ট্যাগ রোস্টার সর্বদা প্রথমে লেখা হয়।}
+translate b OptionsTagOrderStr {সেভেন ট্যাগ রোস্টার (নির্দিষ্ট): ইভেন্ট, সাইট, তারিখ, গোলাকার, সাদা, কালো, ফলাফল}
+translate b OptionsTagOrderWhite {সাদা রেটিং}
+translate b OptionsTagOrderBlack {কালো রেটিং}
+translate b OptionsTagOrderOthers {অন্যান্য ট্যাগ}
+translate b OptionsTagOrderSort {অন্যান্য ট্যাগগুলিকে বর্ণানুক্রমিকভাবে সাজান (অন্যথায় মূল ক্রম)}
+translate b Up {উপরে}
+translate b Down {নিচে}
 
 # Goto game/move dialogs:
 translate b LoadGameNumber {লোড করতে গেম নম্বর লিখুন:}
@@ -1998,8 +2009,6 @@ translate b IESending {জন্য পাঠানো হয়েছে}
 translate b IESynchronise {সিঙ্ক্রোনাইজ করুন}
 translate b IERotate  {ঘোরান}
 translate b IEUnableToStart {ইনপুট ইঞ্জিন শুরু করতে অক্ষম:}
-
-# Calculation of Variations
 
 translate b Board {বোর্ড}
 translate b showGameInfo {খেলার তথ্য দেখান}

@@ -1647,6 +1647,17 @@ translate h IndentVariations {इंडेंट विविधताएं}
 translate h ExportColumnStyle {स्तंभ शैली (प्रति पंक्ति एक चाल)}
 translate h ExportSymbolStyle {प्रतीकात्मक टिप्पणी शैली:}
 translate h ExportStripMarks {टिप्पणियों से वर्ग/तीर चिह्न\nकोड हटाएँ}
+translate h OptionsExportEol {पंक्ति अंत:}
+translate h OptionsExportEolNative {देशी}
+translate h OptionsPGNExport {पीजीएन निर्यात}
+translate h OptionsTagOrderIntro {गेम लिखते समय शेष पीजीएन टैग का क्रम। पीजीएन मानक के अनुसार सेवन टैग रोस्टर हमेशा पहले लिखा जाता है।}
+translate h OptionsTagOrderStr {सात टैग रोस्टर (निश्चित): घटना, साइट, तिथि, गोल, सफेद, काला, परिणाम}
+translate h OptionsTagOrderWhite {सफ़ेद रेटिंग}
+translate h OptionsTagOrderBlack {काली रेटिंग}
+translate h OptionsTagOrderOthers {अन्य टैग}
+translate h OptionsTagOrderSort {अन्य टैग को वर्णानुक्रम में क्रमबद्ध करें (अन्यथा मूल क्रम में)}
+translate h Up {ऊपर}
+translate h Down {नीचे}
 
 # Goto game/move dialogs:
 translate h LoadGameNumber {लोड करने के लिए गेम नंबर दर्ज करें:}
@@ -1998,8 +2009,6 @@ translate h IESending {चालें भेजी गईं}
 translate h IESynchronise {सिंक्रनाइज़}
 translate h IERotate  {घुमाएँ}
 translate h IEUnableToStart {इनपुट इंजन प्रारंभ करने में असमर्थ:}
-
-# Calculation of Variations
 
 translate h Board {तख़्ता}
 translate h showGameInfo {खेल की जानकारी दिखाएँ}

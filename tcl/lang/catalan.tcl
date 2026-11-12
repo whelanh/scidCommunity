@@ -1683,6 +1683,17 @@ translate K IndentVariations {Sangrar variants?}
 translate K ExportColumnStyle {Estil de columna (una jugada per línia)?}
 translate K ExportSymbolStyle {Estil d'anotació simbólica:}
 translate K ExportStripMarks {Treure marca de codis de cassella/fletxa dels comentaris?}
+translate K OptionsExportEol {Finals de línia:}
+translate K OptionsExportEolNative {Nadiu}
+translate K OptionsPGNExport {Exportació PGN}
+translate K OptionsTagOrderIntro {Ordre de les etiquetes PGN restants en escriure un joc. La llista de set etiquetes sempre s'escriu primer, segons l'estàndard PGN.}
+translate K OptionsTagOrderStr {Llista de set etiquetes (fixada): Esdeveniment, Lloc, Data, Ronda, Blanc, Negre, Resultat}
+translate K OptionsTagOrderWhite {Classificació blanca}
+translate K OptionsTagOrderBlack {Classificació negra}
+translate K OptionsTagOrderOthers {Altres etiquetes}
+translate K OptionsTagOrderSort {Ordena altres etiquetes alfabèticament (en cas contrari, ordre original)}
+translate K Up {Amunt}
+translate K Down {Avall}
 
 # Goto game/move dialogs:
 translate K LoadGameNumber {Entra el número de la partida a carregar:}
@@ -2042,8 +2053,6 @@ translate K IESending {Jugades enviades per}
 translate K IESynchronise {Sincronitzar}
 translate K IERotate  {Rotar}
 translate K IEUnableToStart {Impossible començar amb el motor d'entrada:}
-
-# Calculation of Variations
 
 translate K Board {Escaquer}
 translate K showGameInfo {Mostrar informació de la partida}

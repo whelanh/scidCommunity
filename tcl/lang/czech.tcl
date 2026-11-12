@@ -1660,6 +1660,17 @@ translate C IndentVariations {Odsazovat varianty?}
 translate C ExportColumnStyle {Sloupcov styl (jeden tah na dek)?}
 translate C ExportSymbolStyle {Styl pro symbolick anotace:}
 translate C ExportStripMarks {Odstranit kdov znaky pol/ipek z koment?}
+translate C OptionsExportEol {Konce řádků:}
+translate C OptionsExportEolNative {Rodák}
+translate C OptionsPGNExport {Export PGN}
+translate C OptionsTagOrderIntro {Pořadí zbývajících značek PGN při psaní hry. Seven Tag Roster je vždy napsán jako první podle standardu PGN.}
+translate C OptionsTagOrderStr {Seznam sedmi značek (pevný): Událost, Místo, Datum, Kolo, Bílá, Černá, Výsledek}
+translate C OptionsTagOrderWhite {Bílé hodnocení}
+translate C OptionsTagOrderBlack {Černé hodnocení}
+translate C OptionsTagOrderOthers {Další značky}
+translate C OptionsTagOrderSort {Seřadit ostatní štítky podle abecedy (jinak původní pořadí)}
+translate C Up {Nahoru}
+translate C Down {Dolů}
 
 # Goto game/move dialogs:
 translate C LoadGameNumber {Vlote slo partie:}
@@ -2020,8 +2031,6 @@ translate C IESending {Tahy odeslan pro}
 translate C IESynchronise {Synchronizovat}
 translate C IERotate  {Otoit}
 translate C IEUnableToStart {Nemohu spustit vstupn pstroj:}
-
-# Calculation of Variations
 
 translate C Board {achovnice}
 translate C showGameInfo {Ukzat informace o partii}

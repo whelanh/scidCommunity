@@ -1648,6 +1648,17 @@ translate V IndentVariations {וריאציות של הזחה}
 translate V ExportColumnStyle {סגנון עמודה (מהלך אחד בכל שורה)}
 translate V ExportSymbolStyle {סגנון הערות סמלי:}
 translate V ExportStripMarks {הסר ריבוע/סימון חץ\nקודים מהערות}
+translate V OptionsExportEol {סיום שורה:}
+translate V OptionsExportEolNative {יָלִיד}
+translate V OptionsPGNExport {יצוא PGN}
+translate V OptionsTagOrderIntro {סדר תגי ה-PGN הנותרים בעת כתיבת משחק. רשימת שבעת התגים נכתבת תמיד ראשונה, לפי תקן PGN.}
+translate V OptionsTagOrderStr {סגל שבע תגים (קבוע): אירוע, אתר, תאריך, עגול, לבן, שחור, תוצאה}
+translate V OptionsTagOrderWhite {דירוג לבן}
+translate V OptionsTagOrderBlack {דירוג שחור}
+translate V OptionsTagOrderOthers {תגים אחרים}
+translate V OptionsTagOrderSort {מיין תגים אחרים בסדר אלפביתי (אחרת בסדר המקורי)}
+translate V Up {לְמַעלָה}
+translate V Down {לְמַטָה}
 
 # Goto game/move dialogs:
 translate V LoadGameNumber {הזן את מספר המשחק לטעינה:}
@@ -1999,8 +2010,6 @@ translate V IESending {מהלכים שנשלחו עבור}
 translate V IESynchronise {לְסַנכְרֵן}
 translate V IERotate  {לְסוֹבֵב}
 translate V IEUnableToStart {לא ניתן להפעיל את מנוע הקלט:}
-
-# Calculation of Variations
 
 translate V Board {לוּחַ}
 translate V showGameInfo {הצג מידע על המשחק}

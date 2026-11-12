@@ -1661,6 +1661,17 @@ translate H IndentVariations {Változatok igazítása?}
 translate H ExportColumnStyle {Oszlop stílusa (soronként egy lépés)?}
 translate H ExportSymbolStyle {Szimbólumok stílusa:}
 translate H ExportStripMarks {Kivegye a megjegyzésekbõl a mezõ- és nyílmegjelöléseket?}
+translate H OptionsExportEol {Sorvégek:}
+translate H OptionsExportEolNative {Bennszülött}
+translate H OptionsPGNExport {PGN export}
+translate H OptionsTagOrderIntro {A fennmaradó PGN címkék sorrendje játék írásakor. A PGN szabvány szerint mindig a Seven Tag névsort írják először.}
+translate H OptionsTagOrderStr {Hét címke névsor (rögzített): Esemény, webhely, dátum, forduló, fehér, fekete, eredmény}
+translate H OptionsTagOrderWhite {Fehér minősítés}
+translate H OptionsTagOrderBlack {Fekete minősítés}
+translate H OptionsTagOrderOthers {Egyéb címkék}
+translate H OptionsTagOrderSort {Más címkék rendezése ábécé szerint (egyébként eredeti sorrendben)}
+translate H Up {Fel}
+translate H Down {Le}
 
 # Goto game/move dialogs:
 translate H LoadGameNumber {A betöltendõ játszma sorszáma:}
@@ -2021,8 +2032,6 @@ translate H IESending {Lépések bekérve}
 translate H IESynchronise {Szinkronizálás}
 translate H IERotate  {Forgatás}
 translate H IEUnableToStart {Nem tudom elindítani ezt a bemeneti motort:}
-
-# Calculation of Variations
 
 translate H Board {Sakktábla}
 translate H showGameInfo {A játszma adatai}

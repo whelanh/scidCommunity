@@ -1687,6 +1687,17 @@ translate G IndentVariations {Να έχουν εσοχές οι βαριάντε
 translate G ExportColumnStyle {Είδος στήλης (μια κίνηση ανά γραμμή);}
 translate G ExportSymbolStyle {Είδος συμβολικού υπομνηματισμού:}
 translate G ExportStripMarks {Να απομακρυνθούν τα σημάδια τετραγώνου/βέλους από τα σχόλια;}
+translate G OptionsExportEol {Καταλήξεις γραμμών:}
+translate G OptionsExportEolNative {Ντόπιος}
+translate G OptionsPGNExport {Εξαγωγή PGN}
+translate G OptionsTagOrderIntro {Σειρά των υπόλοιπων ετικετών PGN κατά τη σύνταξη ενός παιχνιδιού. Το Seven Tag Roster γράφεται πάντα πρώτο, σύμφωνα με το πρότυπο PGN.}
+translate G OptionsTagOrderStr {Κατάλογος επτά ετικετών (διορθώθηκε): Εκδήλωση, Ιστότοπος, Ημερομηνία, Στρογγυλό, Λευκό, Μαύρο, Αποτέλεσμα}
+translate G OptionsTagOrderWhite {Λευκή βαθμολογία}
+translate G OptionsTagOrderBlack {Μαύρη βαθμολογία}
+translate G OptionsTagOrderOthers {Άλλες ετικέτες}
+translate G OptionsTagOrderSort {Ταξινόμηση άλλων ετικετών αλφαβητικά (αλλιώς αρχική σειρά)}
+translate G Up {Επάνω}
+translate G Down {Κάτω}
 
 # Goto game/move dialogs:
 translate G LoadGameNumber {Εισάγετε τον αριθμό παρτίδας για φόρτωση:}
@@ -2047,8 +2058,6 @@ translate G IESending {Κινήσεις που εστάλησαν για}
 translate G IESynchronise {Συγχρονισμός}
 translate G IERotate  {Περιστροφή}
 translate G IEUnableToStart {Αδυναμία εκκίνησης της μηχανής εισόδου:}
-
-# Calculation of Variations
 
 translate G Board {Σκακιέρα}
 translate G showGameInfo {Εμφάνιση πληροφοριών παρτίδας}

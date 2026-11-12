@@ -1694,6 +1694,17 @@ translate P IndentVariations {Wcinaj warianty}
 translate P ExportColumnStyle {Układ kolumnowy (jedno posunięcie w wierszu)}
 translate P ExportSymbolStyle {Styl symboli komentarzy:}
 translate P ExportStripMarks {Usuń z komentarzy kody znaczników\npól/strzałek}
+translate P OptionsExportEol {Zakończenia linii:}
+translate P OptionsExportEolNative {Rodzinny}
+translate P OptionsPGNExport {Eksport PGN}
+translate P OptionsTagOrderIntro {Kolejność pozostałych tagów PGN podczas pisania gry. Lista Seven Tag Roster jest zawsze pisana jako pierwsza, zgodnie ze standardem PGN.}
+translate P OptionsTagOrderStr {Lista siedmiu tagów (stała): wydarzenie, miejsce, data, runda, biały, czarny, wynik}
+translate P OptionsTagOrderWhite {Ocena biała}
+translate P OptionsTagOrderBlack {Czarna ocena}
+translate P OptionsTagOrderOthers {Inne tagi}
+translate P OptionsTagOrderSort {Sortuj pozostałe tagi alfabetycznie (w przeciwnym razie oryginalna kolejność)}
+translate P Up {W górę}
+translate P Down {W dół}
 
 # Goto game/move dialogs:
 translate P LoadGameNumber {Podaj nr partii do wczytania:}
@@ -2052,8 +2063,6 @@ translate P IESending {Posunięcia wysłane dla}
 translate P IESynchronise {Synchronizuj}
 translate P IERotate {Obróć}
 translate P IEUnableToStart {Nie można uruchomić silnika wejściowego:}
-
-# Calculation of Variations
 
 translate P Board {Szachownica}
 translate P showGameInfo {Pokaż informacje o partii}

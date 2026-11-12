@@ -1668,6 +1668,17 @@ translate B IndentVariations {Identar Variantes?}
 translate B ExportColumnStyle {Estilo Coluna (um movimento por linha)?}
 translate B ExportSymbolStyle {Estilo de anotação simbólica:}
 translate B ExportStripMarks {Remover códigos de marca de casa/seta dos comentários?} 
+translate B OptionsExportEol {Finais de linha:}
+translate B OptionsExportEolNative {Nativo}
+translate B OptionsPGNExport {Exportação PGN}
+translate B OptionsTagOrderIntro {Ordem das tags PGN restantes ao escrever um jogo. O Seven Tag Roster é sempre escrito primeiro, de acordo com o padrão PGN.}
+translate B OptionsTagOrderStr {Lista de sete tags (fixa): Evento, Local, Data, Rodada, Branco, Preto, Resultado}
+translate B OptionsTagOrderWhite {Classificação branca}
+translate B OptionsTagOrderBlack {Classificação negra}
+translate B OptionsTagOrderOthers {Outras tags}
+translate B OptionsTagOrderSort {Classifique outras tags em ordem alfabética (caso contrário, ordem original)}
+translate B Up {Acima}
+translate B Down {Abaixo}
 
 # Goto game/move dialogs:
 translate B LoadGameNumber {Entre o número do jogo a ser carregado:}
@@ -2028,8 +2039,6 @@ translate B IESending {Movimentos enviados para}
 translate B IESynchronise {Sincronizar}
 translate B IERotate  {Girar}
 translate B IEUnableToStart {Não é possível iniciar Engine:}
-
-# Calculation of Variations
 
 translate B Board {Tabuleiro}
 translate B showGameInfo {Mostrar informações do jogo}

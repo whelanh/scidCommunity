@@ -1688,6 +1688,17 @@ translate L IndentVariations {Variații de indentare}
 translate L ExportColumnStyle {Stil de coloană (o mișcare pe linie)}
 translate L ExportSymbolStyle {Stilul de adnotare simbolică:}
 translate L ExportStripMarks {Eliminați codurile pătrate/săgeți din comentarii}
+translate L OptionsExportEol {Terminații de rând:}
+translate L OptionsExportEolNative {Nativ}
+translate L OptionsPGNExport {Export PGN}
+translate L OptionsTagOrderIntro {Ordinea etichetelor PGN rămase când scrieți un joc. Lista cu șapte etichete este întotdeauna scrisă primul, conform standardului PGN.}
+translate L OptionsTagOrderStr {Lista cu șapte etichete (fixată): eveniment, site, dată, rotundă, alb, negru, rezultat}
+translate L OptionsTagOrderWhite {Evaluare albă}
+translate L OptionsTagOrderBlack {Evaluare neagră}
+translate L OptionsTagOrderOthers {Alte etichete}
+translate L OptionsTagOrderSort {Sortați alte etichete în ordine alfabetică (în caz contrar, ordinea originală)}
+translate L Up {Sus}
+translate L Down {Jos}
 
 # Goto game/move dialogs:
 translate L LoadGameNumber {Introduceți numărul jocului de încărcat:}
@@ -2039,8 +2050,6 @@ translate L IESending {Mișcări trimise pentru}
 translate L IESynchronise {Sincroniza}
 translate L IERotate  {Roti}
 translate L IEUnableToStart {Imposibil de pornit Input Engine:}
-
-# Calculation of Variations
 
 translate L Board {Bord}
 translate L showGameInfo {Afișează informații despre joc}

@@ -1694,6 +1694,17 @@ translate E IndentVariations {Indent variations}
 translate E ExportColumnStyle {Column style (one move per line)}
 translate E ExportSymbolStyle {Symbolic annotation style:}
 translate E ExportStripMarks {Strip square/arrow mark\ncodes from comments}
+translate E OptionsExportEol {Line endings:}
+translate E OptionsExportEolNative {Native}
+translate E OptionsPGNExport {PGN Export}
+translate E OptionsTagOrderIntro {Order of the remaining PGN tags when writing a game. The Seven Tag Roster is always written first, per the PGN standard.}
+translate E OptionsTagOrderStr {Seven Tag Roster (fixed): Event, Site, Date, Round, White, Black, Result}
+translate E OptionsTagOrderWhite {White rating}
+translate E OptionsTagOrderBlack {Black rating}
+translate E OptionsTagOrderOthers {Other tags}
+translate E OptionsTagOrderSort {Sort other tags alphabetically (otherwise original order)}
+translate E Up {Up}
+translate E Down {Down}
 
 # Goto game/move dialogs:
 translate E LoadGameNumber {Enter the game number to load:}

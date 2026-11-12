@@ -1707,6 +1707,17 @@ translate D ExportColumnStyle {Tabellarisch: ein Zug pro Zeile}
 translate D ExportSymbolStyle {Symbolische Notation }
 translate D ExportStripMarks \
   {Felder-/Pfeilemarkierzeichen\naus den Kommentaren entfernen}
+translate D OptionsExportEol {Zeilenenden:}
+translate D OptionsExportEolNative {Einheimisch}
+translate D OptionsPGNExport {PGN-Export}
+translate D OptionsTagOrderIntro {Reihenfolge der verbleibenden PGN-Tags beim Schreiben eines Spiels. Der Seven Tag Roster wird gemäß dem PGN-Standard immer zuerst geschrieben.}
+translate D OptionsTagOrderStr {Sieben-Tag-Liste (fest): Ereignis, Ort, Datum, Runde, Weiß, Schwarz, Ergebnis}
+translate D OptionsTagOrderWhite {Weiße Bewertung}
+translate D OptionsTagOrderBlack {Schwarze Bewertung}
+translate D OptionsTagOrderOthers {Andere Tags}
+translate D OptionsTagOrderSort {Andere Tags alphabetisch sortieren (ansonsten ursprüngliche Reihenfolge)}
+translate D Up {Hoch}
+translate D Down {Runter}
 
 # Goto game/move dialogs:
 translate D LoadGameNumber {Geben Sie die zu ladende Spielnr. ein:}
@@ -2070,8 +2081,6 @@ translate D IESending {Sende Züge für}
 translate D IESynchronise {Synchronisieren}
 translate D IERotate  {Brett drehen}
 translate D IEUnableToStart {Input Engine konnte nicht gestartet werden:}
-
-# Calculation of Variations
 
 translate D Board {Brett}
 translate D showGameInfo {Partieinformation anzeigen}

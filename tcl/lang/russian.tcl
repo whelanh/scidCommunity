@@ -1662,6 +1662,17 @@ translate R IndentVariations {Варианты с отступом?}
 translate R ExportColumnStyle {В колонку (один ход на строку)?}
 translate R ExportSymbolStyle {Стиль символьной аннотации:}
 translate R ExportStripMarks {Удалить маркированные коды полей/стрелок из комментариев?}
+translate R OptionsExportEol {Окончания строк:}
+translate R OptionsExportEolNative {Родной}
+translate R OptionsPGNExport {Экспорт PGN}
+translate R OptionsTagOrderIntro {Порядок остальных тегов PGN при написании игры. Список семи тегов всегда пишется первым в соответствии со стандартом PGN.}
+translate R OptionsTagOrderStr {Список из семи тегов (фиксированный): событие, место, дата, раунд, белый, черный, результат.}
+translate R OptionsTagOrderWhite {Белый рейтинг}
+translate R OptionsTagOrderBlack {Черный рейтинг}
+translate R OptionsTagOrderOthers {Другие теги}
+translate R OptionsTagOrderSort {Сортировать другие теги по алфавиту (в противном случае исходный порядок)}
+translate R Up {Вверх}
+translate R Down {Вниз}
 
 # Goto game/move dialogs:
 translate R LoadGameNumber {Введите номер партии для загрузки:}
@@ -2022,8 +2033,6 @@ translate R IESending {Послать ходы в}
 translate R IESynchronise {Синхронизировать}
 translate R IERotate  {Вращать}
 translate R IEUnableToStart {Невозможно запустить входной движок:}
-
-# Calculation of Variations
 
 translate R Board {Доска}
 translate R showGameInfo {Показать информацию о партии}

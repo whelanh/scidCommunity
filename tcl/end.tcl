@@ -340,6 +340,22 @@ proc exportOptions {exportType} {
   if {$exportType == "PGN"} {
     ttk::checkbutton $w.o.nullMoves -variable exportFlags(convertNullMoves) -offvalue 0 -onvalue 1 -textvar ::tr(ConvertNullMove)
     grid $w.o.nullMoves -row 8 -column 0 -sticky w
+
+    # Line-ending choice for PGN export
+    ttk::frame $w.o.eol
+    ttk::label $w.o.eol.l -text "[tr OptionsExportEol]:"
+    ttk::combobox $w.o.eol.c -state readonly -width 8 \
+        -values [list [tr OptionsExportEolNative] "CRLF" "LF"] \
+        -textvariable ::exportEolDisplay
+    pack $w.o.eol.l $w.o.eol.c -side left -padx "0 5"
+    grid $w.o.eol -row 9 -column 0 -sticky w
+
+    # Initialize the display from the stored value and map the selection back.
+    set ::exportEolValues {native crlf lf}
+    set _eolIdx [lsearch -exact $::exportEolValues $exportFlags(eol)]
+    if {$_eolIdx < 0} { set _eolIdx 0 }
+    set ::exportEolDisplay [lindex [list [tr OptionsExportEolNative] CRLF LF] $_eolIdx]
+    bind $w.o.eol.c <<ComboboxSelected>> { set exportFlags(eol) [lindex $::exportEolValues [%W current]] }
   }
 
   pack [ttk::frame $w.b] -side top -fill x
@@ -421,7 +437,8 @@ proc exportGames {selection exportType} {
       -space $::pgn::moveNumberSpaces -symbols $exportFlags(symbols) \
       -indentC $exportFlags(indentc) -indentV $exportFlags(indentv) \
       -column $exportFlags(column) -noMarkCodes $exportFlags(stripMarks) \
-      -convertNullMoves $exportFlags(convertNullMoves)
+      -convertNullMoves $exportFlags(convertNullMoves) \
+      -eol $exportFlags(eol)
   } err]} {
       closeProgressWindow
       tk_messageBox -title "Export Error" -icon error -message "Error exporting to $exportType: $err"

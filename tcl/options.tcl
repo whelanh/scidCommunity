@@ -282,6 +282,11 @@ set ::pgn::columnFormat 0
 set ::pgn::stripMarks 0
 set ::pgn::showPhoto 1
 set ::pgn::figurine 0
+# PGN tag order for export/display: the Seven Tag Roster is always emitted
+# first (per the PGN spec); this list orders the remaining tags. "Others" is
+# the placeholder for every non-standard tag.
+set ::pgn::tagOrder {WhiteElo BlackElo ECO EventDate ScidFlags Others}
+set ::pgn::sortOtherTags 0
 # How a repetition is announced in the PGN window: "off", "banner" (a
 # non-blocking notice that fades by itself) or "dialog" (the modal message
 # box). Only the presentation changes; threefold detection still ends games.
@@ -514,6 +519,7 @@ set exportFlags(symbols) 0
 set exportFlags(htmldiag) 0
 set exportFlags(stripMarks) 0
 set exportFlags(convertNullMoves) 0
+set exportFlags(eol) native
 set default_exportStartFile(PGN) {}
 set default_exportEndFile(PGN) {}
 
@@ -639,6 +645,10 @@ options.store ::userColorSchemes {}
 options.store ::markColor green
 options.store ::markType square
 
+# PGN tag ordering (defaults set above, before the options file was loaded).
+options.store ::pgn::tagOrder
+options.store ::pgn::sortOtherTags
+
 # Migrate the single-book setting without overwriting a newer slot-1 choice.
 if {[info exists ::book::lastBook] && $::book::lastBook ne "" && $::book::lastBook1 eq ""} {
   set ::book::lastBook1 $::book::lastBook
@@ -719,6 +729,7 @@ proc options.write {} {
           exportFlags(indentc) exportFlags(indentv) \
           exportFlags(column) exportFlags(symbols) \
           exportFlags(htmldiag) exportFlags(convertNullMoves) \
+          exportFlags(eol) \
           gameInfo(photos) gameInfo(hideNextMove) gameInfo(wrap) \
           gameInfo(fullComment) gameInfo(showMarks) \
           gameInfo(showMaterial) gameInfo(showFEN) \
@@ -1003,6 +1014,14 @@ proc options.autoSaveHack {} {
     close $optionF
   }
 }
+
+# Apply the PGN tag-order preference to the C++ writer (a process-wide
+# setting). Called once at startup here, and again from the preferences dialog
+# whenever the order changes.
+proc ::pgn::applyTagOrder {} {
+  sc_game tagorder [join $::pgn::tagOrder] $::pgn::sortOtherTags
+}
+::pgn::applyTagOrder
 
 
 ###
