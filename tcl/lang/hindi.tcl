@@ -206,9 +206,7 @@ menuText h ToolsTracker "टुकड़ा ट्रैकर"  6 {पीस �
 menuText h ToolsTraining "प्रशिक्षण"  0 {प्रशिक्षण उपकरण (रणनीति, उद्घाटन,...)}
 menuText h ToolsPlayVsEngine "प्ले बनाम इंजन"  0 {शतरंज इंजन के विरुद्ध एक खेल खेलें}
 menuText h ToolsTrainOpenings "उद्घाटन"  0 {प्रदर्शनों की सूची के साथ प्रशिक्षण लें}
-menuText h ToolsTrainReviewGame "खेल की समीक्षा करें"  0 {किसी गेम में खेली गई चालों का अनुमान लगाएं}
 menuText h ToolsTrainTactics "युक्ति"  0 {रणनीति हल करें}
-menuText h ToolsTrainCalvar "विविधताओं की गणना"  0 {विविधता प्रशिक्षण की गणना}
 menuText h ToolsTrainFindBestMove "सर्वोत्तम चाल खोजें"  0 {सर्वोत्तम चाल खोजें}
 menuText h ToolsTrainFics "FICS पर खेलें"  0 {freechess.org पर खेलें}
 menuText h ToolsEngineTournament "इंजन टूर्नामेंट"  0 {शतरंज इंजनों के बीच एक टूर्नामेंट शुरू करें}
@@ -1870,8 +1868,6 @@ translate h AddScoreToShortAnnotations {एनोटेशन में स्�
 translate h AddScoreToAllMoves {सभी चालों में स्कोर जोड़ें}
 translate h Export {निर्यात}
 translate h BookPartiallyLoaded {पुस्तक आंशिक रूप से भरी हुई है}
-translate h Calvar {विविधताओं की गणना}
-translate h ConfigureCalvar {विन्यास}
 # Opening names used in tacgame.tcl
 translate h Reti {रेती}
 translate h English {अंग्रेज़ी}
@@ -1977,24 +1973,6 @@ translate h FICSTextColor {पाठ का रंग}
 
 # Game review
 translate h GameReview {खेल समीक्षा}
-translate h GameReviewTimeExtended {समय बढ़ाया गया}
-translate h GameReviewMargin {त्रुटि मार्जिन}
-translate h GameReviewAutoContinue {चाल सही होने पर स्वतः जारी रखें}
-translate h GameReviewReCalculate {विस्तारित समय का उपयोग करें}
-translate h GameReviewAnalyzingMovePlayedDuringTheGame {खेल के दौरान खेले गए कदम का विश्लेषण करना}
-translate h GameReviewAnalyzingThePosition {स्थिति का विश्लेषण}
-translate h GameReviewEnterYourMove {अपनी चाल दर्ज करें}
-translate h GameReviewCheckingYourMove {आपकी चाल की जाँच हो रही है}
-translate h GameReviewYourMoveWasAnalyzed {आपके कदम का विश्लेषण किया गया}
-translate h GameReviewYouPlayedSameMove {आपने मैच की तरह ही चाल खेली}
-translate h GameReviewScoreOfYourMove {आपकी चाल का स्कोर}
-translate h GameReviewGameMoveScore {खेल चाल का स्कोर}
-translate h GameReviewEngineScore {इंजन का स्कोर}
-translate h GameReviewYouPlayedLikeTheEngine {आपने इंजन जितना अच्छा खेला}
-translate h GameReviewNotEngineMoveButGoodMove {इंजन चाल नहीं, बल्कि एक अच्छी चाल भी है}
-translate h GameReviewMoveNotGood {यह कदम अच्छा नहीं है, स्कोर है}
-translate h GameReviewMovesPlayedLike {चालें जैसे खेलीं}
-translate h GameReviewMovesPlayedEngine {चालें इंजन की तरह खेली गईं}
 
 # Correspondence Chess Dialogs:
 translate h CCDlgCGeneraloptions {आम विकल्प}
@@ -2022,7 +2000,6 @@ translate h IERotate  {घुमाएँ}
 translate h IEUnableToStart {इनपुट इंजन प्रारंभ करने में असमर्थ:}
 
 # Calculation of Variations
-translate h DoneWithPosition {पद से काम पूरा हो गया}
 
 translate h Board {तख़्ता}
 translate h showGameInfo {खेल की जानकारी दिखाएँ}
@@ -2104,7 +2081,6 @@ translate h BatchAnnotate {बैच एनोटेट}
 translate h BatchEngineSelection {इंजन चयन}
 translate h BatchChessEngine {शतरंज इंजन:}
 translate h BatchNumberOfInstances {उदाहरणों की संख्या:}
-translate h BatchGameReview {खेल समीक्षा}
 translate h BatchTimePerMove {प्रति चाल समय (सेकंड):}
 translate h BatchAnnotateBlunders {केवल भूलों पर टिप्पणी करें}
 translate h BatchBlunderThreshold {भूल सीमा:}

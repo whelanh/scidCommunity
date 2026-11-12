@@ -28,7 +28,6 @@ set helpText(D,Contents) {<h1>scidCommunity-Hilfeinhalte</h1>
   <li><a Engine><b>Analysefenster </b></a></li>
   <li><a Engine><b>Motor</b> Fenster</a></li>
   <li><a Book><b>Buch</b> Fenster</a></li>
-  <li><a CalVar><b>Variationsberechnung</b> Fenster</a></li>
   <li><a Comment><b>Kommentareditor</b> Fenster</a></li>
   <li><a Crosstable><b>Kreuztabellenfenster </b></a></li>
   <li><a Switcher><b>Datenbank-Umschalter</b>-Fenster</a></li>
@@ -753,8 +752,6 @@ set helpText(D,Menus) {<h1>scidCommunity menus</h1>
   <ul>
   <li><menu>Openings Training</menu>: Configures <a OpeningTrainer>openings training</a>.</li>
   <li><menu>Tactics Training</menu>: Configures <a TacticsTrainer>tactics training</a>.</li>
-  <li><menu>Review Game</menu>: Starts game review mode.</li>
-  <li><menu>Calvar Training</menu>: Configures <a CalVar>calculation of variations</a> training.</li>
   </ul>
   </ul>
   
@@ -3284,48 +3281,6 @@ set helpText(D,Engine) {<h1>Die Engine-Fenster</h1>
 }
 
 
-set helpTitle(D,CalVar) "Berechnung der Variation"
-set helpText(D,CalVar) {<h1>Die Berechnung des Variationsfensters</h1>
-  <p>
-   Diese Trainingsübung wird auch als Stoyko-Übung bezeichnet.  Es ist
-   Der Zweck besteht darin, eine komplexe Position zu analysieren und möglichst viele Geräusche zu bewerten
-   Wählen Sie möglichst viele Zeilen aus und geben Sie für jede einzelne eine korrekte Bewertung ab.
-  </p> 
-  <h3>Konfiguration</h3></p>
-  <p>
-  Drei Parameter werden eingestellt:
-  <ul>
-     <li>Die UCI-Engine, die verschiedene Linien analysiert </li>
-     <li>Die Zeit in Sekunden, die die Engine zur Analyse der Position benötigt </li>
-     <li>Die Zeit in Sekunden, die die Engine verwendet, um jede vom Benutzer eingegebene Zeile zu analysieren </li>
-  </ul>
-  </p>
-
-  <h3>Zeilen eingeben</h3></p>
-  <p>
-  Die Eingabe von Zügen erfolgt wie gewohnt per Mausklick auf dem Spielbrett
-  wird nicht angezeigt. Am Ende einer Zeile muss der Benutzer etwas angeben
-  Eine Auswertung erfolgt durch Anklicken eines der Buttons mit NAG-Codes.
-  </p>
-
-  <h3>Bewertungsüberprüfung</h3>
-  <p>
-  Jedes Mal, wenn einer Zeile eine Bewertung gegeben wird, berechnet die Engine diese
-  Geben Sie den Wert ein und hängen Sie die Zeile und die Punktzahl direkt unter den Benutzerwerten an.
-  </p>
-
-  <h3>Fertig mit Position</h3>
-  <p>
-   Wenn der Benutzer glaubt, alle besten Zeilen gefunden zu haben, drückt er <term>Fertig mit
-   position</term> wird an das Spiel angehängt (mit dem Kommentar <term>Missed
-   line</term>), die Zeilen, deren Punktzahl höher ist als die der besten Zeile
-   vom Benutzer eingegeben werden.
-  </p>
-
-  <p><footer>(Aktualisiert: scidCommunity, April 2026)</footer></p>
-}
-
-
 set helpTitle(D,EPD) "EPD-Dateien"
 set helpText(D,EPD) {<h1>EPD-Dateien</h1>
   <p>
@@ -5381,48 +5336,6 @@ set helpText(D,InputEngine) {<h1>Input Engine-Treiberkonsole</h1>
    </p>
 
 
-  <p><footer>(Aktualisiert: scidCommunity, April 2026)</footer></p>
-}
-
-
-set helpTitle(D,ReviewGame) "Spielrezension"
-set helpText(D,ReviewGame) {<h1>Ein Spiel rezensieren</h1>
-   <p>
-	Diese Funktion dient dazu, ein Spiel zu studieren, was bedeutet, dass Sie es tun sollten
-	Versuchen Sie, die während des Spiels gespielten Züge zu erraten. Sie öffnen also zunächst eine
-	Spiel aus einer beliebigen scidCommunity-Basis herunter und geben Sie diese Funktion mit dem Befehl ein
-	<b>Rezensionsspiel</b> im Menü <b>Spielen</b>.  Wie immer zum Spielen
-	Drehen Sie mit Schwarz zuerst das Spielbrett um (Sie spielen immer von unten).
-	der Vorstand).
-   </p>
-	<p>
-	Für ein effektives Training sollten die folgenden Einstellungen sein
-	deaktiviert:
-	<ul>
-		<li>Letzten Zug anzeigen (Optionen / Züge / Letzten Zug hervorheben)</li>
-		<li>Nächsten Zug anzeigen (Optionen / Spielinformationen / Nächsten Zug ausblenden)</li>
-		<li>PGN-Fenster</li>
-	</p>
-Der Prozess ist der folgende:
-<ul>
-<li> – Motoren denken über den während der Partie gespielten Zug nach </li>
-<li> – Engine denkt über die Stellung nach und findet den besten Zug </li>
-<li> – Der Benutzer darf dann seinen Zug eingeben </li>
-<li> – Engine denkt über den Zug des Benutzers nach </li>
-</ul>
-Wenn der vom Benutzer gespielte Zug entweder der tatsächlich gespielte Zug ist
-während des Spiels oder der von der Engine gewählte Zug oder ein Zug, dessen Ergebnis
-liegt nahe am besten Zug, den die Engine gefunden hat (unter Verwendung des Margin-Fehlers).
-vom Benutzer definiert), dann gilt der Umzug als gut. Wenn
-Der Benutzer ist mit der Engine nicht einverstanden. Er kann die <b>verlängerte Zeit </b> verwenden.
-Klicken Sie auf die Schaltfläche, um eine Bestätigung der Motoranalyse zu erhalten.
-<p>
-<b>Anmerkungen:</b> 
-<ul>
-<li> – Die Seite muss vor der Spielbesprechung ausgewählt werden </li>
-<li> – Der Benutzer spielt immer von der Unterseite des Spielbretts aus </li>
-</ul>
-</p>
   <p><footer>(Aktualisiert: scidCommunity, April 2026)</footer></p>
 }
 

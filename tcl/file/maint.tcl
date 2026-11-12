@@ -842,8 +842,6 @@ proc compactDB {{base -1}} {
   destroy .analysisWin2
   destroy .coachWin
   destroy .tacticsWin
-  destroy .reviewgame
-  if {[winfo exists .calvarWin]} { ::calvar::stop }
   destroy .inputengineconsole
 
   progressWindow "scidCommunity" [concat $::tr(CompactDatabase) "..."] $::tr(Cancel)

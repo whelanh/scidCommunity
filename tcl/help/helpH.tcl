@@ -28,7 +28,6 @@ set helpText(H,Contents) {<h1>scidCommunity súgótartalma </h1>
   <li> <a Engine> <b> Elemzés </b> ablak </a> </li>
   <li> <a Engine> <b> Motor </b> ablakok </a> </li>
   <li><a Book><b>Könyv</b> ablak</a></li>
-  <li><a CalVar><b> Változások számítása</b> ablak</a></li>
   <li><a Comment><b> Megjegyzésszerkesztő </b> ablak </a></li>
   <li><a Crosstable><b>Keresztezhető </b> ablak </a></li>
   <li><a Switcher><b> Adatbázis-váltó </b> ablak </a></li>
@@ -753,8 +752,6 @@ set helpText(H,Menus) {<h1>scidCommunity menus</h1>
   <ul>
   <li><menu>Openings Training</menu>: Configures <a OpeningTrainer>openings training</a>.</li>
   <li><menu>Tactics Training</menu>: Configures <a TacticsTrainer>tactics training</a>.</li>
-  <li><menu>Review Game</menu>: Starts game review mode.</li>
-  <li><menu>Calvar Training</menu>: Configures <a CalVar>calculation of variations</a> training.</li>
   </ul>
   </ul>
   
@@ -3283,48 +3280,6 @@ set helpText(H,Engine) {<h1> A motorablakok </h1>
 }
 
 
-set helpTitle(H,CalVar) "Variáció számítása"
-set helpText(H,CalVar) {<h1> Az eltérési ablak kiszámítása </h1>
-  <p>
-   Ezt a gyakorlatot Stoyko gyakorlatnak is nevezik.  Az
-   A cél egy összetett pozíció elemzése és minél több hang értékelése
-   sorokat, és mindegyikhez adjon helyes értékelést.
-  </p> 
-  <h3> Konfiguráció </h3> </p>
-  <p>
-  Három paraméter van beállítva:
-  <ul>
-     <li> Az UCI motor, amely különféle vonalakat elemzi </li>
-     <li> Az az idő másodpercben, amelyet a motor a pozíció elemzéséhez használ </li>
-     <li> Az az idő másodpercben, amelyet a motor a felhasználó által beírt sorok elemzéséhez használ </li>
-  </ul>
-  </p>
-
-  <h3> Sorok bevitele </h3> </p>
-  <p>
-  A mozdulatok a szokásos módon a táblán egérkattintással kerülnek be, de azok
-  nem jelenik meg. A sor végén a felhasználónak meg kell adnia
-  kiértékelést a NAG kódokkal ellátott gombok egyikére kattintva.
-  </p>
-
-  <h3> Értékelés ellenőrzése </h3>
-  <p>
-  Minden alkalommal, amikor egy sor értékelést kap, a motor kiszámítja azt
-  értéket, és fűzze hozzá a sort és a pontszámot közvetlenül a felhasználói is alá.
-  </p>
-
-  <h3> Kész a pozícióval </h3>
-  <p>
-   Ha a felhasználó úgy gondolja, hogy megtalálta az összes legjobb sort, nyomja meg a <term>Kész
-   pozíció</term> hozzá lesz fűzve a játékhoz (<term> megjegyzéssel
-   line</term>), azok a sorok, amelyek pontszáma magasabb, mint a legjobb sor
-   a felhasználó által beírt.
-  </p>
-
-  <p><footer>(Frissítve: scidCommunity, 2026. április)</footer></p>
-}
-
-
 set helpTitle(H,EPD) "EPD fájlok"
 set helpText(H,EPD) {<h1>EPD fájlok </h1>
   <p>
@@ -5377,48 +5332,6 @@ set helpText(H,InputEngine) {<h1> Bemeneti motor meghajtó konzol </h1>
    </p>
 
 
-  <p><footer>(Frissítve: scidCommunity, 2026. április)</footer></p>
-}
-
-
-set helpTitle(H,ReviewGame) "Játék áttekintése"
-set helpText(H,ReviewGame) {<h1>Játék áttekintése </h1>
-   <p>
-	Ez a funkció egy játék tanulmányozására szolgál, ami azt jelenti, hogy ezt kell tennie
-	próbálja meg kitalálni a meccs közben eljátszott mozdulatokat. Tehát először nyissa meg a
-	játékot bármely scidCommunity alapjáról, és adja meg ezt a függvényt a paranccsal
-	<b>Tekintse át a játékot </b> a <b>Play</b> menüben.  Mint általában, játszani
-	feketével először fordítsd meg a táblát (mindig alulról játszol
-	a tábla).
-   </p>
-	<p>
-	A hatékony edzés érdekében a következő beállításokat kell beállítani
-	letiltva:
-	<ul>
-		<li>Utolsó lépés megjelenítése (Opciók / Mozgatások / Utolsó lépés kiemelése) </li>
-		<li> Következő lépés megjelenítése (Opciók / Játékinformációk / Következő lépés elrejtése) </li>
-		<li>PGN ablak </li>
-	</p>
-A folyamat a következő:
-<ul>
-<li> – a motorok elgondolkoznak a játék közben játszott mozgáson </li>
-<li> - a motor mérlegeli a pozíciót, és megtalálja a legjobb lépést </li>
-<li> – a felhasználó ezután beléphet a lépésébe </li>
-<li> – a motor töpreng a felhasználó által játszott mozgás közben </li>
-</ul>
-Ha a felhasználó által végrehajtott lépés vagy a ténylegesen megtett lépés
-a játék során vagy a motor által választott lépés, vagy olyan lépés, amelynek pontszáma
-közel van a motor által talált legjobb mozgáshoz (a határhibával
-a felhasználó által meghatározott), akkor a lépés jónak minősül. Ha
-a felhasználó nem ért egyet azzal a motorral, hogy használhatja a <b>hosszabbított időt </b>
-gombot a motor elemzésének megerősítéséhez.
-<p>
-<b>Megjegyzések:</b> 
-<ul>
-<li>- A játék áttekintése előtt ki kell választani az oldalt </li>
-<li> – A felhasználó mindig a tábla aljáról játszik </li>
-</ul>
-</p>
   <p><footer>(Frissítve: scidCommunity, 2026. április)</footer></p>
 }
 

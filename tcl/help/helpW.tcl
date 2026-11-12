@@ -28,7 +28,6 @@ set helpText(W,Contents) {<h1>scidCommunity hjälpinnehåll</h1>
   <li><a Engine><b>Analys</b> fönster</a></li>
   <li><a Engine><b>Motor</b> fönster</a></li>
   <li><a Book><b>Boka</b> fönster</a></li>
-  <li><a CalVar><b>Beräkning av variationer</b> fönster</a></li>
   <li><a Comment><b>Kommentar editor</b> fönster</a></li>
   <li><a Crosstable><b>Korsbord</b> fönster</a></li>
   <li><a Switcher><b>Databasväxlare</b> fönster</a></li>
@@ -754,8 +753,6 @@ set helpText(W,Menus) {<h1>scidCommunity menus</h1>
   <ul>
   <li><menu>Openings Training</menu>: Configures <a OpeningTrainer>openings training</a>.</li>
   <li><menu>Tactics Training</menu>: Configures <a TacticsTrainer>tactics training</a>.</li>
-  <li><menu>Review Game</menu>: Starts game review mode.</li>
-  <li><menu>Calvar Training</menu>: Configures <a CalVar>calculation of variations</a> training.</li>
   </ul>
   </ul>
   
@@ -3284,48 +3281,6 @@ set helpText(W,Engine) {<h1>Motorfönstren</h1>
 }
 
 
-set helpTitle(W,CalVar) "Beräkning av variation"
-set helpText(W,CalVar) {<h1>Fönstret för beräkning av variation </h1>
-  <p>
-   Denna träningsövning är också känd som Stoyko-övningen.  dess
-   Syftet är att analysera en komplex position och utvärdera så många ljud
-   linjer som möjligt, och ge en korrekt utvärdering för var och en av dem.
-  </p> 
-  <h3>Konfiguration</h3></p>
-  <p>
-  Tre parametrar är inställda:
-  <ul>
-     <li> UCI-motorn som kommer att analysera olika linjer </li>
-     <li> Tiden, i sekunder, som motorn kommer att använda för att analysera positionen </li>
-     <li>Den tid, i sekunder, som motorn använder för att analysera varje rad som användaren anger </li>
-  </ul>
-  </p>
-
-  <h3>Ange rader</h3></p>
-  <p>
-  Drag läggs in som vanligt med musklick på brädan men de
-  kommer inte att visas. I slutet av en rad måste användaren tillhandahålla
-  en utvärdering genom att klicka på en av knapparna med NAG-koder.
-  </p>
-
-  <h3>Utvärderingsverifiering</h3>
-  <p>
-  Varje gång en utvärdering ges till en linje beräknar motorn sin
-  värde och lägg till raden och poäng precis under användarna.
-  </p>
-
-  <h3>Klar med position</h3>
-  <p>
-   När användaren tror att han hittat alla de bästa raderna trycker du på <term>Klar med
-   position</term> kommer att läggas till spelet (med kommentaren <term> Missad
-   line</term>), de linjer som har högre poäng än den bästa linjen
-   angett av användaren.
-  </p>
-
-  <p><footer>(Uppdaterad: scidCommunity, april 2026)</footer></p>
-}
-
-
 set helpTitle(W,EPD) "EPD-filer"
 set helpText(W,EPD) {<h1>EPD-filer</h1>
   <p>
@@ -5381,48 +5336,6 @@ set helpText(W,InputEngine) {<h1>Input Engine drivrutinskonsol</h1>
 
   <p><footer>(Uppdaterad: scidCommunity, april 2026)</footer></p>
 
-}
-
-
-set helpTitle(W,ReviewGame) "Spelrecension"
-set helpText(W,ReviewGame) {<h1>Recensera ett spel</h1>
-   <p>
-	Den här funktionen är designad för att studera ett spel, vilket betyder att du borde
-	försök gissa vilka drag som spelas under matchen. Så du öppnar först en
-	spel från valfri scidCommunitys bas och ange denna funktion med kommandot
-	<b>Granska spelet</b> i menyn <b>Spela</b>.  Som vanligt, att spela
-	med Black, flip board först (du spelar alltid från botten av
-	styrelsen).
-   </p>
-	<p>
-	För en effektiv träning bör följande inställningar vara
-	inaktiverad:
-	<ul>
-		<li>Visa senaste drag (Alternativ / Flytt / Markera senaste drag)</li>
-		<li>Visa nästa drag (Alternativ / Spelinformation / Dölj nästa drag)</li>
-		<li>PGN-fönster </li>
-	</p>
-Processen är följande:
-<ul>
-<li>- motorer funderar på farten som spelas under spelet </li>
-<li>- motorn funderar över positionen och hittar det bästa draget </li>
-<li>- användaren får sedan gå in i sitt drag </li>
-<li>- motorn funderar på hur användaren spelar </li>
-</ul>
-Om draget som spelas av användaren är antingen det drag som faktiskt spelas
-under spelet eller draget som väljs av motorn eller ett drag vars poäng
-är nära det bästa draget som motorn hittat (med marginalfelet
-definieras av användaren), anses flytten vara bra. Om
-användaren håller inte med om motorn han kan använda <b>extended time</b>
-knappen för att få en bekräftelse på motorns analys.
-<p>
-<b>Anmärkningar:</b> 
-<ul>
-<li>- Sidan måste väljas innan spelgranskning </li>
-<li>- Användaren spelar alltid från botten av brädan </li>
-</ul>
-</p>
-  <p><footer>(Uppdaterad: scidCommunity, april 2026)</footer></p>
 }
 
 

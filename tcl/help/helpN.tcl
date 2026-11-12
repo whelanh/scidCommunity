@@ -28,7 +28,6 @@ set helpText(N,Contents) {<h1>scidCommunity Help-inhoud</h1>
   <li><a Engine><b>Analyse</b> venster</a></li>
   <li><a Engine><b>Motor</b> ruiten</a></li>
   <li><a Book><b>Boek</b> venster</a></li>
-  <li><a CalVar><b>Berekening van variaties</b> venster</a></li>
   <li><a Comment><b>Commentaareditor</b> venster</a></li>
   <li><a Crosstable><b>Kruisbaar</b> venster</a></li>
   <li><a Switcher><b>Databaseswitcher</b> venster</a></li>
@@ -753,8 +752,6 @@ set helpText(N,Menus) {<h1>scidCommunity menus</h1>
   <ul>
   <li><menu>Openings Training</menu>: Configures <a OpeningTrainer>openings training</a>.</li>
   <li><menu>Tactics Training</menu>: Configures <a TacticsTrainer>tactics training</a>.</li>
-  <li><menu>Review Game</menu>: Starts game review mode.</li>
-  <li><menu>Calvar Training</menu>: Configures <a CalVar>calculation of variations</a> training.</li>
   </ul>
   </ul>
   
@@ -3284,48 +3281,6 @@ set helpText(N,Engine) {<h1>De motorvensters </h1>
 }
 
 
-set helpTitle(N,CalVar) "Berekening van variatie"
-set helpText(N,CalVar) {<h1> Venster voor berekening van variatie </h1>
-  <p>
-   Deze trainingsoefening wordt ook wel de Stoyko-oefening genoemd.  Het is
-   Het doel is om een complexe positie te analyseren en zoveel mogelijk geluid te evalueren
-   lijnen mogelijk te maken, en geef voor elk daarvan een correcte beoordeling.
-  </p> 
-  <h3>Configuratie</h3></p>
-  <p>
-  Er zijn drie parameters ingesteld:
-  <ul>
-     <li>De UCI-engine die verschillende lijnen analyseert </li>
-     <li>De tijd, in seconden, die de motor nodig heeft om de positie te analyseren </li>
-     <li>De tijd, in seconden, die de engine gebruikt om elke door de gebruiker ingevoerde regel te analyseren </li>
-  </ul>
-  </p>
-
-  <h3>Regels invoeren</h3></p>
-  <p>
-  Bewegingen worden zoals gebruikelijk ingevoerd met muisklikken op het bord, maar ze
-  wordt niet weergegeven. Aan het einde van een regel moet de gebruiker opgeven
-  een evaluatie door op één van de buttons met NAG-codes te klikken.
-  </p>
-
-  <h3> Evaluatieverificatie </h3>
-  <p>
-  Elke keer dat er een evaluatie aan een lijn wordt gegeven, berekent de engine de waarde ervan
-  waarde en voeg de lijn toe en scoor net onder de gebruikerswaarden.
-  </p>
-
-  <h3>Klaar met positie</h3>
-  <p>
-   Wanneer de gebruiker denkt dat hij alle beste regels heeft gevonden, drukt u op <term>Klaar met
-   positie </term> wordt aan het spel toegevoegd (met de opmerking <term> Gemist
-   line</term>), de lijnen die een hogere score hebben dan de beste lijn
-   ingevoerd door de gebruiker.
-  </p>
-
-  <p><footer>(Bijgewerkt: scidCommunity, april 2026)</footer></p>
-}
-
-
 set helpTitle(N,EPD) "EPD-bestanden"
 set helpText(N,EPD) {<h1>EPD-bestanden </h1>
   <p>
@@ -5380,48 +5335,6 @@ set helpText(N,InputEngine) {<h1>Ingang Motorbestuurdersconsole</h1>
 
   <p><footer>(Bijgewerkt: scidCommunity, april 2026)</footer></p>
 
-}
-
-
-set helpTitle(N,ReviewGame) "Spelrecensie"
-set helpText(N,ReviewGame) {<h1>Een spel beoordelen</h1>
-   <p>
-	Deze functie is ontworpen om een spel te bestuderen, wat betekent dat je dat ook zou moeten doen
-	probeer de zetten te raden die tijdens de wedstrijd worden gespeeld. Je opent dus eerst een
-	game vanaf een willekeurige scidCommunity-basis en voer deze functie in met de opdracht
-	<b>Bekijk het spel</b> in het menu <b>Speel</b>.  Zoals gewoonlijk, om te spelen
-	bij zwart eerst het bord omdraaien (je speelt altijd vanaf de onderkant).
-	het bord).
-   </p>
-	<p>
-	Voor een effectieve training moeten de volgende instellingen zijn
-	uitgeschakeld:
-	<ul>
-		<li>Laatste zet weergeven (Opties / Zet / Laatste zet markeren)</li>
-		<li>Volgende zet weergeven (Opties / Spelinformatie / Volgende zet verbergen)</li>
-		<li>PGN-venster</li>
-	</p>
-Het proces is als volgt:
-<ul>
-<li> - Motoren denken na over de beweging die tijdens het spel wordt gespeeld </li>
-<li> - engine denkt na over de positie en vindt de beste zet </li>
-<li> - de gebruiker mag dan zijn zet invoeren </li>
-<li> - engine denkt na terwijl de gebruiker speelt </li>
-</ul>
-Als de door de gebruiker gespeelde zet de daadwerkelijk gespeelde zet is
-tijdens het spel of de zet gekozen door de engine of een zet waarvan de score wordt behaald
-ligt dicht bij de beste zet die door de engine is gevonden (met behulp van de margefout
-gedefinieerd door de gebruiker), dan wordt de zet als goed beschouwd. Als
-de gebruiker is het niet eens met de engine die hij kan gebruiken <b>verlengde tijd</b>
-knop om een bevestiging van de motoranalyse te krijgen.
-<p>
-<b>Opmerkingen:</b> 
-<ul>
-<li> - De kant moet worden gekozen voordat de game wordt beoordeeld </li>
-<li> - De gebruiker speelt altijd vanaf de onderkant van het bord </li>
-</ul>
-</p>
-  <p><footer>(Bijgewerkt: scidCommunity, april 2026)</footer></p>
 }
 
 

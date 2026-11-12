@@ -28,7 +28,6 @@ set helpText(F,Contents) {<h1>Contenu de l'aide de la communauté scid</h1>
   <li><a Engine><b>Analyse</b> fenêtre</a></li>
   <li><a Engine><b>Moteur</b> fenêtres</a></li>
   <li><a Book><b>Livre</b> fenêtre</a></li>
-  <li><a CalVar><b>Calcul des variations</b> fenêtre</a></li>
   <li><a Comment><b>Éditeur de commentaires</b> fenêtre</a></li>
   <li><a Crosstable><b>Tableau croisé</b> fenêtre</a></li>
   <li><a Switcher><b>Sélecteur de base de données</b> fenêtre</a></li>
@@ -756,8 +755,6 @@ set helpText(F,Menus) {<h1>scidCommunity menus</h1>
   <ul>
   <li><menu>Openings Training</menu>: Configures <a OpeningTrainer>openings training</a>.</li>
   <li><menu>Tactics Training</menu>: Configures <a TacticsTrainer>tactics training</a>.</li>
-  <li><menu>Review Game</menu>: Starts game review mode.</li>
-  <li><menu>Calvar Training</menu>: Configures <a CalVar>calculation of variations</a> training.</li>
   </ul>
   </ul>
   
@@ -3296,48 +3293,6 @@ set helpText(F,Engine) {<h1> Les fenêtres du moteur </h1>
 }
 
 
-set helpTitle(F,CalVar) "Calcul de variation"
-set helpText(F,CalVar) {<h1>Le calcul de la fenêtre de variation </h1>
-  <p>
-   Cet exercice d’entraînement est également connu sous le nom d’exercice Stoyko.  C'est
-   Le but est d'analyser une position complexe et d'évaluer un maximum de sons
-   lignes possibles et donnez une évaluation correcte pour chacune d’elles.
-  </p> 
-  <h3>Configuration</h3></p>
-  <p>
-  Trois paramètres sont définis :
-  <ul>
-     <li>Le moteur UCI qui analysera différentes lignes</li>
-     <li>Le temps, en secondes, que le moteur utilisera pour analyser la position </li>
-     <li>Le temps, en secondes, que le moteur utilisera pour analyser chaque ligne saisie par l'utilisateur </li>
-  </ul>
-  </p>
-
-  <h3>Saisie de lignes</h3></p>
-  <p>
-  Les mouvements sont entrés comme d'habitude avec des clics de souris sur le plateau mais ils
-  ne sera pas affiché. À la fin d'une ligne, l'utilisateur doit fournir
-  une évaluation en cliquant sur l'un des boutons avec les codes NAG.
-  </p>
-
-  <h3>Vérification de l'évaluation</h3>
-  <p>
-  Chaque fois qu'une évaluation est donnée à une ligne, le moteur calcule sa
-  valeur et ajoutez la ligne et le score juste en dessous de ceux de l'utilisateur.
-  </p>
-
-  <h3>Fait avec la position</h3>
-  <p>
-   Lorsque l'utilisateur pense avoir trouvé toutes les meilleures lignes, en appuyant sur <term> Terminé avec
-   la position </term> sera ajoutée au jeu (avec le commentaire <term> Manqué
-   line</term>), les lignes qui ont un score supérieur à la meilleure ligne
-   saisie par l'utilisateur.
-  </p>
-
-  <p><footer>(Mise à jour : scidCommunity, avril 2026)</footer></p>
-}
-
-
 set helpTitle(F,EPD) "Fichiers EPD"
 set helpText(F,EPD) {<h1>Fichiers EPD</h1>
   <p>
@@ -5402,49 +5357,6 @@ set helpText(F,InputEngine) {<h1>Console de pilotage du moteur d'entrée</h1>
    </p>
 
 
-  <p><footer>(Mise à jour : scidCommunity, avril 2026)</footer></p>
-
-}
-
-
-set helpTitle(F,ReviewGame) "Revue du jeu"
-set helpText(F,ReviewGame) {<h1>Revoir un jeu</h1>
-   <p>
-	Cette fonctionnalité est conçue pour étudier un jeu, ce qui signifie que vous devez
-	essayez de deviner les mouvements joués pendant le match. Donc, vous ouvrez d'abord un
-	jeu depuis n'importe quelle base de scidCommunity, et entrez cette fonction avec la commande
-	<b>Revoir le jeu</b> dans le <b>Jouer</b> menu.  Comme d'habitude, pour jouer
-	avec les Noirs, retournez d'abord le plateau (vous jouez toujours depuis le bas du
-	le tableau).
-   </p>
-	<p>
-	Pour un entraînement efficace, les paramètres suivants doivent être
-	désactivé:
-	<ul>
-		<li>Afficher le dernier coup (Options / Déplacements / Mettre en surbrillance le dernier coup)</li>
-		<li>Afficher le coup suivant (Options / Informations sur le jeu / Masquer le coup suivant)</li>
-		<li>Fenêtre PGN</li>
-	</p>
-Le processus est le suivant :
-<ul>
-<li>- les moteurs réfléchissent aux mouvements joués pendant le jeu</li>
-<li>- le moteur réfléchit à la position et trouve le meilleur coup</li>
-<li>- l'utilisateur est alors autorisé à saisir son coup</li>
-<li>- le moteur réfléchit au mouvement joué par l'utilisateur</li>
-</ul>
-Si le coup joué par l'utilisateur est soit le coup réellement joué
-pendant la partie ou le coup choisi par le moteur ou un coup dont le score
-est proche du meilleur coup trouvé par le moteur (en utilisant l'erreur de marge
-défini par l'utilisateur), alors le coup est considéré comme bon. Si
-l'utilisateur n'est pas d'accord avec le moteur, il peut utiliser le <b>temps prolongé</b>
-bouton pour obtenir une confirmation de l'analyse du moteur.
-<p>
-<b>Remarques :</b> 
-<ul>
-<li>- Le camp doit être choisi avant la revue du jeu </li>
-<li>- L'utilisateur joue toujours depuis le bas du plateau</li>
-</ul>
-</p>
   <p><footer>(Mise à jour : scidCommunity, avril 2026)</footer></p>
 
 }

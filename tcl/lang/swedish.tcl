@@ -214,9 +214,7 @@ menuText W ToolsTracker "Sök material"  0 {Öppnar dialog för att söka efter 
 menuText W ToolsTraining "Träning"  0 {Träningsverktyg (taktik, öppningar,...) }
 menuText W ToolsPlayVsEngine "Spela mot motor"  0 {Spela ett parti mot en schackmotor}
 menuText W ToolsTrainOpenings "Öppningar"  0 {Träna med en repetoar}
-menuText W ToolsTrainReviewGame "Granska parti"  0 {Gissa drag spelade i ett parti}
 menuText W ToolsTrainTactics "Taktik"  0 {Lösa taktik}
-menuText W ToolsTrainCalvar "Variantberäkning"  0 {Variantberäkningsträning}
 menuText W ToolsTrainFindBestMove "Hitta bäst drag"  0 {Hitta bästa draget}
 menuText W ToolsTrainFics "Spela på Internet"  0 {Spela på freechess.org}
 menuText W ToolsEngineTournament "Motorturnering"  0 {Starta en turnering mellan schackmotorer}
@@ -1898,8 +1896,6 @@ translate W AddScoreToShortAnnotations {Lägg till värdering till korta komment
 translate W AddScoreToAllMoves {Lägg till poäng till alla drag}
 translate W Export {Exportera}
 translate W BookPartiallyLoaded {Bok delvis öppnad}
-translate W Calvar {Beräkning av variationer}
-translate W ConfigureCalvar {Konfiguration}
 # Opening names used in tacgame.tcl
 translate W Reti {Reti}
 translate W English {Engelsk}
@@ -2005,24 +2001,6 @@ translate W FICSTextColor {Textfärg}
 
 # Game review
 translate W GameReview {Partiöversikt}
-translate W GameReviewTimeExtended {Utökad tid}
-translate W GameReviewMargin {Felmarginal}
-translate W GameReviewAutoContinue {Fortsätt automatiskt när drag är korrekt}
-translate W GameReviewReCalculate {Använd utökad tid}
-translate W GameReviewAnalyzingMovePlayedDuringTheGame {Analysera drag spelat under partiet}
-translate W GameReviewAnalyzingThePosition {Analysera positionen}
-translate W GameReviewEnterYourMove {Ange ditt drag}
-translate W GameReviewCheckingYourMove {Kontrollerar ditt drag}
-translate W GameReviewYourMoveWasAnalyzed {Ditt drag analyserades}
-translate W GameReviewYouPlayedSameMove {Du speladade samma drag som i partiet}
-translate W GameReviewScoreOfYourMove {Värdering av ditt drag}
-translate W GameReviewGameMoveScore {Partidragets värdering}
-translate W GameReviewEngineScore {Schackmotorns värdering}
-translate W GameReviewYouPlayedLikeTheEngine {Du spelade som schackmotorn}
-translate W GameReviewNotEngineMoveButGoodMove {Inte schackmotordraget, men det är också ett bra drag}
-translate W GameReviewMoveNotGood {Detta drag är inte bra, värderingen är}
-translate W GameReviewMovesPlayedLike {Drag spelade som}
-translate W GameReviewMovesPlayedEngine {Drag apelade som schackmotorn}
 
 # Correspondence Chess Dialogs:
 translate W CCDlgCGeneraloptions {Generella inställningar}
@@ -2050,7 +2028,6 @@ translate W IERotate  {Rotera}
 translate W IEUnableToStart {Kunde inste starta Inmatningsschackmotor:}
 
 # Calculation of Variations
-translate W DoneWithPosition {Klar med position}
 
 translate W Board {Bräde}
 translate W showGameInfo {Visa partiinformation}
@@ -2132,7 +2109,6 @@ translate W BatchAnnotate {Batchkommentar}
 translate W BatchEngineSelection {Motorval}
 translate W BatchChessEngine {Schackmotor:}
 translate W BatchNumberOfInstances {Antal instanser:}
-translate W BatchGameReview {Spelrecension}
 translate W BatchTimePerMove {Tid per drag (sek):}
 translate W BatchAnnotateBlunders {Anteckna bara misstag}
 translate W BatchBlunderThreshold {Blunder tröskel:}

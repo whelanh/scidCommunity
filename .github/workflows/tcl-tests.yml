@@ -162,6 +162,11 @@ jobs:
       - name: Help keys
         run: tclsh tests/tcl/help_keys.tcl
 
+      # #437 §3a: Review game and Calvar are retired. The Training menu keeps
+      # Openings and Tactics, and no file, key or help page survives them.
+      - name: Training menu after the retirement
+        run: tclsh tests/tcl/training_menu.tcl
+
       - name: Engine seed
         run: tclsh tests/tcl/engine_seed.tcl
 
@@ -220,6 +225,13 @@ jobs:
       # unchanged.
       - name: Engine PV display
         run: xvfb-run -a wish tests/tcl/engine_display_tk.tcl
+
+      # The tclsh Training-menu harness checks the menu statically; it cannot
+      # run the Tactics trainer's own loop. This does, on a window built the
+      # way the menu builds it - start against a preset, one puzzle, a right
+      # and a wrong answer, the analysis timer expiring, and stop (#437 §3a).
+      - name: Tactics trainer
+        run: xvfb-run -a wish tests/tcl/tactics_trainer.tcl
 
       - name: Finish Game dialog
         run: xvfb-run -a wish tests/tcl/finish_game_dialog.tcl

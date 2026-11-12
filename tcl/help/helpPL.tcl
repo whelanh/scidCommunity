@@ -25,7 +25,6 @@ set helpText(P,Contents) {<h1>Zawartość pomocy ScidCommunity</h1>
   <ul>
   <li><a Engine><b>Okna silnika</b></a></li>
   <li><a Book><b>Okno księgi debiutowej</b></a></li>
-  <li><a CalVar><b>Okno obliczania wariantów</b></a></li>
   <li><a Comment><b>Okno edytora komentarzy</b></a></li>
   <li><a Crosstable><b>Okno tabeli turniejowej</b></a></li>
   <li><a Switcher><b>Okno przełącznika baz danych</b></a></li>
@@ -777,8 +776,6 @@ set helpText(P,Menus) {<h1>Menu ScidCommunity</h1>
   <ul>
   <li><menu>Debiuty</menu>: Konfiguruje <a OpeningTrainer>trening debiutów</a>.</li>
   <li><menu>Taktyka</menu>: Konfiguruje <a TacticsTrainer>trening taktyki</a>.</li>
-  <li><menu>Przegląd partii</menu>: Uruchamia tryb przeglądu partii.</li>
-  <li><menu>Obliczanie wariantów</menu>: Konfiguruje trening <a CalVar>Obliczania wariantów</a>.</li>
   </ul>
   </ul>
   
@@ -3668,49 +3665,6 @@ set helpText(P,Engine) {<h1>Okna silnika</h1>
   <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
 }
 
-####################
-### Pomoc CalVar:
-
-set helpTitle(P,CalVar) "Obliczanie wariantów"
-set helpText(P,CalVar) {<h1>Okno Obliczania wariantów</h1>
-  <p>
-   To ćwiczenie treningowe uruchamiane <b>Graj / Trening / Obliczanie wariantów</b> jest też znane 
-   jako ćwiczenie Stoyki. Jego celem jest analiza złożonej pozycji i ocena możliwie wielu poprawnych
-   linii, a także podanie prawidłowej oceny każdej z nich.
-  </p> 
-  <h3>Konfiguracja</h3></p>
-  <p>
-  Ustawiane są trzy parametry:
-  <ul>
-     <li>Silnik UCI, który będzie analizował różne linie</li>
-     <li>Czas, w sekundach, jaki silnik wykorzysta do analizy pozycji</li>
-     <li>Czas, w sekundach, jaki silnik wykorzysta do analizy każdej linii wprowadzonej przez użytkownika</li>
-  </ul>
-  </p>
-
-  <h3>Wprowadzanie linii</h3></p>
-  <p>
-  Posunięcia wprowadza się tak jak zwykle, klikając myszą na szachownicy, ale
-  nie będą one wyświetlane. Na końcu linii użytkownik musi podać
-  ocenę, klikając jeden z przycisków z kodami NAG.
-  </p>
-
-  <h3>Weryfikacja oceny</h3>
-  <p>
-  Za każdym razem, gdy dla linii podana zostanie ocena, silnik oblicza
-  jej wartość i dopisuje linię oraz wynik tuż poniżej linii wpisanych przez użytkownika.
-  </p>
-
-  <h3>Zakończenie pozycji</h3>
-  <p>
-   Gdy użytkownik uzna, że znalazł wszystkie najlepsze linie, naciśnięcie
-   <term>Koniec pracy z pozycją</term> dopisze do partii (z komentarzem <term> Missed line</term>) 
-   te linie, których wynik jest wyższy niż najlepsza linia wprowadzona 
-   przez użytkownika.
-  </p>
-
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
-}
 
 
 ####################
@@ -5722,47 +5676,6 @@ set helpText(P,InputEngine) {<h1>Konsola sterownika Input Engine</h1>
    </p>
 
 
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
-}
-
-set helpTitle(P,ReviewGame) "Przegląd partii"
-set helpText(P,ReviewGame) {<h1>Przeglądanie partii</h1>
-   <p>
-	Ta funkcja jest przeznaczona do studiowania partii, co oznacza, że należy
-	próbować odgadnąć posunięcia wykonane podczas meczu. Najpierw otwórz
-	partię z dowolnej bazy ScidCommunity, a następnie przejdź do tej funkcji za pomocą polecenia
-	<b>Przegląd partii</b> w menu <b>Graj</b>. Jak zwykle, aby grać
-	czarnymi, najpierw odwróć szachownicę (zawsze grasz od dołu
-	szachownicy).
-   </p>
-	<p>
-	Dla efektywnego treningu należy wyłączyć następujące
-	ustawienia:
-	<ul>
-		<li>Pokaż ostatnie posunięcie (Opcje / Preferencje / Posunięcia / Podświetl ostatnie posunięcie)</li>
-		<li>Pokaż następne posunięcie (Okna / Pokaż Informacje o partii / Ukryj następne posunięcie)</li>
-		<li>Okno PGN</li>
-    </ul></p>
-Proces przebiega następująco:
-<ul>
-<li>- silnik zastanawia się nad posunięciem wykonanym w partii</li>
-<li>- silnik zastanawia się nad pozycją i znajduje najlepsze posunięcie</li>
-<li>- użytkownik może wówczas wprowadzić swoje posunięcie</li>
-<li>- silnik zastanawia się nad posunięciem wykonanym przez użytkownika</li>
-</ul>
-Jeśli posunięcie wykonane przez użytkownika jest albo posunięciem faktycznie wykonanym
-w partii, albo posunięciem wybranym przez silnik, albo posunięciem, którego ocena
-jest bliska ocenie najlepszego posunięcia znalezionego przez silnik (z użyciem marginesu błędu
-zdefiniowanego przez użytkownika), wówczas posunięcie jest uznawane za dobre. Jeśli
-użytkownik nie zgadza się z silnikiem, może użyć przycisku <b>wydłużony czas</b>,
-aby uzyskać potwierdzenie analizy silnika.
-<p>
-<b>Uwagi:</b> 
-<ul>
-<li>- Stronę należy wybrać przed rozpoczęciem przeglądania partii </li>
-<li>- Użytkownik zawsze gra od dołu szachownicy</li>
-</ul>
-</p>
   <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
 }
 

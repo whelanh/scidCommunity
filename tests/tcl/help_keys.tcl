@@ -67,6 +67,25 @@ proc everyPage {h} {
     }]
 }
 
+# The Training submenu is the <ul> that follows the Training header. Its two
+# surviving entries are Openings and Tactics; the retired Review game bullet
+# carried no <a> link, so a link search cannot see it. Count the <menu> labels
+# in the submenu instead: helpPL.tcl translates its labels ("Trening",
+# "Przeglad partii"), so a literal "<menu>Review Game</menu>" search would miss
+# it. Returns -1 when the submenu cannot be located.
+proc trainingBullets {text} {
+    foreach hdr {Training Trening} {
+        set i [string first "<menu>$hdr</menu>" $text]
+        if {$i < 0} { continue }
+        set ul [string first "<ul>" $text $i]
+        if {$ul < 0} { return -1 }
+        set close [string first "</ul>" $text [expr {$ul + 4}]]
+        if {$close < 0} { return -1 }
+        return [regexp -all "<menu>" [string range $text [expr {$ul + 4}] $close]]
+    }
+    return -1
+}
+
 # The controls the engine window now has, and the keys their help pages are
 # named after: the label the button shows is the key, which is what the old
 # GameComment page did too. ToolsWhatThreat is the engine window's third review
@@ -99,6 +118,23 @@ foreach spec $HELP_FILES {
     check "$label: no page links to GameComment" \
         [expr {[string first "<a GameComment>" $all] < 0}] \
         "a link whose page is gone draws nothing"
+
+    # The two trainers #437 §3a retired: Review game and the Calvar (Stoyko)
+    # exercise. Their pages are gone with their menu entries, and nothing may
+    # link to them any more.
+    check "$label: no CalVar page" [expr {![hasPage $h ${prefix}CalVar]}]
+    check "$label: no page links to CalVar" \
+        [expr {[string first "<a CalVar>" $all] < 0}] \
+        "a link whose page is gone draws nothing"
+    check "$label: no ReviewGame page" [expr {![hasPage $h ${prefix}ReviewGame]}]
+    check "$label: no page links to ReviewGame" \
+        [expr {[string first "<a ReviewGame>" $all] < 0}]
+    check "$label: no Review game menu bullet" \
+        [expr {[string first "<menu>Review Game</menu>" $all] < 0}]
+    set idx [expr {[hasPage $h ${prefix}Index] ? [pageText $h ${prefix}Index] : ""}]
+    check "$label: still documents the Tactics trainer" \
+        [expr {[hasPage $h ${prefix}TacticsTrainer] && \
+            [string first "<a TacticsTrainer>" $idx] >= 0}]
 
     # And the three it has must be, each a page with a title and a heading.
     foreach page $BUTTON_PAGES {
@@ -208,6 +244,21 @@ foreach path [lsort [glob [file join $root tcl help help*.tcl]]] {
     check "$label: Analysis is a retirement page" \
         [expr {$analysisPage ne "" && \
             [string first "<a Engine>" $analysisPage] >= 0}]
+    # #437 §3a: the two retired trainers must have left no page behind in any
+    # language, and no link to one.
+    set retired {}
+    foreach k [$h eval {array names helpText}] {
+        set leaf [lindex [split $k ,] end]
+        if {$leaf in {CalVar ReviewGame}} { lappend retired $k }
+    }
+    checkEq "$label: no CalVar or ReviewGame page" $retired {}
+    check "$label: no page links to CalVar" \
+        [expr {[string first "<a CalVar>" $all] < 0}]
+    check "$label: no page links to ReviewGame" \
+        [expr {[string first "<a ReviewGame>" $all] < 0}]
+    set trBullets [trainingBullets $all]
+    check "$label: Training submenu keeps only Openings and Tactics" \
+        [expr {$trBullets == 2}] "found $trBullets bullets"
     interp delete $h
 }
 

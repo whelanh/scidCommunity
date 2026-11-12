@@ -186,9 +186,7 @@ menuText M ToolsTracker "棋子追踪器"  6 {打开棋子追踪器窗口}
 menuText M ToolsTraining "训练"  0 {训练工具（战术、开局等）}
 menuText M ToolsPlayVsEngine "游戏与引擎"  0 {与国际象棋引擎玩游戏}
 menuText M ToolsTrainOpenings "开局"  0 {使用开局谱训练}
-menuText M ToolsTrainReviewGame "复盘"  0 {猜测对局中的着法}
 menuText M ToolsTrainTactics "战术"  0 {解决战术问题}
-menuText M ToolsTrainCalvar "变化计算"  0 {变化计算训练}
 menuText M ToolsTrainFindBestMove "寻找最佳着法"  0 {寻找最佳着法}
 menuText M ToolsTrainFics "在FICS上对弈"  0 {在freechess.org上对弈}
 menuText M ToolsEngineTournament "引擎锦标赛"  0 {在国际象棋引擎之间开始锦标赛}
@@ -1847,8 +1845,6 @@ translate M AddScoreToShortAnnotations {为注释添加分数}
 translate M AddScoreToAllMoves {为所有动作添加分数}
 translate M Export {出口}
 translate M BookPartiallyLoaded {书已部分加载}
-translate M Calvar {变化的计算}
-translate M ConfigureCalvar {配置}
 # Opening names used in tacgame.tcl
 translate M Reti {雷蒂}
 translate M English {英语}
@@ -1954,24 +1950,6 @@ translate M FICSTextColor {文字颜色}
 
 # Game review
 translate M GameReview {游戏回顾}
-translate M GameReviewTimeExtended {时间延长}
-translate M GameReviewMargin {误差范围}
-translate M GameReviewAutoContinue {移动正确时自动继续}
-translate M GameReviewReCalculate {使用延长时间}
-translate M GameReviewAnalyzingMovePlayedDuringTheGame {分析比赛过程中的动作}
-translate M GameReviewAnalyzingThePosition {分析位置}
-translate M GameReviewEnterYourMove {输入你的动作}
-translate M GameReviewCheckingYourMove {检查你的动作}
-translate M GameReviewYourMoveWasAnalyzed {你的举动已被分析}
-translate M GameReviewYouPlayedSameMove {你采取了与比赛中相同的动作}
-translate M GameReviewScoreOfYourMove {你的动作得分}
-translate M GameReviewGameMoveScore {游戏动作得分}
-translate M GameReviewEngineScore {引擎得分}
-translate M GameReviewYouPlayedLikeTheEngine {你的表现和引擎一样好}
-translate M GameReviewNotEngineMoveButGoodMove {不是引擎动，但也是一个好动}
-translate M GameReviewMoveNotGood {这招不好，得分}
-translate M GameReviewMovesPlayedLike {动作就像}
-translate M GameReviewMovesPlayedEngine {动作就像引擎一样}
 
 # Correspondence Chess Dialogs:
 translate M CCDlgCGeneraloptions {一般选项}
@@ -1999,7 +1977,6 @@ translate M IERotate  {旋转}
 translate M IEUnableToStart {无法启动输入引擎：}
 
 # Calculation of Variations
-translate M DoneWithPosition {完成位置}
 
 translate M Board {木板}
 translate M showGameInfo {显示游戏信息}
@@ -2081,7 +2058,6 @@ translate M BatchAnnotate {批量注释}
 translate M BatchEngineSelection {发动机选型}
 translate M BatchChessEngine {国际象棋引擎：}
 translate M BatchNumberOfInstances {实例数量：}
-translate M BatchGameReview {游戏评论}
 translate M BatchTimePerMove {每次移动时间（秒）：}
 translate M BatchAnnotateBlunders {仅注释错误}
 translate M BatchBlunderThreshold {错误阈值：}

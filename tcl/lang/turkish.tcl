@@ -210,9 +210,7 @@ menuText T ToolsTracker "Parça Takipçisi"  6 {Parça Takipçisi penceresini a�
 menuText T ToolsTraining "Eğitim"  0 {Antrenman araçları (taktikler, açılışlar,...)}
 menuText T ToolsPlayVsEngine "Motora Karşı Oyna"  0 {Satranç motoruna karşı oyun oyna}
 menuText T ToolsTrainOpenings "Açılışlar"  0 {Bir repertuarla antrenman yapın}
-menuText T ToolsTrainReviewGame "Oyunu incele"  0 {Bir oyunda oynanan hamleleri tahmin edin}
 menuText T ToolsTrainTactics "Taktikler"  0 {Taktikleri çöz}
-menuText T ToolsTrainCalvar "Varyasyonların hesaplanması"  0 {Varyasyonların hesaplanması eğitimi}
 menuText T ToolsTrainFindBestMove "En iyi hamleyi bul"  0 {En iyi hamleyi bul}
 menuText T ToolsTrainFics "FICS'te oyna"  0 {freechess.org'da oynayın}
 menuText T ToolsEngineTournament "Motor turnuvası"  0 {Satranç motorları arasında bir turnuva başlatın}
@@ -1874,8 +1872,6 @@ translate T AddScoreToShortAnnotations {Ek açıklamalara puan ekleyin}
 translate T AddScoreToAllMoves {Tüm hamlelere puan ekle}
 translate T Export {İhracat}
 translate T BookPartiallyLoaded {Kitap kısmen yüklendi}
-translate T Calvar {Varyasyonların hesaplanması}
-translate T ConfigureCalvar {Yapılandırma}
 # Opening names used in tacgame.tcl
 translate T Reti {Reti}
 translate T English {İngilizce}
@@ -1981,24 +1977,6 @@ translate T FICSTextColor {Metin rengi}
 
 # Game review
 translate T GameReview {Oyun incelemesi}
-translate T GameReviewTimeExtended {Süre uzatıldı}
-translate T GameReviewMargin {Hata marjı}
-translate T GameReviewAutoContinue {Hareket doğru olduğunda otomatik devam et}
-translate T GameReviewReCalculate {Uzatılmış süre kullan}
-translate T GameReviewAnalyzingMovePlayedDuringTheGame {Oyun sırasında oynanan hamleyi analiz etmek}
-translate T GameReviewAnalyzingThePosition {Konumu analiz etmek}
-translate T GameReviewEnterYourMove {Hareketinizi girin}
-translate T GameReviewCheckingYourMove {Hareketiniz kontrol ediliyor}
-translate T GameReviewYourMoveWasAnalyzed {Hareketiniz analiz edildi}
-translate T GameReviewYouPlayedSameMove {Maçtaki hamlenin aynısını oynadınız}
-translate T GameReviewScoreOfYourMove {Hareketinizin puanı}
-translate T GameReviewGameMoveScore {Oyun hamlesinin puanı}
-translate T GameReviewEngineScore {Motorun puanı}
-translate T GameReviewYouPlayedLikeTheEngine {Motor kadar iyi oynadın}
-translate T GameReviewNotEngineMoveButGoodMove {Motor hareketi değil ama aynı zamanda iyi bir hareket}
-translate T GameReviewMoveNotGood {Bu hamle iyi değil, skor}
-translate T GameReviewMovesPlayedLike {Gibi oynanan hamleler}
-translate T GameReviewMovesPlayedEngine {Motor gibi oynanan hareketler}
 
 # Correspondence Chess Dialogs:
 translate T CCDlgCGeneraloptions {Genel Seçenekler}
@@ -2026,7 +2004,6 @@ translate T IERotate  {Döndür}
 translate T IEUnableToStart {Giriş Motoru başlatılamıyor:}
 
 # Calculation of Variations
-translate T DoneWithPosition {Pozisyonla işim bitti}
 
 translate T Board {Pano}
 translate T showGameInfo {Oyun bilgilerini göster}
@@ -2108,7 +2085,6 @@ translate T BatchAnnotate {Toplu Açıklama Ekleme}
 translate T BatchEngineSelection {Motor Seçimi}
 translate T BatchChessEngine {Satranç Motoru:}
 translate T BatchNumberOfInstances {Örnek Sayısı:}
-translate T BatchGameReview {Oyun İncelemesi}
 translate T BatchTimePerMove {Hareket başına süre (sn):}
 translate T BatchAnnotateBlunders {Yalnızca hatalara açıklama ekleyin}
 translate T BatchBlunderThreshold {Hata eşiği:}

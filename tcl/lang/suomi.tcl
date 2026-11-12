@@ -245,9 +245,7 @@ menuText U ToolsTracker "Nappuloiden liikkuminen"  0 {Avaa ikkuna, jossa seuraat
 menuText U ToolsTraining "Valmennus"  2 {Työkaluja valmennukseen (taktiikka, avaukset...) }
 menuText U ToolsPlayVsEngine "Pelaa versus Engine"  0 {Pelaa peliä shakkimoottoria vastaan}
 menuText U ToolsTrainOpenings "Avaukset"  5 {Harjoittele repertuaariasi}
-menuText U ToolsTrainReviewGame "Arvaa siirto"  11 {Arvaa pelin seuraava siirto}
 menuText U ToolsTrainTactics "Taktiikkaharjoitukset"  9 {Ratko taktiikoita}
-menuText U ToolsTrainCalvar "Muunnelmien laskeminen"  0 {Harjoittele muunnelmien laskemista}
 menuText U ToolsTrainFindBestMove "Etsi paras siirto"  5 {Etsi aseman paras siirto}
 menuText U ToolsTrainFics "FICS"  0 {Pelaa palvelimella freechess.org}
 menuText U ToolsEngineTournament "Shakkimoottoriturnaus"  0 {Turnaus shakkimoottorien kesken}
@@ -1923,8 +1921,6 @@ translate U AddScoreToShortAnnotations {Lisää tulos annotaatioihin}
 translate U AddScoreToAllMoves {Lisää pisteet kaikkiin liikkeisiin}
 translate U Export {Vie}
 translate U BookPartiallyLoaded {Kirja osittain ladattu}
-translate U Calvar {Muunnelmien laskenta}
-translate U ConfigureCalvar {Asetukset}
 # Opening names used in tacgame.tcl
 translate U Reti {Reti}
 translate U English {English}
@@ -2030,24 +2026,6 @@ translate U FICSTextColor {Tekstin väri}
 
 # Game review
 translate U GameReview {Pelin arvioiminen}
-translate U GameReviewTimeExtended {Lisäaika}
-translate U GameReviewMargin {Virhemarginaali}
-translate U GameReviewAutoContinue {Jatka automaattisesti, kun siirto on oikein}
-translate U GameReviewReCalculate {Käytä lisäaikaa}
-translate U GameReviewAnalyzingMovePlayedDuringTheGame {Analysoidaan pelattua siirtoa}
-translate U GameReviewAnalyzingThePosition {Analysoidaan asemaa}
-translate U GameReviewEnterYourMove {Syötä siirtosi}
-translate U GameReviewCheckingYourMove {Tarkistetaan siirtoa}
-translate U GameReviewYourMoveWasAnalyzed {Siirtosi on analysoitu}
-translate U GameReviewYouPlayedSameMove {Pelasit saman siirron kuin pelissä}
-translate U GameReviewScoreOfYourMove {Siirtosi arvo}
-translate U GameReviewGameMoveScore {Pelisiirron arvo}
-translate U GameReviewEngineScore {Moottorin arvo}
-translate U GameReviewYouPlayedLikeTheEngine {Pelasit yhtä hyvin kuin moottori}
-translate U GameReviewNotEngineMoveButGoodMove {Eri siirto kuin moottorilla, mutta silti hyvä}
-translate U GameReviewMoveNotGood {Tämä ei ole hyvä siirto, arvio: }
-translate U GameReviewMovesPlayedLike {Siirrot kuin}
-translate U GameReviewMovesPlayedEngine {Siirrot kuin moottorilla}
 
 # Correspondence Chess Dialogs:
 translate U CCDlgCGeneraloptions {Yleiset}
@@ -2075,7 +2053,6 @@ translate U IERotate  {Käännä}
 translate U IEUnableToStart {Input Engine ei voi käynnistyä:}
 
 # Calculation of Variations
-translate U DoneWithPosition {Asema valmis}
 
 translate U Board {Lauta}
 translate U showGameInfo {Näytä pelin tiedot}
@@ -2157,7 +2134,6 @@ translate U BatchAnnotate {Erämerkintä}
 translate U BatchEngineSelection {Moottorin valinta}
 translate U BatchChessEngine {Shakkimoottori:}
 translate U BatchNumberOfInstances {Tapausten määrä:}
-translate U BatchGameReview {Pelin arvostelu}
 translate U BatchTimePerMove {Aika per liike (s):}
 translate U BatchAnnotateBlunders {Merkitse vain virheitä}
 translate U BatchBlunderThreshold {Virheen kynnys:}

@@ -28,7 +28,6 @@ set helpText(k,Contents) {<h1>scid커뮤니티 도움말 목차</h1>
   <li><a Engine><b>분석</b> 창문</a></li>
   <li><a Engine><b>엔진</b> 창문들</a></li>
   <li><a Book><b>책</b> 창문</a></li>
-  <li><a CalVar><b>변형 계산</b> 창문</a></li>
   <li><a Comment><b>댓글 편집기</b> 창문</a></li>
   <li><a Crosstable><b>크로스테이블</b> 창문</a></li>
   <li><a Switcher><b>데이터베이스 전환기</b> 창문</a></li>
@@ -754,8 +753,6 @@ set helpText(k,Menus) {<h1>scidCommunity menus</h1>
   <ul>
   <li><menu>Openings Training</menu>: Configures <a OpeningTrainer>openings training</a>.</li>
   <li><menu>Tactics Training</menu>: Configures <a TacticsTrainer>tactics training</a>.</li>
-  <li><menu>Review Game</menu>: Starts game review mode.</li>
-  <li><menu>Calvar Training</menu>: Configures <a CalVar>calculation of variations</a> training.</li>
   </ul>
   </ul>
   
@@ -3293,48 +3290,6 @@ set helpText(k,Engine) {<h1>The Engine windows</h1>
 }
 
 
-set helpTitle(k,CalVar) "Calculation of variation"
-set helpText(k,CalVar) {<h1>The calculation of variation window</h1>
-  <p>
-   This training exercise is also known as the Stoyko exercise.  그
-   purpose is to analyse a complex position and evaluate as many sound
-   lines as possible, and give a correct evaluation for each of them.
-  </p> 
-  <h3>Configuration</h3></p>
-  <p>
-  Three parameters are set :
-  <ul>
-     <li>The UCI engine that will analyse various lines</li>
-     <li>The time, in seconds, the engine will use to analyse the position</li>
-     <li>The time, in seconds, the engine will use to analyse each line entered by the user</li>
-  </ul>
-  </p>
-
-  <h3>Entering lines</h3></p>
-  <p>
-  Moves are entered as usual with mouse clicks on the board but they
-  will not be displayed. At the end of a line the user needs to provide
-  an evaluation by clicking on one of the buttons with NAG codes.
-  </p>
-
-  <h3>Evaluation verification</h3>
-  <p>
-  Each time an evaluation is given to a line the engine calculates its
-  value and append the line and score just below the user ones.
-  </p>
-
-  <h3>Done with position</h3>
-  <p>
-   When  the user thinks he found all best lines, pressing <term>Done with
-   position</term> will append to the game (with the comment <term>Missed
-   line</term>), the lines that have a score higher than the best line
-   entered by the user.
-  </p>
-
-  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
-}
-
-
 set helpTitle(k,EPD) "EPD 파일"
 set helpText(k,EPD) {<h1>EPD files</h1>
   <p>
@@ -5392,49 +5347,6 @@ set helpText(k,InputEngine) {<h1>입력 엔진 드라이버 콘솔</h1>
    </p>
 
 
-  <p><footer>(업데이트됨: scidCommunity, 2026년 4월)</footer></p>
-
-}
-
-
-set helpTitle(k,ReviewGame) "게임 리뷰"
-set helpText(k,ReviewGame) {<h1>게임 리뷰</h1>
-   <p>
-	이 기능은 게임을 연구하기 위해 설계되었습니다.
-	경기 중에 진행된 동작을 추측해 보세요. 그래서 먼저
-	scidCommunity 기반의 게임을 실행하고 다음 명령으로 이 기능을 입력하세요.
-	<b>리뷰 게임</b> 에서 <b>놀다</b> 메뉴.  평소처럼 놀러가면
-	Black의 경우 보드를 먼저 뒤집으세요(항상 맨 아래부터 플레이하세요).
-	보드).
-   </p>
-	<p>
-	효과적인 훈련을 위해서는 다음 설정이 필요합니다.
-	비활성화됨:
-	<ul>
-		<li>마지막 이동 표시(옵션 / 이동 / 마지막 이동 강조 표시)</li>
-		<li>다음 수 표시(옵션 / 게임 정보 / 다음 수 숨기기)</li>
-		<li>PGN 창</li>
-	</p>
-프로세스는 다음과 같습니다.
-<ul>
-<li>- 엔진은 게임 중 진행되는 움직임에 대해 숙고합니다.</li>
-<li>- 엔진은 위치를 숙고하고 최적의 움직임을 찾습니다.</li>
-<li>- 사용자는 자신의 움직임을 입력할 수 있습니다</li>
-<li>- 엔진은 사용자가 플레이하는 움직임을 고려합니다.</li>
-</ul>
-사용자가 플레이한 동작이 실제로 플레이된 동작인 경우
-게임 중 또는 엔진이 선택한 동작 또는 점수가 지정된 동작 중
-엔진이 찾은 최상의 움직임에 가깝습니다(마진 오류 사용).
-사용자가 정의한 경우) 이동은 좋은 것으로 간주됩니다. 만약에
-사용자는 자신이 사용할 수 있는 엔진에 동의하지 않습니다. <b>연장된 시간</b>
-버튼을 클릭하면 엔진 분석을 확인할 수 있습니다.
-<p>
-<b>참고:</b> 
-<ul>
-<li>- 게임 리뷰 전 편을 선택해야 합니다. </li>
-<li>- 사용자는 항상 보드의 맨 아래부터 플레이합니다.</li>
-</ul>
-</p>
   <p><footer>(업데이트됨: scidCommunity, 2026년 4월)</footer></p>
 
 }

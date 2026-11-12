@@ -247,9 +247,7 @@ menuText L ToolsTracker "Piece Tracker"  6 {Deschideți fereastra Piece Tracker}
 menuText L ToolsTraining "Antrenamentul"  0 {Instrumente de antrenament (tactici, deschideri,...)}
 menuText L ToolsPlayVsEngine "Joacă împotriva motorului"  0 {Joacă un joc împotriva unui motor de șah}
 menuText L ToolsTrainOpenings "Deschideri"  0 {Antrenează-te cu un repertoriu}
-menuText L ToolsTrainReviewGame "Joc de recenzie"  0 {Ghiciți mișcările jucate într-un joc}
 menuText L ToolsTrainTactics "Tactici"  0 {Rezolvați tactici}
-menuText L ToolsTrainCalvar "Calculul variațiilor"  0 {Calculul variațiilor antrenamentului}
 menuText L ToolsTrainFindBestMove "Găsiți cea mai bună mișcare"  0 {Găsiți cea mai bună mișcare}
 menuText L ToolsTrainFics "Joacă pe FICS"  0 {Joacă pe freechess.org}
 menuText L ToolsEngineTournament "Turneu de motoare"  0 {Începeți un turneu între motoarele de șah}
@@ -1911,8 +1909,6 @@ translate L AddScoreToShortAnnotations {Adăugați scor la adnotări}
 translate L AddScoreToAllMoves {Adaugă scor la toate mișcările}
 translate L Export {Export}
 translate L BookPartiallyLoaded {Cartea încărcată parțial}
-translate L Calvar {Calculul variațiilor}
-translate L ConfigureCalvar {Configurare}
 # Opening names used in tacgame.tcl
 translate L Reti {Reti}
 translate L English {engleză}
@@ -2018,24 +2014,6 @@ translate L FICSTextColor {Culoarea textului}
 
 # Game review
 translate L GameReview {Revizuirea jocului}
-translate L GameReviewTimeExtended {Timp prelungit}
-translate L GameReviewMargin {Marja de eroare}
-translate L GameReviewAutoContinue {Continuare automată când mutarea este corectă}
-translate L GameReviewReCalculate {Utilizați timp prelungit}
-translate L GameReviewAnalyzingMovePlayedDuringTheGame {Analizând mișcarea jucată în timpul jocului}
-translate L GameReviewAnalyzingThePosition {Analizând poziţia}
-translate L GameReviewEnterYourMove {Introduceți mutarea dvs}
-translate L GameReviewCheckingYourMove {Îți verific mișcarea}
-translate L GameReviewYourMoveWasAnalyzed {Mișcarea ta a fost analizată}
-translate L GameReviewYouPlayedSameMove {Ai jucat aceeași mișcare ca în meci}
-translate L GameReviewScoreOfYourMove {Scorul mișcării tale}
-translate L GameReviewGameMoveScore {Scorul mutării jocului}
-translate L GameReviewEngineScore {Scorul motorului}
-translate L GameReviewYouPlayedLikeTheEngine {Ai jucat la fel de bine ca al motorului}
-translate L GameReviewNotEngineMoveButGoodMove {Nu mișcarea motorului, dar este și o mișcare bună}
-translate L GameReviewMoveNotGood {Această mișcare nu este bună, scorul este}
-translate L GameReviewMovesPlayedLike {Mișcările jucate ca}
-translate L GameReviewMovesPlayedEngine {Mișcările jucate ca un motor}
 
 # Correspondence Chess Dialogs:
 translate L CCDlgCGeneraloptions {Opțiuni generale}
@@ -2063,7 +2041,6 @@ translate L IERotate  {Roti}
 translate L IEUnableToStart {Imposibil de pornit Input Engine:}
 
 # Calculation of Variations
-translate L DoneWithPosition {Gata cu pozitia}
 
 translate L Board {Bord}
 translate L showGameInfo {Afișează informații despre joc}
@@ -2145,7 +2122,6 @@ translate L BatchAnnotate {Adnotare lot}
 translate L BatchEngineSelection {Selectarea motorului}
 translate L BatchChessEngine {Motor de șah:}
 translate L BatchNumberOfInstances {Număr de instanțe:}
-translate L BatchGameReview {Recenzia jocului}
 translate L BatchTimePerMove {Timp pe mișcare (sec):}
 translate L BatchAnnotateBlunders {Adnotați numai gafele}
 translate L BatchBlunderThreshold {Pragul de gafă:}
