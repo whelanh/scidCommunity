@@ -29,10 +29,10 @@ source [file join $root tcl tools epd_analysis.tcl]
 
 # A tclsh has no board; coordToSAN is the one C command the result record uses.
 array set ::SAN {
-    a1a8 Ra8#
-    e7e5 e5
-    d7d5 d5
-    g1f3 Nf3
+    a1a8 {1.Ra8#}
+    e7e5 {1...e5}
+    d7d5 {2.d5}
+    g1f3 {2.Nf3}
 }
 proc sc_pos {sub args} {
     if {$sub eq "coordToSAN"} {
@@ -108,6 +108,8 @@ namespace eval uci {}
 proc ::uci::formatPv {pv fen} { return "1...e5 2.d5" }
 checkEq "the PV stays plain SAN, not the numbered display line" \
     [::epdanalysis::pvSAN $fen {e7e5 d7d5}] {e5 d5}
+checkEq "a single move loses its scoresheet number" \
+    [::epdanalysis::sanMove $fen d7d5] d5
 checkEq "the depth" [dict get $::result depth] 20
 checkEq "the nodes" [dict get $::result nodes] 1000
 checkEq "the score from the side to move" [dict get $::result score_stm] 0.3
