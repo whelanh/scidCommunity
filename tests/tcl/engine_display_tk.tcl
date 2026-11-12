@@ -46,6 +46,10 @@ font create font_Regular -family Helvetica -size 10
 
 set ::scidTclDir [file join $root tcl]
 source [file join $root tcl windows engine.tcl]
+source [file join $root tcl tools accuracy.tcl]
+source [file join $root tcl tools epd_analysis.tcl]
+proc sc_info {args} { return 4 }
+source [file join $root tcl file epd.tcl]
 
 # The best-move block also drives the arrows; not under test here.
 proc ::enginewin::stateLocked {id} { return 1 }
@@ -187,6 +191,29 @@ check "the block state is gone" \
 feed 1 30  50 {e2e4}
 checkEq "one line, no rule" [lineCount] 1
 check "the line is the new search" [string match "30/20*+0.50*" [lineText 1]] [lineText 1]
+
+puts "\nthe EPD paste takes the newest block's PV"
+
+# Paste analysis writes bm/ce/dm and pv as one line, so the PV must come from
+# the same (newest) block the score and best move came from.
+::enginewin::updateDisplay 1 ""
+feed 1 20  10 {d2d4 d7d5}
+feed 2 20   5 {c2c4 e7e5}
+feed 1 21  20 {e2e4 e7e5}
+feed 2 21  15 {g1f3 g8f6}
+proc sc_pos {sub args} {
+    if {$sub eq "fen"} { return "8/8/8/8/8/8/8/K6k w - - 0 1" }
+    if {$sub eq "coordToSAN"} { return e4 }
+    return ""
+}
+set ::enginewin::pvBestMove(1,1) e2e4
+set ::enginewin::scorePV1(1) "+0.50"
+set opcodes [::epd::buildEngineOpcodes]
+check "the best move is the newest move" [string match "*bm e4*" $opcodes] $opcodes
+check "the pv is the newest block's line" \
+    [string match "*pv e2e4 e7e5*" $opcodes] $opcodes
+check "not the oldest block's line" \
+    [expr {[string first "pv d2d4" $opcodes] < 0}] $opcodes
 
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]
