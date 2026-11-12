@@ -1702,7 +1702,7 @@ translate E OptionsTagOrderStr {Seven Tag Roster (fixed): Event, Site, Date, Rou
 translate E OptionsTagOrderWhite {White rating}
 translate E OptionsTagOrderBlack {Black rating}
 translate E OptionsTagOrderOthers {Other tags}
-translate E OptionsTagOrderSort {Sort other tags alphabetically}
+translate E OptionsTagOrderSort {Sort other tags alphabetically (otherwise original order)}
 translate E Up {Up}
 translate E Down {Down}
 
