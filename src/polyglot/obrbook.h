@@ -31,8 +31,17 @@ struct obr_move_t {
 	obr_stats_t child;      // stats of the resulting position (absolute colours)
 };
 
-// Returns true if the file starts with the OBR magic and was opened.
-bool obr_open(const char file_name[], const int BookNumber);
+// Return value of obr_open. A distinct "rejected" state lets the caller fail
+// the load for a file that claims to be OBR but is corrupt, rather than
+// mis-reading it as a writable Polyglot book.
+enum obr_open_result {
+	OBR_NOT_OBR = 0,   // not an OpenBook Rich file (e.g. a Polyglot .bin)
+	OBR_OPENED = 1,    // opened successfully (read-only)
+	OBR_REJECTED = -1, // OBR magic but invalid header or table layout
+};
+
+// Opens the file if it is a valid .obr book. Returns one of obr_open_result.
+int obr_open(const char file_name[], const int BookNumber);
 void obr_close(const int BookNumber);
 bool obr_is_open(const int BookNumber);
 

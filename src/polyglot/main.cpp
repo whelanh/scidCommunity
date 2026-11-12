@@ -68,9 +68,15 @@ int polyglot_open(const char * BookFile, const int BookNumber) {
    // opening book
   book_clear(BookNumber);
   obr_close(BookNumber);
-  // OpenBook Rich files are detected by their magic number (read-only).
-  if (obr_open(BookFile, BookNumber)) {
+  // OpenBook Rich files are detected by their magic number (read-only). A file
+  // that claims to be OBR but is corrupt must fail the load, not fall through
+  // to the writable Polyglot reader.
+  const int obr = obr_open(BookFile, BookNumber);
+  if (obr == OBR_OPENED) {
     return 1;
+  }
+  if (obr == OBR_REJECTED) {
+    return -1;
   }
   res = scid_book_open(BookFile, BookNumber);
 

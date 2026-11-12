@@ -117,7 +117,7 @@ protected:
 			std::ofstream out(path_, std::ios::binary);
 			out << bytes;
 		}
-		return obr_open(path_.string().c_str(), SLOT);
+		return obr_open(path_.string().c_str(), SLOT) == OBR_OPENED;
 	}
 	static board_t board(uint64_t key) {
 		board_t b{};
@@ -207,6 +207,32 @@ TEST_F(Test_ObrBook, RejectsInvalidFiles) {
 	EXPECT_FALSE(obr_is_open(SLOT));
 
 	EXPECT_FALSE(open(std::string(16, '\0'))) << "Polyglot-sized entry";
+}
+
+TEST_F(Test_ObrBook, DistinguishesRejectedFromNotObr) {
+	auto write = [&](const std::string& bytes) {
+		std::ofstream out(path_, std::ios::binary);
+		out << bytes;
+	};
+
+	// A valid book opens.
+	write(sample_book());
+	EXPECT_EQ(OBR_OPENED, obr_open(path_.string().c_str(), SLOT));
+	EXPECT_TRUE(obr_is_open(SLOT));
+	obr_close(SLOT);
+
+	// OBR magic but a corrupt layout: rejected, not "not OBR", so the caller
+	// must not hand it to the writable Polyglot reader.
+	std::string corrupt = sample_book();
+	corrupt[8] = 0xFF; // n_positions is now huge: the tables do not fit
+	write(corrupt);
+	EXPECT_EQ(OBR_REJECTED, obr_open(path_.string().c_str(), SLOT));
+	EXPECT_FALSE(obr_is_open(SLOT));
+
+	// No OBR magic: reported as not an OBR book.
+	write(std::string(16, '\0'));
+	EXPECT_EQ(OBR_NOT_OBR, obr_open(path_.string().c_str(), SLOT));
+	EXPECT_FALSE(obr_is_open(SLOT));
 }
 
 TEST_F(Test_ObrBook, CloseReleasesSlot) {

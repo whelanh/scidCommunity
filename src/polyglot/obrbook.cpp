@@ -157,17 +157,23 @@ int transform_move(int mv, int t) {
 
 } // namespace
 
-bool obr_open(const char file_name[], const int BookNumber) {
+int obr_open(const char file_name[], const int BookNumber) {
 	obr_close(BookNumber);
 	FILE* f = open_utf8(file_name);
 	if (!f)
-		return false;
+		return OBR_NOT_OBR;
 	unsigned char h[64];
-	if (fread(h, 1, 64, f) != 64 || memcmp(h, "OBR1", 4) != 0 ||
-	    le(h + 4, 2) != 1 || le(h + 20, 2) != POS_SIZE ||
+	// Too short for a header, or not the OBR magic: not an OBR book, so the
+	// caller may fall back to the Polyglot reader.
+	if (fread(h, 1, 64, f) != 64 || memcmp(h, "OBR1", 4) != 0) {
+		fclose(f);
+		return OBR_NOT_OBR;
+	}
+	// It claims to be OBR, so any failure from here on is a rejected OBR file.
+	if (le(h + 4, 2) != 1 || le(h + 20, 2) != POS_SIZE ||
 	    le(h + 22, 2) != MOVE_SIZE) {
 		fclose(f);
-		return false;
+		return OBR_REJECTED;
 	}
 	obr_file_t o;
 	o.f = f;
@@ -191,10 +197,10 @@ bool obr_open(const char file_name[], const int BookNumber) {
 	    !fits(o.alias_off, o.n_alias, ALIAS_SIZE) ||
 	    o.move_off < pos_end || o.alias_off < move_end) {
 		fclose(f);
-		return false;
+		return OBR_REJECTED;
 	}
 	Obr[BookNumber] = o;
-	return true;
+	return OBR_OPENED;
 }
 
 void obr_close(const int BookNumber) {
@@ -228,7 +234,12 @@ bool obr_probe(const board_t* board, const int BookNumber, obr_stats_t& pos,
 	if (!read_pos(o, idx, key, pos, first, count))
 		return false;
 	apply_transform(pos, transform);
-	for (uint32_t k = first; k < first + count && k < o.n_moves; ++k) {
+	// Reject a move range that runs past the move table; a corrupt position
+	// could otherwise report success with no moves read. uint64_t avoids the
+	// wrap at the uint32_t boundary.
+	if (uint64_t(first) + count > o.n_moves)
+		return false;
+	for (uint32_t k = first; k < first + count; ++k) {
 		unsigned char b[MOVE_SIZE];
 		if (!read_at(o, o.move_off + uint64_t(k) * MOVE_SIZE, b, MOVE_SIZE))
 			break;
