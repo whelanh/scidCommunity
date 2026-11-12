@@ -21,19 +21,40 @@ namespace eval ::epdanalysis {
     variable job {}
 }
 
+# sc_pos coordToSAN writes the scoresheet's numbering with each move
+# ("1...e5", "2.d5"). EPD's pv opcode and the report's move columns want the
+# bare move, so strip the number from each token. The same rule is in
+# ::facts::sanLine; keep this module self-contained for its tclsh harness.
+proc ::epdanalysis::bareMoves {moves} {
+    set out {}
+    foreach token $moves {
+        regsub {^[0-9]+\.+} $token "" token
+        lappend out $token
+    }
+    return $out
+}
+
 # A UCI move list as SAN, through the UCI formatter the rest of the tree keeps.
 # The formatter needs the game's push/pop, so a headless test with no board gets
 # the engine's coordinates instead of an empty line.
 proc ::epdanalysis::pvSAN {fen pv} {
-    if {[llength [info commands ::uci::formatPv]]} {
-        set out ""
-        catch { set out [::uci::formatPv $pv $fen] }
-        if {$out ne ""} { return $out }
-    }
+    # EPD and the report want plain SAN. coordToSAN is the board's own
+    # conversion and is preferred over the display formatter; both number a
+    # Black move ("1...e5"), so bareMoves strips the scoresheet number from each
+    # token before it can reach best_san or the pv opcode.
     if {[llength [info commands sc_pos]]} {
         set out ""
         catch { set out [sc_pos coordToSAN $fen $pv] }
-        return [join $out " "]
+        if {[llength $out]} {
+            return [join [::epdanalysis::bareMoves $out] " "]
+        }
+    }
+    if {[llength [info commands ::uci::formatPv]]} {
+        set out ""
+        catch { set out [::uci::formatPv $pv $fen] }
+        if {$out ne ""} {
+            return [join [::epdanalysis::bareMoves [split $out]] " "]
+        }
     }
     return [join $pv " "]
 }
@@ -43,7 +64,9 @@ proc ::epdanalysis::sanMove {fen uci} {
     set out ""
     if {[llength [info commands sc_pos]]} {
         catch { set out [sc_pos coordToSAN $fen [list $uci]] }
-        if {[llength $out]} { return [lindex $out 0] }
+        if {[llength $out]} {
+            return [lindex [::epdanalysis::bareMoves $out] 0]
+        }
     }
     set pv [::epdanalysis::pvSAN $fen [list $uci]]
     return [lindex $pv 0]
@@ -85,7 +108,9 @@ proc ::epdanalysis::dataFromInfo {fen msgData} {
     if {$pv eq ""} { set pv {} }
     set pvSAN [::epdanalysis::pvSAN $fen $pv]
     set best [lindex $pv 0]
-    set bestSAN [lindex $pvSAN 0]
+    # The first move on its own, not the first word of the display line: the
+    # latter can carry a move number ("1...Qc7") that the bm/am value never has.
+    set bestSAN [::epdanalysis::sanMove $fen $best]
     dict set d pv_uci $pv
     dict set d pv_san $pvSAN
     dict set d best_uci $best
