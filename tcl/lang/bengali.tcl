@@ -1833,6 +1833,8 @@ translate b ChooseTrainingBase {প্রশিক্ষণ বেস চয়�
 translate b Thinking {ভাবছেন}
 translate b AnalyzeDone {বিশ্লেষণ সম্পন্ন}
 translate b WinWonGame {জয় জিতেছে খেলা}
+translate b TacticsEngineStartFail {কৌশল ইঞ্জিন চালু করা যায়নি: %s}
+translate b TacticsEngineGone {কৌশল ইঞ্জিন বন্ধ হয়ে গেছে: %s}
 translate b Lines {লাইন}
 translate b ConfigureUCIengine {UCI ইঞ্জিন কনফিগার করুন}
 translate b SpecificOpening {নির্দিষ্ট খোলার}

@@ -1874,6 +1874,8 @@ translate J ChooseTrainingBase {Изаберите базу за обуку}
 translate J Thinking {Размишљање}
 translate J AnalyzeDone {Анализа урађена}
 translate J WinWonGame {Победите у победи}
+translate J TacticsEngineStartFail {Није могуће покренути мотор за тактику: %s}
+translate J TacticsEngineGone {Мотор за тактику се зауставио: %s}
 translate J Lines {Линије}
 translate J ConfigureUCIengine {Конфигуришите УЦИ мотор}
 translate J SpecificOpening {Специфично отварање}

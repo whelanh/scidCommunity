@@ -1880,6 +1880,8 @@ translate N ChooseTrainingBase {Kies training base}
 translate N Thinking {Denkend}
 translate N AnalyzeDone {Analyse gedaan}
 translate N WinWonGame {Win gewonnen partij}
+translate N TacticsEngineStartFail {Kan de tactiekmotor niet starten: %s}
+translate N TacticsEngineGone {De tactiekmotor is gestopt: %s}
 translate N Lines {Varianten}
 translate N ConfigureUCIengine {Configureer UCI engine}
 translate N SpecificOpening {Specifieke opening}

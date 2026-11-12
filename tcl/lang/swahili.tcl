@@ -1833,6 +1833,8 @@ translate Z ChooseTrainingBase {Chagua msingi wa mafunzo}
 translate Z Thinking {Kufikiri}
 translate Z AnalyzeDone {Uchambuzi umefanywa}
 translate Z WinWonGame {Kushinda alishinda mchezo}
+translate Z TacticsEngineStartFail {Imeshindwa kuanzisha injini ya mbinu: %s}
+translate Z TacticsEngineGone {Injini ya mbinu imesimama: %s}
 translate Z Lines {Mistari}
 translate Z ConfigureUCIengine {Sanidi injini ya UCI}
 translate Z SpecificOpening {Ufunguzi maalum}

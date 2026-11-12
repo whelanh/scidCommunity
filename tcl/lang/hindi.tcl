@@ -1833,6 +1833,8 @@ translate h ChooseTrainingBase {प्रशिक्षण आधार चु�
 translate h Thinking {सोच}
 translate h AnalyzeDone {विश्लेषण हो गया}
 translate h WinWonGame {जीतो खेल जीतो}
+translate h TacticsEngineStartFail {रणनीति इंजन शुरू नहीं हो सका: %s}
+translate h TacticsEngineGone {रणनीति इंजन रुक गया: %s}
 translate h Lines {पंक्तियां}
 translate h ConfigureUCIengine {यूसीआई इंजन कॉन्फ़िगर करें}
 translate h SpecificOpening {विशिष्ट उद्घाटन}

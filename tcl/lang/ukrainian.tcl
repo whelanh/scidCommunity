@@ -1834,6 +1834,8 @@ translate Q ChooseTrainingBase {Виберіть тренувальну базу
 translate Q Thinking {Мислення}
 translate Q AnalyzeDone {Проаналізуйте зроблене}
 translate Q WinWonGame {Виграти виграну гру}
+translate Q TacticsEngineStartFail {Не вдалося запустити двигун тактики: %s}
+translate Q TacticsEngineGone {Двигун тактики зупинився: %s}
 translate Q Lines {Лінії}
 translate Q ConfigureUCIengine {Налаштувати механізм UCI}
 translate Q SpecificOpening {Конкретне відкриття}

@@ -1874,6 +1874,8 @@ translate g ChooseTrainingBase {Изберете база за обучение}
 translate g Thinking {Мислене}
 translate g AnalyzeDone {Анализирайте готово}
 translate g WinWonGame {Печелете спечелена игра}
+translate g TacticsEngineStartFail {Тактическият двигател не можа да се стартира: %s}
+translate g TacticsEngineGone {Тактическият двигател спря: %s}
 translate g Lines {линии}
 translate g ConfigureUCIengine {Конфигурирайте UCI двигателя}
 translate g SpecificOpening {Специфичен отвор}

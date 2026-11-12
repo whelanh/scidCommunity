@@ -1856,6 +1856,8 @@ translate H ChooseTrainingBase {Válaszd ki az edzésadatbázist.}
 translate H Thinking {Gondolkodom...}
 translate H AnalyzeDone {Az elemzés kész.}
 translate H WinWonGame {Nyert játszma megnyerése}
+translate H TacticsEngineStartFail {A taktikai motor nem indult el: %s}
+translate H TacticsEngineGone {A taktikai motor leállt: %s}
 translate H Lines {Változatok}
 translate H ConfigureUCIengine {UCI-motor beállítása}
 translate H SpecificOpening {Meghatározott megnyitás}

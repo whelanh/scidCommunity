@@ -1855,6 +1855,8 @@ translate O ChooseTrainingBase {Velg treningsgrunnlag}
 translate O Thinking {Tenker}
 translate O AnalyzeDone {Analysen er utført}
 translate O WinWonGame {Vinn vunnet spill}
+translate O TacticsEngineStartFail {Kunne ikke starte taktikkmotoren: %s}
+translate O TacticsEngineGone {Taktikkmotoren stoppet: %s}
 translate O Lines {Linjer}
 translate O ConfigureUCIengine {Konfigurer UCI-motoren}
 translate O SpecificOpening {Spesifikk åpning}

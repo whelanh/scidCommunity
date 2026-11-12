@@ -1857,6 +1857,8 @@ translate R ChooseTrainingBase {Выбор тренировочной базы}
 translate R Thinking {Размышление}
 translate R AnalyzeDone {Анализ закончен}
 translate R WinWonGame {Победа в выигрышной партии}
+translate R TacticsEngineStartFail {Не удалось запустить движок тактики: %s}
+translate R TacticsEngineGone {Движок тактики остановился: %s}
 translate R Lines {Планы}
 translate R ConfigureUCIengine {Настройка UCI движка}
 translate R SpecificOpening {Особый дебют}
