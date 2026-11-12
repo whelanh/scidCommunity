@@ -1,10 +1,10 @@
 # Commit hash from github branch
 # (the macros must be defined before Release uses shortcommit)
-%global commit 4e614c8f66f4ebdfff1e0497697f2bf2792fff73
+%global commit 16a9a534a8734e453c2a8639a1047d543e79bcaf
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           scidcommunity
-Version:        5.1.4.63
+Version:        5.1.4.64
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
@@ -68,6 +68,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Thu Nov 12, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-64
+- ".obr reader; PGN options; various fixes"
 * Thu Nov 12, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-63
 - "Game Review and epd analysis enhancements"
 * Wed Nov 11, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-62
