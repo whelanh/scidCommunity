@@ -28,6 +28,13 @@ jobs:
       - name: Startup source order
         run: tclsh tests/tcl/startup_order.tcl
 
+      # No sc_* dispatch subcommand's abbreviation may be ambiguous: the Tcl
+      # calls "sc_game tag" as an abbreviation of "tags", so a second
+      # subcommand sharing that prefix (as "tagorder" once did) breaks every
+      # such call. This fails if any Tcl abbreviation resolves to two entries.
+      - name: Subcommand abbreviations
+        run: tclsh tests/tcl/subcommand_prefix.tcl
+
       - name: Review toolbar icons
         run: tclsh tests/tcl/review_toolbar.tcl
 
