@@ -898,6 +898,13 @@ proc ::enginewin::createDisplayFrame {id display} {
     $pv_lines configure -tabs [list [expr {$tab * 2}] right [expr {int($tab * 2.2)}]]
     $pv_lines tag configure lmargin -lmargin2 [expr {$tab * 3}]
     $pv_lines tag configure markmove -underline 1
+    # A MultiPV run keeps one block per depth: the best line of each block is
+    # blue, the other lines the widget's normal colour, and a dashed rule
+    # separates the blocks. The colours are the Analysis window's (see
+    # tcl/tools/analysis.tcl), so the display reads the same now that the
+    # Engine Window replaces it.
+    $pv_lines tag configure blue -foreground DodgerBlue3
+    $pv_lines tag configure gray -foreground gray
     $pv_lines tag bind moves <ButtonRelease-1> {
         if {[%W tag ranges sel] eq ""} {
             ::enginewin::exportMoves %W @%x,%y
@@ -1053,7 +1060,7 @@ proc ::enginewin::createButtonsBar {id btn display} {
 
     set pv_lines $display.pv_lines
     ttk::button $btn.addbestmove -image ::icon::tb_eng_addbestmove -style Toolbutton \
-        -command "::enginewin::exportMoves $pv_lines 1.0"
+        -command [list ::enginewin::exportCurrentMove $pv_lines]
     ::utils::tooltip::Set $btn.addbestmove [tr AddMove]
     ttk::button $btn.addlines -image ::icon::tb_eng_addlines -style Toolbutton \
         -command [list ::enginewin::exportLines $id $pv_lines]
@@ -2068,6 +2075,93 @@ proc ::enginewin::chartCallback {id uci_pos depth seldepth ply value} {
     return "$txt\n$value\n$depth"
 }
 
+# A MultiPV run is shown the way the Analysis window showed it: one block per
+# depth, the blocks separated by a dashed rule, the best line of a block in
+# blue. The newest block is appended at the bottom and refreshed in place as
+# the engine reports its other lines for that depth; older blocks stay as the
+# history of the search.
+#
+# Obsolete blocks lose the "header" tag when a new block starts. That tag marks
+# the lines a review may export, so "Add move" and "Add all variations" keep
+# taking the newest block and nothing else (see ::enginewin::firstPvLine).
+
+# Start a block at the bottom of the widget, after the dashed rule that ends
+# the previous one. A rendered line always carries its own newline, so "end"
+# here is the empty line the new block's first line goes on. Returns its line
+# number.
+proc ::enginewin::pvNewBlock {w} {
+    if {[$w index end-1c] eq "1.0"} { return 1 }
+    $w tag remove header 1.0 end
+    $w insert end "[string repeat {-} 70]\n" gray
+    return [lindex [split [$w index "end-1 lines"] .] 0]
+}
+
+# Write the current block again, from its stored chunks. Re-rendering the whole
+# block, rather than patching one line, keeps the lines in order when the
+# engine reports multipv 2 before 1 and makes the refresh of a line exact.
+proc ::enginewin::pvRenderBlock {id w start} {
+    variable m_
+    # Delete the block but keep the newline that ends the line above it: an
+    # insert at "end" after a delete to "end" would append to that line.
+    if {[$w compare "$start.0" < end]} {
+        $w delete "$start.0" "end-1 chars"
+    }
+    foreach i [lsort -integer [dict keys $m_(pvBlock,$id)]] {
+        # The best line of each block is the blue one; the others keep the
+        # widget's normal colour.
+        set lineTags [expr {$i == 1 ? [list blue] : {}}]
+        foreach chunk [dict get $m_(pvBlock,$id) $i] {
+            lassign $chunk text tags
+            set tags [concat $tags $lineTags]
+            if {[llength $tags]} {
+                $w insert end $text $tags
+            } else {
+                $w insert end $text
+            }
+        }
+        $w insert end "\n"
+    }
+    $w see end
+}
+
+# The current block's line for `multipv`, starting a new block when the engine
+# reports a different depth.
+proc ::enginewin::pvBlockLine {id w multipv depth chunks} {
+    variable m_
+
+    if {![info exists m_(pvBlockDepth,$id)]} {
+        # The first multi-line message. The engine sends multipv 1 before 2, 3,
+        # ..., so the line already on screen is this depth's best line and
+        # becomes line 1 of the block.
+        set m_(pvBlockDepth,$id) $depth
+        if {[$w index end-1c] ne "1.0" && [info exists m_(pvLastDepth,$id)] \
+                && $m_(pvLastDepth,$id) eq $depth && [info exists m_(pvLastChunks,$id)]} {
+            set m_(pvBlockStart,$id) 1
+            set m_(pvBlock,$id) [dict create 1 $m_(pvLastChunks,$id)]
+        } else {
+            set m_(pvBlockStart,$id) [::enginewin::pvNewBlock $w]
+            set m_(pvBlock,$id) [dict create]
+        }
+    } elseif {$m_(pvBlockDepth,$id) ne $depth} {
+        set m_(pvBlockStart,$id) [::enginewin::pvNewBlock $w]
+        set m_(pvBlock,$id) [dict create]
+        set m_(pvBlockDepth,$id) $depth
+    }
+
+    dict set m_(pvBlock,$id) $multipv $chunks
+    ::enginewin::pvRenderBlock $id $w $m_(pvBlockStart,$id)
+}
+
+# The physical line holding the newest block's best line. A single-PV window
+# keeps its newest line at the top and leaves the obsolete lines below it with
+# no header tag; a MultiPV block sits at the bottom and the blocks above it have
+# also lost the tag. Either way it is the first line that still carries it.
+proc ::enginewin::firstPvLine {w} {
+    lassign [$w tag nextrange header 1.0] first
+    if {$first eq ""} { return "" }
+    return [lindex [split $first .] 0]
+}
+
 proc ::enginewin::updateDisplay {id msgData} {
     lassign $msgData multipv depth seldepth nodes nps hashfull tbhits time score score_type score_wdl pv
     if {$time eq ""} { set time 0 }
@@ -2096,6 +2190,9 @@ proc ::enginewin::updateDisplay {id msgData} {
     if {$msgData eq ""} {
         $pv_lines delete 1.0 end
         $pv_lines configure -state disabled
+        unset -nocomplain ::enginewin::m_(pvBlockDepth,$id) \
+            ::enginewin::m_(pvBlockStart,$id) ::enginewin::m_(pvBlock,$id) \
+            ::enginewin::m_(pvLastDepth,$id) ::enginewin::m_(pvLastChunks,$id)
         # Clear stored PV lines for multi-arrow display
         set ::enginewin::m_(pvlines,$id) {}
 if {[array exists ::enginewin::pvBestMove]} {
@@ -2163,26 +2260,48 @@ if {[array exists ::enginewin::pvBestMove]} {
     # End of the first move: first space after the first alpha char
     regexp {^(.*?[A-Za-z].*?)(\s.*)$} $pvDisplay -> pvDisplay pvline
 
-    set line $multipv
-    if {$multipv == 1} {
-        # Previous line nr. 1 is now obsolete
-        $pv_lines tag remove header 1.0 1.end
-    }
-    # If the engine has repeatedly sent multipv 1, do not delete the obsolete lines
-    catch { $pv_lines tag nextrange header 2.0 } multilines
-    if {$line > 1 || $multilines ne ""} {
-        # Multipv lines >= than the current one are now obsolete and deleted.
-        $pv_lines delete $line.0 end
-    }
-    $pv_lines insert $line.0 "\n"
-    $pv_lines insert $line.end "$depthStr\t"
-    $pv_lines insert $line.end "$scoreStr" header
-    $pv_lines insert $line.end "\t"
-    $pv_lines insert $line.end "$pvDisplay" [list header moves $translated]
-    $pv_lines insert $line.end "$pvline" [list lmargin moves]
+    # One rendered line, as {text tags} chunks. A MultiPV block stores them and
+    # writes the block again whenever a line arrives; the single-PV display
+    # writes them once, below the newest line.
+    set chunks [list \
+        [list "$depthStr\t" {}] \
+        [list "$scoreStr" [list header]] \
+        [list "\t" {}] \
+        [list "$pvDisplay" [list header moves $translated]] \
+        [list "$pvline" [list lmargin moves]]]
     if {[info exists extraInfo]} {
-        $pv_lines insert $line.end "  ([join $extraInfo {  }])" lmargin
+        lappend chunks [list "  ([join $extraInfo {  }])" [list lmargin]]
     }
+
+    set line $multipv
+    if {$multipv > 1 || [info exists ::enginewin::m_(pvBlockDepth,$id)]} {
+        # MultiPV: the newest block, refreshed in place; line 1 of it is blue.
+        ::enginewin::pvBlockLine $id $pv_lines $multipv $depth $chunks
+    } else {
+        # One line: the newest PV replaces line 1, the preceding ones stay
+        # below it as history.
+        if {$multipv == 1} {
+            # Previous line nr. 1 is now obsolete
+            $pv_lines tag remove header 1.0 1.end
+        }
+        # If the engine has repeatedly sent multipv 1, do not delete the obsolete lines
+        catch { $pv_lines tag nextrange header 2.0 } multilines
+        if {$line > 1 || $multilines ne ""} {
+            # Multipv lines >= than the current one are now obsolete and deleted.
+            $pv_lines delete $line.0 end
+        }
+        $pv_lines insert $line.0 "\n"
+        foreach chunk $chunks {
+            lassign $chunk text tags
+            if {[llength $tags]} {
+                $pv_lines insert $line.end $text $tags
+            } else {
+                $pv_lines insert $line.end $text
+            }
+        }
+    }
+    set ::enginewin::m_(pvLastDepth,$id) $depth
+    set ::enginewin::m_(pvLastChunks,$id) $chunks
     $pv_lines configure -state disabled
 
     # Accumulate raw PV data for stored eval cache
@@ -2383,7 +2502,7 @@ proc ::enginewin::playBestMove {id} {
         }
     }
     # Fall back to the first move shown in the PV display.
-    return [::enginewin::exportMoves $w.display.pv_lines 1.0]
+    return [::enginewin::exportCurrentMove $w.display.pv_lines]
 }
 
 # Put the window's engine name on a PV line as a comment after its first move.
@@ -2409,20 +2528,32 @@ proc ::enginewin::markEngineLine {line engine} {
 # Add all the move lines to the current game.
 proc ::enginewin::exportLines {id w} {
     if {[info exists ::finishgame::active] && $::finishgame::active} { return }
-    set i_line 1
+    # A MultiPV run keeps the older blocks as history; only the newest block
+    # still carries the header tag, so that is the block to export.
+    set i_line [::enginewin::firstPvLine $w]
+    if {$i_line eq ""} { return }
     set location [sc_move pgn]
     set engine ""
     catch { set engine $::enginewin_lastengine($id) }
+    set first 1
     while {![catch {::enginewin::getMoves $w $i_line.end} line]} {
-        # When multipv is 1, the old lines are also shown, but do not export them
         lassign [$w tag nextrange header "$i_line.end linestart"] is_latest
         if {$is_latest eq ""} { break }
-        if {$i_line == 1} { ::undoFeature save }
+        if {$first} { ::undoFeature save ; set first 0 }
         catch {sc_game import [::enginewin::markEngineLine $line $engine]}
         sc_move pgn $location
         incr i_line
     }
     ::notify::PosChanged pgnonly
+}
+
+# Add the newest block's best line to the game. The line is found through the
+# header tag rather than "1.0": with MultiPV the newest block is at the bottom
+# and line 1 is the oldest one.
+proc ::enginewin::exportCurrentMove {w} {
+    set line [::enginewin::firstPvLine $w]
+    if {$line eq ""} { return false }
+    return [::enginewin::exportMoves $w "$line.0"]
 }
 
 # Sends a SetOptions message to the engine if an option's value is different.

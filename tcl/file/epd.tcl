@@ -943,7 +943,13 @@ namespace eval epd {
         set pv ""
         catch {
           set ew [::enginewin::reviewWindow $win]
-          set pv [::enginewin::getMoves $ew.display.pv_lines 1.end]
+          # A MultiPV run shows the newest block at the bottom, so line 1 is
+          # the oldest one. Take the PV from the block that still carries the
+          # header tag, the same block scorePV1 and pvBestMove came from.
+          set line [::enginewin::firstPvLine $ew.display.pv_lines]
+          if {$line ne ""} {
+            set pv [::enginewin::getMoves $ew.display.pv_lines "$line.end"]
+          }
         }
         if {$pv ne ""} { append text "pv $pv\n" }
       }
