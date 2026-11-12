@@ -208,6 +208,13 @@ jobs:
       - name: Window layout
         run: xvfb-run -a wish tests/tcl/layout_windows.tcl
 
+      # The Engine Window's PV display keeps one block per depth in a MultiPV
+      # run (discussion #461): a dashed rule between blocks, the best line in
+      # blue, the newest block refreshed in place. The single-PV display is
+      # unchanged.
+      - name: Engine PV display
+        run: xvfb-run -a wish tests/tcl/engine_display_tk.tcl
+
       - name: Finish Game dialog
         run: xvfb-run -a wish tests/tcl/finish_game_dialog.tcl
 
