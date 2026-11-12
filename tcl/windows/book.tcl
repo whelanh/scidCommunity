@@ -213,6 +213,11 @@ namespace eval book {
       foreach key {games freq score wdb elo perf} {
         $w.$b.booktext tag bind obrSort$key <ButtonPress-1> [list ::book::obrSortBy $key]
       }
+      # no text selection: a quick second click on a sort header is a
+      # double-click, and Text would paint the redrawn text in the select colour
+      foreach ev {<B1-Motion> <Double-1> <Triple-1> <Shift-1>} {
+        bind $w.$b.booktext $ev break
+      }
       ttk::label $w.$b.info -font font_Small -anchor w -justify left
       pack $w.$b.label -side top -fill x
       pack $w.$b.booktext -expand yes -fill both
