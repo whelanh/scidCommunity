@@ -273,7 +273,16 @@ proc ::gameclock::reset {n} {}
 proc ::gameclock::start {n} {}
 proc ::gameclock::stop {n} {}
 namespace eval ::file {}
-proc ::file::OpenOrSwitch {fname} { fake::log "openBase $fname" ; return 0 }
+proc ::file::OpenOrSwitch {fname} {
+    fake::log "openBase $fname"
+    # A connect can fail asynchronously; if the test asked for it, the engine is
+    # declared gone while createWin is still loading the base.
+    if {[info exists ::fake::dropDuringLoad] && $::fake::dropDuringLoad} {
+        set ::fake::dropDuringLoad 0
+        engReply {InfoDisconnected {}}
+    }
+    return 0
+}
 proc ::setPlayMode {mode} { set ::fake::playMode $mode ; fake::log "playMode '$mode'" }
 proc progressWindow {args} {}
 proc closeProgressWindow {} {}
@@ -520,6 +529,20 @@ check "a measured search clears that flag again" \
         ::tactics::stopAnalyze
     }] == 0 && $::tactics::analysisEngine(noLine) == 0}]
 checkEq "and publishes the score it measured" $::tactics::analysisEngine(score) 30
+
+##############################################################################
+puts "\nthe engine dies while the base loads (no window for a dead connection)"
+# engineGone cannot destroy a window that does not exist yet, so it records the
+# loss and createWin must not build one: a trainer that cannot analyse anything
+# is worse than no trainer at all.
+catch { destroy .tacticsWin }
+set ::fake::dropDuringLoad 1
+::tactics::createWin 1 0
+check "the disconnect during the load is recorded" \
+    [expr {$::tactics::engineLost == 1}]
+check "no window was built for a dead connection" \
+    [expr {![winfo exists .tacticsWin]}]
+set ::fake::dropDuringLoad 0
 
 puts "\n"
 puts "$checks checks, $fails failures"

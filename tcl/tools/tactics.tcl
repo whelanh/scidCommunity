@@ -50,6 +50,10 @@ namespace eval tactics {
     # 1 when the timer beat the first info line, so nothing was measured: the
     # referee must not judge a position the engine never answered for.
     set analysisEngine(noLine) 0
+    # 1 when the connection died before the trainer window existed: createWin
+    # has to notice, or it builds a window that can never analyse anything.
+    variable engineLost
+    set engineLost 0
 
     proc getBaseTypeFromFile { fname } {
         set dbType "SCID5"
@@ -315,6 +319,9 @@ namespace eval tactics {
 
         set err [::tactics::loadBase $base]
         if {$err != 0} { return }
+        # The engine can die while the base loads: engineGone has shown the
+        # warning and could not destroy a window that did not exist yet.
+        if {$::tactics::engineLost} { return }
 
 
         set w .tacticsWin
@@ -400,6 +407,7 @@ namespace eval tactics {
         # next one, so close the id first.
         catch { ::engineNoWin::closeEngine $engineId }
 
+        set engineLost 0
         set search {}
         set analysisEngine(analyzeMode) 0
         set analysisEngine(score) 0
@@ -424,6 +432,7 @@ namespace eval tactics {
         if {$engineId eq ""} { return }
         catch { ::engineNoWin::closeEngine $engineId }
         set preset ""
+        set engineLost 0
         set search {}
         set analysisEngine(analyzeMode) 0
         return
@@ -501,7 +510,12 @@ namespace eval tactics {
     # The connection died: stop the referee, tell the user, close the session.
     proc engineGone {} {
         variable analysisEngine
+        variable engineLost
         variable preset
+        # The disconnect can arrive before createWin has built the window, where
+        # the destroy below is a no-op: this flag is what stops the window being
+        # built against a connection that is already gone.
+        set engineLost 1
         after cancel ::tactics::stopAnalyze
         after cancel ::tactics::mainLoop
         set analysisEngine(analyzeMode) 0
