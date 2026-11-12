@@ -2182,7 +2182,7 @@ int sc_game(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
       "load",           "merge",        "moves",      "new",
       "novelty",        "number",       "pgn",        "pop",
       "push",           "SANtoUCI",     "save",       "startBoard",
-      "strip",          "tags",         "tagorder",   "truncate",
+      "strip",          "tags",         "setTagOrder", "truncate",
       "variant",        "UCI_currentPos", "UCI_mainLine", "undo", "undoAll",
       "undoPoint",      "redo",         nullptr};
   enum {
@@ -2208,7 +2208,7 @@ int sc_game(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
     GAME_STARTBOARD,
     GAME_STRIP,
     GAME_TAGS,
-    GAME_TAGORDER,
+    GAME_SETTAGORDER,
     GAME_TRUNCATE,
     GAME_VARIANT,
     GAME_UCI_CURRENTPOS,
@@ -2305,13 +2305,13 @@ int sc_game(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
   case GAME_TAGS:
     return sc_game_tags(cd, ti, argc, argv);
 
-  case GAME_TAGORDER:
+  case GAME_SETTAGORDER:
     if (argc == 4) {
       Game::SetTagOrder(argv[2]);
       Game::SetSortOtherTags(strGetBoolean(argv[3]));
       return TCL_OK;
     }
-    return errorResult(ti, "Usage: sc_game tagorder <order> <sortOtherTags>");
+    return errorResult(ti, "Usage: sc_game setTagOrder <order> <sortOtherTags>");
 
   case GAME_TRUNCATE:
     old_language = language;

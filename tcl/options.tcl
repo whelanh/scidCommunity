@@ -1019,7 +1019,7 @@ proc options.autoSaveHack {} {
 # setting). Called once at startup here, and again from the preferences dialog
 # whenever the order changes.
 proc ::pgn::applyTagOrder {} {
-  sc_game tagorder [join $::pgn::tagOrder] $::pgn::sortOtherTags
+  sc_game setTagOrder [join $::pgn::tagOrder] $::pgn::sortOtherTags
 }
 ::pgn::applyTagOrder
 
