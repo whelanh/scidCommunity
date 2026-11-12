@@ -683,6 +683,33 @@ namespace eval epd {
     ::epd::launchAnnotateEpd $id $idx $name $logfile
   }
 
+  ###  Bring the EPD pass's analysis into view. A window already showing this
+  ###  preset is raised (and started if it was paused); a locked window stays
+  ###  pinned to its position, so a new one is opened instead. The pass runs on
+  ###  its own connection, so this window is a view, not the pass's engine.
+  proc showAnalysisWindow {name} {
+    if {[llength [info commands ::enginewin::start]] == 0} { return "" }
+    foreach id [array names ::enginewin::engState] {
+      if {[info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id)} {
+        continue
+      }
+      if {![info exists ::enginewin_lastengine($id)] \
+              || $::enginewin_lastengine($id) ne $name} {
+        continue
+      }
+      if {[::enginewin::stateLocked $id]} { continue }
+      if {[::enginewin::statePaused $id]} {
+        catch { ::enginewin::start $id $name }
+      }
+      catch { ::win::makeVisible .engineWin$id }
+      return $id
+    }
+    set id ""
+    catch { set id [::enginewin::start "" $name] }
+    if {$id ne ""} { catch { ::win::makeVisible .engineWin$id } }
+    return $id
+  }
+
   ###  Launch a headless UCI engine and annotate each EPD, starting from the top.
   ###  engineIdx is kept for the caller's shape; the preset name is what opens.
   ###  The Stop button, or closing the EPD window, ends the pass.
@@ -708,6 +735,12 @@ namespace eval epd {
       set epdAnnotation 0
       return
     }
+
+    # The pass used to open its Analysis window itself, so the search was
+    # visible as soon as Analyze Positions started. The Engine Window is that
+    # live surface now; the pass keeps its own connection, so closing the
+    # window does not stop it.
+    catch { ::epd::showAnalysisWindow $name }
 
     set epdAnnotation 1
     set analysisRunning 1

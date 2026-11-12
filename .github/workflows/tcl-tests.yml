@@ -78,6 +78,12 @@ jobs:
       - name: EPD headless analysis
         run: tclsh tests/tcl/epd_analysis.tcl
 
+      # Analyze Positions used to open its Analysis window by itself. The pass
+      # now raises (or opens) an Engine Window on the same preset, while still
+      # running on its own connection.
+      - name: EPD analysis window
+        run: tclsh tests/tcl/epd_analysis_window.tcl
+
       - name: Batch annotate
         run: tclsh tests/tcl/batch_annotate.tcl
 
