@@ -816,8 +816,11 @@ proc ::reviewdriver::run {engine args} {
     }
     # Before anything touches the board and before the engine starts: the restore
     # at the end is the only thing that puts the reader back where the pass found
-    # them.
+    # them. cursorSave itself walks out to the main-line base, so put the cursor
+    # back at once: a variation pass must not leave the reader on the branch
+    # point for the length of the search.
     set cursor [::review::cursorSave]
+    catch { ::review::cursorRestore $cursor }
     # Not published until the pass has started: a refusal must leave the status
     # of a run that is already in flight alone.
     set starting [dict merge [::reviewdriver::blankState searching] \

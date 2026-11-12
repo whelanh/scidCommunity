@@ -2486,6 +2486,7 @@ set ::coachClears {}
 set ::hookCalls {}
 checkEq "a line pass starts" \
     [::reviewdriver::run $runcfg -line $map -bookEnd 4] ""
+checkEq "the board is back on the variation cursor at once" [fakeWhere] $::mapBefore
 checkEq "with the judged nodes' positions, and no others" [dict get [::reviewdriver::status] total] 3
 checkEq "the reference and successor of each, in index order" \
     [dict get $::reviewdriver::pass positions] [list \

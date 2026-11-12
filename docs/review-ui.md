@@ -23,8 +23,8 @@ runs, which is what the stop icon is for.
 
 The Game List's **Batch annotate** uses this same writer over its parallel
 engine pool, with these settings, so a batch of games gets what pressing Game
-Review on each would have written. Its dialog only chooses the engine and the
-number of instances. **Rapid annotate** (Ctrl+Shift+A) uses the writer too, from
+Review on each game's main line would have written. Its dialog only chooses the
+engine and the number of instances; it does not follow a cursor or a variation. **Rapid annotate** (Ctrl+Shift+A) uses the writer too, from
 the best line the score graph has already collected.
 
 Press **Game Review** and the pass searches every position of the line the
