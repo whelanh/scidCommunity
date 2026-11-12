@@ -47,6 +47,9 @@ namespace eval tactics {
     set analysisEngine(analyzeMode) 0
     set analysisEngine(score) 0
     set analysisEngine(moves) ""
+    # 1 when the timer beat the first info line, so nothing was measured: the
+    # referee must not judge a position the engine never answered for.
+    set analysisEngine(noLine) 0
 
     proc getBaseTypeFromFile { fname } {
         set dbType "SCID5"
@@ -401,6 +404,7 @@ namespace eval tactics {
         set analysisEngine(analyzeMode) 0
         set analysisEngine(score) 0
         set analysisEngine(moves) ""
+        set analysisEngine(noLine) 0
 
         ::engineNoWin::initEngine $engineId $name [list ::tactics::message]
         set preset $name
@@ -679,6 +683,13 @@ namespace eval tactics {
         if {$analysisEngine(analyzeMode)} { vwait ::tactics::analysisEngine(analyzeMode) }
 
         if {![winfo exists .tacticsWin]} { return }
+        # The engine answered nothing before the timer: retry rather than judge
+        # a line that does not exist (analysisEngine(score) would be stale or
+        # empty, and the referee's arithmetic raises on an empty score).
+        if {$analysisEngine(noLine)} {
+            after 1000 ::tactics::mainLoop
+            return
+        }
 
         if {[sc_pos fen] != $::tactics::prevFen  && [sc_pos isAt start]} {
             ::tactics::abnormalContinuation
@@ -692,6 +703,14 @@ namespace eval tactics {
 
         # now wait for the end of analyzis
         if {$analysisEngine(analyzeMode)} { vwait ::tactics::analysisEngine(analyzeMode) }
+        # engineGone clears analyzeMode and destroys the window, so this wait can
+        # resume into a closed session: the first wait's guard, which this one
+        # never had.
+        if {![winfo exists .tacticsWin]} { return }
+        if {$analysisEngine(noLine)} {
+            after 1000 ::tactics::mainLoop
+            return
+        }
         if {[sc_pos fen] != $::tactics::prevFen  && [sc_pos isAt start]} {
             ::tactics::abnormalContinuation
             return
@@ -851,6 +870,7 @@ namespace eval tactics {
         set fen [sc_pos fen]
         set search [dict create on 1 fen $fen depth "" scoreType "" score "" pv "" time ""]
         set analysisEngine(analyzeMode) 1
+        set analysisEngine(noLine) 0
         # The position and the limit travel in one Go message: ::enginecomm
         # stops a search that is still running and sends this one after the
         # engine's bestmove, so a stale "position" cannot be paired with this
@@ -874,9 +894,19 @@ namespace eval tactics {
         # arrive after a stop request, so what the user judges is the line the
         # engine had reached when the timer ran out.
         if {[dict size $search]} {
-            set analysisEngine(score) [dict get $search score]
-            set analysisEngine(moves) [::tactics::lineSAN]
+            # A search is only a measurement once a line arrived: the timer can
+            # expire before the first info line, and publishing the dict's empty
+            # initial score would hand the referee a value it cannot compare.
+            if {[dict get $search score] eq ""} {
+                set analysisEngine(noLine) 1
+                set analysisEngine(moves) ""
+            } else {
+                set analysisEngine(noLine) 0
+                set analysisEngine(score) [dict get $search score]
+                set analysisEngine(moves) [::tactics::lineSAN]
+            }
         } else {
+            set analysisEngine(noLine) 1
             set analysisEngine(score) 0
             set analysisEngine(moves) ""
         }

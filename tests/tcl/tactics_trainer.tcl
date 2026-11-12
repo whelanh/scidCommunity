@@ -494,6 +494,32 @@ foreach path [lsort [glob -nocomplain -directory [file join $root tcl lang] *.tc
 }
 checkEq "all 29 catalogues were checked" $langCount 29
 
+##############################################################################
+##############################################################################
+puts "\nthe timer beats the first info line (no measurement, no verdict)"
+# The dict that carries a search is non-empty the moment it is created, so a
+# timer that expires before any InfoPV used to publish the empty initial score
+# and hand the referee a value `expr` raises on. Drive stopAnalyze directly:
+# it is the proc that decides what a finished search publishes, and it needs no
+# window to do it.
+set before $::tactics::analysisEngine(score)
+set ::tactics::search [dict create on 1 fen "6k1/8/8/8/8/8/5PPP/R5K1 w - - 0 1" \
+    depth "" scoreType "" score "" pv "" time ""]
+set ::tactics::analysisEngine(analyzeMode) 1
+::tactics::stopAnalyze
+check "a search with no line is not a measurement" \
+    [expr {$::tactics::analysisEngine(noLine) == 1}]
+checkEq "no empty score was published" $::tactics::analysisEngine(score) $before
+checkEq "and no line either" $::tactics::analysisEngine(moves) ""
+check "a measured search clears that flag again" \
+    [expr {[catch {
+        set ::tactics::search [dict create on 1 fen "6k1/8/8/8/8/8/5PPP/R5K1 w - - 0 1" \
+            depth 20 scoreType cp score 30 pv {e2e4} time 100]
+        set ::tactics::analysisEngine(analyzeMode) 1
+        ::tactics::stopAnalyze
+    }] == 0 && $::tactics::analysisEngine(noLine) == 0}]
+checkEq "and publishes the score it measured" $::tactics::analysisEngine(score) 30
+
 puts "\n"
 puts "$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]
