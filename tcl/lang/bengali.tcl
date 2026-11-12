@@ -952,7 +952,7 @@ translate b MoveLabelBook {তত্ত্ব}
 translate b GameComment {খেলা মন্তব্য}
 translate b GameCommentTooltip {টীকাযুক্ত পদক্ষেপের জন্য গেম স্ক্যান করুন এবং এআই সারাংশ তৈরি করুন}
 translate b ReviewGameButton {খেলার পর্যালোচনা}
-translate b ReviewGameButtonTooltip {প্রধান লাইনের প্রতিটি চাল পর্যালোচনা করে লেবেল দিন}
+translate b ReviewGameButtonTooltip {বর্তমান লাইনের প্রতিটি চাল পর্যালোচনা করে লেবেল দিন}
 translate b ReviewMoveButton {চালের মন্তব্য}
 translate b ReviewMoveButtonTooltip {এখান থেকে খেলা চালটি লেবেল করুন ও লিখুন}
 translate b ReviewSettings {পর্যালোচনার সেটিংস}

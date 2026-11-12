@@ -965,7 +965,7 @@ translate B MoveLabelBook {Teoria}
 translate B GameComment {Comentário do jogo}
 translate B GameCommentTooltip {Analisa o jogo em busca de movimentos anotados e gere um resumo de IA}
 translate B ReviewGameButton {Análise da partida}
-translate B ReviewGameButtonTooltip {Analise cada lance da linha principal e classifique-o}
+translate B ReviewGameButtonTooltip {Analise cada lance da linha atual e classifique-o}
 translate B ReviewMoveButton {Comentário do lance}
 translate B ReviewMoveButtonTooltip {Classifique o lance jogado daqui e escreva-o}
 translate B ReviewSettings {Configurações da análise}

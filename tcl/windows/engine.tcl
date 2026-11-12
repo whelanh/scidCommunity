@@ -1268,10 +1268,21 @@ proc ::enginewin::reviewState {id} {
     dict set state game [dict get $map plies]
     # Move Comment labels the move the reader is on - the one that produced this
     # position - so the start of the line has nothing to offer while the last
-    # move does. Inside a variation the move indexes mean something else: the
-    # pass covers the main line, so the button is disabled there.
-    if {[llength [info commands sc_var]] && [sc_var level] == 0} {
-        if {![catch { set here [sc_pos location] }]} {
+    # move does. On the main line that move is a ply of `map`. Inside a
+    # variation the map's indexes are the line's, not the game's, but "is there a
+    # move here" is still an O(1) question: the board's own previous move names
+    # it. No map is built on a button refresh (D10) - the press builds it.
+    set level 0
+    if {[llength [info commands sc_var]]} {
+        catch { set level [sc_var level] }
+        if {$level > 0} {
+            # ::review::nodeMove is the map's own definition of a node's move: ""
+            # at the start of a line and at a null move (0000), the two nodes a
+            # comment has nothing to label.
+            set prev ""
+            catch { set prev [::review::nodeMove] }
+            if {$prev ne ""} { dict set state move $prev }
+        } elseif {![catch { set here [sc_pos location] }]} {
             catch {
                 set ply [::reviewui::moveCommentPly $map $here]
                 if {$ply ne ""} {
@@ -1323,12 +1334,23 @@ proc ::enginewin::reviewBook {} {
     return $name
 }
 
-# The state ::reviewui::runCall decides from: the open game, the preset this
-# window analyses with, and what this build's driver offers.
+# The state ::reviewui::runCall decides from: the open game's own line, the preset
+# this window analyses with, and what this build's driver offers.
 #
 # `plies` is the moves to judge ("" for the whole planned line) and `depth` the
 # depth to search ("" to let the pass take the review's own).
-proc ::enginewin::reviewRunState {id {plies ""} {depth ""} {source review}} {
+#
+# `line` is a ::review::currentLineMap a caller has already built for the press.
+# An empty one is built here; a caller that has one (Move Comment, which needs
+# the map's cursorIndex as well) hands it in, so the press never walks the board
+# twice for one answer.
+#
+# The line is the one the reader is looking at. On the main line that is the game,
+# and this is the state it always was (D1). Inside a variation it is the line the
+# cursor stands on: ::review::currentLineMap, built here, once, and carried in the
+# state as `line`, so the press decides the line and the driver is handed what was
+# decided rather than reading the board for a map of its own.
+proc ::enginewin::reviewRunState {id {plies ""} {depth ""} {source review} {line ""}} {
     set state [dict create game 0 engine "" driver 0 bookEnd 0 plies $plies depth $depth \
         progress [list ::enginewin::reviewProgress $id] notify 1]
     if {[llength [info commands ::reviewdriver::run]]} { dict set state driver 1 }
@@ -1343,6 +1365,28 @@ proc ::enginewin::reviewRunState {id {plies ""} {depth ""} {source review}} {
         dict set state header [dict create source $source engine $name \
             origin [list enginewin [string trimleft $id .engineWin]] \
             cancel ::reviewdriver::cancel]
+    }
+    # A cursor inside a variation is reviewing that variation, not the game. One
+    # map, built once: `game` is the line's plies, so it is both the run's size and
+    # the guard `::reviewui::runCall` reads (no game, no press).
+    set level 0
+    catch { set level [sc_var level] }
+    if {$level > 0} {
+        if {$line eq "" && [catch { set line [::review::currentLineMap] } why]} {
+            # A line that cannot be built is a refusal in the map's own words; no
+            # game is claimed for it, and ::reviewui::runCall answers it as its
+            # reason, which the window shows through the existing ReviewFailed
+            # string.
+            return [dict set state refusal $why]
+        }
+        dict set state game [dict get $line plies]
+        dict set state line $line
+        # The book is a main-line concept: a variation starts at its branch point,
+        # and a prefix node already labelled [Book] is skipped by the judged set
+        # (D7). Forcing 0 here also keeps ::review::bookEnd - a walk of the main
+        # line - out of the press entirely.
+        dict set state bookEnd 0
+        return $state
     }
     catch {
         dict set state game [dict get [::review::mainLineMap [sc_game UCI_mainLine]] plies]
@@ -1455,10 +1499,15 @@ proc ::enginewin::finishGame {id} {
     return
 }
 
+# Game Review: the current line - the whole game on the main line, the variation
+# the cursor stands on inside one.
+#
+# The state is the guard: it carries the line's plies (0 when there is no game to
+# review) and the map when the reader is in a variation, and ::reviewui::runCall
+# refuses a press with nothing to review. Nothing here builds a map of its own.
 proc ::enginewin::reviewGame {id} {
     set w [::enginewin::reviewWindow $id]
     if {![winfo exists $w.btn.gamereview]} { return }
-    if {[catch { set map [::review::mainLineMap [sc_game UCI_mainLine]] }]} { return }
     # A review is long enough that its progress belongs on screen without the
     # reader hunting for a menu. Open the pane on a successful start; a refused
     # start (no engine, no game) leaves the layout alone.
@@ -1490,22 +1539,43 @@ proc ::enginewin::threat {id} {
 # from moveCommentDepth - if the window's own analysis has already reached the
 # review's depth, comment from that and wait for nothing; otherwise search at the
 # review's depth.
+#
+# Which move that is depends on the line the reader is on (D10). On the main line
+# it is a ply of the game's own map, as it always was. Inside a variation it is
+# the line's index: the map is built once here, its `cursorIndex` (base + the
+# route's depths) is the move that produced this position, and both the map and
+# that one index go into the state so the driver reviews the line the reader is
+# looking at. `sc_pos location` is never the index: inside a variation it counts
+# plies on a line whose map is keyed by something else.
 proc ::enginewin::reviewMove {id} {
     set w [::enginewin::reviewWindow $id]
     if {![winfo exists $w.btn.movecomment]} { return }
-    if {[catch { set map [::review::mainLineMap [sc_game UCI_mainLine]] }]} { return }
-    if {[catch { set here [sc_pos location] }]} { return }
-    if {[llength [info commands sc_var]] && [sc_var level] != 0} { return }
-    set ply [::reviewui::moveCommentPly $map $here]
-    if {$ply eq ""} { return }
+    set level 0
+    if {[llength [info commands sc_var]]} { catch { set level [sc_var level] } }
+    set line ""
+    if {$level > 0} {
+        if {[catch { set line [::review::currentLineMap] }]} { return }
+        if {[catch { set ply [dict get $line cursorIndex] }]} { return }
+        # The start of the line has nothing to label, exactly as on the main line.
+        if {![string is integer -strict $ply] || $ply < 1} { return }
+    } else {
+        if {[catch { set map [::review::mainLineMap [sc_game UCI_mainLine]] }]} { return }
+        if {[catch { set here [sc_pos location] }]} { return }
+        set ply [::reviewui::moveCommentPly $map $here]
+        if {$ply eq ""} { return }
+    }
     # The position BEFORE the commented move: the pass searches it first, and the
     # window's depth map is keyed by it. Writing at `ply` puts the label and
     # [%eval] after the move, and a diagram before it.
+    #
+    # Inside a variation `from` is a line index, not a main-line ply: a
+    # coincident entry in the window's depth map describes another position, so
+    # the comment searches at the review's depth instead.
     set from [expr {$ply - 1}]
     # What the window has already reached for that position: the depth map the
     # Autorun pass fills in. A missing entry is "nothing yet".
     set depth_now ""
-    if {[info exists ::enginewin::pv_(depths,$id)]} {
+    if {$level == 0 && [info exists ::enginewin::pv_(depths,$id)]} {
         set depths $::enginewin::pv_(depths,$id)
         if {[dict exists $depths $from]} { set depth_now [dict get $depths $from] }
     }
@@ -1520,7 +1590,7 @@ proc ::enginewin::reviewMove {id} {
     }
     set plan [::reviewui::moveCommentDepth $depth_now $target]
     ::enginewin::reviewStart $id [::enginewin::reviewRunState $id \
-        [list $ply] [dict get $plan depth] movecomment]
+        [list $ply] [dict get $plan depth] movecomment $line]
 }
 
 # Cancel: the pass stops where it is, and the write phase never runs - the driver

@@ -952,7 +952,7 @@ translate h MoveLabelBook {सिद्धांत}
 translate h GameComment {खेल टिप्पणी}
 translate h GameCommentTooltip {एनोटेटेड चालों के लिए गेम को स्कैन करें और एआई सारांश तैयार करें}
 translate h ReviewGameButton {गेम समीक्षा}
-translate h ReviewGameButtonTooltip {मुख्य लाइन के हर चाल की समीक्षा करें और उसे वर्ग दें}
+translate h ReviewGameButtonTooltip {वर्तमान लाइन के हर चाल की समीक्षा करें और उसे वर्ग दें}
 translate h ReviewMoveButton {चाल टिप्पणी}
 translate h ReviewMoveButtonTooltip {यहाँ से खेली गई चाल को वर्ग दें और लिखें}
 translate h ReviewSettings {समीक्षा सेटिंग्स}

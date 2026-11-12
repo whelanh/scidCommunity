@@ -993,7 +993,7 @@ translate A MoveLabelBook {定跡}
 translate A GameComment {ゲームコメント}
 translate A GameCommentTooltip {注釈付きの動きのゲームをスキャンし、AI サマリーを生成します}
 translate A ReviewGameButton {ゲームの検討}
-translate A ReviewGameButtonTooltip {本手順のすべての指し手を検討して評価する}
+translate A ReviewGameButtonTooltip {現在の手順のすべての指し手を検討して評価する}
 translate A ReviewMoveButton {指し手のコメント}
 translate A ReviewMoveButtonTooltip {ここで指した手を評価して書き込む}
 translate A ReviewSettings {検討の設定}

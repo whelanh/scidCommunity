@@ -957,7 +957,7 @@ translate C MoveLabelBook {Teorie}
 translate C GameComment {Koment ke he}
 translate C GameCommentTooltip {Naskenujte hru pro anotovan pohyby a vygenerujte souhrn AI}
 translate C ReviewGameButton {Prohlídka partie}
-translate C ReviewGameButtonTooltip {Projdi všechny tahy hlavní varianty a ohodnoť je}
+translate C ReviewGameButtonTooltip {Projdi všechny tahy aktuální varianty a ohodnoť je}
 translate C ReviewMoveButton {Komentář k tahu}
 translate C ReviewMoveButtonTooltip {Ohodnoť zahraný tah odsud a zapiš ho}
 translate C ReviewSettings {Nastavení prohlídky}

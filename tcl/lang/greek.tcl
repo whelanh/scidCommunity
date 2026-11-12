@@ -984,7 +984,7 @@ translate G MoveLabelBook {Θεωρία}
 translate G GameComment {Σχόλιο παιχνιδιού}
 translate G GameCommentTooltip {Σαρώστε το παιχνίδι για σχολιασμένες κινήσεις και δημιουργήστε περίληψη AI}
 translate G ReviewGameButton {Έλεγχος παρτίδας}
-translate G ReviewGameButtonTooltip {Έλεγξε κάθε κίνηση της κύριας γραμμής και χαρακτήρισέ την}
+translate G ReviewGameButtonTooltip {Έλεγξε κάθε κίνηση της τρέχουσας γραμμής και χαρακτήρισέ την}
 translate G ReviewMoveButton {Σχόλιο κίνησης}
 translate G ReviewMoveButtonTooltip {Χαρακτήρισε την κίνηση από εδώ και γράψε την}
 translate G ReviewSettings {Ρυθμίσεις ελέγχου}

@@ -963,7 +963,7 @@ translate W MoveLabelBook {Teori}
 translate W GameComment {Spelkommentar}
 translate W GameCommentTooltip {Skanna spelet efter kommenterade drag och generera AI-sammanfattningar}
 translate W ReviewGameButton {Granska partiet}
-translate W ReviewGameButtonTooltip {Granska varje drag i huvudlinjen och ge det en etikett}
+translate W ReviewGameButtonTooltip {Granska varje drag i aktuell linje och ge det en etikett}
 translate W ReviewMoveButton {Dragkommentar}
 translate W ReviewMoveButtonTooltip {Etikettera draget som spelades härifrån och skriv in det}
 translate W ReviewSettings {Inställningar för granskning}

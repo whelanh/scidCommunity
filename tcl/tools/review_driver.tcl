@@ -657,6 +657,13 @@ proc ::reviewdriver::status {} {
 #   -notify 0|1     refresh the board when the write phase ends (default 0)
 #   -coach 0|1      override the ::review::coach setting for this pass; annotate
 #                   mode passes 0 because its dialog ships tier 1 without prose
+#   -line <map>     the line to review, when the reader is not on the main line:
+#                   a ::review::currentLineMap dict. The plan is its `judged`
+#                   set, the board is not read for a map of its own, bookEnd is
+#                   0 whatever -bookEnd says, and the pass writes the move
+#                   layer only (see ::reviewdriver::writeLine)
+#   -force 0|1      judge every node of the line, not just the unlabelled ones
+#                   (the driver half of the skip rule; no UI row sets it)
 #
 # There is no -movetime: the time cap is ::review::movetime or the preset's
 # Limits.movetime (::review::passLimits), so the pass and the settings dialog
@@ -670,6 +677,10 @@ proc ::reviewdriver::run {engine args} {
     set progress ""
     set notify 0
     set coachOpt ""
+    # The line map a variation pass is handed, and whether it judges every node
+    # of it. Both empty on the main-line path, which is unchanged (D1).
+    set line ""
+    set force 0
     # The progress board's header fields, composed by the caller: the source,
     # the engine name and where the run came from. The driver begins the job
     # and feeds it the position it is on; it never composes the header itself.
@@ -695,10 +706,23 @@ proc ::reviewdriver::run {engine args} {
             -writer   { incr i ; set writer [lindex $args $i] }
             -coach    { incr i ; set coachOpt [lindex $args $i] }
             -header   { incr i ; set header [lindex $args $i] }
+            -line     { incr i ; set line [lindex $args $i] }
+            -force    { incr i ; set force [lindex $args $i] }
             default   { return "unknown option: $opt" }
         }
     }
     if {![string is integer -strict $bookEnd]} { return "-bookEnd must be a whole number" }
+    if {$force ne 0 && $force ne 1} { return "-force must be 0 or 1" }
+    # A line map is a snapshot, and this pass reads only what is in it: a map
+    # missing one of its tables would be searched as if the line ended early, so
+    # it is refused rather than half-trusted.
+    if {$line ne ""} {
+        foreach key {plies moves positions nodes judged} {
+            if {![dict exists $line $key]} {
+                return "the line map has no $key"
+            }
+        }
+    }
     if {[llength $plies]} {
         foreach ply $plies {
             if {![string is integer -strict $ply] || $ply < 1} {
@@ -744,13 +768,35 @@ proc ::reviewdriver::run {engine args} {
     # default, so most presets have no mpv key at all. A one-line engine simply
     # returns one line and the verdicts fall back to the searched successor.
     set map ""
-    if {[catch { set map [::review::mainLineMap [sc_game UCI_mainLine]] } err]} {
+    if {$line ne ""} {
+        # A variation pass is handed the map the caller built from the cursor
+        # (::review::currentLineMap). Building mainLineMap here is exactly the
+        # failure this card closes: the reader is looking at a variation, and
+        # the main line would be searched and labelled instead.
+        set map $line
+    } elseif {[catch { set map [::review::mainLineMap [sc_game UCI_mainLine]] } err]} {
         return $err
     }
     set plan $plies
-    # The whole line, not the plan minus the book: the book moves are written
-    # (as [Book]) rather than searched, and the writer needs them in the plan.
-    if {![llength $plan]} { set plan [::review::plan [dict get $map plies] 0] }
+    if {$line eq ""} {
+        # The whole line, not the plan minus the book: the book moves are written
+        # (as [Book]) rather than searched, and the writer needs them in the plan.
+        if {![llength $plan]} { set plan [::review::plan [dict get $map plies] 0] }
+    } else {
+        # D6: the map's judged set - the nodes no verdict is on - unless the
+        # caller names moves (-plies) or asks for every node (-force 1).
+        if {![llength $plan]} {
+            if {$force} {
+                set plan [::review::plan [dict get $map plies] 0]
+            } else {
+                set plan [dict get $map judged]
+            }
+        }
+        # D7: the book is a main-line concept. A line pass starts at the first
+        # move of the line whatever -bookEnd said, so a prefix node already
+        # labelled [Book] is skipped by the judged set and never by the book gate.
+        set bookEnd 0
+    }
     # The positions to search: from the last book move on, so the move that
     # leaves the book has its reference position, and the early opening is not
     # searched for moves that are only going to be labelled Book.
@@ -770,8 +816,11 @@ proc ::reviewdriver::run {engine args} {
     }
     # Before anything touches the board and before the engine starts: the restore
     # at the end is the only thing that puts the reader back where the pass found
-    # them.
+    # them. cursorSave itself walks out to the main-line base, so put the cursor
+    # back at once: a variation pass must not leave the reader on the branch
+    # point for the length of the search.
     set cursor [::review::cursorSave]
+    catch { ::review::cursorRestore $cursor }
     # Not published until the pass has started: a refusal must leave the status
     # of a run that is already in flight alone.
     set starting [dict merge [::reviewdriver::blankState searching] \
@@ -805,17 +854,37 @@ proc ::reviewdriver::run {engine args} {
     catch { set coach [::review::get coach] }
     if {$coachOpt ne ""} { set coach $coachOpt }
     if {[llength $plies]} { set coach 0 }
+    # D5, and the boundary this card exists to draw: ::reviewcoach::place and
+    # ::reviewcoach::clear read $p map + $p plan through sc_move ply and write
+    # prose about the game. A line map is a variation; there is no whole game
+    # under it for them to read, so a line pass never asks for prose.
+    if {$line ne ""} { set coach 0 }
     # The verifier is read once, here, like the coach: an engine picked (or
     # cleared) mid-run must not split one run in two. "" is Off - the default -
     # and then no second search happens and every label stays as it was.
     set verifier ""
     catch { set verifier [::review::verifier] }
+    # `report` is the whole-game switch, and a variation line is not a whole
+    # game: ::reviewreport::collect reads $p map + $p plan through sc_move ply and
+    # would write the main-line report from a variation's nodes. Off for a line
+    # pass, which is why writeResults' report, opening mark and Annotator tag are
+    # never reached (D5).
+    set report [expr {[llength $plies] ? 0 : [string equal $writer ::reviewdriver::writeResults]}]
+    if {$line ne ""} { set report 0 }
     set pass [dict create token $token map $map plan $plan \
         plies [dict get $map plies] bookEnd $bookEnd mpv $mpv \
         positions $positions cursor $cursor engine $engine done $done \
         progress $progress notify $notify writer $writer \
         verifier $verifier limits $lim \
-        coach $coach report [expr {[llength $plies] ? 0 : [string equal $writer ::reviewdriver::writeResults]}]]
+        coach $coach report $report]
+    if {$line ne ""} {
+        # What makes this pass a line pass for everything downstream: the writer
+        # branch, and the route and anchors the map was addressed by, kept with
+        # the run so a failure can say which line it was.
+        dict set pass lineKind variation
+        dict set pass lineRoute [dict get $map cursorRoute]
+        dict set pass lineAnchors [dict get $map anchors]
+    }
     # The board is decoration over this run: it starts when the run does, and it
     # is told nothing the pass has not already decided.
     if {$header ne "" && [llength [info commands ::reviewprogress::begin]]} {
@@ -1237,6 +1306,14 @@ proc ::reviewdriver::clearMarks {ply} {
 }
 
 proc ::reviewdriver::writeResults {p results} {
+    # A variation pass writes nodes, not the game. Everything below this line -
+    # the loop, the deterministic report, the opening mark, the Annotator tag and
+    # the whole-game fallback - reads $p map and $p plan as main-line plies
+    # through sc_move ply, so a line pass returns to its own writer before any of
+    # it runs.
+    if {[dict exists $p lineKind] && [dict get $p lineKind] eq "variation"} {
+        return [::reviewdriver::writeLine $p $results]
+    }
     set map [dict get $p map]
     set mpv [dict get $p mpv]
     set bookEnd 0
@@ -1411,6 +1488,81 @@ proc ::reviewdriver::writeResults {p results} {
     }
     # The counts, not the state: runDone owns the status dict, so a -writer that
     # is not this proc reports in the same vocabulary.
+    return [dict create written $written failed $failed errors $errors]
+}
+
+# Write a variation line, one node at a time, ascending, from the verdicts the
+# search produced. The node-local twin of writeResults' loop, and the only writer
+# a variation pass reaches.
+#
+# ::review::writeNode stands on the node by route, so the verdict lands on the
+# variation move at that index and the main-line move at the same ply is not
+# touched. It also writes the marks beside the verdict - the label's NAG only
+# when the move has none, the assessment from the same score the [%eval] shows,
+# and D on the move before, at index-1 - all with the cursor on the node. They
+# are deliberately not written again from here: ::review::addNag,
+# ::review::setAssessment and ::review::setDiagram address a move with
+# sc_move ply, which walks the main line.
+#
+# There is no tactical write either. ::reviewannotate::writeTactical sets the
+# database game flag T and navigates by ply: it describes a whole game's
+# exercise, and it is the main-line writer's to call.
+#
+# Nothing after writeResults' loop is reached on this path, and the report,
+# opening mark, Annotator tag and coach are off in ::reviewdriver::run for the
+# same reason one level up: ::reviewreport::collect and ::reviewcoach::place /
+# clear read $p map and $p plan through sc_move ply and describe the whole game -
+# feeding them a variation map would write the main-line report from the wrong
+# nodes.
+#
+# The cursor is left where it was found on every path by ::review::visitLine, and
+# ::reviewdriver::restoreRun remains the single restore: a node that is no longer
+# where the map said writes nothing further and leaves the board on the base ply,
+# which is what cursorRestore falls back to when the line has gone.
+proc ::reviewdriver::writeLine {p results} {
+    set map [dict get $p map]
+    set mpv 0
+    catch { set mpv [dict get $p mpv] }
+    set written 0
+    set failed 0
+    set errors {}
+    set engineName ""
+    catch { set engineName [lindex [dict get $p engine] 0] }
+    set verdicts [::reviewdriver::verdicts $map $results]
+    foreach i [dict get $p plan] {
+        # A node with no verdict was not measured: leave the previous review's
+        # comment and marks exactly as they were rather than half-clearing it.
+        if {![dict exists $verdicts $i]} { continue }
+        # The previous verdict's marks on this node are ours to replace; the
+        # comment tokens go with writeNode. clearMarksAt reads the label from the
+        # map, so an unlabelled node costs no walk.
+        catch { ::review::clearMarksAt $map $i }
+        lassign [dict get $verdicts $i] label eval_cp
+        # Only a move the label says could have been better carries a line: a
+        # best/excellent/good move's "variation" would be the next-best line.
+        set lines {}
+        if {[::review::variationWanted $label]} {
+            set lines [::reviewdriver::lines $results [expr {$i - 1}] $mpv]
+        }
+        set err [::review::writeNode $map $i $label $eval_cp $lines $engineName]
+        if {$err eq ""} {
+            incr written
+            continue
+        }
+        # writeNode answers with a list of reasons: one move's verdict can land
+        # while its alternatives are refused, and each reason is kept as its own
+        # entry in the count (the same vocabulary writeResults reports in).
+        incr failed
+        set stale 0
+        foreach why $err {
+            lappend errors $why
+            # The line is not the one the map described - an anchor renumbered
+            # under the write - so this node cannot be addressed, and neither can
+            # any node after it on the same line: nothing further is written.
+            if {[string first "is not on this line" $why] >= 0} { set stale 1 }
+        }
+        if {$stale} { break }
+    }
     return [dict create written $written failed $failed errors $errors]
 }
 

@@ -2540,17 +2540,28 @@ set helpTitle(ReviewGameButton) "Game Review Button"
 set helpText(ReviewGameButton) {<h1>Engine Window: Game Review Button</h1>
   <p>
   The <b>Game Review</b> button in the <a Engine>Engine</a> window reviews the
-  main line of the open game. The engine searches every position of the line,
-  one after another, and the review keeps what it found for each of them.
+  line the cursor is on: the main line, or the variation the cursor stands in,
+  from the start of the game through that variation to its last move. The engine
+  searches every position of the line, one after another, and the review keeps
+  what it found for each of them.
   </p>
 
   <h3>How it works</h3>
   <p>
   A review runs on an engine connection of its own, so it does not disturb the
   analysis you are watching. The board does not move either: the positions come
-  from the main line as it was when you pressed the button, so you can keep
-  working while the pass runs. Variations are not reviewed - the pass covers the
-  main line.
+  from the line as it was when you pressed the button, so you can keep working
+  while the pass runs. On the main line that is the whole game; inside a variation
+  it is the main line up to the branch, then that variation - and any variation
+  inside it - to its last move. Only that one line is reviewed.
+  </p>
+  <p>
+  A review of a variation writes the moves only: the verdict word and
+  <b>[%eval]</b> in each move's comment, the NAG and assessment that come with
+  them, a diagram, and the alternatives it keeps as variations. The whole-game
+  parts - the <b>report</b>, the game's tags and the coach's prose - describe the
+  game rather than a line, so a review of the main line is the only one that
+  writes them.
   </p>
   <p>
   Each judged move gets its verdict word and <b>[%eval]</b> in the comment, and
@@ -2609,8 +2620,9 @@ set helpText(ReviewMoveButton) {<h1>Engine Window: Move Comment Button</h1>
   <p>
   Move Comment needs a game, a selected engine, and a move on the board: the
   start of the line has nothing to comment, while the last move can be
-  commented. Inside a variation the move numbering means something else: the
-  pass covers the main line, so the button is disabled there.
+  commented. A move inside a variation is a move like any other: the comment is
+  written on that variation node, and the move of the main line with the same
+  number is left alone.
   </p>
 
   <h3>Waiting for the review depth</h3>
@@ -3613,8 +3625,9 @@ set helpText(Engine) {<h1>The Engine windows</h1>
     without annotation; use Game Review for that.</li>
   <li><b>Config</b> <button tb_eng_config>: Shows or hides the engine configuration
     panel.</li>
-  <li><a ReviewGameButton><b>Game Review</b></a>: Reviews the main line of the
-    game, searching every position of it.</li>
+  <li><a ReviewGameButton><b>Game Review</b></a>: Reviews the line the cursor is
+    on - the main line, or the variation the cursor stands in, to that line's
+    last move - searching every position of it.</li>
   <li><a ReviewMoveButton><b>Move Comment</b></a>: Describes the move you are
     on, and nothing else.</li>
   <li><a ReviewSettings><b>Review Settings</b></a>: Depth, lines, variations

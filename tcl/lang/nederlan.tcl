@@ -982,7 +982,7 @@ translate N MoveLabelBook {Theorie}
 translate N GameComment {Spelcommentaar}
 translate N GameCommentTooltip {Scan het spel op geannoteerde zetten en genereer een AI-samenvatting}
 translate N ReviewGameButton {Partij beoordelen}
-translate N ReviewGameButtonTooltip {Beoordeel elke zet van de hoofdlijn en geef er een label}
+translate N ReviewGameButtonTooltip {Beoordeel elke zet van de huidige lijn en geef er een label}
 translate N ReviewMoveButton {Zetcommentaar}
 translate N ReviewMoveButtonTooltip {Beoordeel de gespeelde zet vanaf hier en schrijf die in}
 translate N ReviewSettings {Instellingen voor beoordeling}

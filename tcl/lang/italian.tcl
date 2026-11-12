@@ -963,7 +963,7 @@ translate I MoveLabelBook {Teoria}
 translate I GameComment {Commento del gioco}
 translate I GameCommentTooltip {Scansiona il gioco per individuare le mosse annotate e generare un riepilogo dell'IA}
 translate I ReviewGameButton {Revisione della partita}
-translate I ReviewGameButtonTooltip {Rivedi ogni mossa della linea principale e assegnale un giudizio}
+translate I ReviewGameButtonTooltip {Rivedi ogni mossa della linea corrente e assegnale un giudizio}
 translate I ReviewMoveButton {Commento della mossa}
 translate I ReviewMoveButtonTooltip {Giudica la mossa giocata da qui e scrivila}
 translate I ReviewSettings {Impostazioni della revisione}

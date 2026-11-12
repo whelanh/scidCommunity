@@ -992,7 +992,7 @@ translate E MoveLabelBook {Book}
 translate E GameComment {Game Comment}
 translate E GameCommentTooltip {Scan game for annotated moves and generate AI summary}
 translate E ReviewGameButton {Game Review}
-translate E ReviewGameButtonTooltip {Review every move of the main line and label it}
+translate E ReviewGameButtonTooltip {Review and label every move of the current line}
 translate E ReviewMoveButton {Move Comment}
 translate E ReviewMoveButtonTooltip {Label the highlighted move and write it in}
 translate E ReviewSettings {Review Settings}

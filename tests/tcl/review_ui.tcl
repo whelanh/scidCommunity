@@ -43,7 +43,7 @@ source [file join $root tcl tools review_ui.tcl]
 # what Scid itself does for an untranslated string.
 array set ::EN {
     ReviewGameButton        {Game Review}
-    ReviewGameButtonTooltip {Review every move of the main line and label it}
+    ReviewGameButtonTooltip {Review and label every move of the current line}
     ReviewMoveButton        {Move Comment}
     ReviewMoveButtonTooltip {Label the highlighted move and write it in}
     ReviewSettings          {Review Settings}
@@ -487,7 +487,7 @@ checkEq "no reason, no failure text" [::reviewui::failedText ""] ""
 # window never holds a user-visible string.
 checkEq "the Game Review button's text" [::reviewui::label ReviewGameButton] {Game Review}
 checkEq "its tooltip" [::reviewui::label ReviewGameButtonTooltip] \
-    {Review every move of the main line and label it}
+    {Review and label every move of the current line}
 checkEq "the Move Comment button's text" [::reviewui::label ReviewMoveButton] {Move Comment}
 checkEq "the settings dialog's title" [::reviewui::label ReviewSettings] {Review Settings}
 foreach key {mpv depth movetime var_lines var_cp move_comment_wait diagram coach verifier} {

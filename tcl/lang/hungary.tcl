@@ -960,7 +960,7 @@ translate H MoveLabelBook {Elmélet}
 translate H GameComment {Játék megjegyzés}
 translate H GameCommentTooltip {Keresse meg a játékot megjegyzésekkel ellátott mozdulatok után, és készítsen AI-összefoglalót}
 translate H ReviewGameButton {Parti áttekintése}
-translate H ReviewGameButtonTooltip {A fővonal minden lépésének áttekintése és értékelése}
+translate H ReviewGameButtonTooltip {Az aktuális vonal minden lépésének áttekintése és értékelése}
 translate H ReviewMoveButton {Lépésmegjegyzés}
 translate H ReviewMoveButtonTooltip {Az innen játszott lépés értékelése és beírása}
 translate H ReviewSettings {Áttekintés beállításai}

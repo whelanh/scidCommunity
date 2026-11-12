@@ -959,7 +959,7 @@ translate R MoveLabelBook {Теория}
 translate R GameComment {Комментарий к игре}
 translate R GameCommentTooltip {Сканируйте игру на предмет аннотированных ходов и сгенерируйте сводку AI.}
 translate R ReviewGameButton {Разбор партии}
-translate R ReviewGameButtonTooltip {Разбери каждый ход главного варианта и оцени его}
+translate R ReviewGameButtonTooltip {Разбери каждый ход текущего варианта и оцени его}
 translate R ReviewMoveButton {Комментарий к ходу}
 translate R ReviewMoveButtonTooltip {Оцени сделанный ход и запиши его}
 translate R ReviewSettings {Настройки разбора}

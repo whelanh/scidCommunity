@@ -965,7 +965,7 @@ translate F MoveLabelBook {Théorie}
 translate F GameComment {Commentaire du jeu}
 translate F GameCommentTooltip {Analysez le jeu pour rechercher des mouvements annotés et générez un résumé de l'IA}
 translate F ReviewGameButton {Analyse de la partie}
-translate F ReviewGameButtonTooltip {Analyser tous les coups de la ligne principale et les annoter}
+translate F ReviewGameButtonTooltip {Analyser tous les coups de la ligne courante et les annoter}
 translate F ReviewMoveButton {Commentaire du coup}
 translate F ReviewMoveButtonTooltip {Annoter le coup joué ici et l'insérer}
 translate F ReviewSettings {Réglages de l'analyse}
