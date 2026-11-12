@@ -1624,6 +1624,17 @@ translate M IndentVariations {缩进变化}
 translate M ExportColumnStyle {列样式（每行一次移动）}
 translate M ExportSymbolStyle {Symbolic annotation style:}
 translate M ExportStripMarks {从注释中去除方形/箭头标记\n代码}
+translate M OptionsExportEol {行结尾：}
+translate M OptionsExportEolNative {本国的}
+translate M OptionsPGNExport {PGN 出口}
+translate M OptionsTagOrderIntro {编写游戏时剩余 PGN 标签的顺序。根据 PGN 标准，七标签名册总是首先写入。}
+translate M OptionsTagOrderStr {七张标签名册（固定）：赛事、地点、日期、回合、白队、黑队、结果}
+translate M OptionsTagOrderWhite {白色等级}
+translate M OptionsTagOrderBlack {黑色评级}
+translate M OptionsTagOrderOthers {其他标签}
+translate M OptionsTagOrderSort {按字母顺序对其他标签进行排序（否则按原始顺序）}
+translate M Up {向上}
+translate M Down {向下}
 
 # Goto game/move dialogs:
 translate M LoadGameNumber {输入要加载的游戏编号：}
@@ -1975,8 +1986,6 @@ translate M IESending {发送的动作}
 translate M IESynchronise {同步}
 translate M IERotate  {旋转}
 translate M IEUnableToStart {无法启动输入引擎：}
-
-# Calculation of Variations
 
 translate M Board {木板}
 translate M showGameInfo {显示游戏信息}

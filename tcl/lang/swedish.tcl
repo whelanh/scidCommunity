@@ -1666,6 +1666,17 @@ translate W IndentVariations {Dra in variationer?}
 translate W ExportColumnStyle {Kolumnstil (ett drag per rad)?}
 translate W ExportSymbolStyle {Symbolbaserade kommentarer:}
 translate W ExportStripMarks {Avlägsna koder för fält och pilar från kommentarerna?} 
+translate W OptionsExportEol {Radslut:}
+translate W OptionsExportEolNative {Inföding}
+translate W OptionsPGNExport {PGN-export}
+translate W OptionsTagOrderIntro {Ordning av de återstående PGN-taggarna när du skriver ett spel. Seven Tag Roster skrivs alltid först, enligt PGN-standarden.}
+translate W OptionsTagOrderStr {Seven Tag Roster (fast): Event, Site, Date, Round, White, Black, Result}
+translate W OptionsTagOrderWhite {Vitt betyg}
+translate W OptionsTagOrderBlack {Svart betyg}
+translate W OptionsTagOrderOthers {Andra taggar}
+translate W OptionsTagOrderSort {Sortera andra taggar i alfabetisk ordning (annars originalordning)}
+translate W Up {Upp}
+translate W Down {Ner}
 
 # Goto game/move dialogs:
 translate W LoadGameNumber {Ange partiets nummer:}
@@ -2026,8 +2037,6 @@ translate W IESending {Drag skickade för}
 translate W IESynchronise {Synkronisera}
 translate W IERotate  {Rotera}
 translate W IEUnableToStart {Kunde inste starta Inmatningsschackmotor:}
-
-# Calculation of Variations
 
 translate W Board {Bräde}
 translate W showGameInfo {Visa partiinformation}

@@ -1663,6 +1663,17 @@ translate O IndentVariations {Rykk inn variasjoner}
 translate O ExportColumnStyle {Bruk kolonner (ett trekk per linje)}
 translate O ExportSymbolStyle {Symbolnotasjoner}
 translate O ExportStripMarks {Fjern alle fargekoder og piler fra kommentarer?}
+translate O OptionsExportEol {Linjeavslutninger:}
+translate O OptionsExportEolNative {Innfødt}
+translate O OptionsPGNExport {PGN-eksport}
+translate O OptionsTagOrderIntro {Rekkefølgen på de gjenværende PGN-taggene når du skriver et spill. Seven Tag Roster skrives alltid først, i henhold til PGN-standarden.}
+translate O OptionsTagOrderStr {Seven Tag Roster (fast): Event, Site, Date, Round, White, Black, Result}
+translate O OptionsTagOrderWhite {Hvit vurdering}
+translate O OptionsTagOrderBlack {Svart vurdering}
+translate O OptionsTagOrderOthers {Andre tagger}
+translate O OptionsTagOrderSort {Sorter andre tagger alfabetisk (ellers opprinnelig rekkefølge)}
+translate O Up {Opp}
+translate O Down {Ned}
 
 # Goto game/move dialogs:
 translate O LoadGameNumber {Angi partinummer som skal lastes inn:}
@@ -2020,8 +2031,6 @@ translate O IESending {Flytt sendt for}
 translate O IESynchronise {Synkroniser}
 translate O IERotate  {Rotere}
 translate O IEUnableToStart {Kan ikke starte Input Engine:}
-
-# Calculation of Variations
 
 translate O Board {Borde}
 translate O showGameInfo {Vis spillinformasjon}

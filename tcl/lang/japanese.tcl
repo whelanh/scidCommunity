@@ -1688,6 +1688,17 @@ translate A IndentVariations {インデントのバリエーション}
 translate A ExportColumnStyle {列スタイル (1 行に 1 回の移動)}
 translate A ExportSymbolStyle {記号的な注釈スタイル:}
 translate A ExportStripMarks {コメントから四角形/矢印マーク\nコードを削除します}
+translate A OptionsExportEol {行末:}
+translate A OptionsExportEolNative {ネイティブ}
+translate A OptionsPGNExport {PGN エクスポート}
+translate A OptionsTagOrderIntro {ゲームを作成する際の残りの PGN タグの順序。 PGN 標準に従って、Seven Tag Roster は常に最初に書き込まれます。}
+translate A OptionsTagOrderStr {7 つのタグ名簿 (固定): イベント、サイト、日付、ラウンド、白、黒、結果}
+translate A OptionsTagOrderWhite {ホワイト評価}
+translate A OptionsTagOrderBlack {黒の評価}
+translate A OptionsTagOrderOthers {その他のタグ}
+translate A OptionsTagOrderSort {他のタグをアルファベット順に並べ替えます (それ以外の場合は元の順序)}
+translate A Up {上}
+translate A Down {下}
 
 # Goto game/move dialogs:
 translate A LoadGameNumber {ロードするゲーム番号を入力してください:}
@@ -2039,8 +2050,6 @@ translate A IESending {送信された移動}
 translate A IESynchronise {同期する}
 translate A IERotate  {回転}
 translate A IEUnableToStart {入力エンジンを開始できません:}
-
-# Calculation of Variations
 
 translate A Board {ボード}
 translate A showGameInfo {ゲーム情報を表示}

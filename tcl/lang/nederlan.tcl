@@ -1685,6 +1685,17 @@ translate N IndentVariations {Inspringen varianten?}
 translate N ExportColumnStyle {Kolomstijl (een zet per regel)?}
 translate N ExportSymbolStyle {Symbolische annotatie stijl:}
 translate N ExportStripMarks {Wis vierkante haken/pijlen markeer codes uit de commentaar?}
+translate N OptionsExportEol {Regeleinden:}
+translate N OptionsExportEolNative {Oorspronkelijk}
+translate N OptionsPGNExport {PGN-export}
+translate N OptionsTagOrderIntro {Volgorde van de resterende PGN-tags bij het schrijven van een game. Het Seven Tag Roster wordt altijd als eerste geschreven, volgens de PGN-standaard.}
+translate N OptionsTagOrderStr {Zeven Tag Roster (vast): Evenement, Locatie, Datum, Ronde, Wit, Zwart, Resultaat}
+translate N OptionsTagOrderWhite {Witte beoordeling}
+translate N OptionsTagOrderBlack {Zwarte beoordeling}
+translate N OptionsTagOrderOthers {Andere labels}
+translate N OptionsTagOrderSort {Sorteer andere tags alfabetisch (anders originele volgorde)}
+translate N Up {Omhoog}
+translate N Down {Omlaag}
 
 # Goto game/move dialogs:
 translate N LoadGameNumber {Geef het nummer van de te laden partij:}
@@ -2045,8 +2056,6 @@ translate N IESending {Zetten verzonden voor}
 translate N IESynchronise {Synchroniseer}
 translate N IERotate  {Roteer}
 translate N IEUnableToStart {De Input engine start niet:}
-
-# Calculation of Variations
 
 translate N Board {Bord}
 translate N showGameInfo {Toon de partij informatie}

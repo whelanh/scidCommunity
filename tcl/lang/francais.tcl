@@ -1668,6 +1668,17 @@ translate F IndentVariations {Indenter les variantes?}
 translate F ExportColumnStyle {Style en colonne (un coup par ligne)?}
 translate F ExportSymbolStyle {Style d'annotation symbolique:}
 translate F ExportStripMarks {Enlever les codes de marquages de flèches et de coloration de cases des commentaires?}
+translate F OptionsExportEol {Fins de lignes :}
+translate F OptionsExportEolNative {Indigène}
+translate F OptionsPGNExport {Exportation PGN}
+translate F OptionsTagOrderIntro {Ordre des balises PGN restantes lors de l’écriture d’un jeu. La liste des sept balises est toujours écrite en premier, conformément à la norme PGN.}
+translate F OptionsTagOrderStr {Liste de sept tags (fixe) : événement, site, date, tour, blanc, noir, résultat}
+translate F OptionsTagOrderWhite {Note blanche}
+translate F OptionsTagOrderBlack {Note noire}
+translate F OptionsTagOrderOthers {Autres balises}
+translate F OptionsTagOrderSort {Trier les autres balises par ordre alphabétique (sinon dans l'ordre d'origine)}
+translate F Up {En haut}
+translate F Down {Vers le bas}
 
 # Goto game/move dialogs:
 translate F LoadGameNumber {Entrer le numéro de la partie à charger:}
@@ -2026,8 +2037,6 @@ translate F IESending {Coups envoyés pour}
 translate F IESynchronise {Synchronizer}
 translate F IERotate  {Tourner}
 translate F IEUnableToStart {Impossible de démarrer le protocole Input Engine :}
-
-# Calculation of Variations
 
 translate F Board {Échiquier}
 translate F showGameInfo {Montrer le panneau d'info}

@@ -1651,6 +1651,17 @@ translate T IndentVariations {Girinti varyasyonları}
 translate T ExportColumnStyle {Sütun stili (satır başına bir hareket)}
 translate T ExportSymbolStyle {Sembolik açıklama stili:}
 translate T ExportStripMarks {Yorumlardaki kare/ok işareti\nkodlarını kaldırın}
+translate T OptionsExportEol {Satır sonları:}
+translate T OptionsExportEolNative {Yerli}
+translate T OptionsPGNExport {PGN Dışa Aktarımı}
+translate T OptionsTagOrderIntro {Oyun yazarken kalan PGN etiketlerinin sırası. Yedi Etiket Listesi her zaman PGN standardına göre ilk olarak yazılır.}
+translate T OptionsTagOrderStr {Yedi Etiket Listesi (sabit): Etkinlik, Site, Tarih, Yuvarlak, Beyaz, Siyah, Sonuç}
+translate T OptionsTagOrderWhite {Beyaz derecelendirmesi}
+translate T OptionsTagOrderBlack {Siyah derecelendirmesi}
+translate T OptionsTagOrderOthers {Diğer etiketler}
+translate T OptionsTagOrderSort {Diğer etiketleri alfabetik olarak sıralayın (aksi takdirde orijinal sıra)}
+translate T Up {Yukarı}
+translate T Down {Aşağı}
 
 # Goto game/move dialogs:
 translate T LoadGameNumber {Yüklenecek oyun numarasını girin:}
@@ -2002,8 +2013,6 @@ translate T IESending {Gönderilen hamleler}
 translate T IESynchronise {Senkronize et}
 translate T IERotate  {Döndür}
 translate T IEUnableToStart {Giriş Motoru başlatılamıyor:}
-
-# Calculation of Variations
 
 translate T Board {Pano}
 translate T showGameInfo {Oyun bilgilerini göster}

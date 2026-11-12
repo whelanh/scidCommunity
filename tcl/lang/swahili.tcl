@@ -1647,6 +1647,17 @@ translate Z IndentVariations {Tofauti za ndani}
 translate Z ExportColumnStyle {Mtindo wa safu wima (sogea moja kwa kila mstari)}
 translate Z ExportSymbolStyle {Mtindo wa ufafanuzi wa ishara:}
 translate Z ExportStripMarks {Ondoa alama ya mraba/mshale\misimbo kutoka kwa maoni}
+translate Z OptionsExportEol {Mwisho wa mstari:}
+translate Z OptionsExportEolNative {Asili}
+translate Z OptionsPGNExport {Usafirishaji wa PGN}
+translate Z OptionsTagOrderIntro {Agizo la lebo zilizosalia za PGN wakati wa kuandika mchezo. Orodha ya Lebo Saba huandikwa kila mara kwanza, kulingana na kiwango cha PGN.}
+translate Z OptionsTagOrderStr {Orodha Saba za Lebo (zisizohamishika): Tukio, Tovuti, Tarehe, Mzunguko, Nyeupe, Nyeusi, Matokeo}
+translate Z OptionsTagOrderWhite {Ukadiriaji mweupe}
+translate Z OptionsTagOrderBlack {Ukadiriaji mweusi}
+translate Z OptionsTagOrderOthers {Lebo zingine}
+translate Z OptionsTagOrderSort {Panga vitambulisho vingine kwa alfabeti (vinginevyo mpangilio halisi)}
+translate Z Up {Juu}
+translate Z Down {Chini}
 
 # Goto game/move dialogs:
 translate Z LoadGameNumber {Weka nambari ya mchezo ili kupakia:}
@@ -1998,8 +2009,6 @@ translate Z IESending {Hatua zimetumwa}
 translate Z IESynchronise {Sawazisha}
 translate Z IERotate  {Zungusha}
 translate Z IEUnableToStart {Imeshindwa kuanzisha Injini ya Kuingiza Data:}
-
-# Calculation of Variations
 
 translate Z Board {Bodi}
 translate Z showGameInfo {Onyesha habari za mchezo}

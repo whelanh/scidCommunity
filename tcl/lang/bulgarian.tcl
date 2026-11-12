@@ -1688,6 +1688,17 @@ translate g IndentVariations {Вариации на отстъпа}
 translate g ExportColumnStyle {Стил на колона (едно движение на ред)}
 translate g ExportSymbolStyle {Стил на символични пояснения:}
 translate g ExportStripMarks {Премахване на \nкодовете на квадрат/стрелка от коментарите}
+translate g OptionsExportEol {Краища на редове:}
+translate g OptionsExportEolNative {Роден}
+translate g OptionsPGNExport {Експортиране на PGN}
+translate g OptionsTagOrderIntro {Ред на останалите PGN тагове при писане на игра. Списъкът със седем етикета винаги се записва първи, според стандарта PGN.}
+translate g OptionsTagOrderStr {Списък със седем маркера (фиксиран): събитие, сайт, дата, кръг, бяло, черно, резултат}
+translate g OptionsTagOrderWhite {Бял рейтинг}
+translate g OptionsTagOrderBlack {Черен рейтинг}
+translate g OptionsTagOrderOthers {Други тагове}
+translate g OptionsTagOrderSort {Сортирайте другите тагове по азбучен ред (в противен случай оригиналният ред)}
+translate g Up {нагоре}
+translate g Down {Надолу}
 
 # Goto game/move dialogs:
 translate g LoadGameNumber {Въведете номера на играта за зареждане:}
@@ -2039,8 +2050,6 @@ translate g IESending {Изпратени ходове}
 translate g IESynchronise {Синхронизирайте}
 translate g IERotate  {Завъртете}
 translate g IEUnableToStart {Не може да се стартира Input Engine:}
-
-# Calculation of Variations
 
 translate g Board {дъска}
 translate g showGameInfo {Показване на информация за играта}

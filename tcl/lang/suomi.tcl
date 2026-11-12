@@ -1694,6 +1694,17 @@ translate U IndentVariations {Sisennä muunnelmat?}
 translate U ExportColumnStyle {Saraketyyli (siirto per rivi)?}
 translate U ExportSymbolStyle {Symboolit annotaatioissa:}
 translate U ExportStripMarks {Poista ruutu-/nuolimerkit kommenteista?}
+translate U OptionsExportEol {Rivien päätteet:}
+translate U OptionsExportEolNative {Alkuperäinen}
+translate U OptionsPGNExport {PGN-vienti}
+translate U OptionsTagOrderIntro {Jäljellä olevien PGN-tunnisteiden järjestys peliä kirjoitettaessa. Seven Tag Roster kirjoitetaan aina ensin PGN-standardin mukaisesti.}
+translate U OptionsTagOrderStr {Seitsemän tunnisteen luettelo (kiinteä): Tapahtuma, sivusto, päivämäärä, kierros, valkoinen, musta, tulos}
+translate U OptionsTagOrderWhite {Valkoinen arvosana}
+translate U OptionsTagOrderBlack {Musta arvosana}
+translate U OptionsTagOrderOthers {Muut tunnisteet}
+translate U OptionsTagOrderSort {Lajittele muut tunnisteet aakkosjärjestykseen (muuten alkuperäinen järjestys)}
+translate U Up {Ylös}
+translate U Down {Alas}
 
 # Goto game/move dialogs:
 translate U LoadGameNumber {Ladattavan pelin numero:}
@@ -2051,8 +2062,6 @@ translate U IESending {Siirrot lähetetään}
 translate U IESynchronise {Synkronoi}
 translate U IERotate  {Käännä}
 translate U IEUnableToStart {Input Engine ei voi käynnistyä:}
-
-# Calculation of Variations
 
 translate U Board {Lauta}
 translate U showGameInfo {Näytä pelin tiedot}

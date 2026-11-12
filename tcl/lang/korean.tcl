@@ -1688,6 +1688,17 @@ translate k IndentVariations {성형 변형}
 translate k ExportColumnStyle {열 스타일(한 라인에 한 쪽으로 이동)}
 translate k ExportSymbolStyle {스타일 설명:}
 translate k ExportStripMarks {댓글에서 코너/화살표\n코드 제거}
+translate k OptionsExportEol {줄 끝:}
+translate k OptionsExportEolNative {토종의}
+translate k OptionsPGNExport {PGN 내보내기}
+translate k OptionsTagOrderIntro {게임 작성 시 나머지 PGN 태그 순서입니다. Seven Tag Roster는 항상 PGN 표준에 따라 먼저 작성됩니다.}
+translate k OptionsTagOrderStr {7개의 태그 명단(고정): 이벤트, 사이트, 날짜, 라운드, 흰색, 검정색, 결과}
+translate k OptionsTagOrderWhite {화이트 등급}
+translate k OptionsTagOrderBlack {블랙 등급}
+translate k OptionsTagOrderOthers {기타 태그}
+translate k OptionsTagOrderSort {다른 태그를 알파벳순으로 정렬(그렇지 않으면 원래 순서)}
+translate k Up {위로}
+translate k Down {아래에}
 
 # Goto game/move dialogs:
 translate k LoadGameNumber {게임번호를 입력하세요:}
@@ -2039,8 +2050,6 @@ translate k IESending {이동 전송 대상}
 translate k IESynchronise {키}
 translate k IERotate  {회전}
 translate k IEUnableToStart {엔진을 입력할 수 없습니다.}
-
-# Calculation of Variations
 
 translate k Board {판자}
 translate k showGameInfo {게임 정보 표시}
