@@ -1006,6 +1006,20 @@ translate h OtherBookMovesTooltip {ऐसी चालें जिनका प
 translate h Alphabetical {वर्णानुक्रम}
 translate h BookCount {किताबें}
 
+# OpenBook Rich (.obr) book columns, shown in the Book window for a .obr book.
+translate h ObrBookMove {कदम}
+translate h ObrBookGames {खेल}
+translate h ObrBookFrequency {आवृत्ति}
+translate h ObrBookScore {अंक}
+translate h ObrBookWDB {डब्ल्यू/डी/बी%}
+translate h ObrBookElo {एलो}
+translate h ObrBookPerf {पर्फ़}
+translate h ObrBookNoStats {(कोई आँकड़े नहीं)}
+translate h ObrBookDetail {%s  %d खेल (आवृत्ति %.1f%%): +%d =%d -%d (सफ़ेद/ड्रा/काला) स्कोर %.1f%%  एलो %s  पर्फ़ %s  रंग %s  झंडे 0x%02X}
+translate h ObrColourRed {लाल}
+translate h ObrColourBlue {नीला}
+translate h ObrColourGreen {हरा}
+
 # Configure Engines dialog:
 translate h EngineList {इंजन कॉन्फ़िगर करें}
 translate h EngineName {नाम}

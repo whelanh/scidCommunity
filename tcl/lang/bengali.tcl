@@ -1006,6 +1006,20 @@ translate b OtherBookMovesTooltip {প্রতিপক্ষের একট�
 translate b Alphabetical {বর্ণানুক্রমিক}
 translate b BookCount {বই}
 
+# OpenBook Rich (.obr) book columns, shown in the Book window for a .obr book.
+translate b ObrBookMove {সরান}
+translate b ObrBookGames {গেমস}
+translate b ObrBookFrequency {ফ্রিকোয়েন্সি}
+translate b ObrBookScore {স্কোর}
+translate b ObrBookWDB {W/D/B%}
+translate b ObrBookElo {এলো}
+translate b ObrBookPerf {পারফ}
+translate b ObrBookNoStats {(কোন পরিসংখ্যান নেই)}
+translate b ObrBookDetail {%s  %d গেমস (ফ্রিকোয়েন্সি %.1f%%): +%d =%d -%d (সাদা/ড্র/ব্ল্যাক) স্কোর %.1f%%  এলো %s  পারফ %s  রঙ %s  পতাকা 0x%02X}
+translate b ObrColourRed {লাল}
+translate b ObrColourBlue {নীল}
+translate b ObrColourGreen {সবুজ}
+
 # Configure Engines dialog:
 translate b EngineList {ইঞ্জিন কনফিগার করুন}
 translate b EngineName {নাম}

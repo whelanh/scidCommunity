@@ -1006,6 +1006,20 @@ translate Z OtherBookMovesTooltip {Hatua ambazo mpinzani ana jibu}
 translate Z Alphabetical {Kialfabeti}
 translate Z BookCount {Vitabu}
 
+# OpenBook Rich (.obr) book columns, shown in the Book window for a .obr book.
+translate Z ObrBookMove {Sogeza}
+translate Z ObrBookGames {Michezo}
+translate Z ObrBookFrequency {Mzunguko}
+translate Z ObrBookScore {Alama}
+translate Z ObrBookWDB {W/D/B%}
+translate Z ObrBookElo {Elo}
+translate Z ObrBookPerf {Perf}
+translate Z ObrBookNoStats {(hakuna takwimu)}
+translate Z ObrBookDetail {%s  %d michezo (frequency %.1f%%): +%d =%d -%d (Nyeupe/Sare/Nyeusi) alama %.1f%%  Elo %s  Perf %s  rangi %s  bendera 0x%02X}
+translate Z ObrColourRed {nyekundu}
+translate Z ObrColourBlue {bluu}
+translate Z ObrColourGreen {kijani}
+
 # Configure Engines dialog:
 translate Z EngineList {Sanidi Injini}
 translate Z EngineName {Jina}

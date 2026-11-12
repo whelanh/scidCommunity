@@ -1007,6 +1007,20 @@ translate Q OtherBookMovesTooltip {Ходи, на які противник ма
 translate Q Alphabetical {Алфавітний}
 translate Q BookCount {Книги}
 
+# OpenBook Rich (.obr) book columns, shown in the Book window for a .obr book.
+translate Q ObrBookMove {рухатися}
+translate Q ObrBookGames {Ігри}
+translate Q ObrBookFrequency {Частота}
+translate Q ObrBookScore {Оцінка}
+translate Q ObrBookWDB {W/D/B%}
+translate Q ObrBookElo {Ело}
+translate Q ObrBookPerf {Перф}
+translate Q ObrBookNoStats {(без статистики)}
+translate Q ObrBookDetail {%s %d ігор (частота %.1f%%): +%d =%d -%d (білі/нічия/чорні) рахунок %.1f%% Elo %s Perf %s колір %s позначки 0x%02X}
+translate Q ObrColourRed {червоний}
+translate Q ObrColourBlue {блакитний}
+translate Q ObrColourGreen {зелений}
+
 # Configure Engines dialog:
 translate Q EngineList {Налаштувати двигуни}
 translate Q EngineName {Ім'я}

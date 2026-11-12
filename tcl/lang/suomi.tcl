@@ -1045,6 +1045,20 @@ translate U OtherBookMovesTooltip {Siirrot, joihin vastustajalla on vastaus}
 translate U Alphabetical {Aakkosellinen}
 translate U BookCount {Kirjat}
 
+# OpenBook Rich (.obr) book columns, shown in the Book window for a .obr book.
+translate U ObrBookMove {Liikkua}
+translate U ObrBookGames {Pelit}
+translate U ObrBookFrequency {Taajuus}
+translate U ObrBookScore {Pisteet}
+translate U ObrBookWDB {L/D/B %}
+translate U ObrBookElo {Elo}
+translate U ObrBookPerf {Perf}
+translate U ObrBookNoStats {(ei tilastoja)}
+translate U ObrBookDetail {%s  %d pelit (taajuus %.1f%%): +%d =%d -%d (valkoinen/tasapeli/musta) pisteet %.1f%%  Elo %s  Perf %s  väri %s  liput 0x%02X}
+translate U ObrColourRed {punainen}
+translate U ObrColourBlue {sininen}
+translate U ObrColourGreen {vihreä}
+
 # Configure Engines dialog:
 translate U EngineList {Konfiguroi moottorit}
 translate U EngineName {Nimi}

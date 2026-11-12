@@ -1011,6 +1011,20 @@ translate C OtherBookMovesTooltip {Tahy, na kter m soupe odpov}
 translate C Alphabetical {Abecední}
 translate C BookCount {knihy}
 
+# OpenBook Rich (.obr) book columns, shown in the Book window for a .obr book.
+translate C ObrBookMove {Pohyb}
+translate C ObrBookGames {Hry}
+translate C ObrBookFrequency {Frekvence}
+translate C ObrBookScore {Skóre}
+translate C ObrBookWDB {W/D/B %}
+translate C ObrBookElo {Elo}
+translate C ObrBookPerf {Perf}
+translate C ObrBookNoStats {(žádná statistika)}
+translate C ObrBookDetail {%s  %d hry (frekvence %.1f%%): +%d =%d -%d (Bílý/Remíza/Černý) skóre %.1f%%  Elo %s  Perf %s  barva %s  příznaky 0x%02X}
+translate C ObrColourRed {červený}
+translate C ObrColourBlue {modrý}
+translate C ObrColourGreen {zelený}
+
 # Configure Engines dialog:
 translate C EngineList {Konfigurace motor}
 translate C EngineName {Jmno}

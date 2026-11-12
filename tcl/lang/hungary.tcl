@@ -1014,6 +1014,20 @@ translate H OtherBookMovesTooltip {Azok a lépések, amelyekre az ellenfélnek v
 translate H Alphabetical {Betűrendes}
 translate H BookCount {Könyvek}
 
+# OpenBook Rich (.obr) book columns, shown in the Book window for a .obr book.
+translate H ObrBookMove {Mozog}
+translate H ObrBookGames {Játékok}
+translate H ObrBookFrequency {Frekvencia}
+translate H ObrBookScore {Pontszám}
+translate H ObrBookWDB {Szé/Mé/B%}
+translate H ObrBookElo {Elo}
+translate H ObrBookPerf {Perf}
+translate H ObrBookNoStats {(nincs statisztika)}
+translate H ObrBookDetail {%s  %d játékok (frekvencia %.1f%%): +%d =%d -%d (Fehér/Döntetlen/Fekete) pontszám %.1f%%  Elo %s  Perf %s  szín %s  zászlók 0x%02X}
+translate H ObrColourRed {piros}
+translate H ObrColourBlue {kék}
+translate H ObrColourGreen {zöld}
+
 # Configure Engines dialog:
 translate H EngineList {Motorok konfigurálása}
 translate H EngineName {Név}

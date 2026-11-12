@@ -1019,6 +1019,20 @@ translate F OtherBookMovesTooltip {Coups pour lesquels l'adversaire a une répon
 translate F Alphabetical {Alphabétique}
 translate F BookCount {Livres}
 
+# OpenBook Rich (.obr) book columns, shown in the Book window for a .obr book.
+translate F ObrBookMove {Se déplacer}
+translate F ObrBookGames {Jeux}
+translate F ObrBookFrequency {Fréquence}
+translate F ObrBookScore {Score}
+translate F ObrBookWDB {W/J/B%}
+translate F ObrBookElo {Élo}
+translate F ObrBookPerf {Performance}
+translate F ObrBookNoStats {(pas de statistiques)}
+translate F ObrBookDetail {%s %d jeux (fréquence %.1f%%) : +%d =%d -%d (Blanc/Nul/Noir) score %.1f%% Elo %s Perf %s couleur %s indicateurs 0x%02X}
+translate F ObrColourRed {rouge}
+translate F ObrColourBlue {bleu}
+translate F ObrColourGreen {vert}
+
 # Configure Engines dialog:
 translate F EngineList {Configurer les moteurs}
 translate F EngineName {Nom}

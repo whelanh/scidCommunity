@@ -1032,6 +1032,20 @@ translate K OtherBookMovesTooltip {Jugades a les que el contrari te una respuest
 translate K Alphabetical {Alfabètic}
 translate K BookCount {Llibres}
 
+# OpenBook Rich (.obr) book columns, shown in the Book window for a .obr book.
+translate K ObrBookMove {Mou-te}
+translate K ObrBookGames {Jocs}
+translate K ObrBookFrequency {Freqüència}
+translate K ObrBookScore {Puntuació}
+translate K ObrBookWDB {W/D/B%}
+translate K ObrBookElo {Elo}
+translate K ObrBookPerf {Perf}
+translate K ObrBookNoStats {(sense estadístiques)}
+translate K ObrBookDetail {%s  %d jocs (freqüència %.1f%%): +%d =%d -%d (Blanc/Empat/Negre) puntuació %.1f%%  Elo %s  Perf %s  color %s  banderes 0x%02X}
+translate K ObrColourRed {vermell}
+translate K ObrColourBlue {blau}
+translate K ObrColourGreen {verd}
+
 # Configure Engines dialog:
 translate K EngineList {Configura motors}
 translate K EngineName {Nom}

@@ -1047,6 +1047,20 @@ translate k OtherBookMovesTooltip {상대방이 대답장을 한 동작}
 translate k Alphabetical {알파벳순}
 translate k BookCount {서적}
 
+# OpenBook Rich (.obr) book columns, shown in the Book window for a .obr book.
+translate k ObrBookMove {이동하다}
+translate k ObrBookGames {계략}
+translate k ObrBookFrequency {빈도}
+translate k ObrBookScore {점수}
+translate k ObrBookWDB {W/D/B%}
+translate k ObrBookElo {엘로}
+translate k ObrBookPerf {성능}
+translate k ObrBookNoStats {(통계 없음)}
+translate k ObrBookDetail {%s %d 게임(주파수 %.1f%%): +%d =%d -%d (흰색/무승부/검정색) 점수 %.1f%% Elo %s 성능 %s 색상 %s 플래그 0x%02X}
+translate k ObrColourRed {빨간색}
+translate k ObrColourBlue {파란색}
+translate k ObrColourGreen {녹색}
+
 # Configure Engines dialog:
 translate k EngineList {엔진 구성}
 translate k EngineName {이름}

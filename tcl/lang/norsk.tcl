@@ -1016,6 +1016,20 @@ translate O OtherBookMovesTooltip {Trekk som motstanderen har et svar på}
 translate O Alphabetical {Alfabetisk}
 translate O BookCount {Bøker}
 
+# OpenBook Rich (.obr) book columns, shown in the Book window for a .obr book.
+translate O ObrBookMove {Flytte}
+translate O ObrBookGames {Spill}
+translate O ObrBookFrequency {Hyppighet}
+translate O ObrBookScore {Score}
+translate O ObrBookWDB {W/D/B %}
+translate O ObrBookElo {Elo}
+translate O ObrBookPerf {Perf}
+translate O ObrBookNoStats {(ingen statistikk)}
+translate O ObrBookDetail {%s  %d spill (frekvens %.1f%%): +%d =%d -%d (Hvit/Remis/Sort) poengsum %.1f%%  Elo %s  Perf %s  farge %s  flagg 0x%02X}
+translate O ObrColourRed {rød}
+translate O ObrColourBlue {blå}
+translate O ObrColourGreen {grønn}
+
 # Configure Engines dialog:
 translate O EngineList {Konfigurer motorer}
 translate O EngineName {Navn}

@@ -1038,6 +1038,20 @@ translate G OtherBookMovesTooltip {Κινήσεις για τις οποίες �
 translate G Alphabetical {Αλφαβητική}
 translate G BookCount {Βιβλία}
 
+# OpenBook Rich (.obr) book columns, shown in the Book window for a .obr book.
+translate G ObrBookMove {Κίνηση}
+translate G ObrBookGames {Παιχνίδια}
+translate G ObrBookFrequency {Συχνότητα}
+translate G ObrBookScore {Σκορ}
+translate G ObrBookWDB {W/D/B%}
+translate G ObrBookElo {Έλο}
+translate G ObrBookPerf {Perf}
+translate G ObrBookNoStats {(χωρίς στατιστικά)}
+translate G ObrBookDetail {%s  %d παιχνίδια (συχνότητα %.1f%%): +%d =%d -%d (Λευκό / Ισοπαλία / Μαύρο) βαθμολογία %.1f%%  Έλο %s  Perf %s  χρώμα %s  σημαίες 0x%02X}
+translate G ObrColourRed {κόκκινος}
+translate G ObrColourBlue {μπλε}
+translate G ObrColourGreen {πράσινος}
+
 # Configure Engines dialog:
 translate G EngineList {Διαμόρφωση μηχανών}
 translate G EngineName {Όνομα}

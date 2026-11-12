@@ -1047,6 +1047,20 @@ translate L OtherBookMovesTooltip {Mișcări la care adversarul are răspuns}
 translate L Alphabetical {Alfabetic}
 translate L BookCount {Cărți}
 
+# OpenBook Rich (.obr) book columns, shown in the Book window for a .obr book.
+translate L ObrBookMove {Mişcare}
+translate L ObrBookGames {Jocuri}
+translate L ObrBookFrequency {Frecvenţă}
+translate L ObrBookScore {Scor}
+translate L ObrBookWDB {W/D/B%}
+translate L ObrBookElo {Elo}
+translate L ObrBookPerf {Perf}
+translate L ObrBookNoStats {(fără statistici)}
+translate L ObrBookDetail {%s  %d jocuri (frecvență %.1f%%): +%d =%d -%d scor (Alb/Remiză/Negru). %.1f%%  Elo %s  Perf %s  culoare %s  steaguri 0x%02X}
+translate L ObrColourRed {roşu}
+translate L ObrColourBlue {albastru}
+translate L ObrColourGreen {verde}
+
 # Configure Engines dialog:
 translate L EngineList {Configurați motoarele}
 translate L EngineName {Nume}

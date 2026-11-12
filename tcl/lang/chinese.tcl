@@ -983,6 +983,20 @@ translate M OtherBookMovesTooltip {Moves to which the opponent has a reply}
 translate M Alphabetical {按字母顺序}
 translate M BookCount {图书}
 
+# OpenBook Rich (.obr) book columns, shown in the Book window for a .obr book.
+translate M ObrBookMove {移动}
+translate M ObrBookGames {游戏}
+translate M ObrBookFrequency {频率}
+translate M ObrBookScore {分数}
+translate M ObrBookWDB {宽/深/宽%}
+translate M ObrBookElo {埃洛}
+translate M ObrBookPerf {性能}
+translate M ObrBookNoStats {（无统计）}
+translate M ObrBookDetail {%s %d 游戏（频率 %.1f%%）：+%d =%d -%d（白/平局/黑）得分 %.1f%% Elo %s Perf %s 颜色%s 标志 0x%02X}
+translate M ObrColourRed {红色的}
+translate M ObrColourBlue {蓝色的}
+translate M ObrColourGreen {绿色的}
+
 # Configure Engines dialog:
 translate M EngineList {配置引擎}
 translate M EngineName {名称}

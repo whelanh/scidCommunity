@@ -1036,6 +1036,20 @@ translate N OtherBookMovesTooltip {Zetten waarvoor de tegenspeler een antwoord h
 translate N Alphabetical {Alfabetisch}
 translate N BookCount {Boeken}
 
+# OpenBook Rich (.obr) book columns, shown in the Book window for a .obr book.
+translate N ObrBookMove {Beweging}
+translate N ObrBookGames {Spellen}
+translate N ObrBookFrequency {Frequentie}
+translate N ObrBookScore {Scoren}
+translate N ObrBookWDB {W/D/B%}
+translate N ObrBookElo {Elo}
+translate N ObrBookPerf {Perf}
+translate N ObrBookNoStats {(geen statistieken)}
+translate N ObrBookDetail {%s %d games (frequentie %.1f%%): +%d =%d -%d (wit/gelijkspel/zwart) score %.1f%% Elo %s Perf %s kleur %s markeert 0x%02X}
+translate N ObrColourRed {rood}
+translate N ObrColourBlue {blauw}
+translate N ObrColourGreen {groente}
+
 # Configure Engines dialog:
 translate N EngineList {Configureer motoren}
 translate N EngineName {Naam}

@@ -1007,6 +1007,20 @@ translate V OtherBookMovesTooltip {מהלכים שאליהם יש ליריב ת�
 translate V Alphabetical {אָלֶף בֵּיתִי}
 translate V BookCount {ספרים}
 
+# OpenBook Rich (.obr) book columns, shown in the Book window for a .obr book.
+translate V ObrBookMove {מַהֲלָך}
+translate V ObrBookGames {משחקים}
+translate V ObrBookFrequency {תֶדֶר}
+translate V ObrBookScore {צִיוּן}
+translate V ObrBookWDB {W/D/B%}
+translate V ObrBookElo {אלו}
+translate V ObrBookPerf {Perf}
+translate V ObrBookNoStats {(ללא סטטיסטיקה)}
+translate V ObrBookDetail {%s  %d משחקים (תדירות %.1f%%): +%d =%d -%d ציון (לבן/ציור/שחור). %.1f%%  אלו %s  Perf %s  צֶבַע %s  דגלים 0x%02X}
+translate V ObrColourRed {אָדוֹם}
+translate V ObrColourBlue {כְּחוֹל}
+translate V ObrColourGreen {יָרוֹק}
+
 # Configure Engines dialog:
 translate V EngineList {הגדר מנועים}
 translate V EngineName {שֵׁם}

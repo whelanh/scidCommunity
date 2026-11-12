@@ -1013,6 +1013,20 @@ translate R OtherBookMovesTooltip {Ходы, к которым противни�
 translate R Alphabetical {Алфавитный}
 translate R BookCount {Книги}
 
+# OpenBook Rich (.obr) book columns, shown in the Book window for a .obr book.
+translate R ObrBookMove {Двигаться}
+translate R ObrBookGames {Игры}
+translate R ObrBookFrequency {Частота}
+translate R ObrBookScore {Счет}
+translate R ObrBookWDB {Вт/Д/Б%}
+translate R ObrBookElo {Эло}
+translate R ObrBookPerf {Перф}
+translate R ObrBookNoStats {(нет статистики)}
+translate R ObrBookDetail {%s %d игры (частота %.1f%%): +%d =%d -%d (Белый/Ничья/Черный) оценка %.1f%% Эло %s Перф %s цвет %s флаги 0x%02X}
+translate R ObrColourRed {красный}
+translate R ObrColourBlue {синий}
+translate R ObrColourGreen {зеленый}
+
 # Configure Engines dialog:
 translate R EngineList {Настройка движков}
 translate R EngineName {Название}

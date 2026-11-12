@@ -1010,6 +1010,20 @@ translate T OtherBookMovesTooltip {Rakibin cevap vereceği hamleler}
 translate T Alphabetical {Alfabetik}
 translate T BookCount {Kitaplar}
 
+# OpenBook Rich (.obr) book columns, shown in the Book window for a .obr book.
+translate T ObrBookMove {Taşınmak}
+translate T ObrBookGames {Oyunlar}
+translate T ObrBookFrequency {Sıklık}
+translate T ObrBookScore {Gol}
+translate T ObrBookWDB {G/G/B%}
+translate T ObrBookElo {elo}
+translate T ObrBookPerf {Mükemmel}
+translate T ObrBookNoStats {(istatistik yok)}
+translate T ObrBookDetail {%s %d oyunlar (frekans %.1f%%): +%d =%d -%d (Beyaz/Beraberlik/Siyah) puan %.1f%% Elo %s Perf %s renk %s 0x'i işaretler%02X}
+translate T ObrColourRed {kırmızı}
+translate T ObrColourBlue {mavi}
+translate T ObrColourGreen {yeşil}
+
 # Configure Engines dialog:
 translate T EngineList {Motorları Yapılandırma}
 translate T EngineName {İsim}

@@ -1047,6 +1047,20 @@ translate J OtherBookMovesTooltip {Потези на које противник
 translate J Alphabetical {Абецедно}
 translate J BookCount {Књиге}
 
+# OpenBook Rich (.obr) book columns, shown in the Book window for a .obr book.
+translate J ObrBookMove {Помери се}
+translate J ObrBookGames {Игре}
+translate J ObrBookFrequency {Фреквенција}
+translate J ObrBookScore {Сцоре}
+translate J ObrBookWDB {В/Д/Б%}
+translate J ObrBookElo {Ело}
+translate J ObrBookPerf {Перф}
+translate J ObrBookNoStats {(без статистике)}
+translate J ObrBookDetail {%s  %d игре (учесталост %.1f%%): +%d =%d -%d (бели/нерешени/црни) резултат %.1f%%  Ело %s  Перф %s  боја %s  флагс 0к%02X}
+translate J ObrColourRed {црвена}
+translate J ObrColourBlue {плава}
+translate J ObrColourGreen {зелена}
+
 # Configure Engines dialog:
 translate J EngineList {Конфигуришите моторе}
 translate J EngineName {Име}

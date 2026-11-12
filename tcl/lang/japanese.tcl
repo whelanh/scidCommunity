@@ -1047,6 +1047,20 @@ translate A OtherBookMovesTooltip {相手が返答のある手}
 translate A Alphabetical {アルファベット順}
 translate A BookCount {本}
 
+# OpenBook Rich (.obr) book columns, shown in the Book window for a .obr book.
+translate A ObrBookMove {動く}
+translate A ObrBookGames {ゲーム}
+translate A ObrBookFrequency {頻度}
+translate A ObrBookScore {スコア}
+translate A ObrBookWDB {W/D/B%}
+translate A ObrBookElo {エロ}
+translate A ObrBookPerf {パフォーマンス}
+translate A ObrBookNoStats {(統計はありません)}
+translate A ObrBookDetail {%s %d ゲーム (頻度 %.1f%%): +%d =%d -%d (白/ドロー/黒) スコア %.1f%% Elo %s パフォーマンス %s カラー%s フラグ 0x%02X}
+translate A ObrColourRed {赤}
+translate A ObrColourBlue {青}
+translate A ObrColourGreen {緑}
+
 # Configure Engines dialog:
 translate A EngineList {エンジンの構成}
 translate A EngineName {名前}

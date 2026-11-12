@@ -1047,6 +1047,20 @@ translate g OtherBookMovesTooltip {Ходове, на които противн�
 translate g Alphabetical {Азбучен ред}
 translate g BookCount {Книги}
 
+# OpenBook Rich (.obr) book columns, shown in the Book window for a .obr book.
+translate g ObrBookMove {Движи се}
+translate g ObrBookGames {игри}
+translate g ObrBookFrequency {Честота}
+translate g ObrBookScore {резултат}
+translate g ObrBookWDB {W/D/B%}
+translate g ObrBookElo {Ело}
+translate g ObrBookPerf {Perf}
+translate g ObrBookNoStats {(няма статистика)}
+translate g ObrBookDetail {%s %d игри (честота %.1f%%): +%d =%d -%d (Бяло/Равенство/Черно) резултат %.1f%% Elo %s Perf %s цвят %s флагове 0x%02X}
+translate g ObrColourRed {червено}
+translate g ObrColourBlue {синьо}
+translate g ObrColourGreen {зелено}
+
 # Configure Engines dialog:
 translate g EngineList {Конфигуриране на двигатели}
 translate g EngineName {Име}
