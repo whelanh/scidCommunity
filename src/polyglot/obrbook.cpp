@@ -22,6 +22,7 @@ constexpr uint32_t NO_CHILD = 0xFFFFFFFFu;
 constexpr int POS_SIZE = 48;
 constexpr int MOVE_SIZE = 8;
 constexpr int ALIAS_SIZE = 12;
+constexpr uint64_t HEADER_SIZE = 64;
 
 struct obr_file_t {
 	FILE* f = nullptr;
@@ -90,8 +91,8 @@ bool read_pos(const obr_file_t& o, uint32_t i, uint64_t& key, obr_stats_t& s,
 	return true;
 }
 
-// Leftmost-match binary search on a table of fixed-size records keyed by a
-// leading little-endian u64. Returns the index or -1.
+// Binary search on a table of fixed-size records keyed by a leading
+// little-endian u64 (keys are unique). Returns the index or -1.
 int64_t bsearch_key(const obr_file_t& o, uint64_t base, int size, uint32_t n,
                     uint64_t key) {
 	int64_t lo = 0, hi = int64_t(n) - 1;
@@ -176,14 +177,19 @@ bool obr_open(const char file_name[], const int BookNumber) {
 	o.pos_off = le(h + 24, 8);
 	o.move_off = le(h + 32, 8);
 	o.alias_off = le(h + 40, 8);
-	// Reject empty or truncated files: every table must lie inside the file.
+	// Reject empty or truncated files: each table must start after the header,
+	// lie inside the file, and be ordered and non-overlapping (positions, then
+	// moves, then aliases).
 	const uint64_t size = file_size(f);
 	auto fits = [size](uint64_t off, uint64_t n, uint64_t rec) {
-		return off <= size && n * rec <= size - off;
+		return off >= HEADER_SIZE && off <= size && n * rec <= size - off;
 	};
+	const uint64_t pos_end = o.pos_off + uint64_t(o.n_pos) * POS_SIZE;
+	const uint64_t move_end = o.move_off + uint64_t(o.n_moves) * MOVE_SIZE;
 	if (o.n_pos == 0 || !fits(o.pos_off, o.n_pos, POS_SIZE) ||
 	    !fits(o.move_off, o.n_moves, MOVE_SIZE) ||
-	    !fits(o.alias_off, o.n_alias, ALIAS_SIZE)) {
+	    !fits(o.alias_off, o.n_alias, ALIAS_SIZE) ||
+	    o.move_off < pos_end || o.alias_off < move_end) {
 		fclose(f);
 		return false;
 	}

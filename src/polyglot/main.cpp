@@ -97,7 +97,10 @@ static void obr_legal_moves(const board_t* board,
                             std::vector<std::pair<const obr_move_t*, std::string>>& out) {
   out.clear();
   for (const auto& m : in) {
-    if (m.status != 0 || m.move == MoveNone || !move_is_legal(m.move, board))
+    // status 3 is "legal but its child position has no record": still a book
+    // move and must be shown (without statistics). status 1/2 are
+    // undecodable/illegal and have move == MoveNone, caught below.
+    if (m.move == MoveNone || !move_is_legal(m.move, board))
       continue;
     char san[256];
     if (!move_to_san(m.move, board, san, sizeof(san)))
