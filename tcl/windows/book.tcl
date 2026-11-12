@@ -487,6 +487,16 @@ namespace eval book {
     return [format 0x%02x $rec]
   }
 
+  # Translated display name for an obrColour key ("-" and "0xNN" pass through).
+  proc obrColourText { colour } {
+    switch -- $colour {
+      red   { return [tr ObrColourRed] }
+      blue  { return [tr ObrColourBlue] }
+      green { return [tr ObrColourGreen] }
+    }
+    return $colour
+  }
+
   # White/Draw/Black bar, $chars characters wide, to embed in text widget $txt;
   # returns the canvas. Same look as Scid's game list statistics (SourceForge
   # Scid, ::windows::gamelist::updateStats_): white / #707070 / black segments
@@ -573,9 +583,14 @@ namespace eval book {
     $txt configure -state normal -width 64
     $txt delete 1.0 end
     # clickable sort headers; the arrow takes a padding space, keeping columns aligned
-    $txt insert end [format "%-9s" "Move"] obrHeader
-    foreach {key fmt label} {games %9s Games freq %10s Frequency score %7s Score
-                             wdb "  %10s    " W/D/B% elo " %5s" Elo perf " %5s" Perf} {
+    $txt insert end [format "%-9s" [tr ObrBookMove]] obrHeader
+    foreach {key fmt label} [list \
+        games %9s [tr ObrBookGames] \
+        freq %10s [tr ObrBookFrequency] \
+        score %7s [tr ObrBookScore] \
+        wdb "  %10s    " [tr ObrBookWDB] \
+        elo " %5s" [tr ObrBookElo] \
+        perf " %5s" [tr ObrBookPerf]] {
       if {!$::book::sortAlpha && $key eq $::book::obrSortKey} {
         set label "[expr {$::book::obrSortDesc ? "▼" : "▲"}]$label"
       }
@@ -595,18 +610,20 @@ namespace eval book {
         set eloTxt [expr {$elo > 0 ? $elo : "-"}]
         set perfTxt [expr {$perf > 0 ? $perf : "-"}]
         set freq [expr {$sumGames > 0 ? 100.0 * $games / $sumGames : 0}]
+        set colourKey [obrColour $rec $nag]
         set text [format "%-9s %8d %8.1f%% %5.1f%%  " $label $games $freq $score]
         set tail [format " %5s %5s" $eloTxt $perfTxt]
-        set detail [format "%s  %d games (frequency %.1f%%): +%d =%d -%d (White/Draw/Black)  score %.1f%%  Elo %s  Perf %s  colour %s  flags 0x%02X" \
-                      $label $games $freq $ww $dd $bw $score $eloTxt $perfTxt [obrColour $rec $nag] $flags]
+        set detail [format [tr ObrBookDetail] \
+                      $label $games $freq $ww $dd $bw $score $eloTxt $perfTxt \
+                      [obrColourText $colourKey] $flags]
       } else {
         set text [format "%-9s %8s" $label "-"]
-        set detail "$label  (no statistics)"
+        set detail "$label  [tr ObrBookNoStats]"
       }
       set tags [list bookMove$line mv$san]
       if {$san == $nextmove} { lappend tags nextmove }
       if {$hasStats} {
-        switch -- [obrColour $rec $nag] {
+        switch -- $colourKey {
           red   { lappend tags obrRed }
           blue  { lappend tags obrBlue }
           green { lappend tags obrGreen }
