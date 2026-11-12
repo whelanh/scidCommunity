@@ -2159,6 +2159,7 @@ proc ::enginewin::pvBlockUpdate {id w multipv depth chunks} {
                 && [info exists m_(pvLastChunks,$id)]} {
             set m_(pvBlockStart,$id) 1
             set m_(pvBlockDepth,$id) $m_(pvLastDepth,$id)
+            set m_(pvBestDepth,$id) $m_(pvLastDepth,$id)
             set m_(pvList,$id) [dict create 1 $m_(pvLastChunks,$id)]
         } else {
             set m_(pvBlockStart,$id) 1
@@ -2167,16 +2168,25 @@ proc ::enginewin::pvBlockUpdate {id w multipv depth chunks} {
         }
     }
 
-    if {$multipv == 1 && $m_(pvBlockDepth,$id) ne $depth} {
-        if {[::enginewin::pvDepthWentBack $depth $m_(pvBlockDepth,$id)]} {
-            # A new, shallower search: start the history again.
-            $w delete 1.0 end
-            set m_(pvBlockStart,$id) 1
-            set m_(pvList,$id) [dict create]
-        } elseif {[$w index end-1c] ne "1.0"} {
-            set m_(pvBlockStart,$id) [::enginewin::pvNewBlock $w]
+    if {$multipv == 1} {
+        if {![info exists m_(pvBestDepth,$id)]} {
+            # The first best line names the block. It may arrive after a
+            # secondary line from another depth; that line is kept, not treated
+            # as a search that ran backwards.
+            set m_(pvBestDepth,$id) $depth
+            set m_(pvBlockDepth,$id) $depth
+        } elseif {$m_(pvBestDepth,$id) ne $depth} {
+            if {[::enginewin::pvDepthWentBack $depth $m_(pvBestDepth,$id)]} {
+                # A new, shallower search: start the history again.
+                $w delete 1.0 end
+                set m_(pvBlockStart,$id) 1
+                set m_(pvList,$id) [dict create]
+            } elseif {[$w index end-1c] ne "1.0"} {
+                set m_(pvBlockStart,$id) [::enginewin::pvNewBlock $w]
+            }
+            set m_(pvBestDepth,$id) $depth
+            set m_(pvBlockDepth,$id) $depth
         }
-        set m_(pvBlockDepth,$id) $depth
     } elseif {$m_(pvBlockDepth,$id) eq ""} {
         # No best line yet (an engine that reports multipv 2 first); give the
         # block a home and let the best line fill index 1 when it arrives.
@@ -2226,8 +2236,9 @@ proc ::enginewin::updateDisplay {id msgData} {
         $pv_lines delete 1.0 end
         $pv_lines configure -state disabled
         unset -nocomplain ::enginewin::m_(pvBlockDepth,$id) \
-            ::enginewin::m_(pvBlockStart,$id) ::enginewin::m_(pvList,$id) \
-            ::enginewin::m_(pvLastDepth,$id) ::enginewin::m_(pvLastChunks,$id)
+            ::enginewin::m_(pvBlockStart,$id) ::enginewin::m_(pvBestDepth,$id) \
+            ::enginewin::m_(pvList,$id) ::enginewin::m_(pvLastDepth,$id) \
+            ::enginewin::m_(pvLastChunks,$id)
         # Clear stored PV lines for multi-arrow display
         set ::enginewin::m_(pvlines,$id) {}
 if {[array exists ::enginewin::pvBestMove]} {

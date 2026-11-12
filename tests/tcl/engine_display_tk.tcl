@@ -203,6 +203,18 @@ feed 2 5  1 {d2d4}
 checkEq "and its other line joins the block" [lineCount] 2
 check "on the next line" [string match "5/20*+0.01*d2d4*" [lineText 2]] [lineText 2]
 
+puts "\nthe first best line may arrive after a secondary line"
+
+::enginewin::updateDisplay 1 ""
+feed 2 8  20 {d2d4 d7d5}
+feed 1 7  30 {e2e4 e7e5}
+checkEq "the secondary line is kept" [lineCount] 2
+check "the best line takes the first slot" \
+    [string match "7/20*+0.30*e2e4*" [lineText 1]] [lineText 1]
+check "the line that arrived first keeps the second" \
+    [string match "8/20*+0.20*d2d4*" [lineText 2]] [lineText 2]
+checkEq "the block is keyed by the best line" $::enginewin::m_(pvBestDepth,1) 7
+
 puts "\na single PV keeps the Engine Window's own display"
 
 ::enginewin::updateDisplay 1 ""
