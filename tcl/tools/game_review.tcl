@@ -656,7 +656,7 @@ proc ::review::nodeSan {} {
 # Everything the map and the writer need about the position the board is on.
 # `move` is passed in when the caller already knows it - the anchor that
 # sc_var enter played - so the node and the anchor cannot disagree.
-proc ::review::lineNode {index route {move ""}} {
+proc ::review::lineNode {index route {move ""} {anchor ""}} {
     set ply 0
     catch { set ply [sc_pos location] }
     set fen ""
@@ -664,8 +664,12 @@ proc ::review::lineNode {index route {move ""}} {
     set comment ""
     catch { set comment [sc_pos getComment] }
     if {$move eq ""} { set move [nodeMove] }
+    # A null move is 0000 on the board but no move for the writer. Keep the raw
+    # anchor separately: visitLine still has to find the variation by it.
+    if {$move eq "0000"} { set move "" }
+    if {$anchor eq ""} { set anchor $move }
     return [dict create index $index route $route ply $ply fen $fen \
-        uci $move san [nodeSan] comment $comment \
+        uci $move anchor $anchor san [nodeSan] comment $comment \
         hasVerdict [expr {[labelOfComment $comment] ne ""}]]
 }
 
@@ -750,26 +754,32 @@ proc ::review::currentLineMap {{cursor ""}} {
         set extend 1
         foreach step $path {
             lassign $step number depth
-            # `moves 0` in cursorSave can only be an empty variation: there is no
-            # move to record and nothing to descend into, so the line ends at
-            # the branch point and the level contributes no node and no anchor.
-            if {$depth < 1} {
-                set extend 0
-                break
-            }
             set sibs {}
             catch { set sibs [sc_var list UCI] }
             set anchor [lindex $sibs $number]
+            # `moves 0` is also the cursor at a nonempty variation's first
+            # position, before its first move has been played. The variation's
+            # first move, not the cursor depth, decides whether there is a line
+            # to enter; only a genuinely empty variation contributes no node.
             if {$anchor eq ""} {
-                error "variation $number is not on this line"
+                # A cursor that claims moves inside a variation that is not
+                # there is a broken route. A depth of 0 with no anchor is an
+                # empty variation at its own start, which contributes nothing.
+                if {$depth > 0} {
+                    error "variation $number is not on this line"
+                }
+                set extend 0
+                break
             }
             lappend anchors $anchor
             sc_var enter $number
             incr plies
             set route [lrange $cursorRoute 0 $level]
-            set node [lineNode $plies $route $anchor]
+            # The anchor is the raw UCI move for route validation; a null move
+            # is 0000 on the board but no move for the writer.
+            set node [lineNode $plies $route "" $anchor]
             dict set nodes $plies $node
-            dict set moves $plies $anchor
+            dict set moves $plies [dict get $node uci]
             dict set positions $plies [sc_game UCI_currentPos]
             for {set k 1} {$k < $depth} {incr k} {
                 if {[sc_move forward 1] < 1} {
@@ -811,7 +821,14 @@ proc ::review::currentLineMap {{cursor ""}} {
     set unlabelled {}
     set labelled {}
     for {set i 1} {$i <= $plies} {incr i} {
-        if {[dict get $nodes $i hasVerdict]} {
+        # A null move is a ply, not a move to review. Keep its position in the
+        # map, but do not let it count as an unreviewed move: otherwise a line
+        # whose real moves are all labelled would be judged as the null move
+        # alone on the next press.
+        set uci ""
+        catch { set uci [dict get [dict get $nodes $i] uci] }
+        if {$uci eq ""} { continue }
+        if {[dict get [dict get $nodes $i] hasVerdict]} {
             lappend labelled $i
         } else {
             lappend unlabelled $i
@@ -879,7 +896,9 @@ proc ::review::visitLine {map indices body} {
             set route [dict get $node route]
             if {[llength $route] > [llength $prev]} {
                 set number [lindex $route end]
-                set anchor [dict get $node uci]
+                set anchor ""
+                catch { set anchor [dict get $node anchor] }
+                if {$anchor eq ""} { catch { set anchor [dict get $node uci] } }
                 set sibs {}
                 catch { set sibs [sc_var list UCI] }
                 if {$number >= [llength $sibs] || [lindex $sibs $number] ne $anchor} {
@@ -892,6 +911,15 @@ proc ::review::visitLine {map indices body} {
                 break
             }
             if {[sc_pos location] != [dict get $node ply]} { set stopped 1 ; break }
+            # The ply counter and the route anchor identify the line, not the
+            # move: an interior move replaced in place keeps both. The node's
+            # FEN is the position itself, so compare it before any callback can
+            # write the old verdict onto the replacement move.
+            set wantFen ""
+            catch { set wantFen [dict get $node fen] }
+            set liveFen ""
+            catch { set liveFen [sc_pos fen] }
+            if {$wantFen ne "" && $liveFen ne $wantFen} { set stopped 1 ; break }
             if {[lsearch -exact $want $i] >= 0} { {*}$body $node }
             set prev $route
         }
@@ -1122,6 +1150,16 @@ proc ::review::labelOfComment {comment} {
     # The verdict lives inside the review's colour span, so the tail is compared
     # with the span tags removed.
     set tail [regsub -all {</?span[^>]*>} [string trim $comment] ""]
+    # The coach writes whole lines after the verdict. They are machine markers,
+    # not prose: a verdict followed by [Coach] or [Phase ...] is still the
+    # move's verdict, and hiding it would leave the old mark on the move.
+    while {1} {
+        set before $tail
+        regsub -line {\s*\[Phase [^\]]*\][^\n]*$} $tail {} tail
+        regsub -line {\s*\[Coach\][^\n]*$} $tail {} tail
+        set tail [string trim $tail]
+        if {$tail eq $before} { break }
+    }
     regsub {\s*\[%eval [^\]]*\]\s*$} $tail {} tail
     foreach label {best excellent good inaccuracy mistake blunder brilliant great miss forced book} {
         foreach word [list [::movelabels::text $label] [string totitle $label]] {
@@ -1578,8 +1616,18 @@ proc ::review::writeNodeAlternatives {map index engine lines played} {
     set exact 1
     if {[catch {
         sc_move ply 0
-        writeNodeBranch $index $engine $lines $played \
-            [dict create index 0 ply 0 route {}]
+        # The start position is node 0's own identity: a game whose start board
+        # was replaced must not receive the old line's alternatives.
+        set wantFen ""
+        catch { set wantFen [dict get [dict get $map nodes] 0 fen] }
+        set liveFen ""
+        catch { set liveFen [sc_pos fen] }
+        if {$wantFen eq "" || $liveFen eq $wantFen} {
+            writeNodeBranch $index $engine $lines $played \
+                [dict create index 0 ply 0 route {}]
+        } else {
+            set exact 0
+        }
     } err]} {
         lappend nodeReasons "index 1: the alternatives could not be inserted: $err"
         set exact 0

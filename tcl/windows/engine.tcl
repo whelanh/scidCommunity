@@ -1568,15 +1568,14 @@ proc ::enginewin::reviewMove {id} {
     # window's depth map is keyed by it. Writing at `ply` puts the label and
     # [%eval] after the move, and a diagram before it.
     #
-    # Inside a variation `from` is harmless: the window's depth map is keyed by
-    # main-line plies, so a line index either finds no entry - and the comment
-    # searches at the review's depth - or, on the line's shared prefix, the entry
-    # for that very move's position, which is the one the comment needs.
+    # Inside a variation `from` is a line index, not a main-line ply: a
+    # coincident entry in the window's depth map describes another position, so
+    # the comment searches at the review's depth instead.
     set from [expr {$ply - 1}]
     # What the window has already reached for that position: the depth map the
     # Autorun pass fills in. A missing entry is "nothing yet".
     set depth_now ""
-    if {[info exists ::enginewin::pv_(depths,$id)]} {
+    if {$level == 0 && [info exists ::enginewin::pv_(depths,$id)]} {
         set depths $::enginewin::pv_(depths,$id)
         if {[dict exists $depths $from]} { set depth_now [dict get $depths $from] }
     }

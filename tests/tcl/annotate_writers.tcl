@@ -306,6 +306,8 @@ checkEq "a game that ends in book has no book end" \
 # proves -writer is an option the driver knows.
 fixture
 checkEq "annotate mode refuses without an engine" [::reviewannotate::start ""] "no engine selected"
+checkEq "and refuses a line map before it reaches the writer" \
+    [::reviewannotate::start "" -line {}] "annotate reviews the main line only"
 checkEq "and the board never moved" $::gamestub::cursor 0
 
 ### 7. Prose goes into the comment, and only in tier 2 #########################

@@ -2797,6 +2797,23 @@ rename ::review::bookEndSaved ::review::bookEnd
 unset ::book::lastBook1
 unset ::scidBooksDir
 
+puts "\na node with no verdict keeps its marks"
+
+# A planned node whose search produced no verdict must be left alone, comment
+# and marks together. Clearing first and then continuing leaves a comment with
+# no marks beside it.
+set var [lineSetup]
+fakeSet [lindex $var 1] comment {[blunder] [%eval -1.20]}
+fakeSet [lindex $var 1] nags {??}
+set map [::review::currentLineMap]
+set noVerdict [dict create map $map plan {5} mpv 3 engine $runcfg \
+    lineKind variation]
+set counts [::reviewdriver::writeLine $noVerdict {}]
+checkEq "nothing was written" [dict get $counts written] 0
+checkEq "the verdict comment is still there" \
+    [fakeGet [lindex $var 1] comment] {[blunder] [%eval -1.20]}
+checkEq "and the mark beside it survived" [fakeGet [lindex $var 1] nags] {??}
+
 puts "\nMove Comment inside a variation (spec test 19, tcl/windows/engine.tcl)"
 
 # D10: a variation's move can be commented on the same terms as a main-line
@@ -2878,6 +2895,18 @@ check "as the very map the state carries" \
 checkEq "with the book gate at 0" \
     [lindex [dict get $pressCall2 args] [expr {[lsearch -exact [dict get $pressCall2 args] -bookEnd] + 1}]] 0
 checkEq "and no -force" [lsearch -exact [dict get $pressCall2 args] -force] -1
+
+# A main-line depth entry at the same numeric index is a different position,
+# not the variation's analysis. The comment must use the review's depth.
+set ::enginewin::pv_(depths,1) [dict create 3 30]
+set ::presses {}
+set var [lineSetup]
+fakeCursorAt [lindex $var 0]
+::enginewin::reviewMove 1
+set depthState [lindex [lindex $::presses 0] 1]
+checkEq "the variation comment uses the review depth" \
+    [dict get $depthState depth] 18
+unset ::enginewin::pv_(depths,1)
 
 # The number comes from the map. A map whose cursorIndex the board does not
 # agree with is passed through as it stands: sc_pos location says where the

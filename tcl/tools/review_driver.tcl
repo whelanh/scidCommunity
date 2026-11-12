@@ -1527,13 +1527,13 @@ proc ::reviewdriver::writeLine {p results} {
     catch { set engineName [lindex [dict get $p engine] 0] }
     set verdicts [::reviewdriver::verdicts $map $results]
     foreach i [dict get $p plan] {
+        # A node with no verdict was not measured: leave the previous review's
+        # comment and marks exactly as they were rather than half-clearing it.
+        if {![dict exists $verdicts $i]} { continue }
         # The previous verdict's marks on this node are ours to replace; the
         # comment tokens go with writeNode. clearMarksAt reads the label from the
         # map, so an unlabelled node costs no walk.
         catch { ::review::clearMarksAt $map $i }
-        # A node with no verdict was not measured: leave the previous review's
-        # comment and marks exactly as they were rather than half-clearing it.
-        if {![dict exists $verdicts $i]} { continue }
         lassign [dict get $verdicts $i] label eval_cp
         # Only a move the label says could have been better carries a line: a
         # best/excellent/good move's "variation" would be the next-best line.

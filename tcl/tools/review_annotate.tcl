@@ -886,6 +886,7 @@ proc ::reviewannotate::start {engine args} {
     set wopts {white 1 black 1 varPlies 0}
     foreach {key value} $args {
         if {$key eq "-bookEnd"} { set haveBook 1 }
+        if {$key eq "-line"} { return "annotate reviews the main line only" }
         if {$key eq "-tier"} { set tier $value ; continue }
         if {$key eq "-write"} { set wopts $value ; continue }
         lappend opts $key $value

@@ -535,7 +535,12 @@ proc fakeWhere {} {
 proc sc_pos {args} {
     switch -- [lindex $args 0] {
         location { return [fakeGet $::fakeCur ply] }
-        fen { return "FEN$::fakeCur" }
+        fen {
+            set f ""
+            catch { set f [fakeGet $::fakeCur fen] }
+            if {$f eq ""} { return "FEN$::fakeCur" }
+            return $f
+        }
         getComment { return [fakeGet $::fakeCur comment] }
         setComment {
             lappend ::calls [list setComment [lindex $args 1]]
@@ -1082,6 +1087,22 @@ checkEq "and the body never runs on the wrong line" $::seen {}
 checkEq "and the board is left on the base ply" \
     [list [sc_pos location] [sc_var level]] {3 0}
 
+# The route and the ply identify the line, not the move: an interior move
+# replaced in place keeps both. The node's FEN is the position, and the walk
+# must not run the body on the replacement.
+fakeBoard $game
+set var [fakeVariation [fakeAtPly 3] {c7c5 g1f3 d7d6}]
+fakeCursorAt [lindex $var 1]
+set map [::review::currentLineMap]
+fakeSet [lindex $var 1] fen "REPLACED"
+set ::seen {}
+set r [::review::visitLine $map {5} \
+    {apply {{node} { lappend ::seen [dict get $node index] }}}]
+checkEq "a changed position stops the walk" [dict get $r restored] 0
+checkEq "and the body never runs on the replacement" $::seen {}
+checkEq "and the board falls back to the base ply" \
+    [list [sc_pos location] [sc_var level]] {3 0}
+
 # The walk itself: one root-to-leaf pass, the body at each named node with the
 # cursor on it, and the cursor back exactly. Every node's position is the map's
 # own - the string the engine will be given.
@@ -1132,6 +1153,30 @@ checkEq "the user's prose is not a verdict" \
     [dict get [dict get $map nodes] 5 hasVerdict] 0
 checkEq "a \[Coach\] line is not a verdict" \
     [dict get [dict get $map nodes] 6 hasVerdict] 0
+
+# A verdict followed by the coach's prose is still the verdict: the coach block
+# is a machine line, not the end of the comment. Without this, the old mark is
+# never cleared beside the new verdict.
+fakeSet [lindex $var 2] comment \
+    "A note. \[blunder\] \[%eval -1.20\]\n\[Coach\] This keeps the tension."
+fakeSet [lindex $var 2] nags {??}
+set map [::review::currentLineMap]
+checkEq "a verdict followed by coach prose is a verdict" \
+    [dict get [dict get $map nodes] 6 hasVerdict] 1
+checkEq "and its label is read" \
+    [::review::labelOfComment [fakeGet [lindex $var 2] comment]] blunder
+checkEq "so the old mark is cleared" [::review::clearMarksAt $map 6] 1
+checkEq "and the mark is gone" [fakeGet [lindex $var 2] nags] {}
+fakeSet [lindex $var 2] comment \
+    "A note. \[mistake\] \[%eval -0.60\]\n\[Phase middlegame\] figures"
+set map [::review::currentLineMap]
+checkEq "a phase block after the verdict does not hide it" \
+    [dict get [dict get $map nodes] 6 hasVerdict] 1
+# Put the fixture back for the checks below.
+fakeSet [lindex $var 2] comment {[Coach] This keeps the tension.}
+fakeSet [lindex $var 2] nags {?!}
+set map [::review::currentLineMap]
+
 # The NAG is on the node - the stub is asked, not the map, because the map's
 # nodes carry what a writer needs to read, not the whole position.
 checkEq "the user's NAG is really on the node" [fakeGet [lindex $var 2] nags] {?!}
@@ -1180,6 +1225,54 @@ checkEq "and no variation route on the last node" \
     [dict get [dict get $map nodes] 3 route] {}
 checkEq "the line is the prefix" [dict get $map lineKind] main
 checkEq "and the cursor is still in the empty variation" [fakeWhere] $before
+
+# A cursor at the variation's own start, before its first move, also records
+# `moves 0` - but the variation is not empty. The first move, read at the branch,
+# is what decides; the line includes the variation to its leaf.
+fakeBoard $game
+set var [fakeVariation [fakeAtPly 3] {c7c5 g1f3 d7d6}]
+rename ::review::cursorRestore ::review::cursorRestoreSaved
+proc ::review::cursorRestore {state} { return 1 }
+set startCursor [list loc 3 base 3 path {{0 0}} fen {}]
+set map [::review::currentLineMap $startCursor]
+rename ::review::cursorRestore {}
+rename ::review::cursorRestoreSaved ::review::cursorRestore
+checkEq "a variation start includes the variation" [dict get $map plies] 6
+checkEq "and is a variation line" [dict get $map lineKind] variation
+checkEq "with the variation's first move as the anchor" [dict get $map anchors] {c7c5}
+checkEq "and the cursor index at its branch" [dict get $map cursorIndex] 3
+
+# A null move is a ply, not a move to review. Its raw 0000 anchor keeps the
+# route walkable, but the node carries no played move and is not part of the
+# judged/context sets.
+fakeBoard $game
+set var [fakeVariation [fakeAtPly 3] {0000 g1f3 d7d6}]
+fakeCursorAt [lindex $var 1]
+set map [::review::currentLineMap]
+checkEq "the null-move anchor is kept for the route" \
+    [dict get [dict get $map nodes] 4 anchor] 0000
+checkEq "but the node has no played move" [dict get $map moves 4] {}
+check "and is not judged"     [expr {[lsearch -exact [dict get $map judged] 4] < 0}]
+set ::seen {}
+set r [::review::visitLine $map {5} \
+    {apply {{node} { lappend ::seen [dict get $node index] }}}]
+checkEq "the walk still enters the null-move variation" [dict get $r restored] 1
+checkEq "and reaches the real move" $::seen {5}
+
+# An interior null move is skipped the same way when the line is otherwise
+# labelled: it must not leave the line permanently "unreviewed".
+fakeBoard $game
+set var [fakeVariation [fakeAtPly 3] {c7c5 0000 d7d6}]
+fakeCursorAt [lindex $var 2]
+foreach id [concat [list [fakeAtPly 1] [fakeAtPly 2] [fakeAtPly 3]] \
+        [list [lindex $var 0] [lindex $var 2]]] {
+    fakeSet $id comment {[good] [%eval +0.00]}
+}
+set map [::review::currentLineMap]
+check "the interior null move is not judged" \
+    [expr {[lsearch -exact [dict get $map judged] 5] < 0}]
+check "and the labelled real moves are" \
+    [expr {[lsearch -exact [dict get $map judged] 6] >= 0}]
 
 # The node-local marks: D on the move before the node, and the previous
 # verdict's marks off the node itself - both placed by route, so a variation
