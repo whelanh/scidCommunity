@@ -2156,7 +2156,6 @@ translate S BatchAnnotate {Anotar por lotes}
 translate S BatchEngineSelection {Selección de motor}
 translate S BatchChessEngine {Motor de ajedrez:}
 translate S BatchNumberOfInstances {Número de instancias:}
-translate S BatchGameReview {Revisión del juego}
 translate S BatchTimePerMove {Tiempo por movimiento (seg):}
 translate S BatchAnnotateBlunders {Anotar sólo errores}
 translate S BatchBlunderThreshold {Umbral de error:}

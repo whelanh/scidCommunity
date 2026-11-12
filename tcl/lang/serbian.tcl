@@ -3259,8 +3259,6 @@ translate Y BatchChessEngine {Chess Engine:}
 # ====== TODO To be translated ======
 translate Y BatchNumberOfInstances {Number of Instances:}
 # ====== TODO To be translated ======
-translate Y BatchGameReview {Game Review}
-# ====== TODO To be translated ======
 translate Y BatchTimePerMove {Time per move (sec):}
 # ====== TODO To be translated ======
 translate Y BatchAnnotateBlunders {Annotate blunders only}

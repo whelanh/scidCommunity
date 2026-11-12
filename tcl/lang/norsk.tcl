@@ -2103,7 +2103,6 @@ translate O BatchAnnotate {Batch Annotate}
 translate O BatchEngineSelection {Motorvalg}
 translate O BatchChessEngine {Sjakkmotor:}
 translate O BatchNumberOfInstances {Antall forekomster:}
-translate O BatchGameReview {Spillanmeldelse}
 translate O BatchTimePerMove {Tid per trekk (sek):}
 translate O BatchAnnotateBlunders {Merk kun feil}
 translate O BatchBlunderThreshold {Bommertsgrense:}

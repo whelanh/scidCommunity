@@ -2130,7 +2130,6 @@ translate G BatchAnnotate {Σχόλιο παρτίδας}
 translate G BatchEngineSelection {Επιλογή κινητήρα}
 translate G BatchChessEngine {Μηχανή σκακιού:}
 translate G BatchNumberOfInstances {Αριθμός περιπτώσεων:}
-translate G BatchGameReview {Κριτική παιχνιδιού}
 translate G BatchTimePerMove {Χρόνος ανά κίνηση (δευτ.):}
 translate G BatchAnnotateBlunders {Σημειώστε μόνο γκάφες}
 translate G BatchBlunderThreshold {Όριο σφαλμάτων:}

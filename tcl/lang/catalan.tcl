@@ -2125,7 +2125,6 @@ translate K BatchAnnotate {Anotació per lots}
 translate K BatchEngineSelection {Selecció del motor}
 translate K BatchChessEngine {Motor d'escacs:}
 translate K BatchNumberOfInstances {Nombre d'instàncies:}
-translate K BatchGameReview {Revisió del joc}
 translate K BatchTimePerMove {Temps per moviment (s):}
 translate K BatchAnnotateBlunders {Anoteu només errors}
 translate K BatchBlunderThreshold {Llindar d'error:}

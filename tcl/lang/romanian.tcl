@@ -2122,7 +2122,6 @@ translate L BatchAnnotate {Adnotare lot}
 translate L BatchEngineSelection {Selectarea motorului}
 translate L BatchChessEngine {Motor de șah:}
 translate L BatchNumberOfInstances {Număr de instanțe:}
-translate L BatchGameReview {Recenzia jocului}
 translate L BatchTimePerMove {Timp pe mișcare (sec):}
 translate L BatchAnnotateBlunders {Adnotați numai gafele}
 translate L BatchBlunderThreshold {Pragul de gafă:}

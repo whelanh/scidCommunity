@@ -2082,7 +2082,6 @@ translate V BatchAnnotate {הערת אצווה}
 translate V BatchEngineSelection {בחירת מנוע}
 translate V BatchChessEngine {מנוע שחמט:}
 translate V BatchNumberOfInstances {מספר מופעים:}
-translate V BatchGameReview {סקירת משחק}
 translate V BatchTimePerMove {זמן לכל מהלך (שנייה):}
 translate V BatchAnnotateBlunders {הערות על טעויות בלבד}
 translate V BatchBlunderThreshold {סף טעות:}

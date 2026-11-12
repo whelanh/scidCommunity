@@ -2082,7 +2082,6 @@ translate Q BatchAnnotate {Пакетна анотація}
 translate Q BatchEngineSelection {Вибір двигуна}
 translate Q BatchChessEngine {Шаховий двигун:}
 translate Q BatchNumberOfInstances {Кількість екземплярів:}
-translate Q BatchGameReview {Огляд гри}
 translate Q BatchTimePerMove {Час на хід (сек):}
 translate Q BatchAnnotateBlunders {Коментуйте лише грубі помилки}
 translate Q BatchBlunderThreshold {Поріг помилки:}

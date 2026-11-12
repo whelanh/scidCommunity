@@ -2109,7 +2109,6 @@ translate F BatchAnnotate {Annoter par lots}
 translate F BatchEngineSelection {Sélection du moteur}
 translate F BatchChessEngine {Moteur d'échecs :}
 translate F BatchNumberOfInstances {Nombre d'instances :}
-translate F BatchGameReview {Revue du jeu}
 translate F BatchTimePerMove {Temps par mouvement (sec) :}
 translate F BatchAnnotateBlunders {Annoter uniquement les erreurs}
 translate F BatchBlunderThreshold {Seuil d'erreur :}

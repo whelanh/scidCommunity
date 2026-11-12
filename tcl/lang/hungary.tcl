@@ -2104,7 +2104,6 @@ translate H BatchAnnotate {Kötegelt annotálás}
 translate H BatchEngineSelection {Motor kiválasztása}
 translate H BatchChessEngine {Sakkmotor:}
 translate H BatchNumberOfInstances {Példányok száma:}
-translate H BatchGameReview {Játék áttekintése}
 translate H BatchTimePerMove {Lépésenkénti idő (mp):}
 translate H BatchAnnotateBlunders {Csak a hibákat jegyezze fel}
 translate H BatchBlunderThreshold {Tévedés küszöbe:}

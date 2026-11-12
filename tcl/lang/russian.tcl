@@ -2105,7 +2105,6 @@ translate R BatchAnnotate {Пакетное аннотирование}
 translate R BatchEngineSelection {Выбор двигателя}
 translate R BatchChessEngine {Шахматный движок:}
 translate R BatchNumberOfInstances {Количество экземпляров:}
-translate R BatchGameReview {Обзор игры}
 translate R BatchTimePerMove {Время на ход (сек):}
 translate R BatchAnnotateBlunders {Комментируйте только ошибки}
 translate R BatchBlunderThreshold {Порог ошибки:}

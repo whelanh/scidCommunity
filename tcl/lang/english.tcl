@@ -2133,7 +2133,6 @@ translate E BatchAnnotate {Batch Annotate}
 translate E BatchEngineSelection {Engine Selection}
 translate E BatchChessEngine {Chess Engine:}
 translate E BatchNumberOfInstances {Number of Instances:}
-translate E BatchGameReview {Game Review}
 translate E BatchTimePerMove {Time per move (sec):}
 translate E BatchAnnotateBlunders {Annotate blunders only}
 translate E BatchBlunderThreshold {Blunder threshold:}

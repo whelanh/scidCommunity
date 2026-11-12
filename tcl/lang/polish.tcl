@@ -2135,7 +2135,6 @@ translate P BatchAnnotate {Adnotacja zbiorcza}
 translate P BatchEngineSelection {Wybór silnika}
 translate P BatchChessEngine {Silnik szachowy:}
 translate P BatchNumberOfInstances {Liczba procesów:}
-translate P BatchGameReview {Przegląd partii}
 translate P BatchTimePerMove {Czas na posunięcie (s):}
 translate P BatchAnnotateBlunders {Komentuj tylko poważne błędy}
 translate P BatchBlunderThreshold {Próg poważnego błędu:}

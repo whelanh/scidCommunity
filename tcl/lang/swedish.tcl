@@ -2109,7 +2109,6 @@ translate W BatchAnnotate {Batchkommentar}
 translate W BatchEngineSelection {Motorval}
 translate W BatchChessEngine {Schackmotor:}
 translate W BatchNumberOfInstances {Antal instanser:}
-translate W BatchGameReview {Spelrecension}
 translate W BatchTimePerMove {Tid per drag (sek):}
 translate W BatchAnnotateBlunders {Anteckna bara misstag}
 translate W BatchBlunderThreshold {Blunder tröskel:}

@@ -2128,7 +2128,6 @@ translate N BatchAnnotate {Batch-aantekeningen}
 translate N BatchEngineSelection {Motorselectie}
 translate N BatchChessEngine {Schaakengine:}
 translate N BatchNumberOfInstances {Aantal exemplaren:}
-translate N BatchGameReview {Spelrecensie}
 translate N BatchTimePerMove {Tijd per zet (sec):}
 translate N BatchAnnotateBlunders {Annoteer alleen blunders}
 translate N BatchBlunderThreshold {Blunderdrempel:}

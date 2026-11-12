@@ -94,8 +94,11 @@ Move to `tcl/tools/uci_format.tcl` (namespace choice is an open question below) 
 Review game (`reviewgame.tcl`, 552 lines, engine slot 6) and Calvar (`calvar.tcl`,
 486 lines, engine slot 4) are retired: their menu entries, both modules, the
 `CalVar` and `ReviewGame` help pages in all 28 help files (English and 27
-translations), and 23 translation tags per catalogue (`serbian.tcl` is out of
-sync on purpose and was pruned separately).
+translations), and 24 translation tags per catalogue (`serbian.tcl` is out of
+sync on purpose and was pruned separately). The 24th is `BatchGameReview`, which
+had no reader anywhere in the tree — in Tcl or C++ — and none at the base
+revision either, so it was orphan debt the `GameReview*` family carried; it goes
+with the family rather than staying as the one dead key nothing names.
 
 Tactics is §3b's, and its engine surface is far smaller than its line count
 suggests — measured, not counted:

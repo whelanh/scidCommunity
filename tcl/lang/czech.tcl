@@ -2103,7 +2103,6 @@ translate C BatchAnnotate {Dávková poznámka}
 translate C BatchEngineSelection {Výbìr motoru}
 translate C BatchChessEngine {©achový motor:}
 translate C BatchNumberOfInstances {Poèet instancí:}
-translate C BatchGameReview {Recenze hry}
 translate C BatchTimePerMove {Èas na tah (s):}
 translate C BatchAnnotateBlunders {Anotujte pouze chyby}
 translate C BatchBlunderThreshold {Práh chyby:}

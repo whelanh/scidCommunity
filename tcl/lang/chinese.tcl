@@ -2058,7 +2058,6 @@ translate M BatchAnnotate {批量注释}
 translate M BatchEngineSelection {发动机选型}
 translate M BatchChessEngine {国际象棋引擎：}
 translate M BatchNumberOfInstances {实例数量：}
-translate M BatchGameReview {游戏评论}
 translate M BatchTimePerMove {每次移动时间（秒）：}
 translate M BatchAnnotateBlunders {仅注释错误}
 translate M BatchBlunderThreshold {错误阈值：}

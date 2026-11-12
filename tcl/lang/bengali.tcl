@@ -2081,7 +2081,6 @@ translate b BatchAnnotate {ব্যাচ টীকা}
 translate b BatchEngineSelection {ইঞ্জিন নির্বাচন}
 translate b BatchChessEngine {দাবা ইঞ্জিন:}
 translate b BatchNumberOfInstances {দৃষ্টান্তের সংখ্যা:}
-translate b BatchGameReview {গেম রিভিউ}
 translate b BatchTimePerMove {প্রতি মুভ করার সময় (সেকেন্ড):}
 translate b BatchAnnotateBlunders {শুধুমাত্র ভুলগুলো টীকা করুন}
 translate b BatchBlunderThreshold {ভুল থ্রেশহোল্ড:}

@@ -2081,7 +2081,6 @@ translate Z BatchAnnotate {Dokezo la Kundi}
 translate Z BatchEngineSelection {Uchaguzi wa injini}
 translate Z BatchChessEngine {Injini ya Chess:}
 translate Z BatchNumberOfInstances {Idadi ya Matukio:}
-translate Z BatchGameReview {Tathmini ya Mchezo}
 translate Z BatchTimePerMove {Muda kwa kila hoja (sekunde):}
 translate Z BatchAnnotateBlunders {Dondosha makosa pekee}
 translate Z BatchBlunderThreshold {Kizingiti cha Blunder:}

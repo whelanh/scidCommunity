@@ -2153,7 +2153,6 @@ translate D BatchAnnotate {Batch-Anmerkung}
 translate D BatchEngineSelection {Motorauswahl}
 translate D BatchChessEngine {Schach-Engine:}
 translate D BatchNumberOfInstances {Anzahl der Instanzen:}
-translate D BatchGameReview {Spielrezension}
 translate D BatchTimePerMove {Zeit pro Zug (Sek.):}
 translate D BatchAnnotateBlunders {Kommentieren Sie nur Fehler}
 translate D BatchBlunderThreshold {Fehlerschwelle:}

@@ -119,6 +119,7 @@ puts "\nno call site survives the retirement"
 set RESIDUE {
     ::reviewgame:: ::calvar:: .calvarWin .reviewgame
     ToolsTrainReviewGame ToolsTrainCalvar ConfigureCalvar DoneWithPosition
+    Calvar BatchGameReview
     GameReviewTimeExtended GameReviewMargin GameReviewAutoContinue
     GameReviewReCalculate GameReviewAnalyzingMovePlayedDuringTheGame
     GameReviewAnalyzingThePosition GameReviewEnterYourMove GameReviewCheckingYourMove

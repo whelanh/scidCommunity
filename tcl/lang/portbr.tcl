@@ -2111,7 +2111,6 @@ translate B BatchAnnotate {Anotar em lote}
 translate B BatchEngineSelection {Selecionar engine}
 translate B BatchChessEngine {Engine de xadrez:}
 translate B BatchNumberOfInstances {Número de instâncias:}
-translate B BatchGameReview {Revisão do jogo}
 translate B BatchTimePerMove {Tempo por movimento (seg):}
 translate B BatchAnnotateBlunders {Anote apenas erros}
 translate B BatchBlunderThreshold {Limite de erro:}

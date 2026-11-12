@@ -2105,7 +2105,6 @@ translate I BatchAnnotate {Annotazione batch}
 translate I BatchEngineSelection {Selezione del motore}
 translate I BatchChessEngine {Motore di scacchi:}
 translate I BatchNumberOfInstances {Numero di istanze:}
-translate I BatchGameReview {Recensione del gioco}
 translate I BatchTimePerMove {Tempo per mossa (sec):}
 translate I BatchAnnotateBlunders {Annotare solo gli errori}
 translate I BatchBlunderThreshold {Soglia di errore:}

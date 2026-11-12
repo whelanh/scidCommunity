@@ -2085,7 +2085,6 @@ translate T BatchAnnotate {Toplu Açıklama Ekleme}
 translate T BatchEngineSelection {Motor Seçimi}
 translate T BatchChessEngine {Satranç Motoru:}
 translate T BatchNumberOfInstances {Örnek Sayısı:}
-translate T BatchGameReview {Oyun İncelemesi}
 translate T BatchTimePerMove {Hareket başına süre (sn):}
 translate T BatchAnnotateBlunders {Yalnızca hatalara açıklama ekleyin}
 translate T BatchBlunderThreshold {Hata eşiği:}

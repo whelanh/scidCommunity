@@ -2122,7 +2122,6 @@ translate J BatchAnnotate {Батцх Аннотате}
 translate J BatchEngineSelection {Избор мотора}
 translate J BatchChessEngine {Шаховска машина:}
 translate J BatchNumberOfInstances {Број инстанци:}
-translate J BatchGameReview {Преглед игре}
 translate J BatchTimePerMove {Време по потезу (сек):}
 translate J BatchAnnotateBlunders {Бележите само грешке}
 translate J BatchBlunderThreshold {Праг грешке:}

@@ -2122,7 +2122,6 @@ translate k BatchAnnotate {알아요 달기}
 translate k BatchEngineSelection {엔진 선택}
 translate k BatchChessEngine {체스 엔진:}
 translate k BatchNumberOfInstances {대응할 수 있음:}
-translate k BatchGameReview {게임평론}
 translate k BatchTimePerMove {이동당 시간(초):}
 translate k BatchAnnotateBlunders {길만으로 달기}
 translate k BatchBlunderThreshold {적용 기준:}

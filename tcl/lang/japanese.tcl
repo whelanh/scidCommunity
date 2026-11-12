@@ -2122,7 +2122,6 @@ translate A BatchAnnotate {バッチ注釈付け}
 translate A BatchEngineSelection {エンジンの選択}
 translate A BatchChessEngine {チェスエンジン:}
 translate A BatchNumberOfInstances {インスタンスの数:}
-translate A BatchGameReview {ゲームレビュー}
 translate A BatchTimePerMove {移動あたりの時間 (秒):}
 translate A BatchAnnotateBlunders {間違いのみに注釈を付ける}
 translate A BatchBlunderThreshold {失策の閾値:}

@@ -2081,7 +2081,6 @@ translate h BatchAnnotate {बैच एनोटेट}
 translate h BatchEngineSelection {इंजन चयन}
 translate h BatchChessEngine {शतरंज इंजन:}
 translate h BatchNumberOfInstances {उदाहरणों की संख्या:}
-translate h BatchGameReview {खेल समीक्षा}
 translate h BatchTimePerMove {प्रति चाल समय (सेकंड):}
 translate h BatchAnnotateBlunders {केवल भूलों पर टिप्पणी करें}
 translate h BatchBlunderThreshold {भूल सीमा:}

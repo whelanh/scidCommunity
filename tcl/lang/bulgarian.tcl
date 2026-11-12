@@ -2122,7 +2122,6 @@ translate g BatchAnnotate {Партидно анотиране}
 translate g BatchEngineSelection {Избор на двигател}
 translate g BatchChessEngine {Шах двигател:}
 translate g BatchNumberOfInstances {Брой инстанции:}
-translate g BatchGameReview {Преглед на играта}
 translate g BatchTimePerMove {Време на движение (сек):}
 translate g BatchAnnotateBlunders {Коментирайте само гафове}
 translate g BatchBlunderThreshold {Праг на грешка:}

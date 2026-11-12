@@ -2134,7 +2134,6 @@ translate U BatchAnnotate {Erämerkintä}
 translate U BatchEngineSelection {Moottorin valinta}
 translate U BatchChessEngine {Shakkimoottori:}
 translate U BatchNumberOfInstances {Tapausten määrä:}
-translate U BatchGameReview {Pelin arvostelu}
 translate U BatchTimePerMove {Aika per liike (s):}
 translate U BatchAnnotateBlunders {Merkitse vain virheitä}
 translate U BatchBlunderThreshold {Virheen kynnys:}
