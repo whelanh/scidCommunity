@@ -852,80 +852,24 @@ namespace eval uci {
     ################################################################################
     # UCI moves use long notation
     # returns 1 if an error occurred when entering a move
+    # The implementation lives in tcl/tools/uci_format.tcl (::ucifmt::): #437 §4
+    # needed it without this file, and §6 deletes this mode. The wrapper keeps
+    # every caller inside ::uci working until then.
     ################################################################################
     proc sc_move_add { moves } {
-        
-        foreach m $moves {
-            # get rid of leading piece
-            set c [string index $m 0]
-            if {$c == "K" || $c == "Q" || $c == "R" || $c == "B" || $c == "N"} {
-                set m [string range $m 1 end]
-            }
-            set s1 [string range $m 0 1]
-            set s1 [::board::sq $s1]
-            set s2 [string range $m 2 3]
-            set s2 [::board::sq $s2]
-            if {[string length $m] > 4} {
-                set promo [string range $m 4 end]
-                switch -- $promo {
-                    q { set p 2}
-                    r { set p 3}
-                    b { set p 4}
-                    n { set p 5}
-                    default { return 1 }
-                }
-                if { [catch { sc_move add $s1 $s2 $p } ] } { return 1 }
-            } else  {
-                if { [catch { sc_move add $s1 $s2 0 } ] } { return 1 }
-            }
-        }
-        return 0
+        return [::ucifmt::sc_move_add $moves]
     }
     ################################################################################
     #make UCI output more readable (b1c3 -> Nc3)
     ################################################################################
     proc formatPv { moves { fen "" } } {
-        # Push a temporary copy of the current game:
-        if {$fen != ""} {
-            sc_game push
-            sc_game startBoard $fen
-        } else  {
-            sc_game push copyfast
-        }
-        set tmp ""
-        foreach m $moves {
-            if { [sc_move_add $m] == 1 } { break }
-            set prev [sc_game info previousMoveNT]
-            append tmp " $prev"
-        }
-        set tmp [string trim $tmp]
-        
-        # Pop the temporary game:
-        sc_game pop
-
-        return $tmp
+        return [::ucifmt::formatPv $moves $fen]
     }
     ################################################################################
     #   Format a line starting at current position where <moves> were played (in San notation)
     ################################################################################
     proc formatPvAfterMoves { played_moves moves } {
-        sc_game push copyfast
-        sc_move addSan $played_moves
-        
-        set tmp ""
-        foreach m $moves {
-            if { [sc_move_add $m] == 1 } {
-                break
-            }
-            set prev [sc_game info previousMoveNT]
-            append tmp " $prev"
-        }
-        set tmp [string trim $tmp]
-        
-        # Pop the temporary game:
-        sc_game pop
-
-        return $tmp
+        return [::ucifmt::formatPvAfterMoves $played_moves $moves]
     }
 }
 ###
