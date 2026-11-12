@@ -1,10 +1,10 @@
 # Commit hash from github branch
 # (the macros must be defined before Release uses shortcommit)
-%global commit 6c2b4f89ce67f41ab7375fe1f1b01e1afae1515b
+%global commit 4e614c8f66f4ebdfff1e0497697f2bf2792fff73
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           scidcommunity
-Version:        5.1.4.62
+Version:        5.1.4.63
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
@@ -68,6 +68,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Thu Nov 12, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-63
+- "Game Review and epd analysis enhancements"
 * Wed Nov 11, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-62
 - "New Lichess Study uploader; retire Analysis Engine window"
 * Mon Nov 9, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-60
