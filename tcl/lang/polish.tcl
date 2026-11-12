@@ -246,9 +246,7 @@ menuText P ToolsTracker "Śledzenie figur"  6 {Otwórz okno śledzenia bierek}
 menuText P ToolsTraining "Trening"  0 {Narzędzia treningowe (taktyka, debiuty...) }
 menuText P ToolsPlayVsEngine "Graj z silnikiem"  0 {Rozegraj partię z silnikiem szachowym}
 menuText P ToolsTrainOpenings "Debiuty"  0 {Trenuj z repertuarem}
-menuText P ToolsTrainReviewGame "Przegląd partii"  0 {Zgaduj posunięcia zagrane w partii}
 menuText P ToolsTrainTactics "Taktyka"  0 {Rozwiązuj zadania taktyczne}
-menuText P ToolsTrainCalvar "Obliczanie wariantów"  0 {Trening obliczania wariantów}
 menuText P ToolsTrainFindBestMove "Znajdź najlepsze posunięcie"  0 {Znajdź najlepsze posunięcie}
 menuText P ToolsTrainFics "Graj na FICS"  0 {Graj na freechess.org}
 menuText P ToolsEngineTournament "Turniej silników"  0 {Rozpocznij turniej między silnikami szachowymi}
@@ -1924,8 +1922,6 @@ translate P AddScoreToShortAnnotations {Dodaj ocenę do adnotacji}
 translate P AddScoreToAllMoves {Dodaj wynik do wszystkich posunięć}
 translate P Export {Eksportuj}
 translate P BookPartiallyLoaded {Księga wczytana częściowo}
-translate P Calvar {Obliczanie wariantów}
-translate P ConfigureCalvar {Konfiguracja}
 # Opening names used in tacgame.tcl
 translate P Reti {Réti}
 translate P English {Partia angielska}
@@ -2031,24 +2027,6 @@ translate P FICSTextColor {Kolor tekstu}
 
 # Game review
 translate P GameReview {Przegląd partii}
-translate P GameReviewTimeExtended {Czas przedłużony}
-translate P GameReviewMargin {Margines błędu}
-translate P GameReviewAutoContinue {Kontynuuj automatycznie, gdy posunięcie jest poprawne}
-translate P GameReviewReCalculate {Użyj przedłużonego czasu}
-translate P GameReviewAnalyzingMovePlayedDuringTheGame {Analizowanie posunięcia zagranego w partii}
-translate P GameReviewAnalyzingThePosition {Analizowanie pozycji}
-translate P GameReviewEnterYourMove {Wprowadź swoje posunięcie}
-translate P GameReviewCheckingYourMove {Sprawdzanie twojego posunięcia}
-translate P GameReviewYourMoveWasAnalyzed {Twoje posunięcie zostało przeanalizowane}
-translate P GameReviewYouPlayedSameMove {Zagrałeś to samo posunięcie co w partii}
-translate P GameReviewScoreOfYourMove {Ocena twojego posunięcia}
-translate P GameReviewGameMoveScore {Ocena posunięcia z partii}
-translate P GameReviewEngineScore {Ocena silnika}
-translate P GameReviewYouPlayedLikeTheEngine {Zagrałeś tak dobrze jak silnik}
-translate P GameReviewNotEngineMoveButGoodMove {To nie posunięcie silnika, ale również dobre}
-translate P GameReviewMoveNotGood {To posunięcie nie jest dobre, ocena wynosi}
-translate P GameReviewMovesPlayedLike {Posunięcia zagrane jak}
-translate P GameReviewMovesPlayedEngine {Posunięcia zagrane jak silnik}
 
 # Correspondence Chess Dialogs:
 translate P CCDlgCGeneraloptions {Opcje ogólne}
@@ -2076,7 +2054,6 @@ translate P IERotate {Obróć}
 translate P IEUnableToStart {Nie można uruchomić silnika wejściowego:}
 
 # Calculation of Variations
-translate P DoneWithPosition {Koniec pracy z pozycją}
 
 translate P Board {Szachownica}
 translate P showGameInfo {Pokaż informacje o partii}

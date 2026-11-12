@@ -246,9 +246,7 @@ menuText E ToolsTracker "Piece Tracker"  6 {Open the Piece Tracker window}
 menuText E ToolsTraining "Training"  0 {Training tools (tactics, openings,...) }
 menuText E ToolsPlayVsEngine "Play versus Engine"  0 {Play a game against a chess engine}
 menuText E ToolsTrainOpenings "Openings"  0 {Train with a repertoire}
-menuText E ToolsTrainReviewGame "Review game"  0 {Guess moves played in a game}
 menuText E ToolsTrainTactics "Tactics"  0 {Solve tactics}
-menuText E ToolsTrainCalvar "Calculation of variations"  0 {Calculation of variations training}
 menuText E ToolsTrainFindBestMove "Find best move"  0 {Find best move}
 menuText E ToolsTrainFics "Play on FICS"  0 {Play on freechess.org}
 menuText E ToolsEngineTournament "Engine tournament"  0 {Start a tournament between chess engines}
@@ -1924,8 +1922,6 @@ translate E AddScoreToShortAnnotations {Add score to annotations}
 translate E AddScoreToAllMoves {Add score to all moves}
 translate E Export {Export}
 translate E BookPartiallyLoaded {Book partially loaded}
-translate E Calvar {Calculation of variations}
-translate E ConfigureCalvar {Configuration}
 # Opening names used in tacgame.tcl
 translate E Reti {Reti}
 translate E English {English}
@@ -2031,24 +2027,6 @@ translate E FICSTextColor {Text color}
 
 # Game review
 translate E GameReview {Game review}
-translate E GameReviewTimeExtended {Time extended}
-translate E GameReviewMargin {Error margin}
-translate E GameReviewAutoContinue {Auto continue when move is correct}
-translate E GameReviewReCalculate {Use extended time}
-translate E GameReviewAnalyzingMovePlayedDuringTheGame {Analyzing move played during the game}
-translate E GameReviewAnalyzingThePosition {Analyzing the position}
-translate E GameReviewEnterYourMove {Enter your move}
-translate E GameReviewCheckingYourMove {Checking your move}
-translate E GameReviewYourMoveWasAnalyzed {Your move was analyzed}
-translate E GameReviewYouPlayedSameMove {You played the same move as in match}
-translate E GameReviewScoreOfYourMove {Score of your move}
-translate E GameReviewGameMoveScore {Game move's score}
-translate E GameReviewEngineScore {Engine's score}
-translate E GameReviewYouPlayedLikeTheEngine {You played as good as engine's}
-translate E GameReviewNotEngineMoveButGoodMove {Not the engine move, but is also a good move}
-translate E GameReviewMoveNotGood {This move is not good, score is}
-translate E GameReviewMovesPlayedLike {Moves played like}
-translate E GameReviewMovesPlayedEngine {Moves played like engine}
 
 # Correspondence Chess Dialogs:
 translate E CCDlgCGeneraloptions {General Options}
@@ -2074,9 +2052,6 @@ translate E IESending {Moves sent for}
 translate E IESynchronise {Synchronise}
 translate E IERotate  {Rotate}
 translate E IEUnableToStart {Unable to start Input Engine:}
-
-# Calculation of Variations
-translate E DoneWithPosition {Done with position}
 
 translate E Board {Board}
 translate E showGameInfo {Show game info}

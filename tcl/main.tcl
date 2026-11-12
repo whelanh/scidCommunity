@@ -1421,10 +1421,6 @@ proc getPromoPiece {} {
 #
 
 proc confirmReplaceMove {} {
-    if {[winfo exists $::reviewgame::window]} {
-        return "var"
-    }
-
     option add *Dialog.msg.wrapLength 4i interactive
     catch {tk_dialog .dialog "scidCommunity: $::tr(ReplaceMove)?" \
                 $::tr(ReplaceMoveMessage) "" 0 \
@@ -1596,12 +1592,6 @@ proc leaveSquare { square } {
 proc shiftClickSquare { square } {
     global selectedSq
 
-    # Preserve the calculation-training click handling.
-    if {[winfo exists .calvarWin]} {
-        pressSquare $square
-        return
-    }
-
     if {$selectedSq == -1 &&
         [string index [::board::piece .main.board $square] 0] eq "e" &&
         [llength $::board::_mark(.main.board)] > 0} {
@@ -1619,12 +1609,6 @@ proc pressSquare { square } {
     global selectedSq highcolor
 
     if { ![::fics::playerCanMove] } { return } ;# not player's turn
-
-    # if training with calculations of var is on, just log the event
-    if { [winfo exists .calvarWin] } {
-        ::calvar::pressSquare $square
-        return
-    }
 
     if {$selectedSq == -1} {
         set selectedSq $square
@@ -1655,8 +1639,6 @@ proc pressSquare { square } {
 #   part of a move.
 #
 proc releaseSquare { w x y } {
-    if { [winfo exists .calvarWin] } { return }
-
     global selectedSq bestSq
 
     ::board::setDragSquare $w -1

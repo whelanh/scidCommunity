@@ -100,6 +100,23 @@ foreach spec $HELP_FILES {
         [expr {[string first "<a GameComment>" $all] < 0}] \
         "a link whose page is gone draws nothing"
 
+    # The two trainers #437 §3a retired: Review game and the Calvar (Stoyko)
+    # exercise. Their pages are gone with their menu entries, and nothing may
+    # link to them any more.
+    check "$label: no CalVar page" [expr {![hasPage $h ${prefix}CalVar]}]
+    check "$label: no page links to CalVar" \
+        [expr {[string first "<a CalVar>" $all] < 0}] \
+        "a link whose page is gone draws nothing"
+    check "$label: no ReviewGame page" [expr {![hasPage $h ${prefix}ReviewGame]}]
+    check "$label: no page links to ReviewGame" \
+        [expr {[string first "<a ReviewGame>" $all] < 0}]
+    check "$label: no Review game menu bullet" \
+        [expr {[string first "<menu>Review Game</menu>" $all] < 0}]
+    set idx [expr {[hasPage $h ${prefix}Index] ? [pageText $h ${prefix}Index] : ""}]
+    check "$label: still documents the Tactics trainer" \
+        [expr {[hasPage $h ${prefix}TacticsTrainer] && \
+            [string first "<a TacticsTrainer>" $idx] >= 0}]
+
     # And the three it has must be, each a page with a title and a heading.
     foreach page $BUTTON_PAGES {
         check "$label: defines $page" [hasPage $h ${prefix}$page]
@@ -208,6 +225,18 @@ foreach path [lsort [glob [file join $root tcl help help*.tcl]]] {
     check "$label: Analysis is a retirement page" \
         [expr {$analysisPage ne "" && \
             [string first "<a Engine>" $analysisPage] >= 0}]
+    # #437 §3a: the two retired trainers must have left no page behind in any
+    # language, and no link to one.
+    set retired {}
+    foreach k [$h eval {array names helpText}] {
+        set leaf [lindex [split $k ,] end]
+        if {$leaf in {CalVar ReviewGame}} { lappend retired $k }
+    }
+    checkEq "$label: no CalVar or ReviewGame page" $retired {}
+    check "$label: no page links to CalVar" \
+        [expr {[string first "<a CalVar>" $all] < 0}]
+    check "$label: no page links to ReviewGame" \
+        [expr {[string first "<a ReviewGame>" $all] < 0}]
     interp delete $h
 }
 

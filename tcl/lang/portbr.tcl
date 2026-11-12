@@ -212,9 +212,7 @@ menuText B ToolsTracker "Acompanha Peça"  0 {Abre a janela de acompanhamento de
 menuText B ToolsTraining "Treinamento"  0 {Ferramentas de Treinamento (táticas, aberturas,...) }
 menuText B ToolsPlayVsEngine "Jogue contra o motor"  0 {Jogue contra um motor de xadrez}
 menuText B ToolsTrainOpenings "Aberturas"  0 {Treinamento com um repertório}
-menuText B ToolsTrainReviewGame "Rever jogo"  0 {Acompanhar movimentos de um jogo}
 menuText B ToolsTrainTactics "Táticas"  0 {Exercícios de tática}
-menuText B ToolsTrainCalvar "Cálculo de Variantes"  0 {Treinamento de cálculo de variantes}
 menuText B ToolsTrainFindBestMove "Procurar melhor movimento"  0 {Procura o melhor movimento}
 menuText B ToolsTrainFics "Jogar na internet"  0 {Jogar em  freechess.org}
 menuText B ToolsEngineTournament "Torneio de Engines de Xadrez"  0 {Inicia um torneio entre engines de Xadrez}
@@ -1900,8 +1898,6 @@ translate B AddScoreToShortAnnotations {Adicionar o score às anotações curtas
 translate B AddScoreToAllMoves {Adicione pontuação a todos os movimentos}
 translate B Export {Exportar}
 translate B BookPartiallyLoaded {Livro parcialmente carregado}
-translate B Calvar {Cálculo de variantes}
-translate B ConfigureCalvar {Configuração}
 # Opening names used in tacgame.tcl
 translate B Reti {Reti}
 translate B English {Inglesa}
@@ -2007,24 +2003,6 @@ translate B FICSTextColor {Cor do texto}
 
 # Game review
 translate B GameReview {Rever jogo}
-translate B GameReviewTimeExtended {Tempo estendido}
-translate B GameReviewMargin {Margem de erro}
-translate B GameReviewAutoContinue {Continuar automaticamente quando o movimento estiver correto}
-translate B GameReviewReCalculate {Usar tempo estendido}
-translate B GameReviewAnalyzingMovePlayedDuringTheGame {Analisando movimento feito durante o jogo}
-translate B GameReviewAnalyzingThePosition {Analisando a posição}
-translate B GameReviewEnterYourMove {Entre seu movimento}
-translate B GameReviewCheckingYourMove {Verificando seu movimento}
-translate B GameReviewYourMoveWasAnalyzed {Seu movimento foi analisado}
-translate B GameReviewYouPlayedSameMove {Você usou o mesmo movimento como na resposta}
-translate B GameReviewScoreOfYourMove {Score do seu movimento}
-translate B GameReviewGameMoveScore {Score do movimento do jogo}
-translate B GameReviewEngineScore {Score do Engine}
-translate B GameReviewYouPlayedLikeTheEngine {Voc jogou como o engine}
-translate B GameReviewNotEngineMoveButGoodMove {Não é o movimento do engine, mas é um bom movimento}
-translate B GameReviewMoveNotGood {Este movimento não é bom; seu score }
-translate B GameReviewMovesPlayedLike {Movimentos semelhantes}
-translate B GameReviewMovesPlayedEngine {Movimentos semelhantes aos do engine}
 
 # Correspondence Chess Dialogs:
 translate B CCDlgCGeneraloptions {Opções Gerais}
@@ -2052,7 +2030,6 @@ translate B IERotate  {Girar}
 translate B IEUnableToStart {Não é possível iniciar Engine:}
 
 # Calculation of Variations
-translate B DoneWithPosition {Posição definida}
 
 translate B Board {Tabuleiro}
 translate B showGameInfo {Mostrar informações do jogo}

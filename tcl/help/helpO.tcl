@@ -28,7 +28,6 @@ set helpText(O,Contents) {<h1>scidCommunity hjelpeinnhold </h1>
   <li><a Engine><b>Analyse</b>-vindu</a></li>
   <li><a Engine><b>Engine</b> vinduer</a></li>
   <li><a Book><b>Bok</b>-vindu</a></li>
-  <li><a CalVar><b>Beregning av variasjoner</b>-vindu</a></li>
   <li><a Comment><b>Kommentarredigerer</b>-vindu</a></li>
   <li><a Crosstable><b>Crossstable</b>-vindu</a></li>
   <li><a Switcher><b>Databasebytter</b>-vindu</a></li>
@@ -752,8 +751,6 @@ set helpText(O,Menus) {<h1>scidCommunity menus</h1>
   <ul>
   <li><menu>Openings Training</menu>: Configures <a OpeningTrainer>openings training</a>.</li>
   <li><menu>Tactics Training</menu>: Configures <a TacticsTrainer>tactics training</a>.</li>
-  <li><menu>Review Game</menu>: Starts game review mode.</li>
-  <li><menu>Calvar Training</menu>: Configures <a CalVar>calculation of variations</a> training.</li>
   </ul>
   </ul>
   
@@ -3282,48 +3279,6 @@ set helpText(O,Engine) {<h1>Motorvinduene</h1>
 }
 
 
-set helpTitle(O,CalVar) "Beregning av variasjon"
-set helpText(O,CalVar) {<h1> Vinduet for beregning av variasjon </h1>
-  <p>
-   Denne treningsøvelsen er også kjent som Stoyko-øvelsen.  Dens
-   Hensikten er å analysere en kompleks posisjon og evaluere så mange lyd
-   linjer som mulig, og gi en korrekt vurdering for hver av dem.
-  </p> 
-  <h3>Konfigurasjon</h3></p>
-  <p>
-  Tre parametere er satt:
-  <ul>
-     <li> UCI-motoren som vil analysere ulike linjer </li>
-     <li> Tiden, i sekunder, motoren vil bruke til å analysere posisjonen </li>
-     <li> Tiden, i sekunder, motoren vil bruke til å analysere hver linje som legges inn av brukeren </li>
-  </ul>
-  </p>
-
-  <h3>Skriv inn linjer</h3></p>
-  <p>
-  Trekk legges inn som vanlig med museklikk på brettet men de
-  vil ikke vises. På slutten av en linje må brukeren gi
-  en evaluering ved å klikke på en av knappene med NAG-koder.
-  </p>
-
-  <h3>Evalueringsverifisering</h3>
-  <p>
-  Hver gang en evaluering gis til en linje, beregner motoren sin
-  verdi og legg til linjen og score rett under brukernes.
-  </p>
-
-  <h3>Ferdig med posisjon</h3>
-  <p>
-   Når brukeren tror han fant alle de beste linjene, trykker du på <term>Ferdig med
-   posisjon </term> vil legge til spillet (med kommentaren <term> Savnet
-   line</term>), linjene som har en poengsum høyere enn den beste linjen
-   lagt inn av brukeren.
-  </p>
-
-  <p><footer>(Oppdatert: scidCommunity, april 2026)</footer></p>
-}
-
-
 set helpTitle(O,EPD) "EPD-filer"
 set helpText(O,EPD) {<h1>EPD-filer </h1>
   <p>
@@ -5377,48 +5332,6 @@ set helpText(O,InputEngine) {<h1>Input Engine-driverkonsoll </h1>
    </p>
 
 
-  <p><footer>(Oppdatert: scidCommunity, april 2026)</footer></p>
-}
-
-
-set helpTitle(O,ReviewGame) "Spillanmeldelse"
-set helpText(O,ReviewGame) {<h1>Gjennomgå et spill</h1>
-   <p>
-	Denne funksjonen er designet for å studere et spill, noe som betyr at du bør
-	prøv å gjette trekkene som ble spilt i løpet av kampen. Så du åpner først en
-	spill fra hvilken som helst scidCommunitys base, og skriv inn denne funksjonen med kommandoen
-	<b>Se gjennom spillet</b> i <b>Spill</b>-menyen.  Som vanlig å spille
-	med Black, flip board først (du spiller alltid fra bunnen av
-	styret).
-   </p>
-	<p>
-	For en effektiv trening bør følgende innstillinger være
-	deaktivert:
-	<ul>
-		<li>Vis siste trekk (Alternativer / Flytt / Marker siste trekk)</li>
-		<li>Vis neste trekk (Alternativer / Spillinformasjon / Skjul neste trekk)</li>
-		<li>PGN-vindu </li>
-	</p>
-Prosessen er følgende:
-<ul>
-<li>- motorer tenker på farten som spilles under spillet </li>
-<li>- motoren funderer over posisjonen og finner det beste trekket </li>
-<li>- brukeren har da lov til å gå inn i trekket sitt </li>
-<li>- motor funderer på farten spilt av brukeren </li>
-</ul>
-Hvis trekket som spilles av brukeren er enten trekket som faktisk ble spilt
-under spillet eller trekket valgt av motoren eller et trekk hvis poengsum
-er nær det beste trekket funnet av motoren (ved bruk av marginfeil
-definert av brukeren), anses flyttingen som en god en. Hvis
-brukeren er uenig med motoren han kan bruke <b>extended time</b>
-knappen for å få en bekreftelse på motorens analyse.
-<p>
-<b>Merknader:</b> 
-<ul>
-<li>- Side må velges før spillgjennomgang </li>
-<li>- Brukeren spiller alltid fra bunnen av brettet </li>
-</ul>
-</p>
   <p><footer>(Oppdatert: scidCommunity, april 2026)</footer></p>
 }
 

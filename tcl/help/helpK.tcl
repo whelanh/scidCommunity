@@ -28,7 +28,6 @@ set helpText(K,Contents) {<h1>Continguts d'ajuda de scidCommunity</h1>
   <li><a Engine><b>Anàlisi</b> finestra</a></li>
   <li><a Engine><b>Motor</b> finestres</a></li>
   <li><a Book><b>Llibre</b> finestra</a></li>
-  <li><a CalVar><b>Càlcul de variacions</b> finestra</a></li>
   <li><a Comment><b>Editor de comentaris</b> finestra</a></li>
   <li><a Crosstable><b>Taula creuada</b> finestra</a></li>
   <li><a Switcher><b>Canviador de bases de dades</b> finestra</a></li>
@@ -756,8 +755,6 @@ set helpText(K,Menus) {<h1>scidCommunity menus</h1>
   <ul>
   <li><menu>Openings Training</menu>: Configures <a OpeningTrainer>openings training</a>.</li>
   <li><menu>Tactics Training</menu>: Configures <a TacticsTrainer>tactics training</a>.</li>
-  <li><menu>Review Game</menu>: Starts game review mode.</li>
-  <li><menu>Calvar Training</menu>: Configures <a CalVar>calculation of variations</a> training.</li>
   </ul>
   </ul>
   
@@ -3299,48 +3296,6 @@ set helpText(K,Engine) {<h1>Les finestres del motor </h1>
 }
 
 
-set helpTitle(K,CalVar) "Càlcul de la variació"
-set helpText(K,CalVar) {<h1>La finestra de càlcul de la variació </h1>
-  <p>
-   Aquest exercici d'entrenament també es coneix com a exercici Stoyko.  El seu
-   El propòsit és analitzar una posició complexa i avaluar el màxim de so
-   línies com sigui possible, i doneu una avaluació correcta de cadascun d'ells.
-  </p> 
-  <h3>Configuració </h3></p>
-  <p>
-  S'estableixen tres paràmetres:
-  <ul>
-     <li>El motor UCI que analitzarà diverses línies </li>
-     <li>El temps, en segons, que utilitzarà el motor per analitzar la posició </li>
-     <li>El temps, en segons, que utilitzarà el motor per analitzar cada línia introduïda per l'usuari </li>
-  </ul>
-  </p>
-
-  <h3>Introducció de línies </h3></p>
-  <p>
-  Els moviments s'introdueixen com de costum amb clics del ratolí al tauler però ells
-  no es mostrarà. Al final d'una línia l'usuari ha de proporcionar
-  una avaluació fent clic a un dels botons amb codis NAG.
-  </p>
-
-  <h3>Verificació de l'avaluació </h3>
-  <p>
-  Cada vegada que es dóna una avaluació a una línia el motor calcula la seva
-  valorar i afegir la línia i la puntuació just a sota de les de l'usuari.
-  </p>
-
-  <h3>Fet amb la posició </h3>
-  <p>
-   Quan l'usuari creu que ha trobat totes les millors línies, premeu <term>Fet
-   la posició </term> s'adjuntarà al joc (amb el comentari <term>S'ha perdut
-   line</term>), les línies que tenen una puntuació superior a la millor línia
-   introduït per l'usuari.
-  </p>
-
-  <p><footer>(Actualitzat: scidCommunity, abril de 2026)</footer></p>
-}
-
-
 set helpTitle(K,EPD) "Fitxers EPD"
 set helpText(K,EPD) {<h1>Fitxers EPD </h1>
   <p>
@@ -5402,49 +5357,6 @@ set helpText(K,InputEngine) {<h1>Entrada de la consola del controlador del motor
    </p>
 
 
-  <p><footer>(Actualitzat: scidCommunity, abril de 2026)</footer></p>
-
-}
-
-
-set helpTitle(K,ReviewGame) "Revisió del joc"
-set helpText(K,ReviewGame) {<h1>Revisió d'un joc</h1>
-   <p>
-	Aquesta funció està dissenyada per estudiar un joc, el que vol dir que ho hauríeu de fer
-	tractar d'endevinar els moviments jugats durant el partit. Així que primer obriu a
-	joc des de qualsevol base de scidCommunity i introduïu aquesta funció amb l'ordre
-	<b>Joc de revisió</b> en el <b>Jugar</b> menú.  Com de costum, per jugar
-	amb el negre, capgira primer el tauler (sempre jugues des de la part inferior de
-	el tauler).
-   </p>
-	<p>
-	Per a un entrenament eficaç, haurien de ser els següents paràmetres
-	desactivat:
-	<ul>
-		<li>Mostra el darrer moviment (Opcions/Moviments/Resalta el darrer moviment)</li>
-		<li>Mostra el següent moviment (Opcions / Informació del joc / Amaga el següent moviment)</li>
-		<li>finestra PGN</li>
-	</p>
-El procés és el següent:
-<ul>
-<li>- els motors reflexionen sobre el moviment jugat durant el joc</li>
-<li>- el motor reflexiona sobre la posició i troba el millor moviment</li>
-<li>- L'usuari pot introduir el seu moviment</li>
-<li>- el motor reflexiona sobre el moviment jugat per l'usuari</li>
-</ul>
-Si el moviment jugat per l'usuari és el moviment realment jugat
-durant el joc o el moviment escollit pel motor o un moviment la puntuació del qual
-està a prop del millor moviment trobat pel motor (utilitzant l'error de marge
-definit per l'usuari), aleshores el moviment es considera bo. Si
-l'usuari no està d'acord amb el motor que pot utilitzar <b>temps prolongat</b>
-botó per obtenir una confirmació de l'anàlisi del motor.
-<p>
-<b>Notes:</b> 
-<ul>
-<li>- S'ha d'escollir el bàndol abans de revisar el joc </li>
-<li>- L'usuari sempre juga des de la part inferior del tauler</li>
-</ul>
-</p>
   <p><footer>(Actualitzat: scidCommunity, abril de 2026)</footer></p>
 
 }

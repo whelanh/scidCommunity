@@ -226,9 +226,7 @@ menuText S ToolsTracker "Rastreador de piezas"  14 {Abre la ventana del rastread
 menuText S ToolsTraining "Entrenamiento"  0 {Entrenamiento (táctica, aperturas,...)}
 menuText S ToolsPlayVsEngine "Juego versus motor"  0 {Juega una partida contra un motor de ajedrez}
 menuText S ToolsTrainOpenings "Entrenamiento de aperturas"  0 {Entrenamiento con un repertorio}
-menuText S ToolsTrainReviewGame "Revisar partida"  0 {Adivina movimientos jugados en una partida}
 menuText S ToolsTrainTactics "Táctica (problemas)"  0 {Resuelve problemas de táctica}
-menuText S ToolsTrainCalvar "Cálculo de variaciones"  0 {Cálculo de variaciones}
 menuText S ToolsTrainFindBestMove "Encontrar la mejor jugada"  0 {Busca el movimiento mejor}
 menuText S ToolsTrainFics "Jugar en internet..."  0 {Conecta a freechess.org}
 menuText S ToolsEngineTournament "Torneo de motores"  0 {Iniciar un torneo entre motores de ajedrez}
@@ -1945,8 +1943,6 @@ translate S AddScoreToShortAnnotations {Añadir puntuación para anotaciones cor
 translate S AddScoreToAllMoves {Añade puntuación a todos los movimientos.}
 translate S Export {Exportar}
 translate S BookPartiallyLoaded {Libro parcialmente cargado}
-translate S Calvar {Cálculo de variantes}
-translate S ConfigureCalvar {Configuración}
 # Opening names used in tacgame.tcl
 translate S Reti {Apertura Reti}
 translate S English {Apertura inglesa}
@@ -2052,24 +2048,6 @@ translate S FICSTextColor {Color del texto}
 
 # Game review
 translate S GameReview {Revisión de partida}
-translate S GameReviewTimeExtended {Tiempo extendido}
-translate S GameReviewMargin {Margen de error}
-translate S GameReviewAutoContinue {Autocontinuar cuando el movimiento es correcto}
-translate S GameReviewReCalculate {Usar tiempo extendido}
-translate S GameReviewAnalyzingMovePlayedDuringTheGame {Analizando movimiento jugado durante la partida}
-translate S GameReviewAnalyzingThePosition {Analizando la posición}
-translate S GameReviewEnterYourMove {Introduce tu movimiento}
-translate S GameReviewCheckingYourMove {Comprobando tu movimiento}
-translate S GameReviewYourMoveWasAnalyzed {Tu movimiento fue analizado}
-translate S GameReviewYouPlayedSameMove {Jugaste el mismo movimiento que en la partida}
-translate S GameReviewScoreOfYourMove {Puntuación de tu movimiento}
-translate S GameReviewGameMoveScore {Puntuación del movimiento de la partida}
-translate S GameReviewEngineScore {Puntuación del motor}
-translate S GameReviewYouPlayedLikeTheEngine {Tú jugaste como el motor}
-translate S GameReviewNotEngineMoveButGoodMove {No es el movimiento del motor, pero es también un buen movimiento}
-translate S GameReviewMoveNotGood {Este movimiento no es bueno, la puntuación es }
-translate S GameReviewMovesPlayedLike {Movimientos jugados como}
-translate S GameReviewMovesPlayedEngine {Movimientos jugados como motor}
 
 # Correspondence Chess Dialogs:
 translate S CCDlgCGeneraloptions {Opciones generales}
@@ -2097,7 +2075,6 @@ translate S IERotate  {Rotar}
 translate S IEUnableToStart {Imposible empezar con el motor de entrada:}
 
 # Calculation of Variations
-translate S DoneWithPosition {Terminado con la posición}
 
 translate S Board {Tablero}
 translate S showGameInfo {Mostrar información de la partida}

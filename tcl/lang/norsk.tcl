@@ -213,9 +213,7 @@ menuText O ToolsTracker "Brikkesporing"  0 {Åpne brikkesporingsvinduet}
 menuText O ToolsTraining "Opplæring"  0 {Treningsverktøy (taktikk, åpninger,...)}
 menuText O ToolsPlayVsEngine "Spill mot motor"  0 {Spill et spill mot en sjakkmotor}
 menuText O ToolsTrainOpenings "Åpninger"  0 {Tren med repertoar}
-menuText O ToolsTrainReviewGame "Gjennomgå spillet"  0 {Gjett trekk som spilles i et spill}
 menuText O ToolsTrainTactics "Taktikk"  0 {Løs taktikk}
-menuText O ToolsTrainCalvar "Beregning av variasjoner"  0 {Beregning av variasjoner trening}
 menuText O ToolsTrainFindBestMove "Finn det beste trekket"  0 {Finn det beste trekket}
 menuText O ToolsTrainFics "Spill på internett"  0 {Spill på freechess.org}
 menuText O ToolsEngineTournament "Motorturnering"  0 {Start en turnering mellom sjakkmotorer}
@@ -1892,8 +1890,6 @@ translate O AddScoreToShortAnnotations {Legg poengsum til korte merknader}
 translate O AddScoreToAllMoves {Legg til poengsum til alle trekk}
 translate O Export {Eksport}
 translate O BookPartiallyLoaded {Boken er delvis lastet}
-translate O Calvar {Beregning av variasjoner}
-translate O ConfigureCalvar {Konfigurasjon}
 # Opening names used in tacgame.tcl
 translate O Reti {Reti}
 translate O English {engelsk}
@@ -1999,24 +1995,6 @@ translate O FICSTextColor {Tekstfarge}
 
 # Game review
 translate O GameReview {Spillanmeldelse}
-translate O GameReviewTimeExtended {Tid forlenget}
-translate O GameReviewMargin {Feilmargin}
-translate O GameReviewAutoContinue {Autofortsett når bevegelsen er riktig}
-translate O GameReviewReCalculate {Bruk forlenget tid}
-translate O GameReviewAnalyzingMovePlayedDuringTheGame {Analyserer trekk som er spilt i løpet av spillet}
-translate O GameReviewAnalyzingThePosition {Analyserer posisjonen}
-translate O GameReviewEnterYourMove {Skriv inn ditt trekk}
-translate O GameReviewCheckingYourMove {Sjekker flyttingen din}
-translate O GameReviewYourMoveWasAnalyzed {Trekningen din ble analysert}
-translate O GameReviewYouPlayedSameMove {Du spilte samme trekk som i kampen}
-translate O GameReviewScoreOfYourMove {Poengsummen for trekket ditt}
-translate O GameReviewGameMoveScore {Spillbevegelsens poengsum}
-translate O GameReviewEngineScore {Motorens poengsum}
-translate O GameReviewYouPlayedLikeTheEngine {Du spilte som motoren}
-translate O GameReviewNotEngineMoveButGoodMove {Ikke motorbevegelsen, men er også et godt trekk}
-translate O GameReviewMoveNotGood {Dette trekket er ikke bra, poengsum er}
-translate O GameReviewMovesPlayedLike {Bevegelser spilt som}
-translate O GameReviewMovesPlayedEngine {Bevegelser spilt som motor}
 
 # Correspondence Chess Dialogs:
 translate O CCDlgCGeneraloptions {Generelle alternativer}
@@ -2044,7 +2022,6 @@ translate O IERotate  {Rotere}
 translate O IEUnableToStart {Kan ikke starte Input Engine:}
 
 # Calculation of Variations
-translate O DoneWithPosition {Ferdig med posisjon}
 
 translate O Board {Borde}
 translate O showGameInfo {Vis spillinformasjon}

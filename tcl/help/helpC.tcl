@@ -28,7 +28,6 @@ set helpText(C,Contents) {<h1>scidObsah nápovědy komunity </h1>
   <li><a Engine><b>Analýza</b> okno </a></li>
   <li><a Engine><b>Motor</b> windows</a></li>
   <li><a Book><b>Kniha</b> okno </a></li>
-  <li><a CalVar><b>Výpočet variací</b> okno</a></li>
   <li><a Comment><b>Okno editoru komentářů</b></a></li>
   <li><a Crosstable><b>Crosstable</b> okno </a></li>
   <li><a Switcher><b>Okno Přepínač databáze</b></a></li>
@@ -755,8 +754,6 @@ set helpText(C,Menus) {<h1>scidCommunity menus</h1>
   <ul>
   <li><menu>Openings Training</menu>: Configures <a OpeningTrainer>openings training</a>.</li>
   <li><menu>Tactics Training</menu>: Configures <a TacticsTrainer>tactics training</a>.</li>
-  <li><menu>Review Game</menu>: Starts game review mode.</li>
-  <li><menu>Calvar Training</menu>: Configures <a CalVar>calculation of variations</a> training.</li>
   </ul>
   </ul>
   
@@ -3292,48 +3289,6 @@ set helpText(C,Engine) {<h1> Okna motoru </h1>
 }
 
 
-set helpTitle(C,CalVar) "Výpočet variace"
-set helpText(C,CalVar) {<h1> Výpočet variačního okna </h1>
-  <p>
-   Toto tréninkové cvičení je také známé jako cvičení Stoyko.  Jeho
-   účelem je analyzovat komplexní pozici a vyhodnotit co nejvíce zvuků
-   řádků a u každého z nich uveďte správné hodnocení.
-  </p> 
-  <h3> Konfigurace </h3> </p>
-  <p>
-  Jsou nastaveny tři parametry:
-  <ul>
-     <li> UCI engine, který bude analyzovat různé linie </li>
-     <li> Čas v sekundách, který motor použije k analýze polohy </li>
-     <li> Čas v sekundách, který motor použije k analýze každého řádku zadaného uživatelem </li>
-  </ul>
-  </p>
-
-  <h3> Vstup do řádků </h3> </p>
-  <p>
-  Tahy se zadávají jako obvykle pomocí kliknutí myší na hrací plochu, ale oni
-  se nezobrazí. Na konci řádku musí uživatel poskytnout
-  vyhodnocení kliknutím na jedno z tlačítek s NAG kódy.
-  </p>
-
-  <h3>Ověření hodnocení </h3>
-  <p>
-  Pokaždé, když je řádce přiděleno hodnocení, motor jej vypočítá
-  hodnotu a připojte řádek a skóre těsně pod ty uživatelské.
-  </p>
-
-  <h3> Hotovo s pozicí </h3>
-  <p>
-   Když si uživatel myslí, že našel všechny nejlepší řádky, stiskne <term> Hotovo
-   position</term> se připojí ke hře (s komentářem <term>Missed
-   line</term>), řádky, které mají skóre vyšší než nejlepší řádek
-   zadané uživatelem.
-  </p>
-
-  <p><footer>(Aktualizováno: scidCommunity, duben 2026)</footer></p>
-}
-
-
 set helpTitle(C,EPD) "soubory EPD"
 set helpText(C,EPD) {<h1> soubory EPD </h1>
   <p>
@@ -5389,48 +5344,6 @@ set helpText(C,InputEngine) {<h1>Vstupní konzola ovladače motoru</h1>
 
   <p><footer>(Aktualizováno: scidCommunity, duben 2026)</footer></p>
 
-}
-
-
-set helpTitle(C,ReviewGame) "Recenze hry"
-set helpText(C,ReviewGame) {<h1> Recenze hry </h1>
-   <p>
-	Tato funkce je určena ke studiu hry, což znamená, že byste měli
-	zkuste uhodnout tahy hrané během zápasu. Nejprve tedy otevřete a
-	hru z jakékoli základny scidCommunity a zadejte tuto funkci pomocí příkazu
-	<b>Zkontrolujte hru </b> v nabídce <b>Play</b>.  Jako obvykle hrát
-	s černou flip board jako první (vždy hrajete odspodu
-	deska).
-   </p>
-	<p>
-	Pro efektivní trénink by měla být následující nastavení
-	zakázáno:
-	<ul>
-		<li>Zobrazit poslední tah (Možnosti / Pohyby / Zvýraznit poslední tah) </li>
-		<li>Zobrazit další tah (Možnosti / Informace o hře / Skrýt další tah) </li>
-		<li> Okno PGN </li>
-	</p>
-Proces je následující:
-<ul>
-<li> – motory přemýšlí o pohybu hraném během hry </li>
-<li> – motor přemýšlí o pozici a najde nejlepší tah </li>
-<li> – uživatel pak může zadat svůj tah </li>
-<li> – motor přemýšlí o pohybu uživatelem </li>
-</ul>
-Pokud je tah zahraný uživatelem buď skutečně zahraný tah
-během hry nebo tah zvolený enginem nebo tah, jehož skóre
-se blíží nejlepšímu pohybu nalezenému motorem (pomocí chyby rozpětí
-definovaný uživatelem), pak je tah považován za dobrý. Pokud
-uživatel nesouhlasí s motorem, může použít <b>prodloužený čas </b>
-tlačítko pro potvrzení analýzy motoru.
-<p>
-<b> Poznámky: </b> 
-<ul>
-<li>- Strana musí být vybrána před kontrolou hry </li>
-<li>- Uživatel vždy hraje ze spodní části hrací desky </li>
-</ul>
-</p>
-  <p><footer>(Aktualizováno: scidCommunity, duben 2026)</footer></p>
 }
 
 

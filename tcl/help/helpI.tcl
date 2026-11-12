@@ -28,7 +28,6 @@ set helpText(I,Contents) {<h1>Contenuto della guida di scidCommunity</h1>
   <li><a Engine><b>Analisi</b> finestra</a></li>
   <li><a Engine><b>Motore</b> finestre</a></li>
   <li><a Book><b>Libro</b> finestra</a></li>
-  <li><a CalVar><b>Calcolo delle variazioni</b> finestra</a></li>
   <li><a Comment><b>Editor dei commenti</b> finestra</a></li>
   <li><a Crosstable><b>Tavola incrociata</b> finestra</a></li>
   <li><a Switcher><b>Commutatore di database</b> finestra</a></li>
@@ -756,8 +755,6 @@ set helpText(I,Menus) {<h1>scidCommunity menus</h1>
   <ul>
   <li><menu>Openings Training</menu>: Configures <a OpeningTrainer>openings training</a>.</li>
   <li><menu>Tactics Training</menu>: Configures <a TacticsTrainer>tactics training</a>.</li>
-  <li><menu>Review Game</menu>: Starts game review mode.</li>
-  <li><menu>Calvar Training</menu>: Configures <a CalVar>calculation of variations</a> training.</li>
   </ul>
   </ul>
   
@@ -3298,48 +3295,6 @@ set helpText(I,Engine) {<h1>Le finestre del motore</h1>
 }
 
 
-set helpTitle(I,CalVar) "Calcolo della variazione"
-set helpText(I,CalVar) {<h1> Finestra di calcolo della variazione </h1>
-  <p>
-   Questo esercizio di allenamento è noto anche come esercizio Stoyko.  Suo
-   lo scopo è analizzare una posizione complessa e valutare quanti più suoni
-   righe possibili e dare una valutazione corretta per ciascuna di esse.
-  </p> 
-  <h3>Configurazione</h3></p>
-  <p>
-  Vengono impostati tre parametri:
-  <ul>
-     <li>Il motore UCI che analizzerà varie linee</li>
-     <li>Il tempo, in secondi, utilizzato dal motore per analizzare la posizione</li>
-     <li>Il tempo, in secondi, che il motore utilizzerà per analizzare ogni riga inserita dall'utente</li>
-  </ul>
-  </p>
-
-  <h3>Inserimento righe</h3></p>
-  <p>
-  Le mosse vengono inserite come al solito con i clic del mouse sul tabellone ma loro
-  non verrà visualizzato. Alla fine di una riga l'utente deve fornire
-  una valutazione cliccando su uno dei pulsanti con i codici NAG.
-  </p>
-
-  <h3>Verifica di valutazione</h3>
-  <p>
-  Ogni volta che viene data una valutazione ad una linea il motore la calcola
-  valore e aggiungi la riga e il punteggio appena sotto quelli dell'utente.
-  </p>
-
-  <h3>Fine con la posizione</h3>
-  <p>
-   Quando l'utente ritiene di aver trovato tutte le righe migliori, premendo <term>Fine with
-   position</term> verrà aggiunto al gioco (con il commento <term>Perse
-   line</term>), le linee che hanno un punteggio superiore alla linea migliore
-   inserito dall'utente.
-  </p>
-
-  <p><footer>(Aggiornato: scidCommunity, aprile 2026)</footer></p>
-}
-
-
 set helpTitle(I,EPD) "File EPD"
 set helpText(I,EPD) {<h1>File EPD</h1>
   <p>
@@ -5402,49 +5357,6 @@ set helpText(I,InputEngine) {<h1>Console del driver del motore di input</h1>
    </p>
 
 
-  <p><footer>(Aggiornato: scidCommunity, aprile 2026)</footer></p>
-
-}
-
-
-set helpTitle(I,ReviewGame) "Recensione del gioco"
-set helpText(I,ReviewGame) {<h1>Revisione di un gioco</h1>
-   <p>
-	Questa funzione è progettata per studiare un gioco, il che significa che dovresti
-	prova a indovinare le mosse giocate durante la partita. Quindi per prima cosa apri a
-	game da qualsiasi base di scidCommunity e inserisci questa funzione con il comando
-	<b>Recensione del gioco</b> nel <b>Giocare</b> menu.  Come al solito, per giocare
-	con il Nero, gira prima la scacchiera (giochi sempre dal basso
-	il consiglio).
-   </p>
-	<p>
-	Per un allenamento efficace dovrebbero essere le seguenti impostazioni
-	disabilitato:
-	<ul>
-		<li>Mostra l'ultima mossa (Opzioni/Mosse/Evidenzia ultima mossa)</li>
-		<li>Mostra la mossa successiva (Opzioni/Informazioni sul gioco/Nascondi mossa successiva)</li>
-		<li>Finestra PGN</li>
-	</p>
-Il processo è il seguente:
-<ul>
-<li>- i motori riflettono sulla mossa giocata durante il gioco</li>
-<li>- il motore riflette sulla posizione e trova la mossa migliore</li>
-<li>- L'utente può quindi inserire la sua mossa</li>
-<li>- il motore riflette sulla mossa giocata dall'utente</li>
-</ul>
-Se la mossa giocata dall'utente è la mossa effettivamente giocata
-durante il gioco o la mossa scelta dal motore o una mossa il cui punteggio
-è vicino alla mossa migliore trovata dal motore (usando l'errore di margine
-definito dall'utente), la mossa viene considerata buona. Se
-l'utente non è d'accordo con il motore che può utilizzare <b>tempo prolungato</b>
-pulsante per ottenere una conferma dell'analisi del motore.
-<p>
-<b>Note:</b> 
-<ul>
-<li>- La fazione deve essere scelta prima della revisione del gioco </li>
-<li>- L'utente gioca sempre dal fondo del tabellone</li>
-</ul>
-</p>
   <p><footer>(Aggiornato: scidCommunity, aprile 2026)</footer></p>
 
 }

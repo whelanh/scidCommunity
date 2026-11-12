@@ -28,7 +28,6 @@ set helpText(L,Contents) {<h1>scidCommunity Ajutor Conținut</h1>
   <li><a Engine><b>Fereastra de analiză</b></a></li>
   <li><a Engine><b>Motor</b> ferestre</a></li>
   <li><a Book><b>Carte</b> fereastră</a></li>
-  <li><a CalVar><b>Fereastra de calcul al variațiilor</b></a></li>
   <li><a Comment><b>Editor de comentarii</b> fereastră</a></li>
   <li><a Crosstable><b>Crosstable</b> fereastra</a></li>
   <li><a Switcher><b>Comutator baze de date</b> fereastra</a></li>
@@ -755,8 +754,6 @@ set helpText(L,Menus) {<h1>scidCommunity menus</h1>
   <ul>
   <li><menu>Openings Training</menu>: Configures <a OpeningTrainer>openings training</a>.</li>
   <li><menu>Tactics Training</menu>: Configures <a TacticsTrainer>tactics training</a>.</li>
-  <li><menu>Review Game</menu>: Starts game review mode.</li>
-  <li><menu>Calvar Training</menu>: Configures <a CalVar>calculation of variations</a> training.</li>
   </ul>
   </ul>
   
@@ -3296,48 +3293,6 @@ set helpText(L,Engine) {<h1>Ferestrele motorului </h1>
 }
 
 
-set helpTitle(L,CalVar) "Calculul variației"
-set helpText(L,CalVar) {<h1>Fereastra de calcul a variației </h1>
-  <p>
-   Acest exercițiu de antrenament este cunoscut și sub numele de exercițiul Stoyko.  Ei
-   scopul este de a analiza o poziție complexă și de a evalua cât mai multe sunet
-   linii cât mai mult posibil și dați o evaluare corectă pentru fiecare dintre ele.
-  </p> 
-  <h3>Configurare</h3></p>
-  <p>
-  Sunt setati trei parametri:
-  <ul>
-     <li>Motorul UCI care va analiza diverse linii </li>
-     <li>Timpul, în secunde, pe care motorul îl va folosi pentru a analiza poziția </li>
-     <li>Timpul, în secunde, pe care motorul îl va folosi pentru a analiza fiecare linie introdusă de utilizator </li>
-  </ul>
-  </p>
-
-  <h3>Introducerea liniilor</h3></p>
-  <p>
-  Mișcările sunt introduse ca de obicei cu clicuri de mouse pe tablă, dar acestea
-  nu va fi afișat. La sfârșitul unei linii utilizatorul trebuie să furnizeze
-  o evaluare făcând clic pe unul dintre butoanele cu coduri NAG.
-  </p>
-
-  <h3>Verificarea evaluării </h3>
-  <p>
-  De fiecare dată când o evaluare este dată unei linii motorul o calculează
-  valoare și adăugați linia și scorul chiar sub cele ale utilizatorului.
-  </p>
-
-  <h3>Terminat cu poziția </h3>
-  <p>
-   Când utilizatorul crede că a găsit toate cele mai bune linii, apăsând <term>Gata
-   poziția </term> va fi adăugată jocului (cu comentariul <term> ratat
-   line</term>), liniile care au un scor mai mare decât cea mai bună linie
-   introdus de utilizator.
-  </p>
-
-  <p><footer>(Actualizat: scidCommunity, aprilie 2026)</footer></p>
-}
-
-
 set helpTitle(L,EPD) "Fișiere EPD"
 set helpText(L,EPD) {<h1>Fișiere EPD </h1>
   <p>
@@ -5397,49 +5352,6 @@ set helpText(L,InputEngine) {<h1>Intrare consola driverului motorului</h1>
    </p>
 
 
-  <p><footer>(Actualizat: scidCommunity, aprilie 2026)</footer></p>
-
-}
-
-
-set helpTitle(L,ReviewGame) "Recenzia jocului"
-set helpText(L,ReviewGame) {<h1>Revizuirea unui joc</h1>
-   <p>
-	Această caracteristică este concepută pentru a studia un joc, ceea ce înseamnă că ar trebui
-	încercați să ghiciți mișcările jucate în timpul meciului. Deci mai întâi deschideți un
-	joc din orice bază scidCommunity și introduceți această funcție cu comanda
-	<b>Joc de recenzie</b> în <b>Juca</b> meniu.  Ca de obicei, pentru a juca
-	cu Negru, flip board mai întâi (joci întotdeauna de jos
-	tabla).
-   </p>
-	<p>
-	Pentru un antrenament eficient ar trebui să fie următoarele setări
-	dezactivat:
-	<ul>
-		<li>Afișați ultima mișcare (Opțiuni / Mișcări / Evidențiați ultima mișcare)</li>
-		<li>Afișează următoarea mișcare (Opțiuni / Informații despre joc / Ascunde următoarea mișcare)</li>
-		<li>fereastra PGN</li>
-	</p>
-Procesul este următorul:
-<ul>
-<li>- Motoarele se gândesc la mișcarea jucată în timpul jocului</li>
-<li>- motorul se gândește la poziție și găsește cea mai bună mișcare</li>
-<li>- utilizatorului i se permite apoi să introducă mutarea sa</li>
-<li>- motorul se gândește la mișcarea jucată de utilizator</li>
-</ul>
-Dacă mișcarea jucată de utilizator este fie mișcarea jucată efectiv
-în timpul jocului sau a mutării alese de motor sau o mutare al cărei scor
-este aproape de cea mai bună mișcare găsită de motor (folosind eroarea de marjă
-definit de utilizator), atunci mutarea este considerată una bună. Dacă
-utilizatorul nu este de acord cu motorul pe care îl poate folosi <b>timp prelungit</b>
-butonul pentru a obține o confirmare a analizei motorului.
-<p>
-<b>Note:</b> 
-<ul>
-<li>- Partea trebuie aleasă înainte de revizuirea jocului </li>
-<li>- Utilizatorul joacă întotdeauna din partea de jos a tablei</li>
-</ul>
-</p>
   <p><footer>(Actualizat: scidCommunity, aprilie 2026)</footer></p>
 
 }

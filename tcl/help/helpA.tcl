@@ -28,7 +28,6 @@ set helpText(A,Contents) {<h1>scidコミュニティのヘルプコンテンツ<
   <li><a Engine><b>分析</b> ウィンドウ</a></li>
   <li><a Engine><b>エンジン</b> 窓</a></li>
   <li><a Book><b>本</b> ウィンドウ</a></li>
-  <li><a CalVar><b>変動の計算</b> ウィンドウ</a></li>
   <li><a Comment><b>コメントエディター</b> ウィンドウ</a></li>
   <li><a Crosstable><b>クロステーブル</b> ウィンドウ</a></li>
   <li><a Switcher><b>データベーススイッチャー</b> ウィンドウ</a></li>
@@ -753,8 +752,6 @@ set helpText(A,Menus) {<h1>scidCommunity menus</h1>
   <ul>
   <li><menu>Openings Training</menu>: Configures <a OpeningTrainer>openings training</a>.</li>
   <li><menu>Tactics Training</menu>: Configures <a TacticsTrainer>tactics training</a>.</li>
-  <li><menu>Review Game</menu>: Starts game review mode.</li>
-  <li><menu>Calvar Training</menu>: Configures <a CalVar>calculation of variations</a> training.</li>
   </ul>
   </ul>
   
@@ -3292,48 +3289,6 @@ set helpText(A,Engine) {<h1>エンジンウィンドウ</h1>
 }
 
 
-set helpTitle(A,CalVar) "ばらつきの計算"
-set helpText(A,CalVar) {<h1>変動ウィンドウの計算</h1>
-  <p>
-   このトレーニング演習はストイコ演習としても知られています。  その
-   目的は、複雑な位置を分析し、できるだけ多くの音を評価することです
-   できるだけ多くの行を作成し、それぞれに対して正しい評価を与えます。
-  </p> 
-  <h3>構成</h3></p>
-  <p>
-  3 つのパラメータが設定されます。
-  <ul>
-     <li>さまざまなラインを解析するUCIエンジン</li>
-     <li>エンジンが位置の分析に使用する時間 (秒単位)</li>
-     <li>ユーザーが入力した各行をエンジンが分析するのにかかる時間(秒単位)</li>
-  </ul>
-  </p>
-
-  <h3>線の入力</h3></p>
-  <p>
-  移動は通常どおりボード上でマウスをクリックして入力しますが、
-  は表示されません。ユーザーは行の最後に次の情報を入力する必要があります
-  NAG コードのボタンの 1 つをクリックして評価します。
-  </p>
-
-  <h3>評価検証</h3>
-  <p>
-  ラインに評価が与えられるたびに、エンジンはその評価を計算します。
-  値を入力し、ユーザーの値のすぐ下に行とスコアを追加します。
-  </p>
-
-  <h3>ポジション完了</h3>
-  <p>
-   ユーザーが最良の行をすべて見つけたと思ったら、<term>「完了」を押します。
-   位置</term>はゲームに追加されます(コメント<term>Missed付き)
-   line</term>)、最良のラインよりも高いスコアを持つライン
-   ユーザーが入力したもの。
-  </p>
-
-  <p><footer>(更新日: scidCommunity、2026 年 4 月)</footer></p>
-}
-
-
 set helpTitle(A,EPD) "EPDファイル"
 set helpText(A,EPD) {<h1>EPDファイル</h1>
   <p>
@@ -5393,48 +5348,6 @@ set helpText(A,InputEngine) {<h1>入力エンジンドライバーコンソー�
    </p>
 
 
-  <p><footer>(更新日: scidCommunity、2026 年 4 月)</footer></p>
-}
-
-
-set helpTitle(A,ReviewGame) "ゲームレビュー"
-set helpText(A,ReviewGame) {<h1>ゲームのレビュー</h1>
-   <p>
-	この機能はゲームを勉強するために設計されています。
-	試合中に行われた動きを推測してみてください。したがって、最初に開きます
-	scidCommunity のベースからゲームを起動し、次のコマンドでこの関数に入ります。
-	<b>プレイ</b>メニューの<b>ゲーム</b>をレビューします。  いつものように、遊ぶために
-	黒の場合、最初にボードをフリップします (常に下からプレイします)
-	ボード）。
-   </p>
-	<p>
-	効果的なトレーニングを行うには、次の設定を行う必要があります。
-	無効:
-	<ul>
-		<li>最後の動きを表示 (オプション / 動き / 最後の動きを強調表示)</li>
-		<li>次の一手を表示 (オプション / ゲーム情報 / 次の一手を隠す)</li>
-		<li>PGNウィンドウ</li>
-	</p>
-プロセスは次のとおりです。
-<ul>
-<li>- エンジンは試合中にプレーされた動きについて熟考します</li>
-<li> - エンジンは位置を熟考し、最善の動きを見つけます</li>
-<li> - ユーザーは自分の手を入力できるようになります</li>
-<li>- エンジンはユーザーがプレイする動きを熟考します</li>
-</ul>
-ユーザーが指した手が実際に指された手である場合
-ゲーム中、エンジンが選択した手、またはスコアがついた手
-エンジンが見つけた最良の手に近い (マージンエラーを使用)
-ユーザーが定義したもの)、その移動は良いものとみなされます。もし
-ユーザーは使用できるエンジンに同意しません <b> 延長時間 </b>
-ボタンをクリックして、エンジンの分析の確認を取得します。
-<p>
-<b>注:</b> 
-<ul>
-<li>- ゲームレビューの前にサイドを選択する必要があります </li>
-<li> - ユーザーは常にボードの下からプレイします</li>
-</ul>
-</p>
   <p><footer>(更新日: scidCommunity、2026 年 4 月)</footer></p>
 }
 

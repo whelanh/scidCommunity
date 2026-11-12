@@ -207,9 +207,7 @@ menuText V ToolsTracker "Piece Tracker"  6 {פתח את החלון Piece Tracker
 menuText V ToolsTraining "הַדְרָכָה"  0 {כלי אימון (טקטיקות, פתיחות,...)}
 menuText V ToolsPlayVsEngine "משחק מול מנוע"  0 {שחקו משחק נגד מנוע שחמט}
 menuText V ToolsTrainOpenings "פתחים"  0 {אימון עם רפרטואר}
-menuText V ToolsTrainReviewGame "סקירת משחק"  0 {נחש מהלכים ששיחקו במשחק}
 menuText V ToolsTrainTactics "טַקטִיקָה"  0 {לפתור טקטיקות}
-menuText V ToolsTrainCalvar "חישוב וריאציות"  0 {חישוב וריאציות אימון}
 menuText V ToolsTrainFindBestMove "מצא את המהלך הטוב ביותר"  0 {מצא את המהלך הטוב ביותר}
 menuText V ToolsTrainFics "שחקו ב-FICS"  0 {שחקו ב-freechess.org}
 menuText V ToolsEngineTournament "טורניר מנועים"  0 {התחל טורניר בין מנועי שחמט}
@@ -1871,8 +1869,6 @@ translate V AddScoreToShortAnnotations {הוסף ניקוד להערות}
 translate V AddScoreToAllMoves {הוסף ניקוד לכל המהלכים}
 translate V Export {יְצוּא}
 translate V BookPartiallyLoaded {הספר נטען חלקית}
-translate V Calvar {חישוב וריאציות}
-translate V ConfigureCalvar {תְצוּרָה}
 # Opening names used in tacgame.tcl
 translate V Reti {רטי}
 translate V English {אַנגְלִית}
@@ -1978,24 +1974,6 @@ translate V FICSTextColor {צבע טקסט}
 
 # Game review
 translate V GameReview {סקירת משחק}
-translate V GameReviewTimeExtended {הזמן הוארך}
-translate V GameReviewMargin {שולי שגיאה}
-translate V GameReviewAutoContinue {המשך אוטומטי כאשר התנועה נכונה}
-translate V GameReviewReCalculate {השתמש בזמן ממושך}
-translate V GameReviewAnalyzingMovePlayedDuringTheGame {ניתוח מהלך ששיחק במהלך המשחק}
-translate V GameReviewAnalyzingThePosition {ניתוח העמדה}
-translate V GameReviewEnterYourMove {הזן את המהלך שלך}
-translate V GameReviewCheckingYourMove {בודק את המהלך שלך}
-translate V GameReviewYourMoveWasAnalyzed {המהלך שלך נותח}
-translate V GameReviewYouPlayedSameMove {שיחקת את אותו המהלך כמו במשחק}
-translate V GameReviewScoreOfYourMove {ציון המהלך שלך}
-translate V GameReviewGameMoveScore {התוצאה של מהלך המשחק}
-translate V GameReviewEngineScore {הציון של המנוע}
-translate V GameReviewYouPlayedLikeTheEngine {שיחקת טוב כמו של המנוע}
-translate V GameReviewNotEngineMoveButGoodMove {לא מהלך המנוע, אבל הוא גם מהלך טוב}
-translate V GameReviewMoveNotGood {המהלך הזה לא טוב, הציון כן}
-translate V GameReviewMovesPlayedLike {מהלכים שיחק כמו}
-translate V GameReviewMovesPlayedEngine {מהלכים שיחקו כמו מנוע}
 
 # Correspondence Chess Dialogs:
 translate V CCDlgCGeneraloptions {אפשרויות כלליות}
@@ -2023,7 +2001,6 @@ translate V IERotate  {לְסוֹבֵב}
 translate V IEUnableToStart {לא ניתן להפעיל את מנוע הקלט:}
 
 # Calculation of Variations
-translate V DoneWithPosition {סיימתי עם העמדה}
 
 translate V Board {לוּחַ}
 translate V showGameInfo {הצג מידע על המשחק}

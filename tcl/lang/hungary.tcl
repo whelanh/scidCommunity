@@ -211,9 +211,7 @@ menuText H ToolsTracker "Figurakövetõ"  0 {Kinyitja/becsukja a figurakövetõ 
 menuText H ToolsTraining "Edzés"  0 {Segédeszközök edzéshez (taktika, megnyitás,...) }
 menuText H ToolsPlayVsEngine "Play versus Engine"  0 {Játssz egy játékot sakkmotor ellen}
 menuText H ToolsTrainOpenings "Megnyitás"  0 {Edzés repertoárral}
-menuText H ToolsTrainReviewGame "Játék áttekintése"  0 {Találd meg a játékban játszott mozdulatokat}
 menuText H ToolsTrainTactics "Taktika"  0 {Feladványok megfejtése}
-menuText H ToolsTrainCalvar "Változatszámítás"  0 {Változatszámítás gyakorlása}
 menuText H ToolsTrainFindBestMove "Legjobb lépés"  0 {A legjobb lépés megkeresése}
 menuText H ToolsTrainFics "Internetes játszma"  0 {Játék a freechess.org szerveren}
 menuText H ToolsEngineTournament "Motorverseny"  0 {Indítson versenyt a sakkmotorok között}
@@ -1893,8 +1891,6 @@ translate H AddScoreToShortAnnotations {Rövid kommentár kiegészítése érté
 translate H AddScoreToAllMoves {Add pontszámot az összes lépéshez}
 translate H Export {Export}
 translate H BookPartiallyLoaded {Megnyitástár részlegesen betöltve}
-translate H Calvar {Változatok számítása}
-translate H ConfigureCalvar {Beállítás}
 # Opening names used in tacgame.tcl
 translate H Reti {Réti}
 translate H English {Angol}
@@ -2000,24 +1996,6 @@ translate H FICSTextColor {Szöveg színe}
 
 # Game review
 translate H GameReview {Játék ismertetõ}
-translate H GameReviewTimeExtended {Idõ meghosszabbítva}
-translate H GameReviewMargin {Hibamargó}
-translate H GameReviewAutoContinue {Automatikus folytatás, ha a mozgás megfelelõ}
-translate H GameReviewReCalculate {Használjon hosszabb idõt}
-translate H GameReviewAnalyzingMovePlayedDuringTheGame {A játék során megtett lépések elemzése}
-translate H GameReviewAnalyzingThePosition {A pozíció elemzése}
-translate H GameReviewEnterYourMove {Adja meg lépését}
-translate H GameReviewCheckingYourMove {Mozgásod ellenõrzése}
-translate H GameReviewYourMoveWasAnalyzed {A lépésedet kielemezték}
-translate H GameReviewYouPlayedSameMove {Ugyanazt a lépést játszottad, mint a meccsen}
-translate H GameReviewScoreOfYourMove {A lépésed pontszáma}
-translate H GameReviewGameMoveScore {A játék lépésének eredménye}
-translate H GameReviewEngineScore {A motor pontszáma}
-translate H GameReviewYouPlayedLikeTheEngine {Úgy játszottál, mint a motor}
-translate H GameReviewNotEngineMoveButGoodMove {Nem a motor mozgása, de az is jó lépés}
-translate H GameReviewMoveNotGood {Ez a lépés nem jó, a pontszám az}
-translate H GameReviewMovesPlayedLike {Mozgás játszott, mint}
-translate H GameReviewMovesPlayedEngine {Mozdulatok játszottak, mint a motor}
 
 # Correspondence Chess Dialogs:
 translate H CCDlgCGeneraloptions {Általános lehetõségek}
@@ -2045,7 +2023,6 @@ translate H IERotate  {Forgatás}
 translate H IEUnableToStart {Nem tudom elindítani ezt a bemeneti motort:}
 
 # Calculation of Variations
-translate H DoneWithPosition {Állás kész}
 
 translate H Board {Sakktábla}
 translate H showGameInfo {A játszma adatai}

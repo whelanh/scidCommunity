@@ -230,9 +230,7 @@ menuText N ToolsTracker "Stuk Spoorvolger "  0 {Open het Stuk Spoorvolger venste
 menuText N ToolsTraining "Training"  0 {Training gereedschappen (taktiek, openingen,...) }
 menuText N ToolsPlayVsEngine "Speel versus motor"  0 {Speel een spel tegen een schaakengine}
 menuText N ToolsTrainOpenings "Openingen "  0 {Repertoriumtraining}
-menuText N ToolsTrainReviewGame "Herspeel Partij"  0 {Zoek de zetten gespeeld in een partij}
 menuText N ToolsTrainTactics "Tactiek "  0 {Los tactische stellingen op }
-menuText N ToolsTrainCalvar "Berekenen van varianten"  0 {Training in het berekenen van varianten}
 menuText N ToolsTrainFindBestMove "Vind de beste zet"  0 {Vind de beste zet}
 menuText N ToolsTrainFics "Speel op het internet"  0 {Speel of freechess.org}
 menuText N ToolsEngineTournament "Motor toernooi"  0 {Start een toernooi tussen schaakmotoren}
@@ -1917,8 +1915,6 @@ translate N AddScoreToShortAnnotations {Voeg de score toe aan de korte commentar
 translate N AddScoreToAllMoves {Voeg score toe aan alle zetten}
 translate N Export {Export}
 translate N BookPartiallyLoaded {Boek gedeeltelijk geladen}
-translate N Calvar {Berekening van de varianten}
-translate N ConfigureCalvar {Configuratie}
 # Opening names used in tacgame.tcl
 translate N Reti {Reti}
 translate N English {Engels}
@@ -2024,24 +2020,6 @@ translate N FICSTextColor {Tekstkleur}
 
 # Game review
 translate N GameReview {Partij herbekijken}
-translate N GameReviewTimeExtended {Tijd overschreden}
-translate N GameReviewMargin {Fout marge}
-translate N GameReviewAutoContinue {Auto vervolg als de zet juist is}
-translate N GameReviewReCalculate {Gebruik verlengde tijd}
-translate N GameReviewAnalyzingMovePlayedDuringTheGame {Analyseer de gespeelde zet tijdens de partij}
-translate N GameReviewAnalyzingThePosition {Analyseer de stelling}
-translate N GameReviewEnterYourMove {Voer je zet in}
-translate N GameReviewCheckingYourMove {Controle van je zet}
-translate N GameReviewYourMoveWasAnalyzed {Je zet werd geanalyseerd}
-translate N GameReviewYouPlayedSameMove {Je speelde dezelfde zet als in de partij}
-translate N GameReviewScoreOfYourMove {Score van je zet}
-translate N GameReviewGameMoveScore {Partijzet score}
-translate N GameReviewEngineScore {Score van engine}
-translate N GameReviewYouPlayedLikeTheEngine {Je speelde zoals de engine}
-translate N GameReviewNotEngineMoveButGoodMove {Geen engine zet maar ook goed}
-translate N GameReviewMoveNotGood {Deze zet is niet goed, de score is}
-translate N GameReviewMovesPlayedLike {Zetten gespeeld zoals}
-translate N GameReviewMovesPlayedEngine {Zetten gespeeld zoals de engine}
 
 # Correspondence Chess Dialogs:
 translate N CCDlgCGeneraloptions {Algemene Opties}
@@ -2069,7 +2047,6 @@ translate N IERotate  {Roteer}
 translate N IEUnableToStart {De Input engine start niet:}
 
 # Calculation of Variations
-translate N DoneWithPosition {Klaar met deze stelling}
 
 translate N Board {Bord}
 translate N showGameInfo {Toon de partij informatie}

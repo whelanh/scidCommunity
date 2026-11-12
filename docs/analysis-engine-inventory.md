@@ -89,6 +89,32 @@ Move to `tcl/tools/uci_format.tcl` (namespace choice is an open question below) 
 5. **The two helpers #436 kept already exist twice, and the review path uses the namespaced copy.** `tcl/tools/review_annotate.tcl` carries `::reviewannotate::markExercise` (`:235`, documented as *"Port of markExercise (analysis.tcl:536-608)"*), `::reviewannotate::openingTag` (`:394`) and `::reviewannotate::appendAnnotator` (`:445`), and calls them from the review path (`:218`, `:434`, `:1372`). The classics in `analysis.tcl` (`markExercise:649`, `appendAnnotator:1073`) are called only from the legacy annotator (`:947`, `:949`, `:736`, `:739`). So #437 §5's delete is safe **for these three**, and no new shared module is needed — but the two `analysisWin` lines left in `review_annotate.tcl` (`:1278–1279`, toggling `.analysisWin$n.b1.annotate`) are legacy-dialog UI state that must go with the window.
 6. **`review_annotate.tcl` may not be dead at all.** It has **zero** `::analysis(` references now and only those two UI lines, but its writer helpers are live for the shipped Review Settings flags. #437 says "if nothing else calls the module, delete the rest and its `annotate_*` tests" — the caller audit, not the reference count, decides that, and the audit is part of phase 5.
 
+## §3a — the trainers, measured on the way through
+
+Review game (`reviewgame.tcl`, 552 lines, engine slot 6) and Calvar (`calvar.tcl`,
+486 lines, engine slot 4) are retired: their menu entries, both modules, the
+`CalVar` and `ReviewGame` help pages in all 28 help files (English and 27
+translations), and 23 translation tags per catalogue (`serbian.tcl` is out of
+sync on purpose and was pruned separately).
+
+Tactics is §3b's, and its engine surface is far smaller than its line count
+suggests — measured, not counted:
+
+| Call site | What it is |
+|---|---|
+| `tactics.tcl:278` | `::uci::resetUciInfo 5` — slot 5 belongs to the trainer |
+| `tactics.tcl:281` | `::uci::startEngine $engineIdx 5` |
+| `tactics.tcl:347` | `::uci::closeUCIengine 5`, in `endTraining` |
+| `tactics.tcl:686` | `::uci::sendToEngine 5 $text` — the only writer (`position fen`, `go infinite`, `stop`) |
+| `tactics.tcl:717` | `::analysis(multiPV5)` — the only read |
+
+Everything else in those 732 lines is Tk, `sc_*`, and two `after` timers. The
+port is therefore four call sites and one `::analysis(...)` key.
+`tests/tcl/tactics_trainer.tcl` drives the whole loop — start, one puzzle, a
+right and a wrong answer, the timer expiring, stop — with the engine layer
+stubbed, so §3b can change the engine layer under a harness that already covers
+the behaviour.
+
 ## Phase mapping
 
 | #437 phase | Files | Gate |

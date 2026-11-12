@@ -28,7 +28,6 @@ set helpText(T,Contents) {<h1>scidTopluluk Yardımı İçerikleri</h1>
   <li><a Engine><b>Analiz</b> pencere</a></li>
   <li><a Engine><b>Motor</b> pencereler</a></li>
   <li><a Book><b>Kitap</b> pencere</a></li>
-  <li><a CalVar><b>Varyasyonların hesaplanması</b> pencere</a></li>
   <li><a Comment><b>Yorum düzenleyici</b> pencere</a></li>
   <li><a Crosstable><b>Çapraz tablo</b> pencere</a></li>
   <li><a Switcher><b>Veritabanı Değiştirici</b> pencere</a></li>
@@ -754,8 +753,6 @@ set helpText(T,Menus) {<h1>scidCommunity menus</h1>
   <ul>
   <li><menu>Openings Training</menu>: Configures <a OpeningTrainer>openings training</a>.</li>
   <li><menu>Tactics Training</menu>: Configures <a TacticsTrainer>tactics training</a>.</li>
-  <li><menu>Review Game</menu>: Starts game review mode.</li>
-  <li><menu>Calvar Training</menu>: Configures <a CalVar>calculation of variations</a> training.</li>
   </ul>
   </ul>
   
@@ -3294,48 +3291,6 @@ set helpText(T,Engine) {<h1>Motor pencereleri</h1>
 }
 
 
-set helpTitle(T,CalVar) "Değişimin hesaplanması"
-set helpText(T,CalVar) {<h1>Varyasyon penceresinin hesaplanması</h1>
-  <p>
-   Bu eğitim egzersizi aynı zamanda Stoyko egzersizi olarak da bilinir.  onun
-   amaç karmaşık bir konumu analiz etmek ve olabildiğince çok sesi değerlendirmektir.
-   Mümkün olduğu kadar satırları işaretleyin ve her biri için doğru bir değerlendirme yapın.
-  </p> 
-  <h3>Yapılandırma</h3></p>
-  <p>
-  Üç parametre ayarlandı:
-  <ul>
-     <li>Çeşitli hatları analiz edecek UCI motoru</li>
-     <li>Motorun saniye cinsinden konumu analiz etmek için kullanacağı süre</li>
-     <li>Motorun, kullanıcı tarafından girilen her satırı analiz etmek için kullanacağı saniye cinsinden süre</li>
-  </ul>
-  </p>
-
-  <h3>Satırlara giriş</h3></p>
-  <p>
-  Hareketler her zamanki gibi tahtadaki fare tıklamalarıyla girilir ancak
-  görüntülenmeyecektir. Bir satırın sonunda kullanıcının sağlaması gereken
-  NAG kodlu butonlardan birine tıklayarak bir değerlendirme yapabilirsiniz.
-  </p>
-
-  <h3>Değerlendirme doğrulaması</h3>
-  <p>
-  Bir hatta bir değerlendirme verildiğinde, motor kendi değerini hesaplar.
-  değeri ekleyin ve satırı ekleyin ve kullanıcının hemen altına puan verin.
-  </p>
-
-  <h3>Konumla tamamlandı</h3>
-  <p>
-   Kullanıcı en iyi satırların tümünü bulduğunu düşündüğünde <term>Bitti'ye basar.
-   pozisyon</term> oyuna eklenecek (yorumla birlikte <term>Cevapsız
-   satır</term>)), en iyi satırdan daha yüksek puana sahip satırlar
-   kullanıcı tarafından girilir.
-  </p>
-
-  <p><footer>(Güncelleme: scidCommunity, Nisan 2026)</footer></p>
-}
-
-
 set helpTitle(T,EPD) "EPD dosyaları"
 set helpText(T,EPD) {<h1>EPD dosyaları</h1>
   <p>
@@ -5394,48 +5349,6 @@ set helpText(T,InputEngine) {<h1>Giriş Motoru sürücü konsolu</h1>
    </p>
 
 
-  <p><footer>(Güncelleme: scidCommunity, Nisan 2026)</footer></p>
-}
-
-
-set helpTitle(T,ReviewGame) "Oyun İncelemesi"
-set helpText(T,ReviewGame) {<h1>Bir oyunu inceleme</h1>
-   <p>
-	Bu özellik bir oyunu incelemek için tasarlanmıştır; bu da şu anlama gelir:
-	Maç sırasında oynanan hamleleri tahmin etmeye çalışın. Yani ilk önce bir aç
-	oyunu herhangi bir scidCommunity tabanından açın ve bu fonksiyona şu komutla girin:
-	<b>Oyunu gözden geçir</b> <b>Oynat</b> menüsünde.  Her zamanki gibi oynamak için
-	Siyah ile tahtayı ilk önce çevirin (her zaman alttan oynarsınız)
-	tahta).
-   </p>
-	<p>
-	Etkili bir eğitim için aşağıdaki ayarların yapılması gerekmektedir.
-	devre dışı:
-	<ul>
-		<li>Son hamleyi göster (Seçenekler / Hareketler / Son hamleyi vurgula)</li>
-		<li>Sonraki hamleyi göster (Seçenekler / Oyun bilgileri / Sonraki hamleyi gizle)</li>
-		<li>PGN penceresi</li>
-	</p>
-Süreç aşağıdaki gibidir:
-<ul>
-<li>- motorlar oyun sırasında oynanan hamleyi düşünür</li>
-<li>- motor konum üzerinde düşünür ve en iyi hareketi bulur </li>
-<li>- kullanıcının hamlesini girmesine izin verilir </li>
-<li>- motor, kullanıcının oynadığı hamle üzerine düşünür</li>
-</ul>
-Kullanıcının oynadığı hamle gerçekten oynanan hamle ise
-Oyun sırasında veya motor tarafından seçilen bir hamlede veya skoru belirlenen bir hamlede
-motorun bulduğu en iyi hamleye yakın (marj hatası kullanılarak)
-kullanıcı tarafından tanımlanmışsa, hareket iyi bir hareket olarak kabul edilir. Eğer
-kullanıcı motorla aynı fikirde değilse <b>uzatılmış süreyi</b> kullanabilir
-Motorun analizinin onayını almak için düğmesine basın.
-<p>
-<b>Notlar:</b> 
-<ul>
-<li>- Oyun incelemesinden önce taraf seçilmelidir </li>
-<li>- Kullanıcı her zaman tahtanın alt kısmından oynar</li>
-</ul>
-</p>
   <p><footer>(Güncelleme: scidCommunity, Nisan 2026)</footer></p>
 }
 
