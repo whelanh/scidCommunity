@@ -849,6 +849,7 @@ struct Ctg {
 
     // find_in_page(): (moves offset, slot) or false.
     bool find_in_page(uint32_t pg, const uint8_t* pos, int plen, int& off, int& slot) const {
+        if (pg >= npages) return false;  // page number must be within the declared count
         if ((size_t)PAGE * (pg + 2) > ctg.n) return false;
         const uint8_t* page = this->page(pg);
         int n = (int)be(page, 2), p = 4;
@@ -856,6 +857,8 @@ struct Ctg {
             int l = page[p] & 0x1F;
             if (p + l + 1 > PAGE) return false;
             if (l == plen && std::memcmp(page + p, pos, plen) == 0) {
+                int mlen = page[p + l];
+                if (mlen < 1 || (mlen - 1) % 2 || p + l + mlen + 33 > PAGE) return false;
                 off = p + l;
                 return true;
             }
@@ -1156,7 +1159,7 @@ bool ctg2obr(const std::string& ctg_path, const std::string& out_path, const Ctg
         book.low = (int32_t)be(&ctb[4], 4);
         book.high = (int32_t)be(&ctb[8], 4);
         book.npages = be(book.ctg.p + 16, 4);
-        if ((size_t)PAGE * (book.npages + 1) > book.ctg.n) throw std::runtime_error("ctg file truncated");
+        if ((uint64_t)PAGE * ((uint64_t)book.npages + 1) > book.ctg.n) throw std::runtime_error("ctg file truncated");
         const uint8_t* ctg = book.ctg.p;
 
         uint64_t entries = 0;

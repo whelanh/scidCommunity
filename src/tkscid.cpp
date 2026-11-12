@@ -10050,7 +10050,7 @@ int sc_book_ctg2obr(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
   if (result.empty()) {
     return TCL_OK;
   }
-  return errorResult(ti, result.c_str());
+  return UI_Result(ti, ERROR_BadArg, result);
 }
 
 // sc_book_obrmoves:

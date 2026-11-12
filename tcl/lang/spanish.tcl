@@ -1080,7 +1080,7 @@ translate S ObrColourGreen {verde}
 # Tools > Convert CTG book: ChessBase CTG book to OpenBook Rich (.obr)
 translate S CtgChooseSource {Elija el libro CTG (.ctg): sus archivos .cto y .ctb deben estar en la misma carpeta}
 translate S CtgChooseDest {Elija dónde guardar el libro OBR (.obr)}
-translate S CtgConverting {Mudado}
+translate S CtgConverting {Convirtiendo}
 translate S CtgConvertDone {Libro guardado:}
 
 # Configure Engines dialog:
