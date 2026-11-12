@@ -1084,7 +1084,13 @@ namespace eval sergame {
       # and a ponderhit for a search nobody is running would wait for ever.
       ::sergame::ponderHit $n
     } else {
-      ::sergame::ask $n [::sergame::goLimits $n]
+      if {![::sergame::ask $n [::sergame::goLimits $n]]} {
+        # There is no engine to ask: it never started, or its connection went
+        # away between moves. Stop the game rather than wait for a move that
+        # cannot come (the old mode waited 5 s for "ready" and then said so).
+        ::sergame::engineGone $n
+        return
+      }
     }
     # The move arrives at ::sergame::answer (through the connection's callback);
     # nothing here waits for it, so the window stays live while the engine

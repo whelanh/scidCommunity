@@ -771,6 +771,17 @@ quiet
 checkIn "and says which program failed" $::fake::box "Unable to start the program"
 checkIn "with the preset's command" $::fake::box "/nonexistent/engine"
 check "no connection was left open" [expr {![::engine::connected sergamePlayer]}]
+# The game does not sit waiting for a move an engine that never started cannot
+# give: its first turn stops it, with the message the old mode gave after a
+# five-second wait for "ready".
+fake::playerMove e2e4 e4
+set ::fake::box ""
+set rc [catch { ::sergame::engineGo 1 } err]
+checkEq "the first turn of a game with no engine does not raise" $rc 0 $err
+drain 40
+checkEq "the game stops instead of waiting for a move that cannot come" \
+    $::fake::playMode ""
+checkEq "and says the engine is gone" $::fake::box [::tr EpdEngineDisconnected]
 endGame
 
 # =============================================================================
