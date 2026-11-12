@@ -2812,6 +2812,7 @@ translate Y AnalyzeDone {Analyze done}
 translate Y WinWonGame {Win won game}
 translate Y TacticsEngineStartFail {Nije moguće pokrenuti motor za taktiku: %s}
 translate Y TacticsEngineGone {Motor za taktiku se zaustavio: %s}
+translate Y TacticsNoAssessment {Motor nije vratio ocenu za ovu poziciju}
 # ====== TODO To be translated ======
 translate Y Lines {Lines}
 # ====== TODO To be translated ======

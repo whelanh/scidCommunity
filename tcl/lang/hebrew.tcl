@@ -1836,6 +1836,7 @@ translate V AnalyzeDone {הניתוח נעשה}
 translate V WinWonGame {ניצחון זכה במשחק}
 translate V TacticsEngineStartFail {לא ניתן היה להפעיל את מנוע הטקטיקה: %s}
 translate V TacticsEngineGone {מנוע הטקטיקה נעצר: %s}
+translate V TacticsNoAssessment {המנוע לא החזיר הערכה לעמדה הזו}
 translate V Lines {קווים}
 translate V ConfigureUCIengine {Configure UCI engine}
 translate V SpecificOpening {פתיחה ספציפית}

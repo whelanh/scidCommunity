@@ -487,9 +487,10 @@ foreach path [lsort [glob -nocomplain -directory [file join $root tcl lang] *.tc
     set name [file tail $path]
     if {$name in {checklangs.tcl propagatelang.tcl removedeadlang.tcl removetoken.tcl}} { continue }
     set text [readText $path]
-    check "$name carries both tactics engine messages" \
+    check "$name carries every tactics message" \
         [expr {[string first "TacticsEngineStartFail" $text] >= 0
-            && [string first "TacticsEngineGone" $text] >= 0}]
+            && [string first "TacticsEngineGone" $text] >= 0
+            && [string first "TacticsNoAssessment" $text] >= 0}]
     incr langCount
 }
 checkEq "all 29 catalogues were checked" $langCount 29

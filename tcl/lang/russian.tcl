@@ -1859,6 +1859,7 @@ translate R AnalyzeDone {Анализ закончен}
 translate R WinWonGame {Победа в выигрышной партии}
 translate R TacticsEngineStartFail {Не удалось запустить движок тактики: %s}
 translate R TacticsEngineGone {Движок тактики остановился: %s}
+translate R TacticsNoAssessment {Движок не вернул оценку для этой позиции}
 translate R Lines {Планы}
 translate R ConfigureUCIengine {Настройка UCI движка}
 translate R SpecificOpening {Особый дебют}

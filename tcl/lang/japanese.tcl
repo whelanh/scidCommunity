@@ -1876,6 +1876,7 @@ translate A AnalyzeDone {分析完了}
 translate A WinWonGame {勝った試合}
 translate A TacticsEngineStartFail {戦術エンジンを開始できませんでした: %s}
 translate A TacticsEngineGone {戦術エンジンが停止しました: %s}
+translate A TacticsNoAssessment {エンジンはこの局面の評価を返しませんでした}
 translate A Lines {ライン}
 translate A ConfigureUCIengine {UCIエンジンの設定}
 translate A SpecificOpening {特定の開口部}

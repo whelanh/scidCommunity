@@ -1889,6 +1889,7 @@ translate P AnalyzeDone {Analiza zakończona}
 translate P WinWonGame {Wygraj wygraną partię}
 translate P TacticsEngineStartFail {Nie można uruchomić silnika taktyki: %s}
 translate P TacticsEngineGone {Silnik taktyki zatrzymał się: %s}
+translate P TacticsNoAssessment {Silnik nie zwrócił oceny dla tej pozycji}
 translate P Lines {Warianty}
 translate P ConfigureUCIengine {Konfiguruj silnik UCI}
 translate P SpecificOpening {Konkretny debiut}

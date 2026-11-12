@@ -1857,6 +1857,7 @@ translate O AnalyzeDone {Analysen er utført}
 translate O WinWonGame {Vinn vunnet spill}
 translate O TacticsEngineStartFail {Kunne ikke starte taktikkmotoren: %s}
 translate O TacticsEngineGone {Taktikkmotoren stoppet: %s}
+translate O TacticsNoAssessment {Motoren ga ingen vurdering for denne stillingen}
 translate O Lines {Linjer}
 translate O ConfigureUCIengine {Konfigurer UCI-motoren}
 translate O SpecificOpening {Spesifikk åpning}

@@ -1835,6 +1835,7 @@ translate Z AnalyzeDone {Uchambuzi umefanywa}
 translate Z WinWonGame {Kushinda alishinda mchezo}
 translate Z TacticsEngineStartFail {Imeshindwa kuanzisha injini ya mbinu: %s}
 translate Z TacticsEngineGone {Injini ya mbinu imesimama: %s}
+translate Z TacticsNoAssessment {Injini haikurejesha tathmini kwa nafasi hii}
 translate Z Lines {Mistari}
 translate Z ConfigureUCIengine {Sanidi injini ya UCI}
 translate Z SpecificOpening {Ufunguzi maalum}

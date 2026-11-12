@@ -1858,6 +1858,7 @@ translate H AnalyzeDone {Az elemzés kész.}
 translate H WinWonGame {Nyert játszma megnyerése}
 translate H TacticsEngineStartFail {A taktikai motor nem indult el: %s}
 translate H TacticsEngineGone {A taktikai motor leállt: %s}
+translate H TacticsNoAssessment {A motor nem adott értékelést ehhez az álláshoz}
 translate H Lines {Változatok}
 translate H ConfigureUCIengine {UCI-motor beállítása}
 translate H SpecificOpening {Meghatározott megnyitás}

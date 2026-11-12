@@ -652,6 +652,19 @@ namespace eval tactics {
         ::tactics::mainLoop
     }
     ################################################################################
+    # noAssessment:
+    #   The timer expired before any info line, so nothing was measured and there
+    #   is no verdict to give: judging needs the position as it stood before the
+    #   move, and that measurement is gone. So the session says so and stops
+    #   rather than judging a line that never arrived.
+    ################################################################################
+    proc noAssessment {} {
+        setInfoEngine $::tr(AnalyzeDone) PaleGreen3
+        catch { tk_messageBox -title "scidCommunity" -icon info -type ok \
+            -message $::tr(TacticsNoAssessment) }
+    }
+
+    ################################################################################
     # waits for the user to play and check the move played
     ################################################################################
     proc mainLoop {} {
@@ -690,7 +703,7 @@ namespace eval tactics {
         # retry would re-enter this branch forever. The trainer waits for the
         # user, as it does after abnormalContinuation.
         if {$analysisEngine(noLine)} {
-            setInfoEngine $::tr(AnalyzeDone) PaleGreen3
+            ::tactics::noAssessment
             return
         }
 
@@ -714,7 +727,7 @@ namespace eval tactics {
         # retry cannot be re-armed from here either - the loop would re-enter at
         # the top and set prevScore from the analysis it is about to start.
         if {$analysisEngine(noLine)} {
-            setInfoEngine $::tr(AnalyzeDone) PaleGreen3
+            ::tactics::noAssessment
             return
         }
         if {[sc_pos fen] != $::tactics::prevFen  && [sc_pos isAt start]} {
