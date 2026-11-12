@@ -374,6 +374,13 @@ set ::sergame::storeEval 0
 set ::sergame::storeEvalAll 0
 set ::sergame::coachIndex 0
 set ::sergame::playerColor "white"
+# The game's clock and increment, in milliseconds. They were the first slot's
+# limit keys in ::uci::uciInfo until #437 §4 gave the game its own; the Analysis
+# window's own values below are still its, and still saved.
+set ::sergame::wtime [expr 5 * 60 * 1000]
+set ::sergame::winc  [expr 10 * 1000]
+set ::sergame::btime [expr 5 * 60 * 1000]
+set ::sergame::binc  [expr 10 * 1000]
 set ::uci::uciInfo(wtime1) [expr 5 * 60 * 1000 ]
 set ::uci::uciInfo(winc1) [expr 10 * 1000 ]
 set ::uci::uciInfo(btime1) [expr 5 * 60 * 1000 ]
@@ -746,6 +753,7 @@ proc options.write {} {
           ::sergame::startFromCurrent ::sergame::coachIsWatching ::sergame::timeMode \
           ::sergame::depth ::sergame::movetime ::sergame::nodes ::sergame::ponder ::sergame::isOpening \
           ::sergame::coachIndex ::sergame::playerColor \
+          ::sergame::wtime ::sergame::winc ::sergame::btime ::sergame::binc \
           ::uci::uciInfo(wtime1) ::uci::uciInfo(winc1) ::uci::uciInfo(btime1) ::uci::uciInfo(binc1) \
           ::uci::uciInfo(fixeddepth1) ::uci::uciInfo(fixednodes1) ::uci::uciInfo(movetime1) \
           boardfile_lite boardfile_dark \

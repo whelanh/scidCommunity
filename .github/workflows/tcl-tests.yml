@@ -246,6 +246,14 @@ jobs:
       - name: Tactics trainer
         run: xvfb-run -a wish tests/tcl/tactics_trainer.tcl
 
+      # Play versus Engine's own engine connections (#437 §4a): the transport
+      # is ::enginecomm for real over a socket pair, the engine on the far end
+      # is fake, and the scenarios are a go answered by a reply, a search
+      # replaced by a second go, a cancel and a dead engine - none of them
+      # leaving a wait behind - plus the coach on its own connection.
+      - name: Play versus Engine engine layer
+        run: xvfb-run -a wish tests/tcl/sergame_engine.tcl
+
       - name: Finish Game dialog
         run: xvfb-run -a wish tests/tcl/finish_game_dialog.tcl
 

@@ -10,8 +10,26 @@
 
 namespace eval sergame {
 
-  set ::uci::uciInfo(log_stdout1) 0
-  set ::uci::uciInfo(log_stdout2) 0
+  # --- the game's two engine connections ---------------------------------
+  # The module used to share the old Analysis engine mode: two numeric engine
+  # slots in that mode's shared state, a flag it waited on, and a blocking wait
+  # for the bestmove. Each engine now owns a ::engineNoWin connection under its
+  # own id (a literal, as for every other ::engineNoWin client), keeps what the
+  # engine answers and what the game gives the engine in that connection's own
+  # state, and answers through the connection's callback. The ids are strings,
+  # not slot numbers, so the two engines -- the opponent and the coach -- cannot
+  # overwrite each other's score, bestmove, ponder flag or clock.
+  set playerId sergamePlayer
+  set coachId sergameCoach
+
+  # The game's clock and increment, in milliseconds. Each connection carries its
+  # own copy (see seedClocks): a search reads the clock of the connection it runs
+  # on. options.tcl sets these; the defaults here are for a harness that sources
+  # this file alone.
+  if {![info exists wtime]} { set wtime [expr 5 * 60 * 1000] }
+  if {![info exists winc]}  { set winc  [expr 10 * 1000] }
+  if {![info exists btime]} { set btime [expr 5 * 60 * 1000] }
+  if {![info exists binc]}  { set binc  [expr 10 * 1000] }
 
   # if true, follow a specific opening
   set openingMovesList {}
@@ -115,26 +133,10 @@ namespace eval sergame {
     }
 
     ttk::button $w.fengines.sel.bEngineConfig -text "..." -width 3 -command {
-      set selectedName [.configSerGameWin.fengines.sel.combo get]
-      set chosenIndex -1
-      set idx 0
-      foreach e $::engines(list) {
-        if {[lindex $e 0] eq $selectedName} {
-          set chosenIndex $idx
-          break
-        }
-        incr idx
-      }
-      if {$chosenIndex != -1} {
-        set engineData [lindex $::engines(list) $chosenIndex]
-        set name [lindex $engineData 0]
-        set cmd [ toAbsPath [lindex $engineData 1] ]
-        set args [lindex $engineData 2]
-        set dir [ toAbsPath [lindex $engineData 3] ]
-        set options [lindex $engineData 8]
-        set ::uci::engineListIndex $chosenIndex
-        ::uci::uciConfig 3 [ toAbsPath $cmd ] $args [ toAbsPath $dir ] $options
-      }
+      # The engine's options are the preset's own, edited where every other
+      # preset is edited: the legacy UCI options window belongs to the old pipe
+      # engine mode that #437 §6 deletes.
+      ::enginelist::choose
     }
     pack $w.fengines.sel.combo -side left -fill x -expand yes
     pack $w.fengines.sel.bEngineConfig -side left -padx {5 0}
@@ -230,10 +232,10 @@ namespace eval sergame {
     ttk::label $w.ftime.clock.blacklseconds -text $::tr(TimeSec)
     grid $w.ftime.clock.blacklseconds -row $row -column 4
 
-    $w.ftime.clock.whitespminutes set [expr $::uci::uciInfo(wtime1) / (60 * 1000)]
-    $w.ftime.clock.whitespseconds set [expr $::uci::uciInfo(winc1) /  1000]
-    $w.ftime.clock.blackspminutes set [expr $::uci::uciInfo(btime1) / (60 * 1000)]
-    $w.ftime.clock.blackspseconds set [expr $::uci::uciInfo(binc1) /  1000 ]
+    $w.ftime.clock.whitespminutes set [expr $::sergame::wtime / (60 * 1000)]
+    $w.ftime.clock.whitespseconds set [expr $::sergame::winc /  1000]
+    $w.ftime.clock.blackspminutes set [expr $::sergame::btime / (60 * 1000)]
+    $w.ftime.clock.blackspseconds set [expr $::sergame::binc /  1000 ]
 
     # --- Engine thinking mode ---
     ttk::separator $w.ftime.sep -orient horizontal
@@ -365,13 +367,10 @@ namespace eval sergame {
     catch { set ::sergame::nodes [$w.ftime.nodes.value get] }
     catch { set ::sergame::movetime [expr {[$w.ftime.movetime.value get] * 1000}] }
 
-    catch { set ::uci::uciInfo(wtime1) [expr {[$w.ftime.clock.whitespminutes get] * 1000 * 60}] }
-    catch { set ::uci::uciInfo(btime1) [expr {[$w.ftime.clock.blackspminutes get] * 1000 * 60}] }
-    catch { set ::uci::uciInfo(winc1) [expr {[$w.ftime.clock.whitespseconds get] * 1000}] }
-    catch { set ::uci::uciInfo(binc1) [expr {[$w.ftime.clock.blackspseconds get] * 1000}] }
-    catch { set ::uci::uciInfo(fixeddepth1) $::sergame::depth }
-    catch { set ::uci::uciInfo(fixednodes1) $::sergame::nodes }
-    catch { set ::uci::uciInfo(movetime1) $::sergame::movetime }
+    catch { set ::sergame::wtime [expr {[$w.ftime.clock.whitespminutes get] * 1000 * 60}] }
+    catch { set ::sergame::btime [expr {[$w.ftime.clock.blackspminutes get] * 1000 * 60}] }
+    catch { set ::sergame::winc [expr {[$w.ftime.clock.whitespseconds get] * 1000}] }
+    catch { set ::sergame::binc [expr {[$w.ftime.clock.blackspseconds get] * 1000}] }
 
     catch { set ::sergame::chosenOpening [$w.fopening.fOpeningList.lbOpening selection] }
 
@@ -433,25 +432,12 @@ namespace eval sergame {
       ::board::flip .main.board 1
     }
 
-    # Start opponent engine (engine 1)
-    ::uci::startEngine $engine $n
-    set engineData [lindex $::engines(list) $engine]
-    foreach {option} [lindex $engineData 8] {
-      array set ::uciOptions$n $option
-    }
-    ::uci::sendUCIoptions $n
-
-    set ::uci::uciInfo(prevscore$n) 0.0
-    set ::uci::uciInfo(score$n) 0.0
-    set ::uci::uciInfo(ponder$n) ""
-
-    set ::uci::uciInfo(prevscore2) ""
-    set ::uci::uciInfo(score2) ""
-    set ::uci::uciInfo(pipe2) ""
+    # Start opponent engine (engine 1) on its own connection
+    ::sergame::openEngine $engine $n
 
     if {$::sergame::coachIsWatching} {
-      ::uci::startEngine $::sergame::coachIndex 2
-      set ::uci::uciInfo(multipv2) 1
+      ::sergame::openEngine $::sergame::coachIndex 2
+      ::sergame::stSet 2 multipv 1
       ::sergame::changePVSize 2
       ::sergame::startAnalyze
     }
@@ -462,9 +448,9 @@ namespace eval sergame {
 
     # Ponder
     if {$::sergame::ponder} {
-      ::sergame::sendToEngine $n "setoption name Ponder value true"
+      ::sergame::sendOptions $n [list [list Ponder true]]
     } else {
-      ::sergame::sendToEngine $n "setoption name Ponder value false"
+      ::sergame::sendOptions $n [list [list Ponder false]]
     }
 
     # If following a specific opening line
@@ -587,8 +573,8 @@ namespace eval sergame {
               after cancel ::sergame::_storeCoachEvalDeferred
               if {$::sergame::coachIsWatching} {
                 ::sergame::stopAnalyze
-                set ::sergame::liveScore $::uci::uciInfo(score2)
-                set ::sergame::livePv $::uci::uciInfo(pv2)
+                set ::sergame::liveScore [::sergame::st 2 score ""]
+                set ::sergame::livePv [::sergame::st 2 pv ""]
               }
               return 0
             }
@@ -604,13 +590,11 @@ namespace eval sergame {
     after cancel ::sergame::engineGo $n
     clocks stop
     set ::sergame::lFen {}
-    if { $::uci::uciInfo(pipe$n) != ""} {
-      ::uci::closeUCIengine $n
-      set ::uci::uciInfo(bestmove$n) "abort"
-    }
-    if { [info exists ::uci::uciInfo(pipe2)] && $::uci::uciInfo(pipe2) != ""} {
-      ::uci::closeUCIengine 2
-    }
+    # A game that ends takes its connections with it. A search that is still
+    # running has no move to give this game any more, and the answer it may
+    # still deliver must not reach the board: closing the connection drops both
+    # the quest (see ::sergame::answer) and the state it was keeping.
+    ::sergame::closeEngines
     if {[winfo exists .coachWin]} {
       ::gameclock::stop 1
       ::gameclock::stop 2
@@ -625,8 +609,8 @@ namespace eval sergame {
     switch $cmd {
       init {
           if {$::sergame::useChessClock} {
-            ::gameclock::setSec 1 [expr 0 - $::uci::uciInfo(wtime$n)/1000]
-            ::gameclock::setSec 2 [expr 0 - $::uci::uciInfo(btime$n)/1000]
+            ::gameclock::setSec 1 [expr 0 - [::sergame::st $n wtime 0]/1000]
+            ::gameclock::setSec 2 [expr 0 - [::sergame::st $n btime 0]/1000]
           } else {
             ::gameclock::reset 1
             ::gameclock::reset 2
@@ -647,13 +631,13 @@ namespace eval sergame {
           if {[::gameclock::stop 1]} {
             ::gameclock::storeTimeComment 1
             if {$::sergame::useChessClock} {
-              ::gameclock::add 1 [expr $::uci::uciInfo(winc$n)/1000]
+              ::gameclock::add 1 [expr [::sergame::st $n winc 0]/1000]
             }
             ::gameclock::start 2
           } elseif {[::gameclock::stop 2]} {
             ::gameclock::storeTimeComment 2
             if {$::sergame::useChessClock} {
-              ::gameclock::add 2 [expr $::uci::uciInfo(binc$n)/1000]
+              ::gameclock::add 2 [expr [::sergame::st $n binc 0]/1000]
             }
             ::gameclock::start 1
           }
@@ -724,9 +708,262 @@ namespace eval sergame {
     return $::blunderResult
   }
 
-  proc sendToEngine {n text} {
-    ::sergame::logEngine $n "Scid  : $text"
-    catch {puts $::uci::uciInfo(pipe$n) $text}
+  ################################################################################
+  # The game's engine connections
+  #
+  # One connection per engine, opened by ::engineNoWin under the id this module
+  # names it by. What the engine answers, and what the game gives the engine,
+  # lives in that connection's state (::engine::state): nothing is shared, so
+  # the coach's reply cannot rewrite the opponent's score, and no answer is
+  # written anywhere keyed by a slot number.
+  ################################################################################
+
+  # The connection an engine plays on: n = 1 the opponent, n = 2 the coach.
+  proc connId {n} {
+    if {$n == 2} { return $::sergame::coachId }
+    return $::sergame::playerId
+  }
+
+  # One field of n's connection state (see ::engine::state).
+  proc st {n field {default ""}} {
+    return [::engine::state [::sergame::connId $n] $field $default]
+  }
+
+  proc stSet {n field value} {
+    return [::engine::setState [::sergame::connId $n] $field $value]
+  }
+
+  # Copy the game's clock and limits onto a connection: the search that runs
+  # there reads them from its own state.
+  proc seedClocks {n} {
+    global ::sergame::wtime ::sergame::winc ::sergame::btime ::sergame::binc \
+        ::sergame::depth ::sergame::nodes ::sergame::movetime
+    ::sergame::stSet $n wtime $::sergame::wtime
+    ::sergame::stSet $n btime $::sergame::btime
+    ::sergame::stSet $n winc  $::sergame::winc
+    ::sergame::stSet $n binc  $::sergame::binc
+    ::sergame::stSet $n fixeddepth $::sergame::depth
+    ::sergame::stSet $n fixednodes $::sergame::nodes
+    ::sergame::stSet $n movetime   $::sergame::movetime
+  }
+
+  # Open one engine on its own connection. Returns 1 when it could not be
+  # started, having said so the way the game always has: the caller carries on
+  # and the game reports the engine missing on its first move.
+  proc openEngine {index n} {
+    set id [::sergame::connId $n]
+    # ::engineNoWin::initEngine answers 1 without connecting when a live
+    # connection already holds this id (it tests engConfig_$id): a game that
+    # ended badly must not lend its engine, and its callback, to the next one.
+    catch { ::engineNoWin::closeEngine $id }
+    set engineData [lindex $::engines(list) $index]
+    set name [lindex $engineData 0]
+    if {[catch {
+      ::engineNoWin::initEngine $id $name [list ::sergame::message $n]
+    } err]} {
+      tk_messageBox -title "scidCommunity: error starting engine" -icon warning -type ok \
+        -message "Unable to start the program:\n[toAbsPath [lindex $engineData 1]]"
+      return 1
+    }
+    # What this connection keeps. The opponent starts level and without a move;
+    # the coach has no score of its own until it has searched.
+    if {$n == 2} {
+      ::sergame::stSet $n score ""
+      ::sergame::stSet $n prevscore ""
+    } else {
+      ::sergame::stSet $n score 0.0
+      ::sergame::stSet $n prevscore 0.0
+    }
+    ::sergame::stSet $n ponder ""
+    ::sergame::stSet $n pv ""
+    ::sergame::stSet $n depth ""
+    ::sergame::stSet $n bestmove ""
+    ::sergame::stSet $n multipv 1
+    ::sergame::stSet $n log_stdout 0
+    ::sergame::stSet $n search ""
+    ::sergame::stSet $n searches 0
+    ::sergame::stSet $n want ""
+    ::sergame::stSet $n fen ""
+    ::sergame::seedClocks $n
+    # Engine traffic goes through ::enginecomm's own log hooks, which know the
+    # direction of every line: the module does not have to log its own sends.
+    ::engine::setLogCmd $id [list ::sergame::logEngine $n "Engine:"] \
+                              [list ::sergame::logEngine $n "Scid  :"]
+    return 0
+  }
+
+  proc closeEngines {} {
+    foreach n {1 2} {
+      set id [::sergame::connId $n]
+      if {[::engine::connected $id]} {
+        ::sergame::stSet $n search ""
+        ::sergame::stSet $n want ""
+        ::sergame::stSet $n bestmove ""
+        ::sergame::stSet $n ponder ""
+        catch { ::engineNoWin::closeEngine $id }
+      }
+    }
+  }
+
+  proc sendOptions {n options} {
+    set id [::sergame::connId $n]
+    if {![::engine::connected $id]} { return 0 }
+    catch { ::engine::send $id SetOptions $options }
+    return 1
+  }
+
+  # The `go` limits of this move, as ::enginecomm's Go message carries them: a
+  # list of {type value} pairs, which becomes the engine's own "go ..." line.
+  proc goLimits {n} {
+    global ::sergame::timeMode ::sergame::movetime ::sergame::useChessClock
+    switch -- $timeMode {
+      timebonus {
+        if {$::sergame::useChessClock} {
+          set wtime [expr [::gameclock::getSec 1] * 1000 ]
+          set btime [expr [::gameclock::getSec 2] * 1000 ]
+          return [list wtime $wtime btime $btime \
+            winc [::sergame::st $n winc 0] binc [::sergame::st $n binc 0]]
+        }
+        set ms [expr $::sergame::movetime > 0 ? $::sergame::movetime : 3000]
+        return [list movetime $ms]
+      }
+      depth    { return [list depth [::sergame::st $n fixeddepth 1]] }
+      movetime { return [list movetime [::sergame::st $n movetime 0]] }
+      nodes    { return [list nodes [::sergame::st $n fixednodes 0]] }
+    }
+    return {}
+  }
+
+  # Send one search and record what its answer is for: "move" means the answer
+  # is the move the game plays, "line" the coach's evaluation. Nothing here
+  # waits -- ::enginecomm delivers the answer to ::sergame::message, and a
+  # search that is replaced, cancelled or orphaned by a dead engine leaves
+  # nothing behind but the search number it was sent under.
+  # `moves` (when given) is the ponder line the search starts from.
+  proc ask {n limits {moves ""} {want move}} {
+    set id [::sergame::connId $n]
+    if {![::engine::connected $id]} { return 0 }
+    set fen [sc_pos fen]
+    set position "position fen $fen"
+    if {$moves ne ""} { append position " moves $moves" }
+    set token [expr {[::sergame::st $n searches 0] + 1}]
+    ::sergame::stSet $n searches $token
+    ::sergame::stSet $n search $token
+    ::sergame::stSet $n want $want
+    ::sergame::stSet $n fen $fen
+    # A new search has no score yet: the one held here belongs to the previous
+    # search, and must not be quoted as this one's.
+    ::sergame::stSet $n score ""
+    ::sergame::stSet $n pv ""
+    ::sergame::stSet $n depth ""
+    ::sergame::stSet $n bestmove ""
+    if {[catch { ::engine::send $id Go [list $position $limits] } err]} {
+      ::sergame::stSet $n search ""
+      return 0
+    }
+    return 1
+  }
+
+  # The engine pondered the move the player played: it keeps searching the same
+  # line, and its answer is still the move the game plays. ponderhit is not a
+  # request -- UCI defines no reply to it, and what follows is the pending Go's
+  # bestmove -- so it goes onto the connection's wire without touching the reply
+  # queue that bestmove belongs to.
+  proc ponderHit {n} {
+    set id [::sergame::connId $n]
+    if {![::engine::connected $id]} { return 0 }
+    catch { ::engine::rawsend $id "ponderhit" }
+    return 1
+  }
+
+  # A UCI score in pawns from White's point of view, which is the form this
+  # module has always compared (it is what the old reader in uci.tcl wrote): a
+  # cp score is the engine's own, a mate is the ±327.xx sentinel its distance
+  # produces, and the side to move turns it.
+  proc whiteScore { score scoreType fen } {
+    set mate 0
+    if {$scoreType eq "mate"} {
+      set mate [expr {int($score)}]
+      set cp [expr {$mate < 0 ? -32767 - 2 * $mate : 32767 - 2 * $mate}]
+    } else {
+      set cp [expr {double($score)}]
+    }
+    if {[lindex [split $fen] 1] eq "b"} {
+      set cp [expr {0.0 - $cp}]
+      if {$mate} {
+        set mate [expr {0 - $mate}]
+        if {$cp < 0} { set cp [expr {$cp - 1.0}] }
+      }
+    } elseif {$mate && $cp > 0} {
+      set cp [expr {$cp + 1.0}]
+    }
+    return [expr {double($cp) / 100.0}]
+  }
+
+  # Messages from ::enginecomm on one of the game's connections. n is the role
+  # the connection plays in this game (1 opponent, 2 coach), bound when the
+  # connection was opened: the callback belongs to the connection, not to a slot.
+  proc message {n msg} {
+    lassign $msg type data
+    switch -- $type {
+      InfoPV         { ::sergame::onInfo $n $data }
+      InfoBestMove   { ::sergame::onBestMove $n $data }
+      InfoDisconnected { ::sergame::engineGone $n }
+    }
+    return
+  }
+
+  # Keep the line of the search in flight. ::enginecomm drops info lines that
+  # arrive after a stop request, so the line has to be kept while it streams.
+  proc onInfo {n msgData} {
+    if {[::sergame::st $n search] eq ""} { return }
+    lassign $msgData multipv depth seldepth nodes nps hashfull tbhits time \
+        score scoreType scoreWdl
+    # The old reader took the first line of a multiPV search and nothing else.
+    if {$multipv ne "" && $multipv ne 1} { return }
+    if {$score eq "" || $scoreType ni {cp mate}} { return }
+    set pv [join [lrange $msgData 11 end] " "]
+    set fen [::sergame::st $n fen ""]
+    ::sergame::stSet $n depth $depth
+    ::sergame::stSet $n score [::sergame::whiteScore $score $scoreType $fen]
+    if {$pv ne ""} { ::sergame::stSet $n pv [::ucifmt::formatPv $pv $fen] }
+    return
+  }
+
+  # The engine answered. The move (and the one it expects back) is kept on its
+  # own connection, and only the answer to the question the game is waiting on
+  # continues the game.
+  proc onBestMove {n data} {
+    lassign $data best ponder
+    if {[::sergame::st $n search] eq ""} { return }
+    if {[::sergame::st $n want] ne "move"} {
+      # The coach's line, or a ponder search that finished on its own: it is
+      # not this game's move, and the game asks again when it is its turn.
+      ::sergame::stSet $n search ""
+      ::sergame::stSet $n want ""
+      return
+    }
+    ::sergame::stSet $n search ""
+    ::sergame::stSet $n want ""
+    ::sergame::stSet $n bestmove $best
+    ::sergame::stSet $n ponder $ponder
+    after 0 [list ::sergame::answer $n]
+    return
+  }
+
+  # The engine's process died. There is no move to play and no line to show:
+  # the game stops rather than waiting for an answer that is not coming.
+  proc engineGone {n} {
+    # The connection is already gone (::enginecomm unsets its state with it):
+    # do not recreate it just to write into it.
+    if {[::engine::connected [::sergame::connId $n]]} {
+      ::sergame::stSet $n search ""
+      ::sergame::stSet $n want ""
+    }
+    if {![winfo exists .coachWin]} { return }
+    catch { tk_messageBox -type ok -icon warning -parent .main \
+      -title "scidCommunity" -message [::tr EpdEngineDisconnected] }
+    ::sergame::abortGame $n
   }
 
   proc endOfGame {} {
@@ -829,7 +1066,7 @@ namespace eval sergame {
       } else {
         sc_move addSan $move
         ::utils::sound::AnnounceNewMove $move
-        set ::uci::uciInfo(prevscore$n) 0.0
+        ::sergame::stSet $n prevscore 0.0
         clocks toggle $n
         updateBoard -pgn -animate
         if {[repetition]} { return }
@@ -839,53 +1076,46 @@ namespace eval sergame {
     }
 
     # Check if engine pondered on the right move
-    if { $::sergame::ponder && $::uci::uciInfo(ponder$n) == [sc_game info previousMoveUCI]} {
-      ::sergame::sendToEngine $n "ponderhit"
+    if { $::sergame::ponder && [::sergame::st $n ponder] ne "" \
+        && [::sergame::st $n search] ne "" \
+        && [::sergame::st $n ponder] == [sc_game info previousMoveUCI] } {
+      # The search it is already running is this move's: let it finish it.
+      # `search` is empty when that ponder search has already answered itself,
+      # and a ponderhit for a search nobody is running would wait for ever.
+      ::sergame::ponderHit $n
     } else {
-      if { $::sergame::ponder } {
-        ::sergame::sendToEngine $n "stop"
-      }
-      set ::analysis(waitForReadyOk$n) 0
-      ::sergame::sendToEngine $n "isready"
-      vwaitTimed ::analysis(waitForReadyOk$n) 5000 "nowarn"
-      if {$::analysis(waitForReadyOk$n) != 0} {
-        # Timeout - abort engine operation
-        tk_messageBox -type ok -icon error -parent .main -title "Engine Error" -message "Engine did not respond to isready"
-        ::sergame::abortGame
-        return
-      }
-      ::sergame::sendToEngine $n "position fen [sc_pos fen]"
-
-      if {$timeMode == "timebonus"} {
-        if {$::sergame::useChessClock} {
-          set wtime [expr [::gameclock::getSec 1] * 1000 ]
-          set btime [expr [::gameclock::getSec 2] * 1000 ]
-          ::sergame::sendToEngine $n "go wtime $wtime btime $btime winc $::uci::uciInfo(winc$n) binc $::uci::uciInfo(binc$n)"
-        } else {
-          set movetime [expr $::sergame::movetime > 0 ? $::sergame::movetime : 3000]
-          ::sergame::sendToEngine $n "go movetime $movetime"
-        }
-      } elseif {$timeMode == "depth"} {
-        ::sergame::sendToEngine $n "go depth $::uci::uciInfo(fixeddepth$n)"
-      } elseif {$timeMode == "movetime"} {
-        ::sergame::sendToEngine $n "go movetime $::uci::uciInfo(movetime$n)"
-      } elseif {$timeMode == "nodes"} {
-        ::sergame::sendToEngine $n "go nodes $::uci::uciInfo(fixednodes$n)"
-      }
+      ::sergame::ask $n [::sergame::goLimits $n]
     }
+    # The move arrives at ::sergame::answer (through the connection's callback);
+    # nothing here waits for it, so the window stays live while the engine
+    # thinks, and a search that is replaced, cancelled or orphaned by a dead
+    # engine leaves no waiter behind.
+    return
+  }
 
-    set ::uci::uciInfo(bestmove$n) ""
-    vwait ::uci::uciInfo(bestmove$n)
-
-    if { $::uci::uciInfo(bestmove$n) == "abort" } { return }
+  ################################################################################
+  # answer: the engine's move arrives, and the game continues
+  #
+  # This was the tail of engineGo, the half that ran after the blocking wait for
+  # the engine's bestmove. The wait is gone; the work is the same and it runs
+  # from the reply that delivered the move.
+  ################################################################################
+  proc answer { n } {
+    set bestmove [::sergame::st $n bestmove]
+    if { $bestmove eq "" } { return }
+    if {![winfo exists .coachWin]} { return }
+    # An answer is only this game's move while it is the engine's turn: a search
+    # that finished after the game moved on (a ponder line the player did not
+    # play, a search the game cancelled) must not put its move on the board.
+    if { [sc_pos side] != $::sergame::engineColor } { return }
 
     # --- Player blunder detection (opponent engine score comparison) ---
     set wasTakeback 0
     set playerDidMove $::sergame::playerMoved
     set ::sergame::playerMoved 0
-    if { $::sergame::coachIsWatching && $playerDidMove && $::uci::uciInfo(prevscore$n) != "" } {
+    if { $::sergame::coachIsWatching && $playerDidMove && [::sergame::st $n prevscore] ne "" } {
       set blunder 0
-      set delta [expr {$::uci::uciInfo(score$n) - $::uci::uciInfo(prevscore$n)}]
+      set delta [expr {[::sergame::st $n score 0.0] - [::sergame::st $n prevscore 0.0]}]
       if {$delta > $::informant(?!) && $::sergame::engineColor == "white" ||
         $delta < [expr 0.0 - $::informant(?!)] && $::sergame::engineColor == "black" } {
         set blunder 1
@@ -943,19 +1173,19 @@ namespace eval sergame {
       }
     }
 
-    set ::uci::uciInfo(prevscore$n) $::uci::uciInfo(score$n)
+    ::sergame::stSet $n prevscore [::sergame::st $n score]
 
     # Store eval on the player's move BEFORE the engine's move is played
     if { $wasTakeback == 0 && $playerDidMove && ( $::sergame::storeEval == 1 || $::sergame::storeEvalAll == 1 ) } {
       if {$::sergame::coachIsWatching && $::sergame::liveScore ne ""} {
         storeEvalComment $::sergame::liveScore
-      } elseif {[info exists ::uci::uciInfo(score$n)]} {
-        storeEvalComment $::uci::uciInfo(score$n)
+      } elseif {[::sergame::st $n score] ne ""} {
+        storeEvalComment [::sergame::st $n score]
       }
     }
 
-    ::uci::sc_move_add $::uci::uciInfo(bestmove$n)
-    ::utils::sound::AnnounceNewMove $::uci::uciInfo(bestmove$n)
+    ::ucifmt::sc_move_add [list $bestmove]
+    ::utils::sound::AnnounceNewMove $bestmove
 
     updateBoard -pgn -animate
     if {[repetition]} { return }
@@ -972,8 +1202,8 @@ namespace eval sergame {
       if {$::sergame::coachIsWatching} {
         after cancel ::sergame::_storeCoachEvalDeferred
         after 500 ::sergame::_storeCoachEvalDeferred
-      } elseif {[info exists ::uci::uciInfo(score$n)]} {
-        storeEvalComment $::uci::uciInfo(score$n)
+      } elseif {[::sergame::st $n score] ne ""} {
+        storeEvalComment [::sergame::st $n score]
       }
     }
 
@@ -989,25 +1219,10 @@ namespace eval sergame {
       set ::sergame::resignCount 0
     }
 
-    # Ponder mode
-    if {$::sergame::ponder && $::uci::uciInfo(ponder$n) != ""} {
-      ::sergame::sendToEngine $n "position fen [sc_pos fen] moves $::uci::uciInfo(ponder$n)"
-      set wtime [expr [::gameclock::getSec 1] * 1000 ]
-      set btime [expr [::gameclock::getSec 2] * 1000 ]
-      if {$timeMode == "timebonus"} {
-        if {$::sergame::useChessClock} {
-          ::sergame::sendToEngine $n "go ponder wtime $wtime btime $btime winc $::uci::uciInfo(winc$n) binc $::uci::uciInfo(binc$n)"
-        } else {
-          set movetime [expr $::sergame::movetime > 0 ? $::sergame::movetime : 3000]
-          ::sergame::sendToEngine $n "go ponder movetime $movetime"
-        }
-      } elseif {$timeMode == "depth"} {
-        ::sergame::sendToEngine $n "go ponder depth $::uci::uciInfo(fixeddepth$n)"
-      } elseif {$timeMode == "movetime"} {
-        ::sergame::sendToEngine $n "go ponder movetime $::uci::uciInfo(movetime$n)"
-      } elseif {$timeMode == "nodes"} {
-        ::sergame::sendToEngine $n "go ponder nodes $::uci::uciInfo(fixednodes$n)"
-      }
+    # Ponder mode: start the next search from the move the engine expects back.
+    if {$::sergame::ponder && [::sergame::st $n ponder ""] ne ""} {
+      set limits [linsert [::sergame::goLimits $n] 0 ponder]
+      ::sergame::ask $n $limits [::sergame::st $n ponder]
     }
 
     after 1000 ::sergame::engineGo $n
@@ -1033,19 +1248,11 @@ namespace eval sergame {
   ################################################################################
   proc startAnalyze { } {
     global ::sergame::isLimitedAnalysisTime ::sergame::analysisTime
-    set n 2
     after cancel ::sergame::stopAnalyze
-    set ::analysis(waitForReadyOk$n) 1
-    ::uci::sendToEngine $n "isready"
-    vwaitTimed ::analysis(waitForReadyOk$n) 5000 "nowarn"
-    if {$::analysis(waitForReadyOk$n) != 0} {
-      tk_messageBox -type ok -icon error -parent .main -title "Engine Error" -message "Engine did not respond to isready"
-      ::sergame::abortGame
-      return
-    }
-    ::uci::sendToEngine $n "position fen [sc_pos fen]"
-    set ::sergame::lastAnalyzeFen [sc_pos fen]
-    ::uci::sendToEngine $n "go infinite"
+    # The coach searches the position on the board and streams its line; the
+    # answer is not the game's move (want "line"), so a line that arrives while
+    # it is the player's turn updates the display and nothing else.
+    ::sergame::ask 2 {infinite} "" line
 
     if { $isLimitedAnalysisTime == 1 }  {
       after [expr 1000 * $analysisTime] ::sergame::stopAnalyze
@@ -1054,7 +1261,10 @@ namespace eval sergame {
 
   proc stopAnalyze { } {
     after cancel ::sergame::stopAnalyze
-    ::uci::sendToEngine 2 "stop"
+    set id [::sergame::connId 2]
+    if {[::engine::connected $id]} {
+      catch { ::engine::send $id StopGo }
+    }
   }
 
   ################################################################################
@@ -1073,8 +1283,7 @@ namespace eval sergame {
     # only update when it is human turn
     if { $::sergame::engineColor == [sc_pos side] } { return }
 
-    set sc1 ""
-    if {[info exists ::uci::uciInfo(score2)]} { set sc1 $::uci::uciInfo(score2) }
+    set sc1 [::sergame::st 2 score ""]
     set sc2 [lindex $lscore end]
 
     # Not enough scores yet
@@ -1149,8 +1358,8 @@ namespace eval sergame {
     # The coach has been repositioned by startAnalyze and should have
     # produced at least one info line by now.  Store its eval on the
     # current position (the engine's last move).
-    if {[info exists ::uci::uciInfo(score2)] && $::uci::uciInfo(score2) ne ""} {
-      storeEvalComment $::uci::uciInfo(score2)
+    if {[::sergame::st 2 score ""] ne ""} {
+      storeEvalComment [::sergame::st 2 score]
     }
   }
 
@@ -1158,17 +1367,17 @@ namespace eval sergame {
   # changePVSize: configure multipv for coach engine
   ################################################################################
   proc changePVSize {n} {
-    set pv $::uci::uciInfo(multipv$n)
-    ::sergame::sendToEngine $n "setoption name MultiPV value $pv"
-    set ::uci::uciInfo(multipv$n) $pv
+    set pv [::sergame::st $n multipv 1]
+    ::sergame::sendOptions $n [list [list MultiPV $pv]]
+    ::sergame::stSet $n multipv $pv
   }
 
   ################################################################################
-  # logEngine: optional engine communication logging
+  # logEngine: optional engine communication logging (a ::enginecomm log hook)
   ################################################################################
-  proc logEngine {n text} {
-    if {[info exists ::uci::uciInfo(log_stdout$n)] && $::uci::uciInfo(log_stdout$n)} {
-      puts stdout "$n $text"
+  proc logEngine {n prefix text} {
+    if {[::sergame::st $n log_stdout 0]} {
+      puts stdout "$n $prefix $text"
     }
   }
 
