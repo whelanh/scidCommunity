@@ -137,6 +137,68 @@ proc ::preferences::gamelist { t } {
     pack $t.wspeed -anchor w -pady {2 0}
 }
 
+# PGN tag ordering for export/display. The Seven Tag Roster is fixed per the
+# PGN spec; this dialog orders the remaining tags, where "Others" is the
+# catch-all placeholder for every non-standard tag.
+proc ::preferences::tagOrderLabel {key} {
+    switch -- $key {
+        WhiteElo  { return [tr OptionsTagOrderWhite] }
+        BlackElo  { return [tr OptionsTagOrderBlack] }
+        ECO       { return "ECO" }
+        EventDate { return "EventDate" }
+        ScidFlags { return "ScidFlags" }
+        Others    { return [tr OptionsTagOrderOthers] }
+        default   { return $key }
+    }
+}
+
+proc ::preferences::tagOrderPopulate {lb} {
+    $lb delete 0 end
+    foreach key $::pgn::tagOrder {
+        $lb insert end [::preferences::tagOrderLabel $key]
+    }
+}
+
+proc ::preferences::tagOrderMove {delta lb} {
+    set sel [$lb curselection]
+    if {[llength $sel] != 1} { return }
+    set i [lindex $sel 0]
+    set j [expr {$i + $delta}]
+    if {$j < 0 || $j >= [llength $::pgn::tagOrder]} { return }
+    set order $::pgn::tagOrder
+    set tmp [lindex $order $j]
+    lset order $j [lindex $order $i]
+    lset order $i $tmp
+    set ::pgn::tagOrder $order
+    ::preferences::tagOrderPopulate $lb
+    $lb selection set $j
+    ::pgn::applyTagOrder
+}
+
+proc ::preferences::pgnExport { t } {
+    ttk::label $t.intro -text [tr OptionsTagOrderIntro] -wraplength 380 -anchor w -justify left
+    pack $t.intro -side top -anchor w -pady "2 0"
+
+    ttk::label $t.str -text [tr OptionsTagOrderStr] -anchor w
+    pack $t.str -side top -anchor w -pady "8 0"
+
+    ttk::frame $t.listf
+    listbox $t.listf.lb -height 6 -exportselection 0 -width 24
+    ttk::frame $t.listf.btns
+    ttk::button $t.listf.btns.up -text [tr Up] -command "::preferences::tagOrderMove -1 $t.listf.lb"
+    ttk::button $t.listf.btns.dn -text [tr Down] -command "::preferences::tagOrderMove 1 $t.listf.lb"
+    pack $t.listf.btns.up $t.listf.btns.dn -side top -pady 2 -fill x
+    pack $t.listf.lb -side left -fill both -expand yes
+    pack $t.listf.btns -side left -padx "5 0" -anchor n
+    pack $t.listf -side top -anchor w -fill x -pady "5 0"
+
+    ttk::checkbutton $t.sort -variable ::pgn::sortOtherTags -text [tr OptionsTagOrderSort] \
+        -command ::pgn::applyTagOrder
+    pack $t.sort -side top -anchor w -pady "8 0"
+
+    ::preferences::tagOrderPopulate $t.listf.lb
+}
+
 proc ::preferences::updateScrollBar { w } {
   set l [winfo reqwidth $w.f]
   set h [winfo reqheight $w.f]
@@ -180,6 +242,7 @@ proc ::preferences::Open { {toggle ""} } {
   lappend configList [tr OptionsSounds] ::utils::sound::OptionsDialog
   lappend configList [tr OptionsMoves] ::preferences::moves
   lappend configList [tr OptionsGamelist] ::preferences::gamelist
+  lappend configList [tr OptionsPGNExport] ::preferences::pgnExport
   lappend configList [tr ConfigureInformant] configInformant
   lappend configList [tr OptionsFICS] configFICS
   set maxlen 0
