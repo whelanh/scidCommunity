@@ -251,6 +251,7 @@ menuText U ToolsTrainFics "FICS"  0 {Pelaa palvelimella freechess.org}
 menuText U ToolsEngineTournament "Shakkimoottoriturnaus"  0 {Turnaus shakkimoottorien kesken}
 menuText U ToolsTimeAnalysis "Aika-analyysi" 0 {Näytä nykyisen pelin kelloaikakaavio}
 menuText U ToolsBookTuning "Viritä avaukset" 0 {Muokkaa avauskirjastoasi}
+menuText U ToolsCtgConvert "Muunna CTG OBR:ksi..." 0 {Muunna ChessBase CTG -kirja OpenBook Rich (.obr) -kirjaksi}
 menuText U ToolsRapidAnnotate "Merkitse tuloskaaviosta" 0 {Kirjoita moottorin tuloskaavion arviot ja huomautukset nykyiseen peliin (Ctrl+Shift+A)}
 menuText U ToolsDownloadTWIC "Lataa TWIC-pelejä" 0 {Lataa uusimmat The Week In Chess (TWIC) -pelit}
 menuText U ToolsConnectHardware "Liitä syöttölaite" 8 {Liitä ulkoinen syöttölaite (elektroninen lauta tms.)}
@@ -1058,6 +1059,11 @@ translate U ObrBookDetail {%s  %d pelit (taajuus %.1f%%): +%d =%d -%d (valkoinen
 translate U ObrColourRed {punainen}
 translate U ObrColourBlue {sininen}
 translate U ObrColourGreen {vihreä}
+# Tools > Convert CTG book: ChessBase CTG book to OpenBook Rich (.obr)
+translate U CtgChooseSource {Valitse CTG-kirja (.ctg): sen .cto- ja .ctb-tiedostojen on oltava samassa kansiossa}
+translate U CtgChooseDest {Valitse, minne haluat tallentaa OBR-kirjan (.obr)}
+translate U CtgConverting {Muunnetaan}
+translate U CtgConvertDone {Kirja tallennettu:}
 
 # Configure Engines dialog:
 translate U EngineList {Konfiguroi moottorit}

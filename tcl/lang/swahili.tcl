@@ -212,6 +212,7 @@ menuText Z ToolsTrainFics "Cheza kwenye FICS"  0 {Cheza kwenye freechess.org}
 menuText Z ToolsEngineTournament "Mashindano ya injini"  0 {Anzisha mashindano kati ya injini za chess}
 menuText Z ToolsTimeAnalysis "Uchambuzi wa Wakati" 0 {Onyesha grafu ya saa ya mchezo wa sasa}
 menuText Z ToolsBookTuning "Urekebishaji wa kitabu" 0 {Urekebishaji wa kitabu}
+menuText Z ToolsCtgConvert "Badilisha CTG to OBR..." 0 {Badilisha kitabu cha ChessBase CTG kuwa kitabu cha OpenBook Rich (.obr).}
 menuText Z ToolsRapidAnnotate "Dokeza kutoka kwa grafu ya alama" 0 {Andika tathmini na maelezo ya grafu ya alama ya injini kwenye mchezo wa sasa (Ctrl+Shift+A)}
 menuText Z ToolsDownloadTWIC "Pakua Michezo ya TWIC" 0 {Pakua michezo ya hivi punde ya The Week In Chess (TWIC).}
 menuText Z ToolsConnectHardware "Unganisha Vifaa" 8 {Unganisha maunzi ya nje}
@@ -1019,6 +1020,11 @@ translate Z ObrBookDetail {%s  %d michezo (frequency %.1f%%): +%d =%d -%d (Nyeup
 translate Z ObrColourRed {nyekundu}
 translate Z ObrColourBlue {bluu}
 translate Z ObrColourGreen {kijani}
+# Tools > Convert CTG book: ChessBase CTG book to OpenBook Rich (.obr)
+translate Z CtgChooseSource {Chagua kitabu cha CTG (.ctg): faili zake za .cto na .ctb lazima ziwe kwenye folda moja}
+translate Z CtgChooseDest {Chagua mahali pa kuhifadhi kitabu cha OBR (.obr)}
+translate Z CtgConverting {Kugeuza}
+translate Z CtgConvertDone {Kitabu kimehifadhiwa:}
 
 # Configure Engines dialog:
 translate Z EngineList {Sanidi Injini}

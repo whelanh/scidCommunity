@@ -253,6 +253,7 @@ menuText k ToolsTrainFics "FICS에서 플레이"  0 {freechess.org에서 플레�
 menuText k ToolsEngineTournament "엔진으로"  0 {체스 엔진 간 토너먼트 시작}
 menuText k ToolsTimeAnalysis "시간분석" 0 {현재 게임의 시계 시간 그래프 표시}
 menuText k ToolsBookTuning "책은" 0 {책은}
+menuText k ToolsCtgConvert "CTG를 OBR로 변환..." 0 {ChessBase CTG 책을 OpenBook Rich(.obr) 책으로 변환}
 menuText k ToolsRapidAnnotate "점수 그래프에 주석 달기" 0 {엔진 점수 그래프의 평가 및 주석을 현재 게임에 기록합니다(Ctrl+Shift+A).}
 menuText k ToolsDownloadTWIC "TWIC 다운로드" 0 {최신 The Week In Chess(TWIC) 게임을 다운로드하세요.}
 menuText k ToolsConnectHardware "하드웨어 연결" 8 {외부 하드웨어 연결}
@@ -1060,6 +1061,11 @@ translate k ObrBookDetail {%s %d 게임(주파수 %.1f%%): +%d =%d -%d (흰색/�
 translate k ObrColourRed {빨간색}
 translate k ObrColourBlue {파란색}
 translate k ObrColourGreen {녹색}
+# Tools > Convert CTG book: ChessBase CTG book to OpenBook Rich (.obr)
+translate k CtgChooseSource {CTG 책(.ctg)을 선택하십시오. 해당 .cto 및 .ctb 파일은 동일한 폴더에 있어야 합니다.}
+translate k CtgChooseDest {OBR 책(.obr)을 저장할 위치를 선택하세요.}
+translate k CtgConverting {변환 중}
+translate k CtgConvertDone {저장된 책:}
 
 # Configure Engines dialog:
 translate k EngineList {엔진 구성}

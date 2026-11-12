@@ -226,6 +226,7 @@ menuText F ToolsTrainFics "Jouer sur internet"  10 {Jouer sur freechess.org}
 menuText F ToolsEngineTournament "Tournoi de moteurs"  0 {Démarrer un tournoi entre moteurs d'échecs}
 menuText F ToolsTimeAnalysis "Analyse du temps" 0 {Afficher le graphique de l'heure du jeu en cours}
 menuText F ToolsBookTuning "Config. bibliothèque" 0 {Configuration fine d'une bibliothèque}
+menuText F ToolsCtgConvert "Convertir CTG en OBR..." 0 {Convertir un livre ChessBase CTG en un livre OpenBook Rich (.obr)}
 menuText F ToolsRapidAnnotate "Annoter à partir du graphique de score" 0 {Écrivez les évaluations et les annotations du graphique de score du moteur dans le jeu en cours (Ctrl+Shift+A)}
 menuText F ToolsDownloadTWIC "Télécharger les jeux TWIC" 0 {Télécharger les derniers jeux The Week In Chess (TWIC)}
 menuText F ToolsConnectHardware "Connecter un matériel" 2 {Connecter un échiquier externe}
@@ -1032,6 +1033,11 @@ translate F ObrBookDetail {%s %d jeux (fréquence %.1f%%) : +%d =%d -%d (Blanc/N
 translate F ObrColourRed {rouge}
 translate F ObrColourBlue {bleu}
 translate F ObrColourGreen {vert}
+# Tools > Convert CTG book: ChessBase CTG book to OpenBook Rich (.obr)
+translate F CtgChooseSource {Choisissez le livre CTG (.ctg) : ses fichiers .cto et .ctb doivent être dans le même dossier}
+translate F CtgChooseDest {Choisissez où enregistrer le livre OBR (.obr)}
+translate F CtgConverting {Conversion}
+translate F CtgConvertDone {Livre enregistré :}
 
 # Configure Engines dialog:
 translate F EngineList {Configurer les moteurs}

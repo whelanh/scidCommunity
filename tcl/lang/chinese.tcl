@@ -192,6 +192,7 @@ menuText M ToolsTrainFics "在FICS上对弈"  0 {在freechess.org上对弈}
 menuText M ToolsEngineTournament "引擎锦标赛"  0 {在国际象棋引擎之间开始锦标赛}
 menuText M ToolsTimeAnalysis "时间分析" 0 {显示当前游戏的时钟时间图}
 menuText M ToolsBookTuning "调整开局库" 0
+menuText M ToolsCtgConvert "将 CTG 转换为 OBR..." 0 {将 ChessBase CTG 书籍转换为 OpenBook Rich (.obr) 书籍}
 menuText M ToolsRapidAnnotate "从分数图注释" 0 {将引擎得分图的评价和注释写入当前游戏（Ctrl+Shift+A）}
 menuText M ToolsDownloadTWIC "下载TWIC对局" 0 {下载最新的《本周国际象棋》(TWIC)对局}
 menuText M ToolsConnectHardware "连接硬件" 0
@@ -996,6 +997,11 @@ translate M ObrBookDetail {%s %d 游戏（频率 %.1f%%）：+%d =%d -%d（白/�
 translate M ObrColourRed {红色的}
 translate M ObrColourBlue {蓝色的}
 translate M ObrColourGreen {绿色的}
+# Tools > Convert CTG book: ChessBase CTG book to OpenBook Rich (.obr)
+translate M CtgChooseSource {选择 CTG 书籍 (.ctg)：其 .cto 和 .ctb 文件必须位于同一文件夹中}
+translate M CtgChooseDest {选择保存 OBR 图书 (.obr) 的位置}
+translate M CtgConverting {转换}
+translate M CtgConvertDone {书籍已保存：}
 
 # Configure Engines dialog:
 translate M EngineList {配置引擎}

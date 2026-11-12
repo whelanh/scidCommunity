@@ -212,6 +212,7 @@ menuText h ToolsTrainFics "FICS पर खेलें"  0 {freechess.org पर
 menuText h ToolsEngineTournament "इंजन टूर्नामेंट"  0 {शतरंज इंजनों के बीच एक टूर्नामेंट शुरू करें}
 menuText h ToolsTimeAnalysis "समय विश्लेषण" 0 {वर्तमान गेम के लिए घड़ी का समय ग्राफ़ दिखाएँ}
 menuText h ToolsBookTuning "पुस्तक ट्यूनिंग" 0 {पुस्तक ट्यूनिंग}
+menuText h ToolsCtgConvert "CTG को OBR में बदलें..." 0 {ChessBase CTG पुस्तक को ओपनबुक रिच (.obr) पुस्तक में परिवर्तित करें}
 menuText h ToolsRapidAnnotate "स्कोर ग्राफ़ से एनोटेट करें" 0 {वर्तमान गेम में इंजन स्कोर ग्राफ़ के मूल्यांकन और एनोटेशन लिखें (Ctrl+Shift+A)}
 menuText h ToolsDownloadTWIC "TWIC गेम्स डाउनलोड करें" 0 {नवीनतम द वीक इन चेस (TWIC) गेम डाउनलोड करें}
 menuText h ToolsConnectHardware "हार्डवेयर कनेक्ट करें" 8 {बाहरी हार्डवेयर कनेक्ट करें}
@@ -1019,6 +1020,11 @@ translate h ObrBookDetail {%s  %d खेल (आवृत्ति %.1f%%): +%d 
 translate h ObrColourRed {लाल}
 translate h ObrColourBlue {नीला}
 translate h ObrColourGreen {हरा}
+# Tools > Convert CTG book: ChessBase CTG book to OpenBook Rich (.obr)
+translate h CtgChooseSource {CTG पुस्तक (.ctg) चुनें: इसकी .cto और .ctb फ़ाइलें एक ही फ़ोल्डर में होनी चाहिए}
+translate h CtgChooseDest {चुनें कि ओबीआर पुस्तक को कहाँ सहेजना है (.obr)}
+translate h CtgConverting {परिवर्तित}
+translate h CtgConvertDone {पुस्तक सहेजी गई:}
 
 # Configure Engines dialog:
 translate h EngineList {इंजन कॉन्फ़िगर करें}

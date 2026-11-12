@@ -253,6 +253,7 @@ menuText L ToolsTrainFics "Joacă pe FICS"  0 {Joacă pe freechess.org}
 menuText L ToolsEngineTournament "Turneu de motoare"  0 {Începeți un turneu între motoarele de șah}
 menuText L ToolsTimeAnalysis "Analiza timpului" 0 {Afișează graficul timpului ceasului pentru jocul curent}
 menuText L ToolsBookTuning "Tuning de carte" 0 {Tuning de carte}
+menuText L ToolsCtgConvert "Convertiți CTG în OBR..." 0 {Convertiți o carte ChessBase CTG într-o carte OpenBook Rich (.obr).}
 menuText L ToolsRapidAnnotate "Adnotă din graficul scorului" 0 {Scrieți evaluările și adnotările graficului scorului motorului în jocul curent (Ctrl+Shift+A)}
 menuText L ToolsDownloadTWIC "Descărcați jocurile TWIC" 0 {Descărcați cele mai recente jocuri The Week In Chess (TWIC).}
 menuText L ToolsConnectHardware "Conectați Hardware" 8 {Conectați hardware extern}
@@ -1060,6 +1061,11 @@ translate L ObrBookDetail {%s  %d jocuri (frecvență %.1f%%): +%d =%d -%d scor 
 translate L ObrColourRed {roşu}
 translate L ObrColourBlue {albastru}
 translate L ObrColourGreen {verde}
+# Tools > Convert CTG book: ChessBase CTG book to OpenBook Rich (.obr)
+translate L CtgChooseSource {Alegeți cartea CTG (.ctg): fișierele sale .cto și .ctb trebuie să fie în același folder}
+translate L CtgChooseDest {Alegeți unde să salvați cartea OBR (.obr)}
+translate L CtgConverting {Conversia}
+translate L CtgConvertDone {Carte salvată:}
 
 # Configure Engines dialog:
 translate L EngineList {Configurați motoarele}
