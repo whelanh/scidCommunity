@@ -41,6 +41,6 @@ target_link_libraries(scid_base PUBLIC ${CMAKE_THREAD_LIBS_INIT})
 
 # scid_tests
 file(GLOB GTEST_SRC *.cpp)
-add_executable(scid_tests ${GTEST_SRC})
+add_executable(scid_tests ${GTEST_SRC} ../src/polyglot/obrbook.cpp)
 target_compile_definitions(scid_tests PRIVATE -DSCID_TESTDIR=\"${CMAKE_CURRENT_LIST_DIR}/\")
 target_link_libraries(scid_tests PRIVATE scid_base gtest_main)

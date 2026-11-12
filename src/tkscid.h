@@ -98,6 +98,7 @@ int sc_book_moves     (TCL_ARGS);
 int sc_book_positions (TCL_ARGS);
 int sc_book_update    (TCL_ARGS);
 int sc_book_movesupdate (TCL_ARGS);
+int sc_book_obrmoves  (TCL_ARGS);
 //////////////////////////////////////////////////////////////////////
 /// END of tkscid.h
 //////////////////////////////////////////////////////////////////////
