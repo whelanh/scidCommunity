@@ -683,11 +683,14 @@ namespace eval tactics {
         if {$analysisEngine(analyzeMode)} { vwait ::tactics::analysisEngine(analyzeMode) }
 
         if {![winfo exists .tacticsWin]} { return }
-        # The engine answered nothing before the timer: retry rather than judge
-        # a line that does not exist (analysisEngine(score) would be stale or
-        # empty, and the referee's arithmetic raises on an empty score).
+        # The engine answered nothing before the timer: do not judge a line that
+        # never arrived (analysisEngine(score) would be stale or empty, and the
+        # referee's arithmetic raises on an empty score), and do not reschedule -
+        # noLine is only cleared by startAnalyze, further down this loop, so a
+        # retry would re-enter this branch forever. The trainer waits for the
+        # user, as it does after abnormalContinuation.
         if {$analysisEngine(noLine)} {
-            after 1000 ::tactics::mainLoop
+            setInfoEngine $::tr(AnalyzeDone) PaleGreen3
             return
         }
 
@@ -707,8 +710,11 @@ namespace eval tactics {
         # resume into a closed session: the first wait's guard, which this one
         # never had.
         if {![winfo exists .tacticsWin]} { return }
+        # Same as the first wait: nothing was measured, so judge nothing. A
+        # retry cannot be re-armed from here either - the loop would re-enter at
+        # the top and set prevScore from the analysis it is about to start.
         if {$analysisEngine(noLine)} {
-            after 1000 ::tactics::mainLoop
+            setInfoEngine $::tr(AnalyzeDone) PaleGreen3
             return
         }
         if {[sc_pos fen] != $::tactics::prevFen  && [sc_pos isAt start]} {
