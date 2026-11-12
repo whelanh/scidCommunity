@@ -101,6 +101,13 @@ checkEq "with the result dict last, as message supplies it" $::infoBest e5
 checkEq "the answer is delivered once" $::done 1
 checkEq "with the best move in SAN" [dict get $::result best_san] e5
 checkEq "the PV in SAN" [dict get $::result pv_san] {e5 d5}
+# The UCI display formatter numbers a Black move ("1...e5"); EPD and the report
+# want plain SAN. coordToSAN is preferred, so the formatter cannot leak a move
+# number into best_san or the pv opcode.
+namespace eval uci {}
+proc ::uci::formatPv {pv fen} { return "1...e5 2.d5" }
+checkEq "the PV stays plain SAN, not the numbered display line" \
+    [::epdanalysis::pvSAN $fen {e7e5 d7d5}] {e5 d5}
 checkEq "the depth" [dict get $::result depth] 20
 checkEq "the nodes" [dict get $::result nodes] 1000
 checkEq "the score from the side to move" [dict get $::result score_stm] 0.3
@@ -145,6 +152,46 @@ checkEq "with its own score" [dict get $::result score_stm] -0.2
 
 ::epdanalysis::close
 checkEq "closing closes the one connection" $::closed 2
+
+puts "\nthe report compares the move, not its display number"
+
+proc procText {path name} {
+    set f [open $path r]
+    set src [read $f]
+    close $f
+    set from [string first "proc $name " $src]
+    if {$from < 0} { return "" }
+    set text ""
+    foreach line [split [string range $src $from end] "\n"] {
+        append text $line "\n"
+        if {[info complete $text]} { break }
+    }
+    return $text
+}
+namespace eval epd {}
+namespace eval epd {
+    foreach name {normMove evalBestMove} {
+        eval [procText [file join $root tcl file epd.tcl] $name]
+    }
+}
+checkEq "a numbered SAN is normalised" [::epd::normMove "1...Qc7"] Qc7
+# The report's own rows: the display number must not hide a match.
+foreach {sought found want} {
+    Qc7  {1...Qc7} TRUE
+    Rc7  {1.Ra1}   FALSE
+    O-O  {1...O-O} TRUE
+    Rd8  {1.Rd8}   TRUE
+    g3   {1.g3}    TRUE
+    h5   {1...h5}  TRUE
+    Nb5  {1.Nb5}   TRUE
+} {
+    checkEq "the report scores $sought against $found" \
+        [::epd::evalBestMove $sought $found] $want
+}
+checkEq "numbered castling matches letter castling" \
+    [::epd::evalBestMove O-O "1...0-0"] TRUE
+checkEq "an avoid move still compares" \
+    [::epd::evalBestMove {avoid Nf3} "1.Nf3"] FALSE
 
 puts "\nthe new EPD strings have English translations"
 set ef [open [file join $root tcl lang english.tcl] r]

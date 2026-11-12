@@ -972,6 +972,11 @@ namespace eval epd {
   ###  sometimes written with zeros (0-0) instead of letters (O-O). Strip the
   ###  suffixes and canonicalise castling so equivalent moves compare equal.
   proc normMove {m} {
+    set m [string trim $m]
+    # A SAN move read from the engine's display line may carry its move number
+    # ("1...Qc7"); the same move in bm/am never does. Drop the number before
+    # comparing.
+    regsub {^[0-9]+\.+} $m "" m
     set m [string trimright $m "+#!?"]
     set m [string map {0-0-0 O-O-O 0-0 O-O} $m]
     return $m

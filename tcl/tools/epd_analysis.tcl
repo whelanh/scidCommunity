@@ -25,15 +25,20 @@ namespace eval ::epdanalysis {
 # The formatter needs the game's push/pop, so a headless test with no board gets
 # the engine's coordinates instead of an empty line.
 proc ::epdanalysis::pvSAN {fen pv} {
+    # EPD and the report want plain SAN. coordToSAN is the board's own
+    # conversion and, unlike the UCI display formatter, does not prefix a Black
+    # move with "1..." - that prefix would hide the match from evalBestMove and
+    # would make an EPD pv opcode invalid. Prefer it; the formatter is only a
+    # fallback for a headless harness with no board.
+    if {[llength [info commands sc_pos]]} {
+        set out ""
+        catch { set out [sc_pos coordToSAN $fen $pv] }
+        if {[llength $out]} { return [join $out " "] }
+    }
     if {[llength [info commands ::uci::formatPv]]} {
         set out ""
         catch { set out [::uci::formatPv $pv $fen] }
         if {$out ne ""} { return $out }
-    }
-    if {[llength [info commands sc_pos]]} {
-        set out ""
-        catch { set out [sc_pos coordToSAN $fen $pv] }
-        return [join $out " "]
     }
     return [join $pv " "]
 }
@@ -85,7 +90,9 @@ proc ::epdanalysis::dataFromInfo {fen msgData} {
     if {$pv eq ""} { set pv {} }
     set pvSAN [::epdanalysis::pvSAN $fen $pv]
     set best [lindex $pv 0]
-    set bestSAN [lindex $pvSAN 0]
+    # The first move on its own, not the first word of the display line: the
+    # latter can carry a move number ("1...Qc7") that the bm/am value never has.
+    set bestSAN [::epdanalysis::sanMove $fen $best]
     dict set d pv_uci $pv
     dict set d pv_san $pvSAN
     dict set d best_uci $best
