@@ -634,6 +634,28 @@ if {[file exists $optionsFile] && [catch {safeLoadConfig $optionsFile}]} {
   tk_messageBox -message $::errorInfo
 }
 
+# One-time migration for #437 §4: the Play-versus-Engine clock was saved in the
+# first Analysis slot's keys (::uci::uciInfo(wtime1) etc.) and now lives in the
+# game's own (::sergame::wtime etc.). A file written before that move holds the
+# old keys but not the new, so carry the clock over once instead of silently
+# resetting a saved time control to the default. A new-format file already
+# names ::sergame::wtime and is left alone.
+if {[file exists $optionsFile]} {
+  set _oldfmtClock 0
+  catch {
+    set _optF [open $optionsFile r]
+    set _optTxt [read $_optF]
+    close $_optF
+    set _oldfmtClock [expr {[string first "::sergame::wtime" $_optTxt] < 0}]
+  }
+  if {$_oldfmtClock} {
+    catch { set ::sergame::wtime  $::uci::uciInfo(wtime1) }
+    catch { set ::sergame::winc   $::uci::uciInfo(winc1) }
+    catch { set ::sergame::btime  $::uci::uciInfo(btime1) }
+    catch { set ::sergame::binc   $::uci::uciInfo(binc1) }
+  }
+}
+
 # myPlayerNames:
 #   List of player name patterns for which the chessboard should be
 #   flipped each time a game is loaded, to show the board from that

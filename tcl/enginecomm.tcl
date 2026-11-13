@@ -207,7 +207,9 @@ proc ::engine::close {id} {
             if {$::engconn(waitReply_$id) eq "Go"} {
                 {*}$::engconn(StopGo$id)
             }
-            ::engine::rawsend $id "quit"
+            # The quit write can throw on a channel whose engine has died;
+            # teardown must still reach destroy_ so the record is removed.
+            catch { ::engine::rawsend $id "quit" }
         }
         ::engine::destroy_ $id
     }
@@ -316,7 +318,10 @@ proc ::engine::destroy_ {id {localReply ""}} {
         after cancel $::engconn(nextHandshake_$id)
     }
 
-    chan close $::engconn(channel_$id)
+    # A channel that is already gone (the engine died under it) must not stop
+    # the unset below from clearing the connection's record: a stale record
+    # makes the next ::engine::connect fail before a replacement channel opens.
+    catch { chan close $::engconn(channel_$id) }
     ::engine::closeServer_ $id
 
     unset ::engconn(protocol_$id)

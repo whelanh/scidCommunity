@@ -596,7 +596,10 @@ namespace eval sergame {
 
   proc abortGame { { n 1 } } {
     ::setPlayMode ""
-    after cancel ::sergame::engineGo $n
+    # Both loops, not just the role that disconnected: a coach that dies while
+    # the opponent's poll is still scheduled must not leave that poll running.
+    after cancel ::sergame::engineGo 1
+    after cancel ::sergame::engineGo 2
     clocks stop
     set ::sergame::lFen {}
     # A game that ends takes its connections with it. A search that is still
@@ -848,6 +851,25 @@ namespace eval sergame {
     return {}
   }
 
+  # The position a search actually starts from: `moves` (a UCI move list, e.g. a
+  # ponder line) applied to `fen`. A ponder search is "position fen <fen> moves
+  # <moves>", so the engine's score and PV are for the position after <moves>,
+  # not before; that is the fen its score must be turned by and its line shown
+  # from. Falls back to the unshifted fen when the position cannot be computed.
+  proc fenAfter {fen moves} {
+    set result $fen
+    if {[catch { sc_game push }]} { return $result }
+    if {[catch {
+      sc_game startBoard $fen
+      ::ucifmt::sc_move_add [split $moves]
+      set result [sc_pos fen]
+    }]} {
+      set result $fen
+    }
+    catch { sc_game pop }
+    return $result
+  }
+
   # Send one search and record what its answer is for: "move" means the answer
   # is the move the game plays, "line" the coach's evaluation. Nothing here
   # waits -- ::enginecomm delivers the answer to ::sergame::message, and a
@@ -864,7 +886,14 @@ namespace eval sergame {
     ::sergame::stSet $n searches $token
     ::sergame::stSet $n search $token
     ::sergame::stSet $n want $want
-    ::sergame::stSet $n fen $fen
+    # The position the engine answers for: after the ponder moves, so a score is
+    # turned for White by the side that is actually to move and the line is
+    # shown from the position the engine searched (not the one before it).
+    if {$moves ne ""} {
+      ::sergame::stSet $n fen [::sergame::fenAfter $fen $moves]
+    } else {
+      ::sergame::stSet $n fen $fen
+    }
     # A new search has no score yet: the one held here belongs to the previous
     # search, and must not be quoted as this one's.
     ::sergame::stSet $n score ""
