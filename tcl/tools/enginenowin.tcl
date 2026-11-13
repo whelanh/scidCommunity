@@ -36,8 +36,13 @@ proc ::engineNoWin::initEngine { id engine callback {options ""} } {
 }
 
 proc ::engineNoWin::closeEngine { id } {
-    ::engine::close $id
-     unset -nocomplain ::enginecfg::engConfig_$id
+    # The config is dropped FIRST. ::engine::close can throw on a connection
+    # whose channel is already gone (the engine died), and when it did, the
+    # unset below never ran: engConfig_$id survived, initEngine answered 1
+    # without connecting, and the next Play versus Engine game had no engine
+    # until a second attempt cleared it. A close must always leave no config.
+    unset -nocomplain ::enginecfg::engConfig_$id
+    catch { ::engine::close $id }
 }
 
 proc ::engineNoWin::changeEngine {id w enginevar callback} {

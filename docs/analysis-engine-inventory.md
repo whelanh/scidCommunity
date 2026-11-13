@@ -118,24 +118,77 @@ right and a wrong answer, the timer expiring, stop — with the engine layer
 stubbed, so §3b can change the engine layer under a harness that already covers
 the behaviour.
 
+## §4a — Play versus Engine, measured on the way through
+
+`sergame.tcl` was 1,243 lines with 80 `::uci::` uses, and every one of them was
+one of three things: the engine-slot state (`uciInfo`, 68 uses), the old mode's
+process control (`startEngine`, `sendToEngine`, `closeUCIengine`,
+`sendUCIoptions`, `uciConfig`), or the formatter (`sc_move_add`). What the port
+found, in the order it mattered:
+
+| Finding | What it changed |
+|---|---|
+| `uciInfo(wtime1/winc1/btime1/binc1/fixeddepth1/fixednodes1/movetime1)` are written by Play-vs-Engine's *config dialog* (`:368-374`), not only by the Analysis window | They are the game's clock and limits. The four clock values became `::sergame::wtime/winc/btime/binc` (saved by `options.tcl` like the rest of the game's settings); `depth/nodes/movetime` already had module variables of their own. The Analysis window's seven keys are untouched and still saved, and still die with §5/§6 |
+| `::uci::uciInfo` held **both** engines: `score1/pv1/ponder1/pipe1` and `score2/pv2/pipe2`, keyed by slot | Each engine now has a `::engineNoWin` connection (`sergamePlayer`, `sergameCoach`) and its state lives in `::engine::state <id>` (`tcl/enginecomm.tcl`). Two engines thinking at once cannot write each other's score, move, ponder flag or clock, and a connection that dies takes its state with it |
+| `::uci::parseline` **discarded** the ponder move (`lassign [split $line] -> InfoBestMove ponder ponder_move`, then dropped both) | `InfoBestMove` now carries `{best_move ponder_move}` (documented in `tcl/enginecomm.tcl`'s protocol block). Every existing client reads `lindex $data 0`, so none of them changed; Play-vs-Engine's ponder mode is the one that needs the second element, and without it that shipped feature would have been silently lost |
+| The old mode's `isready` + 5 s `vwaitTimed` per move was really "wait until the engine is free" | `::enginecomm` already serialises messages behind the reply in flight, and a second `Go` stops the first search before it is sent. Both waits are gone: the answer is the connection's reply, and `::sergame::answer` continues the game from it |
+| `ponderhit` has no message in the `::enginecomm` protocol (UCI defines no reply to it either) | It goes onto the connection with `::engine::rawsend`, deliberately outside the reply queue: the pending `Go`'s `bestmove` is what it must not disturb |
+| A ponder search that finishes before the player moves would deliver its answer during the player's turn | The old code would have blocked on `ponderhit` for an answer nobody would send. `answer` now plays a move only while it is the engine's turn, and `ponderhit` is only sent while a search is actually in flight |
+| `score$n` was turned for White by the board's side at *parse* time | It is turned by the position the search was asked about (`st $n fen`), which is the same value in the normal flow and the right one when a line arrives late |
+| The config dialog's "..." button opened the legacy UCI options window (`::uci::uciConfig`) | It opens Configure Engines (`::enginelist::choose`) — the dialog every other preset is edited in, and the one that survives §6. Named in the PR body as a change the user can see |
+| `formatPv`, `formatPvAfterMoves`, `sc_move_add` are the "relocate" row of the table above, and Play-vs-Engine needs two of them | They now live in `tcl/tools/uci_format.tcl` (`::ucifmt::`), with one-line wrappers left in `uci.tcl` so every old caller keeps working. §6 repoints those callers and deletes the wrappers instead of moving the code |
+
+`tests/tcl/sergame_engine.tcl` drives the port with `::enginecomm` running for
+real over a socket pair and a fake engine on the far end: a `go` answered by a
+reply, a search replaced by a second `go`, a cancel before the reply, an engine
+that dies mid-search, the coach on its own connection, and the exact `go` line
+the game's clock produces.
+
+## §4b — the behaviour, measured on the way through
+
+The substrate being right does not make the game right. §4b drives the module
+through the behaviours the port could quietly have changed, with the same fake
+engine and a fake board, and reads back what reached the engine and what was
+written on the game:
+
+| Behaviour | What the harness asserts |
+|---|---|
+| Clocks | the exact `go` line (`wtime`/`btime`/`winc`/`binc`, in that order) after a simulated think, the increment landing on the mover's own clock and only there, the running clock handed over, and a no-chess-clock game asking for `go movetime` instead |
+| Takeback | the module's own `takeBack` restores both clocks and restarts the right one; the dialog's takeback puts the move back, gives the clock it used back, restarts the coach, and the next search carries the *corrected* line's position |
+| Coach | (with §4a) its reply cannot touch the player's score, bestmove or ponder flag; after a takeback it is asked again |
+| Blunder dialog | the four threshold cases (`!?` 0.3, `?` 0.8, `??` 1.5, and under 0.3 = no dialog), the move it offers, and the same judgement mirrored for a Black player |
+| Live warning and score | the row's text with and without the value, its colour, the NAG it adds and removes, the score label following a real coach reply, and the game's own slider (not a constant) |
+| Ponder | a hit is `ponderhit` with no second search, and the pending search's `bestmove` is the move played; a declined line starts a new search and starts no ponder |
+| Storing evaluations | the real `storeEvalComment` (`tcl/misc.tcl`, lifted by name) writes `[%eval …]` on the player's move and, 500 ms later, on the engine's; nothing is written with no setting; all-moves mode writes on both |
+| Game end | mate (no search, clocks stopped), resignation (four winning scores → result tag, game saved, message), draw (third occurrence → message, no search), and §4a's dead engine |
+| Second session | after an engine death and after a preset that will not start: the same ids open, hold no state from the dead session, and the new game analyses, plays and judges; plus a structural check that `play` resets each accumulated name by its fully-qualified name — the `engineLost` shape |
+
+The behaviour half found one port bug, which is fixed here: `ask` clears a
+connection's score when a search starts (the old shared array never did), and
+`answer`'s blunder comparison then subtracted `""` when an engine answered with
+no `info` line — taking the answer, and the game, down with it. The comparison
+now requires both scores, and a case pins it.
+
+What the harness cannot say: it does not start a real engine process, so the
+real preset handshake, a real ponder hit, the config dialog's widgets, and the
+dialog's own text on screen are the manual play-test's, not the gate's.
+
 ## Phase mapping
 
 | #437 phase | Files | Gate |
 |---|---|---|
 | 2 — EPD | none left: `epd.tcl` is clean and `epd_analysis.tcl` owns the pass | `epd_analysis` stub harness |
 | 3 — trainers | `menus.tcl:235,236`, `reviewgame.tcl`, `calvar.tcl`, `tactics.tcl`, help + catalogs | gate + help_keys |
-| 4 — `sergame` port | `sergame.tcl` | gate + manual play-test |
+| 4 — `sergame` port | `sergame.tcl`, new `uci_format.tcl`, `enginecomm.tcl` (per-connection state) | gate + manual play-test |
 | 5 — dead annotate/analysis code | `analysis.tcl`, `review_annotate.tcl`, `finish_game.tcl`, `maint.tcl`, `win.tcl` | gate; `annotate_*` tests deleted with their subject |
 | 6 — `::uci` mode | `uci.tcl`, `options.tcl`, new `uci_format.tcl` | gate + the acceptance greps in #437 |
 | 7 — docs | `docs/engine-consolidation.md`, `docs/annotate-review-mode.md`, `docs/review-ui.md` | docs only |
 
 ## What this inventory does not decide
 
-- Whether the relocated formatters keep the `::uci::` namespace (smallest diff, most confusing name) or move to `::ucifmt::`.
-- Whether `uciInfo` survives as one renamed dict shared by the Engine Window and `sergame`, or is replaced by per-connection state owned by `enginecomm`.
-- Whether `sergame`'s `vwait` becomes a reply callback or a continuation driven from the event loop.
-
-Each of those is a decision for the phase that touches it, not for this document.
+- ~~Whether the relocated formatters keep the `::uci::` namespace (smallest diff, most confusing name) or move to `::ucifmt::`.~~ **Decided (Hugh, 2026-11-11):** `::ucifmt::`, in a new `tcl/tools/uci_format.tcl`. §4a created it with `sc_move_add`, `formatPv` and `formatPvAfterMoves`, and left one-line wrappers in `uci.tcl`; §6 repoints the remaining callers and deletes the wrappers.
+- ~~Whether `uciInfo` survives as one renamed dict shared by the Engine Window and `sergame`, or is replaced by per-connection state owned by `enginecomm`.~~ **Decided (Hugh, 2026-11-11):** per-connection state owned by `enginecomm` (`::engine::state` / `::engine::setState`), keyed by the connection's id. `::uci::uciInfo` does not survive as a renamed dict.
+- ~~Whether `sergame`'s `vwait` becomes a reply callback or a continuation driven from the event loop.~~ **Decided in the port (§4a):** the reply callback continues the game (`::sergame::answer`), and the module has no wait of any kind.
 
 ## Deltas measured while landing the phases
 

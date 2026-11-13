@@ -374,6 +374,13 @@ set ::sergame::storeEval 0
 set ::sergame::storeEvalAll 0
 set ::sergame::coachIndex 0
 set ::sergame::playerColor "white"
+# The game's clock and increment, in milliseconds. They were the first slot's
+# limit keys in ::uci::uciInfo until #437 §4 gave the game its own; the Analysis
+# window's own values below are still its, and still saved.
+set ::sergame::wtime [expr 5 * 60 * 1000]
+set ::sergame::winc  [expr 10 * 1000]
+set ::sergame::btime [expr 5 * 60 * 1000]
+set ::sergame::binc  [expr 10 * 1000]
 set ::uci::uciInfo(wtime1) [expr 5 * 60 * 1000 ]
 set ::uci::uciInfo(winc1) [expr 10 * 1000 ]
 set ::uci::uciInfo(btime1) [expr 5 * 60 * 1000 ]
@@ -627,6 +634,28 @@ if {[file exists $optionsFile] && [catch {safeLoadConfig $optionsFile}]} {
   tk_messageBox -message $::errorInfo
 }
 
+# One-time migration for #437 §4: the Play-versus-Engine clock was saved in the
+# first Analysis slot's keys (::uci::uciInfo(wtime1) etc.) and now lives in the
+# game's own (::sergame::wtime etc.). A file written before that move holds the
+# old keys but not the new, so carry the clock over once instead of silently
+# resetting a saved time control to the default. A new-format file already
+# names ::sergame::wtime and is left alone.
+if {[file exists $optionsFile]} {
+  set _oldfmtClock 0
+  catch {
+    set _optF [open $optionsFile r]
+    set _optTxt [read $_optF]
+    close $_optF
+    set _oldfmtClock [expr {[string first "::sergame::wtime" $_optTxt] < 0}]
+  }
+  if {$_oldfmtClock} {
+    catch { set ::sergame::wtime  $::uci::uciInfo(wtime1) }
+    catch { set ::sergame::winc   $::uci::uciInfo(winc1) }
+    catch { set ::sergame::btime  $::uci::uciInfo(btime1) }
+    catch { set ::sergame::binc   $::uci::uciInfo(binc1) }
+  }
+}
+
 # myPlayerNames:
 #   List of player name patterns for which the chessboard should be
 #   flipped each time a game is loaded, to show the board from that
@@ -746,6 +775,7 @@ proc options.write {} {
           ::sergame::startFromCurrent ::sergame::coachIsWatching ::sergame::timeMode \
           ::sergame::depth ::sergame::movetime ::sergame::nodes ::sergame::ponder ::sergame::isOpening \
           ::sergame::coachIndex ::sergame::playerColor \
+          ::sergame::wtime ::sergame::winc ::sergame::btime ::sergame::binc \
           ::uci::uciInfo(wtime1) ::uci::uciInfo(winc1) ::uci::uciInfo(btime1) ::uci::uciInfo(binc1) \
           ::uci::uciInfo(fixeddepth1) ::uci::uciInfo(fixednodes1) ::uci::uciInfo(movetime1) \
           boardfile_lite boardfile_dark \

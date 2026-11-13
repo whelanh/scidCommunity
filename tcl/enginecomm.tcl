@@ -99,7 +99,11 @@
 #
 # message InfoBestMove {
 #   string best_move = 1;
+#   string ponder_move = 2;
 # }
+# The ponder move is the one an engine expects back after a "go ponder", and it
+# is empty when the engine did not name one. Clients that only play the move
+# read the first element (lindex $data 0), as they always have.
 #
 # Sent to the engine to change the value of one or more options.
 # message SetOptions {
@@ -200,10 +204,13 @@ proc ::engine::close {id} {
     if {[info exists ::engconn(channel_$id)]} {
         chan event $::engconn(channel_$id) readable {}
         if {$::engconn(protocol_$id) ne "network"} {
+            # Either write can throw on a channel whose engine has died mid-
+            # search; teardown must still reach destroy_ so the record is
+            # removed and the id can be reconnected.
             if {$::engconn(waitReply_$id) eq "Go"} {
-                {*}$::engconn(StopGo$id)
+                catch { {*}$::engconn(StopGo$id) }
             }
-            ::engine::rawsend $id "quit"
+            catch { ::engine::rawsend $id "quit" }
         }
         ::engine::destroy_ $id
     }
@@ -247,6 +254,50 @@ proc ::engine::send {id msg {msgData ""}} {
     }
 }
 
+# The state one connection keeps about the engine on its far end ---------------
+#
+# A client that holds what an engine answered (the score of the search in
+# flight, the move it gave, the move it expects back, its MultiPV width) and
+# what the client gives the engine (the clock and the limits of the search)
+# keeps it here, under the connection's own id. It is not a shared array keyed
+# by engine slot number: two connections -- an opponent and a coach, two windows
+# -- each hold their own record, so one cannot overwrite the other's score, move
+# or clock, and a connection that dies takes its state with it rather than
+# leaving a value that belongs to an engine nobody is talking to any more.
+#
+# The fields are the client's; ::enginecomm does not read them. The defaults are
+# the caller's, so a field that was never set is a value the caller chose rather
+# than an array error.
+
+# One field of @p id's state, or @p default when it was never set.
+proc ::engine::state {id field {default ""}} {
+    if {![info exists ::engconn(state_$id)]} { return $default }
+    set state $::engconn(state_$id)
+    if {![dict exists $state $field]} { return $default }
+    return [dict get $state $field]
+}
+
+# Set one field of @p id's state and return the value.
+proc ::engine::setState {id field value} {
+    if {![info exists ::engconn(state_$id)]} { set ::engconn(state_$id) {} }
+    dict set ::engconn(state_$id) $field $value
+    return $value
+}
+
+# Forget one field. A field the connection did not hold is not an error.
+proc ::engine::unsetState {id field} {
+    if {![info exists ::engconn(state_$id)]} { return }
+    if {![dict exists $::engconn(state_$id) $field]} { return }
+    dict unset ::engconn(state_$id) $field
+    return
+}
+
+# True while @p id still names a live connection: the one a reply would be
+# delivered on, and the one a message can still be sent to.
+proc ::engine::connected {id} {
+    return [::engine::open_ $id]
+}
+
 proc ::engine::init_ {id channel callback} {
     set ::engconn(protocol_$id) {}
     set ::engconn(callback_$id) $callback
@@ -257,6 +308,9 @@ proc ::engine::init_ {id channel callback} {
     set ::engconn(sendQueue_$id) {}
 
     set ::engconn(options_$id) {}
+    # A new connection starts with no state: what the previous engine under this
+    # id answered is not this engine's.
+    set ::engconn(state_$id) {}
 }
 
 proc ::engine::destroy_ {id {localReply ""}} {
@@ -265,7 +319,10 @@ proc ::engine::destroy_ {id {localReply ""}} {
         after cancel $::engconn(nextHandshake_$id)
     }
 
-    chan close $::engconn(channel_$id)
+    # A channel that is already gone (the engine died under it) must not stop
+    # the unset below from clearing the connection's record: a stale record
+    # makes the next ::engine::connect fail before a replacement channel opens.
+    catch { chan close $::engconn(channel_$id) }
     ::engine::closeServer_ $id
 
     unset ::engconn(protocol_$id)
@@ -278,6 +335,10 @@ proc ::engine::destroy_ {id {localReply ""}} {
     unset ::engconn(options_$id)
     unset -nocomplain ::engconn(InfoPV_$id)
     unset -nocomplain ::engconn(InfoBestMove_$id)
+    # What the client kept about this engine goes with it: a score or a move
+    # from a connection that is gone must not be read as the next one's. A
+    # connection built by hand (a harness) may never have had any.
+    unset -nocomplain ::engconn(state_$id)
 
     unset -nocomplain ::engconn(nextHandshake_$id)
 
@@ -807,13 +868,16 @@ proc ::uci::parseline {id line} {
     }
 
     if {[string match "bestmove *" $line]} {
-        lassign [split $line] -> ::engconn(InfoBestMove_$id) ponder ponder_move
-        #TODO:
-        # lassign [lsearch -inline -index 0 $::engconn(options_$id) "Ponder"] -> do_ponder
-        # if {$do_ponder eq "true" && $ponder eq "ponder"}
-        #   set ::engconn(waitReply_$id) "Go?"
-        #   ::engine::rawsend $id position ...
-        #   ::engine::rawsend $id go ponder ...
+        # \S+, not split: UCI allows any run of whitespace between tokens, and
+        # split yields an empty element for it - "bestmove e2e4  ponder e7e5"
+        # read ponder as "" and the move it names was dropped.
+        lassign [regexp -all -inline {\S+} $line] -> best ponder ponder_move
+        # The move the engine expects back is part of the answer: a play path
+        # that ponders has to ask the engine to continue the line it was
+        # already thinking about, and nothing else in the engine's output
+        # names that move.
+        if {$ponder ne "ponder"} { set ponder_move "" }
+        set ::engconn(InfoBestMove_$id) [list $best $ponder_move]
         return 1
     }
 
