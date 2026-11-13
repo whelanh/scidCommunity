@@ -1119,7 +1119,15 @@ namespace eval sergame {
     set wasTakeback 0
     set playerDidMove $::sergame::playerMoved
     set ::sergame::playerMoved 0
-    if { $::sergame::coachIsWatching && $playerDidMove && [::sergame::st $n prevscore] ne "" } {
+    # Both scores have to be there for a comparison to mean anything. The old
+    # mode's shared array kept the previous search's score, so this could never
+    # see nothing; a connection's state is cleared when its search starts, so an
+    # engine that answers without a line at all (no info, or only a bound, or
+    # only multiPV lines) would otherwise subtract "" and take the answer, and
+    # the game, down with it.
+    if { $::sergame::coachIsWatching && $playerDidMove
+        && [::sergame::st $n prevscore] ne ""
+        && [::sergame::st $n score] ne "" } {
       set blunder 0
       set delta [expr {[::sergame::st $n score 0.0] - [::sergame::st $n prevscore 0.0]}]
       if {$delta > $::informant(?!) && $::sergame::engineColor == "white" ||
