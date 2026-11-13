@@ -795,13 +795,18 @@ namespace eval sergame {
   proc closeEngines {} {
     foreach n {1 2} {
       set id [::sergame::connId $n]
-      if {[::engine::connected $id]} {
+      set wasConnected [::engine::connected $id]
+      if {$wasConnected} {
         ::sergame::stSet $n search ""
         ::sergame::stSet $n want ""
         ::sergame::stSet $n bestmove ""
         ::sergame::stSet $n ponder ""
-        catch { ::engineNoWin::closeEngine $id }
       }
+      # Always close, connected or not: a connection whose engine died is gone
+      # from ::enginecomm but still owns its ::enginecfg::engConfig_$id entry,
+      # and an entry left behind makes the next initEngine answer 1 without
+      # connecting - the game after a crash had no engine until a second Play.
+      catch { ::engineNoWin::closeEngine $id }
     }
   }
 

@@ -1597,5 +1597,30 @@ foreach name {lFen lscore liveScore livePv playerMoved resignCount \
 # showed up before it was a failed check.
 checkEq "no background error anywhere in this run" $::background {}
 
+##############################################################################
+puts "\na close always drops the connection's config (the bug after a crash)"
+# The stub door above is one door wide and keeps no ::enginecfg entry, so it
+# cannot see this one. The real door answers 1 without connecting while
+# engConfig_$id exists, and a close that threw before its unset left that entry
+# behind: the game after an engine crash had no engine until a second Play.
+rename ::engineNoWin::initEngine  ::engineNoWin_initEngine_stub
+rename ::engineNoWin::closeEngine ::engineNoWin_closeEngine_stub
+source -encoding utf-8 [file join $root tcl tools enginenowin.tcl]
+# The harness stubs the engine list, not the config array: create its namespace.
+namespace eval ::enginecfg {}
+set ::enginecfg::engConfig_probe {Stockfish /usr/games/stockfish {} {} 0 0 1 {} {}}
+rename ::engine::close ::engine_close_real
+proc ::engine::close {id} { error "can not find channel named file9" }
+set err [catch { ::engineNoWin::closeEngine probe } msg]
+check "a close whose channel is already gone returns cleanly" [expr {$err == 0}]
+check "and still leaves no config behind" \
+    [expr {![info exists ::enginecfg::engConfig_probe]}]
+rename ::engine::close {}
+rename ::engine_close_real ::engine::close
+rename ::engineNoWin::closeEngine {}
+rename ::engineNoWin_closeEngine_stub ::engineNoWin::closeEngine
+rename ::engineNoWin::initEngine {}
+rename ::engineNoWin_initEngine_stub ::engineNoWin::initEngine
+
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]
