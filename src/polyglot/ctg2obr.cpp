@@ -826,10 +826,12 @@ static std::vector<int> parse_page(const uint8_t* page) {
     int n = (int)be(page, 2), p = 4;
     std::vector<int> offs;
     for (int i = 0; i < n; i++) {
+        if (p >= PAGE) throw std::runtime_error("entry overruns page");
         offs.push_back(p);
         int plen = page[p] & 0x1F;
         if (plen == 0) throw std::runtime_error("zero position length");
         p += plen;
+        if (p >= PAGE) throw std::runtime_error("entry overruns page");
         int mlen = page[p];
         if (mlen < 1 || (mlen - 1) % 2) throw std::runtime_error("bad moves length");
         p += mlen + 33;
@@ -1338,9 +1340,19 @@ bool ctg2obr(const std::string& ctg_path, const std::string& out_path, const Ctg
         for (const Alias& a : al) { o.put(a.key, 8); o.put(a.val, 4); }
         o.bytes(meta);
         o.close();
+#ifdef _WIN32
+        // std::filesystem::rename fails on Windows if the destination exists;
+        // MoveFileExW with MOVEFILE_REPLACE_EXISTING replaces it and keeps the
+        // original intact until the temporary file is promoted.
+        if (!MoveFileExW(u8(tmp_path).c_str(), u8(out_path).c_str(),
+                         MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH)) {
+            throw std::runtime_error("cannot replace " + out_path);
+        }
+#else
         std::error_code ec;
         std::filesystem::rename(u8(tmp_path), u8(out_path), ec);
         if (ec) throw std::runtime_error("cannot replace " + out_path + ": " + ec.message());
+#endif
         char summary[512];
         std::snprintf(summary, sizeof summary,
                       "positions %zu, moves %llu, aliases %zu, alias key clashes dropped %zu, exceptions %zu, "
