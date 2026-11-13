@@ -251,6 +251,10 @@ jobs:
       # is fake, and the scenarios are a go answered by a reply, a search
       # replaced by a second go, a cancel and a dead engine - none of them
       # leaving a wait behind - plus the coach on its own connection.
+      # The behaviour half (#437 §4b) rides on the same fake: the clock each
+      # search is given, a takeback, the coach's thresholds and its dialog,
+      # ponder, the [%eval] written on a move, the four ways a game ends, and a
+      # second session after an abnormal one.
       - name: Play versus Engine engine layer
         run: xvfb-run -a wish tests/tcl/sergame_engine.tcl
 

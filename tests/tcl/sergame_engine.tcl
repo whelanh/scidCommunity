@@ -1153,8 +1153,6 @@ checkEq "and a search really was started from it" \
     [llength $::fake::goes(sergamePlayer)] [expr {$goesBefore + 1}]
 endGame
 
-
-
 # =============================================================================
 puts "\nthe blunder dialog: the threshold it uses, and the move it offers"
 # =============================================================================
@@ -1349,8 +1347,6 @@ checkEq "and no ponder search was started for a move nobody played" \
     [llength [fake::sentMatching sergamePlayer "go ponder *"]] $pondersBefore
 checkEq "the move it did not play was not played" [lindex $::fake::moves end] "d4"
 endGame
-
-
 
 # =============================================================================
 puts "\nstoring evaluations: the comment written, on the move it belongs to"
