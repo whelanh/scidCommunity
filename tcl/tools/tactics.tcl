@@ -400,6 +400,7 @@ namespace eval tactics {
         variable multiPV
         variable search
         variable analysisEngine
+        variable engineLost
 
         # ::engineNoWin::initEngine answers 1 without connecting when a live
         # connection already holds this id (it tests engConfig_$id). A session
@@ -429,6 +430,7 @@ namespace eval tactics {
         variable preset
         variable search
         variable analysisEngine
+        variable engineLost
         if {$engineId eq ""} { return }
         catch { ::engineNoWin::closeEngine $engineId }
         set preset ""

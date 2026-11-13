@@ -543,6 +543,14 @@ check "the disconnect during the load is recorded" \
 check "no window was built for a dead connection" \
     [expr {![winfo exists .tacticsWin]}]
 set ::fake::dropDuringLoad 0
+# One disconnect must not poison every later session: engineLost is a namespace
+# variable, and openEngine/closeEngine reset it, not a procedure-local copy
+# (before that fix the flag stayed 1 forever, so createWin returned early and
+# never built the window again).
+::tactics::createWin 1 0
+check "a later session still opens" [expr {[winfo exists .tacticsWin]}]
+checkEq "and the lost flag was cleared" $::tactics::engineLost 0
+catch { destroy .tacticsWin }
 
 puts "\n"
 puts "$checks checks, $fails failures"
