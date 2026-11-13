@@ -48,10 +48,6 @@ proc ::reviewannotate::whiteScore {cp side} {
 # A saved Review Settings switch, as 1 or 0. The review layer owns these; a
 # harness that has not loaded game_review.tcl gets the default rather than an
 # error in the middle of a write.
-
-# A saved Review Settings switch, as 1 or 0. The review layer owns these; a
-# harness that has not loaded game_review.tcl gets the default rather than an
-# error in the middle of a write.
 proc ::reviewannotate::setting {key {default 0}} {
     if {[llength [info commands ::review::get]] == 0} { return $default }
     if {[catch { set value [::review::get $key] }]} { return $default }

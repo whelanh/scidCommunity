@@ -82,6 +82,67 @@ if {$::tcl_platform(platform) eq "windows"} {
     checkEq "the result is owner-only" [format %04o [expr {$st(mode) & 0o777}]] 0600
 }
 
+# --------------------------------------------------- every saved name lives --
+# options.write writes each name in its list as `set NAME [set NAME]` with no
+# guard, so a name with no setter raises "can't read NAME" and takes
+# ::file::Exit down with it under the default optionsAutoSave 1 - the user's
+# preferences are never written at all. Two names the Analysis window's
+# InitDefaultAnnotate used to set were still saved that way after #437 §5
+# deleted it, and nothing caught it: this is the check that would have.
+puts "\n== every name the writer saves is defined somewhere =="
+
+set i0 [lsearch -regexp $lines {foreach i \{boardSize}]
+check "the writer's list of saved names was found" [expr {$i0 >= 0}]
+set listText ""
+set i $i0
+while {$i >= 0 && $i < [llength $lines]} {
+    set l [string trim [lindex $lines $i]]
+    append listText " " [string trimright $l "\\"]
+    incr i
+    if {[string last "\} \{" $l] >= 0} break
+}
+set open [string first "\{" $listText]
+set close [string last "\}" $listText]
+set names {}
+if {$open >= 0 && $close > $open} {
+    foreach name [regexp -all -inline {\S+} [string range $listText [expr {$open + 1}] [expr {$close - 1}]]] {
+        lappend names $name
+    }
+}
+# A guard on the extraction: an empty or half-read list would pass the check
+# below without testing anything.
+check "and it was read whole" [expr {[llength $names] > 100}] "$names"
+
+proc treeText {dir} {
+    set text ""
+    set pending [list $dir]
+    while {[llength $pending]} {
+        set here [lindex $pending 0]
+        set pending [lrange $pending 1 end]
+        foreach f [glob -nocomplain -directory $here *] {
+            if {[file isdirectory $f]} {
+                lappend pending $f
+            } elseif {[string match *.tcl $f]} {
+                set fh [open $f r]
+                fconfigure $fh -encoding utf-8 -translation auto
+                append text [read $fh] "\n"
+                close $fh
+            }
+        }
+    }
+    return $text
+}
+set tree [treeText [file join $root tcl]]
+
+set orphan {}
+foreach name $names {
+    set esc [string map {\( \\\( \) \\\)} $name]
+    set pat [format {^[ \t]*(?:set|array set|variable)[ \t]+(?:::)?%s[ \t]} $esc]
+    if {![regexp -line -- $pat $tree]} { lappend orphan $name }
+}
+checkEq "every saved name has a setter in tcl/" $orphan {}
+foreach name [lrange $orphan 0 9] { puts "       no setter for $name" }
+
 # ------------------------------------------------------------------- failure --
 puts "\n== a failed rename keeps the file that was already there =="
 writeFile $real "settings the user already had"

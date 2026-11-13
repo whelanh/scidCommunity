@@ -733,7 +733,7 @@ proc options.write {} {
           tree(order) tree(moveDepth) optionsAutoSave ::tree::mask::recentMask \
           ecoFile suggestMoves showVarPopup showVarArrows showEngineVariationArrows \
           enginePvDisplayLength enginewin_history \
-          blunderThreshold autoplayDelay animateDelay boardCoords \
+          autoplayDelay animateDelay boardCoords \
           moveEntry(AutoExpand) moveEntry(Coord) \
           translatePieces lichessFormat arrowLastMove highlightLastMove highlightLastMoveWidth \
           highlightLastMoveColor highlightLastMoveNag highlightLastMoveEval \
@@ -766,8 +766,7 @@ proc options.write {} {
           ::uci::uciInfo(fixeddepth1) ::uci::uciInfo(fixednodes1) ::uci::uciInfo(movetime1) \
           boardfile_lite boardfile_dark \
           FilterMaxMoves FilterMinMoves FilterStepMoves FilterMaxElo FilterMinElo FilterStepElo \
-          FilterMaxYear FilterMinYear FilterStepYear FilterGuessELO lookTheme ThemePackageFile omarchyAutoTheme autoResizeBoard \
-          addAnnotatorTag } {
+          FilterMaxYear FilterMinYear FilterStepYear FilterGuessELO lookTheme ThemePackageFile omarchyAutoTheme autoResizeBoard } {
       puts $optionF "set $i [list [set $i]]"
     }
 

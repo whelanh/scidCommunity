@@ -99,12 +99,122 @@ foreach file [tclFiles [file join $root tcl]] {
     }
 }
 checkEq "no UI file calls makeAnalysisWin" $callers {}
-foreach name {makeAnalysisWin configAnnotation configAnnotateOK startAutoplay
-              toggleFinishGame toggleEngineAnalysis} {
-    checkEq "nothing defines $name" [llength [info commands $name]] 0
-}
 checkEq "tcl/tools/analysis.tcl is gone" \
     [file exists [file join $root tcl tools analysis.tcl]] 0
+
+# The procs the deletion took: everything analysis.tcl defined, plus the ones
+# that shared its ::analysis(...) array (the old pipe mode in uci.tcl, the
+# WinBoard detector). A call to one of them is a runtime error where the user
+# is - on every move, or on Exit - and #437 round 1 found three that a
+# reference count had missed: updateAnalysis from ::notify::privPosChanged,
+# toAbsPath from ::sergame::openEngine, and the five globals uci.tcl's dead
+# block still reached for. So this scans for CALLS over every .tcl in tcl/:
+#
+#  - a comment-only line is not a call, and the name must not be part of a
+#    longer name (so ::sergame::updateAnalysisText is not a hit for
+#    updateAnalysis, and $w.b.autoplay is not one for autoplay);
+#  - a file that defines the bare name itself (inputengine's logEngine) makes
+#    its own unqualified calls resolve locally, so those are skipped;
+#  - a ::name call is always a hit, because it can only reach the global.
+set retired {
+    resetEngine calculateNodes resetAnalysis autoplay startAutoplay cancelAutoplay
+    configAnnotation configAnnotateOK bookAnnotation markExercise addAnnotation
+    scoreToNag appendAnnotator pushAnalysisData popAnalysisData addAnalysisVariation
+    addAllVariations analysisSpaceKey makeAnalysisMove destroyAnalysisWin sendToEngine
+    sendMoveToEngine logEngine logEngineNote makeAnalysisWin onUciOk toggleMovesDisplay
+    changePVSize setAnalysisPriority checkAnalysisStarted initialAnalysisStart
+    processAnalysisInput checkEngineIsAlive formatAnalysisMoves toggleFinishGame
+    autoplayFinishGame autoplayFinishGameCheck startEngineAnalysis stopEngineAnalysis
+    toggleEngineAnalysis startAnalyzeMode stopAnalyzeMode toggleLockEngine
+    updateAnalysisText scoreToMate addMoveNumbers toggleAnalysisBoard toggleEngineInfo
+    updateAnalysisBoard updateAnalysis setAutomoveTime toggleAutomove cancelAutomove
+    automove automove_go sc_move_add toAbsPath
+}
+
+proc callsRetired {root retired} {
+    set hits {}
+    set pre {(?:^|[^A-Za-z0-9_:.$/-])[ \t]*}
+    set post {(?:[^A-Za-z0-9_:]|$)}
+    # One cheap test per line, then the per-name work only on the lines that
+    # can hold a hit: the tree is 12,000 lines and this harness runs often.
+    set alts {}
+    foreach name $retired {
+        lappend alts "(?:::)?[string map {\( \\\( \) \\\)} $name]"
+    }
+    set any [format {%s(?:%s)%s} $pre [join $alts |] $post]
+    foreach file [tclFiles [file join $root tcl]] {
+        # tcl/lang/ is catalogue text - prose that may name a retired feature
+        # ("the time delay for autoplay mode") and never a call.
+        if {[string match */lang/* $file]} { continue }
+        set text [readText $file]
+        set short [string range $file [string length $root] end]
+        set found {}
+        set n 0
+        foreach line [split $text "\n"] {
+            incr n
+            if {[string index [string trimleft $line] 0] eq "#"} { continue }
+            if {![regexp -- $any $line]} { continue }
+            foreach name $retired {
+                if {[regexp -- [format {%s(?:::)?%s%s} $pre $name $post] $line]} {
+                    lappend found [list $n $name $line]
+                }
+            }
+        }
+        foreach hit $found {
+            lassign $hit n name line
+            # A file that defines the bare name makes its own unqualified calls
+            # resolve inside its namespace (inputengine's logEngine); only a
+            # ::name call in such a file can reach the deleted global.
+            if {[regexp -line "^\[ \t\]*proc\[ \t\]+$name\[ \t\{]" $text] &&
+                ![regexp -- [format {%s::%s%s} $pre $name $post] $line]} {
+                continue
+            }
+            lappend hits "$short:$n $name"
+        }
+    }
+    return $hits
+}
+
+set dangling [callsRetired $root $retired]
+checkEq "nothing in tcl/ calls a proc the deletion took" $dangling {}
+foreach hit [lrange $dangling 0 9] { puts "       $hit" }
+
+puts "\nthe position-change chain still runs to the end"
+
+# The scan above says no call is spelled with a retired name; this runs one of
+# them. #437 round 1: ::notify::privPosChanged kept two calls to updateAnalysis,
+# so every move, edit and comment aborted there - before the comment editor,
+# tablebase, book, novelty, tree-filter and EPD refreshes - and nothing caught
+# it because no harness ran the proc. It is lifted and run here with every
+# sibling stubbed: the chain has to reach the end.
+set text [procText [file join $root tcl game.tcl] privPosChanged]
+if {$text eq ""} {
+    check "::notify::privPosChanged can be lifted out of game.tcl" 0
+} else {
+    set ::ran {}
+    # tclsh has no windows: every "if {[winfo exists .w]}" takes its branch.
+    proc winfo {sub args} { return 1 }
+    set ::showGameInfo 0
+    foreach name {moveEntry_Clear updateStatusBar updateMainToolbar updateTitle
+                  updateTwinChecker updateNoveltyWin} {
+        proc $name {} [format {lappend ::ran %s} $name]
+    }
+    foreach name {::windows::commenteditor::Refresh ::tablebase::window::results
+                  ::book::refresh ::book::refreshTuning ::lichess_eval::refresh
+                  ::updateTreeFilter ::epd::updateEpdWins} {
+        namespace eval [namespace qualifiers $name] {}
+        proc $name {} [format {lappend ::ran %s} $name]
+    }
+    eval $text
+    # The lifted body was defined at global scope; the app's is in ::notify, so
+    # give it the name the rest of the tree calls.
+    rename privPosChanged ::notify::privPosChanged
+    set rc [catch { ::notify::privPosChanged } err]
+    check "the chain runs without error" [expr {$rc == 0}] $err
+    checkEq "and reaches the last refresh" [lindex $::ran end] ::epd::updateEpdWins
+    check "the whole chain ran" \
+        [expr {[llength $::ran] == 13}] "ran: $::ran"
+}
 
 set english [readText [file join $root tcl lang english.tcl]]
 check "the new Open label is in English" \

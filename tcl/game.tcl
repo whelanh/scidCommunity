@@ -512,8 +512,6 @@ namespace eval ::notify {
     updateMainToolbar
     updateTitle
     if {$::showGameInfo} { updateGameInfo }
-    updateAnalysis 1
-    updateAnalysis 2
     ::windows::commenteditor::Refresh
     ::tablebase::window::results
     if {[winfo exists .twinchecker]} { updateTwinChecker }
