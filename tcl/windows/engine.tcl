@@ -2207,8 +2207,19 @@ proc ::enginewin::firstPvLine {w} {
     return [lindex [split $first .] 0]
 }
 
+# The time the engine has spent on the search, appended to every PV line the
+# way the retired Analysis window did it - seconds with two decimals in
+# parentheses, last on the line - with the unit made explicit: "(12.34s)".
+# See the "%s (%.2f)" history line in tcl/tools/analysis.tcl.
+proc ::enginewin::pvTimeLabel {timeMs} {
+    return [format "(%.2fs)" [expr {$timeMs / 1000.0}]]
+}
+
 proc ::enginewin::updateDisplay {id msgData} {
     lassign $msgData multipv depth seldepth nodes nps hashfull tbhits time score score_type score_wdl pv
+    # An engine that reports no time must not be given a made-up one, so the
+    # fact that the field was there is kept before the default is applied.
+    set timeReported [expr {$time ne ""}]
     if {$time eq ""} { set time 0 }
     if {$nps eq ""} { set nps 0 }
     if {$hashfull eq ""} { set hashfull 0 }
@@ -2317,6 +2328,9 @@ if {[array exists ::enginewin::pvBestMove]} {
         [list "$pvline" [list lmargin moves]]]
     if {[info exists extraInfo]} {
         lappend chunks [list "  ([join $extraInfo {  }])" [list lmargin]]
+    }
+    if {$timeReported} {
+        lappend chunks [list " [::enginewin::pvTimeLabel $time]" [list lmargin]]
     }
 
     set line $multipv

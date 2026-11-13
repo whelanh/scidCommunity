@@ -13,7 +13,10 @@
 # Each block shows the latest line of every multipv slot, so a new depth keeps
 # the earlier slots' lines until the engine updates them, as the Analysis
 # window did. A single-PV run keeps its own display: the newest line at the
-# top, the preceding iterations below it, no rule and no blue.
+# top, the preceding iterations below it, no rule and no blue. Every line ends
+# with the time the search has taken, in the retired Analysis window's form -
+# seconds with two decimals in parentheses - with the unit added: "(12.34s)",
+# after the nodes and W/D/L.
 #
 # The window's engine, board and chart are not part of this: the harness feeds
 # the InfoPV messages the UCI reader would, into the real ::enginewin::updateDisplay
@@ -69,9 +72,9 @@ set ::enginewin::pv_(btm,1) 0
 set ::enginewin::pv_(pos,1) "8/8/8/8/8/8/8/K6k w - - 0 1"
 set ::enginewin::pv_(ply,1) ""
 
-proc feed {multipv depth score pv} {
+proc feed {multipv depth score pv {time 100}} {
     ::enginewin::updateDisplay 1 \
-        [list $multipv $depth 20 1000 500 0 0 100 $score cp "" $pv]
+        [list $multipv $depth 20 1000 500 0 0 $time $score cp "" $pv]
 }
 
 # The widget's lines, without the empty final element "get" adds.
@@ -141,7 +144,7 @@ check "the newest best line is blue" [expr {[lsearch -exact [blueLines] 5] >= 0}
 check "the newest other lines are not" \
     [expr {[lsearch -exact [blueLines] 6] < 0 && [lsearch -exact [blueLines] 7] < 0}]
 check "the first block is still there" \
-    [expr {[lineText 1] eq "20/20\t+0.30\te2e4 e7e5 g1f3  (1.00K nodes)"}]
+    [expr {[lineText 1] eq "20/20\t+0.30\te2e4 e7e5 g1f3  (1.00K nodes) (0.10s)"}]
 
 puts "\nthe newest block is refreshed in place"
 
@@ -272,6 +275,52 @@ check "the pv is the newest block's line" \
     [string match "*pv e2e4 e7e5*" $opcodes] $opcodes
 check "not the oldest block's line" \
     [expr {[string first "pv d2d4" $opcodes] < 0}] $opcodes
+
+puts "\nevery line ends with the time spent on the search"
+
+# The Analysis window ended each iteration with the search time in seconds, two
+# decimals in parentheses. The Engine Window shows the same field in the same
+# place - last on the line, after the W/D/L and the node count - with the unit
+# added: "(0.65s)".
+checkEq "the label is the Analysis window's, with its unit" \
+    [::enginewin::pvTimeLabel 650] (0.65s)
+
+::enginewin::updateDisplay 1 ""
+feed 1 20  30 {e2e4 e7e5} 650
+feed 2 20  20 {d2d4 d7d5} 1250
+check "the best line carries its own time" \
+    [string match "*nodes) (0.65s)" [lineText 1]] [lineText 1]
+check "the second line carries its own" \
+    [string match "*nodes) (1.25s)" [lineText 2]] [lineText 2]
+checkEq "the time is the last field" \
+    [string range [lineText 1] end-[expr {[string length "(0.65s)"] - 1}] end] "(0.65s)"
+
+feed 2 20  22 {c2c4 e7e5} 2000
+checkEq "no line is added" [lineCount] 2
+check "the refreshed line takes its new time" \
+    [string match "*nodes) (2.00s)" [lineText 2]] [lineText 2]
+check "the unrefreshed line keeps its own" \
+    [string match "*nodes) (0.65s)" [lineText 1]] [lineText 1]
+
+feed 1 21  35 {e2e4 c7c5} 3250
+check "a new block's best line has its own time" \
+    [string match "*nodes) (3.25s)" [lineText 4]] [lineText 4]
+check "the line carried over from the old depth keeps its time" \
+    [string match "*nodes) (2.00s)" [lineText 5]] [lineText 5]
+
+::enginewin::updateDisplay 1 ""
+feed 1 20  30 {e2e4 e7e5} {}
+check "an engine that reports no time gets none on the line" \
+    [expr {![regexp {\([0-9]+\.[0-9]+s?\)$} [lineText 1]]}] [lineText 1]
+check "the line still ends with the node count" \
+    [string match "*nodes)" [lineText 1]] [lineText 1]
+
+# The place the user asked for: after the W/D/L percentages and the nodes.
+::enginewin::updateDisplay 1 ""
+::enginewin::updateDisplay 1 \
+    [list 1 22 24 23193210 1000000 50 0 4250 25 cp {958 42 0} {e2e4 e7e5}]
+checkEq "the time comes after the W/D/L and the nodes" \
+    [lineText 1] "22/24\t+0.25\te2e4 e7e5  (W: 95.8%  D: 4.2%  L: 0.0%  23193.21K nodes) (4.25s)"
 
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]
