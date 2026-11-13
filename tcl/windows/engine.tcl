@@ -2079,8 +2079,9 @@ proc ::enginewin::chartCallback {id uci_pos depth seldepth ply value} {
 # widget: row 1 is the best line (blue), the other rows are the other multipv
 # slots. The block is rewritten in place as the engine reports each index, so
 # the rows do not move while the search deepens. When the best line reaches a
-# new depth, the completed iteration is appended below as history, after a
-# dashed rule; the history keeps the blue best line but loses the "header" tag,
+# new depth, the completed iteration goes to the top of the history below the
+# live block, after a dashed rule, and each older iteration follows it; the
+# history keeps the blue best line but loses the "header" tag,
 # so only the live block is exportable (see ::enginewin::firstPvLine). The
 # display never scrolls itself: the reader's eye stays on line 1 and the
 # history is read by scrolling down. ::enginewin_history (Preferences > Moves)
@@ -2148,9 +2149,10 @@ proc ::enginewin::pvInsertBlock {w index rows {stripHeader 0}} {
     }
 }
 
-# Append the completed live block to the bottom of the widget, after a dashed
-# rule. The history is chronological - the first depth is nearest the live
-# block and each later one follows - so appending never moves what is above it.
+# Put the completed live block at the top of the history, directly below the
+# live block, after a dashed rule. The history is newest-first: the iteration
+# that just finished is nearest the live block and older ones follow, so the
+# whole display reads from the most recent line to the oldest.
 proc ::enginewin::pvPushHistory {id w} {
     variable m_
     if {![info exists m_(pvList,$id)] || [dict size $m_(pvList,$id)] == 0} {
@@ -2161,16 +2163,20 @@ proc ::enginewin::pvPushHistory {id w} {
     foreach key [lsort -integer [dict keys $m_(pvList,$id)]] {
         lappend rows [list $key [dict get $m_(pvList,$id) $key]]
     }
-    # end-1c is the end of the last live row, before the widget's own final
-    # newline: starting with "\n" puts the rule on a line of its own without
-    # leaving a blank line above it.
-    set base [$w index end-1c]
-    if {[$w get 1.0 end-1c] eq ""} {
-        $w insert $base "[string repeat {-} 70]\n" gray
+    set liveRows 0
+    catch { set liveRows $m_(pvLiveRows,$id) }
+    set line [expr {$liveRows + 1}]
+    if {[$w compare "$line.0" < "end-1c"]} {
+        # There is already history: put the new rule at its top and the block
+        # between that rule and the old one.
+        $w insert "$line.0" "[string repeat {-} 70]\n" gray
+        ::enginewin::pvInsertBlock $w [expr {$line + 1}].0 $rows 1
     } else {
-        $w insert $base "\n[string repeat {-} 70]\n" gray
+        # No history yet: the live block has no newline of its own after the
+        # last row, so start the rule on a new line.
+        $w insert [$w index end-1c] "\n[string repeat {-} 70]\n" gray
+        ::enginewin::pvInsertBlock $w "end-1c" $rows 1
     }
-    ::enginewin::pvInsertBlock $w "end-1c" $rows 1
 }
 
 # Rewrite the live block in rows 1..K from the latest line of each multipv

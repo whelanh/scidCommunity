@@ -11,9 +11,10 @@
 # widget: row 1 is the best line (blue), the other rows are the other multipv
 # slots. The block is rewritten in place as the engine reports each index, so
 # the rows do not move while the search deepens. When the best line reaches a
-# new depth the completed iteration is appended below as history, after a
-# dashed rule; the history keeps the blue best line but loses the "header" tag,
-# so only the live block is exportable. The display never scrolls itself.
+# new depth the completed iteration is put at the top of the history, after a
+# dashed rule; the history is newest-first and keeps the blue best line but
+# loses the "header" tag, so only the live block is exportable. The display
+# never scrolls itself.
 # A single-PV run keeps its own display: the newest line at the top, the
 # preceding iterations below it, no rule and no blue. Every line ends with the
 # time the search has taken, in the retired Analysis window's form - seconds
@@ -170,6 +171,28 @@ checkEq "the live block starts at line 1" [::enginewin::firstPvLine $t] 1
 checkEq "the header tag is on the live block only" [headerLines] {1 2 3}
 check "the history's best line lost it" \
     [expr {[lsearch -exact [headerLines] 5] < 0}] 1
+
+puts "\nthe history reads newest to oldest"
+
+# Three depths: the live block is the newest, then the iteration that just
+# finished, then the one before it.
+::enginewin::updateDisplay 1 ""
+foreach depth {20 21 22} {
+    feed 1 $depth $depth {e2e4 e7e5}
+    feed 2 $depth [expr {$depth - 10}] {d2d4 d7d5}
+    feed 3 $depth [expr {$depth - 20}] {g1f3 g8f6}
+}
+checkEq "two completed iterations are kept" [lineCount] 11
+check "the live block is the newest" \
+    [string match "22/20*" [lineText 1]] [lineText 1]
+check "the first history block is the iteration just finished" \
+    [string match "21/20*" [lineText 5]] [lineText 5]
+check "the next history block is the one before it" \
+    [string match "20/20*" [lineText 9]] [lineText 9]
+check "a rule separates each block" [expr {[isRule 4] && [isRule 8]}]
+check "each history block keeps its blue best line" \
+    [expr {[lsearch -exact [blueLines] 5] >= 0 && [lsearch -exact [blueLines] 9] >= 0}]
+checkEq "only the live block is exportable" [headerLines] {1 2 3}
 
 puts "\na new depth keeps the configured number of lines"
 
