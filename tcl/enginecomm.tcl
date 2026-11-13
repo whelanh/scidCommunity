@@ -204,11 +204,12 @@ proc ::engine::close {id} {
     if {[info exists ::engconn(channel_$id)]} {
         chan event $::engconn(channel_$id) readable {}
         if {$::engconn(protocol_$id) ne "network"} {
+            # Either write can throw on a channel whose engine has died mid-
+            # search; teardown must still reach destroy_ so the record is
+            # removed and the id can be reconnected.
             if {$::engconn(waitReply_$id) eq "Go"} {
-                {*}$::engconn(StopGo$id)
+                catch { {*}$::engconn(StopGo$id) }
             }
-            # The quit write can throw on a channel whose engine has died;
-            # teardown must still reach destroy_ so the record is removed.
             catch { ::engine::rawsend $id "quit" }
         }
         ::engine::destroy_ $id
