@@ -1072,6 +1072,7 @@ proc helpAbout {} {
   append str "Copyright (C) 2009-2026 Fulvio Benini\n"
   append str "Copyright (C) 2018-2026 Uwe Klimmek\n"
   append str "Copyright (C) 2026 Venkat Krishnamurthy\n"
+  append str "Copyright (C) 2026 Tommaso Bergamasco\n"
   append str "Copyright (C) 2026 David Crandall\n"
   append str "Copyright (C) 2025-2026 Hugh Whelan\n"
   append str "\nhttps://github.com/whelanh/scidCommunity\n"
