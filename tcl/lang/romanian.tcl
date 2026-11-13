@@ -945,31 +945,20 @@ translate L PgnOptStripMarks "Scoateți codurile pătrate/săgeți colorate"
 translate L PgnOptBoldMainLine "Folosiți textul aldine pentru mutarea liniei principale"
 
 # Analysis window:
-translate L AddVariation {Adăugați o variație}
 translate L AddAllVariations {Adăugați toate variantele}
 translate L AddMove {Adăugați Mutare}
 translate L Annotate {Adnota}
-translate L ShowAnalysisBoard {Afișați panoul de analiză}
-translate L ShowInfo {Afișați informații despre motor}
 translate L FinishGame {Termină jocul}
-translate L FinishGameSlot2Warning {Slot pentru motor 2 este deja utilizat de o fereastră de analiză deschisă.\n\nFinish Game utilizează sloturile pentru motor 1 și 2 și poate prelua controlul asupra motorului respectiv. Continua?}
-translate L StopEngine {Opriți motorul}
 translate L StartEngine {Porniți motorul}
 translate L LockEngine {Blocați motorul în poziția curentă}
 translate L AnalysisCommand {Comanda de analiză}
 translate L PreviousChoices {Alegerile anterioare}
 translate L AnnotateTime {Timp pe mișcare în sec.}
-translate L AnnotateWhich {Adăugați variații}
 translate L AnnotateAll {Pentru mișcări de ambele părți}
-translate L AnnotateAllMoves {Adnotă toate mișcările}
 translate L AnnotateWhite {Numai pentru mișcările albe}
 translate L AnnotateBlack {Numai pentru mișcările negre}
-translate L AnnotateBlundersOnly {Când mutarea jocului este o gafă}
 translate L AnnotateBlundersOnlyScoreChange {Analiza raportează gafe, cu modificarea scorului de la/la:}
-translate L BlundersThreshold {Prag}
-translate L ScoreAllMoves {Punctează toate mișcările}
 translate L LowPriority {Prioritate scăzută a procesorului}
-translate L ClickHereToSeeMoves {Faceți clic aici pentru a vedea mișcările}
 translate L ConfigureInformant {Valorile informatorilor}
 translate L Informant!? {Interesanta miscare}
 translate L Informant? {Slabă mișcare}
@@ -1016,8 +1005,6 @@ translate L ReviewVarCp {Marja variantelor (cp)}
 translate L ReviewMoveWait {Așteaptă adâncimea analizei}
 translate L ReviewMovetime {Limită de timp (ms)}
 translate L ReviewOpeningMoves {Mișcări de deschidere}
-translate L StopNow {Stop now}
-translate L StopAfterThisGame {Stop after this game}
 translate L ReviewFromPreset {%s (din profilul motorului)}
 translate L ReviewProgress {Se analizează poziția %s din %s}
 translate L ReviewWaitForDepth {Se așteaptă adâncimea %s}
@@ -1195,7 +1182,6 @@ translate L GameLength {Durata jocului}
 translate L FindGamesWith {Găsiți jocuri cu steaguri}
 translate L StdStart {Pornire non-standard}
 translate L Promotions {Promoții}
-translate L Comments {Comentarii}
 translate L Variations {Variante}
 translate L Annotations {Adnotări}
 translate L DeleteFlag {Ștergeți steag}
@@ -1934,9 +1920,6 @@ translate L TimeBonus {Timp + bonus}
 translate L TimeMin {min}
 translate L TimeSec {sec}
 translate L AllExercisesDone {Toate exercițiile făcute}
-translate L MoveOutOfBook {Mută-te din carte}
-translate L LastBookMove {Ultima mutare de carte}
-translate L AnnotateSeveralGames {De la joc real la joc:}
 translate L FindOpeningErrors {Găsiți erori de deschidere}
 translate L MarkTacticalExercises {Marcați exercițiile tactice}
 translate L UseBook {Folosește cartea}
@@ -1944,10 +1927,6 @@ translate L MultiPV {Variații multiple}
 translate L Hash {Memoria hash}
 translate L OwnBook {Folosește cartea motorului}
 translate L BookFile {Cartea de deschidere}
-translate L AnnotateVariations {Adnotați variațiile}
-translate L AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
-translate L ShortAnnotations {Adnotări scurte}
-translate L addAnnotatorTag {Adăugați etichetă de adnotator}
 translate L AddScoreToShortAnnotations {Adăugați scor la adnotări}
 translate L AddScoreToAllMoves {Adaugă scor la toate mișcările}
 translate L Export {Export}
@@ -2056,7 +2035,6 @@ translate L FICSTerminalColor {Culoarea terminalului}
 translate L FICSTextColor {Culoarea textului}
 
 # Game review
-translate L GameReview {Revizuirea jocului}
 
 # Correspondence Chess Dialogs:
 translate L CCDlgCGeneraloptions {Opțiuni generale}
@@ -2290,7 +2268,6 @@ translate L ReviewProgressTitle {Examinați progresul}
 translate L ReviewProgressIdle {Nu rulează nicio recenzie}
 translate L ReviewProgressGameOf {jocul %s din %s}
 translate L ReviewProgressEngineWindow {Geamuri motor %s}
-translate L ReviewProgressAnalysisPane {Panouri de analiză %s}
 translate L ReviewProgressRapid {Adnotare rapidă}
 translate L FinishGameGameChanged {jocul s-a schimbat în timp ce rula Finish Game; nu s-a scris nimic}
 translate L FinishGameAtEnd {Finish Game începe de la sfârșitul liniei principale; mergi mai întâi la sfârșitul jocului}

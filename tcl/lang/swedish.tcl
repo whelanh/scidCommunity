@@ -915,31 +915,20 @@ translate W PgnOptStripMarks "Ta bort färgade fyrkants-/pilkoder"
 translate W PgnOptBoldMainLine "Använd fet text för huvudlinjeförflyttningar"
 
 # Analysis window:
-translate W AddVariation {Lägg till variation}
 translate W AddAllVariations {Lägg till alla variationer}
 translate W AddMove {Lägg till drag}
 translate W Annotate {Kommentera}
-translate W ShowAnalysisBoard {Visa Analysbräde}
-translate W ShowInfo {Visa schackmotorinformation}
 translate W FinishGame {Avsluta parti}
-translate W FinishGameSlot2Warning {Motorplats 2 används redan av ett öppet analysfönster.\n\nFinish Game använder motorplats 1 och 2 och kan ta kontroll över den motorn. Fortsätta?}
-translate W StopEngine {Stoppa schackmotor}
 translate W StartEngine {Starta schackmotor}
 translate W LockEngine {Lås schackmotor vid nuvarande position}
 translate W AnalysisCommand {Analysera}
 translate W PreviousChoices {Föregående val}
 translate W AnnotateTime {Ange tid mellan drag i sekunder}
-translate W AnnotateWhich {Lägg till variationer}
 translate W AnnotateAll {För båda sidors drag}
-translate W AnnotateAllMoves {Kommentera alla drag}
 translate W AnnotateWhite {Endast vits drag}
 translate W AnnotateBlack {Endast svarts drag}
-translate W AnnotateBlundersOnly {När partidraget är en uppenbar blunder}
 translate W AnnotateBlundersOnlyScoreChange {Analysen rapporterar blunder, med värderingsförändringar från/till: }
-translate W BlundersThreshold {Tröskelvärde}
-translate W ScoreAllMoves {Score all moves}
 translate W LowPriority {Kör som lågprioriterad process} 
-translate W ClickHereToSeeMoves {Klicka här för att se drag}
 translate W ConfigureInformant {Informant-parametrar}
 translate W Informant!? {Intressant drag}
 translate W Informant? {Dåligt drag}
@@ -986,8 +975,6 @@ translate W ReviewVarCp {Variantmarginal (cp)}
 translate W ReviewMoveWait {Vänta på granskningsdjupet}
 translate W ReviewMovetime {Tidsgräns (ms)}
 translate W ReviewOpeningMoves {Öppningsrörelser}
-translate W StopNow {Stop now}
-translate W StopAfterThisGame {Stop after this game}
 translate W ReviewFromPreset {%s (från motorprofilen)}
 translate W ReviewProgress {Granskar ställning %s av %s}
 translate W ReviewWaitForDepth {Väntar på djup %s}
@@ -1165,7 +1152,6 @@ translate W GameLength {Partilängd}
 translate W FindGamesWith {Hitta flaggade partier}
 translate W StdStart {Normal utgångsställning}
 translate W Promotions {Förvandlingar}
-translate W Comments {Kommentarer}
 translate W Variations {Variationer}
 translate W Annotations {Noteringar}
 translate W DeleteFlag {Raderingsflagga}
@@ -1921,9 +1907,6 @@ translate W TimeBonus {Tid + bonus}
 translate W TimeMin {min}
 translate W TimeSec {sek}
 translate W AllExercisesDone {Alla övningar gjorda}
-translate W MoveOutOfBook {Drag utanför bok}
-translate W LastBookMove {Sista bokdrag}
-translate W AnnotateSeveralGames {Kommentera flera partier\nfrån aktuellt till :}
 translate W FindOpeningErrors {Hitta öppningsfel}
 translate W MarkTacticalExercises {Markera taktiska övningar}
 translate W UseBook {Använd bok}
@@ -1931,10 +1914,6 @@ translate W MultiPV {Flera variationer}
 translate W Hash {Hashminne}
 translate W OwnBook {Använd schackmotorbok}
 translate W BookFile {Öppningsbok}
-translate W AnnotateVariations {Kommentera variationer}
-translate W AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
-translate W ShortAnnotations {Korta kommentarer}
-translate W addAnnotatorTag {Lägg till kommentator-tagg}
 translate W AddScoreToShortAnnotations {Lägg till värdering till korta kommentarer}
 translate W AddScoreToAllMoves {Lägg till poäng till alla drag}
 translate W Export {Exportera}
@@ -2043,7 +2022,6 @@ translate W FICSTerminalColor {Terminalfärg}
 translate W FICSTextColor {Textfärg}
 
 # Game review
-translate W GameReview {Partiöversikt}
 
 # Correspondence Chess Dialogs:
 translate W CCDlgCGeneraloptions {Generella inställningar}
@@ -2277,7 +2255,6 @@ translate W ReviewProgressTitle {Granska framstegen}
 translate W ReviewProgressIdle {Ingen recension körs}
 translate W ReviewProgressGameOf {spel %s av %s}
 translate W ReviewProgressEngineWindow {Motorfönster %s}
-translate W ReviewProgressAnalysisPane {Analyspaneler %s}
 translate W ReviewProgressRapid {Snabbkommentar}
 translate W FinishGameGameChanged {spelet ändrades medan Finish Game kördes; ingenting skrevs}
 translate W FinishGameAtEnd {Avsluta Spelet börjar från slutet av huvudlinjen; gå till slutet av spelet först}

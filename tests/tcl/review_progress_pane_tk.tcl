@@ -45,7 +45,6 @@ array set ::EN {
     ReviewProgress             {Reviewing position %s of %s}
     ReviewProgressGameOf       {game %s of %s}
     ReviewProgressEngineWindow {Engine window %s}
-    ReviewProgressAnalysisPane {Analysis pane %s}
     ReviewProgressRapid        {Rapid annotate}
     ReviewCoachProgress        {annotating %s of %s · prose %s of %s}
     ReviewGameButton           {Game Review}

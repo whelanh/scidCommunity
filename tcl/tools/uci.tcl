@@ -262,7 +262,6 @@ namespace eval uci {
                 set analysis(scoremate$n) $uciInfo(scoremate$n)
                 set analysis(moves$n) $uciInfo(pv$n)
                 set analysis(time$n) [expr {double($uciInfo(time$n)) / 1000.0} ]
-                set analysis(nodes$n) [calculateNodes $uciInfo(nodes$n) ]
             }
             
             set pvRaw $uciInfo(pv$n)

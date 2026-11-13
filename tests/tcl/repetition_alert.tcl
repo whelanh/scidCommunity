@@ -7,8 +7,8 @@
 #
 # The detector is not under test here; only what CheckRepetition does with the
 # count it is given. The three presentations (off, banner, dialog) must not
-# change the count, the finish-game and autoplay passes must stay silent, and a
-# second occurrence and a third must use their own message.
+# change the count, the finish-game passes must stay silent, and a second
+# occurrence and a third must use their own message.
 
 set fails 0
 set checks 0
@@ -66,7 +66,7 @@ proc reset {} {
     set ::testCount 1
     set ::pgn::repetitionAlert banner
     set ::finishgame::active 0
-    unset -nocomplain ::finishGameMode ::autoplayMode
+    unset -nocomplain ::finishGameMode
     unset -nocomplain ::pgn::repCount ::pgn::repCountKey
 }
 
@@ -119,12 +119,6 @@ set ::finishGameMode 1
 checkEq "Finish Game returns the count" [::pgn::CheckRepetition] 3
 checkEq "Finish Game shows no banner" [llength $::notices] 0
 checkEq "Finish Game shows no dialog" [llength $::dialogs] 0
-
-reset
-set ::testCount 3
-set ::autoplayMode 1
-checkEq "autoplay returns the count" [::pgn::CheckRepetition] 3
-checkEq "autoplay shows no banner" [llength $::notices] 0
 
 reset
 set ::testCount 3

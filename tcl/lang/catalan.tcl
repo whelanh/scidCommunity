@@ -930,31 +930,20 @@ translate K PgnOptStripMarks "Elimina els codis quadrats/fletxes de colors"
 translate K PgnOptBoldMainLine "Utilitzeu text en negreta per als moviments de línia principal"
 
 # Analysis window:
-translate K AddVariation {Afegir variant}
 translate K AddAllVariations {Afegir totes les variants}
 translate K AddMove {Afegir jugada}
 translate K Annotate {Anotar}
-translate K ShowAnalysisBoard {Mostrar escaquer d'análisi}
-translate K ShowInfo {Mostra info del motor}
 translate K FinishGame {Finalitzar partida}
-translate K FinishGameSlot2Warning {L'espai de motor 2 ja està en ús per una finestra d'anàlisi oberta.\n\nFinalitza el joc utilitza els espais de motor 1 i 2 i pot prendre el control d'aquest motor. Continuar?}
-translate K StopEngine {Parar motor}
 translate K StartEngine {Iniciar motor}
 translate K LockEngine {Bloqueja motor en la posició actual}
 translate K AnalysisCommand {Direcció d'anàlisi}
 translate K PreviousChoices {Eleccions prèvies}
 translate K AnnotateTime {Posar el temps entre jugades a segons}
-translate K AnnotateWhich {Afegir variants}
 translate K AnnotateAll {Per a jugades dels dos bàndols}
-translate K AnnotateAllMoves {Anotar totes les jugades}
 translate K AnnotateWhite {Només per jugades de les Blanques}
 translate K AnnotateBlack {Només per jugades de les Negres}
-translate K AnnotateBlundersOnly {Quan la jugada de la partida es un error}
 translate K AnnotateBlundersOnlyScoreChange {Anàlisi informant d'errors, amb canvi de puntuació des de: }
-translate K BlundersThreshold {Marge d'error }
-translate K ScoreAllMoves {Avalua totes les jugades}
 translate K LowPriority {Baixa prioritat del processador}
-translate K ClickHereToSeeMoves {Prem aquí per veure les jugades}
 translate K ConfigureInformant {Anotacions}
 translate K Informant!? {Jugada interesant}
 translate K Informant? {Jugada dolenta}
@@ -1001,8 +990,6 @@ translate K ReviewVarCp {Marge de variants (cp)}
 translate K ReviewMoveWait {Espera la profunditat de la revisió}
 translate K ReviewMovetime {Límit de temps (ms)}
 translate K ReviewOpeningMoves {Moviments d'obertura}
-translate K StopNow {Stop now}
-translate K StopAfterThisGame {Stop after this game}
 translate K ReviewFromPreset {%s (del perfil del motor)}
 translate K ReviewProgress {S'està revisant la posició %s de %s}
 translate K ReviewWaitForDepth {S'està esperant la profunditat %s}
@@ -1180,7 +1167,6 @@ translate K GameLength {Duració:}
 translate K FindGamesWith {Trobar partides amb}
 translate K StdStart {Inici estandar}
 translate K Promotions {Promocions}
-translate K Comments {Comentaris}
 translate K Variations {Variants}
 translate K Annotations {Anotacions}
 translate K DeleteFlag {Marques d'esborrat}
@@ -1937,9 +1923,6 @@ translate K TimeBonus {Temps + bonus}
 translate K TimeMin {min}
 translate K TimeSec {seg}
 translate K AllExercisesDone {Tots els exercicis fets}
-translate K MoveOutOfBook {Jugada fora del llibre}
-translate K LastBookMove {Última jugada del llibre}
-translate K AnnotateSeveralGames {Anotar les partides\ndes de l'actual fins la partida: }
 translate K FindOpeningErrors {Trobar errors als primers }
 translate K MarkTacticalExercises {Marca exercicis tàctics}
 translate K UseBook {Utilitzar llibre d'obertures}
@@ -1947,10 +1930,6 @@ translate K MultiPV {Múltiples Variants}
 translate K Hash {Memòria Hash}
 translate K OwnBook {Utilitzar el llibre del motor}
 translate K BookFile {Llibre d'obertures}
-translate K AnnotateVariations {Anotar variants}
-translate K AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
-translate K ShortAnnotations {Anotacions curtes}
-translate K addAnnotatorTag {Afegir etiqueta d'anotador}
 translate K AddScoreToShortAnnotations {Afegir puntuació per anotaciones curtes}
 translate K AddScoreToAllMoves {Afegiu puntuació a tots els moviments}
 translate K Export {Exportar}
@@ -2059,7 +2038,6 @@ translate K FICSTerminalColor {Color terminal}
 translate K FICSTextColor {Color del text}
 
 # Game review
-translate K GameReview {Revisió de la partida}
 
 # Correspondence Chess Dialogs:
 translate K CCDlgCGeneraloptions {Opcions Generals}
@@ -2293,7 +2271,6 @@ translate K ReviewProgressTitle {Revisa el progrés}
 translate K ReviewProgressIdle {No s'està executant cap revisió}
 translate K ReviewProgressGameOf {joc %s de %s}
 translate K ReviewProgressEngineWindow {Finestres del motor %s}
-translate K ReviewProgressAnalysisPane {Panels d'anàlisi %s}
 translate K ReviewProgressRapid {Anotació ràpida}
 translate K FinishGameGameChanged {el joc va canviar mentre s'executava Finalitzar el joc; no s'havia escrit res}
 translate K FinishGameAtEnd {Finalitzar el joc comença des del final de la línia principal; anar primer al final del joc}

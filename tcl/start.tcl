@@ -1138,7 +1138,6 @@ tools/pinfo.tcl
 tools/enginenowin.tcl
 tools/enginelist.tcl
 tools/lucaschess.tcl
-tools/analysis.tcl
 tools/wbdetect.tcl
 tools/graphs.tcl
 tools/ptracker.tcl

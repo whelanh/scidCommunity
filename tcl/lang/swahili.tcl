@@ -904,31 +904,20 @@ translate Z PgnOptStripMarks "Ondoa Misimbo ya Rangi ya Mraba/Arrow"
 translate Z PgnOptBoldMainLine "Tumia Maandishi Makali kwa Usogezaji Mstari Mkuu"
 
 # Analysis window:
-translate Z AddVariation {Ongeza Tofauti}
 translate Z AddAllVariations {Ongeza Tofauti Zote}
 translate Z AddMove {Ongeza Hoja}
 translate Z Annotate {Dokeza}
-translate Z ShowAnalysisBoard {Onyesha ubao wa uchambuzi}
-translate Z ShowInfo {Onyesha habari ya injini}
 translate Z FinishGame {Maliza mchezo}
-translate Z FinishGameSlot2Warning {Nafasi ya injini 2 tayari inatumika kwenye dirisha lililofunguliwa la Uchambuzi.\n\nFinish Game hutumia nafasi za injini 1 na 2 na inaweza kuchukua udhibiti wa injini hiyo. Ungependa kuendelea?}
-translate Z StopEngine {Simamisha injini}
 translate Z StartEngine {Anza injini}
 translate Z LockEngine {Funga injini kwa nafasi ya sasa}
 translate Z AnalysisCommand {Amri ya Uchambuzi}
 translate Z PreviousChoices {Chaguo Zilizotangulia}
 translate Z AnnotateTime {Muda kwa kila hoja kwa sekunde.}
-translate Z AnnotateWhich {Ongeza tofauti}
 translate Z AnnotateAll {Kwa hatua za pande zote mbili}
-translate Z AnnotateAllMoves {Fafanua hatua zote}
 translate Z AnnotateWhite {Kwa miondoko ya Nyeupe pekee}
 translate Z AnnotateBlack {Kwa miondoko ya Nyeusi pekee}
-translate Z AnnotateBlundersOnly {Wakati mchezo kusonga ni blunder}
 translate Z AnnotateBlundersOnlyScoreChange {Uchanganuzi unaripoti makosa, na mabadiliko ya alama kutoka/hadi:}
-translate Z BlundersThreshold {Kizingiti}
-translate Z ScoreAllMoves {Alama hatua zote}
 translate Z LowPriority {Kipaumbele cha Chini cha CPU}
-translate Z ClickHereToSeeMoves {Bofya hapa kuona hatua}
 translate Z ConfigureInformant {Thamani za habari}
 translate Z Informant!? {Hoja ya kuvutia}
 translate Z Informant? {Hoja mbaya}
@@ -975,8 +964,6 @@ translate Z ReviewVarCp {Tofauti ya mibadala (cp)}
 translate Z ReviewMoveWait {Subiri kina cha mapitio}
 translate Z ReviewMovetime {Kikomo cha muda (ms)}
 translate Z ReviewOpeningMoves {Hatua za kufungua}
-translate Z StopNow {Stop now}
-translate Z StopAfterThisGame {Stop after this game}
 translate Z ReviewFromPreset {%s (kutoka wasifu wa injini)}
 translate Z ReviewProgress {Inapitia nafasi %s kati ya %s}
 translate Z ReviewWaitForDepth {Inasubiri kina %s}
@@ -1154,7 +1141,6 @@ translate Z GameLength {Urefu wa mchezo}
 translate Z FindGamesWith {Tafuta michezo iliyo na bendera}
 translate Z StdStart {Anza isiyo ya kawaida}
 translate Z Promotions {Matangazo}
-translate Z Comments {Maoni}
 translate Z Variations {Tofauti}
 translate Z Annotations {Maelezo}
 translate Z DeleteFlag {Futa bendera}
@@ -1893,9 +1879,6 @@ translate Z TimeBonus {Muda + bonasi}
 translate Z TimeMin {min}
 translate Z TimeSec {sekunde}
 translate Z AllExercisesDone {Mazoezi yote yamefanyika}
-translate Z MoveOutOfBook {Ondoka kwenye kitabu}
-translate Z LastBookMove {Usogezaji wa mwisho wa kitabu}
-translate Z AnnotateSeveralGames {Kutoka mchezo halisi hadi mchezo:}
 translate Z FindOpeningErrors {Tafuta makosa ya ufunguzi}
 translate Z MarkTacticalExercises {Weka alama kwenye mazoezi ya mbinu}
 translate Z UseBook {Tumia kitabu}
@@ -1903,10 +1886,6 @@ translate Z MultiPV {Tofauti nyingi}
 translate Z Hash {Kumbukumbu ya hash}
 translate Z OwnBook {Tumia kitabu cha injini}
 translate Z BookFile {Kitabu cha ufunguzi}
-translate Z AnnotateVariations {Fafanua tofauti}
-translate Z AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
-translate Z ShortAnnotations {Maelezo mafupi}
-translate Z addAnnotatorTag {Ongeza lebo ya kichambuzi}
 translate Z AddScoreToShortAnnotations {Ongeza alama kwa vidokezo}
 translate Z AddScoreToAllMoves {Ongeza alama kwa hatua zote}
 translate Z Export {Hamisha}
@@ -2015,7 +1994,6 @@ translate Z FICSTerminalColor {Rangi ya terminal}
 translate Z FICSTextColor {Rangi ya maandishi}
 
 # Game review
-translate Z GameReview {Tathmini ya mchezo}
 
 # Correspondence Chess Dialogs:
 translate Z CCDlgCGeneraloptions {Chaguzi za Jumla}
@@ -2249,7 +2227,6 @@ translate Z ReviewProgressTitle {Kagua maendeleo}
 translate Z ReviewProgressIdle {Hakuna ukaguzi unaoendeshwa}
 translate Z ReviewProgressGameOf {mchezo %s kati ya %s}
 translate Z ReviewProgressEngineWindow {Dirisha la injini %s}
-translate Z ReviewProgressAnalysisPane {Paneli za uchambuzi %s}
 translate Z ReviewProgressRapid {Maelezo ya haraka}
 translate Z FinishGameGameChanged {mchezo ulibadilika wakati Finish Game ikiendelea; hakuna kilichoandikwa}
 translate Z FinishGameAtEnd {Kumaliza Mchezo huanza kutoka mwisho wa mstari kuu; kwenda mwisho wa mchezo kwanza}

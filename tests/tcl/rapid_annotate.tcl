@@ -79,7 +79,6 @@ proc ::tr {tag args} {
     switch -- $tag {
         ReviewProgressRapid { return {Rapid annotate} }
         ReviewProgressEngineWindow { return {Engine window %s} }
-        ReviewProgressAnalysisPane { return {Analysis pane %s} }
         ReviewProgressIdle { return {No review is running} }
         ReviewProgress { return {%s of %s} }
         ReviewProgressGameOf { return {game %s of %s} }

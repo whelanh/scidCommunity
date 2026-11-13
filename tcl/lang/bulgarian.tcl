@@ -945,31 +945,20 @@ translate g PgnOptStripMarks "Отстранете кодовете на цве�
 translate g PgnOptBoldMainLine "Използвайте получер текст за ходове на основната линия"
 
 # Analysis window:
-translate g AddVariation {Добавете вариация}
 translate g AddAllVariations {Добавяне на всички варианти}
 translate g AddMove {Добавяне на движение}
 translate g Annotate {Анотирайте}
-translate g ShowAnalysisBoard {Показване на таблото за анализ}
-translate g ShowInfo {Показване на информация за двигателя}
 translate g FinishGame {Завършете играта}
-translate g FinishGameSlot2Warning {Слот 2 на машина вече се използва от отворен прозорец за анализ.\n\nFinish Game използва слотове 1 и 2 на машина и може да поеме контрола над тази машина. Продължаване?}
-translate g StopEngine {Спрете двигателя}
 translate g StartEngine {Стартирайте двигателя}
 translate g LockEngine {Заключете двигателя до текущата позиция}
 translate g AnalysisCommand {Команда за анализ}
 translate g PreviousChoices {Предишни избори}
 translate g AnnotateTime {Време на движение в сек.}
-translate g AnnotateWhich {Добавете вариации}
 translate g AnnotateAll {За движения от двете страни}
-translate g AnnotateAllMoves {Анотирайте всички ходове}
 translate g AnnotateWhite {Само за ходовете на белите}
 translate g AnnotateBlack {Само за ходове на черните}
-translate g AnnotateBlundersOnly {Когато ходът на играта е грешка}
 translate g AnnotateBlundersOnlyScoreChange {Анализът отчита грешка с промяна на резултата от/на:}
-translate g BlundersThreshold {Праг}
-translate g ScoreAllMoves {Отбележете всички ходове}
 translate g LowPriority {Нисък приоритет на процесора}
-translate g ClickHereToSeeMoves {Щракнете тук, за да видите ходовете}
 translate g ConfigureInformant {Стойности на информатора}
 translate g Informant!? {Интересен ход}
 translate g Informant? {Лош ход}
@@ -1016,8 +1005,6 @@ translate g ReviewVarCp {Граница на вариантите (cp)}
 translate g ReviewMoveWait {Изчакай дълбочината на прегледа}
 translate g ReviewMovetime {Ограничение на времето (ms)}
 translate g ReviewOpeningMoves {Начални ходове}
-translate g StopNow {Stop now}
-translate g StopAfterThisGame {Stop after this game}
 translate g ReviewFromPreset {%s (от профила на машината)}
 translate g ReviewProgress {Преглед на позиция %s от %s}
 translate g ReviewWaitForDepth {Изчакване на дълбочина %s}
@@ -1195,7 +1182,6 @@ translate g GameLength {Дължина на играта}
 translate g FindGamesWith {Намерете игри с флагове}
 translate g StdStart {Нестандартно начало}
 translate g Promotions {Промоции}
-translate g Comments {Коментари}
 translate g Variations {Вариации}
 translate g Annotations {анотации}
 translate g DeleteFlag {Изтриване на флаг}
@@ -1934,9 +1920,6 @@ translate g TimeBonus {Време + бонус}
 translate g TimeMin {мин}
 translate g TimeSec {сек}
 translate g AllExercisesDone {Всички упражнения са направени}
-translate g MoveOutOfBook {Излезте от книгата}
-translate g LastBookMove {Последно движение на книгата}
-translate g AnnotateSeveralGames {От действителна игра към игра:}
 translate g FindOpeningErrors {Намерете грешки при отваряне}
 translate g MarkTacticalExercises {Маркирайте тактически упражнения}
 translate g UseBook {Използвайте книгата}
@@ -1944,10 +1927,6 @@ translate g MultiPV {Множество вариации}
 translate g Hash {Хеш памет}
 translate g OwnBook {Използвайте книгата на двигателя}
 translate g BookFile {Отваряща се книга}
-translate g AnnotateVariations {Анотирайте вариации}
-translate g AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
-translate g ShortAnnotations {Кратки анотации}
-translate g addAnnotatorTag {Добавете етикет за анотатор}
 translate g AddScoreToShortAnnotations {Добавете резултат към анотациите}
 translate g AddScoreToAllMoves {Добавете резултат към всички ходове}
 translate g Export {Експортиране}
@@ -2056,7 +2035,6 @@ translate g FICSTerminalColor {Цвят на терминала}
 translate g FICSTextColor {Цвят на текста}
 
 # Game review
-translate g GameReview {Преглед на играта}
 
 # Correspondence Chess Dialogs:
 translate g CCDlgCGeneraloptions {Общи опции}
@@ -2290,7 +2268,6 @@ translate g ReviewProgressTitle {Преглед на напредъка}
 translate g ReviewProgressIdle {Не се провежда преглед}
 translate g ReviewProgressGameOf {игра %s от %s}
 translate g ReviewProgressEngineWindow {Стъкла на двигателя %s}
-translate g ReviewProgressAnalysisPane {Панели за анализ %s}
 translate g ReviewProgressRapid {Бързо анотиране}
 translate g FinishGameGameChanged {играта се промени, докато завърши играта; нищо не беше написано}
 translate g FinishGameAtEnd {Играта Finish започва от края на основната линия; първо отидете до края на играта}

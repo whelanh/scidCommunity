@@ -119,31 +119,13 @@ jobs:
       - name: Review verifier engine
         run: tclsh tests/tcl/review_verify_engine.tcl
 
-      - name: Annotate writers
-        run: tclsh tests/tcl/annotate_writers.tcl
-
-      # The gate for issue #380 phase C: the classic annotator and the review
-      # write the same export artefacts into the same game.
-      - name: Annotate parity
-        run: tclsh tests/tcl/annotate_parity.tcl
-
-      # The dialog's decision (a pure proc, no Tk). The run that decision
-      # starts is the next step, and the no-display syntax check of the two Tk
-      # procs it calls the one after. Nothing here builds the dialog's widgets,
-      # and the Tk job below does not run them either.
-      - name: Annotate dialog
-        run: tclsh tests/tcl/annotate_dialog.tcl
-
-      - name: Annotate run
-        run: tclsh tests/tcl/annotate_run.tcl
-
-      # A pass cancelled mid-batch (the user opens another game) must save
-      # nothing, advance nowhere and give the borrowed game back.
-      - name: Annotate cancel
-        run: tclsh tests/tcl/annotate_cancel.tcl
-
-      - name: Annotate dialog syntax
-        run: tclsh tests/tcl/annotate_dialog_syntax.tcl
+      # The two marks ::reviewannotate still owns for the review writer:
+      # MarkTacticalExercises (the T flag and its difficulty comment) and
+      # FindOpeningErrors (the Annotator tag's opening entry). The legacy
+      # annotate pass and the tests that gated it went with the Analysis window
+      # (#437 §5).
+      - name: Review marks
+        run: tclsh tests/tcl/review_marks.tcl
 
       - name: Review UI
         run: tclsh tests/tcl/review_ui.tcl
@@ -161,8 +143,8 @@ jobs:
       - name: Engine preset duplicate
         run: tclsh tests/tcl/engine_duplicate.tcl
 
-      # Item 3 of #436: no UI path reaches makeAnalysisWin, and the engine
-      # chooser opens an Engine Window.
+      # Item 3 of #436 and §5 of #437: no UI path reaches makeAnalysisWin, the
+      # engine chooser opens an Engine Window, and the module itself is gone.
       - name: Analysis UI doors
         run: tclsh tests/tcl/analysis_doors.tcl
 

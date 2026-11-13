@@ -803,11 +803,10 @@ proc ::board::InfoBarSmall {w} {
   grid $w.bar.score -row 0 -column 5 -sticky ews
   grid $w.bar.flip -row 0 -column 6 -sticky news
   grid $w.bar.marker -row 0 -column 7 -sticky news
-  grid $w.bar.play -row 0 -column 8 -sticky news
-  grid $w.bar.leavevar -row 0 -column 9 -sticky news
-  grid $w.bar.back -row 0 -column 10 -sticky news
-  grid $w.bar.forward -row 0 -column 11 -sticky news
-  grid $w.bar.endvar -row 0 -column 12 -sticky news
+  grid $w.bar.leavevar -row 0 -column 8 -sticky news
+  grid $w.bar.back -row 0 -column 9 -sticky news
+  grid $w.bar.forward -row 0 -column 10 -sticky news
+  grid $w.bar.endvar -row 0 -column 11 -sticky news
   grid $w.bar -row 20 -column 0 -columnspan 13 -sticky n
   $w.bar.next configure -command "::board::InfoBarNormal $w; ::resizeMainBoard"
 }
@@ -826,7 +825,6 @@ proc ::board::InfoBarNormal {w} {
   grid $w.bar.prev -row 0 -column 1 -sticky news
   grid $w.bar.next -row 1 -column 1 -sticky news
   grid $w.bar.flip -row 1 -column 5 -sticky news
-  grid forget $w.bar.play
   grid forget $w.bar.coords
   grid $w.bar -row 20 -column 0 -columnspan 13 -sticky news -pady {2 0}
   $w.bar.next configure -command "::board::InfoBarSmall $w; ::resizeMainBoard"
@@ -843,7 +841,6 @@ proc ::board::addInfoBar {w varname} {
   ttk::button $w.bar.back -image ::icon::tb_prev -style Toolbutton
   ttk::button $w.bar.forward -image ::icon::tb_next -style Toolbutton
   ttk::button $w.bar.endvar -image ::icon::tb_end -style Toolbutton
-  ttk::button $w.bar.play -image ::icon::tb_play -style Toolbutton -command "startAutoplay"
   set menu [::board::newToolBar_ $w $varname]
   ttk::button $w.bar.flip -image ::icon::tb_flip -command { toggleRotateBoard } -style Toolbutton
   ttk::button $w.bar.material -image ::icon::tb_material -style Toolbutton -command {
@@ -1057,7 +1054,6 @@ proc ::board::newToolBar_ {{w} {varname}} {
   ::bind $w.bar.back <ButtonRelease-$::MB3> "::board::updateToolBar_ $m $varname %W"
 
   set m [menu $w.menu_forw]
-  $m add command -label "  [tr Autoplay]" -image tb_BD_Autoplay -compound left
   $m add command -label "  [tr GameEnd]" -image tb_BD_End -compound left -accelerator "<end>"
   ::bind $w.bar.forward <ButtonRelease-$::MB3> "::board::updateToolBar_ $m $varname %W"
 

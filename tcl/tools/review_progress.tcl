@@ -127,15 +127,15 @@ proc ::reviewprogress::sourceLabel {source} {
     }
 }
 
-# Where the run came from, as {kind index}: the engine window that asked, or the
-# analysis pane. Composed here rather than at draw time, because the window may
-# have been closed by the time the board repaints.
+# Where the run came from, as {kind index}: the engine window that asked. The
+# pane origin the classic Finish Game and the annotate pass used went with the
+# Analysis window (#437 §5). Composed here rather than at draw time, because the
+# window may have been closed by the time the board repaints.
 proc ::reviewprogress::originText {spec} {
     if {![llength $spec]} { return "" }
     lassign $spec kind n
     switch -- $kind {
         enginewin    { return [format [tr ReviewProgressEngineWindow] $n] }
-        analysispane { return [format [tr ReviewProgressAnalysisPane] $n] }
         default      { return [lindex $spec 0] }
     }
 }

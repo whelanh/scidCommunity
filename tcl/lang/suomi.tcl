@@ -943,31 +943,20 @@ translate U PgnOptStripMarks "Poista värilliset neliö-/nuolikoodit"
 translate U PgnOptBoldMainLine "Käytä lihavoitua tekstiä päärivin liikkeisiin"
 
 # Analysis window:
-translate U AddVariation {Lisää muunnelma}
 translate U AddAllVariations {Lisää kaikki muunnelmat}
 translate U AddMove {Lisää siirto}
 translate U Annotate {Kommentoi}
-translate U ShowAnalysisBoard {Näytä analyysilauta}
-translate U ShowInfo {Näytä tiedot moottorista}
 translate U FinishGame {Lopeta peli}
-translate U FinishGameSlot2Warning {Moottoripaikka 2 on jo avoimen analyysiikkunan käytössä.\n\nFinish Game käyttää moottorin paikkoja 1 ja 2 ja saattaa ottaa kyseisen moottorin hallintaansa. Jatkaa?}
-translate U StopEngine {Pysäytä moottori}
 translate U StartEngine {Käynnistä moottori}
 translate U LockEngine {Lukitse moottori nykyiseen asemaan}
 translate U AnalysisCommand {Analyysi-komento}
 translate U PreviousChoices {Aikaisemmat vaihtoehdot}
 translate U AnnotateTime {Siirtojen välinen aika sekunteina}
-translate U AnnotateWhich {Lisää muunnelmat}
 translate U AnnotateAll {molemmille osapuolille}
-translate U AnnotateAllMoves {Kommentoi kaikki siirrot}
 translate U AnnotateWhite {Vain valkealle}
 translate U AnnotateBlack {Vain mustalle}
-translate U AnnotateBlundersOnly {Kun pelisiirto on virhe (blunder)}
 translate U AnnotateBlundersOnlyScoreChange {Analyysi raportoi virheet, muuuttaen pisteytyksen: }
-translate U BlundersThreshold {Virhekynnys}
-translate U ScoreAllMoves {Pisteytä kaikki siirrot}
 translate U LowPriority {Matala CPUn käyttöaste}
-translate U ClickHereToSeeMoves {Klikkaa nähdäksesi siirrot}
 translate U ConfigureInformant {Informant-asetukset}
 translate U Informant!? {Mielenkiintoinen siirto}
 translate U Informant? {Heikko siirto}
@@ -1014,8 +1003,6 @@ translate U ReviewVarCp {Muunnelman raja (cp)}
 translate U ReviewMoveWait {Odota tarkastuksen syvyyttä}
 translate U ReviewMovetime {Aikaraja (ms)}
 translate U ReviewOpeningMoves {Avausliikkeet}
-translate U StopNow {Stop now}
-translate U StopAfterThisGame {Stop after this game}
 translate U ReviewFromPreset {%s (moottorin asetuksista)}
 translate U ReviewProgress {Tarkastetaan asemaa %s / %s}
 translate U ReviewWaitForDepth {Odotetaan syvyyttä %s}
@@ -1193,7 +1180,6 @@ translate U GameLength {Pelin pituus}
 translate U FindGamesWith {Merkityt pelit}
 translate U StdStart {Ei-standardi alku}
 translate U Promotions {Korotukset}
-translate U Comments {Kommentit}
 translate U Variations {Muunnelmat}
 translate U Annotations {Annotaatiot}
 translate U DeleteFlag {Poistomerkki}
@@ -1946,9 +1932,6 @@ translate U TimeBonus {Aika + bonus}
 translate U TimeMin {min}
 translate U TimeSec {s}
 translate U AllExercisesDone {Kaikki harjoitukset tehty}
-translate U MoveOutOfBook {Siirtoa ei löydy avauskirjasta}
-translate U LastBookMove {Viimeinen kirjasiirto}
-translate U AnnotateSeveralGames {Annotoi useita pelejä\nalkaen nykyisestä, päättäen:}
 translate U FindOpeningErrors {Etsi avausvirheet}
 translate U MarkTacticalExercises {Merkitse taktiset harjoitukset}
 translate U UseBook {Käytä avauskirjaa}
@@ -1956,10 +1939,6 @@ translate U MultiPV {Monia muunnelmia}
 translate U Hash {Välimuisti}
 translate U OwnBook {Käytä moottorin avauskirjaa}
 translate U BookFile {Avauskirja}
-translate U AnnotateVariations {Annotoi muunnelmat}
-translate U AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
-translate U ShortAnnotations {Lyhyet annotaatiot}
-translate U addAnnotatorTag {Lisää merkintä annotaattorista}
 translate U AddScoreToShortAnnotations {Lisää tulos annotaatioihin}
 translate U AddScoreToAllMoves {Lisää pisteet kaikkiin liikkeisiin}
 translate U Export {Vie}
@@ -2068,7 +2047,6 @@ translate U FICSTerminalColor {Päätteen väri}
 translate U FICSTextColor {Tekstin väri}
 
 # Game review
-translate U GameReview {Pelin arvioiminen}
 
 # Correspondence Chess Dialogs:
 translate U CCDlgCGeneraloptions {Yleiset}
@@ -2302,7 +2280,6 @@ translate U ReviewProgressTitle {Tarkista edistyminen}
 translate U ReviewProgressIdle {Mikään tarkistus ei ole käynnissä}
 translate U ReviewProgressGameOf {peli %s / %s}
 translate U ReviewProgressEngineWindow {Moottorin ikkunat %s}
-translate U ReviewProgressAnalysisPane {Analyysipaneelit %s}
 translate U ReviewProgressRapid {Nopea huomautus}
 translate U FinishGameGameChanged {peli muuttui Finish Gamen ollessa käynnissä; mitään ei kirjoitettu}
 translate U FinishGameAtEnd {Finish Peli alkaa päälinjan lopusta; mene ensin pelin loppuun}

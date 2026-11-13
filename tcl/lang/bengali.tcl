@@ -904,31 +904,20 @@ translate b PgnOptStripMarks "রঙিন স্কোয়ার/তীর �
 translate b PgnOptBoldMainLine "মেইন লাইন মুভের জন্য বোল্ড টেক্সট ব্যবহার করুন"
 
 # Analysis window:
-translate b AddVariation {বৈচিত্র যোগ করুন}
 translate b AddAllVariations {সমস্ত বৈচিত্র যোগ করুন}
 translate b AddMove {সরান যোগ করুন}
 translate b Annotate {টীকা}
-translate b ShowAnalysisBoard {বিশ্লেষণ বোর্ড দেখান}
-translate b ShowInfo {ইঞ্জিনের তথ্য দেখান}
 translate b FinishGame {খেলা শেষ করুন}
-translate b FinishGameSlot2Warning {ইঞ্জিন স্লট 2 ইতিমধ্যেই একটি খোলা বিশ্লেষণ উইন্ডো ব্যবহার করছে৷\n\nফিনিশ গেমটি ইঞ্জিন স্লট 1 এবং 2 ব্যবহার করে এবং সেই ইঞ্জিনের নিয়ন্ত্রণ নিতে পারে৷ চালিয়ে যান?}
-translate b StopEngine {ইঞ্জিন বন্ধ করুন}
 translate b StartEngine {ইঞ্জিন চালু করুন}
 translate b LockEngine {বর্তমান অবস্থানে ইঞ্জিন লক করুন}
 translate b AnalysisCommand {বিশ্লেষণ কমান্ড}
 translate b PreviousChoices {পূর্ববর্তী পছন্দ}
 translate b AnnotateTime {সেকেন্ডে প্রতি মুভ করার সময়।}
-translate b AnnotateWhich {বৈচিত্র যোগ করুন}
 translate b AnnotateAll {উভয় পক্ষের দ্বারা পদক্ষেপের জন্য}
-translate b AnnotateAllMoves {সব চাল টীকা}
 translate b AnnotateWhite {শুধুমাত্র সাদা চাল জন্য}
 translate b AnnotateBlack {শুধুমাত্র কালো চাল জন্য}
-translate b AnnotateBlundersOnly {যখন খেলা সরানো একটি ভুল}
 translate b AnnotateBlundersOnlyScoreChange {বিশ্লেষণ ভুল রিপোর্ট করে, স্কোর পরিবর্তন থেকে/তে:}
-translate b BlundersThreshold {থ্রেশহোল্ড}
-translate b ScoreAllMoves {সব চাল স্কোর}
 translate b LowPriority {কম সিপিইউ অগ্রাধিকার}
-translate b ClickHereToSeeMoves {চলন দেখতে এখানে ক্লিক করুন}
 translate b ConfigureInformant {তথ্যমূলক মান}
 translate b Informant!? {আকর্ষণীয় পদক্ষেপ}
 translate b Informant? {দরিদ্র পদক্ষেপ}
@@ -975,8 +964,6 @@ translate b ReviewVarCp {ভ্যারিয়েশনের ব্যবধ
 translate b ReviewMoveWait {পর্যালোচনার গভীরতার জন্য অপেক্ষা করুন}
 translate b ReviewMovetime {সময়সীমা (ms)}
 translate b ReviewOpeningMoves {ওপেনিং চলন}
-translate b StopNow {Stop now}
-translate b StopAfterThisGame {Stop after this game}
 translate b ReviewFromPreset {%s (ইঞ্জিন প্রিসেট থেকে)}
 translate b ReviewProgress {অবস্থান %s / %s পর্যালোচনা করা হচ্ছে}
 translate b ReviewWaitForDepth {গভীরতা %s-এর জন্য অপেক্ষা}
@@ -1154,7 +1141,6 @@ translate b GameLength {খেলার দৈর্ঘ্য}
 translate b FindGamesWith {পতাকা সহ গেম খুঁজুন}
 translate b StdStart {অ-মানক শুরু}
 translate b Promotions {প্রচার}
-translate b Comments {মন্তব্য}
 translate b Variations {বৈচিত্র}
 translate b Annotations {টীকা}
 translate b DeleteFlag {পতাকা মুছুন}
@@ -1893,9 +1879,6 @@ translate b TimeBonus {সময় + বোনাস}
 translate b TimeMin {মিনিট}
 translate b TimeSec {সেকেন্ড}
 translate b AllExercisesDone {সমস্ত ব্যায়াম সম্পন্ন}
-translate b MoveOutOfBook {বইয়ের বাইরে সরান}
-translate b LastBookMove {শেষ বই সরানো}
-translate b AnnotateSeveralGames {প্রকৃত খেলা থেকে খেলা:}
 translate b FindOpeningErrors {খোলার ত্রুটি খুঁজুন}
 translate b MarkTacticalExercises {কৌশলগত অনুশীলন চিহ্নিত করুন}
 translate b UseBook {বই ব্যবহার করুন}
@@ -1903,10 +1886,6 @@ translate b MultiPV {একাধিক বৈচিত্র}
 translate b Hash {হ্যাশ মেমরি}
 translate b OwnBook {ইঞ্জিন বই ব্যবহার করুন}
 translate b BookFile {খোলা বই}
-translate b AnnotateVariations {বৈচিত্র টীকা}
-translate b AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
-translate b ShortAnnotations {সংক্ষিপ্ত টীকা}
-translate b addAnnotatorTag {টীকা ট্যাগ যোগ করুন}
 translate b AddScoreToShortAnnotations {টীকাগুলিতে স্কোর যোগ করুন}
 translate b AddScoreToAllMoves {সমস্ত চালে স্কোর যোগ করুন}
 translate b Export {রপ্তানি}
@@ -2015,7 +1994,6 @@ translate b FICSTerminalColor {টার্মিনাল রঙ}
 translate b FICSTextColor {পাঠ্যের রঙ}
 
 # Game review
-translate b GameReview {খেলা পর্যালোচনা}
 
 # Correspondence Chess Dialogs:
 translate b CCDlgCGeneraloptions {সাধারণ বিকল্প}
@@ -2249,7 +2227,6 @@ translate b ReviewProgressTitle {অগ্রগতি পর্যালোচ�
 translate b ReviewProgressIdle {কোনো পর্যালোচনা চলছে না}
 translate b ReviewProgressGameOf {খেলা %s এর %s}
 translate b ReviewProgressEngineWindow {ইঞ্জিনের জানালা %s}
-translate b ReviewProgressAnalysisPane {বিশ্লেষণ প্যানেল %s}
 translate b ReviewProgressRapid {দ্রুত টীকা}
 translate b FinishGameGameChanged {ফিনিশ গেম চলাকালীন গেমটি পরিবর্তিত হয়েছে; কিছুই লেখা ছিল না}
 translate b FinishGameAtEnd {ফিনিশ গেমটি মূল লাইনের শেষ থেকে শুরু হয়; প্রথমে খেলার শেষে যান}

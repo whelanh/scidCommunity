@@ -936,31 +936,20 @@ translate G PgnOptStripMarks "Αφαιρέστε τους έγχρωμους κ�
 translate G PgnOptBoldMainLine "Χρησιμοποιήστε Έντονο κείμενο για κινήσεις κύριας γραμμής"
 
 # Analysis window:
-translate G AddVariation {Προσθήκη βαριάντας}
 translate G AddAllVariations {Προσθήκη όλων των βαριαντών}
 translate G AddMove {Προσθήκκη κίνησης}
 translate G Annotate {Υπομνηματισμός}
-translate G ShowAnalysisBoard {Εμφάνισης της σκακιέρας ανάλυσης}
-translate G ShowInfo {Εμφάνιση πληροφοριών μηχανής}
 translate G FinishGame {Ολοκλήρωση παρτίδας}
-translate G FinishGameSlot2Warning {Η υποδοχή 2 του κινητήρα χρησιμοποιείται ήδη από ένα ανοιχτό παράθυρο ανάλυσης.\n\nΤο Finish Game χρησιμοποιεί τις υποδοχές 1 και 2 του κινητήρα και μπορεί να αναλάβει τον έλεγχο αυτού του κινητήρα. Συνεχίζω;}
-translate G StopEngine {Διακοπή μηχανής}
 translate G StartEngine {Εκκίνηση μηχανής}
 translate G LockEngine {Κλείδωμα της μηχανής στην τρέχουσα θέση}
 translate G AnalysisCommand {Εντολή ανάλυσης}
 translate G PreviousChoices {Προηγούμενες επιλογές}
 translate G AnnotateTime {Καθορίστε τον χρόνο μεταξύ των κινήσεων σε δευτερόλεπτα}
-translate G AnnotateWhich {Προσθήκη βαριαντών}
 translate G AnnotateAll {Για κινήσεις και των δύο πλευρών}
-translate G AnnotateAllMoves {Υπομνηματισμός όλων των κινήσεων}
 translate G AnnotateWhite {Για τις κινήσεις μόνο των Λευκών}
 translate G AnnotateBlack {Για τις κινήσεις μόνο των Μαύρων}
-translate G AnnotateBlundersOnly {Όταν η κίνηση είναι σφάλμα}
 translate G AnnotateBlundersOnlyScoreChange {Η ανάλυση αναφέρει σφάλμα και το σκορ άλλαξε από/σε: }
-translate G BlundersThreshold {Αφετηρία}
-translate G ScoreAllMoves {Βαθμολόγηση όλων των κινήσεων}
 translate G LowPriority {Χαμηλή προτεραιότητα της CPU}
-translate G ClickHereToSeeMoves {Πατήστε εδώ για να δείτε τις κινήσεις}
 translate G ConfigureInformant {Informant}
 translate G Informant!? {Ενδιαφέρουσα κίνησηInteresting move}
 translate G Informant? {Φτωχή κίνηση}
@@ -1007,8 +996,6 @@ translate G ReviewVarCp {Περιθώριο παραλλαγών (cp)}
 translate G ReviewMoveWait {Αναμονή για το βάθος ελέγχου}
 translate G ReviewMovetime {Όριο χρόνου (ms)}
 translate G ReviewOpeningMoves {Κινήσεις ανοίγματος}
-translate G StopNow {Stop now}
-translate G StopAfterThisGame {Stop after this game}
 translate G ReviewFromPreset {%s (από το προφίλ μηχανής)}
 translate G ReviewProgress {Έλεγχος θέσης %s από %s}
 translate G ReviewWaitForDepth {Αναμονή για βάθος %s}
@@ -1186,7 +1173,6 @@ translate G GameLength {Μήκος παρτίδας}
 translate G FindGamesWith {Εύρεση παρτίδων με σημαίες}
 translate G StdStart {Μη πρότυπη έναρξη}
 translate G Promotions {Προαγωγές}
-translate G Comments {Σχόλια}
 translate G Variations {Βαριάντες}
 translate G Annotations {Υπομνηματισμοί}
 translate G DeleteFlag {Διαγραφή σημαιών}
@@ -1942,9 +1928,6 @@ translate G TimeBonus {Χρόνος + δώρο}
 translate G TimeMin {min}
 translate G TimeSec {sec}
 translate G AllExercisesDone {Ολοκληρώθηκαν όλες οι ασκήσεις}
-translate G MoveOutOfBook {Κίνηση εκτός βιβλίου}
-translate G LastBookMove {Κίνηση τελευταίου βιβλίου}
-translate G AnnotateSeveralGames {Υπομνηματισμός πολλαπλών παρτίδων \nαπό την τρέχουσα σε :}
 translate G FindOpeningErrors {Εύρεση σφαλμάτων ανοιγμάτων}
 translate G MarkTacticalExercises {Σημάδεμα ασκήσεων τακτικής}
 translate G UseBook {Χρήση του βιβλίου}
@@ -1952,10 +1935,6 @@ translate G MultiPV {Πολλαπλές βαριάντες}
 translate G Hash {Μνήμη κατατεμαχισμού (hash)}
 translate G OwnBook {Χρήση του βιβλίου της μηχανής}
 translate G BookFile {Βιβλίο ανοιγμάτων}
-translate G AnnotateVariations {Υπομνηματισμός βαριαντών}
-translate G AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
-translate G ShortAnnotations {Σύντομος υπομνηματισμός}
-translate G addAnnotatorTag {Προσθήκη εκτικέτας του υπομνηματιστή}
 translate G AddScoreToShortAnnotations {Προσθήκη σκορ στους υπομνηματισμούς}
 translate G AddScoreToAllMoves {Προσθέστε σκορ σε όλες τις κινήσεις}
 translate G Export {Εξαγωγή}
@@ -2064,7 +2043,6 @@ translate G FICSTerminalColor {Χρώμα τερματικού}
 translate G FICSTextColor {Χρώμα κειμένου}
 
 # Game review
-translate G GameReview {Επισκόπηση παρτίδας}
 
 # Correspondence Chess Dialogs:
 translate G CCDlgCGeneraloptions {Γενκές επιλογές}
@@ -2298,7 +2276,6 @@ translate G ReviewProgressTitle {Ελέγξτε την πρόοδο}
 translate G ReviewProgressIdle {Δεν εκτελείται έλεγχος}
 translate G ReviewProgressGameOf {παιχνίδι %s από %s}
 translate G ReviewProgressEngineWindow {Παράθυρα κινητήρα %s}
-translate G ReviewProgressAnalysisPane {Πίνακες ανάλυσης %s}
 translate G ReviewProgressRapid {Γρήγορος σχολιασμός}
 translate G FinishGameGameChanged {το παιχνίδι άλλαξε όσο εκτελούσε το Finish Game. δεν γράφτηκε τίποτα}
 translate G FinishGameAtEnd {Το Finish Game ξεκινά από το τέλος της κύριας γραμμής. πηγαίνετε πρώτα στο τέλος του παιχνιδιού}

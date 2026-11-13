@@ -2,14 +2,15 @@
 # Copyright (C) 2026 Hugh Whelan
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
-# analysis_doors.tcl -- no UI path opens an Analysis window any more.
+# analysis_doors.tcl -- no UI path opens an Analysis window, and the module is gone.
 #
 #   tclsh tests/tcl/analysis_doors.tcl
 #
-# Item 3 of #436 removes the doors: the Tools menu entry, the engine chooser's
-# Open path, the saved-layout restore clause, and the spacebar branches. The
-# Analysis window's own code stays until #437; this harness only proves that
-# nothing in the UI reaches makeAnalysisWin.
+# Item 3 of #436 removed the doors: the Tools menu entry, the engine chooser's
+# Open path, the saved-layout restore clause, and the spacebar branches. #437 §5
+# then deleted the room behind them - tcl/tools/analysis.tcl and the legacy
+# Annotate dialog it held - so this harness now also proves the file is gone and
+# that nothing in the tree names its procs.
 
 set fails 0
 set checks 0
@@ -89,16 +90,21 @@ check "the spacebar has no Analysis window branch" \
 check "the toolbar names an Engine Window" \
     [expr {[string first "ToolsEngineWindow" $main] >= 0}]
 
-# No UI file calls makeAnalysisWin. The definition itself lives in
-# analysis.tcl, which #437 deletes, so that one file is excluded.
+# No UI file calls makeAnalysisWin, and the module that defined it is gone
+# (#437 §5): a new file that reaches for either fails here.
 set callers {}
 foreach file [tclFiles [file join $root tcl]] {
-    if {[file tail $file] eq "analysis.tcl"} { continue }
     if {[string first "makeAnalysisWin" [readText $file]] >= 0} {
         lappend callers [string range $file [string length $root] end]
     }
 }
 checkEq "no UI file calls makeAnalysisWin" $callers {}
+foreach name {makeAnalysisWin configAnnotation configAnnotateOK startAutoplay
+              toggleFinishGame toggleEngineAnalysis} {
+    checkEq "nothing defines $name" [llength [info commands $name]] 0
+}
+checkEq "tcl/tools/analysis.tcl is gone" \
+    [file exists [file join $root tcl tools analysis.tcl]] 0
 
 set english [readText [file join $root tcl lang english.tcl]]
 check "the new Open label is in English" \

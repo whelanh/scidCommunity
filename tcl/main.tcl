@@ -160,11 +160,6 @@ proc updateStatusBar {} {
         return
     }
 
-    if {$::autoplayMode == 1} {
-        ::board::setInfoAlert .main.board "Autoplay:" [tr Stop] "red" "cancelAutoplay"
-        return
-    }
-
     if {[info exists ::playMode]} {
         set pInfo [eval "$::playMode info"]
         if {[llength $pInfo] != 4} {
@@ -295,12 +290,10 @@ proc updateMainToolbar {} {
     ::board::setButtonCmd .main.board forward ""
     ::board::setButtonCmd .main.board endvar ""
     unset -nocomplain ::gameInfoBar(tb_BD_End)
-    unset -nocomplain ::gameInfoBar(tb_BD_Autoplay)
   } else {
     ::board::setButtonCmd .main.board forward "::move::Forward"
     ::board::setButtonCmd .main.board endvar "::move::EndVar"
     set ::gameInfoBar(tb_BD_End) "::move::End"
-    set ::gameInfoBar(tb_BD_Autoplay) "startAutoplay"
   }
 
   if {[sc_var level] == 0} {
@@ -678,8 +671,6 @@ proc getNextMoves { {num 4} } {
 # displays a box with main line and variations for easy selection with keyboard
 ################################################################################
 proc showVars {} {
-    if {$::autoplayMode == 1} { return }
-
     set numVars [sc_var count]
     # No need to display an empty menu
     if {$numVars == 0} { return }

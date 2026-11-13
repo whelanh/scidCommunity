@@ -674,7 +674,6 @@ proc ::pgn::hideStaleRepetitionNotice {} {
 
 proc ::pgn::CheckRepetition {} {
   if {([info exists ::finishGameMode] && $::finishGameMode) || \
-      ([info exists ::autoplayMode] && $::autoplayMode) || \
       ([info exists ::finishgame::active] && $::finishgame::active)} {
     return [::pgn::currentRepetitionCount]
   }

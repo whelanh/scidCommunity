@@ -944,31 +944,20 @@ translate D PgnOptStripMarks "Entfernen Sie farbige Quadrat-/Pfeilcodes"
 translate D PgnOptBoldMainLine "Verwenden Sie fetten Text für Hauptlinienbewegungen"
 
 # Analysis window:
-translate D AddVariation {Variante hinzufügen}
 translate D AddAllVariations {Alle Varianten hinzufügen}
 translate D AddMove {Zug hinzufügen}
 translate D Annotate {Autom. kommentieren}
-translate D ShowAnalysisBoard {Analysebrett anzeigen}
-translate D ShowInfo {Engine-Information anzeigen}
 translate D FinishGame {Partie beenden}
-translate D FinishGameSlot2Warning {Engine-Slot 2 wird bereits von einem offenen Analysefenster verwendet.\n\nSpiel beenden verwendet die Engine-Slots 1 und 2 und kann die Kontrolle über diese Engine übernehmen. Weitermachen?}
-translate D StopEngine {Engine anhalten}
 translate D StartEngine {Engine starten}
 translate D LockEngine {Anbinden an aktuelle Position}
 translate D AnalysisCommand {Analysebefehl}
 translate D PreviousChoices {Vorherige Wahl}
 translate D AnnotateTime {Zeit pro Zug in Sek.}
-translate D AnnotateWhich {Varianten hinzufügen}
 translate D AnnotateAll {Für Züge beider Seiten}
-translate D AnnotateAllMoves {Alle Züge kommentieren}
 translate D AnnotateWhite {Nur für Züge von Weiß}
 translate D AnnotateBlack {Nur für Züge von Schwarz}
-translate D AnnotateBlundersOnly {Wenn der Partiezug ein Fehler ist}
 translate D AnnotateBlundersOnlyScoreChange {Analyse berichtet Fehler, Bewertungsänderung von/nach: }
-translate D BlundersThreshold {Schwelle}
-translate D ScoreAllMoves {Alle Züge bewerten}
 translate D LowPriority {Niedrige CPU-Priorität}
-translate D ClickHereToSeeMoves {Hier klicken um Züge anzuzeigen}
 translate D ConfigureInformant {Informatorwerte}
 translate D Informant!? {Interessanter Zug}
 translate D Informant? {Schwacher Zug}
@@ -1015,8 +1004,6 @@ translate D ReviewVarCp {Variantenabstand (cp)}
 translate D ReviewMoveWait {Auf die Prüfungstiefe warten}
 translate D ReviewMovetime {Zeitlimit (ms)}
 translate D ReviewOpeningMoves {Eröffnungszüge}
-translate D StopNow {Stop now}
-translate D StopAfterThisGame {Stop after this game}
 translate D ReviewFromPreset {%s (aus dem Motorprofil)}
 translate D ReviewProgress {Position %s von %s wird geprüft}
 translate D ReviewWaitForDepth {Warte auf Tiefe %s}
@@ -1194,7 +1181,6 @@ translate D GameLength {Partielänge}
 translate D FindGamesWith {Finde Partien mit Kennzeichen}
 translate D StdStart {Grundstellung}
 translate D Promotions {Umwandlung}
-translate D Comments {Kommentare}
 translate D Variations {Varianten}
 translate D Annotations {Anmerkungen}
 translate D DeleteFlag {Löschkennzeichen}
@@ -1965,9 +1951,6 @@ translate D TimeBonus {Zeit+\nBonus}
 translate D TimeMin {min}
 translate D TimeSec {s}
 translate D AllExercisesDone {Alle Übungen gemacht}
-translate D MoveOutOfBook {Zug nicht mehr im Buch}
-translate D LastBookMove {Letzter Buchzug}
-translate D AnnotateSeveralGames {Von aktueller Partie bis Partie:}
 translate D FindOpeningErrors {Eröffnungsfehler finden}
 translate D MarkTacticalExercises {Taktische Übungen markieren}
 translate D UseBook {Buch benutzen}
@@ -1975,10 +1958,6 @@ translate D MultiPV {Multivariantenmodus}
 translate D Hash {Hash Speicher}
 translate D OwnBook {Engine Buch verwenden}
 translate D BookFile {Eröffnungsbuch}
-translate D AnnotateVariations {Varianten kommentieren}
-translate D AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
-translate D ShortAnnotations {Kurze Kommentare}
-translate D addAnnotatorTag {Kommentar Tag hinzufügen}
 translate D AddScoreToShortAnnotations {Bewertung hinzufügen}
 translate D AddScoreToAllMoves {Fügen Sie allen Zügen Punkte hinzu}
 translate D Export {Export}
@@ -2087,7 +2066,6 @@ translate D FICSTerminalColor {Terminalfarbe}
 translate D FICSTextColor {Textfarbe}
 
 # Game review
-translate D GameReview {Partieanalyse}
 
 # Correspondence Chess Dialogs:
 translate D CCDlgCGeneraloptions {Allgemeine Einstellungen}
@@ -2321,7 +2299,6 @@ translate D ReviewProgressTitle {Überprüfen Sie den Fortschritt}
 translate D ReviewProgressIdle {Es läuft keine Rezension}
 translate D ReviewProgressGameOf {Spiel %s von %s}
 translate D ReviewProgressEngineWindow {Motorfenster %s}
-translate D ReviewProgressAnalysisPane {Analysepanels %s}
 translate D ReviewProgressRapid {Schnelles Kommentieren}
 translate D FinishGameGameChanged {das Spiel hat sich geändert, während „Spiel beenden“ lief; nichts wurde geschrieben}
 translate D FinishGameAtEnd {Das Finish-Spiel beginnt am Ende der Hauptlinie. Gehe zuerst bis zum Ende des Spiels}

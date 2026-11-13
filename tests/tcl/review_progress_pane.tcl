@@ -45,7 +45,6 @@ array set ::EN {
     ReviewProgressIdle         {No review is running}
     ReviewProgressGameOf       {game %s of %s}
     ReviewProgressEngineWindow {Engine window %s}
-    ReviewProgressAnalysisPane {Analysis pane %s}
     ReviewProgressRapid        {Rapid annotate}
 }
 proc tr {tag args} {
@@ -92,36 +91,36 @@ checkEq "Move Comment in an engine window" \
         source movecomment engine {Stockfish Deep} origin [list enginewin 2]]] \
     {Move Comment — Stockfish Deep (Engine window 2)}
 
-checkEq "annotate in an analysis pane" \
+checkEq "annotate in an engine window" \
     [::reviewprogress::header [dict create \
-        source annotate engine {Stockfish Deep} origin [list analysispane 1]]] \
-    {Annotate — Stockfish Deep (Analysis pane 1)}
+        source annotate engine {Stockfish Deep} origin [list enginewin 1]]] \
+    {Annotate — Stockfish Deep (Engine window 1)}
 
 checkEq "a batch pass carries the game number" \
     [::reviewprogress::header [dict create source annotate engine {Stockfish Deep} \
-        origin [list analysispane 1] game 47 total 200]] \
-    {Annotate — Stockfish Deep (Analysis pane 1) · game 47 of 200}
+        origin [list enginewin 1] game 47 total 200]] \
+    {Annotate — Stockfish Deep (Engine window 1) · game 47 of 200}
 
 checkEq "a single-game pass carries no game number" \
     [::reviewprogress::header [dict create source annotate engine {Stockfish Deep} \
-        origin [list analysispane 1] game 47]] \
-    {Annotate — Stockfish Deep (Analysis pane 1)}
+        origin [list enginewin 1] game 47]] \
+    {Annotate — Stockfish Deep (Engine window 1)}
 
 # A batch's game number changes with the game in flight. The header is still a
 # field - it is recomposed from the job's own fields when the game moves, and the
 # painter reads the field rather than looking anything up, so a covered window
-# redrawn later cannot name a different engine or pane than the run began with.
+# redrawn later cannot name a different engine or window than the run began with.
 set batchToken [::reviewprogress::begin [dict create \
-    source annotate engine {Stockfish Deep} origin [list analysispane 1] total 200]]
+    source annotate engine {Stockfish Deep} origin [list enginewin 1] total 200]]
 checkEq "a batch starts without a game in flight" \
     [dict get [::reviewprogress::job] header] \
-    {Annotate — Stockfish Deep (Analysis pane 1)}
+    {Annotate — Stockfish Deep (Engine window 1)}
 ::reviewprogress::setSpec $batchToken \
     {position fen rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1 moves e7e5} \
     1 200 47
 checkEq "the batch header follows the game in flight" \
     [dict get [::reviewprogress::job] header] \
-    {Annotate — Stockfish Deep (Analysis pane 1) · game 47 of 200}
+    {Annotate — Stockfish Deep (Engine window 1) · game 47 of 200}
 checkEq "and it is still made of the fields the run began with" \
     [dict get [::reviewprogress::job] source] annotate
 ::reviewprogress::finish $batchToken

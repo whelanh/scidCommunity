@@ -945,31 +945,20 @@ translate J PgnOptStripMarks "Скините обојене квадратне �
 translate J PgnOptBoldMainLine "Користите подебљани текст за покрете главне линије"
 
 # Analysis window:
-translate J AddVariation {Додај варијацију}
 translate J AddAllVariations {Додај све варијације}
 translate J AddMove {Адд Мове}
 translate J Annotate {Анотирајте}
-translate J ShowAnalysisBoard {Прикажи таблу за анализу}
-translate J ShowInfo {Прикажи информације о мотору}
 translate J FinishGame {Заврши игру}
-translate J FinishGameSlot2Warning {Слот 2 мотора је већ у употреби од стране отвореног прозора за анализу.\n\nФинисх Гаме користи слотове 1 и 2 мотора и може преузети контролу над тим мотором. Наставити?}
-translate J StopEngine {Зауставите мотор}
 translate J StartEngine {Покрените мотор}
 translate J LockEngine {Закључајте мотор у тренутни положај}
 translate J AnalysisCommand {Команда за анализу}
 translate J PreviousChoices {Претходни избори}
 translate J AnnotateTime {Време по потезу у сек.}
-translate J AnnotateWhich {Додајте варијације}
 translate J AnnotateAll {За потезе обе стране}
-translate J AnnotateAllMoves {Означите све потезе}
 translate J AnnotateWhite {Само за беле потезе}
 translate J AnnotateBlack {Само за црне потезе}
-translate J AnnotateBlundersOnly {Када је потез игре грешка}
 translate J AnnotateBlundersOnlyScoreChange {Анализа извештава о грешци, са променом резултата од/на:}
-translate J BlundersThreshold {Праг}
-translate J ScoreAllMoves {Оцените све потезе}
 translate J LowPriority {Низак ЦПУ приоритет}
-translate J ClickHereToSeeMoves {Кликните овде да видите потезе}
 translate J ConfigureInformant {Информаторске вредности}
 translate J Informant!? {Занимљив потез}
 translate J Informant? {Лош потез}
@@ -1016,8 +1005,6 @@ translate J ReviewVarCp {Граница варијанти (cp)}
 translate J ReviewMoveWait {Чекај дубину прегледа}
 translate J ReviewMovetime {Временско ограничење (ms)}
 translate J ReviewOpeningMoves {Отварање потеза}
-translate J StopNow {Stop now}
-translate J StopAfterThisGame {Stop after this game}
 translate J ReviewFromPreset {%s (из профила мотора)}
 translate J ReviewProgress {Преглед позиције %s од %s}
 translate J ReviewWaitForDepth {Чекање на дубину %s}
@@ -1195,7 +1182,6 @@ translate J GameLength {Дужина игре}
 translate J FindGamesWith {Пронађите игре са заставама}
 translate J StdStart {Нестандардни почетак}
 translate J Promotions {Промоције}
-translate J Comments {Коментари}
 translate J Variations {Варијације}
 translate J Annotations {Напомене}
 translate J DeleteFlag {Обриши заставу}
@@ -1934,9 +1920,6 @@ translate J TimeBonus {Време + бонус}
 translate J TimeMin {мин}
 translate J TimeSec {сец}
 translate J AllExercisesDone {Све вежбе урађене}
-translate J MoveOutOfBook {Изађи из књиге}
-translate J LastBookMove {Последњи потез књиге}
-translate J AnnotateSeveralGames {Од стварне игре до игре:}
 translate J FindOpeningErrors {Пронађите грешке при отварању}
 translate J MarkTacticalExercises {Означите тактичке вежбе}
 translate J UseBook {Користите књигу}
@@ -1944,10 +1927,6 @@ translate J MultiPV {Вишеструке варијације}
 translate J Hash {Хеш меморија}
 translate J OwnBook {Користите књигу мотора}
 translate J BookFile {Отварање књиге}
-translate J AnnotateVariations {Означите варијације}
-translate J AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
-translate J ShortAnnotations {Кратке напомене}
-translate J addAnnotatorTag {Додајте ознаку анотатора}
 translate J AddScoreToShortAnnotations {Додајте резултат напоменама}
 translate J AddScoreToAllMoves {Додајте резултат свим потезима}
 translate J Export {Извоз}
@@ -2056,7 +2035,6 @@ translate J FICSTerminalColor {Боја терминала}
 translate J FICSTextColor {Боја текста}
 
 # Game review
-translate J GameReview {Преглед игре}
 
 # Correspondence Chess Dialogs:
 translate J CCDlgCGeneraloptions {Опште опције}
@@ -2290,7 +2268,6 @@ translate J ReviewProgressTitle {Прегледајте напредак}
 translate J ReviewProgressIdle {Нема прегледа}
 translate J ReviewProgressGameOf {игра %с од %с %s %s}
 translate J ReviewProgressEngineWindow {Прозори мотора %s}
-translate J ReviewProgressAnalysisPane {Панели за анализу %s}
 translate J ReviewProgressRapid {Рапид аннотате}
 translate J FinishGameGameChanged {игра се променила док је Финисх Гаме била покренута; ништа није написано}
 translate J FinishGameAtEnd {Финисх Гаме почиње са краја главне линије; прво идите до краја игре}

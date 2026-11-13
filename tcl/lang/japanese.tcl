@@ -945,31 +945,20 @@ translate A PgnOptStripMarks "色付きの四角形/矢印コードを取り除�
 translate A PgnOptBoldMainLine "主線の移動に太字のテキストを使用する"
 
 # Analysis window:
-translate A AddVariation {バリエーションを追加する}
 translate A AddAllVariations {すべてのバリエーションを追加}
 translate A AddMove {移動の追加}
 translate A Annotate {Annotate}
-translate A ShowAnalysisBoard {分析ボードを表示する}
-translate A ShowInfo {エンジン情報を表示}
 translate A FinishGame {ゲームを終了する}
-translate A FinishGameSlot2Warning {エンジン スロット 2 は、開いている分析ウィンドウですでに使用されています。\n\nゲームを終了すると、エンジン スロット 1 と 2 が使用され、そのエンジンの制御が取得される可能性があります。続く？}
-translate A StopEngine {エンジンを停止する}
 translate A StartEngine {エンジンを始動する}
 translate A LockEngine {エンジンを現在の位置にロックする}
 translate A AnalysisCommand {解析コマンド}
 translate A PreviousChoices {以前の選択}
 translate A AnnotateTime {1 移動あたりの時間 (秒単位)。}
-translate A AnnotateWhich {バリエーションを追加する}
 translate A AnnotateAll {双方の動きの場合}
-translate A AnnotateAllMoves {すべての動きに注釈を付ける}
 translate A AnnotateWhite {白の動きのみ}
 translate A AnnotateBlack {黒の動きのみ}
-translate A AnnotateBlundersOnly {ゲームの動きが失敗したとき}
 translate A AnnotateBlundersOnlyScoreChange {分析レポートには誤りがあり、スコアは以下のように変化します。}
-translate A BlundersThreshold {しきい値}
-translate A ScoreAllMoves {すべての動きをスコア化する}
 translate A LowPriority {CPU 優先度が低い}
-translate A ClickHereToSeeMoves {動きを見るにはここをクリックしてください}
 translate A ConfigureInformant {インフォーマントの価値観}
 translate A Informant!? {興味深い動き}
 translate A Informant? {下手な動き}
@@ -1016,8 +1005,6 @@ translate A ReviewVarCp {変化のしきい値 (cp)}
 translate A ReviewMoveWait {検討の深さを待つ}
 translate A ReviewMovetime {時間制限 (ms)}
 translate A ReviewOpeningMoves {オープニングムーブ}
-translate A StopNow {Stop now}
-translate A StopAfterThisGame {Stop after this game}
 translate A ReviewFromPreset {%s（エンジンのプリセット）}
 translate A ReviewProgress {局面 %s / %s を検討中}
 translate A ReviewWaitForDepth {深さ %s を待機中}
@@ -1195,7 +1182,6 @@ translate A GameLength {ゲームの長さ}
 translate A FindGamesWith {フラグのあるゲームを探す}
 translate A StdStart {非標準スタート}
 translate A Promotions {プロモーション}
-translate A Comments {コメント}
 translate A Variations {バリエーション}
 translate A Annotations {注釈}
 translate A DeleteFlag {フラグの削除}
@@ -1934,9 +1920,6 @@ translate A TimeBonus {時間+ボーナス}
 translate A TimeMin {分}
 translate A TimeSec {秒}
 translate A AllExercisesDone {すべての演習が完了しました}
-translate A MoveOutOfBook {本の外に移動する}
-translate A LastBookMove {最後の本の移動}
-translate A AnnotateSeveralGames {実際のゲームからゲームへ:}
 translate A FindOpeningErrors {オープニングエラーを見つける}
 translate A MarkTacticalExercises {戦術演習をマークする}
 translate A UseBook {本を利用する}
@@ -1944,10 +1927,6 @@ translate A MultiPV {複数のバリエーション}
 translate A Hash {ハッシュメモリ}
 translate A OwnBook {エンジンブックを使用する}
 translate A BookFile {オープニングブック}
-translate A AnnotateVariations {バリエーションに注釈を付ける}
-translate A AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
-translate A ShortAnnotations {短い注釈}
-translate A addAnnotatorTag {アノテータータグを追加する}
 translate A AddScoreToShortAnnotations {注釈にスコアを追加する}
 translate A AddScoreToAllMoves {すべての動きにスコアを追加します}
 translate A Export {輸出}
@@ -2056,7 +2035,6 @@ translate A FICSTerminalColor {端子色}
 translate A FICSTextColor {文字の色}
 
 # Game review
-translate A GameReview {ゲームレビュー}
 
 # Correspondence Chess Dialogs:
 translate A CCDlgCGeneraloptions {一般的なオプション}
@@ -2290,7 +2268,6 @@ translate A ReviewProgressTitle {進捗状況のレビュー}
 translate A ReviewProgressIdle {実行中のレビューはありません}
 translate A ReviewProgressGameOf {ゲーム %s/%s}
 translate A ReviewProgressEngineWindow {エンジンの窓 %s}
-translate A ReviewProgressAnalysisPane {分析パネル %s}
 translate A ReviewProgressRapid {迅速な注釈付け}
 translate A FinishGameGameChanged {終了ゲームの実行中にゲームが変更されました。何も書かれていなかった}
 translate A FinishGameAtEnd {フィニッシュゲームはメインラインの最後尾から始まります。まずはゲームの最後まで行く}
