@@ -90,12 +90,17 @@ proc ::appupdate::stateWrite {state} {
 
 # Resolve a command-line tool to a full path, preferring PATH and falling back
 # to the directory of the executable (the Windows build bundles curl.exe there).
+#
+# Returns a one-element LIST (matching auto_execok, which also returns a list),
+# or "" when nothing was found. Callers must expand it with {*} when building a
+# command list, otherwise a path with spaces is nested into a sub-list and open
+# then sees the braces as part of the file name.
 proc ::appupdate::resolve {name} {
     set p [auto_execok $name]
     if {$p ne ""} { return $p }
     if {$::windowsOS} {
         set cand [file join $::scidExeDir "$name.exe"]
-        if {[file exists $cand]} { return $cand }
+        if {[file exists $cand]} { return [list $cand] }
     }
     return ""
 }
@@ -113,9 +118,9 @@ proc ::appupdate::fetchAsync {url callback} {
         # revocation check; disable it on Windows.
         if {$::windowsOS} { lappend args --ssl-no-revoke }
         lappend args $url
-        set cmd [list | $curl {*}$args]
+        set cmd [list | {*}$curl {*}$args]
     } elseif {$wget ne ""} {
-        set cmd [list | $wget -q -O - --timeout=20 $url]
+        set cmd [list | {*}$wget -q -O - --timeout=20 $url]
     } else {
         # No command-line client: fall back to a synchronous fetch on the next
         # event-loop turn so the callback is still asynchronous from the caller.
@@ -357,9 +362,9 @@ proc ::appupdate::downloadAsync {url dest callback {label ""}} {
         # redirects to); disable it on Windows.
         if {$::windowsOS} { lappend args --ssl-no-revoke }
         lappend args -o $dest $url
-        set cmd [list | $curl {*}$args]
+        set cmd [list | {*}$curl {*}$args]
     } elseif {$wget ne ""} {
-        set cmd [list | $wget -q -O $dest --timeout=900 $url]
+        set cmd [list | {*}$wget -q -O $dest --timeout=900 $url]
     } else {
         # No command-line client: do a blocking download on the next loop turn.
         after 0 [list ::appupdate::_downloadSync $url $dest $callback]
