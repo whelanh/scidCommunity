@@ -144,6 +144,35 @@ reply, a search replaced by a second `go`, a cancel before the reply, an engine
 that dies mid-search, the coach on its own connection, and the exact `go` line
 the game's clock produces.
 
+## §4b — the behaviour, measured on the way through
+
+The substrate being right does not make the game right. §4b drives the module
+through the behaviours the port could quietly have changed, with the same fake
+engine and a fake board, and reads back what reached the engine and what was
+written on the game:
+
+| Behaviour | What the harness asserts |
+|---|---|
+| Clocks | the exact `go` line (`wtime`/`btime`/`winc`/`binc`, in that order) after a simulated think, the increment landing on the mover's own clock and only there, the running clock handed over, and a no-chess-clock game asking for `go movetime` instead |
+| Takeback | the module's own `takeBack` restores both clocks and restarts the right one; the dialog's takeback puts the move back, gives the clock it used back, restarts the coach, and the next search carries the *corrected* line's position |
+| Coach | (with §4a) its reply cannot touch the player's score, bestmove or ponder flag; after a takeback it is asked again |
+| Blunder dialog | the four threshold cases (`!?` 0.3, `?` 0.8, `??` 1.5, and under 0.3 = no dialog), the move it offers, and the same judgement mirrored for a Black player |
+| Live warning and score | the row's text with and without the value, its colour, the NAG it adds and removes, the score label following a real coach reply, and the game's own slider (not a constant) |
+| Ponder | a hit is `ponderhit` with no second search, and the pending search's `bestmove` is the move played; a declined line starts a new search and starts no ponder |
+| Storing evaluations | the real `storeEvalComment` (`tcl/misc.tcl`, lifted by name) writes `[%eval …]` on the player's move and, 500 ms later, on the engine's; nothing is written with no setting; all-moves mode writes on both |
+| Game end | mate (no search, clocks stopped), resignation (four winning scores → result tag, game saved, message), draw (third occurrence → message, no search), and §4a's dead engine |
+| Second session | after an engine death and after a preset that will not start: the same ids open, hold no state from the dead session, and the new game analyses, plays and judges; plus a structural check that `play` resets each accumulated name by its fully-qualified name — the `engineLost` shape |
+
+The behaviour half found one port bug, which is fixed here: `ask` clears a
+connection's score when a search starts (the old shared array never did), and
+`answer`'s blunder comparison then subtracted `""` when an engine answered with
+no `info` line — taking the answer, and the game, down with it. The comparison
+now requires both scores, and a case pins it.
+
+What the harness cannot say: it does not start a real engine process, so the
+real preset handshake, a real ponder hit, the config dialog's widgets, and the
+dialog's own text on screen are the manual play-test's, not the gate's.
+
 ## Phase mapping
 
 | #437 phase | Files | Gate |
