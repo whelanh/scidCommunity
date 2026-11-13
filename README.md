@@ -151,7 +151,7 @@ sudo make install
 
 - **[Hugh Whelan](https://github.com/whelanh)** — maintainer
 - **[Venkat Krishnamurthy](https://github.com/kayvee42)** — focuses on the macOS version (build, packaging and platform fixes) and redesigned the PGN Window buttons
-- **[David Crandall](https://github.com/Triquetra)** — AI provider channels for Game Comment (local, OpenAI-compatible and OpenCode models) and the game review feature in progress
+- **[David Crandall](https://github.com/Triquetra)** — AI provider channels for Game Comment (local, OpenAI-compatible and OpenCode models) and the game review feature in progress.  He has also taken the lead on simplifying scidCommunity to use one engine mode protocol.
 - **[Tommaso Bergamasco](https://github.com/TBergh98)** — designed the Lichess study publishing feature, the OpenBook Rich (.obr) opening-book reader, and the CTG to .obr converter.
 
 
