@@ -49,9 +49,30 @@ proc ::engineNoWin::changeEngine {id w enginevar callback} {
     ::engineNoWin::initEngine $id $engine [list $callback $id $w]
 }
 
+# ::engineNoWin::fitDialogToOptions
+#   Resize the dialog that holds an engine options frame to the size that
+#   frame now asks for.
+#   Tk follows a dialog's content on its own, but under Hyprland
+#   ::centerWindowHyprland positions dialogs with "wm geometry", which makes Tk
+#   treat the dialog's size as the user's choice. The dialog then keeps its
+#   old size when the options frame is gridded, so the frame opens outside the
+#   window and the settings button appears to do nothing.
+proc ::engineNoWin::fitDialogToOptions {w} {
+    if {![isHyprlandSession]} { return }
+    set top [winfo toplevel $w]
+    if {$top eq $w || ![winfo exists $top]} { return }
+    update idletasks
+    catch { wm geometry $top "[winfo reqwidth $top]x[winfo reqheight $top]" }
+}
+
 proc ::engineNoWin::showHideOptionsFrame {id w enginevar callback col} {
-    if { [winfo ismapped $w] } { grid forget $w ; return }
+    if { [winfo ismapped $w] } {
+        grid forget $w
+        ::engineNoWin::fitDialogToOptions $w
+        return
+    }
     grid $w -row 0 -column $col -rowspan 5 -sticky ne -padx 10
+    ::engineNoWin::fitDialogToOptions $w
     set engine [set $enginevar]
     ::engineNoWin::initEngine $id $engine [list $callback $id $w]
 }

@@ -259,13 +259,12 @@ proc ::enginelist::choose {} {
     dialogbutton $f.open -text [tr EngineOpenWindow] -command {
         ::enginelist::openSelected 1
     }
-    dialogbutton $f.ok -text "OK" -command {
+    # Add/Edit/Duplicate/Delete write the engine list immediately, so there is
+    # nothing to confirm or discard: one button closes the dialog.
+    dialogbutton $f.close -text $::tr(Close) -command {
         destroy .enginelist
     }
-    dialogbutton $f.cancel -text $::tr(Cancel) -command {
-        destroy .enginelist
-    }
-    packbuttons right $f.cancel $f.ok $f.open
+    packbuttons right $f.close $f.open
     pack $f.lucaschess $f.add $f.edit $f.duplicate $f.delete -side left -padx 1
 
     ::enginelist::sort
@@ -459,7 +458,6 @@ proc ::enginelist::edit {index} {
             pack forget $w.editEngine.eng
             $w.optseditEngine.text configure -height 24
             grid $w.editEngine -in $f -column 2 -row $row
-            if { $engines(newEngine) } { $w.editEngine.opts invoke }
         }
         # Browse button for choosing an executable file:
         if {$i == "Cmd"} {
@@ -582,6 +580,11 @@ proc ::enginelist::edit {index} {
     focus $w.f.eName
     wm resizable $w 1 0
     catch {grab $w}
+    # A new engine opens with its options already showing. This has to be the
+    # last step: the options panel is sized from the whole form, and invoking
+    # it before the rest of the widgets exist would fit it to a half-built
+    # dialog.
+    if { $engines(newEngine) } { $w.editEngine.opts invoke }
 }
 
 # ::enginelist::cancelNewEngine

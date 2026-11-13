@@ -233,6 +233,12 @@ jobs:
       - name: Engine PV display
         run: xvfb-run -a wish tests/tcl/engine_display_tk.tcl
 
+      # The engine options panel beside the Name field: a Hyprland-centered
+      # dialog keeps the width it had when it was mapped, so the panel used to
+      # be gridded outside it and the settings button looked dead.
+      - name: Engine options dialog
+        run: xvfb-run -a wish tests/tcl/engine_options_dialog_tk.tcl
+
       # The tclsh Training-menu harness checks the menu statically; it cannot
       # run the Tactics trainer's own loop. This does, on a window built the
       # way the menu builds it - start against a preset, one puzzle, a right
