@@ -219,6 +219,7 @@ menuText R ToolsTrainFics "Играть на FICS"  0 {Игра на серве�
 menuText R ToolsEngineTournament "Турнир движков"  0 {Начать турнир между шахматными движками}
 menuText R ToolsTimeAnalysis "Временной анализ" 0 {Показать график времени для текущей игры}
 menuText R ToolsBookTuning "Настройка книги" 0 {Настройка книги}
+menuText R ToolsCtgConvert "Конвертировать CTG в OBR..." 0 {Преобразование книги ChessBase CTG в книгу OpenBook Rich (.obr)}
 menuText R ToolsRapidAnnotate "Аннотация к графику оценок" 0 {Записать оценки и аннотации графика оценки движка в текущую игру (Ctrl+Shift+A).}
 menuText R ToolsDownloadTWIC "Загрузить партии TWIC" 0 {Загрузить последние партии The Week In Chess (TWIC)}
 menuText R ToolsConnectHardware "Подключение к оборудованию" 0 {Подключение к внешнему оборудованию}
@@ -1026,6 +1027,11 @@ translate R ObrBookDetail {%s %d игры (частота %.1f%%): +%d =%d -%d (
 translate R ObrColourRed {красный}
 translate R ObrColourBlue {синий}
 translate R ObrColourGreen {зеленый}
+# Tools > Convert CTG book: ChessBase CTG book to OpenBook Rich (.obr)
+translate R CtgChooseSource {Выберите книгу CTG (.ctg): ее файлы .cto и .ctb должны находиться в одной папке.}
+translate R CtgChooseDest {Выберите, где сохранить книгу ОБР (.obr)}
+translate R CtgConverting {Преобразование}
+translate R CtgConvertDone {Книга сохранена:}
 
 # Configure Engines dialog:
 translate R EngineList {Настройка движков}

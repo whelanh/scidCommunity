@@ -33,6 +33,7 @@
 #include "epdbook.h"
 #include "pgnparse.h"
 #include "polyglot.h"
+#include "polyglot/ctg2obr.h"
 #include "position.h"
 #include "scidbase.h"
 #include "searchpos.h"
@@ -9866,7 +9867,8 @@ int sc_var_enter(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
 
 int sc_book(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
   static const char *options[] = {"load",        "close",  "moves",    "positions",
-                                  "movesupdate", "update", "obrmoves", nullptr};
+                                  "movesupdate", "update", "obrmoves", "ctg2obr",
+                                  nullptr};
   enum {
     BOOK_LOAD,
     BOOK_CLOSE,
@@ -9875,6 +9877,7 @@ int sc_book(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
     BOOK_MOVES_UPDATE,
     BOOK_UPDATE,
     BOOK_OBRMOVES,
+    BOOK_CTG2OBR,
   };
   int index = -1;
 
@@ -9903,6 +9906,9 @@ int sc_book(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
 
   case BOOK_OBRMOVES:
     return sc_book_obrmoves(cd, ti, argc, argv);
+
+  case BOOK_CTG2OBR:
+    return sc_book_ctg2obr(cd, ti, argc, argv);
 
   default:
     return InvalidCommand(ti, "sc_book", options);
@@ -10025,6 +10031,28 @@ int sc_book_movesupdate(ClientData, Tcl_Interp *ti, int argc,
   return TCL_OK;
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// sc_book_ctg2obr:
+//    Converts a ChessBase CTG book (.ctg with its .cto and .ctb) to an
+//    OpenBook Rich (.obr) book, reporting progress to the UI.
+//    Returns a summary of the conversion; raises an error if it fails.
+//    Returns {} if the user cancelled it.
+int sc_book_ctg2obr(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
+  if (argc != 4) {
+    return errorResult(ti, "Usage: sc_book ctg2obr ctgfile obrfile");
+  }
+  Progress progress = UI_CreateProgress(ti);
+  std::string result;
+  if (ctg2obr(argv[2], argv[3],
+              [&](size_t done, size_t total) { return progress.report(done, total); },
+              result)) {
+    return UI_Result(ti, OK, result.c_str());
+  }
+  if (result.empty()) {
+    return TCL_OK;
+  }
+  return UI_Result(ti, ERROR_BadArg, result);
+}
+
 // sc_book_obrmoves:
 //    Statistics of the current position in an OpenBook Rich (.obr) book.
 //    Returns {} if the slot is not an .obr book or the position is not in it,

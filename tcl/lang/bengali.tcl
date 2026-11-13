@@ -212,6 +212,7 @@ menuText b ToolsTrainFics "FICS এ খেলুন"  0 {freechess.org এ খ�
 menuText b ToolsEngineTournament "ইঞ্জিন টুর্নামেন্ট"  0 {দাবা ইঞ্জিনের মধ্যে একটি টুর্নামেন্ট শুরু করুন}
 menuText b ToolsTimeAnalysis "সময় বিশ্লেষণ" 0 {বর্তমান গেমের জন্য ঘড়ির সময় গ্রাফ দেখান}
 menuText b ToolsBookTuning "বই টিউনিং" 0 {বই টিউনিং}
+menuText b ToolsCtgConvert "CTG কে OBR এ রূপান্তর করুন..." 0 {একটি ChessBase CTG বইকে একটি OpenBook Rich (.obr) বইতে রূপান্তর করুন৷}
 menuText b ToolsRapidAnnotate "স্কোর গ্রাফ থেকে টীকা" 0 {বর্তমান গেমে ইঞ্জিন স্কোর গ্রাফের মূল্যায়ন এবং টীকা লিখুন (Ctrl+Shift+A)}
 menuText b ToolsDownloadTWIC "TWIC গেম ডাউনলোড করুন" 0 {সর্বশেষ দ্য উইক ইন চেস (TWIC) গেম ডাউনলোড করুন}
 menuText b ToolsConnectHardware "হার্ডওয়্যার সংযোগ করুন" 8 {বাহ্যিক হার্ডওয়্যার সংযোগ করুন}
@@ -1019,6 +1020,11 @@ translate b ObrBookDetail {%s  %d গেমস (ফ্রিকোয়েন�
 translate b ObrColourRed {লাল}
 translate b ObrColourBlue {নীল}
 translate b ObrColourGreen {সবুজ}
+# Tools > Convert CTG book: ChessBase CTG book to OpenBook Rich (.obr)
+translate b CtgChooseSource {CTG বই (.ctg) চয়ন করুন: এর .cto এবং .ctb ফাইলগুলি একই ফোল্ডারে থাকতে হবে}
+translate b CtgChooseDest {OBR বইটি কোথায় সংরক্ষণ করবেন তা চয়ন করুন (.obr)}
+translate b CtgConverting {রূপান্তর}
+translate b CtgConvertDone {বই সংরক্ষিত:}
 
 # Configure Engines dialog:
 translate b EngineList {ইঞ্জিন কনফিগার করুন}

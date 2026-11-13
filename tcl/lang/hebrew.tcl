@@ -213,6 +213,7 @@ menuText V ToolsTrainFics "שחקו ב-FICS"  0 {שחקו ב-freechess.org}
 menuText V ToolsEngineTournament "טורניר מנועים"  0 {התחל טורניר בין מנועי שחמט}
 menuText V ToolsTimeAnalysis "ניתוח זמן" 0 {הצג גרף זמן שעון עבור המשחק הנוכחי}
 menuText V ToolsBookTuning "כוונון ספרים" 0 {כוונון ספרים}
+menuText V ToolsCtgConvert "המרת CTG ל-OBR..." 0 {המר ספר ChessBase CTG לספר OpenBook Rich (.obr).}
 menuText V ToolsRapidAnnotate "הערה מגרף הניקוד" 0 {כתוב את ההערכות וההערות של גרף ניקוד המנוע לתוך המשחק הנוכחי (Ctrl+Shift+A)}
 menuText V ToolsDownloadTWIC "Download TWIC Games" 0 {הורד את המשחקים האחרונים של The Week In Chess (TWIC).}
 menuText V ToolsConnectHardware "חבר חומרה" 8 {חבר חומרה חיצונית}
@@ -1020,6 +1021,11 @@ translate V ObrBookDetail {%s  %d משחקים (תדירות %.1f%%): +%d =%d -%
 translate V ObrColourRed {אָדוֹם}
 translate V ObrColourBlue {כְּחוֹל}
 translate V ObrColourGreen {יָרוֹק}
+# Tools > Convert CTG book: ChessBase CTG book to OpenBook Rich (.obr)
+translate V CtgChooseSource {בחר את ספר ה-CTG (.ctg): קבצי ה-.cto ו-.ctb שלו חייבים להיות באותה תיקיה}
+translate V CtgChooseDest {בחר היכן לשמור את ספר OBR (.obr)}
+translate V CtgConverting {המרה}
+translate V CtgConvertDone {הספר נשמר:}
 
 # Configure Engines dialog:
 translate V EngineList {הגדר מנועים}

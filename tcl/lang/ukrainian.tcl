@@ -213,6 +213,7 @@ menuText Q ToolsTrainFics "Грайте на FICS"  0 {Грайте на freeche
 menuText Q ToolsEngineTournament "Турнір двигунів"  0 {Розпочніть турнір між шаховими двигунами}
 menuText Q ToolsTimeAnalysis "Аналіз часу" 0 {Показати часовий графік для поточної гри}
 menuText Q ToolsBookTuning "Книга тюнінг" 0 {Книга тюнінг}
+menuText Q ToolsCtgConvert "Конвертувати CTG в OBR..." 0 {Перетворіть книгу ChessBase CTG на книгу OpenBook Rich (.obr).}
 menuText Q ToolsRapidAnnotate "Анотація з графіка балів" 0 {Запишіть оцінки та анотації графіка оцінок двигуна в поточну гру (Ctrl+Shift+A)}
 menuText Q ToolsDownloadTWIC "Завантажити TWIC Games" 0 {Завантажте останні ігри The Week In Chess (TWIC).}
 menuText Q ToolsConnectHardware "Підключити обладнання" 8 {Підключіть зовнішнє обладнання}
@@ -1020,6 +1021,11 @@ translate Q ObrBookDetail {%s %d ігор (частота %.1f%%): +%d =%d -%d (
 translate Q ObrColourRed {червоний}
 translate Q ObrColourBlue {блакитний}
 translate Q ObrColourGreen {зелений}
+# Tools > Convert CTG book: ChessBase CTG book to OpenBook Rich (.obr)
+translate Q CtgChooseSource {Виберіть книгу CTG (.ctg): її файли .cto та .ctb мають бути в одній папці}
+translate Q CtgChooseDest {Виберіть місце для збереження книги OBR (.obr)}
+translate Q CtgConverting {Перетворення}
+translate Q CtgConvertDone {Книгу збережено:}
 
 # Configure Engines dialog:
 translate Q EngineList {Налаштувати двигуни}

@@ -253,6 +253,7 @@ menuText A ToolsTrainFics "FICS でプレイする"  0 {freechess.org でプレ�
 menuText A ToolsEngineTournament "エンジントーナメント"  0 {チェス エンジン間でトーナメントを開始する}
 menuText A ToolsTimeAnalysis "時間分析" 0 {現在のゲームの時間グラフを表示します}
 menuText A ToolsBookTuning "ブックチューニング" 0 {ブックチューニング}
+menuText A ToolsCtgConvert "CTG を OBR に変換..." 0 {ChessBase CTG ブックを OpenBook Rich (.obr) ブックに変換する}
 menuText A ToolsRapidAnnotate "スコアグラフから注釈を付ける" 0 {エンジン スコア グラフの評価と注釈を現在のゲームに書き込みます (Ctrl+Shift+A)}
 menuText A ToolsDownloadTWIC "TWIC ゲームをダウンロード" 0 {最新の The Week In Chess (TWIC) ゲームをダウンロード}
 menuText A ToolsConnectHardware "ハードウェアを接続する" 8 {外部ハードウェアを接続する}
@@ -1060,6 +1061,11 @@ translate A ObrBookDetail {%s %d ゲーム (頻度 %.1f%%): +%d =%d -%d (白/ド
 translate A ObrColourRed {赤}
 translate A ObrColourBlue {青}
 translate A ObrColourGreen {緑}
+# Tools > Convert CTG book: ChessBase CTG book to OpenBook Rich (.obr)
+translate A CtgChooseSource {CTG ブック (.ctg) を選択します。その .cto ファイルと .ctb ファイルは同じフォルダー内にある必要があります。}
+translate A CtgChooseDest {OBR ブック (.obr) を保存する場所を選択します}
+translate A CtgConverting {変換中}
+translate A CtgConvertDone {保存した本:}
 
 # Configure Engines dialog:
 translate A EngineList {エンジンの構成}

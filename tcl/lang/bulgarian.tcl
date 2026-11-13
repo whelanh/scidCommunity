@@ -253,6 +253,7 @@ menuText g ToolsTrainFics "Играйте на FICS"  0 {Играйте на fre
 menuText g ToolsEngineTournament "Турнир по двигателя"  0 {Стартирайте турнир между шахматни машини}
 menuText g ToolsTimeAnalysis "Анализ на времето" 0 {Показване на времева графика на часовника за текущата игра}
 menuText g ToolsBookTuning "Резервирайте тунинг" 0 {Резервирайте тунинг}
+menuText g ToolsCtgConvert "Преобразувайте CTG в OBR..." 0 {Конвертирайте книга ChessBase CTG в книга OpenBook Rich (.obr).}
 menuText g ToolsRapidAnnotate "Анотирайте от графиката на резултатите" 0 {Напишете оценките и анотациите на графиката на резултатите на двигателя в текущата игра (Ctrl+Shift+A)}
 menuText g ToolsDownloadTWIC "Изтеглете TWIC игри" 0 {Изтеглете най-новите игри The Week In Chess (TWIC).}
 menuText g ToolsConnectHardware "Свързване на хардуер" 8 {Свържете външен хардуер}
@@ -1060,6 +1061,11 @@ translate g ObrBookDetail {%s %d игри (честота %.1f%%): +%d =%d -%d (
 translate g ObrColourRed {червено}
 translate g ObrColourBlue {синьо}
 translate g ObrColourGreen {зелено}
+# Tools > Convert CTG book: ChessBase CTG book to OpenBook Rich (.obr)
+translate g CtgChooseSource {Изберете книгата CTG (.ctg): нейните .cto и .ctb файлове трябва да са в една и съща папка}
+translate g CtgChooseDest {Изберете къде да запазите OBR книгата (.obr)}
+translate g CtgConverting {Преобразуване}
+translate g CtgConvertDone {Книгата е запазена:}
 
 # Configure Engines dialog:
 translate g EngineList {Конфигуриране на двигатели}

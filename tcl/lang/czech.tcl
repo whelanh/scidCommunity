@@ -213,6 +213,7 @@ menuText C ToolsTrainFics "Hrt na internetu"  0 {Hrt na freechess.org}
 menuText C ToolsEngineTournament "Motorov turnaj"  0 {Zante turnaj mezi achovmi motory}
 menuText C ToolsTimeAnalysis "asov analza" 0 {Zobrazit graf hodin pro aktuln hru}
 menuText C ToolsBookTuning "Ladn knihovny zahjen" 0 {Ladn knihovny zahjen}
+menuText C ToolsCtgConvert "Převést CTG na OBR..." 0 {Převeďte knihu ChessBase CTG na knihu OpenBook Rich (.obr).}
 menuText C ToolsRapidAnnotate "Anotace z grafu skóre" 0 {Zapište hodnocení a anotace grafu skóre motoru do aktuální hry (Ctrl+Shift+A)}
 menuText C ToolsDownloadTWIC "Sthnte si hry TWIC" 0 {Sthnte si nejnovj hry The Week In Chess (TWIC).}
 menuText C ToolsConnectHardware "Pipojit hardware" 0 {Pipojit extern hardware}
@@ -1024,6 +1025,11 @@ translate C ObrBookDetail {%s  %d hry (frekvence %.1f%%): +%d =%d -%d (Bílý/Re
 translate C ObrColourRed {červený}
 translate C ObrColourBlue {modrý}
 translate C ObrColourGreen {zelený}
+# Tools > Convert CTG book: ChessBase CTG book to OpenBook Rich (.obr)
+translate C CtgChooseSource {Vyberte knihu CTG (.ctg): její soubory .cto a .ctb musí být ve stejné složce}
+translate C CtgChooseDest {Vyberte, kam uložit knihu OBR (.obr)}
+translate C CtgConverting {Konverze}
+translate C CtgConvertDone {Kniha uložena:}
 
 # Configure Engines dialog:
 translate C EngineList {Konfigurace motor}

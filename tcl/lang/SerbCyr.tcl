@@ -253,6 +253,7 @@ menuText J ToolsTrainFics "Играјте на ФИЦС-у"  0 {Играјте �
 menuText J ToolsEngineTournament "Турнир мотора"  0 {Започните турнир између шаховских машина}
 menuText J ToolsTimeAnalysis "Анализа времена" 0 {Прикажи временски графикон за тренутну игру}
 menuText J ToolsBookTuning "Боок тунинг" 0 {Боок тунинг}
+menuText J ToolsCtgConvert "Претвори CTG у OBR..." 0 {Претворите ChessBase CTG књигу у OpenBook Rich (.obr) књигу}
 menuText J ToolsRapidAnnotate "Забележите из графикона резултата" 0 {Упишите процене и напомене графика резултата мотора у тренутну игру (Цтрл+Схифт+А)}
 menuText J ToolsDownloadTWIC "Преузмите ТВИЦ игре" 0 {Преузмите најновије игре Тхе Веек Ин Цхесс (ТВИЦ).}
 menuText J ToolsConnectHardware "Повежите хардвер" 8 {Повежите спољни хардвер}
@@ -1060,6 +1061,11 @@ translate J ObrBookDetail {%s  %d игре (учесталост %.1f%%): +%d =%
 translate J ObrColourRed {црвена}
 translate J ObrColourBlue {плава}
 translate J ObrColourGreen {зелена}
+# Tools > Convert CTG book: ChessBase CTG book to OpenBook Rich (.obr)
+translate J CtgChooseSource {Изаберите CTG књигу (.ctg): њене .cto и .ctb датотеке морају бити у истој фасцикли}
+translate J CtgChooseDest {Изаберите где да сачувате OBR књигу (.obr)}
+translate J CtgConverting {Претварање}
+translate J CtgConvertDone {Књига сачувана:}
 
 # Configure Engines dialog:
 translate J EngineList {Конфигуришите моторе}

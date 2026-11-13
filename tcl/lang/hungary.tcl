@@ -217,6 +217,7 @@ menuText H ToolsTrainFics "Internetes játszma"  0 {Játék a freechess.org szer
 menuText H ToolsEngineTournament "Motorverseny"  0 {Indítson versenyt a sakkmotorok között}
 menuText H ToolsTimeAnalysis "Idõelemzés" 0 {Az aktuális játék óra-ideje grafikonjának megjelenítése}
 menuText H ToolsBookTuning "Megnyitástár-hangolás" 13 {Megnyitástár-hangolás}
+menuText H ToolsCtgConvert "CTG konvertálása OBR-re..." 0 {Konvertálja a ChessBase CTG könyvet OpenBook Rich (.obr) könyvvé}
 menuText H ToolsRapidAnnotate "Jegyzet a pontszám grafikonjáról" 0 {Írja be a motor pontszám grafikonjának értékeléseit és megjegyzéseit az aktuális játékba (Ctrl+Shift+A)}
 menuText H ToolsDownloadTWIC "TWIC játékok letöltése" 0 {Töltse le a legújabb The Week In Chess (TWIC) játékokat}
 menuText H ToolsConnectHardware "Hardver csatlakoztatása" 8 {Külsõ hardver csatlakoztatása}
@@ -1027,6 +1028,11 @@ translate H ObrBookDetail {%s  %d játékok (frekvencia %.1f%%): +%d =%d -%d (Fe
 translate H ObrColourRed {piros}
 translate H ObrColourBlue {kék}
 translate H ObrColourGreen {zöld}
+# Tools > Convert CTG book: ChessBase CTG book to OpenBook Rich (.obr)
+translate H CtgChooseSource {Válassza ki a CTG könyvet (.ctg): a .cto és .ctb fájloknak ugyanabban a mappában kell lenniük}
+translate H CtgChooseDest {Válassza ki, hová szeretné menteni az OBR-könyvet (.obr)}
+translate H CtgConverting {Konvertálás}
+translate H CtgConvertDone {Könyv mentve:}
 
 # Configure Engines dialog:
 translate H EngineList {Motorok konfigurálása}

@@ -230,6 +230,7 @@ menuText K ToolsTrainFics "Jugar a Internet"  0 {Jugar a freechess.org}
 menuText K ToolsEngineTournament "Torneig de motors"  0 {Comença un torneig entre motors}
 menuText K ToolsTimeAnalysis "Anàlisi del temps" 0 {Mostra el gràfic del temps del rellotge per al joc actual}
 menuText K ToolsBookTuning "Ajustar Llibre d'obertures" 0 {Ajustar Llibre (Book)}
+menuText K ToolsCtgConvert "Convertir CTG a OBR..." 0 {Converteix un llibre ChessBase CTG en un llibre OpenBook Rich (.obr).}
 menuText K ToolsRapidAnnotate "Anotar a partir del gràfic de puntuació" 0 {Escriu les avaluacions i anotacions del gràfic de puntuació del motor al joc actual (Ctrl+Maj+A)}
 menuText CA ToolsDownloadTWIC "Descarrega partides TWIC" 0 {Descarrega les partides mÃ©s recents The Week In Chess (TWIC)}
 menuText K ToolsConnectHardware "Connectar maquinari" 0 {Connectar maquinari extern}
@@ -1045,6 +1046,11 @@ translate K ObrBookDetail {%s  %d jocs (freqüència %.1f%%): +%d =%d -%d (Blanc
 translate K ObrColourRed {vermell}
 translate K ObrColourBlue {blau}
 translate K ObrColourGreen {verd}
+# Tools > Convert CTG book: ChessBase CTG book to OpenBook Rich (.obr)
+translate K CtgChooseSource {Trieu el llibre CTG (.ctg): els seus fitxers .cto i .ctb han d'estar a la mateixa carpeta}
+translate K CtgChooseDest {Trieu on desar el llibre OBR (.obr)}
+translate K CtgConverting {Convertint}
+translate K CtgConvertDone {Llibre desat:}
 
 # Configure Engines dialog:
 translate K EngineList {Configura motors}

@@ -220,6 +220,7 @@ menuText W ToolsTrainFics "Spela på Internet"  0 {Spela på freechess.org}
 menuText W ToolsEngineTournament "Motorturnering"  0 {Starta en turnering mellan schackmotorer}
 menuText W ToolsTimeAnalysis "Tidsanalys" 0 {Visa klocktidsdiagram för det aktuella spelet}
 menuText W ToolsBookTuning "Bokfininställning" 0 {Bokfininställning}
+menuText W ToolsCtgConvert "Konvertera CTG till OBR..." 0 {Konvertera en ChessBase CTG-bok till en OpenBook Rich (.obr)-bok}
 menuText W ToolsRapidAnnotate "Annotera från poängdiagram" 0 {Skriv in motorpoängdiagrammets utvärderingar och kommentarer i det aktuella spelet (Ctrl+Skift+A)}
 menuText W ToolsDownloadTWIC "Ladda ner TWIC-spel" 0 {Ladda ner de senaste spelen The Week In Chess (TWIC).}
 menuText W ToolsConnectHardware "Anslut Hårdvara" 0 {Anslut extern hårdvara}
@@ -1030,6 +1031,11 @@ translate W ObrBookDetail {%s  %d spel (frekvens %.1f%%): +%d =%d -%d (Vit/Rit/S
 translate W ObrColourRed {röd}
 translate W ObrColourBlue {blå}
 translate W ObrColourGreen {grön}
+# Tools > Convert CTG book: ChessBase CTG book to OpenBook Rich (.obr)
+translate W CtgChooseSource {Välj CTG-boken (.ctg): dess .cto- och .ctb-filer måste finnas i samma mapp}
+translate W CtgChooseDest {Välj var du vill spara OBR-boken (.obr)}
+translate W CtgConverting {Konverterar}
+translate W CtgConvertDone {Boken sparad:}
 
 # Configure Engines dialog:
 translate W EngineList {Konfigurera motorer}

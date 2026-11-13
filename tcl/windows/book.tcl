@@ -936,6 +936,37 @@ namespace eval book {
   }
 
   ################################################################################
+  #  Convert a ChessBase CTG book (.ctg + .cto + .ctb) to OpenBook Rich (.obr)
+  ################################################################################
+  proc convertCtg {} {
+    set ctg [tk_getOpenFile -parent . -title $::tr(CtgChooseSource) \
+        -filetypes {{"ChessBase CTG" {.ctg .CTG}}}]
+    if {$ctg eq ""} { return }
+    set obr [tk_getSaveFile -parent . -title $::tr(CtgChooseDest) \
+        -initialdir $::scidBooksDir -initialfile "[file rootname [file tail $ctg]].obr" \
+        -defaultextension .obr -filetypes {{"OpenBook Rich" {.obr}}}]
+    if {$obr eq ""} { return }
+
+    progressWindow "scidCommunity" "$::tr(CtgConverting) [file tail $ctg]..." $::tr(Cancel)
+    set err [catch {sc_book ctg2obr $ctg $obr} res]
+    closeProgressWindow
+    if {$err} {
+      tk_messageBox -parent . -title "scidCommunity" -type ok -icon error -message $res
+      return
+    }
+    if {$res eq ""} { return } ;# cancelled
+
+    # list the new book in an open Book window
+    if {[winfo exists .bookWin.main]} {
+      set ::book::bookList [lsort -dictionary [glob -nocomplain -directory $::book::bookPath *.bin *.obr]]
+      set names [lmap f $::book::bookList {file tail $f}]
+      foreach c {combo1 combo2 combo3} { .bookWin.main.$c configure -values $names }
+    }
+    tk_messageBox -parent . -title "scidCommunity" -type ok -icon info \
+        -message "$::tr(CtgConvertDone) [file nativename $obr]\n\n$res"
+  }
+
+  ################################################################################
   #
   ################################################################################
   proc book2pgn { } {

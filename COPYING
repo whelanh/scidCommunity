@@ -49,6 +49,12 @@ All the files that comprise scidCommunity (except a few contributed
 files, see below) are distributed under the terms of the GNU General 
 Public License (GPL) version 2 or, at your option, any later version. A copy of version 2 is provided below.
 
+The CTG book converter (src/polyglot/ctg2obr.cpp and ctg2obr.h) is
+distributed under the GPL version 3 or, at your option, any later version,
+because its move table comes from jja (Copyright 2023 Ali Polatel,
+GPL-3.0-or-later). A scidCommunity binary that includes it is therefore
+distributed under the GPL version 3.
+
 The only files in scidCommunity NOT distributed under the GPL (since 
 they have a different author and copyright, but they are freely 
 distributable) are a Tcl package for sending email using SMTP 

@@ -43,6 +43,7 @@ set helpText(Contents) {<h1>scidCommunity Help Contents</h1>
   <h4>Other utilities and information</h4>
   <ul>
   <li><a Bookmarks><b>Bookmarks</b></a></li>
+  <li><a Ctg2Obr>Converting a ChessBase <b>CTG</b> book to <b>OBR</b></a></li>
   <li><a Cmdline>Command-line options</a></li>
   <li><a Compact><b>Compacting</b> a database</a></li>
   <li><a Maintenance><b>Database maintenance</b> tools</a></li>
@@ -97,6 +98,7 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   <li><a Comment>Comment editor</a></li>
   <li><a Searches CommentsSearch>Comments, searching</a></li>
   <li><a Compact>Compacting a database</a></li>
+  <li><a Ctg2Obr>Converting a ChessBase CTG book to OBR</a></li>
   <li><a Author>Contact information</a></li>
   <li><a Contents>Contents</a></li>
   <li><a Crosstable>Crosstable</a> window</li>
@@ -792,6 +794,8 @@ set helpText(Menus) {<h1>scidCommunity menus</h1>
   <li><menu>Piece Tracker</menu>: Opens the <a PTracker>piece tracker</a>
   window.</li>
   <li><menu>Book Tuning</menu>: Opens the <a BookTuning>book tuning</a> window.</li>
+  <li><menu>Convert CTG to OBR...</menu>: <a Ctg2Obr>Converts</a> a ChessBase
+  CTG opening book to an OpenBook Rich (.obr) book.</li>
   <li><menu>Download TWIC</menu>: <a DownloadTWIC>Downloads</a> the latest This Week In Chess games.</li>
   <li><menu>Connect Hardware</menu>: Allows <a HardwareConfig>external hardware</a> to be
   used to enter moves (e.g. DGT electronic chessboard, Novag Citrine).</li>
@@ -4821,6 +4825,41 @@ set helpText(Book) {<h1>Book window</h1>
   book window.
   </p>
   <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
+}
+
+# Convert CTG to OBR
+set helpTitle(Ctg2Obr) "Convert CTG to OBR"
+set helpText(Ctg2Obr) {<h1>Convert a ChessBase CTG book to OBR</h1>
+  <p>
+  The <b>Convert CTG to OBR...</b> command converts a ChessBase
+  opening book (a <b>.ctg</b> file, together with its companion <b>.cto</b> and
+  <b>.ctb</b> files) into an OpenBook Rich (<b>.obr</b>) book. The resulting
+  book can be opened and browsed in the <a Book>Book window</a>.
+  </p>
+
+  <h3>How to use</h3>
+  <p>
+  Select <menu>Tools: Convert CTG to OBR...</menu> from the menu. scidCommunity will:
+  <ul>
+  <li>Ask for the ChessBase <b>.ctg</b> file. Its <b>.cto</b> and <b>.ctb</b>
+      files must be in the same folder.</li>
+  <li>Ask where to save the new <b>.obr</b> book (by default in the books
+      directory, so it appears in the Book window straight away).</li>
+  <li>Convert the book, showing a progress bar. This can take a while and use
+      a lot of memory for very large books; press <b>Cancel</b> to stop it.</li>
+  </ul>
+  </p>
+
+  <h3>About OpenBook Rich books</h3>
+  <p>
+  An <b>.obr</b> book records, for each position, the number of games, wins,
+  draws and losses, average ratings and performance, and the book author's
+  recommendation (green/blue/red) and annotations for each move. Unlike
+  Polyglot <b>.bin</b> books, <b>.obr</b> books are read-only: they can be
+  browsed in the Book window, but their weights cannot be changed with
+  <a BookTuning>Book tuning</a>.
+  </p>
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
 }
 
 # Play versus Engine window help

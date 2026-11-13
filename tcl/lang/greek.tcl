@@ -244,6 +244,7 @@ menuText G ToolsTrainFics "Παιχνίδι στον FICS"  0 {Παίξτε στ
 menuText G ToolsEngineTournament "Τουρνουά μηχανών"  0 {Ξεκινήστε ένα τουρνουά ανάμεσα σε μηχανές σκακιού}
 menuText G ToolsTimeAnalysis "Ανάλυση χρόνου" 0 {Εμφάνιση γραφήματος ώρας ρολογιού για το τρέχον παιχνίδι}
 menuText G ToolsBookTuning "Συντονισμός βιβλίου" 0 {Συντονισμός βιβλίου}
+menuText G ToolsCtgConvert "Μετατροπή CTG σε OBR..." 0 {Μετατρέψτε ένα βιβλίο ChessBase CTG σε βιβλίο OpenBook Rich (.obr).}
 menuText G ToolsRapidAnnotate "Σχολιασμός από το γράφημα βαθμολογίας" 0 {Γράψτε τις αξιολογήσεις και τους σχολιασμούς του γραφήματος βαθμολογίας του κινητήρα στο τρέχον παιχνίδι (Ctrl+Shift+A)}
 menuText G ToolsDownloadTWIC "Λήψη παιχνιδιών TWIC" 0 {Λήψη των τελευταίων παιχνιδιών The Week In Chess (TWIC)}
 menuText G ToolsConnectHardware "Σύνδεση περιφερειακού" 8 {Συνδέστε εξωτερικό περιφερειακό}
@@ -1051,6 +1052,11 @@ translate G ObrBookDetail {%s  %d παιχνίδια (συχνότητα %.1f%%)
 translate G ObrColourRed {κόκκινος}
 translate G ObrColourBlue {μπλε}
 translate G ObrColourGreen {πράσινος}
+# Tools > Convert CTG book: ChessBase CTG book to OpenBook Rich (.obr)
+translate G CtgChooseSource {Επιλέξτε το βιβλίο CTG (.ctg): τα αρχεία .cto και .ctb πρέπει να βρίσκονται στον ίδιο φάκελο}
+translate G CtgChooseDest {Επιλέξτε πού θα αποθηκεύσετε το βιβλίο OBR (.obr)}
+translate G CtgConverting {Μετατροπή}
+translate G CtgConvertDone {Το βιβλίο αποθηκεύτηκε:}
 
 # Configure Engines dialog:
 translate G EngineList {Διαμόρφωση μηχανών}
