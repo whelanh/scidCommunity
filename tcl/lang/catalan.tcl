@@ -1908,6 +1908,9 @@ translate K ChooseTrainingBase {Escollir base d'entrenament}
 translate K Thinking {Pensant}
 translate K AnalyzeDone {Anàlisi fet}
 translate K WinWonGame {Guanya la partida guanyada}
+translate K TacticsEngineStartFail {No s'ha pogut iniciar el motor de tàctica: %s}
+translate K TacticsEngineGone {El motor de tàctica s'ha aturat: %s}
+translate K TacticsNoAssessment {El motor no ha retornat cap avaluació per a aquesta posició}
 translate K Lines {Línies}
 translate K ConfigureUCIengine {Configurar motor UCI}
 translate K SpecificOpening {Obertura específica}

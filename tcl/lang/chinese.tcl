@@ -1841,6 +1841,9 @@ translate M ChooseTrainingBase {选择培训基地}
 translate M Thinking {思维}
 translate M AnalyzeDone {分析完成}
 translate M WinWonGame {赢得比赛}
+translate M TacticsEngineStartFail {无法启动战术引擎: %s}
+translate M TacticsEngineGone {战术引擎已停止: %s}
+translate M TacticsNoAssessment {引擎没有返回此局面的评估}
 translate M Lines {线路}
 translate M ConfigureUCIengine {配置UCI引擎}
 translate M SpecificOpening {具体开盘}

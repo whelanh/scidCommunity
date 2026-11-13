@@ -1939,6 +1939,9 @@ translate S ChooseTrainingBase {Elegir base de entrenamiento}
 translate S Thinking {Pensando}
 translate S AnalyzeDone {Análisis hecho}
 translate S WinWonGame {Gana la partida ganada}
+translate S TacticsEngineStartFail {No se pudo iniciar el motor de táctica: %s}
+translate S TacticsEngineGone {El motor de táctica se ha detenido: %s}
+translate S TacticsNoAssessment {El motor no dio ninguna evaluación para esta posición}
 translate S Lines {Líneas}
 translate S ConfigureUCIengine {Configurar motor UCI}
 translate S SpecificOpening {Apertura específica}

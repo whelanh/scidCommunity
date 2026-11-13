@@ -1868,6 +1868,9 @@ translate T ChooseTrainingBase {Eğitim tabanını seçin}
 translate T Thinking {Düşünme}
 translate T AnalyzeDone {Analiz tamamlandı}
 translate T WinWonGame {Kazan kazan oyunu}
+translate T TacticsEngineStartFail {Taktik motoru başlatılamadı: %s}
+translate T TacticsEngineGone {Taktik motoru durdu: %s}
+translate T TacticsNoAssessment {Motor bu pozisyon için değerlendirme döndürmedi}
 translate T Lines {çizgiler}
 translate T ConfigureUCIengine {UCI motorunu yapılandırma}
 translate T SpecificOpening {Özel açılış}

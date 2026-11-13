@@ -1894,6 +1894,9 @@ translate B ChooseTrainingBase {Escolher base de treinamento}
 translate B Thinking {Pensando}
 translate B AnalyzeDone {Análise completa}
 translate B WinWonGame {Win venceu o jogo}
+translate B TacticsEngineStartFail {Não foi possível iniciar o motor de tática: %s}
+translate B TacticsEngineGone {O motor de tática parou: %s}
+translate B TacticsNoAssessment {O motor não retornou nenhuma avaliação para esta posição}
 translate B Lines {Linhas}
 translate B ConfigureUCIengine {Configurar engine UCI}
 translate B SpecificOpening {Abertura específica}

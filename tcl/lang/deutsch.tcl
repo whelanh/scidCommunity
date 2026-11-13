@@ -1936,6 +1936,9 @@ translate D ChooseTrainingBase {Trainingsdatenbank auswählen}
 translate D Thinking {Denke...}
 translate D AnalyzeDone {Analyse beendet}
 translate D WinWonGame {Gewinne gewonnene Partie}
+translate D TacticsEngineStartFail {Der Taktik-Motor konnte nicht gestartet werden: %s}
+translate D TacticsEngineGone {Der Taktik-Motor wurde beendet: %s}
+translate D TacticsNoAssessment {Der Motor hat für diese Stellung keine Bewertung geliefert}
 translate D Lines {Variantenzahl}
 translate D ConfigureUCIengine {UCI Engine konfigurieren}
 translate D SpecificOpening {Ausgewählte Eröffnung}

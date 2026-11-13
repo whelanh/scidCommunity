@@ -5083,9 +5083,13 @@ set helpText(TacticsTrainer) {<h1>Training: Tactics</h1>
   area of scidCommunity's main window. Otherwise cheating is pretty simple.
   <p>
   To get a solution for the puzzles in a base the positions are
-  analysed by whatever chess engine the user has configured. The
-  <term>Limit engine analysis time</term> slider allows to limit the
-  time the engine has to solve the position. Several seconds should be
+  analysed by whatever chess engine the user has configured. scidCommunity starts
+  that engine for the training session alone and closes it when the training
+  window closes, so training never takes over the engine of an open
+  engine window. The engine is chosen in the <term>Engine</term> list of the
+  dialogue, which offers the UCI engines of the configuration. The
+  <term>Seconds per move</term> slider limits the time the engine gets to solve
+  the position. Several seconds should be
   enough for most cases as usually tactical puzzles contain a
   forced continuation which will be found very quickly by almost all
   chess engines.
@@ -5120,7 +5124,7 @@ set helpText(TacticsTrainer) {<h1>Training: Tactics</h1>
   game via Ctrl-? or jumping to some bookmark or simply by the <a
   GameList>game list</a>.
   </p>
-  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
 }
 
 # Find best move 

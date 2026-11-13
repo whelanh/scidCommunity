@@ -1905,6 +1905,9 @@ translate L ChooseTrainingBase {Alegeți baza de antrenament}
 translate L Thinking {Gândire}
 translate L AnalyzeDone {Analiza gata}
 translate L WinWonGame {Câștigă jocul câștigat}
+translate L TacticsEngineStartFail {Motorul de tactică nu a pornit: %s}
+translate L TacticsEngineGone {Motorul de tactică s-a oprit: %s}
+translate L TacticsNoAssessment {Motorul nu a returnat nicio evaluare pentru această poziție}
 translate L Lines {Linii}
 translate L ConfigureUCIengine {Configurați motorul UCI}
 translate L SpecificOpening {Deschidere specifica}

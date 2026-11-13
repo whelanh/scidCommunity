@@ -1892,6 +1892,9 @@ translate F ChooseTrainingBase {Choisir la base d'exercices}
 translate F Thinking {Calcul en cours}
 translate F AnalyzeDone {Analyse terminée}
 translate F WinWonGame {Terminer partie gagnée}
+translate F TacticsEngineStartFail {Impossible de démarrer le moteur de tactiques : %s}
+translate F TacticsEngineGone {Le moteur de tactiques s'est arrêté : %s}
+translate F TacticsNoAssessment {Le moteur n'a fourni aucune évaluation pour cette position}
 translate F Lines {Lignes}
 translate F ConfigureUCIengine {Configurer le moteur UCI}
 translate F SpecificOpening {Ouverture spécifique}

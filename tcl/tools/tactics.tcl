@@ -20,9 +20,40 @@ namespace eval tactics {
     set showSolution 0
     set labelSolution ". . . . . . "
     set prevFen ""
-    set engineSlot 5
     # Don't try to find the exact best move but to win a won game (that is a mate in 5 is ok even if there was a pending mate in 2)
     set winWonGame 0
+
+    # --- the trainer's own engine connection ---------------------------------
+    # The trainer used to share the old Analysis engine mode: it started an
+    # engine in slot 5 through the legacy uci layer and read that slot's multiPV
+    # row out of the analysis array. It owns a ::engineNoWin connection instead,
+    # so a puzzle never touches an engine window's engine and #437 §5/§6 can
+    # retire that machinery.
+    #
+    # The id is a literal, like every other ::engineNoWin client (epdAnalysis,
+    # ::finishgame::WhiteId, the review one-shots): ::engineNoWin::initEngine
+    # takes a caller-chosen string, and there is no shared allocator to use.
+    variable engineId tacticsTrainer
+    variable preset ""
+    # One live line is all the referee reads (the best line, index 0).
+    variable multiPV 1
+    # The search in flight: {on fen depth scoreType score pv time}, updated from
+    # every InfoPV of this connection and snapshotted by stopAnalyze.
+    variable search {}
+    # The line the referee judges against, as it always was:
+    # analyzeMode is 1 while a search runs, score is White's point of view in
+    # pawns (a mate is ±327.xx, see whiteScore) and moves is the SAN line.
+    variable analysisEngine
+    set analysisEngine(analyzeMode) 0
+    set analysisEngine(score) 0
+    set analysisEngine(moves) ""
+    # 1 when the timer beat the first info line, so nothing was measured: the
+    # referee must not judge a position the engine never answered for.
+    set analysisEngine(noLine) 0
+    # 1 when the connection died before the trainer window existed: createWin
+    # has to notice, or it builds a window that can never analyse anything.
+    variable engineLost
+    set engineLost 0
 
     proc getBaseTypeFromFile { fname } {
         set dbType "SCID5"
@@ -273,17 +304,24 @@ namespace eval tactics {
     #
     ################################################################################
     proc createWin { base engineIdx} {
-        global ::tactics::analysisEngine
-
-        ::uci::resetUciInfo $::tactics::engineSlot
-        set analysisEngine(analyzeMode) 0
         progressWindow "scidCommunity" [tr StartEngine]
-        set err [::uci::startEngine $engineIdx $::tactics::engineSlot]
+        # The dialog lists presets by their index in ::engines(list); the
+        # connection is opened by the preset's name.
+        set err [catch {
+            ::tactics::openEngine [lindex [lindex $::engines(list) $engineIdx] 0]
+        } msg]
         closeProgressWindow
-        if {$err != 0} { return }
+        if {$err} {
+            tk_messageBox -title "scidCommunity" -icon error -type ok \
+                -message [format [::tr TacticsEngineStartFail] [string trim $msg]]
+            return
+        }
 
         set err [::tactics::loadBase $base]
         if {$err != 0} { return }
+        # The engine can die while the base loads: engineGone has shown the
+        # warning and could not destroy a window that did not exist yet.
+        if {$::tactics::engineLost} { return }
 
 
         set w .tacticsWin
@@ -344,12 +382,149 @@ namespace eval tactics {
         #TODO:
         #sc_filter release $::tactics::baseId $::tactics::filter
         sc_filter reset $::tactics::baseId dbfilter full
-        catch { ::uci::closeUCIengine $::tactics::engineSlot }
+        ::tactics::closeEngine
 
         ::setPlayMode ""
         ::board::flipAuto .main.board
         updateStatusBar
         updateTitle
+    }
+    ################################################################################
+    # The trainer's engine connection
+    ################################################################################
+    # Open the puzzle engine on the trainer's own connection. Raises when the
+    # preset cannot be started, so the caller can say which engine failed.
+    proc openEngine { name } {
+        variable engineId
+        variable preset
+        variable multiPV
+        variable search
+        variable analysisEngine
+        variable engineLost
+
+        # ::engineNoWin::initEngine answers 1 without connecting when a live
+        # connection already holds this id (it tests engConfig_$id). A session
+        # that ended badly must not lend its engine, and its callback, to the
+        # next one, so close the id first.
+        catch { ::engineNoWin::closeEngine $engineId }
+
+        set engineLost 0
+        set search {}
+        set analysisEngine(analyzeMode) 0
+        set analysisEngine(score) 0
+        set analysisEngine(moves) ""
+        set analysisEngine(noLine) 0
+
+        ::engineNoWin::initEngine $engineId $name [list ::tactics::message]
+        set preset $name
+
+        # One live line, asked for on this connection: ::enginecfg::setOption
+        # writes the preset and restarts the user's own search, and the engine
+        # window that published multiPV rows is going away.
+        catch { ::engine::send $engineId SetOptions [list [list MultiPV $multiPV]] }
+        return
+    }
+    # The engine is closed, not stopped: a new session opens a new connection.
+    proc closeEngine {} {
+        variable engineId
+        variable preset
+        variable search
+        variable analysisEngine
+        variable engineLost
+        if {$engineId eq ""} { return }
+        catch { ::engineNoWin::closeEngine $engineId }
+        set preset ""
+        set engineLost 0
+        set search {}
+        set analysisEngine(analyzeMode) 0
+        return
+    }
+    # Messages from ::engineNoWin on the trainer's connection.
+    proc message { msg } {
+        lassign $msg type data
+        switch -- $type {
+            InfoPV {
+                ::tactics::onInfo $data
+            }
+            InfoDisconnected {
+                # The process died under the puzzle: nothing can be judged any
+                # more, and the window would only wait for a line that is not
+                # coming.
+                ::tactics::engineGone
+            }
+        }
+        return
+    }
+    # Keep the best line of this connection, as the Analysis window's multiPV
+    # row used to.
+    # ::enginecomm drops info lines that arrive after a stop request, so the
+    # line has to be kept while it streams, not asked for afterwards.
+    proc onInfo { msgData } {
+        variable multiPV
+        variable search
+        if {![dict exists $search fen]} { return }
+        if {![dict get $search on]} { return }
+        lassign $msgData multipv depth seldepth nodes nps hashfull tbhits time \
+            score scoreType scoreWdl
+        # One live line: the first slot of the engine's MultiPV output.
+        if {$multipv ne "" && $multipv ne $multiPV} { return }
+        if {$score eq "" || $scoreType ni {cp mate}} { return }
+        set pv [join [lrange $msgData 11 end] " "]
+        if {$pv eq ""} { return }
+        dict set search depth $depth
+        dict set search scoreType $scoreType
+        dict set search score [::tactics::whiteScore $score $scoreType [dict get $search fen]]
+        dict set search pv $pv
+        dict set search time $time
+        return
+    }
+    # A UCI score in pawns from White's point of view, the form the referee has
+    # always compared (it is what the legacy analysis reader in uci.tcl wrote
+    # into the multiPV row): a cp score is the engine's own, a mate is the
+    # ±327.xx sentinel its distance produces.
+    proc whiteScore { score scoreType fen } {
+        set mate 0
+        if {$scoreType eq "mate"} {
+            set mate [expr {int($score)}]
+            set cp [expr {$mate < 0 ? -32767 - 2 * $mate : 32767 - 2 * $mate}]
+        } else {
+            set cp [expr {double($score)}]
+        }
+        if {[lindex [split $fen] 1] eq "b"} {
+            set cp [expr {0.0 - $cp}]
+            if {$mate} {
+                set mate [expr {0 - $mate}]
+                if {$cp < 0} { set cp [expr {$cp - 1.0}] }
+            }
+        } elseif {$mate && $cp > 0} {
+            set cp [expr {$cp + 1.0}]
+        }
+        return [expr {double($cp) / 100.0}]
+    }
+    # The line of the search in flight, as SAN, through the tree's formatter.
+    proc lineSAN {} {
+        variable search
+        if {![dict size $search]} { return "" }
+        set pv [dict get $search pv]
+        if {$pv eq ""} { return "" }
+        return [::uci::formatPv $pv [dict get $search fen]]
+    }
+    # The connection died: stop the referee, tell the user, close the session.
+    proc engineGone {} {
+        variable analysisEngine
+        variable engineLost
+        variable preset
+        # The disconnect can arrive before createWin has built the window, where
+        # the destroy below is a no-op: this flag is what stops the window being
+        # built against a connection that is already gone.
+        set engineLost 1
+        after cancel ::tactics::stopAnalyze
+        after cancel ::tactics::mainLoop
+        set analysisEngine(analyzeMode) 0
+        set msg [format [::tr TacticsEngineGone] $preset]
+        catch { tk_messageBox -title "scidCommunity" -icon warning -type ok -message $msg }
+        catch { destroy .tacticsWin }
+        return
     }
     ################################################################################
     #
@@ -493,6 +668,19 @@ namespace eval tactics {
         ::tactics::mainLoop
     }
     ################################################################################
+    # noAssessment:
+    #   The timer expired before any info line, so nothing was measured and there
+    #   is no verdict to give: judging needs the position as it stood before the
+    #   move, and that measurement is gone. So the session says so and stops
+    #   rather than judging a line that never arrived.
+    ################################################################################
+    proc noAssessment {} {
+        setInfoEngine $::tr(AnalyzeDone) PaleGreen3
+        catch { tk_messageBox -title "scidCommunity" -icon info -type ok \
+            -message $::tr(TacticsNoAssessment) }
+    }
+
+    ################################################################################
     # waits for the user to play and check the move played
     ################################################################################
     proc mainLoop {} {
@@ -517,10 +705,23 @@ namespace eval tactics {
         set move_done [sc_game info previousMove]
         if { [string index $move_done end] == "#"} { ::tactics::exSolved; return }
 
-        # if the engine is still analyzing, wait the end of it
+        # The engine is still analyzing: wait for the trainer's own timer flag.
+        # This is a vwait on the module's state, not on an engine reply --
+        # stopAnalyze is what clears it, from the timer it armed in startAnalyze,
+        # so the wait ends even if the engine never answers.
         if {$analysisEngine(analyzeMode)} { vwait ::tactics::analysisEngine(analyzeMode) }
 
         if {![winfo exists .tacticsWin]} { return }
+        # The engine answered nothing before the timer: do not judge a line that
+        # never arrived (analysisEngine(score) would be stale or empty, and the
+        # referee's arithmetic raises on an empty score), and do not reschedule -
+        # noLine is only cleared by startAnalyze, further down this loop, so a
+        # retry would re-enter this branch forever. The trainer waits for the
+        # user, as it does after abnormalContinuation.
+        if {$analysisEngine(noLine)} {
+            ::tactics::noAssessment
+            return
+        }
 
         if {[sc_pos fen] != $::tactics::prevFen  && [sc_pos isAt start]} {
             ::tactics::abnormalContinuation
@@ -534,6 +735,17 @@ namespace eval tactics {
 
         # now wait for the end of analyzis
         if {$analysisEngine(analyzeMode)} { vwait ::tactics::analysisEngine(analyzeMode) }
+        # engineGone clears analyzeMode and destroys the window, so this wait can
+        # resume into a closed session: the first wait's guard, which this one
+        # never had.
+        if {![winfo exists .tacticsWin]} { return }
+        # Same as the first wait: nothing was measured, so judge nothing. A
+        # retry cannot be re-armed from here either - the loop would re-enter at
+        # the top and set prevScore from the analysis it is about to start.
+        if {$analysisEngine(noLine)} {
+            ::tactics::noAssessment
+            return
+        }
         if {[sc_pos fen] != $::tactics::prevFen  && [sc_pos isAt start]} {
             ::tactics::abnormalContinuation
             return
@@ -679,47 +891,64 @@ namespace eval tactics {
         .tacticsWin.f1.labelInfo configure -background $color
     }
     # ======================================================================
-    # sendToEngine:
-    #   Send a command to a running analysis engine.
-    # ======================================================================
-    proc sendToEngine {text} {
-        ::uci::sendToEngine $::tactics::engineSlot $text
-    }
-
-    # ======================================================================
-    # startAnalyzeMode:
-    #   Put the engine in analyze mode
+    # startAnalyze:
+    #   Ask the trainer's engine for the line of the position on the board.
     # ======================================================================
     proc startAnalyze { } {
-        global ::tactics::analysisEngine ::tactics::analysisTime
+        variable analysisEngine
+        variable analysisTime
+        variable engineId
+        variable search
         setInfoEngine "$::tr(Thinking) ..." PaleVioletRed
 
-        # Check that the engine has not already had analyze mode started:
-        if {$analysisEngine(analyzeMode)} {
-            ::tactics::sendToEngine  "exit"
-        }
-
-        set analysisEngine(analyzeMode) 1
         after cancel ::tactics::stopAnalyze
-        ::tactics::sendToEngine "position fen [sc_pos fen]"
-        ::tactics::sendToEngine "go infinite"
+        set fen [sc_pos fen]
+        set search [dict create on 1 fen $fen depth "" scoreType "" score "" pv "" time ""]
+        set analysisEngine(analyzeMode) 1
+        set analysisEngine(noLine) 0
+        # The position and the limit travel in one Go message: ::enginecomm
+        # stops a search that is still running and sends this one after the
+        # engine's bestmove, so a stale "position" cannot be paired with this
+        # "go" (the old mode needed an explicit "exit" for that).
+        catch { ::engine::send $engineId Go [list "position fen $fen" {infinite}] }
         after [expr 1000 * $analysisTime] ::tactics::stopAnalyze
     }
     # ======================================================================
-    # stopAnalyzeMode:
-    #   Stop the engine analyze mode
+    # stopAnalyze:
+    #   Stop the search and keep the line it reached.
     # ======================================================================
     proc stopAnalyze { } {
-        global ::tactics::analysisEngine ::tactics::analysisTime
+        variable analysisEngine
+        variable engineId
+        variable search
         # Check that the engine has already had analyze mode started:
         if {!$analysisEngine(analyzeMode)} { return }
+        after cancel ::tactics::stopAnalyze
 
-        set pv [lindex $::analysis(multiPV$::tactics::engineSlot) 0]
-        set analysisEngine(score) [lindex $pv 1]
-        set analysisEngine(moves) [lindex $pv 2]
-
+        # Snapshot before the stop: ::enginecomm drops the info lines that
+        # arrive after a stop request, so what the user judges is the line the
+        # engine had reached when the timer ran out.
+        if {[dict size $search]} {
+            # A search is only a measurement once a line arrived: the timer can
+            # expire before the first info line, and publishing the dict's empty
+            # initial score would hand the referee a value it cannot compare.
+            if {[dict get $search score] eq ""} {
+                set analysisEngine(noLine) 1
+                set analysisEngine(moves) ""
+            } else {
+                set analysisEngine(noLine) 0
+                set analysisEngine(score) [dict get $search score]
+                set analysisEngine(moves) [::tactics::lineSAN]
+            }
+        } else {
+            set analysisEngine(noLine) 1
+            set analysisEngine(score) 0
+            set analysisEngine(moves) ""
+        }
         set analysisEngine(analyzeMode) 0
-        ::tactics::sendToEngine  "stop"
+        dict set search on 0
+
+        catch { ::engine::send $engineId StopGo }
         if {[winfo exists .tacticsWin]} {
             setInfoEngine $::tr(AnalyzeDone) PaleGreen3
         }

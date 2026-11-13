@@ -1892,6 +1892,9 @@ translate W ChooseTrainingBase {Välj träningsbas}
 translate W Thinking {Tänker}
 translate W AnalyzeDone {Analys klar}
 translate W WinWonGame {Vinn vunnet parti}
+translate W TacticsEngineStartFail {Kunde inte starta taktikmotorn: %s}
+translate W TacticsEngineGone {Taktikmotorn stannade: %s}
+translate W TacticsNoAssessment {Motorn gav ingen bedömning för den här ställningen}
 translate W Lines {Variationer}
 translate W ConfigureUCIengine {Konfigurera UCI-schackmotor}
 translate W SpecificOpening {Specifik öppning}

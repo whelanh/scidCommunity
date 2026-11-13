@@ -1913,6 +1913,9 @@ translate G ChooseTrainingBase {Επιλογή προπονητικής βάση
 translate G Thinking {Ανάλυση}
 translate G AnalyzeDone {Η ανάλυση ολοκληρώθηκε}
 translate G WinWonGame {Κερδισμένη παρτίδα}
+translate G TacticsEngineStartFail {Δεν ήταν δυνατή η εκκίνηση του κινητήρα τακτικής: %s}
+translate G TacticsEngineGone {Ο κινητήρας τακτικής σταμάτησε: %s}
+translate G TacticsNoAssessment {Η μηχανή δεν επέστρεψε αξιολόγηση για αυτή τη θέση}
 translate G Lines {Γραμμές}
 translate G ConfigureUCIengine {Προσαρμογή μηχανής UCI}
 translate G SpecificOpening {Συγκεκριμένο άνοιγμα}

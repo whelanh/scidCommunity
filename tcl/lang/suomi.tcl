@@ -1917,6 +1917,9 @@ translate U ChooseTrainingBase {Valitse harjoituskanta}
 translate U Thinking {Thinking}
 translate U AnalyzeDone {Analyysi valmis}
 translate U WinWonGame {Voita voittoasema}
+translate U TacticsEngineStartFail {Taktisen moottorin käynnistys epäonnistui: %s}
+translate U TacticsEngineGone {Taktinen moottori pysähtyi: %s}
+translate U TacticsNoAssessment {Moottori ei antanut arviota tästä asemasta}
 translate U Lines {Muunnelmat}
 translate U ConfigureUCIengine {UCI-moottorin asetukset}
 translate U SpecificOpening {Tietty avaus}

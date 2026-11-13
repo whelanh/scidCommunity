@@ -1905,6 +1905,9 @@ translate k ChooseTrainingBase {리프 훈련 선택}
 translate k Thinking {생각해요}
 translate k AnalyzeDone {분석하기}
 translate k WinWonGame {승리한게임}
+translate k TacticsEngineStartFail {전술 엔진을 시작할 수 없습니다: %s}
+translate k TacticsEngineGone {전술 엔진이 중지되었습니다: %s}
+translate k TacticsNoAssessment {엔진이 이 국면에 대한 평가를 반환하지 않았습니다}
 translate k Lines {부분}
 translate k ConfigureUCIengine {UCI 엔진 구성}
 translate k SpecificOpening {특정개시}

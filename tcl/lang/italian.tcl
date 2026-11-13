@@ -1888,6 +1888,9 @@ translate I ChooseTrainingBase {Scegli il database di allenamento}
 translate I Thinking {Sto analizzando}
 translate I AnalyzeDone {Analisi eseguita}
 translate I WinWonGame {Vinci le partite vinte}
+translate I TacticsEngineStartFail {Impossibile avviare il motore di tattica: %s}
+translate I TacticsEngineGone {Il motore di tattica si è fermato: %s}
+translate I TacticsNoAssessment {Il motore non ha fornito alcuna valutazione per questa posizione}
 translate I Lines {Linee}
 translate I ConfigureUCIengine {Configura il motore UCI}
 translate I SpecificOpening {Apertura Specifica}

@@ -1918,6 +1918,9 @@ translate E ChooseTrainingBase {Choose training base}
 translate E Thinking {Thinking}
 translate E AnalyzeDone {Analyze done}
 translate E WinWonGame {Win won game}
+translate E TacticsEngineStartFail {Could not start the tactics engine: %s}
+translate E TacticsEngineGone {The tactics engine stopped: %s}
+translate E TacticsNoAssessment {The engine returned no assessment for this position}
 translate E Lines {Lines}
 translate E ConfigureUCIengine {Configure UCI engine}
 translate E SpecificOpening {Specific opening}

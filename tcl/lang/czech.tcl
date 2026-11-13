@@ -1886,6 +1886,9 @@ translate C ChooseTrainingBase {Vybrat trninkovou databzi}
 translate C Thinking {Pemlm}
 translate C AnalyzeDone {Analza hotova}
 translate C WinWonGame {Vyhrt vyhranou partii}
+translate C TacticsEngineStartFail {Nepodařilo se spustit taktický motor: %s}
+translate C TacticsEngineGone {Taktický motor se zastavil: %s}
+translate C TacticsNoAssessment {Engine nevrátil žádné hodnocení pro tuto pozici}
 translate C Lines {Varianty}
 translate C ConfigureUCIengine {Konfigurovat nstroj UCI}
 translate C SpecificOpening {Vybran zahjen}
