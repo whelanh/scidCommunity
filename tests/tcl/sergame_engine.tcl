@@ -602,6 +602,7 @@ proc storeEvalComment {value} {
 set ::sergame::isOpening 0
 set ::sergame::chosenOpening 0
 set ::sergame::chosenEngine 0
+set ::sergame::engineName "Stockfish"
 set ::sergame::useBook 0
 set ::sergame::bookToUse ""
 set ::sergame::startFromCurrent 0
@@ -621,6 +622,7 @@ set ::sergame::analysisTime 10
 set ::sergame::storeEval 0
 set ::sergame::storeEvalAll 0
 set ::sergame::coachIndex 1
+set ::sergame::coachName "Coach"
 set ::sergame::playerColor "white"
 
 # The blunder dialog is a real modal window (tkwait on a variable): a harness
@@ -665,7 +667,7 @@ check "the old shared slot array is never created" [expr {![info exists ::uci::u
 puts "\na go answered by a reply, and the window stays live while it thinks"
 # =============================================================================
 fake::reset
-set rc [catch { ::sergame::play 0 } err]
+set rc [catch { ::sergame::play } err]
 checkEq "play starts the game" $rc 0 $err
 quiet
 drain 60
@@ -758,7 +760,7 @@ puts "\nthe coach has its own connection and cannot overwrite the player's"
 # =============================================================================
 fake::reset
 set ::sergame::coachIsWatching 1
-set rc [catch { ::sergame::play 0 } err]
+set rc [catch { ::sergame::play } err]
 checkEq "a game with a coach starts" $rc 0 $err
 quiet
 drain 80
@@ -818,7 +820,7 @@ puts "\ncancelled before the reply: nothing is left waiting"
 # =============================================================================
 set ::sergame::coachIsWatching 0
 endGame
-::sergame::play 0
+::sergame::play
 quiet
 fake::playerMove e2e4 e4
 ::sergame::engineGo 1
@@ -850,7 +852,7 @@ endGame
 puts "\nan engine that dies mid-search leaves no waiter and no stale score"
 # =============================================================================
 fake::reset
-::sergame::play 0
+::sergame::play
 quiet
 fake::playerMove e2e4 e4
 ::sergame::engineGo 1
@@ -878,7 +880,9 @@ puts "\nan engine that will not start is reported, and nothing is left holding i
 # =============================================================================
 fake::reset
 set ::fake::box ""
-set rc [catch { ::sergame::play 2 } err]
+set ::sergame::engineName "Broken"
+set rc [catch { ::sergame::play } err]
+set ::sergame::engineName "Stockfish"
 checkEq "play survives a preset that cannot start" $rc 0 $err
 quiet
 checkIn "and says which program failed" $::fake::box "Unable to start the program"
@@ -898,6 +902,29 @@ checkEq "and says the engine is gone" $::fake::box [::tr EpdEngineDisconnected]
 endGame
 
 # =============================================================================
+puts "\na reordered engine list still resolves the chosen name"
+# =============================================================================
+# Configure Engines (the dialog the "..." button opens) sorts ::engines(list),
+# so the index the config dialog stored is stale the moment that happens. The
+# name the user picked must still find its engine, not whatever now sits at the
+# old index.
+set savedEngines $::engines(list)
+set ::engines(list) [list \
+    [list "Broken" "/nonexistent/engine" "" "" "" 0 0 1] \
+    [list "Coach" "/usr/games/coach" "" "/usr/share/coach" "" 0 0 1] \
+    [list "Stockfish" "/usr/games/stockfish" "" "/usr/share/stockfish" "" 0 0 1]]
+fake::reset
+set ::fake::box ""
+set ::sergame::engineName "Stockfish"
+::sergame::play
+quiet
+check "the chosen engine still opens by name" \
+    [expr {[::engine::connected sergamePlayer]}]
+checkEq "and no preset was reported unstartable" $::fake::box ""
+endGame
+set ::engines(list) $savedEngines
+
+# =============================================================================
 puts "\nthe game's settings are the game's, and they reach the engine"
 # =============================================================================
 fake::reset
@@ -905,7 +932,7 @@ set ::sergame::wtime 180000
 set ::sergame::btime 240000
 set ::sergame::winc 2000
 set ::sergame::binc 3000
-::sergame::play 0
+::sergame::play
 quiet
 checkEq "the clocks came from the game's own settings" $::fake::gc(c1) -180
 checkEq "and so did the other side's" $::fake::gc(c2) -240
@@ -921,7 +948,7 @@ endGame
 # the connection's, taken when the game opened it.
 set ::sergame::timeMode "depth"
 set ::sergame::depth 7
-::sergame::play 0
+::sergame::play
 quiet
 fake::playerMove e2e4 e4
 ::sergame::engineGo 1
@@ -956,6 +983,7 @@ proc gameDefaults {} {
     set ::sergame::isOpening 0
     set ::sergame::chosenOpening 0
     set ::sergame::chosenEngine 0
+    set ::sergame::engineName "Stockfish"
     set ::sergame::useBook 0
     set ::sergame::bookToUse ""
     set ::sergame::startFromCurrent 0
@@ -975,6 +1003,7 @@ proc gameDefaults {} {
     set ::sergame::storeEval 0
     set ::sergame::storeEvalAll 0
     set ::sergame::coachIndex 1
+    set ::sergame::coachName "Coach"
     set ::sergame::playerColor "white"
     set ::sergame::wtime 300000
     set ::sergame::btime 300000
@@ -994,7 +1023,7 @@ puts "\nclocks: the go line, and what each move does to the game clock"
 # =============================================================================
 gameDefaults
 fake::reset
-::sergame::play 0
+::sergame::play
 quiet
 checkEq "a clock game starts the clocks from the game's own time" \
     [list [::gameclock::getSec 1] [::gameclock::getSec 2]] [list 300 300]
@@ -1041,7 +1070,7 @@ set ::sergame::wtime 180000
 set ::sergame::btime 240000
 set ::sergame::winc 2000
 set ::sergame::binc 3000
-::sergame::play 0
+::sergame::play
 quiet
 playerTurn e2e4 e4
 ::sergame::engineGo 1
@@ -1062,7 +1091,7 @@ endGame
 gameDefaults
 set ::sergame::useChessClock 0
 fake::reset
-::sergame::play 0
+::sergame::play
 quiet
 checkEq "a game with no chess clock starts its clocks from zero" \
     [list [::gameclock::getSec 1] [::gameclock::getSec 2]] [list 0 0]
@@ -1077,7 +1106,7 @@ endGame
 
 set ::sergame::movetime 1500
 fake::reset
-::sergame::play 0
+::sergame::play
 quiet
 playerTurn e2e4 e4
 ::sergame::engineGo 1
@@ -1091,7 +1120,7 @@ puts "\na takeback: the move comes back, and the engine is asked again"
 # =============================================================================
 gameDefaults
 fake::reset
-::sergame::play 0
+::sergame::play
 quiet
 playerTurn e2e4 e4
 ::sergame::engineGo 1
@@ -1114,7 +1143,7 @@ endGame
 gameDefaults
 fake::reset
 set ::sergame::coachIsWatching 1
-::sergame::play 0
+::sergame::play
 quiet
 playerTurn e2e4 e4
 ::sergame::engineGo 1
@@ -1170,7 +1199,7 @@ puts "\nthe blunder dialog: the threshold it uses, and the move it offers"
 gameDefaults
 fake::reset
 set ::sergame::coachIsWatching 1
-::sergame::play 0
+::sergame::play
 quiet
 
 # One turn of judgement: the player has just moved, and the engine has answered
@@ -1212,7 +1241,7 @@ gameDefaults
 fake::reset
 set ::sergame::playerColor "black"
 set ::sergame::coachIsWatching 1
-::sergame::play 0
+::sergame::play
 quiet
 set ::fake::side black
 fake::playerMove d7d5 d5
@@ -1237,7 +1266,7 @@ puts "\nthe coach's warning and the live score follow its reply"
 gameDefaults
 fake::reset
 set ::sergame::coachIsWatching 1
-::sergame::play 0
+::sergame::play
 quiet
 ::sergame::stSet 2 score ""
 set ::sergame::lscore {}
@@ -1295,7 +1324,7 @@ checkEq "and the score line goes with its setting" $::sergame::scoreLabel ""
 gameDefaults
 fake::reset
 set ::sergame::coachIsWatching 1
-::sergame::play 0
+::sergame::play
 quiet
 ::sergame::startAnalyze
 drain 20
@@ -1313,7 +1342,7 @@ puts "\nponder: a hit reuses the line, and a line the player declines does not"
 gameDefaults
 set ::sergame::ponder 1
 fake::reset
-::sergame::play 0
+::sergame::play
 quiet
 playerTurn e2e4 e4
 ::sergame::engineGo 1
@@ -1366,7 +1395,7 @@ gameDefaults
 set ::sergame::storeEval 1
 fake::reset
 set ::sergame::coachIsWatching 1
-::sergame::play 0
+::sergame::play
 quiet
 ::sergame::startAnalyze
 drain 20
@@ -1398,7 +1427,7 @@ endGame
 gameDefaults
 set ::sergame::showevaluation 0
 fake::reset
-::sergame::play 0
+::sergame::play
 quiet
 playerTurn e2e4 e4
 ::sergame::engineGo 1
@@ -1413,7 +1442,7 @@ gameDefaults
 set ::sergame::storeEvalAll 1
 set ::sergame::showevaluation 0
 fake::reset
-::sergame::play 0
+::sergame::play
 quiet
 playerTurn e2e4 e4
 ::sergame::engineGo 1
@@ -1440,7 +1469,7 @@ gameDefaults
 fake::reset
 set ::sergame::coachIsWatching 1
 set bgerrors [llength $::background]
-::sergame::play 0
+::sergame::play
 quiet
 playerTurn e2e4 e4
 ::sergame::engineGo 1
@@ -1456,7 +1485,7 @@ puts "\nhow a game ends: mate, resignation, a draw (and a dead engine, above)"
 # =============================================================================
 gameDefaults
 fake::reset
-::sergame::play 0
+::sergame::play
 quiet
 # Mate: the move just played ends in '#', and there is no move to ask for. (§4a's
 # "an engine that dies mid-search" section is the fourth way a game ends.)
@@ -1476,7 +1505,7 @@ endGame
 gameDefaults
 fake::reset
 set ::sergame::coachIsWatching 1
-::sergame::play 0
+::sergame::play
 quiet
 set ::fake::box ""
 for {set i 0} {$i < 4} {incr i} {
@@ -1502,7 +1531,7 @@ endGame
 # already, with another position between the occurrences.
 gameDefaults
 fake::reset
-::sergame::play 0
+::sergame::play
 quiet
 playerTurn e2e4 e4
 set elt [lrange [split [sc_pos fen]] 0 3]
@@ -1522,7 +1551,7 @@ puts "\nthe second session: after an abnormal one, the module is still a game"
 # =============================================================================
 gameDefaults
 fake::reset
-::sergame::play 0
+::sergame::play
 quiet
 playerTurn e2e4 e4
 ::sergame::engineGo 1
@@ -1537,7 +1566,7 @@ checkEq "the abnormal session ended the way one does" $::fake::playMode ""
 # never sent, a coach that never analyses, a judgement that never runs.
 fake::reset
 set ::sergame::coachIsWatching 1
-set rc [catch { ::sergame::play 0 } err]
+set rc [catch { ::sergame::play } err]
 checkEq "a later session opens" $rc 0 $err
 quiet
 drain 80
@@ -1573,11 +1602,13 @@ endGame
 gameDefaults
 fake::reset
 set ::fake::box ""
-::sergame::play 2
+set ::sergame::engineName "Broken"
+::sergame::play
 quiet
 check "a session whose engine never started holds no connection" \
     [expr {![::engine::connected sergamePlayer]}]
-set rc [catch { ::sergame::play 0 } err]
+set ::sergame::engineName "Stockfish"
+set rc [catch { ::sergame::play } err]
 checkEq "and the next session opens on the same id" $rc 0 $err
 quiet
 drain 40
@@ -1642,10 +1673,11 @@ puts "\na second Play in one session finds its window"
 # - engine up, no interface, clocks never armed. Two Plays in a row prove it.
 catch { destroy .coachWin }
 catch { destroy .fdockcoachWin }
-set playErr1 [catch { ::sergame::play 1 } e1]
+set ::sergame::engineName "Stockfish"
+set playErr1 [catch { ::sergame::play } e1]
 check "the first Play builds the game window" \
     [expr {$playErr1 == 0 && [winfo exists .coachWin]}]
-set playErr2 [catch { ::sergame::play 1 } e2]
+set playErr2 [catch { ::sergame::play } e2]
 check "a second Play in the same session builds it again" \
     [expr {$playErr2 == 0 && [winfo exists .coachWin]}]
 if {$playErr2} { puts "    (second Play said: $e2)" }

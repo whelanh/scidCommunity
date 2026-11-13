@@ -38,6 +38,7 @@ namespace eval sergame {
   set outOfOpening 0
   array set engineListBox {}
   set engineName ""
+  set coachName ""
   set bookSlot 2
   if {![info exists storeEval]} { set storeEval 0 }
   if {![info exists storeEvalAll]} { set storeEvalAll 0 }
@@ -333,7 +334,7 @@ namespace eval sergame {
         }
       }
       destroy .configSerGameWin
-      ::sergame::play $::sergame::chosenEngine
+      ::sergame::play
     }
     ttk::button $w.fbuttons.cancel -textvar ::tr(Cancel) -command "focus .; destroy $w"
 
@@ -361,6 +362,7 @@ namespace eval sergame {
       if {[info exists ::sergame::coachListBox($coachComboIdx)]} {
         set ::sergame::coachIndex $::sergame::coachListBox($coachComboIdx)
       }
+      set ::sergame::coachName [$w.fcoach.en.cbCoach get]
     }
 
     catch { set ::sergame::depth [$w.ftime.depth.value get] }
@@ -392,7 +394,7 @@ namespace eval sergame {
   ################################################################################
   # play: start the game
   ################################################################################
-  proc play { engine {n 1} } {
+  proc play { {n 1} } {
     global ::sergame::chosenOpening ::sergame::isOpening ::sergame::openingList ::sergame::openingMovesList \
         ::sergame::openingMovesHash ::sergame::openingMoves ::sergame::outOfOpening
 
@@ -441,11 +443,14 @@ namespace eval sergame {
       ::board::flip .main.board 1
     }
 
-    # Start opponent engine (engine 1) on its own connection
-    ::sergame::openEngine $engine $n
+    # Start opponent engine (engine 1) on its own connection. The config dialog
+    # recorded the chosen engine's name; resolve it against the current list
+    # here, because Configure Engines can reorder the list after the dialog was
+    # built and an index stored then is not the engine the user picked.
+    ::sergame::openEngine $::sergame::engineName $n
 
     if {$::sergame::coachIsWatching} {
-      ::sergame::openEngine $::sergame::coachIndex 2
+      ::sergame::openEngine $::sergame::coachName 2
       ::sergame::stSet 2 multipv 1
       ::sergame::changePVSize 2
       ::sergame::startAnalyze
@@ -759,17 +764,25 @@ namespace eval sergame {
     ::sergame::stSet $n movetime   $::sergame::movetime
   }
 
-  # Open one engine on its own connection. Returns 1 when it could not be
-  # started, having said so the way the game always has: the caller carries on
-  # and the game reports the engine missing on its first move.
-  proc openEngine {index n} {
+  # Open one engine on its own connection. `name` is the preset's name, not its
+  # index: the list can be reordered (Configure Engines sorts it) after the
+  # config dialog recorded the choice, so the name is resolved against the
+  # current list here. Returns 1 when it could not be started, having said so
+  # the way the game always has: the caller carries on and the game reports the
+  # engine missing on its first move.
+  proc openEngine {name n} {
     set id [::sergame::connId $n]
     # ::engineNoWin::initEngine answers 1 without connecting when a live
     # connection already holds this id (it tests engConfig_$id): a game that
     # ended badly must not lend its engine, and its callback, to the next one.
     catch { ::engineNoWin::closeEngine $id }
+    set index [lsearch -exact -index 0 $::engines(list) $name]
+    if {$index < 0} {
+      tk_messageBox -title "scidCommunity: error starting engine" -icon warning -type ok \
+        -message "Unable to start the program:\n[toAbsPath $name]"
+      return 1
+    }
     set engineData [lindex $::engines(list) $index]
-    set name [lindex $engineData 0]
     if {[catch {
       ::engineNoWin::initEngine $id $name [list ::sergame::message $n]
     } err]} {
