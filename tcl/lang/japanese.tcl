@@ -356,6 +356,7 @@ menuText A OptionsMovesGlossOfDanger "色分けされた危険の光沢" 0 {色�
 translate A OptionsGlistWheelRows {ホイールノッチあたりの列数}
 translate A OptionsMovesTreeDepth {デフォルトのツリーウィンドウの移動深さ}
 translate A OptionsMovesEnginePvLength {エンジンPV表示長}
+translate A OptionsMovesEngineHistory {エンジンの検索履歴を表示する}
 menuText A OptionsNumbers "数値の形式" 0 {数値形式を選択します}
 menuText A OptionsTheme "テーマ" 0 {インターフェースの外観を変更する}
 menuText A OptionsWindows "窓" 0 {ウィンドウのオプション}

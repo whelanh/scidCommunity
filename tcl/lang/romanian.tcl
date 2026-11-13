@@ -356,6 +356,7 @@ menuText L OptionsMovesGlossOfDanger "Luciu de pericol cu ​​coduri de culoar
 translate L OptionsGlistWheelRows {Rânduri pe crestătură de roată}
 translate L OptionsMovesTreeDepth {Adâncimea de mutare a ferestrei arborelui implicit}
 translate L OptionsMovesEnginePvLength {Lungimea afișajului motorului PV}
+translate L OptionsMovesEngineHistory {Afișează istoricul căutărilor motorului}
 menuText L OptionsNumbers "Format de număr" 0 {Selectați formatul numărului}
 menuText L OptionsTheme "Temă" 0 {Schimbați aspectul interfeței}
 menuText L OptionsWindows "Windows" 0 {Opțiuni de fereastră}

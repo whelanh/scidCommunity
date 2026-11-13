@@ -354,6 +354,7 @@ menuText U OptionsMovesGlossOfDanger "Värikoodattu Gloss of Danger" 0 {Kytke p�
 translate U OptionsGlistWheelRows {Rivit per pyörän lovi}
 translate U OptionsMovesTreeDepth {Oletuspuuikkunan siirtosyvyys}
 translate U OptionsMovesEnginePvLength {Moottorin PV näytön pituus}
+translate U OptionsMovesEngineHistory {Näytä moottorin hakuhistoria}
 menuText U OptionsNumbers "Numerointi" 0 {Numeroformaatit, 1-3 desimaalipisteellä, 4-6 -pilkulla}
 menuText U OptionsTheme "Teema" 0 {Valitse käyttöliittymän teema}
 menuText U OptionsWindows "Ikkunat" 0 {Ikkunoiden asetukset}

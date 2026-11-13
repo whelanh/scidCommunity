@@ -340,6 +340,7 @@ menuText N OptionsMovesGlossOfDanger "Kleurgecodeerde glans van gevaar" 0 {Schak
 translate N OptionsGlistWheelRows {Rijen per wielinkeping}
 translate N OptionsMovesTreeDepth {Standaard boomvenster Verplaatsingsdiepte}
 translate N OptionsMovesEnginePvLength {Motor-PV-weergavelengte}
+translate N OptionsMovesEngineHistory {Toon de zoekgeschiedenis van de motor}
 menuText N OptionsNumbers "Getalformaat" 5 \
   {Kies de manier waarop getallen te zien zijn}
 menuText N OptionsTheme "Theme" 0 {Verander het uitzicht van de interface}

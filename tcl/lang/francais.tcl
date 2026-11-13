@@ -329,6 +329,7 @@ menuText F OptionsMovesGlossOfDanger "Couleur codée Gloss of Danger" 0 {Affiche
 translate F OptionsGlistWheelRows {Rangées par encoche de roue}
 translate F OptionsMovesTreeDepth {Profondeur de déplacement de la fenêtre d'arborescence par défaut}
 translate F OptionsMovesEnginePvLength {Longueur d'affichage PV du moteur}
+translate F OptionsMovesEngineHistory {Afficher l'historique de recherche du moteur}
 menuText F OptionsNumbers "Format numérique" 7 {Sélectionner le format des nombres}
 menuText F OptionsTheme "Apparence" 0 {Change l'apparence de l'interface}
 menuText F OptionsWindows "Fenêtres" 0 {Options des fenêtres}

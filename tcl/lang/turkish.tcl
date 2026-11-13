@@ -319,6 +319,7 @@ menuText T OptionsMovesGlossOfDanger "Renk Kodlu Tehlike Parlatıcısı" 0 {Renk
 translate T OptionsGlistWheelRows {Tekerlek çentiği başına satır sayısı}
 translate T OptionsMovesTreeDepth {Varsayılan Ağaç Penceresi Taşıma Derinliği}
 translate T OptionsMovesEnginePvLength {Motor PV ekran uzunluğu}
+translate T OptionsMovesEngineHistory {Motor arama geçmişini göster}
 menuText T OptionsNumbers "Sayı Formatı" 0 {Sayı biçimini seçin}
 menuText T OptionsTheme "Tema" 0 {Arayüzün görünümünü değiştirin}
 menuText T OptionsWindows "Windows" 0 {Pencere seçenekleri}

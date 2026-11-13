@@ -356,6 +356,7 @@ menuText k OptionsMovesGlossOfDanger "색상으로 구분된 위험의 점" 0 {�
 translate k OptionsGlistWheelRows {휠 노치당 행}
 translate k OptionsMovesTreeDepth {기본적으로 트리 창 이동 범위}
 translate k OptionsMovesEnginePvLength {엔진 PV 표시 길이}
+translate k OptionsMovesEngineHistory {엔진 검색 기록 표시}
 menuText k OptionsNumbers "숫자 형식" 0 {숫자 형식 선택}
 menuText k OptionsTheme "주제" 0 {인터페이스 변경 모양}
 menuText k OptionsWindows "다루다" 0 {창옵션}

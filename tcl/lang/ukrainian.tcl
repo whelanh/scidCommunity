@@ -316,6 +316,7 @@ menuText Q OptionsMovesGlossOfDanger "Кольоровий блиск небез
 translate Q OptionsGlistWheelRows {Рядки на колесо}
 translate Q OptionsMovesTreeDepth {Глибина переміщення вікна дерева за замовчуванням}
 translate Q OptionsMovesEnginePvLength {Довжина PV дисплея двигуна}
+translate Q OptionsMovesEngineHistory {Показати історію пошуку системи}
 menuText Q OptionsNumbers "Формат числа" 0 {Виберіть формат числа}
 menuText Q OptionsTheme "Тема" 0 {Змінити вигляд інтерфейсу}
 menuText Q OptionsWindows "вікна" 0 {Параметри вікна}

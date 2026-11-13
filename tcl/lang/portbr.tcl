@@ -322,6 +322,7 @@ menuText B OptionsMovesGlossOfDanger "Códigos de Cor para Perigo" 0 {Liga/Desli
 translate B OptionsGlistWheelRows {Linhas por entalhe de roda}
 translate B OptionsMovesTreeDepth {Profundidade de movimentação da janela de árvore padrão}
 translate B OptionsMovesEnginePvLength {Comprimento do display PV do motor}
+translate B OptionsMovesEngineHistory {Mostrar histórico de pesquisa do mecanismo}
 menuText B OptionsNumbers "Formato de Números" 0 {Selecione o formato usado para números}
 menuText B OptionsTheme "Tema" 0 {Muda a aparência da interface}
 menuText B OptionsWindows "Janelas" 0 {Opções para Janelas}

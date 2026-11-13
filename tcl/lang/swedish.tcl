@@ -324,6 +324,7 @@ menuText W OptionsMovesGlossOfDanger "Färgkodad Gloss of Danger" 0 {Slå på/av
 translate W OptionsGlistWheelRows {Rader per hjulskåra}
 translate W OptionsMovesTreeDepth {Standard trädfönster Flytta djup}
 translate W OptionsMovesEnginePvLength {Motorns PV-displaylängd}
+translate W OptionsMovesEngineHistory {Visa sökhistorik för motorer}
 menuText W OptionsNumbers "Talformat" 3 {Välj hur tal visas}
 menuText W OptionsTheme "Tema" 0 {Ändra utseende på gränssnitt}
 menuText W OptionsWindows "Fönster" 1 {Fönsteralternativ}

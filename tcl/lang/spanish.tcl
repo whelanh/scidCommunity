@@ -345,6 +345,7 @@ menuText S OptionsMovesGlossOfDanger "Brillo de peligro codificado por colores" 
 translate S OptionsGlistWheelRows {Filas por muesca de rueda}
 translate S OptionsMovesTreeDepth {Profundidad de movimiento de ventana de árbol predeterminada}
 translate S OptionsMovesEnginePvLength {Longitud de visualización del PV del motor}
+translate S OptionsMovesEngineHistory {Mostrar el historial de búsqueda del motor}
 menuText S OptionsNumbers "Formato de números" 11 \
   {Selecciona el formato de números}
 menuText S OptionsTheme "Tema" 0 {Cambia el aspecto del interfaz}

@@ -322,6 +322,7 @@ menuText R OptionsMovesGlossOfDanger "Подсветка угроз" 0 {Вкл./
 translate R OptionsGlistWheelRows {Рядов на выемку колеса}
 translate R OptionsMovesTreeDepth {Глубина перемещения окна дерева по умолчанию}
 translate R OptionsMovesEnginePvLength {Длина дисплея PV двигателя}
+translate R OptionsMovesEngineHistory {Показать историю поиска в системе}
 menuText R OptionsNumbers "Числовой формат" 0 {Выбрать числовой формат}
 menuText R OptionsTheme "Темы" 0 {Смена внешнего вида интерфейса}
 menuText R OptionsWindows "Окна" 0 {Установки окон}

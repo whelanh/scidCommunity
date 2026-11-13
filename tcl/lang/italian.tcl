@@ -321,6 +321,7 @@ menuText I OptionsMovesGlossOfDanger "Codici di pericolo a colori" 1 {Attiva/dis
 translate I OptionsGlistWheelRows {Righe per tacca della ruota}
 translate I OptionsMovesTreeDepth {Profondità di spostamento della finestra dell'albero predefinita}
 translate I OptionsMovesEnginePvLength {Lunghezza visualizzazione PV motore}
+translate I OptionsMovesEngineHistory {Mostra la cronologia delle ricerche del motore}
 menuText I OptionsNumbers "Formato dei numeri" 13 {Seglie il formato dei numeri}
 menuText I OptionsTheme "Tema" 0 {Cambia l'aspetto dell'interfaccia}
 menuText I OptionsWindows "Finestre" 2 {Opzioni di finestra}

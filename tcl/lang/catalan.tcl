@@ -334,6 +334,7 @@ menuText K OptionsMovesGlossOfDanger "Marques de perill de colors" 0 {Activa o d
 translate K OptionsGlistWheelRows {Files per ranura de roda}
 translate K OptionsMovesTreeDepth {Profunditat de moviment de la finestra de l'arbre per defecte}
 translate K OptionsMovesEnginePvLength {Longitud de visualització del motor PV}
+translate K OptionsMovesEngineHistory {Mostra l'historial de cerca del motor}
 menuText K OptionsNumbers "Format de números" 11 {Selecciona el format de números}
 menuText K OptionsTheme "Tema" 0 {Canviar l'aspecte del programari}
 menuText K OptionsWindows "Finestres" 0 {Opcions de finestra}

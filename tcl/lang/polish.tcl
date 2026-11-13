@@ -355,6 +355,7 @@ menuText P OptionsMovesGlossOfDanger "Kolorowe oznaczenia zagrożeń" 0 {Włącz
 translate P OptionsGlistWheelRows {Liczba wierszy przewijanych kółkiem myszy}
 translate P OptionsMovesTreeDepth {Domyślna liczba półposunięć w oknie drzewa wariantów}
 translate P OptionsMovesEnginePvLength {Długość wyświetlanych linii PV silnika}
+translate P OptionsMovesEngineHistory {Pokaż historię wyszukiwania w wyszukiwarce}
 menuText P OptionsNumbers "Format liczb" 0 {Wybierz format liczb}
 menuText P OptionsTheme "Motyw" 0 {Zmień wygląd interfejsu}
 menuText P OptionsWindows "Okna" 0 {Opcje okien}

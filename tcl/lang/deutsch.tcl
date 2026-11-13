@@ -347,6 +347,7 @@ menuText D OptionsMovesGlossOfDanger "Bedrohte Figuren einfärben" 0 {Markieren 
 translate D OptionsGlistWheelRows {Reihen pro Radkerbe}
 translate D OptionsMovesTreeDepth {Standardmäßige Verschiebetiefe des Baumfensters}
 translate D OptionsMovesEnginePvLength {Länge der Motor-PV-Anzeige}
+translate D OptionsMovesEngineHistory {Suchverlauf der Suchmaschine anzeigen}
 menuText D OptionsNumbers "Zahlenformat" 5 {Zahlenformat wählen}
 menuText D OptionsTheme "Design" 0 {Verändert das Aussehen der Oberfläche}
 menuText D OptionsWindows "Fenster" 6 {Fenster-Optionen}

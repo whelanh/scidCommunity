@@ -292,6 +292,7 @@ menuText M OptionsMovesGlossOfDanger "危险等级颜色编码" 0 {开启/关闭
 translate M OptionsGlistWheelRows {每个轮槽的行数}
 translate M OptionsMovesTreeDepth {默认树窗口移动深度}
 translate M OptionsMovesEnginePvLength {发动机PV显示长度}
+translate M OptionsMovesEngineHistory {显示引擎搜索历史记录}
 menuText M OptionsNumbers "数字格式" 0 {选择数字格式}
 menuText M OptionsTheme "主题" 0 {更改界面外观}
 menuText M OptionsWindows "窗口" 0 {窗口选项}

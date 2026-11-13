@@ -315,6 +315,7 @@ menuText b OptionsMovesGlossOfDanger "কালার কোডেড গ্ল�
 translate b OptionsGlistWheelRows {চাকার খাঁজ প্রতি সারি}
 translate b OptionsMovesTreeDepth {ডিফল্ট ট্রি উইন্ডো সরানোর গভীরতা}
 translate b OptionsMovesEnginePvLength {ইঞ্জিন পিভি প্রদর্শনের দৈর্ঘ্য}
+translate b OptionsMovesEngineHistory {ইঞ্জিন অনুসন্ধান ইতিহাস দেখান}
 menuText b OptionsNumbers "নম্বর বিন্যাস" 0 {নম্বর বিন্যাস নির্বাচন করুন}
 menuText b OptionsTheme "থিম" 0 {ইন্টারফেসের চেহারা পরিবর্তন করুন}
 menuText b OptionsWindows "উইন্ডোজ" 0 {উইন্ডো বিকল্প}

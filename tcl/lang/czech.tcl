@@ -317,6 +317,7 @@ menuText C OptionsMovesGlossOfDanger "Barevn kdovan lesk nebezpe" 0 {Zapnout/vyp
 translate C OptionsGlistWheelRows {Řady na zářez kola}
 translate C OptionsMovesTreeDepth {Vchoz Hloubka pohybu okna stromu}
 translate C OptionsMovesEnginePvLength {Délka zobrazení PV motoru}
+translate C OptionsMovesEngineHistory {Zobrazit historii vyhledávání vyhledávače}
 menuText C OptionsNumbers "Formt sel" 0 {Zvolit formt sel}
 menuText C OptionsTheme "Tma" 0 {Zmnit vzhled uivatelskho rozhran}
 menuText C OptionsWindows "Okna" 0 {Volby oken}

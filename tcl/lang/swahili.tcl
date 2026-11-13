@@ -315,6 +315,7 @@ menuText Z OptionsMovesGlossOfDanger "Mwangaza wa Hatari Wenye Msimbo wa Rangi" 
 translate Z OptionsGlistWheelRows {Safu kwa kila noti ya gurudumu}
 translate Z OptionsMovesTreeDepth {Dirisha Chaguomsingi la Kusogeza kwa Miti}
 translate Z OptionsMovesEnginePvLength {Urefu wa onyesho la PV ya injini}
+translate Z OptionsMovesEngineHistory {Onyesha historia ya utafutaji wa injini}
 menuText Z OptionsNumbers "Muundo wa Nambari" 0 {Chagua muundo wa nambari}
 menuText Z OptionsTheme "Mandhari" 0 {Badilisha mwonekano wa kiolesura}
 menuText Z OptionsWindows "Windows" 0 {Chaguzi za dirisha}

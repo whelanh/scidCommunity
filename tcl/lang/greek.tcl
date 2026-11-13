@@ -347,6 +347,7 @@ menuText G OptionsMovesGlossOfDanger "Χρωματική κωδικοποίησ�
 translate G OptionsGlistWheelRows {Σειρές ανά εγκοπή τροχού}
 translate G OptionsMovesTreeDepth {Προεπιλεγμένο Βάθος μετακίνησης παραθύρου δέντρου}
 translate G OptionsMovesEnginePvLength {Μήκος εμφάνισης κύριας βαριάντας μηχανής}
+translate G OptionsMovesEngineHistory {Εμφάνιση ιστορικού αναζήτησης μηχανών}
 menuText G OptionsNumbers "Μορφή αριθμών" 0 {Επιλέξτε τη μορφή των αριθμών}
 menuText G OptionsTheme "Θέμα" 0 {Αλλάξτε την όψη του προγράμματος}
 menuText G OptionsWindows "Παράθυρα" 0 {Επιλογές παραθύρων}

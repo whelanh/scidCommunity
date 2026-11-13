@@ -321,6 +321,7 @@ menuText H OptionsMovesGlossOfDanger "Színkódolt Gloss of Danger" 0 {Kapcsolja
 translate H OptionsGlistWheelRows {Sorok kerékbevágásonként}
 translate H OptionsMovesTreeDepth {Alapértelmezett fa ablak mozgási mélység}
 translate H OptionsMovesEnginePvLength {Motor PV kijelző hossza}
+translate H OptionsMovesEngineHistory {Motor keresési előzményeinek megjelenítése}
 menuText H OptionsNumbers "Számformátum" 1 {Számformátum kiválasztása}
 menuText H OptionsTheme "Téma" 0 {A program megjelenésének megváltoztatása}
 menuText H OptionsWindows "Ablakok" 0 {Ablakbeállítások}

@@ -315,6 +315,7 @@ menuText h OptionsMovesGlossOfDanger "रंग कोडित खतरे क
 translate h OptionsGlistWheelRows {पंक्तियाँ प्रति पहिया पायदान}
 translate h OptionsMovesTreeDepth {डिफ़ॉल्ट ट्री विंडो चाल गहराई}
 translate h OptionsMovesEnginePvLength {इंजन पीवी डिस्प्ले लंबाई}
+translate h OptionsMovesEngineHistory {इंजन खोज इतिहास दिखाएँ}
 menuText h OptionsNumbers "संख्या स्वरूप" 0 {संख्या प्रारूप का चयन करें}
 menuText h OptionsTheme "विषय" 0 {इंटरफ़ेस का स्वरूप बदलें}
 menuText h OptionsWindows "खिड़कियाँ" 0 {विंडो विकल्प}

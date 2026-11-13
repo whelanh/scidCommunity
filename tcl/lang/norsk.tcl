@@ -323,6 +323,7 @@ menuText O OptionsMovesGlossOfDanger "Fargekodet Gloss of Danger" 0 {Slå på/av
 translate O OptionsGlistWheelRows {Rader per hjulhakk}
 translate O OptionsMovesTreeDepth {Standard trevindu flyttedybde}
 translate O OptionsMovesEnginePvLength {Motor PV-visningslengde}
+translate O OptionsMovesEngineHistory {Vis søkehistorikk for motorer}
 menuText O OptionsNumbers "Tallformat" 0 {Angi tallformat}
 menuText O OptionsTheme "Tema" 0 {Endre utseendet på grensesnittet}
 menuText O OptionsWindows "Vinduer" 0 {Vindusinnstillinger}

@@ -316,6 +316,7 @@ menuText V OptionsMovesGlossOfDanger "מבריק של סכנה בקוד צבע" 
 translate V OptionsGlistWheelRows {שורות לכל חריץ גלגל}
 translate V OptionsMovesTreeDepth {עומק הזזת חלון עץ ברירת מחדל}
 translate V OptionsMovesEnginePvLength {אורך תצוגת PV מנוע}
+translate V OptionsMovesEngineHistory {הצג היסטוריית חיפוש במנוע}
 menuText V OptionsNumbers "פורמט מספר" 0 {בחר את תבנית המספר}
 menuText V OptionsTheme "נוֹשֵׂא" 0 {שנה את מראה הממשק}
 menuText V OptionsWindows "חלונות" 0 {אפשרויות חלון}

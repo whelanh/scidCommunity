@@ -356,6 +356,7 @@ menuText g OptionsMovesGlossOfDanger "Цветно кодиран блясък �
 translate g OptionsGlistWheelRows {Редове на прорез на колело}
 translate g OptionsMovesTreeDepth {Дълбочина на движение на прозореца на дървото по подразбиране}
 translate g OptionsMovesEnginePvLength {Дължина на PV дисплея на двигателя}
+translate g OptionsMovesEngineHistory {Показване на хронологията на търсенето в двигателя}
 menuText g OptionsNumbers "Числов формат" 0 {Изберете числовия формат}
 menuText g OptionsTheme "Тема" 0 {Промяна на външния вид на интерфейса}
 menuText g OptionsWindows "Windows" 0 {Опции за прозорци}

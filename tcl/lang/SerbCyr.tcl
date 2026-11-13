@@ -356,6 +356,7 @@ menuText J OptionsMovesGlossOfDanger "Сјај опасности у боји" 0
 translate J OptionsGlistWheelRows {Редови по зарезу точка}
 translate J OptionsMovesTreeDepth {Подразумевана дубина померања прозора стабла}
 translate J OptionsMovesEnginePvLength {Дужина приказа ПВ мотора}
+translate J OptionsMovesEngineHistory {Прикажи историју претраге мотора}
 menuText J OptionsNumbers "Формат броја" 0 {Изаберите формат броја}
 menuText J OptionsTheme "Тема" 0 {Промените изглед интерфејса}
 menuText J OptionsWindows "Виндовс" 0 {Опције прозора}
