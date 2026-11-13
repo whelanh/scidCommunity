@@ -113,9 +113,9 @@ proc ::appupdate::fetchAsync {url callback} {
         # revocation check; disable it on Windows.
         if {$::windowsOS} { lappend args --ssl-no-revoke }
         lappend args $url
-        set cmd [list | $curl {*}$args]
+        set cmd [list | {*}$curl {*}$args]
     } elseif {$wget ne ""} {
-        set cmd [list | $wget -q -O - --timeout=20 $url]
+        set cmd [list | {*}$wget -q -O - --timeout=20 $url]
     } else {
         # No command-line client: fall back to a synchronous fetch on the next
         # event-loop turn so the callback is still asynchronous from the caller.
@@ -357,9 +357,9 @@ proc ::appupdate::downloadAsync {url dest callback {label ""}} {
         # redirects to); disable it on Windows.
         if {$::windowsOS} { lappend args --ssl-no-revoke }
         lappend args -o $dest $url
-        set cmd [list | $curl {*}$args]
+        set cmd [list | {*}$curl {*}$args]
     } elseif {$wget ne ""} {
-        set cmd [list | $wget -q -O $dest --timeout=900 $url]
+        set cmd [list | {*}$wget -q -O $dest --timeout=900 $url]
     } else {
         # No command-line client: do a blocking download on the next loop turn.
         after 0 [list ::appupdate::_downloadSync $url $dest $callback]
