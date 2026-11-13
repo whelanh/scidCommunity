@@ -107,7 +107,7 @@ checkEq "tcl/tools/analysis.tcl is gone" \
 # WinBoard detector). A call to one of them is a runtime error where the user
 # is - on every move, or on Exit - and #437 round 1 found three that a
 # reference count had missed: updateAnalysis from ::notify::privPosChanged,
-# toAbsPath from ::sergame::openEngine, and the five globals uci.tcl's dead
+# toAbsPath from ::sergame::openEngine, and the eight globals uci.tcl's dead
 # block still reached for. So this scans for CALLS over every .tcl in tcl/:
 #
 #  - a comment-only line is not a call, and the name must not be part of a
