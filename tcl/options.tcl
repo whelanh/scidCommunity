@@ -237,6 +237,9 @@ set showEngineVariationArrows 1
 # Number of moves (2 plies each) of each engine PV line to display in the
 # Engine windows (F2/F3).
 set ::enginePvDisplayLength 6
+# Keep the engine's earlier iterations below the live PV block in the Engine
+# windows. Off shows only the current iteration.
+set ::enginewin_history 1
 ::options.store ::showMainEvalBarArrow 1
 
 # Keyboard Move entry options:
@@ -747,7 +750,7 @@ proc options.write {} {
           ::pgn::repetitionAlert \
           tree(order) tree(moveDepth) optionsAutoSave ::tree::mask::recentMask \
           ecoFile suggestMoves showVarPopup showVarArrows showEngineVariationArrows \
-          enginePvDisplayLength \
+          enginePvDisplayLength enginewin_history \
           blunderThreshold autoplayDelay animateDelay boardCoords \
           moveEntry(AutoExpand) moveEntry(Coord) \
           translatePieces lichessFormat arrowLastMove highlightLastMove highlightLastMoveWidth \

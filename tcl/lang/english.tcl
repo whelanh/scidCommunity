@@ -355,6 +355,7 @@ menuText E OptionsMovesGlossOfDanger "Color Coded Gloss of Danger" 0 {Turn on/of
 translate E OptionsGlistWheelRows {Rows per wheel notch}
 translate E OptionsMovesTreeDepth {Default Tree Window Plies}
 translate E OptionsMovesEnginePvLength {Engine PV display length}
+translate E OptionsMovesEngineHistory {Show engine search history}
 menuText E OptionsNumbers "Number Format" 0 {Select the number format}
 menuText E OptionsTheme "Theme" 0 {Change look of interface}
 menuText E OptionsWindows "Windows" 0 {Window options}

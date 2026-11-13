@@ -2,21 +2,23 @@
 # Copyright (C) 2026 Hugh Whelan
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
-# engine_display_tk.tcl -- the PV display's MultiPV blocks, under Tk.
+# engine_display_tk.tcl -- the PV display's live block and history, under Tk.
 #
+#   wish tests/tcl/engine_display_tk.tcl
 #   xvfb-run -a wish tests/tcl/engine_display_tk.tcl
 #
-# A MultiPV run used to replace the whole display with the lines of the newest
-# depth. It now keeps one block per depth, separated by a dashed rule, the best
-# line of each block in blue and the other lines in the normal colour; the
-# newest block is refreshed in place as the engine reports its remaining lines.
-# Each block shows the latest line of every multipv slot, so a new depth keeps
-# the earlier slots' lines until the engine updates them, as the Analysis
-# window did. A single-PV run keeps its own display: the newest line at the
-# top, the preceding iterations below it, no rule and no blue. Every line ends
-# with the time the search has taken, in the retired Analysis window's form -
-# seconds with two decimals in parentheses - with the unit added: "(12.34s)",
-# after the nodes and W/D/L.
+# A MultiPV run keeps the current iteration in a fixed block at the top of the
+# widget: row 1 is the best line (blue), the other rows are the other multipv
+# slots. The block is rewritten in place as the engine reports each index, so
+# the rows do not move while the search deepens. When the best line reaches a
+# new depth the completed iteration is appended below as history, after a
+# dashed rule; the history keeps the blue best line but loses the "header" tag,
+# so only the live block is exportable. The display never scrolls itself.
+# A single-PV run keeps its own display: the newest line at the top, the
+# preceding iterations below it, no rule and no blue. Every line ends with the
+# time the search has taken, in the retired Analysis window's form - seconds
+# with two decimals in parentheses - with the unit added: "(12.34s)", after the
+# nodes and W/D/L. ::enginewin_history turns the history off.
 #
 # The window's engine, board and chart are not part of this: the harness feeds
 # the InfoPV messages the UCI reader would, into the real ::enginewin::updateDisplay
@@ -119,81 +121,88 @@ checkEq "the best line is the window's light blue" \
     [$t tag cget blue -foreground] DodgerBlue3
 checkEq "the separator is grey" [$t tag cget gray -foreground] gray
 
-puts "\na MultiPV run keeps a block per depth"
+puts "\nthe current iteration is a fixed block at the top"
 
 feed 1 20  30 {e2e4 e7e5 g1f3}
 feed 2 20  20 {d2d4 d7d5 c2c4}
 feed 3 20  10 {g1f3 g8f6 d2d4}
 checkEq "one depth is one block" [lineCount] 3
-check "the best line" [string match "20/20*+0.30*e2e4*" [lineText 1]] [lineText 1]
-check "the second line" [string match "20/20*+0.20*d2d4*" [lineText 2]] [lineText 2]
-check "the third line" [string match "20/20*+0.10*g1f3*" [lineText 3]] [lineText 3]
+check "the best line is row 1" [string match "20/20*+0.30*e2e4*" [lineText 1]] [lineText 1]
+check "the second line is row 2" [string match "20/20*+0.20*d2d4*" [lineText 2]] [lineText 2]
+check "the third line is row 3" [string match "20/20*+0.10*g1f3*" [lineText 3]] [lineText 3]
 check "the best line is blue" [expr {[lsearch -exact [blueLines] 1] >= 0}]
 check "the others are not" \
     [expr {[lsearch -exact [blueLines] 2] < 0 && [lsearch -exact [blueLines] 3] < 0}]
+checkEq "no rule before the first completed iteration" [llength [ruleLines]] 0
 
 feed 1 21  35 {e2e4 e7e5 g1f3}
+checkEq "a new depth adds a rule and the previous iteration" [lineCount] 7
+check "the history starts after the live block" [isRule 4]
+check "the live best line is the new depth" \
+    [string match "21/20*+0.35*e2e4*" [lineText 1]] [lineText 1]
+check "the live rows below it still carry the previous depth until updated" \
+    [string match "20/20*+0.20*d2d4*" [lineText 2]] [lineText 2]
+check "the history keeps the completed best line" \
+    [string match "20/20*+0.30*e2e4*" [lineText 5]] [lineText 5]
+check "the live best line is blue" [expr {[lsearch -exact [blueLines] 1] >= 0}]
+check "the history's best line keeps its blue" [expr {[lsearch -exact [blueLines] 5] >= 0}]
+
 feed 2 21  25 {d2d4 d7d5 c2c4}
 feed 3 21  15 {g1f3 g8f6 d2d4}
-checkEq "a new depth adds a block, not a replacement" [lineCount] 7
-check "the blocks are separated by a rule" [isRule 4]
-check "the new best line" [string match "21/20*+0.35*e2e4*" [lineText 5]] [lineText 5]
-check "the new second line" [string match "21/20*+0.25*d2d4*" [lineText 6]] [lineText 6]
-check "the new third line" [string match "21/20*+0.15*g1f3*" [lineText 7]] [lineText 7]
-check "the newest best line is blue" [expr {[lsearch -exact [blueLines] 5] >= 0}]
-check "the newest other lines are not" \
-    [expr {[lsearch -exact [blueLines] 6] < 0 && [lsearch -exact [blueLines] 7] < 0}]
-check "the first block is still there" \
-    [expr {[lineText 1] eq "20/20\t+0.30\te2e4 e7e5 g1f3  (1.00K nodes) (0.10s)"}]
+checkEq "the live block is still rows 1..3" [lineCount] 7
+check "the new second line" [string match "21/20*+0.25*d2d4*" [lineText 2]] [lineText 2]
+check "the new third line" [string match "21/20*+0.15*g1f3*" [lineText 3]] [lineText 3]
+check "the first history block is still there" \
+    [expr {[lineText 5] eq "20/20\t+0.30\te2e4 e7e5 g1f3  (1.00K nodes) (0.10s)"}]
 
-puts "\nthe newest block is refreshed in place"
+puts "\nthe live block is refreshed in place"
 
 feed 2 21  28 {c2c4 e7e5 g1f3}
 checkEq "no line is added for a refreshed PV" [lineCount] 7
 checkEq "only one rule, so no new block" [llength [ruleLines]] 1
 check "the refreshed line carries the new move" \
-    [string match "21/20*+0.28*c2c4*" [lineText 6]] [lineText 6]
-check "the best line keeps its blue" [expr {[lsearch -exact [blueLines] 5] >= 0}]
+    [string match "21/20*+0.28*c2c4*" [lineText 2]] [lineText 2]
+check "the best line keeps its blue" [expr {[lsearch -exact [blueLines] 1] >= 0}]
 
-puts "\nonly the newest block is exportable"
+puts "\nonly the live block is exportable"
 
-checkEq "the newest block starts at its best line" [::enginewin::firstPvLine $t] 5
-checkEq "the header tag is only on the newest block" [headerLines] {5 6 7}
-checkEq "the obsolete block's best line lost it" \
-    [expr {[lsearch -exact [headerLines] 1] < 0}] 1
+checkEq "the live block starts at line 1" [::enginewin::firstPvLine $t] 1
+checkEq "the header tag is on the live block only" [headerLines] {1 2 3}
+check "the history's best line lost it" \
+    [expr {[lsearch -exact [headerLines] 5] < 0}] 1
 
-puts "\na new block keeps the configured number of lines"
+puts "\na new depth keeps the configured number of lines"
 
 ::enginewin::updateDisplay 1 ""
 feed 1 20  30 {e2e4 e7e5}
 feed 2 20  20 {d2d4 d7d5}
 feed 3 20  10 {g1f3 g8f6}
 feed 1 21  35 {e2e4 c7c5}
-checkEq "the new block is already three lines" [lineCount] 7
+checkEq "the live block is already three lines" [lineCount] 7
 check "its best line is the new depth" \
-    [string match "21/20*+0.35*e2e4 c7c5*" [lineText 5]] [lineText 5]
+    [string match "21/20*+0.35*e2e4 c7c5*" [lineText 1]] [lineText 1]
 check "the second line is still the previous depth's" \
-    [string match "20/20*+0.20*d2d4*" [lineText 6]] [lineText 6]
+    [string match "20/20*+0.20*d2d4*" [lineText 2]] [lineText 2]
 check "the third line too" \
-    [string match "20/20*+0.10*g1f3*" [lineText 7]] [lineText 7]
+    [string match "20/20*+0.10*g1f3*" [lineText 3]] [lineText 3]
 checkEq "still one rule" [llength [ruleLines]] 1
 
 feed 2 21  25 {d2d4 g8f6}
 feed 3 21  15 {g1f3 d7d5}
 check "the second line catches up" \
-    [string match "21/20*+0.25*d2d4 g8f6*" [lineText 6]] [lineText 6]
+    [string match "21/20*+0.25*d2d4 g8f6*" [lineText 2]] [lineText 2]
 check "the third line catches up" \
-    [string match "21/20*+0.15*g1f3 d7d5*" [lineText 7]] [lineText 7]
+    [string match "21/20*+0.15*g1f3 d7d5*" [lineText 3]] [lineText 3]
 
 puts "\na late line from an older depth fills its slot; it adds no block"
 
 feed 2 20  22 {c2c4 e7e5}
 checkEq "no block is added" [lineCount] 7
 checkEq "no rule is added" [llength [ruleLines]] 1
-check "the late line took the second slot of the newest block" \
-    [string match "20/20*+0.22*c2c4*" [lineText 6]] [lineText 6]
+check "the late line took the second slot of the live block" \
+    [string match "20/20*+0.22*c2c4*" [lineText 2]] [lineText 2]
 check "the best line did not move" \
-    [string match "21/20*+0.35*e2e4 c7c5*" [lineText 5]] [lineText 5]
+    [string match "21/20*+0.35*e2e4 c7c5*" [lineText 1]] [lineText 1]
 
 puts "\na shallower best line starts the history again"
 
@@ -249,14 +258,16 @@ puts "\na cleared display starts a new run"
 ::enginewin::updateDisplay 1 ""
 check "the block state is gone" \
     [expr {![info exists ::enginewin::m_(pvBlockDepth,1)]}]
+check "the live row count is gone" \
+    [expr {![info exists ::enginewin::m_(pvLiveRows,1)]}]
 feed 1 30  50 {e2e4}
 checkEq "one line, no rule" [lineCount] 1
 check "the line is the new search" [string match "30/20*+0.50*" [lineText 1]] [lineText 1]
 
-puts "\nthe EPD paste takes the newest block's PV"
+puts "\nthe EPD paste takes the live block's PV"
 
 # Paste analysis writes bm/ce/dm and pv as one line, so the PV must come from
-# the same (newest) block the score and best move came from.
+# the same block the score and best move came from.
 ::enginewin::updateDisplay 1 ""
 feed 1 20  10 {d2d4 d7d5}
 feed 2 20   5 {c2c4 e7e5}
@@ -271,10 +282,51 @@ set ::enginewin::pvBestMove(1,1) e2e4
 set ::enginewin::scorePV1(1) "+0.50"
 set opcodes [::epd::buildEngineOpcodes]
 check "the best move is the newest move" [string match "*bm e4*" $opcodes] $opcodes
-check "the pv is the newest block's line" \
+check "the pv is the live block's line" \
     [string match "*pv e2e4 e7e5*" $opcodes] $opcodes
-check "not the oldest block's line" \
+check "not the completed iteration's line" \
     [expr {[string first "pv d2d4" $opcodes] < 0}] $opcodes
+
+puts "\nthe history can be turned off"
+
+set ::enginewin::engState(1) follow.run
+::enginewin::updateDisplay 1 ""
+feed 1 20  30 {e2e4 e7e5}
+feed 2 20  20 {d2d4 d7d5}
+feed 1 21  35 {e2e4 c7c5}
+feed 2 21  25 {d2d4 g8f6}
+checkEq "history was collected" [lineCount] 5
+set ::enginewin_history 0
+::enginewin::historyChanged
+checkEq "turning it off removes what is already on screen" [lineCount] 2
+checkEq "no history rule" [llength [ruleLines]] 0
+feed 1 22  40 {e2e4 e7e5}
+feed 2 22  30 {d2d4 d7d5}
+checkEq "and no new history is collected" [lineCount] 2
+check "the live block is the new depth" \
+    [string match "22/20*+0.40*e2e4 e7e5*" [lineText 1]] [lineText 1]
+set ::enginewin_history 1
+unset ::enginewin::engState(1)
+
+puts "\nthe view does not follow the history"
+
+# A real height, so the widget can actually overflow. The live block must stay
+# at the top: nothing in the display path calls "see end" any more.
+pack .engineWin1.display -fill both -expand 1
+grid $t -in .engineWin1.display -sticky news
+$t configure -height 6
+wm geometry .engineWin1 900x140
+update
+::enginewin::updateDisplay 1 ""
+foreach depth {1 2 3 4 5 6 7 8 9 10} {
+    feed 1 $depth $depth {e2e4 e7e5}
+    feed 2 $depth [expr {10 - $depth}] {d2d4 d7d5}
+}
+check "the live block is still at the top" \
+    [expr {[$t index @0,0] eq "1.0"}] [$t index @0,0]
+check "the viewport was not scrolled" \
+    [expr {[lindex [$t yview] 0] == 0.0}] [$t yview]
+checkEq "the live block is still the exportable one" [::enginewin::firstPvLine $t] 1
 
 puts "\nevery line ends with the time spent on the search"
 
@@ -303,9 +355,13 @@ check "the unrefreshed line keeps its own" \
     [string match "*nodes) (0.65s)" [lineText 1]] [lineText 1]
 
 feed 1 21  35 {e2e4 c7c5} 3250
-check "a new block's best line has its own time" \
-    [string match "*nodes) (3.25s)" [lineText 4]] [lineText 4]
+check "the live block's best line has its own time" \
+    [string match "*nodes) (3.25s)" [lineText 1]] [lineText 1]
 check "the line carried over from the old depth keeps its time" \
+    [string match "*nodes) (2.00s)" [lineText 2]] [lineText 2]
+check "the history keeps the completed iteration's time" \
+    [string match "*nodes) (0.65s)" [lineText 4]] [lineText 4]
+check "and the history's second line keeps its own" \
     [string match "*nodes) (2.00s)" [lineText 5]] [lineText 5]
 
 ::enginewin::updateDisplay 1 ""

@@ -72,6 +72,9 @@ proc ::preferences::moves { t } {
     ttk::spinbox $t.pvlen.sp -width 4 -textvariable ::enginePvDisplayLength -from 1 -to 50 -increment 1 \
         -validate all -validatecommand { regexp {^(?:[1-9]|[1-4][0-9]|50)$} %P }
     ttk::label $t.pvlen.moves -text [tr moves]
+    ttk::checkbutton $t.hist -variable ::enginewin_history \
+        -text [tr OptionsMovesEngineHistory] \
+        -command {catch {::enginewin::historyChanged}}
     pack $t.pvlen.label $t.pvlen.sp $t.pvlen.moves -side left -padx "0 5" -anchor w
 
     ttk::frame $t.auto
@@ -112,6 +115,7 @@ proc ::preferences::moves { t } {
     pack $t.vararrows.eva -side top -anchor w
     pack $t.vararrows -side top -anchor w -pady "2 0"
     pack $t.pvlen -side top -anchor w -pady "2 0"
+    pack $t.hist -side top -anchor w -pady "2 0"
 }
 
 # Only 1..10 are meaningful; an empty field has to be allowed while editing or

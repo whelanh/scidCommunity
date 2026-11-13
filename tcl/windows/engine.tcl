@@ -2075,61 +2075,144 @@ proc ::enginewin::chartCallback {id uci_pos depth seldepth ply value} {
     return "$txt\n$value\n$depth"
 }
 
-# A MultiPV run is shown the way the Analysis window showed it: one block per
-# depth, the blocks separated by a dashed rule, the best line of a block in
-# blue. The newest block is appended at the bottom and refreshed in place as
-# the engine reports its other lines for that depth; older blocks stay as the
-# history of the search.
+# A MultiPV run keeps the current iteration in a fixed block at the top of the
+# widget: row 1 is the best line (blue), the other rows are the other multipv
+# slots. The block is rewritten in place as the engine reports each index, so
+# the rows do not move while the search deepens. When the best line reaches a
+# new depth, the completed iteration is appended below as history, after a
+# dashed rule; the history keeps the blue best line but loses the "header" tag,
+# so only the live block is exportable (see ::enginewin::firstPvLine). The
+# display never scrolls itself: the reader's eye stays on line 1 and the
+# history is read by scrolling down. ::enginewin_history (Preferences > Moves)
+# turns the history off, leaving only the live block.
 #
 # The block is keyed by the best line's depth and written from the latest line
 # seen for each multipv index, not from the lines of that depth alone. Engines
 # report the indices one at a time, and an index can still carry the depth
 # before the best line's depth; keeping the last line per index is what makes
 # every block show the configured number of lines, as the Analysis window did.
-#
-# Obsolete blocks lose the "header" tag when a new block starts. That tag marks
-# the lines a review may export, so "Add move" and "Add all variations" keep
-# taking the newest block and nothing else (see ::enginewin::firstPvLine).
 
-# Start a block at the bottom of the widget, after the dashed rule that ends
-# the previous one. A rendered line always carries its own newline, so "end"
-# here is the empty line the new block's first line goes on. Returns its line
-# number.
-proc ::enginewin::pvNewBlock {w} {
-    if {[$w index end-1c] eq "1.0"} { return 1 }
-    $w tag remove header 1.0 end
-    $w insert end "[string repeat {-} 70]\n" gray
-    return [lindex [split [$w index "end-1 lines"] .] 0]
+# Remove one tag from a tag list.
+proc ::enginewin::pvTagRemove {tags tag} {
+    set out {}
+    foreach t $tags {
+        if {$t ne $tag} { lappend out $t }
+    }
+    return $out
 }
 
-# Write the current block again, from the latest line of each multipv index.
-# Re-rendering the whole block, rather than patching one line, keeps the lines
-# in order when the engine reports multipv 2 before 1 and makes the refresh of
-# a line exact. A line whose index has not been reported for this depth yet
-# keeps the previous depth's text, which is what the Analysis window showed.
-proc ::enginewin::pvRenderBlock {id w start} {
-    variable m_
-    # Delete the block but keep the newline that ends the line above it: an
-    # insert at "end" after a delete to "end" would append to that line.
-    if {[$w compare "$start.0" < end]} {
-        $w delete "$start.0" "end-1 chars"
-    }
-    foreach i [lsort -integer [dict keys $m_(pvList,$id)]] {
-        # The best line of each block is the blue one; the others keep the
-        # widget's normal colour.
-        set lineTags [expr {$i == 1 ? [list blue] : {}}]
-        foreach chunk [dict get $m_(pvList,$id) $i] {
-            lassign $chunk text tags
-            set tags [concat $tags $lineTags]
-            if {[llength $tags]} {
-                $w insert end $text $tags
-            } else {
-                $w insert end $text
+# Insert a rendered block at `index`. `rows` is a list of {multipv chunks}; the
+# best line (multipv 1) is blue. A history block passes stripHeader=1: it keeps
+# the colours but must not carry the tag that marks the exportable block.
+proc ::enginewin::pvInsertBlock {w index rows {stripHeader 0}} {
+    if {[llength $rows] == 0} { return }
+    set text ""
+    set specs {}
+    set col 0
+    set first 1
+    foreach row $rows {
+        lassign $row key chunks
+        set lineTags [expr {$key == 1 ? [list blue] : {}}]
+        # Newlines separate rows; the text widget supplies the final one. A
+        # trailing newline here would leave a blank line between blocks.
+        if {!$first} { append text "\n" ; incr col }
+        set first 0
+        foreach chunk $chunks {
+            lassign $chunk chunkText tags
+            if {$stripHeader} {
+                set tags [::enginewin::pvTagRemove $tags header]
             }
+            lappend specs [list $col [expr {$col + [string length $chunkText]}] \
+                [concat $tags $lineTags]]
+            append text $chunkText
+            incr col [string length $chunkText]
         }
-        $w insert end "\n"
     }
-    $w see end
+    # Resolve the insertion point before inserting: "end" moves when the text
+    # is added, so the tag ranges must be measured from the old position.
+    set base [$w index $index]
+    $w insert $base $text
+    set after [$w index "$base + [string length $text] chars"]
+    # If the block is inserted above existing text, keep it on its own line.
+    if {[$w compare $after < "end-1c"]} {
+        $w insert $after "\n"
+    }
+    foreach spec $specs {
+        lassign $spec from to tags
+        if {[llength $tags] == 0} { continue }
+        set fromIndex [$w index "$base + $from chars"]
+        set toIndex [$w index "$base + $to chars"]
+        foreach tag $tags {
+            $w tag add $tag $fromIndex $toIndex
+        }
+    }
+}
+
+# Append the completed live block to the bottom of the widget, after a dashed
+# rule. The history is chronological - the first depth is nearest the live
+# block and each later one follows - so appending never moves what is above it.
+proc ::enginewin::pvPushHistory {id w} {
+    variable m_
+    if {![info exists m_(pvList,$id)] || [dict size $m_(pvList,$id)] == 0} {
+        return
+    }
+    if {[info exists ::enginewin_history] && !$::enginewin_history} { return }
+    set rows {}
+    foreach key [lsort -integer [dict keys $m_(pvList,$id)]] {
+        lappend rows [list $key [dict get $m_(pvList,$id) $key]]
+    }
+    # end-1c is the end of the last live row, before the widget's own final
+    # newline: starting with "\n" puts the rule on a line of its own without
+    # leaving a blank line above it.
+    set base [$w index end-1c]
+    if {[$w get 1.0 end-1c] eq ""} {
+        $w insert $base "[string repeat {-} 70]\n" gray
+    } else {
+        $w insert $base "\n[string repeat {-} 70]\n" gray
+    }
+    ::enginewin::pvInsertBlock $w "end-1c" $rows 1
+}
+
+# Rewrite the live block in rows 1..K from the latest line of each multipv
+# index. A line whose index has not been reported for this depth yet keeps the
+# previous depth's text, which is what the Analysis window showed. The history
+# below starts at row K+1 and is left untouched; it shifts by the difference in
+# the block's height, never the block itself.
+proc ::enginewin::pvRenderLive {id w} {
+    variable m_
+    set oldRows 0
+    catch { set oldRows $m_(pvLiveRows,$id) }
+    if {$oldRows > 0 && [$w compare "$oldRows.0" < end]} {
+        $w delete 1.0 [expr {$oldRows + 1}].0
+    }
+    set rows {}
+    foreach key [lsort -integer [dict keys $m_(pvList,$id)]] {
+        lappend rows [list $key [dict get $m_(pvList,$id) $key]]
+    }
+    ::enginewin::pvInsertBlock $w 1.0 $rows
+    set m_(pvLiveRows,$id) [llength $rows]
+}
+
+# The history preference changed. Turning it off removes the history already
+# on screen, so the window shows only the live block; turning it on starts
+# collecting from the next depth.
+proc ::enginewin::historyChanged {} {
+    if {![info exists ::enginewin_history] || $::enginewin_history} { return }
+    foreach id [array names ::enginewin::engState] {
+        set w .engineWin$id
+        if {[info exists ::enginewin::pgnviewer($id)] && $::enginewin::pgnviewer($id)} {
+            set w .pv$::enginewin::pgnviewer($id).engineWin$id
+        }
+        if {![winfo exists $w.display.pv_lines]} { continue }
+        set rows 0
+        catch { set rows $::enginewin::m_(pvLiveRows,$id) }
+        if {$rows > 0} {
+            set pvLines $w.display.pv_lines
+            $pvLines configure -state normal
+            $pvLines delete [expr {$rows + 1}].0 end
+            $pvLines configure -state disabled
+        }
+    }
 }
 
 # True when `depth` restarts the search shallower than `old`: a new search at
@@ -2144,27 +2227,26 @@ proc ::enginewin::pvDepthWentBack {depth old} {
     return [expr {$depth < $old}]
 }
 
-# Record a line and write the current block. Only the best line (multipv 1)
+# Record a line and write the live block. Only the best line (multipv 1)
 # starts a new block: the other indices arrive one at a time for the same
-# depth, and a late one may still carry the previous depth. Keying the block on
-# the best line's depth, as the Analysis window did, keeps the blocks in order.
+# depth, and a late one may still carry the previous depth.
 proc ::enginewin::pvBlockUpdate {id w multipv depth chunks} {
     variable m_
 
     if {![info exists m_(pvBlockDepth,$id)]} {
-        # The first multi-line message. The engine sends multipv 1 before 2, 3,
-        # ..., so the line already on screen is the best line and becomes index
-        # 1 of the first block.
-        if {[$w index end-1c] ne "1.0" && [info exists m_(pvLastDepth,$id)] \
-                && [info exists m_(pvLastChunks,$id)]} {
-            set m_(pvBlockStart,$id) 1
+        # The first multi-line message. The line already on screen (written by
+        # the single-PV branch) is the best line of the first block, because
+        # the engine sends multipv 1 before 2, 3, ... Take it from the last
+        # chunks and drop any older single-PV lines: block mode keeps its own
+        # history from here on.
+        set m_(pvBlockDepth,$id) ""
+        set m_(pvList,$id) [dict create]
+        if {[info exists m_(pvLastChunks,$id)] && [info exists m_(pvLastDepth,$id)]} {
+            $w delete 2.0 end
+            set m_(pvLiveRows,$id) 1
+            set m_(pvList,$id) [dict create 1 $m_(pvLastChunks,$id)]
             set m_(pvBlockDepth,$id) $m_(pvLastDepth,$id)
             set m_(pvBestDepth,$id) $m_(pvLastDepth,$id)
-            set m_(pvList,$id) [dict create 1 $m_(pvLastChunks,$id)]
-        } else {
-            set m_(pvBlockStart,$id) 1
-            set m_(pvBlockDepth,$id) ""
-            set m_(pvList,$id) [dict create]
         }
     }
 
@@ -2179,10 +2261,11 @@ proc ::enginewin::pvBlockUpdate {id w multipv depth chunks} {
             if {[::enginewin::pvDepthWentBack $depth $m_(pvBestDepth,$id)]} {
                 # A new, shallower search: start the history again.
                 $w delete 1.0 end
-                set m_(pvBlockStart,$id) 1
+                set m_(pvLiveRows,$id) 0
                 set m_(pvList,$id) [dict create]
-            } elseif {[$w index end-1c] ne "1.0"} {
-                set m_(pvBlockStart,$id) [::enginewin::pvNewBlock $w]
+            } else {
+                # A new depth: the completed iteration becomes history.
+                ::enginewin::pvPushHistory $id $w
             }
             set m_(pvBestDepth,$id) $depth
             set m_(pvBlockDepth,$id) $depth
@@ -2194,13 +2277,14 @@ proc ::enginewin::pvBlockUpdate {id w multipv depth chunks} {
     }
 
     dict set m_(pvList,$id) $multipv $chunks
-    ::enginewin::pvRenderBlock $id $w $m_(pvBlockStart,$id)
+    ::enginewin::pvRenderLive $id $w
 }
 
-# The physical line holding the newest block's best line. A single-PV window
+# The physical line holding the live block's best line. A single-PV window
 # keeps its newest line at the top and leaves the obsolete lines below it with
-# no header tag; a MultiPV block sits at the bottom and the blocks above it have
-# also lost the tag. Either way it is the first line that still carries it.
+# no header tag; a MultiPV window keeps the live block at the top and the
+# history below it without the tag. Either way it is the first line that still
+# carries it.
 proc ::enginewin::firstPvLine {w} {
     lassign [$w tag nextrange header 1.0] first
     if {$first eq ""} { return "" }
@@ -2247,7 +2331,7 @@ proc ::enginewin::updateDisplay {id msgData} {
         $pv_lines delete 1.0 end
         $pv_lines configure -state disabled
         unset -nocomplain ::enginewin::m_(pvBlockDepth,$id) \
-            ::enginewin::m_(pvBlockStart,$id) ::enginewin::m_(pvBestDepth,$id) \
+            ::enginewin::m_(pvLiveRows,$id) ::enginewin::m_(pvBestDepth,$id) \
             ::enginewin::m_(pvList,$id) ::enginewin::m_(pvLastDepth,$id) \
             ::enginewin::m_(pvLastChunks,$id)
         # Clear stored PV lines for multi-arrow display
@@ -2335,7 +2419,7 @@ if {[array exists ::enginewin::pvBestMove]} {
 
     set line $multipv
     if {$multipv > 1 || [info exists ::enginewin::m_(pvBlockDepth,$id)]} {
-        # MultiPV: the newest block, refreshed in place; line 1 of it is blue.
+        # MultiPV: the live block at the top, refreshed in place; line 1 is blue.
         ::enginewin::pvBlockUpdate $id $pv_lines $multipv $depth $chunks
     } else {
         # One line: the newest PV replaces line 1, the preceding ones stay
@@ -2359,6 +2443,9 @@ if {[array exists ::enginewin::pvBestMove]} {
                 $pv_lines insert $line.end $text
             }
         }
+        # The single-PV display has one live row; the iterations below it are
+        # its history. Block mode takes this row as index 1 of its first block.
+        set ::enginewin::m_(pvLiveRows,$id) 1
     }
     set ::enginewin::m_(pvLastDepth,$id) $depth
     set ::enginewin::m_(pvLastChunks,$id) $chunks
@@ -2588,8 +2675,8 @@ proc ::enginewin::markEngineLine {line engine} {
 # Add all the move lines to the current game.
 proc ::enginewin::exportLines {id w} {
     if {[info exists ::finishgame::active] && $::finishgame::active} { return }
-    # A MultiPV run keeps the older blocks as history; only the newest block
-    # still carries the header tag, so that is the block to export.
+    # A MultiPV run keeps the completed iterations as history; only the live
+    # block still carries the header tag, so that is the block to export.
     set i_line [::enginewin::firstPvLine $w]
     if {$i_line eq ""} { return }
     set location [sc_move pgn]
@@ -2607,9 +2694,9 @@ proc ::enginewin::exportLines {id w} {
     ::notify::PosChanged pgnonly
 }
 
-# Add the newest block's best line to the game. The line is found through the
-# header tag rather than "1.0": with MultiPV the newest block is at the bottom
-# and line 1 is the oldest one.
+# Add the live block's best line to the game. The line is found through the
+# header tag rather than "1.0": the history below the live block has no header
+# tag, so the first tagged line is the live best line.
 proc ::enginewin::exportCurrentMove {w} {
     set line [::enginewin::firstPvLine $w]
     if {$line eq ""} { return false }
