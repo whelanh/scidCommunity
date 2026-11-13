@@ -867,7 +867,10 @@ proc ::uci::parseline {id line} {
     }
 
     if {[string match "bestmove *" $line]} {
-        lassign [split $line] -> best ponder ponder_move
+        # \S+, not split: UCI allows any run of whitespace between tokens, and
+        # split yields an empty element for it - "bestmove e2e4  ponder e7e5"
+        # read ponder as "" and the move it names was dropped.
+        lassign [regexp -all -inline {\S+} $line] -> best ponder ponder_move
         # The move the engine expects back is part of the answer: a play path
         # that ponders has to ask the engine to continue the line it was
         # already thinking about, and nothing else in the engine's output
