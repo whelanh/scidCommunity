@@ -90,12 +90,17 @@ proc ::appupdate::stateWrite {state} {
 
 # Resolve a command-line tool to a full path, preferring PATH and falling back
 # to the directory of the executable (the Windows build bundles curl.exe there).
+#
+# Returns a one-element LIST (matching auto_execok, which also returns a list),
+# or "" when nothing was found. Callers must expand it with {*} when building a
+# command list, otherwise a path with spaces is nested into a sub-list and open
+# then sees the braces as part of the file name.
 proc ::appupdate::resolve {name} {
     set p [auto_execok $name]
     if {$p ne ""} { return $p }
     if {$::windowsOS} {
         set cand [file join $::scidExeDir "$name.exe"]
-        if {[file exists $cand]} { return $cand }
+        if {[file exists $cand]} { return [list $cand] }
     }
     return ""
 }
