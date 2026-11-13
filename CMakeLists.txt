@@ -109,6 +109,13 @@ find_package(TCL)
 file(GLOB POLYGLOT_SRC src/polyglot/*.cpp)
 add_library(polyglot ${POLYGLOT_SRC})
 
+# The CTG converter reports errors with exceptions (all caught inside
+# ctg2obr()). The release builds pass -fno-exceptions via CMAKE_CXX_FLAGS, so
+# re-enable exceptions for this one source file; GCC uses the last flag.
+if(NOT MSVC)
+  set_source_files_properties(src/polyglot/ctg2obr.cpp PROPERTIES COMPILE_OPTIONS "-fexceptions")
+endif()
+
 # scidCommunity
 file(GLOB SCID_SRC src/*.h src/*.cpp)
 if(MSVC)
