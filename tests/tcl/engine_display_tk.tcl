@@ -115,6 +115,15 @@ proc headerLines {} {
     }
     return [lsort -integer -unique $out]
 }
+proc lineTags {n} {
+    set out {}
+    foreach index [list "$n.0" "$n.end-1c"] {
+        foreach tag [$::t tag names $index] {
+            if {$tag ni $out} { lappend out $tag }
+        }
+    }
+    return $out
+}
 
 puts "\nthe colours are the Analysis window's"
 
@@ -171,6 +180,22 @@ checkEq "the live block starts at line 1" [::enginewin::firstPvLine $t] 1
 checkEq "the header tag is on the live block only" [headerLines] {1 2 3}
 check "the history's best line lost it" \
     [expr {[lsearch -exact [headerLines] 5] < 0}] 1
+check "a history row does not inherit the rule's grey" \
+    [expr {[lsearch -exact [lineTags 5] gray] < 0}] [lineTags 5]
+check "the rule is not part of the exportable block" \
+    [expr {[lsearch -exact [lineTags 4] header] < 0}] [lineTags 4]
+
+puts "\na one-move PV does not leak its header into the rule"
+
+::enginewin::updateDisplay 1 ""
+feed 1 20  30 {e2e4}
+feed 2 20  20 {d2d4}
+feed 1 21  35 {e2e4}
+feed 2 21  25 {d2d4}
+checkEq "the rule is line 3" [lineCount] 5
+checkEq "the rule carries only the grey tag" [lineTags 3] gray
+checkEq "only the live rows carry header" [headerLines] {1 2}
+checkEq "the live best line is still the exportable one" [::enginewin::firstPvLine $t] 1
 
 puts "\nthe history reads newest to oldest"
 
@@ -328,6 +353,16 @@ feed 2 22  30 {d2d4 d7d5}
 checkEq "and no new history is collected" [lineCount] 2
 check "the live block is the new depth" \
     [string match "22/20*+0.40*e2e4 e7e5*" [lineText 1]] [lineText 1]
+
+# The preference is not MultiPV-only: a single-PV run must not keep its older
+# rows either.
+::enginewin::updateDisplay 1 ""
+feed 1 20  30 {e2e4}
+feed 1 21  35 {e2e4}
+feed 1 22  40 {e2e4}
+checkEq "single PV keeps only the live row when history is off" [lineCount] 1
+check "and it is the newest depth" \
+    [string match "22/20*+0.40*" [lineText 1]] [lineText 1]
 set ::enginewin_history 1
 unset ::enginewin::engState(1)
 

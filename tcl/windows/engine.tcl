@@ -2102,6 +2102,26 @@ proc ::enginewin::pvTagRemove {tags tag} {
     return $out
 }
 
+# Insert `text` at `index` and apply `tags` to it, without letting it inherit
+# the tags of the character beside the insertion point. Tk gives inserted text
+# the tags of that character: a history block inserted after the grey rule
+# would render grey, and a rule inserted after a live row could inherit
+# "header" and become part of the exportable block.
+proc ::enginewin::pvInsertText {w index text {tags {}}} {
+    set base [$w index $index]
+    $w insert $base $text
+    set end [$w index "$base + [string length $text] chars"]
+    foreach tag [$w tag names $base] {
+        if {$tag ni $tags} {
+            $w tag remove $tag $base $end
+        }
+    }
+    foreach tag $tags {
+        $w tag add $tag $base $end
+    }
+    return $end
+}
+
 # Insert a rendered block at `index`. `rows` is a list of {multipv chunks}; the
 # best line (multipv 1) is blue. A history block passes stripHeader=1: it keeps
 # the colours but must not carry the tag that marks the exportable block.
@@ -2130,10 +2150,11 @@ proc ::enginewin::pvInsertBlock {w index rows {stripHeader 0}} {
         }
     }
     # Resolve the insertion point before inserting: "end" moves when the text
-    # is added, so the tag ranges must be measured from the old position.
+    # is added, so the tag ranges must be measured from the old position. The
+    # plain insert keeps the block from inheriting the rule's grey or the live
+    # line's header.
     set base [$w index $index]
-    $w insert $base $text
-    set after [$w index "$base + [string length $text] chars"]
+    set after [::enginewin::pvInsertText $w $base $text]
     # If the block is inserted above existing text, keep it on its own line.
     if {[$w compare $after < "end-1c"]} {
         $w insert $after "\n"
@@ -2169,12 +2190,14 @@ proc ::enginewin::pvPushHistory {id w} {
     if {[$w compare "$line.0" < "end-1c"]} {
         # There is already history: put the new rule at its top and the block
         # between that rule and the old one.
-        $w insert "$line.0" "[string repeat {-} 70]\n" gray
+        ::enginewin::pvInsertText $w "$line.0" "[string repeat {-} 70]\n" \
+            [list gray]
         ::enginewin::pvInsertBlock $w [expr {$line + 1}].0 $rows 1
     } else {
         # No history yet: the live block has no newline of its own after the
         # last row, so start the rule on a new line.
-        $w insert [$w index end-1c] "\n[string repeat {-} 70]\n" gray
+        ::enginewin::pvInsertText $w [$w index end-1c] \
+            "\n[string repeat {-} 70]\n" [list gray]
         ::enginewin::pvInsertBlock $w "end-1c" $rows 1
     }
 }
@@ -2428,17 +2451,22 @@ if {[array exists ::enginewin::pvBestMove]} {
         # MultiPV: the live block at the top, refreshed in place; line 1 is blue.
         ::enginewin::pvBlockUpdate $id $pv_lines $multipv $depth $chunks
     } else {
-        # One line: the newest PV replaces line 1, the preceding ones stay
-        # below it as history.
-        if {$multipv == 1} {
-            # Previous line nr. 1 is now obsolete
-            $pv_lines tag remove header 1.0 1.end
-        }
-        # If the engine has repeatedly sent multipv 1, do not delete the obsolete lines
-        catch { $pv_lines tag nextrange header 2.0 } multilines
-        if {$line > 1 || $multilines ne ""} {
-            # Multipv lines >= than the current one are now obsolete and deleted.
-            $pv_lines delete $line.0 end
+        # One line: the newest PV replaces line 1. With history on, the
+        # preceding iterations stay below it; with history off, only the live
+        # line remains.
+        if {[info exists ::enginewin_history] && !$::enginewin_history} {
+            $pv_lines delete 1.0 end
+        } else {
+            if {$multipv == 1} {
+                # Previous line nr. 1 is now obsolete
+                $pv_lines tag remove header 1.0 1.end
+            }
+            # If the engine has repeatedly sent multipv 1, do not delete the obsolete lines
+            catch { $pv_lines tag nextrange header 2.0 } multilines
+            if {$line > 1 || $multilines ne ""} {
+                # Multipv lines >= than the current one are now obsolete and deleted.
+                $pv_lines delete $line.0 end
+            }
         }
         $pv_lines insert $line.0 "\n"
         foreach chunk $chunks {
