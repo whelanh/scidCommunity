@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+ <release version="5.1.4.65" date="2026-11-13">
+      <description>
+        <p>CTG to .obr converter; various refinements</p>
+      </description>
+    </release>
  <release version="5.1.4.64" date="2026-11-12">
       <description>
         <p>.obr reader; PGN export options; bug fixes</p>
