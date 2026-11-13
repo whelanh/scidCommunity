@@ -401,6 +401,15 @@ namespace eval sergame {
       focus .
       destroy .coachWin
     }
+    # createToplevelFinalize removes this window's docking container on idle,
+    # and this proc destroys and rebuilds the window inside one call: without
+    # pumping the idle here the second Play in a session died with
+    #   window name ".fdockcoachWin" already exists in parent
+    # before the game window was built - engine started, no interface, clocks
+    # never armed. The explicit destroy is the belt: an idle that never ran
+    # leaves the frame behind.
+    catch { update idletasks }
+    catch { destroy .fdockcoachWin }
 
     if {$::sergame::isOpening || !$::sergame::startFromCurrent} {
       if {[::game::Clear] eq "cancel"} { return }

@@ -560,12 +560,23 @@ proc tk_messageBox {args} {
     return ok
 }
 proc createToplevel {w args} {
-    if {![winfo exists $w]} { toplevel $w }
+    # Model the contract that matters here: createToplevel builds a docking
+    # container named .fdock<win> before the toplevel, and createToplevelFinalize
+    # removes it on idle. A second play destroys the window and rebuilds it
+    # inside one call, so without that idle being pumped the container is still
+    # there and the rebuild dies with "window name ... already exists in parent".
+    if {[winfo exists $w]} { return $w }
+    frame ".fdock[string range $w 1 end]" -container 1
+    toplevel $w
     return $w
 }
 proc applyThemeColor_background {w} { return }
 proc setTitle {w title} { catch { wm title $w $title } }
-proc createToplevelFinalize {w} { return }
+proc createToplevelFinalize {w} {
+    bind $w <Destroy> "+if {\[string equal $w %W\]} {
+      after idle \"catch { destroy .fdock\[string range $w 1 end\] }\"
+    }"
+}
 proc setWinLocation {w} { return }
 proc recordWinSize {w} { return }
 array set ::informant {!? 0.3 ?! 0.3 ? 0.8 ?? 1.5 += 0.5 +/- 1.5 +- 2.5 +-- 4.0}
@@ -1621,6 +1632,27 @@ rename ::engineNoWin::closeEngine {}
 rename ::engineNoWin_closeEngine_stub ::engineNoWin::closeEngine
 rename ::engineNoWin::initEngine {}
 rename ::engineNoWin_initEngine_stub ::engineNoWin::initEngine
+
+##############################################################################
+puts "\na second Play in one session finds its window"
+# createToplevel builds a docking container and createToplevelFinalize removes
+# it on idle. play destroys the old game window and rebuilds it inside one
+# call, so the idle never ran between them and the rebuild died with
+#   window name ".fdockcoachWin" already exists in parent
+# - engine up, no interface, clocks never armed. Two Plays in a row prove it.
+catch { destroy .coachWin }
+catch { destroy .fdockcoachWin }
+set playErr1 [catch { ::sergame::play 1 } e1]
+check "the first Play builds the game window" \
+    [expr {$playErr1 == 0 && [winfo exists .coachWin]}]
+set playErr2 [catch { ::sergame::play 1 } e2]
+check "a second Play in the same session builds it again" \
+    [expr {$playErr2 == 0 && [winfo exists .coachWin]}]
+if {$playErr2} { puts "    (second Play said: $e2)" }
+check "and leaves exactly one game window" \
+    [expr {[llength [winfo children .]] == [llength [lsort -unique [winfo children .]]]}]
+catch { destroy .coachWin }
+catch { destroy .fdockcoachWin }
 
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]
