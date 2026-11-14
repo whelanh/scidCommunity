@@ -669,6 +669,7 @@ proc nameEditor {} {
   pack $w.g -side top -fill x
   ttk::label $w.g.fromL -textvar ::tr(NameEditReplace:) -font font_Bold -anchor e
   ttk::entry $w.g.fromE -width 40 -textvariable editName
+  catch {::utils::tooltip::Set $w.g.fromE [tr NameEditWildcard]}
   ttk::entry $w.g.fromD -width 15 -textvariable editDate \
     -validate key -validatecommand [list ::validate::date %P]
   grid $w.g.fromL -row 0 -column 1 -sticky e
@@ -690,11 +691,15 @@ proc nameEditor {} {
       $w.g.rtype.menu add radiobutton -variable editNameRType -label $m
   }
 
+  ttk::label $w.g.hint -textvar ::tr(NameEditWildcard) -font font_Small \
+      -anchor w -justify left -wraplength 360
+  grid $w.g.hint -row 2 -column 1 -columnspan 2 -sticky w
+
   ttk::label $w.g.title -textvar ::tr(NameEditMatches) \
       -font font_Bold
 
-  grid $w.g.title -row 2 -column 1 -columnspan 2 -sticky n
-  grid $w.g.list -row 3 -column 1 -rowspan 9 -columnspan 2 -sticky e
+  grid $w.g.title -row 3 -column 1 -columnspan 2 -sticky n
+  grid $w.g.list -row 4 -column 1 -rowspan 9 -columnspan 2 -sticky e
 
   updateMatchList $w.g.list "" 9 editName "" w
 

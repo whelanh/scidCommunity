@@ -3348,6 +3348,14 @@ set helpText(Maintenance) {<h1>Database maintenance</h1>
   Each unique name is only stored once in the name file, so changing a name
   actually changes all occurrences of it.
   </p>
+  <p>
+  The <b>Replace</b> field also accepts <b>*</b> as a wildcard, so one
+  operation can change every matching name: <b>1*</b> matches every name
+  beginning with "1", <b>*Whelan</b> matches every name ending in "Whelan",
+  and <b>*</b> matches every name. Wildcards work for player, event, site
+  and round names (and for the player name when editing ratings). Matching
+  is case-sensitive, like the exact name match.
+  </p>
   
   <h3><name Spellcheck>Spellchecking names</name></h3>
   <p>

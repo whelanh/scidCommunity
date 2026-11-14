@@ -1670,6 +1670,7 @@ translate E NameEditSelect {Games to edit}
 translate E NameEditReplace {Replace}
 translate E NameEditWith {with}
 translate E NameEditMatches {Matches: Press Ctrl+1 to Ctrl+9 to select}
+translate E NameEditWildcard {Wildcard for names: * = any characters (1* = starts with 1, *Whelan = ends with Whelan)}
 
 # Check games window:
 translate E CheckGames {Check games}

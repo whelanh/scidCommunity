@@ -171,3 +171,30 @@ TEST_F(Test_StrLib, strStartHash) {
 		}
 	}
 }
+
+TEST(Test_Wildcard, strWildcardMatch) {
+	EXPECT_TRUE(strWildcardMatch("", ""));
+	EXPECT_FALSE(strWildcardMatch("", "a"));
+	EXPECT_TRUE(strWildcardMatch("*", ""));
+	EXPECT_TRUE(strWildcardMatch("*", "anything"));
+
+	EXPECT_TRUE(strWildcardMatch("1*", "1"));
+	EXPECT_TRUE(strWildcardMatch("1*", "1060.1.761"));
+	EXPECT_FALSE(strWildcardMatch("1*", "21060.1.761"));
+	EXPECT_TRUE(strWildcardMatch("*Whelan", "John Whelan"));
+	EXPECT_TRUE(strWildcardMatch("*Whelan", "Whelan"));
+	EXPECT_FALSE(strWildcardMatch("*Whelan", "Whelan,John"));
+	EXPECT_TRUE(strWildcardMatch("*Whelan*", "John Whelan Jr"));
+	EXPECT_TRUE(strWildcardMatch("a*b*c", "aXbYc"));
+	EXPECT_FALSE(strWildcardMatch("a*b*c", "aXbY"));
+	EXPECT_TRUE(strWildcardMatch("*a*b*", "xxaxxbxx"));
+
+	// The Name Editor's matching is case-sensitive, like exact matching.
+	EXPECT_FALSE(strWildcardMatch("whelan*", "Whelan,John"));
+	EXPECT_TRUE(strWildcardMatch("Whelan*", "Whelan,John"));
+
+	// A literal '*' is not special beyond being a wildcard.
+	EXPECT_TRUE(strWildcardMatch("a*b", "ab"));
+	EXPECT_TRUE(strWildcardMatch("a*b", "a/b"));
+	EXPECT_FALSE(strWildcardMatch("a*b", "ba"));
+}
