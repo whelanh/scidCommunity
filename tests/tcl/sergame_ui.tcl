@@ -348,6 +348,40 @@ if {$inner_bb eq "" || $six_bb eq ""} {
         [expr {abs($gapUp - $gapDown) <= 3}] "up=$gapUp down=$gapDown"
 }
 
+##############################################################################
+puts "\nthe arrangement is chosen by the type size it allows"
+# Wide container: side by side allows the bigger dial. Tall: stacked. Square: the
+# dial is the same either way, and a tie keeps the arrangement that is in force.
+lassign [::sergame::clockLayout analog 1000 400] o w1
+checkEq "a wide box puts the dials side by side" $o "side"
+lassign [::sergame::clockLayout analog 400 900] o w2
+checkEq "a tall box stacks them" $o "stacked"
+lassign [::sergame::clockLayout analog 500 500] o w3
+checkEq "a square box stacks them (a tie is not a reason to move)" $o "stacked"
+
+# The dead band: from side by side, stacking must win by 4% before the layout moves.
+lassign [::sergame::clockLayout analog 520 500 side] o w4
+checkEq "a marginal win does not flip the arrangement" $o "side"
+lassign [::sergame::clockLayout analog 300 900 side] o w5
+checkEq "a clear win does" $o "stacked"
+lassign [::sergame::clockLayout analog 900 300 stacked] o w6
+checkEq "and back again, when side by side wins clearly" $o "side"
+
+# The digits are rectangles, so the same box that suits a dial need not suit them:
+# a wide short box is where the two modes disagree.
+lassign [::sergame::clockLayout digital 900 300] d1 dsize
+lassign [::sergame::clockLayout analog 900 300] a1 asize
+checkEq "both modes agree side by side in a wide box" [list $d1 $a1] [list side side]
+lassign [::sergame::clockLayout digital 700 700] d2 dsize2
+checkEq "a tall box stacks the digits too" $d2 "stacked"
+
+# The type size a cell allows, and that the digital aspect is measured (not 3.2 by
+# assumption): the ratio of a reference string in this font.
+set aspect [::sergame::digitalAspect]
+check "the digital aspect was measured" [expr {$aspect > 1.0 && $aspect < 12.0}] "aspect $aspect"
+check "a bigger cell allows bigger digits" \
+    [expr {[::sergame::faceTypeSize digital 400 200] > [::sergame::faceTypeSize digital 200 100]}]
+
 checkEq "the dial's own time is a tenth of the dial" [::gameclock::innerFont 460] 50
 checkEq "and shrinks with it" [::gameclock::innerFont 200] 22
 check "but never below readable" [expr {[::gameclock::innerFont 40] >= 8}]

@@ -557,8 +557,11 @@ namespace eval sergame {
     grid rowconfigure $w.fclocks 0 -weight 1
     grid $w.fclocks.w -row 0 -column 0 -sticky nsew -padx 4 -pady 4
     grid $w.fclocks.b -row 0 -column 1 -sticky nsew -padx 4 -pady 4
-    # The first arrangement is decided once the window has a size: <Configure>
-    # arrives with it, but a window that is created and never shown has none.
+    # The arrangement follows the space, and is re-decided on every <Configure>
+    # (which is the event the window manager gives us) and once on idle, because a
+    # window created and never shown has no <Configure>.
+    bind $w.fclocks <Configure> [list ::sergame::clockLayoutApply $w]
+    after idle [list ::sergame::clockLayoutApply $w]
     pack $w.fbuttons -side top -pady "10 15"
 
     ttk::checkbutton $w.fdisplay.b1 -text $::tr(showblunderexists) -variable ::sergame::showblunder
@@ -648,6 +651,90 @@ namespace eval sergame {
         stop { destroy .coachWin }
     }
     return 0
+  }
+
+  # The type size a face can reach in a w x h cell: the measure the arrangement is
+  # chosen by. A dial's numerals are 0.10 of its diameter, so the cell's smaller
+  # side limits them; the digits are limited by the cell's height and by what seven
+  # glyphs need across. Their aspect is measured, not assumed - the font is the
+  # user's, and a preference change has no event to hang a remeasure on.
+  proc faceTypeSize {mode w h} {
+    if {$w < 8 || $h < 8} { return 1 }
+    if {$mode eq "digital"} {
+      set aspect [::sergame::digitalAspect]
+      set byH [expr {int(($h - 8) * 0.62)}]
+      set byW [expr {int(($w - 8) / $aspect)}]
+      set t [expr {$byH < $byW ? $byH : $byW}]
+    } else {
+      set dial [expr {($w < $h ? $w : $h) - 12}]
+      set t [expr {int($dial * 0.10)}]
+    }
+    if {$t < 8} { set t 8 }
+    return $t
+  }
+
+  # How wide the digits are against how tall, measured now (one font measure of a
+  # reference string), so the answer follows the user's font.
+  proc digitalAspect {} {
+    set f [::gameclock::faceFont 1 100 bold]
+    set wpx [font measure $f "0:00:00"]
+    set hpx [font metrics $f -linespace]
+    if {$hpx < 1} { set hpx 1 }
+    return [expr {double($wpx) / $hpx}]
+  }
+
+  # Which way round the two faces go, and the type size that follows: side by side
+  # gives each cell (w-gap)/2 by h, stacked gives w by (h-gap)/2, and the
+  # arrangement whose cell allows the larger type wins.
+  #
+  # `current` is the arrangement in force, and it carries a dead band: the other
+  # way has to win by 4% before the layout flips, so a window dragged a pixel
+  # across the crossover does not flip back and forth.
+  proc clockLayout {mode w h {current ""}} {
+    set gap 16
+    set side [::sergame::faceTypeSize $mode [expr {($w - $gap) / 2}] $h]
+    set stack [::sergame::faceTypeSize $mode $w [expr {($h - $gap) / 2}]]
+    if {$current eq "side"} {
+      if {$stack > $side * 1.04} { return [list stacked $stack] }
+      return [list side $side]
+    }
+    if {$current eq "stacked"} {
+      if {$side > $stack * 1.04} { return [list side $side] }
+      return [list stacked $stack]
+    }
+    if {$side > $stack} { return [list side $side] }
+    return [list stacked $stack]
+  }
+
+  # Apply it to a game window: re-pack only when the answer changes. The box is the
+  # clock area, whose size is the window's leftover space (it is the expanding row),
+  # so the arrangement cannot change the box that chose it - the feedback loop that
+  # once squeezed a face out cannot form.
+  proc clockLayoutApply {w} {
+    if {![winfo exists $w.fclocks]} { return }
+    set bw [winfo width $w.fclocks]
+    set bh [winfo height $w.fclocks]
+    if {$bw < 40 || $bh < 40} { return }
+    lassign [::sergame::clockLayout [::sergame::clockFace] $bw $bh \
+        $::sergame::clockOrientation] orientation size
+    if {$orientation eq $::sergame::clockOrientation} { return }
+    set ::sergame::clockOrientation $orientation
+    catch { grid forget $w.fclocks.w $w.fclocks.b }
+    if {$orientation eq "side"} {
+      grid rowconfigure $w.fclocks 0 -weight 1 -uniform ""
+      grid rowconfigure $w.fclocks 1 -weight 0 -uniform ""
+      grid columnconfigure $w.fclocks 0 -weight 1 -uniform faces
+      grid columnconfigure $w.fclocks 1 -weight 1 -uniform faces
+      grid $w.fclocks.w -row 0 -column 0 -sticky nsew -padx 4 -pady 4
+      grid $w.fclocks.b -row 0 -column 1 -sticky nsew -padx 4 -pady 4
+    } else {
+      grid columnconfigure $w.fclocks 0 -weight 1 -uniform ""
+      grid columnconfigure $w.fclocks 1 -weight 0 -uniform ""
+      grid rowconfigure $w.fclocks 0 -weight 1 -uniform faces
+      grid rowconfigure $w.fclocks 1 -weight 1 -uniform faces
+      grid $w.fclocks.w -row 0 -column 0 -sticky nsew -padx 4 -pady 4
+      grid $w.fclocks.b -row 1 -column 0 -sticky nsew -padx 4 -pady 4
+    }
   }
 
   proc abortGame { { n 1 } } {

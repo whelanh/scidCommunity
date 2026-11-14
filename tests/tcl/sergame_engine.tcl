@@ -571,6 +571,12 @@ proc ::gameclock::new {parent n {size 100} {showfall 0} {display "both"} {fill 0
     return
 }
 proc ::gameclock::setDisplay {n display} { set ::fake::gcMode($n) $display }
+# The game window's layout measures the digits with the face's own font, so the
+# stub has to answer the same question the real one does.
+proc ::gameclock::faceFont {n size {weight ""}} {
+    if {$weight eq ""} { return [list Helvetica $size] }
+    return [list Helvetica $size $weight]
+}
 # A filling face draws itself at its canvas's size; the stub has no canvas, so
 # it records the request and reports the size it was told to take.
 proc ::gameclock::redraw {n} { lappend ::fake::gcFit "redraw $n" }
@@ -1804,13 +1810,30 @@ foreach id [after info] {
 }
 check "postmove runs the game loop and leaves no timer behind" [expr {!$pending}]
 
+# The arrangement follows the window: wide puts the faces side by side, tall stacks
+# them, and the geometry follows the decision.
+wm geometry $gw 1100x700
+update
+::sergame::clockLayoutApply $gw
+checkEq "a wide window goes side by side" $::sergame::clockOrientation "side"
+checkEq "and the two faces share one row" [winfo y $gw.fclocks.w] [winfo y $gw.fclocks.b]
+
+wm geometry $gw 600x900
+update
+::sergame::clockLayoutApply $gw
+checkEq "a tall window stacks them" $::sergame::clockOrientation "stacked"
+checkEq "and the faces share one column" [winfo x $gw.fclocks.w] [winfo x $gw.fclocks.b]
+check "the stacked faces still have room" \
+    [expr {[winfo width $gw.fclocks.w] > 40 && [winfo height $gw.fclocks.w] > 40}]
+
 set minW [lindex [wm minsize $gw] 0]
 set faces [expr {[::gameclock::width 1] + [::gameclock::width 2]}]
 check "the window's minimum width holds both faces and their frames" \
     [expr {$minW > $faces}] "minimum $minW, faces $faces"
 check "and the old 45 px floor is gone" [expr {$minW > 45}] "minimum $minW"
-check "both faces are inside the clock row" \
-    [expr {[winfo x $gw.fclocks.b] >= [winfo x $gw.fclocks]}]
+# (The faces' placement is asserted by the two arrangement checks above: one row
+# for side by side, one column for stacked. This used to assert a fixed row, which
+# the adaptive layout makes meaningless.)
 
 # The preference decides the face the game asks ::gameclock for: on (the
 # default) is the digital one, off is the analog face.
