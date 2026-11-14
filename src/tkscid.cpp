@@ -1151,9 +1151,15 @@ UI_res_t sc_base_duplicates(scidBaseT *dbase, UI_handle_t ti, int argc,
           ASSERT(deleteStrategy == DELETE_SHORTER);
           uint a = ieHead->GetNumHalfMoves();
           uint b = ieComp->GetNumHalfMoves();
-          deleteHead = (a <= b);
-          if (a == b && isImmune(ieHead))
-            deleteHead = false;
+          // Keep the fuller game. When both have the same length, keep the
+          // newer one (the higher game number). In particular, do not let an
+          // older commented game flip the choice and make the newer, stripped
+          // copy the one that is deleted: that leaves the old copy behind and
+          // the next import adds the new game all over again.
+          if (a != b)
+            deleteHead = (a < b);
+          else
+            deleteHead = (head.gNumber < compare.gNumber);
         }
 
         gamenumT gnumDelete = compare.gNumber;

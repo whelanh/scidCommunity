@@ -318,6 +318,17 @@ jobs:
       - name: Game Info comment markup
         run: xvfb-run -a "$PWD/AppDir/usr/bin/scidCommunity" tests/tcl/game_info_comment.tcl
 
+      # An in-progress online game is updated in place when its finished PGN
+      # arrives, rather than adding a second copy.
+      - name: Import updates an online game by Link
+        run: xvfb-run -a "$PWD/AppDir/usr/bin/scidCommunity" tests/tcl/import_nodup_link.tcl
+
+      # The Twin Checker must delete the shorter copy and keep the fuller one,
+      # and must never delete a newer stripped copy merely because an older
+      # commented copy is immune.
+      - name: Twin Checker keeps the fuller/newer copy
+        run: xvfb-run -a "$PWD/AppDir/usr/bin/scidCommunity" tests/tcl/twin_keep_full.tcl
+
       # The binary's own repetition counter driving each presentation: the
       # count that ends a finished game must be the count the notice uses.
       - name: Repetition detection and notice

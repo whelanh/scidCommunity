@@ -198,12 +198,17 @@ proc importPgnFile {{base} {fnames ""}} {
     } else {
       set nImported [lindex $result 0]
       set nSkipped  [lindex $result 1]
-      set warnings  [lindex $result 2]
+      set nUpdated  [lindex $result 2]
+      set warnings  [lindex $result 3]
       set str "[tr Imported] $nImported "
       if {$nImported == 1} { append str [tr game] } else { append str [tr games] }
       if {$nSkipped > 0} {
         append str ", [tr Skipped] $nSkipped "
         if {$nSkipped == 1} { append str [tr DuplicateGame] } else { append str [tr DuplicateGames] }
+      }
+      if {$nUpdated > 0} {
+        append str ", [tr Updated] $nUpdated "
+        if {$nUpdated == 1} { append str [tr game] } else { append str [tr games] }
       }
       if {$warnings == ""} {
         append str " [tr NoPgnErrorsWarnings]"
@@ -237,7 +242,10 @@ proc importPgnFile {{base} {fnames ""}} {
 #   normalized White and Black players, exact Date, Result and exact move
 #   sequence all match a game already present (or an earlier game in the
 #   same batch) are skipped. If the only matching game is marked for
-#   deletion, it is restored instead of importing a duplicate.
+#   deletion, it is restored instead of importing a duplicate. If the same
+#   online game (chess.com Link or Lichess Site URL) is present with a
+#   different move list or Result, that game is updated instead of adding a
+#   second copy.
 #
 #   Reports the outcome itself (success summary, import error, or the
 #   "no writable database" message) and returns 1 on success, 0 otherwise
@@ -319,7 +327,8 @@ proc importPgnNoDup {pgnfile title {strip ""}} {
 
   set nImported [lindex $result 0]
   set nSkipped  [lindex $result 1]
-  set warnings  [lindex $result 2]
+  set nUpdated  [lindex $result 2]
+  set warnings  [lindex $result 3]
 
   if {$strip ne "" && $nImported > 0} {
     set numAfter [sc_base numGames $base]
@@ -341,6 +350,9 @@ proc importPgnNoDup {pgnfile title {strip ""}} {
     } else {
       append msg "\n\n[tr Skipped] $nSkipped [tr DuplicateGames]."
     }
+  }
+  if {$nUpdated > 0} {
+    append msg "\n\n[tr Updated] $nUpdated [tr games]."
   }
   if {$warnings ne ""} {
     append msg "\n\n[tr PgnErrorsWarnings]\n$warnings"

@@ -409,35 +409,210 @@ TEST_F(Test_Scidbase, importGamesNoDup_skipsAndRestoresDeletedGames) {
 	const auto import = [&](const char* file) {
 		gamenumT nImported = 0;
 		gamenumT nSkipped = 0;
+		gamenumT nUpdated = 0;
 		std::string errorMsg;
 		auto err = dbase.importGamesNoDup(ICodecDatabase::PGN, file, {},
-		                                  errorMsg, nImported, nSkipped);
-		return std::make_tuple(err, nImported, nSkipped);
+		                                  errorMsg, nImported, nSkipped,
+		                                  nUpdated);
+		return std::make_tuple(err, nImported, nSkipped, nUpdated);
 	};
 
-	auto [err, nImported, nSkipped] = import(path.string().c_str());
+	auto [err, nImported, nSkipped, nUpdated] = import(path.string().c_str());
 	ASSERT_EQ(OK, err);
 	EXPECT_EQ(1u, nImported);
 	EXPECT_EQ(0u, nSkipped);
+	EXPECT_EQ(0u, nUpdated);
 	ASSERT_EQ(1u, dbase.numGames());
 
 	// Importing the same game again must skip it.
-	std::tie(err, nImported, nSkipped) = import(path.string().c_str());
+	std::tie(err, nImported, nSkipped, nUpdated) =
+	    import(path.string().c_str());
 	ASSERT_EQ(OK, err);
 	EXPECT_EQ(0u, nImported);
 	EXPECT_EQ(1u, nSkipped);
+	EXPECT_EQ(0u, nUpdated);
 	ASSERT_EQ(1u, dbase.numGames());
 
 	// Mark the game deleted (as the Twin Checker does), then import it again.
 	// The existing game must be restored instead of adding a second copy.
 	ASSERT_EQ(OK, dbase.setFlag(true, 1u << IndexEntry::IDX_FLAG_DELETE, 0));
 	ASSERT_TRUE(dbase.getIndexEntry(0)->GetDeleteFlag());
-	std::tie(err, nImported, nSkipped) = import(path.string().c_str());
+	std::tie(err, nImported, nSkipped, nUpdated) =
+	    import(path.string().c_str());
 	ASSERT_EQ(OK, err);
 	EXPECT_EQ(0u, nImported);
 	EXPECT_EQ(1u, nSkipped);
+	EXPECT_EQ(0u, nUpdated);
 	ASSERT_EQ(1u, dbase.numGames());
 	EXPECT_FALSE(dbase.getIndexEntry(0)->GetDeleteFlag());
 
 	std::filesystem::remove(path);
+}
+
+TEST_F(Test_Scidbase, importGamesNoDup_updatesByOnlineLink) {
+	const auto shortPgn = std::string(
+	    "[Event \"Live Chess\"]\n"
+	    "[Site \"Chess.com\"]\n"
+	    "[Date \"2026.11.10\"]\n"
+	    "[Round \"-\"]\n"
+	    "[White \"alice\"]\n"
+	    "[Black \"bob\"]\n"
+	    "[Result \"*\"]\n"
+	    "[Link \"https://www.chess.com/game/daily/123456\"]\n"
+	    "\n"
+	    "1. e4 {[%clk 0:03:00]} e5 2. Nf3 Nc6 3. Bb5 a6 *\n");
+	const auto longPgn = std::string(
+	    "[Event \"Live Chess\"]\n"
+	    "[Site \"Chess.com\"]\n"
+	    "[Date \"2026.11.10\"]\n"
+	    "[Round \"-\"]\n"
+	    "[White \"alice\"]\n"
+	    "[Black \"bob\"]\n"
+	    "[Result \"1-0\"]\n"
+	    "[Link \"https://www.chess.com/game/daily/123456\"]\n"
+	    "\n"
+	    "1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 1-0\n");
+	const auto shortPath = std::filesystem::temp_directory_path() /
+	                       "scid_import_nodup_link_short.pgn";
+	const auto longPath = std::filesystem::temp_directory_path() /
+	                      "scid_import_nodup_link_long.pgn";
+	{
+		std::ofstream out(shortPath);
+		out << shortPgn;
+	}
+	{
+		std::ofstream out(longPath);
+		out << longPgn;
+	}
+
+	scidBaseT dbase;
+	ASSERT_EQ(OK, dbase.open("MEMORY", FMODE_Create, "Memory"));
+	const auto import = [&](const char* file) {
+		gamenumT nImported = 0;
+		gamenumT nSkipped = 0;
+		gamenumT nUpdated = 0;
+		std::string errorMsg;
+		auto err = dbase.importGamesNoDup(ICodecDatabase::PGN, file, {},
+		                                  errorMsg, nImported, nSkipped,
+		                                  nUpdated);
+		return std::make_tuple(err, nImported, nSkipped, nUpdated);
+	};
+
+	auto [err, nImported, nSkipped, nUpdated] =
+	    import(shortPath.string().c_str());
+	ASSERT_EQ(OK, err);
+	ASSERT_EQ(1u, nImported);
+	ASSERT_EQ(1u, dbase.numGames());
+	const gamenumT shortHalfMoves =
+	    dbase.getIndexEntry(0)->GetNumHalfMoves();
+
+	// A user flag must survive an update; a deleted copy must be restored.
+	ASSERT_EQ(OK, dbase.setFlag(true, 1u << IndexEntry::IDX_FLAG_USER, 0));
+	ASSERT_EQ(OK, dbase.setFlag(true, 1u << IndexEntry::IDX_FLAG_DELETE, 0));
+
+	// The same online game with more moves must replace the old copy.
+	std::tie(err, nImported, nSkipped, nUpdated) =
+	    import(longPath.string().c_str());
+	ASSERT_EQ(OK, err);
+	EXPECT_EQ(0u, nImported);
+	EXPECT_EQ(0u, nSkipped);
+	EXPECT_EQ(1u, nUpdated);
+	ASSERT_EQ(1u, dbase.numGames());
+	EXPECT_GT(dbase.getIndexEntry(0)->GetNumHalfMoves(), shortHalfMoves);
+	EXPECT_TRUE(dbase.getIndexEntry(0)->GetFlag(
+	    1u << IndexEntry::IDX_FLAG_USER));
+	EXPECT_FALSE(dbase.getIndexEntry(0)->GetDeleteFlag());
+
+	// Re-importing the shorter version must not downgrade the longer one.
+	std::tie(err, nImported, nSkipped, nUpdated) =
+	    import(shortPath.string().c_str());
+	ASSERT_EQ(OK, err);
+	EXPECT_EQ(0u, nImported);
+	EXPECT_EQ(1u, nSkipped);
+	EXPECT_EQ(0u, nUpdated);
+	ASSERT_EQ(1u, dbase.numGames());
+
+	std::filesystem::remove(shortPath);
+	std::filesystem::remove(longPath);
+}
+
+TEST_F(Test_Scidbase, importGamesNoDup_keepsAnnotatedCopy) {
+	const auto annotatedPgn = std::string(
+	    "[Event \"Live Chess\"]\n"
+	    "[Site \"Chess.com\"]\n"
+	    "[Date \"2026.11.10\"]\n"
+	    "[Round \"-\"]\n"
+	    "[White \"alice\"]\n"
+	    "[Black \"bob\"]\n"
+	    "[Result \"*\"]\n"
+	    "[Link \"https://www.chess.com/game/daily/654321\"]\n"
+	    "\n"
+	    "1. e4 {my note} e5 2. Nf3 Nc6 3. Bb5 a6 *\n");
+	const auto finishedPgn = std::string(
+	    "[Event \"Live Chess\"]\n"
+	    "[Site \"Chess.com\"]\n"
+	    "[Date \"2026.11.10\"]\n"
+	    "[Round \"-\"]\n"
+	    "[White \"alice\"]\n"
+	    "[Black \"bob\"]\n"
+	    "[Result \"1-0\"]\n"
+	    "[Link \"https://www.chess.com/game/daily/654321\"]\n"
+	    "\n"
+	    "1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 1-0\n");
+	const auto annotatedPath = std::filesystem::temp_directory_path() /
+	                           "scid_import_nodup_annotated.pgn";
+	const auto finishedPath = std::filesystem::temp_directory_path() /
+	                          "scid_import_nodup_annotated_full.pgn";
+	{
+		std::ofstream out(annotatedPath);
+		out << annotatedPgn;
+	}
+	{
+		std::ofstream out(finishedPath);
+		out << finishedPgn;
+	}
+
+	scidBaseT dbase;
+	ASSERT_EQ(OK, dbase.open("MEMORY", FMODE_Create, "Memory"));
+	const auto import = [&](const char* file) {
+		gamenumT nImported = 0;
+		gamenumT nSkipped = 0;
+		gamenumT nUpdated = 0;
+		std::string errorMsg;
+		auto err = dbase.importGamesNoDup(ICodecDatabase::PGN, file, {},
+		                                  errorMsg, nImported, nSkipped,
+		                                  nUpdated);
+		return std::make_tuple(err, nImported, nSkipped, nUpdated);
+	};
+
+	auto [err, nImported, nSkipped, nUpdated] =
+	    import(annotatedPath.string().c_str());
+	ASSERT_EQ(OK, err);
+	ASSERT_EQ(1u, nImported);
+	const gamenumT annotatedHalfMoves =
+	    dbase.getIndexEntry(0)->GetNumHalfMoves();
+
+	std::tie(err, nImported, nSkipped, nUpdated) =
+	    import(finishedPath.string().c_str());
+	ASSERT_EQ(OK, err);
+	EXPECT_EQ(0u, nImported);
+	EXPECT_EQ(1u, nSkipped);
+	EXPECT_EQ(0u, nUpdated);
+	ASSERT_EQ(1u, dbase.numGames());
+	EXPECT_EQ(annotatedHalfMoves,
+	          dbase.getIndexEntry(0)->GetNumHalfMoves());
+
+	Game stored;
+	ASSERT_EQ(OK, dbase.getGame(*dbase.getIndexEntry(0), stored));
+	bool foundNote = false;
+	for (const auto& pos : gamepos::collectPositions(stored)) {
+		if (pos.comment.find("my note") != std::string::npos) {
+			foundNote = true;
+			break;
+		}
+	}
+	EXPECT_TRUE(foundNote);
+
+	std::filesystem::remove(annotatedPath);
+	std::filesystem::remove(finishedPath);
 }

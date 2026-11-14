@@ -179,7 +179,8 @@ struct scidBaseT {
 	                   const Progress& progress, std::string& errorMsg);
 	errorT importGamesNoDup(ICodecDatabase::Codec dbtype, const char* filename,
 	                        const Progress& progress, std::string& errorMsg,
-	                        gamenumT& nImported, gamenumT& nSkipped);
+	                        gamenumT& nImported, gamenumT& nSkipped,
+	                        gamenumT& nUpdated);
 
 	/**
 	 * Add or replace a game into the database.
