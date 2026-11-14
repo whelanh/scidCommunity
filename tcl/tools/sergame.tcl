@@ -555,11 +555,9 @@ namespace eval sergame {
     # first in either direction, so the order never changes under the reader; the
     # frames' own labels say which side is which.
     set ::sergame::clockOrientation ""
-    bind $w.fclocks <Configure> [list ::sergame::clockLayoutApply $w]
-    pack $w.fclockw $w.fclockb -side top -fill both -expand 1 -padx 10 -pady 5
+    pack $w.fclockw $w.fclockb -side left -fill both -expand 1 -padx 10 -pady 5
     # The first arrangement is decided once the window has a size: <Configure>
     # arrives with it, but a window that is created and never shown has none.
-    after idle [list ::sergame::clockLayoutApply $w]
     pack $w.fbuttons -side top -pady "10 15"
 
     ttk::checkbutton $w.fdisplay.b1 -text $::tr(showblunderexists) -variable ::sergame::showblunder
@@ -639,46 +637,6 @@ namespace eval sergame {
   # The height the clock area keeps, both arrangements: two faces and the gap,
   # so a stacked pair and a side-by-side pair take the same vertical space.
   proc clockAreaHeight {} { return 196 }
-
-  # Which way round the two faces go, and the face size that follows: for a box
-  # of boxW x boxH with `gap` between the faces,
-  #   side by side -- each face gets (boxW-gap)/2 wide and boxH tall
-  #   stacked      -- each face gets boxW wide and (boxH-gap)/2 tall
-  # and a face is square as far as this decision goes (a digital face fills its
-  # frame at 1.9:1 from the height it is given, so the comparison holds for both).
-  # Side by side wins only when its faces are strictly larger; a tie stacks,
-  # because a taller frame leaves the board more width.
-  proc clockLayout {boxW boxH {gap 20}} {
-    set sideW [expr {($boxW - $gap) / 2}]
-    set side [expr {$sideW < $boxH ? $sideW : $boxH}]
-    set stackH [expr {($boxH - $gap) / 2}]
-    set stack [expr {$boxW < $stackH ? $boxW : $stackH}]
-    if {$side > $stack} { return [list side $side] }
-    return [list stacked $stack]
-  }
-
-  # Apply it to a game window: re-pack only when the answer changes, so the
-  # <Configure> binding cannot loop on its own rearrangement.
-  proc clockLayoutApply {w} {
-    if {![winfo exists $w.fclocks]} { return }
-    set bw [winfo width $w.fclocks]
-    # The height the area keeps, not the one the faces currently make: reading
-    # the live height here is what made the window redraw itself in a loop.
-    set bh [::sergame::clockAreaHeight]
-    if {$bw < 2 || $bh < 2} { return }
-    lassign [::sergame::clockLayout $bw $bh] orientation size
-    if {$orientation ne $::sergame::clockOrientation} {
-      set ::sergame::clockOrientation $orientation
-      catch { pack forget $w.fclockw $w.fclockb }
-      if {$orientation eq "side"} {
-        pack $w.fclockw $w.fclockb -side left -fill both -expand 1 -padx 10 -pady 5
-      } else {
-        pack $w.fclockw $w.fclockb -side top -fill both -expand 1 -padx 10 -pady 5
-      }
-      update idletasks
-    }
-    # The frames have their new geometry now: fit each face into it.
-  }
 
   proc abortGame { { n 1 } } {
     ::setPlayMode ""

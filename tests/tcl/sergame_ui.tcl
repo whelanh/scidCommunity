@@ -260,29 +260,6 @@ foreach {name want} {showDigitalClock 1 clockFromGame 1} {
 }
 
 ##############################################################################
-puts "\nthe presentation follows the space"
-# The window picks the arrangement that makes the faces bigger: side by side only
-# when its faces are strictly larger than stacked ones, a tie stacked (a taller
-# frame leaves the board more width).
-
-lassign [::sergame::clockLayout 800 200] o1 s1
-checkEq "a wide window puts the faces side by side" $o1 "side"
-checkEq "and their size is what the box allows" $s1 200
-
-lassign [::sergame::clockLayout 400 700] o2 s2
-checkEq "a tall window stacks them" $o2 "stacked"
-checkEq "and their size is what the box allows" $s2 340
-
-lassign [::sergame::clockLayout 400 400] o3 s3
-checkEq "a square window stacks them (a tie is not a reason to move)" $o3 "stacked"
-checkEq "at the size both arrangements allow" $s3 190
-
-# Wider than tall is already side by side, and the size is the one that follows.
-lassign [::sergame::clockLayout 220 200] o4 s4
-checkEq "a window a little wider than tall is side by side" $o4 "side"
-checkEq "at the size only that arrangement allows" $s4 100
-
-##############################################################################
 puts "\na face fills its frame and keeps its aspect"
 # A filling face asks for no size: its canvas takes the frame's space and the
 # face is drawn to whatever that is. That is what keeps two faces in a row from

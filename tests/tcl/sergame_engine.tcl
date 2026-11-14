@@ -1771,20 +1771,8 @@ check "Black's clock has a size" \
     [expr {[winfo width $gw.fclockb] > 20 && [winfo height $gw.fclockb] > 20}] \
     "w=[winfo width $gw.fclockb] h=[winfo height $gw.fclockb]"
 
-# And the arrangement must settle: a decision taken from a box the decision
-# itself changes repacks forever, which is what "constantly redraws" was.
-set ::oriFlips 0
-rename ::sergame::clockLayoutApply ::sergame::clockLayoutApply_real
-proc ::sergame::clockLayoutApply {w} {
-    set before $::sergame::clockOrientation
-    ::sergame::clockLayoutApply_real $w
-    if {$::sergame::clockOrientation ne $before} { incr ::oriFlips }
-}
-for {set i 0} {$i < 20} {incr i} { update ; after 5 ; update }
-check "the arrangement settles after its first decision" [expr {$::oriFlips <= 2}] \
-    "flipped $::oriFlips times in 20 event loops"
-rename ::sergame::clockLayoutApply {}
-rename ::sergame::clockLayoutApply_real ::sergame::clockLayoutApply
+# Both faces fill their frames; nothing repacks them, so there is no decision to
+# settle. The one row this window makes is checked above by both sizes.
 
 set minW [lindex [wm minsize $gw] 0]
 set faces [expr {[::gameclock::width 1] + [::gameclock::width 2]}]
