@@ -183,3 +183,8 @@ option(GTEST "Build unit tests" OFF)
 if(GTEST)
   add_subdirectory(gtest)
 endif()
+
+option(TREE_BENCH "Build the tree window performance benchmark" OFF)
+if(TREE_BENCH)
+  add_subdirectory(bench)
+endif()
