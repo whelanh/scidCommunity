@@ -551,12 +551,8 @@ namespace eval sergame {
     # bigger than stacking them, one over the other when it does not. White stays
     # first in either direction, so the order never changes under the reader; the
     # frames' own labels say which side is which.
-    set ::sergame::clockOrientation ""
-    grid columnconfigure $w.fclocks 0 -weight 1 -uniform faces
-    grid columnconfigure $w.fclocks 1 -weight 1 -uniform faces
-    grid rowconfigure $w.fclocks 0 -weight 1
-    grid $w.fclocks.w -row 0 -column 0 -sticky nsew -padx 4 -pady 4
-    grid $w.fclocks.b -row 0 -column 1 -sticky nsew -padx 4 -pady 4
+    set ::sergame::clockOrientation "stacked"
+    ::sergame::placeClocks $w stacked
     # The arrangement follows the space, and is re-decided on every <Configure>
     # (which is the event the window manager gives us) and once on idle, because a
     # window created and never shown has no <Configure>.
@@ -706,6 +702,39 @@ namespace eval sergame {
     return [list stacked $stack]
   }
 
+  # Which frame takes the first cell. Stacked, it is the engine's clock - the
+  # arrangement this window has always had, the opponent where a score sheet puts
+  # them. Side by side it is always White's: a black clock on the left reads as
+  # wrong however the game is set up.
+  proc clockFirst {orientation} {
+    if {$orientation eq "side"} { return "w" }
+    set player [expr {$::sergame::activeColor eq "white" ? "w" : "b"}]
+    return [expr {$player eq "w" ? "b" : "w"}]
+  }
+
+  # Place the two frames for an arrangement: one row side by side, one column
+  # stacked, each cell weighted so the faces share the space.
+  proc placeClocks {w orientation} {
+    set first [::sergame::clockFirst $orientation]
+    set second [expr {$first eq "w" ? "b" : "w"}]
+    catch { grid forget $w.fclocks.$first $w.fclocks.$second }
+    if {$orientation eq "side"} {
+      grid rowconfigure $w.fclocks 0 -weight 1
+      grid rowconfigure $w.fclocks 1 -weight 0
+      grid columnconfigure $w.fclocks 0 -weight 1 -uniform faces
+      grid columnconfigure $w.fclocks 1 -weight 1 -uniform faces
+      grid $w.fclocks.$first -row 0 -column 0 -sticky nsew -padx 4 -pady 4
+      grid $w.fclocks.$second -row 0 -column 1 -sticky nsew -padx 4 -pady 4
+    } else {
+      grid columnconfigure $w.fclocks 0 -weight 1
+      grid columnconfigure $w.fclocks 1 -weight 0
+      grid rowconfigure $w.fclocks 0 -weight 1 -uniform halves
+      grid rowconfigure $w.fclocks 1 -weight 1 -uniform halves
+      grid $w.fclocks.$first -row 0 -column 0 -sticky nsew -padx 4 -pady 4
+      grid $w.fclocks.$second -row 1 -column 0 -sticky nsew -padx 4 -pady 4
+    }
+  }
+
   # Apply it to a game window: re-pack only when the answer changes. The box is the
   # clock area, whose size is the window's leftover space (it is the expanding row),
   # so the arrangement cannot change the box that chose it - the feedback loop that
@@ -719,22 +748,7 @@ namespace eval sergame {
         $::sergame::clockOrientation] orientation size
     if {$orientation eq $::sergame::clockOrientation} { return }
     set ::sergame::clockOrientation $orientation
-    catch { grid forget $w.fclocks.w $w.fclocks.b }
-    if {$orientation eq "side"} {
-      grid rowconfigure $w.fclocks 0 -weight 1 -uniform ""
-      grid rowconfigure $w.fclocks 1 -weight 0 -uniform ""
-      grid columnconfigure $w.fclocks 0 -weight 1 -uniform faces
-      grid columnconfigure $w.fclocks 1 -weight 1 -uniform faces
-      grid $w.fclocks.w -row 0 -column 0 -sticky nsew -padx 4 -pady 4
-      grid $w.fclocks.b -row 0 -column 1 -sticky nsew -padx 4 -pady 4
-    } else {
-      grid columnconfigure $w.fclocks 0 -weight 1 -uniform ""
-      grid columnconfigure $w.fclocks 1 -weight 0 -uniform ""
-      grid rowconfigure $w.fclocks 0 -weight 1 -uniform faces
-      grid rowconfigure $w.fclocks 1 -weight 1 -uniform faces
-      grid $w.fclocks.w -row 0 -column 0 -sticky nsew -padx 4 -pady 4
-      grid $w.fclocks.b -row 1 -column 0 -sticky nsew -padx 4 -pady 4
-    }
+    ::sergame::placeClocks $w $orientation
   }
 
   proc abortGame { { n 1 } } {

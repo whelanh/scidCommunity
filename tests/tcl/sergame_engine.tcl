@@ -1788,16 +1788,20 @@ check "both clock frames are in the window" \
 # take the area's width AND its height, not a strip at the bottom of it.
 wm geometry $gw 1000x800
 update
+::sergame::clockLayoutApply $gw
+update
 lassign [::gameclock::sizeOf 1] cw1 ch1
 lassign [::gameclock::sizeOf 2] cw2 ch2
 set area_w [winfo width $gw.fclocks]
 set area_h [winfo height $gw.fclocks]
 check "the clock area takes the window's leftover space" \
     [expr {$area_w > 800 && $area_h > 300}] "area ${area_w}x${area_h}"
+# Proportional, not a fixed margin: each face sits inside a labelled frame, and
+# the label and padding take a few dozen pixels off every edge.
 check "White's face fills most of its half" \
-    [expr {$cw1 > ($area_w / 2 - 40) && $ch1 > ($area_h - 40)}] "face ${cw1}x${ch1}"
+    [expr {$cw1 > $area_w * 0.45 && $ch1 > $area_h * 0.85}] "face ${cw1}x${ch1}"
 check "Black's face fills the other half" \
-    [expr {$cw2 > ($area_w / 2 - 40) && $ch2 > ($area_h - 40)}] "face ${cw2}x${ch2}"
+    [expr {$cw2 > $area_w * 0.45 && $ch2 > $area_h * 0.85}] "face ${cw2}x${ch2}"
 check "both faces are the same size" \
     [expr {abs($cw1 - $cw2) < 8 && abs($ch1 - $ch2) < 8}]
 
@@ -1817,12 +1821,20 @@ update
 ::sergame::clockLayoutApply $gw
 checkEq "a wide window goes side by side" $::sergame::clockOrientation "side"
 checkEq "and the two faces share one row" [winfo y $gw.fclocks.w] [winfo y $gw.fclocks.b]
+# Side by side, the player's clock is the left-hand one; stacked, the engine's is
+# the upper one - the arrangement this window has always had.
+set playerFrame [expr {$::sergame::activeColor eq "white" ? "w" : "b"}]
+set engineFrame [expr {$playerFrame eq "w" ? "b" : "w"}]
+check "White's clock is first when side by side" \
+    [expr {[winfo x $gw.fclocks.w] < [winfo x $gw.fclocks.b]}]
 
 wm geometry $gw 600x900
 update
 ::sergame::clockLayoutApply $gw
 checkEq "a tall window stacks them" $::sergame::clockOrientation "stacked"
 checkEq "and the faces share one column" [winfo x $gw.fclocks.w] [winfo x $gw.fclocks.b]
+check "the engine's clock is on top when stacked" \
+    [expr {[winfo y $gw.fclocks.$engineFrame] < [winfo y $gw.fclocks.$playerFrame]}]
 check "the stacked faces still have room" \
     [expr {[winfo width $gw.fclocks.w] > 40 && [winfo height $gw.fclocks.w] > 40}]
 
